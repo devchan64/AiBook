@@ -1,0 +1,23 @@
+:root {
+  --md-text-font: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+}
+
+.md-typeset {
+  font-size: 0.78rem;
+  line-height: 1.75;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  letter-spacing: 0;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.md-typeset code {
+  font-size: 0.85em;
+}
+
