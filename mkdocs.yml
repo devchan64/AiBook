@@ -52,6 +52,11 @@ nav:
           - 3.1 규칙 기반 시스템의 강점과 한계: chapters/chapter-03/section-01.md
           - 3.2 데이터에서 패턴을 배운다는 것: chapters/chapter-03/section-02.md
           - 3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning): chapters/chapter-03/section-03.md
+      - Chapter 4. 문제를 모델로 바꾼다는 것:
+          - 4.1 모델(model, 모형)이라는 말에 익숙해지기: chapters/chapter-04/section-01.md
+          - 4.2 입력(input), 출력(output), 데이터(data): chapters/chapter-04/section-02.md
+          - 4.3 특징(feature), 표현(representation), 파라미터(parameter): chapters/chapter-04/section-03.md
+          - 4.4 문제 정의가 모델을 결정하는 방식: chapters/chapter-04/section-04.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
