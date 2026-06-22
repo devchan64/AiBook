@@ -94,6 +94,33 @@ flowchart LR
 | Codex 소개와 사용 원칙 | `docs/authoring/codex.md` | 이 책을 만드는 AI 에이전트 도구 설명 |
 | 시각화 작성 원칙 | `docs/authoring/visuals.md` | 차트와 다이어그램 작성 기준 |
 
+## 근거 기반 목차 검토
+
+이 목차는 사용자의 재학습 목적을 중심에 두되, 장의 존재 이유는 외부에서 확인 가능한 자료로 뒷받침합니다. 외부 목차와 강의 구성을 그대로 옮기지 않고, 반복해서 등장하는 주제를 이 책의 흐름에 맞게 재배치합니다.
+
+| 근거 층위 | 사용 방식 |
+| --- | --- |
+| 기준 근거 | 공개 교재, 대학 강의, 공식 문서처럼 커리큘럼을 잡는 데 사용할 수 있는 자료 |
+| 보조 근거 | 논문, 연구기관 자료, 기술 문서처럼 특정 장의 세부 설명을 보강하는 자료 |
+| 작업 가설 | 사용자의 직관을 일반화한 설명이며, 표준 설명과 구분해서 검증 |
+| 검증 필요 | 출처가 부족하거나 해석이 강한 주장으로, 장 작성 전 추가 확인 필요 |
+
+현재 목차의 큰 축은 다음 근거에 연결합니다.
+
+| 목차 축 | 외부 근거로 확인한 반복 주제 | 현재 반영 위치 | 보강 방향 |
+| --- | --- | --- | --- |
+| AI 개론과 역사 | AIMA, Poole & Mackworth, Harvard CS50 AI, Berkeley CS188, MIT 6.034 모두 AI 개론, 탐색, 문제 해결, 불확실성, 학습을 주요 주제로 다룸 | Part 1 `AI 개론과 지형도` | `docs/authoring/ai-intro-curriculum-survey.md`의 조사 표본을 늘리고, 역사 연표 자료를 별도로 수집 |
+| 탐색과 휴리스틱 | AIMA의 heuristic search, Newell과 Simon의 문제 해결 연구, Simon의 bounded rationality, Kahneman의 불확실성 판단 연구 | Part 1 `탐색과 휴리스틱`, Part 3 `휴리스틱이 필요한 이유` | 휴리스틱, 확률 모델, 최적화, 학습을 같은 말처럼 쓰지 않도록 구분 |
+| 수학 기초 | `Deep Learning`의 선형대수, 확률, 수치 계산, 머신러닝 기초 장이 딥러닝 전제 지식으로 배치됨 | Part 2 `기초 복구` | 수학을 증명 중심이 아니라 모델 계산의 언어로 설명하고, 시그마와 극한은 표기 읽기부터 복구 |
+| SW로 수학 재사용 | NumPy와 pandas 공식 문서는 배열, 표 형식 데이터, 데이터 처리 실습의 기본 도구를 제공 | Part 2 `NumPy`, `Pandas`, `SW로 수학 다시 보기` | 수식 설명 뒤에 작은 코드 재현을 붙이고, 공식 문서 기반 예제로 검증 |
+| 머신러닝 | scikit-learn User Guide가 지도학습, 비지도학습, 모델 선택, 평가, 전처리, 파이프라인을 체계적으로 제공 | Part 3 `머신러닝` | 알고리즘 나열보다 데이터 분리, 평가, 과적합, 일반화를 먼저 설명 |
+| 딥러닝 패러다임 | `Deep Learning` 교재와 AlexNet, YOLO, WaveNet, Deep Voice, seq2seq, Attention, Transformer 논문이 표현 학습과 대규모 신경망 확산의 근거를 제공 | Part 4 `딥러닝`, Part 5 `LLM 발전사` | LLM의 직접 계보와 딥러닝 패러다임 확산 사례를 구분 |
+| LLM과 생성형 AI | seq2seq, Attention, Transformer, 사전학습 언어 모델 흐름을 중심으로 설명 | Part 5 `LLM과 생성형 AI` | 최신 제품 기능은 공식 문서로 확인하고, 추론(reasoning)과 inference를 구분 |
+| 윤리, 저작권, 보안 | 법률, 정책, 공식 보고서, 신뢰할 수 있는 언론 자료가 필요 | Part 1 `AI 윤리, 저작권, 보안`, 검증 필요 목록 | 한국 저작권법과 AI 학습 데이터 논쟁은 별도 근거 문서로 분리 |
+| 앞으로의 AI | 예측성 내용은 언론, 뉴스, 칼럼, 공식 발표, 보고서 기반으로만 작성 | Part 1 `앞으로의 AI` | 개인적 추측이나 생성형 표현은 본문 근거로 사용하지 않음 |
+
+이 표는 장을 추가하거나 순서를 바꿀 때의 판단 기준입니다. 새 장이 기준 근거 또는 보조 근거에 연결되지 않으면 `작업 가설` 또는 `검증 필요`로 표시하고, 안정 상태로 올리지 않습니다.
+
 ## 로드맵
 
 ### 1장. AI 재학습 로드맵
@@ -116,7 +143,7 @@ flowchart LR
 
 역할: 세부 기술을 깊게 들어가기 전에 전체 지형을 다시 잡습니다. "AI란 무엇인가"에서 시작하되, 단순 입문서식 나열이 아니라 이후 파트로 이어지는 연결 지도를 만듭니다.
 
-Part 1은 사용자의 직관을 일반화하는 장입니다. 특히 "신경망학습, 모델링, 추론의 흐름이 어렵다"는 경험을 다음 질문으로 바꿉니다.
+Part 1은 공개 교재와 대학 강의에서 반복되는 `AI 개론`, `탐색`, `문제 해결`, `불확실성`, `학습` 축을 먼저 반영합니다. 그 위에서 사용자의 직관을 일반화합니다. 특히 "신경망학습, 모델링, 추론의 흐름이 어렵다"는 경험을 다음 질문으로 바꿉니다.
 
 - 사람이 규칙을 쓰는 방식과 데이터에서 규칙을 배우는 방식은 무엇이 다른가
 - 문제를 입력과 출력의 관계로 모델링한다는 것은 무엇인가
@@ -170,6 +197,8 @@ Part 1은 사용자의 직관을 일반화하는 장입니다. 특히 "신경망
 
 역할: 머신러닝과 딥러닝을 다시 읽고 구현할 수 있는 최소 기반을 회복합니다. 이 파트의 목적은 수학을 증명하거나 깊이 이해하는 것이 아니라, 수학 개념이 어떤 문제의식에서 연구되었고 현재 AI에서 어떤 목적으로 쓰이는지 파악하는 것입니다.
 
+Part 2의 외부 근거는 딥러닝 교재의 전제 지식 구성과 NumPy, pandas 같은 공식 도구 문서입니다. 수학을 독립 교과처럼 깊게 끝내는 것이 아니라, 모델 계산을 읽고 작은 코드로 재현하기 위한 최소 언어로 다룹니다.
+
 Part 2는 다음 순서로 진행합니다.
 
 1. 수학의 목적과 쓰임을 먼저 개요로 잡습니다.
@@ -220,6 +249,8 @@ Part 2는 다음 순서로 진행합니다.
 
 역할: 데이터로부터 규칙을 학습한다는 말의 의미를 복구합니다. 딥러닝으로 넘어가기 전에 학습, 일반화, 평가, 과적합을 분명히 잡습니다. 또한 모든 결정을 이론만으로 닫을 수 없기 때문에, 모델링 과정에서 쓰이는 휴리스틱을 검증 가능한 경험 규칙으로 다룹니다.
 
+Part 3의 외부 근거는 scikit-learn User Guide의 학습 유형, 모델 선택, 평가, 전처리, 파이프라인 구성을 기준으로 삼습니다. 알고리즘 목록보다 "데이터를 어떻게 나누고, 무엇으로 평가하며, 어떤 실수를 피할 것인가"를 먼저 배치합니다.
+
 장 후보:
 
 | 장 후보 | 상태 | 비고 |
@@ -263,6 +294,8 @@ Part 2는 다음 순서로 진행합니다.
 
 역할: 신경망이 데이터를 어떻게 표현하고 학습하는지 이해합니다. 특히 가중치, 최적화, 병렬 처리, 표현 학습이 왜 중요한지 검토합니다.
 
+Part 4는 딥러닝 교재의 신경망, 최적화, 확률, 표현 학습 설명을 기준으로 삼고, 이미지 인식과 음성 생성 같은 사례는 딥러닝 패러다임 확산의 근거로만 사용합니다. 사례가 LLM의 직접 조상인지, 주변 근거인지 반드시 구분합니다.
+
 장 후보:
 
 | 장 후보 | 상태 | 비고 |
@@ -301,6 +334,8 @@ Part 2는 다음 순서로 진행합니다.
 ## Part 5. LLM과 생성형 AI
 
 역할: Transformer 이후의 흐름을 이해하고, LLM을 실제 서비스와 연결합니다. 프롬프트, 임베딩, RAG, Agent를 각각 따로 보지 않고 하나의 시스템 흐름으로 정리합니다. Part 5는 Part 1의 "LLM은 어디에서 왔는가"와 Part 4의 "학습과 inference"를 이어받아 구체화합니다.
+
+Part 5는 통계적 언어 모델, seq2seq, Attention, Transformer, 사전학습 언어 모델의 흐름을 중심 계보로 둡니다. RAG, Tool use, Agent, 서비스 아키텍처는 현대 사용 경험을 설명하는 별도 응용 층으로 다룹니다.
 
 장 후보:
 
@@ -410,4 +445,22 @@ Part 2는 다음 순서로 진행합니다.
 
 ## 출처와 참고 자료
 
-이 문서는 현재 프로젝트의 기준 목차와 집필 방향을 정리한 자체 초안이며, 외부 자료를 직접 인용하지 않았습니다.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach](https://aima.cs.berkeley.edu/), 확인일: 2026-06-22.
+- Stuart Russell, Peter Norvig, [Full Table of Contents for AI: A Modern Approach](https://aima.cs.berkeley.edu/contents.html), 확인일: 2026-06-22.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents](https://artint.info/3e/html/ArtInt3e.html), 확인일: 2026-06-22.
+- Harvard University, [CS50's Introduction to Artificial Intelligence with Python](https://cs50.harvard.edu/ai/), 확인일: 2026-06-22.
+- UC Berkeley, [CS188: Introduction to Artificial Intelligence](https://inst.eecs.berkeley.edu/~cs188/archive/fa24/), 확인일: 2026-06-22.
+- MIT OpenCourseWare, [Artificial Intelligence, MIT 6.034](https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/), 확인일: 2026-06-22.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning: Linear Algebra](https://www.deeplearningbook.org/contents/linear_algebra.html), MIT Press, 2016, 확인일: 2026-06-22.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html), MIT Press, 2016, 확인일: 2026-06-22.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning: Numerical Computation](https://www.deeplearningbook.org/contents/numerical.html), MIT Press, 2016, 확인일: 2026-06-22.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning: Machine Learning Basics](https://www.deeplearningbook.org/contents/ml.html), MIT Press, 2016, 확인일: 2026-06-22.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html), 확인일: 2026-06-22.
+- pandas, [Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/), 확인일: 2026-06-22.
+- scikit-learn developers, [User Guide](https://scikit-learn.org/stable/user_guide.html), 확인일: 2026-06-22.
+- ACM, [Allen Newell - A.M. Turing Award Laureate](https://amturing.acm.org/award_winners/newell_3167755.cfm), 확인일: 2026-06-22.
+- ACM, [Herbert A. Simon - A.M. Turing Award Laureate](https://amturing.acm.org/award_winners/simon_1031467.cfm), 확인일: 2026-06-22.
+- Nobel Prize, [Daniel Kahneman - Facts](https://www.nobelprize.org/prizes/economic-sciences/2002/kahneman/facts/), 확인일: 2026-06-22.
+- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215), 2014, 확인일: 2026-06-22.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473), 2014, 확인일: 2026-06-22.
+- Ashish Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), 2017, 확인일: 2026-06-22.
