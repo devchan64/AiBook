@@ -95,6 +95,7 @@ flowchart LR
 | 기준 목차 | `management/authoring/table-of-contents.md` | 커리큘럼 기준과 확장 계획 |
 | AI 개론 목차 조사 | `management/authoring/ai-intro-curriculum-survey.md` | 공개 교재와 강의 목차의 반복 주제 조사 |
 | 인공지능 사전적 정의 비교 | `management/authoring/ai-definition-dictionary-survey.md` | 주요 언어권 사전과 용어집의 AI 정의 공통 요소 조사 |
+| 2007년 AI 학습 기억의 일반화 | `management/authoring/ai-2007-memory-map.md` | 휴리스틱, 강화학습, 신경망 기억을 표준 역사 설명으로 보정 |
 | 딥러닝 패러다임과 LLM | `management/authoring/deep-learning-paradigm.md` | LLM을 둘러싼 딥러닝 확산 사례 정리 |
 | 휴리스틱과 AI적 사고 | `management/authoring/heuristics-and-ai-thinking.md` | 휴리스틱을 초기 AI와 머신러닝 실무로 연결 |
 | Codex 소개와 사용 원칙 | `management/authoring/codex.md` | 이 책을 만드는 AI 에이전트 도구 설명 |
