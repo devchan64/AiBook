@@ -61,8 +61,8 @@
 
 ## 문서 구조
 
-- `docs/index.md`: 책의 소개와 전체 방향
-- `docs/preface.md`: 머리말, 대상 독자, 읽는 방법
+- `docs/index.md`: 책의 소개, 머리말, 서론, 대상 독자, 읽는 방법
+- `docs/book/table-of-contents.md`: 독자에게 공개하는 책의 목차
 - `docs/chapters/`: 장별 본문
 - `docs/parts/`: 파트별 개요
 - `docs/projects/`: 프로젝트 기반 복습

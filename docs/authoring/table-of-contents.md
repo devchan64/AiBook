@@ -86,8 +86,8 @@ flowchart LR
 
 | 문서 | 파일 | 역할 |
 | --- | --- | --- |
-| 소개 | `docs/index.md` | 책의 목적과 전체 방향 |
-| 머리말 | `docs/preface.md` | 대상 독자와 읽는 방법 |
+| 소개 | `docs/index.md` | 책의 목적, 머리말, 서론, 대상 독자, 읽는 방법 |
+| 책의 목차 | `docs/book/table-of-contents.md` | 독자에게 공개하는 목차 |
 | 기준 목차 | `docs/authoring/table-of-contents.md` | 커리큘럼 기준과 확장 계획 |
 | AI 개론 목차 조사 | `docs/authoring/ai-intro-curriculum-survey.md` | 공개 교재와 강의 목차의 반복 주제 조사 |
 | 딥러닝 패러다임과 LLM | `docs/authoring/deep-learning-paradigm.md` | LLM을 둘러싼 딥러닝 확산 사례 정리 |
