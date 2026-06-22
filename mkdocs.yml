@@ -38,6 +38,8 @@ nav:
   - 시작:
       - 소개: index.md
       - 머리말: preface.md
+      - 책의 서론: book/introduction.md
+      - 책의 목차: book/table-of-contents.md
       - 기준 목차: authoring/table-of-contents.md
       - AI 개론 목차 조사: authoring/ai-intro-curriculum-survey.md
       - 딥러닝 패러다임과 LLM: authoring/deep-learning-paradigm.md
