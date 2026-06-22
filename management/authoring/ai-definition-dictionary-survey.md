@@ -17,7 +17,7 @@
 | 영어권, 미국 | Merriam-Webster | 일반 사전 | 확인 |
 | 영어권, 영국 | Cambridge Dictionary | 일반/학습자 사전 | 확인 |
 | 영어권 | Britannica Dictionary | 일반 사전 | 확인 |
-| 중국어권 | 한전(汉典, ZDIC) | 중국어 사전 | 확인 |
+| 동북아권 | 한전(汉典, ZDIC) | 중국어 사전 | 확인 |
 | 국제 정책 용어 | OECD.AI | 정책 정의와 설명 | 보조 근거 |
 | 미국 정책 용어 | NIST AI Resource Center Glossary | 신뢰 가능한 AI 용어집 | 보조 근거 |
 | 독일어권 | Duden 등 | 일반 사전 | 검증 필요 |
