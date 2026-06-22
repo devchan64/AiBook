@@ -2,6 +2,8 @@
 
 AI를 다시 학습하기 위한 개인 커리큘럼 북입니다.
 
+배포 페이지: [https://devchan64.github.io/AiBook/](https://devchan64.github.io/AiBook/)
+
 이 저장소는 대학 시절 AI 개론과 기초 과목, 프로젝트를 통해 배웠지만 시간이 지나 망각한 내용을 다시 복구하고, LLM과 생성형 AI로 대표되는 새로운 패러다임에 적응하기 위해 만든 정적 웹 책 프로젝트입니다.
 
 ## 목적
@@ -71,6 +73,8 @@ mkdocs build
 현재 로컬 가상환경이 깨져 있거나 `mkdocs` 명령이 없을 수 있습니다. 이 경우 가상환경을 다시 만들고 `requirements.txt`를 설치한 뒤 빌드합니다.
 
 ## GitHub Pages 배포
+
+배포 페이지: [https://devchan64.github.io/AiBook/](https://devchan64.github.io/AiBook/)
 
 1. GitHub 저장소의 `Settings > Pages`에서 `Build and deployment`의 `Source`를 `GitHub Actions`로 설정합니다.
 2. `main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 정적 사이트를 빌드하고 GitHub Pages에 배포합니다.
