@@ -13,6 +13,7 @@ theme:
     - navigation.instant
     - navigation.tracking
     - navigation.sections
+    - navigation.footer
     - navigation.top
     - search.highlight
     - search.suggest
@@ -57,10 +58,13 @@ nav:
           - 4.2 입력(input), 출력(output), 데이터(data): chapters/chapter-04/section-02.md
           - 4.3 특징(feature), 표현(representation), 파라미터(parameter): chapters/chapter-04/section-03.md
           - 4.4 문제 정의가 모델을 결정하는 방식: chapters/chapter-04/section-04.md
-      - Chapter 5. 학습과 inference:
-          - 5.1 학습은 무엇을 바꾸는가: chapters/chapter-05/section-01.md
-          - 5.2 inference는 무엇을 실행하는가: chapters/chapter-05/section-02.md
+      - Chapter 5. 학습(learning)과 모델 실행(inference):
+          - 5.1 학습(learning)은 무엇을 바꾸는가: chapters/chapter-05/section-01.md
+          - 5.2 모델 실행(inference)은 무엇을 실행하는가: chapters/chapter-05/section-02.md
           - 5.3 한국어 추론 표현의 혼동: chapters/chapter-05/section-03.md
+      - Chapter 6. 불확실성과 확률적 판단:
+          - 6.1 불완전한 정보와 예외가 많은 문제: chapters/chapter-06/section-01.md
+          - 6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분: chapters/chapter-06/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:

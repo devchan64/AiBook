@@ -1,4 +1,4 @@
-# 5.2 근거 분석: inference는 무엇을 실행하는가
+# 5.2 근거 분석: 모델 실행(inference)은 무엇을 실행하는가
 
 이 문서는 `docs/chapters/chapter-05/section-02.md`의 근거 연결을 검토한 관리 메모입니다.
 

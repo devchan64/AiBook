@@ -21,3 +21,83 @@
   font-size: 0.85em;
 }
 
+.md-content__inner {
+  --aibook-line-gutter: 2.8rem;
+  --aibook-line-width: 2rem;
+  --aibook-line-gap: 0.8rem;
+  --aibook-list-line-gap: 2.4rem;
+  counter-reset: aibook-line;
+  padding-left: var(--aibook-line-gutter);
+}
+
+.md-content__inner > :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  table,
+  blockquote,
+  details,
+  .highlight,
+  .mermaid
+),
+.md-content__inner > :is(ul, ol) > li {
+  counter-increment: aibook-line;
+  position: relative;
+}
+
+.md-content__inner > :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  table,
+  blockquote,
+  details,
+  .highlight,
+  .mermaid
+ )::before,
+.md-content__inner > :is(ul, ol) > li::before {
+  content: counter(aibook-line);
+  position: absolute;
+  right: calc(100% + var(--aibook-line-gap));
+  top: 0.18rem;
+  width: var(--aibook-line-width);
+  color: var(--md-default-fg-color--lighter);
+  font-family: var(--md-code-font-family);
+  font-size: 0.58rem;
+  line-height: 1;
+  text-align: right;
+  user-select: none;
+}
+
+.md-content__inner > :is(ul, ol) > li::before {
+  right: calc(100% + var(--aibook-list-line-gap));
+  top: 0.32rem;
+}
+
+.md-content__inner > h1::before {
+  top: 0.55rem;
+}
+
+.md-content__inner > h2::before,
+.md-content__inner > h3::before,
+.md-content__inner > h4::before {
+  top: 0.35rem;
+}
+
+.md-content__inner > .md-source-file::before,
+.md-content__inner > .md-content__button::before {
+  content: none;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-content__inner {
+    --aibook-line-gutter: 2.1rem;
+    --aibook-line-width: 1.4rem;
+    --aibook-line-gap: 0.55rem;
+    --aibook-list-line-gap: 2.15rem;
+  }
+}

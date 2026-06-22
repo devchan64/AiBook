@@ -1,4 +1,4 @@
-# 5.1 근거 분석: 학습은 무엇을 바꾸는가
+# 5.1 근거 분석: 학습(learning)은 무엇을 바꾸는가
 
 이 문서는 `docs/chapters/chapter-05/section-01.md`의 근거 연결을 검토한 관리 메모입니다.
 
@@ -24,7 +24,7 @@
 | 파라미터는 학습 중 모델이 배우는 가중치와 편향을 뜻한다 | Google ML Glossary의 parameter 항목은 weights와 biases를 모델이 training 중 배우는 값으로 설명함 | 유지 |
 | 손실은 모델 예측과 라벨 사이의 차이를 나타내는 신호다 | Google ML Glossary의 loss 항목은 지도학습 중 prediction이 label에서 얼마나 떨어져 있는지의 측도로 설명함 | 유지 |
 | 경사하강법은 손실을 줄이기 위해 가중치와 편향을 반복 조정한다 | Google ML Glossary의 gradient descent 항목은 loss를 최소화하기 위해 weights와 biases를 반복 조정한다고 설명함 | 수식 없이 역할만 반영 |
-| 학습과 inference는 구분해야 한다 | Google ML Glossary의 weight 항목은 training을 ideal weights 결정 과정, inference를 learned weights로 prediction을 만드는 과정으로 구분함 | 유지. 5.2에서 자세히 다루도록 제한 |
+| 학습(learning)과 모델 실행(inference)은 구분해야 한다 | Google ML Glossary의 weight 항목은 training을 ideal weights 결정 과정, inference를 learned weights로 prediction을 만드는 과정으로 구분함 | 유지. 5.2에서 자세히 다루도록 제한 |
 | 학습은 단순 암기가 아니라 새 데이터에 일반화되는 관계를 찾는 문제와 연결된다 | Deep Learning Book Chapter 5는 training data에 fit하는 과제와 new data에 generalize되는 pattern을 찾는 과제를 구분함 | 유지. 일반화 세부 내용은 Part 3으로 보냄 |
 | fitting은 도구/API 문맥에서 학습 실행을 가리키는 말로 자주 쓰인다 | scikit-learn glossary는 fitting을 fit 호출로, fitted를 fitting 이후 상태로 설명하고, fitted estimator가 prediction에 필요한 attributes를 가질 수 있음을 설명함 | 유지 |
 | parameter라는 말은 문맥에 따라 다르게 쓰인다 | scikit-learn glossary는 estimator constructor에 전달하는 값도 parameter라고 부르며, 통계적 의미의 parameter와 다르게 쓴다고 설명함 | 4.3의 혼동 방지 논의를 5.1에서도 짧게 재확인 |
