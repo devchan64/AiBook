@@ -42,15 +42,17 @@ nav:
       - 시각화 작성 원칙: authoring/visuals.md
   - 로드맵:
       - 1장. AI 재학습 로드맵: chapters/chapter-01.md
-  - Part 1. 기초 복구:
+  - Part 1. AI 개론과 지형도:
+      - 개요: parts/ai-overview.md
+  - Part 2. 기초 복구:
       - 개요: parts/foundation.md
-  - Part 2. 머신러닝:
+  - Part 3. 머신러닝:
       - 개요: parts/machine-learning.md
-  - Part 3. 딥러닝:
+  - Part 4. 딥러닝:
       - 개요: parts/deep-learning.md
-  - Part 4. LLM과 생성형 AI:
+  - Part 5. LLM과 생성형 AI:
       - 개요: parts/llm-generative-ai.md
-  - Part 5. 프로젝트:
+  - Part 6. 프로젝트:
       - 개요: projects/index.md
 
 markdown_extensions:

@@ -1,4 +1,4 @@
-# Part 4. LLM과 생성형 AI
+# Part 5. LLM과 생성형 AI
 
 LLM과 생성형 AI 파트에서는 Transformer 이후의 흐름을 정리합니다. 모델 구조 자체뿐 아니라 실제 서비스를 만들 때 필요한 RAG, Agent, 평가, 운영 관점까지 함께 다룹니다.
 
