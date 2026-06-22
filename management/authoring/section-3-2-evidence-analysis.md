@@ -13,7 +13,6 @@
 | Google for Developers, `Supervised Learning` | `.tmp/section-2-1-labeling-evidence/google-ml-terminology.html` | 예시, 특징, 라벨, 학습, 평가, 추론, 데이터셋의 크기와 다양성 설명의 근거 |
 | scikit-learn, `Underfitting vs. Overfitting` | `.tmp/section-3-2-evidence/sklearn-underfitting-overfitting.html` | 과소적합, 과적합, 새 데이터 일반화 문제를 입문 예제로 설명하는 근거 |
 | Fayyad et al., `From Data Mining to Knowledge Discovery in Databases` | `.tmp/section-01-evidence/fayyad-kdd-kdnuggets.pdf`, `.txt` | KDD의 패턴 정의, 새 데이터에서의 유효성, 데이터마이닝과 모델 fitting, 패턴 발견 과정의 근거 |
-| George A. Miller, `The Magical Number Seven, Plus or Minus Two` | `.tmp/section-3-2-evidence/miller-magical-number-seven.html` | 청킹(chunking), 재부호화(recoding), 익숙한 단위로 입력을 묶어 처리한다는 학습용 비유의 근거. 머신러닝 모델이 사람처럼 이해한다는 근거로 사용하지 않음 |
 
 ## 핵심 근거 연결
 
@@ -30,8 +29,6 @@
 | 학습은 단순 암기가 아니라 새 데이터에 적용 가능한 관계를 찾는 과정이다 | Google의 generalization 설명과 Fayyad의 new data validity 관점에서 일반화 | 유지 |
 | 과소적합은 모델이 데이터 관계를 충분히 설명하지 못하는 상태이고, 과적합은 학습 데이터의 잡음까지 배워 새 데이터에 약해지는 상태로 설명할 수 있다 | scikit-learn의 Underfitting vs. Overfitting 예제가 단순 모델과 복잡한 모델의 차이를 통해 설명함 | 입문 수준 설명으로 유지하고 대응 기법은 후속 절로 보냄 |
 | 모델 출력이 점수나 확률일 수 있고 규칙·사람 검토가 함께 붙을 수 있다 | 본문 자체의 서비스 설계 일반화. 3.1의 규칙과 모델 결합 설명과 연결 | 유지하되 특정 제품 구조처럼 단정하지 않음 |
-| 사람의 빠른 판단은 입력을 의미 단위로 묶어 처리한다는 비유로 설명할 수 있다 | Miller는 입력을 익숙한 units or chunks로 조직하고, 더 큰 chunk로 재부호화하면 기억 가능한 정보량이 늘 수 있다고 설명함 | `컨텍스트 압축`을 표준 신경과학 용어로 쓰지 않고 학습용 비유로만 사용 |
-| 반복되는 입력을 의미 단위로 묶는 것은 패턴의 한 모양으로 보여줄 수 있다 | Miller의 chunking/recoding 근거와 3.2의 pattern/generalization 설명을 연결한 저자적 일반화 | 사람의 사고를 설명하는 보조 비유로만 유지. 머신러닝의 작동 원리 근거로 확장하지 않음 |
 
 ## 주의한 표현
 
@@ -42,9 +39,9 @@
 - 3.2는 추상 개념이 많아지기 쉬우므로 고객 문의 분류 예시를 반복 사용합니다. `예시`, `특징`, `라벨`, `학습`, `일반화`, `패턴`을 서로 다른 예시로 흩뜨리지 않고 하나의 흐름으로 연결합니다.
 - 모델 출력의 점수표는 개념 예시입니다. 실제 확률 보정(calibration)이나 분류 임계값 설정은 후속 절에서 다룹니다.
 - `데이터에서 패턴을 배운다`는 표현을 데이터 안의 우연한 반복을 그대로 믿는 뜻으로 쓰지 않았습니다. 새 데이터에서의 유효성과 일반화 관점을 함께 설명했습니다.
-- `컨텍스트 압축`은 본문에서 표준 용어로 정의하지 않습니다. 사용자의 직관을 일반화한 학습용 비유이며, 청킹과 재부호화 근거를 연결해 “패턴이 나타나는 한 가지 모양”으로만 설명합니다.
-- 사람의 이해와 머신러닝 모델을 동일시하지 않습니다. 사람의 판단은 언어, 목적, 기억, 사회적 맥락을 포함하고, 머신러닝 모델은 데이터에서 통계적 관계나 표현을 학습한다는 차이를 남겼습니다.
+- 사람의 의미 단위 처리와 `컨텍스트 압축` 비유는 3.3으로 이동했습니다. 3.2는 학습 데이터, 라벨, 모델, 일반화의 기본 구조에 집중합니다.
 - 3.2의 결론은 지도학습 예시를 중심으로 정리합니다. `데이터 안의 구조`처럼 비지도학습까지 넓어질 수 있는 표현은 피하고, `입력과 출력의 관계`로 좁혀 설명합니다.
+- 3.2에서 `특징(feature)`은 학습 데이터의 구성요소를 설명하는 최소 용어로만 사용합니다. 특징 설계와 표현 학습의 차이는 3.3의 범위로 보냅니다.
 
 ## 본문에 넣지 않은 내용
 
@@ -66,4 +63,3 @@
 - Google for Developers, [Supervised Learning](https://developers.google.com/machine-learning/intro-to-ml/supervised), 확인 날짜: 2026-06-22.
 - scikit-learn, [Underfitting vs. Overfitting](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html), 확인 날짜: 2026-06-22.
 - Usama Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf), AI Magazine, 1996, 확인 날짜: 2026-06-22.
-- George A. Miller, [The Magical Number Seven, Plus or Minus Two: Some Limits on our Capacity for Processing Information](http://psychclassics.yorku.ca/Miller/), Psychological Review, 1956, 확인 날짜: 2026-06-22.
