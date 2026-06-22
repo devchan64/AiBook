@@ -21,7 +21,7 @@
 | prediction은 모델의 출력이며, 과제에 따라 클래스나 숫자가 될 수 있다 | Google ML Glossary의 prediction 항목 | 유지 |
 | fitted 상태가 아닌 모델에서 predict를 호출하면 오류가 발생해야 한다 | scikit-learn glossary의 fitted, predict 항목 | 학습된 모델을 사용한다는 실무 API 관점의 보조 근거로 반영 |
 | inference와 통계학의 inference는 의미가 다를 수 있다 | Google ML Glossary의 inference 항목은 statistics에서의 의미가 다르다고 명시함 | 5.3의 용어 혼동으로 넘기되 5.2에서 짧게 경계 표시 |
-| 한국어 `추론`은 논리적 사고의 어감을 줄 수 있으므로 5.2에서는 `모델 실행`, `모델 적용`, `출력 생성`으로 풀어 읽는 것이 안전하다 | Google ML Glossary의 inference 정의가 전통 ML에서는 trained model을 unlabeled examples에 applying해 predictions를 만드는 과정, LLM에서는 prompt에 대한 response를 generate하는 과정이라고 설명함 | 유지. 상세한 한국어 추론과의 비교는 5.3으로 넘김 |
+| 한국어 `추론`은 논리적 사고의 어감을 줄 수 있으므로 5.2에서는 `모델 실행`, `모델 적용`, `출력을 만드는 실행`으로 풀어 읽는 것이 안전하다 | Google ML Glossary의 inference 정의가 전통 ML에서는 trained model을 unlabeled examples에 applying해 predictions를 만드는 과정, LLM에서는 prompt에 대한 response를 generate하는 과정이라고 설명함 | 유지. 상세한 한국어 추론과의 비교는 5.3으로 넘김 |
 | 한국어의 일반적 추론과 AI inference는 입력에서 결과를 낸다는 점은 비슷하지만, 사람의 의미 이해와 논리적 reasoning 전체를 뜻하지는 않는다 | Google ML Glossary의 inference 정의는 prediction/response generation 중심이며, statistics의 inference와도 의미가 다를 수 있다고 구분함 | 5.2에는 전환 문장만 남기고, 비교표와 상세 설명은 5.3으로 이동 |
 
 ## 섹션 구성 검토
@@ -37,7 +37,7 @@
 ## 주의한 표현
 
 - inference를 사람의 reasoning과 동일시하지 않았습니다.
-- 한국어 독자에게 `inference=추론`만 제시하면 논리적 사고처럼 오해될 수 있어, `모델 실행`, `모델 적용`, `출력 생성`이라는 짧은 풀이만 남겼습니다.
+- 한국어 독자에게 `inference=추론`만 제시하면 논리적 사고처럼 오해될 수 있어, `모델 실행`, `모델 적용`, `출력을 만드는 실행`이라는 짧은 풀이만 남겼습니다.
 - 한국어의 일반적 `추론`과 AI inference의 비슷한 점과 다른 점은 5.3으로 자연스럽게 넘어가도록 전환 문장만 남겼습니다.
 - LLM inference를 “생각하는 과정”이 아니라 학습된 모델과 프롬프트, 생성 설정을 사용해 응답을 만드는 실행으로 설명했습니다.
 - 일반적인 inference에서는 모델 파라미터가 바뀌지 않는다고 쓰되, 온라인 학습과 지속 학습 같은 예외가 있음을 밝혔습니다.
