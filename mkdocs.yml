@@ -40,6 +40,7 @@ nav:
       - 머리말: preface.md
       - 기준 목차: authoring/table-of-contents.md
       - AI 개론 목차 조사: authoring/ai-intro-curriculum-survey.md
+      - 딥러닝 패러다임과 LLM: authoring/deep-learning-paradigm.md
       - Codex 소개와 사용 원칙: authoring/codex.md
       - 시각화 작성 원칙: authoring/visuals.md
   - 로드맵:

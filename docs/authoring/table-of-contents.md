@@ -89,6 +89,7 @@ flowchart LR
 | 머리말 | `docs/preface.md` | 대상 독자와 읽는 방법 |
 | 기준 목차 | `docs/authoring/table-of-contents.md` | 커리큘럼 기준과 확장 계획 |
 | AI 개론 목차 조사 | `docs/authoring/ai-intro-curriculum-survey.md` | 공개 교재와 강의 목차의 반복 주제 조사 |
+| 딥러닝 패러다임과 LLM | `docs/authoring/deep-learning-paradigm.md` | LLM을 둘러싼 딥러닝 확산 사례 정리 |
 | Codex 소개와 사용 원칙 | `docs/authoring/codex.md` | 이 책을 만드는 AI 에이전트 도구 설명 |
 | 시각화 작성 원칙 | `docs/authoring/visuals.md` | 차트와 다이어그램 작성 기준 |
 
@@ -126,6 +127,7 @@ flowchart LR
 | 데이터, 특징, 모델 | 후보 | 머신러닝 파트의 선행 개념 |
 | 지도학습, 비지도학습, 강화학습 | 후보 | 개론에서는 비교만 수행 |
 | 딥러닝 개론 | 후보 | Part 4로 연결 |
+| 딥러닝 패러다임의 확산 | 후보 | 이미지, 음성, 번역 사례를 통해 LLM 이전 흐름 설명 |
 | 생성형 AI 개론 | 후보 | Part 5로 연결 |
 | LLM과 프롬프트 | 후보 | 프롬프트의 역할과 한계 |
 | 임베딩과 벡터 검색 | 후보 | RAG의 선행 개념 |
