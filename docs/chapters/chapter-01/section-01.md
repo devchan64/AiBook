@@ -26,6 +26,26 @@ OECD의 2023년 설명은 AI 시스템을 기계 기반 시스템으로 보고, 
 
 이 관점은 이 책의 출발점과 잘 맞습니다. AI를 “인간 지능의 완전한 복제”로 먼저 이해하기보다, 문제를 계산 가능한 형태로 바꾸고 그 결과가 환경에 영향을 주는 시스템으로 보는 것입니다.
 
+## AI라는 말이 넓어진 이유
+
+AI라는 말이 넓게 느껴지는 이유는, 이 용어가 하나의 알고리즘만 가리키지 않고 여러 시대의 문제 해결 방식을 함께 품고 있기 때문입니다. 초기 AI에서는 사람이 규칙(rule), 지식(knowledge), 탐색 절차(search procedure)를 명시적으로 설계하는 접근이 중요했습니다. 가능한 답이 너무 많을 때는 휴리스틱(heuristic)을 사용해 탐색 범위를 줄였습니다.
+
+이후 데이터가 많아지고 저장·처리 인프라가 커지면서, AI를 설명하는 중심도 점점 데이터에서 판단 기준을 찾는 방향으로 확장되었습니다. 데이터마이닝(data mining), 의사결정지원시스템(DSS, decision support system), 비즈니스 인텔리전스(BI, business intelligence), 데이터 웨어하우스(DW, data warehouse), OLAP 같은 흐름은 AI 모델 자체는 아니지만, 데이터를 분석하고 의사결정에 연결하는 기반을 만들었습니다.
+
+이 배경 위에서 머신러닝(machine learning)은 사람이 모든 규칙을 직접 쓰는 대신 데이터에서 패턴을 학습하는 접근으로 자리 잡았습니다. 딥러닝(deep learning)은 여기에 신경망(neural network), 가중치(weights), 표현 학습(representation learning)을 결합해 더 복잡한 입력과 출력을 다루는 방향으로 확장되었습니다.
+
+따라서 이 책에서 AI라는 말은 단순히 “사람처럼 행동하는 기계”만 뜻하지 않습니다. 규칙을 사람이 직접 작성하던 방식에서, 데이터로부터 판단 기준을 학습하고, 그 결과를 서비스와 의사결정에 연결하는 방향으로 넓어진 역사적 층위를 함께 가리킵니다.
+
+| 층위 | 판단을 만드는 방식 | 이 Section에서의 위치 |
+| --- | --- | --- |
+| 규칙 기반 AI | 사람이 규칙과 지식을 명시적으로 작성 | AI 범위에 포함된 오래된 접근 |
+| 탐색과 휴리스틱 | 후보를 탐색하되 경험적 기준으로 줄임 | Chapter 7에서 다시 다룸 |
+| DSS/BI/DW/OLAP | 데이터를 모아 의사결정에 연결 | AI를 둘러싼 데이터 기반 시스템 배경 |
+| 데이터마이닝과 머신러닝 | 데이터에서 패턴과 예측 기준을 찾음 | Chapter 3 이후에서 다시 다룸 |
+| 딥러닝과 생성형 AI | 표현과 가중치를 학습해 복잡한 출력을 만듦 | Chapter 9 이후에서 다시 다룸 |
+
+이 구분은 AI의 사전적 정의와 역사적 변화를 섞지 않기 위한 안전장치입니다. 사전적으로 AI는 인간 지능과 관련된 기능을 수행하는 컴퓨터 시스템 또는 분야입니다. 역사적으로는 그 기능을 구현하는 방식이 규칙, 탐색, 확률, 데이터 학습, 딥러닝으로 확장되어 왔습니다.
+
 ## 문맥에 따라 달라지는 AI의 범위
 
 AI라는 말은 문맥에 따라 다르게 쓰입니다.
@@ -91,3 +111,5 @@ flowchart TD
 - 汉典, [人工智能](https://www.zdic.net/hans/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD), 확인 날짜: 2026-06-22.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/), 2018-07-12, 확인 날짜: 2026-06-22.
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/), 확인 날짜: 2026-06-22.
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`, AI Magazine, 1996.
+- D. J. Power, `A Brief History of Decision Support Systems`, DSSResources.COM, 2007.
