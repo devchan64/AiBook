@@ -65,6 +65,7 @@ nav:
       - Chapter 6. 불확실성과 확률적 판단:
           - 6.1 불완전한 정보와 예외가 많은 문제: chapters/chapter-06/section-01.md
           - 6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분: chapters/chapter-06/section-02.md
+          - 6.3 AI에서 확률적 판단이 쓰이는 곳: chapters/chapter-06/section-03.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
