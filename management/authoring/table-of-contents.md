@@ -88,12 +88,12 @@ flowchart LR
 | --- | --- | --- |
 | 소개 | `docs/index.md` | 책의 목적, 머리말, 서론, 대상 독자, 읽는 방법 |
 | 책의 목차 | `docs/book/table-of-contents.md` | 독자에게 공개하는 목차 |
-| 기준 목차 | `docs/authoring/table-of-contents.md` | 커리큘럼 기준과 확장 계획 |
-| AI 개론 목차 조사 | `docs/authoring/ai-intro-curriculum-survey.md` | 공개 교재와 강의 목차의 반복 주제 조사 |
-| 딥러닝 패러다임과 LLM | `docs/authoring/deep-learning-paradigm.md` | LLM을 둘러싼 딥러닝 확산 사례 정리 |
-| 휴리스틱과 AI적 사고 | `docs/authoring/heuristics-and-ai-thinking.md` | 휴리스틱을 초기 AI와 머신러닝 실무로 연결 |
-| Codex 소개와 사용 원칙 | `docs/authoring/codex.md` | 이 책을 만드는 AI 에이전트 도구 설명 |
-| 시각화 작성 원칙 | `docs/authoring/visuals.md` | 차트와 다이어그램 작성 기준 |
+| 기준 목차 | `management/authoring/table-of-contents.md` | 커리큘럼 기준과 확장 계획 |
+| AI 개론 목차 조사 | `management/authoring/ai-intro-curriculum-survey.md` | 공개 교재와 강의 목차의 반복 주제 조사 |
+| 딥러닝 패러다임과 LLM | `management/authoring/deep-learning-paradigm.md` | LLM을 둘러싼 딥러닝 확산 사례 정리 |
+| 휴리스틱과 AI적 사고 | `management/authoring/heuristics-and-ai-thinking.md` | 휴리스틱을 초기 AI와 머신러닝 실무로 연결 |
+| Codex 소개와 사용 원칙 | `management/authoring/codex.md` | 이 책을 만드는 AI 에이전트 도구 설명 |
+| 시각화 작성 원칙 | `management/authoring/visuals.md` | 차트와 다이어그램 작성 기준 |
 
 ## 근거 기반 목차 검토
 
@@ -110,7 +110,7 @@ flowchart LR
 
 | 목차 축 | 외부 근거로 확인한 반복 주제 | 현재 반영 위치 | 보강 방향 |
 | --- | --- | --- | --- |
-| AI 개론과 역사 | AIMA, Poole & Mackworth, Harvard CS50 AI, Berkeley CS188, MIT 6.034 모두 AI 개론, 탐색, 문제 해결, 불확실성, 학습을 주요 주제로 다룸 | Part 1 `AI 개론과 지형도` | `docs/authoring/ai-intro-curriculum-survey.md`의 조사 표본을 늘리고, 역사 연표 자료를 별도로 수집 |
+| AI 개론과 역사 | AIMA, Poole & Mackworth, Harvard CS50 AI, Berkeley CS188, MIT 6.034 모두 AI 개론, 탐색, 문제 해결, 불확실성, 학습을 주요 주제로 다룸 | Part 1 `AI 개론과 지형도` | `management/authoring/ai-intro-curriculum-survey.md`의 조사 표본을 늘리고, 역사 연표 자료를 별도로 수집 |
 | 탐색과 휴리스틱 | AIMA의 heuristic search, Newell과 Simon의 문제 해결 연구, Simon의 bounded rationality, Kahneman의 불확실성 판단 연구 | Part 1 `탐색과 휴리스틱`, Part 3 `휴리스틱이 필요한 이유` | 휴리스틱, 확률 모델, 최적화, 학습을 같은 말처럼 쓰지 않도록 구분 |
 | 수학 기초 | `Deep Learning`의 선형대수, 확률, 수치 계산, 머신러닝 기초 장이 딥러닝 전제 지식으로 배치됨 | Part 2 `기초 복구` | 수학을 증명 중심이 아니라 모델 계산의 언어로 설명하고, 시그마와 극한은 표기 읽기부터 복구 |
 | SW로 수학 재사용 | NumPy와 pandas 공식 문서는 배열, 표 형식 데이터, 데이터 처리 실습의 기본 도구를 제공 | Part 2 `NumPy`, `Pandas`, `SW로 수학 다시 보기` | 수식 설명 뒤에 작은 코드 재현을 붙이고, 공식 문서 기반 예제로 검증 |
@@ -472,7 +472,7 @@ Part 5는 통계적 언어 모델, seq2seq, Attention, Transformer, 사전학습
 - 파트 개요는 `docs/parts/` 아래에 둡니다.
 - 장별 본문은 `docs/chapters/` 아래에 둡니다.
 - 프로젝트 문서는 `docs/projects/` 아래에 둡니다.
-- 집필 기준, 운영 원칙, 도구 설명은 `docs/authoring/` 아래에 둡니다.
+- 집필 기준, 운영 원칙, 도구 설명은 `management/authoring/` 아래에 둡니다.
 - 이미지, SVG, 생성된 차트는 `docs/assets/` 아래에 둡니다.
 - 새 파일을 만들면 `mkdocs.yml`의 `nav` 반영 여부를 반드시 확인합니다.
 

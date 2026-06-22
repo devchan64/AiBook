@@ -40,8 +40,10 @@
 ## 작업 원칙
 
 - 이 저장소는 MkDocs + Material for MkDocs 기반의 정적 웹 책 프로젝트입니다.
-- 원고는 `docs/` 아래 Markdown 파일로 작성하고, 목차는 `mkdocs.yml`의 `nav`에서 관리합니다.
-- 새 문서를 추가하면 반드시 `mkdocs.yml`의 `nav` 연결 여부를 함께 검토합니다.
+- 독자에게 배포할 책 본문은 `docs/` 아래 Markdown 파일로 작성하고, 목차는 `mkdocs.yml`의 `nav`에서 관리합니다.
+- 집필 기준, 조사 자료, 작성 원칙 같은 관리자료는 `management/` 아래에 둡니다.
+- `mkdocs.yml`의 `nav`에는 배포할 책 본문만 연결하고, 관리자료는 연결하지 않습니다.
+- 새 문서를 추가하면 책 본문인지 관리자료인지 먼저 구분한 뒤 위치와 `nav` 반영 여부를 결정합니다.
 - 원고는 한국어로 작성합니다. 단, 기술 용어는 필요한 경우 영어 원어를 함께 병기합니다.
 - 각 장은 가능한 한 다음 구조를 따릅니다.
   - 목표
@@ -66,10 +68,10 @@
 - `docs/chapters/`: 장별 본문
 - `docs/parts/`: 파트별 개요
 - `docs/projects/`: 프로젝트 기반 복습
-- `docs/authoring/`: 집필 원칙과 작성 규칙
 - `docs/assets/`: 이미지, SVG, 생성된 차트 등 정적 자산
-- `docs/authoring/table-of-contents.md`: 책의 기준 목차와 확장 계획
-- `docs/authoring/codex.md`: Codex 소개와 사용 원칙
+- `management/authoring/`: 집필 원칙, 조사 자료, 작성 규칙 등 배포하지 않는 관리자료
+- `management/authoring/table-of-contents.md`: 책의 기준 목차와 확장 계획
+- `management/authoring/codex.md`: Codex 소개와 사용 원칙
 
 ## 출처와 인용
 
