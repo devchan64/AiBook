@@ -38,10 +38,10 @@ nav:
   - 시작:
       - 소개: index.md
       - 책의 목차: book/table-of-contents.md
-  - 로드맵:
-      - 1장. AI 재학습 로드맵: chapters/chapter-01.md
   - Part 1. AI 개론과 지형도:
       - 개요: parts/ai-overview.md
+      - Chapter 1. AI란 무엇인가:
+          - 1.1 AI라는 말의 범위: chapters/chapter-01/section-01.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
