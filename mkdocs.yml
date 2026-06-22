@@ -39,6 +39,7 @@ nav:
       - 소개: index.md
       - 머리말: preface.md
       - 기준 목차: authoring/table-of-contents.md
+      - AI 개론 목차 조사: authoring/ai-intro-curriculum-survey.md
       - Codex 소개와 사용 원칙: authoring/codex.md
       - 시각화 작성 원칙: authoring/visuals.md
   - 로드맵:
