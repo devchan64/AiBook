@@ -48,6 +48,8 @@ nav:
           - 2.1 기호 기반 AI와 규칙 기반 접근: chapters/chapter-02/section-01.md
           - 2.2 탐색, 지식 표현, 확률 추론: chapters/chapter-02/section-02.md
           - 2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름: chapters/chapter-02/section-03.md
+      - Chapter 3. 규칙에서 학습으로:
+          - 3.1 규칙 기반 시스템의 강점과 한계: chapters/chapter-03/section-01.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
