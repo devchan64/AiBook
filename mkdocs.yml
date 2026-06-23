@@ -101,6 +101,7 @@ nav:
           - "14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조": chapters/chapter-14/section-03.md
           - "14.4 MCP(Model Context Protocol)와 도구 연결 표준화": chapters/chapter-14/section-04.md
           - "14.5 하네스(harness)와 평가 실행 환경": chapters/chapter-14/section-05.md
+          - "14.6 AI 서비스가 현실에서 만나는 제약": chapters/chapter-14/section-06.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
