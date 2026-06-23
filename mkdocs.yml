@@ -116,6 +116,8 @@ nav:
           - "17.3 예측(prediction)과 작업 가설(working hypothesis) 구분": chapters/chapter-17/section-03.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
+      - Chapter 1. AI에서 수학은 왜 필요한가:
+          - "P2-1.1 AI 계산에서 수학이 하는 일": parts/part-02/chapter-01/section-01.md
   - Part 3. 머신러닝:
       - 개요: parts/machine-learning.md
   - Part 4. 딥러닝:
