@@ -72,6 +72,7 @@ nav:
           - 7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이: chapters/chapter-07/section-03.md
       - Chapter 8. 학습 유형의 기본 구분:
           - "8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": chapters/chapter-08/section-01.md
+          - "8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": chapters/chapter-08/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
