@@ -80,6 +80,7 @@ nav:
           - "9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분": chapters/chapter-09/section-03.md
       - Chapter 10. 생성형 AI 개론:
           - "10.1 분류(classification), 예측(prediction), 생성(generation)의 차이": chapters/chapter-10/section-01.md
+          - "10.2 다음 출력 생성(next-output generation)의 직관": chapters/chapter-10/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
