@@ -69,6 +69,7 @@ nav:
       - Chapter 7. 탐색과 휴리스틱:
           - 7.1 탐색 공간(search space)과 계산 한계(computational limit): chapters/chapter-07/section-01.md
           - 7.2 휴리스틱(heuristic)은 무엇을 줄이는가: chapters/chapter-07/section-02.md
+          - 7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이: chapters/chapter-07/section-03.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
