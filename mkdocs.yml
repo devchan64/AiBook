@@ -84,6 +84,7 @@ nav:
           - "10.3 생성 결과(output)의 품질(quality)과 위험(risk)": chapters/chapter-10/section-03.md
       - Chapter 11. LLM은 어디에서 왔는가:
           - "11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)": chapters/chapter-11/section-01.md
+          - "11.2 RNN, Seq2Seq, Attention": chapters/chapter-11/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
