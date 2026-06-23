@@ -95,6 +95,9 @@ nav:
           - "13.2 유사도 검색(similarity search)의 직관": chapters/chapter-13/section-02.md
           - "13.3 RAG(retrieval-augmented generation)로 이어지는 흐름": chapters/chapter-13/section-03.md
           - "13.4 벡터 검색(vector search) 구현의 직관": chapters/chapter-13/section-04.md
+      - Chapter 14. AI 서비스 아키텍처와 실행 환경:
+          - "14.1 모델(model), 앱(application), 데이터(data), 도구(tool)": chapters/chapter-14/section-01.md
+          - "14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치": chapters/chapter-14/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
