@@ -230,7 +230,7 @@ Section 초안:
 | 8 | 8.1 지도학습(supervised learning): 입력(input)과 라벨(label) | 라벨이 있는 데이터로 관계를 배우는 방식 설명 | 과적합은 Part 3로 연결 |
 | 8 | 8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation) | 라벨 없이 데이터 구조를 찾는 방식 설명 | 클러스터링, 차원 축소 예시 |
 | 8 | 8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward) | 행동 이후의 보상 신호를 통해 정책을 배우는 방식 설명 | 게임 예시는 과도한 일반화 주의 |
-| 9 | 9.1 이미지 인식과 표현 학습 | 특징을 직접 학습하게 된 흐름 설명 | AlexNet 등 대표 근거 필요 |
+| 9 | 9.1 이미지 인식(image recognition)과 표현 학습(representation learning) | 특징을 직접 학습하게 된 흐름 설명 | AlexNet 등 대표 근거 필요 |
 | 9 | 9.2 객체 검출과 음성 생성 사례 | YOLO, WaveNet, Deep Voice 같은 확산 사례 정리 | LLM 직접 원인처럼 쓰지 않기 |
 | 9 | 9.3 LLM의 직접 계보와 주변 근거 구분 | 딥러닝 확산 사례와 LLM 발전사 분리 | seq2seq, Attention, Transformer는 직접 계보로 표시 |
 | 10 | 10.1 분류, 예측, 생성의 차이 | 생성형 AI가 기존 모델과 다른 지점 정리 | 생성도 확률 모델의 산출임을 설명 |
