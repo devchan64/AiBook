@@ -76,6 +76,7 @@ nav:
           - "8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)": chapters/chapter-08/section-03.md
       - Chapter 9. 딥러닝 패러다임의 확산:
           - "9.1 이미지 인식(image recognition)과 표현 학습(representation learning)": chapters/chapter-09/section-01.md
+          - "9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례": chapters/chapter-09/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:

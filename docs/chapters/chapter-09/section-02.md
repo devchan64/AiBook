@@ -1,0 +1,216 @@
+# 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
+
+9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 통해 딥러닝(deep learning)이 왜 중요한 전환점으로 읽히는지 봤습니다. 이미지 분류는 “이 이미지가 무엇인가”를 묻는 문제였습니다.
+
+이번 절에서는 딥러닝 패러다임이 다른 문제로 어떻게 확산되었는지 봅니다. 첫 번째는 객체 검출(object detection)입니다. 두 번째는 음성 생성(speech generation)과 음성 합성(TTS, text-to-speech)입니다.
+
+이 절의 질문은 다음입니다.
+
+```text
+딥러닝은 이미지 분류를 넘어
+위치 찾기, 소리 생성, 음성 합성 같은 문제를 어떻게 다시 구성했는가?
+```
+
+> 객체 검출과 음성 생성 사례는 LLM의 직접 조상이 아니라, 딥러닝이 여러 입력과 출력 문제에서 수작업 파이프라인을 학습 기반 구조로 바꿔 간 흐름을 보여 주는 주변 근거다.
+
+## 이 절의 범위
+
+이 절은 YOLO, WaveNet, Deep Voice의 알고리즘을 구현하지 않습니다. 바운딩 박스(bounding box), mAP(mean average precision), dilated convolution, autoregressive model, vocoder, phoneme duration 같은 세부 개념은 이름과 역할만 지나갑니다.
+
+또한 이 사례들을 LLM(large language model)의 직접 계보로 설명하지 않습니다. LLM의 직접 흐름은 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN/LSTM, Seq2Seq, Attention, Transformer, 사전학습 언어 모델에서 따로 다룹니다.
+
+여기서는 다음 정도만 잡습니다.
+
+```text
+이미지, 위치, 파형, 음성 같은 다른 출력 문제에서도
+딥러닝은 수작업 특징과 여러 단계 파이프라인을 줄이고,
+입력에서 출력까지 학습 가능한 구조를 넓혀 갔다.
+```
+
+## 목표
+
+- 객체 검출(object detection)이 이미지 분류(classification)와 어떻게 다른지 이해합니다.
+- YOLO를 객체 검출을 하나의 신경망 예측 문제로 재구성한 사례로 봅니다.
+- WaveNet을 raw audio waveform을 확률적 autoregressive 방식으로 생성한 사례로 봅니다.
+- Deep Voice를 TTS 파이프라인의 여러 구성요소를 신경망 기반으로 전환한 사례로 봅니다.
+- 이 사례들이 LLM의 직접 원인이 아니라 딥러닝 패러다임 확산의 주변 근거임을 구분합니다.
+
+## 분류(classification)와 검출(detection)은 다르다
+
+이미지 분류(classification)는 보통 이미지 전체에 대해 범주(category)를 예측합니다.
+
+```text
+입력: 이미지 한 장
+출력: 고양이, 자동차, 사람 같은 범주
+```
+
+객체 검출(object detection)은 한 단계 더 어렵습니다. 이미지 안에 무엇이 있는지만 묻지 않고, 어디에 있는지도 함께 묻습니다.
+
+```text
+입력: 이미지 한 장
+출력: 물체 범주 + 위치
+```
+
+예를 들어 도로 사진을 생각해 봅니다.
+
+| 문제 | 질문 | 출력 |
+| --- | --- | --- |
+| 이미지 분류(classification) | 이 사진은 어떤 장면인가? | 도로, 교차로, 주차장 |
+| 객체 검출(object detection) | 사진 안에 무엇이 어디에 있는가? | 자동차 위치, 사람 위치, 표지판 위치 |
+
+여기서 위치는 보통 바운딩 박스(bounding box)로 표현됩니다. 바운딩 박스는 이미지 안에서 물체가 차지하는 영역을 사각형으로 표시한 것입니다.
+
+객체 검출은 이미지 인식보다 복잡한 출력 구조를 갖습니다. 여러 물체가 동시에 있을 수 있고, 각 물체마다 범주와 위치가 필요합니다. 그래서 전통적 검출 시스템은 후보 영역을 찾고, 특징을 추출하고, 분류기를 적용하고, 위치를 보정하는 여러 단계 파이프라인(pipeline)으로 구성되는 경우가 많았습니다.
+
+## YOLO는 검출 문제를 하나의 예측 문제로 재구성했다
+
+YOLO(You Only Look Once)는 객체 검출을 단일 신경망(single neural network)의 예측 문제로 재구성한 대표 사례입니다. Redmon, Divvala, Girshick, Farhadi의 YOLO 논문은 기존 객체 검출이 분류기를 검출에 재사용하는 경우가 많았지만, YOLO는 객체 검출을 바운딩 박스와 클래스 확률(class probabilities)을 예측하는 회귀 문제(regression problem)로 본다고 설명합니다.
+
+입문 단계에서는 다음 차이를 기억하면 됩니다.
+
+| 관점 | 전통적 검출 파이프라인 | YOLO의 관점 |
+| --- | --- | --- |
+| 문제 구성 | 후보 영역 찾기, 특징 추출, 분류, 위치 보정 등 여러 단계 | 이미지에서 바운딩 박스와 클래스 확률을 한 번에 예측 |
+| 최적화 | 단계별 조정이 필요함 | 전체 구조를 end-to-end로 학습 가능 |
+| 장점 | 각 단계가 분리되어 이해하기 쉬울 수 있음 | 빠른 처리와 단순한 통합 구조 |
+| 주의점 | 시스템 전체 조정이 복잡할 수 있음 | 작은 물체나 정밀 위치에서는 한계가 있을 수 있음 |
+
+YOLO 논문은 하나의 신경망이 전체 이미지에서 바운딩 박스와 클래스 확률을 직접 예측한다고 설명합니다. 또한 파이프라인이 하나의 네트워크이기 때문에 end-to-end로 최적화할 수 있다고 설명합니다. 논문은 기본 YOLO가 초당 45프레임, Fast YOLO가 더 높은 속도로 실시간 처리(real-time processing)를 목표로 했다고 설명합니다.
+
+여기서 중요한 점은 “빠르다”만이 아닙니다. 더 중요한 변화는 다음입니다.
+
+```text
+검출 문제를 여러 수작업 단계의 조합으로만 보지 않고,
+하나의 학습 가능한 예측 문제로 다시 구성했다.
+```
+
+이 관점은 딥러닝 패러다임의 확산을 잘 보여 줍니다. 9.1의 이미지 분류에서는 모델이 이미지 표현을 학습했습니다. YOLO에서는 그 흐름이 “무엇인가”뿐 아니라 “어디에 있는가”까지 포함하는 구조로 확장됩니다.
+
+## 음성 생성은 다음 샘플을 만드는 문제로 볼 수 있다
+
+이미지는 공간적 구조를 가집니다. 음성은 시간적 구조를 가집니다. 음성은 공기 압력의 변화를 시간 순서로 기록한 신호이고, 디지털 오디오는 이를 샘플(sample)의 연속으로 저장합니다.
+
+음성 생성(speech generation)을 단순화하면 다음 질문이 됩니다.
+
+```text
+지금까지의 오디오 샘플을 보고,
+다음 오디오 샘플을 어떻게 만들 것인가?
+```
+
+이 질문은 10장에서 볼 생성(generation)의 직관과도 연결됩니다. 텍스트 생성은 앞의 토큰을 보고 다음 토큰을 생성하고, 오디오 생성은 앞의 샘플을 보고 다음 샘플을 생성할 수 있습니다. 물론 텍스트와 오디오는 데이터 구조가 다르기 때문에 같은 모델이라고 말하면 안 됩니다. 여기서는 “순차적 출력 생성”이라는 공통 직관만 잡습니다.
+
+## WaveNet은 raw audio를 직접 생성하는 사례다
+
+WaveNet은 DeepMind가 발표한 raw audio 생성 모델입니다. van den Oord 등은 WaveNet을 raw audio waveform을 생성하는 깊은 신경망(deep neural network)으로 소개하고, 모델이 완전한 확률적(fully probabilistic) autoregressive 모델이라고 설명합니다.
+
+여기서 raw audio waveform은 사람이 미리 추출한 음향 특징만이 아니라, 시간 순서로 이어진 실제 오디오 파형 값에 가까운 입력과 출력을 가리킵니다. WaveNet은 파형의 결합확률(joint probability)을 이전 샘플들에 조건부로 분해해 다음 샘플을 생성하는 방식으로 설명됩니다.
+
+입문 단계에서는 다음처럼 이해하면 됩니다.
+
+```text
+WaveNet은 음성을 미리 정한 작은 조각만 이어 붙이는 방식이 아니라,
+오디오 파형을 시간 순서의 확률적 생성 문제로 다룬 사례다.
+```
+
+WaveNet 논문은 TTS에 적용했을 때 기존 통계적 파라메트릭 방식(statistical parametric systems)과 연결형 방식(concatenative systems)보다 자연스러운 음성을 만들었다고 보고합니다. 또한 raw audio는 초당 최소 16,000개 이상의 샘플을 다루는 고해상도 시간 신호이므로, 긴 시간 의존성(long-range temporal dependency)을 다루는 구조가 필요하다고 설명합니다.
+
+이 사례가 보여 주는 변화는 다음입니다.
+
+| 이전 관점 | WaveNet이 보여 준 관점 |
+| --- | --- |
+| 음성을 사람이 설계한 특징, 보코더(vocoder), 단위 선택으로 다룸 | 파형 자체를 생성 모델의 대상으로 다룸 |
+| 여러 가정과 파이프라인에 의존 | 신경망이 시간 의존성을 학습해 다음 샘플을 생성 |
+| 음성 품질과 자연스러움에 한계가 있음 | raw audio 생성으로 자연스러움을 개선할 가능성을 제시 |
+
+WaveNet은 LLM이 아닙니다. 하지만 “다음 출력을 순차적으로 생성한다”는 직관을 음성 파형에서 강하게 보여 준 사례입니다.
+
+## Deep Voice는 TTS 파이프라인을 신경망으로 바꿔 간 사례다
+
+Deep Voice는 Baidu 연구진이 발표한 실시간 신경망 TTS 시스템입니다. Arik 등은 Deep Voice를 deep neural networks로 구성된 production-quality text-to-speech system으로 소개합니다. 논문은 전통적 TTS 시스템이 복잡한 여러 단계 처리 파이프라인과 휴리스틱(heuristics)에 기반한다고 설명하고, Deep Voice는 전통적 TTS 파이프라인의 구조를 유지하되 각 구성요소를 신경망으로 대체한다고 설명합니다.
+
+Deep Voice 논문이 제시하는 주요 구성요소는 다음과 같습니다.
+
+| 구성요소 | 역할 |
+| --- | --- |
+| grapheme-to-phoneme model | 글자를 음소(phoneme)로 변환 |
+| segmentation model | 음소 경계(phoneme boundary)를 찾음 |
+| phoneme duration model | 각 음소의 길이를 예측 |
+| fundamental frequency model | 음높이와 관련된 F0를 예측 |
+| audio synthesis model | 앞 단계 정보를 바탕으로 오디오를 합성 |
+
+이 구조는 완전히 하나의 모델로 닫힌 현대적 end-to-end TTS와는 다릅니다. 오히려 중요한 점은 다음입니다.
+
+```text
+전통적 TTS의 여러 구성요소를 유지하면서도,
+각 단계의 핵심 판단을 신경망 기반으로 바꿔 갔다.
+```
+
+Deep Voice 논문은 실시간 추론(real-time inference)이 production-quality TTS에서 필수라고 설명합니다. 즉 딥러닝 모델이 좋은 품질을 내는 것만으로는 충분하지 않고, 실제 서비스에서 사용할 수 있는 속도와 구조가 필요하다는 점도 함께 보여 줍니다.
+
+## 세 사례가 보여 주는 공통 변화
+
+YOLO, WaveNet, Deep Voice는 서로 다른 문제를 다룹니다.
+
+| 사례 | 분야 | 입력 | 출력 | 보여 준 변화 |
+| --- | --- | --- | --- | --- |
+| YOLO | 객체 검출 | 이미지 | 물체 위치와 범주 | 검출을 하나의 신경망 예측 문제로 재구성 |
+| WaveNet | 음성 생성 | 이전 오디오 샘플, 조건 정보 | 다음 오디오 샘플 | raw audio를 확률적 순차 생성 문제로 모델링 |
+| Deep Voice | 음성 합성 | 텍스트, 음소, 지속 시간 등 | 음성 오디오 | TTS 파이프라인 구성요소를 신경망 기반으로 전환 |
+
+공통점은 “딥러닝이 모든 문제를 하나의 방식으로 해결했다”가 아닙니다. 더 안전한 일반화는 다음입니다.
+
+```text
+딥러닝은 여러 도메인에서
+사람이 직접 설계하던 특징, 후보 생성, 규칙, 파이프라인 일부를
+학습 가능한 신경망 구조로 옮기는 흐름을 강화했다.
+```
+
+이 흐름은 이미지 분류, 객체 검출, 음성 생성, 음성 합성에서 각각 다른 모습으로 나타났습니다. 그러나 모두 대규모 데이터, 계산 자원, 신경망 구조, 학습 기법이 결합될 때 강해졌다는 점에서 9.1의 AlexNet 사례와 연결됩니다.
+
+## LLM의 직접 계보와 구분하기
+
+이 절의 사례들은 LLM의 직접 계보가 아닙니다.
+
+```text
+YOLO -> LLM
+WaveNet -> LLM
+Deep Voice -> LLM
+```
+
+이렇게 이어 쓰면 오해가 생깁니다. YOLO는 객체 검출, WaveNet은 raw audio 생성, Deep Voice는 TTS 시스템입니다. LLM의 직접 계보는 언어 모델링(language modeling), sequence modeling, Seq2Seq, Attention, Transformer, 사전학습(pretraining) 쪽에서 설명해야 합니다.
+
+다만 이 사례들은 다음 배경을 보여 줍니다.
+
+```text
+딥러닝은 한 분야의 유행이 아니라,
+이미지, 위치, 음성, 언어 같은 다양한 데이터 문제에서
+표현 학습과 end-to-end 학습 구조가 확산된 흐름이었다.
+```
+
+이 배경을 이해하면 LLM이 갑자기 등장한 기술처럼 보이지 않습니다. LLM은 뒤에서 다룰 직접 계보 위에 있지만, 그 계보가 설득력을 얻은 배경에는 2010년대 여러 분야에서 반복된 딥러닝 성공 사례가 있었습니다.
+
+## 이 절에서 기억할 관점
+
+9.2의 핵심은 세 모델의 세부 구조를 외우는 것이 아닙니다. 이 절에서 기억할 것은 문제 재구성입니다.
+
+```text
+객체 검출: 이미지에서 물체 위치와 범주를 함께 예측한다.
+음성 생성: 시간 순서의 오디오 샘플을 생성한다.
+음성 합성: 텍스트를 음성으로 바꾸는 여러 단계를 신경망으로 바꿔 간다.
+```
+
+이 세 사례는 딥러닝이 이미지 분류를 넘어 더 복잡한 출력 구조로 확산되었음을 보여 줍니다. 그러나 LLM의 직접 조상으로 쓰지는 않습니다. 직접 계보와 주변 근거를 구분하는 것이 이 장의 중요한 목적입니다.
+
+## 체크리스트
+
+- 객체 검출(object detection)이 이미지 분류(classification)와 다른 점을 설명할 수 있다.
+- YOLO를 객체 검출을 단일 신경망 예측 문제로 재구성한 사례로 설명할 수 있다.
+- WaveNet을 raw audio waveform을 확률적으로 순차 생성한 사례로 설명할 수 있다.
+- Deep Voice를 TTS 파이프라인의 여러 구성요소를 신경망 기반으로 전환한 사례로 설명할 수 있다.
+- YOLO, WaveNet, Deep Voice를 LLM의 직접 계보로 쓰지 않을 수 있다.
+
+## 출처와 참고 자료
+
+- Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi, [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640), arXiv, 2015, 확인 날짜: 2026-06-23.
+- Aaron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499), arXiv, 2016, 확인 날짜: 2026-06-23.
+- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://arxiv.org/abs/1702.07825), arXiv, 2017, 확인 날짜: 2026-06-23.
