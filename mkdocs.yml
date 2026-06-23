@@ -68,6 +68,7 @@ nav:
           - 6.3 AI에서 확률적 판단이 쓰이는 곳: chapters/chapter-06/section-03.md
       - Chapter 7. 탐색과 휴리스틱:
           - 7.1 탐색 공간(search space)과 계산 한계(computational limit): chapters/chapter-07/section-01.md
+          - 7.2 휴리스틱(heuristic)은 무엇을 줄이는가: chapters/chapter-07/section-02.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
