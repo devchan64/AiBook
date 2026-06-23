@@ -58,7 +58,7 @@
 
 ## 검증 필요
 
-- 딥러닝 부흥의 세부 연표는 이 절에서 깊게 다루지 않았다. Chapter 9에서 AlexNet, YOLO, WaveNet, Deep Voice, Seq2Seq, Attention, Transformer 근거를 별도 분석해야 한다.
+- 딥러닝 부흥의 세부 연표는 이 절에서 깊게 다루지 않았다. Chapter 9에서 AlexNet, YOLO, WaveNet, Seq2Seq, Attention, Transformer 근거를 별도 분석해야 한다. Deep Voice는 필요한 경우 TTS 보조 사례로만 둔다.
 - LLM의 직접 발전사는 이 절에서 요약만 했다. Chapter 11에서 통계적 언어 모델, 신경망 언어 모델, 사전학습, Transformer, instruction tuning, RLHF를 별도 근거로 다뤄야 한다.
 - BI/DSS/DW/OLAP의 역사적 설명은 현재 관리 메모 수준으로만 반영했다. 별도 절에서 다룰 경우 한국어권 산업 자료와 학술 자료를 추가로 확보해야 한다.
 

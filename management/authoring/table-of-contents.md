@@ -121,7 +121,7 @@ flowchart LR
 | 수학 기초 | `Deep Learning`의 선형대수, 확률, 수치 계산, 머신러닝 기초 장이 딥러닝 전제 지식으로 배치됨 | Part 2 `기초 복구` | 수학을 증명 중심이 아니라 모델 계산의 언어로 설명하고, 시그마와 극한은 표기 읽기부터 복구 |
 | SW로 수학 재사용 | NumPy와 pandas 공식 문서는 배열, 표 형식 데이터, 데이터 처리 실습의 기본 도구를 제공 | Part 2 `NumPy`, `Pandas`, `SW로 수학 다시 보기` | 수식 설명 뒤에 작은 코드 재현을 붙이고, 공식 문서 기반 예제로 검증 |
 | 머신러닝 | scikit-learn User Guide가 지도학습, 비지도학습, 모델 선택, 평가, 전처리, 파이프라인을 체계적으로 제공 | Part 3 `머신러닝` | 알고리즘 나열보다 데이터 분리, 평가, 과적합, 일반화를 먼저 설명 |
-| 딥러닝 패러다임 | `Deep Learning` 교재와 AlexNet, YOLO, WaveNet, Deep Voice, seq2seq, Attention, Transformer 논문이 표현 학습과 대규모 신경망 확산의 근거를 제공 | Part 4 `딥러닝`, Part 5 `LLM 발전사` | LLM의 직접 계보와 딥러닝 패러다임 확산 사례를 구분 |
+| 딥러닝 패러다임 | `Deep Learning` 교재와 AlexNet, YOLO, WaveNet, seq2seq, Attention, Transformer 논문이 표현 학습과 대규모 신경망 확산의 근거를 제공 | Part 4 `딥러닝`, Part 5 `LLM 발전사` | LLM의 직접 계보와 딥러닝 패러다임 확산 사례를 구분 |
 | LLM과 생성형 AI | seq2seq, Attention, Transformer, 사전학습 언어 모델 흐름을 중심으로 설명 | Part 5 `LLM과 생성형 AI` | 최신 제품 기능은 공식 문서로 확인하고, 추론(reasoning)과 inference를 구분 |
 | 윤리, 저작권, 보안 | 법률, 정책, 공식 보고서, 신뢰할 수 있는 언론 자료가 필요 | Part 1 `AI 윤리, 저작권, 보안`, 검증 필요 목록 | 한국 저작권법과 AI 학습 데이터 논쟁은 별도 근거 문서로 분리 |
 | 앞으로의 AI | 예측성 내용은 언론, 뉴스, 칼럼, 공식 발표, 보고서 기반으로만 작성 | Part 1 `앞으로의 AI` | 개인적 추측이나 생성형 표현은 본문 근거로 사용하지 않음 |
@@ -231,8 +231,8 @@ Section 초안:
 | 8 | 8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation) | 라벨 없이 데이터 구조를 찾는 방식 설명 | 클러스터링, 차원 축소 예시 |
 | 8 | 8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward) | 행동 이후의 보상 신호를 통해 정책을 배우는 방식 설명 | 게임 예시는 과도한 일반화 주의 |
 | 9 | 9.1 이미지 인식(image recognition)과 표현 학습(representation learning) | 특징을 직접 학습하게 된 흐름 설명 | AlexNet 등 대표 근거 필요 |
-| 9 | 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례 | YOLO, WaveNet, Deep Voice 같은 확산 사례 정리 | LLM 직접 원인처럼 쓰지 않기 |
-| 9 | 9.3 LLM의 직접 계보와 주변 근거 구분 | 딥러닝 확산 사례와 LLM 발전사 분리 | seq2seq, Attention, Transformer는 직접 계보로 표시 |
+| 9 | 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례 | YOLO와 WaveNet 중심의 확산 사례 정리 | LLM 직접 원인처럼 쓰지 않기 |
+| 9 | 9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분 | 딥러닝 확산 사례와 LLM 발전사 분리 | Seq2Seq, Attention, Transformer는 직접 계보로 표시 |
 | 10 | 10.1 분류, 예측, 생성의 차이 | 생성형 AI가 기존 모델과 다른 지점 정리 | 생성도 확률 모델의 산출임을 설명 |
 | 10 | 10.2 다음 출력 생성의 직관 | 텍스트, 이미지, 음성 생성의 공통 직관 설명 | 모델별 차이를 지나치게 단순화하지 않기 |
 | 10 | 10.3 생성 결과의 품질과 위험 | 환각, 근거 누락, 저작권, 안전 문제 연결 | AGENTS의 근거 원칙과 연결 |
@@ -520,7 +520,7 @@ Part 5는 통계적 언어 모델, seq2seq, Attention, Transformer, 사전학습
 | 비유 | 시냅스 비유와 가중치 | 생물학적 시냅스와 인공신경망 가중치의 비유가 어디까지 유효하고 어디서 끊어야 하는가 | 신경망 교재, 인공신경망 역사 자료 | Part 4 |
 | 모델 해석 | 딥러닝과 확률 모델 | 딥러닝을 최적화된 확률 모델이라고 부를 수 있는 조건은 무엇인가 | 확률 모델, 손실 함수, 생성 모델 자료 | Part 4, Part 5 |
 | 발전사 | GPU와 병렬 처리 | 병렬 처리와 GPU가 딥러닝 발전에 기여한 부분을 어떤 사례와 수치로 설명할 것인가 | AlexNet, CUDA/GPU 관련 논문과 회고 자료 | Part 4 |
-| 발전사 | 딥러닝 패러다임 확산 | 이미지, 객체 검출, 음성 합성, 번역 사례가 LLM의 직접 계보인지 주변 근거인지 어떻게 구분할 것인가 | AlexNet, YOLO, WaveNet, Deep Voice, seq2seq, Attention, Transformer 논문 | Part 4, Part 5 |
+| 발전사 | 딥러닝 패러다임 확산 | 이미지, 객체 검출, 음성 생성, 번역 사례가 LLM의 직접 계보인지 주변 근거인지 어떻게 구분할 것인가 | AlexNet, YOLO, WaveNet, seq2seq, Attention, Transformer 논문 | Part 4, Part 5 |
 | LLM | 추론, inference, reasoning | 한국어 `추론`이 모델 실행과 논리적 reasoning을 혼동시키지 않도록 어떤 용어 체계를 쓸 것인가 | LLM 논문, 공식 문서, 평가 자료 | Part 5 |
 | LLM | 다음 토큰 예측과 인간 유사 행동 | 확률적 예측의 반복이 인간 사고와 비슷해 보이는 출력을 만든다는 해석을 어디까지 허용할 것인가 | 언어 모델 논문, 인지적 해석에 대한 신뢰 가능한 자료 | Part 5 |
 | LLM | 출력 불확실성과 평가 | LLM의 오류, 환각, 변동성을 어떻게 측정하고 설명할 것인가 | LLM 평가 자료, 벤치마크, 공식 문서 | Part 5, Part 6 |

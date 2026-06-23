@@ -61,8 +61,8 @@ Part 1의 Chapter별 Section은 다음 흐름으로 시작합니다. Section은 
 | 8 | 8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation) | 라벨 없이 데이터의 구조를 찾는 방식을 봅니다. |
 | 8 | 8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward) | 행동 이후의 보상 신호를 통해 정책을 배우는 방식을 봅니다. |
 | 9 | 9.1 이미지 인식(image recognition)과 표현 학습(representation learning) | 딥러닝이 특징을 직접 학습하게 된 흐름을 봅니다. |
-| 9 | 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례 | YOLO, WaveNet, Deep Voice 같은 확산 사례를 주변 근거로 다룹니다. |
-| 9 | 9.3 LLM의 직접 계보와 주변 근거 구분 | 딥러닝 확산 사례와 LLM의 직접 발전사를 구분합니다. |
+| 9 | 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례 | YOLO와 WaveNet 중심으로 딥러닝 확산 사례를 주변 근거로 다룹니다. |
+| 9 | 9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분 | 딥러닝 확산 사례와 LLM의 직접 발전사를 구분합니다. |
 | 10 | 10.1 분류, 예측, 생성의 차이 | 생성형 AI가 기존 모델과 무엇이 다른지 봅니다. |
 | 10 | 10.2 다음 출력 생성의 직관 | 텍스트, 이미지, 음성 생성의 공통 직관을 잡습니다. |
 | 10 | 10.3 생성 결과의 품질과 위험 | 환각, 근거 누락, 저작권, 안전 문제로 연결합니다. |

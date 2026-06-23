@@ -77,4 +77,4 @@
 
 - CNN의 합성곱, 풀링, ReLU, feature map은 Part 4에서 별도 수식과 그림으로 다룹니다.
 - GPU 병렬 처리의 자세한 설명은 Part 4의 GPU와 병렬 처리 절에서 AlexNet, CUDA/GPU 자료를 추가로 확인해 다룹니다.
-- 9.2에서는 YOLO, WaveNet, Deep Voice를 각각 직접 계보가 아니라 딥러닝 패러다임 확산 사례로 검토합니다.
+- 9.2에서는 YOLO와 WaveNet을 직접 계보가 아니라 딥러닝 패러다임 확산 사례로 검토합니다. Deep Voice는 TTS 보조 사례로만 둡니다.
