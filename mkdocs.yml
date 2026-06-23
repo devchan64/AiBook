@@ -86,6 +86,8 @@ nav:
           - "11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)": chapters/chapter-11/section-01.md
           - "11.2 RNN, Seq2Seq, Attention": chapters/chapter-11/section-02.md
           - "11.3 Transformer와 사전학습 LLM(pretrained LLM)": chapters/chapter-11/section-03.md
+      - Chapter 12. 프롬프트와 LLM 사용 경험:
+          - "12.1 프롬프트(prompt)는 무엇을 지정하는가": chapters/chapter-12/section-01.md
   - Part 2. 기초 복구:
       - 개요: parts/foundation.md
   - Part 3. 머신러닝:
