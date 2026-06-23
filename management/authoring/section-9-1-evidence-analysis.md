@@ -51,7 +51,7 @@
 | 표현 학습은 입력을 모델이 다루기 좋은 표현으로 바꾸는 과정을 데이터에서 함께 배우는 접근이다 | Bengio et al. 표현 학습 리뷰, 3.3/4.3 기존 본문 | 유지 |
 | 딥러닝은 여러 층의 표현을 학습한다 | LeCun et al. Nature 리뷰 | 유지 |
 | CNN은 이미지의 지역 패턴을 여러 층에서 조합하는 구조로 입문 설명 가능하다 | LeCun et al. Nature 리뷰의 convolutional nets 설명, AlexNet의 convolutional layer 구조 | 유지하되 수식 설명은 제외 |
-| AlexNet은 대규모 데이터, 깊은 CNN, GPU, 학습 기법이 결합된 전환점이다 | AlexNet 논문과 Nature 리뷰 참고문헌 주석 | 유지 |
+| AlexNet은 대규모 데이터, 깊은 CNN, GPU, 학습 기법이 결합된 전환점이다 | AlexNet 논문과 Nature 리뷰 참고문헌 주석. AlexNet 논문은 120만 학습 이미지, 6천만 파라미터, 5개 convolutional layers, 두 GTX 580 GPU, overfitting 방지 기법을 함께 제시함 | 유지. 네 요소를 분리된 장점이 아니라 상호 의존 조건으로 보강 |
 | 이미지 인식 사례는 LLM의 직접 계보가 아니다 | `management/authoring/deep-learning-paradigm.md`의 도메인 경계 | 유지 |
 
 ## 도메인 경계
