@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
+  <title id="title">Population, sample, and estimate</title>
+  <desc id="desc">모집단 전체에서 표본을 뽑고, 표본으로 모집단의 값을 추정하는 흐름을 보여 주는 차트입니다.</desc>
+  <rect width="920" height="520" fill="#ffffff"/>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">From population to sample to estimate</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">We often cannot observe everything. We use a sample to estimate a population value.</text>
+
+  <rect x="54" y="128" width="350" height="270" rx="16" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+  <text x="82" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#334155">population</text>
+  <text x="82" y="192" font-family="Arial, sans-serif" font-size="15" fill="#475569">all items we care about</text>
+
+  <g fill="#cbd5e1">
+    <circle cx="102" cy="235" r="8"/><circle cx="134" cy="224" r="8"/><circle cx="166" cy="244" r="8"/><circle cx="198" cy="226" r="8"/>
+    <circle cx="230" cy="250" r="8"/><circle cx="262" cy="230" r="8"/><circle cx="294" cy="246" r="8"/><circle cx="326" cy="222" r="8"/>
+    <circle cx="114" cy="284" r="8"/><circle cx="148" cy="300" r="8"/><circle cx="180" cy="278" r="8"/><circle cx="212" cy="306" r="8"/>
+    <circle cx="244" cy="288" r="8"/><circle cx="276" cy="308" r="8"/><circle cx="308" cy="286" r="8"/><circle cx="340" cy="304" r="8"/>
+    <circle cx="126" cy="350" r="8"/><circle cx="162" cy="336" r="8"/><circle cx="198" cy="358" r="8"/><circle cx="234" cy="340" r="8"/>
+    <circle cx="270" cy="360" r="8"/><circle cx="306" cy="340" r="8"/><circle cx="342" cy="358" r="8"/>
+  </g>
+
+  <g fill="#2563eb">
+    <circle cx="134" cy="224" r="9"/><circle cx="230" cy="250" r="9"/><circle cx="180" cy="278" r="9"/><circle cx="276" cy="308" r="9"/><circle cx="198" cy="358" r="9"/>
+  </g>
+
+  <path d="M420 262 L520 262" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+  <text x="432" y="238" font-family="Arial, sans-serif" font-size="15" fill="#475569">sampling</text>
+
+  <rect x="540" y="158" width="296" height="92" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="574" y="193" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#1d4ed8">sample</text>
+  <text x="574" y="222" font-family="Arial, sans-serif" font-size="15" fill="#475569">observed subset of the population</text>
+
+  <path d="M688 262 L688 312" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+  <rect x="540" y="324" width="296" height="92" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="574" y="359" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#047857">estimate</text>
+  <text x="574" y="388" font-family="Arial, sans-serif" font-size="15" fill="#475569">a calculated guess about the population</text>
+
+  <rect x="250" y="434" width="420" height="44" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="284" y="462" font-family="Arial, sans-serif" font-size="16" fill="#334155">A sample is useful, but it can be biased or noisy.</text>
+
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

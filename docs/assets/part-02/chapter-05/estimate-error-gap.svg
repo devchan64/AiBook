@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
+  <title id="title">Estimate and error</title>
+  <desc id="desc">추정값과 실제 값 사이의 차이가 오차이며, 표본이 달라지면 추정값도 달라질 수 있음을 보여 주는 차트입니다.</desc>
+  <rect width="920" height="520" fill="#ffffff"/>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Estimate is useful because the true value is often unknown</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Error is the gap between what we estimate and what we would get from the full truth.</text>
+
+  <line x1="105" y1="300" x2="815" y2="300" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="460" y1="168" x2="460" y2="342" stroke="#10b981" stroke-width="4"/>
+  <text x="410" y="156" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#047857">true value</text>
+
+  <line x1="385" y1="208" x2="385" y2="342" stroke="#2563eb" stroke-width="3" stroke-dasharray="8 6"/>
+  <text x="334" y="198" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1d4ed8">estimate A</text>
+
+  <line x1="520" y1="208" x2="520" y2="342" stroke="#2563eb" stroke-width="3" stroke-dasharray="8 6"/>
+  <text x="470" y="198" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1d4ed8">estimate B</text>
+
+  <path d="M385 374 L460 374" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="385,374 399,366 399,382" fill="#ef4444"/>
+  <polygon points="460,374 446,366 446,382" fill="#ef4444"/>
+  <text x="388" y="410" font-family="Arial, sans-serif" font-size="16" fill="#b91c1c">error</text>
+
+  <path d="M460 430 L520 430" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="460,430 474,422 474,438" fill="#ef4444"/>
+  <polygon points="520,430 506,422 506,438" fill="#ef4444"/>
+  <text x="466" y="466" font-family="Arial, sans-serif" font-size="16" fill="#b91c1c">error</text>
+
+  <rect x="610" y="150" width="250" height="132" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="636" y="184" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#334155">Why two estimates?</text>
+  <text x="636" y="216" font-family="Arial, sans-serif" font-size="15" fill="#475569">Different samples can produce</text>
+  <text x="636" y="240" font-family="Arial, sans-serif" font-size="15" fill="#475569">different estimates.</text>
+  <text x="636" y="264" font-family="Arial, sans-serif" font-size="15" fill="#475569">This variation is expected.</text>
+</svg>
