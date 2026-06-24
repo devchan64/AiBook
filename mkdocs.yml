@@ -155,7 +155,11 @@ nav:
           - "P2-7.7 보충학습: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
       - Chapter 8. Python 핵심 문법 복습:
           - "P2-8.1 값(value), 변수(variable), 타입(type)": parts/part-02/chapter-08/section-01.md
-          - "P2-8.2 리스트(list), 딕셔너리(dictionary), 반복(loop)": parts/part-02/chapter-08/section-02.md
+          - "P2-8.2 리스트(list): 순서가 있는 값 묶음": parts/part-02/chapter-08/section-02.md
+          - "P2-8.3 딕셔너리(dictionary): 키(key)로 값을 찾는 구조": parts/part-02/chapter-08/section-03.md
+          - "P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기": parts/part-02/chapter-08/section-04.md
+          - "P2-8.5 함수(function)와 작은 재사용": parts/part-02/chapter-08/section-05.md
+          - "P2-8.6 보충학습: 클래스(class)와 객체(object)를 처음 만날 때": parts/part-02/chapter-08/section-06.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
