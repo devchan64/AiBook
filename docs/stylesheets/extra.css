@@ -39,6 +39,7 @@
   table,
   blockquote,
   details,
+  .arithmatex,
   .highlight,
   .mermaid
 ),
@@ -57,6 +58,7 @@
   table,
   blockquote,
   details,
+  .arithmatex,
   .highlight,
   .mermaid
  )::before,
@@ -99,6 +101,10 @@
   content: none;
 }
 
+.md-typeset .arithmatex {
+  overflow-x: auto;
+}
+
 @media screen and (max-width: 76.1875em) {
   .md-content__inner {
     --aibook-line-gutter: 1.75rem;
@@ -126,6 +132,7 @@
     table,
     blockquote,
     details,
+    .arithmatex,
     .highlight,
     .mermaid
   )::before,

@@ -121,6 +121,7 @@ nav:
           - "P2-1.2 수식, 코드, 데이터가 만나는 자리": parts/part-02/chapter-01/section-02.md
       - Chapter 2. 수식 표기 다시 읽기:
           - "P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기": parts/part-02/chapter-02/section-01.md
+          - "P2-2.2 시그마(sigma)와 반복 계산": parts/part-02/chapter-02/section-02.md
   - Part 3. 머신러닝:
       - 개요: parts/machine-learning.md
   - Part 4. 딥러닝:
@@ -141,6 +142,8 @@ markdown_extensions:
       anchor_linenums: true
       linenums: true
   - pymdownx.inlinehilite
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -167,3 +170,7 @@ plugins:
 
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

@@ -2,11 +2,17 @@
 
 P2-1.2에서는 수식(formula), 코드(code), 데이터(data)가 같은 계산을 서로 다른 방식으로 보여 준다는 관점을 잡았습니다. 이제 수식을 읽을 때 가장 먼저 만나는 기본 표기를 복구합니다.
 
-```text
+\[
 x
+\]
+
+\[
 y = f(x)
-loss = f(prediction, target)
-```
+\]
+
+\[
+\mathrm{loss} = f(\mathrm{prediction}, \mathrm{target})
+\]
 
 이런 표기는 오래전에 배운 수학에서는 너무 기본이라 지나쳤을 수 있습니다. 하지만 AI 문서에서는 변수(variable), 함수(function), 식(expression)을 읽지 못하면 모델(model), 입력(input), 출력(output), 손실(loss), 파라미터(parameter)의 위치를 잡기 어렵습니다.
 
@@ -37,11 +43,9 @@ loss = f(prediction, target)
 
 변수(variable)는 값을 가리키는 이름입니다. 수학에서는 보통 `x`, `y`, `n`, `w`처럼 짧은 기호를 씁니다.
 
-```text
-x = 3
-y = 2
-n = 4
-```
+\[
+x = 3,\quad y = 2,\quad n = 4
+\]
 
 여기서 `x`, `y`, `n`은 값 자체가 아니라 값을 가리키는 이름입니다. AI 문서에서는 변수 이름이 더 많은 의미를 품습니다.
 
@@ -93,9 +97,9 @@ print(x.dtype)
 
 함수(function)는 입력(input)을 받아 출력(output)을 만드는 관계입니다.
 
-```text
+\[
 y = f(x)
-```
+\]
 
 이 식은 다음처럼 읽습니다.
 
@@ -136,18 +140,27 @@ prediction = model(input_data)
 
 식(expression)은 값, 변수, 연산자(operator), 함수가 모여 계산 관계를 표현한 것입니다.
 
-```text
+\[
 x + y
-2 * x + 1
+\]
+
+\[
+2x + 1
+\]
+
+\[
 f(x)
-(prediction - target) ** 2
-```
+\]
+
+\[
+(\mathrm{prediction} - \mathrm{target})^2
+\]
 
 수학 문서에서는 식이 짧게 나오지만, 그 안에는 계산 순서가 들어 있습니다.
 
-```text
-(prediction - target) ** 2
-```
+\[
+(\mathrm{prediction} - \mathrm{target})^2
+\]
 
 이 식은 다음처럼 읽을 수 있습니다.
 
