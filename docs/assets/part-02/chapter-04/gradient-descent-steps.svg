@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Gradient descent steps toward lower loss</title>
+  <desc id="desc">경사하강법이 현재 위치에서 손실이 줄어드는 방향으로 조금씩 이동하며 중심에 가까워지는 과정을 보여 준다.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
+    .grid { stroke: #e5e7eb; stroke-width: 1; }
+    .axis { stroke: #6b7280; stroke-width: 2; }
+    .contour1 { fill: none; stroke: #bfdbfe; stroke-width: 3; }
+    .contour2 { fill: none; stroke: #93c5fd; stroke-width: 3; }
+    .contour3 { fill: none; stroke: #60a5fa; stroke-width: 3; }
+    .contour4 { fill: none; stroke: #2563eb; stroke-width: 3; }
+    .path { stroke: #059669; stroke-width: 4; fill: none; marker-end: url(#arrow-green); }
+    .point { fill: #111827; }
+    .step { fill: #059669; }
+    .target { fill: #2563eb; }
+    .label { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; font-weight: 650; }
+    .small { fill: #4b5563; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; }
+    .math { fill: #111827; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 16px; }
+  </style>
+  <defs>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#059669" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="760" height="430" />
+  <text class="label" x="42" y="42">Gradient descent repeats small downhill steps</text>
+  <rect class="panel" x="38" y="66" width="684" height="302" rx="8" />
+
+  <g transform="translate(100,330)">
+    <path class="grid" d="M0 -50 H460 M0 -100 H460 M0 -150 H460 M0 -200 H460 M0 -250 H460 M76 0 V-260 M152 0 V-260 M228 0 V-260 M304 0 V-260 M380 0 V-260" />
+    <path class="axis" d="M0 0 H480 M0 0 V-270" />
+    <ellipse class="contour1" cx="238" cy="-142" rx="200" ry="116" />
+    <ellipse class="contour2" cx="238" cy="-142" rx="150" ry="88" />
+    <ellipse class="contour3" cx="238" cy="-142" rx="98" ry="58" />
+    <ellipse class="contour4" cx="238" cy="-142" rx="42" ry="26" />
+    <circle class="target" cx="238" cy="-142" r="5" />
+    <text class="math" x="252" y="-136">low loss</text>
+
+    <path class="path" d="M410 -236 L350 -208" />
+    <path class="path" d="M350 -208 L304 -184" />
+    <path class="path" d="M304 -184 L270 -164" />
+    <path class="path" d="M270 -164 L248 -150" />
+
+    <circle class="point" cx="410" cy="-236" r="5" />
+    <circle class="step" cx="350" cy="-208" r="5" />
+    <circle class="step" cx="304" cy="-184" r="5" />
+    <circle class="step" cx="270" cy="-164" r="5" />
+    <circle class="step" cx="248" cy="-150" r="5" />
+
+    <text class="math" x="386" y="-252">start</text>
+    <text class="small" x="270" y="-218">step</text>
+    <text class="small" x="398" y="-12">w1</text>
+    <text class="small" x="-24" y="-250">w2</text>
+  </g>
+
+  <g transform="translate(594,120)">
+    <rect x="0" y="0" width="102" height="134" rx="8" fill="#ffffff" stroke="#d0d7de" />
+    <text class="small" x="14" y="32">1. read ∇L</text>
+    <text class="small" x="14" y="62">2. move -∇L</text>
+    <text class="small" x="14" y="92">3. repeat</text>
+  </g>
+
+  <text class="small" x="52" y="398">The path is not a jump to the answer. It is repeated local adjustment.</text>
+</svg>

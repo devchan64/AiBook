@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">Partial derivative and directional derivative</title>
+  <desc id="desc">편미분은 좌표축 방향으로 하나씩 보는 변화율이고, 방향도함수는 임의의 방향으로 보는 변화율임을 비교한다.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
+    .grid { stroke: #e5e7eb; stroke-width: 1; }
+    .axis { stroke: #6b7280; stroke-width: 2; }
+    .contour1 { fill: none; stroke: #bfdbfe; stroke-width: 3; }
+    .contour2 { fill: none; stroke: #93c5fd; stroke-width: 3; }
+    .contour3 { fill: none; stroke: #60a5fa; stroke-width: 3; }
+    .arrow-green { stroke: #059669; stroke-width: 4; fill: none; marker-end: url(#arrow-green); }
+    .arrow-red { stroke: #dc2626; stroke-width: 4; fill: none; marker-end: url(#arrow-red); }
+    .arrow-blue { stroke: #2563eb; stroke-width: 4; fill: none; marker-end: url(#arrow-blue); }
+    .point { fill: #111827; }
+    .label { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; font-weight: 650; }
+    .small { fill: #4b5563; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; }
+    .math { fill: #111827; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 16px; }
+  </style>
+  <defs>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#059669" /></marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626" /></marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb" /></marker>
+  </defs>
+  <rect class="bg" width="920" height="430" />
+  <text class="label" x="42" y="42">Partial derivative vs directional derivative</text>
+  <rect class="panel" x="38" y="66" width="844" height="302" rx="8" />
+  <g transform="translate(118,326)">
+    <path class="grid" d="M0 -50 H520 M0 -100 H520 M0 -150 H520 M0 -200 H520 M0 -250 H520 M86 0 V-260 M172 0 V-260 M258 0 V-260 M344 0 V-260 M430 0 V-260" />
+    <path class="axis" d="M0 0 H540 M0 0 V-270" />
+    <ellipse class="contour1" cx="260" cy="-142" rx="210" ry="112" />
+    <ellipse class="contour2" cx="260" cy="-142" rx="152" ry="78" />
+    <ellipse class="contour3" cx="260" cy="-142" rx="82" ry="42" />
+    <circle class="point" cx="260" cy="-142" r="5" />
+    <path class="arrow-green" d="M260 -142 H358" />
+    <path class="arrow-red" d="M260 -142 V-236" />
+    <path class="arrow-blue" d="M260 -142 L340 -214" />
+    <text class="math" x="368" y="-134">∂L/∂w1</text>
+    <text class="small" x="366" y="-112">change along w1</text>
+    <text class="math" x="176" y="-242">∂L/∂w2</text>
+    <text class="small" x="160" y="-220">change along w2</text>
+    <text class="math" x="350" y="-222">DᵤL</text>
+    <text class="small" x="350" y="-200">change along direction u</text>
+    <text class="small" x="486" y="-12">w1</text>
+    <text class="small" x="-24" y="-250">w2</text>
+  </g>
+  <text class="small" x="58" y="392">Partial derivatives follow coordinate axes. A directional derivative follows a chosen direction.</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-labelledby="title desc">
+  <title id="title">Backpropagation sends loss gradients backward</title>
+  <desc id="desc">순전파는 입력에서 손실까지 값을 계산하고, 역전파는 손실에서 각 층으로 그래디언트 정보를 되돌려 보내는 흐름임을 보여 준다.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
+    .box { fill: #ffffff; stroke: #d0d7de; stroke-width: 1.3; }
+    .loss { fill: #fff1f2; stroke: #dc2626; stroke-width: 1.6; }
+    .forward { stroke: #2563eb; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+    .backward { stroke: #dc2626; stroke-width: 3; fill: none; marker-end: url(#arrow-red); stroke-dasharray: 8 6; }
+    .label { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; font-weight: 650; }
+    .small { fill: #4b5563; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; }
+    .math { fill: #111827; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 16px; }
+    .tagbg { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb" /></marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626" /></marker>
+  </defs>
+  <rect class="bg" width="920" height="500" />
+  <text class="label" x="42" y="42">Backpropagation: values go forward, gradients come back</text>
+  <rect class="panel" x="38" y="66" width="844" height="370" rx="8" />
+
+  <g transform="translate(72,124)">
+    <rect class="box" x="0" y="50" width="110" height="70" rx="8" />
+    <text class="math" x="28" y="92">input</text>
+    <rect class="box" x="160" y="50" width="110" height="70" rx="8" />
+    <text class="math" x="184" y="82">layer 1</text>
+    <text class="small" x="188" y="104">W1</text>
+    <rect class="box" x="320" y="50" width="110" height="70" rx="8" />
+    <text class="math" x="344" y="82">layer 2</text>
+    <text class="small" x="348" y="104">W2</text>
+    <rect class="box" x="480" y="50" width="110" height="70" rx="8" />
+    <text class="math" x="500" y="92">output</text>
+    <rect class="loss" x="640" y="50" width="110" height="70" rx="8" />
+    <text class="math" x="674" y="92">loss</text>
+
+    <path class="forward" d="M116 85 H150" />
+    <path class="forward" d="M276 85 H310" />
+    <path class="forward" d="M436 85 H470" />
+    <path class="forward" d="M596 85 H630" />
+    <text class="small" x="270" y="32">forward pass: compute values</text>
+
+    <path class="backward" d="M640 145 C560 205 456 205 430 126" />
+    <path class="backward" d="M480 172 C400 240 300 236 270 126" />
+    <path class="backward" d="M320 198 C242 266 140 250 110 126" />
+
+    <rect class="tagbg" x="326" y="206" width="92" height="28" rx="5" />
+    <text class="math" x="338" y="226">∂L/∂W2</text>
+    <rect class="tagbg" x="154" y="252" width="92" height="28" rx="5" />
+    <text class="math" x="166" y="272">∂L/∂W1</text>
+    <text class="small" x="214" y="318">backward pass: compute gradients for parameters</text>
+  </g>
+
+  <text class="small" x="64" y="468">Backpropagation is not the whole learning process. It is the efficient gradient calculation step.</text>
+</svg>
