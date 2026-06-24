@@ -130,6 +130,9 @@ nav:
           - "P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가": parts/part-02/chapter-03/section-03.md
           - "P2-3.4 Google Colab으로 파이썬 코드 실행하기": parts/part-02/chapter-03/section-04.md
           - "P2-3.5 선형대수를 NumPy로 확인하기": parts/part-02/chapter-03/section-05.md
+      - Chapter 4. 미분은 무엇을 찾기 위한 도구인가:
+          - "P2-4.1 미분을 어떻게 배웠는지 다시 보기": parts/part-02/chapter-04/section-01.md
+          - "P2-4.2 변화율(rate of change)과 기울기(slope)": parts/part-02/chapter-04/section-02.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
