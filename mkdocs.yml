@@ -150,6 +150,9 @@ nav:
           - "P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)": parts/part-02/chapter-07/section-02.md
           - "P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)": parts/part-02/chapter-07/section-03.md
           - "P2-7.4 가상환경(virtual environment)과 패키지(package)": parts/part-02/chapter-07/section-04.md
+          - "P2-7.5 의존성(dependency)과 재현성(reproducibility)": parts/part-02/chapter-07/section-05.md
+          - "P2-7.6 보충수업: Windows, macOS, Linux 터미널 사용법": parts/part-02/chapter-07/section-06.md
+          - "P2-7.7 보충수업: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
