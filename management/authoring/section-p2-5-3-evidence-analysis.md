@@ -65,15 +65,15 @@ P2-5.3은 통계적 추론 전체를 다루는 절이 아니라, AI 학습자가
 
 ## 자체 제작 차트
 
-이 절에는 설명용 SVG 차트 5개를 자체 제작해 추가했다. 외부 도표를 복제하지 않았고, `management/authoring/chart-guidelines.md`의 기준에 따라 차트 내부의 보이는 문구는 영어를 사용하고 한국어 설명은 본문에서 보조했다.
+이 절에는 설명용 SVG 차트 3개와 Mermaid 도식 2개를 자체 제작해 추가했다. 외부 도표를 복제하지 않았고, `management/authoring/chart-guidelines.md`의 기준에 따라 차트 내부의 보이는 문구는 영어를 사용하고 한국어 설명은 본문에서 보조했다.
 
-| 파일 | 목적 |
+| 형식 | 목적 |
 | --- | --- |
-| `docs/assets/part-02/chapter-05/population-sample-dataset-relation.svg` | 모집단, 표본, 데이터셋의 포함 관계와 정리 흐름을 보여 준다. |
-| `docs/assets/part-02/chapter-05/population-sample-estimate.svg` | 모집단에서 표본을 뽑고 표본으로 추정값을 만드는 흐름을 보여 준다. |
-| `docs/assets/part-02/chapter-05/estimate-error-gap.svg` | 추정값과 실제 값 사이의 차이를 오차로 보는 관점을 보여 준다. |
-| `docs/assets/part-02/chapter-05/sampling-variation-vs-bias.svg` | 표본추출 변동과 표본 편향의 차이를 비교한다. |
-| `docs/assets/part-02/chapter-05/train-test-as-samples.svg` | 현실 세계의 일부가 데이터셋이 되고, 다시 훈련/테스트 표본으로 나뉘는 흐름을 보여 준다. |
+| Mermaid: `section-03.md` 본문 | 모집단, 표본, 데이터셋의 포함 관계와 정리 흐름을 보여 준다. |
+| SVG: `docs/assets/part-02/chapter-05/population-sample-estimate.svg` | 모집단에서 표본을 뽑고 표본으로 추정값을 만드는 흐름을 보여 준다. |
+| SVG: `docs/assets/part-02/chapter-05/estimate-error-gap.svg` | 추정값과 실제 값 사이의 차이를 오차로 보는 관점을 보여 준다. |
+| SVG: `docs/assets/part-02/chapter-05/sampling-variation-vs-bias.svg` | 표본추출 변동과 표본 편향의 차이를 비교한다. |
+| Mermaid: `section-03.md` 본문 | 현실 세계의 일부가 데이터셋이 되고, 다시 훈련/테스트 표본으로 나뉘는 흐름을 보여 준다. |
 
 ## Section 경계
 

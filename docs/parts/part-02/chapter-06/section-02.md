@@ -11,7 +11,20 @@ P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제
 그 숫자를 줄이는 방향으로 학습한다.
 ```
 
-![예측값과 실제값의 차이를 손실로 계산하고 여러 손실을 목적 함수로 묶는 흐름](../../../assets/part-02/chapter-06/loss-objective-flow.svg)
+```mermaid
+flowchart LR
+  X["input x"]
+  M["model"]
+  P["prediction<br/>ŷ = 8"]
+  Y["target<br/>y = 10"]
+  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
+  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
+
+  X --> M --> P
+  P --> L
+  Y --> L
+  L --> O
+```
 
 ## 이 절의 범위
 

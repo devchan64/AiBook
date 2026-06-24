@@ -70,14 +70,14 @@ AI는 확률만으로 사고한다.
 
 ## 자체 제작 차트
 
-이 절에는 설명용 SVG 차트 3개를 자체 제작해 추가했다. 외부 도표를 복제하지 않았고, `management/authoring/chart-guidelines.md`의 기준에 따라 차트 내부의 보이는 문구는 영어를 사용하고 한국어 설명은 본문에서 보조했다.
+이 절에는 설명용 SVG 차트 3개와 Mermaid 도식 1개를 자체 제작해 추가했다. 외부 도표를 복제하지 않았고, `management/authoring/chart-guidelines.md`의 기준에 따라 차트 내부의 보이는 문구는 영어를 사용하고 한국어 설명은 본문에서 보조했다.
 
-| 파일 | 목적 |
+| 형식 | 목적 |
 | --- | --- |
-| `docs/assets/part-02/chapter-05/probability-uncertainty-scale.svg` | 불확실성을 0과 1 사이의 확률 숫자로 표현한다는 직관을 보여 준다. |
-| `docs/assets/part-02/chapter-05/sample-space-event-outcome.svg` | 주사위 예시로 표본공간, 사건, 결과의 포함 관계를 보여 준다. |
-| `docs/assets/part-02/chapter-05/bayes-rule-belief-update.svg` | 베이즈 규칙을 공식이 아니라 사전 믿음, 증거, 사후 믿음의 갱신 흐름으로 보여 준다. |
-| `docs/assets/part-02/chapter-05/probability-score-decision-threshold.svg` | AI 모델의 확률 점수와 서비스 운영 결정 기준이 분리된다는 점을 보여 준다. |
+| SVG: `docs/assets/part-02/chapter-05/probability-uncertainty-scale.svg` | 불확실성을 0과 1 사이의 확률 숫자로 표현한다는 직관을 보여 준다. |
+| SVG: `docs/assets/part-02/chapter-05/sample-space-event-outcome.svg` | 주사위 예시로 표본공간, 사건, 결과의 포함 관계를 보여 준다. |
+| Mermaid: `section-01.md` 본문 | 베이즈 규칙을 공식이 아니라 사전 믿음, 증거, 사후 믿음의 갱신 흐름으로 보여 준다. |
+| SVG: `docs/assets/part-02/chapter-05/probability-score-decision-threshold.svg` | AI 모델의 확률 점수와 서비스 운영 결정 기준이 분리된다는 점을 보여 준다. |
 
 ## Section 경계
 
