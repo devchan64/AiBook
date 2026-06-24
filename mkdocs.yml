@@ -126,6 +126,7 @@ nav:
       - Chapter 3. 선형대수는 무엇을 모델링하는가:
           - "P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)": parts/part-02/chapter-03/section-01.md
           - "P2-3.2 벡터 공간(vector space)과 위치의 직관": parts/part-02/chapter-03/section-02.md
+          - "P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가": parts/part-02/chapter-03/section-03.md
   - Part 3. 머신러닝:
       - 개요: parts/machine-learning.md
   - Part 4. 딥러닝:

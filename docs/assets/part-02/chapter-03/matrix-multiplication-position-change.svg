@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">Matrix multiplication as a position change</title>
+  <desc id="desc">A two-dimensional vector at position [2, 3] moves to [2, 4] after multiplication by a simple shear matrix.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
+    .grid { stroke: #e5e7eb; stroke-width: 1; }
+    .axis { stroke: #6b7280; stroke-width: 2; }
+    .tick { stroke: #9ca3af; stroke-width: 1; }
+    .label { fill: #374151; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 18px; font-weight: 650; }
+    .small { fill: #4b5563; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; }
+    .math { fill: #111827; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; }
+    .vector-before { stroke: #2563eb; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+    .vector-after { stroke: #dc2626; stroke-width: 3; fill: none; marker-end: url(#arrow-red); }
+    .point-before { fill: #2563eb; }
+    .point-after { fill: #dc2626; }
+    .map { stroke: #64748b; stroke-width: 2.6; fill: none; marker-end: url(#arrow-gray); stroke-dasharray: 7 6; }
+  </style>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626" />
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="920" height="430" />
+
+  <text class="label" x="56" y="38">Before: input vector</text>
+  <text class="label" x="594" y="38">After: transformed vector</text>
+
+  <rect class="panel" x="40" y="60" width="310" height="310" rx="8" />
+  <rect class="panel" x="570" y="60" width="310" height="310" rx="8" />
+
+  <!-- left grid -->
+  <g transform="translate(82,328)">
+    <path class="grid" d="M0 -50 H230 M0 -100 H230 M0 -150 H230 M0 -200 H230 M50 0 V-230 M100 0 V-230 M150 0 V-230 M200 0 V-230" />
+    <path class="axis" d="M0 0 H240 M0 0 V-240" />
+    <path class="tick" d="M50 4 V-4 M100 4 V-4 M150 4 V-4 M200 4 V-4 M-4 -50 H4 M-4 -100 H4 M-4 -150 H4 M-4 -200 H4" />
+    <text class="small" x="95" y="24">2</text>
+    <text class="small" x="-22" y="-145">3</text>
+    <path class="vector-before" d="M0 0 L100 -150" />
+    <circle class="point-before" cx="100" cy="-150" r="5.5" />
+    <text class="math" x="110" y="-160">x = [2, 3]</text>
+  </g>
+
+  <!-- center mapping -->
+  <path class="map" d="M378 215 C430 165, 490 165, 542 215" />
+  <text class="math" x="382" y="148">W = [[1, 0.5], [0, 1]]</text>
+  <text class="small" x="399" y="178">multiply by W</text>
+
+  <!-- right grid -->
+  <g transform="translate(612,328)">
+    <path class="grid" d="M0 -50 H230 M0 -100 H230 M0 -150 H230 M0 -200 H230 M50 0 V-230 M100 0 V-230 M150 0 V-230 M200 0 V-230" />
+    <path class="axis" d="M0 0 H240 M0 0 V-240" />
+    <path class="tick" d="M50 4 V-4 M100 4 V-4 M150 4 V-4 M200 4 V-4 M-4 -50 H4 M-4 -100 H4 M-4 -150 H4 M-4 -200 H4" />
+    <text class="small" x="95" y="24">2</text>
+    <text class="small" x="-22" y="-195">4</text>
+    <path class="vector-after" d="M0 0 L100 -200" />
+    <circle class="point-after" cx="100" cy="-200" r="5.5" />
+    <text class="math" x="110" y="-210">y = [2, 4]</text>
+  </g>
+
+  <text class="small" x="54" y="402">The vector keeps two coordinates, but the matrix changes where the vector is placed.</text>
+</svg>
