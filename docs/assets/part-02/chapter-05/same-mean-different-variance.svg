@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
+  <title id="title">Same mean, different variance</title>
+  <desc id="desc">평균이 같아도 데이터가 평균 주변에 좁게 모이거나 넓게 퍼질 수 있음을 보여 주는 차트입니다.</desc>
+  <rect width="920" height="520" fill="#ffffff"/>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Same mean can hide different spread</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Mean alone is not enough. Variance tells how far values spread around the mean.</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="64" y="130" width="360" height="286" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="92" y="164" font-size="19" font-weight="700" fill="#334155">low variance</text>
+    <line x1="104" y1="315" x2="386" y2="315" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="245" y1="190" x2="245" y2="342" stroke="#ef4444" stroke-width="3" stroke-dasharray="8 6"/>
+    <text x="222" y="184" font-size="15" font-weight="700" fill="#b91c1c">mean</text>
+    <circle cx="215" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="232" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="245" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="258" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="275" cy="315" r="9" fill="#2563eb"/>
+    <text x="128" y="374" font-size="15" fill="#475569">values stay close to the mean</text>
+
+    <rect x="496" y="130" width="360" height="286" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="524" y="164" font-size="19" font-weight="700" fill="#334155">high variance</text>
+    <line x1="536" y1="315" x2="818" y2="315" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="677" y1="190" x2="677" y2="342" stroke="#ef4444" stroke-width="3" stroke-dasharray="8 6"/>
+    <text x="654" y="184" font-size="15" font-weight="700" fill="#b91c1c">mean</text>
+    <circle cx="560" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="610" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="677" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="744" cy="315" r="9" fill="#2563eb"/>
+    <circle cx="794" cy="315" r="9" fill="#2563eb"/>
+    <text x="548" y="374" font-size="15" fill="#475569">values spread far from the mean</text>
+  </g>
+
+  <rect x="184" y="448" width="552" height="44" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="217" y="476" font-family="Arial, sans-serif" font-size="16" fill="#334155">Variance asks: how far are values from the mean, on average?</text>
+</svg>
