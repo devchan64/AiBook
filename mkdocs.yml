@@ -119,6 +119,8 @@ nav:
       - Chapter 1. AI에서 수학은 왜 필요한가:
           - "P2-1.1 AI 계산에서 수학이 하는 일": parts/part-02/chapter-01/section-01.md
           - "P2-1.2 수식, 코드, 데이터가 만나는 자리": parts/part-02/chapter-01/section-02.md
+      - Chapter 2. 수식 표기 다시 읽기:
+          - "P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기": parts/part-02/chapter-02/section-01.md
   - Part 3. 머신러닝:
       - 개요: parts/machine-learning.md
   - Part 4. 딥러닝:
