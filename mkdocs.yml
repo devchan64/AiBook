@@ -123,6 +123,8 @@ nav:
           - "P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기": parts/part-02/chapter-02/section-01.md
           - "P2-2.2 시그마(sigma)와 반복 계산": parts/part-02/chapter-02/section-02.md
           - "P2-2.3 극한(limit)과 변화의 직관": parts/part-02/chapter-02/section-03.md
+      - Chapter 3. 선형대수는 무엇을 모델링하는가:
+          - "P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)": parts/part-02/chapter-03/section-01.md
   - Part 3. 머신러닝:
       - 개요: parts/machine-learning.md
   - Part 4. 딥러닝:
