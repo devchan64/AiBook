@@ -141,6 +141,10 @@ nav:
           - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-05/section-02.md
           - "P2-5.3 표본(sample), 추정(estimation), 오차(error)": parts/part-02/chapter-05/section-03.md
           - "P2-5.4 확률과 통계를 작은 데이터로 확인하기": parts/part-02/chapter-05/section-04.md
+      - Chapter 6. 최적화는 어떤 문제를 푸는가:
+          - "P2-6.1 최적화(optimization)는 무엇을 찾는가": parts/part-02/chapter-06/section-01.md
+          - "P2-6.2 손실 함수(loss function)와 목적 함수(objective function)": parts/part-02/chapter-06/section-02.md
+          - "P2-6.3 경사하강법(gradient descent)의 직관": parts/part-02/chapter-06/section-03.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:

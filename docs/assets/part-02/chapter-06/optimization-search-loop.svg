@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
+  <title id="title">Optimization compares candidates with an objective and constraints</title>
+  <desc id="desc">최적화가 변수로 후보를 만들고, 목적 함수로 점수를 계산하며, 제약을 확인한 뒤 더 나은 후보로 반복 이동하는 흐름을 보여 주는 도식입니다.</desc>
+  <rect width="920" height="560" fill="#ffffff"/>
+
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="7" markerHeight="7" refX="6.4" refY="3.5" orient="auto">
+      <path d="M0 0 L7 3.5 L0 7 Z" fill="#1d4ed8"/>
+    </marker>
+  </defs>
+
+  <g font-family="Arial, sans-serif">
+    <text x="42" y="48" font-size="24" font-weight="700" fill="#111827">Optimization searches for a better allowed candidate</text>
+    <text x="42" y="80" font-size="16" fill="#4b5563">Variables create candidates. An objective scores them. Constraints decide which candidates are allowed.</text>
+
+    <rect x="42" y="116" width="238" height="276" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="66" y="150" font-size="19" font-weight="700" fill="#1e3a8a">1. choose variables</text>
+    <text x="66" y="178" font-size="14" fill="#334155">changeable values</text>
+
+    <rect x="76" y="214" width="64" height="54" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="2"/>
+    <text x="108" y="247" font-size="19" font-weight="700" fill="#1e40af" text-anchor="middle">A</text>
+    <text x="108" y="286" font-size="13" fill="#475569" text-anchor="middle">candidate</text>
+
+    <rect x="145" y="198" width="64" height="54" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="177" y="231" font-size="19" font-weight="700" fill="#1e40af" text-anchor="middle">B</text>
+    <text x="177" y="270" font-size="13" fill="#475569" text-anchor="middle">candidate</text>
+
+    <rect x="176" y="276" width="64" height="54" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-width="2"/>
+    <text x="208" y="309" font-size="19" font-weight="700" fill="#1e40af" text-anchor="middle">C</text>
+    <text x="208" y="348" font-size="13" fill="#475569" text-anchor="middle">candidate</text>
+
+    <line x1="280" y1="254" x2="332" y2="254" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="342" y="116" width="250" height="276" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="366" y="150" font-size="19" font-weight="700" fill="#334155">2. score and check</text>
+    <text x="366" y="178" font-size="14" fill="#475569">objective plus constraints</text>
+
+    <rect x="374" y="212" width="186" height="62" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="398" y="238" font-size="16" font-weight="700" fill="#334155">objective function</text>
+    <text x="398" y="260" font-size="14" fill="#475569">score, cost, or loss</text>
+
+    <rect x="374" y="296" width="186" height="62" rx="10" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+    <text x="398" y="322" font-size="16" font-weight="700" fill="#9a3412">constraints</text>
+    <text x="398" y="344" font-size="14" fill="#475569">budget, time, policy</text>
+
+    <line x1="592" y1="254" x2="644" y2="254" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="654" y="116" width="224" height="276" rx="14" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+    <text x="678" y="150" font-size="19" font-weight="700" fill="#166534">3. keep the better option</text>
+    <text x="678" y="178" font-size="14" fill="#475569">best value inside the limits</text>
+
+    <rect x="696" y="214" width="140" height="72" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="766" y="244" font-size="18" font-weight="700" fill="#166534" text-anchor="middle">chosen B</text>
+    <text x="766" y="268" font-size="14" fill="#334155" text-anchor="middle">lower loss</text>
+
+    <rect x="694" y="310" width="64" height="42" rx="9" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="726" y="337" font-size="14" font-weight="700" fill="#991b1b" text-anchor="middle">reject</text>
+
+    <rect x="772" y="310" width="64" height="42" rx="9" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="804" y="337" font-size="14" font-weight="700" fill="#991b1b" text-anchor="middle">reject</text>
+
+    <path d="M768 404 C736 462, 236 462, 168 404" fill="none" stroke="#1d4ed8" stroke-width="4" stroke-dasharray="10 8" marker-end="url(#arrow-blue)"/>
+
+    <rect x="258" y="428" width="410" height="34" rx="9" fill="#ffffff" stroke="#bfdbfe"/>
+    <text x="463" y="450" font-size="15" font-weight="700" fill="#1d4ed8" text-anchor="middle">adjust variables, then evaluate again</text>
+
+    <rect x="96" y="474" width="730" height="44" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="134" y="502" font-size="15" fill="#334155">Good means: better by the chosen objective, among allowed candidates, under stated constraints.</text>
+  </g>
+</svg>
