@@ -8,6 +8,19 @@ P2-7.6에서는 Windows, macOS, Linux에서 터미널을 열고 현재 위치를
 
 이 절은 설치 버튼을 하나씩 따라 누르는 안내서가 아닙니다. 운영체제별 화면은 계속 바뀔 수 있고, Python 배포 방식도 시간이 지나며 바뀔 수 있습니다. 이 절의 목적은 “언제 설치가 필요한지”, “설치 뒤 무엇을 확인해야 하는지”, “설치와 가상환경을 어떻게 구분해야 하는지”를 판단하게 만드는 것입니다.
 
+## 공식 설치 매뉴얼 링크
+
+링크 수집일: 2026-06-24
+
+설치 화면과 권장 방식은 시간이 지나며 바뀔 수 있습니다. 실제 설치를 진행할 때는 이 절의 설명만 보지 말고, 아래 공식 문서를 함께 확인합니다.
+
+- 전체 설치와 사용 안내: Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }.
+- 다운로드 페이지: Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }.
+- Windows 설치와 실행: Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }.
+- macOS 설치와 실행: Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }.
+- Linux/Unix 계열 사용: Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
+- 가상환경: Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
+
 ## 이 절의 범위
 
 이 절은 Python 설치의 필요성과 확인 기준을 다룹니다.
