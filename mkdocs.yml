@@ -128,7 +128,7 @@ nav:
           - "P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)": parts/part-02/chapter-03/section-01.md
           - "P2-3.2 벡터 공간(vector space)과 위치의 직관": parts/part-02/chapter-03/section-02.md
           - "P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가": parts/part-02/chapter-03/section-03.md
-          - "P2-3.4 Google Colab으로 파이썬 코드 실행하기": parts/part-02/chapter-03/section-04.md
+          - "P2-3.4 파이썬 실행 환경: Colab과 로컬 PC": parts/part-02/chapter-03/section-04.md
           - "P2-3.5 선형대수를 NumPy로 확인하기": parts/part-02/chapter-03/section-05.md
       - Chapter 4. 미분은 무엇을 찾기 위한 도구인가:
           - "P2-4.1 미분을 어떻게 배웠는지 다시 보기": parts/part-02/chapter-04/section-01.md
@@ -140,6 +140,7 @@ nav:
           - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-05/section-01.md
           - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-05/section-02.md
           - "P2-5.3 표본(sample), 추정(estimation), 오차(error)": parts/part-02/chapter-05/section-03.md
+          - "P2-5.4 확률과 통계를 작은 데이터로 확인하기": parts/part-02/chapter-05/section-04.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:

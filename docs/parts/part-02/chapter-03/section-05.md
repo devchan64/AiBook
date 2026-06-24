@@ -1,6 +1,6 @@
 # P2-3.5 선형대수를 NumPy로 확인하기
 
-P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)의 모양을 봤습니다. P2-3.2에서는 벡터 공간(vector space)과 위치(position)의 직관을 봤고, P2-3.3에서는 행렬 곱(matrix multiplication)을 가중합(weighted sum)의 재사용으로 읽었습니다. P2-3.4에서는 Google Colab에서 파이썬 코드를 실행하는 최소 흐름을 분리해 봤습니다.
+P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)의 모양을 봤습니다. P2-3.2에서는 벡터 공간(vector space)과 위치(position)의 직관을 봤고, P2-3.3에서는 행렬 곱(matrix multiplication)을 가중합(weighted sum)의 재사용으로 읽었습니다. P2-3.4에서는 파이썬 실행 환경을 Google Colab과 로컬 PC로 나누어 봤습니다.
 
 이제 같은 내용을 작은 코드로 확인합니다. 여기서는 NumPy(넘파이)를 사용합니다. NumPy는 파이썬(Python)에서 배열(array)을 만들고 계산하는 대표적인 라이브러리입니다.
 
@@ -39,15 +39,19 @@ shape은 코드에서 어떻게 확인하는가?
 
 이 절의 코드는 NumPy가 설치된 파이썬 환경에서 실행할 수 있습니다.
 
-파이썬을 아직 설치하지 않았다면 P2-3.4에서 안내한 Google Colab을 먼저 사용할 수 있습니다. 이 절에서는 실행 환경 설명을 반복하지 않고, NumPy 코드와 선형대수 개념의 대응에 집중합니다.
+실행 환경은 먼저 P2-3.4의 [실행 환경을 먼저 구분한다](section-04.md#_2)를 기준으로 확인합니다. 파이썬을 아직 설치하지 않았다면 Google Colab 코드 셀에서 실행할 수 있고, 로컬 PC를 사용한다면 개인 PC 터미널에서 실행할 수 있습니다.
 
-개인 PC에서 실행하려면 파이썬과 NumPy가 설치되어 있어야 합니다. 로컬 터미널에서는 다음 명령으로 NumPy를 설치할 수 있습니다.
+Colab 코드 셀에서는 다음처럼 NumPy를 준비할 수 있습니다.
+
+```python
+%pip install numpy
+```
+
+로컬 PC 터미널에서는 다음 명령을 사용합니다.
 
 ```bash
 python -m pip install numpy
 ```
-
-개인 PC의 터미널에서는 `%pip`나 `!pip`를 쓰지 않습니다. 이 표시는 Colab/Jupyter 코드 셀에서 쓰는 방식입니다.
 
 그다음 파이썬 코드에서는 NumPy를 다음처럼 불러옵니다.
 
