@@ -133,6 +133,7 @@ nav:
       - Chapter 4. 미분은 무엇을 찾기 위한 도구인가:
           - "P2-4.1 미분을 어떻게 배웠는지 다시 보기": parts/part-02/chapter-04/section-01.md
           - "P2-4.2 변화율(rate of change)과 기울기(slope)": parts/part-02/chapter-04/section-02.md
+          - "P2-4.3 미분(derivative)과 그래디언트(gradient)": parts/part-02/chapter-04/section-03.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:

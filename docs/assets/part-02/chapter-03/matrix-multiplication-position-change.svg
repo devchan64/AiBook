@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
   <title id="title">Matrix multiplication as a position change</title>
-  <desc id="desc">A two-dimensional vector at position [2, 3] moves to [2, 4] after multiplication by a simple shear matrix.</desc>
+  <desc id="desc">2차원 벡터 [2, 3]이 단순 전단 행렬과 곱해진 뒤 [2, 4] 위치로 이동하는 모습을 보여 준다.</desc>
   <style>
     .bg { fill: #ffffff; }
     .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }

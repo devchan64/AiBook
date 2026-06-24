@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
   <title id="title">Changing slope of a curve</title>
-  <desc id="desc">A curve y equals x squared has different secant slopes on different intervals. The first interval has smaller rise than the second interval.</desc>
+  <desc id="desc">곡선 y = x^2에서 서로 다른 구간의 평균 변화율이 달라지는 모습을 보여 준다. 앞 구간보다 뒤 구간의 변화가 더 크다.</desc>
   <style>
     .bg { fill: #ffffff; }
     .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
@@ -16,13 +16,13 @@
   </style>
 
   <rect class="bg" width="760" height="430" />
-  <text class="label" x="42" y="42">곡선의 기울기: 구간마다 변화율이 달라짐</text>
+  <text class="label" x="42" y="42">Curve slope: rate changes by interval</text>
   <rect class="panel" x="38" y="66" width="684" height="302" rx="8" />
 
   <g transform="translate(94,324)">
-    <path class="grid" d="M0 -30 H560 M0 -60 H560 M0 -90 H560 M0 -120 H560 M0 -150 H560 M0 -180 H560 M0 -210 H560 M0 -240 H560 M80 0 V-260 M160 0 V-260 M240 0 V-260 M320 0 V-260 M400 0 V-260 M480 0 V-260" />
-    <path class="axis" d="M0 0 H580 M0 0 V-270" />
-    <path class="curve" d="M0 0 C72 -6, 114 -20, 160 -40 C220 -74, 278 -130, 320 -210 C344 -252, 358 -270, 370 -286" />
+    <path class="grid" d="M0 -30 H560 M0 -60 H560 M0 -90 H560 M0 -120 H560 M0 -150 H560 M0 -180 H560 M0 -210 H560 M0 -240 H560 M80 0 V-250 M160 0 V-250 M240 0 V-250 M320 0 V-250 M400 0 V-250 M480 0 V-250" />
+    <path class="axis" d="M0 0 H580 M0 0 V-250" />
+    <path class="curve" d="M0 0 C72 -6, 114 -20, 160 -40 C220 -74, 278 -124, 320 -198 C344 -236, 358 -248, 370 -250" />
 
     <circle class="point" cx="0" cy="0" r="4.8" />
     <circle class="point" cx="80" cy="-10" r="4.8" />
@@ -32,12 +32,12 @@
     <path class="secant-a" d="M0 0 L80 -10" />
     <path class="secant-b" d="M160 -40 L240 -90" />
 
-    <text class="small" x="22" y="-22">작은 변화</text>
-    <text class="small" x="172" y="-112">큰 변화</text>
+    <text class="small" x="22" y="-22">small change</text>
+    <text class="small" x="172" y="-112">larger change</text>
     <text class="math" x="378" y="-224">y = x^2</text>
-    <text class="math" x="378" y="-198">interval A: slope is small</text>
-    <text class="math" x="378" y="-172">interval B: slope is larger</text>
+    <text class="math" x="378" y="-198">interval A: smaller slope</text>
+    <text class="math" x="378" y="-172">interval B: larger slope</text>
   </g>
 
-  <text class="small" x="52" y="398">곡선에서는 어느 구간을 보느냐에 따라 평균 변화율이 달라집니다.</text>
+  <text class="small" x="52" y="398">On a curve, average rate of change depends on the interval.</text>
 </svg>

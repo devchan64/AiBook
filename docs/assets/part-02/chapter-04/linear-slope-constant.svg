@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
   <title id="title">Constant slope of a linear function</title>
-  <desc id="desc">A line y equals 2x plus 1 has the same slope across two intervals. Each interval shows delta x equals 1 and delta y equals 2.</desc>
+  <desc id="desc">직선 y = 2x + 1에서 서로 다른 두 구간 모두 Δx = 1, Δy = 2로 같은 기울기를 갖는 모습을 보여 준다.</desc>
   <style>
     .bg { fill: #ffffff; }
     .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
@@ -24,12 +24,12 @@
   </defs>
 
   <rect class="bg" width="760" height="430" />
-  <text class="label" x="42" y="42">직선의 기울기: 같은 간격마다 같은 변화</text>
+  <text class="label" x="42" y="42">Linear slope: same change at each interval</text>
   <rect class="panel" x="38" y="66" width="684" height="302" rx="8" />
 
   <g transform="translate(94,324)">
-    <path class="grid" d="M0 -40 H560 M0 -80 H560 M0 -120 H560 M0 -160 H560 M0 -200 H560 M0 -240 H560 M80 0 V-260 M160 0 V-260 M240 0 V-260 M320 0 V-260 M400 0 V-260 M480 0 V-260" />
-    <path class="axis" d="M0 0 H580 M0 0 V-270" />
+    <path class="grid" d="M0 -40 H560 M0 -80 H560 M0 -120 H560 M0 -160 H560 M0 -200 H560 M0 -240 H560 M80 0 V-250 M160 0 V-250 M240 0 V-250 M320 0 V-250 M400 0 V-250 M480 0 V-250" />
+    <path class="axis" d="M0 0 H580 M0 0 V-250" />
     <path class="line" d="M0 -40 L80 -80 L160 -120 L240 -160 L320 -200 L400 -240" />
 
     <circle class="point" cx="0" cy="-40" r="4.8" />
@@ -51,5 +51,5 @@
     <text class="math" x="386" y="-202">slope = Δy / Δx = 2</text>
   </g>
 
-  <text class="small" x="52" y="398">직선에서는 위치가 달라져도 같은 입력 변화가 같은 출력 변화를 만듭니다.</text>
+  <text class="small" x="52" y="398">A line keeps the same output change for the same input change.</text>
 </svg>
