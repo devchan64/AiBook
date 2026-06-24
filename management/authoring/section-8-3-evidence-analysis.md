@@ -1,6 +1,6 @@
 # 8.3 근거 검토 메모
 
-이 문서는 `docs/chapters/chapter-08/section-03.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-08/section-03.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
 
 ## 작성 목적
 
@@ -17,9 +17,9 @@
 | Google for Developers, `Machine Learning Glossary` | `.tmp/section-8-3-evidence/google-ml-glossary.html`, `.tmp/section-8-3-evidence/google-ml-glossary.txt` | agent, environment, policy, reinforcement learning, reward, episode, epsilon greedy policy 설명 |
 | OpenAI Spinning Up, `Part 1: Key Concepts in RL` | `.tmp/section-8-3-evidence/openai-spinningup-rl-intro.html`, `.tmp/section-8-3-evidence/openai-spinningup-rl-intro.txt` | agent-environment interaction loop, trial and error, state/observation, action space, policy, reward/return 설명 |
 | Poole & Mackworth, `Artificial Intelligence: Foundations of Computational Agents`, Chapter 12 | `.tmp/section-8-3-evidence/poole-mackworth-ch12-planning-uncertainty.html`, `.tmp/section-8-3-evidence/poole-mackworth-ch12-planning-uncertainty.txt` | uncertainty 아래의 planning, reacting, observing, preferences, sequential decisions 배경 |
-| `docs/chapters/chapter-08/section-01.md` | 저장소 본문 | 라벨(label), 라벨링(labeling), 지도학습의 신호 경계 |
-| `docs/chapters/chapter-08/section-02.md` | 저장소 본문 | 라벨 없는 데이터와 구조 찾기의 경계 |
-| `docs/chapters/chapter-05/section-01.md` | 저장소 본문 | 학습 유형별 경험과 신호 구분 |
+| `docs/parts/part-01/chapter-08/section-01.md` | 저장소 본문 | 라벨(label), 라벨링(labeling), 지도학습의 신호 경계 |
+| `docs/parts/part-01/chapter-08/section-02.md` | 저장소 본문 | 라벨 없는 데이터와 구조 찾기의 경계 |
+| `docs/parts/part-01/chapter-05/section-01.md` | 저장소 본문 | 학습 유형별 경험과 신호 구분 |
 
 ## 확인한 원문 위치
 

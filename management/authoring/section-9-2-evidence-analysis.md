@@ -1,6 +1,6 @@
 # 9.2 근거 검토 메모
 
-이 문서는 `docs/chapters/chapter-09/section-02.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-09/section-02.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
 
 ## 작성 목적
 
@@ -16,7 +16,7 @@
 | van den Oord et al., `WaveNet: A Generative Model for Raw Audio` | `.tmp/section-9-2-evidence/wavenet-1609.03499.pdf`, `.txt` | raw audio waveform을 생성하는 fully probabilistic autoregressive model, TTS 적용, parametric/concatenative baseline보다 자연스러운 음성 보고 |
 | Arik et al., `Deep Voice: Real-time Neural Text-to-Speech` | `.tmp/section-9-2-evidence/deep-voice-1702.07825.pdf`, `.txt` | TTS 보조 사례. 주요 소재가 아니라 파이프라인 일부의 신경망 전환 맥락으로만 사용 |
 | `management/authoring/deep-learning-paradigm.md` | 저장소 관리 메모 | YOLO와 WaveNet을 LLM 직접 계보가 아닌 딥러닝 패러다임 확산 사례로 분류 |
-| `docs/chapters/chapter-09/section-01.md` | 저장소 본문 | 이미지 인식과 표현 학습, AlexNet 전환점 설명과 연결 |
+| `docs/parts/part-01/chapter-09/section-01.md` | 저장소 본문 | 이미지 인식과 표현 학습, AlexNet 전환점 설명과 연결 |
 
 ## 확인한 원문 위치
 

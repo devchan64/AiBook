@@ -2,7 +2,7 @@
 
 ## 대상 절
 
-- `docs/chapters/chapter-02/section-03.md`
+- `docs/parts/part-01/chapter-02/section-03.md`
 - 제목: `2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름`
 
 ## 작성 목적

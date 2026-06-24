@@ -166,7 +166,7 @@ flowchart LR
 
 현재 작성 파일:
 
-- `docs/chapters/chapter-01/section-01.md`
+- `docs/parts/part-01/chapter-01/section-01.md`
 
 상태: 초안
 
@@ -560,7 +560,7 @@ Part 5는 통계적 언어 모델, seq2seq, Attention, Transformer, 사전학습
 ## 파일 배치 규칙
 
 - 파트 개요는 `docs/parts/` 아래에 둡니다.
-- 장별 본문은 `docs/chapters/` 아래에 둡니다.
+- 장별 본문은 `docs/parts/part-01/` 아래에 둡니다.
 - 프로젝트 문서는 `docs/projects/` 아래에 둡니다.
 - 집필 기준, 운영 원칙, 도구 설명은 `management/authoring/` 아래에 둡니다.
 - 이미지, SVG, 생성된 차트는 `docs/assets/` 아래에 둡니다.

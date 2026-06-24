@@ -40,82 +40,83 @@ nav:
       - 소개: index.md
       - 책의 목차: book/table-of-contents.md
   - Part 1. AI 개론과 지형도:
-      - 개요: parts/ai-overview.md
+      - 개요: parts/part-01/index.md
       - Chapter 1. AI란 무엇인가:
-          - 1.1 AI라는 말의 범위: chapters/chapter-01/section-01.md
-          - 1.2 AI가 다루는 문제: chapters/chapter-01/section-02.md
-          - 1.3 AI, 머신러닝, 딥러닝, 생성형 AI의 관계: chapters/chapter-01/section-03.md
+          - 1.1 AI라는 말의 범위: parts/part-01/chapter-01/section-01.md
+          - 1.2 AI가 다루는 문제: parts/part-01/chapter-01/section-02.md
+          - 1.3 AI, 머신러닝, 딥러닝, 생성형 AI의 관계: parts/part-01/chapter-01/section-03.md
       - Chapter 2. AI의 역사와 패러다임 변화:
-          - 2.1 기호 기반 AI와 규칙 기반 접근: chapters/chapter-02/section-01.md
-          - 2.2 탐색, 지식 표현, 확률 추론: chapters/chapter-02/section-02.md
-          - 2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름: chapters/chapter-02/section-03.md
+          - 2.1 기호 기반 AI와 규칙 기반 접근: parts/part-01/chapter-02/section-01.md
+          - 2.2 탐색, 지식 표현, 확률 추론: parts/part-01/chapter-02/section-02.md
+          - 2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름: parts/part-01/chapter-02/section-03.md
       - Chapter 3. 규칙에서 학습으로:
-          - 3.1 규칙 기반 시스템의 강점과 한계: chapters/chapter-03/section-01.md
-          - 3.2 데이터에서 패턴을 배운다는 것: chapters/chapter-03/section-02.md
-          - 3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning): chapters/chapter-03/section-03.md
+          - 3.1 규칙 기반 시스템의 강점과 한계: parts/part-01/chapter-03/section-01.md
+          - 3.2 데이터에서 패턴을 배운다는 것: parts/part-01/chapter-03/section-02.md
+          - 3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning): parts/part-01/chapter-03/section-03.md
       - Chapter 4. 문제를 모델로 바꾼다는 것:
-          - 4.1 모델(model, 모형)이라는 말에 익숙해지기: chapters/chapter-04/section-01.md
-          - 4.2 입력(input), 출력(output), 데이터(data): chapters/chapter-04/section-02.md
-          - 4.3 특징(feature), 표현(representation), 파라미터(parameter): chapters/chapter-04/section-03.md
-          - 4.4 문제 정의가 모델을 결정하는 방식: chapters/chapter-04/section-04.md
+          - 4.1 모델(model, 모형)이라는 말에 익숙해지기: parts/part-01/chapter-04/section-01.md
+          - 4.2 입력(input), 출력(output), 데이터(data): parts/part-01/chapter-04/section-02.md
+          - 4.3 특징(feature), 표현(representation), 파라미터(parameter): parts/part-01/chapter-04/section-03.md
+          - 4.4 문제 정의가 모델을 결정하는 방식: parts/part-01/chapter-04/section-04.md
       - Chapter 5. 학습(learning)과 모델 실행(inference):
-          - 5.1 학습(learning)은 무엇을 바꾸는가: chapters/chapter-05/section-01.md
-          - 5.2 모델 실행(inference)은 무엇을 실행하는가: chapters/chapter-05/section-02.md
-          - 5.3 한국어 추론 표현의 혼동: chapters/chapter-05/section-03.md
+          - 5.1 학습(learning)은 무엇을 바꾸는가: parts/part-01/chapter-05/section-01.md
+          - 5.2 모델 실행(inference)은 무엇을 실행하는가: parts/part-01/chapter-05/section-02.md
+          - 5.3 한국어 추론 표현의 혼동: parts/part-01/chapter-05/section-03.md
       - Chapter 6. 불확실성과 확률적 판단:
-          - 6.1 불완전한 정보와 예외가 많은 문제: chapters/chapter-06/section-01.md
-          - 6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분: chapters/chapter-06/section-02.md
-          - 6.3 AI에서 확률적 판단이 쓰이는 곳: chapters/chapter-06/section-03.md
+          - 6.1 불완전한 정보와 예외가 많은 문제: parts/part-01/chapter-06/section-01.md
+          - 6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분: parts/part-01/chapter-06/section-02.md
+          - 6.3 AI에서 확률적 판단이 쓰이는 곳: parts/part-01/chapter-06/section-03.md
       - Chapter 7. 탐색과 휴리스틱:
-          - 7.1 탐색 공간(search space)과 계산 한계(computational limit): chapters/chapter-07/section-01.md
-          - 7.2 휴리스틱(heuristic)은 무엇을 줄이는가: chapters/chapter-07/section-02.md
-          - 7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이: chapters/chapter-07/section-03.md
+          - 7.1 탐색 공간(search space)과 계산 한계(computational limit): parts/part-01/chapter-07/section-01.md
+          - 7.2 휴리스틱(heuristic)은 무엇을 줄이는가: parts/part-01/chapter-07/section-02.md
+          - 7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이: parts/part-01/chapter-07/section-03.md
       - Chapter 8. 학습 유형의 기본 구분:
-          - "8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": chapters/chapter-08/section-01.md
-          - "8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": chapters/chapter-08/section-02.md
-          - "8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)": chapters/chapter-08/section-03.md
+          - "8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": parts/part-01/chapter-08/section-01.md
+          - "8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": parts/part-01/chapter-08/section-02.md
+          - "8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)": parts/part-01/chapter-08/section-03.md
       - Chapter 9. 딥러닝 패러다임의 확산:
-          - "9.1 이미지 인식(image recognition)과 표현 학습(representation learning)": chapters/chapter-09/section-01.md
-          - "9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례": chapters/chapter-09/section-02.md
-          - "9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분": chapters/chapter-09/section-03.md
+          - "9.1 이미지 인식(image recognition)과 표현 학습(representation learning)": parts/part-01/chapter-09/section-01.md
+          - "9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례": parts/part-01/chapter-09/section-02.md
+          - "9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분": parts/part-01/chapter-09/section-03.md
       - Chapter 10. 생성형 AI 개론:
-          - "10.1 분류(classification), 예측(prediction), 생성(generation)의 차이": chapters/chapter-10/section-01.md
-          - "10.2 다음 출력 생성(next-output generation)의 직관": chapters/chapter-10/section-02.md
-          - "10.3 생성 결과(output)의 품질(quality)과 위험(risk)": chapters/chapter-10/section-03.md
+          - "10.1 분류(classification), 예측(prediction), 생성(generation)의 차이": parts/part-01/chapter-10/section-01.md
+          - "10.2 다음 출력 생성(next-output generation)의 직관": parts/part-01/chapter-10/section-02.md
+          - "10.3 생성 결과(output)의 품질(quality)과 위험(risk)": parts/part-01/chapter-10/section-03.md
       - Chapter 11. LLM은 어디에서 왔는가:
-          - "11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)": chapters/chapter-11/section-01.md
-          - "11.2 RNN, Seq2Seq, Attention": chapters/chapter-11/section-02.md
-          - "11.3 Transformer와 사전학습 LLM(pretrained LLM)": chapters/chapter-11/section-03.md
+          - "11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)": parts/part-01/chapter-11/section-01.md
+          - "11.2 RNN, Seq2Seq, Attention": parts/part-01/chapter-11/section-02.md
+          - "11.3 Transformer와 사전학습 LLM(pretrained LLM)": parts/part-01/chapter-11/section-03.md
       - Chapter 12. 프롬프트와 LLM 사용 경험:
-          - "12.1 프롬프트(prompt)는 무엇을 지정하는가": chapters/chapter-12/section-01.md
-          - "12.2 지시(instruction), 맥락(context), 예시(example)": chapters/chapter-12/section-02.md
-          - "12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)": chapters/chapter-12/section-03.md
+          - "12.1 프롬프트(prompt)는 무엇을 지정하는가": parts/part-01/chapter-12/section-01.md
+          - "12.2 지시(instruction), 맥락(context), 예시(example)": parts/part-01/chapter-12/section-02.md
+          - "12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)": parts/part-01/chapter-12/section-03.md
       - Chapter 13. 임베딩과 벡터 검색:
-          - "13.1 텍스트(text)를 벡터(vector)로 표현한다는 것": chapters/chapter-13/section-01.md
-          - "13.2 유사도 검색(similarity search)의 직관": chapters/chapter-13/section-02.md
-          - "13.3 RAG(retrieval-augmented generation)로 이어지는 흐름": chapters/chapter-13/section-03.md
-          - "13.4 벡터 검색(vector search) 구현의 직관": chapters/chapter-13/section-04.md
+          - "13.1 텍스트(text)를 벡터(vector)로 표현한다는 것": parts/part-01/chapter-13/section-01.md
+          - "13.2 유사도 검색(similarity search)의 직관": parts/part-01/chapter-13/section-02.md
+          - "13.3 RAG(retrieval-augmented generation)로 이어지는 흐름": parts/part-01/chapter-13/section-03.md
+          - "13.4 벡터 검색(vector search) 구현의 직관": parts/part-01/chapter-13/section-04.md
       - Chapter 14. AI 서비스 아키텍처와 실행 환경:
-          - "14.1 모델(model), 앱(application), 데이터(data), 도구(tool)": chapters/chapter-14/section-01.md
-          - "14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치": chapters/chapter-14/section-02.md
-          - "14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조": chapters/chapter-14/section-03.md
-          - "14.4 MCP(Model Context Protocol)와 도구 연결 표준화": chapters/chapter-14/section-04.md
-          - "14.5 하네스(harness)와 평가 실행 환경": chapters/chapter-14/section-05.md
-          - "14.6 AI 서비스가 현실에서 만나는 제약": chapters/chapter-14/section-06.md
+          - "14.1 모델(model), 앱(application), 데이터(data), 도구(tool)": parts/part-01/chapter-14/section-01.md
+          - "14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치": parts/part-01/chapter-14/section-02.md
+          - "14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조": parts/part-01/chapter-14/section-03.md
+          - "14.4 MCP(Model Context Protocol)와 도구 연결 표준화": parts/part-01/chapter-14/section-04.md
+          - "14.5 하네스(harness)와 평가 실행 환경": parts/part-01/chapter-14/section-05.md
+          - "14.6 AI 서비스가 현실에서 만나는 제약": parts/part-01/chapter-14/section-06.md
       - Chapter 15. AI 윤리, 저작권, 보안:
-          - "15.1 편향(bias), 안전성(safety), 책임(accountability)": chapters/chapter-15/section-01.md
-          - "15.2 저작권(copyright)과 학습 데이터(training data)": chapters/chapter-15/section-02.md
-          - "15.3 보안(security)과 개인정보(privacy)": chapters/chapter-15/section-03.md
+          - "15.1 편향(bias), 안전성(safety), 책임(accountability)": parts/part-01/chapter-15/section-01.md
+          - "15.2 저작권(copyright)과 학습 데이터(training data)": parts/part-01/chapter-15/section-02.md
+          - "15.3 보안(security)과 개인정보(privacy)": parts/part-01/chapter-15/section-03.md
       - Chapter 16. 실무 적용 사례:
-          - "16.1 개인 학습(personal learning)과 문서화(documentation)": chapters/chapter-16/section-01.md
-          - "16.2 업무 자동화(work automation)와 검색(search)": chapters/chapter-16/section-02.md
-          - "16.3 프로젝트(project)로 검증하는 방법": chapters/chapter-16/section-03.md
+          - "16.1 개인 학습(personal learning)과 문서화(documentation)": parts/part-01/chapter-16/section-01.md
+          - "16.2 업무 자동화(work automation)와 검색(search)": parts/part-01/chapter-16/section-02.md
+          - "16.3 프로젝트(project)로 검증하는 방법": parts/part-01/chapter-16/section-03.md
       - Chapter 17. 앞으로의 AI:
-          - "17.1 전망(forecast)은 어떤 근거로 다룰 것인가": chapters/chapter-17/section-01.md
-          - "17.2 언론(news), 칼럼(column), 보고서(report) 읽기": chapters/chapter-17/section-02.md
-          - "17.3 예측(prediction)과 작업 가설(working hypothesis) 구분": chapters/chapter-17/section-03.md
+          - "17.1 전망(forecast)은 어떤 근거로 다룰 것인가": parts/part-01/chapter-17/section-01.md
+          - "17.2 언론(news), 칼럼(column), 보고서(report) 읽기": parts/part-01/chapter-17/section-02.md
+          - "17.3 예측(prediction)과 작업 가설(working hypothesis) 구분": parts/part-01/chapter-17/section-03.md
+      - Part 1 마무리: parts/part-01/summary.md
   - Part 2. 기초 복구:
-      - 개요: parts/foundation.md
+      - 개요: parts/part-02/index.md
       - Chapter 1. AI에서 수학은 왜 필요한가:
           - "P2-1.1 AI 계산에서 수학이 하는 일": parts/part-02/chapter-01/section-01.md
           - "P2-1.2 수식, 코드, 데이터가 만나는 자리": parts/part-02/chapter-01/section-02.md
@@ -127,14 +128,16 @@ nav:
           - "P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)": parts/part-02/chapter-03/section-01.md
           - "P2-3.2 벡터 공간(vector space)과 위치의 직관": parts/part-02/chapter-03/section-02.md
           - "P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가": parts/part-02/chapter-03/section-03.md
+          - "P2-3.4 Google Colab으로 파이썬 코드 실행하기": parts/part-02/chapter-03/section-04.md
+          - "P2-3.5 선형대수를 NumPy로 확인하기": parts/part-02/chapter-03/section-05.md
   - Part 3. 머신러닝:
-      - 개요: parts/machine-learning.md
+      - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
-      - 개요: parts/deep-learning.md
+      - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
-      - 개요: parts/llm-generative-ai.md
+      - 개요: parts/part-05/index.md
   - Part 6. 프로젝트:
-      - 개요: projects/index.md
+      - 개요: parts/part-06/index.md
 
 markdown_extensions:
   - admonition

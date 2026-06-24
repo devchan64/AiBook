@@ -1,6 +1,6 @@
 # 9.1 근거 검토 메모
 
-이 문서는 `docs/chapters/chapter-09/section-01.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-09/section-01.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
 
 ## 작성 목적
 
@@ -17,8 +17,8 @@
 | LeCun, Bengio, Hinton, `Deep learning` | `.tmp/user-claim-evidence/lecun-bengio-hinton-deep-learning.html` | 딥러닝을 여러 층의 표현 학습으로 설명, 시각적 물체 인식과 객체 검출 성능 개선, AlexNet을 컴퓨터 비전의 전환점으로 평가 |
 | Bengio, Courville, Vincent, `Representation Learning: A Review and New Perspectives` | `.tmp/section-3-3-evidence-bengio-representation-learning.html` | 머신러닝 성능이 데이터 표현에 크게 의존한다는 설명 |
 | Saez Trigueros et al., `Face Recognition: From Traditional to Deep Learning Methods` | `.tmp/section-3-1-case-studies/face-recognition-traditional-to-deep-learning.pdf`, `.txt` | 전통적 얼굴인식 방법의 hand-crafted features, geometry-based, holistic, feature-based, hybrid methods와 CNN 기반 deep learning methods로의 이동 |
-| `docs/chapters/chapter-03/section-03.md` | 저장소 본문 | 규칙 기반 접근과 표현 학습의 기본 구분 |
-| `docs/chapters/chapter-04/section-03.md` | 저장소 본문 | 특징(feature), 표현(representation), 파라미터(parameter)의 기본 위치 |
+| `docs/parts/part-01/chapter-03/section-03.md` | 저장소 본문 | 규칙 기반 접근과 표현 학습의 기본 구분 |
+| `docs/parts/part-01/chapter-04/section-03.md` | 저장소 본문 | 특징(feature), 표현(representation), 파라미터(parameter)의 기본 위치 |
 | `management/authoring/deep-learning-paradigm.md` | 저장소 관리 메모 | 이미지 인식 사례를 LLM 직접 계보가 아닌 딥러닝 패러다임 확산의 주변 근거로 다루는 기준 |
 
 ## 확인한 원문 위치

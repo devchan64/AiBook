@@ -4,12 +4,12 @@
 
 이 문서는 다음 본문 Section을 새 근거 검토 기준으로 다시 평가한 관리 메모입니다.
 
-- `docs/chapters/chapter-01/section-01.md`
-- `docs/chapters/chapter-01/section-02.md`
-- `docs/chapters/chapter-01/section-03.md`
-- `docs/chapters/chapter-02/section-01.md`
-- `docs/chapters/chapter-02/section-02.md`
-- `docs/chapters/chapter-02/section-03.md`
+- `docs/parts/part-01/chapter-01/section-01.md`
+- `docs/parts/part-01/chapter-01/section-02.md`
+- `docs/parts/part-01/chapter-01/section-03.md`
+- `docs/parts/part-01/chapter-02/section-01.md`
+- `docs/parts/part-01/chapter-02/section-02.md`
+- `docs/parts/part-01/chapter-02/section-03.md`
 
 검토 기준은 다음 두 가지를 함께 본다.
 

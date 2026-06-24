@@ -1,6 +1,6 @@
 # 3.1 근거 분석: 규칙 기반 시스템의 강점과 한계
 
-이 문서는 `docs/chapters/chapter-03/section-01.md`의 근거 연결을 검토한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-03/section-01.md`의 근거 연결을 검토한 관리 메모입니다.
 
 원문 확인 규칙에 따라 가능한 자료를 `.tmp/section-3-1-evidence/` 아래에 내려받아 확인했습니다. `.tmp/`의 원문 파일은 근거 검토용이며 저장소에 커밋하지 않습니다.
 

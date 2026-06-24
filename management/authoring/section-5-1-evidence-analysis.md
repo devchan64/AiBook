@@ -1,6 +1,6 @@
 # 5.1 근거 분석: 학습(learning)은 무엇을 바꾸는가
 
-이 문서는 `docs/chapters/chapter-05/section-01.md`의 근거 연결을 검토한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-05/section-01.md`의 근거 연결을 검토한 관리 메모입니다.
 
 원문 확인 규칙에 따라 자료를 `.tmp/section-5-1-evidence/` 아래에 내려받아 확인했습니다. `.tmp/`의 원문 파일은 근거 검토용이며 저장소에 커밋하지 않습니다.
 

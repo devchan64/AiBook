@@ -1,6 +1,6 @@
 # 8.1 근거 검토 메모
 
-이 문서는 `docs/chapters/chapter-08/section-01.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-08/section-01.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
 
 ## 작성 목적
 
@@ -21,8 +21,8 @@
 | AWS, `What is Data Labeling?` | `.tmp/section-8-1-evidence/aws-data-labeling.html`, `.tmp/section-8-1-evidence/aws-data-labeling.txt` | data labeling을 raw data 식별과 label 추가 과정으로 설명, human-provided labels와 ground truth/label accuracy 설명 |
 | IBM, `What Is Data Labeling?` | `.tmp/section-8-1-evidence/ibm-data-labeling.html`, `.tmp/section-8-1-evidence/ibm-data-labeling.txt` | data labeling/annotation을 ML preprocessing으로 설명, raw data에 label을 assign하는 과정과 human error/label auditing 설명 |
 | Timnit Gebru et al., `Datasheets for Datasets` | `.tmp/section-8-1-evidence/datasheets-for-datasets-abstract.html`, `.tmp/section-8-1-evidence/datasheets-for-datasets-abstract.txt` | 데이터셋의 motivation, composition, collection process, recommended uses 문서화 필요성 |
-| `docs/chapters/chapter-04/section-02.md` | 저장소 본문 | 입력(input), 출력(output), 데이터(data)의 기존 설명 |
-| `docs/chapters/chapter-05/section-01.md` | 저장소 본문 | learning, training, supervised/unsupervised/reinforcement learning의 기존 경계 |
+| `docs/parts/part-01/chapter-04/section-02.md` | 저장소 본문 | 입력(input), 출력(output), 데이터(data)의 기존 설명 |
+| `docs/parts/part-01/chapter-05/section-01.md` | 저장소 본문 | learning, training, supervised/unsupervised/reinforcement learning의 기존 경계 |
 
 ## 확인한 원문 위치
 

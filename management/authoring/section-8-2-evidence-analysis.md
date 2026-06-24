@@ -1,6 +1,6 @@
 # 8.2 근거 검토 메모
 
-이 문서는 `docs/chapters/chapter-08/section-02.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-08/section-02.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
 
 ## 작성 목적
 
@@ -20,8 +20,8 @@
 | scikit-learn, `2.3. Clustering` | `.tmp/section-8-2-evidence/scikit-learn-clustering.html`, `.tmp/section-8-2-evidence/scikit-learn-clustering.txt` | unlabeled data clustering, `labels_`가 training data의 cluster labels라는 점, k-means와 clustering 평가 주의 |
 | scikit-learn, `2.5. Decomposing signals in components` | `.tmp/section-8-2-evidence/scikit-learn-decomposition.html`, `.tmp/section-8-2-evidence/scikit-learn-decomposition.txt` | PCA, dimensionality reduction, explained variance 설명 |
 | Stanford CS229, `Machine Learning Notes` | `.tmp/chapter-04-reference-review/stanford-cs229-main-notes.pdf`, `.tmp/chapter-04-reference-review/stanford-cs229-main-notes.txt` | k-means가 라벨 없는 데이터에서 cohesive clusters를 만들고, 가까운 centroid에 배정하는 절차라는 설명 |
-| `docs/chapters/chapter-08/section-01.md` | 저장소 본문 | 라벨(label), 라벨링(labeling), 구분 표식 설명과 도메인 경계 |
-| `docs/chapters/chapter-05/section-01.md` | 저장소 본문 | 학습 유형별 경험과 신호 구분 |
+| `docs/parts/part-01/chapter-08/section-01.md` | 저장소 본문 | 라벨(label), 라벨링(labeling), 구분 표식 설명과 도메인 경계 |
+| `docs/parts/part-01/chapter-05/section-01.md` | 저장소 본문 | 학습 유형별 경험과 신호 구분 |
 
 ## 확인한 원문 위치
 

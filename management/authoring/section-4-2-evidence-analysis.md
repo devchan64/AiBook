@@ -1,6 +1,6 @@
 # 4.2 근거 분석: 입력(input), 출력(output), 데이터(data)
 
-이 문서는 `docs/chapters/chapter-04/section-02.md`의 근거 연결을 검토한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-04/section-02.md`의 근거 연결을 검토한 관리 메모입니다.
 
 원문 확인 규칙에 따라 이미 내려받은 자료를 우선 사용했습니다. `.tmp/`의 원문 파일은 근거 검토용이며 저장소에 커밋하지 않습니다.
 

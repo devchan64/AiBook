@@ -1,6 +1,6 @@
 # Chapter 4 도메인 경계 검토
 
-이 문서는 `docs/chapters/chapter-04/`의 섹션 간 도메인 오염을 검토한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-04/`의 섹션 간 도메인 오염을 검토한 관리 메모입니다.
 
 ## 섹션별 책임
 

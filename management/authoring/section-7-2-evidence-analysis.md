@@ -1,6 +1,6 @@
 # 7.2 근거 검토 메모
 
-이 문서는 `docs/chapters/chapter-07/section-02.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
+이 문서는 `docs/parts/part-01/chapter-07/section-02.md`의 근거 연결과 표현 판단을 기록한 관리 메모입니다.
 
 ## 작성 목적
 
