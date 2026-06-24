@@ -14,32 +14,59 @@ P2-7.1에서는 코드가 실행되는 자리를 먼저 봤습니다. 이제는 
 
 ## 이 절의 범위
 
-이 절은 터미널 사용법 전체를 가르치지 않습니다. 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 권한(permission), 환경 변수(environment variable)는 깊게 다루지 않습니다.
+이 절은 터미널 사용법 전체를 가르치지 않습니다. 운영체제별 터미널을 여는 방법, 화면 구성, 기본 단축키, Windows와 macOS/Linux 명령 차이는 P2-7.7 보충수업으로 넘깁니다. 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 권한(permission), 환경 변수(environment variable)도 깊게 다루지 않습니다.
 
 여기서는 다음 질문에만 답합니다.
 
 ```text
 터미널은 무엇인가?
 셸은 무엇인가?
+왜 오래된 용어가 지금도 남아 있는가?
 명령은 어디에서 해석되는가?
 작업 폴더는 왜 중요한가?
 ```
 
 Python 파일 실행은 P2-7.3에서, 가상환경과 패키지 설치는 P2-7.4에서 다시 다룹니다. 이 절에서는 그 전에 필요한 최소 언어를 만듭니다.
 
+실제로 Windows, macOS, Linux에서 터미널을 어떻게 열고 어떤 명령을 먼저 입력해야 하는지는 P2-7.7에서 보충수업으로 다룹니다. 여기서는 운영체제별 절차보다 공통 개념을 먼저 잡습니다.
+
 ## 이 절의 목표
 
 - 터미널(terminal)을 명령을 입력하고 결과를 보는 화면으로 설명할 수 있습니다.
 - 셸(shell)을 명령을 해석하고 실행하는 프로그램으로 설명할 수 있습니다.
+- 터미널과 셸이라는 용어가 오래된 컴퓨터 사용 방식에서 이어졌음을 설명할 수 있습니다.
 - 작업 폴더(working directory)를 현재 명령이 기준으로 삼는 폴더로 설명할 수 있습니다.
 - `pwd`, `cd`, `ls` 또는 `dir` 같은 기본 명령이 왜 필요한지 설명할 수 있습니다.
 - 명령이 실패했을 때 코드 문제인지, 위치 문제인지 먼저 나누어 볼 수 있습니다.
+
+## 왜 터미널과 셸이라는 말이 남아 있을까
+
+터미널과 셸은 최근에 생긴 앱 이름이 아닙니다. 둘 다 컴퓨터를 여러 사람이 문자 기반으로 사용하던 시절의 흔적을 갖고 있습니다.
+
+초기의 터미널(terminal)은 지금처럼 노트북 안에 있는 앱이 아니라, 중앙 컴퓨터에 연결된 입력·출력 장치였습니다. Text-Terminal-HOWTO는 실제 텍스트 터미널이 모니터와 키보드처럼 생겼지만 그림이 아니라 문자 기반 명령줄 인터페이스(command-line interface)를 표시했고, 1970년대 후반과 1980년대에 메인프레임 컴퓨터 접속에 널리 쓰였다고 설명합니다. 이후 실제 하드웨어 터미널은 줄어들었지만, 오늘날의 터미널 앱은 그 동작을 소프트웨어로 흉내 내는 터미널 에뮬레이터(terminal emulator)에 가깝습니다.
+
+셸(shell)도 오래된 개념입니다. GNU Bash 매뉴얼은 Bash가 GNU 운영체제의 셸, 또는 명령 언어 해석기(command language interpreter)라고 설명합니다. 또 Unix 셸은 명령 해석기(command interpreter)이면서 프로그래밍 언어이기도 하다고 설명합니다.
+
+입문 단계에서는 역사 전체를 외울 필요가 없습니다. 다만 다음 흐름을 기억하면 용어가 덜 낯섭니다.
+
+```text
+과거
+-> 별도 터미널 장치에서 중앙 컴퓨터에 명령을 입력했다.
+
+현재
+-> 터미널 앱이 그 문자 기반 작업 방식을 소프트웨어로 제공한다.
+
+셸
+-> 사용자가 입력한 명령을 해석하고 실행하는 프로그램이다.
+```
+
+그래서 현대의 개발 환경에서도 `터미널을 연다`, `셸에서 실행한다`, `명령줄에 입력한다`는 표현이 남아 있습니다. 이 말들은 모두 “그래픽 버튼을 누르는 방식이 아니라, 문자로 명령을 입력해 실행한다”는 흐름과 연결됩니다.
 
 ## 터미널은 화면이고, 셸은 명령을 해석하는 프로그램이다
 
 터미널(terminal)은 명령을 입력하고 결과를 보는 화면입니다. macOS의 Terminal, Windows Terminal, VS Code의 Terminal 패널이 여기에 해당합니다.
 
-셸(shell)은 사용자가 입력한 명령을 읽고 해석해서 실행하는 프로그램입니다. GNU Bash 매뉴얼은 셸을 명령 해석기(command interpreter)이자 프로그래밍 언어로 설명합니다. 사용자는 셸을 통해 운영체제의 여러 유틸리티를 실행하고 조합할 수 있습니다.
+셸(shell)은 사용자가 입력한 명령을 읽고 해석해서 실행하는 프로그램입니다. 사용자는 셸을 통해 운영체제의 여러 유틸리티를 실행하고 조합할 수 있습니다.
 
 입문 단계에서는 이렇게 구분하면 충분합니다.
 
@@ -254,6 +281,7 @@ P2-3.4에서 `!pip install numpy`와 `%pip install numpy`를 구분했던 이유
 
 - 터미널(terminal)을 명령 입력과 결과 확인을 위한 화면으로 설명할 수 있다.
 - 셸(shell)을 명령을 해석하고 실행하는 프로그램으로 설명할 수 있다.
+- 터미널 앱이 과거 문자 기반 터미널 장치의 역할을 소프트웨어로 이어받은 것임을 설명할 수 있다.
 - 작업 폴더(working directory)를 현재 명령의 기준 위치로 설명할 수 있다.
 - 상대 경로(relative path)와 절대 경로(absolute path)의 차이를 입문 수준에서 설명할 수 있다.
 - `pwd`, `cd`, `ls`가 왜 필요한지 설명할 수 있다.
@@ -262,6 +290,7 @@ P2-3.4에서 `!pip install numpy`와 `%pip install numpy`를 구분했던 이유
 
 ## 출처와 참고 자료
 
+- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 확인 날짜: 2026-06-24.
 - Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-06-24.
 - Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-06-24.
 - Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-06-24.
