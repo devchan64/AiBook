@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Probability as a scale for uncertainty</title>
+  <desc id="desc">불확실성을 0과 1 사이의 확률 숫자로 표현하는 방식을 보여 주는 차트입니다.</desc>
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="40" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Probability: a numeric scale for uncertainty</text>
+  <text x="40" y="84" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Uncertainty is a state of not knowing. Probability turns it into a number.</text>
+
+  <line x1="100" y1="210" x2="660" y2="210" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="100" cy="210" r="12" fill="#ef4444"/>
+  <circle cx="380" cy="210" r="12" fill="#64748b"/>
+  <circle cx="660" cy="210" r="12" fill="#2563eb"/>
+
+  <line x1="100" y1="190" x2="100" y2="230" stroke="#334155" stroke-width="2"/>
+  <line x1="240" y1="196" x2="240" y2="224" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="380" y1="190" x2="380" y2="230" stroke="#334155" stroke-width="2"/>
+  <line x1="520" y1="196" x2="520" y2="224" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="660" y1="190" x2="660" y2="230" stroke="#334155" stroke-width="2"/>
+
+  <text x="91" y="262" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">0</text>
+  <text x="360" y="262" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">0.5</text>
+  <text x="647" y="262" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">1</text>
+
+  <text x="52" y="302" font-family="Arial, sans-serif" font-size="16" fill="#374151">unlikely</text>
+  <text x="317" y="302" font-family="Arial, sans-serif" font-size="16" fill="#374151">balanced</text>
+  <text x="617" y="302" font-family="Arial, sans-serif" font-size="16" fill="#374151">likely</text>
+
+  <path d="M520 168 C552 140, 596 140, 628 168" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="628,168 616,165 624,156" fill="#2563eb"/>
+  <text x="470" y="132" font-family="Arial, sans-serif" font-size="16" fill="#1d4ed8">higher probability</text>
+
+  <path d="M240 168 C208 140, 164 140, 132 168" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="132,168 144,165 136,156" fill="#ef4444"/>
+  <text x="120" y="132" font-family="Arial, sans-serif" font-size="16" fill="#b91c1c">lower probability</text>
+
+  <rect x="92" y="338" width="576" height="52" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="122" y="371" font-family="Arial, sans-serif" font-size="17" fill="#334155">A probability score is not a guarantee. It is a way to express uncertainty.</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 650" role="img" aria-labelledby="title desc">
+  <title id="title">Probability score and decision threshold</title>
+  <desc id="desc">AI 모델의 확률 점수가 정책 규칙을 거쳐 서비스 행동으로 바뀌는 흐름을 보여 주는 차트입니다.</desc>
+  <rect width="920" height="650" fill="#ffffff"/>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Probability score is not the same as a service decision</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">A model estimates a score. A product chooses what to do with that score.</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="50" y="132" width="170" height="92" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="88" y="167" font-size="18" font-weight="700" fill="#334155">input</text>
+    <text x="78" y="197" font-size="15" fill="#475569">email content</text>
+
+    <path d="M232 178 L294 178" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="306" y="132" width="170" height="92" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="355" y="167" font-size="18" font-weight="700" fill="#1d4ed8">model</text>
+    <text x="334" y="197" font-size="15" fill="#475569">estimate score</text>
+
+    <path d="M488 178 L550 178" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="562" y="118" width="190" height="120" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+    <text x="594" y="154" font-size="18" font-weight="700" fill="#854d0e">probability score</text>
+    <text x="621" y="198" font-size="34" font-weight="700" fill="#854d0e">0.92</text>
+
+    <path d="M657 250 L657 300" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="372" y="312" width="570" height="128" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="410" y="346" font-size="18" font-weight="700" fill="#334155">threshold policy</text>
+    <text x="410" y="376" font-size="15" fill="#475569">score &gt;= 0.90  -&gt; block</text>
+    <text x="410" y="402" font-size="15" fill="#475569">0.60 &lt;= score &lt; 0.90  -&gt; review</text>
+    <text x="410" y="428" font-size="15" fill="#475569">score &lt; 0.60  -&gt; allow</text>
+
+    <path d="M657 452 L657 492" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="560" y="504" width="194" height="62" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="611" y="532" font-size="16" font-weight="700" fill="#991b1b">chosen action</text>
+    <text x="635" y="556" font-size="18" font-weight="700" fill="#991b1b">block</text>
+
+    <path d="M764 178 C842 210, 862 280, 818 304" fill="none" stroke="#eab308" stroke-width="2" stroke-dasharray="7 6"/>
+    <text x="792" y="250" font-size="14" fill="#854d0e">score alone</text>
+    <text x="792" y="270" font-size="14" fill="#854d0e">does not act</text>
+
+    <rect x="50" y="312" width="270" height="128" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="72" y="342" font-size="15" fill="#475569">Possible service actions</text>
+    <rect x="74" y="360" width="70" height="42" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="89" y="386" font-size="14" font-weight="700" fill="#991b1b">block</text>
+    <rect x="156" y="360" width="70" height="42" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="172" y="386" font-size="14" font-weight="700" fill="#92400e">review</text>
+    <rect x="238" y="360" width="70" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+    <text x="256" y="386" font-size="14" font-weight="700" fill="#047857">allow</text>
+    <text x="72" y="426" font-size="14" fill="#64748b">Actions are policy outputs, not model outputs.</text>
+
+    <rect x="50" y="504" width="396" height="58" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="74" y="530" font-size="15" fill="#334155">The same score can lead to another action</text>
+    <text x="74" y="554" font-size="15" fill="#334155">if the product changes its policy threshold.</text>
+  </g>
+
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

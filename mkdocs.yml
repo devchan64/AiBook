@@ -136,6 +136,8 @@ nav:
           - "P2-4.3 미분(derivative)과 그래디언트(gradient)": parts/part-02/chapter-04/section-03.md
           - "P2-4.4 학습에서 미분이 필요한 이유": parts/part-02/chapter-04/section-04.md
           - "P2-4.5 그래디언트 보충수업: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-04/section-05.md
+      - Chapter 5. 확률과 통계는 왜 필요한가:
+          - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-05/section-01.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
