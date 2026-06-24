@@ -16,6 +16,7 @@
 | `docs/parts/part-02/chapter-05/section-03.md` | `docs/assets/part-02/chapter-05/population-sample-dataset-relation.svg` | 모집단, 표본, 데이터셋의 포함 관계와 정리 흐름을 설명하는 개념 도식이므로 Mermaid로 충분하다. |
 | `docs/parts/part-02/chapter-05/section-03.md` | `docs/assets/part-02/chapter-05/train-test-as-samples.svg` | 현실 세계, 데이터셋, train/test 분할의 흐름이 중심이므로 Mermaid가 적합하다. |
 | `docs/parts/part-02/chapter-06/section-02.md` | `docs/assets/part-02/chapter-06/loss-objective-flow.svg` | 입력, 모델, 예측, 손실, 목적 함수의 단계 흐름이 중심이므로 Mermaid로 대체했다. |
+| `docs/parts/part-02/chapter-06/section-03.md` | `docs/assets/part-02/chapter-06/gradient-descent-loop.svg`의 update loop 영역 | 손실 곡선은 SVG로 유지하고, 현재 파라미터·그래디언트·학습률·업데이트 반복은 Mermaid로 분리했다. |
 
 ## SVG를 유지한 주요 유형
 
@@ -24,7 +25,7 @@
 | 수학 그래프 | `linear-slope-constant.svg`, `curve-slope-changing.svg` | 축, 선, 접선, 변화율 위치가 설명의 핵심이다. |
 | 벡터·행렬 변환 | `matrix-multiplication-position-change.svg` | 좌표 위에서 위치가 바뀌는 모습을 보여야 한다. |
 | 분포와 표본 변동 | `same-mean-different-variance.svg`, `sampling-variation-vs-bias.svg` | 점과 분포의 상대 위치가 핵심 설명이다. |
-| 경사와 최적화 곡선 | `gradient-direction-loss-contour.svg`, `gradient-descent-loop.svg` | 곡선, 방향, 이동 단계가 동시에 필요하다. |
+| 경사와 최적화 곡선 | `gradient-direction-loss-contour.svg`, `gradient-descent-loss-curve.svg` | 곡선, 방향, 이동 단계가 동시에 필요하다. |
 | 서비스 판단 시각화 | `probability-score-decision-threshold.svg` | 점수, 정책, 결정이 분리된다는 시각적 배치가 본문 이해를 돕는다. |
 
 ## 후속 기준
