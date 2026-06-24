@@ -135,7 +135,7 @@ nav:
           - "P2-4.2 변화율(rate of change)과 기울기(slope)": parts/part-02/chapter-04/section-02.md
           - "P2-4.3 미분(derivative)과 그래디언트(gradient)": parts/part-02/chapter-04/section-03.md
           - "P2-4.4 학습에서 미분이 필요한 이유": parts/part-02/chapter-04/section-04.md
-          - "P2-4.5 그래디언트 보충수업: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-04/section-05.md
+          - "P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-04/section-05.md
       - Chapter 5. 확률과 통계는 왜 필요한가:
           - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-05/section-01.md
           - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-05/section-02.md
@@ -151,8 +151,8 @@ nav:
           - "P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)": parts/part-02/chapter-07/section-03.md
           - "P2-7.4 가상환경(virtual environment)과 패키지(package)": parts/part-02/chapter-07/section-04.md
           - "P2-7.5 의존성(dependency)과 재현성(reproducibility)": parts/part-02/chapter-07/section-05.md
-          - "P2-7.6 보충수업: Windows, macOS, Linux 터미널 사용법": parts/part-02/chapter-07/section-06.md
-          - "P2-7.7 보충수업: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
+          - "P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법": parts/part-02/chapter-07/section-06.md
+          - "P2-7.7 보충학습: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
