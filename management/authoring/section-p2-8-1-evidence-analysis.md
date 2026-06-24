@@ -1,0 +1,42 @@
+# P2-8.1 근거 검토: 값, 변수, 타입
+
+확인 날짜: 2026-06-24
+
+## 사용한 주요 자료
+
+| 자료 | 확인 내용 | 반영 위치 |
+| --- | --- | --- |
+| Python.org, `What is Python? Executive Summary` | Python을 interpreted, object-oriented, high-level programming language with dynamic semantics로 설명하고, dynamic typing과 dynamic binding, scripting/glue language 용도를 언급한다. | 일반적인 언어 유형에서 Python의 위치 |
+| Python documentation, `An Informal Introduction to Python` | Python 인터프리터를 계산기처럼 사용해 숫자, 텍스트, 변수 할당을 설명한다. `=`은 변수에 값을 할당하는 문법으로 소개된다. 정수는 `int`, 소수부가 있는 값은 `float`, 텍스트는 `str`로 설명된다. | 값, 변수, 타입 도입부 |
+| Python documentation, `Built-in Types` | Python 기본 타입과 공통 연산의 공식 기준 자료 | `int`, `float`, `str`, `bool` 기본 타입 설명 |
+| Python documentation, `Data model` | Python의 객체, 값, 타입, 정체성에 대한 공식 기준 자료 | “변수는 상자보다 이름에 가깝다”는 설명을 보수적으로 정리 |
+
+## 작성 판단
+
+- P2-8.1은 Python 핵심 문법 복습의 첫 절이므로 문법 전체를 다루지 않고 값(value), 변수(variable), 타입(type)에 집중했다.
+- 사용자는 프로그래밍 기초 지식이 없을 수 있다고 했다. 따라서 `=`을 수학 등호처럼 오해하지 않도록 “할당(assign)” 중심으로 설명했다.
+- 사용자가 Python의 특징이 드러나는 예제를 요청했다. 일반적인 언어 유형을 깊게 분류하지 않고, 정적 타입/동적 타입, 컴파일/인터프리터, 스크립팅/글루 언어라는 입문 수준의 비교만 추가했다.
+- “변수는 상자” 비유는 초심자에게 유용할 수 있지만 Python에서는 이름이 객체를 가리키는 구조를 나중에 이해해야 하므로, “값에 붙인 이름”이라는 표현으로 정리했다.
+- 리스트의 참조, 얕은 복사, mutable/immutable 상세는 P2-8.2로 넘겼다.
+- 타입 설명은 AI 실습에서 데이터 파일을 읽을 때 숫자처럼 보이는 문자열이 들어올 수 있다는 문제와 연결했다.
+
+## 본문에 반영한 안전한 설명
+
+- Python에서 값은 계산의 대상이다.
+- 변수는 값에 붙인 이름으로 이해하는 편이 Python 문맥에서 안전하다.
+- 타입은 값의 종류이며, 같은 연산자도 타입에 따라 다르게 동작할 수 있다.
+- Python은 타입 선언을 먼저 많이 쓰지 않아도 작은 코드를 빠르게 실행할 수 있지만, 값의 타입에 맞지 않는 연산은 오류가 될 수 있다.
+- `type()`은 값의 타입을 확인하는 기본 도구다.
+- 숫자처럼 보이는 문자열과 실제 숫자는 구분해야 한다.
+
+## 제외한 내용
+
+- 리스트와 딕셔너리의 상세 문법
+- 반복문
+- 함수 정의
+- 객체 정체성(identity)과 `id()`
+- 얕은 복사와 깊은 복사
+- 타입 힌트(type hint)
+- 정적 타입 검사 도구
+
+이 내용은 P2-8.2, P2-8.3 또는 이후 데이터 처리 절에서 필요한 만큼 다루는 편이 좋다.

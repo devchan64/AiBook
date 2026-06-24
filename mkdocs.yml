@@ -153,6 +153,8 @@ nav:
           - "P2-7.5 의존성(dependency)과 재현성(reproducibility)": parts/part-02/chapter-07/section-05.md
           - "P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법": parts/part-02/chapter-07/section-06.md
           - "P2-7.7 보충학습: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
+      - Chapter 8. Python 핵심 문법 복습:
+          - "P2-8.1 값(value), 변수(variable), 타입(type)": parts/part-02/chapter-08/section-01.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
