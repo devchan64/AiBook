@@ -147,6 +147,7 @@ nav:
           - "P2-6.3 경사하강법(gradient descent)의 직관": parts/part-02/chapter-06/section-03.md
       - Chapter 7. 학습 환경 세팅:
           - "P2-7.1 로컬 환경(local environment)과 실행 환경(runtime)": parts/part-02/chapter-07/section-01.md
+          - "P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)": parts/part-02/chapter-07/section-02.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
