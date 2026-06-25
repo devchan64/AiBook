@@ -1,0 +1,40 @@
+# P3-1.1 근거 검토 메모
+
+## 대상 섹션
+
+- `docs/parts/part-03/chapter-01/section-01.md`
+- 주제: AI, 머신러닝, 딥러닝, 생성형 AI, LLM의 관계
+
+## 확인한 근거
+
+### scikit-learn Getting Started
+
+- URL: https://scikit-learn.org/stable/getting_started.html
+- 확인 날짜: 2026-06-25
+- 활용 지점:
+  - scikit-learn이 지도학습과 비지도학습을 지원하는 머신러닝 라이브러리임을 확인했다.
+  - estimator, `fit`, `predict`, 입력 행렬 `X`, 목표값 `y`, sample과 feature의 행/열 표현을 확인했다.
+  - Part 2의 배열, 표, shape 설명이 Part 3의 머신러닝 API로 이어진다는 연결 근거로 사용했다.
+
+### Deep Learning Book, Chapter 1 Introduction
+
+- URL: https://www.deeplearningbook.org/contents/intro.html
+- 저자: Ian Goodfellow, Yoshua Bengio, Aaron Courville
+- 출판: MIT Press, 2016
+- 확인 날짜: 2026-06-25
+- 활용 지점:
+  - AI에서 사람이 명시적으로 규칙을 모두 쓰기 어려운 문제와, 데이터에서 패턴을 추출하는 머신러닝의 필요성을 연결하는 근거로 사용했다.
+  - representation, feature, deep learning의 계층적 표현 학습 설명을 Part 3 도입 수준으로 일반화했다.
+
+## 반영 판단
+
+- 이 절은 세부 알고리즘 설명이 아니라 용어의 범위와 학습 순서를 잡는 도입이므로, 출처 문장을 직접 인용하지 않고 일반화된 설명으로 재서술했다.
+- scikit-learn은 Part 3에서 이어질 실습 API의 기준 자료로 적합하다.
+- Deep Learning Book은 AI, 머신러닝, 딥러닝의 관계를 설명하는 교재성 자료로 적합하다.
+
+## 주의할 표현
+
+- “딥러닝은 머신러닝의 부분집합이다”는 일반적인 설명으로 사용할 수 있지만, 실제 서비스와 연구에서는 규칙, 검색, 확률 모델, 딥러닝 모델이 조합될 수 있음을 함께 설명해야 한다.
+- “생성형 AI = LLM”으로 쓰지 않는다.
+- “AI = LLM”으로 쓰지 않는다.
+- “전통적인 머신러닝은 낡았다”는 식으로 설명하지 않는다. Part 3에서는 데이터, 학습, 평가를 이해하기 위한 단순한 구조로 먼저 다룬다.
