@@ -374,6 +374,12 @@ flowchart LR
 - **P3-18.1 차원 축소(dimensionality reduction)**: 많은 특징을 적은 축으로 줄이는 이유를 봅니다.
 - **P3-18.2 시각화와 정보 손실**: 보기 쉬운 그림과 원래 정보의 손실을 함께 봅니다.
 
+#### Chapter 19. 강화학습 알고리즘 `알고리즘`
+
+- **P3-19.1 가치 기반 강화학습(value-based reinforcement learning)**: Q-learning과 SARSA를 통해 상태와 행동의 가치를 배우는 관점을 봅니다.
+- **P3-19.2 정책 기반 강화학습(policy-based reinforcement learning)**: policy gradient와 actor-critic을 통해 정책을 직접 조정하는 관점을 봅니다.
+- **P3-19.3 강화학습 적용의 주의점**: 보상 설계, 탐험 비용, 시뮬레이션과 현실 차이를 정리합니다.
+
 
 ## Part 4. 딥러닝
 

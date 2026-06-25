@@ -196,6 +196,7 @@ nav:
       - Chapter 2. 지도학습, 비지도학습, 강화학습:
           - "P3-2.1 지도학습(supervised learning)": parts/part-03/chapter-02/section-01.md
           - "P3-2.2 비지도학습(unsupervised learning)": parts/part-03/chapter-02/section-02.md
+          - "P3-2.3 강화학습(reinforcement learning)": parts/part-03/chapter-02/section-03.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
