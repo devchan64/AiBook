@@ -187,6 +187,7 @@ nav:
       - Chapter 15. SW로 수학 다시 보기:
           - "P2-15.1 수식을 코드로 옮기는 작은 절차": parts/part-02/chapter-15/section-01.md
           - "P2-15.2 Part 3로 넘어가기 전 점검": parts/part-02/chapter-15/section-02.md
+      - Part 2 마무리: parts/part-02/summary.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
