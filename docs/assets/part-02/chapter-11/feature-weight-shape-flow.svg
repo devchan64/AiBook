@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 450" role="img" aria-labelledby="title desc">
+  <title id="title">Feature matrix times weight vector produces one score per sample</title>
+  <desc id="desc">A feature matrix with shape three by two is multiplied by a weight vector with shape two to produce a score vector with shape three.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .panel-title { font: 700 19px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 500 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .mono { font: 600 15px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #1e293b; }
+      .value { font: 700 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #1e3a8a; }
+      .shape { font: 700 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f766e; }
+      .note { font: 600 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="920" height="450" fill="#ffffff"/>
+  <text class="title" x="30" y="42">Shape tells whether an array calculation can run</text>
+  <text class="subtitle" x="30" y="70">Feature rows meet one weight per feature, then produce one score per row.</text>
+
+  <rect x="42" y="112" width="336" height="246" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="panel-title" x="66" y="146">features</text>
+  <text class="shape" x="66" y="174">shape = (3, 2)</text>
+  <text class="label" x="66" y="200">3 samples, 2 features each</text>
+
+  <g transform="translate(92 226)">
+    <rect x="0" y="0" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="66" y="0" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="0" y="36" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="66" y="36" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="0" y="72" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="66" y="72" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <text class="value" x="33" y="23" text-anchor="middle">1.0</text>
+    <text class="value" x="99" y="23" text-anchor="middle">0.2</text>
+    <text class="value" x="33" y="59" text-anchor="middle">0.8</text>
+    <text class="value" x="99" y="59" text-anchor="middle">0.4</text>
+    <text class="value" x="33" y="95" text-anchor="middle">0.3</text>
+    <text class="value" x="99" y="95" text-anchor="middle">0.9</text>
+  </g>
+  <text class="label" x="250" y="250">rows: samples</text>
+  <text class="label" x="250" y="280">columns: features</text>
+
+  <line x1="392" y1="235" x2="452" y2="235" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <text class="mono" x="422" y="218" text-anchor="middle">@</text>
+
+  <rect x="470" y="112" width="164" height="246" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="panel-title" x="494" y="146">weights</text>
+  <text class="shape" x="494" y="174">shape = (2,)</text>
+  <text class="label" x="494" y="200">one per feature</text>
+  <g transform="translate(516 234)">
+    <rect x="0" y="0" width="72" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="0" y="54" width="72" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <text class="value" x="36" y="27" text-anchor="middle">0.6</text>
+    <text class="value" x="36" y="81" text-anchor="middle">0.4</text>
+  </g>
+
+  <line x1="650" y1="235" x2="710" y2="235" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="728" y="112" width="150" height="246" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="panel-title" x="752" y="146">scores</text>
+  <text class="shape" x="752" y="174">shape = (3,)</text>
+  <text class="label" x="752" y="200">one per sample</text>
+  <g transform="translate(768 226)">
+    <rect x="0" y="0" width="72" height="36" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <rect x="0" y="42" width="72" height="36" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <rect x="0" y="84" width="72" height="36" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <text class="value" x="36" y="23" text-anchor="middle">0.68</text>
+    <text class="value" x="36" y="65" text-anchor="middle">0.64</text>
+    <text class="value" x="36" y="107" text-anchor="middle">0.54</text>
+  </g>
+
+  <rect x="104" y="386" width="712" height="38" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text class="note" x="460" y="411" text-anchor="middle">The inner size 2 must match: each row has 2 features, and the weight vector has 2 numbers.</text>
+</svg>
