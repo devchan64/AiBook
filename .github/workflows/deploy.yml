@@ -31,15 +31,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install D2
-        run: |
-          curl -fsSL https://d2lang.com/install.sh | sh -s --
-          d2 --version
-
       - name: Build site
-        env:
-          PYTHONPATH: .
-        run: python -m mkdocs build --strict
+        run: mkdocs build --strict
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
