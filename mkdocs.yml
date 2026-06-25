@@ -176,6 +176,7 @@ nav:
       - Chapter 12. Pandas로 데이터 구조 다루기:
           - "P2-12.1 Pandas DataFrame은 무엇을 표현하는가": parts/part-02/chapter-12/section-01.md
           - "P2-12.2 선택, 필터링, 집계": parts/part-02/chapter-12/section-02.md
+          - "P2-12.3 학습용 데이터셋(dataset) 준비의 직관": parts/part-02/chapter-12/section-03.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
