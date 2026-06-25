@@ -160,6 +160,9 @@ nav:
           - "P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기": parts/part-02/chapter-08/section-04.md
           - "P2-8.5 함수(function)와 작은 재사용": parts/part-02/chapter-08/section-05.md
           - "P2-8.6 보충학습: 클래스(class)와 객체(object)를 처음 만날 때": parts/part-02/chapter-08/section-06.md
+      - Chapter 9. 자료구조와 그래프(graph) 직관:
+          - "P2-9.1 자료구조(data structure)는 왜 필요한가": parts/part-02/chapter-09/section-01.md
+          - "P2-9.4 보충학습: 전통적인 자료구조를 처음 읽는 법": parts/part-02/chapter-09/section-04.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
