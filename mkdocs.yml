@@ -193,6 +193,9 @@ nav:
       - Chapter 1. AI, 머신러닝, 딥러닝의 구분:
           - "P3-1.1 AI, 머신러닝, 딥러닝의 관계": parts/part-03/chapter-01/section-01.md
           - "P3-1.2 데이터에서 규칙을 배운다는 말": parts/part-03/chapter-01/section-02.md
+      - Chapter 2. 지도학습, 비지도학습, 강화학습:
+          - "P3-2.1 지도학습(supervised learning)": parts/part-03/chapter-02/section-01.md
+          - "P3-2.2 비지도학습(unsupervised learning)": parts/part-03/chapter-02/section-02.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
