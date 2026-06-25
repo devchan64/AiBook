@@ -172,6 +172,7 @@ nav:
       - Chapter 11. NumPy로 벡터와 행렬 재사용:
           - "P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기": parts/part-02/chapter-11/section-01.md
           - "P2-11.2 인덱싱(indexing), 슬라이싱(slicing), 축(axis)": parts/part-02/chapter-11/section-02.md
+          - "P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)": parts/part-02/chapter-11/section-03.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
@@ -199,6 +200,9 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: d2
+          class: d2-diagram
+          format: !!python/name:tools.mkdocs_d2.fence_d2_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:

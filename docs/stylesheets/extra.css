@@ -41,7 +41,8 @@
   details,
   .arithmatex,
   .highlight,
-  .mermaid
+  .mermaid,
+  .d2-diagram
 ),
 .md-content__inner > :is(ul, ol) > li {
   --aibook-line-top: 0.18rem;
@@ -60,7 +61,8 @@
   details,
   .arithmatex,
   .highlight,
-  .mermaid
+  .mermaid,
+  .d2-diagram
  )::before,
 .md-content__inner > :is(ul, ol) > li::before {
   content: counter(aibook-line);
@@ -134,7 +136,8 @@
     details,
     .arithmatex,
     .highlight,
-    .mermaid
+    .mermaid,
+    .d2-diagram
   )::before,
   .md-content__inner > :is(ul, ol) > li::before {
     font-size: 0.52rem;
