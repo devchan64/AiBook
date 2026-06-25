@@ -179,6 +179,14 @@ nav:
           - "P2-12.3 학습용 데이터셋(dataset) 준비의 직관": parts/part-02/chapter-12/section-03.md
       - Chapter 13. Matplotlib으로 개념 시각화:
           - "P2-13.1 그래프(plot)는 무엇을 드러내는가": parts/part-02/chapter-13/section-01.md
+          - "P2-13.2 기본 차트와 수식의 모양 확인": parts/part-02/chapter-13/section-02.md
+          - "P2-13.3 여러 그래프를 비교하고 저장하기": parts/part-02/chapter-13/section-03.md
+      - Chapter 14. Git과 문서 관리:
+          - "P2-14.1 Git은 변경 이력을 관리하는 도구": parts/part-02/chapter-14/section-01.md
+          - "P2-14.2 브랜치(branch), 커밋(commit), 문서 재현성": parts/part-02/chapter-14/section-02.md
+      - Chapter 15. SW로 수학 다시 보기:
+          - "P2-15.1 수식을 코드로 옮기는 작은 절차": parts/part-02/chapter-15/section-01.md
+          - "P2-15.2 Part 3로 넘어가기 전 점검": parts/part-02/chapter-15/section-02.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
