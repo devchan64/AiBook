@@ -162,6 +162,8 @@ nav:
           - "P2-8.6 보충학습: 클래스(class)와 객체(object)를 처음 만날 때": parts/part-02/chapter-08/section-06.md
       - Chapter 9. 자료구조와 그래프(graph) 직관:
           - "P2-9.1 자료구조(data structure)는 왜 필요한가": parts/part-02/chapter-09/section-01.md
+          - "P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관": parts/part-02/chapter-09/section-02.md
+          - "P2-9.3 그래프(graph)는 관계를 어떻게 표현하는가": parts/part-02/chapter-09/section-03.md
           - "P2-9.4 보충학습: 전통적인 자료구조를 처음 읽는 법": parts/part-02/chapter-09/section-04.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md

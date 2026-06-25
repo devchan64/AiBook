@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
+  <title id="title">Direct neighbors and two-hop neighbors in a graph</title>
+  <desc id="desc">A graph example distinguishes direct neighbors connected to Kim and two-hop neighbors reached through one intermediate node.</desc>
+  <defs>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.6; }
+      .node { fill: #ffffff; stroke: #64748b; stroke-width: 2; }
+      .start { fill: #eff6ff; stroke: #2563eb; stroke-width: 2.4; }
+      .direct { fill: #ecfdf5; stroke: #10b981; stroke-width: 2.2; }
+      .hop { fill: #fff7ed; stroke: #f97316; stroke-width: 2.2; }
+      .edge { stroke: #64748b; stroke-width: 2.2; fill: none; }
+      .edge-direct { stroke: #10b981; stroke-width: 3; fill: none; }
+      .edge-hop { stroke: #f97316; stroke-width: 3; fill: none; stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+
+  <rect width="920" height="560" fill="#ffffff"/>
+  <text x="34" y="44" class="title">Following a graph means moving from neighbor to neighbor</text>
+  <text x="34" y="72" class="subtitle">Direct neighbors are one edge away. Two-hop neighbors are reached through one intermediate node.</text>
+
+  <rect x="54" y="114" width="812" height="334" rx="14" class="box"/>
+  <text x="82" y="150" class="panel-title">Neighbor and two-hop view</text>
+  <text x="82" y="176" class="small">Question: what can Kim reach directly, and what can Kim reach after one more step?</text>
+
+  <g transform="translate(164 244)">
+    <line x1="250" y1="0" x2="100" y2="-70" class="edge-direct"/>
+    <line x1="250" y1="0" x2="100" y2="70" class="edge-direct"/>
+    <line x1="100" y1="-70" x2="520" y2="-78" class="edge-hop"/>
+    <line x1="100" y1="70" x2="520" y2="78" class="edge-hop"/>
+    <line x1="100" y1="-70" x2="100" y2="70" class="edge"/>
+    <line x1="520" y1="-78" x2="520" y2="78" class="edge"/>
+
+    <circle cx="250" cy="0" r="34" class="start"/>
+    <circle cx="100" cy="-70" r="30" class="direct"/>
+    <circle cx="100" cy="70" r="30" class="direct"/>
+    <circle cx="520" cy="-78" r="30" class="hop"/>
+    <circle cx="520" cy="78" r="30" class="hop"/>
+
+    <text x="250" y="5" text-anchor="middle" class="label">Kim</text>
+    <text x="100" y="-65" text-anchor="middle" class="label">Lee</text>
+    <text x="100" y="75" text-anchor="middle" class="label">Park</text>
+    <text x="520" y="-73" text-anchor="middle" class="label">Choi</text>
+    <text x="520" y="83" text-anchor="middle" class="label">Han</text>
+
+    <rect x="40" y="132" width="176" height="34" rx="8" fill="#ecfdf5" stroke="#10b981"/>
+    <text x="128" y="154" text-anchor="middle" class="small">direct neighbors</text>
+    <rect x="432" y="132" width="176" height="34" rx="8" fill="#fff7ed" stroke="#f97316"/>
+    <text x="520" y="154" text-anchor="middle" class="small">two-hop neighbors</text>
+  </g>
+
+  <rect x="118" y="492" width="684" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="460" y="514" text-anchor="middle" class="small">Graph questions often start with “who is connected?” and continue with “what can I reach next?”</text>
+</svg>
