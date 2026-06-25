@@ -165,6 +165,10 @@ nav:
           - "P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관": parts/part-02/chapter-09/section-02.md
           - "P2-9.3 그래프(graph)는 관계를 어떻게 표현하는가": parts/part-02/chapter-09/section-03.md
           - "P2-9.4 보충학습: 전통적인 자료구조를 처음 읽는 법": parts/part-02/chapter-09/section-04.md
+      - Chapter 10. Jupyter와 Colab 노트북:
+          - "P2-10.1 노트북(notebook)은 왜 학습에 유용한가": parts/part-02/chapter-10/section-01.md
+          - "P2-10.2 Jupyter, Colab, 로컬 실행의 차이": parts/part-02/chapter-10/section-02.md
+          - "P2-10.3 노트북을 재실행 가능한 기록으로 정리하기": parts/part-02/chapter-10/section-03.md
   - Part 3. 머신러닝:
       - 개요: parts/part-03/index.md
   - Part 4. 딥러닝:
