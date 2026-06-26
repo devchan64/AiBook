@@ -222,6 +222,8 @@ nav:
       - Chapter 10. 선형회귀:
           - "P3-10.1 선형회귀(linear regression)의 직관": parts/part-03/chapter-10/section-01.md
           - "P3-10.2 선형회귀의 평가와 한계": parts/part-03/chapter-10/section-02.md
+      - Chapter 11. 로지스틱 회귀:
+          - "P3-11.1 로지스틱 회귀(logistic regression)의 직관": parts/part-03/chapter-11/section-01.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
