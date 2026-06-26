@@ -208,6 +208,7 @@ nav:
           - "P3-5.2 일반화(generalization)": parts/part-03/chapter-05/section-02.md
       - Chapter 6. 평가 지표:
           - "P3-6.1 평가 지표(metric)의 역할": parts/part-03/chapter-06/section-01.md
+          - "P3-6.2 문제 유형별 평가 기준": parts/part-03/chapter-06/section-02.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
