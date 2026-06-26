@@ -215,6 +215,7 @@ nav:
           - "P3-7.2 전처리(preprocessing)": parts/part-03/chapter-07/section-02.md
       - Chapter 8. 모델 선택 휴리스틱:
           - "P3-8.1 모델 선택(model selection)": parts/part-03/chapter-08/section-01.md
+          - "P3-8.2 기준 모델(baseline)": parts/part-03/chapter-08/section-02.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
