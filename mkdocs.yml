@@ -212,6 +212,7 @@ nav:
           - "P3-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법": parts/part-03/chapter-06/section-03.md
       - Chapter 7. 특징 선택과 전처리 휴리스틱:
           - "P3-7.1 특징 선택(feature selection)": parts/part-03/chapter-07/section-01.md
+          - "P3-7.2 전처리(preprocessing)": parts/part-03/chapter-07/section-02.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
