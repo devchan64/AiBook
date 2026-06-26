@@ -205,6 +205,7 @@ nav:
           - "P3-4.2 검증(validation)과 테스트(test)": parts/part-03/chapter-04/section-02.md
       - Chapter 5. 과적합과 일반화:
           - "P3-5.1 과적합(overfitting)과 과소적합(underfitting)": parts/part-03/chapter-05/section-01.md
+          - "P3-5.2 일반화(generalization)": parts/part-03/chapter-05/section-02.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
