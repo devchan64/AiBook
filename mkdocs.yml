@@ -202,6 +202,7 @@ nav:
           - "P3-3.2 휴리스틱과 모델 선택": parts/part-03/chapter-03/section-02.md
       - Chapter 4. 데이터 분리와 검증:
           - "P3-4.1 학습 데이터와 평가 데이터": parts/part-03/chapter-04/section-01.md
+          - "P3-4.2 검증(validation)과 테스트(test)": parts/part-03/chapter-04/section-02.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
