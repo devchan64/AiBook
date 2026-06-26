@@ -105,19 +105,20 @@ baseline이 없으면 높은 수치가 곧 좋은 모델처럼 보일 수 있습
 
 ```mermaid
 flowchart TD
-  subgraph M1["without baseline"]
-    direction LR
-    A["score 0.91"]
-    B["looks good"]
-  end
-
-  subgraph M2["with baseline"]
+  subgraph M2["read the score with baseline"]
     direction LR
     C["baseline 0.90"]
     D["model 0.91"]
     E["small gain<br/>check if it is useful"]
   end
 
+  subgraph M1["read the score without baseline"]
+    direction LR
+    A["score 0.91"]
+    B["looks good"]
+  end
+
+  E --> A
   A --> B
   C --> D --> E
 ```
@@ -179,22 +180,20 @@ flowchart TD
 하지만 baseline이 없으면 이 개선이 정말 의미 있는지 알 수 없습니다.
 
 ```mermaid
-flowchart TD
-  subgraph W1["unsafe order"]
-    direction LR
-    A["complex model"]
-    B["tuning"]
-    C["score change"]
-  end
-
-  subgraph W2["safer order"]
-    direction LR
-    D["baseline"]
-    E["candidate model"]
-    F["tuning after comparison"]
-  end
+flowchart LR
+  A["baseline"]
+  B["candidate model"]
+  C["tuning after comparison"]
 
   A --> B --> C
+```
+
+```mermaid
+flowchart LR
+  D["complex model"]
+  E["tuning"]
+  F["score change"]
+
   D --> E --> F
 ```
 
