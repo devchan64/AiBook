@@ -231,6 +231,8 @@ nav:
       - Chapter 13. SVM:
           - "P3-13.1 SVM의 직관": parts/part-03/chapter-13/section-01.md
           - "P3-13.2 커널(kernel)의 입문적 의미": parts/part-03/chapter-13/section-02.md
+      - Chapter 14. 결정트리:
+          - "P3-14.1 결정트리(decision tree)": parts/part-03/chapter-14/section-01.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md
   - Part 5. LLM과 생성형 AI:
