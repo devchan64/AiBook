@@ -2,13 +2,11 @@
 
 P5-2장에서는 토큰(token)이 임베딩(embedding) 벡터로 바뀌고, 그 벡터 사이의 거리와 유사도(similarity)가 검색과 비교의 기준이 된다는 점을 보았습니다. 이제 질문은 조금 더 역사적인 방향으로 옮겨갑니다.
 
-`그렇다면 오늘의 LLM(large language model)은 어떤 연구 흐름이 겹쳐져서 만들어졌는가?`
+그렇다면 오늘의 LLM(large language model)은 어떤 연구 흐름이 겹쳐져서 만들어졌는가?
 
 이 절은 그 질문에 답합니다.
 
-초심자 기준에서는 먼저 다음 한 문장으로 잡으면 충분합니다.
-
-`LLM은 갑자기 등장한 하나의 기술이 아니라, 언어 모델(language model), 임베딩, 순차 모델(sequence model), Attention, Transformer, 대규모 사전학습(pretraining)이 겹치며 만들어진 흐름이다.`
+LLM은 갑자기 등장한 하나의 기술이 아니라, 언어 모델(language model), 임베딩, 순차 모델(sequence model), Attention, Transformer, 대규모 사전학습(pretraining)이 겹치며 만들어진 흐름이다.
 
 ## 이 절의 범위
 

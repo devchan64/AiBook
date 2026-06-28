@@ -2,13 +2,11 @@
 
 P4-13.2에서는 self-attention이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, Transformer의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
 
-`그렇다면 Transformer는 self-attention 하나만 있는 구조인가, 아니면 그 주변에 어떤 기본 구성 요소들이 함께 있는가?`
+그렇다면 Transformer는 self-attention 하나만 있는 구조인가, 아니면 그 주변에 어떤 기본 구성 요소들이 함께 있는가?
 
 이 절은 그 질문에 답합니다.
 
-초심자 기준에서는 먼저 다음 한 문장으로 잡으면 충분합니다.
-
-`Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 학습을 안정화하는 구조로 이해할 수 있다.`
+Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 학습을 안정화하는 구조로 이해할 수 있다.
 
 ## 이 절의 범위
 
