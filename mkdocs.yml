@@ -367,6 +367,13 @@ nav:
           - Project 2. 전통 머신러닝 예측 모델:
               - "P6-2.1 전통 머신러닝 예측 모델 목표": parts/part-06/chapter-02/section-01.md
               - "P6-2.2 기준 모델과 개선": parts/part-06/chapter-02/section-02.md
+      - Module 2. 딥러닝과 텍스트:
+          - Project 3. 이미지 분류 모델:
+              - "P6-3.1 이미지 분류 모델 목표": parts/part-06/chapter-03/section-01.md
+              - "P6-3.2 오류 사례 분석": parts/part-06/chapter-03/section-02.md
+          - Project 4. 텍스트 분류 모델:
+              - "P6-4.1 텍스트 분류 모델 목표": parts/part-06/chapter-04/section-01.md
+              - "P6-4.2 토큰화와 평가": parts/part-06/chapter-04/section-02.md
       - Part 6 마무리: parts/part-06/summary.md
 
 markdown_extensions:
