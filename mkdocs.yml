@@ -70,6 +70,7 @@ nav:
           - 7.1 탐색 공간(search space)과 계산 한계(computational limit): parts/part-01/chapter-07/section-01.md
           - 7.2 휴리스틱(heuristic)은 무엇을 줄이는가: parts/part-01/chapter-07/section-02.md
           - 7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이: parts/part-01/chapter-07/section-03.md
+          - "7.4 보충학습: 길찾기에서 자율주행 경로 계획으로 이어지는 흐름": parts/part-01/chapter-07/section-04.md
       - Chapter 8. 학습 유형의 기본 구분:
           - "8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": parts/part-01/chapter-08/section-01.md
           - "8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": parts/part-01/chapter-08/section-02.md
