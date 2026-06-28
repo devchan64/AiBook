@@ -80,18 +80,20 @@ scikit-learn 문서는 gradient boosted trees를 순차적으로 트리를 쌓�
 ## 한 장면으로 먼저 보기
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["base prediction"]
-  B["find remaining error"]
-  C["fit a small tree to the error"]
-  D["add a small correction"]
-  E["repeat many stages"]
-  F["final boosted model"]
+  B["measure residuals<br/>remaining error"]
+  C["fit a small tree<br/>to residuals"]
+  D["add a small correction<br/>scaled by learning rate"]
+  E["update prediction"]
+  F["repeat many stages"]
+  G["final boosted model"]
 
-  A --> B --> C --> D --> E --> F
+  A --> B --> C --> D --> E --> F --> G
+  E -. remaining error again .-> B
 ```
 
-이 그림에서 핵심은 `새 트리가 처음부터 전체 문제를 다시 푸는 것이 아니라, 남은 오차에 반응한다`는 점입니다.
+이 그림에서 핵심은 `새 트리가 처음부터 전체 문제를 다시 푸는 것이 아니라, 현재 예측이 남긴 residual에 맞춰 작은 보정을 더한다`는 점입니다. 점선 화살표는 `예측을 한 번 고친 뒤 다시 남은 오차를 계산한다`는 반복 구조를 보여 줍니다.
 
 ## residual은 무엇인가
 
@@ -142,21 +144,25 @@ scikit-learn 문서는 gradient boosting 문맥에서 weak learner를 보통 고
 ```mermaid
 flowchart TD
   subgraph RF["random forest"]
+    direction TB
     R1["tree A"]
     R2["tree B"]
     R3["tree C"]
-    R4["aggregate"]
+    R4["aggregate votes<br/>or averages"]
     R1 --> R4
     R2 --> R4
     R3 --> R4
   end
 
   subgraph GB["gradient boosting"]
-    G1["stage 1"]
-    G2["stage 2 fixes stage 1"]
-    G3["stage 3 fixes remaining error"]
+    direction TB
+    G1["base stage"]
+    G2["correction stage 1"]
+    G3["correction stage 2"]
     G4["add all stages"]
     G1 --> G2 --> G3 --> G4
+    G2 -. fix earlier error .-> G1
+    G3 -. fix remaining error .-> G2
   end
 ```
 

@@ -207,5 +207,6 @@
 - 작업 전후에 변경 목록을 확인하고, 관련 없는 변경을 되돌리지 않습니다.
 - 변경 후 가능하면 빌드 여부를 확인합니다.
 - 현재 저장소의 기본 빌드 확인 명령은 다음과 같습니다.
-  - `PYTHONPATH=.venv/lib/python3.9/site-packages python3 -m mkdocs build`
+  - `.venv/bin/python -m mkdocs build`
+- MkDocs 빌드와 관련 스크립트 실행 시에는 가능하면 시스템 `python3` 대신 `.venv/bin/python`을 우선 사용합니다.
 - 빌드 경고가 발생하면 실제 실패인지, git 히스토리 부재로 인한 날짜 플러그인 fallback 같은 허용 가능한 경고인지 구분해서 보고합니다.
