@@ -1,0 +1,359 @@
+# P3-19.2 정책 기반 강화학습(policy-based reinforcement learning)
+
+P3-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 이제 질문을 한 단계 바꿔 봅니다.
+
+`값을 거쳐서 행동을 고르는 대신, 행동 방식(policy) 자체를 직접 조정할 수는 없을까?`
+
+이 질문에서 출발하는 것이 정책 기반 강화학습(policy-based reinforcement learning)입니다.
+
+초심자 기준에서는 다음 한 문장으로 먼저 잡으면 충분합니다.
+
+`정책 기반 강화학습은 행동의 점수표를 먼저 만드는 대신, 어떤 행동을 선택할 확률과 방식을 직접 조정하면서 더 큰 보상을 얻도록 배우는 접근이다.`
+
+## 이 절의 범위
+
+이 절은 다음 질문에 답합니다.
+
+- 정책(policy)을 직접 배운다는 말은 무엇을 뜻하는가?
+- 가치 기반 강화학습과 정책 기반 강화학습은 어디가 다른가?
+- policy gradient는 어떤 생각으로 정책을 조정하는가?
+- actor-critic은 왜 등장했는가?
+- 정책 기반 강화학습은 어떤 문제에서 더 자연스럽게 읽히는가?
+
+이 절은 다음 내용은 깊게 다루지 않습니다.
+
+- policy gradient 정리의 엄밀한 유도
+- likelihood ratio trick의 수학적 증명
+- PPO, TRPO, A2C, A3C 세부 구현
+- 연속 제어(continuous control)의 심화 수식
+
+보상 설계, 탐험 비용, 시뮬레이션과 현실 차이, 실제 적용의 위험은 P3-19.3에서 이어서 정리합니다.
+
+## 이 절의 목표
+
+- 정책 기반 강화학습을 `행동 확률과 선택 방식을 직접 조정하는 접근`으로 설명할 수 있습니다.
+- 가치 기반 접근과 정책 기반 접근의 질문 차이를 구분할 수 있습니다.
+- policy gradient를 `보상이 좋았던 행동은 더 자주 나오게, 나빴던 행동은 덜 나오게 조정하는 생각`으로 설명할 수 있습니다.
+- actor-critic이 정책과 가치 추정을 함께 쓰는 이유를 말할 수 있습니다.
+- 정책 기반 강화학습이 연속 행동(continuous action)이나 복잡한 정책 표현에서 왜 자주 언급되는지 이해할 수 있습니다.
+
+## 왜 정책을 직접 배우려 하는가
+
+가치 기반 강화학습은 매우 강력하지만, 모든 문제를 Q-table처럼 읽기 쉬운 것은 아닙니다.
+
+- 행동 수가 너무 많을 수 있습니다.
+- 행동이 연속적인 값일 수 있습니다.
+- `최고 점수 행동 하나를 고른다`는 방식이 자연스럽지 않을 수 있습니다.
+
+예를 들어 로봇 팔이 움직이는 각도를 직접 조정한다고 생각해 봅니다.
+
+- 행동이 `왼쪽 / 오른쪽` 두 개가 아니라
+- `0.1도`, `0.2도`, `0.3도`처럼 매우 많거나 사실상 연속적일 수 있습니다.
+
+이럴 때는 `각 행동의 값을 모두 적는다`는 관점보다, `현재 상태에서 어떤 행동 분포를 만들지 직접 정한다`는 관점이 더 자연스럽습니다.
+
+즉, 정책 기반 강화학습은 다음 질문에 더 가깝습니다.
+
+`지금 이 상태에서 어떤 행동이 얼마나 자주 나오게 만들 것인가?`
+
+이를 아주 단순하게 그리면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["state<br/>robot arm position"]
+  B["policy output<br/>action distribution or control value"]
+  C["small turn left"]
+  D["small turn right"]
+  E["slightly stronger push"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+```
+
+이 그림의 핵심은 정책이 `행동 하나만 고르는 스위치`가 아니라, 여러 행동 후보의 경향이나 분포를 만들어 내는 표현일 수 있다는 점입니다.
+
+## 정책(policy)을 직접 배운다는 뜻
+
+P3-2.3에서 정책(policy)은 `어떤 상태에서 어떤 행동을 할지 정하는 방식`이라고 했습니다. 정책 기반 강화학습에서는 이 정책을 직접 조정 대상이라고 봅니다.
+
+쉽게 말하면:
+
+- 가치 기반 강화학습: 행동 점수판을 만들고, 그 점수판을 보고 행동을 고른다.
+- 정책 기반 강화학습: 행동 방식 자체를 조금씩 바꿔 간다.
+
+이를 비교하면 다음과 같습니다.
+
+| 관점 | 중심 질문 | 대표 직관 |
+| --- | --- | --- |
+| 가치 기반 | 이 행동의 장기 점수는 얼마인가? | 점수표를 보고 고른다 |
+| 정책 기반 | 이 상태에서 어떤 행동 확률을 만들 것인가? | 행동 방식을 직접 조정한다 |
+
+정책 기반 접근에서는 정책이 확률 분포(probability distribution)처럼 표현되는 경우가 많습니다.
+
+예를 들어 같은 상태에서:
+
+- 오른쪽으로 갈 확률 0.7
+- 위로 갈 확률 0.2
+- 왼쪽으로 갈 확률 0.1
+
+처럼 정책이 곧 `행동 선택 경향`을 담는 모델이 됩니다.
+
+같은 장면을 가치 기반과 정책 기반으로 나누어 보면 차이가 더 잘 보입니다.
+
+```mermaid
+flowchart TB
+  subgraph V["value-based view"]
+    V1["state s"]
+    V2["Q(s, left) = 0.2"]
+    V3["Q(s, right) = 0.8"]
+    V4["choose the larger value"]
+    V1 --> V2
+    V1 --> V3
+    V2 --> V4
+    V3 --> V4
+  end
+
+  subgraph P["policy-based view"]
+    P1["state s"]
+    P2["policy(s)"]
+    P3["left: 0.3"]
+    P4["right: 0.7"]
+    P1 --> P2
+    P2 --> P3
+    P2 --> P4
+  end
+```
+
+왼쪽은 `행동의 값을 비교해 고르는 방식`이고, 오른쪽은 `행동이 나올 확률 구조 자체를 표현하는 방식`입니다.
+
+## policy gradient는 무엇을 하려 하나
+
+policy gradient는 정책 파라미터(parameter)를 직접 조정해 기대 보상(expected return)을 늘리려는 대표적 방법입니다.
+
+초심자 기준에서는 다음처럼 이해하면 충분합니다.
+
+`보상이 좋았던 행동은 더 잘 나오게 만들고, 보상이 나빴던 행동은 덜 나오게 만드는 방향으로 정책을 조금씩 수정한다.`
+
+즉, policy gradient는 가치 표를 먼저 완성하려 하지 않고, `정책을 움직이는 손잡이`를 직접 조정합니다.
+
+이를 도식으로 줄이면 다음과 같습니다.
+
+```mermaid
+flowchart TB
+  A["1. run policy<br/>take actions by current policy"]
+  B["2. observe rewards<br/>which choices worked better?"]
+  C["3. strengthen helpful tendencies<br/>raise probability"]
+  D["4. weaken harmful tendencies<br/>lower probability"]
+  E["5. update policy parameters"]
+
+  A --> B --> C --> E
+  B --> D --> E
+```
+
+이 그림의 핵심은 정책이 `출력 규칙`이 아니라 `조정 가능한 행동 성향`으로 읽힌다는 점입니다.
+
+REINFORCE를 에피소드 흐름으로 아주 짧게 줄이면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["episode rollout<br/>collect actions and rewards"]
+  B["compute return<br/>which actions ended well?"]
+  C["increase probability<br/>for helpful choices"]
+  D["new policy"]
+
+  A --> B --> C --> D
+```
+
+이 도식은 REINFORCE가 `중간에 점수표를 먼저 완성하는 방식`보다, `한 번의 경험 흐름을 보고 정책을 바로 밀어 주는 방식`에 가깝다는 점을 보여 줍니다.
+
+## REINFORCE는 왜 자주 함께 등장하나
+
+입문 문헌에서는 policy gradient를 설명할 때 REINFORCE가 자주 함께 등장합니다. REINFORCE는 정책 기반 강화학습의 가장 대표적인 초기 알고리즘 중 하나입니다.
+
+초심자 관점에서는 REINFORCE를 다음처럼 읽으면 충분합니다.
+
+`한 에피소드(episode)를 따라가며, 결과적으로 보상이 좋았던 선택들의 확률을 높이는 쪽으로 정책을 조정하는 방법`
+
+즉, REINFORCE는 정책 기반 접근의 기본 철학을 가장 직접적으로 보여 줍니다.
+
+- 잘된 행동은 더 자주 나오게
+- 잘 안 된 행동은 덜 나오게
+
+다만 이렇게만 하면 학습 신호의 흔들림이 커질 수 있습니다. 바로 이 지점에서 actor-critic이 등장합니다.
+
+## actor-critic은 왜 등장했는가
+
+정책을 직접 조정하는 것은 자연스럽지만, 보상 신호만으로 정책을 바로 고치면 변동이 커질 수 있습니다. 어떤 행동이 정말 잘된 것인지, 아니면 우연히 좋았던 것인지 판단이 흔들리기 쉽기 때문입니다.
+
+그래서 `정책을 조정하는 쪽(actor)`과 `현재 선택이 얼마나 괜찮았는지 평가하는 쪽(critic)`을 같이 두는 생각이 나옵니다.
+
+초심자 기준에서는 actor-critic을 다음처럼 읽으면 좋습니다.
+
+- actor: 실제 행동 방식을 조정하는 쪽
+- critic: 그 행동이 얼마나 괜찮았는지 평가 신호를 주는 쪽
+
+즉, actor-critic은 정책 기반 접근과 가치 추정 접근을 섞은 구조입니다.
+
+```mermaid
+flowchart LR
+  A["state<br/>current situation"]
+  B["actor<br/>choose action by policy"]
+  C["environment<br/>next state and reward"]
+  D["critic<br/>evaluate the transition"]
+  E["actor update<br/>adjust policy"]
+
+  A --> B --> C --> D --> E
+  D --> B
+```
+
+이 도식에서 critic은 `행동을 대신 결정하는 존재`가 아니라, actor가 더 안정적으로 바뀌도록 평가 신호를 주는 역할입니다.
+
+## 가치 기반과 정책 기반은 경쟁만 하는가
+
+초심자는 두 접근을 `둘 중 하나만 옳은 방식`처럼 읽기 쉽습니다. 하지만 실제로는 서로 다른 문제 감각을 반영합니다.
+
+| 질문 | 가치 기반이 더 자연스러운 경우 | 정책 기반이 더 자연스러운 경우 |
+| --- | --- | --- |
+| 행동 후보가 적고 분명한가 | 그렇다 | 덜 그렇다 |
+| 행동이 연속적이거나 매우 많은가 | 다루기 까다롭다 | 상대적으로 자연스럽다 |
+| 점수표를 통해 행동을 고르기 쉬운가 | 쉽다 | 꼭 그럴 필요 없다 |
+| 행동 확률 자체를 제어하고 싶은가 | 간접적이다 | 직접적이다 |
+
+즉, 정책 기반 강화학습은 가치 기반 강화학습을 대체한다기보다, 다른 조건에서 더 자연스러운 표현을 제공합니다.
+
+## 어디에서 특히 자주 떠오르는가
+
+정책 기반 강화학습은 다음과 같은 장면에서 자주 언급됩니다.
+
+- 로봇 제어처럼 행동이 연속적인 문제
+- 단순히 `최고 행동 하나`보다 행동 분포 전체가 중요한 문제
+- 확률적 정책(stochastic policy)을 직접 다루고 싶은 문제
+- 큰 상태 공간과 복잡한 함수 근사(function approximation)가 필요한 문제
+
+이를 더 현실적인 사례로 읽으면 다음과 같습니다.
+
+| 문제 장면 | 왜 정책 기반 관점이 잘 맞는가 |
+| --- | --- |
+| 로봇 팔 제어 | 각도, 힘, 속도처럼 행동이 연속적일 수 있습니다. |
+| 자율 이동체의 조향과 가속 | 단순한 이산 행동보다 연속 제어가 자연스럽습니다. |
+| 게임에서 확률적 전술 선택 | 한 행동만 고정하기보다 상황에 따라 섞어 쓰는 전략이 필요할 수 있습니다. |
+| 광고·추천 실험의 탐색 정책 | 어떤 선택을 어느 정도 비율로 노출할지 직접 다루는 감각이 필요할 수 있습니다. |
+
+예를 들어 서비스 운영 관점의 비유를 들면:
+
+- 가치 기반 접근은 `각 대응 선택지의 점수표`를 만드는 감각과 닮았습니다.
+- 정책 기반 접근은 `상황에 따라 어떤 대응 강도를 어느 확률로 쓸지`를 직접 조정하는 감각과 더 닮았습니다.
+
+물론 이런 비유는 직관을 위한 것이고, 실제 서비스 정책 설계와 강화학습 정책을 같은 것으로 섞어 읽어서는 안 됩니다.
+
+초심자에게는 로봇 팔 사례가 특히 중요합니다. `왼쪽`과 `오른쪽`처럼 행동 수가 적은 문제에서는 가치 기반 접근이 직관적일 수 있지만, `얼마나`, `어느 속도로`, `어느 각도로`까지 함께 정해야 하면 정책을 직접 출력하는 쪽이 더 자연스럽게 읽힐 수 있습니다.
+
+반대로 모든 문제에 정책 기반 강화학습이 더 낫다고 읽으면 안 됩니다. 행동 후보가 적고, 점수표를 통해 명확히 비교할 수 있는 문제라면 가치 기반 접근이 더 단순하고 설명력이 좋을 수 있습니다.
+
+## 작은 Python 예제로 정책 조정 감각 보기
+
+이번 예제의 목적은 policy gradient 전체를 구현하는 것이 아니라, `보상이 좋았던 행동의 확률을 높인다`는 감각을 숫자로 확인하는 것입니다.
+
+입력은 다음과 같습니다.
+
+- 현재 정책의 행동 확률
+- 이번 에피소드에서 선택한 행동
+- 그 결과로 받은 보상
+
+출력은 다음입니다.
+
+- 업데이트 전 행동 확률
+- 보상 신호를 반영한 뒤의 행동 점수
+- 정규화 후 새 행동 확률
+
+```python
+import math
+
+action_scores = {
+    "left": 0.20,
+    "right": 0.40,
+}
+
+chosen_action = "right"
+reward_signal = 1.5
+step_size = 0.3
+
+print("before update:", action_scores)
+
+# 선택한 행동의 점수를 조금 올린다.
+updated_scores = action_scores.copy()
+updated_scores[chosen_action] += step_size * reward_signal
+
+print("score after reward:", updated_scores)
+
+# 점수를 확률처럼 읽기 위해 softmax로 정규화한다.
+exp_left = math.exp(updated_scores["left"])
+exp_right = math.exp(updated_scores["right"])
+total = exp_left + exp_right
+
+new_policy = {
+    "left": round(exp_left / total, 3),
+    "right": round(exp_right / total, 3),
+}
+
+print("new policy:", new_policy)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+before update: {'left': 0.2, 'right': 0.4}
+score after reward: {'left': 0.2, 'right': 0.85}
+new policy: {'left': 0.343, 'right': 0.657}
+```
+
+이 예제는 엄밀한 policy gradient 구현은 아니지만, 정책 기반 강화학습의 중심 생각을 보여 줍니다.
+
+- 보상이 좋았던 행동 `right`의 점수를 올렸고
+- 그 결과 새 정책에서 `right`의 확률이 더 커졌습니다.
+
+즉, 정책 기반 강화학습은 이런 방향으로 `행동이 나오기 쉬운 성향` 자체를 조정합니다.
+
+## actor-critic을 실무 감각으로 다시 읽기
+
+actor-critic이 자주 쓰이는 이유는 `정책을 직접 조정하는 자유로움`과 `가치 추정이 주는 안정화 신호`를 함께 얻고 싶기 때문입니다.
+
+초심자에게는 다음처럼 기억하면 좋습니다.
+
+- actor만 있으면: 정책을 직접 바꾸기 쉽지만 흔들림이 클 수 있다
+- critic을 함께 두면: 지금 수정이 괜찮은 방향인지 평가 신호를 더 잘 줄 수 있다
+
+즉, actor-critic은 정책 기반과 가치 기반을 대립시키기보다 `둘의 역할을 나누어 협력시키는 구조`로 이해하는 편이 좋습니다.
+
+업무적 비유를 아주 조심스럽게 붙이면 다음처럼 읽을 수 있습니다.
+
+- actor는 실제 실행안을 내는 쪽
+- critic은 그 실행안이 기대보다 나았는지 못했는지 피드백을 주는 쪽
+
+물론 이는 단지 구조 감각을 돕는 비유입니다. 실제 조직의 사람 역할과 강화학습 구성 요소를 그대로 대응시키면 오해가 생깁니다.
+
+## 이 절에서 기억할 관점
+
+- 정책 기반 강화학습은 정책 자체를 직접 조정하면서 기대 보상을 높이려는 접근입니다.
+- 가치 기반 강화학습이 행동 점수표를 만드는 데 강하다면, 정책 기반 강화학습은 행동 확률과 선택 방식을 직접 다루는 데 자연스럽습니다.
+- policy gradient는 보상이 좋았던 행동 경향을 강화하는 쪽으로 정책 파라미터를 수정합니다.
+- REINFORCE는 정책 기반 강화학습의 기본 철학을 보여 주는 대표 입문 알고리즘입니다.
+- actor-critic은 actor와 critic의 역할을 나누어 정책 조정과 평가 신호를 함께 다루는 구조입니다.
+
+## 체크리스트
+
+- 정책 기반 강화학습을 `행동 확률과 선택 방식을 직접 조정하는 접근`으로 설명할 수 있는가?
+- 가치 기반과 정책 기반의 차이를 `점수표를 먼저 배우는가, 정책을 직접 바꾸는가`로 설명할 수 있는가?
+- policy gradient의 핵심 생각을 `좋은 행동은 더 자주 나오게`라는 문장으로 말할 수 있는가?
+- actor와 critic의 역할을 구분할 수 있는가?
+- actor-critic이 두 접근의 절충이 아니라 역할 분담 구조라는 점을 이해했는가?
+- 현실 적용의 주의점은 다음 절(P3-19.3)에서 다룬다는 흐름을 알고 있는가?
+
+## 출처와 참고 자료
+
+- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, 확인 날짜: 2026-06-27. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Ronald J. Williams, `Simple statistical gradient-following algorithms for connectionist reinforcement learning`, Machine Learning, 1992, 확인 날짜: 2026-06-27. [https://link.springer.com/article/10.1007/BF00992696](https://link.springer.com/article/10.1007/BF00992696){: target="_blank" rel="noopener noreferrer" }
+- Richard S. Sutton, David McAllester, Satinder Singh, Yishay Mansour, `Policy Gradient Methods for Reinforcement Learning with Function Approximation`, NeurIPS 1999, 확인 날짜: 2026-06-27. [https://papers.nips.cc/paper_files/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html](https://papers.nips.cc/paper_files/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Vijay R. Konda, John N. Tsitsiklis, `On Actor-Critic Algorithms`, SIAM Journal on Control and Optimization, 2003, 확인 날짜: 2026-06-27. [https://doi.org/10.1137/S0363012901385691](https://doi.org/10.1137/S0363012901385691){: target="_blank" rel="noopener noreferrer" }
