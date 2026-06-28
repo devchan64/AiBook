@@ -374,6 +374,17 @@ nav:
           - Project 4. 텍스트 분류 모델:
               - "P6-4.1 텍스트 분류 모델 목표": parts/part-06/chapter-04/section-01.md
               - "P6-4.2 토큰화와 평가": parts/part-06/chapter-04/section-02.md
+      - Module 3. LLM 서비스 프로젝트:
+          - Project 5. 문서 기반 RAG 챗봇:
+              - "P6-5.1 문서 기반 RAG 챗봇 목표": parts/part-06/chapter-05/section-01.md
+              - "P6-5.2 검색 품질과 답변 검증": parts/part-06/chapter-05/section-02.md
+          - Project 6. 도구를 사용하는 에이전트(agent):
+              - "P6-6.1 도구를 사용하는 에이전트 목표": parts/part-06/chapter-06/section-01.md
+              - "P6-6.2 권한과 로그 검토": parts/part-06/chapter-06/section-02.md
+      - Module 4. 배포와 운영:
+          - Project 7. 배포와 모니터링:
+              - "P6-7.1 배포와 모니터링 목표": parts/part-06/chapter-07/section-01.md
+              - "P6-7.2 실패 기록과 개선 계획": parts/part-06/chapter-07/section-02.md
       - Part 6 마무리: parts/part-06/summary.md
 
 markdown_extensions:

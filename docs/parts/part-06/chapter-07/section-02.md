@@ -1,0 +1,114 @@
+# P6-7.2 실패 기록과 개선 계획
+
+배포 프로젝트의 마지막 단계는 배포 성공 화면을 보고 끝내는 일이 아닙니다. 실제로는 `무엇이 실패할 수 있었고, 무엇을 다음에 먼저 개선할 것인가`를 남겨야 프로젝트가 닫힙니다.
+
+이번 절은 그 회고 문서를 다룹니다.
+
+## 이 절의 범위
+
+이 절은 다음 질문에 답합니다.
+
+- 정적 사이트 프로젝트에서 어떤 실패를 기록해야 하는가?
+- 배포 실패와 콘텐츠 실패를 왜 구분해야 하는가?
+- 개선 계획은 어떻게 우선순위를 붙이면 좋은가?
+
+이 절은 다음 내용은 깊게 다루지 않습니다.
+
+- 본격 incident management 시스템
+- 장기 비용 분석
+- 팀 단위 SLO 설계
+
+## 이 절의 목표
+
+- 배포 프로젝트의 실패 유형을 몇 가지 범주로 정리할 수 있습니다.
+- 실패 기록을 `원인 추정`과 `다음 조치`까지 연결해 적을 수 있습니다.
+- 작은 문서 프로젝트에도 운영 회고가 필요하다는 점을 설명할 수 있습니다.
+
+## 실패 유형을 나누어 보기
+
+정적 문서 배포 프로젝트에서 흔한 실패는 크게 네 가지로 나눌 수 있습니다.
+
+| 실패 유형 | 예시 |
+| --- | --- |
+| build failure | MkDocs 설정 오류, 링크 문법 오류 |
+| deploy failure | Actions workflow 실패, publishing source 문제 |
+| content failure | 최신 수정이 누락됨, 제목/섹션 배치 오류 |
+| runtime failure | 공개 URL은 열리지만 링크가 깨짐, 404 발생 |
+
+이 구분이 중요한 이유는 해결 책임과 다음 행동이 다르기 때문입니다.
+
+- build failure는 로컬 재현이 중요합니다.
+- deploy failure는 CI 로그 확인이 중요합니다.
+- content failure는 문서 검토가 중요합니다.
+- runtime failure는 공개 페이지 실제 확인이 중요합니다.
+
+## 작은 실패 기록 예시
+
+이번 절에서는 프로젝트 회고 문서를 다음 형식으로 남기는 예를 듭니다.
+
+| date | issue | category | likely cause | next action |
+| --- | --- | --- | --- | --- |
+| 2026-06-29 | 최신 섹션이 배포 페이지에 보이지 않음 | deploy/content | main 미반영 또는 workflow 지연 | Actions 로그 확인, main 반영 상태 재확인 |
+| 2026-06-29 | 내부 링크 404 | runtime | nav와 실제 경로 불일치 | mkdocs nav와 파일 경로 재검토 |
+| 2026-06-29 | 수식 렌더링 누락 | content/runtime | JS 로드 또는 문법 문제 | 브라우저 확인, 수식 블록 점검 |
+
+이 표는 단순하지만 회고 문서로 충분히 유용합니다.
+
+## 왜 postmortem 습관이 필요한가
+
+Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹니다. 이 책의 Part 6 프로젝트 수준에서는 거대한 조직 절차까지 갈 필요는 없지만, 핵심 태도는 그대로 가져올 수 있습니다.
+
+- 실패를 숨기지 않는다.
+- 원인을 단정하기보다 가능한 설명을 적는다.
+- 다음 반복에서 바꿀 것을 남긴다.
+
+즉, 회고는 책임 추궁이 아니라 `반복 가능한 개선 메모`입니다.
+
+## 개선 계획 우선순위 붙이기
+
+개선 계획은 많아질수록 오히려 실행되지 않기 쉽습니다. 그래서 작은 프로젝트에서는 다음처럼 우선순위를 붙이는 편이 좋습니다.
+
+1. 다시 발생하면 바로 보이는 문제  
+   예: broken link, build failure
+2. 독자 경험을 직접 해치는 문제  
+   예: 최신 내용 미반영, 모바일 가독성 저하
+3. 나중에 구조적으로 키워야 할 문제  
+   예: 배포 자동 검증 강화, 모니터링 항목 추가
+
+이렇게 나누면 회고가 단순 희망사항 목록으로 끝나지 않습니다.
+
+## 프로젝트 회고 문장 예시
+
+> 이번 정적 문서 배포 프로젝트는 로컬 빌드와 GitHub Pages 배포를 분리해 확인하는 구조를 정리했다. 그러나 배포 성공 여부만으로는 충분하지 않았고, 최신 문서 반영, 내부 링크 정상 동작, 실제 공개 페이지 확인이 별도 단계로 필요했다. 다음 반복에서는 배포 후 점검 체크리스트를 더 짧고 명확하게 만들고, 링크 점검과 최근 수정 반영 여부를 우선 확인 항목으로 두는 것이 적절하다.
+
+## 이 책 전체와의 연결
+
+Part 6의 마지막 회고는 사실 이 책 전체의 학습 방식과도 연결됩니다.
+
+- 개념을 배웠다.
+- 작은 프로젝트로 다시 해 봤다.
+- 실패와 한계를 기록했다.
+- 다음 반복 계획을 남겼다.
+
+이 흐름이 있어야 재학습 저장소가 단순 메모가 아니라 `계속 갱신되는 학습 시스템`이 됩니다.
+
+## 이 절에서 기억할 관점
+
+- 배포 프로젝트에도 실패 기록이 필요합니다.
+- build, deploy, content, runtime 실패를 구분하면 회고가 더 선명해집니다.
+- 개선 계획은 우선순위를 붙여야 실제 행동으로 이어집니다.
+- 작은 프로젝트의 회고 습관이 큰 운영 문화의 출발점입니다.
+
+## 체크리스트
+
+- 실패를 유형별로 나눠 기록할 수 있는가?
+- likely cause와 next action을 함께 적었는가?
+- 독자 경험에 직접 영향을 주는 문제를 우선순위로 올렸는가?
+- 회고가 다음 반복 계획으로 이어지는가?
+
+## 출처와 참고 자료
+
+- GitHub Docs, `Creating a GitHub Pages site`, 확인 날짜: 2026-06-29. [https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site){: target="_blank" rel="noopener noreferrer" }
+- Google, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 확인 날짜: 2026-06-29. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }
+
+이 절의 실패 기록 표는 Part 6 프로젝트 회고를 위해 구성한 자체 예시입니다.
