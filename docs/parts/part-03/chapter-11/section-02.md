@@ -2,9 +2,13 @@
 
 P3-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
 
-`그 점수는 입력 공간(input space)에서 어디에 선을 긋는가?`
+`그 점수는 왜 어떤 입력을 class 0으로, 다른 입력을 class 1로 나누는가?`
 
-이 질문이 바로 결정 경계(decision boundary)의 출발점입니다.
+이 질문에 답하려면 단지 `확률이 얼마인가`만 보는 것으로는 부족합니다. `어디까지는 class 0으로 읽고, 어디부터는 class 1로 읽는가`라는 기준이 함께 보여야 합니다. 그 기준을 입력 공간(input space)에서 읽는 관점이 결정 경계(decision boundary)입니다.
+
+그래서 `입력 공간에서 어디에 선을 긋는가`라는 표현은 본질이 아니라 결과에 가깝습니다. 더 본질적인 질문은 다음입니다.
+
+`모델은 어떤 기준으로 입력들을 둘로 갈라 읽는가?`
 
 11.1이 출력(output)을 읽는 절이었다면, 11.2는 입력(input)을 바라보는 절입니다. 초심자 기준으로는 다음처럼 이해하면 충분합니다.
 
@@ -45,7 +49,18 @@ P3-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽�
 - 어떤 입력은 왜 class 1이 되었는가?
 - 두 class 사이의 기준은 어디에 있는가?
 
-이 질문에 답하려면 출력표만 봐서는 부족합니다. 입력 공간에서 `어디를 기준으로 둘로 나누었는가`를 봐야 합니다. 그때 등장하는 관점이 결정 경계입니다.
+이 질문에 답하려면 출력표만 봐서는 부족합니다. 출력표는 `결과`를 보여 주지만, `왜 그런 결과가 나왔는가`는 충분히 설명하지 못합니다.
+
+결정 경계를 보는 이유는 바로 여기에 있습니다.
+
+- 어떤 입력이 class 0이 된 이유를 설명하기 위해
+- 어떤 입력이 class 1이 된 이유를 설명하기 위해
+- 두 class를 가르는 기준이 어디에 있는지 말하기 위해
+- 경계 근처의 애매한 사례를 따로 식별하기 위해
+
+즉, 결정 경계는 단순한 시각화 장치가 아니라 `분류 이유를 읽기 위한 해석 도구`입니다.
+
+입력 공간에서 `어디를 기준으로 둘로 나누었는가`를 봐야 할 때 등장하는 관점이 결정 경계입니다.
 
 ## 결정 경계는 무엇인가
 
@@ -111,29 +126,27 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["two-feature plane<br/>exam_1 and exam_2"]
-  A --> B
-
-  subgraph B["samples in the plane"]
-    direction LR
-    P1["lower-score cluster<br/>class 0 side"]
-    S["linear boundary"]
-    P2["higher-score cluster<br/>class 1 side"]
-  end
-
-  B --> C
-
-  subgraph C["how to read it"]
-    direction LR
-    C1["left of the line<br/>predict class 0"]
-    C2["near the line<br/>ambiguous cases"]
-    C3["right of the line<br/>predict class 1"]
-  end
+  A["input point (exam_1, exam_2)"]
+  A --> B["linear score z = w1*exam_1 + w2*exam_2 + b"]
+  B --> C{"compare with boundary<br/>z = 0"}
+  C -->|z < 0| D["class 0 side"]
+  C -->|z > 0| E["class 1 side"]
+  C -->|z = 0| F["decision boundary itself"]
 ```
 
 초심자에게는 다음처럼 정리하면 충분합니다.
 
 `입력이 하나 늘어나면 경계도 한 점에서 한 선으로 바뀐다.`
+
+여기서 중요한 것은 `선이 먼저 있고 class가 나뉘는 것`이 아니라, `점수 z를 0과 비교하는 규칙` 때문에 결과적으로 평면 위에 경계선이 생긴다는 점입니다.
+
+즉, 2차원에서 다음 세 질문에 답하는 가장 직접적인 방법은 같습니다.
+
+- 어떤 입력은 왜 class 0이 되었는가? `그 입력의 z가 0보다 작기 때문`
+- 어떤 입력은 왜 class 1이 되었는가? `그 입력의 z가 0보다 크기 때문`
+- 두 class 사이의 기준은 어디에 있는가? `z = 0이 되는 모든 점의 집합`
+
+그래서 결정 경계는 단순한 그림이 아니라, `분류 규칙이 평면에 남긴 흔적`으로 읽어야 합니다.
 
 ## 계수(coefficient)는 경계의 방향과 어떤 관련이 있는가
 
@@ -198,6 +211,22 @@ flowchart TD
 - 같은 입력 공간 안에서 위험 영역과 안전 영역은 어디인가?
 
 이런 질문이 등장하면서, 분류 모델은 단순히 `점수를 내는 함수`가 아니라 `공간을 나누는 장치`로도 읽히기 시작했습니다.
+
+이 흐름을 역사적으로 떠올릴 때 자주 언급되는 출발점 중 하나가 Fisher의 판별(discriminant) 전통입니다. 1936년 Ronald A. Fisher는 여러 측정값을 함께 써서 범주를 구분하는 문제를 다루었고, 이 맥락은 뒤에 선형 판별(linear discriminant)과 분류 경계 관점으로 이어졌습니다. 이 시기에는 오늘날처럼 `decision boundary`라는 말을 전면에 내세우기보다, `어떤 선형 결합이 집단을 잘 가르는가`가 더 직접적인 문제였습니다.
+
+초심자 관점에서는 이 지점을 이렇게 읽으면 충분합니다.
+
+`분류의 초기 문제의식은 값을 하나 더 정확히 맞히는 일보다, 서로 다른 집단을 어떻게 구분할 것인가에 가까웠다.`
+
+이후 통계적 분류(statistical classification)와 패턴 인식(pattern recognition) 쪽에서는 이 구분 문제를 더 일반적인 언어로 다루기 시작합니다. 특히 Bayes 분류기(Bayes classifier), 선형 판별 분석(LDA), 이차 판별 분석(QDA) 같은 설명에서는 `두 class의 posterior probability가 같아지는 자리`, 또는 `분류 함수 값이 같아지는 자리`를 경계로 읽는 방식이 정리됩니다.
+
+이 관점이 중요한 이유는, 결정 경계가 단지 그림을 그리기 위한 표현이 아니라는 점을 보여 주기 때문입니다. 경계는 다음과 같이 읽을 수 있습니다.
+
+- 어느 쪽 class가 더 그럴듯한지 바뀌는 자리
+- 오분류 비용과 판단 규칙이 맞닿는 자리
+- 애매한 사례가 모이는 자리
+
+즉, 역사적으로도 결정 경계는 `공간에 선을 긋는 기술`이라기보다 `분류 판단이 뒤집히는 기준을 표현하는 방법`으로 이해하는 편이 더 정확합니다.
 
 로지스틱 회귀를 이 관점에서 보면 다음과 같이 정리할 수 있습니다.
 
@@ -283,19 +312,37 @@ prediction      : [0 1 1]
 
 ```mermaid
 flowchart TD
-  subgraph S["distance from the boundary"]
-    direction LR
-    L["class 0 side"]
-    N["near-boundary sample<br/>score around 0"]
-    B["decision boundary"]
-    F["far sample<br/>strong class 1 score"]
-    R["class 1 side"]
-  end
+  A["sample [42, 42]"]
+  A --> A1["z = -4.102"]
+  A1 --> A2["below boundary z = 0"]
+  A2 --> A3["predict class 0"]
 
-  S --> T["near-boundary cases are more likely to need review"]
+  B["sample [50, 50]"]
+  B --> B1["z = 0.187"]
+  B1 --> B2["very near boundary z = 0"]
+  B2 --> B3["predict class 1, but borderline"]
+
+  C["sample [62, 60]"]
+  C --> C1["z = 12.979"]
+  C1 --> C2["far above boundary z = 0"]
+  C2 --> C3["predict class 1"]
 ```
 
-이 도식은 `경계 근처 샘플`과 `경계에서 충분히 떨어진 샘플`을 구분해 읽는 감각을 주기 위한 것입니다. 실제 운영에서는 이 차이가 자동 처리와 검토 대상을 나누는 기준으로도 이어질 수 있습니다.
+이 도식은 `왜 class 0인가`, `왜 class 1인가`, `경계는 어디인가`를 한 번에 읽게 하기 위한 것입니다. 핵심은 확률값 자체보다 `decision score가 0보다 작은가, 큰가, 거의 같은가`입니다.
+
+같은 내용을 표로 다시 읽으면 더 분명합니다.
+
+| 샘플 | 입력 | decision score \(z\) | 경계 \(z = 0\)와의 관계 | 예측 |
+| --- | --- | ---: | --- | --- |
+| A | `[42, 42]` | -4.102 | 경계보다 낮음 | class 0 |
+| B | `[50, 50]` | 0.187 | 경계 바로 위 | class 1 |
+| C | `[62, 60]` | 12.979 | 경계보다 충분히 높음 | class 1 |
+
+실제 운영에서는 이런 읽기가 그대로 이어집니다.
+
+- 경계에서 멀리 떨어진 샘플은 자동 처리 후보가 되기 쉽습니다.
+- 경계에 매우 가까운 샘플은 검토(review) 대상으로 분리하기 쉽습니다.
+- 따라서 결정 경계는 단순한 시각화가 아니라, `애매한 사례를 찾는 운영 기준`으로도 연결됩니다.
 
 ## threshold 변화도 작은 코드로 확인하기
 
@@ -430,5 +477,7 @@ threshold 0.7   : [0 0 1]
 
 ## 출처와 참고 자료
 
+- Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
 - scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `LogisticRegression`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }
