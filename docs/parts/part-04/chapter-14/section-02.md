@@ -1,0 +1,202 @@
+# P4-14.2 병렬 처리와 긴 문맥
+
+P4-14.1에서는 Transformer를 self-attention, feed-forward, residual connection, layer normalization의 조합으로 설명했습니다. 이제 다음 질문이 남습니다.
+
+`왜 Transformer는 RNN보다 병렬 처리에 더 잘 맞고, 긴 문맥(long context) 문제에서도 더 강한 전환점처럼 보였는가?`
+
+이 절은 그 질문에 답합니다.
+
+초심자 기준에서는 먼저 다음 한 문장으로 잡으면 충분합니다.
+
+`Transformer는 토큰을 순서대로만 상태 전달하지 않고 서로의 관계를 한 번에 계산하는 구조에 더 가까워, 병렬 처리와 긴 문맥 참조에서 큰 장점을 드러냈다.`
+
+## 이 절의 범위
+
+이 절은 다음 질문에 답합니다.
+
+- RNN과 Transformer의 계산 흐름은 왜 다르게 느껴지는가?
+- 병렬 처리 관점에서 Transformer가 왜 유리했는가?
+- 긴 문맥을 다룰 때 self-attention은 어떤 직관적 장점을 주는가?
+- 이 차이가 왜 LLM 시대와 연결되는가?
+
+이 절은 다음 내용은 깊게 다루지 않습니다.
+
+- attention complexity의 상세 빅오 비교
+- long-context optimization의 최신 기법
+- KV cache나 sparse attention 구현 상세
+
+이 절의 목적은 `RNN 대 Transformer`를 수학적으로 완전히 비교하는 것이 아니라, 큰 구조 차이를 초심자 수준에서 이해하게 하는 것입니다.
+
+## 이 절의 목표
+
+- RNN과 Transformer의 계산 흐름 차이를 설명할 수 있습니다.
+- Transformer가 왜 병렬 처리와 더 잘 맞는지 말할 수 있습니다.
+- 긴 문맥 참조에서 self-attention의 장점을 직관적으로 설명할 수 있습니다.
+- 이 차이가 왜 LLM 확산과 이어지는지 연결할 수 있습니다.
+
+## RNN은 왜 순차적 느낌이 강한가
+
+RNN 계열은 각 step가 이전 상태를 이어받아 다음 상태를 만드는 구조였습니다. 따라서 계산 감각이 자연스럽게 다음처럼 보입니다.
+
+- 첫 토큰을 보고 상태를 만듭니다
+- 그 상태를 가지고 두 번째 토큰을 봅니다
+- 다시 그 상태를 세 번째 토큰으로 넘깁니다
+
+즉, 토큰을 차례대로 밀어 가는 흐름에 가깝습니다.
+
+초심자 기준에서는 다음처럼 이해하면 충분합니다.
+
+`RNN은 앞에서 만든 상태를 뒤로 넘겨 가며 순차적으로 계산하는 구조다.`
+
+## Transformer는 왜 다르게 보이나
+
+Transformer의 self-attention은 각 토큰이 같은 시퀀스 안 다른 토큰들을 함께 참고하게 만듭니다. 이 구조는 토큰 간 관련도를 더 행렬적인 계산으로 다루기 쉽습니다.
+
+즉:
+
+- 꼭 한 토큰씩 순서대로만 상태를 넘기지 않아도 되고
+- 토큰들 사이 관계를 한 번에 계산하는 감각이 더 강합니다
+
+초심자에게는 다음처럼 기억하면 좋습니다.
+
+`RNN은 순서대로 상태를 전달하고, Transformer는 토큰들 사이의 관계를 더 한꺼번에 계산한다.`
+
+## 왜 이것이 병렬 처리에 유리했나
+
+Part 4에서 이미 본 것처럼 GPU는 비슷한 계산을 많이 동시에 처리할 때 강합니다. Transformer의 self-attention과 큰 행렬 연산은 이런 구조와 잘 맞습니다.
+
+즉, Transformer는:
+
+- 토큰 간 관련도 계산을 텐서 연산으로 묶기 쉽고
+- 배치(batch) 단위로도 잘 확장되며
+- 대규모 병렬 학습에 잘 맞는 방향을 보여 주었습니다
+
+초심자 기준에서는 다음 정도로 이해하면 충분합니다.
+
+`Transformer는 토큰 간 관계를 병렬 행렬 연산으로 바꾸기 쉬워서, 대규모 GPU 학습과 잘 맞았다.`
+
+## 긴 문맥에서는 왜 유리했나
+
+RNN에서는 아주 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 전달해야 합니다. 반면 self-attention에서는 현재 토큰이 멀리 떨어진 토큰도 더 직접 참고할 수 있습니다.
+
+즉, 긴 문맥에서의 장점은 다음처럼 설명할 수 있습니다.
+
+- 먼 위치 정보를 중간 상태에만 희미하게 보관하지 않아도 되고
+- 현재 위치가 필요할 때 관련 위치를 더 직접 참고할 수 있습니다
+
+이 때문에 긴 문맥을 읽는 문제에서 Transformer는 강한 전환점을 만들었습니다.
+
+## 이를 아주 단순하게 그리면
+
+```mermaid
+flowchart LR
+  A["token 1"]
+  B["token 2"]
+  C["token 3"]
+  D["token 4"]
+  E["token 5"]
+
+  A --> B --> C --> D --> E
+  A -. direct reference .-> E
+```
+
+이 도식은 RNN식 순차 전달과, self-attention이 주는 더 직접적인 참조 감각을 함께 상징합니다.
+
+## 사례로 보기
+
+### 사례 1. 긴 문장 번역
+
+문장 앞부분의 주어, 부정 표현, 시제 단서가 뒤쪽 번역에 영향을 줄 때, Transformer는 먼 위치를 더 직접 참고하는 감각을 줍니다.
+
+### 사례 2. 긴 문서 요약
+
+문서 초반 핵심 문장이 뒤쪽 요약 문장 생성에 중요할 수 있습니다. self-attention은 이런 전역 참조(global reference) 직관과 잘 맞습니다.
+
+### 사례 3. 코드 생성과 분석
+
+코드에서는 먼 앞쪽의 함수 정의나 변수 선언이 뒤쪽 토큰 해석에 영향을 줄 수 있습니다. 긴 문맥 처리 능력은 여기서도 중요합니다.
+
+## 작은 Python 예제로 보기
+
+이번 예제의 목표는 `가까운 값만 누적해 보는 방식`과 `전체 중 필요한 위치를 직접 참고하는 방식`의 감각 차이를 단순화해 보는 것입니다.
+
+입력:
+
+- 순차 값 리스트
+- 마지막 값 계산에 참고할 가중치
+
+출력:
+
+- 순차 누적 상태
+- 전체 참조식 가중 평균
+
+```python
+sequence = [1.0, 2.0, 8.0, 3.0]
+
+# sequential-style accumulation intuition
+state = 0.0
+for x in sequence:
+    state = 0.6 * state + x
+
+# direct-reference attention-like intuition
+weights = [0.1, 0.2, 0.6, 0.1]
+direct_context = sum(w * x for w, x in zip(weights, sequence))
+
+print("sequential_state =", round(state, 3))
+print("direct_context =", round(direct_context, 3))
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+sequential_state = 7.056
+direct_context = 5.8
+```
+
+이 예제는 RNN이나 Transformer를 정확히 구현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
+
+- 순차 누적 방식은 모든 정보를 상태를 통해 간접적으로 전달합니다
+- direct reference 방식은 필요한 위치에 더 큰 비중을 줄 수 있습니다
+
+즉, 긴 문맥 문제를 다루는 감각 자체가 다릅니다.
+
+## 역사와 커리큘럼 관점
+
+Transformer가 attention 중심 구조와 병렬 계산의 장점을 결합하면서, 자연어 처리의 기본 계산 구조가 크게 바뀌었습니다. 이후 대규모 사전학습(pretraining), 긴 문맥 처리, LLM 확산은 모두 이 구조적 전환과 깊게 연결됩니다.
+
+커리큘럼 관점에서 이 절은 매우 중요합니다.
+
+- 왜 Transformer가 단순한 또 하나의 순차 모델이 아니었는지
+- 왜 GPU 시대와 맞물려 대규모 언어 모델이 가능해졌는지
+- 왜 Part 5의 LLM 설명이 Transformer 이후에 본격적으로 열리는지
+
+를 한 절에서 묶어 주기 때문입니다.
+
+## 다음 절과의 연결
+
+여기까지 오면 다음 질문이 남습니다.
+
+- 이렇게 강한 문맥 모델이 생겼을 때, 이제 모델은 분류만이 아니라 무엇을 생성할 수 있게 되었는가?
+- 생성 모델(generative model)은 분류 모델과 어떤 점에서 다른가?
+
+이 질문은 바로 P4-15.1 생성 모델(generative model)은 무엇을 배우는가로 이어집니다.
+
+## 이 절에서 기억할 관점
+
+- Transformer는 토큰을 순차 상태로만 전달하지 않고, 관계를 더 병렬적으로 계산합니다.
+- 이 구조는 GPU 병렬 처리와 잘 맞습니다.
+- self-attention은 먼 위치를 더 직접 참조하는 감각을 줍니다.
+- 이 차이가 LLM과 생성형 AI 확산의 핵심 기반이 됩니다.
+
+## 체크리스트
+
+- RNN과 Transformer의 계산 감각 차이를 설명할 수 있는가?
+- Transformer가 병렬 처리와 왜 잘 맞는지 말할 수 있는가?
+- 긴 문맥에서 self-attention의 장점을 초심자 수준에서 말할 수 있는가?
+- 다음 절의 생성 모델 주제로 왜 자연스럽게 이어지는지 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
+- Colin Raffel et al., `Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer`, JMLR, 2020, 확인 날짜: 2026-06-29.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

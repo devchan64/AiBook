@@ -403,6 +403,7 @@ flowchart LR
 
 - **P4-3.1 활성화 함수(activation function)**: 비선형성을 넣는 이유를 봅니다.
 - **P4-3.2 ReLU, sigmoid, tanh**: 자주 쓰이는 활성화 함수의 차이를 봅니다.
+- **P4-3.3 출력층(output layer)과 활성화의 선택**: 문제 유형에 따라 마지막 출력의 해석이 왜 달라지는지 봅니다.
 
 ### Module 2. 학습 계산
 
