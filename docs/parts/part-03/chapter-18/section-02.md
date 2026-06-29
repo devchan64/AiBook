@@ -53,7 +53,7 @@ P3-18.1에서는 차원 축소(dimensionality reduction)가 많은 특징을 더
 이 긴장을 먼저 그림으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["high-dimensional data"]
   B["reduce to 2D or 3D"]
   C["easier to inspect"]
@@ -128,7 +128,7 @@ flowchart TD
 이 감각을 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["high-dimensional relation"]
   B["project to 2D"]
   C["visual distance in 2D"]
@@ -233,7 +233,7 @@ original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3
 이 구분을 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["dimension-reduced plot"]
   B["good for exploration"]
   C["not enough for final proof"]
@@ -256,7 +256,7 @@ flowchart LR
 이를 흐름으로 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["2D or 3D view"]
   B["spot a pattern"]
   C["go back to original features"]
@@ -285,7 +285,7 @@ flowchart LR
 이 관계를 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["cluster labels"]
   B["color on 2D plot"]
   C["clear-looking separation"]
@@ -293,6 +293,12 @@ flowchart LR
 
   A --> B --> C --> D
 ```
+
+## 사례로 보기
+
+### 사례 1. 2D 그림에서 두 상품군이 멀리 보여도 원래 특징까지 바로 다르다고 단정하면 왜 위험할까
+
+상품 기획 팀이 수십 개 상품 특징을 차원 축소해 2D 그림으로 봤더니 두 점무리가 멀리 떨어져 보였다고 해 보겠습니다. 그림만 보면 `완전히 다른 상품군`처럼 보일 수 있지만, 실제 원본 특징에서는 가격대와 핵심 기능이 꽤 비슷하고 일부 보조 특징이 투영 과정에서 더 크게 드러난 것일 수도 있습니다. 반대로 그림에서 조금 겹쳐 보이는 상품도 원래 고차원 공간에서는 충분히 구분될 수 있습니다. 그래서 차원 축소 그림은 분리 가설을 만드는 데는 유용하지만, 최종 판단은 원래 특징 요약과 후속 분석으로 다시 확인해야 합니다.
 
 ## 이 절에서 기억할 관점
 

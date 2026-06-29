@@ -93,7 +93,7 @@ scikit-learn 문서는 gradient boosting 모델의 `train_score_`와 `staged_pre
 입문적으로는 다음 그림이 중요합니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["few stages<br/>underfit"]
   B["enough stages<br/>good generalization"]
   C["too many stages<br/>follow noise"]
@@ -269,6 +269,12 @@ scikit-learn 문서는 HistGradientBoostingClassifier와 HistGradientBoostingReg
 - histogram-based gradient boosting은 실무 구현에서 자주 만나는 현대적 형태입니다.
 
 즉, 16.1과 16.2에서 배우는 사고방식은 이후 XGBoost, LightGBM, CatBoost를 읽을 때도 그대로 이어집니다.
+
+## 사례로 보기
+
+### 사례 1. 사기 탐지 모델이 훈련 데이터에는 완벽해 보이는데 운영 성능은 흔들릴 때
+
+결제 사기 탐지 팀이 그래디언트 부스팅 모델을 학습했더니 훈련 데이터에서는 거의 모든 사기 거래를 맞히는 결과가 나왔다고 해 보겠습니다. 처음에는 `성능이 아주 좋다`고 보이지만, 실제 운영 데이터에서는 특정 기간의 우연한 패턴까지 따라간 탓에 오탐이 늘고 새 사기 유형을 놓칠 수 있습니다. 이때 팀은 단계 수, learning rate, 트리 깊이를 함께 줄여 보고 early stopping과 validation 점검을 붙여서, `훈련 점수`가 아니라 `처음 보는 데이터에서 유지되는 성능`을 다시 확인해야 합니다. 즉, 부스팅에서는 높은 점수 하나보다 `어디까지 보정하고 어디서 멈출지`를 관리하는 과정이 더 중요합니다.
 
 ## 이 절에서 기억할 관점
 

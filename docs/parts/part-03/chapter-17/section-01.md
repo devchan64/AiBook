@@ -89,7 +89,7 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 이 차이를 한 번 더 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph S["supervised learning"]
     S1["input data"]
     S2["given labels"]
@@ -145,7 +145,7 @@ flowchart TD
 ## 한 장면으로 먼저 보기
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["unlabeled data"]
   B["choose representation<br/>which features define similarity?"]
   C["choose grouping rule<br/>center / density / connectivity"]
@@ -177,7 +177,7 @@ flowchart LR
 이 점을 그림으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["algorithm output<br/>cluster 0 / 1 / 2"]
   B["human review"]
   C["possible business meaning<br/>VIP? casual? risk?"]
@@ -237,7 +237,7 @@ scikit-learn clustering 개요 표는 DBSCAN을 `non-flat geometry`, `uneven clu
 직관만 비교하면 다음처럼 볼 수 있습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph K["k-means intuition"]
     K1["choose k centers"]
     K2["assign each point to nearest center"]
@@ -312,6 +312,12 @@ group sizes: 3 3
 | 이상 징후 탐색 | 묶음에서 멀리 떨어진 점을 눈에 띄게 만든다 |
 
 즉, 클러스터링은 최종 의사결정 모델보다 `탐색적 분석(exploratory analysis)`에 먼저 쓰이는 경우가 많습니다.
+
+## 사례로 보기
+
+### 사례 1. 쇼핑몰 고객을 매출 순위가 아니라 이용 패턴으로 다시 묶어 보고 싶을 때
+
+온라인 쇼핑몰 팀이 고객을 볼 때 처음에는 `이번 달 구매액이 큰가` 같은 단일 기준으로만 나누기 쉽습니다. 하지만 실제로는 방문은 잦지만 소액으로 자주 사는 고객, 방문은 드물지만 한 번에 크게 사는 고객, 최근 방문이 끊긴 고객처럼 서로 다른 패턴이 섞여 있어서, 금액 하나만 보면 같은 부류로 묶여 버릴 수 있습니다. 클러스터링은 방문 수, 구매 금액, 최근 접속일 같은 특징을 함께 보고 비슷한 고객 묶음을 제안합니다. 그래서 팀은 단순 매출 순위표로는 보이지 않던 `행동 패턴 중심`의 고객 그룹을 발견하고, 이후 해석과 마케팅 전략 검토를 이어갈 수 있습니다.
 
 ## 이 절에서 기억할 관점
 

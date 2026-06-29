@@ -74,7 +74,7 @@ P3-17에서는 클러스터링(clustering)을 통해 라벨 없이 데이터 구
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["1 feature<br/>1 axis"]
   B["2 features<br/>2 axes"]
   C["3 features<br/>3 axes"]
@@ -124,7 +124,7 @@ scikit-learn 사용자 가이드는 PCA를 다변량(multivariate) 데이터셋�
 이 변환 감각을 한 번 더 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["50 original features"]
   B["10 reduced components"]
   C["2D or 3D view"]
@@ -137,7 +137,7 @@ flowchart LR
 ## 한 장면으로 먼저 보기
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["many original features"]
   B["overlap and correlation may exist"]
   C["find a smaller set of new axes"]
@@ -308,7 +308,7 @@ scikit-learn 문서도 PCA가 K-means 같은 downstream 모델에 유용할 수 
 이 연결을 그림으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["high-dimensional data"]
   B["dimension reduction"]
   C["visual inspection"]
@@ -317,6 +317,12 @@ flowchart LR
   A --> B --> C
   B --> D
 ```
+
+## 사례로 보기
+
+### 사례 1. 수십 개 고객 지표를 한눈에 보기 어려워 먼저 몇 개 축으로 줄여 보고 싶을 때
+
+고객 분석 팀이 방문 수, 구매 금액, 최근 접속, 반품 비율, 카테고리 선호도처럼 많은 지표를 한꺼번에 보고 있다고 해 보겠습니다. 숫자는 많지만 서로 비슷하게 움직이는 지표도 섞여 있어서, 원래 표만으로는 어떤 고객 흐름이 있는지 직관적으로 잡기 어렵습니다. 차원 축소는 이런 여러 지표를 몇 개의 새 축으로 다시 묶어, `활동성`, `구매 규모`, `최근성`처럼 큰 변동 흐름을 더 압축된 형태로 보게 도와줍니다. 그래서 팀은 원래 표에서는 보이지 않던 전체 구조를 먼저 보고, 이후 군집화나 후속 모델링에 쓸 표현을 더 단순하게 준비할 수 있습니다.
 
 ## 이 절에서 기억할 관점
 

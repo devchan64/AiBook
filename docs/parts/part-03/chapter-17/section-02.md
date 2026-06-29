@@ -50,7 +50,7 @@ P3-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 이 위험 흐름을 먼저 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["cluster output"]
   B["looks plausible"]
   C["attach meaning too quickly"]
@@ -99,7 +99,7 @@ flowchart LR
 즉, `cluster 2가 cluster 1보다 크다` 같은 해석은 보통 의미가 없습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["cluster 0"]
   B["cluster 1"]
   C["cluster 2"]
@@ -175,7 +175,7 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 이 감각을 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["same data"]
   B["change k / eps / min_samples"]
   C["different grouping"]
@@ -227,7 +227,7 @@ flowchart LR
 업무 연결에서의 안전한 흐름은 다음에 가깝습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["cluster result"]
   B["describe each group"]
   C["check with domain data"]
@@ -293,7 +293,7 @@ note: cluster IDs are labels for groups, not ranks.
 이 흐름을 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["cluster result"]
   B["summarize each group"]
   C["check robustness<br/>features / scaling / parameters"]
@@ -317,6 +317,12 @@ flowchart LR
 | P3-17.2 | 찾은 구조를 어떻게 과신하지 않고 읽을 것인가 |
 
 이 두 절을 함께 이해해야 클러스터링을 실무에서 안전하게 다룰 수 있습니다.
+
+## 사례로 보기
+
+### 사례 1. 군집 번호를 바로 고객 등급으로 써서 쿠폰 정책을 만들면 왜 위험할까
+
+마케팅 팀이 고객 데이터를 군집화한 뒤 `cluster 2` 고객에게만 큰 할인 쿠폰을 자동 발송하려 한다고 해 보겠습니다. 하지만 이 번호는 단지 알고리즘이 붙인 식별자일 뿐이고, 다른 특징 선택이나 다른 `k` 값으로 다시 돌리면 같은 고객들이 다른 번호를 받을 수도 있습니다. 더구나 현재 군집이 실제 이탈 위험이나 장기 가치와 연결되는지도 검증되지 않았다면, 쿠폰 비용만 늘고 핵심 고객은 놓칠 수 있습니다. 그래서 군집 결과는 바로 정책 규칙으로 쓰기보다, 각 군집의 특성을 요약하고 후속 성과 지표와 대조하는 검토 단계를 먼저 거쳐야 합니다.
 
 ## 이 절에서 기억할 관점
 

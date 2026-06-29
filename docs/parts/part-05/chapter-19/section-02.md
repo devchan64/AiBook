@@ -59,6 +59,19 @@ P5-19.1에서는 BERT 계열을 Transformer 인코더 기반의 표현 모델로
 
 으로 이어지는 작업입니다.
 
+## 입력과 출력으로 다시 보면
+
+이 흐름은 `문장을 보고 다음 문장을 길게 이어 쓰는가`보다 `입력을 보고 어떤 판단 결과를 내는가`로 보면 더 빨리 잡힙니다.
+
+| 작업 | 입력 | 출력 |
+| --- | --- | --- |
+| 분류 | 문장 하나 | 라벨 |
+| 문장쌍 판단 | 문장 두 개 | related / not related 같은 관계 라벨 또는 점수 |
+| 검색 랭킹 | 질문과 문서 후보 | 관련도 점수, 정렬 순서 |
+| 임베딩 | 문장이나 문서 | 벡터 표현 |
+
+즉, 이해 중심 태스크의 출력은 대개 `다음 문장`이 아니라 `판단을 위한 결과물`입니다.
+
 ## 대표적인 작업 1. 문서 분류와 감성 분류
 
 가장 익숙한 예는 분류(classification)입니다.
@@ -174,6 +187,7 @@ flowchart TD
 
 - 문장과 라벨
 - 문장쌍 유사 여부 예시
+- 검색용 관련도 판단 예시
 
 ```python
 classification_examples = [
@@ -186,6 +200,11 @@ pair_examples = [
     ("환불은 언제 되나요?", "오늘 날씨가 좋네요", "not_related"),
 ]
 
+ranking_examples = [
+    ("퇴사 전에 장비를 어디에 반납하나요?", "오프보딩 장비 반납 안내", "high_relevance"),
+    ("퇴사 전에 장비를 어디에 반납하나요?", "법인카드 사용 정산 가이드", "low_relevance"),
+]
+
 print("[classification]")
 for text, label in classification_examples:
     print(text, "->", label)
@@ -193,6 +212,10 @@ for text, label in classification_examples:
 print("[pair relation]")
 for left, right, tag in pair_examples:
     print(left, "|", right, "->", tag)
+
+print("[ranking]")
+for query, doc, tag in ranking_examples:
+    print(query, "|", doc, "->", tag)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -204,12 +227,16 @@ for left, right, tag in pair_examples:
 [pair relation]
 비밀번호를 변경하고 싶어요 | 비밀번호를 다시 설정하려면 어떻게 하나요? -> related
 환불은 언제 되나요? | 오늘 날씨가 좋네요 -> not_related
+[ranking]
+퇴사 전에 장비를 어디에 반납하나요? | 오프보딩 장비 반납 안내 -> high_relevance
+퇴사 전에 장비를 어디에 반납하나요? | 법인카드 사용 정산 가이드 -> low_relevance
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 이해 중심 태스크는 대개 `판단 결과`를 출력합니다
 - 생성형 모델처럼 긴 답변을 만드는 것이 중심은 아닙니다
+- 분류, 관계 판단, 검색 랭킹도 모두 같은 `읽고 점수나 라벨을 내는 흐름`으로 묶을 수 있습니다
 - BERT 계열은 이런 판단 작업과 잘 맞습니다
 
 ## 사례로 다시 묶어 보기

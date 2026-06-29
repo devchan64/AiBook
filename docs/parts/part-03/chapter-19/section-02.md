@@ -57,7 +57,7 @@ P3-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["state<br/>robot arm position"]
   B["policy output<br/>action distribution or control value"]
   C["small turn left"]
@@ -157,7 +157,7 @@ flowchart TB
 REINFORCE를 에피소드 흐름으로 아주 짧게 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["episode rollout<br/>collect actions and rewards"]
   B["compute return<br/>which actions ended well?"]
   C["increase probability<br/>for helpful choices"]
@@ -197,7 +197,7 @@ actor-critic을 다음처럼 읽으면 좋습니다.
 즉, actor-critic은 정책 기반 접근과 가치 추정 접근을 섞은 구조입니다.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["state<br/>current situation"]
   B["actor<br/>choose action by policy"]
   C["environment<br/>next state and reward"]
@@ -333,6 +333,12 @@ actor-critic이 자주 쓰이는 이유는 `정책을 직접 조정하는 자유
 - critic은 그 실행안이 기대보다 나았는지 못했는지 피드백을 주는 쪽
 
 물론 이는 단지 구조 감각을 돕는 비유입니다. 실제 조직의 사람 역할과 강화학습 구성 요소를 그대로 대응시키면 오해가 생깁니다.
+
+## 사례로 보기
+
+### 사례 1. 로봇 팔이 집기 각도를 조금씩 조정해야 할 때 정책을 직접 배우는 편이 자연스러운 이유
+
+로봇 팔이 상자를 집을 때는 `왼쪽`이나 `오른쪽`처럼 몇 개 행동만 고르는 것이 아니라, 각도와 힘을 얼마나 줄지 연속적으로 정해야 합니다. 이런 상황에서 모든 가능한 행동의 점수를 표처럼 적어 두기보다는, 현재 상태에서 어떤 각도와 힘이 더 자주 나오게 할지 정책 자체를 조정하는 편이 더 자연스럽습니다. 정책 기반 강화학습은 성공적으로 집은 동작의 확률을 높이고 실패한 동작의 확률을 낮추면서, 행동 분포를 직접 다듬어 갑니다. 그래서 복잡한 연속 제어 문제에서는 `점수표를 만든 뒤 최고값을 고르는 방식`보다 `행동 방식을 바로 수정하는 방식`이 더 잘 맞을 수 있습니다.
 
 ## 이 절에서 기억할 관점
 
