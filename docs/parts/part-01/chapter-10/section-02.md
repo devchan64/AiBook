@@ -17,7 +17,7 @@
 
 ## 이 절의 범위
 
-이 절은 생성형 AI의 세부 알고리즘을 설명하지 않습니다. 다음 내용은 뒤에서 다시 다룹니다.
+이 절은 생성형 AI의 세부 알고리즘을 설명하지 않습니다. 토큰화(tokenization)와 다음 토큰 예측(next-token prediction)은 Part 5의 P5-1.2와 P5-8.1에서, sampling·temperature·top-k·top-p는 P4-15.2와 P5-8.2에서, diffusion model의 구조는 이 책의 현재 본편 범위 밖에서, Transformer 구조는 11.3과 Part 4의 P4-14에서, 프롬프트(prompt)와 평가는 12.1부터 12.3에서 다시 다룹니다.
 
 - 토큰화(tokenization)
 - 다음 토큰 예측(next-token prediction)
