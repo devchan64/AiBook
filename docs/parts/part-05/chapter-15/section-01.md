@@ -215,7 +215,7 @@ output = 환불 정책은 14일로 변경되었습니다.
 evaluation = {'correctness': 'check_document', 'helpfulness': 'looks_good', 'groundedness': 'needs_source_match', 'format': 'plain_sentence_ok'}
 ```
 
-이 예제는 하나의 출력도 여러 기준으로 따로 봐야 한다는 점을 보여 줍니다.
+그래서 이 예제에서 확인해야 할 결과는 하나의 출력 문장도 정확성, 근거성, 형식성 같은 여러 축에서 서로 다른 판정을 받을 수 있다는 점입니다.
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 

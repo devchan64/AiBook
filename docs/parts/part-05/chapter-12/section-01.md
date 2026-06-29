@@ -220,7 +220,7 @@ tool_call = {'tool': 'exchange_rate_lookup', 'arguments': {'city': 'Seoul', 'dat
 next_step = application executes the tool
 ```
 
-이 예제는 모델이 최종 답을 바로 쓴 것이 아니라, 먼저 어떤 외부 기능을 써야 하는지 구조화된 요청을 만들 수 있다는 점을 보여 줍니다.
+그래서 이 예제에서 확인해야 할 결과는 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청 형태로 먼저 나타나는가입니다.
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 

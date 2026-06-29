@@ -16,7 +16,7 @@ MCP(Model Context Protocol)는 AI 애플리케이션(application)이 외부 시�
 
 ## 이 절의 범위
 
-이 절은 MCP(Model Context Protocol)의 기본 역할과 구조를 설명합니다. MCP 서버 구현, SDK 사용법, JSON-RPC 메시지 상세, OAuth 인증 흐름은 다루지 않습니다. 하네스(harness), 평가(evaluation), 실행 로그(log)는 14.5에서 다룹니다. 보안(security)과 개인정보(privacy)의 세부 쟁점은 15장에서 다시 다룹니다.
+이 절은 MCP(Model Context Protocol)의 기본 역할과 구조를 설명합니다. MCP 서버 구현, SDK 사용법, JSON-RPC 메시지 상세, OAuth 인증 흐름은 다루지 않습니다. 하네스(harness), 평가(evaluation), 실행 로그(log)는 14.5에서 다룹니다. 보안(security)과 개인정보(privacy)의 세부 쟁점은 15.1, 15.2, 15.3에서 다시 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |

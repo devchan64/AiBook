@@ -14,7 +14,7 @@
 
 ## 이 절의 범위
 
-이 절은 프롬프트의 한계와 검토 기준을 다룹니다. RAG(retrieval-augmented generation), 벡터 검색(vector search), 도구 사용(tool use), 에이전트(agent), 하네스(harness)는 자세히 다루지 않습니다. 그런 구조는 다음 장에서 다룹니다.
+이 절은 프롬프트의 한계와 검토 기준을 다룹니다. RAG(retrieval-augmented generation), 벡터 검색(vector search), 도구 사용(tool use), 에이전트(agent), 하네스(harness)는 자세히 다루지 않습니다. 그런 구조는 바로 다음 장의 P1-13 검색 증강 생성과 도구 사용, 그리고 P1-14 에이전트와 하네스에서 다시 다룹니다.
 
 여기서는 다음 질문에 집중합니다.
 

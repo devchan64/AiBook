@@ -180,7 +180,7 @@ automatic_checks = ['has_source_hint', 'format_ok', 'length_ok']
 human_checks = ['is_the_tone_clear', 'is_the_summary_misleading', 'is_it_actually_helpful']
 ```
 
-이 예제는 자동 평가와 사람 평가가 같은 일을 하는 것이 아니라, 서로 다른 질문을 던진다는 점을 보여 줍니다.
+그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·표면 조건을 빠르게 보고, 사람 평가는 실제 도움성과 오해 가능성을 따로 본다는 점입니다.
 
 ## 역사와 커리큘럼 관점
 

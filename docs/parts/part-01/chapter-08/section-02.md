@@ -15,7 +15,7 @@
 
 이 절은 비지도학습 알고리즘을 계산하지 않습니다. K-평균(k-means), 계층적 군집화(hierarchical clustering), 주성분 분석(PCA, principal component analysis), t-SNE, 오토인코더(autoencoder)는 이름과 역할만 지나갑니다.
 
-또한 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표, 매니폴드 학습(manifold learning)은 자세히 다루지 않습니다. 이 주제들은 Part 3의 머신러닝 장에서 다시 다룹니다.
+또한 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표, 매니폴드 학습(manifold learning)은 자세히 다루지 않습니다. 이 주제들은 Part 3의 P3-17 클러스터링, P3-18 차원 축소에서 다시 다루고, 매니폴드 학습의 세부 수학은 현재 본편 범위 밖에 둡니다.
 
 여기서는 다음 정도만 잡습니다.
 

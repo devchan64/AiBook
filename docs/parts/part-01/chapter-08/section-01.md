@@ -19,7 +19,7 @@
 
 이 절은 지도학습 알고리즘을 계산하지 않습니다. 선형 회귀(linear regression), 로지스틱 회귀(logistic regression), 결정트리(decision tree), 서포트 벡터 머신(support vector machine), 신경망(neural network)은 이름만 지나갑니다.
 
-또한 손실 함수(loss function), 경사하강법(gradient descent), 검증 데이터(validation data), 과적합(overfitting)은 자세히 다루지 않습니다. 이 주제들은 Part 3의 머신러닝 장에서 다시 다룹니다.
+또한 손실 함수(loss function), 경사하강법(gradient descent), 검증 데이터(validation data), 과적합(overfitting)은 자세히 다루지 않습니다. 이 주제들은 Part 3의 P3-4 데이터 분리와 검증, P3-5 과적합과 일반화, Part 4의 최적화와 학습 장에서 다시 다룹니다.
 
 여기서는 다음 정도만 잡습니다.
 
