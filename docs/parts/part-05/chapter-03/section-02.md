@@ -178,7 +178,7 @@ selected_context =
 
 초기 언어 모델에서는 이렇게 긴 문맥 관리 문제가 지금처럼 실무 전면에 드러나지 않았습니다. 하지만 Transformer와 LLM이 긴 입력을 다루는 범용 구조가 되면서, 이제 문맥 길이 관리 자체가 중요한 설계 주제가 되었습니다.
 
-커리큘럼 관점에서 이 절은 매우 중요합니다.
+커리큘럼 관점에서 이 절에서 확인해야 할 결과는 Transformer 구조를 실제 사용 제약과 연결해, 이후 RAG, prompt 설계, tool use, agent loop에서 왜 입력 선택이 중요해지는지 설명할 수 있게 되는가입니다.
 
 - Transformer 구조를 실제 사용 제약과 연결하고
 - 이후 RAG, prompt 설계, tool use, agent loop에서 왜 입력 선택이 중요한지 설명하며

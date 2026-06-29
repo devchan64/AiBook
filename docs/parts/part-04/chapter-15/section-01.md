@@ -193,7 +193,7 @@ samples = ['good', 'sunny', 'good', 'nice', 'good', 'good', 'nice', 'good', 'sun
 
 ## 역사와 커리큘럼 관점
 
-생성 모델은 딥러닝이 분류 중심에서 더 넓은 표현과 출력 생성 문제로 확장되는 흐름을 보여 줍니다. GAN, VAE, autoregressive language model, diffusion model 같은 다양한 구조가 등장했지만, 공통 질문은 비슷합니다.
+생성 모델에서 확인해야 할 흐름은 딥러닝의 중심 질문이 `라벨을 얼마나 잘 맞히는가`에서 `데이터 패턴을 바탕으로 새 출력을 얼마나 자연스럽게 만들 수 있는가`로 넓어졌다는 점입니다. GAN, VAE, autoregressive language model, diffusion model 같은 다양한 구조가 등장했지만, 공통 질문은 비슷합니다.
 
 `데이터 패턴을 얼마나 잘 배우고, 그 패턴을 바탕으로 얼마나 자연스러운 새 출력을 만들 수 있는가?`
 

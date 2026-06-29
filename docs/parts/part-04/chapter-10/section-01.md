@@ -252,7 +252,7 @@ representation =
 
 를 하나의 축으로 설명할 수 있기 때문입니다.
 
-역사적으로도 이 개념은 feature engineering 중심 사고에서 data-driven internal representation 학습으로 옮겨 간 전환을 보여 줍니다. 딥러닝의 성과를 단순히 GPU나 규모로만 설명하면 절반만 설명한 셈이고, 표현 학습까지 함께 보아야 흐름이 완성됩니다.
+역사적으로 이 개념에서 확인해야 할 전환은 feature engineering 중심 사고에서 data-driven internal representation 학습으로 무게중심이 옮겨 갔다는 점입니다. 딥러닝의 성과를 단순히 GPU나 규모로만 설명하면 절반만 설명한 셈이고, 표현 학습까지 함께 보아야 흐름이 완성됩니다.
 
 ## 다음 절과의 연결
 

@@ -239,10 +239,10 @@ Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 �
 
 ## 이 절에서 기억할 관점
 
-- Transformer는 self-attention, feed-forward, residual connection, layer normalization의 조합으로 이해할 수 있습니다.
+- Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
 - self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
 - residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
-- 이 블록 구조가 이후 LLM의 기본 언어가 됩니다.
+- 이 블록 구조를 이해하면 이후 LLM 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
 
 ## 체크리스트
 
