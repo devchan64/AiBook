@@ -23,9 +23,9 @@ Transformer는 토큰을 순서대로만 상태 전달하지 않고 서로의 �
 - long-context optimization의 최신 기법
 - KV cache나 sparse attention 구현 상세
 
-attention complexity의 상세 빅오 비교는 여기서 전개하지 않습니다. 대신 context window와 LLM 사용 제약은 Part 5의 P5-3.2에서 다시 연결하고, KV cache와 long-context 최적화 세부는 현재 본편 범위 밖으로 둡니다. sparse attention 구현 상세도 이 책의 현재 본편 범위 밖에 둡니다.
+attention complexity의 상세 빅오 비교는 여기서 전개하지 않습니다. 대신 context window와 LLM 사용 제약은 Part 5의 P5-3.2에서 다시 연결하고, KV cache, sparse attention, long-context 최적화 세부는 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절에서는 `RNN 대 Transformer`를 수학적으로 완전히 비교하기보다, 큰 구조 차이를 입문 수준에서 이해합니다. context window와 LLM 사용 제약은 Part 5의 P5-3.2에서 다시 연결하고, KV cache와 long-context 최적화 세부는 이 책의 현재 본편 범위 밖에 둡니다.
+이 절에서는 `RNN 대 Transformer`를 수학적으로 완전히 비교하기보다, 큰 구조 차이를 먼저 이해합니다.
 
 ## 이 절의 목표
 
