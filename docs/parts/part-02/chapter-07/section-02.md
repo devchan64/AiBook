@@ -12,7 +12,7 @@ P2-7.1에서는 코드가 실행되는 자리를 먼저 봤습니다. 이제는 
 
 ## 이 절의 범위
 
-이 절은 터미널 사용법 전체를 가르치지 않습니다. 운영체제별 터미널을 여는 방법, 화면 구성, 기본 단축키, Windows와 macOS/Linux 명령 차이는 P2-7.6 보충학습으로 넘깁니다. 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 권한(permission), 환경 변수(environment variable)도 깊게 다루지 않습니다.
+이 절은 터미널 사용법 전체를 가르치지 않습니다. 운영체제별 터미널을 여는 방법, 화면 구성, 기본 단축키, Windows와 macOS/Linux 명령 차이는 P2-7.6 보충학습으로 넘깁니다. 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 권한(permission), 환경 변수(environment variable)는 P2-7.8 보충학습에서 따로 회수합니다.
 
 여기서는 다음 질문에만 답합니다.
 

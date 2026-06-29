@@ -17,7 +17,7 @@ P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory
 - Windows 명령과 macOS/Linux 명령은 왜 조금 다른가?
 - 복사해서 붙여넣는 명령을 실행할 때 무엇을 조심해야 하는가?
 
-셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 관리자 권한, 환경 변수(environment variable)는 깊게 다루지 않습니다. 이 내용은 나중에 프로젝트 실습에서 필요할 때 다시 다룹니다.
+셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 관리자 권한, 환경 변수(environment variable)는 이 절에서 깊게 다루지 않습니다. 이 표현들은 P2-7.8 보충학습에서 따로 회수하고, Part 6에서는 프로젝트 문맥에서 권한과 로그를 다시 연결합니다.
 
 ## 이 절의 목표
 

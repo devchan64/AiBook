@@ -26,7 +26,7 @@ P3-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오�
 - nested cross-validation의 세부 절차
 - 분산 튜닝 인프라와 실험 추적 시스템
 
-그 내용은 뒤의 알고리즘 절이나 프로젝트 파트에서 다시 다룰 수 있습니다.
+Bayesian optimization, Hyperband, nested cross-validation, 실험 추적과 분산 튜닝의 큰 그림은 P3-9.3 보충학습에서 다시 정리합니다.
 
 ## 이 절의 목표
 

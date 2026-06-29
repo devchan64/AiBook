@@ -142,6 +142,7 @@ nav:
           - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-05/section-02.md
           - "P2-5.3 표본(sample), 추정(estimation), 오차(error)": parts/part-02/chapter-05/section-03.md
           - "P2-5.4 확률과 통계를 작은 데이터로 확인하기": parts/part-02/chapter-05/section-04.md
+          - "P2-5.5 보충학습: 표준편차, 상관, 신뢰구간을 처음 읽는 법": parts/part-02/chapter-05/section-05.md
       - Chapter 6. 최적화는 어떤 문제를 푸는가:
           - "P2-6.1 최적화(optimization)는 무엇을 찾는가": parts/part-02/chapter-06/section-01.md
           - "P2-6.2 손실 함수(loss function)와 목적 함수(objective function)": parts/part-02/chapter-06/section-02.md
@@ -154,6 +155,7 @@ nav:
           - "P2-7.5 의존성(dependency)과 재현성(reproducibility)": parts/part-02/chapter-07/section-05.md
           - "P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법": parts/part-02/chapter-07/section-06.md
           - "P2-7.7 보충학습: Python 설치는 언제 필요한가": parts/part-02/chapter-07/section-07.md
+          - "P2-7.8 보충학습: 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 환경 변수(environment variable)를 처음 읽는 법": parts/part-02/chapter-07/section-08.md
       - Chapter 8. Python 핵심 문법 복습:
           - "P2-8.1 값(value), 변수(variable), 타입(type)": parts/part-02/chapter-08/section-01.md
           - "P2-8.2 리스트(list): 순서가 있는 값 묶음": parts/part-02/chapter-08/section-02.md
@@ -211,15 +213,18 @@ nav:
           - "P3-6.1 평가 지표(metric)의 역할": parts/part-03/chapter-06/section-01.md
           - "P3-6.2 문제 유형별 평가 기준": parts/part-03/chapter-06/section-02.md
           - "P3-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법": parts/part-03/chapter-06/section-03.md
+          - "P3-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법": parts/part-03/chapter-06/section-04.md
       - Chapter 7. 특징 선택과 전처리 휴리스틱:
           - "P3-7.1 특징 선택(feature selection)": parts/part-03/chapter-07/section-01.md
           - "P3-7.2 전처리(preprocessing)": parts/part-03/chapter-07/section-02.md
+          - "P3-7.3 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법": parts/part-03/chapter-07/section-03.md
       - Chapter 8. 모델 선택 휴리스틱:
           - "P3-8.1 모델 선택(model selection)": parts/part-03/chapter-08/section-01.md
           - "P3-8.2 기준 모델(baseline)": parts/part-03/chapter-08/section-02.md
       - Chapter 9. 하이퍼파라미터 튜닝:
           - "P3-9.1 하이퍼파라미터(hyperparameter)": parts/part-03/chapter-09/section-01.md
           - "P3-9.2 튜닝(tuning)과 검증 비용": parts/part-03/chapter-09/section-02.md
+          - "P3-9.3 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기": parts/part-03/chapter-09/section-03.md
       - Chapter 10. 선형회귀:
           - "P3-10.1 선형회귀(linear regression)의 직관": parts/part-03/chapter-10/section-01.md
           - "P3-10.2 선형회귀의 평가와 한계": parts/part-03/chapter-10/section-02.md
