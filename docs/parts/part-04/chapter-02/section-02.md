@@ -25,7 +25,7 @@ P4-2.1에서는 다층 신경망(multilayer neural network)이 퍼셉트론 같�
 - 임베딩(embedding)의 수학적 성질
 - 해석 가능성(interpretability) 연구의 세부 기법
 
-표현 학습(representation learning)이라는 더 큰 흐름은 P4-10장에서 다시 확장합니다. 여기서는 먼저 은닉층이 왜 중요한지 직관을 잡습니다.
+표현 학습(representation learning)이라는 더 큰 흐름은 P4-10.1, P4-10.2에서 다시 확장합니다. CNN에서의 필터와 공간 표현은 P4-11.1, P4-11.2에서, attention 기반 표현은 P4-13.1, P4-13.2와 P4-14.1, P4-14.2에서 다시 연결합니다. 해석 가능성(interpretability) 연구의 세부 기법은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

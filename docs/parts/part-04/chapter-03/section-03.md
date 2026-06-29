@@ -24,7 +24,7 @@ P4-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 - calibration과 uncertainty estimation의 심화 논의
 - 다중 라벨 분류(multi-label classification)의 세부 구현
 
-손실 함수 자체의 설계는 P4-4.1과 P4-4.2에서 이어서 다룹니다.
+손실 함수 자체의 설계는 P4-4.1과 P4-4.2에서 이어서 다루고, calibration의 기초 읽기와 확률 출력 해석은 P3-6.4에서 다시 연결합니다. uncertainty estimation의 심화 논의와 다중 라벨 분류의 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
