@@ -32,6 +32,14 @@ P2-11장에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axi
 - 머신러닝 데이터셋에서 한 행은 하나의 사례(case) 또는 샘플(sample), 한 열은 하나의 변수(variable) 또는 특징(feature)으로 읽을 수 있음을 설명할 수 있습니다.
 - DataFrame을 처음 받았을 때 `shape`, `columns`, `index`, `dtypes`, `head()`를 왜 먼저 확인하는지 설명할 수 있습니다.
 
+## 초심자가 먼저 붙잡을 세 가지
+
+| 질문 | 먼저 잡을 관점 |
+| --- | --- |
+| DataFrame은 무엇인가? | 이름표가 붙은 2차원 표입니다. |
+| 배열과 무엇이 다른가? | 행과 열 이름, 서로 다른 타입의 열을 함께 다루기 쉽습니다. |
+| 어떻게 읽기 시작해야 하나? | 한 행은 한 사례, 한 열은 한 변수라는 관점부터 잡습니다. |
+
 ## DataFrame은 라벨이 붙은 2차원 표다
 
 Pandas 공식 문서는 `DataFrame`을 2차원(two-dimensional), 크기 변경 가능(size-mutable), 잠재적으로 서로 다른 타입을 함께 담을 수 있는(potentially heterogeneous) 표 형식(tabular) 데이터라고 설명합니다. 또한 행과 열에 라벨이 붙어 있고, 연산은 이 라벨을 기준으로 정렬(alignment)될 수 있다고 설명합니다.
