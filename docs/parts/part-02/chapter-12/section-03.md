@@ -8,7 +8,7 @@ P2-12.1에서는 `DataFrame`을 표 형식 데이터 구조로 읽었습니다. 
 
 ## 이 절의 범위
 
-이 절은 데이터 전처리(preprocessing)의 모든 기법을 다루지 않습니다. 결측치(missing value) 처리의 세부 전략, 정규화(normalization), 스케일링(scaling), 인코딩(encoding) 비교, 파이프라인(pipeline) 구현, 교차검증(cross-validation) 세부 절차는 이후 Part에서 필요한 만큼 다시 다룹니다.
+이 절은 데이터 전처리(preprocessing)의 모든 기법을 다루지 않습니다. 결측치(missing value) 처리, 스케일링(scaling), 인코딩(encoding)의 입문 흐름은 Part 3의 P3-7.2에서 다시 다루고, 교차검증(cross-validation) 세부 절차는 P3-4.2와 P3-9.2에서 다시 연결합니다. 파이프라인(pipeline) 구현과 더 넓은 자동화 구조는 이 책의 현재 본편 범위 밖에 둡니다.
 
 여기서는 다음 질문에 답합니다.
 
