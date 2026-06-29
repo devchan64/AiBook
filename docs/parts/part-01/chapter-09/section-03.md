@@ -18,7 +18,7 @@
 
 이 절은 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 P1-11부터 P1-14, 그리고 Part 5에서 더 자세히 다룹니다.
 
-여기서는 Chapter 9의 마무리로 두 가지 역할만 맡습니다.
+여기서는 P1-9의 마무리로 두 가지 역할만 맡습니다.
 
 첫째, LLM의 직접 계보(direct lineage)를 언어 모델링(language modeling)과 순차 모델링(sequence modeling) 쪽에 놓습니다. 둘째, AI 전체를 LLM과 같은 뜻으로 줄여 말하지 않도록 경계를 둡니다.
 
