@@ -342,6 +342,7 @@ nav:
       - Chapter 9. 파인튜닝:
           - "P5-9.1 파인튜닝(fine-tuning)": parts/part-05/chapter-09/section-01.md
           - "P5-9.2 LoRA와 효율적 조정": parts/part-05/chapter-09/section-02.md
+          - "P5-9.3 보충학습: LoRA, adapter, QLoRA를 처음 구분하는 법": parts/part-05/chapter-09/section-03.md
       - Chapter 10. 지시 튜닝과 정렬:
           - "P5-10.1 지시 튜닝(instruction tuning)": parts/part-05/chapter-10/section-01.md
           - "P5-10.2 정렬(alignment)의 기본 문제": parts/part-05/chapter-10/section-02.md

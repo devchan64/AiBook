@@ -35,14 +35,27 @@ BERT 계열은 Transformer의 인코더(encoder)를 중심으로 입력 전체 �
 
 ## BERT는 무엇의 약자인가
 
-BERT는 `Bidirectional Encoder Representations from Transformers`의 약자입니다. 이름만 풀어도 이 모델의 핵심이 드러납니다.
+BERT는 `Bidirectional Encoder Representations from Transformers`의 약자입니다. 하지만 약어를 한 번에 보면 오히려 더 낯설 수 있습니다. 이 절에서는 이름을 외우기보다 `왜 이런 단어들이 붙었는가`를 먼저 읽는 편이 좋습니다.
 
 - bidirectional
 - encoder
 - representations
 - Transformers
 
-즉, BERT는 Transformer 인코더를 사용해 입력 전체 문맥을 반영한 표현(representation)을 만드는 흐름입니다.
+각 단어를 아주 짧게 풀면 다음과 같습니다.
+
+| 단어 | 여기서 읽어야 할 뜻 |
+| --- | --- |
+| bidirectional | 앞 문맥과 뒤 문맥을 함께 본다 |
+| encoder | 입력을 읽어 표현으로 바꾼다 |
+| representations | 분류, 검색, 비교에 다시 쓸 수 있는 문맥 표현을 만든다 |
+| Transformers | 그 표현을 만드는 기본 구조가 Transformer다 |
+
+즉, BERT는 `문장 전체를 함께 읽는 Transformer 인코더가, 문맥을 반영한 표현을 만든다`는 생각을 이름 안에 담고 있습니다.
+
+이 절에서는 다음 한 줄로 먼저 기억해도 충분합니다.
+
+`BERT는 문장을 끝까지 읽고, 그 문장을 나중 작업에 다시 쓸 수 있는 표현으로 바꾸는 모델 흐름이다.`
 
 ## 왜 `입력 전체를 본다`고 설명하나
 
@@ -110,10 +123,12 @@ BERT 계열의 핵심 직관은 다음과 같습니다.
 
 즉, GPT가 넓은 생성 인터페이스를 열었다고 해서 BERT 계열의 위치가 사라진 것은 아닙니다.
 
+이 점은 챗봇용 인텐트 분석 도구를 떠올려 보면 더 쉽게 잡힙니다. 상용 클라우드 서비스에서도 사용자의 문장을 읽고 `환불 요청`, `배송 조회`, `비밀번호 재설정` 같은 의도(intent) 라벨을 붙이는 기능이 자주 등장합니다. 제품 화면과 설정 방식은 자주 바뀌지만, 중심 구조는 여전히 `입력을 읽고 적절한 라벨이나 관련도를 판단한다`는 흐름에 가깝습니다.
+
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["input tokens"]
   B["encoder Transformer layers"]
   C["contextual token representations"]
@@ -128,61 +143,89 @@ flowchart LR
 
 ### 사례 1. 문서 분류
 
-고객 문의를 `환불`, `배송`, `계정`, `오류` 같은 라벨로 나누는 작업은 입력 전체를 읽어 대표 표현을 뽑는 흐름과 잘 맞습니다.
+고객 지원 팀이 들어오는 문의를 `환불`, `배송`, `계정`, `오류` 같은 라벨로 자동 분류한다고 해 봅시다. 사람이 규칙으로 만들면 `환불`이라는 단어가 들어 있으면 환불 문의로 보내는 식으로 시작할 수 있습니다. 하지만 실제 문장에는 `돈이 다시 언제 들어오나요`, `결제를 취소했는데 처리 상태를 모르겠어요`처럼 같은 의도를 다른 표현으로 말하는 경우가 많습니다. BERT 계열 표현 모델은 문장 전체를 읽고 이런 표현을 비슷한 업무 의도로 연결하기 쉬워서, 단순 키워드 규칙보다 더 안정적으로 라벨링 흐름에 붙일 수 있습니다.
 
 ### 사례 2. 검색 랭킹
 
-사용자 질문과 문서 제목, 본문을 비교해 관련도를 판단하는 일도 encoder 중심 표현 모델과 잘 맞습니다.
+사내 문서 검색에서 사용자가 `퇴사 전에 장비 반납은 어디서 하나요`라고 묻는 장면을 생각해 볼 수 있습니다. 사람이 만든 키워드 규칙은 `장비`, `반납`이 들어간 문서만 찾다가 `오프보딩 절차`, `퇴사 체크리스트`처럼 다른 표현의 문서를 놓칠 수 있습니다. encoder 계열 모델은 질문 전체와 문서 전체를 함께 읽어 `퇴사 절차 안의 장비 반납`이라는 관계를 더 잘 잡을 수 있어서, 단순 키워드 일치보다 관련도 판단에 유리합니다.
 
 ### 사례 3. 문장 유사도
 
-두 문장이 같은 의도를 말하는지, 질문과 답이 맞는지 판단하는 작업 역시 BERT 계열 표현을 활용하기 좋습니다.
+챗봇 운영자가 `비밀번호를 바꾸고 싶어요`와 `로그인 암호를 다시 설정하려면 어떻게 하나요?`를 같은 의도로 묶고 싶다고 해 봅시다. 표면 단어는 다르지만 사용자가 하려는 일은 거의 같습니다. 반대로 `비밀번호를 바꾸고 싶어요`와 `로그인이 계속 실패합니다`는 비슷해 보여도 실제 업무 처리 단계가 다를 수 있습니다. BERT 계열은 두 문장을 각각 읽거나 함께 읽으면서 이런 유사도와 차이를 판단하는 작업에 잘 맞습니다.
+
+### 사례 4. 클라우드 챗봇의 인텐트 분류
+
+상용 챗봇 플랫폼에서는 사용자의 발화를 미리 정한 intent 라벨로 보내는 구성이 흔합니다. 예를 들어 `주문을 취소하고 싶어요`, `배송이 아직 안 왔어요`, `카드 청구 내역을 확인하고 싶어요` 같은 문장을 각각 다른 처리 흐름으로 연결해야 합니다. 이때 중요한 일은 긴 답변을 생성하는 것이 아니라, 입력 문장을 읽고 `어느 업무 흐름으로 보내야 하는가`를 판단하는 것입니다. 그래서 챗봇용 인텐트 분석 도구를 떠올리면 BERT 계열이 왜 `읽고 분류하는 쪽`에 가깝게 설명되는지 감각을 잡기 쉽습니다.
 
 ## 작은 Python 예제로 보기
 
-이번 예제의 목표는 BERT를 구현하는 것이 아니라, `입력 전체를 읽어 분류로 연결하는 과업`의 감각을 잡는 것입니다.
+이번 예제의 목표는 BERT를 구현하는 것이 아니라, `문장 전체 문맥을 읽어 같은 표면 단어도 다르게 해석할 수 있다`는 점과 `그 해석이 분류 과업으로 이어진다`는 점을 함께 보는 것입니다.
 
 입력:
 
-- 짧은 문의 문장 목록
-- 라벨
+- 같은 단어가 들어가지만 의미가 다른 문장들
+- 그 문장을 읽고 붙일 수 있는 간단한 라벨
 
 출력:
 
-- 문장과 분류 대상 확인
+- 문장별 의미 해석
+- 해석에 따라 달라지는 라벨 예시
 
 ```python
 examples = [
-    ("배송이 아직 도착하지 않았습니다", "배송"),
-    ("비밀번호를 다시 설정하고 싶습니다", "계정"),
-    ("결제가 두 번 처리되었습니다", "결제"),
+    {
+        "text": "은행에 돈을 맡기려고 합니다",
+        "focus_word": "은행",
+        "interpreted_meaning": "financial_bank",
+        "downstream_label": "finance_intent",
+    },
+    {
+        "text": "강가의 은행나무 아래를 걷고 있습니다",
+        "focus_word": "은행",
+        "interpreted_meaning": "ginkgo_tree",
+        "downstream_label": "nature_description",
+    },
+    {
+        "text": "비밀번호를 다시 설정하고 싶습니다",
+        "focus_word": "비밀번호",
+        "interpreted_meaning": "account_access_issue",
+        "downstream_label": "account_intent",
+    },
 ]
 
-for text, label in examples:
-    print("text =", text)
-    print("label =", label)
+for item in examples:
+    print("text =", item["text"])
+    print("focus_word =", item["focus_word"])
+    print("interpreted_meaning =", item["interpreted_meaning"])
+    print("downstream_label =", item["downstream_label"])
     print("---")
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-text = 배송이 아직 도착하지 않았습니다
-label = 배송
+text = 은행에 돈을 맡기려고 합니다
+focus_word = 은행
+interpreted_meaning = financial_bank
+downstream_label = finance_intent
+---
+text = 강가의 은행나무 아래를 걷고 있습니다
+focus_word = 은행
+interpreted_meaning = ginkgo_tree
+downstream_label = nature_description
 ---
 text = 비밀번호를 다시 설정하고 싶습니다
-label = 계정
----
-text = 결제가 두 번 처리되었습니다
-label = 결제
+focus_word = 비밀번호
+interpreted_meaning = account_access_issue
+downstream_label = account_intent
 ---
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- 입력 문장을 읽고
-- 그 전체 의미를 표현으로 만든 뒤
-- 라벨이나 관련도 판단으로 연결하는 흐름이 BERT 계열과 잘 맞는다는 점입니다
+- 같은 단어가 있어도 앞뒤 문맥에 따라 해석이 달라질 수 있고
+- 그 문맥 해석이 분류나 intent 판단 같은 다운스트림 과업으로 이어지며
+- BERT 계열은 바로 이런 `문장 전체 읽기 -> 표현 만들기 -> 판단 과업 연결` 흐름과 잘 맞는다는 점입니다
 
 ## 역사와 커리큘럼 관점
 

@@ -86,16 +86,19 @@ representation이라는 말은 독자에게 추상적으로 들릴 수 있습니
 이를 아주 간단히 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["raw input<br/>original coordinates"]
-  B["hidden layer<br/>re-express the input"]
-  C["new internal representation<br/>easier to separate"]
-  D["final prediction"]
+flowchart TD
+  A["same examples"]
+  B["original coordinates<br/>mixed and hard to separate"]
+  C["hidden layer re-expresses them"]
+  D["new internal coordinates<br/>easier to separate"]
+  E["final prediction becomes easier"]
 
-  A --> B --> C --> D
+  A --> B
+  A --> C
+  B --> C --> D --> E
 ```
 
-이 도식의 핵심은 입력이 그대로 유지되는 것이 아니라, 다음 층이 쓰기 더 좋은 형태로 바뀐다는 점입니다.
+이 도식의 핵심은 `데이터가 바뀌는 것`이 아니라 `같은 데이터를 보는 내부 표현 방식이 바뀐다`는 점입니다. 원래 좌표계에서는 뒤섞여 보이던 예시들이, 은닉층을 지난 뒤에는 더 나누기 쉬운 좌표계로 다시 적힐 수 있기 때문에 `내부 좌표계`라는 말이 유용합니다.
 
 ## 층이 깊어질수록 무엇이 달라지나
 

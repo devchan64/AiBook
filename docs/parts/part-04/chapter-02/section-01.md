@@ -139,23 +139,23 @@ flowchart LR
 ```mermaid
 flowchart TB
   subgraph S["single perceptron"]
-    S1["inputs"]
-    S2["one weighted sum"]
+    S1["input features"]
+    S2["one linear score"]
     S3["one activation"]
-    S4["final output"]
+    S4["final decision"]
     S1 --> S2 --> S3 --> S4
   end
 
   subgraph M["multilayer network"]
-    M1["inputs"]
-    M2["hidden combinations"]
-    M3["richer hidden combinations"]
-    M4["final output"]
+    M1["input features"]
+    M2["hidden representation 1"]
+    M3["hidden representation 2"]
+    M4["final decision"]
     M1 --> M2 --> M3 --> M4
   end
 ```
 
-왼쪽은 입력에서 곧바로 최종 판단으로 갑니다. 오른쪽은 중간 조합 단계가 추가됩니다. 딥러닝의 중요한 변화는 바로 이 `중간 단계의 학습 가능성`입니다.
+왼쪽은 입력 특징을 한 번의 선형 점수와 한 번의 활성화로 바로 최종 판단에 연결합니다. 오른쪽은 입력 특징이 먼저 중간 표현으로 바뀌고, 그 표현이 다시 다음 표현으로 바뀐 뒤 최종 판단에 도달합니다. 딥러닝의 중요한 변화는 바로 이 `중간 표현을 여러 단계에 걸쳐 학습할 수 있다`는 점입니다.
 
 ## 다층 구조가 딥러닝의 출발점인 이유
 
