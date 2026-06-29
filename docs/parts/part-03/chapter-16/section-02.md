@@ -33,7 +33,7 @@ P3-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계�
 
 - 부스팅의 높은 성능 가능성과 높은 튜닝 민감성을 함께 설명할 수 있습니다.
 - `learning_rate`, `n_estimators`, tree size가 서로 연결된다는 점을 말할 수 있습니다.
-- shrinkage, subsampling, early stopping이 왜 필요한지 초심자 수준에서 설명할 수 있습니다.
+- shrinkage, subsampling, early stopping이 왜 필요한지 입문 수준에서 설명할 수 있습니다.
 - train 성능이 좋아 보여도 바로 신뢰하지 않는 점검 관점을 가질 수 있습니다.
 
 ## 왜 이 절이 필요한가
@@ -57,7 +57,7 @@ P3-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계�
 
 scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gradient boosting이 실무에서 자주 강한 성능 후보라고 설명합니다. 그 배경에는 순차 보정 구조가 있습니다.
 
-초심자 기준에서는 다음처럼 이해하면 좋습니다.
+다음처럼 이해하면 좋습니다.
 
 - 한 번에 큰 규칙 하나를 찾기보다
 - 작은 규칙을 계속 더해 가며
@@ -80,7 +80,7 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
 
 왜냐하면 후반 단계로 갈수록 모델은 점점 더 작은 차이, 더 미세한 남은 흔들림에 반응할 수 있기 때문입니다.
 
-초심자 문장으로 바꾸면:
+짧게 바꾸면:
 
 `초반에는 큰 실수를 고치지만, 뒤로 갈수록 작은 실수와 우연한 잡음까지 고치려 들 수 있다.`
 
@@ -113,7 +113,7 @@ flowchart LR
 
 scikit-learn 문서는 learning rate를 shrinkage라고 설명하고, 작은 learning rate는 더 많은 weak learner가 필요하다고 설명합니다.
 
-이 관계는 초심자가 가장 먼저 익혀야 할 부스팅 감각입니다.
+이 관계는 독자가 가장 먼저 익혀야 할 부스팅 감각입니다.
 
 | 설정 | 장점처럼 보이는 점 | 위험 |
 | --- | --- | --- |
@@ -128,7 +128,7 @@ scikit-learn 문서는 learning rate를 shrinkage라고 설명하고, 작은 lea
 
 scikit-learn 문서는 gradient boosting에서 tree size가 모델이 포착할 수 있는 상호작용(interaction)의 복잡도와 연결된다고 설명합니다.
 
-초심자 관점에서는 이렇게 이해하면 충분합니다.
+여기서는 이렇게 이해하면 충분합니다.
 
 - 작은 트리: 단계 하나가 단순한 보정만 한다
 - 큰 트리: 단계 하나가 더 복잡한 보정을 한다
@@ -161,7 +161,7 @@ scikit-learn 문서는 Friedman(2001)의 shrinkage 전략을 소개하며, 각 w
 
 scikit-learn 문서는 stochastic gradient boosting을 설명하면서, 각 단계의 base learner를 전체 훈련 데이터가 아니라 일부 `subsample`로 학습시킬 수 있다고 설명합니다. 보통 `subsample = 0.5` 같은 값이 예시로 제시됩니다.
 
-초심자 관점에서 이는 이렇게 읽을 수 있습니다.
+독자 관점에서 이는 이렇게 읽을 수 있습니다.
 
 `모든 단계를 항상 전체 데이터에 딱 맞추게 하지 말고, 일부 데이터만 보고 조금 덜 집착하게 만들자.`
 
@@ -177,7 +177,7 @@ scikit-learn 문서는 stochastic gradient boosting을 설명하면서, 각 단�
 
 scikit-learn 문서는 `staged_predict`, `train_score_`, validation 기반 점검을 통해 적절한 단계 수를 찾을 수 있다고 설명하고, histogram-based gradient boosting에서는 `early_stopping`, `validation_fraction`, `n_iter_no_change` 같은 옵션을 제공합니다.
 
-초심자 기준에서는 early stopping을 다음처럼 이해하면 좋습니다.
+early stopping을 다음처럼 이해하면 좋습니다.
 
 `계속 좋아질 것 같아 보여도, 검증 성능이 더 이상 좋아지지 않으면 거기서 멈추자.`
 
@@ -263,7 +263,7 @@ learning_rate=0.8
 
 scikit-learn 문서는 HistGradientBoostingClassifier와 HistGradientBoostingRegressor를 대용량 표 형식 데이터에서 더 빠른 대안으로 소개합니다. 또한 missing value, categorical feature, early stopping 같은 실무 기능을 더 많이 제공합니다.
 
-초심자 관점에서는 지금 당장 세부 구현보다 다음 정도만 기억하면 충분합니다.
+여기서는 지금 당장 세부 구현보다 다음 정도만 기억하면 충분합니다.
 
 - 일반 gradient boosting은 입문 개념을 배우기에 좋습니다.
 - histogram-based gradient boosting은 실무 구현에서 자주 만나는 현대적 형태입니다.

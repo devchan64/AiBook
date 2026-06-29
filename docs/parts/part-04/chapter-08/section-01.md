@@ -47,7 +47,7 @@ P4-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 
 ## 정규화는 무엇을 막으려 하나
 
-초심자에게는 정규화의 목적을 다음 세 줄로 이해하면 충분합니다.
+독자에게는 정규화의 목적을 다음 세 줄로 이해하면 충분합니다.
 
 - 너무 큰 파라미터에 과하게 의존하지 않게 한다
 - 특정 샘플의 우연한 패턴만 외우지 않게 한다
@@ -78,7 +78,7 @@ P4-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 total\ loss = data\ loss + regularization\ term
 \]
 
-초심자 기준에서는 이 식을 다음처럼 읽으면 충분합니다.
+이 식을 다음처럼 읽으면 충분합니다.
 
 - `data loss`: 예측이 정답과 얼마나 다른가
 - `regularization term`: 모델이 너무 복잡한 방향으로 가지 않는가
@@ -89,7 +89,7 @@ total\ loss = data\ loss + regularization\ term
 
 ## optimizer와 regularization은 무엇이 다른가
 
-초심자는 optimizer와 regularization을 둘 다 `학습을 조정하는 것`으로 느낄 수 있습니다. 하지만 역할은 다릅니다.
+독자는 optimizer와 regularization을 둘 다 `학습을 조정하는 것`으로 느낄 수 있습니다. 하지만 역할은 다릅니다.
 
 | 항목 | 역할 |
 | --- | --- |

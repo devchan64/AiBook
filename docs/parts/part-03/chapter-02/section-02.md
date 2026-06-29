@@ -85,7 +85,7 @@ flowchart TB
 | 차원 축소(dimensionality reduction) | 많은 특징을 더 적은 축으로 요약할 수 있는가? | 100개 특징을 2차원 그림으로 줄여 봅니다. |
 | 이상치 탐지(outlier detection) | 다른 사례와 유난히 다른 점이 있는가? | 평소와 다른 결제 패턴을 점검 후보로 찾습니다. |
 
-scikit-learn의 비지도학습 문서도 군집화, 다양체 학습(manifold learning), 행렬 분해(matrix factorization), 이상치 탐지, 밀도 추정(density estimation) 같은 여러 범주를 다룹니다. 이 절에서는 그중 초심자가 먼저 이해하기 쉬운 군집화, 차원 축소, 이상치 탐지를 중심으로 봅니다.
+scikit-learn의 비지도학습 문서도 군집화, 다양체 학습(manifold learning), 행렬 분해(matrix factorization), 이상치 탐지, 밀도 추정(density estimation) 같은 여러 범주를 다룹니다. 이 절에서는 그중 독자가 먼저 이해하기 쉬운 군집화, 차원 축소, 이상치 탐지를 중심으로 봅니다.
 
 ## 군집화: 비슷한 것끼리 묶기
 
