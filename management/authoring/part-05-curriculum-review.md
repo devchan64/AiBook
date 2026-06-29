@@ -11,13 +11,22 @@
 - [docs/parts/part-05/index.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/index.md:3) 는 Part 5를 `Transformer 이후의 흐름`, `RAG`, `도구 사용`, `에이전트`, `평가`, `운영`까지 다루는 파트로 정의한다.
 - 같은 문서의 완료 기준은 [index.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/index.md:20) 부터 [index.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/index.md:23) 까지 제시되어 있으며, 마지막 기준은 `모델 API를 사용해 작은 생성형 AI 기능을 구현할 수 있다`이다.
 
+## 최근 반영 사항
+
+- [docs/parts/part-05/chapter-05/section-01.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-01.md:36) 에서 BERT 약어 설명, 인텐트 분류 사례, 더 나은 예제를 추가해 `왜 읽고 분류하는 모델인가`를 더 분명히 했다.
+- [docs/parts/part-05/chapter-09/section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-09/section-02.md:1) 에서 LoRA 도입부를 `효율적 조정이 왜 필요한가`에서 출발하도록 보강했다.
+- [docs/parts/part-05/chapter-09/section-03.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-09/section-03.md:1) 보충학습을 추가해 LoRA, adapter, QLoRA의 차이를 별도로 회수했다.
+- [docs/parts/part-05/chapter-19/section-01.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-19/section-01.md:1), [section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-19/section-02.md:1) 에서 `통합 미니 실습` 장을 추가해 요청, 검색, 출력, 기록을 한 흐름으로 묶는 최소 실습을 넣었다.
+
+이 변경들은 개별 절의 이해도는 높였지만, Part 5 전체의 순서 문제를 해결한 것은 아니다. 아래 판단은 여전히 유효하되, `개별 절 품질`과 `파트 구조`를 구분해서 읽어야 한다.
+
 ## 핵심 판단
 
-### 1. 현재 Part 5는 `작은 구현으로 닫히는 파트`가 아니라 `개념 설명으로 끝나는 파트`에 가깝다
+### 1. 현재 Part 5는 여전히 `개념 설명 비중이 큰 파트`이지만, `작은 구현으로 닫히는 파트`라는 약점은 일부 보완되었다
 
-- 완료 기준에는 구현이 포함되어 있지만, 실제 본문은 [docs/parts/part-05/chapter-18/section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-18/section-02.md:1) 의 운영 실패 대응까지 개념 설명으로 마무리된다.
-- 장 구성 안에 `모델 API를 사용해 작은 기능을 만든다`는 별도 실습 장이나 통합 예제가 없다.
-- 따라서 현재 구성은 `Part 목적`과 `완료 기준`이 직접 충돌한다.
+- 완료 기준에는 구현이 포함되어 있었고, 이 문제를 줄이기 위해 [docs/parts/part-05/chapter-19/section-01.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-19/section-01.md:1) 과 [section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-19/section-02.md:1) 에 통합 미니 실습을 추가했다.
+- 이로써 `개념 설명만 하다가 끝난다`는 충돌은 약해졌지만, 여전히 실제 상용 API 사용 예나 더 현실적인 품질 비교 실습은 Part 6 쪽으로 남아 있다.
+- 따라서 현재 상태는 `직접 충돌`에서 `부분 보완`으로 옮겨 갔다고 보는 편이 맞다.
 
 ### 2. 초반부가 너무 길게 전제 설명을 반복해, LLM 본류가 늦게 시작된다
 
@@ -32,6 +41,7 @@
 - [section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-02.md:54) 부터 [section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-02.md:126) 까지는 분류, 문장쌍 판단, 검색, 임베딩을 길게 풀어 설명한다.
 - 이 내용은 `생성형 AI 본류`라기보다 `검색·임베딩 보조 축`에 가깝다.
 - 현재처럼 GPT 본류 앞에 독립 장으로 크게 두면, 학습 초점이 `생성형 AI 구조 이해`보다 `NLP 일반론 복습`으로 이동한다.
+- 다만 [P5-5.1](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-01.md:127) 의 사례와 예제는 이미 보강되어, `보조 축으로 둘 때도 왜 필요한가`는 이전보다 분명해졌다.
 
 ### 4. Part 1 또는 이전 파트의 감각을 다시 꺼내고 끝나는 문장이 반복된다
 
@@ -123,14 +133,22 @@ Part 5의 학습목표는 한 종류가 아니다. 이후 분량 조절을 위�
 
 ### 우선순위 높음
 
-- Part 5 완료 기준에 맞는 `통합 실습 장` 추가
 - Chapter 3, 5의 분량 축소 또는 보충학습 이동
 - Chapter 4, 6, 8, 10을 더 앞쪽 본류로 재배치
+- index의 완료 기준과 실제 장 구성을 다시 맞추기
 
 ### 우선순위 중간
 
 - `복습`, `Part 1에서도`, `앞에서 봤듯` 같은 연결 문장을 줄이고 현재 질문 중심 문장으로 교체
 - 임베딩 장의 일부를 RAG/벡터 검색 장과 더 밀접하게 재배치
+- Chapter 9는 현재처럼 `P5-9.2 실무 감각 + P5-9.3 보충학습` 구조를 유지하되, 이후 본편 재배치 시 `파인튜닝 뒤의 심화 축`으로 남기는 방안을 우선 검토
+
+## 현재 기준의 다음 업데이트 순서
+
+1. Part 5 끝에 `통합 실습 장`을 추가할지, Part 6 시작으로 넘길지 먼저 결정한다.
+2. Chapter 3과 Chapter 5를 본편 축소 또는 보충학습 전환 관점에서 다시 편집한다.
+3. Chapter 4, 6, 8, 10을 앞세우는 새 Part 5 순서를 management 메모와 실제 목차에 함께 반영한다.
+4. 이후 index의 `다룰 내용`과 `완료 기준`을 새 구조에 맞춰 다시 쓴다.
 
 ### 우선순위 낮음
 

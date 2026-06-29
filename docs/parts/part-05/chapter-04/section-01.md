@@ -1,6 +1,6 @@
-# P5-4.1 Transformer 구조 복습
+# P5-4.1 Transformer를 LLM 관점에서 다시 읽기
 
-P5-3장에서는 LLM 발전사의 큰 흐름과 직접 계보를 정리했습니다. 이제 다시 구조로 돌아와야 합니다.
+P5-3장에서는 LLM 발전사의 큰 흐름과 직접 계보를 배경 지도로 정리했습니다. 이제 Part 5의 본류로 다시 돌아와야 합니다.
 
 LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가?
 
@@ -12,7 +12,7 @@ LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention�
 
 이 절은 다음 질문에 답합니다.
 
-- Part 4에서 본 Transformer를 LLM 관점으로 다시 보면 무엇이 달라지는가?
+- 이미 본 Transformer를 LLM 관점으로 다시 보면 무엇이 달라지는가?
 - 토큰, 임베딩, self-attention, 다음 토큰 예측은 어떻게 이어지는가?
 - 왜 Transformer는 생성형 언어 모델의 기본 구조가 되었는가?
 
@@ -24,16 +24,16 @@ LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention�
 
 Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들어가야 하는 multi-head attention, 위치 표현, KV cache는 같은 장의 P5-4.3 보충학습에서 다시 회수합니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P5-18.1 AI 서비스가 현실에서 만나는 제약에서 다시 연결합니다.
 
-이 절의 목적은 Transformer 공식을 다시 쓰는 데 있지 않습니다. Part 5에서 다룰 BERT, GPT, pretraining, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡는 데 있습니다.
+이 절의 목적은 Transformer 공식을 다시 쓰는 데 있지 않습니다. Part 5에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡는 데 있습니다.
 
 ## 이 절의 목표
 
 - Transformer를 LLM 기준으로 다시 설명할 수 있습니다.
 - 토큰 -> 임베딩 -> attention 블록 -> 다음 토큰 예측 흐름을 연결할 수 있습니다.
-- Part 4의 구조 설명이 Part 5의 생성형 언어 모델 설명으로 어떻게 이어지는지 말할 수 있습니다.
+- 이전에 배운 Transformer 구조가 Part 5의 생성형 언어 모델 설명으로 어떻게 이어지는지 말할 수 있습니다.
 - 다음 절의 context window 설명으로 자연스럽게 넘어갈 수 있습니다.
 
-## Part 4의 Transformer와 Part 5의 Transformer는 무엇이 다른가
+## 같은 Transformer를 왜 다시 읽어야 하는가
 
 Part 4에서는 Transformer를 딥러닝 구조로 설명했습니다. 즉:
 

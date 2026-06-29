@@ -320,14 +320,14 @@ nav:
           - "P5-2.1 임베딩(embedding)의 직관": parts/part-05/chapter-02/section-01.md
           - "P5-2.2 의미와 거리": parts/part-05/chapter-02/section-02.md
           - "P5-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기": parts/part-05/chapter-02/section-03.md
-      - Chapter 3. LLM 발전사:
+      - "Chapter 3. 배경 지도: LLM 발전사":
           - "P5-3.1 LLM 발전사의 큰 흐름": parts/part-05/chapter-03/section-01.md
           - "P5-3.2 직접 계보와 주변 근거": parts/part-05/chapter-03/section-02.md
-      - Chapter 4. Transformer 구조 복습:
-          - "P5-4.1 Transformer 구조 복습": parts/part-05/chapter-04/section-01.md
+      - Chapter 4. Transformer를 LLM 관점에서 읽기:
+          - "P5-4.1 Transformer를 LLM 관점에서 다시 읽기": parts/part-05/chapter-04/section-01.md
           - "P5-4.2 attention과 context window": parts/part-05/chapter-04/section-02.md
           - "P5-4.3 보충학습: 위치 표현, multi-head attention, KV cache를 처음 읽는 법": parts/part-05/chapter-04/section-03.md
-      - Chapter 5. BERT 계열:
+      - "Chapter 5. 배경 비교: BERT 계열":
           - "P5-5.1 BERT 계열의 위치": parts/part-05/chapter-05/section-01.md
           - "P5-5.2 이해 중심 태스크": parts/part-05/chapter-05/section-02.md
       - Chapter 6. GPT 계열:
@@ -370,6 +370,9 @@ nav:
       - Chapter 18. 서비스 제약과 실패 대응:
           - "P5-18.1 AI 서비스가 현실에서 만나는 제약": parts/part-05/chapter-18/section-01.md
           - "P5-18.2 운영 중 실패 대응": parts/part-05/chapter-18/section-02.md
+      - Chapter 19. 통합 미니 실습:
+          - "P5-19.1 작은 생성형 AI 기능을 한 흐름으로 묶기": parts/part-05/chapter-19/section-01.md
+          - "P5-19.2 최소 구현과 회고 포인트": parts/part-05/chapter-19/section-02.md
       - Part 5 마무리: parts/part-05/summary.md
   - Part 6. 프로젝트:
       - 개요: parts/part-06/index.md
