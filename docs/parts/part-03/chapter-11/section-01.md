@@ -179,95 +179,6 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 
 같은 점수라도 threshold가 바뀌면 서비스 행동이 바뀝니다. 이 때문에 로지스틱 회귀를 읽을 때는 `모델 점수`와 `운영 정책`을 분리해서 봐야 합니다.
 
-## 연습 및 예제
-
-### Python 예제로 작은 로지스틱 회귀 보기
-
-아래 예제는 공부 시간(`study_hours`)으로 시험 합격 여부(`passed`)를 예측하는 아주 작은 이진 분류(binary classification) 실습입니다.
-
-- 문제 상황: 공부 시간이 늘수록 합격 가능성이 높아진다고 가정합니다.
-- 입력(input): 공부 시간
-- 정답(label): 합격(1) / 불합격(0)
-- 확인할 개념:
-  - 선형 점수가 sigmoid를 거쳐 0~1 사이 값으로 읽힙니다.
-  - `predict_proba`와 `predict`는 같은 단계가 아닙니다.
-  - 계수의 부호는 어느 방향으로 가능성을 올리는지 보여 줍니다.
-
-```python
-import numpy as np
-from sklearn.linear_model import LogisticRegression
-
-study_hours = np.array([1, 2, 3, 4, 5, 6, 7, 8]).reshape(-1, 1)
-passed = np.array([0, 0, 0, 0, 1, 1, 1, 1])
-
-model = LogisticRegression()
-model.fit(study_hours, passed)
-
-proba = model.predict_proba([[3], [5], [7]])
-pred = model.predict([[3], [5], [7]])
-
-print("coefficient      :", round(model.coef_[0][0], 3))
-print("intercept        :", round(model.intercept_[0], 3))
-print("proba at x=3     :", np.round(proba[0], 3))
-print("proba at x=5     :", np.round(proba[1], 3))
-print("proba at x=7     :", np.round(proba[2], 3))
-print("class prediction :", pred)
-```
-
-실행 결과 예시는 다음과 같습니다.
-
-```text
-coefficient      : 1.236
-intercept        : -5.561
-proba at x=3     : [0.831 0.169]
-proba at x=5     : [0.452 0.548]
-proba at x=7     : [0.117 0.883]
-class prediction : [0 1 1]
-```
-
-이 출력은 다음처럼 읽으면 됩니다.
-
-- 계수가 양수이므로, 공부 시간이 늘수록 `합격 class` 쪽으로 점수가 이동합니다.
-- `x=3`에서는 class 1 확률처럼 읽히는 값이 낮아 불합격 쪽으로 분류됩니다.
-- `x=5`에서는 0.5 근처를 지나면서 분류가 바뀝니다.
-- `x=7`에서는 합격 쪽 가능성을 더 높게 봅니다.
-
-중요한 것은 `0.548` 같은 값이 보이면, 그것이 곧 절대적 사실이라기보다 `현재 모델이 이 데이터를 보고 그쪽 class를 더 가능성 높게 본다`는 뜻으로 읽어야 한다는 점입니다.
-
-### Python 예제로 threshold 차이도 함께 보기
-
-이번에는 같은 점수라도 threshold를 어떻게 두느냐에 따라 최종 행동이 달라진다는 점을 눈으로 확인해 보겠습니다.
-
-- 문제 상황: 고객 이탈 점수를 받았다고 가정합니다.
-- 입력(input): 이미 계산된 class 1 점수
-- 기대 출력(output): threshold 0.5와 0.7에서 판단이 어떻게 달라지는지
-- 확인할 개념:
-  - 점수는 같아도 정책 기준이 바뀌면 class decision이 달라집니다.
-  - 모델의 출력과 서비스의 행동은 분리해서 읽어야 합니다.
-
-```python
-import numpy as np
-
-scores = np.array([0.42, 0.58, 0.73])
-
-pred_05 = (scores >= 0.5).astype(int)
-pred_07 = (scores >= 0.7).astype(int)
-
-print("scores          :", scores)
-print("threshold 0.5   :", pred_05)
-print("threshold 0.7   :", pred_07)
-```
-
-실행 결과 예시는 다음과 같습니다.
-
-```text
-scores          : [0.42 0.58 0.73]
-threshold 0.5   : [0 1 1]
-threshold 0.7   : [0 0 1]
-```
-
-이 출력은 `모델이 점수를 만들고, 그 점수를 어떤 행동으로 바꿀지는 운영 규칙이 정한다`는 사실을 다시 보여 줍니다.
-
 ## 세부 학습내용
 
 ### 학술적 배경과 역사
@@ -413,6 +324,95 @@ threshold 0.7   : [0 0 1]
 이 사례들은 공통적으로 다음 사실을 보여 줍니다.
 
 `로지스틱 회귀는 점수를 만들고, 서비스는 그 점수를 어떻게 행동으로 바꿀지 따로 정한다.`
+
+## 연습 및 예제
+
+### Python 예제로 작은 로지스틱 회귀 보기
+
+아래 예제는 공부 시간(`study_hours`)으로 시험 합격 여부(`passed`)를 예측하는 아주 작은 이진 분류(binary classification) 실습입니다.
+
+- 문제 상황: 공부 시간이 늘수록 합격 가능성이 높아진다고 가정합니다.
+- 입력(input): 공부 시간
+- 정답(label): 합격(1) / 불합격(0)
+- 확인할 개념:
+  - 선형 점수가 sigmoid를 거쳐 0~1 사이 값으로 읽힙니다.
+  - `predict_proba`와 `predict`는 같은 단계가 아닙니다.
+  - 계수의 부호는 어느 방향으로 가능성을 올리는지 보여 줍니다.
+
+```python
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+study_hours = np.array([1, 2, 3, 4, 5, 6, 7, 8]).reshape(-1, 1)
+passed = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+
+model = LogisticRegression()
+model.fit(study_hours, passed)
+
+proba = model.predict_proba([[3], [5], [7]])
+pred = model.predict([[3], [5], [7]])
+
+print("coefficient      :", round(model.coef_[0][0], 3))
+print("intercept        :", round(model.intercept_[0], 3))
+print("proba at x=3     :", np.round(proba[0], 3))
+print("proba at x=5     :", np.round(proba[1], 3))
+print("proba at x=7     :", np.round(proba[2], 3))
+print("class prediction :", pred)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+coefficient      : 1.236
+intercept        : -5.561
+proba at x=3     : [0.831 0.169]
+proba at x=5     : [0.452 0.548]
+proba at x=7     : [0.117 0.883]
+class prediction : [0 1 1]
+```
+
+이 출력은 다음처럼 읽으면 됩니다.
+
+- 계수가 양수이므로, 공부 시간이 늘수록 `합격 class` 쪽으로 점수가 이동합니다.
+- `x=3`에서는 class 1 확률처럼 읽히는 값이 낮아 불합격 쪽으로 분류됩니다.
+- `x=5`에서는 0.5 근처를 지나면서 분류가 바뀝니다.
+- `x=7`에서는 합격 쪽 가능성을 더 높게 봅니다.
+
+중요한 것은 `0.548` 같은 값이 보이면, 그것이 곧 절대적 사실이라기보다 `현재 모델이 이 데이터를 보고 그쪽 class를 더 가능성 높게 본다`는 뜻으로 읽어야 한다는 점입니다.
+
+### Python 예제로 threshold 차이도 함께 보기
+
+이번에는 같은 점수라도 threshold를 어떻게 두느냐에 따라 최종 행동이 달라진다는 점을 눈으로 확인해 보겠습니다.
+
+- 문제 상황: 고객 이탈 점수를 받았다고 가정합니다.
+- 입력(input): 이미 계산된 class 1 점수
+- 기대 출력(output): threshold 0.5와 0.7에서 판단이 어떻게 달라지는지
+- 확인할 개념:
+  - 점수는 같아도 정책 기준이 바뀌면 class decision이 달라집니다.
+  - 모델의 출력과 서비스의 행동은 분리해서 읽어야 합니다.
+
+```python
+import numpy as np
+
+scores = np.array([0.42, 0.58, 0.73])
+
+pred_05 = (scores >= 0.5).astype(int)
+pred_07 = (scores >= 0.7).astype(int)
+
+print("scores          :", scores)
+print("threshold 0.5   :", pred_05)
+print("threshold 0.7   :", pred_07)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+scores          : [0.42 0.58 0.73]
+threshold 0.5   : [0 1 1]
+threshold 0.7   : [0 0 1]
+```
+
+이 출력은 `모델이 점수를 만들고, 그 점수를 어떤 행동으로 바꿀지는 운영 규칙이 정한다`는 사실을 다시 보여 줍니다.
 
 ## 이 절에서 기억할 관점
 
