@@ -23,7 +23,7 @@ P4-6.1에서는 학습(learning)과 모델 실행(inference)을 `파라미터를
 - dropout 확률 설계의 세부 튜닝
 - 분산 학습(distributed training)에서의 모드 관리
 
-dropout과 regularization 자체의 큰 의미는 P4-8장에서 다시 자세히 다룹니다.
+dropout과 regularization 자체의 큰 의미는 P4-8.1, P4-8.2에서 다시 자세히 다루고, optimizer가 이 학습 흐름 안에서 어디에 들어오는지는 P4-7.1, P4-7.2에서 다시 연결합니다. 분산 학습(distributed training)에서의 모드 관리 세부는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

@@ -23,7 +23,7 @@ P4-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복�
 - disentanglement 같은 심화 표현 학습 이론
 - self-supervised representation learning의 최신 세부 기법
 
-깊은 층에서 표현이 어떻게 점점 추상화되는지는 P4-10.2에서 이어서 다룹니다.
+깊은 층에서 표현이 어떻게 점점 추상화되는지는 P4-10.2에서 이어서 다루고, 이미지 도메인 표현은 P4-11.1, P4-11.2에서, 시퀀스와 attention 기반 표현은 P4-12.1, P4-12.2, P4-13.1, P4-13.2에서 다시 연결합니다. self-supervised representation learning의 최신 세부 기법은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

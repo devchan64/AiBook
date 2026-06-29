@@ -23,7 +23,7 @@ P4-10.1에서는 표현 학습(representation learning)을 `모델이 유용한 
 - self-supervised pretraining representation의 최신 연구 세부
 - interpretability와 mechanistic analysis의 심화 이론
 
-이 절의 목적은 `깊은 층 = 무조건 더 지능적` 같은 과장을 만드는 것이 아니라, 계층적 표현의 직관을 안전하게 설명하는 것입니다.
+이 절의 목적은 `깊은 층 = 무조건 더 지능적` 같은 과장을 만드는 것이 아니라, 계층적 표현의 직관을 안전하게 설명하는 것입니다. 이미지의 계층적 표현은 P4-11.1, P4-11.2에서, 순차 데이터와 attention 기반 표현은 P4-12.1, P4-12.2, P4-13.1, P4-13.2, P4-14.1, P4-14.2에서 다시 연결합니다. interpretability와 mechanistic analysis의 심화 이론은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

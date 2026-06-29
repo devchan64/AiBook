@@ -29,7 +29,7 @@ P4-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 
 - adaptive optimization의 이론적 수렴 분석
 - optimizer state의 메모리 최적화
 
-대표 옵티마이저 비교는 P4-7.2에서 이어서 다룹니다.
+대표 옵티마이저 비교는 P4-7.2에서 이어서 다루고, regularization과의 역할 차이는 P4-8.1에서 다시 연결합니다. optimizer state의 메모리 최적화와 adaptive optimization의 이론적 수렴 분석은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

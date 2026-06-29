@@ -23,7 +23,7 @@ P4-8.1에서는 정규화(regularization)를 `과적합을 줄이기 위한 제�
 - dropout 비율(rate) 튜닝 전략의 세밀한 경험칙
 - variational dropout, Monte Carlo dropout 같은 확장 기법
 
-이 절의 목적은 드롭아웃 공식을 암기하는 것이 아니라, `왜 무작위 제거가 일반화를 돕는가`를 설명하는 것입니다.
+이 절의 목적은 드롭아웃 공식을 암기하는 것이 아니라, `왜 무작위 제거가 일반화를 돕는가`를 설명하는 것입니다. 학습 모드와 평가 모드의 차이는 P4-6.2에서 이미 연결했고, 일반화와 regularization의 큰 관점은 P4-8.1에서 다시 묶습니다. variational dropout, Monte Carlo dropout 같은 확장 기법은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

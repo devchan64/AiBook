@@ -23,7 +23,7 @@ P4-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 - weight decay의 프레임워크 구현 차이
 - data augmentation, early stopping의 세부 튜닝
 
-드롭아웃(dropout)은 P4-8.2에서 별도 절로 이어서 다룹니다.
+드롭아웃(dropout)은 P4-8.2에서 별도 절로 이어서 다루고, 학습 모드와 평가 모드의 계산 차이는 P4-6.2에서 다시 연결합니다. weight decay의 프레임워크 구현 차이와 data augmentation, early stopping의 세부 튜닝은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

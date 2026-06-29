@@ -23,7 +23,7 @@ gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면
 - 배포 인프라(inference serving) 세부 구조
 - mixed precision, quantization 같은 시스템 최적화
 
-학습 모드와 평가 모드의 구체적 차이는 P4-6.2에서 이어서 다룹니다.
+학습 모드와 평가 모드의 구체적 차이는 P4-6.2에서 이어서 다루고, dropout과 regularization의 큰 의미는 P4-8.1, P4-8.2에서 다시 연결합니다. mixed precision, quantization, 배포 인프라 세부 구조는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
