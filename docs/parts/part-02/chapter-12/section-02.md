@@ -14,7 +14,7 @@ Pandas에서 선택(select), 필터링(filtering), 집계(aggregation)는 바로
 
 ## 이 절의 범위
 
-이 절은 DataFrame을 본격적으로 정제(cleaning)하거나 결측치(missing value)를 처리하는 단계까지 들어가지 않습니다. `merge`, `join`, `pivot`, 시계열(time series), 다중 인덱스(MultiIndex)도 다루지 않습니다.
+이 절은 DataFrame을 본격적으로 정제(cleaning)하거나 결측치(missing value)를 처리하는 단계까지 들어가지 않습니다. 데이터셋(dataset) 준비 맥락의 전처리와 누수(data leakage) 문제는 다음 P2-12.3에서 다시 연결합니다. 다만 `merge`, `join`, `pivot`, 시계열(time series), 다중 인덱스(MultiIndex)는 이 책의 현재 본편 범위 밖에 두고, 여기서는 선택(select), 필터링(filtering), 집계(aggregation) 흐름에 집중합니다.
 
 여기서는 다음 질문에 답합니다.
 

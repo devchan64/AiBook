@@ -14,7 +14,7 @@
 
 ## 이 절의 범위
 
-이 절은 벡터 검색 구현의 큰 그림을 봅니다. HNSW(hierarchical navigable small world), FAISS, product quantization 같은 세부 알고리즘을 구현하거나 수식으로 설명하지 않습니다.
+이 절은 벡터 검색 구현의 큰 그림을 봅니다. HNSW(hierarchical navigable small world), FAISS, product quantization 같은 세부 알고리즘을 구현하거나 수식으로 설명하지는 않습니다. 이 이름들은 Part 5의 P5-13.1, P5-13.2에서 서비스 관점의 검색 저장소와 인덱스 품질로 다시 이어지지만, 개별 알고리즘의 내부 구현과 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
 Part 2에서 그래프(graph) 자료구조를 다시 보면, 이 절의 그래프 기반 인덱스(index) 설명이 더 자연스럽게 연결됩니다. 지금은 노드(node)와 간선(edge)으로 가까운 벡터들의 연결을 만들어 검색 경로를 줄인다는 직관만 잡습니다.
 
