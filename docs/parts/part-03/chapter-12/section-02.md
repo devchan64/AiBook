@@ -25,7 +25,7 @@ P3-12.1에서는 k-NN(k-nearest neighbors)을 `가까운 사례를 보고 판단
 - 표준화(standardization), 정규화(normalization)의 모든 변형
 - 고차원 공간에서 거리 집중(distance concentration)의 엄밀한 이론
 
-그 내용은 뒤 알고리즘 절, 보충학습, 또는 더 심화된 수학 절로 넘깁니다.
+표준화(standardization)와 전처리(preprocessing) 맥락은 P3-7.2에서 다시 연결하고, 거리 기반 판단이 실제 모델에 어떻게 이어지는지는 뒤의 P3-13 SVM과 P3-18 차원 축소에서 다시 봅니다. 반면 Minkowski 일반식 유도와 거리 집중(distance concentration)의 엄밀한 이론은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
