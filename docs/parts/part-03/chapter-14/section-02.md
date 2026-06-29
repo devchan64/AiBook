@@ -126,85 +126,6 @@ flowchart LR
 
 이 관점은 결정트리에서 특히 자주 보이지만, 사실 Part 3 전체의 공통 원리이기도 합니다. 선형회귀, 로지스틱 회귀, SVM, 트리 모델 모두 결국 `보지 못한 데이터에서 어떻게 버티는가`가 더 중요합니다.
 
-## 연습 및 예제
-
-### Python 예제로 깊이에 따른 과적합 보기
-
-이번 예제는 같은 결정트리 분류기에서 깊이만 바꾸어 train/test 결과가 어떻게 갈라지는지 보는 실습입니다.
-
-- 문제 상황: iris 데이터셋으로 품종 분류를 한다.
-- 입력(input): 꽃받침, 꽃잎 길이와 너비
-- 정답(label): 세 가지 품종
-- 확인할 개념:
-  - 깊이가 커질수록 train 성능은 쉽게 올라갈 수 있다.
-  - test 성능은 어느 지점 이후 정체하거나 떨어질 수 있다.
-  - 트리 깊이는 복잡도 손잡이 중 하나다.
-
-```python
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-
-X, y = load_iris(return_X_y=True)
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42, stratify=y
-)
-
-for depth in [1, 2, 3, 5, None]:
-    model = DecisionTreeClassifier(max_depth=depth, random_state=42)
-    model.fit(X_train, y_train)
-
-    print(f"max_depth={depth}")
-    print("  depth          :", model.get_depth())
-    print("  leaves         :", model.get_n_leaves())
-    print("  train accuracy :", round(model.score(X_train, y_train), 3))
-    print("  test accuracy  :", round(model.score(X_test, y_test), 3))
-    print()
-```
-
-실행 결과 예시는 다음과 같습니다.
-
-```text
-max_depth=1
-  depth          : 1
-  leaves         : 2
-  train accuracy : 0.667
-  test accuracy  : 0.667
-
-max_depth=2
-  depth          : 2
-  leaves         : 3
-  train accuracy : 0.952
-  test accuracy  : 0.889
-
-max_depth=3
-  depth          : 3
-  leaves         : 5
-  train accuracy : 0.981
-  test accuracy  : 0.933
-
-max_depth=5
-  depth          : 5
-  leaves         : 8
-  train accuracy : 1.0
-  test accuracy  : 0.911
-
-max_depth=None
-  depth          : 5
-  leaves         : 8
-  train accuracy : 1.0
-  test accuracy  : 0.911
-```
-
-이 결과에서 읽어야 할 것은 다음입니다.
-
-1. 깊이를 늘리면 train accuracy는 계속 좋아지기 쉽습니다.
-2. 하지만 test accuracy는 어느 지점 이후 더 좋아지지 않을 수 있습니다.
-3. `max_depth=3` 부근이 현재 예제에서는 더 균형 있어 보입니다.
-
-즉, 트리의 성능을 볼 때는 `깊어졌는가`보다 `깊어졌을 때 train/test가 어떻게 갈리는가`를 같이 봐야 합니다.
-
 ## 세부 학습내용
 
 ### `min_samples_leaf`는 왜 필요한가
@@ -338,6 +259,85 @@ flowchart TD
 - 설명이 너무 길고 복잡하게 느껴진다 -> `max_depth` 확인
 - 소수 사례만 설명하는 leaf가 많아 보인다 -> `min_samples_leaf` 확인
 - 가지가 지나치게 많고 잔가지가 많다 -> `ccp_alpha` 검토
+
+## 연습 및 예제
+
+### Python 예제로 깊이에 따른 과적합 보기
+
+이번 예제는 같은 결정트리 분류기에서 깊이만 바꾸어 train/test 결과가 어떻게 갈라지는지 보는 실습입니다.
+
+- 문제 상황: iris 데이터셋으로 품종 분류를 한다.
+- 입력(input): 꽃받침, 꽃잎 길이와 너비
+- 정답(label): 세 가지 품종
+- 확인할 개념:
+  - 깊이가 커질수록 train 성능은 쉽게 올라갈 수 있다.
+  - test 성능은 어느 지점 이후 정체하거나 떨어질 수 있다.
+  - 트리 깊이는 복잡도 손잡이 중 하나다.
+
+```python
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = load_iris(return_X_y=True)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+for depth in [1, 2, 3, 5, None]:
+    model = DecisionTreeClassifier(max_depth=depth, random_state=42)
+    model.fit(X_train, y_train)
+
+    print(f"max_depth={depth}")
+    print("  depth          :", model.get_depth())
+    print("  leaves         :", model.get_n_leaves())
+    print("  train accuracy :", round(model.score(X_train, y_train), 3))
+    print("  test accuracy  :", round(model.score(X_test, y_test), 3))
+    print()
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+max_depth=1
+  depth          : 1
+  leaves         : 2
+  train accuracy : 0.667
+  test accuracy  : 0.667
+
+max_depth=2
+  depth          : 2
+  leaves         : 3
+  train accuracy : 0.952
+  test accuracy  : 0.889
+
+max_depth=3
+  depth          : 3
+  leaves         : 5
+  train accuracy : 0.981
+  test accuracy  : 0.933
+
+max_depth=5
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
+
+max_depth=None
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
+```
+
+이 결과에서 읽어야 할 것은 다음입니다.
+
+1. 깊이를 늘리면 train accuracy는 계속 좋아지기 쉽습니다.
+2. 하지만 test accuracy는 어느 지점 이후 더 좋아지지 않을 수 있습니다.
+3. `max_depth=3` 부근이 현재 예제에서는 더 균형 있어 보입니다.
+
+즉, 트리의 성능을 볼 때는 `깊어졌는가`보다 `깊어졌을 때 train/test가 어떻게 갈리는가`를 같이 봐야 합니다.
 
 ## 이 절에서 기억할 관점
 
