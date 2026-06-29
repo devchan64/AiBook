@@ -23,7 +23,7 @@ attention은 현재 계산에 정말 중요한 위치나 토큰(token)에 더 �
 - multi-head attention 세부 구현
 - Transformer block 내부 전체 구조
 
-self-attention과 Transformer 연결은 P4-13.2와 P4-14장에서 이어서 다룹니다.
+self-attention과 Transformer 연결은 P4-13.2와 P4-14.1, P4-14.2에서 이어서 다룹니다. query, key, value 공식 전개와 multi-head attention 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

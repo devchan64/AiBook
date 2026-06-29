@@ -23,7 +23,7 @@ P4-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 
 - BPTT(backpropagation through time)의 상세 유도
 - attention 메커니즘의 구현 세부
 
-attention 자체는 P4-13장에서 이어서 다룹니다.
+attention 자체는 P4-13.1, P4-13.2에서 이어서 다루고, Transformer로의 확장은 P4-14.1, P4-14.2에서 다시 연결합니다. vanishing gradient 수식과 BPTT의 상세 유도는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

@@ -23,7 +23,7 @@ CNN은 이미지 전체를 한꺼번에 같은 방식으로 보지 않고, 작�
 - padding, stride, dilation의 세부 구현 차이
 - 최신 vision architecture의 상세 비교
 
-구체적 연산인 convolution과 pooling은 P4-11.2에서 이어서 다룹니다.
+구체적 연산인 convolution과 pooling은 P4-11.2에서 이어서 다루고, 이미지 도메인 표현 학습의 큰 흐름은 P4-10.1, P4-10.2에서 다시 연결합니다. 최신 vision architecture의 상세 비교는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

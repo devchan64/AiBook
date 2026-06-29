@@ -23,7 +23,7 @@ RNN 계열 구조는 현재 입력만 보지 않고, 앞에서 본 정보를 어
 - backpropagation through time(BPTT)의 상세 전개
 - attention 이후 구조와의 정밀 비교
 
-장기 의존성(long-term dependency) 문제는 P4-12.2에서 이어서 더 집중해서 다룹니다.
+장기 의존성(long-term dependency) 문제는 P4-12.2에서 이어서 더 집중해서 다루고, attention 이후 구조와의 연결은 P4-13.1, P4-13.2에서 다시 이어집니다. 세부 게이트 수식과 BPTT의 상세 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
