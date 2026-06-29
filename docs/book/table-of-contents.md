@@ -465,6 +465,7 @@ flowchart LR
 
 - **P4-11.1 CNN의 직관**: 이미지에서 지역 패턴을 보는 구조를 봅니다.
 - **P4-11.2 합성곱(convolution)과 풀링(pooling)**: CNN의 핵심 연산을 간단히 봅니다.
+- **P4-11.3 보충학습: CNN과 Vision Transformer(ViT) 비교**: CNN 이후 비전 구조를 어떤 관점으로 비교하면 되는지 짧게 정리합니다.
 
 ### Module 6. 순차 구조와 RNN 계열
 

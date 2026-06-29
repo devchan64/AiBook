@@ -320,6 +320,7 @@ nav:
           - Chapter P4-11. CNN:
               - "P4-11.1 CNN의 직관": parts/part-04/chapter-11/section-01.md
               - "P4-11.2 합성곱(convolution)과 풀링(pooling)": parts/part-04/chapter-11/section-02.md
+              - "P4-11.3 보충학습: CNN과 Vision Transformer(ViT) 비교": parts/part-04/chapter-11/section-03.md
       - Module 6. 순차 구조와 RNN 계열:
           - "Chapter P4-12. RNN, LSTM, GRU":
               - "P4-12.1 RNN, LSTM, GRU의 필요성": parts/part-04/chapter-12/section-01.md
