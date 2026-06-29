@@ -1,0 +1,88 @@
+# P5-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기
+
+P5-2.1과 P5-2.2에서는 임베딩과 거리의 직관을 잡았습니다. 여기서는 본문에서 생략한 `임베딩을 어떻게 배우는가`와 `가까운 벡터를 어떻게 빨리 찾는가`를 큰 그림으로 정리합니다.
+
+## 이 절의 범위
+
+- word2vec, GloVe, sentence embedding은 무엇을 다르게 강조하는가?
+- contrastive learning은 어떤 학습 감각을 주는가?
+- nearest neighbor와 ANN은 왜 검색 시스템에서 중요해지는가?
+
+이 절은 다음 내용은 깊게 다루지 않습니다.
+
+- 손실 함수 수식 전개
+- HNSW, IVF 같은 인덱스별 구현 비교
+- 대규모 벤치마크 수치 경쟁
+
+구현 세부보다 `어떤 문제를 풀기 위해 이런 구조가 생겼는가`를 먼저 잡는 데 집중합니다.
+
+## 이 절의 목표
+
+- 대표 임베딩 계열을 목적 중심으로 구분할 수 있습니다.
+- contrastive learning이 `가까워져야 할 것과 멀어져야 할 것`을 함께 배우는 흐름임을 설명할 수 있습니다.
+- ANN이 정확도를 조금 희생하고 속도를 얻는 검색 구조라는 점을 말할 수 있습니다.
+
+## 임베딩 계열은 무엇을 다르게 보나
+
+입문 단계에서는 다음처럼 읽으면 충분합니다.
+
+| 계열 | 초심자용 직관 |
+| --- | --- |
+| word2vec | 단어 주변 문맥으로 단어 표현을 배운다 |
+| GloVe | 단어 동시출현 통계를 더 직접 반영한다 |
+| sentence embedding | 문장이나 문단 전체를 비교 가능한 벡터로 만든다 |
+
+이 구분은 절대적인 벽이 아니라, `무엇을 대표 벡터로 만들고 싶은가`의 차이에 가깝습니다.
+
+## contrastive learning은 어떤 감각인가
+
+contrastive learning은 단순화하면 다음 질문을 던집니다.
+
+- 서로 가까워져야 할 쌍은 무엇인가?
+- 서로 멀어져야 할 쌍은 무엇인가?
+
+예를 들어 같은 질문의 다른 표현은 가깝게, 전혀 다른 의미의 문장은 멀어지게 학습할 수 있습니다. 그래서 sentence embedding, 검색, 추천, 문장쌍 비교에서 자주 등장합니다.
+
+## nearest neighbor와 ANN은 왜 따로 말하나
+
+벡터 검색의 기본 질문은 단순합니다.
+
+`지금 이 질의 벡터와 가장 가까운 후보 몇 개를 빨리 찾을 수 있는가?`
+
+데이터가 아주 작다면 모든 벡터를 다 비교해도 됩니다. 하지만 문서 수가 커지면 속도가 급격히 문제 됩니다. 그래서 ANN(Approximate Nearest Neighbor)이 등장합니다.
+
+ANN의 핵심 감각은 다음과 같습니다.
+
+- 완전히 정확한 전수 비교 대신
+- 충분히 좋은 근접 후보를 더 빠르게 찾는다
+
+이 감각은 뒤의 P5-13.1 벡터 데이터베이스, P5-13.2 인덱스와 검색 품질로 바로 이어집니다.
+
+## 작은 예시
+
+고객 문의 임베딩이 있다고 가정해 봅시다.
+
+- `환불이 가능한가요?`
+- `결제 취소는 어떻게 하나요?`
+- `배송 주소를 바꾸고 싶어요`
+
+첫 두 문장은 비슷한 지원 의도로 더 가깝게 놓일 수 있습니다. 검색 시스템은 이런 벡터 공간을 이용해 관련 FAQ나 문서 후보를 먼저 찾습니다.
+
+## 이 절에서 기억할 관점
+
+- 임베딩 계열의 차이는 `무엇을 벡터로 잘 표현할 것인가`의 차이입니다.
+- contrastive learning은 가까운 것과 먼 것을 함께 배우는 감각입니다.
+- ANN은 큰 검색 공간에서 속도를 확보하기 위한 실용적 타협입니다.
+
+## 체크리스트
+
+- word2vec, GloVe, sentence embedding의 큰 차이를 말할 수 있는가?
+- contrastive learning의 목적을 수식 없이 설명할 수 있는가?
+- ANN이 왜 벡터 검색에서 필요한지 말할 수 있는가?
+
+## 출처와 참고 자료
+
+- Tomas Mikolov et al., `Efficient Estimation of Word Representations in Vector Space`, arXiv, 2013, 확인 날짜: 2026-06-29.
+- Jeffrey Pennington, Richard Socher, Christopher Manning, `GloVe: Global Vectors for Word Representation`, EMNLP, 2014, 확인 날짜: 2026-06-29.
+- Nils Reimers, Iryna Gurevych, `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks`, EMNLP-IJCNLP, 2019, 확인 날짜: 2026-06-29.
+- Pinecone, ANN/vector search 기초 문서, 확인 날짜: 2026-06-29.

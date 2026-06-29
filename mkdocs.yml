@@ -314,15 +314,18 @@ nav:
       - Chapter 1. 토큰과 토큰화:
           - "P5-1.1 토큰(token)은 무엇인가": parts/part-05/chapter-01/section-01.md
           - "P5-1.2 토큰화(tokenization)의 실제 영향": parts/part-05/chapter-01/section-02.md
+          - "P5-1.3 보충학습: BPE, WordPiece, SentencePiece를 처음 구분하는 법": parts/part-05/chapter-01/section-03.md
       - Chapter 2. 임베딩:
           - "P5-2.1 임베딩(embedding)의 직관": parts/part-05/chapter-02/section-01.md
           - "P5-2.2 의미와 거리": parts/part-05/chapter-02/section-02.md
+          - "P5-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기": parts/part-05/chapter-02/section-03.md
       - Chapter 3. LLM 발전사:
           - "P5-3.1 LLM 발전사의 큰 흐름": parts/part-05/chapter-03/section-01.md
           - "P5-3.2 직접 계보와 주변 근거": parts/part-05/chapter-03/section-02.md
       - Chapter 4. Transformer 구조 복습:
           - "P5-4.1 Transformer 구조 복습": parts/part-05/chapter-04/section-01.md
           - "P5-4.2 attention과 context window": parts/part-05/chapter-04/section-02.md
+          - "P5-4.3 보충학습: 위치 표현, multi-head attention, KV cache를 처음 읽는 법": parts/part-05/chapter-04/section-03.md
       - Chapter 5. BERT 계열:
           - "P5-5.1 BERT 계열의 위치": parts/part-05/chapter-05/section-01.md
           - "P5-5.2 이해 중심 태스크": parts/part-05/chapter-05/section-02.md

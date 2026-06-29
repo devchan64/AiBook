@@ -22,6 +22,8 @@ LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention�
 - KV cache 구현
 - 추론 최적화와 서빙 엔진 구조
 
+Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들어가야 하는 multi-head attention, 위치 표현, KV cache는 같은 장의 P5-4.3 보충학습에서 다시 회수합니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P5-18.1 AI 서비스가 현실에서 만나는 제약에서 다시 연결합니다.
+
 이 절의 목적은 Transformer 공식을 다시 쓰는 데 있지 않습니다. Part 5에서 다룰 BERT, GPT, pretraining, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡는 데 있습니다.
 
 ## 이 절의 목표
