@@ -129,14 +129,15 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["early information"]
   B["many time steps"]
-  C["current decision"]
-  D["important clue becomes weak"]
+  C["important clue becomes weak"]
+  D["current decision"]
 
-  A --> B --> C
-  B --> D
+  A --> B
+  B --> C
+  C --> D
 ```
 
 이 도식은 긴 시간 흐름 속에서 중요한 단서가 약해질 수 있다는 점을 상징적으로 보여 줍니다.

@@ -125,7 +125,7 @@ P5-5.2에서는 생성이 확률 분포에서 다음 토큰을 반복 선택하�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["pretrained base model"]
   B["task or domain data"]
   C["fine-tuning"]

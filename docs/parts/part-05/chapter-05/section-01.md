@@ -99,13 +99,15 @@ LLM은 보통 글자를 그대로 다루지 않고 토큰(token) 단위로 다�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["context tokens"]
   B["predict next token"]
   C["append token"]
   D["repeat with longer context"]
 
-  A --> B --> C --> D
+  A --> B
+  B --> C
+  C --> D
 ```
 
 이 도식의 핵심은 생성이 `한 번에 끝나는 계산`이 아니라 `반복되는 순차 계산`이라는 점입니다.

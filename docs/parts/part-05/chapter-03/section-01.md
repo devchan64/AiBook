@@ -133,14 +133,17 @@ LLM 설명에서 중요한 차이는 마지막 출력 해석입니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["tokens"]
   B["embeddings + positions"]
   C["Transformer blocks"]
   D["next-token scores"]
   E["chosen next token"]
 
-  A --> B --> C --> D --> E
+  A --> B
+  B --> C
+  C --> D
+  D --> E
 ```
 
 이 도식은 Part 5에서 Transformer를 읽을 때 가장 자주 떠올려야 하는 최소 구조입니다.

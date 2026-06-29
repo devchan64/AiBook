@@ -102,7 +102,7 @@ self-attention만으로는 토큰 간 관계를 읽을 수 있지만, 각 위치
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["input tokens"]
   B["self-attention"]
   C["add + norm"]
@@ -110,7 +110,11 @@ flowchart LR
   E["add + norm"]
   F["contextual token representations"]
 
-  A --> B --> C --> D --> E --> F
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F
 ```
 
 이 도식은 Transformer 블록 하나를 입문 수준에서 압축한 것입니다.

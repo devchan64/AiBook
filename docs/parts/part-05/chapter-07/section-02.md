@@ -119,7 +119,7 @@ LoRA 같은 방식이 매력적인 이유는 다음과 같습니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["base model"]
   B["small trainable update"]
   C["task-adapted model behavior"]

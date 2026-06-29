@@ -139,13 +139,15 @@ P5-4.2에서는 대화형 LLM이 단순 자동완성 모델 위에 지시 따르
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["large text corpus"]
   B["pretraining"]
   C["general language patterns"]
   D["task-specific tuning or prompting"]
 
-  A --> B --> C --> D
+  A --> B
+  B --> C
+  C --> D
 ```
 
 이 도식은 사전학습이 끝이 아니라, 이후 여러 사용 방식의 출발점이라는 점을 보여 줍니다.

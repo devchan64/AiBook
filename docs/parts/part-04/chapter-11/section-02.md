@@ -112,14 +112,17 @@ max pooling은 작은 창 안에서 가장 큰 값 하나를 고릅니다. 이 �
 둘을 아주 단순하게 이어 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["input image"]
   B["convolution<br/>detect local pattern"]
   C["feature map"]
   D["pooling<br/>summarize response"]
   E["smaller feature map"]
 
-  A --> B --> C --> D --> E
+  A --> B
+  B --> C
+  C --> D
+  D --> E
 ```
 
 이 흐름은 CNN이:

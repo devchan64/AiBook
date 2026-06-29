@@ -95,13 +95,15 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["user question"]
   B["retrieve top documents"]
   C["build prompt with question plus docs"]
   D["generate answer"]
 
-  A --> B --> C --> D
+  A --> B
+  B --> C
+  C --> D
 ```
 
 이 도식의 핵심은 검색 결과가 답변 뒤에 붙는 것이 아니라, `답변 전에 입력 맥락으로 들어간다`는 점입니다.

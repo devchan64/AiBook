@@ -87,12 +87,19 @@ RNN의 핵심 발상은 매우 단순하게 요약할 수 있습니다.
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["x1"] --> B["state h1"]
-  B --> C["state h2"]
-  D["x2"] --> C
-  C --> E["state h3"]
-  F["x3"] --> E
+flowchart TD
+  A["x1"]
+  B["state h1"]
+  C["x2"]
+  D["state h2"]
+  E["x3"]
+  F["state h3"]
+
+  A --> B
+  B --> D
+  C --> D
+  D --> F
+  E --> F
 ```
 
 이 도식은 상태(state)가 시간에 따라 이어진다는 점을 보여 줍니다.
