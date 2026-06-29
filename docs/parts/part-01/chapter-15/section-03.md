@@ -29,6 +29,16 @@
 - 에이전트(agent)의 도구 권한은 최소 권한(least privilege)으로 제한해야 함을 이해합니다.
 - 보안과 개인정보는 모델 하나가 아니라 서비스 구조 전체에서 관리해야 함을 설명합니다.
 
+## 초심자가 먼저 붙잡을 세 가지
+
+이 절은 보안을 전문가 전용 부록처럼 보지 않게 만드는 절입니다. 처음에는 아래 세 가지만 먼저 붙잡으면 됩니다.
+
+| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| --- | --- | --- |
+| AI 입력은 대화가 아니라 데이터 이동이라는 점 | 입력을 가볍게 생각하는 습관을 줄여 줍니다. | 넣은 정보가 서버, 로그, 검색 시스템으로 이동할 수 있다고 이해하면 충분합니다. |
+| 프롬프트 인젝션은 외부 문서가 AI 행동을 바꿀 수 있는 보안 문제라는 점 | 검색과 도구 사용이 붙은 시스템에서 왜 위험한지 보여 줍니다. | 문서 안의 숨은 지시가 원래 규칙을 흔들 수 있다고 알면 충분합니다. |
+| 에이전트 권한은 최소 권한으로 제한해야 한다는 점 | 자동화 편의와 보안 위험을 함께 보게 해 줍니다. | 필요한 도구만, 필요한 범위만 열어야 한다고 이해하면 충분합니다. |
+
 ## 입력은 대화가 아니라 데이터 이동이다
 
 AI에게 문장을 입력하는 일은 단순한 대화처럼 보입니다. 하지만 서비스 관점에서는 데이터가 외부 시스템으로 이동하는 일입니다.
@@ -123,4 +133,3 @@ AI 보안은 모델을 막는 일이 아니라 데이터, 권한, 기록의 흐�
 - OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/), 확인 날짜: 2026-06-23.
 - NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), 확인 날짜: 2026-06-23.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1), NIST AI 600-1, 2024, 확인 날짜: 2026-06-23.
-

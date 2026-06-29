@@ -17,6 +17,16 @@
 | 예측(prediction) | 미래에 어떤 일이 일어날 것이라는 주장 |
 | 작업 가설(working hypothesis) | 검증을 위해 임시로 세운 설명 |
 
+## 초심자가 먼저 붙잡을 세 가지
+
+이 절은 개인적 직관을 버리자는 절이 아니라, 어디까지를 사실로 쓰고 어디까지를 가설로 남길지 정하는 절입니다. 처음에는 아래 세 가지만 먼저 붙잡으면 됩니다.
+
+| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| --- | --- | --- |
+| 질문과 사실은 다르다는 점 | 개인 해석을 검증 없이 본문 사실로 옮기는 일을 막아 줍니다. | 떠오른 생각은 먼저 질문이나 가설로 두면 된다고 이해하면 충분합니다. |
+| 작업 가설은 틀릴 수 있음을 드러낸 상태로 남겨야 한다는 점 | 직관을 보존하면서도 독자를 혼란시키지 않게 해 줍니다. | “도움이 되는 관점일 수 있다”처럼 조건부로 쓰면 충분합니다. |
+| 예측은 보고서와 기관 자료에 기대어 써야 한다는 점 | 생성형 AI 특유의 창작적 미래 서술을 경계하게 해 줍니다. | 미래 단정 대신 전망 자료와 시나리오를 인용해 쓰면 충분합니다. |
+
 ## 작업 가설은 숨기지 말고 표시한다
 
 작업 가설(working hypothesis)은 틀릴 수 있다는 전제를 가진 설명입니다. 학습 과정에서는 매우 유용합니다. 다만 검증된 사실처럼 쓰면 위험합니다.
@@ -93,4 +103,3 @@ Part 1은 AI의 큰 지도를 잡는 목적이었습니다. 세부 수학, 코�
 - Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708), 2026, 확인 날짜: 2026-06-23.
 - World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/), 2025-01-07, 확인 날짜: 2026-06-23.
 - U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
-

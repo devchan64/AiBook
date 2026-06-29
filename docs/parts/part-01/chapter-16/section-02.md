@@ -15,6 +15,16 @@ AI를 실무에서 쓸 때 가장 먼저 떠올릴 수 있는 적용은 반복 �
 | 요약(summary) | 긴 자료를 줄일 때 무엇을 잃을 수 있는가? |
 | 검토(review) | AI 결과를 사람이 어떻게 확인할 것인가? |
 
+## 초심자가 먼저 붙잡을 세 가지
+
+이 절은 AI가 업무를 전부 대신한다는 환상을 줄이고, 어느 단계에서 보조가 되는지 나누어 보는 절입니다. 처음에는 아래 세 가지만 먼저 붙잡으면 됩니다.
+
+| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| --- | --- | --- |
+| 자동화는 업무 전체가 아니라 단계를 나누는 일이라는 점 | AI 활용 범위를 현실적으로 보게 해 줍니다. | 분류, 초안, 검색처럼 맡길 수 있는 부분을 나눠 본다고 이해하면 충분합니다. |
+| 검색 결과는 답이 아니라 근거 후보라는 점 | RAG와 벡터 검색을 과신하지 않게 해 줍니다. | 관련 문서를 찾아도 원문 확인은 사람이 해야 한다고 알면 충분합니다. |
+| 생산성은 검토 비용까지 포함해야 한다는 점 | “빠르다”와 “쓸 만하다”를 구분하게 해 줍니다. | 초안이 빨라도 수정이 많이 들면 전체 생산성은 낮을 수 있다고 이해하면 충분합니다. |
+
 ## 자동화는 업무 전체가 아니라 단계를 나누는 일이다
 
 실무 자동화에서 중요한 것은 업무를 작은 단계로 나누는 것입니다.
@@ -95,4 +105,3 @@ AI 적용의 생산성(productivity)은 생성 속도만으로 판단하면 안 
 - NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), 확인 날짜: 2026-06-23.
 - U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
 - World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/), 2025-01-07, 확인 날짜: 2026-06-23.
-

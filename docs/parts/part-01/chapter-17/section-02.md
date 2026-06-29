@@ -15,6 +15,16 @@ AI 관련 글은 속도가 빠릅니다. 같은 사건도 기술 낙관론, 노�
 | 보고서(report) | 방법론, 표본, 지표, 한계 |
 | 정책 문서(policy document) | 적용 범위, 의무, 권고, 시행 시점 |
 
+## 초심자가 먼저 붙잡을 세 가지
+
+이 절은 외부 자료를 많이 읽는 법보다, 무엇을 먼저 분리해서 읽을지 정하는 절입니다. 처음에는 아래 세 가지만 먼저 붙잡으면 됩니다.
+
+| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| --- | --- | --- |
+| 뉴스에서는 사건과 해석을 먼저 분리해야 한다는 점 | 기사 문장을 그대로 결론으로 옮기는 실수를 줄여 줍니다. | 발표·소송·보고서 발간 자체와 그 의미 해석은 다르다고 알면 충분합니다. |
+| 보고서는 방법론과 표본을 봐야 한다는 점 | 숫자가 있어 보인다고 바로 믿지 않게 해 줍니다. | 누가 조사했고 범위가 어디까지인지 확인한다고 이해하면 충분합니다. |
+| 칼럼은 증거 전체가 아니라 관점 자료라는 점 | 의견과 사실을 섞어 읽는 문제를 줄여 줍니다. | 칼럼은 프레임과 쟁점을 주지만 결론 전체를 대신하지 않는다고 알면 충분합니다. |
+
 ## 먼저 사건과 해석을 분리한다
 
 뉴스를 읽을 때 가장 먼저 할 일은 사건(fact event)과 해석(interpretation)을 분리하는 것입니다.
@@ -104,4 +114,3 @@ AI 자료 읽기는 빠른 결론을 내리는 일이 아니라 자료의 성격
 - Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708), 2026, 확인 날짜: 2026-06-23.
 - World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/), 2025-01-07, 확인 날짜: 2026-06-23.
 - U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
-

@@ -15,6 +15,16 @@ AI를 이해했다는 느낌은 빠르게 생깁니다. 그러나 실제로 이�
 | 평가(evaluation) | 결과가 맞는지 어떻게 확인할 것인가? |
 | 기록(record) | 실패와 수정 과정을 어떻게 남길 것인가? |
 
+## 초심자가 먼저 붙잡을 세 가지
+
+이 절은 “프로젝트를 해 보자”를 막연한 말로 두지 않고, 학습 검증 단위로 줄이는 절입니다. 처음에는 아래 세 가지만 먼저 붙잡으면 됩니다.
+
+| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| --- | --- | --- |
+| 작은 프로젝트는 기술 이름보다 질문 하나에서 시작해야 한다는 점 | 시작 범위를 과하게 키우는 실수를 줄여 줍니다. | “RAG를 만들자”보다 “내 문서에서 관련 절을 찾을 수 있는가?”처럼 묻는다고 이해하면 충분합니다. |
+| 성공 기준(success criteria)을 먼저 적어야 한다는 점 | 결과 평가가 감각에만 머무르지 않게 해 줍니다. | 몇 개 질문에서 맞아야 하는지, 무엇을 실패로 볼지 먼저 정하면 충분합니다. |
+| 실패 기록이 학습 자료가 된다는 점 | 프로젝트를 단순 성공/실패로만 보지 않게 해 줍니다. | 검색 실패, 출처 누락, 과도한 생성 같은 유형을 남긴다고 이해하면 충분합니다. |
+
 ## 작은 프로젝트는 질문 하나에서 시작한다
 
 좋은 입문 프로젝트는 기술 이름에서 시작하지 않습니다. 질문 하나에서 시작합니다.
@@ -92,4 +102,3 @@ AI 프로젝트는 큰 도구를 붙이는 일이 아니라, 작은 질문을 �
 - NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), 확인 날짜: 2026-06-23.
 - OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/), 확인 날짜: 2026-06-23.
 - U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
-

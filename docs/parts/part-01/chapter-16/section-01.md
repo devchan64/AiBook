@@ -21,6 +21,16 @@
 | 근거 확인(evidence review) | AI 초안을 어떻게 검증할 것인가? |
 | 작업 가설(working hypothesis) | 개인적 직관을 어떻게 안전하게 보존할 것인가? |
 
+## 초심자가 먼저 붙잡을 세 가지
+
+이 절은 개인 학습에 AI를 어떻게 붙일지 설명하는 적용 사례입니다. 처음에는 아래 세 가지만 먼저 붙잡으면 됩니다.
+
+| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| --- | --- | --- |
+| AI는 기억을 정확히 대신하기보다 구조를 잡는 데 도움을 준다는 점 | AI를 만능 교사처럼 기대하는 오해를 줄여 줍니다. | 질문 정리, 목차 구성, 초안 작성 보조로 보는 정도면 충분합니다. |
+| 문서화는 학습 결과이자 검증 장치라는 점 | “안다고 느끼는 것”과 “설명할 수 있는 것”을 구분하게 해 줍니다. | 글로 쓰면 빈틈이 드러난다고 이해하면 충분합니다. |
+| 개인적 직관은 버리기보다 작업 가설로 보존해야 한다는 점 | 이 책의 작성 방식과 직접 연결됩니다. | 직관을 사실처럼 쓰지 않고 검증 후보로 남긴다고 알면 충분합니다. |
+
 ## AI는 기억을 대신하기보다 구조를 잡아 준다
 
 AI는 개인의 기억을 정확히 복원해 주는 도구가 아닙니다. 대신 흩어진 기억을 질문으로 바꾸고, 질문을 목차와 문서 구조로 바꾸는 데 도움이 됩니다.
@@ -93,4 +103,3 @@ AI가 제공하는 설명은 학습 활동의 출발점이 될 수 있습니다.
 
 - U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
 - UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research), 2023, 확인 날짜: 2026-06-23.
-
