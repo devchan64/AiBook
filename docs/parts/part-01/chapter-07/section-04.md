@@ -13,7 +13,7 @@
 
 ## 이 절의 범위
 
-이 절은 센서(sensor), 인식(perception), 지도 제작(map making), 제어(control), 차량 동역학(vehicle dynamics)을 깊게 다루지 않습니다. 강화학습(reinforcement learning) 중심의 자율주행 접근을 비교하지도 않습니다.
+이 절은 센서(sensor), 인식(perception), 지도 제작(map making), 제어(control), 차량 동역학(vehicle dynamics)을 깊게 다루지 않습니다. 강화학습(reinforcement learning) 중심의 자율주행 접근도 여기서 비교하지 않습니다. 강화학습 자체는 P1-8.3과 Part 3의 P3-19장에서 다시 보지만, 자율주행 안에서의 RL 계열 비교는 이 책 본편 범위 밖으로 둡니다.
 
 여기서는 다음만 다룹니다.
 

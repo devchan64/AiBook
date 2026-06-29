@@ -21,7 +21,7 @@
 | 같은 행동을 반복해도 왜 결과가 조금씩 달라질까? | 확률적 과정(stochastic process) |
 | 데이터가 부족해서 모르는 것과, 세상 자체가 흔들리는 것은 같은가? | 인식적 불확실성(epistemic uncertainty), 우연적 불확실성(aleatoric uncertainty) |
 
-Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵심 방법론 요소이며, 실무 적용과 안전 요구가 커지면서 우연적 불확실성(aleatoric uncertainty)과 인식적 불확실성(epistemic uncertainty)을 구분하는 일이 중요해졌다고 설명합니다. 이 절에서는 두 용어를 깊게 다루지 않습니다. 다만 “불확실성에도 종류가 있다”는 호기심만 남겨 둡니다.
+Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵심 방법론 요소이며, 실무 적용과 안전 요구가 커지면서 우연적 불확실성(aleatoric uncertainty)과 인식적 불확실성(epistemic uncertainty)을 구분하는 일이 중요해졌다고 설명합니다. 이 절에서는 두 용어를 깊게 다루지 않습니다. 이 책 본편에서도 두 구분을 별도 장으로 확장하지는 않고, 여기서는 “불확실성에도 종류가 있다”는 감각만 남겨 둡니다.
 
 입문 단계에서는 다음 질문을 기억하면 충분합니다.
 
