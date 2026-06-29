@@ -262,7 +262,7 @@ flowchart LR
 > 확률 점수가 실제 빈도와 잘 맞는가?
 > 결정 기준은 무엇인가?
 
-이 질문들은 이후 머신러닝에서 평가(evaluation), 보정(calibration), 편향(bias), 안전성(safety)을 볼 때 다시 등장합니다.
+이 질문들은 Part 3의 P3-6 평가 지표와 P3-6.4 보충학습에서 점수 해석과 보정(calibration) 문제로, Part 5의 P5-10.2에서 안전성과 정렬(alignment) 문제로 다시 등장합니다.
 
 ## AI에서 확률이 필요한 이유
 
