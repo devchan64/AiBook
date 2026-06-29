@@ -25,7 +25,7 @@ Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트
 
 multi-head attention의 수식 전개와 positional encoding의 상세 수학은 여기서 다루지 않습니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 실제 분화는 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 다시 회수합니다. 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절의 목적은 Transformer 논문의 공식을 다 읽는 것이 아니라, `블록 수준의 기본 지형`을 잡는 것입니다. 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 실제 분화는 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 다시 연결합니다. multi-head attention 수식과 positional encoding의 상세 수학은 이 책의 현재 본편 범위 밖에 둡니다.
+여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
 
 ## 이 절의 목표
 

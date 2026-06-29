@@ -25,7 +25,7 @@ P4-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 
 MSE, MAE, cross-entropy의 엄밀한 유도와 KL divergence, maximum likelihood의 상세 연결은 여기서 수식 전개로 다루지 않습니다. 대신 손실의 미분과 학습 갱신 흐름은 P4-5.1, P4-5.2에서 다시 연결합니다. label smoothing, focal loss, CTC loss 같은 특수 손실은 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절의 목적은 공식을 많이 보여 주는 것이 아니라, `왜 문제마다 손실이 달라지는가`를 설명하는 것입니다. 손실의 미분과 학습 갱신 흐름은 P4-5.1, P4-5.2에서 다시 연결하고, label smoothing, focal loss, CTC loss 같은 특수 손실은 이 책의 현재 본편 범위 밖에 둡니다.
+이 절에서는 공식을 많이 보여 주기보다, `왜 문제마다 손실이 달라지는가`를 설명합니다. 손실의 미분과 학습 갱신 흐름은 P4-5.1, P4-5.2에서 다시 연결하고, label smoothing, focal loss, CTC loss 같은 특수 손실은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
