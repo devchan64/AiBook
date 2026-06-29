@@ -22,7 +22,7 @@ P5-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token p
 - nucleus sampling(top-p) 세부 공식
 - 디코더 내부 attention 계산 과정
 
-이 절은 생성 선택의 감각까지만 다루고, attention 구조 자체는 이미 P5-3.1 Transformer 구조 복습과 P5-3.2 attention과 context window에서 다시 읽을 수 있습니다. beam search와 top-p의 공식 전개는 현재 판의 입문 본편 범위 밖으로 둡니다.
+이 절은 생성 선택의 감각까지만 다룹니다. 디코더 내부 attention 계산 과정은 이미 P5-3.1 Transformer 구조 복습과 P5-3.2 attention과 context window에서 다시 읽을 수 있습니다. beam search 수식과 nucleus sampling(top-p) 세부 공식은 현재 판의 입문 본편 범위 밖으로 두고, 여기서는 `후보를 어떻게 고르느냐에 따라 결과가 왜 달라지는가`라는 관점만 남깁니다.
 
 이 절의 목적은 `생성은 확률 분포에서 다음 토큰을 반복 선택하는 과정`이라는 직관을 만드는 것입니다.
 
