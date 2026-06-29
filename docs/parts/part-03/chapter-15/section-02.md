@@ -34,7 +34,7 @@ P3-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모�
 - 특징 중요도가 곧 인과관계(causality)나 진짜 원인 순위를 뜻하지 않는다는 점을 설명할 수 있습니다.
 - 상관 특성(multicollinear or correlated features)과 high-cardinality feature가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
 
-## 왜 이 절이 필요한가
+## 학습 배경
 
 랜덤포레스트를 배우고 나면 독자는 이런 기대를 갖기 쉽습니다.
 
@@ -52,7 +52,9 @@ P3-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모�
 
 즉, 15.2는 `중요도 숫자를 믿는 법`이 아니라 `중요도 숫자를 과신하지 않는 법`을 배우는 절입니다.
 
-## 특징 중요도는 어떤 생각에서 나오나
+## 주요 학습내용
+
+### 특징 중요도는 어떤 생각에서 나오나
 
 scikit-learn 사용자 가이드는 트리에서 상위에 있는 decision node가 더 많은 샘플의 예측에 기여하고, split으로 impurity를 얼마나 줄였는지를 합쳐 상대적 중요도를 추정할 수 있다고 설명합니다. 이 아이디어를 여러 randomized tree에 대해 평균낸 것이 mean decrease in impurity, 즉 MDI입니다.
 
@@ -66,7 +68,7 @@ scikit-learn 사용자 가이드는 트리에서 상위에 있는 decision node�
 
 즉, 중요도는 `모델 내부의 사용 기록`에 가깝지, 세상에서의 진짜 중요도나 원인의 크기를 바로 뜻하지는 않습니다.
 
-## MDI(mean decrease in impurity)는 무엇인가
+### MDI(mean decrease in impurity)는 무엇인가
 
 scikit-learn 문서는 tree ensemble의 특징 중요도를 impurity-based feature importance로 설명하고, 이를 여러 tree에 평균낸 것이 MDI라고 설명합니다.
 
@@ -94,7 +96,7 @@ flowchart TD
 
 이 구조 덕분에 `feature_importances_`는 계산이 빠르고, 랜덤포레스트를 학습한 뒤 바로 볼 수 있습니다.
 
-## 왜 상위 분기가 더 크게 작용하는가
+### 왜 상위 분기가 더 크게 작용하는가
 
 scikit-learn 문서는 트리의 상위 분기에서 사용된 feature가 더 많은 입력 샘플의 최종 예측에 영향을 준다고 설명합니다. 그래서 같은 impurity 감소라도, 더 많은 샘플 흐름을 바꾼 분기가 중요도에 더 크게 반영될 수 있습니다.
 
@@ -102,7 +104,7 @@ scikit-learn 문서는 트리의 상위 분기에서 사용된 feature가 더 �
 
 `트리 초반의 질문은 더 많은 사람을 나누고, 뒤쪽의 질문은 더 적은 사람만 나눈다. 그래서 초반 분기 feature가 전체 중요도에서 더 크게 보일 수 있다.`
 
-## `feature_importances_`는 어떻게 읽어야 하나
+### `feature_importances_`는 어떻게 읽어야 하나
 
 API 문서는 `feature_importances_`를 impurity-based feature importances라고 설명합니다. 값은 양수이고 합은 1.0입니다.
 
@@ -124,7 +126,7 @@ API 문서는 `feature_importances_`를 impurity-based feature importances라고
 
 라면, 모델 내부 분기 기준에서는 `visits`가 가장 큰 역할을 했다고 읽을 수 있습니다. 하지만 이것이 곧 `방문 수가 가장 강한 원인이다`라는 뜻은 아닙니다.
 
-## permutation importance는 왜 따로 필요한가
+### permutation importance는 왜 따로 필요한가
 
 scikit-learn 문서는 impurity-based feature importance의 대안으로 permutation importance를 제시합니다. permutation importance는 특정 feature 값을 무작위로 섞었을 때 성능이 얼마나 나빠지는지를 봅니다.
 
@@ -139,7 +141,7 @@ scikit-learn 문서는 impurity-based feature importance의 대안으로 permuta
 
 이 차이는 매우 중요합니다. 하나는 `모델 안에서의 사용 흔적`이고, 다른 하나는 `성능 의존도 검사`에 가깝기 때문입니다.
 
-## permutation importance를 흐름으로 보기
+### permutation importance를 흐름으로 보기
 
 ```mermaid
 flowchart TD
@@ -155,7 +157,9 @@ flowchart TD
 
 이 흐름은 독자에게 매우 유익합니다. 왜냐하면 중요도를 `숫자 속성`이 아니라 `성능 변화 실험`으로 다시 읽게 하기 때문입니다.
 
-## 왜 impurity-based importance는 조심해야 하나
+## 세부 학습내용
+
+### 왜 impurity-based importance는 조심해야 하나
 
 scikit-learn 사용자 가이드는 impurity-based feature importances에 두 가지 주요 문제가 있다고 경고합니다.
 
@@ -168,7 +172,7 @@ scikit-learn 사용자 가이드는 impurity-based feature importances에 두 �
 
 예를 들어 고객 ID처럼 값 종류가 매우 많은 열이 있다면, 실제로는 일반화에 도움이 적어도 훈련 데이터 안에서는 분기를 잘게 나누기 쉬워 중요도가 커 보일 수 있습니다.
 
-## 상관 특성이 있으면 왜 헷갈리는가
+### 상관 특성이 있으면 왜 헷갈리는가
 
 scikit-learn 예제는 multicollinear or correlated features에서는 permutation importance가 기대와 다르게 보일 수 있음을 보여 줍니다. 서로 비슷한 정보를 가진 feature가 여러 개 있으면, 하나를 섞어도 다른 feature가 대신 역할을 할 수 있기 때문입니다.
 
@@ -184,7 +188,9 @@ scikit-learn 예제는 multicollinear or correlated features에서는 permutatio
 
 즉, 중요도 해석은 feature 하나만 보는 일이 아니라, feature들 사이의 관계를 함께 읽는 일입니다.
 
-## Python 예제로 MDI 보기
+## 연습 및 예제
+
+### Python 예제로 MDI 보기
 
 이번 예제는 랜덤포레스트를 학습한 뒤 `feature_importances_`를 직접 읽어 보는 가장 작은 실습입니다.
 
@@ -238,7 +244,7 @@ sum: 1.0
 2. petal length와 petal width가 이 모델에서 더 많이 쓰였다.
 3. 이것은 `이 모델의 분기 사용 흔적`이지, 곧바로 인과 설명은 아니다.
 
-## Python 예제로 permutation importance와 나란히 보기
+### Python 예제로 permutation importance와 나란히 보기
 
 이번에는 같은 모델에 대해 permutation importance를 같이 봅니다.
 
@@ -294,7 +300,7 @@ petal width (cm)        0.430        0.189
 - 같은 feature라도 `분기에서 많이 쓰였는가`와 `섞었을 때 성능이 얼마나 떨어지는가`는 다른 질문입니다.
 - 따라서 하나의 중요도 숫자만 보고 해석을 끝내면 위험합니다.
 
-## high-cardinality feature를 조심해야 하는 이유
+### high-cardinality feature를 조심해야 하는 이유
 
 트리 계열은 unique value가 많은 feature에 쉽게 반응할 수 있습니다. 이런 feature는 훈련 데이터 안에서 분기를 더 세밀하게 만들 기회를 많이 주기 때문입니다.
 
@@ -310,7 +316,7 @@ petal width (cm)        0.430        0.189
 
 `이 열은 정말 의미 있는 변수인가, 아니면 그냥 값을 잘게 나누기 쉬운 열인가?`
 
-## 상관 특성(correlated features)을 조심해야 하는 이유
+### 상관 특성(correlated features)을 조심해야 하는 이유
 
 예를 들어 `monthly_spend`와 `yearly_spend / 12`처럼 거의 같은 뜻의 열이 둘 다 들어 있다면, 모델은 둘 중 하나를 주로 쓰고 다른 하나는 덜 쓸 수 있습니다.
 
@@ -329,7 +335,9 @@ petal width (cm)        0.430        0.189
 - 숫자가 큰 feature가 정말 독립적으로 중요한가?
 - 숫자가 낮은 feature가 다른 feature에 가려진 것은 아닌가?
 
-## 실무에서 어떻게 읽으면 좋은가
+## 사례 및 예시
+
+### 실무에서 어떻게 읽으면 좋은가
 
 특징 중요도는 다음처럼 쓰는 편이 보수적입니다.
 
