@@ -118,7 +118,7 @@ sum(scores) / len(scores)
 
 > 해석: 평균은 전체 점수의 중심을 보는 데 유용하지만, 45처럼 낮은 값이 섞여 있다는 사실은 평균만으로 충분히 드러나지 않는다.
 
-이런 기록은 나중에 Part 3에서 모델 평가(metric), 데이터 분포(distribution), 오차(error)를 다시 볼 때 도움이 됩니다.
+이런 기록은 Part 3의 P3-5 일반화(generalization), P3-6 평가 지표(metric), P3-10.2 잔차(residual)와 오차(error)를 다시 볼 때 도움이 됩니다.
 
 ## 노트북은 실험을 작게 쪼개기 좋다
 
