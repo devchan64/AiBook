@@ -17,7 +17,7 @@ P4-6.1에서는 학습(learning)과 모델 실행(inference)을 `파라미터를
 - dropout과 batch normalization은 왜 모드에 따라 다르게 동작하는가?
 - 검증(validation)과 테스트(test)에서 왜 평가 모드가 중요한가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
 - batch normalization 수식 유도
 - dropout 확률 설계의 세부 튜닝
