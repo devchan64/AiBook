@@ -1,6 +1,6 @@
-# P5-4.3 보충학습: 위치 표현, multi-head attention, KV cache를 처음 읽는 법
+# P5-3.3 보충학습: 위치 표현, multi-head attention, KV cache를 처음 읽는 법
 
-P5-4.1과 P5-4.2에서는 Transformer와 context window의 큰 구조를 보았습니다. 여기서는 본문에서 잠시 넘긴 구현 쪽 핵심 이름들을 입문 기준으로 정리합니다.
+P5-3.1과 P5-3.2에서는 Transformer와 context window의 큰 구조를 보았습니다. 여기서는 본문에서 잠시 넘긴 구현 쪽 핵심 이름들을 입문 기준으로 정리합니다.
 
 ## 이 절의 범위
 
@@ -49,7 +49,7 @@ KV cache는 앞에서 계산한 일부 attention 관련 값을 재사용해, 다
 - context window가 길수록 계산 부담이 커지고
 - KV cache는 그 반복 부담을 줄이는 쪽으로 작동합니다
 
-이 감각은 서비스 제약을 다루는 P5-18.1에서도 다시 중요해집니다.
+이 감각은 서비스 제약을 다루는 P5-16.1에서도 다시 중요해집니다.
 
 ## 작은 예시
 

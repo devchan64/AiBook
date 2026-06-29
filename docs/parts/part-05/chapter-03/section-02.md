@@ -1,250 +1,212 @@
-# P5-3.2 직접 계보와 주변 근거
+# P5-3.2 attention과 context window
 
-P5-3.1에서는 LLM 발전사를 큰 흐름으로 정리했습니다. 하지만 여기서 한 가지 구분이 더 필요합니다.
+P5-3.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이제 바로 다음 제약을 봐야 합니다.
 
-모든 딥러닝 발전사가 곧바로 LLM의 직접 계보인 것은 아니다.
+Transformer가 이전 토큰을 참고할 수 있다면, 실제로는 어디까지 참고할 수 있는가?
 
-이 절은 그 구분을 다룹니다.
+이 절은 그 질문에 답합니다.
 
-직접 계보(direct lineage)는 현재 LLM 구조와 학습 방식으로 직접 이어지는 흐름이고, 주변 근거(surrounding evidence)는 딥러닝 확산과 계산 패러다임 변화를 설명하지만 LLM 구조 자체의 조상이라고 단정하기 어려운 흐름이다.
+context window는 모델이 한 번의 계산 안에서 참고할 수 있는 토큰 범위이며, attention은 그 범위 안에서 어떤 토큰이 더 중요한지 계산하는 구조다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 무엇을 LLM의 직접 계보라고 부를 수 있는가?
-- 무엇은 딥러닝 확산의 중요한 사례이지만 직접 계보라고 하기는 어려운가?
-- 이런 구분이 왜 학습자에게 중요한가?
+- attention과 context window는 어떤 관계인가?
+- 왜 `모든 이전 토큰을 본다`는 말에도 실제 한계가 붙는가?
+- context window는 왜 비용, 품질, 서비스 구조에 영향을 주는가?
 
 이 절은 다음 내용은 깊게 다루지 않습니다.
 
-- 모든 주변 분야 논문 열거
-- 음성, 비전, 추천 모델의 상세 발전사
-- 멀티모달 모델의 최신 계보
+- RoPE, ALiBi 같은 위치 표현 세부 비교
+- KV cache 최적화
+- 장문맥 전용 아키텍처의 세부 구현
 
-이 절의 직접 계보 구분은 곧이어 P5-4.1, P5-5.1, P5-6.1에서 Transformer, BERT, GPT를 나누어 읽을 때 다시 쓰입니다. 반면 음성, 비전, 멀티모달 계보 전체를 따로 따라가는 일은 이 책의 현재 본편 범위 밖으로 둡니다.
+이 항목들은 같은 장의 P5-3.3 보충학습에서 `왜 긴 문맥을 다루기 어렵고 어떤 보강 장치가 붙는가`라는 수준으로 다시 설명합니다. 긴 문맥이 실제 서비스 구조와 RAG 설계에 미치는 영향은 P5-10.1, P5-10.2, P5-16.1에서도 다시 이어집니다.
 
-이 절의 목적은 `모든 AI 발전을 LLM 역사로 한 줄에 늘어놓는 오해`를 줄이는 데 있습니다. 동시에 이 절은 Part 5 본류를 잠시 멈추고 보는 `배경 구분 장`이라는 점을 분명히 해 둘 필요가 있습니다.
+이 절의 목적은 독자가 `문맥을 다 본다`는 표현을 너무 크게 해석하지 않게 하고, 실제 서비스에서 왜 문맥 길이 관리가 중요한지 설명하는 데 있습니다.
 
 ## 이 절의 목표
 
-- 직접 계보와 주변 근거를 구분할 수 있습니다.
-- LLM 발전사를 과장 없이 설명할 수 있습니다.
-- 딥러닝 확산 사례가 왜 중요하지만 직접 조상은 아닐 수 있는지 설명할 수 있습니다.
-- 다음 장의 Transformer 설명을 더 분명한 위치에서 읽을 수 있습니다.
+- context window를 `모델이 한 번에 참고할 수 있는 토큰 범위`로 설명할 수 있습니다.
+- attention이 그 범위 안에서 관련도를 계산한다는 점을 설명할 수 있습니다.
+- context window가 길이 제한, 비용, 지연 시간과 왜 연결되는지 말할 수 있습니다.
+- 이후 RAG와 긴 문서 처리 설명으로 자연스럽게 넘어갈 수 있습니다.
 
-## 이 절을 왜 짧게 읽고 넘어가도 되는가
+## attention은 범위 안의 관련도를 계산한다
 
-이 절의 역할은 새 구조를 하나 더 배우는 데 있지 않습니다. 뒤의 BERT, GPT, RAG 설명을 읽을 때 `무엇이 직접 계보이고 무엇이 배경 설명인가`를 구분하게 만드는 경계선 정리에 가깝습니다.
+attention은 토큰 간 관련도를 계산하는 구조입니다. 하지만 이 계산은 무한한 과거 전체를 보는 것이 아니라, 현재 입력에 들어와 있는 토큰 범위 안에서 이루어집니다.
 
-우선 다음 두 줄만 남기고 넘어가도 충분합니다.
+즉:
 
-- language modeling, attention, Transformer, pretraining은 직접 계보에 가깝다
-- 비전·음성·강화학습의 대표 성과는 중요하지만 주로 배경 설명으로 읽는다
+- attention은 `무엇을 더 볼 것인가`를 계산하고
+- context window는 `무엇까지 볼 수 있는가`를 제한합니다
 
-이 구분만 잡혀 있어도 뒤 장에서 구조 설명과 유행사 설명을 덜 섞게 됩니다.
+이 둘을 섞으면 안 됩니다.
 
-## 왜 이런 구분이 필요한가
+더 안전한 설명은 다음과 같습니다.
 
-이 절은 새로운 구조를 배우는 장이라기보다, 뒤의 GPT·RAG·에이전트 설명을 과장 없이 읽기 위한 경계선 정리 장입니다.
+`attention은 선택 규칙에 가깝고, context window는 입력 범위 제한에 가깝다.`
 
-최근에는 AI를 곧바로 LLM과 연결해 이해하는 경향이 강합니다. 이때 다음과 같은 혼동이 생기기 쉽습니다.
+## context window는 무엇을 뜻하나
 
-- 딥러닝이 유명해진 모든 사건이 곧바로 LLM 계보다
-- 음성 모델, 객체 검출 모델, 강화학습 모델이 모두 같은 직선 위에 있다
-- `신경망이니까 다 같은 역사다`
+context window는 모델이 한 번의 입력으로 받을 수 있는 토큰 길이 범위입니다.
 
-이렇게 설명하면 큰 분위기는 잡히지만, 구조적 이해는 흐려집니다.
+예를 들어 어떤 모델이 8k tokens를 지원한다면, 시스템 메시지, 사용자 입력, 대화 기록, 검색 결과, 도구 출력까지 합쳐 그 범위 안에 들어와야 합니다.
 
-더 안전한 설명은 다음입니다.
+다음처럼 이해하면 좋습니다.
 
-- 어떤 흐름은 LLM 구조와 학습 목표로 직접 이어진다
-- 어떤 흐름은 딥러닝 패러다임의 확산과 계산 자원의 중요성을 보여 주는 배경 증거다
+`문맥을 많이 넣을수록 좋을 것 같지만, 실제로는 토큰 길이 제한 안에서 무엇을 남기고 무엇을 줄일지 결정해야 한다.`
 
-## 직접 계보는 무엇인가
+## 왜 길이 제한이 중요한가
 
-이 책에서는 다음 흐름을 LLM의 직접 계보로 봅니다.
+context window는 단순 숫자 제한이 아닙니다. 실제로 다음 문제를 만듭니다.
 
-1. 언어 모델(language model)
-2. 임베딩과 분산 표현(distributed representation)
-3. RNN, LSTM, Seq2Seq
-4. Attention
-5. Transformer
-6. 사전학습(pretraining)
-7. GPT, BERT 같은 Transformer 계열 언어 모델
+- 긴 문서를 그대로 다 넣지 못할 수 있다
+- 오래된 대화 기록을 계속 누적하면 앞부분이 밀릴 수 있다
+- 검색 결과를 너무 많이 넣으면 비용이 커지고 핵심이 흐려질 수 있다
+- 도구 출력이 길면 정작 중요한 사용자 질문이 뒤로 밀릴 수 있다
 
-이 흐름의 공통점은 분명합니다.
+즉, context window는 모델 성능뿐 아니라 `서비스 설계`의 문제이기도 합니다.
 
-- 언어를 입력으로 다루고
-- 토큰이나 단어의 순서와 문맥을 계산하며
-- 다음 토큰 예측 또는 언어 표현 학습으로 이어지고
-- 현재 LLM 구조와 직접 연결됩니다
+## 긴 문맥이 항상 더 좋은가
 
-즉, 이들은 `LLM 내부 구조와 학습 방식`의 조상으로 설명할 수 있습니다.
+긴 context window는 분명 유리한 점이 있습니다.
 
-## 주변 근거는 무엇인가
+- 더 많은 배경 문서를 넣을 수 있고
+- 긴 코드 파일이나 긴 계약서를 한 번에 다루기 쉬워지며
+- 대화 맥락을 오래 유지하기 쉬워집니다
 
-반면 다음과 같은 사례는 매우 중요하지만, 직접 계보라고 단정하는 데는 주의가 필요합니다.
+하지만 항상 무조건 더 좋은 것은 아닙니다.
 
-- AlexNet과 이미지 인식 혁신
-- YOLO 같은 객체 검출(object detection) 계열
-- WaveNet, Deep Voice 같은 음성 생성(speech generation) 계열
-- AlphaGo, AlphaZero 같은 탐색과 강화학습의 대표 사례
+- 불필요한 문맥도 함께 늘어날 수 있고
+- 관련 없는 정보가 attention을 분산시킬 수 있으며
+- 비용과 지연 시간(latency)이 커질 수 있습니다
 
-이 사례들은 다음 점에서 중요합니다.
+따라서 실무에서는 단순히 `길면 좋다`보다 `중요한 문맥을 어떻게 잘 고를 것인가`가 더 중요해집니다.
 
-- 딥러닝이 실제 성능 전환을 만들 수 있음을 사회적으로 보여 주었고
-- GPU와 대규모 계산 자원의 중요성을 강화했으며
-- 학습 기반 접근이 다양한 도메인으로 확산되는 흐름을 만들었습니다
+## 왜 RAG와 연결되는가
 
-하지만 이들을 곧바로 `LLM의 직접 조상`이라고 쓰면 경계가 흐려집니다.
+RAG(retrieval-augmented generation)는 바로 이 문제와 연결됩니다.
 
-## Deep Voice나 YOLO는 왜 직접 계보가 아닌가
+긴 문서 전체를 넣는 대신:
 
-예를 들어 Deep Voice는 음성 생성(speech synthesis) 분야에서 중요한 사례입니다. YOLO는 실시간 객체 검출에서 대표적인 전환점입니다.
+- 관련 문서 조각만 검색하고
+- 필요한 부분만 잘라 넣어
+- 제한된 context window 안에서 근거를 더 효율적으로 사용하려는 구조이기 때문입니다
 
-이 둘은 모두 딥러닝 패러다임의 확산을 보여 주지만, 현재 LLM의 직접 구조를 형성한 핵심 언어 모델 계보와는 다릅니다.
+즉, context window의 존재는 RAG가 왜 필요한지 설명하는 중요한 배경입니다.
 
-더 안전한 설명은 다음입니다.
-
-- Deep Voice, YOLO는 `딥러닝이 다양한 입력과 출력 도메인에서 강해졌다`는 주변 근거다
-- Transformer 기반 LLM의 직접 구조사는 `언어 모델링과 Attention 계열`에서 더 직접적으로 찾아야 한다
-
-즉, 관련은 있지만 같은 선 위에 그대로 놓으면 안 됩니다.
-
-## 왜 주변 근거도 여전히 중요한가
-
-그렇다고 주변 근거를 빼 버리면 또 다른 문제가 생깁니다. LLM은 언어 모델만 조용히 발전해서 갑자기 등장한 것이 아니기 때문입니다.
-
-주변 근거는 다음 질문에 답해 줍니다.
-
-- 왜 딥러닝이 사회적으로 신뢰와 투자를 받게 되었는가?
-- 왜 병렬 처리와 GPU가 중요해졌는가?
-- 왜 데이터 규모, 모델 규모, 계산 규모가 함께 커졌는가?
-
-즉, 주변 근거는 `구조적 조상`은 아니지만 `역사적 분위기와 인프라 조건`을 설명합니다.
-
-## 직접 계보와 주변 근거를 나눠 그리면
+## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["language modeling"]
-  B["embeddings"]
-  C["RNN / Seq2Seq"]
-  D["attention"]
-  E["Transformer"]
-  F["pretrained LLM"]
+flowchart LR
+  A["all possible prior information"]
+  B["selected tokens inside context window"]
+  C["attention over selected tokens"]
+  D["next-token prediction"]
 
-  G["computer vision breakthroughs"]
-  H["speech generation breakthroughs"]
-  I["large-scale compute trend"]
-
-  A --> B --> C --> D --> E --> F
-  G -. surrounding evidence .-> F
-  H -. surrounding evidence .-> F
-  I -. enabling background .-> F
+  A --> B --> C --> D
 ```
 
-이 도식의 목적은 한 가지입니다.
+이 도식의 핵심은 다음입니다.
 
-`한 줄 역사`와 `배경 조건`을 구분해서 읽게 하는 것.
+- 전체 정보가 다 들어오는 것이 아니라
+- 먼저 윈도우 안에 들어온 정보가 있고
+- attention은 그 안에서 계산된다는 점입니다
 
 ## 사례로 보기
 
-### 사례 1. Transformer 설명
+### 사례 1. 긴 문서 요약
 
-Transformer를 설명할 때는 Attention과 Seq2Seq 병목 문제를 먼저 말하는 편이 직접 계보에 맞습니다.
+100페이지 문서를 그대로 넣기 어려우면, 중요한 절을 먼저 고르거나 요약 단위를 나눠야 합니다.
 
-### 사례 2. GPU 설명
+### 사례 2. 코드 도우미
 
-GPU와 대규모 계산 자원의 중요성을 설명할 때는 AlexNet, 비전 모델 확산, 대규모 병렬 처리 전환을 함께 드는 것이 유익합니다. 다만 이것은 구조적 조상 설명이 아니라 배경 설명입니다.
+큰 코드베이스 전체를 한 번에 넣을 수 없으므로, 현재 파일과 관련 함수, 에러 로그, 테스트 결과를 우선 선택해야 합니다.
 
-### 사례 3. 생성형 AI 붐
+### 사례 3. 대화형 챗봇
 
-텍스트 생성, 이미지 생성, 음성 생성이 함께 주목받으며 `생성형 AI`라는 인식이 강해졌습니다. 하지만 그 안에서도 각 모델 계보는 서로 다를 수 있습니다.
+대화가 길어질수록 오래된 메시지가 계속 누적됩니다. 이때 어떤 대화 기록을 남기고 어떤 기록은 요약할지 결정해야 합니다.
 
 ## 작은 Python 예제로 보기
 
-이번 예제의 목표는 모델 계보를 계산하는 것이 아니라, 항목을 `direct_lineage`와 `surrounding_evidence`로 나누는 사고를 보여 주는 것입니다.
+이번 예제의 목표는 실제 토크나이저 길이 계산이 아니라, 제한된 문맥 안에 일부 항목만 남긴다는 감각을 확인하는 것입니다.
 
 입력:
 
-- 몇 개의 대표 항목
+- 여러 개의 문맥 항목
+- 최대 개수 제한
 
 출력:
 
-- 직접 계보 목록
-- 주변 근거 목록
+- 윈도우 안에 남은 항목
 
 ```python
-items = {
-    "language_modeling": "direct_lineage",
-    "embeddings": "direct_lineage",
-    "attention": "direct_lineage",
-    "transformer": "direct_lineage",
-    "YOLO": "surrounding_evidence",
-    "Deep Voice": "surrounding_evidence",
-    "GPU scaling": "surrounding_evidence",
-}
+context_items = [
+    "system instruction",
+    "user question",
+    "document chunk 1",
+    "document chunk 2",
+    "tool output",
+    "older chat history",
+]
 
-for name, group in items.items():
-    print(name, "->", group)
+max_items = 4
+selected = context_items[:max_items]
+
+print("selected_context =")
+for item in selected:
+    print("-", item)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-language_modeling -> direct_lineage
-embeddings -> direct_lineage
-attention -> direct_lineage
-transformer -> direct_lineage
-YOLO -> surrounding_evidence
-Deep Voice -> surrounding_evidence
-GPU scaling -> surrounding_evidence
+selected_context =
+- system instruction
+- user question
+- document chunk 1
+- document chunk 2
 ```
 
-이 예제는 분류 그 자체보다 `어떤 질문으로 역사를 정리할 것인가`를 보여 주는 데 목적이 있습니다.
+이 예제는 실제 토큰 길이 계산을 하지 않지만, `모든 정보를 다 넣지 못하므로 선택이 필요하다`는 핵심 감각을 보여 줍니다.
 
 ## 역사와 커리큘럼 관점
 
-이 절은 역사 설명을 더 보수적으로 정리하기 위한 절입니다. 독자는 모든 딥러닝 성과를 하나의 직선 위에 놓기 쉽고, 재학습자는 과거에 본 다양한 키워드를 한 줄 역사로 묶고 싶어질 수 있습니다.
+초기 언어 모델에서는 이렇게 긴 문맥 관리 문제가 지금처럼 실무 전면에 드러나지 않았습니다. 하지만 Transformer와 LLM이 긴 입력을 다루는 범용 구조가 되면서, 이제 문맥 길이 관리 자체가 중요한 설계 주제가 되었습니다.
 
-하지만 커리큘럼 관점에서는 다음 구분이 더 중요합니다.
+커리큘럼 관점에서 이 절은 매우 중요합니다.
 
-- `직접 구조사`: 현재 LLM을 만든 핵심 계보
-- `주변 확산사`: 딥러닝이 왜 강해졌고 왜 널리 받아들여졌는지 보여 주는 사례
+- Transformer 구조를 실제 사용 제약과 연결하고
+- 이후 RAG, prompt 설계, tool use, agent loop에서 왜 입력 선택이 중요한지 설명하며
+- `모델이 다 기억한다`는 오해를 줄이기 때문입니다
 
-이 구분이 있어야 뒤에서 BERT, GPT, pretraining, prompt, RAG, agent를 설명할 때 구조와 분위기를 섞지 않게 됩니다.
+## 다음 장과의 연결
 
-## 본류와의 연결
+여기까지 오면 이제 Transformer 구조 위에서 갈라지는 두 흐름을 봐야 합니다.
 
-여기까지 구분이 잡히면 앞에서 본 본류 설명을 더 좁은 구조 질문으로 다시 읽을 수 있습니다.
+- 이전 토큰을 바탕으로 다음 토큰을 생성하는 GPT 계열
+- 그 생성 구조가 왜 사용자 경험을 크게 바꾸었는가
 
-- 그렇다면 LLM 관점에서 Transformer 구조를 다시 보면 무엇이 핵심인가?
-- 토큰, context window, causal generation과 연결되는 지점은 어디인가?
-
-이 질문은 본류의 P5-4.1 Transformer를 LLM 관점에서 다시 읽기를 다시 떠올리게 만듭니다. 즉, 이 절은 새 장으로 밀고 나가는 절이라기보다, 본류를 역사 구분 위에서 다시 정리하는 배경 장입니다.
+가까운 본류는 P5-4.1 GPT 계열의 위치입니다. BERT 계열 비교는 뒤의 배경 비교 장에서 다시 읽습니다.
 
 ## 이 절에서 기억할 관점
 
-- 직접 계보는 현재 LLM 구조와 학습 방식으로 직접 이어지는 흐름입니다.
-- 주변 근거는 딥러닝 확산과 계산 환경 변화를 설명하지만, 곧바로 구조적 조상이라고 단정하기는 어렵습니다.
-- 이 구분은 LLM 역사를 과장 없이 설명하게 해 줍니다.
-- 다음 장에서 Transformer를 다시 읽을 때 구조적 위치를 더 정확히 잡을 수 있습니다.
-- 이 절은 본류를 늦추기 위한 장이 아니라, 뒤 장의 구조 설명을 덜 과장되게 읽기 위한 짧은 배경 장입니다.
+- context window는 모델이 한 번에 참고할 수 있는 토큰 범위입니다.
+- attention은 그 범위 안에서 무엇이 중요한지 계산합니다.
+- 길이가 길어질수록 항상 좋은 것이 아니라, 선택과 압축이 더 중요해질 수 있습니다.
+- 이 절은 이후 RAG와 서비스 설계 설명의 기초입니다.
 
 ## 체크리스트
 
-- 직접 계보와 주변 근거를 구분해 설명할 수 있는가?
-- YOLO, Deep Voice 같은 사례를 왜 주변 근거로 두는지 말할 수 있는가?
-- 왜 Transformer, Attention, language modeling은 직접 계보라고 할 수 있는지 설명할 수 있는가?
-- 이 구분이 Part 5 전체 이해에 왜 중요한지 말할 수 있는가?
+- context window를 입문 수준에서 설명할 수 있는가?
+- attention과 context window의 역할 차이를 구분할 수 있는가?
+- 왜 문맥 길이가 비용과 서비스 설계에 영향을 주는지 설명할 수 있는가?
+- 왜 이 절이 RAG와 연결되는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
 - Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
-- Jacob Devlin et al., `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-06-29.
-- Joseph Redmon et al., `You Only Look Once: Unified, Real-Time Object Detection`, CVPR 2016, 확인 날짜: 2026-06-29.
-- Sercan O. Arik et al., `Deep Voice: Real-time Neural Text-to-Speech`, ICML 2017, 확인 날짜: 2026-06-29.
+- Colin Raffel et al., `Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer`, JMLR, 2020, 확인 날짜: 2026-06-29.
+- OpenAI API Docs, context window와 입력 길이 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }

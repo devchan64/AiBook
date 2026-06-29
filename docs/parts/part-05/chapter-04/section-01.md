@@ -1,243 +1,226 @@
-# P5-4.1 Transformer를 LLM 관점에서 다시 읽기
+# P5-4.1 GPT 계열의 위치
 
-P5-3장에서는 LLM 발전사의 큰 흐름과 직접 계보를 배경 지도로 정리했습니다. 이제 Part 5의 본류로 다시 돌아와야 합니다.
+P5-19장에서는 BERT 계열이 입력 전체를 읽어 표현을 만들고, 분류, 검색, 임베딩 같은 이해 중심 태스크와 잘 맞는 흐름이라는 점을 보았습니다. 그러면 자연스럽게 반대쪽 질문이 생깁니다.
 
-LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가?
+계속 이어서 생성하는 모델은 Transformer 계열 안에서 어디에 놓이는가?
 
 이 절은 그 질문에 답합니다.
 
-LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention으로 서로의 관계를 읽고, feed-forward와 반복 블록으로 표현을 정제하며, 최종적으로 다음 토큰을 예측하는 기본 구조다.
+GPT 계열은 Transformer의 디코더(decoder)를 중심으로 이전 토큰 문맥을 보고 다음 토큰을 예측하며, 이 반복을 통해 긴 텍스트를 생성하는 흐름이다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 이미 본 Transformer를 LLM 관점으로 다시 보면 무엇이 달라지는가?
-- 토큰, 임베딩, self-attention, 다음 토큰 예측은 어떻게 이어지는가?
-- 왜 Transformer는 생성형 언어 모델의 기본 구조가 되었는가?
+- GPT 계열은 Transformer 안에서 어떤 위치를 가지는가?
+- 왜 GPT는 `계속 이어서 생성하는 모델`처럼 보이는가?
+- BERT 계열과 비교하면 무엇이 가장 크게 다른가?
 
 이 절은 다음 내용은 깊게 다루지 않습니다.
 
-- multi-head attention의 세부 수식
-- KV cache 구현
-- 추론 최적화와 서빙 엔진 구조
+- GPT-1, GPT-2, GPT-3, GPT-4 계열의 세부 버전 비교
+- RLHF와 instruction tuning의 상세 절차
+- 최신 상용 모델별 구현 차이
 
-Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들어가야 하는 multi-head attention, 위치 표현, KV cache는 같은 장의 P5-4.3 보충학습에서 다시 회수합니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P5-18.1 AI 서비스가 현실에서 만나는 제약에서 다시 연결합니다.
+GPT의 생성 구조는 여기서 잡고, 사전학습의 역할은 P5-6.1, 다음 토큰 예측은 P5-5.1, 지시 튜닝과 정렬 문제는 P5-8.1과 P5-8.2에서 다시 회수합니다. 개별 상용 모델 버전사와 제품별 구현 차이는 현재 본편 범위 밖으로 둡니다.
 
-이 절의 목적은 Transformer 공식을 다시 쓰는 데 있지 않습니다. Part 5에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡는 데 있습니다.
+이 절의 목적은 GPT를 단지 유명한 제품 이름으로 읽지 않고, `디코더 기반 생성 모델`이라는 구조적 위치에서 이해하게 하는 데 있습니다.
 
 ## 이 절의 목표
 
-- Transformer를 LLM 기준으로 다시 설명할 수 있습니다.
-- 토큰 -> 임베딩 -> attention 블록 -> 다음 토큰 예측 흐름을 연결할 수 있습니다.
-- 이전에 배운 Transformer 구조가 Part 5의 생성형 언어 모델 설명으로 어떻게 이어지는지 말할 수 있습니다.
-- 다음 절의 context window 설명으로 자연스럽게 넘어갈 수 있습니다.
+- GPT 계열을 decoder 중심 Transformer 흐름으로 설명할 수 있습니다.
+- GPT가 왜 다음 토큰 예측(next-token prediction)과 직접 연결되는지 말할 수 있습니다.
+- BERT와 GPT의 차이를 `문장 전체 읽기` 대 `순차 생성` 관점으로 설명할 수 있습니다.
+- 다음 절의 대화형 LLM 사용자 경험으로 자연스럽게 넘어갈 수 있습니다.
 
-## 같은 Transformer를 왜 다시 읽어야 하는가
+## GPT는 무엇의 약자인가
 
-Part 4에서는 Transformer를 딥러닝 구조로 설명했습니다. 즉:
+GPT는 `Generative Pre-Trained Transformer`의 약자입니다. 이름 안에 이미 세 가지 핵심이 들어 있습니다.
 
-- self-attention
-- feed-forward
-- residual connection
-- layer normalization
-
-같은 블록 요소를 중심에 두었습니다.
-
-Part 5에서는 같은 구조를 보되 질문이 달라집니다.
-
-- 이 구조가 텍스트를 어떻게 읽는가?
-- 이 구조가 왜 다음 토큰 예측(next-token prediction)에 잘 맞는가?
-- 이 구조가 왜 LLM 서비스의 기본 계산 단위가 되었는가?
-
-즉, 구조는 같지만 `읽는 관점`이 달라집니다.
-
-## LLM에서는 토큰이 출발점이다
-
-LLM은 문장을 통째로 계산하지 않습니다. 먼저 토큰(token) 시퀀스로 읽습니다.
-
-예를 들어 다음처럼 생각할 수 있습니다.
-
-```text
-raw text
--> tokens
--> token ids
--> embeddings
--> Transformer blocks
--> next-token scores
-```
-
-여기서 Transformer는 토큰을 이미 쪼갠 뒤의 계산 구조입니다. 즉, Transformer는 텍스트를 직접 해석하는 첫 단계가 아니라, `토큰 표현을 반복적으로 가공하는 중심 엔진`에 가깝습니다.
-
-## 임베딩은 계산 가능한 출발 표현을 만든다
-
-P5-2장에서 본 것처럼 토큰 ID는 단순 번호입니다. Transformer는 이 번호를 직접 다루지 않고, 먼저 임베딩(embedding) 벡터로 바꿉니다.
-
-이 임베딩 벡터는 이후 모든 계산의 출발점이 됩니다.
-
-다음처럼 이해하면 충분합니다.
-
-`임베딩은 토큰을 Transformer가 계산할 수 있는 숫자 좌표로 바꾸는 단계다.`
-
-즉, Transformer는 텍스트를 문자열로 읽는 것이 아니라, 임베딩된 토큰 표현 위에서 작동합니다.
-
-## self-attention은 왜 LLM에 특히 중요했나
-
-생성형 언어 모델은 현재 위치의 다음 토큰을 예측해야 합니다. 이때 지금까지 등장한 이전 토큰들이 모두 힌트가 될 수 있습니다.
-
-예를 들어:
-
-- 앞에서 등장한 주어
-- 코드 블록의 함수 이름
-- 문서 초반의 핵심 조건
-
-같은 정보가 뒤쪽 생성에 영향을 줄 수 있습니다.
-
-self-attention은 각 토큰이 다른 토큰들과의 관련도를 계산하게 합니다. 그래서 현재 토큰 표현은 주변과 멀리 있는 이전 토큰들의 정보를 함께 반영할 수 있습니다.
-
-다음처럼 기억하면 좋습니다.
-
-`LLM에서 self-attention은 지금까지 나온 토큰들 중 무엇이 현재 생성에 더 중요한지 계산하는 구조다.`
-
-## feed-forward와 반복 블록은 왜 필요한가
-
-self-attention만으로는 토큰 간 관계를 섞을 수 있지만, 그 정보가 바로 충분히 좋은 표현이 되는 것은 아닙니다.
-
-feed-forward network는 각 위치에서 그 표현을 더 가공합니다. 그리고 이 블록이 여러 층 반복되면 표현은 더 풍부해질 수 있습니다.
+- Generative
+- Pre-Trained
+- Transformer
 
 즉:
 
-- attention은 관계를 읽고
-- feed-forward는 각 위치 표현을 다시 다듬고
-- 여러 층 반복은 표현을 점점 더 정제합니다
+- 생성(generation)을 목표로 하고
+- 먼저 큰 데이터에서 사전학습(pretraining)하며
+- Transformer 구조를 사용한다
 
-이 흐름은 Part 4의 표현 학습(representation learning) 설명과 그대로 이어집니다.
+는 뜻입니다.
 
-## 왜 마지막에는 다음 토큰 점수가 나오는가
+## 왜 GPT는 `생성 모델`처럼 읽히나
 
-LLM 설명에서 중요한 차이는 마지막 출력 해석입니다.
+GPT 계열은 보통 이전 토큰들을 보고 다음 토큰을 예측하는 autoregressive language model 흐름으로 설명합니다.
 
-분류 모델은 마지막에 클래스(class) 점수를 내는 경우가 많습니다. 하지만 생성형 언어 모델은 보통 `다음에 올 수 있는 토큰 후보들`에 대한 점수를 냅니다.
+예를 들어 입력이 다음과 같다고 해 봅시다.
 
-즉, Transformer 블록을 지나면 마지막에는 대략 이런 질문이 됩니다.
+> 오늘 회의는 오후
 
-- 다음 위치에 어떤 토큰이 올 가능성이 큰가?
+모델은 여기서 다음 후보를 예측합니다.
 
-이 점수는 이후 softmax와 sampling 같은 절차를 거쳐 실제 출력 토큰 선택으로 이어집니다.
+- `세`
+- `두`
+- `한`
 
-따라서 Part 4의 구조 설명은 Part 5에서 다음과 같이 다시 읽힙니다.
+그리고 하나를 고른 뒤, 그 새 토큰까지 포함해서 다시 다음 토큰을 예측합니다.
 
-> 표현 학습 구조
-> -> 다음 토큰 분포 계산 구조
+즉, GPT 계열의 핵심 감각은 다음과 같습니다.
+
+`한 번에 완성 문장을 꺼내는 것이 아니라, 다음 토큰을 계속 이어서 예측하며 출력을 만든다.`
+
+## 왜 디코더(decoder) 중심이라고 하나
+
+Part 5 앞부분에서 본 것처럼 Transformer는 encoder, decoder, encoder-decoder 구조로 나뉘어 읽을 수 있습니다.
+
+GPT 계열은 이 중 decoder 중심 흐름으로 보는 것이 안전합니다.
+
+이 구조의 핵심은:
+
+- 이전까지의 문맥을 보고
+- 현재 위치에서 다음 토큰을 생성할 수 있도록
+- 생성 방향에 맞는 attention 제약을 둔다는 점입니다
+
+다음처럼 이해하면 충분합니다.
+
+`GPT는 문장 전체를 한 번에 다 읽고 판단하는 모델이라기보다, 앞에서 쓴 것을 바탕으로 뒤를 계속 이어 쓰는 모델이다.`
+
+## BERT와 비교하면 무엇이 다르나
+
+다시 정리하면:
+
+| 구분 | BERT 계열 | GPT 계열 |
+| --- | --- | --- |
+| 중심 구조 | encoder | decoder |
+| 기본 감각 | 입력 전체 문맥을 읽어 표현 생성 | 이전 토큰을 바탕으로 다음 토큰 생성 |
+| 대표 사용 흐름 | 분류, 검색, 임베딩 | 생성, 대화, 요약, 초안 작성 |
+| 출력 성격 | 라벨, 점수, 표현 | 새 토큰, 새 문장, 새 문단 |
+
+이 표의 핵심은 다음입니다.
+
+`BERT는 입력을 읽고 판단하는 쪽에, GPT는 출력을 계속 이어 만드는 쪽에 더 자연스럽다.`
+
+## 왜 GPT 계열이 사용자 경험을 크게 바꿨나
+
+GPT 계열은 구조적으로 생성에 잘 맞습니다. 그래서 사용자는 모델에게 자연어로 요구를 적고, 모델이 그 뒤를 이어 긴 응답을 만들어 내는 경험을 하게 됩니다.
+
+예를 들어:
+
+- 질문에 대한 답변 작성
+- 이메일 초안 작성
+- 문서 요약
+- 코드 자동완성
+- 역할 기반 대화
+
+이런 경험은 모두 `다음 토큰 생성의 반복`으로 설명할 수 있습니다.
+
+즉, GPT 계열은 기술적으로는 다음 토큰 예측 모델이지만, 사용자 입장에서는 `문장을 계속 써 주는 인터페이스`처럼 느껴집니다.
 
 ## 아주 단순하게 그리면
 
 ```mermaid
 flowchart LR
-  A["tokens"]
-  B["embeddings + positions"]
-  C["Transformer blocks"]
-  D["next-token scores"]
-  E["chosen next token"]
+  A["previous tokens"]
+  B["decoder Transformer"]
+  C["next-token scores"]
+  D["chosen next token"]
+  E["extended sequence"]
 
   A --> B --> C --> D --> E
 ```
 
-이 도식은 Part 5에서 Transformer를 읽을 때 가장 자주 떠올려야 하는 최소 구조입니다.
+이 도식은 GPT 계열의 핵심을 가장 간단하게 보여 줍니다.
 
 ## 사례로 보기
 
-### 사례 1. 문장 자동완성
+### 사례 1. 자동완성
 
-`오늘 회의는 오후`
+짧은 문장 시작을 주면, 그 뒤를 자연스럽게 이어 쓰는 기능은 GPT 계열의 가장 직관적인 사용 예입니다.
 
-라는 입력 뒤에 어떤 토큰이 올지 예측하려면, Transformer는 앞 토큰들을 보고 다음 후보 분포를 계산합니다.
+### 사례 2. 요약 초안 작성
 
-### 사례 2. 코드 생성
+긴 문서를 넣고 `세 문장으로 요약해줘`라고 하면, 모델은 요약을 한 문장씩 이어 생성합니다.
 
-함수 정의와 변수 선언이 앞에 있고, 뒤에서 구현을 이어 쓸 때, Transformer는 앞쪽 토큰들과의 관계를 계속 참조해야 합니다.
+### 사례 3. 코드 생성
 
-### 사례 3. 긴 문서 요약
-
-문서 앞부분의 핵심 개념이 뒤쪽 요약 생성에 영향을 줍니다. Transformer는 이런 문맥 정보를 반복 블록 안에서 계속 반영합니다.
+함수 시그니처와 설명을 주면, 모델은 구현 코드를 토큰 단위로 이어 씁니다.
 
 ## 작은 Python 예제로 보기
 
-이번 예제의 목표는 실제 Transformer를 구현하는 것이 아니라, `입력 토큰 -> 점수 -> 다음 토큰 선택`이라는 마지막 단계 감각을 확인하는 것입니다.
+이번 예제의 목표는 GPT를 구현하는 것이 아니라, `이전 토큰을 보고 다음 토큰을 하나씩 이어 붙인다`는 감각을 확인하는 것입니다.
 
 입력:
 
-- 세 개의 후보 토큰
-- 각 후보에 대한 점수
+- 시작 토큰 시퀀스
+- 단순한 다음 토큰 규칙
 
 출력:
 
-- 가장 높은 점수 후보
+- 한 단계씩 늘어나는 시퀀스
 
 ```python
-candidates = ["입니다", "였다", "이다"]
-scores = [2.4, 1.1, 1.9]
+sequence = ["오늘", "회의는"]
+next_tokens = ["오후", "세", "시입니다"]
 
-best_index = scores.index(max(scores))
+print("start =", sequence)
 
-print("candidates =", candidates)
-print("scores =", scores)
-print("next_token =", candidates[best_index])
+for token in next_tokens:
+    sequence.append(token)
+    print("generated =", sequence)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-candidates = ['입니다', '였다', '이다']
-scores = [2.4, 1.1, 1.9]
-next_token = 입니다
+start = ['오늘', '회의는']
+generated = ['오늘', '회의는', '오후']
+generated = ['오늘', '회의는', '오후', '세']
+generated = ['오늘', '회의는', '오후', '세', '시입니다']
 ```
 
-이 예제는 softmax나 sampling을 구현하지 않았습니다. 하지만 다음 점을 보여 줍니다.
+이 예제는 실제 확률 계산을 하지 않지만, 다음 점을 보여 줍니다.
 
-- Transformer의 마지막 계산은 보통 다음 토큰 후보 점수로 이어지고
-- 실제 출력은 그 점수 해석 규칙에 따라 선택된다는 점입니다
+- 생성은 한 토큰씩 이어집니다
+- 현재 출력은 이전 출력 전체를 다음 입력 문맥으로 만듭니다
 
 ## 역사와 커리큘럼 관점
 
-Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능이 좋았기 때문만은 아닙니다.
+GPT 계열은 Transformer decoder 기반 생성 모델이 실제 사용자 인터페이스를 바꾸는 흐름으로 이어졌다는 점에서 중요합니다.
 
-- 긴 문맥을 더 잘 다룰 수 있었고
-- 병렬 처리와 잘 맞았으며
-- 같은 기본 구조가 번역, 요약, 질의응답, 코드 생성 같은 여러 언어 작업에 넓게 재사용될 수 있었기 때문입니다
+역사적으로 중요한 지점은 다음과 같습니다.
 
-커리큘럼 관점에서 이 절은 중요합니다.
+- generative pretraining이 여러 과업으로 전이될 수 있음을 보여 주었고
+- 모델 규모가 커질수록 zero-shot, few-shot 사용 경험이 강해졌으며
+- 이후 instruction tuning과 대화형 인터페이스로 이어질 기반을 만들었습니다
 
-- Part 4의 딥러닝 구조를 Part 5의 생성 모델 구조로 다시 읽게 하고
-- BERT와 GPT의 차이를 더 정확히 이해하게 하며
-- context window, prompt, RAG 설명의 기반을 마련하기 때문입니다
+커리큘럼 관점에서 이 절은 다음 절의 `대화형 LLM으로의 전환`을 위한 구조 설명입니다. 먼저 GPT를 생성 구조로 이해해야, 왜 사용자가 자연어로 요구를 적고 결과를 받는 경험이 가능해졌는지 설명할 수 있습니다.
 
 ## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
 
-- Transformer가 모든 이전 토큰을 볼 수 있다고 해도, 실제로는 어디까지 볼 수 있는가?
-- 왜 context window가 비용과 성능의 중요한 제약이 되는가?
+- GPT 계열의 생성 구조가 어떻게 `챗봇 같은 경험`으로 바뀌었는가?
+- 단순 자동완성 모델에서 대화형 LLM 경험으로 넘어갈 때 무엇이 달라졌는가?
 
-이 질문은 P5-4.2 attention과 context window로 이어집니다.
+이 질문은 P5-4.2 대화형 LLM으로의 전환으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- Part 5의 Transformer는 `다음 토큰을 예측하는 언어 모델 구조`로 다시 읽어야 합니다.
-- 토큰은 임베딩으로 바뀐 뒤 Transformer 블록을 통과합니다.
-- self-attention은 문맥 관계를 읽고, 마지막에는 다음 토큰 점수로 이어집니다.
-- 이 구조가 이후 BERT, GPT, pretraining, prompt 설명의 기반입니다.
+- GPT 계열은 decoder 중심 Transformer 흐름입니다.
+- 이전 토큰을 바탕으로 다음 토큰을 예측하며 출력을 이어 갑니다.
+- BERT 계열과의 차이는 생성 여부보다 구조와 주요 과업 차이로 읽는 편이 안전합니다.
+- 이 구조가 대화형 LLM 사용자 경험의 기반이 됩니다.
 
 ## 체크리스트
 
-- Transformer를 LLM 기준으로 다시 설명할 수 있는가?
-- 토큰 -> 임베딩 -> Transformer 블록 -> 다음 토큰 점수 흐름을 말할 수 있는가?
-- Part 4의 구조 설명과 Part 5의 생성 설명이 어떻게 이어지는지 설명할 수 있는가?
-- 다음 절의 context window 문제로 왜 이어지는지 설명할 수 있는가?
+- GPT 계열의 위치를 decoder 중심 흐름으로 설명할 수 있는가?
+- 왜 GPT가 다음 토큰 예측 모델과 직접 연결되는지 말할 수 있는가?
+- BERT와 GPT의 차이를 구조와 과업 관점에서 설명할 수 있는가?
+- 다음 절의 대화형 LLM 설명으로 왜 이어지는지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
+- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
 - Alec Radford et al., `Language Models are Unsupervised Multitask Learners`, OpenAI, 2019, 확인 날짜: 2026-06-29.
 - Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- Jay Alammar, `The Illustrated Transformer`, 확인 날짜: 2026-06-29. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
