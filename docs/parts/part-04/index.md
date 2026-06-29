@@ -10,7 +10,6 @@ Part 4는 신경망과 딥러닝을 `이제부터 깊게 설명하는 파트`입
 > -> 출력, 손실, 역전파
 > -> 학습 루프와 안정화
 > -> GPU, 배치, 텐서 계산과 표현 학습
-> -> 표현 학습
 > -> CNN, RNN, LSTM, GRU
 > -> Attention과 self-attention
 > -> Transformer

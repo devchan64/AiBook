@@ -216,14 +216,14 @@ GPU scaling -> surrounding_evidence
 
 이 구분이 있어야 뒤에서 BERT, GPT, pretraining, prompt, RAG, agent를 설명할 때 구조와 분위기를 섞지 않게 됩니다.
 
-## 다음 장과의 연결
+## 본류와의 연결
 
-여기까지 구분이 잡히면 다음 질문은 더 좁아집니다.
+여기까지 구분이 잡히면 앞에서 본 본류 설명을 더 좁은 구조 질문으로 다시 읽을 수 있습니다.
 
 - 그렇다면 LLM 관점에서 Transformer 구조를 다시 보면 무엇이 핵심인가?
 - 토큰, context window, causal generation과 연결되는 지점은 어디인가?
 
-이 질문은 P5-4.1 Transformer를 LLM 관점에서 다시 읽기로 이어집니다.
+이 질문은 본류의 P5-4.1 Transformer를 LLM 관점에서 다시 읽기를 다시 떠올리게 만듭니다. 즉, 이 절은 새 장으로 밀고 나가는 절이라기보다, 본류를 역사 구분 위에서 다시 정리하는 배경 장입니다.
 
 ## 이 절에서 기억할 관점
 
