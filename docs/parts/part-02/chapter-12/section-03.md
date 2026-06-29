@@ -101,7 +101,7 @@ y = df["passed"]
 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
     raw["raw DataFrame<br/>student_id, region, absences, score, passed"]
     choose["choose target<br/>what do we want to predict?"]
     split["separate columns<br/>X and y"]
@@ -177,7 +177,7 @@ print(X_encoded)
 도식으로 보면:
 
 ```mermaid
-flowchart LR
+flowchart TD
     full["full dataset"]
     train["train set<br/>used to fit"]
     val["validation set<br/>used to compare choices"]
@@ -218,6 +218,18 @@ scikit-learn의 common pitfalls 문서는 두 가지 실수를 강하게 경고�
 | 먼저 나눈 뒤 train으로만 기준을 만든다 | 평가가 더 공정해짐 |
 
 이 절에서는 구현 세부보다 이 판단 기준을 먼저 잡습니다.
+
+## 사례로 보기
+
+### 사례 1. 합격 여부를 맞히려는데 정답 열을 같이 넣어 버린 경우
+
+학습자가 학생 표로 `합격 여부(passed)`를 예측하는 모델을 만들고 싶다고 해 보겠습니다. 표에는 `student_id`, `region`, `absences`, `score`, `passed`가 함께 들어 있습니다. 처음에는 눈에 보이는 모든 열을 `X`에 넣고 싶어질 수 있습니다.
+
+하지만 이렇게 하면 문제가 생깁니다. `passed`는 맞혀야 할 정답인데 입력에도 같이 들어가 버리고, `student_id`는 학생을 구분하는 표식일 뿐 일반 패턴과 직접 관련이 없을 수 있습니다. 모델은 진짜 규칙을 배우기보다 정답을 훔쳐보거나 우연한 식별자 정보에 끌릴 수 있습니다.
+
+그래서 데이터셋 준비에서는 먼저 `무엇을 맞히려는가`를 정하고, 그다음에 `y`를 분리하고, 남길 특징과 뺄 열을 다시 고릅니다. 이어서 train, validation, test를 먼저 나눈 뒤, 인코딩이나 스케일링처럼 학습에서 기준을 배워야 하는 변환은 train 쪽에서만 잡아야 합니다.
+
+이 사례는 데이터셋 준비가 단순 정리가 아니라는 점을 보여 줍니다. 같은 표라도 질문에 따라 `X`와 `y`의 경계가 달라지고, 분리 순서를 잘못 잡으면 평가가 부풀려질 수 있습니다. Pandas는 이 과정의 앞부분에서 열을 고르고 구조를 점검하는 도구이고, 공정한 학습 평가는 그다음 분리와 변환 순서까지 함께 맞춰야 성립합니다.
 
 ## Pandas는 준비 과정의 앞부분을 담당한다
 

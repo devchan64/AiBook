@@ -59,7 +59,7 @@
 MYCIN 연구를 정리한 Buchanan과 Shortliffe의 책은 MYCIN을 규칙 기반 전문가 시스템의 대표 실험으로 다룹니다. 이 자료에서는 지식 기반, 규칙, 추론 절차, 설명 기능, 불확실성 처리 같은 요소가 별도로 논의됩니다. 즉 전문가 시스템은 단순히 `IF-THEN` 문을 많이 모아 둔 프로그램이 아니라, 도메인 지식을 어떻게 표현하고, 적용하고, 설명할지 연구한 시스템이었습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
   Input[현재 입력]
   Facts[사실]
   KB[지식 기반]
@@ -242,7 +242,7 @@ flowchart TD
 흐름을 그림으로 나타내면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
   Symbolic[기호 기반 AI]
   Rule[규칙 기반 시스템]
   Search[탐색과 지식 표현]

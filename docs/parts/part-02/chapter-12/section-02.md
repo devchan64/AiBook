@@ -74,7 +74,7 @@ print(df)
 도식으로 보면 이 절의 흐름은 다음과 같습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
     full["full table<br/>all rows, all columns"]
     col["column selection<br/>which variables?"]
     row["row selection<br/>which case?"]
@@ -388,7 +388,7 @@ Name: score, dtype: float64
 선택, 필터링, 집계는 대개 다음 흐름으로 이어집니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
     frame["DataFrame<br/>full table"]
     select["select columns<br/>what variables matter?"]
     filter["filter rows<br/>which cases stay?"]
@@ -399,6 +399,18 @@ flowchart LR
 ```
 
 실제 작업에서는 이 순서가 항상 고정되지는 않습니다. 하지만 입문 단계에서는 “표를 그대로 들고 있기보다, 질문에 맞게 점점 좁히고 요약한다”는 흐름이 중요합니다.
+
+## 사례로 보기
+
+### 사례 1. 불합격 학생만 다시 보고 싶은 성적표
+
+교사가 성적표를 보고 `누가 불합격했는지`, `불합격 학생의 점수와 지역만 다시 보고 싶은지`, `지역별 평균 점수는 어떤지`를 확인한다고 해 보겠습니다. 사람은 머릿속으로 표를 훑으며 필요한 부분만 다시 볼 수 있지만, 데이터 작업에서는 그 과정을 선택, 필터링, 집계로 명시해야 합니다.
+
+먼저 `passed` 열로 불합격 학생만 남기면 어떤 행을 볼지 정한 셈입니다. 그다음 `name`과 `score`만 다시 고르면 무엇을 읽을지 정한 셈입니다. 마지막으로 `groupby("region")["score"].mean()`을 하면 개별 학생 표를 지역별 요약으로 압축하게 됩니다.
+
+이 사례는 세 동작의 차이를 한 번에 보여 줍니다. 열 선택은 `어떤 변수만 볼 것인가`, 행 선택과 필터링은 `어떤 사례를 남길 것인가`, 집계는 `전체를 어떤 요약값으로 읽을 것인가`를 정합니다. 표를 다루는 일은 단순히 코드를 외우는 것이 아니라, 질문을 더 작은 단계로 나누는 일에 가깝습니다.
+
+그래서 Pandas 코드는 짧아 보여도 질문 구조를 함께 읽어야 합니다. 같은 성적표라도 `한 학생만 보기`, `조건에 맞는 여러 학생 보기`, `범주별 평균 보기`는 서로 다른 읽기 동작이며, 이 차이를 구분해야 이후 데이터셋 준비와 모델 입력 구성도 헷갈리지 않습니다.
 
 ## 이 절에서 기억할 관점
 
