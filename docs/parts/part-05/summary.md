@@ -1,8 +1,10 @@
 # Part 5 마무리. LLM과 생성형 AI 정리
 
-Part 5는 생성형 AI를 `대단한 답변기`처럼 소비하는 단계에서 한 걸음 더 나아가, LLM(large language model)이 어떤 입력 단위를 읽고, 어떤 구조 위에서 학습되며, 어떤 서비스 구조 안에서 실제로 동작하는지 다시 묶는 구간이었습니다.
+Part 5는 생성형 AI를 `대단한 답변기`처럼 소비하는 단계에서 한 걸음 더 나아가, LLM(large language model)이 어떤 입력 단위를 읽고, 어떤 구조 위에서 학습되며, 어떤 서비스 구조 안에서 실제로 동작하는지 실제 설명으로 묶는 구간이었습니다.
 
 이 Part의 핵심은 LLM을 단지 `말을 잘하는 모델`로 보는 데서 멈추지 않는 것입니다. 토큰(token), 임베딩(embedding), Transformer, 사전학습(pretraining), 파인튜닝(fine-tuning), RAG, 도구 사용(tool use), 에이전트(agent), 평가(evaluation), 운영 제약(constraints)까지 이어지는 흐름을 함께 볼 때 비로소 생성형 AI의 실제 구조가 보입니다.
+
+즉, Part 5는 Part 1~4에서 `후속에서 설명한다`고 남겨 둔 GPT, next-token prediction, instruction tuning, RAG, tool use, agent를 실제로 설명해야 하는 파트였습니다.
 
 ## 이 Part에서 다룬 핵심 흐름
 

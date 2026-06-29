@@ -3,6 +3,7 @@
 ## 검토 목적
 
 - Part 5가 `LLM과 생성형 AI를 이해하기 위한 파트`라는 목적에 맞게 전개되는지 다시 점검한다.
+- Part 1~4에서 후속으로 넘긴 LLM·생성형 AI 설명을 Part 5가 실제로 회수하고 있는지 확인한다.
 - 현재 섹션 순서가 Part 1 수준의 반복 설명에서 멈추는 구간을 만드는지 확인한다.
 - `개념 이해`, `실무 구조 이해`, `작은 구현`까지 이어지는 학습 흐름으로 재배치 기준을 정리한다.
 
@@ -17,6 +18,7 @@
 - [docs/parts/part-05/chapter-09/section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-09/section-02.md:1) 에서 LoRA 도입부를 `효율적 조정이 왜 필요한가`에서 출발하도록 보강했다.
 - [docs/parts/part-05/chapter-09/section-03.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-09/section-03.md:1) 보충학습을 추가해 LoRA, adapter, QLoRA의 차이를 별도로 회수했다.
 - [docs/parts/part-05/chapter-19/section-01.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-19/section-01.md:1), [section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-19/section-02.md:1) 에서 `통합 미니 실습` 장을 추가해 요청, 검색, 출력, 기록을 한 흐름으로 묶는 최소 실습을 넣었다.
+- [docs/parts/part-05/chapter-03/section-01.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-03/section-01.md:30), [chapter-03/section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-03/section-02.md:29), [chapter-05/section-01.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-01.md:29), [chapter-05/section-02.md](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-02.md:29) 에 `어디까지 읽으면 충분한가` 기준을 넣어 배경 축의 독서 부담을 낮췄다.
 
 이 변경들은 개별 절의 이해도는 높였지만, Part 5 전체의 순서 문제를 해결한 것은 아니다. 아래 판단은 여전히 유효하되, `개별 절 품질`과 `파트 구조`를 구분해서 읽어야 한다.
 
@@ -42,6 +44,7 @@
 - 이 내용은 `생성형 AI 본류`라기보다 `검색·임베딩 보조 축`에 가깝다.
 - 현재처럼 GPT 본류 앞에 독립 장으로 크게 두면, 학습 초점이 `생성형 AI 구조 이해`보다 `NLP 일반론 복습`으로 이동한다.
 - 다만 [P5-5.1](/Users/simchangbo/ws/AiBook/docs/parts/part-05/chapter-05/section-01.md:127) 의 사례와 예제는 이미 보강되어, `보조 축으로 둘 때도 왜 필요한가`는 이전보다 분명해졌다.
+- 최근 수정으로 Chapter 3, 5 안에 `배경 장으로 어디까지 읽으면 되는가`가 직접 들어가, 실제 독서 흐름에서 느껴지는 부담은 일부 줄었다.
 
 ### 4. Part 1 또는 이전 파트의 감각을 다시 꺼내고 끝나는 문장이 반복된다
 
