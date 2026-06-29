@@ -12,7 +12,7 @@ P2-2.1에서는 변수(variable), 함수(function), 식(expression)을 다시 �
 
 ## 이 절의 범위
 
-이 절은 시그마(sigma)와 반복 계산을 다룹니다. 극한(limit)은 P2-2.3에서 다룹니다. 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)은 Chapter 3에서 다룹니다. 손실 함수(loss function)와 최적화(optimization)는 Chapter 6에서 다시 다룹니다.
+이 절은 시그마(sigma)와 반복 계산을 다룹니다. 극한(limit)은 P2-2.3에서 다룹니다. 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)은 P2-3에서 다룹니다. 손실 함수(loss function)와 최적화(optimization)는 P2-6에서 다시 다룹니다.
 
 여기서는 다음 질문에 집중합니다.
 

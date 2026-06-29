@@ -27,7 +27,7 @@ k-NN은 독자에게 중요한 전환을 보여 줍니다. 앞에서 본 선형�
 - 가중 거리(weighted distance), KDTree, BallTree 같은 구현 최적화
 - 회귀(regression)용 k-NN의 세부 변형
 
-그 내용은 P3-12.2 거리(distance)와 스케일(scale), 뒤 알고리즘 절과 보충학습으로 넘깁니다.
+그 내용은 P3-12.2 거리(distance)와 스케일(scale), P3-13부터 P3-16까지의 알고리즘 절, 그리고 보충학습으로 넘깁니다.
 
 ## 이 절의 목표
 

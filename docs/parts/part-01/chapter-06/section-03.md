@@ -136,7 +136,7 @@ Google의 Machine Learning Glossary는 temperature를 모델 출력의 무작위
 > 생성은 여러 후보 중 하나를 고르는 과정과 연결된다.
 > temperature 같은 설정은 그 선택의 변동성을 조절한다.
 
-자세한 생성 방식은 LLM 장에서 다시 다룹니다.
+자세한 생성 방식은 P1-11부터 P1-14, 그리고 Part 5에서 다시 다룹니다.
 
 ## 의사결정(decision): 확률은 결론이 아니라 판단 재료다
 

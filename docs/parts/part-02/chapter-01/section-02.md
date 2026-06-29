@@ -10,7 +10,7 @@ P2-1.1에서는 수학을 AI 계산을 읽는 언어로 봤습니다. 이제 그
 
 ## 이 절의 범위
 
-이 절은 수식 표기법 전체를 설명하지 않습니다. 변수(variable), 함수(function), 시그마(sigma), 극한(limit)은 Chapter 2에서 다시 다룹니다. 벡터(vector), 행렬(matrix), 배열(array)은 Chapter 3과 Chapter 11에서 더 자세히 봅니다.
+이 절은 수식 표기법 전체를 설명하지 않습니다. 변수(variable), 함수(function), 시그마(sigma), 극한(limit)은 P2-2에서 다시 다룹니다. 벡터(vector), 행렬(matrix), 배열(array)은 P2-3과 P2-11에서 더 자세히 봅니다.
 
 여기서는 다음 질문만 다룹니다.
 

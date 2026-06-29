@@ -16,7 +16,7 @@
 
 ## 이 절의 범위
 
-이 절은 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 뒤의 LLM 장에서 더 자세히 다룹니다.
+이 절은 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 P1-11부터 P1-14, 그리고 Part 5에서 더 자세히 다룹니다.
 
 여기서는 Chapter 9의 마무리로 두 가지 역할만 맡습니다.
 
@@ -40,7 +40,7 @@
 - AlexNet, YOLO, WaveNet 같은 사례를 LLM의 직접 조상으로 과장하지 않습니다.
 - AI 전체를 LLM으로 환원하지 않고, LLM을 AI 지형 안의 중요한 한 흐름으로 배치합니다.
 - Transformer를 중요한 전환점으로 보되, Transformer 하나만으로 LLM 전체 역사를 설명하지 않습니다.
-- 뒤의 LLM 장으로 넘어가기 위한 지도를 만듭니다.
+- P1-11부터 P1-14, 그리고 Part 5의 LLM 흐름으로 넘어가기 위한 지도를 만듭니다.
 
 ## 먼저 볼 세 가지
 
@@ -56,7 +56,7 @@
 
 직접 계보(direct lineage)는 어떤 기술이 LLM의 핵심 문제와 구조를 설명하는 데 직접 필요한 흐름입니다. 생성형 LLM은 보통 언어를 토큰(token)의 순서로 다루고, 앞의 문맥(context)을 바탕으로 다음 토큰 후보의 확률 분포(probability distribution)를 계산하며, 학습된 파라미터(parameter)를 사용해 출력을 생성합니다.
 
-여기서 토큰(token)은 사람이 읽는 단어(word)와 항상 같지 않습니다. 원래 token은 표식이나 증거에 가까운 뜻을 가진 말이고, LLM에서는 텍스트를 모델이 처리할 수 있도록 나눈 기본 단위를 가리킵니다. 토큰화(tokenization)와 임베딩(embedding)은 뒤의 LLM 장에서 다룹니다.
+여기서 토큰(token)은 사람이 읽는 단어(word)와 항상 같지 않습니다. 원래 token은 표식이나 증거에 가까운 뜻을 가진 말이고, LLM에서는 텍스트를 모델이 처리할 수 있도록 나눈 기본 단위를 가리킵니다. 토큰화(tokenization)와 임베딩(embedding)은 P1-11부터 P1-13, 그리고 Part 5에서 다룹니다.
 
 > 문자열(text)
 > -> 토큰(token)

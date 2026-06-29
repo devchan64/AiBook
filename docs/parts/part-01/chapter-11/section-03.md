@@ -18,7 +18,7 @@
 
 ## 이 절의 범위
 
-이 절은 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 4의 딥러닝 장에서 다시 보고, 현대 LLM 서비스 구조는 14.1부터 14.6까지 이어지는 장에서 다시 연결합니다.
+이 절은 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 4에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
 
 여기서는 다음 질문에만 집중합니다.
 
@@ -29,7 +29,7 @@
 | 사전학습(pretraining) | 모델은 왜 먼저 큰 텍스트에서 학습되는가? |
 | 문맥 내 학습(in-context learning) | 왜 prompt 안의 예시가 모델 행동을 바꿀 수 있는가? |
 
-이 절은 prompt engineering은 12.1부터 12.3에서, vector search와 RAG는 13.1부터 13.4와 14.2에서, AI 서비스 아키텍처는 14.1부터 14.6에서 다시 다룹니다. 여기서는 현대 LLM이 갑자기 등장한 것이 아니라, 언어 모델링, 임베딩, sequence modeling, Attention, 사전학습이 결합된 결과라는 큰 흐름만 잡습니다.
+이 절은 prompt engineering은 P1-12.1부터 P1-12.3에서, vector search와 RAG는 P1-13.1부터 P1-13.4와 P1-14.2에서, AI 서비스 아키텍처는 P1-14.1부터 P1-14.6에서 다시 다룹니다. 여기서는 현대 LLM이 갑자기 등장한 것이 아니라, 언어 모델링, 임베딩, sequence modeling, Attention, 사전학습이 결합된 결과라는 큰 흐름만 잡습니다.
 
 ## 이 절의 목표
 

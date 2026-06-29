@@ -10,7 +10,7 @@ Part 1에서는 AI를 규칙, 모델, 학습, 생성, 서비스 구조의 큰 �
 
 ## 이 절의 범위
 
-이 절은 수학 개념을 깊게 설명하지 않습니다. 시그마(sigma)와 극한(limit)은 바로 뒤의 Chapter 2에서, 벡터(vector)는 Chapter 3에서, 미분(derivative)은 Chapter 4에서, 확률(probability)는 Chapter 5에서, 최적화(optimization)는 Chapter 6에서 다시 다룹니다.
+이 절은 수학 개념을 깊게 설명하지 않습니다. 시그마(sigma)와 극한(limit)은 바로 뒤의 P2-2에서, 벡터(vector)는 P2-3에서, 미분(derivative)은 P2-4에서, 확률(probability)는 P2-5에서, 최적화(optimization)는 P2-6에서 다시 다룹니다.
 
 여기서는 먼저 다음 관점을 잡습니다.
 

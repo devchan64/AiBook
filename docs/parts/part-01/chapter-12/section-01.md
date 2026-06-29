@@ -16,7 +16,7 @@
 
 ## 이 절의 범위
 
-이 절은 prompt engineering 기법 목록을 다루지 않습니다. Chain-of-thought, few-shot 예시 구성, 역할 부여는 12.2에서, 평가 프롬프트와 한계 검토는 12.3에서 다시 다룹니다.
+이 절은 prompt engineering 기법 목록을 다루지 않습니다. Chain-of-thought, few-shot 예시 구성, 역할 부여는 P1-12.2에서, 평가 프롬프트와 한계 검토는 P1-12.3에서 다시 다룹니다.
 
 여기서는 프롬프트가 무엇을 지정하는지에만 집중합니다.
 

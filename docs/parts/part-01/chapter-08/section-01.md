@@ -159,7 +159,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 | 이미지 분류 | 이미지 | 고양이, 강아지, 자동차 |
 | 위험 탐지 | 거래 정보 | 정상, 의심 |
 
-이 절에서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 6.3과 7.3에서 이미 위치를 잡았고, Part 3에서 평가와 함께 다시 다룹니다.
+이 절에서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 P1-6.3과 P1-7.3에서 이미 위치를 잡았고, Part 3에서 평가와 함께 다시 다룹니다.
 
 ## 회귀(regression)는 숫자 라벨을 예측한다
 

@@ -194,7 +194,7 @@ Google의 Machine Learning Glossary는 epsilon greedy policy를 설명하면서,
 
 딥러닝(deep learning)은 이 표와 같은 분류축이 아닙니다. 딥러닝은 강화학습과 결합될 수 있고, 그 경우 딥 강화학습(deep reinforcement learning)이라고 부를 수 있습니다. 하지만 강화학습 자체가 딥러닝이라는 뜻은 아닙니다.
 
-RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것을 대표하지 않습니다. RLHF는 사람의 피드백을 학습 신호로 활용하는 현대 LLM 학습 맥락에서 자주 등장하지만, 강화학습 전체를 설명하는 출발점으로 삼기에는 범위가 좁습니다. 이 책에서는 뒤의 LLM 장에서 따로 다룹니다.
+RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것을 대표하지 않습니다. RLHF는 사람의 피드백을 학습 신호로 활용하는 현대 LLM 학습 맥락에서 자주 등장하지만, 강화학습 전체를 설명하는 출발점으로 삼기에는 범위가 좁습니다. 이 책에서는 P1-11부터 P1-14, Part 5에서 따로 다룹니다.
 
 ## 이 절에서 기억할 관점
 

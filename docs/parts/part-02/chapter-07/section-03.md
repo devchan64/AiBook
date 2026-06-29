@@ -14,7 +14,7 @@ print("hello")
 
 ## 이 절의 범위
 
-이 절은 Python 문법을 본격적으로 설명하지 않습니다. 변수(variable), 타입(type), 리스트(list), 함수(function)는 Chapter 8에서 다룹니다.
+이 절은 Python 문법을 본격적으로 설명하지 않습니다. 변수(variable), 타입(type), 리스트(list), 함수(function)는 P2-8에서 다룹니다.
 
 또한 Python 설치, 가상환경 생성, 패키지 설치도 이 절의 중심이 아닙니다. Python 설치는 P2-7.7, 가상환경과 패키지는 P2-7.4에서 다룹니다.
 

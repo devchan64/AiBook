@@ -1,6 +1,6 @@
 # 15.1 편향(bias), 안전성(safety), 책임(accountability)
 
-14장에서는 AI 서비스를 모델, 데이터, 도구, 에이전트(agent), 하네스(harness), 서비스 제약(service constraints)의 흐름으로 봤습니다. 이제 질문은 기술 구조에서 사회적 영향으로 넘어갑니다.
+P1-14에서는 AI 서비스를 모델, 데이터, 도구, 에이전트(agent), 하네스(harness), 서비스 제약(service constraints)의 흐름으로 봤습니다. 이제 질문은 기술 구조에서 사회적 영향으로 넘어갑니다.
 
 > AI가 답을 만들 수 있다.
 > AI가 추천할 수 있다.
