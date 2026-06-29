@@ -15,7 +15,7 @@
 
 이 절은 강화학습 알고리즘을 계산하지 않습니다. 마르코프 결정 과정(MDP, Markov decision process), 벨만 방정식(Bellman equation), Q-learning, 정책 경사(policy gradient), 액터-크리틱(actor-critic), 딥 강화학습(deep reinforcement learning)은 이름과 위치만 지나갑니다.
 
-또한 게임 AI, 로봇 제어, 추천 시스템, RLHF(reinforcement learning from human feedback)를 자세히 다루지 않습니다. 이 절에서는 강화학습이 지도학습, 비지도학습과 왜 다른 문제 설정인지 잡는 데 집중합니다.
+또한 게임 AI, 로봇 제어, 추천 시스템, RLHF(reinforcement learning from human feedback)를 자세히 다루지 않습니다. 강화학습의 후속 알고리즘과 RLHF의 큰 그림은 Part 3의 P3-19장에서 다시 보고, LLM 정렬 맥락의 RLHF는 Part 5에서 다시 연결합니다. 이 절에서는 강화학습이 지도학습, 비지도학습과 왜 다른 문제 설정인지 잡는 데 집중합니다.
 
 여기서는 다음 정도만 잡습니다.
 
