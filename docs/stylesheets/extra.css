@@ -105,6 +105,13 @@
   overflow-x: auto;
 }
 
+.md-main,
+.md-main__inner,
+.md-content,
+.md-content__inner {
+  max-width: 100%;
+}
+
 @media screen and (max-width: 76.1875em) {
   .md-content__inner {
     --aibook-line-gutter: 1.75rem;
@@ -115,12 +122,17 @@
 }
 
 @media screen and (max-width: 44.9375em) {
+  html,
+  body,
+  .md-container,
+  .md-main,
+  .md-main__inner,
+  .md-content {
+    overflow-x: clip;
+  }
+
   .md-content__inner {
-    --aibook-line-gutter: 0.95rem;
-    --aibook-line-width: 0.95rem;
-    --aibook-line-gap: 0.32rem;
-    --aibook-list-line-gap: 1.4rem;
-    padding-left: var(--aibook-line-gutter);
+    padding-left: 0;
   }
 
   .md-content__inner > :is(
@@ -137,17 +149,7 @@
     .mermaid
   )::before,
   .md-content__inner > :is(ul, ol) > li::before {
-    font-size: 0.52rem;
-  }
-
-  .md-content__inner > h1::before {
-    --aibook-line-top: 0.38rem;
-  }
-
-  .md-content__inner > h2::before,
-  .md-content__inner > h3::before,
-  .md-content__inner > h4::before {
-    --aibook-line-top: 0.26rem;
+    content: none;
   }
 
   .md-footer__link {
