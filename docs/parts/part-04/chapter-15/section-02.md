@@ -193,6 +193,7 @@ sampled = ['good', 'good', 'nice', 'good', 'nice', 'good', 'good', 'clear', 'goo
 
 커리큘럼 관점에서 이 절은 다음 연결을 준비합니다.
 
+- 바로 앞의 P4-15.1 생성 모델을 `출력을 만든다`에서 `실제 출력을 어떤 방식으로 고르는가`로 더 구체화하고
 - Part 5의 토큰(token)과 토큰화(tokenization)
 - 다음 토큰 예측(next-token prediction)
 - temperature, top-k, top-p 같은 생성 설정

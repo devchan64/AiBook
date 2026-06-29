@@ -188,7 +188,7 @@ new_representation = 4.501
 
 self-attention에서 확인해야 할 역사적 전환은 attention이 번역 분야의 보조 메커니즘에 머무르지 않고, sequence modeling의 중심 계산 방식으로 이동했다는 점입니다. 그리고 바로 그 이동이 Transformer의 핵심입니다.
 
-커리큘럼 관점에서 이 절에서 확인해야 할 결과는 attention을 단순 보조 장치가 아니라, self-attention을 통해 구조 자체를 바꾸는 계산 발상으로 읽고 Part 5의 LLM 설명과 직접 연결할 수 있는가입니다.
+커리큘럼 관점에서 이 절에서 확인해야 할 결과는 바로 앞의 P4-13.1 attention 직관을 단순 보조 장치가 아니라, self-attention을 통해 구조 자체를 바꾸는 계산 발상으로 확장해 읽고 Part 5의 LLM 설명과 직접 연결할 수 있는가입니다.
 
 - attention을 단순한 보조 장치로 끝내지 않고
 - 왜 self-attention이 구조 자체를 바꾸는 발상이었는지 설명하며
