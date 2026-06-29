@@ -29,7 +29,7 @@ P3-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 - 함수 근사(function approximation)와 딥 Q-네트워크(DQN)
 - policy gradient, actor-critic의 업데이트 절차
 
-정책 기반 강화학습(policy-based reinforcement learning)은 P3-19.2에서 이어서 다룹니다. 보상 설계, 탐험 비용, 현실 적용의 주의점은 P3-19.3에서 다시 정리합니다.
+정책 기반 강화학습(policy-based reinforcement learning)은 P3-19.2에서 이어서 다룹니다. 보상 설계, 탐험 비용, 현실 적용의 주의점은 P3-19.3에서 다시 정리합니다. DQN과 함수 근사, 가치 기반에서 정책 기반으로 이어지는 후속 계보는 P3-19.4 보충학습에서 다시 회수합니다.
 
 ## 이 절의 목표
 

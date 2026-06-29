@@ -257,6 +257,7 @@ nav:
           - "P3-19.1 가치 기반 강화학습(value-based reinforcement learning)": parts/part-03/chapter-19/section-01.md
           - "P3-19.2 정책 기반 강화학습(policy-based reinforcement learning)": parts/part-03/chapter-19/section-02.md
           - "P3-19.3 강화학습 적용의 주의점": parts/part-03/chapter-19/section-03.md
+          - "P3-19.4 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기": parts/part-03/chapter-19/section-04.md
       - Part 3 마무리: parts/part-03/summary.md
   - Part 4. 딥러닝:
       - 개요: parts/part-04/index.md

@@ -24,7 +24,7 @@ P3-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 - domain randomization, domain adaptation의 구현 절차
 - RLHF, preference optimization의 세부 설계
 
-이 절의 목적은 `강화학습 알고리즘을 알게 된 뒤 바로 생기는 과도한 기대`를 조정하는 것입니다.
+이 절의 목적은 `강화학습 알고리즘을 알게 된 뒤 바로 생기는 과도한 기대`를 조정하는 것입니다. safe RL, offline RL, sim-to-real 보강 전략, RLHF와 preference optimization의 큰 그림은 P3-19.4 보충학습에서 다시 회수하고, LLM 정렬 맥락의 RLHF는 Part 5의 P5-6, P5-8, P5-10에서 다시 연결합니다.
 
 ## 이 절의 목표
 

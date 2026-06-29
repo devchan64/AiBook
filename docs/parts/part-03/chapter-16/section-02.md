@@ -27,7 +27,7 @@ P3-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계�
 - 교차검증(cross-validation) 실전 자동화
 - 손실 함수별 세밀한 미분 전개
 
-이 절은 입문적으로 `강한 성능 후보를 다루는 태도`를 만드는 데 집중합니다.
+이 절은 입문적으로 `강한 성능 후보를 다루는 태도`를 만드는 데 집중합니다. 교차검증과 튜닝 절차는 P3-9.2에서 다시 연결하고, GPU와 병렬 계산 구조는 P4-9.1, P4-9.2에서 다시 봅니다. XGBoost, LightGBM, CatBoost의 구현 차이와 histogram binning, distributed training의 세부 구조는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
