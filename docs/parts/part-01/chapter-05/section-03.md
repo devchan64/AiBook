@@ -24,7 +24,7 @@
 > 통계학의 추정과 검정을 포함하는 statistical inference
 > 텍스트나 이미지를 만들어 내는 generation
 
-## 목표
+## 이 절의 목표
 
 - `inference`를 한국어 `추론` 하나로만 읽을 때 생기는 혼동을 줄입니다.
 - `inference`, `reasoning`, `prediction`, `statistical inference`, `generation`의 중심 의미를 구분합니다.

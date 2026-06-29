@@ -23,7 +23,7 @@
 > 행동 뒤의 보상을 통해
 > 장기적으로 더 나은 정책을 찾는 방식이다.
 
-## 목표
+## 이 절의 목표
 
 - 강화학습(reinforcement learning)을 행동(action)과 보상(reward)의 관점에서 설명합니다.
 - 에이전트(agent), 환경(environment), 상태(state), 행동(action), 보상(reward), 정책(policy)을 입문 수준에서 구분합니다.

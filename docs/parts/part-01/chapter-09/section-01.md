@@ -24,7 +24,7 @@
 > 사람이 직접 설계한 특징만 사용하는 방식보다,
 > 데이터에서 계층적 표현을 학습하는 방향을 강하게 보여 주었다.
 
-## 목표
+## 이 절의 목표
 
 - 이미지 인식(image recognition)을 입력 이미지에서 범주(category)를 예측하는 문제로 이해합니다.
 - 수작업 특징(hand-crafted features)과 학습된 표현(learned representation)의 차이를 설명합니다.

@@ -37,7 +37,7 @@ Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵�
 
 여기서는 AI 문서를 읽기 위한 용어 기준만 세웁니다.
 
-## 목표
+## 이 절의 목표
 
 - 불확실성(uncertainty)을 “모르는 상태”로 이해합니다.
 - 확률(probability)을 불확실성을 표현하고 갱신하는 숫자 언어로 이해합니다.

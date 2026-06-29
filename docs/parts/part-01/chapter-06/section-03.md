@@ -20,7 +20,7 @@ AI가 확률(probability)을 사용한다는 말은 “아무렇게나 답한다
 > 확률은 분류, 예측, 생성, 의사결정에서 쓰인다.
 > 하지만 확률 출력은 그대로 정답이나 책임 있는 결정이 아니다.
 
-## 목표
+## 이 절의 목표
 
 - 분류(classification)에서 확률 추정값(probability estimate)이 어떻게 쓰이는지 이해합니다.
 - 예측(regression, forecasting)에서 값 하나뿐 아니라 불확실성(uncertainty)을 함께 볼 수 있음을 이해합니다.
