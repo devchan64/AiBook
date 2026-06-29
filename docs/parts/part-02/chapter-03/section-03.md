@@ -32,7 +32,7 @@ P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 �
 - 선형 변환(linear transformation)을 벡터를 다른 표현 공간으로 옮기는 계산으로 이해할 수 있습니다.
 - 이 계산이 신경망(neural network)의 층(layer), 임베딩(embedding), 분류(classification)에서 다시 등장하는 이유를 말할 수 있습니다.
 
-## 초심자가 먼저 붙잡을 세 가지
+## 먼저 볼 세 가지
 
 | 질문 | 먼저 잡을 관점 |
 | --- | --- |

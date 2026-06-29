@@ -32,7 +32,7 @@ P2-11장에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axi
 - 머신러닝 데이터셋에서 한 행은 하나의 사례(case) 또는 샘플(sample), 한 열은 하나의 변수(variable) 또는 특징(feature)으로 읽을 수 있음을 설명할 수 있습니다.
 - DataFrame을 처음 받았을 때 `shape`, `columns`, `index`, `dtypes`, `head()`를 왜 먼저 확인하는지 설명할 수 있습니다.
 
-## 초심자가 먼저 붙잡을 세 가지
+## 먼저 볼 세 가지
 
 | 질문 | 먼저 잡을 관점 |
 | --- | --- |
