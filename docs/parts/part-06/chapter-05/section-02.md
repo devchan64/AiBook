@@ -81,7 +81,7 @@ RAG 프로젝트에서는 최소 두 종류의 실패가 있습니다.
 
 ## Python 예제
 
-이번 예제의 목적은 검색 점수와 답변 가능 여부를 함께 출력하는 것입니다.
+이번 예제의 목적은 검색 점수와 답변 가능 여부를 함께 출력하는 것입니다. 이번에는 질문별로 `retrieval_candidates`, `answer_status`, `needs_revision`가 남는 `evaluation_records`를 만들겠습니다.
 
 ```python
 documents = {
@@ -95,50 +95,85 @@ questions = [
     "MCP는 왜 필요한가?",
 ]
 
-def tokenize(text):
-    return set(text.replace("?", "").replace(".", "").split())
+def normalize_token(token):
+    token = token.replace("?", "").replace(".", "")
+    for keyword in ["RAG", "MCP"]:
+        if token.startswith(keyword):
+            return keyword
+    return token
 
+def tokenize(text):
+    return {normalize_token(token) for token in text.split()}
+
+evaluation_records = []
 for question in questions:
     q_tokens = tokenize(question)
-    scores = []
+    retrieval_candidates = []
     for doc_id, text in documents.items():
         overlap = len(q_tokens & tokenize(text))
-        scores.append((doc_id, overlap, text))
+        retrieval_candidates.append({
+            "doc_id": doc_id,
+            "score": overlap,
+            "text": text,
+        })
 
-    scores.sort(key=lambda x: x[1], reverse=True)
-    top_doc_id, top_score, top_text = scores[0]
+    retrieval_candidates.sort(key=lambda x: x["score"], reverse=True)
+    top_candidate = retrieval_candidates[0]
 
-    if top_score == 0:
+    if top_candidate["score"] == 0:
         answer = "현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다."
+        answer_status = "insufficient_evidence"
     else:
-        answer = f"{top_text} 이 문장 범위 안에서만 답하면, 외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다."
+        answer = (
+            f"{top_candidate['text']} 이 문장 범위 안에서만 답하면, "
+            "외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다."
+        )
+        answer_status = "grounded_answer"
 
-    print("question =", question)
-    print("top_doc_id =", top_doc_id)
-    print("top_score =", top_score)
-    print("answer =", answer)
-    print()
+    evaluation_records.append({
+        "question": question,
+        "top_doc_id": top_candidate["doc_id"],
+        "top_score": top_candidate["score"],
+        "answer_status": answer_status,
+        "answer": answer,
+        "needs_revision": bool(top_candidate["score"] == 0),
+        "retrieval_candidates": retrieval_candidates,
+    })
+
+review_summary = {
+    "question_count": len(evaluation_records),
+    "grounded_answer_count": sum(
+        row["answer_status"] == "grounded_answer" for row in evaluation_records
+    ),
+    "insufficient_evidence_count": sum(
+        row["answer_status"] == "insufficient_evidence"
+        for row in evaluation_records
+    ),
+    "needs_revision_ids": [
+        row["question"] for row in evaluation_records if row["needs_revision"]
+    ],
+}
+
+print("review_summary =", review_summary)
+print("evaluation_records =")
+for row in evaluation_records:
+    print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-question = RAG가 왜 필요한가?
-top_doc_id = doc_1
-top_score = 1
-answer = RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. 이 문장 범위 안에서만 답하면, 외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다.
-
-question = MCP는 왜 필요한가?
-top_doc_id = doc_1
-top_score = 0
-answer = 현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다.
+review_summary = {'question_count': 2, 'grounded_answer_count': 1, 'insufficient_evidence_count': 1, 'needs_revision_ids': ['MCP는 왜 필요한가?']}
+evaluation_records =
+{'question': 'RAG가 왜 필요한가?', 'top_doc_id': 'doc_1', 'top_score': 1, 'answer_status': 'grounded_answer', 'answer': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. 이 문장 범위 안에서만 답하면, 외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다.', 'needs_revision': False, 'retrieval_candidates': [{'doc_id': 'doc_1', 'score': 1, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}, {'doc_id': 'doc_2', 'score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}, {'doc_id': 'doc_3', 'score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}]}
+{'question': 'MCP는 왜 필요한가?', 'top_doc_id': 'doc_1', 'top_score': 0, 'answer_status': 'insufficient_evidence', 'answer': '현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다.', 'needs_revision': True, 'retrieval_candidates': [{'doc_id': 'doc_1', 'score': 0, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}, {'doc_id': 'doc_2', 'score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}, {'doc_id': 'doc_3', 'score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}]}
 ```
 
 ## 결과를 어떻게 읽는가
 
 두 번째 질문이 이 절의 핵심입니다.
 
-- top score가 0입니다.
+- `evaluation_records`에서 두 번째 질문은 `top_score = 0`, `answer_status = insufficient_evidence`, `needs_revision = True`로 기록됩니다.
 - 즉, 현재 문서 집합에는 답 근거가 없습니다.
 - 이때도 억지로 설명을 만들면 그것은 RAG 품질 문제가 아니라 `검증 규칙 부재` 문제입니다.
 
@@ -148,6 +183,7 @@ answer = 현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 
 
 - top score가 0이면 근거가 없다는 뜻이다
 - 근거가 없을 때 멈추는 것도 품질이다
+- grounded/insufficient 상태를 질문별 기록으로 남겨야 다음 수정이 쉬워진다
 - 따라서 검색 품질과 답변 품질을 따로 적어야 한다
 
 ## 프로젝트 평가표 예시
