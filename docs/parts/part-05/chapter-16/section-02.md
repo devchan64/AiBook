@@ -182,12 +182,13 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실패 대응이 `에러가 났다`에서 끝나는 것이 아니라, 재시도, fallback, stop 분기가 실제로 나뉘어야 한다는 점을 보는 것입니다. 이번에는 실패 사례 하나만 보지 않고, 서로 다른 실패 유형을 한 번에 넣어 어떤 경우에 retry가 맞고 어떤 경우에 stop이나 사람 검토가 맞는지 비교하겠습니다.
+이번 예제의 목표는 실패 대응이 `에러가 났다`에서 끝나는 것이 아니라, 재시도, fallback, stop 분기가 실제로 나뉘어야 한다는 점을 보는 것입니다. 이번에는 실패 사례 하나만 보지 않고, `시스템 실패`와 `모델 실패`를 함께 넣어 어떤 경우에 retry가 맞고 어떤 경우에 fallback, 사람 검토, 모델 수정이 맞는지 비교하겠습니다.
 
 문제 상황:
 
 - 검색 단계에서 timeout이 발생할 수 있음
 - 도구 호출 단계에서는 permission error가 날 수 있음
+- 답변 단계에서는 근거 문서를 읽고도 환각이나 형식 불일치가 날 수 있음
 - 어떤 경우에는 한 번 더 시도할 수 있고
 - 어떤 경우에는 캐시 요약으로 fallback 하거나 사람 검토로 멈춰야 함
 
@@ -195,6 +196,7 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 
 - 여러 개의 실패 상황
 - 재시도 허용 횟수와 캐시 사용 가능 여부
+- 사람 검토 가능 여부와 근거 문서 존재 여부
 
 출력:
 
@@ -202,11 +204,22 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 - retry 여부
 - fallback 여부
 - 사람 검토 전환 여부
+- 어떤 실패가 모델 수정 과제이고 어떤 실패가 시스템 복구 과제인지에 대한 요약값
+
+먼저 이 예제에서 함께 볼 대응 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `failure_family` | 모델 실패와 시스템 실패를 섞어 보지 않기 위해 |
+| `decision` | retry, fallback, stop, fix 중 어떤 경로를 탈지 남기기 위해 |
+| `next_action` | 운영자가 다음에 무엇을 해야 하는지 바로 읽기 위해 |
+| `trace_saved` | 실패 원인을 나중에 다시 재현하고 분석할 수 있어야 해서 |
 
 ```python
 failure_cases = [
     {
         "name": "timeout_retry",
+        "failure_family": "system",
         "step": "search_docs",
         "error": "timeout",
         "retry_count": 1,
@@ -216,6 +229,7 @@ failure_cases = [
     },
     {
         "name": "timeout_fallback",
+        "failure_family": "system",
         "step": "search_docs",
         "error": "timeout",
         "retry_count": 2,
@@ -225,6 +239,7 @@ failure_cases = [
     },
     {
         "name": "timeout_escalate",
+        "failure_family": "system",
         "step": "search_docs",
         "error": "timeout",
         "retry_count": 2,
@@ -234,17 +249,56 @@ failure_cases = [
     },
     {
         "name": "permission_stop",
+        "failure_family": "system",
         "step": "read_file",
         "error": "permission_error",
         "retry_count": 0,
         "max_retries": 2,
         "cached_summary_available": False,
         "trace_saved": True,
+        "human_review_available": True,
+        "grounding_available": False,
+    },
+    {
+        "name": "hallucination_review",
+        "failure_family": "model",
+        "step": "answer_generation",
+        "error": "hallucination",
+        "retry_count": 0,
+        "max_retries": 1,
+        "cached_summary_available": False,
+        "trace_saved": True,
+        "human_review_available": True,
+        "grounding_available": True,
+    },
+    {
+        "name": "format_fix",
+        "failure_family": "model",
+        "step": "answer_generation",
+        "error": "format_mismatch",
+        "retry_count": 0,
+        "max_retries": 1,
+        "cached_summary_available": False,
+        "trace_saved": True,
+        "human_review_available": False,
+        "grounding_available": True,
     },
 ]
 
 
 def decide_recovery(case):
+    if case["error"] == "hallucination":
+        return {
+            "decision": "human_review",
+            "next_action": "compare_with_grounding",
+            "trace_saved": case["trace_saved"],
+        }
+    if case["error"] == "format_mismatch":
+        return {
+            "decision": "model_fix",
+            "next_action": "tighten_prompt_or_parser",
+            "trace_saved": case["trace_saved"],
+        }
     if case["error"] == "permission_error":
         return {
             "decision": "stop_and_escalate",
@@ -270,48 +324,98 @@ def decide_recovery(case):
     }
 
 
+reports = []
 for case in failure_cases:
     recovery = decide_recovery(case)
-    print(f"[{case['name']}]")
-    print("failure_case =", case)
-    print("recovery =", recovery)
+    reports.append(
+        {
+            "name": case["name"],
+            "failure_family": case["failure_family"],
+            "failure_case": case,
+            "recovery": recovery,
+        }
+    )
+
+summary = {
+    "retry_count": sum(report["recovery"]["decision"] == "retry" for report in reports),
+    "fallback_count": sum(report["recovery"]["decision"] == "fallback" for report in reports),
+    "human_review_count": sum(report["recovery"]["decision"] == "human_review" for report in reports),
+    "stop_and_escalate_count": sum(report["recovery"]["decision"] == "stop_and_escalate" for report in reports),
+    "model_fix_count": sum(report["recovery"]["decision"] == "model_fix" for report in reports),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print(f"[{report['name']}]")
+    print("failure_family =", report["failure_family"])
+    print("failure_case =", report["failure_case"])
+    print("recovery =", report["recovery"])
     print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'retry_count': 1, 'fallback_count': 1, 'human_review_count': 1, 'stop_and_escalate_count': 2, 'model_fix_count': 1}
+
+================================================================================
 [timeout_retry]
-failure_case = {'name': 'timeout_retry', 'step': 'search_docs', 'error': 'timeout', 'retry_count': 1, 'max_retries': 2, 'cached_summary_available': True, 'trace_saved': True}
+failure_family = system
+failure_case = {'name': 'timeout_retry', 'failure_family': 'system', 'step': 'search_docs', 'error': 'timeout', 'retry_count': 1, 'max_retries': 2, 'cached_summary_available': True, 'trace_saved': True, 'human_review_available': True, 'grounding_available': False}
 recovery = {'decision': 'retry', 'next_action': 'search_docs_again', 'trace_saved': True}
 
+================================================================================
 [timeout_fallback]
-failure_case = {'name': 'timeout_fallback', 'step': 'search_docs', 'error': 'timeout', 'retry_count': 2, 'max_retries': 2, 'cached_summary_available': True, 'trace_saved': True}
+failure_family = system
+failure_case = {'name': 'timeout_fallback', 'failure_family': 'system', 'step': 'search_docs', 'error': 'timeout', 'retry_count': 2, 'max_retries': 2, 'cached_summary_available': True, 'trace_saved': True, 'human_review_available': True, 'grounding_available': False}
 recovery = {'decision': 'fallback', 'next_action': 'use_cached_summary', 'trace_saved': True}
 
+================================================================================
 [timeout_escalate]
-failure_case = {'name': 'timeout_escalate', 'step': 'search_docs', 'error': 'timeout', 'retry_count': 2, 'max_retries': 2, 'cached_summary_available': False, 'trace_saved': True}
+failure_family = system
+failure_case = {'name': 'timeout_escalate', 'failure_family': 'system', 'step': 'search_docs', 'error': 'timeout', 'retry_count': 2, 'max_retries': 2, 'cached_summary_available': False, 'trace_saved': True, 'human_review_available': True, 'grounding_available': False}
 recovery = {'decision': 'stop_and_escalate', 'next_action': 'ask_human_review', 'trace_saved': True}
 
+================================================================================
 [permission_stop]
-failure_case = {'name': 'permission_stop', 'step': 'read_file', 'error': 'permission_error', 'retry_count': 0, 'max_retries': 2, 'cached_summary_available': False, 'trace_saved': True}
+failure_family = system
+failure_case = {'name': 'permission_stop', 'failure_family': 'system', 'step': 'read_file', 'error': 'permission_error', 'retry_count': 0, 'max_retries': 2, 'cached_summary_available': False, 'trace_saved': True, 'human_review_available': True, 'grounding_available': False}
 recovery = {'decision': 'stop_and_escalate', 'next_action': 'ask_human_review', 'trace_saved': True}
+
+================================================================================
+[hallucination_review]
+failure_family = model
+failure_case = {'name': 'hallucination_review', 'failure_family': 'model', 'step': 'answer_generation', 'error': 'hallucination', 'retry_count': 0, 'max_retries': 1, 'cached_summary_available': False, 'trace_saved': True, 'human_review_available': True, 'grounding_available': True}
+recovery = {'decision': 'human_review', 'next_action': 'compare_with_grounding', 'trace_saved': True}
+
+================================================================================
+[format_fix]
+failure_family = model
+failure_case = {'name': 'format_fix', 'failure_family': 'model', 'step': 'answer_generation', 'error': 'format_mismatch', 'retry_count': 0, 'max_retries': 1, 'cached_summary_available': False, 'trace_saved': True, 'human_review_available': False, 'grounding_available': True}
+recovery = {'decision': 'model_fix', 'next_action': 'tighten_prompt_or_parser', 'trace_saved': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 실패가 났을 때 응답이 그냥 중단되는 것이 아니라, 재시도, 대체 경로, 사람 검토 전환 같은 분기가 실제로 따로 설계된다는 점입니다. 특히 `timeout`이라고 해도 retry 가능 횟수와 캐시 존재 여부에 따라 다른 경로를 타고, `permission_error`처럼 재시도보다 즉시 중단이 맞는 오류도 따로 구분해야 한다는 점이 중요합니다.
+이 예제에서 먼저 봐야 할 것은 `system`과 `model` 실패가 같은 표에서 다르게 갈라진다는 점입니다. `timeout`과 `permission_error`는 실행 경로를 복구하거나 멈추는 문제이고, `hallucination`과 `format_mismatch`는 검색 재시도보다 사람 검토나 프롬프트/파서 수정이 더 먼저인 문제입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 실패가 났을 때 응답이 그냥 중단되는 것이 아니라, 재시도, 대체 경로, 사람 검토 전환, 모델 수정 같은 분기가 실제로 따로 설계된다는 점입니다. 특히 `timeout`이라고 해도 retry 가능 횟수와 캐시 존재 여부에 따라 다른 경로를 타고, `permission_error`처럼 재시도보다 즉시 중단이 맞는 오류, `hallucination`처럼 근거 비교가 먼저 필요한 오류도 따로 구분해야 한다는 점이 중요합니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 실패를 발견하고
 - 바로 끝내는 것이 아니라
-- 재시도, 대체 경로, 기록 저장, 사람 전환을 같이 설계해야 한다는 점입니다
+- 재시도, 대체 경로, 기록 저장, 사람 전환, 모델 수정 경로를 같이 설계해야 한다는 점입니다
 - 같은 실패처럼 보여도 오류 종류와 남은 복구 수단에 따라 대응이 달라져야 한다는 점입니다
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `max_retries`를 줄여 retry보다 fallback이나 중단이 더 빨리 열리는지 보기
 - `cached_summary_available`를 바꿔 같은 timeout이라도 어떤 경로를 타는지 비교해 보기
-- 다른 실패 유형 `permission_error`, `rate_limit`, `tool_not_found`를 넣어 어떤 오류가 즉시 stop에 가까운지 비교해 보기
+- 다른 실패 유형 `rate_limit`, `tool_not_found`, `wrong_citation`을 넣어 어떤 오류가 시스템 복구인지 모델 수정인지 비교해 보기
 
 ## 이 예제를 복구 설계 관점으로 다시 보면
 
