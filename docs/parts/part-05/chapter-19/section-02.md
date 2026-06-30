@@ -174,62 +174,151 @@ flowchart TD
 
 문서 제목과 본문이 거의 같은지 판별하는 일은 문장쌍 비교와 유사도 판단 흐름으로 볼 수 있습니다. 사람은 이 작업에서 보통 `둘 다 새로 쓰기`보다 `둘이 얼마나 같은가`를 먼저 점검합니다. 예를 들어 공지 두 개가 문장 순서만 조금 다르고 핵심 내용은 같다면, 새 답변을 만드는 것보다 중복으로 묶는 편이 운영상 더 중요할 수 있습니다. 하나는 제목이 `점검 안내`, 다른 하나는 `서비스 점검 공지`여도 실제 본문이 같은 이벤트를 설명한다면 중복 판단이 더 중요합니다. 중복을 놓치면 비슷한 문서가 계속 쌓여 검색 결과까지 지저분해질 수 있습니다. 결국 이 사례도 `읽고 비교해 점수를 매기는 일`이라는 점에서 같은 계열입니다. 여기서 바뀌는 점은 `새 설명을 다시 만드는가`를 보던 기준에서 `두 문서가 실제로 같은 묶음인지 판단하는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 새 문서로 남기기보다 실제로 중복 문서가 하나의 묶음으로 정리되는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 BERT를 학습하는 것이 아니라, 이해 중심 태스크의 출력이 `생성 문장`이 아니라 `판단 결과`인 경우가 많다는 점을 확인하는 것입니다.
+이번 예제의 목표는 이해 중심 태스크가 실제로 `라벨`, `관계 점수`, `검색 순위` 같은 판단 결과를 낸다는 점을 작은 규칙 기반 실험으로 확인하는 것입니다.
 
 입력:
 
-- 문의 문장
-- 라벨
+- 문의 문장 3개
+- 라벨별 기준 키워드
+- 문장쌍 2개
+- 검색 문서 후보 3개
 
 출력:
 
-- 문장과 라벨
-- 문장쌍 유사 여부 예시
-- 검색용 관련도 판단 예시
+- 분류 점수와 예측 라벨
+- 문장쌍 유사도 점수
+- 검색 문서 순위
 
 ```python
+from collections import Counter
+
+label_keywords = {
+    "배송": ["배송", "지연", "택배"],
+    "계정": ["로그인", "비밀번호", "계정"],
+    "결제": ["결제", "환불", "취소"],
+}
+
 classification_examples = [
-    ("배송이 지연되고 있습니다", "배송"),
-    ("로그인이 되지 않습니다", "계정"),
+    "배송이 계속 지연되고 있습니다",
+    "로그인이 되지 않아 비밀번호를 다시 바꾸고 싶습니다",
+    "결제는 취소했는데 환불이 아직 안 됐습니다",
 ]
 
 pair_examples = [
-    ("비밀번호를 변경하고 싶어요", "비밀번호를 다시 설정하려면 어떻게 하나요?", "related"),
-    ("환불은 언제 되나요?", "오늘 날씨가 좋네요", "not_related"),
+    ("비밀번호를 변경하고 싶어요", "비밀번호를 다시 설정하려면 어떻게 하나요?"),
+    ("환불은 언제 되나요?", "오늘 날씨가 좋네요"),
 ]
 
-ranking_examples = [
-    ("퇴사 전에 장비를 어디에 반납하나요?", "오프보딩 장비 반납 안내", "high_relevance"),
-    ("퇴사 전에 장비를 어디에 반납하나요?", "법인카드 사용 정산 가이드", "low_relevance"),
+ranking_query = "퇴사 전에 장비를 어디에 반납하나요?"
+ranking_docs = [
+    "오프보딩 장비 반납 안내",
+    "법인카드 사용 정산 가이드",
+    "퇴사 체크리스트와 자산 회수 절차",
 ]
+
+synonyms = {
+    "바꾸고": "변경",
+    "설정하려면": "설정",
+    "환불이": "환불",
+    "안": "미완료",
+    "반납하나요?": "반납",
+    "장비를": "장비",
+}
+
+
+def tokenize(text):
+    return [synonyms.get(token, token) for token in text.replace("?", "").split()]
+
+
+def classify(text):
+    tokens = tokenize(text)
+    scores = {}
+    for label, keywords in label_keywords.items():
+        scores[label] = sum(1 for token in tokens if token in keywords)
+    best_label = max(scores, key=scores.get)
+    return best_label, scores
+
+
+def jaccard_similarity(left, right):
+    left_tokens = set(tokenize(left))
+    right_tokens = set(tokenize(right))
+    intersection = len(left_tokens & right_tokens)
+    union = len(left_tokens | right_tokens)
+    return round(intersection / union, 2) if union else 0.0
+
+
+def rank_documents(query, docs):
+    query_tokens = Counter(tokenize(query))
+    ranked = []
+    for doc in docs:
+        doc_tokens = Counter(tokenize(doc))
+        score = sum(min(query_tokens[token], doc_tokens[token]) for token in query_tokens)
+        ranked.append((doc, score))
+    return sorted(ranked, key=lambda item: item[1], reverse=True)
+
 
 print("[classification]")
-for text, label in classification_examples:
-    print(text, "->", label)
+for text in classification_examples:
+    label, scores = classify(text)
+    print("text =", text)
+    print("scores =", scores)
+    print("predicted_label =", label)
+    print("---")
 
 print("[pair relation]")
-for left, right, tag in pair_examples:
-    print(left, "|", right, "->", tag)
+for left, right in pair_examples:
+    similarity = jaccard_similarity(left, right)
+    tag = "related" if similarity >= 0.2 else "not_related"
+    print(left, "|", right)
+    print("similarity =", similarity, "->", tag)
+    print("---")
 
 print("[ranking]")
-for query, doc, tag in ranking_examples:
-    print(query, "|", doc, "->", tag)
+for doc, score in rank_documents(ranking_query, ranking_docs):
+    print("query =", ranking_query)
+    print("doc =", doc)
+    print("score =", score)
+    print("---")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다. 첫 번째 문장쌍의 유사도가 낮게 나온 이유는 단순 단어 겹침 규칙이 `변경`과 `재설정`의 의미적 유사성을 충분히 잡지 못하기 때문입니다. 바로 이 한계가 encoder 기반 임베딩과 관련도 모델이 필요해지는 이유이기도 합니다.
 
 ```text
 [classification]
-배송이 지연되고 있습니다 -> 배송
-로그인이 되지 않습니다 -> 계정
+text = 배송이 계속 지연되고 있습니다
+scores = {'배송': 1, '계정': 0, '결제': 0}
+predicted_label = 배송
+---
+text = 로그인이 되지 않아 비밀번호를 다시 바꾸고 싶습니다
+scores = {'배송': 0, '계정': 2, '결제': 0}
+predicted_label = 계정
+---
+text = 결제는 취소했는데 환불이 아직 안 됐습니다
+scores = {'배송': 0, '계정': 0, '결제': 2}
+predicted_label = 결제
+---
 [pair relation]
-비밀번호를 변경하고 싶어요 | 비밀번호를 다시 설정하려면 어떻게 하나요? -> related
-환불은 언제 되나요? | 오늘 날씨가 좋네요 -> not_related
+비밀번호를 변경하고 싶어요 | 비밀번호를 다시 설정하려면 어떻게 하나요?
+similarity = 0.17 -> not_related
+---
+환불은 언제 되나요? | 오늘 날씨가 좋네요
+similarity = 0.0 -> not_related
+---
 [ranking]
-퇴사 전에 장비를 어디에 반납하나요? | 오프보딩 장비 반납 안내 -> high_relevance
-퇴사 전에 장비를 어디에 반납하나요? | 법인카드 사용 정산 가이드 -> low_relevance
+query = 퇴사 전에 장비를 어디에 반납하나요?
+doc = 오프보딩 장비 반납 안내
+score = 2
+---
+query = 퇴사 전에 장비를 어디에 반납하나요?
+doc = 퇴사 체크리스트와 자산 회수 절차
+score = 1
+---
+query = 퇴사 전에 장비를 어디에 반납하나요?
+doc = 법인카드 사용 정산 가이드
+score = 0
+---
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
@@ -237,6 +326,7 @@ for query, doc, tag in ranking_examples:
 - 이해 중심 태스크는 대개 `판단 결과`를 출력합니다
 - 생성형 모델처럼 긴 답변을 만드는 것이 중심은 아닙니다
 - 분류, 관계 판단, 검색 랭킹도 모두 같은 `읽고 점수나 라벨을 내는 흐름`으로 묶을 수 있습니다
+- 단순 규칙만으로도 어떤 입력이 어느 판단값으로 바뀌는지는 확인할 수 있고, 실제 모델은 이 점수 계산을 더 풍부한 표현 공간에서 수행합니다
 - BERT 계열은 이런 판단 작업과 잘 맞습니다
 
 ## 운영 판단으로 다시 묶기

@@ -55,57 +55,170 @@ P5-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 �
 
 이 예제의 목표는 `정답률`이 아니라 `흐름 확인`입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
+
+이번 예제는 `질문 -> 검색 -> 답변 초안 -> 회고 메모`를 한 번에 확인하는 데 목적이 있습니다.
+
+입력:
+
+- 정책 문서 4개
+- 사용자 질문 2개
+
+출력:
+
+- 문서별 검색 점수
+- 선택된 근거 문서
+- 답변 초안
+- 사람 검토 필요 여부와 회고 메모
 
 ```python
 documents = [
-    {"id": "policy-1", "text": "신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다."},
-    {"id": "policy-2", "text": "여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다."},
-    {"id": "policy-3", "text": "잔여 휴가 일수 조회는 인사 시스템에서 확인합니다."},
+    {
+        "id": "policy-1",
+        "text": "신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.",
+    },
+    {
+        "id": "policy-2",
+        "text": "여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.",
+    },
+    {
+        "id": "policy-3",
+        "text": "잔여 휴가 일수 조회는 인사 시스템에서 확인합니다.",
+    },
+    {
+        "id": "policy-4",
+        "text": "신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.",
+    },
 ]
 
-question = "이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?"
+queries = [
+    "이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?",
+    "신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?",
+]
+
+keyword_groups = {
+    "입사": ["입사", "신입", "직원"],
+    "휴가": ["휴가", "월차", "여름휴가"],
+    "복지": ["복지", "포인트", "제도"],
+}
 
 
-def retrieve_docs(query, docs):
-    keywords = ["입사", "휴가", "여름"]
-    matched = []
+def score_document(query, doc):
+    score = 0
+    matched_groups = []
+    for group_name, keywords in keyword_groups.items():
+        query_hit = any(keyword in query for keyword in keywords)
+        doc_hit = any(keyword in doc["text"] for keyword in keywords)
+        if query_hit and doc_hit:
+            score += 1
+            matched_groups.append(group_name)
+    return score, matched_groups
+
+
+def retrieve_docs(query, docs, top_k=2):
+    scored = []
     for doc in docs:
-        if any(keyword in query and keyword in doc["text"] for keyword in keywords):
-            matched.append(doc)
-    return matched
+        score, matched_groups = score_document(query, doc)
+        scored.append(
+            {
+                "id": doc["id"],
+                "text": doc["text"],
+                "score": score,
+                "matched_groups": matched_groups,
+            }
+        )
+    scored.sort(key=lambda item: item["score"], reverse=True)
+    return scored[:top_k], scored
 
 
 def draft_answer(query, retrieved):
-    if not retrieved:
-        return "관련 문서를 찾지 못했습니다. 사람 확인이 필요합니다."
-    evidence = retrieved[0]["text"]
-    return f"확인된 규정 기준으로 보면: {evidence}"
+    top_docs = [doc for doc in retrieved if doc["score"] > 0]
+    if not top_docs:
+        return "관련 규정을 찾지 못했습니다. 답변을 확정하지 말고 인사팀 확인으로 넘깁니다."
+
+    evidence_lines = [f"- {doc['id']}: {doc['text']}" for doc in top_docs]
+    return "\n".join(
+        [
+            f"질문: {query}",
+            "확인된 근거:",
+            *evidence_lines,
+            "초안 판단: 입사 시점, 휴가 종류, 별도 공지 여부를 함께 확인해야 합니다.",
+        ]
+    )
 
 
-retrieved = retrieve_docs(question, documents)
-answer = draft_answer(question, retrieved)
+def evaluate_run(query, retrieved):
+    positive_docs = [doc for doc in retrieved if doc["score"] > 0]
+    notes = []
+    if not positive_docs:
+        notes.append("검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함")
+    elif len(positive_docs) == 1:
+        notes.append("근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검")
+    else:
+        notes.append("다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검")
 
-result = {
-    "question": question,
-    "retrieved_ids": [doc["id"] for doc in retrieved],
-    "answer": answer,
-    "needs_human_review": len(retrieved) == 0,
-}
+    if "복지포인트" in query:
+        notes.append("현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인")
 
-print("question =", result["question"])
-print("retrieved_ids =", result["retrieved_ids"])
-print("answer =", result["answer"])
-print("needs_human_review =", result["needs_human_review"])
+    return {
+        "needs_human_review": len(positive_docs) == 0 or "복지포인트" in query,
+        "notes": notes,
+    }
+
+
+for query in queries:
+    top_docs, full_scores = retrieve_docs(query, documents)
+    answer = draft_answer(query, top_docs)
+    evaluation = evaluate_run(query, top_docs)
+
+    print("=" * 80)
+    print("question =", query)
+    print("[document scores]")
+    for item in full_scores:
+        print(item["id"], "score=", item["score"], "matched_groups=", item["matched_groups"])
+    print("[draft answer]")
+    print(answer)
+    print("[evaluation]")
+    print("needs_human_review =", evaluation["needs_human_review"])
+    for note in evaluation["notes"]:
+        print("-", note)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+================================================================================
 question = 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
-retrieved_ids = ['policy-1', 'policy-2']
-answer = 확인된 규정 기준으로 보면: 신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.
+[document scores]
+policy-1 score= 2 matched_groups= ['입사', '휴가']
+policy-2 score= 1 matched_groups= ['휴가']
+policy-3 score= 0 matched_groups= []
+policy-4 score= 0 matched_groups= []
+[draft answer]
+질문: 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
+확인된 근거:
+- policy-1: 신입 직원은 입사 후 1개월이 지나면 월차를 사용할 수 있습니다.
+- policy-2: 여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.
+초안 판단: 입사 시점, 휴가 종류, 별도 공지 여부를 함께 확인해야 합니다.
+[evaluation]
 needs_human_review = False
+- 다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검
+================================================================================
+question = 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
+[document scores]
+policy-4 score= 1 matched_groups= ['복지']
+policy-1 score= 0 matched_groups= []
+policy-2 score= 0 matched_groups= []
+policy-3 score= 0 matched_groups= []
+[draft answer]
+질문: 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
+확인된 근거:
+- policy-4: 신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.
+초안 판단: 입사 시점, 휴가 종류, 별도 공지 여부를 함께 확인해야 합니다.
+[evaluation]
+needs_human_review = True
+- 근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검
+- 현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인
 ```
 
 ## 이 예제에서 무엇을 읽어야 하나
@@ -113,11 +226,11 @@ needs_human_review = False
 이 코드는 실제 LLM도, 실제 검색 엔진도 아닙니다. 하지만 다음 네 가지를 분명히 드러냅니다.
 
 - 질문이 들어온다
-- 검색 단계가 따로 있다
-- 답변은 근거 문서에 기대어 만들어진다
-- 검색 실패 여부를 별도로 기록한다
+- 검색 단계가 점수와 함께 따로 존재한다
+- 답변은 하나의 문서가 아니라 선택된 근거 묶음에 기대어 만들어진다
+- 검색 실패와 근거 부족이 별도 메모로 기록된다
 
-그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄 뒤에 검색 단계, 근거 문서, 실패 기록이 실제로 따로 존재하는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄 뒤에 검색 점수, 근거 문서, 사람 검토 플래그, 회고 메모가 실제로 따로 남는가입니다.
 
 ## 실패 유형으로 다시 묶기
 

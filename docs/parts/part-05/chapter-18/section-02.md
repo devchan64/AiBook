@@ -159,47 +159,115 @@ flowchart TD
 
 뉴스 기사에서 같은 해에 챗봇, 이미지 생성기, 음성 합성 서비스가 함께 화제가 되는 장면을 생각해 보겠습니다. 사람은 이런 경우 `같이 뜬 기술이면 같은 역사겠지`라고 먼저 묶기 쉽습니다. 하지만 실제로는 사용 경험의 동시성과 구조의 직접 계보를 나눠 봐야 합니다. 예를 들어 고객은 텍스트 생성과 이미지 생성을 모두 `생성형 AI`로 부르지만, 그 안쪽 구조사는 언어 모델 계보와 비전 생성 계보로 더 가깝게 갈라질 수 있습니다. 사람이 보던 단순 기준은 `같은 시기에 유명해졌는가`였지만, 더 중요한 기준은 `어떤 입력과 학습 목표, 어떤 구조 변화가 직접 이어졌는가`입니다. 여기서 바뀌는 점은 `같은 시기에 화제가 되었는가`를 보던 기준에서 `직접 이어지는 구조 계보가 같은가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 유행의 동시성과 구조의 직접 계보를 실제로 다른 판단 기준으로 설명할 수 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 모델 계보를 계산하는 것이 아니라, 항목을 `direct_lineage`와 `surrounding_evidence`로 나누는 사고를 익히는 것입니다. 그래서 이 예제에서 확인해야 할 결과는 같은 유명 항목이라도 `구조의 직접 조상인가`, `성장을 가능하게 한 주변 근거인가`를 실제로 구분해 적을 수 있는가입니다.
+이번 예제의 목표는 항목 이름을 외우는 것이 아니라, `어떤 기준으로 direct lineage와 surrounding evidence를 나누는가`를 실제 규칙으로 확인하는 것입니다.
 
 입력:
 
-- 몇 개의 대표 항목
+- 대표 연구 흐름 7개
+- 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도
 
 출력:
 
-- 직접 계보 목록
-- 주변 근거 목록
+- 자동 분류 결과
+- 분류 이유
 
 ```python
-items = {
-    "language_modeling": "direct_lineage",
-    "embeddings": "direct_lineage",
-    "attention": "direct_lineage",
-    "transformer": "direct_lineage",
-    "YOLO": "surrounding_evidence",
-    "Deep Voice": "surrounding_evidence",
-    "GPU scaling": "surrounding_evidence",
-}
+items = [
+    {
+        "name": "language modeling",
+        "domain": "language",
+        "target": "next_token",
+        "connects_to_transformer_llm": True,
+    },
+    {
+        "name": "embeddings",
+        "domain": "language",
+        "target": "representation",
+        "connects_to_transformer_llm": True,
+    },
+    {
+        "name": "attention",
+        "domain": "language",
+        "target": "sequence_alignment",
+        "connects_to_transformer_llm": True,
+    },
+    {
+        "name": "Transformer",
+        "domain": "language",
+        "target": "sequence_modeling",
+        "connects_to_transformer_llm": True,
+    },
+    {
+        "name": "YOLO",
+        "domain": "vision",
+        "target": "object_detection",
+        "connects_to_transformer_llm": False,
+    },
+    {
+        "name": "Deep Voice",
+        "domain": "speech",
+        "target": "speech_generation",
+        "connects_to_transformer_llm": False,
+    },
+    {
+        "name": "GPU scaling",
+        "domain": "infrastructure",
+        "target": "compute_enablement",
+        "connects_to_transformer_llm": False,
+    },
+]
 
-for name, group in items.items():
-    print(name, "->", group)
+
+def classify_item(item):
+    if item["domain"] == "language" and item["connects_to_transformer_llm"]:
+        reason = "언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐"
+        return "direct_lineage", reason
+
+    reason = "LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움"
+    return "surrounding_evidence", reason
+
+
+grouped = {"direct_lineage": [], "surrounding_evidence": []}
+
+for item in items:
+    label, reason = classify_item(item)
+    grouped[label].append(item["name"])
+    print(
+        item["name"],
+        "->",
+        label,
+        "| domain =",
+        item["domain"],
+        "| target =",
+        item["target"],
+        "| reason =",
+        reason,
+    )
+
+print("\n[summary]")
+for label, names in grouped.items():
+    print(label, "=", names)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-language_modeling -> direct_lineage
-embeddings -> direct_lineage
-attention -> direct_lineage
-transformer -> direct_lineage
-YOLO -> surrounding_evidence
-Deep Voice -> surrounding_evidence
-GPU scaling -> surrounding_evidence
+language modeling -> direct_lineage | domain = language | target = next_token | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+embeddings -> direct_lineage | domain = language | target = representation | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+attention -> direct_lineage | domain = language | target = sequence_alignment | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+Transformer -> direct_lineage | domain = language | target = sequence_modeling | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+YOLO -> surrounding_evidence | domain = vision | target = object_detection | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+Deep Voice -> surrounding_evidence | domain = speech | target = speech_generation | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute_enablement | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+
+[summary]
+direct_lineage = ['language modeling', 'embeddings', 'attention', 'Transformer']
+surrounding_evidence = ['YOLO', 'Deep Voice', 'GPU scaling']
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제로 나누어 읽는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제 기준에 따라 나누어 읽는가입니다.
 
 ## 이 예제를 계보 선별 관점으로 다시 보면
 

@@ -187,47 +187,58 @@ flowchart TD
 
 클라우드 챗봇 플랫폼에서 사용자의 발화를 미리 정한 intent 라벨로 보내는 장면을 떠올려 볼 수 있습니다. 담당자는 보통 `주문 취소`, `배송 조회`, `결제 확인`처럼 업무 흐름을 먼저 나누고, 각 문장을 어느 흐름으로 보낼지 판단해야 합니다. 사람이 규칙만 쓰면 `취소`, `배송`, `카드` 같은 단어가 보이는지부터 먼저 따지기 쉽습니다. 하지만 이런 기준은 표현이 조금만 돌아가도 쉽게 흔들릴 수 있습니다. 예를 들어 `어제 결제한 건을 없던 일로 하고 싶어요`는 표면상 `취소`가 없지만 실제로는 주문 취소 흐름일 수 있습니다. 이때 읽기 중심 모델이 바꾸는 점은 단어 탐지에서 끝내지 않고, 문장 전체가 어떤 처리 흐름을 요구하는지까지 함께 본다는 것입니다. BERT 계열과 가까운 읽기 중심 모델은 입력 문장을 전체 문맥으로 보고 `어느 처리 흐름이 맞는가`를 판단하는 데 유리합니다. 그래서 이 사례에서 확인해야 할 결과는 표면 키워드가 없어도 같은 의도 발화가 같은 intent 라벨로 더 안정적으로 들어가는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 BERT를 구현하는 것이 아니라, `문장 전체 문맥을 읽어 같은 표면 단어도 다르게 해석할 수 있다`는 점과 `그 해석이 분류 과업으로 이어진다`는 점을 함께 보는 것입니다.
+이번 예제의 목표는 `같은 표면 단어라도 문맥을 끝까지 읽으면 해석과 다운스트림 라벨이 달라진다`는 점을 실제 출력으로 확인하는 것입니다.
 
 입력:
 
-- 같은 단어가 들어가지만 의미가 다른 문장들
-- 그 문장을 읽고 붙일 수 있는 간단한 라벨
+- 같은 표면 단어가 들어간 문장 4개
+- 문맥을 보지 않고 붙이는 단순 라벨
 
 출력:
 
-- 문장별 의미 해석
-- 해석에 따라 달라지는 라벨 예시
+- 단순 키워드 기준 라벨
+- 문맥을 반영한 해석 결과
+- 다운스트림 작업 라벨
 
 ```python
 examples = [
-    {
-        "text": "은행에 돈을 맡기려고 합니다",
-        "focus_word": "은행",
-        "interpreted_meaning": "financial_bank",
-        "downstream_label": "finance_intent",
-    },
-    {
-        "text": "강가의 은행나무 아래를 걷고 있습니다",
-        "focus_word": "은행",
-        "interpreted_meaning": "ginkgo_tree",
-        "downstream_label": "nature_description",
-    },
-    {
-        "text": "비밀번호를 다시 설정하고 싶습니다",
-        "focus_word": "비밀번호",
-        "interpreted_meaning": "account_access_issue",
-        "downstream_label": "account_intent",
-    },
+    "은행에 돈을 맡기려고 합니다",
+    "강가의 은행나무 아래를 걷고 있습니다",
+    "비밀번호를 다시 설정하고 싶습니다",
+    "주문을 취소했는데 결제가 그대로 남아 있습니다",
 ]
 
-for item in examples:
-    print("text =", item["text"])
-    print("focus_word =", item["focus_word"])
-    print("interpreted_meaning =", item["interpreted_meaning"])
-    print("downstream_label =", item["downstream_label"])
+
+def naive_label(text):
+    if "은행" in text:
+        return "financial_topic"
+    if "비밀번호" in text:
+        return "account_topic"
+    if "결제" in text:
+        return "payment_topic"
+    return "unknown"
+
+
+def contextual_read(text):
+    if "은행" in text and "돈" in text:
+        return "financial_bank", "finance_intent"
+    if "은행" in text and "은행나무" in text:
+        return "ginkgo_tree", "nature_description"
+    if "비밀번호" in text and "설정" in text:
+        return "account_access_issue", "account_intent"
+    if "주문" in text and "결제" in text and "취소" in text:
+        return "order_cancel_with_payment_check", "order_support_intent"
+    return "unknown_meaning", "human_review"
+
+
+for text in examples:
+    interpreted_meaning, downstream_label = contextual_read(text)
+    print("text =", text)
+    print("naive_label =", naive_label(text))
+    print("interpreted_meaning =", interpreted_meaning)
+    print("downstream_label =", downstream_label)
     print("---")
 ```
 
@@ -235,26 +246,32 @@ for item in examples:
 
 ```text
 text = 은행에 돈을 맡기려고 합니다
-focus_word = 은행
+naive_label = financial_topic
 interpreted_meaning = financial_bank
 downstream_label = finance_intent
 ---
 text = 강가의 은행나무 아래를 걷고 있습니다
-focus_word = 은행
+naive_label = financial_topic
 interpreted_meaning = ginkgo_tree
 downstream_label = nature_description
 ---
 text = 비밀번호를 다시 설정하고 싶습니다
-focus_word = 비밀번호
+naive_label = account_topic
 interpreted_meaning = account_access_issue
 downstream_label = account_intent
+---
+text = 주문을 취소했는데 결제가 그대로 남아 있습니다
+naive_label = payment_topic
+interpreted_meaning = order_cancel_with_payment_check
+downstream_label = order_support_intent
 ---
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 같은 단어가 있어도 앞뒤 문맥에 따라 해석이 달라질 수 있고
-- 그 문맥 해석이 분류나 intent 판단 같은 다운스트림 과업으로 이어지며
+- 단순 키워드 라벨은 첫 문장과 두 번째 문장을 같은 주제로 잘못 묶을 수 있으며
+- 문맥 해석이 분류나 intent 판단 같은 다운스트림 과업으로 이어지고
 - BERT 계열은 바로 이런 `문장 전체 읽기 -> 표현 만들기 -> 판단 과업 연결` 흐름과 잘 맞는다는 점입니다
 
 ## 이 예제를 읽기 모델 관점으로 다시 보면

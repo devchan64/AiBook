@@ -174,43 +174,153 @@ flowchart TD
 
 사내 도우미 채팅창에 사용자가 `이 회의록을 세 줄로 요약해 줘`, `이 문장을 고객 불만으로 분류해 줘`, `이 안내문을 더 부드럽게 다시 써 줘`를 연달아 넣는 장면을 떠올려 보겠습니다. 사람은 이런 경험을 보면 처음부터 `대화창 하나가 모든 일을 알아서 처리했다`고 느끼기 쉽습니다. 하지만 예전에는 요약 모델, 분류 모델, 검색 모델을 각각 따로 붙이거나, 아예 규칙 기반 파이프라인으로 나눠 처리하던 일이 많았습니다. 즉, 사용자가 보는 것은 하나의 채팅 경험이지만 그 뒤에는 `다음 단어 예측`, `표현 학습`, `긴 문맥 처리`, `Attention`, `Transformer`, `대규모 사전학습`이 차례로 쌓이며 생긴 구조 전환이 있습니다. 그래서 이 사례에서 확인해야 할 결과는 오늘의 챗봇 경험을 하나의 갑작스러운 발명으로 보기보다, 여러 구조 전환이 누적되어 `하나의 인터페이스에서 여러 과업이 닫히는 상태`로 설명할 수 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 언어 모델을 구현하는 것이 아니라, `짧은 문맥 빈도 기반 판단`과 `표현 기반 일반화`가 왜 다른 문제인지 감각만 잡는 것입니다.
+이번 예제의 목표는 발전사에서 왜 `빈도`, `표현`, `순서`, `집중 위치`가 차례로 중요해졌는지를 한 스크립트 안에서 확인하는 것입니다.
 
 입력:
 
-- 짧은 말뭉치
-- 다음 단어 빈도
+- 짧은 문장 말뭉치
+- 표현이 다른 사용자 질문
+- 긴 문장 안의 핵심 정보 위치
 
 출력:
 
-- 간단한 bigram 빈도 표
+- bigram 기반 다음 단어 빈도
+- 동의어 정규화 전후 검색 결과
+- 순서에 따라 달라지는 간단한 판정
+- 질문과 문서 사이의 attention-like 점수
 
 ```python
+from collections import Counter
+
 sentences = [
     ["나는", "커피를", "마신다"],
     ["나는", "차를", "마신다"],
     ["나는", "커피를", "좋아한다"],
 ]
 
-counts = {}
-for sent in sentences:
-    for left, right in zip(sent, sent[1:]):
-        counts[(left, right)] = counts.get((left, right), 0) + 1
+documents = [
+    "환급 처리 지연 안내",
+    "주문 취소 요청 절차",
+    "비밀번호 재설정 방법",
+]
 
-for pair, count in sorted(counts.items()):
+queries = [
+    "환불이 늦어요",
+    "주문을 취소하고 싶어요",
+]
+
+synonyms = {
+    "환불": "환급",
+    "늦어요": "지연",
+    "취소하고": "취소",
+    "싶어요": "요청",
+}
+
+
+def tokenize(text):
+    return text.replace(",", "").split()
+
+
+def normalize(tokens):
+    return [synonyms.get(token, token) for token in tokens]
+
+
+def bigram_counts(tokenized_sentences):
+    counts = Counter()
+    for sent in tokenized_sentences:
+        for left, right in zip(sent, sent[1:]):
+            counts[(left, right)] += 1
+    return counts
+
+
+def lexical_search(query, docs):
+    query_tokens = set(tokenize(query))
+    scored = []
+    for doc in docs:
+        doc_tokens = set(tokenize(doc))
+        score = len(query_tokens & doc_tokens)
+        scored.append((doc, score))
+    return sorted(scored, key=lambda item: item[1], reverse=True)
+
+
+def normalized_search(query, docs):
+    query_tokens = set(normalize(tokenize(query)))
+    scored = []
+    for doc in docs:
+        doc_tokens = set(normalize(tokenize(doc)))
+        score = len(query_tokens & doc_tokens)
+        scored.append((doc, score))
+    return sorted(scored, key=lambda item: item[1], reverse=True)
+
+
+def read_with_order(sentence):
+    tokens = tokenize(sentence)
+    if "않습니다" in tokens:
+        return "negative"
+    return "positive"
+
+
+def attention_like_focus(question, document):
+    q_tokens = normalize(tokenize(question))
+    doc_tokens = normalize(tokenize(document))
+    scores = []
+    for position, token in enumerate(doc_tokens):
+        score = sum(1 for q_token in q_tokens if q_token == token)
+        scores.append((position, token, score))
+    return sorted(scores, key=lambda item: item[2], reverse=True)
+
+
+print("[1] bigram counts")
+for pair, count in sorted(bigram_counts(sentences).items()):
     print(pair, "->", count)
+
+print("\n[2] lexical search vs normalized search")
+for query in queries:
+    print("query =", query)
+    print(" lexical_top =", lexical_search(query, documents)[0])
+    print(" normalized_top =", normalized_search(query, documents)[0])
+
+print("\n[3] sequence-aware reading")
+for sentence in ["결제를 승인합니다", "결제를 승인하지 않습니다"]:
+    print(sentence, "->", read_with_order(sentence))
+
+print("\n[4] attention-like focus")
+question = "환불 지연은 어디에서 확인하나요"
+document = "환급 처리 지연 안내와 확인 방법"
+for position, token, score in attention_like_focus(question, document):
+    print("position=", position, "token=", token, "score=", score)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[1] bigram counts
 ('나는', '차를') -> 1
 ('나는', '커피를') -> 2
 ('차를', '마신다') -> 1
 ('커피를', '마신다') -> 1
 ('커피를', '좋아한다') -> 1
+
+[2] lexical search vs normalized search
+query = 환불이 늦어요
+ lexical_top = ('환급 처리 지연 안내', 0)
+ normalized_top = ('환급 처리 지연 안내', 1)
+query = 주문을 취소하고 싶어요
+ lexical_top = ('주문 취소 요청 절차', 1)
+ normalized_top = ('주문 취소 요청 절차', 3)
+
+[3] sequence-aware reading
+결제를 승인합니다 -> positive
+결제를 승인하지 않습니다 -> negative
+
+[4] attention-like focus
+position= 0 token= 환급 score= 1
+position= 2 token= 지연 score= 1
+position= 4 token= 확인 score= 1
+position= 1 token= 처리 score= 0
+position= 3 token= 안내와 score= 0
 ```
 
 ## 이 예제를 계보 압축 관점으로 다시 보면
@@ -219,9 +329,10 @@ for pair, count in sorted(counts.items()):
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- 초기 언어 모델은 이런 빈도 구조에서 출발했다는 점
-- 하지만 이 구조만으로는 긴 문맥과 일반화가 부족하다는 점
-- 그래서 임베딩, 순차 모델, Attention, Transformer로 흐름이 이어졌다는 점입니다
+- 초기 언어 모델은 bigram 같은 빈도 구조에서 출발했다는 점
+- 표현이 달라지면 단순 단어 일치만으로는 관련 항목을 못 찾는다는 점
+- 순서와 부정 표현을 읽으려면 더 긴 상태 추적이 필요하다는 점
+- 질문의 어느 위치를 더 볼지 계산하는 흐름이 attention 감각으로 이어진다는 점입니다
 
 ## 이 절을 어디까지 읽으면 충분한가
 
