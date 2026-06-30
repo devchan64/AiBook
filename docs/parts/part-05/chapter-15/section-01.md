@@ -29,6 +29,14 @@ LLM 평가(evaluation)는 답변이 그럴듯한지만 보는 일이 아니라, 
 - 모델 평가와 시스템 평가의 차이를 말할 수 있습니다.
 - 다음 절의 자동 평가와 사람 평가 비교로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 이해가 덜 흩어집니다.
+
+1. 먼저 왜 LLM 평가가 한 점수로 끝나기 어려운지 읽습니다.
+2. 그다음 평가 축과 모델 평가, 시스템 평가의 차이를 구분합니다.
+3. 사례와 Python 예제에서는 `같은 답변 후보라도 어떤 축에서 탈락하고 어떤 수정이 필요한가`를 확인합니다.
+
 ## 왜 LLM 평가는 어려운가
 
 전통적인 분류 문제에서는 정답 레이블이 분명한 경우가 많습니다. 하지만 생성형 AI에서는 다음과 같은 어려움이 생깁니다.
@@ -135,6 +143,22 @@ LLM 기반 시스템은 보통 모델만으로 이루어지지 않습니다. 예
 - 실제 출력을 만들고
 - 그 결과를 어떤 기준으로 유지·비교할지 정하는 단계가 evaluation입니다
 
+이를 한 번 더 단순화하면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["candidate outputs"]
+  B["check multiple criteria"]
+  C["find weak axis"]
+  D["revise or accept"]
+
+  A --> B
+  B --> C
+  C --> D
+```
+
+이 그림의 핵심은 evaluation이 `좋다/나쁘다`를 한 번 말하고 끝나는 단계가 아니라, 어떤 축이 약한지 찾아 다음 수정을 결정하는 단계라는 점입니다.
+
 ## 아주 단순하게 그리면
 
 ```mermaid
@@ -152,6 +176,8 @@ flowchart TD
 이 도식의 핵심은 출력이 나온 뒤 `무엇을 기준으로 괜찮다고 볼지`가 반드시 필요하다는 점입니다.
 
 ## 사례로 보기
+
+사례를 읽을 때는 `결과가 좋아 보이는가`보다 `어느 평가 축에서 먼저 탈락하는가`를 중심으로 보면 좋습니다.
 
 ### 사례 1. 문서 요약 평가
 
@@ -183,7 +209,7 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보는 것입니다. 하나의 답변만 보면 `맞았다` 또는 `틀렸다`로 쉽게 끝나 버리므로, 이번에는 같은 질문에 대한 여러 후보 답변을 나란히 두고 어떤 축에서 갈라지는지 보겠습니다.
+이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보고, 그 결과로 `어떤 후보를 채택할지`와 `무엇을 먼저 고칠지`를 읽는 것입니다. 하나의 답변만 보면 `맞았다` 또는 `틀렸다`로 쉽게 끝나 버리므로, 이번에는 같은 질문에 대한 여러 후보 답변을 나란히 두고 어떤 축에서 갈라지는지 보겠습니다.
 
 문제 상황:
 
@@ -201,6 +227,7 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 
 - 답변 후보별 평가 보고서
 - 어떤 후보가 정확성, 근거성, 형식 적합성, 유용성에서 각각 흔들리는지에 대한 요약값
+- 어떤 후보를 우선 채택할지와 각 후보의 다음 수정 방향
 
 먼저 이 예제에서 함께 볼 평가 기준은 다음과 같습니다.
 
@@ -210,8 +237,12 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | `groundedness` | 답변의 조건이 근거 문서 안에 실제로 있는지 봐야 해서 |
 | `format_compliance` | 요청한 형식과 마무리 문장을 지켰는지 확인해야 해서 |
 | `helpfulness` | 사용자가 바로 쓸 수 있게 핵심 행동 지침이 들어 있는지 봐야 해서 |
+| `next_fix` | 탈락한 후보를 어떤 축부터 고쳐야 하는지 정해야 해서 |
 
 ```python
+from pprint import pprint
+
+
 source_text = "2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨"
 required_phrase = "환불 요청 처리 기한"
 answers = [
@@ -238,12 +269,22 @@ def evaluate_answer(answer_text, source_text, required_phrase):
     mentions_14_days = "14일" in answer_text
     mentions_30_days = "30일" in answer_text
     source_mentions_14_days = "14일" in source_text
-    source_mentions_30_days = "30일" in source_text
 
     correctness = mentions_14_days and source_mentions_14_days and not mentions_30_days
     groundedness = required_phrase in answer_text and "개봉 제품" not in answer_text
     format_compliance = answer_text.endswith(".") and "최신 정책 기준" in answer_text
     helpfulness = "접수" in answer_text or "문의" in answer_text
+
+    if not correctness:
+        next_fix = "fix_fact_or_numeric_condition"
+    elif not groundedness:
+        next_fix = "remove_claim_not_supported_by_source"
+    elif not format_compliance:
+        next_fix = "rewrite_to_required_format"
+    elif not helpfulness:
+        next_fix = "add_actionable_guidance"
+    else:
+        next_fix = "accept_candidate"
 
     return {
         "correctness": correctness,
@@ -251,6 +292,8 @@ def evaluate_answer(answer_text, source_text, required_phrase):
         "format_compliance": format_compliance,
         "helpfulness": helpfulness,
         "passes_all": correctness and groundedness and format_compliance and helpfulness,
+        "axis_score": sum([correctness, groundedness, format_compliance, helpfulness]),
+        "next_fix": next_fix,
     }
 
 
@@ -259,16 +302,22 @@ for answer in answers:
     evaluation = evaluate_answer(answer["text"], source_text, required_phrase)
     reports.append({"name": answer["name"], "text": answer["text"], "evaluation": evaluation})
 
+best_candidate = max(reports, key=lambda report: report["evaluation"]["axis_score"])
+
 summary = {
     "all_pass_count": sum(report["evaluation"]["passes_all"] for report in reports),
     "correct_count": sum(report["evaluation"]["correctness"] for report in reports),
     "grounded_count": sum(report["evaluation"]["groundedness"] for report in reports),
     "format_ok_count": sum(report["evaluation"]["format_compliance"] for report in reports),
     "helpful_count": sum(report["evaluation"]["helpfulness"] for report in reports),
+    "average_axis_score": round(
+        sum(report["evaluation"]["axis_score"] for report in reports) / len(reports), 2
+    ),
+    "best_candidate": best_candidate["name"],
 }
 
 print("[summary]")
-print(summary)
+pprint(summary)
 print("[source_text]")
 print(source_text)
 print()
@@ -279,14 +328,20 @@ for report in reports:
     print(report["name"])
     print(report["text"])
     print("[evaluation]")
-    print(report["evaluation"])
+    pprint(report["evaluation"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 [summary]
-{'all_pass_count': 1, 'correct_count': 1, 'grounded_count': 2, 'format_ok_count': 2, 'helpful_count': 2}
+{'all_pass_count': 1,
+ 'average_axis_score': 2.0,
+ 'best_candidate': 'answer_a',
+ 'correct_count': 1,
+ 'format_ok_count': 2,
+ 'grounded_count': 2,
+ 'helpful_count': 2}
 [source_text]
 2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨
 ================================================================================
@@ -294,28 +349,52 @@ for report in reports:
 answer_a
 환불 요청 처리 기한은 14일로 변경되었습니다. 최신 정책 기준으로 접수해 주세요.
 [evaluation]
-{'correctness': True, 'groundedness': True, 'format_compliance': True, 'helpfulness': True, 'passes_all': True}
+{'axis_score': 4,
+ 'correctness': True,
+ 'format_compliance': True,
+ 'groundedness': True,
+ 'helpfulness': True,
+ 'next_fix': 'accept_candidate',
+ 'passes_all': True}
 ================================================================================
 [answer]
 answer_b
 환불 요청 처리 기한은 30일입니다. 최신 정책 기준으로 접수해 주세요.
 [evaluation]
-{'correctness': False, 'groundedness': True, 'format_compliance': True, 'helpfulness': True, 'passes_all': False}
+{'axis_score': 3,
+ 'correctness': False,
+ 'format_compliance': True,
+ 'groundedness': True,
+ 'helpfulness': True,
+ 'next_fix': 'fix_fact_or_numeric_condition',
+ 'passes_all': False}
 ================================================================================
 [answer]
 answer_c
 환불은 빨라졌습니다
 [evaluation]
-{'correctness': False, 'groundedness': False, 'format_compliance': False, 'helpfulness': False, 'passes_all': False}
+{'axis_score': 0,
+ 'correctness': False,
+ 'format_compliance': False,
+ 'groundedness': False,
+ 'helpfulness': False,
+ 'next_fix': 'fix_fact_or_numeric_condition',
+ 'passes_all': False}
 ================================================================================
 [answer]
 answer_d
 환불 요청 처리 기한은 14일로 변경되었고 개봉 제품도 30일 환불 가능합니다.
 [evaluation]
-{'correctness': False, 'groundedness': False, 'format_compliance': False, 'helpfulness': False, 'passes_all': False}
+{'axis_score': 0,
+ 'correctness': False,
+ 'format_compliance': False,
+ 'groundedness': False,
+ 'helpfulness': False,
+ 'next_fix': 'fix_fact_or_numeric_condition',
+ 'passes_all': False}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `correct_count`와 `grounded_count`, `format_ok_count`, `helpful_count`가 서로 다르게 나온다는 점입니다. 즉, 같은 질문에 대한 답이라도 어떤 후보는 형식과 유용성은 괜찮지만 숫자가 틀리고, 어떤 후보는 숫자와 조건을 함께 틀리며, 어떤 후보는 문장이 짧아 형식과 유용성까지 한꺼번에 무너집니다. 평가가 단일 점수 하나였다면 이런 차이는 바로 묻히기 쉽습니다.
+이 예제에서 먼저 봐야 할 것은 `correct_count`와 `grounded_count`, `format_ok_count`, `helpful_count`가 서로 다르게 나오고, `best_candidate`와 `next_fix`가 그 차이를 운영 판단으로 바꿔 준다는 점입니다. 즉, 같은 질문에 대한 답이라도 어떤 후보는 형식과 유용성은 괜찮지만 숫자가 틀리고, 어떤 후보는 숫자와 조건을 함께 틀리며, 어떤 후보는 문장이 짧아 형식과 유용성까지 한꺼번에 무너집니다. 평가가 단일 점수 하나였다면 이런 차이는 바로 묻히기 쉽습니다.
 
 그래서 이 예제에서 확인해야 할 결과는 하나의 질문에 대한 답변 후보들도 정확성, 근거성, 형식성, 유용성 같은 여러 축에서 따로 판정할 수 있으며, 평가가 단일 점수 하나로 끝나지 않는다는 점입니다.
 
@@ -334,6 +413,8 @@ answer_d
 - 출력 문장은 하나여도
 - 검토 질문은 여러 개일 수 있고
 - 따라서 평가도 한 줄 결론보다 항목별 점검표에 가깝다는 점입니다
+
+여기까지를 한 줄로 묶으면, LLM evaluation은 `점수 한 개를 매기는 일`이 아니라 `어느 후보를 채택하고 어느 축부터 고쳐야 하는지 결정하는 비교 기준`입니다.
 
 ## 역사와 커리큘럼 관점
 
