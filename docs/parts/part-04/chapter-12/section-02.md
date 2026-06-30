@@ -144,6 +144,14 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 
 설비 센서 데이터에서 평소에는 안정적이던 값이 한참 뒤에 급격히 흔들렸는데, 그 원인이 초반 설정 단계의 작은 이상 신호에 있을 수 있습니다. 사람이 단순 규칙으로 보려 하면 보통 `최근 10초 평균`이나 `현재 임계치 초과 여부`처럼 가까운 구간만 먼저 확인합니다. 하지만 실제 고장은 초반의 작은 흔들림과 뒤쪽의 큰 이상이 이어진 결과일 수 있어, 최근 값만 보면 원인을 놓치기 쉽습니다. 예를 들어 초반의 작은 진동 증가가 한동안 누적되다가 뒤늦게 큰 온도 상승으로 이어졌다면, 마지막 구간만 봐서는 왜 고장이 났는지 설명하기 어렵습니다. 상태가 여러 step을 지나며 희석되면 모델도 초반 신호를 뒤 판단에 약하게 반영할 수 있습니다. 이때 필요한 시점끼리 더 직접 연결해 보는 관점은, 왜 장기 의존성과 attention 문제가 함께 언급되는지 이해하는 데 도움이 됩니다. 그래서 이 장면에서 확인해야 할 결과는 마지막 온도 상승만 보는 경보와, 초반 이상 신호까지 함께 반영한 경보가 서로 다른 판단을 내릴 수 있다는 점입니다.
 
+세 사례를 같은 기준으로 다시 정리하면, 장기 의존성이 `먼 단서가 실제로 사라지는가`의 문제라는 점이 더 분명해집니다.
+
+| 사례 | 초반에 꼭 남아 있어야 하는 단서 | 중간 간격이 길어질수록 생기는 문제 | 이 절에서 확인할 결과 |
+| --- | --- | --- | --- |
+| 긴 문장 해석 | `배송비는 제외` 같은 앞 조건 | 뒤 질문 시점에는 핵심 예외 조건이 흐려질 수 있다 | 최종 답변이 앞 조건까지 함께 반영하는가 |
+| 번역 | 문장 앞 주어, 시제, 수 일치 단서 | 중간 수식어가 길어질수록 앞뒤 대응이 약해질 수 있다 | 문장 끝에서도 앞 단서가 유지되는가 |
+| 시계열 이상 탐지 | 초반의 작은 진동 증가나 설정 이상 | 최근 값만 남고 초기 이상 징후가 희미해질 수 있다 | 마지막 경보가 초반 이상 신호까지 반영하는가 |
+
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
@@ -162,57 +170,101 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 상태 희석 직관 보기
 
-이번 예제의 목표는 순차 상태가 반복적으로 갱신되며 오래전 정보가 점점 약해질 수 있다는 감각을 보는 것입니다. 동시에 `상태에만 의존할 때`와 `초기 중요한 위치를 직접 다시 참고할 때`의 차이도 아주 작게 확인합니다.
+이번 예제의 목표는 `초반 규칙`과 `마지막 질문` 사이의 간격이 길어질수록, 순차 상태가 앞 단서를 얼마나 빨리 잃는지 직접 확인하는 것입니다. 동시에 같은 문맥을 `직접 다시 찾는 방식`과 비교해 장기 의존성 문제가 왜 생기는지도 봅니다.
 
 입력:
 
-- 초반의 중요한 단서 하나
-- 중간에 이어지는 여러 step
-- 마지막 판단 시점
+- 문서 맨 앞의 핵심 규칙 한 줄
+- 길이가 다른 중간 설명 구간
+- 문서 끝의 같은 질문 한 줄
 
 출력:
 
-- 각 step에서 상태값
-- 마지막 시점의 상태 기반 판단
-- 초반 단서를 직접 다시 참고했을 때의 비교 판단
+- 간격 길이별 최종 상태값
+- 상태 기반 판정 결과
+- 앞 규칙을 다시 찾는 direct reference 판정 결과
 
 ```python
-sequence = [10.0, 0.0, 0.0, 0.0, 1.0]
-state = 0.0
-early_clue = sequence[0]
+rule = "Rule: shipping fee is excluded from refunds."
+question = "Question: what is the final refund amount?"
 
-print("initial state =", state)
-for step, x in enumerate(sequence, start=1):
-    state = 0.5 * state + x
-    print(f"step {step}: input = {x}, state = {round(state, 3)}")
 
-state_only_decision = state >= 5.0
-direct_reference_decision = (state + early_clue) >= 5.0
+def sequential_state(document, decay=0.62):
+    state = {"refund": 0.0, "exclude": 0.0, "fee": 0.0}
+    for line in document:
+        lowered = line.lower()
+        for key in state:
+            state[key] *= decay
+        if "refund" in lowered:
+            state["refund"] += 1.0
+        if "exclude" in lowered or "excluded" in lowered:
+            state["exclude"] += 1.0
+        if "fee" in lowered:
+            state["fee"] += 1.0
+    decision = "keeps exclusion" if min(state.values()) >= 0.45 else "loses exclusion"
+    return {key: round(value, 3) for key, value in state.items()}, decision
 
-print("state_only_decision =", state_only_decision)
-print("direct_reference_decision =", direct_reference_decision)
+
+def direct_reference(document):
+    matches = []
+    for idx, line in enumerate(document[:-1], start=1):
+        lowered = line.lower()
+        score = 0
+        for keyword in ["refund", "excluded", "fee"]:
+            if keyword in lowered:
+                score += 1
+        matches.append((score, idx, line))
+    best = max(matches)
+    decision = "keeps exclusion" if best[0] == 3 else "loses exclusion"
+    return best, decision
+
+
+for gap in [1, 3, 6]:
+    filler = [f"Detail line {i}: general customer guidance only." for i in range(1, gap + 1)]
+    document = [rule] + filler + [question]
+    state_snapshot, state_decision = sequential_state(document)
+    best_match, direct_decision = direct_reference(document)
+    print(f"[gap={gap}]")
+    print("document_length =", len(document))
+    print("state_snapshot =", state_snapshot)
+    print("state_decision =", state_decision)
+    print("best_direct_match =", best_match[2])
+    print("direct_decision =", direct_decision)
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-initial state = 0.0
-step 1: input = 10.0, state = 10.0
-step 2: input = 0.0, state = 5.0
-step 3: input = 0.0, state = 2.5
-step 4: input = 0.0, state = 1.25
-step 5: input = 1.0, state = 1.625
-state_only_decision = False
-direct_reference_decision = True
+[gap=1]
+document_length = 3
+state_snapshot = {'refund': 1.384, 'exclude': 0.62, 'fee': 0.62}
+state_decision = keeps exclusion
+best_direct_match = Rule: shipping fee is excluded from refunds.
+direct_decision = keeps exclusion
+
+[gap=3]
+document_length = 5
+state_snapshot = {'refund': 1.147, 'exclude': 0.238, 'fee': 0.238}
+state_decision = loses exclusion
+best_direct_match = Rule: shipping fee is excluded from refunds.
+direct_decision = keeps exclusion
+
+[gap=6]
+document_length = 8
+state_snapshot = {'refund': 1.054, 'exclude': 0.057, 'fee': 0.057}
+state_decision = loses exclusion
+best_direct_match = Rule: shipping fee is excluded from refunds.
+direct_decision = keeps exclusion
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- step 1의 큰 정보 `10.0`이 뒤로 갈수록 점점 약해지고
-- 마지막 단계에서는 최근 입력 `1.0`과 섞여 더 희미해질 수 있습니다
-- 마지막 판단을 상태에만 맡기면 초반 단서를 놓칠 수 있고, 초기 중요한 위치를 직접 다시 참고하면 판단이 달라질 수 있습니다
+- 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `exclude`, `fee` 단서가 빠르게 약해집니다
+- 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 예외 조건을 잃기 쉬워집니다
+- 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있습니다
 
-그래서 이 예제에서 확인해야 할 결과는 초반의 큰 정보가 step이 지날수록 실제로 약해지고, 뒤 입력과 섞이면서 오래된 단서를 끝까지 안정적으로 유지하기 어려워지는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 `초반 단서가 얼마나 멀리 떨어져 있느냐`가 상태 기반 판단의 안정성을 실제로 바꾸는가, 그리고 그 문제가 왜 `필요한 위치를 다시 보는 발상`으로 이어지는가입니다.
 
 ## 역사와 커리큘럼 관점
 
