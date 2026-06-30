@@ -272,8 +272,8 @@ def retrieve_best_example(query_text):
 
 def base_model_response(query_text, best_example):
     label_to_phrase = {
-        "refund_request": "환불과 관련된 문의로 보입니다.",
-        "shipping_delay": "배송 문제로 보이는 고객 문의입니다.",
+        "refund_request": "환불 또는 결제 취소와 관련된 문의로 보입니다.",
+        "shipping_delay": "배송 지연 문제로 보이는 고객 문의입니다.",
         "account_lock": "계정 접근 문제로 보입니다.",
         "cancel_status": "주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.",
     }
@@ -289,10 +289,17 @@ def fine_tuned_style_response(best_example):
 
 
 def parse_label(response):
-    if "label=" not in response:
-        return None
-    first_part = response.split("|")[0]
-    return first_part.replace("label=", "")
+    if "label=" in response:
+        first_part = response.split("|")[0]
+        return first_part.replace("label=", "")
+    phrase_map = {
+        "환불과 관련된 문의로 보입니다.": "refund_request",
+        "환불 또는 결제 취소와 관련된 문의로 보입니다.": "ambiguous_billing",
+        "배송 지연 문제로 보이는 고객 문의입니다.": "shipping_delay",
+        "계정 접근 문제로 보입니다.": "account_lock",
+        "주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.": "cancel_status",
+    }
+    return phrase_map.get(response)
 
 
 def check_format(response):
@@ -302,6 +309,7 @@ def check_format(response):
 
 base_matches = 0
 tuned_matches = 0
+base_format_ok = 0
 tuned_format_ok = 0
 
 for item in queries:
@@ -315,6 +323,8 @@ for item in queries:
         base_matches += 1
     if parse_label(tuned) == expected_label:
         tuned_matches += 1
+    if check_format(base):
+        base_format_ok += 1
     if check_format(tuned):
         tuned_format_ok += 1
 
@@ -331,6 +341,7 @@ for item in queries:
         {
             "base_label": parse_label(base),
             "tuned_label": parse_label(tuned),
+            "base_format_ok": check_format(base),
             "tuned_format_ok": check_format(tuned),
         },
     )
@@ -340,6 +351,7 @@ print("[summary]")
 print("query_count =", len(queries))
 print("base_label_match_count =", base_matches)
 print("tuned_label_match_count =", tuned_matches)
+print("base_format_ok_count =", base_format_ok)
 print("tuned_format_ok_count =", tuned_format_ok)
 ```
 
@@ -351,19 +363,19 @@ query = 환불을 받고 싶습니다. 결제 취소는 아직 안 됐습니다.
 expected_label = refund_request
 matched_example = 결제 취소와 환불을 요청합니다
 [base response]
-환불과 관련된 문의로 보입니다.
+환불 또는 결제 취소와 관련된 문의로 보입니다.
 [fine-tuned style response]
 label=refund_request|priority=high|team=billing_ops
-[checks] {'base_label': None, 'tuned_label': 'refund_request', 'tuned_format_ok': True}
+[checks] {'base_label': 'ambiguous_billing', 'tuned_label': 'refund_request', 'base_format_ok': False, 'tuned_format_ok': True}
 ================================================================================
 query = 상품이 아직 도착하지 않았고 배송이 계속 늦어집니다.
 expected_label = shipping_delay
 matched_example = 배송이 예정일보다 늦어 도착하지 않았습니다
 [base response]
-배송 문제로 보이는 고객 문의입니다.
+배송 지연 문제로 보이는 고객 문의입니다.
 [fine-tuned style response]
 label=shipping_delay|priority=medium|team=delivery_ops
-[checks] {'base_label': None, 'tuned_label': 'shipping_delay', 'tuned_format_ok': True}
+[checks] {'base_label': 'shipping_delay', 'tuned_label': 'shipping_delay', 'base_format_ok': False, 'tuned_format_ok': True}
 ================================================================================
 query = 로그인을 여러 번 실패해서 계정이 잠긴 것 같습니다.
 expected_label = account_lock
@@ -372,7 +384,7 @@ matched_example = 비밀번호를 여러 번 틀려 계정이 잠겼습니다
 계정 접근 문제로 보입니다.
 [fine-tuned style response]
 label=account_lock|priority=high|team=account_ops
-[checks] {'base_label': None, 'tuned_label': 'account_lock', 'tuned_format_ok': True}
+[checks] {'base_label': 'account_lock', 'tuned_label': 'account_lock', 'base_format_ok': False, 'tuned_format_ok': True}
 ================================================================================
 query = 주문은 취소했는데 카드 결제 취소 여부가 아직 보이지 않습니다.
 expected_label = cancel_status
@@ -381,12 +393,13 @@ matched_example = 주문을 취소했는데 카드 결제는 아직 취소되지
 주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.
 [fine-tuned style response]
 label=cancel_status|priority=medium|team=billing_ops
-[checks] {'base_label': None, 'tuned_label': 'cancel_status', 'tuned_format_ok': True}
+[checks] {'base_label': 'cancel_status', 'tuned_label': 'cancel_status', 'base_format_ok': False, 'tuned_format_ok': True}
 ================================================================================
 [summary]
 query_count = 4
-base_label_match_count = 0
+base_label_match_count = 3
 tuned_label_match_count = 4
+base_format_ok_count = 0
 tuned_format_ok_count = 4
 ```
 
@@ -395,8 +408,9 @@ tuned_format_ok_count = 4
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 문의 내용은 비슷해도
-- 일반 모델은 `설명형 문장`으로 끝날 수 있고
+- 일반 모델은 대략 맞는 설명형 문장을 줄 수 있어도 내부 라벨 경계를 애매하게 남길 수 있고
 - 파인튜닝된 모델은 `label`, `priority`, `team` 같은 업무용 슬롯을 더 안정적으로 채울 수 있습니다
+- 즉, 설명형 응답은 일부 라벨을 맞출 수 있어도 라우팅에 바로 쓰기 어려운 반면, 파인튜닝된 응답은 라벨과 형식을 함께 맞춰 후속 자동화에 더 직접 연결됩니다.
 - 실무에서는 이 차이가 바로 라우팅 자동화와 후속 처리 안정성으로 이어집니다
 
 즉, 파인튜닝은 종종 `정답을 새로 만들어 내는 힘`보다 `반응 방식을 업무 형태에 더 맞추는 힘`으로 이해하는 편이 안전합니다.
