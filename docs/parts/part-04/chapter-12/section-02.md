@@ -182,14 +182,16 @@ flowchart TD
 
 - 간격 길이별 최종 상태값
 - 상태 기반 판정 결과
+- 질문 시점에서의 상태 기반 핵심 단서 최소값
 - 앞 규칙을 다시 찾는 direct reference 판정 결과
+- 질문과 규칙 줄 사이의 direct match score
 
 ```python
 rule = "Rule: shipping fee is excluded from refunds."
 question = "Question: what is the final refund amount?"
 
 
-def sequential_state(document, decay=0.62):
+def sequential_state(document, decay=0.72):
     state = {"refund": 0.0, "exclude": 0.0, "fee": 0.0}
     for line in document:
         lowered = line.lower()
@@ -201,8 +203,9 @@ def sequential_state(document, decay=0.62):
             state["exclude"] += 1.0
         if "fee" in lowered:
             state["fee"] += 1.0
-    decision = "keeps exclusion" if min(state.values()) >= 0.45 else "loses exclusion"
-    return {key: round(value, 3) for key, value in state.items()}, decision
+    support = round(min(state.values()), 3)
+    decision = "keeps exclusion" if support >= 0.45 else "loses exclusion"
+    return {key: round(value, 3) for key, value in state.items()}, support, decision
 
 
 def direct_reference(document):
@@ -222,12 +225,14 @@ def direct_reference(document):
 for gap in [1, 3, 6]:
     filler = [f"Detail line {i}: general customer guidance only." for i in range(1, gap + 1)]
     document = [rule] + filler + [question]
-    state_snapshot, state_decision = sequential_state(document)
+    state_snapshot, state_support, state_decision = sequential_state(document)
     best_match, direct_decision = direct_reference(document)
     print(f"[gap={gap}]")
     print("document_length =", len(document))
     print("state_snapshot =", state_snapshot)
+    print("state_support =", state_support)
     print("state_decision =", state_decision)
+    print("direct_match_score =", best_match[0])
     print("best_direct_match =", best_match[2])
     print("direct_decision =", direct_decision)
     print()
@@ -238,22 +243,28 @@ for gap in [1, 3, 6]:
 ```text
 [gap=1]
 document_length = 3
-state_snapshot = {'refund': 1.384, 'exclude': 0.62, 'fee': 0.62}
+state_snapshot = {'refund': 1.518, 'exclude': 0.518, 'fee': 0.518}
+state_support = 0.518
 state_decision = keeps exclusion
+direct_match_score = 3
 best_direct_match = Rule: shipping fee is excluded from refunds.
 direct_decision = keeps exclusion
 
 [gap=3]
 document_length = 5
-state_snapshot = {'refund': 1.147, 'exclude': 0.238, 'fee': 0.238}
+state_snapshot = {'refund': 1.269, 'exclude': 0.269, 'fee': 0.269}
+state_support = 0.269
 state_decision = loses exclusion
+direct_match_score = 3
 best_direct_match = Rule: shipping fee is excluded from refunds.
 direct_decision = keeps exclusion
 
 [gap=6]
 document_length = 8
-state_snapshot = {'refund': 1.054, 'exclude': 0.057, 'fee': 0.057}
+state_snapshot = {'refund': 1.1, 'exclude': 0.1, 'fee': 0.1}
+state_support = 0.1
 state_decision = loses exclusion
+direct_match_score = 3
 best_direct_match = Rule: shipping fee is excluded from refunds.
 direct_decision = keeps exclusion
 ```
@@ -261,10 +272,20 @@ direct_decision = keeps exclusion
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `exclude`, `fee` 단서가 빠르게 약해집니다
+- `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
 - 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 예외 조건을 잃기 쉬워집니다
-- 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있습니다
+- 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있고, 여기서는 `direct_match_score`가 계속 3으로 유지됩니다
 
 그래서 이 예제에서 확인해야 할 결과는 `초반 단서가 얼마나 멀리 떨어져 있느냐`가 상태 기반 판단의 안정성을 실제로 바꾸는가, 그리고 그 문제가 왜 `필요한 위치를 다시 보는 발상`으로 이어지는가입니다.
+
+## 이 예제를 attention 직관으로 다시 보면
+
+이 장난감 코드는 attention 자체를 구현한 것은 아닙니다. 하지만 읽어야 할 연결은 분명합니다.
+
+- 순차 상태 쪽은 `앞 단서를 상태 안에 계속 남겨 둘 수 있는가`가 핵심입니다.
+- direct reference 쪽은 `현재 질문이 필요할 때 앞 단서를 다시 집어 올 수 있는가`가 핵심입니다.
+
+즉, 장기 의존성 문제를 오래전 단서의 `보존` 문제로 보면 RNN/LSTM/GRU 쪽과 연결되고, 필요한 단서의 `재참조` 문제로 보면 attention 쪽과 연결됩니다. 이 구분이 잡혀야 다음 절 P4-13.1에서 attention을 `가중치 계산 공식`이 아니라 `필요한 위치를 직접 다시 보는 발상`으로 자연스럽게 읽을 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
