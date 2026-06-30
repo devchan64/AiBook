@@ -33,6 +33,14 @@ P5-11.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타
 - 벡터 검색 품질을 속도와 분리해서 볼 수 없다는 점을 설명할 수 있습니다.
 - 다음 장의 도구 사용과 서비스 구조 설명으로 이어질 준비를 할 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `왜 모든 벡터를 다 비교하지 않나`와 `인덱스는 무엇을 하나`를 읽고, 인덱스가 전체 비교를 줄이기 위한 탐색 구조라는 점을 잡습니다.
+2. 그다음 `왜 속도와 정확도가 함께 걸리나`, `검색 품질은 무엇으로 흔들리나`, `왜 RAG 품질과 직접 연결되나`를 읽으면서 속도와 후보 품질을 따로 떼어 볼 수 없다는 점을 확인합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 실제 운영에서는 지연 시간만이 아니라 `top-k 포함률`, `top-1 정합률`, `버전 정합성`을 같이 봐야 한다는 점을 확인합니다.
+
 ## 왜 모든 벡터를 다 비교하지 않나
 
 가장 단순한 방법은 질문 벡터와 저장된 모든 벡터를 하나씩 비교하는 것입니다. 하지만 문서 수가 많아지면 이 방식은 매우 느려질 수 있습니다.
@@ -131,6 +139,24 @@ flowchart TD
 | 사내 문서 검색 속도 | 전체 지연만 보고 후보 압축 실패를 놓침 | 핵심 후보를 서비스 시간 안에 남기는가 |
 | 매뉴얼 답변 품질 | 응답 속도가 빨라져도 핵심 절차 문단이 빠질 수 있음 | 핵심 문단이 top-k 안에 남는가 |
 | 개발 문서 도우미 | 자연스러운 최종 답 때문에 버전 후보 오류를 놓침 | 현재 버전 문서가 top-k 안에 포함되는가 |
+
+같은 내용을 검색 타협 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["query vector"]
+  B["faster index setting"]
+  C["slower but stricter setting"]
+  D["lower latency"]
+  E["better candidate quality"]
+  F["risk: wrong top-k"]
+
+  A --> B --> D
+  A --> C --> E
+  B --> F
+```
+
+핵심은 `빠르다`와 `좋다`가 자동으로 같은 뜻이 아니라는 점입니다.
 
 ## 실행 가능한 Python 예제로 보기
 
@@ -275,6 +301,7 @@ print("fast_hit_rate =", fast_hit_rate)
 print("fast_top1_hit_rate =", fast_top1_hit_rate)
 print("fast_top1_version_ok_rate =", fast_version_ok_rate)
 print("fast_avg_latency_ms =", fast_avg_latency)
+print("fast_latency_per_hit =", round(fast_avg_latency / fast_hit_rate, 1) if fast_hit_rate else None)
 
 print("[strict search]")
 for question, report in strict_reports:
@@ -284,6 +311,7 @@ print("strict_hit_rate =", strict_hit_rate)
 print("strict_top1_hit_rate =", strict_top1_hit_rate)
 print("strict_top1_version_ok_rate =", strict_version_ok_rate)
 print("strict_avg_latency_ms =", strict_avg_latency)
+print("strict_latency_per_hit =", round(strict_avg_latency / strict_hit_rate, 1) if strict_hit_rate else None)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -300,6 +328,7 @@ fast_hit_rate = 0.333
 fast_top1_hit_rate = 0.0
 fast_top1_version_ok_rate = 0.0
 fast_avg_latency_ms = 23.7
+fast_latency_per_hit = 71.2
 [strict search]
 question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
 {'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
@@ -311,6 +340,7 @@ strict_hit_rate = 1.0
 strict_top1_hit_rate = 1.0
 strict_top1_version_ok_rate = 1.0
 strict_avg_latency_ms = 85.0
+strict_latency_per_hit = 85.0
 ```
 
 이 예제에서 먼저 봐야 할 것은 `fast_avg_latency_ms = 23.7`이 매우 좋아 보여도 `fast_top1_hit_rate = 0.0`, `fast_top1_version_ok_rate = 0.0`이라는 점입니다. 즉, 빠른 설정은 지연 시간은 줄였지만, 가장 먼저 붙는 문서가 모두 구버전이어서 생성 단계 출발점이 이미 흔들립니다. 반대로 strict 설정은 느리지만 top-k 포함률, top-1 정합률, 버전 정합률이 모두 1.0입니다.
@@ -329,6 +359,10 @@ strict_avg_latency_ms = 85.0
 ## 이 예제를 검색 타협 관점으로 다시 보면
 
 앞의 예제는 실제 인덱스를 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 비교표로 보여 주는 장면입니다. 예를 들어 `latency_ms`만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
+
+## 여기까지를 한 줄로 묶으면
+
+벡터 검색 인덱스는 검색을 빠르게 만들기 위한 구조이지만, 실제 운영에서는 지연 시간만이 아니라 `정답 후보가 top-k 안에 살아 있는가`를 함께 보지 않으면 좋은 설정을 고를 수 없습니다.
 
 ## 역사와 커리큘럼 관점
 
