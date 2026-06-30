@@ -106,7 +106,7 @@ CNN은 이미지 전체를 한 번에 보기보다, 작은 창(window)이나 필
 
 ### 그림 1. 한 필터는 채널을 함께 읽는다
 
-![CNN channel and feature map intuition](../../../assets/part-04/chapter-11/cnn-channel-feature-map.svg)
+![CNN channel and feature map intuition](../../../assets/part-04/chapter-11/cnn-channel-feature-map-ko.svg)
 
 이 그림에서 먼저 봐야 할 것은 `채널이 셋이면 CNN이 이미지를 셋으로 완전히 따로 처리한다`가 아니라, `한 필터가 채널 전반의 같은 위치 패치를 함께 읽고 그 반응을 합쳐 하나의 feature map을 만든다`는 점입니다. 색 정보도 지역 패턴 안에서 함께 읽히며, 최종적으로는 `이 위치에서 어떤 패턴이 강하게 나타났는가`라는 반응 지도로 정리됩니다.
 
@@ -120,7 +120,7 @@ CNN은 이미지 전체를 한 번에 보기보다, 작은 창(window)이나 필
 
 ### 그림 2. 깊은 층일수록 더 넓게 본다
 
-![CNN hierarchical vision flow](../../../assets/part-04/chapter-11/cnn-hierarchical-vision-flow.svg)
+![CNN hierarchical vision flow](../../../assets/part-04/chapter-11/cnn-hierarchical-vision-flow-ko.svg)
 
 두 번째 그림은 같은 말 사진을 세 번 다시 써서, `입력 사진은 그대로인데 layer가 깊어질수록 receptive field가 넓어진다`는 점만 따로 보여 줍니다. 왼쪽 패널은 초기 convolution이 작은 지역 패치에서 잔디 질감과 다리 경계 같은 국소 단서를 읽는 상황이고, 가운데 패널은 더 넓은 영역을 함께 보며 머리와 목처럼 묶인 부분 구조를 읽는 상황이며, 오른쪽 패널은 여러 부분 단서를 함께 모아 몸통 전체 수준의 단서를 읽을 수 있는 상황입니다.
 
@@ -128,7 +128,7 @@ CNN은 이미지 전체를 한 번에 보기보다, 작은 창(window)이나 필
 
 ### 그림 3. 반응 지도도 더 큰 단서로 합쳐진다
 
-![CNN feature map hierarchy](../../../assets/part-04/chapter-11/cnn-feature-map-hierarchy.svg)
+![CNN feature map hierarchy](../../../assets/part-04/chapter-11/cnn-feature-map-hierarchy-ko.svg)
 
 세 번째 그림은 이제 사진 대신 반응 지도로 시선을 옮깁니다. 초기 feature map에서는 특정 위치의 edge나 texture 반응이 먼저 강해지고, 더 깊은 part map에서는 인접한 반응이 함께 맞아떨어질 때 더 큰 부분 패턴이 안정적으로 나타나며, 더 뒤의 object map에서는 여러 부분 단서가 함께 맞을 때 객체 수준의 activation이 가능해집니다.
 
@@ -324,14 +324,14 @@ second patch =
 - 원본 사진을 복사한 파일
 - 그 위에 CNN 관점 주석을 얹은 SVG 오버레이
 
-실제 생성 스크립트는 [generate_cnn_diagrams.py](../../../assets/part-04/chapter-11/generate_cnn_diagrams.py) 에 두었습니다. 말 사진을 직접 이용하는 `cnn-hierarchical-vision-flow.svg` 생성 흐름만 줄이면 다음과 같습니다.
+실제 생성 스크립트는 [generate_cnn_diagrams.py](../../../assets/part-04/chapter-11/generate_cnn_diagrams.py) 에 두었습니다. 이 스크립트는 영문 원본인 `*-en.svg`와 한국어 파생본인 `*-ko.svg`를 함께 생성합니다. 말 사진을 직접 이용하는 `cnn-hierarchical-vision-flow-ko.svg` 생성 흐름만 줄이면 다음과 같습니다.
 
 ```python
 from pathlib import Path
 import base64
 
 PHOTO = Path("horse-field-photo.png")
-SVG_OUT = Path("cnn-hierarchical-vision-flow.svg")
+SVG_OUT = Path("cnn-hierarchical-vision-flow-ko.svg")
 
 image_data = base64.b64encode(PHOTO.read_bytes()).decode("ascii")
 
@@ -352,7 +352,8 @@ SVG_OUT.write_text(SVG, encoding="utf-8")
 
 ```text
 horse-field-photo.png
-cnn-hierarchical-vision-flow.svg
+cnn-hierarchical-vision-flow-en.svg
+cnn-hierarchical-vision-flow-ko.svg
 ```
 
 이 예제에서 확인해야 할 결과는 다음과 같습니다.

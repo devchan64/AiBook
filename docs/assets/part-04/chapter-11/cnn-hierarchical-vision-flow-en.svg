@@ -40,8 +40,8 @@
   <line x1="286" y1="270" x2="334" y2="270" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
   <rect x="280" y="214" width="60" height="34" rx="8" fill="#ffffff"/>
   <text class="label" x="310" y="228" text-anchor="middle">
-    <tspan x="310" dy="0">wider</tspan>
-    <tspan x="310" dy="12">context</tspan>
+      <tspan x="310" dy="0">wider</tspan>
+      <tspan x="310" dy="12">context</tspan>
   </text>
 
   <text class="stage-title" x="340" y="130">2. Part layer</text>
@@ -57,8 +57,8 @@
   <line x1="586" y1="270" x2="634" y2="270" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
   <rect x="580" y="214" width="60" height="34" rx="8" fill="#ffffff"/>
   <text class="label" x="610" y="228" text-anchor="middle">
-    <tspan x="610" dy="0">more</tspan>
-    <tspan x="610" dy="12">evidence</tspan>
+      <tspan x="610" dy="0">more</tspan>
+      <tspan x="610" dy="12">evidence</tspan>
   </text>
 
   <text class="stage-title" x="640" y="130">3. Object layer</text>
