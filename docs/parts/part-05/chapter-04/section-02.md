@@ -176,12 +176,14 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지, 특히 형식 제약 반영 여부로 확인하는 것입니다.
+이번 예제의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지, 특히 형식 제약, 역할, 안전 제약이 실제 응답 구조에 반영되는지로 확인하는 것입니다.
 
 입력:
 
 - 사용자 요청
 - 요청에서 요구한 문장 수
+- 시스템 역할 제약
+- 피해야 할 안전 위반 표현
 - 자동완성형 응답 하나
 - 지시 따르기형 응답 묶음
 
@@ -190,13 +192,16 @@ flowchart TD
 - 자동완성형 스타일
 - 대화형 지시 응답 스타일
 - 요청 형식이 반영되었는지 여부
+- 역할과 안전 제약이 반영되었는지 여부
 
 ```python
 user_request = "이 문서를 세 문장으로 요약해줘"
 required_sentence_count = 3
+system_role = "초심자에게 설명하는 학습 도우미"
+blocked_terms = ["확실하지 않은 사실을 단정", "공격적 표현"]
 
 autocomplete_style = [
-    "이 문서는 중요한 내용을 다루며..."
+    "이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다..."
 ]
 
 instruction_style = [
@@ -205,16 +210,35 @@ instruction_style = [
     "셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.",
 ]
 
+def inspect_response(lines, required_count, blocked_terms):
+    joined = " ".join(lines)
+    return {
+        "sentence_count": len(lines),
+        "matches_requested_count": len(lines) == required_count,
+        "mentions_beginner_friendly_tone": any("설명" in line or "정리" in line for line in lines),
+        "contains_blocked_term": any(term in joined for term in blocked_terms),
+    }
+
+
+autocomplete_report = inspect_response(
+    autocomplete_style, required_sentence_count, blocked_terms
+)
+instruction_report = inspect_response(
+    instruction_style, required_sentence_count, blocked_terms
+)
+
 print("request =", user_request)
 print("required_sentence_count =", required_sentence_count)
+print("system_role =", system_role)
+print("blocked_terms =", blocked_terms)
 print()
 print("autocomplete_style =", autocomplete_style)
-print("autocomplete_matches_format =", len(autocomplete_style) == required_sentence_count)
+print("autocomplete_report =", autocomplete_report)
 print()
 print("instruction_style =")
 for line in instruction_style:
     print("-", line)
-print("instruction_matches_format =", len(instruction_style) == required_sentence_count)
+print("instruction_report =", instruction_report)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -222,26 +246,28 @@ print("instruction_matches_format =", len(instruction_style) == required_sentenc
 ```text
 request = 이 문서를 세 문장으로 요약해줘
 required_sentence_count = 3
+system_role = 초심자에게 설명하는 학습 도우미
+blocked_terms = ['확실하지 않은 사실을 단정', '공격적 표현']
 
-autocomplete_style = ['이 문서는 중요한 내용을 다루며...']
-autocomplete_matches_format = False
+autocomplete_style = ['이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다...']
+autocomplete_report = {'sentence_count': 1, 'matches_requested_count': False, 'mentions_beginner_friendly_tone': False, 'contains_blocked_term': True}
 
 instruction_style =
 - 첫째, 이 문서는 핵심 개념을 정리합니다.
 - 둘째, 주요 사례와 한계를 함께 설명합니다.
 - 셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.
-instruction_matches_format = True
+instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'mentions_beginner_friendly_tone': True, 'contains_blocked_term': False}
 ```
 
 ## 이 예제를 사용자 경험 관점으로 다시 보면
 
-앞의 예제는 대화형 LLM 전체를 구현하는 코드가 아니라, 같은 생성 구조라도 `다음 문장을 이어 쓰는 경험`과 `사용자 지시를 따라 응답 형식을 맞추는 경험`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 모델이 더 길게 말하느냐가 아니라, `세 문장으로 요약해 달라`는 형식 조건이 실제 응답 구조에 반영되도록 조정된 경험이라는 점입니다.
+앞의 예제는 대화형 LLM 전체를 구현하는 코드가 아니라, 같은 생성 구조라도 `다음 문장을 이어 쓰는 경험`과 `사용자 지시를 따라 응답 형식, 역할, 안전 조건을 맞추는 경험`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 모델이 더 길게 말하느냐가 아니라, `세 문장으로 요약해 달라`는 형식 조건과 `초심자에게 설명하는 도우미`라는 역할, 그리고 피해야 할 표현이 실제 응답 구조에 반영되도록 조정된 경험이라는 점입니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 둘 다 생성이지만
 - 자동완성은 자연스러운 이어쓰기에 더 가깝고
-- 대화형 LLM은 사용자의 지시 형식과 제약을 더 명시적으로 따르도록 조정된 경험이라는 점입니다
+- 대화형 LLM은 사용자의 지시 형식, 역할, 안전 제약을 더 명시적으로 따르도록 조정된 경험이라는 점입니다
 
 ## 역사와 커리큘럼 관점
 
