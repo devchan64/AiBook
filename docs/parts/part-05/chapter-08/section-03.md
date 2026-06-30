@@ -33,6 +33,14 @@ P5-8.2까지 오면 지시 튜닝과 정렬 문제를 보게 됩니다. 그러�
 - P5-9의 프롬프트, P5-10과 P5-11의 RAG, P5-12와 P5-13의 tool use·agent 장을 하나의 선택 지도 안에서 읽을 수 있습니다.
 - 통합 미니 실습에서 왜 여러 장치를 함께 쓰는지 더 쉽게 이해할 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `네 가지 선택지를 가장 짧게 구분하면`과 `무엇을 먼저 고르면 안 되는가`를 읽고, 네 수단의 역할 차이와 한계를 같이 잡습니다.
+2. 그다음 `프롬프트를 먼저 볼 때`, `파인튜닝을 고려할 때`, `RAG를 붙여야 할 때`, `도구 사용이 필요한 때`를 읽으면서 실패 유형과 해결 수단이 어떻게 연결되는지 확인합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 실제로는 한 문제를 보고 곧바로 기술 이름을 고르는 것이 아니라 `형식 문제인가`, `근거 문제인가`, `실행 문제인가`, `지속적 스타일 적응 문제인가`를 분리해야 한다는 점을 확인합니다.
+
 ## 네 가지 선택지를 가장 짧게 구분하면
 
 | 수단 | 먼저 겨냥하는 문제 |
@@ -148,19 +156,47 @@ flowchart TD
 | 계산 오류 | 실행 정확도 부족 | tool use |
 | 문체 일관성 부족 | 지속적 스타일 적응 부족 | fine-tuning |
 
+같은 내용을 `무엇이 부족한가` 기준으로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["문제가 보임"]
+  B["형식/지시 반영 부족"]
+  C["최신 근거 부족"]
+  D["계산/실행 부족"]
+  E["반복 스타일 적응 부족"]
+  F["prompt revision"]
+  G["RAG"]
+  H["tool use"]
+  I["fine-tuning"]
+
+  A --> B --> F
+  A --> C --> G
+  A --> D --> H
+  A --> E --> I
+```
+
+핵심은 `기술 이름을 먼저 고르는 것`이 아니라 `현재 실패가 어느 부족으로 설명되는가`를 먼저 나누는 일입니다.
+
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 겉보기에는 모두 `LLM이 잘 못한다`는 문제처럼 보여도, 실패 원인을 분류하면 먼저 선택할 해결 수단과 당장 하지 말아야 할 대응이 달라진다는 점을 확인하는 것입니다.
+이번 예제의 목표는 겉보기에는 모두 `LLM이 잘 못한다`는 문제처럼 보여도, 실패 원인을 분류하면 먼저 선택할 해결 수단과 당장 하지 말아야 할 대응이 달라진다는 점을 확인하는 것입니다. 이번에는 네 가지 대표 실패를 두고, 각 문제에 대해 `형식`, `최신 근거`, `실행`, `지속 스타일` 신호를 따로 읽어 본 뒤 어떤 수단을 먼저 쓰고 무엇은 우선순위에서 밀어야 하는지 점수로 비교해 보겠습니다.
+
+문제 상황:
+
+- 겉보기에 모두 `답이 마음에 들지 않는다`로 보이지만, 실제로는 실패 유형이 서로 다름
+- 어떤 경우는 입력 설계 문제이고, 어떤 경우는 최신 문서 연결 문제이며, 어떤 경우는 실행 연결 문제임
+- 잘못된 해결 수단을 먼저 고르면 수정 비용은 늘고 핵심 실패는 그대로 남음
 
 입력:
 
 - 대표적인 실패 유형 4개
-- 각 실패 유형의 증상, 부족한 것, 우선 대응 수단
+- 각 실패 유형마다 형식, 최신 근거, 실행, 지속 스타일 신호를 적은 관찰값
 
 출력:
 
-- 문제 유형별 1차 대응책
-- 당장 먼저 붙이기 어려운 수단
+- 문제 유형별 수단 점수표
+- 먼저 시도할 대응책과 우선순위에서 밀릴 대응책
 - 실패 원인 분류 요약
 
 ```python
@@ -168,44 +204,97 @@ cases = [
     {
         "issue": "format drift",
         "symptom": "답변 형식이 자주 흔들림",
-        "missing": "출력 형식 고정",
-        "first_action": "prompt revision",
-        "not_first": "RAG",
+        "signals": {
+            "format": 3,
+            "knowledge": 0,
+            "execution": 0,
+            "persistent_style": 1,
+        },
     },
     {
         "issue": "missing latest policy",
         "symptom": "최신 규정을 자주 틀림",
-        "missing": "최신 근거 문서",
-        "first_action": "RAG",
-        "not_first": "fine-tuning",
+        "signals": {
+            "format": 0,
+            "knowledge": 3,
+            "execution": 0,
+            "persistent_style": 1,
+        },
     },
     {
         "issue": "needs calculator",
         "symptom": "계산 결과가 자주 틀림",
-        "missing": "정확한 실행/계산",
-        "first_action": "tool use",
-        "not_first": "prompt revision",
+        "signals": {
+            "format": 0,
+            "knowledge": 1,
+            "execution": 3,
+            "persistent_style": 0,
+        },
     },
     {
         "issue": "persistent domain style",
         "symptom": "반복 요청에서 문체가 일정하지 않음",
-        "missing": "지속적 스타일 적응",
-        "first_action": "fine-tuning",
-        "not_first": "tool use",
+        "signals": {
+            "format": 1,
+            "knowledge": 0,
+            "execution": 0,
+            "persistent_style": 3,
+        },
     },
 ]
+
+weights = {
+    "prompt revision": {
+        "format": 3,
+        "knowledge": 0,
+        "execution": 0,
+        "persistent_style": 1,
+    },
+    "RAG": {
+        "format": 0,
+        "knowledge": 3,
+        "execution": 0,
+        "persistent_style": 0,
+    },
+    "tool use": {
+        "format": 0,
+        "knowledge": 1,
+        "execution": 3,
+        "persistent_style": 0,
+    },
+    "fine-tuning": {
+        "format": 1,
+        "knowledge": 0,
+        "execution": 0,
+        "persistent_style": 3,
+    },
+}
+
+
+def score_action(signals, action_name):
+    action_weights = weights[action_name]
+    return sum(signals[key] * action_weights[key] for key in signals)
+
 
 action_counter = {}
 
 for case in cases:
-    action_counter[case["first_action"]] = action_counter.get(case["first_action"], 0) + 1
-    print(
-        f"{case['issue']}: "
-        f"symptom={case['symptom']} | "
-        f"missing={case['missing']} | "
-        f"first_action={case['first_action']} | "
-        f"not_first={case['not_first']}"
-    )
+    scores = {
+        action_name: score_action(case["signals"], action_name)
+        for action_name in weights
+    }
+    ranked = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+    best_action, best_score = ranked[0]
+    last_action, last_score = ranked[-1]
+    action_counter[best_action] = action_counter.get(best_action, 0) + 1
+
+    print("=" * 70)
+    print("issue =", case["issue"])
+    print("symptom =", case["symptom"])
+    print("signals =", case["signals"])
+    print("scores =", scores)
+    print("first_action =", best_action, best_score)
+    print("not_first =", last_action, last_score)
 
 print("[action summary]", action_counter)
 ```
@@ -213,14 +302,53 @@ print("[action summary]", action_counter)
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-format drift: symptom=답변 형식이 자주 흔들림 | missing=출력 형식 고정 | first_action=prompt revision | not_first=RAG
-missing latest policy: symptom=최신 규정을 자주 틀림 | missing=최신 근거 문서 | first_action=RAG | not_first=fine-tuning
-needs calculator: symptom=계산 결과가 자주 틀림 | missing=정확한 실행/계산 | first_action=tool use | not_first=prompt revision
-persistent domain style: symptom=반복 요청에서 문체가 일정하지 않음 | missing=지속적 스타일 적응 | first_action=fine-tuning | not_first=tool use
+======================================================================
+issue = format drift
+symptom = 답변 형식이 자주 흔들림
+signals = {'format': 3, 'knowledge': 0, 'execution': 0, 'persistent_style': 1}
+scores = {'prompt revision': 10, 'RAG': 0, 'tool use': 0, 'fine-tuning': 6}
+first_action = prompt revision 10
+not_first = tool use 0
+======================================================================
+issue = missing latest policy
+symptom = 최신 규정을 자주 틀림
+signals = {'format': 0, 'knowledge': 3, 'execution': 0, 'persistent_style': 1}
+scores = {'prompt revision': 1, 'RAG': 9, 'tool use': 3, 'fine-tuning': 3}
+first_action = RAG 9
+not_first = prompt revision 1
+======================================================================
+issue = needs calculator
+symptom = 계산 결과가 자주 틀림
+signals = {'format': 0, 'knowledge': 1, 'execution': 3, 'persistent_style': 0}
+scores = {'prompt revision': 0, 'RAG': 3, 'tool use': 10, 'fine-tuning': 0}
+first_action = tool use 10
+not_first = fine-tuning 0
+======================================================================
+issue = persistent domain style
+symptom = 반복 요청에서 문체가 일정하지 않음
+signals = {'format': 1, 'knowledge': 0, 'execution': 0, 'persistent_style': 3}
+scores = {'prompt revision': 6, 'RAG': 0, 'tool use': 0, 'fine-tuning': 10}
+first_action = fine-tuning 10
+not_first = tool use 0
 [action summary] {'prompt revision': 1, 'RAG': 1, 'tool use': 1, 'fine-tuning': 1}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 비슷해 보이는 LLM 문제라도 `무엇이 부족한가`를 먼저 분리하면, 우선 선택해야 할 수단과 지금 바로 붙여도 잘 안 닫히는 수단이 실제로 달라진다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 비슷해 보이는 LLM 문제라도 `무엇이 부족한가`를 먼저 분리하면, 우선 선택해야 할 수단과 지금 바로 붙여도 잘 안 닫히는 수단이 실제로 달라진다는 점입니다. 특히 형식 흔들림과 문체 일관성 부족은 비슷해 보여도, 하나는 입력 설계 쪽 점수가 더 높고 다른 하나는 지속 적응 쪽 점수가 더 높게 나옵니다. 최신 규정 오류와 계산 오류도 둘 다 `틀린 답`처럼 보이지만, 하나는 근거 연결 부족이고 다른 하나는 실행 부족이라는 점이 구분됩니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `signals` 값을 바꿔 보면서 어떤 조건에서 추천 수단이 뒤집히는지 확인해 보기
+- `weights`를 더 보수적으로 바꿔 조직이 어떤 실패를 더 크게 보는지 실험해 보기
+- `issue`를 고객지원, 재무 보고, 내부 승인 자동화 같은 새 장면으로 추가해 보기
+- `first_action`만 보지 말고 2위 점수까지 함께 읽어, 왜 어떤 문제는 복합 대응이 필요한지 확인해 보기
+
+## 이 예제를 선택 지도 관점으로 다시 보면
+
+이 예제는 네 가지 수단을 외워서 고르는 방식보다, 실패를 `형식`, `근거`, `실행`, `지속 적응`으로 다시 읽는 방식이 더 중요하다는 점을 보여 줍니다. 실제 시스템에서도 한 문제를 보고 곧바로 기술 이름을 붙이기보다, 무엇이 부족해서 실패했는지 관찰 신호를 먼저 모아야 합니다. 그래야 프롬프트를 더 길게 쓸 문제와, 문서를 붙일 문제와, 계산 도구를 연결할 문제와, 장기 조정층을 강화할 문제를 섞지 않게 됩니다.
+
+## 여기까지를 한 줄로 묶으면
+
+프롬프트, 파인튜닝, RAG, 도구 사용은 서로 경쟁하는 만능 해법이 아니라, `어떤 부족 때문에 실패했는가`에 따라 먼저 꺼내야 하는 서로 다른 수단입니다.
 
 ## 다음 장과의 연결
 
