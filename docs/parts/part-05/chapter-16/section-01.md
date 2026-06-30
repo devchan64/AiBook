@@ -29,6 +29,14 @@ AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연
 - 품질과 운영 제약 사이의 균형을 말할 수 있습니다.
 - 다음 절의 실패 대응 문제로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 판단 기준이 더 분명해집니다.
+
+1. 먼저 왜 모델 품질만으로는 서비스가 되지 않는지 읽습니다.
+2. 그다음 비용, 지연 시간, 처리량이 각각 어떤 제약을 만드는지 구분합니다.
+3. 사례와 Python 예제에서는 `어떤 설계안이 탈락하고 어떤 조정이 필요한가`를 확인합니다.
+
 ## 왜 모델 품질만으로는 부족한가
 
 좋은 답을 만들 수 있는 모델이 있다고 해도, 실제 서비스는 다음 조건을 함께 만족해야 합니다.
@@ -152,6 +160,24 @@ AI 서비스는 보통 호출마다 비용이 생기거나, 자체 운영 시에
 
 프롬프트만 쓰는 단순 구조에서는 제약이 비교적 단순합니다. 하지만 RAG와 에이전트가 붙으면 `좋은 답을 만들기 위한 단계`와 `그 단계를 유지하는 운영 부담`이 함께 늘어난다는 점이 이 절의 핵심입니다.
 
+이 흐름을 한 번 더 단순화하면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["higher quality plan"]
+  B["more steps"]
+  C["higher cost"]
+  D["more latency"]
+  E["capacity pressure"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+```
+
+이 그림의 핵심은 품질을 올리는 선택이 종종 더 많은 단계와 운영 부담을 함께 데려온다는 점입니다.
+
 ## 아주 단순하게 그리면
 
 ```mermaid
@@ -169,6 +195,8 @@ flowchart TD
 이 도식의 핵심은 성능을 높이는 선택이 종종 다른 비용을 동반한다는 점입니다.
 
 ## 사례로 보기
+
+사례를 읽을 때는 `좋아 보이는가`보다 `운영 제약 안에서 계속 제공 가능한가`를 중심으로 보면 좋습니다.
 
 ### 사례 1. 고객 지원 챗봇
 
@@ -200,7 +228,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보는 것입니다. 이번에는 설계안 두 개만 단순 비교하지 않고, 여러 서비스 설계안을 같은 운영 제약 아래 나란히 놓고 어떤 안이 통과하고 어떤 안이 탈락하는지 비교하겠습니다. 특히 이번에는 품질, 지연 시간, 비용뿐 아니라 `분당 처리 가능 요청 수`까지 함께 넣어 `데모는 되지만 운영은 안 되는 안`이 어떻게 생기는지도 보겠습니다.
+이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보고, 각 설계안에 대해 `무엇을 먼저 줄이거나 바꿔야 하는가`까지 읽는 것입니다. 이번에는 설계안 두 개만 단순 비교하지 않고, 여러 서비스 설계안을 같은 운영 제약 아래 나란히 놓고 어떤 안이 통과하고 어떤 안이 탈락하는지 비교하겠습니다. 특히 이번에는 품질, 지연 시간, 비용뿐 아니라 `분당 처리 가능 요청 수`까지 함께 넣어 `데모는 되지만 운영은 안 되는 안`이 어떻게 생기는지도 보겠습니다.
 
 문제 상황:
 
@@ -221,6 +249,7 @@ flowchart TD
 - 각 설계안의 적합 여부
 - 왜 선택되거나 탈락하는지에 대한 간단한 판단 결과
 - 통과한 설계안 중 운영 제약 안에서 품질이 가장 높은 후보
+- 각 설계안에 대해 다음에 손봐야 할 조정 방향
 
 먼저 이 예제에서 함께 볼 운영 제약 기준은 다음과 같습니다.
 
@@ -230,8 +259,12 @@ flowchart TD
 | `latency_ok` | 사용자가 기다릴 수 있는 시간 안에 답해야 해서 |
 | `cost_ok` | 한 요청 품질이 좋아도 운영 예산을 넘기면 지속하기 어려워서 |
 | `throughput_ok` | 데모는 되어도 반복 요청을 견디지 못하면 서비스가 아니어서 |
+| `next_adjustment` | 탈락한 설계안을 어디부터 줄이거나 바꿔야 할지 알아야 해서 |
 
 ```python
+from pprint import pprint
+
+
 services = [
     {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1, "requests_per_minute": 120},
     {"name": "balanced", "quality": 0.84, "latency_ms": 1700, "cost": 2, "requests_per_minute": 90},
@@ -265,6 +298,14 @@ def evaluate_service(service, constraints):
     else:
         primary_tradeoff = "operational_fit"
 
+    next_adjustment_map = {
+        "quality_too_low": "raise_quality_before_optimizing_cost",
+        "latency_too_high": "reduce_steps_or_cache_more",
+        "cost_too_high": "shrink_context_or_model_size",
+        "throughput_too_low": "increase_capacity_or_simplify_flow",
+        "operational_fit": "keep_as_candidate",
+    }
+
     return {
         "name": service["name"],
         "quality": service["quality"],
@@ -276,6 +317,7 @@ def evaluate_service(service, constraints):
         "cost_ok": cost_ok,
         "throughput_ok": throughput_ok,
         "primary_tradeoff": primary_tradeoff,
+        "next_adjustment": next_adjustment_map[primary_tradeoff],
         "operationally_acceptable": (
             quality_ok
             and latency_ok
@@ -297,6 +339,8 @@ summary = {
     "latency_fail_count": sum(not item["latency_ok"] for item in evaluated),
     "cost_fail_count": sum(not item["cost_ok"] for item in evaluated),
     "throughput_fail_count": sum(not item["throughput_ok"] for item in evaluated),
+    "quality_fail_count": sum(not item["quality_ok"] for item in evaluated),
+    "best_candidate": best_acceptable["name"] if best_acceptable else None,
 }
 
 print("[constraints]")
@@ -305,9 +349,9 @@ print("[summary]")
 print(summary)
 print("[evaluated_services]")
 for item in evaluated:
-    print(item)
+    pprint(item)
 print("[best_acceptable]")
-print(best_acceptable)
+pprint(best_acceptable)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -316,18 +360,89 @@ print(best_acceptable)
 [constraints]
 {'max_latency_ms': 2000, 'max_cost': 3, 'min_quality': 0.75, 'required_requests_per_minute': 80}
 [summary]
-{'acceptable_count': 2, 'latency_fail_count': 1, 'cost_fail_count': 1, 'throughput_fail_count': 2}
+{'acceptable_count': 2,
+ 'best_candidate': 'balanced',
+ 'cost_fail_count': 1,
+ 'latency_fail_count': 1,
+ 'quality_fail_count': 1,
+ 'throughput_fail_count': 2}
 [evaluated_services]
-{'name': 'fast', 'quality': 0.78, 'latency_ms': 900, 'cost': 1, 'requests_per_minute': 120, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'operational_fit', 'operationally_acceptable': True}
-{'name': 'balanced', 'quality': 0.84, 'latency_ms': 1700, 'cost': 2, 'requests_per_minute': 90, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'operational_fit', 'operationally_acceptable': True}
-{'name': 'rich', 'quality': 0.89, 'latency_ms': 3200, 'cost': 4, 'requests_per_minute': 40, 'quality_ok': True, 'latency_ok': False, 'cost_ok': False, 'throughput_ok': False, 'primary_tradeoff': 'latency_too_high', 'operationally_acceptable': False}
-{'name': 'cheap_but_weak', 'quality': 0.65, 'latency_ms': 700, 'cost': 1, 'requests_per_minute': 150, 'quality_ok': False, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'quality_too_low', 'operationally_acceptable': False}
-{'name': 'accurate_but_capped', 'quality': 0.87, 'latency_ms': 1500, 'cost': 2, 'requests_per_minute': 45, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': False, 'primary_tradeoff': 'throughput_too_low', 'operationally_acceptable': False}
+{'cost': 1,
+ 'cost_ok': True,
+ 'latency_ms': 900,
+ 'latency_ok': True,
+ 'name': 'fast',
+ 'next_adjustment': 'keep_as_candidate',
+ 'operationally_acceptable': True,
+ 'primary_tradeoff': 'operational_fit',
+ 'quality': 0.78,
+ 'quality_ok': True,
+ 'requests_per_minute': 120,
+ 'throughput_ok': True}
+{'cost': 2,
+ 'cost_ok': True,
+ 'latency_ms': 1700,
+ 'latency_ok': True,
+ 'name': 'balanced',
+ 'next_adjustment': 'keep_as_candidate',
+ 'operationally_acceptable': True,
+ 'primary_tradeoff': 'operational_fit',
+ 'quality': 0.84,
+ 'quality_ok': True,
+ 'requests_per_minute': 90,
+ 'throughput_ok': True}
+{'cost': 4,
+ 'cost_ok': False,
+ 'latency_ms': 3200,
+ 'latency_ok': False,
+ 'name': 'rich',
+ 'next_adjustment': 'reduce_steps_or_cache_more',
+ 'operationally_acceptable': False,
+ 'primary_tradeoff': 'latency_too_high',
+ 'quality': 0.89,
+ 'quality_ok': True,
+ 'requests_per_minute': 40,
+ 'throughput_ok': False}
+{'cost': 1,
+ 'cost_ok': True,
+ 'latency_ms': 700,
+ 'latency_ok': True,
+ 'name': 'cheap_but_weak',
+ 'next_adjustment': 'raise_quality_before_optimizing_cost',
+ 'operationally_acceptable': False,
+ 'primary_tradeoff': 'quality_too_low',
+ 'quality': 0.65,
+ 'quality_ok': False,
+ 'requests_per_minute': 150,
+ 'throughput_ok': True}
+{'cost': 2,
+ 'cost_ok': True,
+ 'latency_ms': 1500,
+ 'latency_ok': True,
+ 'name': 'accurate_but_capped',
+ 'next_adjustment': 'increase_capacity_or_simplify_flow',
+ 'operationally_acceptable': False,
+ 'primary_tradeoff': 'throughput_too_low',
+ 'quality': 0.87,
+ 'quality_ok': True,
+ 'requests_per_minute': 45,
+ 'throughput_ok': False}
 [best_acceptable]
-{'name': 'balanced', 'quality': 0.84, 'latency_ms': 1700, 'cost': 2, 'requests_per_minute': 90, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'operational_fit', 'operationally_acceptable': True}
+{'cost': 2,
+ 'cost_ok': True,
+ 'latency_ms': 1700,
+ 'latency_ok': True,
+ 'name': 'balanced',
+ 'next_adjustment': 'keep_as_candidate',
+ 'operationally_acceptable': True,
+ 'primary_tradeoff': 'operational_fit',
+ 'quality': 0.84,
+ 'quality_ok': True,
+ 'requests_per_minute': 90,
+ 'throughput_ok': True}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `accurate_but_capped` 같은 안입니다. 단일 요청 품질만 보면 `balanced`보다 더 좋아 보일 수 있지만, 분당 처리량 제한 때문에 실제 서비스 트래픽을 못 버티면 운영 후보에서 탈락합니다. 즉, `좋은 품질`, `허용 가능한 지연 시간`, `예산`, `처리량`은 서로 다른 축입니다.
+이 예제에서 먼저 봐야 할 것은 `accurate_but_capped` 같은 안입니다. 단일 요청 품질만 보면 `balanced`보다 더 좋아 보일 수 있지만, 분당 처리량 제한 때문에 실제 서비스 트래픽을 못 버티면 운영 후보에서 탈락합니다. 그리고 `next_adjustment`를 보면 단순히 `탈락했다`가 아니라 `어디를 먼저 손봐야 하는가`까지 읽을 수 있습니다. 즉, `좋은 품질`, `허용 가능한 지연 시간`, `예산`, `처리량`은 서로 다른 축입니다.
 
 그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간, 비용, 처리량 제약이 함께 걸리면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다. 또한 반대로 `cheap_but_weak`처럼 빠르고 싸더라도 최소 품질선을 넘지 못하면 역시 채택되지 않을 수 있습니다.
 
@@ -346,6 +461,8 @@ print(best_acceptable)
 - 더 좋은 품질이 항상 공짜로 오지 않고
 - 속도와 비용이 함께 바뀔 수 있으며
 - 그래서 서비스 설계는 비교표와 타협의 문제라는 점입니다
+
+여기까지를 한 줄로 묶으면, 서비스 운영 제약은 `좋은 모델을 고르는 문제`가 아니라 `제약 안에서 유지 가능한 설계안을 고르고 부족한 축을 어디서 조정할지 정하는 문제`입니다.
 
 ## 역사와 커리큘럼 관점
 
