@@ -108,14 +108,15 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 데이터셋을 읽고, 프로젝트 문서에 바로 적을 수 있는 핵심 요약값을 뽑는 것입니다.
+이번 예제의 목적은 데이터셋을 읽고, 프로젝트 문서에 바로 적을 수 있는 핵심 요약값을 뽑는 것입니다. 이번에는 평균과 최대값만 출력하고 끝내지 않고, `질문`, `요약`, `관찰`, `다음 질문`을 한 번에 묶은 작은 project note까지 함께 남겨 보겠습니다.
 
 - 문제 상황: 운영 기록에서 기본 흐름을 확인한다.
 - 입력(input): 날짜, 방문자 수, 가입 수, 오류 수
-- 기대 출력(output): 평균 방문자 수, 평균 가입 수, 평균 전환율, 최고 가입일, 최고 오류일
+- 기대 출력(output): 평균 방문자 수, 평균 가입 수, 평균 전환율, 최고 가입일, 최고 오류일, 그리고 프로젝트 메모
 - 확인할 개념:
   - 데이터 분석 프로젝트는 요약값부터 시작할 수 있다
   - 비율 계산은 다음 질문을 만들기 위한 단서가 된다
+  - 요약값은 project note로 다시 묶여야 다음 절의 회고 문서가 쉬워진다
 
 ```python
 import csv
@@ -143,6 +144,27 @@ best_signup_day = max(rows, key=lambda row: int(row["signups"]))
 highest_error_day = max(rows, key=lambda row: int(row["errors"]))
 best_conversion_index = max(range(len(rows)), key=lambda i: conversion[i])
 
+project_note = {
+    "question": "지난 7일 운영 기록에서 방문자, 가입, 오류의 기본 흐름은 어떠한가?",
+    "summary": {
+        "days": len(rows),
+        "avg_visitors": round(statistics.mean(visitors), 1),
+        "avg_signups": round(statistics.mean(signups), 1),
+        "avg_conversion": round(statistics.mean(conversion), 3),
+        "best_signup_day": best_signup_day["date"],
+        "highest_error_day": highest_error_day["date"],
+        "best_conversion_day": rows[best_conversion_index]["date"],
+    },
+    "observations": [
+        "가입이 가장 많았던 날과 전환율이 가장 높았던 날이 모두 2026-06-05입니다.",
+        "오류가 가장 많았던 날은 2026-06-06이며, 가입 수는 직전 날짜보다 줄었습니다.",
+    ],
+    "next_questions": [
+        "2026-06-06 오류 증가는 배포나 이벤트와 연결되는가?",
+        "2026-06-05 전환율 상승은 유입 품질 변화와 연결되는가?",
+    ],
+}
+
 print("days =", len(rows))
 print("avg_visitors =", round(statistics.mean(visitors), 1))
 print("avg_signups =", round(statistics.mean(signups), 1))
@@ -150,6 +172,8 @@ print("avg_conversion =", round(statistics.mean(conversion), 3))
 print("best_signup_day =", best_signup_day["date"], int(best_signup_day["signups"]))
 print("highest_error_day =", highest_error_day["date"], int(highest_error_day["errors"]))
 print("best_conversion_day =", rows[best_conversion_index]["date"], round(conversion[best_conversion_index], 3))
+print("[project_note]")
+print(project_note)
 ```
 
 실행 결과 예시는 다음과 같습니다.
@@ -162,6 +186,8 @@ avg_conversion = 0.105
 best_signup_day = 2026-06-05 22
 highest_error_day = 2026-06-06 5
 best_conversion_day = 2026-06-05 0.129
+[project_note]
+{'question': '지난 7일 운영 기록에서 방문자, 가입, 오류의 기본 흐름은 어떠한가?', 'summary': {'days': 7, 'avg_visitors': 150.7, 'avg_signups': 15.9, 'avg_conversion': 0.105, 'best_signup_day': '2026-06-05', 'highest_error_day': '2026-06-06', 'best_conversion_day': '2026-06-05'}, 'observations': ['가입이 가장 많았던 날과 전환율이 가장 높았던 날이 모두 2026-06-05입니다.', '오류가 가장 많았던 날은 2026-06-06이며, 가입 수는 직전 날짜보다 줄었습니다.'], 'next_questions': ['2026-06-06 오류 증가는 배포나 이벤트와 연결되는가?', '2026-06-05 전환율 상승은 유입 품질 변화와 연결되는가?']}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -173,6 +199,7 @@ best_conversion_day = 2026-06-05 0.129
 - 평균 전환율은 약 10.5%입니다.
 - 가입이 가장 많았던 날은 `2026-06-05`입니다.
 - 오류가 가장 많았던 날은 `2026-06-06`입니다.
+- 이 다섯 줄은 그대로 `project_note["summary"]`에 다시 들어가 이후 회고의 출발점이 됩니다.
 
 여기서 중요한 것은 `정답을 찾았다`가 아니라 `다음 질문이 생겼다`는 점입니다.
 
@@ -185,6 +212,8 @@ best_conversion_day = 2026-06-05 0.129
 즉, 데이터 분석 프로젝트의 첫 성공은 `모델 학습`이 아니라 `더 나은 질문 생성`입니다.
 
 여기서 `분석이 끝났다`보다 `다음 질문이 선명해졌다`를 성공 기준으로 잡는 편이 좋습니다.
+
+특히 이번 예제에서 확인해야 할 결과는 숫자 출력이 한 번 끝나고 사라지는 것이 아니라, 질문과 요약과 관찰과 다음 질문이 `project_note` 하나로 다시 묶이는가입니다. 그래야 다음 절에서 `사실`, `해석`, `다음 질문` 구조로 회고 문서를 쓰기가 쉬워집니다.
 
 ## 실무에서의 의미
 
