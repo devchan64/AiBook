@@ -33,6 +33,14 @@ P5-10.2에서는 검색 결과가 생성 전에 입력 맥락으로 붙는다는
 - 왜 RAG에서 일반 키워드 검색만으로는 부족할 수 있는지 설명할 수 있습니다.
 - 다음 절의 인덱스와 검색 품질 문제로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `왜 벡터를 저장하나`와 `벡터 데이터베이스는 무엇을 저장하나`를 읽고, 표현이 달라도 의미가 가까운 문서를 찾기 위해 벡터를 저장하지만 실제로는 원문과 메타데이터도 같이 보관한다는 점을 잡습니다.
+2. 그다음 `무엇을 돌려주나`, `왜 RAG에서 자주 등장하나`, `일반 데이터베이스와 무엇이 다른가`를 읽으면서 이 저장 구조가 검색 파이프라인 안에서 어떤 역할을 맡는지 구분합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 같은 저장 구조라도 질문 벡터가 바뀌면 top-1 문서, 출처, 범주, retrieval payload가 함께 바뀐다는 점을 확인합니다.
+
 ## 왜 벡터를 저장하나
 
 앞 절에서 보았듯, RAG는 관련 문서를 먼저 찾는 구조입니다. 그런데 질문과 문서가 항상 같은 단어를 쓰는 것은 아닙니다.
@@ -150,6 +158,24 @@ flowchart TD
 | 사내 위키 검색 | `반납`과 `회수`처럼 표현이 다른 동일 업무 문단 | 의미가 같은 오프보딩 절차 문단 |
 | 제품 매뉴얼 검색 | 개요 설명 뒤에 숨은 실제 버튼 순서 문단 | 절차 수행에 필요한 핵심 단계 문단 |
 | 개발 문서 지원 | 질문에 이름이 없는 retry/backoff 관련 API 설명 | 의미가 가까운 옵션·동작 설명 문단 |
+
+같은 내용을 저장 구조 관점으로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["text chunk"]
+  B["embedding vector"]
+  C["metadata<br/>source / category / version"]
+  D["vector database record"]
+  E["retrieval payload<br/>text + metadata"]
+
+  A --> D
+  B --> D
+  C --> D
+  D --> E
+```
+
+핵심은 `벡터만 따로 저장`이 아니라, 검색 뒤에 생성 단계가 바로 다시 쓸 수 있게 텍스트와 메타데이터까지 연결된 레코드로 다룬다는 점입니다.
 
 ## 실행 가능한 Python 예제로 보기
 
@@ -287,6 +313,18 @@ summary = {
     "top1_category_match_count": sum(report["inspection"]["top1_category_ok"] for report in reports),
     "payload_has_text_count": sum(report["inspection"]["payload_has_text"] for report in reports),
     "payload_has_metadata_count": sum(report["inspection"]["payload_has_metadata"] for report in reports),
+    "top1_category_match_ratio": round(
+        sum(report["inspection"]["top1_category_ok"] for report in reports) / len(reports),
+        2,
+    ),
+    "payload_has_text_ratio": round(
+        sum(report["inspection"]["payload_has_text"] for report in reports) / len(reports),
+        2,
+    ),
+    "payload_has_metadata_ratio": round(
+        sum(report["inspection"]["payload_has_metadata"] for report in reports) / len(reports),
+        2,
+    ),
 }
 
 print("[summary]")
@@ -312,7 +350,7 @@ for report in reports:
 
 ```text
 [summary]
-{'top1_category_match_count': 3, 'payload_has_text_count': 3, 'payload_has_metadata_count': 3}
+{'top1_category_match_count': 3, 'payload_has_text_count': 3, 'payload_has_metadata_count': 3, 'top1_category_match_ratio': 1.0, 'payload_has_text_ratio': 1.0, 'payload_has_metadata_ratio': 1.0}
 
 ================================================================================
 [query]
@@ -369,6 +407,10 @@ api_limit_question [0.19, 0.16, 0.96]
 ## 이 예제를 저장 구조 관점으로 다시 보면
 
 앞의 예제는 벡터 데이터베이스를 구현하는 코드가 아니라, `비슷한 벡터를 찾는다`는 말 뒤에 실제로는 원문과 메타데이터까지 함께 저장하고 다시 꺼내는 계층이 있다는 점을 보여 주는 최소 장면입니다. 여기서 읽어야 할 핵심은 임베딩 숫자만으로 끝나지 않고, 검색 이후 답변 단계에 다시 쓸 정보를 함께 보존해야 한다는 점입니다. 그리고 같은 저장 구조가 질문마다 다른 출처와 범주를 다시 돌려준다는 점도 함께 중요합니다.
+
+## 여기까지를 한 줄로 묶으면
+
+벡터 데이터베이스는 숫자 벡터만 모아 두는 곳이 아니라, 질문과 가까운 문서 조각을 다시 찾고 그 문장과 출처 정보를 함께 생성 단계로 넘겨주는 검색 저장 계층입니다.
 
 ## 역사와 커리큘럼 관점
 
