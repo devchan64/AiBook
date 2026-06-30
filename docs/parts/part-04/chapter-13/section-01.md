@@ -208,6 +208,7 @@ attention 이후에는:
 
 출력:
 
+- 모든 후보를 똑같이 평균낸 baseline 문맥값
 - 정규화된 비중
 - 비중을 반영한 문맥값
 - 어떤 후보가 가장 크게 반영되는지에 대한 요약
@@ -231,34 +232,52 @@ ordered_names = list(sentences.keys())
 values = [sentences[name] for name in ordered_names]
 raw_scores = [scores[name] for name in ordered_names]
 
+uniform_weight = 1 / len(values)
+baseline_context = sum(uniform_weight * v for v in values)
+
 exp_scores = [math.exp(s) for s in raw_scores]
 total = sum(exp_scores)
 weights = [s / total for s in exp_scores]
 context = sum(w * v for w, v in zip(weights, values))
 
 print("question =", question)
+print("baseline_uniform_context =", round(baseline_context, 3))
 for name, weight in zip(ordered_names, weights):
     print(name, "weight =", round(weight, 3), "value =", sentences[name])
 print("weights =", [round(w, 3) for w in weights])
 print("context =", round(context, 3))
+print("lift_from_baseline =", round(context - baseline_context, 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 question = 반품 가능한 기간은?
-return_period weight = 0.757 value = 14.0
-shipping_fee weight = 0.153 value = 3.0
-coupon_policy weight = 0.09 value = 1.0
-weights = [0.757, 0.153, 0.09]
-context = 11.159
+baseline_uniform_context = 6.0
+return_period weight = 0.762 value = 14.0
+shipping_fee weight = 0.154 value = 3.0
+coupon_policy weight = 0.084 value = 1.0
+weights = [0.762, 0.154, 0.084]
+context = 11.211
+lift_from_baseline = 5.211
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
+- baseline처럼 모든 후보를 똑같이 평균내면 문맥값은 `6.0`이 되어, 질문과 직접 관련 없는 `shipping_fee`, `coupon_policy` 값도 같은 비중으로 섞입니다
 - `return_period` 문장이 가장 큰 weight를 받습니다
 - 그래서 최종 context는 반품 기간 문장의 영향을 가장 크게 받습니다
+- `lift_from_baseline`이 양수라는 점은 질문과 직접 관련된 후보에 더 큰 비중이 실리면서, 문맥 표현이 `반품 기간` 쪽으로 더 끌려갔다는 뜻입니다
 - 즉, attention은 모든 위치를 똑같이 평균내지 않고, 현재 질문과 더 관련 있는 위치를 더 크게 반영합니다
+
+## 이 예제를 질문-후보 비교 관점으로 다시 보면
+
+앞의 숫자는 실제 단어 임베딩 전체를 계산한 것은 아니지만, 직관은 분명합니다.
+
+- baseline 평균은 `문장들이 그냥 같이 있었다`는 사실만 반영합니다.
+- attention 가중 평균은 `지금 질문이 무엇이냐`를 기준으로, 후보들 사이 비중을 다시 나눕니다.
+
+즉, attention은 단순히 정보를 더 많이 모으는 방식이 아니라, `현재 질문에 맞게 어떤 정보를 더 크게 섞을지 다시 정하는 방식`입니다. 이 감각이 잡혀야 다음 절 P4-13.2 self-attention에서 `질문하는 주체`가 바깥 질문이 아니라 문장 안 각 토큰 자신으로 바뀐다는 점도 더 자연스럽게 읽을 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
