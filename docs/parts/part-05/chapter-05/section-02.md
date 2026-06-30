@@ -156,29 +156,51 @@ flowchart TD
 | 마케팅 문구 초안 | 최소 품질선 유지 | 강조점이 다른 여러 시안 |
 | 코드 생성 | 구조 안정성, 재현성 | 과도한 다양성은 디버깅 비용 증가 |
 
+세 사례를 같은 기준으로 다시 정리하면, 생성 설정이 `창의성 버튼`이 아니라 `어느 정도까지 구조 흔들림을 허용할 것인가`를 정하는 선택이라는 점이 더 분명해집니다.
+
+| 사례 | 낮은 temperature에서 기대하는 것 | 높은 temperature에서 기대하거나 감수하는 것 | 실제로 확인할 결과 |
+| --- | --- | --- | --- |
+| 고객 응답 초안 | 사과, 정책 설명, 다음 단계 순서가 크게 흔들리지 않음 | 표현이 바뀌며 안내 순서도 흔들릴 수 있음 | 같은 질문에 답 구조가 안정적으로 유지되는가 |
+| 마케팅 문구 초안 | 최소 품질선과 브랜드 톤 유지 | 다른 강조점과 말투 후보가 더 많이 나옴 | 비교 가능한 시안이 실제로 늘어나는가 |
+| 코드 생성 | 함수 구조와 예외 처리 방식이 크게 안 바뀜 | 변수명·구조 변형이 늘어날 수 있음 | 재현성이 필요한 상황에서 흔들림이 커지지 않는가 |
+
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 확률 후보에서 `greedy`, `sampling`, `temperature`가 실제로 어떤 차이를 만드는지 직접 보는 것입니다. 한 번만 뽑아 보는 대신, 같은 후보 분포를 여러 번 샘플링해 `낮은 temperature`, `기본 temperature`, `높은 temperature`에서 선택 빈도가 어떻게 달라지는지 비교하겠습니다.
+이번 예제의 목표는 확률 후보에서 `greedy`, `sampling`, `temperature`가 실제 사용자에게 보이는 문장 구조를 어떻게 바꾸는지 직접 보는 것입니다. 한 번만 토큰을 뽑는 대신, 고객 지원 답변의 세 슬롯을 채우는 방식으로 `낮은 temperature`, `기본 temperature`, `높은 temperature`에서 문장 순서와 표현 폭이 어떻게 달라지는지 비교하겠습니다.
 
 입력:
 
-- 같은 후보 확률
+- 고객 지원 답변의 세 슬롯
+- 슬롯별 후보 확률
 - temperature 설정값
 - 반복 샘플링 횟수
 
 출력:
 
 - temperature별 조정 확률
-- greedy 선택 결과
-- 반복 샘플링 집계 결과
+- greedy로 만든 고정 답변
+- sampling으로 만든 여러 답변 미리보기
+- 샘플링 답변의 표현 조합 수
 
 ```python
 import random
 
-base_probs = {
-    "좋습니다": 0.50,
-    "가능합니다": 0.30,
-    "검토하겠습니다": 0.20,
+reply_slots = {
+    "opening": {
+        "불편을 드려 죄송합니다.": 0.50,
+        "문의 주셔서 감사합니다.": 0.30,
+        "확인 도와드리겠습니다.": 0.20,
+    },
+    "policy": {
+        "환불은 배송 완료 후 7일 이내 가능합니다.": 0.55,
+        "배송 완료 후 7일 안에 환불을 접수할 수 있습니다.": 0.25,
+        "주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다.": 0.20,
+    },
+    "next_step": {
+        "주문번호를 보내 주시면 바로 확인하겠습니다.": 0.60,
+        "주문번호와 수령일을 함께 알려 주세요.": 0.25,
+        "필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.": 0.15,
+    },
 }
 
 
@@ -191,28 +213,43 @@ def apply_temperature(prob_dict, temperature):
     return {token: adjusted[token] / total for token in adjusted}
 
 
-def sample_many(prob_dict, trials=200, seed=7):
+def greedy_reply(slots, temperature):
+    parts = []
+    for _, prob_dict in slots.items():
+        adjusted = apply_temperature(prob_dict, temperature)
+        parts.append(max(adjusted, key=adjusted.get))
+    return " ".join(parts)
+
+
+def sample_many(slots, temperature, trials=12, seed=7):
     random.seed(seed)
-    tokens = list(prob_dict.keys())
-    weights = list(prob_dict.values())
-    picked = random.choices(tokens, weights=weights, k=trials)
-    counts = {token: picked.count(token) for token in tokens}
-    return counts, picked[:12]
+    replies = []
+    for _ in range(trials):
+        parts = []
+        for _, prob_dict in slots.items():
+            adjusted = apply_temperature(prob_dict, temperature)
+            tokens = list(adjusted.keys())
+            weights = list(adjusted.values())
+            picked = random.choices(tokens, weights=weights, k=1)[0]
+            parts.append(picked)
+        replies.append(" ".join(parts))
+    unique_count = len(set(replies))
+    return replies, unique_count
 
 
 for temperature in [0.5, 1.0, 1.5]:
-    adjusted_probs = apply_temperature(base_probs, temperature)
-    greedy_choice = max(adjusted_probs, key=adjusted_probs.get)
-    sample_counts, preview = sample_many(adjusted_probs, trials=200, seed=7)
+    adjusted_opening = apply_temperature(reply_slots["opening"], temperature)
+    greedy_choice = greedy_reply(reply_slots, temperature)
+    sampled_replies, unique_count = sample_many(reply_slots, temperature, trials=12, seed=7)
 
     print("temperature =", temperature)
     print(
-        "adjusted_probs =",
-        {token: round(prob, 3) for token, prob in adjusted_probs.items()},
+        "opening_probs =",
+        {token: round(prob, 3) for token, prob in adjusted_opening.items()},
     )
-    print("greedy_choice =", greedy_choice)
-    print("sample_counts =", sample_counts)
-    print("preview =", preview)
+    print("greedy_reply =", greedy_choice)
+    print("preview =", sampled_replies[:5])
+    print("unique_reply_count =", unique_count)
     print()
 ```
 
@@ -220,31 +257,32 @@ for temperature in [0.5, 1.0, 1.5]:
 
 ```text
 temperature = 0.5
-adjusted_probs = {'좋습니다': 0.658, '가능합니다': 0.237, '검토하겠습니다': 0.105}
-greedy_choice = 좋습니다
-sample_counts = {'좋습니다': 139, '가능합니다': 44, '검토하겠습니다': 17}
-preview = ['좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다']
+opening_probs = {'불편을 드려 죄송합니다.': 0.658, '문의 주셔서 감사합니다.': 0.237, '확인 도와드리겠습니다.': 0.105}
+greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
+unique_reply_count = 4
 
 temperature = 1.0
-adjusted_probs = {'좋습니다': 0.5, '가능합니다': 0.3, '검토하겠습니다': 0.2}
-greedy_choice = 좋습니다
-sample_counts = {'좋습니다': 110, '가능합니다': 51, '검토하겠습니다': 39}
-preview = ['좋습니다', '좋습니다', '가능합니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다']
+opening_probs = {'불편을 드려 죄송합니다.': 0.5, '문의 주셔서 감사합니다.': 0.3, '확인 도와드리겠습니다.': 0.2}
+greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호와 수령일을 함께 알려 주세요.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
+unique_reply_count = 7
 
 temperature = 1.5
-adjusted_probs = {'좋습니다': 0.444, '가능합니다': 0.316, '검토하겠습니다': 0.241}
-greedy_choice = 좋습니다
-sample_counts = {'좋습니다': 99, '가능합니다': 54, '검토하겠습니다': 47}
-preview = ['좋습니다', '좋습니다', '가능합니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다']
+opening_probs = {'불편을 드려 죄송합니다.': 0.444, '문의 주셔서 감사합니다.': 0.316, '확인 도와드리겠습니다.': 0.241}
+greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다. 주문번호와 수령일을 함께 알려 주세요.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '확인 도와드리겠습니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.']
+unique_reply_count = 9
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- greedy는 세 경우 모두 가장 높은 후보인 `좋습니다`를 고릅니다.
-- 하지만 sampling 집계는 temperature가 낮을수록 상위 후보에 더 몰리고, 높을수록 하위 후보도 더 자주 살아납니다.
-- 즉, temperature는 `무작위성 추가 버튼`이라기보다 `확률 분포를 얼마나 눌러서 볼지, 얼마나 펴서 볼지`를 조절하는 설정값에 가깝습니다.
+- greedy는 세 경우 모두 같은 고정 답 구조를 만듭니다.
+- sampling은 temperature가 높아질수록 같은 질문에도 opening, 정책 문장, 다음 단계 표현 조합이 더 다양해집니다.
+- `unique_reply_count`가 4 -> 7 -> 9로 늘어나는 점은, temperature가 단순 랜덤 버튼이 아니라 `답 구조 다양성`을 실제로 밀어 올린다는 점을 보여 줍니다.
+- 즉, temperature는 `무작위성 추가 버튼`이라기보다 `확률 분포를 얼마나 눌러서 볼지, 얼마나 펴서 볼지`를 조절해 결과 구조 흔들림까지 바꾸는 설정값에 가깝습니다.
 
-이 예제에서는 `base_probs`, `temperature`, `trials`, `seed`를 직접 바꿔 볼 수 있습니다. 예를 들어 `trials`를 1000으로 늘리면 분포 차이가 더 선명해지고, `temperature`를 0.2나 2.0으로 바꾸면 선택 편향이 얼마나 달라지는지 더 극단적으로 볼 수 있습니다.
+이 예제에서는 `reply_slots`, `temperature`, `trials`, `seed`를 직접 바꿔 볼 수 있습니다. 예를 들어 `trials`를 100으로 늘리면 조합 수 차이가 더 선명해지고, `temperature`를 0.2나 2.0으로 바꾸면 고객 응답처럼 안정성이 중요한 장면에서 구조 흔들림이 얼마나 커지는지도 더 극단적으로 볼 수 있습니다.
 
 ## temperature를 아주 단순한 비유로 보면
 
