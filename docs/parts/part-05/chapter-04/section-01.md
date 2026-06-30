@@ -33,6 +33,15 @@ GPT의 생성 구조는 여기서 잡고, 사전학습의 역할은 P5-6.1, 다�
 - BERT와 GPT의 차이를 `문장 전체 읽기` 대 `순차 생성` 관점으로 설명할 수 있습니다.
 - 다음 절의 대화형 LLM 사용자 경험으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 충분합니다.
+
+1. 먼저 GPT를 제품 이름이 아니라 `decoder 중심 생성 구조`로 읽습니다.
+2. 그 다음 왜 GPT가 한 번에 완성 문장을 내놓는 모델보다 `다음 토큰을 이어 가는 모델`처럼 보이는지 확인합니다.
+3. 이어서 BERT와의 차이를 `입력을 읽는 흐름`과 `출력을 이어 쓰는 흐름`으로 구분합니다.
+4. 마지막에 사례와 예제를 통해 `초반 선택이 뒤 생성 경로를 계속 밀어 가는가`를 확인합니다.
+
 ## GPT는 무엇의 약자인가
 
 GPT는 `Generative Pre-Trained Transformer`의 약자입니다. 이름 안에 이미 세 가지 핵심이 들어 있습니다.
@@ -136,6 +145,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `생성 결과가 무엇인가`보다 `초기 토큰 선택이 뒤 경로를 어떻게 밀어 가는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same autoregressive question"]
+  B["autocomplete<br/>which early phrase shapes the whole sentence?"]
+  C["summary draft<br/>which first sentence sets the later focus?"]
+  D["code generation<br/>which first identifier shapes the later block?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 과업이 달라도 생성 감각이 비슷하다는 것입니다. 모두 `지금 한 번 고른 토큰이나 문장이 뒤 출력의 다음 입력 일부가 된다`는 구조를 가지며, 그래서 초반 선택이 뒤 경로 전체를 계속 밀어 갑니다.
+
 ### 사례 1. 자동완성
 
 사용자가 `회의는 내일 오후`까지만 적었을 때, 사람은 흔히 모델이 문장 전체를 한 번에 떠올린다고 느끼기 쉽습니다. 하지만 실제 자동완성에서는 `두`, `세`, `네`처럼 다음 후보를 먼저 놓고, 그중 하나를 고른 뒤 다시 다음 토큰 후보를 이어 계산합니다. 즉, 모델은 완성 문장을 통째로 꺼내는 것이 아니라, 앞에 나온 토큰들을 보고 다음에 올 가능성이 큰 토큰을 차례로 이어 붙입니다. 여기서 바뀌는 점은 `한 번에 완성된 문장`을 기대하는 것에서 `앞 선택이 뒤 문장을 계속 밀어 가는 구조`를 보게 된다는 것입니다. 앞 단계에서 시간을 잘못 고르면 뒤 문장 전체도 그 시간 표현을 기준으로 이어지게 됩니다. 예를 들어 `오후 세` 대신 `오후 네`가 먼저 선택되면, 뒤의 회의실 안내나 참석 요청 문장도 그 시각을 전제로 이어질 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 첫 몇 토큰 선택이 바뀌면 뒤 문장 전체도 그 선택을 따라 달라지는가입니다.
@@ -170,6 +195,7 @@ flowchart TD
 
 - 경로별 step별 현재 문맥
 - 경로별 다음 토큰 후보와 점수
+- 경로별 누적 점수 합
 - 첫 선택이 달라질 때 누적 생성 결과가 어떻게 갈라지는지
 
 ```python
@@ -192,6 +218,7 @@ print("start =", start_sequence)
 
 for path_name, chosen_tokens in paths.items():
     sequence = start_sequence[:]
+    cumulative_score = 0.0
     print("=" * 80)
     print("[path]", path_name)
     for step, token in enumerate(chosen_tokens, start=1):
@@ -199,10 +226,15 @@ for path_name, chosen_tokens in paths.items():
         candidates = next_token_scores.get(current_last_token, [])
         print(f"step {step} context =", sequence)
         print(f"step {step} candidates after '{current_last_token}' =", candidates)
+        chosen_score = dict(candidates)[token]
+        cumulative_score += chosen_score
         sequence.append(token)
         print(f"step {step} chosen =", token)
+        print(f"step {step} chosen_score =", chosen_score)
+        print(f"step {step} cumulative_score =", round(cumulative_score, 2))
     print("final_sequence =", sequence)
     print("final_text =", " ".join(sequence))
+    print("path_score_total =", round(cumulative_score, 2))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -214,30 +246,44 @@ start = ['오늘', '회의는']
 step 1 context = ['오늘', '회의는']
 step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
 step 1 chosen = 오후
+step 1 chosen_score = 0.62
+step 1 cumulative_score = 0.62
 step 2 context = ['오늘', '회의는', '오후']
 step 2 candidates after '오후' = [('세', 0.55), ('네', 0.28), ('다섯', 0.17)]
 step 2 chosen = 세
+step 2 chosen_score = 0.55
+step 2 cumulative_score = 1.17
 step 3 context = ['오늘', '회의는', '오후', '세']
 step 3 candidates after '세' = [('시입니다', 0.58), ('시에', 0.25), ('시부터', 0.17)]
 step 3 chosen = 시입니다
+step 3 chosen_score = 0.58
+step 3 cumulative_score = 1.75
 final_sequence = ['오늘', '회의는', '오후', '세', '시입니다']
 final_text = 오늘 회의는 오후 세 시입니다
+path_score_total = 1.75
 ================================================================================
 [path] path_b_online_flow
 step 1 context = ['오늘', '회의는']
 step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
 step 1 chosen = 온라인
+step 1 chosen_score = 0.27
+step 1 cumulative_score = 0.27
 step 2 context = ['오늘', '회의는', '온라인']
 step 2 candidates after '온라인' = [('으로', 0.64), ('회의실은', 0.21), ('공지합니다', 0.15)]
 step 2 chosen = 으로
+step 2 chosen_score = 0.64
+step 2 cumulative_score = 0.91
 step 3 context = ['오늘', '회의는', '온라인', '으로']
 step 3 candidates after '으로' = [('진행합니다', 0.67), ('변경되었습니다', 0.21), ('안내합니다', 0.12)]
 step 3 chosen = 진행합니다
+step 3 chosen_score = 0.67
+step 3 cumulative_score = 1.58
 final_sequence = ['오늘', '회의는', '온라인', '으로', '진행합니다']
 final_text = 오늘 회의는 온라인 으로 진행합니다
+path_score_total = 1.58
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 생성이 한 번에 완성된 문장을 꺼내는 것이 아니라, 이전 출력이 다음 후보군을 바꾸며 한 토큰씩 누적된다는 점입니다. 특히 첫 번째 선택이 `오후`냐 `온라인`이냐에 따라 두 번째 후보표부터 이미 달라지므로, GPT 계열 생성은 `앞선 선택이 뒤 경로를 계속 밀어 가는 누적 생성`으로 읽는 편이 정확합니다.
+그래서 이 예제에서 확인해야 할 결과는 생성이 한 번에 완성된 문장을 꺼내는 것이 아니라, 이전 출력이 다음 후보군을 바꾸며 한 토큰씩 누적된다는 점입니다. 특히 첫 번째 선택이 `오후`냐 `온라인`이냐에 따라 두 번째 후보표부터 이미 달라지고, `cumulative_score`도 서로 다른 경로를 따라 쌓입니다. GPT 계열 생성은 이런 의미에서 `앞선 선택이 뒤 경로와 누적 점수 흐름을 계속 밀어 가는 구조`로 읽는 편이 정확합니다.
 
 ## 이 예제를 누적 생성 관점으로 다시 보면
 
