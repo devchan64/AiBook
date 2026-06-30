@@ -29,6 +29,14 @@ P5-14.1에서는 MCP가 모델과 외부 도구, 데이터 사이의 연결을 �
 - trace, log, eval, replay 같은 운영 요구가 왜 중요한지 설명할 수 있습니다.
 - 다음 장의 평가와 운영 문제로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 자연스럽습니다.
+
+1. 먼저 하네스가 `무엇을 감싸는가`를 읽습니다.
+2. 그다음 MCP와 하네스를 구분해 `연결 문제`와 `실행 관리 문제`를 나눕니다.
+3. 사례와 Python 예제에서는 `최종 답이 아니라 실행 기록이 왜 운영 판단 기준이 되는가`를 확인합니다.
+
 ## 하네스는 무엇을 감싸나
 
 다음처럼 보면 충분합니다.
@@ -44,6 +52,24 @@ P5-14.1에서는 MCP가 모델과 외부 도구, 데이터 사이의 연결을 �
 를 관리하는 역할을 합니다.
 
 즉, 하네스는 `모델이 무엇을 말했는가`만 보는 것이 아니라, `그 실행 전체를 어떻게 감싸고 관리할 것인가`를 다룹니다.
+
+한 번 더 단순화하면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["input"]
+  B["agent run"]
+  C["tool calls and trace"]
+  D["evaluation / replay / approval"]
+  E["operate or improve"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+```
+
+이 그림의 핵심은 하네스가 결과 문장만 남기는 것이 아니라, 그 결과에 이르기까지의 실행과 점검 단계를 함께 남긴다는 점입니다.
 
 ## 왜 agent 시대에 필요해졌나
 
@@ -130,6 +156,8 @@ flowchart TD
 
 ## 사례로 보기
 
+사례를 읽을 때는 `실패했는가`보다 `어디까지 기록되어 있어야 같은 실패를 다시 설명할 수 있는가`를 중심으로 보면 좋습니다.
+
 ### 사례 1. 코딩 에이전트
 
 코딩 에이전트가 여러 파일을 고친 뒤 테스트가 실패했다고 해 봅시다. 결과만 보면 `실패했다`는 사실은 알 수 있지만, 어떤 파일을 먼저 읽었고 어떤 패치를 넣었으며 어느 테스트에서 처음 문제가 났는지는 금방 사라집니다. 사람이 수동으로 되짚으면 가능한 일이지만, 반복 실험이 많아질수록 기억과 복기에 의존하게 됩니다. 예를 들어 마지막 실패는 로그인 테스트에서 보였지만, 실제 원인은 그 전에 바꾼 공용 유틸 함수 한 줄일 수 있습니다. 이 경로가 남지 않으면 원인 추적보다 같은 실험을 다시 하는 시간이 더 길어질 수 있습니다. harness가 있으면 읽은 파일, 적용한 변경, 실행한 테스트와 결과가 trace로 남아 문제 지점을 다시 추적하기 쉬워집니다. 여기서 바뀌는 점은 `최종 결과가 성공인가 실패인가`만 보던 기준에서 `어떤 실행 경로를 거쳐 실패했는가`를 다시 추적할 수 있는가를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 최종 실패 한 줄만 남는 것이 아니라, 어떤 파일 변경 뒤 어떤 테스트가 처음 깨졌는지가 실제로 다시 추적되는가입니다.
@@ -160,7 +188,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 실행을 감싸는 기록이 `최종 결과` 하나로 끝나는 것이 아니라 `도구 호출`, `trace`, `평가 상태`, `재현 가능성`까지 함께 남겨야 한다는 점을 보는 것입니다. 하나의 실행만 보면 기록이 그냥 메모처럼 보일 수 있으므로, 이번에는 `정상 실행`, `오래된 문서 참조`, `승인 누락`을 나란히 두고 무엇이 분리되어 보이는지 확인하겠습니다.
+이번 예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 여러 실행 기록을 보고 `무엇이 잘못되었는지`뿐 아니라 `그래서 다음 운영 조치를 무엇으로 잡아야 하는지`까지 읽는 것입니다. 단순히 기록 항목이 있나 없나만 보면 하네스가 체크리스트처럼 보일 수 있으므로, 이번에는 실행별로 운영 판단을 내려 보겠습니다.
 
 문제 상황:
 
@@ -177,6 +205,7 @@ flowchart TD
 
 - 실행별 run report
 - 어떤 실행이 검색 실패, 승인 실패, 재현 가능성 부족으로 분리되는지에 대한 점검값
+- 각 실행에서 바로 취해야 할 운영 후속 조치
 
 먼저 이 예제에서 함께 볼 운영 점검 기준은 다음과 같습니다.
 
@@ -186,8 +215,12 @@ flowchart TD
 | `approval_completed` | 지식 오류와 운영 통제 오류를 구분해야 해서 |
 | `replay_ready` | 같은 실패를 다시 재현해 수정 전후를 비교해야 해서 |
 | `root_issue` | 검색, 승인, 기록 중 어디가 먼저 흔들렸는지 바로 읽어야 해서 |
+| `next_action` | 문제가 보였을 때 다음 운영 조치를 바로 정해야 해서 |
 
 ```python
+from pprint import pprint
+
+
 runs = [
     {
         "run_id": "run-2026-06-30-001",
@@ -253,6 +286,13 @@ def inspect_run(record):
     else:
         root_issue = "healthy_run"
 
+    next_action_map = {
+        "healthy_run": "keep_as_reference_run",
+        "stale_reference": "fix_retrieval_source_and_compare_again",
+        "approval_gap": "insert_approval_gate_before_send",
+        "replay_gap": "save_trace_and_assign_replay_id",
+    }
+
     return {
         "run_id": record["run_id"],
         "tool_count": len(record["tools_used"]),
@@ -263,6 +303,7 @@ def inspect_run(record):
         "has_replay_id": record["replay_id"] is not None,
         "replay_ready": replay_ready,
         "root_issue": root_issue,
+        "next_action": next_action_map[root_issue],
     }
 
 
@@ -275,53 +316,107 @@ summary = {
     "healthy_run_count": sum(report["inspection"]["root_issue"] == "healthy_run" for report in reports),
     "stale_reference_count": sum(report["inspection"]["root_issue"] == "stale_reference" for report in reports),
     "approval_gap_count": sum(report["inspection"]["root_issue"] == "approval_gap" for report in reports),
+    "replay_gap_count": sum(report["inspection"]["root_issue"] == "replay_gap" for report in reports),
     "replay_ready_count": sum(report["inspection"]["replay_ready"] for report in reports),
+    "approval_completed_ratio": round(
+        sum(report["inspection"]["approval_completed"] for report in reports) / len(reports), 2
+    ),
+    "replay_ready_ratio": round(
+        sum(report["inspection"]["replay_ready"] for report in reports) / len(reports), 2
+    ),
 }
 
 print("[summary]")
-print(summary)
+pprint(summary)
 print()
 
 for report in reports:
     print("=" * 80)
     print("[run_id]")
     print(report["run"]["run_id"])
-    print("[run]")
-    print(report["run"])
     print("[inspection]")
-    print(report["inspection"])
+    pprint(report["inspection"])
+    print("[trace]")
+    pprint(report["run"]["trace"])
+    print("[documents_read]")
+    pprint(report["run"]["documents_read"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 [summary]
-{'healthy_run_count': 1, 'stale_reference_count': 1, 'approval_gap_count': 1, 'replay_ready_count': 2}
+{'approval_completed_ratio': 0.67,
+ 'approval_gap_count': 1,
+ 'healthy_run_count': 1,
+ 'replay_gap_count': 0,
+ 'replay_ready_count': 2,
+ 'replay_ready_ratio': 0.67,
+ 'stale_reference_count': 1}
 
 ================================================================================
 [run_id]
 run-2026-06-30-001
-[run]
-{'run_id': 'run-2026-06-30-001', 'goal': '최신 환불 정책을 찾아 답변 초안을 만든다', 'tools_used': ['search_policy_docs', 'read_file', 'request_approval'], 'documents_read': ['refund_policy_2026_06_29'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'status': 'ok'}, {'step': 2, 'action': 'read_file', 'status': 'ok'}, {'step': 3, 'action': 'request_approval', 'status': 'approved'}], 'draft_answer': '최신 정책 기준으로 환불 가능', 'trace_saved': True, 'eval_status': 'passed', 'approval_completed': True, 'replay_id': 'run-2026-06-30-001'}
 [inspection]
-{'run_id': 'run-2026-06-30-001', 'tool_count': 3, 'trace_steps': 3, 'used_latest_policy': True, 'approval_completed': True, 'has_eval_status': True, 'has_replay_id': True, 'replay_ready': True, 'root_issue': 'healthy_run'}
+{'approval_completed': True,
+ 'has_eval_status': True,
+ 'has_replay_id': True,
+ 'next_action': 'keep_as_reference_run',
+ 'replay_ready': True,
+ 'root_issue': 'healthy_run',
+ 'run_id': 'run-2026-06-30-001',
+ 'tool_count': 3,
+ 'trace_steps': 3,
+ 'used_latest_policy': True}
+[trace]
+[{'action': 'search_policy_docs', 'status': 'ok', 'step': 1},
+ {'action': 'read_file', 'status': 'ok', 'step': 2},
+ {'action': 'request_approval', 'status': 'approved', 'step': 3}]
+[documents_read]
+['refund_policy_2026_06_29']
 ================================================================================
 [run_id]
 run-2026-06-30-002
-[run]
-{'run_id': 'run-2026-06-30-002', 'goal': '최신 환불 정책을 찾아 답변 초안을 만든다', 'tools_used': ['search_policy_docs', 'read_file', 'request_approval'], 'documents_read': ['refund_policy_2025_12_01'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'status': 'ok'}, {'step': 2, 'action': 'read_file', 'status': 'ok'}, {'step': 3, 'action': 'request_approval', 'status': 'approved'}], 'draft_answer': '환불 불가', 'trace_saved': True, 'eval_status': 'failed', 'approval_completed': True, 'replay_id': 'run-2026-06-30-002'}
 [inspection]
-{'run_id': 'run-2026-06-30-002', 'tool_count': 3, 'trace_steps': 3, 'used_latest_policy': False, 'approval_completed': True, 'has_eval_status': True, 'has_replay_id': True, 'replay_ready': True, 'root_issue': 'stale_reference'}
+{'approval_completed': True,
+ 'has_eval_status': True,
+ 'has_replay_id': True,
+ 'next_action': 'fix_retrieval_source_and_compare_again',
+ 'replay_ready': True,
+ 'root_issue': 'stale_reference',
+ 'run_id': 'run-2026-06-30-002',
+ 'tool_count': 3,
+ 'trace_steps': 3,
+ 'used_latest_policy': False}
+[trace]
+[{'action': 'search_policy_docs', 'status': 'ok', 'step': 1},
+ {'action': 'read_file', 'status': 'ok', 'step': 2},
+ {'action': 'request_approval', 'status': 'approved', 'step': 3}]
+[documents_read]
+['refund_policy_2025_12_01']
 ================================================================================
 [run_id]
 run-2026-06-30-003
-[run]
-{'run_id': 'run-2026-06-30-003', 'goal': '최신 환불 정책을 찾아 답변 초안을 만든다', 'tools_used': ['search_policy_docs', 'read_file', 'send_reply'], 'documents_read': ['refund_policy_2026_06_29'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'status': 'ok'}, {'step': 2, 'action': 'read_file', 'status': 'ok'}, {'step': 3, 'action': 'send_reply', 'status': 'sent_without_approval'}], 'draft_answer': '최신 정책 기준으로 환불 가능', 'trace_saved': False, 'eval_status': 'needs_review', 'approval_completed': False, 'replay_id': None}
 [inspection]
-{'run_id': 'run-2026-06-30-003', 'tool_count': 3, 'trace_steps': 3, 'used_latest_policy': True, 'approval_completed': False, 'has_eval_status': True, 'has_replay_id': False, 'replay_ready': False, 'root_issue': 'approval_gap'}
+{'approval_completed': False,
+ 'has_eval_status': True,
+ 'has_replay_id': False,
+ 'next_action': 'insert_approval_gate_before_send',
+ 'replay_ready': False,
+ 'root_issue': 'approval_gap',
+ 'run_id': 'run-2026-06-30-003',
+ 'tool_count': 3,
+ 'trace_steps': 3,
+ 'used_latest_policy': True}
+[trace]
+[{'action': 'search_policy_docs', 'status': 'ok', 'step': 1},
+ {'action': 'read_file', 'status': 'ok', 'step': 2},
+ {'action': 'send_reply', 'status': 'sent_without_approval', 'step': 3}]
+[documents_read]
+['refund_policy_2026_06_29']
 ```
 
-이 예제에서 먼저 봐야 할 것은 `stale_reference_count`, `approval_gap_count`, `replay_ready_count`가 서로 다른 축을 보여 준다는 점입니다. 즉, 답변 오류처럼 보여도 실제로는 `오래된 문서 참조`, `승인 누락`, `재현 정보 부족`이 따로 분리되어 보입니다. 하네스가 없다면 이 세 경우는 모두 `최종 답이 이상함`이라는 한 문장으로 뭉개지기 쉽습니다.
+이 예제에서 먼저 봐야 할 것은 `stale_reference_count`, `approval_gap_count`, `replay_ready_ratio`가 서로 다른 운영 축을 보여 준다는 점입니다. 즉, 답변 오류처럼 보여도 실제로는 `오래된 문서 참조`, `승인 누락`, `재현 정보 부족`이 따로 분리되고, 각 축마다 다음 조치도 달라집니다. 하네스가 없다면 이 세 경우는 모두 `최종 답이 이상함`이라는 한 문장으로 뭉개지기 쉽습니다.
 
 그래서 이 예제에서 확인해야 할 결과는 결과 텍스트 하나만 남는 것이 아니라, 사용한 도구, 읽은 문서, 실행 trace, 평가 상태, replay 식별자까지 함께 추적되어 실패 원인을 실제 운영 단계로 나눠 볼 수 있다는 점입니다.
 
@@ -334,6 +429,8 @@ run-2026-06-30-003
 ## 이 예제를 운영 기록 관점으로 다시 보면
 
 앞의 예제는 실제 하네스를 구현하는 코드가 아니라, `좋은 결과가 나왔는가`보다 먼저 `무슨 실행이 있었고 무엇이 남아야 하는가`를 점검하는 최소 장면입니다. 여기서 중요한 것은 기록 항목을 많이 나열하는 일이 아니라, 결과 문장 하나로는 운영 개선이 불가능하고, 서로 다른 실패를 서로 다른 운영 원인으로 분리해야 한다는 점을 짧게 체감하는 데 있습니다.
+
+여기까지를 한 줄로 묶으면, 하네스 관점은 `답변 결과를 저장하는 장치`가 아니라 `같은 실패를 다시 설명하고 다음 운영 조치를 정하게 만드는 실행 기록 구조`입니다.
 
 ## 역사와 커리큘럼 관점
 
