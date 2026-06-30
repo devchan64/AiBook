@@ -33,6 +33,14 @@ P5-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 - 이름(name), 인자(arguments), 결과(result)를 나눠 보는 이유를 설명할 수 있습니다.
 - 다음 장의 에이전트 구조로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `왜 구조화가 필요한가`와 `자연어 요청과 무엇이 다른가`를 읽고, 사람에게는 자연스럽지만 시스템에는 모호한 요청이 구조화된 호출로 바뀌는 이유를 잡습니다.
+2. 그다음 `함수 이름과 인자를 나누는 이유`, `결과도 구조화가 중요한가`, `함수 호출이 항상 정답은 아니다`를 읽으면서 검증 가능성과 통제 가능성이 왜 중요해지는지 확인합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, `자연어 요청 -> 함수 이름 + 인자 -> 누락 필드 검증 -> 실행 준비`라는 흐름이 실제로 어떻게 드러나는지 확인합니다.
+
 ## 왜 구조화가 필요한가
 
 도구 사용을 자연어 문장만으로 처리하면 애매함이 큽니다.
@@ -156,6 +164,23 @@ flowchart TD
 | 일정 생성 | `내일`, `오후` 같은 표현의 실행 기준 | 날짜, 시간, 시간대, 참석자 필드 |
 | 코드 에이전트 | 무엇을 어떤 순서로 실행했는지 | 함수 이름, 인자, 실행 로그 |
 
+같은 내용을 구조화된 실행 요청 흐름으로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["natural language request"]
+  B["structured call<br/>name + arguments"]
+  C["validation<br/>missing fields?"]
+  D["ready to execute"]
+  E["needs clarification or retry"]
+
+  A --> B --> C
+  C -->|valid| D
+  C -->|invalid| E
+```
+
+핵심은 `구조화됐다`와 `바로 실행 가능하다`가 같은 말이 아니라는 점입니다.
+
 ## 실행 가능한 Python 예제로 보기
 
 이번 예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다. 한 요청만 보면 `구조화하면 된다` 수준에서 끝나기 쉬우므로, 이번에는 여러 요청을 배치로 보면서 어떤 호출은 바로 실행 가능하고 어떤 호출은 필드 누락으로 막히는지도 함께 보겠습니다.
@@ -270,6 +295,14 @@ summary = {
     "invalid_call_count": sum(not report["validation"]["is_valid"] for report in reports),
     "calls_missing_time": sum("time" in report["validation"]["missing_fields"] for report in reports),
     "calls_missing_timezone": sum("timezone" in report["validation"]["missing_fields"] for report in reports),
+    "valid_call_ratio": round(
+        sum(report["validation"]["is_valid"] for report in reports) / len(reports),
+        2,
+    ),
+    "invalid_call_ratio": round(
+        sum(not report["validation"]["is_valid"] for report in reports) / len(reports),
+        2,
+    ),
 }
 
 print("[summary]")
@@ -292,7 +325,7 @@ for report in reports:
 
 ```text
 [summary]
-{'valid_call_count': 1, 'invalid_call_count': 2, 'calls_missing_time': 1, 'calls_missing_timezone': 1}
+{'valid_call_count': 1, 'invalid_call_count': 2, 'calls_missing_time': 1, 'calls_missing_timezone': 1, 'valid_call_ratio': 0.33, 'invalid_call_ratio': 0.67}
 
 ================================================================================
 [user_request]
@@ -340,6 +373,10 @@ for report in reports:
 ## 이 예제를 구조화된 실행 요청 관점으로 다시 보면
 
 앞의 예제는 함수 호출 전체를 구현하는 코드가 아니라, `사람이 말한 요청`과 `시스템이 실행할 구조`가 같은 문장이 아니라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 자연어를 없애는 일이 아니라, 실행 직전에 어떤 이름과 인자 구조로 다시 정리되어야 하는지를 읽는 데 있습니다.
+
+## 여기까지를 한 줄로 묶으면
+
+함수 호출의 핵심은 자연어를 없애는 것이 아니라, 실행 직전에 요청을 `이름과 인자가 분리된 검증 가능한 구조`로 바꾸는 데 있습니다.
 
 ## 역사와 커리큘럼 관점
 
