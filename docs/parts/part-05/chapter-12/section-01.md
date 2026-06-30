@@ -178,53 +178,108 @@ flowchart TD
 | 일정 조회 | 실제 시스템 상태를 확인해야 해서 |
 | 파일 수정 | 실행 가능한 작업 결과를 만들어야 해서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 외부 API를 호출하는 것이 아니라, `모델 출력`과 `도구 호출`이 구분된다는 점을 보는 것입니다.
+이번 예제의 목표는 실제 외부 API를 붙이는 것이 아니라, `사용자 요청`, `도구 호출 계획`, `도구 실행 결과`, `최종 답변`이 서로 다른 단계라는 점을 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 사용자는 서울의 오늘 USD 환율을 알고 싶어 함
+- 모델이 바로 숫자를 추정해 말하는 것보다 실제 조회 도구를 쓰는 편이 안전함
+- 따라서 먼저 어떤 도구를 어떤 인자로 호출할지 정하고, 그 결과를 받은 뒤 답변을 만들어야 함
 
 입력:
 
 - 사용자 요청
-- 선택된 도구
-- 도구 인자
+- 도구 선택 규칙
+- 도구가 돌려주는 조회 결과
 
 출력:
 
-- 호출 준비 구조
+- 도구 호출 구조
+- 실행 결과
+- 실행 결과를 반영한 최종 답변
 
 ```python
-user_request = "오늘 서울 환율을 알려 주세요."
+user_request = "오늘 서울 기준 USD 환율을 알려 주세요."
 
-tool_call = {
-    "tool": "exchange_rate_lookup",
-    "arguments": {
-        "city": "Seoul",
-        "date": "today",
-    },
-}
 
-print("user_request =", user_request)
-print("tool_call =", tool_call)
-print("next_step = application executes the tool")
+def plan_tool_call(request):
+    if "환율" in request:
+        return {
+            "tool": "exchange_rate_lookup",
+            "arguments": {
+                "base_currency": "USD",
+                "quote_currency": "KRW",
+                "region": "Seoul",
+                "date": "today",
+            },
+        }
+    return None
+
+
+def execute_tool(tool_call):
+    # 예제에서는 실제 API 대신 고정된 조회 결과를 돌려줍니다.
+    if tool_call["tool"] == "exchange_rate_lookup":
+        return {
+            "base_currency": "USD",
+            "quote_currency": "KRW",
+            "rate": 1382.4,
+            "as_of": "2026-06-30 10:00 KST",
+        }
+    return {"error": "unknown tool"}
+
+
+def compose_final_answer(tool_result):
+    return (
+        f"서울 기준 오늘 USD/KRW 환율은 {tool_result['rate']}원이며, "
+        f"기준 시각은 {tool_result['as_of']}입니다."
+    )
+
+
+tool_call = plan_tool_call(user_request)
+tool_result = execute_tool(tool_call)
+final_answer = compose_final_answer(tool_result)
+
+print("[user_request]")
+print(user_request)
+print("[tool_call]")
+print(tool_call)
+print("[tool_result]")
+print(tool_result)
+print("[final_answer]")
+print(final_answer)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-user_request = 오늘 서울 환율을 알려 주세요.
-tool_call = {'tool': 'exchange_rate_lookup', 'arguments': {'city': 'Seoul', 'date': 'today'}}
-next_step = application executes the tool
+[user_request]
+오늘 서울 기준 USD 환율을 알려 주세요.
+[tool_call]
+{'tool': 'exchange_rate_lookup', 'arguments': {'base_currency': 'USD', 'quote_currency': 'KRW', 'region': 'Seoul', 'date': 'today'}}
+[tool_result]
+{'base_currency': 'USD', 'quote_currency': 'KRW', 'rate': 1382.4, 'as_of': '2026-06-30 10:00 KST'}
+[final_answer]
+서울 기준 오늘 USD/KRW 환율은 1382.4원이며, 기준 시각은 2026-06-30 10:00 KST입니다.
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청 형태로 먼저 나타나는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청이 먼저 나오고, 실제 실행 결과를 받은 뒤에야 최종 답변이 만들어진다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `user_request`를 `내일 도쿄 기준 JPY 환율`처럼 바꿔 다른 인자 구조를 상상해 보기
+- `execute_tool`에 오류 응답을 넣어 실패 처리 흐름을 확인해 보기
+- `compose_final_answer`를 바꿔 숫자뿐 아니라 출처나 경고 문구까지 함께 넣어 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 사용자 요청과
 - 도구 호출 구조와
-- 실제 실행 단계가 분리되어 있다는 점입니다
+- 실제 실행 결과와
+- 최종 답변이 분리되어 있다는 점입니다
 
-즉, tool use는 `대답` 이전에 `실행 준비 구조`를 만든다고 볼 수 있습니다.
+즉, tool use는 `대답` 이전에 `실행 준비 구조`를 만들고, 실행 결과를 다시 받아 최종 답으로 연결하는 단계라고 볼 수 있습니다.
 
 ## 이 예제를 실행 위임 관점으로 다시 보면
 

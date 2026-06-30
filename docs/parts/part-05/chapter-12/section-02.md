@@ -148,17 +148,25 @@ flowchart TD
 
 코드 에이전트가 파일 읽기, 테스트 실행, 패치 적용을 번갈아 수행한다고 해 봅시다. 단순 자연어 설명만 남으면 어떤 작업이 언제 어떤 인자로 실행됐는지 다시 추적하기 어렵습니다. 사람은 `파일을 좀 고쳤다`는 설명이면 충분하다고 느끼기 쉽지만, 실제 운영에서는 어떤 파일을 읽고 어떤 테스트를 돌렸는지까지 남아야 실패를 재현할 수 있습니다. 반대로 함수 호출 구조로 남기면 `read_file`, `run_tests`, `apply_patch` 같은 단계가 명시적으로 기록되어 실행 흐름을 더 쉽게 되짚을 수 있습니다. 여기서 바뀌는 점은 `무슨 작업을 했다`는 설명만 남기던 기준에서 `어떤 함수가 어떤 인자로 호출됐는가`까지 다시 추적할 수 있는가를 보는 기준으로 이동한다는 것입니다. 이 기록이 없으면 같은 실패가 다시 나와도 어느 단계 입력이 달랐는지 확인하기 어려워집니다. 즉, 함수 호출은 실행 성공만 돕는 것이 아니라 로그와 재현성에도 직접 도움이 됩니다. 그래서 이 사례에서 확인해야 할 결과는 최종 성공 여부뿐 아니라 어떤 함수가 어떤 인자로 호출됐는지를 다시 추적할 수 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 API를 부르는 것이 아니라, 자연어 요청이 어떻게 구조화된 호출로 바뀌는지 보는 것입니다.
+이번 예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다.
+
+문제 상황:
+
+- 사용자는 자연어로 일정을 만들어 달라고 요청함
+- 시스템은 이 문장을 그대로 실행하지 않고, 함수 이름과 인자를 분리해 받아야 함
+- 인자 누락 여부를 실행 전에 점검할 수 있어야 함
 
 입력:
 
 - 사용자 요청
+- 구조화된 함수 호출 초안
 
 출력:
 
 - 함수 이름과 인자 구조
+- 필수 인자 점검 결과
 
 ```python
 user_request = "내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요."
@@ -169,21 +177,52 @@ function_call = {
         "title": "디자인 리뷰",
         "date": "tomorrow",
         "time": "15:00",
+        "timezone": "Asia/Seoul",
+        "attendees": [],
     },
 }
 
-print("user_request =", user_request)
-print("function_call =", function_call)
+required_fields = ["title", "date", "time", "timezone"]
+
+
+def validate_function_call(function_call, required_fields):
+    arguments = function_call["arguments"]
+    missing = [field for field in required_fields if field not in arguments or arguments[field] in ("", None)]
+    return {
+        "function_name": function_call["name"],
+        "missing_fields": missing,
+        "is_valid": len(missing) == 0,
+    }
+
+
+validation = validate_function_call(function_call, required_fields)
+
+print("[user_request]")
+print(user_request)
+print("[function_call]")
+print(function_call)
+print("[validation]")
+print(validation)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-user_request = 내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.
-function_call = {'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00'}}
+[user_request]
+내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.
+[function_call]
+{'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': []}}
+[validation]
+{'function_name': 'create_calendar_event', 'missing_fields': [], 'is_valid': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현되는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현되고, 실행 전에 누락 필드를 점검할 수 있게 된다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `timezone`이나 `time`을 지워 보고 어떤 필드가 검증에서 걸리는지 보기
+- `attendees`에 메일 주소 목록을 넣어 일정 생성 인자가 어떻게 확장되는지 확인하기
+- `required_fields`를 바꿔 도구마다 검증 규칙이 달라질 수 있음을 실험해 보기
 
 ## 이 예제를 구조화된 실행 요청 관점으로 다시 보면
 
