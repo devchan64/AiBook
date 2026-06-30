@@ -158,50 +158,149 @@ flowchart TD
 | 단계별 설명 | 독자가 원하는 전개 순서 반영 |
 | 거절과 한계 고지 | 불가 사유와 대안을 구조적으로 제시 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 지시 튜닝 학습이 아니라, 같은 질문을 두고 `일반 응답`과 `지시 형식에 맞춘 응답`의 차이를 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 내용`을 두고도 응답 습관이 어떻게 달라지는지를 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 내부 문서의 핵심 사실은 이미 정리되어 있음
+- 사용자는 같은 내용을 두고도 `세 줄 요약`, `단계별 안내`, `표 형식`처럼 다른 응답 형식을 요구함
+- 일반 언어 모델 느낌의 응답과, 지시 형식에 맞춰 조정된 응답을 비교하고 싶음
 
 입력:
 
-- 같은 질문
-- 일반 응답 형태
-- 지시 형식이 반영된 응답 형태
+- 같은 문서 사실 목록
+- 서로 다른 사용자 지시 세 가지
 
 출력:
 
-- 두 응답의 구조 차이
+- 각 지시에 대해 `기본 응답`과 `지시 형식 반영 응답`
+- 요청 형식을 실제로 맞췄는지에 대한 간단한 점검 결과
 
 ```python
-question = "이 문서를 세 줄로 요약해 주세요."
-
-base_style = "이 문서는 여러 내용을 다루고 있으며 전반적으로 중요합니다."
-instruction_tuned_style = [
-    "1. 문서의 핵심 주제를 짧게 정리합니다.",
-    "2. 중요한 근거와 결론을 남깁니다.",
-    "3. 불필요한 세부는 줄여 읽기 쉽게 만듭니다.",
+document_facts = [
+    "신규 추천 시스템 도입 후 클릭률이 12% 증가했다.",
+    "모바일 사용자 비중이 전체의 68%였다.",
+    "오래된 추천 규칙은 유지보수 비용이 높았다.",
+    "다음 분기에는 검색 로그를 더 많이 반영할 계획이다.",
 ]
 
-print("question =", question)
-print("base_style =", base_style)
-print("instruction_tuned_style =", instruction_tuned_style)
+requests = [
+    {"name": "three_line_summary", "instruction": "이 문서를 세 줄로 요약해 주세요."},
+    {"name": "three_steps", "instruction": "신입 직원이 이해할 수 있게 3단계로 설명해 주세요."},
+    {"name": "table", "instruction": "핵심 사실을 표 형식으로 정리해 주세요."},
+]
+
+
+def base_response(facts):
+    return " ".join(facts)
+
+
+def instruction_tuned_response(facts, request_name):
+    if request_name == "three_line_summary":
+        return "\n".join(facts[:3])
+    if request_name == "three_steps":
+        steps = [
+            f"1. 먼저 현재 변화: {facts[0]}",
+            f"2. 사용자 맥락: {facts[1]}",
+            f"3. 다음 행동: {facts[3]}",
+        ]
+        return "\n".join(steps)
+    if request_name == "table":
+        rows = [
+            "| 구분 | 내용 |",
+            "| --- | --- |",
+            f"| 성과 | {facts[0]} |",
+            f"| 사용자 | {facts[1]} |",
+            f"| 운영 | {facts[2]} |",
+        ]
+        return "\n".join(rows)
+    return " ".join(facts)
+
+
+def check_format(response, request_name):
+    if request_name == "three_line_summary":
+        lines = response.splitlines()
+        return {"line_count": len(lines), "meets_request": len(lines) == 3}
+    if request_name == "three_steps":
+        lines = response.splitlines()
+        starts_ok = all(line.startswith(f"{idx}.") for idx, line in enumerate(lines, start=1))
+        return {"step_count": len(lines), "meets_request": len(lines) == 3 and starts_ok}
+    if request_name == "table":
+        lines = response.splitlines()
+        pipe_lines = sum(1 for line in lines if "|" in line)
+        return {"table_like_lines": pipe_lines, "meets_request": pipe_lines >= 4}
+    return {"meets_request": False}
+
+
+for request in requests:
+    print("=" * 70)
+    print("instruction =", request["instruction"])
+    base = base_response(document_facts)
+    tuned = instruction_tuned_response(document_facts, request["name"])
+    print("[base response]")
+    print(base)
+    print("[instruction-tuned response]")
+    print(tuned)
+    print("[format check]")
+    print("base  ->", check_format(base, request["name"]))
+    print("tuned ->", check_format(tuned, request["name"]))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-question = 이 문서를 세 줄로 요약해 주세요.
-base_style = 이 문서는 여러 내용을 다루고 있으며 전반적으로 중요합니다.
-instruction_tuned_style = ['1. 문서의 핵심 주제를 짧게 정리합니다.', '2. 중요한 근거와 결론을 남깁니다.', '3. 불필요한 세부는 줄여 읽기 쉽게 만듭니다.']
+======================================================================
+instruction = 이 문서를 세 줄로 요약해 주세요.
+[base response]
+신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
+[instruction-tuned response]
+신규 추천 시스템 도입 후 클릭률이 12% 증가했다.
+모바일 사용자 비중이 전체의 68%였다.
+오래된 추천 규칙은 유지보수 비용이 높았다.
+[format check]
+base  -> {'line_count': 1, 'meets_request': False}
+tuned -> {'line_count': 3, 'meets_request': True}
+======================================================================
+instruction = 신입 직원이 이해할 수 있게 3단계로 설명해 주세요.
+[base response]
+신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
+[instruction-tuned response]
+1. 먼저 현재 변화: 신규 추천 시스템 도입 후 클릭률이 12% 증가했다.
+2. 사용자 맥락: 모바일 사용자 비중이 전체의 68%였다.
+3. 다음 행동: 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
+[format check]
+base  -> {'step_count': 1, 'meets_request': False}
+tuned -> {'step_count': 3, 'meets_request': True}
+======================================================================
+instruction = 핵심 사실을 표 형식으로 정리해 주세요.
+[base response]
+신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
+[instruction-tuned response]
+| 구분 | 내용 |
+| --- | --- |
+| 성과 | 신규 추천 시스템 도입 후 클릭률이 12% 증가했다. |
+| 사용자 | 모바일 사용자 비중이 전체의 68%였다. |
+| 운영 | 오래된 추천 규칙은 유지보수 비용이 높았다. |
+[format check]
+base  -> {'table_like_lines': 0, 'meets_request': False}
+tuned -> {'table_like_lines': 5, 'meets_request': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 같은 질문이라도 지시 튜닝 이후 응답이 요청한 형식과 반응 방식에 실제로 더 잘 맞춰지는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 같은 사실 목록을 써도, 지시 튜닝 이후 응답이 `형식 요구`, `단계 수`, `표 구조` 같은 사용자의 기대를 실제 출력 수준에서 더 잘 맞추는가입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `requests`에 `두 문장으로 설명`, `장단점 비교표` 같은 새 지시를 추가해 보기
+- `document_facts`의 개수를 늘려도 형식 점검이 유지되는지 확인해 보기
+- `check_format` 기준을 더 엄격하게 바꿔, 단순 형식 맞춤과 실제 품질 차이를 구분해 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
-- 질문은 같아도
-- 일반 응답은 `그럴듯한 한 문장`에 머물 수 있고
-- 지시 튜닝된 응답은 `요청한 형식`에 맞춰 더 구조화될 수 있습니다
+- 질문이 같아도 응답 형식 요구는 달라질 수 있고
+- 일반 응답은 내용을 이어 쓰는 데는 성공해도 형식 요구를 자주 놓치며
+- 지시 튜닝된 응답은 사용자가 요청한 구조를 실제 출력 규칙으로 더 잘 반영합니다
 
 즉, 지시 튜닝은 종종 `무엇을 아는가`보다 `어떻게 답하는가`를 바꾸는 층으로 이해하는 편이 좋습니다.
 
