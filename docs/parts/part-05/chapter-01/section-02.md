@@ -180,14 +180,17 @@ RAG에서 사내 규정 문서를 조각내어 넣는다고 해 봅시다. 사�
 - 각 토크나이저에서의 토큰 개수
 - 설명용 비용 추정
 - 같은 문장을 RAG 청크로 볼 때의 길이 변화
+- 같은 규정 청크가 토큰 예산 안에 들어오는지 여부
 
 ```python
 tokenizer_a_vocab = [
-    "회의", "는", "내일", "오전10시", "10:00", "AM", "에", "시작", "합니다", "."
+    "회의", "는", "내일", "오전10시", "10", "시", "10:00", "AM", "에", "시작", "합니다", ".",
+    "연차", "3일", "전", "신청", "긴급병가", "사후보고", "가", "가능합니다",
 ]
 
 tokenizer_b_vocab = [
-    "회의", "는", "내일", "오전", "10", "시", "10:00", "AM", "에", "시작", "합니다", "."
+    "회의", "는", "내일", "오전", "10", "시", "10:00", "AM", "에", "시작", "합니다", ".",
+    "연", "차", "3", "일", "전", "신", "청", "긴", "급", "병", "가", "사", "후", "보", "고", "능",
 ]
 
 
@@ -222,7 +225,8 @@ examples = [
     "회의는 내일 10:00 AM에 시작합니다.",
 ]
 
-rag_sentence = "연차는 3일 전 신청합니다. 긴급 병가는 사후 보고가 가능합니다."
+rag_sentence = "연차는 3일 전 신청합니다. 긴급병가는 사후보고가 가능합니다."
+rag_budget = 13
 
 for text in examples:
     pieces_a = longest_match_tokenize(text, tokenizer_a_vocab)
@@ -237,10 +241,20 @@ for text in examples:
 
 rag_a = longest_match_tokenize(rag_sentence, tokenizer_a_vocab)
 rag_b = longest_match_tokenize(rag_sentence, tokenizer_b_vocab)
+policy_sentence = "연차는 3일 전 신청합니다."
+exception_sentence = "긴급병가는 사후보고가 가능합니다."
+policy_a = longest_match_tokenize(policy_sentence, tokenizer_a_vocab)
+policy_b = longest_match_tokenize(policy_sentence, tokenizer_b_vocab)
+exception_a = longest_match_tokenize(exception_sentence, tokenizer_a_vocab)
+exception_b = longest_match_tokenize(exception_sentence, tokenizer_b_vocab)
 
 print("[RAG chunk check]")
 print("A chunk =", rag_a, "count =", len(rag_a))
 print("B chunk =", rag_b, "count =", len(rag_b))
+print("A policy+exception fits budget =", len(rag_a) <= rag_budget, "budget =", rag_budget)
+print("B policy+exception fits budget =", len(rag_b) <= rag_budget, "budget =", rag_budget)
+print("A policy_count =", len(policy_a), "exception_count =", len(exception_a))
+print("B policy_count =", len(policy_b), "exception_count =", len(exception_b))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -259,8 +273,12 @@ A pieces = ['회의', '는', '내일', '10:00', 'AM', '에', '시작', '합니�
 B pieces = ['회의', '는', '내일', '10:00', 'AM', '에', '시작', '합니다', '.'] count = 9 cost = 3.6
 ---
 [RAG chunk check]
-A chunk = ['연', '차', '는', '3', '일', '전', '신', '청', '합니다', '.', '긴', '급', '병', '가', '는', '사', '후', '보', '고', '가', '가', '능', '합니다', '.'] count = 24
+A chunk = ['연차', '는', '3일', '전', '신청', '합니다', '.', '긴급병가', '는', '사후보고', '가', '가능합니다', '.'] count = 13
 B chunk = ['연', '차', '는', '3', '일', '전', '신', '청', '합니다', '.', '긴', '급', '병', '가', '는', '사', '후', '보', '고', '가', '가', '능', '합니다', '.'] count = 24
+A policy+exception fits budget = True budget = 13
+B policy+exception fits budget = False budget = 13
+A policy_count = 7 exception_count = 6
+B policy_count = 10 exception_count = 14
 ---
 ```
 
@@ -270,7 +288,8 @@ B chunk = ['연', '차', '는', '3', '일', '전', '신', '청', '합니다', '.
 - 토크나이저 A는 `오전10시`를 하나의 조각으로 읽지만, 토크나이저 B는 `오전`, `10`, `시`로 더 잘게 쪼갭니다.
 - 결국 `어떤 규칙으로 자르느냐`가 비용, context window 사용량, 청크 길이 판단에 바로 연결됩니다.
 - 같은 일정 안내 문장도 8토큰과 11토큰으로 갈릴 수 있으므로, 비용과 최대 입력 길이 판단이 실제로 달라집니다.
-- RAG에서는 같은 의미 문장이라도 청크를 어떤 토큰 경계로 끊느냐에 따라 한 번에 담기는 문맥 길이가 바뀔 수 있습니다.
+- RAG에서는 같은 규정 두 문장을 묶더라도 토크나이저 A는 13토큰 안에 담지만, 토크나이저 B는 24토큰으로 늘어나 같은 청크 예산을 넘길 수 있습니다.
+- 그래서 토큰화 차이는 `원칙과 예외를 한 청크에 같이 남길 수 있는가` 같은 검색 품질 판단에도 직접 연결됩니다.
 
 ## 이 예제를 표기 차이 관점으로 다시 보면
 

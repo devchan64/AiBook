@@ -292,7 +292,7 @@ strict_avg_latency_ms = 85.0
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `target_doc`를 다른 문서로 바꿔 어떤 질문에서 빠른 설정이 더 큰 손실을 내는지 보기
-- `search_fast["candidates"]`를 바꿔 비슷하지만 틀린 버전 문서가 얼마나 위험한지 확인하기
+- `queries[0]["fast"]["candidates"]`를 바꿔 비슷하지만 틀린 버전 문서가 얼마나 위험한지 확인하기
 - `inspect_search`에 `recall_like_score`나 `version_match` 항목을 추가해 자체 품질 지표를 넓혀 보기
 
 ## 이 예제를 검색 타협 관점으로 다시 보면
