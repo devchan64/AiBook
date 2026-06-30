@@ -164,7 +164,7 @@ flowchart TD
 
 ## 루프 관점에서 다시 보면
 
-앞의 세 사례가 에이전트가 실제로 쓰이는 장면을 보여 주었다면, 여기서는 같은 루프를 더 작은 실패 지점으로 다시 나누어 봅니다. 목적은 사례를 하나 더 늘리는 것이 아니라, `계획이 다시 필요한 순간`, `관찰 때문에 행동이 바뀌는 순간`, `멈춰야 하는 순간`을 분리해 읽게 하는 데 있습니다.
+앞의 세 사례가 에이전트가 실제로 쓰이는 장면을 보여 주었다면, 여기서는 같은 루프를 더 작은 전환 지점으로 다시 나누어 봅니다. 목적은 사례를 하나 더 늘리는 것이 아니라, `계속 진행`, `종료`, `사람 검토 전환`이 각각 어떤 관찰 결과에서 나오는지 분리해 읽게 하는 데 있습니다.
 
 ### 해석 1. 문서를 찾았지만 읽는 순서를 다시 정해야 하는 경우
 
@@ -178,98 +178,162 @@ flowchart TD
 
 관련 문서를 찾았지만 서로 기준이 충돌하거나 최신 날짜가 불분명하다고 해 봅시다. 사람은 이런 경우 바로 답하기보다 검토 필요 상태로 넘기거나 추가 확인을 합니다. agent loop에서도 항상 다음 행동이 `계속 진행`일 필요는 없고, `사람 검토 요청`이나 `추가 승인 대기`가 될 수 있습니다. 예를 들어 환불 정책 두 문서가 서로 다른 기간을 말하면, 요약보다 먼저 어느 문서가 최신인지 확인해야 합니다. 그래서 이 사례에서 확인해야 할 결과는 관찰 결과가 충돌할 때 loop가 억지로 답을 만들기보다 실제로 멈추거나 사람 검토로 넘기는가입니다.
 
-이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어진다는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어지고, 그 결과가 `continue`, `stop`, `ask_human_review`처럼 달라질 수 있다는 점을 눈으로 확인하는 것입니다.
 
 입력:
 
-- 목표
-- 현재 반복 횟수
-- 매 단계에서 얻은 관찰 결과
+- 목표 3개
+- 매 라운드에서 얻은 관찰 결과
 
 출력:
 
-- 단계별 loop 기록
-- 계속 진행할지 멈출지에 대한 판단
-- 종료 조건이 실제로 충족됐는지 보여 주는 점검값
+- 목표별 loop 기록
+- 계속 진행할지 멈출지 사람에게 넘길지에 대한 판단
+- 종료 조건이 실제로 어떻게 갈라지는지 보여 주는 점검값
 
 ```python
-goal = "최신 환불 정책을 찾아 사용자에게 요약한다."
-
-search_results_by_round = [
-    ["old_notice_2025_12"],
-    ["policy_notice_2026_06_29", "refund_rules_appendix"],
+scenarios = [
+    {
+        "goal": "최신 환불 정책을 찾아 사용자에게 요약한다.",
+        "rounds": [
+            {"found_docs": ["old_notice_2025_12"], "has_latest_doc": False, "has_conflict": False},
+            {"found_docs": ["policy_notice_2026_06_29", "refund_rules_appendix"], "has_latest_doc": True, "has_conflict": False},
+        ],
+    },
+    {
+        "goal": "서로 충돌하는 환불 정책 문서를 정리한다.",
+        "rounds": [
+            {"found_docs": ["policy_notice_2026_06_29", "policy_notice_2026_06_15"], "has_latest_doc": True, "has_conflict": True},
+        ],
+    },
+    {
+        "goal": "최신 환불 정책 문서가 있는지 먼저 확인한다.",
+        "rounds": [
+            {"found_docs": ["old_notice_2025_12"], "has_latest_doc": False, "has_conflict": False},
+            {"found_docs": ["older_notice_2025_10"], "has_latest_doc": False, "has_conflict": False},
+        ],
+    },
 ]
 
-history = []
-stop = False
 
-for round_index, found_docs in enumerate(search_results_by_round, start=1):
-    plan = (
-        "search latest refund policy notice"
-        if round_index == 1
-        else "read latest notice and summarize"
-    )
-    action = (
-        "call search_policy_docs"
-        if round_index == 1
-        else "call read_docs_and_summarize"
-    )
-    observation = {
-        "round": round_index,
-        "found_docs": found_docs,
-        "has_latest_doc": any("2026_06_29" in doc for doc in found_docs),
+def run_loop(scenario):
+    history = []
+    stopped = False
+
+    for round_index, observation in enumerate(scenario["rounds"], start=1):
+        plan = (
+            "search latest refund policy notice"
+            if round_index == 1
+            else "refine search or summarize"
+        )
+        action = (
+            "call search_policy_docs"
+            if not observation["has_latest_doc"]
+            else "call read_docs_and_summarize"
+        )
+
+        if observation["has_conflict"]:
+            decision = "ask_human_review"
+            stopped = True
+        elif observation["has_latest_doc"]:
+            decision = "stop_after_summary"
+            stopped = True
+        else:
+            decision = "continue_with_refined_search"
+
+        history.append(
+            {
+                "plan": plan,
+                "action": action,
+                "observation": {
+                    "round": round_index,
+                    "found_docs": observation["found_docs"],
+                    "has_latest_doc": observation["has_latest_doc"],
+                    "has_conflict": observation["has_conflict"],
+                },
+                "decision": decision,
+            }
+        )
+
+        if stopped:
+            break
+
+    inspection = {
+        "round_count": len(history),
+        "last_decision": history[-1]["decision"],
+        "latest_doc_found": history[-1]["observation"]["has_latest_doc"],
+        "conflict_found": history[-1]["observation"]["has_conflict"],
+        "stop_triggered": stopped,
     }
+    return history, inspection
 
-    if not observation["has_latest_doc"]:
-        decision = "continue_with_refined_search"
-    else:
-        decision = "stop_after_summary"
-        stop = True
 
-    history.append(
+reports = []
+for scenario in scenarios:
+    history, inspection = run_loop(scenario)
+    reports.append(
         {
-            "plan": plan,
-            "action": action,
-            "observation": observation,
-            "decision": decision,
+            "goal": scenario["goal"],
+            "history": history,
+            "inspection": inspection,
         }
     )
 
-    if stop:
-        break
-
-print("[goal]")
-print(goal)
-print("[loop history]")
-for item in history:
-    print(item)
-print("[stopped]")
-print(stop)
-inspection = {
-    "round_count": len(history),
-    "last_decision": history[-1]["decision"],
-    "latest_doc_found": history[-1]["observation"]["has_latest_doc"],
-    "stop_triggered": stop,
+summary = {
+    "continue_count": sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports),
+    "stop_count": sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports),
+    "human_review_count": sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports),
 }
-print("[inspection]")
-print(inspection)
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[goal]")
+    print(report["goal"])
+    print("[loop history]")
+    for item in report["history"]:
+        print(item)
+    print("[inspection]")
+    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'continue_count': 1, 'stop_count': 1, 'human_review_count': 1}
+
+================================================================================
 [goal]
 최신 환불 정책을 찾아 사용자에게 요약한다.
 [loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False}, 'decision': 'continue_with_refined_search'}
-{'plan': 'read latest notice and summarize', 'action': 'call read_docs_and_summarize', 'observation': {'round': 2, 'found_docs': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'has_latest_doc': True}, 'decision': 'stop_after_summary'}
-[stopped]
-True
+{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
+{'plan': 'refine search or summarize', 'action': 'call read_docs_and_summarize', 'observation': {'round': 2, 'found_docs': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'has_latest_doc': True, 'has_conflict': False}, 'decision': 'stop_after_summary'}
 [inspection]
-{'round_count': 2, 'last_decision': 'stop_after_summary', 'latest_doc_found': True, 'stop_triggered': True}
+{'round_count': 2, 'last_decision': 'stop_after_summary', 'latest_doc_found': True, 'conflict_found': False, 'stop_triggered': True}
+================================================================================
+[goal]
+서로 충돌하는 환불 정책 문서를 정리한다.
+[loop history]
+{'plan': 'search latest refund policy notice', 'action': 'call read_docs_and_summarize', 'observation': {'round': 1, 'found_docs': ['policy_notice_2026_06_29', 'policy_notice_2026_06_15'], 'has_latest_doc': True, 'has_conflict': True}, 'decision': 'ask_human_review'}
+[inspection]
+{'round_count': 1, 'last_decision': 'ask_human_review', 'latest_doc_found': True, 'conflict_found': True, 'stop_triggered': True}
+================================================================================
+[goal]
+최신 환불 정책 문서가 있는지 먼저 확인한다.
+[loop history]
+{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
+{'plan': 'refine search or summarize', 'action': 'call search_policy_docs', 'observation': {'round': 2, 'found_docs': ['older_notice_2025_10'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
+[inspection]
+{'round_count': 2, 'last_decision': 'continue_with_refined_search', 'latest_doc_found': False, 'conflict_found': False, 'stop_triggered': False}
 ```
 
-이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`, `어디서 멈출지`를 실제로 분리해 기록할 수 있는가입니다.
+이 예제에서 먼저 봐야 할 것은 `continue_count`, `stop_count`, `human_review_count`가 각각 1이라는 점입니다. 즉, agent loop의 핵심은 무조건 끝까지 진행하는 것이 아니라, 관찰 결과에 따라 `계속 찾을지`, `충분해서 멈출지`, `충돌 때문에 사람에게 넘길지`를 실제로 분기하는 데 있습니다.
+
+이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`, `어디서 멈추거나 사람에게 넘길지`를 실제로 분리해 기록할 수 있는가입니다.
 
 루프를 점검할 때는 다음 구분도 같이 보면 좋습니다.
 
