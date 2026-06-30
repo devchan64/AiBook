@@ -218,6 +218,7 @@ flowchart TD
 
 - 단계별 실행 계획
 - 단계가 끝날 때마다 갱신되는 상태
+- 다음 계획이 왜 바뀌었는지 보여 주는 점검값
 
 ```python
 goal = "최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다."
@@ -274,8 +275,16 @@ for step in plan:
     print(state)
 
 second_plan = build_plan(state)
+inspection = {
+    "documents_found_count": len(state["documents_found"]),
+    "summary_ready": state["summary_ready"],
+    "sources_attached": state["sources_attached"],
+    "next_plan_length": len(second_plan),
+}
 print("[next plan after first pass]")
 print(second_plan)
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -289,6 +298,8 @@ print(second_plan)
 {'goal': '최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.', 'documents_found': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'summary_ready': False, 'sources_attached': False}
 [next plan after first pass]
 ['read_top_documents', 'summarize_changes']
+[inspection]
+{'documents_found_count': 2, 'summary_ready': False, 'sources_attached': False, 'next_plan_length': 2}
 ```
 
 그래서 이 예제에서 확인해야 할 결과는 답변 한 문장이 아니라, 목표를 이루기 위한 여러 단계 흐름과 누적 상태가 먼저 명시되고, 그 상태에 따라 다음 단계가 다시 정해진다는 점입니다.

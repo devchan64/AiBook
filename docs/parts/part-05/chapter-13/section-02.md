@@ -186,6 +186,7 @@ flowchart TD
 
 - 단계별 loop 기록
 - 계속 진행할지 멈출지에 대한 판단
+- 종료 조건이 실제로 충족됐는지 보여 주는 점검값
 
 ```python
 goal = "최신 환불 정책을 찾아 사용자에게 요약한다."
@@ -240,6 +241,14 @@ for item in history:
     print(item)
 print("[stopped]")
 print(stop)
+inspection = {
+    "round_count": len(history),
+    "last_decision": history[-1]["decision"],
+    "latest_doc_found": history[-1]["observation"]["has_latest_doc"],
+    "stop_triggered": stop,
+}
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -252,6 +261,8 @@ print(stop)
 {'plan': 'read latest notice and summarize', 'action': 'call read_docs_and_summarize', 'observation': {'round': 2, 'found_docs': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'has_latest_doc': True}, 'decision': 'stop_after_summary'}
 [stopped]
 True
+[inspection]
+{'round_count': 2, 'last_decision': 'stop_after_summary', 'latest_doc_found': True, 'stop_triggered': True}
 ```
 
 이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`, `어디서 멈출지`를 실제로 분리해 기록할 수 있는가입니다.
