@@ -190,36 +190,78 @@ flowchart TD
 | 개발 보조 도구 | 품질 향상을 위해 든 비용이 감당 가능한가? |
 | 사내 문서 질의응답 | 더 많은 문서가 항상 더 좋은가? |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 만드는 것입니다.
+이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보는 것입니다.
+
+문제 상황:
+
+- 두 가지 서비스 설계안이 있음
+- 하나는 빠르고 싸지만 품질이 조금 낮고
+- 다른 하나는 품질은 높지만 느리고 비쌈
 
 입력:
 
 - 두 가지 서비스 설계안
+- 팀이 허용하는 최대 지연 시간과 최대 비용
 
 출력:
 
-- 품질과 비용/지연 시간 비교
+- 각 설계안의 적합 여부
+- 왜 선택되거나 탈락하는지에 대한 간단한 판단 결과
 
 ```python
-service_fast = {"quality": 0.78, "latency_ms": 900, "cost": 1}
-service_rich = {"quality": 0.89, "latency_ms": 3200, "cost": 4}
+service_fast = {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1}
+service_rich = {"name": "rich", "quality": 0.89, "latency_ms": 3200, "cost": 4}
 
-print("service_fast =", service_fast)
-print("service_rich =", service_rich)
-print("observation = better quality may come with more latency and cost")
+constraints = {
+    "max_latency_ms": 2000,
+    "max_cost": 3,
+}
+
+
+def evaluate_service(service, constraints):
+    return {
+        "name": service["name"],
+        "quality": service["quality"],
+        "latency_ok": service["latency_ms"] <= constraints["max_latency_ms"],
+        "cost_ok": service["cost"] <= constraints["max_cost"],
+        "operationally_acceptable": (
+            service["latency_ms"] <= constraints["max_latency_ms"]
+            and service["cost"] <= constraints["max_cost"]
+        ),
+    }
+
+
+fast_result = evaluate_service(service_fast, constraints)
+rich_result = evaluate_service(service_rich, constraints)
+
+print("[constraints]")
+print(constraints)
+print("[fast_result]")
+print(fast_result)
+print("[rich_result]")
+print(rich_result)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-service_fast = {'quality': 0.78, 'latency_ms': 900, 'cost': 1}
-service_rich = {'quality': 0.89, 'latency_ms': 3200, 'cost': 4}
-observation = better quality may come with more latency and cost
+[constraints]
+{'max_latency_ms': 2000, 'max_cost': 3}
+[fast_result]
+{'name': 'fast', 'quality': 0.78, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
+[rich_result]
+{'name': 'rich', 'quality': 0.89, 'latency_ok': False, 'cost_ok': False, 'operationally_acceptable': False}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간과 비용이 함께 늘면 실제 서비스 선택이 달라질 수 있다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간과 비용이 함께 늘면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `max_latency_ms`를 더 완화해 고품질 설계가 통과되는지 보기
+- `service_fast["quality"]`를 더 낮춰 운영 가능하지만 품질이 너무 낮은 경우를 상상해 보기
+- 세 번째 설계안을 추가해 `속도-품질-비용` 타협 지점을 직접 비교해 보기
 
 ## 이 예제를 서비스 선택 관점으로 다시 보면
 

@@ -172,43 +172,88 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 | 에이전트 도구 호출 실패 | 어디서 멈추고 다시 시도할 것인가? |
 | 느린 응답 | 내용은 맞아도 서비스로는 실패인가? |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실패 대응이 여러 대응 장치를 함께 본다는 점을 감각적으로 보는 것입니다.
+이번 예제의 목표는 실패 대응이 `에러가 났다`에서 끝나는 것이 아니라, 재시도, fallback, stop 분기가 실제로 나뉘어야 한다는 점을 보는 것입니다.
+
+문제 상황:
+
+- 검색 단계에서 timeout이 발생할 수 있음
+- 어떤 경우에는 한 번 더 시도할 수 있고
+- 어떤 경우에는 캐시 요약으로 fallback 하거나 사람 검토로 멈춰야 함
 
 입력:
 
 - 하나의 실패 상황
+- 재시도 허용 횟수
 
 출력:
 
-- 대응 장치 목록
+- retry 여부
+- fallback 여부
+- 최종 대응 결정
 
 ```python
 failure_case = {
     "step": "search_docs",
     "error": "timeout",
-    "retry": True,
-    "fallback": "use cached summary",
+    "retry_count": 1,
+    "max_retries": 2,
+    "cached_summary_available": True,
     "trace_saved": True,
 }
 
-print("failure_case =", failure_case)
+
+def decide_recovery(case):
+    if case["retry_count"] < case["max_retries"]:
+        return {
+            "decision": "retry",
+            "next_action": "search_docs_again",
+            "trace_saved": case["trace_saved"],
+        }
+    if case["cached_summary_available"]:
+        return {
+            "decision": "fallback",
+            "next_action": "use_cached_summary",
+            "trace_saved": case["trace_saved"],
+        }
+    return {
+        "decision": "stop_and_escalate",
+        "next_action": "ask_human_review",
+        "trace_saved": case["trace_saved"],
+    }
+
+
+recovery = decide_recovery(failure_case)
+
+print("[failure_case]")
+print(failure_case)
+print("[recovery]")
+print(recovery)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-failure_case = {'step': 'search_docs', 'error': 'timeout', 'retry': True, 'fallback': 'use cached summary', 'trace_saved': True}
+[failure_case]
+{'step': 'search_docs', 'error': 'timeout', 'retry_count': 1, 'max_retries': 2, 'cached_summary_available': True, 'trace_saved': True}
+[recovery]
+{'decision': 'retry', 'next_action': 'search_docs_again', 'trace_saved': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 실패가 났을 때 응답이 그냥 중단되는지가 아니라, 재시도, 대체 경로, 기록 저장이 실제로 함께 남는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 실패가 났을 때 응답이 그냥 중단되는 것이 아니라, 재시도, 대체 경로, 사람 검토 전환 같은 분기가 실제로 따로 설계된다는 점입니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 실패를 발견하고
 - 바로 끝내는 것이 아니라
-- 재시도, 대체 경로, 기록 저장을 같이 설계해야 한다는 점입니다
+- 재시도, 대체 경로, 기록 저장, 사람 전환을 같이 설계해야 한다는 점입니다
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `retry_count`를 `2`로 바꿔 fallback 단계로 넘어가는지 보기
+- `cached_summary_available`를 `False`로 바꿔 사람 검토 전환이 열리는지 보기
+- 다른 실패 유형 `permission_error`를 넣어 재시도보다 즉시 stop이 맞는지 비교해 보기
 
 ## 이 예제를 복구 설계 관점으로 다시 보면
 
