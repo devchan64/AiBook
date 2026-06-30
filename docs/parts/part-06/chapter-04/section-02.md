@@ -60,27 +60,29 @@ P6-4.1에서는 공백 기준 토큰화로 아주 작은 텍스트 분류기를 
 
 ## Python 예제
 
-이번 예제의 목적은 각 test 문장의 토큰 목록과 known token coverage를 함께 출력하는 것입니다.
+이번 예제의 목적은 각 test 문장의 토큰 목록과 known token coverage를 함께 출력하는 것입니다. 이번에는 단순히 coverage 한 줄만 출력하지 않고, `evaluation_records`, `review_summary`, `oov_tokens`를 함께 남겨서 어떤 문장을 다음 회고 대상으로 삼아야 하는지 바로 보이게 하겠습니다.
 
 - 문제 상황: 문장 분류 결과를 coverage와 함께 읽는다.
 - 입력(input): 학습 문장 6개, 평가 문장 4개
 - 확인할 개념:
   - 토큰화 결과가 그대로 프로젝트 해석 자료가 된다
   - OOV 토큰이 많으면 예측 신뢰가 약해질 수 있다
+  - review 대상 문장을 명시적으로 남겨야 다음 개선 계획이 쉬워진다
 
 ```python
 import numpy as np
 
-train_texts = [
-    "refund delay angry",
-    "broken product complaint",
-    "thank you fast delivery",
-    "love this product great",
-    "refund request not working",
-    "happy with quick support",
+train_rows = [
+    {"sample_id": "train-01", "text": "refund delay angry", "label": 0},
+    {"sample_id": "train-02", "text": "broken product complaint", "label": 0},
+    {"sample_id": "train-03", "text": "thank you fast delivery", "label": 1},
+    {"sample_id": "train-04", "text": "love this product great", "label": 1},
+    {"sample_id": "train-05", "text": "refund request not working", "label": 0},
+    {"sample_id": "train-06", "text": "happy with quick support", "label": 1},
 ]
-y_train = np.array([0, 0, 1, 1, 0, 1])
-label_names = ["complaint", "praise"]
+train_texts = [row["text"] for row in train_rows]
+y_train = np.array([row["label"] for row in train_rows])
+label_names = {0: "complaint", 1: "praise"}
 
 vocab = sorted({token for text in train_texts for token in text.split()})
 token_to_index = {token: i for i, token in enumerate(vocab)}
@@ -90,79 +92,92 @@ def vectorize(texts):
     token_lists = []
     known_counts = []
     total_counts = []
+    oov_tokens_per_text = []
 
     for i, text in enumerate(texts):
         tokens = text.split()
         token_lists.append(tokens)
         total_counts.append(len(tokens))
         known = 0
+        oov_tokens = []
 
         for token in tokens:
             if token in token_to_index:
                 X[i, token_to_index[token]] += 1
                 known += 1
+            else:
+                oov_tokens.append(token)
 
         known_counts.append(known)
+        oov_tokens_per_text.append(oov_tokens)
 
-    return X, token_lists, known_counts, total_counts
+    return X, token_lists, known_counts, total_counts, oov_tokens_per_text
 
-X_train, _, _, _ = vectorize(train_texts)
+X_train, _, _, _, _ = vectorize(train_texts)
 class_centroids = np.vstack([
     X_train[y_train == 0].mean(axis=0),
     X_train[y_train == 1].mean(axis=0),
 ])
 
-test_texts = [
-    "refund for broken product",
-    "great support thank you",
-    "delay but quick refund",
-    "excellent item arrived today",
+test_rows = [
+    {"sample_id": "test-01", "text": "refund for broken product", "label": 0},
+    {"sample_id": "test-02", "text": "great support thank you", "label": 1},
+    {"sample_id": "test-03", "text": "delay but quick refund", "label": 0},
+    {"sample_id": "test-04", "text": "excellent item arrived today", "label": 1},
 ]
-y_test = np.array([0, 1, 0, 1])
+test_texts = [row["text"] for row in test_rows]
+y_test = np.array([row["label"] for row in test_rows])
 
-X_test, token_lists, known_counts, total_counts = vectorize(test_texts)
+X_test, token_lists, known_counts, total_counts, oov_tokens_per_text = vectorize(test_texts)
 
 predictions = []
-for x in X_test:
+evaluation_records = []
+for index, x in enumerate(X_test):
     distances = np.linalg.norm(class_centroids - x, axis=1)
-    predictions.append(int(np.argmin(distances)))
+    pred_label = int(np.argmin(distances))
+    predictions.append(pred_label)
+    coverage = known_counts[index] / total_counts[index] if total_counts[index] else 0.0
+    evaluation_records.append({
+        "sample_id": test_rows[index]["sample_id"],
+        "text": test_rows[index]["text"],
+        "tokens": token_lists[index],
+        "oov_tokens": oov_tokens_per_text[index],
+        "known_token_coverage": round(coverage, 3),
+        "pred_label_name": label_names[pred_label],
+        "true_label_name": label_names[y_test[index]],
+        "correct": bool(pred_label == y_test[index]),
+        "needs_token_review": bool(coverage < 0.5 or pred_label != y_test[index]),
+    })
 
 predictions = np.array(predictions)
 
-print("test_pred =", predictions.tolist())
-print("test_accuracy =", round((predictions == y_test).mean(), 3))
+review_summary = {
+    "vocab_size": len(vocab),
+    "tokenization_rule": "whitespace split",
+    "test_accuracy": round(float((predictions == y_test).mean()), 3),
+    "review_target_ids": [
+        row["sample_id"] for row in evaluation_records if row["needs_token_review"]
+    ],
+    "low_coverage_count": sum(
+        row["known_token_coverage"] < 0.5 for row in evaluation_records
+    ),
+}
 
-for text, tokens, known, total, pred, true in zip(
-    test_texts, token_lists, known_counts, total_counts, predictions, y_test
-):
-    coverage = known / total if total else 0.0
-    print(text)
-    print(" tokens =", tokens)
-    print(" known_token_coverage =", round(coverage, 3))
-    print(" pred =", label_names[pred], "| true =", label_names[true])
+print("review_summary =", review_summary)
+print("evaluation_records =")
+for row in evaluation_records:
+    print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-test_pred = [0, 1, 0, 0]
-test_accuracy = 0.75
-refund for broken product
- tokens = ['refund', 'for', 'broken', 'product']
- known_token_coverage = 0.75
- pred = complaint | true = complaint
-great support thank you
- tokens = ['great', 'support', 'thank', 'you']
- known_token_coverage = 1.0
- pred = praise | true = praise
-delay but quick refund
- tokens = ['delay', 'but', 'quick', 'refund']
- known_token_coverage = 0.75
- pred = complaint | true = complaint
-excellent item arrived today
- tokens = ['excellent', 'item', 'arrived', 'today']
- known_token_coverage = 0.0
- pred = complaint | true = praise
+review_summary = {'vocab_size': 20, 'tokenization_rule': 'whitespace split', 'test_accuracy': 0.75, 'review_target_ids': ['test-04'], 'low_coverage_count': 1}
+evaluation_records =
+{'sample_id': 'test-01', 'text': 'refund for broken product', 'tokens': ['refund', 'for', 'broken', 'product'], 'oov_tokens': ['for'], 'known_token_coverage': 0.75, 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'needs_token_review': False}
+{'sample_id': 'test-02', 'text': 'great support thank you', 'tokens': ['great', 'support', 'thank', 'you'], 'oov_tokens': [], 'known_token_coverage': 1.0, 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'needs_token_review': False}
+{'sample_id': 'test-03', 'text': 'delay but quick refund', 'tokens': ['delay', 'but', 'quick', 'refund'], 'oov_tokens': ['but'], 'known_token_coverage': 0.75, 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'needs_token_review': False}
+{'sample_id': 'test-04', 'text': 'excellent item arrived today', 'tokens': ['excellent', 'item', 'arrived', 'today'], 'oov_tokens': ['excellent', 'item', 'arrived', 'today'], 'known_token_coverage': 0.0, 'pred_label_name': 'complaint', 'true_label_name': 'praise', 'correct': False, 'needs_token_review': True}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -174,7 +189,7 @@ excellent item arrived today
 - 예측은 `complaint`
 - 실제 라벨은 `praise`
 
-이 사례는 정확도 0.75라는 숫자보다 더 많은 정보를 줍니다.
+이 사례는 정확도 0.75라는 숫자보다 더 많은 정보를 줍니다. `review_summary`가 `test-04`를 review 대상으로 바로 가리키고, `evaluation_records`는 OOV 토큰이 네 개 모두였다는 점을 한 줄로 보여 줍니다.
 
 `모델이 틀린 이유는 단지 분류 규칙이 약해서가 아니라, 학습 어휘에 없는 단어가 너무 많아 입력 표현 자체가 빈약해졌기 때문일 수 있다.`
 
@@ -184,6 +199,7 @@ excellent item arrived today
 
 - 마지막 문장은 어휘에 없는 단어가 너무 많았다
 - coverage가 0.0이면 예측 해석이 더 조심스러워져야 한다
+- review 대상 문장과 OOV 목록을 함께 남겨야 다음 tokenizer 개선으로 이어진다
 - 따라서 정확도 하락은 분류 규칙뿐 아니라 입력 표현 문제일 수도 있다
 
 ## 평가 문서에 추가할 항목
