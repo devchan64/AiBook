@@ -165,70 +165,173 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 LLM을 구현하는 것이 아니라, `현재 맥락에서 다음 후보를 고르고, 그 선택이 다시 더 긴 맥락이 된다`는 구조를 아주 작은 수준에서 흉내 내 보는 것입니다. 한 번만 고르는 대신 두 단계를 이어 보면서 첫 선택이 뒤 선택 조건을 바꾸는 장면을 직접 보겠습니다.
+이번 예제의 목표는 실제 LLM 전체를 구현하는 것이 아니라, `학습 데이터에서 다음 토큰 후보가 어떻게 만들어지고`, `선택된 토큰이 다시 다음 단계의 입력이 되는가`를 눈으로 확인하는 것입니다. 고정된 점수 사전을 손으로 넣는 대신, 작은 문장 묶음에서 직접 `이전 세 토큰 -> 다음 토큰` 빈도를 세고 그 결과로 여러 프롬프트를 이어서 생성해 보겠습니다.
 
 입력:
 
-- 현재 토큰 시퀀스
-- 두 단계의 다음 토큰 후보
+- 짧은 학습 문장 여러 개
+- 생성 시작 프롬프트 여러 개
+- 최대 생성 길이
 
 출력:
 
-- 각 단계의 후보 점수와 선택 결과
-- 누적된 최종 시퀀스
+- 문맥별 다음 토큰 후보 분포
+- 각 단계에서 선택된 토큰
+- 누적 생성된 최종 시퀀스
 
 ```python
-context = ["오늘", "날씨가", "매우"]
-step1_candidates = {
-    "좋다": 0.45,
-    "춥다": 0.20,
-    "맑다": 0.25,
-    "이상하다": 0.10,
-}
+from collections import Counter, defaultdict
 
-step1_token = max(step1_candidates, key=step1_candidates.get)
-generated = context + [step1_token]
+training_sentences = [
+    "회의 결과 배포 일정은 다음 주로 연기되었습니다",
+    "회의 결과 우선 수정 항목을 먼저 처리합니다",
+    "고객 문의 확인 결과 환불 절차를 안내드립니다",
+    "고객 문의 확인 결과 배송 일정을 다시 안내드립니다",
+    "배포 오류 확인 결과 설정 파일 경로가 잘못되었습니다",
+    "배포 오류 확인 결과 로그 수집 범위를 먼저 확인합니다",
+]
 
-step2_candidates_by_context = {
-    "좋다": {"그래서": 0.55, "하지만": 0.15, "또한": 0.30},
-    "춥다": {"그래서": 0.10, "하지만": 0.60, "또한": 0.30},
-    "맑다": {"그래서": 0.40, "하지만": 0.20, "또한": 0.40},
-    "이상하다": {"그래서": 0.15, "하지만": 0.55, "또한": 0.30},
-}
 
-step2_candidates = step2_candidates_by_context[step1_token]
-step2_token = max(step2_candidates, key=step2_candidates.get)
-generated = generated + [step2_token]
+def tokenize(sentence):
+    return sentence.split()
 
-print("context =", context)
-print("step1_candidates =", step1_candidates)
-print("step1_token =", step1_token)
-print("step2_candidates =", step2_candidates)
-print("step2_token =", step2_token)
-print("generated =", generated)
+
+def build_ngram_counts(sentences):
+    ngram_counts = defaultdict(Counter)
+    for sentence in sentences:
+        tokens = ["<BOS1>", "<BOS2>", "<BOS3>"] + tokenize(sentence) + ["<EOS>"]
+        for i in range(len(tokens) - 3):
+            context = (tokens[i], tokens[i + 1], tokens[i + 2])
+            next_token = tokens[i + 3]
+            ngram_counts[context][next_token] += 1
+    return ngram_counts
+
+
+def next_token_distribution(ngram_counts, context_tokens):
+    context = tuple(context_tokens[-3:])
+    counter = ngram_counts.get(context, Counter())
+    total = sum(counter.values())
+    if total == 0:
+        return {}
+    return {
+        token: round(count / total, 2)
+        for token, count in counter.most_common()
+    }
+
+
+def generate_tokens(ngram_counts, prompt, max_steps=5):
+    generated = ["<BOS1>", "<BOS2>", "<BOS3>"] + tokenize(prompt)
+    trace = []
+
+    for _ in range(max_steps):
+        context = generated[-3:]
+        distribution = next_token_distribution(ngram_counts, context)
+        if not distribution:
+            trace.append(
+                {
+                    "context": tuple(context),
+                    "distribution": {},
+                    "selected": "<STOP:no-known-next-token>",
+                }
+            )
+            break
+
+        selected = max(distribution, key=distribution.get)
+        trace.append(
+            {
+                "context": tuple(context),
+                "distribution": distribution,
+                "selected": selected,
+            }
+        )
+        if selected == "<EOS>":
+            break
+        generated.append(selected)
+
+    visible_tokens = [token for token in generated if not token.startswith("<BOS")]
+    return visible_tokens, trace
+
+
+ngram_counts = build_ngram_counts(training_sentences)
+prompts = ["회의 결과", "고객 문의 확인 결과", "배포 오류 확인 결과"]
+
+for prompt in prompts:
+    generated, trace = generate_tokens(ngram_counts, prompt, max_steps=5)
+    print("=" * 80)
+    print("prompt =", prompt)
+    for step_index, step in enumerate(trace, start=1):
+        print(f"[step {step_index}] context =", step["context"])
+        print("distribution =", step["distribution"])
+        print("selected =", step["selected"])
+    print("generated =", generated)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-context = ['오늘', '날씨가', '매우']
-step1_candidates = {'좋다': 0.45, '춥다': 0.2, '맑다': 0.25, '이상하다': 0.1}
-step1_token = 좋다
-step2_candidates = {'그래서': 0.55, '하지만': 0.15, '또한': 0.3}
-step2_token = 그래서
-generated = ['오늘', '날씨가', '매우', '좋다', '그래서']
+================================================================================
+prompt = 회의 결과
+[step 1] context = ('<BOS3>', '회의', '결과')
+distribution = {'배포': 0.5, '우선': 0.5}
+selected = 배포
+[step 2] context = ('회의', '결과', '배포')
+distribution = {'일정은': 1.0}
+selected = 일정은
+[step 3] context = ('결과', '배포', '일정은')
+distribution = {'다음': 1.0}
+selected = 다음
+[step 4] context = ('배포', '일정은', '다음')
+distribution = {'주로': 1.0}
+selected = 주로
+[step 5] context = ('일정은', '다음', '주로')
+distribution = {'연기되었습니다': 1.0}
+selected = 연기되었습니다
+generated = ['회의', '결과', '배포', '일정은', '다음', '주로', '연기되었습니다']
+================================================================================
+prompt = 고객 문의 확인 결과
+[step 1] context = ('문의', '확인', '결과')
+distribution = {'환불': 0.5, '배송': 0.5}
+selected = 환불
+[step 2] context = ('확인', '결과', '환불')
+distribution = {'절차를': 1.0}
+selected = 절차를
+[step 3] context = ('결과', '환불', '절차를')
+distribution = {'안내드립니다': 1.0}
+selected = 안내드립니다
+[step 4] context = ('환불', '절차를', '안내드립니다')
+distribution = {'<EOS>': 1.0}
+selected = <EOS>
+generated = ['고객', '문의', '확인', '결과', '환불', '절차를', '안내드립니다']
+================================================================================
+prompt = 배포 오류 확인 결과
+[step 1] context = ('오류', '확인', '결과')
+distribution = {'설정': 0.5, '로그': 0.5}
+selected = 설정
+[step 2] context = ('확인', '결과', '설정')
+distribution = {'파일': 1.0}
+selected = 파일
+[step 3] context = ('결과', '설정', '파일')
+distribution = {'경로가': 1.0}
+selected = 경로가
+[step 4] context = ('설정', '파일', '경로가')
+distribution = {'잘못되었습니다': 1.0}
+selected = 잘못되었습니다
+[step 5] context = ('파일', '경로가', '잘못되었습니다')
+distribution = {'<EOS>': 1.0}
+selected = <EOS>
+generated = ['배포', '오류', '확인', '결과', '설정', '파일', '경로가', '잘못되었습니다']
 ```
 
-이 예제에서 확인해야 할 결과는 현재 맥락이 다음 후보 선택에 영향을 주고, 그 선택 결과가 다시 더 긴 맥락이 되어 다음 선택 조건으로 이어진다는 점입니다.
+이 예제에서 확인해야 할 결과는 학습 데이터에서 문맥별 다음 후보 분포가 만들어지고, 현재 문맥이 바뀌면 후보 분포도 달라지며, 선택된 토큰이 다시 더 긴 맥락이 되어 다음 선택 조건으로 이어진다는 점입니다.
 
-- 현재 맥락이 있다
-- 다음 후보가 있다
-- 하나를 고른다
-- 그 결과가 다시 더 긴 맥락이 된다
+- 학습 문장에서 문맥별 다음 후보가 집계된다
+- 현재 문맥에 따라 다음 후보 분포가 달라진다
+- 하나를 고르면 그 토큰이 다시 다음 단계 문맥에 붙는다
+- 초반 선택이 뒤 생성 흐름 전체를 밀고 간다
 
 ## 이 예제를 순차 생성 관점으로 다시 보면
 
-이 예제는 생성 결과를 한 번에 꺼내는 상자로 보기보다, `현재까지 만든 맥락`이 다음 선택 조건으로 계속 되돌아오는 순환 구조로 읽어야 한다는 점을 보여 줍니다. 첫 단계에서 `좋다`를 골랐기 때문에 둘째 단계에서는 `그래서` 같은 후보가 더 자연스러워졌고, 만약 첫 단계에서 `춥다`를 골랐다면 `하지만` 쪽 후보가 더 유력해졌을 수 있습니다. 그래서 뒤에서 sampling, prompting, alignment를 볼 때도 모두 `다음 토큰 선택이 누적되며 응답 전체가 만들어진다`는 관점을 유지하는 것이 중요합니다.
+이 예제는 생성 결과를 한 번에 꺼내는 상자로 보기보다, `현재까지 만든 맥락`이 다음 선택 조건으로 계속 되돌아오는 순환 구조로 읽어야 한다는 점을 보여 줍니다. `회의 결과` 뒤에서는 `배포`, `우선` 같은 후보가 생기고, `고객 문의 확인 결과` 뒤에서는 `환불`, `배송`이, `배포 오류 확인 결과` 뒤에서는 `설정`, `로그`가 후보로 달라집니다. 그리고 한 번 `환불`을 고르면 그다음에는 `절차를`, `안내드립니다`처럼 그 흐름에 맞는 토큰이 다시 이어지고, `설정`을 고르면 `파일`, `경로가`, `잘못되었습니다`처럼 전혀 다른 경로가 이어집니다. 그래서 뒤에서 sampling, prompting, alignment를 볼 때도 모두 `다음 토큰 선택이 누적되며 응답 전체가 만들어진다`는 관점을 유지하는 것이 중요합니다.
 
 ## 역사와 커리큘럼 관점
 
