@@ -172,6 +172,7 @@ flowchart TD
 - 입력 순서대로 넣었을 때 남는 항목
 - 중요도 기준으로 다시 골랐을 때 남는 항목
 - 두 방식에서 탈락한 항목과 총 사용 토큰
+- 두 방식에서 핵심 상태가 실제로 얼마나 보존되었는지
 
 ```python
 context_items = [
@@ -184,6 +185,7 @@ context_items = [
 ]
 
 token_budget = 60
+must_keep = {"system instruction", "user question", "current error log"}
 
 
 def select_in_original_order(items, budget):
@@ -212,11 +214,21 @@ def select_by_priority(items, budget):
 naive_selected, naive_dropped, naive_used = select_in_original_order(context_items, token_budget)
 priority_selected, priority_dropped, priority_used = select_by_priority(context_items, token_budget)
 
+
+def coverage(selected, must_keep_names):
+    selected_names = {item["name"] for item in selected}
+    kept = sorted(selected_names & must_keep_names)
+    missing = sorted(must_keep_names - selected_names)
+    return kept, missing
+
 print("[naive original-order selection]")
 for item in naive_selected:
     print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
 print("used_tokens =", naive_used)
 print("dropped =", [item["name"] for item in naive_dropped])
+naive_kept, naive_missing = coverage(naive_selected, must_keep)
+print("must_keep_kept =", naive_kept)
+print("must_keep_missing =", naive_missing)
 print()
 
 print("[priority-based selection]")
@@ -224,6 +236,9 @@ for item in priority_selected:
     print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
 print("used_tokens =", priority_used)
 print("dropped =", [item["name"] for item in priority_dropped])
+priority_kept, priority_missing = coverage(priority_selected, must_keep)
+print("must_keep_kept =", priority_kept)
+print("must_keep_missing =", priority_missing)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -235,13 +250,18 @@ print("dropped =", [item["name"] for item in priority_dropped])
 - repeated greeting | tokens = 8 | priority = 5
 used_tokens = 56
 dropped = ['user question', 'current error log', 'related function code']
+must_keep_kept = ['system instruction']
+must_keep_missing = ['current error log', 'user question']
 
 [priority-based selection]
 - system instruction | tokens = 18 | priority = 100
 - user question | tokens = 12 | priority = 95
 - current error log | tokens = 22 | priority = 90
-used_tokens = 52
-dropped = ['related function code', 'older chat history', 'repeated greeting']
+- repeated greeting | tokens = 8 | priority = 5
+used_tokens = 60
+dropped = ['related function code', 'older chat history']
+must_keep_kept = ['current error log', 'system instruction', 'user question']
+must_keep_missing = []
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
@@ -249,6 +269,8 @@ dropped = ['related function code', 'older chat history', 'repeated greeting']
 - 같은 토큰 예산이어도 입력 순서대로 그냥 넣으면 `older chat history`와 `repeated greeting`이 자리를 차지해, 정작 `user question`과 `current error log`가 잘릴 수 있습니다.
 - 중요도 기준으로 다시 고르면 현재 질문과 직접 연결된 항목이 먼저 살아남고, 오래된 기록이나 반복 인사는 뒤로 밀립니다.
 - context window 관리에서 중요한 것은 `얼마나 많이 넣었는가`보다 `예산 안에서 핵심 상태를 실제로 살렸는가`입니다.
+- 우선순위 선택 뒤에 예산이 조금 남으면 낮은 우선순위 항목이 일부 들어올 수 있지만, 그보다 먼저 `필수 상태가 전부 살아남았는가`를 확인하는 편이 더 중요합니다.
+- 그래서 문맥 선택 로직을 볼 때는 총 토큰 수뿐 아니라 `주문번호`, `현재 질문`, `최신 오류 로그` 같은 필수 상태가 실제로 남았는지를 함께 점검해야 합니다.
 
 ## 이 예제를 입력 선택 관점으로 다시 보면
 
