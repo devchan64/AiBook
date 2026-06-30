@@ -194,6 +194,7 @@ flowchart TD
 
 출력:
 
+- 업무 수에 따른 방식별 증가 폭
 - 업무 수에 따른 총 학습 대상 파라미터 수
 - 업무 수에 따른 추가 저장 크기 추정
 - 방식별 차이
@@ -201,6 +202,7 @@ flowchart TD
 ```python
 base_model_params = 7_000_000_000
 tasks = ["customer_support", "summarization", "code_assistant"]
+task_count_options = [1, 3, 10]
 
 full_finetuning_trainable_per_task = 7_000_000_000
 lora_trainable_per_task = 8_000_000
@@ -219,8 +221,21 @@ lora_total_trainable = lora_trainable_per_task * len(tasks)
 full_extra_storage_gb = to_gb(full_finetuning_trainable_per_task * len(tasks))
 lora_extra_storage_gb = to_gb(lora_trainable_per_task * len(tasks))
 
+growth_reports = []
+for task_count in task_count_options:
+    growth_reports.append(
+        {
+            "task_count": task_count,
+            "full_trainable": full_finetuning_trainable_per_task * task_count,
+            "lora_trainable": lora_trainable_per_task * task_count,
+            "full_storage_gb": to_gb(full_finetuning_trainable_per_task * task_count),
+            "lora_storage_gb": to_gb(lora_trainable_per_task * task_count),
+        }
+    )
+
 print("base_model_params =", base_model_params)
 print("tasks =", tasks)
+print("growth_reports =", growth_reports)
 print("full_total_trainable =", full_total_trainable)
 print("lora_total_trainable =", lora_total_trainable)
 print("full_extra_storage_gb =", full_extra_storage_gb)
@@ -232,6 +247,7 @@ print("lora_extra_storage_gb =", lora_extra_storage_gb)
 ```text
 base_model_params = 7000000000
 tasks = ['customer_support', 'summarization', 'code_assistant']
+growth_reports = [{'task_count': 1, 'full_trainable': 7000000000, 'lora_trainable': 8000000, 'full_storage_gb': 13.04, 'lora_storage_gb': 0.01}, {'task_count': 3, 'full_trainable': 21000000000, 'lora_trainable': 24000000, 'full_storage_gb': 39.12, 'lora_storage_gb': 0.04}, {'task_count': 10, 'full_trainable': 70000000000, 'lora_trainable': 80000000, 'full_storage_gb': 130.39, 'lora_storage_gb': 0.15}]
 full_total_trainable = 21000000000
 lora_total_trainable = 24000000
 full_extra_storage_gb = 39.12
@@ -242,6 +258,7 @@ lora_extra_storage_gb = 0.04
 
 - 같은 기반 모델이라도 업무 수가 늘어나면 전체 파인튜닝은 학습 대상과 저장 부담이 급격히 커질 수 있습니다.
 - LoRA는 업무마다 작은 조정본만 추가로 관리하는 쪽에 가깝습니다.
+- `growth_reports`를 보면 업무 수가 1개에서 10개로 늘 때 전체 파인튜닝 저장 부담은 빠르게 커지지만, LoRA 조정본은 훨씬 완만하게 증가합니다.
 - 그 차이가 실험 회전 수, 저장 전략, 버전 관리 방식을 실제로 바꿀 수 있습니다.
 
 이 예제에서는 `tasks`를 더 늘리거나 `lora_trainable_per_task`를 바꿔 볼 수 있습니다. 예를 들어 업무를 3개에서 10개로 늘리면 전체 파인튜닝 방식은 저장 부담이 선형으로 크게 늘고, LoRA는 훨씬 완만하게 증가하는 모습을 더 선명하게 볼 수 있습니다.
