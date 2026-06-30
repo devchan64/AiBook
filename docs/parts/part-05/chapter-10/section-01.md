@@ -193,7 +193,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 어떻게 작동하는지 눈으로 확인하는 것입니다. 이번에는 환불 정책, 제품 매뉴얼, SDK 문서 질문을 한 번에 돌려, 검색 없이 답할 때와 검색 문서를 붙인 뒤 답할 때 어떤 차이가 나는지 비교하겠습니다.
+이번 예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 여러 작업에서 어떻게 반복되는지 점검하는 것입니다. 이번에는 환불 정책, 제품 매뉴얼, SDK 문서 질문을 한 번에 돌려, 검색 없이 답할 때와 검색 문서를 붙인 뒤 답할 때 어떤 검증 항목이 달라지는지 배치 보고 형태로 보겠습니다.
 
 문제 상황:
 
@@ -214,43 +214,91 @@ flowchart TD
 - 어떤 문서가 실제 근거로 붙었는지에 대한 점검값
 - 최신 정보가 실제 답변에 반영되었는지 여부
 
+이 절의 예제를 읽을 때는 먼저 무엇을 점검할지 표로 잡고 가는 편이 좋습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `memory` 답이 최신 신호를 담는가 | 검색 없이도 맞는지 확인 |
+| 검색된 첫 문서가 최신 문서인가 | RAG의 첫 출발점 점검 |
+| RAG 답이 최신 신호를 담는가 | 문서가 답에 실제 반영됐는지 확인 |
+| 근거 문서 수가 충분한가 | 한 문서만 보고 섣불리 답하지 않는지 점검 |
+
 ```python
 tasks = [
     {
         "name": "policy",
         "question": "환불 정책이 오늘 어떻게 바뀌었나요?",
         "memory_answer": "환불 요청 처리 기한은 7일입니다.",
-        "keywords": ["환불", "기한", "변경"],
+        "keywords": ["환불", "기한", "변경", "오늘"],
         "documents": [
-            {"title": "2026-06-29 정책 공지", "text": "환불 요청 처리 기한이 7일에서 14일로 변경됨"},
-            {"title": "FAQ", "text": "환불 접수는 계정 메뉴에서 시작"},
-            {"title": "구버전 안내", "text": "예전에는 환불 요청 처리 기한이 7일이었다"},
+            {
+                "title": "2026-06-29 정책 공지",
+                "text": "환불 요청 처리 기한이 7일에서 14일로 변경됨",
+                "is_latest": True,
+            },
+            {
+                "title": "FAQ",
+                "text": "환불 접수는 계정 메뉴에서 시작",
+                "is_latest": False,
+            },
+            {
+                "title": "구버전 안내",
+                "text": "예전에는 환불 요청 처리 기한이 7일이었다",
+                "is_latest": False,
+            },
         ],
         "expected_signal": "14일",
+        "expected_top_doc": "2026-06-29 정책 공지",
     },
     {
         "name": "manual",
         "question": "현재 버전에서 고급 설정 메뉴는 어디에 있나요?",
         "memory_answer": "고급 설정 메뉴에서 바로 찾을 수 있습니다.",
-        "keywords": ["버전", "환경설정", "메뉴", "설정"],
+        "keywords": ["현재", "버전", "환경설정", "메뉴", "설정"],
         "documents": [
-            {"title": "v3 매뉴얼", "text": "현재 버전에서는 환경설정 > 실험실 메뉴로 이동해야 한다"},
-            {"title": "FAQ", "text": "화면 오른쪽 위 프로필 아이콘에서 환경설정으로 들어간다"},
-            {"title": "v2 가이드", "text": "예전 버전에서는 고급 설정 메뉴가 별도로 있었다"},
+            {
+                "title": "v3 매뉴얼",
+                "text": "현재 버전에서는 환경설정 > 실험실 메뉴로 이동해야 한다",
+                "is_latest": True,
+            },
+            {
+                "title": "FAQ",
+                "text": "화면 오른쪽 위 프로필 아이콘에서 환경설정으로 들어간다",
+                "is_latest": True,
+            },
+            {
+                "title": "v2 가이드",
+                "text": "예전 버전에서는 고급 설정 메뉴가 별도로 있었다",
+                "is_latest": False,
+            },
         ],
         "expected_signal": "환경설정",
+        "expected_top_doc": "v3 매뉴얼",
     },
     {
         "name": "sdk",
         "question": "현재 SDK 버전에서 인증 헤더를 어디에 넣나요?",
         "memory_answer": "Authorization 헤더에 직접 토큰을 넣으면 됩니다.",
-        "keywords": ["SDK", "인증", "auth", "헤더"],
+        "keywords": ["현재", "SDK", "인증", "auth", "헤더"],
         "documents": [
-            {"title": "SDK v5 가이드", "text": "현재 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다"},
-            {"title": "예제 코드", "text": "client = SDK(auth={'token': API_KEY})"},
-            {"title": "구버전 문서", "text": "예전 버전에서는 Authorization 헤더를 직접 구성했다"},
+            {
+                "title": "SDK v5 가이드",
+                "text": "현재 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다",
+                "is_latest": True,
+            },
+            {
+                "title": "예제 코드",
+                "text": "client = SDK(auth={'token': API_KEY})",
+                "is_latest": True,
+            },
+            {
+                "title": "구버전 문서",
+                "text": "예전 버전에서는 Authorization 헤더를 직접 구성했다",
+                "is_latest": False,
+            },
         ],
         "expected_signal": "auth",
+        "expected_top_doc": "SDK v5 가이드",
     },
 ]
 
@@ -258,7 +306,12 @@ tasks = [
 def retrieve_docs(task):
     scored = []
     for doc in task["documents"]:
-        score = sum(keyword in doc["text"] or keyword in doc["title"] for keyword in task["keywords"])
+        score = sum(
+            keyword in doc["text"] or keyword in doc["title"]
+            for keyword in task["keywords"]
+        )
+        if doc["is_latest"]:
+            score += 1
         scored.append((score, doc))
     scored.sort(key=lambda item: item[0], reverse=True)
     return [doc for score, doc in scored if score > 0][:2]
@@ -280,37 +333,61 @@ def answer_with_rag(task, retrieved_docs):
     }
 
 
-for task in tasks:
+def inspect_task(task):
     retrieved_docs = retrieve_docs(task)
     rag_result = answer_with_rag(task, retrieved_docs)
     inspection = {
         "memory_mentions_expected_signal": task["expected_signal"] in task["memory_answer"],
         "rag_mentions_expected_signal": task["expected_signal"] in rag_result["answer"],
         "top_grounding_doc": rag_result["grounding_titles"][0],
+        "top_doc_is_expected": rag_result["grounding_titles"][0] == task["expected_top_doc"],
         "grounding_count": len(rag_result["grounding_titles"]),
+        "enough_grounding_docs": len(rag_result["grounding_titles"]) >= 2,
+    }
+    return {
+        "name": task["name"],
+        "question": task["question"],
+        "memory_answer": task["memory_answer"],
+        "retrieved_titles": [doc["title"] for doc in retrieved_docs],
+        "rag_answer": rag_result["answer"],
+        "inspection": inspection,
     }
 
+
+reports = [inspect_task(task) for task in tasks]
+summary = {
+    "memory_hit_count": sum(report["inspection"]["memory_mentions_expected_signal"] for report in reports),
+    "rag_hit_count": sum(report["inspection"]["rag_mentions_expected_signal"] for report in reports),
+    "top_doc_match_count": sum(report["inspection"]["top_doc_is_expected"] for report in reports),
+    "enough_grounding_count": sum(report["inspection"]["enough_grounding_docs"] for report in reports),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
     print("=" * 80)
     print("[task]")
-    print(task["name"])
+    print(report["name"])
     print("[question]")
-    print(task["question"])
+    print(report["question"])
     print("[memory only answer]")
-    print(task["memory_answer"])
-    print()
-    print("[retrieved docs]")
-    for doc in retrieved_docs:
-        print("-", doc["title"], ":", doc["text"])
-    print()
+    print(report["memory_answer"])
+    print("[retrieved doc titles]")
+    print(report["retrieved_titles"])
     print("[rag answer]")
-    print(rag_result)
+    print(report["rag_answer"])
     print("[inspection]")
-    print(inspection)
+    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'memory_hit_count': 0, 'rag_hit_count': 3, 'top_doc_match_count': 3, 'enough_grounding_count': 3}
+
 ================================================================================
 [task]
 policy
@@ -318,15 +395,12 @@ policy
 환불 정책이 오늘 어떻게 바뀌었나요?
 [memory only answer]
 환불 요청 처리 기한은 7일입니다.
-
-[retrieved docs]
-- 2026-06-29 정책 공지 : 환불 요청 처리 기한이 7일에서 14일로 변경됨
-- 구버전 안내 : 예전에는 환불 요청 처리 기한이 7일이었다
-
+[retrieved doc titles]
+['2026-06-29 정책 공지', '구버전 안내']
 [rag answer]
-{'answer': '최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다.', 'grounding_titles': ['2026-06-29 정책 공지', '구버전 안내']}
+최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다.
 [inspection]
-{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': '2026-06-29 정책 공지', 'grounding_count': 2}
+{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': '2026-06-29 정책 공지', 'top_doc_is_expected': True, 'grounding_count': 2, 'enough_grounding_docs': True}
 ================================================================================
 [task]
 manual
@@ -334,15 +408,12 @@ manual
 현재 버전에서 고급 설정 메뉴는 어디에 있나요?
 [memory only answer]
 고급 설정 메뉴에서 바로 찾을 수 있습니다.
-
-[retrieved docs]
-- v3 매뉴얼 : 현재 버전에서는 환경설정 > 실험실 메뉴로 이동해야 한다
-- v2 가이드 : 예전 버전에서는 고급 설정 메뉴가 별도로 있었다
-
+[retrieved doc titles]
+['v3 매뉴얼', 'FAQ']
 [rag answer]
-{'answer': '현재 버전에서는 환경설정 경로로 들어가야 고급 설정 관련 기능을 찾을 수 있습니다.', 'grounding_titles': ['v3 매뉴얼', 'v2 가이드']}
+현재 버전에서는 환경설정 경로로 들어가야 고급 설정 관련 기능을 찾을 수 있습니다.
 [inspection]
-{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'v3 매뉴얼', 'grounding_count': 2}
+{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'v3 매뉴얼', 'top_doc_is_expected': True, 'grounding_count': 2, 'enough_grounding_docs': True}
 ================================================================================
 [task]
 sdk
@@ -350,23 +421,25 @@ sdk
 현재 SDK 버전에서 인증 헤더를 어디에 넣나요?
 [memory only answer]
 Authorization 헤더에 직접 토큰을 넣으면 됩니다.
-
-[retrieved docs]
-- SDK v5 가이드 : 현재 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다
-- 예제 코드 : client = SDK(auth={'token': API_KEY})
-
+[retrieved doc titles]
+['SDK v5 가이드', '예제 코드']
 [rag answer]
-{'answer': '현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성합니다.', 'grounding_titles': ['SDK v5 가이드', '예제 코드']}
+현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성합니다.
 [inspection]
-{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'SDK v5 가이드', 'grounding_count': 2}
+{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'SDK v5 가이드', 'top_doc_is_expected': True, 'grounding_count': 2, 'enough_grounding_docs': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어가고, 그 결과 정책, 매뉴얼, SDK처럼 서로 다른 장면에서도 내부 기억과 다른 최신 답이 만들어질 수 있다는 점입니다.
+이 결과에서 먼저 봐야 할 것은 `memory_hit_count`가 0이고 `rag_hit_count`가 3이라는 점입니다. 즉, 검색 없이 기억으로만 답하면 세 작업 모두 최신 신호를 놓쳤지만, 관련 문서를 먼저 붙인 뒤에는 세 작업 모두 최신 기준을 회수했습니다. 동시에 `top_doc_match_count`가 3이라는 값은, RAG의 효과가 단순히 답 문장만 좋아졌다는 뜻이 아니라 `어떤 문서를 먼저 붙였는가`가 같이 맞았다는 뜻입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어간다.
+- RAG의 품질은 답변 문장만이 아니라 `최신 문서를 먼저 회수했는가`, `근거 문서 수가 충분한가`까지 함께 점검해야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `documents`에 더 많은 구버전 문서를 넣어 검색 결과가 어떻게 흔들리는지 보기
-- `keywords`를 바꿔 검색 품질이 답변에 어떤 영향을 주는지 확인하기
+- `keywords`를 일부러 줄여 `top_doc_match_count`가 어떻게 떨어지는지 확인하기
 - `answer_with_rag`에서 문서 제목뿐 아니라 근거 문장을 함께 반환하도록 바꿔 보기
 - `tasks`에 사내 정책, 고객센터 스크립트 같은 새 작업을 추가해도 같은 구조가 유지되는지 보기
 
