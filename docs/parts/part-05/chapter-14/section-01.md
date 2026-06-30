@@ -187,7 +187,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 모델이나 에이전트가 도구와 리소스를 제각각 하드코딩하는 대신 `연결 계층에 등록된 정보`를 통해 일관되게 본다는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 모델이나 에이전트가 도구와 리소스를 제각각 하드코딩하는 대신 `연결 계층에 등록된 정보`를 통해 일관되게 본다는 점을 눈으로 확인하는 것입니다. 한 구조만 보면 그냥 목록처럼 보일 수 있으므로, 이번에는 `공통 연결 관점이 있는 경우`와 `형식이 제각각인 경우`를 나란히 두고 비교하겠습니다.
 
 문제 상황:
 
@@ -197,67 +197,141 @@ flowchart TD
 
 입력:
 
-- 연결 계층에 등록된 도구 목록
-- 연결 계층에 등록된 리소스 목록
+- 공통 연결 계층에 등록된 도구 목록
+- 형식이 제각각인 연결 목록
 
 출력:
 
 - 에이전트가 볼 수 있는 공통 인터페이스 정보
-- 어떤 도구와 어떤 리소스가 노출되었는지에 대한 점검값
+- 어떤 도구와 어떤 리소스가 안정적으로 노출되었는지에 대한 점검값
+- 형식이 제각각일 때 무엇이 바로 흔들리는지 보여 주는 요약값
+
+먼저 이 예제에서 함께 볼 비교 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `all_tools_have_schema` | 모든 도구가 같은 방식으로 호출 가능해야 해서 |
+| `all_resources_have_type` | 읽을 자원의 종류를 일정하게 구분해야 해서 |
+| `all_tools_have_name` | 호출 대상을 식별할 최소 정보가 필요해서 |
+| `shape_is_consistent` | 새 도구를 추가해도 같은 규칙으로 다룰 수 있어야 해서 |
 
 ```python
-connection_layer = {
-    "tools": [
-        {"name": "search_docs", "input_schema": ["query"], "returns": "document_hits"},
-        {"name": "read_file", "input_schema": ["path"], "returns": "file_text"},
-        {"name": "run_tests", "input_schema": ["target"], "returns": "test_report"},
-    ],
-    "resources": [
-        {"name": "policy_repository", "type": "document_store"},
-        {"name": "codebase_files", "type": "filesystem"},
-    ],
-}
+connection_layers = [
+    {
+        "name": "consistent_layer",
+        "tools": [
+            {"name": "search_docs", "input_schema": ["query"], "returns": "document_hits"},
+            {"name": "read_file", "input_schema": ["path"], "returns": "file_text"},
+            {"name": "run_tests", "input_schema": ["target"], "returns": "test_report"},
+        ],
+        "resources": [
+            {"name": "policy_repository", "type": "document_store"},
+            {"name": "codebase_files", "type": "filesystem"},
+        ],
+    },
+    {
+        "name": "inconsistent_layer",
+        "tools": [
+            {"tool_name": "search_docs", "returns": "document_hits"},
+            {"name": "read_file", "input_schema": ["path"]},
+            {"name": "run_tests", "returns": "test_report"},
+        ],
+        "resources": [
+            {"resource": "policy_repository"},
+            {"name": "codebase_files", "kind": "filesystem"},
+        ],
+    },
+]
 
 
 def inspect_connection_layer(layer):
+    tool_names = [tool.get("name") for tool in layer["tools"] if "name" in tool]
+    resource_names = [resource.get("name") for resource in layer["resources"] if "name" in resource]
+    all_tools_have_schema = all("input_schema" in tool for tool in layer["tools"])
+    all_tools_have_name = all("name" in tool for tool in layer["tools"])
+    all_resources_have_type = all("type" in resource for resource in layer["resources"])
     return {
-        "tool_names": [tool["name"] for tool in layer["tools"]],
-        "resource_names": [resource["name"] for resource in layer["resources"]],
-        "all_tools_have_schema": all("input_schema" in tool for tool in layer["tools"]),
-        "all_resources_have_type": all("type" in resource for resource in layer["resources"]),
+        "tool_names": tool_names,
+        "resource_names": resource_names,
+        "all_tools_have_schema": all_tools_have_schema,
+        "all_tools_have_name": all_tools_have_name,
+        "all_resources_have_type": all_resources_have_type,
+        "shape_is_consistent": (
+            all_tools_have_schema
+            and all_tools_have_name
+            and all_resources_have_type
+        ),
     }
 
 
-inspection = inspect_connection_layer(connection_layer)
+reports = []
+for layer in connection_layers:
+    inspection = inspect_connection_layer(layer)
+    reports.append(
+        {
+            "name": layer["name"],
+            "layer": layer,
+            "inspection": inspection,
+        }
+    )
 
-print("[connection_layer]")
-print(connection_layer)
-print("[inspection]")
-print(inspection)
+summary = {
+    "consistent_shape_count": sum(report["inspection"]["shape_is_consistent"] for report in reports),
+    "schema_complete_count": sum(report["inspection"]["all_tools_have_schema"] for report in reports),
+    "resource_type_complete_count": sum(report["inspection"]["all_resources_have_type"] for report in reports),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[layer]")
+    print(report["name"])
+    print("[connection_layer]")
+    print(report["layer"])
+    print("[inspection]")
+    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'consistent_shape_count': 1, 'schema_complete_count': 1, 'resource_type_complete_count': 1}
+
+================================================================================
+[layer]
+consistent_layer
 [connection_layer]
-{'tools': [{'name': 'search_docs', 'input_schema': ['query'], 'returns': 'document_hits'}, {'name': 'read_file', 'input_schema': ['path'], 'returns': 'file_text'}, {'name': 'run_tests', 'input_schema': ['target'], 'returns': 'test_report'}], 'resources': [{'name': 'policy_repository', 'type': 'document_store'}, {'name': 'codebase_files', 'type': 'filesystem'}]}
+{'name': 'consistent_layer', 'tools': [{'name': 'search_docs', 'input_schema': ['query'], 'returns': 'document_hits'}, {'name': 'read_file', 'input_schema': ['path'], 'returns': 'file_text'}, {'name': 'run_tests', 'input_schema': ['target'], 'returns': 'test_report'}], 'resources': [{'name': 'policy_repository', 'type': 'document_store'}, {'name': 'codebase_files', 'type': 'filesystem'}]}
 [inspection]
-{'tool_names': ['search_docs', 'read_file', 'run_tests'], 'resource_names': ['policy_repository', 'codebase_files'], 'all_tools_have_schema': True, 'all_resources_have_type': True}
+{'tool_names': ['search_docs', 'read_file', 'run_tests'], 'resource_names': ['policy_repository', 'codebase_files'], 'all_tools_have_schema': True, 'all_tools_have_name': True, 'all_resources_have_type': True, 'shape_is_consistent': True}
+================================================================================
+[layer]
+inconsistent_layer
+[connection_layer]
+{'name': 'inconsistent_layer', 'tools': [{'tool_name': 'search_docs', 'returns': 'document_hits'}, {'name': 'read_file', 'input_schema': ['path']}, {'name': 'run_tests', 'returns': 'test_report'}], 'resources': [{'resource': 'policy_repository'}, {'name': 'codebase_files', 'kind': 'filesystem'}]}
+[inspection]
+{'tool_names': ['read_file', 'run_tests'], 'resource_names': ['codebase_files'], 'all_tools_have_schema': False, 'all_tools_have_name': False, 'all_resources_have_type': False, 'shape_is_consistent': False}
 ```
+
+이 예제에서 먼저 봐야 할 것은 `consistent_shape_count`가 1이라는 점입니다. 즉, 같은 도구 수를 가지고 있어도 `name`, `input_schema`, `type` 같은 최소 공통 형식이 맞지 않으면 연결 계층은 바로 흔들립니다. 반대로 공통 연결 관점이 잡혀 있으면 모델이나 에이전트는 개별 도구의 세부 구현보다 `어떤 이름으로`, `어떤 인자를 받아`, `무슨 자원을 읽는가`를 더 일정하게 볼 수 있습니다.
 
 이 예제에서 확인해야 할 결과는 모델이나 에이전트가 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- 새 도구 `query_database`를 추가해 같은 방식으로 노출되는지 보기
-- 어떤 도구에서 `input_schema`를 빼고 점검 결과가 어떻게 바뀌는지 확인하기
+- 새 도구 `query_database`를 두 레이어에 각각 추가해 같은 방식으로 노출되는지 보기
+- `inconsistent_layer`의 도구 하나에만 `input_schema`를 추가해도 전체 일관성이 왜 아직 깨지는지 확인하기
 - 리소스에 `permissions` 같은 필드를 넣어 권한 관점까지 확장해 보기
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 모델이 직접 모든 시스템을 제각각 아는 것이 아니라
 - 중간 연결 계층을 통해
-- 도구와 리소스를 일정하게 본다는 점입니다
+- 도구와 리소스를 일정한 형식으로 본다는 점입니다
 
 ## 이 예제를 연결 계층 관점으로 다시 보면
 
