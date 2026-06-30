@@ -28,6 +28,17 @@ Part 6의 전체 흐름은 다음처럼 정리할 수 있습니다.
 > -> RAG와 agent 구조를 작은 서비스 프로젝트로 연결하기
 > -> 배포, 로그, 실패 대응, 회고 문서까지 남기기
 
+이 흐름을 `산출물` 기준으로 다시 묶으면 다음처럼 정리할 수 있습니다.
+
+| 프로젝트 축 | 남겨야 하는 핵심 기록 |
+| --- | --- |
+| 분석 시작 | `project_note`, `retrospective_note` |
+| baseline 비교 | `project_run`, `comparison_rows`, `baseline_error_ids` |
+| 이미지/텍스트 분류 | `test_records`, `evaluation_records`, 오류 샘플 ID |
+| RAG | `retrieval_records`, `selected_evidence`, `grounded_answer_record` |
+| agent | `planned_steps`, `execution_records`, `review_summary` |
+| 배포와 운영 | `incident_records`, `improvement_plan` |
+
 프로젝트마다 주제가 다르더라도, 공통적으로 남아야 하는 질문은 같습니다.
 
 > 무엇을 풀려는가?
@@ -52,6 +63,14 @@ Part 6에서 꼭 가져가야 할 관점은 다음과 같습니다.
 | 재현성 | 다시 실행할 수 있는 입력과 코드, 출력 기록이 필요합니다. |
 | 서비스 관점 | LLM 프로젝트는 답변 품질만이 아니라 검색 실패, 권한, 지연 시간, 로그까지 함께 봐야 합니다. |
 
+이 관점을 한 단계 더 실무적으로 바꾸면, `결과 숫자`보다 `무슨 기록을 남겼는가`가 더 중요할 때가 많습니다.
+
+- baseline 프로젝트에서는 `accuracy`만이 아니라 `어떤 샘플을 틀렸는가`가 남아야 합니다.
+- 텍스트 프로젝트에서는 `정답/오답`만이 아니라 `tokens`, `coverage`, `oov_tokens`가 남아야 합니다.
+- RAG 프로젝트에서는 `답변`만이 아니라 `retrieval_candidates`, `answer_status`, `selected_doc_id`가 남아야 합니다.
+- agent 프로젝트에서는 `성공/실패`만이 아니라 `permission`, `approved`, `next_action`이 남아야 합니다.
+- 배포 프로젝트에서는 `배포 완료`만이 아니라 `incident_records`, `priority`, `next_action`이 남아야 합니다.
+
 ## 오해하기 쉬운 지점
 
 이 Part에서 특히 조심할 오해는 다음과 같습니다.
@@ -62,6 +81,8 @@ Part 6에서 꼭 가져가야 할 관점은 다음과 같습니다.
 - 코드가 실행된 것과, 문제 정의가 타당한 것은 같은 말이 아닙니다.
 - LLM 프로젝트에서 답변이 한두 번 잘 나온다고 평가가 끝난 것은 아닙니다.
 - 운영 실패를 기록하지 않으면 다음 개선이 어려워집니다.
+
+즉, 프로젝트는 `한 번 됐다`를 증명하는 문서가 아니라 `다음 반복이 가능하다`를 증명하는 문서여야 합니다.
 
 ## 이 파트에서 설명하는 범위와 설명하지 않을 범위
 
@@ -85,6 +106,14 @@ Part 6은 다음 질문을 독자의 이후 프로젝트로 넘깁니다.
 
 즉, Part 6은 책의 종착점이라기보다 이후 자율 프로젝트의 출발점입니다.
 
+이 질문들은 이미 Part 6 안에서 작은 형태로 예고되었습니다.
+
+- baseline 비교는 더 큰 실험 추적 체계로 커질 수 있습니다.
+- coverage와 OOV 기록은 더 정교한 tokenizer 실험으로 이어질 수 있습니다.
+- RAG의 `insufficient_evidence` 상태 기록은 더 엄격한 평가 파이프라인으로 이어질 수 있습니다.
+- agent의 `blocked`와 `approval_required_tools` 기록은 실제 운영 정책 문서로 확장될 수 있습니다.
+- 배포의 `incident_records`는 팀 단위 postmortem 문서의 씨앗이 됩니다.
+
 ## 다음 파트와 연결되는 관점
 
 이 책의 다음 numbered Part는 없지만, 이후 학습은 `더 큰 문제 정의 -> 더 나은 기준점 -> 더 긴 실험 기록 -> 더 엄격한 운영 검토`로 이어집니다. Part 6의 관점은 그 다음 반복을 직접 설계하게 만드는 기준점입니다.
@@ -97,6 +126,13 @@ Part 6은 다음 질문을 독자의 이후 프로젝트로 넘깁니다.
 - 결과를 수치와 사례로 함께 읽었는가?
 - 실패 사례와 개선 계획을 남겼는가?
 - LLM 프로젝트라면 검색, 도구 호출, 권한, 로그, 실패 대응을 함께 점검했는가?
+
+프로젝트 문서를 실제로 다시 펼쳐 볼 때는 다음 산출물 체크도 함께 해 보면 좋습니다.
+
+- `project_run`이나 `review_summary`가 있는가?
+- `comparison_rows`, `test_records`, `evaluation_records`처럼 샘플별 기록이 남아 있는가?
+- `selected_evidence`, `retrieval_candidates`처럼 근거 기록이 남아 있는가?
+- `execution_records`와 `incident_records`처럼 운영 흐름이 남아 있는가?
 
 ## 이 책 전체와 연결되는 관점
 
@@ -124,6 +160,10 @@ Part 6까지 왔다면 이 책의 전체 흐름은 다음처럼 묶입니다.
 - 운영 비용과 실패 대응을 별도 문서로 분리하기
 
 즉, Part 6은 끝이라기보다 `이제부터는 스스로 프로젝트를 만들어 다시 배우는 단계`로 넘어가는 출발점입니다.
+
+가장 짧게 정리하면 Part 6의 결론은 다음 한 문장으로 묶을 수 있습니다.
+
+`좋은 프로젝트 문서는 모델이나 코드보다 먼저, 다시 읽고 다시 실행할 수 있는 기록을 남긴다.`
 
 ## 출처와 참고 자료
 
