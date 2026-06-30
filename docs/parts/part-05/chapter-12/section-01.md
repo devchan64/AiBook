@@ -188,33 +188,47 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 외부 API를 붙이는 것이 아니라, `사용자 요청`, `도구 호출 계획`, `도구 실행 결과`, `최종 답변`이 서로 다른 단계라는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 외부 API를 붙이는 것이 아니라, `사용자 요청`, `도구 필요 판단`, `도구 호출 계획`, `도구 실행 결과`, `최종 답변`이 서로 다른 단계라는 점을 눈으로 확인하는 것입니다. 한 요청만 보면 `환율 조회 = 도구 필요` 정도로 끝나기 쉬우므로, 이번에는 여러 요청을 한 번에 돌려 어떤 요청에서만 도구가 필요한지도 같이 보겠습니다.
 
 문제 상황:
 
-- 사용자는 서울의 오늘 USD 환율을 알고 싶어 함
-- 모델이 바로 숫자를 추정해 말하는 것보다 실제 조회 도구를 쓰는 편이 안전함
-- 따라서 먼저 어떤 도구를 어떤 인자로 호출할지 정하고, 그 결과를 받은 뒤 답변을 만들어야 함
+- 어떤 요청은 실시간 조회가 필요해 도구를 써야 함
+- 어떤 요청은 일반 설명이므로 도구 없이도 답할 수 있음
+- 따라서 먼저 `도구가 필요한가`를 판단하고, 필요한 경우에만 호출 계획을 만든 뒤 실행 결과를 받아야 함
 
 입력:
 
-- 사용자 요청
+- 사용자 요청 여러 개
 - 도구 선택 규칙
 - 도구가 돌려주는 조회 결과
 
 출력:
 
+- 요청별 도구 필요 판단
 - 도구 호출 구조
 - 실행 결과
 - 실행 결과를 반영한 최종 답변
-- 도구 호출이 실제로 필요한 요청인지에 대한 점검값
+- 도구 호출이 실제로 필요한 요청을 잘 가려냈는지에 대한 점검값
+
+먼저 이 예제에서 같이 볼 항목을 표로 정리하면 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `needs_tool` | 어떤 요청이 실행 단계로 넘어가야 하는지 판단 |
+| `tool_selected` | 필요한 기능을 맞게 골랐는지 확인 |
+| `tool_result_used` | 실제 실행 결과가 최종 답에 반영됐는지 확인 |
+| `skipped_tool_when_not_needed` | 도구가 필요 없는 요청에 불필요한 호출을 하지 않는지 확인 |
 
 ```python
-user_request = "오늘 서울 기준 USD 환율을 알려 주세요."
+requests = [
+    "오늘 서울 기준 USD 환율을 알려 주세요.",
+    "환율 API를 조회한 뒤 기준 시각도 함께 알려 주세요.",
+    "환율이 무엇인지 한 문단으로 설명해 주세요.",
+]
 
 
 def plan_tool_call(request):
-    if "환율" in request:
+    if "환율" in request and ("오늘" in request or "조회" in request):
         return {
             "tool": "exchange_rate_lookup",
             "arguments": {
@@ -239,37 +253,71 @@ def execute_tool(tool_call):
     return {"error": "unknown tool"}
 
 
-def compose_final_answer(tool_result):
+def compose_final_answer(request, tool_result=None):
+    if tool_result is None:
+        return "환율은 한 통화가 다른 통화와 교환될 때 적용되는 비율입니다."
     return (
         f"서울 기준 오늘 USD/KRW 환율은 {tool_result['rate']}원이며, "
         f"기준 시각은 {tool_result['as_of']}입니다."
     )
 
 
-tool_call = plan_tool_call(user_request)
-tool_result = execute_tool(tool_call)
-final_answer = compose_final_answer(tool_result)
-inspection = {
-    "tool_selected": tool_call["tool"],
-    "uses_tool_result_rate": str(tool_result["rate"]) in final_answer,
-    "uses_tool_result_time": tool_result["as_of"] in final_answer,
+reports = []
+for request in requests:
+    tool_call = plan_tool_call(request)
+    tool_result = execute_tool(tool_call) if tool_call else None
+    final_answer = compose_final_answer(request, tool_result)
+    inspection = {
+        "needs_tool": tool_call is not None,
+        "tool_selected": tool_call["tool"] if tool_call else None,
+        "tool_result_used": (
+            tool_result is not None
+            and str(tool_result["rate"]) in final_answer
+            and tool_result["as_of"] in final_answer
+        ),
+        "skipped_tool_when_not_needed": tool_call is None and tool_result is None,
+    }
+    reports.append(
+        {
+            "request": request,
+            "tool_call": tool_call,
+            "tool_result": tool_result,
+            "final_answer": final_answer,
+            "inspection": inspection,
+        }
+    )
+
+summary = {
+    "needs_tool_count": sum(report["inspection"]["needs_tool"] for report in reports),
+    "tool_result_used_count": sum(report["inspection"]["tool_result_used"] for report in reports),
+    "skipped_tool_count": sum(report["inspection"]["skipped_tool_when_not_needed"] for report in reports),
 }
 
-print("[user_request]")
-print(user_request)
-print("[tool_call]")
-print(tool_call)
-print("[tool_result]")
-print(tool_result)
-print("[final_answer]")
-print(final_answer)
-print("[inspection]")
-print(inspection)
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[user_request]")
+    print(report["request"])
+    print("[tool_call]")
+    print(report["tool_call"])
+    print("[tool_result]")
+    print(report["tool_result"])
+    print("[final_answer]")
+    print(report["final_answer"])
+    print("[inspection]")
+    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'needs_tool_count': 2, 'tool_result_used_count': 2, 'skipped_tool_count': 1}
+
+================================================================================
 [user_request]
 오늘 서울 기준 USD 환율을 알려 주세요.
 [tool_call]
@@ -279,20 +327,49 @@ print(inspection)
 [final_answer]
 서울 기준 오늘 USD/KRW 환율은 1382.4원이며, 기준 시각은 2026-06-30 10:00 KST입니다.
 [inspection]
-{'tool_selected': 'exchange_rate_lookup', 'uses_tool_result_rate': True, 'uses_tool_result_time': True}
+{'needs_tool': True, 'tool_selected': 'exchange_rate_lookup', 'tool_result_used': True, 'skipped_tool_when_not_needed': False}
+================================================================================
+[user_request]
+환율 API를 조회한 뒤 기준 시각도 함께 알려 주세요.
+[tool_call]
+{'tool': 'exchange_rate_lookup', 'arguments': {'base_currency': 'USD', 'quote_currency': 'KRW', 'region': 'Seoul', 'date': 'today'}}
+[tool_result]
+{'base_currency': 'USD', 'quote_currency': 'KRW', 'rate': 1382.4, 'as_of': '2026-06-30 10:00 KST'}
+[final_answer]
+서울 기준 오늘 USD/KRW 환율은 1382.4원이며, 기준 시각은 2026-06-30 10:00 KST입니다.
+[inspection]
+{'needs_tool': True, 'tool_selected': 'exchange_rate_lookup', 'tool_result_used': True, 'skipped_tool_when_not_needed': False}
+================================================================================
+[user_request]
+환율이 무엇인지 한 문단으로 설명해 주세요.
+[tool_call]
+None
+[tool_result]
+None
+[final_answer]
+환율은 한 통화가 다른 통화와 교환될 때 적용되는 비율입니다.
+[inspection]
+{'needs_tool': False, 'tool_selected': None, 'tool_result_used': False, 'skipped_tool_when_not_needed': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청이 먼저 나오고, 실제 실행 결과를 받은 뒤에야 최종 답변이 만들어진다는 점입니다.
+이 결과에서 먼저 봐야 할 것은 `needs_tool_count`가 2이고 `skipped_tool_count`가 1이라는 점입니다. 즉, 모든 요청을 무조건 외부 기능으로 보내는 것이 아니라, 실시간 조회가 필요한 요청에서만 도구 호출 구조가 만들어지고, 설명형 요청은 도구 없이 끝납니다. 동시에 `tool_result_used_count`가 2라는 값은, 도구를 호출했으면 그 결과가 실제 최종 답 문장에 반영되었는지도 따로 봐야 한다는 뜻입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청이 먼저 나오고 실제 실행 결과를 받은 뒤에야 최종 답변이 만들어진다.
+- tool use에서는 `도구가 필요한 요청을 골라내는 판단`과 `실행 결과를 최종 답에 반영하는 단계`를 분리해서 봐야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `user_request`를 `내일 도쿄 기준 JPY 환율`처럼 바꿔 다른 인자 구조를 상상해 보기
+- `requests`에 `내일 도쿄 기준 JPY 환율` 같은 요청을 추가해 인자 구조를 늘려 보기
 - `execute_tool`에 오류 응답을 넣어 실패 처리 흐름을 확인해 보기
 - `compose_final_answer`를 바꿔 숫자뿐 아니라 출처나 경고 문구까지 함께 넣어 보기
+- `plan_tool_call`에 계산 요청을 추가해 조회와 계산 도구가 함께 등장하게 만들어 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 사용자 요청과
+- 도구 필요 판단과
 - 도구 호출 구조와
 - 실제 실행 결과와
 - 최종 답변이 분리되어 있다는 점입니다
