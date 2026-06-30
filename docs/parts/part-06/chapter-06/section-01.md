@@ -107,50 +107,97 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 agent 상태(state)와 tool result를 순서대로 기록하는 것입니다.
+이번 예제의 목적은 agent 상태(state)와 tool result를 순서대로 기록하는 것입니다. 이번에는 단순히 `tool`과 `result`만 출력하지 않고, `planned_steps`, `execution_records`, `final_report`를 함께 남겨 실제 실행 루프가 어떻게 문서화되는지 보이게 하겠습니다.
 
 ```python
 tools = {
-    "read_toc": lambda: "table-of-contents loaded",
-    "check_build": lambda: "mkdocs build passed",
-    "report_status": lambda: "report written",
+    "read_toc": lambda: {
+        "status": "success",
+        "summary": "table-of-contents loaded",
+        "observation": "part/chapter structure is available",
+    },
+    "check_build": lambda: {
+        "status": "success",
+        "summary": "mkdocs build passed",
+        "observation": "current docs render without build failure",
+    },
+    "report_status": lambda: {
+        "status": "success",
+        "summary": "report written",
+        "observation": "final status note can be shared",
+    },
 }
 
 goal = "summarize current book status"
-plan = ["read_toc", "check_build", "report_status"]
-log = []
+planned_steps = [
+    {"step": 1, "tool": "read_toc", "why": "need current structure first"},
+    {"step": 2, "tool": "check_build", "why": "need current build health"},
+    {"step": 3, "tool": "report_status", "why": "need final summary after observations"},
+]
+execution_records = []
 
-for step in plan:
-    result = tools[step]()
-    log.append({"tool": step, "result": result})
+for index, step in enumerate(planned_steps):
+    result = tools[step["tool"]]()
+    if result["status"] != "success":
+        next_action = "stop_and_review"
+    elif index == len(planned_steps) - 1:
+        next_action = "finish"
+    else:
+        next_action = planned_steps[index + 1]["tool"]
+
+    execution_records.append({
+        "step": step["step"],
+        "tool": step["tool"],
+        "why": step["why"],
+        "result_status": result["status"],
+        "result_summary": result["summary"],
+        "observation": result["observation"],
+        "next_action": next_action,
+    })
 
 print("goal =", goal)
-for entry in log:
+print("planned_steps =", planned_steps)
+print("execution_records =")
+for entry in execution_records:
     print(entry)
+
+final_report = {
+    "goal": goal,
+    "completed_steps": len(execution_records),
+    "final_status": execution_records[-1]["result_status"],
+    "last_observation": execution_records[-1]["observation"],
+}
+print("final_report =", final_report)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
 goal = summarize current book status
-{'tool': 'read_toc', 'result': 'table-of-contents loaded'}
-{'tool': 'check_build', 'result': 'mkdocs build passed'}
-{'tool': 'report_status', 'result': 'report written'}
+planned_steps = [{'step': 1, 'tool': 'read_toc', 'why': 'need current structure first'}, {'step': 2, 'tool': 'check_build', 'why': 'need current build health'}, {'step': 3, 'tool': 'report_status', 'why': 'need final summary after observations'}]
+execution_records =
+{'step': 1, 'tool': 'read_toc', 'why': 'need current structure first', 'result_status': 'success', 'result_summary': 'table-of-contents loaded', 'observation': 'part/chapter structure is available', 'next_action': 'check_build'}
+{'step': 2, 'tool': 'check_build', 'why': 'need current build health', 'result_status': 'success', 'result_summary': 'mkdocs build passed', 'observation': 'current docs render without build failure', 'next_action': 'report_status'}
+{'step': 3, 'tool': 'report_status', 'why': 'need final summary after observations', 'result_status': 'success', 'result_summary': 'report written', 'observation': 'final status note can be shared', 'next_action': 'finish'}
+final_report = {'goal': 'summarize current book status', 'completed_steps': 3, 'final_status': 'success', 'last_observation': 'final status note can be shared'}
 ```
 
 ## 결과를 어떻게 읽는가
 
 이 장난감 예제에서 읽어야 할 핵심은 `tool result가 다음 단계의 입력이 된다`는 점입니다.
 
+- `planned_steps`는 agent가 어떤 순서와 이유로 도구를 고르는지 보여 줍니다.
 - `read_toc`의 결과가 없으면 현재 구조를 모릅니다.
-- `check_build`의 결과가 실패라면 보고 내용이 바뀌어야 합니다.
+- `check_build`의 결과가 실패라면 `next_action`은 `report_status`가 아니라 중단 또는 재시도로 바뀌어야 합니다.
 - 마지막 `report_status`는 앞 두 단계 관찰을 묶어야 의미가 있습니다.
+- `final_report`는 실행 루프의 끝에서 무엇을 사용자에게 전달할지 정리합니다.
 
 즉, agent 프로젝트는 단순 명령 목록이 아니라 `관찰 기반 루프`입니다.
 
 이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
 
 - tool result는 다음 단계 판단의 근거가 된다
+- 계획, 관찰, 다음 행동이 함께 남아야 agent 루프를 다시 읽을 수 있다
 - 계획은 고정 문장이 아니라 관찰에 따라 바뀔 수 있다
 - agent 프로젝트는 답변보다 실행 흐름 기록이 중요하다
 
