@@ -160,77 +160,180 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 실행을 감싸는 기록이 `최종 결과` 하나로 끝나는 것이 아니라 `도구 호출`, `trace`, `평가 상태`, `재현 가능성`까지 함께 남겨야 한다는 점을 보는 것입니다.
+이번 예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 실행을 감싸는 기록이 `최종 결과` 하나로 끝나는 것이 아니라 `도구 호출`, `trace`, `평가 상태`, `재현 가능성`까지 함께 남겨야 한다는 점을 보는 것입니다. 하나의 실행만 보면 기록이 그냥 메모처럼 보일 수 있으므로, 이번에는 `정상 실행`, `오래된 문서 참조`, `승인 누락`을 나란히 두고 무엇이 분리되어 보이는지 확인하겠습니다.
 
 문제 상황:
 
-- 에이전트가 최신 환불 정책을 찾고 요약함
-- 최종 답만 보면 실행 과정에서 무슨 일이 있었는지 알기 어려움
-- 따라서 실행 기록 전체를 묶는 run record가 필요함
+- 고객 지원 에이전트가 환불 정책을 읽고 답변 초안을 만듦
+- 어떤 실행은 최신 정책을 읽었고, 어떤 실행은 오래된 문서를 읽었으며, 어떤 실행은 승인 없이 바로 전송됨
+- 최종 답만 보면 세 경우가 모두 `답변 품질 문제`처럼 보이지만 실제 원인은 다름
 
 입력:
 
-- 하나의 agent 실행
-- 실행 중 사용한 도구와 단계별 기록
+- 여러 번의 agent 실행 기록
+- 각 실행에서 사용한 도구, 읽은 문서, 승인 여부, 재현 식별자
 
 출력:
 
-- run record
-- 재현과 평가에 필요한 항목이 남았는지에 대한 점검값
+- 실행별 run report
+- 어떤 실행이 검색 실패, 승인 실패, 재현 가능성 부족으로 분리되는지에 대한 점검값
+
+먼저 이 예제에서 함께 볼 운영 점검 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `used_latest_policy` | 틀린 답의 원인이 오래된 근거 문서인지 분리해야 해서 |
+| `approval_completed` | 지식 오류와 운영 통제 오류를 구분해야 해서 |
+| `replay_ready` | 같은 실패를 다시 재현해 수정 전후를 비교해야 해서 |
+| `root_issue` | 검색, 승인, 기록 중 어디가 먼저 흔들렸는지 바로 읽어야 해서 |
 
 ```python
-run_record = {
-    "goal": "최신 환불 정책을 찾아 요약한다",
-    "tools_used": ["search_policy_docs", "read_file"],
-    "trace": [
-        {"step": 1, "action": "search_policy_docs", "observation": "found 2 recent notices"},
-        {"step": 2, "action": "read_file", "observation": "opened policy_notice_2026_06_29"},
-    ],
-    "result": "정책 변경 요약 완료",
-    "trace_saved": True,
-    "eval_status": "needs_review",
-    "replay_id": "run-2026-06-30-001",
-}
+runs = [
+    {
+        "run_id": "run-2026-06-30-001",
+        "goal": "최신 환불 정책을 찾아 답변 초안을 만든다",
+        "tools_used": ["search_policy_docs", "read_file", "request_approval"],
+        "documents_read": ["refund_policy_2026_06_29"],
+        "trace": [
+            {"step": 1, "action": "search_policy_docs", "status": "ok"},
+            {"step": 2, "action": "read_file", "status": "ok"},
+            {"step": 3, "action": "request_approval", "status": "approved"},
+        ],
+        "draft_answer": "최신 정책 기준으로 환불 가능",
+        "trace_saved": True,
+        "eval_status": "passed",
+        "approval_completed": True,
+        "replay_id": "run-2026-06-30-001",
+    },
+    {
+        "run_id": "run-2026-06-30-002",
+        "goal": "최신 환불 정책을 찾아 답변 초안을 만든다",
+        "tools_used": ["search_policy_docs", "read_file", "request_approval"],
+        "documents_read": ["refund_policy_2025_12_01"],
+        "trace": [
+            {"step": 1, "action": "search_policy_docs", "status": "ok"},
+            {"step": 2, "action": "read_file", "status": "ok"},
+            {"step": 3, "action": "request_approval", "status": "approved"},
+        ],
+        "draft_answer": "환불 불가",
+        "trace_saved": True,
+        "eval_status": "failed",
+        "approval_completed": True,
+        "replay_id": "run-2026-06-30-002",
+    },
+    {
+        "run_id": "run-2026-06-30-003",
+        "goal": "최신 환불 정책을 찾아 답변 초안을 만든다",
+        "tools_used": ["search_policy_docs", "read_file", "send_reply"],
+        "documents_read": ["refund_policy_2026_06_29"],
+        "trace": [
+            {"step": 1, "action": "search_policy_docs", "status": "ok"},
+            {"step": 2, "action": "read_file", "status": "ok"},
+            {"step": 3, "action": "send_reply", "status": "sent_without_approval"},
+        ],
+        "draft_answer": "최신 정책 기준으로 환불 가능",
+        "trace_saved": False,
+        "eval_status": "needs_review",
+        "approval_completed": False,
+        "replay_id": None,
+    },
+]
 
 
-def inspect_run_record(record):
+def inspect_run(record):
+    used_latest_policy = any("2026_06_29" in doc for doc in record["documents_read"])
+    replay_ready = record["trace_saved"] and record["replay_id"] is not None
+
+    if not used_latest_policy:
+        root_issue = "stale_reference"
+    elif not record["approval_completed"]:
+        root_issue = "approval_gap"
+    elif not replay_ready:
+        root_issue = "replay_gap"
+    else:
+        root_issue = "healthy_run"
+
     return {
+        "run_id": record["run_id"],
         "tool_count": len(record["tools_used"]),
         "trace_steps": len(record["trace"]),
+        "used_latest_policy": used_latest_policy,
+        "approval_completed": record["approval_completed"],
         "has_eval_status": "eval_status" in record,
-        "has_replay_id": "replay_id" in record,
-        "is_reproducible_shape": record["trace_saved"] and "replay_id" in record,
+        "has_replay_id": record["replay_id"] is not None,
+        "replay_ready": replay_ready,
+        "root_issue": root_issue,
     }
 
 
-inspection = inspect_run_record(run_record)
+reports = []
+for run in runs:
+    inspection = inspect_run(run)
+    reports.append({"run": run, "inspection": inspection})
 
-print("[run_record]")
-print(run_record)
-print("[inspection]")
-print(inspection)
+summary = {
+    "healthy_run_count": sum(report["inspection"]["root_issue"] == "healthy_run" for report in reports),
+    "stale_reference_count": sum(report["inspection"]["root_issue"] == "stale_reference" for report in reports),
+    "approval_gap_count": sum(report["inspection"]["root_issue"] == "approval_gap" for report in reports),
+    "replay_ready_count": sum(report["inspection"]["replay_ready"] for report in reports),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[run_id]")
+    print(report["run"]["run_id"])
+    print("[run]")
+    print(report["run"])
+    print("[inspection]")
+    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[run_record]
-{'goal': '최신 환불 정책을 찾아 요약한다', 'tools_used': ['search_policy_docs', 'read_file'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'observation': 'found 2 recent notices'}, {'step': 2, 'action': 'read_file', 'observation': 'opened policy_notice_2026_06_29'}], 'result': '정책 변경 요약 완료', 'trace_saved': True, 'eval_status': 'needs_review', 'replay_id': 'run-2026-06-30-001'}
+[summary]
+{'healthy_run_count': 1, 'stale_reference_count': 1, 'approval_gap_count': 1, 'replay_ready_count': 2}
+
+================================================================================
+[run_id]
+run-2026-06-30-001
+[run]
+{'run_id': 'run-2026-06-30-001', 'goal': '최신 환불 정책을 찾아 답변 초안을 만든다', 'tools_used': ['search_policy_docs', 'read_file', 'request_approval'], 'documents_read': ['refund_policy_2026_06_29'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'status': 'ok'}, {'step': 2, 'action': 'read_file', 'status': 'ok'}, {'step': 3, 'action': 'request_approval', 'status': 'approved'}], 'draft_answer': '최신 정책 기준으로 환불 가능', 'trace_saved': True, 'eval_status': 'passed', 'approval_completed': True, 'replay_id': 'run-2026-06-30-001'}
 [inspection]
-{'tool_count': 2, 'trace_steps': 2, 'has_eval_status': True, 'has_replay_id': True, 'is_reproducible_shape': True}
+{'run_id': 'run-2026-06-30-001', 'tool_count': 3, 'trace_steps': 3, 'used_latest_policy': True, 'approval_completed': True, 'has_eval_status': True, 'has_replay_id': True, 'replay_ready': True, 'root_issue': 'healthy_run'}
+================================================================================
+[run_id]
+run-2026-06-30-002
+[run]
+{'run_id': 'run-2026-06-30-002', 'goal': '최신 환불 정책을 찾아 답변 초안을 만든다', 'tools_used': ['search_policy_docs', 'read_file', 'request_approval'], 'documents_read': ['refund_policy_2025_12_01'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'status': 'ok'}, {'step': 2, 'action': 'read_file', 'status': 'ok'}, {'step': 3, 'action': 'request_approval', 'status': 'approved'}], 'draft_answer': '환불 불가', 'trace_saved': True, 'eval_status': 'failed', 'approval_completed': True, 'replay_id': 'run-2026-06-30-002'}
+[inspection]
+{'run_id': 'run-2026-06-30-002', 'tool_count': 3, 'trace_steps': 3, 'used_latest_policy': False, 'approval_completed': True, 'has_eval_status': True, 'has_replay_id': True, 'replay_ready': True, 'root_issue': 'stale_reference'}
+================================================================================
+[run_id]
+run-2026-06-30-003
+[run]
+{'run_id': 'run-2026-06-30-003', 'goal': '최신 환불 정책을 찾아 답변 초안을 만든다', 'tools_used': ['search_policy_docs', 'read_file', 'send_reply'], 'documents_read': ['refund_policy_2026_06_29'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'status': 'ok'}, {'step': 2, 'action': 'read_file', 'status': 'ok'}, {'step': 3, 'action': 'send_reply', 'status': 'sent_without_approval'}], 'draft_answer': '최신 정책 기준으로 환불 가능', 'trace_saved': False, 'eval_status': 'needs_review', 'approval_completed': False, 'replay_id': None}
+[inspection]
+{'run_id': 'run-2026-06-30-003', 'tool_count': 3, 'trace_steps': 3, 'used_latest_policy': True, 'approval_completed': False, 'has_eval_status': True, 'has_replay_id': False, 'replay_ready': False, 'root_issue': 'approval_gap'}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 결과 텍스트 하나만 남는 것이 아니라, 사용한 도구, 실행 trace, 평가 상태, replay 식별자까지 함께 추적된다는 점입니다.
+이 예제에서 먼저 봐야 할 것은 `stale_reference_count`, `approval_gap_count`, `replay_ready_count`가 서로 다른 축을 보여 준다는 점입니다. 즉, 답변 오류처럼 보여도 실제로는 `오래된 문서 참조`, `승인 누락`, `재현 정보 부족`이 따로 분리되어 보입니다. 하네스가 없다면 이 세 경우는 모두 `최종 답이 이상함`이라는 한 문장으로 뭉개지기 쉽습니다.
+
+그래서 이 예제에서 확인해야 할 결과는 결과 텍스트 하나만 남는 것이 아니라, 사용한 도구, 읽은 문서, 실행 trace, 평가 상태, replay 식별자까지 함께 추적되어 실패 원인을 실제 운영 단계로 나눠 볼 수 있다는 점입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `trace_saved`를 `False`로 바꿔 재현 가능성이 어떻게 약해지는지 보기
-- `eval_status`를 `passed`나 `failed`로 바꿔 평가 단계 연결을 상상해 보기
-- `trace`에 실패 단계 하나를 추가해 어떤 운영 정보가 더 필요해지는지 확인하기
+- `run-2026-06-30-002`의 문서 이름을 최신 정책으로 바꿔 `stale_reference_count`가 어떻게 줄어드는지 보기
+- `run-2026-06-30-003`에 `request_approval` 단계를 추가해 승인 누락과 재현 가능성 문제가 어떻게 분리되는지 보기
+- `trace_saved`와 `replay_id`를 따로 바꿔 재현 준비가 왜 단일 플래그 하나로 끝나지 않는지 확인하기
 
 ## 이 예제를 운영 기록 관점으로 다시 보면
 
-앞의 예제는 실제 하네스를 구현하는 코드가 아니라, `좋은 결과가 나왔는가`보다 먼저 `무슨 실행이 있었고 무엇이 남아야 하는가`를 점검하는 최소 장면입니다. 여기서 중요한 것은 기록 항목을 많이 나열하는 일이 아니라, 결과 문장 하나로는 운영 개선이 불가능하다는 점을 짧게 체감하는 데 있습니다.
+앞의 예제는 실제 하네스를 구현하는 코드가 아니라, `좋은 결과가 나왔는가`보다 먼저 `무슨 실행이 있었고 무엇이 남아야 하는가`를 점검하는 최소 장면입니다. 여기서 중요한 것은 기록 항목을 많이 나열하는 일이 아니라, 결과 문장 하나로는 운영 개선이 불가능하고, 서로 다른 실패를 서로 다른 운영 원인으로 분리해야 한다는 점을 짧게 체감하는 데 있습니다.
 
 ## 역사와 커리큘럼 관점
 
