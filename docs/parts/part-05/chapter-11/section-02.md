@@ -134,7 +134,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다. 특히 한 질문만 보는 대신, 여러 질문에서 `top-k 안에 정답 문서가 남는 비율`까지 함께 봐야 운영 판단이 더 정확해진다는 점을 확인하겠습니다.
+이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다. 특히 한 질문만 보는 대신, 여러 질문에서 `top-k 안에 정답 문서가 남는 비율`, `top-1이 바로 맞는 비율`, `버전 정합성`을 함께 봐야 운영 판단이 더 정확해진다는 점을 확인하겠습니다.
 
 문제 상황:
 
@@ -152,7 +152,16 @@ flowchart TD
 - 질문별 지연 시간
 - 질문별 top-k 후보
 - 현재 버전 문서가 실제로 포함되었는지 여부
-- 설정별 top-k 포함률
+- 설정별 top-k 포함률과 top-1 정합률
+
+먼저 이 예제에서 함께 볼 점검 항목은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `target_in_top_k` | 생성 단계가 참고할 후보 안에 정답이 살아 있는지 확인 |
+| `rank_of_target` | 정답이 너무 아래에 있어 생성이 놓치지 않는지 확인 |
+| `top1_is_target` | 가장 먼저 붙는 문서가 맞는지 확인 |
+| `top1_version_ok` | 비슷한 이름의 구버전 문서가 앞서 오지 않는지 확인 |
 
 ```python
 queries = [
@@ -220,6 +229,7 @@ queries = [
 
 
 def inspect_search(result, target_doc):
+    top1 = result["candidates"][0]
     return {
         "latency_ms": result["latency_ms"],
         "top_k": result["candidates"],
@@ -229,31 +239,41 @@ def inspect_search(result, target_doc):
             if target_doc in result["candidates"]
             else None
         ),
+        "top1_is_target": top1 == target_doc,
+        "top1_version_ok": top1.startswith("sdk_v2_"),
     }
 
 
 def summarize_mode(queries, mode_name):
     reports = []
     hit_count = 0
+    top1_hit_count = 0
+    version_ok_count = 0
     total_latency = 0
     for item in queries:
         inspected = inspect_search(item[mode_name], item["target_doc"])
         reports.append((item["question"], inspected))
         hit_count += int(inspected["target_in_top_k"])
+        top1_hit_count += int(inspected["top1_is_target"])
+        version_ok_count += int(inspected["top1_version_ok"])
         total_latency += inspected["latency_ms"]
     hit_rate = round(hit_count / len(queries), 3)
+    top1_hit_rate = round(top1_hit_count / len(queries), 3)
+    version_ok_rate = round(version_ok_count / len(queries), 3)
     avg_latency = round(total_latency / len(queries), 1)
-    return reports, hit_rate, avg_latency
+    return reports, hit_rate, top1_hit_rate, version_ok_rate, avg_latency
 
 
-fast_reports, fast_hit_rate, fast_avg_latency = summarize_mode(queries, "fast")
-strict_reports, strict_hit_rate, strict_avg_latency = summarize_mode(queries, "strict")
+fast_reports, fast_hit_rate, fast_top1_hit_rate, fast_version_ok_rate, fast_avg_latency = summarize_mode(queries, "fast")
+strict_reports, strict_hit_rate, strict_top1_hit_rate, strict_version_ok_rate, strict_avg_latency = summarize_mode(queries, "strict")
 
 print("[fast search]")
 for question, report in fast_reports:
     print("question =", question)
     print(report)
 print("fast_hit_rate =", fast_hit_rate)
+print("fast_top1_hit_rate =", fast_top1_hit_rate)
+print("fast_top1_version_ok_rate =", fast_version_ok_rate)
 print("fast_avg_latency_ms =", fast_avg_latency)
 
 print("[strict search]")
@@ -261,6 +281,8 @@ for question, report in strict_reports:
     print("question =", question)
     print(report)
 print("strict_hit_rate =", strict_hit_rate)
+print("strict_top1_hit_rate =", strict_top1_hit_rate)
+print("strict_top1_version_ok_rate =", strict_version_ok_rate)
 print("strict_avg_latency_ms =", strict_avg_latency)
 ```
 
@@ -269,31 +291,40 @@ print("strict_avg_latency_ms =", strict_avg_latency)
 ```text
 [fast search]
 question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 24, 'top_k': ['sdk_v1_timeout_guide', 'sdk_v1_retry_notes', 'sdk_general_networking'], 'target_in_top_k': False, 'rank_of_target': None}
+{'latency_ms': 24, 'top_k': ['sdk_v1_timeout_guide', 'sdk_v1_retry_notes', 'sdk_general_networking'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
 question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 22, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_networking', 'sdk_v2_request_timeout'], 'target_in_top_k': False, 'rank_of_target': None}
+{'latency_ms': 22, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_networking', 'sdk_v2_request_timeout'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
 question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 25, 'top_k': ['sdk_v1_auth_overview', 'sdk_general_security', 'sdk_v2_auth_refresh_flow'], 'target_in_top_k': True, 'rank_of_target': 3}
+{'latency_ms': 25, 'top_k': ['sdk_v1_auth_overview', 'sdk_general_security', 'sdk_v2_auth_refresh_flow'], 'target_in_top_k': True, 'rank_of_target': 3, 'top1_is_target': False, 'top1_version_ok': False}
 fast_hit_rate = 0.333
+fast_top1_hit_rate = 0.0
+fast_top1_version_ok_rate = 0.0
 fast_avg_latency_ms = 23.7
 [strict search]
 question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1}
+{'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 81, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout', 'sdk_v1_retry_notes'], 'target_in_top_k': True, 'rank_of_target': 1}
+{'latency_ms': 81, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout', 'sdk_v1_retry_notes'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 86, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_general_security', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1}
+{'latency_ms': 86, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_general_security', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 strict_hit_rate = 1.0
+strict_top1_hit_rate = 1.0
+strict_top1_version_ok_rate = 1.0
 strict_avg_latency_ms = 85.0
 ```
 
-이 예제에서 확인해야 할 결과는 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`를 같이 읽어야 한다는 점입니다. 특히 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `fast_hit_rate = 0.333`처럼 설정 품질 차이가 더 분명하게 드러날 수 있습니다.
+이 예제에서 먼저 봐야 할 것은 `fast_avg_latency_ms = 23.7`이 매우 좋아 보여도 `fast_top1_hit_rate = 0.0`, `fast_top1_version_ok_rate = 0.0`이라는 점입니다. 즉, 빠른 설정은 지연 시간은 줄였지만, 가장 먼저 붙는 문서가 모두 구버전이어서 생성 단계 출발점이 이미 흔들립니다. 반대로 strict 설정은 느리지만 top-k 포함률, top-1 정합률, 버전 정합률이 모두 1.0입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`를 같이 읽어야 한다.
+- 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `hit_rate`, `top1_hit_rate`, `version_ok_rate` 차이가 더 분명하게 드러난다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `target_doc`를 다른 문서로 바꿔 어떤 질문에서 빠른 설정이 더 큰 손실을 내는지 보기
 - `queries[0]["fast"]["candidates"]`를 바꿔 비슷하지만 틀린 버전 문서가 얼마나 위험한지 확인하기
-- `inspect_search`에 `recall_like_score`나 `version_match` 항목을 추가해 자체 품질 지표를 넓혀 보기
+- `inspect_search`에 `recall_like_score`나 `top2_version_mix` 같은 항목을 추가해 자체 품질 지표를 넓혀 보기
 
 ## 이 예제를 검색 타협 관점으로 다시 보면
 
