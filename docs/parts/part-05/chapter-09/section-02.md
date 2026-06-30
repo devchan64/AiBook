@@ -139,98 +139,166 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을 직접 확인하는 것입니다.
+이번 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을 직접 확인하는 것입니다. 이번에는 최신 환불 정책, 매출 합계 계산, 파일 저장 자동화처럼 서로 다른 세 장면을 한 번에 놓고, 프롬프트만 있을 때와 실제 구조가 붙었을 때 어떤 점검 결과가 달라지는지 비교하겠습니다.
 
 문제 상황:
 
-- 사용자는 최신 환불 정책을 묻고 있음
-- 프롬프트에는 `최신 문서를 근거로 정확하게 답하라`고 강하게 적어 둘 수 있음
-- 하지만 실제 최신 문서가 붙지 않으면 답은 여전히 오래된 기준에 묶일 수 있음
+- 사용자는 최신 정책, 정확한 계산, 실제 저장 실행을 함께 기대할 수 있음
+- 프롬프트에는 `최신 문서를 근거로`, `정확하게 계산해서`, `저장까지 완료해`라고 강하게 적어 둘 수 있음
+- 하지만 최신 문서 연결, 계산 도구, 저장 도구가 없으면 답은 여전히 말뿐인 지시로 끝날 수 있음
 
 입력:
 
-- 같은 사용자 질문
-- 오래된 내부 기억 역할의 값 하나
-- 최신 문서 역할의 값 하나
+- 세 가지 사용자 작업
+- 오래된 내부 기억, 계산 전 원본 값, 실행 전 요청 값
+- 최신 문서, 계산 도구 결과, 실제 저장 로그
 
 출력:
 
-- 프롬프트만 있는 답변
-- 최신 문서를 실제로 연결했을 때의 답변
+- 프롬프트만 있는 결과
+- 구조를 붙였을 때의 결과
 - 어떤 구조 요소가 부족한지에 대한 점검 결과
 
 ```python
-question = "오늘 기준 환불 가능 기간은 며칠인가요?"
-strong_prompt = "최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요."
+tasks = [
+    {
+        "name": "latest_policy",
+        "question": "오늘 기준 환불 가능 기간은 며칠인가요?",
+        "strong_prompt": "최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요.",
+        "prompt_only_result": {
+            "answer": "환불 가능 기간은 7일입니다.",
+            "used_source": "old_model_memory",
+        },
+        "structured_result": {
+            "answer": "환불 가능 기간은 14일입니다.",
+            "used_source": "policy_2026_06",
+        },
+        "expected": {
+            "latest_source": "policy_2026_06",
+        },
+    },
+    {
+        "name": "numeric_report",
+        "question": "세 지점의 주간 매출 합계와 평균을 알려 주세요.",
+        "strong_prompt": "숫자를 정확하게 계산해서 합계와 평균을 한 줄로 알려 주세요.",
+        "prompt_only_result": {
+            "answer": "합계는 1100이고 평균은 350입니다.",
+            "numbers": {"sum": 1100, "avg": 350},
+            "used_calculator": False,
+        },
+        "structured_result": {
+            "answer": "합계는 1200이고 평균은 400입니다.",
+            "numbers": {"sum": 1200, "avg": 400},
+            "used_calculator": True,
+        },
+        "expected": {
+            "sum": 1200,
+            "avg": 400,
+        },
+    },
+    {
+        "name": "file_automation",
+        "question": "업로드된 계약서를 법무 폴더에 저장해 주세요.",
+        "strong_prompt": "분류 후 올바른 폴더에 저장까지 완료했다고 보고해 주세요.",
+        "prompt_only_result": {
+            "answer": "계약서를 법무 폴더에 저장했습니다.",
+            "saved": False,
+            "save_log_id": None,
+        },
+        "structured_result": {
+            "answer": "계약서를 legal/contracts 폴더에 저장했습니다.",
+            "saved": True,
+            "save_log_id": "save-log-2048",
+        },
+        "expected": {
+            "saved": True,
+        },
+    },
+]
 
-stale_model_memory = {"refund_days": 7, "source": "old_model_memory"}
-latest_policy_doc = {"refund_days": 14, "source": "policy_2026_06"}
+
+def inspect_task(task_name, result, expected):
+    if task_name == "latest_policy":
+        return {
+            "answer": result["answer"],
+            "used_source": result["used_source"],
+            "has_latest_document": result["used_source"] == expected["latest_source"],
+            "needs_extra_structure": result["used_source"] != expected["latest_source"],
+        }
+
+    if task_name == "numeric_report":
+        return {
+            "answer": result["answer"],
+            "numbers": result["numbers"],
+            "used_calculator": result["used_calculator"],
+            "numeric_ok": (
+                result["numbers"]["sum"] == expected["sum"]
+                and result["numbers"]["avg"] == expected["avg"]
+            ),
+            "needs_extra_structure": not result["used_calculator"],
+        }
+
+    if task_name == "file_automation":
+        return {
+            "answer": result["answer"],
+            "saved": result["saved"],
+            "save_log_id": result["save_log_id"],
+            "execution_ok": result["saved"] == expected["saved"] and result["save_log_id"] is not None,
+            "needs_extra_structure": not result["saved"],
+        }
 
 
-def answer_with_prompt_only(memory):
-    return {
-        "answer": f"환불 가능 기간은 {memory['refund_days']}일입니다.",
-        "used_source": memory["source"],
-    }
-
-
-def answer_with_grounded_document(document):
-    return {
-        "answer": f"환불 가능 기간은 {document['refund_days']}일입니다.",
-        "used_source": document["source"],
-    }
-
-
-def inspect_system(answer_record, expected_document_source):
-    return {
-        "answer": answer_record["answer"],
-        "used_source": answer_record["used_source"],
-        "has_latest_document": answer_record["used_source"] == expected_document_source,
-        "needs_extra_structure": answer_record["used_source"] != expected_document_source,
-    }
-
-
-prompt_only_result = answer_with_prompt_only(stale_model_memory)
-grounded_result = answer_with_grounded_document(latest_policy_doc)
-
-print("[question]")
-print(question)
-print("[strong prompt]")
-print(strong_prompt)
-print()
-print("[prompt only]")
-print(inspect_system(prompt_only_result, "policy_2026_06"))
-print()
-print("[grounded with latest document]")
-print(inspect_system(grounded_result, "policy_2026_06"))
+for task in tasks:
+    print("=" * 80)
+    print("task =", task["name"])
+    print("question =", task["question"])
+    print("strong_prompt =", task["strong_prompt"])
+    print("[prompt only]")
+    print(inspect_task(task["name"], task["prompt_only_result"], task["expected"]))
+    print("[structured]")
+    print(inspect_task(task["name"], task["structured_result"], task["expected"]))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[question]
-오늘 기준 환불 가능 기간은 며칠인가요?
-[strong prompt]
-최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요.
-
+================================================================================
+task = latest_policy
+question = 오늘 기준 환불 가능 기간은 며칠인가요?
+strong_prompt = 최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요.
 [prompt only]
 {'answer': '환불 가능 기간은 7일입니다.', 'used_source': 'old_model_memory', 'has_latest_document': False, 'needs_extra_structure': True}
-
-[grounded with latest document]
+[structured]
 {'answer': '환불 가능 기간은 14일입니다.', 'used_source': 'policy_2026_06', 'has_latest_document': True, 'needs_extra_structure': False}
+================================================================================
+task = numeric_report
+question = 세 지점의 주간 매출 합계와 평균을 알려 주세요.
+strong_prompt = 숫자를 정확하게 계산해서 합계와 평균을 한 줄로 알려 주세요.
+[prompt only]
+{'answer': '합계는 1100이고 평균은 350입니다.', 'numbers': {'sum': 1100, 'avg': 350}, 'used_calculator': False, 'numeric_ok': False, 'needs_extra_structure': True}
+[structured]
+{'answer': '합계는 1200이고 평균은 400입니다.', 'numbers': {'sum': 1200, 'avg': 400}, 'used_calculator': True, 'numeric_ok': True, 'needs_extra_structure': False}
+================================================================================
+task = file_automation
+question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
+strong_prompt = 분류 후 올바른 폴더에 저장까지 완료했다고 보고해 주세요.
+[prompt only]
+{'answer': '계약서를 법무 폴더에 저장했습니다.', 'saved': False, 'save_log_id': None, 'execution_ok': False, 'needs_extra_structure': True}
+[structured]
+{'answer': '계약서를 legal/contracts 폴더에 저장했습니다.', 'saved': True, 'save_log_id': 'save-log-2048', 'execution_ok': True, 'needs_extra_structure': False}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 강한 프롬프트 문장 자체가 최신 문서 접근을 자동으로 만들어 주지 않으며, 실제 최신 근거 연결이 있어야만 답이 바뀐다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 강한 프롬프트 문장 자체가 최신 문서 접근, 정확한 계산, 실제 저장 실행을 자동으로 만들어 주지 않는다는 점입니다. 실제 구조가 붙어야만 최신성, 수치 정확성, 실행 성공 여부가 함께 바뀝니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `stale_model_memory["refund_days"]`를 다른 값으로 바꿔 오래된 내부 기억 오류를 더 크게 만들어 보기
-- `latest_policy_doc`에 버전, 날짜, 정책 ID를 추가해 근거 추적 정보를 확장해 보기
-- `inspect_system`에 `format_ok`, `numeric_check`, `document_id_present` 같은 항목을 추가해 점검 범위를 넓혀 보기
+- `prompt_only_result`의 숫자나 저장 성공 여부를 바꿔, 겉보기 답변과 실제 구조 점검이 얼마나 쉽게 어긋나는지 확인해 보기
+- `structured_result`에 문서 버전, 계산 로그, 저장 경로 같은 추적 정보를 더 추가해 보기
+- `inspect_task`에 `path_ok`, `document_id_present`, `retry_available` 같은 항목을 넣어 점검 범위를 넓혀 보기
 
 ## 이 예제를 시스템 경계 관점으로 다시 보면
 
-이 예제는 프롬프트가 강해질수록 모든 문제가 해결된다는 오해를 막아 줍니다. 실제 서비스에서는 최신 정보 접근, 검증, 형식 강제, 도구 호출 같은 바깥 구조가 따로 필요하므로, 프롬프트는 시스템 전체 중 하나의 층으로만 읽어야 합니다.
+이 예제는 프롬프트가 강해질수록 모든 문제가 해결된다는 오해를 막아 줍니다. 실제 서비스에서는 최신 정보 접근, 계산 검증, 도구 호출과 실행 로그 같은 바깥 구조가 따로 필요하므로, 프롬프트는 시스템 전체 중 하나의 층으로만 읽어야 합니다.
 
 ## 역사와 커리큘럼 관점
 
