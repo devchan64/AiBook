@@ -111,6 +111,139 @@ flowchart TD
 
 이번 모델은 매우 작은 softmax 분류기입니다. Part 4에서 본 깊은 층(deep layer)이나 합성곱(convolution)을 전혀 쓰지 않았기 때문에, 복합 패턴을 더 세밀하게 구분하기 어렵습니다.
 
+## Python 예제
+
+이번 예제의 목적은 P6-3.1의 애매한 샘플 하나를 실제 프로젝트 회고 기록으로 바꾸는 것입니다.
+
+- 문제 상황: `test-mixed-pattern`이 왜 틀렸는지 기록한다.
+- 입력(input): test 샘플별 예측 결과와 학습 데이터 패턴 목록
+- 기대 출력(output): 오류 사례 기록, 원인 가설, 다음 조치 목록
+- 확인할 개념:
+  - 오류 사례는 샘플 ID 기준으로 다시 추적할 수 있어야 한다
+  - 원인을 데이터 / 표현 / 모델 층위로 나누어 적을 수 있어야 한다
+  - 다음 반복을 위한 조치가 함께 남아야 한다
+
+```python
+test_records = [
+    {
+        "sample_id": "test-vertical-clear",
+        "pattern_name": "vertical_bar",
+        "true_label": 0,
+        "pred_label": 0,
+        "probs": [0.997, 0.003],
+        "confidence_margin": 0.994,
+        "needs_error_review": False,
+    },
+    {
+        "sample_id": "test-horizontal-clear",
+        "pattern_name": "horizontal_bar",
+        "true_label": 1,
+        "pred_label": 1,
+        "probs": [0.003, 0.997],
+        "confidence_margin": 0.994,
+        "needs_error_review": False,
+    },
+    {
+        "sample_id": "test-mixed-pattern",
+        "pattern_name": "mixed_bar",
+        "true_label": 1,
+        "pred_label": 0,
+        "probs": [0.5, 0.5],
+        "confidence_margin": 0.0,
+        "needs_error_review": True,
+        "image": [
+            [0, 1, 1, 0],
+            [0, 1, 1, 0],
+            [1, 1, 1, 1],
+            [0, 0, 0, 0],
+        ],
+    },
+]
+
+train_pattern_names = [
+    "vertical_bar",
+    "vertical_bar",
+    "horizontal_bar",
+    "horizontal_bar",
+]
+
+label_names = {0: "vertical_bar", 1: "horizontal_bar"}
+
+error_case_record = None
+for row in test_records:
+    if row["needs_error_review"]:
+        contains_mixed_pattern = row["pattern_name"] == "mixed_bar"
+        seen_in_train = row["pattern_name"] in train_pattern_names
+        error_case_record = {
+            "sample_id": row["sample_id"],
+            "true_label_name": label_names[row["true_label"]],
+            "pred_label_name": label_names[row["pred_label"]],
+            "probs": row["probs"],
+            "confidence_margin": row["confidence_margin"],
+            "contains_mixed_pattern": contains_mixed_pattern,
+            "seen_in_train": seen_in_train,
+            "data_hypothesis": "train data lacks mixed examples",
+            "representation_hypothesis": "flattened 4x4 input loses local layout emphasis",
+            "model_hypothesis": "linear softmax boundary is too simple for mixed patterns",
+        }
+        break
+
+next_actions = [
+    {
+        "action": "add_mixed_patterns_to_train",
+        "reason": "current train data only contains pure vertical/horizontal patterns",
+    },
+    {
+        "action": "add_shifted_or_noisy_variants",
+        "reason": "current examples are too clean and repetitive",
+    },
+    {
+        "action": "try_cnn_style_followup",
+        "reason": "spatial structure may matter more than flattened pixels",
+    },
+]
+
+review_summary = {
+    "error_case_count": sum(row["needs_error_review"] for row in test_records),
+    "review_target_ids": [
+        row["sample_id"] for row in test_records if row["needs_error_review"]
+    ],
+    "next_action_count": len(next_actions),
+}
+
+print("review_summary =", review_summary)
+print("error_case_record =", error_case_record)
+print("next_actions =")
+for row in next_actions:
+    print(row)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+review_summary = {'error_case_count': 1, 'review_target_ids': ['test-mixed-pattern'], 'next_action_count': 3}
+error_case_record = {'sample_id': 'test-mixed-pattern', 'true_label_name': 'horizontal_bar', 'pred_label_name': 'vertical_bar', 'probs': [0.5, 0.5], 'confidence_margin': 0.0, 'contains_mixed_pattern': True, 'seen_in_train': False, 'data_hypothesis': 'train data lacks mixed examples', 'representation_hypothesis': 'flattened 4x4 input loses local layout emphasis', 'model_hypothesis': 'linear softmax boundary is too simple for mixed patterns'}
+next_actions =
+{'action': 'add_mixed_patterns_to_train', 'reason': 'current train data only contains pure vertical/horizontal patterns'}
+{'action': 'add_shifted_or_noisy_variants', 'reason': 'current examples are too clean and repetitive'}
+{'action': 'try_cnn_style_followup', 'reason': 'spatial structure may matter more than flattened pixels'}
+```
+
+## 이 출력은 어떻게 읽는가
+
+이 예제에서 중요한 점은 세 가지입니다.
+
+1. `review_summary`  
+   회고 대상 샘플이 몇 개인지, 어떤 샘플 ID를 다시 볼지 바로 정리합니다.
+
+2. `error_case_record`  
+   단순히 `틀렸다`가 아니라, 정답/예측 클래스 이름, 확률, 학습 데이터 포함 여부, 원인 가설까지 한 묶음으로 남깁니다.
+
+3. `next_actions`  
+   개선 계획을 막연한 문장으로 끝내지 않고, 바로 다음 반복에서 실행할 작업 목록으로 바꿉니다.
+
+즉, 오류 분석 문서는 감상문이 아니라 `다음 실험을 여는 기록`이어야 합니다.
+
 ## 회고 문장 예시
 
 이 프로젝트의 오류 사례 회고를 한 문단으로 적는다면 다음처럼 쓸 수 있습니다.
