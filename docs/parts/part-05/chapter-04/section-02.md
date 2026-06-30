@@ -33,6 +33,15 @@ P5-4.1에서는 GPT 계열을 이전 토큰을 바탕으로 다음 토큰을 이
 - 챗봇 경험이 모델 구조 하나만으로 완성되지 않는다는 점을 설명할 수 있습니다.
 - 이후 pretraining, instruction tuning, prompt, agent 설명으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 충분합니다.
+
+1. 먼저 자동완성형 생성 경험과 대화형 경험이 어떻게 다른지 봅니다.
+2. 그 다음 어떤 추가 층이 사용자 경험을 바꿨는지 읽습니다.
+3. 이어서 자연어 지시, 안전 조정, 인터페이스가 왜 함께 중요해졌는지 구분합니다.
+4. 마지막에 사례와 예제로 `형식`, `역할`, `안전 제약`이 실제 응답 구조에 반영되는가를 확인합니다.
+
 ## 자동완성에서 대화로 바뀌었다는 말의 뜻
 
 초기 생성 모델 사용자 경험은 대체로 다음과 같았습니다.
@@ -122,6 +131,16 @@ GPT-3 시기 이후 사용자는 prompt 안에 설명과 예시를 넣어 모델
 
 이 차이를 구분해야 나중에 agent, MCP, harness를 혼동 없이 설명할 수 있습니다.
 
+## 여기까지를 한 줄로 묶으면
+
+여기까지의 흐름을 한 번에 묶으면, 대화형 LLM 경험은 `다음 토큰 생성 모델` 하나만으로 닫히지 않습니다.
+
+- 모델은 여전히 다음 토큰을 생성합니다.
+- 조정 단계는 그 생성이 어떤 지시와 형식을 따를지 바꿉니다.
+- 인터페이스는 대화 기록, 역할, 도구 결과를 함께 묶어 사용자 경험으로 보여 줍니다.
+
+즉, 사용자가 보는 챗봇은 `생성 모델 + 조정 + 인터페이스`가 합쳐진 결과로 읽는 편이 안전합니다.
+
 ## 아주 단순하게 그리면
 
 ```mermaid
@@ -193,6 +212,7 @@ flowchart TD
 - 대화형 지시 응답 스타일
 - 요청 형식이 반영되었는지 여부
 - 역할과 안전 제약이 반영되었는지 여부
+- 어떤 항목에서 자동완성과 대화형 응답이 갈리는지
 
 ```python
 user_request = "이 문서를 세 문장으로 요약해줘"
@@ -217,6 +237,16 @@ def inspect_response(lines, required_count, blocked_terms):
         "matches_requested_count": len(lines) == required_count,
         "mentions_beginner_friendly_tone": any("설명" in line or "정리" in line for line in lines),
         "contains_blocked_term": any(term in joined for term in blocked_terms),
+        "starts_with_structured_answer": any(line.startswith(("첫째", "둘째", "셋째")) for line in lines),
+    }
+
+
+def compare_experience(report):
+    return {
+        "format_followed": report["matches_requested_count"],
+        "role_followed": report["mentions_beginner_friendly_tone"],
+        "safety_ok": not report["contains_blocked_term"],
+        "structured_response": report["starts_with_structured_answer"],
     }
 
 
@@ -234,11 +264,13 @@ print("blocked_terms =", blocked_terms)
 print()
 print("autocomplete_style =", autocomplete_style)
 print("autocomplete_report =", autocomplete_report)
+print("autocomplete_experience =", compare_experience(autocomplete_report))
 print()
 print("instruction_style =")
 for line in instruction_style:
     print("-", line)
 print("instruction_report =", instruction_report)
+print("instruction_experience =", compare_experience(instruction_report))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -250,13 +282,15 @@ system_role = 초심자에게 설명하는 학습 도우미
 blocked_terms = ['확실하지 않은 사실을 단정', '공격적 표현']
 
 autocomplete_style = ['이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다...']
-autocomplete_report = {'sentence_count': 1, 'matches_requested_count': False, 'mentions_beginner_friendly_tone': False, 'contains_blocked_term': True}
+autocomplete_report = {'sentence_count': 1, 'matches_requested_count': False, 'mentions_beginner_friendly_tone': False, 'contains_blocked_term': True, 'starts_with_structured_answer': False}
+autocomplete_experience = {'format_followed': False, 'role_followed': False, 'safety_ok': False, 'structured_response': False}
 
 instruction_style =
 - 첫째, 이 문서는 핵심 개념을 정리합니다.
 - 둘째, 주요 사례와 한계를 함께 설명합니다.
 - 셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.
-instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'mentions_beginner_friendly_tone': True, 'contains_blocked_term': False}
+instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'mentions_beginner_friendly_tone': True, 'contains_blocked_term': False, 'starts_with_structured_answer': True}
+instruction_experience = {'format_followed': True, 'role_followed': True, 'safety_ok': True, 'structured_response': True}
 ```
 
 ## 이 예제를 사용자 경험 관점으로 다시 보면
@@ -268,6 +302,7 @@ instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'men
 - 둘 다 생성이지만
 - 자동완성은 자연스러운 이어쓰기에 더 가깝고
 - 대화형 LLM은 사용자의 지시 형식, 역할, 안전 제약을 더 명시적으로 따르도록 조정된 경험이라는 점입니다
+- 따라서 같은 생성 모델 위에서도 `format_followed`, `role_followed`, `safety_ok` 같은 항목에서 사용자 경험 차이가 실제로 드러납니다
 
 ## 역사와 커리큘럼 관점
 
