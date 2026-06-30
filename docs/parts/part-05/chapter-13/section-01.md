@@ -217,13 +217,14 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아니라, 하나의 목표가 들어왔을 때 `검색`, `읽기`, `요약`, `출처 부착` 같은 여러 작업 단계와 상태로 풀리는 장면을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아니라, 하나의 목표가 들어왔을 때 `검색`, `읽기`, `요약`, `출처 부착` 같은 여러 작업 단계와 상태로 풀리고, 그 상태에 따라 다음 계획이 실제로 다시 짜이는 장면을 눈으로 확인하는 것입니다.
 
 문제 상황:
 
 - 사용자는 최신 환불 정책을 요약하고 출처까지 붙인 답을 원함
 - 이 목표는 한 문장 생성만으로 끝나지 않고 여러 단계를 거쳐야 함
 - 각 단계가 끝날 때마다 상태가 누적되어 다음 단계 선택에 쓰여야 함
+- 따라서 한 번의 계획으로 끝나는 것이 아니라 `계획 -> 실행 -> 관찰 -> 재계획`이 반복되어야 함
 
 입력:
 
@@ -234,7 +235,16 @@ flowchart TD
 
 - 단계별 실행 계획
 - 단계가 끝날 때마다 갱신되는 상태
-- 다음 계획이 왜 바뀌었는지 보여 주는 점검값
+- 각 라운드 뒤 다음 계획이 어떻게 바뀌는지 보여 주는 점검값
+
+먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `current_plan` | 지금 상태에서 무엇을 해야 하는지 확인 |
+| `documents_found_count` | 검색 결과가 다음 단계로 이어질 만큼 확보됐는지 확인 |
+| `summary_ready` | 읽기 이후 요약 단계로 넘어갈 수 있는지 확인 |
+| `sources_attached` | 최종 답까지 도달했는지 확인 |
 
 ```python
 goal = "최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다."
@@ -242,6 +252,7 @@ goal = "최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한�
 state = {
     "goal": goal,
     "documents_found": [],
+    "read_complete": False,
     "summary_ready": False,
     "sources_attached": False,
 }
@@ -251,10 +262,11 @@ def build_plan(state):
     steps = []
     if not state["documents_found"]:
         steps.append("search_policy_docs")
-    if state["documents_found"] and not state["summary_ready"]:
+    elif not state["read_complete"]:
         steps.append("read_top_documents")
+    elif not state["summary_ready"]:
         steps.append("summarize_changes")
-    if state["summary_ready"] and not state["sources_attached"]:
+    elif not state["sources_attached"]:
         steps.append("attach_sources")
     return steps
 
@@ -279,26 +291,43 @@ def simulate_step(step, state):
     return state
 
 
-plan = build_plan(state)
+round_reports = []
+while True:
+    current_plan = build_plan(state)
+    if not current_plan:
+        break
+
+    step = current_plan[0]
+    state = simulate_step(step, state)
+    next_plan = build_plan(state)
+    round_reports.append(
+        {
+            "step": step,
+            "state_snapshot": {
+                "documents_found_count": len(state["documents_found"]),
+                "read_complete": state["read_complete"],
+                "summary_ready": state["summary_ready"],
+                "sources_attached": state["sources_attached"],
+            },
+            "next_plan": next_plan,
+        }
+    )
+
+inspection = {
+    "round_count": len(round_reports),
+    "final_documents_found_count": len(state["documents_found"]),
+    "final_summary_ready": state["summary_ready"],
+    "final_sources_attached": state["sources_attached"],
+    "finished": state["sources_attached"] and "final_answer" in state,
+}
+
 print("[goal]")
 print(goal)
-print("[initial plan]")
-print(plan)
-
-for step in plan:
-    state = simulate_step(step, state)
-    print(f"[after {step}]")
-    print(state)
-
-second_plan = build_plan(state)
-inspection = {
-    "documents_found_count": len(state["documents_found"]),
-    "summary_ready": state["summary_ready"],
-    "sources_attached": state["sources_attached"],
-    "next_plan_length": len(second_plan),
-}
-print("[next plan after first pass]")
-print(second_plan)
+for idx, report in enumerate(round_reports, start=1):
+    print(f"[round {idx}]")
+    print(report)
+print("[final state]")
+print(state)
 print("[inspection]")
 print(inspection)
 ```
@@ -308,23 +337,33 @@ print(inspection)
 ```text
 [goal]
 최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.
-[initial plan]
-['search_policy_docs']
-[after search_policy_docs]
-{'goal': '최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.', 'documents_found': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'summary_ready': False, 'sources_attached': False}
-[next plan after first pass]
-['read_top_documents', 'summarize_changes']
+[round 1]
+{'step': 'search_policy_docs', 'state_snapshot': {'documents_found_count': 2, 'read_complete': False, 'summary_ready': False, 'sources_attached': False}, 'next_plan': ['read_top_documents']}
+[round 2]
+{'step': 'read_top_documents', 'state_snapshot': {'documents_found_count': 2, 'read_complete': True, 'summary_ready': False, 'sources_attached': False}, 'next_plan': ['summarize_changes']}
+[round 3]
+{'step': 'summarize_changes', 'state_snapshot': {'documents_found_count': 2, 'read_complete': True, 'summary_ready': True, 'sources_attached': False}, 'next_plan': ['attach_sources']}
+[round 4]
+{'step': 'attach_sources', 'state_snapshot': {'documents_found_count': 2, 'read_complete': True, 'summary_ready': True, 'sources_attached': True}, 'next_plan': []}
+[final state]
+{'goal': '최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.', 'documents_found': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'read_complete': True, 'summary_ready': True, 'sources_attached': True, 'draft_summary': '환불 요청 처리 기한이 7일에서 14일로 늘어났습니다.', 'final_answer': '환불 요청 처리 기한이 7일에서 14일로 늘어났습니다. 출처: policy_notice_2026_06_29, refund_rules_appendix'}
 [inspection]
-{'documents_found_count': 2, 'summary_ready': False, 'sources_attached': False, 'next_plan_length': 2}
+{'round_count': 4, 'final_documents_found_count': 2, 'final_summary_ready': True, 'final_sources_attached': True, 'finished': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 답변 한 문장이 아니라, 목표를 이루기 위한 여러 단계 흐름과 누적 상태가 먼저 명시되고, 그 상태에 따라 다음 단계가 다시 정해진다는 점입니다.
+이 결과에서 먼저 봐야 할 것은 `round_count`가 4이고, 각 라운드마다 `next_plan`이 달라진다는 점입니다. 즉, 에이전트는 처음부터 전체 답을 한 번에 내놓는 구조가 아니라, 현재 상태를 보고 `지금은 검색`, `다음은 읽기`, `그다음은 요약`, `마지막은 출처 부착`처럼 단계별로 재계획합니다. 이 구조가 있어야 중간 결과를 보고 다음 행동을 바꾸는 실행 흐름이라고 말할 수 있습니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 답변 한 문장이 아니라, 목표를 이루기 위한 여러 단계 흐름과 누적 상태가 먼저 명시되고 그 상태에 따라 다음 단계가 다시 정해진다.
+- 에이전트의 핵심은 도구를 많이 쓰는 것이 아니라, `현재 상태를 보고 다음 행동을 다시 고르는 반복 구조`에 있다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `documents_found`를 비운 채 다시 계획을 세워 같은 단계가 반복되는지 보기
-- `simulate_step`에 실패 상태를 넣어 다음 계획이 어떻게 바뀌는지 보기
+- `documents_found`를 비운 채 시작하도록 바꿔 검색 단계가 어떻게 다시 등장하는지 보기
+- `simulate_step`에 실패 상태를 넣어 `next_plan`이 재탐색이나 재시도로 어떻게 바뀌는지 보기
 - `attach_sources`를 마지막이 아니라 중간 단계로 옮기면 왜 흐름이 어색해지는지 생각해 보기
+- `read_complete`를 여러 문서 단위로 쪼개 상태가 더 복잡해질 때 계획이 어떻게 달라지는지 상상해 보기
 
 ## 이 예제를 작업 흐름 관점으로 다시 보면
 
