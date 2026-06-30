@@ -190,6 +190,7 @@ flowchart TD
 
 출력:
 
+- 한 번만 읽은 single-head 문맥
 - head 1이 읽은 문맥
 - head 2가 읽은 문맥
 - 두 head를 합친 최종 표현
@@ -205,7 +206,9 @@ tokens = np.array([
 
 head1_weights = np.array([0.7, 0.2, 0.1])  # 앞쪽 관계를 더 강조
 head2_weights = np.array([0.1, 0.3, 0.6])  # 뒤쪽 관계를 더 강조
+single_head_weights = np.array([0.4, 0.3, 0.3])  # 하나의 절충된 읽기
 
+single_head_context = single_head_weights @ tokens
 head1_context = head1_weights @ tokens
 head2_context = head2_weights @ tokens
 combined = np.concatenate([head1_context, head2_context])
@@ -213,9 +216,14 @@ combined = np.concatenate([head1_context, head2_context])
 print("tokens =")
 print(tokens)
 print()
+print("single_head_context =", np.round(single_head_context, 3).tolist())
 print("head1_context =", np.round(head1_context, 3).tolist())
 print("head2_context =", np.round(head2_context, 3).tolist())
 print("combined =", np.round(combined, 3).tolist())
+print(
+    "difference_from_single =",
+    np.round(combined - np.concatenate([single_head_context, single_head_context]), 3).tolist(),
+)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -226,18 +234,31 @@ tokens =
  [0. 2.]
  [3. 1.]]
 
+single_head_context = [1.3, 0.9]
 head1_context = [1.0, 0.5]
 head2_context = [1.9, 1.2]
 combined = [1.0, 0.5, 1.9, 1.2]
+difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
+- single-head는 앞쪽 관계와 뒤쪽 관계를 한 번에 절충해 `[1.3, 0.9]` 하나로만 남깁니다
 - head1은 앞쪽 토큰 영향이 큰 문맥을 읽습니다
 - head2는 뒤쪽 토큰 영향이 큰 문맥을 읽습니다
 - 최종 표현은 한 번의 attention 결과가 아니라, 여러 관점으로 읽은 문맥을 함께 들고 갈 수 있습니다
+- `difference_from_single`은 multi-head 결과가 단일 절충 표현 하나로는 살리기 어려운 차이를 양쪽 방향으로 따로 보존하고 있음을 보여 줍니다
 
 실제 multi-head attention은 이후 선형 변환까지 포함해 더 정교하게 결합되지만, 입문 단계에서는 `서로 다른 관계 읽기 결과를 나란히 유지한다`는 감각을 잡으면 충분합니다.
+
+## 이 예제를 여러 관계 보존 관점으로 다시 보면
+
+앞의 숫자는 실제 대규모 multi-head attention 전체를 구현한 것은 아니지만, 비교 기준은 분명합니다.
+
+- single-head는 여러 관계를 한 번에 평균내며 하나의 절충된 문맥으로 남깁니다.
+- multi-head는 서로 다른 관계 읽기 결과를 나란히 유지한 뒤 나중에 함께 씁니다.
+
+즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 간다`는 뜻에 더 가깝습니다. 이 감각이 잡혀야 다음 `P4-14.1 Transformer`에서 multi-head attention이 왜 핵심 부품으로 반복 등장하는지도 자연스럽게 읽을 수 있습니다.
 
 ## Part 4 흐름에서 왜 중요한가
 
