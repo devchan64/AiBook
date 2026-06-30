@@ -78,17 +78,17 @@ def channel_panel(
     parts = [
         f'<g transform="translate({x} 386)">',
         '<rect class="panel" x="0" y="0" width="238" height="248"/>',
-        f'<text class="panel-title" x="119" y="30" text-anchor="middle">{title}</text>',
-        f'<text class="label" x="119" y="52" text-anchor="middle">{subtitle}</text>',
-        matrix_group(22, 72, patch_values, 24, patch_fill, patch_stroke, "cell-text"),
+        f'<text class="panel-title" x="119" y="32" text-anchor="middle">{title}</text>',
+        f'<text class="label" x="119" y="56" text-anchor="middle">{subtitle}</text>',
+        matrix_group(28, 82, patch_values, 22, patch_fill, patch_stroke, "cell-text"),
         '<g transform="translate(132 84)">',
-        '<text class="label" x="36" y="-8" text-anchor="middle">filter</text>',
-        matrix_group(0, 0, filter_values, 24, "#f0fdf4", "#84cc16", "small-text"),
+        '<text class="label" x="36" y="-12" text-anchor="middle">filter</text>',
+        matrix_group(0, 0, filter_values, 22, "#f0fdf4", "#84cc16", "small-text"),
         "</g>",
-        '<line x1="170" y1="162" x2="170" y2="194" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)"/>',
-        '<g transform="translate(90 184)">',
-        '<text class="label" x="28" y="-8" text-anchor="middle">partial map</text>',
-        matrix_group(0, 0, result_values, 28, "#ffffff", "#94a3b8", "small-text", 1.2),
+        '<line x1="170" y1="150" x2="170" y2="182" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)"/>',
+        '<g transform="translate(90 206)">',
+        '<text class="label" x="28" y="-14" text-anchor="middle">partial map</text>',
+        matrix_group(0, 0, result_values, 24, "#ffffff", "#94a3b8", "small-text", 1.2),
         "</g>",
         "</g>",
     ]
@@ -134,7 +134,7 @@ def generate_channel_feature_map() -> str:
     blue_result = [[2, 0], [1, 2]]
     final_result = [[6, 3], [6, 8]]
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 760" role="img" aria-labelledby="title desc">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 820" role="img" aria-labelledby="title desc">
   <title id="title">One CNN filter spans all input channels and produces one feature map</title>
   <desc id="desc">A simplified three-channel image patch is separated into red, green, and blue grids. Each channel uses its own filter slice, then the three partial responses are added into one feature map.</desc>
   <defs>
@@ -153,15 +153,15 @@ def generate_channel_feature_map() -> str:
     </style>
   </defs>
 
-  <rect width="920" height="760" fill="#ffffff"/>
+  <rect width="920" height="820" fill="#ffffff"/>
   <text class="title" x="30" y="42">One filter reads RGB together, then makes one map</text>
   <text class="subtitle" x="30" y="70">One patch, three channels, one final feature map.</text>
 
   <rect x="36" y="102" width="848" height="250" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
-  <text class="panel-title" x="60" y="134">Input image with 3 channels</text>
-  <text class="label" x="60" y="158">the same local patch is separated into red, green, and blue values</text>
+  <text class="panel-title" x="460" y="140" text-anchor="middle">Input image with 3 channels</text>
+  <text class="label" x="460" y="166" text-anchor="middle">the same local patch is separated into red, green, and blue values</text>
 
-  <g transform="translate(240 186)">
+  <g transform="translate(382 186)">
     <g opacity="0.92">
       <rect x="0" y="0" width="128" height="128" fill="#fee2e2" stroke="#ef4444" stroke-width="1.4"/>
       <line x1="32" y1="0" x2="32" y2="128" stroke="#ef4444" stroke-width="1"/>
@@ -191,21 +191,21 @@ def generate_channel_feature_map() -> str:
     </g>
   </g>
 
-  <line x1="304" y1="338" x2="188" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
-  <line x1="382" y1="338" x2="382" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
-  <line x1="460" y1="338" x2="650" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="426" y1="338" x2="188" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="474" y1="338" x2="474" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="522" y1="338" x2="650" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
 
   {channel_panel(52, "Red channel", "patch and filter slice", "#fee2e2", "#ef4444", red_patch, red_filter, red_result)}
   {channel_panel(340, "Green channel", "same filter, green values", "#dcfce7", "#22c55e", green_patch, green_filter, green_result)}
   {channel_panel(628, "Blue channel", "same filter, blue values", "#ede9fe", "#7c3aed", blue_patch, blue_filter, blue_result)}
 
-  <line x1="170" y1="642" x2="430" y2="676" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
-  <line x1="458" y1="642" x2="458" y2="676" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
-  <line x1="746" y1="642" x2="486" y2="676" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="170" y1="642" x2="430" y2="728" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="458" y1="642" x2="458" y2="700" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="746" y1="642" x2="486" y2="728" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
 
-  <rect x="324" y="716" width="268" height="32" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
-  <text class="panel-title" x="458" y="738" text-anchor="middle">Final feature map</text>
-  {matrix_group(428, 646, final_result, 30, "#ffffff", "#2563eb", "cell-text", 1.5)}
+  <rect x="324" y="776" width="268" height="32" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="panel-title" x="458" y="798" text-anchor="middle">Final feature map</text>
+  {matrix_group(432, 704, final_result, 26, "#ffffff", "#2563eb", "cell-text", 1.5)}
 </svg>"""
 
 
