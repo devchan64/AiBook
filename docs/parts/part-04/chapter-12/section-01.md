@@ -201,7 +201,7 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 ## 실행 가능한 Python 예제로 상태 직관 보기
 
-이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 단순히 숫자를 누적하는 대신, `마지막 입력은 같아도 앞의 흐름이 다르면 최종 라벨이 달라질 수 있다`는 장면을 아주 작게 만듭니다.
+이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 이번에는 순차 상태가 없는 아주 단순한 기준과, 순차 상태를 이어받는 기준을 나란히 두고 비교합니다. 즉, `마지막 입력만 보는 판단`과 `앞의 흐름까지 남기는 판단`이 어디서 갈라지는지 실제 출력으로 확인합니다.
 
 입력:
 
@@ -210,8 +210,10 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 출력:
 
+- 마지막 입력만 보는 baseline 판단
 - 각 step에서 갱신되는 문장 상태값
 - 최종 문장 라벨
+- 마지막 값만 보는 baseline 경보 여부
 - 각 step에서 갱신되는 센서 상태값
 - 마지막 step에서의 경보 여부
 
@@ -226,9 +228,15 @@ word_signal = {
 }
 
 
+def classify_with_last_word(words):
+    last_signal = word_signal.get(words[-1], 0.0)
+    return "positive" if last_signal > 0 else "negative"
+
+
 def run_sentence(name, words, alpha=0.7):
     state = 0.0
     print(f"[sentence: {name}]")
+    print("baseline_last_word_label =", classify_with_last_word(words))
     for step, word in enumerate(words, start=1):
         signal = word_signal.get(word, 0.0)
         state = alpha * state + signal
@@ -238,9 +246,14 @@ def run_sentence(name, words, alpha=0.7):
     print()
 
 
+def alert_with_last_value(sequence, threshold):
+    return sequence[-1] >= threshold
+
+
 def run_sequence(name, sequence, alpha=0.6, threshold=63):
     state = 0.0
     print(f"[sensor: {name}]")
+    print("baseline_last_value_alert =", alert_with_last_value(sequence, threshold))
     for step, x in enumerate(sequence, start=1):
         state = alpha * state + (1 - alpha) * x
         alert = state >= threshold
@@ -261,6 +274,7 @@ run_sequence("temporary_spike", temporary_spike)
 
 ```text
 [sentence: not_boring]
+baseline_last_word_label = positive
 step 1: word=   끝까지, signal= 0.3, state= 0.30
 step 2: word=    지루, signal=-0.8, state=-0.59
 step 3: word=    하지, signal= 0.1, state=-0.31
@@ -268,49 +282,34 @@ step 4: word=  않았다, signal= 1.4, state= 1.18
 final_label = positive
 
 [sentence: really_good]
+baseline_last_word_label = positive
 step 1: word=    정말, signal= 0.2, state= 0.20
 step 2: word=   좋았다, signal= 0.9, state= 1.04
 final_label = positive
 
 [sensor: gradual_rise]
+baseline_last_value_alert = True
 step 1: input= 60, state= 24.00, alert=False
 step 2: input= 65, state= 40.40, alert=False
 step 3: input= 72, state= 53.04, alert=False
 step 4: input= 80, state= 63.82, alert=True
 
 [sensor: temporary_spike]
+baseline_last_value_alert = True
 step 1: input= 80, state= 32.00, alert=False
 step 2: input= 60, state= 43.20, alert=False
 step 3: input= 60, state= 49.92, alert=False
 step 4: input= 80, state= 61.95, alert=False
 ```
 
-위 결과는 두 가지를 함께 보여 줍니다. 첫째, 문장 끝의 `않았다`처럼 뒤쪽 단어가 앞쪽 단어의 감정을 뒤집으려면 중간 상태가 살아 있어야 합니다. 둘째, 마지막 입력이 둘 다 `80`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 80` 하나로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
+위 결과는 세 가지를 함께 보여 줍니다. 첫째, 문장 예제에서는 baseline이 마지막 단어 `않았다`만 보고도 우연히 맞을 수 있지만, 실제 순차 모델이 필요한 이유는 그 단어가 왜 중요한지 앞의 `지루`, `하지` 흐름을 상태 안에 붙여 둔다는 데 있습니다. 둘째, 센서 예제에서는 baseline이 마지막 값 `80`만 보고 두 시계열 모두 경보라고 판단하지만, 상태를 쓰는 쪽은 `지속 상승`과 `일시적 튐`을 다르게 남길 수 있습니다. 셋째, 마지막 입력이 둘 다 `80`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 80` 하나로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
 
-이제 경보 문턱을 조금 낮춰 보면 차이가 더 눈에 잘 들어옵니다.
-
-```python
-run_sequence("gradual_rise", gradual_rise, threshold=63)
-run_sequence("temporary_spike", temporary_spike, threshold=63)
-```
-
-```text
-[gradual_rise]
-step 1: input= 60, state= 24.00, alert=False
-step 2: input= 65, state= 40.40, alert=False
-step 3: input= 72, state= 53.04, alert=False
-step 4: input= 80, state= 63.82, alert=True
-
-[temporary_spike]
-step 1: input= 80, state= 32.00, alert=False
-step 2: input= 60, state= 43.20, alert=False
-step 3: input= 60, state= 49.92, alert=False
-step 4: input= 80, state= 61.95, alert=False
-```
+문장 쪽도 같은 기준으로 읽으면 핵심이 더 분명해집니다. baseline은 마지막 단어가 주는 즉시 신호에 쉽게 끌리지만, 순차 상태 쪽은 `끝까지`, `지루`, `하지`, `않았다`가 차례로 남긴 흔적을 누적해 마지막 결론을 만듭니다. 실제 LSTM과 GRU는 바로 이 상태 관리를 더 오래, 더 안정적으로 하려는 방향으로 이해하면 됩니다.
 
 이 예제는 진짜 RNN 전체를 구현한 것은 아닙니다. 하지만 실제로 읽어야 할 핵심은 더 분명합니다.
 
 - 같은 현재 입력도 이전 흐름에 따라 다른 상태를 만든다
+- 상태가 없으면 마지막 단어나 마지막 숫자 같은 아주 거친 기준으로 쉽게 무너진다
 - 문장에서는 뒤 단어가 앞 단어의 의미를 바꾸려면 중간 상태가 살아 있어야 한다
 - 상태가 다르면 마지막 판단도 달라질 수 있다
 - 순차 구조의 핵심은 `현재 값`만이 아니라 `이전까지 쌓인 흔적`을 함께 본다는 데 있다
