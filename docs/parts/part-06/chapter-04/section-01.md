@@ -106,7 +106,7 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 아주 단순한 공백 기준 토큰화와 count vector를 이용해 문장 분류 흐름을 확인하는 것입니다.
+이번 예제의 목적은 아주 단순한 공백 기준 토큰화와 count vector를 이용해 문장 분류 흐름을 확인하는 것입니다. 이번에는 정확도 숫자만 남기지 않고, `sample_id`, `tokens`, `pred_label_name`, `nearest_class_distance`까지 함께 기록해 다음 평가 절로 자연스럽게 이어지게 하겠습니다.
 
 - 문제 상황: 고객 문장을 불만(complaint)과 칭찬(praise)으로 나눈다.
 - 입력(input): 학습 문장 6개, 평가 문장 4개
@@ -115,68 +115,96 @@ flowchart TD
   - 토큰화 후 어휘를 만든다
   - 문장을 count vector로 바꾼다
   - 클래스별 중심 패턴과의 거리를 비교해 예측한다
+  - 샘플별 예측 기록이 남아야 다음 오류 분석으로 이어질 수 있다
 
 ```python
 import numpy as np
 
-train_texts = [
-    "refund delay angry",
-    "broken product complaint",
-    "thank you fast delivery",
-    "love this product great",
-    "refund request not working",
-    "happy with quick support",
+train_rows = [
+    {"sample_id": "train-01", "text": "refund delay angry", "label": 0},
+    {"sample_id": "train-02", "text": "broken product complaint", "label": 0},
+    {"sample_id": "train-03", "text": "thank you fast delivery", "label": 1},
+    {"sample_id": "train-04", "text": "love this product great", "label": 1},
+    {"sample_id": "train-05", "text": "refund request not working", "label": 0},
+    {"sample_id": "train-06", "text": "happy with quick support", "label": 1},
 ]
-y_train = np.array([0, 0, 1, 1, 0, 1])  # 0 complaint, 1 praise
+train_texts = [row["text"] for row in train_rows]
+y_train = np.array([row["label"] for row in train_rows])  # 0 complaint, 1 praise
+label_names = {0: "complaint", 1: "praise"}
 
 vocab = sorted({token for text in train_texts for token in text.split()})
 token_to_index = {token: i for i, token in enumerate(vocab)}
 
 def vectorize(texts):
     X = np.zeros((len(texts), len(vocab)), dtype=float)
+    token_lists = []
     for i, text in enumerate(texts):
+        tokens = text.split()
+        token_lists.append(tokens)
         for token in text.split():
             if token in token_to_index:
                 X[i, token_to_index[token]] += 1
-    return X
+    return X, token_lists
 
-X_train = vectorize(train_texts)
+X_train, train_tokens = vectorize(train_texts)
 class_centroids = np.vstack([
     X_train[y_train == 0].mean(axis=0),
     X_train[y_train == 1].mean(axis=0),
 ])
 
-test_texts = [
-    "refund for broken product",
-    "great support thank you",
-    "delay but quick refund",
-    "love fast delivery",
+test_rows = [
+    {"sample_id": "test-01", "text": "refund for broken product", "label": 0},
+    {"sample_id": "test-02", "text": "great support thank you", "label": 1},
+    {"sample_id": "test-03", "text": "delay but quick refund", "label": 0},
+    {"sample_id": "test-04", "text": "love fast delivery", "label": 1},
 ]
-y_test = np.array([0, 1, 0, 1])
-X_test = vectorize(test_texts)
+test_texts = [row["text"] for row in test_rows]
+y_test = np.array([row["label"] for row in test_rows])
+X_test, test_tokens = vectorize(test_texts)
 
 predictions = []
-for x in X_test:
+test_records = []
+for index, x in enumerate(X_test):
     distances = np.linalg.norm(class_centroids - x, axis=1)
-    predictions.append(int(np.argmin(distances)))
+    pred_label = int(np.argmin(distances))
+    predictions.append(pred_label)
+    test_records.append({
+        "sample_id": test_rows[index]["sample_id"],
+        "text": test_rows[index]["text"],
+        "tokens": test_tokens[index],
+        "pred_label_name": label_names[pred_label],
+        "true_label_name": label_names[y_test[index]],
+        "correct": bool(pred_label == y_test[index]),
+        "nearest_class_distance": round(float(distances[pred_label]), 3),
+    })
 
 predictions = np.array(predictions)
 
-print("vocab_size =", len(vocab))
-print("vocab_head =", vocab[:8])
-print("train_shape =", X_train.shape)
-print("test_pred =", predictions.tolist())
-print("test_accuracy =", round((predictions == y_test).mean(), 3))
+project_run = {
+    "vocab_size": len(vocab),
+    "vocab_head": vocab[:8],
+    "train_shape": X_train.shape,
+    "test_accuracy": round(float((predictions == y_test).mean()), 3),
+    "wrong_sample_ids": [
+        row["sample_id"] for row in test_records if not row["correct"]
+    ],
+}
+
+print("project_run =", project_run)
+print("test_records =")
+for row in test_records:
+    print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-vocab_size = 20
-vocab_head = ['angry', 'broken', 'complaint', 'delay', 'delivery', 'fast', 'great', 'happy']
-train_shape = (6, 20)
-test_pred = [0, 1, 0, 1]
-test_accuracy = 1.0
+project_run = {'vocab_size': 20, 'vocab_head': ['angry', 'broken', 'complaint', 'delay', 'delivery', 'fast', 'great', 'happy'], 'train_shape': (6, 20), 'test_accuracy': 1.0, 'wrong_sample_ids': []}
+test_records =
+{'sample_id': 'test-01', 'text': 'refund for broken product', 'tokens': ['refund', 'for', 'broken', 'product'], 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'nearest_class_distance': 1.291}
+{'sample_id': 'test-02', 'text': 'great support thank you', 'tokens': ['great', 'support', 'thank', 'you'], 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'nearest_class_distance': 1.633}
+{'sample_id': 'test-03', 'text': 'delay but quick refund', 'tokens': ['delay', 'but', 'quick', 'refund'], 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'nearest_class_distance': 1.528}
+{'sample_id': 'test-04', 'text': 'love fast delivery', 'tokens': ['love', 'fast', 'delivery'], 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'nearest_class_distance': 1.528}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -184,7 +212,9 @@ test_accuracy = 1.0
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
 - 이번 프로젝트는 `문장`을 직접 이해한 것이 아니라, 먼저 어휘(vocabulary)를 만들고 count vector로 바꾼 뒤 분류했습니다.
+- `project_run`은 어휘 크기, 벡터 shape, 정확도, 오류 샘플 ID를 한 번에 남기는 최소 기록입니다.
 - `train_shape = (6, 20)`은 학습 문장 6개가 20개 어휘 차원의 벡터로 바뀌었음을 뜻합니다.
+- `test_records`를 보면 각 문장이 어떤 토큰으로 쪼개졌고, 어떤 라벨로 예측되었는지까지 바로 읽을 수 있습니다.
 - 작은 예제에서는 test 정확도가 1.0으로 나왔지만, 이것이 곧바로 강한 일반화(generalization)를 뜻하는 것은 아닙니다.
 
 즉, 텍스트 분류 프로젝트도 이미지 프로젝트와 마찬가지로 `입력 표현`을 먼저 봐야 합니다.
@@ -192,6 +222,7 @@ test_accuracy = 1.0
 이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
 
 - 문장은 어휘 기반 벡터로 바뀌었다
+- 샘플별 토큰과 예측 기록이 함께 남아야 다음 평가가 쉬워진다
 - 작은 예제의 성공이 곧 일반화 성공은 아니다
 - 텍스트 프로젝트에서도 입력 표현 기록이 예측 해석만큼 중요하다
 
