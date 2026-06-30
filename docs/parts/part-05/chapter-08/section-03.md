@@ -150,42 +150,77 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 겉보기에는 모두 `LLM이 잘 못한다`는 문제처럼 보여도, 실패 원인을 분류하면 먼저 선택할 해결 수단이 달라진다는 점을 확인하는 것입니다.
+이번 예제의 목표는 겉보기에는 모두 `LLM이 잘 못한다`는 문제처럼 보여도, 실패 원인을 분류하면 먼저 선택할 해결 수단과 당장 하지 말아야 할 대응이 달라진다는 점을 확인하는 것입니다.
 
 입력:
 
 - 대표적인 실패 유형 4개
-- 각 실패 유형에 우선 대응할 방법
+- 각 실패 유형의 증상, 부족한 것, 우선 대응 수단
 
 출력:
 
 - 문제 유형별 1차 대응책
+- 당장 먼저 붙이기 어려운 수단
+- 실패 원인 분류 요약
 
 ```python
 cases = [
-    {"issue": "format drift", "symptom": "답변 형식이 자주 흔들림", "action": "prompt revision"},
-    {"issue": "missing latest policy", "symptom": "최신 규정을 자주 틀림", "action": "RAG"},
-    {"issue": "needs calculator", "symptom": "계산 결과가 자주 틀림", "action": "tool use"},
-    {"issue": "persistent domain style", "symptom": "반복 요청에서 문체가 일정하지 않음", "action": "fine-tuning"},
+    {
+        "issue": "format drift",
+        "symptom": "답변 형식이 자주 흔들림",
+        "missing": "출력 형식 고정",
+        "first_action": "prompt revision",
+        "not_first": "RAG",
+    },
+    {
+        "issue": "missing latest policy",
+        "symptom": "최신 규정을 자주 틀림",
+        "missing": "최신 근거 문서",
+        "first_action": "RAG",
+        "not_first": "fine-tuning",
+    },
+    {
+        "issue": "needs calculator",
+        "symptom": "계산 결과가 자주 틀림",
+        "missing": "정확한 실행/계산",
+        "first_action": "tool use",
+        "not_first": "prompt revision",
+    },
+    {
+        "issue": "persistent domain style",
+        "symptom": "반복 요청에서 문체가 일정하지 않음",
+        "missing": "지속적 스타일 적응",
+        "first_action": "fine-tuning",
+        "not_first": "tool use",
+    },
 ]
 
+action_counter = {}
+
 for case in cases:
+    action_counter[case["first_action"]] = action_counter.get(case["first_action"], 0) + 1
     print(
         f"{case['issue']}: "
-        f"symptom={case['symptom']} -> first_action={case['action']}"
+        f"symptom={case['symptom']} | "
+        f"missing={case['missing']} | "
+        f"first_action={case['first_action']} | "
+        f"not_first={case['not_first']}"
     )
+
+print("[action summary]", action_counter)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-format drift: symptom=답변 형식이 자주 흔들림 -> first_action=prompt revision
-missing latest policy: symptom=최신 규정을 자주 틀림 -> first_action=RAG
-needs calculator: symptom=계산 결과가 자주 틀림 -> first_action=tool use
-persistent domain style: symptom=반복 요청에서 문체가 일정하지 않음 -> first_action=fine-tuning
+format drift: symptom=답변 형식이 자주 흔들림 | missing=출력 형식 고정 | first_action=prompt revision | not_first=RAG
+missing latest policy: symptom=최신 규정을 자주 틀림 | missing=최신 근거 문서 | first_action=RAG | not_first=fine-tuning
+needs calculator: symptom=계산 결과가 자주 틀림 | missing=정확한 실행/계산 | first_action=tool use | not_first=prompt revision
+persistent domain style: symptom=반복 요청에서 문체가 일정하지 않음 | missing=지속적 스타일 적응 | first_action=fine-tuning | not_first=tool use
+[action summary] {'prompt revision': 1, 'RAG': 1, 'tool use': 1, 'fine-tuning': 1}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 비슷해 보이는 LLM 문제라도 원인 유형에 따라 먼저 선택해야 할 해결 수단이 실제로 달라진다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 비슷해 보이는 LLM 문제라도 `무엇이 부족한가`를 먼저 분리하면, 우선 선택해야 할 수단과 지금 바로 붙여도 잘 안 닫히는 수단이 실제로 달라진다는 점입니다.
 
 ## 다음 장과의 연결
 
