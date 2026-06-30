@@ -199,43 +199,105 @@ flowchart TD
 | 문서 조사 | 검색-읽기-정리-재탐색이 반복되어서 |
 | 업무 자동화 | 여러 시스템 동작을 하나의 목표로 묶어서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 agent를 구현하는 것이 아니라, 목표와 단계가 분리된다는 점을 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아니라, 하나의 목표가 들어왔을 때 `검색`, `읽기`, `요약`, `출처 부착` 같은 여러 작업 단계와 상태로 풀리는 장면을 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 사용자는 최신 환불 정책을 요약하고 출처까지 붙인 답을 원함
+- 이 목표는 한 문장 생성만으로 끝나지 않고 여러 단계를 거쳐야 함
+- 각 단계가 끝날 때마다 상태가 누적되어 다음 단계 선택에 쓰여야 함
 
 입력:
 
 - 하나의 목표
-- 가능한 다음 단계 목록
+- 현재 상태 객체
 
 출력:
 
-- 작업 흐름 관점
+- 단계별 실행 계획
+- 단계가 끝날 때마다 갱신되는 상태
 
 ```python
 goal = "최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다."
 
-steps = [
-    "search_policy_docs",
-    "read_top_documents",
-    "summarize_changes",
-    "attach_sources",
-]
+state = {
+    "goal": goal,
+    "documents_found": [],
+    "summary_ready": False,
+    "sources_attached": False,
+}
 
-print("goal =", goal)
-print("steps =", steps)
-print("observation = this is a workflow, not a single response")
+
+def build_plan(state):
+    steps = []
+    if not state["documents_found"]:
+        steps.append("search_policy_docs")
+    if state["documents_found"] and not state["summary_ready"]:
+        steps.append("read_top_documents")
+        steps.append("summarize_changes")
+    if state["summary_ready"] and not state["sources_attached"]:
+        steps.append("attach_sources")
+    return steps
+
+
+def simulate_step(step, state):
+    if step == "search_policy_docs":
+        state["documents_found"] = [
+            "policy_notice_2026_06_29",
+            "refund_rules_appendix",
+        ]
+    elif step == "read_top_documents":
+        state["read_complete"] = True
+    elif step == "summarize_changes":
+        state["summary_ready"] = True
+        state["draft_summary"] = "환불 요청 처리 기한이 7일에서 14일로 늘어났습니다."
+    elif step == "attach_sources":
+        state["sources_attached"] = True
+        state["final_answer"] = (
+            "환불 요청 처리 기한이 7일에서 14일로 늘어났습니다. "
+            "출처: policy_notice_2026_06_29, refund_rules_appendix"
+        )
+    return state
+
+
+plan = build_plan(state)
+print("[goal]")
+print(goal)
+print("[initial plan]")
+print(plan)
+
+for step in plan:
+    state = simulate_step(step, state)
+    print(f"[after {step}]")
+    print(state)
+
+second_plan = build_plan(state)
+print("[next plan after first pass]")
+print(second_plan)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-goal = 최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.
-steps = ['search_policy_docs', 'read_top_documents', 'summarize_changes', 'attach_sources']
-observation = this is a workflow, not a single response
+[goal]
+최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.
+[initial plan]
+['search_policy_docs']
+[after search_policy_docs]
+{'goal': '최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.', 'documents_found': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'summary_ready': False, 'sources_attached': False}
+[next plan after first pass]
+['read_top_documents', 'summarize_changes']
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 답변 한 문장이 아니라, 목표를 이루기 위한 여러 단계 흐름이 먼저 명시되는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 답변 한 문장이 아니라, 목표를 이루기 위한 여러 단계 흐름과 누적 상태가 먼저 명시되고, 그 상태에 따라 다음 단계가 다시 정해진다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `documents_found`를 비운 채 다시 계획을 세워 같은 단계가 반복되는지 보기
+- `simulate_step`에 실패 상태를 넣어 다음 계획이 어떻게 바뀌는지 보기
+- `attach_sources`를 마지막이 아니라 중간 단계로 옮기면 왜 흐름이 어색해지는지 생각해 보기
 
 ## 이 예제를 작업 흐름 관점으로 다시 보면
 

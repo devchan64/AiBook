@@ -156,7 +156,7 @@ flowchart TD
 
 사용자가 `내일 오후에 30분 회의 잡아 줘`라고 요청했는데, 캘린더를 조회해 보니 빈 시간이 하나도 없을 수 있습니다. 사람은 이 경우 그냥 실패라고 끝내기보다 다른 시간대를 찾거나, 참석자 범위를 줄일지 다시 묻습니다. 에이전트도 그대로 예약을 시도하는 대신 다른 시간대를 제안하거나, 참석자 범위를 줄일지 사용자에게 다시 물어야 합니다. 빈 시간이 없는데도 그대로 예약을 밀어 넣으려 하면 이중 예약이나 실패 응답만 남길 수 있습니다. 여기서 바뀌는 점은 `처음 목표를 바로 실행하는가`에서 `관찰 결과에 따라 목표를 다시 풀어 묻거나 대안을 제안하는가`로 기준이 이동한다는 것입니다. 관찰 결과 하나가 바로 다음 행동을 바꾸는 점에서, 이 작업은 고정 파이프라인보다 루프 구조로 이해하는 편이 맞습니다. 그래서 이 사례에서 확인해야 할 결과는 빈 시간이 없다는 관찰 뒤에 실패로 끝내지 않고, 대체 시간 제안이나 추가 질문으로 실제 다음 행동이 열리는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
 ## 루프 관점에서 다시 보면
 
@@ -174,42 +174,93 @@ flowchart TD
 
 관련 문서를 찾았지만 서로 기준이 충돌하거나 최신 날짜가 불분명하다고 해 봅시다. 사람은 이런 경우 바로 답하기보다 검토 필요 상태로 넘기거나 추가 확인을 합니다. agent loop에서도 항상 다음 행동이 `계속 진행`일 필요는 없고, `사람 검토 요청`이나 `추가 승인 대기`가 될 수 있습니다. 예를 들어 환불 정책 두 문서가 서로 다른 기간을 말하면, 요약보다 먼저 어느 문서가 최신인지 확인해야 합니다. 그래서 이 사례에서 확인해야 할 결과는 관찰 결과가 충돌할 때 loop가 억지로 답을 만들기보다 실제로 멈추거나 사람 검토로 넘기는가입니다.
 
-이번 예제의 목표는 실제 agent loop 실행이 아니라, 방금 본 계획, 행동, 관찰, 결정이 어떻게 구분되는지 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어진다는 점을 눈으로 확인하는 것입니다.
 
 입력:
 
 - 목표
+- 현재 반복 횟수
+- 매 단계에서 얻은 관찰 결과
 
 출력:
 
-- 단계별 구분
+- 단계별 loop 기록
+- 계속 진행할지 멈출지에 대한 판단
 
 ```python
 goal = "최신 환불 정책을 찾아 사용자에게 요약한다."
 
-plan = "search latest refund policy notice"
-action = "call search_policy_docs"
-observation = "found 2 recent notices"
-decision = "continue to reading and summarizing"
+search_results_by_round = [
+    ["old_notice_2025_12"],
+    ["policy_notice_2026_06_29", "refund_rules_appendix"],
+]
 
-print("goal =", goal)
-print("plan =", plan)
-print("action =", action)
-print("observation =", observation)
-print("decision =", decision)
+history = []
+stop = False
+
+for round_index, found_docs in enumerate(search_results_by_round, start=1):
+    plan = (
+        "search latest refund policy notice"
+        if round_index == 1
+        else "read latest notice and summarize"
+    )
+    action = (
+        "call search_policy_docs"
+        if round_index == 1
+        else "call read_docs_and_summarize"
+    )
+    observation = {
+        "round": round_index,
+        "found_docs": found_docs,
+        "has_latest_doc": any("2026_06_29" in doc for doc in found_docs),
+    }
+
+    if not observation["has_latest_doc"]:
+        decision = "continue_with_refined_search"
+    else:
+        decision = "stop_after_summary"
+        stop = True
+
+    history.append(
+        {
+            "plan": plan,
+            "action": action,
+            "observation": observation,
+            "decision": decision,
+        }
+    )
+
+    if stop:
+        break
+
+print("[goal]")
+print(goal)
+print("[loop history]")
+for item in history:
+    print(item)
+print("[stopped]")
+print(stop)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-goal = 최신 환불 정책을 찾아 사용자에게 요약한다.
-plan = search latest refund policy notice
-action = call search_policy_docs
-observation = found 2 recent notices
-decision = continue to reading and summarizing
+[goal]
+최신 환불 정책을 찾아 사용자에게 요약한다.
+[loop history]
+{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False}, 'decision': 'continue_with_refined_search'}
+{'plan': 'read latest notice and summarize', 'action': 'call read_docs_and_summarize', 'observation': {'round': 2, 'found_docs': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'has_latest_doc': True}, 'decision': 'stop_after_summary'}
+[stopped]
+True
 ```
 
-이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`를 실제로 분리해 기록할 수 있는가입니다.
+이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`, `어디서 멈출지`를 실제로 분리해 기록할 수 있는가입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- 첫 번째 라운드에서 이미 최신 문서를 찾도록 바꿔 loop가 더 빨리 멈추는지 보기
+- `search_results_by_round`에 세 번째 실패 라운드를 넣어 재시도 한도 조건을 설계해 보기
+- `decision`을 `ask_human_review`로 바꾸어 사람 검토 전환 시점을 상상해 보기
 
 ## 역사와 커리큘럼 관점
 
