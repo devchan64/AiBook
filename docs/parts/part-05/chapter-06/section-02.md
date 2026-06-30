@@ -127,6 +127,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `더 큰 모델이 더 좋은가`보다 `어떤 능력을 얻는 대신 어떤 비용과 운영 부담을 함께 받아들이는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same scaling question"]
+  B["broader task handling<br/>does capability widen?"]
+  C["longer input handling<br/>does context preservation improve?"]
+  D["service operation<br/>can latency and cost still be carried?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 스케일이 `능력 상승`만의 문제가 아니라는 것입니다. 같은 변화라도 어떤 장면에서는 더 넓은 작업 반응으로 보이고, 다른 장면에서는 긴 문맥 유지로 보이며, 운영팀 입장에서는 비용과 지연 부담으로 먼저 보일 수 있습니다.
+
 ### 사례 1. 더 큰 모델, 더 넓은 작업 반응
 
 작은 모델에게 문장 요약만 시키면 그럭저럭 동작하지만, 같은 모델에 표 정리, 규칙 변환, 예외 조건 설명까지 한 번에 요구하면 금방 흔들릴 수 있습니다. 사람은 여기서 보통 `내가 시킨 형식을 끝까지 지키는가`를 먼저 기준으로 삼습니다. 예를 들어 같은 매뉴얼을 넣고 `요약`은 되는데 `예외 조항만 표로 뽑기`는 자주 실패하면, 사용자는 기능 차이처럼 느끼지만 내부적으로는 다룰 수 있는 패턴 폭 차이일 수 있습니다. 작은 모델은 핵심은 맞혀도 표 열을 빼먹거나 예외 조건을 본문 속에 섞어 버릴 수 있습니다. 더 큰 모델은 더 넓은 패턴을 다룰 여지가 있어 이런 복합 지시에 더 자주 반응하는 것처럼 보일 수 있습니다. 즉, 바뀌는 점은 `문장을 이어 쓸 수 있는가`보다 `복합 형식 제약을 끝까지 유지할 수 있는가`에 더 가깝습니다. 그래서 이 사례에서 확인해야 할 결과는 복합 지시에서 형식 누락이 줄고, 예외 조건이 요청한 구조 안에 더 자주 남는가입니다.
@@ -139,40 +155,113 @@ flowchart TD
 
 운영팀이 더 큰 모델로 바꾸면 답변 품질은 올라갈 수 있다고 기대한다고 해 봅시다. 사람이 처음에는 모델 교체를 `성능 개선` 한 줄로 생각하기 쉽지만, 운영팀이 실제로 보는 기준은 `이 비용과 지연 시간을 감당할 수 있는가`입니다. 실제 서비스에서는 학습 단계만이 아니라, 매 요청 추론 비용, 캐시 정책, 장애 감시, 안전 점검 범위까지 함께 커집니다. 예를 들어 답변 정확도는 조금 좋아졌는데 응답 시간이 크게 늘면, 고객 지원 시스템에서는 오히려 전체 만족도가 떨어질 수도 있습니다. 심하면 품질 향상보다 비용 폭증이 더 먼저 운영 문제로 보일 수 있습니다. 장애 대응도 더 복잡해져, 같은 시간 안에 처리할 수 있는 요청 수가 줄어들 수 있습니다. 여기서 바뀌는 점은 `정확도가 올랐는가`만 보는 기준에서 `정확도 향상이 실제 운영 비용과 지연을 감당할 만한가`를 함께 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 품질 지표가 조금 좋아져도 처리량 감소나 비용 증가가 실제 운영 판단을 바꾸는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 스케일을 정밀하게 계산하는 것이 아니라, 규모가 커질 때 성능 가능성과 비용이 함께 움직인다는 감각을 보는 것입니다.
+이번 예제의 목표는 `더 큰 모델을 쓰면 무엇이 좋아지고, 동시에 어떤 운영 부담이 커지는가`를 직접 보는 것입니다. 아주 단순한 서비스 로그를 가정하고, 작은 모델과 큰 모델이 같은 요청 묶음을 처리할 때 `문맥 초과 여부`, `예상 비용`, `예상 지연 시간`, `품질 가능성 점수`가 어떻게 달라지는지 비교하겠습니다.
 
 입력:
 
-- 작은 모델과 큰 모델의 단순 비교값
+- 요청별 입력 길이
+- 모델별 context window, 비용, 속도, 품질 계수
 
 출력:
 
-- 데이터, 파라미터, 비용의 방향성 비교
+- 모델별 문맥 초과 요청 수
+- 총 예상 비용
+- 총 예상 지연 시간
+- 평균 품질 가능성 점수
 
 ```python
-small = {"data_m": 50, "params_m": 120, "cost": 1}
-large = {"data_m": 500, "params_m": 1300, "cost": 8}
+requests = [
+    {"task": "faq", "input_tokens": 600, "difficulty": 1.0},
+    {"task": "summary", "input_tokens": 2400, "difficulty": 1.4},
+    {"task": "contract_review", "input_tokens": 6200, "difficulty": 1.8},
+    {"task": "code_assistant", "input_tokens": 4100, "difficulty": 1.6},
+]
 
-print("small =", small)
-print("large =", large)
-print("observation = larger scale may improve capability, but cost also rises")
+models = {
+    "small_model": {
+        "context_window": 2048,
+        "cost_per_1k_tokens": 0.2,
+        "latency_per_1k_tokens": 0.8,
+        "quality_factor": 0.9,
+    },
+    "large_model": {
+        "context_window": 8192,
+        "cost_per_1k_tokens": 1.1,
+        "latency_per_1k_tokens": 1.6,
+        "quality_factor": 1.3,
+    },
+}
+
+
+def evaluate_model(model_name, profile, requests):
+    over_limit = 0
+    total_cost = 0.0
+    total_latency = 0.0
+    quality_scores = []
+
+    for request in requests:
+        tokens = request["input_tokens"]
+        if tokens > profile["context_window"]:
+            over_limit += 1
+
+        total_cost += (tokens / 1000) * profile["cost_per_1k_tokens"]
+        total_latency += (tokens / 1000) * profile["latency_per_1k_tokens"]
+
+        visible_ratio = min(tokens, profile["context_window"]) / tokens
+        quality_score = round(
+            profile["quality_factor"] * visible_ratio / request["difficulty"],
+            3,
+        )
+        quality_scores.append((request["task"], quality_score))
+
+    average_quality = round(
+        sum(score for _, score in quality_scores) / len(quality_scores), 3
+    )
+
+    print(model_name)
+    print("over_limit_requests =", over_limit)
+    print("total_cost =", round(total_cost, 2))
+    print("total_latency =", round(total_latency, 2))
+    print("quality_scores =", quality_scores)
+    print("average_quality =", average_quality)
+    print()
+
+
+for model_name, profile in models.items():
+    evaluate_model(model_name, profile, requests)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-small = {'data_m': 50, 'params_m': 120, 'cost': 1}
-large = {'data_m': 500, 'params_m': 1300, 'cost': 8}
-observation = larger scale may improve capability, but cost also rises
+small_model
+over_limit_requests = 3
+total_cost = 2.66
+total_latency = 10.64
+quality_scores = [('faq', 0.9), ('summary', 0.549), ('contract_review', 0.165), ('code_assistant', 0.281)]
+average_quality = 0.474
+
+large_model
+over_limit_requests = 0
+total_cost = 14.63
+total_latency = 21.28
+quality_scores = [('faq', 1.3), ('summary', 0.929), ('contract_review', 0.722), ('code_assistant', 0.812)]
+average_quality = 0.941
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 규모가 커질수록 성능 기대뿐 아니라 비용 축도 함께 커진다는 점입니다.
+이 예제에서 읽어야 할 핵심은 다음입니다.
+
+- 큰 모델은 더 긴 입력을 문맥 초과 없이 처리해 품질 가능성 점수가 올라갑니다.
+- 동시에 총 비용과 총 지연 시간도 크게 증가합니다.
+- 즉, 스케일 증가는 `좋아졌다` 한 줄이 아니라 `무엇이 좋아졌고 무엇을 더 지불하게 되었는가`를 함께 비교해야 하는 문제입니다.
+
+이 예제에서는 `requests`의 토큰 길이, `difficulty`, 각 모델의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 작은 모델의 `over_limit_requests`가 더 커지고, 반대로 짧은 FAQ만 남기면 큰 모델의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
 
 ## 이 예제를 규모-비용 균형 관점으로 다시 보면
 
-이 단순 비교는 `더 큰 모델이 더 좋다`는 식의 단선적인 이해를 피하게 해 줍니다. 실제 선택은 언제나 능력 확대와 학습·추론 비용 증가를 함께 읽는 문제이므로, 이후 모델 선택과 운영 절에서는 규모를 `성능`과 `비용`의 동시 판단 축으로 봐야 합니다.
+이 비교는 `더 큰 모델이 더 좋다`는 식의 단선적인 이해를 피하게 해 줍니다. 실제 선택은 언제나 능력 확대와 학습·추론 비용 증가를 함께 읽는 문제이므로, 이후 모델 선택과 운영 절에서는 규모를 `성능`, `문맥 범위`, `비용`, `지연`의 동시 판단 축으로 봐야 합니다.
 
 ## 역사와 커리큘럼 관점
 
@@ -192,21 +281,21 @@ LLM 시대를 이해할 때 스케일은 빠질 수 없는 주제입니다. GPT-
 - 그렇게 큰 모델은 학습 중 정확히 어떤 목표를 반복하는가?
 - `다음 토큰 예측(next-token prediction)`은 왜 그렇게 중요한가?
 
-이 질문은 P5-5.1 다음 토큰 예측(next-token prediction)으로 이어집니다.
+이 질문은 P5-7.1 파인튜닝(fine-tuning)의 감각으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
 - 스케일은 데이터, 모델, 계산량이 함께 커지는 현상을 뜻합니다.
 - 규모가 커지면 성능 가능성이 높아질 수 있지만 비용과 위험도 커집니다.
 - 데이터 양이 늘어도 품질과 검증 문제가 사라지지는 않습니다.
-- 이 절은 다음 장의 다음 토큰 예측과 이후 운영 제약 설명의 기반입니다.
+- 이 절은 다음 장의 파인튜닝과 이후 운영 제약 설명의 기반입니다.
 
 ## 체크리스트
 
 - 스케일을 데이터, 모델, 계산량의 확대라는 관점으로 설명할 수 있는가?
 - 왜 성능과 비용이 함께 커지는지 말할 수 있는가?
 - 왜 데이터 품질 문제가 스케일로 자동 해결되지 않는지 설명할 수 있는가?
-- 다음 장의 다음 토큰 예측 설명으로 왜 이어지는지 말할 수 있는가?
+- 다음 장의 파인튜닝 설명으로 왜 이어지는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
