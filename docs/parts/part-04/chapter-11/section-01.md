@@ -96,6 +96,20 @@ CNN은 이미지 전체를 한 번에 보기보다, 작은 창(window)이나 필
 
 이 표의 핵심은 CNN을 `숫자 배열 연산`으로만 먼저 받아들이지 않고, 실제 이미지에서 어떤 작은 시각 단서가 더 큰 판단으로 연결되는지부터 보는 데 있습니다.
 
+이제 그 흐름을 세 장의 자체 도식으로 나누어 보면 더 직관적입니다. 첫 그림은 `컬러 이미지의 여러 채널을 한 필터가 함께 읽어 하나의 feature map을 만든다`는 감각을 보여 줍니다. 두 번째 그림은 `같은 사진을 두고도 깊은 층일수록 더 넓은 영역을 함께 본다`는 점을 보여 줍니다. 세 번째 그림은 `그 넓어진 시야가 feature map 위에서 어떻게 더 큰 시각 단서로 합쳐지는가`를 따로 보여 줍니다. 아래 도식의 숫자와 배열은 외부 그림을 옮긴 것이 아니라, 채널 결합과 계층적 표현 개념만 설명하기 위해 새로 단순화한 예시입니다.
+
+![CNN channel and feature map intuition](../../../assets/part-04/chapter-11/cnn-channel-feature-map.svg)
+
+위 그림에서 먼저 봐야 할 것은 `채널이 셋이면 CNN이 이미지를 셋으로 완전히 따로 처리한다`가 아니라, `한 필터가 채널 전반의 같은 위치 패치를 함께 읽고 그 반응을 합쳐 하나의 feature map을 만든다`는 점입니다. 즉, 색 정보도 지역 패턴 안에서 함께 읽히며, 최종적으로는 `이 위치에서 어떤 패턴이 강하게 나타났는가`라는 반응 지도로 정리됩니다.
+
+![CNN hierarchical vision flow](../../../assets/part-04/chapter-11/cnn-hierarchical-vision-flow.svg)
+
+두 번째 그림은 같은 말 사진을 세 번 다시 써서, `입력 사진은 그대로인데 layer가 깊어질수록 receptive field가 넓어진다`는 점만 따로 보여 줍니다. 왼쪽 패널은 초기 convolution이 작은 지역 패치에서 잔디 질감과 다리 경계 같은 국소 단서를 읽는 상황이고, 가운데 패널은 더 넓은 영역을 함께 보며 머리와 목처럼 묶인 부분 구조를 읽는 상황이며, 오른쪽 패널은 여러 부분 단서를 함께 모아 몸통 전체 수준의 단서를 읽을 수 있는 상황입니다.
+
+![CNN feature map hierarchy](../../../assets/part-04/chapter-11/cnn-feature-map-hierarchy.svg)
+
+세 번째 그림은 이제 사진 대신 반응 지도로 시선을 옮깁니다. 초기 feature map에서는 특정 위치의 edge나 texture 반응이 먼저 강해지고, 더 깊은 part map에서는 인접한 반응이 함께 맞아떨어질 때 더 큰 부분 패턴이 안정적으로 나타나며, 더 뒤의 object map에서는 여러 부분 단서가 함께 맞을 때 객체 수준의 activation이 가능해집니다. 즉, CNN 설명에서 중요한 것은 `사진 전체를 한 번에 외웠는가`가 아니라 `초기 convolution 반응이 feature map을 거쳐 더 큰 객체 단서로 실제로 쌓이는가`입니다.
+
 손글씨 숫자 이미지를 아주 단순한 흑백 장면으로 줄이면 다음처럼 생각할 수 있습니다.
 
 | digit-like image patch | what stands out first |
@@ -270,6 +284,58 @@ second patch =
 - CNN은 이미지 전체를 한 번에만 보는 것이 아니라
 - 작은 지역 창을 반복해서 읽고
 - 그런 지역 정보가 뒤에서 더 큰 표현으로 쌓일 수 있다는 점입니다
+
+## Python으로 CNN 설명용 이미지를 만드는 예제
+
+이번 예제의 목표는 모델을 학습하는 것이 아니라, `CNN이 어디를 먼저 볼지`를 설명하는 자산도 코드로 만들 수 있다는 점을 확인하는 것입니다.
+
+입력:
+
+- 원본 사진 한 장
+- 강조할 지역 박스 좌표
+- 박스별 라벨
+
+출력:
+
+- 원본 사진을 복사한 파일
+- 그 위에 CNN 관점 주석을 얹은 SVG 오버레이
+
+실제 생성 스크립트는 [generate_cnn_diagrams.py](../../../assets/part-04/chapter-11/generate_cnn_diagrams.py) 에 두었습니다. 말 사진을 직접 이용하는 `cnn-hierarchical-vision-flow.svg` 생성 흐름만 줄이면 다음과 같습니다.
+
+```python
+from pathlib import Path
+import base64
+
+PHOTO = Path("horse-field-photo.png")
+SVG_OUT = Path("cnn-hierarchical-vision-flow.svg")
+
+image_data = base64.b64encode(PHOTO.read_bytes()).decode("ascii")
+
+SVG = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520">
+  <image href="data:image/png;base64,{image_data}" x="640" y="190" width="240" height="160"/>
+  <rect x="40" y="170" width="240" height="200" rx="16"/>
+  <rect x="340" y="170" width="240" height="200" rx="16"/>
+  <rect x="640" y="170" width="240" height="200" rx="16"/>
+  <text x="40" y="130">1. Local clues</text>
+  <text x="340" y="130">2. Part pattern</text>
+  <text x="640" y="130">3. Object cue</text>
+</svg>"""
+
+SVG_OUT.write_text(SVG, encoding="utf-8")
+```
+
+실행 결과는 다음처럼 읽으면 충분합니다.
+
+```text
+horse-field-photo.png
+cnn-hierarchical-vision-flow.svg
+```
+
+이 예제에서 확인해야 할 결과는 다음과 같습니다.
+
+- 설명용 이미지도 손으로만 그리지 않고 코드로 재생성할 수 있습니다
+- 같은 사진을 여러 패널로 다시 배치해 `작은 단서 -> 부분 구조 -> 객체 단서` 흐름을 직접 보여 줄 수 있습니다
+- `CNN이 먼저 보는 지역 단서`를 문서 자산으로 반복 가능하게 남길 수 있습니다
 
 ## 역사와 커리큘럼 관점
 

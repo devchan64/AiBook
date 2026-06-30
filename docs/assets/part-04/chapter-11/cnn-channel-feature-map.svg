@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 760" role="img" aria-labelledby="title desc">
+  <title id="title">One CNN filter spans all input channels and produces one feature map</title>
+  <desc id="desc">A simplified three-channel image patch is separated into red, green, and blue grids. Each channel uses its own filter slice, then the three partial responses are added into one feature map.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .panel { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.4; rx: 16; }
+      .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .cell-text { font: 700 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #0f172a; }
+      .small-text { font: 700 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #0f172a; }
+      .plus { font: 700 42px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="920" height="760" fill="#ffffff"/>
+  <text class="title" x="30" y="42">One filter reads RGB together, then makes one map</text>
+  <text class="subtitle" x="30" y="70">One patch, three channels, one final feature map.</text>
+
+  <rect x="36" y="102" width="848" height="250" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="panel-title" x="60" y="134">Input image with 3 channels</text>
+  <text class="label" x="60" y="158">the same local patch is separated into red, green, and blue values</text>
+
+  <g transform="translate(240 186)">
+    <g opacity="0.92">
+      <rect x="0" y="0" width="128" height="128" fill="#fee2e2" stroke="#ef4444" stroke-width="1.4"/>
+      <line x1="32" y1="0" x2="32" y2="128" stroke="#ef4444" stroke-width="1"/>
+      <line x1="64" y1="0" x2="64" y2="128" stroke="#ef4444" stroke-width="1"/>
+      <line x1="96" y1="0" x2="96" y2="128" stroke="#ef4444" stroke-width="1"/>
+      <line x1="0" y1="32" x2="128" y2="32" stroke="#ef4444" stroke-width="1"/>
+      <line x1="0" y1="64" x2="128" y2="64" stroke="#ef4444" stroke-width="1"/>
+      <line x1="0" y1="96" x2="128" y2="96" stroke="#ef4444" stroke-width="1"/>
+    </g>
+    <g transform="translate(14 14)" opacity="0.92">
+      <rect x="0" y="0" width="128" height="128" fill="#dcfce7" stroke="#22c55e" stroke-width="1.4"/>
+      <line x1="32" y1="0" x2="32" y2="128" stroke="#22c55e" stroke-width="1"/>
+      <line x1="64" y1="0" x2="64" y2="128" stroke="#22c55e" stroke-width="1"/>
+      <line x1="96" y1="0" x2="96" y2="128" stroke="#22c55e" stroke-width="1"/>
+      <line x1="0" y1="32" x2="128" y2="32" stroke="#22c55e" stroke-width="1"/>
+      <line x1="0" y1="64" x2="128" y2="64" stroke="#22c55e" stroke-width="1"/>
+      <line x1="0" y1="96" x2="128" y2="96" stroke="#22c55e" stroke-width="1"/>
+    </g>
+    <g transform="translate(28 28)" opacity="0.92">
+      <rect x="0" y="0" width="128" height="128" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4"/>
+      <line x1="32" y1="0" x2="32" y2="128" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="64" y1="0" x2="64" y2="128" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="96" y1="0" x2="96" y2="128" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="0" y1="32" x2="128" y2="32" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="0" y1="64" x2="128" y2="64" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="0" y1="96" x2="128" y2="96" stroke="#7c3aed" stroke-width="1"/>
+    </g>
+  </g>
+
+  <line x1="304" y1="338" x2="188" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="382" y1="338" x2="382" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="460" y1="338" x2="650" y2="376" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+
+  <g transform="translate(52 386)">
+<rect class="panel" x="0" y="0" width="238" height="248"/>
+<text class="panel-title" x="119" y="30" text-anchor="middle">Red channel</text>
+<text class="label" x="119" y="52" text-anchor="middle">patch and filter slice</text>
+<g transform="translate(22 72)">
+<rect x="0" y="0" width="96" height="96" fill="#fee2e2" stroke="#ef4444" stroke-width="1.4"/>
+<line x1="24" y1="0" x2="24" y2="96" stroke="#ef4444" stroke-width="1"/>
+<line x1="48" y1="0" x2="48" y2="96" stroke="#ef4444" stroke-width="1"/>
+<line x1="72" y1="0" x2="72" y2="96" stroke="#ef4444" stroke-width="1"/>
+<line x1="0" y1="24" x2="96" y2="24" stroke="#ef4444" stroke-width="1"/>
+<line x1="0" y1="48" x2="96" y2="48" stroke="#ef4444" stroke-width="1"/>
+<line x1="0" y1="72" x2="96" y2="72" stroke="#ef4444" stroke-width="1"/>
+<text class="cell-text" x="12.0" y="17.28" text-anchor="middle">2</text>
+<text class="cell-text" x="36.0" y="17.28" text-anchor="middle">1</text>
+<text class="cell-text" x="60.0" y="17.28" text-anchor="middle">0</text>
+<text class="cell-text" x="84.0" y="17.28" text-anchor="middle">1</text>
+<text class="cell-text" x="12.0" y="41.28" text-anchor="middle">3</text>
+<text class="cell-text" x="36.0" y="41.28" text-anchor="middle">2</text>
+<text class="cell-text" x="60.0" y="41.28" text-anchor="middle">1</text>
+<text class="cell-text" x="84.0" y="41.28" text-anchor="middle">0</text>
+<text class="cell-text" x="12.0" y="65.28" text-anchor="middle">1</text>
+<text class="cell-text" x="36.0" y="65.28" text-anchor="middle">2</text>
+<text class="cell-text" x="60.0" y="65.28" text-anchor="middle">3</text>
+<text class="cell-text" x="84.0" y="65.28" text-anchor="middle">1</text>
+<text class="cell-text" x="12.0" y="89.28" text-anchor="middle">0</text>
+<text class="cell-text" x="36.0" y="89.28" text-anchor="middle">1</text>
+<text class="cell-text" x="60.0" y="89.28" text-anchor="middle">2</text>
+<text class="cell-text" x="84.0" y="89.28" text-anchor="middle">2</text>
+</g>
+<g transform="translate(132 84)">
+<text class="label" x="36" y="-8" text-anchor="middle">filter</text>
+<g transform="translate(0 0)">
+<rect x="0" y="0" width="72" height="72" fill="#f0fdf4" stroke="#84cc16" stroke-width="1.4"/>
+<line x1="24" y1="0" x2="24" y2="72" stroke="#84cc16" stroke-width="1"/>
+<line x1="48" y1="0" x2="48" y2="72" stroke="#84cc16" stroke-width="1"/>
+<line x1="0" y1="24" x2="72" y2="24" stroke="#84cc16" stroke-width="1"/>
+<line x1="0" y1="48" x2="72" y2="48" stroke="#84cc16" stroke-width="1"/>
+<text class="small-text" x="12.0" y="17.28" text-anchor="middle">1</text>
+<text class="small-text" x="36.0" y="17.28" text-anchor="middle">-1</text>
+<text class="small-text" x="60.0" y="17.28" text-anchor="middle">0</text>
+<text class="small-text" x="12.0" y="41.28" text-anchor="middle">0</text>
+<text class="small-text" x="36.0" y="41.28" text-anchor="middle">2</text>
+<text class="small-text" x="60.0" y="41.28" text-anchor="middle">-1</text>
+<text class="small-text" x="12.0" y="65.28" text-anchor="middle">1</text>
+<text class="small-text" x="36.0" y="65.28" text-anchor="middle">0</text>
+<text class="small-text" x="60.0" y="65.28" text-anchor="middle">1</text>
+</g>
+</g>
+<line x1="170" y1="162" x2="170" y2="194" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<g transform="translate(90 184)">
+<text class="label" x="28" y="-8" text-anchor="middle">partial map</text>
+<g transform="translate(0 0)">
+<rect x="0" y="0" width="56" height="56" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="28" y1="0" x2="28" y2="56" stroke="#94a3b8" stroke-width="1"/>
+<line x1="0" y1="28" x2="56" y2="28" stroke="#94a3b8" stroke-width="1"/>
+<text class="small-text" x="14.0" y="20.16" text-anchor="middle">3</text>
+<text class="small-text" x="42.0" y="20.16" text-anchor="middle">1</text>
+<text class="small-text" x="14.0" y="48.16" text-anchor="middle">2</text>
+<text class="small-text" x="42.0" y="48.16" text-anchor="middle">4</text>
+</g>
+</g>
+</g>
+  <g transform="translate(340 386)">
+<rect class="panel" x="0" y="0" width="238" height="248"/>
+<text class="panel-title" x="119" y="30" text-anchor="middle">Green channel</text>
+<text class="label" x="119" y="52" text-anchor="middle">same filter, green values</text>
+<g transform="translate(22 72)">
+<rect x="0" y="0" width="96" height="96" fill="#dcfce7" stroke="#22c55e" stroke-width="1.4"/>
+<line x1="24" y1="0" x2="24" y2="96" stroke="#22c55e" stroke-width="1"/>
+<line x1="48" y1="0" x2="48" y2="96" stroke="#22c55e" stroke-width="1"/>
+<line x1="72" y1="0" x2="72" y2="96" stroke="#22c55e" stroke-width="1"/>
+<line x1="0" y1="24" x2="96" y2="24" stroke="#22c55e" stroke-width="1"/>
+<line x1="0" y1="48" x2="96" y2="48" stroke="#22c55e" stroke-width="1"/>
+<line x1="0" y1="72" x2="96" y2="72" stroke="#22c55e" stroke-width="1"/>
+<text class="cell-text" x="12.0" y="17.28" text-anchor="middle">0</text>
+<text class="cell-text" x="36.0" y="17.28" text-anchor="middle">2</text>
+<text class="cell-text" x="60.0" y="17.28" text-anchor="middle">1</text>
+<text class="cell-text" x="84.0" y="17.28" text-anchor="middle">1</text>
+<text class="cell-text" x="12.0" y="41.28" text-anchor="middle">1</text>
+<text class="cell-text" x="36.0" y="41.28" text-anchor="middle">3</text>
+<text class="cell-text" x="60.0" y="41.28" text-anchor="middle">2</text>
+<text class="cell-text" x="84.0" y="41.28" text-anchor="middle">0</text>
+<text class="cell-text" x="12.0" y="65.28" text-anchor="middle">2</text>
+<text class="cell-text" x="36.0" y="65.28" text-anchor="middle">1</text>
+<text class="cell-text" x="60.0" y="65.28" text-anchor="middle">0</text>
+<text class="cell-text" x="84.0" y="65.28" text-anchor="middle">1</text>
+<text class="cell-text" x="12.0" y="89.28" text-anchor="middle">1</text>
+<text class="cell-text" x="36.0" y="89.28" text-anchor="middle">0</text>
+<text class="cell-text" x="60.0" y="89.28" text-anchor="middle">2</text>
+<text class="cell-text" x="84.0" y="89.28" text-anchor="middle">3</text>
+</g>
+<g transform="translate(132 84)">
+<text class="label" x="36" y="-8" text-anchor="middle">filter</text>
+<g transform="translate(0 0)">
+<rect x="0" y="0" width="72" height="72" fill="#f0fdf4" stroke="#84cc16" stroke-width="1.4"/>
+<line x1="24" y1="0" x2="24" y2="72" stroke="#84cc16" stroke-width="1"/>
+<line x1="48" y1="0" x2="48" y2="72" stroke="#84cc16" stroke-width="1"/>
+<line x1="0" y1="24" x2="72" y2="24" stroke="#84cc16" stroke-width="1"/>
+<line x1="0" y1="48" x2="72" y2="48" stroke="#84cc16" stroke-width="1"/>
+<text class="small-text" x="12.0" y="17.28" text-anchor="middle">0</text>
+<text class="small-text" x="36.0" y="17.28" text-anchor="middle">1</text>
+<text class="small-text" x="60.0" y="17.28" text-anchor="middle">1</text>
+<text class="small-text" x="12.0" y="41.28" text-anchor="middle">-1</text>
+<text class="small-text" x="36.0" y="41.28" text-anchor="middle">1</text>
+<text class="small-text" x="60.0" y="41.28" text-anchor="middle">0</text>
+<text class="small-text" x="12.0" y="65.28" text-anchor="middle">1</text>
+<text class="small-text" x="36.0" y="65.28" text-anchor="middle">1</text>
+<text class="small-text" x="60.0" y="65.28" text-anchor="middle">-1</text>
+</g>
+</g>
+<line x1="170" y1="162" x2="170" y2="194" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<g transform="translate(90 184)">
+<text class="label" x="28" y="-8" text-anchor="middle">partial map</text>
+<g transform="translate(0 0)">
+<rect x="0" y="0" width="56" height="56" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="28" y1="0" x2="28" y2="56" stroke="#94a3b8" stroke-width="1"/>
+<line x1="0" y1="28" x2="56" y2="28" stroke="#94a3b8" stroke-width="1"/>
+<text class="small-text" x="14.0" y="20.16" text-anchor="middle">1</text>
+<text class="small-text" x="42.0" y="20.16" text-anchor="middle">2</text>
+<text class="small-text" x="14.0" y="48.16" text-anchor="middle">3</text>
+<text class="small-text" x="42.0" y="48.16" text-anchor="middle">2</text>
+</g>
+</g>
+</g>
+  <g transform="translate(628 386)">
+<rect class="panel" x="0" y="0" width="238" height="248"/>
+<text class="panel-title" x="119" y="30" text-anchor="middle">Blue channel</text>
+<text class="label" x="119" y="52" text-anchor="middle">same filter, blue values</text>
+<g transform="translate(22 72)">
+<rect x="0" y="0" width="96" height="96" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4"/>
+<line x1="24" y1="0" x2="24" y2="96" stroke="#7c3aed" stroke-width="1"/>
+<line x1="48" y1="0" x2="48" y2="96" stroke="#7c3aed" stroke-width="1"/>
+<line x1="72" y1="0" x2="72" y2="96" stroke="#7c3aed" stroke-width="1"/>
+<line x1="0" y1="24" x2="96" y2="24" stroke="#7c3aed" stroke-width="1"/>
+<line x1="0" y1="48" x2="96" y2="48" stroke="#7c3aed" stroke-width="1"/>
+<line x1="0" y1="72" x2="96" y2="72" stroke="#7c3aed" stroke-width="1"/>
+<text class="cell-text" x="12.0" y="17.28" text-anchor="middle">1</text>
+<text class="cell-text" x="36.0" y="17.28" text-anchor="middle">2</text>
+<text class="cell-text" x="60.0" y="17.28" text-anchor="middle">0</text>
+<text class="cell-text" x="84.0" y="17.28" text-anchor="middle">1</text>
+<text class="cell-text" x="12.0" y="41.28" text-anchor="middle">0</text>
+<text class="cell-text" x="36.0" y="41.28" text-anchor="middle">1</text>
+<text class="cell-text" x="60.0" y="41.28" text-anchor="middle">2</text>
+<text class="cell-text" x="84.0" y="41.28" text-anchor="middle">2</text>
+<text class="cell-text" x="12.0" y="65.28" text-anchor="middle">1</text>
+<text class="cell-text" x="36.0" y="65.28" text-anchor="middle">0</text>
+<text class="cell-text" x="60.0" y="65.28" text-anchor="middle">1</text>
+<text class="cell-text" x="84.0" y="65.28" text-anchor="middle">3</text>
+<text class="cell-text" x="12.0" y="89.28" text-anchor="middle">2</text>
+<text class="cell-text" x="36.0" y="89.28" text-anchor="middle">1</text>
+<text class="cell-text" x="60.0" y="89.28" text-anchor="middle">0</text>
+<text class="cell-text" x="84.0" y="89.28" text-anchor="middle">2</text>
+</g>
+<g transform="translate(132 84)">
+<text class="label" x="36" y="-8" text-anchor="middle">filter</text>
+<g transform="translate(0 0)">
+<rect x="0" y="0" width="72" height="72" fill="#f0fdf4" stroke="#84cc16" stroke-width="1.4"/>
+<line x1="24" y1="0" x2="24" y2="72" stroke="#84cc16" stroke-width="1"/>
+<line x1="48" y1="0" x2="48" y2="72" stroke="#84cc16" stroke-width="1"/>
+<line x1="0" y1="24" x2="72" y2="24" stroke="#84cc16" stroke-width="1"/>
+<line x1="0" y1="48" x2="72" y2="48" stroke="#84cc16" stroke-width="1"/>
+<text class="small-text" x="12.0" y="17.28" text-anchor="middle">1</text>
+<text class="small-text" x="36.0" y="17.28" text-anchor="middle">1</text>
+<text class="small-text" x="60.0" y="17.28" text-anchor="middle">0</text>
+<text class="small-text" x="12.0" y="41.28" text-anchor="middle">0</text>
+<text class="small-text" x="36.0" y="41.28" text-anchor="middle">-1</text>
+<text class="small-text" x="60.0" y="41.28" text-anchor="middle">1</text>
+<text class="small-text" x="12.0" y="65.28" text-anchor="middle">1</text>
+<text class="small-text" x="36.0" y="65.28" text-anchor="middle">0</text>
+<text class="small-text" x="60.0" y="65.28" text-anchor="middle">1</text>
+</g>
+</g>
+<line x1="170" y1="162" x2="170" y2="194" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<g transform="translate(90 184)">
+<text class="label" x="28" y="-8" text-anchor="middle">partial map</text>
+<g transform="translate(0 0)">
+<rect x="0" y="0" width="56" height="56" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="28" y1="0" x2="28" y2="56" stroke="#94a3b8" stroke-width="1"/>
+<line x1="0" y1="28" x2="56" y2="28" stroke="#94a3b8" stroke-width="1"/>
+<text class="small-text" x="14.0" y="20.16" text-anchor="middle">2</text>
+<text class="small-text" x="42.0" y="20.16" text-anchor="middle">0</text>
+<text class="small-text" x="14.0" y="48.16" text-anchor="middle">1</text>
+<text class="small-text" x="42.0" y="48.16" text-anchor="middle">2</text>
+</g>
+</g>
+</g>
+
+  <line x1="170" y1="642" x2="430" y2="676" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="458" y1="642" x2="458" y2="676" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+  <line x1="746" y1="642" x2="486" y2="676" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+
+  <rect x="324" y="716" width="268" height="32" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="panel-title" x="458" y="738" text-anchor="middle">Final feature map</text>
+  <g transform="translate(428 646)">
+<rect x="0" y="0" width="60" height="60" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+<line x1="30" y1="0" x2="30" y2="60" stroke="#2563eb" stroke-width="1"/>
+<line x1="0" y1="30" x2="60" y2="30" stroke="#2563eb" stroke-width="1"/>
+<text class="cell-text" x="15.0" y="21.599999999999998" text-anchor="middle">6</text>
+<text class="cell-text" x="45.0" y="21.599999999999998" text-anchor="middle">3</text>
+<text class="cell-text" x="15.0" y="51.599999999999994" text-anchor="middle">6</text>
+<text class="cell-text" x="45.0" y="51.599999999999994" text-anchor="middle">8</text>
+</g>
+</svg>
