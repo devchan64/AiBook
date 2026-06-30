@@ -29,6 +29,14 @@ judge model 설계와 통계적 샘플링 전략의 세부는 여기서 다루�
 - 운영에서 왜 두 방식을 섞는지 설명할 수 있습니다.
 - 다음 장의 서비스 제약과 운영 문제로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 비교 기준이 더 분명해집니다.
+
+1. 먼저 자동 평가와 사람 평가가 각각 무엇에 강한지 읽습니다.
+2. 그다음 왜 둘 중 하나만으로는 운영이 불안정한지 봅니다.
+3. 사례와 Python 예제에서는 `자동 게이트`, `사람 검토`, `최종 조치`가 어떻게 나뉘는지 확인합니다.
+
 ## 자동 평가는 무엇에 강한가
 
 자동 평가는 보통 다음에 강합니다.
@@ -113,6 +121,22 @@ judge model 설계와 통계적 샘플링 전략의 세부는 여기서 다루�
 
 즉, 자동 평가와 사람 평가는 대체 관계라기보다 분업 관계에 가깝습니다.
 
+이 분업을 한 번 더 단순화하면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["candidate outputs"]
+  B["automatic gate"]
+  C["human review"]
+  D["approve / revise / reject"]
+
+  A --> B
+  B --> C
+  C --> D
+```
+
+이 그림의 핵심은 자동 평가가 먼저 모든 판단을 끝내는 것이 아니라, 사람 검토가 필요한 후보를 줄이고 최종 조치를 더 빠르게 정하게 만든다는 점입니다.
+
 ## 아주 단순하게 그리면
 
 ```mermaid
@@ -131,6 +155,8 @@ flowchart TD
 이 도식의 핵심은 실제 품질 판단이 한 경로로만 끝나지 않는다는 점입니다.
 
 ## 사례로 보기
+
+사례를 읽을 때는 `무엇이 맞는가`보다 `어떤 실패는 자동으로 걸러지고 어떤 실패는 사람이 끝까지 봐야 하는가`를 중심으로 보면 좋습니다.
 
 ### 사례 1. RAG 답변 평가
 
@@ -154,7 +180,7 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보는 것입니다. 이번에는 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 바로 탈락시키고`, `무엇은 사람 검토로 넘기며`, `무엇은 둘 다 통과하는가`를 비교하겠습니다.
+이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보고, 최종적으로 `승인`, `수정 후 재검토`, `즉시 탈락` 중 어떤 조치가 내려지는지 확인하는 것입니다. 이번에는 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 바로 탈락시키고`, `무엇은 사람 검토로 넘기며`, `무엇은 둘 다 통과하는가`를 비교하겠습니다.
 
 문제 상황:
 
@@ -172,6 +198,7 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 - 답변별 자동 평가 결과
 - 답변별 사람 평가가 추가로 봐야 할 질문
 - 어떤 답변이 자동 탈락, 사람 검토 필요, 최종 승인 후보인지에 대한 요약값
+- 각 답변에 대해 운영에서 내려야 할 다음 조치
 
 먼저 이 예제에서 함께 볼 운영 판단 기준은 다음과 같습니다.
 
@@ -181,8 +208,12 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 | `needs_human_review` | 자동 통과 뒤에도 뉘앙스나 오해 가능성이 남는지 보기 위해 |
 | `final_ready` | 자동 평가와 사람 검토 질문까지 감안했을 때 바로 승인 후보인지 보기 위해 |
 | `review_reason` | 왜 사람이 다시 봐야 하는지 운영 로그에 남기기 위해 |
+| `next_action` | 승인, 수정, 탈락 중 다음 조치를 분명히 남기기 위해 |
 
 ```python
+from pprint import pprint
+
+
 outputs = [
     {
         "name": "answer_a",
@@ -238,6 +269,12 @@ for item in outputs:
         review_reason = "needs_human_judgment"
 
     final_ready = automatic_result["auto_pass"] and review_reason == "light_human_confirmation"
+    if review_reason == "automatic_gate_failed":
+        next_action = "reject_before_human_review"
+    elif final_ready:
+        next_action = "approve_candidate"
+    else:
+        next_action = "revise_and_send_to_human_review"
 
     reports.append(
         {
@@ -248,6 +285,7 @@ for item in outputs:
             "needs_human_review": review_reason != "automatic_gate_failed",
             "review_reason": review_reason,
             "final_ready": final_ready,
+            "next_action": next_action,
         }
     )
 
@@ -256,20 +294,26 @@ summary = {
     "auto_fail_count": sum(not report["automatic_result"]["auto_pass"] for report in reports),
     "needs_human_judgment_count": sum(report["review_reason"] == "needs_human_judgment" for report in reports),
     "final_ready_count": sum(report["final_ready"] for report in reports),
+    "approved_count": sum(report["next_action"] == "approve_candidate" for report in reports),
+    "revise_count": sum(report["next_action"] == "revise_and_send_to_human_review" for report in reports),
+    "reject_count": sum(report["next_action"] == "reject_before_human_review" for report in reports),
 }
 
 print("[summary]")
-print(summary)
+pprint(summary)
 print()
 
 for report in reports:
     print("=" * 80)
     print(f"[{report['name']}]")
     print("output =", report["output"])
-    print("automatic_result =", report["automatic_result"])
-    print("human_review_questions =", report["human_review_questions"])
+    print("automatic_result =")
+    pprint(report["automatic_result"])
+    print("human_review_questions =")
+    pprint(report["human_review_questions"])
     print("review_reason =", report["review_reason"])
     print("final_ready =", report["final_ready"])
+    print("next_action =", report["next_action"])
     print()
 ```
 
@@ -277,42 +321,62 @@ for report in reports:
 
 ```text
 [summary]
-{'auto_pass_count': 2, 'auto_fail_count': 2, 'needs_human_judgment_count': 1, 'final_ready_count': 1}
+{'approved_count': 1,
+ 'auto_fail_count': 2,
+ 'auto_pass_count': 2,
+ 'final_ready_count': 1,
+ 'needs_human_judgment_count': 1,
+ 'reject_count': 2,
+ 'revise_count': 1}
 
 ================================================================================
 [answer_a]
 output = 환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
-automatic_result = {'has_source_hint': True, 'format_ok': True, 'length_ok': True, 'auto_pass': True}
-human_review_questions = ['사용자가 다음 행동을 바로 이해할 수 있는가?']
+automatic_result =
+{'auto_pass': True, 'format_ok': True, 'has_source_hint': True, 'length_ok': True}
+human_review_questions =
+['사용자가 다음 행동을 바로 이해할 수 있는가?']
 review_reason = needs_human_judgment
 final_ready = False
+next_action = revise_and_send_to_human_review
 
 ================================================================================
 [answer_b]
 output = 환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
-automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True, 'auto_pass': False}
-human_review_questions = ['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
+automatic_result =
+{'auto_pass': False, 'format_ok': True, 'has_source_hint': False, 'length_ok': True}
+human_review_questions =
+['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
 review_reason = automatic_gate_failed
 final_ready = False
+next_action = reject_before_human_review
 
 ================================================================================
 [answer_c]
 output = 환불은 가능하지만 조건은 직접 찾아보세요.
-automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True, 'auto_pass': False}
-human_review_questions = ['사용자가 다음 행동을 바로 이해할 수 있는가?', '문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?', '예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?']
+automatic_result =
+{'auto_pass': False, 'format_ok': True, 'has_source_hint': False, 'length_ok': True}
+human_review_questions =
+['사용자가 다음 행동을 바로 이해할 수 있는가?',
+ '문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?',
+ '예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?']
 review_reason = automatic_gate_failed
 final_ready = False
+next_action = reject_before_human_review
 
 ================================================================================
 [answer_d]
 output = 환불 요청 처리 기한은 14일이며 주문번호를 보내 주시면 접수를 도와드리겠습니다. 자세한 내용은 공지를 참고하세요.
-automatic_result = {'has_source_hint': True, 'format_ok': True, 'length_ok': True, 'auto_pass': True}
-human_review_questions = ['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
+automatic_result =
+{'auto_pass': True, 'format_ok': True, 'has_source_hint': True, 'length_ok': True}
+human_review_questions =
+['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
 review_reason = light_human_confirmation
 final_ready = True
+next_action = approve_candidate
 ```
 
-이 예제에서 먼저 봐야 할 것은 `auto_pass_count`, `needs_human_judgment_count`, `final_ready_count`가 서로 다르다는 점입니다. 즉, 어떤 답은 자동 평가에서 바로 탈락하고, 어떤 답은 자동 평가를 통과했지만 사람 검토가 더 필요하며, 어떤 답만이 자동 기준과 사람 기준을 함께 만족해 최종 승인 후보가 됩니다.
+이 예제에서 먼저 봐야 할 것은 `auto_pass_count`, `needs_human_judgment_count`, `final_ready_count`가 서로 다르고, `next_action`이 그 차이를 실제 운영 조치로 바꾼다는 점입니다. 즉, 어떤 답은 자동 평가에서 바로 탈락하고, 어떤 답은 자동 평가를 통과했지만 사람 검토가 더 필요하며, 어떤 답만이 자동 기준과 사람 기준을 함께 만족해 최종 승인 후보가 됩니다.
 
 그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 보며, 운영에서는 이 둘을 합쳐 `탈락`, `재검토`, `승인 후보`를 나눈다는 점입니다. 특히 `answer_a`처럼 자동 평가는 통과해도 다음 행동이 불분명할 수 있고, `answer_b`, `answer_c`처럼 형식은 맞더라도 출처 힌트가 없어 자동 게이트부터 통과하지 못할 수 있습니다.
 
@@ -325,6 +389,8 @@ final_ready = True
 ## 이 예제를 운영 판단으로 다시 보면
 
 앞의 예제는 자동 평가와 사람 평가를 둘 다 흉내 내는 완성 구현이 아니라, `같은 출력도 서로 다른 검토 경로를 탄다`는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 자동 점검을 늘리는 일과 사람 검토를 줄이는 일이 같은 목표가 아니라, 서로 다른 실패를 잡기 위한 분업이라는 점입니다.
+
+여기까지를 한 줄로 묶으면, 자동 평가와 사람 평가는 `누가 더 우월한가`를 가리는 관계가 아니라 `어떤 후보를 바로 탈락시키고 어떤 후보를 사람에게 넘기며 어떤 후보를 승인할지 나누는 운영 분업`입니다.
 
 ## 역사와 커리큘럼 관점
 
