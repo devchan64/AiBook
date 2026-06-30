@@ -87,7 +87,7 @@ long-context는 단순히 `입력이 길다`는 말보다 조금 더 넓은 뜻�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `KV cache가 실제로 무엇을 저장하고, 다음 토큰 때 무엇을 다시 계산하지 않는가`를 보이는 것입니다. 이번에는 문자열만 나열하지 않고, 토큰 ID를 작은 임베딩과 선형 변환에 통과시켜 실제로 K/V 행렬을 만들어 보겠습니다.
+이번 예제의 목표는 `KV cache가 실제로 무엇을 저장하고, 턴이 길어질수록 얼마나 많은 재계산을 막는가`를 보이는 것입니다. 이번에는 토큰 ID를 작은 임베딩과 선형 변환에 통과시켜 실제로 K/V 행렬을 만들고, 각 생성 step에서 다시 투영하는 토큰 수가 어떻게 달라지는지 함께 출력합니다.
 
 핵심 비교는 다음입니다.
 
@@ -103,7 +103,8 @@ long-context는 단순히 `입력이 길다`는 말보다 조금 더 넓은 뜻�
 
 - 캐시 없이 각 step에서 다시 계산한 K/V 행렬 shape
 - 캐시를 쓸 때 유지되는 K/V cache shape
-- 두 방식의 총 projection 대상 토큰 수
+- 두 방식의 step별 projection 대상 토큰 수
+- 두 방식의 총 projection 대상 토큰 수와 절감 비율
 
 ```python
 import numpy as np
@@ -162,7 +163,7 @@ def decode_without_cache(prefix_ids, new_ids):
         seen_ids.append(new_id)
         keys, values = project_to_kv(seen_ids)
         projected_token_count += len(seen_ids)
-        step_logs.append((new_id, keys, values))
+        step_logs.append((new_id, len(seen_ids), keys, values))
 
     return step_logs, projected_token_count
 
@@ -170,37 +171,41 @@ def decode_without_cache(prefix_ids, new_ids):
 def decode_with_cache(prefix_ids, new_ids):
     cached_keys, cached_values = project_to_kv(prefix_ids)
     projected_token_count = len(prefix_ids)
-    step_logs = [("prefix_loaded", cached_keys.copy(), cached_values.copy())]
+    step_logs = [("prefix_loaded", len(prefix_ids), cached_keys.copy(), cached_values.copy())]
 
     for new_id in new_ids:
         new_keys, new_values = project_to_kv([new_id])
         cached_keys = np.vstack([cached_keys, new_keys])
         cached_values = np.vstack([cached_values, new_values])
         projected_token_count += 1
-        step_logs.append((new_id, cached_keys.copy(), cached_values.copy()))
+        step_logs.append((new_id, 1, cached_keys.copy(), cached_values.copy()))
 
     return step_logs, projected_token_count
 
 
 no_cache_logs, no_cache_count = decode_without_cache(prefix_token_ids, generated_token_ids)
 with_cache_logs, with_cache_count = decode_with_cache(prefix_token_ids, generated_token_ids)
+saved_ratio = round(1 - (with_cache_count / no_cache_count), 3)
 
 print("[without cache]")
-for token_id, keys, values in no_cache_logs:
+for token_id, projected_now, keys, values in no_cache_logs:
     print("new_token_id =", token_id)
+    print("projected_now =", projected_now)
     print("keys_shape =", keys.shape, "values_shape =", values.shape)
     print("last_key_row =", np.round(keys[-1], 2))
     print("last_value_row =", np.round(values[-1], 2))
 
 print("[with cache]")
-for token_id, keys, values in with_cache_logs:
+for token_id, projected_now, keys, values in with_cache_logs:
     print("step =", token_id)
+    print("projected_now =", projected_now)
     print("keys_shape =", keys.shape, "values_shape =", values.shape)
     print("last_key_row =", np.round(keys[-1], 2))
     print("last_value_row =", np.round(values[-1], 2))
 
 print("no_cache_projected_token_count =", no_cache_count)
 print("with_cache_projected_token_count =", with_cache_count)
+print("saved_ratio =", saved_ratio)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -208,28 +213,34 @@ print("with_cache_projected_token_count =", with_cache_count)
 ```text
 [without cache]
 new_token_id = 3
+projected_now = 4
 keys_shape = (4, 2) values_shape = (4, 2)
 last_key_row = [0.91 1.34]
 last_value_row = [1.11 1.21]
 new_token_id = 4
+projected_now = 5
 keys_shape = (5, 2) values_shape = (5, 2)
 last_key_row = [1.29 1.13]
 last_value_row = [0.97 1.75]
 [with cache]
 step = prefix_loaded
+projected_now = 3
 keys_shape = (3, 2) values_shape = (3, 2)
 last_key_row = [1.32 0.92]
 last_value_row = [1.   1.56]
 step = 3
+projected_now = 1
 keys_shape = (4, 2) values_shape = (4, 2)
 last_key_row = [0.91 1.34]
 last_value_row = [1.11 1.21]
 step = 4
+projected_now = 1
 keys_shape = (5, 2) values_shape = (5, 2)
 last_key_row = [1.29 1.13]
 last_value_row = [0.97 1.75]
 no_cache_projected_token_count = 9
 with_cache_projected_token_count = 5
+saved_ratio = 0.444
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
@@ -237,9 +248,10 @@ with_cache_projected_token_count = 5
 - 두 방식 모두 새 토큰이 추가된 뒤의 마지막 K/V 행은 같아질 수 있습니다.
 - 차이는 `앞에서 본 prefix 토큰의 K/V를 다시 투영했는가`에 있습니다.
 - KV cache는 `이전 토큰의 key/value 행렬을 저장해 두고, 새 토큰 행만 아래에 이어 붙인다`는 점이 핵심입니다.
-- 그래서 prefix가 길어질수록 `projected_token_count` 차이가 빠르게 커집니다.
+- 캐시가 없으면 첫 새 토큰에서는 4개, 다음 토큰에서는 5개를 다시 투영하지만, 캐시가 있으면 새 토큰마다 1개만 추가 투영합니다.
+- 그래서 prefix가 길어질수록 `projected_token_count` 차이가 빠르게 커지고, 이 작은 예제에서도 재투영량이 약 44.4% 줄어듭니다.
 
-이 예제에서는 `embedding_table`, `W_k`, `W_v`, `generated_token_ids`를 직접 바꿔 볼 수 있습니다. 예를 들어 새 토큰을 2개에서 5개로 늘리면 캐시 유무에 따라 다시 투영하는 토큰 수 차이가 더 크게 벌어집니다.
+이 예제에서는 `embedding_table`, `W_k`, `W_v`, `generated_token_ids`를 직접 바꿔 볼 수 있습니다. 예를 들어 새 토큰을 2개에서 5개로 늘리거나 prefix를 더 길게 만들면, 캐시 유무에 따라 다시 투영하는 토큰 수 차이가 더 크게 벌어집니다. 즉, 독자는 단순히 `캐시가 빠르다`는 말을 외우는 대신, `어느 step에서 무엇을 다시 계산하지 않는가`를 직접 실험해 볼 수 있습니다.
 
 ## 이름들을 한 표로 다시 묶으면
 
