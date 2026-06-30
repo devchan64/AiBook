@@ -109,36 +109,86 @@ flowchart TD
 
 학습 손실은 계속 내려가는데 검증 성능이 나빠진다면, 사람은 먼저 `모델 구조가 나쁘다`고 결론내리기 쉽습니다. 하지만 이런 경우에는 구조 자체보다 regularization이나 mode 설정을 다시 봐야 할 수 있습니다. 예를 들어 dropout이 학습에서는 켜지는데 평가에서는 꺼져야 하는데도 mode 전환이 잘못되어 있거나, 가중치가 훈련 데이터에만 과하게 맞춰지고 있을 수 있습니다. 학습 루프를 한 장면으로 묶어 보고 있으면 `구조 문제인가`, `업데이트 문제인가`, `평가 설정 문제인가`를 더 빨리 분리해 볼 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 구조 이름을 바꾸기 전에 regularization, mode, 평가 절차를 먼저 점검하는 순서가 실제 원인 분리에 더 도움이 되는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프의 단계 이름을 한 번에 확인하는 것입니다.
+이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프 안에서 `forward -> loss -> backward -> optimizer step`이 어떻게 한 batch씩 반복되는지 확인하는 것입니다.
+
+입력:
+
+- 1차원 입력 3개
+- 목표값 3개
+- 가중치 하나 `w`
+
+출력:
+
+- batch별 prediction
+- batch별 loss
+- batch별 gradient
+- step 이후 갱신된 가중치
 
 ```python
-steps = [
-    "forward pass",
-    "compute loss",
-    "backward pass",
-    "optimizer step",
-    "repeat on next batch",
+samples = [
+    {"x": 1.0, "target": 2.0},
+    {"x": 2.0, "target": 4.0},
+    {"x": 3.0, "target": 6.0},
 ]
 
-for i, step in enumerate(steps, start=1):
-    print(i, step)
+w = 0.5
+learning_rate = 0.1
+
+for step, sample in enumerate(samples, start=1):
+    x = sample["x"]
+    target = sample["target"]
+
+    # forward
+    prediction = w * x
+    loss = (prediction - target) ** 2
+
+    # backward
+    gradient_w = 2 * (prediction - target) * x
+
+    # optimizer step
+    w = w - learning_rate * gradient_w
+
+    print(f"[batch {step}]")
+    print("x =", x, "target =", target)
+    print("prediction =", round(prediction, 3))
+    print("loss =", round(loss, 3))
+    print("gradient_w =", round(gradient_w, 3))
+    print("updated_w =", round(w, 3))
+    print("---")
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-1 forward pass
-2 compute loss
-3 backward pass
-4 optimizer step
-5 repeat on next batch
+[batch 1]
+x = 1.0 target = 2.0
+prediction = 0.5
+loss = 2.25
+gradient_w = -3.0
+updated_w = 0.8
+---
+[batch 2]
+x = 2.0 target = 4.0
+prediction = 1.6
+loss = 5.76
+gradient_w = -9.6
+updated_w = 1.76
+---
+[batch 3]
+x = 3.0 target = 6.0
+prediction = 5.28
+loss = 0.518
+gradient_w = -4.32
+updated_w = 2.192
+---
 ```
 
 이 예제에서 핵심은 다음입니다.
 
-- 딥러닝 학습은 한 번의 계산이 아니라 반복 루프입니다
+- 딥러닝 학습은 한 번의 계산이 아니라 batch마다 반복되는 루프입니다
+- 각 batch에서 forward, loss, backward, optimizer step이 같은 순서로 다시 등장합니다
 - 구조 설명과 학습 설명은 이 루프 안에서 다시 만나야 합니다
 
 ## 다음 장과의 연결

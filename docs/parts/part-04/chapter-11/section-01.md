@@ -30,7 +30,7 @@ CNN은 이미지 전체를 한꺼번에 같은 방식으로 보지 않고, 작�
 - CNN을 `이미지의 지역 구조를 반복적으로 읽는 신경망`으로 설명할 수 있습니다.
 - 왜 이미지에서는 위치와 근처 패턴이 중요한지 말할 수 있습니다.
 - 완전연결층과 CNN의 차이를 입문 수준에서 비교할 수 있습니다.
-- 작은 Python 예제로 지역 패턴을 읽는 감각을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 지역 패턴을 읽는 감각을 확인할 수 있습니다.
 
 ## 왜 이미지에는 공간 구조가 중요할까
 
@@ -246,9 +246,9 @@ flowchart TD
 | 얼굴 이미지 | 눈, 코, 입 주변의 부분 구조가 쌓여 더 큰 표현이 되어서 |
 | 산업 비전 | 작은 결함과 질감 이상이 국소적으로 나타나서 |
 
-## 작은 Python 예제로 지역 패턴 감각 보기
+## 실행 가능한 Python 예제로 지역 패턴 감각 보기
 
-이번 예제의 목표는 이미지 전체가 아니라 작은 구역을 보며 값을 읽는 감각을 확인하는 것입니다.
+이번 예제의 목표는 이미지 전체가 아니라 작은 구역을 보며 값을 읽는 감각을 확인하는 것입니다. 단순히 패치를 몇 개 뽑는 데서 끝내지 않고, 각 패치의 밝기 합을 같이 계산해 `지역 반응`이라는 감각까지 보겠습니다.
 
 입력:
 
@@ -258,6 +258,8 @@ flowchart TD
 출력:
 
 - 가능한 2x2 지역 패치들
+- 각 패치의 간단한 지역 점수
+- 가장 강한 지역 반응 위치
 
 ```python
 import numpy as np
@@ -273,16 +275,20 @@ patches = []
 for i in range(3):
     for j in range(3):
         patch = image[i:i+2, j:j+2]
-        patches.append(patch)
+        patch_score = int(np.sum(patch))
+        patches.append({"position": (i, j), "patch": patch, "score": patch_score})
+
+best_patch = max(patches, key=lambda item: item["score"])
 
 print("image =")
 print(image)
 print()
 print("number of 2x2 patches =", len(patches))
-print("first patch =")
-print(patches[0])
-print("second patch =")
-print(patches[1])
+print("first patch position =", patches[0]["position"], "score =", patches[0]["score"])
+print(patches[0]["patch"])
+print("second patch position =", patches[1]["position"], "score =", patches[1]["score"])
+print(patches[1]["patch"])
+print("best patch position =", best_patch["position"], "score =", best_patch["score"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -295,18 +301,20 @@ image =
  [13 14 15 16]]
 
 number of 2x2 patches = 9
-first patch =
+first patch position = (0, 0) score = 14
 [[1 2]
  [5 6]]
-second patch =
+second patch position = (0, 1) score = 18
 [[2 3]
  [6 7]]
+best patch position = (2, 2) score = 54
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - CNN은 이미지 전체를 한 번에만 보는 것이 아니라
 - 작은 지역 창을 반복해서 읽고
+- 각 지역마다 다른 반응 점수를 만들고
 - 그런 지역 정보가 뒤에서 더 큰 표현으로 쌓일 수 있다는 점입니다
 
 ## Python으로 CNN 설명용 이미지를 만드는 예제
