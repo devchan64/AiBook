@@ -37,6 +37,14 @@ P5-8.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제
 - 왜 프롬프트가 빠른 실험과 행동 관찰의 출발점이 되었는지 말할 수 있습니다.
 - 다음 절의 한계 논의로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `프롬프트는 무엇을 바꾸나`와 `프롬프트로 바로 바뀌는 것과 잘 안 바뀌는 것`을 읽고, 프롬프트가 입력 설계라는 점과 한계를 같이 잡습니다.
+2. 그다음 `프롬프트를 이루는 기본 요소`, `지시는 무엇을 정하나`, `맥락은 무엇을 정하나`, `예시는 무엇을 정하나`를 읽으면서 프롬프트를 구성 요소 단위로 분해해 봅니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 실제 실무에서는 좋은 문장 하나를 쓰는 것보다 여러 입력에서 형식과 핵심 정보가 계속 유지되는지 관찰하는 일이 더 중요하다는 점을 확인합니다.
+
 ## 프롬프트는 무엇을 바꾸나
 
 프롬프트는 보통 모델 내부 가중치를 바꾸지 않습니다. 대신 입력을 바꿉니다.
@@ -211,6 +219,20 @@ flowchart TD
 | 분류 작업 | 라벨 경계와 우선순위 | 라벨 예시, 경계 사례 |
 | 문서 기반 질의응답 | 답변 범위와 근거 제한 | 참고 문단, 인용 방식, 해석 범위 |
 
+세 사례를 더 압축하면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["막연한 요청<br/>요약해 줘 / 분류해 줘 / 답해 줘"]
+  B["흔들리는 출력<br/>길이 / 라벨 경계 / 근거 범위"]
+  C["프롬프트 구조화<br/>지시 + 맥락 + 예시"]
+  D["더 안정된 응답<br/>형식 / 범위 / 패턴 유지"]
+
+  A --> B --> C --> D
+```
+
+핵심은 `더 화려한 문장`이 아니라 `무엇을 명시해야 흔들림이 줄어드는가`를 찾는 일입니다.
+
 ## 실행 가능한 Python 예제로 보기
 
 이번 예제의 목표는 `좋은 문장을 한 번 쓰는 것`이 아니라, 같은 작업을 여러 요청 카드에 반복 적용했을 때 어떤 프롬프트가 더 안정적인 결과를 내는지 점검하는 것입니다. 실제 서비스에서도 프롬프트 평가는 한 번의 멋진 출력보다 `여러 입력에서 형식과 핵심 항목이 계속 유지되는가`를 보는 쪽이 더 중요합니다.
@@ -339,11 +361,20 @@ def run_batch(prompt_name, response_fn):
     full_keyword_keep_count = sum(
         1 for report in reports if report["inspect"]["keyword_coverage"] == "3/3"
     )
+    slot_ok_count = sum(
+        1 for report in reports if not report["inspect"]["missing_slots"]
+    )
+    average_keyword_ratio = sum(
+        len(report["inspect"]["present_keywords"]) / len(requests[idx]["must_keep"])
+        for idx, report in enumerate(reports)
+    ) / len(reports)
     return {
         "prompt_name": prompt_name,
         "reports": reports,
         "format_ok_count": format_ok_count,
         "full_keyword_keep_count": full_keyword_keep_count,
+        "slot_ok_count": slot_ok_count,
+        "average_keyword_ratio": round(average_keyword_ratio, 2),
     }
 
 
@@ -353,7 +384,9 @@ structured_batch = run_batch("structured", structured_response)
 for batch in [simple_batch, structured_batch]:
     print(f"[{batch['prompt_name']} batch]")
     print("format_ok_count =", batch["format_ok_count"])
+    print("slot_ok_count =", batch["slot_ok_count"])
     print("full_keyword_keep_count =", batch["full_keyword_keep_count"])
+    print("average_keyword_ratio =", batch["average_keyword_ratio"])
     for report in batch["reports"]:
         print(f"- {report['name']}")
         print(report["response"])
@@ -366,7 +399,9 @@ for batch in [simple_batch, structured_batch]:
 ```text
 [simple batch]
 format_ok_count = 0
+slot_ok_count = 0
 full_keyword_keep_count = 0
+average_keyword_ratio = 0.44
 - billing outage
 새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다. 문제는 오전 9시 10분부터 시작되었고 모바일 결제에서 특히 크게 나타났다.
 {'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '1/3', 'present_keywords': ['승인 실패율'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
@@ -379,7 +414,9 @@ full_keyword_keep_count = 0
 
 [structured batch]
 format_ok_count = 3
+slot_ok_count = 3
 full_keyword_keep_count = 1
+average_keyword_ratio = 0.78
 - billing outage
 1. 상황: 새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다.
 2. 즉시 조치: 운영팀은 새 결제 모듈을 이전 버전으로 되돌렸다.
@@ -419,6 +456,10 @@ full_keyword_keep_count = 1
 ## 이 예제를 입력 설계 관점으로 다시 보면
 
 이 비교에서 중요한 것은 문장을 길게 쓰느냐가 아니라, 모델이 판단에 써야 할 정보를 어떤 칸에 나눠 넣느냐입니다. 그래서 프롬프트 엔지니어링은 표현 솜씨보다 `작업 요구`, `맥락`, `출력 형식`을 어떻게 구조적으로 배치하느냐의 문제로 읽는 편이 정확합니다.
+
+## 여기까지를 한 줄로 묶으면
+
+프롬프트 엔지니어링은 멋진 문장을 찾는 일이 아니라, 같은 모델이 여러 입력에서도 더 안정적으로 원하는 형식과 핵심 정보를 내놓게 만드는 입력 설계 작업입니다.
 
 ## 역사와 커리큘럼 관점
 
