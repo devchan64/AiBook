@@ -143,6 +143,7 @@ flowchart TD
 - 어떤 문서가 입력에 포함되었는지
 - 그 문서를 바탕으로 만든 최종 설명
 - 검색 실패와 생성 실패를 나누어 볼 수 있는 간단한 점검값
+- 관련 없는 문서가 섞였는지에 대한 간단한 확인값
 
 ```python
 question = "벡터 검색이 왜 필요한가요?"
@@ -175,6 +176,7 @@ def inspect_payload(payload, answer):
         "doc_titles": [doc["title"] for doc in payload["docs"]],
         "answer_uses_vector_term": "벡터" in answer,
         "answer_uses_semantic_term": "의미" in answer,
+        "contains_irrelevant_doc": any("무관" in doc["text"] for doc in payload["docs"]),
     }
 
 
@@ -204,7 +206,7 @@ print(inspect_payload(prompt_payload, answer))
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 키워드가 달라도 의미 기반 검색이 가능하다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True}
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True, 'contains_irrelevant_doc': False}
 ```
 
 그래서 이 예제에서 확인해야 할 결과는 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남아 있고, 생성 단계는 그 payload를 읽어 최종 문장을 만든다는 점입니다.

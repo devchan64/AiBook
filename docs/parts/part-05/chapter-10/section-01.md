@@ -204,6 +204,7 @@ flowchart TD
 - 검색 없이 바로 답한 결과
 - 관련 문서를 먼저 고른 뒤 답한 결과
 - 어떤 문서가 실제 근거로 붙었는지에 대한 점검값
+- 최신 정책이 실제 답변에 반영되었는지 여부
 
 ```python
 question = "환불 정책이 오늘 어떻게 바뀌었나요?"
@@ -251,6 +252,12 @@ def answer_with_rag(retrieved_docs):
 retrieved_docs = retrieve_docs(question, documents)
 rag_result = answer_with_rag(retrieved_docs)
 
+inspection = {
+    "memory_mentions_latest_policy": "14일" in stale_memory_answer,
+    "rag_mentions_latest_policy": "14일" in rag_result["answer"],
+    "top_grounding_doc": rag_result["grounding_titles"][0],
+}
+
 print("[question]")
 print(question)
 print("[memory only answer]")
@@ -262,6 +269,8 @@ for doc in retrieved_docs:
 print()
 print("[rag answer]")
 print(rag_result)
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -278,6 +287,8 @@ print(rag_result)
 
 [rag answer]
 {'answer': '최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다.', 'grounding_titles': ['2026-06-29 정책 공지', '구버전 안내']}
+[inspection]
+{'memory_mentions_latest_policy': False, 'rag_mentions_latest_policy': True, 'top_grounding_doc': '2026-06-29 정책 공지'}
 ```
 
 그래서 이 예제에서 확인해야 할 결과는 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어가고, 그 결과 내부 기억과 다른 최신 답이 만들어질 수 있다는 점입니다.

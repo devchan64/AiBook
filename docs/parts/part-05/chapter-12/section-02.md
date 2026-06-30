@@ -167,6 +167,7 @@ flowchart TD
 
 - 함수 이름과 인자 구조
 - 필수 인자 점검 결과
+- 어떤 필드가 실행 전에 검증되는지에 대한 점검값
 
 ```python
 user_request = "내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요."
@@ -196,6 +197,11 @@ def validate_function_call(function_call, required_fields):
 
 
 validation = validate_function_call(function_call, required_fields)
+inspection = {
+    "required_fields": required_fields,
+    "provided_argument_keys": list(function_call["arguments"].keys()),
+    "is_ready_to_execute": validation["is_valid"],
+}
 
 print("[user_request]")
 print(user_request)
@@ -203,6 +209,8 @@ print("[function_call]")
 print(function_call)
 print("[validation]")
 print(validation)
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -214,6 +222,8 @@ print(validation)
 {'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': []}}
 [validation]
 {'function_name': 'create_calendar_event', 'missing_fields': [], 'is_valid': True}
+[inspection]
+{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True}
 ```
 
 그래서 이 예제에서 확인해야 할 결과는 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현되고, 실행 전에 누락 필드를 점검할 수 있게 된다는 점입니다.

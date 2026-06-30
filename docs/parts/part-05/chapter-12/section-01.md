@@ -199,6 +199,7 @@ flowchart TD
 - 도구 호출 구조
 - 실행 결과
 - 실행 결과를 반영한 최종 답변
+- 도구 호출이 실제로 필요한 요청인지에 대한 점검값
 
 ```python
 user_request = "오늘 서울 기준 USD 환율을 알려 주세요."
@@ -240,6 +241,11 @@ def compose_final_answer(tool_result):
 tool_call = plan_tool_call(user_request)
 tool_result = execute_tool(tool_call)
 final_answer = compose_final_answer(tool_result)
+inspection = {
+    "tool_selected": tool_call["tool"],
+    "uses_tool_result_rate": str(tool_result["rate"]) in final_answer,
+    "uses_tool_result_time": tool_result["as_of"] in final_answer,
+}
 
 print("[user_request]")
 print(user_request)
@@ -249,6 +255,8 @@ print("[tool_result]")
 print(tool_result)
 print("[final_answer]")
 print(final_answer)
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -262,6 +270,8 @@ print(final_answer)
 {'base_currency': 'USD', 'quote_currency': 'KRW', 'rate': 1382.4, 'as_of': '2026-06-30 10:00 KST'}
 [final_answer]
 서울 기준 오늘 USD/KRW 환율은 1382.4원이며, 기준 시각은 2026-06-30 10:00 KST입니다.
+[inspection]
+{'tool_selected': 'exchange_rate_lookup', 'uses_tool_result_rate': True, 'uses_tool_result_time': True}
 ```
 
 그래서 이 예제에서 확인해야 할 결과는 모델 출력이 곧바로 최종 답 문장이 아니라, 외부 기능 실행을 위한 구조화된 요청이 먼저 나오고, 실제 실행 결과를 받은 뒤에야 최종 답변이 만들어진다는 점입니다.
