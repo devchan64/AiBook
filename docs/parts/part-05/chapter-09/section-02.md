@@ -139,7 +139,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을 직접 확인하는 것입니다. 이번에는 최신 환불 정책, 매출 합계 계산, 파일 저장 자동화처럼 서로 다른 세 장면을 한 번에 놓고, 프롬프트만 있을 때와 실제 구조가 붙었을 때 어떤 점검 결과가 달라지는지 비교하겠습니다.
+이번 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을, 한두 개 출력이 아니라 점검 보고서 형태로 확인하는 것입니다. 실제 서비스에서는 답변 문장만 읽지 않고 `최신 문서가 붙었는가`, `계산 로그가 있는가`, `실행 로그가 남았는가` 같은 검증 항목을 함께 봐야 합니다.
 
 문제 상황:
 
@@ -150,14 +150,22 @@ flowchart TD
 입력:
 
 - 세 가지 사용자 작업
-- 오래된 내부 기억, 계산 전 원본 값, 실행 전 요청 값
-- 최신 문서, 계산 도구 결과, 실제 저장 로그
+- 프롬프트만 있는 응답
+- 최신 문서 연결, 계산 로그, 저장 로그까지 붙인 구조화 응답
 
 출력:
 
-- 프롬프트만 있는 결과
-- 구조를 붙였을 때의 결과
-- 어떤 구조 요소가 부족한지에 대한 점검 결과
+- 작업별 점검 보고서
+- `prompt only`와 `structured`의 통과 항목 수
+- 어떤 종류의 구조가 빠졌는지에 대한 요약
+
+먼저 이 절에서 비교할 검증 항목을 표로 정리하면 다음과 같습니다.
+
+| 작업 | 사용자가 기대하는 것 | 프롬프트만으로 자주 빠지는 것 | 붙여야 하는 구조 |
+| --- | --- | --- | --- |
+| 정책 안내 | 최신 문서 기준 답변 | 최신 버전 문서 ID | 문서 검색, 최신 버전 연결 |
+| 수치 보고 | 계산값 정확성 | 계산 로그, 재계산 근거 | 계산 도구, 후처리 검산 |
+| 파일 자동화 | 실제 저장 완료 | 저장 로그, 재시도 정보 | 파일 도구, 실행 로그 |
 
 ```python
 tasks = [
@@ -168,13 +176,16 @@ tasks = [
         "prompt_only_result": {
             "answer": "환불 가능 기간은 7일입니다.",
             "used_source": "old_model_memory",
+            "document_id": None,
         },
         "structured_result": {
             "answer": "환불 가능 기간은 14일입니다.",
             "used_source": "policy_2026_06",
+            "document_id": "refund-policy-2026-06",
         },
         "expected": {
             "latest_source": "policy_2026_06",
+            "document_id": "refund-policy-2026-06",
         },
     },
     {
@@ -185,11 +196,13 @@ tasks = [
             "answer": "합계는 1100이고 평균은 350입니다.",
             "numbers": {"sum": 1100, "avg": 350},
             "used_calculator": False,
+            "calc_log_id": None,
         },
         "structured_result": {
             "answer": "합계는 1200이고 평균은 400입니다.",
             "numbers": {"sum": 1200, "avg": 400},
             "used_calculator": True,
+            "calc_log_id": "calc-log-782",
         },
         "expected": {
             "sum": 1200,
@@ -204,11 +217,13 @@ tasks = [
             "answer": "계약서를 법무 폴더에 저장했습니다.",
             "saved": False,
             "save_log_id": None,
+            "retry_available": False,
         },
         "structured_result": {
             "answer": "계약서를 legal/contracts 폴더에 저장했습니다.",
             "saved": True,
             "save_log_id": "save-log-2048",
+            "retry_available": True,
         },
         "expected": {
             "saved": True,
@@ -219,82 +234,145 @@ tasks = [
 
 def inspect_task(task_name, result, expected):
     if task_name == "latest_policy":
+        checks = {
+            "latest_source_ok": result["used_source"] == expected["latest_source"],
+            "document_id_present": result["document_id"] == expected["document_id"],
+        }
         return {
             "answer": result["answer"],
             "used_source": result["used_source"],
-            "has_latest_document": result["used_source"] == expected["latest_source"],
-            "needs_extra_structure": result["used_source"] != expected["latest_source"],
+            "document_id": result["document_id"],
+            "checks": checks,
+            "passed_checks": sum(checks.values()),
+            "total_checks": len(checks),
         }
 
     if task_name == "numeric_report":
+        checks = {
+            "sum_ok": result["numbers"]["sum"] == expected["sum"],
+            "avg_ok": result["numbers"]["avg"] == expected["avg"],
+            "calc_log_present": result["calc_log_id"] is not None,
+            "used_calculator": result["used_calculator"],
+        }
         return {
             "answer": result["answer"],
             "numbers": result["numbers"],
-            "used_calculator": result["used_calculator"],
-            "numeric_ok": (
-                result["numbers"]["sum"] == expected["sum"]
-                and result["numbers"]["avg"] == expected["avg"]
-            ),
-            "needs_extra_structure": not result["used_calculator"],
+            "calc_log_id": result["calc_log_id"],
+            "checks": checks,
+            "passed_checks": sum(checks.values()),
+            "total_checks": len(checks),
         }
 
     if task_name == "file_automation":
+        checks = {
+            "saved_ok": result["saved"] == expected["saved"],
+            "save_log_present": result["save_log_id"] is not None,
+            "retry_available": result["retry_available"],
+        }
         return {
             "answer": result["answer"],
             "saved": result["saved"],
             "save_log_id": result["save_log_id"],
-            "execution_ok": result["saved"] == expected["saved"] and result["save_log_id"] is not None,
-            "needs_extra_structure": not result["saved"],
+            "checks": checks,
+            "passed_checks": sum(checks.values()),
+            "total_checks": len(checks),
         }
 
 
-for task in tasks:
+def run_mode(mode_name):
+    reports = []
+    for task in tasks:
+        result = task[f"{mode_name}_result"]
+        inspect = inspect_task(task["name"], result, task["expected"])
+        reports.append(
+            {
+                "name": task["name"],
+                "question": task["question"],
+                "inspect": inspect,
+            }
+        )
+
+    fully_passed = sum(
+        1 for report in reports
+        if report["inspect"]["passed_checks"] == report["inspect"]["total_checks"]
+    )
+    total_passed_checks = sum(report["inspect"]["passed_checks"] for report in reports)
+    total_checks = sum(report["inspect"]["total_checks"] for report in reports)
+    return {
+        "mode_name": mode_name,
+        "reports": reports,
+        "fully_passed": fully_passed,
+        "total_passed_checks": total_passed_checks,
+        "total_checks": total_checks,
+    }
+
+
+prompt_only_batch = run_mode("prompt_only")
+structured_batch = run_mode("structured")
+
+for batch in [prompt_only_batch, structured_batch]:
     print("=" * 80)
-    print("task =", task["name"])
-    print("question =", task["question"])
-    print("strong_prompt =", task["strong_prompt"])
-    print("[prompt only]")
-    print(inspect_task(task["name"], task["prompt_only_result"], task["expected"]))
-    print("[structured]")
-    print(inspect_task(task["name"], task["structured_result"], task["expected"]))
+    print("mode =", batch["mode_name"])
+    print("fully_passed =", batch["fully_passed"])
+    print("passed_checks =", f\"{batch['total_passed_checks']}/{batch['total_checks']}\")
+    for report in batch["reports"]:
+        print("-" * 80)
+        print("task =", report["name"])
+        print("question =", report["question"])
+        print(report["inspect"])
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 ================================================================================
+mode = prompt_only
+fully_passed = 0
+passed_checks = 0/9
+--------------------------------------------------------------------------------
 task = latest_policy
 question = 오늘 기준 환불 가능 기간은 며칠인가요?
-strong_prompt = 최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요.
-[prompt only]
-{'answer': '환불 가능 기간은 7일입니다.', 'used_source': 'old_model_memory', 'has_latest_document': False, 'needs_extra_structure': True}
-[structured]
-{'answer': '환불 가능 기간은 14일입니다.', 'used_source': 'policy_2026_06', 'has_latest_document': True, 'needs_extra_structure': False}
-================================================================================
+{'answer': '환불 가능 기간은 7일입니다.', 'used_source': 'old_model_memory', 'document_id': None, 'checks': {'latest_source_ok': False, 'document_id_present': False}, 'passed_checks': 0, 'total_checks': 2}
+--------------------------------------------------------------------------------
 task = numeric_report
 question = 세 지점의 주간 매출 합계와 평균을 알려 주세요.
-strong_prompt = 숫자를 정확하게 계산해서 합계와 평균을 한 줄로 알려 주세요.
-[prompt only]
-{'answer': '합계는 1100이고 평균은 350입니다.', 'numbers': {'sum': 1100, 'avg': 350}, 'used_calculator': False, 'numeric_ok': False, 'needs_extra_structure': True}
-[structured]
-{'answer': '합계는 1200이고 평균은 400입니다.', 'numbers': {'sum': 1200, 'avg': 400}, 'used_calculator': True, 'numeric_ok': True, 'needs_extra_structure': False}
-================================================================================
+{'answer': '합계는 1100이고 평균은 350입니다.', 'numbers': {'sum': 1100, 'avg': 350}, 'calc_log_id': None, 'checks': {'sum_ok': False, 'avg_ok': False, 'calc_log_present': False, 'used_calculator': False}, 'passed_checks': 0, 'total_checks': 4}
+--------------------------------------------------------------------------------
 task = file_automation
 question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
-strong_prompt = 분류 후 올바른 폴더에 저장까지 완료했다고 보고해 주세요.
-[prompt only]
-{'answer': '계약서를 법무 폴더에 저장했습니다.', 'saved': False, 'save_log_id': None, 'execution_ok': False, 'needs_extra_structure': True}
-[structured]
-{'answer': '계약서를 legal/contracts 폴더에 저장했습니다.', 'saved': True, 'save_log_id': 'save-log-2048', 'execution_ok': True, 'needs_extra_structure': False}
+{'answer': '계약서를 법무 폴더에 저장했습니다.', 'saved': False, 'save_log_id': None, 'checks': {'saved_ok': False, 'save_log_present': False, 'retry_available': False}, 'passed_checks': 0, 'total_checks': 3}
+
+================================================================================
+mode = structured
+fully_passed = 3
+passed_checks = 9/9
+--------------------------------------------------------------------------------
+task = latest_policy
+question = 오늘 기준 환불 가능 기간은 며칠인가요?
+{'answer': '환불 가능 기간은 14일입니다.', 'used_source': 'policy_2026_06', 'document_id': 'refund-policy-2026-06', 'checks': {'latest_source_ok': True, 'document_id_present': True}, 'passed_checks': 2, 'total_checks': 2}
+--------------------------------------------------------------------------------
+task = numeric_report
+question = 세 지점의 주간 매출 합계와 평균을 알려 주세요.
+{'answer': '합계는 1200이고 평균은 400입니다.', 'numbers': {'sum': 1200, 'avg': 400}, 'calc_log_id': 'calc-log-782', 'checks': {'sum_ok': True, 'avg_ok': True, 'calc_log_present': True, 'used_calculator': True}, 'passed_checks': 4, 'total_checks': 4}
+--------------------------------------------------------------------------------
+task = file_automation
+question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
+{'answer': '계약서를 legal/contracts 폴더에 저장했습니다.', 'saved': True, 'save_log_id': 'save-log-2048', 'checks': {'saved_ok': True, 'save_log_present': True, 'retry_available': True}, 'passed_checks': 3, 'total_checks': 3}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 강한 프롬프트 문장 자체가 최신 문서 접근, 정확한 계산, 실제 저장 실행을 자동으로 만들어 주지 않는다는 점입니다. 실제 구조가 붙어야만 최신성, 수치 정확성, 실행 성공 여부가 함께 바뀝니다.
+이 결과에서 먼저 눈에 들어와야 하는 것은 `프롬프트 문장 자체는 강했지만`, `prompt_only`는 검증 항목 9개 중 0개만 통과했다는 점입니다. 반대로 `structured`는 답변 문장만 좋아진 것이 아니라, 최신 문서 ID, 계산 로그, 저장 로그처럼 시스템 바깥의 검증 항목까지 함께 채웁니다. 즉, 프롬프트의 한계는 `문장이 약해서`가 아니라 `시스템 경계 밖의 구조가 빠져 있어서` 생기는 경우가 많습니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 강한 프롬프트는 답변 모양을 바꿀 수 있어도 최신성, 계산 정확성, 실행 성공을 자동으로 보장하지 않는다.
+- 실제 서비스에서는 답변 본문보다 `문서 ID`, `계산 로그`, `저장 로그`, `재시도 가능 여부` 같은 검증 항목을 함께 봐야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `prompt_only_result`의 숫자나 저장 성공 여부를 바꿔, 겉보기 답변과 실제 구조 점검이 얼마나 쉽게 어긋나는지 확인해 보기
-- `structured_result`에 문서 버전, 계산 로그, 저장 경로 같은 추적 정보를 더 추가해 보기
-- `inspect_task`에 `path_ok`, `document_id_present`, `retry_available` 같은 항목을 넣어 점검 범위를 넓혀 보기
+- `prompt_only_result`에 그럴듯한 `document_id`나 `save_log_id`를 일부러 넣고, 그것이 실제 기대값과 일치하는지 점검해 보기
+- `numeric_report`에 지점 수를 더 늘리고 `median`, `growth_rate` 같은 새 계산 항목을 추가해 보기
+- `file_automation`에 `path_ok`, `permission_ok`, `retry_count`를 넣어 저장 성공의 의미를 더 엄격하게 바꿔 보기
 
 ## 이 예제를 시스템 경계 관점으로 다시 보면
 
