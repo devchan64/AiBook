@@ -33,6 +33,14 @@ P5-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 - 프롬프트로 해결할 문제와 구조를 바꿔야 할 문제를 구분할 수 있습니다.
 - 다음 장의 RAG 필요성으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `프롬프트는 왜 강력하지만 불완전한가`를 읽고, 입력 설계가 바꿀 수 있는 층과 못 바꾸는 층을 나눕니다.
+2. 그다음 `최신성 문제`, `사실성과 근거 문제`, `일관성과 재현성 문제`, `실행과 행동 문제`를 읽으면서 프롬프트만으로 남는 대표 실패를 유형별로 구분합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 실제 서비스에서는 답변 문장보다 `문서 ID`, `계산 로그`, `실행 로그` 같은 구조 검증 항목이 더 중요해지는 장면을 확인합니다.
+
 ## 프롬프트는 왜 강력하지만 불완전한가
 
 프롬프트는 입력을 설계하는 도구입니다. 따라서 모델이 가진 능력을 더 잘 끌어내거나, 형식을 더 안정되게 만들 수는 있습니다. 하지만 입력 설계만으로는 모델 바깥의 문제를 모두 해결할 수 없습니다.
@@ -136,6 +144,25 @@ flowchart TD
 | 최신 정책 안내 | 최신 정보 접근 | RAG 또는 최신 문서 연결 |
 | 수치 계산 보고서 | 산술 정확도 보장 | 계산 도구, 후처리 검증 |
 | 반복 업무 자동화 | 파일 접근, 저장, 재시도 | tool use, 권한 처리, 실행 흐름 |
+
+같은 내용을 시스템 경계 기준으로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["stronger prompt"]
+  B["response looks better"]
+  C["still missing system guarantees"]
+  D["fresh document access"]
+  E["calculation verification"]
+  F["execution + retry flow"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  C --> F
+```
+
+핵심은 `더 강한 문장`과 `더 강한 시스템 보장`이 서로 다른 층이라는 점입니다.
 
 ## 실행 가능한 Python 예제로 보기
 
@@ -298,12 +325,14 @@ def run_mode(mode_name):
     )
     total_passed_checks = sum(report["inspect"]["passed_checks"] for report in reports)
     total_checks = sum(report["inspect"]["total_checks"] for report in reports)
+    average_pass_ratio = round(total_passed_checks / total_checks, 2)
     return {
         "mode_name": mode_name,
         "reports": reports,
         "fully_passed": fully_passed,
         "total_passed_checks": total_passed_checks,
         "total_checks": total_checks,
+        "average_pass_ratio": average_pass_ratio,
     }
 
 
@@ -315,6 +344,7 @@ for batch in [prompt_only_batch, structured_batch]:
     print("mode =", batch["mode_name"])
     print("fully_passed =", batch["fully_passed"])
     print("passed_checks =", f\"{batch['total_passed_checks']}/{batch['total_checks']}\")
+    print("average_pass_ratio =", batch["average_pass_ratio"])
     for report in batch["reports"]:
         print("-" * 80)
         print("task =", report["name"])
@@ -330,6 +360,7 @@ for batch in [prompt_only_batch, structured_batch]:
 mode = prompt_only
 fully_passed = 0
 passed_checks = 0/9
+average_pass_ratio = 0.0
 --------------------------------------------------------------------------------
 task = latest_policy
 question = 오늘 기준 환불 가능 기간은 며칠인가요?
@@ -347,6 +378,7 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 mode = structured
 fully_passed = 3
 passed_checks = 9/9
+average_pass_ratio = 1.0
 --------------------------------------------------------------------------------
 task = latest_policy
 question = 오늘 기준 환불 가능 기간은 며칠인가요?
@@ -377,6 +409,10 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 ## 이 예제를 시스템 경계 관점으로 다시 보면
 
 이 예제는 프롬프트가 강해질수록 모든 문제가 해결된다는 오해를 막아 줍니다. 실제 서비스에서는 최신 정보 접근, 계산 검증, 도구 호출과 실행 로그 같은 바깥 구조가 따로 필요하므로, 프롬프트는 시스템 전체 중 하나의 층으로만 읽어야 합니다.
+
+## 여기까지를 한 줄로 묶으면
+
+프롬프트는 응답 모양을 바꾸는 데 강하지만, 최신 문서 접근, 계산 검증, 실제 실행 성공 같은 시스템 보장은 별도 구조가 있어야만 확보됩니다.
 
 ## 역사와 커리큘럼 관점
 
