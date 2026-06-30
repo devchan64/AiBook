@@ -10,7 +10,6 @@ theme:
   name: material
   language: ko
   features:
-    - navigation.instant
     - navigation.tracking
     - navigation.sections
     - navigation.footer
@@ -38,8 +37,6 @@ theme:
 nav:
   - 시작:
       - 소개: index.md
-      - English (TBD): en/index.md
-      - 简体中文 (TBD): zh-Hans/index.md
       - 책의 목차: book/table-of-contents.md
   - Part 1. AI 개론과 지형도:
       - 개요: parts/part-01/index.md
@@ -465,10 +462,40 @@ markdown_extensions:
       custom_checkbox: true
 
 plugins:
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: false
+      languages:
+        - locale: ko
+          name: 한국어
+          default: true
+          build: true
+          link: /AiBook/
+          theme:
+            language: ko
+        - locale: en
+          name: English
+          build: true
+          link: /AiBook/en/
+          nav:
+            - Start:
+                - Introduction: en/index.md
+          theme:
+            language: en
+        - locale: zh
+          name: 简体中文
+          build: true
+          link: /AiBook/zh/
+          nav:
+            - 开始:
+                - 介绍: zh/index.md
+          theme:
+            language: zh
   - search:
       lang:
         - ko
         - en
+        - zh
   - git-revision-date-localized:
       enable_creation_date: true
       type: date
