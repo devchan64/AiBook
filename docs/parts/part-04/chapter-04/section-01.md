@@ -164,9 +164,9 @@ Part 3에서 우리는 accuracy, precision, recall, F1, RMSE 같은 평가 지�
 
 를 자연스럽게 읽을 수 있습니다.
 
-## 작은 Python 예제로 손실 계산 보기
+## 실행 가능한 Python 예제로 손실 계산 보기
 
-이번 예제의 목표는 복잡한 딥러닝 라이브러리를 쓰지 않고, 예측값과 목표값의 차이가 손실 숫자로 바뀌는 가장 단순한 과정을 확인하는 것입니다.
+이번 예제의 목표는 복잡한 딥러닝 라이브러리를 쓰지 않고, 예측값과 목표값의 차이가 손실 숫자로 바뀌는 가장 단순한 과정을 확인하는 것입니다. 평균 손실만 찍는 대신, 샘플별 오차가 어느 항목에서 크게 났는지도 함께 보겠습니다.
 
 입력:
 
@@ -176,27 +176,42 @@ Part 3에서 우리는 accuracy, precision, recall, F1, RMSE 같은 평가 지�
 출력:
 
 - 각 샘플의 제곱 오차
+- 가장 크게 틀린 샘플
 - 평균 손실
 
 ```python
-targets = [3.0, 1.0, 2.0]
-predictions = [2.5, 1.4, 1.2]
+samples = [
+    {"name": "sample_A", "target": 3.0, "prediction": 2.5},
+    {"name": "sample_B", "target": 1.0, "prediction": 1.4},
+    {"name": "sample_C", "target": 2.0, "prediction": 1.2},
+]
 
 squared_errors = []
-for t, p in zip(targets, predictions):
-    squared_errors.append((t - p) ** 2)
+for sample in samples:
+    error = (sample["target"] - sample["prediction"]) ** 2
+    squared_errors.append((sample["name"], error))
+    print(
+        sample["name"],
+        "target =", sample["target"],
+        "prediction =", sample["prediction"],
+        "squared_error =", round(error, 3),
+    )
 
-mean_loss = sum(squared_errors) / len(squared_errors)
+mean_loss = sum(error for _, error in squared_errors) / len(squared_errors)
+worst_sample = max(squared_errors, key=lambda item: item[1])
 
-print("squared_errors =", [round(x, 3) for x in squared_errors])
 print("mean_loss =", round(mean_loss, 3))
+print("worst_sample =", worst_sample[0], "error =", round(worst_sample[1], 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-squared_errors = [0.25, 0.16, 0.64]
+sample_A target = 3.0 prediction = 2.5 squared_error = 0.25
+sample_B target = 1.0 prediction = 1.4 squared_error = 0.16
+sample_C target = 2.0 prediction = 1.2 squared_error = 0.64
 mean_loss = 0.35
+worst_sample = sample_C error = 0.64
 ```
 
 이 예제에서 중요한 것은 `0.35`라는 평균 손실 숫자가 어떻게 만들어졌는가입니다.
@@ -205,7 +220,7 @@ mean_loss = 0.35
 - 두 번째 샘플도 조금 틀렸고
 - 세 번째 샘플은 더 많이 틀렸습니다
 
-손실 함수는 이런 어긋남들을 하나의 숫자로 모아, 모델이 지금 얼마나 나쁜 상태인지 읽게 해 줍니다.
+손실 함수는 이런 어긋남들을 하나의 숫자로 모아, 모델이 지금 얼마나 나쁜 상태인지 읽게 해 줍니다. 동시에 샘플별 오차를 보면 어떤 사례가 평균 손실을 가장 크게 끌어올리는지도 확인할 수 있습니다.
 
 이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 

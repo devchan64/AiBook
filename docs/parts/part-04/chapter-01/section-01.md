@@ -31,7 +31,7 @@ Part 3에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평�
 - 퍼셉트론을 `입력값을 가중합으로 모아 판단하는 단위`로 설명할 수 있습니다.
 - 가중치(weight)가 입력마다 중요도를 다르게 주는 값이라는 점을 말할 수 있습니다.
 - 퍼셉트론이 선형 모델과 신경망 사이의 연결 고리처럼 보인다는 점을 이해할 수 있습니다.
-- 작은 Python 예제로 퍼셉트론의 순전파(forward pass) 계산을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 퍼셉트론의 순전파(forward pass) 계산을 확인할 수 있습니다.
 
 ## 왜 퍼셉트론부터 시작하는가
 
@@ -199,9 +199,9 @@ flowchart TD
 
 `여러 입력을 서로 다른 비중으로 합쳐 하나의 점수로 만들고, 그 점수로 판단한다.`
 
-## 작은 Python 예제로 순전파 보기
+## 실행 가능한 Python 예제로 순전파 보기
 
-이번 예제의 목표는 학습(training)을 구현하는 것이 아니라, 퍼셉트론이 입력에서 출력을 만드는 `순전파(forward pass)` 계산을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 학습(training)을 구현하는 것이 아니라, 퍼셉트론이 입력에서 출력을 만드는 `순전파(forward pass)` 계산을 눈으로 확인하는 것입니다. 한 번의 결과만 찍는 대신, 입력 조건이 바뀌면 어떤 항목이 점수를 뒤집는지도 같이 확인합니다.
 
 입력은 다음과 같습니다.
 
@@ -211,16 +211,11 @@ flowchart TD
 
 출력은 다음입니다.
 
+- 항목별 기여도
 - 가중합 결과
 - 최종 이진 출력
 
 ```python
-inputs = {
-    "id_checked": 1,
-    "reservation_checked": 1,
-    "risk_signal": 0,
-}
-
 weights = {
     "id_checked": 0.8,
     "reservation_checked": 0.7,
@@ -229,27 +224,61 @@ weights = {
 
 bias = -1.0
 
-weighted_sum = (
-    inputs["id_checked"] * weights["id_checked"]
-    + inputs["reservation_checked"] * weights["reservation_checked"]
-    + inputs["risk_signal"] * weights["risk_signal"]
-    + bias
-)
+cases = {
+    "safe_guest": {
+        "id_checked": 1,
+        "reservation_checked": 1,
+        "risk_signal": 0,
+    },
+    "risk_guest": {
+        "id_checked": 1,
+        "reservation_checked": 1,
+        "risk_signal": 1,
+    },
+}
 
-output = 1 if weighted_sum > 0 else 0
 
-print("weighted_sum =", round(weighted_sum, 3))
-print("output =", output)
+def run_case(name, inputs):
+    contributions = {
+        key: inputs[key] * weights[key]
+        for key in inputs
+    }
+    weighted_sum = sum(contributions.values()) + bias
+    output = 1 if weighted_sum > 0 else 0
+
+    print(f"[{name}]")
+    print("inputs =", inputs)
+    print("contributions =", {k: round(v, 3) for k, v in contributions.items()})
+    print("bias =", bias)
+    print("weighted_sum =", round(weighted_sum, 3))
+    print("output =", output)
+    print("---")
+
+
+for name, inputs in cases.items():
+    run_case(name, inputs)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[safe_guest]
+inputs = {'id_checked': 1, 'reservation_checked': 1, 'risk_signal': 0}
+contributions = {'id_checked': 0.8, 'reservation_checked': 0.7, 'risk_signal': -0.0}
+bias = -1.0
 weighted_sum = 0.5
 output = 1
+---
+[risk_guest]
+inputs = {'id_checked': 1, 'reservation_checked': 1, 'risk_signal': 1}
+contributions = {'id_checked': 0.8, 'reservation_checked': 0.7, 'risk_signal': -1.0}
+bias = -1.0
+weighted_sum = -0.5
+output = 0
+---
 ```
 
-이 예제에서 중요한 것은 `output = 1`이라는 결과보다, 그 전에 `weighted_sum = 0.5`가 어떻게 만들어졌는가입니다.
+이 예제에서 중요한 것은 `output = 1`이라는 결과보다, 그 전에 `weighted_sum = 0.5`가 어떻게 만들어졌는가입니다. 두 번째 사례까지 함께 보면, 같은 신분 확인과 예약 완료가 있어도 `risk_signal` 하나가 전체 판단을 뒤집는 장면도 직접 확인할 수 있습니다.
 
 즉, 퍼셉트론을 읽는 첫 감각은 다음과 같습니다.
 
