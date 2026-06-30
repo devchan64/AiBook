@@ -33,6 +33,14 @@ P5-11.2에서는 벡터 검색에서 인덱스가 검색 속도와 품질의 균
 - 계산, 조회, 실행 같은 작업에서 왜 도구가 필요한지 설명할 수 있습니다.
 - 다음 절의 함수 호출(function calling) 구조로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `왜 도구 사용이 필요한가`와 `RAG와 무엇이 다른가`를 읽고, 문서 근거를 읽는 구조와 외부 기능을 실제 호출하는 구조를 구분합니다.
+2. 그다음 `모델이 직접 도구를 쓰는가`, `어떤 상황에서 특히 유용한가`, `도구 사용도 만능은 아니다`를 읽으면서 판단 단계와 실행 단계, 그리고 권한·실패 처리 문제를 같이 잡습니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 요청마다 `도구 필요 판단`, `호출 구조`, `실행 결과`, `최종 답변`이 실제로 분리되어 있다는 점을 확인합니다.
+
 ## 왜 도구 사용이 필요한가
 
 LLM은 텍스트 생성에 강하지만, 다음과 같은 작업은 모델 단독으로 처리하기 어렵거나 위험할 수 있습니다.
@@ -186,6 +194,23 @@ flowchart TD
 | 일정 조회 | 예약 규칙을 설명하는 것 | 현재 시점의 실제 일정 상태 |
 | 파일 수정 | 수정 방법을 말로 설명하는 것 | 실제 파일 내용과 연결 위치 |
 
+같은 내용을 실행 위임 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["user request"]
+  B["model decides whether tool is needed"]
+  C["tool call plan<br/>name + arguments"]
+  D["execution environment runs tool"]
+  E["tool result"]
+  F["final answer"]
+
+  A --> B
+  B --> C --> D --> E --> F
+```
+
+핵심은 `답변` 전에 `실행 준비 구조`가 따로 생긴다는 점입니다.
+
 ## 실행 가능한 Python 예제로 보기
 
 이번 예제의 목표는 실제 외부 API를 붙이는 것이 아니라, `사용자 요청`, `도구 필요 판단`, `도구 호출 계획`, `도구 실행 결과`, `최종 답변`이 서로 다른 단계라는 점을 눈으로 확인하는 것입니다. 한 요청만 보면 `환율 조회 = 도구 필요` 정도로 끝나기 쉬우므로, 이번에는 여러 요청을 한 번에 돌려 어떤 요청에서만 도구가 필요한지도 같이 보겠습니다.
@@ -291,6 +316,18 @@ summary = {
     "needs_tool_count": sum(report["inspection"]["needs_tool"] for report in reports),
     "tool_result_used_count": sum(report["inspection"]["tool_result_used"] for report in reports),
     "skipped_tool_count": sum(report["inspection"]["skipped_tool_when_not_needed"] for report in reports),
+    "needs_tool_ratio": round(
+        sum(report["inspection"]["needs_tool"] for report in reports) / len(reports),
+        2,
+    ),
+    "tool_result_used_ratio": round(
+        sum(report["inspection"]["tool_result_used"] for report in reports) / len(reports),
+        2,
+    ),
+    "skipped_tool_ratio": round(
+        sum(report["inspection"]["skipped_tool_when_not_needed"] for report in reports) / len(reports),
+        2,
+    ),
 }
 
 print("[summary]")
@@ -315,7 +352,7 @@ for report in reports:
 
 ```text
 [summary]
-{'needs_tool_count': 2, 'tool_result_used_count': 2, 'skipped_tool_count': 1}
+{'needs_tool_count': 2, 'tool_result_used_count': 2, 'skipped_tool_count': 1, 'needs_tool_ratio': 0.67, 'tool_result_used_ratio': 0.67, 'skipped_tool_ratio': 0.33}
 
 ================================================================================
 [user_request]
@@ -379,6 +416,10 @@ None
 ## 이 예제를 실행 위임 관점으로 다시 보면
 
 이 예제는 모델이 직접 모든 일을 처리하는 것이 아니라, 어떤 순간에는 `설명`보다 `실행을 위임하는 구조`가 더 중요하다는 점을 보여 줍니다. 그래서 이후 에이전트와 MCP 절을 읽을 때도 핵심은 말 잘하는 모델이 아니라, 언제 외부 기능으로 넘겨야 하는지를 판단하는 구조입니다.
+
+## 여기까지를 한 줄로 묶으면
+
+도구 사용의 핵심은 모델이 더 많은 사실을 아는 것이 아니라, 필요한 순간에 외부 기능으로 실행을 위임하고 그 결과를 다시 답변으로 연결하는 데 있습니다.
 
 ## 역사와 커리큘럼 관점
 
