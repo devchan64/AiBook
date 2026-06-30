@@ -159,7 +159,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 확인하기
 
-이번 예제의 목표는 `길이 제한이 있을 때 무엇을 우선 남길 것인가`를 더 분명하게 보는 것입니다. 이번에는 단순 개수 제한이 아니라 `토큰 예산`을 두고, 입력 순서대로 그냥 넣는 방식과 중요도 기준으로 다시 고르는 방식을 비교하겠습니다.
+이번 예제의 목표는 `길이 제한이 있을 때 무엇을 우선 남길 것인가`를 더 분명하게 보는 것입니다. 이번에는 단순 개수 제한이 아니라 `토큰 예산`을 두고, 입력 순서대로 그냥 넣는 방식과 중요도 기준으로 다시 고르는 방식을 비교하겠습니다. 여기에 `현재 질문과 얼마나 직접 연결되는가`를 흉내 내는 간단한 relevance 점수도 붙여, context window 안에 무엇이 남느냐가 attention이 실제로 볼 수 있는 단서와 어떻게 연결되는지도 함께 보겠습니다.
 
 입력:
 
@@ -173,19 +173,52 @@ flowchart TD
 - 중요도 기준으로 다시 골랐을 때 남는 항목
 - 두 방식에서 탈락한 항목과 총 사용 토큰
 - 두 방식에서 핵심 상태가 실제로 얼마나 보존되었는지
+- 두 방식에서 질문과 직접 연결된 항목이 얼마나 남는지
+- 선택된 항목 안에서의 간단한 relevance 순위
 
 ```python
 context_items = [
-    {"name": "system instruction", "tokens": 18, "priority": 100},
-    {"name": "older chat history", "tokens": 30, "priority": 40},
-    {"name": "repeated greeting", "tokens": 8, "priority": 5},
-    {"name": "user question", "tokens": 12, "priority": 95},
-    {"name": "current error log", "tokens": 22, "priority": 90},
-    {"name": "related function code", "tokens": 20, "priority": 88},
+    {
+        "name": "system instruction",
+        "tokens": 18,
+        "priority": 100,
+        "content": "Follow policy and explain the cause clearly.",
+    },
+    {
+        "name": "older chat history",
+        "tokens": 30,
+        "priority": 40,
+        "content": "Earlier small talk and unrelated setup questions.",
+    },
+    {
+        "name": "repeated greeting",
+        "tokens": 8,
+        "priority": 5,
+        "content": "Hello again thank you hello again.",
+    },
+    {
+        "name": "user question",
+        "tokens": 12,
+        "priority": 95,
+        "content": "Why did login fail after the deploy?",
+    },
+    {
+        "name": "current error log",
+        "tokens": 22,
+        "priority": 90,
+        "content": "Login failed because session token signature mismatch after deploy.",
+    },
+    {
+        "name": "related function code",
+        "tokens": 20,
+        "priority": 88,
+        "content": "verify_session_token compares signature and rejects mismatch.",
+    },
 ]
 
 token_budget = 60
 must_keep = {"system instruction", "user question", "current error log"}
+query_keywords = {"login", "fail", "deploy", "token", "signature", "mismatch"}
 
 
 def select_in_original_order(items, budget):
@@ -221,6 +254,15 @@ def coverage(selected, must_keep_names):
     missing = sorted(must_keep_names - selected_names)
     return kept, missing
 
+
+def relevance_ranking(selected, keywords):
+    scored = []
+    for item in selected:
+        words = set(item["content"].lower().replace(".", "").split())
+        score = len(words & keywords)
+        scored.append((score, item["name"]))
+    return sorted(scored, reverse=True)
+
 print("[naive original-order selection]")
 for item in naive_selected:
     print("-", item["name"], "| tokens =", item["tokens"], "| priority =", item["priority"])
@@ -229,6 +271,7 @@ print("dropped =", [item["name"] for item in naive_dropped])
 naive_kept, naive_missing = coverage(naive_selected, must_keep)
 print("must_keep_kept =", naive_kept)
 print("must_keep_missing =", naive_missing)
+print("relevance_ranking =", relevance_ranking(naive_selected, query_keywords))
 print()
 
 print("[priority-based selection]")
@@ -239,6 +282,7 @@ print("dropped =", [item["name"] for item in priority_dropped])
 priority_kept, priority_missing = coverage(priority_selected, must_keep)
 print("must_keep_kept =", priority_kept)
 print("must_keep_missing =", priority_missing)
+print("relevance_ranking =", relevance_ranking(priority_selected, query_keywords))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -252,6 +296,7 @@ used_tokens = 56
 dropped = ['user question', 'current error log', 'related function code']
 must_keep_kept = ['system instruction']
 must_keep_missing = ['current error log', 'user question']
+relevance_ranking = [(0, 'system instruction'), (0, 'repeated greeting'), (0, 'older chat history')]
 
 [priority-based selection]
 - system instruction | tokens = 18 | priority = 100
@@ -262,19 +307,22 @@ used_tokens = 60
 dropped = ['related function code', 'older chat history']
 must_keep_kept = ['current error log', 'system instruction', 'user question']
 must_keep_missing = []
+relevance_ranking = [(5, 'current error log'), (3, 'user question'), (0, 'system instruction'), (0, 'repeated greeting')]
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 같은 토큰 예산이어도 입력 순서대로 그냥 넣으면 `older chat history`와 `repeated greeting`이 자리를 차지해, 정작 `user question`과 `current error log`가 잘릴 수 있습니다.
 - 중요도 기준으로 다시 고르면 현재 질문과 직접 연결된 항목이 먼저 살아남고, 오래된 기록이나 반복 인사는 뒤로 밀립니다.
+- naive 선택에서는 attention이 볼 수 있는 범위 안에 질문·오류 단서 자체가 없으므로, relevance 순위를 매겨도 전부 0점에 가깝습니다.
+- priority 선택에서는 `current error log`와 `user question`이 윈도우 안에 함께 들어와, attention이 실제로 참고할 만한 단서가 남습니다.
 - context window 관리에서 중요한 것은 `얼마나 많이 넣었는가`보다 `예산 안에서 핵심 상태를 실제로 살렸는가`입니다.
 - 우선순위 선택 뒤에 예산이 조금 남으면 낮은 우선순위 항목이 일부 들어올 수 있지만, 그보다 먼저 `필수 상태가 전부 살아남았는가`를 확인하는 편이 더 중요합니다.
 - 그래서 문맥 선택 로직을 볼 때는 총 토큰 수뿐 아니라 `주문번호`, `현재 질문`, `최신 오류 로그` 같은 필수 상태가 실제로 남았는지를 함께 점검해야 합니다.
 
 ## 이 예제를 입력 선택 관점으로 다시 보면
 
-앞의 예제는 긴 문맥 처리를 구현하는 코드가 아니라, `무엇을 더 넣을 수 있는가`보다 `무엇을 남기고 무엇을 덜어낼 것인가`가 실제 설계 문제라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 context window가 단순 길이 숫자가 아니라, 토큰 예산 안에서 입력 우선순위를 다시 정하게 만드는 제약이라는 점입니다. RAG, 대화 요약, 코드 어시스턴트 문맥 선택이 모두 결국 이 문제를 다른 형태로 풀고 있다고 보면 연결이 자연스럽습니다.
+앞의 예제는 긴 문맥 처리를 구현하는 코드가 아니라, `무엇을 더 넣을 수 있는가`보다 `무엇을 남기고 무엇을 덜어낼 것인가`가 실제 설계 문제라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 context window가 단순 길이 숫자가 아니라, 토큰 예산 안에서 입력 우선순위를 다시 정하게 만드는 제약이라는 점입니다. 그리고 attention은 그 뒤에 남아 있는 항목들 사이에서만 관련도를 계산하므로, 애초에 핵심 단서가 윈도우 밖으로 밀리면 attention이 아무리 좋아도 그 단서를 참고할 수 없습니다. RAG, 대화 요약, 코드 어시스턴트 문맥 선택이 모두 결국 이 문제를 다른 형태로 풀고 있다고 보면 연결이 자연스럽습니다.
 
 ## 역사와 커리큘럼 관점
 
