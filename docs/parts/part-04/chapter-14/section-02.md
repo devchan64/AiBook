@@ -177,6 +177,7 @@ flowchart TD
 출력:
 
 - 각 줄을 읽을 때 갱신되는 sequential 상태
+- 마지막 요청 시점의 핵심 단서 최소값
 - 마지막 요청이 어떤 앞 문장을 다시 참고했는지
 - 두 방식이 내리는 최종 판단
 
@@ -206,8 +207,9 @@ def sequential_reader(lines, decay=0.55):
             state["block"] += 1.0
         snapshot = {key: round(value, 3) for key, value in state.items()}
         history.append((idx, line, snapshot))
-    decision = "block_air_shipping" if min(state.values()) >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, decision
+    support = round(min(state.values()), 3)
+    decision = "block_air_shipping" if support >= 0.8 else "uncertain"
+    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
 
 
 def direct_reference_reader(lines):
@@ -230,7 +232,7 @@ def direct_reference_reader(lines):
     return top_matches, decision
 
 
-history, final_state, sequential_decision = sequential_reader(context)
+history, final_state, sequential_support, sequential_decision = sequential_reader(context)
 top_matches, direct_decision = direct_reference_reader(context)
 
 print("[sequential reader]")
@@ -238,6 +240,7 @@ for idx, line, snapshot in history:
     print(f"{idx}. {line}")
     print("   state =", snapshot)
 print("final_state =", final_state)
+print("sequential_support =", sequential_support)
 print("sequential_decision =", sequential_decision)
 print()
 
@@ -260,25 +263,36 @@ print("direct_decision =", direct_decision)
 4. Item: lithium battery pack is hazardous.
    state = {'hazardous': 1.166, 'air': 0.166, 'block': 0.166}
 5. Log: driver schedule updated for tomorrow.
-   state = {'hazardous': 0.641, 'air': 0.092, 'block': 0.092}
+   state = {'hazardous': 0.642, 'air': 0.092, 'block': 0.092}
 6. Request: ship the battery pack by air today.
    state = {'hazardous': 0.353, 'air': 1.05, 'block': 0.05}
 final_state = {'hazardous': 0.353, 'air': 1.05, 'block': 0.05}
+sequential_support = 0.05
 sequential_decision = uncertain
 
 [direct reference reader]
 matched line 1 (score=4): Rule: hazardous items must not be shipped by air.
-matched line 4 (score=2): Item: lithium battery pack is hazardous.
+matched line 4 (score=3): Item: lithium battery pack is hazardous.
 direct_decision = block_air_shipping
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
 - sequential 방식에서는 앞 규칙이 중간 로그를 지나는 동안 점차 약해져, 마지막 요청 시점에는 `위험물`, `항공`, `금지` 세 단서를 동시에 강하게 유지하지 못합니다
+- `sequential_support`는 마지막 요청 시점에 세 핵심 단서 중 가장 약한 축이 얼마나 남았는지를 보여 주며, 여기서는 `block` 축이 거의 사라졌음을 확인할 수 있습니다
 - direct reference 방식에서는 마지막 요청이 관련된 앞 규칙과 대상 정보가 있는 줄을 다시 바로 찾습니다
 - 긴 문맥에서 중요한 것은 `앞 문장을 한 번 읽고 버티는가`보다 `현재 위치에서 필요한 앞 문장을 다시 끌어올 수 있는가`라는 점입니다
 
 이 예제는 RNN과 Transformer 전체를 구현한 것은 아니지만, 긴 문맥에서 `상태에 압축해 유지하는 감각`과 `필요한 앞 위치를 다시 참조하는 감각` 차이를 실제로 실험해 보는 데 도움이 됩니다. `decay` 값을 바꾸거나 중간 로그 줄 수를 늘려 보면 순차 압축이 왜 더 어려워지는지도 직접 확인할 수 있습니다.
+
+## 이 예제를 긴 문맥 재참조 관점으로 다시 보면
+
+앞의 장난감 코드는 Transformer 전체를 구현한 것은 아니지만, 비교 기준은 분명합니다.
+
+- sequential 쪽은 `앞 규칙을 상태 하나에 압축해 오래 버틸 수 있는가`를 보여 줍니다.
+- direct reference 쪽은 `현재 요청이 필요할 때 앞 규칙과 대상 정보를 다시 집어 올 수 있는가`를 보여 줍니다.
+
+즉, 긴 문맥 문제를 `기억 유지`로만 보면 순차 상태의 한계가 먼저 보이고, `필요한 앞 위치 재참조`로 보면 Transformer 계열의 장점이 더 직접적으로 보입니다. 이 감각이 있어야 Part 5에서 context window, RAG, long-context 제약을 읽을 때도 `무조건 더 오래 기억한다`가 아니라 `필요한 문맥을 다시 창 안으로 가져와 읽는다`는 관점으로 자연스럽게 이어집니다.
 
 ## 역사와 커리큘럼 관점
 
