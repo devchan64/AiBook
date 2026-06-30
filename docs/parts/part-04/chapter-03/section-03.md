@@ -31,7 +31,7 @@ P4-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 - 출력층 활성화의 선택이 `모델이 무엇을 예측하는가`와 연결된다는 점을 설명할 수 있습니다.
 - 회귀, 이진 분류, 다중 분류에서 출력층을 다르게 읽을 수 있습니다.
 - 출력층 활성화와 손실 함수가 따로 놀지 않는다는 점을 이해할 수 있습니다.
-- 작은 Python 예제로 출력 해석의 차이를 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 출력 해석의 차이를 확인할 수 있습니다.
 
 ## 은닉층과 출력층은 왜 다르게 보아야 하나
 
@@ -185,21 +185,21 @@ flowchart TD
 
 예를 들어 `cat 0.70, dog 0.20, bird 0.10`처럼 나오면 사람은 `고양이 쪽으로 가장 강하게 기울었다`고 읽을 수 있습니다. 반대로 `cat 0.38, dog 0.34, bird 0.28`처럼 비슷하게 나오면 정답을 하나 고르더라도 모델 확신이 높지 않다고 볼 수 있습니다. 사람은 처음에 1등 클래스 이름만 보면 충분하다고 느끼기 쉽지만, 실제로는 `다른 후보와 얼마나 차이가 나는가`도 함께 중요합니다. 예를 들어 자동 분류를 바로 확정할지 사람 검토로 넘길지 같은 운영 판단은 이 차이에 크게 의존할 수 있습니다. 이 경우에는 여러 클래스 점수를 함께 읽는 다중 분류 구조가 자연스럽습니다. 그래서 이 사례에서 확인해야 할 결과는 1등 클래스 이름만이 아니라, 다른 후보들과의 점수 차이까지 함께 남아 실제 자동 처리와 사람 검토 기준을 가를 수 있는가입니다.
 
-## 작은 Python 예제로 출력 해석 차이 보기
+## 실행 가능한 Python 예제로 출력 해석 차이 보기
 
-이번 예제의 목표는 회귀 출력, sigmoid 출력, softmax 출력을 같은 절에서 나란히 보며 `출력의 의미`가 어떻게 달라지는지 확인하는 것입니다.
+이번 예제의 목표는 회귀 출력, sigmoid 출력, softmax 출력을 같은 절에서 나란히 보고, `같은 숫자 계산`처럼 보여도 해석 기준이 서로 다르다는 점을 확인하는 것입니다.
 
 입력:
 
 - 회귀용 숫자 하나
-- 이진 분류용 로짓 하나
+- 이진 분류용 로짓 두 개
 - 다중 분류용 클래스 점수 세 개
 
 출력:
 
 - 그대로 쓰이는 회귀 출력
-- sigmoid 후 값
-- softmax 후 값
+- sigmoid 후 값 두 개
+- softmax 후 값과 1등 클래스
 
 ```python
 import math
@@ -212,35 +212,36 @@ def softmax(values):
     total = sum(exps)
     return [v / total for v in exps]
 
-# regression-style output
 price_prediction = 12.7
 
-# binary classification logit
-spam_logit = 2.0
-spam_score = sigmoid(spam_logit)
+spam_logits = [2.0, 0.3]
+spam_scores = [sigmoid(x) for x in spam_logits]
 
-# multiclass logits
+animal_labels = ["cat", "dog", "bird"]
 animal_logits = [1.2, 2.4, 0.3]
 animal_probs = softmax(animal_logits)
+top_label = animal_labels[animal_probs.index(max(animal_probs))]
 
 print("regression output =", round(price_prediction, 3))
-print("binary score =", round(spam_score, 3))
+print("binary scores =", [round(v, 3) for v in spam_scores])
 print("multiclass scores =", [round(v, 3) for v in animal_probs])
+print("top_label =", top_label)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 regression output = 12.7
-binary score = 0.881
+binary scores = [0.881, 0.574]
 multiclass scores = [0.214, 0.713, 0.072]
+top_label = dog
 ```
 
 이 결과에서 읽어야 할 핵심은 다음과 같습니다.
 
 - 회귀 출력은 숫자 자체가 예측값입니다
-- 이진 분류 출력은 0과 1 사이 값으로 해석됩니다
-- 다중 분류 출력은 여러 후보를 함께 비교한 결과입니다
+- 이진 분류 출력은 0과 1 사이 값으로 읽히며, 임계값 정책과 함께 해석됩니다
+- 다중 분류 출력은 여러 후보를 함께 비교한 결과이고, 1등 클래스와 점수 차이가 함께 중요합니다
 
 ## 역사와 커리큘럼 관점
 

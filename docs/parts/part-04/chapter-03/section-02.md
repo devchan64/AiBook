@@ -182,13 +182,14 @@ sigmoid와 tanh를 계속 보는 이유는, 각각이 어떤 출력 범위와 �
 
 `활성화 함수는 같은 점수라도 다음 층에 어떤 성격의 신호로 넘길지 바꾸는 장치다.`
 
-## 작은 Python 예제로 값 차이 보기
+## 실행 가능한 Python 예제로 값 차이 보기
 
-이번 예제의 목적은 같은 입력값이 sigmoid, tanh, ReLU를 지나며 어떻게 다르게 바뀌는지 직접 확인하는 것입니다.
+이번 예제의 목적은 같은 입력값 여러 개가 sigmoid, tanh, ReLU를 지나며 어떻게 서로 다른 반응 규칙을 보이는지 표처럼 비교하는 것입니다.
 
 입력:
 
 - `z = -2`
+- `z = -0.5`
 - `z = 0.5`
 - `z = 3`
 
@@ -208,40 +209,33 @@ def tanh(z):
 def relu(z):
     return max(0.0, z)
 
-values = [-2.0, 0.5, 3.0]
+values = [-2.0, -0.5, 0.5, 3.0]
 
 for z in values:
-    print("z =", z)
-    print(" sigmoid =", round(sigmoid(z), 3))
-    print(" tanh    =", round(tanh(z), 3))
-    print(" relu    =", round(relu(z), 3))
-    print()
+    print(
+        f"z={z:>4}: "
+        f"sigmoid={sigmoid(z):.3f}, "
+        f"tanh={tanh(z):.3f}, "
+        f"relu={relu(z):.3f}"
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-z = -2.0
- sigmoid = 0.119
- tanh    = -0.964
- relu    = 0.0
-
-z = 0.5
- sigmoid = 0.622
- tanh    = 0.462
- relu    = 0.5
-
-z = 3.0
- sigmoid = 0.953
- tanh    = 0.995
- relu    = 3.0
+z=-2.0: sigmoid=0.119, tanh=-0.964, relu=0.000
+z=-0.5: sigmoid=0.378, tanh=-0.462, relu=0.000
+z= 0.5: sigmoid=0.622, tanh=0.462, relu=0.500
+z= 3.0: sigmoid=0.953, tanh=0.995, relu=3.000
 ```
 
 이 예제에서 중요한 것은 숫자 자체보다 경향입니다.
 
-- sigmoid는 항상 0과 1 사이로 눌립니다.
-- tanh는 -1과 1 사이로 눌리면서 부호를 유지합니다.
-- ReLU는 음수를 0으로 자르고 양수는 그대로 보냅니다.
+- sigmoid는 항상 0과 1 사이로 눌립니다
+- tanh는 -1과 1 사이로 눌리면서 부호를 유지합니다
+- ReLU는 음수를 0으로 자르고 양수는 그대로 보냅니다
+
+같은 `z`라도 함수가 달라지면 다음 층이 받는 신호의 범위와 해석이 달라진다는 점이 핵심입니다.
 
 ## 커리큘럼 관점에서 이 절이 중요한 이유
 
