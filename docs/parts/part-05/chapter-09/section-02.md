@@ -129,40 +129,96 @@ flowchart TD
 
 운영팀이 `업로드된 파일을 읽고 분류해서 폴더에 저장해 달라`는 자동화를 원한다고 해 봅시다. 프롬프트로는 읽기, 분류, 저장까지 한 문장으로 적을 수 있지만, 실제 시스템에서는 파일 접근 권한, 분류 기준, 저장 위치, 실패 시 재시도 같은 단계가 따로 필요합니다. 사람은 요청 문장이 충분히 구체적이면 실행도 거의 해결된 것처럼 느끼기 쉽지만, 실제 세계에서는 말보다 권한과 도구 연결이 더 중요합니다. 권한이 없거나 저장 경로가 잘못되면 분류 자체는 맞아도 마지막 저장 단계에서 작업이 끊길 수 있습니다. 즉, 사람이 말로는 한 줄로 끝낼 수 있어도 실행 세계에서는 여러 도구와 애플리케이션이 붙어야 합니다. 여기서 바뀌는 점은 `요청 문장이 구체적인가`를 보던 기준에서 `실제 저장 성공, 실패 처리, 재시도 구조가 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 장면에서 부족한 것은 더 긴 프롬프트가 아니라 실행 구조 자체입니다. 그래서 이 사례에서 확인해야 할 결과는 분류 문장 생성이 아니라 실제 저장 성공, 실패 처리, 재시도 경로가 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `프롬프트 요청`과 `실제 구조 보장`이 다른 문제라는 점을 보여 주는 것입니다.
+이번 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을 직접 확인하는 것입니다.
+
+문제 상황:
+
+- 사용자는 최신 환불 정책을 묻고 있음
+- 프롬프트에는 `최신 문서를 근거로 정확하게 답하라`고 강하게 적어 둘 수 있음
+- 하지만 실제 최신 문서가 붙지 않으면 답은 여전히 오래된 기준에 묶일 수 있음
 
 입력:
 
-- 하나의 강한 프롬프트
+- 같은 사용자 질문
+- 오래된 내부 기억 역할의 값 하나
+- 최신 문서 역할의 값 하나
 
 출력:
 
-- 남아 있는 구조 문제 목록
+- 프롬프트만 있는 답변
+- 최신 문서를 실제로 연결했을 때의 답변
+- 어떤 구조 요소가 부족한지에 대한 점검 결과
 
 ```python
-prompt = "최신 정책 문서를 근거로 정확한 답을 표 형식으로 정리해 주세요."
+question = "오늘 기준 환불 가능 기간은 며칠인가요?"
+strong_prompt = "최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요."
 
-still_needed = [
-    "latest_document_access",
-    "source_verification",
-    "format_validation",
-    "possible_tool_use",
-]
+stale_model_memory = {"refund_days": 7, "source": "old_model_memory"}
+latest_policy_doc = {"refund_days": 14, "source": "policy_2026_06"}
 
-print("prompt =", prompt)
-print("still_needed =", still_needed)
+
+def answer_with_prompt_only(memory):
+    return {
+        "answer": f"환불 가능 기간은 {memory['refund_days']}일입니다.",
+        "used_source": memory["source"],
+    }
+
+
+def answer_with_grounded_document(document):
+    return {
+        "answer": f"환불 가능 기간은 {document['refund_days']}일입니다.",
+        "used_source": document["source"],
+    }
+
+
+def inspect_system(answer_record, expected_document_source):
+    return {
+        "answer": answer_record["answer"],
+        "used_source": answer_record["used_source"],
+        "has_latest_document": answer_record["used_source"] == expected_document_source,
+        "needs_extra_structure": answer_record["used_source"] != expected_document_source,
+    }
+
+
+prompt_only_result = answer_with_prompt_only(stale_model_memory)
+grounded_result = answer_with_grounded_document(latest_policy_doc)
+
+print("[question]")
+print(question)
+print("[strong prompt]")
+print(strong_prompt)
+print()
+print("[prompt only]")
+print(inspect_system(prompt_only_result, "policy_2026_06"))
+print()
+print("[grounded with latest document]")
+print(inspect_system(grounded_result, "policy_2026_06"))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-prompt = 최신 정책 문서를 근거로 정확한 답을 표 형식으로 정리해 주세요.
-still_needed = ['latest_document_access', 'source_verification', 'format_validation', 'possible_tool_use']
+[question]
+오늘 기준 환불 가능 기간은 며칠인가요?
+[strong prompt]
+최신 정책 문서를 근거로 정확한 답을 한 문장으로 정리해 주세요.
+
+[prompt only]
+{'answer': '환불 가능 기간은 7일입니다.', 'used_source': 'old_model_memory', 'has_latest_document': False, 'needs_extra_structure': True}
+
+[grounded with latest document]
+{'answer': '환불 가능 기간은 14일입니다.', 'used_source': 'policy_2026_06', 'has_latest_document': True, 'needs_extra_structure': False}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 강한 프롬프트 하나만으로는 닫히지 않고, 문서 접근, 검증, 도구 연결 같은 구조 요소가 실제로 추가로 필요하다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 강한 프롬프트 문장 자체가 최신 문서 접근을 자동으로 만들어 주지 않으며, 실제 최신 근거 연결이 있어야만 답이 바뀐다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `stale_model_memory["refund_days"]`를 다른 값으로 바꿔 오래된 내부 기억 오류를 더 크게 만들어 보기
+- `latest_policy_doc`에 버전, 날짜, 정책 ID를 추가해 근거 추적 정보를 확장해 보기
+- `inspect_system`에 `format_ok`, `numeric_check`, `document_id_present` 같은 항목을 추가해 점검 범위를 넓혀 보기
 
 ## 이 예제를 시스템 경계 관점으로 다시 보면
 

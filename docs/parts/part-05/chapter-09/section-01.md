@@ -203,40 +203,121 @@ flowchart TD
 | 분류 | 출력 형식과 라벨 예시 |
 | 질의응답 | 참고 범위와 근거 문맥 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 API 호출이 아니라, 같은 작업도 프롬프트 구성 요소가 달라질 때 요청 구조가 어떻게 달라지는지 보는 것입니다.
+이번 예제의 목표는 실제 API 호출 전체를 재현하는 것이 아니라, 같은 문서 사실을 두고도 `단순 프롬프트`와 `구조화 프롬프트`가 출력 형식 안정성에 어떤 차이를 만드는지 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 같은 문서 사실 목록을 요약해야 함
+- 어떤 요청은 단순히 `요약해 달라`고만 쓰고
+- 어떤 요청은 `독자`, `줄 수`, `예시 형식`까지 함께 줌
 
 입력:
 
-- 단순 지시
-- 지시 + 맥락 + 예시
+- 같은 문서 사실 목록
+- 단순 프롬프트와 구조화 프롬프트 두 가지
 
 출력:
 
-- 프롬프트 구조 비교
+- 프롬프트별 생성 결과
+- 줄 수, 번호 형식, 핵심 키워드 포함 여부 같은 간단한 점검 값
 
 ```python
-simple_prompt = "이 문서를 요약해 주세요."
+document_facts = [
+    "사전학습은 대량 텍스트에서 일반 언어 패턴을 배운다.",
+    "생성 과정에서는 앞선 토큰을 바탕으로 다음 토큰을 예측한다.",
+    "긴 문맥에서는 답변 형식과 근거 범위가 흔들릴 수 있다.",
+    "독자는 핵심 차이를 짧고 구조적으로 정리한 답을 원한다.",
+]
 
+simple_prompt = "이 문서를 요약해 주세요."
 structured_prompt = {
-    "instruction": "독자 기준으로 세 줄로 요약해 주세요.",
-    "context": "문서 주제는 LLM의 사전학습과 생성 과정입니다.",
-    "example": "예시 형식: 1. 핵심 주제 2. 중요한 이유 3. 주의할 점",
+    "instruction": "입문 독자 기준으로 세 줄로 요약해 주세요.",
+    "context": "주제는 LLM의 사전학습과 생성 과정의 차이입니다.",
+    "example_format": [
+        "1. 핵심 개념",
+        "2. 중요한 차이",
+        "3. 읽을 때 주의할 점",
+    ],
 }
 
-print("simple_prompt =", simple_prompt)
-print("structured_prompt =", structured_prompt)
+
+def respond_with_simple_prompt(facts):
+    return " ".join(facts)
+
+
+def respond_with_structured_prompt(facts):
+    lines = [
+        f"1. 핵심 개념: {facts[0]}",
+        f"2. 중요한 차이: {facts[1]}",
+        f"3. 읽을 때 주의할 점: {facts[2]}",
+    ]
+    return "\n".join(lines)
+
+
+def inspect_response(response):
+    lines = response.splitlines()
+    starts_with_numbers = all(
+        line.startswith(f"{idx}.") for idx, line in enumerate(lines, start=1)
+    ) if lines else False
+    includes_keywords = {
+        "사전학습": "사전학습" in response,
+        "생성": "생성" in response,
+        "주의": "주의" in response,
+    }
+    return {
+        "line_count": len(lines),
+        "numbered_lines": starts_with_numbers,
+        "includes_keywords": includes_keywords,
+    }
+
+
+simple_response = respond_with_simple_prompt(document_facts)
+structured_response = respond_with_structured_prompt(document_facts)
+
+print("[simple prompt]")
+print(simple_prompt)
+print("[simple response]")
+print(simple_response)
+print("[simple inspect]")
+print(inspect_response(simple_response))
+print()
+print("[structured prompt]")
+print(structured_prompt)
+print("[structured response]")
+print(structured_response)
+print("[structured inspect]")
+print(inspect_response(structured_response))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-simple_prompt = 이 문서를 요약해 주세요.
-structured_prompt = {'instruction': '독자 기준으로 세 줄로 요약해 주세요.', 'context': '문서 주제는 LLM의 사전학습과 생성 과정입니다.', 'example': '예시 형식: 1. 핵심 주제 2. 중요한 이유 3. 주의할 점'}
+[simple prompt]
+이 문서를 요약해 주세요.
+[simple response]
+사전학습은 대량 텍스트에서 일반 언어 패턴을 배운다. 생성 과정에서는 앞선 토큰을 바탕으로 다음 토큰을 예측한다. 긴 문맥에서는 답변 형식과 근거 범위가 흔들릴 수 있다. 독자는 핵심 차이를 짧고 구조적으로 정리한 답을 원한다.
+[simple inspect]
+{'line_count': 1, 'numbered_lines': False, 'includes_keywords': {'사전학습': True, '생성': True, '주의': False}}
+
+[structured prompt]
+{'instruction': '입문 독자 기준으로 세 줄로 요약해 주세요.', 'context': '주제는 LLM의 사전학습과 생성 과정의 차이입니다.', 'example_format': ['1. 핵심 개념', '2. 중요한 차이', '3. 읽을 때 주의할 점']}
+[structured response]
+1. 핵심 개념: 사전학습은 대량 텍스트에서 일반 언어 패턴을 배운다.
+2. 중요한 차이: 생성 과정에서는 앞선 토큰을 바탕으로 다음 토큰을 예측한다.
+3. 읽을 때 주의할 점: 긴 문맥에서는 답변 형식과 근거 범위가 흔들릴 수 있다.
+[structured inspect]
+{'line_count': 3, 'numbered_lines': True, 'includes_keywords': {'사전학습': True, '생성': True, '주의': True}}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 단순 지시보다 `작업, 배경, 형식 힌트`를 나눠 넣은 구조가 실제로 더 통제 가능한 입력 설계로 읽히는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 단순 지시보다 `작업`, `배경`, `형식 힌트`를 나눠 넣은 구조가 실제 출력의 줄 수와 전개 순서를 더 통제 가능하게 만든다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `structured_prompt["instruction"]`를 `표 형식으로 정리`로 바꿔 출력 형식이 어떻게 달라지는지 보기
+- `document_facts`를 더 길게 늘려도 세 줄 형식이 유지되는지 확인하기
+- `inspect_response`에 `bullet_count`, `max_line_length` 같은 점검 기준을 추가해 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
