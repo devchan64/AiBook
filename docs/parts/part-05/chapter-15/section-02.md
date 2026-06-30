@@ -154,13 +154,14 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보는 것입니다. 이번에는 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 통과시키고`, `사람은 무엇을 다시 걸러내는가`를 비교하겠습니다.
+이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보는 것입니다. 이번에는 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 바로 탈락시키고`, `무엇은 사람 검토로 넘기며`, `무엇은 둘 다 통과하는가`를 비교하겠습니다.
 
 문제 상황:
 
 - 여러 개의 환불 정책 답변 후보가 있음
 - 자동 평가는 형식과 표면 조건을 빠르게 확인할 수 있음
 - 사람 평가는 말투, 오해 가능성, 실제 도움성을 더 잘 볼 수 있음
+- 운영에서는 `자동 통과`, `자동 탈락`, `사람 검토 필요`를 나눠야 함
 
 입력:
 
@@ -170,22 +171,46 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 - 답변별 자동 평가 결과
 - 답변별 사람 평가가 추가로 봐야 할 질문
-- 어떤 답변이 자동 평가는 통과하지만 사람 검토는 더 필요한지에 대한 비교
+- 어떤 답변이 자동 탈락, 사람 검토 필요, 최종 승인 후보인지에 대한 요약값
+
+먼저 이 예제에서 함께 볼 운영 판단 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `auto_pass` | 형식, 길이, 근거 힌트 같은 기본 안전선을 먼저 통과하는지 보기 위해 |
+| `needs_human_review` | 자동 통과 뒤에도 뉘앙스나 오해 가능성이 남는지 보기 위해 |
+| `final_ready` | 자동 평가와 사람 검토 질문까지 감안했을 때 바로 승인 후보인지 보기 위해 |
+| `review_reason` | 왜 사람이 다시 봐야 하는지 운영 로그에 남기기 위해 |
 
 ```python
-outputs = {
-    "answer_a": "환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.",
-    "answer_b": "환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.",
-    "answer_c": "환불은 가능하지만 조건은 직접 찾아보세요.",
-}
+outputs = [
+    {
+        "name": "answer_a",
+        "text": "환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.",
+    },
+    {
+        "name": "answer_b",
+        "text": "환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.",
+    },
+    {
+        "name": "answer_c",
+        "text": "환불은 가능하지만 조건은 직접 찾아보세요.",
+    },
+    {
+        "name": "answer_d",
+        "text": "환불 요청 처리 기한은 14일이며 주문번호를 보내 주시면 접수를 도와드리겠습니다. 자세한 내용은 공지를 참고하세요.",
+    },
+]
 
 
 def automatic_eval(output):
-    return {
+    result = {
         "has_source_hint": "공지" in output,
         "format_ok": output.endswith("."),
         "length_ok": len(output) >= 20,
     }
+    result["auto_pass"] = all(result.values())
+    return result
 
 
 def human_review_questions(output):
@@ -200,43 +225,102 @@ def human_review_questions(output):
         questions.append("말투와 안내 순서가 실제 고객 경험에도 자연스러운가?")
     return questions
 
+reports = []
+for item in outputs:
+    automatic_result = automatic_eval(item["text"])
+    human_questions = human_review_questions(item["text"])
 
-for name, output in outputs.items():
-    automatic_result = automatic_eval(output)
-    human_questions = human_review_questions(output)
-    print(f"[{name}]")
-    print("output =", output)
-    print("automatic_result =", automatic_result)
-    print("human_review_questions =", human_questions)
+    if not automatic_result["auto_pass"]:
+        review_reason = "automatic_gate_failed"
+    elif human_questions == ["말투와 안내 순서가 실제 고객 경험에도 자연스러운가?"]:
+        review_reason = "light_human_confirmation"
+    else:
+        review_reason = "needs_human_judgment"
+
+    final_ready = automatic_result["auto_pass"] and review_reason == "light_human_confirmation"
+
+    reports.append(
+        {
+            "name": item["name"],
+            "output": item["text"],
+            "automatic_result": automatic_result,
+            "human_review_questions": human_questions,
+            "needs_human_review": review_reason != "automatic_gate_failed",
+            "review_reason": review_reason,
+            "final_ready": final_ready,
+        }
+    )
+
+summary = {
+    "auto_pass_count": sum(report["automatic_result"]["auto_pass"] for report in reports),
+    "auto_fail_count": sum(not report["automatic_result"]["auto_pass"] for report in reports),
+    "needs_human_judgment_count": sum(report["review_reason"] == "needs_human_judgment" for report in reports),
+    "final_ready_count": sum(report["final_ready"] for report in reports),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print(f"[{report['name']}]")
+    print("output =", report["output"])
+    print("automatic_result =", report["automatic_result"])
+    print("human_review_questions =", report["human_review_questions"])
+    print("review_reason =", report["review_reason"])
+    print("final_ready =", report["final_ready"])
     print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'auto_pass_count': 2, 'auto_fail_count': 2, 'needs_human_judgment_count': 1, 'final_ready_count': 1}
+
+================================================================================
 [answer_a]
 output = 환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
-automatic_result = {'has_source_hint': True, 'format_ok': True, 'length_ok': True}
+automatic_result = {'has_source_hint': True, 'format_ok': True, 'length_ok': True, 'auto_pass': True}
 human_review_questions = ['사용자가 다음 행동을 바로 이해할 수 있는가?']
+review_reason = needs_human_judgment
+final_ready = False
 
+================================================================================
 [answer_b]
 output = 환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
-automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True}
+automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True, 'auto_pass': False}
 human_review_questions = ['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
+review_reason = automatic_gate_failed
+final_ready = False
 
+================================================================================
 [answer_c]
 output = 환불은 가능하지만 조건은 직접 찾아보세요.
-automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True}
+automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True, 'auto_pass': False}
 human_review_questions = ['사용자가 다음 행동을 바로 이해할 수 있는가?', '문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?', '예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?']
+review_reason = automatic_gate_failed
+final_ready = False
+
+================================================================================
+[answer_d]
+output = 환불 요청 처리 기한은 14일이며 주문번호를 보내 주시면 접수를 도와드리겠습니다. 자세한 내용은 공지를 참고하세요.
+automatic_result = {'has_source_hint': True, 'format_ok': True, 'length_ok': True, 'auto_pass': True}
+human_review_questions = ['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
+review_reason = light_human_confirmation
+final_ready = True
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 본다는 점입니다. 특히 `answer_a`처럼 자동 평가는 통과해도 다음 행동이 불분명할 수 있고, `answer_c`처럼 형식은 맞아도 사람 관점에서는 여러 경고가 한꺼번에 붙을 수 있습니다.
+이 예제에서 먼저 봐야 할 것은 `auto_pass_count`, `needs_human_judgment_count`, `final_ready_count`가 서로 다르다는 점입니다. 즉, 어떤 답은 자동 평가에서 바로 탈락하고, 어떤 답은 자동 평가를 통과했지만 사람 검토가 더 필요하며, 어떤 답만이 자동 기준과 사람 기준을 함께 만족해 최종 승인 후보가 됩니다.
+
+그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 보며, 운영에서는 이 둘을 합쳐 `탈락`, `재검토`, `승인 후보`를 나눈다는 점입니다. 특히 `answer_a`처럼 자동 평가는 통과해도 다음 행동이 불분명할 수 있고, `answer_b`, `answer_c`처럼 형식은 맞더라도 출처 힌트가 없어 자동 게이트부터 통과하지 못할 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `outputs`에 더 친절하거나 더 차가운 답변을 추가해 자동 평가와 사람 질문의 차이를 느껴 보기
-- `automatic_eval`에 금지 표현 점검을 넣어 자동 평가 범위를 넓혀 보기
-- 사람 질문 목록을 팀의 실제 QA 체크리스트처럼 다시 써 보기
+- `automatic_eval`에 금지 표현 점검을 넣어 자동 탈락 조건을 더 늘려 보기
+- 사람 질문 목록을 팀의 실제 QA 체크리스트처럼 다시 써 보고 `review_reason`이 어떻게 달라지는지 보기
 
 ## 이 예제를 운영 판단으로 다시 보면
 
