@@ -161,6 +161,169 @@ dilation 있음: [A _ C _ E]처럼 떨어진 위치를 함께 읽음
 - stride: `더 촘촘히 볼까, 더 크게 건너뛸까?`
 - dilation: `필터 크기를 키우지 않고 더 넓게 보고 싶은가?`
 
+### 작은 숫자 예제로 세 차이를 같이 보면
+
+말로만 보면 세 용어가 비슷하게 느껴질 수 있으니, 아주 작은 5x5 입력 위에서 같은 3x3 필터를 읽는 장면으로 다시 묶어 보겠습니다.
+
+```text
+input
+1 0 0 0 1
+0 1 0 1 0
+0 0 1 0 0
+0 1 0 1 0
+1 0 0 0 1
+
+filter
+1 0 1
+0 1 0
+1 0 1
+```
+
+이때 독자가 먼저 볼 것은 `필터 값` 자체보다 `어느 위치 묶음을 한 번에 읽는가`입니다.
+
+| 설정 | 필터가 실제로 읽는 장면 변화 | 먼저 생기는 차이 |
+| --- | --- | --- |
+| padding 0, stride 1, dilation 1 | 입력 안쪽만 촘촘히 읽음 | 가장자리는 읽을 기회가 적고 출력은 3x3이 됨 |
+| padding 1, stride 1, dilation 1 | 바깥에 0 여백을 두고 읽음 | 가장자리도 한 번 더 읽고 출력은 5x5로 유지됨 |
+| padding 0, stride 2, dilation 1 | 두 칸씩 건너뛰며 읽음 | 읽는 위치 수가 줄어 출력이 더 작아짐 |
+| padding 0, stride 1, dilation 2 | 필터 칸 사이를 띄워 더 넓게 읽음 | 같은 3x3 필터라도 더 큰 범위를 한 번에 덮음 |
+
+즉, 세 설정은 모두 `필터가 무엇을 찾는가`보다 `필터를 어떤 간격과 범위로 움직일 것인가`를 바꾸는 장치입니다.
+
+## 실행 가능한 Python 예제로 먼저 보기
+
+이번 작은 예제의 목표는 `padding`, `stride`, `dilation`이 출력 크기와 읽는 위치를 어떻게 바꾸는지 눈으로 확인하는 것입니다. 합성곱 값 전체를 외우는 것이 아니라, `같은 필터라도 스캔 방식이 달라지면 출력 모양과 읽는 패치가 함께 바뀐다`는 점을 잡는 데 목적이 있습니다.
+
+입력:
+
+- 5x5 장난감 이미지
+- 3x3 필터
+- 서로 다른 `padding`, `stride`, `dilation` 설정
+
+출력:
+
+- 설정별 출력 행렬 shape
+- 첫 번째 위치에서 실제로 읽은 patch
+- 설정별 convolution 결과
+
+```python
+import numpy as np
+
+image = np.array([
+    [1, 0, 0, 0, 1],
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 0, 1, 0],
+    [1, 0, 0, 0, 1],
+], dtype=float)
+
+kernel = np.array([
+    [1, 0, 1],
+    [0, 1, 0],
+    [1, 0, 1],
+], dtype=float)
+
+
+def conv2d(image, kernel, padding=0, stride=1, dilation=1):
+    padded = np.pad(image, padding, mode="constant", constant_values=0)
+    kernel_h, kernel_w = kernel.shape
+    effective_h = kernel_h + (kernel_h - 1) * (dilation - 1)
+    effective_w = kernel_w + (kernel_w - 1) * (dilation - 1)
+    out_h = ((padded.shape[0] - effective_h) // stride) + 1
+    out_w = ((padded.shape[1] - effective_w) // stride) + 1
+    output = np.zeros((out_h, out_w))
+
+    first_patch = None
+    for out_i in range(out_h):
+        for out_j in range(out_w):
+            row = out_i * stride
+            col = out_j * stride
+            sampled = padded[
+                row:row + effective_h:dilation,
+                col:col + effective_w:dilation,
+            ]
+            if first_patch is None:
+                first_patch = sampled.copy()
+            output[out_i, out_j] = np.sum(sampled * kernel)
+
+    return output, first_patch
+
+
+settings = [
+    ("base", 0, 1, 1),
+    ("padding=1", 1, 1, 1),
+    ("stride=2", 0, 2, 1),
+    ("dilation=2", 0, 1, 2),
+]
+
+for name, padding, stride, dilation in settings:
+    result, first_patch = conv2d(
+        image=image,
+        kernel=kernel,
+        padding=padding,
+        stride=stride,
+        dilation=dilation,
+    )
+    print(f"[{name}]")
+    print("shape =", result.shape)
+    print("first_patch =")
+    print(first_patch)
+    print("result =")
+    print(result)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[base]
+shape = (3, 3)
+first_patch =
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+result =
+[[3. 0. 3.]
+ [0. 5. 0.]
+ [3. 0. 3.]]
+[padding=1]
+shape = (5, 5)
+first_patch =
+[[0. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+result =
+[[2. 0. 2. 0. 2.]
+ [0. 3. 0. 3. 0.]
+ [2. 0. 5. 0. 2.]
+ [0. 3. 0. 3. 0.]
+ [2. 0. 2. 0. 2.]]
+[stride=2]
+shape = (2, 2)
+first_patch =
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+result =
+[[3. 3.]
+ [3. 3.]]
+[dilation=2]
+shape = (1, 1)
+first_patch =
+[[1. 0. 1.]
+ [0. 1. 0.]
+ [1. 0. 1.]]
+result =
+[[5.]]
+```
+
+이 결과에서 먼저 읽을 점은 다음과 같습니다.
+
+- `padding=1`은 출력이 5x5로 유지되며 가장자리도 계산 대상에 남깁니다.
+- `stride=2`는 필터가 두 칸씩 건너뛰므로 출력이 2x2로 빠르게 줄어듭니다.
+- `dilation=2`는 3x3 필터가 실제로는 더 넓은 5x5 범위를 띄엄띄엄 읽게 만듭니다.
+
+즉, 세 용어는 모두 convolution을 `다른 연산`으로 바꾸는 것이 아니라, 같은 convolution이 `어떤 범위와 간격으로 입력을 읽을지`를 바꾸는 선택입니다.
+
 ## convolution은 무엇을 하나
 
 합성곱(convolution)은 작은 필터(filter)를 이미지 여러 위치에 움직이며, 그 위치가 특정 패턴과 얼마나 잘 맞는지 점수화합니다.
