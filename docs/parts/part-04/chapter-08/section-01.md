@@ -31,7 +31,7 @@ P4-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 - optimizer와 regularization의 역할 차이를 구분할 수 있습니다.
 - regularization과 normalization이 왜 다른 질문에 답하는지 설명할 수 있습니다.
 - 정규화가 손실 함수, 모델 크기, 데이터 양과 어떤 관계가 있는지 말할 수 있습니다.
-- 작은 Python 예제로 벌점이 업데이트 크기에 어떤 영향을 주는지 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 벌점이 업데이트 크기에 어떤 영향을 주는지 확인할 수 있습니다.
 
 ## regularization과 normalization은 왜 다른가
 
@@ -143,9 +143,9 @@ total\ loss = data\ loss + regularization\ term
 
 사람은 데이터가 적으면 `그만큼 더 열심히 맞추면 되지 않을까`라고 생각하기 쉽습니다. 하지만 실제로는 데이터가 적을수록 모델이 우연한 잡음과 예외를 규칙처럼 외워 버릴 위험이 더 커집니다. 예를 들어 샘플 몇 개 안에서만 보인 특이한 표현이나 배경 색 하나를 마치 일반 규칙처럼 학습할 수 있습니다. 그러면 훈련 셋에서는 잘 맞지만, 실제 새 입력에서는 그 우연한 단서가 사라져 성능이 급격히 떨어질 수 있습니다. 이때 정규화는 더 중요해집니다. 즉, data size와 model capacity의 균형 문제와 연결되며, 적은 데이터일수록 `과하게 외우지 않게 묶어 두는 장치`가 더 필요해집니다. 그래서 이 사례에서 확인해야 할 결과는 작은 데이터셋에서 훈련 성능만 높아지는 대신, 새 입력에서의 급격한 성능 붕괴가 실제로 덜해지는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 regularization 항이 들어가면 업데이트가 `정답만 맞추는 방향`에서 조금 더 보수적으로 바뀔 수 있음을 확인하는 것입니다.
+이번 예제의 목표는 regularization 항이 들어가면 업데이트가 `정답만 맞추는 방향`에서 조금 더 보수적으로 바뀔 수 있음을 확인하는 것입니다. 한 번의 업데이트만 보는 대신, 여러 step에서 가중치가 얼마나 빨리 커지는지 비교해 보겠습니다.
 
 입력:
 
@@ -157,40 +157,60 @@ total\ loss = data\ loss + regularization\ term
 
 - regularization 없이 업데이트한 결과
 - regularization을 더한 뒤 업데이트한 결과
+- step이 반복될수록 가중치 크기 차이가 어떻게 벌어지는지에 대한 비교
 
 ```python
-w = 2.5
+initial_w = 2.5
 data_gradient = -4.0
 learning_rate = 0.1
 lambda_value = 0.2
+steps = 3
 
-# no regularization
-updated_without_reg = w - learning_rate * data_gradient
+w_without_reg = initial_w
+w_with_reg = initial_w
 
-# simple L2-like intuition
-reg_gradient = 2 * lambda_value * w
-total_gradient = data_gradient + reg_gradient
-updated_with_reg = w - learning_rate * total_gradient
+for step in range(1, steps + 1):
+    w_without_reg = w_without_reg - learning_rate * data_gradient
 
-print("updated_without_reg =", round(updated_without_reg, 3))
-print("reg_gradient =", round(reg_gradient, 3))
-print("total_gradient =", round(total_gradient, 3))
-print("updated_with_reg =", round(updated_with_reg, 3))
+    reg_gradient = 2 * lambda_value * w_with_reg
+    total_gradient = data_gradient + reg_gradient
+    w_with_reg = w_with_reg - learning_rate * total_gradient
+
+    print(f"[step {step}]")
+    print("without_reg =", round(w_without_reg, 3))
+    print("reg_gradient =", round(reg_gradient, 3))
+    print("total_gradient =", round(total_gradient, 3))
+    print("with_reg =", round(w_with_reg, 3))
+    print("---")
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-updated_without_reg = 2.9
+[step 1]
+without_reg = 2.9
 reg_gradient = 1.0
 total_gradient = -3.0
-updated_with_reg = 2.8
+with_reg = 2.8
+---
+[step 2]
+without_reg = 3.3
+reg_gradient = 1.12
+total_gradient = -2.88
+with_reg = 3.088
+---
+[step 3]
+without_reg = 3.7
+reg_gradient = 1.235
+total_gradient = -2.765
+with_reg = 3.365
+---
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
 - regularization이 없으면 가중치는 더 크게 증가합니다
-- regularization 항이 들어오면 큰 가중치를 조금 더 억제하려는 방향이 생깁니다
+- regularization 항이 들어오면 step이 반복될수록 증가 폭이 조금씩 더 줄어듭니다
 - 즉, regularization은 단순히 성능을 깎는 것이 아니라 `덜 과격한 해`를 선호하게 만듭니다
 
 ## 역사와 커리큘럼 관점

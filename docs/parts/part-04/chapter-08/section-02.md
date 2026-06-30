@@ -32,7 +32,7 @@ inverted dropout 공식과 dropout 비율 조정 경험칙은 여기서 공식�
 - 드롭아웃을 `특정 경로 의존을 줄이는 정규화 기법`으로 설명할 수 있습니다.
 - 드롭아웃이 학습 중과 평가 중에 다르게 동작하는 이유를 말할 수 있습니다.
 - 드롭아웃이 앙상블(ensemble) 비슷한 직관을 준다는 점을 입문 수준에서 이해할 수 있습니다.
-- 작은 Python 예제로 드롭아웃 전후 값을 직접 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 드롭아웃 전후 값을 직접 확인할 수 있습니다.
 
 ## 드롭아웃은 왜 필요한가
 
@@ -141,9 +141,9 @@ P4-6.2에서 이미 본 것처럼, 드롭아웃은 학습 모드(training mode)�
 
 초기 이미지 분류기나 탭형 데이터 분류기에서는 마지막 완전연결층이 매우 크게 잡히는 경우가 많았습니다. 사람은 마지막 층이 크면 더 많은 조합을 배울 수 있으니 무조건 유리하다고 보기 쉽습니다. 하지만 이런 구조에서는 일부 노드가 특정 특징 조합을 거의 통째로 외워 버려, 훈련 점수는 높은데 검증 점수는 떨어지는 일이 자주 생깁니다. 드롭아웃은 이 큰 완전연결층에서 일부 노드를 임시로 쉬게 해 특정 노드 하나에 대한 과한 집중을 줄이는 대표 기법이었습니다. 그래서 이 사례에서 확인해야 할 결과는 훈련 정확도만 빠르게 치솟는 대신 검증 정확도가 뒤처지던 패턴을 완화하는 방향으로 실제 변화가 나타나는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 학습 중 드롭아웃이 일부 활성값을 0으로 만들 수 있다는 점을 직접 확인하는 것입니다.
+이번 예제의 목표는 학습 중 드롭아웃이 일부 활성값을 0으로 만들 수 있다는 점을 직접 확인하는 것입니다. 학습 모드와 평가 모드가 왜 다르게 읽혀야 하는지도 같은 입력으로 함께 보겠습니다.
 
 입력:
 
@@ -153,7 +153,8 @@ P4-6.2에서 이미 본 것처럼, 드롭아웃은 학습 모드(training mode)�
 출력:
 
 - 드롭아웃 전 활성값
-- 드롭아웃 후 활성값
+- 학습 모드에서 드롭아웃 후 활성값
+- 평가 모드에서 유지되는 활성값
 
 ```python
 import random
@@ -161,33 +162,44 @@ import random
 activations = [0.9, 1.3, 0.4, 1.1, 0.7]
 drop_rate = 0.4
 
+
 def apply_dropout(values, drop_rate):
     result = []
+    mask = []
     for v in values:
         if random.random() < drop_rate:
             result.append(0.0)
+            mask.append(0)
         else:
             result.append(v)
-    return result
+            mask.append(1)
+    return result, mask
+
 
 random.seed(11)
-after_dropout = apply_dropout(activations, drop_rate)
+train_values, train_mask = apply_dropout(activations, drop_rate)
+eval_values = activations[:]
 
 print("before_dropout =", activations)
-print("after_dropout =", after_dropout)
+print("train_mask =", train_mask)
+print("train_mode_values =", train_values)
+print("eval_mode_values =", eval_values)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 before_dropout = [0.9, 1.3, 0.4, 1.1, 0.7]
-after_dropout = [0.9, 1.3, 0.4, 0.0, 0.7]
+train_mask = [1, 1, 1, 0, 1]
+train_mode_values = [0.9, 1.3, 0.4, 0.0, 0.7]
+eval_mode_values = [0.9, 1.3, 0.4, 1.1, 0.7]
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 어떤 활성값은 그대로 남고
 - 어떤 활성값은 현재 학습 step에서는 0이 되며
+- 평가 모드에서는 같은 입력이라도 이런 무작위 제거를 반복하지 않습니다
 - 그 결과 네트워크가 모든 경로를 항상 믿고 학습할 수 없게 됩니다
 
 이 예제는 scaling을 포함한 실제 프레임워크의 모든 세부를 구현한 것은 아닙니다. 여기서는 `무작위로 일부 경로를 쉬게 한다`는 핵심 직관만 확인하면 충분합니다.
