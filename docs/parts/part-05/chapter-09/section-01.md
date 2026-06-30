@@ -213,125 +213,208 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 API 호출 전체를 재현하는 것이 아니라, 같은 문서 사실을 두고도 `단순 프롬프트`와 `구조화 프롬프트`가 출력 형식 안정성에 어떤 차이를 만드는지 눈으로 확인하는 것입니다.
+이번 예제의 목표는 `좋은 문장을 한 번 쓰는 것`이 아니라, 같은 작업을 여러 요청 카드에 반복 적용했을 때 어떤 프롬프트가 더 안정적인 결과를 내는지 점검하는 것입니다. 실제 서비스에서도 프롬프트 평가는 한 번의 멋진 출력보다 `여러 입력에서 형식과 핵심 항목이 계속 유지되는가`를 보는 쪽이 더 중요합니다.
 
 문제 상황:
 
-- 같은 문서 사실 목록을 요약해야 함
-- 어떤 요청은 단순히 `요약해 달라`고만 쓰고
-- 어떤 요청은 `독자`, `줄 수`, `예시 형식`까지 함께 줌
+- 고객지원팀이 매일 여러 운영 메모를 짧게 요약해야 함
+- 단순 요청은 자유롭게 요약되지만, 운영상 꼭 남겨야 하는 항목이 빠질 수 있음
+- 구조화 요청은 `독자`, `줄 수`, `반드시 남길 항목`을 함께 줘서 형식과 누락 여부를 점검하고 싶음
 
 입력:
 
-- 같은 문서 사실 목록
-- 단순 프롬프트와 구조화 프롬프트 두 가지
+- 운영 메모 3개
+- 각 메모에서 반드시 남겨야 하는 핵심 항목
+- 단순 프롬프트와 구조화 프롬프트
 
 출력:
 
-- 프롬프트별 생성 결과
-- 줄 수, 번호 형식, 핵심 키워드 포함 여부 같은 간단한 점검 값
+- 메모별 응답
+- 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부
+- 프롬프트 유형별 전체 요약 통계
+
+프롬프트 설계 차이를 먼저 표로 보면 다음과 같습니다.
+
+| 비교 항목 | 단순 프롬프트 | 구조화 프롬프트 |
+| --- | --- | --- |
+| 작업 지시 | `요약해 주세요` | `운영 담당자가 바로 읽을 3줄 요약` |
+| 독자 정보 | 없음 | 운영 담당자 |
+| 형식 제약 | 없음 | `상황`, `즉시 조치`, `남은 위험` |
+| 점검 기준 | 사람이 눈대중 확인 | 슬롯 누락, 키워드 보존율 확인 |
 
 ```python
-document_facts = [
-    "사전학습은 대량 텍스트에서 일반 언어 패턴을 배운다.",
-    "생성 과정에서는 앞선 토큰을 바탕으로 다음 토큰을 예측한다.",
-    "긴 문맥에서는 답변 형식과 근거 범위가 흔들릴 수 있다.",
-    "독자는 핵심 차이를 짧고 구조적으로 정리한 답을 원한다.",
+requests = [
+    {
+        "name": "billing outage",
+        "facts": [
+            "새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다.",
+            "문제는 오전 9시 10분부터 시작되었고 모바일 결제에서 특히 크게 나타났다.",
+            "운영팀은 새 결제 모듈을 이전 버전으로 되돌렸다.",
+            "재발 방지를 위해 승인 로그 누락 구간을 오늘 안에 다시 수집해야 한다.",
+        ],
+        "must_keep": ["승인 실패율", "되돌렸다", "로그"],
+    },
+    {
+        "name": "shipping delay",
+        "facts": [
+            "폭우로 남부 물류 허브 진입이 막혀 출고가 평균 하루 반 지연되고 있다.",
+            "신선식품 주문은 일반 주문보다 먼저 안내 문자를 보내야 한다.",
+            "고객센터는 환불보다 배송 지연 고지 문구를 먼저 확인해 달라는 요청을 받았다.",
+            "오늘 저녁 6시에 허브 운영 재개 여부를 다시 확인할 예정이다.",
+        ],
+        "must_keep": ["하루 반", "신선식품", "저녁 6시"],
+    },
+    {
+        "name": "account lock",
+        "facts": [
+            "사내 SSO 설정 변경 뒤 일부 사용자가 로그인 직후 계정 잠금 상태가 되었다.",
+            "문제는 외부 파트너 계정에서 더 자주 나타났고, 비밀번호 재설정만으로는 풀리지 않았다.",
+            "인프라팀은 정책 롤백 대신 동기화 지연 구간을 먼저 추적하고 있다.",
+            "헬프데스크는 잠금 해제 수동 절차를 공지 문서에 추가해야 한다.",
+        ],
+        "must_keep": ["외부 파트너", "동기화", "수동 절차"],
+    },
 ]
 
-simple_prompt = "이 문서를 요약해 주세요."
+simple_prompt = "이 운영 메모를 짧게 요약해 주세요."
 structured_prompt = {
-    "instruction": "입문 독자 기준으로 세 줄로 요약해 주세요.",
-    "context": "주제는 LLM의 사전학습과 생성 과정의 차이입니다.",
-    "example_format": [
-        "1. 핵심 개념",
-        "2. 중요한 차이",
-        "3. 읽을 때 주의할 점",
-    ],
+    "instruction": "운영 담당자가 바로 읽고 행동할 수 있게 정확히 3줄로 요약해 주세요.",
+    "reader": "독자는 운영 담당자입니다.",
+    "required_slots": ["상황", "즉시 조치", "남은 위험"],
 }
 
 
-def respond_with_simple_prompt(facts):
-    return " ".join(facts)
+def simple_response(card):
+    # 단순 요청에서는 앞부분 사실이 길게 이어지고, 운영상 중요한 뒷부분이 빠지기 쉽다.
+    first = card["facts"][0]
+    second = card["facts"][1]
+    return f"{first} {second}"
 
 
-def respond_with_structured_prompt(facts):
-    lines = [
-        f"1. 핵심 개념: {facts[0]}",
-        f"2. 중요한 차이: {facts[1]}",
-        f"3. 읽을 때 주의할 점: {facts[2]}",
-    ]
-    return "\n".join(lines)
+def structured_response(card):
+    return "\n".join(
+        [
+            f"1. 상황: {card['facts'][0]}",
+            f"2. 즉시 조치: {card['facts'][2]}",
+            f"3. 남은 위험: {card['facts'][3]}",
+        ]
+    )
 
 
-def inspect_response(response):
-    lines = response.splitlines()
-    starts_with_numbers = all(
+def inspect_response(response, must_keep, required_slots):
+    lines = [line.strip() for line in response.splitlines() if line.strip()]
+    numbered_lines = all(
         line.startswith(f"{idx}.") for idx, line in enumerate(lines, start=1)
     ) if lines else False
-    includes_keywords = {
-        "사전학습": "사전학습" in response,
-        "생성": "생성" in response,
-        "주의": "주의" in response,
-    }
+    present_keywords = [keyword for keyword in must_keep if keyword in response]
+    missing_slots = [
+        slot for slot in required_slots if not any(slot in line for line in lines)
+    ]
     return {
         "line_count": len(lines),
-        "numbered_lines": starts_with_numbers,
-        "includes_keywords": includes_keywords,
+        "numbered_lines": numbered_lines,
+        "keyword_coverage": f"{len(present_keywords)}/{len(must_keep)}",
+        "present_keywords": present_keywords,
+        "missing_slots": missing_slots,
     }
 
 
-simple_response = respond_with_simple_prompt(document_facts)
-structured_response = respond_with_structured_prompt(document_facts)
+def run_batch(prompt_name, response_fn):
+    reports = []
+    for card in requests:
+        response = response_fn(card)
+        inspect = inspect_response(
+            response=response,
+            must_keep=card["must_keep"],
+            required_slots=structured_prompt["required_slots"],
+        )
+        reports.append(
+            {
+                "name": card["name"],
+                "response": response,
+                "inspect": inspect,
+            }
+        )
+    format_ok_count = sum(1 for report in reports if report["inspect"]["numbered_lines"])
+    full_keyword_keep_count = sum(
+        1 for report in reports if report["inspect"]["keyword_coverage"] == "3/3"
+    )
+    return {
+        "prompt_name": prompt_name,
+        "reports": reports,
+        "format_ok_count": format_ok_count,
+        "full_keyword_keep_count": full_keyword_keep_count,
+    }
 
-print("[simple prompt]")
-print(simple_prompt)
-print("[simple response]")
-print(simple_response)
-print("[simple inspect]")
-print(inspect_response(simple_response))
-print()
-print("[structured prompt]")
-print(structured_prompt)
-print("[structured response]")
-print(structured_response)
-print("[structured inspect]")
-print(inspect_response(structured_response))
+
+simple_batch = run_batch("simple", simple_response)
+structured_batch = run_batch("structured", structured_response)
+
+for batch in [simple_batch, structured_batch]:
+    print(f"[{batch['prompt_name']} batch]")
+    print("format_ok_count =", batch["format_ok_count"])
+    print("full_keyword_keep_count =", batch["full_keyword_keep_count"])
+    for report in batch["reports"]:
+        print(f"- {report['name']}")
+        print(report["response"])
+        print(report["inspect"])
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[simple prompt]
-이 문서를 요약해 주세요.
-[simple response]
-사전학습은 대량 텍스트에서 일반 언어 패턴을 배운다. 생성 과정에서는 앞선 토큰을 바탕으로 다음 토큰을 예측한다. 긴 문맥에서는 답변 형식과 근거 범위가 흔들릴 수 있다. 독자는 핵심 차이를 짧고 구조적으로 정리한 답을 원한다.
-[simple inspect]
-{'line_count': 1, 'numbered_lines': False, 'includes_keywords': {'사전학습': True, '생성': True, '주의': False}}
+[simple batch]
+format_ok_count = 0
+full_keyword_keep_count = 0
+- billing outage
+새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다. 문제는 오전 9시 10분부터 시작되었고 모바일 결제에서 특히 크게 나타났다.
+{'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '1/3', 'present_keywords': ['승인 실패율'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
+- shipping delay
+폭우로 남부 물류 허브 진입이 막혀 출고가 평균 하루 반 지연되고 있다. 신선식품 주문은 일반 주문보다 먼저 안내 문자를 보내야 한다.
+{'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '2/3', 'present_keywords': ['하루 반', '신선식품'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
+- account lock
+사내 SSO 설정 변경 뒤 일부 사용자가 로그인 직후 계정 잠금 상태가 되었다. 문제는 외부 파트너 계정에서 더 자주 나타났고, 비밀번호 재설정만으로는 풀리지 않았다.
+{'line_count': 1, 'numbered_lines': False, 'keyword_coverage': '1/3', 'present_keywords': ['외부 파트너'], 'missing_slots': ['상황', '즉시 조치', '남은 위험']}
 
-[structured prompt]
-{'instruction': '입문 독자 기준으로 세 줄로 요약해 주세요.', 'context': '주제는 LLM의 사전학습과 생성 과정의 차이입니다.', 'example_format': ['1. 핵심 개념', '2. 중요한 차이', '3. 읽을 때 주의할 점']}
-[structured response]
-1. 핵심 개념: 사전학습은 대량 텍스트에서 일반 언어 패턴을 배운다.
-2. 중요한 차이: 생성 과정에서는 앞선 토큰을 바탕으로 다음 토큰을 예측한다.
-3. 읽을 때 주의할 점: 긴 문맥에서는 답변 형식과 근거 범위가 흔들릴 수 있다.
-[structured inspect]
-{'line_count': 3, 'numbered_lines': True, 'includes_keywords': {'사전학습': True, '생성': True, '주의': True}}
+[structured batch]
+format_ok_count = 3
+full_keyword_keep_count = 1
+- billing outage
+1. 상황: 새 결제 모듈 배포 후 카드 승인 실패율이 18퍼센트까지 올랐다.
+2. 즉시 조치: 운영팀은 새 결제 모듈을 이전 버전으로 되돌렸다.
+3. 남은 위험: 재발 방지를 위해 승인 로그 누락 구간을 오늘 안에 다시 수집해야 한다.
+{'line_count': 3, 'numbered_lines': True, 'keyword_coverage': '3/3', 'present_keywords': ['승인 실패율', '되돌렸다', '로그'], 'missing_slots': []}
+- shipping delay
+1. 상황: 폭우로 남부 물류 허브 진입이 막혀 출고가 평균 하루 반 지연되고 있다.
+2. 즉시 조치: 고객센터는 환불보다 배송 지연 고지 문구를 먼저 확인해 달라는 요청을 받았다.
+3. 남은 위험: 오늘 저녁 6시에 허브 운영 재개 여부를 다시 확인할 예정이다.
+{'line_count': 3, 'numbered_lines': True, 'keyword_coverage': '2/3', 'present_keywords': ['하루 반', '저녁 6시'], 'missing_slots': []}
+- account lock
+1. 상황: 사내 SSO 설정 변경 뒤 일부 사용자가 로그인 직후 계정 잠금 상태가 되었다.
+2. 즉시 조치: 인프라팀은 정책 롤백 대신 동기화 지연 구간을 먼저 추적하고 있다.
+3. 남은 위험: 헬프데스크는 잠금 해제 수동 절차를 공지 문서에 추가해야 한다.
+{'line_count': 3, 'numbered_lines': True, 'keyword_coverage': '2/3', 'present_keywords': ['동기화', '수동 절차'], 'missing_slots': []}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 단순 지시보다 `작업`, `배경`, `형식 힌트`를 나눠 넣은 구조가 실제 출력의 줄 수와 전개 순서를 더 통제 가능하게 만든다는 점입니다.
+이 결과를 읽을 때 핵심은 `구조화 프롬프트면 언제나 완벽하다`가 아닙니다. 위 결과에서도 `shipping delay`, `account lock`은 여전히 `3/3`이 아니라 `2/3`으로 남습니다. 즉, 구조화 프롬프트는 형식과 전개 순서를 더 안정시켜 주지만, 정말 빠뜨리면 안 되는 항목이 있다면 `반드시 포함할 키워드`나 `누락 시 다시 작성` 같은 추가 제어가 더 필요하다는 점도 같이 보입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 구조화 프롬프트는 여러 요청 카드에서 `줄 수`, `번호 형식`, `슬롯 유지`를 더 안정적으로 만든다.
+- 그래도 핵심 항목 보존은 항상 자동으로 해결되지 않으므로, 프롬프트 실험은 `형식 안정성`과 `내용 보존율`을 함께 점검해야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `structured_prompt["instruction"]`를 `표 형식으로 정리`로 바꿔 출력 형식이 어떻게 달라지는지 보기
-- `document_facts`를 더 길게 늘려도 세 줄 형식이 유지되는지 확인하기
-- `inspect_response`에 `bullet_count`, `max_line_length` 같은 점검 기준을 추가해 보기
+- `structured_prompt["required_slots"]`에 `고객 영향`을 추가해 4줄 형식으로 바꾸기
+- `simple_response`와 `structured_response`의 선택 규칙을 바꿔 어떤 항목이 쉽게 빠지는지 보기
+- `inspect_response`에 `max_line_length`, `must_quote_time`, `must_include_number` 같은 운영 규칙을 더 넣어 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 단순 프롬프트는 `작업만 말한 상태`
-- 구조화 프롬프트는 `작업, 배경, 형식 힌트`를 함께 준 상태
-- 따라서 프롬프트 엔지니어링은 길이 경쟁이 아니라 `정보 배치 설계`에 가깝습니다
+- 구조화 프롬프트는 `작업, 독자, 슬롯, 점검 기준`을 함께 준 상태
+- 따라서 프롬프트 엔지니어링은 예쁜 문장 경쟁이 아니라 `반복 가능한 입력 설계와 점검 설계`에 가깝습니다
 
 ## 이 예제를 입력 설계 관점으로 다시 보면
 
