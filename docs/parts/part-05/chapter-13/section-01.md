@@ -33,6 +33,14 @@ P5-12.2에서는 함수 호출(function calling)이 도구 사용을 구조화�
 - 에이전트가 왜 여러 단계와 상태(state)를 다루는 구조인지 설명할 수 있습니다.
 - 다음 절의 계획, 행동, 관찰 흐름으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `에이전트는 무엇을 더하나`, `왜 단순 챗봇과 같은 말이 아닌가`, `프롬프트, RAG, tool use와 어떻게 다른가`를 읽고 agent가 답변 단위가 아니라 작업 흐름 단위의 구조라는 점을 잡습니다.
+2. 그다음 `왜 상태(state)가 중요해지나`, `왜 실무에서 중요해졌나`, `에이전트도 만능은 아니다`를 읽으면서 상태, 관찰, 재시도, 운영 복잡도가 왜 같이 따라오는지 확인합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 목표 하나가 검색, 읽기, 요약, 출처 부착 같은 여러 단계로 쪼개지고 그때그때 다음 계획이 바뀌는 모습을 확인합니다.
+
 ## 에이전트는 무엇을 더하나
 
 프롬프트는 입력 설계입니다.  
@@ -215,6 +223,23 @@ flowchart TD
 | 문서 조사 | 오래된 문서, 근거 부족 | 검색어, 날짜 필터, 읽기 우선순위 |
 | 업무 자동화 | 일정 충돌, 긴급도 재분류 | 처리 순서와 담당자 선택 |
 
+같은 내용을 작업 흐름 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["goal"]
+  B["current state"]
+  C["choose next step"]
+  D["act with docs or tools"]
+  E["observe result"]
+  F["update state"]
+
+  A --> B --> C --> D --> E --> F
+  F --> C
+```
+
+핵심은 `답변 한 번`이 아니라 `상태를 갱신하며 다음 행동을 다시 고르는 반복`입니다.
+
 ## 실행 가능한 Python 예제로 보기
 
 이번 예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아니라, 하나의 목표가 들어왔을 때 `검색`, `읽기`, `요약`, `출처 부착` 같은 여러 작업 단계와 상태로 풀리고, 그 상태에 따라 다음 계획이 실제로 다시 짜이는 장면을 눈으로 확인하는 것입니다.
@@ -319,6 +344,17 @@ inspection = {
     "final_summary_ready": state["summary_ready"],
     "final_sources_attached": state["sources_attached"],
     "finished": state["sources_attached"] and "final_answer" in state,
+    "completion_ratio": round(
+        sum(
+            [
+                bool(state["documents_found"]),
+                state["read_complete"],
+                state["summary_ready"],
+                state["sources_attached"],
+            ]
+        ) / 4,
+        2,
+    ),
 }
 
 print("[goal]")
@@ -348,7 +384,7 @@ print(inspection)
 [final state]
 {'goal': '최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다.', 'documents_found': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'read_complete': True, 'summary_ready': True, 'sources_attached': True, 'draft_summary': '환불 요청 처리 기한이 7일에서 14일로 늘어났습니다.', 'final_answer': '환불 요청 처리 기한이 7일에서 14일로 늘어났습니다. 출처: policy_notice_2026_06_29, refund_rules_appendix'}
 [inspection]
-{'round_count': 4, 'final_documents_found_count': 2, 'final_summary_ready': True, 'final_sources_attached': True, 'finished': True}
+{'round_count': 4, 'final_documents_found_count': 2, 'final_summary_ready': True, 'final_sources_attached': True, 'finished': True, 'completion_ratio': 1.0}
 ```
 
 이 결과에서 먼저 봐야 할 것은 `round_count`가 4이고, 각 라운드마다 `next_plan`이 달라진다는 점입니다. 즉, 에이전트는 처음부터 전체 답을 한 번에 내놓는 구조가 아니라, 현재 상태를 보고 `지금은 검색`, `다음은 읽기`, `그다음은 요약`, `마지막은 출처 부착`처럼 단계별로 재계획합니다. 이 구조가 있어야 중간 결과를 보고 다음 행동을 바꾸는 실행 흐름이라고 말할 수 있습니다.
@@ -374,6 +410,10 @@ print(inspection)
 - 목표는 하나지만
 - 단계는 여러 개일 수 있고
 - 각 단계의 결과가 다음 단계 선택에 영향을 준다는 점입니다
+
+## 여기까지를 한 줄로 묶으면
+
+에이전트의 핵심은 도구를 많이 쓰는 데 있지 않고, 목표를 여러 단계로 나누고 현재 상태를 보며 다음 행동을 계속 다시 고르는 실행 흐름을 만드는 데 있습니다.
 
 ## 역사와 커리큘럼 관점
 
