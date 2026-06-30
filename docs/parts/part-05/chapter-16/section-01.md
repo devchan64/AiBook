@@ -200,31 +200,38 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보는 것입니다.
+이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보는 것입니다. 이번에는 설계안 두 개만 단순 비교하지 않고, 여러 서비스 설계안을 같은 운영 제약 아래 나란히 놓고 어떤 안이 통과하고 어떤 안이 탈락하는지 비교하겠습니다.
 
 문제 상황:
 
-- 두 가지 서비스 설계안이 있음
-- 하나는 빠르고 싸지만 품질이 조금 낮고
-- 다른 하나는 품질은 높지만 느리고 비쌈
+- 여러 서비스 설계안이 있음
+- 어떤 안은 빠르고 싸지만 품질이 낮고
+- 어떤 안은 품질은 높지만 느리거나 비싸고
+- 어떤 안은 중간 타협점에 있음
 
 입력:
 
-- 두 가지 서비스 설계안
+- 여러 서비스 설계안
 - 팀이 허용하는 최대 지연 시간과 최대 비용
 
 출력:
 
 - 각 설계안의 적합 여부
 - 왜 선택되거나 탈락하는지에 대한 간단한 판단 결과
+- 통과한 설계안 중 운영 제약 안에서 품질이 가장 높은 후보
 
 ```python
-service_fast = {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1}
-service_rich = {"name": "rich", "quality": 0.89, "latency_ms": 3200, "cost": 4}
+services = [
+    {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1},
+    {"name": "balanced", "quality": 0.84, "latency_ms": 1700, "cost": 2},
+    {"name": "rich", "quality": 0.89, "latency_ms": 3200, "cost": 4},
+    {"name": "cheap_but_weak", "quality": 0.65, "latency_ms": 700, "cost": 1},
+]
 
 constraints = {
     "max_latency_ms": 2000,
     "max_cost": 3,
+    "min_quality": 0.75,
 }
 
 
@@ -232,48 +239,58 @@ def evaluate_service(service, constraints):
     return {
         "name": service["name"],
         "quality": service["quality"],
+        "quality_ok": service["quality"] >= constraints["min_quality"],
         "latency_ok": service["latency_ms"] <= constraints["max_latency_ms"],
         "cost_ok": service["cost"] <= constraints["max_cost"],
         "operationally_acceptable": (
-            service["latency_ms"] <= constraints["max_latency_ms"]
+            service["quality"] >= constraints["min_quality"]
+            and service["latency_ms"] <= constraints["max_latency_ms"]
             and service["cost"] <= constraints["max_cost"]
         ),
     }
 
 
-fast_result = evaluate_service(service_fast, constraints)
-rich_result = evaluate_service(service_rich, constraints)
+evaluated = [evaluate_service(service, constraints) for service in services]
+acceptable = [
+    item for item in evaluated
+    if item["operationally_acceptable"]
+]
+best_acceptable = max(acceptable, key=lambda item: item["quality"]) if acceptable else None
 
 print("[constraints]")
 print(constraints)
-print("[fast_result]")
-print(fast_result)
-print("[rich_result]")
-print(rich_result)
+print("[evaluated_services]")
+for item in evaluated:
+    print(item)
+print("[best_acceptable]")
+print(best_acceptable)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 [constraints]
-{'max_latency_ms': 2000, 'max_cost': 3}
-[fast_result]
-{'name': 'fast', 'quality': 0.78, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
-[rich_result]
-{'name': 'rich', 'quality': 0.89, 'latency_ok': False, 'cost_ok': False, 'operationally_acceptable': False}
+{'max_latency_ms': 2000, 'max_cost': 3, 'min_quality': 0.75}
+[evaluated_services]
+{'name': 'fast', 'quality': 0.78, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
+{'name': 'balanced', 'quality': 0.84, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
+{'name': 'rich', 'quality': 0.89, 'quality_ok': True, 'latency_ok': False, 'cost_ok': False, 'operationally_acceptable': False}
+{'name': 'cheap_but_weak', 'quality': 0.65, 'quality_ok': False, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': False}
+[best_acceptable]
+{'name': 'balanced', 'quality': 0.84, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간과 비용이 함께 늘면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간과 비용이 함께 늘면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다. 또한 반대로 `cheap_but_weak`처럼 빠르고 싸더라도 최소 품질선을 넘지 못하면 역시 채택되지 않을 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `max_latency_ms`를 더 완화해 고품질 설계가 통과되는지 보기
-- `service_fast["quality"]`를 더 낮춰 운영 가능하지만 품질이 너무 낮은 경우를 상상해 보기
-- 세 번째 설계안을 추가해 `속도-품질-비용` 타협 지점을 직접 비교해 보기
+- `min_quality`를 더 높여 어느 지점부터 `balanced`도 탈락하는지 보기
+- 설계안을 하나 더 추가해 `속도-품질-비용` 타협 지점을 직접 비교해 보기
 
 ## 이 예제를 서비스 선택 관점으로 다시 보면
 
-앞의 예제는 더 좋은 품질 점수가 자동으로 더 좋은 서비스 결정을 뜻하지 않는다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 품질, 지연 시간, 비용이 같은 축이 아니라 서로 부딪히는 판단 기준이며, 운영에서는 이 셋을 함께 봐야 실제 선택이 가능하다는 점입니다.
+앞의 예제는 더 좋은 품질 점수가 자동으로 더 좋은 서비스 결정을 뜻하지 않는다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 품질, 지연 시간, 비용이 같은 축이 아니라 서로 부딪히는 판단 기준이며, 운영에서는 이 셋을 함께 봐야 실제 선택이 가능하다는 점입니다. 특히 배치 비교를 해 보면 `가장 좋은 모델`과 `실제로 채택할 설계안`이 다를 수 있다는 점이 더 분명하게 드러납니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
