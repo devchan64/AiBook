@@ -221,6 +221,8 @@ flowchart TD
 
 - attention 적용 전후의 토큰 표현
 - feed-forward 적용 후 표현
+- residual을 더한 뒤의 표현
+- 간단한 layer normalization 뒤 표현
 - 각 토큰이 어느 방향으로 더 강조되었는지
 
 ```python
@@ -247,6 +249,16 @@ ff_weights = np.array([
 
 ff_output = contextual @ ff_weights
 delta_from_input = ff_output - tokens
+residual_added = ff_output + tokens
+
+
+def simple_layer_norm(row):
+    mean = np.mean(row)
+    std = np.std(row)
+    return (row - mean) / (std + 1e-6)
+
+
+normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
 
 print("original tokens =")
 print(np.round(tokens, 3))
@@ -259,6 +271,12 @@ print(np.round(ff_output, 3))
 print()
 print("change from input =")
 print(np.round(delta_from_input, 3))
+print()
+print("after residual =")
+print(np.round(residual_added, 3))
+print()
+print("after simple layer norm =")
+print(np.round(normalized, 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -283,15 +301,38 @@ change from input =
 [[-0.05   0.67 ]
  [ 0.185  0.13 ]
  [ 0.515 -0.2  ]]
+
+after residual =
+[[1.95 0.67 ]
+ [1.185 2.13 ]
+ [0.515 2.8  ]]
+
+after simple layer norm =
+[[ 1.    -1.   ]
+ [-1.     1.   ]
+ [-1.     1.   ]]
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
 - attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다
 - feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다
+- `after residual`은 새 계산 결과만 쓰지 않고 원래 토큰 표현을 함께 남긴다는 점을 보여 줍니다
+- `after simple layer norm`은 각 위치 표현이 다음 단계로 넘어가기 전에 값 범위가 다시 정리될 수 있음을 보여 줍니다
 - 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다
 
 실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
+
+## 이 예제를 블록 조합 관점으로 다시 보면
+
+앞의 숫자는 Transformer 전체를 구현한 것은 아니지만, 각 부품의 역할 차이는 분명하게 드러납니다.
+
+- `contextual tokens`는 self-attention이 다른 위치 정보를 먼저 섞는 단계입니다.
+- `feed-forward output`은 섞인 표현을 각 위치에서 한 번 더 가공한 결과입니다.
+- `after residual`은 새 계산만 믿지 않고 원래 표현도 함께 들고 가는 안전장치 역할을 보여 줍니다.
+- `after simple layer norm`은 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 줍니다.
+
+즉, Transformer 블록은 `attention 하나`가 아니라, `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`가 한 묶음으로 반복되는 구조입니다. 이 감각이 잡혀야 다음 절 P4-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
