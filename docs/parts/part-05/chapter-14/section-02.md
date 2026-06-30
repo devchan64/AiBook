@@ -140,37 +140,75 @@ flowchart TD
 
 고객 지원 에이전트가 환불 불가 답변을 냈는데 실제 최신 정책은 환불 가능이었다고 해 봅시다. 이때 사람이 먼저 확인해야 할 것은 `정책 문서를 오래된 것으로 읽었는가`, `읽은 내용은 맞았지만 응답 규칙이 잘못 적용되었는가`, `승인 단계 없이 바로 전송되었는가` 같은 흐름입니다. 하지만 실행 기록이 없으면 잘못된 답 하나만 남고, 어디서 틀렸는지 조직적으로 설명하기가 어려워집니다. 예를 들어 정책 해석은 맞았지만 승인 단계를 건너뛰어 바로 발송했다면, 문제는 모델 지식이 아니라 운영 통제 실패일 수 있습니다. 이런 차이가 보이지 않으면 같은 답변 오류를 다시 막기 위한 통제도 설계하기 어렵습니다. harness는 읽은 정책, 사용한 도구, 승인 여부, 평가 상태를 함께 남겨 감사와 재현을 가능하게 합니다. 여기서 바뀌는 점은 `답변이 틀렸는가`만 보던 기준에서 `오류가 어떤 운영 단계에서 발생했는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 답변 오류가 났을 때 오래된 문서 참조, 규칙 적용 오류, 승인 누락 중 어느 단계에서 문제가 났는지가 실제로 다시 설명되는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 harness를 구현하는 것이 아니라, 실행을 감싸는 기록 항목이 무엇인지 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 실행을 감싸는 기록이 `최종 결과` 하나로 끝나는 것이 아니라 `도구 호출`, `trace`, `평가 상태`, `재현 가능성`까지 함께 남겨야 한다는 점을 보는 것입니다.
+
+문제 상황:
+
+- 에이전트가 최신 환불 정책을 찾고 요약함
+- 최종 답만 보면 실행 과정에서 무슨 일이 있었는지 알기 어려움
+- 따라서 실행 기록 전체를 묶는 run record가 필요함
 
 입력:
 
 - 하나의 agent 실행
+- 실행 중 사용한 도구와 단계별 기록
 
 출력:
 
-- 기록과 평가 항목
+- run record
+- 재현과 평가에 필요한 항목이 남았는지에 대한 점검값
 
 ```python
 run_record = {
     "goal": "최신 환불 정책을 찾아 요약한다",
     "tools_used": ["search_policy_docs", "read_file"],
+    "trace": [
+        {"step": 1, "action": "search_policy_docs", "observation": "found 2 recent notices"},
+        {"step": 2, "action": "read_file", "observation": "opened policy_notice_2026_06_29"},
+    ],
     "result": "정책 변경 요약 완료",
     "trace_saved": True,
     "eval_status": "needs_review",
+    "replay_id": "run-2026-06-30-001",
 }
 
-print("run_record =", run_record)
+
+def inspect_run_record(record):
+    return {
+        "tool_count": len(record["tools_used"]),
+        "trace_steps": len(record["trace"]),
+        "has_eval_status": "eval_status" in record,
+        "has_replay_id": "replay_id" in record,
+        "is_reproducible_shape": record["trace_saved"] and "replay_id" in record,
+    }
+
+
+inspection = inspect_run_record(run_record)
+
+print("[run_record]")
+print(run_record)
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-run_record = {'goal': '최신 환불 정책을 찾아 요약한다', 'tools_used': ['search_policy_docs', 'read_file'], 'result': '정책 변경 요약 완료', 'trace_saved': True, 'eval_status': 'needs_review'}
+[run_record]
+{'goal': '최신 환불 정책을 찾아 요약한다', 'tools_used': ['search_policy_docs', 'read_file'], 'trace': [{'step': 1, 'action': 'search_policy_docs', 'observation': 'found 2 recent notices'}, {'step': 2, 'action': 'read_file', 'observation': 'opened policy_notice_2026_06_29'}], 'result': '정책 변경 요약 완료', 'trace_saved': True, 'eval_status': 'needs_review', 'replay_id': 'run-2026-06-30-001'}
+[inspection]
+{'tool_count': 2, 'trace_steps': 2, 'has_eval_status': True, 'has_replay_id': True, 'is_reproducible_shape': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 결과 텍스트 하나만 남는 것이 아니라, 사용한 도구, 실행 기록, 평가 상태까지 함께 추적된다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 결과 텍스트 하나만 남는 것이 아니라, 사용한 도구, 실행 trace, 평가 상태, replay 식별자까지 함께 추적된다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `trace_saved`를 `False`로 바꿔 재현 가능성이 어떻게 약해지는지 보기
+- `eval_status`를 `passed`나 `failed`로 바꿔 평가 단계 연결을 상상해 보기
+- `trace`에 실패 단계 하나를 추가해 어떤 운영 정보가 더 필요해지는지 확인하기
 
 ## 이 예제를 운영 기록 관점으로 다시 보면
 

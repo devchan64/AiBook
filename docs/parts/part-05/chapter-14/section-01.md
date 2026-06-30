@@ -170,36 +170,73 @@ flowchart TD
 | 코딩 에이전트 | 파일, 실행기, 검색기 호출 방식을 정리하기 위해 |
 | 내부 시스템 연결 | 서로 다른 시스템을 공통 인터페이스로 묶기 위해 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 프로토콜을 구현하는 것이 아니라, 모델이 직접 도구를 아는 것이 아니라 `연결 정보`를 통해 접근한다는 감각을 보는 것입니다.
+이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 모델이나 에이전트가 도구와 리소스를 제각각 하드코딩하는 대신 `연결 계층에 등록된 정보`를 통해 일관되게 본다는 점을 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 에이전트는 검색 도구, 파일 읽기 도구, 테스트 실행 도구를 함께 써야 함
+- 문서 저장소와 코드베이스 파일도 각각 다른 자원임
+- 각 항목이 제각각 노출되면 어떤 이름으로 어떤 인자를 써야 하는지 매번 따로 알아야 함
 
 입력:
 
-- 도구 목록
-- 접근 가능한 리소스
+- 연결 계층에 등록된 도구 목록
+- 연결 계층에 등록된 리소스 목록
 
 출력:
 
-- 연결 계층 관점
+- 에이전트가 볼 수 있는 공통 인터페이스 정보
+- 어떤 도구와 어떤 리소스가 노출되었는지에 대한 점검값
 
 ```python
 connection_layer = {
-    "tools": ["search_docs", "read_file", "run_tests"],
-    "resources": ["policy_repository", "codebase_files"],
-    "goal": "provide a consistent interface between agent and external systems",
+    "tools": [
+        {"name": "search_docs", "input_schema": ["query"], "returns": "document_hits"},
+        {"name": "read_file", "input_schema": ["path"], "returns": "file_text"},
+        {"name": "run_tests", "input_schema": ["target"], "returns": "test_report"},
+    ],
+    "resources": [
+        {"name": "policy_repository", "type": "document_store"},
+        {"name": "codebase_files", "type": "filesystem"},
+    ],
 }
 
-print("connection_layer =", connection_layer)
+
+def inspect_connection_layer(layer):
+    return {
+        "tool_names": [tool["name"] for tool in layer["tools"]],
+        "resource_names": [resource["name"] for resource in layer["resources"]],
+        "all_tools_have_schema": all("input_schema" in tool for tool in layer["tools"]),
+        "all_resources_have_type": all("type" in resource for resource in layer["resources"]),
+    }
+
+
+inspection = inspect_connection_layer(connection_layer)
+
+print("[connection_layer]")
+print(connection_layer)
+print("[inspection]")
+print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-connection_layer = {'tools': ['search_docs', 'read_file', 'run_tests'], 'resources': ['policy_repository', 'codebase_files'], 'goal': 'provide a consistent interface between agent and external systems'}
+[connection_layer]
+{'tools': [{'name': 'search_docs', 'input_schema': ['query'], 'returns': 'document_hits'}, {'name': 'read_file', 'input_schema': ['path'], 'returns': 'file_text'}, {'name': 'run_tests', 'input_schema': ['target'], 'returns': 'test_report'}], 'resources': [{'name': 'policy_repository', 'type': 'document_store'}, {'name': 'codebase_files', 'type': 'filesystem'}]}
+[inspection]
+{'tool_names': ['search_docs', 'read_file', 'run_tests'], 'resource_names': ['policy_repository', 'codebase_files'], 'all_tools_have_schema': True, 'all_resources_have_type': True}
 ```
 
-이 예제에서 확인해야 할 결과는 모델이 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
+이 예제에서 확인해야 할 결과는 모델이나 에이전트가 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- 새 도구 `query_database`를 추가해 같은 방식으로 노출되는지 보기
+- 어떤 도구에서 `input_schema`를 빼고 점검 결과가 어떻게 바뀌는지 확인하기
+- 리소스에 `permissions` 같은 필드를 넣어 권한 관점까지 확장해 보기
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
