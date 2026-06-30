@@ -33,6 +33,15 @@ Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들�
 - 이전에 배운 Transformer 구조가 Part 5의 생성형 언어 모델 설명으로 어떻게 이어지는지 말할 수 있습니다.
 - 다음 절의 context window 설명으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 충분합니다.
+
+1. 먼저 같은 Transformer를 왜 LLM 관점에서 다시 읽어야 하는지 봅니다.
+2. 그 다음 토큰, 임베딩, self-attention, 반복 블록이 어떤 흐름으로 이어지는지 따라갑니다.
+3. 이어서 마지막 출력이 `완성 문장`이 아니라 `다음 후보 점수표`라는 점을 확인합니다.
+4. 마지막에 왜 이 구조가 GPT, pretraining, prompt, context window 설명의 기반이 되는지 연결합니다.
+
 ## 같은 Transformer를 왜 다시 읽어야 하는가
 
 Part 4에서는 Transformer를 딥러닝 구조로 설명했습니다. 즉:
@@ -188,33 +197,111 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 Transformer를 구현하는 것이 아니라, `앞 문맥이 달라지면 같은 위치의 다음 토큰 후보 점수도 달라진다`는 감각을 확인하는 것입니다. 단순히 가장 큰 점수 하나만 찍는 대신, 문맥 A와 문맥 B가 같은 후보 집합에 서로 다른 점수를 주는 장면을 가장 작게 만들어 봅니다.
+이번 예제의 목표는 실제 Transformer 전체를 구현하는 것이 아니라, `앞 문맥에 들어 있던 단서들이 다음 토큰 후보 점수표를 어떻게 바꾸는가`를 더 실제적으로 보는 것입니다. 이번에는 두 개의 업무 문맥을 두고, 각 문맥에 들어 있는 단서가 후보 표현 점수에 얼마나 기여하는지까지 함께 출력해 보겠습니다.
 
 입력:
 
 - 두 개의 서로 다른 문맥
-- 같은 세 개의 후보 토큰
-- 문맥별 다음 토큰 점수
+- 문맥에서 읽어 낸 단서(feature)
+- 같은 후보 표현 집합
+- 단서별 후보 가중치
 
 출력:
 
-- 문맥별 후보 점수
-- 문맥별 최종 선택 토큰
+- 문맥별 활성 단서
+- 후보별 점수 기여도
+- 후보 점수표와 상위 후보 순위
+- 문맥별 최종 다음 토큰 선택
 
 ```python
-candidates = ["입니다", "였다", "이다"]
-
-scores_by_context = {
-    "formal_notice": [2.4, 1.1, 1.9],
-    "casual_note": [1.2, 0.8, 2.3],
+contexts = {
+    "formal_notice": {
+        "text": "고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행",
+        "features": {
+            "formal_tone": 1.0,
+            "casual_tone": 0.0,
+            "notice_style": 1.0,
+            "meeting_context": 0.8,
+            "past_tense": 0.0,
+        },
+    },
+    "casual_team_chat": {
+        "text": "팀 내부 메모다. 오늘 회의는 오후 2시에 진행",
+        "features": {
+            "formal_tone": 0.0,
+            "casual_tone": 1.0,
+            "notice_style": 0.0,
+            "meeting_context": 0.4,
+            "past_tense": 0.0,
+        },
+    },
 }
 
-for context_name, scores in scores_by_context.items():
-    best_index = scores.index(max(scores))
+candidates = {
+    "합니다": {
+        "base": 0.2,
+        "weights": {
+            "formal_tone": 1.2,
+            "casual_tone": -0.8,
+            "notice_style": 0.9,
+            "meeting_context": 0.2,
+            "past_tense": -0.6,
+        },
+    },
+    "이다": {
+        "base": 0.3,
+        "weights": {
+            "formal_tone": -0.3,
+            "casual_tone": 0.7,
+            "notice_style": -0.2,
+            "meeting_context": 0.1,
+            "past_tense": -0.5,
+        },
+    },
+    "되었습니다": {
+        "base": 0.1,
+        "weights": {
+            "formal_tone": 0.8,
+            "casual_tone": -0.4,
+            "notice_style": 0.4,
+            "meeting_context": -0.1,
+            "past_tense": 1.3,
+        },
+    },
+}
+
+
+def score_candidates(feature_values):
+    scored = []
+    for token, config in candidates.items():
+        contributions = {}
+        total = config["base"]
+        for feature_name, feature_value in feature_values.items():
+            contribution = feature_value * config["weights"][feature_name]
+            contributions[feature_name] = round(contribution, 2)
+            total += contribution
+        scored.append(
+            {
+                "token": token,
+                "score": round(total, 2),
+                "contributions": contributions,
+            }
+        )
+    return sorted(scored, key=lambda item: item["score"], reverse=True)
+
+
+for context_name, context in contexts.items():
+    ranking = score_candidates(context["features"])
     print(f"[{context_name}]")
-    print("candidates =", candidates)
-    print("scores =", scores)
-    print("next_token =", candidates[best_index])
+    print("text =", context["text"])
+    print("active_features =", context["features"])
+    for item in ranking:
+        print(
+            f"- candidate={item['token']}, score={item['score']}, "
+            f"contributions={item['contributions']}"
+        )
+    print("chosen_next_token =", ranking[0]["token"])
+    print("top_2 =", [item["token"] for item in ranking[:2]])
     print("---")
 ```
 
@@ -222,26 +309,39 @@ for context_name, scores in scores_by_context.items():
 
 ```text
 [formal_notice]
-candidates = ['입니다', '였다', '이다']
-scores = [2.4, 1.1, 1.9]
-next_token = 입니다
+text = 고객사 공지 메일입니다. 오늘 회의는 오후 2시에 진행
+active_features = {'formal_tone': 1.0, 'casual_tone': 0.0, 'notice_style': 1.0, 'meeting_context': 0.8, 'past_tense': 0.0}
+- candidate=합니다, score=2.46, contributions={'formal_tone': 1.2, 'casual_tone': -0.0, 'notice_style': 0.9, 'meeting_context': 0.16, 'past_tense': -0.0}
+- candidate=되었습니다, score=1.22, contributions={'formal_tone': 0.8, 'casual_tone': -0.0, 'notice_style': 0.4, 'meeting_context': -0.08, 'past_tense': 0.0}
+- candidate=이다, score=-0.12, contributions={'formal_tone': -0.3, 'casual_tone': 0.0, 'notice_style': -0.2, 'meeting_context': 0.08, 'past_tense': -0.0}
+chosen_next_token = 합니다
+top_2 = ['합니다', '되었습니다']
 ---
-[casual_note]
-candidates = ['입니다', '였다', '이다']
-scores = [1.2, 0.8, 2.3]
-next_token = 이다
+[casual_team_chat]
+text = 팀 내부 메모다. 오늘 회의는 오후 2시에 진행
+active_features = {'formal_tone': 0.0, 'casual_tone': 1.0, 'notice_style': 0.0, 'meeting_context': 0.4, 'past_tense': 0.0}
+- candidate=이다, score=1.04, contributions={'formal_tone': -0.0, 'casual_tone': 0.7, 'notice_style': -0.0, 'meeting_context': 0.04, 'past_tense': -0.0}
+- candidate=합니다, score=-0.52, contributions={'formal_tone': 0.0, 'casual_tone': -0.8, 'notice_style': 0.0, 'meeting_context': 0.08, 'past_tense': -0.0}
+- candidate=되었습니다, score=-0.34, contributions={'formal_tone': 0.0, 'casual_tone': -0.4, 'notice_style': 0.0, 'meeting_context': -0.04, 'past_tense': 0.0}
+chosen_next_token = 이다
+top_2 = ['이다', '되었습니다']
 ---
 ```
 
+위 출력은 `formal_notice`와 `casual_team_chat`이 같은 `오늘 회의는 오후 2시에 진행` 구간을 공유하더라도, 앞 문맥에서 읽힌 `formal_tone`, `casual_tone`, `notice_style` 같은 단서가 후보 점수표를 다르게 밀어 올린다는 점을 보여 줍니다. 즉, 문장 뒷부분이 비슷해도 앞 문맥에서 어떤 성격의 단서가 더 강하게 남았는지에 따라 최종 다음 후보가 실제로 달라질 수 있습니다.
+
+독자는 여기서 `formal_notice`의 `notice_style`을 `0.5`로 줄이거나, `casual_team_chat`의 `meeting_context`를 `0.9`로 높여 보면서 순위가 어떻게 다시 바뀌는지 실험할 수 있습니다. 이렇게 보면 중요한 것은 `정답 토큰 하나를 외우는 것`이 아니라, `문맥에서 어떤 단서가 후보 분포를 어떻게 밀어 올리거나 끌어내리는가`입니다.
+
 이 예제에서 확인해야 할 핵심은 다음입니다.
 
-- 후보 토큰 집합이 같아도 앞 문맥이 다르면 점수 분포가 달라질 수 있습니다.
-- Transformer의 마지막 계산은 곧바로 완성 문장이 아니라 `다음 후보들에 대한 점수표`에 가깝습니다.
-- 실제 출력 토큰은 그 점수표를 해석하는 규칙을 거쳐 선택됩니다.
+- 같은 후보 집합이라도 앞 문맥에서 읽은 단서가 다르면 점수표가 달라집니다.
+- Transformer의 마지막 계산은 완성 문장 자체보다 `다음 후보들에 대한 점수 분포`에 가깝습니다.
+- 실제 출력 토큰은 그 점수표에서 가장 높은 후보를 고르거나, sampling 같은 규칙을 거쳐 선택됩니다.
+- 즉, 생성은 `한 단어를 바로 맞힌다`보다 `문맥을 반영해 후보 분포를 계속 갱신한다`는 관점으로 보는 편이 정확합니다.
 
 ## 이 예제를 다음 토큰 선택 관점으로 다시 보면
 
-앞의 예제는 Transformer 전체를 구현하는 코드가 아니라, 긴 문맥 계산이 마지막에는 `후보 점수 비교`와 `다음 토큰 선택`으로 닫힌다는 점을 가장 작게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 복잡한 내부 블록을 모두 외우는 것이 아니라, 그 계산이 결국 `앞 문맥에 따라 달라지는 다음 토큰 분포`를 만든다는 점입니다. 즉, Transformer를 읽을 때는 `정답 단어 하나를 바로 맞힌다`보다 `문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`를 보는 편이 더 정확합니다.
+앞의 예제는 Transformer 전체를 구현하는 코드가 아니라, 긴 문맥 계산이 마지막에는 `후보 점수 비교`와 `다음 토큰 선택`으로 닫힌다는 점을 더 실제적인 점수표 형태로 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 복잡한 내부 블록을 모두 외우는 것이 아니라, 그 계산이 결국 `앞 문맥에 따라 달라지는 다음 토큰 분포`를 만든다는 점입니다. 즉, Transformer를 읽을 때는 `정답 단어 하나를 바로 맞힌다`보다 `문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`를 보는 편이 더 정확합니다.
 
 ## 역사와 커리큘럼 관점
 
