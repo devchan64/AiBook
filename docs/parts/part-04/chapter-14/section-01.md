@@ -34,6 +34,15 @@ multi-head attention의 수식 전개와 positional encoding의 상세 수학은
 - 이후 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 LLM 구조를 다시 볼 때 기본 블록을 떠올릴 수 있습니다.
 - 작은 Python 예제로 토큰 표현이 여러 단계를 거쳐 바뀌는 흐름을 직관적으로 확인할 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 P4-13.2에서 본 self-attention이 Transformer 안에서 어느 자리에 놓이는지 확인합니다.
+2. 그 다음 self-attention, feed-forward, residual, layer normalization의 역할을 나눠 읽습니다.
+3. 이어서 이 부품들이 왜 하나의 반복 블록으로 묶였는지 봅니다.
+4. 마지막에 왜 이 블록 구조가 Part 5의 LLM 설명으로 이어지는지 정리합니다.
+
 ## Transformer를 아주 큰 그림으로 보면
 
 먼저 다음 네 요소만 확실히 잡아도 충분합니다.
@@ -60,6 +69,8 @@ multi-head attention의 수식 전개와 positional encoding의 상세 수학은
 | feed-forward | 각 위치 표현을 다시 가공한다 |
 | residual connection | 원래 정보 흐름을 함께 남긴다 |
 | layer normalization | 값 범위를 정리해 학습을 덜 흔들리게 한다 |
+
+P4-13.2를 `토큰들이 서로를 참고하는 계산`의 절로 읽었다면, 이 절은 그 계산이 실제 모델 안에서 `어떤 보조 부품들과 함께 한 블록을 이루는가`를 보여 주는 절이라고 보면 됩니다.
 
 ## self-attention은 무엇을 담당하나
 
@@ -130,6 +141,8 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 - 깊은 네트워크를 안정적으로 반복할 수 있는 블록 설계
 
 즉, Transformer는 `sequence modeling의 핵심 계산 방식`과 `대규모 학습 구조`를 동시에 바꾼 아키텍처였습니다.
+
+즉, 이 절에서 꼭 잡아야 할 변화는 `attention이 유용하다`는 수준에서 멈추지 않고, `attention이 반복 가능한 표준 블록 안으로 들어오면서 현대 모델 구조의 기본 단위가 되었다`는 점입니다.
 
 ## 사례로 보기
 
@@ -230,6 +243,8 @@ Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 �
 - self-attention을 실제 시스템 블록으로 재해석하게 만들기 때문입니다
 
 즉, 이 절은 `Transformer를 공식 집합이 아니라 블록 구조로 읽게 만드는 절`입니다.
+
+따라서 이 절에서 확인해야 할 최종 결과는 Transformer를 `self-attention 하나의 이름`이 아니라, 문맥 읽기와 표현 가공과 안정화 장치가 반복적으로 결합된 기본 블록 구조로 설명할 수 있는가입니다.
 
 ## 다음 절과의 연결
 
