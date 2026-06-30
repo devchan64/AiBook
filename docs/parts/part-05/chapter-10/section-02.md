@@ -132,27 +132,35 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 `관련 문서만 붙은 payload`와 `무관 문서가 섞인 payload`를 함께 비교해, 생성 문제를 보기 전에 먼저 어떤 문서가 붙었는지 점검해야 한다는 점을 더 분명히 보겠습니다.
+이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 같은 질문에 대해 `정상 payload`, `검색 오염 payload`, `생성 과장 payload`를 나란히 두고, 어디서 실패가 생겼는지 원인을 분리해서 보겠습니다.
 
 문제 상황:
 
 - 사용자는 `벡터 검색이 왜 필요한가요?`라고 묻고 있음
 - 검색 단계는 관련 문서를 골라야 하고
 - 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 함
+- 검색이 맞아도 생성이 과장되면 최종 답은 다시 틀어질 수 있음
 
 입력:
 
 - 질문
-- 검색 결과 문서 목록 두 묶음
-- 생성용 입력 payload 두 개
+- 검색 결과 문서 목록 세 묶음
+- 생성용 입력 payload 세 개
 
 출력:
 
 - 어떤 문서가 입력에 포함되었는지
 - 그 문서를 바탕으로 만든 최종 설명
-- 검색 실패와 생성 실패를 나누어 볼 수 있는 간단한 점검값
-- 관련 없는 문서가 섞였는지에 대한 간단한 확인값
-- 무관 문서가 답변 안으로 스며들었는지에 대한 확인값
+- 검색 실패와 생성 실패를 나누어 볼 수 있는 점검값
+- 무관 문서 혼입과 과장 표현 여부
+
+먼저 이 예제에서 보고 싶은 실패 유형을 표로 정리하면 다음과 같습니다.
+
+| payload | 검색 상태 | 생성 상태 | 읽어야 할 핵심 |
+| --- | --- | --- | --- |
+| `relevant_only` | 관련 문서만 포함 | 문서 범위 안에서 설명 | 정상 흐름 |
+| `mixed_with_irrelevant` | 무관 문서 섞임 | 오염된 문서를 따라감 | 검색 실패가 생성으로 전염 |
+| `retrieval_ok_but_generation_overclaims` | 검색은 정상 | 생성이 문서 밖으로 과장 | 생성 실패 |
 
 ```python
 question = "벡터 검색이 왜 필요한가요?"
@@ -166,6 +174,7 @@ payloads = [
             {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
         ],
         "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
+        "mode": "grounded",
     },
     {
         "name": "mixed_with_irrelevant",
@@ -175,6 +184,17 @@ payloads = [
             {"title": "문서 X", "text": "무관한 마케팅 문구 조합을 더 다양하게 만든다."},
         ],
         "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
+        "mode": "grounded",
+    },
+    {
+        "name": "retrieval_ok_but_generation_overclaims",
+        "question": question,
+        "docs": [
+            {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
+            {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
+        ],
+        "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
+        "mode": "overclaim",
     },
 ]
 
@@ -182,79 +202,116 @@ payloads = [
 def generate_from_payload(payload):
     first = payload["docs"][0]["text"]
     second = payload["docs"][1]["text"]
-    answer = (
+
+    if payload["mode"] == "grounded":
+        return f"벡터 검색은 {first} 그래서 {second}"
+
+    return (
         f"벡터 검색은 {first} "
-        f"그래서 {second}"
+        "그래서 항상 최신 정보와 정답을 자동으로 보장한다."
     )
-    return answer
 
 
 def inspect_payload(payload, answer):
+    contains_irrelevant_doc = any("무관" in doc["text"] for doc in payload["docs"])
+    answer_mentions_irrelevant_content = "마케팅" in answer or "무관" in answer
+    answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
+
     return {
         "doc_count": len(payload["docs"]),
         "doc_titles": [doc["title"] for doc in payload["docs"]],
-        "answer_uses_vector_term": "벡터" in answer,
-        "answer_uses_semantic_term": "의미" in answer,
-        "contains_irrelevant_doc": any("무관" in doc["text"] for doc in payload["docs"]),
-        "answer_mentions_irrelevant_content": "마케팅" in answer or "무관" in answer,
+        "contains_irrelevant_doc": contains_irrelevant_doc,
+        "answer_mentions_irrelevant_content": answer_mentions_irrelevant_content,
+        "answer_overclaims": answer_overclaims,
+        "retrieval_failed": contains_irrelevant_doc,
+        "generation_failed": (not contains_irrelevant_doc) and answer_overclaims,
     }
 
 
+reports = []
 for payload in payloads:
     answer = generate_from_payload(payload)
+    inspect = inspect_payload(payload, answer)
+    reports.append(
+        {
+            "name": payload["name"],
+            "doc_titles": inspect["doc_titles"],
+            "answer": answer,
+            "inspect": inspect,
+        }
+    )
+
+summary = {
+    "retrieval_failure_count": sum(report["inspect"]["retrieval_failed"] for report in reports),
+    "generation_failure_count": sum(report["inspect"]["generation_failed"] for report in reports),
+    "irrelevant_leak_count": sum(report["inspect"]["answer_mentions_irrelevant_content"] for report in reports),
+    "overclaim_count": sum(report["inspect"]["answer_overclaims"] for report in reports),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
     print("=" * 80)
     print("[payload]")
-    print(payload["name"])
-    print("[question]")
-    print(payload["question"])
-    print("[payload docs]")
-    for doc in payload["docs"]:
-        print("-", doc["title"], ":", doc["text"])
-    print()
+    print(report["name"])
+    print("[doc titles]")
+    print(report["doc_titles"])
     print("[generated answer]")
-    print(answer)
+    print(report["answer"])
     print("[inspect]")
-    print(inspect_payload(payload, answer))
+    print(report["inspect"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'retrieval_failure_count': 1, 'generation_failure_count': 1, 'irrelevant_leak_count': 1, 'overclaim_count': 1}
+
+================================================================================
 [payload]
 relevant_only
-[question]
-벡터 검색이 왜 필요한가요?
-[payload docs]
-- 문서 A : 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.
-- 문서 B : 키워드가 달라도 의미 기반 검색이 가능하다.
-
+[doc titles]
+['문서 A', '문서 B']
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 키워드가 달라도 의미 기반 검색이 가능하다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True, 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False}
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
 ================================================================================
 [payload]
 mixed_with_irrelevant
-[question]
-벡터 검색이 왜 필요한가요?
-[payload docs]
-- 문서 A : 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.
-- 문서 X : 무관한 마케팅 문구 조합을 더 다양하게 만든다.
-
+[doc titles]
+['문서 A', '문서 X']
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 무관한 마케팅 문구 조합을 더 다양하게 만든다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 X'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True, 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True}
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 X'], 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
+================================================================================
+[payload]
+retrieval_ok_but_generation_overclaims
+[doc titles]
+['문서 A', '문서 B']
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 항상 최신 정보와 정답을 자동으로 보장한다.
+[inspect]
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남아 있고, 생성 단계는 그 payload를 읽어 최종 문장을 만든다는 점입니다. 동시에 payload 안에 무관 문서가 섞이면, 생성 단계도 그 오염을 그대로 이어받을 수 있다는 점이 중요합니다.
+이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `mixed_with_irrelevant`는 검색이 틀려서 생성까지 오염된 경우이고, `retrieval_ok_but_generation_overclaims`는 검색은 맞았지만 생성이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남는다.
+- 검색 실패와 생성 실패는 같은 오답처럼 보여도 원인이 다르므로, 점검 항목도 따로 가져가야 한다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `retrieved_docs`의 순서를 바꿔 문서 순서가 답변 전개에 어떤 영향을 주는지 보기
-- 관련 없는 문서를 하나 섞어 검색 실패가 생성 답에 어떻게 스며드는지 확인하기
+- `payloads`에 문서를 한 개 더 넣어 문서 수 증가가 답변에 어떤 영향을 주는지 보기
+- `mixed_with_irrelevant`의 무관 문장을 더 교묘하게 바꿔도 오염이 잡히는지 보기
 - `generate_from_payload`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
-- payload를 세 개 이상으로 늘려 `관련 문서 수 증가`와 `무관 문서 혼입`이 각각 답변에 어떤 차이를 내는지 비교해 보기
+- `answer_overclaims` 규칙을 더 늘려 `항상`, `완벽히`, `자동으로 해결` 같은 과장 표현을 더 잡아 보기
 
 ## 이 예제를 RAG 파이프라인 관점으로 다시 보면
 
