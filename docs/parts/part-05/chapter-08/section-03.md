@@ -139,27 +139,41 @@ flowchart TD
 
 법률 안내, 의료 상담 초안, 브랜드 공지처럼 같은 도메인 문체를 오래 일관되게 유지해야 하는 경우를 생각해 보겠습니다. 사람은 프롬프트에 말투 규칙을 길게 넣으면 충분하다고 느끼기 쉽지만, 요청이 많아질수록 표현이 조금씩 흔들릴 수 있습니다. 이때는 일회성 수정이 아니라 지속적인 스타일 조정 문제이므로, 파인튜닝이나 더 구조화된 조정층을 검토할 수 있습니다. 예를 들어 하루는 존댓말이 강하고 다른 날은 설명 순서가 바뀌면, 내용이 맞아도 브랜드나 도메인 톤은 쉽게 흔들릴 수 있습니다. 여기서 바뀌는 점은 `한 번 규칙을 길게 써 주는가`를 보던 기준에서 `반복 요청에서도 같은 문체가 유지되는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 같은 스타일 문제가 반복해서 남을 때 입력 문장 수정보다 모델 조정층 보강이 더 일관된 문체로 이어지는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 겉보기에는 모두 `LLM이 잘 못한다`는 문제처럼 보여도, 실패 원인을 분류하면 먼저 선택할 해결 수단이 달라진다는 점을 확인하는 것입니다.
+
+입력:
+
+- 대표적인 실패 유형 4개
+- 각 실패 유형에 우선 대응할 방법
+
+출력:
+
+- 문제 유형별 1차 대응책
 
 ```python
-issues = {
-    "format drift": "prompt revision",
-    "missing latest policy": "RAG",
-    "needs calculator": "tool use",
-    "persistent domain style": "fine-tuning",
-}
+cases = [
+    {"issue": "format drift", "symptom": "답변 형식이 자주 흔들림", "action": "prompt revision"},
+    {"issue": "missing latest policy", "symptom": "최신 규정을 자주 틀림", "action": "RAG"},
+    {"issue": "needs calculator", "symptom": "계산 결과가 자주 틀림", "action": "tool use"},
+    {"issue": "persistent domain style", "symptom": "반복 요청에서 문체가 일정하지 않음", "action": "fine-tuning"},
+]
 
-for issue, action in issues.items():
-    print(issue, "->", action)
+for case in cases:
+    print(
+        f"{case['issue']}: "
+        f"symptom={case['symptom']} -> first_action={case['action']}"
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-format drift -> prompt revision
-missing latest policy -> RAG
-needs calculator -> tool use
-persistent domain style -> fine-tuning
+format drift: symptom=답변 형식이 자주 흔들림 -> first_action=prompt revision
+missing latest policy: symptom=최신 규정을 자주 틀림 -> first_action=RAG
+needs calculator: symptom=계산 결과가 자주 틀림 -> first_action=tool use
+persistent domain style: symptom=반복 요청에서 문체가 일정하지 않음 -> first_action=fine-tuning
 ```
 
 그래서 이 예제에서 확인해야 할 결과는 비슷해 보이는 LLM 문제라도 원인 유형에 따라 먼저 선택해야 할 해결 수단이 실제로 달라진다는 점입니다.

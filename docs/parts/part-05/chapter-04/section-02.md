@@ -166,15 +166,16 @@ flowchart TD
 
 개발자가 함수 안에 `여기서 사용자 입력을 검증하고 실패하면 에러를 반환`이라고 주석을 적는 상황을 떠올려 보겠습니다. 사람이 단순 자동완성에서 기대하는 것은 보통 `다음 몇 글자`이지만, 코드 도우미에게는 함수 이름, 인자, 반환 형식, 주변 파일 문맥까지 함께 읽어 주길 기대합니다. 만약 모델이 바로 다음 한 줄만 맞추고 예외 처리나 반환 구조를 놓치면, 개발자는 `코드 문맥을 이해했다`고 느끼기 어렵습니다. 반대로 편집기 문맥과 시그니처를 함께 읽어 조건문, 오류 메시지, 반환문까지 한 묶음으로 제안하면 같은 생성 구조도 훨씬 목적에 맞는 도구로 보입니다. 여기서 바뀌는 점은 `다음 한 줄이 이어지는가`를 보던 기준에서 `주변 코드 문맥을 반영해 더 완결된 블록을 제안하는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 다음 한 줄 완성보다 함수 문맥 전체를 반영한 제안이 실제로 더 완결된 코드 블록으로 이어지는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 대화형 모델을 구현하는 것이 아니라, 같은 입력이라도 `자동완성은 단순 이어쓰기`에 가깝고 `대화형 LLM은 요청 형식 제약을 반영한 구조화 응답`으로 바뀐다는 점을 더 분명히 보는 것입니다.
+이번 예제의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지, 특히 형식 제약 반영 여부로 확인하는 것입니다.
 
 입력:
 
 - 사용자 요청
-- 두 가지 응답 스타일
-- 요청에서 요구한 형식 제약
+- 요청에서 요구한 문장 수
+- 자동완성형 응답 하나
+- 지시 따르기형 응답 묶음
 
 출력:
 
@@ -186,7 +187,10 @@ flowchart TD
 user_request = "이 문서를 세 문장으로 요약해줘"
 required_sentence_count = 3
 
-autocomplete_style = "이 문서는 중요한 내용을 다루며..."
+autocomplete_style = [
+    "이 문서는 중요한 내용을 다루며..."
+]
+
 instruction_style = [
     "첫째, 이 문서는 핵심 개념을 정리합니다.",
     "둘째, 주요 사례와 한계를 함께 설명합니다.",
@@ -195,12 +199,14 @@ instruction_style = [
 
 print("request =", user_request)
 print("required_sentence_count =", required_sentence_count)
+print()
 print("autocomplete_style =", autocomplete_style)
-print("autocomplete_sentence_count =", 1)
+print("autocomplete_matches_format =", len(autocomplete_style) == required_sentence_count)
+print()
 print("instruction_style =")
 for line in instruction_style:
     print("-", line)
-print("instruction_sentence_count =", len(instruction_style))
+print("instruction_matches_format =", len(instruction_style) == required_sentence_count)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -208,13 +214,15 @@ print("instruction_sentence_count =", len(instruction_style))
 ```text
 request = 이 문서를 세 문장으로 요약해줘
 required_sentence_count = 3
-autocomplete_style = 이 문서는 중요한 내용을 다루며...
-autocomplete_sentence_count = 1
+
+autocomplete_style = ['이 문서는 중요한 내용을 다루며...']
+autocomplete_matches_format = False
+
 instruction_style =
 - 첫째, 이 문서는 핵심 개념을 정리합니다.
 - 둘째, 주요 사례와 한계를 함께 설명합니다.
 - 셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.
-instruction_sentence_count = 3
+instruction_matches_format = True
 ```
 
 ## 이 예제를 사용자 경험 관점으로 다시 보면

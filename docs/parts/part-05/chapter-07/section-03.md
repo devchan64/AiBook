@@ -114,49 +114,56 @@ LoRA와 adapter는 둘 다 `기반 모델 전체를 크게 다시 학습하지 �
 
 초기 탐색 단계에서는 `완벽한 최종 모델`보다 `어떤 데이터와 과업 정의가 맞는가`를 빨리 보는 일이 더 중요할 수 있습니다. 사람은 성능 문제를 만나면 먼저 한 번 크게 학습해서 최고의 결과를 보는 쪽을 떠올리기 쉽습니다. 하지만 이 단계에서는 어떤 라벨 정의가 맞는지, 프롬프트보다 조정이 필요한지, 데이터 정제가 더 중요한지를 빠르게 비교하는 편이 더 실용적일 수 있습니다. 예를 들어 이번 주 안에 세 가지 업무 정의를 시험해야 하는데 한 실험이 너무 무거우면, 가장 중요한 비교 자체를 못 하게 됩니다. 이런 상황에서는 큰 비용을 한 번 쓰는 방식보다, 더 작은 조정본을 빠르게 여러 번 비교하는 쪽이 유리합니다. 여기서 바뀌는 점은 `최종 최고 점수를 한 번에 얻는가`를 보던 기준에서 `여러 가설을 실제로 빨리 비교할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 최종 최고 점수보다 여러 실험 회전이 실제 과업 정의 비교를 더 빠르게 가능하게 하는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 LoRA를 구현하는 것이 아니라, `큰 행렬 전체`와 `작은 rank 조정분`의 규모 차이를 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 LoRA를 구현하는 것이 아니라, `큰 행렬 전체`와 `작은 rank 조정분`의 규모 차이를 rank별로 비교해 보는 것입니다.
 
 입력:
 
-- 기반 가중치의 크기
-- 작은 rank 값
+- 기반 가중치 크기
+- 여러 rank 값
 
 출력:
 
 - 전체 행렬 파라미터 수
-- LoRA 조정분 파라미터 수의 아주 단순한 비교
+- rank별 LoRA 조정분 파라미터 수
+- 전체 대비 비율
 
 ```python
 hidden_size = 4096
-rank = 8
+ranks = [4, 8, 16, 32]
 
 full_matrix_params = hidden_size * hidden_size
-lora_update_params = hidden_size * rank + rank * hidden_size
 
-print("hidden_size =", hidden_size)
-print("rank =", rank)
 print("full_matrix_params =", full_matrix_params)
-print("lora_update_params =", lora_update_params)
-print("ratio =", round(lora_update_params / full_matrix_params, 4))
+
+for rank in ranks:
+    lora_update_params = hidden_size * rank + rank * hidden_size
+    ratio = lora_update_params / full_matrix_params
+    print(
+        f"rank={rank:>2}: "
+        f"lora_update_params={lora_update_params}, "
+        f"ratio={ratio:.4f}"
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-hidden_size = 4096
-rank = 8
 full_matrix_params = 16777216
-lora_update_params = 65536
-ratio = 0.0039
+rank= 4: lora_update_params=32768, ratio=0.0020
+rank= 8: lora_update_params=65536, ratio=0.0039
+rank=16: lora_update_params=131072, ratio=0.0078
+rank=32: lora_update_params=262144, ratio=0.0156
 ```
 
 이 숫자는 특정 제품의 실제 설정을 주장하는 것이 아닙니다. 다만 다음 감각을 보여 줍니다.
 
 - 전체 가중치 행렬은 매우 크고
 - 작은 rank 조정분은 훨씬 작을 수 있으며
-- 그 차이가 왜 `효율적 조정`이라는 말을 낳았는지 이해하게 해 줍니다
+- rank를 키우면 조정 표현력은 늘 수 있지만, 동시에 조정분 규모도 함께 커집니다
+
+그 차이가 왜 `효율적 조정`이라는 말을 낳았는지 이해하게 해 줍니다.
 
 ## 다음 절과의 연결
 
