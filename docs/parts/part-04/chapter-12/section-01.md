@@ -193,42 +193,86 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 ## 작은 Python 예제로 상태 직관 보기
 
-이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 RNN의 핵심 직관을 아주 단순한 누적 상태 예시로 확인하는 것입니다.
+이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 단순히 숫자를 누적하는 대신, `현재 센서 값은 같아도 직전 흐름이 다르면 경보 판단이 달라질 수 있다`는 장면을 아주 작게 만듭니다.
 
 입력:
 
-- 시간 순서 데이터 세 개
+- 같은 마지막 온도 `80`을 가진 두 시계열
+- 하나는 서서히 올라온 흐름
+- 다른 하나는 중간에 내려갔다가 다시 올라온 흐름
 
 출력:
 
 - 각 step에서 갱신되는 상태값
+- 마지막 step에서의 경보 여부
 
 ```python
-sequence = [1.0, 2.0, 3.0]
-state = 0.0
+def run_sequence(name, sequence, alpha=0.6, threshold=72):
+    state = 0.0
+    print(f"[{name}]")
+    for step, x in enumerate(sequence, start=1):
+        # 이전 상태 일부를 남기면서 현재 입력을 섞는다.
+        state = alpha * state + (1 - alpha) * x
+        alert = state >= threshold
+        print(
+            f"step {step}: input={x:>3}, state={state:>6.2f}, alert={alert}"
+        )
+    print()
 
-print("initial state =", state)
-for step, x in enumerate(sequence, start=1):
-    state = 0.5 * state + x
-    print(f"step {step}: input = {x}, new_state = {round(state, 3)}")
+
+gradual_rise = [60, 65, 72, 80]
+temporary_spike = [80, 60, 60, 80]
+
+run_sequence("gradual_rise", gradual_rise)
+run_sequence("temporary_spike", temporary_spike)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-initial state = 0.0
-step 1: input = 1.0, new_state = 1.0
-step 2: input = 2.0, new_state = 2.5
-step 3: input = 3.0, new_state = 4.25
+[gradual_rise]
+step 1: input= 60, state= 24.00, alert=False
+step 2: input= 65, state= 40.40, alert=False
+step 3: input= 72, state= 53.04, alert=False
+step 4: input= 80, state= 63.82, alert=False
+
+[temporary_spike]
+step 1: input= 80, state= 32.00, alert=False
+step 2: input= 60, state= 43.20, alert=False
+step 3: input= 60, state= 49.92, alert=False
+step 4: input= 80, state= 61.95, alert=False
 ```
 
-이 예제는 진짜 RNN 전체를 구현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
+위 결과는 마지막 입력이 둘 다 `80`이어도 상태값이 같지 않다는 점을 보여 줍니다. 이유는 현재 step의 판단이 `지금 입력 80` 하나로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
 
-- 현재 상태는 현재 입력만으로 결정되지 않고
-- 이전 상태 일부를 이어받으며
-- 순서가 바뀌면 결과도 달라질 수 있다는 점입니다
+이제 경보 문턱을 조금 낮춰 보면 차이가 더 눈에 잘 들어옵니다.
 
-즉, 순차 구조의 핵심은 `지금`과 `이전`을 함께 본다는 데 있습니다.
+```python
+run_sequence("gradual_rise", gradual_rise, threshold=63)
+run_sequence("temporary_spike", temporary_spike, threshold=63)
+```
+
+```text
+[gradual_rise]
+step 1: input= 60, state= 24.00, alert=False
+step 2: input= 65, state= 40.40, alert=False
+step 3: input= 72, state= 53.04, alert=False
+step 4: input= 80, state= 63.82, alert=True
+
+[temporary_spike]
+step 1: input= 80, state= 32.00, alert=False
+step 2: input= 60, state= 43.20, alert=False
+step 3: input= 60, state= 49.92, alert=False
+step 4: input= 80, state= 61.95, alert=False
+```
+
+이 예제는 진짜 RNN 전체를 구현한 것은 아닙니다. 하지만 실제로 읽어야 할 핵심은 더 분명합니다.
+
+- 같은 현재 입력도 이전 흐름에 따라 다른 상태를 만든다
+- 상태가 다르면 마지막 판단도 달라질 수 있다
+- 순차 구조의 핵심은 `현재 값`만이 아니라 `이전까지 쌓인 흔적`을 함께 본다는 데 있다
+
+즉, RNN의 기본 직관은 `현재 입력을 바로 분류한다`보다 `이전 상태를 들고 와 현재 입력과 함께 새 상태를 만든다`에 더 가깝습니다. LSTM과 GRU는 바로 이 상태를 `무엇을 더 오래 남길지`, `무엇을 잊을지` 더 잘 조절하려고 나온 구조라고 읽으면 됩니다.
 
 ## 역사와 커리큘럼 관점
 
