@@ -174,9 +174,9 @@ flowchart TD
 | 챗봇 답변 | 답이 더 간결하거나 더 서술적으로 달라질 수 있다 |
 | 이미지 생성 | 구도, 색감, 세부 묘사가 달라질 수 있다 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `가장 높은 후보만 고를 때`와 `가중치에 따라 여러 후보를 허용할 때`의 차이를 확인하는 것입니다.
+이번 예제의 목표는 `항상 가장 높은 후보만 고르는 방식`과 `확률에 따라 실제로 여러 후보를 꺼내는 방식`의 차이를 빈도까지 포함해 확인하는 것입니다.
 
 입력:
 
@@ -187,6 +187,7 @@ flowchart TD
 
 - argmax 방식의 고정 결과
 - 샘플링 방식의 반복 결과
+- 샘플링 결과 빈도
 
 ```python
 import random
@@ -197,24 +198,27 @@ weights = [0.45, 0.30, 0.15, 0.10]
 argmax_choice = candidates[weights.index(max(weights))]
 
 random.seed(7)
-sampled = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(12)]
+sampled = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(20)]
+counts = {candidate: sampled.count(candidate) for candidate in candidates}
 
 print("argmax_choice =", argmax_choice)
 print("sampled =", sampled)
+print("counts =", counts)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 argmax_choice = good
-sampled = ['good', 'good', 'nice', 'good', 'nice', 'good', 'good', 'clear', 'good', 'nice', 'good', 'good']
+sampled = ['good', 'good', 'nice', 'good', 'nice', 'good', 'good', 'clear', 'good', 'nice', 'good', 'good', 'good', 'warm', 'good', 'nice', 'clear', 'good', 'nice', 'good']
+counts = {'good': 11, 'nice': 5, 'clear': 2, 'warm': 1}
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- argmax 방식은 항상 같은 결과를 냅니다.
-- sampling 방식은 높은 후보가 더 자주 나오지만, 다른 후보도 실제로 등장할 수 있습니다.
-- 생성 결과의 `다양성`은 선택 방식과 직접 연결됩니다.
+- argmax 방식은 항상 같은 결과를 냅니다
+- sampling 방식은 높은 후보가 더 자주 나오지만, 다른 후보도 실제로 등장할 수 있습니다
+- 생성 결과의 `다양성`은 선택 방식과 직접 연결되며, 빈도를 보면 그 차이가 더 분명하게 드러납니다
 
 ## 역사와 커리큘럼 관점
 

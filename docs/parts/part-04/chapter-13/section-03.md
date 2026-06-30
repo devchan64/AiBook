@@ -179,51 +179,65 @@ flowchart TD
 | 문서 요약 | 결론, 근거, 조건을 다른 관점으로 읽을 수 있어서 |
 | 코드 이해 | 정의-사용, 조건-결과 같은 여러 관계를 동시에 볼 수 있어서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 head 하나와 head 둘이 어떤 감각 차이를 주는지 직관적으로 보는 것입니다.
+이번 예제의 목표는 같은 토큰열을 보더라도 head마다 서로 다른 관계를 읽고, 그 결과가 합쳐질 수 있다는 점을 확인하는 것입니다.
 
 입력:
 
-- 세 개의 토큰 값
+- 세 개의 토큰 표현
 - 두 개의 서로 다른 attention 가중치
 
 출력:
 
-- head 1 결과
-- head 2 결과
-- 두 head를 평균낸 단순 결합 결과
+- head 1이 읽은 문맥
+- head 2가 읽은 문맥
+- 두 head를 합친 최종 표현
 
 ```python
-tokens = [1.0, 4.0, 8.0]
+import numpy as np
 
-head1_weights = [0.7, 0.2, 0.1]
-head2_weights = [0.1, 0.3, 0.6]
+tokens = np.array([
+    [1.0, 0.0],   # token 1
+    [0.0, 2.0],   # token 2
+    [3.0, 1.0],   # token 3
+])
 
-head1 = sum(w * t for w, t in zip(head1_weights, tokens))
-head2 = sum(w * t for w, t in zip(head2_weights, tokens))
-combined = (head1 + head2) / 2
+head1_weights = np.array([0.7, 0.2, 0.1])  # 앞쪽 관계를 더 강조
+head2_weights = np.array([0.1, 0.3, 0.6])  # 뒤쪽 관계를 더 강조
 
-print("head1 =", round(head1, 3))
-print("head2 =", round(head2, 3))
-print("combined =", round(combined, 3))
+head1_context = head1_weights @ tokens
+head2_context = head2_weights @ tokens
+combined = np.concatenate([head1_context, head2_context])
+
+print("tokens =")
+print(tokens)
+print()
+print("head1_context =", np.round(head1_context, 3).tolist())
+print("head2_context =", np.round(head2_context, 3).tolist())
+print("combined =", np.round(combined, 3).tolist())
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-head1 = 2.3
-head2 = 6.1
-combined = 4.2
+tokens =
+[[1. 0.]
+ [0. 2.]
+ [3. 1.]]
+
+head1_context = [1.0, 0.5]
+head2_context = [1.9, 1.2]
+combined = [1.0, 0.5, 1.9, 1.2]
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- head1은 앞쪽 토큰에 더 큰 비중을 두었습니다.
-- head2는 뒤쪽 토큰에 더 큰 비중을 두었습니다.
-- 결합 결과는 한 종류의 관련성만 보는 것보다 더 다양한 관점을 반영한 표현처럼 읽을 수 있습니다.
+- head1은 앞쪽 토큰 영향이 큰 문맥을 읽습니다
+- head2는 뒤쪽 토큰 영향이 큰 문맥을 읽습니다
+- 최종 표현은 한 번의 attention 결과가 아니라, 여러 관점으로 읽은 문맥을 함께 들고 갈 수 있습니다
 
-실제 multi-head attention은 단순 평균보다 더 정교하게 결합되지만, 입문 단계에서는 `서로 다른 관련성 읽기 결과를 합친다`는 감각만 잡아도 충분합니다.
+실제 multi-head attention은 이후 선형 변환까지 포함해 더 정교하게 결합되지만, 입문 단계에서는 `서로 다른 관계 읽기 결과를 나란히 유지한다`는 감각을 잡으면 충분합니다.
 
 ## Part 4 흐름에서 왜 중요한가
 

@@ -30,7 +30,7 @@ P4-14.2에서는 Transformer가 병렬 처리와 긴 문맥 처리에서 큰 전
 - 생성 모델을 `데이터 패턴을 배워 새로운 샘플이나 다음 출력을 만드는 모델`로 설명할 수 있습니다.
 - 분류 모델과 생성 모델의 차이를 입문 수준에서 비교할 수 있습니다.
 - `다음 토큰 예측`과 `이미지 생성`을 같은 생성 관점에서 묶어 설명할 수 있습니다.
-- 작은 Python 예제로 분포 기반 샘플 생성 직관을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 분포 기반 생성 직관을 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
@@ -181,18 +181,19 @@ flowchart TD
 | 챗봇 응답 | 여러 가능한 답 중 어떤 응답이 그럴듯한가 |
 | 이미지 생성 | 어떤 시각 패턴 조합이 자연스러운가 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 확률 분포에서 하나의 클래스를 찍는 것이 아니라, 학습된 비중에 따라 결과를 샘플처럼 뽑을 수 있다는 생성 직관을 확인하는 것입니다.
+이번 예제의 목표는 생성 모델이 후보 하나만 고정해서 내는 것이 아니라, 더 그럴듯한 후보를 더 자주 선택하되 여러 후보를 실제로 만들 수 있다는 점을 확인하는 것입니다.
 
 입력:
 
 - 세 개의 가능한 다음 토큰 후보
-- 각 후보에 대한 확률 비중
+- 각 후보의 상대적 비중
 
 출력:
 
-- 여러 번 샘플링한 결과
+- 반복 샘플링 결과
+- 후보별 등장 횟수
 
 ```python
 import random
@@ -201,24 +202,28 @@ candidates = ["good", "nice", "sunny"]
 weights = [0.5, 0.3, 0.2]
 
 random.seed(21)
-samples = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(10)]
+samples = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(20)]
+
+counts = {candidate: samples.count(candidate) for candidate in candidates}
 
 print("samples =", samples)
+print("counts =", counts)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-samples = ['good', 'sunny', 'good', 'nice', 'good', 'good', 'nice', 'good', 'sunny', 'good']
+samples = ['good', 'sunny', 'good', 'nice', 'good', 'good', 'nice', 'good', 'sunny', 'good', 'good', 'good', 'nice', 'nice', 'good', 'good', 'sunny', 'good', 'good', 'nice']
+counts = {'good': 11, 'nice': 5, 'sunny': 4}
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- 생성 모델은 항상 하나의 결과만 기계적으로 내는 것이 아닐 수 있고
-- 더 그럴듯한 후보가 더 자주 나오지만
-- 여러 후보가 실제로 등장할 수 있다는 점입니다
+- 생성 모델은 항상 하나의 결과만 기계적으로 내지 않을 수 있습니다
+- 더 그럴듯한 후보가 실제로 더 자주 나오지만
+- 확률이 낮은 후보도 완전히 사라지지 않고 등장할 수 있습니다
 
-그래서 이 예제에서 확인해야 할 결과는 출력이 매번 하나로 고정되는지가 아니라, 더 그럴듯한 후보가 자주 나오면서도 여러 후보가 실제로 등장하는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 출력이 한 번에 하나로 고정되는지가 아니라, 더 그럴듯한 후보가 자주 나오면서도 여러 후보가 실제로 등장하는가입니다.
 
 ## 역사와 커리큘럼 관점
 
