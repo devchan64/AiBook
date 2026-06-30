@@ -102,7 +102,7 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 복잡한 임베딩 없이도 `질문 -> 문서 검색 -> 근거 포함 답변` 흐름을 눈으로 확인하는 것입니다.
+이번 예제의 목적은 복잡한 임베딩 없이도 `질문 -> 문서 검색 -> 근거 포함 답변` 흐름을 눈으로 확인하는 것입니다. 이번에는 가장 높은 문서 하나만 찍고 끝내지 않고, `retrieval_records`, `selected_evidence`, `grounded_answer_record`를 함께 남겨 프로젝트 실행 기록처럼 보이게 하겠습니다.
 
 - 문제 상황: RAG 흐름을 아주 작은 로컬 지식베이스로 재현한다.
 - 입력(input): 질문 1개, 문서 조각 3개
@@ -111,6 +111,7 @@ flowchart TD
   - 검색이 먼저다
   - 답변은 검색 결과 위에 작성된다
   - 출처 doc_id를 함께 남길 수 있다
+  - 질문별 검색 기록이 남아야 다음 검증 절로 이어질 수 있다
 
 ```python
 documents = {
@@ -121,42 +122,68 @@ documents = {
 
 question = "RAG가 왜 필요한가?"
 
+def normalize_token(token):
+    token = token.replace("?", "").replace(".", "")
+    for keyword in ["RAG", "MCP"]:
+        if token.startswith(keyword):
+            return keyword
+    return token
+
 def tokenize(text):
-    return set(text.replace("?", "").replace(".", "").split())
+    return {normalize_token(token) for token in text.split()}
 
 q_tokens = tokenize(question)
-scores = []
+retrieval_records = []
 
 for doc_id, text in documents.items():
     overlap = len(q_tokens & tokenize(text))
-    scores.append((doc_id, overlap, text))
+    retrieval_records.append({
+        "doc_id": doc_id,
+        "overlap_score": overlap,
+        "text": text,
+    })
 
-scores.sort(key=lambda x: x[1], reverse=True)
-top_doc_id, top_score, top_text = scores[0]
+retrieval_records.sort(key=lambda x: x["overlap_score"], reverse=True)
+selected_evidence = retrieval_records[0]
 
-answer = f"{top_text} 따라서 질문에 답할 때 외부 근거를 함께 붙이기 위해 RAG가 필요하다."
+grounded_answer_record = {
+    "question": question,
+    "selected_doc_id": selected_evidence["doc_id"],
+    "selected_score": selected_evidence["overlap_score"],
+    "evidence_text": selected_evidence["text"],
+    "answer": (
+        f"{selected_evidence['text']} 따라서 질문에 답할 때 "
+        "외부 근거를 함께 붙이기 위해 RAG가 필요하다."
+    ),
+}
 
 print("question =", question)
-print("top_doc_id =", top_doc_id)
-print("top_score =", top_score)
-print("retrieved_text =", top_text)
-print("answer =", answer)
+print("retrieval_records =")
+for row in retrieval_records:
+    print(row)
+print("selected_evidence =", selected_evidence)
+print("grounded_answer_record =", grounded_answer_record)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
 question = RAG가 왜 필요한가?
-top_doc_id = doc_1
-top_score = 1
-retrieved_text = RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.
-answer = RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. 따라서 질문에 답할 때 외부 근거를 함께 붙이기 위해 RAG가 필요하다.
+retrieval_records =
+{'doc_id': 'doc_1', 'overlap_score': 1, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}
+{'doc_id': 'doc_2', 'overlap_score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}
+{'doc_id': 'doc_3', 'overlap_score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}
+selected_evidence = {'doc_id': 'doc_1', 'overlap_score': 1, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}
+grounded_answer_record = {'question': 'RAG가 왜 필요한가?', 'selected_doc_id': 'doc_1', 'selected_score': 1, 'evidence_text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.', 'answer': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. 따라서 질문에 답할 때 외부 근거를 함께 붙이기 위해 RAG가 필요하다.'}
 ```
 
 ## 결과를 어떻게 읽는가
 
 이 작은 예제에서 중요한 것은 검색 점수가 크냐 작으냐가 아닙니다. 더 중요한 것은 다음입니다.
 
+- `retrieval_records`는 어떤 문서들이 후보였는지 보여 줍니다.
+- `selected_evidence`는 실제로 어떤 문서를 답변 근거로 선택했는지 남깁니다.
+- `grounded_answer_record`는 질문, 근거 문장, 답변, 출처를 한 묶음으로 저장합니다.
 - 답변은 검색된 문장 위에서 만들어졌다.
 - 검색 결과가 바뀌면 답변도 바뀌어야 한다.
 - doc_id를 같이 남기면 나중에 답변 근거를 다시 확인할 수 있다.
@@ -166,6 +193,7 @@ answer = RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. �
 이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
 
 - 답변보다 먼저 검색 결과가 결정되었다
+- 질문별 검색 후보와 선택 근거가 함께 남았다
 - 검색된 문장이 답변의 출발점이 되었다
 - doc_id를 남기면 나중에 근거를 다시 검토할 수 있다
 
