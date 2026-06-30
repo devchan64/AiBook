@@ -198,7 +198,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `일반 텍스트에서 먼저 패턴을 모으고, 작은 과업 데이터로 그 패턴을 어떻게 더 좁혀 가는가`를 직접 보는 것입니다. 아주 단순한 bigram 카운트 모델을 써서, 일반 문장 코퍼스로 먼저 다음 단어 경향을 만들고 고객센터 문장 몇 개를 추가했을 때 특정 맥락의 후보가 어떻게 바뀌는지 확인해 보겠습니다.
+이번 예제의 목표는 `일반 텍스트에서 먼저 패턴을 모으고, 작은 과업 데이터로 그 패턴을 어떻게 더 좁혀 가는가`를 직접 보는 것입니다. 아주 단순한 bigram 카운트 모델을 써서, 일반 문장 코퍼스로 먼저 다음 단어 경향을 만들고 고객센터 문장 몇 개를 추가했을 때 여러 시작 맥락의 후보가 어떻게 바뀌는지 한 번에 비교해 보겠습니다.
 
 입력:
 
@@ -210,7 +210,7 @@ flowchart TD
 
 - 일반 코퍼스만 썼을 때 다음 단어 후보
 - 도메인 문장을 추가한 뒤 다음 단어 후보
-- 후보 점수 변화
+- 여러 시작 토큰에서 후보 점수가 어떻게 이동하는지
 
 ```python
 from collections import Counter, defaultdict
@@ -247,32 +247,38 @@ def top_next_tokens(counts, token, top_k=5):
 general_counts = build_bigram_counts(general_corpus)
 adapted_counts = build_bigram_counts(general_corpus + customer_support_corpus)
 
-focus_token = "문의"
+focus_tokens = ["문의", "환불", "내용을"]
 
-print("focus_token =", focus_token)
-print("general_next_tokens =", top_next_tokens(general_counts, focus_token))
-print("adapted_next_tokens =", top_next_tokens(adapted_counts, focus_token))
-
-print("general_after_내용을 =", top_next_tokens(general_counts, "내용을"))
-print("adapted_after_내용을 =", top_next_tokens(adapted_counts, "내용을"))
+for token in focus_tokens:
+    print("=" * 72)
+    print("focus_token =", token)
+    print("general_next_tokens =", top_next_tokens(general_counts, token))
+    print("adapted_next_tokens =", top_next_tokens(adapted_counts, token))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+========================================================================
 focus_token = 문의
 general_next_tokens = [('내용을', 1)]
 adapted_next_tokens = [('내용을', 4)]
-general_after_내용을 = [('확인', 2), ('정리', 1), ('설명', 1)]
-adapted_after_내용을 = [('확인', 6), ('정리', 1), ('설명', 1)]
+========================================================================
+focus_token = 환불
+general_next_tokens = []
+adapted_next_tokens = [('문의', 1), ('요청', 1)]
+========================================================================
+focus_token = 내용을
+general_next_tokens = [('확인', 2), ('정리', 1), ('설명', 1)]
+adapted_next_tokens = [('확인', 6), ('정리', 1), ('설명', 1)]
 ```
 
-이 출력만으로는 변화가 너무 단순해 보일 수 있으니, 독자는 코드를 조금 바꿔 직접 차이를 더 크게 확인해 보는 편이 좋습니다. 예를 들어 `focus_token = "환불"`로 바꾸면 일반 코퍼스에는 거의 없던 연결이 도메인 문장을 추가한 뒤에만 나타나는 것을 볼 수 있습니다. 반대로 일반 코퍼스 문장을 더 늘리면 `안내`, `설명`, `정리`처럼 더 넓은 일반 표현이 먼저 살아나는 장면을 확인할 수 있습니다.
+이 예제에서는 `문의`, `환불`, `내용을`처럼 성격이 다른 시작 토큰을 함께 보는 편이 중요합니다. `문의`처럼 일반 코퍼스에도 조금 있던 연결은 도메인 데이터를 더하자 더 강해지고, `환불`처럼 일반 코퍼스에는 없던 연결은 도메인 데이터를 더한 뒤에야 비로소 후보가 생깁니다. 반대로 `내용을` 뒤의 `확인`, `정리`, `설명`처럼 넓은 일반 표현은 이미 일반 코퍼스 단계부터 살아 있고, 도메인 조정 뒤에는 `확인` 쪽이 더 강해집니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 일반 코퍼스는 먼저 넓은 연결 패턴을 만듭니다.
-- 고객센터 문장을 추가하면 `문의`, `환불`, `배송` 같은 도메인 연결이 더 강해집니다.
+- 고객센터 문장을 추가하면 `문의`, `환불`, `배송` 같은 도메인 연결이 더 강해지거나 새로 생깁니다.
 - 즉, 사전학습은 바탕 패턴을 넓게 만들고, 이후 조정은 그 위에서 특정 업무 흐름을 더 두드러지게 만드는 쪽에 가깝습니다.
 
 ## 이 예제를 학습 단계 분리 관점으로 다시 보면
