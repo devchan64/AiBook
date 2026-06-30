@@ -58,7 +58,7 @@ P5-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 �
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제는 `질문 -> 검색 -> 답변 초안 -> 회고 메모`를 한 번에 확인하는 데 목적이 있습니다. 이번에는 질문 두 개만 보는 대신, `다중 근거가 잡히는 경우`, `근거가 하나만 잡히는 경우`, `아예 검색 실패가 나는 경우`를 함께 넣어 최소 기능도 여러 실패 유형으로 갈라진다는 점을 확인하겠습니다.
+이번 예제는 `질문 -> 검색 -> 답변 초안 -> 평가 -> 기록`을 한 번에 확인하는 데 목적이 있습니다. 이번에는 질문 두 개만 보는 대신, `다중 근거가 잡히는 경우`, `근거가 하나만 잡히는 경우`, `아예 검색 실패가 나는 경우`를 함께 넣어 최소 기능도 여러 실패 유형으로 갈라진다는 점을 확인하겠습니다. 특히 각 질문이 끝난 뒤 `run record` 하나로 남도록 만들어, 나중에 무엇을 고쳐야 하는지 한눈에 다시 읽을 수 있게 하겠습니다.
 
 입력:
 
@@ -71,6 +71,17 @@ P5-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 �
 - 선택된 근거 문서
 - 답변 초안
 - 사람 검토 필요 여부와 회고 메모
+- 질문별 run record
+- 전체 질문 묶음에 대한 요약 통계
+
+먼저 이 예제에서 함께 볼 통합 기록 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `retrieved_doc_ids` | 어떤 근거를 실제로 썼는지 남겨야 해서 |
+| `needs_human_review` | 답을 바로 써도 되는지, 사람 확인이 필요한지 나눠야 해서 |
+| `run_status` | 다중 근거 확보, 근거 부족, 검색 실패를 한눈에 구분해야 해서 |
+| `summary` | 한 질문씩만 보지 않고 전체 흐름에서 어떤 실패가 많은지 읽어야 해서 |
 
 ```python
 documents = [
@@ -158,41 +169,74 @@ def evaluate_run(query, retrieved):
     notes = []
     if not positive_docs:
         notes.append("검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함")
+        run_status = "retrieval_failed"
     elif len(positive_docs) == 1:
         notes.append("근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검")
+        run_status = "single_evidence"
     else:
         notes.append("다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검")
+        run_status = "multi_evidence"
 
     if "복지포인트" in query:
         notes.append("현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인")
 
     return {
         "needs_human_review": len(positive_docs) == 0 or len(positive_docs) == 1 or "복지포인트" in query,
+        "run_status": run_status,
         "notes": notes,
     }
 
 
+run_records = []
 for query in queries:
     top_docs, full_scores = retrieve_docs(query, documents)
     answer = draft_answer(query, top_docs)
     evaluation = evaluate_run(query, top_docs)
+    run_records.append(
+        {
+            "question": query,
+            "document_scores": full_scores,
+            "retrieved_doc_ids": [doc["id"] for doc in top_docs if doc["score"] > 0],
+            "draft_answer": answer,
+            "evaluation": evaluation,
+        }
+    )
 
+summary = {
+    "run_count": len(run_records),
+    "multi_evidence_count": sum(record["evaluation"]["run_status"] == "multi_evidence" for record in run_records),
+    "single_evidence_count": sum(record["evaluation"]["run_status"] == "single_evidence" for record in run_records),
+    "retrieval_failed_count": sum(record["evaluation"]["run_status"] == "retrieval_failed" for record in run_records),
+    "needs_human_review_count": sum(record["evaluation"]["needs_human_review"] for record in run_records),
+}
+
+print("[summary]")
+print(summary)
+print()
+
+for record in run_records:
     print("=" * 80)
-    print("question =", query)
+    print("question =", record["question"])
     print("[document scores]")
-    for item in full_scores:
+    for item in record["document_scores"]:
         print(item["id"], "score=", item["score"], "matched_groups=", item["matched_groups"])
+    print("[retrieved_doc_ids]")
+    print(record["retrieved_doc_ids"])
     print("[draft answer]")
-    print(answer)
+    print(record["draft_answer"])
     print("[evaluation]")
-    print("needs_human_review =", evaluation["needs_human_review"])
-    for note in evaluation["notes"]:
+    print("run_status =", record["evaluation"]["run_status"])
+    print("needs_human_review =", record["evaluation"]["needs_human_review"])
+    for note in record["evaluation"]["notes"]:
         print("-", note)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'run_count': 3, 'multi_evidence_count': 1, 'single_evidence_count': 1, 'retrieval_failed_count': 1, 'needs_human_review_count': 2}
+
 ================================================================================
 question = 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
 [document scores]
@@ -200,6 +244,8 @@ policy-1 score= 2 matched_groups= ['입사', '휴가']
 policy-2 score= 1 matched_groups= ['휴가']
 policy-3 score= 0 matched_groups= []
 policy-4 score= 0 matched_groups= []
+[retrieved_doc_ids]
+['policy-1', 'policy-2']
 [draft answer]
 질문: 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있나요?
 확인된 근거:
@@ -207,6 +253,7 @@ policy-4 score= 0 matched_groups= []
 - policy-2: 여름휴가는 공지된 기간 안에서 팀 승인 후 사용할 수 있습니다.
 초안 판단: 여러 근거를 함께 읽어 조건 충돌과 적용 순서를 확인해야 합니다.
 [evaluation]
+run_status = multi_evidence
 needs_human_review = False
 - 다중 근거 확인: 여러 문서를 함께 읽어 조건 충돌 여부를 점검
 ================================================================================
@@ -216,12 +263,15 @@ policy-4 score= 1 matched_groups= ['복지']
 policy-1 score= 0 matched_groups= []
 policy-2 score= 0 matched_groups= []
 policy-3 score= 0 matched_groups= []
+[retrieved_doc_ids]
+['policy-4']
 [draft answer]
 질문: 신규 복지포인트는 이번 주부터 바로 쓸 수 있나요?
 확인된 근거:
 - policy-4: 신규 복지 제도는 공지 전까지 인사팀 확인이 필요합니다.
 초안 판단: 근거가 하나뿐이므로 예외 조항이나 최신 공지를 다시 확인해야 합니다.
 [evaluation]
+run_status = single_evidence
 needs_human_review = True
 - 근거 부족 가능성: 한 문서만 잡혔으므로 예외 조항 누락을 점검
 - 현재 문서에는 복지포인트 직접 규정이 없어 신규 제도 여부를 재확인
@@ -232,9 +282,12 @@ policy-1 score= 0 matched_groups= []
 policy-2 score= 0 matched_groups= []
 policy-3 score= 0 matched_groups= []
 policy-4 score= 0 matched_groups= []
+[retrieved_doc_ids]
+[]
 [draft answer]
 관련 규정을 찾지 못했습니다. 답변을 확정하지 말고 인사팀 확인으로 넘깁니다.
 [evaluation]
+run_status = retrieval_failed
 needs_human_review = True
 - 검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함
 ```
@@ -246,9 +299,10 @@ needs_human_review = True
 - 질문이 들어온다
 - 검색 단계가 점수와 함께 따로 존재한다
 - 답변은 하나의 문서가 아니라 선택된 근거 묶음에 기대어 만들어진다
-- 다중 근거, 근거 부족, 검색 실패가 서로 다른 메모로 기록된다
+- 다중 근거, 근거 부족, 검색 실패가 서로 다른 메모와 `run_status`로 기록된다
+- 질문별 실행 결과가 마지막에 `summary`로 다시 묶인다
 
-그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄 뒤에 검색 점수, 근거 문서, 사람 검토 플래그, 회고 메모가 실제로 따로 남는가입니다. 특히 같은 최소 기능 안에서도 `다중 근거 확보`, `근거 부족`, `검색 실패`가 서로 다른 운영 상태로 남는지가 중요합니다.
+그래서 이 예제에서 확인해야 할 결과는 `모델이 답했다`는 한 줄 뒤에 검색 점수, 근거 문서, 사람 검토 플래그, 회고 메모, 질문별 run record가 실제로 따로 남는가입니다. 특히 같은 최소 기능 안에서도 `다중 근거 확보`, `근거 부족`, `검색 실패`가 서로 다른 운영 상태로 남고, 마지막 summary에서 어떤 유형이 몇 번 나왔는지 다시 집계되는지가 중요합니다.
 
 ## 실패 유형으로 다시 묶기
 
