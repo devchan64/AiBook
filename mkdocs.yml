@@ -38,6 +38,8 @@ theme:
 nav:
   - 시작:
       - 소개: index.md
+      - English (TBD): en/index.md
+      - 简体中文 (TBD): zh-Hans/index.md
       - 책의 목차: book/table-of-contents.md
   - Part 1. AI 개론과 지형도:
       - 개요: parts/part-01/index.md
