@@ -160,27 +160,37 @@ flowchart TD
 
 이 도식에서 확인해야 할 결과는 오래전 입력의 중요한 단서가 상태 갱신을 거치며 현재 결정 단계에 도달할수록 점점 약해질 수 있다는 점입니다.
 
-## 작은 Python 예제로 상태 희석 직관 보기
+## 실행 가능한 Python 예제로 상태 희석 직관 보기
 
-이번 예제의 목표는 순차 상태가 반복적으로 갱신되며 오래전 정보가 점점 약해질 수 있다는 감각을 보는 것입니다.
+이번 예제의 목표는 순차 상태가 반복적으로 갱신되며 오래전 정보가 점점 약해질 수 있다는 감각을 보는 것입니다. 동시에 `상태에만 의존할 때`와 `초기 중요한 위치를 직접 다시 참고할 때`의 차이도 아주 작게 확인합니다.
 
 입력:
 
-- 짧은 시퀀스 하나
-- 이전 상태를 일부만 남기고 현재 입력을 더하는 단순 상태 업데이트
+- 초반의 중요한 단서 하나
+- 중간에 이어지는 여러 step
+- 마지막 판단 시점
 
 출력:
 
 - 각 step에서 상태값
+- 마지막 시점의 상태 기반 판단
+- 초반 단서를 직접 다시 참고했을 때의 비교 판단
 
 ```python
 sequence = [10.0, 0.0, 0.0, 0.0, 1.0]
 state = 0.0
+early_clue = sequence[0]
 
 print("initial state =", state)
 for step, x in enumerate(sequence, start=1):
     state = 0.5 * state + x
     print(f"step {step}: input = {x}, state = {round(state, 3)}")
+
+state_only_decision = state >= 5.0
+direct_reference_decision = (state + early_clue) >= 5.0
+
+print("state_only_decision =", state_only_decision)
+print("direct_reference_decision =", direct_reference_decision)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -192,12 +202,15 @@ step 2: input = 0.0, state = 5.0
 step 3: input = 0.0, state = 2.5
 step 4: input = 0.0, state = 1.25
 step 5: input = 1.0, state = 1.625
+state_only_decision = False
+direct_reference_decision = True
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - step 1의 큰 정보 `10.0`이 뒤로 갈수록 점점 약해지고
 - 마지막 단계에서는 최근 입력 `1.0`과 섞여 더 희미해질 수 있습니다
+- 마지막 판단을 상태에만 맡기면 초반 단서를 놓칠 수 있고, 초기 중요한 위치를 직접 다시 참고하면 판단이 달라질 수 있습니다
 
 그래서 이 예제에서 확인해야 할 결과는 초반의 큰 정보가 step이 지날수록 실제로 약해지고, 뒤 입력과 섞이면서 오래된 단서를 끝까지 안정적으로 유지하기 어려워지는가입니다.
 

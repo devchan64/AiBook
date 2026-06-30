@@ -30,7 +30,7 @@ RNN 계열 구조는 현재 입력만 보지 않고, 앞에서 본 정보를 어
 - 순차 데이터 문제에서 `순서`와 `문맥(context)`이 왜 중요한지 설명할 수 있습니다.
 - RNN을 `이전 상태를 이어받는 구조`로 설명할 수 있습니다.
 - LSTM과 GRU가 등장한 이유를 장기 기억 유지 문제와 연결할 수 있습니다.
-- 작은 Python 예제로 순차 누적 상태의 직관을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 순차 누적 상태가 실제 판단을 어떻게 바꾸는지 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
@@ -191,38 +191,60 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 | 음성 인식 | 현재 파형만으로는 발음 구조를 읽기 어려워서 |
 | 시계열 예측 | 현재 값이 이전 흐름과 연결되어서 |
 
-## 작은 Python 예제로 상태 직관 보기
+## 실행 가능한 Python 예제로 상태 직관 보기
 
-이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 단순히 숫자를 누적하는 대신, `현재 센서 값은 같아도 직전 흐름이 다르면 경보 판단이 달라질 수 있다`는 장면을 아주 작게 만듭니다.
+이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 단순히 숫자를 누적하는 대신, `마지막 입력은 같아도 앞의 흐름이 다르면 최종 라벨이 달라질 수 있다`는 장면을 아주 작게 만듭니다.
 
 입력:
 
+- 부정 표현이 문장 끝에 오는 짧은 문장 두 개
 - 같은 마지막 온도 `80`을 가진 두 시계열
-- 하나는 서서히 올라온 흐름
-- 다른 하나는 중간에 내려갔다가 다시 올라온 흐름
 
 출력:
 
-- 각 step에서 갱신되는 상태값
+- 각 step에서 갱신되는 문장 상태값
+- 최종 문장 라벨
+- 각 step에서 갱신되는 센서 상태값
 - 마지막 step에서의 경보 여부
 
 ```python
-def run_sequence(name, sequence, alpha=0.6, threshold=72):
+word_signal = {
+    "끝까지": 0.3,
+    "지루": -0.8,
+    "하지": 0.1,
+    "않았다": 1.4,
+    "정말": 0.2,
+    "좋았다": 0.9,
+}
+
+
+def run_sentence(name, words, alpha=0.7):
     state = 0.0
-    print(f"[{name}]")
+    print(f"[sentence: {name}]")
+    for step, word in enumerate(words, start=1):
+        signal = word_signal.get(word, 0.0)
+        state = alpha * state + signal
+        print(f"step {step}: word={word:>6}, signal={signal:>4}, state={state:>5.2f}")
+    label = "positive" if state > 0 else "negative"
+    print("final_label =", label)
+    print()
+
+
+def run_sequence(name, sequence, alpha=0.6, threshold=63):
+    state = 0.0
+    print(f"[sensor: {name}]")
     for step, x in enumerate(sequence, start=1):
-        # 이전 상태 일부를 남기면서 현재 입력을 섞는다.
         state = alpha * state + (1 - alpha) * x
         alert = state >= threshold
-        print(
-            f"step {step}: input={x:>3}, state={state:>6.2f}, alert={alert}"
-        )
+        print(f"step {step}: input={x:>3}, state={state:>6.2f}, alert={alert}")
     print()
 
 
 gradual_rise = [60, 65, 72, 80]
 temporary_spike = [80, 60, 60, 80]
 
+run_sentence("not_boring", ["끝까지", "지루", "하지", "않았다"])
+run_sentence("really_good", ["정말", "좋았다"])
 run_sequence("gradual_rise", gradual_rise)
 run_sequence("temporary_spike", temporary_spike)
 ```
@@ -230,20 +252,32 @@ run_sequence("temporary_spike", temporary_spike)
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[gradual_rise]
+[sentence: not_boring]
+step 1: word=   끝까지, signal= 0.3, state= 0.30
+step 2: word=    지루, signal=-0.8, state=-0.59
+step 3: word=    하지, signal= 0.1, state=-0.31
+step 4: word=  않았다, signal= 1.4, state= 1.18
+final_label = positive
+
+[sentence: really_good]
+step 1: word=    정말, signal= 0.2, state= 0.20
+step 2: word=   좋았다, signal= 0.9, state= 1.04
+final_label = positive
+
+[sensor: gradual_rise]
 step 1: input= 60, state= 24.00, alert=False
 step 2: input= 65, state= 40.40, alert=False
 step 3: input= 72, state= 53.04, alert=False
-step 4: input= 80, state= 63.82, alert=False
+step 4: input= 80, state= 63.82, alert=True
 
-[temporary_spike]
+[sensor: temporary_spike]
 step 1: input= 80, state= 32.00, alert=False
 step 2: input= 60, state= 43.20, alert=False
 step 3: input= 60, state= 49.92, alert=False
 step 4: input= 80, state= 61.95, alert=False
 ```
 
-위 결과는 마지막 입력이 둘 다 `80`이어도 상태값이 같지 않다는 점을 보여 줍니다. 이유는 현재 step의 판단이 `지금 입력 80` 하나로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
+위 결과는 두 가지를 함께 보여 줍니다. 첫째, 문장 끝의 `않았다`처럼 뒤쪽 단어가 앞쪽 단어의 감정을 뒤집으려면 중간 상태가 살아 있어야 합니다. 둘째, 마지막 입력이 둘 다 `80`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 80` 하나로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
 
 이제 경보 문턱을 조금 낮춰 보면 차이가 더 눈에 잘 들어옵니다.
 
@@ -269,6 +303,7 @@ step 4: input= 80, state= 61.95, alert=False
 이 예제는 진짜 RNN 전체를 구현한 것은 아닙니다. 하지만 실제로 읽어야 할 핵심은 더 분명합니다.
 
 - 같은 현재 입력도 이전 흐름에 따라 다른 상태를 만든다
+- 문장에서는 뒤 단어가 앞 단어의 의미를 바꾸려면 중간 상태가 살아 있어야 한다
 - 상태가 다르면 마지막 판단도 달라질 수 있다
 - 순차 구조의 핵심은 `현재 값`만이 아니라 `이전까지 쌓인 흔적`을 함께 본다는 데 있다
 
