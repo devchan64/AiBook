@@ -87,30 +87,44 @@ P6-2.1의 결과를 프로젝트 문서 형식으로 정리하면 다음처럼 �
 
 이번 예제는 비교적 단순해서 그대로도 잘 맞았습니다. 그래도 프로젝트 문서에는 `전처리를 해 보면 결과가 어떻게 달라지는가`를 한 번쯤 기록해 둘 가치가 있습니다.
 
-이번 절에서는 train 데이터의 평균과 표준편차를 이용해 간단한 z-score 정규화를 적용해 봅니다.
+이번 절에서는 train 데이터의 평균과 표준편차를 이용해 간단한 z-score 정규화를 적용해 봅니다. 이번에도 정확도 숫자만 한 줄로 끝내지 않고, `정규화 전 모델`, `정규화 후 모델`, `샘플별 변화 여부`를 함께 남기겠습니다.
 
 ```python
 import numpy as np
 
-X_train = np.array([
-    [2.0, 60.0],
-    [3.0, 65.0],
-    [4.0, 70.0],
-    [5.0, 72.0],
-    [6.0, 80.0],
-    [7.0, 85.0],
-    [8.0, 88.0],
-    [9.0, 92.0],
-])
-y_train = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+train_rows = [
+    {"student_id": "train-01", "hours": 2.0, "attendance": 60.0, "label": 0},
+    {"student_id": "train-02", "hours": 3.0, "attendance": 65.0, "label": 0},
+    {"student_id": "train-03", "hours": 4.0, "attendance": 70.0, "label": 0},
+    {"student_id": "train-04", "hours": 5.0, "attendance": 72.0, "label": 0},
+    {"student_id": "train-05", "hours": 6.0, "attendance": 80.0, "label": 1},
+    {"student_id": "train-06", "hours": 7.0, "attendance": 85.0, "label": 1},
+    {"student_id": "train-07", "hours": 8.0, "attendance": 88.0, "label": 1},
+    {"student_id": "train-08", "hours": 9.0, "attendance": 92.0, "label": 1},
+]
 
-X_test = np.array([
-    [4.5, 68.0],
-    [5.5, 78.0],
-    [7.5, 87.0],
-    [3.5, 66.0],
-])
-y_test = np.array([0, 1, 1, 0])
+test_rows = [
+    {"student_id": "test-01", "hours": 4.5, "attendance": 68.0, "label": 0},
+    {"student_id": "test-02", "hours": 5.5, "attendance": 78.0, "label": 1},
+    {"student_id": "test-03", "hours": 7.5, "attendance": 87.0, "label": 1},
+    {"student_id": "test-04", "hours": 3.5, "attendance": 66.0, "label": 0},
+]
+
+X_train = np.array([[row["hours"], row["attendance"]] for row in train_rows])
+y_train = np.array([row["label"] for row in train_rows])
+
+X_test = np.array([[row["hours"], row["attendance"]] for row in test_rows])
+y_test = np.array([row["label"] for row in test_rows])
+
+def predict_1nn(train_x, train_y, test_x):
+    predictions = []
+    nearest_train_ids = []
+    for x in test_x:
+        distances = np.linalg.norm(train_x - x, axis=1)
+        nearest_index = int(np.argmin(distances))
+        predictions.append(int(train_y[nearest_index]))
+        nearest_train_ids.append(train_rows[nearest_index]["student_id"])
+    return np.array(predictions), nearest_train_ids
 
 train_mean = X_train.mean(axis=0)
 train_std = X_train.std(axis=0)
@@ -118,18 +132,43 @@ train_std = X_train.std(axis=0)
 X_train_z = (X_train - train_mean) / train_std
 X_test_z = (X_test - train_mean) / train_std
 
-scaled_knn_pred = []
-for x in X_test_z:
-    distances = np.linalg.norm(X_train_z - x, axis=1)
-    nearest_index = np.argmin(distances)
-    scaled_knn_pred.append(int(y_train[nearest_index]))
+raw_knn_pred, raw_nearest_ids = predict_1nn(X_train, y_train, X_test)
+scaled_knn_pred, scaled_nearest_ids = predict_1nn(X_train_z, y_train, X_test_z)
 
-scaled_knn_pred = np.array(scaled_knn_pred)
+comparison_rows = []
+for index, row in enumerate(test_rows):
+    comparison_rows.append({
+        "student_id": row["student_id"],
+        "true_label": row["label"],
+        "raw_knn_pred": int(raw_knn_pred[index]),
+        "scaled_knn_pred": int(scaled_knn_pred[index]),
+        "raw_correct": bool(raw_knn_pred[index] == y_test[index]),
+        "scaled_correct": bool(scaled_knn_pred[index] == y_test[index]),
+        "prediction_changed": bool(raw_knn_pred[index] != scaled_knn_pred[index]),
+        "raw_nearest_train_id": raw_nearest_ids[index],
+        "scaled_nearest_train_id": scaled_nearest_ids[index],
+    })
+
+project_comparison = {
+    "raw_knn_accuracy": round(
+        sum(row["raw_correct"] for row in comparison_rows) / len(comparison_rows), 3
+    ),
+    "scaled_knn_accuracy": round(
+        sum(row["scaled_correct"] for row in comparison_rows) / len(comparison_rows), 3
+    ),
+    "prediction_changed_count": sum(
+        row["prediction_changed"] for row in comparison_rows
+    ),
+    "raw_nearest_ids": raw_nearest_ids,
+    "scaled_nearest_ids": scaled_nearest_ids,
+}
 
 print("train_mean =", np.round(train_mean, 2).tolist())
 print("train_std =", np.round(train_std, 2).tolist())
-print("scaled_knn_pred =", scaled_knn_pred.tolist())
-print("scaled_knn_accuracy =", round((scaled_knn_pred == y_test).mean(), 3))
+print("project_comparison =", project_comparison)
+print("comparison_rows =")
+for row in comparison_rows:
+    print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
@@ -137,8 +176,12 @@ print("scaled_knn_accuracy =", round((scaled_knn_pred == y_test).mean(), 3))
 ```text
 train_mean = [5.5, 76.5]
 train_std = [2.29, 10.75]
-scaled_knn_pred = [0, 1, 1, 0]
-scaled_knn_accuracy = 1.0
+project_comparison = {'raw_knn_accuracy': 1.0, 'scaled_knn_accuracy': 1.0, 'prediction_changed_count': 0, 'raw_nearest_ids': ['train-03', 'train-05', 'train-07', 'train-02'], 'scaled_nearest_ids': ['train-03', 'train-05', 'train-07', 'train-02']}
+comparison_rows =
+{'student_id': 'test-01', 'true_label': 0, 'raw_knn_pred': 0, 'scaled_knn_pred': 0, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-03', 'scaled_nearest_train_id': 'train-03'}
+{'student_id': 'test-02', 'true_label': 1, 'raw_knn_pred': 1, 'scaled_knn_pred': 1, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-05', 'scaled_nearest_train_id': 'train-05'}
+{'student_id': 'test-03', 'true_label': 1, 'raw_knn_pred': 1, 'scaled_knn_pred': 1, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-07', 'scaled_nearest_train_id': 'train-07'}
+{'student_id': 'test-04', 'true_label': 0, 'raw_knn_pred': 0, 'scaled_knn_pred': 0, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-02', 'scaled_nearest_train_id': 'train-02'}
 ```
 
 ## 이 결과를 어떻게 해석할까
@@ -148,7 +191,13 @@ scaled_knn_accuracy = 1.0
 - 좋은 점: 현재 데이터에서는 특징 스케일 차이가 아주 치명적이지 않았습니다.
 - 남는 질문: 더 큰 데이터나 다른 특징 조합에서는 전처리 차이가 더 크게 나타날 수 있습니다.
 
-즉, 전처리를 했는데 점수가 그대로라는 사실도 프로젝트 문서에는 의미 있는 결과입니다. `바뀌지 않았다`도 확인 결과이기 때문입니다.
+즉, 전처리를 했는데 점수가 그대로라는 사실도 프로젝트 문서에는 의미 있는 결과입니다. `project_comparison`에서 `prediction_changed_count`가 0이라는 점은, 이번 test 셋에서는 정규화가 예측 자체를 바꾸지 않았다는 뜻입니다.
+
+샘플별 행(`comparison_rows`)을 같이 보면 더 좋은 이유가 있습니다.
+
+- 점수만 같아진 것이 아니라 샘플별 예측도 모두 같았습니다.
+- 가장 가까운 train 샘플 ID도 그대로 유지되었습니다.
+- 따라서 이번 데이터에서는 `정규화가 의미 없었다`가 아니라, `정규화 여부보다 현재 경계 구조가 더 강하게 작동했다`고 해석하는 편이 더 정확합니다.
 
 여기서 `변화 없음`도 결과라는 점을 익혀 두는 편이 좋습니다. 프로젝트는 항상 dramatic improvement만 기록하는 문서가 아닙니다.
 
