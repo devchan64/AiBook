@@ -30,7 +30,7 @@ self-attention과 Transformer 연결은 P4-13.2와 P4-14.1, P4-14.2에서 이어
 - attention을 `중요한 위치를 더 직접적으로 참고하는 방식`으로 설명할 수 있습니다.
 - 장기 의존성 문제와 attention의 연결을 말할 수 있습니다.
 - sequence-to-sequence와 번역 맥락에서 왜 attention이 중요했는지 설명할 수 있습니다.
-- 작은 Python 예제로 가중 평균 형태의 attention 직관을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 가중 평균 형태의 attention 직관을 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
@@ -196,31 +196,49 @@ attention 이후에는:
 | 문서 요약 | 지금 요약에 중요한 문장을 골라 참고할 수 있어서 |
 | 질의응답 | 질문과 직접 관련된 문장에 더 큰 비중을 둘 수 있어서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 여러 위치 중 중요한 곳에 더 큰 비중을 주고 가중 평균을 만드는 attention 직관을 확인하는 것입니다.
+이번 예제의 목표는 여러 위치 중 중요한 곳에 더 큰 비중을 주고 가중 평균을 만드는 attention 직관을 확인하는 것입니다. 단순 숫자 평균이 아니라, `질문`과 `문장 후보`가 있을 때 어디를 더 보게 되는지를 작은 질의응답 장면으로 바꿔 보겠습니다.
 
 입력:
 
-- 세 개의 값
-- 각 값에 대한 중요도 점수
+- 질문 하나
+- 세 개의 문장 후보 값
+- 각 후보에 대한 관련도 점수
 
 출력:
 
 - 정규화된 비중
-- 비중을 반영한 가중 평균
+- 비중을 반영한 문맥값
+- 어떤 후보가 가장 크게 반영되는지에 대한 요약
 
 ```python
 import math
 
-values = [2.0, 5.0, 9.0]
-scores = [1.0, 2.0, 0.5]
+question = "반품 가능한 기간은?"
+sentences = {
+    "return_period": 14.0,
+    "shipping_fee": 3.0,
+    "coupon_policy": 1.0,
+}
+scores = {
+    "return_period": 2.5,
+    "shipping_fee": 0.9,
+    "coupon_policy": 0.3,
+}
 
-exp_scores = [math.exp(s) for s in scores]
+ordered_names = list(sentences.keys())
+values = [sentences[name] for name in ordered_names]
+raw_scores = [scores[name] for name in ordered_names]
+
+exp_scores = [math.exp(s) for s in raw_scores]
 total = sum(exp_scores)
 weights = [s / total for s in exp_scores]
 context = sum(w * v for w, v in zip(weights, values))
 
+print("question =", question)
+for name, weight in zip(ordered_names, weights):
+    print(name, "weight =", round(weight, 3), "value =", sentences[name])
 print("weights =", [round(w, 3) for w in weights])
 print("context =", round(context, 3))
 ```
@@ -228,15 +246,19 @@ print("context =", round(context, 3))
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-weights = [0.231, 0.629, 0.14]
-context = 4.816
+question = 반품 가능한 기간은?
+return_period weight = 0.757 value = 14.0
+shipping_fee weight = 0.153 value = 3.0
+coupon_policy weight = 0.09 value = 1.0
+weights = [0.757, 0.153, 0.09]
+context = 11.159
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- 두 번째 값이 가장 큰 weight를 받습니다
-- 그래서 최종 context는 두 번째 값의 영향을 더 크게 받습니다
-- 즉, attention은 모든 위치를 똑같이 평균내지 않고, 중요한 위치를 더 크게 반영합니다
+- `return_period` 문장이 가장 큰 weight를 받습니다
+- 그래서 최종 context는 반품 기간 문장의 영향을 가장 크게 받습니다
+- 즉, attention은 모든 위치를 똑같이 평균내지 않고, 현재 질문과 더 관련 있는 위치를 더 크게 반영합니다
 
 ## 역사와 커리큘럼 관점
 

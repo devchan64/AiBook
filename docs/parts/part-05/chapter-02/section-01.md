@@ -154,9 +154,9 @@ flowchart TD
 
 동영상 서비스에서 비슷한 강의를 추천하고 싶다고 해 보겠습니다. 사람은 제목에 같은 단어가 많으면 비슷한 강의라고 판단하기 쉽습니다. 하지만 제목이 둘 다 `입문`이어도 하나는 수식 중심, 다른 하나는 실습 중심일 수 있고, 반대로 제목은 달라도 시청자가 실제로는 같은 유형의 강의를 이어서 볼 수 있습니다. 제목 문자열만 비교하면 이런 차이를 놓쳐 추천이 어긋나기 쉽습니다. 여기서 바뀌는 점은 제목 글자 수를 세는 것보다, 실제 소비 흐름과 강의 성격을 같은 비교 좌표계에 함께 올려 본다는 것입니다. 이때 강의 설명, 시청 패턴, 썸네일 특징 같은 정보를 임베딩 공간에 함께 올리면 서로 다른 신호를 한 비교 좌표계에서 다룰 수 있습니다. 그 결과 추천기는 `글자만 비슷한 강의`보다 `실제로 함께 소비되는 강의`를 더 앞에 둘 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 제목 단어 일치보다 실제 학습 흐름이 비슷한 강의가 추천 상단에 더 모이는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `토큰 ID는 단지 번호이고, 실제 비교는 임베딩 벡터 위에서 일어난다`는 점을 눈으로 확인하는 것입니다. 단순히 ID와 벡터를 나란히 찍는 대신, 질의 벡터와 각 후보 벡터 사이 거리를 같이 계산해 왜 ID만으로는 검색이나 비교가 불가능한지도 함께 보겠습니다.
+이번 예제의 목표는 `토큰 ID는 단지 번호이고, 실제 비교는 임베딩 벡터 위에서 일어난다`는 점을 눈으로 확인하는 것입니다. 단순히 ID와 벡터를 나란히 찍는 대신, 질의 벡터와 각 후보 벡터 사이 거리를 계산하고 가까운 후보 순서까지 함께 확인해 왜 ID만으로는 검색이나 비교가 불가능한지도 보겠습니다.
 
 입력:
 
@@ -167,19 +167,20 @@ flowchart TD
 출력:
 
 - 토큰 ID와 벡터 표현의 차이
-- 질의와 각 토큰 벡터 사이 거리
+- 질의와 각 후보 벡터 사이 거리
+- 거리 기준 후보 순서
 
 ```python
 token_ids = {
-    "AI": 1042,
-    "model": 3881,
-    "search": 2210,
+    "prompt_limit_doc": 1042,
+    "hallucination_doc": 3881,
+    "vector_search_doc": 2210,
 }
 
 toy_embeddings = {
-    "AI": [0.12, -0.08, 0.44],
-    "model": [0.09, -0.02, 0.39],
-    "search": [-0.30, 0.11, 0.15],
+    "prompt_limit_doc": [0.12, -0.08, 0.44],
+    "hallucination_doc": [0.09, -0.02, 0.39],
+    "vector_search_doc": [-0.30, 0.11, 0.15],
 }
 
 
@@ -189,29 +190,39 @@ def squared_distance(a, b):
 
 query_embedding = [0.10, -0.01, 0.41]
 
+ranked = []
 print("query_embedding =", query_embedding)
-for token in ["AI", "model", "search"]:
-    distance = squared_distance(query_embedding, toy_embeddings[token])
+for name in token_ids:
+    distance = squared_distance(query_embedding, toy_embeddings[name])
+    ranked.append((name, distance))
     print(
-        token,
-        "-> id:", token_ids[token],
-        "embedding:", toy_embeddings[token],
+        name,
+        "-> id:", token_ids[name],
+        "embedding:", toy_embeddings[name],
         "distance:", round(distance, 3),
     )
+
+print("[ranked candidates]")
+for rank, (name, distance) in enumerate(sorted(ranked, key=lambda item: item[1]), start=1):
+    print("rank", rank, "=", name, "distance =", round(distance, 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 query_embedding = [0.1, -0.01, 0.41]
-AI -> id: 1042 embedding: [0.12, -0.08, 0.44] distance: 0.006
-model -> id: 3881 embedding: [0.09, -0.02, 0.39] distance: 0.001
-search -> id: 2210 embedding: [-0.3, 0.11, 0.15] distance: 0.242
+prompt_limit_doc -> id: 1042 embedding: [0.12, -0.08, 0.44] distance: 0.006
+hallucination_doc -> id: 3881 embedding: [0.09, -0.02, 0.39] distance: 0.001
+vector_search_doc -> id: 2210 embedding: [-0.3, 0.11, 0.15] distance: 0.242
+[ranked candidates]
+rank 1 = hallucination_doc distance = 0.001
+rank 2 = prompt_limit_doc distance = 0.006
+rank 3 = vector_search_doc distance = 0.242
 ```
 
 ## 이 예제를 표현 공간 관점으로 다시 보면
 
-앞의 예제는 임베딩을 학습하는 코드가 아니라, `번호를 붙이는 일`과 `비교 가능한 수치 표현으로 바꾸는 일`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 `1042`와 `3881`의 숫자 차이 자체는 아무 뜻이 없지만, 벡터 공간에서는 질의와 `model`이 `search`보다 더 가깝다는 비교가 가능해진다는 점입니다. 즉, ID는 식별용이라면 임베딩은 이후 유사도 비교와 문맥 계산을 가능하게 하는 표현 공간의 출발점입니다.
+앞의 예제는 임베딩을 학습하는 코드가 아니라, `번호를 붙이는 일`과 `비교 가능한 수치 표현으로 바꾸는 일`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 `1042`와 `3881`의 숫자 차이 자체는 아무 뜻이 없지만, 벡터 공간에서는 질의와 `hallucination_doc`이 `vector_search_doc`보다 더 가깝다는 비교가 가능해진다는 점입니다. 즉, ID는 식별용이라면 임베딩은 이후 유사도 비교와 문맥 계산을 가능하게 하는 표현 공간의 출발점입니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 

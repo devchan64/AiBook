@@ -135,9 +135,9 @@ flowchart TD
 
 사용자가 입문용 선형대수 강의를 끝까지 봤고, 다음 강의를 추천해야 하는 상황을 생각해 보겠습니다. 사람은 보통 `입문용` 태그가 같으면 비슷한 강의일 것이라고 먼저 묶습니다. 하지만 실제로는 하나는 칠판 수식 설명 위주이고, 다른 하나는 NumPy 실습 위주라서 학습 리듬이 꽤 다를 수 있습니다. 예를 들어 수식 설명 영상을 끝까지 본 사용자가 바로 코드 실습 중심 강의로 넘어가면 중도 이탈이 늘 수 있습니다. 여기서 바뀌는 점은 태그 하나를 맞추는 것보다, 실제로 어떤 강의를 어떤 흐름으로 소비했는지를 함께 보게 된다는 것입니다. 시청 행동과 강의 특징을 함께 반영한 벡터 공간에서 가까운 항목을 찾으면, 단순 태그보다 실제 학습 흐름이 비슷한 후보를 더 자연스럽게 고를 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 같은 태그보다 실제 학습 리듬이 비슷한 후보가 더 앞쪽에 모이는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 고급 라이브러리를 쓰지 않고, 아주 작은 2차원 벡터에서 `가까운 후보를 먼저 고른다`는 감각과 `가까움이 곧 정답은 아니다`라는 점을 함께 확인하는 것입니다.
+이번 예제의 목표는 고급 라이브러리를 쓰지 않고, 아주 작은 2차원 벡터에서 `가까운 후보를 먼저 고른다`는 감각과 `가까움이 곧 정답은 아니다`라는 점을 함께 확인하는 것입니다. 후보 거리 계산 뒤에 최신성 점검을 붙여, 검색 후보 선정과 최종 답 확정이 왜 다른 단계인지도 같이 보겠습니다.
 
 입력:
 
@@ -148,6 +148,7 @@ flowchart TD
 
 - 각 문서까지의 거리
 - 거리 기준으로 정렬된 후보 순서
+- 거리와 별도로 확인해야 하는 최신성 정보
 
 ```python
 def squared_distance(a, b):
@@ -159,6 +160,11 @@ docs = {
     "doc_B": [0.1, 0.2],
     "doc_C": [0.7, 0.9],
 }
+metadata = {
+    "doc_A": {"updated_at": "2026-03", "note": "지난 분기 정책"},
+    "doc_B": {"updated_at": "2025-12", "note": "다른 주제"},
+    "doc_C": {"updated_at": "2026-06", "note": "최신 예외 조항 포함"},
+}
 
 ranked = sorted(
     ((name, squared_distance(query, vec)) for name, vec in docs.items()),
@@ -166,22 +172,32 @@ ranked = sorted(
 )
 
 for rank, (name, distance) in enumerate(ranked, start=1):
-    print(f"rank {rank}: {name}, distance = {round(distance, 3)}")
+    print(
+        f"rank {rank}: {name}, distance = {round(distance, 3)}, "
+        f"updated_at = {metadata[name]['updated_at']}, note = {metadata[name]['note']}"
+    )
+
+best_by_distance = ranked[0][0]
+best_after_review = "doc_C"
+print("best_by_distance =", best_by_distance)
+print("best_after_review =", best_after_review)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-rank 1: doc_A, distance = 0.02
-rank 2: doc_C, distance = 0.05
-rank 3: doc_B, distance = 0.98
+rank 1: doc_A, distance = 0.02, updated_at = 2026-03, note = 지난 분기 정책
+rank 2: doc_C, distance = 0.05, updated_at = 2026-06, note = 최신 예외 조항 포함
+rank 3: doc_B, distance = 0.98, updated_at = 2025-12, note = 다른 주제
+best_by_distance = doc_A
+best_after_review = doc_C
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - `doc_A`와 `doc_C`는 질의와 비교적 가까운 후보로 먼저 올라옵니다.
 - `doc_B`는 훨씬 멀어서 우선순위가 뒤로 밀립니다.
-- 하지만 1등으로 올라온 `doc_A`가 곧 정답이라는 뜻은 아닙니다. 실제 본문을 열어 최신성, 예외 조건, 사실 일치를 따로 확인해야 합니다.
+- 하지만 1등으로 올라온 `doc_A`가 곧 정답이라는 뜻은 아닙니다. 실제 본문을 열어 최신성, 예외 조건, 사실 일치를 따로 확인해야 하고, 그 결과 `doc_C`가 최종 근거로 바뀔 수 있습니다.
 
 ## 이 예제를 검색 후보 판단 관점으로 다시 보면
 

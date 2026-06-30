@@ -30,7 +30,7 @@ Transformer 전체 구성은 P4-14.1, P4-14.2에서 이어서 다루고, context
 - self-attention을 `시퀀스 내부 토큰들 사이의 상호 참조`로 설명할 수 있습니다.
 - self-attention이 RNN식 순차 전달과 다른 계산 감각을 준다는 점을 말할 수 있습니다.
 - self-attention이 병렬 처리와 긴 문맥 문제에 어떤 장점을 주는지 말할 수 있습니다.
-- 작은 Python 예제로 토큰 간 중요도 참조 직관을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 토큰 간 중요도 참조 직관을 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
@@ -169,31 +169,46 @@ RNN은 시점 순서대로 상태를 넘기므로, 계산 흐름이 순차적이
 | 문서 요약 | 앞뒤 핵심 표현을 함께 참조할 수 있어서 |
 | 코드 이해 | 멀리 떨어진 정의와 사용 관계를 더 직접 볼 수 있어서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 토큰 하나가 다른 토큰들의 정보를 가중 평균으로 다시 모아 새 표현을 만든다는 self-attention 직관을 확인하는 것입니다.
+이번 예제의 목표는 토큰 하나가 다른 토큰들의 정보를 가중 평균으로 다시 모아 새 표현을 만든다는 self-attention 직관을 확인하는 것입니다. 특히 `그것` 같은 현재 토큰이 문장 안 다른 위치를 얼마나 참고하는지를 작은 예제로 보겠습니다.
 
 입력:
 
-- 세 개의 토큰 값
-- 현재 토큰이 각 토큰을 얼마나 참고할지에 대한 점수
+- `반품`, `박스`, `그것` 세 토큰
+- 현재 토큰 `그것`이 각 토큰을 얼마나 참고할지에 대한 점수
 
 출력:
 
 - 정규화된 비중
-- 새로 모인 표현
+- `그것`의 새 표현
+- 어떤 단서를 가장 크게 참고했는지에 대한 요약
 
 ```python
 import math
 
-tokens = [1.0, 4.0, 8.0]
-scores_for_current_token = [0.5, 2.0, 1.0]
+tokens = {
+    "반품": 2.0,
+    "박스": 7.0,
+    "그것": 4.0,
+}
+scores_for_current_token = {
+    "반품": 0.5,
+    "박스": 2.0,
+    "그것": 1.0,
+}
 
-exp_scores = [math.exp(s) for s in scores_for_current_token]
+ordered_names = list(tokens.keys())
+values = [tokens[name] for name in ordered_names]
+raw_scores = [scores_for_current_token[name] for name in ordered_names]
+
+exp_scores = [math.exp(s) for s in raw_scores]
 total = sum(exp_scores)
 weights = [s / total for s in exp_scores]
-new_representation = sum(w * t for w, t in zip(weights, tokens))
+new_representation = sum(w * t for w, t in zip(weights, values))
 
+for name, weight in zip(ordered_names, weights):
+    print(name, "weight =", round(weight, 3), "value =", tokens[name])
 print("weights =", [round(w, 3) for w in weights])
 print("new_representation =", round(new_representation, 3))
 ```
@@ -201,14 +216,18 @@ print("new_representation =", round(new_representation, 3))
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+반품 weight = 0.14 value = 2.0
+박스 weight = 0.629 value = 7.0
+그것 weight = 0.231 value = 4.0
 weights = [0.14, 0.629, 0.231]
-new_representation = 4.501
+new_representation = 5.021
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
 - 현재 토큰 표현은 자기 자신만으로 결정되지 않고
 - 다른 토큰들의 값도 함께 참고하며
+- 이 예제에서는 `그것`이 `반품`보다 `박스`를 더 크게 참고하므로, 대명사 해석이 특정 단서 쪽으로 더 기울어집니다
 - 더 중요한 토큰일수록 더 큰 비중을 갖습니다
 
 즉, self-attention은 `문맥을 보고 표현을 다시 계산하는 방식`입니다.

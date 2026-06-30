@@ -95,9 +95,9 @@ flowchart TD
 
 FAQ 문서가 몇십 개일 때는 모든 벡터를 다 비교해도 괜찮을 수 있습니다. 하지만 문서가 수십만 개로 커지면, 사람은 여전히 `가장 비슷한 문서를 빨리 찾고 싶다`는 같은 요구를 가집니다. 이때 모든 후보를 끝까지 비교하면 정확할 수는 있어도 속도가 급격히 느려질 수 있습니다. 여기서 바뀌는 점은 `가장 정확한 비교` 하나만 고집하는 것이 아니라, 실무에서 쓸 만큼 좋은 후보를 훨씬 빨리 찾는 쪽으로 기준이 이동한다는 것입니다. ANN은 완벽한 전수 비교 대신 충분히 좋은 근접 후보를 더 빨리 찾는 쪽으로 타협합니다. 그래서 이 사례에서 확인해야 할 결과는 `후보 품질이 크게 무너지지 않으면서 검색 시간이 실제로 줄어드는가`입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `가까운 벡터를 찾는다`는 문제와 `모든 후보를 끝까지 비교하는 일`을 가장 작게 보여 주는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, 먼저 전수 비교를 한 뒤 `먼 후보 몇 개는 아예 보지 않고도 상위 후보를 빨리 좁히는` 장난감 흐름을 비교해 볼 수 있습니다.
+이번 예제의 목표는 `가까운 벡터를 찾는다`는 문제와 `모든 후보를 끝까지 비교하는 일`을 가장 작게 보여 주는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, 먼저 전수 비교를 한 뒤 `먼 후보 몇 개는 아예 보지 않고도 상위 후보를 빨리 좁히는` 장난감 흐름을 비교해 볼 수 있습니다. 여기에 계산 횟수까지 함께 찍어, 왜 ANN이 실무에서 중요한지도 직접 보겠습니다.
 
 입력:
 
@@ -108,6 +108,7 @@ FAQ 문서가 몇십 개일 때는 모든 벡터를 다 비교해도 괜찮을 �
 
 - 전수 비교 결과
 - 빠른 1차 후보 축소 뒤의 상위 결과
+- 각 방식이 실제로 비교한 후보 수
 
 ```python
 def squared_distance(a, b):
@@ -128,6 +129,7 @@ full_scan = sorted(
     ((name, squared_distance(query, vec)) for name, vec in docs.items()),
     key=lambda x: x[1],
 )
+full_scan_ops = len(docs)
 
 # 장난감 ANN 직관:
 # x축이 너무 먼 후보는 먼저 제외하고 남은 후보만 자세히 비교한다.
@@ -138,9 +140,12 @@ fast_scan = sorted(
     ((name, squared_distance(query, vec)) for name, vec in coarse_candidates.items()),
     key=lambda x: x[1],
 )
+fast_scan_ops = len(coarse_candidates)
 
 print("full_scan =", full_scan)
 print("fast_scan =", fast_scan)
+print("full_scan_ops =", full_scan_ops)
+print("fast_scan_ops =", fast_scan_ops)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -148,6 +153,8 @@ print("fast_scan =", fast_scan)
 ```text
 full_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004), ('coupon_event', 0.565), ('shipping_delay', 0.613), ('change_address', 0.85)]
 fast_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004)]
+full_scan_ops = 5
+fast_scan_ops = 2
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
@@ -155,6 +162,7 @@ fast_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004)]
 - 전수 비교는 모든 후보를 다 보므로 가장 안전하지만 후보 수가 커질수록 느려집니다.
 - 빠른 후보 축소는 일부 후보를 아예 먼저 버리는 대신, 실제로 가까울 가능성이 높은 항목을 훨씬 빨리 좁힙니다.
 - ANN의 실무 감각도 이와 비슷하게 `완벽한 전수 비교`보다 `충분히 좋은 근접 후보를 빨리 찾는 구조`에 가깝습니다.
+- 이 예제에서는 상위 후보를 유지하면서 비교 횟수를 5회에서 2회로 줄이는 감각을 아주 작게 보여 줍니다.
 
 ## 이 예제를 검색 구조 관점으로 다시 보면
 
