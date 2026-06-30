@@ -169,66 +169,94 @@ RNN은 시점 순서대로 상태를 넘기므로, 계산 흐름이 순차적이
 | 문서 요약 | 앞뒤 핵심 표현을 함께 참조할 수 있어서 |
 | 코드 이해 | 멀리 떨어진 정의와 사용 관계를 더 직접 볼 수 있어서 |
 
+세 사례를 같은 기준으로 다시 정리하면, self-attention이 `현재 위치가 무엇을 다시 참고해야 하는가`를 정하는 구조라는 점이 더 또렷해집니다.
+
+| 사례 | 현재 위치가 다시 봐야 하는 대상 | 가까운 위치만 보면 생기는 문제 | self-attention으로 확인할 결과 |
+| --- | --- | --- | --- |
+| 대명사 해석 | 대명사가 가리키는 앞 명사 | 바로 옆 단어만 보고 잘못 연결할 수 있다 | 문장 전체 관계를 반영해 더 그럴듯한 지시어를 고르는가 |
+| 문서 요약 | 앞 조건, 중간 이유, 뒤 결론 | 마지막 문장만 보고 이유나 예외를 놓칠 수 있다 | 여러 위치를 함께 참고해 요약 핵심을 다시 묶는가 |
+| 코드 이해 | 멀리 떨어진 변수 정의와 사용 위치 | 현재 줄 근처만 보고 정의-사용 관계를 놓칠 수 있다 | 반환식과 위쪽 정의가 실제로 연결되는가 |
+
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 토큰 하나가 다른 토큰들의 정보를 가중 평균으로 다시 모아 새 표현을 만든다는 self-attention 직관을 확인하는 것입니다. 특히 `그것` 같은 현재 토큰이 문장 안 다른 위치를 얼마나 참고하는지를 작은 예제로 보겠습니다.
+이번 예제의 목표는 `그것` 같은 현재 토큰이 문장 안 여러 후보 중 무엇을 더 크게 참고하는지, 그리고 그 결과 현재 표현이 어떻게 달라지는지를 직접 확인하는 것입니다. 즉, self-attention을 단순 숫자 평균이 아니라 `현재 토큰이 문장 안 관련 단서를 다시 읽는 과정`으로 실험해 봅니다.
 
 입력:
 
-- `반품`, `박스`, `그것` 세 토큰
-- 현재 토큰 `그것`이 각 토큰을 얼마나 참고할지에 대한 점수
+- `상품은 반품했지만 박스는 버리지 않았습니다. 그것이 문제인가요?`라는 짧은 문장
+- 현재 토큰 `그것`이 문장 안 각 토큰을 얼마나 참고할지에 대한 점수
+- 각 토큰의 간단한 의미 벡터
 
 출력:
 
-- 정규화된 비중
-- `그것`의 새 표현
-- 어떤 단서를 가장 크게 참고했는지에 대한 요약
+- `그것` 위치에서 계산된 attention 비중
+- self-attention 이후 `그것`의 새 표현
+- 어떤 토큰 묶음이 가장 크게 반영됐는지에 대한 요약
 
 ```python
 import math
 
-tokens = {
-    "반품": 2.0,
-    "박스": 7.0,
-    "그것": 4.0,
-}
-scores_for_current_token = {
-    "반품": 0.5,
-    "박스": 2.0,
-    "그것": 1.0,
+tokens = ["상품", "반품", "박스", "버리지", "그것"]
+token_vectors = {
+    "상품": [0.8, 0.1, 0.0],
+    "반품": [0.9, 0.3, 0.1],
+    "박스": [0.1, 0.9, 0.2],
+    "버리지": [0.0, 0.6, 0.8],
+    "그것": [0.3, 0.3, 0.3],
 }
 
-ordered_names = list(tokens.keys())
-values = [tokens[name] for name in ordered_names]
-raw_scores = [scores_for_current_token[name] for name in ordered_names]
+# current token "그것" assigns larger raw scores to tokens
+# that help resolve what it refers to in this sentence
+raw_scores = {
+    "상품": 0.2,
+    "반품": 0.6,
+    "박스": 2.1,
+    "버리지": 1.2,
+    "그것": 0.7,
+}
 
-exp_scores = [math.exp(s) for s in raw_scores]
+ordered_scores = [raw_scores[token] for token in tokens]
+exp_scores = [math.exp(score) for score in ordered_scores]
 total = sum(exp_scores)
 weights = [s / total for s in exp_scores]
-new_representation = sum(w * t for w, t in zip(weights, values))
 
-for name, weight in zip(ordered_names, weights):
-    print(name, "weight =", round(weight, 3), "value =", tokens[name])
+new_representation = [0.0, 0.0, 0.0]
+for weight, token in zip(weights, tokens):
+    vector = token_vectors[token]
+    for idx in range(len(vector)):
+        new_representation[idx] += weight * vector[idx]
+
+for token, weight in zip(tokens, weights):
+    print(token, "weight =", round(weight, 3), "vector =", token_vectors[token])
 print("weights =", [round(w, 3) for w in weights])
-print("new_representation =", round(new_representation, 3))
+print("new_representation =", [round(value, 3) for value in new_representation])
+
+top_token = tokens[weights.index(max(weights))]
+top_pair_weight = round(weights[tokens.index("박스")] + weights[tokens.index("버리지")], 3)
+print("top_token =", top_token)
+print("box_plus_not_discarded_weight =", top_pair_weight)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-반품 weight = 0.14 value = 2.0
-박스 weight = 0.629 value = 7.0
-그것 weight = 0.231 value = 4.0
-weights = [0.14, 0.629, 0.231]
-new_representation = 5.021
+상품 weight = 0.073 vector = [0.8, 0.1, 0.0]
+반품 weight = 0.109 vector = [0.9, 0.3, 0.1]
+박스 weight = 0.488 vector = [0.1, 0.9, 0.2]
+버리지 weight = 0.199 vector = [0.0, 0.6, 0.8]
+그것 weight = 0.12 vector = [0.3, 0.3, 0.3]
+weights = [0.073, 0.109, 0.488, 0.199, 0.12]
+new_representation = [0.23, 0.676, 0.28]
+top_token = 박스
+box_plus_not_discarded_weight = 0.687
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- 현재 토큰 표현은 자기 자신만으로 결정되지 않고
-- 다른 토큰들의 값도 함께 참고하며
-- 이 예제에서는 `그것`이 `반품`보다 `박스`를 더 크게 참고하므로, 대명사 해석이 특정 단서 쪽으로 더 기울어집니다
-- 더 중요한 토큰일수록 더 큰 비중을 갖습니다
+- 현재 토큰 표현은 자기 자신만으로 정해지지 않고, 문장 안 다른 토큰들을 다시 참고해 새로 계산됩니다
+- 이 예제에서는 `그것`이 `반품`보다 `박스`와 `버리지` 쪽 단서를 훨씬 더 크게 참고하므로, 대명사 해석이 `박스` 쪽으로 기웁니다
+- `박스`와 `버리지`의 합 비중이 0.687이라는 점은, self-attention이 단어 하나만 보는 것이 아니라 관련 단서 묶음을 함께 반영한다는 점을 보여 줍니다
+- 즉, self-attention은 `지금 이 토큰을 이해하려면 문장 안 어디를 다시 봐야 하는가`를 수치로 정하는 방식으로 읽을 수 있습니다
 
 즉, self-attention은 `문맥을 보고 표현을 다시 계산하는 방식`입니다.
 
