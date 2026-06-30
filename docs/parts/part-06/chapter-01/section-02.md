@@ -69,6 +69,14 @@ P6-1.1에서는 작은 운영 표를 읽고 평균, 최대값, 비율을 계산�
 
 이 구조는 Part 6 전체에서 반복해서 쓰이는 공통 형식입니다. 이후 예측 모델, 딥러닝, RAG 프로젝트에서도 같은 세 칸을 다시 쓰게 됩니다.
 
+방금 앞 절에서 만든 `project_note`를 다시 읽으면, 이 세 칸이 어디에서 나오는지도 자연스럽게 보입니다.
+
+- `summary`에 들어간 값은 `사실(fact)` 후보입니다.
+- `observations`에 적힌 문장은 `해석(interpretation)` 후보입니다.
+- `next_questions`에 적힌 문장은 그대로 `다음 질문(next question)` 후보입니다.
+
+즉, P6-1.1의 출력은 여기서 회고 문서로 바로 다시 정리되어야 합니다.
+
 ## 앞 절 결과를 예시로 다시 정리하기
 
 P6-1.1의 결과를 이 구조에 맞추면 다음처럼 적을 수 있습니다.
@@ -89,6 +97,77 @@ P6-1.1의 결과를 이 구조에 맞추면 다음처럼 적을 수 있습니다
 
 - 위험한 문장: `오류 때문에 가입이 떨어졌다.`
 - 안전한 문장: `오류와 가입 감소가 함께 보여 추가 확인이 필요하다.`
+
+## project_note를 회고 문서로 바꾸기
+
+앞 절의 `project_note`가 실제로 어떻게 회고 문서가 되는지 아주 작은 코드로 다시 보면 더 분명합니다.
+
+문제 상황:
+
+- 이미 기본 요약값과 관찰 메모가 있음
+- 하지만 프로젝트 문서에는 `사실`, `해석`, `다음 질문` 칸으로 다시 정리해 남겨야 함
+
+입력:
+
+- `project_note["summary"]`
+- `project_note["observations"]`
+- `project_note["next_questions"]`
+
+출력:
+
+- fact / interpretation / next question 구조의 retrospective note
+
+```python
+project_note = {
+    "question": "지난 7일 운영 기록에서 방문자, 가입, 오류의 기본 흐름은 어떠한가?",
+    "summary": {
+        "avg_conversion": 0.105,
+        "best_signup_day": "2026-06-05",
+        "highest_error_day": "2026-06-06",
+    },
+    "observations": [
+        "가입이 가장 많았던 날과 전환율이 가장 높았던 날이 모두 2026-06-05입니다.",
+        "오류가 가장 많았던 날은 2026-06-06이며, 가입 수는 직전 날짜보다 줄었습니다.",
+    ],
+    "next_questions": [
+        "2026-06-06 오류 증가는 배포나 이벤트와 연결되는가?",
+        "2026-06-05 전환율 상승은 유입 품질 변화와 연결되는가?",
+    ],
+}
+
+retrospective_note = [
+    {
+        "fact": f"평균 전환율은 약 {project_note['summary']['avg_conversion']:.3f}였다.",
+        "interpretation": "기본 전환 흐름을 잡는 기준점으로 쓸 수 있다.",
+        "next_question": "이 수치가 이전 주에도 유지되는가?",
+    },
+    {
+        "fact": f"가입이 가장 많았던 날은 {project_note['summary']['best_signup_day']}였다.",
+        "interpretation": project_note["observations"][0],
+        "next_question": project_note["next_questions"][1],
+    },
+    {
+        "fact": f"오류가 가장 많았던 날은 {project_note['summary']['highest_error_day']}였다.",
+        "interpretation": "오류 증가와 가입 변화가 함께 보여 추가 확인이 필요하다.",
+        "next_question": project_note["next_questions"][0],
+    },
+]
+
+print("[retrospective_note]")
+for item in retrospective_note:
+    print(item)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[retrospective_note]
+{'fact': '평균 전환율은 약 0.105였다.', 'interpretation': '기본 전환 흐름을 잡는 기준점으로 쓸 수 있다.', 'next_question': '이 수치가 이전 주에도 유지되는가?'}
+{'fact': '가입이 가장 많았던 날은 2026-06-05였다.', 'interpretation': '가입이 가장 많았던 날과 전환율이 가장 높았던 날이 모두 2026-06-05입니다.', 'next_question': '2026-06-05 전환율 상승은 유입 품질 변화와 연결되는가?'}
+{'fact': '오류가 가장 많았던 날은 2026-06-06였다.', 'interpretation': '오류 증가와 가입 변화가 함께 보여 추가 확인이 필요하다.', 'next_question': '2026-06-06 오류 증가는 배포나 이벤트와 연결되는가?'}
+```
+
+이 예제에서 확인해야 할 결과는 요약값이 그냥 숫자 목록으로 끝나는 것이 아니라, 회고 문서에서 다시 `사실`, `해석`, `다음 질문` 구조로 바뀌는가입니다. 그래야 프로젝트 문서가 계산 기록을 넘어 다음 행동의 기준이 됩니다.
 
 ## 회고는 실패 기록만이 아니다
 
