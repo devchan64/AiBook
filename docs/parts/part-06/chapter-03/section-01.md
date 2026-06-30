@@ -118,7 +118,7 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 4x4 이미지를 펼쳐 16차원 입력으로 바꾸고, 매우 작은 softmax 분류기를 학습해 test 예측을 확인하는 것입니다.
+이번 예제의 목적은 4x4 이미지를 펼쳐 16차원 입력으로 바꾸고, 매우 작은 softmax 분류기를 학습해 test 예측을 확인하는 것입니다. 이번에는 `정확도`만 보는 대신, 어떤 test 이미지가 애매했는지 바로 추적할 수 있도록 `sample_id`, `pattern_name`, `confidence_margin`도 함께 남기겠습니다.
 
 - 문제 상황: 세로 막대와 가로 막대를 구분한다.
 - 입력(input): 4x4 흑백 이미지 4장(train), 3장(test)
@@ -127,24 +127,66 @@ flowchart TD
   - 이미지도 숫자 배열이다
   - 분류기는 클래스 점수(score)를 비교해 예측을 만든다
   - test 데이터에서 애매한 이미지가 틀릴 수 있다
+  - 오류 사례로 이어질 수 있게 샘플별 예측 기록을 남겨야 한다
 
 ```python
 import numpy as np
 
-X_train = np.array([
-    [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
-    [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
-    [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
-    [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
-], dtype=float)
-y_train = np.array([0, 0, 1, 1])
+train_rows = [
+    {
+        "sample_id": "train-vertical-01",
+        "pattern_name": "vertical_bar",
+        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
+        "label": 0,
+    },
+    {
+        "sample_id": "train-vertical-02",
+        "pattern_name": "vertical_bar",
+        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
+        "label": 0,
+    },
+    {
+        "sample_id": "train-horizontal-01",
+        "pattern_name": "horizontal_bar",
+        "image": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "label": 1,
+    },
+    {
+        "sample_id": "train-horizontal-02",
+        "pattern_name": "horizontal_bar",
+        "image": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "label": 1,
+    },
+]
 
-X_test = np.array([
-    [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
-    [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
-    [[0, 1, 1, 0], [0, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]],
-], dtype=float)
-y_test = np.array([0, 1, 1])
+test_rows = [
+    {
+        "sample_id": "test-vertical-clear",
+        "pattern_name": "vertical_bar",
+        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
+        "label": 0,
+    },
+    {
+        "sample_id": "test-horizontal-clear",
+        "pattern_name": "horizontal_bar",
+        "image": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "label": 1,
+    },
+    {
+        "sample_id": "test-mixed-pattern",
+        "pattern_name": "mixed_bar",
+        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "label": 1,
+    },
+]
+
+X_train = np.array([row["image"] for row in train_rows], dtype=float)
+y_train = np.array([row["label"] for row in train_rows])
+X_test = np.array([row["image"] for row in test_rows], dtype=float)
+y_test = np.array([row["label"] for row in test_rows])
+
+original_train_shape = X_train.shape
+original_test_shape = X_test.shape
 
 X_train = X_train.reshape(len(X_train), -1)
 X_test = X_test.reshape(len(X_test), -1)
@@ -178,29 +220,49 @@ train_pred = train_probs.argmax(axis=1)
 test_probs = softmax(X_test @ W + b)
 test_pred = test_probs.argmax(axis=1)
 
-print("train_shape =", X_train.shape)
-print("test_shape =", X_test.shape)
-print("train_pred =", train_pred.tolist())
-print("train_accuracy =", round((train_pred == y_train).mean(), 3))
-print("test_pred =", test_pred.tolist())
-print("test_accuracy =", round((test_pred == y_test).mean(), 3))
-print("test_probs =")
-print(np.round(test_probs, 3))
+test_records = []
+for index, row in enumerate(test_rows):
+    probs = np.round(test_probs[index], 3)
+    confidence_margin = round(
+        float(np.sort(test_probs[index])[-1] - np.sort(test_probs[index])[-2]), 3
+    )
+    test_records.append({
+        "sample_id": row["sample_id"],
+        "pattern_name": row["pattern_name"],
+        "true_label": row["label"],
+        "pred_label": int(test_pred[index]),
+        "correct": bool(test_pred[index] == y_test[index]),
+        "probs": probs.tolist(),
+        "confidence_margin": confidence_margin,
+        "needs_error_review": bool(confidence_margin <= 0.1),
+    })
+
+project_run = {
+    "original_train_shape": original_train_shape,
+    "original_test_shape": original_test_shape,
+    "flattened_train_shape": X_train.shape,
+    "flattened_test_shape": X_test.shape,
+    "train_accuracy": round(float((train_pred == y_train).mean()), 3),
+    "test_accuracy": round(float((test_pred == y_test).mean()), 3),
+    "uncertain_sample_ids": [
+        row["sample_id"] for row in test_records if row["needs_error_review"]
+    ],
+}
+
+print("project_run =", project_run)
+print("test_records =")
+for row in test_records:
+    print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-train_shape = (4, 16)
-test_shape = (3, 16)
-train_pred = [0, 0, 1, 1]
-train_accuracy = 1.0
-test_pred = [0, 1, 0]
-test_accuracy = 0.667
-test_probs =
-[[0.997 0.003]
- [0.003 0.997]
- [0.5   0.5  ]]
+project_run = {'original_train_shape': (4, 4, 4), 'original_test_shape': (3, 4, 4), 'flattened_train_shape': (4, 16), 'flattened_test_shape': (3, 16), 'train_accuracy': 1.0, 'test_accuracy': 0.667, 'uncertain_sample_ids': ['test-mixed-pattern']}
+test_records =
+{'sample_id': 'test-vertical-clear', 'pattern_name': 'vertical_bar', 'true_label': 0, 'pred_label': 0, 'correct': True, 'probs': [0.997, 0.003], 'confidence_margin': 0.994, 'needs_error_review': False}
+{'sample_id': 'test-horizontal-clear', 'pattern_name': 'horizontal_bar', 'true_label': 1, 'pred_label': 1, 'correct': True, 'probs': [0.003, 0.997], 'confidence_margin': 0.994, 'needs_error_review': False}
+{'sample_id': 'test-mixed-pattern', 'pattern_name': 'mixed_bar', 'true_label': 1, 'pred_label': 0, 'correct': False, 'probs': [0.5, 0.5], 'confidence_margin': 0.0, 'needs_error_review': True}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -208,18 +270,19 @@ test_probs =
 이 결과에서 읽어야 할 핵심은 세 가지입니다.
 
 1. 입력 모양  
-   `train_shape = (4, 16)`이라는 출력은 4x4 이미지가 16개 숫자로 펼쳐져 모델 입력이 되었음을 보여 줍니다.
+   `project_run`에는 원래 shape `(4, 4, 4)`와 펼친 뒤 shape `(4, 16)`이 함께 남습니다. 즉, 이미지가 원래는 4x4 픽셀 묶음이었고, 학습 직전에는 16개 숫자 입력으로 바뀌었다는 점을 한 번에 확인할 수 있습니다.
 
 2. 학습 데이터와 평가 데이터 분리  
-   train에서는 모두 맞았지만, test에서는 세 번째 샘플을 틀렸습니다. 즉, 학습 성공과 일반화 성공은 같은 말이 아닙니다.
+   train에서는 모두 맞았지만, test에서는 `test-mixed-pattern`을 틀렸습니다. 즉, 학습 성공과 일반화 성공은 같은 말이 아닙니다.
 
 3. 확률 분포의 애매함  
-   세 번째 샘플의 확률이 `[0.5, 0.5]`로 나온 것은 모델이 이 이미지를 거의 구분하지 못했다는 뜻입니다.
+   세 번째 샘플의 확률이 `[0.5, 0.5]`로 나온 것은 모델이 이 이미지를 거의 구분하지 못했다는 뜻입니다. `confidence_margin = 0.0`과 `needs_error_review = True`를 함께 남겼기 때문에, 다음 절에서 어떤 샘플을 우선 분석해야 하는지도 바로 정할 수 있습니다.
 
 이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
 
 - 이미지는 결국 16개 숫자 입력으로 바뀌었다
 - train에서는 맞아도 test에서는 애매한 샘플이 틀릴 수 있다
+- 샘플 ID와 불확실성 기록이 있어야 다음 오류 분석으로 자연스럽게 이어진다
 - 애매한 확률 출력은 다음 절 오류 분석의 출발점이다
 
 ## 커리큘럼 관점에서의 의미
