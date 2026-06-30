@@ -122,48 +122,98 @@ flowchart TD
 
 개발자가 `이 API에서 timeout 옵션은 어디에 넣나요?`라고 묻는 장면을 떠올려 볼 수 있습니다. 사람은 검색이 올바른 버전의 공식 문서를 가져오면 `이제 거의 끝났다`고 느끼기 쉽습니다. 하지만 생성 단계가 예전 예제 코드와 새 문서를 섞거나 옵션 이름을 비슷한 다른 인자로 바꿔 말하면, 최종 답은 여전히 실패로 이어질 수 있습니다. 예를 들어 문서에는 `request_timeout`인데 생성이 익숙한 다른 라이브러리 이름인 `timeout_ms`로 바꿔 말하면, 문서는 맞았어도 답은 바로 깨집니다. 즉, 검색이 맞다고 해서 자동으로 답도 맞는 것은 아닙니다. 여기서 바뀌는 점은 `검색 성공`과 `최종 답 정확성`을 같은 일로 보지 않고, `찾아온 이름을 답변에도 그대로 유지하는가`를 별도 기준으로 보게 된다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 검색된 공식 옵션명이 최종 답변에도 그대로 유지되고, 비슷한 다른 인자 이름으로 바뀌지 않는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 검색과 생성을 한 단계로 섞지 않고, 둘을 나눠 보는 감각을 만드는 것입니다.
+이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다.
+
+문제 상황:
+
+- 사용자는 `벡터 검색이 왜 필요한가요?`라고 묻고 있음
+- 검색 단계는 관련 문서를 골라야 하고
+- 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 함
 
 입력:
 
 - 질문
-- 검색 결과
-- 생성용 입력 조합
+- 검색 결과 문서 목록
+- 생성용 입력 payload
 
 출력:
 
-- 답변 직전의 결합 상태
+- 어떤 문서가 입력에 포함되었는지
+- 그 문서를 바탕으로 만든 최종 설명
+- 검색 실패와 생성 실패를 나누어 볼 수 있는 간단한 점검값
 
 ```python
 question = "벡터 검색이 왜 필요한가요?"
 
 retrieved_docs = [
-    "문서 A: 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.",
-    "문서 B: 키워드가 달라도 의미 기반 검색이 가능하다.",
+    {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
+    {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
 ]
 
 prompt_payload = {
     "question": question,
     "docs": retrieved_docs,
-    "instruction": "문서를 바탕으로 독자 기준으로 설명해 주세요.",
+    "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
 }
 
-print("question =", question)
-print("retrieved_docs =", retrieved_docs)
-print("prompt_payload =", prompt_payload)
+
+def generate_from_payload(payload):
+    first = payload["docs"][0]["text"]
+    second = payload["docs"][1]["text"]
+    answer = (
+        f"벡터 검색은 {first} "
+        f"그래서 {second}"
+    )
+    return answer
+
+
+def inspect_payload(payload, answer):
+    return {
+        "doc_count": len(payload["docs"]),
+        "doc_titles": [doc["title"] for doc in payload["docs"]],
+        "answer_uses_vector_term": "벡터" in answer,
+        "answer_uses_semantic_term": "의미" in answer,
+    }
+
+
+answer = generate_from_payload(prompt_payload)
+
+print("[question]")
+print(question)
+print("[payload docs]")
+for doc in prompt_payload["docs"]:
+    print("-", doc["title"], ":", doc["text"])
+print()
+print("[generated answer]")
+print(answer)
+print("[inspect]")
+print(inspect_payload(prompt_payload, answer))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-question = 벡터 검색이 왜 필요한가요?
-retrieved_docs = ['문서 A: 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.', '문서 B: 키워드가 달라도 의미 기반 검색이 가능하다.']
-prompt_payload = {'question': '벡터 검색이 왜 필요한가요?', 'docs': ['문서 A: 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.', '문서 B: 키워드가 달라도 의미 기반 검색이 가능하다.'], 'instruction': '문서를 바탕으로 독자 기준으로 설명해 주세요.'}
+[question]
+벡터 검색이 왜 필요한가요?
+[payload docs]
+- 문서 A : 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.
+- 문서 B : 키워드가 달라도 의미 기반 검색이 가능하다.
+
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 키워드가 달라도 의미 기반 검색이 가능하다.
+[inspect]
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남아 있는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남아 있고, 생성 단계는 그 payload를 읽어 최종 문장을 만든다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `retrieved_docs`의 순서를 바꿔 문서 순서가 답변 전개에 어떤 영향을 주는지 보기
+- 관련 없는 문서를 하나 섞어 검색 실패가 생성 답에 어떻게 스며드는지 확인하기
+- `generate_from_payload`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
 
 ## 이 예제를 RAG 파이프라인 관점으로 다시 보면
 

@@ -183,41 +183,110 @@ flowchart TD
 | 제품 지원 | 최신 매뉴얼을 먼저 확인해야 해서 |
 | 개발 문서 | 현재 버전 문서를 기반으로 답해야 해서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 검색 시스템을 구현하는 것이 아니라, `질문 -> 문서 검색 -> 답변 생성`이라는 역할 분리를 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 어떻게 작동하는지 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 사용자는 `환불 정책이 오늘 어떻게 바뀌었나요?`라고 묻고 있음
+- 모델 내부 기억에는 예전 기준이 남아 있을 수 있음
+- 최신 공지 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있음
 
 입력:
 
-- 질문
-- 검색된 문서 목록
+- 사용자 질문
+- 내부 기억 역할의 오래된 값
+- 검색 가능한 최신 문서 목록
 
 출력:
 
-- 답변 전에 어떤 근거가 붙는지 확인
+- 검색 없이 바로 답한 결과
+- 관련 문서를 먼저 고른 뒤 답한 결과
+- 어떤 문서가 실제 근거로 붙었는지에 대한 점검값
 
 ```python
 question = "환불 정책이 오늘 어떻게 바뀌었나요?"
 
-retrieved_docs = [
-    "2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨",
-    "FAQ: 환불 접수는 계정 메뉴에서 시작",
+stale_memory_answer = "환불 요청 처리 기한은 7일입니다."
+
+documents = [
+    {
+        "title": "2026-06-29 정책 공지",
+        "text": "환불 요청 처리 기한이 7일에서 14일로 변경됨",
+    },
+    {
+        "title": "FAQ",
+        "text": "환불 접수는 계정 메뉴에서 시작",
+    },
+    {
+        "title": "구버전 안내",
+        "text": "예전에는 환불 요청 처리 기한이 7일이었다",
+    },
 ]
 
-print("question =", question)
-print("retrieved_docs =", retrieved_docs)
-print("next_step = generate answer using retrieved docs")
+
+def retrieve_docs(question, documents):
+    keywords = ["환불", "기한", "변경"]
+    scored = []
+    for doc in documents:
+        score = sum(keyword in doc["text"] or keyword in doc["title"] for keyword in keywords)
+        scored.append((score, doc))
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [doc for score, doc in scored if score > 0][:2]
+
+
+def answer_with_rag(retrieved_docs):
+    primary_doc = retrieved_docs[0]
+    if "14일" in primary_doc["text"]:
+        answer = "최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다."
+    else:
+        answer = "검색된 문서만으로는 변경 내용을 확정하기 어렵습니다."
+    return {
+        "answer": answer,
+        "grounding_titles": [doc["title"] for doc in retrieved_docs],
+    }
+
+
+retrieved_docs = retrieve_docs(question, documents)
+rag_result = answer_with_rag(retrieved_docs)
+
+print("[question]")
+print(question)
+print("[memory only answer]")
+print(stale_memory_answer)
+print()
+print("[retrieved docs]")
+for doc in retrieved_docs:
+    print("-", doc["title"], ":", doc["text"])
+print()
+print("[rag answer]")
+print(rag_result)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-question = 환불 정책이 오늘 어떻게 바뀌었나요?
-retrieved_docs = ['2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨', 'FAQ: 환불 접수는 계정 메뉴에서 시작']
-next_step = generate answer using retrieved docs
+[question]
+환불 정책이 오늘 어떻게 바뀌었나요?
+[memory only answer]
+환불 요청 처리 기한은 7일입니다.
+
+[retrieved docs]
+- 2026-06-29 정책 공지 : 환불 요청 처리 기한이 7일에서 14일로 변경됨
+- 구버전 안내 : 예전에는 환불 요청 처리 기한이 7일이었다
+
+[rag answer]
+{'answer': '최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다.', 'grounding_titles': ['2026-06-29 정책 공지', '구버전 안내']}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어가는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어가고, 그 결과 내부 기억과 다른 최신 답이 만들어질 수 있다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `documents`에 더 많은 구버전 문서를 넣어 검색 결과가 어떻게 흔들리는지 보기
+- `keywords`를 바꿔 검색 품질이 답변에 어떤 영향을 주는지 확인하기
+- `answer_with_rag`에서 문서 제목뿐 아니라 근거 문장을 함께 반환하도록 바꿔 보기
 
 ## 이 예제를 근거 우선 구조 관점으로 다시 보면
 
