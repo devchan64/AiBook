@@ -65,6 +65,31 @@ ViT는 이미지를 작은 패치 조각들로 나눈 뒤, 각 패치를 토큰�
 
 이 흐름을 아주 단순하게 쓰면 다음과 같습니다.
 
+```mermaid
+flowchart TD
+  A["input image"]
+  B["split into patches"]
+  C["patch embeddings"]
+  D["self-attention across patches"]
+  E["image representation"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+```
+
+이 도식은 다음처럼 읽으면 충분합니다.
+
+1. 이미지를 작은 조각으로 나눕니다.
+2. 각 조각을 숫자 벡터 하나로 바꿉니다.
+3. 각 조각이 다른 조각을 얼마나 참고할지 attention으로 계산합니다.
+4. 그 결과를 합쳐 이미지 전체를 설명하는 표현으로 넘깁니다.
+
+즉, ViT는 처음부터 `한 패치가 다른 패치와 어떤 관계를 맺는가`를 계산 흐름에 올려 둔 구조라고 볼 수 있습니다.
+
+이 흐름을 아주 단순한 표로 다시 쓰면 다음과 같습니다.
+
 | 단계 | ViT에서 실제로 하는 일 |
 | --- | --- |
 | 1 | 이미지 한 장을 여러 patch로 자른다 |
@@ -108,6 +133,13 @@ ViT를 처음 읽을 때 가장 헷갈리는 지점은 `왜 굳이 이미지를 
 
 여기서 patch를 너무 작게 자르면 계산량이 커지고, 너무 크게 자르면 작은 지역 정보가 뭉개질 수 있습니다. 이런 설계 선택과 학습 레시피는 ViT 세부 구현 주제이므로 이 절에서는 다루지 않고, 현재는 `ViT는 patch를 입력 단위로 삼는다`는 점만 확실히 잡으면 충분합니다.
 
+이 말을 CNN과 대비해 다시 읽으면 차이가 더 분명해집니다.
+
+- CNN에서는 작은 필터가 `픽셀 근처`를 훑으며 반응을 만듭니다.
+- ViT에서는 잘라 둔 patch가 `처음부터 하나의 읽기 단위`가 됩니다.
+
+즉, CNN의 첫 질문이 `이 근처에 edge나 texture가 있나?`에 가깝다면, ViT의 첫 질문은 `이 패치가 다른 패치와 어떤 관계를 맺나?`에 더 가깝습니다.
+
 ## CNN과 ViT의 출발 단위를 나란히 보면
 
 같은 말을 더 짧게 비교하면 다음과 같습니다.
@@ -138,6 +170,13 @@ ViT를 처음 읽을 때 가장 헷갈리는 지점은 `왜 굳이 이미지를 
 
 - CNN은 먼저 `바퀴 경계`, `창문 모서리`, `차체 질감` 같은 가까운 단서를 읽습니다.
 - ViT는 `왼쪽 아래 패치`, `가운데 패치`, `위쪽 패치`가 함께 자동차를 이루는지 관계를 더 직접적으로 따집니다.
+
+같은 말을 더 짧은 장면으로 다시 써 보면 다음과 같습니다.
+
+| 질문 | CNN이 먼저 보는 것 | ViT가 먼저 세우는 것 |
+| --- | --- | --- |
+| 말 사진에서 다리와 몸통을 읽을 때 | 다리 경계, 털 질감, 몸통 윤곽 같은 지역 반응 | 다리가 있는 패치와 몸통이 있는 패치가 함께 말을 이루는지 |
+| 자동차 사진에서 바퀴와 창문을 읽을 때 | 둥근 바퀴 경계, 창문 모서리 같은 부분 반응 | 바퀴 패치와 창문 패치, 차체 패치의 관련성 |
 
 즉, CNN은 `작은 부분을 먼저 읽고 올라가는 방식`, ViT는 `잘라 놓은 조각들 사이 관계를 먼저 따지는 방식`으로 대비하면 됩니다.
 
@@ -197,3 +236,9 @@ ViT를 이미지용 Transformer처럼 이해하려면, `패치를 토큰처럼 �
 - CNN이 왜 이미지의 지역 구조와 잘 맞는지 설명할 수 있는가?
 - ViT를 `이미지 패치 + attention` 구조로 입문 수준에서 설명할 수 있는가?
 - 이후 P4-13.2 self-attention, P4-14 Transformer와 왜 연결되는지 말할 수 있는가?
+
+## 출처와 참고 자료
+
+- Alexey Dosovitskiy et al., `An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale`, ICLR 2021, 확인 날짜: 2026-06-30.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-30.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-30. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
