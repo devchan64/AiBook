@@ -182,6 +182,134 @@ ViT를 처음 읽을 때 가장 헷갈리는 지점은 `왜 굳이 이미지를 
 
 이 비교에서 중요한 것은 `CNN은 부분을 본다`, `ViT는 전체를 본다`처럼 단순하게 갈라버리는 일이 아닙니다. 둘 다 결국 이미지 전체 판단으로 가지만, 출발 직관이 `지역 패턴 중심`이냐 `패치 관계 중심`이냐에서 차이가 납니다.
 
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 `같은 작은 이미지도 CNN은 겹치는 지역 패치 흐름으로 읽고, ViT는 큰 patch token 흐름으로 읽는다`는 점을 눈으로 확인하는 것입니다. 실제 학습 모델 전체를 구현하지는 않지만, 같은 입력이 두 구조에서 어떤 계산 단위로 바뀌는지는 직접 볼 수 있습니다.
+
+입력:
+
+- 4x4 장난감 이미지
+- CNN이 읽는 2x2 지역 패치
+- ViT가 읽는 2x2 patch token
+
+출력:
+
+- CNN 방식의 겹치는 지역 패치 목록
+- ViT 방식의 비겹침 patch token 목록
+- 각 patch를 펼친 벡터와 간단한 patch embedding 값
+
+```python
+import numpy as np
+
+image = np.array([
+    [0, 1, 1, 0],
+    [0, 1, 1, 0],
+    [2, 2, 0, 0],
+    [2, 2, 0, 0],
+], dtype=float)
+
+
+def cnn_local_patches(image, kernel_size=2, stride=1):
+    patches = []
+    for i in range(0, image.shape[0] - kernel_size + 1, stride):
+        for j in range(0, image.shape[1] - kernel_size + 1, stride):
+            patch = image[i:i + kernel_size, j:j + kernel_size]
+            patches.append(((i, j), patch.copy()))
+    return patches
+
+
+def vit_patch_tokens(image, patch_size=2):
+    tokens = []
+    for i in range(0, image.shape[0], patch_size):
+        for j in range(0, image.shape[1], patch_size):
+            patch = image[i:i + patch_size, j:j + patch_size]
+            flat = patch.flatten()
+            tokens.append(((i, j), patch.copy(), flat))
+    return tokens
+
+
+embedding_weight = np.array([0.5, 0.2, 0.7, 0.1])
+
+cnn_patches = cnn_local_patches(image, kernel_size=2, stride=1)
+vit_tokens = vit_patch_tokens(image, patch_size=2)
+
+print("[cnn local patches]")
+for position, patch in cnn_patches:
+    print("position =", position)
+    print(patch)
+
+print("[vit patch tokens]")
+for position, patch, flat in vit_tokens:
+    embedding_value = round(float(flat @ embedding_weight), 2)
+    print("position =", position)
+    print(patch)
+    print("flat_token =", flat.tolist())
+    print("patch_embedding =", embedding_value)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[cnn local patches]
+position = (0, 0)
+[[0. 1.]
+ [0. 1.]]
+position = (0, 1)
+[[1. 1.]
+ [1. 1.]]
+position = (0, 2)
+[[1. 0.]
+ [1. 0.]]
+position = (1, 0)
+[[0. 1.]
+ [2. 2.]]
+position = (1, 1)
+[[1. 1.]
+ [2. 0.]]
+position = (1, 2)
+[[1. 0.]
+ [0. 0.]]
+position = (2, 0)
+[[2. 2.]
+ [2. 2.]]
+position = (2, 1)
+[[2. 0.]
+ [2. 0.]]
+position = (2, 2)
+[[0. 0.]
+ [0. 0.]]
+[vit patch tokens]
+position = (0, 0)
+[[0. 1.]
+ [0. 1.]]
+flat_token = [0.0, 1.0, 0.0, 1.0]
+patch_embedding = 0.3
+position = (0, 2)
+[[1. 0.]
+ [1. 0.]]
+flat_token = [1.0, 0.0, 1.0, 0.0]
+patch_embedding = 1.2
+position = (2, 0)
+[[2. 2.]
+ [2. 2.]]
+flat_token = [2.0, 2.0, 2.0, 2.0]
+patch_embedding = 3.0
+position = (2, 2)
+[[0. 0.]
+ [0. 0.]]
+flat_token = [0.0, 0.0, 0.0, 0.0]
+patch_embedding = 0.0
+```
+
+이 예제에서 먼저 읽어야 할 핵심은 다음입니다.
+
+- CNN 쪽은 `stride=1`로 겹치는 2x2 패치를 9번 읽습니다.
+- ViT 쪽은 같은 이미지를 2x2 patch 4개로 먼저 나눈 뒤, patch마다 벡터 하나를 만듭니다.
+- 즉, CNN의 출발 단위는 `겹치며 이동하는 지역 창`이고, ViT의 출발 단위는 `잘라 놓고 고정한 patch token`입니다.
+- 이후 ViT는 이 patch embedding들 사이 관계를 attention으로 읽게 되고, CNN은 지역 반응을 더 깊은 층에서 다시 쌓아 갑니다.
+
+이 예제에서는 `image` 크기를 8x8로 늘리거나 `patch_size`, `stride`를 바꿔 볼 수 있습니다. 그러면 독자는 단순히 `CNN은 부분, ViT는 패치`라는 문장을 외우는 대신, 같은 입력이 `몇 개의 겹치는 지역 반응`과 `몇 개의 patch token`으로 바뀌는지 직접 비교해 볼 수 있습니다.
+
 ## self-attention과는 어떻게 연결되나
 
 ViT를 이미지용 Transformer처럼 이해하려면, `패치를 토큰처럼 본다`는 말 다음에 `그래서 self-attention을 쓸 수 있다`는 연결이 보여야 합니다.
