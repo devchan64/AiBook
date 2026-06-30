@@ -23,7 +23,7 @@ Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트
 - positional encoding의 상세 수학
 - encoder-only, decoder-only, encoder-decoder 계열의 세부 아키텍처 분화
 
-multi-head attention의 수식 전개와 positional encoding의 상세 수학은 여기서 다루지 않습니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 실제 분화는 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 다시 회수합니다. 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
+multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 실제 분화는 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 다시 회수합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
 여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
 
@@ -72,6 +72,15 @@ multi-head attention의 수식 전개와 positional encoding의 상세 수학은
 
 P4-13.2를 `토큰들이 서로를 참고하는 계산`의 절로 읽었다면, 이 절은 그 계산이 실제 모델 안에서 `어떤 보조 부품들과 함께 한 블록을 이루는가`를 보여 주는 절이라고 보면 됩니다.
 
+여기서 독자가 특히 붙잡아야 할 것은 `부품이 따로따로 흩어져 있는 구조`가 아니라는 점입니다. Transformer는 보통 다음 질문 순서로 한 블록을 읽으면 가장 이해가 쉽습니다.
+
+1. 지금 토큰이 다른 토큰 중 어디를 더 참고할까?
+2. 그렇게 모인 문맥을 현재 위치 표현에 어떻게 다시 반영할까?
+3. 그 표현을 각 위치에서 한 번 더 가공할까?
+4. 이 과정에서 원래 정보와 안정성을 어떻게 유지할까?
+
+즉, Transformer 블록은 `관계 읽기 -> 위치별 가공 -> 안정적 전달`의 묶음으로 읽는 편이 초심자에게 더 자연스럽습니다.
+
 ## self-attention은 무엇을 담당하나
 
 P4-13장에서 본 것처럼 self-attention은 각 토큰이 다른 토큰들을 서로 참고해 문맥적 표현을 다시 계산하는 역할을 합니다.
@@ -91,6 +100,13 @@ self-attention만으로는 토큰 간 관계를 읽을 수 있지만, 각 위치
 `attention이 다른 토큰과의 관계를 반영해 문맥을 섞는다면, feed-forward는 각 위치의 표현을 더 풍부하게 다시 가공하는 작은 MLP처럼 볼 수 있다.`
 
 즉, Transformer는 관계를 읽는 것과, 그 결과를 각 위치에서 다시 변환하는 것을 분리해 놓았습니다.
+
+이 차이는 한 토큰만 놓고 봐도 읽을 수 있습니다.
+
+- self-attention 단계: `이 토큰이 다른 토큰에게서 무엇을 받아올까?`
+- feed-forward 단계: `받아온 문맥이 섞인 현재 표현을 이 위치에서 어떻게 다시 다듬을까?`
+
+즉, attention은 `바깥과의 관계`, feed-forward는 `현재 위치 안에서의 가공`에 더 가깝다고 이해하면 됩니다.
 
 ## residual connection은 왜 필요한가
 
@@ -132,6 +148,15 @@ flowchart TD
 
 이 도식은 Transformer 블록 하나를 입문 수준에서 압축한 것입니다.
 
+이 흐름을 한 줄씩 다시 읽으면 다음과 같습니다.
+
+- `self-attention`: 다른 토큰과의 관계를 반영한다
+- `add + norm`: 원래 정보 흐름을 너무 잃지 않게 정리한다
+- `feed-forward`: 각 위치 표현을 한 번 더 가공한다
+- `add + norm`: 다시 안정적으로 다음 블록으로 넘긴다
+
+즉, Transformer 블록은 `문맥을 섞고 끝나는 구조`가 아니라, `문맥을 섞은 뒤 그 표현을 다시 다듬고 안정적으로 전달하는 구조`입니다.
+
 ## 왜 이 구성이 중요했나
 
 Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하나를 추가했기 때문이 아닙니다. 핵심은 다음이 함께 결합되었다는 점입니다.
@@ -145,6 +170,22 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 즉, 이 절에서 꼭 잡아야 할 변화는 `attention이 유용하다`는 수준에서 멈추지 않고, `attention이 반복 가능한 표준 블록 안으로 들어오면서 현대 모델 구조의 기본 단위가 되었다`는 점입니다.
 
 ## 사례로 보기
+
+아래 도식은 같은 Transformer 블록이 서로 다른 과업에서 어떻게 읽히는지를 아주 거칠게 묶어 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["same transformer block"]
+  B["translation<br/>keep distant condition"]
+  C["document summary<br/>combine scattered clues"]
+  D["code / llm generation<br/>keep long-range consistency"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 봐야 할 점은 과업이 달라도 블록 자체가 바뀌는 것이 아니라, `문맥 관계를 읽고 표현을 다시 가공하는 같은 기본 구조`가 번역, 요약, 코드 생성에 공통으로 쓰인다는 점입니다.
 
 ### 사례 1. 번역
 

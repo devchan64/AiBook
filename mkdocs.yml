@@ -328,6 +328,7 @@ nav:
           - Chapter P4-13. Attention:
               - "P4-13.1 Attention의 직관": parts/part-04/chapter-13/section-01.md
               - "P4-13.2 self-attention으로 이어지는 흐름": parts/part-04/chapter-13/section-02.md
+              - "P4-13.3 보충학습: query, key, value와 multi-head attention": parts/part-04/chapter-13/section-03.md
           - Chapter P4-14. Transformer:
               - "P4-14.1 Transformer의 기본 구성": parts/part-04/chapter-14/section-01.md
               - "P4-14.2 병렬 처리와 긴 문맥": parts/part-04/chapter-14/section-02.md

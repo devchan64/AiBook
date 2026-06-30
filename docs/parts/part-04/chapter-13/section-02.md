@@ -23,7 +23,7 @@ self-attention은 시퀀스 안의 각 토큰이 같은 시퀀스의 다른 토�
 - multi-head attention의 구현 세부
 - positional encoding의 수식 상세
 
-Transformer 전체 구성은 P4-14.1, P4-14.2에서 이어서 다루고, context window와 실제 LLM 사용 제약은 Part 5의 P5-3.1, P5-3.2에서 다시 연결합니다. query, key, value의 공식 유도와 multi-head attention 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
+Transformer 전체 구성은 P4-14.1, P4-14.2에서 이어서 다루고, context window와 실제 LLM 사용 제약은 Part 5의 P5-3.1, P5-3.2에서 다시 연결합니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P4-13.3에서 회수하고, 더 깊은 공식 유도와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
