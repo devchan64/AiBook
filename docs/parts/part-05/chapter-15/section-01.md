@@ -183,69 +183,151 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보는 것입니다.
+이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보는 것입니다. 하나의 답변만 보면 `맞았다` 또는 `틀렸다`로 쉽게 끝나 버리므로, 이번에는 같은 질문에 대한 여러 후보 답변을 나란히 두고 어떤 축에서 갈라지는지 보겠습니다.
 
 문제 상황:
 
-- 하나의 환불 정책 답변이 있음
-- 문장은 자연스러워 보여도 정확성, 근거성, 형식 적합성은 따로 봐야 함
-- 같은 출력도 평가 축마다 다른 점수를 받을 수 있음
+- 고객 지원 시스템이 같은 환불 정책 질문에 대해 여러 답변 후보를 만듦
+- 어떤 답은 숫자는 맞지만 형식이 불완전하고, 어떤 답은 문장은 자연스럽지만 문서에 없는 조건을 덧붙임
+- 최종 선택 전에 어떤 답이 어느 축에서 흔들리는지 나눠 봐야 함
 
 입력:
 
-- 하나의 출력 문장
+- 여러 개의 출력 후보
 - 비교할 근거 문서 문장
+- 형식 요구 조건과 필수 포함 정보
 
 출력:
 
-- 정확성, 유용성, 근거성, 형식 적합성 점검 결과
+- 답변 후보별 평가 보고서
+- 어떤 후보가 정확성, 근거성, 형식 적합성, 유용성에서 각각 흔들리는지에 대한 요약값
+
+먼저 이 예제에서 함께 볼 평가 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `correctness` | 숫자나 조건이 실제 정책과 맞는지 확인해야 해서 |
+| `groundedness` | 답변의 조건이 근거 문서 안에 실제로 있는지 봐야 해서 |
+| `format_compliance` | 요청한 형식과 마무리 문장을 지켰는지 확인해야 해서 |
+| `helpfulness` | 사용자가 바로 쓸 수 있게 핵심 행동 지침이 들어 있는지 봐야 해서 |
 
 ```python
-output = "환불 정책은 14일로 변경되었습니다."
 source_text = "2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨"
+required_phrase = "환불 요청 처리 기한"
+answers = [
+    {
+        "name": "answer_a",
+        "text": "환불 요청 처리 기한은 14일로 변경되었습니다. 최신 정책 기준으로 접수해 주세요.",
+    },
+    {
+        "name": "answer_b",
+        "text": "환불 요청 처리 기한은 30일입니다. 최신 정책 기준으로 접수해 주세요.",
+    },
+    {
+        "name": "answer_c",
+        "text": "환불은 빨라졌습니다",
+    },
+    {
+        "name": "answer_d",
+        "text": "환불 요청 처리 기한은 14일로 변경되었고 개봉 제품도 30일 환불 가능합니다.",
+    },
+]
 
 
-def evaluate_output(output, source_text):
+def evaluate_answer(answer_text, source_text, required_phrase):
+    mentions_14_days = "14일" in answer_text
+    mentions_30_days = "30일" in answer_text
+    source_mentions_14_days = "14일" in source_text
+    source_mentions_30_days = "30일" in source_text
+
+    correctness = mentions_14_days and source_mentions_14_days and not mentions_30_days
+    groundedness = required_phrase in answer_text and "개봉 제품" not in answer_text
+    format_compliance = answer_text.endswith(".") and "최신 정책 기준" in answer_text
+    helpfulness = "접수" in answer_text or "문의" in answer_text
+
     return {
-        "correctness": "14일" in output and "14일" in source_text,
-        "helpfulness": len(output) >= 15,
-        "groundedness": "환불" in output and "환불" in source_text,
-        "format_compliance": output.endswith("."),
+        "correctness": correctness,
+        "groundedness": groundedness,
+        "format_compliance": format_compliance,
+        "helpfulness": helpfulness,
+        "passes_all": correctness and groundedness and format_compliance and helpfulness,
     }
 
 
-evaluation = evaluate_output(output, source_text)
+reports = []
+for answer in answers:
+    evaluation = evaluate_answer(answer["text"], source_text, required_phrase)
+    reports.append({"name": answer["name"], "text": answer["text"], "evaluation": evaluation})
 
-print("[output]")
-print(output)
+summary = {
+    "all_pass_count": sum(report["evaluation"]["passes_all"] for report in reports),
+    "correct_count": sum(report["evaluation"]["correctness"] for report in reports),
+    "grounded_count": sum(report["evaluation"]["groundedness"] for report in reports),
+    "format_ok_count": sum(report["evaluation"]["format_compliance"] for report in reports),
+    "helpful_count": sum(report["evaluation"]["helpfulness"] for report in reports),
+}
+
+print("[summary]")
+print(summary)
 print("[source_text]")
 print(source_text)
-print("[evaluation]")
-print(evaluation)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[answer]")
+    print(report["name"])
+    print(report["text"])
+    print("[evaluation]")
+    print(report["evaluation"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[output]
-환불 정책은 14일로 변경되었습니다.
+[summary]
+{'all_pass_count': 1, 'correct_count': 1, 'grounded_count': 2, 'format_ok_count': 2, 'helpful_count': 2}
 [source_text]
 2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨
+================================================================================
+[answer]
+answer_a
+환불 요청 처리 기한은 14일로 변경되었습니다. 최신 정책 기준으로 접수해 주세요.
 [evaluation]
-{'correctness': True, 'helpfulness': True, 'groundedness': True, 'format_compliance': True}
+{'correctness': True, 'groundedness': True, 'format_compliance': True, 'helpfulness': True, 'passes_all': True}
+================================================================================
+[answer]
+answer_b
+환불 요청 처리 기한은 30일입니다. 최신 정책 기준으로 접수해 주세요.
+[evaluation]
+{'correctness': False, 'groundedness': True, 'format_compliance': True, 'helpfulness': True, 'passes_all': False}
+================================================================================
+[answer]
+answer_c
+환불은 빨라졌습니다
+[evaluation]
+{'correctness': False, 'groundedness': False, 'format_compliance': False, 'helpfulness': False, 'passes_all': False}
+================================================================================
+[answer]
+answer_d
+환불 요청 처리 기한은 14일로 변경되었고 개봉 제품도 30일 환불 가능합니다.
+[evaluation]
+{'correctness': False, 'groundedness': False, 'format_compliance': False, 'helpfulness': False, 'passes_all': False}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 하나의 출력 문장도 정확성, 근거성, 형식성 같은 여러 축에서 따로 판정할 수 있으며, 평가가 단일 점수 하나로 끝나지 않는다는 점입니다.
+이 예제에서 먼저 봐야 할 것은 `correct_count`와 `grounded_count`, `format_ok_count`, `helpful_count`가 서로 다르게 나온다는 점입니다. 즉, 같은 질문에 대한 답이라도 어떤 후보는 형식과 유용성은 괜찮지만 숫자가 틀리고, 어떤 후보는 숫자와 조건을 함께 틀리며, 어떤 후보는 문장이 짧아 형식과 유용성까지 한꺼번에 무너집니다. 평가가 단일 점수 하나였다면 이런 차이는 바로 묻히기 쉽습니다.
+
+그래서 이 예제에서 확인해야 할 결과는 하나의 질문에 대한 답변 후보들도 정확성, 근거성, 형식성, 유용성 같은 여러 축에서 따로 판정할 수 있으며, 평가가 단일 점수 하나로 끝나지 않는다는 점입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `output`을 `환불 정책은 30일입니다.`로 바꿔 정확성과 근거성이 어떻게 달라지는지 보기
-- 마침표를 지워 형식 적합성만 실패하게 만들어 보기
-- `helpfulness` 기준을 더 엄격하게 바꿔 짧지만 모호한 답을 걸러 보기
+- `answer_b`의 숫자를 `14일`로 바꿔 정확성만 회복되는지 보기
+- `answer_d`에서 `개봉 제품도 30일` 문구를 지워 근거성이 어떻게 달라지는지 보기
+- `format_compliance` 조건에서 `최신 정책 기준` 요구를 빼면 형식 점검이 얼마나 느슨해지는지 확인하기
 
 ## 이 예제를 평가 관점으로 다시 보면
 
-앞의 예제는 점수표를 만드는 코드가 아니라, `하나의 출력에도 여러 평가 질문이 동시에 붙는다`는 점을 가장 작게 보여 주는 장면입니다. 여기서 중요한 것은 새 사례를 추가하는 것이 아니라, 평가를 단일 점수 대신 여러 점검 축으로 읽는 습관을 만드는 데 있습니다.
+앞의 예제는 점수표를 만드는 코드가 아니라, `같은 질문에 대한 여러 출력 후보도 축마다 전혀 다르게 읽혀야 한다`는 점을 가장 작게 보여 주는 장면입니다. 여기서 중요한 것은 새 사례를 추가하는 것이 아니라, 평가를 단일 점수 대신 여러 점검 축과 배치 비교로 읽는 습관을 만드는 데 있습니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
