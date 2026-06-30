@@ -158,53 +158,86 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 GPT 계열 생성이 `완성 문장을 한 번에 꺼내는 것`이 아니라, 현재까지의 토큰열을 보고 다음 토큰 후보를 반복해서 선택하는 구조라는 점을 확인하는 것입니다.
+이번 예제의 목표는 GPT 계열 생성이 `완성 문장을 한 번에 꺼내는 것`이 아니라, 현재까지의 토큰열을 보고 다음 토큰 후보를 반복해서 선택하는 구조라는 점을 확인하는 것입니다. 특히 첫 번째 선택이 달라지면 뒤 후보표와 최종 문장 흐름도 함께 달라진다는 점을 직접 보겠습니다.
 
 입력:
 
 - 시작 토큰 시퀀스
 - 현재 마지막 토큰에 따라 달라지는 다음 토큰 후보표
+- 서로 다른 첫 선택을 가진 두 개의 생성 경로
 
 출력:
 
-- step별 현재 문맥
-- step별 다음 토큰 후보
-- 누적 생성 결과
+- 경로별 step별 현재 문맥
+- 경로별 다음 토큰 후보와 점수
+- 첫 선택이 달라질 때 누적 생성 결과가 어떻게 갈라지는지
 
 ```python
-sequence = ["오늘", "회의는"]
+start_sequence = ["오늘", "회의는"]
 
-next_token_table = {
-    "회의는": ["오후", "온라인", "취소"],
-    "오후": ["세", "네", "다섯"],
-    "세": ["시입니다", "시에", "시부터"],
+next_token_scores = {
+    "회의는": [("오후", 0.62), ("온라인", 0.27), ("취소", 0.11)],
+    "오후": [("세", 0.55), ("네", 0.28), ("다섯", 0.17)],
+    "온라인": [("으로", 0.64), ("회의실은", 0.21), ("공지합니다", 0.15)],
+    "세": [("시입니다", 0.58), ("시에", 0.25), ("시부터", 0.17)],
+    "으로": [("진행합니다", 0.67), ("변경되었습니다", 0.21), ("안내합니다", 0.12)],
 }
 
-chosen_tokens = ["오후", "세", "시입니다"]
+paths = {
+    "path_a_time_flow": ["오후", "세", "시입니다"],
+    "path_b_online_flow": ["온라인", "으로", "진행합니다"],
+}
 
-print("start =", sequence)
+print("start =", start_sequence)
 
-for step, token in enumerate(chosen_tokens, start=1):
-    current_last_token = sequence[-1]
-    candidates = next_token_table.get(current_last_token, [])
-    print(f"step {step} candidates after '{current_last_token}' =", candidates)
-    sequence.append(token)
-    print(f"step {step} generated =", sequence)
+for path_name, chosen_tokens in paths.items():
+    sequence = start_sequence[:]
+    print("=" * 80)
+    print("[path]", path_name)
+    for step, token in enumerate(chosen_tokens, start=1):
+        current_last_token = sequence[-1]
+        candidates = next_token_scores.get(current_last_token, [])
+        print(f"step {step} context =", sequence)
+        print(f"step {step} candidates after '{current_last_token}' =", candidates)
+        sequence.append(token)
+        print(f"step {step} chosen =", token)
+    print("final_sequence =", sequence)
+    print("final_text =", " ".join(sequence))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 start = ['오늘', '회의는']
-step 1 candidates after '회의는' = ['오후', '온라인', '취소']
-step 1 generated = ['오늘', '회의는', '오후']
-step 2 candidates after '오후' = ['세', '네', '다섯']
-step 2 generated = ['오늘', '회의는', '오후', '세']
-step 3 candidates after '세' = ['시입니다', '시에', '시부터']
-step 3 generated = ['오늘', '회의는', '오후', '세', '시입니다']
+================================================================================
+[path] path_a_time_flow
+step 1 context = ['오늘', '회의는']
+step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
+step 1 chosen = 오후
+step 2 context = ['오늘', '회의는', '오후']
+step 2 candidates after '오후' = [('세', 0.55), ('네', 0.28), ('다섯', 0.17)]
+step 2 chosen = 세
+step 3 context = ['오늘', '회의는', '오후', '세']
+step 3 candidates after '세' = [('시입니다', 0.58), ('시에', 0.25), ('시부터', 0.17)]
+step 3 chosen = 시입니다
+final_sequence = ['오늘', '회의는', '오후', '세', '시입니다']
+final_text = 오늘 회의는 오후 세 시입니다
+================================================================================
+[path] path_b_online_flow
+step 1 context = ['오늘', '회의는']
+step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
+step 1 chosen = 온라인
+step 2 context = ['오늘', '회의는', '온라인']
+step 2 candidates after '온라인' = [('으로', 0.64), ('회의실은', 0.21), ('공지합니다', 0.15)]
+step 2 chosen = 으로
+step 3 context = ['오늘', '회의는', '온라인', '으로']
+step 3 candidates after '으로' = [('진행합니다', 0.67), ('변경되었습니다', 0.21), ('안내합니다', 0.12)]
+step 3 chosen = 진행합니다
+final_sequence = ['오늘', '회의는', '온라인', '으로', '진행합니다']
+final_text = 오늘 회의는 온라인 으로 진행합니다
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 생성이 한 번에 완성된 문장을 꺼내는 것이 아니라, 이전 출력이 다음 후보군을 바꾸며 한 토큰씩 누적된다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 생성이 한 번에 완성된 문장을 꺼내는 것이 아니라, 이전 출력이 다음 후보군을 바꾸며 한 토큰씩 누적된다는 점입니다. 특히 첫 번째 선택이 `오후`냐 `온라인`이냐에 따라 두 번째 후보표부터 이미 달라지므로, GPT 계열 생성은 `앞선 선택이 뒤 경로를 계속 밀어 가는 누적 생성`으로 읽는 편이 정확합니다.
 
 ## 이 예제를 누적 생성 관점으로 다시 보면
 
