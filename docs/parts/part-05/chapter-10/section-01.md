@@ -193,18 +193,18 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 어떻게 작동하는지 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 어떻게 작동하는지 눈으로 확인하는 것입니다. 이번에는 환불 정책, 제품 매뉴얼, SDK 문서 질문을 한 번에 돌려, 검색 없이 답할 때와 검색 문서를 붙인 뒤 답할 때 어떤 차이가 나는지 비교하겠습니다.
 
 문제 상황:
 
-- 사용자는 `환불 정책이 오늘 어떻게 바뀌었나요?`라고 묻고 있음
-- 모델 내부 기억에는 예전 기준이 남아 있을 수 있음
-- 최신 공지 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있음
+- 사용자는 최신 정책, 현재 버전 제품 화면, 현재 SDK 사용법을 물을 수 있음
+- 모델 내부 기억에는 예전 기준이나 일반 상식이 남아 있을 수 있음
+- 관련 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있음
 
 입력:
 
-- 사용자 질문
-- 내부 기억 역할의 오래된 값
+- 사용자 질문 여러 개
+- 내부 기억 역할의 오래된 답
 - 검색 가능한 최신 문서 목록
 
 출력:
@@ -212,78 +212,108 @@ flowchart TD
 - 검색 없이 바로 답한 결과
 - 관련 문서를 먼저 고른 뒤 답한 결과
 - 어떤 문서가 실제 근거로 붙었는지에 대한 점검값
-- 최신 정책이 실제 답변에 반영되었는지 여부
+- 최신 정보가 실제 답변에 반영되었는지 여부
 
 ```python
-question = "환불 정책이 오늘 어떻게 바뀌었나요?"
-
-stale_memory_answer = "환불 요청 처리 기한은 7일입니다."
-
-documents = [
+tasks = [
     {
-        "title": "2026-06-29 정책 공지",
-        "text": "환불 요청 처리 기한이 7일에서 14일로 변경됨",
+        "name": "policy",
+        "question": "환불 정책이 오늘 어떻게 바뀌었나요?",
+        "memory_answer": "환불 요청 처리 기한은 7일입니다.",
+        "keywords": ["환불", "기한", "변경"],
+        "documents": [
+            {"title": "2026-06-29 정책 공지", "text": "환불 요청 처리 기한이 7일에서 14일로 변경됨"},
+            {"title": "FAQ", "text": "환불 접수는 계정 메뉴에서 시작"},
+            {"title": "구버전 안내", "text": "예전에는 환불 요청 처리 기한이 7일이었다"},
+        ],
+        "expected_signal": "14일",
     },
     {
-        "title": "FAQ",
-        "text": "환불 접수는 계정 메뉴에서 시작",
+        "name": "manual",
+        "question": "현재 버전에서 고급 설정 메뉴는 어디에 있나요?",
+        "memory_answer": "고급 설정 메뉴에서 바로 찾을 수 있습니다.",
+        "keywords": ["버전", "환경설정", "메뉴", "설정"],
+        "documents": [
+            {"title": "v3 매뉴얼", "text": "현재 버전에서는 환경설정 > 실험실 메뉴로 이동해야 한다"},
+            {"title": "FAQ", "text": "화면 오른쪽 위 프로필 아이콘에서 환경설정으로 들어간다"},
+            {"title": "v2 가이드", "text": "예전 버전에서는 고급 설정 메뉴가 별도로 있었다"},
+        ],
+        "expected_signal": "환경설정",
     },
     {
-        "title": "구버전 안내",
-        "text": "예전에는 환불 요청 처리 기한이 7일이었다",
+        "name": "sdk",
+        "question": "현재 SDK 버전에서 인증 헤더를 어디에 넣나요?",
+        "memory_answer": "Authorization 헤더에 직접 토큰을 넣으면 됩니다.",
+        "keywords": ["SDK", "인증", "auth", "헤더"],
+        "documents": [
+            {"title": "SDK v5 가이드", "text": "현재 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다"},
+            {"title": "예제 코드", "text": "client = SDK(auth={'token': API_KEY})"},
+            {"title": "구버전 문서", "text": "예전 버전에서는 Authorization 헤더를 직접 구성했다"},
+        ],
+        "expected_signal": "auth",
     },
 ]
 
 
-def retrieve_docs(question, documents):
-    keywords = ["환불", "기한", "변경"]
+def retrieve_docs(task):
     scored = []
-    for doc in documents:
-        score = sum(keyword in doc["text"] or keyword in doc["title"] for keyword in keywords)
+    for doc in task["documents"]:
+        score = sum(keyword in doc["text"] or keyword in doc["title"] for keyword in task["keywords"])
         scored.append((score, doc))
     scored.sort(key=lambda item: item[0], reverse=True)
     return [doc for score, doc in scored if score > 0][:2]
 
 
-def answer_with_rag(retrieved_docs):
-    primary_doc = retrieved_docs[0]
-    if "14일" in primary_doc["text"]:
+def answer_with_rag(task, retrieved_docs):
+    joined = " ".join(doc["text"] for doc in retrieved_docs)
+    if task["name"] == "policy" and "14일" in joined:
         answer = "최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다."
+    elif task["name"] == "manual" and "환경설정" in joined:
+        answer = "현재 버전에서는 환경설정 경로로 들어가야 고급 설정 관련 기능을 찾을 수 있습니다."
+    elif task["name"] == "sdk" and "auth" in joined:
+        answer = "현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성합니다."
     else:
-        answer = "검색된 문서만으로는 변경 내용을 확정하기 어렵습니다."
+        answer = "검색된 문서만으로는 현재 기준을 확정하기 어렵습니다."
     return {
         "answer": answer,
         "grounding_titles": [doc["title"] for doc in retrieved_docs],
     }
 
 
-retrieved_docs = retrieve_docs(question, documents)
-rag_result = answer_with_rag(retrieved_docs)
+for task in tasks:
+    retrieved_docs = retrieve_docs(task)
+    rag_result = answer_with_rag(task, retrieved_docs)
+    inspection = {
+        "memory_mentions_expected_signal": task["expected_signal"] in task["memory_answer"],
+        "rag_mentions_expected_signal": task["expected_signal"] in rag_result["answer"],
+        "top_grounding_doc": rag_result["grounding_titles"][0],
+        "grounding_count": len(rag_result["grounding_titles"]),
+    }
 
-inspection = {
-    "memory_mentions_latest_policy": "14일" in stale_memory_answer,
-    "rag_mentions_latest_policy": "14일" in rag_result["answer"],
-    "top_grounding_doc": rag_result["grounding_titles"][0],
-}
-
-print("[question]")
-print(question)
-print("[memory only answer]")
-print(stale_memory_answer)
-print()
-print("[retrieved docs]")
-for doc in retrieved_docs:
-    print("-", doc["title"], ":", doc["text"])
-print()
-print("[rag answer]")
-print(rag_result)
-print("[inspection]")
-print(inspection)
+    print("=" * 80)
+    print("[task]")
+    print(task["name"])
+    print("[question]")
+    print(task["question"])
+    print("[memory only answer]")
+    print(task["memory_answer"])
+    print()
+    print("[retrieved docs]")
+    for doc in retrieved_docs:
+        print("-", doc["title"], ":", doc["text"])
+    print()
+    print("[rag answer]")
+    print(rag_result)
+    print("[inspection]")
+    print(inspection)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+================================================================================
+[task]
+policy
 [question]
 환불 정책이 오늘 어떻게 바뀌었나요?
 [memory only answer]
@@ -296,20 +326,53 @@ print(inspection)
 [rag answer]
 {'answer': '최신 정책 기준으로 환불 요청 처리 기한은 14일로 늘어났습니다.', 'grounding_titles': ['2026-06-29 정책 공지', '구버전 안내']}
 [inspection]
-{'memory_mentions_latest_policy': False, 'rag_mentions_latest_policy': True, 'top_grounding_doc': '2026-06-29 정책 공지'}
+{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': '2026-06-29 정책 공지', 'grounding_count': 2}
+================================================================================
+[task]
+manual
+[question]
+현재 버전에서 고급 설정 메뉴는 어디에 있나요?
+[memory only answer]
+고급 설정 메뉴에서 바로 찾을 수 있습니다.
+
+[retrieved docs]
+- v3 매뉴얼 : 현재 버전에서는 환경설정 > 실험실 메뉴로 이동해야 한다
+- v2 가이드 : 예전 버전에서는 고급 설정 메뉴가 별도로 있었다
+
+[rag answer]
+{'answer': '현재 버전에서는 환경설정 경로로 들어가야 고급 설정 관련 기능을 찾을 수 있습니다.', 'grounding_titles': ['v3 매뉴얼', 'v2 가이드']}
+[inspection]
+{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'v3 매뉴얼', 'grounding_count': 2}
+================================================================================
+[task]
+sdk
+[question]
+현재 SDK 버전에서 인증 헤더를 어디에 넣나요?
+[memory only answer]
+Authorization 헤더에 직접 토큰을 넣으면 됩니다.
+
+[retrieved docs]
+- SDK v5 가이드 : 현재 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성한다
+- 예제 코드 : client = SDK(auth={'token': API_KEY})
+
+[rag answer]
+{'answer': '현재 SDK 버전에서는 auth 객체에 토큰을 넣어 클라이언트를 생성합니다.', 'grounding_titles': ['SDK v5 가이드', '예제 코드']}
+[inspection]
+{'memory_mentions_expected_signal': False, 'rag_mentions_expected_signal': True, 'top_grounding_doc': 'SDK v5 가이드', 'grounding_count': 2}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어가고, 그 결과 내부 기억과 다른 최신 답이 만들어질 수 있다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 질문만으로 바로 답하는 것이 아니라, 관련 문서를 먼저 붙인 뒤에야 답변 생성 단계로 넘어가고, 그 결과 정책, 매뉴얼, SDK처럼 서로 다른 장면에서도 내부 기억과 다른 최신 답이 만들어질 수 있다는 점입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `documents`에 더 많은 구버전 문서를 넣어 검색 결과가 어떻게 흔들리는지 보기
 - `keywords`를 바꿔 검색 품질이 답변에 어떤 영향을 주는지 확인하기
 - `answer_with_rag`에서 문서 제목뿐 아니라 근거 문장을 함께 반환하도록 바꿔 보기
+- `tasks`에 사내 정책, 고객센터 스크립트 같은 새 작업을 추가해도 같은 구조가 유지되는지 보기
 
 ## 이 예제를 근거 우선 구조 관점으로 다시 보면
 
-앞의 예제는 RAG 전체를 구현하는 코드가 아니라, `먼저 답을 만들고 근거를 꾸미는 구조`가 아니라 `먼저 근거를 붙이고 그 뒤에 답을 만드는 구조`라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 답변 문장보다, 답변 직전에 어떤 근거 단계를 반드시 거치게 할 것인가입니다.
+앞의 예제는 RAG 전체를 구현하는 코드가 아니라, `먼저 답을 만들고 근거를 꾸미는 구조`가 아니라 `먼저 근거를 붙이고 그 뒤에 답을 만드는 구조`라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 답변 문장보다, 답변 직전에 어떤 근거 단계를 반드시 거치게 할 것인가입니다. 그리고 그 원칙이 정책, 매뉴얼, SDK처럼 도메인이 달라도 반복된다는 점도 함께 중요합니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
