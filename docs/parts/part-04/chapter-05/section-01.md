@@ -167,9 +167,9 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 
 물론 실제 계산은 수학적으로 정확하게 이루어지지만, 독자에게는 `책임 분해`라는 감각이 큰 도움이 됩니다.
 
-## 작은 Python 예제로 gradient 감각 보기
+## 실행 가능한 Python 예제로 gradient 감각 보기
 
-이번 예제의 목표는 역전파 전체를 코드로 재구현하는 것이 아니라, 아주 작은 예에서 손실이 가중치에 어떤 방향 신호를 주는지 확인하는 것입니다.
+이번 예제의 목표는 역전파 전체를 코드로 재구현하는 것이 아니라, 아주 작은 예에서 손실이 가중치에 어떤 방향 신호를 주는지 확인하는 것입니다. 한 사례만 보는 대신 `예측이 작은 경우`와 `예측이 큰 경우`를 같이 돌려, gradient 부호가 어떻게 바뀌는지도 함께 보겠습니다.
 
 입력:
 
@@ -182,37 +182,53 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 - 예측값
 - 손실
 - 가중치에 대한 gradient
+- gradient 부호가 주는 업데이트 방향 해석
 
 ```python
-x = 2.0
-target = 5.0
-w = 1.5
+cases = [
+    {"name": "prediction_too_small", "x": 2.0, "target": 5.0, "w": 1.5},
+    {"name": "prediction_too_large", "x": 2.0, "target": 5.0, "w": 3.2},
+]
 
-# forward
-prediction = w * x
-loss = (prediction - target) ** 2
+for case in cases:
+    x = case["x"]
+    target = case["target"]
+    w = case["w"]
 
-# backward
-gradient_w = 2 * (prediction - target) * x
+    prediction = w * x
+    loss = (prediction - target) ** 2
+    gradient_w = 2 * (prediction - target) * x
+    update_direction = "increase_w" if gradient_w < 0 else "decrease_w"
 
-print("prediction =", round(prediction, 3))
-print("loss =", round(loss, 3))
-print("gradient_w =", round(gradient_w, 3))
+    print(f"[{case['name']}]")
+    print("prediction =", round(prediction, 3))
+    print("loss =", round(loss, 3))
+    print("gradient_w =", round(gradient_w, 3))
+    print("update_direction =", update_direction)
+    print("---")
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[prediction_too_small]
 prediction = 3.0
 loss = 4.0
 gradient_w = -8.0
+update_direction = increase_w
+---
+[prediction_too_large]
+prediction = 6.4
+loss = 1.96
+gradient_w = 5.6
+update_direction = decrease_w
+---
 ```
 
-이 숫자의 핵심은 `-8.0`입니다.
+첫 번째 사례에서는 `-8.0`, 두 번째 사례에서는 `5.6`이 핵심입니다.
 
-- 현재 예측은 3.0이고 목표는 5.0입니다
-- 즉, 예측이 너무 작습니다
-- gradient가 음수라는 것은, 보통 `w`를 키우는 방향으로 업데이트하면 손실을 줄일 수 있다`는 신호로 읽을 수 있습니다
+- 예측이 너무 작으면 gradient가 음수가 되어 `w`를 키우는 방향 신호를 주고
+- 예측이 너무 크면 gradient가 양수가 되어 `w`를 줄이는 방향 신호를 줍니다
 
 즉, 역전파는 각 파라미터에 대해 `어느 방향으로 바꾸는 것이 손실을 줄이는가`를 알려 줍니다.
 

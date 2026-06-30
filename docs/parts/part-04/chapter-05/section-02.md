@@ -32,7 +32,7 @@ P4-5.1에서는 역전파(backpropagation)를 `손실이 각 가중치에 얼마
 - 계산 그래프를 `연산 의존 관계를 펼쳐 놓은 그림`으로 설명할 수 있습니다.
 - 순전파는 값 계산, 역전파는 gradient 전달이라는 점을 그래프 위에서 읽을 수 있습니다.
 - 계산 그래프가 복잡한 미분을 단계별로 잘게 나누게 해 준다는 점을 이해할 수 있습니다.
-- 작은 Python 예제로 중간값 저장과 gradient 계산의 흐름을 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 중간값 저장과 gradient 계산의 흐름을 확인할 수 있습니다.
 
 ## 계산 그래프는 무엇을 그리는가
 
@@ -202,9 +202,9 @@ P4-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 이 전체를 한 줄 수식으로만 보면 읽기 어렵고, 중간에 어디서 값이 크게 바뀌었는지도 보이지 않습니다. 사람은 마지막 분류 점수만 보고 `틀렸으니 마지막 층만 고치면 되지 않을까`라고 생각하기 쉽지만, 실제로는 앞쪽 합성곱 층이 어떤 특징을 만들었는지, 중간 활성화가 어디서 크게 잘렸는지, 어느 블록 출력이 뒤 블록 입력으로 이어졌는지를 같이 봐야 합니다. 계산 그래프 관점은 이 긴 계산을 `연산 블록의 연결`로 읽게 해 주고, 어느 블록에서 값이 만들어지고 어디로 전달되는지 추적하기 쉽게 만듭니다. 그 결과 오류를 하나의 점수가 아니라 `연결된 계산 흐름의 문제`로 읽을 수 있게 됩니다.
 그래서 이 사례에서 확인해야 할 결과는 마지막 점수 하나보다, 어느 연산 블록에서 값이 만들어지고 다음 블록으로 어떻게 전달되는지를 실제로 나눠 볼 수 있는가입니다.
 
-## 작은 Python 예제로 중간값과 gradient 흐름 보기
+## 실행 가능한 Python 예제로 중간값과 gradient 흐름 보기
 
-이번 예제의 목표는 자동미분 라이브러리를 쓰지 않고, 아주 작은 식에서 `forward에서 어떤 중간값이 만들어지고`, `backward에서 어떤 gradient가 계산되는지`를 직접 확인하는 것입니다.
+이번 예제의 목표는 자동미분 라이브러리를 쓰지 않고, 아주 작은 식에서 `forward에서 어떤 중간값이 만들어지고`, `backward에서 어떤 gradient가 계산되는지`를 직접 확인하는 것입니다. 한 번의 값만 보는 대신 표 형태로 forward와 backward를 나누어 읽게 하겠습니다.
 
 입력:
 
@@ -214,6 +214,7 @@ P4-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 
 - 순전파 중간값 `mul`, `z`, `a`, `loss`
 - 역전파 gradient `d_loss_da`, `d_loss_dz`, `d_loss_dw`, `d_loss_db`
+- 어떤 중간값이 어떤 gradient 계산에 다시 쓰이는지에 대한 연결
 
 ```python
 def relu(value):
@@ -239,27 +240,48 @@ d_z_db = 1.0
 d_loss_dw = d_loss_dz * d_z_dw
 d_loss_db = d_loss_dz * d_z_db
 
-print("mul =", round(mul, 3))
-print("z =", round(z, 3))
-print("a =", round(a, 3))
-print("loss =", round(loss, 3))
-print("d_loss_da =", round(d_loss_da, 3))
-print("d_loss_dz =", round(d_loss_dz, 3))
-print("d_loss_dw =", round(d_loss_dw, 3))
-print("d_loss_db =", round(d_loss_db, 3))
+forward_values = {
+    "mul": round(mul, 3),
+    "z": round(z, 3),
+    "a": round(a, 3),
+    "loss": round(loss, 3),
+}
+backward_values = {
+    "d_loss_da": round(d_loss_da, 3),
+    "d_loss_dz": round(d_loss_dz, 3),
+    "d_loss_dw": round(d_loss_dw, 3),
+    "d_loss_db": round(d_loss_db, 3),
+}
+
+print("[forward]")
+for key, value in forward_values.items():
+    print(key, "=", value)
+
+print("[backward]")
+for key, value in backward_values.items():
+    print(key, "=", value)
+
+print("[connections]")
+print("z influences a, and a influences loss")
+print("x flows into mul, mul flows into z, so gradient returns to w through z")
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[forward]
 mul = 3.0
 z = 2.5
 a = 2.5
 loss = 2.25
+[backward]
 d_loss_da = -3.0
 d_loss_dz = -3.0
 d_loss_dw = -6.0
 d_loss_db = -3.0
+[connections]
+z influences a, and a influences loss
+x flows into mul, mul flows into z, so gradient returns to w through z
 ```
 
 이 예제에서 중요한 것은 다음입니다.

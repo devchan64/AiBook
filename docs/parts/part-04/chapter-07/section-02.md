@@ -32,7 +32,7 @@ momentum, RMSProp, AdamW의 세부 수식 비교와 일반화 논쟁의 세밀�
 - SGD와 Adam을 각각 한 문장으로 설명할 수 있습니다.
 - `단순한 기본 업데이트`와 `적응형 업데이트`의 차이를 이해할 수 있습니다.
 - optimizer 선택이 학습 속도와 안정성에 어떤 영향을 주는지 말할 수 있습니다.
-- 작은 Python 예제로 업데이트 감각 차이를 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 업데이트 감각 차이를 확인할 수 있습니다.
 
 ## SGD는 왜 기본 출발점인가
 
@@ -130,9 +130,9 @@ SGD에서 계속 확인해야 하는 기준은 복잡한 보정 없이도 gradie
 
 연구나 실험 기록에서는 같은 모델을 SGD와 Adam으로 모두 돌려 보는 경우가 많습니다. 사람은 로그를 볼 때 `어느 쪽 손실이 더 빨리 내려갔는가`만 먼저 보기 쉽지만, 실제 비교 기준은 수렴 속도, 최종 성능, 진동 정도처럼 여러 축으로 나뉩니다. 예를 들어 Adam은 초반에 빠르게 내려가지만, SGD가 더 오래 학습했을 때 최종 검증 성능이 더 좋아질 수도 있습니다. 이처럼 optimizer는 단순 부수 설정이 아니라 학습 속도와 최종 일반화 성능을 함께 바꾸는 핵심 실험 변수입니다. 그래서 이 사례에서 확인해야 할 결과는 `어느 optimizer가 더 좋다`를 단정하는 것이 아니라, 수렴 속도와 최종 성능을 나누어 비교해야 한다는 점입니다.
 
-## 작은 Python 예제로 업데이트 감각 보기
+## 실행 가능한 Python 예제로 업데이트 감각 보기
 
-이번 예제의 목표는 `같은 gradient라도`, 단순한 SGD식 업데이트와 누적 평균을 반영한 Adam식 업데이트 감각이 다를 수 있다는 점을 직관적으로 보는 것입니다.
+이번 예제의 목표는 `같은 gradient라도`, 단순한 SGD식 업데이트와 누적 평균을 반영한 Adam식 업데이트 감각이 다를 수 있다는 점을 직관적으로 보는 것입니다. step별 이동량을 함께 찍어, 두 방식이 왜 다르게 느껴지는지도 같이 보겠습니다.
 
 입력:
 
@@ -143,6 +143,7 @@ SGD에서 계속 확인해야 하는 기준은 복잡한 보정 없이도 gradie
 
 - SGD 방식의 연속 업데이트 결과
 - Adam 식 누적 평균을 단순화한 직관적 업데이트 결과
+- step별 이동량
 
 ```python
 gradients = [-4.0, -2.0, -1.0]
@@ -154,29 +155,36 @@ beta = 0.9
 
 print("SGD updates")
 for g in gradients:
-    w_sgd = w_sgd - learning_rate * g
-    print(" gradient =", g, "-> w =", round(w_sgd, 3))
+    delta = -learning_rate * g
+    w_sgd = w_sgd + delta
+    print(" gradient =", g, "delta =", round(delta, 3), "-> w =", round(w_sgd, 3))
 
 print()
 print("Adam-like updates (simplified intuition)")
 for g in gradients:
     moving_avg = beta * moving_avg + (1 - beta) * g
-    w_adam_like = w_adam_like - learning_rate * moving_avg
-    print(" gradient =", g, "moving_avg =", round(moving_avg, 3), "-> w =", round(w_adam_like, 3))
+    delta = -learning_rate * moving_avg
+    w_adam_like = w_adam_like + delta
+    print(
+        " gradient =", g,
+        "moving_avg =", round(moving_avg, 3),
+        "delta =", round(delta, 3),
+        "-> w =", round(w_adam_like, 3)
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 SGD updates
- gradient = -4.0 -> w = 1.4
- gradient = -2.0 -> w = 1.6
- gradient = -1.0 -> w = 1.7
+ gradient = -4.0 delta = 0.4 -> w = 1.4
+ gradient = -2.0 delta = 0.2 -> w = 1.6
+ gradient = -1.0 delta = 0.1 -> w = 1.7
 
 Adam-like updates (simplified intuition)
- gradient = -4.0 moving_avg = -0.4 -> w = 1.04
- gradient = -2.0 moving_avg = -0.56 -> w = 1.096
- gradient = -1.0 moving_avg = -0.604 -> w = 1.156
+ gradient = -4.0 moving_avg = -0.4 delta = 0.04 -> w = 1.04
+ gradient = -2.0 moving_avg = -0.56 delta = 0.056 -> w = 1.096
+ gradient = -1.0 moving_avg = -0.604 delta = 0.06 -> w = 1.156
 ```
 
 이 예제는 진짜 Adam 전체 공식을 구현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.

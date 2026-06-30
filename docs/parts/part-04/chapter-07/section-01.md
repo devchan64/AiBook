@@ -36,7 +36,7 @@ P4-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 
 - 옵티마이저를 `gradient를 실제 업데이트로 바꾸는 규칙`으로 설명할 수 있습니다.
 - 손실 함수, 역전파, 옵티마이저의 역할을 구분할 수 있습니다.
 - 학습률이 왜 중요한 설정값인지 말할 수 있습니다.
-- 작은 Python 예제로 gradient와 update의 차이를 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 gradient와 update의 차이를 확인할 수 있습니다.
 
 ## 옵티마이저는 학습 절차의 어디에 있는가
 
@@ -151,9 +151,9 @@ Part 3에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 모델이 커지면 사람은 `가중치가 많아졌을 뿐이니 같은 방식으로 업데이트하면 되지 않을까`라고 생각하기 쉽습니다. 하지만 실제 큰 모델에서는 어떤 층은 아주 민감하게 반응하고, 어떤 층은 거의 움직이지 않으며, gradient 스케일도 고르게 맞지 않는 경우가 많습니다. 이 상태에서 단순한 업데이트 규칙만 고수하면 일부 층은 과하게 흔들리고 다른 층은 거의 학습되지 않을 수 있습니다. 그래서 큰 모델에서는 `가중치 수`보다 `파라미터마다 움직임의 성격이 다르다`는 점이 더 중요하고, 더 정교한 optimizer가 실무적으로 자주 선택됩니다. 결과적으로 같은 학습 시간 안에서도 어떤 설정은 안정적으로 수렴하고, 어떤 설정은 일부 층만 불안정하게 흔들리는 차이로 드러납니다. 그래서 이 사례에서 확인해야 할 결과는 모델이 커질수록 모든 층이 비슷하게 배우는지가 아니라, 일부 층만 과하게 흔들리거나 멈추지 않고 전체 업데이트가 더 균형 있게 진행되는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 gradient 계산과 실제 update를 분리해서 보는 것입니다.
+이번 예제의 목표는 gradient 계산과 실제 update를 분리해서 보는 것입니다. 한 번의 업데이트뿐 아니라 여러 learning rate를 같이 비교해, gradient는 같아도 실제 이동 폭이 크게 달라질 수 있음을 눈으로 확인합니다.
 
 입력:
 
@@ -167,43 +167,19 @@ Part 3에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - 예측값
 - 손실
 - gradient
-- 업데이트 후 가중치
+- learning rate별 업데이트 후 가중치
 
 ```python
 x = 2.0
 target = 6.0
 w = 1.0
-learning_rate = 0.1
-
 prediction = x * w
 loss = (prediction - target) ** 2
 gradient_w = 2 * (prediction - target) * x
-updated_w = w - learning_rate * gradient_w
 
 print("prediction =", round(prediction, 3))
 print("loss =", round(loss, 3))
 print("gradient_w =", round(gradient_w, 3))
-print("updated_w =", round(updated_w, 3))
-```
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-prediction = 2.0
-loss = 16.0
-gradient_w = -16.0
-updated_w = 2.6
-```
-
-이 예제에서 읽어야 할 핵심은 다음입니다.
-
-- `gradient_w`는 업데이트 방향과 크기에 대한 신호입니다
-- `updated_w`는 optimizer 규칙과 learning rate를 적용한 실제 결과입니다
-- gradient와 update는 같은 것이 아닙니다
-
-학습률을 바꾸면 결과도 달라집니다.
-
-```python
 for lr in [0.01, 0.1, 0.5]:
     updated_w = w - lr * gradient_w
     print("lr =", lr, "-> updated_w =", round(updated_w, 3))
@@ -212,6 +188,9 @@ for lr in [0.01, 0.1, 0.5]:
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+prediction = 2.0
+loss = 16.0
+gradient_w = -16.0
 lr = 0.01 -> updated_w = 1.16
 lr = 0.1 -> updated_w = 2.6
 lr = 0.5 -> updated_w = 9.0
