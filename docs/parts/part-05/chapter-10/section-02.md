@@ -132,7 +132,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다.
+이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 `관련 문서만 붙은 payload`와 `무관 문서가 섞인 payload`를 함께 비교해, 생성 문제를 보기 전에 먼저 어떤 문서가 붙었는지 점검해야 한다는 점을 더 분명히 보겠습니다.
 
 문제 상황:
 
@@ -143,8 +143,8 @@ flowchart TD
 입력:
 
 - 질문
-- 검색 결과 문서 목록
-- 생성용 입력 payload
+- 검색 결과 문서 목록 두 묶음
+- 생성용 입력 payload 두 개
 
 출력:
 
@@ -152,20 +152,31 @@ flowchart TD
 - 그 문서를 바탕으로 만든 최종 설명
 - 검색 실패와 생성 실패를 나누어 볼 수 있는 간단한 점검값
 - 관련 없는 문서가 섞였는지에 대한 간단한 확인값
+- 무관 문서가 답변 안으로 스며들었는지에 대한 확인값
 
 ```python
 question = "벡터 검색이 왜 필요한가요?"
 
-retrieved_docs = [
-    {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
-    {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
+payloads = [
+    {
+        "name": "relevant_only",
+        "question": question,
+        "docs": [
+            {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
+            {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
+        ],
+        "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
+    },
+    {
+        "name": "mixed_with_irrelevant",
+        "question": question,
+        "docs": [
+            {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
+            {"title": "문서 X", "text": "무관한 마케팅 문구 조합을 더 다양하게 만든다."},
+        ],
+        "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
+    },
 ]
-
-prompt_payload = {
-    "question": question,
-    "docs": retrieved_docs,
-    "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
-}
 
 
 def generate_from_payload(payload):
@@ -185,26 +196,32 @@ def inspect_payload(payload, answer):
         "answer_uses_vector_term": "벡터" in answer,
         "answer_uses_semantic_term": "의미" in answer,
         "contains_irrelevant_doc": any("무관" in doc["text"] for doc in payload["docs"]),
+        "answer_mentions_irrelevant_content": "마케팅" in answer or "무관" in answer,
     }
 
 
-answer = generate_from_payload(prompt_payload)
-
-print("[question]")
-print(question)
-print("[payload docs]")
-for doc in prompt_payload["docs"]:
-    print("-", doc["title"], ":", doc["text"])
-print()
-print("[generated answer]")
-print(answer)
-print("[inspect]")
-print(inspect_payload(prompt_payload, answer))
+for payload in payloads:
+    answer = generate_from_payload(payload)
+    print("=" * 80)
+    print("[payload]")
+    print(payload["name"])
+    print("[question]")
+    print(payload["question"])
+    print("[payload docs]")
+    for doc in payload["docs"]:
+        print("-", doc["title"], ":", doc["text"])
+    print()
+    print("[generated answer]")
+    print(answer)
+    print("[inspect]")
+    print(inspect_payload(payload, answer))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[payload]
+relevant_only
 [question]
 벡터 검색이 왜 필요한가요?
 [payload docs]
@@ -214,20 +231,34 @@ print(inspect_payload(prompt_payload, answer))
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 키워드가 달라도 의미 기반 검색이 가능하다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True, 'contains_irrelevant_doc': False}
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True, 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False}
+================================================================================
+[payload]
+mixed_with_irrelevant
+[question]
+벡터 검색이 왜 필요한가요?
+[payload docs]
+- 문서 A : 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.
+- 문서 X : 무관한 마케팅 문구 조합을 더 다양하게 만든다.
+
+[generated answer]
+벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 무관한 마케팅 문구 조합을 더 다양하게 만든다.
+[inspect]
+{'doc_count': 2, 'doc_titles': ['문서 A', '문서 X'], 'answer_uses_vector_term': True, 'answer_uses_semantic_term': True, 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남아 있고, 생성 단계는 그 payload를 읽어 최종 문장을 만든다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 검색 결과가 최종 답변 안으로 바로 녹아 없어지는 것이 아니라, 생성 직전까지는 별도의 입력 payload 구성 요소로 남아 있고, 생성 단계는 그 payload를 읽어 최종 문장을 만든다는 점입니다. 동시에 payload 안에 무관 문서가 섞이면, 생성 단계도 그 오염을 그대로 이어받을 수 있다는 점이 중요합니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `retrieved_docs`의 순서를 바꿔 문서 순서가 답변 전개에 어떤 영향을 주는지 보기
 - 관련 없는 문서를 하나 섞어 검색 실패가 생성 답에 어떻게 스며드는지 확인하기
 - `generate_from_payload`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
+- payload를 세 개 이상으로 늘려 `관련 문서 수 증가`와 `무관 문서 혼입`이 각각 답변에 어떤 차이를 내는지 비교해 보기
 
 ## 이 예제를 RAG 파이프라인 관점으로 다시 보면
 
-앞의 예제는 검색과 생성을 모두 구현하는 코드가 아니라, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`가 실제로 분리되어 있다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 답변 문장이 아니라, 답변 직전까지 근거 문서가 독립된 입력 구성 요소로 남아 있다는 구조를 읽는 데 있습니다. 즉, 검색 결과가 마음에 들지 않으면 생성 프롬프트를 고치기 전에 `어떤 문서가 붙었는가`부터 다시 봐야 한다는 뜻이기도 합니다.
+앞의 예제는 검색과 생성을 모두 구현하는 코드가 아니라, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`가 실제로 분리되어 있다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 답변 문장이 아니라, 답변 직전까지 근거 문서가 독립된 입력 구성 요소로 남아 있다는 구조를 읽는 데 있습니다. 즉, 검색 결과가 마음에 들지 않으면 생성 프롬프트를 고치기 전에 `어떤 문서가 붙었는가`부터 다시 봐야 한다는 뜻이기도 합니다. 무관 문서가 섞였을 때 답변까지 바로 흔들린다는 점은 이 분리를 더 분명하게 보여 줍니다.
 
 ## 역사와 커리큘럼 관점
 
