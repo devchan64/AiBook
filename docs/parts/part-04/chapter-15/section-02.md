@@ -174,51 +174,74 @@ flowchart TD
 | 챗봇 답변 | 답이 더 간결하거나 더 서술적으로 달라질 수 있다 |
 | 이미지 생성 | 구도, 색감, 세부 묘사가 달라질 수 있다 |
 
+세 사례를 같은 기준으로 다시 정리하면, 샘플링을 `정답을 맞히는 문제`가 아니라 `어떤 후보군을 어떤 폭으로 실제 출력으로 꺼낼 것인가`의 문제로 읽기 쉬워집니다.
+
+| 사례 | 모델이 가질 수 있는 후보 | 너무 좁게 고를 때 생기는 일 | 더 넓게 허용할 때 확인할 결과 |
+| --- | --- | --- | --- |
+| 문장 자동완성 | `열립니다`, `진행됩니다`, `있습니다` 같은 표현 후보 | 늘 같은 말투만 반복된다 | 문맥을 유지한 채 표현 변주가 생기는가 |
+| 챗봇 답변 | 짧은 정의형, 예시 포함형, 비교형 답변 후보 | 늘 비슷한 길이와 구조만 나온다 | 핵심은 유지하면서 설명 형식이 달라지는가 |
+| 이미지 생성 | 구도, 조명, 색감, 시점 후보 | 결과 장면이 지나치게 비슷해진다 | 핵심 프롬프트는 유지하면서 장면 변주가 생기는가 |
+
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `항상 가장 높은 후보만 고르는 방식`과 `확률에 따라 실제로 여러 후보를 꺼내는 방식`의 차이를 빈도까지 포함해 확인하는 것입니다.
+이번 예제의 목표는 `항상 가장 높은 후보만 고르는 방식`과 `확률에 따라 여러 후보를 실제 문장으로 꺼내는 방식`의 차이를, 입문자가 바로 읽을 수 있는 자동완성 장면으로 확인하는 것입니다.
 
 입력:
 
-- 네 개의 후보 토큰
+- 같은 문장 앞부분
+- 뒤에 붙을 수 있는 네 개의 자동완성 후보
 - 각 후보의 상대적 비중
 
 출력:
 
-- argmax 방식의 고정 결과
-- 샘플링 방식의 반복 결과
-- 샘플링 결과 빈도
+- argmax 방식으로 완성한 문장들
+- sampling 방식으로 여러 번 완성한 문장들
+- 어떤 표현이 몇 번 선택됐는지에 대한 빈도
+- 결과 문장의 평균 길이
 
 ```python
 import random
 
-candidates = ["good", "nice", "clear", "warm"]
-weights = [0.45, 0.30, 0.15, 0.10]
+prefix = "회의는 내일"
+candidates = [
+    "열립니다.",
+    "진행됩니다.",
+    "오전 10시에 시작됩니다.",
+    "온라인으로 전환될 수 있습니다.",
+]
+weights = [0.42, 0.28, 0.18, 0.12]
 
 argmax_choice = candidates[weights.index(max(weights))]
+argmax_sentences = [f"{prefix} {argmax_choice}" for _ in range(5)]
 
 random.seed(7)
-sampled = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(20)]
-counts = {candidate: sampled.count(candidate) for candidate in candidates}
+sampled_choices = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(12)]
+sampled_sentences = [f"{prefix} {choice}" for choice in sampled_choices]
+counts = {candidate: sampled_choices.count(candidate) for candidate in candidates}
+avg_length = round(sum(len(sentence) for sentence in sampled_sentences) / len(sampled_sentences), 1)
 
-print("argmax_choice =", argmax_choice)
-print("sampled =", sampled)
+print("argmax_sentences =", argmax_sentences)
+print("sampled_sentences =", sampled_sentences)
 print("counts =", counts)
+print("average_sampled_length =", avg_length)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-argmax_choice = good
-sampled = ['good', 'good', 'nice', 'good', 'nice', 'good', 'good', 'clear', 'good', 'nice', 'good', 'good', 'good', 'warm', 'good', 'nice', 'clear', 'good', 'nice', 'good']
-counts = {'good': 11, 'nice': 5, 'clear': 2, 'warm': 1}
+argmax_sentences = ['회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.']
+sampled_sentences = ['회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 진행됩니다.', '회의는 내일 열립니다.', '회의는 내일 진행됩니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 오전 10시에 시작됩니다.', '회의는 내일 열립니다.', '회의는 내일 진행됩니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.']
+counts = {'열립니다.': 8, '진행됩니다.': 3, '오전 10시에 시작됩니다.': 1, '온라인으로 전환될 수 있습니다.': 0}
+average_sampled_length = 13.8
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- argmax 방식은 항상 같은 결과를 냅니다
-- sampling 방식은 높은 후보가 더 자주 나오지만, 다른 후보도 실제로 등장할 수 있습니다
-- 생성 결과의 `다양성`은 선택 방식과 직접 연결되며, 빈도를 보면 그 차이가 더 분명하게 드러납니다
+- argmax 방식은 가장 높은 후보 하나만 반복하므로, 결과 문장이 매우 안정적이지만 말투 변주가 거의 없습니다
+- sampling 방식은 `열립니다.`가 가장 자주 나오더라도 `진행됩니다.`나 더 긴 표현도 실제로 등장할 수 있습니다
+- 빈도와 평균 길이를 함께 보면, 샘플링은 `어떤 표현이 얼마나 자주 나오나`뿐 아니라 `문장 길이와 설명 밀도`까지 바꾼다는 점이 드러납니다
+
+즉, 샘플링은 단순히 랜덤함을 더하는 기능이 아니라, 사용자가 실제로 보게 되는 출력의 반복성, 표현 폭, 설명 밀도를 조절하는 단계로 읽어야 합니다.
 
 ## 역사와 커리큘럼 관점
 
