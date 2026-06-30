@@ -33,6 +33,14 @@ RAG의 실제 결합 흐름은 바로 다음 P5-10.2 검색 결과와 생성의 
 - 파인튜닝과 RAG가 해결하려는 문제가 다르다는 점을 구분할 수 있습니다.
 - 다음 절의 실제 결합 흐름으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `왜 모델 기억만으로는 부족한가`와 `RAG는 무엇을 바꾸려 하나`를 읽고, 답의 출발점이 기억에서 문서 근거로 이동한다는 점을 잡습니다.
+2. 그다음 `RAG는 어떤 문제를 줄이려 하나`, `파인튜닝과 무엇이 다른가`, `왜 실무에서 자주 쓰이나`를 읽으면서 RAG가 해결하려는 실패와 다른 수단과의 경계를 구분합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 실제 운영에서는 답변 문장보다 먼저 `어떤 문서를 회수했는가`, `최신 문서가 먼저 붙었는가`를 점검해야 한다는 점을 확인합니다.
+
 ## 왜 모델 기억만으로는 부족한가
 
 LLM은 사전학습과 조정을 통해 많은 패턴을 배웁니다. 하지만 실제 서비스에서는 다음과 같은 요구가 매우 자주 나옵니다.
@@ -190,6 +198,23 @@ flowchart TD
 | 사내 정책 | 최신 정책 공지, 현재 효력 조항 | 예전 규정을 자연스럽게 반복함 |
 | 제품 지원 | 현재 버전 매뉴얼 경로, 최신 FAQ | 낡은 메뉴 이름과 절차를 안내함 |
 | 개발 문서 | 현재 SDK/API 버전 문서, 공식 예제 | 예전 옵션명이나 코드 패턴을 섞어 답함 |
+
+같은 내용을 근거 우선 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["user question"]
+  B["memory-only answer path"]
+  C["retrieval first path"]
+  D["old or generic answer"]
+  E["current document attached"]
+  F["grounded answer"]
+
+  A --> B --> D
+  A --> C --> E --> F
+```
+
+핵심은 `질문 다음에 바로 생성`이 아니라 `질문 다음에 먼저 근거 검색`이 들어간다는 점입니다.
 
 ## 실행 가능한 Python 예제로 보기
 
@@ -360,6 +385,14 @@ summary = {
     "rag_hit_count": sum(report["inspection"]["rag_mentions_expected_signal"] for report in reports),
     "top_doc_match_count": sum(report["inspection"]["top_doc_is_expected"] for report in reports),
     "enough_grounding_count": sum(report["inspection"]["enough_grounding_docs"] for report in reports),
+    "memory_hit_ratio": round(
+        sum(report["inspection"]["memory_mentions_expected_signal"] for report in reports) / len(reports),
+        2,
+    ),
+    "rag_hit_ratio": round(
+        sum(report["inspection"]["rag_mentions_expected_signal"] for report in reports) / len(reports),
+        2,
+    ),
 }
 
 print("[summary]")
@@ -386,7 +419,7 @@ for report in reports:
 
 ```text
 [summary]
-{'memory_hit_count': 0, 'rag_hit_count': 3, 'top_doc_match_count': 3, 'enough_grounding_count': 3}
+{'memory_hit_count': 0, 'rag_hit_count': 3, 'top_doc_match_count': 3, 'enough_grounding_count': 3, 'memory_hit_ratio': 0.0, 'rag_hit_ratio': 1.0}
 
 ================================================================================
 [task]
@@ -454,6 +487,10 @@ Authorization 헤더에 직접 토큰을 넣으면 됩니다.
 - 그 문서를 붙인 뒤 답한다는 점입니다
 
 즉, RAG의 핵심 변화는 `답변 문장`보다 `답변 전에 거치는 근거 단계`에 있습니다.
+
+## 여기까지를 한 줄로 묶으면
+
+RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, 답변 전에 현재 관련 문서를 먼저 회수해 그 문서를 근거로 말하게 만드는 데 있습니다.
 
 ## 역사와 커리큘럼 관점
 
