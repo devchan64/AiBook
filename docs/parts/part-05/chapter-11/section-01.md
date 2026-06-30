@@ -153,7 +153,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 벡터 데이터베이스 엔진 전체를 구현하는 것이 아니라, `벡터`, `원문`, `메타데이터`가 함께 저장되고, 질문 벡터와의 유사도로 다시 꺼내 쓰인다는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 벡터 데이터베이스 엔진 전체를 구현하는 것이 아니라, `벡터`, `원문`, `메타데이터`가 함께 저장되고, 질문 벡터와의 유사도로 다시 꺼내 쓰인다는 점을 눈으로 확인하는 것입니다. 이번에는 환불 정책, 설정 메뉴, SDK 제한 처리처럼 다른 질문 벡터를 한 번에 돌려, 같은 저장 구조가 질문에 따라 다른 조각과 메타데이터를 다시 꺼낸다는 점까지 보겠습니다.
 
 문제 상황:
 
@@ -165,13 +165,14 @@ flowchart TD
 
 - 세 개의 문서 조각
 - 각 조각의 임베딩 벡터
-- 질문 벡터
+- 질문 벡터 여러 개
 
 출력:
 
-- 유사도 점수
-- 상위 후보 문서 조각
+- 질문별 유사도 점수
+- 질문별 상위 후보 문서 조각
 - 검색 후 다시 꺼내 쓰는 원문과 메타데이터
+- 질문별 1위 후보의 출처와 범주
 
 ```python
 import math
@@ -197,7 +198,20 @@ records = [
     },
 ]
 
-query_vector = [0.95, 0.10, 0.05]
+query_vectors = [
+    {
+        "name": "refund_question",
+        "vector": [0.95, 0.10, 0.05],
+    },
+    {
+        "name": "settings_question",
+        "vector": [0.10, 0.93, 0.11],
+    },
+    {
+        "name": "api_limit_question",
+        "vector": [0.19, 0.16, 0.96],
+    },
+]
 
 
 def cosine_similarity(a, b):
@@ -207,49 +221,75 @@ def cosine_similarity(a, b):
     return dot / (norm_a * norm_b)
 
 
-scored = []
-for record in records:
-    score = cosine_similarity(query_vector, record["embedding"])
-    scored.append((score, record))
+for query in query_vectors:
+    scored = []
+    for record in records:
+        score = cosine_similarity(query["vector"], record["embedding"])
+        scored.append((score, record))
 
-scored.sort(key=lambda item: item[0], reverse=True)
-top_matches = scored[:2]
+    scored.sort(key=lambda item: item[0], reverse=True)
+    top_matches = scored[:2]
 
-print("[query_vector]")
-print(query_vector)
-print("[top matches]")
-for score, record in top_matches:
+    print("=" * 80)
+    print("[query]")
+    print(query["name"], query["vector"])
+    print("[top matches]")
+    for score, record in top_matches:
+        print(
+            {
+                "score": round(score, 4),
+                "id": record["id"],
+                "text": record["text"],
+                "metadata": record["metadata"],
+            }
+        )
     print(
+        "[top1 summary]",
         {
-            "score": round(score, 4),
-            "id": record["id"],
-            "text": record["text"],
-            "metadata": record["metadata"],
-        }
+            "source": top_matches[0][1]["metadata"]["source"],
+            "category": top_matches[0][1]["metadata"]["category"],
+        },
     )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[query_vector]
-[0.95, 0.1, 0.05]
+================================================================================
+[query]
+refund_question [0.95, 0.1, 0.05]
 [top matches]
-{'score': 0.9987, 'id': 'doc-001-chunk-02', 'text': '환불 요청 처리 기한이 14일로 변경되었습니다.', 'metadata': {'source': 'policy_notice_2026_06_29', 'category': 'refund'}}
-{'score': 0.3743, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
+{'score': 0.9978, 'id': 'doc-001-chunk-02', 'text': '환불 요청 처리 기한이 14일로 변경되었습니다.', 'metadata': {'source': 'policy_notice_2026_06_29', 'category': 'refund'}}
+{'score': 0.2845, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
+[top1 summary] {'source': 'policy_notice_2026_06_29', 'category': 'refund'}
+================================================================================
+[query]
+settings_question [0.1, 0.93, 0.11]
+[top matches]
+{'score': 0.9988, 'id': 'doc-002-chunk-01', 'text': '자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.', 'metadata': {'source': 'manual_v3', 'category': 'settings'}}
+{'score': 0.3181, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
+[top1 summary] {'source': 'manual_v3', 'category': 'settings'}
+================================================================================
+[query]
+api_limit_question [0.19, 0.16, 0.96]
+[top matches]
+{'score': 0.9994, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
+{'score': 0.3342, 'id': 'doc-002-chunk-01', 'text': '자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.', 'metadata': {'source': 'manual_v3', 'category': 'settings'}}
+[top1 summary] {'source': 'sdk_guide_v2', 'category': 'api'}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 임베딩 숫자만 저장하는 것이 아니라, 검색 뒤에 생성 단계가 다시 사용할 원문 텍스트와 메타데이터까지 함께 저장하고 꺼내는 구조라는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 임베딩 숫자만 저장하는 것이 아니라, 검색 뒤에 생성 단계가 다시 사용할 원문 텍스트와 메타데이터까지 함께 저장하고 꺼내는 구조라는 점입니다. 같은 저장 구조라도 질문 벡터가 달라지면 상위 조각과 메타데이터가 함께 바뀌므로, 벡터 데이터베이스는 단순 숫자 저장소가 아니라 `질문별 근거 반환 계층`으로 읽는 편이 더 정확합니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `query_vector`를 설정 관련 값에 가깝게 바꿔 다른 문서가 상위에 오는지 보기
+- `query_vectors` 안의 한 질문 벡터를 설정 관련 값에 더 가깝게 바꿔 상위 문서가 어떻게 바뀌는지 보기
+- `query_vectors`에 새로운 질문 벡터를 추가해 다른 범주가 top-1로 올라오는지 보기
 - `records`에 같은 환불 주제 조각을 더 넣어 top-k 후보 묶음이 어떻게 바뀌는지 보기
 - `metadata`에 날짜나 버전을 더 넣고, 검색 후 필터 기준으로 어떻게 쓸지 상상해 보기
 
 ## 이 예제를 저장 구조 관점으로 다시 보면
 
-앞의 예제는 벡터 데이터베이스를 구현하는 코드가 아니라, `비슷한 벡터를 찾는다`는 말 뒤에 실제로는 원문과 메타데이터까지 함께 저장하고 다시 꺼내는 계층이 있다는 점을 보여 주는 최소 장면입니다. 여기서 읽어야 할 핵심은 임베딩 숫자만으로 끝나지 않고, 검색 이후 답변 단계에 다시 쓸 정보를 함께 보존해야 한다는 점입니다.
+앞의 예제는 벡터 데이터베이스를 구현하는 코드가 아니라, `비슷한 벡터를 찾는다`는 말 뒤에 실제로는 원문과 메타데이터까지 함께 저장하고 다시 꺼내는 계층이 있다는 점을 보여 주는 최소 장면입니다. 여기서 읽어야 할 핵심은 임베딩 숫자만으로 끝나지 않고, 검색 이후 답변 단계에 다시 쓸 정보를 함께 보존해야 한다는 점입니다. 그리고 같은 저장 구조가 질문마다 다른 출처와 범주를 다시 돌려준다는 점도 함께 중요합니다.
 
 ## 역사와 커리큘럼 관점
 
