@@ -146,6 +146,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `모델을 더 똑똑하게 만드는가`보다 `우리 업무의 형식과 판단 기준에 더 안정적으로 맞추는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same fine-tuning question"]
+  B["internal routing<br/>does label boundary stay stable?"]
+  C["medical summary<br/>do domain terms stay consistent?"]
+  D["legal draft<br/>does output structure repeat reliably?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 파인튜닝의 핵심이 `무조건 더 많은 지식을 넣는다`가 아니라는 것입니다. 세 장면 모두에서 먼저 중요한 것은 `내부 라벨`, `도메인 용어`, `출력 구조`처럼 업무 쪽 규칙을 더 안정적으로 반영하는가입니다.
+
 ### 사례 1. 내부 고객센터 분류
 
 일반 모델은 문의를 대략 분류할 수 있어도, 사람은 실제 운영에서 `우리 회사 기준 라벨`로 안정적으로 나뉘는지를 먼저 봅니다. 예를 들어 외부 일반 기준에서는 `취소`와 `환불`을 비슷하게 다뤄도, 내부 업무에서는 서로 다른 팀으로 보내야 할 수 있습니다. 이 경계가 흔들리면 답변 문장이 자연스러워도 라우팅 자체가 틀어져 처리 시간이 늘어납니다. 여기서 바뀌는 점은 `대략 비슷하게 분류되는가`를 보던 기준에서 `내부 라벨 경계를 안정적으로 지키는가`를 보는 기준으로 이동한다는 것입니다. 이런 경우에는 설명을 더 길게 쓰는 것보다 내부 라벨 기준을 더 강하게 반영하도록 모델 반응을 조정하는 편이 중요해집니다. 그래서 이 사례에서 확인해야 할 결과는 비슷한 문의가 내부 라벨 기준에 따라 같은 팀으로 더 안정적으로 들어가는가입니다.
@@ -166,39 +182,58 @@ flowchart TD
 | 의료 요약 | 도메인 표현과 요약 형식을 더 일정하게 맞추기 위해 |
 | 법률 초안 | 문체와 출력 구조를 더 일관되게 유지하기 위해 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 학습을 돌리는 것이 아니라, `일반 모델 출력`과 `목적 맞춤 출력`의 차이를 감각적으로 보는 것입니다.
+이번 예제의 목표는 `일반 설명형 반응`과 `업무 형식에 맞춘 반응`의 차이를 직접 보는 것입니다. 아주 단순한 유사도 기반 매칭으로, 같은 질문이 들어왔을 때 일반 응답은 설명형 문장으로 끝나고, 업무용 예시를 반영한 쪽은 고정된 라벨 형식으로 응답하는 모습을 비교해 보겠습니다.
 
 입력:
 
-- 같은 질문
-- 일반 응답 스타일과 도메인 맞춤 스타일
+- 분류 예시 문장과 업무용 출력 형식
+- 새로 들어온 질문
 
 출력:
 
-- 조정 전후의 차이
+- 가장 가까운 업무 예시
+- 일반 설명형 응답
+- 업무 형식 응답
 
 ```python
-question = "환불 요청을 어떻게 분류해야 하나요?"
+examples = [
+    ("환불 요청을 분류해 주세요", "label=refund_request|priority=high"),
+    ("배송 지연 문의를 분류해 주세요", "label=shipping_delay|priority=medium"),
+    ("계정 잠금 문의를 분류해 주세요", "label=account_lock|priority=high"),
+]
 
-base_model_style = "환불과 관련된 고객 문의로 보입니다."
-fine_tuned_style = "label=refund_request, confidence=high"
+query = "환불 문의를 분류해 주세요"
 
-print("question =", question)
-print("base_model_style =", base_model_style)
-print("fine_tuned_style =", fine_tuned_style)
+
+def overlap_score(a, b):
+    a_tokens = set(a.replace("을", " ").replace("를", " ").split())
+    b_tokens = set(b.replace("을", " ").replace("를", " ").split())
+    return len(a_tokens & b_tokens)
+
+
+best_example = max(examples, key=lambda item: overlap_score(query, item[0]))
+
+base_model_response = "환불과 관련된 고객 문의로 보입니다."
+fine_tuned_style_response = best_example[1]
+
+print("query =", query)
+print("matched_example =", best_example[0])
+print("base_model_response =", base_model_response)
+print("fine_tuned_style_response =", fine_tuned_style_response)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-question = 환불 요청을 어떻게 분류해야 하나요?
-base_model_style = 환불과 관련된 고객 문의로 보입니다.
-fine_tuned_style = label=refund_request, confidence=high
+query = 환불 문의를 분류해 주세요
+matched_example = 환불 요청을 분류해 주세요
+base_model_response = 환불과 관련된 고객 문의로 보입니다.
+fine_tuned_style_response = label=refund_request|priority=high
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 같은 질문이라도 일반 설명형 응답보다 업무용 출력 형식이 실제로 더 직접 맞춰지는가입니다.
+이 예제에서 확인해야 할 결과는 같은 질문이라도 일반 설명형 응답보다 업무용 출력 형식이 실제로 더 직접 맞춰지는가입니다. 독자는 `query`를 `배송 상태가 늦어지고 있어요`처럼 바꾸거나, `examples`에 내부 라벨 형식을 더 추가해 보면서 어떤 형식이 더 안정적으로 유지되는지 직접 확인할 수 있습니다.
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
