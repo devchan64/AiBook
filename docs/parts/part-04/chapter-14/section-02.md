@@ -166,57 +166,119 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 긴 입력에서 `이전 상태를 계속 압축해 들고 가는 방식`과 `필요한 위치를 직접 크게 참고하는 방식`이 어떻게 다르게 보이는지 확인하는 것입니다.
+이번 예제의 목표는 긴 입력에서 `앞 규칙을 순차 상태 하나에 압축해 들고 가는 방식`과 `현재 질문이 필요한 앞 문장을 다시 직접 참고하는 방식`이 어떻게 다르게 보이는지 확인하는 것입니다.
 
 입력:
 
-- 길이 6인 토큰 중요도 시퀀스
-- 순차 누적 계수
-- 마지막 예측에서 참고할 attention-style 가중치
+- 앞쪽 규칙 문장, 중간 운영 로그, 마지막 사용자 요청이 섞인 긴 문맥
+- 규칙 단서를 점점 잊어 가는 단순 sequential 상태
+- 마지막 질문이 관련 문장을 다시 찾는 direct reference 점수
 
 출력:
 
-- 각 시점의 순차 상태
-- 마지막 단계에서 직접 참조한 문맥값
-- 어떤 위치가 크게 반영되었는지
+- 각 줄을 읽을 때 갱신되는 sequential 상태
+- 마지막 요청이 어떤 앞 문장을 다시 참고했는지
+- 두 방식이 내리는 최종 판단
 
 ```python
-sequence = [1.0, 0.5, 0.2, 0.1, 5.0, 0.3]
+context = [
+    "Rule: hazardous items must not be shipped by air.",
+    "Log: warehouse scan completed for aisle 3.",
+    "Log: packaging material restocked this morning.",
+    "Item: lithium battery pack is hazardous.",
+    "Log: driver schedule updated for tomorrow.",
+    "Request: ship the battery pack by air today.",
+]
 
-# sequential accumulation
-state = 0.0
-states = []
-for x in sequence:
-    state = 0.7 * state + x
-    states.append(round(state, 3))
 
-# direct reference for the last position
-weights = [0.05, 0.05, 0.1, 0.1, 0.6, 0.1]
-direct_context = sum(w * x for w, x in zip(weights, sequence))
-contributions = [round(w * x, 3) for w, x in zip(weights, sequence)]
+def sequential_reader(lines, decay=0.55):
+    state = {"hazardous": 0.0, "air": 0.0, "block": 0.0}
+    history = []
+    for idx, line in enumerate(lines, start=1):
+        lowered = line.lower()
+        for key in state:
+            state[key] *= decay
+        if "hazardous" in lowered:
+            state["hazardous"] += 1.0
+        if "air" in lowered:
+            state["air"] += 1.0
+        if "must not" in lowered:
+            state["block"] += 1.0
+        snapshot = {key: round(value, 3) for key, value in state.items()}
+        history.append((idx, line, snapshot))
+    decision = "block_air_shipping" if min(state.values()) >= 0.8 else "uncertain"
+    return history, {key: round(value, 3) for key, value in state.items()}, decision
 
-print("sequence =", sequence)
-print("sequential states =", states)
-print("direct contributions =", contributions)
-print("direct_context =", round(direct_context, 3))
+
+def direct_reference_reader(lines):
+    request = lines[-1].lower()
+    keywords = {"battery", "pack", "air", "hazardous", "must", "not"}
+    scored = []
+    for idx, line in enumerate(lines[:-1], start=1):
+        words = set(line.lower().replace(".", "").replace(":", "").split())
+        score = len(words & keywords)
+        scored.append((score, idx, line))
+    top_matches = sorted(scored, reverse=True)[:2]
+    matched_lines = [line.lower() for _, _, line in top_matches]
+    decision = (
+        "block_air_shipping"
+        if any("must not be shipped by air" in line for line in matched_lines)
+        and any("hazardous" in line for line in matched_lines)
+        and "air" in request
+        else "allow"
+    )
+    return top_matches, decision
+
+
+history, final_state, sequential_decision = sequential_reader(context)
+top_matches, direct_decision = direct_reference_reader(context)
+
+print("[sequential reader]")
+for idx, line, snapshot in history:
+    print(f"{idx}. {line}")
+    print("   state =", snapshot)
+print("final_state =", final_state)
+print("sequential_decision =", sequential_decision)
+print()
+
+print("[direct reference reader]")
+for score, idx, line in top_matches:
+    print(f"matched line {idx} (score={score}): {line}")
+print("direct_decision =", direct_decision)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-sequence = [1.0, 0.5, 0.2, 0.1, 5.0, 0.3]
-sequential states = [1.0, 1.2, 1.04, 0.828, 5.58, 4.206]
-direct contributions = [0.05, 0.025, 0.02, 0.01, 3.0, 0.03]
-direct_context = 3.135
+[sequential reader]
+1. Rule: hazardous items must not be shipped by air.
+   state = {'hazardous': 1.0, 'air': 1.0, 'block': 1.0}
+2. Log: warehouse scan completed for aisle 3.
+   state = {'hazardous': 0.55, 'air': 0.55, 'block': 0.55}
+3. Log: packaging material restocked this morning.
+   state = {'hazardous': 0.303, 'air': 0.303, 'block': 0.303}
+4. Item: lithium battery pack is hazardous.
+   state = {'hazardous': 1.166, 'air': 0.166, 'block': 0.166}
+5. Log: driver schedule updated for tomorrow.
+   state = {'hazardous': 0.641, 'air': 0.092, 'block': 0.092}
+6. Request: ship the battery pack by air today.
+   state = {'hazardous': 0.353, 'air': 1.05, 'block': 0.05}
+final_state = {'hazardous': 0.353, 'air': 1.05, 'block': 0.05}
+sequential_decision = uncertain
+
+[direct reference reader]
+matched line 1 (score=4): Rule: hazardous items must not be shipped by air.
+matched line 4 (score=2): Item: lithium battery pack is hazardous.
+direct_decision = block_air_shipping
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- 순차 방식에서는 정보가 매 단계 상태 하나로 압축되어 넘어갑니다
-- direct reference 방식에서는 다섯 번째 위치처럼 중요한 토큰에 바로 큰 비중을 둘 수 있습니다
-- 긴 문맥에서 `무엇을 잊지 말아야 하는가`를 다루는 방식이 두 구조에서 다르게 보입니다
+- sequential 방식에서는 앞 규칙이 중간 로그를 지나는 동안 점차 약해져, 마지막 요청 시점에는 `위험물`, `항공`, `금지` 세 단서를 동시에 강하게 유지하지 못합니다
+- direct reference 방식에서는 마지막 요청이 관련된 앞 규칙과 대상 정보가 있는 줄을 다시 바로 찾습니다
+- 긴 문맥에서 중요한 것은 `앞 문장을 한 번 읽고 버티는가`보다 `현재 위치에서 필요한 앞 문장을 다시 끌어올 수 있는가`라는 점입니다
 
-이 예제는 RNN과 Transformer를 정확히 구현한 것은 아니지만, 긴 문맥을 다루는 계산 감각 차이는 실제 구조 차이를 이해하는 데 도움이 됩니다.
+이 예제는 RNN과 Transformer 전체를 구현한 것은 아니지만, 긴 문맥에서 `상태에 압축해 유지하는 감각`과 `필요한 앞 위치를 다시 참조하는 감각` 차이를 실제로 실험해 보는 데 도움이 됩니다. `decay` 값을 바꾸거나 중간 로그 줄 수를 늘려 보면 순차 압축이 왜 더 어려워지는지도 직접 확인할 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
