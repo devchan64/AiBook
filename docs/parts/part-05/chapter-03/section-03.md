@@ -57,7 +57,79 @@ KV cache는 앞에서 계산한 일부 attention 관련 값을 재사용해, 다
 
 긴 코드 파일을 조금씩 이어 생성한다고 생각해 봅시다. 이전 수백 개 토큰의 관계를 매번 완전히 새로 계산하면 응답이 느려질 수 있습니다. KV cache는 이 반복 계산 일부를 줄여, 사용자가 느끼는 지연 시간을 낮추는 데 도움을 줍니다. 그래서 같은 길이의 대화라도 캐시 유무에 따라 응답 시간이 어떻게 달라지는지 확인해 보는 관점이 중요합니다.
 
+## 작은 Python 예제로 보기
+
+이번 예제의 목표는 `KV cache가 있으면 이전 계산 일부를 다시 쓰기 때문에 반복 비용이 줄어든다`는 감각을 가장 작게 확인하는 것입니다. 실제 attention 계산 전체를 구현하지는 않지만, 새 토큰을 하나씩 생성할 때 `이전 길이만큼 다시 계산하는 경우`와 `새 토큰만 더 계산하는 경우`를 비교해 볼 수 있습니다.
+
+입력:
+
+- 이미 본 토큰 수
+- 새로 생성할 토큰 수
+
+출력:
+
+- 캐시 없이 누적되는 계산량
+- 캐시를 쓴 뒤의 계산량
+
+```python
+def estimate_attention_work(prefix_tokens, new_tokens):
+    no_cache_work = 0
+    with_cache_work = 0
+
+    current_length = prefix_tokens
+    for _ in range(new_tokens):
+        # 캐시가 없으면 지금까지의 길이를 다시 본다고 가정한다.
+        no_cache_work += current_length + 1
+        # 캐시가 있으면 새 토큰에 필요한 추가 계산만 남긴다고 가정한다.
+        with_cache_work += 1
+        current_length += 1
+
+    return no_cache_work, with_cache_work
+
+
+prefix_tokens = 100
+new_tokens = 5
+
+no_cache, with_cache = estimate_attention_work(prefix_tokens, new_tokens)
+
+print("prefix_tokens =", prefix_tokens)
+print("new_tokens =", new_tokens)
+print("no_cache_work =", no_cache)
+print("with_cache_work =", with_cache)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+prefix_tokens = 100
+new_tokens = 5
+no_cache_work = 515
+with_cache_work = 5
+```
+
+이 예제에서 읽어야 할 핵심은 다음입니다.
+
+- 이미 본 문맥이 길수록 캐시 없이 다시 계산하는 부담이 빠르게 커집니다.
+- KV cache를 쓰면 새 토큰 생성 때 필요한 추가 계산만 남기는 방향으로 이해할 수 있습니다.
+- 그래서 긴 대화나 긴 코드 생성에서는 cache 유무가 체감 속도 차이로 나타나기 쉽습니다.
+
 ## 사례로 보기
+
+아래 도식은 이 보충학습의 사례를 `Transformer 내부 이름이 무엇인가`보다 `어떤 문제를 해결하려고 이 장치가 붙는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same implementation question"]
+  B["multi-head<br/>which relation should each head focus on?"]
+  C["position info<br/>how does the model know order?"]
+  D["KV cache<br/>how can repeated decoding be faster?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 세 이름이 서로 다른 문제를 다룬다는 것입니다. multi-head는 `관계를 여러 시선으로 본다`, 위치 표현은 `순서를 알려 준다`, KV cache는 `반복 생성을 더 빠르게 만든다`는 식으로 역할을 나누어 읽는 편이 입문 단계에서 안전합니다.
 
 ### 사례 1. 여러 head가 필요한 문장
 
