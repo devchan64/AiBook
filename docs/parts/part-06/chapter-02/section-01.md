@@ -115,7 +115,7 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 train/test 분리, baseline, 간단한 분류 모델 비교를 한 화면에서 보는 것입니다.
+이번 예제의 목적은 train/test 분리, baseline, 간단한 분류 모델 비교를 한 화면에서 보는 것입니다. 이번에는 단순히 정확도 숫자만 출력하지 않고, 실제 프로젝트 메모처럼 `샘플별 비교 결과`와 `틀린 사례 목록`까지 함께 남겨 보겠습니다.
 
 - 문제 상황: 합격 여부를 예측한다.
 - 입력(input): 공부 시간, 출석률
@@ -124,66 +124,110 @@ flowchart TD
   - baseline과 모델을 나란히 비교해야 한다
   - 평가 데이터는 따로 두어야 한다
   - 작은 모델이어도 예측 결과를 직접 읽을 수 있어야 한다
+  - 나중에 회고할 수 있도록 샘플별 결과를 기록해야 한다
 
 ```python
 import numpy as np
 
-X_train = np.array([
-    [2.0, 60.0],
-    [3.0, 65.0],
-    [4.0, 70.0],
-    [5.0, 72.0],
-    [6.0, 80.0],
-    [7.0, 85.0],
-    [8.0, 88.0],
-    [9.0, 92.0],
-])
-y_train = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+train_rows = [
+    {"student_id": "train-01", "hours": 2.0, "attendance": 60.0, "label": 0},
+    {"student_id": "train-02", "hours": 3.0, "attendance": 65.0, "label": 0},
+    {"student_id": "train-03", "hours": 4.0, "attendance": 70.0, "label": 0},
+    {"student_id": "train-04", "hours": 5.0, "attendance": 72.0, "label": 0},
+    {"student_id": "train-05", "hours": 6.0, "attendance": 80.0, "label": 1},
+    {"student_id": "train-06", "hours": 7.0, "attendance": 85.0, "label": 1},
+    {"student_id": "train-07", "hours": 8.0, "attendance": 88.0, "label": 1},
+    {"student_id": "train-08", "hours": 9.0, "attendance": 92.0, "label": 1},
+]
 
-X_test = np.array([
-    [4.5, 68.0],
-    [5.5, 78.0],
-    [7.5, 87.0],
-    [3.5, 66.0],
-])
-y_test = np.array([0, 1, 1, 0])
+test_rows = [
+    {"student_id": "test-01", "hours": 4.5, "attendance": 68.0, "label": 0},
+    {"student_id": "test-02", "hours": 5.5, "attendance": 78.0, "label": 1},
+    {"student_id": "test-03", "hours": 7.5, "attendance": 87.0, "label": 1},
+    {"student_id": "test-04", "hours": 3.5, "attendance": 66.0, "label": 0},
+]
+
+X_train = np.array([[row["hours"], row["attendance"]] for row in train_rows])
+y_train = np.array([row["label"] for row in train_rows])
+
+X_test = np.array([[row["hours"], row["attendance"]] for row in test_rows])
+y_test = np.array([row["label"] for row in test_rows])
 
 # baseline: train에서 가장 많은 라벨 하나만 계속 예측
-baseline_class = int(np.round(y_train.mean()))
+baseline_class = int(np.bincount(y_train).argmax())
 baseline_pred = np.full_like(y_test, baseline_class)
 
 # 1-NN: 가장 가까운 train 샘플의 라벨을 사용
 knn_pred = []
+nearest_train_ids = []
 for x in X_test:
     distances = np.linalg.norm(X_train - x, axis=1)
-    nearest_index = np.argmin(distances)
+    nearest_index = int(np.argmin(distances))
     knn_pred.append(int(y_train[nearest_index]))
+    nearest_train_ids.append(train_rows[nearest_index]["student_id"])
 
 knn_pred = np.array(knn_pred)
 
-print("baseline_class =", baseline_class)
-print("baseline_pred =", baseline_pred.tolist())
-print("baseline_accuracy =", round((baseline_pred == y_test).mean(), 3))
-print("knn_pred =", knn_pred.tolist())
-print("knn_accuracy =", round((knn_pred == y_test).mean(), 3))
+comparison_rows = []
+for index, row in enumerate(test_rows):
+    comparison_rows.append({
+        "student_id": row["student_id"],
+        "hours": row["hours"],
+        "attendance": row["attendance"],
+        "true_label": row["label"],
+        "baseline_pred": int(baseline_pred[index]),
+        "baseline_correct": bool(baseline_pred[index] == y_test[index]),
+        "knn_pred": int(knn_pred[index]),
+        "knn_correct": bool(knn_pred[index] == y_test[index]),
+        "nearest_train_id": nearest_train_ids[index],
+    })
+
+baseline_errors = [
+    row["student_id"] for row in comparison_rows if not row["baseline_correct"]
+]
+knn_errors = [
+    row["student_id"] for row in comparison_rows if not row["knn_correct"]
+]
+
+project_run = {
+    "question": "Can study hours and attendance predict pass or fail?",
+    "train_size": len(train_rows),
+    "test_size": len(test_rows),
+    "baseline_class": baseline_class,
+    "baseline_accuracy": round(
+        sum(row["baseline_correct"] for row in comparison_rows) / len(comparison_rows), 3
+    ),
+    "knn_accuracy": round(
+        sum(row["knn_correct"] for row in comparison_rows) / len(comparison_rows), 3
+    ),
+    "baseline_error_ids": baseline_errors,
+    "knn_error_ids": knn_errors,
+}
+
+print("project_run =", project_run)
+print("comparison_rows =")
+for row in comparison_rows:
+    print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-baseline_class = 0
-baseline_pred = [0, 0, 0, 0]
-baseline_accuracy = 0.5
-knn_pred = [0, 1, 1, 0]
-knn_accuracy = 1.0
+project_run = {'question': 'Can study hours and attendance predict pass or fail?', 'train_size': 8, 'test_size': 4, 'baseline_class': 0, 'baseline_accuracy': 0.5, 'knn_accuracy': 1.0, 'baseline_error_ids': ['test-02', 'test-03'], 'knn_error_ids': []}
+comparison_rows =
+{'student_id': 'test-01', 'hours': 4.5, 'attendance': 68.0, 'true_label': 0, 'baseline_pred': 0, 'baseline_correct': True, 'knn_pred': 0, 'knn_correct': True, 'nearest_train_id': 'train-03'}
+{'student_id': 'test-02', 'hours': 5.5, 'attendance': 78.0, 'true_label': 1, 'baseline_pred': 0, 'baseline_correct': False, 'knn_pred': 1, 'knn_correct': True, 'nearest_train_id': 'train-05'}
+{'student_id': 'test-03', 'hours': 7.5, 'attendance': 87.0, 'true_label': 1, 'baseline_pred': 0, 'baseline_correct': False, 'knn_pred': 1, 'knn_correct': True, 'nearest_train_id': 'train-07'}
+{'student_id': 'test-04', 'hours': 3.5, 'attendance': 66.0, 'true_label': 0, 'baseline_pred': 0, 'baseline_correct': True, 'knn_pred': 0, 'knn_correct': True, 'nearest_train_id': 'train-02'}
 ```
 
 ## 결과를 어떻게 읽는가
 
 이 결과에서 핵심은 `1.0`이라는 숫자 자체보다 비교 구조입니다.
 
-- baseline은 네 샘플 중 절반만 맞췄습니다.
-- 1-NN 모델은 네 샘플을 모두 맞췄습니다.
+- `project_run`은 baseline과 모델을 한 번에 비교할 최소 기록입니다.
+- baseline은 네 샘플 중 절반만 맞췄고, 실패한 샘플은 `test-02`, `test-03`입니다.
+- 1-NN 모델은 네 샘플을 모두 맞췄고, 각 test 샘플이 어떤 train 샘플과 가장 가까웠는지도 함께 남겼습니다.
 - 따라서 이번 작은 데이터에서는 `특징을 실제로 사용한 모델`이 `아무 특징도 보지 않는 baseline`보다 낫다고 말할 수 있습니다.
 
 하지만 동시에 조심해야 할 점도 있습니다.
@@ -192,12 +236,13 @@ knn_accuracy = 1.0
 - 우연히 쉬운 분할이었을 수 있습니다.
 - 다른 데이터에서는 같은 결과가 나오지 않을 수 있습니다.
 
-즉, 프로젝트 문서에는 성과와 한계를 함께 남겨야 합니다.
+즉, 프로젝트 문서에는 성과와 한계를 함께 남겨야 합니다. 특히 `baseline_error_ids`처럼 틀린 샘플 ID를 바로 볼 수 있어야 다음 반복에서 `왜 그 샘플을 틀렸는가`를 다시 추적하기 쉽습니다.
 
 이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
 
 - baseline은 단순히 다수 라벨만 예측했다
 - 1-NN은 특징을 실제로 사용해 더 나은 예측을 보였다
+- 샘플별 비교와 실패 목록이 있어야 다음 회고와 개선으로 이어질 수 있다
 - 하지만 test 샘플이 매우 작아 일반화는 아직 단정할 수 없다
 
 ## 실무 감각으로 번역하면
