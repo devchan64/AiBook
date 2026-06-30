@@ -152,6 +152,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `처음부터 과업 하나만 학습시키는가`보다 `넓은 언어 기반을 먼저 만들고 그 위에 목적을 얹는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same pretraining question"]
+  B["document summary<br/>does general language structure come first?"]
+  C["customer classification<br/>can small labels reuse broad patterns?"]
+  D["chat response<br/>does dialogue quality sit on language base?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 세 장면이 모두 `처음부터 목적 하나만 외우는 학습`보다 `먼저 넓은 기반을 만들고 나중에 목적을 조정하는 학습`에 더 가깝다는 것입니다. 과업은 달라도, 먼저 일반 패턴을 익힌 뒤 세부 목적을 얹는다는 순서는 공통입니다.
+
 ### 사례 1. 문서 요약
 
 긴 회의록을 요약하는 모델을 처음부터 바로 만들려고 한다고 해 봅시다. 사람은 이 문제를 보면 보통 `요약 예시 몇천 개만 있으면 되지 않을까`라고 먼저 생각할 수 있습니다. 하지만 데이터가 그 정도에 그치면, 모델은 요약 규칙뿐 아니라 문장 구조와 정보 배열 방식 자체도 함께 배워야 해서 출발이 무거워집니다. 예를 들어 `결론 -> 이유 -> 다음 조치` 순서를 요약 안에 유지해야 하는데, 언어 기반이 약하면 핵심 문장 압축 이전에 문장 연결부터 자주 흔들릴 수 있습니다. 여기서 바뀌는 점은 `요약 예시만 더 주면 된다`는 기준에서 `먼저 넓은 언어 기반을 갖추고 그 위에 요약 목적을 얹어야 한다`는 기준으로 이동한다는 것입니다. 사전학습된 모델은 이미 넓은 텍스트에서 문장 패턴과 압축 형태를 어느 정도 익힌 상태로 시작합니다. 그래서 같은 요약 과업이라도 `언어 자체를 새로 배우는 단계`를 줄이고, 요약 목적 조정에 더 빨리 들어갈 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 적은 요약 데이터로도 핵심 문장 압축과 문장 연결이 더 빨리 안정되는가입니다.
@@ -172,49 +188,88 @@ flowchart TD
 | 분류 | 입력 문장의 표현 차이를 먼저 넓게 다뤄 보기 위해 |
 | 대화 | 질문과 응답의 기본 언어 흐름을 먼저 배우기 위해 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 사전학습을 구현하는 것이 아니라, `큰 일반 데이터`와 `작은 목표 데이터`의 단계 차이를 감각적으로 보는 것입니다.
+이번 예제의 목표는 `일반 텍스트에서 먼저 패턴을 모으고, 작은 과업 데이터로 그 패턴을 어떻게 더 좁혀 가는가`를 직접 보는 것입니다. 아주 단순한 bigram 카운트 모델을 써서, 일반 문장 코퍼스로 먼저 다음 단어 경향을 만들고 고객센터 문장 몇 개를 추가했을 때 특정 맥락의 후보가 어떻게 바뀌는지 확인해 보겠습니다.
 
 입력:
 
-- 일반 텍스트 데이터 수
-- 과업용 라벨 데이터 수
+- 일반 코퍼스 문장들
+- 고객센터 도메인 문장들
+- 확인하고 싶은 시작 맥락
 
 출력:
 
-- 두 단계의 역할 구분
+- 일반 코퍼스만 썼을 때 다음 단어 후보
+- 도메인 문장을 추가한 뒤 다음 단어 후보
+- 후보 점수 변화
 
 ```python
-pretraining_tokens = 1_000_000
-task_examples = 2_000
+from collections import Counter, defaultdict
 
-print("pretraining_tokens =", pretraining_tokens)
-print("task_examples =", task_examples)
-print("role_of_pretraining = general pattern learning")
-print("role_of_task_tuning = task-specific adjustment")
+general_corpus = [
+    "문의 내용을 확인 합니다",
+    "요청 내용을 확인 합니다",
+    "문서 내용을 정리 합니다",
+    "결과 내용을 설명 합니다",
+    "안내 메일을 전달 합니다",
+]
+
+customer_support_corpus = [
+    "환불 문의 내용을 확인 합니다",
+    "배송 문의 내용을 확인 합니다",
+    "계정 문의 내용을 확인 합니다",
+    "환불 요청 내용을 확인 합니다",
+]
+
+
+def build_bigram_counts(sentences):
+    counts = defaultdict(Counter)
+    for sentence in sentences:
+        tokens = sentence.split()
+        for left, right in zip(tokens, tokens[1:]):
+            counts[left][right] += 1
+    return counts
+
+
+def top_next_tokens(counts, token, top_k=5):
+    return counts[token].most_common(top_k)
+
+
+general_counts = build_bigram_counts(general_corpus)
+adapted_counts = build_bigram_counts(general_corpus + customer_support_corpus)
+
+focus_token = "문의"
+
+print("focus_token =", focus_token)
+print("general_next_tokens =", top_next_tokens(general_counts, focus_token))
+print("adapted_next_tokens =", top_next_tokens(adapted_counts, focus_token))
+
+print("general_after_내용을 =", top_next_tokens(general_counts, "내용을"))
+print("adapted_after_내용을 =", top_next_tokens(adapted_counts, "내용을"))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-pretraining_tokens = 1000000
-task_examples = 2000
-role_of_pretraining = general pattern learning
-role_of_task_tuning = task-specific adjustment
+focus_token = 문의
+general_next_tokens = [('내용을', 1)]
+adapted_next_tokens = [('내용을', 4)]
+general_after_내용을 = [('확인', 2), ('정리', 1), ('설명', 1)]
+adapted_after_내용을 = [('확인', 6), ('정리', 1), ('설명', 1)]
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 숫자 크기 자체보다 사전학습 단계와 과업 조정 단계가 실제로 서로 다른 역할을 가진다는 점입니다.
+이 출력만으로는 변화가 너무 단순해 보일 수 있으니, 독자는 코드를 조금 바꿔 직접 차이를 더 크게 확인해 보는 편이 좋습니다. 예를 들어 `focus_token = "환불"`로 바꾸면 일반 코퍼스에는 거의 없던 연결이 도메인 문장을 추가한 뒤에만 나타나는 것을 볼 수 있습니다. 반대로 일반 코퍼스 문장을 더 늘리면 `안내`, `설명`, `정리`처럼 더 넓은 일반 표현이 먼저 살아나는 장면을 확인할 수 있습니다.
 
-이 예제에서 읽어야 할 핵심은 숫자의 크기 자체보다 `두 단계의 역할 차이`입니다.
+이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- `pretraining_tokens`는 넓은 기반을 만드는 쪽을 가리킵니다.
-- `task_examples`는 그 기반을 특정 목적에 맞게 다듬는 쪽을 가리킵니다.
-- 따라서 사전학습과 이후 조정은 같은 학습이라도 `범위`와 `목적`이 다릅니다.
+- 일반 코퍼스는 먼저 넓은 연결 패턴을 만듭니다.
+- 고객센터 문장을 추가하면 `문의`, `환불`, `배송` 같은 도메인 연결이 더 강해집니다.
+- 즉, 사전학습은 바탕 패턴을 넓게 만들고, 이후 조정은 그 위에서 특정 업무 흐름을 더 두드러지게 만드는 쪽에 가깝습니다.
 
 ## 이 예제를 학습 단계 분리 관점으로 다시 보면
 
-이 예제는 `많이 학습했다`는 한 문장으로 사전학습과 후속 조정을 뭉뚱그리면 안 된다는 점을 다시 보여 줍니다. 이후 파인튜닝, instruction tuning, alignment를 읽을 때도 먼저 `기반 능력을 넓게 만든 단계`와 `반응 방식을 목적에 맞춘 단계`를 구분해 보는 습관이 필요합니다.
+이 예제는 `많이 학습했다`는 한 문장으로 사전학습과 후속 조정을 뭉뚱그리면 안 된다는 점을 다시 보여 줍니다. 같은 next-word 구조를 쓰더라도, 일반 코퍼스로 만든 단계는 `넓은 언어 연결`을, 도메인 문장을 더한 단계는 `특정 업무 표현 강화`를 보여 줍니다. 이후 파인튜닝, instruction tuning, alignment를 읽을 때도 먼저 `기반 능력을 넓게 만든 단계`와 `반응 방식을 목적에 맞춘 단계`를 구분해 보는 습관이 필요합니다.
 
 ## 역사와 커리큘럼 관점
 
