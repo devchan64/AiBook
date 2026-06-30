@@ -148,51 +148,69 @@ LLM은 더 극단적인 사례입니다. 사람은 처음에는 `모델만 크�
 
 즉, GPU와 병렬 처리의 중요성은 Part 5로 갈수록 더 커집니다.
 
-## 작은 Python 예제로 직관 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 딥러닝이 자주 사용하는 계산이 왜 `한 번에 여러 값`을 처리하는 형태로 보이는지 확인하는 것입니다.
+이번 예제의 목표는 같은 선형 연산이 `샘플 하나`에만 적용될 때와 `배치 전체`에 한 번에 적용될 때를 나란히 보는 것입니다.
 
 입력:
 
-- 두 개의 벡터
-- 같은 연산을 여러 위치에 반복하는 상황
+- 고객 4명, feature 3개인 작은 배치
+- 모든 고객에게 공통으로 적용할 가중치 3개
 
 출력:
 
-- 원소별 계산 결과
-- 작은 행렬 계산 결과
+- 고객별 점수
+- 한 번의 행렬 계산으로 얻은 점수
+- 반복 계산 횟수
 
 ```python
-vector_a = [1.0, 2.0, 3.0, 4.0]
-vector_b = [0.5, 0.5, 0.5, 0.5]
+import numpy as np
 
-elementwise_sum = [a + b for a, b in zip(vector_a, vector_b)]
+# 4 customers, 3 features each
+batch = np.array([
+    [1.0, 0.5, 2.0],
+    [0.2, 1.5, 0.3],
+    [1.2, 0.1, 0.7],
+    [0.0, 2.0, 1.0],
+])
 
-matrix = [
-    [1.0, 2.0],
-    [3.0, 4.0],
-    [5.0, 6.0],
-]
+weights = np.array([0.4, 0.8, -0.3])
 
-weights = [0.2, 0.8]
-dot_results = [row[0] * weights[0] + row[1] * weights[1] for row in matrix]
+scores_one_by_one = []
+scalar_multiply_count = 0
+for sample in batch:
+    score = 0.0
+    for x, w in zip(sample, weights):
+        score += x * w
+        scalar_multiply_count += 1
+    scores_one_by_one.append(round(score, 3))
 
-print("elementwise_sum =", elementwise_sum)
-print("dot_results =", [round(v, 3) for v in dot_results])
+scores_batch = batch @ weights
+
+print("batch shape =", batch.shape)
+print("weights shape =", weights.shape)
+print("scores_one_by_one =", scores_one_by_one)
+print("scores_batch =", np.round(scores_batch, 3).tolist())
+print("scalar multiply count =", scalar_multiply_count)
+print("same result =", np.allclose(scores_one_by_one, np.round(scores_batch, 3)))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-elementwise_sum = [1.5, 2.5, 3.5, 4.5]
-dot_results = [1.8, 3.8, 5.8]
+batch shape = (4, 3)
+weights shape = (3,)
+scores_one_by_one = [0.2, 1.19, 0.35, 1.3]
+scores_batch = [0.2, 1.19, 0.35, 1.3]
+scalar multiply count = 12
+same result = True
 ```
 
-이 예제는 GPU를 직접 쓰는 코드는 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
+이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- 딥러닝 계산은 비슷한 연산을 여러 원소와 여러 행에 반복합니다
-- 이런 계산 패턴은 병렬 처리에 잘 맞습니다
-- GPU의 중요성은 바로 이런 반복 구조를 대규모로 빠르게 처리해 준다는 데 있습니다
+- 계산 내용 자체는 같아도, 실제 딥러닝 프레임워크는 이런 연산을 `배치 전체 행렬 계산`으로 묶어 처리합니다
+- 예제처럼 작은 데이터에서도 같은 곱셈이 12번 반복되며, 모델이 커지면 이 반복 횟수는 바로 커집니다
+- GPU의 강점은 이런 반복 곱셈과 덧셈을 대량으로 병렬 처리하는 데 있습니다
 
 ## 커리큘럼 관점
 

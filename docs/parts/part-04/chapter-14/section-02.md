@@ -164,49 +164,59 @@ flowchart TD
 | 긴 문서 요약 | 문서 초반 핵심 문장이 뒤 요약에도 중요해서 |
 | 코드 생성/분석 | 먼 앞쪽 정의가 뒤쪽 해석에 영향을 줘서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `가까운 값만 누적해 보는 방식`과 `전체 중 필요한 위치를 직접 참고하는 방식`의 감각 차이를 단순화해 보는 것입니다.
+이번 예제의 목표는 긴 입력에서 `이전 상태를 계속 압축해 들고 가는 방식`과 `필요한 위치를 직접 크게 참고하는 방식`이 어떻게 다르게 보이는지 확인하는 것입니다.
 
 입력:
 
-- 순차 값 리스트
-- 마지막 값 계산에 참고할 가중치
+- 길이 6인 토큰 중요도 시퀀스
+- 순차 누적 계수
+- 마지막 예측에서 참고할 attention-style 가중치
 
 출력:
 
-- 순차 누적 상태
-- 전체 참조식 가중 평균
+- 각 시점의 순차 상태
+- 마지막 단계에서 직접 참조한 문맥값
+- 어떤 위치가 크게 반영되었는지
 
 ```python
-sequence = [1.0, 2.0, 8.0, 3.0]
+sequence = [1.0, 0.5, 0.2, 0.1, 5.0, 0.3]
 
-# sequential-style accumulation intuition
+# sequential accumulation
 state = 0.0
+states = []
 for x in sequence:
-    state = 0.6 * state + x
+    state = 0.7 * state + x
+    states.append(round(state, 3))
 
-# direct-reference attention-like intuition
-weights = [0.1, 0.2, 0.6, 0.1]
+# direct reference for the last position
+weights = [0.05, 0.05, 0.1, 0.1, 0.6, 0.1]
 direct_context = sum(w * x for w, x in zip(weights, sequence))
+contributions = [round(w * x, 3) for w, x in zip(weights, sequence)]
 
-print("sequential_state =", round(state, 3))
+print("sequence =", sequence)
+print("sequential states =", states)
+print("direct contributions =", contributions)
 print("direct_context =", round(direct_context, 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-sequential_state = 7.056
-direct_context = 5.8
+sequence = [1.0, 0.5, 0.2, 0.1, 5.0, 0.3]
+sequential states = [1.0, 1.2, 1.04, 0.828, 5.58, 4.206]
+direct contributions = [0.05, 0.025, 0.02, 0.01, 3.0, 0.03]
+direct_context = 3.135
 ```
 
-이 예제는 RNN이나 Transformer를 정확히 구현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
+이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- 순차 누적 방식은 모든 정보를 상태를 통해 간접적으로 전달합니다
-- direct reference 방식은 필요한 위치에 더 큰 비중을 줄 수 있습니다
+- 순차 방식에서는 정보가 매 단계 상태 하나로 압축되어 넘어갑니다
+- direct reference 방식에서는 다섯 번째 위치처럼 중요한 토큰에 바로 큰 비중을 둘 수 있습니다
+- 긴 문맥에서 `무엇을 잊지 말아야 하는가`를 다루는 방식이 두 구조에서 다르게 보입니다
 
-즉, 긴 문맥 문제를 다루는 감각 자체가 다릅니다.
+이 예제는 RNN과 Transformer를 정확히 구현한 것은 아니지만, 긴 문맥을 다루는 계산 감각 차이는 실제 구조 차이를 이해하는 데 도움이 됩니다.
 
 ## 역사와 커리큘럼 관점
 

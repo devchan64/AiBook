@@ -207,70 +207,91 @@ flowchart TD
 | 문서 요약 | 관련 위치를 넓게 참조하고 표현을 다시 가공할 수 있어서 |
 | 코드/LLM | 멀리 떨어진 토큰 관계를 여러 블록에 걸쳐 갱신할 수 있어서 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 Transformer 블록의 전체 수식을 구현하는 것이 아니라, `토큰 표현이 관계 반영 -> 위치별 가공`의 두 단계를 거친다는 감각을 확인하는 것입니다.
+이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 숫자 변화로 보는 것입니다.
 
 입력:
 
-- 세 개의 토큰 표현
-- 간단한 attention-style 가중치
-- 위치별 선형 변환
+- 세 개 토큰의 초기 표현
+- 토큰별 attention 가중치
+- feed-forward 가중치
 
 출력:
 
-- 문맥 반영 후 표현
-- feed-forward 후 표현
+- attention 적용 전후의 토큰 표현
+- feed-forward 적용 후 표현
+- 각 토큰이 어느 방향으로 더 강조되었는지
 
 ```python
 import numpy as np
 
 tokens = np.array([
-    [1.0, 0.0],
-    [0.5, 1.0],
-    [0.0, 1.5],
+    [1.0, 0.0],   # token 1
+    [0.5, 1.0],   # token 2
+    [0.0, 1.5],   # token 3
 ])
 
 attention_weights = np.array([
-    [0.6, 0.3, 0.1],
-    [0.2, 0.5, 0.3],
-    [0.1, 0.3, 0.6],
+    [0.7, 0.2, 0.1],  # token 1 mainly reads itself
+    [0.2, 0.5, 0.3],  # token 2 mixes neighbors
+    [0.1, 0.3, 0.6],  # token 3 reads later context more
 ])
 
 contextual = attention_weights @ tokens
 
 ff_weights = np.array([
-    [1.2, 0.2],
-    [0.1, 1.1],
+    [1.1, 0.4],
+    [0.2, 1.0],
 ])
 
 ff_output = contextual @ ff_weights
+delta_from_input = ff_output - tokens
 
-print("contextual =")
+print("original tokens =")
+print(np.round(tokens, 3))
+print()
+print("contextual tokens =")
 print(np.round(contextual, 3))
-print("ff_output =")
+print()
+print("feed-forward output =")
 print(np.round(ff_output, 3))
+print()
+print("change from input =")
+print(np.round(delta_from_input, 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-contextual =
-[[0.75 0.45]
+original tokens =
+[[1.  0. ]
+ [0.5 1. ]
+ [0.  1.5]]
+
+contextual tokens =
+[[0.8  0.35]
  [0.45 0.95]
  [0.25 1.2 ]]
-ff_output =
-[[0.945 0.645]
- [0.635 1.135]
- [0.42  1.37 ]]
+
+feed-forward output =
+[[0.95 0.67]
+ [0.685 1.13 ]
+ [0.515 1.3  ]]
+
+change from input =
+[[-0.05   0.67 ]
+ [ 0.185  0.13 ]
+ [ 0.515 -0.2  ]]
 ```
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- attention 단계는 여러 토큰 정보를 섞어 문맥적 표현을 만들고
-- feed-forward 단계는 그 표현을 위치별로 다시 가공합니다
+- attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다
+- feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다
+- 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다
 
-실제 Transformer는 이보다 훨씬 복잡하지만, 큰 흐름은 이 두 단계와 안정화 장치들의 반복으로 이해할 수 있습니다.
+실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
 
 ## 역사와 커리큘럼 관점
 

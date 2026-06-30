@@ -153,64 +153,80 @@ flowchart TD
 
 문장 데이터를 다룰 때는 `(batch_size, sequence_length, embedding_dim)` 같은 shape가 자주 나옵니다. 사람은 문장을 그냥 글줄로 읽으니 길이만 보면 된다고 생각하기 쉽습니다. 하지만 모델은 한 번에 여러 문장을 처리하면서, 각 문장이 몇 개 토큰으로 잘렸는지와 각 토큰이 몇 차원 벡터로 표현되는지까지 함께 알아야 합니다. 예를 들어 16개 문장을 한꺼번에 읽고 각 문장이 128개 토큰, 각 토큰이 768차원 벡터라면, 텐서는 이 세 층위의 정보를 동시에 들고 있어야 합니다. 그래서 텐서는 표 데이터, 이미지, 문장처럼 서로 다른 입력을 `같은 계산 언어로 맞추는 공통 틀` 역할을 합니다. 그래서 이 사례에서 확인해야 할 결과는 문장 길이만 보는 것이 아니라, 배치축과 토큰축, 임베딩축을 구분해 shape를 읽을 수 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 배치와 텐서 shape를 숫자로 직접 확인하는 것입니다.
+이번 예제의 목표는 같은 `첫 번째 축`이 표 데이터, 이미지, 문장 데이터에서 모두 `배치축`으로 읽힌다는 점을 직접 확인하는 것입니다.
 
 입력:
 
-- 표 데이터 형태의 작은 배치
-- 이미지 비슷한 3차원 데이터 묶음
+- 표 데이터 배치
+- 컬러 이미지 비슷한 4차원 텐서
+- 문장 임베딩 비슷한 3차원 텐서
 
 출력:
 
-- 각 배열의 shape
-- 배치 첫 샘플과 두 번째 샘플
+- 각 텐서의 shape
+- 첫 번째 축이 가리키는 샘플 수
+- 샘플 하나를 꺼냈을 때 남는 구조
 
 ```python
 import numpy as np
 
-# tabular batch: 3 samples, 4 features
-batch_table = np.array([
-    [1.0, 0.2, 3.1, 0.0],
-    [0.5, 1.4, 2.8, 1.0],
-    [1.2, 0.1, 3.3, 0.0],
+tabular_batch = np.array([
+    [25, 60000, 1],
+    [41, 82000, 0],
+    [33, 74000, 1],
 ])
 
-# image-like tensor: 2 samples, 2x2 grayscale images
-batch_images = np.array([
-    [[1, 2], [3, 4]],
-    [[5, 6], [7, 8]],
-])
+# (batch, channel, height, width)
+image_batch = np.arange(2 * 3 * 2 * 2).reshape(2, 3, 2, 2)
 
-print("batch_table shape =", batch_table.shape)
-print("first tabular sample =", batch_table[0])
-print("batch_images shape =", batch_images.shape)
-print("first image =")
-print(batch_images[0])
-print("second image =")
-print(batch_images[1])
+# (batch, sequence_length, embedding_dim)
+text_batch = np.arange(2 * 4 * 3).reshape(2, 4, 3)
+
+print("tabular_batch shape =", tabular_batch.shape)
+print("number of customers =", tabular_batch.shape[0])
+print("one customer row =", tabular_batch[0].tolist())
+print()
+
+print("image_batch shape =", image_batch.shape)
+print("number of images =", image_batch.shape[0])
+print("first image shape =", image_batch[0].shape)
+print("first image, first channel =")
+print(image_batch[0, 0])
+print()
+
+print("text_batch shape =", text_batch.shape)
+print("number of sentences =", text_batch.shape[0])
+print("first sentence shape =", text_batch[0].shape)
+print("first token embedding =", text_batch[0, 0].tolist())
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-batch_table shape = (3, 4)
-first tabular sample = [1.  0.2 3.1 0. ]
-batch_images shape = (2, 2, 2)
-first image =
-[[1 2]
- [3 4]]
-second image =
-[[5 6]
- [7 8]]
+tabular_batch shape = (3, 3)
+number of customers = 3
+one customer row = [25, 60000, 1]
+
+image_batch shape = (2, 3, 2, 2)
+number of images = 2
+first image shape = (3, 2, 2)
+first image, first channel =
+[[0 1]
+ [2 3]]
+
+text_batch shape = (2, 4, 3)
+number of sentences = 2
+first sentence shape = (4, 3)
+first token embedding = [0, 1, 2]
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- `(3, 4)`는 3개 샘플과 4개 feature를 뜻합니다
-- `(2, 2, 2)`는 2개 샘플이 있고, 각 샘플이 2x2 배열임을 뜻합니다
-- 배치 차원은 같은 연산을 여러 샘플에 동시에 적용하기 위한 축입니다
+- 세 경우 모두 첫 번째 축은 `동시에 처리하는 샘플 수`입니다
+- 샘플 하나를 꺼내면 표는 feature 행, 이미지는 채널-공간 구조, 문장은 토큰-임베딩 구조가 남습니다
+- shape를 읽는다는 것은 숫자 개수만 세는 일이 아니라 각 축이 무엇을 뜻하는지 해석하는 일입니다
 
 ## 역사와 커리큘럼 관점
 
