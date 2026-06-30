@@ -174,6 +174,7 @@ flowchart TD
 
 출력:
 
+- 모델별 요청 단위 처리 상태
 - 모델별 문맥 초과 요청 수
 - 총 예상 비용
 - 총 예상 지연 시간
@@ -208,14 +209,18 @@ def evaluate_model(model_name, profile, requests):
     total_cost = 0.0
     total_latency = 0.0
     quality_scores = []
+    request_reports = []
 
     for request in requests:
         tokens = request["input_tokens"]
-        if tokens > profile["context_window"]:
+        is_over_limit = tokens > profile["context_window"]
+        if is_over_limit:
             over_limit += 1
 
-        total_cost += (tokens / 1000) * profile["cost_per_1k_tokens"]
-        total_latency += (tokens / 1000) * profile["latency_per_1k_tokens"]
+        request_cost = (tokens / 1000) * profile["cost_per_1k_tokens"]
+        request_latency = (tokens / 1000) * profile["latency_per_1k_tokens"]
+        total_cost += request_cost
+        total_latency += request_latency
 
         visible_ratio = min(tokens, profile["context_window"]) / tokens
         quality_score = round(
@@ -223,12 +228,23 @@ def evaluate_model(model_name, profile, requests):
             3,
         )
         quality_scores.append((request["task"], quality_score))
+        request_reports.append(
+            {
+                "task": request["task"],
+                "over_limit": is_over_limit,
+                "visible_ratio": round(visible_ratio, 3),
+                "cost": round(request_cost, 2),
+                "latency": round(request_latency, 2),
+                "quality_score": quality_score,
+            }
+        )
 
     average_quality = round(
         sum(score for _, score in quality_scores) / len(quality_scores), 3
     )
 
     print(model_name)
+    print("request_reports =", request_reports)
     print("over_limit_requests =", over_limit)
     print("total_cost =", round(total_cost, 2))
     print("total_latency =", round(total_latency, 2))
@@ -245,6 +261,7 @@ for model_name, profile in models.items():
 
 ```text
 small_model
+request_reports = [{'task': 'faq', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 0.12, 'latency': 0.48, 'quality_score': 0.9}, {'task': 'summary', 'over_limit': True, 'visible_ratio': 0.853, 'cost': 0.48, 'latency': 1.92, 'quality_score': 0.549}, {'task': 'contract_review', 'over_limit': True, 'visible_ratio': 0.33, 'cost': 1.24, 'latency': 4.96, 'quality_score': 0.165}, {'task': 'code_assistant', 'over_limit': True, 'visible_ratio': 0.5, 'cost': 0.82, 'latency': 3.28, 'quality_score': 0.281}]
 over_limit_requests = 3
 total_cost = 2.66
 total_latency = 10.64
@@ -252,6 +269,7 @@ quality_scores = [('faq', 0.9), ('summary', 0.549), ('contract_review', 0.165), 
 average_quality = 0.474
 
 large_model
+request_reports = [{'task': 'faq', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 0.66, 'latency': 0.96, 'quality_score': 1.3}, {'task': 'summary', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 2.64, 'latency': 3.84, 'quality_score': 0.929}, {'task': 'contract_review', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 6.82, 'latency': 9.92, 'quality_score': 0.722}, {'task': 'code_assistant', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 4.51, 'latency': 6.56, 'quality_score': 0.812}]
 over_limit_requests = 0
 total_cost = 14.63
 total_latency = 21.28
@@ -263,6 +281,7 @@ average_quality = 0.941
 
 - 큰 모델은 더 긴 입력을 문맥 초과 없이 처리해 품질 가능성 점수가 올라갑니다.
 - 동시에 총 비용과 총 지연 시간도 크게 증가합니다.
+- 요청별 `visible_ratio`를 보면 작은 모델은 특히 `contract_review`, `code_assistant`처럼 긴 입력에서 실제로 보지 못한 비율이 커집니다.
 - 즉, 스케일 증가는 `좋아졌다` 한 줄이 아니라 `무엇이 좋아졌고 무엇을 더 지불하게 되었는가`를 함께 비교해야 하는 문제입니다.
 
 이 예제에서는 `requests`의 토큰 길이, `difficulty`, 각 모델의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 작은 모델의 `over_limit_requests`가 더 커지고, 반대로 짧은 FAQ만 남기면 큰 모델의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
