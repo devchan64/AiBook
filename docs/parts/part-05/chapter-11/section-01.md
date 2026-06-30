@@ -143,44 +143,101 @@ flowchart TD
 
 개발자가 `요청 제한이 걸리면 잠깐 기다렸다 다시 보내는 옵션이 있나요?`라고 묻는다고 해 봅시다. 사람은 함수 이름이나 옵션명을 정확히 알아야 검색이 될 것이라고 먼저 생각할 수 있습니다. 하지만 질문에는 정확한 이름이 없고, 실제로는 retry나 backoff 설명이 들어 있는 API 문단을 찾아야 할 수 있습니다. 예를 들어 문서에는 `exponential backoff`와 `max_retries`만 적혀 있는데, 질문은 `잠깐 기다렸다 다시 보내기`처럼 완전히 풀어 쓸 수 있습니다. 키워드 검색만 쓰면 이름이 없는 질문에서 관련 문단이 후보에 올라오지 않을 수 있습니다. 여기서 바뀌는 점은 `정확한 옵션명을 아는가`를 보던 기준에서 `의미가 가까운 API 설명을 후보로 찾는가`를 보는 기준으로 이동한다는 것입니다. 벡터 데이터베이스는 이런 질문과 문서 조각을 의미 기반으로 가깝게 저장해 관련 API 설명을 더 잘 끌어올립니다. 그래서 이 사례에서 확인해야 할 결과는 정확한 옵션명을 몰라도 retry나 backoff 문단이 실제 후보로 올라오는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 벡터 검색 엔진을 구현하는 것이 아니라, 벡터 데이터베이스에 어떤 단위가 들어가는지 감각적으로 보는 것입니다.
+이번 예제의 목표는 실제 벡터 데이터베이스 엔진 전체를 구현하는 것이 아니라, `벡터`, `원문`, `메타데이터`가 함께 저장되고, 질문 벡터와의 유사도로 다시 꺼내 쓰인다는 점을 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 문서 조각들은 숫자 벡터만이 아니라 원문과 출처 정보를 함께 가져야 함
+- 질문이 들어오면 질문 벡터와 가까운 조각을 다시 찾아야 함
+- 검색 후에는 원문 텍스트와 메타데이터를 함께 생성 단계에 넘겨야 함
 
 입력:
 
-- 문서 조각
-- 벡터
-- 메타데이터
+- 세 개의 문서 조각
+- 각 조각의 임베딩 벡터
+- 질문 벡터
 
 출력:
 
-- 저장 레코드 형태
+- 유사도 점수
+- 상위 후보 문서 조각
+- 검색 후 다시 꺼내 쓰는 원문과 메타데이터
 
 ```python
-record = {
-    "id": "doc-001-chunk-02",
-    "text": "환불 요청 처리 기한이 14일로 변경되었습니다.",
-    "embedding": [0.12, -0.44, 0.81, 0.09],
-    "metadata": {
-        "source": "policy_notice_2026_06_29",
-        "date": "2026-06-29",
-        "category": "refund",
-    },
-}
+import math
 
-print("record =", record)
-print("next_step = similarity search over embedding")
+records = [
+    {
+        "id": "doc-001-chunk-02",
+        "text": "환불 요청 처리 기한이 14일로 변경되었습니다.",
+        "embedding": [0.92, 0.15, 0.08],
+        "metadata": {"source": "policy_notice_2026_06_29", "category": "refund"},
+    },
+    {
+        "id": "doc-002-chunk-01",
+        "text": "자동 저장은 환경설정 > 편집 메뉴에서 끌 수 있습니다.",
+        "embedding": [0.12, 0.88, 0.14],
+        "metadata": {"source": "manual_v3", "category": "settings"},
+    },
+    {
+        "id": "doc-003-chunk-03",
+        "text": "요청 제한이 걸리면 exponential backoff를 사용하세요.",
+        "embedding": [0.21, 0.18, 0.93],
+        "metadata": {"source": "sdk_guide_v2", "category": "api"},
+    },
+]
+
+query_vector = [0.95, 0.10, 0.05]
+
+
+def cosine_similarity(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(y * y for y in b))
+    return dot / (norm_a * norm_b)
+
+
+scored = []
+for record in records:
+    score = cosine_similarity(query_vector, record["embedding"])
+    scored.append((score, record))
+
+scored.sort(key=lambda item: item[0], reverse=True)
+top_matches = scored[:2]
+
+print("[query_vector]")
+print(query_vector)
+print("[top matches]")
+for score, record in top_matches:
+    print(
+        {
+            "score": round(score, 4),
+            "id": record["id"],
+            "text": record["text"],
+            "metadata": record["metadata"],
+        }
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-record = {'id': 'doc-001-chunk-02', 'text': '환불 요청 처리 기한이 14일로 변경되었습니다.', 'embedding': [0.12, -0.44, 0.81, 0.09], 'metadata': {'source': 'policy_notice_2026_06_29', 'date': '2026-06-29', 'category': 'refund'}}
-next_step = similarity search over embedding
+[query_vector]
+[0.95, 0.1, 0.05]
+[top matches]
+{'score': 0.9987, 'id': 'doc-001-chunk-02', 'text': '환불 요청 처리 기한이 14일로 변경되었습니다.', 'metadata': {'source': 'policy_notice_2026_06_29', 'category': 'refund'}}
+{'score': 0.3743, 'id': 'doc-003-chunk-03', 'text': '요청 제한이 걸리면 exponential backoff를 사용하세요.', 'metadata': {'source': 'sdk_guide_v2', 'category': 'api'}}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 임베딩 숫자만이 아니라 원문 텍스트와 메타데이터가 함께 저장되어, 검색 뒤에 다시 꺼내 쓸 수 있는 구조라는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 임베딩 숫자만 저장하는 것이 아니라, 검색 뒤에 생성 단계가 다시 사용할 원문 텍스트와 메타데이터까지 함께 저장하고 꺼내는 구조라는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `query_vector`를 설정 관련 값에 가깝게 바꿔 다른 문서가 상위에 오는지 보기
+- `records`에 같은 환불 주제 조각을 더 넣어 top-k 후보 묶음이 어떻게 바뀌는지 보기
+- `metadata`에 날짜나 버전을 더 넣고, 검색 후 필터 기준으로 어떻게 쓸지 상상해 보기
 
 ## 이 예제를 저장 구조 관점으로 다시 보면
 

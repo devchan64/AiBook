@@ -124,36 +124,93 @@ flowchart TD
 
 개발 문서 도우미가 비슷한 이름의 API 문서를 여러 개 가진 상태라고 해 봅시다. 사람은 최종 답만 보면 보통 `모델이 코드를 잘못 설명했다`고 먼저 느낍니다. 하지만 top-k 결과에 현재 버전 문서 대신 예전 버전 문서가 섞이면, 생성 단계는 그 후보를 바탕으로 꽤 자연스러운 답을 만들 수 있습니다. 예를 들어 2.x 버전 옵션을 묻는 질문에 1.x 문서가 후보 상단에 들어오면, 답변은 매끄러워도 바로 실행하면 에러가 나는 코드 예시가 나올 수 있습니다. 즉, 실제 시작점은 `후보 문서 묶음이 이미 어긋난 것`일 수 있습니다. 여기서 바뀌는 점은 `최종 답이 자연스러운가`를 보던 기준에서 `top-k 후보 안에 맞는 버전 문서가 들어왔는가`를 먼저 보는 기준으로 이동한다는 것입니다. 그래서 이 장면에서는 생성 평가와 별도로 검색 품질 평가가 필요합니다. 그래서 이 사례에서 확인해야 할 결과는 최종 답만 보기 전에 top-k 후보 안에 현재 버전 문서가 실제로 포함되어 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 인덱스 구현이 아니라, `속도`와 `품질`을 함께 읽는 감각을 만드는 것입니다.
+이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다.
+
+문제 상황:
+
+- 개발 문서 검색에서 현재 버전 문서가 꼭 top-k 안에 들어와야 함
+- 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있음
+- 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있음
 
 입력:
 
-- 두 가지 검색 설정
+- 같은 질문
+- 빠른 검색 설정과 엄격한 검색 설정의 후보 목록
 
 출력:
 
-- 속도와 품질 비교
+- 지연 시간
+- top-k 후보
+- 현재 버전 문서가 실제로 포함되었는지 여부
 
 ```python
-search_fast = {"latency_ms": 25, "recall_like_score": 0.82}
-search_strict = {"latency_ms": 90, "recall_like_score": 0.93}
+question = "2.x 버전에서 request timeout 옵션은 어디에 넣나요?"
 
-print("search_fast =", search_fast)
-print("search_strict =", search_strict)
-print("observation = faster search may return less complete candidates")
+search_fast = {
+    "latency_ms": 24,
+    "candidates": [
+        "sdk_v1_timeout_guide",
+        "sdk_v1_retry_notes",
+        "sdk_general_networking",
+    ],
+}
+
+search_strict = {
+    "latency_ms": 88,
+    "candidates": [
+        "sdk_v2_request_timeout",
+        "sdk_v2_retry_and_backoff",
+        "sdk_v1_timeout_guide",
+    ],
+}
+
+target_doc = "sdk_v2_request_timeout"
+
+
+def inspect_search(result, target_doc):
+    return {
+        "latency_ms": result["latency_ms"],
+        "top_k": result["candidates"],
+        "target_in_top_k": target_doc in result["candidates"],
+        "rank_of_target": (
+            result["candidates"].index(target_doc) + 1
+            if target_doc in result["candidates"]
+            else None
+        ),
+    }
+
+
+fast_inspect = inspect_search(search_fast, target_doc)
+strict_inspect = inspect_search(search_strict, target_doc)
+
+print("[question]")
+print(question)
+print("[fast search]")
+print(fast_inspect)
+print("[strict search]")
+print(strict_inspect)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-search_fast = {'latency_ms': 25, 'recall_like_score': 0.82}
-search_strict = {'latency_ms': 90, 'recall_like_score': 0.93}
-observation = faster search may return less complete candidates
+[question]
+2.x 버전에서 request timeout 옵션은 어디에 넣나요?
+[fast search]
+{'latency_ms': 24, 'top_k': ['sdk_v1_timeout_guide', 'sdk_v1_retry_notes', 'sdk_general_networking'], 'target_in_top_k': False, 'rank_of_target': None}
+[strict search]
+{'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1}
 ```
 
-이 예제에서 확인해야 할 결과는 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 후보 회수 품질을 함께 읽어야 한다는 점입니다.
+이 예제에서 확인해야 할 결과는 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`를 같이 읽어야 한다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `target_doc`를 다른 문서로 바꿔 어떤 질문에서 빠른 설정이 더 큰 손실을 내는지 보기
+- `search_fast["candidates"]`를 바꿔 비슷하지만 틀린 버전 문서가 얼마나 위험한지 확인하기
+- `inspect_search`에 `recall_like_score`나 `version_match` 항목을 추가해 자체 품질 지표를 넓혀 보기
 
 ## 이 예제를 검색 타협 관점으로 다시 보면
 
