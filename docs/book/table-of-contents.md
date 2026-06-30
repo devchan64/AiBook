@@ -518,7 +518,7 @@ Transformer 이후의 흐름을 이해하고, LLM을 실제 서비스와 연결�
 
 - **P5-3.1 Transformer를 LLM 관점에서 다시 읽기**: Part 4의 Transformer를 생성형 언어 모델 관점에서 다시 봅니다.
 - **P5-3.2 attention과 context window**: 문맥을 처리하는 구조적 조건을 봅니다.
-- **P5-3.3 보충학습: 위치 표현, multi-head attention, KV cache를 처음 읽는 법**: 구현 세부를 본류를 끊지 않는 범위에서 보충합니다.
+- **P5-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법**: 구현 세부를 본류를 끊지 않는 범위에서 보충합니다.
 
 #### Chapter 4. GPT 계열 `LLM 핵심`
 
