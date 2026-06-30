@@ -29,6 +29,14 @@ MCP의 연결 관점은 여기서 잡고, 실행을 감싸는 운영 장치의 �
 - 왜 agent와 tool use가 커질수록 연결 표준이 중요해지는지 말할 수 있습니다.
 - 다음 절의 하네스(harness) 설명으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 덜 끊깁니다.
+
+1. 왜 표준 연결이 필요한지 먼저 읽습니다.
+2. 그다음 MCP가 모델 성능이 아니라 연결 형식을 다룬다는 점을 구분합니다.
+3. 사례와 Python 예제에서는 `공통 연결 관점이 있으면 실제로 무엇이 덜 흔들리는가`를 확인합니다.
+
 ## 왜 표준 연결이 필요해지나
 
 도구 사용이 한두 개일 때는 개별 연결을 직접 만들어도 됩니다. 하지만 에이전트 구조가 커지면 문제가 생깁니다.
@@ -53,6 +61,22 @@ MCP의 연결 관점은 여기서 잡고, 실행을 감싸는 운영 장치의 �
 `도구가 늘어날수록, 모델이 무엇을 쓸 수 있고 어떤 형식으로 써야 하는지를 일정하게 맞추지 않으면 연결 방식마다 실패 원인이 달라진다.`
 
 서비스 구조 관점으로 다시 말하면, tool use는 `도구를 부른다`에 가깝고, MCP는 `그 도구들을 어떤 공통 형식으로 드러낼까`를 다루는 단계입니다.
+
+이 차이를 한 번 더 단순화하면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["user task"]
+  B["agent chooses tool"]
+  C["shared connection rule"]
+  D["tool or resource"]
+
+  A --> B
+  B --> C
+  C --> D
+```
+
+이 그림에서 핵심은 에이전트가 매번 도구마다 다른 사적 규칙을 외우는 대신, 공통 연결 규칙을 통해 도구와 자원을 본다는 점입니다.
 
 ## MCP는 무엇을 표준화하려 하나
 
@@ -157,6 +181,8 @@ flowchart TD
 
 ## 사례로 보기
 
+사례를 읽을 때는 `도구가 무엇인가`보다 `어디에서 연결 규칙이 먼저 흔들리는가`를 중심으로 보면 좋습니다.
+
 ### 사례 1. 문서 읽기와 검색을 함께 쓰는 에이전트
 
 사내 정책 문서를 찾아 답하는 에이전트를 생각해 볼 수 있습니다. 사람은 파일 읽기와 문서 검색이 둘 다 `문서를 보는 일`이니 비슷하게 붙이면 된다고 생각하기 쉽습니다. 하지만 이 에이전트는 어떤 경우에는 파일을 직접 열어야 하고, 어떤 경우에는 검색으로 관련 문서를 먼저 찾아야 합니다. 예를 들어 정확한 파일 경로를 이미 아는 경우와, 키워드만 알고 있어 후보 문서를 먼저 찾아야 하는 경우는 접근 방식이 다릅니다. 그런데 파일 읽기 도구와 검색 도구가 서로 다른 호출 규칙과 결과 형식을 쓰면, 에이전트는 답을 만들기 전에 `어떤 방식으로 접근해야 하는가`부터 따로 배워야 합니다. 이 연결이 뒤섞이면 답변 전 준비 단계에서 잘못된 도구를 골라 검색해야 할 문서를 직접 읽으려 하거나, 반대로 경로가 있는 파일을 괜히 검색으로 돌릴 수 있습니다. 여기서 바뀌는 점은 `둘 다 문서를 보는 일인가`를 보던 기준에서 `읽을 자원과 검색할 자원을 같은 형식으로 구분해 다룰 수 있는가`를 보는 기준으로 이동한다는 것입니다. MCP 같은 연결 계층은 이런 자원을 더 일정한 형식으로 드러내어 `읽을 수 있는 것`, `검색할 수 있는 것`을 같은 방식으로 다루기 쉽게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 경로가 있는 문서는 바로 읽고, 경로가 없는 질문은 먼저 검색하는 식으로 도구 선택이 실제로 더 일관되게 갈라지는가입니다.
@@ -187,7 +213,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 모델이나 에이전트가 도구와 리소스를 제각각 하드코딩하는 대신 `연결 계층에 등록된 정보`를 통해 일관되게 본다는 점을 눈으로 확인하는 것입니다. 한 구조만 보면 그냥 목록처럼 보일 수 있으므로, 이번에는 `공통 연결 관점이 있는 경우`와 `형식이 제각각인 경우`를 나란히 두고 비교하겠습니다.
+이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 에이전트가 여러 요청을 처리할 때 `공통 연결 계층이 있으면 어떤 요청은 끝까지 진행되고`, `형식이 제각각이면 어디에서 멈추는가`를 눈으로 확인하는 것입니다. 단순히 목록 모양만 검사하면 연결 계층의 의미가 잘 드러나지 않으므로, 이번에는 여러 사용자 요청을 실제로 흘려 보내 보겠습니다.
 
 문제 상황:
 
@@ -202,20 +228,23 @@ flowchart TD
 
 출력:
 
-- 에이전트가 볼 수 있는 공통 인터페이스 정보
-- 어떤 도구와 어떤 리소스가 안정적으로 노출되었는지에 대한 점검값
-- 형식이 제각각일 때 무엇이 바로 흔들리는지 보여 주는 요약값
+- 요청별 실행 결과
+- 어떤 도구와 리소스가 실제로 선택되었는지에 대한 run report
+- 공통 연결 계층이 있을 때와 없을 때 성공률이 어떻게 달라지는지 보여 주는 요약값
 
 먼저 이 예제에서 함께 볼 비교 기준은 다음과 같습니다.
 
 | 점검 항목 | 왜 필요한가 |
 | --- | --- |
-| `all_tools_have_schema` | 모든 도구가 같은 방식으로 호출 가능해야 해서 |
-| `all_resources_have_type` | 읽을 자원의 종류를 일정하게 구분해야 해서 |
-| `all_tools_have_name` | 호출 대상을 식별할 최소 정보가 필요해서 |
-| `shape_is_consistent` | 새 도구를 추가해도 같은 규칙으로 다룰 수 있어야 해서 |
+| `request_success` | 사용자 요청이 실제로 끝까지 진행되는지 봐야 해서 |
+| `tool_resolved` | 필요한 도구를 공통 형식으로 찾을 수 있어야 해서 |
+| `resource_resolved` | 읽을 자원을 일정한 방식으로 식별할 수 있어야 해서 |
+| `failure_reason` | 어떤 연결 결함이 먼저 실행을 멈추는지 구분해야 해서 |
 
 ```python
+from pprint import pprint
+
+
 connection_layers = [
     {
         "name": "consistent_layer",
@@ -223,10 +252,12 @@ connection_layers = [
             {"name": "search_docs", "input_schema": ["query"], "returns": "document_hits"},
             {"name": "read_file", "input_schema": ["path"], "returns": "file_text"},
             {"name": "run_tests", "input_schema": ["target"], "returns": "test_report"},
+            {"name": "query_employee_db", "input_schema": ["employee_id"], "returns": "employee_record"},
         ],
         "resources": [
             {"name": "policy_repository", "type": "document_store"},
             {"name": "codebase_files", "type": "filesystem"},
+            {"name": "employee_directory", "type": "database"},
         ],
     },
     {
@@ -235,89 +266,269 @@ connection_layers = [
             {"tool_name": "search_docs", "returns": "document_hits"},
             {"name": "read_file", "input_schema": ["path"]},
             {"name": "run_tests", "returns": "test_report"},
+            {"name": "query_employee_db", "schema": ["employee_id"], "returns": "employee_record"},
         ],
         "resources": [
             {"resource": "policy_repository"},
             {"name": "codebase_files", "kind": "filesystem"},
+            {"name": "employee_directory"},
         ],
     },
 ]
 
 
-def inspect_connection_layer(layer):
-    tool_names = [tool.get("name") for tool in layer["tools"] if "name" in tool]
-    resource_names = [resource.get("name") for resource in layer["resources"] if "name" in resource]
-    all_tools_have_schema = all("input_schema" in tool for tool in layer["tools"])
-    all_tools_have_name = all("name" in tool for tool in layer["tools"])
-    all_resources_have_type = all("type" in resource for resource in layer["resources"])
+requests = [
+    {
+        "request_id": "req-01",
+        "goal": "사내 환불 정책을 찾아 요약한다",
+        "tool_needed": "search_docs",
+        "resource_needed": "policy_repository",
+        "payload": {"query": "환불 정책 최신 버전"},
+    },
+    {
+        "request_id": "req-02",
+        "goal": "특정 경로의 파일을 읽는다",
+        "tool_needed": "read_file",
+        "resource_needed": "codebase_files",
+        "payload": {"path": "docs/parts/part-05/index.md"},
+    },
+    {
+        "request_id": "req-03",
+        "goal": "직원 ID로 조직 정보를 조회한다",
+        "tool_needed": "query_employee_db",
+        "resource_needed": "employee_directory",
+        "payload": {"employee_id": "E-102"},
+    },
+    {
+        "request_id": "req-04",
+        "goal": "변경 후 테스트를 실행한다",
+        "tool_needed": "run_tests",
+        "resource_needed": "codebase_files",
+        "payload": {"target": "tests/test_login.py"},
+    },
+]
+
+
+def find_tool(layer, tool_name):
+    for tool in layer["tools"]:
+        if tool.get("name") == tool_name:
+            return tool
+    return None
+
+
+def find_resource(layer, resource_name):
+    for resource in layer["resources"]:
+        if resource.get("name") == resource_name:
+            return resource
+    return None
+
+
+def run_request(layer, request):
+    tool = find_tool(layer, request["tool_needed"])
+    resource = find_resource(layer, request["resource_needed"])
+
+    if tool is None:
+        return {
+            "request_id": request["request_id"],
+            "goal": request["goal"],
+            "tool_resolved": False,
+            "resource_resolved": resource is not None,
+            "request_success": False,
+            "failure_reason": "tool_name_not_exposed_in_common_shape",
+        }
+
+    if "input_schema" not in tool:
+        return {
+            "request_id": request["request_id"],
+            "goal": request["goal"],
+            "tool_resolved": True,
+            "resource_resolved": resource is not None,
+            "request_success": False,
+            "failure_reason": "tool_schema_missing",
+        }
+
+    if resource is None:
+        return {
+            "request_id": request["request_id"],
+            "goal": request["goal"],
+            "tool_resolved": True,
+            "resource_resolved": False,
+            "request_success": False,
+            "failure_reason": "resource_name_not_exposed",
+        }
+
+    if "type" not in resource:
+        return {
+            "request_id": request["request_id"],
+            "goal": request["goal"],
+            "tool_resolved": True,
+            "resource_resolved": True,
+            "request_success": False,
+            "failure_reason": "resource_type_missing",
+        }
+
+    missing_inputs = [
+        field for field in tool["input_schema"] if field not in request["payload"]
+    ]
+    if missing_inputs:
+        return {
+            "request_id": request["request_id"],
+            "goal": request["goal"],
+            "tool_resolved": True,
+            "resource_resolved": True,
+            "request_success": False,
+            "failure_reason": f"missing_inputs:{missing_inputs}",
+        }
+
     return {
-        "tool_names": tool_names,
-        "resource_names": resource_names,
-        "all_tools_have_schema": all_tools_have_schema,
-        "all_tools_have_name": all_tools_have_name,
-        "all_resources_have_type": all_resources_have_type,
-        "shape_is_consistent": (
-            all_tools_have_schema
-            and all_tools_have_name
-            and all_resources_have_type
-        ),
+        "request_id": request["request_id"],
+        "goal": request["goal"],
+        "tool_resolved": True,
+        "resource_resolved": True,
+        "request_success": True,
+        "tool_name": tool["name"],
+        "resource_name": resource["name"],
+        "resource_type": resource["type"],
+        "used_payload": request["payload"],
+        "failure_reason": None,
     }
 
 
-reports = []
+layer_reports = []
 for layer in connection_layers:
-    inspection = inspect_connection_layer(layer)
-    reports.append(
+    run_reports = [run_request(layer, request) for request in requests]
+    summary = {
+        "request_count": len(run_reports),
+        "success_count": sum(report["request_success"] for report in run_reports),
+        "tool_resolution_success_count": sum(report["tool_resolved"] for report in run_reports),
+        "resource_resolution_success_count": sum(report["resource_resolved"] for report in run_reports),
+        "failure_reasons": [report["failure_reason"] for report in run_reports if report["failure_reason"]],
+    }
+    layer_reports.append(
         {
-            "name": layer["name"],
-            "layer": layer,
-            "inspection": inspection,
+            "layer_name": layer["name"],
+            "summary": summary,
+            "run_reports": run_reports,
         }
     )
 
-summary = {
-    "consistent_shape_count": sum(report["inspection"]["shape_is_consistent"] for report in reports),
-    "schema_complete_count": sum(report["inspection"]["all_tools_have_schema"] for report in reports),
-    "resource_type_complete_count": sum(report["inspection"]["all_resources_have_type"] for report in reports),
+overall = {
+    "layers_tested": len(layer_reports),
+    "fully_successful_layers": sum(
+        report["summary"]["success_count"] == len(requests)
+        for report in layer_reports
+    ),
 }
 
-print("[summary]")
-print(summary)
+print("[overall]")
+pprint(overall)
 print()
 
-for report in reports:
+for report in layer_reports:
     print("=" * 80)
-    print("[layer]")
-    print(report["name"])
-    print("[connection_layer]")
-    print(report["layer"])
-    print("[inspection]")
-    print(report["inspection"])
+    print(f"[layer] {report['layer_name']}")
+    print("[summary]")
+    pprint(report["summary"])
+    print("[run_reports]")
+    for run_report in report["run_reports"]:
+        pprint(run_report)
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[summary]
-{'consistent_shape_count': 1, 'schema_complete_count': 1, 'resource_type_complete_count': 1}
+[overall]
+{'fully_successful_layers': 1, 'layers_tested': 2}
 
 ================================================================================
-[layer]
-consistent_layer
-[connection_layer]
-{'name': 'consistent_layer', 'tools': [{'name': 'search_docs', 'input_schema': ['query'], 'returns': 'document_hits'}, {'name': 'read_file', 'input_schema': ['path'], 'returns': 'file_text'}, {'name': 'run_tests', 'input_schema': ['target'], 'returns': 'test_report'}], 'resources': [{'name': 'policy_repository', 'type': 'document_store'}, {'name': 'codebase_files', 'type': 'filesystem'}]}
-[inspection]
-{'tool_names': ['search_docs', 'read_file', 'run_tests'], 'resource_names': ['policy_repository', 'codebase_files'], 'all_tools_have_schema': True, 'all_tools_have_name': True, 'all_resources_have_type': True, 'shape_is_consistent': True}
+[layer] consistent_layer
+[summary]
+{'failure_reasons': [],
+ 'request_count': 4,
+ 'resource_resolution_success_count': 4,
+ 'success_count': 4,
+ 'tool_resolution_success_count': 4}
+[run_reports]
+{'failure_reason': None,
+ 'goal': '사내 환불 정책을 찾아 요약한다',
+ 'request_id': 'req-01',
+ 'request_success': True,
+ 'resource_name': 'policy_repository',
+ 'resource_resolved': True,
+ 'resource_type': 'document_store',
+ 'tool_name': 'search_docs',
+ 'tool_resolved': True,
+ 'used_payload': {'query': '환불 정책 최신 버전'}}
+{'failure_reason': None,
+ 'goal': '특정 경로의 파일을 읽는다',
+ 'request_id': 'req-02',
+ 'request_success': True,
+ 'resource_name': 'codebase_files',
+ 'resource_resolved': True,
+ 'resource_type': 'filesystem',
+ 'tool_name': 'read_file',
+ 'tool_resolved': True,
+ 'used_payload': {'path': 'docs/parts/part-05/index.md'}}
+{'failure_reason': None,
+ 'goal': '직원 ID로 조직 정보를 조회한다',
+ 'request_id': 'req-03',
+ 'request_success': True,
+ 'resource_name': 'employee_directory',
+ 'resource_resolved': True,
+ 'resource_type': 'database',
+ 'tool_name': 'query_employee_db',
+ 'tool_resolved': True,
+ 'used_payload': {'employee_id': 'E-102'}}
+{'failure_reason': None,
+ 'goal': '변경 후 테스트를 실행한다',
+ 'request_id': 'req-04',
+ 'request_success': True,
+ 'resource_name': 'codebase_files',
+ 'resource_resolved': True,
+ 'resource_type': 'filesystem',
+ 'tool_name': 'run_tests',
+ 'tool_resolved': True,
+ 'used_payload': {'target': 'tests/test_login.py'}}
 ================================================================================
-[layer]
-inconsistent_layer
-[connection_layer]
-{'name': 'inconsistent_layer', 'tools': [{'tool_name': 'search_docs', 'returns': 'document_hits'}, {'name': 'read_file', 'input_schema': ['path']}, {'name': 'run_tests', 'returns': 'test_report'}], 'resources': [{'resource': 'policy_repository'}, {'name': 'codebase_files', 'kind': 'filesystem'}]}
-[inspection]
-{'tool_names': ['read_file', 'run_tests'], 'resource_names': ['codebase_files'], 'all_tools_have_schema': False, 'all_tools_have_name': False, 'all_resources_have_type': False, 'shape_is_consistent': False}
+[layer] inconsistent_layer
+[summary]
+{'failure_reasons': ['tool_name_not_exposed_in_common_shape',
+                     'resource_type_missing',
+                     'tool_schema_missing',
+                     'tool_schema_missing'],
+ 'request_count': 4,
+ 'resource_resolution_success_count': 3,
+ 'success_count': 0,
+ 'tool_resolution_success_count': 3}
+[run_reports]
+{'failure_reason': 'tool_name_not_exposed_in_common_shape',
+ 'goal': '사내 환불 정책을 찾아 요약한다',
+ 'request_id': 'req-01',
+ 'request_success': False,
+ 'resource_resolved': False,
+ 'tool_resolved': False}
+{'failure_reason': 'resource_type_missing',
+ 'goal': '특정 경로의 파일을 읽는다',
+ 'request_id': 'req-02',
+ 'request_success': False,
+ 'resource_resolved': True,
+ 'tool_resolved': True}
+{'failure_reason': 'tool_schema_missing',
+ 'goal': '직원 ID로 조직 정보를 조회한다',
+ 'request_id': 'req-03',
+ 'request_success': False,
+ 'resource_resolved': True,
+ 'tool_resolved': True}
+{'failure_reason': 'tool_schema_missing',
+ 'goal': '변경 후 테스트를 실행한다',
+ 'request_id': 'req-04',
+ 'request_success': False,
+ 'resource_resolved': True,
+ 'tool_resolved': True}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `consistent_shape_count`가 1이라는 점입니다. 즉, 같은 도구 수를 가지고 있어도 `name`, `input_schema`, `type` 같은 최소 공통 형식이 맞지 않으면 연결 계층은 바로 흔들립니다. 반대로 공통 연결 관점이 잡혀 있으면 모델이나 에이전트는 개별 도구의 세부 구현보다 `어떤 이름으로`, `어떤 인자를 받아`, `무슨 자원을 읽는가`를 더 일정하게 볼 수 있습니다.
+이 예제에서 먼저 봐야 할 것은 `consistent_layer`에서는 네 요청이 모두 성공하지만, `inconsistent_layer`에서는 도구 이름, 입력 형식, 자원 타입이 제각각이라 네 요청이 모두 중간에서 멈춘다는 점입니다. 즉, 같은 도구 수를 갖고 있어도 `name`, `input_schema`, `type` 같은 최소 공통 형식이 맞지 않으면 에이전트는 실제 업무 흐름을 끝까지 밀고 가지 못합니다.
 
 이 예제에서 확인해야 할 결과는 모델이나 에이전트가 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
 
@@ -336,6 +547,8 @@ inconsistent_layer
 ## 이 예제를 연결 계층 관점으로 다시 보면
 
 이 장난감 구조는 도구가 많아지는 시대에 중요한 것이 `도구 개수`보다 `어떻게 같은 방식으로 연결하느냐`라는 점을 보여 줍니다. 그래서 MCP를 읽을 때도 개별 도구 기능보다, 모델과 외부 시스템 사이의 연결 형식을 통일해 주는 계층이라는 역할을 먼저 잡는 것이 좋습니다.
+
+여기까지를 한 줄로 묶으면, MCP 관점은 `도구를 더 많이 붙이는 기술`이 아니라 `붙인 도구들을 같은 방식으로 읽고 호출하게 만드는 연결 규칙`입니다.
 
 ## 역사와 커리큘럼 관점
 
