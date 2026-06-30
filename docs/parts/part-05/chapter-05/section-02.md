@@ -120,6 +120,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `무작위로 고른다`보다 `어떤 목적에서 얼마나 보수적으로 또는 다양하게 고를 것인가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same decoding question"]
+  B["customer reply<br/>how stable should wording stay?"]
+  C["marketing draft<br/>how many distinct options are useful?"]
+  D["code generation<br/>how much variation can we tolerate?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 생성 설정이 `창의성 버튼` 하나가 아니라는 것입니다. 같은 모델이라도 고객 응답, 마케팅 문구, 코드 생성처럼 목적이 달라지면 `안정성`, `다양성`, `재현성`의 우선순위가 달라지고, 그에 따라 greedy, sampling, temperature를 보는 기준도 달라집니다.
+
 ### 사례 1. 고객 응답 초안
 
 고객 지원 초안을 자동으로 만들 때를 생각해 볼 수 있습니다. 사람은 이 장면에서 보통 `정책에 맞는 안정적인 문장이 나오는가`를 먼저 기준으로 삼습니다. 예를 들어 환불 문의에 어떤 답은 먼저 사과하고 어떤 답은 바로 정책을 말하면, 내용이 맞아도 서비스 톤은 일정하지 않게 느껴질 수 있습니다. 또 어떤 답은 환불 조건을 먼저 말하고 다른 답은 제출 서류부터 길게 설명하면 고객이 다음 행동을 헷갈릴 수 있습니다. 이때 샘플링 폭이 너무 넓으면 같은 질문에도 말투와 안내 순서가 흔들리기 쉽습니다. 반대로 낮은 temperature와 보수적인 선택 규칙은 `정책 설명 -> 필요한 서류 -> 다음 단계`처럼 비슷한 안내 흐름을 더 자주 유지하게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 같은 질문에 대해 말투와 안내 순서가 크게 흔들리지 않는가입니다.
@@ -134,47 +150,93 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 확률 후보에서 `greedy`와 `sampling`이 어떻게 다르게 동작하는지 감각적으로 보는 것입니다.
+이번 예제의 목표는 확률 후보에서 `greedy`, `sampling`, `temperature`가 실제로 어떤 차이를 만드는지 직접 보는 것입니다. 한 번만 뽑아 보는 대신, 같은 후보 분포를 여러 번 샘플링해 `낮은 temperature`, `기본 temperature`, `높은 temperature`에서 선택 빈도가 어떻게 달라지는지 비교하겠습니다.
 
 입력:
 
 - 같은 후보 확률
+- temperature 설정값
+- 반복 샘플링 횟수
 
 출력:
 
-- greedy 선택
-- sampling 예시 선택
+- temperature별 조정 확률
+- greedy 선택 결과
+- 반복 샘플링 집계 결과
 
 ```python
 import random
 
-candidates = {
+base_probs = {
     "좋습니다": 0.50,
     "가능합니다": 0.30,
     "검토하겠습니다": 0.20,
 }
 
-greedy_choice = max(candidates, key=candidates.get)
-sample_choice = random.choices(
-    population=list(candidates.keys()),
-    weights=list(candidates.values()),
-    k=1,
-)[0]
 
-print("candidates =", candidates)
-print("greedy_choice =", greedy_choice)
-print("sample_choice =", sample_choice)
+def apply_temperature(prob_dict, temperature):
+    adjusted = {
+        token: prob ** (1.0 / temperature)
+        for token, prob in prob_dict.items()
+    }
+    total = sum(adjusted.values())
+    return {token: adjusted[token] / total for token in adjusted}
+
+
+def sample_many(prob_dict, trials=200, seed=7):
+    random.seed(seed)
+    tokens = list(prob_dict.keys())
+    weights = list(prob_dict.values())
+    picked = random.choices(tokens, weights=weights, k=trials)
+    counts = {token: picked.count(token) for token in tokens}
+    return counts, picked[:12]
+
+
+for temperature in [0.5, 1.0, 1.5]:
+    adjusted_probs = apply_temperature(base_probs, temperature)
+    greedy_choice = max(adjusted_probs, key=adjusted_probs.get)
+    sample_counts, preview = sample_many(adjusted_probs, trials=200, seed=7)
+
+    print("temperature =", temperature)
+    print(
+        "adjusted_probs =",
+        {token: round(prob, 3) for token, prob in adjusted_probs.items()},
+    )
+    print("greedy_choice =", greedy_choice)
+    print("sample_counts =", sample_counts)
+    print("preview =", preview)
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-candidates = {'좋습니다': 0.5, '가능합니다': 0.3, '검토하겠습니다': 0.2}
+temperature = 0.5
+adjusted_probs = {'좋습니다': 0.658, '가능합니다': 0.237, '검토하겠습니다': 0.105}
 greedy_choice = 좋습니다
-sample_choice = 가능합니다
+sample_counts = {'좋습니다': 139, '가능합니다': 44, '검토하겠습니다': 17}
+preview = ['좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다']
+
+temperature = 1.0
+adjusted_probs = {'좋습니다': 0.5, '가능합니다': 0.3, '검토하겠습니다': 0.2}
+greedy_choice = 좋습니다
+sample_counts = {'좋습니다': 110, '가능합니다': 51, '검토하겠습니다': 39}
+preview = ['좋습니다', '좋습니다', '가능합니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다']
+
+temperature = 1.5
+adjusted_probs = {'좋습니다': 0.444, '가능합니다': 0.316, '검토하겠습니다': 0.241}
+greedy_choice = 좋습니다
+sample_counts = {'좋습니다': 99, '가능합니다': 54, '검토하겠습니다': 47}
+preview = ['좋습니다', '좋습니다', '가능합니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '가능합니다', '좋습니다', '좋습니다', '좋습니다', '좋습니다']
 ```
 
-이 예제에서 핵심은 sample 결과가 항상 같지 않을 수 있다는 점입니다. 다시 실행하면 다른 후보가 나올 수 있습니다. 그 차이가 곧 생성 다양성의 출발점입니다.
+이 예제에서 읽어야 할 핵심은 다음입니다.
+
+- greedy는 세 경우 모두 가장 높은 후보인 `좋습니다`를 고릅니다.
+- 하지만 sampling 집계는 temperature가 낮을수록 상위 후보에 더 몰리고, 높을수록 하위 후보도 더 자주 살아납니다.
+- 즉, temperature는 `무작위성 추가 버튼`이라기보다 `확률 분포를 얼마나 눌러서 볼지, 얼마나 펴서 볼지`를 조절하는 설정값에 가깝습니다.
+
+이 예제에서는 `base_probs`, `temperature`, `trials`, `seed`를 직접 바꿔 볼 수 있습니다. 예를 들어 `trials`를 1000으로 늘리면 분포 차이가 더 선명해지고, `temperature`를 0.2나 2.0으로 바꾸면 선택 편향이 얼마나 달라지는지 더 극단적으로 볼 수 있습니다.
 
 ## temperature를 아주 단순한 비유로 보면
 
@@ -187,7 +249,7 @@ sample_choice = 가능합니다
 
 ## 이 예제를 선택 규칙 관점으로 다시 보면
 
-이 장난감 예제에서 중요한 것은 후보 확률이 있다는 사실만이 아니라, 그 분포에서 `어떻게 고를 것인가`가 실제 사용자 경험을 바꾼다는 점입니다. 같은 모델이라도 보수적으로 뽑을지, 다양한 후보를 더 허용할지에 따라 응답의 안정성, 창의성, 재현성이 달라지므로 이후 설정 논의는 모두 이 선택 규칙 관점 위에 올라갑니다.
+이 예제에서 중요한 것은 후보 확률이 있다는 사실만이 아니라, 그 분포에서 `어떻게 고를 것인가`가 실제 사용자 경험을 바꾼다는 점입니다. 같은 모델이라도 보수적으로 뽑을지, 다양한 후보를 더 허용할지에 따라 응답의 안정성, 창의성, 재현성이 달라지므로 이후 설정 논의는 모두 이 선택 규칙 관점 위에 올라갑니다.
 
 ## 역사와 커리큘럼 관점
 
