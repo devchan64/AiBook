@@ -144,39 +144,77 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 고객 지원 답변이 응답 시간도 빠르고 금지 표현도 없으며 형식도 지켰다고 해 봅시다. 사람은 자동 평가가 다 통과했으면 거의 충분하다고 느끼기 쉽습니다. 하지만 실제 문장이 지나치게 차갑거나 책임을 고객에게 돌리는 듯 읽히면 서비스 품질은 나빠질 수 있습니다. 반대로 문장은 공손해도 핵심 안내 순서가 어색해 고객이 다음 행동을 헷갈릴 수 있습니다. 예를 들어 환불 가능 여부보다 먼저 서류 제출 경로를 길게 설명하면, 사실은 맞아도 고객은 `그래서 환불이 되는 건가`를 끝까지 읽고도 바로 파악하지 못할 수 있습니다. 이런 문제는 형식 검사만으로는 잘 드러나지 않고 사람이 읽어야 보입니다. 그래서 고객 지원 장면에서는 자동 평가는 기본 안전선이고, 사람 평가는 실제 오해 가능성과 말투 품질을 확인하는 역할을 맡습니다. 여기서 바뀌는 점은 `형식 검사를 통과했는가`를 보던 기준에서 `고객이 실제로 다음 행동을 이해할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 형식 통과와 별개로 고객이 다음 행동을 바로 이해할 수 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 감각적으로 보는 것입니다.
+이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보는 것입니다.
+
+문제 상황:
+
+- 하나의 환불 정책 답변이 있음
+- 자동 평가는 형식과 표면 조건을 빠르게 확인할 수 있음
+- 사람 평가는 말투, 오해 가능성, 실제 도움성을 더 잘 볼 수 있음
 
 입력:
 
-- 하나의 출력
+- 하나의 출력 문장
 
 출력:
 
-- 자동 평가 항목
-- 사람 평가 항목
+- 자동 평가 결과
+- 사람 평가가 추가로 봐야 할 질문
 
 ```python
 output = "환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요."
 
-automatic_checks = ["has_source_hint", "format_ok", "length_ok"]
-human_checks = ["is_the_tone_clear", "is_the_summary_misleading", "is_it_actually_helpful"]
 
-print("output =", output)
-print("automatic_checks =", automatic_checks)
-print("human_checks =", human_checks)
+def automatic_eval(output):
+    return {
+        "has_source_hint": "공지" in output,
+        "format_ok": output.endswith("."),
+        "length_ok": len(output) >= 20,
+    }
+
+
+def human_review_questions():
+    return [
+        "문장이 지나치게 차갑거나 단정적으로 들리지는 않는가?",
+        "사용자가 다음 행동을 바로 이해할 수 있는가?",
+        "예외 조건이 빠져 오해를 만들 가능성은 없는가?",
+    ]
+
+
+automatic_result = automatic_eval(output)
+human_questions = human_review_questions()
+
+print("[output]")
+print(output)
+print("[automatic_result]")
+print(automatic_result)
+print("[human_review_questions]")
+for question in human_questions:
+    print("-", question)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-output = 환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
-automatic_checks = ['has_source_hint', 'format_ok', 'length_ok']
-human_checks = ['is_the_tone_clear', 'is_the_summary_misleading', 'is_it_actually_helpful']
+[output]
+환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
+[automatic_result]
+{'has_source_hint': True, 'format_ok': True, 'length_ok': True}
+[human_review_questions]
+- 문장이 지나치게 차갑거나 단정적으로 들리지는 않는가?
+- 사용자가 다음 행동을 바로 이해할 수 있는가?
+- 예외 조건이 빠져 오해를 만들 가능성은 없는가?
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·표면 조건을 빠르게 보고, 사람 평가는 실제 도움성과 오해 가능성을 따로 본다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 본다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `output`을 더 짧거나 더 딱딱한 문장으로 바꿔 자동 평가와 사람 질문의 차이를 느껴 보기
+- `automatic_eval`에 금지 표현 점검을 넣어 자동 평가 범위를 넓혀 보기
+- 사람 질문 목록을 팀의 실제 QA 체크리스트처럼 다시 써 보기
 
 ## 이 예제를 운영 판단으로 다시 보면
 

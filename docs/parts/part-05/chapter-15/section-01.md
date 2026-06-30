@@ -173,41 +173,67 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | RAG 질의응답 | 문서 근거와 답변 일치 여부 |
 | 에이전트 실행 | 최종 결과뿐 아니라 실행 경로와 비용 |
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 감각적으로 보는 것입니다.
+이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보는 것입니다.
+
+문제 상황:
+
+- 하나의 환불 정책 답변이 있음
+- 문장은 자연스러워 보여도 정확성, 근거성, 형식 적합성은 따로 봐야 함
+- 같은 출력도 평가 축마다 다른 점수를 받을 수 있음
 
 입력:
 
-- 하나의 출력
-- 여러 평가 기준
+- 하나의 출력 문장
+- 비교할 근거 문서 문장
 
 출력:
 
-- 항목별 점검 구조
+- 정확성, 유용성, 근거성, 형식 적합성 점검 결과
 
 ```python
 output = "환불 정책은 14일로 변경되었습니다."
+source_text = "2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨"
 
-evaluation = {
-    "correctness": "check_document",
-    "helpfulness": "looks_good",
-    "groundedness": "needs_source_match",
-    "format": "plain_sentence_ok",
-}
 
-print("output =", output)
-print("evaluation =", evaluation)
+def evaluate_output(output, source_text):
+    return {
+        "correctness": "14일" in output and "14일" in source_text,
+        "helpfulness": len(output) >= 15,
+        "groundedness": "환불" in output and "환불" in source_text,
+        "format_compliance": output.endswith("."),
+    }
+
+
+evaluation = evaluate_output(output, source_text)
+
+print("[output]")
+print(output)
+print("[source_text]")
+print(source_text)
+print("[evaluation]")
+print(evaluation)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-output = 환불 정책은 14일로 변경되었습니다.
-evaluation = {'correctness': 'check_document', 'helpfulness': 'looks_good', 'groundedness': 'needs_source_match', 'format': 'plain_sentence_ok'}
+[output]
+환불 정책은 14일로 변경되었습니다.
+[source_text]
+2026-06-29 정책 공지: 환불 요청 처리 기한이 7일에서 14일로 변경됨
+[evaluation]
+{'correctness': True, 'helpfulness': True, 'groundedness': True, 'format_compliance': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 하나의 출력 문장도 정확성, 근거성, 형식성 같은 여러 축에서 서로 다른 판정을 받을 수 있다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 하나의 출력 문장도 정확성, 근거성, 형식성 같은 여러 축에서 따로 판정할 수 있으며, 평가가 단일 점수 하나로 끝나지 않는다는 점입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `output`을 `환불 정책은 30일입니다.`로 바꿔 정확성과 근거성이 어떻게 달라지는지 보기
+- 마침표를 지워 형식 적합성만 실패하게 만들어 보기
+- `helpfulness` 기준을 더 엄격하게 바꿔 짧지만 모호한 답을 걸러 보기
 
 ## 이 예제를 평가 관점으로 다시 보면
 
