@@ -33,6 +33,14 @@ RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 
 - 많이 넣는 것과 잘 넣는 것이 다르다는 점을 말할 수 있습니다.
 - 다음 장의 벡터 데이터베이스와 인덱스 설명으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `검색 결과는 어디에 붙나`와 `문서를 많이 넣으면 항상 좋은가`를 읽고, 검색 결과가 답변 뒤가 아니라 생성 전 입력 맥락에 붙는다는 점과 `많이 넣기`와 `잘 넣기`의 차이를 잡습니다.
+2. 그다음 `검색 실패와 생성 실패는 어떻게 다른가`와 `왜 답변 품질이 흔들릴 수 있나`를 읽으면서 RAG 실패를 두 단계로 분리해 봅니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 같은 오답처럼 보여도 `문서를 잘못 가져온 경우`와 `문서를 가져왔지만 과장하거나 잘못 풀어 쓴 경우`를 따로 점검해야 한다는 점을 확인합니다.
+
 ## 검색 결과는 어디에 붙나
 
 가장 단순한 형태에서는 검색된 문서 일부가 프롬프트 맥락에 함께 들어갑니다.
@@ -129,6 +137,23 @@ flowchart TD
 | 제품 지원 챗봇 | 현재 버전의 정확한 메뉴 경로 문단 회수 | 문단 내용을 사용자 절차 문장으로 정확히 풀어쓰기 |
 | 법률 문서 보조 | 관련 조문과 조건 문단 회수 | 조건을 빠뜨리지 않고 단정 표현을 피하기 |
 | 개발 문서 질의응답 | 현재 버전의 공식 옵션 문단 회수 | 옵션명을 비슷한 다른 이름으로 바꾸지 않기 |
+
+같은 내용을 단계 분리 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["user question"]
+  B["retrieval stage<br/>which docs are attached?"]
+  C["generation stage<br/>how are docs rewritten?"]
+  D["retrieval failure<br/>wrong or irrelevant docs"]
+  E["generation failure<br/>overclaim or wrong rewrite"]
+
+  A --> B --> C
+  B --> D
+  C --> E
+```
+
+핵심은 `RAG가 한 단계처럼 보이더라도 내부에서는 검색과 생성이 따로 흔들린다`는 점입니다.
 
 ## 실행 가능한 Python 예제로 보기
 
@@ -246,6 +271,14 @@ summary = {
     "generation_failure_count": sum(report["inspect"]["generation_failed"] for report in reports),
     "irrelevant_leak_count": sum(report["inspect"]["answer_mentions_irrelevant_content"] for report in reports),
     "overclaim_count": sum(report["inspect"]["answer_overclaims"] for report in reports),
+    "retrieval_failure_ratio": round(
+        sum(report["inspect"]["retrieval_failed"] for report in reports) / len(reports),
+        2,
+    ),
+    "generation_failure_ratio": round(
+        sum(report["inspect"]["generation_failed"] for report in reports) / len(reports),
+        2,
+    ),
 }
 
 print("[summary]")
@@ -268,7 +301,7 @@ for report in reports:
 
 ```text
 [summary]
-{'retrieval_failure_count': 1, 'generation_failure_count': 1, 'irrelevant_leak_count': 1, 'overclaim_count': 1}
+{'retrieval_failure_count': 1, 'generation_failure_count': 1, 'irrelevant_leak_count': 1, 'overclaim_count': 1, 'retrieval_failure_ratio': 0.33, 'generation_failure_ratio': 0.33}
 
 ================================================================================
 [payload]
@@ -316,6 +349,10 @@ retrieval_ok_but_generation_overclaims
 ## 이 예제를 RAG 파이프라인 관점으로 다시 보면
 
 앞의 예제는 검색과 생성을 모두 구현하는 코드가 아니라, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`가 실제로 분리되어 있다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 답변 문장이 아니라, 답변 직전까지 근거 문서가 독립된 입력 구성 요소로 남아 있다는 구조를 읽는 데 있습니다. 즉, 검색 결과가 마음에 들지 않으면 생성 프롬프트를 고치기 전에 `어떤 문서가 붙었는가`부터 다시 봐야 한다는 뜻이기도 합니다. 무관 문서가 섞였을 때 답변까지 바로 흔들린다는 점은 이 분리를 더 분명하게 보여 줍니다.
+
+## 여기까지를 한 줄로 묶으면
+
+RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한다`는 두 단계 구조이며, 검색 실패와 생성 실패를 따로 봐야만 어디를 고쳐야 하는지 판단할 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
