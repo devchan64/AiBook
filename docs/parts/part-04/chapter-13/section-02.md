@@ -189,6 +189,7 @@ RNN은 시점 순서대로 상태를 넘기므로, 계산 흐름이 순차적이
 
 출력:
 
+- 모든 토큰을 똑같이 평균낸 baseline 표현
 - `그것` 위치에서 계산된 attention 비중
 - self-attention 이후 `그것`의 새 표현
 - 어떤 토큰 묶음이 가장 크게 반영됐는지에 대한 요약
@@ -220,16 +221,28 @@ exp_scores = [math.exp(score) for score in ordered_scores]
 total = sum(exp_scores)
 weights = [s / total for s in exp_scores]
 
+baseline_representation = [0.0, 0.0, 0.0]
+uniform_weight = 1 / len(tokens)
+for token in tokens:
+    vector = token_vectors[token]
+    for idx in range(len(vector)):
+        baseline_representation[idx] += uniform_weight * vector[idx]
+
 new_representation = [0.0, 0.0, 0.0]
 for weight, token in zip(weights, tokens):
     vector = token_vectors[token]
     for idx in range(len(vector)):
         new_representation[idx] += weight * vector[idx]
 
+print("baseline_representation =", [round(value, 3) for value in baseline_representation])
 for token, weight in zip(tokens, weights):
     print(token, "weight =", round(weight, 3), "vector =", token_vectors[token])
 print("weights =", [round(w, 3) for w in weights])
 print("new_representation =", [round(value, 3) for value in new_representation])
+print(
+    "representation_shift =",
+    [round(new - base, 3) for new, base in zip(new_representation, baseline_representation)],
+)
 
 top_token = tokens[weights.index(max(weights))]
 top_pair_weight = round(weights[tokens.index("박스")] + weights[tokens.index("버리지")], 3)
@@ -240,25 +253,38 @@ print("box_plus_not_discarded_weight =", top_pair_weight)
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-상품 weight = 0.073 vector = [0.8, 0.1, 0.0]
-반품 weight = 0.109 vector = [0.9, 0.3, 0.1]
-박스 weight = 0.488 vector = [0.1, 0.9, 0.2]
-버리지 weight = 0.199 vector = [0.0, 0.6, 0.8]
-그것 weight = 0.12 vector = [0.3, 0.3, 0.3]
-weights = [0.073, 0.109, 0.488, 0.199, 0.12]
-new_representation = [0.23, 0.676, 0.28]
+baseline_representation = [0.42, 0.44, 0.28]
+상품 weight = 0.074 vector = [0.8, 0.1, 0.0]
+반품 weight = 0.11 vector = [0.9, 0.3, 0.1]
+박스 weight = 0.494 vector = [0.1, 0.9, 0.2]
+버리지 weight = 0.201 vector = [0.0, 0.6, 0.8]
+그것 weight = 0.122 vector = [0.3, 0.3, 0.3]
+weights = [0.074, 0.11, 0.494, 0.201, 0.122]
+new_representation = [0.244, 0.642, 0.307]
+representation_shift = [-0.176, 0.202, 0.027]
 top_token = 박스
-box_plus_not_discarded_weight = 0.687
+box_plus_not_discarded_weight = 0.694
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
+- baseline 평균에서는 `상품`, `반품`, `박스`, `버리지`가 모두 같은 비중으로 섞여, 현재 토큰 `그것`이 무엇을 가리키는지에 대한 강조가 없습니다
 - 현재 토큰 표현은 자기 자신만으로 정해지지 않고, 문장 안 다른 토큰들을 다시 참고해 새로 계산됩니다
 - 이 예제에서는 `그것`이 `반품`보다 `박스`와 `버리지` 쪽 단서를 훨씬 더 크게 참고하므로, 대명사 해석이 `박스` 쪽으로 기웁니다
-- `박스`와 `버리지`의 합 비중이 0.687이라는 점은, self-attention이 단어 하나만 보는 것이 아니라 관련 단서 묶음을 함께 반영한다는 점을 보여 줍니다
+- `박스`와 `버리지`의 합 비중이 0.694라는 점은, self-attention이 단어 하나만 보는 것이 아니라 관련 단서 묶음을 함께 반영한다는 점을 보여 줍니다
+- `representation_shift`에서 두 번째 축 값이 크게 늘어난다는 점은, 현재 토큰 표현이 `박스/버리지` 쪽 문맥으로 다시 당겨졌다는 직관을 줍니다
 - 즉, self-attention은 `지금 이 토큰을 이해하려면 문장 안 어디를 다시 봐야 하는가`를 수치로 정하는 방식으로 읽을 수 있습니다
 
 즉, self-attention은 `문맥을 보고 표현을 다시 계산하는 방식`입니다.
+
+## 이 예제를 현재 토큰 재해석 관점으로 다시 보면
+
+앞의 숫자는 실제 대규모 self-attention 전체를 구현한 것은 아니지만, 비교 기준은 분명합니다.
+
+- baseline 평균은 `문장 전체 정보를 그냥 뭉뚱그려 섞은 표현`에 가깝습니다.
+- self-attention 결과는 `현재 토큰 그것이 지금 누구를 더 참고해야 하는가`를 다시 계산한 표현에 가깝습니다.
+
+즉, self-attention은 단순히 문장 전체를 보는 기능이 아니라, `각 토큰이 자기 입장에서 문장 전체를 다시 읽고 새 표현을 만드는 계산`입니다. 이 감각이 잡혀야 다음 절 P4-13.3의 QKV와 multi-head attention도 `무슨 이름을 외우는 절`이 아니라 `이 재참조 계산을 더 구조적으로 설명하는 절`로 읽을 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
