@@ -39,7 +39,7 @@ beam search, top-k, top-p, temperature의 세부 차이는 여기서 공식을 �
 
 이 절은 다음 순서로 읽으면 충분합니다.
 
-1. 먼저 생성 출력이 왜 하나로 고정되지 않을 수 없는지 확인합니다.
+1. 먼저 생성 출력이 왜 하나로 고정되지 않을 수 있는지 확인합니다.
 2. 그 다음 샘플링을 `후보 중 실제 출력을 고르는 절차`로 읽습니다.
 3. 이어서 다양성과 안정성의 균형이 왜 중요한지 봅니다.
 4. 마지막에 이 개념이 Part 5의 토큰 생성 설정으로 어떻게 이어지는지 정리합니다.
@@ -135,6 +135,22 @@ flowchart TD
 이 도식에서 확인해야 할 결과는 `모델 점수`를 계산하는 단계와 그 후보 중 무엇을 실제 출력으로 꺼낼지 정하는 단계가 서로 다르다는 점입니다.
 
 ## 사례로 보기
+
+아래 도식은 이 절의 세 사례를 `무엇이 정답인가`보다 `여러 후보 중 무엇을 실제 출력으로 고를 것인가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same sampling question"]
+  B["autocomplete<br/>which phrasing should be emitted?"]
+  C["chatbot answer<br/>which explanation style should be chosen?"]
+  D["image generation<br/>which scene variation should be realized?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 과업이 달라도 마지막 단계의 질문이 비슷하다는 것입니다. 모두 `후보 점수 계산` 뒤에 `실제로 어떤 출력을 꺼낼 것인가`를 정해야 하므로, 샘플링은 생성 결과를 사용자 경험으로 바꾸는 마지막 선택 단계로 읽어야 합니다.
 
 ### 사례 1. 문장 자동완성
 
