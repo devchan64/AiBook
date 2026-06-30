@@ -134,7 +134,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다. 특히 한 질문만 보는 대신, 여러 질문에서 `top-k 안에 정답 문서가 남는 비율`까지 함께 봐야 운영 판단이 더 정확해진다는 점을 확인하겠습니다.
 
 문제 상황:
 
@@ -144,37 +144,79 @@ flowchart TD
 
 입력:
 
-- 같은 질문
+- 여러 개의 질문
 - 빠른 검색 설정과 엄격한 검색 설정의 후보 목록
 
 출력:
 
-- 지연 시간
-- top-k 후보
+- 질문별 지연 시간
+- 질문별 top-k 후보
 - 현재 버전 문서가 실제로 포함되었는지 여부
+- 설정별 top-k 포함률
 
 ```python
-question = "2.x 버전에서 request timeout 옵션은 어디에 넣나요?"
-
-search_fast = {
-    "latency_ms": 24,
-    "candidates": [
-        "sdk_v1_timeout_guide",
-        "sdk_v1_retry_notes",
-        "sdk_general_networking",
-    ],
-}
-
-search_strict = {
-    "latency_ms": 88,
-    "candidates": [
-        "sdk_v2_request_timeout",
-        "sdk_v2_retry_and_backoff",
-        "sdk_v1_timeout_guide",
-    ],
-}
-
-target_doc = "sdk_v2_request_timeout"
+queries = [
+    {
+        "question": "2.x 버전에서 request timeout 옵션은 어디에 넣나요?",
+        "target_doc": "sdk_v2_request_timeout",
+        "fast": {
+            "latency_ms": 24,
+            "candidates": [
+                "sdk_v1_timeout_guide",
+                "sdk_v1_retry_notes",
+                "sdk_general_networking",
+            ],
+        },
+        "strict": {
+            "latency_ms": 88,
+            "candidates": [
+                "sdk_v2_request_timeout",
+                "sdk_v2_retry_and_backoff",
+                "sdk_v1_timeout_guide",
+            ],
+        },
+    },
+    {
+        "question": "2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?",
+        "target_doc": "sdk_v2_retry_and_backoff",
+        "fast": {
+            "latency_ms": 22,
+            "candidates": [
+                "sdk_v1_retry_notes",
+                "sdk_general_networking",
+                "sdk_v2_request_timeout",
+            ],
+        },
+        "strict": {
+            "latency_ms": 81,
+            "candidates": [
+                "sdk_v2_retry_and_backoff",
+                "sdk_v2_request_timeout",
+                "sdk_v1_retry_notes",
+            ],
+        },
+    },
+    {
+        "question": "2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?",
+        "target_doc": "sdk_v2_auth_refresh_flow",
+        "fast": {
+            "latency_ms": 25,
+            "candidates": [
+                "sdk_v1_auth_overview",
+                "sdk_general_security",
+                "sdk_v2_auth_refresh_flow",
+            ],
+        },
+        "strict": {
+            "latency_ms": 86,
+            "candidates": [
+                "sdk_v2_auth_refresh_flow",
+                "sdk_general_security",
+                "sdk_v1_auth_overview",
+            ],
+        },
+    },
+]
 
 
 def inspect_search(result, target_doc):
@@ -190,29 +232,62 @@ def inspect_search(result, target_doc):
     }
 
 
-fast_inspect = inspect_search(search_fast, target_doc)
-strict_inspect = inspect_search(search_strict, target_doc)
+def summarize_mode(queries, mode_name):
+    reports = []
+    hit_count = 0
+    total_latency = 0
+    for item in queries:
+        inspected = inspect_search(item[mode_name], item["target_doc"])
+        reports.append((item["question"], inspected))
+        hit_count += int(inspected["target_in_top_k"])
+        total_latency += inspected["latency_ms"]
+    hit_rate = round(hit_count / len(queries), 3)
+    avg_latency = round(total_latency / len(queries), 1)
+    return reports, hit_rate, avg_latency
 
-print("[question]")
-print(question)
+
+fast_reports, fast_hit_rate, fast_avg_latency = summarize_mode(queries, "fast")
+strict_reports, strict_hit_rate, strict_avg_latency = summarize_mode(queries, "strict")
+
 print("[fast search]")
-print(fast_inspect)
+for question, report in fast_reports:
+    print("question =", question)
+    print(report)
+print("fast_hit_rate =", fast_hit_rate)
+print("fast_avg_latency_ms =", fast_avg_latency)
+
 print("[strict search]")
-print(strict_inspect)
+for question, report in strict_reports:
+    print("question =", question)
+    print(report)
+print("strict_hit_rate =", strict_hit_rate)
+print("strict_avg_latency_ms =", strict_avg_latency)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[question]
-2.x 버전에서 request timeout 옵션은 어디에 넣나요?
 [fast search]
+question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
 {'latency_ms': 24, 'top_k': ['sdk_v1_timeout_guide', 'sdk_v1_retry_notes', 'sdk_general_networking'], 'target_in_top_k': False, 'rank_of_target': None}
+question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
+{'latency_ms': 22, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_networking', 'sdk_v2_request_timeout'], 'target_in_top_k': False, 'rank_of_target': None}
+question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
+{'latency_ms': 25, 'top_k': ['sdk_v1_auth_overview', 'sdk_general_security', 'sdk_v2_auth_refresh_flow'], 'target_in_top_k': True, 'rank_of_target': 3}
+fast_hit_rate = 0.333
+fast_avg_latency_ms = 23.7
 [strict search]
+question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
 {'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1}
+question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
+{'latency_ms': 81, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout', 'sdk_v1_retry_notes'], 'target_in_top_k': True, 'rank_of_target': 1}
+question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
+{'latency_ms': 86, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_general_security', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1}
+strict_hit_rate = 1.0
+strict_avg_latency_ms = 85.0
 ```
 
-이 예제에서 확인해야 할 결과는 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`를 같이 읽어야 한다는 점입니다.
+이 예제에서 확인해야 할 결과는 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`를 같이 읽어야 한다는 점입니다. 특히 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `fast_hit_rate = 0.333`처럼 설정 품질 차이가 더 분명하게 드러날 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
@@ -222,7 +297,7 @@ print(strict_inspect)
 
 ## 이 예제를 검색 타협 관점으로 다시 보면
 
-앞의 예제는 실제 인덱스를 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 비교표로 보여 주는 장면입니다. 예를 들어 `latency_ms`만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다.
+앞의 예제는 실제 인덱스를 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 비교표로 보여 주는 장면입니다. 예를 들어 `latency_ms`만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
 
 ## 역사와 커리큘럼 관점
 
