@@ -146,6 +146,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `더 가볍다`보다 `같은 기반 모델을 유지한 채 얼마나 많은 목적 적응을 감당할 수 있는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same PEFT question"]
+  B["shared base model<br/>can many tasks reuse one backbone?"]
+  C["limited budget<br/>can experiments start at all?"]
+  D["fast comparison<br/>can we rotate more hypotheses?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 LoRA의 장점이 단순히 `파라미터 수가 적다`에서 끝나지 않는다는 것입니다. 같은 기반 모델을 재사용하고, 제한된 자원 안에서 더 많은 적응 실험을 돌리고, 여러 업무용 조정본을 더 가볍게 관리할 수 있다는 운영 흐름까지 함께 봐야 합니다.
+
 ### 사례 1. 같은 기반 모델, 다른 업무
 
 한 회사가 하나의 기반 모델로 고객 응답, 문서 요약, 코드 보조를 모두 실험한다고 해 봅시다. 사람은 업무가 다르면 모델도 통째로 따로 만들어야 한다고 먼저 생각하기 쉽습니다. 전체 파인튜닝만 고집하면 실제로 업무마다 거대한 모델 복사본을 따로 만들고, 학습 결과도 각각 다시 저장해야 합니다. 이렇게 되면 새 업무 하나를 추가할 때마다 비용과 버전 관리 부담이 함께 커집니다. 예를 들어 요약 실험 하나를 더 돌릴 때도 수 GB~수십 GB 규모의 결과물을 별도 관리해야 할 수 있습니다. LoRA 방식은 기반 모델 본체는 공통으로 두고, 업무마다 작은 조정분만 따로 붙여 관리하는 흐름을 만듭니다. 여기서 바뀌는 점은 `업무마다 본체 모델을 따로 가져야 하는가`를 보던 기준에서 `같은 본체 위에 조정분만 분리해 관리할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 같은 기반 모델 위에 `고객 응답용`, `요약용`, `코드용` 조정본을 더 가볍게 나눠 실험할 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 업무 수가 늘어나도 거대한 모델 복사본 수를 함께 늘리지 않고, 목적별 조정본만 바꿔 끼우는 방식으로 실제 버전 관리 부담이 줄어드는가입니다.
@@ -158,48 +174,73 @@ flowchart TD
 
 운영팀이 같은 기반 모델로 `답변 형식 안정화`, `사내 용어 반영`, `특정 도메인 문체 유지` 중 무엇이 더 효과적인지 비교한다고 해 봅시다. 사람은 먼저 한 번 크게 조정해 보고 끝내고 싶어질 수 있습니다. 하지만 실무에서는 처음부터 정답 하나를 맞히는 것보다 여러 조정 방향을 빠르게 돌려 보고 버리는 과정이 더 중요할 때가 많습니다. 전체 파인튜닝만 사용하면 실험 하나를 돌릴 때마다 준비 시간과 저장 비용이 커져 비교 회전 수 자체가 줄어들 수 있습니다. 예를 들어 세 가지 조정 가설을 일주일 안에 모두 시험해야 하는데, 한 실험이 너무 무거우면 비교 자체가 늦어질 수 있습니다. LoRA는 작은 조정본을 여러 개 만들어 붙였다 떼기 쉬운 편이라, 어떤 조정이 실제로 가치가 있는지 더 빠르게 비교하는 흐름과 잘 맞습니다. 여기서 바뀌는 점은 `한 번 크게 맞추는가`를 보던 기준에서 `같은 기간 안에 더 많은 조정 가설을 실제로 비교할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 LoRA의 장점은 `이론적으로 가볍다`에 그치지 않고 `실험 회전 수를 늘리기 쉽다`는 운영 감각으로 이어집니다. 그래서 이 사례에서 확인해야 할 결과는 하나의 조정을 오래 붙드는가보다, 같은 기간 안에 더 많은 조정 가설을 실제로 돌려 보고 비교표를 만들 수 있는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 LoRA를 구현하는 것이 아니라, `전체 조정`과 `작은 조정분만 관리하는 방식`의 감각 차이를 보는 것입니다.
+이번 예제의 목표는 `전체 파인튜닝`과 `LoRA 방식`이 여러 업무용 조정본을 운영할 때 어떤 차이를 만드는지 직접 보는 것입니다. 같은 기반 모델을 고객 응답용, 요약용, 코드 보조용으로 나눠 실험한다고 가정하고, 업무 수가 늘어날 때 학습해야 하는 파라미터 수와 저장해야 하는 추가 파일 크기가 어떻게 달라지는지 비교해 보겠습니다.
 
 입력:
 
-- 전체 모델 파라미터 수
-- 조정 파라미터 수
+- 기반 모델 파라미터 수
+- 업무 수
+- 전체 파인튜닝과 LoRA의 업무별 추가 파라미터 수
 
 출력:
 
-- 조정 규모 차이
+- 업무 수에 따른 총 학습 대상 파라미터 수
+- 업무 수에 따른 추가 저장 크기 추정
+- 방식별 차이
 
 ```python
 base_model_params = 7_000_000_000
-trainable_full = 7_000_000_000
-trainable_lora = 8_000_000
+tasks = ["customer_support", "summarization", "code_assistant"]
+
+full_finetuning_trainable_per_task = 7_000_000_000
+lora_trainable_per_task = 8_000_000
+
+# float16 기준으로 파라미터 하나를 대략 2 bytes로 가정
+bytes_per_param = 2
+
+
+def to_gb(param_count):
+    return round(param_count * bytes_per_param / (1024 ** 3), 2)
+
+
+full_total_trainable = full_finetuning_trainable_per_task * len(tasks)
+lora_total_trainable = lora_trainable_per_task * len(tasks)
+
+full_extra_storage_gb = to_gb(full_finetuning_trainable_per_task * len(tasks))
+lora_extra_storage_gb = to_gb(lora_trainable_per_task * len(tasks))
 
 print("base_model_params =", base_model_params)
-print("trainable_full =", trainable_full)
-print("trainable_lora =", trainable_lora)
-print("idea = LoRA trains a much smaller set of task-specific parameters")
+print("tasks =", tasks)
+print("full_total_trainable =", full_total_trainable)
+print("lora_total_trainable =", lora_total_trainable)
+print("full_extra_storage_gb =", full_extra_storage_gb)
+print("lora_extra_storage_gb =", lora_extra_storage_gb)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 base_model_params = 7000000000
-trainable_full = 7000000000
-trainable_lora = 8000000
-idea = LoRA trains a much smaller set of task-specific parameters
+tasks = ['customer_support', 'summarization', 'code_assistant']
+full_total_trainable = 21000000000
+lora_total_trainable = 24000000
+full_extra_storage_gb = 39.12
+lora_extra_storage_gb = 0.04
 ```
 
-이 예제는 특정 실제 제품 수치를 주장하는 것이 아닙니다. 다만 독자가 다음 감각을 잡게 해 줍니다.
+이 예제는 특정 실제 제품 수치를 주장하는 것이 아닙니다. 다만 독자가 다음 감각을 직접 확인하게 해 줍니다.
 
-- 기반 모델은 매우 크고
-- 조정 대상은 훨씬 작을 수 있으며
-- 그 차이가 실무 전략을 바꿀 수 있다는 점입니다
+- 같은 기반 모델이라도 업무 수가 늘어나면 전체 파인튜닝은 학습 대상과 저장 부담이 급격히 커질 수 있습니다.
+- LoRA는 업무마다 작은 조정본만 추가로 관리하는 쪽에 가깝습니다.
+- 그 차이가 실험 회전 수, 저장 전략, 버전 관리 방식을 실제로 바꿀 수 있습니다.
+
+이 예제에서는 `tasks`를 더 늘리거나 `lora_trainable_per_task`를 바꿔 볼 수 있습니다. 예를 들어 업무를 3개에서 10개로 늘리면 전체 파인튜닝 방식은 저장 부담이 선형으로 크게 늘고, LoRA는 훨씬 완만하게 증가하는 모습을 더 선명하게 볼 수 있습니다.
 
 ## 이 예제를 조정 비용 절감 관점으로 다시 보면
 
-이 숫자 예제의 목적은 LoRA 수치를 외우는 데 있지 않습니다. 핵심은 `모델 전체를 다시 만지지 않고도 필요한 변화만 작게 더하는 방식`이 가능하다는 감각이며, 바로 그 점이 실험 속도, 메모리 부담, 배포 전략을 함께 바꿉니다.
+이 예제의 목적은 LoRA 수치를 외우는 데 있지 않습니다. 핵심은 `모델 전체를 다시 만지지 않고도 필요한 변화만 작게 더하는 방식`이 가능하다는 감각이며, 바로 그 점이 실험 속도, 메모리 부담, 배포 전략을 함께 바꿉니다.
 
 ## 역사와 커리큘럼 관점
 
