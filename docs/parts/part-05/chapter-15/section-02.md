@@ -154,25 +154,30 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보는 것입니다.
+이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보는 것입니다. 이번에는 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 통과시키고`, `사람은 무엇을 다시 걸러내는가`를 비교하겠습니다.
 
 문제 상황:
 
-- 하나의 환불 정책 답변이 있음
+- 여러 개의 환불 정책 답변 후보가 있음
 - 자동 평가는 형식과 표면 조건을 빠르게 확인할 수 있음
 - 사람 평가는 말투, 오해 가능성, 실제 도움성을 더 잘 볼 수 있음
 
 입력:
 
-- 하나의 출력 문장
+- 여러 개의 출력 문장
 
 출력:
 
-- 자동 평가 결과
-- 사람 평가가 추가로 봐야 할 질문
+- 답변별 자동 평가 결과
+- 답변별 사람 평가가 추가로 봐야 할 질문
+- 어떤 답변이 자동 평가는 통과하지만 사람 검토는 더 필요한지에 대한 비교
 
 ```python
-output = "환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요."
+outputs = {
+    "answer_a": "환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.",
+    "answer_b": "환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.",
+    "answer_c": "환불은 가능하지만 조건은 직접 찾아보세요.",
+}
 
 
 def automatic_eval(output):
@@ -183,44 +188,53 @@ def automatic_eval(output):
     }
 
 
-def human_review_questions():
-    return [
-        "문장이 지나치게 차갑거나 단정적으로 들리지는 않는가?",
-        "사용자가 다음 행동을 바로 이해할 수 있는가?",
-        "예외 조건이 빠져 오해를 만들 가능성은 없는가?",
-    ]
+def human_review_questions(output):
+    questions = []
+    if "주문번호" not in output:
+        questions.append("사용자가 다음 행동을 바로 이해할 수 있는가?")
+    if "직접 찾아보세요" in output:
+        questions.append("문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?")
+    if "가능" in output and "조건" in output and "공지" not in output:
+        questions.append("예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?")
+    if not questions:
+        questions.append("말투와 안내 순서가 실제 고객 경험에도 자연스러운가?")
+    return questions
 
 
-automatic_result = automatic_eval(output)
-human_questions = human_review_questions()
-
-print("[output]")
-print(output)
-print("[automatic_result]")
-print(automatic_result)
-print("[human_review_questions]")
-for question in human_questions:
-    print("-", question)
+for name, output in outputs.items():
+    automatic_result = automatic_eval(output)
+    human_questions = human_review_questions(output)
+    print(f"[{name}]")
+    print("output =", output)
+    print("automatic_result =", automatic_result)
+    print("human_review_questions =", human_questions)
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[output]
-환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
-[automatic_result]
-{'has_source_hint': True, 'format_ok': True, 'length_ok': True}
-[human_review_questions]
-- 문장이 지나치게 차갑거나 단정적으로 들리지는 않는가?
-- 사용자가 다음 행동을 바로 이해할 수 있는가?
-- 예외 조건이 빠져 오해를 만들 가능성은 없는가?
+[answer_a]
+output = 환불 정책은 14일입니다. 자세한 내용은 공지를 참고하세요.
+automatic_result = {'has_source_hint': True, 'format_ok': True, 'length_ok': True}
+human_review_questions = ['사용자가 다음 행동을 바로 이해할 수 있는가?']
+
+[answer_b]
+output = 환불은 14일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True}
+human_review_questions = ['말투와 안내 순서가 실제 고객 경험에도 자연스러운가?']
+
+[answer_c]
+output = 환불은 가능하지만 조건은 직접 찾아보세요.
+automatic_result = {'has_source_hint': False, 'format_ok': True, 'length_ok': True}
+human_review_questions = ['사용자가 다음 행동을 바로 이해할 수 있는가?', '문장이 책임을 사용자에게 돌리는 듯 들리지는 않는가?', '예외 조건이나 근거 위치가 빠져 오해를 만들 가능성은 없는가?']
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 본다는 점입니다.
+그래서 이 예제에서 확인해야 할 결과는 자동 평가는 형식·길이·출처 힌트 같은 표면 조건을 빠르게 보고, 사람 평가는 실제 도움성, 오해 가능성, 말투 품질을 따로 본다는 점입니다. 특히 `answer_a`처럼 자동 평가는 통과해도 다음 행동이 불분명할 수 있고, `answer_c`처럼 형식은 맞아도 사람 관점에서는 여러 경고가 한꺼번에 붙을 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `output`을 더 짧거나 더 딱딱한 문장으로 바꿔 자동 평가와 사람 질문의 차이를 느껴 보기
+- `outputs`에 더 친절하거나 더 차가운 답변을 추가해 자동 평가와 사람 질문의 차이를 느껴 보기
 - `automatic_eval`에 금지 표현 점검을 넣어 자동 평가 범위를 넓혀 보기
 - 사람 질문 목록을 팀의 실제 QA 체크리스트처럼 다시 써 보기
 
