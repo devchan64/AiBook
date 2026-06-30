@@ -68,6 +68,111 @@
 
 이 표는 Part 6의 배포 프로젝트에서 사실상 `운영 회고 템플릿` 역할을 합니다.
 
+## Python 예제
+
+이번 예제의 목적은 실패 표를 실제 회고 기록 구조로 바꾸는 것입니다.
+
+- 문제 상황: 배포 이후 생긴 문제를 다시 읽고 다음 조치를 정리한다.
+- 입력(input): 실패 항목 목록
+- 기대 출력(output): 우선순위가 붙은 incident 기록과 개선 계획
+- 확인할 개념:
+  - 실패는 category별로 나누어 남겨야 한다
+  - likely cause와 next action이 함께 있어야 한다
+  - 우선순위가 붙어야 다음 반복으로 이어진다
+
+```python
+incident_records = [
+    {
+        "date": "2026-06-29",
+        "issue": "latest section missing on deployed page",
+        "category": "deploy/content",
+        "likely_cause": "main branch not updated or workflow still pending",
+        "user_impact": "readers cannot see the newest section",
+        "priority": 1,
+        "next_action": "check Actions run and confirm main branch status",
+    },
+    {
+        "date": "2026-06-29",
+        "issue": "internal link returns 404",
+        "category": "runtime",
+        "likely_cause": "nav path and actual file path do not match",
+        "user_impact": "reader flow is interrupted",
+        "priority": 1,
+        "next_action": "review mkdocs nav and target file paths",
+    },
+    {
+        "date": "2026-06-29",
+        "issue": "math rendering is missing on one page",
+        "category": "content/runtime",
+        "likely_cause": "script load or markdown syntax problem",
+        "user_impact": "equation explanation becomes unclear",
+        "priority": 2,
+        "next_action": "recheck browser rendering and math block syntax",
+    },
+]
+
+incident_records.sort(key=lambda row: (row["priority"], row["date"]))
+
+improvement_plan = []
+for row in incident_records:
+    if row["priority"] == 1:
+        action_bucket = "fix_immediately"
+    elif row["priority"] == 2:
+        action_bucket = "fix_next_cycle"
+    else:
+        action_bucket = "track_for_later"
+
+    improvement_plan.append({
+        "issue": row["issue"],
+        "action_bucket": action_bucket,
+        "next_action": row["next_action"],
+    })
+
+review_summary = {
+    "incident_count": len(incident_records),
+    "priority_1_count": sum(row["priority"] == 1 for row in incident_records),
+    "priority_2_count": sum(row["priority"] == 2 for row in incident_records),
+    "categories": sorted({row["category"] for row in incident_records}),
+}
+
+print("review_summary =", review_summary)
+print("incident_records =")
+for row in incident_records:
+    print(row)
+print("improvement_plan =")
+for row in improvement_plan:
+    print(row)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+review_summary = {'incident_count': 3, 'priority_1_count': 2, 'priority_2_count': 1, 'categories': ['content/runtime', 'deploy/content', 'runtime']}
+incident_records =
+{'date': '2026-06-29', 'issue': 'latest section missing on deployed page', 'category': 'deploy/content', 'likely_cause': 'main branch not updated or workflow still pending', 'user_impact': 'readers cannot see the newest section', 'priority': 1, 'next_action': 'check Actions run and confirm main branch status'}
+{'date': '2026-06-29', 'issue': 'internal link returns 404', 'category': 'runtime', 'likely_cause': 'nav path and actual file path do not match', 'user_impact': 'reader flow is interrupted', 'priority': 1, 'next_action': 'review mkdocs nav and target file paths'}
+{'date': '2026-06-29', 'issue': 'math rendering is missing on one page', 'category': 'content/runtime', 'likely_cause': 'script load or markdown syntax problem', 'user_impact': 'equation explanation becomes unclear', 'priority': 2, 'next_action': 'recheck browser rendering and math block syntax'}
+improvement_plan =
+{'issue': 'latest section missing on deployed page', 'action_bucket': 'fix_immediately', 'next_action': 'check Actions run and confirm main branch status'}
+{'issue': 'internal link returns 404', 'action_bucket': 'fix_immediately', 'next_action': 'review mkdocs nav and target file paths'}
+{'issue': 'math rendering is missing on one page', 'action_bucket': 'fix_next_cycle', 'next_action': 'recheck browser rendering and math block syntax'}
+```
+
+## 이 출력은 어떻게 읽는가
+
+이 예제에서 중요한 점은 세 가지입니다.
+
+1. `incident_records`  
+   실패를 단순 사건 메모가 아니라 `category`, `likely_cause`, `user_impact`, `priority`가 있는 운영 기록으로 남깁니다.
+
+2. `improvement_plan`  
+   같은 실패 목록이라도 `fix_immediately`, `fix_next_cycle`처럼 행동 구간으로 나누면 다음 반복이 쉬워집니다.
+
+3. `review_summary`  
+   우선순위 1 문제가 몇 개인지 바로 보여 주므로, 무엇을 먼저 고쳐야 하는지 한눈에 읽을 수 있습니다.
+
+즉, 회고 문서는 과거 설명이 아니라 다음 반복을 여는 작업 목록이어야 합니다.
+
 ## 왜 postmortem 습관이 필요한가
 
 Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹니다. 이 책의 Part 6 프로젝트 수준에서는 거대한 조직 절차까지 갈 필요는 없지만, 핵심 태도는 그대로 가져올 수 있습니다.
