@@ -88,40 +88,72 @@ P6-6.1에서는 agent를 목표, 도구, 관찰의 흐름으로 설명했습니�
 ## Python 예제
 
 ```python
-execution_log = [
+planned_steps = [
+    {"step": 1, "tool": "read_toc", "permission": "read", "scope": "docs/book/"},
+    {"step": 2, "tool": "check_build", "permission": "execute", "scope": "mkdocs build"},
+    {"step": 3, "tool": "write_report", "permission": "write", "scope": "management/report.md"},
+]
+
+execution_records = [
     {
         "step": 1,
         "tool": "read_toc",
         "permission": "read",
+        "scope": "docs/book/",
         "approved": True,
-        "result": "success",
+        "result_status": "success",
+        "observation": "table of contents was loaded",
+        "next_action": "check_build",
     },
     {
         "step": 2,
         "tool": "check_build",
         "permission": "execute",
+        "scope": "mkdocs build",
         "approved": True,
-        "result": "success",
+        "result_status": "success",
+        "observation": "build finished without error",
+        "next_action": "write_report",
     },
     {
         "step": 3,
         "tool": "write_report",
         "permission": "write",
+        "scope": "management/report.md",
         "approved": False,
-        "result": "blocked until approval",
+        "result_status": "blocked",
+        "observation": "write action requires approval before continuing",
+        "next_action": "request_approval",
     },
 ]
 
-for entry in execution_log:
+review_summary = {
+    "step_count": len(execution_records),
+    "approved_step_count": sum(entry["approved"] for entry in execution_records),
+    "blocked_step_count": sum(
+        entry["result_status"] == "blocked" for entry in execution_records
+    ),
+    "approval_required_tools": [
+        entry["tool"] for entry in execution_records if not entry["approved"]
+    ],
+}
+
+print("planned_steps =", planned_steps)
+print("execution_records =")
+for entry in execution_records:
     print(entry)
+print("review_summary =", review_summary)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'approved': True, 'result': 'success'}
-{'step': 2, 'tool': 'check_build', 'permission': 'execute', 'approved': True, 'result': 'success'}
-{'step': 3, 'tool': 'write_report', 'permission': 'write', 'approved': False, 'result': 'blocked until approval'}
+planned_steps = [{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/book/'}, {'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build'}, {'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md'}]
+execution_records =
+{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/book/', 'approved': True, 'result_status': 'success', 'observation': 'table of contents was loaded', 'next_action': 'check_build'}
+{'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build', 'approved': True, 'result_status': 'success', 'observation': 'build finished without error', 'next_action': 'write_report'}
+{'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md', 'approved': False, 'result_status': 'blocked', 'observation': 'write action requires approval before continuing', 'next_action': 'request_approval'}
+review_summary = {'step_count': 3, 'approved_step_count': 2, 'blocked_step_count': 1, 'approval_required_tools': ['write_report']}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -131,12 +163,14 @@ for entry in execution_log:
 - agent는 계획을 세웠습니다.
 - 하지만 모든 계획이 자동 실행 가능한 것은 아닙니다.
 - `write_report`는 기능적으로 가능해 보여도, 권한 정책상 보류될 수 있습니다.
+- `review_summary`는 몇 단계가 승인 없이 진행되었고, 어떤 도구가 approval을 요구했는지 한 번에 보여 줍니다.
 
 즉, 좋은 agent 프로젝트는 `할 수 있는가`만이 아니라 `해도 되는가`를 함께 다룹니다.
 
 이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
 
 - 계획이 있어도 승인 없이는 멈출 수 있다
+- permission, scope, next_action이 함께 있어야 blocked 상태를 운영적으로 해석할 수 있다
 - blocked는 단순 실패와 다른 상태다
 - agent 문서에는 결과뿐 아니라 권한 판단도 남겨야 한다
 
