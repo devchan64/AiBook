@@ -33,6 +33,14 @@ P5-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 - 에이전트 루프에서 어디서 실패가 생길 수 있는지 구분할 수 있습니다.
 - 다음 장의 MCP와 하네스(harness) 설명으로 자연스럽게 넘어갈 수 있습니다.
 
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+
+1. 먼저 `계획(plan)은 무엇인가`, `행동(action)은 무엇인가`, `관찰(observation)은 무엇인가`를 읽고 루프의 세 요소를 분리합니다.
+2. 그다음 `왜 이 셋을 나눠 봐야 하나`, `종료 조건(stop condition)은 왜 필요한가`, `어디서 실패가 생기나`를 읽으면서 운영과 디버깅에서 왜 이 구분이 필요한지 확인합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 관찰 결과에 따라 `continue`, `stop`, `ask_human_review`가 실제로 갈라지는 장면을 확인합니다.
+
 ## 계획(plan)은 무엇인가
 
 계획은 `지금 무엇을 해야 하는가`를 정하는 단계입니다.
@@ -160,7 +168,37 @@ flowchart TD
 
 사용자가 `내일 오후에 30분 회의 잡아 줘`라고 요청했는데, 캘린더를 조회해 보니 빈 시간이 하나도 없을 수 있습니다. 사람은 이 경우 그냥 실패라고 끝내기보다 다른 시간대를 찾거나, 참석자 범위를 줄일지 다시 묻습니다. 에이전트도 그대로 예약을 시도하는 대신 다른 시간대를 제안하거나, 참석자 범위를 줄일지 사용자에게 다시 물어야 합니다. 빈 시간이 없는데도 그대로 예약을 밀어 넣으려 하면 이중 예약이나 실패 응답만 남길 수 있습니다. 여기서 바뀌는 점은 `처음 목표를 바로 실행하는가`에서 `관찰 결과에 따라 목표를 다시 풀어 묻거나 대안을 제안하는가`로 기준이 이동한다는 것입니다. 관찰 결과 하나가 바로 다음 행동을 바꾸는 점에서, 이 작업은 고정 파이프라인보다 루프 구조로 이해하는 편이 맞습니다. 그래서 이 사례에서 확인해야 할 결과는 빈 시간이 없다는 관찰 뒤에 실패로 끝내지 않고, 대체 시간 제안이나 추가 질문으로 실제 다음 행동이 열리는가입니다.
 
+세 사례를 loop 전환 기준으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | loop를 계속 돌게 만드는 관찰 | loop를 멈추거나 바꾸게 만드는 관찰 |
+| --- | --- | --- |
+| 문서 조사 에이전트 | 더 최신 문서를 찾을 여지가 있음 | 최신 근거가 충분하거나 충돌 문서가 발견됨 |
+| 코딩 에이전트 | 새 테스트 실패가 남아 있음 | 테스트가 통과하거나 사람 검토가 필요함 |
+| 예약 보조 에이전트 | 대체 시간대를 더 찾을 수 있음 | 빈 시간이 없어서 사용자에게 다시 물어야 함 |
+
+같은 내용을 loop 분기 구조로 다시 보면 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart LR
+  A["plan"]
+  B["action"]
+  C["observation"]
+  D["decision"]
+  E["continue"]
+  F["stop"]
+  G["ask human review"]
+
+  A --> B --> C --> D
+  D --> E --> A
+  D --> F
+  D --> G
+```
+
+핵심은 `행동` 다음에 바로 끝나는 것이 아니라, `관찰과 결정`을 거쳐 다음 루프로 되돌아가거나 멈춘다는 점입니다.
+
 ## 실행 가능한 Python 예제로 보기
+
+먼저 아래의 작은 해석 세 개를 읽고 예제를 보면, 코드가 왜 세 가지 다른 종료 방향을 보여 주는지 더 쉽게 읽힙니다.
 
 ## 루프 관점에서 다시 보면
 
@@ -283,6 +321,18 @@ summary = {
     "continue_count": sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports),
     "stop_count": sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports),
     "human_review_count": sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports),
+    "continue_ratio": round(
+        sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports) / len(reports),
+        2,
+    ),
+    "stop_ratio": round(
+        sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports) / len(reports),
+        2,
+    ),
+    "human_review_ratio": round(
+        sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports) / len(reports),
+        2,
+    ),
 }
 
 print("[summary]")
@@ -304,7 +354,7 @@ for report in reports:
 
 ```text
 [summary]
-{'continue_count': 1, 'stop_count': 1, 'human_review_count': 1}
+{'continue_count': 1, 'stop_count': 1, 'human_review_count': 1, 'continue_ratio': 0.33, 'stop_ratio': 0.33, 'human_review_ratio': 0.33}
 
 ================================================================================
 [goal]
@@ -344,13 +394,9 @@ for report in reports:
 | 관찰(observation) | 방금 결과를 어떻게 읽었는가 | 오래된 문서를 최신으로 오독, 실패 로그 무시 |
 | 종료/전환(decision) | 계속할지 멈출지 사람에게 넘길지 | 무한 반복, 과도한 자신감, 승인 누락 |
 
-세 사례를 loop 전환 기준으로 다시 묶으면 다음과 같습니다.
+## 이 예제를 loop 분기 관점으로 다시 보면
 
-| 상황 | loop를 계속 돌게 만드는 관찰 | loop를 멈추거나 바꾸게 만드는 관찰 |
-| --- | --- | --- |
-| 문서 조사 에이전트 | 더 최신 문서를 찾을 여지가 있음 | 최신 근거가 충분하거나 충돌 문서가 발견됨 |
-| 코딩 에이전트 | 새 테스트 실패가 남아 있음 | 테스트가 통과하거나 사람 검토가 필요함 |
-| 예약 보조 에이전트 | 대체 시간대를 더 찾을 수 있음 | 빈 시간이 없어서 사용자에게 다시 물어야 함 |
+이 예제는 에이전트가 무조건 끝까지 가는 자동 실행기가 아니라, 관찰 결과에 따라 `계속`, `종료`, `사람 검토`를 갈라야 하는 분기 구조라는 점을 보여 줍니다. 그래서 좋은 agent loop는 많이 움직이는 루프가 아니라, 언제 계속할지와 언제 멈출지를 구분할 수 있는 루프입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
@@ -383,6 +429,10 @@ LLM이 실제 업무 자동화에 들어가면서, 사람들은 곧 단일 응�
 - 이 구분을 잡아야 실패 원인이 계획 문제인지, 행동 문제인지, 관찰 해석 문제인지 나눠 디버깅하고 평가할 수 있습니다.
 - 종료 조건이 없으면 비용과 실패가 커질 수 있습니다.
 - 이 절은 MCP, 하네스, 평가 구조를 이해하기 위한 연결 절입니다.
+
+## 여기까지를 한 줄로 묶으면
+
+에이전트 루프의 핵심은 계획-행동-관찰을 반복하는 데만 있지 않고, 관찰 결과에 따라 계속할지 멈출지 사람에게 넘길지를 분명하게 결정하는 데 있습니다.
 
 ## 체크리스트
 
