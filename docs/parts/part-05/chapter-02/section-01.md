@@ -126,6 +126,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `문자열을 그대로 읽는가`보다 `표현을 어떤 비교 좌표로 바꾸는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same embedding question"]
+  B["language model<br/>which token relations can be computed?"]
+  C["search<br/>which sentences land near the query?"]
+  D["recommendation<br/>which items share a similar usage pattern?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 과업이 달라도 먼저 필요한 단계가 같다는 것입니다. 모두 문자열 자체를 바로 계산하는 대신, 토큰이나 문장을 `비교 가능한 벡터 좌표`로 옮긴 뒤 다음 계산이 시작됩니다.
+
 ### 사례 1. 언어 모델 내부 표현
 
 사용자가 `foundation model`과 `model card`가 들어 있는 문서를 읽는 장면을 떠올려 보겠습니다. 사람은 `model`이라는 같은 철자를 보자마자 뜻이 이미 정해져 있다고 느끼기 쉽습니다. 하지만 실제 문맥에서는 하나는 모델 계열 전체를 가리키고, 다른 하나는 모델 설명 문서를 가리키므로 바로 옆 단어에 따라 역할이 달라집니다. 반대로 `system`이나 `architecture`처럼 철자는 다른데도 비슷한 설명 문맥에 함께 등장하는 표현도 있을 수 있습니다. 문자열만 붙잡으면 이런 관계를 수치 계산으로 다루기 어렵습니다. 모델은 먼저 토큰을 임베딩 벡터로 바꿔 같은 문맥에서 함께 나타나는 정도, 다른 토큰과의 거리, attention 계산에 필요한 비교 기준을 만들고 나서야 다음 단계를 진행합니다. 여기서 바뀌는 점은 `단어를 읽는다`가 아니라 `단어를 계산 가능한 좌표에 놓는다`는 것이고, 그 결과 이후 층에서는 문자 모양이 아니라 벡터 관계를 기준으로 다음 계산이 이어집니다. 그래서 이 사례에서 확인해야 할 결과는 철자가 비슷한가보다, 같은 문맥에서 함께 쓰이는 단어들이 실제로 더 가까운 계산 좌표에 놓이는가입니다.
@@ -140,16 +156,18 @@ flowchart TD
 
 ## 작은 Python 예제로 보기
 
-이번 예제의 목표는 실제 임베딩 모델을 학습하는 것이 아니라, `번호`와 `벡터 표현`을 구분하는 감각을 확인하는 것입니다.
+이번 예제의 목표는 `토큰 ID는 단지 번호이고, 실제 비교는 임베딩 벡터 위에서 일어난다`는 점을 눈으로 확인하는 것입니다. 단순히 ID와 벡터를 나란히 찍는 대신, 질의 벡터와 각 후보 벡터 사이 거리를 같이 계산해 왜 ID만으로는 검색이나 비교가 불가능한지도 함께 보겠습니다.
 
 입력:
 
 - 세 개의 토큰 ID
 - 각 토큰에 대응하는 장난감 임베딩 벡터
+- 하나의 질의 벡터
 
 출력:
 
 - 토큰 ID와 벡터 표현의 차이
+- 질의와 각 토큰 벡터 사이 거리
 
 ```python
 token_ids = {
@@ -164,27 +182,43 @@ toy_embeddings = {
     "search": [-0.30, 0.11, 0.15],
 }
 
+
+def squared_distance(a, b):
+    return sum((x - y) ** 2 for x, y in zip(a, b))
+
+
+query_embedding = [0.10, -0.01, 0.41]
+
+print("query_embedding =", query_embedding)
 for token in ["AI", "model", "search"]:
-    print(token, "-> id:", token_ids[token], "embedding:", toy_embeddings[token])
+    distance = squared_distance(query_embedding, toy_embeddings[token])
+    print(
+        token,
+        "-> id:", token_ids[token],
+        "embedding:", toy_embeddings[token],
+        "distance:", round(distance, 3),
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-AI -> id: 1042 embedding: [0.12, -0.08, 0.44]
-model -> id: 3881 embedding: [0.09, -0.02, 0.39]
-search -> id: 2210 embedding: [-0.3, 0.11, 0.15]
+query_embedding = [0.1, -0.01, 0.41]
+AI -> id: 1042 embedding: [0.12, -0.08, 0.44] distance: 0.006
+model -> id: 3881 embedding: [0.09, -0.02, 0.39] distance: 0.001
+search -> id: 2210 embedding: [-0.3, 0.11, 0.15] distance: 0.242
 ```
 
 ## 이 예제를 표현 공간 관점으로 다시 보면
 
-앞의 예제는 임베딩을 학습하는 코드가 아니라, `번호를 붙이는 일`과 `비교 가능한 수치 표현으로 바꾸는 일`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 ID가 식별용이라면, 임베딩은 이후 유사도 비교와 문맥 계산을 가능하게 하는 표현 공간의 출발점이라는 점입니다.
+앞의 예제는 임베딩을 학습하는 코드가 아니라, `번호를 붙이는 일`과 `비교 가능한 수치 표현으로 바꾸는 일`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 `1042`와 `3881`의 숫자 차이 자체는 아무 뜻이 없지만, 벡터 공간에서는 질의와 `model`이 `search`보다 더 가깝다는 비교가 가능해진다는 점입니다. 즉, ID는 식별용이라면 임베딩은 이후 유사도 비교와 문맥 계산을 가능하게 하는 표현 공간의 출발점입니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - ID는 항목을 구분하는 번호입니다.
 - 임베딩은 계산을 위한 수치 표현입니다.
 - 이후 비교와 생성은 임베딩 같은 벡터 표현 위에서 이루어집니다.
+- 검색이나 추천에서는 `어느 벡터가 더 가까운가`를 실제로 계산할 수 있어야 합니다.
 
 ## 역사와 커리큘럼 관점
 
