@@ -30,7 +30,7 @@ P4-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복�
 - 표현 학습을 `유용한 내부 특징을 모델이 스스로 형성하는 과정`으로 설명할 수 있습니다.
 - 사람이 직접 특징을 만드는 방식과 딥러닝 방식의 차이를 비교할 수 있습니다.
 - 딥러닝이 왜 표현 학습의 성공과 함께 크게 확산되었는지 말할 수 있습니다.
-- 작은 Python 예제로 사람이 정의한 특징과 간단한 선형 변환 표현을 비교할 수 있습니다.
+- 실행 가능한 Python 예제로 사람이 정의한 특징과 간단한 표현 학습 감각을 비교할 수 있습니다.
 
 ## 표현이란 무엇인가
 
@@ -187,18 +187,21 @@ flowchart TD
 
 휴대폰 화면 검사 라인에서 작업자가 완성된 화면 사진을 보고 `금의 길이`와 `검은 점 개수`를 기준으로 불량 여부를 판단한다고 해 봅시다. 처음에는 이 기준이 단순하고 빠르지만, 금이 짧아도 여러 방향으로 갈라져 있거나 점이 모서리에 몰려 있으면 실제 사용 중 더 쉽게 문제가 생길 수 있습니다. 즉, 사람이 세는 두세 개 수치만으로는 `위치`, `방향`, `주변 밝기 변화`가 함께 만드는 패턴을 놓치기 쉽습니다. 표현 학습 기반 모델은 화면 전체에서 금의 방향 조합, 점의 위치, 주변 질감 변화를 함께 읽는 내부 표현을 만들 수 있습니다. 그래서 기준표만 보면 정상으로 넘길 화면을 다시 불량 후보로 잡아내는 식의 차이가 생기고, 사람이 놓치던 패턴을 재검토 대상으로 올릴 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 길이와 개수만으로는 정상처럼 보이던 화면이 위치와 방향 조합까지 반영했을 때 실제로 불량 후보로 다시 갈라지는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 사람이 직접 정의한 특징과, 간단한 선형 조합이 만든 중간 표현을 나란히 보는 것입니다.
+이번 예제의 목표는 사람이 직접 만든 점수 하나와, 모델이 여러 축으로 바꿔 만든 중간 표현을 비교하는 것입니다.
 
 입력:
 
-- 고객 데이터 두 컬럼: 방문 횟수, 구매 금액
+- 고객 4명의 방문 횟수와 구매 금액
+- 사람이 정의한 활동성 점수 규칙
+- 두 차원 중간 표현을 만드는 가중치
 
 출력:
 
-- 사람이 직접 만든 특징 하나
-- 선형 조합으로 만든 간단한 중간 표현 하나
+- hand-crafted score
+- 2차원 representation
+- 각 고객이 새 좌표계에서 어디에 놓이는지
 
 ```python
 import numpy as np
@@ -207,40 +210,41 @@ data = np.array([
     [2.0, 30.0],
     [5.0, 80.0],
     [1.0, 15.0],
+    [4.0, 35.0],
 ])
 
-# hand-crafted feature
+# hand-crafted feature: one score chosen by a person
 activity_score = data[:, 0] * 10 + data[:, 1] * 0.1
 
-# learned-representation-like linear transform intuition
+# representation-like transform: two hidden axes
 weights = np.array([
-    [0.6, 0.2],
-    [0.1, 0.8],
+    [0.7, 0.15],
+    [-0.2, 0.08],
 ])
 representation = data @ weights.T
 
-print("activity_score =", [round(v, 3) for v in activity_score])
-print("representation shape =", representation.shape)
-print("representation =")
-print(np.round(representation, 3))
+for idx, (raw, score, rep) in enumerate(zip(data, activity_score, representation), start=1):
+    print(
+        f"customer_{idx}: raw={raw.tolist()}, "
+        f"activity_score={score:.2f}, "
+        f"representation={np.round(rep, 2).tolist()}"
+    )
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-activity_score = [23.0, 58.0, 11.5]
-representation shape = (3, 2)
-representation =
-[[ 7.2 24.2]
- [19.  64.5]
- [ 3.6 12.1]]
+customer_1: raw=[2.0, 30.0], activity_score=23.00, representation=[5.9, 2.0]
+customer_2: raw=[5.0, 80.0], activity_score=58.00, representation=[15.5, 5.4]
+customer_3: raw=[1.0, 15.0], activity_score=11.50, representation=[2.95, 1.0]
+customer_4: raw=[4.0, 35.0], activity_score=43.50, representation=[8.05, 2.0]
 ```
 
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- `activity_score`는 사람이 미리 정한 규칙입니다
-- `representation`은 입력을 다른 좌표계로 바꾼 중간 표현처럼 볼 수 있습니다
-- 실제 딥러닝은 이런 표현을 더 많은 층과 비선형성으로 더 유연하게 학습합니다
+- `activity_score`는 사람이 하나의 기준으로 눌러 만든 단일 점수입니다
+- `representation`은 같은 입력을 두 개 축으로 다시 펼쳐, 서로 다른 패턴을 동시에 담을 수 있게 합니다
+- 실제 딥러닝은 이런 중간 표현 축을 훨씬 더 많이 만들고, 학습 과정에서 어떤 축이 유용한지도 함께 조정합니다
 
 ## 역사와 커리큘럼 관점
 

@@ -30,7 +30,7 @@ gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면
 - 학습과 모델 실행을 `파라미터 변경 여부`로 구분할 수 있습니다.
 - 학습이 순전파만이 아니라 손실 계산, 역전파, 업데이트까지 포함한다는 점을 설명할 수 있습니다.
 - 모델 실행은 결과를 계산하지만 파라미터를 바꾸지 않는 단계라는 점을 말할 수 있습니다.
-- 작은 Python 예제로 두 단계의 차이를 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 두 단계의 차이를 확인할 수 있습니다.
 
 ## 왜 이 구분이 중요한가
 
@@ -148,63 +148,77 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 채팅 서비스에서 같은 질문을 조금 다르게 쓰면 답변이 달라지는 장면이 자주 보입니다. 사람은 이 변화를 보고 대화 자체가 모델을 실시간으로 다시 학습시키는 것처럼 느끼기 쉽습니다. 하지만 일반적인 서비스 사용에서 일어나는 일은 대화 문맥이 달라져 다음 토큰 계산 경로가 바뀌는 inference입니다. 파라미터 업데이트가 실제로 일어나려면 대화 로그를 모으고, 정답 기준이나 선호 기준을 마련한 뒤, 별도 학습 파이프라인에서 다시 조정해야 합니다. 즉, 채팅창에서 보이는 변화는 `입력이 달라져 출력이 달라진 것`이지 `모델이 그 자리에서 새로 배운 것`이 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 프롬프트 표현이 바뀌어 응답은 달라져도, 그 변화가 곧바로 실시간 파라미터 학습을 뜻하지는 않는가입니다.
 
-## 작은 Python 예제로 보기
+## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 `같은 선형 모델이라도`, learning 단계에서는 가중치가 바뀌고 inference 단계에서는 바뀌지 않는다는 점을 숫자로 확인하는 것입니다.
+이번 예제의 목표는 같은 선형 모델이 `학습 데이터`를 볼 때는 가중치를 바꾸고, `서비스 입력`을 볼 때는 가중치를 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다.
 
 입력:
 
-- 입력값 `x`
-- 정답 `target`
+- 학습 샘플 3개
 - 초기 가중치 `w`
+- 학습률 `learning_rate`
 
 출력:
 
-- 학습 전 예측
-- 한 번의 업데이트 후 가중치와 예측
-- inference 단계의 예측
+- step별 예측값, 손실, 가중치 변화
+- 학습 완료 뒤 inference 결과
+- inference 전후 가중치 비교
 
 ```python
-x = 2.0
-target = 6.0
-w = 1.0
+train_data = [
+    (1.0, 3.0),
+    (2.0, 6.0),
+    (3.0, 9.0),
+]
+
+w = 0.5
 learning_rate = 0.1
 
 def predict(x, w):
     return x * w
 
-# learning step
-before_prediction = predict(x, w)
-loss = (before_prediction - target) ** 2
-gradient_w = 2 * (before_prediction - target) * x
-w = w - learning_rate * gradient_w
-after_prediction = predict(x, w)
+print("initial_weight =", round(w, 3))
 
-print("before_prediction =", round(before_prediction, 3))
-print("loss =", round(loss, 3))
-print("updated_weight =", round(w, 3))
-print("after_prediction =", round(after_prediction, 3))
+for step, (x, target) in enumerate(train_data, start=1):
+    prediction = predict(x, w)
+    loss = (prediction - target) ** 2
+    gradient_w = 2 * (prediction - target) * x
+    new_w = w - learning_rate * gradient_w
+    print(
+        f"train step {step}: "
+        f"x={x}, target={target}, prediction={prediction:.3f}, "
+        f"loss={loss:.3f}, weight_before={w:.3f}, weight_after={new_w:.3f}"
+    )
+    w = new_w
 
-# inference step
-inference_prediction = predict(3.0, w)
-print("inference_prediction =", round(inference_prediction, 3))
+weight_before_inference = w
+service_inputs = [4.0, 5.0]
+service_predictions = [round(predict(x, w), 3) for x in service_inputs]
+
+print("weight_before_inference =", round(weight_before_inference, 3))
+print("service_inputs =", service_inputs)
+print("service_predictions =", service_predictions)
+print("weight_after_inference =", round(w, 3))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-before_prediction = 2.0
-loss = 16.0
-updated_weight = 2.6
-after_prediction = 5.2
-inference_prediction = 7.8
+initial_weight = 0.5
+train step 1: x=1.0, target=3.0, prediction=0.500, loss=6.250, weight_before=0.500, weight_after=1.000
+train step 2: x=2.0, target=6.0, prediction=2.000, loss=16.000, weight_before=1.000, weight_after=2.600
+train step 3: x=3.0, target=9.0, prediction=7.800, loss=1.440, weight_before=2.600, weight_after=3.320
+weight_before_inference = 3.32
+service_inputs = [4.0, 5.0]
+service_predictions = [13.28, 16.6]
+weight_after_inference = 3.32
 ```
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+이 결과에서 읽어야 할 핵심은 다음입니다.
 
-- learning 단계에서는 `updated_weight`가 실제로 바뀝니다
-- inference 단계에서는 이미 바뀐 가중치를 사용해 새 입력에 대한 출력만 계산합니다
-- inference 자체는 새로운 업데이트를 만들지 않습니다
+- 학습 step에서는 `weight_before`와 `weight_after`가 다르므로 파라미터가 실제로 바뀝니다
+- inference에서는 새 입력을 넣어도 `weight_before_inference`와 `weight_after_inference`가 같습니다
+- 즉, 서비스 입력을 많이 넣는다고 자동으로 재학습이 일어나는 것은 아닙니다
 
 ## 역사와 커리큘럼 관점
 

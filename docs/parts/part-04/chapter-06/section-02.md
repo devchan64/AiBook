@@ -30,7 +30,7 @@ dropout과 regularization 자체의 큰 의미는 P4-8.1, P4-8.2에서 다시 �
 - 학습 모드와 평가 모드를 `계산 규칙이 달라지는 두 상태`로 설명할 수 있습니다.
 - dropout과 batch normalization이 왜 모드 차이에 민감한지 말할 수 있습니다.
 - 검증과 배포에서는 왜 평가 모드가 필요할 수 있는지 설명할 수 있습니다.
-- 작은 Python 예제로 모드 차이를 직관적으로 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 모드 차이를 직관적으로 확인할 수 있습니다.
 
 ## 왜 같은 모델인데 모드가 필요한가
 
@@ -134,19 +134,21 @@ batch normalization은 각 배치의 평균(mean)과 분산(variance)을 이용�
 
 모바일 추론이나 실시간 API처럼 한 번에 한 샘플씩 처리하는 상황에서는, batch normalization이 학습 중 배치 통계 방식으로 계속 동작하면 안정성이 떨어질 수 있습니다. 사람은 배치 크기가 작아져도 `어차피 같은 모델이니 비슷하게 동작하겠지`라고 느끼기 쉽지만, 실제로는 학습 중 통계와 배포 시 통계 조건이 달라지면 결과가 흔들릴 수 있습니다. 이때도 평가 모드 개념이 중요합니다. 그래서 이 사례에서 확인해야 할 결과는 같은 입력을 반복했을 때 배포 모드 쪽이 실제로 더 안정적인 출력을 유지하는가입니다.
 
-## 작은 Python 예제로 모드 차이 직관 보기
+## 실행 가능한 Python 예제로 모드 차이 보기
 
-이번 예제의 목표는 dropout 같은 층이 학습 중에는 결과를 흔들 수 있지만, 평가 시에는 더 안정적으로 읽히는 감각을 만드는 것입니다.
+이번 예제의 목표는 같은 입력이라도 학습 모드에서는 dropout 때문에 결과가 흔들릴 수 있고, 평가 모드에서는 같은 입력이 더 안정적으로 유지된다는 점을 반복 실행으로 확인하는 것입니다.
 
 입력:
 
 - 활성값 목록
 - dropout 비율
+- 같은 입력에 대한 두 번의 학습 모드 실행
 
 출력:
 
-- 학습 모드에서 일부 값이 꺼진 예시
-- 평가 모드에서 값이 유지된 예시
+- 두 번의 학습 모드 출력
+- 한 번의 평가 모드 출력
+- 모드별 평균 활성값
 
 ```python
 import random
@@ -154,40 +156,52 @@ import random
 activations = [0.8, 1.2, 0.5, 1.5, 0.9]
 drop_rate = 0.4
 
-def dropout_train(values, drop_rate):
+def dropout_train(values, drop_rate, seed):
+    random.seed(seed)
     kept = []
     for v in values:
         if random.random() < drop_rate:
             kept.append(0.0)
         else:
-            kept.append(v)
+            kept.append(v / (1 - drop_rate))  # inverted dropout intuition
     return kept
 
 def dropout_eval(values):
     return values[:]
 
-random.seed(7)
+train_run_1 = dropout_train(activations, drop_rate, seed=7)
+train_run_2 = dropout_train(activations, drop_rate, seed=19)
+eval_run = dropout_eval(activations)
 
-train_values = dropout_train(activations, drop_rate)
-eval_values = dropout_eval(activations)
+def mean(values):
+    return round(sum(values) / len(values), 3)
 
 print("original =", activations)
-print("train_mode =", train_values)
-print("eval_mode =", eval_values)
+print("train_run_1 =", [round(v, 3) for v in train_run_1])
+print("train_run_2 =", [round(v, 3) for v in train_run_2])
+print("eval_run =", eval_run)
+print("train_run_1 mean =", mean(train_run_1))
+print("train_run_2 mean =", mean(train_run_2))
+print("eval_run mean =", mean(eval_run))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 original = [0.8, 1.2, 0.5, 1.5, 0.9]
-train_mode = [0.0, 0.0, 0.5, 0.0, 0.9]
-eval_mode = [0.8, 1.2, 0.5, 1.5, 0.9]
+train_run_1 = [0.0, 0.0, 0.833, 0.0, 1.5]
+train_run_2 = [1.333, 1.999, 0.833, 1.5, 0.0]
+eval_run = [0.8, 1.2, 0.5, 1.5, 0.9]
+train_run_1 mean = 0.467
+train_run_2 mean = 1.133
+eval_run mean = 0.98
 ```
 
-이 예제는 실제 프레임워크의 scaling까지 모두 재현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
+이 예제는 실제 프레임워크 전체를 재현한 것은 아니지만, 여기서 읽어야 할 핵심은 분명합니다.
 
-- 학습 모드에서는 일부 활성값이 의도적으로 꺼질 수 있습니다
-- 평가 모드에서는 같은 무작위 제거를 쓰지 않아 더 안정적인 출력이 됩니다
+- 학습 모드에서는 같은 입력을 두 번 넣어도 dropout 때문에 출력 구성이 달라질 수 있습니다
+- 평가 모드에서는 같은 무작위 제거를 쓰지 않으므로 출력이 더 안정적으로 유지됩니다
+- 검증, 테스트, 배포에서 평가 모드가 중요한 이유가 바로 이런 흔들림 제어에 있습니다
 
 ## 역사와 커리큘럼 관점
 
