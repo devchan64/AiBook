@@ -168,23 +168,24 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 내용`을 두고도 응답 습관이 어떻게 달라지는지를 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 사실 묶음`을 두고도 응답 습관이 어떻게 달라지는지를 눈으로 확인하는 것입니다. 이번에는 한 요청만 보지 않고, `세 줄 요약`, `3단계 설명`, `표 정리`, `근거 부족 시 한계 고지`처럼 서로 다른 요청을 한꺼번에 돌려 요청 충족률을 비교하겠습니다.
 
 문제 상황:
 
 - 내부 문서의 핵심 사실은 이미 정리되어 있음
-- 사용자는 같은 내용을 두고도 `세 줄 요약`, `단계별 안내`, `표 형식`처럼 다른 응답 형식을 요구함
+- 사용자는 같은 내용을 두고도 `세 줄 요약`, `단계별 안내`, `표 형식`, `한계 고지`처럼 다른 응답 형식을 요구함
 - 일반 언어 모델 느낌의 응답과, 지시 형식에 맞춰 조정된 응답을 비교하고 싶음
 
 입력:
 
 - 같은 문서 사실 목록
-- 서로 다른 사용자 지시 세 가지
+- 서로 다른 사용자 지시 네 가지
 
 출력:
 
 - 각 지시에 대해 `기본 응답`과 `지시 형식 반영 응답`
 - 요청 형식을 실제로 맞췄는지에 대한 간단한 점검 결과
+- 전체 요청 충족 통계
 
 ```python
 document_facts = [
@@ -198,6 +199,10 @@ requests = [
     {"name": "three_line_summary", "instruction": "이 문서를 세 줄로 요약해 주세요."},
     {"name": "three_steps", "instruction": "신입 직원이 이해할 수 있게 3단계로 설명해 주세요."},
     {"name": "table", "instruction": "핵심 사실을 표 형식으로 정리해 주세요."},
+    {
+        "name": "limitations",
+        "instruction": "현재 사실만으로 확신할 수 없는 점을 먼저 밝히고, 추가로 필요한 정보를 적어 주세요.",
+    },
 ]
 
 
@@ -224,6 +229,12 @@ def instruction_tuned_response(facts, request_name):
             f"| 운영 | {facts[2]} |",
         ]
         return "\n".join(rows)
+    if request_name == "limitations":
+        return (
+            "현재 정보만으로는 사용자군별 클릭률 변화와 장기 유지 효과까지는 확신할 수 없습니다.\n"
+            "- 추가 필요 정보: 사용자군별 분해 지표\n"
+            "- 추가 필요 정보: 실험 기간 이후 유지율 데이터"
+        )
     return " ".join(facts)
 
 
@@ -239,21 +250,44 @@ def check_format(response, request_name):
         lines = response.splitlines()
         pipe_lines = sum(1 for line in lines if "|" in line)
         return {"table_like_lines": pipe_lines, "meets_request": pipe_lines >= 4}
+    if request_name == "limitations":
+        lines = response.splitlines()
+        has_uncertainty = "확신할 수 없습니다" in response or "추가 필요" in response
+        bullet_count = sum(1 for line in lines if line.startswith("- "))
+        return {
+            "bullet_count": bullet_count,
+            "meets_request": has_uncertainty and bullet_count >= 2,
+        }
     return {"meets_request": False}
 
+
+base_success = 0
+tuned_success = 0
 
 for request in requests:
     print("=" * 70)
     print("instruction =", request["instruction"])
     base = base_response(document_facts)
     tuned = instruction_tuned_response(document_facts, request["name"])
+    base_check = check_format(base, request["name"])
+    tuned_check = check_format(tuned, request["name"])
+    if base_check["meets_request"]:
+        base_success += 1
+    if tuned_check["meets_request"]:
+        tuned_success += 1
     print("[base response]")
     print(base)
     print("[instruction-tuned response]")
     print(tuned)
     print("[format check]")
-    print("base  ->", check_format(base, request["name"]))
-    print("tuned ->", check_format(tuned, request["name"]))
+    print("base  ->", base_check)
+    print("tuned ->", tuned_check)
+
+print("=" * 70)
+print("[summary]")
+print("request_count =", len(requests))
+print("base_meets_request_count =", base_success)
+print("tuned_meets_request_count =", tuned_success)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
@@ -294,27 +328,45 @@ instruction = 핵심 사실을 표 형식으로 정리해 주세요.
 [format check]
 base  -> {'table_like_lines': 0, 'meets_request': False}
 tuned -> {'table_like_lines': 5, 'meets_request': True}
+======================================================================
+instruction = 현재 사실만으로 확신할 수 없는 점을 먼저 밝히고, 추가로 필요한 정보를 적어 주세요.
+[base response]
+신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
+[instruction-tuned response]
+현재 정보만으로는 사용자군별 클릭률 변화와 장기 유지 효과까지는 확신할 수 없습니다.
+- 추가 필요 정보: 사용자군별 분해 지표
+- 추가 필요 정보: 실험 기간 이후 유지율 데이터
+[format check]
+base  -> {'bullet_count': 0, 'meets_request': False}
+tuned -> {'bullet_count': 2, 'meets_request': True}
+======================================================================
+[summary]
+request_count = 4
+base_meets_request_count = 0
+tuned_meets_request_count = 4
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 같은 사실 목록을 써도, 지시 튜닝 이후 응답이 `형식 요구`, `단계 수`, `표 구조` 같은 사용자의 기대를 실제 출력 수준에서 더 잘 맞추는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 같은 사실 목록을 써도, 지시 튜닝 이후 응답이 `형식 요구`, `단계 수`, `표 구조`, `한계 고지` 같은 사용자의 기대를 실제 출력 수준에서 더 잘 맞추는가입니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `requests`에 `두 문장으로 설명`, `장단점 비교표` 같은 새 지시를 추가해 보기
 - `document_facts`의 개수를 늘려도 형식 점검이 유지되는지 확인해 보기
 - `check_format` 기준을 더 엄격하게 바꿔, 단순 형식 맞춤과 실제 품질 차이를 구분해 보기
+- `limitations` 요청에 위험 고지나 근거 부족 문구를 추가해, 지시 튜닝이 거절과 한계 고지까지 더 안정적으로 붙잡는지 확인해 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 질문이 같아도 응답 형식 요구는 달라질 수 있고
 - 일반 응답은 내용을 이어 쓰는 데는 성공해도 형식 요구를 자주 놓치며
 - 지시 튜닝된 응답은 사용자가 요청한 구조를 실제 출력 규칙으로 더 잘 반영합니다
+- 특히 `요약`, `단계`, `표`, `한계 고지`처럼 서로 다른 응답 습관을 한 모델 안에서 더 안정적으로 꺼내도록 돕습니다
 
 즉, 지시 튜닝은 종종 `무엇을 아는가`보다 `어떻게 답하는가`를 바꾸는 층으로 이해하는 편이 좋습니다.
 
 ## 이 예제를 응답 방식 조정 관점으로 다시 보면
 
-이 장난감 비교는 instruction tuning이 새 지식을 주입하는 작업이라기보다, 이미 있는 기반 능력을 사용자의 요청 형식에 더 잘 맞춰 꺼내게 하는 층임을 보여 줍니다. 그래서 이후 정렬과 서비스 설계 논의에서도 `응답 내용`과 `응답 방식`을 분리해 읽는 습관이 중요합니다.
+이 장난감 비교는 instruction tuning이 새 지식을 주입하는 작업이라기보다, 이미 있는 기반 능력을 사용자의 요청 형식에 더 잘 맞춰 꺼내게 하는 층임을 보여 줍니다. 특히 여기서는 같은 사실 묶음이라도 `세 줄`, `3단계`, `표`, `한계 고지`처럼 요청 습관이 달라지면 출력 규칙도 함께 달라져야 한다는 점이 드러납니다. 그래서 이후 정렬과 서비스 설계 논의에서도 `응답 내용`과 `응답 방식`을 분리해 읽는 습관이 중요합니다.
 
 ## 역사와 커리큘럼 관점
 
