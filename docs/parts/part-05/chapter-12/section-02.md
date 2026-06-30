@@ -158,45 +158,88 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다.
+이번 예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다. 한 요청만 보면 `구조화하면 된다` 수준에서 끝나기 쉬우므로, 이번에는 여러 요청을 배치로 보면서 어떤 호출은 바로 실행 가능하고 어떤 호출은 필드 누락으로 막히는지도 함께 보겠습니다.
 
 문제 상황:
 
 - 사용자는 자연어로 일정을 만들어 달라고 요청함
 - 시스템은 이 문장을 그대로 실행하지 않고, 함수 이름과 인자를 분리해 받아야 함
 - 인자 누락 여부를 실행 전에 점검할 수 있어야 함
+- 따라서 `구조화했다`와 `실행 준비가 끝났다`는 같은 말이 아님
 
 입력:
 
-- 사용자 요청
+- 사용자 요청 여러 개
 - 구조화된 함수 호출 초안
 
 출력:
 
 - 함수 이름과 인자 구조
 - 필수 인자 점검 결과
-- 어떤 필드가 실행 전에 검증되는지에 대한 점검값
+- 어떤 호출이 바로 실행 가능하고 어떤 호출이 누락으로 막히는지에 대한 점검값
+
+먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `function_name` | 어떤 기능을 부르려는지 분리해서 확인 |
+| `missing_fields` | 실행 전에 어떤 인자가 비었는지 확인 |
+| `is_valid` | 현재 구조로 바로 실행 가능한지 확인 |
+| `provided_argument_keys` | 모델이 어떤 필드까지 채웠는지 확인 |
 
 ```python
-user_request = "내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요."
-
-function_call = {
-    "name": "create_calendar_event",
-    "arguments": {
-        "title": "디자인 리뷰",
-        "date": "tomorrow",
-        "time": "15:00",
-        "timezone": "Asia/Seoul",
-        "attendees": [],
+requests = [
+    {
+        "user_request": "내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.",
+        "function_call": {
+            "name": "create_calendar_event",
+            "arguments": {
+                "title": "디자인 리뷰",
+                "date": "tomorrow",
+                "time": "15:00",
+                "timezone": "Asia/Seoul",
+                "attendees": [],
+            },
+        },
     },
-}
+    {
+        "user_request": "내일 오후에 팀 회의를 잡아 주세요.",
+        "function_call": {
+            "name": "create_calendar_event",
+            "arguments": {
+                "title": "팀 회의",
+                "date": "tomorrow",
+                "time": "",
+                "timezone": "Asia/Seoul",
+                "attendees": [],
+            },
+        },
+    },
+    {
+        "user_request": "다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.",
+        "function_call": {
+            "name": "create_calendar_event",
+            "arguments": {
+                "title": "채용 인터뷰",
+                "date": "next_monday",
+                "time": "10:00",
+                "timezone": None,
+                "attendees": ["recruiter@example.com"],
+            },
+        },
+    },
+]
 
 required_fields = ["title", "date", "time", "timezone"]
 
 
 def validate_function_call(function_call, required_fields):
     arguments = function_call["arguments"]
-    missing = [field for field in required_fields if field not in arguments or arguments[field] in ("", None)]
+    missing = [
+        field
+        for field in required_fields
+        if field not in arguments or arguments[field] in ("", None)
+    ]
     return {
         "function_name": function_call["name"],
         "missing_fields": missing,
@@ -204,26 +247,54 @@ def validate_function_call(function_call, required_fields):
     }
 
 
-validation = validate_function_call(function_call, required_fields)
-inspection = {
-    "required_fields": required_fields,
-    "provided_argument_keys": list(function_call["arguments"].keys()),
-    "is_ready_to_execute": validation["is_valid"],
+reports = []
+for item in requests:
+    validation = validate_function_call(item["function_call"], required_fields)
+    inspection = {
+        "required_fields": required_fields,
+        "provided_argument_keys": list(item["function_call"]["arguments"].keys()),
+        "is_ready_to_execute": validation["is_valid"],
+        "missing_count": len(validation["missing_fields"]),
+    }
+    reports.append(
+        {
+            "user_request": item["user_request"],
+            "function_call": item["function_call"],
+            "validation": validation,
+            "inspection": inspection,
+        }
+    )
+
+summary = {
+    "valid_call_count": sum(report["validation"]["is_valid"] for report in reports),
+    "invalid_call_count": sum(not report["validation"]["is_valid"] for report in reports),
+    "calls_missing_time": sum("time" in report["validation"]["missing_fields"] for report in reports),
+    "calls_missing_timezone": sum("timezone" in report["validation"]["missing_fields"] for report in reports),
 }
 
-print("[user_request]")
-print(user_request)
-print("[function_call]")
-print(function_call)
-print("[validation]")
-print(validation)
-print("[inspection]")
-print(inspection)
+print("[summary]")
+print(summary)
+print()
+
+for report in reports:
+    print("=" * 80)
+    print("[user_request]")
+    print(report["user_request"])
+    print("[function_call]")
+    print(report["function_call"])
+    print("[validation]")
+    print(report["validation"])
+    print("[inspection]")
+    print(report["inspection"])
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
+[summary]
+{'valid_call_count': 1, 'invalid_call_count': 2, 'calls_missing_time': 1, 'calls_missing_timezone': 1}
+
+================================================================================
 [user_request]
 내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.
 [function_call]
@@ -231,16 +302,40 @@ print(inspection)
 [validation]
 {'function_name': 'create_calendar_event', 'missing_fields': [], 'is_valid': True}
 [inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True}
+{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True, 'missing_count': 0}
+================================================================================
+[user_request]
+내일 오후에 팀 회의를 잡아 주세요.
+[function_call]
+{'name': 'create_calendar_event', 'arguments': {'title': '팀 회의', 'date': 'tomorrow', 'time': '', 'timezone': 'Asia/Seoul', 'attendees': []}}
+[validation]
+{'function_name': 'create_calendar_event', 'missing_fields': ['time'], 'is_valid': False}
+[inspection]
+{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
+================================================================================
+[user_request]
+다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.
+[function_call]
+{'name': 'create_calendar_event', 'arguments': {'title': '채용 인터뷰', 'date': 'next_monday', 'time': '10:00', 'timezone': None, 'attendees': ['recruiter@example.com']}}
+[validation]
+{'function_name': 'create_calendar_event', 'missing_fields': ['timezone'], 'is_valid': False}
+[inspection]
+{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현되고, 실행 전에 누락 필드를 점검할 수 있게 된다는 점입니다.
+이 결과에서 먼저 봐야 할 것은 `valid_call_count`가 1이고 `invalid_call_count`가 2라는 점입니다. 즉, 자연어 요청을 함수 호출 구조로 바꿨다고 해서 모두 바로 실행 가능한 것은 아닙니다. `time`, `timezone`처럼 시스템이 실제 실행에 꼭 필요한 필드는 따로 검증해야 하고, 함수 호출 구조는 바로 그 누락을 실행 전에 드러내는 역할을 합니다.
+
+그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+
+- 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현된다.
+- 함수 호출의 핵심 가치는 `구조화` 자체뿐 아니라, 실행 전에 누락 필드를 검증하고 실패 원인을 분리할 수 있다는 데 있다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `timezone`이나 `time`을 지워 보고 어떤 필드가 검증에서 걸리는지 보기
-- `attendees`에 메일 주소 목록을 넣어 일정 생성 인자가 어떻게 확장되는지 확인하기
+- `requests`에 참석자 누락, 제목 누락 사례를 더 넣어 어떤 필드가 자주 빠지는지 보기
+- `attendees`에 메일 주소 목록을 더 넣어 일정 생성 인자가 어떻게 확장되는지 확인하기
 - `required_fields`를 바꿔 도구마다 검증 규칙이 달라질 수 있음을 실험해 보기
+- `date`를 자연어 그대로 두고 별도 정규화 단계를 상상해 보기
 
 ## 이 예제를 구조화된 실행 요청 관점으로 다시 보면
 
