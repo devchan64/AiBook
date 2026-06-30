@@ -21,6 +21,17 @@ Part 6의 목적은 거대한 서비스를 완성하는 것이 아닙니다. 오
 
 즉, `이해한 내용을 다시 실행 가능한 형태로 남기는 것`이 Part 6의 핵심입니다.
 
+여기서 중요한 점은 `프로젝트를 했다`는 말을 코드 파일 하나로 대신하지 않는 것입니다. Part 6에서는 가능한 한 다음 같은 기록 이름이 실제로 남아야 합니다.
+
+- `project_note`, `retrospective_note`
+- `project_run`, `comparison_rows`
+- `test_records`, `evaluation_records`
+- `retrieval_records`, `selected_evidence`
+- `execution_records`, `review_summary`
+- `incident_records`, `improvement_plan`
+
+즉, Part 6은 `모델을 만들었다`보다 `무슨 기록을 남겼는가`를 더 엄격하게 묻는 파트입니다.
+
 ## 앞선 Part와의 연결
 
 앞선 Part들은 개념을 쌓는 구간이었습니다. 하지만 많은 학습자는 이 단계에서 멈추면 다음 문제를 겪습니다.
@@ -53,6 +64,17 @@ Part 5 마지막에서 이미 본 것처럼, 생성형 AI 기능은 `질문 -> �
 | 평가 | 자동 점검, 사람 검토, 비교 메모 |
 | 운영 회고 | 실패 기록, 다음 개선 순서 |
 
+이 최소 산출물을 Part 6의 실제 프로젝트 축으로 다시 쓰면 다음처럼 볼 수 있습니다.
+
+| 프로젝트 축 | 대표 산출물 예시 |
+| --- | --- |
+| 분석 시작 | `project_note`, `retrospective_note` |
+| baseline 비교 | `project_run`, `baseline_error_ids` |
+| 이미지/텍스트 분류 | `test_records`, `evaluation_records` |
+| RAG | `retrieval_records`, `grounded_answer_record` |
+| agent | `planned_steps`, `execution_records`, `final_report` |
+| 배포/운영 | `review_summary`, `incident_records`, `improvement_plan` |
+
 ## 이 파트에서 설명하는 범위와 설명하지 않을 범위
 
 이 Part는 다음 범위를 다룹니다.
@@ -79,6 +101,14 @@ Part 5 마지막에서 이미 본 것처럼, 생성형 AI 기능은 `질문 -> �
 - `분석 프로젝트`: 질문, 표, 요약값, 관찰 메모가 중심
 - `모델 프로젝트`: baseline, 예측 결과, 오류 사례가 중심
 - `RAG/agent 프로젝트`: 근거 문서, 도구 결과, run record, 실패 로그가 중심
+
+이 구분은 단순한 장르 분류가 아니라, 어떤 산출물을 우선 남겨야 하는지를 정하는 기준이기도 합니다.
+
+- 분석 프로젝트에서는 `요약값`보다 `질문과 관찰 메모`가 먼저입니다.
+- 모델 프로젝트에서는 `accuracy`보다 `비교 행`과 `오류 샘플`이 먼저입니다.
+- RAG 프로젝트에서는 `답변`보다 `검색 근거`와 `answer_status`가 먼저입니다.
+- agent 프로젝트에서는 `성공 여부`보다 `permission`, `approved`, `next_action`이 먼저입니다.
+- 배포 프로젝트에서는 `배포 완료`보다 `incident_records`와 `next_action`이 먼저입니다.
 
 ## 이후 Part로의 연결
 
@@ -138,12 +168,27 @@ Part 6의 각 프로젝트는 가능한 한 다음 흐름으로 씁니다.
 - 사람 검토 메모
 - 실패 시 run record 또는 fallback 기록
 
+이 공통 형식을 독자가 다시 점검할 때는 다음처럼 읽어도 좋습니다.
+
+| 문서 질문 | 확인할 산출물 |
+| --- | --- |
+| 무엇을 하려 했는가? | 목표 문장, `planned_steps`, `project_note` |
+| 무엇을 넣었는가? | 데이터 표, 문서 조각, 도구 목록 |
+| 어떻게 비교했는가? | baseline, `comparison_rows`, `evaluation_records` |
+| 무엇이 근거였는가? | `selected_evidence`, `retrieval_candidates` |
+| 어디서 멈췄는가? | `blocked`, `insufficient_evidence`, 실패 상태 |
+| 다음에 무엇을 바꿀 것인가? | `review_summary`, `improvement_plan` |
+
 ## 완료 기준
 
 - 작은 프로젝트를 질문, 입력, 구현, 결과, 회고 흐름으로 정리할 수 있다.
 - baseline과 개선 모델의 차이를 문서로 설명할 수 있다.
 - RAG와 agent 프로젝트에서 품질과 운영 관점을 함께 적을 수 있다.
 - 실패 기록과 다음 개선 계획을 프로젝트 결과 안에 남길 수 있다.
+
+가장 짧게 줄이면 Part 6의 완료 기준은 다음 한 문장으로 묶입니다.
+
+`작은 프로젝트라도 다시 실행할 수 있는 기록과 다음 반복을 위한 회고를 남길 수 있어야 한다.`
 
 ## 출처와 참고 자료
 
