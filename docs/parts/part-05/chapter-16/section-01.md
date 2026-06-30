@@ -200,7 +200,7 @@ flowchart TD
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보는 것입니다. 이번에는 설계안 두 개만 단순 비교하지 않고, 여러 서비스 설계안을 같은 운영 제약 아래 나란히 놓고 어떤 안이 통과하고 어떤 안이 탈락하는지 비교하겠습니다.
+이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보는 것입니다. 이번에는 설계안 두 개만 단순 비교하지 않고, 여러 서비스 설계안을 같은 운영 제약 아래 나란히 놓고 어떤 안이 통과하고 어떤 안이 탈락하는지 비교하겠습니다. 특히 이번에는 품질, 지연 시간, 비용뿐 아니라 `분당 처리 가능 요청 수`까지 함께 넣어 `데모는 되지만 운영은 안 되는 안`이 어떻게 생기는지도 보겠습니다.
 
 문제 상황:
 
@@ -208,11 +208,13 @@ flowchart TD
 - 어떤 안은 빠르고 싸지만 품질이 낮고
 - 어떤 안은 품질은 높지만 느리거나 비싸고
 - 어떤 안은 중간 타협점에 있음
+- 어떤 안은 단일 요청에서는 좋아 보여도 분당 요청량을 못 버틸 수 있음
 
 입력:
 
 - 여러 서비스 설계안
 - 팀이 허용하는 최대 지연 시간과 최대 비용
+- 예상 분당 요청량
 
 출력:
 
@@ -220,32 +222,65 @@ flowchart TD
 - 왜 선택되거나 탈락하는지에 대한 간단한 판단 결과
 - 통과한 설계안 중 운영 제약 안에서 품질이 가장 높은 후보
 
+먼저 이 예제에서 함께 볼 운영 제약 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `quality_ok` | 최소 품질선 아래면 빠르고 싸도 채택하기 어려워서 |
+| `latency_ok` | 사용자가 기다릴 수 있는 시간 안에 답해야 해서 |
+| `cost_ok` | 한 요청 품질이 좋아도 운영 예산을 넘기면 지속하기 어려워서 |
+| `throughput_ok` | 데모는 되어도 반복 요청을 견디지 못하면 서비스가 아니어서 |
+
 ```python
 services = [
-    {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1},
-    {"name": "balanced", "quality": 0.84, "latency_ms": 1700, "cost": 2},
-    {"name": "rich", "quality": 0.89, "latency_ms": 3200, "cost": 4},
-    {"name": "cheap_but_weak", "quality": 0.65, "latency_ms": 700, "cost": 1},
+    {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1, "requests_per_minute": 120},
+    {"name": "balanced", "quality": 0.84, "latency_ms": 1700, "cost": 2, "requests_per_minute": 90},
+    {"name": "rich", "quality": 0.89, "latency_ms": 3200, "cost": 4, "requests_per_minute": 40},
+    {"name": "cheap_but_weak", "quality": 0.65, "latency_ms": 700, "cost": 1, "requests_per_minute": 150},
+    {"name": "accurate_but_capped", "quality": 0.87, "latency_ms": 1500, "cost": 2, "requests_per_minute": 45},
 ]
 
 constraints = {
     "max_latency_ms": 2000,
     "max_cost": 3,
     "min_quality": 0.75,
+    "required_requests_per_minute": 80,
 }
 
 
 def evaluate_service(service, constraints):
+    quality_ok = service["quality"] >= constraints["min_quality"]
+    latency_ok = service["latency_ms"] <= constraints["max_latency_ms"]
+    cost_ok = service["cost"] <= constraints["max_cost"]
+    throughput_ok = service["requests_per_minute"] >= constraints["required_requests_per_minute"]
+
+    if not quality_ok:
+        primary_tradeoff = "quality_too_low"
+    elif not latency_ok:
+        primary_tradeoff = "latency_too_high"
+    elif not cost_ok:
+        primary_tradeoff = "cost_too_high"
+    elif not throughput_ok:
+        primary_tradeoff = "throughput_too_low"
+    else:
+        primary_tradeoff = "operational_fit"
+
     return {
         "name": service["name"],
         "quality": service["quality"],
-        "quality_ok": service["quality"] >= constraints["min_quality"],
-        "latency_ok": service["latency_ms"] <= constraints["max_latency_ms"],
-        "cost_ok": service["cost"] <= constraints["max_cost"],
+        "latency_ms": service["latency_ms"],
+        "cost": service["cost"],
+        "requests_per_minute": service["requests_per_minute"],
+        "quality_ok": quality_ok,
+        "latency_ok": latency_ok,
+        "cost_ok": cost_ok,
+        "throughput_ok": throughput_ok,
+        "primary_tradeoff": primary_tradeoff,
         "operationally_acceptable": (
-            service["quality"] >= constraints["min_quality"]
-            and service["latency_ms"] <= constraints["max_latency_ms"]
-            and service["cost"] <= constraints["max_cost"]
+            quality_ok
+            and latency_ok
+            and cost_ok
+            and throughput_ok
         ),
     }
 
@@ -257,8 +292,17 @@ acceptable = [
 ]
 best_acceptable = max(acceptable, key=lambda item: item["quality"]) if acceptable else None
 
+summary = {
+    "acceptable_count": len(acceptable),
+    "latency_fail_count": sum(not item["latency_ok"] for item in evaluated),
+    "cost_fail_count": sum(not item["cost_ok"] for item in evaluated),
+    "throughput_fail_count": sum(not item["throughput_ok"] for item in evaluated),
+}
+
 print("[constraints]")
 print(constraints)
+print("[summary]")
+print(summary)
 print("[evaluated_services]")
 for item in evaluated:
     print(item)
@@ -270,27 +314,32 @@ print(best_acceptable)
 
 ```text
 [constraints]
-{'max_latency_ms': 2000, 'max_cost': 3, 'min_quality': 0.75}
+{'max_latency_ms': 2000, 'max_cost': 3, 'min_quality': 0.75, 'required_requests_per_minute': 80}
+[summary]
+{'acceptable_count': 2, 'latency_fail_count': 1, 'cost_fail_count': 1, 'throughput_fail_count': 2}
 [evaluated_services]
-{'name': 'fast', 'quality': 0.78, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
-{'name': 'balanced', 'quality': 0.84, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
-{'name': 'rich', 'quality': 0.89, 'quality_ok': True, 'latency_ok': False, 'cost_ok': False, 'operationally_acceptable': False}
-{'name': 'cheap_but_weak', 'quality': 0.65, 'quality_ok': False, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': False}
+{'name': 'fast', 'quality': 0.78, 'latency_ms': 900, 'cost': 1, 'requests_per_minute': 120, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'operational_fit', 'operationally_acceptable': True}
+{'name': 'balanced', 'quality': 0.84, 'latency_ms': 1700, 'cost': 2, 'requests_per_minute': 90, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'operational_fit', 'operationally_acceptable': True}
+{'name': 'rich', 'quality': 0.89, 'latency_ms': 3200, 'cost': 4, 'requests_per_minute': 40, 'quality_ok': True, 'latency_ok': False, 'cost_ok': False, 'throughput_ok': False, 'primary_tradeoff': 'latency_too_high', 'operationally_acceptable': False}
+{'name': 'cheap_but_weak', 'quality': 0.65, 'latency_ms': 700, 'cost': 1, 'requests_per_minute': 150, 'quality_ok': False, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'quality_too_low', 'operationally_acceptable': False}
+{'name': 'accurate_but_capped', 'quality': 0.87, 'latency_ms': 1500, 'cost': 2, 'requests_per_minute': 45, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': False, 'primary_tradeoff': 'throughput_too_low', 'operationally_acceptable': False}
 [best_acceptable]
-{'name': 'balanced', 'quality': 0.84, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'operationally_acceptable': True}
+{'name': 'balanced', 'quality': 0.84, 'latency_ms': 1700, 'cost': 2, 'requests_per_minute': 90, 'quality_ok': True, 'latency_ok': True, 'cost_ok': True, 'throughput_ok': True, 'primary_tradeoff': 'operational_fit', 'operationally_acceptable': True}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간과 비용이 함께 늘면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다. 또한 반대로 `cheap_but_weak`처럼 빠르고 싸더라도 최소 품질선을 넘지 못하면 역시 채택되지 않을 수 있습니다.
+이 예제에서 먼저 봐야 할 것은 `accurate_but_capped` 같은 안입니다. 단일 요청 품질만 보면 `balanced`보다 더 좋아 보일 수 있지만, 분당 처리량 제한 때문에 실제 서비스 트래픽을 못 버티면 운영 후보에서 탈락합니다. 즉, `좋은 품질`, `허용 가능한 지연 시간`, `예산`, `처리량`은 서로 다른 축입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간, 비용, 처리량 제약이 함께 걸리면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다. 또한 반대로 `cheap_but_weak`처럼 빠르고 싸더라도 최소 품질선을 넘지 못하면 역시 채택되지 않을 수 있습니다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - `max_latency_ms`를 더 완화해 고품질 설계가 통과되는지 보기
 - `min_quality`를 더 높여 어느 지점부터 `balanced`도 탈락하는지 보기
-- 설계안을 하나 더 추가해 `속도-품질-비용` 타협 지점을 직접 비교해 보기
+- `required_requests_per_minute`를 더 높여 어느 지점부터 `balanced`도 운영 후보에서 밀리는지 보기
 
 ## 이 예제를 서비스 선택 관점으로 다시 보면
 
-앞의 예제는 더 좋은 품질 점수가 자동으로 더 좋은 서비스 결정을 뜻하지 않는다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 품질, 지연 시간, 비용이 같은 축이 아니라 서로 부딪히는 판단 기준이며, 운영에서는 이 셋을 함께 봐야 실제 선택이 가능하다는 점입니다. 특히 배치 비교를 해 보면 `가장 좋은 모델`과 `실제로 채택할 설계안`이 다를 수 있다는 점이 더 분명하게 드러납니다.
+앞의 예제는 더 좋은 품질 점수가 자동으로 더 좋은 서비스 결정을 뜻하지 않는다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 품질, 지연 시간, 비용, 처리량이 같은 축이 아니라 서로 부딪히는 판단 기준이며, 운영에서는 이 넷을 함께 봐야 실제 선택이 가능하다는 점입니다. 특히 배치 비교를 해 보면 `가장 좋은 모델`과 `실제로 채택할 설계안`이 다를 수 있다는 점이 더 분명하게 드러납니다.
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
