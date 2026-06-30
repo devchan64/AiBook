@@ -119,6 +119,22 @@ flowchart TD
 
 ## 사례로 보기
 
+아래 도식은 이 절의 세 사례를 `얼마나 많이 넣는가`보다 `제한된 창 안에 무엇을 우선 남길 것인가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same context-window question"]
+  B["long report<br/>which sections must survive?"]
+  C["code assistant<br/>which files are directly relevant now?"]
+  D["chatbot memory<br/>which state must remain visible?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 과업이 달라도 핵심 제약이 같다는 것입니다. 모두 `전부 넣는가`보다 `중요한 문맥을 먼저 남기는가`가 더 중요하며, attention은 그 뒤에 남은 범위 안에서만 계산됩니다.
+
 ### 사례 1. 긴 문서 요약
 
 사용자가 100페이지 보고서를 한 번에 넣고 `핵심만 다섯 줄로 정리해 달라`고 요청할 수 있습니다. 사람은 처음에 `긴 문서를 다 넣으면 더 정확하겠지`라고 생각하기 쉽습니다. 하지만 문맥 윈도우가 한정되어 있으면 모델은 문서 전체를 그대로 다 넣어 읽지 못합니다. 예를 들어 앞부분의 배경 설명과 뒤쪽의 결론을 모두 남기고 싶어도, 중간 표와 부록까지 전부 넣으면 정작 `최종 권고안`이 적힌 마지막 절이 잘려 나갈 수 있습니다. 그러면 요약은 그럴듯해 보여도 가장 중요한 결론 한 줄이 빠질 수 있습니다. 여기서 바뀌는 점은 `많이 넣으면 더 정확한가`를 보던 기준에서 `제한된 범위 안에서 핵심 절이 실제로 보존되는가`를 보는 기준으로 이동한다는 것입니다. 그래서 중요한 절을 먼저 고르거나, 장별로 나누어 요약한 뒤 다시 합치는 설계가 필요해집니다. 그래서 이 사례에서 확인해야 할 결과는 문서를 많이 넣는 것보다 핵심 절을 고른 쪽이 실제 결론 보존에 더 유리한가입니다.
@@ -133,50 +149,65 @@ flowchart TD
 
 ## 작은 Python 예제로 보기
 
-이번 예제의 목표는 실제 토크나이저 길이 계산이 아니라, 제한된 문맥 안에 일부 항목만 남긴다는 감각을 확인하는 것입니다.
+이번 예제의 목표는 실제 토큰 수 계산이 아니라, `길이 제한이 있을 때 무엇을 우선 남길 것인가`를 더 분명하게 보는 것입니다. 단순히 앞에서 4개를 자르는 대신, 각 항목에 우선순위를 붙여 제한된 창 안에 어떤 정보가 살아남는지 보겠습니다.
 
 입력:
 
 - 여러 개의 문맥 항목
+- 각 항목의 우선순위
 - 최대 개수 제한
 
 출력:
 
 - 윈도우 안에 남은 항목
+- 선택에서 탈락한 항목
 
 ```python
 context_items = [
-    "system instruction",
-    "user question",
-    "document chunk 1",
-    "document chunk 2",
-    "tool output",
-    "older chat history",
+    ("system instruction", 100),
+    ("user question", 95),
+    ("current error log", 90),
+    ("related function code", 88),
+    ("older chat history", 40),
+    ("repeated greeting", 5),
 ]
 
 max_items = 4
-selected = context_items[:max_items]
+ranked = sorted(context_items, key=lambda x: x[1], reverse=True)
+selected = ranked[:max_items]
+dropped = ranked[max_items:]
 
 print("selected_context =")
-for item in selected:
-    print("-", item)
+for item, score in selected:
+    print("-", item, "(priority =", score, ")")
+
+print("dropped_context =")
+for item, score in dropped:
+    print("-", item, "(priority =", score, ")")
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 selected_context =
-- system instruction
-- user question
-- document chunk 1
-- document chunk 2
+- system instruction (priority = 100 )
+- user question (priority = 95 )
+- current error log (priority = 90 )
+- related function code (priority = 88 )
+dropped_context =
+- older chat history (priority = 40 )
+- repeated greeting (priority = 5 )
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 모든 항목을 동시에 담지 못할 때 어떤 항목을 남길지 선택이 실제로 필요하다는 점입니다.
+이 예제에서 읽어야 할 핵심은 다음입니다.
+
+- context window가 제한되면 모든 항목을 똑같이 남길 수 없습니다.
+- 현재 질문과 직접 연결된 항목이 반복 인사나 오래된 기록보다 먼저 남아야 합니다.
+- 실제 서비스 설계에서는 `무엇을 더 중요하게 볼지`를 정하는 규칙이 필요합니다.
 
 ## 이 예제를 입력 선택 관점으로 다시 보면
 
-앞의 예제는 긴 문맥 처리를 구현하는 코드가 아니라, `무엇을 더 넣을 수 있는가`보다 `무엇을 남기고 무엇을 덜어낼 것인가`가 실제 설계 문제라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 context window가 단순 길이 숫자가 아니라, 입력 우선순위를 정하게 만드는 제약이라는 점입니다.
+앞의 예제는 긴 문맥 처리를 구현하는 코드가 아니라, `무엇을 더 넣을 수 있는가`보다 `무엇을 남기고 무엇을 덜어낼 것인가`가 실제 설계 문제라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 context window가 단순 길이 숫자가 아니라, 입력 우선순위를 정하게 만드는 제약이라는 점입니다. RAG, 대화 요약, 코드 어시스턴트 문맥 선택이 모두 결국 이 문제를 다른 형태로 풀고 있다고 보면 연결이 자연스럽습니다.
 
 ## 역사와 커리큘럼 관점
 
