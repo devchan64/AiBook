@@ -22,6 +22,8 @@ P5-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 �
 
 이 절은 `이론 설명 -> 곧바로 대형 프로젝트` 사이에 놓인 첫 중간 다리 역할을 합니다.
 
+그래서 Part 5 안에서는 Chapter 17이 실제로 Part 6 회고 문서로 넘어가는 마지막 본류 다리 역할을 맡습니다. 여기서 남기는 `retrieved_doc_ids`, `needs_human_review`, `run_status`, `summary` 같은 기록은 뒤의 Part 6에서 `review_summary`, `incident_records`, `improvement_plan`으로 더 또렷하게 자라나며, 바로 다음 프로젝트 문서의 입력으로 다시 쓰이게 됩니다.
+
 ## 이 절의 목표
 
 - 작은 생성형 AI 기능의 최소 구현 흐름을 읽을 수 있습니다.
