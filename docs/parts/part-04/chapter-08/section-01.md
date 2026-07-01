@@ -159,6 +159,19 @@ total\ loss = data\ loss + regularization\ term
 - regularization을 더한 뒤 업데이트한 결과
 - step이 반복될수록 가중치 크기 차이가 어떻게 벌어지는지에 대한 비교
 
+문제 상황:
+
+- regularization은 정의만 보면 막연하므로, 같은 gradient에 추가 항이 붙을 때 가중치 크기가 어떻게 달라지는지 직접 볼 필요가 있다
+
+확인할 개념:
+
+- regularization은 데이터 gradient 외에 가중치 크기를 줄이려는 방향을 더한다
+- step이 반복될수록 규제가 있는 쪽이 더 작은 가중치를 유지하는 경향을 보일 수 있다
+
+입력(input):
+
+위에 정리한 초기 가중치, 데이터 gradient, 학습률, regularization 강도를 사용합니다.
+
 ```python
 initial_w = 2.5
 data_gradient = -4.0

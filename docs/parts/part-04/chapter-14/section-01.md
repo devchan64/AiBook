@@ -229,11 +229,19 @@ flowchart TD
 - 간단한 layer normalization 뒤 표현
 - 각 토큰이 어느 방향으로 더 강조되었는지
 
+문제 상황:
+
+- Transformer 블록은 attention 하나로 끝나지 않고 residual, normalization, feed-forward가 묶여 돌아가므로 단계별 변화를 나눠 볼 필요가 있다
+
 확인할 개념:
 
 - Transformer 블록은 attention과 feed-forward가 한 묶음으로 반복된다
 - residual과 normalization까지 봐야 표현이 어떻게 안정적으로 갱신되는지 이해할 수 있다
 - 단계별 표현 변화를 나란히 봐야 블록 내부 역할 분담이 선명해진다
+
+입력(input):
+
+위에 정리한 세 토큰의 초기 표현, attention 가중치, feed-forward 가중치를 사용합니다.
 
 ```python
 import numpy as np

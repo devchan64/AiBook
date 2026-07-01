@@ -169,6 +169,19 @@ Part 3에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - gradient
 - learning rate별 업데이트 후 가중치
 
+문제 상황:
+
+- learning rate는 gradient 자체를 바꾸지 않지만, 같은 gradient라도 가중치 이동 폭을 크게 바꾼다
+
+확인할 개념:
+
+- learning rate는 업데이트 크기를 조절하는 배율이다
+- 같은 gradient라도 학습률 설정에 따라 이동 폭과 학습 안정성이 달라질 수 있다
+
+입력(input):
+
+위에 정리한 `x`, `target`, 초기 가중치 `w`와 여러 learning rate를 사용합니다.
+
 ```python
 x = 2.0
 target = 6.0

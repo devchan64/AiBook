@@ -195,6 +195,19 @@ flowchart TD
 - head 2가 읽은 문맥
 - 두 head를 합친 최종 표현
 
+문제 상황:
+
+- multi-head attention은 말로만 들으면 추상적이므로, 한 번만 읽은 경우와 여러 관점으로 읽은 경우를 직접 비교해 볼 필요가 있다
+
+확인할 개념:
+
+- 서로 다른 head는 같은 토큰열에서도 다른 관계를 강조할 수 있다
+- 여러 head 결과를 합치면 single-head보다 더 풍부한 표현을 만들 수 있다
+
+입력(input):
+
+위에 정리한 세 개의 토큰 표현과 두 종류의 attention 가중치를 사용합니다.
+
 ```python
 import numpy as np
 

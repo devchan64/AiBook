@@ -206,6 +206,19 @@ filter
 - 첫 번째 위치에서 실제로 읽은 patch
 - 설정별 convolution 결과
 
+문제 상황:
+
+- `padding`, `stride`, `dilation`은 이름은 비슷해 보여도 필터가 이미지를 읽는 범위를 다르게 만든다
+
+확인할 개념:
+
+- convolution 설정은 결과 shape와 실제 patch 범위를 함께 바꾼다
+- 첫 위치 patch와 최종 결과를 같이 보면 각 설정 차이가 더 잘 드러난다
+
+입력(input):
+
+위에 정리한 입력 이미지, 필터, 여러 `padding`·`stride`·`dilation` 설정을 사용합니다.
+
 ```python
 import numpy as np
 
@@ -499,6 +512,19 @@ flowchart TD
 
 - convolution 결과
 - max pooling 결과
+
+문제 상황:
+
+- pooling은 convolution 다음에 정보량을 줄이면서도 강한 반응을 남기는 역할이라는 점을 직접 비교해 볼 필요가 있다
+
+확인할 개념:
+
+- convolution과 pooling은 같은 이미지에서도 서로 다른 축약 결과를 만든다
+- max pooling은 지역 내 가장 강한 반응을 남겨 크기를 줄인다
+
+입력(input):
+
+위에 정리한 4x4 이미지와 2x2 필터를 사용합니다.
 
 ```python
 import numpy as np

@@ -184,6 +184,19 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 - 가중치에 대한 gradient
 - gradient 부호가 주는 업데이트 방향 해석
 
+문제 상황:
+
+- gradient는 수식으로만 보면 추상적이므로 예측이 작을 때와 클 때 방향이 어떻게 달라지는지 직접 보는 편이 좋다
+
+확인할 개념:
+
+- gradient 부호는 가중치를 어느 방향으로 움직여야 하는지 알려 준다
+- 같은 식이라도 예측이 부족한지 과한지에 따라 업데이트 방향 해석이 달라진다
+
+입력(input):
+
+위에 정리한 두 사례의 `x`, `target`, `w`를 사용합니다.
+
 ```python
 cases = [
     {"name": "prediction_too_small", "x": 2.0, "target": 5.0, "w": 1.5},

@@ -126,6 +126,19 @@ flowchart TD
 - batch별 gradient
 - step 이후 갱신된 가중치
 
+문제 상황:
+
+- 배치 학습은 샘플 하나가 아니라 묶음 단위로 gradient를 계산하므로, batch별 손실과 gradient를 같이 보는 것이 중요하다
+
+확인할 개념:
+
+- 배치 단위 gradient는 여러 샘플의 오차를 모아 계산한 결과다
+- 샘플별 계산과 batch별 계산의 차이는 업데이트가 얼마나 부드럽게 움직이는지와 연결된다
+
+입력(input):
+
+위에 정리한 샘플 묶음, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
+
 ```python
 samples = [
     {"x": 1.0, "target": 2.0},

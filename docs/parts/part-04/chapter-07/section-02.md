@@ -145,6 +145,19 @@ SGD에서 계속 확인해야 하는 기준은 복잡한 보정 없이도 gradie
 - Adam 식 누적 평균을 단순화한 직관적 업데이트 결과
 - step별 이동량
 
+문제 상황:
+
+- optimizer 차이는 수식 이름보다 여러 step에서 가중치가 어떻게 움직이는지로 보는 편이 직관적이다
+
+확인할 개념:
+
+- SGD는 현재 gradient에 바로 반응한다
+- Adam류 방식은 최근 gradient 정보를 누적해 이동량을 조절한다
+
+입력(input):
+
+위에 정리한 gradient 목록과 optimizer 설정값을 사용합니다.
+
 ```python
 gradients = [-4.0, -2.0, -1.0]
 w_sgd = 1.0

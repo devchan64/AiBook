@@ -186,6 +186,19 @@ flowchart TD
 - 앞 규칙을 다시 찾는 direct reference 판정 결과
 - 질문과 규칙 줄 사이의 direct match score
 
+문제 상황:
+
+- 긴 문맥에서는 앞에서 본 규칙이 뒤 질문 시점까지 얼마나 남는지 순차 상태만으로는 약해질 수 있다
+
+확인할 개념:
+
+- 순차 상태는 시간이 길어질수록 앞 단서를 약하게 남길 수 있다
+- 직접 참조와 상태 기반 판단을 비교하면 장기 의존성 문제가 더 직관적으로 보인다
+
+입력(input):
+
+위에 정리한 규칙 문장, 질문 문장, 문서 줄 목록을 사용합니다.
+
 ```python
 rule = "Rule: shipping fee is excluded from refunds."
 question = "Question: what is the final refund amount?"
