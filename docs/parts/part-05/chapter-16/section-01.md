@@ -178,21 +178,7 @@ flowchart LR
 
 이 그림의 핵심은 품질을 올리는 선택이 종종 더 많은 단계와 운영 부담을 함께 데려온다는 점입니다.
 
-## 아주 단순하게 그리면
-
-```mermaid
-flowchart TD
-  A["better capability"]
-  B["higher cost"]
-  C["more latency"]
-  D["more operational complexity"]
-
-  A --> B
-  A --> C
-  A --> D
-```
-
-이 도식의 핵심은 성능을 높이는 선택이 종종 다른 비용을 동반한다는 점입니다.
+이 절의 핵심은 성능을 높이는 선택이 종종 다른 비용을 동반한다는 점입니다.
 
 ## 사례로 보기
 

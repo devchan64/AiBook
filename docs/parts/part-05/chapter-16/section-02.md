@@ -158,21 +158,7 @@ flowchart LR
 
 이 그림의 핵심은 실패 대응이 오류 문구를 보여 주고 끝나는 것이 아니라, 실패를 분류하고 대응 경로를 고른 뒤 흔적을 남겨 다음 개선으로 이어지는 구조라는 점입니다.
 
-## 아주 단순하게 그리면
-
-```mermaid
-flowchart TD
-  A["request"]
-  B["search or tool or model step"]
-  C["failure or success"]
-  D["trace, retry, fallback, approval"]
-
-  A --> B
-  B --> C
-  C --> D
-```
-
-이 도식의 핵심은 실패 대응이 최종 출력 뒤의 부가 작업이 아니라, 실행 구조 전체에 들어가야 한다는 점입니다.
+핵심은 실패 대응이 최종 출력 뒤의 부가 작업이 아니라, 실행 구조 전체에 들어가야 한다는 점입니다.
 
 ## 사례로 보기
 

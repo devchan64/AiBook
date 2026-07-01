@@ -139,23 +139,7 @@ flowchart LR
 
 이 네 가지는 Part 5 뒤쪽의 평가와 실패 대응 설명을 실제 설계로 끌어오는 최소 장치입니다.
 
-## 아주 단순하게 그리면
-
-```mermaid
-flowchart TD
-  A["user request"]
-  B["decide: prompt only / retrieve / tool"]
-  C["grounding documents or tool result"]
-  D["LLM response"]
-  E["evaluation and trace"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-```
-
-이 도식의 핵심은 생성형 AI 기능을 `모델 호출 한 번`으로만 그리지 않는 데 있습니다.
+핵심은 생성형 AI 기능을 `모델 호출 한 번`으로만 그리지 않는 데 있습니다. 요청을 읽고, 필요한 근거나 상태를 확보하고, 답변과 기록까지 하나의 구조로 봐야 합니다.
 
 ## 사례로 보기
 
