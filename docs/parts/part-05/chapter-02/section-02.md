@@ -166,6 +166,10 @@ flowchart TD
 
 위에 정리한 질의 벡터, 문서 벡터, 문서별 최신성 정보를 사용합니다.
 
+확인할 개념:
+
+- 벡터 거리는 중요한 1차 신호지만, 실제 선택에서는 최신성 같은 추가 기준을 함께 읽어야 한다
+
 ```python
 def squared_distance(a, b):
     return sum((x - y) ** 2 for x, y in zip(a, b))

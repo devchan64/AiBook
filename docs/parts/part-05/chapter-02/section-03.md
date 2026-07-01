@@ -125,6 +125,10 @@ FAQ 문서가 몇십 개일 때는 모든 벡터를 다 비교해도 괜찮을 �
 
 위에 정리한 질의 벡터와 FAQ 후보 벡터를 사용합니다.
 
+확인할 개념:
+
+- ANN 검색은 모든 후보를 다 보지 않고도 가까운 후보를 빠르게 좁혀 비교 비용을 줄이려는 방식이다
+
 ```python
 def squared_distance(a, b):
     return sum((x - y) ** 2 for x, y in zip(a, b))

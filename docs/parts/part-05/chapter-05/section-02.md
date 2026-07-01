@@ -209,6 +209,10 @@ flowchart TD
 
 위에 정리한 응답 슬롯별 후보와 기본 확률, 여러 temperature 값을 사용합니다.
 
+확인할 개념:
+
+- temperature 조절은 후보 분포의 평탄도를 바꿔 일관성과 다양성의 균형을 달라지게 만든다
+
 ```python
 import random
 

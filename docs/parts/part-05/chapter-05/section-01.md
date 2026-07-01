@@ -197,6 +197,10 @@ flowchart TD
 
 위에 정리한 학습 문장 목록과 시작 문맥을 사용합니다.
 
+확인할 개념:
+
+- 다음 토큰 분포는 학습 문장들에서 반복된 연결 패턴이 누적된 결과로 만들어진다
+
 ```python
 from collections import Counter, defaultdict
 

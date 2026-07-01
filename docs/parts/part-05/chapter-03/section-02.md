@@ -205,6 +205,10 @@ flowchart TD
 
 위에 정리한 context item 목록과 토큰 예산을 사용합니다.
 
+확인할 개념:
+
+- context budget이 부족할 때는 어떤 정보를 남기고 버리느냐에 따라 최종 답변에 쓸 수 있는 근거가 달라진다
+
 ```python
 context_items = [
     {

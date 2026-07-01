@@ -142,6 +142,10 @@ long-context는 단순히 `입력이 길다`는 말보다 조금 더 넓은 뜻�
 
 위에 정리한 토큰 사전과 입력 시퀀스를 사용합니다.
 
+확인할 개념:
+
+- KV cache는 이전 토큰의 계산 결과를 재사용해 이후 step의 projection 부담을 줄인다
+
 ```python
 import numpy as np
 

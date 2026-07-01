@@ -191,6 +191,10 @@ flowchart TD
 - direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않는다
 - 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있다
 
+입력(input):
+
+위에 정리한 역사 항목 목록을 사용합니다.
+
 ```python
 items = [
     {

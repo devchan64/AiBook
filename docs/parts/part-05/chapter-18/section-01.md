@@ -209,6 +209,10 @@ flowchart TD
 - 언어 모델 발전사는 필요한 계산 범위를 넓혀 온 흐름으로 읽을 수 있다
 - 같은 입력이라도 어떤 계산을 하느냐에 따라 출력 관찰 포인트가 달라진다
 
+입력(input):
+
+위에 정리한 문장 목록과 질문-문서 비교 예시를 사용합니다.
+
 ```python
 from collections import Counter
 

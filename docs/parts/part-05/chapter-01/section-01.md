@@ -164,6 +164,10 @@ flowchart TD
 
 위에 정리한 어휘 집합 `VOCAB`, 예시 문장, context budget을 사용합니다.
 
+확인할 개념:
+
+- 토큰은 글자 수와 다를 수 있으며, 토큰화 방식이 context budget과 비용 추정에 직접 영향을 준다
+
 ```python
 VOCAB = {
     "오늘": 101,

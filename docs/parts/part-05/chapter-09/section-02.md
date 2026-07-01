@@ -202,6 +202,10 @@ flowchart LR
 
 위에 정리한 작업 목록과 prompt-only 결과, tool-assisted 결과를 사용합니다.
 
+확인할 개념:
+
+- 강한 프롬프트만으로는 최신 정보 확인, 정확한 계산, 실제 실행 완료까지 항상 보장할 수 없다
+
 ```python
 tasks = [
     {

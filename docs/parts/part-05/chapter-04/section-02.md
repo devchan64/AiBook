@@ -222,6 +222,10 @@ flowchart TD
 
 위에 정리한 사용자 요청, 역할 설명, 금지 표현 목록을 사용합니다.
 
+확인할 개념:
+
+- 대화형 LLM은 사용자 요청만이 아니라 역할과 안전 제약까지 함께 반영해 응답을 구성한다
+
 ```python
 user_request = "이 문서를 세 문장으로 요약해줘"
 required_sentence_count = 3

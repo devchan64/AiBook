@@ -241,6 +241,18 @@ flowchart TD
 | `resource_resolved` | 읽을 자원을 일정한 방식으로 식별할 수 있어야 해서 |
 | `failure_reason` | 어떤 연결 결함이 먼저 실행을 멈추는지 구분해야 해서 |
 
+문제 상황:
+
+- MCP 계층은 도구와 자원을 일정한 규약으로 연결해야 하므로 어느 층에서 해석이 끊기는지 확인할 필요가 있다
+
+입력(input):
+
+위에 정리한 connection layer 시나리오를 사용합니다.
+
+확인할 개념:
+
+- MCP 연결 문제는 도구 해석, 자원 해석, 승인 흐름 중 어느 단계에서 끊기는지 분리해 봐야 원인을 잡을 수 있다
+
 ```python
 from pprint import pprint
 

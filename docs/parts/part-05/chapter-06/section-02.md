@@ -205,6 +205,10 @@ flowchart TD
 
 위에 정리한 요청 목록과 모델별 제약·비용 정보를 사용합니다.
 
+확인할 개념:
+
+- 실제 모델 선택은 품질만이 아니라 문맥 한도, 비용, 지연 시간을 함께 비교하는 의사결정이다
+
 ```python
 requests = [
     {"task": "faq", "input_tokens": 600, "difficulty": 1.0},

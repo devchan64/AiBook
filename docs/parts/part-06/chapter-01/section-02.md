@@ -117,9 +117,17 @@ P6-1.1의 결과를 이 구조에 맞추면 다음처럼 적을 수 있습니다
 
 - 프로젝트 회고는 숫자와 관찰을 바로 나열하기보다 사실, 해석, 다음 질문으로 다시 정리해야 다음 실험으로 이어지기 쉽다
 
+입력(input):
+
+위에 정리한 `project_note["summary"]`, `project_note["observations"]`, `project_note["next_questions"]`를 사용합니다.
+
 출력:
 
 - fact / interpretation / next question 구조의 retrospective note
+
+확인할 개념:
+
+- 프로젝트 회고는 관찰 사실, 해석, 다음 질문을 분리해 적어야 다음 실험과 수정 계획으로 이어지기 쉽다
 
 ```python
 project_note = {

@@ -239,6 +239,10 @@ flowchart TD
 
 위에 정리한 일반 코퍼스, 도메인 코퍼스, 시작 맥락을 사용합니다.
 
+확인할 개념:
+
+- 사전학습 데이터가 달라지면 모델 구조를 바꾸지 않아도 다음 토큰 후보 분포가 이동할 수 있다
+
 ```python
 from collections import Counter, defaultdict
 

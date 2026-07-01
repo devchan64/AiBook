@@ -224,6 +224,10 @@ flowchart TD
 
 위에 정리한 기본 모델 파라미터 수와 task 수 옵션을 사용합니다.
 
+확인할 개념:
+
+- LoRA류 방식은 업무 수가 늘어날수록 전체 미세조정보다 추가 학습량과 저장량을 훨씬 작게 유지한다
+
 ```python
 base_model_params = 7_000_000_000
 tasks = ["customer_support", "summarization", "code_assistant"]
