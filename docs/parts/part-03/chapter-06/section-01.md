@@ -121,22 +121,6 @@ flowchart TB
 
 즉, 같은 표를 보더라도 `놓친 양성이 얼마나 되는가`를 물을 수도 있고, `괜히 양성이라고 한 것이 얼마나 되는가`를 물을 수도 있습니다.
 
-```mermaid
-flowchart TD
-  A["same confusion matrix"]
-  B["focus on missed positives<br/>FN matters more"]
-  C["focus on false alarms<br/>FP matters more"]
-  D["read recall first"]
-  E["read precision first"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> E
-```
-
-이 도식은 같은 혼동 행렬도 무엇을 더 아프게 보는지에 따라 읽는 순서가 달라진다는 점을 보여 줍니다. 놓침이 더 위험하면 recall을 먼저 보고, 과잉 경보가 더 위험하면 precision을 먼저 보는 식으로 해석 초점이 바뀝니다.
-
 같은 결과표라도 독자가 먼저 보는 질문은 하나가 아닙니다. 놓침이 더 아픈 장면이면 재현율을 먼저 읽고, 잘못 경보가 더 아픈 장면이면 정밀도를 먼저 읽습니다.
 
 ### 정밀도와 재현율은 서로 다른 질문에 답한다
