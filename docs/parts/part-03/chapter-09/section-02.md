@@ -149,21 +149,7 @@ scikit-learn의 common pitfalls 문서는 모델 선택이나 전처리 과정�
 | test를 여러 번 확인하며 모델을 바꿈 | 최종 점수가 과하게 좋아 보일 수 있음 |
 | 전처리까지 test를 참고함 | 누수(leakage)와 과대평가가 함께 생길 수 있음 |
 
-이 역할 분리를 간단히 그리면 다음과 같습니다.
-
-```mermaid
-flowchart TD
-  subgraph A["model selection stage"]
-    B["train: fit candidates"]
-    C["validation: compare settings"]
-    B --> C
-  end
-
-  D["test: final check once"]
-  C --> D
-```
-
-이 도식은 데이터 역할 분리를 다시 고정해 줍니다. train은 학습, validation은 후보 비교, test는 마지막 확인이라는 순서가 무너지면 점수는 좋아 보여도 진짜 새 데이터에서의 신뢰도는 떨어질 수 있습니다.
+이 역할 분리의 핵심은 앞 도식과 같습니다. train은 학습, validation은 후보 비교, test는 마지막 확인이라는 순서가 무너지면 점수는 좋아 보여도 진짜 새 데이터에서의 신뢰도는 떨어질 수 있습니다.
 
 핵심은 test가 `비교를 돕는 데이터`가 아니라 `비교가 끝난 뒤 남겨 둔 확인 데이터`라는 점입니다.
 
