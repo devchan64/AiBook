@@ -62,26 +62,7 @@ P3-8.1에서 우리는 후보 모델군을 세웠습니다. 하지만 후보군�
 - 내가 만든 모델은 그 쉬운 기준보다 정말 나은가?
 - 나아졌다면 어떤 지표에서 나아진 것인가?
 
-이 흐름을 간단히 그리면 다음과 같습니다.
-
-```mermaid
-flowchart TD
-  subgraph B1["choose what to try"]
-    direction LR
-    A["candidate models<br/>P3-8.1"]
-    B["baseline<br/>P3-8.2"]
-  end
-
-  subgraph B2["then compare and improve"]
-    direction LR
-    C["tuning<br/>P3-9"]
-    D["algorithm chapters<br/>P3-10+"]
-  end
-
-  A --> B --> C --> D
-```
-
-이 도식의 핵심은 baseline이 선택 이후, 튜닝 이전에 놓여야 한다는 점입니다.
+이 흐름의 핵심은 baseline이 선택 이후, 튜닝 이전에 놓여야 한다는 점입니다. 먼저 후보 모델을 세우고, 그 후보를 baseline과 비교할 수 있어야 하며, 그다음에야 튜닝과 알고리즘별 확장 논의를 붙이는 순서가 자연스럽습니다.
 
 ## 주요 학습내용
 
