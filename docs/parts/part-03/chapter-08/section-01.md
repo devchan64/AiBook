@@ -84,32 +84,7 @@ Part 3은 지금까지 다음 흐름으로 왔습니다.
 
 즉, 모델 선택은 앞 절들의 결과를 한곳에 모아 `실험 설계의 첫 선택지`로 바꾸는 절입니다. 그래서 이 절은 뒤의 P3-8.2 기준 모델(baseline), P3-9 하이퍼파라미터 튜닝(hyperparameter tuning), P3-10 이후 알고리즘 입문 절의 입구 역할을 합니다.
 
-이 커리큘럼 위치를 흐름으로 그리면 다음과 같습니다.
-
-```mermaid
-flowchart TD
-  subgraph S1["earlier preparation"]
-    direction LR
-    A["P3-4<br/>data split"]
-    B["P3-5<br/>generalization"]
-    C["P3-6<br/>metrics"]
-  end
-
-  D["P3-7<br/>features and preprocessing"]
-  E["P3-8.1<br/>model selection"]
-
-  subgraph S2["next experiments"]
-    direction LR
-    F["P3-8.2 / P3-9<br/>baseline and tuning"]
-    G["P3-10+<br/>algorithm chapters"]
-  end
-
-  A --> B --> C
-  C --> D --> E
-  E --> F --> G
-```
-
-이 도식의 핵심은, 모델 선택이 갑자기 나타나는 절이 아니라 앞선 판단을 모아 다음 실험을 설계하는 절이라는 점입니다.
+즉, 모델 선택은 갑자기 나타나는 절이 아니라, 데이터 분리, 일반화, 평가 기준, 특징 설계를 모아 다음 실험을 설계하는 절입니다. 그 다음에는 baseline과 튜닝으로 비교 구조를 만들고, 뒤의 알고리즘 장으로 들어가게 됩니다.
 
 ## 주요 학습내용
 
