@@ -129,3 +129,10 @@ RLHF(reinforcement learning from human feedback)는 이름 그대로 보면 강�
 - DQN과 PPO를 같은 계열 알고리즘처럼 섞지 않을 수 있는가?
 - safe RL과 offline RL이 왜 `탐험을 마음대로 못 한다`는 문제에서 나왔는지 말할 수 있는가?
 - RLHF를 강화학습 일반 문제와 LLM 정렬 문제의 연결 지점으로 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- Richard S. Sutton, Andrew G. Barto, [Reinforcement Learning: An Introduction, 2nd ed.](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- Volodymyr Mnih et al., [Human-level control through deep reinforcement learning](https://www.nature.com/articles/nature14236){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- John Schulman et al., [Proximal Policy Optimization Algorithms](https://arxiv.org/abs/1707.06347){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.

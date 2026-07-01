@@ -113,3 +113,9 @@ RFE는 래퍼(wrapper) 접근의 대표 예로 보면 됩니다. 아주 단순�
 - 필터, 래퍼, 차원 축소를 같은 말처럼 섞지 않을 수 있는가?
 - RFE가 왜 계산 비용이 더 들 수 있는지 설명할 수 있는가?
 - 차원 축소가 `특징 일부 삭제`와 `새 축 생성` 중 어느 쪽에 더 가까운지 말할 수 있는가?
+
+## 출처와 참고 자료
+
+- scikit-learn developers, [Feature selection](https://scikit-learn.org/stable/modules/feature_selection.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- scikit-learn developers, [Unsupervised dimensionality reduction](https://scikit-learn.org/stable/modules/unsupervised_reduction.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.

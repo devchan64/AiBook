@@ -155,3 +155,9 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 - AIC/BIC와 하이퍼파라미터 튜닝을 같은 층위의 문제로 섞지 않을 수 있는가?
 - benchmark 순위와 실제 일반화 성능을 바로 동일시하지 않을 수 있는가?
 - experiment tracking이 왜 `편의 기능`이 아니라 재현성의 일부인지 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- scikit-learn developers, [Tuning the hyper-parameters of an estimator](https://scikit-learn.org/stable/modules/grid_search.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- Takuya Akiba et al., [Optuna: A Next-generation Hyperparameter Optimization Framework](https://arxiv.org/abs/1907.10902){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- MLflow, [Tracking](https://mlflow.org/docs/latest/ml/tracking/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.

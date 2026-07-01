@@ -119,3 +119,8 @@ P3-10.2까지 읽으면 선형회귀를 처음 평가하는 데는 충분합니�
 - 유의성과 실무 중요도를 같은 말로 보지 않을 수 있는가?
 - 등분산성이 `오차 크기가 구간별로 달라지는가`를 걱정한다는 점을 말할 수 있는가?
 - 다중공선성이 계수 해석을 왜 흔드는지 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- statsmodels developers, [Regression diagnostics](https://www.statsmodels.org/stable/examples/notebooks/generated/regression_diagnostics.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, [An Introduction to Statistical Learning](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-01.
