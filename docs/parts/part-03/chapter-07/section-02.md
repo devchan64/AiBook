@@ -115,18 +115,7 @@ scikit-learn 전처리 문서는 `raw feature vectors`를 다운스트림 추정
 
 P3-7.1에서 특징 선택이 `무엇을 남길 것인가`를 정하는 일이었다면, 전처리는 `남긴 것을 어떻게 표현할 것인가`를 정하는 일입니다.
 
-```mermaid
-flowchart TD
-  A["selected features<br/>kept after review"]
-  B["missing values<br/>fill or mark"]
-  C["numeric scale<br/>center or rescale"]
-  D["categorical values<br/>encode as features"]
-  E["model-ready matrix<br/>consistent input representation"]
-
-  A --> B --> C --> D --> E
-```
-
-이 도식은 실제 구현 순서 하나를 강제하는 것은 아닙니다. 핵심은 `선택` 이후에도 입력 표현을 더 다뤄야 한다는 점입니다.
+핵심은 `선택` 이후에도 입력 표현을 더 다뤄야 한다는 점입니다. 남긴 특징은 결측치 처리, 스케일 조정, 인코딩 같은 변환을 거쳐야 비로소 모델이 읽기 좋은 입력 형태가 됩니다.
 
 전처리를 하나의 기술이 아니라 `입력 표현을 조정하는 여러 변환의 묶음`으로 보면, 다음 질문들이 자연스럽게 따라옵니다.
 
