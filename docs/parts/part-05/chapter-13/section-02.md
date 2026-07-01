@@ -179,19 +179,15 @@ flowchart TD
 같은 내용을 loop 분기 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["plan"]
-  B["action"]
-  C["observation"]
-  D["decision"]
-  E["continue"]
-  F["stop"]
-  G["ask human review"]
+flowchart TD
+  subgraph L["agent loop"]
+    direction LR
+    A["plan"] --> B["action"] --> C["observation"] --> D["decision"]
+  end
 
-  A --> B --> C --> D
-  D --> E --> A
-  D --> F
-  D --> G
+  D -->|continue| A
+  D -->|enough evidence| F["stop"]
+  D -->|need approval or conflict check| G["ask human review"]
 ```
 
 핵심은 `행동` 다음에 바로 끝나는 것이 아니라, `관찰과 결정`을 거쳐 다음 루프로 되돌아가거나 멈춘다는 점입니다.

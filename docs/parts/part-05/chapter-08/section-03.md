@@ -159,21 +159,21 @@ flowchart TD
 같은 내용을 `무엇이 부족한가` 기준으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["문제가 보임"]
-  B["형식/지시 반영 부족"]
-  C["최신 근거 부족"]
-  D["계산/실행 부족"]
-  E["반복 스타일 적응 부족"]
-  F["prompt revision"]
-  G["RAG"]
-  H["tool use"]
-  I["fine-tuning"]
+flowchart TD
+  A["failure observed"]
+  J{"what is missing first?"}
 
-  A --> B --> F
-  A --> C --> G
-  A --> D --> H
-  A --> E --> I
+  A --> J
+
+  J --> B["format / instruction fit"]
+  J --> C["current grounding"]
+  J --> D["calculation / action"]
+  J --> E["persistent style"]
+
+  B --> F["prompt revision"]
+  C --> G["RAG"]
+  D --> H["tool use"]
+  E --> I["fine-tuning"]
 ```
 
 핵심은 `기술 이름을 먼저 고르는 것`이 아니라 `현재 실패가 어느 부족으로 설명되는가`를 먼저 나누는 일입니다.
