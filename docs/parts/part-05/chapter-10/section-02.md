@@ -187,6 +187,14 @@ flowchart LR
 | `mixed_with_irrelevant` | 무관 문서 섞임 | 오염된 문서를 따라감 | 검색 실패가 생성으로 전염 |
 | `retrieval_ok_but_generation_overclaims` | 검색은 정상 | 생성이 문서 밖으로 과장 | 생성 실패 |
 
+문제 상황:
+
+- RAG 실패는 검색 단계 문제인지 생성 단계 과장인지 구분해서 봐야 대응이 달라진다
+
+입력(input):
+
+위에 정리한 질문과 세 가지 payload 시나리오를 사용합니다.
+
 ```python
 question = "벡터 검색이 왜 필요한가요?"
 

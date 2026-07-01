@@ -189,6 +189,14 @@ flowchart TD
 - 첫 분기에서 어떤 후보 경쟁이 있었는지
 - 누적 생성된 최종 시퀀스
 
+문제 상황:
+
+- 다음 토큰 분포는 학습 코퍼스에서 본 연결 패턴이 누적되며 만들어진다는 점을 직접 작은 문장 집합으로 볼 수 있다
+
+입력(input):
+
+위에 정리한 학습 문장 목록과 시작 문맥을 사용합니다.
+
 ```python
 from collections import Counter, defaultdict
 

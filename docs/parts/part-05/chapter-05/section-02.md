@@ -201,6 +201,14 @@ flowchart TD
 - sampling으로 만든 여러 답변 미리보기
 - 샘플링 답변의 표현 조합 수
 
+문제 상황:
+
+- temperature는 후보 분포를 얼마나 평평하게 만들지 조절해 생성 다양성을 바꾼다
+
+입력(input):
+
+위에 정리한 응답 슬롯별 후보와 기본 확률, 여러 temperature 값을 사용합니다.
+
 ```python
 import random
 

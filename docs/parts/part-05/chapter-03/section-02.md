@@ -197,6 +197,14 @@ flowchart TD
 - 두 방식에서 질문과 직접 연결된 항목이 얼마나 남는지
 - 선택된 항목 안에서의 간단한 relevance 순위
 
+문제 상황:
+
+- context budget이 부족할 때는 입력 순서대로 자를지, 중요도 기준으로 다시 고를지에 따라 남는 정보가 달라진다
+
+입력(input):
+
+위에 정리한 context item 목록과 토큰 예산을 사용합니다.
+
 ```python
 context_items = [
     {

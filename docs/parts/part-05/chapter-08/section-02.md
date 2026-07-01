@@ -183,6 +183,14 @@ flowchart LR
 - 최소 안전 기준을 통과했는지 여부
 - 작업별 최고 점수 후보와 실제 채택 가능 후보 요약
 
+문제 상황:
+
+- RLHF류 정렬은 한 점수만 높이는 일이 아니라 helpfulness, safety, factuality를 함께 보며 후보를 고르는 과정으로 이해하는 편이 좋다
+
+입력(input):
+
+위에 정리한 작업별 질문과 후보 응답을 사용합니다.
+
 ```python
 tasks = {
     "medical": {

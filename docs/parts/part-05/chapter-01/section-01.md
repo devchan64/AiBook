@@ -156,6 +156,14 @@ flowchart TD
 - context budget 통과 여부
 - 설명용 비용 추정
 
+문제 상황:
+
+- 토큰화는 글자를 자르는 일이 아니라 모델이 읽을 단위와 비용을 동시에 바꾸는 과정이라는 점을 직접 볼 필요가 있다
+
+입력(input):
+
+위에 정리한 어휘 집합 `VOCAB`, 예시 문장, context budget을 사용합니다.
+
 ```python
 VOCAB = {
     "오늘": 101,

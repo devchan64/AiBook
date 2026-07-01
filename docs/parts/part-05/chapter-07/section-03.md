@@ -156,6 +156,14 @@ LoRA와 adapter는 둘 다 `기반 모델 전체를 크게 다시 학습하지 �
 - rank별 LoRA 조정분 파라미터 수
 - 전체 대비 비율
 
+문제 상황:
+
+- LoRA의 핵심은 전체 행렬을 다 학습하지 않고 작은 rank 조정분만 추가한다는 점이다
+
+입력(input):
+
+위에 정리한 `hidden_size`와 여러 `rank` 값을 사용합니다.
+
 ```python
 hidden_size = 4096
 ranks = [4, 8, 16, 32]

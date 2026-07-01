@@ -134,6 +134,14 @@ long-context는 단순히 `입력이 길다`는 말보다 조금 더 넓은 뜻�
 - 두 방식의 step별 projection 대상 토큰 수
 - 두 방식의 총 projection 대상 토큰 수와 절감 비율
 
+문제 상황:
+
+- KV cache는 이전 토큰 계산을 재사용해 생성 비용을 줄인다는 점을 step별로 직접 비교해 보는 편이 이해에 도움이 된다
+
+입력(input):
+
+위에 정리한 토큰 사전과 입력 시퀀스를 사용합니다.
+
 ```python
 import numpy as np
 

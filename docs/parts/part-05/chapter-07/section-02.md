@@ -216,6 +216,14 @@ flowchart TD
 - 업무 수에 따른 추가 저장 크기 추정
 - 방식별 차이
 
+문제 상황:
+
+- 전체 미세조정과 PEFT/LoRA 방식은 업무 수가 늘어날수록 관리 비용 차이가 크게 벌어진다
+
+입력(input):
+
+위에 정리한 기본 모델 파라미터 수와 task 수 옵션을 사용합니다.
+
 ```python
 base_model_params = 7_000_000_000
 tasks = ["customer_support", "summarization", "code_assistant"]
