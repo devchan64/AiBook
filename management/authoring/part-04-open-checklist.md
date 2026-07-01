@@ -14,3 +14,9 @@
 - `beginner-reinforcement-review.md`
 - `part-04-curriculum-review.md`
 - `part-04-05-toc-restructure-review.md`
+
+## 현재 결정
+
+- Part 4는 Part 5 예고보다 `구조 설명 자체를 닫는 파트`로 유지합니다.
+- CNN, RNN, Attention, Transformer는 각 장 안에서 `어떤 데이터 구조 문제 때문에 이런 설계가 나왔는가`를 먼저 설명하고, Part 5 연결은 짧은 다음 단계 안내로만 남깁니다.
+- 이후 보강은 Chapter 11~15 본문에서 실제 유예 문장을 줄이는 방향으로 진행합니다.
