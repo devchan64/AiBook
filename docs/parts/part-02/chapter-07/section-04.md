@@ -132,6 +132,11 @@ python -m pip install numpy
 
 반면 다음은 Python 코드입니다.
 
+문제 상황: 설치와 대비해 실제 Python 코드 안에서 패키지를 어떻게 불러오는지 확인합니다.
+입력(input): `import numpy as np` 문장입니다.
+기대 출력(output): 출력은 없지만 현재 Python 코드에서 NumPy를 사용할 준비가 됩니다.
+확인할 개념: `pip install`은 설치이고, `import`는 이미 설치된 패키지를 코드 안에서 사용하는 단계라는 점을 봅니다.
+
 ```python
 import numpy as np
 ```
@@ -185,6 +190,11 @@ import numpy as np
 
 터미널 명령으로 보면 다음과 비슷한 흐름을 자주 만납니다.
 
+문제 상황: 가상환경 생성부터 패키지 설치, 스크립트 실행까지의 흐름을 한 번에 봅니다.
+입력(input): `venv` 생성, `pip` 설치, `python` 실행 명령 세 줄입니다.
+기대 출력(output): 프로젝트 전용 환경 생성, 패키지 준비, 코드 실행 순서가 드러납니다.
+확인할 개념: 가상환경과 패키지 사용은 하나의 연속된 작업 흐름으로 이해해야 한다는 점을 봅니다.
+
 ```bash
 python -m venv .venv
 python -m pip install numpy
@@ -204,6 +214,11 @@ python example.py
 Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학습에서는 Python 설치와 가상환경을 몰라도 코드를 실행할 수 있습니다. 그래서 이 책은 앞쪽 실습에서 Colab을 사용할 수 있게 안내했습니다.
 
 하지만 Colab에서도 패키지 설치와 실행 환경 문제는 사라지지 않습니다.
+
+문제 상황: Colab에서도 현재 런타임에 패키지를 직접 설치해야 할 수 있음을 확인합니다.
+입력(input): 코드 셀의 `%pip install numpy` 명령입니다.
+기대 출력(output): 현재 Colab 런타임에 NumPy가 설치됩니다.
+확인할 개념: Colab은 편리하지만 로컬 가상환경과는 다른 별도 실행 공간이라는 점을 봅니다.
 
 ```python
 %pip install numpy

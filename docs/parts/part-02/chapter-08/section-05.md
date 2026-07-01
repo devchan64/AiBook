@@ -57,6 +57,11 @@ Python에서는 `def`로 함수에 이름을 붙이고, 필요한 입력 이름�
 
 다음 코드는 점수를 기준으로 통과 여부를 판단합니다.
 
+문제 상황: 함수로 나누기 전에 점수 하나를 바로 판정하는 코드를 먼저 보고 싶습니다.
+입력(input): 점수 값 `82`.
+기대 출력(output): 통과 여부 문자열 `pass`.
+확인할 개념: 반복되는 판단도 처음에는 일반 조건문으로 쓸 수 있습니다.
+
 ```python
 score = 82
 
@@ -71,6 +76,11 @@ print(result)
 이 판단을 한 번만 쓴다면 그대로 둘 수 있습니다. 하지만 점수 여러 개에 대해 계속 같은 판단을 해야 한다면 코드가 반복됩니다.
 
 함수를 쓰면 이 처리에 이름을 붙일 수 있습니다.
+
+문제 상황: 같은 통과 판정을 여러 번 재사용할 수 있도록 함수로 묶은 예를 보고 싶습니다.
+입력(input): 함수 `pass_or_fail`과 점수 `82`, `55`.
+기대 출력(output): 각 점수에 대한 `pass`, `fail`.
+확인할 개념: 함수는 반복되는 처리에 이름을 붙여 다시 쓸 수 있게 합니다.
 
 ```python
 def pass_or_fail(score):
@@ -104,6 +114,11 @@ $$
 
 Python으로 쓰면 다음처럼 볼 수 있습니다.
 
+문제 상황: 수학의 함수 \(f(x)=x+1\)를 Python 함수로 옮긴 가장 작은 예를 보고 싶습니다.
+입력(input): 입력값 `3`.
+기대 출력(output): `4`.
+확인할 개념: 수학의 입력-출력 관계를 Python에서도 함수 형태로 표현할 수 있습니다.
+
 ```python
 def f(x):
     return x + 1
@@ -132,6 +147,11 @@ AI 실습에서는 두 관점이 모두 필요합니다.
 
 수학의 함수와 Python 함수가 모두 입력을 받는다는 점을 봤다면, 이제 Python 문서에서 자주 만나는 용어를 구분할 수 있습니다. 함수를 배울 때 매개변수(parameter)와 인자(argument)라는 표현이 나옵니다.
 
+문제 상황: 매개변수와 인자를 실제 호출 예로 구분해 보고 싶습니다.
+입력(input): 함수 `add_bonus(score, bonus)`와 호출 인자 `80`, `5`.
+기대 출력(output): 더해진 결과 `85`.
+확인할 개념: 함수 정의 쪽 이름은 매개변수이고, 호출 시 넘기는 실제 값은 인자입니다.
+
 ```python
 def add_bonus(score, bonus):
     return score + bonus
@@ -157,6 +177,11 @@ print(result)
 
 `return`은 함수가 계산한 결과를 호출한 자리로 돌려주는 문법입니다.
 
+문제 상황: 함수가 계산한 결과를 다음 계산에서 다시 쓰는 예를 보고 싶습니다.
+입력(input): 점수 `82`.
+기대 출력(output): 정규화 결과 `0.82`.
+확인할 개념: `return`은 함수 결과를 호출한 쪽으로 돌려줍니다.
+
 ```python
 def normalize_score(score):
     return score / 100
@@ -169,6 +194,11 @@ print(normalized)
 `normalize_score(82)`가 실행되면 `0.82`가 결과로 돌아옵니다. 그 결과를 `normalized`라는 이름에 붙였습니다.
 
 `print()`와 `return`은 다릅니다.
+
+문제 상황: 화면에 보여 주는 것과 실제 반환값이 다르다는 점을 비교하고 싶습니다.
+입력(input): 점수 `82`.
+기대 출력(output): 함수 안에서는 `82`를 출력하지만, 바깥 변수 `result`에는 `None`이 들어갑니다.
+확인할 개념: `print()`는 출력이고 `return`은 계산 결과 전달입니다.
 
 ```python
 def show_score(score):
@@ -192,6 +222,11 @@ print(result)
 
 반복되는 계산에 이름을 붙이면 코드의 의도가 드러납니다.
 
+문제 상황: 점수 정규화 계산을 함수로 분리해 반복문에서 재사용하는 예를 보고 싶습니다.
+입력(input): 점수 리스트 `scores`.
+기대 출력(output): 정규화된 점수 리스트 `normalized_scores`.
+확인할 개념: 반복문 안의 같은 계산은 함수로 분리하면 의도가 더 잘 보입니다.
+
 ```python
 def normalize_score(score):
     return score / 100
@@ -213,6 +248,11 @@ print(normalized_scores)
 
 AI 실습에서는 데이터 한 건(sample)을 처리하는 함수를 자주 만들 수 있습니다.
 
+문제 상황: 샘플 하나가 필요한 키를 모두 갖췄는지 검사하는 함수를 보고 싶습니다.
+입력(input): `text`, `label` 키를 가진 샘플 딕셔너리.
+기대 출력(output): 유효 여부 `True`.
+확인할 개념: 함수는 데이터 한 건에 대한 검사 규칙을 캡슐화할 수 있습니다.
+
 ```python
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
@@ -225,6 +265,11 @@ print(is_valid_sample(sample))
 이 함수는 샘플에 `text`와 `label` 키가 있는지 확인합니다.
 
 여러 샘플에 대해 사용할 수 있습니다.
+
+문제 상황: 방금 만든 샘플 검사 함수를 여러 샘플에 반복 적용하는 예를 보고 싶습니다.
+입력(input): 샘플 딕셔너리 리스트 `samples`.
+기대 출력(output): 유효한 샘플만 남긴 `valid_samples`.
+확인할 개념: 데이터 한 건을 처리하는 함수는 반복문과 결합될 때 재사용 가치가 커집니다.
 
 ```python
 def is_valid_sample(sample):
@@ -257,6 +302,11 @@ print(valid_samples)
 
 함수 매개변수에는 기본값(default value)을 줄 수 있습니다.
 
+문제 상황: 기준값을 자주 바꾸지 않는 함수에서 기본값이 어떻게 동작하는지 보고 싶습니다.
+입력(input): `score`, 기본값 `threshold=60`, 그리고 명시적으로 준 `threshold=90`.
+기대 출력(output): 같은 점수라도 기준값에 따라 다른 판정 결과.
+확인할 개념: 기본값 매개변수는 인자를 생략해도 기본 행동을 유지하게 해 줍니다.
+
 ```python
 def pass_or_fail(score, threshold=60):
     if score >= threshold:
@@ -284,6 +334,11 @@ C 언어나 Java 같은 언어를 먼저 배운 사람에게 Python 함수는 �
 
 예를 들어 함수를 다른 이름에 담을 수 있습니다.
 
+문제 상황: 함수도 값처럼 다른 변수 이름에 담아 호출할 수 있다는 점을 확인하고 싶습니다.
+입력(input): 함수 `normalize_score`와 새 이름 `normalize`.
+기대 출력(output): `normalize(82)` 결과 `0.82`.
+확인할 개념: Python 함수는 객체라서 변수에 담아 다른 이름으로 참조할 수 있습니다.
+
 ```python
 def normalize_score(score):
     return score / 100
@@ -296,6 +351,11 @@ print(normalize(82))
 `normalize`는 새 계산을 만든 것이 아니라 `normalize_score` 함수 객체를 다른 이름으로 가리킨 것입니다. 이 감각은 처음에는 낯설지만, Python 라이브러리 코드에서 자주 등장합니다.
 
 함수를 다른 함수에 인자로 넘길 수도 있습니다.
+
+문제 상황: 함수 하나를 다른 함수의 인자로 넘겨 공통 반복 로직에 적용하는 예를 보고 싶습니다.
+입력(input): 점수 리스트 `scores`와 함수 `normalize_score`.
+기대 출력(output): `apply_to_scores`가 만든 정규화 점수 리스트.
+확인할 개념: Python에서는 함수도 다른 값처럼 전달할 수 있습니다.
 
 ```python
 def normalize_score(score):
@@ -329,12 +389,22 @@ Python 코드를 읽다 보면 `function(value)`처럼 호출하는 코드와 `v
 
 함수(function)는 독립적으로 정의된 처리 단위입니다.
 
+문제 상황: 독립 함수와 메서드 호출을 구분하기 위해 먼저 함수 쪽 예를 보고 싶습니다.
+입력(input): 문자열 `text`.
+기대 출력(output): 공백 제거와 소문자화가 적용된 문자열.
+확인할 개념: 함수는 독립 이름으로 호출되는 처리 단위입니다.
+
 ```python
 def clean_text(text):
     return text.strip().lower()
 ```
 
 메서드(method)는 어떤 객체(object)에 붙어 호출되는 함수처럼 보입니다.
+
+문제 상황: 같은 문자열 처리라도 메서드 호출은 어떤 모양인지 비교하고 싶습니다.
+입력(input): 문자열 `text = " AI is Useful "`.
+기대 출력(output): `strip()`과 `lower()` 결과가 각각 출력됩니다.
+확인할 개념: 메서드는 값이나 객체에 붙어 호출되는 함수 형태입니다.
 
 ```python
 text = " AI is Useful "
@@ -383,6 +453,11 @@ AI 실습에서도 이 기준은 유용합니다. 데이터 불러오기, 전처
 ### 작은 재사용 예시
 
 다음 예시는 텍스트 샘플을 간단히 정리하고, 비어 있지 않은 샘플만 남깁니다.
+
+문제 상황: 작은 함수 두 개를 조합해 여러 텍스트를 정리하고 거르는 예를 보고 싶습니다.
+입력(input): 공백과 빈 문자열이 섞인 텍스트 리스트 `texts`.
+기대 출력(output): 정리되고 비어 있지 않은 텍스트만 남은 `cleaned_texts`.
+확인할 개념: 함수는 작은 처리 단위를 만들고, 반복문은 그 단위를 여러 데이터에 적용합니다.
 
 ```python
 def clean_text(text):

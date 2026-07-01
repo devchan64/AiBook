@@ -2,6 +2,11 @@
 
 P2-8.5에서는 함수(function)를 작은 재사용 단위로 봤습니다. 함수는 입력을 받고, 처리하고, 결과를 돌려줍니다. 그런데 Python 코드를 읽다 보면 함수 호출과 비슷하지만 조금 다른 표현을 자주 만납니다.
 
+문제 상황: 점(`.`)이 붙은 호출이 일반 함수 호출과 어떻게 다른지 가장 작은 예로 보고 싶습니다.
+입력(input): 문자열 `text = " AI is Useful "`.
+기대 출력(output): 공백이 제거된 문자열과 소문자로 바뀐 문자열.
+확인할 개념: `value.method()` 형태는 값이나 객체가 제공하는 동작을 호출하는 모양입니다.
+
 ```python
 text = " AI is Useful "
 
@@ -53,6 +58,11 @@ Python 공식 문서는 객체(object)를 identity, type, value를 가진 대상
 
 숫자, 문자열, 리스트, 딕셔너리도 모두 객체로 볼 수 있습니다.
 
+문제 상황: 서로 다른 값들이 모두 Python 객체로 다뤄진다는 점을 타입 출력으로 확인하고 싶습니다.
+입력(input): 정수, 문자열, 리스트, 딕셔너리 값.
+기대 출력(output): 각 값의 타입이 차례대로 출력됩니다.
+확인할 개념: Python에서는 다양한 값이 모두 객체이며, 타입이 그 성격을 드러냅니다.
+
 ```python
 score = 82
 text = "AI"
@@ -69,6 +79,11 @@ print(type(student))
 
 예를 들어 문자열은 문자열에 맞는 메서드를 제공합니다.
 
+문제 상황: 문자열 객체가 제공하는 메서드가 어떤 식으로 호출되는지 보고 싶습니다.
+입력(input): 공백과 대문자가 섞인 문자열 `text`.
+기대 출력(output): `strip()`과 `lower()` 결과.
+확인할 개념: 객체는 자기 타입에 맞는 동작을 메서드 형태로 제공합니다.
+
 ```python
 text = " AI is Useful "
 
@@ -77,6 +92,11 @@ print(text.lower())
 ```
 
 리스트는 리스트에 맞는 메서드를 제공합니다.
+
+문제 상황: 리스트 객체도 자기 타입에 맞는 메서드를 가진다는 점을 확인하고 싶습니다.
+입력(input): 리스트 `scores = [82, 75]`와 추가할 값 `91`.
+기대 출력(output): 값이 추가된 리스트.
+확인할 개념: 타입이 다르면 사용할 수 있는 메서드도 달라집니다.
 
 ```python
 scores = [82, 75]
@@ -102,6 +122,11 @@ Python의 기본 타입도 이런 관점으로 볼 수 있습니다.
 
 사용자가 직접 클래스를 만들 수도 있습니다.
 
+문제 상황: 클래스를 정의하고 그 클래스로 객체를 만드는 가장 작은 예를 보고 싶습니다.
+입력(input): 텍스트와 라벨 값 `"AI is useful"`, `"positive"`.
+기대 출력(output): 객체의 `text`, `label` 속성이 출력됩니다.
+확인할 개념: 클래스는 객체를 만들기 위한 정의이고, 객체는 자기 데이터를 가질 수 있습니다.
+
 ```python
 class Sample:
     def __init__(self, text, label):
@@ -122,6 +147,11 @@ print(sample.label)
 
 P2-8.3에서 딕셔너리(dictionary)는 키(key)로 값을 찾는 구조라고 했습니다. 사실 작은 데이터 한 건은 딕셔너리로도 표현할 수 있습니다.
 
+문제 상황: 텍스트와 라벨이 들어 있는 작은 데이터를 딕셔너리로 표현한 예를 보고 싶습니다.
+입력(input): `text`, `label` 키를 가진 `sample` 딕셔너리.
+기대 출력(output): `sample["text"]`, `sample["label"]` 값이 출력됩니다.
+확인할 개념: 딕셔너리는 키로 값을 찾는 가장 직접적인 데이터 표현입니다.
+
 ```python
 sample = {
     "text": "AI is useful",
@@ -133,6 +163,11 @@ print(sample["label"])
 ```
 
 같은 데이터를 클래스로 표현하면 다음처럼 보입니다.
+
+문제 상황: 바로 앞의 같은 데이터를 클래스 기반 객체로 표현했을 때 모양이 어떻게 달라지는지 비교하고 싶습니다.
+입력(input): `Sample` 클래스와 생성 인자 `"AI is useful"`, `"positive"`.
+기대 출력(output): `sample.text`, `sample.label` 값이 출력됩니다.
+확인할 개념: 클래스 기반 객체는 키 조회 대신 속성 접근으로 데이터를 읽을 수 있습니다.
 
 ```python
 class Sample:
@@ -170,6 +205,11 @@ print(sample.label)
 
 다음 예시는 텍스트 샘플이 자기 상태를 가지고, 자기 상태를 검사하는 동작도 가집니다.
 
+문제 상황: 객체가 값과 동작을 함께 가진다는 점을 클래스 예제로 확인하고 싶습니다.
+입력(input): 텍스트와 라벨을 가진 `TextSample` 객체.
+기대 출력(output): 객체의 `text` 값과 `is_labeled()` 결과.
+확인할 개념: 상태는 객체가 가진 값이고, 동작은 그 객체가 제공하는 메서드입니다.
+
 ```python
 class TextSample:
     def __init__(self, text, label):
@@ -188,6 +228,11 @@ print(sample.is_labeled())
 여기서 `sample.text`와 `sample.label`은 객체의 상태입니다. `sample.is_labeled()`는 객체의 동작입니다.
 
 함수로도 같은 일을 할 수 있습니다.
+
+문제 상황: 같은 라벨 존재 검사도 함수와 딕셔너리 조합으로 표현할 수 있음을 보고 싶습니다.
+입력(input): `label` 키를 가진 샘플 딕셔너리.
+기대 출력(output): `is_labeled(sample)` 결과 `True`.
+확인할 개념: 클래스가 아니어도 함수와 딕셔너리로 비슷한 처리 구조를 만들 수 있습니다.
 
 ```python
 def is_labeled(sample):
@@ -213,6 +258,11 @@ AI 실습 초반에는 딕셔너리와 함수만으로도 충분한 경우가 �
 
 함수(function)는 보통 다음처럼 호출합니다.
 
+문제 상황: 독립 함수 호출이 어떤 모양인지 먼저 보고 메서드 호출과 비교하고 싶습니다.
+입력(input): 문자열 `" AI "`.
+기대 출력(output): 정리된 문자열.
+확인할 개념: `function(value)`는 값을 함수에 넣어 처리하는 호출 형태입니다.
+
 ```python
 def clean_text(text):
     return text.strip().lower()
@@ -221,6 +271,11 @@ print(clean_text(" AI "))
 ```
 
 메서드(method)는 객체에 붙어 호출됩니다.
+
+문제 상황: 같은 문자열 정리도 메서드 호출로는 어떤 모양인지 보고 싶습니다.
+입력(input): 문자열 `text = " AI "`.
+기대 출력(output): `text.strip()` 결과.
+확인할 개념: 메서드는 점 앞의 객체를 중심으로 호출됩니다.
 
 ```python
 text = " AI "
@@ -236,6 +291,11 @@ print(text.strip())
 | `text.strip()` | 객체 `text` | `text` 객체가 제공하는 `strip()` 동작을 호출한다 |
 
 직접 만든 클래스에도 메서드를 넣을 수 있습니다.
+
+문제 상황: 직접 만든 객체도 자기 메서드를 가질 수 있음을 확인하고 싶습니다.
+입력(input): `Sample` 객체와 메서드 `has_label()`.
+기대 출력(output): `sample.has_label()` 결과 `True`.
+확인할 개념: 메서드는 사용자 정의 클래스 안에도 둘 수 있습니다.
 
 ```python
 class Sample:
@@ -274,6 +334,11 @@ print(sample.has_label())
 
 Python 클래스 예제에서 `self`라는 이름을 자주 봅니다.
 
+문제 상황: 클래스 안에서 `self`가 어떤 자리를 차지하는지 가장 작은 예로 보고 싶습니다.
+입력(input): `Sample` 클래스의 `__init__` 메서드와 입력 `text`.
+기대 출력(output): 객체 내부에 `self.text`를 저장하는 클래스 정의.
+확인할 개념: `self`는 메서드 안에서 객체 자신을 가리키는 관례적 이름입니다.
+
 ```python
 class Sample:
     def __init__(self, text):
@@ -292,6 +357,11 @@ class Sample:
 
 `self`가 낯설다면 다음 두 줄을 비교해 볼 수 있습니다.
 
+문제 상황: 클래스 밖에서 보는 속성 접근과 클래스 안에서의 `self` 대응을 연결해 보고 싶습니다.
+입력(input): `Sample("AI is useful", "positive")`로 만든 객체 `sample`.
+기대 출력(output): `sample.label` 값이 출력됩니다.
+확인할 개념: 바깥에서는 `sample.label`, 클래스 안에서는 같은 자리를 `self.label`로 읽습니다.
+
 ```python
 sample = Sample("AI is useful", "positive")
 
@@ -299,6 +369,11 @@ print(sample.label)
 ```
 
 `sample.label`은 `sample` 객체 안에 저장된 `label` 값을 읽는 표현입니다. 클래스 안에서는 그 객체를 `self`라는 이름으로 부릅니다.
+
+문제 상황: 클래스 안에서 속성을 저장할 때 `self.label`처럼 쓰는 정의를 다시 확인하고 싶습니다.
+입력(input): `Sample` 클래스의 `__init__` 메서드.
+기대 출력(output): `self.text`, `self.label`을 저장하는 클래스 정의.
+확인할 개념: 클래스 내부에서는 객체 자신의 속성을 `self`를 통해 다룹니다.
 
 ```python
 class Sample:
@@ -329,6 +404,11 @@ class Sample:
 
 AI 실습에서는 다음과 같은 코드를 자주 보게 됩니다.
 
+문제 상황: AI 라이브러리에서 자주 보이는 메서드 호출 모양을 가장 단순하게 보고 싶습니다.
+입력(input): `model`, `train_data`, `test_data`.
+기대 출력(output): `model.fit(...)`, `model.predict(...)` 호출 예시.
+확인할 개념: 라이브러리 객체는 상태와 동작을 함께 가지므로 메서드 호출 형태가 자주 나타납니다.
+
 ```python
 model.fit(train_data)
 predictions = model.predict(test_data)
@@ -354,11 +434,21 @@ predictions = model.predict(test_data)
 
 다음처럼 읽으면 됩니다.
 
+문제 상황: `fit()` 메서드 호출을 한 줄짜리 예시로 다시 고정해 보고 싶습니다.
+입력(input): `model`, `train_data`.
+기대 출력(output): `model.fit(train_data)` 호출 예시.
+확인할 개념: 메서드 호출은 객체가 자기 상태를 바꾸거나 활용하는 동작일 수 있습니다.
+
 ```python
 model.fit(train_data)
 ```
 
 `model`이라는 객체가 있고, 그 객체가 `fit()`이라는 메서드를 실행합니다. 이때 `fit()`은 단순 계산만 하는 것이 아니라, 모델 객체 안의 상태를 바꿀 수 있습니다. 예를 들어 학습된 파라미터가 객체 내부에 저장될 수 있습니다.
+
+문제 상황: 예측 메서드는 학습된 객체 상태를 사용한다는 점을 한 줄 예로 보고 싶습니다.
+입력(input): `model`, `test_data`.
+기대 출력(output): `predictions = model.predict(test_data)` 호출 예시.
+확인할 개념: 메서드는 객체 상태를 활용해 결과를 만들 수 있습니다.
 
 ```python
 predictions = model.predict(test_data)

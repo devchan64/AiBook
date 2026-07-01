@@ -87,9 +87,19 @@ P6-6.1에서는 agent를 목표, 도구, 관찰의 흐름으로 설명했습니�
 
 ## Python 예제
 
+이번 예제의 목적은 권한 판단과 실행 결과를 같은 기록으로 묶는 것입니다. 이번에는 단순 성공/실패 대신 `permission`, `approved`, `blocked`, `next_action`을 함께 남겨서 운영 문서가 어떻게 생기는지 보이게 하겠습니다.
+
+- 문제 상황: 같은 계획이라도 어떤 단계는 승인 없이 실행할 수 없음을 기록한다.
+- 입력(input): 단계별 도구 목록, permission 범위, approval 여부
+- 기대 출력(output): 실행 기록, 승인 필요 도구 목록, blocked 단계 수
+- 확인할 개념:
+  - 실행 성공 여부만으로는 agent 운영 상태를 설명할 수 없다
+  - permission과 scope가 있어야 blocked 이유를 다시 읽을 수 있다
+  - approval이 필요한 도구는 별도 추적 대상으로 남겨야 한다
+
 ```python
 planned_steps = [
-    {"step": 1, "tool": "read_toc", "permission": "read", "scope": "docs/book/"},
+    {"step": 1, "tool": "read_toc", "permission": "read", "scope": "docs/parts/"},
     {"step": 2, "tool": "check_build", "permission": "execute", "scope": "mkdocs build"},
     {"step": 3, "tool": "write_report", "permission": "write", "scope": "management/report.md"},
 ]
@@ -99,7 +109,7 @@ execution_records = [
         "step": 1,
         "tool": "read_toc",
         "permission": "read",
-        "scope": "docs/book/",
+        "scope": "docs/parts/",
         "approved": True,
         "result_status": "success",
         "observation": "table of contents was loaded",
@@ -148,9 +158,9 @@ print("review_summary =", review_summary)
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-planned_steps = [{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/book/'}, {'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build'}, {'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md'}]
+planned_steps = [{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/parts/'}, {'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build'}, {'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md'}]
 execution_records =
-{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/book/', 'approved': True, 'result_status': 'success', 'observation': 'table of contents was loaded', 'next_action': 'check_build'}
+{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/parts/', 'approved': True, 'result_status': 'success', 'observation': 'table of contents was loaded', 'next_action': 'check_build'}
 {'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build', 'approved': True, 'result_status': 'success', 'observation': 'build finished without error', 'next_action': 'write_report'}
 {'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md', 'approved': False, 'result_status': 'blocked', 'observation': 'write action requires approval before continuing', 'next_action': 'request_approval'}
 review_summary = {'step_count': 3, 'approved_step_count': 2, 'blocked_step_count': 1, 'approval_required_tools': ['write_report']}

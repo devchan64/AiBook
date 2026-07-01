@@ -211,6 +211,10 @@ flowchart TD
 
 이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 숫자 변화로 보는 것입니다.
 
+문제 상황:
+
+- attention만으로는 끝나지 않고 문맥을 섞은 뒤 각 위치 표현을 다시 가공하는 단계까지 함께 봐야 Transformer 블록이 닫힌다
+
 입력:
 
 - 세 개 토큰의 초기 표현
@@ -224,6 +228,12 @@ flowchart TD
 - residual을 더한 뒤의 표현
 - 간단한 layer normalization 뒤 표현
 - 각 토큰이 어느 방향으로 더 강조되었는지
+
+확인할 개념:
+
+- Transformer 블록은 attention과 feed-forward가 한 묶음으로 반복된다
+- residual과 normalization까지 봐야 표현이 어떻게 안정적으로 갱신되는지 이해할 수 있다
+- 단계별 표현 변화를 나란히 봐야 블록 내부 역할 분담이 선명해진다
 
 ```python
 import numpy as np

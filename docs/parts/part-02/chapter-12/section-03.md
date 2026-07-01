@@ -75,6 +75,11 @@ scikit-learn 문서는 보통 `X`를 입력 특징(feature matrix), `y`를 타�
 
 작은 예를 보면:
 
+문제 상황: 학생 표에서 합격 여부를 맞히는 분류 문제로 바꿀 때 입력 `X`와 정답 `y`를 먼저 나누어야 합니다.
+입력(input): 학생별 지역, 결석 수, 점수, 합격 여부가 들어 있는 작은 `DataFrame`.
+기대 출력(output): 입력 열 묶음 `X`와 정답 열 `y`가 분리됩니다.
+확인할 개념: 학습용 데이터셋 준비는 원본 표를 그대로 쓰는 일이 아니라 문제 정의에 맞게 입력과 타깃을 나누는 일입니다.
+
 ```python
 import pandas as pd
 
@@ -135,6 +140,11 @@ flowchart TD
 여기서 `region` 같은 범주형(categorical) 열은 모델에 따라 숫자 형태로 바꾸는 단계가 필요할 수 있습니다. pandas의 `get_dummies()`는 범주형 변수를 더미/지시 변수(dummy/indicator variables)로 바꾸는 함수로 소개됩니다.
 
 예를 들면:
+
+문제 상황: 문자열 범주인 `region`은 많은 모델이 그대로 읽기 어렵기 때문에 표현을 바꾸어야 합니다.
+입력(input): `region`, `absences`, `score` 열로 이루어진 입력 `X`.
+기대 출력(output): `region`이 여러 개의 0/1 열로 바뀐 `X_encoded`.
+확인할 개념: 범주형 열은 학습 전에 숫자 형태로 다시 표현해야 할 수 있습니다.
 
 ```python
 X = df[["region", "absences", "score"]]
@@ -243,6 +253,11 @@ Pandas는 보통 데이터셋 준비의 앞부분에서 강합니다.
 
 예를 들어:
 
+문제 상황: 모델 학습 전에 입력 열과 정답 열이 실제로 어떤 모양인지 먼저 눈으로 점검하고 싶습니다.
+입력(input): 분리된 `X`, `y`.
+기대 출력(output): `X`의 앞부분 행과 `y`의 앞부분 값이 출력됩니다.
+확인할 개념: Pandas는 학습 전에 표 구조를 확인하고 열 역할을 점검하는 데 강합니다.
+
 ```python
 X = df[["region", "absences", "score"]]
 y = df["passed"]
@@ -252,6 +267,11 @@ print(y.head())
 ```
 
 또는:
+
+문제 상황: 결측치가 있는지, 각 열이 어떤 타입으로 읽히는지 기본 상태를 확인해야 합니다.
+입력(input): 원본 `DataFrame` `df`.
+기대 출력(output): 열별 결측치 개수와 각 열의 데이터 타입 목록.
+확인할 개념: 학습 전 점검은 값 자체뿐 아니라 결측치와 타입 구조를 보는 일입니다.
 
 ```python
 print(df.isna().sum())
@@ -263,6 +283,11 @@ print(df.dtypes)
 반면 실제 분리와 학습 파이프라인은 scikit-learn 같은 도구와 이어서 다루는 경우가 많습니다.
 
 예를 들어:
+
+문제 상황: 점검이 끝난 뒤에는 학습과 평가를 분리하기 위해 데이터를 train/test로 나누어야 합니다.
+입력(input): 입력 `X`, 정답 `y`, 분할 비율과 난수 시드.
+기대 출력(output): 학습용과 테스트용으로 나뉜 `X_train`, `X_test`, `y_train`, `y_test`.
+확인할 개념: 표 조작 단계와 학습용 데이터 분할 단계는 이어지지만 역할이 다른 작업입니다.
 
 ```python
 from sklearn.model_selection import train_test_split

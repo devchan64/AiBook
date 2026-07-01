@@ -90,6 +90,11 @@ AI 분야에서 Python이 자주 보이는 이유도 이 흐름과 연결됩니�
 
 예를 들어 다음 코드는 Python 코드입니다.
 
+문제 상황: 코드가 실제로 실행되려면 글자만 적는 것과 실행하는 것이 다르다는 점을 가장 작은 예제로 봅니다.
+입력(input): 문자열을 출력하는 Python 코드 한 줄입니다.
+기대 출력(output): Python 인터프리터가 읽으면 `hello`가 출력됩니다.
+확인할 개념: Python 코드는 실행 환경과 인터프리터가 있어야 실제 동작으로 이어진다는 점을 봅니다.
+
 ```python
 print("hello")
 ```
@@ -133,6 +138,11 @@ python --version
 위 명령은 터미널에서 실행하는 명령입니다. Python 코드 파일 안에 그대로 쓰는 문장이 아닙니다.
 
 반면 다음은 Python 코드입니다.
+
+문제 상황: 터미널 명령과 대비해 Python 코드가 어떤 자리에서 쓰이는지 다시 확인합니다.
+입력(input): 문자열을 출력하는 Python 코드입니다.
+기대 출력(output): Python 코드로 실행하면 `hello`가 출력됩니다.
+확인할 개념: 같은 문장처럼 보여도 터미널 명령과 Python 코드는 입력하는 자리가 다르다는 점을 봅니다.
 
 ```python
 print("hello")
@@ -225,6 +235,11 @@ Colab은 편합니다. Python 설치 없이 브라우저에서 실행할 수 있
 
 자주 보는 명령은 다음과 같습니다.
 
+문제 상황: 프로젝트별 실행 공간을 만드는 명령이 실제로 어떤 모양인지 먼저 익숙해집니다.
+입력(input): `python -m venv .venv` 터미널 명령입니다.
+기대 출력(output): `.venv`라는 가상환경 디렉터리가 만들어집니다.
+확인할 개념: 가상환경은 개념 설명만이 아니라 프로젝트별 Python 공간을 실제로 만드는 명령과 연결된다는 점을 봅니다.
+
 ```bash
 python -m venv .venv
 ```
@@ -251,6 +266,11 @@ python -m venv .venv
 ```bash
 python -m pip install numpy
 ```
+
+문제 상황: 설치 명령과 Python 코드의 자리가 어떻게 다른지 바로 이어서 확인합니다.
+입력(input): NumPy를 `np`라는 이름으로 불러오는 Python 코드입니다.
+기대 출력(output): 출력은 없지만 현재 Python 코드에서 NumPy를 사용할 준비가 됩니다.
+확인할 개념: 패키지 설치는 터미널에서 하고, `import`는 Python 코드 안에서 한다는 점을 다시 봅니다.
 
 ```python
 import numpy as np

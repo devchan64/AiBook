@@ -87,6 +87,11 @@ python -m pip install numpy
 
 그리고 파이썬 파일 안에서는 다음처럼 NumPy를 불러옵니다.
 
+문제 상황: 설치가 끝난 뒤 실제 Python 코드 안에서는 어떤 문장으로 NumPy를 불러오는지 확인합니다.
+입력(input): NumPy를 `np`라는 별칭으로 import하는 코드입니다.
+기대 출력(output): 출력은 없지만 이후 코드에서 `np`를 사용할 준비가 됩니다.
+확인할 개념: 설치 명령과 import 문장은 역할이 다르며, import는 Python 코드 안에서 실행된다는 점을 봅니다.
+
 ```python
 import numpy as np
 ```
@@ -98,6 +103,11 @@ import numpy as np
 Colab 노트북에는 글을 쓰는 셀과 코드를 실행하는 셀이 있습니다. 파이썬 코드는 코드 셀(code cell)에 넣어 실행합니다.
 
 예를 들어 다음 코드를 코드 셀에 넣고 실행할 수 있습니다.
+
+문제 상황: Colab 코드 셀에서 가장 단순한 Python 코드가 어떻게 실행되는지 확인합니다.
+입력(input): 문자열을 출력하는 `print` 문장입니다.
+기대 출력(output): `hello, colab`이 화면에 출력됩니다.
+확인할 개념: 코드 셀에는 터미널 명령이 아니라 일반 Python 문장을 넣어 실행할 수 있다는 점을 봅니다.
 
 ```python
 print("hello, colab")
@@ -113,6 +123,11 @@ print("hello, colab")
 
 Colab 환경에는 NumPy가 이미 준비되어 있는 경우가 많습니다. 하지만 환경이 달라질 수 있으므로 필요하면 코드 셀에서 다음 명령을 실행합니다.
 
+문제 상황: Colab 코드 셀에서 NumPy 패키지를 준비해야 할 때 어떤 명령을 쓰는지 확인합니다.
+입력(input): 노트북 환경의 매직 명령 `%pip install numpy`입니다.
+기대 출력(output): 현재 노트북 커널에 NumPy가 설치됩니다.
+확인할 개념: `%pip`는 일반 Python 문법이 아니라 Colab/Jupyter 코드 셀에서 쓰는 설치 명령이라는 점을 봅니다.
+
 ```python
 %pip install numpy
 ```
@@ -120,6 +135,11 @@ Colab 환경에는 NumPy가 이미 준비되어 있는 경우가 많습니다. �
 여기서 `%pip`는 일반 파이썬 문법이 아니라 Jupyter Notebook 계열 환경에서 쓰는 매직 명령(magic command)입니다. 현재 노트북 커널(kernel)에 패키지를 설치하라는 뜻입니다.
 
 Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느낌표(`!`)를 붙인 예제도 볼 수 있습니다.
+
+문제 상황: Colab 문서에서 자주 보이는 `!pip` 형태가 어떤 자리에서 쓰이는지 확인합니다.
+입력(input): 코드 셀에서 셸 명령처럼 실행하는 `!pip install numpy` 예시입니다.
+기대 출력(output): NumPy 설치 명령이 실행됩니다.
+확인할 개념: `!pip`와 `%pip`는 모두 노트북 셀에서 쓰이지만, 이 책에서는 `%pip` 표기를 우선 사용한다는 점을 봅니다.
 
 ```python
 !pip install numpy
