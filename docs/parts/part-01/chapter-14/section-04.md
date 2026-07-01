@@ -85,17 +85,19 @@ MCP는 클라이언트-서버(client-server) 구조를 따릅니다. 다만 일�
 흐름은 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  U[사용자]
-  H[MCP 호스트 host]
-  C1[MCP 클라이언트 client]
-  C2[MCP 클라이언트 client]
-  S1[MCP 서버 server: 파일]
-  S2[MCP 서버 server: 이슈 트래커]
+flowchart TD
+  U["user"]
+  H["MCP host"]
+
+  subgraph C["connections managed by host"]
+    direction LR
+    C1["client for file server"] --> S1["MCP server: files"]
+    C2["client for issue server"] --> S2["MCP server: issue tracker"]
+  end
 
   U --> H
-  H --> C1 --> S1
-  H --> C2 --> S2
+  H --> C1
+  H --> C2
 ```
 
 하나의 AI 앱은 여러 MCP 서버에 연결될 수 있습니다. 이때 보통 서버마다 별도의 MCP 클라이언트가 연결을 관리합니다. 예를 들어 코딩 도구가 파일 시스템 MCP 서버와 이슈 트래커 MCP 서버에 동시에 연결될 수 있습니다.

@@ -148,18 +148,15 @@ flowchart TD
 같은 내용을 시스템 경계 기준으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["stronger prompt"]
-  B["response looks better"]
-  C["still missing system guarantees"]
-  D["fresh document access"]
-  E["calculation verification"]
-  F["execution + retry flow"]
+  B["response may look better"]
+  C{"is the missing part\na system guarantee?"}
 
   A --> B --> C
-  C --> D
-  C --> E
-  C --> F
+  C -->|fresh source needed| D["document access"]
+  C -->|numeric correctness needed| E["calculation verification"]
+  C -->|real action needed| F["execution + retry flow"]
 ```
 
 핵심은 `더 강한 문장`과 `더 강한 시스템 보장`이 서로 다른 층이라는 점입니다.

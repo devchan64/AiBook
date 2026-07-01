@@ -202,16 +202,14 @@ flowchart TD
 같은 내용을 근거 우선 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
+flowchart TD
   A["user question"]
-  B["memory-only answer path"]
-  C["retrieval first path"]
-  D["old or generic answer"]
-  E["current document attached"]
-  F["grounded answer"]
+  B{"answer from memory first?"}
 
-  A --> B --> D
-  A --> C --> E --> F
+  A --> B
+  B -->|yes| D["old or generic answer risk"]
+  B -->|no, retrieve first| E["current document attached"]
+  E --> F["grounded answer"]
 ```
 
 핵심은 `질문 다음에 바로 생성`이 아니라 `질문 다음에 먼저 근거 검색`이 들어간다는 점입니다.
