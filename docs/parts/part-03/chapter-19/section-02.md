@@ -154,19 +154,7 @@ flowchart TB
 
 이 그림의 핵심은 정책이 `출력 규칙`이 아니라 `조정 가능한 행동 성향`으로 읽힌다는 점입니다.
 
-REINFORCE를 에피소드 흐름으로 아주 짧게 줄이면 다음과 같습니다.
-
-```mermaid
-flowchart TB
-  A["episode rollout<br/>collect actions and rewards"]
-  B["compute return<br/>which actions ended well?"]
-  C["increase probability<br/>for helpful choices"]
-  D["new policy"]
-
-  A --> B --> C --> D
-```
-
-이 도식은 REINFORCE가 `중간에 점수표를 먼저 완성하는 방식`보다, `한 번의 경험 흐름을 보고 정책을 바로 밀어 주는 방식`에 가깝다는 점을 보여 줍니다.
+REINFORCE는 바로 앞 policy gradient 흐름을 가장 직접적으로 보여 주는 예라고 보면 됩니다. 한 에피소드의 행동과 보상을 모아 보고, 결과적으로 도움이 되었던 선택의 확률을 다음 정책에서 더 높이는 쪽으로 조정합니다.
 
 ## REINFORCE는 왜 자주 함께 등장하나
 
