@@ -316,8 +316,6 @@ instruction_experience = {'format_followed': True, 'role_followed': True, 'safet
 - 대화형 LLM은 사용자의 지시 형식, 역할, 안전 제약을 더 명시적으로 따르도록 조정된 경험이라는 점입니다
 - 따라서 같은 생성 모델 위에서도 `format_followed`, `role_followed`, `safety_ok` 같은 항목에서 사용자 경험 차이가 실제로 드러납니다
 
-## 역사와 커리큘럼 관점
-
 대화형 LLM 전환은 단순한 모델 스케일 증가만으로 설명하기 어렵습니다. 실제 사용자 경험이 크게 바뀐 이유는:
 
 - 큰 생성 모델

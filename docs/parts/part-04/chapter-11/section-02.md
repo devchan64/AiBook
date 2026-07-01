@@ -583,8 +583,6 @@ max pooling on top-left 2x2 region = 2.0
 - 그 점수들이 모이면 feature map처럼 볼 수 있습니다
 - pooling은 그중 강한 반응을 더 작은 크기로 요약합니다
 
-## 역사와 커리큘럼 관점
-
 CNN 교육에서 convolution과 pooling은 거의 항상 함께 소개됩니다. 이유는 이 둘이 CNN의 핵심 계산 흐름을 가장 압축적으로 보여 주기 때문입니다.
 
 역사적으로도 LeNet, AlexNet 같은 구조를 통해 convolution 기반 지역 패턴 탐지와 pooling 기반 요약이 이미지 인식의 기본 직관으로 널리 퍼졌습니다. 이후 구조는 더 다양해졌지만, 입문 단계에서는 여전히 가장 중요한 기본 축입니다.

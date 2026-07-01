@@ -304,8 +304,6 @@ box_plus_not_discarded_weight = 0.694
 
 즉, self-attention은 단순히 문장 전체를 보는 기능이 아니라, `각 토큰이 자기 입장에서 문장 전체를 다시 읽고 새 표현을 만드는 계산`입니다. 이 감각이 잡혀야 다음 절 P4-13.3의 QKV와 multi-head attention도 `무슨 이름을 외우는 절`이 아니라 `이 재참조 계산을 더 구조적으로 설명하는 절`로 읽을 수 있습니다.
 
-## 역사와 커리큘럼 관점
-
 self-attention에서 확인해야 할 역사적 전환은 attention이 번역 분야의 보조 메커니즘에 머무르지 않고, sequence modeling의 중심 계산 방식으로 이동했다는 점입니다. 그리고 바로 그 이동이 Transformer의 핵심입니다.
 
 커리큘럼 관점에서 이 절에서 확인해야 할 결과는 바로 앞의 P4-13.1 attention 직관을 단순 보조 장치가 아니라, self-attention을 통해 구조 자체를 바꾸는 계산 발상으로 확장해 읽고 Part 5의 LLM 설명과 직접 연결할 수 있는가입니다.
