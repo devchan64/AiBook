@@ -205,25 +205,17 @@ flowchart TD
 flowchart TB
   A["baseline"]
   B["candidate model"]
-  C["tuning after comparison"]
+  C["compare before tuning"]
+  D["tuning after comparison"]
+  E["complex model first"]
+  F["tuning without baseline"]
+  G["score change, but unclear meaning"]
 
-  A --> B
-  B --> C
+  A --> B --> C --> D
+  E --> F --> G
 ```
 
-이 도식은 먼저 baseline을 세우고, 그다음 후보 모델을 비교한 뒤, 마지막에 튜닝으로 들어가야 한다는 기본 순서를 보여 줍니다.
-
-```mermaid
-flowchart TB
-  D["complex model"]
-  E["tuning"]
-  F["score change"]
-
-  D --> E
-  E --> F
-```
-
-이 도식은 baseline 없이 바로 복잡한 모델과 튜닝으로 들어가면 점수 변화가 보여도 그 개선의 의미를 해석하기 어렵다는 점을 보여 줍니다.
+이 도식은 먼저 baseline을 세우고 후보 모델을 비교한 뒤에 튜닝으로 들어가야 한다는 순서와, baseline 없이 바로 복잡한 모델을 튜닝하면 점수 변화의 의미를 해석하기 어려워진다는 점을 함께 보여 줍니다.
 
 실무에서는 이 순서 차이가 곧 비용 차이로 이어집니다. baseline도 넘지 못하는 후보를 오래 튜닝하면, 실험 시간과 계산 비용만 쓰고도 설명할 수 있는 개선이 남지 않을 수 있습니다.
 

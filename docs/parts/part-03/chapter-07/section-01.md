@@ -247,27 +247,7 @@ scikit-learn 문서는 분산이 거의 없는 특징(low variance), 단변량 �
 
 즉, 특징 선택은 데이터 과학만의 문제가 아니라 서비스 설계 문제이기도 합니다.
 
-이 판단 흐름을 다음처럼 더 단순하게 써도 됩니다.
-
-```mermaid
-flowchart TD
-  A["candidate column"]
-  B{"available at prediction time?"}
-  C{"related to the problem?"}
-  D{"usable in real service?"}
-  E["keep as feature candidate"]
-  F["drop or review later"]
-
-  A --> B
-  B -- "yes" --> C
-  B -- "no" --> F
-  C -- "yes" --> D
-  C -- "no" --> F
-  D -- "yes" --> E
-  D -- "no" --> F
-```
-
-이 도식은 알고리즘이 아니라 점검 순서를 보여 줍니다. 특히 `예측 시점에 쓸 수 있는가`를 먼저 묻는 구조가 중요합니다.
+이 판단 흐름의 핵심은 알고리즘이 아니라 점검 순서입니다. 특히 `예측 시점에 쓸 수 있는가`를 먼저 묻는 구조가 중요합니다.
 
 ### 특징 선택과 전처리는 어떻게 다른가
 
