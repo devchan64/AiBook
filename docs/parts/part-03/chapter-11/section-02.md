@@ -350,28 +350,6 @@ prediction      : [0 1 1]
 
 특히 `decision score`가 0 근처라는 것은 경계 근처에 있다는 뜻으로 읽을 수 있습니다. 이 점은 11.1에서 본 `predict_proba가 0.5 근처일 때 애매하다`는 설명과 정확히 연결됩니다.
 
-같은 장면을 경계 관점으로 간단히 그리면 다음과 같습니다.
-
-```mermaid
-flowchart TD
-  A["sample [42, 42]"]
-  A --> A1["z = -4.102"]
-  A1 --> A2["below boundary z = 0"]
-  A2 --> A3["predict class 0"]
-
-  B["sample [50, 50]"]
-  B --> B1["z = 0.187"]
-  B1 --> B2["very near boundary z = 0"]
-  B2 --> B3["predict class 1, but borderline"]
-
-  C["sample [62, 60]"]
-  C --> C1["z = 12.979"]
-  C1 --> C2["far above boundary z = 0"]
-  C2 --> C3["predict class 1"]
-```
-
-이 도식은 `왜 class 0인가`, `왜 class 1인가`, `경계는 어디인가`를 한 번에 읽게 하기 위한 것입니다. 핵심은 확률값 자체보다 `decision score가 0보다 작은가, 큰가, 거의 같은가`입니다.
-
 같은 내용을 표로 다시 읽으면 더 분명합니다.
 
 | 샘플 | 입력 | decision score \(z\) | 경계 \(z = 0\)와의 관계 | 예측 |
