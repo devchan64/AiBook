@@ -27,9 +27,3 @@
 | 분포와 표본 변동 | `same-mean-different-variance.svg`, `sampling-variation-vs-bias.svg` | 점과 분포의 상대 위치가 핵심 설명이다. |
 | 경사와 최적화 곡선 | `gradient-direction-loss-contour.svg`, `gradient-descent-loss-curve.svg` | 곡선, 방향, 이동 단계가 동시에 필요하다. |
 | 서비스 판단 시각화 | `probability-score-decision-threshold.svg` | 점수, 정책, 결정이 분리된다는 시각적 배치가 본문 이해를 돕는다. |
-
-## 후속 기준
-
-- 새 도식을 만들 때는 `management/authoring/chart-guidelines.md`의 도구 선택 표를 먼저 확인한다.
-- SVG로 만들기 전에 Mermaid, Markdown 표, Graphviz DOT로 충분한지 검토한다.
-- SVG가 필요한 경우에도 텍스트 겹침, 화살표 머리, 색상 역할, 모바일 폭을 확인한다.
