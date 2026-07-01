@@ -84,20 +84,7 @@ flowchart TB
 
 이 선택 때문에 정보 손실은 자연스럽게 따라옵니다.
 
-이를 아주 단순하게 그리면 다음과 같습니다.
-
-```mermaid
-flowchart TD
-  A["many original relations"]
-  B["keep stronger overall patterns"]
-  C["drop or weaken smaller details"]
-  D["compressed lower-dimensional view"]
-
-  A --> B --> D
-  A --> C --> D
-```
-
-이 도식은 압축 과정에서 `무엇을 남기고 무엇을 약하게 만들지`에 대한 선택이 들어간다는 점을 보여 줍니다. 강한 전반적 패턴은 남길 수 있지만, 작은 세부 관계는 약해지거나 사라질 수 있다는 뜻입니다.
+즉, 압축 과정에는 `무엇을 남기고 무엇을 약하게 만들지`에 대한 선택이 들어갑니다. 강한 전반적 패턴은 남길 수 있지만, 작은 세부 관계는 약해지거나 사라질 수 있다는 뜻입니다.
 
 ## 그림이 보기 쉽다는 것과 원래 구조가 같다는 것은 다르다
 
