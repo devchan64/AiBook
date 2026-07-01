@@ -121,33 +121,24 @@ scikit-learn 사용자 가이드는 PCA를 다변량(multivariate) 데이터셋�
 
 즉, 차원 축소는 `원래 데이터를 완전히 대체`하기보다 `더 읽기 쉬운 표현을 만드는 도구`로 이해하는 편이 안전합니다.
 
-이 변환 감각을 한 번 더 도식으로 보면 다음과 같습니다.
-
-```mermaid
-flowchart TB
-  A["50 original features"]
-  B["10 reduced components"]
-  C["2D or 3D view"]
-
-  A --> B --> C
-```
-
-이 도식은 차원 축소를 `원래 특징을 더 적은 표현으로 압축하는 단계적 과정`으로 보여 줍니다. 처음에는 수십 개 특징을 다루더라도, 몇 개의 축으로 줄여 보고 마지막에는 2D나 3D 시각화로 구조를 가늠해 볼 수 있다는 뜻입니다.
-
 ## 한 장면으로 먼저 보기
 
 ```mermaid
 flowchart TB
   A["many original features"]
-  B["overlap and correlation may exist"]
-  C["find a smaller set of new axes"]
-  D["project data to fewer dimensions"]
+  B["hard to visualize directly"]
+  C["overlap and correlation may exist"]
+  D["create fewer new axes"]
   E["inspect structure or use in later models"]
 
-  A --> B --> C --> D --> E
+  A --> B
+  A --> C
+  B --> D
+  C --> D
+  D --> E
 ```
 
-이 도식의 핵심은 차원 축소가 단순 삭제가 아니라 `새 축을 다시 만드는 재표현`이라는 점입니다. 원래 특징 사이의 겹침과 상관을 보고, 더 적은 수의 축으로 투영한 뒤 그 구조를 다시 해석하거나 후속 모델에 넘기게 됩니다.
+이 도식의 핵심은 차원 축소가 단순 삭제가 아니라 `새 축을 다시 만드는 재표현`이라는 점입니다. 특징이 너무 많아 직접 보기 어렵고, 서로 겹치는 정보도 있을 때, 더 적은 수의 축을 만들어 구조를 다시 해석하거나 후속 모델에 넘기게 됩니다.
 
 이 그림의 핵심은 차원 축소가 원래 특징을 무작정 버리는 일이 아니라, `새로운 축으로 다시 보는 일`이라는 점입니다.
 
@@ -199,19 +190,7 @@ P2와 P3 초반에서 보았듯, 분산은 값들이 얼마나 퍼져 있는지�
 
 즉, PCA는 `무엇이 더 많이 변하는가`를 기준으로 요약 우선순위를 정합니다.
 
-우선순위 감각만 보면 다음처럼 읽을 수 있습니다.
-
-```mermaid
-flowchart TD
-  A["all variation in the data"]
-  B["component 1<br/>captures the largest share"]
-  C["component 2<br/>captures the next orthogonal share"]
-  D["later components<br/>capture smaller leftovers"]
-
-  A --> B --> C --> D
-```
-
-이 도식은 PCA 성분의 우선순위를 보여 줍니다. 전체 변동을 한 번에 다 보존하는 대신, 먼저 가장 큰 변동을 잡는 성분을 두고 그다음 남은 변동을 직교한 새 축들로 차례로 설명해 가는 구조입니다.
+우선순위 감각만 간단히 말하면, PCA는 전체 변동을 한 번에 다 보존하지 않고 먼저 가장 큰 변동을 설명하는 성분부터 남깁니다. 그다음 성분은 앞 성분과 겹치지 않는 방향에서 남은 변동을 설명합니다.
 
 ## 직교(orthogonal)한다는 말은 왜 나오나
 

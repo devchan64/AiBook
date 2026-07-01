@@ -124,23 +124,21 @@ flowchart TB
 
 즉, 클러스터링 결과는 보통 `데이터 그 자체의 유일한 진실`이 아니라 `표현과 기준 위에서 얻은 하나의 해석`입니다.
 
-이 점을 흐름으로 그리면 다음과 같습니다.
+이 점을 한 번에 그리면 다음과 같습니다.
 
 ```mermaid
 flowchart TD
   A["same raw data"]
-  B["feature set A"]
-  C["feature set B"]
-  D["scaling choice"]
-  E["parameter choice"]
-  F["cluster result 1"]
-  G["cluster result 2"]
+  B["choose features, scaling, distance"]
+  C["set clustering parameters"]
+  D["cluster result 1"]
+  E["cluster result 2"]
 
-  A --> B --> D --> E --> F
-  A --> C --> D --> E --> G
+  A --> B --> C --> D
+  A --> B --> C --> E
 ```
 
-이 도식은 같은 원본 데이터에서도 특징 선택이 달라지면 군집 결과가 달라질 수 있음을 보여 줍니다. 즉, 알고리즘이 `유일한 진실`을 꺼낸다기보다, 어떤 렌즈로 읽었는가에 따라 서로 다른 묶음을 제안할 수 있다는 뜻입니다.
+이 도식은 같은 원본 데이터라도 특징 선택, 스케일, 거리 기준, 파라미터가 바뀌면 서로 다른 군집 결과가 나올 수 있음을 한 번에 보여 줍니다. 즉, 알고리즘이 `유일한 진실`을 꺼낸다기보다, 어떤 렌즈와 기준으로 읽었는가에 따라 서로 다른 묶음을 제안할 수 있다는 뜻입니다.
 
 이 그림의 의미는 단순합니다.
 
@@ -172,19 +170,7 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 
 즉, 파라미터는 숨은 진실의 문을 여는 비밀번호라기보다, 구조를 어떻게 읽을지 정하는 손잡이에 가깝습니다.
 
-이 감각을 간단히 그리면 다음과 같습니다.
-
-```mermaid
-flowchart TB
-  A["same data"]
-  B["change k / eps / min_samples"]
-  C["different grouping"]
-  D["interpret carefully"]
-
-  A --> B --> C --> D
-```
-
-이 도식은 파라미터가 군집 결과를 실제로 움직이는 손잡이라는 점을 보여 줍니다. 같은 데이터라도 `k`, `eps`, `min_samples` 같은 값을 바꾸면 묶음 방식이 달라지므로, 결과를 절대적인 구조로 단정하기보다 해석 조건을 함께 기록해야 합니다.
+바로 앞 도식에서 보았듯, 같은 데이터라도 `k`, `eps`, `min_samples` 같은 값을 바꾸면 묶음 방식이 달라질 수 있습니다. 그래서 군집 결과를 기록할 때는 `어떤 파라미터로 얻은 결과인가`를 함께 남겨야 합니다.
 
 ## 군집은 원인을 설명하지 않는다
 
