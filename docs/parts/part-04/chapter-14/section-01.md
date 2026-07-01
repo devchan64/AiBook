@@ -17,13 +17,15 @@ Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트
 - 왜 이 구조가 RNN 이후 큰 전환점처럼 보였는가?
 - encoder/decoder 세부 이전에 어떤 큰 지도를 먼저 잡아야 하는가?
 
+이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 self-attention이라는 한 아이디어가 아니라, 문맥 읽기와 표현 가공, 학습 안정화를 한 블록으로 묶은 구조`라는 점입니다. 즉, 이 장은 뒤의 모델 계보를 예고하는 자리가 아니라, 왜 이 블록이 순차 모델 이후의 새로운 기본 단위가 되었는지를 현재 절 안에서 설명해야 합니다.
+
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
 - multi-head attention의 수식 전개
 - positional encoding의 상세 수학
 - encoder-only, decoder-only, encoder-decoder 계열의 세부 아키텍처 분화
 
-multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 실제 분화는 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 다시 회수합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
+multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 세부 분화는 뒤 Part에서 다시 비교합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
 여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
 
@@ -31,7 +33,7 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 
 - Transformer를 self-attention 하나가 아니라 여러 핵심 부품의 조합으로 설명할 수 있습니다.
 - 각 부품이 문맥 읽기, 표현 가공, 학습 안정화 중 어떤 역할을 하는지 말할 수 있습니다.
-- 이후 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 LLM 구조를 다시 볼 때 기본 블록을 떠올릴 수 있습니다.
+- 이후 다른 모델 계열을 볼 때도 Transformer의 기본 블록을 떠올릴 수 있습니다.
 - 실행 가능한 Python 예제로 토큰 표현이 여러 단계를 거쳐 바뀌는 흐름을 직관적으로 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
@@ -41,7 +43,7 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 1. 먼저 P4-13.2에서 본 self-attention이 Transformer 안에서 어느 자리에 놓이는지 확인합니다.
 2. 그 다음 self-attention, feed-forward, residual, layer normalization의 역할을 나눠 읽습니다.
 3. 이어서 이 부품들이 왜 하나의 반복 블록으로 묶였는지 봅니다.
-4. 마지막에 왜 이 블록 구조가 Part 5의 LLM 설명으로 이어지는지 정리합니다.
+4. 마지막에 왜 이 블록 구조가 이후 생성 모델의 기본 단위가 되었는지 정리합니다.
 
 ## Transformer를 아주 큰 그림으로 보면
 
@@ -352,13 +354,13 @@ after simple layer norm =
 
 즉, Transformer 블록은 `attention 하나`가 아니라, `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`가 한 묶음으로 반복되는 구조입니다. 이 감각이 잡혀야 다음 절 P4-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
 
-Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계가 이후 LLM, 멀티모달 모델, 대규모 생성형 AI 구조의 사실상 기본 언어가 되었습니다.
+Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계는 이후 다양한 대규모 언어·멀티모달 모델에서 공통 기본 단위처럼 재사용되었습니다.
 
 커리큘럼 관점에서 이 절은 매우 중요합니다.
 
 - 바로 앞의 P4-13.1, P4-13.2에서 본 attention과 self-attention을 실제 모델 블록 구조로 묶어 읽게 하고
 - Part 4의 딥러닝 구조를 현대 아키텍처로 연결하고
-- Part 5의 LLM 구조 설명을 위한 최소 공통 블록을 제공하며
+- 이후 다양한 생성 모델 구조를 읽을 때도 공통 블록을 식별하게 만들며
 - self-attention을 실제 시스템 블록으로 재해석하게 만들기 때문입니다
 
 즉, 이 절은 `Transformer를 공식 집합이 아니라 블록 구조로 읽게 만드는 절`입니다.
@@ -379,7 +381,7 @@ Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 �
 - Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
 - self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
 - residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
-- 이 블록 구조를 이해하면 이후 LLM 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
+- 이 블록 구조를 이해하면 이후 다른 생성 모델 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
 
 ## 체크리스트
 

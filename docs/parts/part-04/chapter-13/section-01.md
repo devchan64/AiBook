@@ -17,13 +17,15 @@ attention은 현재 계산에 정말 중요한 위치나 토큰(token)에 더 �
 - attention은 RNN 계열과 어떻게 연결되는가?
 - 왜 attention이 큰 전환점처럼 느껴졌는가?
 
+이 절에서 먼저 닫아야 하는 핵심은 `오래 기억하려고만 애쓰기보다, 지금 필요한 위치를 다시 찾아보는 방식이 필요했다`는 점입니다. 즉, attention은 곧바로 LLM 이름으로 건너뛰기 전에, 순차 상태만으로는 부족했던 문맥 참조 문제에 대한 직접적인 구조적 답으로 읽어야 합니다.
+
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
 - query, key, value 공식 전개
 - multi-head attention 세부 구현
 - Transformer block 내부 전체 구조
 
-self-attention과 Transformer 연결은 P4-13.2와 P4-14.1, P4-14.2에서 이어서 다룹니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P4-13.3에서 회수하고, 더 깊은 수식 전개와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
+self-attention과 Transformer 연결은 다음 절과 다음 장에서 이어서 다룹니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P4-13.3에서 회수하고, 더 깊은 수식 전개와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
@@ -39,7 +41,7 @@ self-attention과 Transformer 연결은 P4-13.2와 P4-14.1, P4-14.2에서 이어
 1. 먼저 P4-12.2에서 본 장기 의존성 문제가 왜 `현재 필요한 정보를 다시 찾는 방식`을 요구하는지 확인합니다.
 2. 그 다음 attention을 `중요한 위치에 더 큰 비중을 두는 방식`으로 읽습니다.
 3. 이어서 번역, 요약, 질의응답 사례로 attention이 왜 자연스러운지 확인합니다.
-4. 마지막에 self-attention, Transformer, LLM으로 이어질 다음 연결을 정리합니다.
+4. 마지막에 이 발상이 self-attention과 Transformer로 어떻게 확장되는지 정리합니다.
 
 ## attention은 왜 등장했나
 
@@ -297,14 +299,14 @@ lift_from_baseline = 5.211
 
 즉, attention은 단순히 정보를 더 많이 모으는 방식이 아니라, `현재 질문에 맞게 어떤 정보를 더 크게 섞을지 다시 정하는 방식`입니다. 이 감각이 잡혀야 다음 절 P4-13.2 self-attention에서 `질문하는 주체`가 바깥 질문이 아니라 문장 안 각 토큰 자신으로 바뀐다는 점도 더 자연스럽게 읽을 수 있습니다.
 
-attention은 sequence-to-sequence 번역 연구에서 큰 영향력을 얻었고, 이후 self-attention과 Transformer로 이어지면서 현대 딥러닝과 LLM 설명의 핵심으로 자리 잡았습니다.
+attention은 sequence-to-sequence 번역 연구에서 큰 영향력을 얻었고, 이후 self-attention과 Transformer로 이어지면서 현대 딥러닝의 핵심 문맥 참조 방식으로 자리 잡았습니다.
 
 커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
 
 - 바로 앞의 P4-12.2 장기 의존성 문제를 `왜 다음 구조가 필요했는가`라는 질문으로 다시 읽게 하고
 - RNN의 한계를 단순한 실패가 아니라 다음 구조의 문제 제기로 읽게 하고
 - sequence modeling의 관점이 `상태 유지`에서 `선택적 참조`로 이동하는 전환을 설명하며
-- Part 5의 LLM 설명으로 넘어가기 전 핵심 다리를 제공하기 때문입니다
+- attention 자체를 하나의 구조적 답으로 닫은 뒤 self-attention과 Transformer로 확장할 준비를 만들기 때문입니다
 
 즉, attention은 Part 4 후반부에서 가장 중요한 전환 개념 중 하나입니다.
 
@@ -322,7 +324,7 @@ attention은 sequence-to-sequence 번역 연구에서 큰 영향력을 얻었고
 - attention은 현재 계산에 중요한 위치를 더 크게 참고하는 방식입니다.
 - 이는 장기 의존성 문제에 대한 더 직접적인 응답입니다.
 - 번역, 요약, 질의응답 같은 순차 문제에서 직관적으로 설명하기 좋습니다.
-- attention은 self-attention과 Transformer로 이어지는 전환 개념입니다.
+- attention은 `상태를 오래 들고 가기`보다 `필요한 위치를 다시 찾아본다`는 구조 전환을 보여 줍니다.
 
 ## 체크리스트
 
