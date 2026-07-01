@@ -6,9 +6,21 @@
 
 - [ ] SVM 수학 보충학습을 별도 `보충학습`으로 만들지 검토한다.
 - [ ] 강화학습 수학 보충학습을 별도 `보충학습`으로 만들지 검토한다.
-- [ ] calibration, reliability diagram, Brier score, log loss를 Part 3 본편에서 어디까지 다룰지 결정한다.
+- [x] calibration, reliability diagram, Brier score, log loss를 Part 3 본편에서 어디까지 다룰지 결정한다.
 
 ## 이관한 기존 메모
 
 - `beginner-reinforcement-review.md`
 - `section-p3-6-3-plan.md`
+
+## 현재 결정
+
+- Part 3 본편에서는 정확도, 정밀도, 재현율, F1, MAE, RMSE, R²처럼 `문제 유형별로 먼저 어떤 질문을 던져야 하는가`를 세우는 지표를 우선 다룹니다.
+- ROC, PR, log loss, calibration, silhouette의 첫 해설은 P3-6.4 보충학습으로 모읍니다.
+- reliability diagram, Brier score 같은 더 세밀한 확률 점수 읽기는 P3-6.4 보충학습 범위에 둡니다.
+- threshold 조정과 calibration의 서비스 판단 연결은 P3-15.3에서 다시 회수합니다.
+
+## 이번 반영
+
+- Part 3 시작/마무리 문서에 평가 지표 범위를 `본편 질문`과 `보충학습 해설`로 나누어 명시했습니다.
+- P3-6.1, P3-6.2에도 같은 기준을 넣어 평가 장을 읽을 때 본편과 보충학습의 역할 차이가 바로 보이게 했습니다.

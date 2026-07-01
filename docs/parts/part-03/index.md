@@ -38,6 +38,8 @@ Part 3는 이 기반을 잡습니다. 목적은 모든 알고리즘의 수학을
 > 지표를 읽는다.
 > 모델의 한계와 적용 조건을 점검한다.
 
+평가 지표 범위도 여기서 미리 분명히 둡니다. Part 3 본편에서는 정확도(accuracy), 정밀도(precision), 재현율(recall), F1, MAE, RMSE, R²처럼 `문제 유형에 따라 먼저 어떤 질문을 던져야 하는가`를 붙잡는 지표를 우선 다룹니다. ROC, PR, log loss, calibration, reliability, silhouette처럼 점수 해석을 더 섬세하게 만드는 항목은 P3-6.4 보충학습에서 입문 해설로 모으고, threshold와 calibration의 재등장은 P3-15.3에서 다시 회수합니다.
+
 ## 이 파트의 목표
 
 Part 3를 읽고 나면 다음 정도의 이해를 갖는 것이 목표입니다.
