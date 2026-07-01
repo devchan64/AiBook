@@ -83,6 +83,25 @@ flowchart TB
 
 같은 생각을 코드로 옮기면 다음처럼 볼 수 있습니다.
 
+문제 상황:
+
+- 전체 데이터를 학습용과 평가용으로 나누면 어떤 샘플과 라벨이 각 쪽으로 들어가는지 직접 확인해 볼 필요가 있다
+
+입력(input):
+
+- 고객 특징 목록 `X`
+- 이탈 여부 라벨 `y`
+
+기대 출력(output):
+
+- 학습 입력/라벨과 평가 입력/라벨
+- 각 묶음의 샘플 수와 `churn` 비율
+
+확인할 개념:
+
+- `train_test_split`은 입력과 라벨을 같은 기준으로 함께 나눈다
+- 분리 뒤에는 개수와 라벨 비율부터 먼저 확인하는 습관이 중요하다
+
 ```python
 from sklearn.model_selection import train_test_split
 
@@ -135,6 +154,26 @@ evaluation churn ratio: 0.5
 이런 출력만 봐도 “모델이 무엇을 배우기 시작할 환경인지”를 조금 더 구체적으로 이해할 수 있습니다.
 
 조금 더 실무에 가까운 모습으로 쓰면 보통 `DataFrame`에서 입력 열과 정답 열을 나눈 뒤 분리합니다.
+
+문제 상황:
+
+- 실무에서는 리스트보다 `DataFrame` 형태로 입력 열과 정답 열을 나눈 뒤 분리하는 경우가 많다
+
+입력(input):
+
+- 특징 열 목록 `feature_columns`
+- 정답 열 `target_column`
+- 표 형식 데이터 `df`
+
+기대 출력(output):
+
+- `X_train`, `X_eval`의 `shape`
+- 학습/평가 라벨 비율
+
+확인할 개념:
+
+- 실무형 분리는 입력 열 묶음 `X`와 정답 열 `y`를 먼저 나누는 순서로 읽는 것이 안전하다
+- `shape`와 라벨 비율은 분리 결과 점검의 기본 출력이다
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -309,6 +348,26 @@ Name: churned, dtype: float64
 
 아래 코드는 같은 데이터를 두 가지 비율로 나누어 봅니다.
 
+문제 상황:
+
+- 평가 데이터 비율을 바꾸면 학습용과 평가용 샘플 수가 어떻게 달라지는지 직접 확인해야 한다
+
+입력(input):
+
+- 고객 특징 목록 `X`
+- 이탈 라벨 `y`
+- 두 가지 `test_size` 값
+
+기대 출력(output):
+
+- 각 `test_size`에서의 학습/평가 샘플 수
+- 학습/평가의 `churn` 비율
+
+확인할 개념:
+
+- `test_size`가 커질수록 평가용 데이터는 늘고 학습용 데이터는 줄어든다
+- 샘플 수 변화와 라벨 비율 변화는 함께 봐야 한다
+
 ```python
 from sklearn.model_selection import train_test_split
 
@@ -363,6 +422,25 @@ evaluation churn ratio: 0.5
 
 같은 데이터라도 섞는 기준이 달라지면 분리 결과가 바뀔 수 있습니다.
 
+문제 상황:
+
+- 같은 데이터와 같은 분할 비율이어도 섞는 기준이 달라지면 평가용 라벨 구성이 달라질 수 있다
+
+입력(input):
+
+- 동일한 `X`, `y`
+- 서로 다른 `random_state` 값
+
+기대 출력(output):
+
+- 각 `random_state`에서의 평가 라벨 목록
+- 평가 데이터의 `churn` 비율
+
+확인할 개념:
+
+- `random_state`는 분리 결과를 재현하기 위한 기준값이다
+- 작은 데이터에서는 시드 값만 바뀌어도 평가 구성이 크게 흔들릴 수 있다
+
 ```python
 from sklearn.model_selection import train_test_split
 
@@ -414,6 +492,25 @@ evaluation churn ratio: 1.0
 ### 실습 3. 데이터가 치우치면 어떤 문제가 생기는지 본다
 
 다음 예시는 `churn`이 적은 데이터에서 분리 결과가 얼마나 쉽게 흔들릴 수 있는지 보여 줍니다.
+
+문제 상황:
+
+- 양성 라벨이 아주 적은 데이터에서는 한 번의 분리만으로도 평가 구성이 크게 치우칠 수 있다
+
+입력(input):
+
+- 희소한 `churn` 라벨을 가진 `X`, `y`
+
+기대 출력(output):
+
+- 학습 라벨 목록
+- 평가 라벨 목록
+- 각 묶음의 `churn` 비율
+
+확인할 개념:
+
+- 클래스 불균형 데이터는 무작위 분리만으로도 라벨 분포가 쉽게 흔들린다
+- 분리 직후 라벨 구성을 출력해 보는 이유가 여기에 있다
 
 ```python
 from sklearn.model_selection import train_test_split
