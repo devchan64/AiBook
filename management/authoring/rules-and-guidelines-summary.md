@@ -6,20 +6,34 @@
 
 ## 기준 문서 맵
 
-### 최우선 기준
+이 저장소의 문서는 성격이 다릅니다. 먼저 `규칙 원문`, 그다음 `작업형 가이드`, 마지막으로 `분석 메모`를 구분해서 읽는 것이 가장 효율적입니다.
+
+### 1. 규칙 원문
+
+이 문서들은 판단이 충돌할 때 우선권을 가집니다.
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
 | `AGENTS.md` | 저장소 전체 규칙의 기준 원문 | 모든 작업 시작 전 |
+
+### 2. 작업형 가이드
+
+이 문서들은 특정 작업을 할 때 강하게 참고해야 하는 실행 기준입니다.
+
+| 문서 | 역할 | 먼저 볼 때 |
+| --- | --- | --- |
 | `management/authoring/beginner-reinforcement-guidelines.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/authoring/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 
-### 보조 기준
+### 3. 보조 메모와 분석 문서
+
+이 문서들은 규칙 원문이라기보다, 기존 원고를 정리하거나 후속 판단을 돕는 참고 자료입니다.
 
 | 문서 | 역할 | 주로 볼 때 |
 | --- | --- | --- |
 | `management/authoring/section-paragraph-structure-analysis.md` | 섹션 문단 재배치와 공통 골격 정리 메모 | 문단 재배치, 장문 섹션 구조 정리 전 |
-| `management/authoring/visuals.md` | 시각화 도구 선택과 자산 관리 원칙의 간단 요약 | 차트 도구 선택을 빠르게 다시 볼 때 |
+| `management/authoring/visuals.md` | 시각화 원칙의 축약 메모 | 차트 도구 선택을 빠르게 다시 볼 때 |
+| `management/authoring/author-notes.md` | 저자 관점 문장을 다듬기 위한 메모 | 머리말, 도입부, 관점 문장 정리 시 |
 | `management/authoring/section-...-evidence-analysis.md` | 특정 Section의 근거 검토 메모 | 기존 절 수정, 근거 확인, 후속 설명 위치 판단 시 |
 
 ## 문서별 역할 분담
@@ -29,6 +43,35 @@
 - `chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
 - `section-paragraph-structure-analysis.md`: 현재 원고 구조를 통계와 재배치 관점으로 정리한 메모입니다. 규칙 원문이라기보다 구조 정리 작업의 실무 기준에 가깝습니다.
 - `visuals.md`: 차트 원칙의 축약본입니다. 시각화 전반을 빠르게 다시 볼 때 유용하지만, 실제 수정 판단은 `chart-guidelines.md`를 우선합니다.
+- `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
+- `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
+
+## 작업 유형별 참조 순서
+
+### Section 본문을 새로 쓰거나 크게 고칠 때
+
+1. `AGENTS.md`
+2. `beginner-reinforcement-guidelines.md`
+3. 필요하면 해당 `section-...-evidence-analysis.md`
+4. 문단 재구성이 크면 `section-paragraph-structure-analysis.md`
+
+### Python 예제를 넣거나 고칠 때
+
+1. `AGENTS.md`의 Python 예제 규칙
+2. 현재 Section의 중심 질문과 출력값 점검
+3. 필요하면 `beginner-reinforcement-guidelines.md`로 예제 보강 수준 판단
+
+### 차트, Mermaid, SVG를 만들 때
+
+1. `AGENTS.md`의 도식 원칙
+2. `chart-guidelines.md`
+3. 빠른 재확인이 필요하면 `visuals.md`
+
+### 관점 문장, 머리말, 도입 문장을 다듬을 때
+
+1. `AGENTS.md`의 기본 관점과 집필 태도
+2. `author-notes.md`
+3. 사실 주장이 섞이면 별도 근거 확인
 
 ## 가장 중요한 원칙
 
@@ -191,6 +234,15 @@
 - 불필요한 대규모 리팩터링이나 파일 이동은 피합니다.
 - 관련 없는 변경은 되돌리지 않습니다.
 - 기본 빌드 확인 명령은 `.venv/bin/python -m mkdocs build`입니다.
+
+## 한 줄 판단 기준
+
+- 규칙 충돌 시: `AGENTS.md` 우선
+- 초심자 설명이 부족할 때: 먼저 현재 Section 안에서 가장 작은 보강을 검토
+- 설명이 길어져 중심 질문이 흐려질 때: `보충학습` 분리 검토
+- 차트가 길고 복잡할 때: 문구를 줄이기보다 먼저 도식을 나누거나 세로 배치 검토
+- 예제가 추상적일 때: 문장을 더 늘리기보다 입력·출력·작은 표·실행 결과 추가
+- `여기서는 다루지 않는다` 문장이 나올 때: 후속 위치, 보충학습, 범위 밖 중 하나를 즉시 명시
 
 ## 실제 작업 순서
 
