@@ -193,15 +193,13 @@ threshold가 0.5일 때의 경계와 0.7일 때의 경계는 같은 자리에 �
 
 ```mermaid
 flowchart TD
-  subgraph S1["threshold 0.5"]
-    direction LR
-    A1["class 0 region"] --> B1["boundary"] --> C1["class 1 region"]
-  end
+  A["threshold 0.5"]
+  B["boundary at basic cutoff"]
+  C["threshold 0.7"]
+  D["boundary moves to a stricter side"]
+  E["class 1 region becomes smaller"]
 
-  subgraph S2["threshold 0.7"]
-    direction LR
-    A2["larger class 0 region"] --> B2["boundary moved right"] --> C2["smaller class 1 region"]
-  end
+  A --> B --> C --> D --> E
 ```
 
 이 도식에서 핵심은 `모델 자체를 새로 학습하지 않아도`, threshold를 더 엄격하게 잡으면 class 1 영역을 더 좁게 읽을 수 있다는 점입니다.

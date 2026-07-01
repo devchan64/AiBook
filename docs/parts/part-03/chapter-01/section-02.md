@@ -59,26 +59,15 @@ P3-1.1에서는 AI, 머신러닝(machine learning), 딥러닝(deep learning), �
 ```mermaid
 flowchart TD
   I["new case"]
+  P{"who made the decision rule?"}
 
-  subgraph R["rule-based path"]
-    R1["human-written rules"]
-    R2["rule result"]
-  end
+  I --> P
+  P -->|person writes it| R["rule-based result"]
+  P -->|data trains it| L["model prediction"]
 
-  subgraph L["learning-based path"]
-    L1["training examples"]
-    L2["features and labels"]
-    L3["trained model"]
-    L4["model prediction"]
-  end
-
-  D["service policy"]
-  O["action or response"]
-
-  I --> R1 --> R2 --> D
-  L1 --> L2 --> L3
-  I --> L3 --> L4 --> D
-  D --> O
+  R --> D["service policy"]
+  L --> D
+  D --> O["action or response"]
 ```
 
 여기서 중요한 지점은 `model prediction`이 곧 최종 행동은 아니라는 점입니다. 모델은 점수나 분류 결과를 낼 수 있지만, 실제 서비스는 비용, 위험, 정책, 사용자 경험을 고려해 최종 행동을 정할 수 있습니다.
@@ -154,21 +143,15 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["examples<br/>사례 데이터"]
-  B["features X<br/>입력 표현"]
-  C["labels y<br/>목표값"]
-  D["training<br/>fit model"]
-  E["model<br/>learned relationship"]
-  F["new input<br/>새 데이터"]
-  G["prediction<br/>예측 결과"]
+  A["examples"]
+  B["features X + labels y"]
+  C["training"]
+  D["trained model"]
+  E["new input"]
+  F["prediction"]
 
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  D --> E
-  F --> E
-  E --> G
+  A --> B --> C --> D
+  E --> D --> F
 ```
 
 이 그림에서 `X`는 모델에 넣는 입력 데이터입니다. 보통 샘플(sample)이 행(row), 특징(feature)이 열(column)인 배열이나 표로 생각할 수 있습니다. `y`는 지도학습에서 모델이 맞추려는 목표값입니다. 분류 문제에서는 라벨일 수 있고, 회귀 문제에서는 숫자값일 수 있습니다.
