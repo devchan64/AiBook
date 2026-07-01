@@ -17,7 +17,7 @@
 
 ## 이 절의 범위
 
-이 절은 프롬프트 엔지니어링(prompt engineering)의 고급 기법을 다루지 않습니다. Chain-of-thought(CoT), self-consistency, automatic prompt optimization 같은 기법은 여기서 자세히 설명하지 않습니다.
+이 절은 프롬프트 엔지니어링(prompt engineering)의 고급 기법을 다루지 않습니다. Chain-of-thought(CoT), self-consistency, automatic prompt optimization 같은 기법은 여기서 자세히 설명하지 않고, Part 5의 P5-9.3 보충학습에서 실전 문맥으로 다시 다룹니다.
 
 또한 RAG(retrieval-augmented generation), 도구 사용(tool use), 에이전트(agent)는 다루지 않습니다. RAG는 다음 장의 P1-13.3과 P1-13.4에서, 도구 사용과 에이전트는 P1-14.2와 P1-14.3에서 다시 연결합니다. 이 절의 목표는 LLM에게 요청을 줄 때 가장 먼저 분리해야 하는 기본 요소를 익히는 것입니다.
 
