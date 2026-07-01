@@ -61,7 +61,7 @@ P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언�
 
 이 구분을 먼저 잡아 두면 뒤의 설명이 덜 헷갈립니다.
 
-## 이 절의 범위
+## 이 보충학습의 범위
 
 이 절은 고등학교 미분 기억에서 그래디언트로 넘어가는 다리 역할을 합니다.
 
@@ -105,7 +105,7 @@ P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언�
 
 이 질문들은 이후 최적화(optimization), 경사하강법(gradient descent), 역전파(backpropagation)를 다시 만날 때 출발점이 됩니다.
 
-## 이 절의 목표
+## 이 보충학습의 목표
 
 - 그래디언트(gradient)가 고등학교 미분 기억만으로 낯설 수 있는 이유를 설명할 수 있습니다.
 - 한 변수 함수(single-variable function)와 다변수 함수(multivariable function)의 차이를 설명할 수 있습니다.

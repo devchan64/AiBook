@@ -20,7 +20,7 @@ print(text.lower())
 
 보충학습이므로 설명은 조금 자세히 둡니다. 다만 목표는 클래스를 자유롭게 설계하는 것이 아니라, 앞으로 만날 Python 라이브러리 코드의 모양을 읽는 것입니다.
 
-## 이 절의 범위
+## 이 보충학습의 범위
 
 이 절은 Python 객체와 클래스의 입문용 감각만 다룹니다.
 
@@ -34,7 +34,7 @@ print(text.lower())
 
 이 절은 상속(inheritance), 캡슐화(encapsulation), 다형성(polymorphism), 매직 메서드(magic method), 클래스 변수(class variable), 인스턴스 변수(instance variable)의 상세 규칙을 다루지 않습니다.
 
-## 이 절의 목표
+## 이 보충학습의 목표
 
 - 객체(object)를 값과 동작을 함께 가진 대상으로 설명할 수 있습니다.
 - 클래스(class)를 객체를 만들기 위한 정의로 설명할 수 있습니다.

@@ -4,7 +4,7 @@ P3-6.1과 P3-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 �
 
 이 절은 SRE 입문서를 대신하지 않습니다. 목적은 하나입니다. `모델의 품질을 읽는 숫자`와 `서비스의 상태를 읽는 숫자`가 어디서 닮고 어디서 갈라지는지 보충학습으로 정리하는 것입니다.
 
-## 이 절의 범위
+## 이 보충학습의 범위
 
 이 절은 머신러닝 평가 지표와 운영 지표를 구분하는 보충학습 절입니다. 여기서는 SLI(service level indicator), SLO(service level objective), SLA(service level agreement), 에러 버짓(error budget), 그리고 운영에서 자주 보는 지연 시간(latency), 트래픽(traffic), 오류(errors), 포화도(saturation)를 입문 수준으로 연결합니다.
 
@@ -16,7 +16,7 @@ P3-6.1과 P3-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 �
 - 운영에서는 왜 평균(mean) 하나보다 분포(distribution), 백분위수(percentile), 오류율(error rate)을 함께 보는가?
 - AI 서비스에서는 왜 모델 평가와 서비스 운영 평가가 동시에 필요한가?
 
-## 이 절의 목표
+## 이 보충학습의 목표
 
 - 모델 metric과 운영 metric이 서로 다른 층위(level)의 숫자라는 점을 설명할 수 있습니다.
 - SLI, SLO, SLA의 차이를 입문 수준에서 구분할 수 있습니다.
