@@ -142,22 +142,7 @@ flowchart TD
 
 이 도식은 클러스터링이 데이터 원본에서 곧바로 답을 꺼내는 과정이 아니라는 점을 보여 줍니다. 어떤 특징을 고르고, 어떤 비슷함 규칙을 쓸지 정한 뒤에야 군집이 만들어지므로, 결과는 항상 표현 방식과 유사도 정의의 영향을 받습니다.
 
-## 한 장면으로 먼저 보기
-
-```mermaid
-flowchart TB
-  A["unlabeled data"]
-  B["choose representation<br/>which features define similarity?"]
-  C["choose grouping rule<br/>center / density / connectivity"]
-  D["assign tentative clusters"]
-  E["inspect pattern and meaning"]
-
-  A --> B --> C --> D --> E
-```
-
-이 도식의 핵심은 클러스터링 결과가 `최종 정답`이 아니라 `구조 제안`이라는 점입니다. 알고리즘이 군집을 나누더라도, 그 묶음이 실제로 어떤 의미를 가지는지는 마지막 해석 단계에서 사람이 다시 확인해야 합니다.
-
-이 흐름에서 중요한 점은 클러스터링이 `정답 생성기`가 아니라 `구조 제안기`라는 것입니다. 결과가 나오면, 그다음에는 사람이 그 묶음이 무슨 뜻인지 해석해야 합니다.
+바로 앞 도식의 마지막 단계가 중요한데, 클러스터링은 `정답 생성기`가 아니라 `구조 제안기`입니다. 결과가 나오면, 그다음에는 사람이 그 묶음이 실제로 무슨 뜻인지 해석해야 합니다.
 
 ## 군집은 클래스(class)와 왜 다른가
 
