@@ -17,13 +17,15 @@ self-attention은 시퀀스 안의 각 토큰이 같은 시퀀스의 다른 토�
 - self-attention은 RNN과 어떤 점에서 계산 관점이 다른가?
 - 왜 Transformer의 핵심으로 이어지는가?
 
+이 절에서 먼저 닫아야 하는 핵심은 `토큰이 상태를 차례로 넘겨받는 대신, 같은 시퀀스 안 다른 토큰을 직접 다시 참고해 자기 표현을 새로 만든다`는 점입니다. 즉, self-attention은 뒤 설명으로 건너가기 위한 다리만이 아니라, sequence modeling의 계산 감각 자체를 바꾸는 현재 장의 핵심 전환으로 읽어야 합니다.
+
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
 - query, key, value의 공식 유도
 - multi-head attention의 구현 세부
 - positional encoding의 수식 상세
 
-Transformer 전체 구성은 P4-14.1, P4-14.2에서 이어서 다루고, context window와 실제 LLM 사용 제약은 Part 5의 P5-3.1, P5-3.2에서 다시 연결합니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P4-13.3에서 회수하고, 더 깊은 공식 유도와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
+Transformer 전체 구성은 P4-14.1, P4-14.2에서 이어서 다루고, query, key, value와 multi-head attention의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 더 깊은 공식 유도와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
@@ -306,13 +308,13 @@ box_plus_not_discarded_weight = 0.694
 
 self-attention에서 확인해야 할 역사적 전환은 attention이 번역 분야의 보조 메커니즘에 머무르지 않고, sequence modeling의 중심 계산 방식으로 이동했다는 점입니다. 그리고 바로 그 이동이 Transformer의 핵심입니다.
 
-커리큘럼 관점에서 이 절에서 확인해야 할 결과는 바로 앞의 P4-13.1 attention 직관을 단순 보조 장치가 아니라, self-attention을 통해 구조 자체를 바꾸는 계산 발상으로 확장해 읽고 Part 5의 LLM 설명과 직접 연결할 수 있는가입니다.
+커리큘럼 관점에서 이 절에서 확인해야 할 결과는 바로 앞의 P4-13.1 attention 직관을 단순 보조 장치가 아니라, self-attention을 통해 구조 자체를 바꾸는 계산 발상으로 확장해 읽을 수 있는가입니다.
 
 - attention을 단순한 보조 장치로 끝내지 않고
 - 왜 self-attention이 구조 자체를 바꾸는 발상이었는지 설명하며
-- Part 5의 LLM 설명에 직접 연결되기 때문입니다
+- Transformer 블록의 핵심 계산을 미리 닫아 주기 때문입니다
 
-즉, self-attention은 Part 4와 Part 5를 잇는 가장 중요한 개념 다리 중 하나입니다.
+즉, self-attention은 Part 4 후반부에서 sequence modeling의 계산 감각을 바꾸는 가장 중요한 전환 개념 중 하나입니다.
 
 따라서 이 절에서 확인해야 할 최종 결과는 `attention`과 `Transformer` 사이에 끼어 있는 중간 단계가 아니라, Transformer를 이해하기 위해 반드시 지나가야 하는 핵심 전환점으로 self-attention을 읽을 수 있는가입니다.
 
