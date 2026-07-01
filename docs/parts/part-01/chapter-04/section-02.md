@@ -76,20 +76,17 @@ AI 모델링 과제가 되려면 다음처럼 좁혀야 합니다.
 > 입력 -> 모델 -> 출력
 
 ```mermaid
-flowchart LR
-  Reality[현실 문제]
-  Input[입력]
-  Target[원하는 출력]
-  Data[과거 데이터]
-  Train[학습]
-  Model[학습된 모델]
-  Prediction[새 출력]
+flowchart TD
+  R["real-world problem"]
 
-  Reality --> Input
-  Reality --> Target
-  Reality --> Data
-  Data --> Train --> Model
-  Input --> Model --> Prediction
+  R --> I["input"]
+  R --> T["target output"]
+  R --> D["past examples"]
+
+  D --> L["training"]
+  L --> M["trained model"]
+  I --> M
+  M --> P["prediction for new case"]
 ```
 
 Stanford Encyclopedia of Philosophy의 AI 항목은 지능형 에이전트를 환경에서 지각(percepts)을 받고 행동(actions)을 수행하는 함수로 설명하는 Russell과 Norvig의 관점을 소개합니다. 이 관점은 AI 문제를 입력과 출력, 또는 지각과 행동의 관계로 보는 데 도움이 됩니다.

@@ -129,24 +129,21 @@ AIMA의 목차는 탐색(search), 휴리스틱 탐색(heuristic search), 부분 
 | 책임 있는 판단이 필요함 | 사람 검토, 정책 결정 |
 
 ```mermaid
-flowchart LR
-  Input[불완전한 입력]
-  Rules[명시적 규칙]
-  Search[탐색]
-  Probability[확률적 판단]
-  Learning[학습된 모델]
-  Review[사람 검토 또는 정책 결정]
-  Output[결과]
+flowchart TD
+  I["incomplete input"]
+  J{"what makes rules alone hard?"}
 
-  Input --> Rules
-  Input --> Search
-  Input --> Probability
-  Input --> Learning
-  Rules --> Review
-  Search --> Review
-  Probability --> Review
-  Learning --> Review
-  Review --> Output
+  I --> J
+  J --> R["explicit rules"]
+  J --> S["search / heuristic"]
+  J --> P["probability"]
+  J --> L["learned model"]
+
+  R --> H["human review or policy decision"]
+  S --> H
+  P --> H
+  L --> H
+  H --> O["result"]
 ```
 
 이 그림은 실제 서비스 아키텍처가 아닙니다. 6.1에서는 AI가 왜 여러 접근을 조합하게 되는지 이해하는 데만 사용합니다.

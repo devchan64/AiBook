@@ -86,18 +86,17 @@
 에이전트를 이해할 때는 `루프(loop)`라는 관점이 유용합니다.
 
 ```mermaid
-flowchart LR
-  G[목표 goal]
-  S[상태 state]
-  P[다음 단계 선택]
-  A[행동 action]
-  O[관찰 observation]
-  E{종료 조건}
-  R[결과 보고]
+flowchart TD
+  G["goal"]
 
-  G --> S --> P --> A --> O --> E
-  E -- 계속 --> S
-  E -- 종료 --> R
+  subgraph L["agent loop"]
+    direction LR
+    S["state"] --> P["choose next step"] --> A["action"] --> O["observation"] --> E{"stop?"}
+  end
+
+  G --> S
+  E -->|continue| S
+  E -->|finish| R["report result"]
 ```
 
 각 요소는 다음처럼 볼 수 있습니다.
