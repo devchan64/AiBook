@@ -287,6 +287,25 @@ scikit-learn의 dummy 계열 모델은 교육적으로 특히 유용합니다.
 
 아래 예제는 scikit-learn의 `DummyClassifier`와 간단한 분류 모델을 비교하는 아주 작은 실습입니다.
 
+문제 상황:
+
+- 새 모델이 정말 도움이 되는지 보려면 최소 기준선과 나란히 놓고 비교해야 한다
+
+입력(input):
+
+- `make_classification`으로 만든 불균형 분류 데이터
+- `DummyClassifier`
+- `LogisticRegression`
+
+기대 출력(output):
+
+- baseline과 실제 모델의 accuracy, recall, F1
+
+확인할 개념:
+
+- baseline은 복잡한 모델이 최소한 넘어야 할 비교 기준이다
+- 불균형 데이터에서는 accuracy만이 아니라 recall과 F1도 함께 봐야 한다
+
 ```python
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier

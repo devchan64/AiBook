@@ -275,9 +275,24 @@ sum: 1.0
 
 이번에는 같은 모델에 대해 permutation importance를 같이 봅니다.
 
-- 확인할 개념:
-  - MDI와 permutation importance는 같은 값을 내놓지 않는다.
-  - 두 숫자가 다르면 계산 방식이 다른 것임을 먼저 떠올려야 한다.
+문제 상황:
+
+- 특징 중요도는 하나의 숫자만 보면 고정된 사실처럼 보이지만 계산 방식이 달라지면 결과도 달라질 수 있다
+
+입력(input):
+
+- iris 데이터셋
+- 학습된 랜덤포레스트 모델
+
+기대 출력(output):
+
+- MDI 기반 중요도
+- permutation importance 결과
+
+확인할 개념:
+
+- MDI와 permutation importance는 같은 값을 내놓지 않는다
+- 두 숫자가 다르면 계산 방식이 다른 것임을 먼저 떠올려야 한다
 
 ```python
 from sklearn.datasets import load_iris

@@ -152,10 +152,24 @@ API 문서는 `min_samples_leaf`를 leaf node에 들어가야 하는 최소 샘�
 
 이번에는 깊이를 고정하지 않고 leaf 크기만 바꾸어 봅니다.
 
-- 문제 상황: 같은 데이터에서 leaf를 얼마나 작게 허용할지 바꾼다.
-- 확인할 개념:
-  - leaf가 너무 작으면 train 점수는 높아지기 쉽다.
-  - leaf 크기를 키우면 구조가 덜 예민해질 수 있다.
+문제 상황:
+
+- 같은 데이터에서 leaf를 얼마나 작게 허용할지 바꾸면 train과 test의 읽는 방식이 달라질 수 있다
+
+입력(input):
+
+- iris 데이터셋의 `X_train`, `X_test`, `y_train`, `y_test`
+- 여러 `leaf_size`
+
+기대 출력(output):
+
+- leaf 크기별 train score
+- leaf 크기별 test score
+
+확인할 개념:
+
+- leaf가 너무 작으면 train 점수는 높아지기 쉽다
+- leaf 크기를 키우면 구조가 덜 예민해질 수 있다
 
 ```python
 from sklearn.datasets import load_iris

@@ -235,9 +235,24 @@ n_estimators  : 300
 
 이번 예제는 `n_estimators`를 바꾸며 OOB와 test가 어떻게 움직이는지 보는 실습입니다.
 
-- 확인할 개념:
-  - 트리 수가 늘면 보통 OOB가 어느 정도 안정되는 방향을 볼 수 있다
-  - 무조건 트리를 많이 늘린다고 모든 문제가 해결되지는 않는다
+문제 상황:
+
+- 랜덤포레스트에서 트리 수를 늘릴 때 OOB 점수와 test 점수가 어떻게 변하는지 함께 보는 연습이 필요하다
+
+입력(input):
+
+- 유방암 데이터셋 `X`, `y`
+- 여러 `n_trees`
+
+기대 출력(output):
+
+- 트리 수별 OOB score
+- 트리 수별 test score
+
+확인할 개념:
+
+- 트리 수가 늘면 보통 OOB가 어느 정도 안정되는 방향을 볼 수 있다
+- 무조건 트리를 많이 늘린다고 모든 문제가 해결되지는 않는다
 
 ```python
 from sklearn.datasets import load_breast_cancer

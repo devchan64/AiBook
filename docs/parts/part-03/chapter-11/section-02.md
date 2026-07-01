@@ -392,11 +392,23 @@ flowchart TD
 
 이번에는 이미 계산된 class 1 점수를 가지고, threshold가 바뀌면 경계 해석도 어떻게 달라지는지 확인해 보겠습니다.
 
-- 입력(input): 세 샘플의 class 1 점수
-- 기대 출력(output): threshold 0.5와 0.7에서 분류가 어떻게 달라지는지
-- 확인할 개념:
-  - threshold 변화는 class 영역의 크기를 바꿉니다.
-  - 경계는 단지 수학식이 아니라 운영 규칙과도 연결됩니다.
+문제 상황:
+
+- 같은 확률 점수라도 threshold를 어디에 두느냐에 따라 최종 class 판단이 달라진다
+
+입력(input):
+
+- 세 샘플의 class 1 점수 `proba_class_1`
+
+기대 출력(output):
+
+- threshold 0.5에서의 분류 결과
+- threshold 0.7에서의 분류 결과
+
+확인할 개념:
+
+- threshold 변화는 class 영역의 크기를 바꾼다
+- 경계는 단지 수학식이 아니라 운영 규칙과도 연결된다
 
 ```python
 import numpy as np
