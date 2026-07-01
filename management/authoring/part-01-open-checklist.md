@@ -1,0 +1,40 @@
+# Part 1 미반영 체크리스트
+
+이 문서는 Part 1 관련 섹션 메모에 남아 있던 `추가 보강 필요`, `남은 검토 사항`만 모아 둔 작업 체크리스트입니다.
+이미 본문에 반영된 설명과 집필 판단은 개별 섹션 메모에서 계속 반복하지 않고, 실제 후속 작업만 여기서 관리합니다.
+
+## 체크리스트
+
+- [ ] `AI` 정의의 다국어 사전 비교를 더 보강할 필요가 있으면 한국어권과 일본어권 공개 사전 근거를 추가 확인한다.
+- [ ] 생성형 AI와 LLM의 관계는 Part 5의 교과서성 NLP 자료와 논문 계보 기준으로 다시 정리한다.
+- [ ] `추천과 순위화`, `제어와 행동`, 검색 서비스, 자율주행 예시는 해당 본편 Section을 확장할 때 별도 근거를 다시 확보한다.
+- [ ] 기호 기반 AI 대표 사례(Logic Theorist, GPS, MYCIN, DENDRAL)와 현대 규칙 기반 시스템 사례의 공식 근거를 보강한다.
+- [ ] `추론` 용어를 다시 손볼 때는 사전 정의, `reasoning`, `inference` 구분, LLM 맥락의 표현을 함께 점검한다.
+- [ ] Chapter 6과 7 연결에서 `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`의 경계를 더 명확히 정리한다.
+- [ ] 6.3이나 Part 3에서 `calibration`, `confidence`, `uncertainty estimation` 차이를 별도 근거로 정리할지 결정한다.
+- [ ] Part 2에서 빈도주의/베이지안 해석을 어디까지 복구할지 결정하고, 필요하면 연결 문장을 추가한다.
+- [ ] Chapter 7에서 휴리스틱과 확률 모델을 다시 한 번 분리하고, Part 5의 토큰 확률·프롬프트 휴리스틱 설명과도 용어를 맞춘다.
+- [ ] Part 2에서 조합 폭발(combinatorial explosion)이나 지수적 증가(exponential growth)를 보충할지 결정한다.
+- [ ] 경로 계획 예시를 Part 6 프로젝트까지 끌고 갈 경우 route, path, trajectory, control 계층을 별도 그림으로 정리한다.
+- [ ] Part 3의 지도/비지도/강화학습 설명이 8.1, 8.2, 8.3의 라벨·보상 구분을 분명히 이어받는지 점검한다.
+- [ ] Part 4와 Part 5를 다시 손볼 때 CNN, GPU, WaveNet, LLM 계보 설명이 9.1, 9.2의 경계와 충돌하지 않는지 확인한다.
+
+## 이관한 기존 메모
+
+- `section-01-evidence-analysis.md`
+- `section-02-evidence-analysis.md`
+- `section-03-evidence-analysis.md`
+- `section-2-1-evidence-analysis.md`
+- `section-5-3-evidence-analysis.md`
+- `section-6-1-evidence-analysis.md`
+- `section-6-2-evidence-analysis.md`
+- `section-6-3-evidence-analysis.md`
+- `section-7-1-evidence-analysis.md`
+- `section-7-2-evidence-analysis.md`
+- `section-7-3-evidence-analysis.md`
+- `section-7-4-evidence-analysis.md`
+- `section-8-1-evidence-analysis.md`
+- `section-8-2-evidence-analysis.md`
+- `section-8-3-evidence-analysis.md`
+- `section-9-1-evidence-analysis.md`
+- `section-9-2-evidence-analysis.md`

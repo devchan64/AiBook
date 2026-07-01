@@ -72,11 +72,6 @@ KCI 논문 검색에서 다음 표현을 확인했습니다. KCI 검색은 형�
 - 휴리스틱은 탐색과 연결되는 중요한 개념이지만, 2.1에서는 기호 기반 AI의 주변 요소로만 언급합니다. 본격 설명은 3.1 또는 탐색·휴리스틱 Section에서 다룹니다.
 - 확률적 추론과 머신러닝으로 넘어가는 흐름은 2.2, 2.3에서 다룹니다.
 
-## 추가 보강 필요
-
-- Logic Theorist, General Problem Solver, MYCIN, DENDRAL 같은 대표 사례는 Chapter 2 후속 Section 또는 3.1에서 별도 근거를 내려받아 검토합니다.
-- 규칙 기반 시스템의 현대적 사용 예시는 실제 서비스 아키텍처 장에서 공식 문서나 구현 사례를 근거로 보강합니다.
-
 ## 출처와 참고 자료
 
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/), 2018-07-12, 확인 날짜: 2026-06-22.

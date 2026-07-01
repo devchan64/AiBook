@@ -21,25 +21,12 @@
 - 문서: `2.3. Clustering`
 - URL: https://scikit-learn.org/stable/modules/clustering.html
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - clustering이 unlabeled data에 대한 작업이라는 점
-  - KMeans, DBSCAN 등 결과가 표현과 파라미터에 의존한다는 개요적 성격
-  - clustering overview 표에서 방법별 가정과 적합 상황이 다르다는 점
 
 ### 2) scikit-learn User Guide - Common pitfalls and recommended practices
 
 - 문서: `11. Common pitfalls and recommended practices`
 - URL: https://scikit-learn.org/stable/common_pitfalls.html
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - 데이터 전처리, 표현 선택, 검증 태도를 보수적으로 잡아야 한다는 일반 원칙
-  - 결과를 과신하지 않고 pipeline/representation 영향을 점검해야 한다는 집필 태도 근거
-
-## 집필 판단
-
-- 17.2는 새로운 알고리즘을 더 소개하기보다, 초심자가 가장 자주 하는 해석 오해를 정리하는 절로 두었습니다.
-- 군집 번호, 원인 해석, 정책 자동화 연결을 주요 위험 지점으로 선택했습니다.
-- 실무에서 클러스터링이 자주 exploratory analysis에서 쓰인다는 점을 강조해, 예측 모델과 역할을 구분했습니다.
 
 ## 제외한 내용
 

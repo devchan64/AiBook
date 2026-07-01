@@ -11,32 +11,15 @@
 1. scikit-learn, `1.13. Feature selection`
    - URL: https://scikit-learn.org/stable/modules/feature_selection.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 특징 선택 모듈은 정확도 개선 또는 고차원 데이터에서 성능 향상에 사용될 수 있다.
-     - low variance 제거, univariate selection, recursive feature elimination, model-based selection 같은 대표 범주가 있다.
-   - 주의:
-     - 공식 문서는 방법 분류와 API를 자세히 설명하지만, 이 절은 입문 절이므로 수식과 API 상세는 생략한다.
 
 2. scikit-learn, `12.2. Data leakage during pre-processing`
    - URL: https://scikit-learn.org/stable/common_pitfalls.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 특징 선택은 전처리의 한 종류처럼 다뤄질 수 있으며, 훈련 데이터만 사용해야 한다.
-     - 테스트 데이터를 특징 선택에 포함하면 성능이 낙관적으로 부풀려진다.
-     - 파이프라인(pipeline)으로 훈련/평가 경계를 지키는 것이 권장된다.
-   - 주의:
-     - 이 절에서는 pipeline 구현보다 `예측 시점에 쓸 수 없는 정보는 빼야 한다`는 직관을 우선 설명한다.
 
 3. Guyon, Elisseeff, `An Introduction to Variable and Feature Selection`
    - URL: https://jmlr.org/papers/v3/guyon03a.html
    - PDF: https://jmlr.org/papers/volume3/guyon03a/guyon03a.pdf
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - variable과 feature를 구분할 수 있다. raw input variable과 constructed feature의 차이를 본문에서 초심자 수준으로 일반화한다.
-     - 특징 선택의 목적은 예측 성능 향상, 더 빠르고 비용이 적은 예측기, 데이터 생성 과정에 대한 이해 향상으로 정리할 수 있다.
-     - 관련성(relevance)과 예측기 구축에서의 유용성(usefulness)은 구분될 수 있다.
-   - 주의:
-     - 본문에서는 논문의 세부 알고리즘 분류(filter, wrapper, embedded)를 깊게 전개하지 않는다.
 
 ## 본문 일반화 원칙
 

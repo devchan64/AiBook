@@ -59,9 +59,3 @@
   - probabilistic regression model: 12852-12862행 부근
   - softmax와 multi-class classification probability: 15190-15270행 부근
   - temperature: 15895-15910행 부근
-
-## 남은 검토 사항
-
-- Part 3에서 calibration, reliability diagram, Brier score, log loss를 본격적으로 다룰지 결정합니다.
-- Part 5에서 `temperature`, `top-p`, `sampling`, `deterministic decoding`을 6.2와 6.3의 용어 기준에 맞춰 다시 정리합니다.
-- 자동화된 의사결정의 책임과 위험은 AI 윤리, 보안, 서비스 아키텍처 장에서 별도 근거를 확보합니다.

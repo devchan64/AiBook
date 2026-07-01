@@ -52,9 +52,3 @@
   - `weight`: 17182-17208행 부근
 - `.tmp/section-5-1-evidence/scikit-learn-glossary.html`
   - `predict`: 1824-1845행 부근
-
-## 남은 검토 사항
-
-- 한국어 `추론`의 사전적 정의를 본문에 넣을 경우 국립국어원 또는 표준국어대사전 등 공개 가능한 출처를 별도 확보해야 합니다.
-- `reasoning`의 철학/논리학적 설명은 이 절의 범위를 넘습니다. 필요하면 별도 섹션에서 Stanford Encyclopedia of Philosophy 같은 자료를 기준으로 검토합니다.
-- LLM의 reasoning 능력, chain-of-thought, self-consistency 등은 현재 절에서 다루지 않고 LLM 장에서 근거 기반으로 재검토합니다.

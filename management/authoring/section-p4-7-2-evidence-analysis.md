@@ -21,8 +21,6 @@
 - 저자: Léon Bottou
 - 매체: COMPSTAT, 2010
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - SGD의 기본 역할과 large-scale learning 배경
 
 ### 2) Adam paper
 
@@ -30,8 +28,6 @@
 - 저자: Diederik P. Kingma, Jimmy Ba
 - 매체: arXiv, 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - adaptive moment estimation의 기본 아이디어
 
 ### 3) Ruder 2016
 
@@ -39,14 +35,6 @@
 - 저자: Sebastian Ruder
 - 매체: arXiv, 2016
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - optimizer family를 입문적으로 비교하는 정리 틀
-
-## 집필 판단
-
-- Adam 전체 공식을 넣기보다, 최근 gradient의 누적과 좌표별 적응이라는 개념적 설명을 우선했습니다.
-- Python 예제는 엄밀한 Adam 구현이 아니라 `Adam-like intuition` 수준으로 제한해 초심자가 차이를 읽게 했습니다.
-- 일반화 우위에 대한 강한 단정은 피하고, 문제 의존성이 있다는 방향으로 정리했습니다.
 
 ## 제외한 내용
 

@@ -21,8 +21,6 @@
 - 저자: David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams
 - 매체: Nature, 1986
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - recurrent thinking의 초기 neural network learning background
 
 ### 2) LSTM paper
 
@@ -30,8 +28,6 @@
 - 저자: Sepp Hochreiter, Jürgen Schmidhuber
 - 매체: Neural Computation, 1997
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - long-term memory problem에 대한 대표 구조
 
 ### 3) GRU / encoder-decoder paper
 
@@ -39,14 +35,6 @@
 - 저자: Kyunghyun Cho et al.
 - 매체: arXiv, 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - GRU와 gated sequence modeling 흐름
-
-## 집필 판단
-
-- 수식보다 sequence/state/context 직관을 우선했습니다.
-- LSTM과 GRU의 차이를 깊게 비교하지 않고, 같은 문제를 다루는 발전 흐름으로 설명했습니다.
-- Transformer와의 비교는 후속 장 연결 수준으로만 남겨 두었습니다.
 
 ## 제외한 내용
 

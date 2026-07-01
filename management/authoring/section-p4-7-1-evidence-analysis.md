@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - optimization overview
-  - gradient-based learning과 update rule 연결
 
 ### 2) Bottou 2010
 
@@ -32,8 +29,6 @@
 - 저자: Léon Bottou
 - 매체: COMPSTAT, 2010
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - SGD의 역할과 large-scale learning 관점
 
 ### 3) Ruder 2016
 
@@ -41,14 +36,6 @@
 - 저자: Sebastian Ruder
 - 매체: arXiv, 2016
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - optimizer family 비교의 입문적 구조
-
-## 집필 판단
-
-- 이 절은 세부 optimizer 공식 대신 `누가 파라미터를 실제로 바꾸는가`를 명확히 하는 데 집중했습니다.
-- learning rate를 핵심 하이퍼파라미터로 다시 불러와 Part 3과 연결했습니다.
-- gradient와 update의 차이를 아주 작은 수치 예제로 직접 보여 주도록 구성했습니다.
 
 ## 제외한 내용
 

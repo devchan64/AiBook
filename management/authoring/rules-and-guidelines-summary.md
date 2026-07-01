@@ -24,6 +24,7 @@
 | --- | --- | --- |
 | `management/authoring/beginner-reinforcement-guidelines.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/authoring/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
+| `management/authoring/part-XX-open-checklist.md` | Part별 미반영 작업 체크리스트 | 기존 메모 정리, 후속 작업 우선순위 점검 전 |
 
 ### 3. 보조 메모와 분석 문서
 
@@ -45,6 +46,7 @@
 - `visuals.md`: 차트 원칙의 축약본입니다. 시각화 전반을 빠르게 다시 볼 때 유용하지만, 실제 수정 판단은 `chart-guidelines.md`를 우선합니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
+- `part-XX-open-checklist.md`: 이미 반영된 설명을 반복 저장하지 않고, 각 Part에서 아직 남은 작업만 추린 체크리스트입니다.
 
 ## 작업 유형별 참조 순서
 
@@ -54,6 +56,7 @@
 2. `beginner-reinforcement-guidelines.md`
 3. 필요하면 해당 `section-...-evidence-analysis.md`
 4. 문단 재구성이 크면 `section-paragraph-structure-analysis.md`
+5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
 
 ### Python 예제를 넣거나 고칠 때
 
@@ -72,6 +75,13 @@
 1. `AGENTS.md`의 기본 관점과 집필 태도
 2. `author-notes.md`
 3. 사실 주장이 섞이면 별도 근거 확인
+
+## 노트 정리 원칙
+
+- `section-...-evidence-analysis.md`에는 근거와 용어 판단, 현재 본문에서 아직 중요한 경계만 남깁니다.
+- 이미 본문에 반영된 집필 메모나 끝난 작업 목록은 Section 메모에 계속 누적하지 않습니다.
+- 후속 작업은 가능한 한 `part-XX-open-checklist.md`로 옮겨 Part 단위로 관리합니다.
+- `review`, `plan`, `curriculum-review` 문서의 남은 항목을 Part 체크리스트로 옮겼다면 원본 문서는 삭제해도 됩니다.
 
 ## 가장 중요한 원칙
 

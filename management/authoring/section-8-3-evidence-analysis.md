@@ -74,9 +74,3 @@
 - “보상을 높이면 언제나 좋은 AI가 된다”라고 쓰지 않았습니다. 보상 설계가 잘못되면 원하지 않는 행동이 생길 수 있다고 제한했습니다.
 - “딥러닝과 강화학습은 같은 분류”라고 쓰지 않았습니다. 딥러닝은 강화학습과 결합될 수 있는 모델링 방식으로만 설명했습니다.
 - RLHF는 현대 LLM 장에서 다룰 주제로 남기고, 8.3의 중심 설명으로 삼지 않았습니다.
-
-## 남은 검토 사항
-
-- Part 3에서 MDP, value function, Bellman equation, Q-learning, policy gradient를 수식과 예제로 다시 다룹니다.
-- RLHF는 LLM 장에서 human feedback, preference data, alignment와 함께 별도 근거를 확보해야 합니다.
-- 보상 설계와 안전 문제는 AI 윤리, 보안, 운영 장과 연결해야 합니다.

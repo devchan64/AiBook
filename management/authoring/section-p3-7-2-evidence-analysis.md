@@ -11,33 +11,18 @@
 1. scikit-learn, `8.3. Preprocessing data`
    - URL: https://scikit-learn.org/stable/modules/preprocessing.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 전처리는 raw feature vectors를 downstream estimator에 더 적합한 표현으로 바꾸는 단계다.
-     - 많은 학습 알고리즘, 특히 선형 모델 등은 표준화의 이점을 본다.
-     - 특징 분산이 크게 다르면 일부 특징이 목적 함수를 지배할 수 있다.
-     - `StandardScaler`, `MinMaxScaler`, `MaxAbsScaler`, `RobustScaler` 같은 대표 도구 이름을 소개할 수 있다.
 
 2. scikit-learn, `8.4. Imputation of missing values`
    - URL: https://scikit-learn.org/stable/modules/impute.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - `SimpleImputer`는 평균, 최빈값, 상수 같은 전략을 제공한다.
-     - 숫자형과 범주형의 결측치 전략을 구분해 설명할 수 있다.
 
 3. scikit-learn, `8.1. Pipelines and composite estimators`
    - URL: https://scikit-learn.org/stable/modules/compose.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - `Pipeline`은 fit/transform 단계를 연결하는 구조다.
-     - `ColumnTransformer`는 서로 다른 칼럼 그룹에 서로 다른 변환을 적용할 수 있다.
 
 4. scikit-learn, `12. Common pitfalls and recommended practices`
    - URL: https://scikit-learn.org/stable/common_pitfalls.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - train/test split을 먼저 나누고, `fit`과 `fit_transform`은 train에만 적용해야 한다.
-     - 전처리에서의 데이터 누수는 성능을 낙관적으로 왜곡한다.
-     - pipeline은 누수 방지에 유용하다.
 
 ## 본문 일반화 원칙
 

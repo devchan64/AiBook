@@ -11,16 +11,6 @@
 - 비용, latency, limits, operational complexity를 함께 봐야 한다.
 - RAG와 agent 구조는 품질을 높일 수 있지만 운영 제약도 함께 키운다.
 
-## 반영한 근거
-
-- OpenAI 비용/운영 관련 문서
-- 관련 LLM application engineering 운영 자료
-
-## 집필 판단
-
-- 구체적 가격표보다 제약 구조를 우선했다.
-- Part 6 프로젝트 설계와 연결되는 관점으로 정리했다.
-
 ## 제외한 내용
 
 - GPU 인프라 설계 세부

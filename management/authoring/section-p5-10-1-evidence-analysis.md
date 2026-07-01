@@ -11,17 +11,6 @@
 - 이는 사전학습과 구분되는 추가 조정 층이다.
 - 지시 튜닝은 사용자 경험을 크게 바꾸지만 사실성/최신성/안전성을 전부 해결하지는 않는다.
 
-## 반영한 근거
-
-- Ouyang et al., `Training language models to follow instructions with human feedback`
-- Brown et al., `Language Models are Few-Shot Learners`
-- OpenAI 연구/문서 자료
-
-## 집필 판단
-
-- RLHF 세부 수식은 제외했다.
-- 대화형 사용자 경험과 연결해 설명했다.
-
 ## 제외한 내용
 
 - reward model 학습 세부

@@ -22,10 +22,6 @@
 - 기관/출판: The MIT Press
 - URL: https://mitpress.mit.edu/9780262039246/reinforcement-learning/
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - 강화학습을 reward-maximizing interaction 관점으로 설명하는 기본 틀
-  - state-value function, action-value function 정의 구분
-  - Q-learning과 SARSA를 대표적인 TD control 알고리즘으로 다루는 교과서적 기준
 
 ### 2) Watkins and Dayan - Q-learning
 
@@ -34,9 +30,6 @@
 - 매체: Machine Learning, 1992
 - URL: https://link.springer.com/article/10.1007/BF00992698
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - Q-learning의 대표 1차 문헌
-  - action-value를 반복적으로 추정하는 오프-정책 학습의 역사적 기준점
 
 ### 3) Singh et al. - Single-Step On-Policy RL Algorithms
 
@@ -45,15 +38,6 @@
 - 매체: Machine Learning, 2000
 - URL: https://link.springer.com/article/10.1023/A:1022689125041
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - SARSA 계열 on-policy TD control 설명의 학술적 기준 보강
-
-## 집필 판단
-
-- 이 절은 강화학습의 알고리즘 이름을 처음 본 독자를 기준으로 작성했습니다.
-- Bellman equation, TD target, epsilon-greedy 같은 세부는 일부러 전면에 두지 않았습니다. 먼저 `무엇을 값으로 적는가`, `그 값을 다음에 어떻게 고쳐 읽는가`를 잡는 편이 더 중요하다고 판단했습니다.
-- Q-learning과 SARSA 차이는 공식보다 `다음 상태에서 가장 좋아 보이는 행동`과 `실제로 다음에 선택한 행동`의 차이로 먼저 설명했습니다.
-- Python 예제는 전체 환경 시뮬레이션이 아니라 한 번의 업데이트 계산만 보여 주도록 제한했습니다. 이 절의 목적은 구현 완성도가 아니라 업데이트 해석이기 때문입니다.
 
 ## 제외한 내용
 

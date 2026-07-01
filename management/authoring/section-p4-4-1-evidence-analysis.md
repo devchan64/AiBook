@@ -22,8 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - loss function과 optimization을 딥러닝 학습의 핵심 축으로 설명하는 교재 기준
 
 ### 2) Bishop - Pattern Recognition and Machine Learning
 
@@ -31,14 +29,6 @@
 - 저자: Christopher M. Bishop
 - 출판: Springer, 2006
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - error/loss 개념과 objective function을 머신러닝 전반의 학습 기준으로 보는 표준 교재 맥락
-
-## 집필 판단
-
-- 이 절은 특정 손실 공식보다 손실의 역할을 먼저 설명하는 데 집중했습니다.
-- Part 3에서 다룬 metric과의 차이를 다시 강조해, 초심자가 손실과 정확도를 혼동하지 않게 했습니다.
-- Python 예제는 mean squared error 직관을 보여 주는 최소한의 계산으로 제한했습니다.
 
 ## 제외한 내용
 

@@ -61,9 +61,3 @@
   - uncertainty/evidence/belief update: 123-153행, 376-418행, 602-612행 부근
 - `.tmp/section-01-evidence/sep-ai.html`
   - probabilistic inference와 uncertainty: 2247-2256행 부근
-
-## 남은 검토 사항
-
-- 6.2에서 `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`의 경계를 별도 근거로 정리해야 합니다.
-- 7장에서 휴리스틱을 확률과 혼동하지 않도록 AIMA와 Newell/Simon, bounded rationality 근거를 다시 확인합니다.
-- 현대 AI 서비스의 규칙/모델/사람 검토 조합은 Part 5 또는 프로젝트 장에서 실제 아키텍처 근거를 따로 확보합니다.

@@ -22,35 +22,18 @@
 - 문서: `2.3. Clustering`
 - URL: https://scikit-learn.org/stable/modules/clustering.html
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - clustering이 unlabeled data에 대해 수행된다는 설명
-  - 표준 입력 행렬 `(n_samples, n_features)` 설명
-  - clustering methods overview 표
-  - KMeans가 equal variance, inertia 최소화, cluster count 지정이 필요한 알고리즘이라는 설명
-  - DBSCAN이 non-flat geometry, uneven cluster size, outlier removal에 유용하다는 개요 설명
 
 ### 2) scikit-learn API Reference - KMeans
 
 - 문서: `KMeans`
 - URL: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - 대표적인 중심 기반 clustering estimator라는 점 확인용
 
 ### 3) scikit-learn API Reference - DBSCAN
 
 - 문서: `DBSCAN`
 - URL: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - density-based clustering estimator라는 점 확인용
-
-## 집필 판단
-
-- 17.1에서는 구현보다 문제 정의를 먼저 잡았습니다.
-- 초심자 오해를 줄이기 위해 군집을 곧바로 정답 범주로 읽지 않도록 클래스와 군집의 차이를 본문에서 분리했습니다.
-- 저장소 의존성에 `scikit-learn`이 아직 없으므로, 실제 라이브러리 예제보다 점 집합 직관을 보여 주는 작은 Python 예제를 우선 사용했습니다.
-- k-means와 DBSCAN은 17.1에서 직관 수준으로만 맛보기로 소개하고, 결과 해석의 위험은 17.2에서 이어서 정리하도록 역할을 분리했습니다.
 
 ## 제외한 내용
 

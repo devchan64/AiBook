@@ -21,8 +21,6 @@
 - 저자: Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio
 - 매체: ICLR 2015
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - attention/alignment idea in translation
 
 ### 2) Deep Learning
 
@@ -31,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - sequence modeling context and attention framing
 
 ### 3) Cho et al. 2014
 
@@ -40,14 +36,6 @@
 - 저자: Kyunghyun Cho et al.
 - 매체: arXiv, 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - encoder-decoder bottleneck context before attention
-
-## 집필 판단
-
-- q/k/v 수식은 넘기고, 번역 사례와 가중 평균 직관을 앞세웠습니다.
-- 장기 의존성 문제에 대한 `직접 참조` 응답이라는 흐름을 강조했습니다.
-- 다음 절 self-attention으로 넘어가기 위해 broad attention 개념을 먼저 느슨하게 설명했습니다.
 
 ## 제외한 내용
 

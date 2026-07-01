@@ -11,21 +11,6 @@
 - 샘플링은 후보들 중 실제 출력을 선택하는 절차다.
 - 생성 결과의 다양성과 안정성은 선택 전략과 연결된다.
 
-## 반영한 근거
-
-- Goodfellow, Bengio, Courville, `Deep Learning`
-  - 생성 모델과 확률 분포 관점의 일반 설명 근거로 사용.
-- Manning and Schutze, `Foundations of Statistical Natural Language Processing`
-  - 언어 생성과 확률적 선택의 고전적 배경 설명 근거로 사용.
-- Jurafsky and Martin, `Speech and Language Processing`
-  - 언어 모델과 생성 출력 선택을 입문 수준으로 일반화하는 근거로 사용.
-
-## 집필 판단
-
-- Part 4에서는 temperature, top-k, top-p의 세부 구현은 넣지 않았다.
-- 대신 `argmax와 sampling 차이`를 작은 Python 예제로 보여 주었다.
-- 이 절의 목적은 수학적 엄밀성보다 생성형 AI 출력의 성격을 초심자에게 설명하는 데 있다.
-
 ## 제외한 내용
 
 - beam search 세부 구현

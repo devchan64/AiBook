@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - multilayer perceptron과 hidden unit의 기본 설명
-  - deep feedforward networks가 중간 표현을 구성하는 교재 기준
 
 ### 2) LeCun, Bengio, Hinton 2015
 
@@ -33,8 +30,6 @@
 - 매체: Nature, 2015
 - URL: https://www.nature.com/articles/nature14539
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - deep learning을 multiple levels of representation을 학습하는 구조로 설명하는 상위 배경
 
 ### 3) Cybenko 1989
 
@@ -42,15 +37,6 @@
 - 저자: George Cybenko
 - 매체: Mathematics of Control, Signals, and Systems, 1989
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - hidden layer를 가진 feedforward network의 표현력 논의와 연결되는 고전적 기준
-
-## 집필 판단
-
-- 이 절은 universal approximation theorem을 엄밀히 설명하지 않고, `층을 쌓는 이유`와 `중간 표현`의 직관을 먼저 잡는 데 집중했습니다.
-- 은닉층은 해석 가능한 명시적 특징이라기보다 내부 중간 표현이라는 점을 강조했습니다.
-- Python 예제는 학습이 아니라 층을 거치는 순전파 흐름만 보여 주도록 제한했습니다.
-- CNN, RNN, Transformer 같은 구조는 뒤 Chapter에서 다루므로 2.1에서는 일반 feedforward 감각만 유지했습니다.
 
 ## 제외한 내용
 

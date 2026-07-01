@@ -11,18 +11,6 @@
 - 사전학습은 사실 저장과 같은 말이 아니다.
 - 이후 파인튜닝과 지시 튜닝은 그 위에 얹히는 조정 단계다.
 
-## 반영한 근거
-
-- Radford et al., `Improving Language Understanding by Generative Pre-Training`
-- Howard and Ruder, `Universal Language Model Fine-tuning for Text Classification`
-- Brown et al., `Language Models are Few-Shot Learners`
-- Jurafsky and Martin, `Speech and Language Processing`
-
-## 집필 판단
-
-- pretraining/fine-tuning/instruction tuning을 한 표로 분리했다.
-- RLHF 세부는 아직 다루지 않았다.
-
 ## 제외한 내용
 
 - 목적 함수 수식

@@ -21,8 +21,6 @@
 - 저자: Yann LeCun et al.
 - 매체: Proceedings of the IEEE, 1998
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - convolution/pooling 중심의 전형적 convnet 구조
 
 ### 2) Deep Learning
 
@@ -31,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - convolutional network operation basics
 
 ### 3) AlexNet paper
 
@@ -40,14 +36,6 @@
 - 저자: Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton
 - 매체: NeurIPS 2012
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - pooling use in influential deep CNN
-
-## 집필 판단
-
-- 초심자용 설명이므로 엄밀한 convolution notation보다 지역 패치와 필터 점수화 직관을 우선했습니다.
-- pooling은 max pooling 중심으로만 설명해 복잡도를 줄였습니다.
-- Python 예제는 2x2 kernel과 작은 matrix로 제한해 계산 과정을 직접 읽게 했습니다.
 
 ## 제외한 내용
 

@@ -21,8 +21,6 @@
 - 저자: David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams
 - 매체: Nature, 1986
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - backpropagation이 다층 신경망 학습의 실제 전환점으로 널리 알려진 대표 문헌
 
 ### 2) Werbos 1974
 
@@ -30,8 +28,6 @@
 - 저자: Paul J. Werbos
 - 기관: Harvard University doctoral thesis
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - backpropagation 관련 더 이른 역사적 맥락
 
 ### 3) Deep Learning book
 
@@ -40,15 +36,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - backpropagation을 gradient 계산 절차로 설명하는 교재 기준
-  - chain rule과 multilayer network 학습 연결
-
-## 집필 판단
-
-- 이 절은 행렬 미분을 전개하지 않고, 책임 분해와 방향 신호라는 직관으로 먼저 설명했습니다.
-- Python 예제는 단일 가중치 사례로 축소해, gradient의 부호가 어떤 업데이트 방향을 뜻하는지 읽게 했습니다.
-- 역사 설명은 Rumelhart-Hinton-Williams 1986을 중심에 두되, Werbos 1974를 배경으로 보강하는 수준으로 제한했습니다.
 
 ## 제외한 내용
 

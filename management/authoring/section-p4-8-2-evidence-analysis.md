@@ -21,9 +21,6 @@
 - 저자: Nitish Srivastava et al.
 - 매체: JMLR, 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - training-time random dropping
-  - overfitting reduction intuition
 
 ### 2) Deep Learning
 
@@ -32,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - dropout as modern regularization technique
 
 ### 3) Hands-On Machine Learning
 
@@ -41,14 +36,6 @@
 - 저자: Aurélien Géron
 - 출판: O'Reilly, 2022
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - beginner-friendly practical framing of dropout
-
-## 집필 판단
-
-- dropout scaling detail은 빼고, `일부 경로를 쉬게 한다`는 직관을 중심에 두었습니다.
-- 앙상블 비슷한 직관은 엄밀한 동일시가 아님을 전제로, 입문용 비유 수준으로 제한했습니다.
-- P4-6.2의 training/eval mode와 직접 연결되도록 구성했습니다.
 
 ## 제외한 내용
 

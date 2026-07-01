@@ -11,17 +11,6 @@
 - 생성형 AI 평가는 정답률 하나로 끝나기 어렵다.
 - 모델 평가와 시스템 평가는 서로 다를 수 있다.
 
-## 반영한 근거
-
-- OpenAI evaluation 문서
-- 관련 LLM evaluation 교육 자료
-- RAG/agent 평가 사례 자료
-
-## 집필 판단
-
-- 벤치마크 점수보다 운영에서 왜 평가가 중요한지를 우선했다.
-- groundedness와 format compliance를 별도 축으로 넣었다.
-
 ## 제외한 내용
 
 - 통계 검정 세부

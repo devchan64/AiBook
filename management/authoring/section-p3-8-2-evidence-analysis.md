@@ -11,23 +11,14 @@
 1. scikit-learn, `DummyClassifier`
    - URL: https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 입력 특징을 무시하는 단순 분류기다.
-     - 더 복잡한 분류기와 비교하기 위한 simple baseline으로 설명된다.
 
 2. scikit-learn, `DummyRegressor`
    - URL: https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 평균, 중앙값, 상수 같은 단순 규칙으로 예측한다.
-     - 다른 회귀기와 비교하기 위한 simple baseline으로 설명된다.
 
 3. Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`
    - URL: https://arxiv.org/abs/1811.12808
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 평가와 모델 선택, 알고리즘 비교는 분리된 문제다.
-     - 비교 절차를 세우지 않으면 점수 해석이 흔들릴 수 있다.
 
 ## 본문 일반화 원칙
 

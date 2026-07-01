@@ -11,20 +11,10 @@
 1. Jie Ding, Vahid Tarokh, Yuhong Yang, `Model Selection Techniques -- An Overview`
    - URL: https://arxiv.org/abs/1810.09583
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 모델 선택은 통계와 머신러닝 전반에서 핵심 단계다.
-     - 하나의 기준이 아니라 다양한 목적과 철학이 존재한다.
-   - 주의:
-     - 본문에서는 정보 기준, 큰 표본 성질, 세부 이론은 다루지 않는다.
 
 2. Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`
    - URL: https://arxiv.org/abs/1811.12808
    - 확인 날짜: 2026-06-26
-   - 반영 포인트:
-     - 평가, 모델 선택, 알고리즘 선택은 구분되는 문제다.
-     - 올바른 실험 설계와 비교 절차가 중요하다.
-   - 주의:
-     - 이 절에서는 검정 절차보다 `후보군을 세우는 사고`를 우선 설명한다.
 
 ## 본문 일반화 원칙
 

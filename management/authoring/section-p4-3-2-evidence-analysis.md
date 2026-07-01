@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - common activation functions와 deep feedforward networks 맥락
-  - sigmoid, tanh, ReLU의 교육용 비교 기준
 
 ### 2) LeCun, Bengio, Hinton 2015
 
@@ -33,8 +30,6 @@
 - 매체: Nature, 2015
 - URL: https://www.nature.com/articles/nature14539
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - 현대 딥러닝 확산 맥락에서 비선형 함수와 깊은 모델의 역할
 
 ### 3) Glorot, Bordes, Bengio 2011
 
@@ -42,14 +37,6 @@
 - 저자: Xavier Glorot, Antoine Bordes, Yoshua Bengio
 - 매체: AISTATS, 2011
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - ReLU 계열이 현대 딥러닝에서 중요해진 역사적 전환점 보강
-
-## 집필 판단
-
-- 이 절은 미분과 최적화 문제를 깊게 파지 않고, 함수의 모양과 출력 해석 차이부터 설명했습니다.
-- ReLU가 실무에서 흔하다는 사실을 과장하지 않고, sigmoid와 tanh의 역사적 중요성과 현재 의미를 함께 남겼습니다.
-- Python 예제는 세 함수에 같은 입력을 넣어 비교하는 최소한의 형태로 제한했습니다.
 
 ## 제외한 내용
 

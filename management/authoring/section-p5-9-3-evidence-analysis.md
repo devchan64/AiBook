@@ -12,18 +12,6 @@
 - `low-rank`는 변화분을 더 작은 구조로 표현하려는 직관과 연결된다.
 - adapter, LoRA, QLoRA는 모두 효율적 조정 흐름에 속하지만 같은 방식은 아니다.
 
-## 반영한 근거
-
-- Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`
-- Hu et al., `LoRA: Low-Rank Adaptation of Large Language Models`
-- Dettmers et al., `QLoRA: Efficient Finetuning of Quantized LLMs`
-
-## 집필 판단
-
-- 선형대수 전개와 양자화 수식은 제외하고, 이름을 읽는 데 필요한 구조 차이만 남겼다.
-- QLoRA는 별도 철학이라기보다 LoRA의 실무 확장으로 제한해 설명했다.
-- 실제 프레임워크 구현 예시는 넣지 않고, 규모 차이를 확인하는 장난감 파라미터 계산 예제로 대체했다.
-
 ## 제외한 내용
 
 - 저랭크 분해 증명

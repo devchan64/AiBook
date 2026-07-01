@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - tensor-based computation background
-  - minibatch processing perspective
 
 ### 2) Hands-On Machine Learning
 
@@ -32,8 +29,6 @@
 - 저자: Aurélien Géron
 - 출판: O'Reilly, 2022
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - beginner-friendly explanations of batch and tensor shapes
 
 ### 3) NumPy ndarray docs
 
@@ -41,14 +36,6 @@
 - 기관: NumPy Developers
 - URL: https://numpy.org/doc/stable/reference/arrays.ndarray.html
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - multi-dimensional array terminology
-
-## 집필 판단
-
-- 텐서 엄밀 정의보다, 벡터/행렬 확장이라는 교육적 설명을 우선했습니다.
-- shape 오류 감각을 강조해 실습 연결성을 높였습니다.
-- Python 예제는 NumPy shape 확인 수준으로 제한해 개념을 명확히 했습니다.
 
 ## 제외한 내용
 

@@ -21,8 +21,6 @@
 - 저자: Trevor Hastie, Robert Tibshirani, Jerome Friedman
 - 출판: Springer, 2009
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - overfitting, model complexity, regularization background
 
 ### 2) Deep Learning
 
@@ -31,9 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - modern deep learning regularization overview
-  - parameter norm penalties and broader strategies
 
 ### 3) Pattern Recognition and Machine Learning
 
@@ -41,14 +36,6 @@
 - 저자: Christopher M. Bishop
 - 출판: Springer, 2006
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - penalty-based regularization and generalization connection
-
-## 집필 판단
-
-- 이 절은 L1/L2 수식 심화보다 `왜 제약이 필요한가`를 먼저 설명했습니다.
-- dropout을 별도 절로 넘기기 위해, regularization을 넓은 철학으로 정리했습니다.
-- Python 예제는 weight penalty intuition만 보여 주는 수준으로 제한했습니다.
 
 ## 제외한 내용
 

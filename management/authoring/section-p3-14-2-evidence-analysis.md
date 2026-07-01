@@ -23,12 +23,6 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-14-1-evidence/scikit-tree.html`
-- 반영 포인트:
-  - over-complex trees와 overfitting 설명
-  - pruning, `min_samples_leaf`, `max_depth` 필요성 설명
-  - `max_depth`로 크기를 제어하라는 실무 팁
-  - `min_samples_split`, `min_samples_leaf`로 여러 샘플이 분기에 기여하게 하라는 설명
-  - Minimal Cost-Complexity Pruning 설명
 
 ### 2) scikit-learn API Reference
 
@@ -37,25 +31,10 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-14-1-evidence/scikit-decisiontreeclassifier.html`
-- 반영 포인트:
-  - `max_depth` 정의
-  - `min_samples_leaf` 정의와 smoothing 설명
-  - `ccp_alpha`가 pruning 복잡도 파라미터라는 설명
-  - 기본 크기 제어값이 fully grown, unpruned tree로 이어질 수 있다는 경고
 
 ### 3) CART 고전 문헌
 
 - 자료: Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984
-- 반영 포인트:
-  - cost-complexity pruning의 역사적 배경
-  - 분류/회귀 트리 복잡도 제어 논의의 고전적 출처
-
-## 집필 판단
-
-- 14.1에서 구조 설명을 끝냈으므로, 14.2에서는 성능 수치와 제어 손잡이를 바로 연결하도록 구성했습니다.
-- 초심자 기준을 지키기 위해 pruning 공식을 전개하지 않고 `자란 뒤 줄이는 방법` 수준으로 설명했습니다.
-- Python 예제는 `max_depth`와 `min_samples_leaf`를 각각 따로 보여 주어 손잡이 역할을 분리했습니다.
-- `ccp_alpha`는 개념 소개까지만 하고, 자세한 탐색 실습은 뒤 튜닝 문맥이나 보충학습으로 넘겼습니다.
 
 ## 제외한 내용
 

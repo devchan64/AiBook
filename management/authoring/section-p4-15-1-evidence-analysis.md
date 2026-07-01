@@ -22,8 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - generative models overview and distribution perspective
 
 ### 2) VAE paper
 
@@ -31,8 +29,6 @@
 - 저자: Diederik P. Kingma, Max Welling
 - 매체: ICLR 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - representative generative modeling line
 
 ### 3) GAN paper
 
@@ -40,14 +36,6 @@
 - 저자: Ian J. Goodfellow et al.
 - 매체: NeurIPS 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - representative generative modeling line
-
-## 집필 판단
-
-- diffusion까지 한 절에 다 넣지 않고, 생성 모델의 공통 관점만 정리했습니다.
-- `distribution을 배운다`는 표현을 초심자용 통계적 감각으로 풀어 설명했습니다.
-- 다음 절 sampling 설명을 위해 확률적 출력 맥락을 미리 깔아 두었습니다.
 
 ## 제외한 내용
 

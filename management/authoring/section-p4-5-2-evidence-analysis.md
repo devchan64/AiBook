@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - computational graph와 backpropagation 관계
-  - composed function과 chain rule 설명
 
 ### 2) Pattern Recognition and Machine Learning
 
@@ -32,8 +29,6 @@
 - 저자: Christopher M. Bishop
 - 출판: Springer, 2006
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - layered computation, chain rule, network gradient intuition
 
 ### 3) micrograd
 
@@ -42,14 +37,6 @@
 - 형식: GitHub repository
 - URL: https://github.com/karpathy/micrograd
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - 작은 연산 그래프와 역전파를 교육용 코드로 설명하는 대표 사례
-
-## 집필 판단
-
-- 이 절은 프레임워크 API보다 `왜 그래프로 보는가`에 집중했습니다.
-- Python 예제는 자동미분 라이브러리 없이 단일 ReLU 경로를 수동으로 계산해, 중간값 저장과 gradient 분해를 보여 주도록 했습니다.
-- micrograd는 학술 논문이 아니라 교육적 구현 사례로만 제한적으로 인용했습니다.
 
 ## 제외한 내용
 

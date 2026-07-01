@@ -36,12 +36,6 @@
 
 > AI는 가장 넓은 문제 해결 분야이고, 머신러닝은 그 안에서 데이터나 경험으로 판단 기준을 학습하는 접근이다. 딥러닝은 머신러닝 안에서 깊은 신경망과 표현 학습을 사용하는 방법이며, 생성형 AI는 새 콘텐츠를 생성하는 모델과 서비스 범주에 가깝다. LLM은 생성형 AI 시대를 대표하는 언어 모델 계열이지만, AI 전체나 생성형 AI 전체와 같은 말은 아니다.
 
-## 추가 보강 필요
-
-- 생성형 AI와 LLM의 관계는 Part 5에서 OpenAI, Google, Anthropic 등 제품 문서가 아니라 우선 교과서성 NLP 자료와 논문 계보로 다시 정리합니다.
-- `AI > 머신러닝 > 딥러닝 > 생성형 AI > LLM` 도식은 학습용 단순화입니다. 특히 생성형 AI는 출력 성격과 서비스 범주에 가까우므로 딥러닝의 단순 하위 단계로 단정하지 않습니다.
-- LLM을 “추론한다”고 표현할 때는 `inference`와 `reasoning`을 구분해야 합니다.
-
 ## 출처와 참고 자료
 
 - OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update), 2023-11-29, 확인 날짜: 2026-06-22.

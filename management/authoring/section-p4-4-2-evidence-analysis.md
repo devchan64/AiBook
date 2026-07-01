@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - regression, classification, probabilistic output에 대한 loss 설명
-  - maximum likelihood와 cross-entropy 계열 손실의 교재적 맥락
 
 ### 2) Bishop - Pattern Recognition and Machine Learning
 
@@ -32,14 +29,6 @@
 - 저자: Christopher M. Bishop
 - 출판: Springer, 2006
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - regression/classification objective와 probabilistic modeling에 대한 표준 설명
-
-## 집필 판단
-
-- 이 절은 수학 유도보다 `문제 유형에 따라 틀림의 정의가 다르다`는 구조를 먼저 설명하도록 구성했습니다.
-- 생성 손실은 LLM의 다음 토큰 예측과 연결되도록 초심자 중심으로 일반화했습니다.
-- Python 예제는 회귀형 손실과 분류형 손실의 관점 차이를 한 화면에서 보여 주는 최소한의 계산으로 제한했습니다.
 
 ## 제외한 내용
 

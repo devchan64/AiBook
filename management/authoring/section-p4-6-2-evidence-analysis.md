@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - dropout, batch normalization의 교육적 배경
-  - train/test behavior distinction
 
 ### 2) Dropout paper
 
@@ -32,8 +29,6 @@
 - 저자: Nitish Srivastava et al.
 - 매체: JMLR, 2014
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - training-time stochastic masking이라는 핵심 아이디어
 
 ### 3) Batch Normalization paper
 
@@ -41,14 +36,6 @@
 - 저자: Sergey Ioffe, Christian Szegedy
 - 매체: ICML, 2015
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - batch statistics와 inference-time behavior distinction
-
-## 집필 판단
-
-- PyTorch나 Keras의 `train()/eval()` 호출 문법보다 먼저 개념적 차이를 설명했습니다.
-- dropout scaling 구현 세부는 이 절의 범위를 벗어나므로 의도적으로 생략했습니다.
-- batch normalization은 수식 대신 `현재 배치`와 `누적 기준`의 차이로 먼저 설명했습니다.
 
 ## 제외한 내용
 

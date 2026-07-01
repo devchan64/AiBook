@@ -75,9 +75,3 @@
 - `0.82` 같은 숫자를 확률로 단정하지 않고, score, model score, probability estimate, operation rule로 나뉠 수 있다고 설명했습니다.
 - 임계값(threshold)은 6.3의 내용을 반복하지 않고, 확률 모델 위에 놓이는 운영 기준 또는 휴리스틱일 수 있다는 경계에 집중했습니다.
 - RAG, LLM, 에이전트 예시는 개념 혼동 방지를 위한 짧은 현대적 주의점으로만 사용했습니다. 상세 구현은 Part 5와 Part 6으로 남겼습니다.
-
-## 남은 검토 사항
-
-- Part 3에서 calibration, threshold tuning, validation set, hyperparameter tuning을 실제 절차로 다룰 때 7.3의 구분을 다시 참조합니다.
-- Part 5에서 LLM의 token probability와 프롬프트 휴리스틱을 분리해 설명합니다.
-- Part 6의 AI 서비스 아키텍처에서 모델 출력, 정책 기준, 사람 검토 단계를 시스템 구성으로 다시 다룹니다.

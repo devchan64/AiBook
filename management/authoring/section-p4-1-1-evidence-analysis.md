@@ -21,9 +21,6 @@
 - 저자: Frank Rosenblatt
 - 매체: Psychological Review, 1958
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - perceptron의 대표 1차 문헌
-  - perceptron을 학습 가능한 판단 장치로 보는 역사적 출발점
 
 ### 2) Deep Learning book
 
@@ -32,9 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - 퍼셉트론을 선형 판별 단위와 다층 신경망의 출발점으로 읽는 교재 기준
-  - 딥러닝 설명에서 perceptron, linear unit, neural network 연결
 
 ### 3) LeCun, Bengio, Hinton 2015
 
@@ -43,16 +37,6 @@
 - 매체: Nature, 2015
 - URL: https://www.nature.com/articles/nature14539
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - deep learning을 multiple processing layers를 가진 neural networks 흐름으로 설명하는 대표 기준
-  - 퍼셉트론을 딥러닝의 출발점 문맥에 놓을 수 있는 상위 배경
-
-## 집필 판단
-
-- 이 절은 딥러닝 수학보다 계산 흐름을 먼저 보여 주도록 구성했습니다.
-- Part 3에서 본 선형회귀와 로지스틱 회귀의 가중합 감각을 딥러닝 쪽으로 자연스럽게 연결했습니다.
-- 퍼셉트론의 한계(XOR, 선형 분리)는 다음 절 P4-1.2로 넘겼습니다. 1.1에서까지 한계를 길게 넣으면 핵심 직관이 흐려진다고 판단했습니다.
-- Python 예제는 학습이 아니라 순전파만 보여 줍니다. 지금 절의 목표는 `값이 어떻게 흘러서 출력이 되는가`를 읽는 것입니다.
 
 ## 제외한 내용
 

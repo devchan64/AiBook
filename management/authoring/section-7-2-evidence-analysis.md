@@ -108,8 +108,3 @@
 - satisficing은 `충분히 좋은 해(good-enough solution, satisficing solution)`로 병기하되, 한국어 독자가 먼저 이해할 수 있도록 “충분히 좋은 해”를 앞에 두었습니다.
 - A*, greedy best-first search, admissible heuristic, consistent heuristic은 범위 밖으로 두었습니다. 알고리즘 조건을 여기서 다루면 7.2의 입문 목적을 벗어납니다.
 - 휴리스틱과 확률 모델의 차이는 7.3에서 다루도록 남겼고, 7.2에서는 혼동 방지 표만 배치했습니다.
-
-## 남은 검토 사항
-
-- 7.3에서는 휴리스틱과 확률 모델(probabilistic model)을 분리하면서, “휴리스틱은 불확실성을 반영하는가”라는 사용자 직관을 더 직접적으로 검토합니다.
-- 이후 Part 3의 실무 휴리스틱 장에서는 데이터 전처리, 특징 선택, 모델 선택, 하이퍼파라미터 튜닝에서 휴리스틱을 검증 가능한 출발점으로 다룹니다.

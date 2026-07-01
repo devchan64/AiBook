@@ -11,17 +11,6 @@
 - 프롬프트 엔지니어링은 관찰과 수정이 반복되는 실험 작업이다.
 - 지시, 맥락, 예시는 서로 다른 방식으로 응답을 조정한다.
 
-## 반영한 근거
-
-- Brown et al., `Language Models are Few-Shot Learners`
-- Wei et al., `Chain-of-Thought Prompting Elicits Reasoning in Large Language Models`
-- OpenAI 프롬프팅 문서
-
-## 집필 판단
-
-- 기술 이름 목록보다 구조적 역할 설명을 우선했다.
-- 초심자도 실무 감각을 잡을 수 있도록 사례 중심으로 구성했다.
-
 ## 제외한 내용
 
 - 자동 프롬프트 최적화

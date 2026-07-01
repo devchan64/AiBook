@@ -24,14 +24,6 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-ensemble.html`
-- 반영 포인트:
-  - tree ensemble에서 importance를 평균하는 MDI 설명
-  - 상위 분기가 더 많은 샘플에 기여한다는 설명
-  - `feature_importances_` 정의
-  - impurity-based importance의 두 가지 한계:
-    - hold-out 성능 중요도를 직접 반영하지 않음
-    - high-cardinality feature 편향
-  - permutation importance를 대안으로 제시
 
 ### 2) scikit-learn API Reference - RandomForestClassifier
 
@@ -40,22 +32,10 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-randomforestclassifier.html`
-- 반영 포인트:
-  - `feature_importances_`가 impurity-based feature importances라는 설명
-  - inspection 모듈 및 permutation importance 관련 예제 링크
 
 ### 3) Louppe 2014
 
 - 자료: Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, 2014
-- 반영 포인트:
-  - Random Forest importance 해석의 이론적 배경 참고
-
-## 집필 판단
-
-- 15.1이 `왜 숲을 쓰는가`를 설명했다면, 15.2는 `숲이 말해 주는 중요도 숫자를 어떻게 조심해서 읽을 것인가`에 집중했습니다.
-- 초심자 문맥에서는 SHAP, PDP보다 먼저 `MDI vs permutation`의 차이를 잡는 것이 더 중요하다고 판단했습니다.
-- 중요도 숫자를 곧바로 원인 순위로 오해하는 것을 막기 위해 `좋은 사용법 / 위험한 사용법` 표를 넣었습니다.
-- correlated feature와 high-cardinality feature는 실제 실무 오해를 자주 만드는 지점이므로 별도 소절로 분리했습니다.
 
 ## 제외한 내용
 

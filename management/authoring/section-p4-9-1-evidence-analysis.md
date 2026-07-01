@@ -21,8 +21,6 @@
 - 저자: Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton
 - 매체: NeurIPS 2012
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - GPU-backed large CNN training as landmark turning point
 
 ### 2) Deep Learning
 
@@ -31,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - large-scale neural network computation and tensor operations background
 
 ### 3) NVIDIA GPU explanation
 
@@ -40,14 +36,6 @@
 - 기관: NVIDIA
 - URL: https://www.nvidia.com/en-us/glossary/gpu/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - beginner-level explanation of GPU as massively parallel processor
-
-## 집필 판단
-
-- CPU/GPU 차이는 하드웨어 내부 구조보다 `작업 배치 방식` 비유로 설명했습니다.
-- Python 예제는 GPU 코드를 직접 돌리기보다, 왜 행렬/벡터 반복 계산이 병렬화와 잘 맞는지 보여 주는 수준으로 제한했습니다.
-- AlexNet은 과장 없이 `대표적 전환점`으로만 기술했습니다.
 
 ## 제외한 내용
 

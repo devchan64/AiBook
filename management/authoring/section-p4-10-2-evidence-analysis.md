@@ -21,8 +21,6 @@
 - 저자: Yoshua Bengio, Aaron Courville, Pascal Vincent
 - 매체: IEEE TPAMI, 2013
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - hierarchical representation framing
 
 ### 2) Deep Learning
 
@@ -31,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - layered representations and distributed representations
 
 ### 3) Erhan et al. 2010
 
@@ -40,14 +36,6 @@
 - 저자: Dumitru Erhan et al.
 - 매체: JMLR, 2010
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - depth and learned representation discussion background
-
-## 집필 판단
-
-- `low-level -> high-level` 설명을 절대 법칙처럼 쓰지 않고, 경향이라는 점을 명시했습니다.
-- 이미지, 음성, 텍스트 예시를 나란히 배치해 도메인 일반성을 보였습니다.
-- Python 예제는 실제 deep representation이 아니라 층별 좌표 변환 감각을 주는 수준으로 제한했습니다.
 
 ## 제외한 내용
 

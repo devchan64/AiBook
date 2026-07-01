@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - deep feedforward network에서 hidden unit과 activation의 기본 역할
-  - 선형 변환만으로는 표현력이 제한된다는 교재적 설명
 
 ### 2) LeCun, Bengio, Hinton 2015
 
@@ -33,15 +30,6 @@
 - 매체: Nature, 2015
 - URL: https://www.nature.com/articles/nature14539
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - deep learning을 representation learning과 연결하는 상위 배경
-  - nonlinear transformation이 multiple layers 구조에서 중요한 이유
-
-## 집필 판단
-
-- 이 절은 활성화 함수의 종류보다 `필요성`을 먼저 설명하도록 구성했습니다.
-- 선형 층 반복의 한계는 엄밀한 대수 증명보다 직관적으로 설명했습니다.
-- Python 예제는 ReLU를 사용해 활성화 전후 값 차이를 가장 짧게 보여 주는 수준으로 제한했습니다.
 
 ## 제외한 내용
 

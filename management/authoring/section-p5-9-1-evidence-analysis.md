@@ -11,17 +11,6 @@
 - 프롬프트는 입력을 바꾸고, 파인튜닝은 모델 내부 가중치 조정을 포함한다.
 - 최신성/외부 근거 문제는 RAG가 더 적합한 경우가 많다.
 
-## 반영한 근거
-
-- Howard and Ruder, `Universal Language Model Fine-tuning for Text Classification`
-- Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`
-- Brown et al., `Language Models are Few-Shot Learners`
-
-## 집필 판단
-
-- 파인튜닝을 만능 해결책처럼 쓰지 않았다.
-- 실무 의사결정 질문으로 RAG와 구분했다.
-
 ## 제외한 내용
 
 - optimizer 세부

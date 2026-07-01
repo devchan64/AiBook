@@ -11,17 +11,6 @@
 - greedy와 sampling은 선택 규칙이 다르다.
 - temperature는 일반적으로 생성 시 선택 성향을 바꾸는 설정값이다.
 
-## 반영한 근거
-
-- Brown et al., `Language Models are Few-Shot Learners`
-- OpenAI API Docs의 생성 설정 설명
-- Anthropic Docs의 sampling/temperature 설명
-
-## 집필 판단
-
-- temperature를 모델 학습 파라미터와 혼동하지 않도록 설명했다.
-- API 제품 설정을 일반 개념으로 과도하게 확대하지 않도록 `일반적으로`라는 단서를 유지했다.
-
 ## 제외한 내용
 
 - beam search

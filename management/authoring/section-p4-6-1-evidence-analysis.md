@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - parameter learning과 prediction use의 구분
-  - training procedure 구성 요소
 
 ### 2) Pattern Recognition and Machine Learning
 
@@ -32,8 +29,6 @@
 - 저자: Christopher M. Bishop
 - 출판: Springer, 2006
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - training data 기반 parameter estimation과 prediction 단계의 전통적 구분
 
 ### 3) Hands-On Machine Learning
 
@@ -41,14 +36,6 @@
 - 저자: Aurélien Géron
 - 출판: O'Reilly, 2022
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - 실습 문맥에서 training/inference workflow를 설명하는 입문적 사례
-
-## 집필 판단
-
-- inference를 한국어 `추론`만으로 두지 않고 `모델 실행(inference)`로 병기해 Part 1 용어 원칙과 연결했습니다.
-- 학습과 실행의 차이를 `동일한 forward 계산이더라도 목적과 후속 단계가 다르다`는 방식으로 설명했습니다.
-- LLM 채팅 사례를 짧게 넣어 Part 5와 연결되도록 했지만, 세부 구조는 넘기지 않았습니다.
 
 ## 제외한 내용
 

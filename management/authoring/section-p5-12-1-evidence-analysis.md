@@ -11,16 +11,6 @@
 - 최신성, 근거, 내부 문서 활용 문제 때문에 RAG가 필요해진다.
 - 파인튜닝과 RAG는 해결하려는 문제가 다르다.
 
-## 반영한 근거
-
-- Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`
-- OpenAI의 RAG/검색 관련 공식 문서
-
-## 집필 판단
-
-- 기술 이름보다 서비스 문제 해결 구조를 우선했다.
-- 검색 품질과 생성 품질을 별도로 보아야 한다는 연결을 남겼다.
-
 ## 제외한 내용
 
 - 벡터 인덱스 세부

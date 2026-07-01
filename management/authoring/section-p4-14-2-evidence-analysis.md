@@ -21,8 +21,6 @@
 - 저자: Ashish Vaswani et al.
 - 매체: NeurIPS 2017
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - self-attention replacing recurrence for sequence transduction
 
 ### 2) T5 paper
 
@@ -30,8 +28,6 @@
 - 저자: Colin Raffel et al.
 - 매체: JMLR, 2020
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - Transformer scalability and text-to-text framing
 
 ### 3) Deep Learning
 
@@ -40,14 +36,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - sequence modeling and long dependency background
-
-## 집필 판단
-
-- complexity 수치 비교보다 초심자에게 필요한 구조 감각을 우선했습니다.
-- 긴 문맥과 GPU 병렬 처리를 같은 절 안에서 묶어, LLM 전환 배경이 드러나도록 했습니다.
-- code example은 sequential accumulation vs direct reference intuition 수준으로 제한했습니다.
 
 ## 제외한 내용
 

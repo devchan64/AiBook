@@ -22,8 +22,6 @@
 - 저자: Frank Rosenblatt
 - 매체: Psychological Review, 1958
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - perceptron의 기본 구조와 임계적 판단 장치라는 역사적 기준
 
 ### 2) Minsky and Papert - Perceptrons
 
@@ -31,9 +29,6 @@
 - 저자: Marvin Minsky, Seymour Papert
 - 출판: MIT Press, 1969/1988
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - 단일 perceptron의 표현 한계와 선형 분리 한계의 대표 기준
-  - XOR류 직관을 설명할 때의 역사적 맥락
 
 ### 3) Deep Learning book
 
@@ -42,15 +37,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - perceptron, linear unit, activation, multilayer network의 연결을 설명하는 현대 교재 기준
-
-## 집필 판단
-
-- 이 절은 수식 유도보다 `점수 계산`과 `판단 단계`를 분리해서 보여 주는 데 집중했습니다.
-- XOR는 역사적으로 복잡한 논쟁이 있는 주제이지만, 초심자에게는 `단일 선형 경계의 한계`를 보여 주는 가장 간단한 사례라 판단해 짧게 넣었습니다.
-- 활성화 함수의 종류 비교는 P4-3장으로 넘기고, 1.2에서는 활성화의 역할만 먼저 소개했습니다.
-- Python 예제는 여전히 학습이 아니라 순전파를 보여 주는 수준으로 제한했습니다.
 
 ## 제외한 내용
 

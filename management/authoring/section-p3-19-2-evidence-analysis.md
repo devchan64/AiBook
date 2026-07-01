@@ -22,9 +22,6 @@
 - 기관/출판: The MIT Press
 - URL: https://mitpress.mit.edu/9780262039246/reinforcement-learning/
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - policy gradient와 actor-critic을 강화학습의 표준 범주로 설명하는 교과서적 기준
-  - 가치 함수와 정책 직접 최적화의 역할 구분
 
 ### 2) Williams 1992 - REINFORCE
 
@@ -33,9 +30,6 @@
 - 매체: Machine Learning, 1992
 - URL: https://link.springer.com/article/10.1007/BF00992696
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - 대표적인 초기 policy gradient 계열 알고리즘의 역사적 기준
-  - 보상이 좋았던 행동 경향을 강화하는 직관의 학술적 뿌리
 
 ### 3) Sutton et al. 1999 - Policy Gradient with Function Approximation
 
@@ -44,9 +38,6 @@
 - 매체: NeurIPS 1999
 - URL: https://papers.nips.cc/paper_files/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - policy gradient를 함수 근사와 연결하는 대표 논문
-  - 현대 딥 강화학습으로 이어지는 연결 고리
 
 ### 4) Konda and Tsitsiklis - On Actor-Critic Algorithms
 
@@ -55,16 +46,6 @@
 - 매체: SIAM Journal on Control and Optimization, 2003
 - URL: https://doi.org/10.1137/S0363012901385691
 - 확인 날짜: 2026-06-27
-- 반영 포인트:
-  - actor-critic을 정책과 평가의 역할 분리 구조로 다루는 학술 기준
-
-## 집필 판단
-
-- 이 절은 policy gradient 공식을 전면에 두지 않고, `정책을 직접 만진다`는 관점을 먼저 잡았습니다.
-- REINFORCE는 세부 수식보다 `좋았던 행동 확률을 높인다`는 직관을 보여 주는 예로 사용했습니다.
-- actor-critic은 A2C/A3C/PPO 같은 현대 변형보다 먼저, actor와 critic의 역할 차이를 설명하는 기본 구조로 제한했습니다.
-- Python 예제는 엄밀한 gradient estimator가 아니라, 정책 점수와 확률이 보상 신호에 따라 어떻게 바뀌는지 보여 주는 장난감 예제로 제한했습니다.
-- 사례 보강에서는 로봇 제어, 이동체 조향, 확률적 전술 선택처럼 `연속 행동`과 `행동 분포 직접 표현`의 장점이 드러나는 장면을 추가했습니다.
 
 ## 제외한 내용
 

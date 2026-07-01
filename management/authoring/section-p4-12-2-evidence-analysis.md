@@ -21,8 +21,6 @@
 - 저자: Yoshua Bengio, Patrice Simard, Paolo Frasconi
 - 매체: IEEE Transactions on Neural Networks, 1994
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - long-term dependency difficulty의 고전적 문제 제기
 
 ### 2) LSTM paper
 
@@ -30,8 +28,6 @@
 - 저자: Sepp Hochreiter, Jürgen Schmidhuber
 - 매체: Neural Computation, 1997
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - long memory management motivation
 
 ### 3) Deep Learning
 
@@ -40,14 +36,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - RNN difficulty and gradient intuition
-
-## 집필 판단
-
-- 수식보다 상태 희석(state decay) 비유를 우선했습니다.
-- vanishing gradient라는 말을 직접 전개하지 않고도 초심자가 문제 구조를 이해할 수 있게 구성했습니다.
-- attention 장과의 연결을 위해 `기억 유지`에서 `직접 참조`로 관점이 이동한다는 흐름을 강조했습니다.
 
 ## 제외한 내용
 

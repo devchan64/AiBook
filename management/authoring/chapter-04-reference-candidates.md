@@ -77,14 +77,6 @@ NIST AI RMF는 다음 수준으로만 반영하는 것이 좋습니다.
 | NIST AI RMF의 조직 거버넌스 세부 항목 | 4장 문제 모델링 범위를 넘어 윤리/보안/운영 거버넌스에 해당 |
 | 평가 지표 계산식 | 4.4에서는 지표 선택의 이유만 다루고 계산은 Part 3로 넘기는 것이 적절 |
 
-## 다음 작업 후보
-
-- 4.4에 scikit-learn `model_evaluation` 기반의 짧은 보강 문단 추가:
-  - “평가 지표는 최종 목표와 적용 맥락에서 출발해야 한다.”
-  - “예측과 의사결정은 구분해야 한다.”
-- 4.4 근거 메모에 scikit-learn model evaluation 후보를 추가.
-- Part 3 작성 전 Stanford CS229 노트를 별도 후보 문서로 재분류.
-
 ## 출처
 
 - scikit-learn, [Supervised learning](https://scikit-learn.org/stable/supervised_learning.html), 확인 날짜: 2026-06-22.

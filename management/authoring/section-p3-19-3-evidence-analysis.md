@@ -21,9 +21,6 @@
 - 기관/출판: The MIT Press
 - URL: https://mitpress.mit.edu/9780262039246/reinforcement-learning/
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - exploration/exploitation tradeoff의 기본 위치
-  - 강화학습이 실제 환경과 상호작용하는 학습이라는 기본 전제
 
 ### 2) Amodei et al. - Concrete Problems in AI Safety
 
@@ -32,10 +29,6 @@
 - 매체: arXiv, 2016
 - URL: https://arxiv.org/abs/1606.06565
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - reward hacking
-  - safe exploration
-  - objective misspecification을 실제 AI 안전 문제로 다루는 기준
 
 ### 3) Zhao et al. - Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey
 
@@ -44,17 +37,6 @@
 - 매체: arXiv, 2020
 - URL: https://arxiv.org/abs/2009.13303
 - 확인 날짜: 2026-06-28
-- 반영 포인트:
-  - 실제 로봇 학습의 비용과 위험
-  - simulation training의 필요성
-  - sim-to-real gap을 별도 핵심 문제로 다루는 현대 강화학습 맥락
-
-## 집필 판단
-
-- 이 절은 수학이나 알고리즘보다 `현실 적용에서 왜 바로 막히는가`를 설명하는 절로 설계했습니다.
-- reward hacking은 초심자가 즉시 이해할 수 있도록 클릭 수와 불만 비용의 간단한 대리 변수 예제로 풀었습니다.
-- safe exploration은 별도 알고리즘 소개보다 `현실에서는 실패 자체가 비싸다`는 감각을 우선했습니다.
-- sim-to-real gap은 로봇 분야 사례를 중심으로 설명하되, 더 일반적으로 `훈련 세계와 배포 세계가 다를 수 있다`는 문장으로 일반화했습니다.
 
 ## 제외한 내용
 

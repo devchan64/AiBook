@@ -24,33 +24,14 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-ensemble.html`
-- 반영 포인트:
-  - gradient boosting이 boosting을 differentiable loss로 일반화한 방식이라는 설명
-  - weak learner를 고정 크기의 regression tree로 설명한 부분
-  - additive model 설명
-  - `n_estimators`가 반복 횟수/weak learner 수라는 설명
-  - learning rate가 shrinkage이며 작은 값일수록 더 많은 weak learner가 필요하다는 설명
-  - HGBT와 ordinary gradient boosting 소개
 
 ### 2) Friedman 2001
 
 - 논문: Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`
-- 반영 포인트:
-  - gradient boosting의 대표 이론적 출발점
-  - additive model과 greedy stage-wise fitting의 배경
 
 ### 3) Friedman 2002
 
 - 논문: Jerome H. Friedman, `Stochastic Gradient Boosting`
-- 반영 포인트:
-  - shrinkage와 subsampling이 일반화 성능에 미치는 영향의 역사적 배경
-
-## 집필 판단
-
-- 16.1에서는 수식보다 `이전 오차를 다음 단계가 고친다`는 감각을 우선했습니다.
-- scikit-learn이 분류와 회귀 모두를 다루지만, 초심자 설명은 residual이 직관적으로 보이는 회귀 예제로 먼저 열었습니다.
-- 저장소 의존성에 `scikit-learn`이 아직 포함되어 있지 않으므로, 실행 가능한 작은 Python 리스트 예제를 우선 사용했습니다.
-- 구현체 비교(XGBoost, LightGBM, CatBoost)는 16.1의 범위를 벗어나므로 넣지 않았습니다.
 
 ## 제외한 내용
 

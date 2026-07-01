@@ -25,32 +25,14 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-ensemble.html`
-- 반영 포인트:
-  - learning rate가 shrinkage라는 설명
-  - 작은 learning rate가 더 많은 weak learner를 필요로 한다는 설명
-  - `train_score_`, `staged_predict`, early stopping 관련 설명
-  - stochastic gradient boosting의 subsample 설명
-  - HGBT와 ordinary gradient boosting 비교
 
 ### 2) Friedman 2001
 
 - 논문: Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`
-- 반영 포인트:
-  - gradient boosting의 기본 구조
-  - shrinkage의 역사적 배경
 
 ### 3) Friedman 2002
 
 - 논문: Jerome H. Friedman, `Stochastic Gradient Boosting`
-- 반영 포인트:
-  - subsampling과 일반화 성능 조절의 배경
-
-## 집필 판단
-
-- 16.2는 공식보다 운영 감각을 우선했습니다.
-- 초심자에게는 “강한 모델”보다 “왜 잘못 쓰기 쉬운가”를 같이 설명하는 편이 더 중요하다고 판단했습니다.
-- 저장소 의존성에 `scikit-learn`이 아직 없으므로, 과한 보정을 설명하는 장난감 숫자 예제를 사용했습니다.
-- XGBoost, LightGBM, CatBoost는 이름만 연결하고 세부 비교는 하지 않았습니다.
 
 ## 제외한 내용
 

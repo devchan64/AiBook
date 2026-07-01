@@ -11,16 +11,6 @@
 - 문서를 많이 넣는 것보다 질문과 관련 있게 잘 넣는 것이 중요하다.
 - RAG 품질은 검색 단계와 생성 단계를 나눠 봐야 한다.
 
-## 반영한 근거
-
-- Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`
-- OpenAI의 RAG/검색 문서
-
-## 집필 판단
-
-- chunking, reranking, context window 세부는 뒤로 미뤘다.
-- 입력 payload 관점으로 설명해 초심자 이해를 우선했다.
-
 ## 제외한 내용
 
 - chunking 전략 비교

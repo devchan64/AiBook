@@ -21,8 +21,6 @@
 - 저자: Ashish Vaswani et al.
 - 매체: NeurIPS 2017
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - Transformer block core structure
 
 ### 2) Deep Learning
 
@@ -31,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - normalization and residual-style intuition background
 
 ### 3) Illustrated Transformer
 
@@ -40,14 +36,6 @@
 - 저자: Jay Alammar
 - 확인 날짜: 2026-06-29
 - URL: https://jalammar.github.io/illustrated-transformer/
-- 반영 포인트:
-  - beginner-friendly block-level explanation
-
-## 집필 판단
-
-- q/k/v 수식보다 블록 역할 설명을 우선했습니다.
-- residual and norm을 학습 안정화 장치로 설명해 초심자 이해를 돕도록 구성했습니다.
-- Part 5 LLM 연결을 고려해 block vocabulary를 미리 고정했습니다.
 
 ## 제외한 내용
 

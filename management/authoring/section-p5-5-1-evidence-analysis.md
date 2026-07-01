@@ -11,17 +11,6 @@
 - 생성보다 분류, 검색, 임베딩 계열 과업과 더 잘 맞는다.
 - GPT 계열과의 차이는 우열보다 구조와 과업 차이로 읽어야 한다.
 
-## 반영한 근거
-
-- Devlin et al., `BERT`
-- Peters et al., `Deep contextualized word representations`
-- Jurafsky and Martin, `Speech and Language Processing`
-
-## 집필 판단
-
-- `이해 모델` 같은 표현은 유지하되, 사람식 이해로 오해되지 않게 보정 문구를 함께 넣었다.
-- 실무 연결을 위해 검색, 임베딩, 분류 예시를 함께 배치했다.
-
 ## 제외한 내용
 
 - RoBERTa, ALBERT, DistilBERT 등의 상세 비교

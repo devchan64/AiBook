@@ -23,10 +23,6 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-ensemble.html`
-- 반영 포인트:
-  - random forest가 bootstrap sample로 각 tree를 학습한다는 설명
-  - bootstrap 사용 시 left out or out-of-bag samples로 generalization error를 추정할 수 있다는 설명
-  - `oob_score=True`로 이 기능을 켤 수 있다는 설명
 
 ### 2) scikit-learn API Reference - RandomForestClassifier
 
@@ -35,19 +31,6 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-randomforestclassifier.html`
-- 반영 포인트:
-  - `oob_score`는 out-of-bag samples를 사용해 generalization score를 추정하는 옵션
-  - `bootstrap=True`일 때만 사용 가능
-  - `oob_score_`는 out-of-bag estimate로 얻은 score
-  - `oob_decision_function_` 관련 설명
-  - OOB Errors for Random Forests 예제 링크
-
-## 집필 판단
-
-- 15.1은 구조, 15.2는 해석, 15.3은 점검으로 역할을 분리했습니다.
-- OOB는 랜덤포레스트 안에서 자연스럽게 이어지는 주제이므로 Chapter 15 안에서 마무리하는 편이 흐름상 자연스럽다고 판단했습니다.
-- 초심자 기준에서는 교차검증 전체 체계를 먼저 늘어놓기보다, `train / OOB / test를 함께 보는 태도`를 먼저 만드는 것이 더 중요하다고 판단했습니다.
-- OOB를 `빠른 내부 점검판`으로 설명하고, 최종 검증과 동일시하지 않도록 보수적으로 서술했습니다.
 
 ## 제외한 내용
 

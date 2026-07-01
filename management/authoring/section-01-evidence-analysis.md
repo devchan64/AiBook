@@ -45,12 +45,6 @@
 - ZDIC는 동북아권 자료 중 하나로 유지하되, 한국어권·일본어권 사전은 아직 검증 필요 상태로 남깁니다.
 - 튜링 테스트는 AI의 전체 정의가 아니라, “지능을 어떻게 판정할 것인가”를 둘러싼 역사적 문제 제기로 1.1에 짧게 반영했습니다.
 
-## 추가 보강 필요
-
-- 한국어권 `인공지능` 정의를 표준국어대사전 또는 우리말샘에서 확인합니다.
-- 일본어권 `人工知能` 정의를 신뢰 가능한 일본어 사전 또는 백과 자료에서 확인합니다.
-- LLM과 생성형 AI의 관계는 1.3 작성 과정에서 NIST 생성형 AI 프로파일과 LLM 설문 논문으로 1차 보강했습니다. Part 5에서는 NLP 자료와 논문 계보로 더 자세히 정리합니다.
-
 ## 출처와 참고 자료
 
 - OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update), 2023-11-29, 확인 날짜: 2026-06-22.

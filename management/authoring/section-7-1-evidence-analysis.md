@@ -87,9 +87,3 @@
 | OpenAI, `Learning to reason with LLMs` | reasoning model의 학습/추론 계산량 설명으로는 유용하지만, 7.1의 탐색 공간(search space)과 계산 한계(computational limit)를 설명하는 직접 인용으로는 부정확함 |
 | Anthropic, `Tracing the thoughts of a large language model` | interpretability 사례로 흥미롭지만, 7.1의 탐색 공간 개념보다 LLM 내부 해석과 계획성 논의에 가까움 |
 | Tesla, `AI & Robotics` | 자율주행/로봇 제품 방향 설명으로, 7.1의 학습용 개념 근거로 쓰기에는 범위가 넓고 기업 주장 성격이 강함 |
-
-## 남은 검토 사항
-
-- 7.2에서 휴리스틱 함수(heuristic function), 평가 함수(evaluation function), 가지치기(pruning), 만족해(satisficing)를 별도 근거로 다룹니다.
-- 7.3에서 휴리스틱과 확률 모델(probabilistic model)을 혼동하지 않도록 다시 분리합니다.
-- Part 2에서 조합 폭발(combinatorial explosion)이나 지수적 증가(exponential growth)를 수학 기초로 다룰지 결정합니다.

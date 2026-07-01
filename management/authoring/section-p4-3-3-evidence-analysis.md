@@ -22,9 +22,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - output unit, probabilistic output, loss function 연결
-  - sigmoid / softmax / regression output의 교육적 정리
 
 ### 2) Pattern Recognition and Machine Learning
 
@@ -32,9 +29,6 @@
 - 저자: Christopher M. Bishop
 - 출판: Springer, 2006
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - regression, binary classification, multiclass classification의 출력 해석 차이
-  - probabilistic classification 관점
 
 ### 3) Probabilistic Machine Learning: An Introduction
 
@@ -42,15 +36,6 @@
 - 저자: Kevin P. Murphy
 - 출판: MIT Press, 2022
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - logits와 probability interpretation 구분
-  - multiclass output 해석의 일반적 틀
-
-## 집필 판단
-
-- 초심자 기준에서 softmax 수식 유도는 넣지 않고, `후보 간 비교 구조`라는 해석을 먼저 두었습니다.
-- 서비스 정책과 모델 출력의 차이를 간단한 스팸 필터 사례로 설명해, `확률처럼 보이는 값`과 실제 action을 섞지 않도록 했습니다.
-- 이 절의 중심은 손실 함수 설명의 사전 정리이므로, cross-entropy 자체는 다음 장 범위로 넘겼습니다.
 
 ## 제외한 내용
 

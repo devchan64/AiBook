@@ -23,13 +23,6 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-ensemble.html`
-- 반영 포인트:
-  - ensemble methods의 일반 정의
-  - random forests가 randomized decision tree 기반 averaging algorithm이라는 설명
-  - bootstrap sample과 feature subset 설명
-  - variance reduction, bias-variance tradeoff 설명
-  - bagging이 variance를 줄여 overfitting을 완화하는 계열이라는 설명
-  - OOB(out-of-bag) 설명
 
 ### 2) scikit-learn API Reference
 
@@ -38,25 +31,10 @@
 - 확인 날짜: 2026-06-27
 - `.tmp` 저장본:
   - `.tmp/section-p3-15-1-evidence/scikit-randomforestclassifier.html`
-- 반영 포인트:
-  - `n_estimators`, `max_features`, `bootstrap`, `oob_score`, `max_depth`, `min_samples_leaf` 정의
-  - random forest classifier의 메타 추정기(meta estimator) 설명
-  - `bootstrap=True`일 때 `max_samples` 동작
-  - `predict`, `predict_proba` 집계 방식 설명
 
 ### 3) 원 논문
 
 - 자료: Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001
-- 반영 포인트:
-  - random forest 계열의 역사적 기준점
-  - tree ensemble 관점의 고전 출처
-
-## 집필 판단
-
-- 초심자 기준이므로 배깅(bagging) 일반론 전체보다 `왜 여러 트리를 모으는가`에 먼저 집중했습니다.
-- `variance reduction`을 핵심 메시지로 두고, 수식 대신 반복 실험 결과 흔들림으로 보여 주었습니다.
-- 단일 트리 대 랜덤포레스트 비교에서 성능 수치 자체보다 `덜 흔들리는가`를 더 중요한 읽기 포인트로 제시했습니다.
-- `majority vote`는 익숙한 표현이지만, scikit-learn 구현 기준으로는 확률 평균 집계가 더 정확하므로 그 점을 본문에 분리해 설명했습니다.
 
 ## 제외한 내용
 

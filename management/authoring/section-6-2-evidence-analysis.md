@@ -72,9 +72,3 @@
   - classification에서 class probability와 confidence 설명: 737-755행 부근
   - well calibrated classifier의 해석: 748-754행 부근
   - calibration curve와 predicted probability 비교: 770-788행 부근
-
-## 남은 검토 사항
-
-- 6.3에서 분류 확률, calibration, confidence, uncertainty estimation의 차이를 별도 근거로 다룹니다.
-- Part 2에서 확률의 빈도주의, 베이지안 해석은 필요한 범위 안에서 더 엄밀히 분리합니다.
-- Part 5에서 LLM sampling, temperature, top-p를 설명할 때 6.2의 stochastic 기준과 연결합니다.

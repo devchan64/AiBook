@@ -11,17 +11,6 @@
 - 이 구분은 디버깅과 평가를 위해 중요하다.
 - stop condition이 없으면 비용과 실패가 커질 수 있다.
 
-## 반영한 근거
-
-- ReAct 논문
-- OpenAI Agents 문서
-- 관련 agent engineering 자료
-
-## 집필 판단
-
-- 이론 구분에 그치지 않고 코딩/문서 조사 사례로 연결했다.
-- MCP, harness, evaluation으로 이어지는 연결 절로 배치했다.
-
 ## 제외한 내용
 
 - 장기 메모리 설계

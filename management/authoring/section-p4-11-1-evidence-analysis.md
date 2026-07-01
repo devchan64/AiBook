@@ -21,8 +21,6 @@
 - 저자: Yann LeCun et al.
 - 매체: Proceedings of the IEEE, 1998
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - CNN/convnet의 고전적 구조와 이미지 처리 맥락
 
 ### 2) AlexNet paper
 
@@ -30,8 +28,6 @@
 - 저자: Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton
 - 매체: NeurIPS 2012
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - deep CNN이 practical turning point가 된 역사
 
 ### 3) Deep Learning
 
@@ -40,14 +36,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - convolutional networks를 representation learning과 연결하는 기본 설명
-
-## 집필 판단
-
-- 합성곱 수식을 이 절에 넣지 않고, `지역 패턴을 반복해서 본다`는 직관에 집중했습니다.
-- CNN과 fully connected 차이를 파라미터 수보다 공간 구조 관점에서 먼저 설명했습니다.
-- AlexNet은 CNN이 practical turning point가 된 사례로 제한적으로 반영했습니다.
 
 ## 제외한 내용
 

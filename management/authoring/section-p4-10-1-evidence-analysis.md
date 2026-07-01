@@ -21,8 +21,6 @@
 - 저자: Yoshua Bengio, Aaron Courville, Pascal Vincent
 - 매체: IEEE TPAMI, 2013
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - representation learning 정의와 역사적 중요성
 
 ### 2) Deep Learning
 
@@ -31,8 +29,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - learned representation vs hand-crafted features framing
 
 ### 3) AlexNet paper
 
@@ -40,14 +36,6 @@
 - 저자: Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton
 - 매체: NeurIPS 2012
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - image recognition success as practical expression of learned hierarchical features
-
-## 집필 판단
-
-- feature engineering과 대비해 설명해 초심자에게 의미를 명확히 했습니다.
-- 추천/임베딩 사례를 넣어 이미지에만 국한되지 않도록 했습니다.
-- 표현 학습을 곧바로 LLM과 임베딩으로 이어지는 관점으로 남겨 두었습니다.
 
 ## 제외한 내용
 

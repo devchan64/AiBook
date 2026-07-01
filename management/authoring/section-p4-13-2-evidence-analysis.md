@@ -21,8 +21,6 @@
 - 저자: Ashish Vaswani et al.
 - 매체: NeurIPS 2017
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - self-attention as central computation in Transformer
 
 ### 2) Bahdanau et al. 2015
 
@@ -30,8 +28,6 @@
 - 저자: Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio
 - 매체: ICLR 2015
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - attention as precursor idea
 
 ### 3) Deep Learning
 
@@ -40,14 +36,6 @@
 - 출판: MIT Press, 2016
 - URL: https://www.deeplearningbook.org/
 - 확인 날짜: 2026-06-29
-- 반영 포인트:
-  - sequence modeling and context representation background
-
-## 집필 판단
-
-- self-attention을 `문장 안 토큰들의 상호 참조`라는 언어적 직관으로 풀었습니다.
-- Transformer 공식 대신 병렬 처리와 먼 위치 참조의 장점을 핵심으로 정리했습니다.
-- Part 5 LLM으로 넘어갈 다리 역할을 위해 code/document examples도 넣었습니다.
 
 ## 제외한 내용
 
