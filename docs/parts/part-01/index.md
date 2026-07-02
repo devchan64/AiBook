@@ -96,6 +96,8 @@ Part 1은 17개 Chapter로 구성됩니다.
 
 그다음 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic), 탐색 공간(search space), 휴리스틱(heuristic), 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)의 기본 구분을 봅니다.
 
+특히 Chapter 6과 7에서는 자주 섞이는 경계를 일부러 분리해 둡니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)도 확률 모델(probabilistic model)과 같은 것이 아니라는 점을 Part 1 안에서 먼저 닫아 두고 뒤 Part의 통계, 평가, 생성 설명으로 넘어갑니다.
+
 후반부에서는 딥러닝 패러다임의 확산, 생성형 AI, LLM의 계보, 프롬프트, 임베딩, 벡터 검색, RAG, AI 서비스 아키텍처, 에이전트, MCP, 하네스, 운영 제약을 다룹니다. 마지막으로 AI 윤리, 저작권, 보안, 실무 적용, 앞으로의 AI를 다루며 기술 설명이 사회적 영향과 분리될 수 없다는 점을 확인합니다.
 
 ## 왜 필요한가

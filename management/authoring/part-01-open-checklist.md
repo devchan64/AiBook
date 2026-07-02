@@ -10,10 +10,10 @@
 - [ ] `추천과 순위화`, `제어와 행동`, 검색 서비스, 자율주행 예시는 해당 본편 Section을 확장할 때 별도 근거를 다시 확보한다.
 - [ ] 기호 기반 AI 대표 사례(Logic Theorist, GPS, MYCIN, DENDRAL)와 현대 규칙 기반 시스템 사례의 공식 근거를 보강한다.
 - [ ] `추론` 용어를 다시 손볼 때는 사전 정의, `reasoning`, `inference` 구분, LLM 맥락의 표현을 함께 점검한다.
-- [ ] Chapter 6과 7 연결에서 `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`의 경계를 더 명확히 정리한다.
+- [x] Chapter 6과 7 연결에서 `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`의 경계를 더 명확히 정리한다.
 - [ ] 6.3이나 Part 3에서 `calibration`, `confidence`, `uncertainty estimation` 차이를 별도 근거로 정리할지 결정한다.
 - [ ] Part 2에서 빈도주의/베이지안 해석을 어디까지 복구할지 결정하고, 필요하면 연결 문장을 추가한다.
-- [ ] Chapter 7에서 휴리스틱과 확률 모델을 다시 한 번 분리하고, Part 5의 토큰 확률·프롬프트 휴리스틱 설명과도 용어를 맞춘다.
+- [x] Chapter 7에서 휴리스틱과 확률 모델을 다시 한 번 분리하고, Part 5의 토큰 확률·프롬프트 휴리스틱 설명과도 용어를 맞춘다.
 - [ ] Part 2에서 조합 폭발(combinatorial explosion)이나 지수적 증가(exponential growth)를 보충할지 결정한다.
 - [ ] 경로 계획 예시를 Part 6 프로젝트까지 끌고 갈 경우 route, path, trajectory, control 계층을 별도 그림으로 정리한다.
 - [x] Part 3의 지도/비지도/강화학습 설명이 8.1, 8.2, 8.3의 라벨·보상 구분을 분명히 이어받는지 점검한다.
@@ -38,3 +38,14 @@
 - `section-8-3-evidence-analysis.md`
 - `section-9-1-evidence-analysis.md`
 - `section-9-2-evidence-analysis.md`
+
+## 현재 결정
+
+- Chapter 6과 7의 용어 경계는 별도 보충학습을 추가하지 않고 현재 본문에서 닫습니다.
+- `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`은 Chapter 6에서 기본 구분을 세우고, 휴리스틱과 확률 모델의 차이는 Chapter 7에서 다시 분리하는 현재 구조를 유지합니다.
+- Part 5의 생성 확률과 프롬프트 휴리스틱도 `모델 내부 확률`, `운영 임계값`, `사람이 정한 입력 전략`을 분리해 읽는 현재 용어 경계와 맞는 것으로 봅니다.
+
+## 이번 반영
+
+- Part 1 index와 summary에 Chapter 6, 7이 `불확실성/확률/확률적 과정`과 `휴리스틱/확률 모델` 경계를 Part 1 안에서 먼저 닫는다는 판단을 명시했습니다.
+- 체크리스트에서 Chapter 6의 확률 관련 용어 경계 정리 항목과 Chapter 7의 휴리스틱/확률 모델 분리 항목을 완료 처리했습니다.

@@ -30,6 +30,8 @@ Part 1의 흐름은 다음처럼 정리할 수 있습니다.
 
 예를 들어 탐색(search)과 휴리스틱(heuristic)은 초기 AI의 문제 해결 방식에서 중요했지만, 현대 AI에서도 후보를 줄이고 계산 비용을 낮추는 사고방식으로 다시 나타납니다. 확률(probability)과 불확실성(uncertainty)은 예측, 분류, 생성 결과를 이해할 때 계속 등장합니다.
 
+이때 Part 1 안에서 먼저 닫아 둔 중요한 경계도 있습니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)은 확률 모델(probabilistic model)과 다른 역할을 합니다. 이 구분을 먼저 잡아 두어야 뒤 Part에서 분류 점수, calibration, 생성 설정, 프롬프트 휴리스틱을 같은 층위로 섞지 않게 됩니다.
+
 ## 반드시 기억할 개념
 
 Part 1에서 가장 오래 가져가야 할 개념은 구분입니다.
