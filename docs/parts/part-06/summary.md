@@ -39,6 +39,17 @@ Part 6의 전체 흐름은 다음처럼 정리할 수 있습니다.
 | agent | `planned_steps`, `execution_records`, `review_summary` |
 | 배포와 운영 | `incident_records`, `improvement_plan` |
 
+이 표를 다시 가장 작게 줄이면, 각 축에서 먼저 빠지면 안 되는 기록은 다음과 같습니다.
+
+| 프로젝트 축 | 먼저 빠지면 안 되는 기록 |
+| --- | --- |
+| 분석 시작 | 질문 한 문장과 관찰 메모 |
+| baseline 비교 | 가장 단순한 기준 결과 |
+| 이미지/텍스트 분류 | 대표 오류 샘플과 평가 기록 |
+| RAG | 근거 문서와 `answer_status` |
+| agent | 도구 순서와 승인 상태 |
+| 배포와 운영 | 실패 category와 `next_action` |
+
 프로젝트마다 주제가 다르더라도, 공통적으로 남아야 하는 질문은 같습니다.
 
 > 무엇을 풀려는가?
@@ -135,6 +146,16 @@ Part 6은 다음 질문을 독자의 이후 프로젝트로 넘깁니다.
 - `comparison_rows`, `test_records`, `evaluation_records`처럼 샘플별 기록이 남아 있는가?
 - `selected_evidence`, `retrieval_candidates`처럼 근거 기록이 남아 있는가?
 - `execution_records`와 `incident_records`처럼 운영 흐름이 남아 있는가?
+
+이 점검을 더 짧게 다시 읽으면 다음과 같습니다.
+
+| 먼저 확인할 것 | 왜 중요한가 |
+| --- | --- |
+| 질문이 남았는가 | 프로젝트가 무엇을 검증하려 했는지 되살리기 위해 |
+| baseline이 남았는가 | 개선 해석의 기준선을 되살리기 위해 |
+| 오류나 실패가 남았는가 | 다음 반복의 출발점을 만들기 위해 |
+| 근거와 실행 경로가 남았는가 | RAG/agent 결과를 다시 검증하기 위해 |
+| 다음 조치가 남았는가 | 회고가 메모에서 끝나지 않게 하기 위해 |
 
 ## 이 책 전체와 연결되는 관점
 
