@@ -102,6 +102,8 @@ Part 1은 17개 Chapter로 구성됩니다.
 
 9장에서는 이 흐름도 한 번 더 조심해서 나눕니다. CNN, GPU, YOLO, WaveNet 같은 사례는 딥러닝 패러다임이 여러 분야로 확산된 배경으로 두고, LLM의 직접 계보는 언어 모델링(language modeling), Seq2Seq, Attention, Transformer 쪽에 둡니다. 이 경계를 먼저 잡아 두어야 뒤의 Part 4와 Part 5에서 CNN, Transformer, GPT, BERT를 다시 배울 때 시간축과 직접 계보가 섞이지 않습니다.
 
+같은 원칙은 초기 AI 사례에도 적용합니다. Logic Theorist, GPS, MYCIN, DENDRAL 같은 이름은 Part 1에서 `초기 기호 기반 AI와 규칙 기반 시스템의 대표 사례를 떠올리게 하는 기준점`으로만 쓰고, 개별 시스템의 상세 기술사나 사례 목록을 늘리는 방향으로는 확장하지 않습니다.
+
 ## 왜 필요한가
 
 AI를 다시 공부할 때 가장 어려운 점은 개념 하나하나가 어려운 것보다, 같은 말이 서로 다른 문맥에서 다르게 쓰인다는 점입니다.
