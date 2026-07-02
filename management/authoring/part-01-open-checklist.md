@@ -17,7 +17,7 @@
 - [ ] Part 2에서 조합 폭발(combinatorial explosion)이나 지수적 증가(exponential growth)를 보충할지 결정한다.
 - [ ] 경로 계획 예시를 Part 6 프로젝트까지 끌고 갈 경우 route, path, trajectory, control 계층을 별도 그림으로 정리한다.
 - [x] Part 3의 지도/비지도/강화학습 설명이 8.1, 8.2, 8.3의 라벨·보상 구분을 분명히 이어받는지 점검한다.
-- [ ] Part 4와 Part 5를 다시 손볼 때 CNN, GPU, WaveNet, LLM 계보 설명이 9.1, 9.2의 경계와 충돌하지 않는지 확인한다.
+- [x] Part 4와 Part 5를 다시 손볼 때 CNN, GPU, WaveNet, LLM 계보 설명이 9.1, 9.2의 경계와 충돌하지 않는지 확인한다.
 
 ## 이관한 기존 메모
 
@@ -44,8 +44,12 @@
 - Chapter 6과 7의 용어 경계는 별도 보충학습을 추가하지 않고 현재 본문에서 닫습니다.
 - `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`은 Chapter 6에서 기본 구분을 세우고, 휴리스틱과 확률 모델의 차이는 Chapter 7에서 다시 분리하는 현재 구조를 유지합니다.
 - Part 5의 생성 확률과 프롬프트 휴리스틱도 `모델 내부 확률`, `운영 임계값`, `사람이 정한 입력 전략`을 분리해 읽는 현재 용어 경계와 맞는 것으로 봅니다.
+- Chapter 9의 직접 계보/주변 근거 구분도 현재 본문으로 닫습니다.
+- CNN, GPU, YOLO, WaveNet은 Part 1에서 `딥러닝 확산의 주변 근거`로 유지하고, Part 4의 CNN/Transformer, Part 5의 GPT/BERT/LLM 본류 설명은 `직접 계보` 쪽에 두는 현재 구조가 서로 충돌하지 않는 것으로 봅니다.
 
 ## 이번 반영
 
 - Part 1 index와 summary에 Chapter 6, 7이 `불확실성/확률/확률적 과정`과 `휴리스틱/확률 모델` 경계를 Part 1 안에서 먼저 닫는다는 판단을 명시했습니다.
 - 체크리스트에서 Chapter 6의 확률 관련 용어 경계 정리 항목과 Chapter 7의 휴리스틱/확률 모델 분리 항목을 완료 처리했습니다.
+- Part 1 index와 summary에 9장이 `직접 계보`와 `주변 근거`를 나눠 Part 4, Part 5와 충돌하지 않게 읽는다는 판단을 덧붙였습니다.
+- 체크리스트에서 `CNN, GPU, WaveNet, LLM 계보 설명이 9.1, 9.2 경계와 충돌하지 않는지 확인` 항목을 완료 처리했습니다.

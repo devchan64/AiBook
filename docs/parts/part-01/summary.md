@@ -32,6 +32,8 @@ Part 1의 흐름은 다음처럼 정리할 수 있습니다.
 
 이때 Part 1 안에서 먼저 닫아 둔 중요한 경계도 있습니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)은 확률 모델(probabilistic model)과 다른 역할을 합니다. 이 구분을 먼저 잡아 두어야 뒤 Part에서 분류 점수, calibration, 생성 설정, 프롬프트 휴리스틱을 같은 층위로 섞지 않게 됩니다.
 
+마찬가지로 9장에서도 직접 계보와 주변 근거를 나눴습니다. CNN, GPU, YOLO, WaveNet은 딥러닝 확산의 주변 근거로 남기고, LLM의 직접 계보는 언어 모델링, Seq2Seq, Attention, Transformer로 둡니다. 이 경계 덕분에 Part 4의 CNN과 Transformer, Part 5의 GPT와 BERT 설명도 서로 충돌하지 않고 이어집니다.
+
 ## 반드시 기억할 개념
 
 Part 1에서 가장 오래 가져가야 할 개념은 구분입니다.
