@@ -207,6 +207,7 @@ improvement_plan =
 
 2. `improvement_plan`  
    같은 실패 목록이라도 `fix_immediately`, `fix_next_cycle`처럼 행동 구간으로 나누면 다음 반복이 쉬워집니다.
+   즉, `incident_records`가 무슨 일이 있었는지 남기는 회고 원장이라면, `improvement_plan`은 그 원장을 이번 주 작업표로 다시 옮겨 적은 실행 목록입니다.
 
 3. `review_summary`  
    우선순위 1 문제가 몇 개인지 바로 보여 주므로, 무엇을 먼저 고쳐야 하는지 한눈에 읽을 수 있습니다.
