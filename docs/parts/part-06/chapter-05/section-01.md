@@ -102,7 +102,7 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 복잡한 임베딩 없이도 `질문 -> 문서 검색 -> 근거 포함 답변` 흐름을 눈으로 확인하는 것입니다. 이번에는 가장 높은 문서 하나만 찍고 끝내지 않고, `retrieval_records`, `selected_evidence`, `grounded_answer_record`를 함께 남겨 프로젝트 실행 기록처럼 보이게 하겠습니다.
+이번 예제의 목적은 복잡한 임베딩 없이도 `질문 -> 문서 검색 -> 근거 포함 답변` 흐름을 눈으로 확인하는 것입니다. 이번에는 가장 높은 문서 하나만 찍고 끝내지 않고, `retrieval_records`, `selected_evidence`, `grounded_answer_record`를 함께 남겨 프로젝트 실행 기록처럼 보이게 하겠습니다. `retrieval_records`는 검색 후보 전체를 남겨 왜 다른 문서가 탈락했는지 다시 보게 하고, `selected_evidence`는 실제로 답변에 올린 근거 한 조각을 고정하며, `grounded_answer_record`는 질문과 근거와 답변을 같은 묶음으로 보존합니다.
 
 - 문제 상황: RAG 흐름을 아주 작은 로컬 지식베이스로 재현한다.
 - 입력(input): 질문 1개, 문서 조각 3개
