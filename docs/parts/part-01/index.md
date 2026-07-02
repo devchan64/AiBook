@@ -108,6 +108,8 @@ AI를 다시 공부할 때 가장 어려운 점은 개념 하나하나가 어려
 
 예를 들어 `추론`은 문맥에 따라 inference, reasoning, prediction, generation을 가리킬 수 있습니다. `모델`은 수학적 모형, 학습된 머신러닝 모델, API로 제공되는 LLM, 또는 전체 서비스 구조를 뜻할 수 있습니다. `파라미터`도 모델 내부 가중치, 학습 설정값, LLM 생성 설정값을 혼동하기 쉽습니다.
 
+Part 1에서는 이 `추론` 혼동도 먼저 잘라 둡니다. inference는 `학습된 모델을 실행해 출력을 만드는 과정`, reasoning은 `근거를 따라 결론에 이르는 사고 과정`, prediction은 `모델이 낸 출력`, generation은 `텍스트나 이미지처럼 결과물을 만들어 내는 과정`으로 우선 구분합니다. 통계 문맥은 statistical inference로 따로 둡니다. 이 경계는 Chapter 5에서 먼저 닫고, Part 5에서는 next-token prediction, reasoning처럼 보이는 생성 텍스트, 평가 문맥에서 다시 이어 읽습니다.
+
 Part 1은 이런 혼동을 줄이기 위한 공통 언어를 만듭니다. 정확한 용어와 구분을 먼저 잡으면, 이후 Part 2의 수학 복구와 Part 3 이후의 머신러닝, 딥러닝, LLM 학습이 덜 흩어집니다.
 
 ## 이후 Part로의 연결

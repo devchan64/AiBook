@@ -9,7 +9,7 @@
 - [x] 생성형 AI와 LLM의 관계는 Part 5의 교과서성 NLP 자료와 논문 계보 기준으로 다시 정리한다.
 - [ ] `추천과 순위화`, `제어와 행동`, 검색 서비스, 자율주행 예시는 해당 본편 Section을 확장할 때 별도 근거를 다시 확보한다.
 - [ ] 기호 기반 AI 대표 사례(Logic Theorist, GPS, MYCIN, DENDRAL)와 현대 규칙 기반 시스템 사례의 공식 근거를 보강한다.
-- [ ] `추론` 용어를 다시 손볼 때는 사전 정의, `reasoning`, `inference` 구분, LLM 맥락의 표현을 함께 점검한다.
+- [x] `추론` 용어를 다시 손볼 때는 사전 정의, `reasoning`, `inference` 구분, LLM 맥락의 표현을 함께 점검한다.
 - [x] Chapter 6과 7 연결에서 `uncertainty`, `probability`, `stochastic`, `randomness`, `nondeterminism`의 경계를 더 명확히 정리한다.
 - [ ] 6.3이나 Part 3에서 `calibration`, `confidence`, `uncertainty estimation` 차이를 별도 근거로 정리할지 결정한다.
 - [ ] Part 2에서 빈도주의/베이지안 해석을 어디까지 복구할지 결정하고, 필요하면 연결 문장을 추가한다.
@@ -47,6 +47,7 @@
 - Chapter 9의 직접 계보/주변 근거 구분도 현재 본문으로 닫습니다.
 - CNN, GPU, YOLO, WaveNet은 Part 1에서 `딥러닝 확산의 주변 근거`로 유지하고, Part 4의 CNN/Transformer, Part 5의 GPT/BERT/LLM 본류 설명은 `직접 계보` 쪽에 두는 현재 구조가 서로 충돌하지 않는 것으로 봅니다.
 - 생성형 AI는 `무엇을 생성하는가`를 기준으로 묶는 더 넓은 범주로 두고, LLM은 그 안의 언어 모델 계열로 둡니다. Part 5에서는 이 경계를 `토큰 -> Transformer -> GPT` 본류와 `LLM 발전사`, `BERT 계열 비교` 배경 축으로 다시 읽는 현재 구조를 유지합니다.
+- `추론`은 Part 1에서 먼저 `inference = 모델 실행`, `reasoning = 사고 과정`, `prediction = 모델 출력`, `generation = 생성`, `statistical inference = 통계적 추론`으로 나눠 둡니다. Part 5에서는 next-token prediction, reasoning처럼 보이는 생성 텍스트, 평가 문맥에서 이 경계를 그대로 다시 사용합니다.
 
 ## 이번 반영
 
@@ -56,3 +57,5 @@
 - 체크리스트에서 `CNN, GPU, WaveNet, LLM 계보 설명이 9.1, 9.2 경계와 충돌하지 않는지 확인` 항목을 완료 처리했습니다.
 - Part 1 index와 summary에 생성형 AI는 더 넓은 범주이고 LLM은 그 안의 언어 모델 계열이라는 경계를 명시했습니다.
 - 체크리스트에서 생성형 AI와 LLM 관계를 Part 5의 GPT/BERT/LLM 계보 기준으로 다시 정리하는 항목을 완료 처리했습니다.
+- Part 1 index와 summary에 `추론` 관련 최소 기억점을 추가해 inference, reasoning, prediction, generation, statistical inference를 먼저 나눠 읽게 했습니다.
+- 체크리스트에서 `추론` 용어를 Part 1의 모델 실행 문맥과 Part 5의 생성/평가 문맥까지 포함해 다시 점검하는 항목을 완료 처리했습니다.
