@@ -207,6 +207,42 @@ evaluation_records =
 
 이 표는 Part 6의 RAG 프로젝트에서 사실상 `평가 기록 템플릿` 역할을 합니다.
 
+## 바로 쓰는 평가 기록 템플릿
+
+문서에 바로 붙여 넣어 쓸 최소 틀은 다음 정도면 충분합니다.
+
+```text
+### review_summary
+- question_count:
+- grounded_answer_count:
+- insufficient_evidence_count:
+- needs_revision_questions:
+
+### evaluation_records
+| question | top_doc_id | top_score | answer_status | needs_revision | note |
+| --- | --- | ---: | --- | --- | --- |
+|  |  |  | grounded answer / insufficient evidence | True / False |  |
+```
+
+이 템플릿에서 중요한 점은 화려한 평가 지표를 많이 넣는 일이 아니라, 질문별로 `검색 결과`, `답변 상태`, `수정 필요 여부`가 한 줄에 같이 남는가입니다.
+
+이번 절의 예시를 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
+
+```text
+### review_summary
+- question_count: 2
+- grounded_answer_count: 1
+- insufficient_evidence_count: 1
+- needs_revision_questions:
+  - MCP는 왜 필요한가?
+
+### evaluation_records
+| question | top_doc_id | top_score | answer_status | needs_revision | note |
+| --- | --- | ---: | --- | --- | --- |
+| RAG가 왜 필요한가? | doc_1 | 1 | grounded answer | False | 답변 가능 |
+| MCP는 왜 필요한가? | doc_1 | 0 | insufficient evidence | True | 문서 범위 밖 질문 |
+```
+
 ## 다음 프로젝트와의 연결
 
 이 절에서 만든 `검색 -> 근거 -> 답변` 구조는 바로 agent 프로젝트와 이어집니다. agent도 결국 다음을 분리해야 하기 때문입니다.

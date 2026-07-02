@@ -184,6 +184,53 @@ review_summary = {'step_count': 3, 'approved_step_count': 2, 'blocked_step_count
 - blocked는 단순 실패와 다른 상태다
 - agent 문서에는 결과뿐 아니라 권한 판단도 남겨야 한다
 
+## 바로 쓰는 권한·로그 템플릿
+
+agent 프로젝트 문서에 바로 붙여 넣어 쓸 최소 틀은 다음 정도면 충분합니다.
+
+```text
+### planned_steps
+| step | tool | permission | scope | why |
+| --- | --- | --- | --- | --- |
+| 1 |  |  |  |  |
+
+### execution_records
+| step | tool | approved | result_status | next_action | observation |
+| --- | --- | --- | --- | --- | --- |
+| 1 |  | True / False | success / blocked / failed |  |  |
+
+### review_summary
+- approved_step_count:
+- blocked_step_count:
+- approval_required_tools:
+```
+
+이 템플릿에서 중요한 점은 실행 성공 여부만 적는 것이 아니라, `어떤 권한이 필요했는지`, `승인이 있었는지`, `막히면 다음 행동이 무엇인지`까지 함께 적는 것입니다.
+
+이번 절의 예시를 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
+
+```text
+### planned_steps
+| step | tool | permission | scope | why |
+| --- | --- | --- | --- | --- |
+| 1 | read_toc | read | docs/parts/ | 현재 구조 확인 |
+| 2 | check_build | execute | mkdocs build | 빌드 상태 확인 |
+| 3 | write_report | write | management/report.md | 결과 문서 작성 |
+
+### execution_records
+| step | tool | approved | result_status | next_action | observation |
+| --- | --- | --- | --- | --- | --- |
+| 1 | read_toc | True | success | check_build | table of contents was loaded |
+| 2 | check_build | True | success | write_report | build finished without error |
+| 3 | write_report | False | blocked | request_approval | write action requires approval before continuing |
+
+### review_summary
+- approved_step_count: 2
+- blocked_step_count: 1
+- approval_required_tools:
+  - write_report
+```
+
 ## 운영 관점의 연결
 
 이 권한과 로그 구조는 결국 운영 문제와 직결됩니다.
