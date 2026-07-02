@@ -110,6 +110,8 @@ Part 5 마지막에서 이미 본 것처럼, 생성형 AI 기능은 `질문 -> �
 - agent 프로젝트에서는 `성공 여부`보다 `permission`, `approved`, `next_action`이 먼저입니다.
 - 배포 프로젝트에서는 `배포 완료`보다 `incident_records`와 `next_action`이 먼저입니다.
 
+Part 6에서는 이 예시들을 별도 `보충학습`으로 다시 빼지 않습니다. 분석 프로젝트의 `project_note -> retrospective_note`, 모델 프로젝트의 `baseline -> comparison_rows`, RAG의 `retrieval_records -> answer_status`, agent의 `execution_records -> approval`, 배포의 `incident_records -> improvement_plan`처럼, 각 축의 핵심 예시를 이미 본문 안에서 직접 따라가게 두는 편이 현재 프로젝트 입문 흐름에 더 잘 맞기 때문입니다.
+
 ## 이후 Part로의 연결
 
 Part 6이 끝나면 독자는 더 큰 프로젝트를 스스로 설계할 수 있어야 합니다.
