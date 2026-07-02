@@ -96,7 +96,7 @@ Part 1은 17개 Chapter로 구성됩니다.
 
 그다음 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic), 탐색 공간(search space), 휴리스틱(heuristic), 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)의 기본 구분을 봅니다.
 
-특히 Chapter 6과 7에서는 자주 섞이는 경계를 일부러 분리해 둡니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)도 확률 모델(probabilistic model)과 같은 것이 아니라는 점을 Part 1 안에서 먼저 닫아 두고 뒤 Part의 통계, 평가, 생성 설명으로 넘어갑니다.
+특히 Chapter 6과 7에서는 자주 섞이는 경계를 일부러 분리해 둡니다. 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)은 같은 말이 아니며, 휴리스틱(heuristic)도 확률 모델(probabilistic model)과 같은 것이 아니라는 점을 Part 1 안에서 먼저 닫아 두고 뒤 Part의 통계, 평가, 생성 설명으로 넘어갑니다. `0.80` 같은 점수를 어떻게 읽을지, calibration과 confidence를 어디까지 믿을지, uncertainty estimation을 어떻게 더 세밀하게 다룰지는 Part 1에서 자리만 잡고, 첫 정리는 Part 3의 P3-6.4 보충학습과 P3-15.3에서 다시 회수합니다.
 
 후반부에서는 딥러닝 패러다임의 확산, 생성형 AI, LLM의 계보, 프롬프트, 임베딩, 벡터 검색, RAG, AI 서비스 아키텍처, 에이전트, MCP, 하네스, 운영 제약을 다룹니다. 여기서 먼저 잡아 둘 경계는 생성형 AI가 텍스트, 이미지, 오디오, 코드처럼 `무엇을 생성하는가`를 기준으로 묶는 더 넓은 범주이고, LLM은 그 안에서 언어 데이터를 다루는 대표 모델 계열이라는 점입니다. 이 구분은 Part 5에서 토큰, Transformer, GPT 본류와 BERT 비교, LLM 발전사 배경 축으로 다시 회수합니다. 마지막으로 AI 윤리, 저작권, 보안, 실무 적용, 앞으로의 AI를 다루며 기술 설명이 사회적 영향과 분리될 수 없다는 점을 확인합니다.
 
