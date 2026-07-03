@@ -44,6 +44,15 @@ P5-16장까지 오면 LLM, RAG, 도구 사용, 에이전트, 평가, 실패 대�
 | retry, fallback, stop, approval 판단 | 실패가 났을 때 어떤 경로를 탔는지 | `next_action`, `incident_records`, 실행 메모 |
 | 검색·도구·상태 확보 결과 | 어떤 근거와 어떤 실행을 바탕으로 답했는지 | `retrieved_doc_ids`, `selected_evidence`, `execution_records` |
 
+앞 절의 운영 한도 판단까지 같은 표에 얹어 다시 보면, 요청 흐름 통합이 왜 `좋은 답 생성`보다 `판단과 기록을 한 요청에 묶는 일`에 가까운지 더 분명해집니다.
+
+| 앞 절까지에서 이미 생긴 판단 | 지금 요청 흐름 안에서 바로 바뀌는 것 | 같은 run record에 함께 남길 값 |
+| --- | --- | --- |
+| `operationally_acceptable=False` | 경량 경로, fallback, 사람 검토로 바로 갈지 정한다 | `next_action`, `incident_records`, `summary` |
+| `primary_tradeoff=latency_too_high` | 답 길이 축소, 검색 단계 축약, 간단 답 우선 반환 여부를 정한다 | `next_action`, 실행 메모, 응답 시간 |
+| `primary_tradeoff=cost_too_high` | 검색 수, 호출 수, 모델 크기를 줄일지 정한다 | `execution_records`, 비용 요약, `summary` |
+| `primary_tradeoff=throughput_too_low` | 캐시, 큐, 처리량 제한 경로를 쓸지 정한다 | `incident_records`, 운영 메모, `summary` |
+
 이 표의 목적은 새 기록 이름을 늘리는 데 있지 않습니다. 현재 절에서는 `좋은 답 판단`, `실패 경로 결정`, `근거와 실행 확보`가 각각 따로 끝나는 것이 아니라, 요청 하나를 설명하는 같은 run record로 모여야 한다는 점만 분명히 잡으면 충분합니다.
 
 ## 이 절의 목표

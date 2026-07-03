@@ -34,6 +34,17 @@ AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연
 
 여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지를 보여 주는 `primary_tradeoff`, `next_adjustment`, 그리고 평가를 통과한 답이 실제 운영 후보로 남는지를 다시 가르는 `operationally_acceptable`, `summary`입니다.
 
+이 필드들이 뒤 절과 실제 요청 기록으로 어떻게 이어지는지도 지금 같이 붙잡아 두면 좋습니다.
+
+| 지금 단계에서 남기는 판단 | 바로 다음 절에서 갈라지는 운영 경로 | P5-17에서 요청 기록으로 남는 대표 값 |
+| --- | --- | --- |
+| `primary_tradeoff=latency_too_high` | timeout 기준 조정, 경량 경로, fallback 검토 | `next_action`, `incident_records`, 실행 메모 |
+| `primary_tradeoff=cost_too_high` | 호출 수 축소, 작은 모델, 단계 축약 검토 | `next_action`, `execution_records`, 비용 요약 |
+| `primary_tradeoff=throughput_too_low` | 큐, 캐시, 처리량 제한 경로 검토 | `next_action`, `incident_records`, 운영 메모 |
+| `operationally_acceptable=True` | 운영 후보 유지 | `answer_status`, `summary`, run 기록 |
+
+즉, 이 절의 운영 한도 판단은 여기서 끝나는 판정표가 아니라, 바로 다음 실패 대응 절의 분기와 P5-17 요청 흐름 기록의 입력값이라고 보면 됩니다.
+
 ## 이 절의 목표
 
 - AI 서비스 제약을 입문 수준에서 설명할 수 있습니다.
