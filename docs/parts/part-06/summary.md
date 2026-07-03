@@ -50,6 +50,14 @@ Part 6의 전체 흐름은 다음처럼 정리할 수 있습니다.
 | agent | 도구 순서와 승인 상태 |
 | 배포와 운영 | 실패 category와 `next_action` |
 
+Part 5 마지막 최소 구현과 바로 이어서 읽으면, 기록 이름의 연결도 다음처럼 다시 묶을 수 있습니다.
+
+| Part 5에서 먼저 남긴 기록 | Part 6에서 더 큰 산출물로 다시 쓰는 이름 |
+| --- | --- |
+| `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence` |
+| `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` |
+| 질문별 `run record`, 전체 `summary` | `execution_records`, `improvement_plan`, `retrospective_note` |
+
 프로젝트마다 주제가 다르더라도, 공통적으로 남아야 하는 질문은 같습니다.
 
 > 무엇을 풀려는가?

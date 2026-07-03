@@ -44,6 +44,12 @@ Part 6은 이 공백을 메웁니다. 작은 프로젝트라도 `문제 정의 -
 
 Part 5 마지막에서 이미 본 것처럼, 생성형 AI 기능은 `질문 -> 근거 또는 도구 -> 답변 -> 평가 -> 기록` 흐름으로 읽어야 합니다. Part 6은 이 흐름을 실제 프로젝트 산출물로 바꾸는 파트입니다. 즉, 여기서의 핵심은 코드를 더 길게 쓰는 일이 아니라, 무엇을 어떤 형식으로 남겨야 다음 반복이 가능해지는지를 익히는 데 있습니다.
 
+| Part 5에서 먼저 본 기록 | Part 6에서 프로젝트 산출물로 굳는 이름 |
+| --- | --- |
+| `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence` |
+| `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` |
+| 질문별 `run record`, 전체 `summary` | `execution_records`, `improvement_plan`, `retrospective_note` |
+
 ## 이 파트의 목표
 
 - 프로젝트는 어디서부터 시작해야 하는가?

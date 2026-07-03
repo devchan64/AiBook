@@ -36,6 +36,12 @@ P5-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 �
 
 그래서 Part 5 안에서는 Chapter 17이 실제로 Part 6 회고 문서로 넘어가는 마지막 본류 다리 역할을 맡습니다. 여기서 남기는 `retrieved_doc_ids`, `needs_human_review`, `run_status`, `summary` 같은 기록은 뒤의 Part 6에서 `review_summary`, `incident_records`, `improvement_plan`으로 더 또렷하게 자라나며, 바로 다음 프로젝트 문서의 입력으로 다시 쓰이게 됩니다.
 
+| P5 최소 구현에서 먼저 남기는 것 | Part 6에서 다시 자라는 산출물 |
+| --- | --- |
+| `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence` |
+| `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` |
+| 질문별 `run record`, 전체 `summary` | `execution_records`, `improvement_plan`, 프로젝트 회고 문서 |
+
 ## 이 절의 목표
 
 - 작은 생성형 AI 기능의 최소 구현 흐름을 읽을 수 있습니다.
