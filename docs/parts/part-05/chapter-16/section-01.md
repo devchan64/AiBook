@@ -36,7 +36,7 @@ AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연
 
 즉, 지금 장의 핵심은 `좋은 답인가`에서 `그 좋은 답을 실제 서비스 안에서 유지할 수 있는가`로 손잡이가 바뀌고, 이 절이 `좋은 답 판단 -> 서비스 한도 판단 -> 실패 대응과 요청 기록` 가운데 `서비스 한도 판단` 단계를 맡는다는 점입니다.
 
-여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지를 보여 주는 `primary_tradeoff`, `next_adjustment`, 그리고 평가를 통과한 답이 실제 운영 후보로 남는지를 다시 가르는 `operationally_acceptable`, `summary`입니다. 이 판단은 바로 다음 P5-16.2의 실패 대응 경로와 P5-17의 run record 요약으로 이어지고, Part 6에서는 `incident_records`, `next_action`, `review_summary`, `improvement_plan` 같은 더 큰 운영 회고 산출물로 다시 자랍니다.
+여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지를 보여 주는 `primary_tradeoff`, `next_adjustment`, 그리고 평가를 통과한 답이 실제 운영 후보로 남는지를 다시 가르는 `operationally_acceptable`, `summary`입니다.
 
 ## 이 절의 목표
 
