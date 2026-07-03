@@ -380,6 +380,10 @@ Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 �
 
 ## 이 절에서 기억할 관점
 
+| 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 아직 여기서 하지 않는 일 |
+| --- | --- | --- |
+| Transformer는 attention, feed-forward, residual, normalization을 블록으로 묶는다 | 이 블록이 왜 긴 문맥과 대규모 병렬 처리에 유리했는가 | 사전학습과 LLM 운영 구조 전체를 설명하는 일 |
+
 - Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
 - self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
 - residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
