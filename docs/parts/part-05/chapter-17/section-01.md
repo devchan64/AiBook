@@ -139,6 +139,12 @@ flowchart LR
 
 이 네 가지는 Part 5 뒤쪽의 평가와 실패 대응 설명을 실제 설계로 끌어오는 최소 장치입니다.
 
+| 지금 설계 문장에서 먼저 붙잡을 것 | 바로 다음 절에서 남길 최소 기록 | Part 6에서 다시 자라는 산출물 |
+| --- | --- | --- |
+| 질문과 검색 경로 | 질문별 `run record`, `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence`, `execution_records` |
+| 답변 채택 여부와 사람 검토 필요 | `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` |
+| 여러 질문을 돌린 뒤의 전체 회고 | 전체 `summary` | `improvement_plan`, 프로젝트 회고 문서 |
+
 핵심은 생성형 AI 기능을 `모델 호출 한 번`으로만 그리지 않는 데 있습니다. 요청을 읽고, 필요한 근거나 상태를 확보하고, 답변과 기록까지 하나의 구조로 봐야 합니다.
 
 ## 사례로 보기
