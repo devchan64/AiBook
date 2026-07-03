@@ -26,6 +26,11 @@ P5-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 이 절에서는 에이전트를 추상적인 개념으로 두지 않고, `반복 루프(loop)`로 읽습니다.
 
+| 지금 에이전트 루프에서 먼저 남길 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
+| --- | --- | --- |
+| `plan`, `action`, `observation` | 어느 단계에서 판단이 바뀌었는지 남겨야 루프 실패와 재시도 이유를 다시 좁힐 수 있어서 | P5-14.2의 trace/log, Part 6의 `execution_records`로 이어진다 |
+| `stop_reason`, `ask_human_review`, `next_action` | 언제 멈췄고 왜 사람에게 넘겼는지 남겨야 운영 단계에서 stop/fallback 경로를 다시 읽을 수 있어서 | P5-16.2의 실패 대응과 Part 6의 `incident_records`, `next_action`으로 이어진다 |
+
 ## 이 절의 목표
 
 - 계획, 행동, 관찰을 각각 설명할 수 있습니다.
