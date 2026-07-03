@@ -36,13 +36,7 @@ P5-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 �
 
 즉, 이 절에서 가장 짧게 붙잡아야 할 닫힘 구조는 `요청 흐름 설계 -> run record로 남기기 -> 프로젝트 회고로 확장`입니다. 여기서는 그 가운데 단계인 `run record로 남기기`를 맡고 있고, Part 6에서 이 기록이 review summary와 improvement plan으로 더 자랍니다.
 
-그래서 Part 5 안에서는 Chapter 17이 실제로 Part 6 회고 문서로 넘어가는 마지막 본류 다리 역할을 맡습니다. 여기서 남기는 `retrieved_doc_ids`, `needs_human_review`, `run_status`, `summary` 같은 기록은 뒤의 Part 6에서 `review_summary`, `incident_records`, `improvement_plan`으로 더 또렷하게 자라나며, 바로 다음 프로젝트 문서의 입력으로 다시 쓰이게 됩니다.
-
-| P5 최소 구현에서 먼저 남기는 것 | Part 6에서 다시 자라는 산출물 |
-| --- | --- |
-| `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence` |
-| `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` |
-| 질문별 `run record`, 전체 `summary` | `execution_records`, `improvement_plan`, 프로젝트 회고 문서 |
+그래서 Part 5 안에서는 Chapter 17이 실제로 Part 6 회고 문서로 넘어가는 마지막 본류 다리 역할을 맡습니다. 여기서 남기는 `retrieved_doc_ids`, `document_scores`, `needs_human_review`, `run_status`, 질문별 `run record`, 전체 `summary` 같은 기록은 뒤의 Part 6에서 `retrieval_records`, `selected_evidence`, `review_summary`, `incident_records`, `execution_records`, `improvement_plan` 같은 더 큰 프로젝트 산출물로 자라나며, 바로 다음 프로젝트 문서의 입력으로 다시 쓰이게 됩니다.
 
 ## 이 절의 목표
 
