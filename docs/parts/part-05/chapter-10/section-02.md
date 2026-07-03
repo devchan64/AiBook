@@ -63,8 +63,6 @@ RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 
 
 즉, 모델은 `질문만` 받는 것이 아니라, `질문 + 관련 문서 + 응답 지시`를 함께 받게 됩니다.
 
-다음처럼 기억하면 좋습니다.
-
 `RAG는 검색 결과를 모델 바깥에서 따로 가지고 있다가, 답하기 직전에 입력 맥락으로 붙여 넣는 구조다.`
 
 여기서 먼저 남겨야 할 것은 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지를 보여 주는 `retrieved_doc_ids`, `document_scores`, `selected_evidence`, 그리고 문서는 가져왔지만 답이 과장되었는지와 근거 위에 섰는지를 보여 주는 `answer_draft`, `grounding_check`, `answer_status`입니다. 이 기록이 있어야 검색 실패와 생성 실패를 나눌 수 있고, 뒤로 갈수록 P5-11.1, P5-11.2의 검색 품질 점검, P5-15의 평가, P5-16의 운영 판단, Part 6의 `retrieval_records`, `selected_evidence`, `grounded_answer_record`, `review_summary`로 다시 읽힙니다.
