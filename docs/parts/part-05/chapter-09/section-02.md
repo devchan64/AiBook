@@ -459,7 +459,7 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 - 출력 흔들림
 - 실행 불가
 
-이 한계가 드러나면서 RAG, tool use, agent, evaluation, harness 같은 다음 구조가 중요해졌습니다.
+즉, 여기서부터는 프롬프트를 더 다듬는 일만으로는 부족하고, 근거 연결은 RAG로, 실행은 tool use와 agent로, 검증과 운영은 evaluation과 harness로 넘겨 읽어야 합니다.
 
 커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
 
