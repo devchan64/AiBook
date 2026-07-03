@@ -394,7 +394,7 @@ Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능�
 - Part 5의 Transformer는 `다음 토큰을 예측하는 언어 모델 구조`로 다시 읽어야 합니다.
 - 토큰은 임베딩으로 바뀐 뒤 Transformer 블록을 통과합니다.
 - self-attention은 문맥 관계를 읽고, 마지막에는 다음 토큰 점수로 이어집니다.
-- 이 구조가 이후 BERT, GPT, pretraining, prompt 설명의 기반입니다.
+- 이 구조가 이후 GPT, 사전학습, 프롬프트 설명의 기반입니다.
 
 ## 체크리스트
 
