@@ -69,10 +69,7 @@ RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 
 
 `RAG는 검색 결과를 모델 바깥에서 따로 가지고 있다가, 답하기 직전에 입력 맥락으로 붙여 넣는 구조다.`
 
-| 지금 검색-생성 결합 단계에서 먼저 남길 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
-| --- | --- | --- |
-| `retrieved_doc_ids`, `document_scores`, `selected_evidence` | 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지 남겨야 검색 실패와 생성 실패를 나눌 수 있어서 | P5-11.1, P5-11.2의 검색 품질 점검과 Part 6의 `retrieval_records`, `selected_evidence`로 이어진다 |
-| `answer_draft`, `grounding_check`, `answer_status` | 문서는 가져왔지만 답이 과장되었는지, 근거 위에 섰는지 남겨야 생성 단계 실패를 다시 볼 수 있어서 | P5-15의 평가, P5-16의 운영 판단, Part 6의 `grounded_answer_record`, `review_summary`로 이어진다 |
+여기서 먼저 남겨야 할 것은 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지를 보여 주는 `retrieved_doc_ids`, `document_scores`, `selected_evidence`, 그리고 문서는 가져왔지만 답이 과장되었는지와 근거 위에 섰는지를 보여 주는 `answer_draft`, `grounding_check`, `answer_status`입니다. 이 기록이 있어야 검색 실패와 생성 실패를 나눌 수 있고, 뒤로 갈수록 P5-11.1, P5-11.2의 검색 품질 점검, P5-15의 평가, P5-16의 운영 판단, Part 6의 `retrieval_records`, `selected_evidence`, `grounded_answer_record`, `review_summary`로 다시 읽힙니다.
 
 ## 문서를 많이 넣으면 항상 좋은가
 
