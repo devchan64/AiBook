@@ -83,6 +83,8 @@ RAG 프로젝트에서는 최소 두 종류의 실패가 있습니다.
 
 이번 예제의 목적은 검색 점수와 답변 가능 여부를 함께 출력하는 것입니다. 이번에는 질문별로 `retrieval_candidates`, `answer_status`, `needs_revision`가 남는 `evaluation_records`를 만들겠습니다.
 
+이 기록이 필요한 이유는 `답이 틀렸다`에서 멈추지 않고, 그 실패가 `문서를 못 찾은 것인지`, `근거가 부족해 멈춘 것인지`, `답변 단계에서 과장한 것인지`를 다음 수정 때 다시 분리해 볼 수 있게 하기 위해서입니다.
+
 - 문제 상황: 질문마다 검색 실패와 답변 실패를 구분해 기록한다.
 - 입력(input): 문서 조각 3개, 질문 2개
 - 기대 출력(output): 질문별 top score, 답변 상태, 수정 필요 여부, 후보 문서 목록
@@ -206,6 +208,53 @@ evaluation_records =
 이 표가 있으면 검색 실패와 답변 실패를 나중에 따로 다시 볼 수 있습니다.
 
 이 표는 Part 6의 RAG 프로젝트에서 사실상 `평가 기록 템플릿` 역할을 합니다.
+
+## 바로 쓰는 평가 기록 템플릿
+
+문서에 바로 붙여 넣어 쓸 최소 틀은 다음 정도면 충분합니다.
+
+```text
+### review_summary
+- question_count:
+- grounded_answer_count:
+- insufficient_evidence_count:
+- needs_revision_questions:
+
+### evaluation_records
+| question | top_doc_id | top_score | answer_status | needs_revision | note |
+| --- | --- | ---: | --- | --- | --- |
+|  |  |  | grounded answer / insufficient evidence | True / False |  |
+```
+
+이 템플릿에서 중요한 점은 화려한 평가 지표를 많이 넣는 일이 아니라, 질문별로 `검색 결과`, `답변 상태`, `수정 필요 여부`가 한 줄에 같이 남는가입니다.
+
+이번 절의 예시를 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
+
+```text
+### review_summary
+- question_count: 2
+- grounded_answer_count: 1
+- insufficient_evidence_count: 1
+- needs_revision_questions:
+  - MCP는 왜 필요한가?
+
+### evaluation_records
+| question | top_doc_id | top_score | answer_status | needs_revision | note |
+| --- | --- | ---: | --- | --- | --- |
+| RAG가 왜 필요한가? | doc_1 | 1 | grounded answer | False | 답변 가능 |
+| MCP는 왜 필요한가? | doc_1 | 0 | insufficient evidence | True | 문서 범위 밖 질문 |
+```
+
+## 나쁜 평가 기록과 좋은 평가 기록
+
+RAG 평가 기록도 자주 너무 짧거나, 반대로 근거 없이 `잘 됐다`는 감상으로 끝납니다. 다음 정도로 대비해 보면 기준이 더 분명해집니다.
+
+| 구분 | 예시 |
+| --- | --- |
+| 나쁜 기록 | `검색은 됐고 답도 대체로 괜찮았다. 이상한 질문은 나중에 보자.` |
+| 좋은 기록 | `질문 2개 중 1개는 grounded answer였고, 'MCP는 왜 필요한가?'는 top_score 0으로 insufficient evidence였다. 현재 문서 집합에 근거가 없으므로 답변을 확장하지 않고 needs_revision에 남긴다.` |
+
+나쁜 기록은 분위기만 남고, 어떤 질문이 막혔는지와 다음 수정 지점이 보이지 않습니다. 좋은 기록은 `질문별 상태`, `근거 부족 여부`, `지금 멈춘 이유`, `다음 수정 대상`이 함께 남습니다.
 
 ## 다음 프로젝트와의 연결
 

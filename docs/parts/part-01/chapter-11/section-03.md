@@ -202,6 +202,14 @@ LLM을 이해할 때 다음 축약은 조심해야 합니다.
 
 이 흐름을 알면 LLM을 갑자기 등장한 마술 같은 기술로 보지 않게 됩니다. LLM은 언어를 확률적으로 다루는 연구, 벡터 표현, sequence modeling, Attention, Transformer, 대규모 사전학습이 결합된 결과입니다.
 
+처음 읽을 때는 모든 계보를 외우려 하지 말고 아래 세 줄만 남겨도 충분합니다.
+
+| 지금은 이것만 기억 | 뒤에서 다시 읽는 위치 |
+| --- | --- |
+| Transformer는 토큰들이 서로를 직접 참고하게 한 self-attention 중심 구조다. | Part 4의 Transformer 본문 |
+| 사전학습은 큰 텍스트에서 언어 패턴을 먼저 배우는 단계다. | Part 5의 GPT/LLM 본류 설명 |
+| BERT와 GPT는 모두 Transformer 계열이지만 같은 역할의 모델은 아니다. | Part 5의 BERT 비교와 LLM 발전사 배경 축 |
+
 ## 체크리스트
 
 - Transformer를 self-attention 중심 구조로 설명할 수 있다.

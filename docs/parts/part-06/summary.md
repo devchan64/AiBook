@@ -30,14 +30,33 @@ Part 6의 전체 흐름은 다음처럼 정리할 수 있습니다.
 
 이 흐름을 `산출물` 기준으로 다시 묶으면 다음처럼 정리할 수 있습니다.
 
-| 프로젝트 축 | 남겨야 하는 핵심 기록 |
+| 프로젝트 축 | 남겨야 하는 핵심 기록 | 이 기록이 필요한 이유 |
+| --- | --- | --- |
+| 분석 시작 | `project_note`, `retrospective_note` | 무엇을 보려 했고 무엇을 다시 볼지 남겨야 다음 탐색이 이어집니다. |
+| baseline 비교 | `project_run`, `comparison_rows`, `baseline_error_ids` | 실행 결과와 틀린 사례를 함께 남겨야 개선 해석이 가능합니다. |
+| 이미지/텍스트 분류 | `test_records`, `evaluation_records`, 오류 샘플 ID | 점수표만이 아니라 샘플별 판단 근거를 다시 읽어야 하기 때문입니다. |
+| RAG | `retrieval_records`, `selected_evidence`, `grounded_answer_record` | 답변보다 먼저 검색 근거와 연결 방식을 검증해야 하기 때문입니다. |
+| agent | `planned_steps`, `execution_records`, `review_summary` | 계획과 실제 실행 경로를 나눠 봐야 막힌 지점을 추적할 수 있기 때문입니다. |
+| 배포와 운영 | `incident_records`, `improvement_plan` | 실패를 남기고 다음 조치를 분리해야 운영 회고가 쌓이기 때문입니다. |
+
+이 표를 다시 가장 작게 줄이면, 각 축에서 먼저 빠지면 안 되는 기록은 다음과 같습니다.
+
+| 프로젝트 축 | 먼저 빠지면 안 되는 기록 |
 | --- | --- |
-| 분석 시작 | `project_note`, `retrospective_note` |
-| baseline 비교 | `project_run`, `comparison_rows`, `baseline_error_ids` |
-| 이미지/텍스트 분류 | `test_records`, `evaluation_records`, 오류 샘플 ID |
-| RAG | `retrieval_records`, `selected_evidence`, `grounded_answer_record` |
-| agent | `planned_steps`, `execution_records`, `review_summary` |
-| 배포와 운영 | `incident_records`, `improvement_plan` |
+| 분석 시작 | 질문 한 문장과 관찰 메모 |
+| baseline 비교 | 가장 단순한 기준 결과 |
+| 이미지/텍스트 분류 | 대표 오류 샘플과 평가 기록 |
+| RAG | 근거 문서와 `answer_status` |
+| agent | 도구 순서와 승인 상태 |
+| 배포와 운영 | 실패 category와 `next_action` |
+
+Part 5 마지막 최소 구현과 바로 이어서 읽으면, 기록 이름의 연결도 다음처럼 다시 묶을 수 있습니다.
+
+| Part 5에서 먼저 남긴 기록 | Part 6에서 더 큰 산출물로 다시 쓰는 이름 | 이름이 커질 때 붙는 역할 |
+| --- | --- | --- |
+| `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence` | 검색 점수를 프로젝트 차원의 근거 기록으로 묶습니다. |
+| `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` | 검토 필요 상태를 운영 판단과 장애 기록으로 확장합니다. |
+| 질문별 `run record`, 전체 `summary` | `execution_records`, `improvement_plan`, `retrospective_note` | 실행 이력을 다음 개선 순서와 회고 문서로 연결합니다. |
 
 프로젝트마다 주제가 다르더라도, 공통적으로 남아야 하는 질문은 같습니다.
 
@@ -65,11 +84,13 @@ Part 6에서 꼭 가져가야 할 관점은 다음과 같습니다.
 
 이 관점을 한 단계 더 실무적으로 바꾸면, `결과 숫자`보다 `무슨 기록을 남겼는가`가 더 중요할 때가 많습니다.
 
-- baseline 프로젝트에서는 `accuracy`만이 아니라 `어떤 샘플을 틀렸는가`가 남아야 합니다.
-- 텍스트 프로젝트에서는 `정답/오답`만이 아니라 `tokens`, `coverage`, `oov_tokens`가 남아야 합니다.
-- RAG 프로젝트에서는 `답변`만이 아니라 `retrieval_candidates`, `answer_status`, `selected_doc_id`가 남아야 합니다.
-- agent 프로젝트에서는 `성공/실패`만이 아니라 `permission`, `approved`, `next_action`이 남아야 합니다.
-- 배포 프로젝트에서는 `배포 완료`만이 아니라 `incident_records`, `priority`, `next_action`이 남아야 합니다.
+- baseline 프로젝트에서는 `accuracy`만이 아니라 `어떤 샘플을 틀렸는가`가 남아야 합니다. 즉 `baseline_error_ids` 같은 기록이 있어야 다음 비교가 살아납니다.
+- 텍스트 프로젝트에서는 `정답/오답`만이 아니라 `tokens`, `coverage`, `oov_tokens`가 남아야 합니다. 어떤 입력이 잘렸고 어떤 단어가 빠졌는지 봐야 전처리 문제를 다시 찾을 수 있기 때문입니다.
+- RAG 프로젝트에서는 `답변`만이 아니라 `retrieval_candidates`, `answer_status`, `selected_doc_id`가 남아야 합니다. 답변이 아니라 근거 선택 과정이 품질 검토의 출발점이기 때문입니다.
+- agent 프로젝트에서는 `성공/실패`만이 아니라 `permission`, `approved`, `next_action`이 남아야 합니다. 어떤 승인과 차단이 있었는지 알아야 실행 경로를 다시 설계할 수 있기 때문입니다.
+- 배포 프로젝트에서는 `배포 완료`만이 아니라 `incident_records`, `priority`, `next_action`이 남아야 합니다. 운영 기록은 완료 선언보다 다음 조치 순서가 더 중요하기 때문입니다.
+
+이 예시 축들은 Part 6 안에서 이미 충분히 분산 회수되고 있으므로, 현재 판에서는 별도 프로젝트 `보충학습`을 더 만들지 않는 편이 낫습니다. 대신 각 절의 본문 예시가 `질문 -> 기록 -> 회고` 흐름을 바로 보여 주도록 유지하는 것이 더 중요합니다. 자율주행 경로 계획의 route, path, trajectory, control 층위 구분은 현재 프로젝트 축으로 다시 끌고 오지 않고, Part 1의 보충학습 사례로 남겨 두는 편이 책 전체 범위와 더 잘 맞습니다.
 
 ## 오해하기 쉬운 지점
 
@@ -133,6 +154,16 @@ Part 6은 다음 질문을 독자의 이후 프로젝트로 넘깁니다.
 - `comparison_rows`, `test_records`, `evaluation_records`처럼 샘플별 기록이 남아 있는가?
 - `selected_evidence`, `retrieval_candidates`처럼 근거 기록이 남아 있는가?
 - `execution_records`와 `incident_records`처럼 운영 흐름이 남아 있는가?
+
+이 점검을 더 짧게 다시 읽으면 다음과 같습니다.
+
+| 먼저 확인할 것 | 왜 중요한가 |
+| --- | --- |
+| 질문이 남았는가 | 프로젝트가 무엇을 검증하려 했는지 되살리기 위해 |
+| baseline이 남았는가 | 개선 해석의 기준선을 되살리기 위해 |
+| 오류나 실패가 남았는가 | 다음 반복의 출발점을 만들기 위해 |
+| 근거와 실행 경로가 남았는가 | RAG/agent 결과를 다시 검증하기 위해 |
+| 다음 조치가 남았는가 | 회고가 메모에서 끝나지 않게 하기 위해 |
 
 ## 이 책 전체와 연결되는 관점
 

@@ -101,6 +101,53 @@ GitHub Docs는 GitHub Pages가 정적 파일을 배포하며, 필요하면 build
 | latest content | 가장 최근 수정이 반영되었는가? |
 | broken links | 주요 내부 링크가 깨지지 않았는가? |
 
+## 바로 쓰는 배포 확인 템플릿
+
+배포 직후 문서에 바로 붙여 넣어 쓸 최소 확인 틀은 다음 정도면 충분합니다.
+
+```text
+### deployment_check
+- build_status:
+- publish_status:
+- site_url:
+- latest_content_checked:
+- broken_links_checked:
+- note:
+
+### monitoring_note
+- reader_visible_issue:
+- next_check:
+```
+
+이 템플릿의 핵심은 `배포했다`에서 끝내지 않는 것입니다. 적어도 `빌드는 성공했는가`, `공개 페이지는 열리는가`, `최신 수정이 실제로 보이는가`는 분리해 남겨야 합니다.
+
+이번 절의 흐름을 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
+
+```text
+### deployment_check
+- build_status: success
+- publish_status: triggered
+- site_url: https://example.github.io/book/
+- latest_content_checked: latest section title is visible on deployed page
+- broken_links_checked: 핵심 내부 링크 3개 직접 확인
+- note: build success와 public page check를 분리해 기록함
+
+### monitoring_note
+- reader_visible_issue: none
+- next_check: 공개 페이지에서 최신 수정 반영 여부를 1회 더 확인
+```
+
+## 나쁜 배포 확인 기록과 좋은 배포 확인 기록
+
+배포 확인 기록도 자주 `올렸다`, `정상 같다` 정도로 끝납니다. 다음 정도로 대비해 보면 기준이 더 분명해집니다.
+
+| 구분 | 예시 |
+| --- | --- |
+| 나쁜 기록 | `배포했고 사이트도 아마 괜찮다.` |
+| 좋은 기록 | `mkdocs build는 성공했고 publish도 트리거되었다. 공개 URL 접속과 최신 섹션 제목 노출을 직접 확인했으며, 핵심 내부 링크 3개도 404 없이 열렸다.` |
+
+나쁜 기록은 배포 감상만 남고 실제 확인 항목이 없습니다. 좋은 기록은 `build`, `publish`, `public page`, `latest content`, `broken links`가 각각 확인됐는지를 함께 남깁니다.
+
 ## Python/터미널 예시 대신 남길 수 있는 실제 명령
 
 이 프로젝트에서는 코드보다 명령 흐름이 더 중요합니다.

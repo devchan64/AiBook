@@ -107,7 +107,7 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 agent 상태(state)와 tool result를 순서대로 기록하는 것입니다. 이번에는 단순히 `tool`과 `result`만 출력하지 않고, `planned_steps`, `execution_records`, `final_report`를 함께 남겨 실제 실행 루프가 어떻게 문서화되는지 보이게 하겠습니다.
+이번 예제의 목적은 agent 상태(state)와 tool result를 순서대로 기록하는 것입니다. 이번에는 단순히 `tool`과 `result`만 출력하지 않고, `planned_steps`, `execution_records`, `final_report`를 함께 남겨 실제 실행 루프가 어떻게 문서화되는지 보이게 하겠습니다. `planned_steps`는 agent가 왜 그 순서를 택했는지 남기는 계획 기록이고, `execution_records`는 각 단계의 관찰과 다음 행동 결정을 이어 주며, `final_report`는 흩어진 실행 로그를 마지막 사용자 보고로 묶는 역할을 합니다.
 
 - 문제 상황: 제한된 도구 집합으로 하나의 작업을 끝까지 연결한다.
 - 입력(input): 목표 1개, 도구 3개, 단계별 계획

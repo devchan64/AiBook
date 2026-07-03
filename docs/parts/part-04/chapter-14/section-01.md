@@ -6,7 +6,7 @@ P4-13.2에서는 self-attention이 같은 시퀀스 내부 토큰들이 서로�
 
 이 절은 그 질문에 답합니다.
 
-Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 학습을 안정화하는 구조로 이해할 수 있다.
+Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 그 계산 블록을 무너지지 않게 이어 가는 구조로 이해할 수 있다.
 
 ## 이 절의 범위
 
@@ -17,13 +17,22 @@ Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트
 - 왜 이 구조가 RNN 이후 큰 전환점처럼 보였는가?
 - encoder/decoder 세부 이전에 어떤 큰 지도를 먼저 잡아야 하는가?
 
+이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 self-attention이라는 한 아이디어가 아니라, 문맥 읽기와 표현 가공, 블록 유지 장치를 한 묶음으로 가진 구조`라는 점입니다. 즉, 이 절의 중심은 `어떤 부품이 한 블록을 이루는가`이지, 그 블록이 대규모 학습에서 얼마나 멀리 확장되는가가 아닙니다. 계산 규모와 긴 문맥 문제는 다음 P4-14.2에서 따로 읽습니다.
+
+처음 읽을 때는 이 절을 `구조 축`으로만 고정해 두면 덜 흔들립니다.
+
+| 지금 이 절에서 읽는 것 | 아직 다음 절로 넘기는 것 |
+| --- | --- |
+| self-attention, feed-forward, residual, normalization이 한 블록 안에서 어떻게 역할을 나누는가 | 그 블록이 병렬 처리, 긴 문맥 비용, 계산 규모에서 무엇을 바꾸는가 |
+| 블록 내부의 관계 읽기와 표현 가공 | 대규모 학습 절차와 long-context 최적화 |
+
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
 - multi-head attention의 수식 전개
 - positional encoding의 상세 수학
 - encoder-only, decoder-only, encoder-decoder 계열의 세부 아키텍처 분화
 
-multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 실제 분화는 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 다시 회수합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
+multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 세부 분화는 뒤 Part에서 다시 비교합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
 여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
 
@@ -31,7 +40,7 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 
 - Transformer를 self-attention 하나가 아니라 여러 핵심 부품의 조합으로 설명할 수 있습니다.
 - 각 부품이 문맥 읽기, 표현 가공, 학습 안정화 중 어떤 역할을 하는지 말할 수 있습니다.
-- 이후 Part 5의 P5-3.1, P5-19.1, P5-4.1에서 LLM 구조를 다시 볼 때 기본 블록을 떠올릴 수 있습니다.
+- 이후 다른 모델 계열을 볼 때도 Transformer의 기본 블록을 떠올릴 수 있습니다.
 - 실행 가능한 Python 예제로 토큰 표현이 여러 단계를 거쳐 바뀌는 흐름을 직관적으로 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
@@ -41,7 +50,7 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 1. 먼저 P4-13.2에서 본 self-attention이 Transformer 안에서 어느 자리에 놓이는지 확인합니다.
 2. 그 다음 self-attention, feed-forward, residual, layer normalization의 역할을 나눠 읽습니다.
 3. 이어서 이 부품들이 왜 하나의 반복 블록으로 묶였는지 봅니다.
-4. 마지막에 왜 이 블록 구조가 Part 5의 LLM 설명으로 이어지는지 정리합니다.
+4. 마지막에 왜 이 블록 구조가 이후 생성 모델의 기본 단위가 되었는지 정리합니다.
 
 ## Transformer를 아주 큰 그림으로 보면
 
@@ -60,6 +69,13 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 - layer normalization: 값의 스케일을 다루며 학습을 안정화한다
 
 즉, Transformer는 `문맥 관계를 읽고 -> 표현을 가공하고 -> 정보 흐름을 안정적으로 유지하는 블록`의 반복 구조라고 볼 수 있습니다.
+
+처음 읽을 때는 아래 세 줄만 바로 구분해도 충분합니다.
+
+| 지금 이 절에서 먼저 못 박을 것 | 아직 여기서 끝내지 않는 것 | 바로 다음 절로 넘길 것 |
+| --- | --- | --- |
+| self-attention, feed-forward, residual, normalization이 한 블록을 이룬다 | GPU 규모, 긴 문맥 비용, long-context 최적화를 다 설명하지 않는다 | 그 블록이 실제 계산 규모에서 무엇을 바꾸는지 |
+| 블록 내부 역할 분담을 읽는다 | 대규모 학습과 서비스 확장 문제를 닫지 않는다 | P4-14.2의 병렬 처리와 긴 문맥 |
 
 역할 분담을 표로 다시 보면 다음과 같습니다.
 
@@ -159,15 +175,15 @@ flowchart TD
 
 ## 왜 이 구성이 중요했나
 
-Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하나를 추가했기 때문이 아닙니다. 핵심은 다음이 함께 결합되었다는 점입니다.
+Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하나를 추가했기 때문이 아닙니다. 이 절 범위에서 먼저 봐야 할 핵심은 다음 부품들이 `반복 가능한 한 블록`으로 결합되었다는 점입니다.
 
 - attention 중심의 문맥 참조
-- 병렬 계산과 잘 맞는 구조
-- 깊은 네트워크를 안정적으로 반복할 수 있는 블록 설계
+- 위치별 표현을 다시 가공하는 feed-forward
+- 원래 흐름과 값 범위를 유지하는 residual, normalization
 
-즉, Transformer는 `sequence modeling의 핵심 계산 방식`과 `대규모 학습 구조`를 동시에 바꾼 아키텍처였습니다.
+즉, Transformer는 `sequence modeling의 핵심 계산 방식`을 새 블록 단위로 다시 묶은 아키텍처였습니다.
 
-즉, 이 절에서 꼭 잡아야 할 변화는 `attention이 유용하다`는 수준에서 멈추지 않고, `attention이 반복 가능한 표준 블록 안으로 들어오면서 현대 모델 구조의 기본 단위가 되었다`는 점입니다.
+즉, 이 절에서 꼭 잡아야 할 변화는 `attention이 유용하다`는 수준에서 멈추지 않고, `attention이 반복 가능한 표준 블록 안으로 들어오면서 현대 모델 구조의 기본 단위가 되었다`는 점입니다. 병렬 처리와 대규모 학습 규모는 바로 다음 절에서 이 블록을 바깥 계산 환경과 연결하며 다시 읽습니다.
 
 ## 사례로 보기
 
@@ -210,6 +226,15 @@ flowchart TD
 ## 실행 가능한 Python 예제로 보기
 
 이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 숫자 변화로 보는 것입니다.
+
+코드를 읽기 전에 아래 네 값부터 순서대로 보면 이 절의 구조 축이 덜 흩어집니다.
+
+| 먼저 볼 값 | 왜 먼저 보아야 하는가 |
+| --- | --- |
+| `contextual tokens` | self-attention이 다른 토큰 정보를 먼저 어떻게 섞는지 바로 보이기 때문에 |
+| `feed-forward output` | attention으로 섞인 표현이 각 위치에서 다시 어떻게 가공되는지 이어서 볼 수 있어서 |
+| `after residual` | 새 계산 결과만 쓰지 않고 원래 입력 표현도 함께 남긴다는 점을 확인할 수 있어서 |
+| `after simple layer norm` | 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 마지막에 붙잡을 수 있어서 |
 
 문제 상황:
 
@@ -352,16 +377,9 @@ after simple layer norm =
 
 즉, Transformer 블록은 `attention 하나`가 아니라, `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`가 한 묶음으로 반복되는 구조입니다. 이 감각이 잡혀야 다음 절 P4-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
 
-Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계가 이후 LLM, 멀티모달 모델, 대규모 생성형 AI 구조의 사실상 기본 언어가 되었습니다.
+Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계는 이후 다양한 대규모 언어·멀티모달 모델에서 공통 기본 단위처럼 재사용되었습니다.
 
-커리큘럼 관점에서 이 절은 매우 중요합니다.
-
-- 바로 앞의 P4-13.1, P4-13.2에서 본 attention과 self-attention을 실제 모델 블록 구조로 묶어 읽게 하고
-- Part 4의 딥러닝 구조를 현대 아키텍처로 연결하고
-- Part 5의 LLM 구조 설명을 위한 최소 공통 블록을 제공하며
-- self-attention을 실제 시스템 블록으로 재해석하게 만들기 때문입니다
-
-즉, 이 절은 `Transformer를 공식 집합이 아니라 블록 구조로 읽게 만드는 절`입니다.
+즉, 이 절은 attention과 self-attention 설명을 실제 모델 블록으로 묶어, Transformer를 `부품 이름 모음`이 아니라 `관계 읽기 + 위치별 가공 + 안정화`가 반복되는 구조로 읽게 만드는 절입니다.
 
 따라서 이 절에서 확인해야 할 최종 결과는 Transformer를 `self-attention 하나의 이름`이 아니라, 문맥 읽기와 표현 가공과 안정화 장치가 반복적으로 결합된 기본 블록 구조로 설명할 수 있는가입니다.
 
@@ -376,10 +394,14 @@ Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 �
 
 ## 이 절에서 기억할 관점
 
+| 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 아직 여기서 하지 않는 일 |
+| --- | --- | --- |
+| Transformer는 attention, feed-forward, residual, normalization을 블록으로 묶는다 | 이 블록이 왜 긴 문맥과 대규모 병렬 처리에 유리했는가 | 사전학습과 LLM 운영 구조 전체를 설명하는 일 |
+
 - Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
 - self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
 - residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
-- 이 블록 구조를 이해하면 이후 LLM 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
+- 이 블록 구조를 이해하면 이후 다른 생성 모델 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
 
 ## 체크리스트
 
