@@ -40,10 +40,7 @@ P5-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 즉, 이 절에서 가장 짧게 붙잡아야 할 닫힘 구조는 `agent 목표 흐름 -> plan-action-observation 반복 루프 -> MCP/harness 관리`입니다. 여기서는 그 가운데 단계인 `반복 루프`를 맡고 있고, 바로 다음 장에서 이 루프가 쓰는 연결 규칙과 실행 기록 환경으로 넘어갑니다.
 
-| 지금 에이전트 루프에서 먼저 남길 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
-| --- | --- | --- |
-| `plan`, `action`, `observation` | 어느 단계에서 판단이 바뀌었는지 남겨야 루프 실패와 재시도 이유를 다시 좁힐 수 있어서 | P5-14.2의 trace/log, Part 6의 `execution_records`로 이어진다 |
-| `stop_reason`, `ask_human_review`, `next_action` | 언제 멈췄고 왜 사람에게 넘겼는지 남겨야 운영 단계에서 stop/fallback 경로를 다시 읽을 수 있어서 | P5-16.2의 실패 대응과 Part 6의 `incident_records`, `next_action`으로 이어진다 |
+여기서 먼저 남겨야 할 것은 어느 단계에서 판단이 바뀌었는지를 보여 주는 `plan`, `action`, `observation`, 그리고 언제 멈췄고 왜 사람에게 넘겼는지를 보여 주는 `stop_reason`, `ask_human_review`, `next_action`입니다. 이 기록이 있어야 루프 실패와 재시도 이유를 다시 좁힐 수 있고, 뒤로 갈수록 P5-14.2의 trace/log, P5-16.2의 실패 대응, Part 6의 `execution_records`, `incident_records`, `next_action`으로 다시 읽힙니다.
 
 ## 이 절의 목표
 
