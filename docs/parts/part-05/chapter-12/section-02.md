@@ -50,10 +50,7 @@ P5-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 
 즉, tool use가 `실행 필요성`을 열고, function calling은 그 실행을 `검증 가능한 구조`로 바꾸며, agent는 그런 구조들을 `목표 흐름` 안에서 이어 붙입니다. 이 차이가 보여야 함수 호출을 단순 제품 기능이 아니라, `실행 연결을 안정화하는 중간 층`으로 읽을 수 있습니다.
 
-| 지금 함수 호출 단계에서 먼저 남길 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
-| --- | --- | --- |
-| `tool_name`, `arguments`, 누락 필드 점검 결과 | 어떤 호출을 어떤 인자로 준비했는지 남겨야 자연어 요청과 실행 payload를 다시 맞춰 볼 수 있어서 | P5-13의 plan/action 루프, P5-14.2의 tool call log, Part 6의 `execution_records`로 이어진다 |
-| `result_schema`, 호출 실패 이유 | 결과를 어떤 형식으로 기대했고 어디서 호출이 막혔는지 남겨야 실행 실패와 후속 운영 실패를 구분할 수 있어서 | P5-15의 평가 입력, P5-16.2의 실패 대응, Part 6의 `incident_records`, `next_action`으로 이어진다 |
+여기서 먼저 남겨야 할 것은 어떤 호출을 어떤 인자로 준비했는지를 보여 주는 `tool_name`, `arguments`, 누락 필드 점검 결과와, 결과를 어떤 형식으로 기대했고 어디서 호출이 막혔는지를 보여 주는 `result_schema`, 호출 실패 이유입니다. 이 기록이 있어야 자연어 요청과 실행 payload를 다시 맞춰 보고, 실행 실패와 후속 운영 실패를 구분할 수 있습니다. 뒤로 갈수록 이 기록은 P5-13의 plan/action 루프, P5-14.2의 tool call log, P5-15의 평가 입력, P5-16.2의 실패 대응, Part 6의 `execution_records`, `incident_records`, `next_action`으로 다시 읽힙니다.
 
 ## 이 절의 목표
 
