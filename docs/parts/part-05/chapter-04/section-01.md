@@ -1,6 +1,6 @@
 # P5-4.1 GPT 계열의 위치
 
-여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다. 자세한 비교 축은 뒤에서 다시 정리합니다.
+여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다. 나머지 비교 배경은 뒤에서 다시 붙이면 충분합니다.
 
 계속 이어서 생성하는 모델은 Transformer 계열 안에서 어디에 놓이는가?
 
