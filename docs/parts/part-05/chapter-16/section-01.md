@@ -38,10 +38,7 @@ AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연
 
 즉, 이 절에서 가장 짧게 붙잡아야 할 닫힘 구조는 `좋은 답 판단 -> 서비스 한도 판단 -> 실패 대응과 요청 기록`입니다. 여기서는 그 가운데 단계인 `서비스 한도 판단`을 맡고 있고, 바로 다음 절과 Chapter 17에서 이 판단이 복구 경로와 run record로 남습니다.
 
-| 지금 운영에서 먼저 남길 판단 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 더 또렷해지는 기록 |
-| --- | --- | --- |
-| `primary_tradeoff`, `next_adjustment` | 어떤 운영 한도 때문에 후보가 막혔고 무엇을 먼저 줄이거나 바꿔야 하는지 남기기 위해 | P5-16.2의 실패 대응 경로와 Part 6의 `incident_records`, `next_action`으로 이어진다 |
-| `operationally_acceptable`, `summary` | 평가를 통과한 답이 실제 운영 후보로 남는지 다시 가리기 위해 | P5-17의 run record 요약과 Part 6의 `review_summary`, `improvement_plan`으로 이어진다 |
+여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지를 보여 주는 `primary_tradeoff`, `next_adjustment`, 그리고 평가를 통과한 답이 실제 운영 후보로 남는지를 다시 가르는 `operationally_acceptable`, `summary`입니다. 이 판단은 바로 다음 P5-16.2의 실패 대응 경로와 P5-17의 run record 요약으로 이어지고, Part 6에서는 `incident_records`, `next_action`, `review_summary`, `improvement_plan` 같은 더 큰 운영 회고 산출물로 다시 자랍니다.
 
 ## 이 절의 목표
 
