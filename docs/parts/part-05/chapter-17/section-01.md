@@ -53,8 +53,6 @@ P5-16장까지 오면 LLM, RAG, 도구 사용, 에이전트, 평가, 실패 대�
 | `primary_tradeoff=cost_too_high` | 검색 수, 호출 수, 모델 크기를 줄일지 정한다 | `execution_records`, 비용 요약, `summary` |
 | `primary_tradeoff=throughput_too_low` | 캐시, 큐, 처리량 제한 경로를 쓸지 정한다 | `incident_records`, 운영 메모, `summary` |
 
-이 표의 목적은 새 기록 이름을 늘리는 데 있지 않습니다. 현재 절에서는 `좋은 답 판단`, `실패 경로 결정`, `근거와 실행 확보`가 각각 따로 끝나는 것이 아니라, 요청 하나를 설명하는 같은 run record로 모여야 한다는 점만 분명히 잡으면 충분합니다.
-
 ## 이 절의 목표
 
 - 작은 생성형 AI 기능을 요청 흐름으로 설명할 수 있습니다.
