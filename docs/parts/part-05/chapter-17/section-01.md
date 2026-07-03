@@ -153,7 +153,7 @@ Part 5 뒤쪽 본류를 여기까지 이어서 가장 짧게 다시 묶으면, �
 
 이 네 가지는 Part 5 뒤쪽의 평가와 실패 대응 설명을 실제 설계로 끌어오는 최소 장치입니다.
 
-| 지금 설계 문장에서 먼저 붙잡을 것 | 바로 다음 절에서 남길 최소 기록 | Part 6에서 다시 자라는 산출물 |
+| 지금 설계 문장에서 먼저 붙잡을 것 | 바로 다음 절에서 남길 최소 기록 | P6-5.1, P6-5.2, P6-6.1, P6-7.1에서 다시 자라는 산출물 |
 | --- | --- | --- |
 | 질문과 검색 경로 | 질문별 `run record`, `retrieved_doc_ids`, `document_scores` | `retrieval_records`, `selected_evidence`, `execution_records` |
 | 답변 채택 여부와 사람 검토 필요 | `needs_human_review`, `run_status` | `review_summary`, `answer_status`, `incident_records` |
