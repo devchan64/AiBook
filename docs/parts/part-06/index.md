@@ -23,12 +23,14 @@ Part 6의 목적은 거대한 서비스를 완성하는 것이 아닙니다. 오
 
 여기서 중요한 점은 `프로젝트를 했다`는 말을 코드 파일 하나로 대신하지 않는 것입니다. Part 6에서는 가능한 한 다음 같은 기록 이름이 실제로 남아야 합니다.
 
-- `project_note`, `retrospective_note`
-- `project_run`, `comparison_rows`
-- `test_records`, `evaluation_records`
-- `retrieval_records`, `selected_evidence`
-- `execution_records`, `review_summary`
-- `incident_records`, `improvement_plan`
+| 기록 이름 | 왜 필요한가 |
+| --- | --- |
+| `project_note`, `retrospective_note` | 무엇을 확인하려 했고 무엇이 아직 불안정한지 남기기 위해 필요합니다. |
+| `project_run`, `comparison_rows` | baseline과 개선 결과를 같은 눈금으로 비교하기 위해 필요합니다. |
+| `test_records`, `evaluation_records` | 샘플별 오류와 평가 근거를 다시 읽기 위해 필요합니다. |
+| `retrieval_records`, `selected_evidence` | 답변보다 먼저 어떤 근거를 썼는지 검증하기 위해 필요합니다. |
+| `execution_records`, `review_summary` | agent가 어떤 순서로 움직였고 어디서 멈췄는지 추적하기 위해 필요합니다. |
+| `incident_records`, `improvement_plan` | 배포 뒤 실패와 다음 조치를 분리해 남기기 위해 필요합니다. |
 
 즉, Part 6은 `모델을 만들었다`보다 `무슨 기록을 남겼는가`를 더 엄격하게 묻는 파트입니다.
 
@@ -72,14 +74,14 @@ Part 5 마지막에서 이미 본 것처럼, 생성형 AI 기능은 `질문 -> �
 
 이 최소 산출물을 Part 6의 실제 프로젝트 축으로 다시 쓰면 다음처럼 볼 수 있습니다.
 
-| 프로젝트 축 | 대표 산출물 예시 |
-| --- | --- |
-| 분석 시작 | `project_note`, `retrospective_note` |
-| baseline 비교 | `project_run`, `baseline_error_ids` |
-| 이미지/텍스트 분류 | `test_records`, `evaluation_records` |
-| RAG | `retrieval_records`, `grounded_answer_record` |
-| agent | `planned_steps`, `execution_records`, `final_report` |
-| 배포/운영 | `review_summary`, `incident_records`, `improvement_plan` |
+| 프로젝트 축 | 대표 산출물 예시 | 이 이름을 처음 볼 때 잡아야 할 뜻 |
+| --- | --- | --- |
+| 분석 시작 | `project_note`, `retrospective_note` | 프로젝트를 시작한 이유와 끝난 뒤 남긴 회고 메모입니다. |
+| baseline 비교 | `project_run`, `baseline_error_ids` | 한 번의 실행 결과와 baseline이 자주 틀린 사례 목록입니다. |
+| 이미지/텍스트 분류 | `test_records`, `evaluation_records` | 샘플별 테스트 기록과 평가 판단 근거입니다. |
+| RAG | `retrieval_records`, `grounded_answer_record` | 어떤 문서를 찾았고 어떤 근거로 답했는지 남긴 기록입니다. |
+| agent | `planned_steps`, `execution_records`, `final_report` | 계획한 순서, 실제 실행 로그, 최종 정리 문서입니다. |
+| 배포/운영 | `review_summary`, `incident_records`, `improvement_plan` | 검토 요약, 장애 기록, 다음 개선 순서를 적는 문서입니다. |
 
 처음 프로젝트를 쓸 때는 각 축마다 아래 한 줄만 먼저 남겨도 흐름이 많이 또렷해집니다.
 
@@ -189,14 +191,14 @@ Part 6의 각 프로젝트는 가능한 한 다음 흐름으로 씁니다.
 
 이 공통 형식을 독자가 다시 점검할 때는 다음처럼 읽어도 좋습니다.
 
-| 문서 질문 | 확인할 산출물 |
-| --- | --- |
-| 무엇을 하려 했는가? | 목표 문장, `planned_steps`, `project_note` |
-| 무엇을 넣었는가? | 데이터 표, 문서 조각, 도구 목록 |
-| 어떻게 비교했는가? | baseline, `comparison_rows`, `evaluation_records` |
-| 무엇이 근거였는가? | `selected_evidence`, `retrieval_candidates` |
-| 어디서 멈췄는가? | `blocked`, `insufficient_evidence`, 실패 상태 |
-| 다음에 무엇을 바꿀 것인가? | `review_summary`, `improvement_plan` |
+| 문서 질문 | 확인할 산출물 | 산출물을 보는 이유 |
+| --- | --- | --- |
+| 무엇을 하려 했는가? | 목표 문장, `planned_steps`, `project_note` | 질문과 계획이 없으면 실행 로그만 남고 목적이 사라지기 때문입니다. |
+| 무엇을 넣었는가? | 데이터 표, 문서 조각, 도구 목록 | 입력이 빠지면 같은 프로젝트를 다시 실행할 수 없기 때문입니다. |
+| 어떻게 비교했는가? | baseline, `comparison_rows`, `evaluation_records` | 좋아졌다는 말을 같은 기준으로 해석해야 하기 때문입니다. |
+| 무엇이 근거였는가? | `selected_evidence`, `retrieval_candidates` | RAG와 agent 결과를 나중에 다시 검증해야 하기 때문입니다. |
+| 어디서 멈췄는가? | `blocked`, `insufficient_evidence`, 실패 상태 | 실패 지점을 남겨야 다음 반복의 출발점이 생기기 때문입니다. |
+| 다음에 무엇을 바꿀 것인가? | `review_summary`, `improvement_plan` | 회고가 감상문이 아니라 다음 조치로 이어져야 하기 때문입니다. |
 
 이 질문들을 더 실전적으로 줄이면 다음처럼도 점검할 수 있습니다.
 
