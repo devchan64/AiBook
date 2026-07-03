@@ -1,6 +1,6 @@
 # P5-3.1 Transformer를 LLM 관점에서 다시 읽기
 
-Part 4에서 본 Transformer 구조를 이제 Part 5의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다. 배경 비교는 뒤의 배경 축에서만 짧게 다시 봅니다.
+Part 4에서 본 Transformer 구조를 이제 Part 5의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 
 LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가?
 
@@ -22,7 +22,7 @@ LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention�
 - KV cache 구현
 - 추론 최적화와 서빙 엔진 구조
 
-Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들어가야 하는 multi-head attention, 위치 표현, KV cache는 같은 장의 P5-3.3 보충학습에서 다시 회수합니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P5-16.1 서비스 운영 제약에서 다시 연결합니다.
+Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들어가야 하는 multi-head attention, 위치 표현, KV cache는 같은 장의 P5-3.3 보충학습에서 다시 회수합니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P5-16.1 서비스 운영 제약에서 연결합니다.
 
 이 절에서는 Transformer 공식을 다시 전개하기보다, Part 5에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡습니다.
 
