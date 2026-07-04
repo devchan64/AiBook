@@ -233,7 +233,7 @@ for z in values:
     )
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 같은 z에서 sigmoid, tanh, relu가 각각 어떤 범위와 반응을 보이는지부터 비교하면 됩니다.
 
 ```text
 z=-2.0: sigmoid=0.119, tanh=-0.964, relu=0.000
