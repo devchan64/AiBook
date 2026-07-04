@@ -246,7 +246,7 @@ for idx, (x1, x2) in enumerate(samples, start=1):
     )
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 같은 input이 hidden 두 축에서 어떻게 다시 표현되고, 그 위에서 score가 어떻게 계산되는지부터 보면 됩니다.
 
 ```text
 sample_1: input=(1.0, 0.2), hidden=(0.72, 0.04), score=0.492
