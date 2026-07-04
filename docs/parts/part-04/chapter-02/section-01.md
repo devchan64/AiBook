@@ -237,7 +237,7 @@ for idx, (x1, x2) in enumerate(samples, start=1):
     )
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 `input`이 어떤 `hidden` 패턴을 거쳐 같은 `output`에 도달하는지 한 줄씩 비교해 보면 됩니다.
 
 ```text
 sample_1: input=(1.0, 0.5), hidden=(1, 0), output=1
