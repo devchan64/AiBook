@@ -593,8 +593,6 @@ convolution result =
 max pooling on top-left 2x2 region = 2.0
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
-
 - 필터는 위치마다 작은 패치를 읽어 점수를 만듭니다
 - 그 점수들이 모인 결과가 feature map입니다
 - pooling은 그중 강한 반응을 더 작은 크기로 요약합니다
