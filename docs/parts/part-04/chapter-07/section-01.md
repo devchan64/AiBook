@@ -241,8 +241,7 @@ lr = 0.5 -> updated_w = 9.0
 
 ## 이 절에서 기억할 관점
 
-- optimizer는 gradient를 실제 파라미터 업데이트로 바꾸는 규칙입니다.
-- 손실 함수, 역전파, optimizer는 각각 역할이 다릅니다.
+- optimizer는 gradient를 실제 파라미터 업데이트로 바꾸는 규칙이며, 손실 함수, 역전파, optimizer는 각각 역할이 다릅니다.
 - learning rate는 업데이트 보폭을 정하는 핵심 하이퍼파라미터입니다.
 - optimizer 선택은 단순 취향이 아니라 학습 전략의 일부입니다.
 
