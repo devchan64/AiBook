@@ -206,7 +206,7 @@ print("scalar multiply count =", scalar_multiply_count)
 print("same result =", np.allclose(scores_one_by_one, np.round(scores_batch, 3)))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 scores_one_by_one과 scores_batch가 같은지 먼저 보고, 그 계산이 몇 번 반복되는지 이어서 보면 됩니다.
 
 ```text
 batch shape = (4, 3)
