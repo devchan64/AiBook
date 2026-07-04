@@ -198,7 +198,7 @@ for lr in [0.01, 0.1, 0.5]:
     print("lr =", lr, "-> updated_w =", round(updated_w, 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 prediction, loss, gradient_w를 먼저 보고, learning rate마다 updated_w가 얼마나 달라지는지 이어서 보면 됩니다.
 
 ```text
 prediction = 2.0
