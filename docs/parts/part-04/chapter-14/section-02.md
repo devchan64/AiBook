@@ -312,8 +312,6 @@ matched line 4 (score=3): Item: lithium battery pack is hazardous.
 direct_decision = block_air_shipping
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
-
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
 | `sequential_support`와 `direct_decision`의 차이 | 상태 압축만으로는 앞 규칙이 약해지고, 직접 재참조는 필요한 줄을 다시 끌어온다는 뜻 | `decay`와 중간 로그 수를 바꾸면 순차 압축의 약화 정도가 더 직접 드러납니다 |
