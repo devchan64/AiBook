@@ -311,8 +311,6 @@ best_direct_match = Rule: shipping fee is excluded from refunds.
 direct_decision = keeps exclusion
 ```
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
-
 - 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `exclude`, `fee` 단서가 빠르게 약해집니다
 - `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
 - 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 예외 조건을 잃기 쉬워집니다
