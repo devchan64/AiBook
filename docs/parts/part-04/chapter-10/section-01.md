@@ -254,7 +254,7 @@ for idx, (raw, score, rep) in enumerate(zip(data, activity_score, representation
     )
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 activity_score 같은 단일 점수와 representation이 동시에 담는 축 정보를 먼저 비교하면 됩니다.
 
 ```text
 customer_1: raw=[2.0, 30.0], activity_score=23.00, representation=[5.9, 2.0]
