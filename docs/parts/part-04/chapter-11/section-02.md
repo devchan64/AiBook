@@ -293,7 +293,7 @@ for name, padding, stride, dilation in settings:
     print(result)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 result의 shape, 첫 patch, 그리고 최종 result 값이 어떻게 연결되는지 순서대로 보면 됩니다.
 
 ```text
 [base]
