@@ -596,7 +596,7 @@ max pooling on top-left 2x2 region = 2.0
 이 결과에서 읽어야 할 핵심은 다음입니다.
 
 - 필터는 위치마다 작은 패치를 읽어 점수를 만듭니다
-- 그 점수들이 모이면 feature map처럼 볼 수 있습니다
+- 그 점수들이 모인 결과가 feature map입니다
 - pooling은 그중 강한 반응을 더 작은 크기로 요약합니다
 
 CNN 교육에서 convolution과 pooling은 거의 항상 함께 소개됩니다. 이유는 이 둘이 CNN의 핵심 계산 흐름을 가장 압축적으로 보여 주기 때문입니다.
