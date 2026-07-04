@@ -204,243 +204,270 @@ nav:
               - "P2-15.1 수식을 코드로 옮기는 작은 절차": parts/part-02/chapter-15/section-01.md
               - "P2-15.2 Part 3로 넘어가기 전 점검": parts/part-02/chapter-15/section-02.md
       - Part 2 마무리: parts/part-02/summary.md
-  - Part 3. 머신러닝:
+  - Part 3. 데이터 모델링:
       - 개요: parts/part-03/index.md
+      - Module 1. 데이터 모델링의 역할:
+          - Chapter 1. 데이터 모델링은 무엇을 다루는가:
+              - "3.1 저장 구조와 문제 표현 구조는 어떻게 다른가": parts/part-03/chapter-01/section-01.md
+              - "3.2 샘플, 특징, 기준선, 출력 구조를 한눈에 보기": parts/part-03/chapter-01/section-02.md
+      - Module 2. 샘플 단위:
+          - Chapter 2. 샘플 단위를 어떻게 정하는가:
+              - "3.3 행 하나가 뜻하는 것은 무엇인가": parts/part-03/chapter-02/section-01.md
+              - "3.4 측정값과 샘플을 혼동하면 왜 문제가 생기는가": parts/part-03/chapter-02/section-02.md
+      - Module 3. 원시 로그와 요약 표:
+          - Chapter 3. 원시 로그를 요약 표로 바꾸는 법:
+              - "3.5 원시 로그, 요약 표, 집계 표의 차이": parts/part-03/chapter-03/section-01.md
+              - "3.6 같은 평균, 다른 패턴을 어떻게 드러내는가": parts/part-03/chapter-03/section-02.md
+      - Module 4. 특징과 표현:
+          - Chapter 4. 특징과 중간 표현을 설계하는 법:
+              - "3.7 평균, 기울기, 변동성은 왜 특징이 되는가": parts/part-03/chapter-04/section-01.md
+              - "3.8 세그먼트 표현과 토큰화된 표현은 어디까지 쓸 수 있는가": parts/part-03/chapter-04/section-02.md
+      - Module 5. 기준선과 해석:
+          - Chapter 5. 기준선 비교와 변화 해석:
+              - "3.9 기준선은 왜 데이터 모델링의 일부인가": parts/part-03/chapter-05/section-01.md
+              - "3.10 변화 신호와 원인 확정을 왜 분리해야 하는가": parts/part-03/chapter-05/section-02.md
+      - Module 6. 표본 수와 문제 유형:
+          - Chapter 6. 표본 수, 반복성, 라벨, 문제 유형:
+              - "3.11 표본 수와 반복성은 왜 해석의 일부인가": parts/part-03/chapter-06/section-01.md
+              - "3.12 경고, 검토 후보, 라벨 예측을 어떻게 구분하는가": parts/part-03/chapter-06/section-02.md
+      - Part 3 마무리: parts/part-03/summary.md
+  - Part 4. 머신러닝:
+      - 개요: parts/part-04/index.md
       - Module 1. 머신러닝의 위치:
           - Chapter 1. AI, 머신러닝, 딥러닝의 구분:
-              - "P3-1.1 AI, 머신러닝, 딥러닝의 관계": parts/part-03/chapter-01/section-01.md
-              - "P3-1.2 데이터에서 규칙을 배운다는 말": parts/part-03/chapter-01/section-02.md
+              - "P4-1.1 AI, 머신러닝, 딥러닝의 관계": parts/part-04/chapter-01/section-01.md
+              - "P4-1.2 데이터에서 규칙을 배운다는 말": parts/part-04/chapter-01/section-02.md
           - Chapter 2. 지도학습, 비지도학습, 강화학습:
-              - "P3-2.1 지도학습(supervised learning)": parts/part-03/chapter-02/section-01.md
-              - "P3-2.2 비지도학습(unsupervised learning)": parts/part-03/chapter-02/section-02.md
-              - "P3-2.3 강화학습(reinforcement learning)": parts/part-03/chapter-02/section-03.md
+              - "P4-2.1 지도학습(supervised learning)": parts/part-04/chapter-02/section-01.md
+              - "P4-2.2 비지도학습(unsupervised learning)": parts/part-04/chapter-02/section-02.md
+              - "P4-2.3 강화학습(reinforcement learning)": parts/part-04/chapter-02/section-03.md
           - Chapter 3. 휴리스틱이 필요한 이유:
-              - "P3-3.1 휴리스틱(heuristic)이 필요한 이유": parts/part-03/chapter-03/section-01.md
-              - "P3-3.2 휴리스틱과 모델 선택": parts/part-03/chapter-03/section-02.md
+              - "P4-3.1 휴리스틱(heuristic)이 필요한 이유": parts/part-04/chapter-03/section-01.md
+              - "P4-3.2 휴리스틱과 모델 선택": parts/part-04/chapter-03/section-02.md
       - Module 2. 데이터와 평가:
           - Chapter 4. 데이터 분리와 검증:
-              - "P3-4.1 학습 데이터와 평가 데이터": parts/part-03/chapter-04/section-01.md
-              - "P3-4.2 검증(validation)과 테스트(test)": parts/part-03/chapter-04/section-02.md
+              - "P4-4.1 학습 데이터와 평가 데이터": parts/part-04/chapter-04/section-01.md
+              - "P4-4.2 검증(validation)과 테스트(test)": parts/part-04/chapter-04/section-02.md
           - Chapter 5. 과적합과 일반화:
-              - "P3-5.1 과적합(overfitting)과 과소적합(underfitting)": parts/part-03/chapter-05/section-01.md
-              - "P3-5.2 일반화(generalization)": parts/part-03/chapter-05/section-02.md
+              - "P4-5.1 과적합(overfitting)과 과소적합(underfitting)": parts/part-04/chapter-05/section-01.md
+              - "P4-5.2 일반화(generalization)": parts/part-04/chapter-05/section-02.md
           - Chapter 6. 평가 지표:
-              - "P3-6.1 평가 지표(metric)의 역할": parts/part-03/chapter-06/section-01.md
-              - "P3-6.2 문제 유형별 평가 기준": parts/part-03/chapter-06/section-02.md
-              - "P3-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법": parts/part-03/chapter-06/section-03.md
-              - "P3-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법": parts/part-03/chapter-06/section-04.md
+              - "P4-6.1 평가 지표(metric)의 역할": parts/part-04/chapter-06/section-01.md
+              - "P4-6.2 문제 유형별 평가 기준": parts/part-04/chapter-06/section-02.md
+              - "P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법": parts/part-04/chapter-06/section-03.md
+              - "P4-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법": parts/part-04/chapter-06/section-04.md
       - Module 3. 실무 휴리스틱:
           - Chapter 7. 특징 선택과 전처리 휴리스틱:
-              - "P3-7.1 특징 선택(feature selection)": parts/part-03/chapter-07/section-01.md
-              - "P3-7.2 전처리(preprocessing)": parts/part-03/chapter-07/section-02.md
-              - "P3-7.3 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법": parts/part-03/chapter-07/section-03.md
+              - "P4-7.1 특징 선택(feature selection)": parts/part-04/chapter-07/section-01.md
+              - "P4-7.2 전처리(preprocessing)": parts/part-04/chapter-07/section-02.md
+              - "P4-7.3 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법": parts/part-04/chapter-07/section-03.md
           - Chapter 8. 모델 선택 휴리스틱:
-              - "P3-8.1 모델 선택(model selection)": parts/part-03/chapter-08/section-01.md
-              - "P3-8.2 기준 모델(baseline)": parts/part-03/chapter-08/section-02.md
+              - "P4-8.1 모델 선택(model selection)": parts/part-04/chapter-08/section-01.md
+              - "P4-8.2 기준 모델(baseline)": parts/part-04/chapter-08/section-02.md
           - Chapter 9. 하이퍼파라미터 튜닝:
-              - "P3-9.1 하이퍼파라미터(hyperparameter)": parts/part-03/chapter-09/section-01.md
-              - "P3-9.2 튜닝(tuning)과 검증 비용": parts/part-03/chapter-09/section-02.md
-              - "P3-9.3 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기": parts/part-03/chapter-09/section-03.md
+              - "P4-9.1 하이퍼파라미터(hyperparameter)": parts/part-04/chapter-09/section-01.md
+              - "P4-9.2 튜닝(tuning)과 검증 비용": parts/part-04/chapter-09/section-02.md
+              - "P4-9.3 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기": parts/part-04/chapter-09/section-03.md
       - Module 4. 기본 알고리즘:
           - Chapter 10. 선형회귀:
-              - "P3-10.1 선형회귀(linear regression)의 직관": parts/part-03/chapter-10/section-01.md
-              - "P3-10.2 선형회귀의 평가와 한계": parts/part-03/chapter-10/section-02.md
-              - "P3-10.3 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법": parts/part-03/chapter-10/section-03.md
+              - "P4-10.1 선형회귀(linear regression)의 직관": parts/part-04/chapter-10/section-01.md
+              - "P4-10.2 선형회귀의 평가와 한계": parts/part-04/chapter-10/section-02.md
+              - "P4-10.3 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법": parts/part-04/chapter-10/section-03.md
           - Chapter 11. 로지스틱 회귀:
-              - "P3-11.1 로지스틱 회귀(logistic regression)의 직관": parts/part-03/chapter-11/section-01.md
-              - "P3-11.2 결정 경계(decision boundary)": parts/part-03/chapter-11/section-02.md
+              - "P4-11.1 로지스틱 회귀(logistic regression)의 직관": parts/part-04/chapter-11/section-01.md
+              - "P4-11.2 결정 경계(decision boundary)": parts/part-04/chapter-11/section-02.md
           - Chapter 12. k-NN:
-              - "P3-12.1 k-NN의 직관": parts/part-03/chapter-12/section-01.md
-              - "P3-12.2 거리(distance)와 스케일(scale)": parts/part-03/chapter-12/section-02.md
+              - "P4-12.1 k-NN의 직관": parts/part-04/chapter-12/section-01.md
+              - "P4-12.2 거리(distance)와 스케일(scale)": parts/part-04/chapter-12/section-02.md
           - Chapter 13. SVM:
-              - "P3-13.1 SVM의 직관": parts/part-03/chapter-13/section-01.md
-              - "P3-13.2 커널(kernel)의 입문적 의미": parts/part-03/chapter-13/section-02.md
+              - "P4-13.1 SVM의 직관": parts/part-04/chapter-13/section-01.md
+              - "P4-13.2 커널(kernel)의 입문적 의미": parts/part-04/chapter-13/section-02.md
       - Module 5. 트리와 앙상블:
           - Chapter 14. 결정트리:
-              - "P3-14.1 결정트리(decision tree)": parts/part-03/chapter-14/section-01.md
-              - "P3-14.2 트리의 과적합": parts/part-03/chapter-14/section-02.md
+              - "P4-14.1 결정트리(decision tree)": parts/part-04/chapter-14/section-01.md
+              - "P4-14.2 트리의 과적합": parts/part-04/chapter-14/section-02.md
           - Chapter 15. 랜덤포레스트:
-              - "P3-15.1 랜덤포레스트(random forest)": parts/part-03/chapter-15/section-01.md
-              - "P3-15.2 특징 중요도(feature importance)": parts/part-03/chapter-15/section-02.md
-              - "P3-15.3 OOB(out-of-bag)와 랜덤포레스트 점검": parts/part-03/chapter-15/section-03.md
+              - "P4-15.1 랜덤포레스트(random forest)": parts/part-04/chapter-15/section-01.md
+              - "P4-15.2 특징 중요도(feature importance)": parts/part-04/chapter-15/section-02.md
+              - "P4-15.3 OOB(out-of-bag)와 랜덤포레스트 점검": parts/part-04/chapter-15/section-03.md
           - Chapter 16. 그래디언트 부스팅:
-              - "P3-16.1 그래디언트 부스팅(gradient boosting)": parts/part-03/chapter-16/section-01.md
-              - "P3-16.2 부스팅의 성능과 위험": parts/part-03/chapter-16/section-02.md
+              - "P4-16.1 그래디언트 부스팅(gradient boosting)": parts/part-04/chapter-16/section-01.md
+              - "P4-16.2 부스팅의 성능과 위험": parts/part-04/chapter-16/section-02.md
       - Module 6. 구조 찾기:
           - Chapter 17. 클러스터링:
-              - "P3-17.1 클러스터링(clustering)의 직관": parts/part-03/chapter-17/section-01.md
-              - "P3-17.2 군집 결과를 해석할 때의 주의점": parts/part-03/chapter-17/section-02.md
+              - "P4-17.1 클러스터링(clustering)의 직관": parts/part-04/chapter-17/section-01.md
+              - "P4-17.2 군집 결과를 해석할 때의 주의점": parts/part-04/chapter-17/section-02.md
           - Chapter 18. 차원 축소:
-              - "P3-18.1 차원 축소(dimensionality reduction)": parts/part-03/chapter-18/section-01.md
-              - "P3-18.2 시각화와 정보 손실": parts/part-03/chapter-18/section-02.md
+              - "P4-18.1 차원 축소(dimensionality reduction)": parts/part-04/chapter-18/section-01.md
+              - "P4-18.2 시각화와 정보 손실": parts/part-04/chapter-18/section-02.md
           - Chapter 19. 강화학습 알고리즘:
-              - "P3-19.1 가치 기반 강화학습(value-based reinforcement learning)": parts/part-03/chapter-19/section-01.md
-              - "P3-19.2 정책 기반 강화학습(policy-based reinforcement learning)": parts/part-03/chapter-19/section-02.md
-              - "P3-19.3 강화학습 적용의 주의점": parts/part-03/chapter-19/section-03.md
-              - "P3-19.4 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기": parts/part-03/chapter-19/section-04.md
-      - Part 3 마무리: parts/part-03/summary.md
-  - Part 4. 딥러닝:
-      - 개요: parts/part-04/index.md
-      - Module 1. 신경망의 출발점:
-          - Chapter P4-1. 퍼셉트론:
-              - "P4-1.1 퍼셉트론(perceptron)의 직관": parts/part-04/chapter-01/section-01.md
-              - "P4-1.2 선형 결합과 활성화": parts/part-04/chapter-01/section-02.md
-          - Chapter P4-2. 다층 신경망:
-              - "P4-2.1 다층 신경망(multilayer neural network)": parts/part-04/chapter-02/section-01.md
-              - "P4-2.2 은닉층(hidden layer)과 표현": parts/part-04/chapter-02/section-02.md
-      - Module 2. 출력, 손실, 역전파:
-          - Chapter P4-3. 활성화 함수:
-              - "P4-3.1 활성화 함수(activation function)": parts/part-04/chapter-03/section-01.md
-              - "P4-3.2 ReLU, sigmoid, tanh": parts/part-04/chapter-03/section-02.md
-              - "P4-3.3 출력층(output layer)과 활성화의 선택": parts/part-04/chapter-03/section-03.md
-          - Chapter P4-4. 손실 함수:
-              - "P4-4.1 손실 함수(loss function)": parts/part-04/chapter-04/section-01.md
-              - "P4-4.2 문제 유형별 손실": parts/part-04/chapter-04/section-02.md
-          - Chapter P4-5. 역전파:
-              - "P4-5.1 역전파(backpropagation)의 직관": parts/part-04/chapter-05/section-01.md
-              - "P4-5.2 계산 그래프(computation graph)": parts/part-04/chapter-05/section-02.md
-      - Module 3. 학습 루프와 안정화:
-          - "Chapter P4-6. 학습(learning)과 모델 실행(inference)의 분리":
-              - "P4-6.1 학습(learning)과 모델 실행(inference)": parts/part-04/chapter-06/section-01.md
-              - "P4-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-04/chapter-06/section-02.md
-          - Chapter P4-7. 옵티마이저:
-              - "P4-7.1 옵티마이저(optimizer)의 역할": parts/part-04/chapter-07/section-01.md
-              - "P4-7.2 SGD, Adam의 직관": parts/part-04/chapter-07/section-02.md
-          - Chapter P4-8. 정규화와 드롭아웃:
-              - "P4-8.1 정규화(regularization)": parts/part-04/chapter-08/section-01.md
-              - "P4-8.2 드롭아웃(dropout)": parts/part-04/chapter-08/section-02.md
-              - "P4-8.3 학습 루프를 한 번에 다시 묶기": parts/part-04/chapter-08/section-03.md
-      - Module 4. 계산 환경과 표현 학습:
-          - Chapter P4-9. GPU와 병렬 처리:
-              - "P4-9.1 GPU와 병렬 처리": parts/part-04/chapter-09/section-01.md
-              - "P4-9.2 배치(batch)와 텐서(tensor) 계산": parts/part-04/chapter-09/section-02.md
-          - Chapter P4-10. 표현 학습:
-              - "P4-10.1 표현 학습(representation learning)": parts/part-04/chapter-10/section-01.md
-              - "P4-10.2 깊은 층의 표현": parts/part-04/chapter-10/section-02.md
-      - Module 5. 공간 구조와 CNN:
-          - Chapter P4-11. CNN:
-              - "P4-11.1 CNN의 직관": parts/part-04/chapter-11/section-01.md
-              - "P4-11.2 합성곱(convolution)과 풀링(pooling)": parts/part-04/chapter-11/section-02.md
-              - "P4-11.3 보충학습: CNN과 Vision Transformer(ViT) 비교": parts/part-04/chapter-11/section-03.md
-      - Module 6. 순차 구조와 RNN 계열:
-          - "Chapter P4-12. RNN, LSTM, GRU":
-              - "P4-12.1 RNN, LSTM, GRU의 필요성": parts/part-04/chapter-12/section-01.md
-              - "P4-12.2 장기 의존성(long-term dependency)": parts/part-04/chapter-12/section-02.md
-      - Module 7. Attention에서 Transformer로:
-          - Chapter P4-13. Attention:
-              - "P4-13.1 Attention의 직관": parts/part-04/chapter-13/section-01.md
-              - "P4-13.2 self-attention으로 이어지는 흐름": parts/part-04/chapter-13/section-02.md
-              - "P4-13.3 보충학습: query, key, value와 multi-head attention": parts/part-04/chapter-13/section-03.md
-          - Chapter P4-14. Transformer:
-              - "P4-14.1 Transformer의 기본 구성": parts/part-04/chapter-14/section-01.md
-              - "P4-14.2 병렬 처리와 긴 문맥": parts/part-04/chapter-14/section-02.md
-      - Module 8. 생성 모델과 샘플링:
-          - "Chapter P4-15. 생성 모델의 직관":
-              - "P4-15.1 생성 모델(generative model)은 무엇을 배우는가": parts/part-04/chapter-15/section-01.md
-              - "P4-15.2 생성과 샘플링(sampling)": parts/part-04/chapter-15/section-02.md
+              - "P4-19.1 가치 기반 강화학습(value-based reinforcement learning)": parts/part-04/chapter-19/section-01.md
+              - "P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)": parts/part-04/chapter-19/section-02.md
+              - "P4-19.3 강화학습 적용의 주의점": parts/part-04/chapter-19/section-03.md
+              - "P4-19.4 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기": parts/part-04/chapter-19/section-04.md
       - Part 4 마무리: parts/part-04/summary.md
-  - Part 5. LLM과 생성형 AI:
+  - Part 5. 딥러닝:
       - 개요: parts/part-05/index.md
-      - Module 1. 입력 단위와 표현:
-          - Chapter P5-1. 토큰화:
-              - "P5-1.1 토큰(token)은 무엇인가": parts/part-05/chapter-01/section-01.md
-              - "P5-1.2 토큰화(tokenization)의 실제 영향": parts/part-05/chapter-01/section-02.md
-              - "P5-1.3 보충학습: BPE, WordPiece, SentencePiece를 처음 구분하는 법": parts/part-05/chapter-01/section-03.md
-          - Chapter P5-2. 임베딩:
-              - "P5-2.1 임베딩(embedding)의 직관": parts/part-05/chapter-02/section-01.md
-              - "P5-2.2 의미와 거리": parts/part-05/chapter-02/section-02.md
-              - "P5-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기": parts/part-05/chapter-02/section-03.md
-      - Module 2. LLM 핵심 구조:
-          - Chapter P5-3. Transformer 구조 복습:
-              - "P5-3.1 Transformer를 LLM 관점에서 다시 읽기": parts/part-05/chapter-03/section-01.md
-              - "P5-3.2 attention과 context window": parts/part-05/chapter-03/section-02.md
-              - "P5-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법": parts/part-05/chapter-03/section-03.md
-          - Chapter P5-4. GPT 계열:
-              - "P5-4.1 GPT 계열의 위치": parts/part-05/chapter-04/section-01.md
-              - "P5-4.2 대화형 LLM으로의 전환": parts/part-05/chapter-04/section-02.md
-          - Chapter P5-5. 다음 토큰 예측과 생성:
-              - "P5-5.1 다음 토큰 예측(next-token prediction)": parts/part-05/chapter-05/section-01.md
-              - "P5-5.2 생성 과정의 직관": parts/part-05/chapter-05/section-02.md
-      - Module 3. 학습과 조정:
-          - Chapter P5-6. 사전학습:
-              - "P5-6.1 사전학습(pretraining)": parts/part-05/chapter-06/section-01.md
-              - "P5-6.2 데이터와 스케일": parts/part-05/chapter-06/section-02.md
-          - Chapter P5-7. 파인튜닝:
-              - "P5-7.1 파인튜닝(fine-tuning)": parts/part-05/chapter-07/section-01.md
-              - "P5-7.2 LoRA와 효율적 조정": parts/part-05/chapter-07/section-02.md
-              - "P5-7.3 보충학습: LoRA, adapter, QLoRA를 처음 구분하는 법": parts/part-05/chapter-07/section-03.md
-          - Chapter P5-8. 지시 튜닝과 정렬:
-              - "P5-8.1 지시 튜닝(instruction tuning)": parts/part-05/chapter-08/section-01.md
-              - "P5-8.2 정렬(alignment)의 기본 문제": parts/part-05/chapter-08/section-02.md
-              - "P5-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까": parts/part-05/chapter-08/section-03.md
-      - Module 4. 프롬프트와 근거 연결:
-          - Chapter P5-9. 프롬프트 엔지니어링:
-              - "P5-9.1 프롬프트 엔지니어링(prompt engineering)": parts/part-05/chapter-09/section-01.md
-              - "P5-9.2 프롬프트의 한계": parts/part-05/chapter-09/section-02.md
-              - "P5-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization을 처음 읽는 법": parts/part-05/chapter-09/section-03.md
-          - Chapter P5-10. RAG:
-              - "P5-10.1 RAG의 필요성": parts/part-05/chapter-10/section-01.md
-              - "P5-10.2 검색 결과와 생성의 결합": parts/part-05/chapter-10/section-02.md
-          - Chapter P5-11. 벡터 데이터베이스:
-              - "P5-11.1 벡터 데이터베이스(vector database)": parts/part-05/chapter-11/section-01.md
-              - "P5-11.2 인덱스(index)와 검색 품질": parts/part-05/chapter-11/section-02.md
-      - Module 5. 실행 구조:
-          - "Chapter P5-12. 도구 사용(tool use)":
-              - "P5-12.1 도구 사용(tool use)": parts/part-05/chapter-12/section-01.md
-              - "P5-12.2 함수 호출(function calling)": parts/part-05/chapter-12/section-02.md
-          - "Chapter P5-13. 에이전트(agent)":
-              - "P5-13.1 에이전트(agent)": parts/part-05/chapter-13/section-01.md
-              - "P5-13.2 계획, 행동, 관찰": parts/part-05/chapter-13/section-02.md
-          - "Chapter P5-14. MCP(Model Context Protocol)와 하네스(harness)":
-              - "P5-14.1 MCP와 도구 연결": parts/part-05/chapter-14/section-01.md
-              - "P5-14.2 하네스(harness)": parts/part-05/chapter-14/section-02.md
-      - Module 6. 평가, 운영, 통합 실습:
-          - "Chapter P5-15. LLM 평가(evaluation)":
-              - "P5-15.1 LLM 평가(evaluation)": parts/part-05/chapter-15/section-01.md
-              - "P5-15.2 자동 평가와 사람 평가": parts/part-05/chapter-15/section-02.md
-          - Chapter P5-16. AI 서비스가 현실에서 만나는 제약:
-              - "P5-16.1 AI 서비스가 현실에서 만나는 제약": parts/part-05/chapter-16/section-01.md
-              - "P5-16.2 운영 중 실패 대응": parts/part-05/chapter-16/section-02.md
-          - Chapter P5-17. 작은 생성형 AI 기능을 한 흐름으로 묶기:
-              - "P5-17.1 작은 생성형 AI 기능을 한 흐름으로 묶기": parts/part-05/chapter-17/section-01.md
-              - "P5-17.2 최소 구현과 회고 포인트": parts/part-05/chapter-17/section-02.md
-      - "Module 7. 배경 지도: LLM 발전사":
-          - Chapter P5-18. LLM 발전사:
-              - "P5-18.1 LLM 발전사의 큰 흐름": parts/part-05/chapter-18/section-01.md
-              - "P5-18.2 직접 계보와 주변 근거": parts/part-05/chapter-18/section-02.md
-      - "Module 8. 배경 비교: BERT 계열":
-          - Chapter P5-19. BERT 계열:
-              - "P5-19.1 BERT 계열의 위치": parts/part-05/chapter-19/section-01.md
-              - "P5-19.2 이해 중심 태스크": parts/part-05/chapter-19/section-02.md
+      - Module 1. 신경망의 출발점:
+          - Chapter P5-1. 퍼셉트론:
+              - "P5-1.1 퍼셉트론(perceptron)의 직관": parts/part-05/chapter-01/section-01.md
+              - "P5-1.2 선형 결합과 활성화": parts/part-05/chapter-01/section-02.md
+          - Chapter P5-2. 다층 신경망:
+              - "P5-2.1 다층 신경망(multilayer neural network)": parts/part-05/chapter-02/section-01.md
+              - "P5-2.2 은닉층(hidden layer)과 표현": parts/part-05/chapter-02/section-02.md
+      - Module 2. 출력, 손실, 역전파:
+          - Chapter P5-3. 활성화 함수:
+              - "P5-3.1 활성화 함수(activation function)": parts/part-05/chapter-03/section-01.md
+              - "P5-3.2 ReLU, sigmoid, tanh": parts/part-05/chapter-03/section-02.md
+              - "P5-3.3 출력층(output layer)과 활성화의 선택": parts/part-05/chapter-03/section-03.md
+          - Chapter P5-4. 손실 함수:
+              - "P5-4.1 손실 함수(loss function)": parts/part-05/chapter-04/section-01.md
+              - "P5-4.2 문제 유형별 손실": parts/part-05/chapter-04/section-02.md
+          - Chapter P5-5. 역전파:
+              - "P5-5.1 역전파(backpropagation)의 직관": parts/part-05/chapter-05/section-01.md
+              - "P5-5.2 계산 그래프(computation graph)": parts/part-05/chapter-05/section-02.md
+      - Module 3. 학습 루프와 안정화:
+          - "Chapter P5-6. 학습(learning)과 모델 실행(inference)의 분리":
+              - "P5-6.1 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-01.md
+              - "P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-06/section-02.md
+          - Chapter P5-7. 옵티마이저:
+              - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
+              - "P5-7.2 SGD, Adam의 직관": parts/part-05/chapter-07/section-02.md
+          - Chapter P5-8. 정규화와 드롭아웃:
+              - "P5-8.1 정규화(regularization)": parts/part-05/chapter-08/section-01.md
+              - "P5-8.2 드롭아웃(dropout)": parts/part-05/chapter-08/section-02.md
+              - "P5-8.3 학습 루프를 한 번에 다시 묶기": parts/part-05/chapter-08/section-03.md
+      - Module 4. 계산 환경과 표현 학습:
+          - Chapter P5-9. GPU와 병렬 처리:
+              - "P5-9.1 GPU와 병렬 처리": parts/part-05/chapter-09/section-01.md
+              - "P5-9.2 배치(batch)와 텐서(tensor) 계산": parts/part-05/chapter-09/section-02.md
+          - Chapter P5-10. 표현 학습:
+              - "P5-10.1 표현 학습(representation learning)": parts/part-05/chapter-10/section-01.md
+              - "P5-10.2 깊은 층의 표현": parts/part-05/chapter-10/section-02.md
+      - Module 5. 공간 구조와 CNN:
+          - Chapter P5-11. CNN:
+              - "P5-11.1 CNN의 직관": parts/part-05/chapter-11/section-01.md
+              - "P5-11.2 합성곱(convolution)과 풀링(pooling)": parts/part-05/chapter-11/section-02.md
+              - "P5-11.3 보충학습: CNN과 Vision Transformer(ViT) 비교": parts/part-05/chapter-11/section-03.md
+      - Module 6. 순차 구조와 RNN 계열:
+          - "Chapter P5-12. RNN, LSTM, GRU":
+              - "P5-12.1 RNN, LSTM, GRU의 필요성": parts/part-05/chapter-12/section-01.md
+              - "P5-12.2 장기 의존성(long-term dependency)": parts/part-05/chapter-12/section-02.md
+      - Module 7. Attention에서 Transformer로:
+          - Chapter P5-13. Attention:
+              - "P5-13.1 Attention의 직관": parts/part-05/chapter-13/section-01.md
+              - "P5-13.2 self-attention으로 이어지는 흐름": parts/part-05/chapter-13/section-02.md
+              - "P5-13.3 보충학습: query, key, value와 multi-head attention": parts/part-05/chapter-13/section-03.md
+          - Chapter P5-14. Transformer:
+              - "P5-14.1 Transformer의 기본 구성": parts/part-05/chapter-14/section-01.md
+              - "P5-14.2 병렬 처리와 긴 문맥": parts/part-05/chapter-14/section-02.md
+      - Module 8. 생성 모델과 샘플링:
+          - "Chapter P5-15. 생성 모델의 직관":
+              - "P5-15.1 생성 모델(generative model)은 무엇을 배우는가": parts/part-05/chapter-15/section-01.md
+              - "P5-15.2 생성과 샘플링(sampling)": parts/part-05/chapter-15/section-02.md
       - Part 5 마무리: parts/part-05/summary.md
-  - Part 6. 프로젝트:
+  - Part 6. LLM과 생성형 AI:
       - 개요: parts/part-06/index.md
+      - Module 1. 입력 단위와 표현:
+          - Chapter P6-1. 토큰화:
+              - "P6-1.1 토큰(token)은 무엇인가": parts/part-06/chapter-01/section-01.md
+              - "P6-1.2 토큰화(tokenization)의 실제 영향": parts/part-06/chapter-01/section-02.md
+              - "P6-1.3 보충학습: BPE, WordPiece, SentencePiece를 처음 구분하는 법": parts/part-06/chapter-01/section-03.md
+          - Chapter P6-2. 임베딩:
+              - "P6-2.1 임베딩(embedding)의 직관": parts/part-06/chapter-02/section-01.md
+              - "P6-2.2 의미와 거리": parts/part-06/chapter-02/section-02.md
+              - "P6-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기": parts/part-06/chapter-02/section-03.md
+      - Module 2. LLM 핵심 구조:
+          - Chapter P6-3. Transformer 구조 복습:
+              - "P6-3.1 Transformer를 LLM 관점에서 다시 읽기": parts/part-06/chapter-03/section-01.md
+              - "P6-3.2 attention과 context window": parts/part-06/chapter-03/section-02.md
+              - "P6-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법": parts/part-06/chapter-03/section-03.md
+          - Chapter P6-4. GPT 계열:
+              - "P6-4.1 GPT 계열의 위치": parts/part-06/chapter-04/section-01.md
+              - "P6-4.2 대화형 LLM으로의 전환": parts/part-06/chapter-04/section-02.md
+          - Chapter P6-5. 다음 토큰 예측과 생성:
+              - "P6-5.1 다음 토큰 예측(next-token prediction)": parts/part-06/chapter-05/section-01.md
+              - "P6-5.2 생성 과정의 직관": parts/part-06/chapter-05/section-02.md
+      - Module 3. 학습과 조정:
+          - Chapter P6-6. 사전학습:
+              - "P6-6.1 사전학습(pretraining)": parts/part-06/chapter-06/section-01.md
+              - "P6-6.2 데이터와 스케일": parts/part-06/chapter-06/section-02.md
+          - Chapter P6-7. 파인튜닝:
+              - "P6-7.1 파인튜닝(fine-tuning)": parts/part-06/chapter-07/section-01.md
+              - "P6-7.2 LoRA와 효율적 조정": parts/part-06/chapter-07/section-02.md
+              - "P6-7.3 보충학습: LoRA, adapter, QLoRA를 처음 구분하는 법": parts/part-06/chapter-07/section-03.md
+          - Chapter P6-8. 지시 튜닝과 정렬:
+              - "P6-8.1 지시 튜닝(instruction tuning)": parts/part-06/chapter-08/section-01.md
+              - "P6-8.2 정렬(alignment)의 기본 문제": parts/part-06/chapter-08/section-02.md
+              - "P6-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까": parts/part-06/chapter-08/section-03.md
+      - Module 4. 프롬프트와 근거 연결:
+          - Chapter P6-9. 프롬프트 엔지니어링:
+              - "P6-9.1 프롬프트 엔지니어링(prompt engineering)": parts/part-06/chapter-09/section-01.md
+              - "P6-9.2 프롬프트의 한계": parts/part-06/chapter-09/section-02.md
+              - "P6-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization을 처음 읽는 법": parts/part-06/chapter-09/section-03.md
+          - Chapter P6-10. RAG:
+              - "P6-10.1 RAG의 필요성": parts/part-06/chapter-10/section-01.md
+              - "P6-10.2 검색 결과와 생성의 결합": parts/part-06/chapter-10/section-02.md
+          - Chapter P6-11. 벡터 데이터베이스:
+              - "P6-11.1 벡터 데이터베이스(vector database)": parts/part-06/chapter-11/section-01.md
+              - "P6-11.2 인덱스(index)와 검색 품질": parts/part-06/chapter-11/section-02.md
+      - Module 5. 실행 구조:
+          - "Chapter P6-12. 도구 사용(tool use)":
+              - "P6-12.1 도구 사용(tool use)": parts/part-06/chapter-12/section-01.md
+              - "P6-12.2 함수 호출(function calling)": parts/part-06/chapter-12/section-02.md
+          - "Chapter P6-13. 에이전트(agent)":
+              - "P6-13.1 에이전트(agent)": parts/part-06/chapter-13/section-01.md
+              - "P6-13.2 계획, 행동, 관찰": parts/part-06/chapter-13/section-02.md
+          - "Chapter P6-14. MCP(Model Context Protocol)와 하네스(harness)":
+              - "P6-14.1 MCP와 도구 연결": parts/part-06/chapter-14/section-01.md
+              - "P6-14.2 하네스(harness)": parts/part-06/chapter-14/section-02.md
+      - Module 6. 평가, 운영, 통합 실습:
+          - "Chapter P6-15. LLM 평가(evaluation)":
+              - "P6-15.1 LLM 평가(evaluation)": parts/part-06/chapter-15/section-01.md
+              - "P6-15.2 자동 평가와 사람 평가": parts/part-06/chapter-15/section-02.md
+          - Chapter P6-16. AI 서비스가 현실에서 만나는 제약:
+              - "P6-16.1 AI 서비스가 현실에서 만나는 제약": parts/part-06/chapter-16/section-01.md
+              - "P6-16.2 운영 중 실패 대응": parts/part-06/chapter-16/section-02.md
+          - Chapter P6-17. 작은 생성형 AI 기능을 한 흐름으로 묶기:
+              - "P6-17.1 작은 생성형 AI 기능을 한 흐름으로 묶기": parts/part-06/chapter-17/section-01.md
+              - "P6-17.2 최소 구현과 회고 포인트": parts/part-06/chapter-17/section-02.md
+      - "Module 7. 배경 지도: LLM 발전사":
+          - Chapter P6-18. LLM 발전사:
+              - "P6-18.1 LLM 발전사의 큰 흐름": parts/part-06/chapter-18/section-01.md
+              - "P6-18.2 직접 계보와 주변 근거": parts/part-06/chapter-18/section-02.md
+      - "Module 8. 배경 비교: BERT 계열":
+          - Chapter P6-19. BERT 계열:
+              - "P6-19.1 BERT 계열의 위치": parts/part-06/chapter-19/section-01.md
+              - "P6-19.2 이해 중심 태스크": parts/part-06/chapter-19/section-02.md
+      - Part 6 마무리: parts/part-06/summary.md
+  - Part 7. 프로젝트:
+      - 개요: parts/part-07/index.md
       - Module 1. 데이터와 전통 머신러닝:
           - Project 1. 데이터 분석 미니 프로젝트:
-              - "P6-1.1 데이터 분석 미니 프로젝트 목표": parts/part-06/chapter-01/section-01.md
-              - "P6-1.2 결과와 회고": parts/part-06/chapter-01/section-02.md
+              - "P7-1.1 데이터 분석 미니 프로젝트 목표": parts/part-07/chapter-01/section-01.md
+              - "P7-1.2 결과와 회고": parts/part-07/chapter-01/section-02.md
           - Project 2. 전통 머신러닝 예측 모델:
-              - "P6-2.1 전통 머신러닝 예측 모델 목표": parts/part-06/chapter-02/section-01.md
-              - "P6-2.2 기준 모델과 개선": parts/part-06/chapter-02/section-02.md
+              - "P7-2.1 전통 머신러닝 예측 모델 목표": parts/part-07/chapter-02/section-01.md
+              - "P7-2.2 기준 모델과 개선": parts/part-07/chapter-02/section-02.md
       - Module 2. 딥러닝과 텍스트:
           - Project 3. 이미지 분류 모델:
-              - "P6-3.1 이미지 분류 모델 목표": parts/part-06/chapter-03/section-01.md
-              - "P6-3.2 오류 사례 분석": parts/part-06/chapter-03/section-02.md
+              - "P7-3.1 이미지 분류 모델 목표": parts/part-07/chapter-03/section-01.md
+              - "P7-3.2 오류 사례 분석": parts/part-07/chapter-03/section-02.md
           - Project 4. 텍스트 분류 모델:
-              - "P6-4.1 텍스트 분류 모델 목표": parts/part-06/chapter-04/section-01.md
-              - "P6-4.2 토큰화와 평가": parts/part-06/chapter-04/section-02.md
+              - "P7-4.1 텍스트 분류 모델 목표": parts/part-07/chapter-04/section-01.md
+              - "P7-4.2 토큰화와 평가": parts/part-07/chapter-04/section-02.md
       - Module 3. LLM 서비스 프로젝트:
           - Project 5. 문서 기반 RAG 챗봇:
-              - "P6-5.1 문서 기반 RAG 챗봇 목표": parts/part-06/chapter-05/section-01.md
-              - "P6-5.2 검색 품질과 답변 검증": parts/part-06/chapter-05/section-02.md
+              - "P7-5.1 문서 기반 RAG 챗봇 목표": parts/part-07/chapter-05/section-01.md
+              - "P7-5.2 검색 품질과 답변 검증": parts/part-07/chapter-05/section-02.md
           - "Project 6. 도구를 사용하는 에이전트(agent)":
-              - "P6-6.1 도구를 사용하는 에이전트 목표": parts/part-06/chapter-06/section-01.md
-              - "P6-6.2 권한과 로그 검토": parts/part-06/chapter-06/section-02.md
+              - "P7-6.1 도구를 사용하는 에이전트 목표": parts/part-07/chapter-06/section-01.md
+              - "P7-6.2 권한과 로그 검토": parts/part-07/chapter-06/section-02.md
       - Module 4. 배포와 운영:
           - Project 7. 배포와 모니터링:
-              - "P6-7.1 배포와 모니터링 목표": parts/part-06/chapter-07/section-01.md
-              - "P6-7.2 실패 기록과 개선 계획": parts/part-06/chapter-07/section-02.md
-      - Part 6 마무리: parts/part-06/summary.md
+              - "P7-7.1 배포와 모니터링 목표": parts/part-07/chapter-07/section-01.md
+              - "P7-7.2 실패 기록과 개선 계획": parts/part-07/chapter-07/section-02.md
+      - Part 7 마무리: parts/part-07/summary.md
 
 markdown_extensions:
   - admonition
