@@ -212,7 +212,7 @@ print("service_predictions =", service_predictions)
 print("weight_after_inference =", round(w, 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 학습 단계의 weight_before/after 변화와 inference 단계의 weight 불변을 먼저 비교하면 됩니다.
 
 ```text
 initial_weight = 0.5
