@@ -46,6 +46,10 @@
 - `08-example-topics-expansion-map.md`
 - `09-part-and-section-insertion-map.md`
 - `10-next-writing-actions.md`
+- `11-common-example-table-set.md`
+- `12-part-draft-paragraphs.md`
+- `13-common-python-example-plan.md`
+- `14-python-example-draft-snippets.md`
 
 ## 현재 결론
 
