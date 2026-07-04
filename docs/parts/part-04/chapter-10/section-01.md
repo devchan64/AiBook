@@ -263,8 +263,6 @@ customer_3: raw=[1.0, 15.0], activity_score=11.50, representation=[2.95, 1.0]
 customer_4: raw=[4.0, 35.0], activity_score=43.50, representation=[8.05, 2.0]
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
-
 - `activity_score`는 사람이 하나의 기준으로 눌러 만든 단일 점수입니다
 - `representation`은 같은 입력을 두 개 축으로 다시 펼쳐, 서로 다른 패턴을 동시에 담을 수 있게 합니다
 - 실제 딥러닝은 이런 중간 표현 축을 훨씬 더 많이 만들고, 학습 과정에서 어떤 축이 유용한지도 함께 조정합니다
