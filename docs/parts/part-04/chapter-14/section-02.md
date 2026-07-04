@@ -286,7 +286,7 @@ for score, idx, line in top_matches:
 print("direct_decision =", direct_decision)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 sequential_support가 얼마나 약해졌는지와 direct_decision이 어떻게 유지되는지부터 보면 됩니다.
 
 ```text
 [sequential reader]
