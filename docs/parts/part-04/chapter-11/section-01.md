@@ -301,8 +301,6 @@ second patch position = (0, 1) score = 18
 best patch position = (2, 2) score = 54
 ```
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
-
 - CNN은 이미지 전체를 한 번에만 보는 것이 아니라
 - 작은 지역 창을 반복해서 읽고
 - 각 지역마다 다른 반응 점수를 만들고
