@@ -575,7 +575,7 @@ print(conv)
 print("max pooling on top-left 2x2 region =", pool[0, 0])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 convolution result에서 큰 반응이 어디 있었는지와 max pooling 값이 무엇을 남겼는지 순서대로 보면 됩니다.
 
 ```text
 image =
