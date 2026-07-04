@@ -282,7 +282,7 @@ print(patches[1]["patch"])
 print("best patch position =", best_patch["position"], "score =", best_patch["score"])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 패치 개수와 앞쪽 패치 점수, 그리고 best patch 위치를 순서대로 보면 됩니다.
 
 ```text
 image =
