@@ -289,7 +289,7 @@ print("z influences a, and a influences loss")
 print("x flows into mul, mul flows into z, so gradient returns to w through z")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 forward 값들, backward gradient들, 그리고 connections 설명을 순서대로 보면 됩니다.
 
 ```text
 [forward]
