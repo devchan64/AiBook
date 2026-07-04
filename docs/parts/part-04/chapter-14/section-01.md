@@ -322,7 +322,7 @@ print("after simple layer norm =")
 print(np.round(normalized, 3))
 ```
 
-출력에서는 original tokens가 contextual, residual, norm 단계를 거치며 어떻게 바뀌는지 순서대로 보면 됩니다.
+출력에서는 `original tokens`가 `contextual`, `feed-forward`, `residual`, `norm` 단계를 거치며 어떻게 바뀌는지 순서대로 보면 됩니다.
 
 ```text
 original tokens =
@@ -356,11 +356,26 @@ after simple layer norm =
  [-1.     1.   ]]
 ```
 
-- attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다
-- feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다
-- `after residual`은 새 계산 결과만 쓰지 않고 원래 토큰 표현을 함께 남긴다는 점을 보여 줍니다
-- `after simple layer norm`은 각 위치 표현이 다음 단계로 넘어가기 전에 값 범위가 다시 정리될 수 있음을 보여 줍니다
-- 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다
+| 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
+| --- | --- | --- |
+| `contextual tokens`가 `original tokens`와 다르다 | self-attention이 각 위치를 그대로 두지 않고 다른 토큰 정보를 먼저 섞는다는 뜻 | attention 가중치를 더 자기 자신 쪽으로 몰면 문맥 섞임이 약해지고, 이웃 쪽으로 넓히면 변화가 커집니다 |
+| `feed-forward output`과 `change from input`이 함께 달라진다 | 문맥을 섞은 뒤에도 각 위치에서 표현을 한 번 더 가공한다는 뜻 | feed-forward 가중치를 바꾸면 어떤 축이 더 강조되는지 직접 바뀝니다 |
+| `after residual`이 `feed-forward output`보다 원래 입력에 더 가깝게 남아 있다 | 새 계산 결과만 덮어쓰지 않고 원래 표현을 함께 보존한다는 뜻 | 입력 토큰 값을 바꾸면 residual이 어떤 정보를 계속 들고 가는지 더 분명해집니다 |
+| `after simple layer norm`이 비슷한 범위로 정리된다 | 다음 블록으로 넘기기 전에 값 규모를 다시 맞추는 안정화 감각을 준다는 뜻 | 특정 토큰 값만 크게 키워 보면 normalization이 범위를 다시 정리하는 효과가 더 눈에 띕니다 |
+
+- attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다.
+- feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다.
+- `after residual`은 새 계산 결과만 쓰지 않고 원래 토큰 표현을 함께 남긴다는 점을 보여 줍니다.
+- `after simple layer norm`은 각 위치 표현이 다음 단계로 넘어가기 전에 값 범위가 다시 정리될 수 있음을 보여 줍니다.
+- 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다.
+
+이 예제도 숫자를 한 번 읽고 끝내기보다, 어떤 값을 바꾸면 블록 내부 역할 분담이 더 선명해지는지 바로 이어서 확인하는 편이 좋습니다.
+
+| 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
+| --- | --- | --- |
+| `contextual tokens`가 입력과 달라진다 | attention 가중치를 대각선 중심으로 바꾸거나 더 고르게 퍼뜨려 문맥 섞임 정도를 비교한다 | self-attention 하나만으로 Transformer 전체 성질이 다 설명된다고 단정하지 않는다 |
+| `change from input`의 방향이 토큰마다 다르다 | 입력 토큰 값을 바꾸거나 토큰 수를 늘려 어떤 위치가 더 크게 재가공되는지 본다 | 숫자 변화가 크다고 해서 항상 더 좋은 표현 학습이라고 단정하지 않는다 |
+| `after simple layer norm`이 비슷한 범위로 정리된다 | 특정 축 값을 과하게 키워 normalization 전후 차이가 얼마나 커지는지 본다 | 이 장난감 norm 예제로 실제 layer normalization 구현 세부를 모두 대체하지 않는다 |
 
 실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
 
