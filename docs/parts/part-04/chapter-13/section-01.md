@@ -291,8 +291,6 @@ context = 11.211
 lift_from_baseline = 5.211
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
-
 - baseline처럼 모든 후보를 똑같이 평균내면 문맥값은 `6.0`이 되어, 질문과 직접 관련 없는 `shipping_fee`, `coupon_policy` 값도 같은 비중으로 섞입니다
 - `return_period` 문장이 가장 큰 weight를 받습니다
 - 그래서 최종 context는 반품 기간 문장의 영향을 가장 크게 받습니다
