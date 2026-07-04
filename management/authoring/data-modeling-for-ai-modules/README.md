@@ -52,6 +52,12 @@
 - `14-python-example-draft-snippets.md`
 - `15-note-integration-priority-map.md`
 - `16-next-source-editing-queue.md`
+- `17-notes-01-02-review-log.md`
+- `18-notes-03-05-review-log.md`
+- `19-notes-06-08-review-log.md`
+- `20-notes-09-10-review-log.md`
+- `21-docs-insertion-asset-map.md`
+- `22-docs-round1-review-log.md`
 
 ## 현재 결론
 
