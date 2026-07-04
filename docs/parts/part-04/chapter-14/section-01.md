@@ -325,7 +325,7 @@ print("after simple layer norm =")
 print(np.round(normalized, 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 original tokens가 contextual, residual, norm 단계를 거치며 어떻게 바뀌는지 순서대로 보면 됩니다.
 
 ```text
 original tokens =
