@@ -222,8 +222,7 @@ updated_w = 2.192
 
 ## 이 절에서 기억할 관점
 
-- 딥러닝 학습 루프는 forward, loss, backward, optimizer step의 반복이며 training/evaluation mode는 이 루프와 분리된 장식이 아닙니다.
-- regularization은 루프 전체의 일반화 성격을 바꾸는 장치입니다.
+- 딥러닝 학습 루프는 forward, loss, backward, optimizer step의 반복이며 training/evaluation mode는 이 루프와 분리된 장식이 아닙니다. regularization은 이 루프 전체의 일반화 성격을 바꾸는 장치입니다.
 - 뒤 장의 구조 설명은 모두 `이 루프 안에서 학습되는 구조`로 읽어야 합니다.
 
 ## 체크리스트
