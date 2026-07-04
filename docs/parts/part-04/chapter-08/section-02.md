@@ -199,7 +199,7 @@ print("train_mode_values =", train_values)
 print("eval_mode_values =", eval_values)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 before_dropout과 train_mask를 먼저 보고, train_mode_values와 eval_mode_values가 어떻게 갈라지는지 이어서 보면 됩니다.
 
 ```text
 before_dropout = [0.9, 1.3, 0.4, 1.1, 0.7]
