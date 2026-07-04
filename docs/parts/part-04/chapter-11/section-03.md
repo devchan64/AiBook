@@ -324,10 +324,7 @@ patch_embedding = 0.0
 | CNN의 `(0, 0)`, `(0, 1)` 패치가 서로 겹친다 | CNN은 겹치는 지역 창을 촘촘히 훑으며 인접 위치 차이를 계속 읽는다는 뜻 | `stride`를 2로 바꾸면 겹침이 줄고 지역 반응 개수도 함께 줄어듭니다 |
 | ViT의 `flat_token`과 `patch_embedding`이 patch마다 하나씩 나온다 | ViT는 patch를 잘라 벡터 하나로 바꾼 뒤 그 벡터들을 토큰처럼 다룬다는 뜻 | `patch_size`를 더 작게 하면 token 수가 늘고, 더 크게 하면 token 수가 줄어듭니다 |
 
-- CNN 쪽은 `stride=1`로 겹치는 2x2 패치를 9번 읽습니다.
-- ViT 쪽은 같은 이미지를 2x2 patch 4개로 먼저 나눈 뒤, patch마다 벡터 하나를 만듭니다.
-- 즉, CNN의 출발 단위는 `겹치며 이동하는 지역 창`이고, ViT의 출발 단위는 `잘라 놓고 고정한 patch token`입니다.
-- 이후 ViT는 이 patch embedding들 사이 관계를 attention으로 읽게 되고, CNN은 지역 반응을 더 깊은 층에서 다시 쌓아 갑니다.
+즉, CNN은 겹치며 이동하는 지역 창에서 출발하고, ViT는 잘라 놓은 patch token에서 출발한 뒤 그 관계를 attention으로 읽는다는 점이 이 비교의 핵심입니다.
 
 이 예제에서는 `image` 크기를 8x8로 늘리거나 `patch_size`, `stride`를 바꿔 볼 수 있습니다. 그러면 독자는 단순히 `CNN은 부분, ViT는 패치`라는 문장을 외우는 대신, 같은 입력이 `몇 개의 겹치는 지역 반응`과 `몇 개의 patch token`으로 바뀌는지 직접 비교해 볼 수 있습니다.
 
