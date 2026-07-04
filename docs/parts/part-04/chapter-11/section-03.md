@@ -353,8 +353,6 @@ ViT를 이미지용 Transformer처럼 이해하려면, `패치를 토큰처럼 �
 | 핵심 계산 직관 | convolution + pooling | self-attention |
 | 이미지 설명의 느낌 | 작은 부분에서 큰 구조로 올라감 | 여러 패치 사이 관련성을 직접 읽음 |
 
-여기에 한 줄만 더 붙이면 입문 단계에서는 충분합니다.
-
 | 추가 질문 | CNN | ViT |
 | --- | --- | --- |
 | 처음 잘라 보는 단위 | 작은 receptive field | 잘라 놓은 patch token |
