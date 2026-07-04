@@ -213,7 +213,7 @@ print("first sentence shape =", text_batch[0].shape)
 print("first token embedding =", text_batch[0, 0].tolist())
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 batch의 shape와 첫 샘플 구조가 데이터 종류마다 어떻게 달라지는지부터 보면 됩니다.
 
 ```text
 tabular_batch shape = (3, 3)
