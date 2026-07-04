@@ -68,7 +68,7 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 - residual connection: 원래 정보 흐름을 함께 남긴다
 - layer normalization: 값의 스케일을 다루며 학습을 안정화한다
 
-즉, Transformer는 `문맥 관계를 읽고 -> 표현을 가공하고 -> 정보 흐름을 안정적으로 유지하는 블록`의 반복 구조라고 볼 수 있습니다.
+즉, Transformer는 `문맥 관계를 읽고 -> 표현을 가공하고 -> 정보 흐름을 안정적으로 유지하는 블록`의 반복 구조입니다.
 
 이 절에서는 아래 세 줄만 먼저 구분하면 됩니다.
 
