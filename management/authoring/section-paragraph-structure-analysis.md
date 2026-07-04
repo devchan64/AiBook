@@ -82,11 +82,11 @@ Part별로 읽히는 차이는 다음과 같다.
 
 | 파일 | 문단 수 | 단어 수 |
 | --- | ---: | ---: |
-| `docs/parts/part-03/chapter-10/section-01.md` | 110 | 2,949 |
+| `docs/parts/part-04/chapter-10/section-01.md` | 110 | 2,949 |
 | `docs/parts/part-02/chapter-08/section-04.md` | 100 | 2,958 |
 | `docs/parts/part-02/chapter-09/section-04.md` | 99 | 3,084 |
-| `docs/parts/part-03/chapter-11/section-02.md` | 97 | 3,002 |
-| `docs/parts/part-03/chapter-07/section-02.md` | 96 | 3,581 |
+| `docs/parts/part-04/chapter-11/section-02.md` | 97 | 3,002 |
+| `docs/parts/part-04/chapter-07/section-02.md` | 96 | 3,581 |
 
 문단 길이가 특히 긴 섹션은 다음과 같다.
 

@@ -591,7 +591,7 @@ Part 5는 통계적 언어 모델, seq2seq, Attention, Transformer, 사전학습
 
 - 파트 개요는 `docs/parts/` 아래에 둡니다.
 - 장별 본문은 `docs/parts/part-XX/chapter-YY/section-ZZ.md` 아래에 둡니다.
-- 프로젝트 성격의 문서도 현재는 `docs/parts/part-06/chapter-YY/section-ZZ.md` 구조를 사용합니다.
+- 프로젝트 성격의 문서도 현재는 `docs/parts/part-07/chapter-YY/section-ZZ.md` 구조를 사용합니다.
 - 집필 기준, 운영 원칙, 도구 설명은 `management/authoring/` 아래에 둡니다.
 - 이미지, SVG, 생성된 차트는 `docs/assets/` 아래에 둡니다.
 - 새 파일을 만들면 `mkdocs.yml`의 `nav` 반영 여부를 반드시 확인합니다.

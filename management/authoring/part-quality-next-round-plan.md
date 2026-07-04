@@ -33,7 +33,7 @@
 
 권장 파일명:
 
-- `management/authoring/part-05-detailed-quality-analysis.md`
+- `management/authoring/part-06-detailed-quality-analysis.md`
 - `management/authoring/part-02-detailed-quality-analysis.md`
 - 필요 시 `part-06-detailed-quality-analysis.md`
 

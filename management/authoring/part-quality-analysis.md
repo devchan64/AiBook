@@ -34,10 +34,11 @@ Part별 평가는 다음 여섯 기준으로 봅니다.
 | --- | ---: | ---: | ---: | --- |
 | Part 1 | 17 | 57 | 0 | 지형도와 용어 체계 |
 | Part 2 | 15 | 60 | 0 | 수학·Python·도구 기초 복구 |
-| Part 3 | 19 | 47 | 0 | 머신러닝 공통 구조 |
-| Part 4 | 15 | 34 | 0 | 딥러닝 구조와 학습 절차 |
-| Part 5 | 19 | 44 | 0 | LLM과 생성형 AI 본류 |
-| Part 6 | 7 | 14 | 0 | 프로젝트와 기록 중심 회고 |
+| Part 3 | 6 | 12 | 4 | 데이터 모델링과 표현 설계 |
+| Part 4 | 19 | 47 | 0 | 머신러닝 공통 구조 |
+| Part 5 | 15 | 34 | 0 | 딥러닝 구조와 학습 절차 |
+| Part 6 | 19 | 44 | 0 | LLM과 생성형 AI 본류 |
+| Part 7 | 7 | 14 | 0 | 프로젝트와 기록 중심 회고 |
 
 ## 판정에 사용한 대표 근거 파일
 
@@ -51,6 +52,7 @@ Part별 평가는 다음 여섯 기준으로 봅니다.
 | Part 4 | `docs/parts/part-04/index.md`, `docs/parts/part-04/summary.md`, `management/authoring/part-04-open-checklist.md` |
 | Part 5 | `docs/parts/part-05/index.md`, `docs/parts/part-05/summary.md`, `management/authoring/part-05-open-checklist.md` |
 | Part 6 | `docs/parts/part-06/index.md`, `docs/parts/part-06/summary.md`, `management/authoring/part-06-open-checklist.md` |
+| Part 7 | `docs/parts/part-07/index.md`, `docs/parts/part-07/summary.md`, `management/authoring/part-07-open-checklist.md` |
 
 ## Part 1 분석
 
@@ -130,9 +132,9 @@ Part별 평가는 다음 여섯 기준으로 봅니다.
 
 ### 확인한 대표 파일
 
-- `docs/parts/part-03/index.md`
-- `docs/parts/part-03/summary.md`
-- `management/authoring/part-03-open-checklist.md`
+- `docs/parts/part-04/index.md`
+- `docs/parts/part-04/summary.md`
+- `management/authoring/part-04-open-checklist.md`
 
 ### 판정
 
@@ -167,9 +169,9 @@ Part별 평가는 다음 여섯 기준으로 봅니다.
 
 ### 확인한 대표 파일
 
-- `docs/parts/part-04/index.md`
-- `docs/parts/part-04/summary.md`
-- `management/authoring/part-04-open-checklist.md`
+- `docs/parts/part-05/index.md`
+- `docs/parts/part-05/summary.md`
+- `management/authoring/part-05-open-checklist.md`
 
 ### 판정
 
@@ -204,9 +206,9 @@ Part별 평가는 다음 여섯 기준으로 봅니다.
 
 ### 확인한 대표 파일
 
-- `docs/parts/part-05/index.md`
-- `docs/parts/part-05/summary.md`
-- `management/authoring/part-05-open-checklist.md`
+- `docs/parts/part-06/index.md`
+- `docs/parts/part-06/summary.md`
+- `management/authoring/part-06-open-checklist.md`
 
 ### 판정
 
@@ -241,9 +243,9 @@ Part별 평가는 다음 여섯 기준으로 봅니다.
 
 ### 확인한 대표 파일
 
-- `docs/parts/part-06/index.md`
-- `docs/parts/part-06/summary.md`
-- `management/authoring/part-06-open-checklist.md`
+- `docs/parts/part-07/index.md`
+- `docs/parts/part-07/summary.md`
+- `management/authoring/part-07-open-checklist.md`
 
 ### 판정
 
