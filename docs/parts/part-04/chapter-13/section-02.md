@@ -285,7 +285,7 @@ print("top_token =", top_token)
 print("box_plus_not_discarded_weight =", top_pair_weight)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 토큰의 `weight`를 먼저 비교하고, 그 결과가 `new_representation`과 `representation_shift`를 어떻게 바꾸는지 이어서 보면 됩니다.
 
 ```text
 baseline_representation = [0.42, 0.44, 0.28]
