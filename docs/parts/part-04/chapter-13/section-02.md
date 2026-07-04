@@ -331,8 +331,6 @@ self-attention에서 확인해야 할 역사적 전환은 attention이 번역 �
 - 왜 self-attention이 구조 자체를 바꾸는 발상이었는지 설명하며
 - Transformer 블록의 핵심 계산을 미리 닫아 주기 때문입니다
 
-즉, self-attention은 Part 4 후반부에서 sequence modeling의 계산 감각을 바꾸는 가장 중요한 전환 개념 중 하나입니다.
-
 따라서 이 절에서 확인해야 할 최종 결과는 `attention`과 `Transformer` 사이에 끼어 있는 중간 단계가 아니라, Transformer를 이해하기 위해 반드시 지나가야 하는 핵심 전환점으로 self-attention을 읽을 수 있는가입니다.
 
 ## 다음 절과의 연결
