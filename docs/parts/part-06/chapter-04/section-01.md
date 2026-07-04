@@ -1,264 +1,355 @@
-# P6-4.1 텍스트 분류 모델 목표
+# P6-4.1 GPT 계열의 위치
 
-이미지 프로젝트를 지나면 자연스럽게 텍스트 프로젝트로 넘어가게 됩니다. 텍스트 분류(text classification)는 LLM 이전에도 매우 오래 쓰인 기본 과업(task)이며, 감정 분류, 스팸 분류, 문의 라우팅, 뉴스 주제 분류 같은 실무 문제와 직접 연결됩니다.
+여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다.
 
-이번 절의 목적은 복잡한 언어 모델을 바로 쓰는 것이 아니라, `문장을 토큰(token) 묶음으로 바꾸고 라벨(label)을 예측하는 최소 프로젝트 흐름`을 확인하는 데 있습니다.
+계속 이어서 생성하는 모델은 Transformer 계열 안에서 어디에 놓이는가?
 
-이 절의 목적은 LLM을 바로 다루는 것이 아니라, 텍스트 분류 프로젝트에서 입력 문장이 어떻게 벡터가 되고 라벨 예측으로 이어지는지 기록하는 것이다.
+이 절은 그 질문에 답합니다.
+
+GPT 계열은 Transformer의 디코더(decoder)를 중심으로 이전 토큰 문맥을 보고 다음 토큰을 예측하며, 이 반복을 통해 긴 텍스트를 생성하는 흐름이다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 텍스트 분류 프로젝트는 어떤 입력과 출력을 갖는가?
-- 문장을 숫자 벡터(vector)로 바꾸는 최소 방법은 무엇인가?
-- 작은 텍스트 분류 프로젝트에서도 baseline이나 비교 기준이 왜 필요한가?
+- GPT 계열은 Transformer 안에서 어떤 위치를 가지는가?
+- 왜 GPT는 `계속 이어서 생성하는 모델`처럼 보이는가?
+- BERT 계열과 비교하면 무엇이 가장 크게 다른가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- BERT 계열 파인튜닝
-- subword tokenizer의 내부 구현
-- attention 기반 문장 표현
-- 대규모 라벨 데이터셋
+- GPT-1, GPT-2, GPT-3, GPT-4 계열의 세부 버전 비교
+- RLHF와 instruction tuning의 상세 절차
+- 최신 상용 모델별 구현 차이
 
-이 절은 `문장 -> 벡터 -> 라벨 예측`이라는 최소 분류 프로젝트 흐름에 집중합니다. 토큰화가 평가 해석에 미치는 영향은 바로 다음 P6-4.2 토큰화와 평가에서 다시 회수하고, BERT 파인튜닝과 attention 기반 표현의 본격 구현은 현재 본편 범위 밖으로 둡니다.
+GPT의 생성 구조는 여기서 잡고, 사전학습의 역할은 P6-6.1, 다음 토큰 예측은 P6-5.1, 지시 튜닝과 정렬 문제는 P6-8.1과 P6-8.2에서 다시 회수합니다. 개별 상용 모델 버전사와 제품별 구현 차이는 현재 본편 범위 밖으로 둡니다.
+
+이 절에서는 GPT를 제품 이름이 아니라 `디코더 기반 생성 모델`이라는 구조적 위치에서 읽습니다.
+
+이 절은 `GPT의 구조적 위치 축`으로 읽으면 충분합니다.
+
+| 지금 이 절에서 읽는 것 | 바로 다음 절이나 뒤 장으로 넘기는 것 |
+| --- | --- |
+| GPT가 Transformer 계열 안에서 왜 `계속 이어 쓰는 생성 흐름`으로 읽히는가 | 사전학습이 이 구조를 어떻게 키우는가 |
+| BERT와 GPT를 입력 읽기와 순차 생성 관점에서 어떻게 구분하는가 | instruction tuning, alignment, 상용 모델 버전 차이가 무엇을 더 바꾸는가 |
+
+이 절이 Part 6 본류 요청 흐름에서 맡는 위치를 가장 짧게 붙잡으면 다음과 같습니다.
+
+| 지금 절의 역할 | 바로 다음에 붙는 질문 | 이어서 읽을 절 |
+| --- | --- | --- |
+| Transformer 계산 엔진이 어떻게 `계속 이어 쓰는 생성 흐름`이 되는가 | 이 생성 흐름이 실제로 왜 다음 토큰 예측과 사용자 경험으로 보이는가 | P6-5.1 다음 토큰 예측, P6-6.1 사전학습 |
 
 ## 이 절의 목표
 
-- 텍스트 분류 프로젝트를 `문장 -> 토큰 -> 벡터 -> 클래스 예측` 흐름으로 설명할 수 있습니다.
-- 어휘(vocabulary)와 라벨 구조를 프로젝트 문서에 적을 수 있습니다.
-- 작은 실습으로 예측값과 정확도를 직접 확인할 수 있습니다.
+- GPT 계열을 decoder 중심 Transformer 흐름으로 설명할 수 있습니다.
+- GPT가 왜 다음 토큰 예측(next-token prediction)과 직접 연결되는지 말할 수 있습니다.
+- BERT와 GPT의 차이를 `문장 전체 읽기` 대 `순차 생성` 관점으로 설명할 수 있습니다.
+- 다음 절의 대화형 LLM 사용자 경험으로 자연스럽게 넘어갈 수 있습니다.
 
-## 왜 텍스트 분류 프로젝트가 중요한가
+## 이 절을 읽는 순서
 
-텍스트 프로젝트는 Part 5의 LLM 문맥과도 직접 연결됩니다. 다만 여기서는 생성(generation)이 아니라 분류(classification)입니다. 그래서 다음 차이를 분명히 보는 것이 중요합니다.
+이 절은 다음 순서로 읽으면 충분합니다.
 
-| 구분 | 이번 프로젝트 |
-| --- | --- |
-| 입력 | 짧은 문장 |
-| 출력 | 정해진 라벨(class) 하나 |
-| 중심 질문 | 어떤 단어와 표현이 어떤 라벨과 연결되는가? |
+1. 먼저 GPT를 제품 이름이 아니라 `decoder 중심 생성 구조`로 읽습니다.
+2. 그 다음 왜 GPT가 한 번에 완성 문장을 내놓는 모델보다 `다음 토큰을 이어 가는 모델`처럼 보이는지 확인합니다.
+3. 이어서 BERT와의 차이를 `입력을 읽는 흐름`과 `출력을 이어 쓰는 흐름`으로 구분합니다.
+4. 마지막에 사례와 예제를 통해 `초반 선택이 뒤 생성 경로를 계속 밀어 가는가`를 확인합니다.
 
-즉, 이번 절은 `문장을 이해하는 모델`을 거대하게 설명하기보다, `문장을 라벨에 연결하는 작은 프로젝트`부터 다룹니다.
+## GPT는 무엇의 약자인가
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+GPT는 `Generative Pre-Trained Transformer`의 약자입니다. 이름 안에 이미 세 가지 핵심이 들어 있습니다.
 
-| 질문 | 짧은 답 |
-| --- | --- |
-| 이 프로젝트에서 먼저 적을 것은 무엇인가? | 문장, 라벨, 토큰화 방식 |
-| 왜 작은 라벨 두 개로 시작하는가? | 분류 구조와 어휘 기록을 단순하게 보기 위해 |
-| 최소 산출물은 무엇인가? | vocabulary, shape, 예측값, 정확도 |
+- Generative
+- Pre-Trained
+- Transformer
 
-## 프로젝트 질문 설정
+즉:
 
-이번 프로젝트의 질문은 다음처럼 잡겠습니다.
+- 생성(generation)을 목표로 하고
+- 먼저 큰 데이터에서 사전학습(pretraining)하며
+- Transformer 구조를 사용한다
 
-> 고객 문장을 `complaint`와 `praise` 두 라벨로 나눌 수 있는가?
+는 뜻입니다.
 
-이 질문이 좋은 이유는 다음과 같습니다.
+## 왜 GPT는 `생성 모델`처럼 읽히나
 
-- 분류 라벨이 명확합니다.
-- 토큰화(tokenization)와 어휘(vocabulary) 개념을 바로 붙일 수 있습니다.
-- 이후 OOV(out-of-vocabulary) 문제와 평가 해석으로 이어지기 쉽습니다.
+GPT 계열은 보통 이전 토큰들을 보고 다음 토큰을 예측하는 autoregressive language model 흐름으로 설명합니다.
 
-## 프로젝트 흐름
+예를 들어 입력이 다음과 같다고 해 봅시다.
+
+> 오늘 회의는 오후
+
+모델은 여기서 다음 후보를 예측합니다.
+
+- `세`
+- `두`
+- `한`
+
+그리고 하나를 고른 뒤, 그 새 토큰까지 포함해서 다시 다음 토큰을 예측합니다.
+
+즉, GPT 계열의 핵심 감각은 다음과 같습니다.
+
+`한 번에 완성 문장을 꺼내는 것이 아니라, 다음 토큰을 계속 이어서 예측하며 출력을 만든다.`
+
+## 왜 디코더(decoder) 중심이라고 하나
+
+Part 6 앞부분에서 본 것처럼 Transformer는 encoder, decoder, encoder-decoder 구조로 나뉘어 읽을 수 있습니다.
+
+GPT 계열은 이 중 decoder 중심 흐름으로 보는 것이 안전합니다.
+
+이 구조의 핵심은:
+
+- 이전까지의 문맥을 보고
+- 현재 위치에서 다음 토큰을 생성할 수 있도록
+- 생성 방향에 맞는 attention 제약을 둔다는 점입니다
+
+다음처럼 이해하면 충분합니다.
+
+`GPT는 문장 전체를 한 번에 다 읽고 판단하는 모델이라기보다, 앞에서 쓴 것을 바탕으로 뒤를 계속 이어 쓰는 모델이다.`
+
+## BERT와 비교하면 무엇이 다르나
+
+다시 정리하면:
+
+| 구분 | BERT 계열 | GPT 계열 |
+| --- | --- | --- |
+| 중심 구조 | encoder | decoder |
+| 기본 감각 | 입력 전체 문맥을 읽어 표현 생성 | 이전 토큰을 바탕으로 다음 토큰 생성 |
+| 대표 사용 흐름 | 분류, 검색, 임베딩 | 생성, 대화, 요약, 초안 작성 |
+| 출력 성격 | 라벨, 점수, 표현 | 새 토큰, 새 문장, 새 문단 |
+
+이 표의 핵심은 다음입니다.
+
+`BERT는 입력을 읽고 판단하는 쪽에, GPT는 출력을 계속 이어 만드는 쪽에 더 자연스럽다.`
+
+## 왜 GPT 계열이 사용자 경험을 크게 바꿨나
+
+GPT 계열은 구조적으로 생성에 잘 맞습니다. 그래서 사용자는 모델에게 자연어로 요구를 적고, 모델이 그 뒤를 이어 긴 응답을 만들어 내는 경험을 하게 됩니다.
+
+예를 들어:
+
+- 질문에 대한 답변 작성
+- 이메일 초안 작성
+- 문서 요약
+- 코드 자동완성
+- 역할 기반 대화
+
+이런 경험은 모두 `다음 토큰 생성의 반복`으로 설명할 수 있습니다.
+
+즉, GPT 계열은 기술적으로는 다음 토큰 예측 모델이지만, 사용자 입장에서는 `문장을 계속 써 주는 인터페이스`처럼 느껴집니다.
+
+## 아주 단순하게 그리면
 
 ```mermaid
 flowchart TD
-  A["sentence"]
-  B["tokenization<br/>split into words"]
-  C["vectorization<br/>count known words"]
-  D["class score<br/>compare to class patterns"]
-  E["prediction<br/>complaint or praise"]
+  A["previous tokens"]
+  B["decoder Transformer"]
+  C["next-token scores"]
+  D["chosen next token"]
+  E["extended sequence"]
 
-  A --> B --> C --> D --> E
+  A --> B
+  B --> C
+  C --> D
+  D --> E
 ```
 
-이 도식은 텍스트 분류 프로젝트를 문장 하나의 의미 해석이 아니라 `토큰화 -> 벡터화 -> 점수 비교 -> 라벨 결정`의 구조로 단순화합니다. 독자는 이 흐름을 통해 텍스트도 결국 분류기가 읽을 수 있는 숫자 표현으로 바뀐다는 점을 먼저 잡으면 됩니다.
+이 도식에서 확인해야 할 결과는 GPT 계열이 완성 문장을 한 번에 꺼내는 구조가 아니라, 앞 토큰을 바탕으로 다음 토큰 후보를 반복해서 이어 붙이는 생성 구조라는 점입니다.
 
-프로젝트 문서 관점으로 다시 쓰면 다음 순서입니다.
+## 사례로 보기
 
-| 단계 | 문서에 남길 것 |
-| --- | --- |
-| 문장 | 원문 입력 예시 |
-| 토큰화 | 어떻게 쪼갰는가 |
-| 벡터화 | 어떤 어휘 공간으로 바꿨는가 |
-| 예측 | 어떤 라벨이 나왔는가 |
-| 결과 | 정확도와 이후 점검 포인트 |
+아래 도식은 이 절의 세 사례를 `생성 결과가 무엇인가`보다 `초기 토큰 선택이 뒤 경로를 어떻게 밀어 가는가`라는 공통 질문으로 다시 묶은 것입니다.
 
-## 학습 데이터
+```mermaid
+flowchart TD
+  A["same autoregressive question"]
+  B["autocomplete<br/>which early phrase shapes the whole sentence?"]
+  C["summary draft<br/>which first sentence sets the later focus?"]
+  D["code generation<br/>which first identifier shapes the later block?"]
 
-이번 절에서는 여섯 개의 짧은 학습 문장을 사용합니다.
+  A --> B
+  A --> C
+  A --> D
+```
 
-### complaint
+이 도식에서 확인해야 할 점은 과업이 달라도 생성 감각이 비슷하다는 것입니다. 모두 `지금 한 번 고른 토큰이나 문장이 뒤 출력의 다음 입력 일부가 된다`는 구조를 가지며, 그래서 초반 선택이 뒤 경로 전체를 계속 밀어 갑니다.
 
-- `refund delay angry`
-- `broken product complaint`
-- `refund request not working`
+### 사례 1. 자동완성
 
-### praise
+사용자가 `회의는 내일 오후`까지만 적었을 때, 사람은 흔히 모델이 문장 전체를 한 번에 떠올린다고 느끼기 쉽습니다. 하지만 실제 자동완성에서는 `두`, `세`, `네`처럼 다음 후보를 먼저 놓고, 그중 하나를 고른 뒤 다시 다음 토큰 후보를 이어 계산합니다. 즉, 모델은 완성 문장을 통째로 꺼내는 것이 아니라, 앞에 나온 토큰들을 보고 다음에 올 가능성이 큰 토큰을 차례로 이어 붙입니다. 여기서 바뀌는 점은 `한 번에 완성된 문장`을 기대하는 것에서 `앞 선택이 뒤 문장을 계속 밀어 가는 구조`를 보게 된다는 것입니다. 앞 단계에서 시간을 잘못 고르면 뒤 문장 전체도 그 시간 표현을 기준으로 이어지게 됩니다. 예를 들어 `오후 세` 대신 `오후 네`가 먼저 선택되면, 뒤의 회의실 안내나 참석 요청 문장도 그 시각을 전제로 이어질 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 첫 몇 토큰 선택이 바뀌면 뒤 문장 전체도 그 선택을 따라 달라지는가입니다.
 
-- `thank you fast delivery`
-- `love this product great`
-- `happy with quick support`
+### 사례 2. 요약 초안 작성
 
-이 데이터는 실제 고객 로그가 아니라 프로젝트 실습용 장난감 문장입니다.
+사용자가 긴 회의록을 넣고 `세 문장으로 요약해 줘`라고 요청하면, 사람은 요약 전체가 먼저 정해지고 그대로 출력된다고 생각하기 쉽습니다. 하지만 내부에서는 첫 문장을 만들고, 그 문장 자체가 다시 다음 출력의 문맥 일부가 되면서 두 번째와 세 번째 문장이 이어집니다. 즉, 요약도 결국은 다음 토큰을 이어 가는 생성 구조 위에서 만들어집니다. 여기서 바뀌는 점은 `요약 결과가 한 번에 결정된다`는 감각보다, 첫 문장 선택이 뒤 문장 방향까지 연쇄적으로 정한다는 점을 보게 된다는 것입니다. 첫 문장이 핵심을 잘못 잡으면 뒤 문장들도 그 잘못된 초점을 이어받아 전체 요약 방향이 틀어질 수 있습니다. 예를 들어 첫 줄에서 `배포 일정 확정`이라고 잘못 단정하면, 실제로는 연기 논의가 중심이었던 회의도 뒤 문장들이 그 잘못된 결론을 보강하는 방향으로 이어질 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 첫 문장 초점이 흔들리면 뒤 요약 문장들도 같은 방향으로 연쇄적으로 기울어지는가입니다.
 
-## Python 예제
+### 사례 3. 코드 생성
 
-이번 예제의 목적은 아주 단순한 공백 기준 토큰화와 count vector를 이용해 문장 분류 흐름을 확인하는 것입니다. 이번에는 정확도 숫자만 남기지 않고, `sample_id`, `tokens`, `pred_label_name`, `nearest_class_distance`까지 함께 기록해 다음 평가 절로 자연스럽게 이어지게 하겠습니다.
+개발자가 함수 이름, 입력 설명, 기대 동작을 주고 구현을 요청할 수 있습니다. 사람은 코드 생성도 정답 블록 하나를 통째로 꺼내는 일처럼 느끼기 쉽지만, 실제로는 함수 정의, 들여쓰기, 조건문, 반환문이 토큰 단위로 순서대로 이어집니다. 그래서 앞에서 잘못 생성한 변수명이나 조건식은 뒤 코드에도 계속 영향을 미치게 됩니다. 여기서 바뀌는 점은 `한 번에 완성된 코드`를 기대하는 것보다, 초반 토큰 하나가 뒤 구조 전체를 끌고 간다는 점을 먼저 보게 된다는 것입니다. 예를 들어 초반에 `user_id`를 잘못 잡아 두면 뒤 조회, 예외 처리, 반환문까지 같은 오류가 연쇄적으로 따라갈 수 있습니다. 괄호 하나가 어긋나도 뒤 블록 전체가 문법 오류로 무너질 수 있다는 점도 같은 구조를 보여 줍니다. 그래서 이 사례에서 확인해야 할 결과는 초반 토큰 선택 오류가 뒤 코드의 변수명, 분기, 문법까지 연쇄적으로 흔드는가입니다.
 
-- 문제 상황: 고객 문장을 불만(complaint)과 칭찬(praise)으로 나눈다.
-- 입력(input): 학습 문장 6개, 평가 문장 4개
-- 정답(label): complaint = 0, praise = 1
-- 확인할 개념:
-  - 토큰화 후 어휘를 만든다
-  - 문장을 count vector로 바꾼다
-  - 클래스별 중심 패턴과의 거리를 비교해 예측한다
-  - 샘플별 예측 기록이 남아야 다음 오류 분석으로 이어질 수 있다
+세 사례를 누적 생성 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 초반 선택이 특히 크게 미는 것 | 뒤에서 함께 흔들리는 것 |
+| --- | --- | --- |
+| 자동완성 | 시간·주제 같은 첫 표현 | 뒤 문장 전체의 전개 |
+| 요약 초안 작성 | 첫 문장의 초점 | 뒤 요약 문장의 강조 순서 |
+| 코드 생성 | 변수명, 조건식, 괄호 구조 | 분기, 반환, 문법 안정성 |
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 GPT 계열 생성이 `완성 문장을 한 번에 꺼내는 것`이 아니라, 현재까지의 토큰열을 보고 다음 토큰 후보를 반복해서 선택하는 구조라는 점을 확인하는 것입니다. 특히 첫 번째 선택이 달라지면 뒤 후보표와 최종 문장 흐름도 함께 달라진다는 점을 직접 보겠습니다.
+
+입력:
+
+- 시작 토큰 시퀀스
+- 현재 마지막 토큰에 따라 달라지는 다음 토큰 후보표
+- 서로 다른 첫 선택을 가진 두 개의 생성 경로
+
+출력:
+
+- 경로별 step별 현재 문맥
+- 경로별 다음 토큰 후보와 점수
+- 경로별 누적 점수 합
+- 첫 선택이 달라질 때 누적 생성 결과가 어떻게 갈라지는지
+
+문제 상황:
+
+- 자기회귀 생성은 첫 선택 하나가 뒤 문장 전체를 갈라놓을 수 있다는 점을 직접 경로별로 보는 편이 좋다
+
+입력(input):
+
+위에 정리한 시작 시퀀스와 step별 다음 토큰 점수표를 사용합니다.
+
+확인할 개념:
+
+- 자기회귀 생성에서는 초반 선택 하나가 이후 후보 경로와 최종 문장을 크게 갈라놓을 수 있다
 
 ```python
-import numpy as np
+start_sequence = ["오늘", "회의는"]
 
-train_rows = [
-    {"sample_id": "train-01", "text": "refund delay angry", "label": 0},
-    {"sample_id": "train-02", "text": "broken product complaint", "label": 0},
-    {"sample_id": "train-03", "text": "thank you fast delivery", "label": 1},
-    {"sample_id": "train-04", "text": "love this product great", "label": 1},
-    {"sample_id": "train-05", "text": "refund request not working", "label": 0},
-    {"sample_id": "train-06", "text": "happy with quick support", "label": 1},
-]
-train_texts = [row["text"] for row in train_rows]
-y_train = np.array([row["label"] for row in train_rows])  # 0 complaint, 1 praise
-label_names = {0: "complaint", 1: "praise"}
-
-vocab = sorted({token for text in train_texts for token in text.split()})
-token_to_index = {token: i for i, token in enumerate(vocab)}
-
-def vectorize(texts):
-    X = np.zeros((len(texts), len(vocab)), dtype=float)
-    token_lists = []
-    for i, text in enumerate(texts):
-        tokens = text.split()
-        token_lists.append(tokens)
-        for token in text.split():
-            if token in token_to_index:
-                X[i, token_to_index[token]] += 1
-    return X, token_lists
-
-X_train, train_tokens = vectorize(train_texts)
-class_centroids = np.vstack([
-    X_train[y_train == 0].mean(axis=0),
-    X_train[y_train == 1].mean(axis=0),
-])
-
-test_rows = [
-    {"sample_id": "test-01", "text": "refund for broken product", "label": 0},
-    {"sample_id": "test-02", "text": "great support thank you", "label": 1},
-    {"sample_id": "test-03", "text": "delay but quick refund", "label": 0},
-    {"sample_id": "test-04", "text": "love fast delivery", "label": 1},
-]
-test_texts = [row["text"] for row in test_rows]
-y_test = np.array([row["label"] for row in test_rows])
-X_test, test_tokens = vectorize(test_texts)
-
-predictions = []
-test_records = []
-for index, x in enumerate(X_test):
-    distances = np.linalg.norm(class_centroids - x, axis=1)
-    pred_label = int(np.argmin(distances))
-    predictions.append(pred_label)
-    test_records.append({
-        "sample_id": test_rows[index]["sample_id"],
-        "text": test_rows[index]["text"],
-        "tokens": test_tokens[index],
-        "pred_label_name": label_names[pred_label],
-        "true_label_name": label_names[y_test[index]],
-        "correct": bool(pred_label == y_test[index]),
-        "nearest_class_distance": round(float(distances[pred_label]), 3),
-    })
-
-predictions = np.array(predictions)
-
-project_run = {
-    "vocab_size": len(vocab),
-    "vocab_head": vocab[:8],
-    "train_shape": X_train.shape,
-    "test_accuracy": round(float((predictions == y_test).mean()), 3),
-    "wrong_sample_ids": [
-        row["sample_id"] for row in test_records if not row["correct"]
-    ],
+next_token_scores = {
+    "회의는": [("오후", 0.62), ("온라인", 0.27), ("취소", 0.11)],
+    "오후": [("세", 0.55), ("네", 0.28), ("다섯", 0.17)],
+    "온라인": [("으로", 0.64), ("회의실은", 0.21), ("공지합니다", 0.15)],
+    "세": [("시입니다", 0.58), ("시에", 0.25), ("시부터", 0.17)],
+    "으로": [("진행합니다", 0.67), ("변경되었습니다", 0.21), ("안내합니다", 0.12)],
 }
 
-print("project_run =", project_run)
-print("test_records =")
-for row in test_records:
-    print(row)
+paths = {
+    "path_a_time_flow": ["오후", "세", "시입니다"],
+    "path_b_online_flow": ["온라인", "으로", "진행합니다"],
+}
+
+print("start =", start_sequence)
+
+for path_name, chosen_tokens in paths.items():
+    sequence = start_sequence[:]
+    cumulative_score = 0.0
+    print("=" * 80)
+    print("[path]", path_name)
+    for step, token in enumerate(chosen_tokens, start=1):
+        current_last_token = sequence[-1]
+        candidates = next_token_scores.get(current_last_token, [])
+        print(f"step {step} context =", sequence)
+        print(f"step {step} candidates after '{current_last_token}' =", candidates)
+        chosen_score = dict(candidates)[token]
+        cumulative_score += chosen_score
+        sequence.append(token)
+        print(f"step {step} chosen =", token)
+        print(f"step {step} chosen_score =", chosen_score)
+        print(f"step {step} cumulative_score =", round(cumulative_score, 2))
+    print("final_sequence =", sequence)
+    print("final_text =", " ".join(sequence))
+    print("path_score_total =", round(cumulative_score, 2))
 ```
 
-실행 결과 예시는 다음과 같습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-project_run = {'vocab_size': 20, 'vocab_head': ['angry', 'broken', 'complaint', 'delay', 'delivery', 'fast', 'great', 'happy'], 'train_shape': (6, 20), 'test_accuracy': 1.0, 'wrong_sample_ids': []}
-test_records =
-{'sample_id': 'test-01', 'text': 'refund for broken product', 'tokens': ['refund', 'for', 'broken', 'product'], 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'nearest_class_distance': 1.291}
-{'sample_id': 'test-02', 'text': 'great support thank you', 'tokens': ['great', 'support', 'thank', 'you'], 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'nearest_class_distance': 1.633}
-{'sample_id': 'test-03', 'text': 'delay but quick refund', 'tokens': ['delay', 'but', 'quick', 'refund'], 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'nearest_class_distance': 1.528}
-{'sample_id': 'test-04', 'text': 'love fast delivery', 'tokens': ['love', 'fast', 'delivery'], 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'nearest_class_distance': 1.528}
+start = ['오늘', '회의는']
+================================================================================
+[path] path_a_time_flow
+step 1 context = ['오늘', '회의는']
+step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
+step 1 chosen = 오후
+step 1 chosen_score = 0.62
+step 1 cumulative_score = 0.62
+step 2 context = ['오늘', '회의는', '오후']
+step 2 candidates after '오후' = [('세', 0.55), ('네', 0.28), ('다섯', 0.17)]
+step 2 chosen = 세
+step 2 chosen_score = 0.55
+step 2 cumulative_score = 1.17
+step 3 context = ['오늘', '회의는', '오후', '세']
+step 3 candidates after '세' = [('시입니다', 0.58), ('시에', 0.25), ('시부터', 0.17)]
+step 3 chosen = 시입니다
+step 3 chosen_score = 0.58
+step 3 cumulative_score = 1.75
+final_sequence = ['오늘', '회의는', '오후', '세', '시입니다']
+final_text = 오늘 회의는 오후 세 시입니다
+path_score_total = 1.75
+================================================================================
+[path] path_b_online_flow
+step 1 context = ['오늘', '회의는']
+step 1 candidates after '회의는' = [('오후', 0.62), ('온라인', 0.27), ('취소', 0.11)]
+step 1 chosen = 온라인
+step 1 chosen_score = 0.27
+step 1 cumulative_score = 0.27
+step 2 context = ['오늘', '회의는', '온라인']
+step 2 candidates after '온라인' = [('으로', 0.64), ('회의실은', 0.21), ('공지합니다', 0.15)]
+step 2 chosen = 으로
+step 2 chosen_score = 0.64
+step 2 cumulative_score = 0.91
+step 3 context = ['오늘', '회의는', '온라인', '으로']
+step 3 candidates after '으로' = [('진행합니다', 0.67), ('변경되었습니다', 0.21), ('안내합니다', 0.12)]
+step 3 chosen = 진행합니다
+step 3 chosen_score = 0.67
+step 3 cumulative_score = 1.58
+final_sequence = ['오늘', '회의는', '온라인', '으로', '진행합니다']
+final_text = 오늘 회의는 온라인 으로 진행합니다
+path_score_total = 1.58
 ```
 
-## 결과를 어떻게 읽는가
+그래서 이 예제에서 확인해야 할 결과는 생성이 한 번에 완성된 문장을 꺼내는 것이 아니라, 이전 출력이 다음 후보군을 바꾸며 한 토큰씩 누적된다는 점입니다. 특히 첫 번째 선택이 `오후`냐 `온라인`이냐에 따라 두 번째 후보표부터 이미 달라지고, `cumulative_score`도 서로 다른 경로를 따라 쌓입니다. GPT 계열 생성은 이런 의미에서 `앞선 선택이 뒤 경로와 누적 점수 흐름을 계속 밀어 가는 구조`로 읽는 편이 정확합니다.
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
+## 이 예제를 누적 생성 관점으로 다시 보면
 
-- 이번 프로젝트는 `문장`을 직접 이해한 것이 아니라, 먼저 어휘(vocabulary)를 만들고 count vector로 바꾼 뒤 분류했습니다.
-- `project_run`은 어휘 크기, 벡터 shape, 정확도, 오류 샘플 ID를 한 번에 남기는 최소 기록입니다.
-- `train_shape = (6, 20)`은 학습 문장 6개가 20개 어휘 차원의 벡터로 바뀌었음을 뜻합니다.
-- `test_records`를 보면 각 문장이 어떤 토큰으로 쪼개졌고, 어떤 라벨로 예측되었는지까지 바로 읽을 수 있습니다.
-- 작은 예제에서는 test 정확도가 1.0으로 나왔지만, 이것이 곧바로 강한 일반화(generalization)를 뜻하는 것은 아닙니다.
+앞의 예제는 GPT를 구현하는 코드가 아니라, 생성이 `완성 문장을 통째로 꺼내는 일`이 아니라 `이전 출력이 다음 입력 일부가 되는 누적 과정`이라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 문장 품질 이전에, 생성이 한 단계씩 이어 붙는 구조라는 점입니다.
 
-즉, 텍스트 분류 프로젝트도 이미지 프로젝트와 마찬가지로 `입력 표현`을 먼저 봐야 합니다.
+GPT 계열은 Transformer decoder 기반 생성 모델이 실제 사용자 인터페이스를 바꾸는 흐름으로 이어졌다는 점에서 중요합니다.
 
-이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
+역사적으로 중요한 지점은 다음과 같습니다.
 
-- 문장은 어휘 기반 벡터로 바뀌었다
-- 샘플별 토큰과 예측 기록이 함께 남아야 다음 평가가 쉬워진다
-- 작은 예제의 성공이 곧 일반화 성공은 아니다
-- 텍스트 프로젝트에서도 입력 표현 기록이 예측 해석만큼 중요하다
+- generative pretraining이 여러 과업으로 전이될 수 있음을 보여 주었고
+- 모델 규모가 커질수록 zero-shot, few-shot 사용 경험이 강해졌으며
+- 이후 instruction tuning과 대화형 인터페이스로 이어질 기반을 만들었습니다
 
-이번 절은 Part 3와 Part 5를 함께 연결합니다.
-
-- Part 3의 분류(classification) 구조를 텍스트 문제에 다시 적용합니다.
-- Part 5의 토큰(token) 개념이 왜 중요한지 작은 프로젝트에서 확인합니다.
-
-즉, 이번 절은 LLM 이전의 고전적 텍스트 분류 감각과, LLM 이후에도 계속 남는 토큰화 감각 사이의 다리 역할을 합니다.
-
-이 절은 Part 6 전체 흐름에서 `입력이 표에서 텍스트로 바뀌어도 프로젝트 문서의 기본 구조는 유지된다`는 점을 보여 줍니다.
+커리큘럼 관점에서 이 절은 다음 절의 `대화형 LLM으로의 전환`을 위한 구조 설명입니다. 먼저 GPT를 생성 구조로 이해해야, 왜 사용자가 자연어로 요구를 적고 결과를 받는 경험이 가능해졌는지 설명할 수 있습니다.
 
 ## 다음 절과의 연결
 
-P6-4.2에서는 같은 프로젝트를 바탕으로 다음 질문을 다룹니다.
+여기까지 오면 다음 질문이 남습니다.
 
-- 토큰화(tokenization) 방식이 바뀌면 무엇이 달라지는가?
-- 어휘에 없는 단어는 어떻게 기록해야 하는가?
-- 정확도와 함께 토큰 coverage를 왜 같이 봐야 하는가?
+- GPT 계열의 생성 구조가 어떻게 `챗봇 같은 경험`으로 바뀌었는가?
+- 단순 자동완성 모델에서 대화형 LLM 경험으로 넘어갈 때 무엇이 달라졌는가?
+
+이 질문은 P6-4.2 대화형 LLM으로의 전환으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 텍스트 분류는 `문장 -> 토큰 -> 벡터 -> 라벨` 흐름으로 읽을 수 있습니다.
-- 어휘(vocabulary)를 어떻게 만들었는지가 프로젝트 품질에 큰 영향을 줍니다.
-- 작은 성공 사례만으로 일반화를 단정하면 안 됩니다.
-- 토큰화와 평가는 분리된 주제가 아니라 같은 프로젝트 안의 연결된 문제입니다.
+- GPT 계열은 decoder 중심 Transformer 흐름입니다.
+- 이전 토큰을 바탕으로 다음 토큰을 예측하며 출력을 이어 갑니다.
+- BERT 계열과의 차이는 생성 여부보다 구조와 주요 과업 차이로 읽는 편이 안전합니다.
+- 이 구조가 대화형 LLM 사용자 경험의 기반이 됩니다.
 
 ## 체크리스트
 
-- 텍스트 분류의 입력과 출력이 무엇인지 설명할 수 있는가?
-- 토큰화와 어휘 생성 과정을 한 문단으로 적을 수 있는가?
-- 문장이 벡터로 바뀐다는 뜻을 `shape`와 함께 설명할 수 있는가?
-- 정확도 숫자와 함께 입력 표현 방식을 기록했는가?
+- GPT 계열의 위치를 decoder 중심 흐름으로 설명할 수 있는가?
+- 왜 GPT가 다음 토큰 예측 모델과 직접 연결되는지 말할 수 있는가?
+- BERT와 GPT의 차이를 구조와 과업 관점에서 설명할 수 있는가?
+- 다음 절의 대화형 LLM 설명으로 왜 이어지는지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- NumPy Developers, `NumPy documentation`, 확인 날짜: 2026-06-29. [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/){: target="_blank" rel="noopener noreferrer" }
-
-이 절의 텍스트 데이터는 프로젝트 실습을 위해 만든 자체 장난감 문장입니다.
+- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
+- Alec Radford et al., `Language Models are Unsupervised Multitask Learners`, OpenAI, 2019, 확인 날짜: 2026-06-29.
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.

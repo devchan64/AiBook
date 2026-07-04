@@ -1,283 +1,365 @@
-# P6-6.2 권한과 로그 검토
+# P6-6.2 데이터와 스케일
 
-P6-6.1에서는 agent를 목표, 도구, 관찰의 흐름으로 설명했습니다. 하지만 실제 agent 프로젝트는 여기서 바로 멈추면 위험합니다.
+P6-6.1에서는 사전학습(pretraining)을 대규모 텍스트에서 일반 언어 패턴과 표현을 먼저 배우는 단계로 설명했습니다. 그러면 다음 질문이 자연스럽게 생깁니다.
 
-도구를 호출할 수 있다는 말은 곧 다음 질문을 뜻하기 때문입니다.
+그렇다면 왜 LLM 설명에서는 데이터와 스케일(scale)이라는 말이 그렇게 자주 등장하는가?
 
-- 누구 권한으로 실행하는가?
-- 실패하면 어디에 남는가?
-- 같은 작업을 다시 추적할 수 있는가?
+이 절은 그 질문에 답합니다.
 
-이 절은 agent 프로젝트의 `권한(permission)`과 `로그(log)`를 다룹니다.
-
-이 절의 목적은 agent가 무엇을 할 수 있는가보다, 무엇을 해도 되는가와 무엇을 남겨야 하는가를 프로젝트 문서에 적는 것이다.
+스케일(scale)은 데이터 양, 모델 크기, 계산량이 함께 커지는 현상을 가리키며, LLM 성능 향상과 강하게 연결되지만 비용과 위험도 함께 키운다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- agent 프로젝트에서 권한을 왜 먼저 적어야 하는가?
-- 로그는 단순 디버그 출력이 아니라 무엇을 위한 기록인가?
-- 승인(approval), 상태(state), 범위(scope)는 어떻게 프로젝트 문서에 남길 수 있는가?
+- 스케일(scale)은 무엇을 뜻하는가?
+- 왜 데이터, 파라미터(parameter), 계산량(compute)을 함께 보아야 하는가?
+- 규모가 커지면 왜 성능이 좋아지기도 하고, 동시에 비용과 위험도 커지는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 감사 시스템(audit system)의 전체 설계
-- 보안 정책 엔진
-- 분산 tracing 인프라
+- scaling law 수식
+- GPU 클러스터 설계
+- 최신 상용 모델 파라미터 수 비교
 
-이 절에서는 권한 범위와 로그 기록을 프로젝트 문서에 남기는 최소 기준만 다룹니다. 배포 이후 실패 추적과 운영 회고는 P6-7.1 배포와 모니터링 목표, P6-7.2 실패 기록과 개선 계획에서 다시 이어지며, 감사 시스템과 보안 정책 엔진 전체 설계는 현재 본편 범위 밖으로 둡니다.
+scaling law 수식은 여기서 전개하지 않고, 스케일이 왜 성능 전환과 함께 언급되는지만 남깁니다. 다음 토큰 예측으로 이어지는 학습 목표는 P6-5.1에서 다시 구체화합니다. GPU 인프라와 최신 상용 모델 수치 비교는 빠르게 바뀌는 주제이므로 현재 본편 범위 밖으로 두고, 운영 제약의 큰 그림만 P6-16.1 서비스 운영 제약에서 다시 회수합니다.
+
+이 절에서는 `크면 무조건 좋다`는 식의 단순한 인상을 피하고, 스케일을 기회와 제약이 함께 있는 구조로 읽습니다.
+
+지금 이 절을 학습 축 안에서 한 번 더 고정하면, P6-6.1이 `무엇을 먼저 배우는가`를 다뤘다면 여기서는 `그 학습을 왜 그렇게 큰 규모로 돌리게 되는가`를 읽는 단계입니다. 즉, 아직 프롬프트나 RAG 같은 서비스 손잡이로 넘어가는 것이 아니라, 뒤의 P6-7 파인튜닝과 P6-8 지시 튜닝이 왜 `큰 기반 모델`을 전제로 이야기되는지 붙잡는 구간입니다.
+
+이 절은 `규모 확대의 조건과 대가 축`으로 읽으면 됩니다.
+
+| 지금 이 절에서 읽는 것 | 바로 다음 절이나 뒤 장으로 넘기는 것 |
+| --- | --- |
+| 데이터, 파라미터, 계산량이 함께 커질 때 무엇이 좋아질 수 있는가 | 그 큰 기반 모델을 특정 과업과 사용자 요청에 어떻게 더 맞출 것인가 |
+| 성능 가능성과 비용·위험이 왜 함께 커지는가 | 실제 서비스에서 프롬프트, RAG, 운영 정책으로 어떤 손잡이를 잡을 것인가 |
 
 ## 이 절의 목표
 
-- agent 실행에서 권한과 로그가 왜 중심 요소인지 설명할 수 있습니다.
-- 단순 실행 성공 여부보다 `무슨 도구를 어떤 범위에서 썼는가`를 기록하는 법을 알 수 있습니다.
-- 실패 대응 문서를 agent 실행 기록과 연결할 수 있습니다.
+- 스케일을 데이터, 모델, 계산량의 확대라는 관점으로 설명할 수 있습니다.
+- 성능 향상과 비용 증가가 함께 간다는 점을 말할 수 있습니다.
+- 데이터 품질과 검증 책임이 규모와 함께 더 중요해진다는 점을 설명할 수 있습니다.
+- 다음 장의 다음 토큰 예측 설명으로 자연스럽게 넘어갈 수 있습니다.
 
-## 왜 권한이 먼저인가
+## 이 절을 읽는 순서
 
-도구를 쓰는 agent는 단순 텍스트 생성보다 훨씬 강한 행동력을 가질 수 있습니다.
+이 절은 다음 순서로 읽으면 충분합니다.
+
+1. 먼저 스케일이 `모델 크기 하나`가 아니라 데이터, 파라미터, 계산량이 함께 커지는 현상이라는 점을 봅니다.
+2. 그 다음 왜 규모가 커질수록 성능 가능성이 높아질 수 있는지 읽습니다.
+3. 이어서 왜 비용, 지연 시간, 데이터 품질 책임도 같이 커지는지 구분합니다.
+4. 마지막에 사례와 예제로 `능력 상승`과 `운영 부담`을 함께 비교합니다.
+
+## 스케일은 무엇을 함께 키우는가
+
+LLM 문맥에서 스케일은 보통 하나만 커지는 것을 뜻하지 않습니다. 대개 다음이 함께 커집니다.
+
+- 학습 데이터 양
+- 모델 파라미터 수
+- 학습 계산량(compute)
+
+`모델을 크게 만든다는 말은 대개 더 많은 텍스트를 보고, 더 많은 파라미터를 쓰고, 더 많은 계산 자원을 투입한다는 뜻과 함께 간다.`
+
+## 왜 규모가 커지면 성능이 좋아질 수 있나
+
+이 질문에 대한 직관적 답은 다음과 같습니다.
+
+- 더 많은 데이터는 더 다양한 언어 패턴을 보게 하고
+- 더 큰 모델은 더 복잡한 패턴을 담을 표현력을 주며
+- 더 많은 계산은 그 구조를 실제로 학습하게 해 줍니다
+
+즉, 스케일은 단순한 크기 경쟁이 아니라 `패턴을 더 넓고 더 세밀하게 담는 조건`과 연결됩니다.
+
+그래서 LLM 발전사에서는 모델 규모와 데이터 규모가 성능 전환과 함께 자주 언급됩니다.
+
+## 왜 비용과 지연 시간도 함께 커지나
+
+하지만 규모가 커질수록 좋은 점만 생기지는 않습니다.
+
+- 학습 비용이 커집니다
+- 추론 비용도 커질 수 있습니다
+- 응답 지연 시간(latency)이 늘어날 수 있습니다
+- 운영 복잡도와 장애 대응 부담이 커집니다
+
+즉, 스케일은 성능 문제이면서 동시에 서비스 운영 문제입니다.
+
+이 점은 Part 6 뒤쪽의 운영, 평가, 제약 설명과도 직접 연결됩니다.
+
+## 데이터가 많다고 항상 좋은가
+
+이 점을 함께 봐야 스케일이 성능을 올리는 방향과 동시에 데이터 품질, 비용, 정책 부담을 어떻게 키우는지도 같이 판단할 수 있습니다.
+
+데이터 양이 늘어나는 것은 중요하지만, 품질 문제가 사라지는 것은 아닙니다.
 
 예를 들어:
 
-- 파일 읽기
-- 파일 수정
-- 빌드 실행
-- 외부 API 호출
+- 오래된 정보
+- 중복 데이터
+- 편향된 표현
+- 저작권 문제
+- 잘못된 사실
 
-이 행동들은 모두 같은 위험도를 갖지 않습니다. 그래서 프로젝트 문서에는 최소 다음을 구분하는 편이 좋습니다.
+같은 문제는 데이터가 많아져도 그대로 남거나 더 커질 수 있습니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+따라서 더 안전한 설명은 다음입니다.
 
-| 질문 | 짧은 답 |
-| --- | --- |
-| 왜 권한을 먼저 적는가? | 도구마다 위험도가 다르기 때문 |
-| 로그는 왜 필요한가? | 어떤 실행이 일어났는지 다시 보기 위해 |
-| 최소 산출물은 무엇인가? | permission, approval, result가 들어간 실행 기록 |
+`스케일은 성능 가능성을 키우지만, 데이터 품질과 검증 책임을 없애 주지는 않는다.`
 
-| 항목 | 질문 |
-| --- | --- |
-| permission | 이 도구를 그냥 실행해도 되는가? |
-| approval | 사람 승인이 필요한가? |
-| scope | 어느 파일, 어느 디렉터리, 어느 시스템까지 허용되는가? |
-| log | 실행 결과와 실패 원인은 어디에 남는가? |
+## 왜 스케일이 사용자 경험을 바꾸었나
 
-## 왜 로그가 중요한가
+스케일이 커지면서 사용자는 다음과 같은 변화를 더 직접 느끼게 됩니다.
 
-로그는 단순 출력 저장이 아닙니다. agent 프로젝트에서는 다음 목적을 가집니다.
+- 긴 문맥을 더 자연스럽게 처리하는 듯한 응답
+- 더 다양한 작업 지시에 대한 반응
+- zero-shot, few-shot 사용 경험의 향상
+- 자연어 질의만으로도 여러 작업을 수행하는 듯한 느낌
 
-- 어떤 도구를 호출했는지 추적
-- 어느 단계에서 실패했는지 확인
-- 승인 여부 기록
-- 나중에 회고할 근거 확보
+하지만 이 역시 곧바로 `이해`나 `사실성`을 보장하는 것은 아닙니다.
 
-즉, agent 로그는 `관찰(observation)의 역사`입니다.
+즉, 스케일은 사용자 경험을 크게 바꾸지만, 검증 책임을 없애지는 않습니다.
 
-이 표현은 중요합니다. 결과 한 줄만 남기면 agent 프로젝트는 재현과 회고가 거의 불가능해집니다.
+## 여기까지를 한 줄로 묶으면
 
-## 작은 실행 기록 예제
+여기까지를 가장 짧게 정리하면 다음과 같습니다.
 
-이번 절에서는 toy agent가 다음 세 단계를 거쳤다고 가정해 봅니다.
+- 스케일은 `더 넓은 패턴을 다룰 가능성`을 키웁니다.
+- 동시에 `더 큰 비용과 운영 부담`도 키웁니다.
+- 따라서 `더 크다`는 말은 항상 `무엇이 좋아지고 무엇을 더 감당해야 하는가`와 함께 읽어야 합니다.
 
-1. `read_toc`
-2. `check_build`
-3. `write_report`
+## 아주 단순하게 그리면
 
-그런데 마지막 단계는 쓰기 권한이 필요합니다. 따라서 로그에는 단순 성공/실패가 아니라 `승인 필요 여부`도 남겨야 합니다.
+```mermaid
+flowchart TD
+  A["more data"]
+  B["larger model"]
+  C["more compute"]
+  D["better capability potential"]
+  E["higher cost and risk"]
 
-## Python 예제
+  A --> D
+  B --> D
+  C --> D
+  A --> E
+  B --> E
+  C --> E
+```
 
-이번 예제의 목적은 권한 판단과 실행 결과를 같은 기록으로 묶는 것입니다. 이번에는 단순 성공/실패 대신 `permission`, `approved`, `blocked`, `next_action`을 함께 남겨서 운영 문서가 어떻게 생기는지 보이게 하겠습니다.
+이 도식의 핵심은 한 가지입니다.
 
-- 문제 상황: 같은 계획이라도 어떤 단계는 승인 없이 실행할 수 없음을 기록한다.
-- 입력(input): 단계별 도구 목록, permission 범위, approval 여부
-- 기대 출력(output): 실행 기록, 승인 필요 도구 목록, blocked 단계 수
-- 확인할 개념:
-  - 실행 성공 여부만으로는 agent 운영 상태를 설명할 수 없다
-  - permission과 scope가 있어야 blocked 이유를 다시 읽을 수 있다
-  - approval이 필요한 도구는 별도 추적 대상으로 남겨야 한다
+`스케일은 성능 가능성과 비용/위험을 함께 키운다.`
+
+## 사례로 보기
+
+아래 도식은 이 절의 세 사례를 `더 큰 모델이 더 좋은가`보다 `어떤 능력을 얻는 대신 어떤 비용과 운영 부담을 함께 받아들이는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same scaling question"]
+  B["broader task handling<br/>does capability widen?"]
+  C["longer input handling<br/>does context preservation improve?"]
+  D["service operation<br/>can latency and cost still be carried?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 스케일이 `능력 상승`만의 문제가 아니라는 것입니다. 같은 변화라도 어떤 장면에서는 더 넓은 작업 반응으로 보이고, 다른 장면에서는 긴 문맥 유지로 보이며, 운영팀 입장에서는 비용과 지연 부담으로 먼저 보일 수 있습니다.
+
+### 사례 1. 더 큰 모델, 더 넓은 작업 반응
+
+작은 모델에게 문장 요약만 시키면 그럭저럭 동작하지만, 같은 모델에 표 정리, 규칙 변환, 예외 조건 설명까지 한 번에 요구하면 금방 흔들릴 수 있습니다. 사람은 여기서 보통 `내가 시킨 형식을 끝까지 지키는가`를 먼저 기준으로 삼습니다. 예를 들어 같은 매뉴얼을 넣고 `요약`은 되는데 `예외 조항만 표로 뽑기`는 자주 실패하면, 사용자는 기능 차이처럼 느끼지만 내부적으로는 다룰 수 있는 패턴 폭 차이일 수 있습니다. 작은 모델은 핵심은 맞혀도 표 열을 빼먹거나 예외 조건을 본문 속에 섞어 버릴 수 있습니다. 더 큰 모델은 더 넓은 패턴을 다룰 여지가 있어 이런 복합 지시에 더 자주 반응하는 것처럼 보일 수 있습니다. 즉, 바뀌는 점은 `문장을 이어 쓸 수 있는가`보다 `복합 형식 제약을 끝까지 유지할 수 있는가`에 더 가깝습니다. 그래서 이 사례에서 확인해야 할 결과는 복합 지시에서 형식 누락이 줄고, 예외 조건이 요청한 구조 안에 더 자주 남는가입니다.
+
+### 사례 2. 더 긴 입력 처리
+
+긴 계약서를 요약하거나 긴 코드 파일을 읽는 장면을 생각해 볼 수 있습니다. 사람은 여기서 보통 `앞쪽 조건과 뒤쪽 예외를 함께 놓치지 않는가`를 먼저 기준으로 봅니다. 작은 모델이나 짧은 문맥 구조에서는 앞부분과 뒷부분 관계가 잘 끊겨, 중요한 조항이나 함수 연결을 놓치기 쉽습니다. 예를 들어 계약서 앞쪽의 해지 조건과 뒤쪽의 예외 조항이 함께 읽혀야 하는데 둘 중 하나가 잘리면, 요약은 그럴듯해 보여도 핵심 판단을 놓칠 수 있습니다. 더 큰 모델과 더 넓은 문맥 구조는 이런 긴 입력을 한 번에 더 많이 담아 앞뒤 연결을 더 잘 유지할 가능성이 있습니다. 하지만 동시에 처리 비용과 지연 시간도 같이 커집니다. 여기서 바뀌는 점은 `긴 입력을 더 많이 담을 수 있는가`만 보는 기준에서 `앞뒤 연결 보존과 비용 증가를 함께 보는가`로 기준이 이동한다는 것입니다. 즉, 좋아지는 점은 긴 문맥 보존이고, 같이 커지는 부담은 비용과 속도입니다. 그래서 이 사례에서 확인해야 할 결과는 요약이나 해석에서 앞 조건과 뒤 예외가 함께 살아남는 대신, 응답 시간과 비용도 함께 늘어나는가입니다.
+
+### 사례 3. 운영 관점
+
+운영팀이 더 큰 모델로 바꾸면 답변 품질은 올라갈 수 있다고 기대한다고 해 봅시다. 사람이 처음에는 모델 교체를 `성능 개선` 한 줄로 생각하기 쉽지만, 운영팀이 실제로 보는 기준은 `이 비용과 지연 시간을 감당할 수 있는가`입니다. 실제 서비스에서는 학습 단계만이 아니라, 매 요청 추론 비용, 캐시 정책, 장애 감시, 안전 점검 범위까지 함께 커집니다. 예를 들어 답변 정확도는 조금 좋아졌는데 응답 시간이 크게 늘면, 고객 지원 시스템에서는 오히려 전체 만족도가 떨어질 수도 있습니다. 심하면 품질 향상보다 비용 폭증이 더 먼저 운영 문제로 보일 수 있습니다. 장애 대응도 더 복잡해져, 같은 시간 안에 처리할 수 있는 요청 수가 줄어들 수 있습니다. 여기서 바뀌는 점은 `정확도가 올랐는가`만 보는 기준에서 `정확도 향상이 실제 운영 비용과 지연을 감당할 만한가`를 함께 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 품질 지표가 조금 좋아져도 처리량 감소나 비용 증가가 실제 운영 판단을 바꾸는가입니다.
+
+세 사례를 스케일 trade-off 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 더 커지며 기대하는 것 | 함께 커져 다시 봐야 하는 것 |
+| --- | --- | --- |
+| 더 넓은 작업 반응 | 복합 지시와 형식 유지 능력 | 형식 처리 비용, 실패 시 디버깅 비용 |
+| 더 긴 입력 처리 | 앞뒤 문맥과 예외 조항 보존 | context 비용, 지연 시간 |
+| 운영 관점 | 정확도와 범용성 향상 | 추론 비용, 처리량, 장애 대응 부담 |
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 `더 큰 모델을 쓰면 무엇이 좋아지고, 동시에 어떤 운영 부담이 커지는가`를 직접 보는 것입니다. 아주 단순한 서비스 로그를 가정하고, 작은 모델과 큰 모델이 같은 요청 묶음을 처리할 때 `문맥 초과 여부`, `예상 비용`, `예상 지연 시간`, `품질 가능성 점수`가 어떻게 달라지는지 비교하겠습니다.
+
+입력:
+
+- 요청별 입력 길이
+- 모델별 context window, 비용, 속도, 품질 계수
+
+출력:
+
+- 모델별 요청 단위 처리 상태
+- 모델별 문맥 초과 요청 수
+- 총 예상 비용
+- 총 예상 지연 시간
+- 평균 품질 가능성 점수
+
+문제 상황:
+
+- 모델 선택은 정확도만이 아니라 문맥 한도, 비용, 지연 시간, 품질 가능성을 같이 읽는 문제다
+
+입력(input):
+
+위에 정리한 요청 목록과 모델별 제약·비용 정보를 사용합니다.
+
+확인할 개념:
+
+- 실제 모델 선택은 품질만이 아니라 문맥 한도, 비용, 지연 시간을 함께 비교하는 의사결정이다
 
 ```python
-planned_steps = [
-    {"step": 1, "tool": "read_toc", "permission": "read", "scope": "docs/parts/"},
-    {"step": 2, "tool": "check_build", "permission": "execute", "scope": "mkdocs build"},
-    {"step": 3, "tool": "write_report", "permission": "write", "scope": "management/report.md"},
+requests = [
+    {"task": "faq", "input_tokens": 600, "difficulty": 1.0},
+    {"task": "summary", "input_tokens": 2400, "difficulty": 1.4},
+    {"task": "contract_review", "input_tokens": 6200, "difficulty": 1.8},
+    {"task": "code_assistant", "input_tokens": 4100, "difficulty": 1.6},
 ]
 
-execution_records = [
-    {
-        "step": 1,
-        "tool": "read_toc",
-        "permission": "read",
-        "scope": "docs/parts/",
-        "approved": True,
-        "result_status": "success",
-        "observation": "table of contents was loaded",
-        "next_action": "check_build",
+models = {
+    "small_model": {
+        "context_window": 2048,
+        "cost_per_1k_tokens": 0.2,
+        "latency_per_1k_tokens": 0.8,
+        "quality_factor": 0.9,
     },
-    {
-        "step": 2,
-        "tool": "check_build",
-        "permission": "execute",
-        "scope": "mkdocs build",
-        "approved": True,
-        "result_status": "success",
-        "observation": "build finished without error",
-        "next_action": "write_report",
+    "large_model": {
+        "context_window": 8192,
+        "cost_per_1k_tokens": 1.1,
+        "latency_per_1k_tokens": 1.6,
+        "quality_factor": 1.3,
     },
-    {
-        "step": 3,
-        "tool": "write_report",
-        "permission": "write",
-        "scope": "management/report.md",
-        "approved": False,
-        "result_status": "blocked",
-        "observation": "write action requires approval before continuing",
-        "next_action": "request_approval",
-    },
-]
-
-review_summary = {
-    "step_count": len(execution_records),
-    "approved_step_count": sum(entry["approved"] for entry in execution_records),
-    "blocked_step_count": sum(
-        entry["result_status"] == "blocked" for entry in execution_records
-    ),
-    "approval_required_tools": [
-        entry["tool"] for entry in execution_records if not entry["approved"]
-    ],
 }
 
-print("planned_steps =", planned_steps)
-print("execution_records =")
-for entry in execution_records:
-    print(entry)
-print("review_summary =", review_summary)
+
+def evaluate_model(model_name, profile, requests):
+    over_limit = 0
+    total_cost = 0.0
+    total_latency = 0.0
+    quality_scores = []
+    request_reports = []
+
+    for request in requests:
+        tokens = request["input_tokens"]
+        is_over_limit = tokens > profile["context_window"]
+        if is_over_limit:
+            over_limit += 1
+
+        request_cost = (tokens / 1000) * profile["cost_per_1k_tokens"]
+        request_latency = (tokens / 1000) * profile["latency_per_1k_tokens"]
+        total_cost += request_cost
+        total_latency += request_latency
+
+        visible_ratio = min(tokens, profile["context_window"]) / tokens
+        quality_score = round(
+            profile["quality_factor"] * visible_ratio / request["difficulty"],
+            3,
+        )
+        quality_scores.append((request["task"], quality_score))
+        request_reports.append(
+            {
+                "task": request["task"],
+                "over_limit": is_over_limit,
+                "visible_ratio": round(visible_ratio, 3),
+                "cost": round(request_cost, 2),
+                "latency": round(request_latency, 2),
+                "quality_score": quality_score,
+            }
+        )
+
+    average_quality = round(
+        sum(score for _, score in quality_scores) / len(quality_scores), 3
+    )
+
+    print(model_name)
+    print("request_reports =", request_reports)
+    print("over_limit_requests =", over_limit)
+    print("total_cost =", round(total_cost, 2))
+    print("total_latency =", round(total_latency, 2))
+    print("quality_scores =", quality_scores)
+    print("average_quality =", average_quality)
+    print()
+
+
+for model_name, profile in models.items():
+    evaluate_model(model_name, profile, requests)
 ```
 
-실행 결과 예시는 다음과 같습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-planned_steps = [{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/parts/'}, {'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build'}, {'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md'}]
-execution_records =
-{'step': 1, 'tool': 'read_toc', 'permission': 'read', 'scope': 'docs/parts/', 'approved': True, 'result_status': 'success', 'observation': 'table of contents was loaded', 'next_action': 'check_build'}
-{'step': 2, 'tool': 'check_build', 'permission': 'execute', 'scope': 'mkdocs build', 'approved': True, 'result_status': 'success', 'observation': 'build finished without error', 'next_action': 'write_report'}
-{'step': 3, 'tool': 'write_report', 'permission': 'write', 'scope': 'management/report.md', 'approved': False, 'result_status': 'blocked', 'observation': 'write action requires approval before continuing', 'next_action': 'request_approval'}
-review_summary = {'step_count': 3, 'approved_step_count': 2, 'blocked_step_count': 1, 'approval_required_tools': ['write_report']}
+small_model
+request_reports = [{'task': 'faq', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 0.12, 'latency': 0.48, 'quality_score': 0.9}, {'task': 'summary', 'over_limit': True, 'visible_ratio': 0.853, 'cost': 0.48, 'latency': 1.92, 'quality_score': 0.549}, {'task': 'contract_review', 'over_limit': True, 'visible_ratio': 0.33, 'cost': 1.24, 'latency': 4.96, 'quality_score': 0.165}, {'task': 'code_assistant', 'over_limit': True, 'visible_ratio': 0.5, 'cost': 0.82, 'latency': 3.28, 'quality_score': 0.281}]
+over_limit_requests = 3
+total_cost = 2.66
+total_latency = 10.64
+quality_scores = [('faq', 0.9), ('summary', 0.549), ('contract_review', 0.165), ('code_assistant', 0.281)]
+average_quality = 0.474
+
+large_model
+request_reports = [{'task': 'faq', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 0.66, 'latency': 0.96, 'quality_score': 1.3}, {'task': 'summary', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 2.64, 'latency': 3.84, 'quality_score': 0.929}, {'task': 'contract_review', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 6.82, 'latency': 9.92, 'quality_score': 0.722}, {'task': 'code_assistant', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 4.51, 'latency': 6.56, 'quality_score': 0.812}]
+over_limit_requests = 0
+total_cost = 14.63
+total_latency = 21.28
+quality_scores = [('faq', 1.3), ('summary', 0.929), ('contract_review', 0.722), ('code_assistant', 0.812)]
+average_quality = 0.941
 ```
 
-## 결과를 어떻게 읽는가
+이 예제에서 읽어야 할 핵심은 다음입니다.
 
-이 출력에서 중요한 것은 마지막 줄입니다.
+- 큰 모델은 더 긴 입력을 문맥 초과 없이 처리해 품질 가능성 점수가 올라갑니다.
+- 동시에 총 비용과 총 지연 시간도 크게 증가합니다.
+- 요청별 `visible_ratio`를 보면 작은 모델은 특히 `contract_review`, `code_assistant`처럼 긴 입력에서 실제로 보지 못한 비율이 커집니다.
+- 즉, 스케일 증가는 `좋아졌다` 한 줄이 아니라 `무엇이 좋아졌고 무엇을 더 지불하게 되었는가`를 함께 비교해야 하는 문제입니다.
 
-- agent는 계획을 세웠습니다.
-- 하지만 모든 계획이 자동 실행 가능한 것은 아닙니다.
-- `write_report`는 기능적으로 가능해 보여도, 권한 정책상 보류될 수 있습니다.
-- `review_summary`는 몇 단계가 승인 없이 진행되었고, 어떤 도구가 approval을 요구했는지 한 번에 보여 줍니다.
+이 예제에서는 `requests`의 토큰 길이, `difficulty`, 각 모델의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 작은 모델의 `over_limit_requests`가 더 커지고, 반대로 짧은 FAQ만 남기면 큰 모델의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
 
-즉, 좋은 agent 프로젝트는 `할 수 있는가`만이 아니라 `해도 되는가`를 함께 다룹니다.
+## 이 예제를 규모-비용 균형 관점으로 다시 보면
 
-이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
+이 비교는 `더 큰 모델이 더 좋다`는 식의 단선적인 이해를 피하게 해 줍니다. 실제 선택은 언제나 능력 확대와 학습·추론 비용 증가를 함께 읽는 문제이므로, 이후 모델 선택과 운영 절에서는 규모를 `성능`, `문맥 범위`, `비용`, `지연`의 동시 판단 축으로 봐야 합니다.
 
-- 계획이 있어도 승인 없이는 멈출 수 있다
-- permission, scope, next_action이 함께 있어야 blocked 상태를 운영적으로 해석할 수 있다
-- blocked는 단순 실패와 다른 상태다
-- agent 문서에는 결과뿐 아니라 권한 판단도 남겨야 한다
+LLM 시대를 이해할 때 스케일은 빠질 수 없는 주제입니다. GPT-3 이후 특히 많은 논의가 `모델이 왜 이런 능력을 보이기 시작했는가`를 스케일과 연결해 설명했습니다.
 
-## 바로 쓰는 권한·로그 템플릿
+하지만 커리큘럼 관점에서는 두 가지를 함께 기억해야 합니다.
 
-agent 프로젝트 문서에 바로 붙여 넣어 쓸 최소 틀은 다음 정도면 충분합니다.
+1. 스케일은 중요한 성능 전환 요인이다
+2. 스케일은 데이터 품질, 검증, 비용, 정책 문제를 같이 키운다
 
-```text
-### planned_steps
-| step | tool | permission | scope | why |
-| --- | --- | --- | --- | --- |
-| 1 |  |  |  |  |
+이 두 가지를 함께 넣어야 바로 앞의 P6-6.1 사전학습 목표를 `왜 그렇게 큰 규모로 돌리는가`와 연결해 읽을 수 있고, 뒤의 P6-15.1, P6-16.1 평가와 운영 제약 절에서 `성능이 커질수록 비용과 통제 문제도 커진다`는 관점을 자연스럽게 이어 갈 수 있습니다. 이렇게 읽어야 Part 6의 이후 장과 Part 7 프로젝트에서도 균형 잡힌 판단이 가능합니다.
 
-### execution_records
-| step | tool | approved | result_status | next_action | observation |
-| --- | --- | --- | --- | --- | --- |
-| 1 |  | True / False | success / blocked / failed |  |  |
+## 다음 장과의 연결
 
-### review_summary
-- approved_step_count:
-- blocked_step_count:
-- approval_required_tools:
-```
+여기까지 오면 이제 생성형 언어 모델의 가장 핵심 학습 목표를 다시 좁혀 볼 수 있습니다.
 
-이 템플릿에서 중요한 점은 실행 성공 여부만 적는 것이 아니라, `어떤 권한이 필요했는지`, `승인이 있었는지`, `막히면 다음 행동이 무엇인지`까지 함께 적는 것입니다.
+- 그렇게 큰 모델은 학습 중 정확히 어떤 목표를 반복하는가?
+- `다음 토큰 예측(next-token prediction)`은 왜 그렇게 중요한가?
 
-이번 절의 예시를 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
-
-```text
-### planned_steps
-| step | tool | permission | scope | why |
-| --- | --- | --- | --- | --- |
-| 1 | read_toc | read | docs/parts/ | 현재 구조 확인 |
-| 2 | check_build | execute | mkdocs build | 빌드 상태 확인 |
-| 3 | write_report | write | management/report.md | 결과 문서 작성 |
-
-### execution_records
-| step | tool | approved | result_status | next_action | observation |
-| --- | --- | --- | --- | --- | --- |
-| 1 | read_toc | True | success | check_build | table of contents was loaded |
-| 2 | check_build | True | success | write_report | build finished without error |
-| 3 | write_report | False | blocked | request_approval | write action requires approval before continuing |
-
-### review_summary
-- approved_step_count: 2
-- blocked_step_count: 1
-- approval_required_tools:
-  - write_report
-```
-
-## 나쁜 실행 기록과 좋은 실행 기록
-
-agent 로그도 자주 `성공했다`, `막혔다` 정도로만 남아 다음 반복에 도움이 되지 않습니다. 다음 정도로 대비해 보면 기준이 더 분명해집니다.
-
-| 구분 | 예시 |
-| --- | --- |
-| 나쁜 기록 | `보고서 작성 단계에서 막혔다. 권한 문제인 듯하다.` |
-| 좋은 기록 | `step 3의 write_report는 write permission이 필요했고 approved는 False였다. result_status는 blocked로 남기고, next_action은 request_approval로 기록한다. 따라서 이 실패는 기능 오류가 아니라 승인 절차 미완료로 해석한다.` |
-
-나쁜 기록은 막혔다는 사실만 남고, 왜 멈췄는지와 다음 행동이 분명하지 않습니다. 좋은 기록은 `어느 단계였는가`, `어떤 권한이 필요했는가`, `실패가 아니라 blocked인지`, `다음 행동이 무엇인지`를 함께 남깁니다.
-
-## 운영 관점의 연결
-
-이 권한과 로그 구조는 결국 운영 문제와 직결됩니다.
-
-- 잘못된 쓰기 권한은 사고로 이어질 수 있습니다.
-- 로그가 없으면 실패 원인을 설명하기 어렵습니다.
-- 승인 정책이 없으면 agent 행동 범위가 불명확해집니다.
-
-따라서 agent 프로젝트 회고 문서에는 다음을 함께 남길 수 있습니다.
-
-- 어떤 도구는 자동 실행 허용
-- 어떤 도구는 사람 승인 필요
-- 어떤 실패는 재시도 가능
-- 어떤 실패는 즉시 중단해야 함
-
-이 절은 Part 6 전체 흐름에서 `실행 가능한 프로젝트는 권한과 로그 없이는 운영 관점이 빠진 상태`라는 점을 고정합니다.
-
-## 다음 프로젝트와의 연결
-
-이제 Part 6의 마지막 주제는 배포와 운영입니다. 사실 agent 프로젝트의 권한과 로그는 이미 운영 주제의 일부입니다. 다음 장에서는 이를 GitHub Pages 배포와 기본 모니터링, 실패 기록으로 확장합니다.
+이 질문은 P6-7.1 파인튜닝(fine-tuning)의 감각으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- agent 프로젝트는 권한과 로그 없이 완성되지 않습니다.
-- 승인(approval)은 기능 부족이 아니라 운영 안전장치입니다.
-- 로그는 관찰의 역사이며, 회고의 근거입니다.
-- `할 수 있는가`와 `해도 되는가`는 다른 질문입니다.
+- 스케일은 데이터, 모델, 계산량이 함께 커지는 현상을 뜻합니다.
+- 규모가 커지면 성능 가능성이 높아질 수 있지만 비용과 위험도 커집니다.
+- 데이터 양이 늘어도 품질과 검증 문제가 사라지지는 않습니다.
+- 이 절은 다음 장의 파인튜닝과 이후 운영 제약 설명의 기반입니다.
 
 ## 체크리스트
 
-- 도구별 permission과 approval 필요 여부를 적을 수 있는가?
-- 실행 로그에 최소 step/tool/result를 남겼는가?
-- blocked 상태를 실패와 구분해 기록할 수 있는가?
-- 권한 정책이 왜 운영 문제와 연결되는지 설명할 수 있는가?
+- 스케일을 데이터, 모델, 계산량의 확대라는 관점으로 설명할 수 있는가?
+- 왜 성능과 비용이 함께 커지는지 말할 수 있는가?
+- 왜 데이터 품질 문제가 스케일로 자동 해결되지 않는지 설명할 수 있는가?
+- 다음 장의 파인튜닝 설명으로 왜 이어지는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
-- OpenAI, `Function calling`, OpenAI API Docs, 확인 날짜: 2026-06-29. [https://developers.openai.com/api/docs/guides/function-calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }
-- Model Context Protocol, `What is MCP?`, 확인 날짜: 2026-06-29. [https://modelcontextprotocol.io/docs/getting-started/intro](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- Jared Kaplan et al., `Scaling Laws for Neural Language Models`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- OpenAI API Docs, 모델 비용과 입력 길이 관련 문서, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }

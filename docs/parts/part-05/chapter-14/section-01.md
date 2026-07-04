@@ -1,627 +1,426 @@
-# P5-14.1 MCP와 도구 연결
+# P5-14.1 Transformer의 기본 구성
 
-P5-13.2에서는 에이전트(agent)가 계획, 행동, 관찰의 반복 구조를 가진다는 점을 보았습니다. 이 절에서는 이런 도구와 상태를 여러 시스템 사이에서 더 일관되게 연결하려면 무엇이 필요한지 봅니다.
+P5-13.2에서는 self-attention이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, Transformer의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
 
-MCP(Model Context Protocol)는 모델, 에이전트, 애플리케이션이 외부 도구와 데이터에 더 일관되게 연결되도록 돕는 인터페이스 관점입니다. 즉, 여러 도구와 데이터를 제각각 붙이지 말고 더 일정한 방식으로 연결하자는 약속에 가깝습니다.
+그렇다면 Transformer는 self-attention 하나만 있는 구조인가, 아니면 그 주변에 어떤 기본 구성 요소들이 함께 있는가?
+
+이 절은 그 질문에 답합니다.
+
+Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 그 계산 블록을 무너지지 않게 이어 가는 구조로 이해할 수 있다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 왜 도구 연결에 표준화된 인터페이스 관점이 필요한가?
-- MCP를 어떤 역할로 이해하면 좋은가?
-- MCP는 모델 자체가 아니라 어떤 연결 문제를 다루는가?
+- Transformer의 핵심 블록은 무엇으로 이루어지는가?
+- self-attention, feed-forward, residual connection, layer normalization은 각각 어떤 역할을 하나?
+- 왜 이 구조가 RNN 이후 큰 전환점처럼 보였는가?
+- encoder/decoder 세부 이전에 어떤 큰 지도를 먼저 잡아야 하는가?
+
+이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 self-attention이라는 한 아이디어가 아니라, 문맥 읽기와 표현 가공, 블록 유지 장치를 한 묶음으로 가진 구조`라는 점입니다.
+
+처음 읽을 때는 이 절을 `구조 축`으로만 고정해 두면 덜 흔들립니다.
+
+즉, 지금 장의 핵심은 `필요한 위치를 어떻게 참고할까`에서 `그 참조 계산을 어떤 블록 구성으로 안정적으로 반복할까`로 손잡이가 바뀐다는 점입니다.
+
+여기서 먼저 읽는 것은 optimizer나 regularization 같은 학습 절차가 아니라, Transformer 블록 안에서 각 부품이 어떻게 역할을 나누는가입니다.
+
+| 지금 이 절에서 읽는 것 | 아직 다음 절로 넘기는 것 |
+| --- | --- |
+| self-attention, feed-forward, residual, normalization이 한 블록 안에서 어떻게 역할을 나누는가 | 그 블록이 병렬 처리, 긴 문맥 비용, 계산 규모에서 무엇을 바꾸는가 |
+| 블록 내부의 관계 읽기와 표현 가공 | 대규모 학습 절차와 long-context 최적화 |
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 프로토콜 메시지 포맷 세부
-- 특정 SDK 구현 비교
-- 인증/권한 체계 전체 설계
+- multi-head attention의 수식 전개
+- positional encoding의 상세 수학
+- encoder-only, decoder-only, encoder-decoder 계열의 세부 아키텍처 분화
 
-MCP의 연결 관점은 여기서 잡고, 실행을 감싸는 운영 장치의 역할은 바로 다음 P5-14.2 하네스에서 다시 회수합니다. 인증과 권한이 실제 실패 대응과 만나는 지점은 P5-16.2 운영 중 실패 대응에서 다시 이어지며, 프로토콜 포맷 세부는 현재 본편 범위 밖으로 둡니다.
+multi-head attention과 query, key, value의 입문적 설명은 보충학습 P5-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P5-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 세부 분화는 뒤 Part에서 다시 비교합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절에서는 MCP를 `도구 연결을 덜 제각각으로 만들려는 표준화 관점`으로 설명합니다.
-
-지금 읽는 층위는 `연결 인터페이스 층위`입니다. 앞 절의 에이전트 루프가 `여러 읽기와 실행을 어떤 반복 구조로 이어 갈까`를 다뤘다면, 여기서는 그 루프가 쓰는 도구와 자원을 어떤 공통 형식으로 드러내야 다음 실행과 기록이 덜 흔들리는지 읽습니다. 바로 다음의 하네스 절에서는 이 연결을 쓴 실행을 어떤 기록과 재현 환경 안에 남길지로 질문이 다시 이동합니다.
-
-| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
-| --- | --- | --- |
-| agent loop | 여러 실행을 어떤 루프로 이어 갈 것인가? | P5-13 |
-| MCP 연결 인터페이스 | 그 도구와 자원을 어떤 공통 연결 형식으로 드러낼 것인가? | P5-14.1 |
-| harness 실행 관리 | 그 연결을 쓴 실행을 어떤 기록과 재현 환경 안에 남길 것인가? | P5-14.2 |
-
-즉, 지금 장의 핵심은 `어떤 순서로 실행할까`에서 `그 실행이 쓰는 도구와 자원을 어떤 공통 형식으로 노출할까`로 손잡이가 바뀌는 데 있습니다. MCP는 `연결을 덜 제각각으로 만드는 층`, 하네스는 `그 연결을 실제 실행 기록으로 남기는 층`, 평가는 `남은 기록을 품질 판단 기준으로 바꾸는 층`입니다. 이 차이가 보여야 MCP를 운영 장치나 평가 절차와 섞어 읽지 않게 됩니다.
-
-MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 다시 고정할 수 있습니다.
-
-| 지금 읽는 장 | 가장 먼저 붙잡을 질문 | 바로 다음 장으로 넘어갈 때 바뀌는 중심 |
-| --- | --- | --- |
-| MCP | 무엇과 어떤 공통 형식으로 연결할까? | 그 연결을 쓴 실행을 어떤 trace와 replay로 남길까 |
-| harness | 실행을 어떻게 감싸고 기록할까? | 남긴 기록을 어떤 품질 기준으로 읽을까 |
-| evaluation | 어떤 실행을 괜찮다고 통과시킬까? | 통과한 실행을 비용, 지연 시간, 실패 통제로 어떻게 운영할까 |
-| operations | 어떤 실패를 어디서 멈추고 복구할까? | 그 판단을 요청 흐름과 run record로 어떻게 남길까 |
-
-여기서 먼저 못 박을 것은 어떤 도구와 자원을 어떤 공통 형식으로 노출할지와 연결 인터페이스를 일정하게 만드는 일입니다.
-
-| 지금 MCP에서 먼저 정리할 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
-| --- | --- | --- |
-| `tool_schema`, `resource_descriptor` | 어떤 도구와 자원이 어떤 이름·입력 형식으로 연결되는지 남겨야 호출 실패와 연결 불일치를 줄일 수 있어서 | P5-14.2의 trace/replay와 Part 6의 `execution_records`, 도구 연결 메모로 이어진다 |
-| 권한 경계, `approved` 조건 | 어떤 호출이 바로 실행 가능하고 어떤 호출이 승인을 거쳐야 하는지 남겨야 운영 실패를 줄일 수 있어서 | P5-14.2의 approval 기록, P5-16.2의 실패 대응, Part 6의 `incident_records`로 이어진다 |
+여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
 
 ## 이 절의 목표
 
-- MCP를 입문 수준에서 설명할 수 있습니다.
-- 모델 능력과 연결 인터페이스를 구분할 수 있습니다.
-- 왜 agent와 tool use가 커질수록 연결 표준이 중요해지는지 말할 수 있습니다.
-- 다음 절의 하네스(harness) 설명으로 자연스럽게 넘어갈 수 있습니다.
+- Transformer를 self-attention 하나가 아니라 여러 핵심 부품의 조합으로 설명할 수 있습니다.
+- 각 부품이 문맥 읽기, 표현 가공, 학습 안정화 중 어떤 역할을 하는지 말할 수 있습니다.
+- 이후 다른 모델 계열을 볼 때도 Transformer의 기본 블록을 떠올릴 수 있습니다.
+- 실행 가능한 Python 예제로 토큰 표현이 여러 단계를 거쳐 바뀌는 흐름을 직관적으로 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
-이 절은 다음 순서로 읽으면 흐름이 덜 끊깁니다.
+이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
 
-1. 왜 표준 연결이 필요한지 먼저 읽습니다.
-2. 그다음 MCP가 모델 성능이 아니라 연결 형식을 다룬다는 점을 구분합니다.
-3. 사례와 Python 예제에서는 `공통 연결 관점이 있으면 실제로 무엇이 덜 흔들리는가`를 확인합니다.
+1. 먼저 P5-13.2에서 본 self-attention이 Transformer 안에서 어느 자리에 놓이는지 확인합니다.
+2. 그 다음 self-attention, feed-forward, residual, layer normalization의 역할을 나눠 읽습니다.
+3. 이어서 이 부품들이 왜 하나의 반복 블록으로 묶였는지 봅니다.
+4. 마지막에 왜 이 블록 구조가 이후 생성 모델의 기본 단위가 되었는지 정리합니다.
 
-## 왜 표준 연결이 필요해지나
+## Transformer를 아주 큰 그림으로 보면
 
-도구 사용이 한두 개일 때는 개별 연결을 직접 만들어도 됩니다. 하지만 에이전트 구조가 커지면 문제가 생깁니다.
+먼저 다음 네 요소만 확실히 잡아도 충분합니다.
 
-| 질문 | 짧은 답 |
+1. self-attention
+2. feed-forward network
+3. residual connection
+4. layer normalization
+
+이 네 가지를 간단히 말하면:
+
+- self-attention: 서로 어떤 토큰을 참고할지 정한다
+- feed-forward: 각 위치 표현을 더 가공한다
+- residual connection: 원래 정보 흐름을 함께 남긴다
+- layer normalization: 값의 스케일을 다루며 학습을 안정화한다
+
+즉, Transformer는 `문맥 관계를 읽고 -> 표현을 가공하고 -> 정보 흐름을 안정적으로 유지하는 블록`의 반복 구조입니다.
+
+역할 분담은 다음 표처럼 정리할 수 있습니다.
+
+| 구성 요소 | 먼저 잡아야 할 역할 |
 | --- | --- |
-| 왜 이런 연결 약속이 필요한가? | 도구 수가 늘면 연결 방식이 제각각이 되기 쉬워서 |
-| 무엇을 일정하게 맞추려는가? | 도구 설명, 요청 형식, 응답 형식 |
-| 그래서 바뀌는 것은 무엇인가? | 모델보다 연결 환경이 덜 혼란스러워진다 |
+| self-attention | 다른 토큰과의 관계를 읽는다 |
+| feed-forward | 각 위치 표현을 다시 가공한다 |
+| residual connection | 원래 정보 흐름을 함께 남긴다 |
+| layer normalization | 값 범위를 정리해 학습을 덜 흔들리게 한다 |
 
-- 어떤 도구는 파일을 읽고
-- 어떤 도구는 검색을 하고
-- 어떤 도구는 데이터베이스를 조회하고
-- 어떤 도구는 API를 호출하고
+여기서 초심자가 가장 자주 섞어 읽는 두 질문을 바로 갈라 두면 다음 절과의 경계가 더 선명해집니다.
 
-이런 연결이 모두 제각각이면, 시스템은 점점 다루기 어려워집니다.
+| 지금 이 절에서 답하는 질문 | 아직 다음 절로 넘기는 질문 |
+| --- | --- |
+| `한 블록 안에서 attention, feed-forward, residual, normalization이 어떻게 역할을 나누는가` | `그 블록을 많이 반복할 때 왜 GPU 병렬 처리와 긴 문맥 계산에서 유리해지는가` |
+| `표현이 어떤 순서로 읽히고 가공되는가` | `계산량, 처리 속도, 긴 문맥 비용이 어떻게 달라지는가` |
 
-다음처럼 이해하면 좋습니다.
+같은 토큰 표현 하나를 따라가며 보면, 각 부품의 역할 차이가 더 직접 보입니다.
 
-`도구가 늘어날수록, 모델이 무엇을 쓸 수 있고 어떤 형식으로 써야 하는지를 일정하게 맞추지 않으면 연결 방식마다 실패 원인이 달라진다.`
+| 같은 장면 | 먼저 봐야 할 부품 | 그 부품이 바로 하는 일 |
+| --- | --- | --- |
+| 현재 토큰이 문장 안 어디를 더 참고할지 정할 때 | self-attention | 다른 위치와의 관계를 읽어 필요한 문맥을 모은다 |
+| 모아 온 문맥이 섞인 현재 표현을 더 다듬을 때 | feed-forward | 현재 위치 표현을 한 번 더 가공해 특징을 풍부하게 만든다 |
+| 새 계산이 원래 입력 흐름을 너무 덮어쓰지 않게 할 때 | residual connection | 이전 표현을 함께 남겨 정보 흐름을 이어 준다 |
+| 다음 계산으로 넘기기 전에 값 범위를 정리할 때 | layer normalization | 표현 크기와 분포를 정리해 계산을 덜 흔들리게 한다 |
 
-서비스 구조 관점으로 다시 말하면, tool use는 `도구를 부른다`에 가깝고, MCP는 `그 도구들을 어떤 공통 형식으로 드러낼까`를 다루는 단계입니다.
+P5-13.2를 `토큰들이 서로를 참고하는 계산`의 절로 읽었다면, 이 절은 그 계산이 실제 모델 안에서 `어떤 보조 부품들과 함께 한 블록을 이루는가`를 보여 주는 절입니다.
 
-이 차이를 한 번 더 단순화하면 다음과 같습니다.
+여기서 독자가 특히 붙잡아야 할 것은 `부품이 따로따로 흩어져 있는 구조`가 아니라는 점입니다. Transformer는 보통 다음 질문 순서로 한 블록을 읽으면 가장 이해가 쉽습니다.
+
+1. 지금 토큰이 다른 토큰 중 어디를 더 참고할까?
+2. 그렇게 모인 문맥을 현재 위치 표현에 어떻게 다시 반영할까?
+3. 그 표현을 각 위치에서 한 번 더 가공할까?
+4. 이 과정에서 원래 정보와 안정성을 어떻게 유지할까?
+
+즉, Transformer 블록은 `관계 읽기 -> 위치별 가공 -> 안정적 전달`의 묶음으로 읽는 편이 초심자에게 더 자연스럽습니다.
+
+## self-attention은 무엇을 담당하나
+
+P5-13장에서 본 것처럼 self-attention은 각 토큰이 다른 토큰들을 서로 참고해 문맥적 표현을 다시 계산하는 역할을 합니다.
+
+`self-attention은 지금 이 토큰을 이해하기 위해 문장 안의 어디를 더 봐야 하는지 정하는 장치다.`
+
+핵심은 `관계 읽기`입니다.
+
+## feed-forward network는 왜 필요한가
+
+self-attention만으로는 토큰 간 관계를 읽을 수 있지만, 각 위치 표현을 더 비선형적으로 가공하는 과정도 필요합니다. 여기서 feed-forward network가 등장합니다.
+
+핵심은 attention이 문맥 관계를 섞은 뒤, feed-forward가 각 위치 표현을 그 자리에서 더 비선형적으로 가공한다는 점입니다.
+
+`attention이 다른 토큰과의 관계를 반영해 문맥을 섞는다면, feed-forward는 각 위치의 표현을 더 풍부하게 다시 가공하는 작은 MLP처럼 볼 수 있다.`
+
+이 차이는 한 토큰만 놓고 봐도 읽을 수 있습니다. self-attention 단계는 `이 토큰이 다른 토큰에게서 무엇을 받아올까?`를, feed-forward 단계는 `받아온 문맥이 섞인 현재 표현을 이 위치에서 어떻게 다시 다듬을까?`를 묻습니다. 즉, attention은 `바깥과의 관계`, feed-forward는 `현재 위치 안에서의 가공`에 더 가깝습니다.
+
+## residual connection은 왜 필요한가
+
+딥러닝에서 층이 깊어질수록 정보가 지나치게 바뀌거나 학습이 불안정해질 수 있습니다. residual connection은 이전 표현을 다음 단계로 함께 흘려 보내는 장치로 볼 수 있습니다.
+
+핵심은 완전히 새 계산만 믿지 않고, 원래 입력 표현도 함께 남겨 다음 단계로 보내 학습을 덜 흔들리게 하는 데 있습니다.
+
+`완전히 새 계산만 믿지 말고, 원래 입력 표현도 함께 남겨 다음 단계로 보내는 안전장치`
+
+residual connection은 정보 손실을 줄이고 학습을 더 안정적으로 만드는 데 도움이 됩니다.
+
+## layer normalization은 왜 등장하나
+
+여러 층과 큰 행렬 연산을 반복하면 값의 스케일과 분포가 학습 안정성에 영향을 줄 수 있습니다. layer normalization은 각 위치 표현을 더 다루기 쉬운 범위로 정리해 학습을 돕는 장치입니다.
+
+핵심은 표현값의 크기와 분포를 정리해, 다음 계산이 더 안정적으로 이어지게 만드는 데 있습니다.
+
+`layer normalization은 표현값의 크기와 분포를 정리해, 다음 계산이 덜 흔들리도록 돕는 장치다.`
+
+즉, Transformer는 `강한 attention`만이 아니라, `깊은 학습을 견디게 하는 안정화 장치들`도 함께 갖추고 있습니다.
+
+## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart LR
-  A["user task"]
-  B["agent chooses tool"]
-  C["shared connection rule"]
-  D["tool or resource"]
+flowchart TD
+  A["input tokens"]
+  B["self-attention"]
+  C["add + norm"]
+  D["feed-forward"]
+  E["add + norm"]
+  F["contextual token representations"]
 
   A --> B
   B --> C
   C --> D
+  D --> E
+  E --> F
 ```
 
-이 그림에서 핵심은 에이전트가 매번 도구마다 다른 사적 규칙을 외우는 대신, 공통 연결 규칙을 통해 도구와 자원을 본다는 점입니다.
+이 도식은 Transformer 블록 하나를 입문 수준에서 압축한 것입니다.
 
-## MCP는 무엇을 표준화하려 하나
+이 흐름을 한 줄씩 다시 읽으면 다음과 같습니다.
 
-MCP를 너무 기술 세부로 들어가기 전에, 먼저 역할만 잡으면 충분합니다.
+- `self-attention`: 다른 토큰과의 관계를 반영한다
+- `add + norm`: 원래 정보 흐름을 너무 잃지 않게 정리한다
+- `feed-forward`: 각 위치 표현을 한 번 더 가공한다
+- `add + norm`: 다시 안정적으로 다음 블록으로 넘긴다
 
-MCP가 다루는 핵심은 다음과 같습니다.
+즉, Transformer 블록은 `문맥을 섞고 끝나는 구조`가 아니라, `문맥을 섞은 뒤 그 표현을 다시 다듬고 안정적으로 전달하는 구조`입니다.
 
-- 어떤 도구가 있는가
-- 어떤 데이터나 리소스를 읽을 수 있는가
-- 어떤 형식으로 요청하고 응답할 것인가
+## 왜 이 구성이 중요했나
 
-즉, MCP는 보통 `모델이 더 똑똑해지는 방법`이 아니라, `모델과 외부 시스템이 덜 혼란스럽게 연결되는 방법`으로 읽는 편이 정확합니다.
+Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하나를 추가했기 때문이 아닙니다. 이 절 범위에서 먼저 봐야 할 핵심은 다음 부품들이 `반복 가능한 한 블록`으로 결합되었다는 점입니다.
 
-여기서 `모델이 스스로 더 잘하게 되는 변화`와 `외부 도구 연결 방식이 정리되는 변화`를 분리해서 봐야, 성능 문제와 연결 문제를 같은 층위로 섞지 않게 됩니다.
+- attention 중심의 문맥 참조
+- 위치별 표현을 다시 가공하는 feed-forward
+- 원래 흐름과 값 범위를 유지하는 residual, normalization
 
-## 왜 모델 자체와 구분해야 하나
-
-이 구분을 먼저 잡아야 모델 자체 한계인지, 도구 노출 방식과 연결 설계 문제인지 원인을 나눠 볼 수 있습니다.
-
-모델은:
-
-- 텍스트를 이해하고 생성하는 능력
-
-을 중심으로 합니다.
-
-반면 MCP 같은 연결 관점은:
-
-- 외부 도구와 데이터에 접근하는 방법
-- 그 접근 형식의 일관성
-
-을 중심으로 합니다.
-
-따라서 MCP는 `모델 내부 능력`이 아니라 `주변 실행 환경의 연결 문제`에 가깝습니다.
-
-## 왜 여러 도구 흐름에서 중요해지나
-
-단일 프롬프트 기반 사용에서는 연결 문제가 비교적 단순했습니다. 하지만 agent 구조가 등장하면 다음이 같이 필요해집니다.
-
-- 파일 읽기
-- 검색
-- 코드 실행
-- 데이터 조회
-- 상태 전달
-
-이처럼 여러 도구가 한 작업 흐름 안에서 엮일수록, 도구 설명 방식과 호출 방식이 일정해야 시스템이 커지기 쉽습니다.
-
-즉, MCP는 `여러 도구와 자원을 한 흐름 안에서 함께 다뤄야 하는 장면`에서 더 직접적으로 필요해지는 관점입니다.
-
-## MCP가 있으면 무엇이 쉬워지나
-
-여기서는 다음 정도를 먼저 붙잡으면 충분합니다.
-
-- 도구 목록을 일정한 방식으로 드러내기 쉬워짐
-- 요청/응답 구조를 더 일관되게 유지하기 쉬워짐
-- 여러 시스템을 바꿔도 연결 관점을 재사용하기 쉬워짐
-
-즉, MCP는 `새 능력 생성기`라기보다 `연결 정리 도구`에 가깝습니다.
-
-같은 요청 흐름으로 다시 정리하면 다음과 같습니다.
-
-- 프롬프트: 요청을 적는다
-- RAG: 읽을 문서를 붙인다
-- 도구 사용: 실행할 기능을 부른다
-- 에이전트: 여러 단계를 이어 간다
-- MCP: 그 연결들을 더 일정한 형식으로 다루게 돕는다
-
-## MCP도 만능은 아니다
-
-MCP가 있다고 해서:
-
-- 도구 품질이 자동으로 좋아지거나
-- 권한 문제가 사라지거나
-- 잘못된 호출이 모두 없어지거나
-- 평가가 자동 해결되는 것
-
-은 아닙니다.
-
-즉, 연결 형식이 정리되는 것과, 실제 운영 품질이 좋아지는 것은 다른 문제입니다.
-
-## 아주 단순하게 그리면
-
-```mermaid
-flowchart TD
-  A["model or agent"]
-  B["shared connection interface"]
-  C["tools and data sources"]
-
-  A --> B
-  B --> C
-```
-
-이 도식의 핵심은 MCP를 `모델과 도구 사이의 연결 계층`으로 읽는 데 있습니다.
-
-같은 내용을 연결 혼잡도 관점으로 다시 비교하면 다음과 같습니다.
-
-| 상태 | 모델이나 에이전트가 알아야 하는 것 | 흔한 운영 문제 |
-| --- | --- | --- |
-| MCP 같은 공통 연결 관점이 약할 때 | 도구마다 다른 이름, 인자 형식, 반환 형식 | 형식 불일치, 예외 처리 증가, 새 도구 추가 비용 증가 |
-| MCP 같은 공통 연결 관점이 있을 때 | 공통 방식으로 노출된 도구 목록과 리소스 정보 | 연결 자체보다 권한, 품질, 평가 문제를 더 분리해 다루기 쉬워짐 |
+즉, Transformer는 `sequence modeling의 핵심 계산 방식`을 새 블록 단위로 다시 묶은 아키텍처였습니다.
 
 ## 사례로 보기
 
-이 사례들의 초점은 `도구가 무엇인가`보다 `어디에서 연결 규칙이 먼저 흔들리는가`입니다.
+사례에 들어가기 전에, 이 절에서 같은 Transformer 블록이 과업마다 어떻게 다르게 읽히는지만 먼저 짧게 고정하면 뒤 설명이 덜 길게 느껴집니다.
 
-### 사례 1. 문서 읽기와 검색을 함께 쓰는 에이전트
-
-사내 정책 문서를 찾아 답하는 에이전트를 생각해 볼 수 있습니다. 사람은 파일 읽기와 문서 검색이 둘 다 `문서를 보는 일`이니 비슷하게 붙이면 된다고 생각하기 쉽습니다. 하지만 이 에이전트는 어떤 경우에는 파일을 직접 열어야 하고, 어떤 경우에는 검색으로 관련 문서를 먼저 찾아야 합니다. 예를 들어 정확한 파일 경로를 이미 아는 경우와, 키워드만 알고 있어 후보 문서를 먼저 찾아야 하는 경우는 접근 방식이 다릅니다. 그런데 파일 읽기 도구와 검색 도구가 서로 다른 호출 규칙과 결과 형식을 쓰면, 에이전트는 답을 만들기 전에 `어떤 방식으로 접근해야 하는가`부터 따로 배워야 합니다. 이 연결이 뒤섞이면 답변 전 준비 단계에서 잘못된 도구를 골라 검색해야 할 문서를 직접 읽으려 하거나, 반대로 경로가 있는 파일을 괜히 검색으로 돌릴 수 있습니다. 여기서 바뀌는 점은 `둘 다 문서를 보는 일인가`를 보던 기준에서 `읽을 자원과 검색할 자원을 같은 형식으로 구분해 다룰 수 있는가`를 보는 기준으로 이동한다는 것입니다. MCP 같은 연결 계층은 이런 자원을 더 일정한 형식으로 드러내어 `읽을 수 있는 것`, `검색할 수 있는 것`을 같은 방식으로 다루기 쉽게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 경로가 있는 문서는 바로 읽고, 경로가 없는 질문은 먼저 검색하는 식으로 도구 선택이 실제로 더 일관되게 갈라지는가입니다.
-
-### 사례 2. 코딩 에이전트
-
-코딩 에이전트가 코드베이스를 검색하고, 파일을 읽고, 테스트를 실행하고, 패치를 적용한다고 해 봅시다. 사람은 보통 `검색 도구 하나, 실행 도구 하나`씩 따로 붙이면 될 것처럼 생각하기 쉽습니다. 하지만 직접 스크립트를 붙이면 각 도구의 입력 형식과 반환 형식이 제각각이라 한 단계씩 별도 예외 처리가 늘어나기 쉽습니다. 예를 들어 검색 결과는 파일 목록인데 테스트 실행기는 디렉터리 경로를 기대하고, 패치 도구는 또 다른 형식을 요구할 수 있습니다. 이렇게 되면 실제 코드를 고치는 일보다 `도구를 서로 이어 붙이는 일`이 더 큰 부담이 될 수 있습니다. 이 연결이 불안정하면 패치 자체는 맞아도 테스트 실행 단계에서 형식 불일치로 멈춰, 결과적으로 수정 검증이 끝나지 않을 수 있습니다. 여기서 바뀌는 점은 `도구를 각각 붙였는가`를 보던 기준에서 `도구 사이 입력과 반환 형식이 예측 가능하게 이어지는가`를 보는 기준으로 이동한다는 것입니다. 연결 표준 관점이 들어오면 에이전트는 `검색 가능 도구`, `읽기 가능 자원`, `실행 가능 도구`를 더 예측 가능한 방식으로 다룰 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 패치 내용보다 먼저 입력 형식 불일치로 멈추던 단계가 줄고, 검색 결과에서 테스트 실행까지의 연결이 실제로 더 안정되는가입니다.
-
-### 사례 3. 조직 내부 시스템 연결
-
-조직 내부에서 문서 저장소, 업무 DB, 캘린더 API를 함께 쓰는 비서를 떠올려 볼 수 있습니다. 사람은 필요한 데이터만 있으면 연결 자체는 큰 문제가 아니라고 생각하기 쉽습니다. 하지만 실제로 손으로 붙이면 문서는 검색 쿼리, DB는 SQL 비슷한 질의, 캘린더는 별도 API 인자처럼 접근 방식이 모두 달라집니다. 예를 들어 같은 `오늘 일정 확인` 요청도, 사람 정보는 DB에서 찾고 일정은 캘린더 API에서 조회하며 관련 안내는 문서 저장소에서 다시 읽어야 할 수 있습니다. 이때 문제는 `데이터가 없다`가 아니라 `데이터마다 접근 규칙이 너무 다르다`는 데 생깁니다. 접근 규칙이 제각각이면 한 시스템에서 얻은 값을 다음 시스템 호출에 넘기는 과정에서 형식 오류나 누락이 쉽게 생길 수 있습니다. 여기서 바뀌는 점은 `필요한 데이터가 있나`를 보던 기준에서 `서로 다른 시스템 접근 규칙을 일정한 형식으로 다룰 수 있는가`를 보는 기준으로 이동한다는 것입니다. MCP 같은 연결 계층은 이런 시스템을 모델 친화적으로 드러내어, 에이전트가 어떤 자원에 접근 가능한지와 어떤 형식으로 써야 하는지를 더 일정하게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 사람 정보 조회, 일정 조회, 안내 문서 읽기가 서로 다른 규칙 때문에 자주 끊기지 않고 하나의 작업 흐름으로 더 안정적으로 이어지는가입니다.
-
-세 사례를 한 줄로 묶으면 다음과 같습니다.
-
-| 상황 | MCP 관점이 필요한 이유 |
-| --- | --- |
-| 문서 읽기 + 검색 | 여러 읽기 자원을 같은 식으로 다루기 위해 |
-| 코딩 에이전트 | 파일, 실행기, 검색기 호출 방식을 정리하기 위해 |
-| 내부 시스템 연결 | 서로 다른 시스템을 공통 인터페이스로 묶기 위해 |
-
-세 사례를 연결 안정성 관점으로 다시 묶으면 다음과 같습니다.
-
-| 상황 | 공통 연결 관점이 없을 때 먼저 흔들리는 것 | 공통 연결 관점이 있을 때 먼저 안정되는 것 |
+| 상황 | 먼저 봐야 할 관계 문제 | Transformer 블록이 도와주는 방식 |
 | --- | --- | --- |
-| 문서 읽기 + 검색 | 읽기 자원과 검색 자원 선택 규칙 | 어떤 자원은 읽고 어떤 자원은 검색하는 구분 |
-| 코딩 에이전트 | 도구별 입력·반환 형식 연결 | 검색에서 실행까지의 형식 예측 가능성 |
-| 내부 시스템 연결 | 시스템마다 다른 접근 규칙 | 사람 정보, 일정, 문서 조회의 연결 흐름 |
+| 번역 | 문장 뒤 조건이 앞 해석을 바꿀 수 있다 | 문장 전체 위치 관계를 함께 반영해 앞뒤 해석을 다시 묶는다 |
+| 문서 요약 | 핵심 근거가 여러 문단에 흩어져 있다 | 떨어진 단서들을 함께 참고하며 표현을 갱신한다 |
+| 코드/LLM | 멀리 떨어진 이름과 제약을 끝까지 맞춰야 한다 | 앞쪽 제약과 현재 위치를 반복적으로 연결한다 |
+
+아래 도식은 같은 Transformer 블록이 서로 다른 과업에서 어떻게 읽히는지를 아주 거칠게 묶어 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["same transformer block"]
+  B["translation<br/>keep distant condition"]
+  C["document summary<br/>combine scattered clues"]
+  D["code / llm generation<br/>keep long-range consistency"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 봐야 할 점은 과업이 달라도 블록 자체가 바뀌는 것이 아니라, `문맥 관계를 읽고 표현을 다시 가공하는 같은 기본 구조`가 번역, 요약, 코드 생성에 공통으로 쓰인다는 점입니다.
+
+### 사례 1. 번역
+
+긴 문장을 번역할 때를 생각해 볼 수 있습니다. 사람은 단순히 왼쪽에서 오른쪽으로 읽으며 바로 옮기면 된다고 느끼기 쉽지만, 문장 뒤에 나온 조건절이나 목적어 때문에 앞부분 해석을 다시 바꿔야 하는 경우가 자주 생깁니다. 예전 순차 구조에서는 이런 먼 문맥을 끝까지 안정적으로 끌고 가는 일이 특히 어려웠습니다. 여기서 바뀌는 점은 `앞에서 뒤로 밀어 가며 읽는 방식`에서 `문장 전체 관계를 함께 반영하며 읽는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 각 위치가 문장 전체 다른 위치를 함께 참조하며 표현을 다시 만들 수 있게 해, 앞 단어와 뒤 단어의 관계를 한 번에 더 넓게 반영합니다. 그래서 긴 문장에서 번역 방향을 뒤늦게 수정해야 하던 부담을 줄이는 데 중요한 전환점이 되었습니다.
+
+### 사례 2. 문서 요약
+
+긴 회의록을 요약한다고 해 봅시다. 사람이 급하게 요약할 때는 제목, 첫 문단, 마지막 문장 같은 일부 위치에 더 크게 기대기 쉽습니다. 하지만 실제 핵심 결정은 중간 문단의 짧은 발언이나 앞뒤에 흩어진 조건 문장에 숨어 있을 수 있습니다. 예를 들어 결론은 마지막에 적혀 있어도, 그 결론이 유효한 조건은 앞쪽 논의에 들어 있을 수 있습니다. 여기서 바뀌는 점은 `눈에 띄는 위치 몇 군데만 붙잡는 읽기`에서 `흩어진 관련 문장을 반복적으로 묶는 읽기`로 기준이 이동한다는 것입니다. Transformer 블록은 문서 전체 여러 위치를 함께 참고하며 각 위치 표현을 반복적으로 갱신할 수 있어서, 멀리 떨어진 관련 문장을 더 쉽게 같은 요약 판단 안에 묶습니다.
+
+### 사례 3. 코드 생성과 LLM
+
+코드 생성에서 함수 시작부의 인자 이름과 아래쪽 반환 로직이 멀리 떨어져 있는 장면을 떠올려 볼 수 있습니다. 사람은 바로 앞 몇 줄만 보며 이어 써도 될 것처럼 느끼기 쉽지만, 그렇게 쓰면 위에서 쓴 변수 이름과 아래에서 참조하는 이름이 어긋나거나, 열어 둔 조건 분기와 닫는 구조가 맞지 않기 쉽습니다. 예를 들어 함수 초반에 `user_id`를 받았는데 뒤쪽에서 갑자기 `account_id`로 바꿔 쓰면, 앞뒤 맥락이 연결되지 않아 코드가 어색해집니다. 긴 자연어 생성도 마찬가지로, 앞에서 세운 제약과 뒤 문장에서 이어질 설명이 멀리 떨어져 연결됩니다. 여기서 바뀌는 점은 `바로 앞 토큰만 따라 쓰는 방식`에서 `먼 앞쪽 제약과 현재 위치를 함께 묶는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 이런 멀리 떨어진 토큰 관계를 반복적으로 반영하며 각 위치의 표현을 갱신합니다.
+
+세 사례에서 공통으로 확인해야 할 결과는 먼 위치의 단서를 현재 표현 안에 함께 반영할 수 있다는 점입니다. 번역에서는 뒤쪽 조건과 목적어가 앞 해석까지 이어지는지, 요약에서는 흩어진 조건 문장이 결론과 함께 묶이는지, 코드와 자연어 생성에서는 변수명과 분기 구조 같은 앞 제약이 끝까지 유지되는지를 보면 충분합니다.
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 에이전트가 여러 요청을 처리할 때 `공통 연결 계층이 있으면 어떤 요청은 끝까지 진행되고`, `형식이 제각각이면 어디에서 멈추는가`를 눈으로 확인하는 것입니다. 단순히 목록 모양만 검사하면 연결 계층의 의미가 잘 드러나지 않으므로, 이번에는 여러 사용자 요청을 실제로 흘려 보내 보겠습니다.
+이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 숫자 변화로 보는 것입니다.
 
-문제 상황:
+코드를 읽기 전에 아래 네 값부터 순서대로 보면 이 절의 구조 축이 덜 흩어집니다.
 
-- 에이전트는 검색 도구, 파일 읽기 도구, 테스트 실행 도구를 함께 써야 함
-- 문서 저장소와 코드베이스 파일도 각각 다른 자원임
-- 각 항목이 제각각 노출되면 어떤 이름으로 어떤 인자를 써야 하는지 매번 따로 알아야 함
+| 먼저 볼 값 | 왜 먼저 보아야 하는가 |
+| --- | --- |
+| `contextual tokens` | self-attention이 다른 토큰 정보를 먼저 어떻게 섞는지 바로 보이기 때문에 |
+| `feed-forward output` | attention으로 섞인 표현이 각 위치에서 다시 어떻게 가공되는지 이어서 볼 수 있어서 |
+| `after residual` | 새 계산 결과만 쓰지 않고 원래 입력 표현도 함께 남긴다는 점을 확인할 수 있어서 |
+| `after simple layer norm` | 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 마지막에 붙잡을 수 있어서 |
 
 입력:
 
-- 공통 연결 계층에 등록된 도구 목록
-- 형식이 제각각인 연결 목록
+- 세 개 토큰의 초기 표현
+- 토큰별 attention 가중치
+- feed-forward 가중치
 
 출력:
 
-- 요청별 실행 결과
-- 어떤 도구와 리소스가 실제로 선택되었는지에 대한 run report
-- 공통 연결 계층이 있을 때와 없을 때 성공률이 어떻게 달라지는지 보여 주는 요약값
-
-먼저 이 예제에서 함께 볼 비교 기준은 다음과 같습니다.
-
-| 점검 항목 | 왜 필요한가 |
-| --- | --- |
-| `request_success` | 사용자 요청이 실제로 끝까지 진행되는지 봐야 해서 |
-| `tool_resolved` | 필요한 도구를 공통 형식으로 찾을 수 있어야 해서 |
-| `resource_resolved` | 읽을 자원을 일정한 방식으로 식별할 수 있어야 해서 |
-| `failure_reason` | 어떤 연결 결함이 먼저 실행을 멈추는지 구분해야 해서 |
+- attention 적용 전후의 토큰 표현
+- feed-forward 적용 후 표현
+- residual을 더한 뒤의 표현
+- 간단한 layer normalization 뒤 표현
+- 각 토큰이 어느 방향으로 더 강조되었는지
 
 문제 상황:
 
-- MCP 계층은 도구와 자원을 일정한 규약으로 연결해야 하므로 어느 층에서 해석이 끊기는지 확인할 필요가 있다
-
-입력(input):
-
-위에 정리한 connection layer 시나리오를 사용합니다.
+- Transformer 블록은 attention 하나로 끝나지 않고 residual, normalization, feed-forward가 묶여 돌아가므로 단계별 변화를 나눠 볼 필요가 있다
 
 확인할 개념:
 
-- MCP 연결 문제는 도구 해석, 자원 해석, 승인 흐름 중 어느 단계에서 끊기는지 분리해 봐야 원인을 잡을 수 있다
+- Transformer 블록은 attention과 feed-forward가 한 묶음으로 반복된다
+- residual과 normalization까지 봐야 표현이 어떻게 안정적으로 갱신되는지 이해할 수 있다
+- 단계별 표현 변화를 나란히 봐야 블록 내부 역할 분담이 선명해진다
+
+입력(input):
+
+위에 정리한 세 토큰의 초기 표현, attention 가중치, feed-forward 가중치를 사용합니다.
 
 ```python
-from pprint import pprint
+import numpy as np
+
+tokens = np.array([
+    [1.0, 0.0],   # token 1
+    [0.5, 1.0],   # token 2
+    [0.0, 1.5],   # token 3
+])
+
+attention_weights = np.array([
+    [0.7, 0.2, 0.1],  # token 1 mainly reads itself
+    [0.2, 0.5, 0.3],  # token 2 mixes neighbors
+    [0.1, 0.3, 0.6],  # token 3 reads later context more
+])
+
+contextual = attention_weights @ tokens
+
+ff_weights = np.array([
+    [1.1, 0.4],
+    [0.2, 1.0],
+])
+
+ff_output = contextual @ ff_weights
+delta_from_input = ff_output - tokens
+residual_added = ff_output + tokens
 
 
-connection_layers = [
-    {
-        "name": "consistent_layer",
-        "tools": [
-            {"name": "search_docs", "input_schema": ["query"], "returns": "document_hits"},
-            {"name": "read_file", "input_schema": ["path"], "returns": "file_text"},
-            {"name": "run_tests", "input_schema": ["target"], "returns": "test_report"},
-            {"name": "query_employee_db", "input_schema": ["employee_id"], "returns": "employee_record"},
-        ],
-        "resources": [
-            {"name": "policy_repository", "type": "document_store"},
-            {"name": "codebase_files", "type": "filesystem"},
-            {"name": "employee_directory", "type": "database"},
-        ],
-    },
-    {
-        "name": "inconsistent_layer",
-        "tools": [
-            {"tool_name": "search_docs", "returns": "document_hits"},
-            {"name": "read_file", "input_schema": ["path"]},
-            {"name": "run_tests", "returns": "test_report"},
-            {"name": "query_employee_db", "schema": ["employee_id"], "returns": "employee_record"},
-        ],
-        "resources": [
-            {"resource": "policy_repository"},
-            {"name": "codebase_files", "kind": "filesystem"},
-            {"name": "employee_directory"},
-        ],
-    },
-]
+def simple_layer_norm(row):
+    mean = np.mean(row)
+    std = np.std(row)
+    return (row - mean) / (std + 1e-6)
 
 
-requests = [
-    {
-        "request_id": "req-01",
-        "goal": "사내 환불 정책을 찾아 요약한다",
-        "tool_needed": "search_docs",
-        "resource_needed": "policy_repository",
-        "payload": {"query": "환불 정책 최신 버전"},
-    },
-    {
-        "request_id": "req-02",
-        "goal": "특정 경로의 파일을 읽는다",
-        "tool_needed": "read_file",
-        "resource_needed": "codebase_files",
-        "payload": {"path": "docs/parts/part-05/index.md"},
-    },
-    {
-        "request_id": "req-03",
-        "goal": "직원 ID로 조직 정보를 조회한다",
-        "tool_needed": "query_employee_db",
-        "resource_needed": "employee_directory",
-        "payload": {"employee_id": "E-102"},
-    },
-    {
-        "request_id": "req-04",
-        "goal": "변경 후 테스트를 실행한다",
-        "tool_needed": "run_tests",
-        "resource_needed": "codebase_files",
-        "payload": {"target": "tests/test_login.py"},
-    },
-]
+normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
 
-
-def find_tool(layer, tool_name):
-    for tool in layer["tools"]:
-        if tool.get("name") == tool_name:
-            return tool
-    return None
-
-
-def find_resource(layer, resource_name):
-    for resource in layer["resources"]:
-        if resource.get("name") == resource_name:
-            return resource
-    return None
-
-
-def run_request(layer, request):
-    tool = find_tool(layer, request["tool_needed"])
-    resource = find_resource(layer, request["resource_needed"])
-
-    if tool is None:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": False,
-            "resource_resolved": resource is not None,
-            "request_success": False,
-            "failure_reason": "tool_name_not_exposed_in_common_shape",
-        }
-
-    if "input_schema" not in tool:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": resource is not None,
-            "request_success": False,
-            "failure_reason": "tool_schema_missing",
-        }
-
-    if resource is None:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": False,
-            "request_success": False,
-            "failure_reason": "resource_name_not_exposed",
-        }
-
-    if "type" not in resource:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": True,
-            "request_success": False,
-            "failure_reason": "resource_type_missing",
-        }
-
-    missing_inputs = [
-        field for field in tool["input_schema"] if field not in request["payload"]
-    ]
-    if missing_inputs:
-        return {
-            "request_id": request["request_id"],
-            "goal": request["goal"],
-            "tool_resolved": True,
-            "resource_resolved": True,
-            "request_success": False,
-            "failure_reason": f"missing_inputs:{missing_inputs}",
-        }
-
-    return {
-        "request_id": request["request_id"],
-        "goal": request["goal"],
-        "tool_resolved": True,
-        "resource_resolved": True,
-        "request_success": True,
-        "tool_name": tool["name"],
-        "resource_name": resource["name"],
-        "resource_type": resource["type"],
-        "used_payload": request["payload"],
-        "failure_reason": None,
-    }
-
-
-layer_reports = []
-for layer in connection_layers:
-    run_reports = [run_request(layer, request) for request in requests]
-    summary = {
-        "request_count": len(run_reports),
-        "success_count": sum(report["request_success"] for report in run_reports),
-        "tool_resolution_success_count": sum(report["tool_resolved"] for report in run_reports),
-        "resource_resolution_success_count": sum(report["resource_resolved"] for report in run_reports),
-        "failure_reasons": [report["failure_reason"] for report in run_reports if report["failure_reason"]],
-    }
-    layer_reports.append(
-        {
-            "layer_name": layer["name"],
-            "summary": summary,
-            "run_reports": run_reports,
-        }
-    )
-
-overall = {
-    "layers_tested": len(layer_reports),
-    "fully_successful_layers": sum(
-        report["summary"]["success_count"] == len(requests)
-        for report in layer_reports
-    ),
-}
-
-print("[overall]")
-pprint(overall)
+print("original tokens =")
+print(np.round(tokens, 3))
 print()
-
-for report in layer_reports:
-    print("=" * 80)
-    print(f"[layer] {report['layer_name']}")
-    print("[summary]")
-    pprint(report["summary"])
-    print("[run_reports]")
-    for run_report in report["run_reports"]:
-        pprint(run_report)
-    print()
+print("contextual tokens =")
+print(np.round(contextual, 3))
+print()
+print("feed-forward output =")
+print(np.round(ff_output, 3))
+print()
+print("change from input =")
+print(np.round(delta_from_input, 3))
+print()
+print("after residual =")
+print(np.round(residual_added, 3))
+print()
+print("after simple layer norm =")
+print(np.round(normalized, 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 `original tokens`가 `contextual`, `feed-forward`, `residual`, `norm` 단계를 거치며 어떻게 바뀌는지 순서대로 보면 됩니다.
 
 ```text
-[overall]
-{'fully_successful_layers': 1, 'layers_tested': 2}
+original tokens =
+[[1.  0. ]
+ [0.5 1. ]
+ [0.  1.5]]
 
-================================================================================
-[layer] consistent_layer
-[summary]
-{'failure_reasons': [],
- 'request_count': 4,
- 'resource_resolution_success_count': 4,
- 'success_count': 4,
- 'tool_resolution_success_count': 4}
-[run_reports]
-{'failure_reason': None,
- 'goal': '사내 환불 정책을 찾아 요약한다',
- 'request_id': 'req-01',
- 'request_success': True,
- 'resource_name': 'policy_repository',
- 'resource_resolved': True,
- 'resource_type': 'document_store',
- 'tool_name': 'search_docs',
- 'tool_resolved': True,
- 'used_payload': {'query': '환불 정책 최신 버전'}}
-{'failure_reason': None,
- 'goal': '특정 경로의 파일을 읽는다',
- 'request_id': 'req-02',
- 'request_success': True,
- 'resource_name': 'codebase_files',
- 'resource_resolved': True,
- 'resource_type': 'filesystem',
- 'tool_name': 'read_file',
- 'tool_resolved': True,
- 'used_payload': {'path': 'docs/parts/part-05/index.md'}}
-{'failure_reason': None,
- 'goal': '직원 ID로 조직 정보를 조회한다',
- 'request_id': 'req-03',
- 'request_success': True,
- 'resource_name': 'employee_directory',
- 'resource_resolved': True,
- 'resource_type': 'database',
- 'tool_name': 'query_employee_db',
- 'tool_resolved': True,
- 'used_payload': {'employee_id': 'E-102'}}
-{'failure_reason': None,
- 'goal': '변경 후 테스트를 실행한다',
- 'request_id': 'req-04',
- 'request_success': True,
- 'resource_name': 'codebase_files',
- 'resource_resolved': True,
- 'resource_type': 'filesystem',
- 'tool_name': 'run_tests',
- 'tool_resolved': True,
- 'used_payload': {'target': 'tests/test_login.py'}}
-================================================================================
-[layer] inconsistent_layer
-[summary]
-{'failure_reasons': ['tool_name_not_exposed_in_common_shape',
-                     'resource_type_missing',
-                     'tool_schema_missing',
-                     'tool_schema_missing'],
- 'request_count': 4,
- 'resource_resolution_success_count': 3,
- 'success_count': 0,
- 'tool_resolution_success_count': 3}
-[run_reports]
-{'failure_reason': 'tool_name_not_exposed_in_common_shape',
- 'goal': '사내 환불 정책을 찾아 요약한다',
- 'request_id': 'req-01',
- 'request_success': False,
- 'resource_resolved': False,
- 'tool_resolved': False}
-{'failure_reason': 'resource_type_missing',
- 'goal': '특정 경로의 파일을 읽는다',
- 'request_id': 'req-02',
- 'request_success': False,
- 'resource_resolved': True,
- 'tool_resolved': True}
-{'failure_reason': 'tool_schema_missing',
- 'goal': '직원 ID로 조직 정보를 조회한다',
- 'request_id': 'req-03',
- 'request_success': False,
- 'resource_resolved': True,
- 'tool_resolved': True}
-{'failure_reason': 'tool_schema_missing',
- 'goal': '변경 후 테스트를 실행한다',
- 'request_id': 'req-04',
- 'request_success': False,
- 'resource_resolved': True,
- 'tool_resolved': True}
+contextual tokens =
+[[0.8  0.35]
+ [0.45 0.95]
+ [0.25 1.2 ]]
+
+feed-forward output =
+[[0.95 0.67]
+ [0.685 1.13 ]
+ [0.515 1.3  ]]
+
+change from input =
+[[-0.05   0.67 ]
+ [ 0.185  0.13 ]
+ [ 0.515 -0.2  ]]
+
+after residual =
+[[1.95 0.67 ]
+ [1.185 2.13 ]
+ [0.515 2.8  ]]
+
+after simple layer norm =
+[[ 1.    -1.   ]
+ [-1.     1.   ]
+ [-1.     1.   ]]
 ```
 
-이 예제에서 먼저 봐야 할 것은 `consistent_layer`에서는 네 요청이 모두 성공하지만, `inconsistent_layer`에서는 도구 이름, 입력 형식, 자원 타입이 제각각이라 네 요청이 모두 중간에서 멈춘다는 점입니다. 즉, 같은 도구 수를 갖고 있어도 `name`, `input_schema`, `type` 같은 최소 공통 형식이 맞지 않으면 에이전트는 실제 업무 흐름을 끝까지 밀고 가지 못합니다.
+| 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
+| --- | --- | --- |
+| `contextual tokens`가 `original tokens`와 다르다 | self-attention이 각 위치를 그대로 두지 않고 다른 토큰 정보를 먼저 섞는다는 뜻 | attention 가중치를 더 자기 자신 쪽으로 몰면 문맥 섞임이 약해지고, 이웃 쪽으로 넓히면 변화가 커집니다 |
+| `feed-forward output`과 `change from input`이 함께 달라진다 | 문맥을 섞은 뒤에도 각 위치에서 표현을 한 번 더 가공한다는 뜻 | feed-forward 가중치를 바꾸면 어떤 축이 더 강조되는지 직접 바뀝니다 |
+| `after residual`이 `feed-forward output`보다 원래 입력에 더 가깝게 남아 있다 | 새 계산 결과만 덮어쓰지 않고 원래 표현을 함께 보존한다는 뜻 | 입력 토큰 값을 바꾸면 residual이 어떤 정보를 계속 들고 가는지 더 분명해집니다 |
+| `after simple layer norm`이 비슷한 범위로 정리된다 | 다음 블록으로 넘기기 전에 값 규모를 다시 맞추는 안정화 감각을 준다는 뜻 | 특정 토큰 값만 크게 키워 보면 normalization이 범위를 다시 정리하는 효과가 더 눈에 띕니다 |
 
-이 예제에서 확인해야 할 결과는 모델이나 에이전트가 외부 시스템을 제각각 직접 다루는 것이 아니라, 도구와 리소스를 공통 인터페이스로 드러내는 연결 계층을 통해 접근한다는 점입니다.
+- attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다.
+- feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다.
+- `after residual`은 새 계산 결과만 쓰지 않고 원래 토큰 표현을 함께 남긴다는 점을 보여 줍니다.
+- `after simple layer norm`은 각 위치 표현이 다음 단계로 넘어가기 전에 값 범위가 다시 정리될 수 있음을 보여 줍니다.
+- 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다.
 
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+이 예제도 숫자를 한 번 읽고 끝내기보다, 어떤 값을 바꾸면 블록 내부 역할 분담이 더 선명해지는지 바로 이어서 확인하는 편이 좋습니다.
 
-- 새 도구 `query_database`를 두 레이어에 각각 추가해 같은 방식으로 노출되는지 보기
-- `inconsistent_layer`의 도구 하나에만 `input_schema`를 추가해도 전체 일관성이 왜 아직 깨지는지 확인하기
-- 리소스에 `permissions` 같은 필드를 넣어 권한 관점까지 확장해 보기
+| 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
+| --- | --- | --- |
+| `contextual tokens`가 입력과 달라진다 | attention 가중치를 대각선 중심으로 바꾸거나 더 고르게 퍼뜨려 문맥 섞임 정도를 비교한다 | self-attention 하나만으로 Transformer 전체 성질이 다 설명된다고 단정하지 않는다 |
+| `change from input`의 방향이 토큰마다 다르다 | 입력 토큰 값을 바꾸거나 토큰 수를 늘려 어떤 위치가 더 크게 재가공되는지 본다 | 숫자 변화가 크다고 해서 항상 더 좋은 표현 학습이라고 단정하지 않는다 |
+| `after simple layer norm`이 비슷한 범위로 정리된다 | 특정 축 값을 과하게 키워 normalization 전후 차이가 얼마나 커지는지 본다 | 이 장난감 norm 예제로 실제 layer normalization 구현 세부를 모두 대체하지 않는다 |
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
 
-- 모델이 직접 모든 시스템을 제각각 아는 것이 아니라
-- 중간 연결 계층을 통해
-- 도구와 리소스를 일정한 형식으로 본다는 점입니다
+## 이 예제를 블록 조합 관점으로 다시 보면
 
-## 이 예제를 연결 계층 관점으로 다시 보면
+앞의 숫자는 Transformer 전체를 구현한 것은 아니지만, 각 부품의 역할 차이는 분명하게 드러납니다.
 
-이 장난감 구조는 도구가 많아지는 시대에 중요한 것이 `도구 개수`보다 `어떻게 같은 방식으로 연결하느냐`라는 점을 보여 줍니다. 그래서 MCP를 읽을 때도 개별 도구 기능보다, 모델과 외부 시스템 사이의 연결 형식을 통일해 주는 계층이라는 역할을 먼저 잡는 것이 좋습니다.
+- `contextual tokens`는 self-attention이 다른 위치 정보를 먼저 섞는 단계입니다.
+- `feed-forward output`은 섞인 표현을 각 위치에서 한 번 더 가공한 결과입니다.
+- `after residual`은 새 계산만 믿지 않고 원래 표현도 함께 들고 가는 안전장치 역할을 보여 줍니다.
+- `after simple layer norm`은 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 줍니다.
 
-여기까지를 한 줄로 묶으면, MCP 관점은 `도구를 더 많이 붙이는 기술`이 아니라 `붙인 도구들을 같은 방식으로 읽고 호출하게 만드는 연결 규칙`입니다.
+즉, Transformer 블록은 `attention 하나`가 아니라, `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`가 한 묶음으로 반복되는 구조입니다. 이 감각이 잡혀야 다음 절 P5-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
 
-이 절에서 더 중요하게 붙잡아야 할 점은 `모델이 무엇을 말하는가`와 `그 모델이 어떤 시스템과 어떤 형식으로 연결되는가`가 같은 문제가 아니라는 것입니다. 그래서 MCP는 도구를 더 붙이는 기술이 아니라, agent와 tool use가 늘어날수록 연결 방식을 덜 제각각으로 만들기 위한 공통 인터페이스 관점으로 읽는 편이 좋습니다.
-
-커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
-
-- 바로 앞의 P5-12.1, P5-12.2 도구 사용 구조와 P5-13.1, P5-13.2 에이전트 실행 구조를 `연결 계층` 관점에서 다시 읽게 하고
-- agent와 tool use를 시스템 연결 문제까지 확장해 읽게 하며
-- 다음 절의 P5-14.2 하네스와 뒤의 운영 실패 대응으로 넘어갈 준비를 시키기 때문입니다
+Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계는 이후 다양한 대규모 언어·멀티모달 모델에서 공통 기본 단위처럼 재사용되었습니다.
 
 ## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
 
-- 연결 형식이 정리되어도, 실행을 안정적으로 감싸고 로그와 평가를 남기는 구조는 무엇인가?
-- 에이전트 실행을 반복 가능하게 관리하려면 무엇이 더 필요한가?
+- Transformer는 왜 RNN보다 병렬 처리에 더 잘 맞는가?
+- 긴 문맥(long context)을 다룰 때 어떤 차이가 크게 드러나는가?
 
-이 질문은 P5-14.2 하네스(harness)로 이어집니다.
+이 질문은 바로 P5-14.2 병렬 처리와 긴 문맥으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-| 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 이 용어가 맡는 층위 |
+| 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 아직 여기서 하지 않는 일 |
 | --- | --- | --- |
-| MCP는 도구와 자원을 공통 형식으로 드러내는 연결 인터페이스다 | 이렇게 연결된 실행을 어떻게 감싸고 기록하며 다시 재현할까 | `무엇과 어떻게 연결할까`를 정리하는 연결 층위 |
+| Transformer는 attention, feed-forward, residual, normalization을 블록으로 묶는다 | 이 블록이 왜 긴 문맥과 대규모 병렬 처리에 유리했는가 | 사전학습과 LLM 운영 구조 전체를 설명하는 일 |
 
-- MCP는 모델과 도구/데이터 사이 연결을 더 일관되게 만드는 인터페이스 관점입니다.
-- 이것은 모델 능력 자체보다 연결 구조의 문제를 다룹니다.
-- agent와 tool use가 커질수록 연결 표준의 중요성이 커집니다.
-- 연결 표준이 있다고 해서 운영 품질이 자동 해결되지는 않습니다.
-
-MCP는 `무엇과 어떻게 연결할까`를 일정한 형식으로 정리하는 연결 인터페이스 구조입니다. 핵심은 도구와 자원을 덜 제각각으로 노출하는 데 있습니다.
+- Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
+- self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
+- residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
+- 이 블록 구조를 이해하면 이후 다른 생성 모델 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
 
 ## 체크리스트
 
-- MCP를 입문 수준에서 설명할 수 있는가?
-- 모델 능력과 연결 인터페이스를 구분할 수 있는가?
-- 왜 agent 시대에 연결 표준이 중요해졌는지 말할 수 있는가?
-- 왜 다음 절에서 하네스를 따로 봐야 하는지 설명할 수 있는가?
+- Transformer의 기본 구성 요소를 말할 수 있는가?
+- 각 구성 요소의 역할을 한 문장씩 설명할 수 있는가?
+- self-attention과 feed-forward의 차이를 설명할 수 있는가?
+- 다음 절의 병렬 처리와 긴 문맥으로 왜 자연스럽게 이어지는지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- OpenAI, MCP 관련 공식 문서와 소개 자료, 확인 날짜: 2026-06-29.
-- 관련 tool integration 및 agent engineering 교육 자료, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Jay Alammar, `The Illustrated Transformer`, 확인 날짜: 2026-06-29. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }

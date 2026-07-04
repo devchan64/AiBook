@@ -1,287 +1,379 @@
-# P6-5.2 검색 품질과 답변 검증
+# P6-5.2 생성 과정의 직관
 
-P6-5.1에서는 RAG 프로젝트의 최소 흐름을 만들었습니다. 하지만 RAG는 `검색을 붙였다`고 끝나는 구조가 아닙니다.
+P6-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token prediction)이라는 점을 보았습니다. 하지만 사용자 경험은 단지 `다음 한 조각 예측`이라는 말보다 훨씬 복잡해 보입니다.
 
-실제 프로젝트에서는 곧바로 다음 문제가 나옵니다.
+질문은 자연스럽게 이어집니다.
 
-- 검색이 엉뚱한 문서를 가져오면?
-- 검색 결과는 맞지만 답변이 과장되면?
-- 질문이 문서 범위 밖이면?
+그렇다면 실제 생성은 어떤 흐름으로 진행되는가?
 
-그래서 이번 절은 `검색 품질`과 `답변 검증`을 따로 기록하는 법을 다룹니다.
-
-이 절의 목적은 RAG가 실패했을 때, 검색이 문제인지 답변이 문제인지 구분해 프로젝트 문서에 남기는 것이다.
+이 절은 그 과정을 독자 기준에서 직관적으로 설명합니다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- RAG 프로젝트에서 검색 품질은 무엇을 뜻하는가?
-- 답변이 문서 근거를 벗어났는지 어떻게 점검할 수 있는가?
-- 검색 실패와 답변 실패를 왜 따로 적어야 하는가?
+- 생성은 한 토큰씩 어떻게 이어지는가?
+- 왜 같은 입력에서도 결과가 조금씩 달라질 수 있는가?
+- temperature, sampling, greedy 선택은 어떤 차이를 만드는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- retrieval metric의 엄밀한 수식 비교
-- 자동 평가 프레임워크
-- reranker 모델의 세부 구현
+- beam search 수식
+- nucleus sampling(top-p) 세부 공식
+- 디코더 내부 attention 계산 과정
 
-이 절에서는 검색 실패와 답변 실패를 문서에 남기는 최소 기준까지만 다룹니다. 더 넓은 평가 구조는 뒤의 P6-7.2 실패 기록과 개선 계획에서 다시 회수하고, retrieval metric의 수식과 reranker 구현 세부는 현재 본편 범위 밖으로 둡니다.
+이 절은 생성 선택의 감각까지만 다룹니다. 디코더 내부 attention 계산 과정은 이미 P6-3.1 Transformer 구조 복습과 P6-3.2 attention과 context window에서 다시 읽을 수 있습니다. beam search 수식과 nucleus sampling(top-p) 세부 공식은 현재 판의 입문 본편 범위 밖으로 두고, 여기서는 `후보를 어떻게 고르느냐에 따라 결과가 왜 달라지는가`라는 관점만 남깁니다.
+
+이 절은 `실제 생성 선택 축`으로 읽으면 됩니다.
+
+| 지금 이 절에서 읽는 것 | 뒤 장이나 범위 밖으로 넘기는 것 |
+| --- | --- |
+| 확률 분포를 계산한 뒤 실제로 어떤 토큰을 고를지 정하는 과정 | beam search, top-p 같은 세부 디코딩 공식을 어떻게 비교할지 |
+| greedy, sampling, temperature가 결과 안정성과 다양성을 어떻게 바꾸는가 | 정렬, 정책 제약, 외부 도구 연결이 생성 경로를 어떻게 더 바꾸는가 |
+
+이 절에서는 `생성은 확률 분포에서 다음 토큰을 반복 선택하는 과정`이라는 직관을 만듭니다.
 
 ## 이 절의 목표
 
-- 검색 실패와 답변 실패를 구분해 기록할 수 있습니다.
-- 근거 없는 답변을 `문서 범위 밖`이라는 형태로 안전하게 처리하는 기준을 세울 수 있습니다.
-- RAG 프로젝트 평가표에 최소 무엇이 들어가야 하는지 정리할 수 있습니다.
+- 생성이 반복 선택 과정임을 설명할 수 있습니다.
+- greedy 선택과 sampling의 차이를 구분할 수 있습니다.
+- temperature가 `모델 파라미터`가 아니라 `생성 시 선택 성향을 바꾸는 설정값`이라는 점을 설명할 수 있습니다.
+- 왜 같은 질문에도 다른 답이 나올 수 있는지 설명할 수 있습니다.
 
-## 왜 두 실패를 구분해야 하나
+## 이 절을 읽는 순서
 
-RAG 프로젝트에서는 최소 두 종류의 실패가 있습니다.
+이 절은 다음 순서로 읽으면 충분합니다.
 
-| 실패 유형 | 설명 |
+1. 먼저 생성이 `확률 분포 계산`과 `후보 선택`의 반복이라는 점을 봅니다.
+2. 그 다음 greedy와 sampling이 무엇을 다르게 고르는지 구분합니다.
+3. 이어서 temperature가 학습된 지식이 아니라 `선택 분포를 어떻게 읽을지`를 바꾸는 설정값이라는 점을 확인합니다.
+4. 마지막에 사례와 예제로 `안정성`, `다양성`, `재현성`이 실제로 어떻게 갈리는지 읽습니다.
+
+## 생성은 어떻게 이어지나
+
+생성 과정은 매우 단순하게 말하면 다음 순서를 반복합니다.
+
+1. 현재까지의 토큰을 본다
+2. 다음 토큰 후보들의 확률 분포를 계산한다
+3. 어떤 규칙으로 하나를 고른다
+4. 고른 토큰을 뒤에 붙인다
+5. 종료 조건까지 반복한다
+
+이 과정을 보면, 생성은 `정답을 미리 다 써 둔 문장을 꺼내는 일`이 아니라 `매 단계에서 다음 선택을 이어 가는 일`에 더 가깝습니다.
+
+## 왜 같은 질문에도 답이 달라질 수 있나
+
+모델은 보통 후보 하나만 절대적으로 정하지 않습니다. 여러 후보가 그럴듯할 수 있습니다.
+
+예를 들어 어떤 문장 뒤에는:
+
+- `좋습니다`
+- `가능합니다`
+- `검토하겠습니다`
+
+같은 후보가 모두 자연스러울 수 있습니다.
+
+이때 항상 가장 높은 후보만 고르면 결과는 더 안정적일 수 있지만, 표현이 단조로워질 수 있습니다. 반대로 확률 분포에서 샘플링(sampling)하면 더 다양한 결과가 나올 수 있지만, 불안정성도 커질 수 있습니다.
+
+## greedy와 sampling은 어떻게 다른가
+
+가장 간단한 비교는 다음과 같습니다.
+
+| 방식 | 핵심 아이디어 |
 | --- | --- |
-| 검색 실패 | 관련 문서가 top-k에 안 들어온다 |
-| 답변 실패 | 문서는 찾았지만 답변이 근거를 벗어나거나 과장한다 |
+| greedy | 매 단계에서 가장 높은 확률 후보를 고른다 |
+| sampling | 확률 분포를 반영해 후보를 뽑는다 |
 
-이 둘을 섞으면 원인 분석이 어려워집니다.
+greedy는 더 예측 가능하고, sampling은 더 다양합니다.
 
-예를 들어:
+다음처럼 기억하면 충분합니다.
 
-- 검색이 틀렸다면 chunking, query reformulation, embedding, index 쪽을 봐야 합니다.
-- 답변이 과장됐다면 prompt, answer template, citation rule, refusal rule을 봐야 합니다.
+`greedy는 가장 안전한 한 점을 고르는 방식이고, sampling은 그럴듯한 후보들 사이에서 확률적으로 선택하는 방식이다.`
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+## temperature는 무엇을 바꾸나
 
-| 질문 | 짧은 답 |
-| --- | --- |
-| 실패를 왜 둘로 나누는가? | 원인과 수정 지점이 다르기 때문 |
-| 검색 실패는 무엇을 뜻하는가? | 관련 문서를 못 찾은 상태 |
-| 답변 실패는 무엇을 뜻하는가? | 문서는 있었지만 답이 근거를 벗어난 상태 |
+이 표현은 Part 1에서도 한 번 조심해서 다뤘습니다. 많은 사용자가 temperature를 `모델 내부를 바꾸는 학습 파라미터`처럼 오해합니다. 하지만 일반적인 서비스 사용 문맥에서는 다음처럼 설명하는 편이 안전합니다.
 
-## 작은 검증 규칙 만들기
+`temperature는 생성 시 후보 확률 분포를 얼마나 날카롭거나 퍼지게 읽을지 조정하는 설정값이다.`
 
-입문 프로젝트에서는 거대한 평가 시스템 대신 다음처럼 단순한 규칙부터 둘 수 있습니다.
+즉:
 
-1. 검색된 문서가 질문과 직접 관련 있는가?
-2. 답변 문장이 검색된 문장에 실제로 포함된 정보만 말하는가?
-3. 문서에 없는 내용이면 `문서에서 확인되지 않는다`고 답하는가?
+- 낮은 temperature: 상위 후보를 더 강하게 밀어 준다
+- 높은 temperature: 낮은 후보도 더 자주 선택될 수 있다
 
-이 세 줄은 작은 RAG 프로젝트의 `최소 검증 규칙`으로 그대로 문서에 들어갈 수 있습니다.
+이 값은 보통 `학습된 지식 자체`를 바꾸는 것이 아니라, `생성 시 선택 방식`을 바꿉니다.
 
-이 세 규칙만 있어도 프로젝트 문서의 품질이 크게 올라갑니다.
+## 어떤 목적에서 어떤 선택이 먼저 어울리나
 
-## 예제: 문서 범위 밖 질문
+생성 설정은 `무조건 creativity를 높이거나 낮추는 버튼`이라기보다, 지금 무엇을 더 우선할지 정하는 선택에 가깝습니다.
 
-이번 절에서는 일부러 문서 범위 밖 질문을 넣어 보겠습니다.
+| 장면 | 더 먼저 원하는 것 | 먼저 떠올릴 선택 감각 |
+| --- | --- | --- |
+| 고객 지원 초안 | 일관성, 정책 준수 | 낮은 temperature, 보수적 선택 |
+| 코드 생성 | 재현성, 구조 안정성 | 낮은 temperature, greedy에 가까운 선택 |
+| 마케팅 문구 초안 | 후보 다양성, 표현 폭 | sampling, 다소 높은 temperature |
+| 브레인스토밍 | 새로운 조합, 탐색 | sampling 중심 선택 |
 
-- 문서 집합에는 `MCP가 무엇인가`에 대한 정보가 없습니다.
-- 그런데 사용자가 `MCP는 왜 필요한가?`라고 물어봅니다.
+즉, 같은 모델이라도 `정확하고 흔들리지 않는 답`이 먼저 필요한지, `여러 후보를 넓게 보고 싶은지`에 따라 생성 설정의 우선순위가 달라집니다.
 
-이때 좋은 RAG 프로젝트는 억지로 아는 척하는 답을 만들지 않고, `현재 검색된 문서 기준으로는 답할 근거가 부족하다`고 기록해야 합니다.
+## 여기까지를 한 줄로 묶으면
 
-## Python 예제
+여기까지를 가장 짧게 정리하면 다음과 같습니다.
 
-이번 예제의 목적은 검색 점수와 답변 가능 여부를 함께 출력하는 것입니다. 이번에는 질문별로 `retrieval_candidates`, `answer_status`, `needs_revision`가 남는 `evaluation_records`를 만들겠습니다.
+- 학습은 `무엇을 다음 토큰으로 예측할 것인가`를 다룹니다.
+- 생성은 `그 후보들 중 무엇을 실제로 뽑을 것인가`를 다룹니다.
+- temperature, greedy, sampling은 이 두 번째 문제에 속합니다.
 
-이 기록이 필요한 이유는 `답이 틀렸다`에서 멈추지 않고, 그 실패가 `문서를 못 찾은 것인지`, `근거가 부족해 멈춘 것인지`, `답변 단계에서 과장한 것인지`를 다음 수정 때 다시 분리해 볼 수 있게 하기 위해서입니다.
+이 구분이 있어야 `모델이 아는 것`과 `실제로 어떤 답을 꺼냈는가`를 섞어 설명하지 않게 됩니다.
 
-- 문제 상황: 질문마다 검색 실패와 답변 실패를 구분해 기록한다.
-- 입력(input): 문서 조각 3개, 질문 2개
-- 기대 출력(output): 질문별 top score, 답변 상태, 수정 필요 여부, 후보 문서 목록
-- 확인할 개념:
-  - 검색 점수와 답변 상태를 함께 봐야 실패 위치를 구분할 수 있다
-  - 근거가 없으면 멈추는 답변도 평가 결과에 포함된다
-  - 질문별 후보 문서를 남겨야 다음 수정 지점을 다시 찾기 쉽다
+## 아주 단순하게 그리면
+
+```mermaid
+flowchart TD
+  A["context"]
+  B["token probability distribution"]
+  C["selection rule: greedy or sampling"]
+  D["append token"]
+  E["repeat until stop"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+```
+
+이 도식의 핵심은 생성이 `확률 분포 계산`과 `선택 규칙`의 결합이라는 점입니다.
+
+## 사례로 보기
+
+아래 도식은 이 절의 세 사례를 `무작위로 고른다`보다 `어떤 목적에서 얼마나 보수적으로 또는 다양하게 고를 것인가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same decoding question"]
+  B["customer reply<br/>how stable should wording stay?"]
+  C["marketing draft<br/>how many distinct options are useful?"]
+  D["code generation<br/>how much variation can we tolerate?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 생성 설정이 `창의성 버튼` 하나가 아니라는 것입니다. 같은 모델이라도 고객 응답, 마케팅 문구, 코드 생성처럼 목적이 달라지면 `안정성`, `다양성`, `재현성`의 우선순위가 달라지고, 그에 따라 greedy, sampling, temperature를 보는 기준도 달라집니다.
+
+### 사례 1. 고객 응답 초안
+
+고객 지원 초안을 자동으로 만들 때를 생각해 볼 수 있습니다. 사람은 이 장면에서 보통 `정책에 맞는 안정적인 문장이 나오는가`를 먼저 기준으로 삼습니다. 예를 들어 환불 문의에 어떤 답은 먼저 사과하고 어떤 답은 바로 정책을 말하면, 내용이 맞아도 서비스 톤은 일정하지 않게 느껴질 수 있습니다. 또 어떤 답은 환불 조건을 먼저 말하고 다른 답은 제출 서류부터 길게 설명하면 고객이 다음 행동을 헷갈릴 수 있습니다. 이때 샘플링 폭이 너무 넓으면 같은 질문에도 말투와 안내 순서가 흔들리기 쉽습니다. 반대로 낮은 temperature와 보수적인 선택 규칙은 `정책 설명 -> 필요한 서류 -> 다음 단계`처럼 비슷한 안내 흐름을 더 자주 유지하게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 같은 질문에 대해 말투와 안내 순서가 크게 흔들리지 않는가입니다.
+
+### 사례 2. 마케팅 문구 초안
+
+마케팅 문구 초안이나 아이디어 브레인스토밍에서는 상황이 다릅니다. 사람은 이 단계에서 보통 `가장 안전한 한 문장`보다 `비교할 만한 여러 후보가 나오는가`를 먼저 봅니다. 같은 표현만 반복해서 받으면 후보 폭이 너무 좁다고 느낄 수 있습니다. 예를 들어 세 개 시안을 요청했는데 모두 `쉽고 빠른`으로 시작하면, 문법상 맞아도 팀은 방향을 비교하기 어렵습니다. 반대로 `빠른 처리`, `안심 배송`, `복잡한 절차 없는 시작`처럼 강조점이 갈리면 어떤 메시지가 더 맞는지 논의할 재료가 생깁니다. 이 장면에서는 항상 가장 높은 후보만 고르는 보수적 선택보다, 그럴듯한 후보를 몇 개 더 허용하는 sampling 계열 설정이 더 잘 맞을 수 있습니다. 즉, 중요한 변화는 `한 문장 정답`을 찾는 일에서 `비교 가능한 후보 묶음`을 만드는 일로 기준이 바뀐다는 점입니다. 그래서 이 사례에서 확인해야 할 결과는 서로 다른 강조점을 가진 후보가 실제로 여러 개 나오는가입니다.
+
+### 사례 3. 코드 생성
+
+코드 생성에서는 문법 안정성과 재현성이 특히 중요합니다. 사람은 여기서 `매번 조금 다른 코드`보다 `같은 요구에 비슷한 구조로 안정적으로 답하는가`를 먼저 기준으로 삼습니다. 예를 들어 같은 함수 수정 요청인데 한 번은 `try/except`를 넣고 다음에는 생략하면, 비교와 회귀 확인이 훨씬 어려워집니다. 첫 결과를 기준으로 테스트를 맞춘 뒤 다시 생성했을 때 구조가 크게 바뀌면, 실제 버그보다 생성 변동을 추적하는 시간이 더 늘어날 수 있습니다. 이때 샘플링 폭이 너무 넓으면 예외 처리 방식, 변수 구조, 반환 순서가 불필요하게 흔들릴 수 있습니다. 반대로 더 보수적인 설정은 `같은 요구 -> 비슷한 구조`를 더 자주 유지하게 만들어 디버깅 기준선을 잡기 쉽게 합니다. 그래서 이 사례에서 확인해야 할 결과는 같은 요청을 반복했을 때 코드 구조와 예외 처리 방식이 크게 흔들리지 않는가입니다.
+
+세 사례를 디코딩 선택 기준으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 더 보수적으로 볼수록 좋은 것 | 더 다양한 후보를 허용할수록 좋은 것 |
+| --- | --- | --- |
+| 고객 응답 초안 | 말투 일관성, 안내 순서 안정성 | 거의 없음, 흔들림이 오히려 문제 |
+| 마케팅 문구 초안 | 최소 품질선 유지 | 강조점이 다른 여러 시안 |
+| 코드 생성 | 구조 안정성, 재현성 | 과도한 다양성은 디버깅 비용 증가 |
+
+세 사례를 같은 기준으로 다시 정리하면, 생성 설정이 `창의성 버튼`이 아니라 `어느 정도까지 구조 흔들림을 허용할 것인가`를 정하는 선택이라는 점이 더 분명해집니다.
+
+| 사례 | 낮은 temperature에서 기대하는 것 | 높은 temperature에서 기대하거나 감수하는 것 | 실제로 확인할 결과 |
+| --- | --- | --- | --- |
+| 고객 응답 초안 | 사과, 정책 설명, 다음 단계 순서가 크게 흔들리지 않음 | 표현이 바뀌며 안내 순서도 흔들릴 수 있음 | 같은 질문에 답 구조가 안정적으로 유지되는가 |
+| 마케팅 문구 초안 | 최소 품질선과 브랜드 톤 유지 | 다른 강조점과 말투 후보가 더 많이 나옴 | 비교 가능한 시안이 실제로 늘어나는가 |
+| 코드 생성 | 함수 구조와 예외 처리 방식이 크게 안 바뀜 | 변수명·구조 변형이 늘어날 수 있음 | 재현성이 필요한 상황에서 흔들림이 커지지 않는가 |
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 확률 후보에서 `greedy`, `sampling`, `temperature`가 실제 사용자에게 보이는 문장 구조를 어떻게 바꾸는지 직접 보는 것입니다. 한 번만 토큰을 뽑는 대신, 고객 지원 답변의 세 슬롯을 채우는 방식으로 `낮은 temperature`, `기본 temperature`, `높은 temperature`에서 문장 순서와 표현 폭이 어떻게 달라지는지 비교하겠습니다.
+
+입력:
+
+- 고객 지원 답변의 세 슬롯
+- 슬롯별 후보 확률
+- temperature 설정값
+- 반복 샘플링 횟수
+
+출력:
+
+- temperature별 조정 확률
+- greedy로 만든 고정 답변
+- sampling으로 만든 여러 답변 미리보기
+- 샘플링 답변의 표현 조합 수
+
+문제 상황:
+
+- temperature는 후보 분포를 얼마나 평평하게 만들지 조절해 생성 다양성을 바꾼다
+
+입력(input):
+
+위에 정리한 응답 슬롯별 후보와 기본 확률, 여러 temperature 값을 사용합니다.
+
+확인할 개념:
+
+- temperature 조절은 후보 분포의 평탄도를 바꿔 일관성과 다양성의 균형을 달라지게 만든다
 
 ```python
-documents = {
-    "doc_1": "RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.",
-    "doc_2": "임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.",
-    "doc_3": "프롬프트만으로는 최신 문서 근거를 보장할 수 없다.",
+import random
+
+reply_slots = {
+    "opening": {
+        "불편을 드려 죄송합니다.": 0.50,
+        "문의 주셔서 감사합니다.": 0.30,
+        "확인 도와드리겠습니다.": 0.20,
+    },
+    "policy": {
+        "환불은 배송 완료 후 7일 이내 가능합니다.": 0.55,
+        "배송 완료 후 7일 안에 환불을 접수할 수 있습니다.": 0.25,
+        "주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다.": 0.20,
+    },
+    "next_step": {
+        "주문번호를 보내 주시면 바로 확인하겠습니다.": 0.60,
+        "주문번호와 수령일을 함께 알려 주세요.": 0.25,
+        "필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.": 0.15,
+    },
 }
 
-questions = [
-    "RAG가 왜 필요한가?",
-    "MCP는 왜 필요한가?",
-]
 
-def normalize_token(token):
-    token = token.replace("?", "").replace(".", "")
-    for keyword in ["RAG", "MCP"]:
-        if token.startswith(keyword):
-            return keyword
-    return token
+def apply_temperature(prob_dict, temperature):
+    adjusted = {
+        token: prob ** (1.0 / temperature)
+        for token, prob in prob_dict.items()
+    }
+    total = sum(adjusted.values())
+    return {token: adjusted[token] / total for token in adjusted}
 
-def tokenize(text):
-    return {normalize_token(token) for token in text.split()}
 
-evaluation_records = []
-for question in questions:
-    q_tokens = tokenize(question)
-    retrieval_candidates = []
-    for doc_id, text in documents.items():
-        overlap = len(q_tokens & tokenize(text))
-        retrieval_candidates.append({
-            "doc_id": doc_id,
-            "score": overlap,
-            "text": text,
-        })
+def greedy_reply(slots, temperature):
+    parts = []
+    for _, prob_dict in slots.items():
+        adjusted = apply_temperature(prob_dict, temperature)
+        parts.append(max(adjusted, key=adjusted.get))
+    return " ".join(parts)
 
-    retrieval_candidates.sort(key=lambda x: x["score"], reverse=True)
-    top_candidate = retrieval_candidates[0]
 
-    if top_candidate["score"] == 0:
-        answer = "현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다."
-        answer_status = "insufficient_evidence"
-    else:
-        answer = (
-            f"{top_candidate['text']} 이 문장 범위 안에서만 답하면, "
-            "외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다."
-        )
-        answer_status = "grounded_answer"
+def sample_many(slots, temperature, trials=12, seed=7):
+    random.seed(seed)
+    replies = []
+    for _ in range(trials):
+        parts = []
+        for _, prob_dict in slots.items():
+            adjusted = apply_temperature(prob_dict, temperature)
+            tokens = list(adjusted.keys())
+            weights = list(adjusted.values())
+            picked = random.choices(tokens, weights=weights, k=1)[0]
+            parts.append(picked)
+        replies.append(" ".join(parts))
+    unique_count = len(set(replies))
+    return replies, unique_count
 
-    evaluation_records.append({
-        "question": question,
-        "top_doc_id": top_candidate["doc_id"],
-        "top_score": top_candidate["score"],
-        "answer_status": answer_status,
-        "answer": answer,
-        "needs_revision": bool(top_candidate["score"] == 0),
-        "retrieval_candidates": retrieval_candidates,
-    })
 
-review_summary = {
-    "question_count": len(evaluation_records),
-    "grounded_answer_count": sum(
-        row["answer_status"] == "grounded_answer" for row in evaluation_records
-    ),
-    "insufficient_evidence_count": sum(
-        row["answer_status"] == "insufficient_evidence"
-        for row in evaluation_records
-    ),
-    "needs_revision_ids": [
-        row["question"] for row in evaluation_records if row["needs_revision"]
-    ],
-}
+for temperature in [0.5, 1.0, 1.5]:
+    adjusted_opening = apply_temperature(reply_slots["opening"], temperature)
+    greedy_choice = greedy_reply(reply_slots, temperature)
+    sampled_replies, unique_count = sample_many(reply_slots, temperature, trials=12, seed=7)
 
-print("review_summary =", review_summary)
-print("evaluation_records =")
-for row in evaluation_records:
-    print(row)
+    print("temperature =", temperature)
+    print(
+        "opening_probs =",
+        {token: round(prob, 3) for token, prob in adjusted_opening.items()},
+    )
+    print("greedy_reply =", greedy_choice)
+    print("preview =", sampled_replies[:5])
+    print("unique_reply_count =", unique_count)
+    print()
 ```
 
-실행 결과 예시는 다음과 같습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-review_summary = {'question_count': 2, 'grounded_answer_count': 1, 'insufficient_evidence_count': 1, 'needs_revision_ids': ['MCP는 왜 필요한가?']}
-evaluation_records =
-{'question': 'RAG가 왜 필요한가?', 'top_doc_id': 'doc_1', 'top_score': 1, 'answer_status': 'grounded_answer', 'answer': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. 이 문장 범위 안에서만 답하면, 외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다.', 'needs_revision': False, 'retrieval_candidates': [{'doc_id': 'doc_1', 'score': 1, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}, {'doc_id': 'doc_2', 'score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}, {'doc_id': 'doc_3', 'score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}]}
-{'question': 'MCP는 왜 필요한가?', 'top_doc_id': 'doc_1', 'top_score': 0, 'answer_status': 'insufficient_evidence', 'answer': '현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다.', 'needs_revision': True, 'retrieval_candidates': [{'doc_id': 'doc_1', 'score': 0, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}, {'doc_id': 'doc_2', 'score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}, {'doc_id': 'doc_3', 'score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}]}
+temperature = 0.5
+opening_probs = {'불편을 드려 죄송합니다.': 0.658, '문의 주셔서 감사합니다.': 0.237, '확인 도와드리겠습니다.': 0.105}
+greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
+unique_reply_count = 4
+
+temperature = 1.0
+opening_probs = {'불편을 드려 죄송합니다.': 0.5, '문의 주셔서 감사합니다.': 0.3, '확인 도와드리겠습니다.': 0.2}
+greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '불편을 드려 죄송합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호와 수령일을 함께 알려 주세요.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.']
+unique_reply_count = 7
+
+temperature = 1.5
+opening_probs = {'불편을 드려 죄송합니다.': 0.444, '문의 주셔서 감사합니다.': 0.316, '확인 도와드리겠습니다.': 0.241}
+greedy_reply = 불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.
+preview = ['불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '문의 주셔서 감사합니다. 주문 상태를 확인한 뒤 환불 가능 여부를 안내해 드립니다. 주문번호와 수령일을 함께 알려 주세요.', '불편을 드려 죄송합니다. 환불은 배송 완료 후 7일 이내 가능합니다. 주문번호를 보내 주시면 바로 확인하겠습니다.', '확인 도와드리겠습니다. 배송 완료 후 7일 안에 환불을 접수할 수 있습니다. 필요한 정보를 남겨 주시면 순서대로 도와드리겠습니다.']
+unique_reply_count = 9
 ```
 
-## 결과를 어떻게 읽는가
+이 예제에서 읽어야 할 핵심은 다음입니다.
 
-두 번째 질문이 이 절의 핵심입니다.
+- greedy는 세 경우 모두 같은 고정 답 구조를 만듭니다.
+- sampling은 temperature가 높아질수록 같은 질문에도 opening, 정책 문장, 다음 단계 표현 조합이 더 다양해집니다.
+- `unique_reply_count`가 4 -> 7 -> 9로 늘어나는 점은, temperature가 단순 랜덤 버튼이 아니라 `답 구조 다양성`을 실제로 밀어 올린다는 점을 보여 줍니다.
+- 즉, temperature는 `무작위성 추가 버튼`이라기보다 `확률 분포를 얼마나 눌러서 볼지, 얼마나 펴서 볼지`를 조절해 결과 구조 흔들림까지 바꾸는 설정값에 가깝습니다.
 
-- `evaluation_records`에서 두 번째 질문은 `top_score = 0`, `answer_status = insufficient_evidence`, `needs_revision = True`로 기록됩니다.
-- 즉, 현재 문서 집합에는 답 근거가 없습니다.
-- 이때도 억지로 설명을 만들면 그것은 RAG 품질 문제가 아니라 `검증 규칙 부재` 문제입니다.
+이 예제에서는 `reply_slots`, `temperature`, `trials`, `seed`를 직접 바꿔 볼 수 있습니다. 예를 들어 `trials`를 100으로 늘리면 조합 수 차이가 더 선명해지고, `temperature`를 0.2나 2.0으로 바꾸면 고객 응답처럼 안정성이 중요한 장면에서 구조 흔들림이 얼마나 커지는지도 더 극단적으로 볼 수 있습니다.
 
-따라서 좋은 RAG 프로젝트는 `답을 잘하는 것`뿐 아니라 `근거가 없을 때 멈출 수 있는 것`도 포함해야 합니다.
+## temperature를 아주 단순한 비유로 보면
 
-이 결과를 다음 세 줄로 요약할 수 있으면 충분합니다.
+독자에게는 다음 정도의 비유가 유용합니다.
 
-- top score가 0이면 근거가 없다는 뜻이다
-- 근거가 없을 때 멈추는 것도 품질이다
-- grounded/insufficient 상태를 질문별 기록으로 남겨야 다음 수정이 쉬워진다
-- 따라서 검색 품질과 답변 품질을 따로 적어야 한다
+- 낮은 temperature: `가장 유력한 후보만 거의 고른다`
+- 높은 temperature: `덜 유력한 후보도 꽤 자주 검토한다`
 
-## 프로젝트 평가표 예시
+다만 이 비유도 전부는 아닙니다. 실제 구현에서는 확률 분포의 모양 자체가 조정됩니다. 그래서 `temperature는 randomness 버튼`이라고만 말하면 부족합니다.
 
-작은 RAG 프로젝트라면 최소한 다음 표를 남길 수 있습니다.
+## 이 예제를 선택 규칙 관점으로 다시 보면
 
-| 질문 | top_doc_id | top_score | 답변 상태 |
-| --- | --- | ---: | --- |
-| RAG가 왜 필요한가? | doc_1 | 1 | grounded answer |
-| MCP는 왜 필요한가? | doc_1 | 0 | insufficient evidence |
+이 예제에서 중요한 것은 후보 확률이 있다는 사실만이 아니라, 그 분포에서 `어떻게 고를 것인가`가 실제 사용자 경험을 바꾼다는 점입니다. 같은 모델이라도 보수적으로 뽑을지, 다양한 후보를 더 허용할지에 따라 응답의 안정성, 창의성, 재현성이 달라지므로 이후 설정 논의는 모두 이 선택 규칙 관점 위에 올라갑니다.
 
-이 표가 있으면 검색 실패와 답변 실패를 나중에 따로 다시 볼 수 있습니다.
+언어 모델을 실제 사용자 도구로 이해하려면, `무엇을 학습했는가`와 `그 학습 결과로 실제 출력을 어떻게 뽑는가`를 분리해서 보는 습관이 필요합니다.
 
-이 표는 Part 6의 RAG 프로젝트에서 사실상 `평가 기록 템플릿` 역할을 합니다.
+- 학습 목표: 다음 토큰 예측
+- 생성 절차: 후보 분포에서 실제 토큰을 선택하는 반복 과정
 
-## 바로 쓰는 평가 기록 템플릿
+이 구분이 있어야 이후의:
 
-문서에 바로 붙여 넣어 쓸 최소 틀은 다음 정도면 충분합니다.
+- prompting
+- decoding 설정
+- hallucination 검토
+- 평가
 
-```text
-### review_summary
-- question_count:
-- grounded_answer_count:
-- insufficient_evidence_count:
-- needs_revision_questions:
+를 서로 다른 문제로 나눠 볼 수 있습니다.
 
-### evaluation_records
-| question | top_doc_id | top_score | answer_status | needs_revision | note |
-| --- | --- | ---: | --- | --- | --- |
-|  |  |  | grounded answer / insufficient evidence | True / False |  |
-```
+## 다음 장과의 연결
 
-이 템플릿에서 중요한 점은 화려한 평가 지표를 많이 넣는 일이 아니라, 질문별로 `검색 결과`, `답변 상태`, `수정 필요 여부`가 한 줄에 같이 남는가입니다.
+여기까지 오면 이제 다음 질문이 남습니다.
 
-이번 절의 예시를 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
+- 이렇게 한 토큰씩 이어 생성하는 구조를 모델은 대규모 데이터에서 먼저 무엇으로 학습하는가?
+- 사전학습(pretraining)은 이 생성 감각을 어떤 방식으로 키우는가?
 
-```text
-### review_summary
-- question_count: 2
-- grounded_answer_count: 1
-- insufficient_evidence_count: 1
-- needs_revision_questions:
-  - MCP는 왜 필요한가?
-
-### evaluation_records
-| question | top_doc_id | top_score | answer_status | needs_revision | note |
-| --- | --- | ---: | --- | --- | --- |
-| RAG가 왜 필요한가? | doc_1 | 1 | grounded answer | False | 답변 가능 |
-| MCP는 왜 필요한가? | doc_1 | 0 | insufficient evidence | True | 문서 범위 밖 질문 |
-```
-
-## 나쁜 평가 기록과 좋은 평가 기록
-
-RAG 평가 기록도 자주 너무 짧거나, 반대로 근거 없이 `잘 됐다`는 감상으로 끝납니다. 다음 정도로 대비해 보면 기준이 더 분명해집니다.
-
-| 구분 | 예시 |
-| --- | --- |
-| 나쁜 기록 | `검색은 됐고 답도 대체로 괜찮았다. 이상한 질문은 나중에 보자.` |
-| 좋은 기록 | `질문 2개 중 1개는 grounded answer였고, 'MCP는 왜 필요한가?'는 top_score 0으로 insufficient evidence였다. 현재 문서 집합에 근거가 없으므로 답변을 확장하지 않고 needs_revision에 남긴다.` |
-
-나쁜 기록은 분위기만 남고, 어떤 질문이 막혔는지와 다음 수정 지점이 보이지 않습니다. 좋은 기록은 `질문별 상태`, `근거 부족 여부`, `지금 멈춘 이유`, `다음 수정 대상`이 함께 남습니다.
-
-## 다음 프로젝트와의 연결
-
-이 절에서 만든 `검색 -> 근거 -> 답변` 구조는 바로 agent 프로젝트와 이어집니다. agent도 결국 다음을 분리해야 하기 때문입니다.
-
-- 어떤 도구를 호출했는가?
-- 도구 결과가 실제로 충분했는가?
-- 결과가 부족하면 다음 행동을 멈췄는가?
-
-즉, RAG의 검증 습관은 agent의 실행 검증 습관과 직접 연결됩니다.
+이 질문은 P6-6.1 사전학습(pretraining)으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- RAG 프로젝트는 검색 실패와 답변 실패를 구분해야 합니다.
-- 근거가 없을 때 멈추는 것도 품질입니다.
-- 평가표에는 질문, 검색 결과, 점수, 답변 상태가 함께 있어야 합니다.
-- 검증 규칙이 없으면 RAG도 쉽게 환각 구조가 됩니다.
+- 생성은 확률 분포에서 다음 토큰을 반복 선택하는 과정입니다.
+- greedy와 sampling은 선택 규칙이 다릅니다.
+- temperature는 일반적으로 생성 시 선택 성향을 바꾸는 설정값입니다.
+- 같은 입력에서도 결과가 달라질 수 있는 이유는 생성 절차의 확률적 선택 구조와 연결됩니다.
 
 ## 체크리스트
 
-- 검색 실패와 답변 실패를 구분해 적을 수 있는가?
-- 근거가 없는 질문에 대해 안전한 답변 규칙을 세웠는가?
-- 평가표에 질문/검색결과/답변상태를 남겼는가?
-- 환각을 줄이는 규칙을 한 문장으로 설명할 수 있는가?
+- 생성이 반복 선택 과정이라는 점을 설명할 수 있는가?
+- greedy와 sampling의 차이를 말할 수 있는가?
+- temperature를 학습 파라미터와 구분해 설명할 수 있는가?
+- 왜 같은 질문에도 결과가 달라질 수 있는지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- OpenAI, `Retrieval`, OpenAI API Docs, 확인 날짜: 2026-06-29. [https://developers.openai.com/api/docs/guides/retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }
-
-이 절의 문서 조각과 질문 예시는 프로젝트 실습을 위해 만든 자체 예시입니다.
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- OpenAI API Docs, 생성 설정 관련 문서, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- Anthropic Docs, sampling과 temperature 설명 자료, 확인 날짜: 2026-06-29. [https://docs.anthropic.com](https://docs.anthropic.com){: target="_blank" rel="noopener noreferrer" }

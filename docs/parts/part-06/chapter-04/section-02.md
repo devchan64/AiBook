@@ -1,264 +1,381 @@
-# P6-4.2 토큰화와 평가
+# P6-4.2 대화형 LLM으로의 전환
 
-P6-4.1에서는 공백 기준 토큰화로 아주 작은 텍스트 분류기를 만들었습니다. 그런데 텍스트 프로젝트는 정확도 숫자만으로 끝내기 어렵습니다.
+P6-4.1에서는 GPT 계열을 이전 토큰을 바탕으로 다음 토큰을 이어 생성하는 decoder 중심 흐름으로 설명했습니다. 이제 다음 질문이 생깁니다.
 
-왜냐하면 텍스트는 `무슨 단어를 알고 있었는가`, `무슨 단어를 몰랐는가`, `토큰 coverage가 어느 정도였는가`에 따라 결과 해석이 크게 달라지기 때문입니다.
+이 구조가 어떻게 오늘날의 챗봇, 코파일럿, 대화형 도우미 같은 사용자 경험으로 바뀌었는가?
 
-이 절의 목적은 정확도 숫자 하나를 보는 대신, 모델이 실제로 어떤 단어를 읽을 수 있었는지까지 같이 기록하는 것이다.
+이 절은 그 질문에 답합니다.
+
+대화형 LLM은 단순 자동완성 모델 위에 지시 따르기(instruction following), 대화 형식, 안전 조정, 도구 연결 같은 층이 더해지며 만들어진 사용자 경험이다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 토큰화(tokenization)는 프로젝트 성능 해석에 왜 직접 영향을 주는가?
-- OOV(out-of-vocabulary) 토큰이 많은 문장은 왜 위험한가?
-- 텍스트 분류 프로젝트에서 정확도 외에 무엇을 같이 기록해야 하는가?
+- 자동완성형 생성 모델과 대화형 LLM은 무엇이 다른가?
+- 왜 사용자는 LLM을 `답변하는 시스템`처럼 느끼게 되었는가?
+- 대화형 경험을 만들기 위해 구조 밖에서 무엇이 더 필요했는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- subword tokenizer의 병합 규칙
-- BPE, WordPiece, SentencePiece의 내부 비교
-- 정밀도(precision), 재현율(recall), F1의 심화 계산
+- RLHF 세부 알고리즘
+- system prompt 설계의 세부 정책
+- agent loop와 tool use의 구현
 
-이 절에서는 coverage와 OOV를 프로젝트 문서에 남기는 최소 감각만 다룹니다. 토크나이저 내부 비교는 Part 5의 P5-1.3 보충학습에서 이미 다시 읽을 수 있고, 정밀도·재현율·F1 같은 추가 평가 축은 Part 3의 P3-6장 평가 지표와 다시 연결됩니다.
+대화형 전환의 큰 흐름은 여기서 잡고, 지시를 따르도록 조정하는 단계는 P6-8.1 지시 튜닝과 P6-8.2 정렬의 기본 문제에서 다시 설명합니다. 프롬프트 설계는 P6-9.1, 도구 사용은 P6-12.1과 P6-12.2, agent loop는 P6-13.1과 P6-13.2, MCP 연결은 P6-14.1에서 각각 다시 회수합니다.
+
+이 절에서는 사용자 경험의 변화가 단순히 모델 파라미터 증가만으로 생긴 것이 아님을 설명합니다.
+
+지금 읽는 층위는 `대화형 경험 층위`입니다. 앞 절의 GPT 설명이 `다음 토큰을 어떤 생성 구조로 이어 붙일까`를 다뤘다면, 여기서는 그 생성 구조 위에 어떤 조정과 인터페이스가 덧붙어 사용자가 `질문에 답하는 시스템`처럼 느끼게 되었는지 읽습니다. 바로 뒤의 다음 토큰 예측, 사전학습, 지시 튜닝, 정렬 절에서는 이 경험을 다시 더 작은 원리와 조정 단계로 나누어 회수합니다.
+
+대화형 LLM은 Part 6 본류의 `사용자 경험 손잡이`로 먼저 잡고, 그 아래에 어떤 층이 다시 풀려 나오는지까지 같이 보면 충분합니다.
+
+| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| --- | --- | --- |
+| GPT 기반 생성 구조 | 텍스트를 어떤 방식으로 이어 생성하는가? | P6-4.1, P6-5.1, P6-6.1 |
+| 대화형 LLM 경험 | 왜 사용자는 이것을 답변하는 시스템처럼 느끼는가? | P6-4.2 |
+| 지시 튜닝과 정렬 | 그 경험이 어떤 조정 단계로 만들어지는가? | P6-8.1, P6-8.2 |
+| 프롬프트와 도구 연결 | 그 조정된 모델을 실제 요청과 실행 구조에 어떻게 붙일 것인가? | P6-9.1, P6-12.1, P6-12.2 |
+
+이 전환을 앞뒤 장과 한 번에 붙여 보면 다음처럼 읽는 편이 가장 안전합니다.
+
+| 바로 앞 장 | 지금 장 | 바로 다음에 더 붙는 장 |
+| --- | --- | --- |
+| GPT: 어떤 생성 구조로 다음 토큰을 이어 붙일까 | 대화형 LLM: 그 생성 구조가 왜 답변 경험처럼 보이게 되었을까 | next token, pretraining, instruction tuning: 이 경험을 어떤 학습 목표와 조정 단계로 다시 풀어 읽을까 |
+| 생성 구조 | 사용자 경험과 조정 층 | 학습 목표와 후속 조정 |
+
+즉, 지금 장의 핵심은 `무엇을 생성하는 구조인가`에서 `그 구조가 왜 대화형 경험으로 보이게 되었는가`로 손잡이가 바뀐다는 점입니다.
 
 ## 이 절의 목표
 
-- 토큰화와 평가를 분리하지 않고 함께 읽어야 하는 이유를 설명할 수 있습니다.
-- OOV 토큰과 coverage 비율을 프로젝트 문서에 기록할 수 있습니다.
-- 정확도는 같아도 입력 coverage가 낮으면 해석이 달라진다는 점을 이해할 수 있습니다.
+- 자동완성형 GPT와 대화형 LLM의 차이를 설명할 수 있습니다.
+- 대화형 경험에 instruction tuning, 안전 조정, 인터페이스 설계가 함께 필요했다는 점을 말할 수 있습니다.
+- 챗봇 경험이 모델 구조 하나만으로 완성되지 않는다는 점을 설명할 수 있습니다.
+- 이후 pretraining, instruction tuning, prompt, agent 설명으로 자연스럽게 넘어갈 수 있습니다.
 
-## 왜 coverage를 봐야 하나
+## 이 절을 읽는 순서
 
-텍스트 분류 모델이 예측을 잘했다는 말은, 적어도 어떤 단어 구조를 읽고 분류했는지와 함께 나와야 합니다.
+이 절은 다음 순서로 읽으면 충분합니다.
 
-예를 들어 다음 두 문장은 정확히 같은 길이여도 모델 입장에서는 매우 다를 수 있습니다.
+1. 먼저 자동완성형 생성 경험과 대화형 경험이 어떻게 다른지 봅니다.
+2. 그 다음 어떤 추가 층이 사용자 경험을 바꿨는지 읽습니다.
+3. 이어서 자연어 지시, 안전 조정, 인터페이스가 왜 함께 중요해졌는지 구분합니다.
+4. 마지막에 사례와 예제로 `형식`, `역할`, `안전 제약`이 실제 응답 구조에 반영되는가를 확인합니다.
 
-- `great support thank you`
-- `excellent item arrived today`
+## 자동완성에서 대화로 바뀌었다는 말의 뜻
 
-첫 번째 문장은 학습 어휘에 있는 단어가 많을 수 있고, 두 번째 문장은 거의 다 낯선 단어일 수 있습니다. 이 차이를 기록하지 않으면 결과 해석이 부정확해집니다.
+초기 생성 모델 사용자 경험은 대체로 다음과 같았습니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+- 텍스트 앞부분을 주면
+- 그 뒤를 계속 이어 쓰게 한다
 
-| 질문 | 짧은 답 |
-| --- | --- |
-| 왜 coverage를 보아야 하는가? | 모델이 실제로 읽은 단어 비율을 알아야 해서 |
-| 무엇이 낮으면 위험한가? | known token coverage |
-| 그래서 문서에 무엇을 남기는가? | OOV, coverage, 틀린 문장 사례 |
+이것은 강력했지만, 아직 `질문에 답하는 조수`처럼 느껴지지는 않을 수 있습니다.
 
-## 이번 프로젝트의 확장 평가
+대화형 LLM 경험은 여기에 다음 층이 더해지며 생깁니다.
 
-이번 절에서는 평가 문장 하나를 일부러 바꿉니다.
+- 질문과 답변의 형식
+- 사용자의 의도를 따르는 지시 이해
+- 불필요한 반복을 줄이는 응답 조정
+- 안전성과 정책 제약
+- 대화 상태 유지
 
-- 기존 praise 문장 대신 `excellent item arrived today`를 넣습니다.
-- 이 문장에는 학습 어휘에 없던 단어가 많이 들어 있습니다.
+즉, 모델은 여전히 다음 토큰을 생성하지만, 사용자는 더 이상 그것을 `자동완성기`로 보지 않고 `대화형 도우미`처럼 느끼게 됩니다.
 
-즉, 프로젝트 질문은 이렇게 바뀝니다.
+## 무엇이 경험을 바꿨나
 
-> 정확도뿐 아니라, 각 문장이 학습 어휘를 얼마나 많이 포함하는지도 함께 기록해야 하지 않는가?
+대화형 전환을 한 가지 원인으로만 설명하면 부족합니다. 더 안전한 설명은 다음과 같습니다.
 
-## Python 예제
+1. 더 큰 사전학습 모델
+2. 지시를 따르도록 조정하는 추가 학습
+3. 대화형 인터페이스 설계
+4. 안전성(safety)과 정책 조정
+5. 때로는 도구 사용(tool use)과 검색 연결
 
-이번 예제의 목적은 각 test 문장의 토큰 목록과 known token coverage를 함께 출력하는 것입니다. 이번에는 단순히 coverage 한 줄만 출력하지 않고, `evaluation_records`, `review_summary`, `oov_tokens`를 함께 남겨서 어떤 문장을 다음 회고 대상으로 삼아야 하는지 바로 보이게 하겠습니다.
+즉, 사용자가 만나는 경험은 `모델 구조 + 후속 조정 + 제품 인터페이스`의 결합입니다.
 
-- 문제 상황: 문장 분류 결과를 coverage와 함께 읽는다.
-- 입력(input): 학습 문장 6개, 평가 문장 4개
-- 기대 출력(output): 문장별 토큰 목록, OOV 토큰, known token coverage, review 대상 문장 목록
-- 확인할 개념:
-  - 토큰화 결과가 그대로 프로젝트 해석 자료가 된다
-  - OOV 토큰이 많으면 예측 신뢰가 약해질 수 있다
-  - review 대상 문장을 명시적으로 남겨야 다음 개선 계획이 쉬워진다
+## 왜 자연어 지시가 중요해졌나
+
+GPT-3 시기 이후 사용자는 prompt 안에 설명과 예시를 넣어 모델 행동을 바꾸는 경험을 더 강하게 하게 됩니다.
+
+이것이 중요한 이유는:
+
+- 별도 모델 교체 없이
+- 자연어만으로
+- 작업을 지정할 수 있다는 점입니다
+
+예를 들어:
+
+- `세 문장으로 요약해줘`
+- `표 형태로 정리해줘`
+- `초등학생도 이해하게 설명해줘`
+
+같은 지시가 가능해집니다.
+
+이 지점에서 모델은 단순 언어 생성기가 아니라, `자연어 지시를 따르는 인터페이스`처럼 느껴지기 시작합니다.
+
+## 왜 안전 조정이 함께 중요해졌나
+
+대화형 경험은 단순 생성보다 위험도 더 크게 드러냅니다.
+
+- 그럴듯한 오류
+- 공격적인 표현
+- 민감 정보 처리 문제
+- 잘못된 조언
+
+같은 문제가 더 직접적으로 사용자에게 노출되기 때문입니다.
+
+그래서 대화형 LLM은 대개 구조 밖에서도 안전 조정이 필요합니다.
+
+다음처럼 이해하면 충분합니다.
+
+`좋은 대화형 LLM은 많이 아는 모델이기만 한 것이 아니라, 어떻게 답하지 말아야 하는지도 함께 조정된 시스템이다.`
+
+## 왜 인터페이스도 모델 일부처럼 느껴지나
+
+사용자는 보통 다음을 한 덩어리로 경험합니다.
+
+- 입력창
+- 대화 기록
+- 시스템 지시
+- 모델 응답
+- 때로는 검색/도구 실행 결과
+
+하지만 구조적으로는 이들이 모두 같은 것이 아닙니다.
+
+예를 들어:
+
+- 모델은 다음 토큰을 생성하고
+- 앱은 대화 기록을 유지하며
+- 시스템 프롬프트는 응답 방향을 제약하고
+- 도구 연결은 외부 계산이나 검색을 수행합니다
+
+이 차이를 구분해야 나중에 agent, MCP, harness를 혼동 없이 설명할 수 있습니다.
+
+## 여기까지를 한 줄로 묶으면
+
+여기까지의 흐름을 한 번에 묶으면, 대화형 LLM 경험은 `다음 토큰 생성 모델` 하나만으로 닫히지 않습니다.
+
+- 모델은 여전히 다음 토큰을 생성합니다.
+- 조정 단계는 그 생성이 어떤 지시와 형식을 따를지 바꿉니다.
+- 인터페이스는 대화 기록, 역할, 도구 결과를 함께 묶어 사용자 경험으로 보여 줍니다.
+
+즉, 사용자가 보는 챗봇은 `생성 모델 + 조정 + 인터페이스`가 합쳐진 결과로 읽는 편이 안전합니다.
+
+## 아주 단순하게 그리면
+
+```mermaid
+flowchart TD
+  A["pretrained GPT-style model"]
+  B["instruction / dialogue tuning"]
+  C["chat interface and safety layer"]
+  D["user-facing conversational LLM"]
+
+  A --> B --> C --> D
+```
+
+이 도식에서 확인해야 할 결과는 오늘의 대화형 경험이 한 번에 완성된 기능이 아니라, 자동완성, 지시 수행, 대화 정렬 단계를 거치며 누적된 구조라는 점입니다.
+
+## 사례로 보기
+
+아래 도식은 이 절의 세 사례를 `문장이 이어지는가`보다 `사용자 의도와 형식 제약이 실제 응답 구조에 반영되는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same conversational question"]
+  B["autocomplete<br/>does the text continue naturally?"]
+  C["chatbot<br/>does the answer follow the requested format?"]
+  D["copilot<br/>does the suggestion reflect surrounding context?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 세 경험이 모두 생성 위에 놓여 있어도 평가 기준이 달라진다는 것입니다. 자동완성은 `자연스럽게 이어지는가`가 중심이지만, 대화형 LLM은 `의도, 형식, 안전 제약이 실제 응답 구조에 반영되는가`까지 함께 봐야 합니다.
+
+### 사례 1. 일반 자동완성
+
+메일 작성창에 `안녕하세요, 지난 회의에서 논의한 내용은`까지만 적고 다음 문장을 추천받는 상황을 떠올려 보겠습니다. 사람이 이 기능에서 먼저 보는 기준은 보통 `문장이 자연스럽게 이어지는가`입니다. 여기서는 질문 의도 파악이나 역할 구분보다, 앞문장 뒤에 무난한 후속 표현이 붙는지가 더 중요합니다. 예를 들어 `회의 자료를 첨부드립니다`나 `아래와 같이 정리했습니다`처럼 자연스러운 후속 문장이 이어지면 기능이 잘 동작한다고 느낍니다. 하지만 이 단계에서는 사용자가 무엇을 궁금해하는지, 어떤 형식으로 답해야 하는지까지 깊게 해석하지는 않습니다. 이 경험은 `질문에 답한다`보다 `다음 문장을 이어 쓴다`에 가깝습니다. 여기서 바뀌는 점은 `질문을 해결하는가`를 보던 기준이 아니라, 여전히 `앞문장 뒤에 자연스러운 다음 문장이 붙는가`를 보는 기준에 머문다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 사용자의 질문을 깊게 해석하는가보다, 앞문장 뒤에 자연스러운 후속 문장이 실제로 이어지는가입니다.
+
+### 사례 2. 챗봇
+
+사내 정책 문서를 열어 둔 채 `이 정책을 세 문장으로 설명해 줘`라고 묻는 상황을 생각해 보겠습니다. 사람이 단순 자동완성기에서 기대하는 것은 보통 `다음 문장 후보` 정도이지만, 챗봇에게는 질문 이해, 길이 맞추기, 말투 유지, 위험한 답변 회피까지 함께 기대합니다. 만약 모델이 정책 문장 일부만 길게 이어 쓰면, 사용자는 `질문을 들은 시스템`이 아니라 `문장을 잇는 도구`로 느낄 것입니다. 반대로 시스템 역할, 대화 이력, 요약 길이 제약, 안전 규칙이 함께 작동하면 사용자는 `세 문장 설명`이라는 요청이 실제로 반영됐다고 느낍니다. 이 차이가 자동완성과 대화형 LLM 경험을 가르는 핵심입니다. 여기서 바뀌는 점은 `자연스럽게 이어지는가`를 보던 기준에서 `질문 의도와 형식 제약이 실제 답변 구조에 반영되는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 단순 이어쓰기가 아니라, 길이 제약과 질문 의도가 실제 답변 구조에 반영되는가입니다.
+
+### 사례 3. 코파일럿
+
+개발자가 함수 안에 `여기서 사용자 입력을 검증하고 실패하면 에러를 반환`이라고 주석을 적는 상황을 떠올려 보겠습니다. 사람이 단순 자동완성에서 기대하는 것은 보통 `다음 몇 글자`이지만, 코드 도우미에게는 함수 이름, 인자, 반환 형식, 주변 파일 문맥까지 함께 읽어 주길 기대합니다. 만약 모델이 바로 다음 한 줄만 맞추고 예외 처리나 반환 구조를 놓치면, 개발자는 `코드 문맥을 이해했다`고 느끼기 어렵습니다. 반대로 편집기 문맥과 시그니처를 함께 읽어 조건문, 오류 메시지, 반환문까지 한 묶음으로 제안하면 같은 생성 구조도 훨씬 목적에 맞는 도구로 보입니다. 여기서 바뀌는 점은 `다음 한 줄이 이어지는가`를 보던 기준에서 `주변 코드 문맥을 반영해 더 완결된 블록을 제안하는가`를 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 다음 한 줄 완성보다 함수 문맥 전체를 반영한 제안이 실제로 더 완결된 코드 블록으로 이어지는가입니다.
+
+세 사례를 사용자 경험 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 자동완성만으로는 부족한 것 | 대화형 또는 문맥 반영 구조가 더 봐야 하는 것 |
+| --- | --- | --- |
+| 일반 자동완성 | 자연스러운 이어쓰기 | 이것만으로도 충분한 경우가 있음 |
+| 챗봇 | 단순 후속 문장 생성 | 질문 의도, 형식 제약, 안전 조건 |
+| 코파일럿 | 다음 한 줄 제안 | 함수 문맥, 반환 형식, 예외 처리 블록 |
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 같은 생성 구조 위에서도 `자동완성 경험`과 `대화형 지시 응답 경험`이 어떻게 달라지는지, 특히 형식 제약, 역할, 안전 제약이 실제 응답 구조에 반영되는지로 확인하는 것입니다.
+
+입력:
+
+- 사용자 요청
+- 요청에서 요구한 문장 수
+- 시스템 역할 제약
+- 피해야 할 안전 위반 표현
+- 자동완성형 응답 하나
+- 지시 따르기형 응답 묶음
+
+출력:
+
+- 자동완성형 스타일
+- 대화형 지시 응답 스타일
+- 요청 형식이 반영되었는지 여부
+- 역할과 안전 제약이 반영되었는지 여부
+- 어떤 항목에서 자동완성과 대화형 응답이 갈리는지
+
+문제 상황:
+
+- 같은 사용자 요청이라도 자동완성형과 채팅형 모델은 시스템 역할과 안전 제약을 반영하는 방식이 다를 수 있다
+
+입력(input):
+
+위에 정리한 사용자 요청, 역할 설명, 금지 표현 목록을 사용합니다.
+
+확인할 개념:
+
+- 대화형 LLM은 사용자 요청만이 아니라 역할과 안전 제약까지 함께 반영해 응답을 구성한다
 
 ```python
-import numpy as np
+user_request = "이 문서를 세 문장으로 요약해줘"
+required_sentence_count = 3
+system_role = "초심자에게 설명하는 학습 도우미"
+blocked_terms = ["확실하지 않은 사실을 단정", "공격적 표현"]
 
-train_rows = [
-    {"sample_id": "train-01", "text": "refund delay angry", "label": 0},
-    {"sample_id": "train-02", "text": "broken product complaint", "label": 0},
-    {"sample_id": "train-03", "text": "thank you fast delivery", "label": 1},
-    {"sample_id": "train-04", "text": "love this product great", "label": 1},
-    {"sample_id": "train-05", "text": "refund request not working", "label": 0},
-    {"sample_id": "train-06", "text": "happy with quick support", "label": 1},
+autocomplete_style = [
+    "이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다..."
 ]
-train_texts = [row["text"] for row in train_rows]
-y_train = np.array([row["label"] for row in train_rows])
-label_names = {0: "complaint", 1: "praise"}
 
-vocab = sorted({token for text in train_texts for token in text.split()})
-token_to_index = {token: i for i, token in enumerate(vocab)}
-
-def vectorize(texts):
-    X = np.zeros((len(texts), len(vocab)), dtype=float)
-    token_lists = []
-    known_counts = []
-    total_counts = []
-    oov_tokens_per_text = []
-
-    for i, text in enumerate(texts):
-        tokens = text.split()
-        token_lists.append(tokens)
-        total_counts.append(len(tokens))
-        known = 0
-        oov_tokens = []
-
-        for token in tokens:
-            if token in token_to_index:
-                X[i, token_to_index[token]] += 1
-                known += 1
-            else:
-                oov_tokens.append(token)
-
-        known_counts.append(known)
-        oov_tokens_per_text.append(oov_tokens)
-
-    return X, token_lists, known_counts, total_counts, oov_tokens_per_text
-
-X_train, _, _, _, _ = vectorize(train_texts)
-class_centroids = np.vstack([
-    X_train[y_train == 0].mean(axis=0),
-    X_train[y_train == 1].mean(axis=0),
-])
-
-test_rows = [
-    {"sample_id": "test-01", "text": "refund for broken product", "label": 0},
-    {"sample_id": "test-02", "text": "great support thank you", "label": 1},
-    {"sample_id": "test-03", "text": "delay but quick refund", "label": 0},
-    {"sample_id": "test-04", "text": "excellent item arrived today", "label": 1},
+instruction_style = [
+    "첫째, 이 문서는 핵심 개념을 정리합니다.",
+    "둘째, 주요 사례와 한계를 함께 설명합니다.",
+    "셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.",
 ]
-test_texts = [row["text"] for row in test_rows]
-y_test = np.array([row["label"] for row in test_rows])
 
-X_test, token_lists, known_counts, total_counts, oov_tokens_per_text = vectorize(test_texts)
+def inspect_response(lines, required_count, blocked_terms):
+    joined = " ".join(lines)
+    return {
+        "sentence_count": len(lines),
+        "matches_requested_count": len(lines) == required_count,
+        "mentions_beginner_friendly_tone": any("설명" in line or "정리" in line for line in lines),
+        "contains_blocked_term": any(term in joined for term in blocked_terms),
+        "starts_with_structured_answer": any(line.startswith(("첫째", "둘째", "셋째")) for line in lines),
+    }
 
-predictions = []
-evaluation_records = []
-for index, x in enumerate(X_test):
-    distances = np.linalg.norm(class_centroids - x, axis=1)
-    pred_label = int(np.argmin(distances))
-    predictions.append(pred_label)
-    coverage = known_counts[index] / total_counts[index] if total_counts[index] else 0.0
-    evaluation_records.append({
-        "sample_id": test_rows[index]["sample_id"],
-        "text": test_rows[index]["text"],
-        "tokens": token_lists[index],
-        "oov_tokens": oov_tokens_per_text[index],
-        "known_token_coverage": round(coverage, 3),
-        "pred_label_name": label_names[pred_label],
-        "true_label_name": label_names[y_test[index]],
-        "correct": bool(pred_label == y_test[index]),
-        "needs_token_review": bool(coverage < 0.5 or pred_label != y_test[index]),
-    })
 
-predictions = np.array(predictions)
+def compare_experience(report):
+    return {
+        "format_followed": report["matches_requested_count"],
+        "role_followed": report["mentions_beginner_friendly_tone"],
+        "safety_ok": not report["contains_blocked_term"],
+        "structured_response": report["starts_with_structured_answer"],
+    }
 
-review_summary = {
-    "vocab_size": len(vocab),
-    "tokenization_rule": "whitespace split",
-    "test_accuracy": round(float((predictions == y_test).mean()), 3),
-    "review_target_ids": [
-        row["sample_id"] for row in evaluation_records if row["needs_token_review"]
-    ],
-    "low_coverage_count": sum(
-        row["known_token_coverage"] < 0.5 for row in evaluation_records
-    ),
-}
 
-print("review_summary =", review_summary)
-print("evaluation_records =")
-for row in evaluation_records:
-    print(row)
+autocomplete_report = inspect_response(
+    autocomplete_style, required_sentence_count, blocked_terms
+)
+instruction_report = inspect_response(
+    instruction_style, required_sentence_count, blocked_terms
+)
+
+print("request =", user_request)
+print("required_sentence_count =", required_sentence_count)
+print("system_role =", system_role)
+print("blocked_terms =", blocked_terms)
+print()
+print("autocomplete_style =", autocomplete_style)
+print("autocomplete_report =", autocomplete_report)
+print("autocomplete_experience =", compare_experience(autocomplete_report))
+print()
+print("instruction_style =")
+for line in instruction_style:
+    print("-", line)
+print("instruction_report =", instruction_report)
+print("instruction_experience =", compare_experience(instruction_report))
 ```
 
-실행 결과 예시는 다음과 같습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-review_summary = {'vocab_size': 20, 'tokenization_rule': 'whitespace split', 'test_accuracy': 0.75, 'review_target_ids': ['test-04'], 'low_coverage_count': 1}
-evaluation_records =
-{'sample_id': 'test-01', 'text': 'refund for broken product', 'tokens': ['refund', 'for', 'broken', 'product'], 'oov_tokens': ['for'], 'known_token_coverage': 0.75, 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'needs_token_review': False}
-{'sample_id': 'test-02', 'text': 'great support thank you', 'tokens': ['great', 'support', 'thank', 'you'], 'oov_tokens': [], 'known_token_coverage': 1.0, 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'needs_token_review': False}
-{'sample_id': 'test-03', 'text': 'delay but quick refund', 'tokens': ['delay', 'but', 'quick', 'refund'], 'oov_tokens': ['but'], 'known_token_coverage': 0.75, 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'needs_token_review': False}
-{'sample_id': 'test-04', 'text': 'excellent item arrived today', 'tokens': ['excellent', 'item', 'arrived', 'today'], 'oov_tokens': ['excellent', 'item', 'arrived', 'today'], 'known_token_coverage': 0.0, 'pred_label_name': 'complaint', 'true_label_name': 'praise', 'correct': False, 'needs_token_review': True}
+request = 이 문서를 세 문장으로 요약해줘
+required_sentence_count = 3
+system_role = 초심자에게 설명하는 학습 도우미
+blocked_terms = ['확실하지 않은 사실을 단정', '공격적 표현']
+
+autocomplete_style = ['이 문서는 중요한 내용을 다루며 확실하지 않은 사실을 단정하기도 합니다...']
+autocomplete_report = {'sentence_count': 1, 'matches_requested_count': False, 'mentions_beginner_friendly_tone': False, 'contains_blocked_term': True, 'starts_with_structured_answer': False}
+autocomplete_experience = {'format_followed': False, 'role_followed': False, 'safety_ok': False, 'structured_response': False}
+
+instruction_style =
+- 첫째, 이 문서는 핵심 개념을 정리합니다.
+- 둘째, 주요 사례와 한계를 함께 설명합니다.
+- 셋째, 다음 학습 단계로 연결되는 관점을 제공합니다.
+instruction_report = {'sentence_count': 3, 'matches_requested_count': True, 'mentions_beginner_friendly_tone': True, 'contains_blocked_term': False, 'starts_with_structured_answer': True}
+instruction_experience = {'format_followed': True, 'role_followed': True, 'safety_ok': True, 'structured_response': True}
 ```
 
-## 결과를 어떻게 읽는가
+## 이 예제를 사용자 경험 관점으로 다시 보면
 
-가장 중요한 사례는 마지막 문장입니다.
+앞의 예제는 대화형 LLM 전체를 구현하는 코드가 아니라, 같은 생성 구조라도 `다음 문장을 이어 쓰는 경험`과 `사용자 지시를 따라 응답 형식, 역할, 안전 조건을 맞추는 경험`이 다르다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 모델이 더 길게 말하느냐가 아니라, `세 문장으로 요약해 달라`는 형식 조건과 `초심자에게 설명하는 도우미`라는 역할, 그리고 피해야 할 표현이 실제 응답 구조에 반영되도록 조정된 경험이라는 점입니다.
 
-- `excellent item arrived today`
-- known token coverage = `0.0`
-- 예측은 `complaint`
-- 실제 라벨은 `praise`
+이 예제에서 읽어야 할 핵심은 다음입니다.
 
-이 사례는 정확도 0.75라는 숫자보다 더 많은 정보를 줍니다. `review_summary`가 `test-04`를 review 대상으로 바로 가리키고, `evaluation_records`는 OOV 토큰이 네 개 모두였다는 점을 한 줄로 보여 줍니다.
+- 둘 다 생성이지만
+- 자동완성은 자연스러운 이어쓰기에 더 가깝고
+- 대화형 LLM은 사용자의 지시 형식, 역할, 안전 제약을 더 명시적으로 따르도록 조정된 경험이라는 점입니다
+- 따라서 같은 생성 모델 위에서도 `format_followed`, `role_followed`, `safety_ok` 같은 항목에서 사용자 경험 차이가 실제로 드러납니다
 
-`모델이 틀린 이유는 단지 분류 규칙이 약해서가 아니라, 학습 어휘에 없는 단어가 너무 많아 입력 표현 자체가 빈약해졌기 때문일 수 있다.`
+대화형 LLM 전환은 단순한 모델 스케일 증가만으로 설명하기 어렵습니다. 실제 사용자 경험이 크게 바뀐 이유는:
 
-즉, 텍스트 프로젝트에서는 `틀렸다`와 함께 `왜 이 문장을 잘 읽지 못했는가`를 토큰 수준에서 남기는 것이 중요합니다.
+- 큰 생성 모델
+- 지시 따르기 조정
+- 대화형 제품 인터페이스
+- 안전성 보정
 
-독자는 이 사례를 다음 세 줄로 요약할 수 있으면 충분합니다.
+이 함께 묶였기 때문입니다.
 
-- 마지막 문장은 어휘에 없는 단어가 너무 많았다
-- coverage가 0.0이면 예측 해석이 더 조심스러워져야 한다
-- review 대상 문장과 OOV 목록을 함께 남겨야 다음 tokenizer 개선으로 이어진다
-- 따라서 정확도 하락은 분류 규칙뿐 아니라 입력 표현 문제일 수도 있다
+커리큘럼 관점에서 이 절에서 확인해야 할 결과는 대화형 LLM 경험이 단순 자동완성이 아니라, 지시 해석, 대화 이력, 안전성 보정이 함께 묶인 구조로 읽히기 시작하는가입니다.
 
-## 평가 문서에 추가할 항목
+- 뒤에서 나올 instruction tuning, alignment를 위한 필요성을 만들고
+- prompt engineering이 왜 단순 입력 문장이 아닌지 설명하며
+- agent, tool use, MCP를 `모델 자체`와 구분할 기반을 만들기 때문입니다
 
-텍스트 분류 프로젝트라면 정확도 외에 다음 항목을 함께 적어 두는 편이 좋습니다.
+## 다음 장과의 연결
 
-| 항목 | 왜 필요한가 |
-| --- | --- |
-| vocabulary size | 모델이 어떤 어휘 범위를 보고 있는지 보여 줍니다. |
-| tokenization rule | 공백 기준인지, subword인지 기록해야 해석이 가능합니다. |
-| known token coverage | test 문장이 훈련 어휘를 얼마나 공유하는지 보여 줍니다. |
-| wrong example | 실제로 어떤 문장을 틀렸는지 봐야 개선 방향이 나옵니다. |
+여기까지 오면 다음 질문이 남습니다.
 
-이 표는 Part 6의 텍스트 프로젝트에서 사실상 `평가 기록 템플릿` 역할을 합니다.
+- 대화형 사용자 경험 뒤에 있는 가장 작은 생성 규칙은 무엇인가?
+- 모델은 실제로 어떤 방식으로 다음 출력을 한 토큰씩 이어 가는가?
 
-## 프로젝트 회고 예시
-
-이번 프로젝트의 회고를 한 문단으로 적으면 다음처럼 쓸 수 있습니다.
-
-> 이번 장난감 텍스트 분류 프로젝트는 공백 기준 토큰화와 count vector만으로도 기본 분류 흐름을 재현했다. 그러나 `excellent item arrived today` 문장은 학습 어휘에 포함된 토큰이 하나도 없어 coverage가 0.0이었고, 결과적으로 praise 문장을 complaint로 잘못 분류했다. 따라서 이번 결과는 단순 정확도 0.75보다 `어휘 범위가 좁을 때 입력 표현이 무너질 수 있다`는 점을 더 잘 보여 준다. 다음 반복에서는 어휘를 넓히거나 subword tokenizer를 도입하는 방향을 검토할 수 있다.
-
-이 문단에서 독자가 익혀야 할 형식은 다음과 같습니다.
-
-- 어떤 문장이 틀렸는가
-- coverage는 어땠는가
-- 오류를 규칙 문제로 볼지 표현 문제로 볼지
-- 다음 개선을 어디서 시작할지
-
-## Part 5와의 연결
-
-이 절은 Part 5의 토큰(token), 토큰화(tokenization), OOV, 임베딩(embedding) 설명과 직접 이어집니다.
-
-LLM 시대에는 더 정교한 tokenizer를 쓰더라도, 기본 질문은 그대로 남습니다.
-
-- 입력이 어떻게 쪼개졌는가?
-- 모델이 실제로 읽은 단위는 무엇인가?
-- 어휘 밖 표현이 얼마나 있었는가?
-
-즉, 텍스트 분류의 작은 실습은 LLM 입력 해석의 기초 감각을 다시 훈련하는 효과도 있습니다.
-
-이 절은 Part 6 전체 흐름에서 `텍스트 프로젝트는 정확도 경쟁이 아니라 입력 해석과 평가 기록까지 포함해야 한다`는 기준을 고정합니다.
+이 질문은 P6-5.1 다음 토큰 예측(next-token prediction)으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 텍스트 프로젝트에서는 정확도만으로 해석이 부족합니다.
-- 토큰화 규칙과 vocabulary 범위를 함께 기록해야 합니다.
-- OOV 토큰이 많은 문장은 예측 해석이 더 조심스러워야 합니다.
-- 잘못 분류된 문장을 토큰 수준으로 다시 읽는 습관이 중요합니다.
+- 대화형 LLM은 단순 자동완성 모델 위에 여러 조정 층이 더해진 사용자 경험입니다.
+- 자연어 지시, 안전 조정, 인터페이스 설계가 함께 중요합니다.
+- 사용자가 만나는 챗봇 경험은 모델 구조 하나만으로 설명되지 않습니다.
+- 이 절은 이후 instruction tuning, alignment, prompt, agent 설명의 기반입니다.
 
 ## 체크리스트
 
-- 토큰화 규칙을 한 문장으로 적을 수 있는가?
-- vocabulary size와 coverage를 기록했는가?
-- 틀린 문장을 토큰 수준으로 다시 보여 줄 수 있는가?
-- 다음 개선 방향을 어휘 확장 / tokenizer 변경 / 데이터 추가로 나누어 적을 수 있는가?
+- 자동완성형 생성과 대화형 LLM 경험의 차이를 설명할 수 있는가?
+- 왜 지시 따르기와 안전 조정이 중요해졌는지 말할 수 있는가?
+- 왜 인터페이스와 시스템 프롬프트를 모델 자체와 구분해야 하는지 설명할 수 있는가?
+- 다음 장의 사전학습 설명으로 왜 이어지는지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- NumPy Developers, `NumPy documentation`, 확인 날짜: 2026-06-29. [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/){: target="_blank" rel="noopener noreferrer" }
-
-이 절의 텍스트 데이터는 프로젝트 실습을 위해 만든 자체 장난감 문장입니다.
+- Alec Radford et al., `Language Models are Unsupervised Multitask Learners`, OpenAI, 2019, 확인 날짜: 2026-06-29.
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- OpenAI API Docs, prompt와 chat 사용 구조 관련 문서, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }

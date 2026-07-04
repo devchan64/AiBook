@@ -1,264 +1,282 @@
-# P6-2.2 기준 모델과 개선
+# P6-2.2 의미와 거리
 
-P6-2.1에서는 baseline과 1-NN 분류기를 나란히 두고 비교했습니다. 이제 같은 프로젝트를 한 단계 더 정리해 보겠습니다.
+P6-2.1에서는 임베딩(embedding)을 토큰이나 문장을 벡터(vector)로 바꾸는 표현 방식이라고 설명했습니다. 이제 다음 질문이 생깁니다.
 
-개선(improvement)은 무엇을 기준으로 말해야 하는가?
+임베딩 벡터가 만들어졌다면, 두 표현이 가깝다는 말은 실제로 무엇을 뜻하는가?
 
 이 절은 그 질문에 답합니다.
 
-개선은 점수가 올랐다는 말이 아니라, 같은 기준에서 baseline보다 무엇이 달라졌는지 설명하는 일이다.
+의미와 거리라는 표현은, 임베딩 공간에서 비슷한 쓰임의 표현을 서로 가까운 후보로 비교하려는 계산 관점을 뜻한다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- baseline 대비 개선을 어떻게 문서화해야 하는가?
-- 정확도(accuracy)만 적는 것보다 무엇을 더 같이 남겨야 하는가?
-- 작은 실습에서도 전처리(preprocessing)와 비교 기준이 왜 중요한가?
+- 벡터 공간에서 `가깝다`는 것은 어떤 뜻인가?
+- 거리(distance)와 유사도(similarity)는 어떻게 다르게 읽을 수 있는가?
+- 왜 가까운 벡터가 곧 정답이나 진실을 뜻하는 것은 아닌가?
+- 이 관점이 검색, 추천, RAG와 어떻게 이어지는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 정밀도(precision), 재현율(recall), F1의 심화 비교
-- 교차검증(cross-validation)
-- 하이퍼파라미터 탐색 자동화
+- cosine similarity, dot product의 엄밀한 수식 전개
+- nearest neighbor search의 구현 세부
+- ANN index 구조
 
-이 절에서는 baseline 대비 개선을 어떻게 문서화할지에 집중합니다. 더 다양한 평가 축을 함께 적는 감각은 뒤의 P6-4.2 토큰화와 평가, P6-5.2 검색 품질과 답변 검증에서 다시 이어지며, 교차검증과 자동 탐색 절차 전부는 현재 본편 범위 밖으로 둡니다.
+거리 함수의 직관과 임베딩 학습 흐름은 같은 장의 P6-2.3 보충학습에서 먼저 보강하고, 검색 시스템 안에서 이 비교가 실제로 어떻게 쓰이는지는 P6-11.1 벡터 데이터베이스와 P6-11.2 인덱스와 검색 품질에서 다시 회수합니다.
+
+이 절에서는 수식을 외우기보다, `임베딩 공간의 거리`를 실제 비교와 검색의 언어로 읽습니다.
+
+지금 읽는 층위는 `후보 비교 층위`입니다. 앞 절의 임베딩 설명이 `표현을 벡터로 바꾸는가`를 다뤘다면, 여기서는 그렇게 만든 벡터를 어떤 기준으로 서로 가깝거나 멀다고 읽을지 다룹니다. 바로 뒤의 Transformer, RAG, 벡터 데이터베이스 절에서는 이 비교 기준이 실제 생성 모델 내부 계산과 검색 후보 선정에 어떻게 쓰이는지로 질문이 더 커집니다.
+
+의미와 거리는 Part 6 본류의 `후보 비교 손잡이`로 먼저 잡고, 그 다음에 어떤 시스템 층위가 더 붙는지까지 같이 보면 충분합니다.
+
+| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| --- | --- | --- |
+| 임베딩(embedding) | 텍스트나 문장을 어떤 벡터 표현으로 바꿀 것인가? | P6-2.1 |
+| 의미와 거리 | 그 벡터들을 어떤 기준으로 가까운 후보로 비교할 것인가? | P6-2.2 |
+| 검색과 RAG | 가까운 후보를 실제 문서 검색과 생성 결합에 어떻게 쓸 것인가? | P6-10.1, P6-10.2, P6-11.1, P6-11.2 |
+| 추천과 후속 선택 | 가까운 후보를 어떤 맥락 기준으로 다시 걸러 최종 선택할 것인가? | P6-2.2의 사례, 뒤 절의 서비스 맥락 전반 |
+
+이 전환을 앞뒤 장과 한 번에 붙여 보면 다음처럼 읽는 편이 가장 안전합니다.
+
+| 바로 앞 장 | 지금 장 | 바로 다음에 더 붙는 장 |
+| --- | --- | --- |
+| 임베딩: 무엇을 어떤 벡터 표현으로 바꿀까 | 의미와 거리: 그 벡터를 어떤 비교 기준으로 읽을까 | RAG와 벡터 검색: 그 비교 결과를 어떤 검색 후보와 생성 입력으로 쓸까 |
+| 표현 만들기 | 후보 비교 | 검색과 생성 결합 |
+
+즉, 지금 장의 핵심은 `벡터를 만든다`에서 `그 벡터를 어떤 후보 비교 기준으로 읽는다`로 손잡이가 바뀐다는 점입니다.
 
 ## 이 절의 목표
 
-- baseline과 개선 모델의 차이를 표와 문장으로 정리할 수 있습니다.
-- 작은 분류 프로젝트에서도 전처리와 비교 기준의 역할을 설명할 수 있습니다.
-- `잘 맞았다`보다 `왜 baseline보다 나은가`를 우선 기록하는 습관을 만들 수 있습니다.
+- 거리(distance)와 유사도(similarity)를 비교 기준으로 설명할 수 있습니다.
+- 가까운 벡터가 `비슷한 후보일 수 있음`을 설명할 수 있습니다.
+- 가까운 벡터가 곧 정답은 아니라는 점을 설명할 수 있습니다.
+- 이후 RAG와 검색 품질 절을 더 정확하게 읽을 수 있습니다.
 
-## 개선을 말하기 전에 남겨야 할 것
+## `가깝다`는 말은 무엇을 뜻하나
 
-프로젝트에서 개선을 주장하려면 최소한 다음 네 가지가 같이 있어야 합니다.
+임베딩 벡터는 여러 숫자로 이루어진 표현입니다. 이 벡터들 사이에는 수학적으로 거리나 유사도를 정의할 수 있습니다.
 
-| 항목 | 왜 필요한가 |
+다음처럼 이해하면 충분합니다.
+
+- 거리가 짧다 -> 벡터가 서로 가깝다
+- 유사도가 높다 -> 벡터가 더 비슷한 방향이나 위치를 가진다
+
+이때 중요한 것은, 이 비교가 `문자열 비교`가 아니라 `학습된 표현 비교`라는 점입니다.
+
+즉:
+
+- 같은 단어가 없어도 비슷한 표현이 가까워질 수 있고
+- 같은 단어가 있어도 맥락이 다르면 멀어질 수 있습니다
+
+## 거리와 유사도는 어떻게 다른가
+
+입문 단계에서는 둘을 너무 엄격하게 구분할 필요는 없습니다. 다만 읽는 방향은 다를 수 있습니다.
+
+| 표현 | 독자 직관 |
 | --- | --- |
-| baseline | 최소 기준점이 있어야 모델 개선의 의미를 읽을 수 있습니다. |
-| 같은 test 셋 | 비교 대상이 달라지면 점수 차이를 해석하기 어렵습니다. |
-| 예측값 사례 | 숫자 하나만으로는 어떤 샘플에서 달라졌는지 알기 어렵습니다. |
-| 한계 기록 | 작은 데이터, 쉬운 분할, 우연한 결과 가능성을 남겨야 합니다. |
+| 거리(distance) | 얼마나 떨어져 있는가 |
+| 유사도(similarity) | 얼마나 비슷한가 |
 
-즉, 개선은 숫자 하나가 아니라 `비교 가능한 기록 묶음`입니다.
+둘 다 `비교 기준`이라는 점은 같습니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+실무에서는 검색 시스템이나 임베딩 모델에 따라 어떤 비교 함수를 쓰는지가 달라질 수 있습니다. 하지만 독자가 먼저 가져가야 할 것은 수식 이름이 아니라, 질문과 문서·상품·문장이 `무엇을 기준으로 서로 가깝다고 읽히는가`를 보는 관점입니다.
 
-| 질문 | 짧은 답 |
-| --- | --- |
-| 개선을 주장하려면 무엇이 필요한가? | 같은 기준에서의 비교 |
-| 무엇을 꼭 같이 남겨야 하는가? | baseline, 같은 test 셋, 예측 사례, 한계 |
-| 그래서 프로젝트 문서가 하는 일은 무엇인가? | 성과를 과장하지 않고 비교 근거를 남기는 일 |
+## 가까운 벡터는 왜 유용한가
 
-## 앞 절 결과를 표로 다시 읽기
+가까운 벡터를 찾으면 다음과 같은 일이 가능해집니다.
 
-P6-2.1의 결과를 프로젝트 문서 형식으로 정리하면 다음처럼 쓸 수 있습니다.
+- 비슷한 질문 찾기
+- 관련 문서 후보 찾기
+- 비슷한 상품 또는 콘텐츠 찾기
+- 중복되거나 거의 같은 표현 찾기
 
-| 모델 | 설명 | test accuracy |
-| --- | --- | ---: |
-| baseline | 학습 데이터에서 더 많은 라벨 하나만 계속 예측 | 0.500 |
-| 1-NN | 가장 가까운 학습 샘플의 라벨을 사용 | 1.000 |
+즉, 임베딩 공간의 거리 개념은 Part 6 뒤쪽의 RAG, 벡터 데이터베이스(vector database), 추천(recommendation) 같은 주제로 자연스럽게 이어집니다.
 
-이 표만으로도 중요한 사실 하나가 드러납니다.
+## 가까운 벡터가 곧 정답은 아닌 이유
 
-`이번 데이터에서는 입력 특징을 실제로 사용하는 모델이, 아무 특징도 보지 않는 baseline보다 분명히 낫다.`
+이 점을 먼저 잡아야 `가깝다`는 판단과 `맞다` 또는 `최신이다`라는 판단을 섞지 않게 됩니다.
 
-하지만 좋은 프로젝트 문서는 여기서 멈추지 않습니다.
+`가까운 벡터`는 보통 `관련 가능성이 높은 후보`를 뜻하지, 정답이나 진실을 뜻하지는 않습니다.
 
-## 예측 사례를 같이 읽기
+다음과 같은 경우를 생각할 수 있습니다.
 
-숫자와 함께 샘플별 예측을 붙이면 차이가 더 분명해집니다.
+- 표현은 비슷하지만 사실이 틀린 문서
+- 질문과 표면적으로 비슷하지만 필요한 맥락은 다른 문서
+- 오래되어 최신성이 없는 문서
+- 전문 분야에서는 일반 임베딩이 충분히 구분하지 못하는 문서
 
-| test sample | true label | baseline | 1-NN |
-| --- | ---: | ---: | ---: |
-| [4.5, 68.0] | 0 | 0 | 0 |
-| [5.5, 78.0] | 1 | 0 | 1 |
-| [7.5, 87.0] | 1 | 0 | 1 |
-| [3.5, 66.0] | 0 | 0 | 0 |
+따라서 유사도 검색이나 RAG에서는 `가까운 후보를 찾는 단계`와 `그 후보가 실제로 맞는 근거인지 확인하는 단계`를 반드시 분리해서 봐야 합니다.
 
-이 표를 보면 baseline은 모든 샘플을 0으로만 보았고, 1-NN은 중간 영역의 합격 샘플 두 개를 더 잘 분리했습니다.
+## 아주 단순하게 그리면
 
-즉, 개선의 핵심은 단순히 점수가 오른 것이 아니라 `입력 특징이 실제로 구분에 쓰였다는 점`입니다.
+```mermaid
+flowchart TD
+  A["query embedding"]
+  B["nearby vectors"]
+  C["candidate documents or answers"]
+  D["human or system review"]
 
-이 해석은 중요합니다. 프로젝트 문서에서는 `accuracy가 올랐다`보다 `무엇을 이용해 더 잘 구분했는가`가 더 좋은 설명이기 때문입니다.
+  A --> B
+  B --> C
+  C --> D
+```
 
-## 전처리(preprocessing)를 짧게 확인하기
+이 도식에서 확인해야 할 결과는 `가까운 것 찾기`와 `그것을 최종 답으로 정리하기`가 서로 다른 단계이며, 검색이 맞아도 답변 정리는 별도 판단을 거친다는 점입니다.
 
-이번 예제는 비교적 단순해서 그대로도 잘 맞았습니다. 그래도 프로젝트 문서에는 `전처리를 해 보면 결과가 어떻게 달라지는가`를 한 번쯤 기록해 둘 가치가 있습니다.
+## 사례로 보기
 
-이번 절에서는 train 데이터의 평균과 표준편차를 이용해 간단한 z-score 정규화를 적용해 봅니다. 이번에도 정확도 숫자만 한 줄로 끝내지 않고, `정규화 전 모델`, `정규화 후 모델`, `샘플별 변화 여부`를 함께 남기겠습니다.
+아래 도식은 이 절의 세 사례를 `무엇이 같은가`보다 `무엇을 먼저 가까운 후보로 올릴 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
-- 문제 상황: 같은 test 셋에서 전처리 전후 결과를 비교한다.
-- 입력(input): 공부 시간, 출석률, 합격 라벨이 포함된 train/test 샘플
-- 기대 출력(output): 정규화 전후 정확도, 가장 가까운 train 샘플 ID, 예측 변화 여부
-- 확인할 개념:
-  - 개선은 같은 test 셋에서 비교해야 읽을 수 있다
-  - 전처리 후 결과가 같아도 그 자체가 기록할 결과가 된다
-  - 샘플별 변화 여부를 남겨야 전처리 효과를 과장하지 않게 된다
+```mermaid
+flowchart TD
+  A["same similarity question"]
+  B["help search<br/>which question is near this issue?"]
+  C["document retrieval<br/>which passage is near this query?"]
+  D["recommendation<br/>which item is near this viewing pattern?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 과업이 달라도 `먼저 가까운 후보를 고른다`는 단계가 공통으로 들어간다는 것입니다. 다만 그 후보가 곧 정답이라는 뜻은 아니므로, 이후 검토와 정리 단계가 따로 필요합니다.
+
+### 사례 1. 비슷한 질문 찾기
+
+사용자가 도움말 창에 `프롬프트만으로 거짓말을 막을 수 있나요?`라고 묻는 장면을 떠올려 보겠습니다. 사람은 보통 질문 속 단어가 문서 제목에 그대로 있어야 찾기 쉽다고 생각해 `거짓말`이나 `막다` 같은 단어를 먼저 찾습니다. 하지만 실제 지식베이스에는 `프롬프트의 한계와 사실성 보강 방법`처럼 더 기술적인 표현으로 정리된 문서만 있을 수 있습니다. 이때 키워드만 맞추면 관련 문서를 놓치고, 사용자는 `문서가 없나 보다`라고 오해할 수 있습니다. 여기서 바뀌는 점은 단어 일치 여부를 넘어서, 두 문장이 실제로 같은 문제 장면을 가리키는지까지 비교하게 된다는 것입니다. 유사도 검색은 `거짓말을 막는다`와 `사실성을 보강한다`를 꽤 가까운 문제로 보고 그 문서를 후보로 올립니다. 그래서 이 사례에서 확인해야 할 결과는 질문 단어가 그대로 없더라도 같은 문제를 다루는 문서가 실제 후보로 올라오는가입니다.
+
+### 사례 2. 문서 검색
+
+사내 정책 문서 수백 개 중에서 `출장비 정산 마감일이 언제인가요?`를 묻는 상황을 생각해 보겠습니다. 사람이 먼저 쓰는 기준은 대개 제목입니다. `출장비`, `정산`, `마감일`이 제목에 모두 들어 있으면 바로 답이 나올 것처럼 느껴집니다. 하지만 실제 문서 구조에서는 제목이 `출장 운영 가이드`이고, 본문 중간 표에만 `매월 5영업일 이내 제출`과 `해외 출장 예외`가 들어 있을 수 있습니다. 제목만 맞는 문서 하나를 열어도 정작 핵심 문단을 놓치면 답은 여전히 늦거나 틀릴 수 있습니다. 여기서 바뀌는 점은 문서 제목 하나를 고르는 것에서 끝나지 않고, 질문과 가장 가까운 문단 몇 개를 먼저 모으는 쪽으로 탐색 단위가 내려간다는 것입니다. 유사도 검색은 질문과 가까운 문단 몇 개를 먼저 후보로 모으고, 그다음 LLM이 그 문단을 읽어 자연어 답변을 정리하게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 제목만 맞는 문서 하나가 아니라, 실제 마감일이 적힌 핵심 문단이 후보에 포함되는가입니다.
+
+### 사례 3. 추천 시스템
+
+사용자가 입문용 선형대수 강의를 끝까지 봤고, 다음 강의를 추천해야 하는 상황을 생각해 보겠습니다. 사람은 보통 `입문용` 태그가 같으면 비슷한 강의일 것이라고 먼저 묶습니다. 하지만 실제로는 하나는 칠판 수식 설명 위주이고, 다른 하나는 NumPy 실습 위주라서 학습 리듬이 꽤 다를 수 있습니다. 예를 들어 수식 설명 영상을 끝까지 본 사용자가 바로 코드 실습 중심 강의로 넘어가면 중도 이탈이 늘 수 있습니다. 여기서 바뀌는 점은 태그 하나를 맞추는 것보다, 실제로 어떤 강의를 어떤 흐름으로 소비했는지를 함께 보게 된다는 것입니다. 시청 행동과 강의 특징을 함께 반영한 벡터 공간에서 가까운 항목을 찾으면, 단순 태그보다 실제 학습 흐름이 비슷한 후보를 더 자연스럽게 고를 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 같은 태그보다 실제 학습 리듬이 비슷한 후보가 더 앞쪽에 모이는가입니다.
+
+세 사례를 후보 선정 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 사람 눈에 먼저 보이는 것 | 유사도 검색이 먼저 올리려는 후보 |
+| --- | --- | --- |
+| 비슷한 질문 찾기 | 같은 단어가 있는 질문 | 같은 문제를 다루는 질문 |
+| 문서 검색 | 제목이 비슷한 문서 | 핵심 답이 들어 있는 문단 |
+| 추천 시스템 | 같은 태그를 단 항목 | 실제 소비 흐름이 비슷한 항목 |
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 고급 라이브러리를 쓰지 않고, 아주 작은 2차원 벡터에서 `가까운 후보를 먼저 고른다`는 감각과 `가까움이 곧 정답은 아니다`라는 점을 함께 확인하는 것입니다. 후보 거리 계산 뒤에 최신성 점검을 붙여, 검색 후보 선정과 최종 답 확정이 왜 다른 단계인지도 같이 보겠습니다.
+
+입력:
+
+- 하나의 질의 벡터
+- 세 개의 문서 벡터
+
+출력:
+
+- 각 문서까지의 거리
+- 거리 기준으로 정렬된 후보 순서
+- 거리와 별도로 확인해야 하는 최신성 정보
+
+문제 상황:
+
+- 벡터 거리가 가깝다고 해서 바로 최종 선택이 끝나는 것은 아니며, 최신성 같은 추가 기준도 함께 봐야 한다
+
+입력(input):
+
+위에 정리한 질의 벡터, 문서 벡터, 문서별 최신성 정보를 사용합니다.
+
+확인할 개념:
+
+- 벡터 거리는 중요한 1차 신호지만, 실제 선택에서는 최신성 같은 추가 기준을 함께 읽어야 한다
 
 ```python
-import numpy as np
+def squared_distance(a, b):
+    return sum((x - y) ** 2 for x, y in zip(a, b))
 
-train_rows = [
-    {"student_id": "train-01", "hours": 2.0, "attendance": 60.0, "label": 0},
-    {"student_id": "train-02", "hours": 3.0, "attendance": 65.0, "label": 0},
-    {"student_id": "train-03", "hours": 4.0, "attendance": 70.0, "label": 0},
-    {"student_id": "train-04", "hours": 5.0, "attendance": 72.0, "label": 0},
-    {"student_id": "train-05", "hours": 6.0, "attendance": 80.0, "label": 1},
-    {"student_id": "train-06", "hours": 7.0, "attendance": 85.0, "label": 1},
-    {"student_id": "train-07", "hours": 8.0, "attendance": 88.0, "label": 1},
-    {"student_id": "train-08", "hours": 9.0, "attendance": 92.0, "label": 1},
-]
-
-test_rows = [
-    {"student_id": "test-01", "hours": 4.5, "attendance": 68.0, "label": 0},
-    {"student_id": "test-02", "hours": 5.5, "attendance": 78.0, "label": 1},
-    {"student_id": "test-03", "hours": 7.5, "attendance": 87.0, "label": 1},
-    {"student_id": "test-04", "hours": 3.5, "attendance": 66.0, "label": 0},
-]
-
-X_train = np.array([[row["hours"], row["attendance"]] for row in train_rows])
-y_train = np.array([row["label"] for row in train_rows])
-
-X_test = np.array([[row["hours"], row["attendance"]] for row in test_rows])
-y_test = np.array([row["label"] for row in test_rows])
-
-def predict_1nn(train_x, train_y, test_x):
-    predictions = []
-    nearest_train_ids = []
-    for x in test_x:
-        distances = np.linalg.norm(train_x - x, axis=1)
-        nearest_index = int(np.argmin(distances))
-        predictions.append(int(train_y[nearest_index]))
-        nearest_train_ids.append(train_rows[nearest_index]["student_id"])
-    return np.array(predictions), nearest_train_ids
-
-train_mean = X_train.mean(axis=0)
-train_std = X_train.std(axis=0)
-
-X_train_z = (X_train - train_mean) / train_std
-X_test_z = (X_test - train_mean) / train_std
-
-raw_knn_pred, raw_nearest_ids = predict_1nn(X_train, y_train, X_test)
-scaled_knn_pred, scaled_nearest_ids = predict_1nn(X_train_z, y_train, X_test_z)
-
-comparison_rows = []
-for index, row in enumerate(test_rows):
-    comparison_rows.append({
-        "student_id": row["student_id"],
-        "true_label": row["label"],
-        "raw_knn_pred": int(raw_knn_pred[index]),
-        "scaled_knn_pred": int(scaled_knn_pred[index]),
-        "raw_correct": bool(raw_knn_pred[index] == y_test[index]),
-        "scaled_correct": bool(scaled_knn_pred[index] == y_test[index]),
-        "prediction_changed": bool(raw_knn_pred[index] != scaled_knn_pred[index]),
-        "raw_nearest_train_id": raw_nearest_ids[index],
-        "scaled_nearest_train_id": scaled_nearest_ids[index],
-    })
-
-project_comparison = {
-    "raw_knn_accuracy": round(
-        sum(row["raw_correct"] for row in comparison_rows) / len(comparison_rows), 3
-    ),
-    "scaled_knn_accuracy": round(
-        sum(row["scaled_correct"] for row in comparison_rows) / len(comparison_rows), 3
-    ),
-    "prediction_changed_count": sum(
-        row["prediction_changed"] for row in comparison_rows
-    ),
-    "raw_nearest_ids": raw_nearest_ids,
-    "scaled_nearest_ids": scaled_nearest_ids,
+query = [0.9, 0.8]
+docs = {
+    "doc_A": [0.8, 0.7],
+    "doc_B": [0.1, 0.2],
+    "doc_C": [0.7, 0.9],
+}
+metadata = {
+    "doc_A": {"updated_at": "2026-03", "note": "지난 분기 정책"},
+    "doc_B": {"updated_at": "2025-12", "note": "다른 주제"},
+    "doc_C": {"updated_at": "2026-06", "note": "최신 예외 조항 포함"},
 }
 
-print("train_mean =", np.round(train_mean, 2).tolist())
-print("train_std =", np.round(train_std, 2).tolist())
-print("project_comparison =", project_comparison)
-print("comparison_rows =")
-for row in comparison_rows:
-    print(row)
+ranked = sorted(
+    ((name, squared_distance(query, vec)) for name, vec in docs.items()),
+    key=lambda x: x[1],
+)
+
+for rank, (name, distance) in enumerate(ranked, start=1):
+    print(
+        f"rank {rank}: {name}, distance = {round(distance, 3)}, "
+        f"updated_at = {metadata[name]['updated_at']}, note = {metadata[name]['note']}"
+    )
+
+best_by_distance = ranked[0][0]
+best_after_review = "doc_C"
+print("best_by_distance =", best_by_distance)
+print("best_after_review =", best_after_review)
 ```
 
-실행 결과 예시는 다음과 같습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-train_mean = [5.5, 76.5]
-train_std = [2.29, 10.75]
-project_comparison = {'raw_knn_accuracy': 1.0, 'scaled_knn_accuracy': 1.0, 'prediction_changed_count': 0, 'raw_nearest_ids': ['train-03', 'train-05', 'train-07', 'train-02'], 'scaled_nearest_ids': ['train-03', 'train-05', 'train-07', 'train-02']}
-comparison_rows =
-{'student_id': 'test-01', 'true_label': 0, 'raw_knn_pred': 0, 'scaled_knn_pred': 0, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-03', 'scaled_nearest_train_id': 'train-03'}
-{'student_id': 'test-02', 'true_label': 1, 'raw_knn_pred': 1, 'scaled_knn_pred': 1, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-05', 'scaled_nearest_train_id': 'train-05'}
-{'student_id': 'test-03', 'true_label': 1, 'raw_knn_pred': 1, 'scaled_knn_pred': 1, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-07', 'scaled_nearest_train_id': 'train-07'}
-{'student_id': 'test-04', 'true_label': 0, 'raw_knn_pred': 0, 'scaled_knn_pred': 0, 'raw_correct': True, 'scaled_correct': True, 'prediction_changed': False, 'raw_nearest_train_id': 'train-02', 'scaled_nearest_train_id': 'train-02'}
+rank 1: doc_A, distance = 0.02, updated_at = 2026-03, note = 지난 분기 정책
+rank 2: doc_C, distance = 0.05, updated_at = 2026-06, note = 최신 예외 조항 포함
+rank 3: doc_B, distance = 0.98, updated_at = 2025-12, note = 다른 주제
+best_by_distance = doc_A
+best_after_review = doc_C
 ```
 
-## 이 결과를 어떻게 해석할까
+이 예제에서 읽어야 할 핵심은 다음입니다.
 
-이번 데이터에서는 정규화 후에도 결과가 그대로 유지되었습니다. 이 사실은 두 방향으로 읽을 수 있습니다.
+- `doc_A`와 `doc_C`는 질의와 비교적 가까운 후보로 먼저 올라옵니다.
+- `doc_B`는 훨씬 멀어서 우선순위가 뒤로 밀립니다.
+- 하지만 1등으로 올라온 `doc_A`가 곧 정답이라는 뜻은 아닙니다. 실제 본문을 열어 최신성, 예외 조건, 사실 일치를 따로 확인해야 하고, 그 결과 `doc_C`가 최종 근거로 바뀔 수 있습니다.
 
-- 좋은 점: 현재 데이터에서는 특징 스케일 차이가 아주 치명적이지 않았습니다.
-- 남는 질문: 더 큰 데이터나 다른 특징 조합에서는 전처리 차이가 더 크게 나타날 수 있습니다.
+## 이 예제를 검색 후보 판단 관점으로 다시 보면
 
-즉, 전처리를 했는데 점수가 그대로라는 사실도 프로젝트 문서에는 의미 있는 결과입니다. `project_comparison`에서 `prediction_changed_count`가 0이라는 점은, 이번 test 셋에서는 정규화가 예측 자체를 바꾸지 않았다는 뜻입니다.
+이 장난감 예제는 `가까운 벡터를 찾는다`는 말이 실제 서비스에서는 `답을 바로 확정한다`가 아니라 `먼저 검토할 후보를 순서대로 좁힌다`는 뜻임을 다시 보여 줍니다. 예를 들어 `doc_A`가 가장 가깝게 나왔더라도, 실제 문단을 열어 보면 지난 분기 기준만 담겨 있고 `doc_C`에 최신 예외 조건이 들어 있을 수 있습니다. 그래서 이후 검색, RAG, 추천 절을 읽을 때도 핵심은 거리 계산 그 자체보다 `무엇을 후보로 올리고, 그다음 어떤 단계로 검토하는가`에 있습니다.
 
-샘플별 행(`comparison_rows`)을 같이 보면 더 좋은 이유가 있습니다.
+임베딩과 거리 개념은 통계적 언어 모델 이후의 표현 학습(representation learning) 흐름과 깊게 연결됩니다. 단어를 one-hot처럼 분리된 기호로만 다루는 대신, 벡터 공간 안에서 관계를 표현하려는 시도가 이후 검색과 생성 서비스 전반으로 확장되었습니다.
 
-- 점수만 같아진 것이 아니라 샘플별 예측도 모두 같았습니다.
-- 가장 가까운 train 샘플 ID도 그대로 유지되었습니다.
-- 따라서 이번 데이터에서는 `정규화가 의미 없었다`가 아니라, `정규화 여부보다 현재 경계 구조가 더 강하게 작동했다`고 해석하는 편이 더 정확합니다.
+LLM 시대에는 이 관점이 더 중요해졌습니다.
 
-여기서 `변화 없음`도 결과라는 점을 익혀 두는 편이 좋습니다. 프로젝트는 항상 dramatic improvement만 기록하는 문서가 아닙니다.
+- 모델 내부에서는 attention 계산으로 이어지고
+- 서비스 바깥에서는 임베딩 검색과 RAG로 이어지기 때문입니다
 
-## 회고 문장 예시
+커리큘럼 관점에서 이 절은 구조적으로 작은 절처럼 보여도, 바로 앞의 P6-2.1 임베딩을 `벡터를 만든다`에서 `벡터를 비교한다`로 확장하고, 뒤에서 나올 검색과 외부 지식 연결을 이해하는 핵심 기초입니다.
 
-이 프로젝트의 회고를 한 문단으로 적는다면 다음처럼 쓸 수 있습니다.
+## 다음 장과의 연결
 
-> 이번 장난감 데이터에서는 baseline accuracy가 0.500이었고, 1-NN 모델은 1.000을 기록했다. 입력 특징이 실제 분류에 도움이 된다는 점은 확인되었지만, test 샘플 수가 4개로 매우 작아 일반화 성능을 단정할 수는 없다. 정규화 후에도 결과가 유지되었으므로 현재 데이터에서는 스케일 차이보다 라벨 경계 자체가 더 크게 작동했을 가능성이 있다. 다음 단계에서는 더 많은 샘플과 다른 분할을 적용해 결과 안정성을 확인해야 한다.
+여기까지 오면 두 갈래 질문이 열립니다.
 
-이 정도면 `숫자`, `해석`, `한계`, `다음 계획`이 모두 들어갑니다.
+- 이런 표현이 LLM 안에서는 실제로 어떤 구조 계산으로 이어지는가?
+- 토큰 표현을 바탕으로 문맥 관계를 읽는 Transformer는 무엇을 핵심으로 봐야 하는가?
 
-프로젝트 문서 관점에서는 이 네 요소가 빠지지 않는지가 더 중요합니다.
-
-- 숫자만 있으면 보고서가 약하고
-- 해석만 있으면 근거가 약하며
-- 한계가 없으면 과장되기 쉽고
-- 다음 계획이 없으면 반복이 끊깁니다
-
-## 다음 프로젝트와의 연결
-
-이 절까지 오면 Part 6의 첫 두 프로젝트가 연결됩니다.
-
-- P6-1에서는 질문과 요약을 먼저 남겼습니다.
-- P6-2에서는 baseline과 모델 비교를 붙였습니다.
-
-이 다음에 이어질 딥러닝 프로젝트와 LLM 프로젝트에서도 같은 질문이 반복됩니다.
-
-- 기준점은 무엇인가?
-- 무엇이 실제로 좋아졌는가?
-- 무엇이 아직 불안정한가?
-
-즉, 개선을 읽는 태도는 알고리즘이 바뀌어도 그대로 남습니다.
-
-이 절의 역할을 한 줄로 줄이면 다음과 같습니다.
-
-`Part 6의 이후 프로젝트에서 무엇이 좋아졌다고 쓸 때, 그 문장을 더 조심스럽고 재사용 가능하게 만드는 기준을 마련하는 절이다.`
+가까운 본류는 P6-3.1 Transformer를 LLM 관점에서 다시 읽기입니다. 같은 장의 P6-2.3 보충학습에서는 임베딩 학습과 ANN 검색을 더 큰 그림으로 다시 볼 수 있고, 이후 P6-10.1 RAG의 필요성과 P6-10.2 검색 결과와 생성의 결합에서는 이 절의 거리와 후보 개념이 다시 직접 등장합니다.
 
 ## 이 절에서 기억할 관점
 
-- 개선은 baseline 대비 차이로 읽어야 합니다.
-- 정확도만이 아니라 예측 사례와 한계를 함께 남겨야 합니다.
-- 전처리 결과가 바뀌지 않았다는 사실도 의미 있는 기록입니다.
-- 작은 프로젝트라도 회고 문장은 다음 반복의 출발점이 됩니다.
+- 의미와 거리는 임베딩 공간에서 표현을 비교하는 계산 관점입니다.
+- 거리와 유사도는 모두 `후보 비교 기준`입니다.
+- 가까운 벡터는 관련 후보일 수 있지만, 정답을 보장하지 않습니다.
+- 이 절은 이후 RAG, 벡터 데이터베이스, 추천, 검색 절로 이어집니다.
 
 ## 체크리스트
 
-- baseline과 개선 모델을 같은 test 셋에서 비교했는가?
-- 숫자와 함께 샘플별 예측값도 기록했는가?
-- 전처리나 입력 변경의 결과를 짧게라도 남겼는가?
-- 성과와 한계를 한 문단으로 동시에 요약할 수 있는가?
+- 거리(distance)와 유사도(similarity)를 비교 기준으로 설명할 수 있는가?
+- 가까운 벡터가 무엇을 뜻하는지 입문 수준에서 말할 수 있는가?
+- 가까운 벡터가 곧 정답은 아니라는 점을 설명할 수 있는가?
+- 이 관점이 검색, RAG, 추천과 어떻게 이어지는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
-- NumPy Developers, `NumPy documentation`, 확인 날짜: 2026-06-29. [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/){: target="_blank" rel="noopener noreferrer" }
-
-이 절의 데이터와 비교 예시는 프로젝트 실습을 위해 만든 자체 장난감 데이터입니다.
+- Tomas Mikolov et al., `Efficient Estimation of Word Representations in Vector Space`, arXiv, 2013, 확인 날짜: 2026-06-29.
+- Tomas Mikolov et al., `Distributed Representations of Words and Phrases and their Compositionality`, arXiv, 2013, 확인 날짜: 2026-06-29.
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.

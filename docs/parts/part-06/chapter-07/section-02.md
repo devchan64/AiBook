@@ -1,295 +1,341 @@
-# P6-7.2 실패 기록과 개선 계획
+# P6-7.2 LoRA와 효율적 조정
 
-배포 프로젝트의 마지막 단계는 배포 성공 화면을 보고 끝내는 일이 아닙니다. 실제로는 `무엇이 실패할 수 있었고, 무엇을 다음에 먼저 개선할 것인가`를 남겨야 프로젝트가 닫힙니다.
+P6-7.1에서는 파인튜닝(fine-tuning)이 사전학습된 모델을 특정 목적에 더 잘 맞게 추가 조정하는 과정이라는 점을 보았습니다. 하지만 여기서 바로 현실적인 다음 질문이 생깁니다.
 
-이번 절은 그 회고 문서를 다룹니다.
+거대한 모델 전체를 매번 다시 조정하는 것은 비용이 너무 크지 않은가?
 
-이 절의 목적은 배포가 끝난 뒤 성공 화면만 남기는 것이 아니라, 실패 유형과 다음 조치를 분리해 기록하는 것이다.
+이 절은 그 문제에서 출발합니다.
+
+그래서 실무에서는 `파인튜닝이 필요한가`만 묻지 않고, `그 조정을 어떤 방식으로 해야 비용을 감당할 수 있는가`도 함께 묻게 됩니다.
+
+이때 등장하는 큰 흐름이 효율적 조정(parameter-efficient fine-tuning)입니다. LoRA는 그 흐름 안에서 가장 널리 언급되는 대표적인 방법 중 하나입니다.
+
+LoRA는 거대한 모델 전체를 다시 크게 바꾸지 않고, 작은 추가 조정분을 통해 효율적으로 적응시키려는 방법이다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 정적 사이트 프로젝트에서 어떤 실패를 기록해야 하는가?
-- 배포 실패와 콘텐츠 실패를 왜 구분해야 하는가?
-- 개선 계획은 어떻게 우선순위를 붙이면 좋은가?
+- 왜 효율적 조정(parameter-efficient fine-tuning)이 필요한가?
+- LoRA는 어떤 문제를 줄이려는가?
+- 전체 파인튜닝과 효율적 조정은 어떤 차이가 있는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 본격 incident management 시스템
-- 장기 비용 분석
-- 팀 단위 SLO 설계
+- 저랭크(low-rank) 분해 수식
+- adapter 계열 전체 비교표 세부
+- 실제 GPU 메모리 계산식
 
-이 절은 작은 문서 배포 프로젝트의 실패 유형과 우선순위 기록에 집중합니다. 대규모 incident management나 팀 단위 SLO 설계는 이 책의 현재 프로젝트 입문 범위 밖으로 두고, 대신 `실패를 원인 추정과 다음 조치로 남기는 습관`까지를 이 절의 회수 범위로 삼습니다.
+이 절에서는 LoRA의 실무 감각만 잡고, `왜 low-rank라는 이름이 붙는가`, `어디에 작은 조정분이 붙는가`, `QLoRA는 LoRA와 무엇이 다른가` 같은 더 깊은 배경은 같은 장의 P6-7.3 보충학습에서 다시 회수합니다. instruction tuning이나 도메인 맞춤 조정과의 연결은 P6-8.1 지시 튜닝에서 다시 이어집니다. 세부 메모리 계산식 전체는 현재 본편 범위 밖으로 둡니다.
+
+이 절에서는 LoRA를 `작은 모델`로 오해하지 않고, `큰 기반 모델 위에 작은 조정 층을 더하는 방식`으로 이해합니다.
+
+이 절은 `조정 비용 절감 축`으로 읽으면 됩니다.
+
+| 지금 이 절에서 읽는 것 | 바로 다음 절이나 뒤 장으로 넘기는 것 |
+| --- | --- |
+| 전체 파인튜닝이 왜 너무 무거워질 수 있는가 | low-rank 수식과 세부 메모리 계산이 어떻게 성립하는가 |
+| 큰 기반 모델을 유지한 채 작은 적응분만 더하는 발상 | instruction tuning과 도메인 적응에서 이 방식을 실제로 어떻게 조합할 것인가 |
 
 ## 이 절의 목표
 
-- 배포 프로젝트의 실패 유형을 몇 가지 범주로 정리할 수 있습니다.
-- 실패 기록을 `원인 추정`과 `다음 조치`까지 연결해 적을 수 있습니다.
-- 작은 문서 프로젝트에도 운영 회고가 필요하다는 점을 설명할 수 있습니다.
+- 효율적 조정이 왜 필요한지 설명할 수 있습니다.
+- LoRA의 기본 아이디어를 입문 수준에서 말할 수 있습니다.
+- 전체 파인튜닝과 LoRA의 비용 차이를 개념적으로 구분할 수 있습니다.
+- 이후 instruction tuning이나 도메인 적응 설명과 연결할 수 있습니다.
 
-## 실패 유형을 나누어 보기
+## 이 절을 읽는 순서
 
-정적 문서 배포 프로젝트에서 흔한 실패는 크게 네 가지로 나눌 수 있습니다.
+이 절은 다음 순서로 읽으면 충분합니다.
 
-| 실패 유형 | 예시 |
+1. 먼저 왜 `파인튜닝이 필요하다`와 `전체를 다 다시 조정할 수 있다`가 같은 말이 아닌지 봅니다.
+2. 그 다음 LoRA가 무엇을 그대로 두고 무엇만 새로 학습하는지 읽습니다.
+3. 이어서 전체 파인튜닝과 LoRA의 차이를 비용, 저장, 버전 관리 관점에서 구분합니다.
+4. 마지막에 사례와 예제로 `같은 기반 모델 위에서 여러 목적 적응을 더 가볍게 운영할 수 있는가`를 확인합니다.
+
+## 왜 효율적 조정이 필요하나
+
+P6-7.1에서 본 파인튜닝의 방향 자체는 자연스럽습니다. 문제는 LLM이 너무 크다는 데 있습니다.
+
+모델 전체 가중치를 모두 업데이트하려 하면 다음 부담이 곧바로 커집니다.
+
+- 메모리 사용량
+- 학습 시간
+- 저장 공간
+- 여러 버전 관리 비용
+
+실무에서는 같은 기반 모델을 바탕으로:
+
+- 고객센터용
+- 검색 보조용
+- 문서 요약용
+- 코드 도우미용
+
+처럼 여러 목적에 맞춰 조정하고 싶을 수 있습니다. 이때 매번 전체 모델을 새로 조정하고 저장하는 것은 매우 비효율적일 수 있습니다.
+
+즉, `모델을 우리 목적에 맞게 바꾸고 싶다`는 생각은 맞지만, 그 비용이 너무 커질 수 있습니다.
+
+이 지점에서 흐름이 한 번 꺾입니다.
+
+- P6-7.1의 질문: `우리 목적에 맞게 모델을 더 조정해야 하는가?`
+- P6-7.2의 질문: `그 조정을 모델 전체를 다시 바꾸지 않고도 할 수 있는가?`
+
+즉, LoRA는 파인튜닝과 경쟁하는 전혀 다른 세계의 방법이 아니라, `파인튜닝은 필요하지만 전체를 다 건드리기는 너무 무겁다`는 현실에서 나온 다음 선택지입니다.
+
+그래서 다음 질문이 자연스럽게 이어집니다.
+
+`기반 모델 전체를 매번 다시 학습하지 않고도, 필요한 목적 적응만 더 가볍게 만들 수는 없을까?`
+
+## LoRA는 무엇을 하려 하나
+
+LoRA는 바로 이 질문에 대한 대표적인 답입니다.
+
+핵심 생각을 아주 단순하게 줄이면 다음과 같습니다.
+
+`원래 큰 가중치 전체를 크게 다시 쓰지 말고, 작은 추가 조정분만 학습해서 붙이자.`
+
+즉 LoRA는 `파인튜닝을 포기하자`가 아니라, `파인튜닝의 부담을 줄이자`에 더 가깝습니다.
+
+이 문장을 더 실무적으로 바꾸면 다음과 같습니다.
+
+- 전체 파인튜닝: `본체도 같이 크게 다시 조정한다`
+- LoRA: `본체는 최대한 유지하고 작은 적응분만 추가로 학습한다`
+
+따라서 LoRA는 low-rank 수식보다 `무엇을 그대로 두고, 무엇만 새로 배우는가`를 먼저 잡고 읽으면 충분합니다.
+
+조금 더 풀어 쓰면 다음과 같습니다.
+
+- 기반 모델(base model)은 크게 유지하고
+- 작은 조정 파라미터만 따로 학습해
+- 특정 목적 반응을 덧붙이는 방식입니다
+
+그래서 LoRA는 `새 모델을 처음부터 따로 만드는 방법`이 아니라, `하나의 큰 기반 모델을 여러 목적에 효율적으로 적응시키는 방법`으로 이해하는 편이 좋습니다.
+
+## 전체 파인튜닝과 무엇이 다른가
+
+| 방식 | 핵심 차이 |
 | --- | --- |
-| build failure | MkDocs 설정 오류, 링크 문법 오류 |
-| deploy failure | Actions workflow 실패, publishing source 문제 |
-| content failure | 최신 수정이 누락됨, 제목/섹션 배치 오류 |
-| runtime failure | 공개 URL은 열리지만 링크가 깨짐, 404 발생 |
+| 전체 파인튜닝(full fine-tuning) | 많은 가중치를 직접 업데이트 |
+| LoRA | 작은 추가 조정분 중심으로 업데이트 |
 
-이 구분이 중요한 이유는 해결 책임과 다음 행동이 다르기 때문입니다.
+다음처럼 기억하면 충분합니다.
 
-- build failure는 로컬 재현이 중요합니다.
-- deploy failure는 CI 로그 확인이 중요합니다.
-- content failure는 문서 검토가 중요합니다.
-- runtime failure는 공개 페이지 실제 확인이 중요합니다.
+`전체 파인튜닝은 본체를 직접 크게 고치는 방식이고, LoRA는 본체 위에 작은 조정 모듈을 얹어 목적 적응을 만드는 방식이다.`
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+## 왜 실무에서 매력적인가
 
-| 질문 | 짧은 답 |
-| --- | --- |
-| 왜 실패를 나누는가? | 같은 실패처럼 보여도 대응이 다르기 때문 |
-| 무엇을 같이 적어야 하는가? | category, likely cause, next action |
-| 최소 산출물은 무엇인가? | 실패 기록 표와 우선순위 목록 |
+LoRA 같은 방식이 매력적인 이유는 다음과 같습니다.
 
-## 작은 실패 기록 예시
+- 비용이 상대적으로 적습니다
+- 같은 기반 모델을 재사용하기 쉽습니다
+- 목적별 조정본을 따로 관리하기 쉽습니다
+- 실험 속도를 높이기 쉽습니다
 
-이번 절에서는 프로젝트 회고 문서를 다음 형식으로 남기는 예를 듭니다.
+즉, LoRA는 단순한 이론 아이디어가 아니라, `LLM 운영 현실`과 연결된 선택지입니다.
 
-| date | issue | category | likely cause | next action |
-| --- | --- | --- | --- | --- |
-| 2026-06-29 | 최신 섹션이 배포 페이지에 보이지 않음 | deploy/content | main 미반영 또는 workflow 지연 | Actions 로그 확인, main 반영 상태 재확인 |
-| 2026-06-29 | 내부 링크 404 | runtime | nav와 실제 경로 불일치 | mkdocs nav와 파일 경로 재검토 |
-| 2026-06-29 | 수식 렌더링 누락 | content/runtime | JS 로드 또는 문법 문제 | 브라우저 확인, 수식 블록 점검 |
+## 무엇을 조심해야 하나
 
-이 표는 단순하지만 회고 문서로 충분히 유용합니다.
+하지만 LoRA도 만능은 아닙니다.
 
-이 표는 Part 6의 배포 프로젝트에서 사실상 `운영 회고 템플릿` 역할을 합니다.
+- 모든 과업에서 항상 최선은 아닐 수 있습니다
+- 조정 범위가 제한되므로 전체 파인튜닝보다 덜 맞을 수도 있습니다
+- 데이터 품질 문제는 여전히 남습니다
+- 평가 없이 `가볍다`는 이유만으로 선택하면 위험합니다
 
-## 바로 쓰는 실패 기록 템플릿
+더 안전한 설명은 다음입니다.
 
-배포 프로젝트를 마친 뒤 바로 채울 수 있는 최소 템플릿은 다음 정도면 충분합니다.
+`LoRA는 비용과 유연성을 개선하는 강한 실무 선택지이지만, 품질 검증을 대신하지는 않는다.`
 
-```text
-### incident record
-- date:
-- issue:
-- category:
-- likely_cause:
-- user_impact:
-- priority:
-- next_action:
+## 여기까지를 한 줄로 묶으면
 
-### review summary
-- 가장 먼저 고칠 문제:
-- 이번 반복에서 미루는 문제:
-- 다음 배포 전에 추가할 점검:
+여기까지를 가장 짧게 정리하면 다음과 같습니다.
+
+- 전체 파인튜닝은 `본체를 크게 다시 조정하는 방식`에 가깝습니다.
+- LoRA는 `본체는 최대한 유지하고 작은 조정분만 학습하는 방식`에 가깝습니다.
+- 따라서 LoRA의 핵심은 `작은 모델`이 아니라 `큰 기반 모델을 더 가볍게 적응시키는 운영 방식`입니다.
+
+## 아주 단순하게 그리면
+
+```mermaid
+flowchart TD
+  A["base model"]
+  B["small trainable update"]
+  C["task-adapted model behavior"]
+
+  A --> C
+  B --> C
 ```
 
-이 템플릿의 핵심은 `실패했다`에서 멈추지 않는 것입니다. 적어도 `어떤 종류의 실패였는가`, `독자에게 어떤 영향이 있었는가`, `다음에 무엇을 먼저 할 것인가`까지는 같이 적어야 합니다.
+이 도식의 핵심은 기반 모델 본체와 작은 조정분을 개념적으로 분리해 보는 데 있습니다.
 
-예를 들어 내부 링크가 404였던 경우는 다음처럼 바로 채울 수 있습니다.
+## 사례로 보기
 
-```text
-### incident record
-- date: 2026-06-29
-- issue: 내부 링크 404
-- category: runtime
-- likely_cause: mkdocs nav와 실제 파일 경로 불일치
-- user_impact: 독자 흐름이 끊긴다
-- priority: 1
-- next_action: nav와 target 경로를 함께 다시 확인한다
+아래 도식은 이 절의 세 사례를 `더 가볍다`보다 `같은 기반 모델을 유지한 채 얼마나 많은 목적 적응을 감당할 수 있는가`라는 공통 질문으로 다시 묶은 것입니다.
 
-### review summary
-- 가장 먼저 고칠 문제: 독자가 바로 만나게 되는 404 링크
-- 이번 반복에서 미루는 문제: 수식 렌더링 미세 조정
-- 다음 배포 전에 추가할 점검: 공개 URL에서 핵심 링크 3개 직접 클릭
+```mermaid
+flowchart TD
+  A["same PEFT question"]
+  B["shared base model<br/>can many tasks reuse one backbone?"]
+  C["limited budget<br/>can experiments start at all?"]
+  D["fast comparison<br/>can we rotate more hypotheses?"]
+
+  A --> B
+  A --> C
+  A --> D
 ```
 
-## Python 예제
+이 도식에서 확인해야 할 점은 LoRA의 장점이 단순히 `파라미터 수가 적다`에서 끝나지 않는다는 것입니다. 같은 기반 모델을 재사용하고, 제한된 자원 안에서 더 많은 적응 실험을 돌리고, 여러 업무용 조정본을 더 가볍게 관리할 수 있다는 운영 흐름까지 함께 봐야 합니다.
 
-이번 예제의 목적은 실패 표를 실제 회고 기록 구조로 바꾸는 것입니다. `incident_records`는 실패를 우선순위가 있는 운영 사건으로 바꾸고, `improvement_plan`은 그 사건을 다음 반복의 작업 묶음으로 다시 정리하며, `review_summary`는 무엇을 먼저 고쳐야 하는지 한 줄로 보여 주는 요약 표지입니다.
+### 사례 1. 같은 기반 모델, 다른 업무
 
-- 문제 상황: 배포 이후 생긴 문제를 다시 읽고 다음 조치를 정리한다.
-- 입력(input): 실패 항목 목록
-- 기대 출력(output): 우선순위가 붙은 incident 기록과 개선 계획
-- 확인할 개념:
-  - 실패는 category별로 나누어 남겨야 한다
-  - likely cause와 next action이 함께 있어야 한다
-  - 우선순위가 붙어야 다음 반복으로 이어진다
+한 회사가 하나의 기반 모델로 고객 응답, 문서 요약, 코드 보조를 모두 실험한다고 해 봅시다. 사람은 업무가 다르면 모델도 통째로 따로 만들어야 한다고 먼저 생각하기 쉽습니다. 전체 파인튜닝만 고집하면 실제로 업무마다 거대한 모델 복사본을 따로 만들고, 학습 결과도 각각 다시 저장해야 합니다. 이렇게 되면 새 업무 하나를 추가할 때마다 비용과 버전 관리 부담이 함께 커집니다. 예를 들어 요약 실험 하나를 더 돌릴 때도 수 GB~수십 GB 규모의 결과물을 별도 관리해야 할 수 있습니다. LoRA 방식은 기반 모델 본체는 공통으로 두고, 업무마다 작은 조정분만 따로 붙여 관리하는 흐름을 만듭니다. 여기서 바뀌는 점은 `업무마다 본체 모델을 따로 가져야 하는가`를 보던 기준에서 `같은 본체 위에 조정분만 분리해 관리할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 같은 기반 모델 위에 `고객 응답용`, `요약용`, `코드용` 조정본을 더 가볍게 나눠 실험할 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 업무 수가 늘어나도 거대한 모델 복사본 수를 함께 늘리지 않고, 목적별 조정본만 바꿔 끼우는 방식으로 실제 버전 관리 부담이 줄어드는가입니다.
+
+### 사례 2. 비용 제약이 큰 팀
+
+작은 스타트업이 사내 문서 요약 모델을 시험해 보려는데 GPU 예산이 넉넉하지 않다고 해 봅시다. 사람은 먼저 `성능을 높이려면 전체 파인튜닝이 정석 아닌가`라고 생각하기 쉽습니다. 하지만 전체 파인튜닝을 시도하면 학습 중 메모리 사용량과 저장 공간이 금방 커져 한 번의 실험 자체가 부담이 될 수 있습니다. 예를 들어 첫 실험이 실패해도 다시 돌려 볼 자원이 남지 않으면, 성능 논의 이전에 실험 문화 자체가 막힐 수 있습니다. 이 팀이 먼저 필요한 것은 `최고 성능`보다도 `실험을 시작하고 비교해 볼 수 있는가`일 가능성이 높습니다. LoRA는 전체 모델을 전부 다시 조정하지 않고 작은 조정분 위주로 실험하게 해 이런 첫 시도를 더 현실적인 비용 안에 넣어 줍니다. 여기서 바뀌는 점은 `가장 높은 성능을 바로 내는가`를 보던 기준에서 `제한된 자원 안에서 실험을 시작하고 반복할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 자원이 빠듯한 팀에서는 `일단 LoRA로 목적 적응 가능성을 본다`는 선택이 자연스럽게 나옵니다. 그래서 이 사례에서 확인해야 할 결과는 최고 성능 수치 하나보다, 제한된 GPU 예산 안에서 실제로 첫 실험을 시작하고 실패 후 다시 비교 실험까지 이어 갈 수 있는가입니다.
+
+### 사례 3. 빠른 비교 실험
+
+운영팀이 같은 기반 모델로 `답변 형식 안정화`, `사내 용어 반영`, `특정 도메인 문체 유지` 중 무엇이 더 효과적인지 비교한다고 해 봅시다. 사람은 먼저 한 번 크게 조정해 보고 끝내고 싶어질 수 있습니다. 하지만 실무에서는 처음부터 정답 하나를 맞히는 것보다 여러 조정 방향을 빠르게 돌려 보고 버리는 과정이 더 중요할 때가 많습니다. 전체 파인튜닝만 사용하면 실험 하나를 돌릴 때마다 준비 시간과 저장 비용이 커져 비교 회전 수 자체가 줄어들 수 있습니다. 예를 들어 세 가지 조정 가설을 일주일 안에 모두 시험해야 하는데, 한 실험이 너무 무거우면 비교 자체가 늦어질 수 있습니다. LoRA는 작은 조정본을 여러 개 만들어 붙였다 떼기 쉬운 편이라, 어떤 조정이 실제로 가치가 있는지 더 빠르게 비교하는 흐름과 잘 맞습니다. 여기서 바뀌는 점은 `한 번 크게 맞추는가`를 보던 기준에서 `같은 기간 안에 더 많은 조정 가설을 실제로 비교할 수 있는가`를 보는 기준으로 이동한다는 것입니다. 그래서 LoRA의 장점은 `이론적으로 가볍다`에 그치지 않고 `실험 회전 수를 늘리기 쉽다`는 운영 감각으로 이어집니다. 그래서 이 사례에서 확인해야 할 결과는 하나의 조정을 오래 붙드는가보다, 같은 기간 안에 더 많은 조정 가설을 실제로 돌려 보고 비교표를 만들 수 있는가입니다.
+
+세 사례를 운영 효율 관점으로 다시 묶으면 다음과 같습니다.
+
+| 상황 | 전체 파인튜닝으로 갈 때 커지기 쉬운 것 | LoRA가 줄이려는 부담 |
+| --- | --- | --- |
+| 같은 기반 모델, 다른 업무 | 모델 복사본 수와 버전 관리 비용 | 공통 본체 재사용, 작은 조정본 분리 |
+| 비용 제약이 큰 팀 | 첫 실험 진입 비용과 재시도 부담 | 제한 자원 안의 시작 가능성 |
+| 빠른 비교 실험 | 실험 준비 시간과 저장 공간 | 가설 회전 수와 비교 속도 |
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 `전체 파인튜닝`과 `LoRA 방식`이 여러 업무용 조정본을 운영할 때 어떤 차이를 만드는지 직접 보는 것입니다. 같은 기반 모델을 고객 응답용, 요약용, 코드 보조용으로 나눠 실험한다고 가정하고, 업무 수가 늘어날 때 학습해야 하는 파라미터 수와 저장해야 하는 추가 파일 크기가 어떻게 달라지는지 비교해 보겠습니다.
+
+입력:
+
+- 기반 모델 파라미터 수
+- 업무 수
+- 전체 파인튜닝과 LoRA의 업무별 추가 파라미터 수
+
+출력:
+
+- 업무 수에 따른 방식별 증가 폭
+- 업무 수에 따른 총 학습 대상 파라미터 수
+- 업무 수에 따른 추가 저장 크기 추정
+- 방식별 차이
+
+문제 상황:
+
+- 전체 미세조정과 PEFT/LoRA 방식은 업무 수가 늘어날수록 관리 비용 차이가 크게 벌어진다
+
+입력(input):
+
+위에 정리한 기본 모델 파라미터 수와 task 수 옵션을 사용합니다.
+
+확인할 개념:
+
+- LoRA류 방식은 업무 수가 늘어날수록 전체 미세조정보다 추가 학습량과 저장량을 훨씬 작게 유지한다
 
 ```python
-incident_records = [
-    {
-        "date": "2026-06-29",
-        "issue": "latest section missing on deployed page",
-        "category": "deploy/content",
-        "likely_cause": "main branch not updated or workflow still pending",
-        "user_impact": "readers cannot see the newest section",
-        "priority": 1,
-        "next_action": "check Actions run and confirm main branch status",
-    },
-    {
-        "date": "2026-06-29",
-        "issue": "internal link returns 404",
-        "category": "runtime",
-        "likely_cause": "nav path and actual file path do not match",
-        "user_impact": "reader flow is interrupted",
-        "priority": 1,
-        "next_action": "review mkdocs nav and target file paths",
-    },
-    {
-        "date": "2026-06-29",
-        "issue": "math rendering is missing on one page",
-        "category": "content/runtime",
-        "likely_cause": "script load or markdown syntax problem",
-        "user_impact": "equation explanation becomes unclear",
-        "priority": 2,
-        "next_action": "recheck browser rendering and math block syntax",
-    },
-]
+base_model_params = 7_000_000_000
+tasks = ["customer_support", "summarization", "code_assistant"]
+task_count_options = [1, 3, 10]
 
-incident_records.sort(key=lambda row: (row["priority"], row["date"]))
+full_finetuning_trainable_per_task = 7_000_000_000
+lora_trainable_per_task = 8_000_000
 
-improvement_plan = []
-for row in incident_records:
-    if row["priority"] == 1:
-        action_bucket = "fix_immediately"
-    elif row["priority"] == 2:
-        action_bucket = "fix_next_cycle"
-    else:
-        action_bucket = "track_for_later"
+# float16 기준으로 파라미터 하나를 대략 2 bytes로 가정
+bytes_per_param = 2
 
-    improvement_plan.append({
-        "issue": row["issue"],
-        "action_bucket": action_bucket,
-        "next_action": row["next_action"],
-    })
 
-review_summary = {
-    "incident_count": len(incident_records),
-    "priority_1_count": sum(row["priority"] == 1 for row in incident_records),
-    "priority_2_count": sum(row["priority"] == 2 for row in incident_records),
-    "categories": sorted({row["category"] for row in incident_records}),
-}
+def to_gb(param_count):
+    return round(param_count * bytes_per_param / (1024 ** 3), 2)
 
-print("review_summary =", review_summary)
-print("incident_records =")
-for row in incident_records:
-    print(row)
-print("improvement_plan =")
-for row in improvement_plan:
-    print(row)
+
+full_total_trainable = full_finetuning_trainable_per_task * len(tasks)
+lora_total_trainable = lora_trainable_per_task * len(tasks)
+
+full_extra_storage_gb = to_gb(full_finetuning_trainable_per_task * len(tasks))
+lora_extra_storage_gb = to_gb(lora_trainable_per_task * len(tasks))
+
+growth_reports = []
+for task_count in task_count_options:
+    growth_reports.append(
+        {
+            "task_count": task_count,
+            "full_trainable": full_finetuning_trainable_per_task * task_count,
+            "lora_trainable": lora_trainable_per_task * task_count,
+            "full_storage_gb": to_gb(full_finetuning_trainable_per_task * task_count),
+            "lora_storage_gb": to_gb(lora_trainable_per_task * task_count),
+        }
+    )
+
+print("base_model_params =", base_model_params)
+print("tasks =", tasks)
+print("growth_reports =", growth_reports)
+print("full_total_trainable =", full_total_trainable)
+print("lora_total_trainable =", lora_total_trainable)
+print("full_extra_storage_gb =", full_extra_storage_gb)
+print("lora_extra_storage_gb =", lora_extra_storage_gb)
 ```
 
-실행 결과 예시는 다음과 같습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-review_summary = {'incident_count': 3, 'priority_1_count': 2, 'priority_2_count': 1, 'categories': ['content/runtime', 'deploy/content', 'runtime']}
-incident_records =
-{'date': '2026-06-29', 'issue': 'latest section missing on deployed page', 'category': 'deploy/content', 'likely_cause': 'main branch not updated or workflow still pending', 'user_impact': 'readers cannot see the newest section', 'priority': 1, 'next_action': 'check Actions run and confirm main branch status'}
-{'date': '2026-06-29', 'issue': 'internal link returns 404', 'category': 'runtime', 'likely_cause': 'nav path and actual file path do not match', 'user_impact': 'reader flow is interrupted', 'priority': 1, 'next_action': 'review mkdocs nav and target file paths'}
-{'date': '2026-06-29', 'issue': 'math rendering is missing on one page', 'category': 'content/runtime', 'likely_cause': 'script load or markdown syntax problem', 'user_impact': 'equation explanation becomes unclear', 'priority': 2, 'next_action': 'recheck browser rendering and math block syntax'}
-improvement_plan =
-{'issue': 'latest section missing on deployed page', 'action_bucket': 'fix_immediately', 'next_action': 'check Actions run and confirm main branch status'}
-{'issue': 'internal link returns 404', 'action_bucket': 'fix_immediately', 'next_action': 'review mkdocs nav and target file paths'}
-{'issue': 'math rendering is missing on one page', 'action_bucket': 'fix_next_cycle', 'next_action': 'recheck browser rendering and math block syntax'}
+base_model_params = 7000000000
+tasks = ['customer_support', 'summarization', 'code_assistant']
+growth_reports = [{'task_count': 1, 'full_trainable': 7000000000, 'lora_trainable': 8000000, 'full_storage_gb': 13.04, 'lora_storage_gb': 0.01}, {'task_count': 3, 'full_trainable': 21000000000, 'lora_trainable': 24000000, 'full_storage_gb': 39.12, 'lora_storage_gb': 0.04}, {'task_count': 10, 'full_trainable': 70000000000, 'lora_trainable': 80000000, 'full_storage_gb': 130.39, 'lora_storage_gb': 0.15}]
+full_total_trainable = 21000000000
+lora_total_trainable = 24000000
+full_extra_storage_gb = 39.12
+lora_extra_storage_gb = 0.04
 ```
 
-## 이 출력은 어떻게 읽는가
+이 예제는 특정 실제 제품 수치를 주장하는 것이 아닙니다. 다만 독자가 다음 감각을 직접 확인하게 해 줍니다.
 
-이 예제에서 중요한 점은 세 가지입니다.
+- 같은 기반 모델이라도 업무 수가 늘어나면 전체 파인튜닝은 학습 대상과 저장 부담이 급격히 커질 수 있습니다.
+- LoRA는 업무마다 작은 조정본만 추가로 관리하는 쪽에 가깝습니다.
+- `growth_reports`를 보면 업무 수가 1개에서 10개로 늘 때 전체 파인튜닝 저장 부담은 빠르게 커지지만, LoRA 조정본은 훨씬 완만하게 증가합니다.
+- 그 차이가 실험 회전 수, 저장 전략, 버전 관리 방식을 실제로 바꿀 수 있습니다.
 
-1. `incident_records`  
-   실패를 단순 사건 메모가 아니라 `category`, `likely_cause`, `user_impact`, `priority`가 있는 운영 기록으로 남깁니다.
+이 예제에서는 `tasks`를 더 늘리거나 `lora_trainable_per_task`를 바꿔 볼 수 있습니다. 예를 들어 업무를 3개에서 10개로 늘리면 전체 파인튜닝 방식은 저장 부담이 선형으로 크게 늘고, LoRA는 훨씬 완만하게 증가하는 모습을 더 선명하게 볼 수 있습니다.
 
-2. `improvement_plan`  
-   같은 실패 목록이라도 `fix_immediately`, `fix_next_cycle`처럼 행동 구간으로 나누면 다음 반복이 쉬워집니다.
-   즉, `incident_records`가 무슨 일이 있었는지 남기는 회고 원장이라면, `improvement_plan`은 그 원장을 이번 주 작업표로 다시 옮겨 적은 실행 목록입니다.
+## 이 예제를 조정 비용 절감 관점으로 다시 보면
 
-3. `review_summary`  
-   우선순위 1 문제가 몇 개인지 바로 보여 주므로, 무엇을 먼저 고쳐야 하는지 한눈에 읽을 수 있습니다.
+이 예제의 목적은 LoRA 수치를 외우는 데 있지 않습니다. 핵심은 `모델 전체를 다시 만지지 않고도 필요한 변화만 작게 더하는 방식`이 가능하다는 감각이며, 바로 그 점이 실험 속도, 메모리 부담, 배포 전략을 함께 바꿉니다.
 
-즉, 회고 문서는 과거 설명이 아니라 다음 반복을 여는 작업 목록이어야 합니다.
+LoRA는 갑자기 튀어나온 단발 기술이라기보다, 큰 사전학습 모델을 더 적은 비용으로 목적 적응시키려는 흐름 안에 있습니다. 이 흐름에는 adapter, prefix tuning, prompt tuning 같은 계열도 함께 등장합니다.
 
-## 왜 postmortem 습관이 필요한가
+커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
 
-Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹니다. 이 책의 Part 6 프로젝트 수준에서는 거대한 조직 절차까지 갈 필요는 없지만, 핵심 태도는 그대로 가져올 수 있습니다.
+- 바로 앞의 P6-7.1 파인튜닝을 곧바로 `전체 모델 다시 학습`으로만 이해하지 않게 하고
+- LLM 서비스 실무에서 비용과 구조 선택을 같이 생각하게 하며
+- 이후 P6-8.1 instruction tuning, P6-8.2 alignment, P6-16.1 서비스 운영 제약 절에서 `모델 조정 비용`을 읽는 기반을 만들기 때문입니다
 
-- 실패를 숨기지 않는다.
-- 원인을 단정하기보다 가능한 설명을 적는다.
-- 다음 반복에서 바꿀 것을 남긴다.
+## 다음 장과의 연결
 
-즉, 회고는 책임 추궁이 아니라 `반복 가능한 개선 메모`입니다.
+여기까지 오면 이제 다음 질문이 남습니다.
 
-이 문장은 Part 6 전체를 마무리하는 태도이기도 합니다. 작은 프로젝트라도 실패를 남겨야 다음 반복이 쉬워집니다.
+- 단순 도메인 적응을 넘어서, 사용자의 자연어 지시를 더 잘 따르도록 만드는 과정은 무엇인가?
+- 유용성과 안전성을 함께 맞추는 정렬(alignment) 문제는 어디서 등장하는가?
 
-## 개선 계획 우선순위 붙이기
-
-개선 계획은 많아질수록 오히려 실행되지 않기 쉽습니다. 그래서 작은 프로젝트에서는 다음처럼 우선순위를 붙이는 편이 좋습니다.
-
-1. 다시 발생하면 바로 보이는 문제  
-   예: broken link, build failure
-2. 독자 경험을 직접 해치는 문제  
-   예: 최신 내용 미반영, 모바일 가독성 저하
-3. 나중에 구조적으로 키워야 할 문제  
-   예: 배포 자동 검증 강화, 모니터링 항목 추가
-
-이렇게 나누면 회고가 단순 희망사항 목록으로 끝나지 않습니다.
-
-이 우선순위를 다음 세 줄로 요약할 수 있으면 충분합니다.
-
-- 먼저 다시 보이는 실패를 고친다
-- 다음으로 독자 경험을 해치는 문제를 고친다
-- 그다음 구조적 개선을 계획한다
-
-## 나쁜 실패 기록과 좋은 실패 기록
-
-실패 기록도 자주 너무 짧거나 너무 감정적으로 끝납니다. 다음 정도로 대비해 보면 기준이 분명해집니다.
-
-| 구분 | 예시 |
-| --- | --- |
-| 나쁜 기록 | `배포가 좀 이상했다. 나중에 확인 필요.` |
-| 좋은 기록 | `최신 섹션이 배포 페이지에 보이지 않았다. category는 deploy/content로 보고, main 미반영 또는 workflow 지연 가능성을 먼저 확인한다. 독자는 최신 내용을 읽을 수 없으므로 priority는 1로 둔다.` |
-
-좋은 기록은 완벽한 원인 분석이 없어도 괜찮습니다. 대신 `관찰된 현상`, `현재 가능한 원인 추정`, `다음 조치`, `우선순위`가 함께 남아 있어야 다음 반복에서 바로 다시 잡을 수 있습니다.
-
-## 프로젝트 회고 문장 예시
-
-> 이번 정적 문서 배포 프로젝트는 로컬 빌드와 GitHub Pages 배포를 분리해 확인하는 구조를 정리했다. 그러나 배포 성공 여부만으로는 충분하지 않았고, 최신 문서 반영, 내부 링크 정상 동작, 실제 공개 페이지 확인이 별도 단계로 필요했다. 다음 반복에서는 배포 후 점검 체크리스트를 더 짧고 명확하게 만들고, 링크 점검과 최근 수정 반영 여부를 우선 확인 항목으로 두는 것이 적절하다.
-
-## 이 책 전체와의 연결
-
-Part 6의 마지막 회고는 사실 이 책 전체의 학습 방식과도 연결됩니다.
-
-- 개념을 배웠다.
-- 작은 프로젝트로 다시 해 봤다.
-- 실패와 한계를 기록했다.
-- 다음 반복 계획을 남겼다.
-
-이 흐름이 있어야 재학습 저장소가 단순 메모가 아니라 `계속 갱신되는 학습 시스템`이 됩니다.
-
-이 절은 Part 6 전체 흐름에서 `프로젝트의 끝은 구현 완료가 아니라 회고와 다음 계획 작성`이라는 점을 고정합니다.
+이 질문은 P6-8.1 지시 튜닝(instruction tuning)으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 배포 프로젝트에도 실패 기록이 필요합니다.
-- build, deploy, content, runtime 실패를 구분하면 회고가 더 선명해집니다.
-- 개선 계획은 우선순위를 붙여야 실제 행동으로 이어집니다.
-- 작은 프로젝트의 회고 습관이 큰 운영 문화의 출발점입니다.
+- LoRA는 큰 기반 모델을 효율적으로 조정하려는 방법입니다.
+- 전체 파인튜닝과 달리 작은 추가 조정분 중심으로 학습합니다.
+- 비용, 저장, 버전 관리 측면에서 실무적 장점이 있습니다.
+- 하지만 품질 검증과 데이터 품질 문제를 대신 해결해 주지는 않습니다.
 
 ## 체크리스트
 
-- 실패를 유형별로 나눠 기록할 수 있는가?
-- likely cause와 next action을 함께 적었는가?
-- 독자 경험에 직접 영향을 주는 문제를 우선순위로 올렸는가?
-- 회고가 다음 반복 계획으로 이어지는가?
+- 왜 효율적 조정이 필요한지 설명할 수 있는가?
+- LoRA의 기본 아이디어를 말할 수 있는가?
+- 전체 파인튜닝과 LoRA의 차이를 설명할 수 있는가?
+- 왜 다음 장에서 instruction tuning과 alignment 논의로 넘어가는지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- GitHub Docs, `Creating a GitHub Pages site`, 확인 날짜: 2026-06-29. [https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site){: target="_blank" rel="noopener noreferrer" }
-- Google, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 확인 날짜: 2026-06-29. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }
-
-이 절의 실패 기록 표는 Part 6 프로젝트 회고를 위해 구성한 자체 예시입니다.
+- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-06-29.
+- Edward J. Hu et al., `LoRA: Low-Rank Adaptation of Large Language Models`, arXiv, 2021, 확인 날짜: 2026-06-29.
+- Sebastian Raschka, 효율적 파인튜닝 교육 자료, 확인 날짜: 2026-06-29.

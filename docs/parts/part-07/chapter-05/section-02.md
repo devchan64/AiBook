@@ -1,0 +1,309 @@
+# P7-5.2 검색 품질과 답변 검증
+
+P7-5.1에서는 RAG 프로젝트의 최소 흐름을 만들었습니다. 하지만 RAG는 `검색을 붙였다`고 끝나는 구조가 아닙니다.
+
+실제 프로젝트에서는 곧바로 다음 문제가 나옵니다.
+
+- 검색이 엉뚱한 문서를 가져오면?
+- 검색 결과는 맞지만 답변이 과장되면?
+- 질문이 문서 범위 밖이면?
+
+그래서 이번 절은 `검색 품질`과 `답변 검증`을 따로 기록하는 법을 다룹니다.
+
+이 절의 목적은 RAG가 실패했을 때, 검색이 문제인지 답변이 문제인지 구분해 프로젝트 문서에 남기는 것이다.
+
+## 이 절의 범위
+
+이 절은 다음 질문에 답합니다.
+
+- RAG 프로젝트에서 검색 품질은 무엇을 뜻하는가?
+- 답변이 문서 근거를 벗어났는지 어떻게 점검할 수 있는가?
+- 검색 실패와 답변 실패를 왜 따로 적어야 하는가?
+
+이 절은 다음 내용은 깊게 다루지 않습니다.
+
+- retrieval metric의 엄밀한 수식 비교
+- 자동 평가 프레임워크
+- reranker 모델의 세부 구현
+
+이 절에서는 검색 실패와 답변 실패를 문서에 남기는 최소 기준까지만 다룹니다. 더 넓은 평가 구조는 뒤의 P7-7.2 실패 기록과 개선 계획에서 다시 회수하고, retrieval metric의 수식과 reranker 구현 세부는 현재 본편 범위 밖으로 둡니다.
+
+## 이 절의 목표
+
+- 검색 실패와 답변 실패를 구분해 기록할 수 있습니다.
+- 근거 없는 답변을 `문서 범위 밖`이라는 형태로 안전하게 처리하는 기준을 세울 수 있습니다.
+- RAG 프로젝트 평가표에 최소 무엇이 들어가야 하는지 정리할 수 있습니다.
+
+## 왜 두 실패를 구분해야 하나
+
+RAG 프로젝트에서는 최소 두 종류의 실패가 있습니다.
+
+| 실패 유형 | 설명 |
+| --- | --- |
+| 검색 실패 | 관련 문서가 top-k에 안 들어온다 |
+| 답변 실패 | 문서는 찾았지만 답변이 근거를 벗어나거나 과장한다 |
+
+이 둘을 섞으면 원인 분석이 어려워집니다.
+
+예를 들어:
+
+- 검색이 틀렸다면 chunking, query reformulation, embedding, index 쪽을 봐야 합니다.
+- 답변이 과장됐다면 prompt, answer template, citation rule, refusal rule을 봐야 합니다.
+
+먼저 다음 세 질문으로 읽으면 좋습니다.
+
+| 질문 | 짧은 답 |
+| --- | --- |
+| 실패를 왜 둘로 나누는가? | 원인과 수정 지점이 다르기 때문 |
+| 검색 실패는 무엇을 뜻하는가? | 관련 문서를 못 찾은 상태 |
+| 답변 실패는 무엇을 뜻하는가? | 문서는 있었지만 답이 근거를 벗어난 상태 |
+
+여기에 한 가지를 더 붙이면 RAG 프로젝트의 평가 메모가 훨씬 단단해집니다. `top score` 하나만 적는 데서 끝내지 말고, `현재 검색 기준선`, `질문별 review 대상`, `문서 범위 밖으로 멈춘 이유`를 같이 남기는 것입니다. 그래야 다음 반복에서 검색을 바꿔야 하는지, 답변 규칙을 바꿔야 하는지 더 빨리 구분할 수 있습니다.
+
+| 평가 메모에 같이 남길 것 | 왜 필요한가 |
+| --- | --- |
+| 현재 retrieval 기준선 | 다음 실험에서 검색 규칙이 무엇과 달라졌는지 비교하기 위해서입니다. |
+| review 대상 질문 목록 | 어떤 질문을 먼저 다시 점검할지 고정하기 위해서입니다. |
+| 멈춘 이유 | 근거 부족인지, 검색 실패인지, 답변 과장 위험인지 분리하기 위해서입니다. |
+| 다음 수정 질문 | chunking, query reformulation, prompt 중 어디를 먼저 바꿀지 정하기 위해서입니다. |
+
+## 작은 검증 규칙 만들기
+
+입문 프로젝트에서는 거대한 평가 시스템 대신 다음처럼 단순한 규칙부터 둘 수 있습니다.
+
+1. 검색된 문서가 질문과 직접 관련 있는가?
+2. 답변 문장이 검색된 문장에 실제로 포함된 정보만 말하는가?
+3. 문서에 없는 내용이면 `문서에서 확인되지 않는다`고 답하는가?
+
+이 세 줄은 작은 RAG 프로젝트의 `최소 검증 규칙`으로 그대로 문서에 들어갈 수 있습니다.
+
+이 세 규칙만 있어도 프로젝트 문서의 품질이 크게 올라갑니다.
+
+## 예제: 문서 범위 밖 질문
+
+이번 절에서는 일부러 문서 범위 밖 질문을 넣어 보겠습니다.
+
+- 문서 집합에는 `MCP가 무엇인가`에 대한 정보가 없습니다.
+- 그런데 사용자가 `MCP는 왜 필요한가?`라고 물어봅니다.
+
+이때 좋은 RAG 프로젝트는 억지로 아는 척하는 답을 만들지 않고, `현재 검색된 문서 기준으로는 답할 근거가 부족하다`고 기록해야 합니다.
+
+## Python 예제
+
+이번 예제의 목적은 검색 점수와 답변 가능 여부를 함께 출력하는 것입니다. 이번에는 질문별로 `retrieval_candidates`, `answer_status`, `needs_revision`가 남는 `evaluation_records`를 만들겠습니다.
+
+이 기록이 필요한 이유는 `답이 틀렸다`에서 멈추지 않고, 그 실패가 `문서를 못 찾은 것인지`, `근거가 부족해 멈춘 것인지`, `답변 단계에서 과장한 것인지`를 다음 수정 때 다시 분리해 볼 수 있게 하기 위해서입니다.
+
+- 문제 상황: 질문마다 검색 실패와 답변 실패를 구분해 기록한다.
+- 입력(input): 문서 조각 3개, 질문 2개
+- 기대 출력(output): 질문별 top score, 답변 상태, 수정 필요 여부, 후보 문서 목록
+- 확인할 개념:
+  - 검색 점수와 답변 상태를 함께 봐야 실패 위치를 구분할 수 있다
+  - 근거가 없으면 멈추는 답변도 평가 결과에 포함된다
+  - 질문별 후보 문서를 남겨야 다음 수정 지점을 다시 찾기 쉽다
+
+```python
+documents = {
+    "doc_1": "RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.",
+    "doc_2": "임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.",
+    "doc_3": "프롬프트만으로는 최신 문서 근거를 보장할 수 없다.",
+}
+
+questions = [
+    "RAG가 왜 필요한가?",
+    "MCP는 왜 필요한가?",
+]
+
+def normalize_token(token):
+    token = token.replace("?", "").replace(".", "")
+    for keyword in ["RAG", "MCP"]:
+        if token.startswith(keyword):
+            return keyword
+    return token
+
+def tokenize(text):
+    return {normalize_token(token) for token in text.split()}
+
+evaluation_records = []
+for question in questions:
+    q_tokens = tokenize(question)
+    retrieval_candidates = []
+    for doc_id, text in documents.items():
+        overlap = len(q_tokens & tokenize(text))
+        retrieval_candidates.append({
+            "doc_id": doc_id,
+            "score": overlap,
+            "text": text,
+        })
+
+    retrieval_candidates.sort(key=lambda x: x["score"], reverse=True)
+    top_candidate = retrieval_candidates[0]
+
+    if top_candidate["score"] == 0:
+        answer = "현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다."
+        answer_status = "insufficient_evidence"
+    else:
+        answer = (
+            f"{top_candidate['text']} 이 문장 범위 안에서만 답하면, "
+            "외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다."
+        )
+        answer_status = "grounded_answer"
+
+    evaluation_records.append({
+        "question": question,
+        "top_doc_id": top_candidate["doc_id"],
+        "top_score": top_candidate["score"],
+        "answer_status": answer_status,
+        "answer": answer,
+        "needs_revision": bool(top_candidate["score"] == 0),
+        "retrieval_candidates": retrieval_candidates,
+    })
+
+review_summary = {
+    "question_count": len(evaluation_records),
+    "grounded_answer_count": sum(
+        row["answer_status"] == "grounded_answer" for row in evaluation_records
+    ),
+    "insufficient_evidence_count": sum(
+        row["answer_status"] == "insufficient_evidence"
+        for row in evaluation_records
+    ),
+    "needs_revision_ids": [
+        row["question"] for row in evaluation_records if row["needs_revision"]
+    ],
+}
+
+print("review_summary =", review_summary)
+print("evaluation_records =")
+for row in evaluation_records:
+    print(row)
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+review_summary = {'question_count': 2, 'grounded_answer_count': 1, 'insufficient_evidence_count': 1, 'needs_revision_ids': ['MCP는 왜 필요한가?']}
+evaluation_records =
+{'question': 'RAG가 왜 필요한가?', 'top_doc_id': 'doc_1', 'top_score': 1, 'answer_status': 'grounded_answer', 'answer': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다. 이 문장 범위 안에서만 답하면, 외부 근거를 붙이기 위해 검색이 필요하다고 설명할 수 있다.', 'needs_revision': False, 'retrieval_candidates': [{'doc_id': 'doc_1', 'score': 1, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}, {'doc_id': 'doc_2', 'score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}, {'doc_id': 'doc_3', 'score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}]}
+{'question': 'MCP는 왜 필요한가?', 'top_doc_id': 'doc_1', 'top_score': 0, 'answer_status': 'insufficient_evidence', 'answer': '현재 검색된 문서에서는 이 질문에 답할 근거를 찾지 못했다.', 'needs_revision': True, 'retrieval_candidates': [{'doc_id': 'doc_1', 'score': 0, 'text': 'RAG는 외부 문서를 검색해 모델 입력에 넣는 구조다.'}, {'doc_id': 'doc_2', 'score': 0, 'text': '임베딩은 텍스트를 벡터로 바꾸어 유사도 비교를 가능하게 한다.'}, {'doc_id': 'doc_3', 'score': 0, 'text': '프롬프트만으로는 최신 문서 근거를 보장할 수 없다.'}]}
+```
+
+## 결과를 어떻게 읽는가
+
+두 번째 질문이 이 절의 핵심입니다.
+
+- `evaluation_records`에서 두 번째 질문은 `top_score = 0`, `answer_status = insufficient_evidence`, `needs_revision = True`로 기록됩니다.
+- 즉, 현재 문서 집합과 현재 검색 규칙 기준으로는 답 근거가 없습니다.
+- 이때도 억지로 설명을 만들면 그것은 RAG 품질 문제가 아니라 `검증 규칙 부재` 문제입니다.
+
+여기서도 해석을 너무 빨리 닫으면 안 됩니다. `top_score = 0`은 이번 작은 예제에서 `현재 문서 집합`, `현재 토큰 겹침 검색`, `현재 질문 표현` 기준으로 근거를 찾지 못했다는 신호이며, 다음 반복에서는 문서 추가, 질의 재작성, 검색 규칙 변경을 각각 분리해 다시 확인할 수 있습니다.
+
+따라서 좋은 RAG 프로젝트는 `답을 잘하는 것`뿐 아니라 `근거가 없을 때 멈출 수 있는 것`도 포함해야 합니다.
+
+이 기록은 RAG 프로젝트의 baseline을 더 넓게 읽게도 해 줍니다. 어떤 경우 baseline은 단순 키워드 겹침 검색일 수 있고, 어떤 경우에는 `현재 문서 집합 + 현재 검색 규칙 + 현재 답변 중단 규칙` 전체가 비교 기준선이 됩니다. 다음 반복에서 검색기를 바꾸거나 reranker를 붙일 때는 바로 이 기준선과 무엇이 달라졌는지 비교해야 개선을 말할 수 있습니다.
+
+이 결과는 다음 세 줄로 요약할 수 있습니다.
+
+- top score가 0이면 현재 기준선에서는 근거를 찾지 못했다는 뜻이다
+- 근거가 없을 때 멈추는 것도 품질이다
+- grounded/insufficient 상태를 질문별 기록으로 남겨야 다음 수정이 쉬워진다
+- 따라서 검색 품질과 답변 품질을 따로 적어야 한다
+
+## 프로젝트 평가표 예시
+
+작은 RAG 프로젝트라면 최소한 다음 표를 남길 수 있습니다.
+
+| 질문 | top_doc_id | top_score | 답변 상태 |
+| --- | --- | ---: | --- |
+| RAG가 왜 필요한가? | doc_1 | 1 | grounded answer |
+| MCP는 왜 필요한가? | doc_1 | 0 | insufficient evidence |
+
+이 표가 있으면 검색 실패와 답변 실패를 나중에 따로 다시 볼 수 있습니다.
+
+이 표는 Part 7의 RAG 프로젝트에서 평가 기록의 최소 구조로 읽을 수 있습니다.
+
+이 평가표를 `비교 가능한 기록 묶음`으로 다시 적으면 다음과 같습니다.
+
+| 기록 묶음 | 지금 남기는 이유 |
+| --- | --- |
+| retrieval 기준선 | 다음 검색 실험과 비교하기 위해 |
+| 질문별 top candidate와 상태 | 실패 위치를 질문 단위로 다시 읽기 위해 |
+| needs_revision 목록 | 다음 반복에서 먼저 수정할 대상을 고정하기 위해 |
+| 회고 문장 | 검색 문제와 답변 문제를 한 문단으로 구분해 남기기 위해 |
+
+## 평가 기록의 최소 구조
+
+평가 기록은 다음 정도의 최소 구조만 있어도 충분합니다.
+
+```text
+### review_summary
+- question_count:
+- grounded_answer_count:
+- insufficient_evidence_count:
+- needs_revision_questions:
+
+### evaluation_records
+| question | top_doc_id | top_score | answer_status | needs_revision | note |
+| --- | --- | ---: | --- | --- | --- |
+|  |  |  | grounded answer / insufficient evidence | True / False |  |
+```
+
+이 템플릿에서 중요한 점은 화려한 평가 지표를 많이 넣는 일이 아니라, 질문별로 `검색 결과`, `답변 상태`, `수정 필요 여부`가 한 줄에 같이 남는가입니다.
+
+이번 절의 예시를 같은 구조로 정리하면 다음과 같습니다.
+
+```text
+### review_summary
+- question_count: 2
+- grounded_answer_count: 1
+- insufficient_evidence_count: 1
+- needs_revision_questions:
+  - MCP는 왜 필요한가?
+
+### evaluation_records
+| question | top_doc_id | top_score | answer_status | needs_revision | note |
+| --- | --- | ---: | --- | --- | --- |
+| RAG가 왜 필요한가? | doc_1 | 1 | grounded answer | False | 답변 가능 |
+| MCP는 왜 필요한가? | doc_1 | 0 | insufficient evidence | True | 문서 범위 밖 질문 |
+```
+
+## 나쁜 평가 기록과 좋은 평가 기록
+
+RAG 평가 기록도 자주 너무 짧거나, 반대로 근거 없이 `잘 됐다`는 감상으로 끝납니다. 다음 정도로 대비해 보면 기준이 더 분명해집니다.
+
+| 구분 | 예시 |
+| --- | --- |
+| 나쁜 기록 | `검색은 됐고 답도 대체로 괜찮았다. 이상한 질문은 나중에 보자.` |
+| 좋은 기록 | `질문 2개 중 1개는 grounded answer였고, 'MCP는 왜 필요한가?'는 top_score 0으로 insufficient evidence였다. 현재 문서 집합과 현재 검색 규칙 기준으로 근거를 찾지 못했으므로 답변을 확장하지 않고 needs_revision에 남긴다.` |
+
+나쁜 기록은 분위기만 남고, 어떤 질문이 막혔는지와 다음 수정 지점이 보이지 않습니다. 좋은 기록은 `질문별 상태`, `근거 부족 여부`, `지금 멈춘 이유`, `다음 수정 대상`이 함께 남습니다.
+
+## 다음 프로젝트와의 연결
+
+이 절에서 만든 `검색 -> 근거 -> 답변` 구조는 바로 agent 프로젝트와 이어집니다. agent도 결국 다음을 분리해야 하기 때문입니다.
+
+- 어떤 도구를 호출했는가?
+- 도구 결과가 실제로 충분했는가?
+- 결과가 부족하면 다음 행동을 멈췄는가?
+
+즉, RAG의 검증 습관은 agent의 실행 검증 습관과 직접 연결됩니다.
+
+## 이 절에서 기억할 관점
+
+- RAG 프로젝트는 검색 실패와 답변 실패를 구분해야 합니다.
+- 근거가 없을 때 멈추는 것도 품질입니다.
+- 평가표에는 질문, 검색 결과, 점수, 답변 상태가 함께 있어야 합니다.
+- 검증 규칙이 없으면 RAG도 쉽게 환각 구조가 됩니다.
+
+## 체크리스트
+
+- 검색 실패와 답변 실패를 구분해 적을 수 있는가?
+- 근거가 없는 질문에 대해 안전한 답변 규칙을 세웠는가?
+- 평가표에 질문/검색결과/답변상태를 남겼는가?
+- 환각을 줄이는 규칙을 한 문장으로 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- OpenAI, `Retrieval`, OpenAI API Docs, 확인 날짜: 2026-06-29. [https://developers.openai.com/api/docs/guides/retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }
+
+이 절의 문서 조각과 질문 예시는 프로젝트 실습을 위해 만든 자체 예시입니다.
