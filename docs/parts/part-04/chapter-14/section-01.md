@@ -375,16 +375,7 @@ after simple layer norm =
 
 실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
 
-## 이 예제를 블록 조합 관점으로 다시 보면
-
-앞의 숫자는 Transformer 전체를 구현한 것은 아니지만, 각 부품의 역할 차이는 분명하게 드러납니다.
-
-- `contextual tokens`는 self-attention이 다른 위치 정보를 먼저 섞는 단계입니다.
-- `feed-forward output`은 섞인 표현을 각 위치에서 한 번 더 가공한 결과입니다.
-- `after residual`은 새 계산만 믿지 않고 원래 표현도 함께 들고 가는 안전장치 역할을 보여 줍니다.
-- `after simple layer norm`은 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 줍니다.
-
-즉, Transformer 블록은 `attention 하나`가 아니라, `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`가 한 묶음으로 반복되는 구조입니다. 이 감각이 잡혀야 다음 절 P4-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
+앞의 숫자는 Transformer 전체를 구현한 것은 아니지만, `contextual tokens -> feed-forward output -> after residual -> after simple layer norm` 순서만 따라가도 이 블록이 `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`를 한 묶음으로 반복한다는 점은 충분히 드러납니다. 이 감각이 잡혀야 다음 절 P4-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
 
 Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계는 이후 다양한 대규모 언어·멀티모달 모델에서 공통 기본 단위처럼 재사용되었습니다.
 
