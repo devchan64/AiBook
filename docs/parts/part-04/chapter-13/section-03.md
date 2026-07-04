@@ -285,7 +285,7 @@ difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 - single-head는 여러 관계를 한 번에 평균내며 하나의 절충된 문맥으로 남깁니다.
 - multi-head는 서로 다른 관계 읽기 결과를 나란히 유지한 뒤 나중에 함께 씁니다.
 
-즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 간다`는 뜻에 더 가깝습니다. 이 감각이 잡혀야 다음 `P4-14.1 Transformer`에서 multi-head attention이 왜 핵심 부품으로 반복 등장하는지도 자연스럽게 읽을 수 있습니다.
+즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 간다`는 뜻에 더 가깝습니다.
 
 ## Part 4 흐름에서 왜 중요한가
 
