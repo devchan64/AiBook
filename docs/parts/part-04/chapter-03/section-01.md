@@ -203,7 +203,7 @@ for name, (x1, x2) in examples.items():
     print("---")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 `inputs`에 대해 `linear score z`가 먼저 계산되고, 음수 점수가 `after activation`에서 어떻게 0으로 바뀌는지 이어서 보면 됩니다.
 
 ```text
 [edge_like_signal]
