@@ -253,7 +253,7 @@ print("distance(sample1, sample2) in h1 =", pair_distance(h1[0], h1[1]))
 print("distance(sample1, sample2) in h2 =", pair_distance(h2[0], h2[1]))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 `x`, `h1`, `h2`를 차례로 보고, `sample1`과 `sample2` 사이 거리가 층을 지날수록 어떻게 달라지는지 이어서 보면 됩니다.
 
 ```text
 x =
