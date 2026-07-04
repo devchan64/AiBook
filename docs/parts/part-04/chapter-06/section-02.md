@@ -198,7 +198,7 @@ print("train_run_2 mean =", mean(train_run_2))
 print("eval_run mean =", mean(eval_run))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 train_run_1, train_run_2, eval_run이 같은 입력에서도 어떻게 달라지는지부터 비교하면 됩니다.
 
 ```text
 original = [0.8, 1.2, 0.5, 1.5, 0.9]
