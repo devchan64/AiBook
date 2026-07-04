@@ -272,7 +272,7 @@ for name, inputs in cases.items():
     run_case(name, inputs)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 입력의 contributions, 최종 weighted_sum, 그리고 output 판단을 순서대로 보면 됩니다.
 
 ```text
 [safe_guest]
