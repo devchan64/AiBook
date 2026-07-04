@@ -257,7 +257,7 @@ print("linear combination z =", round(z, 3))
 print("activated output =", output)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 linear combination z가 만든 중간 점수와 activated output이 만든 최종 판단을 먼저 비교하면 됩니다.
 
 ```text
 linear combination z = 0.4
