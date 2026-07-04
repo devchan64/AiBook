@@ -262,7 +262,7 @@ for position, patch, flat in vit_tokens:
     print("patch_embedding =", embedding_value)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 CNN의 겹치는 local patch들과 ViT의 patch token 구성이 어떻게 달라지는지부터 보면 됩니다.
 
 ```text
 [cnn local patches]
