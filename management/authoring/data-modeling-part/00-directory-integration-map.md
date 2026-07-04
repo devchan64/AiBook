@@ -6,7 +6,7 @@
 
 ## 현재 구조
 
-- 독립 Part 설계 기준 문서: 현재 디렉터리 루트의 `01`부터 `13`
+- 독립 Part 설계 기준 문서: 현재 디렉터리 루트의 `01`부터 `13`, `16`
 - 공통 자산과 경계 문장 기준: `14-shared-assets-and-guards.md`
 - 원고 반영 점검 문서: `15-manuscript-application-checklist.md`
 
@@ -29,6 +29,13 @@
 - `09-docs-structure-candidate.md`
 - `10-writing-sequence.md`
 - `11`부터 `13`
+- `16-module-chapter-section-list.md`
+
+### 2-1. 현재 더미 파일 목록을 점검하려면
+
+- 실제 경로: `docs/parts/part-03/`
+- 관리 기준 문서: `09-docs-structure-candidate.md`
+- 모듈 대응 기준: `16-module-chapter-section-list.md`
 
 ### 3. 공통 자산을 다시 쓸 때는
 

@@ -44,6 +44,8 @@ Part 2를 마친 독자는 이미 다음 도구를 다시 읽을 수 있다.
 
 `현실에서 발생한 원천데이터를, 사람이 비교하고 AI가 활용할 수 있는 샘플·표현·비교 구조로 다시 만드는 법을 가르치는 Part`
 
+이 역할을 더 풀면, 이 Part는 `data wrangling`, `representation`, `feature engineering`, `baseline comparison`, `uncertainty-aware interpretation`을 초심자 재학습용 순서로 다시 엮는 구간이다.
+
 ## 앞뒤 Part와의 경계
 
 ### 앞 Part와의 경계
@@ -58,6 +60,7 @@ Part 2를 마친 독자는 이미 다음 도구를 다시 읽을 수 있다.
 
 ## 독립 Part가 가져가는 핵심 질문
 
+- 데이터 생애주기에서 데이터 모델링은 어디에 놓이는가
 - 측정값 하나와 샘플 하나는 어떻게 다른가
 - 원시 시계열은 왜 바로 데이터셋이 아닌가
 - 요약 표와 특징은 어떤 기준으로 설계하는가

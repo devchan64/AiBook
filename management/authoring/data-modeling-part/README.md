@@ -13,6 +13,14 @@
 - 새 Part는 어떤 Chapter와 Section으로 구성하는가
 - 기존 모듈 설계 자산은 어떻게 이 Part의 재료로 전환하는가
 
+이번 개편에서는 특히 다음 기준을 함께 반영한다.
+
+- 재학습 목적의 커리큘럼이어야 한다.
+- 특정 사례를 설명하되, 그 사례에 갇히지 않는 일반화된 표현을 유지해야 한다.
+- 다른 대학·학술 커리큘럼이 반복해서 다루는 주제를 흡수하되, 책의 사례 흐름에 맞게 다시 배치해야 한다.
+
+참조한 외부 조사 정리는 `management/authoring/ai-intro-curriculum-survey.md`의 `데이터 모델링 커리큘럼 조사` 섹션을 기준으로 삼는다.
+
 ## 현재 판단
 
 현재 기준으로는 데이터 모델링을 `Part 3`으로 두는 편이 가장 자연스럽다.
@@ -24,14 +32,25 @@
 - Part 4는 데이터 모델링 설명을 반복하지 않고 머신러닝 자체의 학습, 평가, 일반화로 더 곧게 들어갈 수 있다.
 - Part 7은 데이터 모델링 입문 설명 대신 프로젝트 산출물과 기록 구조에 집중할 수 있다.
 
+또한 Part 3은 단지 `사례를 잘 정리하는 절`이 아니라, 재학습자가 다시 회복해야 하는 다음 축을 묶어 가르치는 Part가 되어야 한다.
+
+- 데이터 생애주기 안에서 데이터 모델링이 맡는 위치
+- 한 행과 한 샘플의 차이
+- 원시 로그와 분석용 표의 차이
+- 특징 공학(feature engineering)의 초심자용 의미
+- 기준선 비교와 통계적 보수성
+- 분류기 이전의 비교 리포트, 경고, 검토 큐라는 문제 설정
+
 ## 문서 읽기 순서
 
 1. `01-why-independent-part.md`
 2. `02-part-placement-and-role.md`
 3. `03-part-outline-draft.md`
-4. `04-transition-from-module-set.md`
-5. `14-shared-assets-and-guards.md`
-6. `15-manuscript-application-checklist.md`
+4. `06-chapter-section-map.md`
+5. `16-module-chapter-section-list.md`
+6. `04-transition-from-module-set.md`
+7. `14-shared-assets-and-guards.md`
+8. `15-manuscript-application-checklist.md`
 
 ## 디렉터리 구성
 
@@ -59,7 +78,9 @@
 - 독립 Part 필요성
 - 책 전체 내 배치 위치
 - Chapter/Section 수준 설계안
+- 현재 더미 파일 목록 점검
 - 기존 자산의 전환 규칙
+- 재학습용 커리큘럼 관점에서의 구조 개선
 
 아직 여기서 바로 다루지 않는 것은 다음이다.
 
