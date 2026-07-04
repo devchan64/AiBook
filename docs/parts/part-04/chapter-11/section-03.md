@@ -323,6 +323,8 @@ patch_embedding = 0.0
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
 | CNN 패치 개수와 ViT patch token 개수 | 같은 입력도 출발 계산 단위가 다르다는 뜻 | `stride`, `patch_size`, 이미지 크기를 바꾸면 단위 수와 겹침 정도가 달라집니다 |
+| CNN의 `(0, 0)`, `(0, 1)` 패치가 서로 겹친다 | CNN은 겹치는 지역 창을 촘촘히 훑으며 인접 위치 차이를 계속 읽는다는 뜻 | `stride`를 2로 바꾸면 겹침이 줄고 지역 반응 개수도 함께 줄어듭니다 |
+| ViT의 `flat_token`과 `patch_embedding`이 patch마다 하나씩 나온다 | ViT는 patch를 잘라 벡터 하나로 바꾼 뒤 그 벡터들을 토큰처럼 다룬다는 뜻 | `patch_size`를 더 작게 하면 token 수가 늘고, 더 크게 하면 token 수가 줄어듭니다 |
 
 - CNN 쪽은 `stride=1`로 겹치는 2x2 패치를 9번 읽습니다.
 - ViT 쪽은 같은 이미지를 2x2 patch 4개로 먼저 나눈 뒤, patch마다 벡터 하나를 만듭니다.
@@ -330,6 +332,12 @@ patch_embedding = 0.0
 - 이후 ViT는 이 patch embedding들 사이 관계를 attention으로 읽게 되고, CNN은 지역 반응을 더 깊은 층에서 다시 쌓아 갑니다.
 
 이 예제에서는 `image` 크기를 8x8로 늘리거나 `patch_size`, `stride`를 바꿔 볼 수 있습니다. 그러면 독자는 단순히 `CNN은 부분, ViT는 패치`라는 문장을 외우는 대신, 같은 입력이 `몇 개의 겹치는 지역 반응`과 `몇 개의 patch token`으로 바뀌는지 직접 비교해 볼 수 있습니다.
+
+| 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
+| --- | --- | --- |
+| CNN은 9개의 겹치는 패치를 만든다 | `stride`를 1과 2로 바꿔 겹침 정도와 패치 수가 어떻게 달라지는지 본다 | 겹치는 패치가 많다고 해서 곧바로 항상 더 좋은 이미지 이해라고 단정하지 않는다 |
+| ViT는 4개의 patch token으로 시작한다 | `patch_size`를 더 작게 하거나 크게 해 token 수가 어떻게 바뀌는지 본다 | token 수가 많다고 해서 곧바로 항상 더 좋은 attention 결과가 나온다고 단정하지 않는다 |
+| patch마다 `patch_embedding`이 하나씩 나온다 | embedding weight나 patch 값을 바꿔 어떤 patch가 더 큰 token 표현을 만드는지 본다 | 장난감 patch embedding 예제 하나로 실제 ViT 전체 성능과 inductive bias 차이를 모두 결론내리지 않는다 |
 
 ## self-attention과는 어떻게 연결되나
 
