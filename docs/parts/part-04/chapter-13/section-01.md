@@ -321,8 +321,6 @@ attention은 sequence-to-sequence 번역 연구에서 큰 영향력을 얻었고
 - sequence modeling의 관점이 `상태 유지`에서 `선택적 참조`로 이동하는 전환을 설명하며
 - attention 자체를 하나의 구조적 답으로 닫은 뒤 self-attention과 Transformer로 확장할 준비를 만들기 때문입니다
 
-즉, attention은 Part 4 후반부에서 가장 중요한 전환 개념 중 하나입니다.
-
 ## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
