@@ -215,7 +215,7 @@ print("mean_loss =", round(mean_loss, 3))
 print("worst_sample =", worst_sample[0], "error =", round(worst_sample[1], 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 sample별 squared_error를 먼저 보고, 그다음 mean_loss와 worst_sample이 어떻게 정리되는지 보면 됩니다.
 
 ```text
 sample_A target = 3.0 prediction = 2.5 squared_error = 0.25
