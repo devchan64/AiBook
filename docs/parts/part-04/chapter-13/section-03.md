@@ -286,14 +286,7 @@ difference_from_single = [-0.3, -0.4, 0.6, 0.3]
 | `combined`가 single-head보다 더 많은 축을 들고 간다 | 토큰 수나 head 수를 늘려 어떤 종류의 관계가 추가로 보존되는지 본다 | 차원을 늘렸다는 사실만으로 품질 향상을 바로 결론내리지 않는다 |
 | `difference_from_single`이 한쪽은 음수, 다른 쪽은 양수다 | 토큰 값을 바꿔 single-head에서 상쇄되던 차이가 multi-head에서 어떻게 분리되는지 본다 | 이 장난감 결합 예제 하나로 실제 projection과 output mixing 전체를 대체하지 않는다 |
 
-## 이 예제를 여러 관계 보존 관점으로 다시 보면
-
-앞의 숫자는 실제 대규모 multi-head attention 전체를 구현한 것은 아니지만, 비교 기준은 분명합니다.
-
-- single-head는 여러 관계를 한 번에 평균내며 하나의 절충된 문맥으로 남깁니다.
-- multi-head는 서로 다른 관계 읽기 결과를 나란히 유지한 뒤 나중에 함께 씁니다.
-
-즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 간다`는 뜻에 더 가깝습니다.
+앞의 숫자는 실제 대규모 multi-head attention 전체를 구현한 것은 아니지만, single-head가 여러 관계를 한 번에 평균내며 하나의 절충된 문맥으로 남기는 반면 multi-head는 서로 다른 관계 읽기 결과를 나란히 유지한 뒤 함께 쓴다는 비교 기준은 충분히 드러납니다. 즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 간다`는 뜻에 더 가깝습니다.
 
 ## Part 4 흐름에서 왜 중요한가
 
