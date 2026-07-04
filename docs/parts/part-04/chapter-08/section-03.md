@@ -172,7 +172,7 @@ for step, sample in enumerate(samples, start=1):
     print("---")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 batch마다 prediction, loss, gradient_w, updated_w가 어떤 순서로 이어지는지부터 보면 됩니다.
 
 ```text
 [batch 1]
