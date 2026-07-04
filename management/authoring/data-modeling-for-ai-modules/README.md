@@ -50,6 +50,8 @@
 - `12-part-draft-paragraphs.md`
 - `13-common-python-example-plan.md`
 - `14-python-example-draft-snippets.md`
+- `15-note-integration-priority-map.md`
+- `16-next-source-editing-queue.md`
 
 ## 현재 결론
 
