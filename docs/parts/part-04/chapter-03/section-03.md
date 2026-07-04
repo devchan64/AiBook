@@ -237,7 +237,7 @@ print("multiclass scores =", [round(v, 3) for v in animal_probs])
 print("top_label =", top_label)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 regression output, binary scores, multiclass scores, top_label을 순서대로 비교하면 됩니다.
 
 ```text
 regression output = 12.7
