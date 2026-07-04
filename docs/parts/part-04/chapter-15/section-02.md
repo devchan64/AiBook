@@ -255,7 +255,7 @@ print("counts =", counts)
 print("average_sampled_length =", avg_length)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 argmax_sentences와 sampled_sentences의 반복 차이, 그리고 counts 분포를 먼저 보면 됩니다.
 
 ```text
 argmax_sentences = ['회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.']
