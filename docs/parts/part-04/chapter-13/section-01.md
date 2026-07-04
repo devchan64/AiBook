@@ -278,7 +278,7 @@ print("context =", round(context, 3))
 print("lift_from_baseline =", round(context - baseline_context, 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 질문 관련 후보에 weight가 얼마나 몰렸는지부터 보면 됩니다.
 
 ```text
 question = 반품 가능한 기간은?
