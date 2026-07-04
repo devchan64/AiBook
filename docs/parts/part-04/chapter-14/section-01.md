@@ -23,6 +23,8 @@ Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트
 
 즉, 지금 장의 핵심은 `필요한 위치를 어떻게 참고할까`에서 `그 참조 계산을 어떤 블록 구성으로 안정적으로 반복할까`로 손잡이가 바뀐다는 점입니다.
 
+여기서 먼저 읽는 것은 optimizer나 regularization 같은 학습 절차가 아니라, Transformer 블록 안에서 각 부품이 어떻게 역할을 나누는가입니다.
+
 | 지금 이 절에서 읽는 것 | 아직 다음 절로 넘기는 것 |
 | --- | --- |
 | self-attention, feed-forward, residual, normalization이 한 블록 안에서 어떻게 역할을 나누는가 | 그 블록이 병렬 처리, 긴 문맥 비용, 계산 규모에서 무엇을 바꾸는가 |
