@@ -257,7 +257,7 @@ print("samples =", samples)
 print("counts =", counts)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 후보의 counts가 확률 가중치를 대체로 따라가는지부터 보면 됩니다.
 
 ```text
 samples = ['good', 'sunny', 'good', 'nice', 'good', 'good', 'nice', 'good', 'sunny', 'good', 'good', 'good', 'nice', 'nice', 'good', 'good', 'sunny', 'good', 'good', 'nice']
