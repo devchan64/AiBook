@@ -221,7 +221,7 @@ for case in cases:
     print("---")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 prediction, loss, gradient_w를 먼저 보고, 그 결과 update_direction이 왜 달라지는지 이어서 보면 됩니다.
 
 ```text
 [prediction_too_small]
