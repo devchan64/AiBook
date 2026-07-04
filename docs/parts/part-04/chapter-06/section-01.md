@@ -225,7 +225,7 @@ service_predictions = [13.28, 16.6]
 weight_after_inference = 3.32
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
+여기서는 학습 step에서 `weight`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 `weight`가 유지된다는 점을 먼저 확인하면 됩니다.
 
 - 학습 step에서는 `weight_before`와 `weight_after`가 다르므로 파라미터가 실제로 바뀝니다
 - inference에서는 새 입력을 넣어도 `weight_before_inference`와 `weight_after_inference`가 같습니다
