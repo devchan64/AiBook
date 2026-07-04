@@ -194,7 +194,7 @@ for g in gradients:
     )
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 같은 gradient 흐름에서도 SGD와 Adam-like의 delta와 최종 w 이동이 어떻게 달라지는지부터 비교하면 됩니다.
 
 ```text
 SGD updates
