@@ -221,7 +221,7 @@ cross_entropy_like = -math.log(true_class_probability)
 print("classification loss example =", round(cross_entropy_like, 3))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 regression loss example과 classification loss example이 각각 무엇을 재는지부터 구분해 보면 됩니다.
 
 ```text
 regression loss example = 0.64
