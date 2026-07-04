@@ -77,7 +77,7 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4
 | self-attention, feed-forward, residual, normalization이 한 블록을 이룬다 | GPU 규모, 긴 문맥 비용, long-context 최적화를 다 설명하지 않는다 | 그 블록이 실제 계산 규모에서 무엇을 바꾸는지 |
 | 블록 내부 역할 분담을 읽는다 | 대규모 학습과 서비스 확장 문제를 닫지 않는다 | P4-14.2의 병렬 처리와 긴 문맥 |
 
-역할 분담을 표로 다시 보면 다음과 같습니다.
+역할 분담은 다음 표처럼 정리할 수 있습니다.
 
 | 구성 요소 | 먼저 잡아야 할 역할 |
 | --- | --- |
