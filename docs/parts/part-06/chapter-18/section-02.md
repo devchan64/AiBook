@@ -1,5 +1,8 @@
 # P6-18.2 직접 계보와 주변 근거
 
+> Section ID: `P6-18.2`
+> Version: `v2026.07.05`
+
 P6-18.1에서는 LLM 발전사를 큰 흐름으로 정리했습니다. 하지만 여기서 한 가지 구분이 더 필요합니다.
 
 모든 딥러닝 발전사가 곧바로 LLM의 직접 계보인 것은 아니다.
@@ -58,7 +61,7 @@ P6-18.1에서는 LLM 발전사를 큰 흐름으로 정리했습니다. 하지만
 
 ## 직접 계보는 무엇인가
 
-이 책에서는 다음 흐름을 LLM의 직접 계보로 봅니다.
+여기서는 다음 흐름을 LLM의 직접 계보로 봅니다.
 
 1. 언어 모델(language model)
 2. 임베딩과 분산 표현(distributed representation)
@@ -338,9 +341,9 @@ surrounding_evidence = ['YOLO', 'Deep Voice', 'GPU scaling']
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
-- Jacob Devlin et al., `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-06-29.
-- Joseph Redmon et al., `You Only Look Once: Unified, Real-Time Object Detection`, CVPR 2016, 확인 날짜: 2026-06-29.
-- Sercan O. Arik et al., `Deep Voice: Real-time Neural Text-to-Speech`, ICML 2017, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-05.
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-07-05.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-07-05.
+- Joseph Redmon et al., [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640){: target="_blank" rel="noopener noreferrer" }, CVPR, 2016, 확인 날짜: 2026-07-05.
+- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://proceedings.mlr.press/v70/arik17a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2017, 확인 날짜: 2026-07-05.

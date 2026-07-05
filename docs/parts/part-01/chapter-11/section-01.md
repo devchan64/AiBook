@@ -1,5 +1,8 @@
 # 11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)
 
+> Section ID: `P1-11.1`
+> Version: `v2026.07.05`
+
 10장에서는 생성형 AI(generative AI)가 산출물을 만들 때 자연스러움, 사실성, 근거, 위험을 따로 검토해야 한다는 점을 봤습니다.
 
 이제 질문을 한 단계 앞으로 돌립니다.

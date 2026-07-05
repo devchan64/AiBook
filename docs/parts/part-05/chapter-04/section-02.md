@@ -1,5 +1,8 @@
 # P5-4.2 문제 유형별 손실
 
+> Section ID: `P5-4.2`
+> Version: `v2026.07.05`
+
 P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목표와 얼마나 어긋나는지 숫자로 만드는 기준`으로 보았습니다. 이제 자연스럽게 다음 질문이 생깁니다.
 
 모든 문제에서 같은 손실 함수를 쓰는가?
@@ -22,8 +25,6 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 - MSE, MAE, cross-entropy의 엄밀한 유도
 - KL divergence와 maximum likelihood의 상세 연결
 - label smoothing, focal loss, CTC loss 같은 특수 손실
-
-MSE, MAE, cross-entropy의 엄밀한 유도와 KL divergence, maximum likelihood의 상세 연결은 여기서 수식 전개로 다루지 않습니다. 대신 손실의 미분과 학습 갱신 흐름은 P5-5.1, P5-5.2에서 다시 연결합니다. label smoothing, focal loss, CTC loss 같은 특수 손실은 이 책의 현재 본편 범위 밖에 둡니다.
 
 이 절에서는 공식을 많이 보여 주기보다, `왜 문제마다 손실이 달라지는가`를 설명합니다. 손실의 미분과 학습 갱신 흐름은 P5-5.1, P5-5.2에서 다시 연결하고, label smoothing, focal loss, CTC loss 같은 특수 손실은 이 책의 현재 본편 범위 밖에 둡니다.
 
@@ -241,7 +242,7 @@ classification loss example = 0.223
 
 이 연결을 독자가 알면, Part 5에서 토큰(token), 다음 토큰 예측(next-token prediction), cross-entropy, perplexity 같은 말이 अचानक 등장해도 덜 낯설게 느껴집니다.
 
-즉, Part 5의 손실 함수 설명은 Part 5의 LLM 학습 이해를 위한 준비이기도 합니다.
+즉, Part 5의 손실 함수 설명은 다음 Part의 LLM 학습 이해를 위한 준비이기도 합니다.
 
 ## 다음 장과의 연결
 

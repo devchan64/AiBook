@@ -1,5 +1,8 @@
 # P6-9.1 프롬프트 엔지니어링(prompt engineering)
 
+> Section ID: `P6-9.1`
+> Version: `v2026.07.05`
+
 P6-8.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제가 아니라, 유용성, 안전성, 사실성, 서비스 정책이 함께 걸린 설계 문제라는 점을 보았습니다. 그러면 이제 사용자의 손에 가장 먼저 잡히는 도구를 봐야 합니다.
 
 사용자는 실제로 LLM의 행동을 어떻게 관찰하고 조정하는가?
@@ -184,7 +187,7 @@ P6-8.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제
 
 즉, 이 절에서 가장 짧게 붙잡아야 할 닫힘 구조는 `프롬프트 입력 조정 -> RAG 근거 연결 -> tool use/agent 실행 구조`이며, 여기서는 `입력 조정`을 맡습니다. 바로 다음 절에서 그 한계를 확인한 뒤 근거 연결과 실행 구조로 넘어갑니다.
 
-여기서 먼저 남겨야 할 것은 어떤 입력 설계로 실험했는지를 보여 주는 `prompt_name`, `required_slots`, 그리고 어떤 정보가 자주 빠지고 어디서 출력이 흔들리는지 보여 주는 `missing_slots`와 형식 점검 통계입니다. 이 기록이 있어야 P6-9.2에서 프롬프트 한계를 다시 점검하고, P6-10.1의 근거 연결 판단이나 P6-12.1의 실행 필요 판단으로 왜 넘어가야 하는지 흔들리지 않습니다. 뒤로 갈수록 이 기록은 P6-15의 평가 기준과 Part 6의 `project_note`, `execution_records`, `review_summary`, `improvement_plan` 같은 회고 기록으로 다시 읽힙니다.
+여기서 먼저 남겨야 할 것은 어떤 입력 설계로 실험했는지, 답변에서 어떤 항목이 자주 빠지는지, 형식이 어디서 흔들리는지를 보여 주는 실험 메모와 형식 점검 통계입니다. 이 기록이 있어야 P6-9.2에서 프롬프트 한계를 다시 점검하고, P6-10.1의 근거 연결 판단이나 P6-12.1의 실행 필요 판단으로 왜 넘어가야 하는지 흔들리지 않습니다. 뒤로 갈수록 이 기록은 P6-15의 평가 기준과 Part 6의 회고 메모, 실행 기록, 개선 계획으로 다시 읽힙니다.
 
 ## 아주 단순하게 그리면
 
@@ -524,6 +527,6 @@ average_keyword_ratio = 0.78
 
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- Jason Wei et al., `Chain-of-Thought Prompting Elicits Reasoning in Large Language Models`, arXiv, 2022, 확인 날짜: 2026-06-29.
-- OpenAI, 프롬프팅 관련 공식 문서, 확인 날짜: 2026-06-29.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-05.
+- Jason Wei et al., [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.

@@ -1,5 +1,8 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
+> Section ID: `P2-12.1`
+> Version: `v2026.07.05`
+
 P2-11장에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
 현실의 데이터는 종종 이런 모양으로 옵니다.

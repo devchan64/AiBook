@@ -1,5 +1,8 @@
 # P2-11.2 인덱싱(indexing), 슬라이싱(slicing), 축(axis)
 
+> Section ID: `P2-11.2`
+> Version: `v2026.07.05`
+
 P2-11.1에서는 NumPy 배열(array)을 만들고, `shape`, `ndim`, `dtype`을 확인했습니다. 이제 배열 안에서 어느 값을 읽을지, 어느 구간을 잘라 볼지, 어느 방향으로 계산할지를 봅니다.
 
 NumPy 배열을 읽을 때 자주 만나는 말은 세 가지입니다.
@@ -385,7 +388,7 @@ print(features[:, 1].mean())
 
 - [p2_11_2_index_slice_axis.py](../../../assets/part-02/chapter-11/p2_11_2_index_slice_axis.py)
 
-로컬 PC에서는 레포지토리 루트에서 다음처럼 실행할 수 있습니다.
+로컬 PC에서는 프로젝트 루트에서 다음처럼 실행할 수 있습니다.
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_2_index_slice_axis.py

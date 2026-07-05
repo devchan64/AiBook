@@ -24,7 +24,7 @@ P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적
 - XGBoost, LightGBM, CatBoost 같은 구현 차이
 - early stopping과 정규화(regularization)의 세부 전략
 
-이 절은 입문적으로 `부스팅이 무엇을 하려는 방식인가`를 이해하는 데 집중합니다. 성능과 위험, early stopping과 shrinkage의 역할은 P4-16.2에서 이어서 다루고, 정규화의 더 넓은 관점은 P4-8.1에서 다시 연결합니다. XGBoost, LightGBM, CatBoost 같은 구현 차이는 이 책의 현재 본편 범위 밖에 둡니다.
+이 절은 입문적으로 `부스팅이 무엇을 하려는 방식인가`를 이해하는 데 집중합니다. 성능과 위험, early stopping과 shrinkage의 역할은 P4-16.2에서 이어서 다루고, 하이퍼파라미터와 검증 비용의 더 넓은 관점은 P4-9.1, P4-9.2에서 다시 연결합니다. XGBoost, LightGBM, CatBoost 같은 구현 차이는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

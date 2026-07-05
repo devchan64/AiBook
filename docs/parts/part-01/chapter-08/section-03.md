@@ -1,15 +1,15 @@
 # 8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
 
+> Section ID: `P1-8.3`
+> Version: `v2026.07.05`
+
 8.1에서는 지도학습(supervised learning)을 입력(input)과 라벨(label)이 함께 있는 예시에서 배우는 방식으로 설명했습니다. 8.2에서는 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조(structure), 군집(cluster), 표현(representation)을 찾는 방식으로 설명했습니다.
 
 이번 절은 세 번째 기본 구분입니다. 강화학습(reinforcement learning)은 라벨을 바로 맞추는 문제도 아니고, 라벨 없이 구조만 찾는 문제도 아닙니다. 어떤 상태(state)에서 행동(action)을 선택하고, 그 행동 이후 돌아오는 보상(reward)을 통해 더 나은 행동 방식(policy)을 찾으려는 학습 방식입니다.
 
-이 구분은 비교적 최근에 갑자기 생긴 것이 아닙니다. 강화학습은 1990년대와 2000년대에도 이미 AI와 머신러닝을 배울 때 중요한 축으로 다뤄졌습니다. 그래서 2000년대 후반의 학습 기억에서 강화학습이 강하게 남아 있어도 이상하지 않습니다. 다만 그 시기의 강화학습을 오늘날 대중에게 익숙한 Atari, AlphaGo, RLHF 같은 사례와 곧바로 같은 장면으로 보면 시간축이 섞입니다. 이 절에서는 딥 강화학습 유행 이전부터 이어져 온 기본 문제 설정, 즉 상태(state), 행동(action), 보상(reward), 정책(policy)의 틀을 먼저 잡습니다.
+이 구분은 비교적 최근에 갑자기 생긴 것이 아닙니다. 강화학습은 1990년대와 2000년대에도 이미 AI와 머신러닝을 배울 때 중요한 축으로 다뤄졌습니다. 그래서 오래전 AI 입문 자료에서 강화학습이 크게 보였다면 그것이 특별히 시대를 잘못 기억한 것은 아닙니다. 다만 그 시기의 강화학습을 오늘날 대중에게 익숙한 Atari, AlphaGo, RLHF 같은 사례와 곧바로 같은 장면으로 보면 시간축이 섞입니다. 이 절에서는 딥 강화학습 유행 이전부터 이어져 온 기본 문제 설정, 즉 상태(state), 행동(action), 보상(reward), 정책(policy)의 틀을 먼저 잡습니다.
 
-이 절의 질문은 다음입니다.
-
-> 정답 라벨이 바로 주어지지 않을 때,
-> 모델은 행동의 결과를 보고 무엇을 바꾸려 하는가?
+이 절의 핵심 질문은 정답 라벨이 바로 주어지지 않을 때 모델이 행동의 결과를 보고 무엇을 바꾸려 하는가입니다.
 
 > 강화학습은 정답표를 맞히는 방식이 아니라, 행동 뒤에 돌아오는 보상 신호를 통해 행동 방식을 조정하는 방식이다.
 
@@ -17,7 +17,7 @@
 
 이 절은 강화학습 알고리즘을 계산하지 않습니다. 마르코프 결정 과정(MDP, Markov decision process), 벨만 방정식(Bellman equation), Q-learning, 정책 경사(policy gradient), 액터-크리틱(actor-critic), 딥 강화학습(deep reinforcement learning)은 이름과 위치만 지나갑니다.
 
-또한 게임 AI, 로봇 제어, 추천 시스템, RLHF(reinforcement learning from human feedback)를 자세히 다루지 않습니다. 강화학습의 후속 알고리즘과 RLHF의 큰 그림은 Part 3의 P3-19장에서 다시 보고, LLM 정렬 맥락의 RLHF는 Part 5에서 다시 연결합니다. 이 절에서는 강화학습이 지도학습, 비지도학습과 왜 다른 문제 설정인지 잡는 데 집중합니다.
+또한 게임 AI, 로봇 제어, 추천 시스템, RLHF(reinforcement learning from human feedback)를 자세히 다루지 않습니다. 강화학습의 후속 알고리즘과 RLHF의 큰 그림은 Part 4 Chapter 19에서 다시 보고, LLM 정렬 맥락의 RLHF는 Part 6에서 다시 연결합니다. 이 절에서는 강화학습이 지도학습, 비지도학습과 왜 다른 문제 설정인지 잡는 데 집중합니다.
 
 여기서는 다음 정도만 잡습니다.
 
@@ -196,7 +196,7 @@ Google의 Machine Learning Glossary는 epsilon greedy policy를 설명하면서,
 
 딥러닝(deep learning)은 이 표와 같은 분류축이 아닙니다. 딥러닝은 강화학습과 결합될 수 있고, 그 경우 딥 강화학습(deep reinforcement learning)이라고 부를 수 있습니다. 하지만 강화학습 자체가 딥러닝이라는 뜻은 아닙니다.
 
-RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것을 대표하지 않습니다. RLHF는 사람의 피드백을 학습 신호로 활용하는 현대 LLM 학습 맥락에서 자주 등장하지만, 강화학습 전체를 설명하는 출발점으로 삼기에는 범위가 좁습니다. 이 책에서는 P1-11부터 P1-14, Part 5에서 따로 다룹니다.
+RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것을 대표하지 않습니다. RLHF는 사람의 피드백을 학습 신호로 활용하는 현대 LLM 학습 맥락에서 자주 등장하지만, 강화학습 전체를 설명하는 출발점으로 삼기에는 범위가 좁습니다. 이 주제는 Part 1 Chapter 11부터 Chapter 14, 그리고 Part 6에서 따로 다룹니다.
 
 ## 이 절에서 기억할 관점
 

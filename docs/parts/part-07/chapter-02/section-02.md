@@ -1,16 +1,17 @@
 # P7-2.2 기준 모델과 개선
 
+> Section ID: `P7-2.2`
+> Version: `v2026.07.05`
+
 P7-2.1에서는 baseline과 1-NN 분류기를 나란히 두고 비교했습니다. 이제 같은 프로젝트를 한 단계 더 정리해 보겠습니다.
 
 개선(improvement)은 무엇을 기준으로 말해야 하는가?
 
-이 절은 그 질문에 답합니다.
-
-개선은 점수가 올랐다는 말이 아니라, 같은 기준에서 baseline보다 무엇이 달라졌는지 설명하는 일이다.
+이 절은 그 질문을 정리합니다. 개선은 점수가 올랐다는 말이 아니라, 같은 기준에서 baseline보다 무엇이 달라졌는지 설명하는 일입니다.
 
 ## 이 절의 범위
 
-이 절은 다음 질문에 답합니다.
+이 절은 다음 질문을 정리합니다.
 
 - baseline 대비 개선을 어떻게 문서화해야 하는가?
 - 정확도(accuracy)만 적는 것보다 무엇을 더 같이 남겨야 하는가?
@@ -114,10 +115,10 @@ P7-2.1의 결과를 같은 기록 구조로 정리하면 다음처럼 쓸 수 �
 
 | 기록 항목 | 예 |
 | --- | --- |
-| baseline_or_reference | `majority class`, `previous rule`, `recent window vs baseline` |
-| changed_case | `test-02`, `mixed pattern`, `insufficient evidence question` |
-| review_needed | `True` |
-| next_question | `데이터를 더 모을까, 표현을 바꿀까, 모델을 바꿀까` |
+| 비교 기준 | `majority class`, `previous rule`, `recent window vs baseline` |
+| 달라진 사례 | `test-02`, `mixed pattern`, `insufficient evidence question` |
+| 검토 필요 여부 | `True` |
+| 다음 질문 | `데이터를 더 모을까, 표현을 바꿀까, 모델을 바꿀까` |
 
 이 표가 있으면 이 절이 Part 7 전체의 공통 비교 기록 허브로 읽힙니다.
 
@@ -237,9 +238,9 @@ comparison_rows =
 - 좋은 점: 현재 데이터에서는 특징 스케일 차이가 아주 치명적이지 않았습니다.
 - 남는 질문: 더 큰 데이터나 다른 특징 조합에서는 전처리 차이가 더 크게 나타날 수 있습니다.
 
-즉, 전처리를 했는데 점수가 그대로라는 사실도 프로젝트 문서에는 의미 있는 결과입니다. `project_comparison`에서 `prediction_changed_count`가 0이라는 점은, 이번 test 셋에서는 정규화가 예측 자체를 바꾸지 않았다는 뜻입니다.
+즉, 전처리를 했는데 점수가 그대로라는 사실도 프로젝트 문서에는 의미 있는 결과입니다. 예제의 비교 요약(`project_comparison`)에서 `prediction_changed_count`가 0이라는 점은, 이번 test 셋에서는 정규화가 예측 자체를 바꾸지 않았다는 뜻입니다.
 
-샘플별 행(`comparison_rows`)을 같이 보면 더 좋은 이유가 있습니다.
+샘플별 비교 행을 같이 보면 더 좋은 이유가 있습니다.
 
 - 점수만 같아진 것이 아니라 샘플별 예측도 모두 같았습니다.
 - 가장 가까운 train 샘플 ID도 그대로 유지되었습니다.

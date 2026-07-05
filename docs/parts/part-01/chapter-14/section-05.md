@@ -1,6 +1,9 @@
 # 14.5 하네스(harness)와 평가 실행 환경
 
-14.4에서는 MCP(Model Context Protocol)를 AI 앱과 외부 도구, 데이터가 연결되는 방식을 표준화하는 프로토콜(protocol)로 봤습니다. 이제 질문은 한 단계 더 실무적으로 바뀝니다.
+> Section ID: `P1-14.5`
+> Version: `v2026.07.05`
+
+P1-14.4에서는 MCP(Model Context Protocol)를 AI 앱과 외부 도구, 데이터가 연결되는 방식을 표준화하는 프로토콜(protocol)로 봤습니다. 이제 질문은 한 단계 더 실무적으로 바뀝니다.
 
 > 모델을 호출할 수 있다.
 > 도구도 연결할 수 있다.
@@ -18,7 +21,7 @@ AI 서비스 문맥에서는 이 직관을 모델 호출, 도구 호출, 상태 
 
 ## 이 절의 범위
 
-이 절은 하네스(harness), 추적(trace), 로그(log), 평가(evaluation), 그레이더(grader)의 기본 역할을 설명합니다. 하네스의 어원적 직관과 테스트 하네스(test harness)에서 AI 실행 하네스로 이어지는 흐름은 다루지만, 에이전트 하네스(agent harness)의 엄밀한 학술 정의 논쟁은 이 책의 현재 본편 범위 밖에 둡니다. 특정 SDK 코드, 대시보드 사용법, 평가 API 구현, 대규모 운영 비용은 다루지 않습니다. 비용(cost), 지연 시간(latency), 운영(operation) 제약은 14.6에서 다시 다룹니다.
+이 절은 하네스(harness), 추적(trace), 로그(log), 평가(evaluation), 그레이더(grader)의 기본 역할을 설명합니다. 하네스의 어원적 직관과 테스트 하네스(test harness)에서 AI 실행 하네스로 이어지는 흐름은 다루지만, 에이전트 하네스(agent harness)의 엄밀한 학술 정의 논쟁은 이 책의 현재 본편 범위 밖에 둡니다. 특정 SDK 코드, 대시보드 사용법, 평가 API 구현, 대규모 운영 비용은 다루지 않습니다. 비용(cost), 지연 시간(latency), 운영(operation) 제약은 P1-14.6에서 다시 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -100,7 +103,7 @@ AI 에이전트(agent)에서도 비슷합니다. LLM이 문장을 생성할 수 
 > -> 모델(model)
 > -> 출력(output)
 
-하지만 14.3과 14.4에서 본 에이전트와 MCP 흐름은 더 복잡합니다.
+하지만 P1-14.3과 P1-14.4에서 본 에이전트와 MCP 흐름은 더 복잡합니다.
 
 > 사용자 요청
 > -> 모델 호출
@@ -175,7 +178,7 @@ trace는 정답을 자동으로 알려 주지는 않습니다. 하지만 원인�
 
 다만 로그는 무조건 많이 남기면 좋은 것이 아닙니다. 개인정보(personal information), 비밀키(secret), 내부 문서, 사용자의 민감한 입력이 그대로 남으면 보안 문제가 됩니다. 그래서 로그는 “나중에 설명할 수 있을 만큼 충분히, 위험한 정보는 줄여서” 남겨야 합니다.
 
-이 문제는 P1-15의 보안과 개인정보 논의로 이어집니다. 이 절에서는 하네스가 기록을 남겨야 하지만, 기록 자체도 설계 대상이라는 점만 잡습니다.
+이 문제는 Part 1 Chapter 15의 보안과 개인정보 논의로 이어집니다. 이 절에서는 하네스가 기록을 남겨야 하지만, 기록 자체도 설계 대상이라는 점만 잡습니다.
 
 ## 평가는 느낌이 아니라 반복 가능한 비교다
 
@@ -287,8 +290,6 @@ OpenAI의 에이전트 평가 문서는 개별 trace를 살펴본 뒤, 반복성
 - Merriam-Webster, [Harness](https://www.merriam-webster.com/dictionary/harness), Merriam-Webster Dictionary, 확인 날짜: 2026-06-23.
 - Online Etymology Dictionary, [Harness](https://www.etymonline.com/word/harness), 확인 날짜: 2026-06-23.
 - Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106), arXiv preprint, 2026, 확인 날짜: 2026-06-23.
-- LangChain, [LangSmith Observability](https://docs.langchain.com/langsmith/observability), Docs by LangChain, 확인 날짜: 2026-06-23.
-- LangChain, [Evaluation concepts](https://docs.langchain.com/langsmith/evaluation-concepts), Docs by LangChain, 확인 날짜: 2026-06-23.
 - OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability), OpenAI API Docs, 확인 날짜: 2026-06-23.
 - OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals), OpenAI API Docs, 확인 날짜: 2026-06-23.
 - OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals), OpenAI API Docs, 확인 날짜: 2026-06-23.

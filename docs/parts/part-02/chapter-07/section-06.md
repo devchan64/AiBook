@@ -1,5 +1,8 @@
 # P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법
 
+> Section ID: `P2-7.6`
+> Version: `v2026.07.05`
+
 P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory)의 개념을 봤습니다. 이 절은 그 개념을 실제 운영체제에서 어떻게 확인하는지 다룹니다.
 
 이 절은 Python 문법을 설명하지 않습니다. Python 설치도 깊게 다루지 않습니다. Python 설치는 P2-7.7에서 따로 봅니다. 여기서는 “명령을 어디에 입력하고, 현재 위치를 어떻게 확인하며, 실습 폴더로 어떻게 이동하는가”를 연습합니다.
@@ -55,7 +58,7 @@ Ubuntu 문서는 Linux에서 GUI도 있지만 전통적인 Unix 환경은 명령
 | macOS | Terminal, iTerm2, VS Code Terminal | zsh, bash |
 | Linux | GNOME Terminal, Konsole, VS Code Terminal | bash, zsh |
 
-이 책의 실습은 가능한 한 명령이 어느 환경 기준인지 표시합니다. 표시가 없다면 macOS/Linux 계열 셸을 기준으로 보는 경우가 많습니다.
+이 파트의 실습은 가능한 한 명령이 어느 환경 기준인지 표시합니다. 표시가 없다면 macOS/Linux 계열 셸을 기준으로 보는 경우가 많습니다.
 
 ## Windows에서는 PowerShell을 먼저 기준으로 삼는다
 
@@ -67,7 +70,7 @@ Windows에서 처음 읽는 독자가 만나는 명령 입력 창은 여러 가�
 - VS Code의 Terminal 패널
 - WSL을 설치한 경우 Linux 셸
 
-이 책에서는 Windows 설명이 필요할 때 PowerShell을 우선 기준으로 삼습니다. Command Prompt는 오래된 자료에서 자주 만나지만, Python 학습과 현대 개발 환경에서는 PowerShell이나 Windows Terminal을 더 자주 접할 수 있습니다.
+여기서는 Windows 설명이 필요할 때 PowerShell을 우선 기준으로 삼습니다. Command Prompt는 오래된 자료에서 자주 만나지만, Python 학습과 현대 개발 환경에서는 PowerShell이나 Windows Terminal을 더 자주 접할 수 있습니다.
 
 Windows에서 터미널을 여는 가장 쉬운 방법은 다음 중 하나입니다.
 
@@ -90,7 +93,7 @@ Get-ChildItem
 폴더를 이동합니다.
 
 ```powershell
-Set-Location C:\Users\someone\ws\AiBook
+Set-Location C:\Users\someone\ws\project-name
 ```
 
 PowerShell에서는 짧은 별칭(alias)도 자주 쓰입니다.
@@ -98,7 +101,7 @@ PowerShell에서는 짧은 별칭(alias)도 자주 쓰입니다.
 ```powershell
 pwd
 ls
-cd C:\Users\someone\ws\AiBook
+cd C:\Users\someone\ws\project-name
 ```
 
 하지만 처음 공부할 때는 공식 명령 이름도 함께 알아두는 편이 좋습니다. 나중에 문서를 찾을 때 `Get-Location`, `Get-ChildItem`, `Set-Location`으로 검색하면 더 정확한 자료를 찾기 쉽습니다.
@@ -128,12 +131,12 @@ ls
 프로젝트 폴더로 이동합니다.
 
 ```bash
-cd /Users/someone/ws/AiBook
+cd /Users/someone/ws/project-name
 ```
 
 macOS에서는 경로가 `/Users/...` 형태로 보이는 경우가 많습니다. Windows의 `C:\Users\...` 형태와 다르므로, 다른 운영체제의 예제를 그대로 복사하면 경로가 맞지 않을 수 있습니다.
 
-macOS에서 터미널 명령을 붙여넣을 때는 특히 `sudo`가 붙은 명령을 조심합니다. `sudo`는 관리자 권한으로 명령을 실행하게 만들 수 있습니다. 이 책의 초반 실습에서는 대부분 `sudo`가 필요하지 않습니다.
+macOS에서 터미널 명령을 붙여넣을 때는 특히 `sudo`가 붙은 명령을 조심합니다. `sudo`는 관리자 권한으로 명령을 실행하게 만들 수 있습니다. 이 파트의 초반 실습에서는 대부분 `sudo`가 필요하지 않습니다.
 
 ## Linux에서는 터미널이 학습 자료에 자주 등장한다
 
@@ -154,12 +157,12 @@ ls
 프로젝트 폴더로 이동합니다.
 
 ```bash
-cd /home/someone/ws/AiBook
+cd /home/someone/ws/project-name
 ```
 
 Linux에서는 사용자 홈 폴더가 `/home/사용자이름` 형태인 경우가 많습니다. macOS의 `/Users/사용자이름`과 다릅니다.
 
-Linux 자료에서는 `sudo apt install ...` 같은 명령도 자주 보입니다. 이런 명령은 시스템 패키지를 설치할 수 있습니다. 이 책의 Python 입문 구간에서는 무작정 실행하지 말고, 왜 필요한 명령인지 먼저 확인합니다.
+Linux 자료에서는 `sudo apt install ...` 같은 명령도 자주 보입니다. 이런 명령은 시스템 패키지를 설치할 수 있습니다. 이 Python 입문 구간에서는 무작정 실행하지 말고, 왜 필요한 명령인지 먼저 확인합니다.
 
 ## Tip: 터미널 단축키는 적게만 기억한다
 
@@ -233,7 +236,7 @@ Windows PowerShell 기준으로는 다음 흐름입니다.
 ```powershell
 Get-Location
 Get-ChildItem
-Set-Location C:\Users\someone\ws\AiBook
+Set-Location C:\Users\someone\ws\project-name
 Get-Location
 Get-ChildItem
 ```
@@ -243,7 +246,7 @@ macOS/Linux 기준으로는 다음 흐름입니다.
 ```bash
 pwd
 ls
-cd /Users/someone/ws/AiBook
+cd /Users/someone/ws/project-name
 pwd
 ls
 ```
@@ -251,7 +254,7 @@ ls
 Linux에서는 이동 경로가 다음처럼 될 수 있습니다.
 
 ```bash
-cd /home/someone/ws/AiBook
+cd /home/someone/ws/project-name
 ```
 
 중요한 것은 명령 이름을 많이 외우는 것이 아닙니다. “내가 지금 어느 폴더에 있는가”를 먼저 확인하는 습관입니다.
@@ -264,9 +267,9 @@ Windows와 macOS/Linux는 경로 표기가 다릅니다.
 | --- | --- | --- |
 | 사용자 폴더 | `C:\Users\someone` | `/Users/someone`, `/home/someone` |
 | 폴더 구분자 | `\` | `/` |
-| 프로젝트 예시 | `C:\Users\someone\ws\AiBook` | `/Users/someone/ws/AiBook` |
+| 프로젝트 예시 | `C:\Users\someone\ws\project-name` | `/Users/someone/ws/project-name` |
 
-문서에서 `/Users/someone/ws/AiBook` 같은 경로를 보면 macOS 예시일 가능성이 큽니다. Linux에서는 `/home/someone/ws/AiBook`에 가까울 수 있고, Windows에서는 `C:\Users\someone\ws\AiBook`에 가까울 수 있습니다.
+문서에서 `/Users/someone/ws/project-name` 같은 경로를 보면 macOS 예시일 가능성이 큽니다. Linux에서는 `/home/someone/ws/project-name`에 가까울 수 있고, Windows에서는 `C:\Users\someone\ws\project-name`에 가까울 수 있습니다.
 
 따라서 경로 예제를 복사할 때는 자기 컴퓨터의 실제 폴더 위치로 바꿔야 합니다.
 
@@ -378,7 +381,7 @@ PS C:\Users\someone> python example.py
 
 ### 사례 1. 같은 명령을 복사했는데 Windows와 macOS에서 다르게 보일 때
 
-학습 자료에 있는 `cd /Users/someone/ws/AiBook` 명령을 그대로 복사해 실행했다고 하겠습니다. macOS에서는 자연스럽게 보이는데 Windows PowerShell에서는 경로 형식부터 낯설고, 어떤 사람은 붙여넣기 단축키조차 다르게 동작해 막힐 수 있습니다.
+학습 자료에 있는 `cd /Users/someone/ws/project-name` 명령을 그대로 복사해 실행했다고 하겠습니다. macOS에서는 자연스럽게 보이는데 Windows PowerShell에서는 경로 형식부터 낯설고, 어떤 사람은 붙여넣기 단축키조차 다르게 동작해 막힐 수 있습니다.
 
 사람이 쓰던 기준은 보통 `문서에 적힌 명령이니 그대로 넣으면 되겠지`입니다. 하지만 실제로는 운영체제마다 터미널 앱, 기본 셸, 경로 표기, 복사·붙여넣기 방식이 조금씩 다릅니다.
 

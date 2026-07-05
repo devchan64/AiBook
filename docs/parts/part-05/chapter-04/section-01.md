@@ -1,5 +1,8 @@
 # P5-4.1 손실 함수(loss function)
 
+> Section ID: `P5-4.1`
+> Version: `v2026.07.05`
+
 P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형성(nonlinearity)을 넣어 표현력을 키운다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
 그렇다면 신경망은 현재 출력이 얼마나 틀렸는지 무엇으로 판단하는가?
@@ -80,9 +83,9 @@ P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형
 - 손실은 보통 `0 아니면 1`처럼 끊긴 판정보다 더 부드러운 숫자를 제공합니다.
 - 바로 그 점 때문에 뒤에서 gradient를 계산할 수 있습니다.
 
-## Part 3의 metric과는 어떻게 다른가
+## Part 4의 metric과는 어떻게 다른가
 
-Part 3에서 우리는 accuracy, precision, recall, F1, RMSE 같은 평가 지표(metric)를 보았습니다. 여기서 손실 함수와 평가 지표를 같은 것으로 이해하기 쉽습니다.
+Part 4에서 우리는 accuracy, precision, recall, F1, RMSE 같은 평가 지표(metric)를 보았습니다. 여기서 손실 함수와 평가 지표를 같은 것으로 이해하기 쉽습니다.
 
 하지만 두 개는 역할이 다릅니다.
 
@@ -125,7 +128,7 @@ Part 3에서 우리는 accuracy, precision, recall, F1, RMSE 같은 평가 지�
 - 학습 손실(training loss)이 줄었다고 해서
 - 바로 일반화(generalization)가 좋아졌다고 단정할 수는 없습니다.
 
-이 점은 Part 3의 과적합(overfitting)과 일반화 설명과 그대로 이어집니다. 즉, 손실은 매우 중요하지만, 손실 하나만으로 모델 전체를 판정할 수는 없습니다.
+이 점은 Part 4의 과적합(overfitting)과 일반화 설명과 그대로 이어집니다. 즉, 손실은 매우 중요하지만, 손실 하나만으로 모델 전체를 판정할 수는 없습니다.
 
 ## 사례로 보기
 
@@ -247,9 +250,9 @@ worst_sample = sample_C error = 0.64
 - 같은 작은 손실이라도 어떤 데이터 구간에서 나온 값인지 구분하지 않으면 과적합을 놓치기 쉽습니다.
 - 학습 손실만 보고 모델을 믿으면 과적합을 놓칠 수 있습니다.
 
-즉, 손실은 학습의 핵심 기준이지만, Part 3에서 본 validation, test, metric과 함께 읽어야 합니다.
+즉, 손실은 학습의 핵심 기준이지만, Part 4에서 본 validation, test, metric과 함께 읽어야 합니다.
 
-이 점 때문에 딥러닝도 Part 3의 머신러닝 공통 원칙을 그대로 이어받습니다.
+이 점 때문에 딥러닝도 Part 4의 머신러닝 공통 원칙을 그대로 이어받습니다.
 
 ## 다음 절과의 연결
 

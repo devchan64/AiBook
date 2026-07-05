@@ -1,15 +1,15 @@
 # 8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
 
+> Section ID: `P1-8.1`
+> Version: `v2026.07.05`
+
 7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 가장 먼저 볼 방식은 지도학습(supervised learning)입니다.
 
 이 절의 핵심은 알고리즘이 아니라 라벨(label)입니다. 지도학습을 이해하려면 먼저 “라벨이 무엇을 가리키는가”를 잡아야 합니다. 라벨을 막연히 정답으로 이해하면, 모델이 무엇을 배우는지보다 사람이 어떤 기준을 데이터에 붙였는지를 놓치기 쉽습니다.
 
 한국어로 이해할 때는 라벨을 먼저 `인식표`로 생각하는 편이 안전합니다. 여기서 인식표는 대상을 정의하는 설명문이 아니라, 대상을 구분할 수 있게 붙인 표식입니다. 라벨은 데이터에 붙인 구분 표식이고, 라벨링(labeling)은 데이터에 그런 표식을 붙이는 일입니다. AWS와 IBM의 데이터 라벨링 설명도 원시 데이터(raw data)를 식별하고 라벨을 추가하거나 할당하는 과정으로 설명합니다. 이 표식은 모델이 따라가야 할 기준을 알려 주지만, 그 자체가 항상 절대적 진실이라는 뜻은 아닙니다.
 
-이 절의 질문은 다음입니다.
-
-> 라벨은 무엇을 가리키며,
-> 모델은 그 라벨 기준을 어떻게 따라가려 하는가?
+이 절의 핵심 질문은 라벨이 무엇을 가리키며, 모델이 그 라벨 기준을 어떻게 따라가려 하는가입니다.
 
 지도학습은 입력(input)과 라벨(label)이 함께 있는 예시(example)를 사용합니다. 모델은 새 입력이 들어왔을 때 라벨 기준에 맞는 출력을 만들도록 훈련(training)됩니다. 따라서 8.1에서 먼저 확인할 대상은 모델의 복잡한 내부가 아니라, 데이터에 붙은 라벨의 의미와 기준입니다.
 
@@ -19,7 +19,7 @@
 
 이 절은 지도학습 알고리즘을 계산하지 않습니다. 선형 회귀(linear regression), 로지스틱 회귀(logistic regression), 결정트리(decision tree), 서포트 벡터 머신(support vector machine), 신경망(neural network)은 이름만 지나갑니다.
 
-또한 손실 함수(loss function), 경사하강법(gradient descent), 검증 데이터(validation data), 과적합(overfitting)은 자세히 다루지 않습니다. 이 주제들은 Part 3의 P3-4 데이터 분리와 검증, P3-5 과적합과 일반화, Part 4의 최적화와 학습 장에서 다시 다룹니다.
+또한 손실 함수(loss function), 경사하강법(gradient descent), 검증 데이터(validation data), 과적합(overfitting)은 자세히 다루지 않습니다. 이 주제들은 Part 4의 데이터 분리와 검증, 과적합과 일반화, 최적화와 학습 장에서 다시 다룹니다.
 
 여기서는 다음 정도만 잡습니다.
 
@@ -88,7 +88,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 
 라벨(label)은 지도학습에서 모델이 맞추도록 주어진 목표 출력입니다. Google의 용어집은 `target`을 `label`의 동의어로 설명합니다.
 
-이 책에서는 문맥에 따라 다음처럼 읽겠습니다.
+여기서는 문맥에 따라 다음처럼 읽겠습니다.
 
 | 표현 | 영어 병기 | 이 절에서의 의미 |
 | --- | --- | --- |
@@ -159,7 +159,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 | 이미지 분류 | 이미지 | 고양이, 강아지, 자동차 |
 | 위험 탐지 | 거래 정보 | 정상, 의심 |
 
-이 절에서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 P1-6.3과 P1-7.3에서 이미 위치를 잡았고, Part 3에서 평가와 함께 다시 다룹니다.
+이 절에서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 P1-6.3과 P1-7.3에서 이미 위치를 잡았고, Part 4에서 평가와 함께 다시 다룹니다.
 
 ## 회귀(regression)는 숫자 라벨을 예측한다
 

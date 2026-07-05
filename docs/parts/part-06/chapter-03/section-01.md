@@ -1,6 +1,9 @@
 # P6-3.1 Transformer를 LLM 관점에서 다시 읽기
 
-Part 4에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
+> Section ID: `P6-3.1`
+> Version: `v2026.07.05`
+
+Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 
 LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가?
 
@@ -57,7 +60,7 @@ Transformer 블록의 큰 구조는 여기서 잡고, 구현 쪽으로 더 들�
 
 ## 같은 Transformer를 왜 다시 읽어야 하는가
 
-Part 4에서는 Transformer를 딥러닝 구조로 설명했습니다. 즉:
+Part 5에서는 Transformer를 딥러닝 구조로 설명했습니다. 즉:
 
 - self-attention
 - feed-forward
@@ -131,7 +134,7 @@ feed-forward network는 각 위치에서 그 표현을 더 가공합니다. 그�
 - feed-forward는 각 위치 표현을 다시 다듬고
 - 여러 층 반복은 표현을 점점 더 정제합니다
 
-이 흐름은 Part 4의 표현 학습(representation learning) 설명과 그대로 이어집니다.
+이 흐름은 Part 5의 표현 학습(representation learning) 설명과 그대로 이어집니다.
 
 ## 왜 마지막에는 다음 토큰 점수가 나오는가
 
@@ -145,7 +148,7 @@ LLM 설명에서 중요한 차이는 마지막 출력 해석입니다.
 
 이 점수는 이후 softmax와 sampling 같은 절차를 거쳐 실제 출력 토큰 선택으로 이어집니다.
 
-따라서 Part 4의 구조 설명은 Part 6에서 다음과 같이 다시 읽힙니다.
+따라서 Part 5의 구조 설명은 Part 6에서 다음과 같이 다시 읽힙니다.
 
 > 표현 학습 구조
 > -> 다음 토큰 분포 계산 구조
@@ -374,7 +377,7 @@ Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능�
 
 커리큘럼 관점에서 이 절에서 확인해야 할 결과는 Transformer를 `다음 토큰을 한 번 맞히는 장치`가 아니라, 문맥 전체를 반영해 다음 후보 분포를 갱신하는 중심 엔진으로 읽게 되는가입니다.
 
-- Part 4의 딥러닝 구조를 Part 6의 생성 모델 구조로 다시 읽게 하고
+- Part 5의 딥러닝 구조를 Part 6의 생성 모델 구조로 다시 읽게 하고
 - context window, prompt, RAG 설명의 기반을 마련하기 때문입니다
 
 ## 다음 절과의 연결
@@ -397,7 +400,7 @@ Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능�
 
 - Transformer를 LLM 기준으로 다시 설명할 수 있는가?
 - 토큰 -> 임베딩 -> Transformer 블록 -> 다음 토큰 점수 흐름을 말할 수 있는가?
-- Part 4의 구조 설명과 Part 6의 생성 설명이 어떻게 이어지는지 설명할 수 있는가?
+- Part 5의 구조 설명과 Part 6의 생성 설명이 어떻게 이어지는지 설명할 수 있는가?
 - 다음 절의 context window 문제로 왜 이어지는지 설명할 수 있는가?
 
 ## 출처와 참고 자료

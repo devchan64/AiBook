@@ -1,5 +1,8 @@
 # P6-13.2 계획, 행동, 관찰
 
+> Section ID: `P6-13.2`
+> Version: `v2026.07.05`
+
 P6-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가는 실행 구조라는 점을 보았습니다. 그러면 이제 그 내부 흐름을 더 구체적으로 봐야 합니다.
 
 에이전트는 실제로 어떤 반복 구조로 움직이는가?
@@ -28,15 +31,15 @@ P6-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 지금 읽는 층위는 `반복 루프 층위`입니다. 앞 절의 agent가 `여러 읽기와 실행을 어떤 목표 흐름으로 이어 갈까`를 다뤘다면, 여기서는 그 흐름이 실제로 어떤 계획, 행동, 관찰 반복으로 움직이고 어디서 멈추거나 사람 검토로 넘어가는지 읽습니다. 바로 다음의 MCP와 하네스 절에서는 이 루프가 쓰는 연결 규칙과 기록 환경으로 질문이 다시 이동합니다.
 
-| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| 지금 단계의 관점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
 | --- | --- | --- |
 | agent 목표 흐름 | 여러 읽기와 실행을 어떤 목표 흐름으로 이어 갈까? | P6-13.1 |
 | plan-action-observation 반복 루프 | 그 목표 흐름이 실제로 어떤 반복 루프로 움직일까? | P6-13.2 |
 | MCP / harness 관리 | 이 루프를 어떤 연결 규칙과 기록 환경 안에서 관리할까? | P6-14.1, P6-14.2 |
 
-즉, 지금 장의 핵심은 `여러 단계를 이어 갈까`에서 `그 단계들이 어떤 관찰과 결정 루프로 반복될까`로 손잡이가 바뀌는 데 있습니다. 바로 다음 장에서는 이 루프를 어떤 연결 규칙과 기록 환경 안에서 관리할지로 넘어갑니다.
+즉, 지금 장의 핵심은 `여러 단계를 이어 갈까`에서 `그 단계들이 어떤 관찰과 결정 루프로 반복될까`로 관점이 바뀌는 데 있습니다. 바로 다음 장에서는 이 루프를 어떤 연결 규칙과 기록 환경 안에서 관리할지로 넘어갑니다.
 
-여기서 먼저 남겨야 할 것은 어느 단계에서 판단이 바뀌었는지를 보여 주는 `plan`, `action`, `observation`, 그리고 언제 멈췄고 왜 사람에게 넘겼는지를 보여 주는 `stop_reason`, `ask_human_review`, `next_action`입니다. 이 기록이 있어야 루프 실패와 재시도 이유를 다시 좁힐 수 있고, 뒤로 갈수록 P6-14.2의 trace/log, P6-16.2의 실패 대응, Part 6의 `execution_records`, `incident_records`, `next_action`으로 다시 읽힙니다.
+여기서 먼저 남겨야 할 것은 어느 단계에서 판단이 바뀌었는지를 보여 주는 계획, 행동, 관찰 기록과, 언제 멈췄고 왜 사람에게 넘겼는지를 보여 주는 종료 이유와 다음 단계입니다. 이 기록이 있어야 루프 실패와 재시도 이유를 다시 좁힐 수 있고, 뒤로 갈수록 P6-14.2의 trace/log, P6-16.2의 실패 대응에서 다시 읽힙니다.
 
 ## 이 절의 목표
 
@@ -51,7 +54,7 @@ P6-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 1. 먼저 `계획(plan)은 무엇인가`, `행동(action)은 무엇인가`, `관찰(observation)은 무엇인가`를 읽고 루프의 세 요소를 분리합니다.
 2. 그다음 `왜 이 셋을 나눠 봐야 하나`, `종료 조건(stop condition)은 왜 필요한가`, `어디서 실패가 생기나`를 읽으면서 운영과 디버깅에서 왜 이 구분이 필요한지 확인합니다.
-3. 마지막으로 사례와 Python 예제를 보면서, 관찰 결과에 따라 `continue`, `stop`, `ask_human_review`가 실제로 갈라지는 장면을 확인합니다.
+3. 마지막으로 사례와 Python 예제를 보면서, 관찰 결과에 따라 `계속 진행`, `종료`, `사람 검토 전환`이 실제로 갈라지는 장면을 확인합니다.
 
 ## 계획(plan)은 무엇인가
 
@@ -224,7 +227,7 @@ flowchart TD
 
 관련 문서를 찾았지만 서로 기준이 충돌하거나 최신 날짜가 불분명하다고 해 봅시다. 사람은 이런 경우 바로 답하기보다 검토 필요 상태로 넘기거나 추가 확인을 합니다. agent loop에서도 항상 다음 행동이 `계속 진행`일 필요는 없고, `사람 검토 요청`이나 `추가 승인 대기`가 될 수 있습니다. 예를 들어 환불 정책 두 문서가 서로 다른 기간을 말하면, 요약보다 먼저 어느 문서가 최신인지 확인해야 합니다. 그래서 이 사례에서 확인해야 할 결과는 관찰 결과가 충돌할 때 loop가 억지로 답을 만들기보다 실제로 멈추거나 사람 검토로 넘기는가입니다.
 
-이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어지고, 그 결과가 `continue`, `stop`, `ask_human_review`처럼 달라질 수 있다는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어지고, 그 결과가 `계속 진행`, `종료`, `사람 검토 전환`처럼 달라질 수 있다는 점을 눈으로 확인하는 것입니다.
 
 문제 상황:
 
@@ -461,6 +464,6 @@ for report in reports:
 
 ## 출처와 참고 자료
 
-- Shunyu Yao et al., `ReAct: Synergizing Reasoning and Acting in Language Models`, arXiv, 2022, 확인 날짜: 2026-06-29.
-- OpenAI, Agents 관련 공식 문서, 확인 날짜: 2026-06-29.
-- 관련 agent engineering 교육 자료, 확인 날짜: 2026-06-29.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.

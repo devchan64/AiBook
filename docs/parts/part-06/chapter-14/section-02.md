@@ -1,5 +1,8 @@
 # P6-14.2 하네스(harness)
 
+> Section ID: `P6-14.2`
+> Version: `v2026.07.05`
+
 P6-14.1에서는 MCP가 모델과 외부 도구, 데이터 사이의 연결을 더 일관되게 만드는 인터페이스 관점이라는 점을 보았습니다. 하지만 연결만으로는 충분하지 않습니다. 이 절에서는 에이전트 실행을 안정적으로 감싸고, 로그와 평가를 남기며, 반복 가능하게 관리하는 구조를 봅니다.
 
 하네스(harness)는 에이전트나 모델 실행을 감싸서 입력, 도구 호출, 결과, 로그, 평가를 관리하는 실행 환경 또는 운영 장치에 가깝다.
@@ -26,13 +29,13 @@ P6-14.1에서는 MCP가 모델과 외부 도구, 데이터 사이의 연결을 �
 
 하네스는 제품 이름보다 `무엇을 어떤 trace와 replay로 남겨야 하는가`, `이 기록이 왜 바로 다음 장의 평가 입력이 되는가`, `MCP와 하네스가 각각 연결과 관리 중 무엇을 맡는가`라는 세 질문으로 읽으면 됩니다.
 
-| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| 지금 단계의 관점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
 | --- | --- | --- |
 | MCP 연결 형식 | 무엇과 어떤 형식으로 연결했는가? | P6-14.1 |
 | harness 실행 기록 | 그 연결을 쓴 실행을 어떤 trace, replay, approval 기록으로 남길 것인가? | P6-14.2 |
 | 평가와 운영 판정 | 남긴 기록을 어떤 통과 기준과 서비스 통제로 이어 갈 것인가? | P6-15.1, P6-15.2, P6-16.1, P6-16.2 |
 
-즉, 하네스는 `실행 흔적을 남기는 층`, 평가는 `그 흔적을 품질 판단으로 바꾸는 층`, 운영은 `그 판단을 실제 서비스 통제와 실패 대응으로 이어 붙이는 층`입니다. 지금 장의 핵심은 `연결을 잘했는가`에서 `그 연결을 쓴 실행을 다시 설명하고 비교할 수 있는가`로 손잡이가 바뀌는 데 있습니다. 이 차이가 보여야 하네스를 평가 절차나 운영 정책과 같은 말처럼 섞어 읽지 않게 됩니다.
+즉, 하네스는 `실행 흔적을 남기는 층`, 평가는 `그 흔적을 품질 판단으로 바꾸는 층`, 운영은 `그 판단을 실제 서비스 통제와 실패 대응으로 이어 붙이는 층`입니다. 지금 장의 핵심은 `연결을 잘했는가`에서 `그 연결을 쓴 실행을 다시 설명하고 비교할 수 있는가`로 관점이 바뀌는 데 있습니다. 이 차이가 보여야 하네스를 평가 절차나 운영 정책과 같은 말처럼 섞어 읽지 않게 됩니다.
 
 MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 다시 고정할 수 있습니다.
 
@@ -248,7 +251,7 @@ flowchart TD
 | `approval_completed` | 지식 오류와 운영 통제 오류를 구분해야 해서 |
 | `replay_ready` | 같은 실패를 다시 재현해 수정 전후를 비교해야 해서 |
 | `root_issue` | 검색, 승인, 기록 중 어디가 먼저 흔들렸는지 바로 읽어야 해서 |
-| `next_action` | 문제가 보였을 때 다음 운영 조치를 바로 정해야 해서 |
+| 다음 운영 조치 | 문제가 보였을 때 바로 어떤 운영 조치를 취할지 정해야 해서 |
 
 문제 상황:
 
@@ -518,5 +521,6 @@ run-2026-06-30-003
 
 ## 출처와 참고 자료
 
-- OpenAI, Agents 및 observability/evaluation 관련 공식 문서, 확인 날짜: 2026-06-29.
-- 관련 agent engineering 및 evaluation 운영 자료, 확인 날짜: 2026-06-29.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.

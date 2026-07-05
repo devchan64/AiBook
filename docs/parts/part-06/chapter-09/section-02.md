@@ -1,5 +1,8 @@
 # P6-9.2 프롬프트의 한계
 
+> Section ID: `P6-9.2`
+> Version: `v2026.07.05`
+
 P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설계를 통해 모델 행동을 관찰하고 조정하는 첫 번째 실무 도구라는 점을 보았습니다. 하지만 여기서 바로 더 중요한 질문이 나옵니다.
 
 프롬프트를 잘 쓰면 정말 원하는 문제를 다 해결할 수 있을까?
@@ -51,7 +54,7 @@ P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 
 즉, 프롬프트를 더 세게 쓰는 일은 `입력 조정`이고, RAG·tool use·evaluation으로 넘어가는 일은 `시스템 구조를 바꾸는 선택`입니다.
 
-여기서 먼저 남겨야 할 것은 어떤 문제가 입력 조정 한계인지, 어떤 문제가 근거 연결 부재인지를 보여 주는 `failure_type`, `missing_grounding_reason`, 그리고 형식 흔들림 통계와 재현 실패 메모입니다. 이 기록이 있어야 P6-10.1의 RAG 필요 판단으로 왜 넘어가야 하는지 흔들리지 않고, 프롬프트 개선으로 줄일 문제와 시스템 구조를 바꿔야 할 문제를 나눌 수 있습니다. 뒤로 갈수록 이 기록은 P6-15의 평가 기준과 Part 6의 `review_summary`, `improvement_plan`, `project_note`, 회고 문서로 다시 읽힙니다.
+여기서 먼저 남겨야 할 것은 어떤 문제가 입력 조정 한계인지, 어떤 문제가 근거 연결 부재인지를 보여 주는 실패 유형 메모, 형식 흔들림 통계, 재현 실패 기록입니다. 이 기록이 있어야 P6-10.1의 RAG 필요 판단으로 왜 넘어가야 하는지 흔들리지 않고, 프롬프트 개선으로 줄일 문제와 시스템 구조를 바꿔야 할 문제를 나눌 수 있습니다. 뒤로 갈수록 이 기록은 P6-15의 평가 기준과 Part 6의 회고 메모, 개선 계획, 프로젝트 기록으로 다시 읽힙니다.
 
 ## 이 절의 목표
 
@@ -492,6 +495,6 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- OpenAI, 프롬프팅 및 RAG 관련 공식 문서, 확인 날짜: 2026-06-29.
-- Anthropic, 프롬프팅과 tool use 관련 공개 문서, 확인 날짜: 2026-06-29.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-05.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-05.

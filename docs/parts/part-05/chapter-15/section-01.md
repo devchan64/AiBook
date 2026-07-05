@@ -258,8 +258,8 @@ print("counts =", counts)
 출력에서는 `samples`에 실제로 여러 후보가 섞여 나오는지와 `counts`가 상대 가중치를 대체로 따라가는지를 같이 보면 됩니다.
 
 ```text
-samples = ['good', 'sunny', 'good', 'nice', 'good', 'good', 'nice', 'good', 'sunny', 'good', 'good', 'good', 'nice', 'nice', 'good', 'good', 'sunny', 'good', 'good', 'nice']
-counts = {'good': 11, 'nice': 5, 'sunny': 4}
+samples = ['good', 'nice', 'nice', 'good', 'good', 'nice', 'sunny', 'nice', 'nice', 'good', 'good', 'good', 'nice', 'good', 'nice', 'good', 'good', 'good', 'sunny', 'nice']
+counts = {'good': 10, 'nice': 8, 'sunny': 2}
 ```
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |

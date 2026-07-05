@@ -1,5 +1,8 @@
 # P6-16.1 서비스 운영 제약
 
+> Section ID: `P6-16.1`
+> Version: `v2026.07.05`
+
 P6-15.2에서는 자동 평가와 사람 평가가 서로 다른 장단점을 가지며 실제 운영에서는 함께 쓰이는 경우가 많다는 점을 보았습니다. 하지만 평가만 좋아도 서비스가 바로 성립하는 것은 아닙니다. 이 절에서는 품질이 괜찮아 보여도 실제 서비스에서 다시 발목을 잡는 조건을 봅니다.
 
 AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연 시간(latency), 사용량 제한(limit), 실패 가능성 같은 현실 제약 안에서 운영되어야 합니다. 좋은 모델이 있어도 너무 느리거나 너무 비싸거나 너무 자주 멈추면 좋은 서비스가 되기 어렵습니다.
@@ -32,16 +35,16 @@ AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연
 
 즉, P6-15에서 `괜찮은 답인가`를 가렸다면 여기서는 `그 괜찮은 답을 운영 한도 안에서 반복 제공할 수 있는가`를 다시 묻습니다. 이 기준이 서야 평가를 통과한 답이 왜 실제 서비스 후보에서는 다시 탈락할 수 있는지 자연스럽게 이해할 수 있습니다.
 
-여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지를 보여 주는 `primary_tradeoff`, `next_adjustment`, 그리고 평가를 통과한 답이 실제 운영 후보로 남는지를 다시 가르는 `operationally_acceptable`, `summary`입니다.
+여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지, 다음에 어디부터 조정해야 하는지, 그리고 평가를 통과한 답이 실제 운영 후보로 남을 수 있는지를 함께 보여 주는 운영 판단입니다.
 
-이 필드들이 뒤 절과 실제 요청 기록으로 어떻게 이어지는지도 지금 같이 붙잡아 두면 좋습니다.
+이 판단이 뒤 절의 실패 대응과 실제 요청 기록으로 어떻게 이어지는지도 지금 같이 붙잡아 두면 좋습니다.
 
 | 지금 단계에서 남기는 판단 | 바로 다음 절에서 갈라지는 운영 경로 | P6-17에서 요청 기록으로 남는 대표 값 |
 | --- | --- | --- |
-| `primary_tradeoff=latency_too_high` | timeout 기준 조정, 경량 경로, fallback 검토 | `next_action`, `incident_records`, 실행 메모 |
-| `primary_tradeoff=cost_too_high` | 호출 수 축소, 작은 모델, 단계 축약 검토 | `next_action`, `execution_records`, 비용 요약 |
-| `primary_tradeoff=throughput_too_low` | 큐, 캐시, 처리량 제한 경로 검토 | `next_action`, `incident_records`, 운영 메모 |
-| `operationally_acceptable=True` | 운영 후보 유지 | `answer_status`, `summary`, run 기록 |
+| 지연 시간이 주된 제약으로 드러난 경우 | timeout 기준 조정, 경량 경로, fallback 검토 | 다음 조치, 장애 메모, 실행 메모 |
+| 비용이 주된 제약으로 드러난 경우 | 호출 수 축소, 작은 모델, 단계 축약 검토 | 다음 조치, 실행 기록, 비용 요약 |
+| 처리량이 주된 제약으로 드러난 경우 | 큐, 캐시, 처리량 제한 경로 검토 | 다음 조치, 장애 메모, 운영 메모 |
+| 운영 후보로 유지 가능한 경우 | 운영 후보 유지 | 상태 요약, 운영 요약, 요청 실행 기록 |
 
 즉, 이 절의 운영 한도 판단은 여기서 끝나는 판정표가 아니라, 바로 다음 실패 대응 절의 분기와 P6-17 요청 흐름 기록의 입력값이라고 보면 됩니다.
 
@@ -264,7 +267,7 @@ flowchart LR
 | `latency_ok` | 사용자가 기다릴 수 있는 시간 안에 답해야 해서 |
 | `cost_ok` | 한 요청 품질이 좋아도 운영 예산을 넘기면 지속하기 어려워서 |
 | `throughput_ok` | 데모는 되어도 반복 요청을 견디지 못하면 서비스가 아니어서 |
-| `next_adjustment` | 탈락한 설계안을 어디부터 줄이거나 바꿔야 할지 알아야 해서 |
+| 다음 조정 방향 | 탈락한 설계안을 어디부터 줄이거나 바꿔야 할지 알아야 해서 |
 
 문제 상황:
 
@@ -515,5 +518,6 @@ pprint(best_acceptable)
 
 ## 출처와 참고 자료
 
-- OpenAI, 비용/지연 시간/운영 관련 공식 문서, 확인 날짜: 2026-06-29.
-- 관련 LLM application engineering 운영 자료, 확인 날짜: 2026-06-29.
+- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
