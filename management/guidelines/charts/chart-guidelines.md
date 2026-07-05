@@ -72,6 +72,15 @@
 
 이 표는 빠른 선택 기준이다. 실제 적용 판단은 이 문서의 `파일 형식과 위치`, `차트 분리 기준`, `검증` 항목을 함께 본다.
 
+## 도구 대체 판단 메모
+
+- `prior belief -> evidence -> posterior belief`처럼 단계 흐름이 중심이면 Mermaid를 우선한다.
+- 모집단, 표본, 데이터셋의 포함 관계나 train/test 분할 흐름처럼 개념 관계가 중심이면 Mermaid로 충분한 경우가 많다.
+- `input -> model -> prediction -> loss -> objective` 같은 계산 단계 흐름도 Mermaid를 우선 검토한다.
+- 경사하강법처럼 `곡선 위 이동`과 `업데이트 루프`가 함께 필요하면 하나의 그림에 억지로 넣지 않는다. 손실 곡선은 SVG로, `current parameters -> gradient -> learning rate -> update` 반복은 Mermaid로 분리하는 편이 낫다.
+- 수학 그래프, 벡터·행렬 변환, 분포 비교, 확률 점수와 threshold 위치처럼 좌표와 상대 위치 자체가 설명인 경우에는 SVG를 유지한다.
+- Mermaid로 바꿨을 때 설명력이 떨어지지 않는지 먼저 본다. 유지보수 편의가 설명 정확도보다 앞서면 안 된다.
+
 ## SVG 기본 구조
 
 - SVG에는 반드시 `<title>`과 `<desc>`를 넣어 접근성과 검색 가능성을 확보합니다.

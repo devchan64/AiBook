@@ -33,7 +33,6 @@
 
 | 문서 | 역할 | 주로 볼 때 |
 | --- | --- | --- |
-| `management/authoring/section-paragraph-structure-analysis.md` | 섹션 문단 재배치와 공통 골격 정리 메모 | 문단 재배치, 장문 섹션 구조 정리 전 |
 | `management/authoring/author-notes.md` | 저자 관점 문장을 다듬기 위한 메모 | 머리말, 도입부, 관점 문장 정리 시 |
 | `management/authoring/section-...-evidence-analysis.md` | 특정 Section의 근거 검토 메모 | 기존 절 수정, 근거 확인, 후속 설명 위치 판단 시 |
 
@@ -43,7 +42,6 @@
 - `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
 - `management/guidelines/writing/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
 - `management/guidelines/charts/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
-- `section-paragraph-structure-analysis.md`: 현재 원고 구조를 통계와 재배치 관점으로 정리한 메모입니다. 규칙 원문이라기보다 구조 정리 작업의 실무 기준에 가깝습니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
 - `part-XX-open-checklist.md`: 이미 반영된 설명을 반복 저장하지 않고, 각 Part에서 아직 남은 작업만 추린 체크리스트입니다.
@@ -55,7 +53,7 @@
 1. `AGENTS.md`
 2. `management/guidelines/writing/manuscript-writing-workflow.md`
 3. 필요하면 해당 `section-...-evidence-analysis.md`
-4. 문단 재구성이 크면 `section-paragraph-structure-analysis.md`
+4. 문단 재구성이 크면 `management/guidelines/writing/manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 본다.
 5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
 
 ### Python 예제를 넣거나 고칠 때
@@ -82,6 +80,7 @@
 - 이미 본문에 반영된 집필 메모나 끝난 작업 목록은 Section 메모에 계속 누적하지 않습니다.
 - 후속 작업은 가능한 한 `part-XX-open-checklist.md`로 옮겨 Part 단위로 관리합니다.
 - `review`, `plan`, `curriculum-review` 문서의 남은 항목을 Part 체크리스트로 옮겼다면 원본 문서는 삭제해도 됩니다.
+- evidence 메모를 폐기할 때는 대응 원고 본문과 참고문헌 반영을 먼저 대조하고, 구조가 어긋나는 메모는 자동 폐기하지 않습니다.
 
 ## 가장 중요한 원칙
 
@@ -258,7 +257,7 @@
 
 1. `AGENTS.md`에서 Section 범위, Python 예제, 출처, 배포 규칙을 먼저 확인합니다.
 2. 작업이 예시 보강이면 `AGENTS.md`의 초심자 보강 기준을 봅니다.
-3. 작업이 문단 재배치면 `section-paragraph-structure-analysis.md`를 같이 봅니다.
+3. 작업이 문단 재배치면 `manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 봅니다.
 4. 작업이 차트 수정이면 `chart-guidelines.md`를 기준으로 봅니다.
 5. 기존 절을 고칠 때는 해당 `section-...-evidence-analysis.md` 메모가 있는지 확인합니다.
 6. 수정 후에는 최소한 변경 범위에 대해 구조, 용어, 출처, 후속 연결, 빌드 필요 여부를 점검합니다.
