@@ -1,5 +1,8 @@
 # P2-15.1 수식을 코드로 옮기는 작은 절차
 
+> Section ID: `P2-15.1`
+> Version: `v2026.07.05`
+
 Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다. 이제 이 흐름을 하나로 묶습니다. 목표는 어려운 수식을 증명하는 것이 아니라, 간단한 수식을 코드로 옮기고 결과를 확인하는 절차를 갖는 것입니다.
 
 머신러닝을 공부하면 손실 함수(loss function), 평균(mean), 분산(variance), 선형 결합(linear combination) 같은 수식이 계속 나옵니다. 이때 수식을 보자마자 막히지 않으려면 “기호를 계산 절차로 바꾸는 습관”이 필요합니다.
@@ -158,7 +161,7 @@ mse = np.mean(squared_errors)
 print(mse)
 ```
 
-NumPy에서는 배열끼리 빼면 같은 위치의 값끼리 계산됩니다. 이 방식은 P2-11장에서 본 벡터화(vectorization)와 연결됩니다.
+NumPy에서는 배열끼리 빼면 같은 위치의 값끼리 계산됩니다. 이 방식은 Part 2 Chapter 11에서 본 벡터화(vectorization)와 연결됩니다.
 
 다만 NumPy 코드가 짧다고 해서 처음부터 더 이해하기 쉬운 것은 아닙니다. 입문 단계에서는 “반복문으로 의미를 확인하고, NumPy로 표현을 줄인다”는 순서가 안전합니다.
 

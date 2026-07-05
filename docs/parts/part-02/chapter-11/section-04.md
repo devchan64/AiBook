@@ -210,9 +210,7 @@ print(diff)
 - `b[np.newaxis, :]`는 `(1, 2)`입니다.
 - 두 배열은 broadcasting으로 `(3, 2)` 결과를 만듭니다.
 
-입문 단계에서는 다음 정도로 연결하면 충분합니다.
-
-> `np.newaxis`는 broadcasting을 위해 행과 열 역할을 더 분명하게 만드는 표기입니다.
+입문 단계에서는 `np.newaxis`를 broadcasting을 위해 행과 열 역할을 더 분명하게 만드는 표기로 이해하면 충분합니다.
 
 ## 실무형 코드에서는 shape와 원본 공유를 같이 본다
 
