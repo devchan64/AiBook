@@ -15,6 +15,47 @@
 
 저장 구조에서는 빠짐없이 남기는 것이 중요합니다. 반면 문제 표현 구조에서는 `무엇을 남길 것인가`와 `무엇을 버릴 것인가`를 판단해야 합니다. 예를 들어 동작 1회 전체를 샘플로 보겠다고 결정했다면, 시점별 수백 행을 그대로 두는 대신 총 동작 시간, 초반 평균, 후반 하강률, 추종 오차 같은 요약값을 새 열로 만들 수 있습니다. 이것은 저장 구조를 훼손하는 일이 아니라, 다른 질문에 답하기 위해 새로운 표현을 설계하는 일입니다.
 
+아래 작은 표를 보면 같은 원천데이터도 목적에 따라 어떻게 다르게 읽히는지 바로 드러납니다.
+
+| 구조 | 예시 열 | 한 행이 뜻하는 것 |
+| --- | --- | --- |
+| 저장 구조 | `timestamp`, `sensor_name`, `value` | 한 시점 기록 |
+| 문제 표현 구조 | `event_id`, `mid_flow_mean`, `late_drop_rate` | 동작 1회 요약 |
+
+```python
+import pandas as pd
+
+storage_table = pd.DataFrame(
+    [
+        {"timestamp": "10:00:01", "sensor_name": "flow", "value": 0.8},
+        {"timestamp": "10:00:02", "sensor_name": "flow", "value": 1.4},
+        {"timestamp": "10:00:03", "sensor_name": "flow", "value": 1.2},
+    ]
+)
+
+analysis_table = pd.DataFrame(
+    [
+        {"event_id": "A", "mid_flow_mean": 1.35, "late_drop_rate": -0.40},
+    ]
+)
+
+print("storage rows:", len(storage_table))
+print("analysis rows:", len(analysis_table))
+print(storage_table.columns.tolist())
+print(analysis_table.columns.tolist())
+```
+
+예상 출력:
+
+```text
+storage rows: 3
+analysis rows: 1
+['timestamp', 'sensor_name', 'value']
+['event_id', 'mid_flow_mean', 'late_drop_rate']
+```
+
+출력에서 먼저 봐야 할 것은 `행 수`와 `열 이름`입니다. 저장 구조는 기록을 남기기 위해 세부 시점을 많이 보존합니다. 반면 문제 표현 구조는 비교 질문에 맞춰 훨씬 적은 행과 더 해석적인 열을 가집니다.
+
 여기서 주의할 점이 있습니다. 문제 표현 구조가 저장 구조를 대체하는 것은 아닙니다. 요약 표를 만들었다고 해서 원시 로그가 필요 없어지는 것이 아닙니다. 오히려 요약 표에서 이상한 변화가 보이면 다시 저장 구조로 돌아가 세부 시점을 확인해야 합니다. 즉 저장 구조는 근거를 보존하고, 문제 표현 구조는 비교를 가능하게 만듭니다. 둘은 경쟁 관계가 아니라 역할이 다른 연결 구조입니다.
 
 이 절에서 먼저 잡아야 할 한 문장은 다음과 같습니다. `저장 구조는 기록을 남기기 위한 구조이고, 문제 표현 구조는 질문에 답하기 위한 구조다.` 이 구분이 생기면 데이터 모델링을 단순한 DB 스키마 설명으로 축소하지 않게 되고, 뒤에서 나올 샘플, 특징, 기준선도 왜 같은 흐름에 묶이는지 더 자연스럽게 읽을 수 있습니다.

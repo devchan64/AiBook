@@ -15,6 +15,56 @@
 
 이 네 가지를 한 번에 보면 데이터 모델링이 왜 단순 정리가 아닌지 드러납니다. 예를 들어 아직 샘플이 `한 시점 측정값`인지 `동작 1회`인지 정하지 않은 상태에서는 특징도 안정적으로 정할 수 없습니다. 시점별 표에 어울리는 특징과 동작 1회 표에 어울리는 특징은 다르기 때문입니다. 마찬가지로 기준선을 무엇으로 둘지 정하지 않으면 최근 구간 변화도 읽기 어렵습니다. 또 출력 구조가 `검토 후보 생성`인지 `예측 라벨 출력`인지 정해지지 않으면 어떤 비교가 필요한지도 모호해집니다.
 
-이 절에서는 복잡한 수식보다 관계를 먼저 기억하면 충분합니다. `샘플을 정해야 특징이 생기고, 특징을 정해야 비교 구조가 생기고, 비교 구조가 생겨야 출력 구조가 정리된다.` 이 흐름은 뒤 절에서 계속 반복됩니다.
+아래 표는 네 요소가 같은 흐름 안에 있다는 점을 보여 줍니다.
 
-이제 다음 Chapter부터는 이 표를 펼쳐서 하나씩 보게 됩니다. 먼저 무엇을 샘플 1건으로 볼 것인지 정하고, 그 다음 원시 로그를 비교 가능한 표로 바꾸고, 그 위에서 특징과 기준선을 설계하게 됩니다.
+| sample_id | duration_seconds | late_drop_rate | baseline_diff | output |
+| --- | --- | --- | --- | --- |
+| A | 28 | -0.32 | -0.27 | `검토 필요` |
+| B | 24 | -0.08 | -0.03 | `정상 범위` |
+
+여기서 `sample_id`는 샘플을, `duration_seconds`와 `late_drop_rate`는 특징을, `baseline_diff`는 기준선 비교 결과를, `output`은 사람이 읽게 될 출력 구조를 나타냅니다. 즉 네 요소는 따로 존재하는 것이 아니라 같은 표 안에서도 연결되어 나타납니다.
+
+```python
+import pandas as pd
+
+table = pd.DataFrame(
+    [
+        {"sample_id": "A", "duration_seconds": 28, "late_drop_rate": -0.32, "baseline_diff": -0.27, "output": "검토 필요"},
+        {"sample_id": "B", "duration_seconds": 24, "late_drop_rate": -0.08, "baseline_diff": -0.03, "output": "정상 범위"},
+    ]
+)
+
+feature_cols = ["duration_seconds", "late_drop_rate"]
+comparison_col = "baseline_diff"
+output_col = "output"
+
+print("features:")
+print(table[feature_cols])
+print("comparison:")
+print(table[comparison_col])
+print("output:")
+print(table[output_col])
+```
+
+예상 출력:
+
+```text
+features:
+   duration_seconds  late_drop_rate
+0                28           -0.32
+1                24           -0.08
+comparison:
+0   -0.27
+1   -0.03
+Name: baseline_diff, dtype: float64
+output:
+0    검토 필요
+1    정상 범위
+Name: output, dtype: object
+```
+
+이 출력은 독자가 `특징`, `비교`, `출력`을 같은 흐름 안에서 보게 해 줍니다. 즉 어떤 값을 남길지, 무엇과 비교할지, 최종적으로 어떤 판단 형식으로 내보낼지는 한 번에 설계되는 문제입니다.
+
+여기서는 복잡한 수식보다 관계를 먼저 기억하면 충분합니다. `샘플을 정해야 특징이 생기고, 특징을 정해야 비교 구조가 생기고, 비교 구조가 생겨야 출력 구조가 정리된다.` 이 흐름은 뒤 절에서 계속 반복됩니다.
+
+이제부터는 이 표를 펼쳐서 하나씩 보게 됩니다. 먼저 무엇을 샘플 1건으로 볼 것인지 정하고, 그 다음 원시 로그를 비교 가능한 표로 바꾸고, 그 위에서 특징과 기준선을 설계하게 됩니다.

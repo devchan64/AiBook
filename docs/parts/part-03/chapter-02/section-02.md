@@ -23,4 +23,49 @@
 
 여기서 중요한 점은 데이터셋이 하나만 존재하지 않는다는 사실입니다. 같은 원천데이터라도 비교 리포트를 위한 데이터셋, 검토 우선순위를 위한 데이터셋, 나중에 지도학습으로 넘길 데이터셋이 서로 다를 수 있습니다. 이 차이를 인정해야 `왜 같은 데이터인데 표를 여러 번 다시 만드나`라는 질문에도 답할 수 있습니다.
 
-이 절에서 기억할 핵심은 다음과 같습니다. `데이터셋은 주어진 표의 이름이 아니라, 문제에 맞게 다시 설계한 구조의 이름이다.` 이 감각이 생겨야 다음 Chapter에서 `한 행이 무엇을 뜻하는가`를 더 차분하게 볼 수 있습니다.
+아래 예시는 같은 원천데이터에서 서로 다른 목적의 표가 어떻게 나오는지 보여 줍니다.
+
+```python
+import pandas as pd
+
+raw = pd.DataFrame(
+    [
+        {"event_id": "A", "second": 0, "flow": 0.8},
+        {"event_id": "A", "second": 1, "flow": 1.5},
+        {"event_id": "A", "second": 2, "flow": 1.1},
+        {"event_id": "B", "second": 0, "flow": 0.7},
+        {"event_id": "B", "second": 1, "flow": 1.2},
+        {"event_id": "B", "second": 2, "flow": 1.0},
+    ]
+)
+
+event_dataset = (
+    raw.groupby("event_id")
+    .agg(flow_mean=("flow", "mean"), flow_max=("flow", "max"))
+    .reset_index()
+)
+
+report_dataset = event_dataset.assign(baseline_diff=[-0.22, -0.05], review_needed=[1, 0])
+
+print("event dataset:")
+print(event_dataset)
+print("report dataset:")
+print(report_dataset)
+```
+
+예상 출력:
+
+```text
+event dataset:
+  event_id  flow_mean  flow_max
+0        A   1.133333       1.5
+1        B   0.966667       1.2
+report dataset:
+  event_id  flow_mean  flow_max  baseline_diff  review_needed
+0        A   1.133333       1.5          -0.22              1
+1        B   0.966667       1.2          -0.05              0
+```
+
+첫 번째 표는 동작 단위 특징 표이고, 두 번째 표는 비교 리포트에 더 가깝습니다. 같은 원천데이터에서 나왔지만 목적이 다르므로 열 구조도 달라집니다. 이런 예시를 보면 `데이터셋은 하나의 고정된 표`라는 생각에서 조금 더 쉽게 벗어날 수 있습니다.
+
+이 절에서 기억할 핵심은 다음과 같습니다. `데이터셋은 주어진 표의 이름이 아니라, 문제에 맞게 다시 설계한 구조의 이름이다.` 이 감각이 생겨야 다음 절들에서 `한 행이 무엇을 뜻하는가`를 더 차분하게 읽을 수 있습니다.

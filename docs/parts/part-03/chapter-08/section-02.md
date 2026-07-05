@@ -17,7 +17,7 @@
 - 샘플 단위와 라벨 단위가 맞는다.
 - split과 evaluation을 설계할 만큼 표본 구조가 정리되어 있다.
 
-작은 장난감 표를 보면 비교 리포트와 예측 문제의 차이가 더 잘 보입니다.
+작은 표를 보면 비교 리포트와 예측 문제의 차이가 더 잘 보입니다.
 
 | event_id | diff | repeatability | review_needed | cause_label |
 | --- | --- | --- | --- | --- |
