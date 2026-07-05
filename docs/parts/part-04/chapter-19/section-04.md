@@ -140,7 +140,7 @@ RLHF(reinforcement learning from human feedback)는 이름 그대로 보면 강�
 - DQN은 가치 기반 강화학습을 큰 상태 공간으로 확장한 흐름입니다.
 - PPO, TRPO, A2C, A3C는 정책 기반 강화학습의 불안정성을 줄이려는 흐름입니다.
 - safe RL, offline RL, domain randomization은 현실 제약과 배포 위험 때문에 나온 갈래입니다.
-- RLHF는 강화학습 언어가 LLM 정렬과 만나는 지점입니다.
+- RLHF는 강화학습이 LLM 정렬과 만나는 지점입니다.
 
 | 같이 봐야 할 것 | 이 절에서 먼저 읽는 질문 | 바로 다음에 이어질 곳 |
 | --- | --- | --- |
