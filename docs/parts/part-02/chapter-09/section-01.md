@@ -1,5 +1,8 @@
 # P2-9.1 자료구조(data structure)는 왜 필요한가
 
+> Section ID: `P2-9.1`
+> Version: `v2026.07.05`
+
 P2-8에서는 Python의 값(value), 리스트(list), 딕셔너리(dictionary), 반복(loop), 함수(function), 클래스(class)를 봤습니다. 이제 한 걸음 물러서서 질문을 바꿉니다.
 
 데이터를 어떤 모양으로 담아야 할까요?

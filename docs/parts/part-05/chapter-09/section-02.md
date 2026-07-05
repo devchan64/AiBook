@@ -241,7 +241,7 @@ first token embedding = [0, 1, 2]
 
 - Part 2의 선형대수와 NumPy 배열
 - Part 3의 입력 행렬과 feature table
-- Part 5의 GPU 병렬 처리
+- P5-9.1의 GPU 병렬 처리
 
 가 여기서 하나의 shape 언어로 합쳐지기 때문입니다.
 

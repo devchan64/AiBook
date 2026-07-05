@@ -1,20 +1,19 @@
 # 9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
+> Section ID: `P1-9.1`
+> Version: `v2026.07.05`
+
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
 이번 절은 딥러닝 전체를 설명하지 않습니다. 먼저 이미지 인식(image recognition) 사례를 통해, 딥러닝이 왜 “특징을 사람이 모두 설계하는 방식”에서 “모델이 표현을 함께 학습하는 방식”으로 이해되는지 봅니다.
 
-이 절의 질문은 다음입니다.
-
-> 이미지를 분류할 때,
-> 사람이 특징을 직접 쓰는 방식과
-> 모델이 표현을 학습하는 방식은 무엇이 다른가?
+이 절의 핵심 질문은 이미지를 분류할 때 사람이 특징을 직접 쓰는 방식과 모델이 표현을 학습하는 방식이 무엇이 다른가입니다.
 
 > 딥러닝의 중요한 변화는 모델이 출력만 맞추는 것이 아니라, 입력을 다루기 좋은 내부 표현도 함께 학습한다는 점이다.
 
 ## 이 절의 범위
 
-이 절은 합성곱 신경망(CNN, convolutional neural network)을 수식으로 설명하지 않습니다. 합성곱(convolution), 풀링(pooling), 활성화 함수(activation function), 역전파(backpropagation), 옵티마이저(optimizer)는 P1-9와 Part 4에서 다시 다룹니다.
+이 절은 합성곱 신경망(CNN, convolutional neural network)을 수식으로 설명하지 않습니다. 합성곱(convolution)과 풀링(pooling)은 Part 5의 P5-11.2에서, 활성화 함수(activation function)는 P5-3.1과 P5-3.2에서, 역전파(backpropagation)와 옵티마이저(optimizer)는 P5-5.1, P5-5.2, P5-7.1에서 다시 다룹니다.
 
 또한 AlexNet을 “모든 딥러닝의 시작”으로 쓰지 않습니다. 신경망과 CNN 연구는 그 이전에도 오래 이어졌습니다. 여기서는 AlexNet을 2010년대 딥러닝 확산을 보여 주는 대표적 전환점으로만 다룹니다.
 

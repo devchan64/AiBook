@@ -1,5 +1,8 @@
 # P6-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법
 
+> Section ID: `P6-3.3`
+> Version: `v2026.07.05`
+
 P6-3.1과 P6-3.2에서는 Transformer와 context window의 큰 구조를 보았습니다. 여기서는 본문에서 잠시 넘긴 구현 쪽 핵심 이름들을 입문 기준으로 정리합니다.
 
 ## 이 보충학습의 범위

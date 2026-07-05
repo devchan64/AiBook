@@ -1,5 +1,8 @@
 # P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관
 
+> Section ID: `P2-9.2`
+> Version: `v2026.07.05`
+
 P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로 조직하느냐의 문제라고 봤습니다. 이제 AI 실습에서 자주 만나는 네 가지 모양을 넓게 비교합니다.
 
 배열(array), 표(table), 트리(tree), 그래프(graph).
@@ -212,11 +215,11 @@ print(passed_students)
 트리는 위에서 아래로 범위가 좁아지는 계층 구조입니다.
 
 ```text
-AiBook
-├─ Part 1. AI 개론과 지형도
+study-book
+├─ Part 1. Introduction
 │  ├─ Chapter 1
 │  └─ Chapter 2
-└─ Part 2. 기초 복구
+└─ Part 2. Foundations
    ├─ Chapter 8
    └─ Chapter 9
 ```
@@ -224,20 +227,20 @@ AiBook
 Python에서는 작은 트리를 딕셔너리와 리스트로 표현할 수 있습니다.
 
 문제 상황: 문서 구조 같은 계층을 트리 비슷한 데이터로 표현하는 예를 보고 싶습니다.
-입력(input): 루트 제목과 자식 목록을 가진 `book_tree`.
+입력(input): 루트 제목과 자식 목록을 가진 `course_tree`.
 기대 출력(output): 각 Part 제목이 출력됩니다.
 확인할 개념: 트리는 상위 항목 아래에 하위 항목이 들어가는 계층 구조입니다.
 
 ```python
-book_tree = {
-    "title": "AiBook",
+course_tree = {
+    "title": "study-course",
     "children": [
-        {"title": "Part 1", "children": ["Chapter 1", "Chapter 2"]},
-        {"title": "Part 2", "children": ["Chapter 8", "Chapter 9"]},
+        {"title": "Foundations", "children": ["Variables", "Functions"]},
+        {"title": "Data Work", "children": ["Tables", "Graphs"]},
     ],
 }
 
-for part in book_tree["children"]:
+for part in course_tree["children"]:
     print(part["title"])
 ```
 
@@ -256,13 +259,13 @@ AI 실습과 서비스에서는 트리 감각이 다음 장면에서 등장합�
 트리에서는 “어떤 항목 아래에 무엇이 있는가”를 묻습니다. 예를 들어 특정 Part 아래의 Chapter 목록을 꺼내는 식입니다.
 
 문제 상황: 트리에서 특정 상위 항목 아래의 하위 목록을 찾는 예를 보고 싶습니다.
-입력(input): `book_tree`와 찾을 항목 `"Part 2"`.
-기대 출력(output): `"Part 2"` 아래의 Chapter 목록.
+입력(input): `course_tree`와 찾을 항목 `"Data Work"`.
+기대 출력(output): `"Data Work"` 아래의 하위 주제 목록.
 확인할 개념: 트리에서는 루트에서 시작해 원하는 경로까지 내려가는 감각이 중요합니다.
 
 ```python
-for item in book_tree["children"]:
-    if item["title"] == "Part 2":
+for item in course_tree["children"]:
+    if item["title"] == "Data Work":
         print(item["children"])
 ```
 

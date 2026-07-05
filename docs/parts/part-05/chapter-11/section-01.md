@@ -1,5 +1,8 @@
 # P5-11.1 CNN의 직관
 
+> Section ID: `P5-11.1`
+> Version: `v2026.07.05`
+
 P5-10장에서는 깊은 신경망이 층을 거치며 더 유용한 표현(representation)을 학습할 수 있다는 점을 보았습니다. 이제 이 관점을 이미지 쪽으로 좁히면 다음 질문이 생깁니다.
 
 이미지처럼 공간 구조가 있는 데이터에서는, 왜 일반적인 완전연결층(fully connected layer)보다 CNN이 더 자연스럽다고 말하는가?
@@ -191,11 +194,7 @@ CNN의 직관은 Part 5에서 이미 본 계층적 표현 학습과도 자연스
 - 중간 층은 부분 구조
 - 더 깊은 층은 더 큰 객체 단서
 
-즉, CNN은 초기 층의 지역 패턴이 중간 층의 부분 구조를 거쳐 더 깊은 층의 객체 단서로 커지는 계층 구조를 만듭니다.
-
-즉, CNN은 단순히 이미지용 연산이 아니라, `지역 패턴을 쌓아 더 큰 시각적 표현을 만드는 계층 구조`입니다.
-
-즉, CNN이 픽셀 자체를 바로 정답으로 연결하는 것이 아니라, `edge -> 부분 구조 -> 객체 단서`처럼 작은 지역 패턴에서 더 큰 시각적 단서로 올라가는 계층 구조를 만든다는 점이 핵심입니다.
+즉, CNN은 픽셀 자체를 바로 정답으로 연결하는 것이 아니라, `edge -> 부분 구조 -> 객체 단서`처럼 작은 지역 패턴에서 더 큰 시각적 단서로 올라가는 계층 구조를 만듭니다. 그래서 CNN은 단순한 이미지용 연산이 아니라, `지역 패턴을 쌓아 더 큰 시각적 표현을 만드는 구조`로 읽는 편이 맞습니다.
 
 ## 왜 CNN이 전환점처럼 보였나
 
@@ -310,74 +309,11 @@ second patch position = (0, 1) score = 18
 best patch position = (2, 2) score = 54
 ```
 
-- CNN은 이미지 전체를 한 번에만 보는 것이 아니라
-- 작은 지역 창을 반복해서 읽고
-- 각 지역마다 다른 반응 점수를 만들고
-- 그런 지역 정보가 뒤에서 더 큰 표현으로 쌓일 수 있다는 점입니다
+이 예제에서 확인해야 할 핵심은 다음과 같습니다.
 
-## Python으로 CNN 설명용 이미지를 만드는 예제
-
-이번 예제의 목표는 모델을 학습하는 것이 아니라, `CNN이 어디를 먼저 볼지`를 설명하는 자산도 코드로 만들 수 있다는 점을 확인하는 것입니다.
-
-입력:
-
-- 원본 사진 한 장
-- 강조할 지역 박스 좌표
-- 박스별 라벨
-
-출력:
-
-- 원본 사진을 복사한 파일
-- 그 위에 CNN 관점 주석을 얹은 SVG 오버레이
-
-실제 생성 스크립트는 [generate_cnn_diagrams.py](../../../assets/part-05/chapter-11/generate_cnn_diagrams.py) 에 두었습니다. 이 스크립트는 영문 원본인 `*-en.svg`와 한국어 파생본인 `*-ko.svg`를 함께 생성합니다. 말 사진을 직접 이용하는 `cnn-hierarchical-vision-flow-ko.svg` 생성 흐름만 줄이면 다음과 같습니다.
-
-문제 상황:
-
-- 도식 생성 스크립트도 CNN 설명 자산을 어떤 순서로 합성하는지 읽어 보면 본문 그림의 출처와 구조를 더 명확히 이해할 수 있다
-
-확인할 개념:
-
-- 시각 자산 생성도 입력 이미지와 주석 레이어를 조합하는 계산 흐름으로 읽을 수 있다
-- 도식 원본을 코드로 남겨 두면 수정과 다국어 파생 관리가 쉬워진다
-
-입력(input):
-
-위에 정리한 원본 사진 파일 경로와 SVG 출력 경로를 사용합니다.
-
-```python
-from pathlib import Path
-import base64
-
-PHOTO = Path("horse-field-photo.png")
-SVG_OUT = Path("cnn-hierarchical-vision-flow-ko.svg")
-
-image_data = base64.b64encode(PHOTO.read_bytes()).decode("ascii")
-
-SVG = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520">
-  <image href="data:image/png;base64,{image_data}" x="640" y="190" width="240" height="160"/>
-  <rect x="40" y="170" width="240" height="200" rx="16"/>
-  <rect x="340" y="170" width="240" height="200" rx="16"/>
-  <rect x="640" y="170" width="240" height="200" rx="16"/>
-  <text x="40" y="130">1. Local clues</text>
-  <text x="340" y="130">2. Part pattern</text>
-  <text x="640" y="130">3. Object cue</text>
-</svg>"""
-
-SVG_OUT.write_text(SVG, encoding="utf-8")
-```
-
-실행 결과는 다음처럼 읽으면 충분합니다.
-
-```text
-horse-field-photo.png
-cnn-hierarchical-vision-flow-en.svg
-cnn-hierarchical-vision-flow-ko.svg
-```
-
-- 설명용 이미지도 손으로만 그리지 않고 코드로 재생성할 수 있습니다
-- 같은 사진을 여러 패널로 다시 배치해 `작은 단서 -> 부분 구조 -> 객체 단서` 흐름을 직접 보여 줄 수 있습니다
-- `CNN이 먼저 보는 지역 단서`를 문서 자산으로 반복 가능하게 남길 수 있습니다
+- CNN은 이미지 전체를 한 번에만 보는 것이 아니라 작은 지역 창을 반복해서 읽습니다.
+- 각 지역마다 다른 반응 점수를 만들 수 있습니다.
+- 그런 지역 정보가 뒤에서 더 큰 표현으로 쌓일 수 있습니다.
 
 CNN은 딥러닝 입문 커리큘럼에서 거의 항상 중요한 전환점으로 다뤄집니다. 이유는 단순합니다.
 

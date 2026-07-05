@@ -1,5 +1,8 @@
 # P6-10.2 검색 결과와 생성의 결합
 
+> Section ID: `P6-10.2`
+> Version: `v2026.07.05`
+
 P6-10.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제 한 단계 더 들어가야 합니다.
 
 찾아온 문서는 실제로 어디에 붙고, 답변은 그 위에서 어떻게 만들어지는가?
@@ -65,7 +68,7 @@ RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 
 
 `RAG는 검색 결과를 모델 바깥에서 따로 가지고 있다가, 답하기 직전에 입력 맥락으로 붙여 넣는 구조다.`
 
-여기서 먼저 남겨야 할 것은 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지를 보여 주는 `retrieved_doc_ids`, `document_scores`, `selected_evidence`, 그리고 문서는 가져왔지만 답이 과장되었는지와 근거 위에 섰는지를 보여 주는 `answer_draft`, `grounding_check`, `answer_status`입니다. 이 기록이 있어야 검색 실패와 생성 실패를 나눌 수 있고, 뒤로 갈수록 P6-11.1, P6-11.2의 검색 품질 점검, P6-15의 평가, P6-16의 운영 판단, Part 6의 `retrieval_records`, `selected_evidence`, `grounded_answer_record`, `review_summary`로 다시 읽힙니다.
+여기서 먼저 남겨야 할 것은 어떤 문서를 얼마나 관련 있다고 보고 실제로 붙였는지, 어떤 근거 문장을 선택했는지, 최종 답이 문서를 과장하거나 벗어나지 않았는지를 보여 주는 검색 기록과 답안 점검 메모입니다. 이 기록이 있어야 검색 실패와 생성 실패를 나눌 수 있고, 뒤로 갈수록 P6-11.1, P6-11.2의 검색 품질 점검, P6-15의 평가, P6-16의 운영 판단, Part 6의 검색 회수 기록과 회고 메모로 다시 읽힙니다.
 
 ## 문서를 많이 넣으면 항상 좋은가
 
@@ -102,8 +105,8 @@ RAG에서 검색 결과는 모델 입력 맥락에 붙고, 모델은 그 문서 
 
 | 먼저 보인 신호 | 먼저 의심할 실패 축 | 가장 먼저 다시 볼 기록 | 바로 다음 조치 | 서두르면 안 되는 결론 |
 | --- | --- | --- | --- | --- |
-| 붙은 문서 제목이나 발췌가 질문과 어긋난다 | 검색 실패 | `retrieved_doc_ids`, `document_scores`, `selected_evidence` | 어떤 문서가 왜 상위에 왔는지 다시 보고, 질문과 무관한 문서가 섞였는지 먼저 뺍니다 | 곧바로 프롬프트 문장만 고치면 해결된다고 단정하지 않습니다 |
-| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장한다 | 생성 실패 | `answer_draft`, `grounding_check`, `answer_status` | 답 초안이 실제 근거 문장을 벗어났는지 확인하고, 요약 지시와 근거 점검 규칙을 다시 봅니다 | 검색 품질이 이미 충분하다고 단정하지 않습니다 |
+| 붙은 문서 제목이나 발췌가 질문과 어긋난다 | 검색 실패 | 어떤 문서가 붙었는지, 관련성 점수가 어땠는지, 어떤 근거 문장을 골랐는지 다시 봅니다 | 어떤 문서가 왜 상위에 왔는지 다시 보고, 질문과 무관한 문서가 섞였는지 먼저 뺍니다 | 곧바로 프롬프트 문장만 고치면 해결된다고 단정하지 않습니다 |
+| 붙은 문서는 맞는데 답이 조건을 빼먹거나 과장한다 | 생성 실패 | 답 초안이 실제 근거 문장을 벗어났는지, 근거 점검에서 어디가 흔들렸는지 다시 봅니다 | 답 초안이 실제 근거 문장을 벗어났는지 확인하고, 요약 지시와 근거 점검 규칙을 다시 봅니다 | 검색 품질이 이미 충분하다고 단정하지 않습니다 |
 | 검색도 어색하고 답도 함께 흔들린다 | 검색 실패가 생성으로 전염된 경우 | 검색 기록과 답 초안을 함께 봅니다 | 먼저 검색 오염을 줄인 뒤, 그다음 생성 지시를 다시 조정합니다 | 한 번의 오답만 보고 모델 전체 능력 문제로 확대하지 않습니다 |
 
 ## 왜 답변 품질이 흔들릴 수 있나
@@ -417,6 +420,6 @@ RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한�
 
 ## 출처와 참고 자료
 
-- Patrick Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`, NeurIPS, 2020, 확인 날짜: 2026-06-29.
-- OpenAI, 검색/RAG 관련 공식 문서, 확인 날짜: 2026-06-29.
-- 관련 교육 자료 및 기술 블로그, 확인 날짜: 2026-06-29.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-05.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.

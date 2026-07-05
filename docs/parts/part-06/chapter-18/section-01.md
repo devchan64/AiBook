@@ -1,5 +1,8 @@
 # P6-18.1 LLM 발전사의 큰 흐름
 
+> Section ID: `P6-18.1`
+> Version: `v2026.07.05`
+
 P6-2장에서는 토큰(token)이 임베딩(embedding) 벡터로 바뀌고, 그 벡터 사이의 거리와 유사도(similarity)가 검색과 비교의 기준이 된다는 점을 보았습니다. 이제 질문은 조금 더 역사적인 방향으로 옮겨갑니다.
 
 그렇다면 오늘의 LLM(large language model)은 어떤 연구 흐름이 겹쳐져서 만들어졌는가?
@@ -137,7 +140,7 @@ Transformer는 Attention을 보조 장치가 아니라 중심 구조로 올려�
 - 병렬 처리(parallel processing)에 더 잘 맞고
 - 토큰들 사이 관계를 더 직접적으로 계산할 수 있게 되었기 때문입니다
 
-Part 4에서 이미 본 것처럼, Transformer는 self-attention을 중심에 두고 token-to-token 관계를 큰 행렬 연산으로 다룹니다.
+Part 6 앞부분에서 이미 본 것처럼, Transformer는 self-attention을 중심에 두고 token-to-token 관계를 큰 행렬 연산으로 다룹니다.
 
 이 구조는 GPU 기반 대규모 학습과 잘 맞았습니다. 그래서 Transformer는 단순히 `번역 모델 하나`가 아니라, 이후 LLM 확산의 기반 구조가 됩니다.
 
@@ -397,7 +400,7 @@ position= 3 token= 안내와 score= 0
 
 커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
 
-- Part 4의 Transformer를 Part 6의 LLM 계보 안에 다시 위치시키고
+- Part 6 앞부분의 Transformer를 Part 6의 LLM 계보 안에 다시 위치시키고
 - 이후 BERT, GPT, pretraining, instruction tuning, RAG를 읽을 때 구조적 혼동을 줄이며
 - LLM을 AI 전체와 동일시하는 오해를 줄이기 때문입니다
 
@@ -426,9 +429,9 @@ position= 3 token= 안내와 score= 0
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio et al., `A Neural Probabilistic Language Model`, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-29.
-- Tomas Mikolov et al., `Efficient Estimation of Word Representations in Vector Space`, arXiv, 2013, 확인 날짜: 2026-06-29.
-- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, `Sequence to Sequence Learning with Neural Networks`, arXiv, 2014, 확인 날짜: 2026-06-29.
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, arXiv, 2014, 확인 날짜: 2026-06-29.
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- Yoshua Bengio et al., [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-07-05.
+- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-05.
+- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-05.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-05.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-05.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-05.

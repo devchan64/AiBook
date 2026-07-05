@@ -1,5 +1,8 @@
 # 11.3 Transformer와 사전학습 LLM(pretrained LLM)
 
+> Section ID: `P1-11.3`
+> Version: `v2026.07.05`
+
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤고, 11.2에서는 RNN, Seq2Seq, Attention이 순서와 문맥을 다루는 흐름을 봤습니다.
 
 이번 절에서는 현대 LLM(large language model)의 직접 계보를 만들었던 두 가지 전환을 봅니다.
@@ -7,10 +10,7 @@
 > Attention을 중심 구조로 올려놓은 Transformer
 > 대규모 텍스트로 먼저 학습하는 사전학습(pretraining)
 
-이 절의 질문은 다음입니다.
-
-> Attention이 중요해졌다면,
-> 현대 LLM은 어떻게 Transformer와 사전학습 위에서 커졌는가?
+이 절의 핵심 질문은 Attention이 중요해졌다면 현대 LLM이 어떻게 Transformer와 사전학습 위에서 커졌는가입니다.
 
 입문 단계에서는 다음 흐름이 중요합니다.
 
@@ -18,7 +18,7 @@
 
 ## 이 절의 범위
 
-이 절은 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 4에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
+이 절은 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 5에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
 
 여기서는 다음 질문에만 집중합니다.
 
@@ -206,9 +206,9 @@ LLM을 이해할 때 다음 축약은 조심해야 합니다.
 
 | 지금은 이것만 기억 | 뒤에서 다시 읽는 위치 |
 | --- | --- |
-| Transformer는 토큰들이 서로를 직접 참고하게 한 self-attention 중심 구조다. | Part 4의 Transformer 본문 |
-| 사전학습은 큰 텍스트에서 언어 패턴을 먼저 배우는 단계다. | Part 5의 GPT/LLM 본류 설명 |
-| BERT와 GPT는 모두 Transformer 계열이지만 같은 역할의 모델은 아니다. | Part 5의 BERT 비교와 LLM 발전사 배경 축 |
+| Transformer는 토큰들이 서로를 직접 참고하게 한 self-attention 중심 구조다. | Part 5의 Transformer 본문 |
+| 사전학습은 큰 텍스트에서 언어 패턴을 먼저 배우는 단계다. | Part 6의 GPT/LLM 본류 설명 |
+| BERT와 GPT는 모두 Transformer 계열이지만 같은 역할의 모델은 아니다. | Part 5의 BERT 비교와 Part 6의 LLM 발전사 배경 축 |
 
 ## 체크리스트
 

@@ -1,5 +1,8 @@
 # P6-3.2 attention과 context window
 
+> Section ID: `P6-3.2`
+> Version: `v2026.07.05`
+
 P6-3.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이제 바로 다음 제약을 봐야 합니다.
 
 Transformer가 이전 토큰을 참고할 수 있다면, 실제로는 어디까지 참고할 수 있는가?

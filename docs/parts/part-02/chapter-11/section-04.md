@@ -1,5 +1,8 @@
 # P2-11.4 보충학습: NumPy에서 모양(shape)과 원본 공유를 함께 읽는 법
 
+> Section ID: `P2-11.4`
+> Version: `v2026.07.05`
+
 P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 봤고, P2-11.3에서는 브로드캐스팅(broadcasting)과 벡터화(vectorization)를 봤습니다. 그런데 실제 NumPy 코드를 읽다 보면 그 다음에 자주 막히는 질문이 남습니다.
 
 `이 선택은 원본 배열을 그대로 보고 있는가?`

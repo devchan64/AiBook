@@ -1,13 +1,13 @@
 # 8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
 
+> Section ID: `P1-8.2`
+> Version: `v2026.07.05`
+
 8.1에서는 라벨(label)을 데이터에 붙인 구분 표식으로 설명했습니다. 지도학습(supervised learning)은 입력(input)과 라벨(label)이 함께 있는 예시에서 입력과 출력의 관계를 맞추려 합니다.
 
 이번 절은 반대쪽에서 시작합니다. 비지도학습(unsupervised learning)은 사람이 미리 붙인 라벨 없이 데이터 안의 구조(structure), 군집(cluster), 표현(representation)을 찾으려는 학습 방식입니다.
 
-이 절의 질문은 다음입니다.
-
-> 라벨이 없을 때,
-> 모델은 데이터에서 무엇을 찾으려 하는가?
+이 절의 핵심 질문은 라벨이 없을 때 모델이 데이터에서 무엇을 찾으려 하는가입니다.
 
 > 비지도학습은 아무 기준 없이 배우는 일이 아니라, 사람이 붙인 라벨 없이 데이터 안의 구조를 찾는 일이다.
 
@@ -15,7 +15,7 @@
 
 이 절은 비지도학습 알고리즘을 계산하지 않습니다. K-평균(k-means), 계층적 군집화(hierarchical clustering), 주성분 분석(PCA, principal component analysis), t-SNE, 오토인코더(autoencoder)는 이름과 역할만 지나갑니다.
 
-또한 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표, 매니폴드 학습(manifold learning)은 자세히 다루지 않습니다. 이 주제들은 Part 3의 P3-17 클러스터링, P3-18 차원 축소에서 다시 다루고, 매니폴드 학습의 세부 수학은 현재 본편 범위 밖에 둡니다.
+또한 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표, 매니폴드 학습(manifold learning)은 자세히 다루지 않습니다. 이 주제들은 Part 4의 클러스터링과 차원 축소 장에서 다시 다루고, 매니폴드 학습의 세부 수학은 현재 본편 범위 밖에 둡니다.
 
 여기서는 다음 정도만 잡습니다.
 
@@ -171,7 +171,7 @@ scikit-learn의 PCA 설명은 PCA가 다변량 데이터셋을 분산(variance)�
 | 고객 행동 로그 | 행동 패턴 벡터 |
 | 문서 묶음 | 주제와 관련된 낮은 차원 표현 |
 
-이 절에서는 표현 학습(representation learning)을 깊게 다루지 않습니다. 표현을 모델이 함께 학습하는 흐름은 P1-9와 Part 4에서 다시 연결하고, 임베딩이 검색과 RAG로 이어지는 흐름은 Part 5에서 다시 봅니다. 여기서는 비지도학습이 “라벨 없이 데이터의 구조가 보이도록 표현을 바꾸는 일”과 연결될 수 있다는 정도만 잡습니다.
+이 절에서는 표현 학습(representation learning)을 깊게 다루지 않습니다. 표현을 모델이 함께 학습하는 흐름은 P1-9와 Part 5에서 다시 연결하고, 임베딩이 검색과 RAG로 이어지는 흐름은 Part 6에서 다시 봅니다. 여기서는 비지도학습이 “라벨 없이 데이터의 구조가 보이도록 표현을 바꾸는 일”과 연결될 수 있다는 정도만 잡습니다.
 
 ## 비지도학습 결과는 해석이 필요하다
 

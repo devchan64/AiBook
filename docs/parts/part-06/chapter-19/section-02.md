@@ -1,5 +1,8 @@
 # P6-19.2 이해 중심 태스크
 
+> Section ID: `P6-19.2`
+> Version: `v2026.07.05`
+
 P6-19.1에서는 BERT 계열을 Transformer 인코더 기반의 표현 모델로 설명했습니다. 그러면 다음 질문이 이어집니다.
 
 그 표현은 실제로 어떤 종류의 작업에 쓰였고, 왜 그런 작업과 잘 맞았는가?
@@ -43,7 +46,7 @@ GLUE 같은 벤치마크의 세부 점수와 cross-encoder, bi-encoder의 구현
 
 ## 이해 중심 태스크란 무엇인가
 
-이 책에서 `이해 중심 태스크`는 사람처럼 이해한다는 철학적 뜻이 아니라, 다음과 같은 작업 묶음을 가리킵니다.
+여기서 `이해 중심 태스크`는 사람처럼 이해한다는 철학적 뜻이 아니라, 다음과 같은 작업 묶음을 가리킵니다.
 
 - 이 입력은 어떤 라벨인가?
 - 이 두 문장은 같은 뜻에 가까운가?
@@ -166,7 +169,7 @@ flowchart TD
 
 `BERT 계열은 긴 답을 생성하는 일보다, 입력을 읽고 라벨·점수·관련도·임베딩을 만드는 일에 더 자연스럽다.`
 
-이 한 줄이 잡히면 세부 태스크 이름을 모두 외우지 않아도 P6-4.1, P6-4.2의 GPT 설명과 P6-10.1, P6-10.2의 RAG 설명을 읽는 데 큰 문제는 없습니다.
+이 한 줄이 잡히면 세부 태스크 이름을 모두 외우지 않아도 P6-4.1, P6-5.1의 GPT 및 다음 토큰 예측 설명과 P6-10.1, P6-10.2의 RAG 설명을 읽는 데 큰 문제는 없습니다.
 
 ## 사례로 보기
 
@@ -412,6 +415,6 @@ BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니
 
 ## 출처와 참고 자료
 
-- Jacob Devlin et al., `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
-- Matthew E. Peters et al., `Deep contextualized word representations`, arXiv, 2018, 확인 날짜: 2026-06-29.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-05.
+- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.

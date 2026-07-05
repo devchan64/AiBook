@@ -1,5 +1,8 @@
 # P6-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization을 처음 읽는 법
 
+> Section ID: `P6-9.3`
+> Version: `v2026.07.05`
+
 P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)을 입력 설계의 첫 번째 손잡이로 봤고, P6-9.2에서는 프롬프트만으로 해결되지 않는 한계를 봤습니다. 그런데 실무 문서나 논문을 읽기 시작하면 금방 더 낯선 이름들이 따라붙습니다.
 
 `Chain-of-thought`
@@ -195,6 +198,6 @@ self-consistency는 CoT와 자주 함께 언급됩니다. 직관은 다음과 �
 
 ## 출처와 참고 자료
 
-- Jason Wei et al., [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-01.
-- Xuezhi Wang et al., [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-01.
-- Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-07-01.
+- Jason Wei et al., [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.
+- Xuezhi Wang et al., [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.
+- Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-07-05.

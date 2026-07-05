@@ -1,5 +1,8 @@
 # P6-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까
 
+> Section ID: `P6-8.3`
+> Version: `v2026.07.05`
+
 P6-8.2까지 오면 지시 튜닝과 정렬 문제를 보게 됩니다. 그러면 실무 관점에서는 다음 질문이 바로 따라옵니다.
 
 모델이 기대와 다르게 동작할 때, 무엇을 바꿔야 하는가?
@@ -397,4 +400,6 @@ not_first = tool use 0
 
 ## 출처와 참고 자료
 
-이 문서는 Part 6 내부 연결을 강화하기 위한 자체 구성 문서입니다. 외부 자료를 직접 인용하지 않았습니다.
+- OpenAI, `Prompt engineering`, OpenAI Docs, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs/guides/prompt-engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }
+- Patrick Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`, NeurIPS, 2020, 확인 날짜: 2026-06-29.
+- Jason Wei et al., `Finetuned Language Models Are Zero-Shot Learners`, arXiv, 2021, 확인 날짜: 2026-06-29.

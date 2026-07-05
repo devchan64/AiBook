@@ -1,5 +1,8 @@
 # P6-15.1 LLM 평가(evaluation)
 
+> Section ID: `P6-15.1`
+> Version: `v2026.07.05`
+
 P6-14.2에서는 하네스(harness)가 에이전트 실행을 감싸고 기록하고 평가하는 운영 장치에 가깝다는 점을 보았습니다. 이 절에서는 LLM 기반 시스템의 품질을 실제로 무엇으로 점검해야 하는지 다룹니다.
 
 LLM 평가(evaluation)는 답변이 그럴듯한지만 보는 일이 아니라, 정확성, 유용성, 안전성, 근거성, 실행 결과를 기준에 따라 점검하는 일입니다. 즉, 답이 좋아 보이는지 묻는 일이 아니라 무엇이 좋고 무엇이 아직 위험한지를 항목별로 확인하는 일에 가깝습니다.
@@ -30,7 +33,7 @@ LLM 평가(evaluation)는 답변이 그럴듯한지만 보는 일이 아니라, 
 | LLM 평가 품질 판정 | 그 흔적과 답을 어떤 품질 기준으로 가를 것인가? | P6-15.1 |
 | 운영 연결 | 그 판정을 자동/사람 분담과 서비스 제약으로 어떻게 넘길 것인가? | P6-15.2, P6-16 |
 
-즉, 지금 장의 핵심은 `기록을 남겼는가`에서 `그 기록과 답을 어떤 기준으로 판정할까`로 손잡이가 바뀌는 데 있습니다.
+즉, 지금 장의 핵심은 `기록을 남겼는가`에서 `그 기록과 답을 어떤 기준으로 판정할까`로 관점이 바뀌는 데 있습니다.
 
 즉, 여기서는 더 이상 `모델이 무엇을 할 수 있는가`를 늘리지 않습니다. 앞 절까지 만든 생성, 검색, 실행 구조를 두고 `무엇을 기준으로 괜찮다고 판단할 것인가`를 읽는 단계입니다. 이 기준이 잡혀야 뒤의 운영 절도 `문제 나열`이 아니라 `어떤 축에서 실패했는가`를 다시 추적하는 절로 읽힙니다.
 
@@ -46,7 +49,7 @@ LLM 평가(evaluation)는 답변이 그럴듯한지만 보는 일이 아니라, 
 
 즉, 같은 trace라도 하네스에서는 `남겼는가`, 평가에서는 `통과 기준을 만족하는가`, 운영에서는 `계속 감당 가능한가`로 질문이 바뀝니다.
 
-여기서 먼저 남겨야 할 것은 어떤 축에서 통과했고 어떤 축에서 탈락했는지를 보여 주는 축별 점수, `answer_status`, 수정 메모와, 무엇을 먼저 고쳐야 하는지를 보여 주는 `review_summary`, 우선 수정 항목입니다.
+여기서 먼저 남겨야 할 것은 어떤 축에서 통과했고 어떤 축에서 탈락했는지를 보여 주는 축별 점수와 수정 메모, 그리고 무엇을 먼저 고쳐야 하는지를 보여 주는 검토 요약과 우선 수정 항목입니다.
 
 ## 이 절의 목표
 
@@ -486,6 +489,6 @@ answer_d
 
 ## 출처와 참고 자료
 
-- OpenAI, evaluation 관련 공식 문서, 확인 날짜: 2026-06-29.
-- 관련 LLM evaluation 교육 자료, 확인 날짜: 2026-06-29.
-- RAG 및 agent evaluation 사례 자료, 확인 날짜: 2026-06-29.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Yuzheng Chang et al., [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-05.

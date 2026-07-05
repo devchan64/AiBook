@@ -1,16 +1,13 @@
 # P5-1.1 퍼셉트론(perceptron)의 직관
 
-Part 3에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평가, 모델 선택의 흐름으로 읽었습니다. 이제 Part 5에서는 질문이 조금 달라집니다.
+> Section ID: `P5-1.1`
+> Version: `v2026.07.05`
 
-모델이 값을 받아서 출력을 만드는 가장 작은 신경망 계산 단위는 어떻게 생겼는가?
-
-이 질문에서 시작하는 것이 퍼셉트론(perceptron)입니다.
-
-퍼셉트론은 여러 입력(input)에 서로 다른 중요도(weight)를 곱해 합친 뒤, 그 결과를 기준으로 출력을 내는 가장 단순한 신경망 판단 단위이다.
+Part 4에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평가, 모델 선택의 흐름으로 읽었습니다. 이제 Part 5에서는 모델이 값을 받아서 출력을 만드는 가장 작은 신경망 계산 단위가 어떻게 생겼는지를 먼저 묻습니다. 이 질문에서 퍼셉트론(perceptron)으로 들어갑니다. 퍼셉트론은 여러 입력(input)에 서로 다른 중요도(weight)를 곱해 합친 뒤, 그 결과를 기준으로 출력을 내는 가장 단순한 신경망 판단 단위입니다.
 
 ## 이 절의 범위
 
-이 절은 다음 질문에 답합니다.
+이 절은 다음 질문을 정리합니다.
 
 - 퍼셉트론은 어떤 역사적 맥락에서 등장했는가?
 - 입력(input), 가중치(weight), 합(sum), 출력(output)은 어떤 흐름으로 이어지는가?
@@ -39,10 +36,10 @@ Part 3에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평�
 
 그래서 가장 작은 단위부터 봐야 합니다.
 
-- 입력이 들어오고
-- 각 입력에 중요도가 붙고
-- 합쳐진 결과를 보고
-- 어떤 출력을 내는가
+1. 입력이 들어옵니다.
+2. 각 입력에 중요도가 붙습니다.
+3. 합쳐진 결과를 봅니다.
+4. 어떤 출력을 낼지 정합니다.
 
 이 단순한 흐름이 퍼셉트론 안에 이미 들어 있습니다.
 
@@ -111,16 +108,16 @@ flowchart TD
 
 `여러 신호를 한꺼번에 볼 때, 각 신호에 서로 다른 비중을 주고 하나의 점수처럼 모으는 계산`
 
-이 감각은 Part 3에서 본 선형회귀(linear regression), 로지스틱 회귀(logistic regression)와도 이어집니다. 그 모델들도 결국 입력과 계수(coefficient)를 곱해 합치는 구조를 갖습니다.
+이 감각은 Part 4에서 본 선형회귀(linear regression), 로지스틱 회귀(logistic regression)와도 이어집니다. 그 모델들도 결국 입력과 계수(coefficient)를 곱해 합치는 구조를 갖습니다.
 
 퍼셉트론이 중요한 이유는, 이 가중합이 이후 신경망 전체의 기본 계산 단위로 계속 반복되기 때문입니다.
 
 즉:
 
-> 입력을 받는다
-> -> 가중치를 곱한다
-> -> 합친다
-> -> 다음 판단으로 넘긴다
+1. 입력을 받습니다.
+2. 가중치를 곱합니다.
+3. 합칩니다.
+4. 다음 판단으로 넘깁니다.
 
 이 흐름이 층을 쌓으며 반복되면 다층 신경망(multilayer neural network)으로 이어집니다.
 
@@ -341,5 +338,6 @@ output = 0
 ## 출처와 참고 자료
 
 - Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 확인 날짜: 2026-06-28.
+- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, 확인 날짜: 2026-06-28.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 확인 날짜: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

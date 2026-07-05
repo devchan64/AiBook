@@ -1,5 +1,8 @@
 # P6-10.1 RAG의 필요성
 
+> Section ID: `P6-10.1`
+> Version: `v2026.07.05`
+
 P6-9.2에서는 프롬프트만으로는 최신성, 근거 보장, 실행 가능성 같은 문제를 해결하기 어렵다는 점을 보았습니다. 여기서 다음 질문이 나옵니다.
 
 모델 기억에만 의존하지 않고, 외부 근거를 함께 쓰려면 어떻게 해야 하는가?
@@ -53,7 +56,7 @@ RAG는 Part 6 본류의 `근거 연결 손잡이`이고, 그다음에는 무엇�
 
 즉, 지금 장의 핵심은 `말을 더 잘 시키는가`에서 `답의 재료를 현재 문서로 다시 고르는가`로 손잡이가 바뀌고, 이 절이 `근거 연결` 단계를 맡는다는 점입니다. 여기서는 어떤 문서를 먼저 붙일지를 보고, 뒤 절들에서는 그 문서를 어떤 결합 흐름과 저장 구조로 찾을지, 그리고 나중에 문서를 읽는 것만으로 부족할 때 무엇을 실제로 조회하거나 실행할지로 확장됩니다.
 
-여기서 먼저 남겨야 할 것은 어떤 문서를 근거 후보로 찾았는지를 보여 주는 `retrieved_doc_ids`, `document_scores`, 그리고 답이 문서 근거 위에 섰는지와 사람이 다시 봐야 하는지를 보여 주는 `answer_status`, 근거 문장입니다. 이 기록이 있어야 검색 품질과 최신성 문제를 다시 보고, 뒤로 갈수록 P6-10.2, P6-11.2의 검색 품질 점검, P6-15와 P6-16의 평가·운영 판단, Part 6의 `retrieval_records`, `selected_evidence`, `review_summary`, `answer_status`로 다시 읽힙니다.
+여기서 먼저 남겨야 할 것은 어떤 문서를 근거 후보로 찾았는지, 각 문서가 왜 관련 있다고 판단되었는지, 최종 답이 실제 문서 근거 위에 섰는지, 사람이 다시 봐야 하는지를 보여 주는 검색 메모와 근거 점검 기록입니다. 이 기록이 있어야 검색 품질과 최신성 문제를 다시 보고, 뒤로 갈수록 P6-10.2, P6-11.2의 검색 품질 점검, P6-15와 P6-16의 평가·운영 판단, Part 6의 회수 근거 기록과 회고 메모로 다시 읽힙니다.
 
 ## 이 절의 목표
 
@@ -570,6 +573,6 @@ RAG는 `무엇을 근거로 답할까`를 먼저 닫는 구조입니다. 답의 
 
 ## 출처와 참고 자료
 
-- Patrick Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`, NeurIPS, 2020, 확인 날짜: 2026-06-29.
-- OpenAI, RAG 및 파일/검색 관련 공식 문서, 확인 날짜: 2026-06-29.
-- Meta AI 및 관련 교육 자료, RAG 소개 문서, 확인 날짜: 2026-06-29.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-05.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.

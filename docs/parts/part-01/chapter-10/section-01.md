@@ -1,13 +1,13 @@
 # 10.1 분류(classification), 예측(prediction), 생성(generation)의 차이
 
+> Section ID: `P1-10.1`
+> Version: `v2026.07.05`
+
 9장에서는 딥러닝(deep learning)이 여러 분야로 확산된 흐름을 봤습니다. 이미지 인식(image recognition), 객체 검출(object detection), 음성 생성(speech generation), 언어 모델링(language modeling)은 모두 신경망이 데이터에서 표현(representation)을 학습한다는 큰 흐름 안에 있습니다.
 
 10장부터는 생성형 AI(generative AI)로 들어갑니다. 하지만 생성형 AI를 이해하려면 먼저 기존 머신러닝(machine learning)에서 자주 보던 작업과 무엇이 다른지 구분해야 합니다.
 
-이 절의 질문은 다음입니다.
-
-> 분류, 예측, 생성은 모두 모델의 출력(output)을 만든다.
-> 그렇다면 생성형 AI는 기존 모델과 무엇이 다른가?
+이 절의 핵심 질문은 분류, 예측, 생성이 모두 모델의 출력(output)을 만든다면 생성형 AI는 기존 모델과 무엇이 다른가입니다.
 
 ## 이 절의 범위
 

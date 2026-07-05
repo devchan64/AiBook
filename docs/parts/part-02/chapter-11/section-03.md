@@ -1,5 +1,8 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
+> Section ID: `P2-11.3`
+> Version: `v2026.07.05`
+
 P2-11.1에서는 NumPy 배열(array)의 `shape`, `ndim`, `dtype`을 확인했습니다. P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 사용해 배열의 어느 부분을 읽고 어느 방향으로 계산할지 봤습니다.
 
 이제 한 단계 더 나아갑니다. NumPy 코드에서는 반복문(loop)을 직접 쓰지 않았는데도 배열 전체에 계산이 적용되는 경우가 자주 보입니다.
@@ -325,7 +328,7 @@ print(column_mean.shape)
 
 - [p2_11_3_broadcast_vectorization.py](../../../assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py)
 
-로컬 PC에서는 레포지토리 루트에서 다음처럼 실행할 수 있습니다.
+로컬 PC에서는 프로젝트 루트에서 다음처럼 실행할 수 있습니다.
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py

@@ -1,5 +1,8 @@
 # P6-19.1 BERT 계열의 위치
 
+> Section ID: `P6-19.1`
+> Version: `v2026.07.05`
+
 P6-3.2에서는 attention과 context window를 구분하며, Transformer가 실제로는 입력 길이 제한 안에서 문맥을 읽는 구조라는 점을 보았습니다. 이제 같은 Transformer 계열 안에서도 방향이 갈라집니다.
 
 입력 전체를 읽는 데 강한 모델과, 다음 토큰을 생성하는 데 강한 모델은 어떻게 다른가?
@@ -163,7 +166,7 @@ BERT 계열의 핵심 직관은 다음과 같습니다.
 | 읽는 방식 | BERT는 입력 전체를 읽고 표현을 만든다 |
 | 강한 과업 | BERT는 분류, 검색, 임베딩 같은 판단 작업과 잘 맞는다 |
 
-이 세 축이 잡히면, P6-4.1 GPT 계열의 위치와 P6-4.2 next-token prediction에서 왜 사용자 경험이 크게 달라졌는지 읽기가 쉬워집니다.
+이 세 축이 잡히면, P6-4.1 GPT 계열의 위치와 P6-5.1 다음 토큰 예측에서 왜 사용자 경험이 크게 달라졌는지 읽기가 쉬워집니다.
 
 ## 입력과 출력으로 보면 무엇이 다른가
 
@@ -360,6 +363,6 @@ BERT는 Transformer가 번역 구조에만 머물지 않고, 언어 이해(langu
 
 ## 출처와 참고 자료
 
-- Jacob Devlin et al., `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Matthew E. Peters et al., `Deep contextualized word representations`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
+- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-05.

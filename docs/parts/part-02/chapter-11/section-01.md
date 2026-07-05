@@ -1,5 +1,8 @@
 # P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기
 
+> Section ID: `P2-11.1`
+> Version: `v2026.07.05`
+
 P2-3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 수학 기호와 작은 코드로 확인했습니다. P2-8에서는 Python의 리스트(list)와 딕셔너리(dictionary)를 봤고, P2-9에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 구조 관점으로 구분했습니다. P2-10에서는 노트북(notebook)을 실행 가능한 학습 기록으로 정리하는 방법을 봤습니다.
 
 이제 NumPy를 다시 봅니다. NumPy는 Numerical Python에서 온 이름입니다. Python에서 숫자 배열(array)을 만들고, 벡터와 행렬 계산을 빠르고 일관된 문법으로 실행하기 위해 널리 쓰이는 오픈소스 라이브러리입니다.
@@ -396,7 +399,7 @@ print(array.dtype)
 
 - [p2_11_1_numpy_arrays.py](../../../assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
 
-Colab에서는 코드 내용을 셀에 붙여 넣어 실행할 수 있습니다. 로컬 PC에서는 레포지토리 루트에서 다음처럼 실행할 수 있습니다.
+Colab에서는 코드 내용을 셀에 붙여 넣어 실행할 수 있습니다. 로컬 PC에서는 프로젝트 루트에서 다음처럼 실행할 수 있습니다.
 
 ```bash
 python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py

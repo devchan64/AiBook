@@ -1,5 +1,8 @@
 # P6-12.2 함수 호출(function calling)
 
+> Section ID: `P6-12.2`
+> Version: `v2026.07.05`
+
 P6-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하는 구조라는 점을 보았습니다. 그러면 이제 더 구체적인 질문이 나옵니다.
 
 도구를 써야 한다는 판단을 시스템은 어떤 형식으로 주고받는가?
@@ -28,17 +31,17 @@ P6-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하
 
 지금 읽는 층위는 `구조화된 실행 요청 층위`입니다. 앞 절의 tool use가 `무엇을 실행할까`를 다뤘다면, 여기서는 그 실행 판단을 어떤 이름과 인자 구조로 바꿔야 시스템이 검증하고 이어서 처리할 수 있는지 읽습니다. 바로 다음의 agent 절에서는 이런 구조화된 호출을 여러 단계 목표 흐름 안에서 어떻게 이어 갈지로 질문이 더 커집니다.
 
-function calling은 Part 6 본류의 `구조화된 실행 요청 손잡이`이고, 그다음에는 어떤 층위가 더 붙는지까지 이어집니다.
+function calling은 `구조화된 실행 요청`을 다루는 절이고, 그다음에는 어떤 층위가 더 붙는지까지 이어집니다.
 
-| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
+| 지금 단계의 관점 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
 | --- | --- | --- |
 | tool use 실행 필요 | 어떤 외부 기능이 필요한가? | P6-12.1 |
 | function calling 구조화 요청 | 그 기능 요청을 어떤 이름과 인자 구조로 넘길 것인가? | P6-12.2 |
 | agent 목표 흐름 | 이런 구조화된 호출을 어떤 순서로 이어 갈 것인가? | P6-13.1, P6-13.2 |
 
-즉, 지금 장의 핵심은 `무엇을 실행할까`에서 `그 실행 요청을 어떻게 검증 가능한 payload로 바꿀까`로 손잡이가 바뀌는 데 있습니다. tool use가 `실행 필요성`을 열었다면, function calling은 그 실행을 `검증 가능한 구조`로 바꾸고, agent는 그런 구조들을 `목표 흐름` 안에서 이어 붙입니다. 이 차이가 보여야 함수 호출을 단순 제품 기능이 아니라, `실행 연결을 안정화하는 중간 층`으로 읽을 수 있습니다.
+즉, 지금 장의 핵심은 `무엇을 실행할까`에서 `그 실행 요청을 어떻게 검증 가능한 구조로 바꿀까`로 관점이 바뀌는 데 있습니다. tool use가 `실행 필요성`을 열었다면, function calling은 그 실행을 `검증 가능한 구조`로 바꾸고, agent는 그런 구조들을 `목표 흐름` 안에서 이어 붙입니다. 이 차이가 보여야 함수 호출을 단순 제품 기능이 아니라, `실행 연결을 안정화하는 중간 층`으로 읽을 수 있습니다.
 
-여기서 먼저 남겨야 할 것은 어떤 호출을 어떤 인자로 준비했는지를 보여 주는 `tool_name`, `arguments`, 누락 필드 점검 결과와, 결과를 어떤 형식으로 기대했고 어디서 호출이 막혔는지를 보여 주는 `result_schema`, 호출 실패 이유입니다. 이 기록이 있어야 자연어 요청과 실행 payload를 다시 맞춰 보고, 실행 실패와 후속 운영 실패를 구분할 수 있습니다. 뒤로 갈수록 이 기록은 P6-13의 plan/action 루프, P6-14.2의 tool call log, P6-15의 평가 입력, P6-16.2의 실패 대응, Part 6의 `execution_records`, `incident_records`, `next_action`으로 다시 읽힙니다.
+여기서 먼저 남겨야 할 것은 어떤 호출을 어떤 인자로 준비했는지를 보여 주는 함수 이름, 인자, 누락 필드 점검 결과와, 결과를 어떤 형식으로 기대했고 어디서 호출이 막혔는지를 보여 주는 결과 형식과 호출 실패 이유입니다. 이 기록이 있어야 자연어 요청과 실행 구조를 다시 맞춰 보고, 실행 실패와 후속 운영 실패를 구분할 수 있습니다. 뒤로 갈수록 이 기록은 P6-13의 plan/action 루프, P6-14.2의 tool call log, P6-15의 평가 입력, P6-16.2의 실패 대응에서 다시 읽힙니다.
 
 ## 이 절의 목표
 
@@ -433,6 +436,6 @@ for report in reports:
 
 ## 출처와 참고 자료
 
-- OpenAI, function calling 관련 공식 문서, 확인 날짜: 2026-06-29.
-- Anthropic, tool use 관련 공개 문서, 확인 날짜: 2026-06-29.
-- 관련 LLM application engineering 교육 자료, 확인 날짜: 2026-06-29.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Using tools](https://developers.openai.com/api/docs/guides/tools){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.

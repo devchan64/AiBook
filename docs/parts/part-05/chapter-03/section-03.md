@@ -1,5 +1,8 @@
 # P5-3.3 출력층(output layer)과 활성화의 선택
 
+> Section ID: `P5-3.3`
+> Version: `v2026.07.05`
+
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았고, P5-3.2에서는 ReLU, sigmoid, tanh가 어떻게 다르게 반응하는지 비교했습니다. 여기까지 오면 다음 질문이 자연스럽게 생깁니다.
 
 은닉층에서는 ReLU 같은 함수를 많이 쓴다고 했는데, 마지막 출력층에서는 어떤 활성화를 써야 하는가?
@@ -24,7 +27,7 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 - calibration과 uncertainty estimation의 심화 논의
 - 다중 라벨 분류(multi-label classification)의 세부 구현
 
-손실 함수 자체의 설계는 P5-4.1과 P5-4.2에서 이어서 다루고, calibration의 기초 읽기와 확률 출력 해석은 P3-6.4에서 다시 연결합니다. uncertainty estimation의 심화 논의와 다중 라벨 분류의 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
+손실 함수 자체의 설계는 P5-4.1과 P5-4.2에서 이어서 다루고, calibration의 기초 읽기와 확률 출력 해석은 P4-6.4에서 다시 연결합니다. uncertainty estimation의 심화 논의와 다중 라벨 분류의 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

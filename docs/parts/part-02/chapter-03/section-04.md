@@ -1,18 +1,18 @@
 # P2-3.4 파이썬 실행 환경: Colab과 로컬 PC
 
+> Section ID: `P2-3.4`
+> Version: `v2026.07.05`
+
 P2-3.1부터 P2-3.3까지는 선형대수(linear algebra)를 수식과 그림 중심으로 봤습니다. 다음 절에서는 NumPy로 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)을 직접 확인합니다. 그 전에 파이썬(Python) 코드를 어디에서 실행하는지 먼저 구분해야 합니다.
 
-이 책의 초반 실습은 두 실행 환경을 기준으로 설명합니다.
+이 파트의 초반 실습은 두 실행 환경을 기준으로 설명합니다.
 
-> Google Colab
-> -> 브라우저에서 바로 실행한다.
->
-> 로컬 PC
-> -> 내 컴퓨터의 터미널과 파이썬 설치 환경에서 실행한다.
+1. Google Colab은 브라우저에서 바로 실행합니다.
+2. 로컬 PC는 내 컴퓨터의 터미널과 파이썬 설치 환경에서 실행합니다.
 
 따라서 이 절의 목적은 Colab 자체를 깊게 배우거나 로컬 설치법을 자세히 다루는 것이 아닙니다. 이후 Python/NumPy 실습을 따라가기 위해 “코드 셀에서 실행하는 명령”, “개인 PC 터미널에서 실행하는 명령”, “파이썬 코드 안에 쓰는 문장”을 구분하는 사전 안내입니다.
 
-개인 PC에 파이썬을 설치하고 가상환경을 관리하는 방법은 뒤의 P2-7장과 보충학습 P2-7.6, P2-7.7, P2-7.8에서 다시 다룹니다. 여기서는 Colab과 로컬 PC의 실행 위치 차이를 먼저 잡습니다.
+개인 PC에 파이썬을 설치하고 가상환경을 관리하는 방법은 뒤의 Part 2 Chapter 7과 보충학습 P2-7.6, P2-7.7, P2-7.8에서 다시 다룹니다. 여기서는 Colab과 로컬 PC의 실행 위치 차이를 먼저 잡습니다.
 
 이 문서는 2026년 6월 24일 확인한 Google Colab 공식 안내와 FAQ를 기준으로 작성했습니다. Colab은 외부 서비스이므로 앞으로 UI, 사용 조건, 무료 제공 범위, 런타임 정책, 서비스 지속 여부가 바뀔 수 있습니다. 이 절을 읽는 시점에 Colab이 제공되지 않거나 안내와 다르게 보인다면, Google Colab 공식 문서와 현재 서비스 상태를 별도로 확인해야 합니다.
 
@@ -23,7 +23,7 @@ P2-3.1부터 P2-3.3까지는 선형대수(linear algebra)를 수식과 그림 �
 | 지금 이 절에서 잡을 것 | 바로 다음에 이어질 질문 | 이후 다시 쓰이는 위치 |
 | --- | --- | --- |
 | Colab 셀, 로컬 터미널, Python 코드의 구분 | 다음 절에서 NumPy 배열 예제를 어느 자리에서 실행하는지 확인합니다. | Part 2의 이후 모든 Python 실습에서 설치 명령과 코드 문장을 구분할 때 다시 씁니다. |
-| `%pip`, `python -m pip`, `import`의 역할 차이 | P2-3.5에서 실제 NumPy 배열과 shape를 실행해 봅니다. | P2-7의 가상환경, 패키지 설치, 터미널 보충학습으로 이어집니다. |
+| `%pip`, `python -m pip`, `import`의 역할 차이 | P2-3.5에서 실제 NumPy 배열과 shape를 실행해 봅니다. | Part 2 Chapter 7의 가상환경, 패키지 설치, 터미널 보충학습으로 이어집니다. |
 | Colab을 빠른 실습 공간으로 쓰는 이유 | 뒤 절에서 작은 예제를 바로 실행해 결과를 확인합니다. | Part 3 이후의 Pandas, Matplotlib, 모델 실습을 따라갈 때도 같은 실행 감각이 필요합니다. |
 
 ## 이 절의 범위
@@ -52,11 +52,8 @@ Colab의 파일 관리, Google Drive 연동, GPU/TPU 런타임, 노트북 공유
 
 이 구분을 놓치면 `%pip`, `python -m pip`, `import`를 같은 것으로 오해하기 쉽습니다. 세 표현은 모두 NumPy와 관련될 수 있지만 실행 위치와 역할이 다릅니다.
 
-> 패키지를 설치한다.
-> -> Colab 코드 셀 또는 로컬 PC 터미널에서 한다.
->
-> 설치된 패키지를 코드에서 불러온다.
-> -> 파이썬 코드 안에서 import한다.
+1. 패키지는 Colab 코드 셀 또는 로컬 PC 터미널에서 설치합니다.
+2. 설치된 패키지는 파이썬 코드 안에서 `import`로 불러옵니다.
 
 ## 이 절의 목표
 
@@ -83,7 +80,7 @@ Google Colab은 브라우저에서 Jupyter Notebook 형태로 파이썬 코드�
 - [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }
 - [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }
 
-처음 사용할 때는 `Welcome to Colab` 안내서를 먼저 열어 코드 셀을 실행하는 방식을 확인합니다. 이 책의 예제는 매우 작기 때문에 GPU나 TPU는 필요하지 않습니다. 다만 Colab은 Google 계정, 런타임 제한, 자원 제한이 있을 수 있습니다.
+처음 사용할 때는 `Welcome to Colab` 안내서를 먼저 열어 코드 셀을 실행하는 방식을 확인합니다. 이 절의 예제는 매우 작기 때문에 GPU나 TPU는 필요하지 않습니다. 다만 Colab은 Google 계정, 런타임 제한, 자원 제한이 있을 수 있습니다.
 
 ## 로컬 PC는 내 컴퓨터에서 실행하는 환경이다
 
@@ -149,13 +146,13 @@ Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느
 문제 상황: Colab 문서에서 자주 보이는 `!pip` 형태가 어떤 자리에서 쓰이는지 확인합니다.
 입력(input): 코드 셀에서 셸 명령처럼 실행하는 `!pip install numpy` 예시입니다.
 기대 출력(output): NumPy 설치 명령이 실행됩니다.
-확인할 개념: `!pip`와 `%pip`는 모두 노트북 셀에서 쓰이지만, 이 책에서는 `%pip` 표기를 우선 사용한다는 점을 봅니다.
+확인할 개념: `!pip`와 `%pip`는 모두 노트북 셀에서 쓰이지만, 여기서는 `%pip` 표기를 우선 사용한다는 점을 봅니다.
 
 ```python
 !pip install numpy
 ```
 
-이 책에서는 노트북 환경에 설치한다는 뜻이 더 분명한 `%pip install numpy`를 우선 사용합니다.
+여기서는 노트북 환경에 설치한다는 뜻이 더 분명한 `%pip install numpy`를 우선 사용합니다.
 
 ## 개인 PC 터미널 명령과 섞지 않는다
 
@@ -169,9 +166,9 @@ python -m pip install numpy
 
 따라서 실행 위치를 먼저 구분합니다.
 
-> Colab 코드 셀: %pip install numpy
-> 개인 PC 터미널: python -m pip install numpy
-> 파이썬 코드 안: import numpy as np
+1. Colab 코드 셀에서는 `%pip install numpy`를 씁니다.
+2. 개인 PC 터미널에서는 `python -m pip install numpy`를 씁니다.
+3. 파이썬 코드 안에서는 `import numpy as np`를 씁니다.
 
 다음 절에서는 이 구분을 전제로 NumPy 코드를 확인합니다.
 

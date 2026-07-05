@@ -1,5 +1,8 @@
 # P5-8.3 학습 루프를 한 번에 다시 묶기
 
+> Section ID: `P5-8.3`
+> Version: `v2026.07.05`
+
 P5-6장에서는 학습과 모델 실행을 구분했고, P5-7장에서는 옵티마이저를, P5-8장에서는 정규화와 드롭아웃을 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
 
 이 요소들은 실제 학습 과정 안에서 어떤 순서와 역할로 함께 움직이는가?
@@ -115,86 +118,89 @@ flowchart TD
 
 입력:
 
-- 1차원 입력 3개
-- 목표값 3개
+- 1차원 입력을 두 개씩 묶은 batch 2개
+- 각 batch의 목표값
 - 가중치 하나 `w`
 
 출력:
 
-- batch별 prediction
-- batch별 loss
-- batch별 gradient
+- batch별 prediction 목록
+- batch별 평균 loss
+- batch별 평균 gradient
 - step 이후 갱신된 가중치
 
 문제 상황:
 
-- 배치 학습은 샘플 하나가 아니라 묶음 단위로 gradient를 계산하므로, batch별 손실과 gradient를 같이 보는 것이 중요하다
+- 배치 학습은 샘플 하나가 아니라 묶음 단위로 gradient를 계산하므로, batch별 평균 손실과 평균 gradient를 같이 보는 것이 중요하다
 
 확인할 개념:
 
 - 배치 단위 gradient는 여러 샘플의 오차를 모아 계산한 결과다
-- 샘플별 계산과 batch별 계산의 차이는 업데이트가 얼마나 부드럽게 움직이는지와 연결된다
+- 샘플별 계산을 평균한 뒤 한 번 업데이트하는 구조가 학습 루프의 기본 형태다
 
 입력(input):
 
-위에 정리한 샘플 묶음, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
+위에 정리한 batch 묶음, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
 
 ```python
-samples = [
-    {"x": 1.0, "target": 2.0},
-    {"x": 2.0, "target": 4.0},
-    {"x": 3.0, "target": 6.0},
+batches = [
+    [
+        {"x": 1.0, "target": 2.0},
+        {"x": 2.0, "target": 4.0},
+    ],
+    [
+        {"x": 3.0, "target": 6.0},
+        {"x": 4.0, "target": 8.0},
+    ],
 ]
 
 w = 0.5
 learning_rate = 0.1
 
-for step, sample in enumerate(samples, start=1):
-    x = sample["x"]
-    target = sample["target"]
+for step, batch in enumerate(batches, start=1):
+    predictions = []
+    losses = []
+    gradients = []
 
-    # forward
-    prediction = w * x
-    loss = (prediction - target) ** 2
+    for sample in batch:
+        x = sample["x"]
+        target = sample["target"]
 
-    # backward
-    gradient_w = 2 * (prediction - target) * x
+        prediction = w * x
+        loss = (prediction - target) ** 2
+        gradient_w = 2 * (prediction - target) * x
 
-    # optimizer step
-    w = w - learning_rate * gradient_w
+        predictions.append(round(prediction, 3))
+        losses.append(loss)
+        gradients.append(gradient_w)
+
+    batch_loss = sum(losses) / len(losses)
+    batch_gradient = sum(gradients) / len(gradients)
+
+    w = w - learning_rate * batch_gradient
 
     print(f"[batch {step}]")
-    print("x =", x, "target =", target)
-    print("prediction =", round(prediction, 3))
-    print("loss =", round(loss, 3))
-    print("gradient_w =", round(gradient_w, 3))
+    print("predictions =", predictions)
+    print("batch_loss =", round(batch_loss, 3))
+    print("batch_gradient =", round(batch_gradient, 3))
     print("updated_w =", round(w, 3))
     print("---")
 ```
 
-출력에서는 각 batch마다 prediction, loss, gradient_w, updated_w가 어떤 순서로 이어지는지부터 보면 됩니다.
+출력에서는 각 batch마다 predictions가 먼저 계산되고, 그 뒤 평균 loss와 평균 gradient가 모인 다음 updated_w가 한 번 바뀌는 순서를 보면 됩니다.
 
 ```text
 [batch 1]
-x = 1.0 target = 2.0
-prediction = 0.5
-loss = 2.25
-gradient_w = -3.0
-updated_w = 0.8
+predictions = [0.5, 1.0]
+batch_loss = 5.625
+batch_gradient = -7.5
+updated_w = 1.25
 ---
 [batch 2]
-x = 2.0 target = 4.0
-prediction = 1.6
-loss = 5.76
-gradient_w = -9.6
-updated_w = 1.76
----
-[batch 3]
-x = 3.0 target = 6.0
-prediction = 5.28
-loss = 0.518
-gradient_w = -4.32
-updated_w = 2.192
+predictions = [3.75, 5.0]
+batch_loss = 7.031
+batch_gradient = -18.75
+updated_w = 3.125
 ---
 ```
 
@@ -236,4 +242,5 @@ updated_w = 2.192
 
 ## 출처와 참고 자료
 
-이 문서는 Part 5 내부 연결을 강화하기 위한 자체 구성 문서입니다. 외부 자료를 직접 인용하지 않았습니다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-06-29.

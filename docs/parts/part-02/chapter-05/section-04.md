@@ -1,5 +1,8 @@
 # P2-5.4 확률과 통계를 작은 데이터로 확인하기
 
+> Section ID: `P2-5.4`
+> Version: `v2026.07.05`
+
 P2-5.1에서는 확률(probability)을 불확실성을 다루는 숫자 언어로 봤습니다. P2-5.2에서는 분포(distribution), 평균(mean), 분산(variance)을 데이터 묶음의 모양을 읽는 도구로 봤습니다. P2-5.3에서는 표본(sample), 추정(estimation), 오차(error)를 “일부로 전체를 말하는 일”로 봤습니다.
 
 이제 같은 내용을 작은 데이터로 확인합니다.
@@ -91,7 +94,7 @@ python -m pip install numpy
 
 - [p2_5_4_small_statistics.py](../../../assets/part-02/chapter-05/p2_5_4_small_statistics.py)
 
-레포지토리 루트에서 실행한다면 다음 명령을 사용할 수 있습니다.
+프로젝트 루트에서 실행한다면 다음 명령을 사용할 수 있습니다.
 
 ```bash
 python docs/assets/part-02/chapter-05/p2_5_4_small_statistics.py

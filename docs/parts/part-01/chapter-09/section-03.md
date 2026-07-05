@@ -1,22 +1,21 @@
 # 9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
 
+> Section ID: `P1-9.3`
+> Version: `v2026.07.05`
+
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 봤습니다. 9.2에서는 객체 검출(object detection)과 음성 생성(speech generation)을 봤습니다.
 
 이제 이 사례들을 LLM(large language model)의 역사와 어떻게 연결해야 하는지 정리합니다.
 
-이 절의 질문은 다음입니다.
-
-> AlexNet, YOLO, WaveNet 같은 사례는
-> LLM의 직접 조상인가,
-> 아니면 딥러닝 패러다임이 넓어진 주변 근거인가?
+이 절의 핵심 질문은 AlexNet, YOLO, WaveNet 같은 사례가 LLM의 직접 조상인가, 아니면 딥러닝 패러다임이 넓어진 주변 근거인가입니다.
 
 > LLM의 직접 계보는 언어 모델링(language modeling), 순차 모델링(sequence modeling), Seq2Seq, Attention, Transformer 쪽에서 설명해야 한다. 이미지, 객체 검출, 음성 생성 사례는 직접 조상이 아니라 딥러닝 접근이 여러 분야에서 힘을 얻었다는 주변 근거로 두는 편이 안전하다.
 
-이 절에는 한 가지 더 중요한 의도가 있습니다. 최근에는 AI라는 말을 곧바로 LLM이나 챗봇으로 이해하는 분위기가 강합니다. 이 책에서는 그 시각을 조심합니다. LLM은 현대 AI를 이해하는 데 매우 중요한 기술이지만, AI 전체를 LLM으로 환원하면 규칙 기반 AI, 탐색, 확률 모델, 컴퓨터 비전, 음성, 강화학습, 추천, 로보틱스 같은 다른 흐름이 가려집니다.
+이 절에는 한 가지 더 중요한 의도가 있습니다. 최근에는 AI라는 말을 곧바로 LLM이나 챗봇으로 이해하는 분위기가 강합니다. 여기서는 그 시각을 조심합니다. LLM은 현대 AI를 이해하는 데 매우 중요한 기술이지만, AI 전체를 LLM으로 환원하면 규칙 기반 AI, 탐색, 확률 모델, 컴퓨터 비전, 음성, 강화학습, 추천, 로보틱스 같은 다른 흐름이 가려집니다.
 
 ## 이 절의 범위
 
-이 절은 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 P1-11부터 P1-14, 그리고 Part 5에서 더 자세히 다룹니다.
+이 절은 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 Part 1 Chapter 11부터 Chapter 14에서 먼저 개요를 잡고, Transformer의 구조적 기반은 Part 5에서, LLM 본류의 사전학습과 생성 흐름은 Part 6에서 더 자세히 다룹니다.
 
 여기서는 P1-9의 마무리로 두 가지 역할만 맡습니다.
 
@@ -40,7 +39,7 @@
 - AlexNet, YOLO, WaveNet 같은 사례를 LLM의 직접 조상으로 과장하지 않습니다.
 - AI 전체를 LLM으로 환원하지 않고, LLM을 AI 지형 안의 중요한 한 흐름으로 배치합니다.
 - Transformer를 중요한 전환점으로 보되, Transformer 하나만으로 LLM 전체 역사를 설명하지 않습니다.
-- P1-11부터 P1-14, 그리고 Part 5의 LLM 흐름으로 넘어가기 위한 지도를 만듭니다.
+- Part 1 Chapter 11부터 Chapter 14, Part 5의 Transformer 기초, Part 6의 LLM 본류로 넘어가기 위한 지도를 만듭니다.
 
 ## 먼저 볼 세 가지
 
@@ -56,7 +55,7 @@
 
 직접 계보(direct lineage)는 어떤 기술이 LLM의 핵심 문제와 구조를 설명하는 데 직접 필요한 흐름입니다. 생성형 LLM은 보통 언어를 토큰(token)의 순서로 다루고, 앞의 문맥(context)을 바탕으로 다음 토큰 후보의 확률 분포(probability distribution)를 계산하며, 학습된 파라미터(parameter)를 사용해 출력을 생성합니다.
 
-여기서 토큰(token)은 사람이 읽는 단어(word)와 항상 같지 않습니다. 원래 token은 표식이나 증거에 가까운 뜻을 가진 말이고, LLM에서는 텍스트를 모델이 처리할 수 있도록 나눈 기본 단위를 가리킵니다. 토큰화(tokenization)와 임베딩(embedding)은 P1-11부터 P1-13, 그리고 Part 5에서 다룹니다.
+여기서 토큰(token)은 사람이 읽는 단어(word)와 항상 같지 않습니다. 원래 token은 표식이나 증거에 가까운 뜻을 가진 말이고, LLM에서는 텍스트를 모델이 처리할 수 있도록 나눈 기본 단위를 가리킵니다. 토큰화(tokenization)와 임베딩(embedding)은 P1-11부터 P1-13에서 먼저 개요를 잡고, Part 6에서 실제 LLM 계산 단위와 표현 학습 흐름으로 다시 다룹니다.
 
 > 문자열(text)
 > -> 토큰(token)
@@ -211,7 +210,7 @@ Transformer 논문은 모델이 recurrence와 convolution 없이 attention만으
 
 LLM의 역사를 설명할 때는 직접 계보와 주변 근거를 나눠야 합니다. 직접 계보는 언어 모델링, Seq2Seq, Attention, Transformer처럼 언어와 순차 데이터를 다루는 구조입니다. 주변 근거는 AlexNet, YOLO, WaveNet처럼 딥러닝이 여러 분야에서 성공하면서 연구자와 산업계가 대규모 신경망 접근을 더 강하게 받아들이게 된 배경입니다.
 
-이 구분은 사용자의 직관을 버리기 위한 것이 아닙니다. 오히려 직관을 더 안전한 문장으로 바꾸기 위한 장치입니다.
+이 구분은 앞에서 나온 직관을 버리기 위한 것이 아닙니다. 오히려 그 직관을 더 안전한 설명 문장으로 바꾸기 위한 장치입니다.
 
 > 생성형 AI와 LLM은 갑자기 등장한 기술이 아니다.
 > 다만 그 직접 계보는 이미지나 객체 검출이 아니라,
@@ -224,7 +223,7 @@ LLM의 역사를 설명할 때는 직접 계보와 주변 근거를 나눠야 �
 | --- | --- |
 | LLM의 직접 계보는 언어 모델링, Seq2Seq, Attention, Transformer 쪽에 있다 | 뒤의 LLM 설명을 이미지·음성 사례와 덜 섞어 읽게 해 주기 때문입니다. |
 | AlexNet, YOLO, WaveNet은 직접 조상보다 딥러닝 확산의 주변 근거에 가깝다 | 딥러닝의 넓은 성공과 LLM의 직접 역사 사이를 과장 없이 구분하게 해 주기 때문입니다. |
-| AI 전체를 LLM으로 환원하면 다른 흐름이 가려진다 | Part 1 전체 지형도를 유지한 채 Part 5의 LLM 본류로 넘어가게 해 주기 때문입니다. |
+| AI 전체를 LLM으로 환원하면 다른 흐름이 가려진다 | Part 1 전체 지형도를 유지한 채 Part 6의 LLM 본류로 넘어가게 해 주기 때문입니다. |
 
 ## 체크리스트
 
