@@ -99,7 +99,7 @@ flowchart LR
 | 딥러닝 패러다임과 LLM | Part 1 Chapter 9, Part 1 Chapter 2 Section 3 | LLM을 둘러싼 딥러닝 확산 사례 정리 |
 | 휴리스틱과 AI적 사고 | `management/authoring/heuristics-and-ai-thinking.md` | 휴리스틱을 초기 AI와 머신러닝 실무로 연결 |
 | Codex 소개와 사용 원칙 | `management/authoring/codex.md` | 이 책을 만드는 AI 에이전트 도구 설명 |
-| 시각화 작성 원칙 | `management/authoring/chart-guidelines.md` | 차트와 다이어그램 작성 기준 |
+| 시각화 작성 원칙 | `management/guidelines/charts/chart-guidelines.md` | 차트와 다이어그램 작성 기준 |
 
 ## 근거 기반 목차 검토
 

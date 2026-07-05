@@ -2,7 +2,7 @@
 
 작성일: 2026-07-01
 
-이 문서는 저장소의 집필 규칙을 빠르게 다시 잡기 위한 운영용 요약입니다. 기준 원문은 `AGENTS.md`와 `management/authoring/` 아래 문서이며, 실제 수정 전에는 필요한 원문을 다시 확인하는 것을 원칙으로 합니다.
+이 문서는 저장소의 집필 규칙을 빠르게 다시 잡기 위한 운영용 요약입니다. 기준 원문은 `AGENTS.md`와 `management/guidelines/` 아래 문서이며, 실제 수정 전에는 필요한 원문을 다시 확인하는 것을 원칙으로 합니다.
 
 ## 기준 문서 맵
 
@@ -22,8 +22,9 @@
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
+| `management/guidelines/writing/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전 |
 | `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
-| `management/authoring/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
+| `management/guidelines/charts/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `management/authoring/part-XX-open-checklist.md` | Part별 미반영 작업 체크리스트 | 기존 메모 정리, 후속 작업 우선순위 점검 전 |
 
 ### 3. 보조 메모와 분석 문서
@@ -40,7 +41,8 @@
 
 - `AGENTS.md`: 프로젝트 목적, 독자 기준, 문서 위치, Section 경계, Python 예제, 용어, 출처, 저작권, 배포, 빌드 검증까지 포함하는 최상위 규칙 문서입니다.
 - `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
-- `chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
+- `management/guidelines/writing/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
+- `management/guidelines/charts/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
 - `section-paragraph-structure-analysis.md`: 현재 원고 구조를 통계와 재배치 관점으로 정리한 메모입니다. 규칙 원문이라기보다 구조 정리 작업의 실무 기준에 가깝습니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
@@ -51,7 +53,7 @@
 ### Section 본문을 새로 쓰거나 크게 고칠 때
 
 1. `AGENTS.md`
-2. `AGENTS.md`
+2. `management/guidelines/writing/manuscript-writing-workflow.md`
 3. 필요하면 해당 `section-...-evidence-analysis.md`
 4. 문단 재구성이 크면 `section-paragraph-structure-analysis.md`
 5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
@@ -59,8 +61,9 @@
 ### Python 예제를 넣거나 고칠 때
 
 1. `AGENTS.md`의 Python 예제 규칙
-2. 현재 Section의 중심 질문과 출력값 점검
-3. 필요하면 `AGENTS.md`의 초심자 보강 기준으로 예제 보강 수준 판단
+2. `management/guidelines/writing/manuscript-writing-workflow.md`
+3. 현재 Section의 중심 질문과 출력값 점검
+4. 필요하면 `AGENTS.md`의 초심자 보강 기준으로 예제 보강 수준 판단
 
 ### 차트, Mermaid, SVG를 만들 때
 
