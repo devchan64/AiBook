@@ -182,7 +182,7 @@ Chapter 8의 공통 자산:
 
 Chapter 9의 공통 자산:
 
-- `07-part-bridging-drafts.md`의 Part 4 연결 문단
+- `docs/parts/part-03/summary.md`와 `docs/parts/part-03/chapter-09/`에 반영된 Part 4 handoff 문장
 - `15-manuscript-application-checklist.md`의 공통 점검 질문
 
 ## 보충학습 후보

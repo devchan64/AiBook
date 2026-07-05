@@ -60,6 +60,21 @@ Part 2에서 우리는 수학, Python, 배열, 표, 그래프를 다시 읽는 �
 | 문제 유형 구분 | 비교 리포트인가 예측 문제인가 | review queue 또는 target 후보 |
 | handoff | Part 4에 무엇을 넘길 것인가 | feature 표, target 후보, split 전제 |
 
+이 흐름은 아래처럼 하나의 파이프라인으로도 읽을 수 있습니다.
+
+```mermaid
+flowchart TD
+    A[Raw source data] --> B[Sample unit]
+    B --> C[Summary table]
+    C --> D[Feature structure]
+    D --> E[Baseline comparison]
+    E --> F[Conservative interpretation]
+    F --> G[Report or prediction]
+    G --> H[Part 4 handoff]
+```
+
+이 도식에서 중요한 점은 `모델`이 아직 중간에 등장하지 않는다는 사실입니다. 먼저 원천데이터를 어떤 샘플 단위로 읽을지 정하고, 그 샘플을 어떤 표와 특징으로 표현할지 정한 뒤에야, 비교 리포트로 남길 문제와 예측 문제를 나눌 수 있습니다.
+
 ## 범위와 비범위
 
 이 Part에서는 샘플 단위, 원시 로그와 요약 표, 특징과 중간 표현, 기준선 비교, 표본 수와 반복성, 경고 후보와 라벨 예측의 경계를 다룹니다.
