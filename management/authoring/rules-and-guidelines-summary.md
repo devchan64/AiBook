@@ -22,7 +22,7 @@
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
-| `management/authoring/beginner-reinforcement-guidelines.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
+| `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/authoring/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `management/authoring/part-XX-open-checklist.md` | Part별 미반영 작업 체크리스트 | 기존 메모 정리, 후속 작업 우선순위 점검 전 |
 
@@ -33,17 +33,15 @@
 | 문서 | 역할 | 주로 볼 때 |
 | --- | --- | --- |
 | `management/authoring/section-paragraph-structure-analysis.md` | 섹션 문단 재배치와 공통 골격 정리 메모 | 문단 재배치, 장문 섹션 구조 정리 전 |
-| `management/authoring/visuals.md` | 시각화 원칙의 축약 메모 | 차트 도구 선택을 빠르게 다시 볼 때 |
 | `management/authoring/author-notes.md` | 저자 관점 문장을 다듬기 위한 메모 | 머리말, 도입부, 관점 문장 정리 시 |
 | `management/authoring/section-...-evidence-analysis.md` | 특정 Section의 근거 검토 메모 | 기존 절 수정, 근거 확인, 후속 설명 위치 판단 시 |
 
 ## 문서별 역할 분담
 
 - `AGENTS.md`: 프로젝트 목적, 독자 기준, 문서 위치, Section 경계, Python 예제, 용어, 출처, 저작권, 배포, 빌드 검증까지 포함하는 최상위 규칙 문서입니다.
-- `beginner-reinforcement-guidelines.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 문서입니다.
+- `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
 - `chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
 - `section-paragraph-structure-analysis.md`: 현재 원고 구조를 통계와 재배치 관점으로 정리한 메모입니다. 규칙 원문이라기보다 구조 정리 작업의 실무 기준에 가깝습니다.
-- `visuals.md`: 차트 원칙의 축약본입니다. 시각화 전반을 빠르게 다시 볼 때 유용하지만, 실제 수정 판단은 `chart-guidelines.md`를 우선합니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
 - `part-XX-open-checklist.md`: 이미 반영된 설명을 반복 저장하지 않고, 각 Part에서 아직 남은 작업만 추린 체크리스트입니다.
@@ -53,7 +51,7 @@
 ### Section 본문을 새로 쓰거나 크게 고칠 때
 
 1. `AGENTS.md`
-2. `beginner-reinforcement-guidelines.md`
+2. `AGENTS.md`
 3. 필요하면 해당 `section-...-evidence-analysis.md`
 4. 문단 재구성이 크면 `section-paragraph-structure-analysis.md`
 5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
@@ -62,13 +60,12 @@
 
 1. `AGENTS.md`의 Python 예제 규칙
 2. 현재 Section의 중심 질문과 출력값 점검
-3. 필요하면 `beginner-reinforcement-guidelines.md`로 예제 보강 수준 판단
+3. 필요하면 `AGENTS.md`의 초심자 보강 기준으로 예제 보강 수준 판단
 
 ### 차트, Mermaid, SVG를 만들 때
 
 1. `AGENTS.md`의 도식 원칙
 2. `chart-guidelines.md`
-3. 빠른 재확인이 필요하면 `visuals.md`
 
 ### 관점 문장, 머리말, 도입 문장을 다듬을 때
 
@@ -257,9 +254,9 @@
 ## 실제 작업 순서
 
 1. `AGENTS.md`에서 Section 범위, Python 예제, 출처, 배포 규칙을 먼저 확인합니다.
-2. 작업이 예시 보강이면 `beginner-reinforcement-guidelines.md`를 봅니다.
+2. 작업이 예시 보강이면 `AGENTS.md`의 초심자 보강 기준을 봅니다.
 3. 작업이 문단 재배치면 `section-paragraph-structure-analysis.md`를 같이 봅니다.
-4. 작업이 차트 수정이면 `chart-guidelines.md`를 기준으로 보고, 필요하면 `visuals.md`를 보조로 확인합니다.
+4. 작업이 차트 수정이면 `chart-guidelines.md`를 기준으로 봅니다.
 5. 기존 절을 고칠 때는 해당 `section-...-evidence-analysis.md` 메모가 있는지 확인합니다.
 6. 수정 후에는 최소한 변경 범위에 대해 구조, 용어, 출처, 후속 연결, 빌드 필요 여부를 점검합니다.
 

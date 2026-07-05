@@ -98,7 +98,7 @@
 
 # 데이터 모델링 커리큘럼 조사
 
-이 아래 섹션은 `management/authoring/brewing-shot-ai-notes/01`부터 `10`, `management/authoring/data-modeling-part/01`부터 `15`에서 정리한 주제 축을 기준으로, 주요 대학과 학술 커리큘럼 문서에서 반복되는 항목을 다시 읽은 기록입니다.
+이 아래 섹션은 `management/authoring/brewing-shot-ai-notes/01`부터 `10`, 그리고 현재 `docs/parts/part-03/`에 회수된 데이터 모델링 주제 축을 기준으로, 주요 대학과 학술 커리큘럼 문서에서 반복되는 항목을 다시 읽은 기록입니다.
 
 ## 조사 목적
 
@@ -200,9 +200,9 @@ Berkeley Data 100의 `wrangling -> modeling -> feature engineering` 흐름과, G
 
 ## 현재 반영 결정
 
-- `data-modeling-part/03-part-outline-draft.md`의 `정의 -> 샘플 -> 요약 -> 특징 -> 기준선 -> 해석 경계` 순서는 유지합니다.
-- `data-modeling-part/06-chapter-section-map.md`에서 Chapter 2와 Chapter 3을 더 앞세우는 현재 배치는 유지합니다.
-- `14-shared-assets-and-guards.md`의 공통 어휘와 과장 방지 문장은 유지합니다.
+- Part 3 데이터 모델링의 `역할과 문제 장면 -> 샘플과 표 구조 -> 특징과 비교 구조 -> 해석 경계 -> 문제 유형과 handoff` 순서는 유지합니다.
+- `docs/parts/part-03/`에서 Chapter 2와 Chapter 3을 더 앞세우는 현재 배치는 유지합니다.
+- Part 3 원고에 반영한 공통 어휘와 과장 방지 문장은 유지합니다.
 - 추가 보강이 필요한 것은 `대학 공식 커리큘럼이 직접 이름 붙이지 않는 샘플 단위 설명`과 `기준선 비교를 데이터 모델링 단계로 당기는 이유`를 더 분명히 쓰는 일입니다.
 
 ## 데이터 모델링 파트에 대한 잠정 결론
