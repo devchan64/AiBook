@@ -3,21 +3,7 @@
 공개 Section 본문 메타데이터는 `Section ID`와 `Version`만 사용한다. `Last Updated` 같은 별도 날짜 줄은 두지 않는다.
 
 - Section ID:
-- Current Version:
 - Source File:
-- Source Language Version:
-- Translation Status:
-- Shared Asset Impact:
-
-`Translation Status` example values:
-
-- not-started
-- no-impact
-- check-required
-- update-required
-- synced
-
-## Change Log
 
 ### vYYYY.MM.DD
 
