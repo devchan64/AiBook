@@ -1,480 +1,371 @@
-# P5-13.2 계획, 행동, 관찰
+# P5-13.2 self-attention으로 이어지는 흐름
 
-P5-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가는 실행 구조라는 점을 보았습니다. 그러면 이제 그 내부 흐름을 더 구체적으로 봐야 합니다.
+P5-13.1에서는 attention을 `현재 계산에 중요한 위치를 더 크게 참고하는 방식`으로 설명했습니다. 이제 다음 질문이 바로 이어집니다.
 
-에이전트는 실제로 어떤 반복 구조로 움직이는가?
+그렇다면 입력과 출력이 따로 있는 번역 상황만이 아니라, 입력 안의 각 위치가 서로를 직접 참고하게 만들면 무엇이 달라지는가?
 
-이 절은 그 질문에 답합니다.
+이 질문에 대한 핵심 답이 self-attention입니다.
 
-에이전트는 보통 목표를 기준으로 다음 단계를 계획하고, 행동하고, 결과를 관찰한 뒤, 계속할지 멈출지를 판단하는 반복 구조를 가진다.
+self-attention은 시퀀스 안의 각 토큰이 같은 시퀀스의 다른 토큰들을 서로 참고하며, 현재 표현을 다시 계산하는 방식이다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 계획(plan), 행동(action), 관찰(observation)은 무엇을 뜻하는가?
-- 왜 이 세 요소를 나눠 보는 것이 중요한가?
-- 종료 조건(stop condition)은 왜 필요한가?
+- self-attention은 attention과 무엇이 다른가?
+- 왜 `자기 시퀀스 안에서 서로 참조한다`는 발상이 중요한가?
+- self-attention은 RNN과 어떤 점에서 계산 관점이 다른가?
+- 왜 Transformer의 핵심으로 이어지는가?
+
+이 절에서 먼저 닫아야 하는 핵심은 `토큰이 상태를 차례로 넘겨받는 대신, 같은 시퀀스 안 다른 토큰을 직접 다시 참고해 자기 표현을 새로 만든다`는 점입니다.
+
+처음 읽을 때는 이 절을 `관계 재계산 축`으로만 고정해 두면 덜 흔들립니다.
+
+여기서 먼저 읽는 것은 optimizer나 regularization 같은 학습 절차가 아니라, 같은 시퀀스 안 토큰들이 서로를 다시 참고해 표현을 어떻게 갱신하는가라는 관계 재계산 구조입니다.
+
+| 지금 이 절에서 읽는 것 | 바로 다음 장으로 넘기는 것 |
+| --- | --- |
+| 같은 시퀀스 안 토큰들이 서로를 다시 참고해 표현을 갱신하는 방식 | 그 계산이 Transformer 블록 안에서 어떤 부품들과 묶이는가 |
+| 순차 상태 전달과 self-attention의 계산 감각 차이 | 병렬 처리와 긴 문맥 규모에서 구조가 무엇을 바꾸는가 |
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 탐색 전략 세부 수식
-- 다중 agent 협업 패턴
-- 장기 메모리 시스템 설계
+- query, key, value의 공식 유도
+- multi-head attention의 구현 세부
+- positional encoding의 수식 상세
 
-이 절은 단일 에이전트 루프의 기본 구조에 집중하고, 도구 연결과 실행 환경은 다음의 P5-14.1 MCP와 도구 연결, P5-14.2 하네스에서 다시 회수합니다. 다중 에이전트와 장기 메모리 설계 전부는 현재 본편 범위 밖으로 둡니다.
+Transformer 전체 구성은 P5-14.1, P5-14.2에서 이어서 다루고, query, key, value와 multi-head attention의 입문적 설명은 보충학습 P5-13.3에서 회수합니다. 더 깊은 공식 유도와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절에서는 에이전트를 추상적인 개념으로 두지 않고, `반복 루프(loop)`로 읽습니다.
-
-지금 읽는 층위는 `반복 루프 층위`입니다. 앞 절의 agent가 `여러 읽기와 실행을 어떤 목표 흐름으로 이어 갈까`를 다뤘다면, 여기서는 그 흐름이 실제로 어떤 계획, 행동, 관찰 반복으로 움직이고 어디서 멈추거나 사람 검토로 넘어가는지 읽습니다. 바로 다음의 MCP와 하네스 절에서는 이 루프가 쓰는 연결 규칙과 기록 환경으로 질문이 다시 이동합니다.
-
-이 전환을 앞뒤 장과 한 번에 붙여 보면 다음처럼 읽는 편이 가장 안전합니다.
-
-| 바로 앞 장 | 지금 장 | 바로 다음에 더 붙는 장 |
-| --- | --- | --- |
-| agent: 여러 읽기와 실행을 어떤 목표 흐름으로 이어 갈까 | 계획, 행동, 관찰: 그 목표 흐름이 실제로 어떤 반복 루프로 움직일까 | MCP와 하네스: 이 루프를 어떤 연결 규칙과 기록 환경 안에서 관리할까 |
-| 목표 흐름 | 루프 구조 | 연결 규칙과 실행 관리 |
-
-즉, 지금 장의 핵심은 `여러 단계를 이어 갈까`에서 `그 단계들이 어떤 관찰과 결정 루프로 반복될까`로 손잡이가 바뀐다는 점입니다.
-
-처음 읽을 때는 이 전환을 아래 세 줄로만 기억해도 충분합니다.
-
-| 여기서 바뀌는 손잡이 | 지금 먼저 확인할 것 |
-| --- | --- |
-| agent | 여러 단계가 어떤 plan-action-observation 루프로 반복되는가 |
-| MCP | 그 루프가 쓰는 도구와 자원을 어떤 공통 연결 규칙으로 드러낼 것인가 |
-| harness | 그 루프와 연결을 어떤 trace와 replay 기록으로 남길 것인가 |
-
-| 지금 에이전트 루프에서 먼저 남길 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
-| --- | --- | --- |
-| `plan`, `action`, `observation` | 어느 단계에서 판단이 바뀌었는지 남겨야 루프 실패와 재시도 이유를 다시 좁힐 수 있어서 | P5-14.2의 trace/log, Part 6의 `execution_records`로 이어진다 |
-| `stop_reason`, `ask_human_review`, `next_action` | 언제 멈췄고 왜 사람에게 넘겼는지 남겨야 운영 단계에서 stop/fallback 경로를 다시 읽을 수 있어서 | P5-16.2의 실패 대응과 Part 6의 `incident_records`, `next_action`으로 이어진다 |
+여기서 끝내야 하는 설명은 하나입니다. `토큰이 순차 상태를 전달받는가`보다 `토큰들이 서로를 다시 참고해 자기 표현을 갱신하는가`라는 계산 감각 전환을 현재 절 안에서 이해해야 합니다.
 
 ## 이 절의 목표
 
-- 계획, 행동, 관찰을 각각 설명할 수 있습니다.
-- 종료 조건이 왜 필요한지 말할 수 있습니다.
-- 에이전트 루프에서 어디서 실패가 생길 수 있는지 구분할 수 있습니다.
-- 다음 장의 MCP와 하네스(harness) 설명으로 자연스럽게 넘어갈 수 있습니다.
+- self-attention을 `시퀀스 내부 토큰들 사이의 상호 참조`로 설명할 수 있습니다.
+- self-attention이 RNN식 순차 전달과 다른 계산 감각을 준다는 점을 말할 수 있습니다.
+- self-attention이 병렬 처리와 긴 문맥 문제에 어떤 장점을 주는지 말할 수 있습니다.
+- 실행 가능한 Python 예제로 토큰 간 중요도 참조 직관을 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+이 절은 attention이 같은 시퀀스 내부 참조로 바뀔 때 무엇이 달라지는지에서 출발해, 그 계산 감각이 Transformer 핵심으로 이어지는 흐름을 설명합니다.
 
-1. 먼저 `계획(plan)은 무엇인가`, `행동(action)은 무엇인가`, `관찰(observation)은 무엇인가`를 읽고 루프의 세 요소를 분리합니다.
-2. 그다음 `왜 이 셋을 나눠 봐야 하나`, `종료 조건(stop condition)은 왜 필요한가`, `어디서 실패가 생기나`를 읽으면서 운영과 디버깅에서 왜 이 구분이 필요한지 확인합니다.
-3. 마지막으로 사례와 Python 예제를 보면서, 관찰 결과에 따라 `continue`, `stop`, `ask_human_review`가 실제로 갈라지는 장면을 확인합니다.
+1. 먼저 P5-13.1의 attention을 떠올리며 `참조 대상이 같은 시퀀스 내부로 들어오면 무엇이 달라지는가`를 봅니다.
+2. 그 다음 self-attention을 `토큰들이 서로를 참고해 표현을 다시 계산하는 방식`으로 읽습니다.
+3. 이어서 RNN과의 계산 감각 차이, 병렬 처리 장점을 확인합니다.
+4. 마지막에 왜 이것이 Transformer의 핵심으로 이어지는지 정리합니다.
 
-## 계획(plan)은 무엇인가
+## attention과 self-attention은 무엇이 다른가
 
-계획은 `지금 무엇을 해야 하는가`를 정하는 단계입니다.
+attention은 넓게 보면 `현재 계산이 어떤 위치를 더 강하게 참고할지 정하는 방식`입니다. self-attention은 그 참조 대상이 같은 시퀀스 내부라는 점이 핵심입니다.
 
-예를 들어 목표가:
+예를 들어 문장 안에서:
 
-`최신 환불 정책을 찾아 요약하라`
+- 각 단어는 다른 단어들을 참고할 수 있고
+- 현재 단어 표현은 전체 문장 안의 관련 토큰 정보를 다시 모아 계산할 수 있습니다
 
-라면 계획 단계는 다음과 비슷할 수 있습니다.
+즉, self-attention은 `문장 바깥 정보를 가져오는 것`이 아니라, `문장 내부 관계를 다시 읽는 방식`입니다.
 
-- 먼저 정책 문서를 검색한다
-- 최신 공지를 우선 확인한다
-- 변경된 부분만 추려 낸다
+P5-13.1이 `현재 출력이 입력 어디를 더 참고할까`를 묻는 절이었다면, 여기서는 그 질문이 `현재 토큰이 같은 문장 안 다른 토큰을 어떻게 다시 참고할까`로 바뀝니다.
 
-즉, 계획은 목표를 더 작은 하위 단계로 나누는 일입니다.
+같은 장면을 두 방식으로 나눠 보면 차이가 더 또렷해집니다.
 
-## 행동(action)은 무엇인가
+| 같은 장면 | attention에서 먼저 보는 관계 | self-attention에서 먼저 보는 관계 |
+| --- | --- | --- |
+| 번역 출력 한 단어를 만드는 순간 | 현재 출력이 입력 문장 어느 위치를 더 참고할까 | 현재 입력 문장 안 각 토큰이 서로를 어떻게 다시 참고할까 |
+| 문서 요약 문장 하나를 만드는 순간 | 현재 요약 문장이 원문 어느 문장을 더 볼까 | 문서 안 각 토큰 표현이 서로를 참고하며 어떻게 다시 바뀔까 |
+| 코드 한 줄을 해석하는 순간 | 현재 출력이 앞 입력 중 어느 위치를 더 참고할까 | 코드 안 이름, 조건, 호출 위치가 서로를 어떻게 다시 연결할까 |
 
-행동은 실제로 무언가를 수행하는 단계입니다.
+즉, attention이 `지금 출력이 어디를 더 볼까`에 가깝다면, self-attention은 `문장 안 각 위치가 서로를 어떻게 다시 읽을까`에 더 가깝습니다.
 
-예를 들어:
+## 왜 이것이 중요한가
 
-- 검색 도구 호출
-- 파일 읽기
-- 계산 실행
-- API 요청
+RNN은 보통 앞에서 뒤로, 혹은 양방향이라 해도 시간 흐름을 따라 상태를 전달하는 감각이 강합니다. self-attention은 이와 다르게, 현재 토큰이 필요할 때 멀리 떨어진 토큰도 비교적 직접 참고할 수 있게 합니다.
 
-같은 것이 행동에 들어갑니다.
+핵심 차이는 RNN이 상태를 이어 전달하는 쪽에 가깝고, self-attention은 필요한 토큰 관계를 다시 계산하는 쪽에 가깝다는 점입니다.
 
-중요한 점은 행동은 `말로만 다음 단계를 제안하는 것`이 아니라, 외부 세계에 실제 영향을 주거나 실제 결과를 가져오는 단계라는 점입니다.
+`RNN은 기억을 이어서 전달하는 방식에 가깝고, self-attention은 필요한 단어를 다시 찾아보는 방식에 가깝다.`
 
-## 관찰(observation)은 무엇인가
+즉, 오래전 정보가 희미해지는 문제에 대해, self-attention은 더 직접적인 참조 경로를 만듭니다.
 
-관찰은 행동의 결과를 읽는 단계입니다.
+이 차이는 다음 표로 더 짧게 잡을 수 있습니다.
 
-예를 들어:
+| 관점 | RNN 계열 | self-attention |
+| --- | --- | --- |
+| 기본 감각 | 상태를 다음 step으로 넘긴다 | 모든 토큰 사이 관련도를 다시 계산한다 |
+| 먼 정보 접근 | 여러 step을 거쳐 전달된다 | 더 직접 참고할 수 있다 |
+| 계산 느낌 | 순차 전달 | 관계 계산 |
 
-- 검색 결과가 너무 적었다
-- 파일이 없었다
-- 계산 결과가 예상과 달랐다
-- API 호출이 실패했다
+여기서 독자가 꼭 잡아야 할 핵심은 `self-attention은 기억을 넘기는 구조라기보다, 관계를 다시 계산하는 구조`라는 점입니다.
 
-같은 것이 관찰에 들어갑니다.
+## 문장 안에서 어떤 일이 일어나나
 
-관찰이 없으면 에이전트는 같은 행동을 계속 반복하거나, 실패한 줄도 모르고 다음 단계로 넘어갈 수 있습니다.
+예를 들어 문장:
 
-## 왜 이 셋을 나눠 봐야 하나
+`The animal didn't cross the road because it was tired.`
 
-독자는 이 흐름을 한 덩어리로 보기 쉽습니다. 하지만 나눠 보면 문제가 훨씬 잘 보입니다.
+에서 `it`이 무엇을 가리키는지 이해하려면, 문장 안 다른 단어와의 관계를 봐야 합니다. self-attention은 이런 관계를 설명하는 입문적 직관에 매우 잘 맞습니다.
 
-예를 들어:
+각 토큰은:
 
-- 계획이 틀린 것인가?
-- 도구 행동이 실패한 것인가?
-- 결과를 잘못 읽은 것인가?
+- 자기 자신만 보는 것이 아니라
+- 다른 토큰과의 관련도를 계산하고
+- 더 중요한 토큰 정보를 더 많이 반영해
+- 새로운 표현을 만듭니다
 
-이렇게 구분해야 디버깅과 평가가 가능해집니다.
+즉, self-attention은 토큰 표현을 문맥적으로 다시 쓰는 방식입니다.
 
-즉, 계획/행동/관찰 분리는 단순 이론 구분이 아니라, 실제 운영과 평가를 위한 구분입니다.
+이 말을 아주 짧은 예시로 다시 보면 다음과 같습니다.
 
-## 종료 조건(stop condition)은 왜 필요한가
+```text
+고양이는 소파 위에서 잠들었다. 그것은 매우 조용했다.
+```
 
-에이전트는 반복 구조이기 때문에, 어느 시점에서 충분한 근거를 얻었다고 보고 멈출지와 어느 경우 사람 검토로 넘길지를 먼저 정해야 합니다.
+여기서 `그것`을 읽을 때, 바로 앞 단어 하나만 보는 것으로는 `소파`를 가리키는지 `고양이`를 가리키는지 충분히 안정적으로 판단하기 어렵습니다. self-attention 관점에서는 `그것` 위치가 문장 안 다른 단어들을 다시 참고하면서, 현재 문맥에 더 맞는 후보 쪽에 더 큰 비중을 둘 수 있습니다. 즉, `현재 토큰 하나를 이해하려고 문장 전체를 다시 섞어 읽는다`는 감각이 핵심입니다.
 
-멈추는 기준이 없으면:
+## 왜 Transformer의 핵심이 되었나
 
-- 같은 검색을 계속 반복하거나
-- 이미 충분한 답이 있는데도 추가 행동을 하거나
-- 비용과 시간이 불필요하게 늘어날 수 있습니다
+self-attention이 중요한 이유는 단순히 `더 똑똑해 보여서`가 아닙니다. 계산 구조 자체를 바꾸기 때문입니다.
 
-종료 조건은 보통 다음과 연결됩니다.
+특히 독자 기준에서 중요한 차이는 다음 두 가지입니다.
 
-- 목표 달성
-- 충분한 근거 확보
-- 재시도 한도 초과
-- 권한/오류 때문에 중단
+1. 먼 위치를 더 직접 참고할 수 있습니다
+2. 순차적으로만 상태를 전달하지 않아도 되어 병렬 계산과 잘 맞습니다
 
-즉, stop condition은 에이전트의 품질뿐 아니라 비용과 안전성에도 직접 연결됩니다.
+즉, self-attention은 장기 의존성 문제와 병렬 처리 요구를 동시에 더 잘 만족시키는 방향으로 보였습니다. 이것이 Transformer의 핵심이 된 이유 중 하나입니다.
 
-## 어디서 실패가 생기나
+즉, `멀리 있는 단서를 다시 찾기 쉽고, 계산도 한 번에 다루기 쉬웠기 때문에` self-attention이 구조의 중심으로 올라왔다고 보면 됩니다.
 
-에이전트 루프는 강력하지만 실패 지점도 많습니다.
+여기서 독자가 한 번 더 붙잡아야 할 점은, self-attention이 단지 `좋은 기능 하나`가 아니라 `블록 중심 계산`이 되었다는 사실입니다. 즉, Transformer는 `먼저 self-attention으로 관계를 다시 읽고, 그 결과를 다음 계산으로 넘기는 구조`를 반복 기본 단위로 삼습니다. 이 연결이 바로 다음 절 P5-14.1의 출발점입니다.
 
-- 계획이 비현실적일 수 있음
-- 잘못된 도구를 선택할 수 있음
-- 관찰 결과를 오독할 수 있음
-- 멈춰야 할 때 계속할 수 있음
-
-따라서 agent 설계는 보통 `더 많은 자유`와 `더 많은 통제 필요`가 함께 따라옵니다.
-
-## 아주 단순하게 그리면
+## 이를 아주 단순하게 그리면
 
 ```mermaid
 flowchart TD
-  A["goal"]
-  B["plan next step"]
-  C["act with tool or search"]
-  D["observe result"]
-  E["decide next move"]
-  F["stop"]
-  G["ask human review"]
+  A["token 1"]
+  B["token 2"]
+  C["token 3"]
+  D["token 4"]
 
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E -->|continue| B
-  E -->|enough evidence| F
-  E -->|conflict or approval needed| G
+  A --- B
+  A --- C
+  A --- D
+  B --- C
+  B --- D
+  C --- D
 ```
 
-이 도식의 핵심은 agent가 일직선 파이프라인이 아니라, 관찰 뒤에 다시 다음 계획으로 돌아가거나, 충분하면 멈추거나, 사람 검토로 넘길 수 있는 루프 구조라는 점입니다.
+이 도식은 각 토큰이 다른 토큰들을 서로 참고할 수 있다는 직관을 압축합니다. 실제 구현은 더 정교하지만, 여기서 먼저 확인해야 할 점은 토큰이 앞에서 뒤로만 정보를 넘기는 것이 아니라 서로의 관련도를 함께 계산한다는 구조입니다.
+
+`한 토큰은 앞 토큰만 받는 것이 아니라, 문장 안 다른 토큰들을 함께 참고해 자기 표현을 다시 만든다.`
+
+## self-attention은 왜 병렬 처리와 잘 맞나
+
+RNN은 시점 순서대로 상태를 넘기므로, 계산 흐름이 순차적이라는 감각이 강합니다. self-attention은 각 토큰의 관련도 계산을 더 행렬적인 방식으로 다루기 쉬워, GPU 병렬 처리와 잘 맞습니다.
+
+`self-attention은 토큰들을 순서대로만 밀어내기보다, 한 번에 서로의 관계를 계산하는 방향에 더 가깝다.`
+
+이 점은 Part 5의 GPU/배치/텐서 계산과도 자연스럽게 연결됩니다.
 
 ## 사례로 보기
 
-### 사례 1. 문서 조사 에이전트
+### 사례 1. 문장 안 지시어 해석
 
-사용자가 `지난달 환불 정책 변경점을 요약해 달라`고 요청했는데 첫 검색 결과가 오래된 공지만 보여 줄 수 있습니다. 사람은 보통 첫 결과가 마음에 안 들면 검색어를 바꾸거나 날짜를 다시 제한합니다. 이때 에이전트도 `결과가 부족하다`는 관찰을 바탕으로 검색어를 바꾸거나 날짜 필터를 다시 적용해야 합니다. 예를 들어 첫 검색이 `환불 정책`으로는 너무 넓게 잡혔다면, 다음 단계에서는 월 범위를 넣거나 `공지`, `개정` 같은 단어를 더 붙여 다시 찾게 됩니다. 그대로 오래된 문서만 요약하면 답변은 매끄러워도 사용자에게 지난달이 아닌 예전 기준을 안내하게 됩니다. 문서가 충분히 모이면 그때만 요약 단계로 넘어가므로, 다음 계획은 항상 직전 관찰 결과에 의해 바뀝니다. 그래서 이 사례에서 확인해야 할 결과는 첫 검색 실패 뒤에 검색어와 날짜 조건이 실제로 다시 조정되고, 그 후에만 요약 단계가 열리는가입니다.
+고객 문의 문장에 `상품은 반품했지만 박스는 버리지 않았습니다. 그것이 문제인가요?` 같은 표현이 있다고 해 보겠습니다. 사람이 대충 읽을 때는 보통 `그것` 바로 근처 단어만 먼저 보고 뜻을 짐작하기 쉽습니다. 하지만 실제로는 `그것`이 박스를 가리키는지, 반품 사실을 가리키는지에 따라 답변 내용이 달라질 수 있습니다. 가까운 단어만 따라가면 이런 참조 관계를 놓치기 쉽습니다. 여기서 바뀌는 점은 `바로 앞 단어만 보는 읽기`에서 `문장 전체 관계를 함께 보는 읽기`로 기준이 이동한다는 것입니다. self-attention은 현재 토큰이 문장 안 다른 위치를 다시 참고해 `무엇을 가리키는가`를 더 직접 계산한다는 직관을 줍니다.
 
-### 사례 2. 코딩 에이전트
+### 사례 2. 문서 요약
 
-사용자가 버그 수정을 요청하면 에이전트는 먼저 관련 파일을 고치고 테스트를 실행합니다. 사람도 수동 디버깅에서는 테스트가 실패하면 그 로그를 읽고 다음 수정 방향을 바꿉니다. 예를 들어 첫 수정 뒤에 기존 오류는 사라졌지만 다른 인증 테스트가 깨졌다면, 다음 행동은 원래 코드 설명을 반복하는 것이 아니라 새 실패를 기준으로 패치를 조정하는 쪽이 됩니다. 이 로그를 무시하고 처음 계획만 계속 밀어붙이면, 한 버그를 고치고 다른 회귀를 만드는 식으로 결과가 더 나빠질 수 있습니다. 여기서 바뀌는 점은 `처음 계획이 맞았는가`만 붙잡는 기준에서 `방금 나온 테스트 로그가 다음 행동을 바꾸는가`를 보는 기준으로 이동한다는 것입니다. 에이전트에서도 실패 로그가 곧 새로운 관찰 결과가 되어 다음 패치 방향을 바꾸게 됩니다. 즉, `수정한다 -> 실행한다 -> 실패를 읽는다 -> 다시 수정한다`는 반복이 계획-행동-관찰 루프의 전형적인 실무 사례입니다. 그래서 이 사례에서 확인해야 할 결과는 첫 패치가 실패했을 때 같은 설명을 반복하는 대신, 새 테스트 로그를 기준으로 다음 수정 내용이 실제로 바뀌는가입니다.
+긴 회의록을 요약할 때를 생각해 보겠습니다. 사람은 요약을 빨리 만들려 하면 보통 마지막 결론 문단이나 굵은 제목만 먼저 보고 핵심을 정리하려고 합니다. 하지만 실제로는 문서 앞부분의 전제 조건과 뒷부분의 최종 결정이 함께 있어야 정확한 요약이 됩니다. 앞뒤를 따로 읽으면 `무엇을 하기로 했는가`는 남아도 `왜 그렇게 했는가`나 `어떤 예외가 붙었는가`를 놓치기 쉽습니다. 예를 들어 마지막에 `배포를 연기한다`고 적혀 있어도, 중간의 장애 위험 설명과 앞부분의 고객 공지 조건을 함께 봐야 제대로 요약할 수 있습니다. 여기서 바뀌는 점은 `눈에 띄는 일부 위치만 잡는 읽기`에서 `문서 여러 위치를 함께 묶는 읽기`로 기준이 이동한다는 것입니다. self-attention은 현재 요약 표현을 만들 때 문서 앞뒤의 관련 표현을 함께 다시 참고하는 전역 참조(global reference) 직관과 잘 맞습니다.
 
-### 사례 3. 예약 보조 에이전트
+### 사례 3. 코드 이해
 
-사용자가 `내일 오후에 30분 회의 잡아 줘`라고 요청했는데, 캘린더를 조회해 보니 빈 시간이 하나도 없을 수 있습니다. 사람은 이 경우 그냥 실패라고 끝내기보다 다른 시간대를 찾거나, 참석자 범위를 줄일지 다시 묻습니다. 에이전트도 그대로 예약을 시도하는 대신 다른 시간대를 제안하거나, 참석자 범위를 줄일지 사용자에게 다시 물어야 합니다. 빈 시간이 없는데도 그대로 예약을 밀어 넣으려 하면 이중 예약이나 실패 응답만 남길 수 있습니다. 여기서 바뀌는 점은 `처음 목표를 바로 실행하는가`에서 `관찰 결과에 따라 목표를 다시 풀어 묻거나 대안을 제안하는가`로 기준이 이동한다는 것입니다. 관찰 결과 하나가 바로 다음 행동을 바꾸는 점에서, 이 작업은 고정 파이프라인보다 루프 구조로 이해하는 편이 맞습니다. 그래서 이 사례에서 확인해야 할 결과는 빈 시간이 없다는 관찰 뒤에 실패로 끝내지 않고, 대체 시간 제안이나 추가 질문으로 실제 다음 행동이 열리는가입니다.
+긴 함수 안에서 위쪽에 `discount_rate`가 정의되고, 아래쪽 여러 조건문과 최종 반환식에서 다시 쓰인다고 해 보겠습니다. 사람이 코드를 읽을 때도 보통 현재 줄 주변만 먼저 보다가 계산식이 헷갈리면 위로 다시 올라가 변수 정의를 확인합니다. 그런데 순차적으로만 읽는 감각으로는 중간에 예외 처리와 다른 변수들이 많이 끼어들 때, 처음 정의가 어떤 역할을 했는지 흐려지기 쉽습니다. 예를 들어 마지막 반환식에서 할인값이 왜 음수가 아닌지 이해하려면, 위쪽의 초기화와 중간 조건문 두세 곳을 함께 다시 봐야 할 수 있습니다. 여기서 바뀌는 점은 `현재 줄 주변만 읽는 방식`에서 `멀리 떨어진 정의와 사용을 함께 보는 방식`으로 기준이 이동한다는 것입니다. self-attention은 현재 토큰이 멀리 떨어진 변수 정의, 함수 호출, 조건 분기와의 관계를 더 직접 참고한다는 설명에 잘 맞습니다.
 
-세 사례를 loop 전환 기준으로 다시 묶으면 다음과 같습니다.
+세 사례에서 공통으로 확인해야 할 결과는 `현재 위치가 무엇을 다시 참고해야 하는가`가 더 안정적으로 정해진다는 점입니다. 대명사 해석에서는 가리키는 대상을 더 정확히 좁히는지, 요약에서는 이유와 조건을 함께 다시 묶는지, 코드에서는 멀리 떨어진 정의-사용 관계를 실제로 이어 읽는지를 보면 충분합니다.
 
-| 상황 | loop를 계속 돌게 만드는 관찰 | loop를 멈추거나 바꾸게 만드는 관찰 |
-| --- | --- | --- |
-| 문서 조사 에이전트 | 더 최신 문서를 찾을 여지가 있음 | 최신 근거가 충분하거나 충돌 문서가 발견됨 |
-| 코딩 에이전트 | 새 테스트 실패가 남아 있음 | 테스트가 통과하거나 사람 검토가 필요함 |
-| 예약 보조 에이전트 | 대체 시간대를 더 찾을 수 있음 | 빈 시간이 없어서 사용자에게 다시 물어야 함 |
-
-같은 내용을 loop 분기 구조로 다시 보면 다음처럼 읽을 수 있습니다.
-
-```mermaid
-flowchart TD
-  subgraph L["agent loop"]
-    direction LR
-    A["plan"] --> B["action"] --> C["observation"] --> D["decision"]
-  end
-
-  D -->|continue| A
-  D -->|enough evidence| F["stop"]
-  D -->|need approval or conflict check| G["ask human review"]
-```
-
-핵심은 `행동` 다음에 바로 끝나는 것이 아니라, `관찰과 결정`을 거쳐 다음 루프로 되돌아가거나 멈춘다는 점입니다.
+| 사례 | 현재 위치가 다시 봐야 하는 대상 | 가까운 위치만 보면 생기는 문제 | self-attention으로 확인할 결과 |
+| --- | --- | --- | --- |
+| 대명사 해석 | 대명사가 가리키는 앞 명사 | 바로 옆 단어만 보고 잘못 연결할 수 있다 | 문장 전체 관계를 반영해 더 그럴듯한 지시어를 고르는가 |
+| 문서 요약 | 앞 조건, 중간 이유, 뒤 결론 | 마지막 문장만 보고 이유나 예외를 놓칠 수 있다 | 여러 위치를 함께 참고해 요약 핵심을 다시 묶는가 |
+| 코드 이해 | 멀리 떨어진 변수 정의와 사용 위치 | 현재 줄 근처만 보고 정의-사용 관계를 놓칠 수 있다 | 반환식과 위쪽 정의가 실제로 연결되는가 |
 
 ## 실행 가능한 Python 예제로 보기
 
-먼저 아래의 작은 해석 세 개를 읽고 예제를 보면, 코드가 왜 세 가지 다른 종료 방향을 보여 주는지 더 쉽게 읽힙니다.
-
-### 루프 관점에서 다시 보면
-
-앞의 세 사례가 에이전트가 실제로 쓰이는 장면을 보여 주었다면, 여기서는 같은 루프를 더 작은 전환 지점으로 다시 나누어 봅니다. 목적은 사례를 하나 더 늘리는 것이 아니라, `계속 진행`, `종료`, `사람 검토 전환`이 각각 어떤 관찰 결과에서 나오는지 분리해 읽게 하는 데 있습니다.
-
-### 해석 1. 문서를 찾았지만 읽는 순서를 다시 정해야 하는 경우
-
-정책 문서 두 개를 찾았는데 하나는 요약 공지이고 다른 하나는 본문 규정이라고 해 봅시다. 사람은 검색이 성공했으니 바로 요약해도 된다고 느끼기 쉽지만, 실제로는 어떤 문서를 먼저 읽고 어떤 문서를 근거로 삼을지 다시 결정해야 할 수 있습니다. 예를 들어 공지문은 변경 사실만 알려 주고 세부 조건은 본문 규정에 있을 수 있습니다. agent loop에서는 이런 장면에서 `찾았으니 끝`이 아니라 `무엇을 먼저 읽을지 다시 계획`하는 단계가 이어집니다. 그래서 이 사례에서 확인해야 할 결과는 문서를 찾은 직후 바로 답하지 않고, 읽기 순서와 근거 선택이 실제로 다시 계획되는가입니다.
-
-### 해석 2. 계획은 맞았지만 행동 결과가 예상과 다른 경우
-
-검색 계획 자체는 타당했는데 실제 검색 결과가 오래된 공지 두 개만 나왔다고 해 봅시다. 사람도 수작업으로 조사할 때는 이 경우 검색어를 바꾸거나 날짜 조건을 더 좁혀 다시 시도합니다. 즉, 처음 계획이 틀렸다기보다 관찰 결과가 기대와 달라서 다음 행동을 바꿔야 하는 상황입니다. agent loop는 이런 `계획 -> 행동 -> 관찰 -> 새 결정`을 반복 가능한 구조로 분리해 보여 줍니다. 그래서 이 사례에서 확인해야 할 결과는 첫 검색 실패 뒤에 그대로 답을 만들기보다, 검색어 조정이나 날짜 조건 변경 같은 재계획이 실제 다음 단계로 이어지는가입니다.
-
-### 해석 3. 답을 만들기 전에 멈춰야 하는 경우
-
-관련 문서를 찾았지만 서로 기준이 충돌하거나 최신 날짜가 불분명하다고 해 봅시다. 사람은 이런 경우 바로 답하기보다 검토 필요 상태로 넘기거나 추가 확인을 합니다. agent loop에서도 항상 다음 행동이 `계속 진행`일 필요는 없고, `사람 검토 요청`이나 `추가 승인 대기`가 될 수 있습니다. 예를 들어 환불 정책 두 문서가 서로 다른 기간을 말하면, 요약보다 먼저 어느 문서가 최신인지 확인해야 합니다. 그래서 이 사례에서 확인해야 할 결과는 관찰 결과가 충돌할 때 loop가 억지로 답을 만들기보다 실제로 멈추거나 사람 검토로 넘기는가입니다.
-
-이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어지고, 그 결과가 `continue`, `stop`, `ask_human_review`처럼 달라질 수 있다는 점을 눈으로 확인하는 것입니다.
+이번 예제의 목표는 `그것` 같은 현재 토큰이 문장 안 여러 후보 중 무엇을 더 크게 참고하는지, 그리고 그 결과 현재 표현이 어떻게 달라지는지를 직접 확인하는 것입니다. 즉, self-attention을 단순 숫자 평균이 아니라 `현재 토큰이 문장 안 관련 단서를 다시 읽는 과정`으로 실험해 봅니다.
 
 문제 상황:
 
-- 같은 목표라도 관찰 결과에 따라 계속 진행, 종료, 사람 검토 전환이 갈라질 수 있다
+- 현재 토큰 해석은 바로 옆 단어만이 아니라 문장 안 여러 위치를 다시 참고해야 달라질 수 있다
 
 입력:
 
-- 목표 3개
-- 매 라운드에서 얻은 관찰 결과
+- `상품은 반품했지만 박스는 버리지 않았습니다. 그것이 문제인가요?`라는 짧은 문장
+- 현재 토큰 `그것`이 문장 안 각 토큰을 얼마나 참고할지에 대한 점수
+- 각 토큰의 간단한 의미 벡터
 
 출력:
 
-- 목표별 loop 기록
-- 계속 진행할지 멈출지 사람에게 넘길지에 대한 판단
-- 종료 조건이 실제로 어떻게 갈라지는지 보여 주는 점검값
+- 모든 토큰을 똑같이 평균낸 baseline 표현
+- `그것` 위치에서 계산된 attention 비중
+- self-attention 이후 `그것`의 새 표현
+- 어떤 토큰 묶음이 가장 크게 반영됐는지에 대한 요약
+
+코드를 읽기 전에 아래 세 값을 먼저 순서대로 보면, self-attention이 `문장 전체를 그냥 평균내는 것`과 어떻게 다른지 더 빠르게 잡을 수 있습니다.
+
+| 먼저 볼 값 | 왜 먼저 보아야 하는가 |
+| --- | --- |
+| `baseline_representation` | 아무 비중 차이 없이 섞으면 현재 토큰 해석이 얼마나 흐릿해지는지 먼저 보이기 때문입니다. |
+| `weights` | 현재 토큰이 문장 안 어떤 단서를 더 크게 다시 참고하는지 바로 비교할 수 있기 때문입니다. |
+| `representation_shift` | attention으로 다시 계산한 뒤 현재 토큰 표현이 어느 방향으로 실제로 움직였는지 마지막에 묶어 볼 수 있기 때문입니다. |
+
+문제 상황:
+
+- self-attention은 현재 토큰이 문장 안 다른 토큰을 얼마나 다시 참고하는지로 이해하는 편이 더 직관적이다
 
 확인할 개념:
 
-- 에이전트는 일직선 파이프라인보다 계획-행동-관찰-결정 루프로 읽는 편이 정확하다
-- 첫 시도 실패 뒤에는 관찰 결과가 다음 계획을 실제로 바꿔야 한다
-- 충분한 근거나 충돌 여부에 따라 종료와 사람 검토 전환이 분기될 수 있다
+- self-attention은 현재 토큰이 문장 안 다른 토큰을 다시 읽어 자기 표현을 바꾸는 구조다
+- 지시어 해석처럼 멀리 떨어진 단서가 중요할 때 단순 평균보다 위치별 비중이 필요하다
+- baseline 표현과 새 표현을 비교해야 self-attention의 역할이 눈에 들어온다
 
 입력(input):
 
-위에 정리한 목표별 round 시나리오를 사용합니다.
+위에 정리한 토큰 목록과 토큰별 벡터 표현을 사용합니다.
 
 ```python
-scenarios = [
-    {
-        "goal": "최신 환불 정책을 찾아 사용자에게 요약한다.",
-        "rounds": [
-            {"found_docs": ["old_notice_2025_12"], "has_latest_doc": False, "has_conflict": False},
-            {"found_docs": ["policy_notice_2026_06_29", "refund_rules_appendix"], "has_latest_doc": True, "has_conflict": False},
-        ],
-    },
-    {
-        "goal": "서로 충돌하는 환불 정책 문서를 정리한다.",
-        "rounds": [
-            {"found_docs": ["policy_notice_2026_06_29", "policy_notice_2026_06_15"], "has_latest_doc": True, "has_conflict": True},
-        ],
-    },
-    {
-        "goal": "최신 환불 정책 문서가 있는지 먼저 확인한다.",
-        "rounds": [
-            {"found_docs": ["old_notice_2025_12"], "has_latest_doc": False, "has_conflict": False},
-            {"found_docs": ["older_notice_2025_10"], "has_latest_doc": False, "has_conflict": False},
-        ],
-    },
-]
+import math
 
-
-def run_loop(scenario):
-    history = []
-    stopped = False
-
-    for round_index, observation in enumerate(scenario["rounds"], start=1):
-        plan = (
-            "search latest refund policy notice"
-            if round_index == 1
-            else "refine search or summarize"
-        )
-        action = (
-            "call search_policy_docs"
-            if not observation["has_latest_doc"]
-            else "call read_docs_and_summarize"
-        )
-
-        if observation["has_conflict"]:
-            decision = "ask_human_review"
-            stopped = True
-        elif observation["has_latest_doc"]:
-            decision = "stop_after_summary"
-            stopped = True
-        else:
-            decision = "continue_with_refined_search"
-
-        history.append(
-            {
-                "plan": plan,
-                "action": action,
-                "observation": {
-                    "round": round_index,
-                    "found_docs": observation["found_docs"],
-                    "has_latest_doc": observation["has_latest_doc"],
-                    "has_conflict": observation["has_conflict"],
-                },
-                "decision": decision,
-            }
-        )
-
-        if stopped:
-            break
-
-    inspection = {
-        "round_count": len(history),
-        "last_decision": history[-1]["decision"],
-        "latest_doc_found": history[-1]["observation"]["has_latest_doc"],
-        "conflict_found": history[-1]["observation"]["has_conflict"],
-        "stop_triggered": stopped,
-    }
-    return history, inspection
-
-
-reports = []
-for scenario in scenarios:
-    history, inspection = run_loop(scenario)
-    reports.append(
-        {
-            "goal": scenario["goal"],
-            "history": history,
-            "inspection": inspection,
-        }
-    )
-
-summary = {
-    "continue_count": sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports),
-    "stop_count": sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports),
-    "human_review_count": sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports),
-    "continue_ratio": round(
-        sum(report["inspection"]["last_decision"] == "continue_with_refined_search" for report in reports) / len(reports),
-        2,
-    ),
-    "stop_ratio": round(
-        sum(report["inspection"]["last_decision"] == "stop_after_summary" for report in reports) / len(reports),
-        2,
-    ),
-    "human_review_ratio": round(
-        sum(report["inspection"]["last_decision"] == "ask_human_review" for report in reports) / len(reports),
-        2,
-    ),
+tokens = ["상품", "반품", "박스", "버리지", "그것"]
+token_vectors = {
+    "상품": [0.8, 0.1, 0.0],
+    "반품": [0.9, 0.3, 0.1],
+    "박스": [0.1, 0.9, 0.2],
+    "버리지": [0.0, 0.6, 0.8],
+    "그것": [0.3, 0.3, 0.3],
 }
 
-print("[summary]")
-print(summary)
-print()
+# current token "그것" assigns larger raw scores to tokens
+# that help resolve what it refers to in this sentence
+raw_scores = {
+    "상품": 0.2,
+    "반품": 0.6,
+    "박스": 2.1,
+    "버리지": 1.2,
+    "그것": 0.7,
+}
 
-for report in reports:
-    print("=" * 80)
-    print("[goal]")
-    print(report["goal"])
-    print("[loop history]")
-    for item in report["history"]:
-        print(item)
-    print("[inspection]")
-    print(report["inspection"])
+ordered_scores = [raw_scores[token] for token in tokens]
+exp_scores = [math.exp(score) for score in ordered_scores]
+total = sum(exp_scores)
+weights = [s / total for s in exp_scores]
+
+baseline_representation = [0.0, 0.0, 0.0]
+uniform_weight = 1 / len(tokens)
+for token in tokens:
+    vector = token_vectors[token]
+    for idx in range(len(vector)):
+        baseline_representation[idx] += uniform_weight * vector[idx]
+
+new_representation = [0.0, 0.0, 0.0]
+for weight, token in zip(weights, tokens):
+    vector = token_vectors[token]
+    for idx in range(len(vector)):
+        new_representation[idx] += weight * vector[idx]
+
+print("baseline_representation =", [round(value, 3) for value in baseline_representation])
+for token, weight in zip(tokens, weights):
+    print(token, "weight =", round(weight, 3), "vector =", token_vectors[token])
+print("weights =", [round(w, 3) for w in weights])
+print("new_representation =", [round(value, 3) for value in new_representation])
+print(
+    "representation_shift =",
+    [round(new - base, 3) for new, base in zip(new_representation, baseline_representation)],
+)
+
+top_token = tokens[weights.index(max(weights))]
+top_pair_weight = round(weights[tokens.index("박스")] + weights[tokens.index("버리지")], 3)
+print("top_token =", top_token)
+print("box_plus_not_discarded_weight =", top_pair_weight)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 각 토큰의 `weight`를 먼저 비교하고, 그 결과가 `new_representation`과 `representation_shift`를 어떻게 바꾸는지 이어서 보면 됩니다.
 
 ```text
-[summary]
-{'continue_count': 1, 'stop_count': 1, 'human_review_count': 1, 'continue_ratio': 0.33, 'stop_ratio': 0.33, 'human_review_ratio': 0.33}
-
-================================================================================
-[goal]
-최신 환불 정책을 찾아 사용자에게 요약한다.
-[loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
-{'plan': 'refine search or summarize', 'action': 'call read_docs_and_summarize', 'observation': {'round': 2, 'found_docs': ['policy_notice_2026_06_29', 'refund_rules_appendix'], 'has_latest_doc': True, 'has_conflict': False}, 'decision': 'stop_after_summary'}
-[inspection]
-{'round_count': 2, 'last_decision': 'stop_after_summary', 'latest_doc_found': True, 'conflict_found': False, 'stop_triggered': True}
-================================================================================
-[goal]
-서로 충돌하는 환불 정책 문서를 정리한다.
-[loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call read_docs_and_summarize', 'observation': {'round': 1, 'found_docs': ['policy_notice_2026_06_29', 'policy_notice_2026_06_15'], 'has_latest_doc': True, 'has_conflict': True}, 'decision': 'ask_human_review'}
-[inspection]
-{'round_count': 1, 'last_decision': 'ask_human_review', 'latest_doc_found': True, 'conflict_found': True, 'stop_triggered': True}
-================================================================================
-[goal]
-최신 환불 정책 문서가 있는지 먼저 확인한다.
-[loop history]
-{'plan': 'search latest refund policy notice', 'action': 'call search_policy_docs', 'observation': {'round': 1, 'found_docs': ['old_notice_2025_12'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
-{'plan': 'refine search or summarize', 'action': 'call search_policy_docs', 'observation': {'round': 2, 'found_docs': ['older_notice_2025_10'], 'has_latest_doc': False, 'has_conflict': False}, 'decision': 'continue_with_refined_search'}
-[inspection]
-{'round_count': 2, 'last_decision': 'continue_with_refined_search', 'latest_doc_found': False, 'conflict_found': False, 'stop_triggered': False}
+baseline_representation = [0.42, 0.44, 0.28]
+상품 weight = 0.074 vector = [0.8, 0.1, 0.0]
+반품 weight = 0.11 vector = [0.9, 0.3, 0.1]
+박스 weight = 0.494 vector = [0.1, 0.9, 0.2]
+버리지 weight = 0.201 vector = [0.0, 0.6, 0.8]
+그것 weight = 0.122 vector = [0.3, 0.3, 0.3]
+weights = [0.074, 0.11, 0.494, 0.201, 0.122]
+new_representation = [0.244, 0.642, 0.307]
+representation_shift = [-0.176, 0.202, 0.027]
+top_token = 박스
+box_plus_not_discarded_weight = 0.694
 ```
 
-이 예제에서 먼저 봐야 할 것은 `continue_count`, `stop_count`, `human_review_count`가 각각 1이라는 점입니다. 즉, agent loop의 핵심은 무조건 끝까지 진행하는 것이 아니라, 관찰 결과에 따라 `계속 찾을지`, `충분해서 멈출지`, `충돌 때문에 사람에게 넘길지`를 실제로 분기하는 데 있습니다.
-
-이 예제에서 확인해야 할 결과는 agent loop를 마법처럼 보지 않고, `무엇을 하기로 했고`, `무엇을 했고`, `무엇을 봤고`, `그래서 다음에 무엇을 할지`, `어디서 멈추거나 사람에게 넘길지`를 실제로 분리해 기록할 수 있는가입니다.
-
-루프를 점검할 때는 다음 구분도 같이 보면 좋습니다.
-
-| 지점 | 대표 질문 | 흔한 실패 |
+| 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| 계획(plan) | 지금 무엇을 먼저 해야 하는가 | 잘못된 우선순위, 비현실적 단계 |
-| 행동(action) | 실제로 무엇을 실행했는가 | 잘못된 도구 선택, 호출 실패 |
-| 관찰(observation) | 방금 결과를 어떻게 읽었는가 | 오래된 문서를 최신으로 오독, 실패 로그 무시 |
-| 종료/전환(decision) | 계속할지 멈출지 사람에게 넘길지 | 무한 반복, 과도한 자신감, 승인 누락 |
+| `weights`에서 `박스`가 가장 크고 `버리지`도 높다 | 현재 토큰 `그것`이 문장 안 단서를 균등하게 보지 않고 특정 단서를 더 크게 다시 참고한다는 뜻 | raw score를 바꾸면 어떤 단서가 현재 토큰 해석을 끌어가는지 바로 달라집니다 |
+| `top_token = 박스`와 `box_plus_not_discarded_weight = 0.694`가 함께 나온다 | 단어 하나만이 아니라 관련 단서 묶음이 함께 해석을 끌어간다는 뜻 | `박스`나 `버리지` 점수를 낮추면 대명사 해석이 어느 쪽으로 흔들리는지 볼 수 있습니다 |
+| `representation_shift`에서 두 번째 축이 크게 늘어난다 | attention 이후 현재 토큰 표현이 실제로 특정 문맥 방향으로 다시 이동했다는 뜻 | token vector를 바꾸면 어떤 의미 축이 더 강조되는지 직접 비교할 수 있습니다 |
 
-## 이 예제를 loop 분기 관점으로 다시 보면
+- baseline 평균에서는 `상품`, `반품`, `박스`, `버리지`가 모두 같은 비중으로 섞여, 현재 토큰 `그것`이 무엇을 가리키는지에 대한 강조가 없습니다.
+- 현재 토큰 표현은 자기 자신만으로 정해지지 않고, 문장 안 다른 토큰들을 다시 참고해 새로 계산됩니다.
+- 이 예제에서는 `그것`이 `반품`보다 `박스`와 `버리지` 쪽 단서를 훨씬 더 크게 참고하므로, 대명사 해석이 `박스` 쪽으로 기웁니다.
+- `박스`와 `버리지`의 합 비중이 0.694라는 점은, self-attention이 단어 하나만 보는 것이 아니라 관련 단서 묶음을 함께 반영한다는 점을 보여 줍니다.
+- `representation_shift`에서 두 번째 축 값이 크게 늘어난다는 점은, 현재 토큰 표현이 `박스/버리지` 쪽 문맥으로 다시 당겨졌다는 직관을 줍니다.
+- 즉, self-attention은 `지금 이 토큰을 이해하려면 문장 안 어디를 다시 봐야 하는가`를 수치로 정하는 방식으로 읽을 수 있습니다.
 
-이 예제는 에이전트가 무조건 끝까지 가는 자동 실행기가 아니라, 관찰 결과에 따라 `계속`, `종료`, `사람 검토`를 갈라야 하는 분기 구조라는 점을 보여 줍니다. 그래서 좋은 agent loop는 많이 움직이는 루프가 아니라, 언제 계속할지와 언제 멈출지를 구분할 수 있는 루프입니다.
+이 예제도 결과를 한 번 읽고 넘어가기보다, 어떤 값을 바꿔 보면 `재참조` 감각이 더 선명해지는지 바로 이어서 확인하는 편이 좋습니다.
 
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+| 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
+| --- | --- | --- |
+| `박스` 비중이 가장 크다 | `반품`이나 `상품` raw score를 높여 대명사 해석 중심이 어디로 이동하는지 본다 | attention 가중치가 크다고 해서 곧바로 완전한 의미 이해가 보장된다고 단정하지 않는다 |
+| `box_plus_not_discarded_weight`가 높다 | `버리지` 점수를 낮추거나 높여 단서 묶음이 얼마나 함께 움직이는지 본다 | 단서 둘이 함께 높다고 해서 항상 정답이 고정된다고 단정하지 않는다 |
+| `representation_shift`가 baseline에서 멀어진다 | token vector의 축 값을 바꿔 어떤 의미 축이 재계산에 더 민감한지 비교한다 | 이 장난감 벡터 예제 하나로 실제 multi-head self-attention 전체를 대체하지 않는다 |
 
-- 첫 번째 라운드에서 이미 최신 문서를 찾도록 바꿔 loop가 더 빨리 멈추는지 보기
-- `search_results_by_round`에 세 번째 실패 라운드를 넣어 재시도 한도 조건을 설계해 보기
-- `decision`을 `ask_human_review`로 바꾸어 사람 검토 전환 시점을 상상해 보기
+즉, self-attention은 `문맥을 보고 표현을 다시 계산하는 방식`입니다.
 
-LLM이 실제 업무 자동화에 들어가면서, 사람들은 곧 단일 응답보다 반복 실행 구조를 더 많이 다루게 되었습니다. 이 흐름에서 계획, 행동, 관찰을 분리해 보는 관점이 중요해졌고, ReAct 같은 연구는 이런 흐름을 학술적으로 드러내는 대표 사례가 되었습니다.
+## 이 예제를 현재 토큰 재해석 관점으로 다시 보면
 
-커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
+앞의 숫자는 실제 대규모 self-attention 전체를 구현한 것은 아니지만, 비교 기준은 분명합니다.
 
-- agent를 추상적 마케팅 용어에서 실행 구조로 바꿔 읽게 하고
-- 다음 장의 MCP와 하네스에서 왜 상태, 권한, 로그가 중요한지 준비시키며
-- 이후 평가 장에서 단계별 실패 분석을 가능하게 하기 때문입니다
+- baseline 평균은 `문장 전체 정보를 그냥 뭉뚱그려 섞은 표현`에 가깝습니다.
+- self-attention 결과는 `현재 토큰 그것이 지금 누구를 더 참고해야 하는가`를 다시 계산한 표현에 가깝습니다.
+
+즉, self-attention은 단순히 문장 전체를 보는 기능이 아니라, `각 토큰이 자기 입장에서 문장 전체를 다시 읽고 새 표현을 만드는 계산`입니다. 이 감각이 잡혀야 다음 절 P5-13.3의 QKV와 multi-head attention도 `무슨 이름을 외우는 절`이 아니라 `이 재참조 계산을 더 구조적으로 설명하는 절`로 읽을 수 있습니다.
+
+self-attention에서 확인해야 할 역사적 전환은 attention이 번역 분야의 보조 메커니즘에 머무르지 않고, sequence modeling의 중심 계산 방식으로 이동했다는 점입니다. 그리고 바로 그 이동이 Transformer의 핵심입니다.
+
+- attention을 단순한 보조 장치로 끝내지 않고
+- 왜 self-attention이 구조 자체를 바꾸는 발상이었는지 설명하며
+- Transformer 블록의 핵심 계산을 미리 닫아 주기 때문입니다
 
 ## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
 
-- 이런 도구와 상태를 여러 시스템 사이에서 표준적으로 연결하려면 무엇이 필요한가?
-- 외부 도구와 데이터 연결을 더 일관되게 만드는 프로토콜은 무엇인가?
+- self-attention만으로 모델이 완성되는가?
+- Transformer는 attention 외에 어떤 구성 요소를 함께 사용하며, 왜 RNN과 달랐는가?
 
-이 질문은 P5-14.1 MCP와 도구 연결로 이어집니다.
+이 질문은 바로 P5-14.1 Transformer의 기본 구성으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 에이전트는 계획, 행동, 관찰, 종료 판단의 반복 구조를 가집니다.
-- 이 구분을 잡아야 실패 원인이 계획 문제인지, 행동 문제인지, 관찰 해석 문제인지 나눠 디버깅하고 평가할 수 있습니다.
-- 종료 조건이 없으면 비용과 실패가 커질 수 있습니다.
-- 이 절은 MCP, 하네스, 평가 구조를 이해하기 위한 연결 절입니다.
-
-## 여기까지를 한 줄로 묶으면
-
-에이전트 루프의 핵심은 계획-행동-관찰을 반복하는 데만 있지 않고, 관찰 결과에 따라 계속할지 멈출지 사람에게 넘길지를 분명하게 결정하는 데 있습니다.
+- self-attention은 같은 시퀀스 안의 토큰들이 서로를 참고해 표현을 다시 계산하는 방식입니다.
+- 이는 RNN식 순차 상태 전달과 다른 계산 감각을 제공합니다.
+- self-attention은 먼 위치 단서를 다시 참조하면서도 토큰 계산을 병렬로 처리할 수 있다는 점에서 RNN과 다른 계산 장점을 줍니다.
+- Transformer는 이 self-attention을 핵심 계산 장치로 삼습니다.
 
 ## 체크리스트
 
-- 계획, 행동, 관찰을 각각 설명할 수 있는가?
-- 왜 종료 조건이 필요한지 말할 수 있는가?
-- 에이전트 루프에서 어디서 실패가 생길 수 있는지 구분할 수 있는가?
-- 왜 다음 장에서 MCP와 하네스를 봐야 하는지 설명할 수 있는가?
+- self-attention을 입문 수준에서 설명할 수 있는가?
+- attention과 self-attention의 차이를 말할 수 있는가?
+- self-attention이 RNN보다 어떤 계산 감각 차이를 주는지 설명할 수 있는가?
+- 다음 절의 Transformer 구성으로 왜 자연스럽게 이어지는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Shunyu Yao et al., `ReAct: Synergizing Reasoning and Acting in Language Models`, arXiv, 2022, 확인 날짜: 2026-06-29.
-- OpenAI, Agents 관련 공식 문서, 확인 날짜: 2026-06-29.
-- 관련 agent engineering 교육 자료, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, `Neural Machine Translation by Jointly Learning to Align and Translate`, ICLR 2015, 확인 날짜: 2026-06-29.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

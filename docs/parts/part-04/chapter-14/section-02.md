@@ -1,377 +1,404 @@
-# P4-14.2 병렬 처리와 긴 문맥
+# P4-14.2 트리의 과적합
 
-P4-14.1에서는 Transformer를 self-attention, feed-forward, residual connection, layer normalization의 조합으로 설명했습니다. 이제 다음 질문이 남습니다.
+P4-14.1에서는 결정트리(decision tree)를 `질문을 나누어 예측하는 모델`로 보았습니다. 그 절의 장점은 분명했습니다.
 
-왜 Transformer는 RNN보다 병렬 처리에 더 잘 맞고, 긴 문맥(long context) 문제에서도 더 강한 전환점처럼 보였는가?
+- 질문 흐름으로 읽기 쉽다.
+- 조건문처럼 설명하기 쉽다.
+- 표 형식 데이터(tabular data)에서 직관적으로 느껴진다.
 
-이 절은 그 질문에 답합니다.
+하지만 같은 성질이 바로 위험으로도 이어집니다.
 
-Transformer는 토큰을 순서대로만 상태 전달하지 않고 서로의 관계를 한 번에 계산하는 구조에 더 가까워, 병렬 처리와 긴 문맥 참조에서 큰 장점을 드러냈다.
+질문을 계속 더 만들 수 있다면, 훈련 데이터를 거의 외워 버릴 수도 있지 않을까?
+
+이 질문이 바로 트리의 과적합(overfitting) 문제입니다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- RNN과 Transformer의 계산 흐름은 왜 다르게 느껴지는가?
-- 병렬 처리 관점에서 Transformer가 왜 유리했는가?
-- 긴 문맥을 다룰 때 self-attention은 어떤 직관적 장점을 주는가?
-- 이 차이가 왜 대규모 생성 모델 시대로 연결되는가?
+- 결정트리는 왜 다른 모델보다 과적합이 쉽게 눈에 띄는가?
+- 트리가 깊어질수록 무슨 일이 생기는가?
+- `max_depth`, `min_samples_leaf`, `ccp_alpha`는 어떤 역할을 하는가?
+- train 성능과 test 성능이 왜 다르게 움직일 수 있는가?
 
-이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 더 좋은 이름의 모델이 아니라, 순차 전달을 관계 계산으로 바꿔 GPU 병렬 처리와 긴 문맥 재참조를 동시에 밀어 올린 구조`라는 점입니다. 즉, P4-14.1이 블록 안쪽 부품을 설명했다면, 이 절은 그 블록이 `실제 계산 규모`에서 무엇을 바꾸었는지 설명해야 합니다.
+이 절은 다음 내용은 깊게 다루지 않습니다.
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
+- 랜덤포레스트(random forest)의 bagging 완화 효과
+- 그래디언트 부스팅(gradient boosting)의 순차 보정 구조
+- pruning 알고리즘의 수학적 최적화 세부
+- 교차검증 기반의 정교한 하이퍼파라미터 탐색 절차
 
-- attention complexity의 상세 빅오 비교
-- long-context optimization의 최신 기법
-- KV cache나 sparse attention 구현 상세
-
-attention complexity의 상세 빅오 비교는 여기서 전개하지 않습니다. KV cache, sparse attention, long-context를 처음 읽는 법은 뒤 Part의 보충학습에서 다시 설명하고, long-context optimization의 최신 벤치마크 경쟁과 구현 세부 비교는 이 책의 현재 본편 범위 밖에 둡니다.
-
-여기서 끝내야 하는 설명도 하나입니다. `Transformer가 빠르다`는 인상만 남기는 것이 아니라, 왜 `순차 상태 전달`보다 `토큰 관계를 한꺼번에 계산하는 구조`가 병렬 처리와 먼 문맥 재참조에 유리했는지를 현재 절 안에서 이해해야 합니다. residual, normalization 같은 블록 내부 부품 설명은 앞 절 범위로 두고, 여기서는 계산 감각 차이에 집중합니다.
-
-이 절에서는 `RNN 대 Transformer`를 수학적으로 완전히 비교하기보다, 큰 구조 차이를 먼저 이해합니다.
+이 내용은 P4-15, P4-16, 그리고 P4-9의 튜닝 문맥과 다시 연결합니다.
 
 ## 이 절의 목표
 
-- RNN과 Transformer의 계산 흐름 차이를 설명할 수 있습니다.
-- Transformer가 왜 병렬 처리와 더 잘 맞는지 말할 수 있습니다.
-- 긴 문맥 참조에서 self-attention의 장점을 직관적으로 설명할 수 있습니다.
-- 이 차이가 왜 대규모 생성 모델 학습과 이어지는지 연결할 수 있습니다.
+- 트리의 과적합을 `너무 세밀한 질문이 훈련 데이터를 외우는 현상`으로 설명할 수 있습니다.
+- 깊이(depth), leaf 크기, pruning이 트리 복잡도를 제어하는 장치라는 점을 말할 수 있습니다.
+- train 성능 상승이 test 성능 상승을 보장하지 않는다는 점을 다시 확인할 수 있습니다.
+- 결정트리의 장점과 과적합 위험을 함께 읽는 기준을 갖게 됩니다.
 
-## 이 절을 읽는 순서
+## 학습 배경
 
-이 절은 다음 순서로 읽으면 충분합니다.
+### 왜 트리는 과적합이 잘 보이는가
 
-1. 먼저 RNN의 순차 전달과 Transformer의 관계 계산을 나란히 놓고 봅니다.
-2. 그 다음 왜 이 차이가 GPU 병렬 처리와 연결되는지 읽습니다.
-3. 이어서 긴 문맥에서 먼 위치를 다시 참고하는 감각 차이를 확인합니다.
-4. 마지막에 왜 이 구조 차이가 현대 생성 모델의 기반이 되었는지 정리합니다.
+결정트리는 본질적으로 `분기(split)를 반복하면서 node를 더 작게 나누는 구조`입니다. 이 구조는 강력하지만, 제한이 없으면 점점 더 작은 잎(leaf)을 만들 수 있습니다.
 
-## RNN은 왜 순차적 느낌이 강한가
+scikit-learn 사용자 가이드는 결정트리 학습기가 `over-complex trees`를 만들 수 있고, 이런 트리는 데이터를 잘 일반화(generalize)하지 못한다고 설명합니다. 같은 문서는 이를 overfitting이라고 부르며, pruning, `min_samples_leaf`, `max_depth` 같은 장치가 필요하다고 설명합니다.
 
-RNN 계열은 각 step가 이전 상태를 이어받아 다음 상태를 만드는 구조였습니다. 따라서 계산 감각이 자연스럽게 다음처럼 보입니다.
+여기서는 다음처럼 이해하면 충분합니다.
 
-- 첫 토큰을 보고 상태를 만듭니다
-- 그 상태를 가지고 두 번째 토큰을 봅니다
-- 다시 그 상태를 세 번째 토큰으로 넘깁니다
+`트리는 질문을 더 추가할수록 훈련 데이터의 예외까지 따라갈 수 있다. 하지만 그 예외가 새 데이터에서도 반복된다는 보장은 없다.`
 
-즉, 토큰을 차례대로 밀어 가는 흐름에 가깝습니다.
+여기서도 기록 구조를 같이 고정해 두는 편이 좋습니다. 과적합 절은 단순히 `깊어지면 위험하다`고 말하는 절이 아니라, `복잡도가 늘 때 어떤 실패가 새로 생기는가`, `어떤 review 사례가 계속 남는가`, `어느 지점에서 가지를 멈추거나 줄일 것인가`를 기록하는 절이기 때문입니다. 같은 정확도나 비슷한 평균 점수대처럼 보여도, 깊어진 트리가 어떤 사례를 새로 외우고 어떤 실패를 그대로 남기는지는 따로 읽어야 합니다.
 
-다음처럼 이해하면 충분합니다.
-
-`RNN은 앞에서 만든 상태를 뒤로 넘겨 가며 순차적으로 계산하는 구조다.`
-
-## Transformer는 왜 다르게 보이나
-
-Transformer의 self-attention은 각 토큰이 같은 시퀀스 안 다른 토큰들을 함께 참고하게 만듭니다. 이 구조는 토큰 간 관련도를 더 행렬적인 계산으로 다루기 쉽습니다.
-
-즉:
-
-- 꼭 한 토큰씩 순서대로만 상태를 넘기지 않아도 되고
-- 토큰들 사이 관계를 한 번에 계산하는 감각이 더 강합니다
-
-다음처럼 기억하면 좋습니다.
-
-`RNN은 순서대로 상태를 전달하고, Transformer는 토큰들 사이의 관계를 더 한꺼번에 계산한다.`
-
-P4-14.1이 `Transformer 블록 안에 무엇이 들어 있나`를 설명하는 절이었다면, 이 절은 `그 블록 구조가 실제 계산 방식과 학습 규모에서 무엇을 바꾸었나`를 설명하는 절이라고 보면 됩니다.
-
-## 왜 이것이 병렬 처리에 유리했나
-
-Part 4에서 이미 본 것처럼 GPU는 비슷한 계산을 많이 동시에 처리할 때 강합니다. Transformer의 self-attention과 큰 행렬 연산은 이런 구조와 잘 맞습니다.
-
-즉, Transformer는:
-
-- 토큰 간 관련도 계산을 텐서 연산으로 묶기 쉽고
-- 배치(batch) 단위로도 잘 확장되며
-- 대규모 병렬 학습에 잘 맞는 방향을 보여 주었습니다
-
-다음 정도로 이해하면 충분합니다.
-
-`Transformer는 토큰 간 관계를 병렬 행렬 연산으로 바꾸기 쉬워서, 대규모 GPU 학습과 잘 맞았다.`
-
-여기서 독자가 꼭 잡아야 할 핵심은 `Transformer가 더 똑똑한 규칙을 하나 더 붙였다`가 아니라, `계산 자체를 GPU가 잘하는 형태로 재구성했다`는 점입니다. 즉, 이 절의 질문은 `블록 안에 무슨 부품이 있나`가 아니라 `그 블록을 반복할 때 계산 흐름이 왜 달라졌나`입니다.
-
-이 차이를 입문용으로 더 짧게 보면 다음과 같습니다.
-
-| 관점 | RNN 계열 | Transformer |
-| --- | --- | --- |
-| 계산 흐름 | 앞 step 결과가 다음 step에 필요하다 | 토큰 관계를 더 한꺼번에 계산한다 |
-| GPU와의 궁합 | 순차 의존성이 강하다 | 큰 행렬 연산으로 묶기 쉽다 |
-| 먼 문맥 참조 | 상태 전달에 크게 의존한다 | 필요한 위치를 더 직접 본다 |
-
-처음 읽을 때는 아래 세 줄만 바로 구분해도 충분합니다.
-
-| 지금 이 절에서 먼저 못 박을 것 | 바로 앞 절에서 이미 끝낸 것 | 뒤 Part로 넘길 것 |
-| --- | --- | --- |
-| 순차 전달과 관계 계산의 차이가 병렬 처리와 긴 문맥 감각을 바꾼다 | Transformer 블록 안에 어떤 부품이 들어가는가 | KV cache, sparse attention, long-context 최신 최적화 |
-| 계산 규모 차이를 읽는다 | 블록 내부 역할 분담을 다시 늘리지 않는다 | Part 5에서 이 구조가 생성 모델 경험으로 어떻게 이어지는가 |
-
-## 긴 문맥에서는 왜 유리했나
-
-RNN에서는 아주 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 전달해야 합니다. 반면 self-attention에서는 현재 토큰이 멀리 떨어진 토큰도 더 직접 참고할 수 있습니다.
-
-즉, 긴 문맥에서의 장점은 다음처럼 설명할 수 있습니다.
-
-- 먼 위치 정보를 중간 상태에만 희미하게 보관하지 않아도 되고
-- 현재 위치가 필요할 때 관련 위치를 더 직접 참고할 수 있습니다
-
-이 때문에 긴 문맥을 읽는 문제에서 Transformer는 강한 전환점을 만들었습니다.
-
-즉, 이 절에서 읽어야 할 변화는 `먼 정보를 오래 기억해야 한다`에서 `먼 정보를 지금 다시 찾아올 수 있다`로 계산 감각이 옮겨 갔다는 점입니다.
-
-## 이를 아주 단순하게 그리면
-
-```mermaid
-flowchart TD
-  A["earlier token"]
-  B["sequential path"]
-  C["later token"]
-  D["direct reference"]
-
-  A --> B
-  B --> C
-  A -.-> D
-  D -.-> C
-```
-
-이 도식은 RNN식 순차 전달과, self-attention이 주는 더 직접적인 참조 감각을 함께 상징합니다.
-
-## 사례로 보기
-
-아래 도식은 이 절의 세 사례를 `순차 전달 중심 읽기`와 `직접 참조 중심 읽기`의 차이로 다시 묶은 것입니다.
-
-```mermaid
-flowchart TD
-  A["same long-context problem"]
-  B["translation<br/>keep earlier negation or condition"]
-  C["document summary<br/>bring back early key sentence"]
-  D["code / analysis<br/>reuse far definition or unit"]
-
-  A --> B
-  A --> C
-  A --> D
-```
-
-이 도식에서 확인해야 할 점은 과업이 달라도 문제의 핵심이 비슷하다는 것입니다. 모두 `먼 앞쪽 단서를 현재 위치에서 다시 끌어와야 한다`는 문제를 갖고 있고, Transformer는 그 문제를 더 직접 참조하는 방식으로 다룹니다.
-
-### 사례 1. 긴 문장 번역
-
-법률 문장이나 제품 안내 문장을 번역할 때, 앞부분의 주어, 부정 표현, 시제 단서가 뒤쪽 번역에 끝까지 영향을 주는 장면을 떠올려 볼 수 있습니다. 사람은 처음에는 가까운 단어부터 순서대로 옮기면 충분하다고 느끼기 쉽습니다. 하지만 실제 문장은 중간 설명이 길어질수록 앞의 핵심 조건을 다시 확인해야 하고, 이때 순차 전달에만 기대면 중요한 단서가 약해질 수 있습니다. 예를 들어 앞부분의 `not`이나 `except`를 놓치면, 뒤 문장은 문법상 자연스러워 보여도 뜻은 정반대로 번역될 수 있습니다. 여기서 바뀌는 점은 `가까운 단어 위주로 읽는 방식`에서 `멀리 떨어진 핵심 단서를 현재 위치에서 다시 참조하는 방식`으로 기준이 이동한다는 것입니다. Transformer의 긴 문맥 참조 구조는 현재 번역 위치가 문장 앞쪽 단서를 더 직접 다시 참고하는 쪽으로 이해할 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 앞부분 단서가 길게 떨어져 있어도, 최종 번역에서 부정 여부, 예외 조건, 주어-동사 대응이 실제로 끝까지 유지되는가입니다.
-
-### 사례 2. 긴 문서 요약
-
-긴 회의록이나 사업 보고서를 요약할 때, 초반 핵심 문장이 뒤쪽 요약 문장 생성에 그대로 남아 있어야 하는 경우가 많습니다. 사람은 요약을 쓰기 시작하면 이미 읽은 앞부분 내용이 머릿속에 충분히 남아 있을 것이라고 느끼기 쉽습니다. 하지만 실제로는 중간 논의와 부연 설명이 길어질수록 앞부분의 핵심 판단을 다시 집어 오지 않으면 요약 방향이 쉽게 틀어집니다. 예를 들어 서론에 `이번 분기 매출은 늘었지만 이익은 감소했다`가 적혀 있는데, 뒤 요약에서 `성과가 좋아졌다`만 남기면 보고 판단이 왜곡됩니다. 여기서 바뀌는 점은 `앞에서 읽은 내용이 저절로 남아 있을 것`이라는 기대에서 벗어나, `현재 요약 위치가 필요한 앞 문장을 다시 불러와야 한다`는 기준으로 읽게 된다는 것입니다. Transformer는 문서 여러 위치를 함께 참조하며 현재 요약 표현을 갱신하는 구조라, 이런 초반 핵심 문장을 뒤 단계에서 다시 끌어오기에 더 자연스럽습니다. 그래서 이 사례에서 확인해야 할 결과는 `증가`와 `감소` 같은 상반된 핵심이 함께 보존되는가, 그리고 최종 요약이 원문 판단 방향을 뒤집지 않는가입니다.
-
-### 사례 3. 코드 생성과 분석
-
-긴 함수나 모듈을 읽거나 생성할 때는 먼 앞쪽의 함수 정의, 타입 선언, 상수 의미가 뒤쪽 토큰 해석에 계속 영향을 줍니다. 사람은 바로 앞 몇 줄만 보면 충분하다고 느끼기 쉽지만, 실제로는 아래 줄을 읽다가 위에서 선언한 이름과 타입을 다시 확인해야 하는 경우가 자주 생깁니다. 예를 들어 파일 아래쪽에서 `timeout` 값을 넘길 때, 위에서 그것이 초 단위인지 밀리초 단위인지 다시 확인하지 않으면 코드는 실행돼도 동작 시간이 완전히 달라질 수 있습니다. 여기서 바뀌는 점은 `현재 줄 근처만 보면 된다`는 읽기에서 `먼 앞쪽 정의를 현재 해석에 다시 끌어오는 읽기`로 기준이 이동한다는 것입니다. Transformer 계열은 이런 장면에서 현재 위치가 먼 앞쪽 정의를 더 직접 참조하는 구조로 이해할 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 변수명 일관성, 단위 해석 일치, 함수 정의와 호출부 연결이 먼 거리에서도 실제로 유지되는가입니다.
-
-세 사례를 한 줄로 묶으면 다음과 같습니다.
-
-| 상황 | 긴 문맥 참조가 중요한 이유 |
+| 같이 남길 기록 | 왜 필요한가 |
 | --- | --- |
-| 긴 문장 번역 | 앞쪽 주어와 시제 단서가 뒤 번역에 남아야 해서 |
-| 긴 문서 요약 | 문서 초반 핵심 문장이 뒤 요약에도 중요해서 |
-| 코드 생성/분석 | 먼 앞쪽 정의가 뒤쪽 해석에 영향을 줘서 |
+| 깊이 또는 leaf 크기 변화 | 복잡도 손잡이가 어떻게 바뀌었는지 보기 위해서입니다. |
+| train/test 차이 | 외우기와 일반화를 구분하기 위해서입니다. |
+| 계속 남는 실패 사례 | 가지를 더 만들어도 해결되지 않는 사례를 다시 보기 위해서입니다. |
+| 다음 가지치기 질문 | `max_depth`, `min_samples_leaf`, `ccp_alpha` 중 무엇을 조정할지 정하기 위해서입니다. |
 
-세 사례를 읽은 뒤에는 다음 세 줄로 다시 말할 수 있으면 충분합니다. `먼 단서를 상태에만 남기면 중간에 흐려질 수 있다. 현재 위치가 필요한 앞 단서를 다시 참조하면 해석이 더 안정된다. Transformer는 이 재참조를 병렬 계산과 함께 밀어 올린 구조다.`
+## 주요 학습내용
 
-즉, 이 절의 마무리는 `나중에 long context를 다시 본다`가 아닙니다. 현재 절 안에서 이미 `먼 앞 단서를 상태에만 남겨 두는 방식`과 `현재 위치가 그 단서를 다시 직접 참조하는 방식`의 차이를 독자가 말할 수 있어야 하고, 다음 Part는 그 구조가 생성 모델 본문에서 어떻게 쓰이는지로만 이어지면 충분합니다.
+### 작은 트리와 큰 트리를 비교하는 직관
 
-## 실행 가능한 Python 예제로 보기
+예를 들어 고객 이탈 데이터를 다시 생각해 볼 수 있습니다.
 
-이번 예제의 목표는 긴 입력에서 `앞 규칙을 순차 상태 하나에 압축해 들고 가는 방식`과 `현재 질문이 필요한 앞 문장을 다시 직접 참고하는 방식`이 어떻게 다르게 보이는지 확인하는 것입니다.
+| 트리 상태 | 직관 |
+| --- | --- |
+| 얕은 트리 | 큰 경향만 본다 |
+| 적당한 깊이의 트리 | 중요한 패턴과 예외를 균형 있게 본다 |
+| 지나치게 깊은 트리 | 훈련 데이터의 우연한 흔들림까지 따라간다 |
 
-예제를 읽기 전에, 이번 절에서 실제로 먼저 확인해야 할 최소 포인트를 고정하면 다음과 같습니다.
+같은 내용을 더 짧게 그리면 다음과 같습니다.
 
-| 확인 포인트 | 예제에서 바로 볼 값 | 왜 중요한가 |
-| --- | --- | --- |
-| 순차 상태가 어디서 약해지는가 | `history`, `final_state`, `sequential_support` | 앞 단서를 상태 하나로 넘길 때 중간 로그가 길어지면 핵심 규칙이 얼마나 빨리 흐려지는지 보여 준다 |
-| 직접 참조가 무엇을 다시 집어오는가 | `top_matches` | 현재 요청이 필요한 앞 문장을 다시 고르는 구조가 어떤 줄을 근거로 삼는지 눈으로 확인하게 한다 |
-| 두 구조가 최종 판단에서 어떻게 갈라지는가 | `sequential_decision`과 `direct_decision` | `상태 전달`과 `직접 재참조`가 같은 문맥에서도 다른 결론으로 이어질 수 있음을 드러낸다 |
+```mermaid
+flowchart TD
+  A["training data"]
+  B["more splits"]
+  C["smaller leaves"]
+  D["train fit goes up"]
+  E["test behavior may get worse"]
 
-입력:
+  A --> B --> C --> D --> E
+```
 
-- 앞쪽 규칙 문장, 중간 운영 로그, 마지막 사용자 요청이 섞인 긴 문맥
-- 규칙 단서를 점점 잊어 가는 단순 sequential 상태
-- 마지막 질문이 관련 문장을 다시 찾는 direct reference 점수
+이 도식은 트리의 과적합이 `질문을 더 많이 만들수록 무조건 좋아진다`가 아니라는 점을 보여 줍니다. 분기가 늘어나면 훈련 데이터에는 더 잘 맞을 수 있지만, 그 마지막 단계에서 일반화가 아니라 외우기가 시작될 수 있습니다.
 
-출력:
+핵심은 마지막 화살표입니다.
 
-- 각 줄을 읽을 때 갱신되는 sequential 상태
-- 마지막 요청 시점의 핵심 단서 최소값
-- 마지막 요청이 어떤 앞 문장을 다시 참고했는지
-- 두 방식이 내리는 최종 판단
+`더 잘 맞춘다`와 `더 잘 일반화한다`는 같은 말이 아닙니다.
+
+프로젝트 메모 형식으로 줄이면 다음처럼 적을 수 있습니다.
+
+| 기록 항목 | 예 |
+| --- | --- |
+| 복잡도 변화 | `max_depth 3 -> 5` |
+| train 변화 | `0.971 -> 1.000` |
+| test 변화 | `0.933 -> 0.911` |
+| review 필요 여부 | `깊이는 늘었지만 실패 사례는 남음` |
+| 다음 질문 | `leaf를 키우거나 pruning을 할 것인가` |
+
+이 표가 있으면 과적합 절이 `복잡도 변화 -> 남는 실패 -> 다음 가지치기 질문` 구조로 읽힙니다. 결국 중요한 것은 숫자 한 칸보다 `남는 실패 패턴이 더 단순해졌는가, 아니면 단지 훈련 데이터에만 더 맞아졌는가`를 같이 보는 일입니다.
+
+### 깊어질수록 무슨 일이 생기는가
+
+트리가 깊어질수록 각 leaf에는 더 적은 수의 샘플이 남습니다. 그러면 다음과 같은 일이 벌어집니다.
+
+1. 한두 개의 예외 사례가 분기를 새로 만들 수 있습니다.
+2. leaf 하나가 아주 적은 샘플만 보고 예측을 내릴 수 있습니다.
+3. train 데이터에서는 거의 틀리지 않게 될 수 있습니다.
+4. 하지만 test 데이터에서는 작은 흔들림에도 예측이 쉽게 바뀔 수 있습니다.
+
+scikit-learn 문서는 트리의 레벨이 하나 늘어날 때마다 트리를 채워야 하는 샘플 수가 두 배로 늘어난다고 설명하며, `max_depth`로 크기를 제어하라고 권합니다. 또 `min_samples_split`과 `min_samples_leaf`를 사용해 모든 결정이 여러 샘플의 정보를 바탕으로 이루어지게 하라고 권합니다.
+
+이 설명을 짧게 바꾸면 다음과 같습니다.
+
+`트리가 깊어질수록 더 자세해지지만, 그 자세함을 떠받칠 데이터가 충분하지 않으면 트리는 똑똑해지는 것이 아니라 예민해질 수 있다.`
+
+### 과적합을 데이터 흐름으로 보기
+
+과적합을 수식보다 흐름으로 이해하면 더 오래 갑니다.
+
+앞쪽 분기는 종종 의미 있는 큰 경향을 잡습니다. 문제는 뒤로 갈수록 생깁니다. 마지막 몇 단계는 `진짜 구조`가 아니라 `훈련 데이터에서만 보인 우연한 흔들림`을 설명하게 될 수 있습니다.
+
+### train 성능과 test 성능을 함께 봐야 하는 이유
+
+트리의 과적합은 train 성능과 test 성능을 같이 보면 특히 잘 드러납니다.
+
+| 관찰 | 해석 |
+| --- | --- |
+| train과 test가 둘 다 낮다 | 아직 단순해서 충분히 배우지 못했을 수 있다 |
+| train과 test가 함께 높다 | 현재는 균형이 괜찮아 보인다 |
+| train만 아주 높고 test가 떨어진다 | 과적합을 의심해야 한다 |
+
+이 관점은 결정트리에서 특히 자주 보이지만, 사실 Part 4 전체의 공통 원리이기도 합니다. 선형회귀, 로지스틱 회귀, SVM, 트리 모델 모두 결국 `보지 못한 데이터에서 어떻게 버티는가`가 더 중요합니다.
+
+## 세부 학습내용
+
+### `min_samples_leaf`는 왜 필요한가
+
+`max_depth`가 트리 전체의 높이를 제한하는 손잡이라면, `min_samples_leaf`는 leaf 하나가 너무 작아지는 것을 막는 손잡이입니다.
+
+API 문서는 `min_samples_leaf`를 leaf node에 들어가야 하는 최소 샘플 수로 설명합니다. 또 이 값이 회귀(regression)에서는 모델을 더 부드럽게(smoothing) 만드는 효과를 줄 수 있다고 설명합니다.
+
+입문 단계에서는 다음처럼 이해하면 좋습니다.
+
+`leaf 하나가 한두 개 사례만 품게 두면, 그 leaf는 패턴보다 예외를 말할 가능성이 커진다.`
+
+예를 들어:
+
+- `min_samples_leaf=1`: 한 개 사례만 남는 leaf도 허용
+- `min_samples_leaf=5`: 적어도 다섯 사례는 있어야 leaf로 인정
+
+이 차이는 `얼마나 작은 예외를 믿을 것인가`의 차이로 읽을 수 있습니다.
+
+### Python 예제로 leaf 크기 제어 보기
+
+이번에는 깊이를 고정하지 않고 leaf 크기만 바꾸어 봅니다.
 
 문제 상황:
 
-- 긴 문맥 처리에서는 순차 상태만으로 충분한지, 아니면 앞 단서를 직접 다시 찾는 구조가 필요한지 비교해 볼 필요가 있다
-
-확인할 개념:
-
-- Transformer식 직접 참조는 먼 위치 단서를 다시 읽는 데 강점을 보일 수 있다
-- 순차 상태와 직접 참조 판단을 나란히 보면 구조 차이가 더 명확해진다
+- 같은 데이터에서 leaf를 얼마나 작게 허용할지 바꾸면 train과 test의 읽는 방식이 달라질 수 있다
 
 입력(input):
 
-위에 정리한 문맥 줄 목록 `context`를 사용합니다.
+- iris 데이터셋의 `X_train`, `X_test`, `y_train`, `y_test`
+- 여러 `leaf_size`
+
+기대 출력(output):
+
+- leaf 크기별 train score
+- leaf 크기별 test score
+
+확인할 개념:
+
+- leaf가 너무 작으면 train 점수는 높아지기 쉽다
+- leaf 크기를 키우면 구조가 덜 예민해질 수 있다
 
 ```python
-context = [
-    "Rule: hazardous items must not be shipped by air.",
-    "Log: warehouse scan completed for aisle 3.",
-    "Log: packaging material restocked this morning.",
-    "Item: lithium battery pack is hazardous.",
-    "Log: driver schedule updated for tomorrow.",
-    "Request: ship the battery pack by air today.",
-]
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 
+X, y = load_iris(return_X_y=True)
 
-def sequential_reader(lines, decay=0.55):
-    state = {"hazardous": 0.0, "air": 0.0, "block": 0.0}
-    history = []
-    for idx, line in enumerate(lines, start=1):
-        lowered = line.lower()
-        for key in state:
-            state[key] *= decay
-        if "hazardous" in lowered:
-            state["hazardous"] += 1.0
-        if "air" in lowered:
-            state["air"] += 1.0
-        if "must not" in lowered:
-            state["block"] += 1.0
-        snapshot = {key: round(value, 3) for key, value in state.items()}
-        history.append((idx, line, snapshot))
-    support = round(min(state.values()), 3)
-    decision = "block_air_shipping" if support >= 0.8 else "uncertain"
-    return history, {key: round(value, 3) for key, value in state.items()}, support, decision
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
 
-
-def direct_reference_reader(lines):
-    request = lines[-1].lower()
-    keywords = {"battery", "pack", "air", "hazardous", "must", "not"}
-    scored = []
-    for idx, line in enumerate(lines[:-1], start=1):
-        words = set(line.lower().replace(".", "").replace(":", "").split())
-        score = len(words & keywords)
-        scored.append((score, idx, line))
-    top_matches = sorted(scored, reverse=True)[:2]
-    matched_lines = [line.lower() for _, _, line in top_matches]
-    decision = (
-        "block_air_shipping"
-        if any("must not be shipped by air" in line for line in matched_lines)
-        and any("hazardous" in line for line in matched_lines)
-        and "air" in request
-        else "allow"
+for leaf_size in [1, 2, 5, 10]:
+    model = DecisionTreeClassifier(
+        min_samples_leaf=leaf_size,
+        random_state=42
     )
-    return top_matches, decision
+    model.fit(X_train, y_train)
 
-
-history, final_state, sequential_support, sequential_decision = sequential_reader(context)
-top_matches, direct_decision = direct_reference_reader(context)
-
-print("[sequential reader]")
-for idx, line, snapshot in history:
-    print(f"{idx}. {line}")
-    print("   state =", snapshot)
-print("final_state =", final_state)
-print("sequential_support =", sequential_support)
-print("sequential_decision =", sequential_decision)
-print()
-
-print("[direct reference reader]")
-for score, idx, line in top_matches:
-    print(f"matched line {idx} (score={score}): {line}")
-print("direct_decision =", direct_decision)
+    print(f"min_samples_leaf={leaf_size}")
+    print("  depth          :", model.get_depth())
+    print("  leaves         :", model.get_n_leaves())
+    print("  train accuracy :", round(model.score(X_train, y_train), 3))
+    print("  test accuracy  :", round(model.score(X_test, y_test), 3))
+    print()
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 다음과 같습니다.
 
 ```text
-[sequential reader]
-1. Rule: hazardous items must not be shipped by air.
-   state = {'hazardous': 1.0, 'air': 1.0, 'block': 1.0}
-2. Log: warehouse scan completed for aisle 3.
-   state = {'hazardous': 0.55, 'air': 0.55, 'block': 0.55}
-3. Log: packaging material restocked this morning.
-   state = {'hazardous': 0.303, 'air': 0.303, 'block': 0.303}
-4. Item: lithium battery pack is hazardous.
-   state = {'hazardous': 1.166, 'air': 0.166, 'block': 0.166}
-5. Log: driver schedule updated for tomorrow.
-   state = {'hazardous': 0.642, 'air': 0.092, 'block': 0.092}
-6. Request: ship the battery pack by air today.
-   state = {'hazardous': 0.353, 'air': 1.05, 'block': 0.05}
-final_state = {'hazardous': 0.353, 'air': 1.05, 'block': 0.05}
-sequential_support = 0.05
-sequential_decision = uncertain
+min_samples_leaf=1
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
 
-[direct reference reader]
-matched line 1 (score=4): Rule: hazardous items must not be shipped by air.
-matched line 4 (score=3): Item: lithium battery pack is hazardous.
-direct_decision = block_air_shipping
+min_samples_leaf=2
+  depth          : 4
+  leaves         : 7
+  train accuracy : 0.981
+  test accuracy  : 0.933
+
+min_samples_leaf=5
+  depth          : 3
+  leaves         : 4
+  train accuracy : 0.971
+  test accuracy  : 0.933
+
+min_samples_leaf=10
+  depth          : 2
+  leaves         : 3
+  train accuracy : 0.952
+  test accuracy  : 0.889
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
+이 예제는 중요한 감각 하나를 줍니다.
 
-| 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
-| --- | --- | --- |
-| `sequential_support`와 `direct_decision`의 차이 | 상태 압축만으로는 앞 규칙이 약해지고, 직접 재참조는 필요한 줄을 다시 끌어온다는 뜻 | `decay`와 중간 로그 수를 바꾸면 순차 압축의 약화 정도가 더 직접 드러납니다 |
+`작은 leaf를 막는다고 해서 무조건 성능이 나빠지는 것은 아니다. 오히려 test 쪽이 더 안정되는 경우가 있다.`
 
-- 먼저 `sequential_support = 0.05`와 `direct_decision = block_air_shipping`를 같이 봐야 합니다. 앞 규칙을 상태에만 눌러 담은 쪽은 마지막 요청 시점에 금지 근거가 거의 사라졌고, 필요한 줄을 다시 참조한 쪽은 같은 요청을 바로 차단하기 때문입니다.
-- sequential 방식에서는 앞 규칙이 중간 로그를 지나는 동안 점차 약해져, 마지막 요청 시점에는 `위험물`, `항공`, `금지` 세 단서를 동시에 강하게 유지하지 못합니다
-- `sequential_support`는 마지막 요청 시점에 세 핵심 단서 중 가장 약한 축이 얼마나 남았는지를 보여 주며, 여기서는 `block` 축이 거의 사라졌음을 확인할 수 있습니다
-- direct reference 방식에서는 마지막 요청이 관련된 앞 규칙과 대상 정보가 있는 줄을 다시 바로 찾습니다
-- 긴 문맥에서 중요한 것은 `앞 문장을 한 번 읽고 버티는가`보다 `현재 위치에서 필요한 앞 문장을 다시 끌어올 수 있는가`라는 점입니다
+### pruning은 무엇을 하는가
 
-이 예제는 RNN과 Transformer 전체를 구현한 것은 아니지만, 긴 문맥에서 `상태에 압축해 유지하는 감각`과 `필요한 앞 위치를 다시 참조하는 감각` 차이를 실제로 실험해 보는 데 도움이 됩니다. `decay` 값을 바꾸거나 중간 로그 줄 수를 늘려 보면 순차 압축이 왜 더 어려워지는지도 직접 확인할 수 있습니다.
+깊이를 미리 막는 방법을 `pre-pruning`처럼 읽을 수 있다면, 이미 자란 트리를 다시 단순하게 줄이는 방법은 `pruning`이라고 읽을 수 있습니다.
 
-## 이 예제를 긴 문맥 재참조 관점으로 다시 보면
+scikit-learn은 `Minimal Cost-Complexity Pruning`을 지원하며, API 문서에서는 `ccp_alpha`를 그 pruning의 복잡도 파라미터로 설명합니다. 값이 커질수록 더 많은 노드가 잘려 나갈 수 있습니다.
 
-앞의 장난감 코드는 Transformer 전체를 구현한 것은 아니지만, 비교 기준은 분명합니다.
+다음 정도면 충분합니다.
 
-- sequential 쪽은 `앞 규칙을 상태 하나에 압축해 오래 버틸 수 있는가`를 보여 줍니다.
-- direct reference 쪽은 `현재 요청이 필요할 때 앞 규칙과 대상 정보를 다시 집어 올 수 있는가`를 보여 줍니다.
+- `max_depth`, `min_samples_leaf`: 처음부터 너무 복잡해지지 않게 막는다.
+- `ccp_alpha`: 자란 뒤에 복잡도를 벌점처럼 주어 줄인다.
 
-즉, 긴 문맥 문제를 `기억 유지`로만 보면 순차 상태의 한계가 먼저 보이고, `필요한 앞 위치 재참조`로 보면 Transformer 계열의 장점이 더 직접적으로 보입니다. 이 감각이 있어야 뒤에서 긴 문맥 제약을 읽을 때도 `무조건 더 오래 기억한다`가 아니라 `필요한 문맥을 다시 창 안으로 가져와 읽는다`는 관점으로 자연스럽게 이해할 수 있습니다.
+즉, 둘 다 목적은 같습니다.
 
-Transformer가 attention 중심 구조와 병렬 계산의 장점을 결합하면서, 자연어 처리의 기본 계산 구조가 크게 바뀌었습니다. 이후 대규모 사전학습(pretraining), 긴 문맥 처리, 다양한 생성 모델 확장은 모두 이 구조적 전환과 깊게 연결됩니다.
+`훈련 데이터를 외우기보다, 새 데이터에서도 버틸 구조를 남기려는 것`
 
-커리큘럼 관점에서 이 절에서 확인해야 할 결과는 Transformer를 단순 또 하나의 순차 모델이 아니라, 바로 앞의 P4-13.1, P4-13.2 attention 설명과 P4-14.1 블록 구조 설명을 실제 계산 장점으로 묶는 구조적 전환점으로 읽게 되는가입니다.
+### pruning을 흐름으로 보기
 
-- 왜 Transformer가 단순한 또 하나의 순차 모델이 아니었는지
-- 왜 GPU 시대와 맞물려 대규모 언어 모델이 가능해졌는지
-- 왜 긴 문맥과 대규모 학습의 기준이 함께 바뀌었는지
+```mermaid
+flowchart TD
+  A["fully grown tree<br/>많이 자란 트리"]
+  B["measure complexity cost<br/>복잡도에 벌점 부여"]
+  C["remove weak branches<br/>효과 작은 가지 제거"]
+  D["smaller tree<br/>더 단순한 트리"]
 
-를 한 절에서 묶어 주기 때문입니다.
+  A --> B --> C --> D
+```
 
-따라서 이 절에서 확인해야 할 최종 결과는 Transformer를 `attention이 들어간 또 하나의 모델`이 아니라, 병렬 처리와 긴 문맥 참조를 동시에 밀어 올린 구조적 전환으로 읽을 수 있는가입니다.
+이 절에서는 pruning 공식을 계산하지 않습니다. 대신 `너무 많은 가지를 그대로 두지 않는 이유`만 잡으면 충분합니다.
 
-## 다음 절과의 연결
+## 사례로 보기
 
-여기까지 오면 다음 질문이 남습니다.
+### 사례 1. 불량 탐지 트리가 공장 데이터의 예외까지 외워 버릴 때
 
-- 이렇게 강한 문맥 모델이 생겼을 때, 이제 모델은 분류만이 아니라 무엇을 생성할 수 있게 되었는가?
-- 생성 모델(generative model)은 분류 모델과 어떤 점에서 다른가?
+제조 팀이 센서 값으로 제품 불량 여부를 가르는 결정트리를 만들고 있습니다. 사람이 먼저 보던 기준은 `온도가 기준보다 높은가`, `진동이 특정 범위를 넘는가`, `압력 변화가 급격한가` 같은 질문들이었습니다.
 
-이 질문은 바로 P4-15.1 생성 모델(generative model)은 무엇을 배우는가로 이어집니다.
+처음에는 질문을 많이 만들수록 모델이 똑똑해지는 것처럼 보입니다. 실제로 트리를 깊게 두면 훈련 데이터에서는 거의 틀리지 않게 될 수 있습니다. 하지만 뒤쪽 가지를 보면 한두 개의 예외 사례만 설명하는 leaf가 생기고, 그 leaf는 공정이 조금만 달라져도 새 데이터에서 쉽게 흔들립니다.
+
+이 장면에서 트리의 과적합은 `질문을 너무 세밀하게 늘려 훈련 데이터를 외우는 현상`으로 읽어야 합니다. `max_depth`는 트리가 어디까지 자랄지 막고, `min_samples_leaf`는 leaf가 너무 작은 예외 집합이 되지 않게 막으며, `ccp_alpha`는 이미 자란 가지를 다시 줄이는 역할을 합니다. 즉, 더 많은 질문이 항상 더 좋은 설명을 뜻하지는 않습니다.
+
+확인 가능한 결과는 train accuracy와 test accuracy를 함께 볼 때 드러납니다. train 점수는 계속 오르는데 test 점수가 어느 지점 이후 떨어지거나 정체한다면, 그 이후 분기는 일반화가 아니라 외우기에 가까웠다는 신호로 읽어야 합니다.
+
+## 사례 및 예시
+
+### 실무에서 어떤 손잡이를 먼저 보아야 하는가
+
+입문자와 실무 초반에는 모든 값을 한 번에 건드리기보다 역할별로 나누어 보는 편이 낫습니다.
+
+| 손잡이 | 먼저 읽는 질문 |
+| --- | --- |
+| `max_depth` | 트리가 어디까지 깊어지게 둘 것인가? |
+| `min_samples_split` | 이 node를 더 나눌 만큼 샘플이 충분한가? |
+| `min_samples_leaf` | leaf 하나가 너무 작아지지 않게 할 것인가? |
+| `ccp_alpha` | 이미 자란 가지를 얼마나 줄일 것인가? |
+
+실무 감각으로 바꾸면 다음과 같습니다.
+
+- 설명이 너무 길고 복잡하게 느껴진다 -> `max_depth` 확인
+- 소수 사례만 설명하는 leaf가 많아 보인다 -> `min_samples_leaf` 확인
+- 가지가 지나치게 많고 잔가지가 많다 -> `ccp_alpha` 검토
+
+## 연습 및 예제
+
+### Python 예제로 깊이에 따른 과적합 보기
+
+이번 예제는 같은 결정트리 분류기에서 깊이만 바꾸어 train/test 결과가 어떻게 갈라지는지 보는 실습입니다.
+
+- 문제 상황: iris 데이터셋으로 품종 분류를 한다.
+- 입력(input): 꽃받침, 꽃잎 길이와 너비
+- 정답(label): 세 가지 품종
+- 확인할 개념:
+  - 깊이가 커질수록 train 성능은 쉽게 올라갈 수 있다.
+  - test 성능은 어느 지점 이후 정체하거나 떨어질 수 있다.
+  - 트리 깊이는 복잡도 손잡이 중 하나다.
+
+```python
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+X, y = load_iris(return_X_y=True)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+for depth in [1, 2, 3, 5, None]:
+    model = DecisionTreeClassifier(max_depth=depth, random_state=42)
+    model.fit(X_train, y_train)
+
+    print(f"max_depth={depth}")
+    print("  depth          :", model.get_depth())
+    print("  leaves         :", model.get_n_leaves())
+    print("  train accuracy :", round(model.score(X_train, y_train), 3))
+    print("  test accuracy  :", round(model.score(X_test, y_test), 3))
+    print()
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+max_depth=1
+  depth          : 1
+  leaves         : 2
+  train accuracy : 0.667
+  test accuracy  : 0.667
+
+max_depth=2
+  depth          : 2
+  leaves         : 3
+  train accuracy : 0.952
+  test accuracy  : 0.889
+
+max_depth=3
+  depth          : 3
+  leaves         : 5
+  train accuracy : 0.981
+  test accuracy  : 0.933
+
+max_depth=5
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
+
+max_depth=None
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
+```
+
+이 결과에서 읽어야 할 것은 다음입니다.
+
+1. 깊이를 늘리면 train accuracy는 계속 좋아지기 쉽습니다.
+2. 하지만 test accuracy는 어느 지점 이후 더 좋아지지 않을 수 있습니다.
+3. `max_depth=3` 부근이 현재 예제에서는 더 균형 있어 보입니다.
+
+즉, 트리의 성능을 볼 때는 `깊어졌는가`보다 `깊어졌을 때 train/test가 어떻게 갈리는가`를 같이 봐야 합니다.
 
 ## 이 절에서 기억할 관점
 
-- Transformer는 토큰을 순차 상태로만 전달하지 않고, 관계를 더 병렬적으로 계산합니다.
-- 이 구조는 GPU 병렬 처리와 잘 맞습니다.
-- self-attention은 먼 위치를 더 직접 참조하는 감각을 줍니다.
-- 이 차이가 대규모 생성 모델 확산의 핵심 기반이 됩니다.
+- 트리는 읽기 쉽지만, 제한이 없으면 훈련 데이터를 과하게 따라가기 쉽습니다.
+- 깊이가 커지고 leaf가 작아질수록 과적합 위험이 커집니다.
+- train 성능이 높아져도 test 성능이 같이 좋아진다는 보장은 없습니다.
+- `max_depth`, `min_samples_leaf`, `ccp_alpha`는 트리 복잡도를 제어하는 대표 손잡이입니다.
+- 과적합을 줄인다는 말은 보통 `조금 덜 완벽하게 외우고, 조금 더 일반화되게 만든다`는 뜻입니다.
+
+이 절의 핵심은 트리가 깊어진다는 사실보다, 그 깊이가 어떤 실패를 만드는지 함께 읽는 데 있습니다.
+
+| 같이 봐야 할 것 | 이 절에서 먼저 읽는 질문 | 뒤에서 다시 이어질 곳 |
+| --- | --- | --- |
+| train-test gap | 더 깊어진 트리가 실제로 일반화까지 좋아졌는가 | P4-5 일반화, P4-9 튜닝 |
+| 복잡도 손잡이 | `max_depth`, `min_samples_leaf`, `ccp_alpha` 중 무엇이 어떤 식으로 과적합을 줄이는가 | P4-9 하이퍼파라미터 |
+| 대표 실패 구간과 다음 모델 | 어떤 가지가 예외를 외우고 있고, 이를 bagging이나 boosting이 어떻게 완화할 수 있는가 | P4-15 랜덤포레스트, P4-16 그래디언트 부스팅 |
 
 ## 체크리스트
 
-- RNN과 Transformer의 계산 감각 차이를 설명할 수 있는가?
-- Transformer가 병렬 처리와 왜 잘 맞는지 말할 수 있는가?
-- 긴 문맥에서 self-attention의 장점을 입문 수준에서 말할 수 있는가?
-- 다음 절의 생성 모델 주제로 왜 자연스럽게 이어지는지 설명할 수 있는가?
+- 트리의 과적합을 `질문이 너무 세밀해져 훈련 데이터를 외우는 현상`으로 설명할 수 있는가?
+- train과 test 결과를 함께 보아야 하는 이유를 말할 수 있는가?
+- `max_depth`와 `min_samples_leaf`의 역할 차이를 구분할 수 있는가?
+- pruning을 `복잡한 가지를 줄이는 과정`으로 이해하고 있는가?
+- 이 절이 랜덤포레스트와 부스팅으로 넘어가기 전 복잡도 감각을 잡는 절이라는 점을 알고 있는가?
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Colin Raffel et al., `Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer`, JMLR, 2020, 확인 날짜: 2026-06-29.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.

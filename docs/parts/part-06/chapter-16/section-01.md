@@ -1,0 +1,519 @@
+# P6-16.1 서비스 운영 제약
+
+P6-15.2에서는 자동 평가와 사람 평가가 서로 다른 장단점을 가지며 실제 운영에서는 함께 쓰이는 경우가 많다는 점을 보았습니다. 하지만 평가만 좋아도 서비스가 바로 성립하는 것은 아닙니다. 이 절에서는 품질이 괜찮아 보여도 실제 서비스에서 다시 발목을 잡는 조건을 봅니다.
+
+AI 서비스는 모델 품질만으로 결정되지 않고, 비용(cost), 지연 시간(latency), 사용량 제한(limit), 실패 가능성 같은 현실 제약 안에서 운영되어야 합니다. 좋은 모델이 있어도 너무 느리거나 너무 비싸거나 너무 자주 멈추면 좋은 서비스가 되기 어렵습니다.
+
+## 이 절의 범위
+
+이 절은 다음 질문에 답합니다.
+
+- 왜 좋은 모델만으로는 좋은 서비스가 되지 않는가?
+- 비용, 지연 시간, 사용량 제한은 어떤 식으로 문제를 만들까?
+- 서비스 설계에서 무엇을 함께 타협해야 하나?
+
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
+
+- 구체적인 클라우드 가격 비교
+- GPU 인프라 설계 세부
+- SLA/SLI/SLO 수치 설계 전체
+
+구체적인 클라우드 가격 비교와 GPU 인프라 설계 세부는 여기서 다루지 않습니다. 대신 실제 실패 추적과 대응 기준은 바로 다음 P6-16.2에서 다시 회수합니다. 가격표와 수치 설계 전부는 빠르게 바뀌는 주제이므로 현재 본편 범위 밖에 둡니다.
+
+이 절에서는 AI 서비스를 `모델 성능 문제`에만 가두지 않고, 실제 운영 제약을 함께 읽습니다.
+
+지금 읽는 층위는 `서비스 한도 판단 층위`입니다. 앞 절의 자동 평가와 사람 평가가 `무엇을 통과시키고 무엇을 다시 볼까`를 다뤘다면, 여기서는 그 후보를 비용, 속도, 용량 안에서 계속 제공할 수 있는지 읽습니다. 바로 다음의 실패 대응 절에서는 이 운영 한도를 넘겼을 때 어디서 멈추고 어떤 복구 경로로 보낼지로 질문이 다시 이동합니다.
+
+| 단계 | 지금 붙잡을 질문 | 바로 이어지는 위치 |
+| --- | --- | --- |
+| 평가 분업과 실행 기록 | 어떤 후보가 품질 기준을 통과했는가? | P6-15 |
+| 서비스 한도 판단 | 그 후보를 비용, 속도, 용량 안에서 계속 제공할 수 있는가? | P6-16.1 |
+| 실패 대응과 요청 기록 | 운영 한도를 넘기면 어디서 멈추고 어떤 경로로 남길 것인가? | P6-16.2, P6-17 |
+
+즉, P6-15에서 `괜찮은 답인가`를 가렸다면 여기서는 `그 괜찮은 답을 운영 한도 안에서 반복 제공할 수 있는가`를 다시 묻습니다. 이 기준이 서야 평가를 통과한 답이 왜 실제 서비스 후보에서는 다시 탈락할 수 있는지 자연스럽게 이해할 수 있습니다.
+
+여기서 먼저 남겨야 할 것은 어떤 운영 한도 때문에 후보가 막혔는지를 보여 주는 `primary_tradeoff`, `next_adjustment`, 그리고 평가를 통과한 답이 실제 운영 후보로 남는지를 다시 가르는 `operationally_acceptable`, `summary`입니다.
+
+이 필드들이 뒤 절과 실제 요청 기록으로 어떻게 이어지는지도 지금 같이 붙잡아 두면 좋습니다.
+
+| 지금 단계에서 남기는 판단 | 바로 다음 절에서 갈라지는 운영 경로 | P6-17에서 요청 기록으로 남는 대표 값 |
+| --- | --- | --- |
+| `primary_tradeoff=latency_too_high` | timeout 기준 조정, 경량 경로, fallback 검토 | `next_action`, `incident_records`, 실행 메모 |
+| `primary_tradeoff=cost_too_high` | 호출 수 축소, 작은 모델, 단계 축약 검토 | `next_action`, `execution_records`, 비용 요약 |
+| `primary_tradeoff=throughput_too_low` | 큐, 캐시, 처리량 제한 경로 검토 | `next_action`, `incident_records`, 운영 메모 |
+| `operationally_acceptable=True` | 운영 후보 유지 | `answer_status`, `summary`, run 기록 |
+
+즉, 이 절의 운영 한도 판단은 여기서 끝나는 판정표가 아니라, 바로 다음 실패 대응 절의 분기와 P6-17 요청 흐름 기록의 입력값이라고 보면 됩니다.
+
+## 이 절의 목표
+
+- AI 서비스 제약을 입문 수준에서 설명할 수 있습니다.
+- 비용, 지연 시간, 사용량 제한을 서로 다른 문제로 구분할 수 있습니다.
+- 품질과 운영 제약 사이의 균형을 말할 수 있습니다.
+- 다음 절의 실패 대응 문제로 자연스럽게 넘어갈 수 있습니다.
+
+## 이 절을 읽는 순서
+
+이 절은 다음 순서로 읽으면 판단 기준이 더 분명해집니다.
+
+1. 먼저 왜 모델 품질만으로는 서비스가 되지 않는지 읽습니다.
+2. 그다음 비용, 지연 시간, 처리량이 각각 어떤 제약을 만드는지 구분합니다.
+3. 사례와 Python 예제에서는 `어떤 설계안이 탈락하고 어떤 조정이 필요한가`를 확인합니다.
+
+## 왜 모델 품질만으로는 부족한가
+
+좋은 답을 만들 수 있는 모델이 있다고 해도, 실제 서비스는 다음 조건을 함께 만족해야 합니다.
+
+| 질문 | 짧은 답 |
+| --- | --- |
+| 왜 품질만으로 부족한가? | 서비스는 반복적으로 제공되어야 하기 때문 |
+| 무엇을 함께 봐야 하는가? | 속도, 비용, 처리량, 안정성 |
+| 그래서 바뀌는 질문은 무엇인가? | `잘 되나?`에서 `계속 운영 가능한가?`로 이동 |
+
+- 충분히 빠르게 응답해야 함
+- 너무 비싸지 않아야 함
+- 많은 요청을 감당할 수 있어야 함
+- 장애가 나도 완전히 멈추지 않아야 함
+
+즉, 서비스는 `정답 품질`만이 아니라 `운영 가능성`까지 포함한 문제입니다.
+
+## 비용(cost)은 왜 큰 문제인가
+
+AI 서비스는 보통 호출마다 비용이 생기거나, 자체 운영 시에는 인프라 비용이 생깁니다. 특히 다음이 함께 늘어나면 부담이 커집니다.
+
+- 긴 입력 문맥
+- 긴 출력
+- 더 큰 모델
+- 더 많은 도구 호출
+- 더 많은 재시도
+
+`에이전트 구조와 RAG 구조는 품질을 높일 수 있지만, 호출 단계가 늘어날수록 비용도 함께 커질 수 있다.`
+
+여기서는 `더 많은 기능 = 항상 더 좋은 선택`이 아니라는 점이 먼저 중요합니다.
+
+## 지연 시간(latency)은 왜 중요하나
+
+사용자는 단순히 `맞는 답`만 원하는 것이 아니라, `기다릴 수 있는 시간 안의 답`도 원합니다.
+
+예를 들어:
+
+- 문서 검색
+- 모델 생성
+- 도구 호출
+- 후처리
+
+가 모두 이어지면 지연 시간이 누적될 수 있습니다.
+
+이때 서비스는 다음 질문을 던져야 합니다.
+
+- 모든 단계를 꼭 매번 다 수행해야 하는가?
+- 어느 단계는 캐시할 수 있는가?
+- 어느 정도 느림까지 허용 가능한가?
+
+즉, latency는 기술 문제가 아니라 사용자 경험 문제이기도 합니다.
+
+같은 답이라도 2초 안에 오는 답과 20초 뒤에 오는 답은 서비스 경험이 다릅니다. 따라서 latency는 정확도보다 덜 중요해 보이지만, 실제 사용에서는 서비스 채택을 크게 좌우할 수 있습니다.
+
+## 사용량 제한(limit)과 용량(capacity) 문제
+
+서비스가 커지면 요청량도 커집니다. 이때 다음 문제가 생길 수 있습니다.
+
+- 분당 요청 수 제한
+- 동시 처리 수 제한
+- 모델 공급자 API 제한
+- 내부 인프라 병목
+
+다음처럼 볼 수 있습니다.
+
+`좋은 데모와 운영 가능한 서비스는 다르다. 데모는 한 번 잘 되면 되지만, 서비스는 반복 요청을 견뎌야 한다.`
+
+이 한 줄은 독자에게 특히 중요합니다. 많은 AI 데모가 인상적이어도, 실제 서비스로 옮기면 동시 요청과 비용 문제가 먼저 드러나기 때문입니다.
+
+## 품질과 제약은 왜 같이 봐야 하나
+
+이 지점이 중요합니다.
+
+더 큰 모델을 쓰면 품질이 좋아질 수 있습니다. 하지만:
+
+- 비용이 커지고
+- 지연 시간이 늘고
+- 운영 복잡도가 증가할 수 있습니다
+
+반대로 더 작은 모델을 쓰면:
+
+- 응답은 빨라질 수 있지만
+- 품질이나 안정성이 낮아질 수 있습니다
+
+따라서 서비스 설계는 보통 다음 균형 문제에 가깝습니다.
+
+`어느 정도 품질을, 어느 정도 비용과 속도로, 어떤 사용량 범위에서 제공할 것인가?`
+
+같은 서비스 흐름으로 다시 정리하면 다음과 같습니다.
+
+| 높이고 싶은 것 | 함께 늘어날 수 있는 부담 |
+| --- | --- |
+| 더 큰 모델 | 비용, 지연 시간 |
+| 더 많은 검색 문서 | 비용, 문맥 길이, 처리 시간 |
+| 더 많은 도구 호출 | 실패 지점, 운영 복잡도 |
+
+## RAG와 agent 구조에서는 왜 더 복잡해지나
+
+단순 채팅보다 RAG와 agent는 단계가 많습니다.
+
+- 검색
+- 문서 정리
+- 모델 생성
+- 도구 호출
+- 재시도
+
+이 단계가 늘수록:
+
+- 호출 수가 늘고
+- 실패 가능성이 늘고
+- 지연 시간이 누적되며
+- 로그와 평가 비용도 커집니다
+
+즉, 구조가 강해질수록 운영 제약도 강해집니다.
+
+프롬프트만 쓰는 단순 구조에서는 제약이 비교적 단순합니다. 하지만 RAG와 에이전트가 붙으면 `좋은 답을 만들기 위한 단계`와 `그 단계를 유지하는 운영 부담`이 함께 늘어난다는 점이 이 절의 핵심입니다.
+
+이 흐름을 한 번 더 단순화하면 다음과 같습니다.
+
+```mermaid
+flowchart LR
+  A["higher quality plan"]
+  B["more steps"]
+  C["higher cost"]
+  D["more latency"]
+  E["capacity pressure"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+```
+
+이 그림의 핵심은 품질을 올리는 선택이 종종 더 많은 단계와 운영 부담을 함께 데려온다는 점입니다.
+
+이 절의 핵심은 성능을 높이는 선택이 종종 다른 비용을 동반한다는 점입니다.
+
+## 사례로 보기
+
+이 사례들의 초점은 `좋아 보이는가`보다 `운영 제약 안에서 계속 제공 가능한가`입니다.
+
+### 사례 1. 고객 지원 챗봇
+
+고객 지원 챗봇이 매번 긴 정책 문서를 모두 검색하고, 긴 답변까지 항상 생성한다고 해 봅시다. 사람은 처음에 `더 많이 읽고 더 길게 답하면 더 좋은 챗봇이겠지`라고 생각할 수 있습니다. 이렇게 하면 겉보기에는 더 자세하고 정확한 답이 나올 수 있습니다. 하지만 고객은 비밀번호 재설정처럼 단순한 질문에도 몇 초씩 기다려야 하고, 실제 체감은 `똑똑하지만 느린 챗봇`으로 남을 수 있습니다. 예를 들어 배송 조회처럼 짧게 끝낼 수 있는 질문에도 매번 긴 정책 설명을 붙이면, 정확도는 높아 보여도 사용자는 답이 늦고 과하다고 느낄 수 있습니다. 결국 일부 사용자는 답을 끝까지 읽지 않고 이탈할 수 있습니다. 사람이 운영에서 먼저 보게 되는 문제는 품질만이 아니라 `이 속도를 고객이 견딜 수 있는가`입니다. 그래서 이 사례에서 확인해야 할 결과는 답 품질 상승과 별개로 응답 시간이 실제 사용 경험을 해치지 않고, 짧은 질문에서는 과도한 처리 없이도 답이 닫히는가입니다.
+
+### 사례 2. 개발 보조 도구
+
+개발 보조 도구가 코드를 고치기 전에 파일 탐색, 검색, 테스트, 재시도를 모두 수행한다고 해 봅시다. 사람은 처음에는 `조심스럽게 많이 확인할수록 더 좋은 수정이 되겠지`라고 생각하기 쉽습니다. 실제로 이렇게 하면 한 번의 수정 성공률은 올라갈 수 있습니다. 하지만 호출 단계가 늘어날수록 토큰 비용과 실행 시간도 함께 커지고, 작은 변수명 수정 하나에도 전체 테스트를 반복하면 사용자는 `정확하긴 한데 너무 무겁다`고 느낄 수 있습니다. 예를 들어 문자열 오탈자 하나를 고치는 데 전체 통합 테스트를 매번 돌리면, 안전성은 높아도 일상 사용성은 크게 떨어질 수 있습니다. 더 나아가 팀 전체가 이런 흐름을 반복하면 인프라 비용도 빠르게 커질 수 있습니다. 이 장면에서 중요한 질문은 `더 많이 하면 더 좋아지는가`가 아니라 `품질 향상을 위해 든 비용이 감당 가능한가`입니다. 그래서 이 사례에서 확인해야 할 결과는 수정 성공률뿐 아니라 실행 시간과 비용이 일상 사용 범위 안에 남는가입니다.
+
+### 사례 3. 사내 문서 질의응답
+
+사내 문서 질의응답에서 정확도를 높이려고 관련 문서를 가능한 한 많이 붙인다고 해 봅시다. 처음에는 `문서를 더 많이 넣으면 더 안전하겠지`라고 생각하기 쉽습니다. 하지만 실제로는 비용과 지연 시간이 늘고, 너무 많은 문단이 들어오면 핵심 문장이 묻혀 오히려 답변이 흐려질 수 있습니다. 예를 들어 환불 규정 질문에 열 개 문서를 모두 붙이면, 정작 핵심 예외 조항보다 덜 중요한 일반 안내가 더 많이 보일 수 있습니다. 이 경우 답변은 길어졌는데도 사용자가 정말 궁금했던 한 줄 기준은 더 늦게 드러날 수 있습니다. 즉, 더 많은 근거가 항상 더 좋은 답으로 이어지는 것은 아닙니다. 여기서 바뀌는 점은 `얼마나 많이 붙였는가`를 먼저 보던 기준에서 `질문에 필요한 근거를 얼마나 정확히 골랐는가`를 먼저 보게 되는 기준으로 이동한다는 것입니다. 사람이 여기서 다시 봐야 하는 기준은 `얼마나 많이 붙였는가`가 아니라 `질문에 필요한 근거를 얼마나 정확히 골랐는가`입니다. 그래서 이 사례에서 확인해야 할 결과는 붙인 문서 수보다 핵심 예외 조항이 실제 답변 안에 먼저 살아남는가입니다.
+
+세 사례를 한 줄로 묶으면 다음과 같습니다.
+
+| 상황 | 현실 제약으로 다시 보게 되는 질문 |
+| --- | --- |
+| 고객 지원 챗봇 | 정확하지만 너무 느리면 괜찮은가? |
+| 개발 보조 도구 | 품질 향상을 위해 든 비용이 감당 가능한가? |
+| 사내 문서 질의응답 | 더 많은 문서가 항상 더 좋은가? |
+
+세 사례를 운영 제약 관점으로 다시 정리하면 다음과 같습니다.
+
+| 상황 | 성능을 올리려다 커지는 운영 부담 | 다시 조정해야 하는 기준 |
+| --- | --- | --- |
+| 고객 지원 챗봇 | 긴 검색과 긴 답변으로 지연 시간이 커짐 | 질문 난이도별 처리 깊이, 응답 시간 |
+| 개발 보조 도구 | 테스트·재시도·도구 호출로 비용이 커짐 | 작업 크기별 검사 강도, 실행 예산 |
+| 사내 문서 질의응답 | 문서를 너무 많이 붙여 비용과 잡음이 커짐 | top-k, 문서 선택 정확도, 답변 길이 |
+
+이 세 사례는 다음처럼 더 짧게 읽어도 됩니다. 비밀번호 재설정 같은 짧은 질문에도 8초가 걸리면 먼저 `latency 초과`로 탈락시키고 검색 단계나 답변 길이를 줄여야 합니다. 변수명 수정에도 전체 테스트를 반복한다면 `비용 과다`로 보고 작업 크기별 검사 강도를 나눠야 합니다. 환불 규정 질문에 문서 10개를 모두 붙인다면 `문맥 과밀`로 보고 `top-k`를 줄이고 예외 조항을 먼저 드러내야 합니다.
+
+## 실행 가능한 Python 예제로 보기
+
+이번 예제의 목표는 품질과 제약을 함께 읽는 감각을 실제 선택 결과로 보고, 각 설계안에 대해 `무엇을 먼저 줄이거나 바꿔야 하는가`까지 읽는 것입니다. 이번에는 설계안 두 개만 단순 비교하지 않고, 여러 서비스 설계안을 같은 운영 제약 아래 나란히 놓고 어떤 안이 통과하고 어떤 안이 탈락하는지 비교하겠습니다. 특히 이번에는 품질, 지연 시간, 비용뿐 아니라 `분당 처리 가능 요청 수`까지 함께 넣어 `데모는 되지만 운영은 안 되는 안`이 어떻게 생기는지도 보겠습니다.
+
+문제 상황:
+
+- 여러 서비스 설계안이 있음
+- 어떤 안은 빠르고 싸지만 품질이 낮고
+- 어떤 안은 품질은 높지만 느리거나 비싸고
+- 어떤 안은 중간 타협점에 있음
+- 어떤 안은 단일 요청에서는 좋아 보여도 분당 요청량을 못 버틸 수 있음
+
+입력:
+
+- 여러 서비스 설계안
+- 팀이 허용하는 최대 지연 시간과 최대 비용
+- 예상 분당 요청량
+
+출력:
+
+- 각 설계안의 적합 여부
+- 왜 선택되거나 탈락하는지에 대한 간단한 판단 결과
+- 통과한 설계안 중 운영 제약 안에서 품질이 가장 높은 후보
+- 각 설계안에 대해 다음에 손봐야 할 조정 방향
+
+먼저 이 예제에서 함께 볼 운영 제약 기준은 다음과 같습니다.
+
+| 점검 항목 | 왜 필요한가 |
+| --- | --- |
+| `quality_ok` | 최소 품질선 아래면 빠르고 싸도 채택하기 어려워서 |
+| `latency_ok` | 사용자가 기다릴 수 있는 시간 안에 답해야 해서 |
+| `cost_ok` | 한 요청 품질이 좋아도 운영 예산을 넘기면 지속하기 어려워서 |
+| `throughput_ok` | 데모는 되어도 반복 요청을 견디지 못하면 서비스가 아니어서 |
+| `next_adjustment` | 탈락한 설계안을 어디부터 줄이거나 바꿔야 할지 알아야 해서 |
+
+문제 상황:
+
+- 서비스 설계는 품질이 높다고 끝나는 것이 아니라 지연 시간, 비용, 처리량과 함께 읽어야 운영 가능성을 판단할 수 있다
+
+입력(input):
+
+위에 정리한 서비스 후보별 품질, latency, cost, throughput 값을 사용합니다.
+
+확인할 개념:
+
+- 서비스 설계는 개별 답변 품질만이 아니라 지연 시간, 비용, 처리량을 함께 만족해야 운영 가능하다
+
+```python
+from pprint import pprint
+
+
+services = [
+    {"name": "fast", "quality": 0.78, "latency_ms": 900, "cost": 1, "requests_per_minute": 120},
+    {"name": "balanced", "quality": 0.84, "latency_ms": 1700, "cost": 2, "requests_per_minute": 90},
+    {"name": "rich", "quality": 0.89, "latency_ms": 3200, "cost": 4, "requests_per_minute": 40},
+    {"name": "cheap_but_weak", "quality": 0.65, "latency_ms": 700, "cost": 1, "requests_per_minute": 150},
+    {"name": "accurate_but_capped", "quality": 0.87, "latency_ms": 1500, "cost": 2, "requests_per_minute": 45},
+]
+
+constraints = {
+    "max_latency_ms": 2000,
+    "max_cost": 3,
+    "min_quality": 0.75,
+    "required_requests_per_minute": 80,
+}
+
+
+def evaluate_service(service, constraints):
+    quality_ok = service["quality"] >= constraints["min_quality"]
+    latency_ok = service["latency_ms"] <= constraints["max_latency_ms"]
+    cost_ok = service["cost"] <= constraints["max_cost"]
+    throughput_ok = service["requests_per_minute"] >= constraints["required_requests_per_minute"]
+
+    if not quality_ok:
+        primary_tradeoff = "quality_too_low"
+    elif not latency_ok:
+        primary_tradeoff = "latency_too_high"
+    elif not cost_ok:
+        primary_tradeoff = "cost_too_high"
+    elif not throughput_ok:
+        primary_tradeoff = "throughput_too_low"
+    else:
+        primary_tradeoff = "operational_fit"
+
+    next_adjustment_map = {
+        "quality_too_low": "raise_quality_before_optimizing_cost",
+        "latency_too_high": "reduce_steps_or_cache_more",
+        "cost_too_high": "shrink_context_or_model_size",
+        "throughput_too_low": "increase_capacity_or_simplify_flow",
+        "operational_fit": "keep_as_candidate",
+    }
+
+    return {
+        "name": service["name"],
+        "quality": service["quality"],
+        "latency_ms": service["latency_ms"],
+        "cost": service["cost"],
+        "requests_per_minute": service["requests_per_minute"],
+        "quality_ok": quality_ok,
+        "latency_ok": latency_ok,
+        "cost_ok": cost_ok,
+        "throughput_ok": throughput_ok,
+        "primary_tradeoff": primary_tradeoff,
+        "next_adjustment": next_adjustment_map[primary_tradeoff],
+        "operationally_acceptable": (
+            quality_ok
+            and latency_ok
+            and cost_ok
+            and throughput_ok
+        ),
+    }
+
+
+evaluated = [evaluate_service(service, constraints) for service in services]
+acceptable = [
+    item for item in evaluated
+    if item["operationally_acceptable"]
+]
+best_acceptable = max(acceptable, key=lambda item: item["quality"]) if acceptable else None
+
+summary = {
+    "acceptable_count": len(acceptable),
+    "latency_fail_count": sum(not item["latency_ok"] for item in evaluated),
+    "cost_fail_count": sum(not item["cost_ok"] for item in evaluated),
+    "throughput_fail_count": sum(not item["throughput_ok"] for item in evaluated),
+    "quality_fail_count": sum(not item["quality_ok"] for item in evaluated),
+    "best_candidate": best_acceptable["name"] if best_acceptable else None,
+}
+
+print("[constraints]")
+print(constraints)
+print("[summary]")
+print(summary)
+print("[evaluated_services]")
+for item in evaluated:
+    pprint(item)
+print("[best_acceptable]")
+pprint(best_acceptable)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[constraints]
+{'max_latency_ms': 2000, 'max_cost': 3, 'min_quality': 0.75, 'required_requests_per_minute': 80}
+[summary]
+{'acceptable_count': 2,
+ 'best_candidate': 'balanced',
+ 'cost_fail_count': 1,
+ 'latency_fail_count': 1,
+ 'quality_fail_count': 1,
+ 'throughput_fail_count': 2}
+[evaluated_services]
+{'cost': 1,
+ 'cost_ok': True,
+ 'latency_ms': 900,
+ 'latency_ok': True,
+ 'name': 'fast',
+ 'next_adjustment': 'keep_as_candidate',
+ 'operationally_acceptable': True,
+ 'primary_tradeoff': 'operational_fit',
+ 'quality': 0.78,
+ 'quality_ok': True,
+ 'requests_per_minute': 120,
+ 'throughput_ok': True}
+{'cost': 2,
+ 'cost_ok': True,
+ 'latency_ms': 1700,
+ 'latency_ok': True,
+ 'name': 'balanced',
+ 'next_adjustment': 'keep_as_candidate',
+ 'operationally_acceptable': True,
+ 'primary_tradeoff': 'operational_fit',
+ 'quality': 0.84,
+ 'quality_ok': True,
+ 'requests_per_minute': 90,
+ 'throughput_ok': True}
+{'cost': 4,
+ 'cost_ok': False,
+ 'latency_ms': 3200,
+ 'latency_ok': False,
+ 'name': 'rich',
+ 'next_adjustment': 'reduce_steps_or_cache_more',
+ 'operationally_acceptable': False,
+ 'primary_tradeoff': 'latency_too_high',
+ 'quality': 0.89,
+ 'quality_ok': True,
+ 'requests_per_minute': 40,
+ 'throughput_ok': False}
+{'cost': 1,
+ 'cost_ok': True,
+ 'latency_ms': 700,
+ 'latency_ok': True,
+ 'name': 'cheap_but_weak',
+ 'next_adjustment': 'raise_quality_before_optimizing_cost',
+ 'operationally_acceptable': False,
+ 'primary_tradeoff': 'quality_too_low',
+ 'quality': 0.65,
+ 'quality_ok': False,
+ 'requests_per_minute': 150,
+ 'throughput_ok': True}
+{'cost': 2,
+ 'cost_ok': True,
+ 'latency_ms': 1500,
+ 'latency_ok': True,
+ 'name': 'accurate_but_capped',
+ 'next_adjustment': 'increase_capacity_or_simplify_flow',
+ 'operationally_acceptable': False,
+ 'primary_tradeoff': 'throughput_too_low',
+ 'quality': 0.87,
+ 'quality_ok': True,
+ 'requests_per_minute': 45,
+ 'throughput_ok': False}
+[best_acceptable]
+{'cost': 2,
+ 'cost_ok': True,
+ 'latency_ms': 1700,
+ 'latency_ok': True,
+ 'name': 'balanced',
+ 'next_adjustment': 'keep_as_candidate',
+ 'operationally_acceptable': True,
+ 'primary_tradeoff': 'operational_fit',
+ 'quality': 0.84,
+ 'quality_ok': True,
+ 'requests_per_minute': 90,
+ 'throughput_ok': True}
+```
+
+이 예제에서 먼저 봐야 할 것은 `accurate_but_capped` 같은 안입니다. 단일 요청 품질만 보면 `balanced`보다 더 좋아 보일 수 있지만, 분당 처리량 제한 때문에 실제 서비스 트래픽을 못 버티면 운영 후보에서 탈락합니다. 그리고 `next_adjustment`를 보면 단순히 `탈락했다`가 아니라 `어디를 먼저 손봐야 하는가`까지 읽을 수 있습니다. 즉, `좋은 품질`, `허용 가능한 지연 시간`, `예산`, `처리량`은 서로 다른 축입니다.
+
+그래서 이 예제에서 확인해야 할 결과는 품질 수치가 더 높아도 지연 시간, 비용, 처리량 제약이 함께 걸리면 실제 서비스 선택이 달라질 수 있으며, 운영 제약을 넘는 설계는 품질만 좋아도 바로 채택되지 않을 수 있다는 점입니다. 또한 반대로 `cheap_but_weak`처럼 빠르고 싸더라도 최소 품질선을 넘지 못하면 역시 채택되지 않을 수 있습니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `max_latency_ms`를 더 완화해 고품질 설계가 통과되는지 보기
+- `min_quality`를 더 높여 어느 지점부터 `balanced`도 탈락하는지 보기
+- `required_requests_per_minute`를 더 높여 어느 지점부터 `balanced`도 운영 후보에서 밀리는지 보기
+
+## 이 예제를 서비스 선택 관점으로 다시 보면
+
+앞의 예제는 더 좋은 품질 점수가 자동으로 더 좋은 서비스 결정을 뜻하지 않는다는 점을 가장 짧게 보여 주는 장면입니다. 여기서 읽어야 할 핵심은 품질, 지연 시간, 비용, 처리량이 같은 축이 아니라 서로 부딪히는 판단 기준이며, 운영에서는 이 넷을 함께 봐야 실제 선택이 가능하다는 점입니다. 특히 배치 비교를 해 보면 `가장 좋은 모델`과 `실제로 채택할 설계안`이 다를 수 있다는 점이 더 분명하게 드러납니다.
+
+이 예제에서 읽어야 할 핵심은 다음입니다.
+
+- 더 좋은 품질이 항상 공짜로 오지 않고
+- 속도와 비용이 함께 바뀔 수 있으며
+- 그래서 서비스 설계는 비교표와 타협의 문제라는 점입니다
+
+여기까지를 한 줄로 묶으면, 서비스 운영 제약은 `좋은 모델을 고르는 문제`가 아니라 `제약 안에서 유지 가능한 설계안을 고르고 부족한 축을 어디서 조정할지 정하는 문제`입니다.
+
+실서비스로 이어지는 단계에서는 `좋아 보이는 응답`을 만드는 것만으로 충분하지 않습니다. 그 응답을 `빠르고 싸고 안정적으로` 유지할 수 있는지까지 함께 봐야 하므로, 이 절은 모델 성능 비교보다 운영 제약 판단을 먼저 읽는 자리로 잡는 편이 좋습니다.
+
+커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
+
+- 바로 앞의 P6-15.1, P6-15.2 평가 절에서 `좋은 답인지`를 점검했다면, 이제는 그 답을 실제로 `빠르고 싸고 안정적으로` 제공할 수 있는지 보게 하고
+- 모델 중심 시각에서 서비스 운영 시각으로 관점을 전환하게 하고
+- 다음 절의 실패 대응과 장애 관리 문제를 준비시키며
+- P6-7.1 배포와 모니터링 목표에서 기능 구현뿐 아니라 제약 설계까지 함께 생각하게 만들기 때문입니다
+
+## 다음 절과의 연결
+
+여기까지 오면 다음 질문이 남습니다.
+
+- 제약은 이해했지만, 실제로 실패가 발생하면 어떻게 대응해야 하는가?
+- 모델 오류, 검색 실패, 도구 호출 실패를 어떻게 다뤄야 하는가?
+
+이 질문은 P6-16.2 운영 중 실패 대응으로 이어집니다.
+
+## 이 절에서 기억할 관점
+
+- AI 서비스를 볼 때는 답변 품질만이 아니라 비용, 지연 시간, 사용량 제한, 운영 복잡도가 함께 감당 가능한지 같이 판단해야 합니다.
+- 같은 품질 향상이라도 응답 지연과 운영 부담이 얼마나 늘어나는지 함께 보지 않으면 실제 서비스 판단을 그르치기 쉽습니다.
+- RAG와 agent 구조는 품질을 높일 수 있지만 운영 제약도 함께 키울 수 있습니다.
+- 서비스 설계는 품질과 현실 제약의 균형 문제입니다.
+
+## 체크리스트
+
+- AI 서비스 제약을 입문 수준에서 설명할 수 있는가?
+- 비용, 지연 시간, 사용량 제한을 구분할 수 있는가?
+- 왜 품질과 운영 제약을 함께 봐야 하는지 말할 수 있는가?
+- 왜 다음 절에서 실패 대응을 따로 다뤄야 하는지 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- OpenAI, 비용/지연 시간/운영 관련 공식 문서, 확인 날짜: 2026-06-29.
+- 관련 LLM application engineering 운영 자료, 확인 날짜: 2026-06-29.

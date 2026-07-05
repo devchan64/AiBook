@@ -458,6 +458,58 @@ Name: score, dtype: float64
 
 이 점이 중요합니다. `groupby`는 데이터를 정렬하는 기능이 아니라, `읽는 단위`를 개별 행에서 범주별 묶음으로 바꾸는 기능에 가깝습니다.
 
+표를 읽을 때는 한 행이 곧바로 하나의 완성 사례가 아닐 수도 있습니다. 예를 들어 동작 중 기록된 원시 로그에서는 여러 행이 함께 하나의 동작 기록을 이루기도 합니다. 이때는 먼저 동작 식별자 열로 묶고, 그 안에서 길이, 구간 평균, 마지막 값 같은 정보를 요약해 동작 단위 표를 다시 만드는 편이 더 자연스럽습니다.
+
+| event_id | elapsed_seconds | progress_fraction | signal_a |
+| --- | ---: | ---: | ---: |
+| A-01 | 0.0 | 0.00 | 0.8 |
+| A-01 | 1.0 | 0.20 | 1.4 |
+| A-01 | 2.0 | 0.40 | 1.9 |
+| B-02 | 0.0 | 0.00 | 0.7 |
+| B-02 | 1.0 | 0.25 | 1.3 |
+| B-02 | 2.0 | 0.50 | 1.5 |
+
+| event_id | total_duration_seconds | signal_a_mean | end_signal_a |
+| --- | ---: | ---: | ---: |
+| A-01 | 2.0 | 1.37 | 1.9 |
+| B-02 | 2.0 | 1.17 | 1.5 |
+
+문제 상황: 여러 행으로 기록된 원시 로그를 동작 단위 요약 표로 다시 바꾸고 싶습니다.
+입력(input): `event_id`로 묶은 뒤, 시간 길이와 센서 값 요약을 계산하는 코드.
+기대 출력(output): 각 `event_id`마다 한 행만 남는 요약 `DataFrame`.
+확인할 개념: `groupby`는 같은 범주끼리 묶는 기능일 뿐 아니라, 여러 행을 한 사례 단위로 다시 읽게 만드는 도구이기도 합니다.
+
+```python
+log_df = pd.DataFrame(
+    {
+        "event_id": ["A-01", "A-01", "A-01", "B-02", "B-02", "B-02"],
+        "elapsed_seconds": [0.0, 1.0, 2.0, 0.0, 1.0, 2.0],
+        "progress_fraction": [0.00, 0.20, 0.40, 0.00, 0.25, 0.50],
+        "signal_a": [0.8, 1.4, 1.9, 0.7, 1.3, 1.5],
+    }
+)
+
+summary = (
+    log_df.groupby("event_id")
+    .agg(
+        total_duration_seconds=("elapsed_seconds", "max"),
+        signal_a_mean=("signal_a", "mean"),
+        end_signal_a=("signal_a", "last"),
+    )
+    .reset_index()
+)
+
+print(summary)
+```
+
+출력은 다음처럼 읽을 수 있습니다.
+
+```text
+  event_id  total_duration_seconds  signal_a_mean  end_signal_a
+0     A-01                     2.0       1.366667           1.9
+1     B-02                     2.0       1.166667           1.5
+```
+
 ## 표를 읽는 흐름을 도식으로 보면
 
 선택, 필터링, 집계는 대개 다음 흐름으로 이어집니다.

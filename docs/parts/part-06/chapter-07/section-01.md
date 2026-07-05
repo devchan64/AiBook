@@ -1,209 +1,510 @@
-# P6-7.1 배포와 모니터링 목표
+# P6-7.1 파인튜닝(fine-tuning)
 
-Part 6의 마지막 프로젝트는 `만들기`보다 `계속 보여 주고 확인하기`에 가깝습니다. 이 책 저장소처럼 정적 웹 문서를 배포하는 프로젝트도 결국 서비스 관점을 갖게 됩니다.
+P6-6.1에서는 넓은 언어 기반을 먼저 만드는 사전학습을 보았습니다. 하지만 사전학습만으로는 아직 `우리 업무 기준에 맞는 반응`이 자동으로 생기지 않습니다. 이 절은 생성 구조 위에 올라간 학습 축이 이제 `범용 기반 만들기`에서 `목적 맞춤 조정`으로 어떻게 좁혀지는지 설명합니다.
 
-즉, 질문은 이렇게 바뀝니다.
+P6-5.2에서는 생성이 확률 분포에서 다음 토큰을 반복 선택하는 과정이라는 점을 보았습니다. 하지만 실제 서비스에서는 여기서 질문이 하나 더 생깁니다.
 
-문서를 빌드해서 올리는 것만으로 충분한가? 아니면 배포 상태와 기본 신호를 함께 확인해야 하는가?
+사전학습된 큰 모델을 우리 목적에 더 잘 맞게 바꾸려면 어떻게 해야 하는가?
 
-이번 절은 GitHub Pages를 기준으로 그 기본 구조를 잡습니다.
+이 절은 그 질문에 답합니다.
 
-이 절의 목적은 문서를 올리는 법 자체보다, 배포 프로젝트에서 빌드와 공개 확인을 분리해 기록하는 것이다.
+파인튜닝(fine-tuning)은 이미 사전학습된 모델을 특정 과업이나 도메인에 더 잘 맞도록 추가로 조정하는 과정이다.
+
+같은 말을 더 쉽게 바꾸면 다음과 같습니다.
+
+파인튜닝은 이미 언어를 넓게 배운 큰 모델을, 우리 일에 더 맞게 다시 다듬는 단계다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 정적 문서 프로젝트를 배포한다는 것은 무엇을 뜻하는가?
-- GitHub Pages는 어떤 종류의 배포 방식인가?
-- 배포 후 무엇을 최소한 확인해야 하는가?
+- 파인튜닝은 무엇을 조정하는가?
+- 프롬프트만 바꾸는 것과 파인튜닝은 어떻게 다른가?
+- 어떤 상황에서 파인튜닝이 필요한가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- CDN 세부 최적화
-- 커스텀 도메인 DNS 설정
-- 사설 모니터링 시스템 구축
+- optimizer 설정 세부
+- 전체 가중치 업데이트 수식
+- 분산 학습 인프라
 
-이 절은 정적 문서 프로젝트의 `빌드 -> 배포 -> 확인` 최소 흐름에 집중합니다. 실제 실패 유형과 다음 조치 정리는 바로 다음 P6-7.2 실패 기록과 개선 계획에서 다시 회수하고, CDN과 사설 모니터링의 심화 설계는 현재 본편 범위 밖으로 둡니다.
+전체 모델을 다시 조정할 때의 비용 문제는 바로 다음 P6-7.2 LoRA와 효율적 조정에서 다시 회수합니다. 프롬프트, RAG, 도구 사용과의 선택 문제는 뒤의 P6-9.2 프롬프트의 한계와 P6-10.1 RAG의 필요성에서 이어지며, optimizer와 분산 학습 구현 세부는 현재 본편 범위 밖으로 둡니다.
+
+이 절에서는 파인튜닝을 `모델을 새로 처음부터 만드는 일`로 보지 않고, 사전학습 이후의 조정 단계로 정확히 놓습니다.
+
+지금 읽는 층위는 `학습 후 목적 조정 층위`입니다. 사전학습이 넓은 기반을 만드는 단계였다면, 여기서는 그 기반이 어떤 방식으로 우리 분류 기준, 문체, 출력 형식에 더 가까워지는지 읽습니다. 뒤의 P6-8.1에서는 이 조정 축이 다시 `사용자 지시 형식에 맞는 반응`으로 이어집니다.
+
+이 절이 필요한 이유는 `파인튜닝이 필요하다`는 판단과 `그 조정을 실제 자원 안에서 어떻게 감당할 것인가`를 분리해 읽기 위해서입니다. 즉, 학습 축은 반응 품질 이야기이면서 동시에 계산 비용 이야기이기도 하다는 점을 여기서 같이 잡아야 합니다.
+
+이 구간을 Part 6 본류의 한 줄 흐름으로 다시 묶으면 다음과 같습니다. P6-6은 `넓게 배운 기반`, P6-7은 `우리 목적에 맞춘 조정`, P6-8은 `사용자 요청과 안전 기준에 맞춘 반응 조정`입니다. 즉, 여기서부터 뒤 절까지는 새 기능을 계속 추가하는 구간이 아니라, 같은 생성 구조를 점점 더 `실제 사용자 반응` 쪽으로 좁혀 가는 조정 축으로 읽는 편이 안전합니다.
+
+이 중간 위치는 다음처럼 잡으면 충분합니다.
+
+| 바로 앞 단계 | 지금 단계에서 새로 바꾸는 것 | 바로 다음 단계 |
+| --- | --- | --- |
+| 사전학습으로 넓은 언어 기반을 만든다 | 우리 과업 기준, 문체, 출력 습관에 더 가깝게 조정한다 | 사용자 지시 형식과 안전 기준에 맞는 반응으로 더 좁힌다 |
+
+즉, 여기서는 아직 `assistant처럼 보이게 만드는 마지막 조정`까지는 가지 않습니다. 먼저 `범용 기반만으로는 부족한 우리 목적의 차이`를 얼마나 안정적으로 반영할 것인가를 읽고, 그 다음 P6-8에서야 같은 조정 축이 `사람의 요청 방식에 맞는 응답`으로 이어집니다.
+
+| 조정 단계 | 지금 붙잡아야 할 질문 | 바로 다음에 이어질 단계 |
+| --- | --- | --- |
+| 사전학습(pretraining) | 넓은 언어 기반을 어떻게 만들었는가? | 파인튜닝으로 목적을 더 좁힌다 |
+| 파인튜닝(fine-tuning) | 우리 과업과 형식에 더 맞게 무엇을 조정할까? | 지시 튜닝으로 요청 형식 반응을 더 맞춘다 |
+| 지시 튜닝(instruction tuning) | 사람의 요청 방식에 어떻게 더 잘 반응하게 할까? | 정렬에서 안전성과 정책 경계를 더 맞춘다 |
 
 ## 이 절의 목표
 
-- 정적 사이트 배포를 `빌드 -> 배포 -> 확인` 흐름으로 설명할 수 있습니다.
-- GitHub Pages가 정적 사이트 호스팅(static site hosting)이라는 점을 말할 수 있습니다.
-- 배포 후 기본 상태 확인 체크리스트를 만들 수 있습니다.
+- 파인튜닝을 사전학습 이후의 추가 조정으로 설명할 수 있습니다.
+- 프롬프트 조정과 파인튜닝의 차이를 말할 수 있습니다.
+- 언제 파인튜닝이 유리하고, 언제 프롬프트나 RAG가 먼저일 수 있는지 구분할 수 있습니다.
+- 다음 절의 LoRA 같은 효율적 조정 기법으로 자연스럽게 넘어갈 수 있습니다.
 
-## 왜 배포 프로젝트가 필요한가
+## 이 절을 읽는 순서
 
-개인 학습 프로젝트라도 배포를 거치면 다음 문제가 생깁니다.
+이 절은 다음 순서로 읽으면 충분합니다.
 
-- 로컬에서는 되는데 배포에서는 안 될 수 있다.
-- 링크가 깨질 수 있다.
-- 새 변경이 바로 반영되지 않을 수 있다.
-- 빌드 성공과 공개 페이지 정상 동작은 같은 말이 아닐 수 있다.
+1. 먼저 파인튜닝이 `새 모델을 처음부터 만드는 일`이 아니라 `기반 모델을 목적에 맞게 다시 조정하는 일`이라는 점을 봅니다.
+2. 그 다음 프롬프트와 파인튜닝이 각각 무엇을 바꾸는지 구분합니다.
+3. 이어서 언제 파인튜닝이 유리하고, 언제 RAG나 프롬프트가 먼저일 수 있는지 읽습니다.
+4. 마지막에 사례와 예제로 `업무 형식`, `내부 라벨`, `도메인 표현`이 실제로 얼마나 안정화되는지 확인합니다.
 
-GitHub Docs는 GitHub Pages를 저장소의 정적 파일을 웹사이트로 공개하는 서비스로 설명합니다. 또한 public repository라면 GitHub Free에서도 사용할 수 있다고 안내합니다.
+## 파인튜닝은 무엇을 조정하나
 
-즉, 이번 프로젝트는 단순 업로드가 아니라 `정적 산출물을 공개 서비스로 전환하는 최소 운영 경험`입니다.
+사전학습된 모델은 이미 넓은 일반 언어 패턴을 배운 상태입니다. 하지만 실제 업무는 더 구체적입니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+먼저 다음 세 질문으로 읽으면 이해가 빨라집니다.
 
 | 질문 | 짧은 답 |
 | --- | --- |
-| 이 프로젝트에서 먼저 남길 것은 무엇인가? | build 상태, publish 상태, 공개 URL |
-| 왜 배포 후 확인이 필요한가? | 빌드 성공과 공개 정상 동작이 다를 수 있어서 |
-| 최소 산출물은 무엇인가? | 체크리스트와 확인 결과 |
+| 이미 있는 모델을 왜 또 조정하는가? | 일반 능력만으로는 우리 목적에 덜 맞을 수 있어서 |
+| 무엇을 더 맞추려는가? | 형식, 도메인 용어, 분류 기준, 반응 성향 |
+| 새로 처음부터 다시 만드는가? | 보통은 아니다. 기존 기반 모델 위에서 조정한다 |
 
-## 프로젝트 흐름
+예를 들어:
+
+- 법률 문서 요약
+- 내부 고객 문의 분류
+- 의료 상담 초안 작성
+- 회사 내부 형식에 맞는 답변 생성
+
+이런 경우에는 일반 모델만으로는 표현 방식, 판단 기준, 도메인 용어가 충분히 맞지 않을 수 있습니다. 파인튜닝은 이런 간극을 줄이기 위해 모델의 가중치(weights)를 추가로 조정합니다.
+
+즉, 파인튜닝은 `기반 모델(base model)` 위에 `특정 목적에 맞는 추가 적응`을 얹는 과정입니다.
+
+따라서 파인튜닝의 핵심 질문은 `이 모델이 똑똑한가?`보다 `이 모델이 우리 문제의 기준과 형식에 더 맞는가?`에 가깝습니다.
+
+## 프롬프트와 무엇이 다른가
+
+이 차이는 매우 중요합니다.
+
+| 방식 | 무엇을 바꾸는가 |
+| --- | --- |
+| 프롬프트(prompt) | 입력 지시와 맥락 |
+| 파인튜닝(fine-tuning) | 모델 내부 가중치의 일부 또는 전체 |
+
+프롬프트는 모델 바깥에서 입력을 설계하는 방법입니다. 반면 파인튜닝은 모델 내부 동작 자체를 조금 더 특정 목적에 맞게 조정합니다.
+
+`프롬프트는 모델에게 어떻게 말할지를 바꾸고, 파인튜닝은 모델이 반응하는 습관 자체를 더 목적에 맞게 조정한다.`
+
+이 둘의 차이는 다음처럼 나눌 수 있습니다.
+
+- 프롬프트: 모델 바깥에서 지시를 더 잘 적는 방법
+- 파인튜닝: 모델 안쪽 반응 경향을 더 목적에 맞게 조정하는 방법
+
+## 언제 파인튜닝이 필요한가
+
+모든 문제를 파인튜닝으로 풀 필요는 없습니다. 오히려 다음처럼 먼저 질문해야 합니다.
+
+- 프롬프트만으로 충분한가?
+- 최신 외부 지식이 필요해서 RAG가 더 적합한가?
+- 결과 형식과 말투, 분류 기준이 매우 일관되게 유지되어야 하는가?
+
+파인튜닝이 특히 고려되는 상황은 다음과 같습니다.
+
+- 특정 형식의 출력이 자주 반복될 때
+- 도메인 용어와 표현 방식이 강하게 중요할 때
+- 분류나 추출 기준이 내부 정책과 강하게 연결될 때
+- 프롬프트만으로는 안정적 재현성이 부족할 때
+
+이 목록을 더 짧게 줄이면 다음 두 경우가 핵심입니다.
+
+1. 결과의 `형식 일관성`이 중요할 때
+2. 결과의 `판단 기준`이 내부 규칙과 강하게 연결될 때
+
+## 파인튜닝이 만능은 아니다
+
+이 점도 같이 기억해야 합니다.
+
+파인튜닝이 있다고 해서:
+
+- 최신 사실 자동 반영
+- 환각 자동 제거
+- 보안 자동 해결
+
+이 되는 것은 아닙니다.
+
+예를 들어 최신 회사 공지나 실시간 정책 변경은 파인튜닝보다 RAG나 별도 데이터 연결이 더 적절할 수 있습니다.
+
+따라서 더 안전한 설명은 다음입니다.
+
+`파인튜닝은 특정 반응 성향과 과업 적합성을 높이는 방법이지, 최신성·사실성·안전성 전체를 한 번에 해결하는 방법은 아니다.`
+
+이 문장을 실무에서 먼저 잡아야 `반응 성향 조정`과 `최신 정보 연결`, `근거 제시`, `권한 통제`를 같은 문제로 섞지 않게 됩니다. 실제로는 뒤 세 가지가 별도 설계 문제입니다.
+
+## 여기까지를 한 줄로 묶으면
+
+여기까지를 가장 짧게 정리하면 다음과 같습니다.
+
+- 프롬프트는 `입력 지시와 맥락`을 바꿉니다.
+- 파인튜닝은 `모델의 반응 습관과 출력 경향`을 더 목적에 맞게 조정합니다.
+- RAG는 `최신 정보와 외부 근거 연결` 문제를 다룹니다.
+
+이 셋을 구분해야 `무엇을 바꾸고 싶은가`에 따라 올바른 선택지를 먼저 고를 수 있습니다.
+
+## 아주 단순하게 그리면
 
 ```mermaid
 flowchart TD
-  A["write docs"]
-  B["build static site"]
-  C["publish with GitHub Pages"]
-  D["visit deployed site"]
-  E["check links and latest content"]
+  A["pretrained base model"]
+  B["task or domain data"]
+  C["fine-tuning"]
+  D["more specialized behavior"]
 
-  A --> B --> C --> D --> E
+  A --> C
+  B --> C
+  C --> D
 ```
 
-이 도식은 배포를 `파일 올리기 한 번`이 아니라 `작성, 빌드, 공개, 실제 확인`으로 나누어 보게 해 줍니다. 특히 마지막 확인 단계가 있어야 빌드 성공과 공개 페이지 정상 동작이 다른 문제라는 점을 프로젝트 문서에 분명히 남길 수 있습니다.
+이 도식에서 확인해야 할 결과는 파인튜닝이 `새 모델을 처음부터 만드는 일`이 아니라, 이미 넓게 학습된 기반 모델을 현재 과업 기준에 맞게 조정하는 과정이라는 점입니다.
 
-프로젝트 문서 관점으로 다시 쓰면 다음 순서입니다.
+이 그림의 읽는 법은 다음처럼 단순합니다.
 
-| 단계 | 문서에 남길 것 |
+- 왼쪽의 기반 모델은 `이미 넓게 배운 상태`
+- 과업 데이터는 `우리 문제의 기준`
+- 결과는 `더 목적에 맞는 반응`
+
+## 사례로 보기
+
+아래 도식은 이 절의 세 사례를 `모델을 더 똑똑하게 만드는가`보다 `우리 업무의 형식과 판단 기준에 더 안정적으로 맞추는가`라는 공통 질문으로 다시 묶은 것입니다.
+
+```mermaid
+flowchart TD
+  A["same fine-tuning question"]
+  B["internal routing<br/>does label boundary stay stable?"]
+  C["medical summary<br/>do domain terms stay consistent?"]
+  D["legal draft<br/>does output structure repeat reliably?"]
+
+  A --> B
+  A --> C
+  A --> D
+```
+
+이 도식에서 확인해야 할 점은 파인튜닝의 핵심이 `무조건 더 많은 지식을 넣는다`가 아니라는 것입니다. 세 장면 모두에서 먼저 중요한 것은 `내부 라벨`, `도메인 용어`, `출력 구조`처럼 업무 쪽 규칙을 더 안정적으로 반영하는가입니다.
+
+### 사례 1. 내부 고객센터 분류
+
+일반 모델은 문의를 대략 분류할 수 있어도, 사람은 실제 운영에서 `우리 회사 기준 라벨`로 안정적으로 나뉘는지를 먼저 봅니다. 예를 들어 외부 일반 기준에서는 `취소`와 `환불`을 비슷하게 다뤄도, 내부 업무에서는 서로 다른 팀으로 보내야 할 수 있습니다. 이 경계가 흔들리면 답변 문장이 자연스러워도 라우팅 자체가 틀어져 처리 시간이 늘어납니다. 여기서 바뀌는 점은 `대략 비슷하게 분류되는가`를 보던 기준에서 `내부 라벨 경계를 안정적으로 지키는가`를 보는 기준으로 이동한다는 것입니다. 이런 경우에는 설명을 더 길게 쓰는 것보다 내부 라벨 기준을 더 강하게 반영하도록 모델 반응을 조정하는 편이 중요해집니다. 그래서 이 사례에서 확인해야 할 결과는 비슷한 문의가 내부 라벨 기준에 따라 같은 팀으로 더 안정적으로 들어가는가입니다.
+
+### 사례 2. 의료 문서 요약
+
+일반 요약은 가능해도, 사람은 의료 문서에서는 `짧게 줄였는가`보다 `어떤 용어를 반드시 남기고 어떤 표현을 같은 방식으로 유지하는가`를 먼저 봅니다. 예를 들어 약물명, 용량, 금기 표현을 항상 같은 방식으로 남겨야 하는데 일반 모델이 이를 매번 다르게 줄이면, 길이는 맞아도 실무 품질은 크게 흔들릴 수 있습니다. 심하면 같은 처방 내용을 요약마다 다른 표현으로 바꿔 검토자가 다시 원문을 대조해야 할 수도 있습니다. 여기서 바뀌는 점은 `길이를 잘 줄였는가`를 보던 기준에서 `도메인 핵심 용어와 표현 규칙을 일관되게 유지하는가`를 보는 기준으로 이동한다는 것입니다. 이런 장면에서는 최신 지식을 더 넣는 문제보다, 도메인 문체와 축약 규칙을 더 안정적으로 반영하는 조정이 중요해집니다. 그래서 이 사례에서 확인해야 할 결과는 약물명, 용량, 금기 표현이 요약마다 같은 방식으로 유지되는가입니다.
+
+### 사례 3. 법률 초안 형식
+
+단순 정보 생성이 아니라 문서 형식과 표현 규칙이 중요할 때는, 사람은 `내용만 맞는가`보다 `문체와 구조가 규칙에 맞는가`를 먼저 확인합니다. 프롬프트만으로도 어느 정도 형식을 유도할 수 있지만, 초안마다 조항 번호 방식, 단서 문구, 책임 한정 표현이 달라지면 검토 비용이 빠르게 커집니다. 예를 들어 같은 계약 초안인데 어떤 답은 `제1조`, 어떤 답은 `1.`로 시작하고 면책 문구 위치도 흔들리면, 내용 검토 전에 형식 교정부터 다시 해야 합니다. 여기서 바뀌는 점은 `사실 내용만 맞는가`를 보던 기준에서 `같은 문체와 출력 구조를 반복해서 유지하는가`를 보는 기준으로 이동한다는 것입니다. 이런 경우에는 새로운 사실을 찾는 문제보다 `항상 같은 초안 습관`을 만드는 조정이 더 중요합니다. 그래서 이 사례에서 확인해야 할 결과는 조항 번호, 면책 문구, 단서 표현 위치가 초안마다 크게 흔들리지 않는가입니다.
+
+세 사례를 한 줄로 묶으면 다음과 같습니다.
+
+| 상황 | 파인튜닝이 검토되는 이유 |
 | --- | --- |
-| 작성 | 어떤 변경을 배포하는가 |
-| 빌드 | 산출물 생성 성공 여부 |
-| 배포 | workflow 또는 publish 상태 |
-| 공개 확인 | URL 접근 가능 여부 |
-| 점검 | 최신 반영, 링크, 오류 페이지 확인 |
+| 문의 분류 | 내부 분류 기준을 더 안정적으로 반영하기 위해 |
+| 의료 요약 | 도메인 표현과 요약 형식을 더 일정하게 맞추기 위해 |
+| 법률 초안 | 문체와 출력 구조를 더 일관되게 유지하기 위해 |
 
-## GitHub Pages에서 기억할 점
+세 사례를 목적 적응 관점으로 다시 묶으면 다음과 같습니다.
 
-GitHub Docs는 GitHub Pages가 정적 파일을 배포하며, 필요하면 build process를 거쳐 publish할 수 있다고 설명합니다. 또한 GitHub Actions workflow를 publishing source로 사용할 수 있다고 안내합니다. public repository에서는 Actions도 무료로 사용할 수 있습니다.
+| 상황 | 일반 모델로는 흔들리기 쉬운 것 | 파인튜닝으로 더 안정화하려는 것 |
+| --- | --- | --- |
+| 내부 고객센터 분류 | 내부 라벨 경계와 라우팅 기준 | 팀별 분류 경계 유지 |
+| 의료 문서 요약 | 약물명, 용량, 금기 표현의 일관성 | 도메인 용어와 요약 형식 유지 |
+| 법률 초안 형식 | 조항 번호, 단서, 면책 위치 반복성 | 문체와 출력 구조 재현성 |
 
-이 저장소의 문맥에서는 다음 정도를 기억하면 충분합니다.
+## 실행 가능한 Python 예제로 보기
 
-- `main` 반영 시 Pages 배포가 실행된다.
-- 산출물은 정적 파일이다.
-- 배포 후 실제 공개 URL을 확인해야 한다.
-- 변경 반영에는 시간이 걸릴 수 있다.
+이번 예제의 목표는 `일반 설명형 반응`과 `업무 형식에 맞춘 반응`의 차이를 실제 문의 묶음 위에서 보는 것입니다. 한 질문만 보지 않고, 비슷해 보이지만 내부 라벨을 다르게 가져가야 하는 문의 여러 개를 돌려 `설명형 응답`, `업무용 라벨 응답`, `형식 점검`, `간단한 정답 일치 수`를 함께 비교해 보겠습니다.
 
-## 작은 배포 체크리스트
+입력:
 
-이번 절에서는 실제 원격 배포를 다시 실행하는 대신, 프로젝트 문서 관점에서 어떤 항목을 확인해야 하는지 적는 데 집중합니다.
+- 내부 문의 예시와 업무용 출력 형식
+- 새로 들어온 문의 여러 개
+- 각 문의의 기대 라벨
 
-| 확인 항목 | 질문 |
-| --- | --- |
-| build status | 로컬 또는 CI 빌드가 성공했는가? |
-| publish status | 배포 workflow가 성공했는가? |
-| site URL | 공개 URL이 열리는가? |
-| latest content | 가장 최근 수정이 반영되었는가? |
-| broken links | 주요 내부 링크가 깨지지 않았는가? |
+출력:
 
-## 바로 쓰는 배포 확인 템플릿
+- 문의별 가장 가까운 업무 예시
+- 일반 설명형 응답
+- 업무 형식 응답
+- 형식 점검 결과
+- 간단한 라벨 일치 통계
 
-배포 직후 문서에 바로 붙여 넣어 쓸 최소 확인 틀은 다음 정도면 충분합니다.
+문제 상황:
+
+- ICL은 파라미터를 바꾸지 않고도 예시를 통해 출력 형식과 업무 라벨을 유도한다는 점을 직접 비교해 볼 필요가 있다
+
+입력(input):
+
+위에 정리한 예시 목록과 새로운 문의 목록을 사용합니다.
+
+확인할 개념:
+
+- ICL은 파라미터를 바꾸지 않아도 예시만으로 출력 형식과 업무 라벨을 유도할 수 있다
+
+```python
+examples = [
+    {
+        "text": "결제 취소와 환불을 요청합니다",
+        "label": "refund_request",
+        "priority": "high",
+        "team": "billing_ops",
+    },
+    {
+        "text": "배송이 예정일보다 늦어 도착하지 않았습니다",
+        "label": "shipping_delay",
+        "priority": "medium",
+        "team": "delivery_ops",
+    },
+    {
+        "text": "비밀번호를 여러 번 틀려 계정이 잠겼습니다",
+        "label": "account_lock",
+        "priority": "high",
+        "team": "account_ops",
+    },
+    {
+        "text": "주문을 취소했는데 카드 결제는 아직 취소되지 않았습니다",
+        "label": "cancel_status",
+        "priority": "medium",
+        "team": "billing_ops",
+    },
+]
+
+queries = [
+    {
+        "text": "환불을 받고 싶습니다. 결제 취소는 아직 안 됐습니다.",
+        "expected_label": "refund_request",
+    },
+    {
+        "text": "상품이 아직 도착하지 않았고 배송이 계속 늦어집니다.",
+        "expected_label": "shipping_delay",
+    },
+    {
+        "text": "로그인을 여러 번 실패해서 계정이 잠긴 것 같습니다.",
+        "expected_label": "account_lock",
+    },
+    {
+        "text": "주문은 취소했는데 카드 결제 취소 여부가 아직 보이지 않습니다.",
+        "expected_label": "cancel_status",
+    },
+]
+
+
+def overlap_score(a, b):
+    replacements = ["을", "를", "이", "가", "은", "는", ".", ","]
+    for token in replacements:
+        a = a.replace(token, " ")
+        b = b.replace(token, " ")
+    a_tokens = set(a.split())
+    b_tokens = set(b.split())
+    return len(a_tokens & b_tokens)
+
+
+def retrieve_best_example(query_text):
+    return max(examples, key=lambda item: overlap_score(query_text, item["text"]))
+
+
+def base_model_response(query_text, best_example):
+    label_to_phrase = {
+        "refund_request": "환불 또는 결제 취소와 관련된 문의로 보입니다.",
+        "shipping_delay": "배송 지연 문제로 보이는 고객 문의입니다.",
+        "account_lock": "계정 접근 문제로 보입니다.",
+        "cancel_status": "주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.",
+    }
+    return label_to_phrase[best_example["label"]]
+
+
+def fine_tuned_style_response(best_example):
+    return (
+        f"label={best_example['label']}"
+        f"|priority={best_example['priority']}"
+        f"|team={best_example['team']}"
+    )
+
+
+def parse_label(response):
+    if "label=" in response:
+        first_part = response.split("|")[0]
+        return first_part.replace("label=", "")
+    phrase_map = {
+        "환불과 관련된 문의로 보입니다.": "refund_request",
+        "환불 또는 결제 취소와 관련된 문의로 보입니다.": "ambiguous_billing",
+        "배송 지연 문제로 보이는 고객 문의입니다.": "shipping_delay",
+        "계정 접근 문제로 보입니다.": "account_lock",
+        "주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.": "cancel_status",
+    }
+    return phrase_map.get(response)
+
+
+def check_format(response):
+    required_fields = ["label=", "priority=", "team="]
+    return all(field in response for field in required_fields)
+
+
+base_matches = 0
+tuned_matches = 0
+base_format_ok = 0
+tuned_format_ok = 0
+
+for item in queries:
+    query_text = item["text"]
+    expected_label = item["expected_label"]
+    best_example = retrieve_best_example(query_text)
+    base = base_model_response(query_text, best_example)
+    tuned = fine_tuned_style_response(best_example)
+
+    if parse_label(base) == expected_label:
+        base_matches += 1
+    if parse_label(tuned) == expected_label:
+        tuned_matches += 1
+    if check_format(base):
+        base_format_ok += 1
+    if check_format(tuned):
+        tuned_format_ok += 1
+
+    print("=" * 80)
+    print("query =", query_text)
+    print("expected_label =", expected_label)
+    print("matched_example =", best_example["text"])
+    print("[base response]")
+    print(base)
+    print("[fine-tuned style response]")
+    print(tuned)
+    print(
+        "[checks]",
+        {
+            "base_label": parse_label(base),
+            "tuned_label": parse_label(tuned),
+            "base_format_ok": check_format(base),
+            "tuned_format_ok": check_format(tuned),
+        },
+    )
+
+print("=" * 80)
+print("[summary]")
+print("query_count =", len(queries))
+print("base_label_match_count =", base_matches)
+print("tuned_label_match_count =", tuned_matches)
+print("base_format_ok_count =", base_format_ok)
+print("tuned_format_ok_count =", tuned_format_ok)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-### deployment_check
-- build_status:
-- publish_status:
-- site_url:
-- latest_content_checked:
-- broken_links_checked:
-- note:
-
-### monitoring_note
-- reader_visible_issue:
-- next_check:
+================================================================================
+query = 환불을 받고 싶습니다. 결제 취소는 아직 안 됐습니다.
+expected_label = refund_request
+matched_example = 결제 취소와 환불을 요청합니다
+[base response]
+환불 또는 결제 취소와 관련된 문의로 보입니다.
+[fine-tuned style response]
+label=refund_request|priority=high|team=billing_ops
+[checks] {'base_label': 'ambiguous_billing', 'tuned_label': 'refund_request', 'base_format_ok': False, 'tuned_format_ok': True}
+================================================================================
+query = 상품이 아직 도착하지 않았고 배송이 계속 늦어집니다.
+expected_label = shipping_delay
+matched_example = 배송이 예정일보다 늦어 도착하지 않았습니다
+[base response]
+배송 지연 문제로 보이는 고객 문의입니다.
+[fine-tuned style response]
+label=shipping_delay|priority=medium|team=delivery_ops
+[checks] {'base_label': 'shipping_delay', 'tuned_label': 'shipping_delay', 'base_format_ok': False, 'tuned_format_ok': True}
+================================================================================
+query = 로그인을 여러 번 실패해서 계정이 잠긴 것 같습니다.
+expected_label = account_lock
+matched_example = 비밀번호를 여러 번 틀려 계정이 잠겼습니다
+[base response]
+계정 접근 문제로 보입니다.
+[fine-tuned style response]
+label=account_lock|priority=high|team=account_ops
+[checks] {'base_label': 'account_lock', 'tuned_label': 'account_lock', 'base_format_ok': False, 'tuned_format_ok': True}
+================================================================================
+query = 주문은 취소했는데 카드 결제 취소 여부가 아직 보이지 않습니다.
+expected_label = cancel_status
+matched_example = 주문을 취소했는데 카드 결제는 아직 취소되지 않았습니다
+[base response]
+주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.
+[fine-tuned style response]
+label=cancel_status|priority=medium|team=billing_ops
+[checks] {'base_label': 'cancel_status', 'tuned_label': 'cancel_status', 'base_format_ok': False, 'tuned_format_ok': True}
+================================================================================
+[summary]
+query_count = 4
+base_label_match_count = 3
+tuned_label_match_count = 4
+base_format_ok_count = 0
+tuned_format_ok_count = 4
 ```
 
-이 템플릿의 핵심은 `배포했다`에서 끝내지 않는 것입니다. 적어도 `빌드는 성공했는가`, `공개 페이지는 열리는가`, `최신 수정이 실제로 보이는가`는 분리해 남겨야 합니다.
+이 예제에서 확인해야 할 결과는 같은 문의라도 일반 설명형 응답보다 업무용 출력 형식이 실제로 더 직접 맞춰지는가입니다. 독자는 `queries`에 `환불`과 `취소 상태`처럼 경계가 헷갈리는 문장을 더 넣어 보면서, 어떤 경우에 내부 라벨 경계가 흔들리고 어떤 경우에 고정 형식이 더 안정적으로 유지되는지 직접 확인할 수 있습니다.
 
-이번 절의 흐름을 이 틀에 바로 넣으면 다음처럼 정리할 수 있습니다.
+이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
-```text
-### deployment_check
-- build_status: success
-- publish_status: triggered
-- site_url: https://example.github.io/book/
-- latest_content_checked: latest section title is visible on deployed page
-- broken_links_checked: 핵심 내부 링크 3개 직접 확인
-- note: build success와 public page check를 분리해 기록함
+- 문의 내용은 비슷해도
+- 일반 모델은 대략 맞는 설명형 문장을 줄 수 있어도 내부 라벨 경계를 애매하게 남길 수 있고
+- 파인튜닝된 모델은 `label`, `priority`, `team` 같은 업무용 슬롯을 더 안정적으로 채울 수 있습니다
+- 즉, 설명형 응답은 일부 라벨을 맞출 수 있어도 라우팅에 바로 쓰기 어려운 반면, 파인튜닝된 응답은 라벨과 형식을 함께 맞춰 후속 자동화에 더 직접 연결됩니다.
+- 실무에서는 이 차이가 바로 라우팅 자동화와 후속 처리 안정성으로 이어집니다
 
-### monitoring_note
-- reader_visible_issue: none
-- next_check: 공개 페이지에서 최신 수정 반영 여부를 1회 더 확인
-```
+즉, 파인튜닝은 종종 `정답을 새로 만들어 내는 힘`보다 `반응 방식을 업무 형태에 더 맞추는 힘`으로 이해하는 편이 안전합니다.
 
-## 나쁜 배포 확인 기록과 좋은 배포 확인 기록
+## 이 예제를 업무 형식 조정 관점으로 다시 보면
 
-배포 확인 기록도 자주 `올렸다`, `정상 같다` 정도로 끝납니다. 다음 정도로 대비해 보면 기준이 더 분명해집니다.
+이 예제는 파인튜닝을 `더 똑똑해진다`는 막연한 말보다 `출력 형식과 반응 습관을 업무에 맞춘다`는 관점으로 읽게 해 줍니다. 특히 여기서는 `환불 요청`과 `취소 상태 확인`처럼 비슷한 결제 문의도 내부 라벨이 다르면 다른 팀으로 흘러가야 한다는 점이 드러납니다. 그래서 뒤 절에서도 핵심은 지식의 절대량보다 `어떤 입력에 어떤 형식과 어떤 라벨 경계로 반응하도록 맞췄는가`를 보는 일입니다.
 
-| 구분 | 예시 |
-| --- | --- |
-| 나쁜 기록 | `배포했고 사이트도 아마 괜찮다.` |
-| 좋은 기록 | `mkdocs build는 성공했고 publish도 트리거되었다. 공개 URL 접속과 최신 섹션 제목 노출을 직접 확인했으며, 핵심 내부 링크 3개도 404 없이 열렸다.` |
+파인튜닝은 LLM 이전에도 널리 쓰이던 전이 학습(transfer learning) 흐름과 연결됩니다. 큰 기반 모델을 먼저 만들고, 이후 더 작은 과업 데이터로 목적 적합성을 높이는 방식은 현대 NLP와 비전에서 반복되어 왔습니다.
 
-나쁜 기록은 배포 감상만 남고 실제 확인 항목이 없습니다. 좋은 기록은 `build`, `publish`, `public page`, `latest content`, `broken links`가 각각 확인됐는지를 함께 남깁니다.
+따라서 파인튜닝은 LLM 시대에 갑자기 생긴 낯선 발명이라기보다, `큰 기반을 만들고 나중에 목적별로 적응시키는 흐름`이 더 널리 보이게 된 결과로 이해하면 좋습니다.
 
-## Python/터미널 예시 대신 남길 수 있는 실제 명령
+커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
 
-이 프로젝트에서는 코드보다 명령 흐름이 더 중요합니다.
-
-```bash
-.venv/bin/python -m mkdocs build
-git push origin main
-```
-
-이 두 줄은 단순하지만 역할이 다릅니다.
-
-- 첫 줄은 `정적 산출물 생성`
-- 둘째 줄은 `배포 트리거`
-
-프로젝트 문서에는 둘을 분리해 적는 편이 좋습니다.
-
-이 두 줄을 다음처럼 구분해 기억하면 충분합니다.
-
-- `mkdocs build`: 배포 전 산출물 확인
-- `git push origin main`: 배포 트리거
-
-## 운영 관점의 연결
-
-Google SRE 책은 monitoring을 실시간 수치 데이터를 수집하고 가공해 보여 주는 활동으로 설명합니다. 또한 alerting, dashboard, retrospective analysis 같은 목적을 함께 두며, 사용자 관점 시스템에서는 latency, traffic, errors, saturation 네 가지 golden signals를 우선 보라고 정리합니다.
-
-정적 문서 사이트는 동적 서비스보다 단순하지만, 운영 질문은 여전히 남습니다.
-
-- 페이지가 열리는가?
-- 최근 배포가 반영되었는가?
-- 오류 페이지가 보이지 않는가?
-- 트래픽이 늘면 정적 파일 전달은 안정적인가?
-
-즉, 작은 문서 배포도 `배포 후 확인` 단계를 가져야 합니다.
-
-이 절은 Part 6 전체 흐름에서 `정적 사이트도 서비스처럼 확인하고 기록해야 한다`는 기준을 잡습니다.
+- 사전학습 이후의 실무 연결점을 보여 주고
+- 프롬프트, RAG, 파인튜닝을 서로 다른 선택지로 분리하게 하며
+- 다음 절의 PEFT(parameter-efficient fine-tuning)와 LoRA 설명의 기반을 만들기 때문입니다
 
 ## 다음 절과의 연결
 
-P6-7.2에서는 배포 실패, 링크 오류, 오래된 콘텐츠 노출 같은 문제를 어떻게 회고 문서로 남길지 다룹니다.
+여기서 바로 현실 문제가 나옵니다.
+
+- 거대한 모델 전체를 늘 다시 조정해야 하는가?
+- 더 적은 비용으로 일부만 효율적으로 조정할 수는 없는가?
+
+이 질문은 P6-7.2 LoRA와 효율적 조정으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 정적 사이트 배포도 하나의 서비스 배포입니다.
-- build 성공과 공개 페이지 정상 동작은 같은 말이 아닙니다.
-- GitHub Pages는 정적 파일 호스팅 서비스입니다.
-- 배포 후 상태 확인 체크리스트가 필요합니다.
+- 파인튜닝은 사전학습된 모델을 특정 과업이나 도메인에 맞게 추가 조정하는 과정입니다.
+- 프롬프트는 입력을 바꾸고, 파인튜닝은 모델 내부 가중치 조정을 포함합니다.
+- 파인튜닝은 형식 일관성과 과업 적합성에 유리할 수 있지만 만능 해결책은 아닙니다.
+- 최신성이나 외부 근거 문제는 RAG가 더 적합한 경우가 많습니다.
 
 ## 체크리스트
 
-- 빌드 성공과 배포 성공을 분리해 적을 수 있는가?
-- 공개 URL과 최신 반영 여부를 확인했는가?
-- 링크 깨짐과 오류 페이지 여부를 점검했는가?
-- 정적 사이트도 운영 관점이 필요하다는 점을 설명할 수 있는가?
+- 파인튜닝을 사전학습 이후 조정 단계로 설명할 수 있는가?
+- 프롬프트와 파인튜닝의 차이를 말할 수 있는가?
+- 파인튜닝이 유리한 상황과 RAG가 더 적합한 상황을 구분할 수 있는가?
+- 왜 다음 절에서 효율적 조정 기법이 필요한지 설명할 수 있는가?
 
 ## 출처와 참고 자료
 
-- GitHub Docs, `What is GitHub Pages?`, 확인 날짜: 2026-06-29. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" }
-- GitHub Docs, `Creating a GitHub Pages site`, 확인 날짜: 2026-06-29. [https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site){: target="_blank" rel="noopener noreferrer" }
-- Google, `Monitoring Distributed Systems`, Site Reliability Engineering Book, 확인 날짜: 2026-06-29. [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/){: target="_blank" rel="noopener noreferrer" }
+- Jeremy Howard, Sebastian Ruder, `Universal Language Model Fine-tuning for Text Classification`, arXiv, 2018, 확인 날짜: 2026-06-29.
+- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-06-29.
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.

@@ -1,471 +1,365 @@
-# P5-12.2 함수 호출(function calling)
+# P5-12.2 장기 의존성(long-term dependency)
 
-P5-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하는 구조라는 점을 보았습니다. 그러면 이제 더 구체적인 질문이 나옵니다.
+P5-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 위해 등장한 구조라고 설명했습니다. 여기서 바로 다음 질문이 생깁니다.
 
-도구를 써야 한다는 판단을 시스템은 어떤 형식으로 주고받는가?
+왜 순차 모델은 오래전 정보를 끝까지 유지하기 어려웠고, 그것이 왜 큰 문제였는가?
 
-이 절은 그 질문에 답합니다.
+이 질문에 답하는 개념이 장기 의존성(long-term dependency)입니다.
 
-함수 호출(function calling)은 모델이 어떤 도구를 어떤 인자(arguments)로 호출해야 하는지 구조화된 형식으로 표현하게 하는 방식이다.
+장기 의존성은 현재 판단에 오래전 정보가 중요한데도, 모델이 그 정보를 충분히 오래 유지하거나 전달하지 못하는 문제를 뜻한다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 함수 호출은 왜 필요한가?
-- 자연어 요청과 구조화된 도구 호출은 무엇이 다른가?
-- 함수 이름과 인자를 나누는 것이 왜 중요한가?
+- 장기 의존성은 무엇을 뜻하는가?
+- 왜 기본 RNN에서는 오래전 정보가 약해지기 쉬운가?
+- 이 문제가 실제 문장, 음성, 시계열에서 어떻게 드러나는가?
+- LSTM, GRU, 그리고 나중의 attention이 왜 이 문제와 연결되는가?
+
+이 절에서 먼저 닫아야 하는 핵심은 `순차 상태를 넘기는 구조만으로는 먼 앞 단서를 현재 판단까지 안정적으로 들고 오기 어렵다`는 점입니다.
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 특정 API 스펙 세부
-- JSON schema 전체 문법
-- 에이전트 프레임워크 구현 상세
+- vanishing gradient 수식의 엄밀한 전개
+- BPTT(backpropagation through time)의 상세 유도
+- attention 메커니즘의 구현 세부
 
-이 절에서는 함수 호출의 구조적 의미만 다루고, 반복 작업을 이어 가는 실행 구조는 다음의 P5-13.1 에이전트와 P5-13.2 계획, 행동, 관찰에서 다시 회수합니다. API 스펙과 JSON schema 문법 전체는 현재 본편 범위 밖으로 둡니다.
+attention 자체는 다음 장에서 이어서 다루고, Transformer로의 확장은 그다음 장에서 다시 다룹니다. vanishing gradient 수식과 BPTT의 상세 유도는 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절에서는 function calling을 단순 제품 기능명이 아니라, `도구 사용을 안정적으로 연결하기 위한 구조화 방식`으로 설명합니다.
+지금 읽는 층위는 `상태 보존 한계 층위`입니다. 앞 절의 RNN, LSTM, GRU가 `순차 상태를 어떻게 넘기고 관리할까`를 다뤘다면, 여기서는 그 상태 보존 방식이 어디에서 흔들리기 시작하는지 읽습니다. 바로 다음의 attention 절에서는 이 한계를 `필요한 위치를 다시 찾아보는 방식`으로 어떻게 뒤집는지 질문이 더 커집니다.
 
-지금 읽는 층위는 `구조화된 실행 요청 층위`입니다. 앞 절의 tool use가 `무엇을 실행할까`를 다뤘다면, 여기서는 그 실행 판단을 어떤 이름과 인자 구조로 바꿔야 시스템이 검증하고 이어서 처리할 수 있는지 읽습니다. 바로 다음의 agent 절에서는 이런 구조화된 호출을 여러 단계 목표 흐름 안에서 어떻게 이어 갈지로 질문이 더 커집니다.
-
-처음 읽을 때는 function calling을 Part 5 본류의 `구조화된 실행 요청 손잡이`로만 잡고, 그 다음에 어떤 층위가 더 붙는지까지 같이 보면 흐름이 덜 끊깁니다.
+처음 읽을 때는 장기 의존성을 Part 5 본류의 `상태 보존 한계 손잡이`로만 잡고, 그 다음에 attention이 어떤 구조 전환을 가져오는지 같이 보면 흐름이 덜 끊깁니다.
 
 | 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
 | --- | --- | --- |
-| 함수 호출(function calling) | 실행 요청을 어떤 이름과 인자 구조로 안정적으로 넘길 것인가? | P5-12.2 |
-| 에이전트(agent) | 이런 호출들을 어떤 순서로 이어 가며 중간 결과를 보고 다음 행동을 바꿀 것인가? | P5-13.1, P5-13.2 |
-| MCP | 이 호출과 도구 연결을 어떤 공통 인터페이스로 정리할 것인가? | P5-14.1 |
-| 하네스(harness) | 실행 기록과 평가 입력을 어떤 환경 안에서 관리할 것인가? | P5-14.2 |
+| RNN / LSTM / GRU | 순차 상태를 어떻게 넘기고 더 잘 관리할 수 있는가? | P5-12.1 |
+| 장기 의존성 | 그 상태 보존이 왜 먼 단서 앞에서 흔들리기 쉬운가? | P5-12.2 |
+| attention | 필요한 위치를 현재 시점에서 다시 직접 참고할 수 있는가? | P5-13.1 |
 
-이 구간을 가장 짧게 다시 묶으면, function calling은 `한 번의 실행 요청을 구조로 바꾸는 층위`, agent는 `그 요청들을 목표 기준으로 이어 가는 층위`, MCP는 `그 연결 방식을 여러 도구에 공통 규칙으로 맞추는 층위`, harness는 `그 실행과 기록을 운영 가능한 형태로 감싸는 층위`입니다. 이 기준이 보여야 function calling을 agent의 다른 이름이나 MCP의 구현 세부로 섞어 읽지 않게 됩니다.
-
-바로 앞 절과 다음 절까지 한 번에 나란히 놓고 보면, 지금 읽는 함수 호출의 역할이 더 짧게 잡힙니다.
+앞뒤 장의 최소 차이는 다음 표처럼 다시 고정할 수 있습니다.
 
 | 바로 앞 장 | 지금 장 | 바로 다음에 더 붙는 장 |
 | --- | --- | --- |
-| tool use: 어떤 외부 기능이 필요한가 | function calling: 그 기능 요청을 어떤 이름과 인자 구조로 넘길까 | agent: 이런 구조화된 호출들을 어떤 순서로 이어 가며 언제 멈출까 |
-| 실행 필요 판단 | 구조화된 실행 요청 | 목표 흐름 |
+| RNN 계열: 상태를 어떻게 이어받고 조절할까 | 장기 의존성: 그 상태 보존이 어디에서 약해지는가 | attention: 필요한 위치를 다시 찾아보는 방식으로 무엇이 바뀌는가 |
+| 상태 전달 구조 | 상태 보존의 한계 | 직접 참조 구조 |
 
-즉, 지금 장의 핵심은 `무엇을 실행할까`에서 `그 실행 요청을 어떻게 검증 가능한 payload로 바꿀까`로 손잡이가 바뀐다는 점입니다.
-
-처음 읽을 때는 이 전환을 아래 세 줄로만 기억해도 충분합니다.
-
-| 여기서 바뀌는 손잡이 | 지금 먼저 확인할 것 |
-| --- | --- |
-| tool use | 어떤 외부 기능이 필요한가 |
-| function calling | 그 기능 요청을 어떤 이름과 인자 구조로 넘길 것인가 |
-| agent | 이런 구조화된 호출을 어떤 순서로 이어 갈 것인가 |
-
-| 층위 | 먼저 해결하는 질문 | 대표 산출물 |
-| --- | --- | --- |
-| P5-12.1 도구 사용(tool use) | 어떤 외부 기능이 필요한가? | 도구 필요 판단 |
-| P5-12.2 함수 호출(function calling) | 그 기능 요청을 어떤 이름과 인자 구조로 넘길 것인가? | 구조화된 호출 payload |
-| P5-13.1 에이전트(agent) | 이런 호출과 읽기를 어떤 순서로 이어 가며 언제 멈출 것인가? | 목표 기준의 다단계 작업 흐름 |
-
-즉, tool use가 `실행 필요성`을 열고, function calling은 그 실행을 `검증 가능한 구조`로 바꾸며, agent는 그런 구조들을 `목표 흐름` 안에서 이어 붙입니다. 이 차이가 보여야 함수 호출을 단순 제품 기능이 아니라, `실행 연결을 안정화하는 중간 층`으로 읽을 수 있습니다.
-
-| 지금 함수 호출 단계에서 먼저 남길 기록 | 왜 지금 필요한가 | 뒤 절과 Part 6에서 다시 읽는 기록 |
-| --- | --- | --- |
-| `tool_name`, `arguments`, 누락 필드 점검 결과 | 어떤 호출을 어떤 인자로 준비했는지 남겨야 자연어 요청과 실행 payload를 다시 맞춰 볼 수 있어서 | P5-13의 plan/action 루프, P5-14.2의 tool call log, Part 6의 `execution_records`로 이어진다 |
-| `result_schema`, 호출 실패 이유 | 결과를 어떤 형식으로 기대했고 어디서 호출이 막혔는지 남겨야 실행 실패와 후속 운영 실패를 구분할 수 있어서 | P5-15의 평가 입력, P5-16.2의 실패 대응, Part 6의 `incident_records`, `next_action`으로 이어진다 |
+즉, 지금 장의 핵심은 `상태를 어떻게 관리할까`에서 `그 상태 관리가 왜 먼 단서 앞에서 흔들리는가`로 손잡이가 바뀐다는 점입니다.
 
 ## 이 절의 목표
 
-- 함수 호출을 입문 수준에서 설명할 수 있습니다.
-- 자연어 요청과 구조화된 호출의 차이를 말할 수 있습니다.
-- 이름(name), 인자(arguments), 결과(result)를 나눠 보는 이유를 설명할 수 있습니다.
-- 다음 장의 에이전트 구조로 자연스럽게 넘어갈 수 있습니다.
+- 장기 의존성을 `오래전 정보가 필요한데 잘 유지되지 않는 문제`로 설명할 수 있습니다.
+- 기본 RNN이 긴 문맥을 다루기 어려운 이유를 입문 수준에서 말할 수 있습니다.
+- LSTM과 GRU가 왜 등장했는지 더 분명히 연결할 수 있습니다.
+- attention이 왜 자연스러운 다음 주제가 되는지 설명할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+이 절은 다음 순서로 읽으면 흐름이 자연스럽습니다.
 
-1. 먼저 `왜 구조화가 필요한가`와 `자연어 요청과 무엇이 다른가`를 읽고, 사람에게는 자연스럽지만 시스템에는 모호한 요청이 구조화된 호출로 바뀌는 이유를 잡습니다.
-2. 그다음 `함수 이름과 인자를 나누는 이유`, `결과도 구조화가 중요한가`, `함수 호출이 항상 정답은 아니다`를 읽으면서 검증 가능성과 통제 가능성이 왜 중요해지는지 확인합니다.
-3. 마지막으로 사례와 Python 예제를 보면서, `자연어 요청 -> 함수 이름 + 인자 -> 누락 필드 검증 -> 실행 준비`라는 흐름이 실제로 어떻게 드러나는지 확인합니다.
+1. 장기 의존성이 무엇을 뜻하는지 먼저 정의합니다.
+2. 왜 기본 RNN에서 오래전 정보가 약해지기 쉬운지 봅니다.
+3. 이 문제가 단순 성능 저하가 아니라 문맥 해석 방식의 문제라는 점을 봅니다.
+4. LSTM과 GRU가 왜 나왔는지 다시 연결합니다.
+5. 마지막에 왜 attention이 자연스러운 다음 주제가 되는지 정리합니다.
 
-## 왜 구조화가 필요한가
+## 장기 의존성은 무엇을 뜻하나
 
-도구 사용을 자연어 문장만으로 처리하면 애매함이 큽니다.
+순차 데이터에서는 현재 위치의 의미가 훨씬 앞에 있던 정보에 달려 있을 수 있습니다.
 
-예를 들어 모델이 이렇게 말한다고 가정해 봅시다.
+예를 들어 문장에서:
 
-`서울의 오늘 환율을 검색해서 알려 주세요.`
+- 주어가 앞에 나오고
+- 동사가 한참 뒤에 나오며
+- 부정 표현이 뒤 의미를 바꿀 수도 있습니다
 
-이 문장은 사람은 이해할 수 있지만, 시스템 입장에서는 다음이 모호할 수 있습니다.
+이때 현재 단어를 해석하려면, 오래전 단서를 기억하고 있어야 할 수 있습니다.
 
-- 어떤 도구를 써야 하는가?
-- 인자는 무엇인가?
-- 날짜 형식은 어떻게 되는가?
-- 실패하면 무엇을 돌려줘야 하는가?
+핵심은 현재 판단이 가까운 정보만으로는 부족하고, 한참 앞의 단서까지 이어서 참조해야 한다는 점입니다.
 
-그래서 함수 호출 구조는 보통 다음을 분리합니다.
+`가까운 정보만으로는 부족하고, 한참 앞의 정보까지 이어서 봐야 하는 상황이 장기 의존성 문제를 만든다.`
 
-- 도구 이름
-- 인자 이름
-- 인자 값
+즉, 장기 의존성은 `이전 정보가 있으면 좋다` 정도의 문제가 아니라, `오래전 정보가 없으면 현재 판단 자체가 흔들리는가`를 묻는 문제입니다.
 
-즉, 자연어를 그대로 실행하는 것이 아니라 `실행 가능한 구조`로 바꾸는 것입니다.
+## 왜 기본 RNN은 오래전 정보를 놓치기 쉬운가
 
-## 자연어 요청과 무엇이 다른가
+RNN은 각 step에서 이전 상태를 이어받지만, 그 상태는 계속 새 입력과 섞이며 갱신됩니다. 시점이 길어질수록 오래전 정보는 점점 희미해질 수 있습니다.
 
-| 표현 방식 | 특징 |
+다음 비유가 도움이 됩니다.
+
+- 메모를 계속 새로 덧쓰는 작은 칠판이 있다고 생각해 봅니다
+- 짧은 정보는 남기기 쉽지만
+- 오래전 중요한 문장을 계속 보존하기는 어렵습니다
+
+즉, RNN의 핵심 아이디어는 좋지만, 긴 시퀀스에서는 `무엇을 오래 남길지`를 정교하게 관리하기 어렵다는 한계가 있었습니다.
+
+이 절에서 중요한 것은 수식을 먼저 외우는 일이 아니라, `상태를 계속 갱신하다 보면 오래전 정보가 뒤로 갈수록 희미해질 수 있다`는 감각을 잡는 것입니다.
+
+## 왜 이것이 단순한 성능 문제가 아닌가
+
+장기 의존성은 단순히 `조금 덜 정확하다` 정도의 문제가 아니라, 순차 구조를 해석하는 방식 자체를 바꿉니다.
+
+왜냐하면:
+
+- 어떤 문제는 가까운 정보만 보면 충분하지만
+- 어떤 문제는 오래전 정보가 핵심 단서이기 때문입니다
+
+즉, 장기 의존성 문제는 모델이 `얼마나 멀리까지 문맥을 유지할 수 있는가`에 대한 질문입니다.
+
+독자는 여기서 `가까운 단서`와 `먼 단서`를 나눠 보면 이해가 빨라집니다.
+
+| 단서 유형 | 예 |
 | --- | --- |
-| 자연어 요청 | 사람이 읽기 쉽지만 모호할 수 있음 |
-| 구조화된 함수 호출 | 시스템이 해석하기 쉽고 검증이 가능함 |
+| 가까운 단서 | 바로 앞 단어, 직전 몇 초의 센서 변화 |
+| 먼 단서 | 문장 맨 앞 주어, 오래전 시제 정보, 훨씬 앞쪽 이상 징후 |
 
-다음처럼 기억하면 좋습니다.
+장기 의존성은 주로 두 번째 유형이 중요할 때 드러납니다.
 
-`함수 호출은 모델의 의도를 시스템이 더 안전하게 실행할 수 있도록 문장을 구조로 바꾸는 방법이다.`
+## 그래서 LSTM과 GRU는 무엇을 하려 했나
 
-## 함수 이름과 인자를 나누는 이유
+P5-12.1에서 본 것처럼 LSTM과 GRU는 기본 RNN보다 더 잘 기억을 관리하려는 구조입니다.
 
-이 구분을 잡아야 시스템이 `어떤 기능을 부를지`와 `그 기능에 어떤 값을 넘길지`를 따로 검증하고 실패 원인을 나눠 볼 수 있습니다.
+핵심은 어떤 정보는 남기고 어떤 정보는 버리며, 현재 입력을 얼마나 반영할지를 더 세밀하게 조절한다는 점입니다.
 
-예를 들어:
+- 어떤 정보는 남기고
+- 어떤 정보는 버리고
+- 현재 입력을 얼마나 반영할지
 
-- 함수 이름: `lookup_exchange_rate`
-- 인자: `{"currency": "USD", "region": "KR", "date": "2026-06-29"}`
+를 더 세밀하게 조절해, 장기 의존성을 더 잘 다루려는 시도입니다.
 
-이렇게 나누면 시스템은 다음을 하기 쉬워집니다.
+즉, LSTM과 GRU는 `오래 기억하고 싶은 정보를 더 오래 살아남게 하려는 구조`라고 볼 수 있습니다.
 
-- 허용된 도구인지 확인
-- 인자 형식 검증
-- 빠진 인자 탐지
-- 실행 전 승인 요구
+이 설명은 바로 앞 절과도 이어집니다. P5-12.1에서 RNN을 `상태를 넘기는 구조`로 봤다면, 여기서는 LSTM과 GRU를 `그 상태를 더 잘 보존하게 만든 구조`로 읽으면 됩니다.
 
-즉, 함수 호출은 단순히 예쁘게 정리하는 것이 아니라, `검증 가능성`과 `통제 가능성`을 높이는 구조입니다.
+## 그런데 왜 attention이 다시 등장했나
 
-## 결과도 구조화가 중요한가
+LSTM과 GRU는 장기 의존성 문제를 완화했지만, 여전히 순차 상태를 차례대로 전달하는 구조의 한계가 남아 있었습니다. 바로 이 지점에서 attention이 중요해집니다.
 
-그렇습니다. 도구를 호출한 뒤에도 결과가 다시 구조적으로 돌아오면:
+attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 
-- 모델이 다시 읽기 쉬워지고
-- 앱이 후처리하기 쉬워지며
-- 로그와 추적(trace)이 쉬워집니다
+`굳이 오래전 정보를 상태에만 희미하게 담아 두지 말고, 현재 위치가 필요할 때 과거의 중요한 위치를 더 직접적으로 참고하자.`
 
-즉, 함수 호출은 보통 입력 구조화만이 아니라, 실행 결과를 다시 연결하는 흐름까지 포함하는 구조로 보는 편이 좋습니다.
+즉, attention은 장기 의존성 문제에 대한 더 직접적인 응답처럼 읽을 수 있습니다.
 
-## 함수 호출이 항상 정답은 아니다
+이 점이 다음 절로 넘어갈 때 가장 중요합니다. basic RNN, LSTM, GRU는 모두 `상태를 이어서 기억한다`는 계열 안에 있지만, attention은 `필요한 위치를 다시 본다`는 쪽으로 발상을 바꿉니다.
 
-이 점도 같이 넣어야 합니다.
+이 연결을 더 짧게 정리하면 다음과 같습니다.
 
-함수 호출이 있다고 해서:
+| 구조 | 오래전 정보를 다루는 기본 감각 |
+| --- | --- |
+| basic RNN | 상태를 계속 넘기며 유지하려 한다 |
+| LSTM / GRU | 무엇을 남길지 더 잘 조절한다 |
+| attention | 필요한 위치를 더 직접 다시 참고한다 |
 
-- 모델이 항상 올바른 도구를 고르는 것
-- 인자를 완벽하게 채우는 것
-- 잘못된 실행을 완전히 막는 것
+이 전환을 한계와 다음 발상이라는 흐름으로 다시 정리하면 다음과 같습니다.
 
-이 보장되지는 않습니다.
+| 단계 | 먼저 드러난 한계 | 바로 다음에 바뀌는 발상 |
+| --- | --- | --- |
+| basic RNN | 상태를 넘기지만 오래전 단서가 쉽게 희미해질 수 있다 | 기억을 더 잘 관리하는 구조가 필요하다 |
+| LSTM / GRU | 기억 관리는 나아지지만 여전히 순차 전달 부담이 남는다 | 필요한 위치를 현재 시점에 다시 직접 참고하자 |
+| attention | 상태 보존보다 직접 참조가 더 중요해진다 | 뒤 장에서 self-attention과 Transformer로 확장된다 |
 
-따라서 실제 시스템은 보통:
+## 사례로 보기
 
-- schema 검증
-- 권한 확인
-- 사용자 승인
-- 실패 시 재시도 또는 오류 보고
+### 사례 1. 긴 문장 해석
 
-같은 추가 구조를 둡니다.
+고객센터 문서에 `환불은 가능하지만 배송비는 제외된다`라는 문장이 앞부분에 있고, 뒤쪽 FAQ에서 `최종 환불 금액은?`을 다시 묻는 상황을 생각해 보겠습니다. 사람이 문서를 대충 읽을 때는 보통 질문 바로 근처 문장만 다시 보고 `환불 가능`만 기억한 채 답을 정리하기 쉽습니다. 그런데 실제로는 앞쪽의 `배송비는 제외` 조건이 핵심이라, 그 문장을 놓치면 환불 금액을 과하게 안내하는 오답이 나올 수 있습니다. basic RNN은 긴 문장을 따라가며 이런 앞쪽 조건을 상태 안에 계속 보존해야 하므로, 뒤로 갈수록 중요한 단서가 흐려질 수 있습니다. attention 관점에서는 현재 답을 만들 때 앞부분의 `배송비는 제외` 위치를 더 직접 참고할 수 있어, 오래전 단서를 다시 끌어오기 쉬워집니다.
 
-## 아주 단순하게 그리면
+### 사례 2. 번역
+
+긴 번역 문장에서 주어가 앞에 있고 동사가 한참 뒤에 나오면, 중간에 수식어가 많이 끼어들 수 있습니다. 사람이 손으로 번역할 때도 보통은 `지금 보고 있는 단어 주변`을 먼저 읽다가, 주어와 동사의 연결이 멀어지면 문장 앞을 다시 확인하게 됩니다. 예를 들어 문장 초반의 인물 주어가 뒤쪽 동사의 시제와 수를 결정하는데, 중간 설명이 길어지면 그 연결이 쉽게 흐려질 수 있습니다. 순차 상태에만 의존하면 모델은 이 `앞으로 다시 돌아가 확인하는 행동`을 직접 하기가 어렵고, 앞의 핵심 단서를 뒤 시점까지 안정적으로 유지하지 못할 수 있습니다. attention은 현재 번역 중인 위치가 문장 앞의 중요한 단어를 다시 바라보게 만들어, 멀리 떨어진 대응 관계를 더 직접 다루는 데 도움을 줍니다.
+
+### 사례 3. 시계열 이상 탐지
+
+설비 센서 데이터에서 평소에는 안정적이던 값이 한참 뒤에 급격히 흔들렸는데, 그 원인이 초반 설정 단계의 작은 이상 신호에 있을 수 있습니다. 사람이 단순 규칙으로 보려 하면 보통 `최근 10초 평균`이나 `현재 임계치 초과 여부`처럼 가까운 구간만 먼저 확인합니다. 하지만 실제 고장은 초반의 작은 흔들림과 뒤쪽의 큰 이상이 이어진 결과일 수 있어, 최근 값만 보면 원인을 놓치기 쉽습니다. 예를 들어 초반의 작은 진동 증가가 한동안 누적되다가 뒤늦게 큰 온도 상승으로 이어졌다면, 마지막 구간만 봐서는 왜 고장이 났는지 설명하기 어렵습니다. 상태가 여러 step을 지나며 희석되면 모델도 초반 신호를 뒤 판단에 약하게 반영할 수 있습니다. 이때 필요한 시점끼리 더 직접 연결해 보는 관점은, 왜 장기 의존성과 attention 문제가 함께 언급되는지 이해하는 데 도움이 됩니다.
+
+세 사례에서 공통으로 확인해야 할 결과는 먼 단서를 끝까지 그대로 들고 가기보다, 필요한 앞 위치를 다시 더 직접 참고할 수 있어야 한다는 점입니다. 긴 문장 해석에서는 예외 조건을 놓치지 않는지, 번역에서는 앞 주어와 시제 단서가 끝까지 유지되는지, 시계열 이상 탐지에서는 초반 이상 신호와 마지막 경보가 실제로 함께 읽히는지를 보면 충분합니다.
+
+| 사례 | 초반에 꼭 남아 있어야 하는 단서 | 중간 간격이 길어질수록 생기는 문제 | 이 절에서 확인할 결과 |
+| --- | --- | --- | --- |
+| 긴 문장 해석 | `배송비는 제외` 같은 앞 조건 | 뒤 질문 시점에는 핵심 예외 조건이 흐려질 수 있다 | 최종 답변이 앞 조건까지 함께 반영하는가 |
+| 번역 | 문장 앞 주어, 시제, 수 일치 단서 | 중간 수식어가 길어질수록 앞뒤 대응이 약해질 수 있다 | 문장 끝에서도 앞 단서가 유지되는가 |
+| 시계열 이상 탐지 | 초반의 작은 진동 증가나 설정 이상 | 최근 값만 남고 초기 이상 징후가 희미해질 수 있다 | 마지막 경보가 초반 이상 신호까지 반영하는가 |
+
+## 이를 아주 단순하게 그리면
 
 ```mermaid
 flowchart TD
-  A["user request"]
-  B["model produces structured function call"]
-  C["application validates and executes"]
-  D["tool result"]
-  E["final answer"]
+  A["early information"]
+  B["many time steps"]
+  C["important clue becomes weak"]
+  D["current decision"]
 
   A --> B
   B --> C
   C --> D
-  D --> E
 ```
 
-이 도식의 핵심은 `문장 -> 구조 -> 실행 -> 결과` 흐름으로 바뀐다는 점입니다.
+이 도식에서 확인해야 할 결과는 오래전 입력의 중요한 단서가 상태 갱신을 거치며 현재 결정 단계에 도달할수록 점점 약해질 수 있다는 점입니다.
 
-## 사례로 보기
+## 실행 가능한 Python 예제로 상태 희석 직관 보기
 
-### 사례 1. 환율 조회
-
-`오늘 달러 환율 알려 줘`라는 질문을 생각해 볼 수 있습니다. 사람끼리는 대충 이해될 수 있지만, 시스템은 `어느 통화쌍인지`, `어느 날짜 기준인지`, `어느 지역 환율인지`를 인자로 분리해야 실제 조회가 가능합니다. 예를 들어 사용자 의도가 `USD/KRW`인지 `달러 인덱스`인지부터 다를 수 있습니다. 이 구분이 없으면 조회는 성공해도 사용자가 원한 값이 아닌 다른 지표를 돌려줄 수 있습니다. 여기서 바뀌는 점은 `질문 뜻이 대충 통하는가`를 보던 기준에서 `실제 조회에 필요한 인자가 빠짐없이 구조화되는가`를 보는 기준으로 이동한다는 것입니다. 함수 호출 구조는 자연어 요청을 이런 명시적 필드로 바꾸어 실행 단계를 더 분명하게 만듭니다. 그래서 이 사례에서 확인해야 할 결과는 질문 문장이 실제 조회 전에 `통화쌍`, `기준 날짜` 같은 인자로 분해되는가입니다.
-
-### 사례 2. 일정 생성
-
-자연어로는 `내일 오후 3시에 회의 잡아 줘`라고 말하면 충분해 보입니다. 사람도 이런 표현이면 서로 이해될 거라고 먼저 느끼기 쉽습니다. 하지만 실제 캘린더 API는 참석자, 시간대, 제목, 날짜 형식처럼 더 구조화된 인자를 받아야 합니다. 예를 들어 `내일`은 사용자 시간대가 바뀌면 다른 날짜가 될 수 있고, 참석자가 빠지면 회의 생성 자체가 불완전할 수 있습니다. 이 차이를 놓치면 모델이 말을 잘 이해해도 실행 단계에서 바로 막히거나 엉뚱한 시간에 일정이 생길 수 있습니다. 여기서 바뀌는 점은 `말이 충분히 구체적인가`를 보던 기준에서 `API가 요구하는 필드가 실제로 다 채워졌는가`를 보는 기준으로 이동한다는 것입니다. 함수 호출 구조는 이런 암묵적 정보를 명시적 인자 묶음으로 바꿔 줍니다. 그래서 이 사례에서 확인해야 할 결과는 회의 생성 전에 시간, 날짜, 제목, 참석자 같은 필드가 빠짐없이 구조화되는가입니다.
-
-### 사례 3. 코드 에이전트
-
-코드 에이전트가 파일 읽기, 테스트 실행, 패치 적용을 번갈아 수행한다고 해 봅시다. 단순 자연어 설명만 남으면 어떤 작업이 언제 어떤 인자로 실행됐는지 다시 추적하기 어렵습니다. 사람은 `파일을 좀 고쳤다`는 설명이면 충분하다고 느끼기 쉽지만, 실제 운영에서는 어떤 파일을 읽고 어떤 테스트를 돌렸는지까지 남아야 실패를 재현할 수 있습니다. 반대로 함수 호출 구조로 남기면 `read_file`, `run_tests`, `apply_patch` 같은 단계가 명시적으로 기록되어 실행 흐름을 더 쉽게 되짚을 수 있습니다. 여기서 바뀌는 점은 `무슨 작업을 했다`는 설명만 남기던 기준에서 `어떤 함수가 어떤 인자로 호출됐는가`까지 다시 추적할 수 있는가를 보는 기준으로 이동한다는 것입니다. 이 기록이 없으면 같은 실패가 다시 나와도 어느 단계 입력이 달랐는지 확인하기 어려워집니다. 즉, 함수 호출은 실행 성공만 돕는 것이 아니라 로그와 재현성에도 직접 도움이 됩니다. 그래서 이 사례에서 확인해야 할 결과는 최종 성공 여부뿐 아니라 어떤 함수가 어떤 인자로 호출됐는지를 다시 추적할 수 있는가입니다.
-
-세 사례를 구조화 관점으로 다시 묶으면 다음과 같습니다.
-
-| 상황 | 자연어만 두면 모호한 것 | 함수 호출 구조가 분명하게 만드는 것 |
-| --- | --- | --- |
-| 환율 조회 | 어떤 값을 어느 기준으로 조회할지 | 통화쌍, 날짜, 지역 같은 인자 |
-| 일정 생성 | `내일`, `오후` 같은 표현의 실행 기준 | 날짜, 시간, 시간대, 참석자 필드 |
-| 코드 에이전트 | 무엇을 어떤 순서로 실행했는지 | 함수 이름, 인자, 실행 로그 |
-
-같은 내용을 구조화된 실행 요청 흐름으로 다시 보면 다음처럼 읽을 수 있습니다.
-
-```mermaid
-flowchart LR
-  A["natural language request"]
-  B["structured call<br/>name + arguments"]
-  C["validation<br/>missing fields?"]
-  D["ready to execute"]
-  E["needs clarification or retry"]
-
-  A --> B --> C
-  C -->|valid| D
-  C -->|invalid| E
-```
-
-핵심은 `구조화됐다`와 `바로 실행 가능하다`가 같은 말이 아니라는 점입니다.
-
-## 실행 가능한 Python 예제로 보기
-
-이번 예제의 목표는 실제 캘린더 API를 부르는 것이 아니라, 자연어 요청이 함수 이름과 인자 구조로 바뀌고, 그 구조가 검증 가능한 형태가 된다는 점을 보는 것입니다. 한 요청만 보면 `구조화하면 된다` 수준에서 끝나기 쉬우므로, 이번에는 여러 요청을 배치로 보면서 어떤 호출은 바로 실행 가능하고 어떤 호출은 필드 누락으로 막히는지도 함께 보겠습니다.
-
-문제 상황:
-
-- 사용자는 자연어로 일정을 만들어 달라고 요청함
-- 시스템은 이 문장을 그대로 실행하지 않고, 함수 이름과 인자를 분리해 받아야 함
-- 인자 누락 여부를 실행 전에 점검할 수 있어야 함
-- 따라서 `구조화했다`와 `실행 준비가 끝났다`는 같은 말이 아님
+이번 예제의 목표는 `초반 규칙`과 `마지막 질문` 사이의 간격이 길어질수록, 순차 상태가 앞 단서를 얼마나 빨리 잃는지 직접 확인하는 것입니다. 동시에 같은 문맥을 `직접 다시 찾는 방식`과 비교해 장기 의존성 문제가 왜 생기는지도 봅니다.
 
 입력:
 
-- 사용자 요청 여러 개
-- 구조화된 함수 호출 초안
+- 문서 맨 앞의 핵심 규칙 한 줄
+- 길이가 다른 중간 설명 구간
+- 문서 끝의 같은 질문 한 줄
 
 출력:
 
-- 함수 이름과 인자 구조
-- 필수 인자 점검 결과
-- 어떤 호출이 바로 실행 가능하고 어떤 호출이 누락으로 막히는지에 대한 점검값
-
-먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
-
-| 점검 항목 | 왜 필요한가 |
-| --- | --- |
-| `function_name` | 어떤 기능을 부르려는지 분리해서 확인 |
-| `missing_fields` | 실행 전에 어떤 인자가 비었는지 확인 |
-| `is_valid` | 현재 구조로 바로 실행 가능한지 확인 |
-| `provided_argument_keys` | 모델이 어떤 필드까지 채웠는지 확인 |
+- 간격 길이별 최종 상태값
+- 상태 기반 판정 결과
+- 질문 시점에서의 상태 기반 핵심 단서 최소값
+- 앞 규칙을 다시 찾는 direct reference 판정 결과
+- 질문과 규칙 줄 사이의 direct match score
 
 문제 상황:
 
-- 함수 호출형 도구 사용에서는 실행 전에 이름, 인자, 누락 필드를 먼저 검증해야 한다
-
-입력(input):
-
-위에 정리한 사용자 요청과 모델이 만든 function call 구조를 사용합니다.
+- 긴 문맥에서는 앞에서 본 규칙이 뒤 질문 시점까지 얼마나 남는지 순차 상태만으로는 약해질 수 있다
 
 확인할 개념:
 
-- 함수 호출형 도구 사용은 실행 전에 함수 이름, 인자, 누락 필드를 먼저 검증하는 단계가 필요하다
+- 순차 상태는 시간이 길어질수록 앞 단서를 약하게 남길 수 있다
+- 직접 참조와 상태 기반 판단을 비교하면 장기 의존성 문제가 더 직관적으로 보인다
+
+입력(input):
+
+위에 정리한 규칙 문장, 질문 문장, 문서 줄 목록을 사용합니다.
 
 ```python
-requests = [
-    {
-        "user_request": "내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.",
-        "function_call": {
-            "name": "create_calendar_event",
-            "arguments": {
-                "title": "디자인 리뷰",
-                "date": "tomorrow",
-                "time": "15:00",
-                "timezone": "Asia/Seoul",
-                "attendees": [],
-            },
-        },
-    },
-    {
-        "user_request": "내일 오후에 팀 회의를 잡아 주세요.",
-        "function_call": {
-            "name": "create_calendar_event",
-            "arguments": {
-                "title": "팀 회의",
-                "date": "tomorrow",
-                "time": "",
-                "timezone": "Asia/Seoul",
-                "attendees": [],
-            },
-        },
-    },
-    {
-        "user_request": "다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.",
-        "function_call": {
-            "name": "create_calendar_event",
-            "arguments": {
-                "title": "채용 인터뷰",
-                "date": "next_monday",
-                "time": "10:00",
-                "timezone": None,
-                "attendees": ["recruiter@example.com"],
-            },
-        },
-    },
-]
-
-required_fields = ["title", "date", "time", "timezone"]
+rule = "Rule: shipping fee is excluded from refunds."
+question = "Question: what is the final refund amount?"
 
 
-def validate_function_call(function_call, required_fields):
-    arguments = function_call["arguments"]
-    missing = [
-        field
-        for field in required_fields
-        if field not in arguments or arguments[field] in ("", None)
-    ]
-    return {
-        "function_name": function_call["name"],
-        "missing_fields": missing,
-        "is_valid": len(missing) == 0,
-    }
+def sequential_state(document, decay=0.72):
+    state = {"refund": 0.0, "exclude": 0.0, "fee": 0.0}
+    for line in document:
+        lowered = line.lower()
+        for key in state:
+            state[key] *= decay
+        if "refund" in lowered:
+            state["refund"] += 1.0
+        if "exclude" in lowered or "excluded" in lowered:
+            state["exclude"] += 1.0
+        if "fee" in lowered:
+            state["fee"] += 1.0
+    support = round(min(state.values()), 3)
+    decision = "keeps exclusion" if support >= 0.45 else "loses exclusion"
+    return {key: round(value, 3) for key, value in state.items()}, support, decision
 
 
-reports = []
-for item in requests:
-    validation = validate_function_call(item["function_call"], required_fields)
-    inspection = {
-        "required_fields": required_fields,
-        "provided_argument_keys": list(item["function_call"]["arguments"].keys()),
-        "is_ready_to_execute": validation["is_valid"],
-        "missing_count": len(validation["missing_fields"]),
-    }
-    reports.append(
-        {
-            "user_request": item["user_request"],
-            "function_call": item["function_call"],
-            "validation": validation,
-            "inspection": inspection,
-        }
-    )
+def direct_reference(document):
+    matches = []
+    for idx, line in enumerate(document[:-1], start=1):
+        lowered = line.lower()
+        score = 0
+        for keyword in ["refund", "excluded", "fee"]:
+            if keyword in lowered:
+                score += 1
+        matches.append((score, idx, line))
+    best = max(matches)
+    decision = "keeps exclusion" if best[0] == 3 else "loses exclusion"
+    return best, decision
 
-summary = {
-    "valid_call_count": sum(report["validation"]["is_valid"] for report in reports),
-    "invalid_call_count": sum(not report["validation"]["is_valid"] for report in reports),
-    "calls_missing_time": sum("time" in report["validation"]["missing_fields"] for report in reports),
-    "calls_missing_timezone": sum("timezone" in report["validation"]["missing_fields"] for report in reports),
-    "valid_call_ratio": round(
-        sum(report["validation"]["is_valid"] for report in reports) / len(reports),
-        2,
-    ),
-    "invalid_call_ratio": round(
-        sum(not report["validation"]["is_valid"] for report in reports) / len(reports),
-        2,
-    ),
-}
 
-print("[summary]")
-print(summary)
-print()
-
-for report in reports:
-    print("=" * 80)
-    print("[user_request]")
-    print(report["user_request"])
-    print("[function_call]")
-    print(report["function_call"])
-    print("[validation]")
-    print(report["validation"])
-    print("[inspection]")
-    print(report["inspection"])
+for gap in [1, 3, 6]:
+    filler = [f"Detail line {i}: general customer guidance only." for i in range(1, gap + 1)]
+    document = [rule] + filler + [question]
+    state_snapshot, state_support, state_decision = sequential_state(document)
+    best_match, direct_decision = direct_reference(document)
+    print(f"[gap={gap}]")
+    print("document_length =", len(document))
+    print("state_snapshot =", state_snapshot)
+    print("state_support =", state_support)
+    print("state_decision =", state_decision)
+    print("direct_match_score =", best_match[0])
+    print("best_direct_match =", best_match[2])
+    print("direct_decision =", direct_decision)
+    print()
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 gap이 커질수록 state_support가 약해지고 direct_match_score는 유지되는지부터 보면 됩니다.
 
 ```text
-[summary]
-{'valid_call_count': 1, 'invalid_call_count': 2, 'calls_missing_time': 1, 'calls_missing_timezone': 1, 'valid_call_ratio': 0.33, 'invalid_call_ratio': 0.67}
+[gap=1]
+document_length = 3
+state_snapshot = {'refund': 1.518, 'exclude': 0.518, 'fee': 0.518}
+state_support = 0.518
+state_decision = keeps exclusion
+direct_match_score = 3
+best_direct_match = Rule: shipping fee is excluded from refunds.
+direct_decision = keeps exclusion
 
-================================================================================
-[user_request]
-내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.
-[function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': []}}
-[validation]
-{'function_name': 'create_calendar_event', 'missing_fields': [], 'is_valid': True}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True, 'missing_count': 0}
-================================================================================
-[user_request]
-내일 오후에 팀 회의를 잡아 주세요.
-[function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '팀 회의', 'date': 'tomorrow', 'time': '', 'timezone': 'Asia/Seoul', 'attendees': []}}
-[validation]
-{'function_name': 'create_calendar_event', 'missing_fields': ['time'], 'is_valid': False}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
-================================================================================
-[user_request]
-다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.
-[function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '채용 인터뷰', 'date': 'next_monday', 'time': '10:00', 'timezone': None, 'attendees': ['recruiter@example.com']}}
-[validation]
-{'function_name': 'create_calendar_event', 'missing_fields': ['timezone'], 'is_valid': False}
-[inspection]
-{'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': False, 'missing_count': 1}
+[gap=3]
+document_length = 5
+state_snapshot = {'refund': 1.269, 'exclude': 0.269, 'fee': 0.269}
+state_support = 0.269
+state_decision = loses exclusion
+direct_match_score = 3
+best_direct_match = Rule: shipping fee is excluded from refunds.
+direct_decision = keeps exclusion
+
+[gap=6]
+document_length = 8
+state_snapshot = {'refund': 1.1, 'exclude': 0.1, 'fee': 0.1}
+state_support = 0.1
+state_decision = loses exclusion
+direct_match_score = 3
+best_direct_match = Rule: shipping fee is excluded from refunds.
+direct_decision = keeps exclusion
 ```
 
-이 결과에서 먼저 봐야 할 것은 `valid_call_count`가 1이고 `invalid_call_count`가 2라는 점입니다. 즉, 자연어 요청을 함수 호출 구조로 바꿨다고 해서 모두 바로 실행 가능한 것은 아닙니다. `time`, `timezone`처럼 시스템이 실제 실행에 꼭 필요한 필드는 따로 검증해야 하고, 함수 호출 구조는 바로 그 누락을 실행 전에 드러내는 역할을 합니다.
+- 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `exclude`, `fee` 단서가 빠르게 약해집니다
+- `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
+- 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 예외 조건을 잃기 쉬워집니다
+- 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있고, 여기서는 `direct_match_score`가 계속 3으로 유지됩니다
 
-그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+## 이 예제를 attention 직관으로 다시 보면
 
-- 자연어 요청이 사라지는 것이 아니라, 시스템이 실행하기 쉬운 함수 이름과 인자 구조로 다시 표현된다.
-- 함수 호출의 핵심 가치는 `구조화` 자체뿐 아니라, 실행 전에 누락 필드를 검증하고 실패 원인을 분리할 수 있다는 데 있다.
+이 장난감 코드는 attention 자체를 구현한 것은 아닙니다. 하지만 읽어야 할 연결은 분명합니다.
 
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+- 순차 상태 쪽은 `앞 단서를 상태 안에 계속 남겨 둘 수 있는가`가 핵심입니다.
+- direct reference 쪽은 `현재 질문이 필요할 때 앞 단서를 다시 집어 올 수 있는가`가 핵심입니다.
 
-- `requests`에 참석자 누락, 제목 누락 사례를 더 넣어 어떤 필드가 자주 빠지는지 보기
-- `attendees`에 메일 주소 목록을 더 넣어 일정 생성 인자가 어떻게 확장되는지 확인하기
-- `required_fields`를 바꿔 도구마다 검증 규칙이 달라질 수 있음을 실험해 보기
-- `date`를 자연어 그대로 두고 별도 정규화 단계를 상상해 보기
+즉, 장기 의존성 문제를 오래전 단서의 `보존` 문제로 보면 RNN/LSTM/GRU 쪽과 연결되고, 필요한 단서의 `재참조` 문제로 보면 attention 쪽과 연결됩니다. 이 구분이 잡혀야 다음 절 P5-13.1에서 attention을 `가중치 계산 공식`이 아니라 `필요한 위치를 직접 다시 보는 발상`으로 자연스럽게 읽을 수 있습니다.
 
-## 이 예제를 구조화된 실행 요청 관점으로 다시 보면
+장기 의존성 문제는 순차 모델링 역사에서 매우 중요한 전환점입니다. 왜냐하면 이 문제를 이해해야:
 
-앞의 예제는 함수 호출 전체를 구현하는 코드가 아니라, `사람이 말한 요청`과 `시스템이 실행할 구조`가 같은 문장이 아니라는 점을 가장 짧게 보여 주는 장면입니다. 여기서 중요한 것은 자연어를 없애는 일이 아니라, 실행 직전에 어떤 이름과 인자 구조로 다시 정리되어야 하는지를 읽는 데 있습니다.
+- 왜 basic RNN만으로는 부족했는지
+- 왜 LSTM과 GRU가 강한 영향력을 가졌는지
+- 왜 결국 attention과 Transformer가 큰 전환을 만들었는지
 
-## 여기까지를 한 줄로 묶으면
+를 하나의 흐름으로 설명할 수 있기 때문입니다.
 
-함수 호출의 핵심은 자연어를 없애는 것이 아니라, 실행 직전에 요청을 `이름과 인자가 분리된 검증 가능한 구조`로 바꾸는 데 있습니다.
+바로 앞의 P5-12.1에서 `순차 상태를 이어받는 구조`를 보았다면, 이제는 그 구조가 어디서 막히는지를 이해해야 합니다. 단순히 구조 이름을 외우는 대신, `무엇이 문제였기 때문에 다음 구조가 나왔는가`를 보여 주어야 attention과 Transformer가 왜 필요했는지 더 자연스럽게 읽을 수 있습니다.
 
-LLM 서비스가 실무에 들어가면서 사람들은 곧 `잘 설명하는 모델`만으로는 부족하다는 점을 보았습니다. 실제 도구 연결이 필요해졌고, 그 연결을 덜 불안정하게 만들기 위한 구조화 방식이 중요해졌습니다. 함수 호출은 바로 그 흐름의 대표적인 형태입니다.
-
-커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
-
-- tool use를 모호한 자연어 수준에 두지 않게 하고
-- agent, MCP, harness를 이해하기 위한 구조화 감각을 주며
-- 실행 가능한 AI 서비스가 왜 애플리케이션 계층을 필요로 하는지 설명해 주기 때문입니다
-
-## 다음 장과의 연결
+## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
 
-- 여러 단계 작업을 이어 가는 구조는 무엇인가?
-- 검색, 도구 호출, 관찰, 재시도, 종료를 한 흐름으로 묶는 것은 어떻게 이해해야 하는가?
+- 그렇다면 현재 위치가 과거의 어떤 정보를 더 강하게 참고해야 하는지는 어떻게 정할 수 있는가?
+- 필요한 위치를 더 직접적으로 보는 방식은 무엇인가?
 
-이 질문은 P5-13.1 에이전트(agent)로 이어집니다.
+이 질문은 바로 P5-13.1 Attention의 직관으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 함수 호출은 도구 사용을 구조화된 형식으로 표현하는 방식입니다.
-- 자연어 요청과 구조화된 호출은 역할이 다릅니다.
-- 함수 이름과 인자를 분리하면 검증과 통제가 쉬워집니다.
-- 이 절은 다음 장의 에이전트 구조와 실행 환경 설명의 직접 기반입니다.
+- 장기 의존성은 오래전 정보가 중요한데도 충분히 유지되지 않는 문제입니다.
+- 기본 RNN에서는 시간이 길어질수록 오래전 단서가 약해지기 쉽습니다.
+- LSTM과 GRU는 이 문제를 더 잘 다루려는 구조입니다.
+- attention은 장기 의존성 문제에 더 직접적으로 응답하는 다음 발상입니다.
 
 ## 체크리스트
 
-- 함수 호출을 입문 수준에서 설명할 수 있는가?
-- 자연어 요청과 구조화된 호출의 차이를 말할 수 있는가?
-- 이름과 인자를 나누는 이유를 설명할 수 있는가?
-- 왜 다음 장에서 agent 구조가 등장하는지 말할 수 있는가?
+- 장기 의존성을 입문 수준에서 설명할 수 있는가?
+- 왜 basic RNN에서 오래전 정보가 약해질 수 있는지 말할 수 있는가?
+- LSTM/GRU와 attention이 왜 이 문제와 연결되는지 설명할 수 있는가?
+- 다음 절의 attention으로 왜 자연스럽게 이어지는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
-- OpenAI, function calling 관련 공식 문서, 확인 날짜: 2026-06-29.
-- Anthropic, tool use 관련 공개 문서, 확인 날짜: 2026-06-29.
-- 관련 LLM application engineering 교육 자료, 확인 날짜: 2026-06-29.
+- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, 확인 날짜: 2026-06-29.
+- Yoshua Bengio, Patrice Simard, Paolo Frasconi, `Learning Long-Term Dependencies with Gradient Descent is Difficult`, IEEE Transactions on Neural Networks, 1994, 확인 날짜: 2026-06-29.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

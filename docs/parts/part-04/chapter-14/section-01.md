@@ -1,417 +1,462 @@
-# P4-14.1 Transformer의 기본 구성
+# P4-14.1 결정트리(decision tree)
 
-P4-13.2에서는 self-attention이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, Transformer의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
+P4-11에서는 경계(boundary)를 직선처럼 그어 보는 관점을 보았고, P4-12에서는 가까운 이웃을 보는 방식을 보았으며, P4-13에서는 더 좋은 경계의 기준으로 margin을 보았습니다. 이제 같은 지도학습(supervised learning) 문제를 전혀 다른 방식으로 다시 읽습니다.
 
-그렇다면 Transformer는 self-attention 하나만 있는 구조인가, 아니면 그 주변에 어떤 기본 구성 요소들이 함께 있는가?
+직선 하나를 그리는 대신, 질문을 차례로 나누어 가면 어떨까?
 
-이 절은 그 질문에 답합니다.
+이 질문이 결정트리(decision tree)의 출발점입니다.
 
-Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 그 계산 블록을 무너지지 않게 이어 가는 구조로 이해할 수 있다.
+결정트리는 데이터를 한 번에 설명하려 하지 않고, yes/no 질문을 반복해 점점 더 비슷한 사례끼리 나누어 예측하는 모델이다.
+
+즉, 결정트리는 `경계선 하나`보다 `질문 흐름`에 더 가깝게 읽을 수 있습니다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- Transformer의 핵심 블록은 무엇으로 이루어지는가?
-- self-attention, feed-forward, residual connection, layer normalization은 각각 어떤 역할을 하나?
-- 왜 이 구조가 RNN 이후 큰 전환점처럼 보였는가?
-- encoder/decoder 세부 이전에 어떤 큰 지도를 먼저 잡아야 하는가?
+- 결정트리는 어떤 방식으로 예측하는가?
+- `분기(split)`, `노드(node)`, `잎(leaf)`은 무엇인가?
+- 트리는 왜 사람에게 비교적 읽기 쉬운 모델로 여겨지는가?
+- 학습할 때는 어떤 질문 후보를 비교하는가?
+- 분류(classification)와 회귀(regression) 모두에 왜 쓸 수 있는가?
 
-이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 self-attention이라는 한 아이디어가 아니라, 문맥 읽기와 표현 가공, 블록 유지 장치를 한 묶음으로 가진 구조`라는 점입니다. 즉, 이 절의 중심은 `어떤 부품이 한 블록을 이루는가`이지, 그 블록이 대규모 학습에서 얼마나 멀리 확장되는가가 아닙니다. 계산 규모와 긴 문맥 문제는 다음 P4-14.2에서 따로 읽습니다.
+이 절은 다음 내용은 깊게 다루지 않습니다.
 
-처음 읽을 때는 이 절을 `구조 축`으로만 고정해 두면 덜 흔들립니다.
+- 트리 깊이가 커질 때 생기는 과적합(overfitting)
+- 가지치기(pruning)의 세부 절차
+- 랜덤포레스트(random forest)와 그래디언트 부스팅(gradient boosting)
+- 엔트로피(entropy), 정보 이득(information gain)의 수식 전개
 
-| 지금 이 절에서 읽는 것 | 아직 다음 절로 넘기는 것 |
-| --- | --- |
-| self-attention, feed-forward, residual, normalization이 한 블록 안에서 어떻게 역할을 나누는가 | 그 블록이 병렬 처리, 긴 문맥 비용, 계산 규모에서 무엇을 바꾸는가 |
-| 블록 내부의 관계 읽기와 표현 가공 | 대규모 학습 절차와 long-context 최적화 |
-
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- multi-head attention의 수식 전개
-- positional encoding의 상세 수학
-- encoder-only, decoder-only, encoder-decoder 계열의 세부 아키텍처 분화
-
-multi-head attention과 query, key, value의 입문적 설명은 보충학습 P4-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P4-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 세부 분화는 뒤 Part에서 다시 비교합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
-
-여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
+그 내용은 P4-14.2, P4-15, P4-16에서 이어서 다룹니다.
 
 ## 이 절의 목표
 
-- Transformer를 self-attention 하나가 아니라 여러 핵심 부품의 조합으로 설명할 수 있습니다.
-- 각 부품이 문맥 읽기, 표현 가공, 학습 안정화 중 어떤 역할을 하는지 말할 수 있습니다.
-- 이후 다른 모델 계열을 볼 때도 Transformer의 기본 블록을 떠올릴 수 있습니다.
-- 실행 가능한 Python 예제로 토큰 표현이 여러 단계를 거쳐 바뀌는 흐름을 직관적으로 확인할 수 있습니다.
+- 결정트리를 `질문을 나누어 예측하는 모델`이라고 설명할 수 있습니다.
+- 분기, 노드, 잎, 임계값(threshold)의 의미를 말할 수 있습니다.
+- 결정트리가 분류와 회귀에 모두 쓰일 수 있다는 점을 이해할 수 있습니다.
+- 학습 과정이 `좋아 보이는 질문을 고르는 반복`이라는 점을 설명할 수 있습니다.
+- `읽기 쉬움`과 `과하게 깊어질 위험`이 함께 있다는 점을 구분할 수 있습니다.
 
-## 이 절을 읽는 순서
+## 학습 배경
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+앞 장들에서 본 대표 모델들은 대체로 이런 인상을 줍니다.
 
-1. 먼저 P4-13.2에서 본 self-attention이 Transformer 안에서 어느 자리에 놓이는지 확인합니다.
-2. 그 다음 self-attention, feed-forward, residual, layer normalization의 역할을 나눠 읽습니다.
-3. 이어서 이 부품들이 왜 하나의 반복 블록으로 묶였는지 봅니다.
-4. 마지막에 왜 이 블록 구조가 이후 생성 모델의 기본 단위가 되었는지 정리합니다.
+- 선형회귀(linear regression): 직선이나 평면으로 관계를 본다.
+- 로지스틱 회귀(logistic regression): 경계 확률을 본다.
+- k-NN: 가까운 이웃을 본다.
+- SVM: 여유 있는 경계를 본다.
 
-## Transformer를 아주 큰 그림으로 보면
+결정트리는 여기서 질문 자체를 바꿉니다.
 
-먼저 다음 네 요소만 확실히 잡아도 충분합니다.
-
-1. self-attention
-2. feed-forward network
-3. residual connection
-4. layer normalization
-
-이 네 가지를 간단히 말하면:
-
-- self-attention: 서로 어떤 토큰을 참고할지 정한다
-- feed-forward: 각 위치 표현을 더 가공한다
-- residual connection: 원래 정보 흐름을 함께 남긴다
-- layer normalization: 값의 스케일을 다루며 학습을 안정화한다
-
-즉, Transformer는 `문맥 관계를 읽고 -> 표현을 가공하고 -> 정보 흐름을 안정적으로 유지하는 블록`의 반복 구조라고 볼 수 있습니다.
-
-처음 읽을 때는 아래 세 줄만 바로 구분해도 충분합니다.
-
-| 지금 이 절에서 먼저 못 박을 것 | 아직 여기서 끝내지 않는 것 | 바로 다음 절로 넘길 것 |
-| --- | --- | --- |
-| self-attention, feed-forward, residual, normalization이 한 블록을 이룬다 | GPU 규모, 긴 문맥 비용, long-context 최적화를 다 설명하지 않는다 | 그 블록이 실제 계산 규모에서 무엇을 바꾸는지 |
-| 블록 내부 역할 분담을 읽는다 | 대규모 학습과 서비스 확장 문제를 닫지 않는다 | P4-14.2의 병렬 처리와 긴 문맥 |
-
-역할 분담을 표로 다시 보면 다음과 같습니다.
-
-| 구성 요소 | 먼저 잡아야 할 역할 |
+| 앞 절의 관점 | 결정트리에서 바뀌는 질문 |
 | --- | --- |
-| self-attention | 다른 토큰과의 관계를 읽는다 |
-| feed-forward | 각 위치 표현을 다시 가공한다 |
-| residual connection | 원래 정보 흐름을 함께 남긴다 |
-| layer normalization | 값 범위를 정리해 학습을 덜 흔들리게 한다 |
+| 하나의 경계를 잘 그릴 수 있는가? | 어떤 질문으로 데이터를 나누는 것이 좋은가? |
+| 거리나 마진이 중요한가? | 지금 분기하면 label이 더 정리되는가? |
+| 수식으로 경향을 표현하는가? | 조건문 흐름처럼 사례를 나눌 수 있는가? |
 
-P4-13.2를 `토큰들이 서로를 참고하는 계산`의 절로 읽었다면, 이 절은 그 계산이 실제 모델 안에서 `어떤 보조 부품들과 함께 한 블록을 이루는가`를 보여 주는 절이라고 보면 됩니다.
+즉, 결정트리는 `공간에 선을 긋는 모델`에서 `질문을 이어 붙이는 모델`로 시야를 바꿔 줍니다. 이 관점은 뒤의 랜덤포레스트와 부스팅을 이해하는 데도 바로 이어집니다.
 
-여기서 독자가 특히 붙잡아야 할 것은 `부품이 따로따로 흩어져 있는 구조`가 아니라는 점입니다. Transformer는 보통 다음 질문 순서로 한 블록을 읽으면 가장 이해가 쉽습니다.
+여기에 한 가지를 더 붙이면 결정트리 절이 지금까지 정리한 비교 기록 구조와 자연스럽게 이어집니다. 결정트리를 후보로 올릴 때는 `첫 분기가 무엇인가`만 남기는 것이 아니라, `어떤 사례가 분기 근처에 남는가`, `baseline이나 다른 후보보다 무엇이 더 읽기 쉬운가`, `다음에 어떤 분기 질문을 더 검토할 것인가`를 함께 적어 두는 편이 좋습니다. 같은 점수처럼 보여도 어떤 트리는 특정 leaf 안에 다른 class가 더 많이 섞여 있을 수 있으므로, 분기 뒤에 남는 패턴 차이도 따로 읽는 편이 안전합니다.
 
-1. 지금 토큰이 다른 토큰 중 어디를 더 참고할까?
-2. 그렇게 모인 문맥을 현재 위치 표현에 어떻게 다시 반영할까?
-3. 그 표현을 각 위치에서 한 번 더 가공할까?
-4. 이 과정에서 원래 정보와 안정성을 어떻게 유지할까?
+| 같이 남길 기록 | 왜 필요한가 |
+| --- | --- |
+| baseline과 결정트리 비교 | 규칙형 질문 흐름이 실제로 무엇을 더 설명하는지 보기 위해서입니다. |
+| 첫 분기 근처 사례 | 어떤 사례가 질문 경계 근처에서 애매한지 다시 보기 위해서입니다. |
+| leaf에 모인 대표 사례 | 분기 결과가 실제로 어떤 묶음을 만들었는지 확인하기 위해서입니다. |
+| 다음 질문 | 깊이를 더 늘릴지, 다른 특징으로 분기할지 정하기 위해서입니다. |
 
-즉, Transformer 블록은 `관계 읽기 -> 위치별 가공 -> 안정적 전달`의 묶음으로 읽는 편이 초심자에게 더 자연스럽습니다.
+## 주요 학습내용
 
-## self-attention은 무엇을 담당하나
+### 결정트리는 어떤 모델인가
 
-P4-13장에서 본 것처럼 self-attention은 각 토큰이 다른 토큰들을 서로 참고해 문맥적 표현을 다시 계산하는 역할을 합니다.
+scikit-learn 사용자 가이드는 결정트리(decision tree)를 분류와 회귀에 쓰이는 비모수적(non-parametric) 지도학습 방법으로 소개합니다. 같은 문서는 이 모델의 목표를 `데이터 특징(feature)으로부터 추론한 단순한 의사결정 규칙(simple decision rules)을 학습해 목표값(target value)을 예측하는 것`으로 설명합니다. 또 이 구조를 `piecewise constant approximation`으로도 볼 수 있다고 덧붙입니다.
 
-다음처럼 기억하면 좋습니다.
+입문 단계에서는 이 설명을 다음처럼 더 쉽게 옮기면 됩니다.
 
-`self-attention은 지금 이 토큰을 이해하기 위해 문장 안의 어디를 더 봐야 하는지 정하는 장치다.`
+`결정트리는 입력 특징을 보고, 어떤 기준값보다 큰지 작은지 같은 질문을 차례로 던지면서 입력 공간을 여러 조각으로 나누고, 각 조각마다 대표 예측값을 두는 모델이다.`
 
-즉, Transformer의 첫 핵심은 `관계 읽기`입니다.
+예를 들어 고객 이탈(churn) 예측을 생각해 볼 수 있습니다.
 
-## feed-forward network는 왜 필요한가
+| 특징(feature) | 질문 예시 |
+| --- | --- |
+| 최근 30일 접속 수 | 접속 수가 3회 이하인가? |
+| 결제 지연 여부 | 최근 결제 지연이 있었는가? |
+| 고객센터 문의 횟수 | 문의가 2회 이상인가? |
 
-self-attention만으로는 토큰 간 관계를 읽을 수 있지만, 각 위치 표현을 더 비선형적으로 가공하는 과정도 필요합니다. 여기서 feed-forward network가 등장합니다.
+결정트리는 이런 질문 중 하나를 먼저 고르고, 그 답에 따라 데이터를 두 갈래 이상으로 나눕니다. 그리고 각 갈래에서 다시 질문을 이어 갈 수 있습니다.
 
-다음처럼 설명하면 충분합니다.
+### 먼저 작은 흐름으로 보기
 
-`attention이 다른 토큰과의 관계를 반영해 문맥을 섞는다면, feed-forward는 각 위치의 표현을 더 풍부하게 다시 가공하는 작은 MLP처럼 볼 수 있다.`
+결정트리를 아직 학습기로 보지 말고, `질문을 따라 내려가는 의사결정 흐름`으로 먼저 보는 편이 좋습니다.
 
-즉, Transformer는 관계를 읽는 것과, 그 결과를 각 위치에서 다시 변환하는 것을 분리해 놓았습니다.
+```mermaid
+flowchart TD
+  A["new case<br/>새 입력 사례"]
+  B["question 1<br/>recent visits <= 3?"]
+  C["question 2<br/>late payment?"]
+  D["leaf<br/>likely churn"]
+  E["leaf<br/>likely stay"]
+  F["leaf<br/>review or another label"]
 
-이 차이는 한 토큰만 놓고 봐도 읽을 수 있습니다.
+  A --> B
+  B -->|yes| C
+  B -->|no| E
+  C -->|yes| D
+  C -->|no| F
+```
 
-- self-attention 단계: `이 토큰이 다른 토큰에게서 무엇을 받아올까?`
-- feed-forward 단계: `받아온 문맥이 섞인 현재 표현을 이 위치에서 어떻게 다시 다듬을까?`
+이 도식은 결정트리를 `질문을 따라 내려가며 leaf에 도달하는 흐름`으로 읽게 해 줍니다. 경계선을 한 번에 긋는 모델과 달리, 트리는 중간 질문을 차례로 거치며 점점 더 비슷한 사례 묶음으로 좁혀 간다는 점이 핵심입니다.
 
-즉, attention은 `바깥과의 관계`, feed-forward는 `현재 위치 안에서의 가공`에 더 가깝다고 이해하면 됩니다.
+이 그림에서 핵심은 다음입니다.
 
-## residual connection은 왜 필요한가
+- 중간의 질문 상자가 노드(node)입니다.
+- 질문에 따라 갈라지는 지점이 분기(split)입니다.
+- 더 이상 질문하지 않고 예측을 내놓는 끝점이 잎(leaf)입니다.
 
-딥러닝에서 층이 깊어질수록 정보가 지나치게 바뀌거나 학습이 불안정해질 수 있습니다. residual connection은 이전 표현을 다음 단계로 함께 흘려 보내는 장치로 볼 수 있습니다.
+즉, 결정트리는 `질문 node를 따라 내려가 leaf에 도달하는 구조`라고 읽을 수 있습니다.
+
+프로젝트 메모 형식으로 줄이면 다음처럼 적을 수 있습니다.
+
+| 기록 항목 | 예 |
+| --- | --- |
+| first split | `visits <= 3` |
+| near-split cases | `고객 C`, `고객 D` |
+| current leaf prediction | `churn` 또는 `stay` |
+| review 필요 여부 | `경계 근처 고객은 다시 확인` |
+| 다음 질문 | `late_payment`를 다음 분기로 둘 것인가 |
+
+이 표가 있으면 결정트리 소개가 `비교 후보 -> 분기 근처 사례 -> 다음 질문` 구조로 먼저 읽힙니다. 이때 분기 근처 사례와 leaf 구성을 함께 봐야, 같은 정확도처럼 보여도 어떤 트리가 더 읽기 쉽고 어떤 트리가 더 불안정한지 구분할 수 있습니다.
+
+### node, split, leaf를 어떻게 이해하면 좋은가
+
+독자에게는 용어를 짧고 분명하게 끊어 주는 것이 중요합니다.
+
+| 용어 | 쉬운 설명 | 이 절에서의 역할 |
+| --- | --- | --- |
+| 노드(node) | 질문이 놓이는 지점 | 데이터를 나눌 기준을 둔다 |
+| 분기(split) | 질문 결과에 따라 갈라지는 일 | 데이터를 더 비슷한 묶음으로 나누려 한다 |
+| 잎(leaf) | 마지막 예측이 적히는 끝점 | class 또는 수치를 낸다 |
+| 임계값(threshold) | 숫자를 자르는 기준값 | `x <= 3.5` 같은 질문을 만든다 |
+
+이 용어들은 뒤의 하이퍼파라미터 절과도 바로 연결됩니다.
+
+- `max_depth`는 트리를 얼마나 깊게 허용할지와 연결됩니다.
+- `min_samples_split`은 한 node를 더 나눌 만큼 사례가 충분한지와 연결됩니다.
+
+하지만 이 절에서는 아직 `깊이를 어디까지 허용할까`보다 `질문을 나누는 구조 자체가 무엇인가`에 집중합니다.
+
+## 세부 학습내용
+
+### 왜 비교적 읽기 쉬운 모델이라고 하는가
+
+결정트리는 Part 4에서 처음 만나는 모델들 중 비교적 `규칙처럼 읽기 쉬운` 편에 속합니다. scikit-learn 사용자 가이드는 이를 `white box model` 관점으로 설명합니다. 즉, 어떤 상황이 모델 안에서 관찰된다면 그 조건을 비교적 불리언 논리(boolean logic)로 설명하기 쉽다는 뜻입니다. 앞 절들에서 본 선형 모델의 가중치(weight)나 SVM의 margin보다, `질문을 따라가면 예측이 나온다`는 구조가 사람에게 더 익숙하기 때문입니다.
+
+예를 들어 다음 두 설명을 비교해 보면 감이 더 분명해집니다.
+
+- 선형 모델: 여러 특징의 가중합이 기준보다 크면 positive
+- 결정트리: 최근 접속 수가 적고, 결제 지연이 있으면 churn 가능성 높음
+
+둘 다 모델이지만, 후자는 사람이 업무 규칙을 읽는 방식과 더 닮아 있습니다.
+
+실무에서도 이 장점은 자주 언급됩니다.
+
+| 상황 | 결정트리가 주는 장점 |
+| --- | --- |
+| 고객 이탈 분석 | 어떤 질문 순서로 이탈을 가른 것인지 보기 쉽다 |
+| 대출 심사 보조 | 어떤 조건이 먼저 분기를 만든 것인지 설명하기 쉽다 |
+| 설비 이상 탐지 | 특정 센서 값 범위가 어떤 분기를 만들었는지 읽기 쉽다 |
+
+다만 여기서 바로 주의할 점도 있습니다.
+
+`읽기 쉬운 것과 항상 좋은 일반화를 주는 것은 같은 말이 아니다.`
+
+이 위험은 바로 다음 절 P4-14.2에서 다룹니다.
+
+### 분류와 회귀에 모두 쓸 수 있다는 말은 무슨 뜻인가
+
+결정트리는 분류(classification)에도, 회귀(regression)에도 쓸 수 있습니다. 달라지는 것은 `leaf에서 무엇을 내놓는가`입니다.
+
+| 문제 유형 | leaf에서 내놓는 것 |
+| --- | --- |
+| 분류 | 가장 많은 class, 또는 class 비율 |
+| 회귀 | 그 leaf에 들어온 값들의 평균처럼 대표 수치 |
+
+예를 들어:
+
+- 고객 이탈 예측: `이탈`, `유지`
+- 주택 가격 예측: `예상 가격 5.2억`
+
+즉, 트리 구조는 비슷하고 마지막 출력의 성격이 달라집니다. scikit-learn의 `predict_proba` 설명도 분류 트리에서 예측 확률을 `해당 leaf에 들어온 같은 class 샘플의 비율`로 읽습니다. 이 때문에 Part 4의 평가 지표 절에서 강조했듯이, 알고리즘 이름보다 먼저 `이 문제가 분류인가 회귀인가`를 확인해야 합니다.
+
+### 학습은 어떻게 질문을 고르는가
+
+결정트리 학습의 핵심은 `좋아 보이는 질문 후보를 비교하는 일`입니다.
 
 다음처럼 이해하면 충분합니다.
 
-`완전히 새 계산만 믿지 말고, 원래 입력 표현도 함께 남겨 다음 단계로 보내는 안전장치`
+1. 여러 feature를 본다.
+2. 각 feature에서 잘라 볼 수 있는 threshold 후보를 만든다.
+3. 나누기 전보다 나눈 뒤가 label을 더 정리해 주는지 계산한다.
+4. 가장 좋은 질문을 현재 node에 둔다.
+5. 필요하면 각 가지에서 다시 반복한다.
 
-즉, residual connection은 정보 손실을 줄이고 학습을 더 안정적으로 만드는 데 도움이 됩니다.
-
-## layer normalization은 왜 등장하나
-
-여러 층과 큰 행렬 연산을 반복하면 값의 스케일과 분포가 학습 안정성에 영향을 줄 수 있습니다. layer normalization은 각 위치 표현을 더 다루기 쉬운 범위로 정리해 학습을 돕는 장치로 이해하면 좋습니다.
-
-다음 정도로 설명하면 충분합니다.
-
-`layer normalization은 표현값의 크기와 분포를 정리해, 다음 계산이 덜 흔들리도록 돕는 장치다.`
-
-즉, Transformer는 단지 `강한 attention`만이 아니라, `깊은 학습을 견디게 하는 안정화 장치들`도 함께 갖추고 있습니다.
-
-## 이를 아주 단순하게 그리면
+이를 간단히 그리면 다음과 같습니다.
 
 ```mermaid
 flowchart TD
-  A["input tokens"]
-  B["self-attention"]
-  C["add + norm"]
-  D["feed-forward"]
-  E["add + norm"]
-  F["contextual token representations"]
+  A["training data"]
+  B["make question candidates<br/>feature + threshold"]
+  C["compare impurity reduction<br/>or another split score"]
+  D["choose the best split"]
+  E["send rows to each branch"]
+  F["repeat if needed"]
 
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+  A --> B --> C --> D --> E --> F
 ```
 
-이 도식은 Transformer 블록 하나를 입문 수준에서 압축한 것입니다.
+이 도식은 결정트리 학습이 결국 `좋은 첫 질문과 다음 질문을 고르는 반복`이라는 점을 보여 줍니다. 특징과 threshold 후보를 비교해 impurity를 더 잘 줄이는 split을 고르고, 각 가지에서 같은 절차를 다시 반복하는 구조입니다.
 
-이 흐름을 한 줄씩 다시 읽으면 다음과 같습니다.
+여기서 `impurity`는 node 안이 얼마나 섞여 있는지를 보는 말입니다. API 문서 기준으로는 분류 트리에서 `criterion`으로 `gini`, `entropy`, `log_loss` 같은 기준을 둘 수 있습니다. 아직 수식을 길게 외울 필요는 없습니다. 이 절에서는 `한 node 안에 class가 섞여 있으면 impurity가 높고, 한쪽 class로 정리되면 impurity가 낮다` 정도로 잡으면 충분합니다.
 
-- `self-attention`: 다른 토큰과의 관계를 반영한다
-- `add + norm`: 원래 정보 흐름을 너무 잃지 않게 정리한다
-- `feed-forward`: 각 위치 표현을 한 번 더 가공한다
-- `add + norm`: 다시 안정적으로 다음 블록으로 넘긴다
+### impurity를 직관으로 읽기
 
-즉, Transformer 블록은 `문맥을 섞고 끝나는 구조`가 아니라, `문맥을 섞은 뒤 그 표현을 다시 다듬고 안정적으로 전달하는 구조`입니다.
+분류 트리에서는 `질문을 던졌더니 label이 더 정리되었는가?`를 보고 싶습니다.
 
-## 왜 이 구성이 중요했나
+예를 들어 node 안에 고객 10명이 있는데:
 
-Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하나를 추가했기 때문이 아닙니다. 이 절 범위에서 먼저 봐야 할 핵심은 다음 부품들이 `반복 가능한 한 블록`으로 결합되었다는 점입니다.
+- 5명은 churn
+- 5명은 stay
 
-- attention 중심의 문맥 참조
-- 위치별 표현을 다시 가공하는 feed-forward
-- 원래 흐름과 값 범위를 유지하는 residual, normalization
+라면 꽤 섞여 있습니다.
 
-즉, Transformer는 `sequence modeling의 핵심 계산 방식`을 새 블록 단위로 다시 묶은 아키텍처였습니다.
+반면 어떤 질문으로 나눈 뒤:
 
-즉, 이 절에서 꼭 잡아야 할 변화는 `attention이 유용하다`는 수준에서 멈추지 않고, `attention이 반복 가능한 표준 블록 안으로 들어오면서 현대 모델 구조의 기본 단위가 되었다`는 점입니다. 병렬 처리와 대규모 학습 규모는 바로 다음 절에서 이 블록을 바깥 계산 환경과 연결하며 다시 읽습니다.
+- 왼쪽 가지는 churn 4명, stay 1명
+- 오른쪽 가지는 churn 1명, stay 4명
+
+이 되었다면, 두 가지 모두 전보다 더 정리된 상태라고 읽을 수 있습니다.
+
+즉, 좋은 split은 대체로 `섞인 node를 덜 섞인 node들로 바꾸는 질문`입니다.
 
 ## 사례로 보기
 
-아래 도식은 같은 Transformer 블록이 서로 다른 과업에서 어떻게 읽히는지를 아주 거칠게 묶어 보여 줍니다.
+### 사례 1. 고객 이탈을 한 번에 설명하지 않고 질문으로 좁혀 가고 싶을 때
 
-```mermaid
-flowchart TD
-  A["same transformer block"]
-  B["translation<br/>keep distant condition"]
-  C["document summary<br/>combine scattered clues"]
-  D["code / llm generation<br/>keep long-range consistency"]
+구독 서비스 팀이 고객 이탈 예측 모델을 만들고 있습니다. 사람이 먼저 보던 기준은 `최근 방문 수가 적은가`, `결제 지연이 있었는가`, `고객센터 문의가 잦은가` 같은 질문들이었습니다.
 
-  A --> B
-  A --> C
-  A --> D
+이 팀은 선형 모델처럼 한 번에 점수를 계산하는 방식보다, 현업이 읽을 수 있는 질문 흐름이 필요합니다. 그래서 먼저 `최근 방문 수가 3회 이하인가?`를 묻고, 그다음 `결제 지연이 있었는가?`를 묻는 식으로 조건을 나누어 보면, 비슷한 행동을 보인 고객끼리 점점 더 같은 가지로 모이기 시작합니다. 이때 결정트리는 경계선 하나보다 `좋은 질문 순서`를 찾는 모델로 읽는 편이 더 자연스럽습니다.
+
+이 장면에서 중요한 것은 질문 자체가 데이터로부터 선택된다는 점입니다. 아무 조건이나 쓰는 것이 아니라, 현재 node 안의 label을 더 잘 정리해 주는 feature와 threshold를 비교해 첫 분기를 고르고, 그다음 같은 절차를 반복합니다. 그래서 결정트리는 사람이 규칙을 임의로 적는 모델이 아니라, 데이터를 더 정리해 주는 질문을 누적하는 모델입니다.
+
+확인 가능한 결과는 첫 split 후보를 비교한 점수와 최종 작은 트리 구조에서 드러납니다. `visits <= 3`이 다른 질문보다 더 잘 분리된다면, 왜 그 질문이 첫 node에 놓였는지 설명할 수 있고, 각 leaf에 어떤 고객이 모였는지 보면 트리가 어떻게 규칙처럼 읽히는지도 확인할 수 있습니다.
+
+## 사례 및 예시
+
+### 실무 장면에서 어떻게 읽을 수 있는가
+
+결정트리는 특히 `표 형식 데이터(tabular data)`에서 자주 떠오르는 모델입니다. 이유는 숫자와 범주 특징을 기준값이나 조건으로 나누는 방식이 비교적 자연스럽기 때문입니다.
+
+| 업무 장면 | 결정트리식 질문 예시 |
+| --- | --- |
+| 고객 이탈 | 최근 방문 수가 적은가? 결제 지연이 있었는가? |
+| 대출 심사 보조 | 소득이 일정 기준 이상인가? 연체 기록이 있는가? |
+| 설비 이상 탐지 | 온도가 기준을 넘었는가? 진동이 특정 범위 밖인가? |
+| 마케팅 반응 예측 | 최근 구매가 있었는가? 할인 메시지 반응률이 높은가? |
+
+이런 장면에서는 선형 모델보다 결정트리가 더 직관적으로 느껴질 수 있습니다. 반대로 데이터가 매우 매끄러운 연속 관계를 가지거나, 작은 흔들림에도 구조가 크게 바뀌는 상황에서는 주의가 필요합니다. 또한 API 문서가 경고하듯 기본 크기 제어값을 두지 않으면 트리가 fully grown and unpruned 상태로 매우 커질 수 있습니다. 이 지점이 바로 다음 절의 과적합 논의와 이어집니다.
+
+## 연습 및 예제
+
+### Python 예제로 `좋은 첫 질문` 찾기
+
+이번 예제는 scikit-learn 학습기를 바로 쓰기보다, 결정트리가 첫 split을 고르는 느낌을 직접 확인하는 작은 실습입니다.
+
+- 문제 상황: 고객 이탈(churn) 분류의 첫 질문을 고른다.
+- 입력(input): `visits`, `late_payment`
+- 정답(label): `stay`, `churn`
+- 확인할 개념:
+  - feature와 threshold를 바꾸면 split 점수가 달라진다.
+  - 더 잘 정리되는 질문이 더 좋은 첫 질문이 될 수 있다.
+  - 결정트리는 결국 이런 질문 선택을 반복한다.
+
+```python
+rows = [
+    {"customer": "A", "visits": 1, "late_payment": 1, "label": "churn"},
+    {"customer": "B", "visits": 2, "late_payment": 1, "label": "churn"},
+    {"customer": "C", "visits": 2, "late_payment": 0, "label": "stay"},
+    {"customer": "D", "visits": 4, "late_payment": 0, "label": "stay"},
+    {"customer": "E", "visits": 5, "late_payment": 0, "label": "stay"},
+    {"customer": "F", "visits": 6, "late_payment": 1, "label": "stay"},
+]
+
+
+def gini(group):
+    total = len(group)
+    if total == 0:
+        return 0.0
+
+    counts = {}
+    for row in group:
+        counts[row["label"]] = counts.get(row["label"], 0) + 1
+
+    score = 1.0
+    for count in counts.values():
+        p = count / total
+        score -= p * p
+    return score
+
+
+def weighted_gini(left, right):
+    total = len(left) + len(right)
+    return (len(left) / total) * gini(left) + (len(right) / total) * gini(right)
+
+
+candidates = [
+    ("visits", 1.5),
+    ("visits", 3.0),
+    ("visits", 5.5),
+    ("late_payment", 0.5),
+]
+
+best = None
+
+for feature, threshold in candidates:
+    left = [row for row in rows if row[feature] <= threshold]
+    right = [row for row in rows if row[feature] > threshold]
+    score = weighted_gini(left, right)
+
+    print(f"feature={feature:12} threshold={threshold:>3} weighted_gini={score:.3f}")
+    print("  left :", [(row["customer"], row["label"]) for row in left])
+    print("  right:", [(row["customer"], row["label"]) for row in right])
+    print()
+
+    if best is None or score < best["score"]:
+        best = {"feature": feature, "threshold": threshold, "score": score}
+
+print("best first split")
+print(best)
 ```
 
-이 도식에서 봐야 할 점은 과업이 달라도 블록 자체가 바뀌는 것이 아니라, `문맥 관계를 읽고 표현을 다시 가공하는 같은 기본 구조`가 번역, 요약, 코드 생성에 공통으로 쓰인다는 점입니다.
+실행 결과 예시는 다음과 같습니다.
 
-### 사례 1. 번역
+```text
+feature=visits       threshold=1.5 weighted_gini=0.400
+  left : [('A', 'churn')]
+  right: [('B', 'churn'), ('C', 'stay'), ('D', 'stay'), ('E', 'stay'), ('F', 'stay')]
 
-긴 문장을 번역할 때를 생각해 볼 수 있습니다. 사람은 단순히 왼쪽에서 오른쪽으로 읽으며 바로 옮기면 된다고 느끼기 쉽지만, 문장 뒤에 나온 조건절이나 목적어 때문에 앞부분 해석을 다시 바꿔야 하는 경우가 자주 생깁니다. 예전 순차 구조에서는 이런 먼 문맥을 끝까지 안정적으로 끌고 가는 일이 특히 어려웠습니다. 여기서 바뀌는 점은 `앞에서 뒤로 밀어 가며 읽는 방식`에서 `문장 전체 관계를 함께 반영하며 읽는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 각 위치가 문장 전체 다른 위치를 함께 참조하며 표현을 다시 만들 수 있게 해, 앞 단어와 뒤 단어의 관계를 한 번에 더 넓게 반영합니다. 그래서 긴 문장에서 번역 방향을 뒤늦게 수정해야 하던 부담을 줄이는 데 중요한 전환점이 되었습니다. 이 사례에서 확인해야 할 결과는 문장 끝에 나온 조건이나 목적어가 앞부분 번역 해석까지 실제로 반영되는가입니다.
+feature=visits       threshold=3.0 weighted_gini=0.222
+  left : [('A', 'churn'), ('B', 'churn'), ('C', 'stay')]
+  right: [('D', 'stay'), ('E', 'stay'), ('F', 'stay')]
 
-### 사례 2. 문서 요약
+feature=visits       threshold=5.5 weighted_gini=0.400
+  left : [('A', 'churn'), ('B', 'churn'), ('C', 'stay'), ('D', 'stay'), ('E', 'stay')]
+  right: [('F', 'stay')]
 
-긴 회의록을 요약한다고 해 봅시다. 사람이 급하게 요약할 때는 제목, 첫 문단, 마지막 문장 같은 일부 위치에 더 크게 기대기 쉽습니다. 하지만 실제 핵심 결정은 중간 문단의 짧은 발언이나 앞뒤에 흩어진 조건 문장에 숨어 있을 수 있습니다. 예를 들어 결론은 마지막에 적혀 있어도, 그 결론이 유효한 조건은 앞쪽 논의에 들어 있을 수 있습니다. 여기서 바뀌는 점은 `눈에 띄는 위치 몇 군데만 붙잡는 읽기`에서 `흩어진 관련 문장을 반복적으로 묶는 읽기`로 기준이 이동한다는 것입니다. Transformer 블록은 문서 전체 여러 위치를 함께 참고하며 각 위치 표현을 반복적으로 갱신할 수 있어서, 멀리 떨어진 관련 문장을 더 쉽게 같은 요약 판단 안에 묶습니다. 그래서 이 사례에서 확인해야 할 결과는 제목과 마지막 문장만 남는 것이 아니라, 중간 조건 문장까지 함께 반영된 요약이 나오는가입니다.
+feature=late_payment threshold=0.5 weighted_gini=0.250
+  left : [('C', 'stay'), ('D', 'stay'), ('E', 'stay')]
+  right: [('A', 'churn'), ('B', 'churn'), ('F', 'stay')]
 
-### 사례 3. 코드 생성과 LLM
+best first split
+{'feature': 'visits', 'threshold': 3.0, 'score': 0.2222222222222222}
+```
 
-코드 생성에서 함수 시작부의 인자 이름과 아래쪽 반환 로직이 멀리 떨어져 있는 장면을 떠올려 볼 수 있습니다. 사람은 바로 앞 몇 줄만 보며 이어 써도 될 것처럼 느끼기 쉽지만, 그렇게 쓰면 위에서 쓴 변수 이름과 아래에서 참조하는 이름이 어긋나거나, 열어 둔 조건 분기와 닫는 구조가 맞지 않기 쉽습니다. 예를 들어 함수 초반에 `user_id`를 받았는데 뒤쪽에서 갑자기 `account_id`로 바꿔 쓰면, 앞뒤 맥락이 연결되지 않아 코드가 어색해집니다. 긴 자연어 생성도 마찬가지로, 앞에서 세운 제약과 뒤 문장에서 이어질 설명이 멀리 떨어져 연결됩니다. 여기서 바뀌는 점은 `바로 앞 토큰만 따라 쓰는 방식`에서 `먼 앞쪽 제약과 현재 위치를 함께 묶는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 이런 멀리 떨어진 토큰 관계를 반복적으로 반영하며 각 위치의 표현을 갱신합니다. 그래서 이 사례에서 확인해야 할 결과는 변수명 일관성, 조건 분기 연결, 함수 정의와 호출부 대응이 실제 출력 코드에서 끝까지 유지되는가입니다.
+이 출력에서 읽어야 할 것은 세 가지입니다.
 
-세 사례를 한 줄로 묶으면 다음과 같습니다.
+1. 아무 질문이나 같은 품질을 주지 않습니다.
+2. `visits <= 3.0`이 현재 데이터에서는 가장 잘 정리되는 첫 질문으로 보입니다.
+3. 트리 학습은 이런 비교를 반복하면서 구조를 만듭니다.
 
-| 상황 | Transformer 블록이 중요한 이유 |
-| --- | --- |
-| 번역 | 문장 전체 관계를 반복적으로 반영할 수 있어서 |
-| 문서 요약 | 관련 위치를 넓게 참조하고 표현을 다시 가공할 수 있어서 |
-| 코드/LLM | 멀리 떨어진 토큰 관계를 여러 블록에 걸쳐 갱신할 수 있어서 |
+즉, 결정트리는 `사람이 직감으로 질문을 쓰는 모델`이 아니라, `데이터를 더 정리해 주는 질문을 찾아 누적하는 모델`이라고 읽는 편이 정확합니다.
 
-## 실행 가능한 Python 예제로 보기
+### 아주 작은 트리를 직접 적용해 보기
 
-이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 숫자 변화로 보는 것입니다.
+방금 찾은 첫 split을 바탕으로, 사람이 읽을 수 있는 작은 트리를 손으로 적어 보면 다음처럼 볼 수 있습니다.
 
-코드를 읽기 전에 아래 네 값부터 순서대로 보면 이 절의 구조 축이 덜 흩어집니다.
+```text
+if visits <= 3:
+    if late_payment == 1:
+        predict churn
+    else:
+        predict stay
+else:
+    predict stay
+```
 
-| 먼저 볼 값 | 왜 먼저 보아야 하는가 |
-| --- | --- |
-| `contextual tokens` | self-attention이 다른 토큰 정보를 먼저 어떻게 섞는지 바로 보이기 때문에 |
-| `feed-forward output` | attention으로 섞인 표현이 각 위치에서 다시 어떻게 가공되는지 이어서 볼 수 있어서 |
-| `after residual` | 새 계산 결과만 쓰지 않고 원래 입력 표현도 함께 남긴다는 점을 확인할 수 있어서 |
-| `after simple layer norm` | 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 마지막에 붙잡을 수 있어서 |
+이 코드는 `학습기 전체`가 아니라, 학습 결과를 사람이 읽는 모습을 단순화한 것입니다. 결정트리가 비교적 설명 가능해 보인다는 말은 보통 이런 모습에서 옵니다.
 
-문제 상황:
-
-- attention만으로는 끝나지 않고 문맥을 섞은 뒤 각 위치 표현을 다시 가공하는 단계까지 함께 봐야 Transformer 블록이 닫힌다
-
-입력:
-
-- 세 개 토큰의 초기 표현
-- 토큰별 attention 가중치
-- feed-forward 가중치
-
-출력:
-
-- attention 적용 전후의 토큰 표현
-- feed-forward 적용 후 표현
-- residual을 더한 뒤의 표현
-- 간단한 layer normalization 뒤 표현
-- 각 토큰이 어느 방향으로 더 강조되었는지
+같은 구조를 Python으로 아주 짧게 실행해 보면 더 분명합니다.
 
 문제 상황:
 
-- Transformer 블록은 attention 하나로 끝나지 않고 residual, normalization, feed-forward가 묶여 돌아가므로 단계별 변화를 나눠 볼 필요가 있다
-
-확인할 개념:
-
-- Transformer 블록은 attention과 feed-forward가 한 묶음으로 반복된다
-- residual과 normalization까지 봐야 표현이 어떻게 안정적으로 갱신되는지 이해할 수 있다
-- 단계별 표현 변화를 나란히 봐야 블록 내부 역할 분담이 선명해진다
+- 결정트리의 분기 규칙은 그림으로만 보지 말고 실제 입력을 넣어 결과가 어떻게 나오는지 확인하는 편이 이해에 도움이 된다
 
 입력(input):
 
-위에 정리한 세 토큰의 초기 표현, attention 가중치, feed-forward 가중치를 사용합니다.
+- 간단한 트리 규칙 `predict`
+- 고객 예시 목록 `examples`
+
+기대 출력(output):
+
+- 각 고객 예시에 대한 예측 결과
+
+확인할 개념:
+
+- 결정트리는 if-else 형태의 분기 규칙으로 읽을 수 있다
+- 설명 가능성이 높다는 말은 이런 분기 과정을 사람이 따라갈 수 있다는 뜻에 가깝다
 
 ```python
-import numpy as np
-
-tokens = np.array([
-    [1.0, 0.0],   # token 1
-    [0.5, 1.0],   # token 2
-    [0.0, 1.5],   # token 3
-])
-
-attention_weights = np.array([
-    [0.7, 0.2, 0.1],  # token 1 mainly reads itself
-    [0.2, 0.5, 0.3],  # token 2 mixes neighbors
-    [0.1, 0.3, 0.6],  # token 3 reads later context more
-])
-
-contextual = attention_weights @ tokens
-
-ff_weights = np.array([
-    [1.1, 0.4],
-    [0.2, 1.0],
-])
-
-ff_output = contextual @ ff_weights
-delta_from_input = ff_output - tokens
-residual_added = ff_output + tokens
+def predict(tree_input):
+    if tree_input["visits"] <= 3:
+        if tree_input["late_payment"] == 1:
+            return "churn"
+        return "stay"
+    return "stay"
 
 
-def simple_layer_norm(row):
-    mean = np.mean(row)
-    std = np.std(row)
-    return (row - mean) / (std + 1e-6)
+examples = [
+    {"customer": "G", "visits": 2, "late_payment": 1},
+    {"customer": "H", "visits": 2, "late_payment": 0},
+    {"customer": "I", "visits": 5, "late_payment": 1},
+]
 
-
-normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
-
-print("original tokens =")
-print(np.round(tokens, 3))
-print()
-print("contextual tokens =")
-print(np.round(contextual, 3))
-print()
-print("feed-forward output =")
-print(np.round(ff_output, 3))
-print()
-print("change from input =")
-print(np.round(delta_from_input, 3))
-print()
-print("after residual =")
-print(np.round(residual_added, 3))
-print()
-print("after simple layer norm =")
-print(np.round(normalized, 3))
+for row in examples:
+    print(row["customer"], "->", predict(row))
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 다음과 같습니다.
 
 ```text
-original tokens =
-[[1.  0. ]
- [0.5 1. ]
- [0.  1.5]]
-
-contextual tokens =
-[[0.8  0.35]
- [0.45 0.95]
- [0.25 1.2 ]]
-
-feed-forward output =
-[[0.95 0.67]
- [0.685 1.13 ]
- [0.515 1.3  ]]
-
-change from input =
-[[-0.05   0.67 ]
- [ 0.185  0.13 ]
- [ 0.515 -0.2  ]]
-
-after residual =
-[[1.95 0.67 ]
- [1.185 2.13 ]
- [0.515 2.8  ]]
-
-after simple layer norm =
-[[ 1.    -1.   ]
- [-1.     1.   ]
- [-1.     1.   ]]
+G -> churn
+H -> stay
+I -> stay
 ```
 
-이 결과에서 읽어야 할 핵심은 다음입니다.
+이 예제는 결정트리의 중요한 성격을 보여 줍니다.
 
-- attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다
-- feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다
-- `after residual`은 새 계산 결과만 쓰지 않고 원래 토큰 표현을 함께 남긴다는 점을 보여 줍니다
-- `after simple layer norm`은 각 위치 표현이 다음 단계로 넘어가기 전에 값 범위가 다시 정리될 수 있음을 보여 줍니다
-- 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다
+- 예측 경로를 따라가며 읽을 수 있습니다.
+- 어떤 질문에서 갈라졌는지 설명하기 쉽습니다.
+- 하지만 질문을 계속 추가하면 구조가 빠르게 커질 수 있습니다.
 
-실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
-
-## 이 예제를 블록 조합 관점으로 다시 보면
-
-앞의 숫자는 Transformer 전체를 구현한 것은 아니지만, 각 부품의 역할 차이는 분명하게 드러납니다.
-
-- `contextual tokens`는 self-attention이 다른 위치 정보를 먼저 섞는 단계입니다.
-- `feed-forward output`은 섞인 표현을 각 위치에서 한 번 더 가공한 결과입니다.
-- `after residual`은 새 계산만 믿지 않고 원래 표현도 함께 들고 가는 안전장치 역할을 보여 줍니다.
-- `after simple layer norm`은 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 줍니다.
-
-즉, Transformer 블록은 `attention 하나`가 아니라, `문맥 섞기 + 위치별 가공 + 원래 정보 보존 + 안정화`가 한 묶음으로 반복되는 구조입니다. 이 감각이 잡혀야 다음 절 P4-14.2에서 병렬 처리와 긴 문맥을 설명할 때도, 왜 이 블록이 대규모로 반복되기 쉬웠는지 더 자연스럽게 읽을 수 있습니다.
-
-Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계는 이후 다양한 대규모 언어·멀티모달 모델에서 공통 기본 단위처럼 재사용되었습니다.
-
-즉, 이 절은 attention과 self-attention 설명을 실제 모델 블록으로 묶어, Transformer를 `부품 이름 모음`이 아니라 `관계 읽기 + 위치별 가공 + 안정화`가 반복되는 구조로 읽게 만드는 절입니다.
-
-따라서 이 절에서 확인해야 할 최종 결과는 Transformer를 `self-attention 하나의 이름`이 아니라, 문맥 읽기와 표현 가공과 안정화 장치가 반복적으로 결합된 기본 블록 구조로 설명할 수 있는가입니다.
-
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- Transformer는 왜 RNN보다 병렬 처리에 더 잘 맞는가?
-- 긴 문맥(long context)을 다룰 때 어떤 차이가 크게 드러나는가?
-
-이 질문은 바로 P4-14.2 병렬 처리와 긴 문맥으로 이어집니다.
+마지막 항목이 바로 다음 절의 주제입니다.
 
 ## 이 절에서 기억할 관점
 
-| 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 아직 여기서 하지 않는 일 |
-| --- | --- | --- |
-| Transformer는 attention, feed-forward, residual, normalization을 블록으로 묶는다 | 이 블록이 왜 긴 문맥과 대규모 병렬 처리에 유리했는가 | 사전학습과 LLM 운영 구조 전체를 설명하는 일 |
-
-- Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
-- self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
-- residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
-- 이 블록 구조를 이해하면 이후 다른 생성 모델 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
+- 결정트리는 `질문을 나누어 예측하는 모델`입니다.
+- node는 질문, split은 분기, leaf는 최종 예측입니다.
+- 좋은 split은 대체로 label을 더 덜 섞인 묶음으로 바꿉니다.
+- 결정트리는 분류와 회귀 모두에 쓸 수 있습니다.
+- 읽기 쉬운 편이지만, 깊어지면 위험도 함께 커집니다.
 
 ## 체크리스트
 
-- Transformer의 기본 구성 요소를 말할 수 있는가?
-- 각 구성 요소의 역할을 한 문장씩 설명할 수 있는가?
-- self-attention과 feed-forward의 차이를 설명할 수 있는가?
-- 다음 절의 병렬 처리와 긴 문맥으로 왜 자연스럽게 이어지는지 설명할 수 있는가?
+- 결정트리를 경계선이 아니라 질문 흐름으로 설명할 수 있는가?
+- `feature + threshold`가 질문 후보가 된다는 점을 말할 수 있는가?
+- 분류에서는 `더 잘 정리되는 split`을 고르려 한다는 점을 설명할 수 있는가?
+- leaf가 class를 낼 수도 있고 수치를 낼 수도 있다는 점을 구분할 수 있는가?
+- 과적합 이야기는 아직 시작하지 않았고, 다음 절에서 다룬다는 점을 알고 있는가?
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Jay Alammar, `The Illustrated Transformer`, 확인 날짜: 2026-06-29. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.

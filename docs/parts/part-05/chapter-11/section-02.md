@@ -1,433 +1,631 @@
-# P5-11.2 인덱스(index)와 검색 품질
+# P5-11.2 합성곱(convolution)과 풀링(pooling)
 
-P5-11.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타데이터를 함께 저장하고 검색 단계에서 실무형 저장소 역할을 한다는 점을 보았습니다. 이제 질문은 더 구체적이 됩니다.
+P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
-비슷한 벡터를 빠르게 찾는 일은 왜 어렵고, 무엇을 포기하거나 조정해야 하는가?
+그 지역 패턴을 실제로 계산하는 핵심 연산은 무엇이며, 풀링(pooling)은 왜 자주 함께 등장하는가?
 
 이 절은 그 질문에 답합니다.
 
-인덱스(index)는 검색 속도를 높이기 위한 구조이며, 벡터 검색에서는 보통 속도와 정확도 사이의 균형을 함께 고민하게 만든다.
+합성곱(convolution)은 작은 필터로 지역 패턴 점수를 계산하는 연산이고, 풀링(pooling)은 그 결과를 더 작고 요약된 형태로 정리하는 연산이다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 왜 벡터를 하나씩 모두 비교하지 않는가?
-- 인덱스는 검색에서 어떤 역할을 하는가?
-- 검색 속도와 검색 품질은 왜 함께 조정해야 하는가?
+- convolution은 무엇을 계산하는가?
+- 필터(filter)와 feature map은 무엇을 뜻하는가?
+- pooling은 왜 쓰이며, 무엇을 줄이는가?
+- 두 연산이 함께 있을 때 CNN의 표현 흐름은 어떻게 읽히는가?
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- HNSW, IVF, PQ 수학 세부
-- 특정 엔진 파라미터 튜닝
-- 대규모 분산 검색 아키텍처
+- padding/stride/dilation의 상세 공식
+- 다양한 pooling 변형과 최신 대체 구조
+- FFT convolution 같은 고급 구현
 
-이 절은 인덱스를 `근사 검색을 위한 구조`로 읽는 데 집중하고, 이후 서비스 안에서 검색 외부 기능이 어떻게 확장되는지는 P5-12.1 도구 사용으로 이어집니다. 엔진별 수학과 분산 검색 아키텍처의 세부 구현은 현재 본편 범위 밖으로 둡니다.
+padding, stride, dilation은 이 절에서 `필터가 입력을 읽는 방식`을 이해하는 데 필요한 만큼만 다룹니다. 다양한 pooling 변형은 이 절의 범위 밖에 두고, CNN 이후의 vision 구조 비교는 보충학습 P5-11.3에서 `CNN과 Vision Transformer(ViT)` 중심으로 회수합니다. FFT convolution 같은 고급 구현은 이 책의 현재 본편 범위 밖에 둡니다.
 
-이 절에서는 인덱스를 단순한 내부 기술명으로 넘기지 않고, `빠른 검색을 위해 근사(approximation)를 허용하는 구조`로 설명합니다.
-
-지금 읽는 층위는 `retrieval 탐색 구조 층위`입니다. 앞 절의 벡터 데이터베이스가 `무엇을 어떤 저장 구조에 담아 둘까`를 다뤘다면, 여기서는 `그 저장 구조 안에서 후보를 어떤 속도와 품질 균형으로 좁힐까`를 읽습니다. 바로 다음의 tool use 절에서는 질문이 다시 커져, `문서를 찾는 것`을 넘어 `무엇을 실제로 조회하거나 실행할까`로 이동합니다.
-
-처음 읽을 때는 인덱스를 Part 5 본류의 `후보 압축 손잡이`로만 잡고, 그 다음에 어떤 층위가 더 붙는지까지 같이 보면 흐름이 덜 끊깁니다.
-
-| 지금 단계의 손잡이 | 바로 다음에 이어질 질문 | 뒤에서 본격적으로 다시 읽는 위치 |
-| --- | --- | --- |
-| 벡터 데이터베이스 | 검색 후보를 어떤 저장 구조에 다시 꺼내 쓸 것인가? | P5-11.1 |
-| 인덱스(index) | 그 후보를 어떤 속도와 품질 균형으로 좁힐 것인가? | P5-11.2 |
-| 도구 사용(tool use) | 문서 검색을 넘어서 무엇을 실제로 조회하거나 실행할 것인가? | P5-12.1, P5-12.2 |
-
-이 전환을 앞뒤 장과 한 번에 붙여 보면 다음처럼 읽는 편이 가장 안전합니다.
-
-| 바로 앞 장 | 지금 장 | 바로 다음에 더 붙는 장 |
-| --- | --- | --- |
-| 벡터 데이터베이스: 무엇을 어떤 retrieval 저장소에 넣을까 | 인덱스: 그 저장소 안에서 후보를 얼마나 빠르고 정확하게 좁힐까 | tool use: 문서 검색을 넘어서 무엇을 실제로 조회하거나 실행할까 |
-| 저장 구조 | 탐색 구조와 속도-품질 균형 | 실행 연결 |
-
-즉, 지금 장의 핵심은 `무엇을 저장할까`에서 `그 저장 구조를 어떤 속도와 품질로 탐색할까`로 손잡이가 바뀐다는 점입니다.
+즉, 이 절에서는 convolution 수식을 엄밀히 증명하기보다, `CNN이 지역 패턴을 점수화하고 그 반응을 요약하는 흐름`을 읽는 데 집중합니다.
 
 ## 이 절의 목표
 
-- 인덱스의 역할을 입문 수준에서 설명할 수 있습니다.
-- 정확히 찾는 검색과 빠르게 찾는 검색의 차이를 말할 수 있습니다.
-- 벡터 검색 품질을 속도와 분리해서 볼 수 없다는 점을 설명할 수 있습니다.
-- 다음 장의 도구 사용과 서비스 구조 설명으로 이어질 준비를 할 수 있습니다.
+- convolution을 `작은 필터가 지역 패턴 점수를 계산하는 연산`으로 설명할 수 있습니다.
+- feature map을 `필터 반응의 공간적 기록`으로 설명할 수 있습니다.
+- pooling이 왜 공간 크기를 줄이고 중요한 반응을 요약하는 데 쓰이는지 말할 수 있습니다.
+- 실행 가능한 Python 예제로 합성곱과 최대 풀링(max pooling)의 직관을 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
 
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
+이 절은 다음 순서로 읽으면 흐름이 자연스럽습니다.
 
-1. 먼저 `왜 모든 벡터를 다 비교하지 않나`와 `인덱스는 무엇을 하나`를 읽고, 인덱스가 전체 비교를 줄이기 위한 탐색 구조라는 점을 잡습니다.
-2. 그다음 `왜 속도와 정확도가 함께 걸리나`, `검색 품질은 무엇으로 흔들리나`, `왜 RAG 품질과 직접 연결되나`를 읽으면서 속도와 후보 품질을 따로 떼어 볼 수 없다는 점을 확인합니다.
-3. 마지막으로 사례와 Python 예제를 보면서, 실제 운영에서는 지연 시간만이 아니라 `top-k 포함률`, `top-1 정합률`, `버전 정합성`을 같이 봐야 한다는 점을 확인합니다.
+1. `padding`, `stride`, `dilation`이 필터의 읽는 방식을 어떻게 바꾸는지 먼저 잡습니다.
+2. convolution이 지역 패턴 점수를 어떻게 계산하는지 봅니다.
+3. 그 결과가 feature map이라는 반응 지도로 남는다는 점을 봅니다.
+4. pooling이 그 반응을 어떻게 더 작고 요약된 형태로 넘기는지 봅니다.
+5. 마지막에 convolution과 pooling을 한 흐름으로 다시 읽습니다.
 
-## 왜 모든 벡터를 다 비교하지 않나
+## padding, stride, dilation은 무엇을 뜻하나
 
-가장 단순한 방법은 질문 벡터와 저장된 모든 벡터를 하나씩 비교하는 것입니다. 하지만 문서 수가 많아지면 이 방식은 매우 느려질 수 있습니다.
+이 절의 중심은 convolution과 pooling이지만, 바로 앞에서 이름이 나온 `padding`, `stride`, `dilation`도 최소한의 뜻은 여기서 잡고 가는 편이 좋습니다.
 
-예를 들어:
+세 용어는 모두 `필터가 입력 위를 어떻게 읽는가`를 조정합니다.
 
-- 문서가 수백 개면 가능할 수 있지만
-- 문서가 수십만, 수백만 개면
-- 모든 벡터를 매번 다 비교하는 비용이 커집니다
+| 용어 | 무엇을 바꾸나 | 입문용 직관 |
+| --- | --- | --- |
+| padding | 입력 가장자리에 값을 덧붙인다 | 가장자리도 덜 놓치고 출력 크기도 너무 빨리 줄지 않게 한다 |
+| stride | 필터를 몇 칸씩 건너뛰며 움직일지 정한다 | 한 칸씩 촘촘히 볼지, 두 칸씩 더 크게 건너뛸지 정한다 |
+| dilation | 필터 칸 사이 간격을 벌린다 | 필터 크기를 크게 늘리지 않고도 더 넓은 범위를 본다 |
 
-그래서 실무에서는 `정확히 다 비교하는 방법` 대신 `가까울 것 같은 후보를 빠르게 좁히는 방법`이 중요해집니다. 이때 인덱스가 등장합니다.
+세 선택의 차이는 다음과 같습니다.
 
-## 인덱스는 무엇을 하나
+- `padding`은 가장자리 바깥에 여백을 더하는 선택입니다.
+- `stride`는 필터의 이동 보폭을 정하는 선택입니다.
+- `dilation`은 필터 내부 칸 사이 간격을 벌려 보는 선택입니다.
 
-인덱스를 다음처럼 이해하면 충분합니다.
+이 절에서는 세 용어를 공식으로 전개하지는 않지만, 뒤의 convolution 설명을 읽을 때는 `필터의 내용`, `필터의 이동 방식`, `필터가 덮는 범위`를 조정하는 장치로 먼저 잡아 두면 됩니다. 아래 작은 장면은 그 차이를 바로 보여 줍니다.
 
-`인덱스는 전체를 처음부터 끝까지 다 보지 않고, 가까울 가능성이 높은 후보를 더 빨리 찾도록 돕는 탐색 구조다.`
+먼저 같은 1차원 줄을 읽는다고 상상해 보겠습니다.
 
-즉, 인덱스는 검색 속도를 높이기 위한 `길 찾기 구조`에 가깝습니다.
+```text
+input = [A B C D E]
+filter size = 3
+```
 
-이 점은 일반 데이터베이스 인덱스와도 닮아 있지만, 벡터 검색에서는 `의미가 가까운 항목`을 찾기 위한 방식이라는 점이 다릅니다.
+이때 세 용어는 각각 다른 질문에 답합니다.
 
-## 왜 속도와 정확도가 함께 걸리나
+- padding: `양끝에 여백을 둘까?`
+- stride: `몇 칸씩 움직일까?`
+- dilation: `필터 칸 사이를 붙여 읽을까, 띄워 읽을까?`
 
-여기서 중요한 개념이 `근사 검색(approximate search)`입니다.
+즉, 셋 모두 convolution 자체를 바꾸기보다 `어떻게 훑을 것인가`를 바꾸는 선택입니다.
 
-벡터 검색에서는 보통:
+### padding은 왜 필요한가
 
-- 아주 정확하지만 느린 방식
-- 조금 덜 정확할 수 있지만 빠른 방식
+padding이 없으면 필터는 입력 가장자리 바깥으로 나갈 수 없기 때문에, 가장자리 근처 정보는 상대적으로 덜 읽히기 쉽습니다.
 
-사이에서 균형을 잡습니다.
+예를 들어 3x3 필터를 5x5 이미지에 그대로 움직이면, 필터 중심은 바깥 테두리보다 안쪽에서만 안정적으로 움직입니다. 이때 바깥 가장자리의 작은 선이나 모서리는 덜 반영될 수 있습니다.
 
-다음처럼 기억하면 좋습니다.
+padding은 이 바깥에 여백을 한 겹 더 두는 방식입니다.
 
-`벡터 검색 인덱스는 보통 가장 완벽한 답 하나를 항상 찾는 구조보다, 충분히 좋은 후보를 빠르게 찾는 구조에 가깝다.`
+- 여백이 없으면 가장자리에서 바로 끝납니다.
+- 여백이 있으면 가장자리 근처도 한 번 더 읽을 자리가 생깁니다.
 
-## 검색 품질은 무엇으로 흔들리나
+즉, padding은 가장자리 근처도 한 번 더 읽을 자리를 만들어, 가장자리 정보를 너무 빨리 잃지 않게 하는 장치입니다.
 
-검색 품질은 단순히 인덱스 종류만으로 정해지지 않습니다. 다음 요소가 함께 영향을 줍니다.
+아주 짧은 줄 예시로 쓰면 다음과 같습니다.
 
-- 임베딩 품질
-- 문서 조각(chunk) 크기
-- 메타데이터 필터
-- 인덱스 설정
-- top-k 개수
+```text
+padding 없음:   [A B C] [B C D] [C D E]
+padding 있음: [0 A B] [A B C] [B C D] [C D E] [D E 0]
+```
 
-즉, 검색 품질 문제는 `저장 구조`, `문서 준비`, `검색 전략`이 함께 만드는 문제입니다.
+여기서 핵심은 `가장자리도 계산 기회가 생긴다`는 점입니다.
 
-## 왜 RAG 품질과 직접 연결되나
+### stride는 무엇을 바꾸나
 
-RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮으면 생성은 잘해도 시작점이 흔들립니다.
+stride는 필터가 한 번에 몇 칸씩 움직일지를 정합니다.
 
-예를 들어:
+아주 단순하게 보면:
 
-- 관련 없는 문서를 가져오면 답이 엉뚱해지고
-- 덜 중요한 문서가 먼저 오면 핵심이 빠질 수 있으며
-- 오래된 문서가 섞이면 최신성 문제가 다시 생길 수 있습니다
+- stride가 1이면 `한 칸씩` 움직이며 촘촘히 읽습니다.
+- stride가 2면 `두 칸씩` 건너뛰며 더 성기게 읽습니다.
 
-즉, 벡터 검색 품질을 볼 때는 `얼마나 빨리 찾는가`보다 `정말 필요한 문서가 후보 안에 들어왔는가`를 먼저 확인해야 하고, 이것이 곧 RAG 답변 품질의 상한을 결정합니다.
+예를 들어 4칸짜리 줄 위를 2칸 크기 필터가 읽는다고 할 때:
 
-## 아주 단순하게 그리면
+- stride 1이면 `[1-2]`, `[2-3]`, `[3-4]`처럼 겹치며 읽습니다.
+- stride 2면 `[1-2]`, `[3-4]`처럼 크게 건너뛰며 읽습니다.
+
+즉, stride는 `얼마나 촘촘하게 훑을 것인가`를 정하는 선택입니다. stride가 커질수록 출력 크기는 더 빨리 줄고, 계산도 더 거칠게 요약됩니다.
+
+이미지에서 이 말을 다시 읽으면 다음과 같습니다.
+
+- stride 1: 거의 모든 위치를 빠짐없이 본다
+- stride 2: 한 칸씩 보지 않고 더 성기게 본다
+
+즉, stride를 키우면 `출력은 빨리 줄어들지만 세부 위치 차이는 덜 보게 됩니다.`
+
+### dilation은 왜 따로 이름이 붙나
+
+dilation은 필터 칸 사이 간격을 벌려, 필터 크기를 크게 키우지 않고도 더 넓은 범위를 보게 합니다.
+
+예를 들어 3칸 필터를 그대로 붙여 보면 바로 옆 칸끼리 읽습니다. 하지만 dilation을 주면 `첫 칸`, `한 칸 건너뛴 칸`, `또 한 칸 건너뛴 칸`처럼 더 멀리 떨어진 위치를 함께 읽을 수 있습니다.
+
+즉, dilation은:
+
+- 파라미터 수를 크게 늘리지 않고
+- 더 넓은 receptive field를 보고 싶을 때
+- 필터 내부 간격을 벌리는 선택
+
+즉, dilation은 파라미터 수를 크게 늘리지 않고 필터 내부 간격을 벌려 더 넓은 receptive field를 보게 하는 선택입니다.
+
+1차원 줄 예시로 보면 차이는 더 단순합니다.
+
+```text
+dilation 없음: [A B C]
+dilation 있음: [A _ C _ E]처럼 떨어진 위치를 함께 읽음
+```
+
+즉, 필터 칸 수는 그대로 두되, `한 번에 보는 범위`만 넓히는 방식입니다.
+
+세 용어를 다시 한 줄로 묶으면 다음과 같습니다.
+
+| 용어 | 입문용 한 문장 |
+| --- | --- |
+| padding | 가장자리 바깥에 여백을 둬서 가장자리 정보가 너무 빨리 사라지지 않게 한다 |
+| stride | 필터를 한 칸씩 볼지, 더 크게 건너뛸지 정한다 |
+| dilation | 필터 칸 사이 간격을 벌려 더 넓은 범위를 함께 본다 |
+
+입문 단계에서는 다음 질문으로 다시 확인하면 충분합니다.
+
+- padding: `가장자리도 더 읽게 만들고 싶은가?`
+- stride: `더 촘촘히 볼까, 더 크게 건너뛸까?`
+- dilation: `필터 크기를 키우지 않고 더 넓게 보고 싶은가?`
+
+### 작은 숫자 예제로 세 차이를 같이 보면
+
+말로만 보면 세 용어가 비슷하게 느껴질 수 있으니, 아주 작은 5x5 입력 위에서 같은 3x3 필터를 읽는 장면으로 다시 묶어 보겠습니다.
+
+```text
+input
+1 0 0 0 1
+0 1 0 1 0
+0 0 1 0 0
+0 1 0 1 0
+1 0 0 0 1
+
+filter
+1 0 1
+0 1 0
+1 0 1
+```
+
+이때 독자가 먼저 볼 것은 `필터 값` 자체보다 `어느 위치 묶음을 한 번에 읽는가`입니다.
+
+| 설정 | 필터가 실제로 읽는 장면 변화 | 먼저 생기는 차이 |
+| --- | --- | --- |
+| padding 0, stride 1, dilation 1 | 입력 안쪽만 촘촘히 읽음 | 가장자리는 읽을 기회가 적고 출력은 3x3이 됨 |
+| padding 1, stride 1, dilation 1 | 바깥에 0 여백을 두고 읽음 | 가장자리도 한 번 더 읽고 출력은 5x5로 유지됨 |
+| padding 0, stride 2, dilation 1 | 두 칸씩 건너뛰며 읽음 | 읽는 위치 수가 줄어 출력이 더 작아짐 |
+| padding 0, stride 1, dilation 2 | 필터 칸 사이를 띄워 더 넓게 읽음 | 같은 3x3 필터라도 더 큰 범위를 한 번에 덮음 |
+
+즉, 세 설정은 모두 `필터가 무엇을 찾는가`보다 `필터를 어떤 간격과 범위로 움직일 것인가`를 바꾸는 장치입니다.
+
+## 실행 가능한 Python 예제로 먼저 보기
+
+이번 작은 예제의 목표는 `padding`, `stride`, `dilation`이 출력 크기와 읽는 위치를 어떻게 바꾸는지 눈으로 확인하는 것입니다. 합성곱 값 전체를 외우는 것이 아니라, `같은 필터라도 스캔 방식이 달라지면 출력 모양과 읽는 패치가 함께 바뀐다`는 점을 잡는 데 목적이 있습니다.
+
+코드를 읽기 전에 아래 세 값부터 순서대로 보면 이 절의 구조 차이가 덜 흩어집니다.
+
+| 먼저 볼 값 | 왜 먼저 보아야 하는가 |
+| --- | --- |
+| `shape` | 설정이 바뀌었을 때 출력 크기가 먼저 어떻게 달라지는지 한눈에 보이기 때문에 |
+| `first_patch` | 필터가 첫 위치에서 실제로 어떤 범위를 읽는지 바로 비교할 수 있기 때문에 |
+| `result` | 앞의 두 차이가 최종 반응 지도 전체를 어떻게 바꾸는지 마지막에 묶어 볼 수 있어서 |
+
+입력:
+
+- 5x5 장난감 이미지
+- 3x3 필터
+- 서로 다른 `padding`, `stride`, `dilation` 설정
+
+출력:
+
+- 설정별 출력 행렬 shape
+- 첫 번째 위치에서 실제로 읽은 patch
+- 설정별 convolution 결과
+
+문제 상황:
+
+- `padding`, `stride`, `dilation`은 이름은 비슷해 보여도 필터가 이미지를 읽는 범위를 다르게 만든다
+
+확인할 개념:
+
+- convolution 설정은 결과 shape와 실제 patch 범위를 함께 바꾼다
+- 첫 위치 patch와 최종 결과를 같이 보면 각 설정 차이가 더 잘 드러난다
+
+입력(input):
+
+위에 정리한 입력 이미지, 필터, 여러 `padding`·`stride`·`dilation` 설정을 사용합니다.
+
+```python
+import numpy as np
+
+image = np.array([
+    [1, 0, 0, 0, 1],
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 0, 1, 0],
+    [1, 0, 0, 0, 1],
+], dtype=float)
+
+kernel = np.array([
+    [1, 0, 1],
+    [0, 1, 0],
+    [1, 0, 1],
+], dtype=float)
+
+
+def conv2d(image, kernel, padding=0, stride=1, dilation=1):
+    padded = np.pad(image, padding, mode="constant", constant_values=0)
+    kernel_h, kernel_w = kernel.shape
+    effective_h = kernel_h + (kernel_h - 1) * (dilation - 1)
+    effective_w = kernel_w + (kernel_w - 1) * (dilation - 1)
+    out_h = ((padded.shape[0] - effective_h) // stride) + 1
+    out_w = ((padded.shape[1] - effective_w) // stride) + 1
+    output = np.zeros((out_h, out_w))
+
+    first_patch = None
+    for out_i in range(out_h):
+        for out_j in range(out_w):
+            row = out_i * stride
+            col = out_j * stride
+            sampled = padded[
+                row:row + effective_h:dilation,
+                col:col + effective_w:dilation,
+            ]
+            if first_patch is None:
+                first_patch = sampled.copy()
+            output[out_i, out_j] = np.sum(sampled * kernel)
+
+    return output, first_patch
+
+
+settings = [
+    ("base", 0, 1, 1),
+    ("padding=1", 1, 1, 1),
+    ("stride=2", 0, 2, 1),
+    ("dilation=2", 0, 1, 2),
+]
+
+for name, padding, stride, dilation in settings:
+    result, first_patch = conv2d(
+        image=image,
+        kernel=kernel,
+        padding=padding,
+        stride=stride,
+        dilation=dilation,
+    )
+    print(f"[{name}]")
+    print("shape =", result.shape)
+    print("first_patch =")
+    print(first_patch)
+    print("result =")
+    print(result)
+```
+
+출력에서는 result의 shape, 첫 patch, 그리고 최종 result 값이 어떻게 연결되는지 순서대로 보면 됩니다.
+
+```text
+[base]
+shape = (3, 3)
+first_patch =
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+result =
+[[3. 0. 3.]
+ [0. 5. 0.]
+ [3. 0. 3.]]
+[padding=1]
+shape = (5, 5)
+first_patch =
+[[0. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+result =
+[[2. 0. 2. 0. 2.]
+ [0. 3. 0. 3. 0.]
+ [2. 0. 5. 0. 2.]
+ [0. 3. 0. 3. 0.]
+ [2. 0. 2. 0. 2.]]
+[stride=2]
+shape = (2, 2)
+first_patch =
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+result =
+[[3. 3.]
+ [3. 3.]]
+[dilation=2]
+shape = (1, 1)
+first_patch =
+[[1. 0. 1.]
+ [0. 1. 0.]
+ [1. 0. 1.]]
+result =
+[[5.]]
+```
+
+이 결과에서 먼저 읽을 점은 다음과 같습니다.
+
+- `padding=1`은 출력이 5x5로 유지되며 가장자리도 계산 대상에 남깁니다.
+- `stride=2`는 필터가 두 칸씩 건너뛰므로 출력이 2x2로 빠르게 줄어듭니다.
+- `dilation=2`는 3x3 필터가 실제로는 더 넓은 5x5 범위를 띄엄띄엄 읽게 만듭니다.
+
+즉, 세 용어는 모두 convolution을 `다른 연산`으로 바꾸는 것이 아니라, 같은 convolution이 `어떤 범위와 간격으로 입력을 읽을지`를 바꾸는 선택입니다.
+
+## convolution은 무엇을 하나
+
+합성곱(convolution)은 작은 필터(filter)를 이미지 여러 위치에 움직이며, 그 위치가 특정 패턴과 얼마나 잘 맞는지 점수화합니다.
+
+핵심은 필터가 찾고 싶은 작은 패턴을 들고 이미지 각 위치를 훑으며 반응 점수를 만드는 데 있습니다.
+
+- 필터는 `찾고 싶은 작은 패턴 템플릿`처럼 볼 수 있고
+- 이미지의 각 지역 패치와 곱셈/덧셈을 해
+- 그 위치의 반응 점수를 만듭니다
+
+즉, convolution은 이미지 전체를 한 번에 판단하지 않고, `작은 패턴 탐지기`를 전체 위치에 반복 적용하는 방식입니다.
+
+## 필터(filter)는 무엇을 뜻하나
+
+필터는 보통 작은 숫자 배열입니다. 예를 들어 3x3 필터는 3x3 지역 패치를 볼 수 있습니다.
+
+`필터는 edge, 방향, 질감, 작은 모양 같은 패턴에 반응하도록 학습되는 작은 가중치 묶음이다.`
+
+CNN이 학습되면 이런 필터 값들도 데이터에 맞게 바뀝니다. 즉, 사람이 직접 모든 필터를 설계하는 것이 아니라, 모델이 어떤 필터가 유용한지를 함께 학습합니다.
+
+## feature map은 무엇인가
+
+필터 하나를 이미지 전체에 적용하면, 각 위치에서 얼마나 강하게 반응했는지를 담은 새로운 2차원 배열이 나옵니다. 이것을 feature map이라고 부릅니다.
+
+즉:
+
+- 입력 이미지 위에서
+- 필터를 위치마다 적용하고
+- 그 반응값을 기록한 결과가
+
+feature map입니다.
+
+핵심은 feature map이 특정 필터의 반응이 이미지 어디에서 얼마나 강했는지를 위치별로 기록한 결과라는 점입니다.
+
+`feature map은 특정 필터가 이미지의 어디에서 얼마나 강하게 반응했는지를 기록한 지도(map)이다.`
+
+독자는 여기서 다음 구분을 같이 잡으면 좋습니다.
+
+| 이름 | 무엇을 뜻하나 |
+| --- | --- |
+| filter | 찾고 싶은 작은 패턴 템플릿 |
+| convolution result | 각 위치에서 계산된 패턴 점수 |
+| feature map | 그 점수들을 위치별로 모아 놓은 결과 지도 |
+
+## pooling은 왜 필요한가
+
+convolution 결과를 그대로 계속 쌓기만 하면 공간 크기가 계속 크고 계산량도 많아질 수 있습니다. 또, 모든 세부 위치 정보를 끝까지 그대로 들고 가는 것이 항상 좋은 것도 아닙니다.
+
+pooling은 이런 정보를 더 요약된 형태로 줄이는 역할을 합니다.
+
+예를 들어 max pooling은 작은 구역 안에서 가장 큰 반응만 남깁니다.
+
+`pooling은 세부 위치 정보를 조금 줄이는 대신, 중요한 반응을 더 압축해서 다음 층으로 넘기는 방식이다.`
+
+## 왜 max pooling이 직관적인가
+
+max pooling은 작은 창 안에서 가장 큰 값 하나를 고릅니다. 이 방식은 독자에게 다음 직관을 줍니다.
+
+- 그 구역에서 가장 강한 패턴 반응이 무엇인지 남긴다
+- 작은 위치 변화에는 덜 민감해질 수 있다
+- 공간 크기를 줄여 계산을 압축한다
+
+즉, max pooling은 `가장 눈에 띄는 신호를 남기는 요약`으로 읽으면 좋습니다.
+
+이 차이를 더 짧게 비교하면 다음과 같습니다.
+
+| 단계 | 주로 하는 일 |
+| --- | --- |
+| convolution | 패턴을 찾는다 |
+| pooling | 찾은 반응을 요약한다 |
+
+같은 이미지 장면을 두 단계로 나눠 보면 차이가 더 직접 보입니다.
+
+| 같은 장면 | convolution이 먼저 하는 일 | pooling이 바로 이어서 하는 일 |
+| --- | --- | --- |
+| 검은 선이 있는 흰 배경 | 어디에서 경계 반응이 강한지 점수화한다 | 그 구역에서 가장 강한 경계 반응만 남겨 더 작게 넘긴다 |
+| 얼굴 사진의 눈 주변 | 눈썹 선, 눈 경계 같은 작은 구조에 먼저 반응한다 | 강한 반응을 압축해 다음 층이 더 큰 얼굴 부분을 읽기 쉽게 만든다 |
+| 표면 결함 이미지 | 작은 스크래치나 깨짐 위치에서 반응을 키운다 | 결함 후보 신호를 요약해 불량 판단에 남기기 쉽게 만든다 |
+
+## convolution과 pooling은 함께 어떻게 읽히나
+
+둘을 아주 단순하게 이어 보면 다음과 같습니다.
 
 ```mermaid
 flowchart TD
-  A["query vector"]
-  B["index narrows candidates"]
-  C["top-k nearest candidates"]
-  D["retrieved chunks for generation"]
+  A["input image"]
+  B["convolution<br/>detect local pattern"]
+  C["feature map"]
+  D["pooling<br/>summarize response"]
+  E["smaller feature map"]
 
   A --> B
   B --> C
   C --> D
+  D --> E
 ```
 
-이 도식의 핵심은 인덱스가 `답변 생성`을 직접 하는 것이 아니라, `검색 후보를 빠르게 좁히는 역할`을 한다는 점입니다.
+이 도식은 `찾는다 -> 기록한다 -> 요약한다`라는 세 동작을 보여 줍니다.
+
+1. convolution이 먼저 지역 패턴을 찾습니다.
+2. feature map이 그 반응을 위치별로 기록합니다.
+3. pooling이 그 기록을 더 작고 요약된 형태로 넘깁니다.
+
+이 흐름은 실제 이미지 조각과 숫자 배열을 함께 놓고 보면 더 쉽게 읽힙니다. 아래 예시는 `밝은 세로선이 가운데에 있는 작은 이미지`를 0과 1로 단순화한 것입니다.
+
+| 장면 | 값 표현 |
+| --- | --- |
+| 작은 이미지 샘플 | 가운데 밝은 세로선이 보이는 4x4 흑백 패치 |
+| 입력 행렬 샘플 | `[[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]]` |
+
+이 입력 위에 `세로선에 반응하는 2x2 필터`를 얹는다고 생각해 보겠습니다.
+
+| 항목 | 값 |
+| --- | --- |
+| filter | `[[1, -1], [1, -1]]` |
+| 읽는 방식 | 왼쪽 열과 오른쪽 열의 차이를 비교해 세로 경계를 찾음 |
+
+필터를 한 칸씩 움직이며 계산하면 다음처럼 `feature map`이 생깁니다.
+
+| 단계 | 행렬 샘플 |
+| --- | --- |
+| input image | `[[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]]` |
+| convolution result | `[[-2, 0, 2], [-2, 0, 2], [-2, 0, 2]]` |
+| 2x2 max pooling result | `[[0, 2]]` |
+
+이 숫자를 읽을 때 핵심은 다음과 같습니다.
+
+- `-2`는 필터 방향과 반대인 경계 반응으로 읽을 수 있습니다.
+- `0`은 필터가 기대한 세로 변화가 거의 없는 위치입니다.
+- `2`는 필터가 찾던 세로 경계가 강하게 잡힌 위치입니다.
+- max pooling 뒤의 `[[0, 2]]`는 세부 위치를 줄이더라도 `강한 세로 경계가 오른쪽 쪽에 있었다`는 요점을 남깁니다.
+
+즉, 작은 이미지 샘플은 사람이 보는 장면을 붙잡아 주고, 행렬 샘플은 convolution과 pooling이 실제로 어떤 숫자 요약을 만드는지 보여 줍니다.
+
+이 흐름은 CNN이:
+
+- 먼저 패턴을 찾고
+- 그 반응을 기록한 뒤
+- 더 압축된 형태로 다음 층에 넘긴다는 점
+
+을 보여 줍니다.
+
+즉, `convolution은 지역 패턴을 점수화하고, pooling은 그 점수를 다음 층이 읽기 쉬운 형태로 더 작게 넘깁니다.`
+
+CNN을 Part 5나 Transformer 이전의 과거 구조로만 읽으면 `이미지용 옛 모델 이름`처럼 보이기 쉽습니다. 하지만 Part 5에서 CNN이 맡는 책임은 이미 여기서 닫힙니다. 즉, CNN은 `이미지에서 지역 패턴을 어떻게 탐지하고 요약할 것인가`에 대한 자체 답을 가진 구조이며, 뒤 Part는 이 답을 대체하는 자리가 아니라 다른 데이터 구조 문제를 다루는 자리로만 이어지면 충분합니다.
 
 ## 사례로 보기
 
-### 사례 1. 사내 문서 검색 속도
+### 사례 1. edge detection 직관
 
-사내 위키 문서가 수백 개일 때는 검색이 빨랐는데, 수만 개로 늘자 갑자기 느려졌다고 해 봅시다. 사람은 처음에는 `검색이 조금 늦네` 정도로만 느끼기 쉽습니다. 하지만 운영 단계에서는 답변 지연이 곧 사용자 이탈로 이어집니다. 예를 들어 휴가 규정 질문 하나에 후보 문서를 고르는 데 4초가 더 걸리면, 뒤 생성 단계가 같아도 사용자는 챗봇 전체가 느리다고 느끼게 됩니다. 이 시점부터 문제는 단순히 문서가 많아졌다는 사실이 아니라, 많은 문서 중 후보를 얼마나 빨리 줄일 수 있는가입니다. 여기서 바뀌는 점은 `문서 수가 늘었는가`를 보던 기준에서 `핵심 후보 압축 시간이 실제 대기 시간 안에 남는가`를 보는 기준으로 이동한다는 것입니다. 인덱스 구조와 검색 전략은 바로 이 후보 압축 속도를 바꾸는 핵심 장치가 됩니다. 그래서 이 사례에서 확인해야 할 결과는 문서 수가 늘어난 뒤에도 핵심 후보를 줄이는 시간이 실제 서비스 대기 시간 안에 남는가입니다.
+흰 배경 위에 검은 선이 지나가는 이미지를 생각해 보겠습니다. 사람은 이런 장면을 볼 때 `선이 어디에 있나`를 먼저 눈으로 찾습니다. 하지만 컴퓨터가 원본 픽셀 숫자만 그대로 보면, 어느 값 변화가 선이고 어느 값 변화가 단순 잡음인지 바로 구분하기 어렵습니다. 예를 들어 선이 한 픽셀 옆으로 조금만 이동해도, 원본 숫자 배열만 보면 완전히 다른 값처럼 보일 수 있습니다. 필터는 바로 이런 밝기 변화가 큰 위치에서 강하게 반응하도록 만들 수 있습니다. 그러면 feature map에는 선이나 경계가 있는 자리가 더 큰 값으로 나타나고, 모델은 `어디에 구조가 있는가`를 숫자로 읽기 시작합니다.
 
-### 사례 2. 매뉴얼 답변 품질
+### 사례 2. 얼굴 이미지
 
-제품 매뉴얼에서 정확한 설정 문단 하나를 찾아야 하는데, 검색을 너무 빠르게 만들려고 근사 설정을 강하게 준다고 해 봅시다. 사람은 응답 시간이 빨라지면 검색이 더 좋아졌다고 느끼기 쉽습니다. 하지만 그러면 응답 시간은 줄어들 수 있어도, 정작 가장 중요한 문단이 후보에서 빠져 답변 품질이 바로 흔들릴 수 있습니다. 예를 들어 `자동 저장 끄기` 질문에 설정 개요 문단만 잡히고 실제 메뉴 경로 문단이 빠지면, 답변은 `설정에서 바꾸세요` 수준으로 끝나 실제 사용자는 여전히 버튼 위치를 찾지 못할 수 있습니다. 반대로 항상 가장 엄격한 검색만 쓰면 관련 문단은 잘 찾더라도 답이 너무 늦어집니다. 여기서 바뀌는 점은 `응답이 빨라졌는가`를 보던 기준에서 `핵심 문단이 후보에 남아 있는가`를 함께 보는 기준으로 이동한다는 것입니다. 즉, 운영자는 `빨라졌는가`만이 아니라 `빠르게 찾은 후보가 충분히 좋은가`를 함께 봐야 합니다. 그래서 이 사례에서 확인해야 할 결과는 응답 시간이 빨라져도 실제 핵심 문단이 후보에 남아 있는가입니다.
+얼굴 사진에서 초기 필터는 눈썹 선, 눈 주변 contrast, 입 경계 같은 작은 구조에 먼저 반응할 수 있습니다. 사람도 얼굴을 볼 때 처음에는 이런 부분 단서를 보고 전체 인상으로 묶어 갑니다. 하지만 뒤층으로 갈수록 모든 위치의 세부 값을 그대로 들고 가면 계산이 무거워지고, 핵심 구조도 흐려질 수 있습니다. 예를 들어 눈 주변에서 이미 강한 반응이 나왔는데도 그 주변의 비슷한 값들을 모두 그대로 다음 층에 넘기면, 중요한 단서보다 중복 정보가 더 많아질 수 있습니다. pooling은 강하게 반응한 부분을 더 요약된 형태로 넘겨, 중요한 지역 단서를 압축해 다음 층이 더 큰 패턴을 읽게 돕습니다.
 
-### 사례 3. 개발 문서 도우미
+### 사례 3. 의료 이미지나 산업 비전
 
-개발 문서 도우미가 비슷한 이름의 API 문서를 여러 개 가진 상태라고 해 봅시다. 사람은 최종 답만 보면 보통 `모델이 코드를 잘못 설명했다`고 먼저 느낍니다. 하지만 top-k 결과에 현재 버전 문서 대신 예전 버전 문서가 섞이면, 생성 단계는 그 후보를 바탕으로 꽤 자연스러운 답을 만들 수 있습니다. 예를 들어 2.x 버전 옵션을 묻는 질문에 1.x 문서가 후보 상단에 들어오면, 답변은 매끄러워도 바로 실행하면 에러가 나는 코드 예시가 나올 수 있습니다. 즉, 실제 시작점은 `후보 문서 묶음이 이미 어긋난 것`일 수 있습니다. 여기서 바뀌는 점은 `최종 답이 자연스러운가`를 보던 기준에서 `top-k 후보 안에 맞는 버전 문서가 들어왔는가`를 먼저 보는 기준으로 이동한다는 것입니다. 그래서 이 장면에서는 생성 평가와 별도로 검색 품질 평가가 필요합니다. 그래서 이 사례에서 확인해야 할 결과는 최종 답만 보기 전에 top-k 후보 안에 현재 버전 문서가 실제로 포함되어 있는가입니다.
+의료 이미지에서는 병변 경계가 흐릿하게 나타나고, 산업 비전에서는 미세한 결함 표면이 작은 영역에만 나타날 수 있습니다. 사람은 전체 이미지를 멀리서 보면 대체로 정상처럼 느끼고 지나가기 쉽지만, 실제로는 아주 작은 영역의 미세한 경계 변화가 핵심일 수 있습니다. 예를 들어 금속 표면의 금 간 부분이 이미지 전체에서는 매우 작아도, 그 작은 경계 반응 하나가 불량 판정의 출발점일 수 있습니다. 이런 경우 전체 이미지를 한 번에 평균내면 중요한 이상이 묻혀 버리기 쉽습니다. convolution은 국소 구조를 먼저 점수화하고, pooling은 그 반응을 요약해 다음 단계로 넘기므로 이런 장면을 설명하기 좋습니다.
 
-세 사례를 속도·품질 균형 관점으로 다시 묶으면 다음과 같습니다.
+세 사례에서 공통으로 확인해야 할 결과는 convolution이 먼저 국소 반응을 세우고, pooling이 그 반응을 더 작은 다음 단계 입력으로 요약한다는 점입니다. edge detection에서는 경계 위치 반응이 살아나는지, 얼굴 이미지에서는 핵심 부분 반응이 남는지, 의료·산업 비전에서는 작은 이상 신호가 요약 뒤에도 불량 후보 판단에 남는지를 보면 충분합니다.
 
-| 상황 | 빨라 보이는 것만 보면 놓치는 것 | 함께 봐야 하는 검색 품질 기준 |
+세 사례를 한 줄로 다시 묶으면 다음과 같습니다.
+
+| 상황 | convolution이 중요한 이유 | pooling이 중요한 이유 |
 | --- | --- | --- |
-| 사내 문서 검색 속도 | 전체 지연만 보고 후보 압축 실패를 놓침 | 핵심 후보를 서비스 시간 안에 남기는가 |
-| 매뉴얼 답변 품질 | 응답 속도가 빨라져도 핵심 절차 문단이 빠질 수 있음 | 핵심 문단이 top-k 안에 남는가 |
-| 개발 문서 도우미 | 자연스러운 최종 답 때문에 버전 후보 오류를 놓침 | 현재 버전 문서가 top-k 안에 포함되는가 |
-
-같은 내용을 검색 타협 구조로 다시 보면 다음처럼 읽을 수 있습니다.
-
-```mermaid
-flowchart LR
-  A["query vector"]
-  B["faster index setting"]
-  C["slower but stricter setting"]
-  D["lower latency"]
-  E["better candidate quality"]
-  F["risk: wrong top-k"]
-
-  A --> B --> D
-  A --> C --> E
-  B --> F
-```
-
-핵심은 `빠르다`와 `좋다`가 자동으로 같은 뜻이 아니라는 점입니다.
+| edge detection | 밝기 변화 위치를 점수화하기 위해 | 강한 edge 반응을 요약하기 위해 |
+| 얼굴 이미지 | 눈, 입 경계 같은 국소 구조를 찾기 위해 | 부분 반응을 더 압축해 다음 층으로 넘기기 위해 |
+| 의료/산업 비전 | 미세 결함이나 경계를 찾기 위해 | 중요한 이상 신호를 더 작게 요약하기 위해 |
 
 ## 실행 가능한 Python 예제로 보기
 
-이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다. 특히 한 질문만 보는 대신, 여러 질문에서 `top-k 안에 정답 문서가 남는 비율`, `top-1이 바로 맞는 비율`, `버전 정합성`을 함께 봐야 운영 판단이 더 정확해진다는 점을 확인하겠습니다.
-
-문제 상황:
-
-- 개발 문서 검색에서 현재 버전 문서가 꼭 top-k 안에 들어와야 함
-- 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있음
-- 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있음
+이번 예제의 목표는 2x2 필터를 이용한 단순 convolution과, 그 결과에 대한 2x2 max pooling 직관을 확인하는 것입니다. 단순 결과만 보는 대신, 어느 위치에서 강한 반응이 생겼고 pooling이 무엇을 남기는지도 같이 읽습니다.
 
 입력:
 
-- 여러 개의 질문
-- 빠른 검색 설정과 엄격한 검색 설정의 후보 목록
+- 4x4 작은 이미지
+- 2x2 필터
 
 출력:
 
-- 질문별 지연 시간
-- 질문별 top-k 후보
-- 현재 버전 문서가 실제로 포함되었는지 여부
-- 설정별 top-k 포함률과 top-1 정합률
-
-먼저 이 예제에서 함께 볼 점검 항목은 다음과 같습니다.
-
-| 점검 항목 | 왜 필요한가 |
-| --- | --- |
-| `target_in_top_k` | 생성 단계가 참고할 후보 안에 정답이 살아 있는지 확인 |
-| `rank_of_target` | 정답이 너무 아래에 있어 생성이 놓치지 않는지 확인 |
-| `top1_is_target` | 가장 먼저 붙는 문서가 맞는지 확인 |
-| `top1_version_ok` | 비슷한 이름의 구버전 문서가 앞서 오지 않는지 확인 |
+- convolution 결과
+- max pooling 결과
 
 문제 상황:
 
-- 검색기를 평가할 때는 단순 속도보다 정답 문서가 상위 후보 안에 실제로 들어오는지가 더 중요할 수 있다
-
-입력(input):
-
-위에 정리한 질문별 목표 문서와 fast/accurate 검색 결과를 사용합니다.
+- pooling은 convolution 다음에 정보량을 줄이면서도 강한 반응을 남기는 역할이라는 점을 직접 비교해 볼 필요가 있다
 
 확인할 개념:
 
-- 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다
+- convolution과 pooling은 같은 이미지에서도 서로 다른 축약 결과를 만든다
+- max pooling은 지역 내 가장 강한 반응을 남겨 크기를 줄인다
+
+입력(input):
+
+위에 정리한 4x4 이미지와 2x2 필터를 사용합니다.
 
 ```python
-queries = [
-    {
-        "question": "2.x 버전에서 request timeout 옵션은 어디에 넣나요?",
-        "target_doc": "sdk_v2_request_timeout",
-        "fast": {
-            "latency_ms": 24,
-            "candidates": [
-                "sdk_v1_timeout_guide",
-                "sdk_v1_retry_notes",
-                "sdk_general_networking",
-            ],
-        },
-        "strict": {
-            "latency_ms": 88,
-            "candidates": [
-                "sdk_v2_request_timeout",
-                "sdk_v2_retry_and_backoff",
-                "sdk_v1_timeout_guide",
-            ],
-        },
-    },
-    {
-        "question": "2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?",
-        "target_doc": "sdk_v2_retry_and_backoff",
-        "fast": {
-            "latency_ms": 22,
-            "candidates": [
-                "sdk_v1_retry_notes",
-                "sdk_general_networking",
-                "sdk_v2_request_timeout",
-            ],
-        },
-        "strict": {
-            "latency_ms": 81,
-            "candidates": [
-                "sdk_v2_retry_and_backoff",
-                "sdk_v2_request_timeout",
-                "sdk_v1_retry_notes",
-            ],
-        },
-    },
-    {
-        "question": "2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?",
-        "target_doc": "sdk_v2_auth_refresh_flow",
-        "fast": {
-            "latency_ms": 25,
-            "candidates": [
-                "sdk_v1_auth_overview",
-                "sdk_general_security",
-                "sdk_v2_auth_refresh_flow",
-            ],
-        },
-        "strict": {
-            "latency_ms": 86,
-            "candidates": [
-                "sdk_v2_auth_refresh_flow",
-                "sdk_general_security",
-                "sdk_v1_auth_overview",
-            ],
-        },
-    },
-]
+import numpy as np
 
+image = np.array([
+    [1, 2, 0, 1],
+    [3, 1, 2, 2],
+    [0, 1, 3, 1],
+    [2, 2, 1, 0],
+], dtype=float)
 
-def inspect_search(result, target_doc):
-    top1 = result["candidates"][0]
-    return {
-        "latency_ms": result["latency_ms"],
-        "top_k": result["candidates"],
-        "target_in_top_k": target_doc in result["candidates"],
-        "rank_of_target": (
-            result["candidates"].index(target_doc) + 1
-            if target_doc in result["candidates"]
-            else None
-        ),
-        "top1_is_target": top1 == target_doc,
-        "top1_version_ok": top1.startswith("sdk_v2_"),
-    }
+kernel = np.array([
+    [1, 0],
+    [0, -1],
+], dtype=float)
 
+conv = np.zeros((3, 3))
+for i in range(3):
+    for j in range(3):
+        patch = image[i:i+2, j:j+2]
+        conv[i, j] = np.sum(patch * kernel)
 
-def summarize_mode(queries, mode_name):
-    reports = []
-    hit_count = 0
-    top1_hit_count = 0
-    version_ok_count = 0
-    total_latency = 0
-    for item in queries:
-        inspected = inspect_search(item[mode_name], item["target_doc"])
-        reports.append((item["question"], inspected))
-        hit_count += int(inspected["target_in_top_k"])
-        top1_hit_count += int(inspected["top1_is_target"])
-        version_ok_count += int(inspected["top1_version_ok"])
-        total_latency += inspected["latency_ms"]
-    hit_rate = round(hit_count / len(queries), 3)
-    top1_hit_rate = round(top1_hit_count / len(queries), 3)
-    version_ok_rate = round(version_ok_count / len(queries), 3)
-    avg_latency = round(total_latency / len(queries), 1)
-    return reports, hit_rate, top1_hit_rate, version_ok_rate, avg_latency
+pool = np.zeros((1, 1))
+pool[0, 0] = np.max(conv[0:2, 0:2])
 
-
-fast_reports, fast_hit_rate, fast_top1_hit_rate, fast_version_ok_rate, fast_avg_latency = summarize_mode(queries, "fast")
-strict_reports, strict_hit_rate, strict_top1_hit_rate, strict_version_ok_rate, strict_avg_latency = summarize_mode(queries, "strict")
-
-print("[fast search]")
-for question, report in fast_reports:
-    print("question =", question)
-    print(report)
-print("fast_hit_rate =", fast_hit_rate)
-print("fast_top1_hit_rate =", fast_top1_hit_rate)
-print("fast_top1_version_ok_rate =", fast_version_ok_rate)
-print("fast_avg_latency_ms =", fast_avg_latency)
-print("fast_latency_per_hit =", round(fast_avg_latency / fast_hit_rate, 1) if fast_hit_rate else None)
-
-print("[strict search]")
-for question, report in strict_reports:
-    print("question =", question)
-    print(report)
-print("strict_hit_rate =", strict_hit_rate)
-print("strict_top1_hit_rate =", strict_top1_hit_rate)
-print("strict_top1_version_ok_rate =", strict_version_ok_rate)
-print("strict_avg_latency_ms =", strict_avg_latency)
-print("strict_latency_per_hit =", round(strict_avg_latency / strict_hit_rate, 1) if strict_hit_rate else None)
+print("image =")
+print(image)
+print("kernel =")
+print(kernel)
+print("convolution result =")
+print(conv)
+print("max pooling on top-left 2x2 region =", pool[0, 0])
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+출력에서는 convolution result에서 큰 반응이 어디 있었는지와 max pooling 값이 무엇을 남겼는지 순서대로 보면 됩니다.
 
 ```text
-[fast search]
-question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 24, 'top_k': ['sdk_v1_timeout_guide', 'sdk_v1_retry_notes', 'sdk_general_networking'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
-question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 22, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_networking', 'sdk_v2_request_timeout'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
-question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 25, 'top_k': ['sdk_v1_auth_overview', 'sdk_general_security', 'sdk_v2_auth_refresh_flow'], 'target_in_top_k': True, 'rank_of_target': 3, 'top1_is_target': False, 'top1_version_ok': False}
-fast_hit_rate = 0.333
-fast_top1_hit_rate = 0.0
-fast_top1_version_ok_rate = 0.0
-fast_avg_latency_ms = 23.7
-fast_latency_per_hit = 71.2
-[strict search]
-question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 81, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout', 'sdk_v1_retry_notes'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 86, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_general_security', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-strict_hit_rate = 1.0
-strict_top1_hit_rate = 1.0
-strict_top1_version_ok_rate = 1.0
-strict_avg_latency_ms = 85.0
-strict_latency_per_hit = 85.0
+image =
+[[1. 2. 0. 1.]
+ [3. 1. 2. 2.]
+ [0. 1. 3. 1.]
+ [2. 2. 1. 0.]]
+kernel =
+[[ 1.  0.]
+ [ 0. -1.]]
+convolution result =
+[[ 0.  0. -2.]
+ [ 2. -2.  1.]
+ [-2.  0.  3.]]
+max pooling on top-left 2x2 region = 2.0
 ```
 
-이 예제에서 먼저 봐야 할 것은 `fast_avg_latency_ms = 23.7`이 매우 좋아 보여도 `fast_top1_hit_rate = 0.0`, `fast_top1_version_ok_rate = 0.0`이라는 점입니다. 즉, 빠른 설정은 지연 시간은 줄였지만, 가장 먼저 붙는 문서가 모두 구버전이어서 생성 단계 출발점이 이미 흔들립니다. 반대로 strict 설정은 느리지만 top-k 포함률, top-1 정합률, 버전 정합률이 모두 1.0입니다.
+- 필터는 위치마다 작은 패치를 읽어 점수를 만듭니다
+- 그 점수들이 모인 결과가 feature map입니다
+- pooling은 그중 강한 반응을 더 작은 크기로 요약합니다
 
-그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
+CNN 교육에서 convolution과 pooling은 거의 항상 함께 소개됩니다. 이유는 이 둘이 CNN의 핵심 계산 흐름을 가장 압축적으로 보여 주기 때문입니다.
 
-- 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`를 같이 읽어야 한다.
-- 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `hit_rate`, `top1_hit_rate`, `version_ok_rate` 차이가 더 분명하게 드러난다.
+역사적으로도 LeNet, AlexNet 같은 구조를 통해 convolution 기반 지역 패턴 탐지와 pooling 기반 요약이 이미지 인식의 기본 직관으로 널리 퍼졌습니다. 이후 구조는 더 다양해졌지만, 입문 단계에서는 여전히 가장 중요한 기본 축입니다.
 
-이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
-
-- `target_doc`를 다른 문서로 바꿔 어떤 질문에서 빠른 설정이 더 큰 손실을 내는지 보기
-- `queries[0]["fast"]["candidates"]`를 바꿔 비슷하지만 틀린 버전 문서가 얼마나 위험한지 확인하기
-- `inspect_search`에 `recall_like_score`나 `top2_version_mix` 같은 항목을 추가해 자체 품질 지표를 넓혀 보기
-
-## 이 예제를 검색 타협 관점으로 다시 보면
-
-앞의 예제는 실제 인덱스를 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 비교표로 보여 주는 장면입니다. 예를 들어 `latency_ms`만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
-
-## 여기까지를 한 줄로 묶으면
-
-벡터 검색 인덱스는 검색을 빠르게 만들기 위한 구조이지만, 실제 운영에서는 지연 시간만이 아니라 `정답 후보가 top-k 안에 살아 있는가`를 함께 보지 않으면 좋은 설정을 고를 수 없습니다.
-
-벡터 검색이 널리 쓰이면서, 검색 문제는 다시 `자료구조와 알고리즘`의 감각으로 돌아왔습니다. 하지만 LLM 서비스 문맥에서는 이것이 단순한 검색 엔진 문제가 아니라, 생성 품질과 사용자 경험에 직접 연결된다는 점이 더 중요합니다.
-
-커리큘럼 관점에서 이 절이 중요한 이유는 다음과 같습니다.
-
-- 벡터 데이터베이스를 단순 저장소가 아니라 탐색 구조와 함께 읽게 하고
-- 이후 평가 장에서 검색 지표를 왜 별도로 봐야 하는지 준비시키며
-- 서비스 구조에서 속도, 비용, 품질이 함께 얽힌다는 관점을 강화하기 때문입니다
-
-## 다음 장과의 연결
+## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
 
-- 검색된 정보를 넘어서, 모델이 외부 기능을 직접 호출해야 하는 경우는 무엇인가?
-- 문서 검색과 도구 사용은 어떻게 다른가?
+- 이미지처럼 공간 구조가 아니라 시간 순서(sequence)가 중요한 데이터는 어떻게 다루는가?
+- 앞에서 본 패턴을 기억해야 하는 문제에서는 왜 CNN만으로는 부족하다고 느껴졌는가?
 
-이 질문은 P5-12.1 도구 사용(tool use)으로 이어집니다.
+이 질문은 바로 P5-12.1 RNN, LSTM, GRU의 필요성으로 이어집니다.
 
 ## 이 절에서 기억할 관점
 
-- 인덱스는 검색 속도를 높이기 위한 탐색 구조입니다.
-- 벡터 검색에서는 속도와 정확도 사이의 균형을 함께 고민합니다.
-- 검색 품질은 인덱스뿐 아니라 임베딩, chunking, 메타데이터 전략에도 영향을 받습니다.
-- RAG 답변 품질은 검색 품질과 직접 연결됩니다.
+- convolution은 작은 필터로 지역 패턴 점수를 계산하는 연산입니다.
+- feature map은 필터 반응이 공간적으로 기록된 결과입니다.
+- pooling은 중요한 반응을 더 작은 형태로 요약합니다.
+- CNN은 지역 패턴 탐지와 요약을 반복하며 표현을 쌓아 갑니다.
 
 ## 체크리스트
 
-- 인덱스의 역할을 입문 수준에서 설명할 수 있는가?
-- 왜 모든 벡터를 다 비교하지 않는지 말할 수 있는가?
-- 왜 속도와 검색 품질을 함께 봐야 하는지 설명할 수 있는가?
-- 왜 다음 장에서 도구 사용을 따로 봐야 하는지 말할 수 있는가?
+- convolution을 입문 수준에서 한 문장으로 설명할 수 있는가?
+- 필터와 feature map의 관계를 설명할 수 있는가?
+- pooling이 왜 필요한지 말할 수 있는가?
+- 다음 절의 순차 데이터 구조로 왜 자연스럽게 넘어가는지 연결할 수 있는가?
 
 ## 출처와 참고 자료
 
-- 관련 ANN(approximate nearest neighbor) 교육 자료, 확인 날짜: 2026-06-29.
-- 벡터 검색 엔진과 인덱스 구조 소개 자료, 확인 날짜: 2026-06-29.
-- OpenAI, 임베딩 및 검색 관련 공식 문서, 확인 날짜: 2026-06-29.
+- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, 확인 날짜: 2026-06-29.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-06-29.

@@ -1,329 +1,421 @@
-# P4-15.2 생성과 샘플링(sampling)
+# P4-15.2 특징 중요도(feature importance)
 
-P4-15.1에서는 생성 모델(generative model)이 분류 모델과 달리 데이터 패턴을 학습해 새로운 출력 자체를 만들려는 모델이라는 점을 보았습니다. 그러면 다음 질문이 자연스럽게 따라옵니다.
+P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
 
-생성 모델이 여러 그럴듯한 답을 만들 수 있다면, 실제로 어떤 답을 고르는가?
+이 숲은 무엇을 중요하게 보고 판단했는가?
 
-이 절은 그 질문에 답합니다.
+이 질문이 바로 특징 중요도(feature importance)의 출발점입니다.
 
-샘플링(sampling)은 모델이 그럴듯하다고 본 여러 후보 중 실제 출력을 하나씩 꺼내는 과정이며, 이 방식이 결과의 다양성과 안정성에 직접 영향을 준다.
+특징 중요도는 모델이 어떤 특징을 더 자주, 더 크게 활용했는지 요약한 숫자이지만, 그 숫자를 곧바로 원인이나 진실의 순위라고 읽으면 위험하다.
+
+즉, 특징 중요도는 유용한 요약이지만, 해석의 함정도 함께 가진 도구입니다.
 
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
-- 생성 모델의 출력이 왜 하나로 고정되지 않을 수 있는가?
-- 샘플링(sampling)은 무엇을 한다고 설명할 수 있는가?
-- 확률 분포와 출력 다양성은 어떤 관계가 있는가?
-- 왜 같은 모델도 샘플링 방식에 따라 결과 느낌이 달라지는가?
+- 랜덤포레스트에서 특징 중요도는 어떻게 만들어지는가?
+- `feature_importances_`는 무엇을 뜻하는가?
+- impurity-based importance와 permutation importance는 어떻게 다른가?
+- 왜 중요한 숫자처럼 보여도 오해를 만들 수 있는가?
 
-이 절에서 먼저 닫아야 하는 핵심은 `생성 모델의 품질은 무엇을 배웠는가뿐 아니라, 후보들 중 무엇을 실제로 꺼내는가에도 크게 달려 있다`는 점입니다. 즉, 샘플링은 뒤의 제품 설정 이름을 예고하는 부가 옵션이 아니라, 생성 문제를 현재 장 안에서 완성시키는 핵심 선택 단계로 읽어야 합니다.
+이 절은 다음 내용은 깊게 다루지 않습니다.
 
-처음 읽을 때는 이 절을 `출력 선택 축`으로만 고정해 두면 덜 흔들립니다.
+- PDP(partial dependence plot), SHAP 같은 다른 해석 기법
+- 인과 추론(causal inference) 관점의 중요도 해석
+- 상관 특성이 매우 강한 실제 대규모 데이터셋의 해석 전략
 
-| 지금 이 절에서 읽는 것 | 뒤 Part나 범위 밖으로 넘기는 것 |
-| --- | --- |
-| 후보 분포를 계산한 뒤 실제 출력을 어떤 감각으로 고르는가 | top-k, top-p, temperature를 제품 설정 언어로 어떻게 세밀하게 다루는가 |
-| 다양성과 안정성 사이의 선택이 왜 결과를 바꾸는가 | diffusion 샘플링 구현과 세부 탐색 알고리즘 비교 |
-
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- beam search의 상세 구현
-- top-k, top-p의 수학적 비교
-- temperature 공식의 엄밀한 전개
-- diffusion model의 역과정 샘플링 세부 구현
-
-beam search, top-k, top-p, temperature의 세부 차이는 여기서 공식을 전개하지 않고 넘깁니다. 토큰 단위 생성에서 이런 선택 규칙이 실제 출력 길이와 다양성에 어떤 차이를 만드는지는 뒤 Part에서 다시 구체화합니다. diffusion model의 역과정 샘플링 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
-
-이 절에서는 생성형 AI를 사용할 때 `모델이 답을 아는가`라는 질문을 넘어, `모델이 답을 어떤 방식으로 꺼내는가`를 설명합니다.
-
-여기서 실제로 닫아야 하는 설명은 `샘플링이 단순 옵션이 아니라 생성 문제의 일부`라는 점입니다. 세부 설정 이름은 뒤 Part에서 다시 보더라도, 현재 절 안에서 이미 `후보 분포를 계산하는 단계`와 `실제 출력을 꺼내는 단계`가 다르며, 결과 품질이 이 두 단계 모두에 걸려 있다는 감각을 끝내 잡아야 합니다.
+이 절은 입문적으로 `숫자를 읽는 태도`를 만드는 데 집중합니다.
 
 ## 이 절의 목표
 
-- 샘플링을 `후보들 중 실제 출력을 선택하는 절차`로 설명할 수 있습니다.
-- 생성 결과가 늘 같지 않을 수 있는 이유를 말할 수 있습니다.
-- 다양성과 안정성의 균형이라는 관점으로 생성 결과를 읽을 수 있습니다.
-- 뒤에서 나올 토큰(token), 다음 토큰 예측(next-token prediction), temperature 같은 개념의 필요성을 미리 이해할 수 있습니다.
+- 특징 중요도를 `모델 내부 사용량의 요약`으로 설명할 수 있습니다.
+- impurity-based importance(MDI)와 permutation importance를 구분할 수 있습니다.
+- 특징 중요도가 곧 인과관계(causality)나 진짜 원인 순위를 뜻하지 않는다는 점을 설명할 수 있습니다.
+- 상관 특성(multicollinear or correlated features)과 high-cardinality feature가 왜 해석을 왜곡할 수 있는지 말할 수 있습니다.
 
-## 이 절을 읽는 순서
+## 학습 배경
 
-이 절은 다음 순서로 읽으면 충분합니다.
+랜덤포레스트를 배우고 나면 독자는 이런 기대를 갖기 쉽습니다.
 
-1. 먼저 생성 출력이 왜 하나로 고정되지 않을 수 있는지 확인합니다.
-2. 그 다음 샘플링을 `후보 중 실제 출력을 고르는 절차`로 읽습니다.
-3. 이어서 다양성과 안정성의 균형이 왜 중요한지 봅니다.
-4. 마지막에 이 개념이 왜 `모델 점수 계산`과 `실제 출력 선택`을 구분하게 만드는지 정리합니다.
+- 숲이 잘 맞춘다.
+- 숲 안에는 많은 트리가 있다.
+- 그러면 이 모델은 무엇이 중요한지도 잘 말해 줄 것 같다.
 
-## 왜 생성 출력은 하나로 고정되지 않을 수 있나
+이 기대는 절반만 맞습니다.
 
-분류(classification) 문제에서는 보통 가장 높은 점수를 받은 클래스 하나를 선택하는 상황이 많습니다. 하지만 생성(generation) 문제는 다릅니다.
-
-예를 들어 다음 문장을 생각해 볼 수 있습니다.
-
-- `오늘 날씨가`
-
-이 뒤에는 `좋다`, `맑다`, `화창하다`, `괜찮다` 같은 여러 표현이 자연스럽게 이어질 수 있습니다.
-
-즉, 생성 문제는 처음부터 `정답이 하나만 있는 문제`가 아닐 수 있습니다.
-
-그래서 생성 모델은 보통 여러 후보에 대해 상대적인 그럴듯함을 계산하고, 그 가운데 실제 출력을 선택하는 단계가 필요합니다.
-
-P4-15.1이 `생성 모델은 무엇을 배우는가`를 설명하는 절이었다면, 이 절은 그 다음 단계인 `그렇게 계산한 후보들 중 실제 출력은 어떻게 꺼내는가`를 설명하는 절이라고 보면 됩니다.
-
-## 샘플링(sampling)은 무엇을 하나
-
-샘플링을 다음처럼 설명하면 충분합니다.
-
-`샘플링은 모델이 더 그럴듯하다고 본 후보를 더 자주 고르되, 경우에 따라 다른 후보도 실제 출력으로 선택할 수 있게 하는 절차다.`
-
-즉, 샘플링은 다음 두 극단 사이의 문제를 다룹니다.
-
-- 항상 가장 높은 후보만 고르는 방식
-- 가능한 후보를 너무 무작위로 섞어 버리는 방식
-
-생성형 AI에서는 이 사이의 균형이 중요합니다.
-
-즉, 이 절에서 꼭 잡아야 할 변화는 `모델이 무엇을 알았는가`에서 `그 알게 된 후보들 중 무엇을 실제로 내보내는가`로 질문이 이동했다는 점입니다.
-
-입문 단계에서는 다음 세 방식만 구분해도 충분합니다.
-
-| 방식 | 먼저 잡아야 할 감각 |
+| 기대 | 실제로는 |
 | --- | --- |
-| argmax | 항상 가장 높은 후보만 고른다 |
-| sampling | 높은 후보를 더 자주 고르되 다른 후보도 허용한다 |
-| temperature 조정 | 후보 분포를 더 보수적이거나 더 다양하게 읽게 만든다 |
+| 중요도 숫자가 크면 원인이다 | 모델이 많이 썼다는 뜻에 더 가깝다 |
+| 중요도 숫자가 낮으면 쓸모없는 특징이다 | 다른 특징과 겹치거나 대체되었을 수 있다 |
+| 중요도는 항상 공정한 순위다 | 계산 방식에 따라 편향이 생길 수 있다 |
 
-## 다양성과 안정성은 왜 함께 보아야 하나
+즉, 15.2는 `중요도 숫자를 믿는 법`이 아니라 `중요도 숫자를 과신하지 않는 법`을 배우는 절입니다.
 
-샘플링을 전혀 하지 않고 가장 높은 후보만 반복해서 선택하면, 출력은 안정적으로 보일 수 있습니다. 하지만 결과가 지나치게 단조롭거나 반복적으로 느껴질 수 있습니다.
+여기서도 기록 구조를 같이 고정해 두는 편이 좋습니다. 특징 중요도 절은 단순히 숫자를 정렬하는 절이 아니라, `어떤 중요도 관찰이 나왔는가`, `무엇은 아직 해석 경계 안에 있는가`, `다음 데이터 보강 질문은 무엇인가`를 남기는 절이기 때문입니다. 같은 중요도 순위처럼 보여도 어떤 특징 조합이 서로 역할을 대신하는지, 어떤 중요도 차이가 실제 성능 패턴 차이로 이어지는지는 따로 확인해야 합니다.
 
-반대로 후보를 너무 넓게 허용하면 출력 다양성은 커질 수 있지만, 문장이 갑자기 부자연스러워지거나 의미가 흐트러질 수 있습니다.
+| 같이 남길 기록 | 왜 필요한가 |
+| --- | --- |
+| 관찰된 중요도 순위 | 모델이 어떤 특징을 더 많이 썼는지 보기 위해서입니다. |
+| 해석 경계 문장 | 중요도 숫자를 원인 순위로 단정하지 않기 위해서입니다. |
+| review 대상 특징 | 상관 특성이나 high-cardinality 열을 다시 보기 위해서입니다. |
+| 다음 질문 | 어떤 특징을 더 수집하거나 어떤 비교 실험을 더 할지 정하기 위해서입니다. |
 
-이 절의 핵심을 다음처럼 기억하면 좋습니다.
+## 주요 학습내용
 
-`생성 품질은 정답 여부만이 아니라, 다양성과 안정성의 균형 문제이기도 하다.`
+### 특징 중요도는 어떤 생각에서 나오나
 
-이 문장을 더 짧게 줄이면, `너무 좁게 고르면 반복되고, 너무 넓게 고르면 흐트러진다`는 감각을 먼저 잡으면 됩니다.
+scikit-learn 사용자 가이드는 트리에서 상위에 있는 decision node가 더 많은 샘플의 예측에 기여하고, split으로 impurity를 얼마나 줄였는지를 합쳐 상대적 중요도를 추정할 수 있다고 설명합니다. 이 아이디어를 여러 randomized tree에 대해 평균낸 것이 mean decrease in impurity, 즉 MDI입니다.
 
-## 어떤 상황에서 어떤 균형을 먼저 보나
+입문 수준에서는 다음처럼 이해하면 좋습니다.
 
-샘플링을 읽을 때는 `무조건 다양하게` 또는 `무조건 보수적으로`보다, 지금 무엇을 더 우선할지 먼저 보는 편이 좋습니다.
+`어떤 특징이 자주, 그리고 큰 분기 개선을 만들었다면 그 특징을 더 중요하게 본다.`
 
-| 상황 | 먼저 보는 기준 | 더 먼저 떠올릴 선택 감각 |
-| --- | --- | --- |
-| 공지 문장 자동완성 | 반복 가능성, 흔들림 최소화 | 높은 확률 후보 중심 선택 |
-| 설명형 챗봇 답변 | 정확성, 구조 안정성 | 비교적 보수적인 샘플링 |
-| 아이디어 초안, 문구 시안 | 후보 폭, 표현 다양성 | 다양한 후보 허용 |
-| 이미지 콘셉트 탐색 | 장면 변주, 스타일 폭 | 더 넓은 샘플링 허용 |
+이 설명만 보면 매우 자연스러워 보입니다. 실제로도 빠르고 편리합니다. 하지만 여기에는 중요한 단서가 붙습니다.
 
-즉, 샘플링은 `재미를 늘리는 장치`만이 아니라, 출력의 일관성과 다양성 사이에서 어느 쪽을 더 우선할지 정하는 선택으로 읽는 편이 안전합니다.
+`이 값은 모델이 학습 데이터 안에서 분기에 사용한 흔적을 요약한 것이다.`
 
-## 같은 모델도 결과가 달라질 수 있는 이유
+즉, 중요도는 `모델 내부의 사용 기록`에 가깝지, 세상에서의 진짜 중요도나 원인의 크기를 바로 뜻하지는 않습니다.
 
-같은 모델이어도 다음 조건이 달라지면 결과가 달라질 수 있습니다.
+### MDI(mean decrease in impurity)는 무엇인가
 
-- 어떤 후보까지만 남길지
-- 확률 분포를 얼마나 날카롭게 읽을지
-- 가장 높은 후보만 고를지, 여러 후보를 허용할지
+scikit-learn 문서는 tree ensemble의 특징 중요도를 impurity-based feature importance로 설명하고, 이를 여러 tree에 평균낸 것이 MDI라고 설명합니다.
 
-이 때문에 사용자는 종종 `모델이 바뀌었다`고 느끼지만, 실제로는 출력 선택 전략이 바뀐 경우도 있습니다.
+여기서는 다음 순서로 생각하면 충분합니다.
 
-이 관점은 이후 토큰(token) 단위 생성과 프롬프트(prompt) 실험을 읽을 때 매우 중요해집니다.
+1. 트리의 각 분기에서 impurity가 얼마나 줄었는지 본다.
+2. 그 분기를 만든 feature에 그 감소량을 배정한다.
+3. 트리 전체에서 합친다.
+4. 숲 전체에서 평균낸다.
+5. 1이 되도록 정규화(normalize)한다.
 
-## 아주 단순한 흐름으로 그리면
+이를 짧게 그리면 다음과 같습니다.
 
 ```mermaid
 flowchart TD
-  A["model scores candidate outputs"]
-  B["sampling rule chooses one candidate"]
-  C["actual generated output"]
+  A["split uses feature X"]
+  B["measure impurity decrease"]
+  C["add contribution to feature X"]
+  D["sum over one tree"]
+  E["average over many trees"]
+  F["normalized importance score"]
 
-  A --> B
-  B --> C
+  A --> B --> C --> D --> E --> F
 ```
 
-이 도식에서 확인해야 할 결과는 `모델 점수`를 계산하는 단계와 그 후보 중 무엇을 실제 출력으로 꺼낼지 정하는 단계가 서로 다르다는 점입니다.
+이 구조 덕분에 `feature_importances_`는 계산이 빠르고, 랜덤포레스트를 학습한 뒤 바로 볼 수 있습니다.
+
+### 왜 상위 분기가 더 크게 작용하는가
+
+scikit-learn 문서는 트리의 상위 분기에서 사용된 feature가 더 많은 입력 샘플의 최종 예측에 영향을 준다고 설명합니다. 그래서 같은 impurity 감소라도, 더 많은 샘플 흐름을 바꾼 분기가 중요도에 더 크게 반영될 수 있습니다.
+
+이 감각을 짧게 바꾸면 다음과 같습니다.
+
+`트리 초반의 질문은 더 많은 사람을 나누고, 뒤쪽의 질문은 더 적은 사람만 나눈다. 그래서 초반 분기 feature가 전체 중요도에서 더 크게 보일 수 있다.`
+
+### `feature_importances_`는 어떻게 읽어야 하나
+
+API 문서는 `feature_importances_`를 impurity-based feature importances라고 설명합니다. 값은 양수이고 합은 1.0입니다.
+
+입문 단계에서는 이렇게 읽으면 좋습니다.
+
+| 숫자 모습 | 뜻 |
+| --- | --- |
+| 값이 크다 | 모델이 그 feature를 상대적으로 더 많이 활용했다 |
+| 값이 작다 | 모델이 그 feature를 상대적으로 덜 활용했다 |
+| 합이 1이다 | 절대 점수보다 상대 비중으로 읽어야 한다 |
+
+여기서 중요한 것은 `상대 비중`이라는 점입니다.
+
+예를 들어 중요도가:
+
+- `visits = 0.45`
+- `late_payment = 0.35`
+- `support_calls = 0.20`
+
+라면, 모델 내부 분기 기준에서는 `visits`가 가장 큰 역할을 했다고 읽을 수 있습니다. 하지만 이것이 곧 `방문 수가 가장 강한 원인이다`라는 뜻은 아닙니다.
+
+### permutation importance는 왜 따로 필요한가
+
+scikit-learn 문서는 impurity-based feature importance의 대안으로 permutation importance를 제시합니다. permutation importance는 특정 feature 값을 무작위로 섞었을 때 성능이 얼마나 나빠지는지를 봅니다.
+
+즉, MDI가 `모델 내부 사용 기록`이라면, permutation importance는 `그 feature를 망가뜨렸을 때 실제 예측 성능이 얼마나 흔들리는가`에 더 가깝습니다.
+
+두 방식을 비교하면 다음과 같습니다.
+
+| 방식 | 핵심 질문 |
+| --- | --- |
+| MDI | 이 feature가 분기에서 얼마나 많이, 얼마나 크게 쓰였는가? |
+| permutation importance | 이 feature를 섞어 버리면 모델 성능이 얼마나 떨어지는가? |
+
+이 차이는 매우 중요합니다. 하나는 `모델 안에서의 사용 흔적`이고, 다른 하나는 `성능 의존도 검사`에 가깝기 때문입니다.
+
+### permutation importance를 흐름으로 보기
+
+```mermaid
+flowchart TD
+  A["trained model"]
+  B["measure baseline score"]
+  C["shuffle one feature"]
+  D["measure score again"]
+  E["compare score drop"]
+  F["larger drop -> more dependence"]
+
+  A --> B --> C --> D --> E --> F
+```
+
+이 흐름은 독자에게 매우 유익합니다. 왜냐하면 중요도를 `숫자 속성`이 아니라 `성능 변화 실험`으로 다시 읽게 하기 때문입니다.
+
+## 세부 학습내용
+
+### 왜 impurity-based importance는 조심해야 하나
+
+scikit-learn 사용자 가이드는 impurity-based feature importances에 두 가지 주요 문제가 있다고 경고합니다.
+
+1. 학습 데이터에서 계산된 통계에 의존하므로, hold-out 데이터에서 일반화 성능의 중요도를 반드시 반영하지는 않는다.
+2. unique value가 많은 high-cardinality feature를 선호할 수 있다.
+
+다음처럼 바꾸어 말할 수 있습니다.
+
+`MDI는 빠르고 편하지만, 훈련 데이터 안에서 분기를 잘게 만들기 쉬운 feature를 과대평가할 수 있다.`
+
+예를 들어 고객 ID처럼 값 종류가 매우 많은 열이 있다면, 실제로는 일반화에 도움이 적어도 훈련 데이터 안에서는 분기를 잘게 나누기 쉬워 중요도가 커 보일 수 있습니다.
+
+### 상관 특성이 있으면 왜 헷갈리는가
+
+scikit-learn 예제는 multicollinear or correlated features에서는 permutation importance가 기대와 다르게 보일 수 있음을 보여 줍니다. 서로 비슷한 정보를 가진 feature가 여러 개 있으면, 하나를 섞어도 다른 feature가 대신 역할을 할 수 있기 때문입니다.
+
+이 상황에서는 다음 오해가 생깁니다.
+
+- test accuracy는 높다
+- 그런데 어떤 feature의 permutation importance는 낮다
+- 그러면 그 feature는 중요하지 않은가?
+
+항상 그렇지는 않습니다.
+
+`중요하지 않다`가 아니라 `다른 correlated feature가 대신 정보를 제공하고 있다`일 수 있습니다.
+
+즉, 중요도 해석은 feature 하나만 보는 일이 아니라, feature들 사이의 관계를 함께 읽는 일입니다.
 
 ## 사례로 보기
 
-아래 도식은 이 절의 세 사례를 `무엇이 정답인가`보다 `여러 후보 중 무엇을 실제 출력으로 고를 것인가`라는 공통 질문으로 다시 묶은 것입니다.
+### 사례 1. 중요도 숫자가 높다고 바로 원인이라고 말하면 왜 위험할까
 
-```mermaid
-flowchart TD
-  A["same sampling question"]
-  B["autocomplete<br/>which phrasing should be emitted?"]
-  C["chatbot answer<br/>which explanation style should be chosen?"]
-  D["image generation<br/>which scene variation should be realized?"]
+마케팅 팀이 랜덤포레스트로 고객 반응을 예측한 뒤, 어떤 특징이 중요했는지 보고 싶어 합니다. 사람이 먼저 보던 기준은 `최근 방문 수`, `할인 메시지 반응`, `구매 금액`, `회원 등급` 같은 신호였습니다.
 
-  A --> B
-  A --> C
-  A --> D
+모델을 학습하고 `feature_importances_`를 보니 `recent_visits`와 `discount_clicks`가 높게 나옵니다. 이때 팀은 곧바로 `방문 수가 가장 큰 원인이다`라고 말하고 싶어질 수 있습니다. 하지만 그 숫자는 먼저 `모델이 분기에서 얼마나 많이 활용했는가`의 요약이지, 현실 세계의 인과 순위를 바로 보여 주는 값은 아닙니다.
+
+이 장면에서 특징 중요도는 `설명 출발점`으로 읽는 편이 안전합니다. MDI는 모델 내부 사용 흔적을 요약하고, permutation importance는 그 특징을 섞었을 때 실제 성능이 얼마나 흔들리는지를 봅니다. 또 비슷한 뜻의 특징이 여러 개 있으면 하나는 높고 다른 하나는 낮게 보여도, 실제로는 정보를 서로 대신하고 있을 수 있습니다.
+
+확인 가능한 결과는 MDI와 permutation importance를 나란히 보고, high-cardinality 열이나 상관된 특징이 있는지 함께 검토할 때 드러납니다. 중요도 숫자 하나만 보고 정책을 바꾸기보다, 어떤 열이 모델 내부에서 많이 쓰였고 어떤 열이 성능을 실제로 흔드는지 분리해서 읽어야 합니다.
+
+## 사례 및 예시
+
+### 실무에서 어떻게 읽으면 좋은가
+
+특징 중요도는 다음처럼 쓰는 편이 보수적입니다.
+
+| 좋은 사용법 | 위험한 사용법 |
+| --- | --- |
+| 모델이 주로 어떤 신호를 보는지 점검 | 중요도 순위를 원인 순위로 단정 |
+| 이상한 열이 상위에 올라왔는지 확인 | 숫자가 낮은 feature를 즉시 삭제 |
+| permutation 결과와 함께 교차 확인 | 훈련 데이터 기반 MDI 하나만 보고 결론 |
+| 상관 관계와 데이터 의미를 함께 검토 | 숫자만 보고 정책 변경 |
+
+즉, 중요도는 `설명 도구의 시작점`이지 `최종 판결문`이 아닙니다.
+
+프로젝트 메모 형식으로 줄이면 다음처럼 적을 수 있습니다.
+
+| 기록 항목 | 예 |
+| --- | --- |
+| observed importance | `petal length = 0.444` |
+| safe interpretation | `이 모델이 이 특징을 자주 활용했다` |
+| review_needed | `상관된 특징이 있어 과신 금지` |
+| next_question | `permutation importance도 함께 볼 것인가` |
+
+이 표가 있으면 특징 중요도 절이 `관찰된 중요도 -> 해석 경계 -> 다음 질문` 구조로 먼저 읽힙니다. 결국 중요한 것은 숫자 순서 자체보다 `이 중요도 관찰이 어떤 실패 패턴 설명에는 도움이 되고, 어디부터는 아직 과신하면 안 되는가`를 함께 적는 일입니다.
+
+## 연습 및 예제
+
+### Python 예제로 MDI 보기
+
+이번 예제는 랜덤포레스트를 학습한 뒤 `feature_importances_`를 직접 읽어 보는 가장 작은 실습입니다.
+
+- 문제 상황: iris 데이터에서 어떤 특징이 더 중요하게 쓰였는지 본다.
+- 입력(input): iris의 4개 feature
+- 정답(label): 품종 class
+- 확인할 개념:
+  - 중요도는 상대 비중이다
+  - 값의 합은 1에 가깝다
+
+```python
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+
+iris = load_iris()
+X, y = iris.data, iris.target
+feature_names = iris.feature_names
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+model = RandomForestClassifier(n_estimators=200, random_state=42)
+model.fit(X_train, y_train)
+
+print("test accuracy:", round(model.score(X_test, y_test), 3))
+print("feature importances:")
+
+for name, score in zip(feature_names, model.feature_importances_):
+    print(f"  {name:20} {score:.3f}")
+
+print("sum:", round(model.feature_importances_.sum(), 3))
 ```
 
-이 도식에서 확인해야 할 점은 과업이 달라도 마지막 단계의 질문이 비슷하다는 것입니다. 모두 `후보 점수 계산` 뒤에 `실제로 어떤 출력을 꺼낼 것인가`를 정해야 하므로, 샘플링은 생성 결과를 사용자 경험으로 바꾸는 마지막 선택 단계로 읽어야 합니다.
+실행 결과 예시는 다음과 같습니다.
 
-### 사례 1. 문장 자동완성
+```text
+test accuracy: 0.911
+feature importances:
+  sepal length (cm)    0.098
+  sepal width (cm)     0.028
+  petal length (cm)    0.444
+  petal width (cm)     0.430
+sum: 1.0
+```
 
-`회의는 내일`
+이 예제에서 읽어야 할 것은:
 
-사람은 보통 `문맥상 가장 무난한 한 표현`을 먼저 떠올립니다. 그래서 자동완성도 늘 가장 높은 후보 하나만 고르면 된다고 생각하기 쉽습니다. 하지만 실제 문장에서는 `있습니다`, `열립니다`, `진행됩니다`처럼 여러 후보가 모두 자연스러울 수 있고, 문서 종류에 따라 더 어울리는 표현도 달라집니다. 예를 들어 회의 공지 메일에서는 `열립니다`가 자연스럽고, 일정 알림에서는 `진행됩니다`가 더 어울릴 수 있습니다. 항상 가장 높은 후보만 고르면 자동완성 문구가 매번 같은 말투로 굳고, 반대로 후보를 너무 넓게 허용하면 문맥에 덜 맞는 표현까지 튈 수 있습니다. 샘플링은 이 사이에서 어떤 후보를 실제로 꺼낼지 조절하는 단계입니다. 그래서 독자가 확인할 수 있는 결과는 자동완성 문구가 지나치게 반복되는지, 아니면 문맥을 유지한 채 적당한 표현 변주가 생기는지입니다.
+1. 중요도는 상대 비중으로 나온다.
+2. petal length와 petal width가 이 모델에서 더 많이 쓰였다.
+3. 이것은 `이 모델의 분기 사용 흔적`이지, 곧바로 인과 설명은 아니다.
 
-### 사례 2. 챗봇 답변
+### Python 예제로 permutation importance와 나란히 보기
 
-사용자가 `정규화와 표준화의 차이를 설명해 줘`라고 물었을 때, 사람은 답이 하나로 정해져 있다고 느끼기 쉽습니다. 하지만 실제로는 시험 직전 요약이 필요한 사용자와 실무 문맥 예시가 필요한 사용자가 원하는 답 길이와 형식이 다를 수 있습니다. 예를 들어 한쪽은 `정규화는 값 범위를 맞추는 쪽, 표준화는 평균과 분산 기준으로 스케일을 맞추는 쪽` 같은 짧은 대비를 원하고, 다른 쪽은 `이미지 픽셀은 0~1로 정규화하고, 회귀 입력 변수는 평균 0 주변으로 표준화할 수 있다` 같은 예시가 붙는 편이 더 이해하기 쉽습니다. 사람이 먼저 쓰는 기준은 대개 `틀리지 않는가` 하나지만, 실제 사용자 경험에서는 길이, 말투, 예시 유무도 함께 중요합니다. 샘플링이 너무 보수적이면 늘 비슷한 짧은 답만 반복될 수 있고, 너무 넓으면 설명 흐름이 흩어질 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 핵심 정의는 유지하면서도 상황에 맞는 길이와 설명 방식이 실제로 선택되는가입니다.
-
-### 사례 3. 이미지 생성 프롬프트
-
-`a small cafe in the rain` 같은 프롬프트를 보면 사람은 머릿속에 한 장면을 먼저 떠올리기 쉽습니다. 하지만 모델 입장에서는 창가가 강조된 장면, 골목 구도가 강조된 장면, 따뜻한 색감의 장면처럼 여러 결과가 모두 그럴듯할 수 있습니다. 사람이 `한 장면`을 먼저 상상하는 것과 달리, 모델은 여러 시각 요소 조합을 후보로 둘 수 있습니다. 같은 프롬프트여도 한 번은 창가가 강조되고, 다른 한 번은 골목 구도가 강조될 수 있으며, 색감과 조명도 달라질 수 있습니다. 예를 들어 같은 비 오는 카페라도 한 결과는 실내 조명이 따뜻하고, 다른 결과는 거리 반사광이 강조될 수 있습니다. 샘플링은 이 후보들 중 무엇을 실제 장면으로 꺼낼지 정하는 단계이므로, 너무 좁으면 늘 비슷한 구도만 반복되고 너무 넓으면 프롬프트 중심 장면이 흐려질 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 같은 프롬프트를 반복했을 때 구도, 색감, 세부 묘사가 실제로 달라지되, `비 오는 작은 카페`라는 핵심 장면은 유지되는가입니다.
-
-세 사례를 한 줄로 묶으면 다음과 같습니다.
-
-| 상황 | 샘플링 차이가 드러나는 방식 |
-| --- | --- |
-| 문장 자동완성 | 표현이 더 반복적이거나 더 다양해질 수 있다 |
-| 챗봇 답변 | 답이 더 간결하거나 더 서술적으로 달라질 수 있다 |
-| 이미지 생성 | 구도, 색감, 세부 묘사가 달라질 수 있다 |
-
-세 사례를 같은 기준으로 다시 정리하면, 샘플링을 `정답을 맞히는 문제`가 아니라 `어떤 후보군을 어떤 폭으로 실제 출력으로 꺼낼 것인가`의 문제로 읽기 쉬워집니다.
-
-| 사례 | 모델이 가질 수 있는 후보 | 너무 좁게 고를 때 생기는 일 | 더 넓게 허용할 때 확인할 결과 |
-| --- | --- | --- | --- |
-| 문장 자동완성 | `열립니다`, `진행됩니다`, `있습니다` 같은 표현 후보 | 늘 같은 말투만 반복된다 | 문맥을 유지한 채 표현 변주가 생기는가 |
-| 챗봇 답변 | 짧은 정의형, 예시 포함형, 비교형 답변 후보 | 늘 비슷한 길이와 구조만 나온다 | 핵심은 유지하면서 설명 형식이 달라지는가 |
-| 이미지 생성 | 구도, 조명, 색감, 시점 후보 | 결과 장면이 지나치게 비슷해진다 | 핵심 프롬프트는 유지하면서 장면 변주가 생기는가 |
-
-즉, 이 절의 책임은 `sampling 설정은 나중에 본다`로 미루는 데 있지 않습니다. 현재 절 안에서 이미 `생성 모델이 무엇을 배웠는가`와 `그 후보 중 무엇을 실제로 내보내는가`를 구분할 수 있어야 하고, 다음 Part는 이를 토큰 단위 생성과 서비스 설정 언어로 다시 읽는 단계로만 이어지면 충분합니다.
-
-## 실행 가능한 Python 예제로 보기
-
-이번 예제의 목표는 `항상 가장 높은 후보만 고르는 방식`과 `확률에 따라 여러 후보를 실제 문장으로 꺼내는 방식`의 차이를, 입문자가 바로 읽을 수 있는 자동완성 장면으로 확인하는 것입니다.
-
-예제를 읽기 전에, 이번 절에서 실제로 확인해야 할 최소 포인트를 먼저 고정하면 다음과 같습니다.
-
-| 확인 포인트 | 예제에서 바로 볼 값 | 왜 중요한가 |
-| --- | --- | --- |
-| 가장 높은 후보 하나가 무엇인가 | `argmax_choice`와 `argmax_sentences` | 모델이 가장 높게 본 후보를 고정하면 출력이 얼마나 빠르게 한 말투로 굳는지 먼저 보여 준다 |
-| argmax와 sampling 결과가 어디서 갈라지는가 | `argmax_sentences`와 `sampled_sentences` | 생성 모델에서 `가장 높은 후보 하나`를 고르는 일과 `후보 분포에서 실제로 꺼내는 일`이 다르다는 점을 보여 준다 |
-| 어떤 표현이 얼마나 반복되는가 | `counts` | sampling이 높은 확률 후보를 더 자주 고르되 다른 후보도 실제 출력으로 허용한다는 점을 눈으로 확인하게 한다 |
-| 결과 길이와 표현 폭이 어떻게 달라지는가 | `avg_length`와 다양한 후보 문장 | 다양성과 안정성의 균형이 실제 출력 느낌을 어떻게 바꾸는지 읽게 한다 |
-
-입력:
-
-- 같은 문장 앞부분
-- 뒤에 붙을 수 있는 네 개의 자동완성 후보
-- 각 후보의 상대적 비중
-
-출력:
-
-- argmax 방식으로 완성한 문장들
-- sampling 방식으로 여러 번 완성한 문장들
-- 어떤 표현이 몇 번 선택됐는지에 대한 빈도
-- 결과 문장의 평균 길이
+이번에는 같은 모델에 대해 permutation importance를 같이 봅니다.
 
 문제 상황:
 
-- argmax와 sampling은 같은 후보 집합에서도 서로 다른 문장 다양성을 만들 수 있다
-
-확인할 개념:
-
-- argmax는 가장 높은 후보를 고정적으로 택한다
-- sampling은 확률 분포를 따라 여러 표현을 실제로 생성하게 만든다
+- 특징 중요도는 하나의 숫자만 보면 고정된 사실처럼 보이지만 계산 방식이 달라지면 결과도 달라질 수 있다
 
 입력(input):
 
-위에 정리한 문장 prefix, 후보 표현 목록, 상대 가중치를 사용합니다.
+- iris 데이터셋
+- 학습된 랜덤포레스트 모델
+
+기대 출력(output):
+
+- MDI 기반 중요도
+- permutation importance 결과
+
+확인할 개념:
+
+- MDI와 permutation importance는 같은 값을 내놓지 않는다
+- 두 숫자가 다르면 계산 방식이 다른 것임을 먼저 떠올려야 한다
 
 ```python
-import random
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.inspection import permutation_importance
 
-prefix = "회의는 내일"
-candidates = [
-    "열립니다.",
-    "진행됩니다.",
-    "오전 10시에 시작됩니다.",
-    "온라인으로 전환될 수 있습니다.",
-]
-weights = [0.42, 0.28, 0.18, 0.12]
+iris = load_iris()
+X, y = iris.data, iris.target
+feature_names = iris.feature_names
 
-argmax_choice = candidates[weights.index(max(weights))]
-argmax_sentences = [f"{prefix} {argmax_choice}" for _ in range(5)]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
 
-random.seed(7)
-sampled_choices = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(12)]
-sampled_sentences = [f"{prefix} {choice}" for choice in sampled_choices]
-counts = {candidate: sampled_choices.count(candidate) for candidate in candidates}
-avg_length = round(sum(len(sentence) for sentence in sampled_sentences) / len(sampled_sentences), 1)
+model = RandomForestClassifier(n_estimators=200, random_state=42)
+model.fit(X_train, y_train)
 
-print("argmax_sentences =", argmax_sentences)
-print("sampled_sentences =", sampled_sentences)
-print("counts =", counts)
-print("average_sampled_length =", avg_length)
+perm = permutation_importance(
+    model,
+    X_test,
+    y_test,
+    n_repeats=20,
+    random_state=42
+)
+
+print("feature".ljust(20), "MDI".rjust(8), "perm_mean".rjust(12))
+for i, name in enumerate(feature_names):
+    mdi = model.feature_importances_[i]
+    pmean = perm.importances_mean[i]
+    print(f"{name:20} {mdi:8.3f} {pmean:12.3f}")
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 다음과 같습니다.
 
 ```text
-argmax_sentences = ['회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.']
-sampled_sentences = ['회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 진행됩니다.', '회의는 내일 열립니다.', '회의는 내일 진행됩니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.', '회의는 내일 오전 10시에 시작됩니다.', '회의는 내일 열립니다.', '회의는 내일 진행됩니다.', '회의는 내일 열립니다.', '회의는 내일 열립니다.']
-counts = {'열립니다.': 8, '진행됩니다.': 3, '오전 10시에 시작됩니다.': 1, '온라인으로 전환될 수 있습니다.': 0}
-average_sampled_length = 13.8
+feature                   MDI    perm_mean
+sepal length (cm)       0.098        0.011
+sepal width (cm)        0.028        0.000
+petal length (cm)       0.444        0.222
+petal width (cm)        0.430        0.189
 ```
 
-이 예제에서 읽어야 할 핵심은 다음입니다.
+이 결과가 뜻하는 바는 다음과 같습니다.
 
-| 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
-| --- | --- | --- |
-| argmax 결과와 sampling 결과의 빈도 차이 | 가장 높은 후보만 고를지, 여러 후보를 실제로 꺼낼지에 따라 사용자 경험이 달라진다는 뜻 | 후보 가중치와 반복 횟수를 바꾸면 표현 다양성과 문장 길이 분포가 달라집니다 |
+- 두 방식은 순위가 비슷할 수도 있고 다를 수도 있습니다.
+- 같은 feature라도 `분기에서 많이 쓰였는가`와 `섞었을 때 성능이 얼마나 떨어지는가`는 다른 질문입니다.
+- 따라서 하나의 중요도 숫자만 보고 해석을 끝내면 위험합니다.
 
-- argmax 방식은 가장 높은 후보 하나만 반복하므로, 결과 문장이 매우 안정적이지만 말투 변주가 거의 없습니다
-- sampling 방식은 `열립니다.`가 가장 자주 나오더라도 `진행됩니다.`나 더 긴 표현도 실제로 등장할 수 있습니다
-- 빈도와 평균 길이를 함께 보면, 샘플링은 `어떤 표현이 얼마나 자주 나오나`뿐 아니라 `문장 길이와 설명 밀도`까지 바꾼다는 점이 드러납니다
+### high-cardinality feature를 조심해야 하는 이유
 
-즉, 샘플링은 단순히 랜덤함을 더하는 기능이 아니라, 사용자가 실제로 보게 되는 출력의 반복성, 표현 폭, 설명 밀도를 조절하는 단계로 읽어야 합니다.
+트리 계열은 unique value가 많은 feature에 쉽게 반응할 수 있습니다. 이런 feature는 훈련 데이터 안에서 분기를 더 세밀하게 만들 기회를 많이 주기 때문입니다.
 
-생성 모델을 설명할 때 샘플링이 중요한 이유는, 생성형 AI를 `답을 저장해 둔 시스템`처럼 오해하지 않게 해 주기 때문입니다.
+예를 들어:
 
-언어 모델(language model)은 대개 다음 토큰의 가능성을 계산하고, 이미지 생성 모델은 가능한 시각 패턴을 점차 구성합니다. 이때 실제 출력은 계산된 분포와 선택 전략을 거쳐 나타납니다.
+- 고객 ID
+- 주문 번호
+- 타임스탬프 원본
 
-커리큘럼 관점에서 이 절은 다음 연결을 준비합니다.
+같은 열은 실제 업무 의미보다 `분기 후보가 너무 많다`는 이유로 중요해 보일 수 있습니다.
 
-- 바로 앞의 P4-15.1 생성 모델을 `출력을 만든다`에서 `실제 출력을 어떤 방식으로 고르는가`로 더 구체화하고
-- 토큰(token)과 토큰화(tokenization)
-- 다음 토큰 예측(next-token prediction)
-- temperature, top-k, top-p 같은 생성 설정
-- 프롬프트(prompt)에 따라 출력이 달라지는 이유
+따라서 중요도를 볼 때는 항상 묻는 편이 안전합니다.
 
-즉, 이 절은 Part 4의 생성 모델 설명을 `실제 출력 선택 문제`까지 현재 파트 안에서 닫는 연결 절입니다.
+`이 열은 정말 의미 있는 변수인가, 아니면 그냥 값을 잘게 나누기 쉬운 열인가?`
 
-따라서 이 절에서 확인해야 할 최종 결과는 샘플링을 `부가 옵션`이 아니라, 생성 모델이 계산한 후보 분포를 실제 사용자 경험의 출력으로 바꾸는 핵심 선택 단계로 설명할 수 있는가입니다.
+### 상관 특성(correlated features)을 조심해야 하는 이유
 
-## 다음 Part와의 연결
+예를 들어 `monthly_spend`와 `yearly_spend / 12`처럼 거의 같은 뜻의 열이 둘 다 들어 있다면, 모델은 둘 중 하나를 주로 쓰고 다른 하나는 덜 쓸 수 있습니다.
 
-여기까지 오면 이제 질문이 조금 더 구체화됩니다.
+그 결과:
 
-- 생성 모델은 실제로 어떤 입력 단위로 텍스트를 읽는가?
-- `다음 토큰`을 예측한다는 말의 토큰(token)은 정확히 무엇인가?
-- 같은 문장도 왜 토큰화 방식에 따라 길이와 비용이 달라지는가?
+- 한쪽 중요도는 높고
+- 다른 쪽 중요도는 낮게
 
-이 질문은 다음 Part의 첫 장, P5-1.1 토큰(token)은 무엇인가로 이어집니다. 다만 여기서 이미 잡아야 하는 핵심은 `생성 품질은 후보 분포를 계산하는 단계와 실제 출력을 고르는 단계가 함께 만든다`는 점입니다.
+보일 수 있습니다.
+
+하지만 이것이 낮은 쪽이 쓸모없다는 뜻은 아닙니다. 단지 정보가 겹쳐서 대체되었을 수 있습니다.
+
+이 때문에 중요도 해석은 늘 다음 질문과 함께 가야 합니다.
+
+- 비슷한 뜻의 feature가 여러 개 있는가?
+- 숫자가 큰 feature가 정말 독립적으로 중요한가?
+- 숫자가 낮은 feature가 다른 feature에 가려진 것은 아닌가?
 
 ## 이 절에서 기억할 관점
 
-- 생성 모델은 후보들의 그럴듯함을 계산하고, 샘플링은 그중 실제 출력을 고릅니다.
-- 생성 문제는 정답이 하나만 있는 문제가 아닐 수 있습니다.
-- 다양성과 안정성의 균형이 생성 품질에 중요합니다.
-- 이 관점은 뒤의 토큰, 다음 토큰 예측, 생성 설정 설명으로 이어집니다.
+- 특징 중요도는 모델이 무엇을 봤는지 요약하는 도구입니다.
+- MDI는 분기 사용과 impurity 감소를 평균낸 내부 요약입니다.
+- permutation importance는 feature를 섞었을 때 성능이 얼마나 떨어지는지 보는 외부 점검입니다.
+- 중요도 숫자는 곧바로 인과관계나 원인 순위를 뜻하지 않습니다.
+- high-cardinality feature와 correlated feature는 해석을 왜곡할 수 있습니다.
 
 ## 체크리스트
 
-- 샘플링을 입문 수준에서 설명할 수 있는가?
-- 왜 같은 모델도 결과가 달라질 수 있는지 말할 수 있는가?
-- 다양성과 안정성의 균형을 생성 품질 관점에서 설명할 수 있는가?
-- 이 절이 뒤의 토큰 설명으로 왜 이어지는지 말할 수 있는가?
+- `feature_importances_`를 상대 비중으로 읽을 수 있는가?
+- MDI와 permutation importance가 다른 질문에 답한다는 점을 설명할 수 있는가?
+- 중요도 숫자를 원인 순위로 단정하면 왜 위험한지 말할 수 있는가?
+- 값 종류가 많은 열과 상관 feature가 해석을 왜곡할 수 있다는 점을 이해했는가?
+- 중요도 해석은 모델 점검의 출발점이지 종착점이 아니라는 점을 알고 있는가?
 
 ## 출처와 참고 자료
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, 확인 날짜: 2026-06-29.
-- Jurafsky and Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Permutation feature importance`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/permutation_importance.html](https://scikit-learn.org/stable/modules/permutation_importance.html){: target="_blank" rel="noopener noreferrer" }
+- Gilles Louppe, *Understanding Random Forests: From Theory to Practice*, PhD Thesis, University of Liege, 2014. [https://arxiv.org/abs/1407.7502](https://arxiv.org/abs/1407.7502){: target="_blank" rel="noopener noreferrer" }
