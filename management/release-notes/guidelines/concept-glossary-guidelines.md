@@ -3,6 +3,60 @@
 - Document ID: `GUIDE-concept-glossary-guidelines`
 - Source File: `management/authoring/concept-glossary-guidelines.md`
 
+### v2026.07.07-5
+
+- 변경 이유: 개념사전이 한국어 표면형만으로 읽히면 서로 다른 영어 개념이 섞일 수 있고, 본문 초반 신규 용어를 개념사전에 연결하는 방식도 항목별 직접 앵커와 1회 링크 기준까지 문서화할 필요가 생겼다.
+- 문서 반영: 기본 원칙과 정렬 규칙에 `한국어+영어 병기`, `같은 한국어 표면형이라도 영어 개념이 다르면 표제어 분리`, `동음이의어·다의어 오류 관찰 기준`을 추가했다. 또한 본문 연결 규칙을 새로 두어, Part 초반 대표 Section에서는 신규 핵심 개념을 묶어 소개하고 개념사전의 개별 앵커로 연결하며, 같은 Section 안에서는 직접 링크를 1회만 두는 기준을 명시했다.
+- 번역 동기화 메모: 향후 다국어 원고가 생기면 Korean surface form split, English-term disambiguation, early grouped glossary block, per-term anchor linking 원칙도 같은 `Section ID` 기준으로 유지해야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `docs/reference/concept-glossary.md`, `docs/parts/part-01/chapter-01/section-01.md`, `AGENTS.md`
+- 원문 기준 버전: `v2026.07.07`
+
+### v2026.07.07-4
+
+- 변경 이유: 대표 설명 위치 원칙은 있었지만, 실제 본문 작업에서는 같은 Part 안 후속 Section가 다시 사전식 표나 비교 표를 만들지 말고 개념사전 링크로 돌아가야 한다는 기준을 더 명확히 적어 둘 필요가 생겼다.
+- 문서 반영: 같은 Part 안에서는 새로운 핵심 개념을 최초 1회만 충분히 설명하고, 이후 Section는 기본적으로 개념사전 링크로 연결하며, 새 Part에서 다시 핵심이 되면 그 Part 첫 등장 Section에서만 다시 정리할 수 있다는 규칙으로 정리했다.
+- 번역 동기화 메모: 향후 다국어 원고가 생기면 same-part single detailed explanation, glossary-link follow-up, new-part reintroduction 원칙도 같은 `Section ID` 기준으로 유지해야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `AGENTS.md`, `management/guidelines/writing/manuscript-writing-workflow.md`, `docs/reference/concept-glossary.md`
+- 원문 기준 버전: `v2026.07.07`
+
+### v2026.07.07-3
+
+- 변경 이유: 개념사전 항목을 점검하니 `중심 Section`에 여러 Section를 쉼표로 나열한 항목이 많이 남아 있어, 대표 Section를 하나만 두려던 원칙과 실제 산출물이 어긋나고 있었다.
+- 문서 반영: `중심 Section`은 대표 설명 위치 하나만 적고, 뒤 Part나 후속 Section의 재설명은 `등장 Section`으로만 추적한다는 규칙을 명시했다. 대표 Section를 하나로 잡기 어렵다면 표제어를 좁히거나 분리하는 판단 기준도 함께 추가했다.
+- 번역 동기화 메모: 향후 다국어 개념사전이 생기면 `중심 Section` 단일값 원칙과 `등장 Section` 분리 원칙도 같은 `Section ID` 기준으로 유지해야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `docs/reference/concept-glossary.md`
+- 원문 기준 버전: `v2026.07.07`
+
+### v2026.07.07-2
+
+- 변경 이유: Part 5 후반 개념사전을 다시 정리하면서 `학습 모드`, `평가 모드`, `temperature`, `top-k`처럼 계산 상태나 출력 선택 기준을 설명하는 모드·설정값도 대표 설명 위치와 후속 재등장을 추적해야 할 필요가 분명해졌다.
+- 문서 반영: 업데이트 원칙에 모드·설정값도 같은 Part 안에서 반복되면 개념사전 후보로 올린다는 기준을 추가했다.
+- 번역 동기화 메모: 향후 다국어 원고가 생기면 mode, setting, decoding 관련 표제어도 같은 `Section ID` 기준으로 중심과 재등장 위치를 함께 유지해야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `docs/reference/concept-glossary.md`, `docs/parts/part-05/chapter-06/section-02.md`, `docs/parts/part-05/chapter-15/section-02.md`
+- 원문 기준 버전: `v2026.07.07`
+
+### v2026.07.07-1
+
+- 변경 이유: Part 7 본문을 순차 정리하면서 같은 Part 안에서 최초 1회만 길게 설명하고 이후 여러 Section에서 평가·운영 기록으로 다시 쓰이는 개념을 개념사전 후보로 올리는 기준을 규칙 문서에도 더 분명히 적어 둘 필요가 생겼다.
+- 문서 반영: 업데이트 원칙에 Part 7형 개념 후보 기준을 추가하고, `기준선`, `회고`, `권한`, `어휘 밖(OOV)`, `토큰 커버리지` 같은 평가·운영 개념도 대표 설명 위치와 후속 재등장 기준으로 개념사전에 올릴 수 있다는 예시를 보강했다.
+- 번역 동기화 메모: 향후 다국어 원고가 생기면 Part 7형 평가·운영 표제어의 후보 선정 기준과 대표 Section 연결 원칙도 같은 `Section ID` 기준으로 유지해야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `docs/reference/concept-glossary.md`, `docs/parts/part-07/chapter-04/section-02.md`, `docs/parts/part-07/chapter-06/section-02.md`
+- 원문 기준 버전: `v2026.07.07`
+
+### v2026.07.06-5
+
+- 변경 이유: 개념사전 규칙 문서에서 `중심 Section`이라는 필드명이 산출물 정의의 `대표 Section`과 같은 뜻이라는 점을 더 분명히 적어 둘 필요가 생겼다.
+- 문서 반영: 대표 설명 위치 원칙과 Section 표기 규칙에 `중심 Section`이 곧 대표 Section를 적는 필드라는 설명을 추가했다.
+- 번역 동기화 메모: 향후 다국어 원고가 생기면 `central section`과 `representative section` 대응을 같은 용어 규칙으로 유지해야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `docs/reference/concept-glossary.md`
+- 원문 기준 버전: `v2026.07.06`
+
 ### v2026.07.06
 
 - 변경 이유: 책 본문을 순차 보강하는 과정에서 개념을 빠르게 다시 찾고 중복 없이 정리할 수 있는 원고형 개념사전과 그 작성 규칙이 필요해졌다.
