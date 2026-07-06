@@ -488,3 +488,12 @@
 - 번역 반영 상태: 번역본 없음
 - 관련 자산: `docs/parts/part-02/chapter-04/section-03.md`, `docs/parts/part-02/chapter-06/section-02.md`, `docs/parts/part-02/chapter-08/section-05.md`, `docs/parts/part-02/chapter-10/section-03.md`, `docs/parts/part-02/chapter-11/section-03.md`, `docs/parts/part-03/chapter-03/section-02.md`, `docs/parts/part-03/chapter-08/section-02.md`, `docs/parts/part-03/chapter-09/section-02.md`
 - 원문 기준 버전: `v2026.07.06`
+
+### v2026.07.06-55
+
+- 변경 이유: Part 3 리팩터링 이후 `데이터 모델링`, `샘플`, `기준선`, `비교 리포트`처럼 문제 설계 층위에서 새로 중심이 된 개념과, `데이터셋`, `특징`, `타깃`, `표현`, `검토`, `행`처럼 Part 3에서 다시 강하게 재정렬된 표제어를 개념사전에 반영할 필요가 생겼다.
+- 문서 반영: `기준선(baseline)`, `데이터 모델링(data modeling)`, `비교 리포트(comparison report)`, `샘플(sample)` 항목을 추가했다. `데이터셋(dataset)`, `특징(feature)`, `타깃(target)`, `표현(representation)`, `검토(review)`, `행(row)` 항목에는 Part 3의 새 `중심 Section`과 `등장 Section`을 보강해 대표 설명 위치가 기존 기초 개념 층위와 데이터 모델링 층위를 함께 드러내도록 맞췄다.
+- 번역 동기화 메모: 향후 다국어 개념사전이 생기면 `data modeling`, `sample`, `baseline`, `comparison report`의 표제어 선택과 Part 3의 확장된 `중심/등장 Section` 연결을 같은 `Section ID` 기준으로 함께 맞춰야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `docs/parts/part-03/chapter-01/section-01.md`, `docs/parts/part-03/chapter-01/section-02.md`, `docs/parts/part-03/chapter-04/section-01.md`, `docs/parts/part-03/chapter-06/section-01.md`, `docs/parts/part-03/chapter-06/section-02.md`, `docs/parts/part-03/chapter-07/section-01.md`, `docs/parts/part-03/chapter-09/section-02.md`, `docs/parts/part-03/chapter-10/section-01.md`
+- 원문 기준 버전: `v2026.07.06`

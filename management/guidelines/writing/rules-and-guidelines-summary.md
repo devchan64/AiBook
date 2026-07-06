@@ -44,7 +44,7 @@
 - `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
 - `management/guidelines/writing/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
 - `management/guidelines/charts/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
-- `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
+- `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, 제목 앞 인덱스와 `Section ID`의 동일 규칙, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
 - `management/release-notes/sections/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
 - `management/release-notes/guidelines/README.md`: 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 같은 관리 문서의 릴리즈노트 위치와 기본 형식을 다루는 운영 문서입니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.

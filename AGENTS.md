@@ -113,6 +113,7 @@
   - `Section ID`
   - `Version`
 - `Section ID`는 본문 인덱스 표기와 같은 값을 사용합니다. 예를 들어 `P5-11.1`처럼 Part/Chapter/Section 체계와 일치해야 합니다.
+- Section 제목 앞에 붙는 인덱스도 `Section ID`와 완전히 같은 값을 사용합니다. 축약형 번호(`11.1`, `3.7`)나 별도 번호 체계를 따로 두지 않습니다.
 - `Version`은 해당 Section 본문이 실제로 수정된 날짜를 기준으로 갱신합니다.
 - Section의 날짜성 메타데이터는 `Version` 한 줄만 사용합니다.
 - `Last Updated` 같은 별도 수정일 줄은 Section 본문에 두지 않습니다.

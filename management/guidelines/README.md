@@ -28,7 +28,7 @@
 함께 봐야 하지만 이 폴더 밖에서 관리하는 문서는 다음과 같다.
 
 - `../release-notes/sections/README.md`
-  - Section 버전 코드, 수정일 기준 버전 관리, 번역본 동기화 메모, Section별 릴리즈노트 형식을 다룬다.
+  - Section 버전 코드, 수정일 기준 버전 관리, 제목 앞 인덱스와 `Section ID` 일치 규칙, 번역본 동기화 메모, Section별 릴리즈노트 형식을 다룬다.
   - Section 본문을 실제로 수정했다면 이 문서를 따라 메타데이터와 릴리즈노트를 함께 갱신한다.
 - `../release-notes/guidelines/README.md`
   - 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 같은 관리 문서 릴리즈노트의 위치와 형식을 다룬다.

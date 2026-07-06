@@ -29,3 +29,12 @@
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
 - 원문 기준 버전: `v2026.07.06`
+
+### v2026.07.06-4
+
+- 변경 이유: Part 3 시작 페이지가 데이터 모델링, 샘플, 특징, 기준선 같은 핵심 용어를 다시 소개하면서도 어디서 큰 정의를 먼저 잡고 어디서 진행 순서를 읽어야 하는지 연결이 약했고, `샘플링` 표현도 Part 3 문맥에서는 `샘플 설계`와 섞여 읽힐 수 있었다.
+- 본문 반영: 3.1에서 데이터 모델링의 큰 정의를, 3.2에서 진행 순서를 먼저 고정한 뒤 이후 Section는 최소 연결만 남긴다는 안내 문단을 추가했다. 또한 `샘플링(sampling)`은 `샘플 설계(sample design)`로 조정하고, 핵심 용어가 헷갈릴 때는 개념사전의 `중심 Section`과 `등장 Section`을 함께 보게 하는 링크를 보강했다.
+- 번역 동기화 메모: translation should keep the stronger link from the Part 3 overview to sections 3.1 and 3.2, preserve the glossary back-reference, and avoid generic sampling wording where the text means sample design. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: `docs/reference/concept-glossary.md`
+- 원문 기준 버전: `v2026.07.06`
