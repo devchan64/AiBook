@@ -20,3 +20,12 @@
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
 - 원문 기준 버전: `v2026.07.06`
+
+### v2026.07.06-3
+
+- 변경 이유: Part 3 리팩터링 기준을 반영하려면 마무리 페이지도 기존 5개 모듈 요약보다, 새 7개 Chapter 흐름과 인계 구조가 보이도록 다시 맞출 필요가 있었다.
+- 본문 반영: 첫 문단, 흐름 표, 핵심 흐름 목록, 대표 결과 구조 표를 `데이터셋 후보화 -> 샘플/표 구조 -> 특징 -> 비교 -> 해석 -> 인계` 중심으로 재정리했다. Part 3을 저장 구조 설명이 아니라 학습 전단의 문제 구조 설계 Part로 읽게 하는 요약 축을 강화했다.
+- 번역 동기화 메모: translation should mirror the new seven-part recap structure and keep the stronger distinction between data-structure design and later model-learning steps. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.06`

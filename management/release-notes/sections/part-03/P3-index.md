@@ -20,3 +20,12 @@
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
 - 원문 기준 버전: `v2026.07.06`
+
+### v2026.07.06-3
+
+- 변경 이유: Part 3 전체를 7개 Chapter 흐름으로 리팩터링하려는 기준이 세워졌으므로, 시작 페이지도 기존의 세부 장면 나열보다 `어떤 구조로 읽을 Part인가`를 먼저 보여 주도록 다시 정리할 필요가 있었다.
+- 본문 반영: 주요 질문, 읽는 순서, 단계 표를 `역할과 범위 -> 데이터셋 후보 -> 샘플/표 구조 -> 특징 -> 비교 -> 해석 -> 인계`의 7단계 흐름 기준으로 재작성했다. 도입 문단도 세부 Chapter를 하나씩 나열하기보다 Part 3 전체 절차가 보이도록 정리했다.
+- 번역 동기화 메모: translation should preserve the new seven-chapter reading map and the emphasis on Part 3 as a structured pre-learning design flow. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.06`
