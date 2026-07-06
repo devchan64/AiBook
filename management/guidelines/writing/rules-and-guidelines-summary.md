@@ -25,7 +25,8 @@
 | `management/guidelines/writing/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전 |
 | `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/guidelines/charts/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
-| `management/section-release-notes/README.md` | Section 버전 코드와 릴리즈노트 관리 기준 | Section 수정, 번역본 동기화, 개정 이력 기록 전 |
+| `management/release-notes/sections/README.md` | Section 버전 코드와 릴리즈노트 관리 기준 | Section 수정, 번역본 동기화, 개정 이력 기록 전 |
+| `management/release-notes/guidelines/README.md` | 가이드라인·관리 문서 릴리즈노트 관리 기준 | 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 수정 전 |
 | `management/authoring/part-XX-open-checklist.md` | Part별 미반영 작업 체크리스트 | 기존 메모 정리, 후속 작업 우선순위 점검 전 |
 
 ### 3. 보조 메모와 분석 문서
@@ -43,8 +44,9 @@
 - `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
 - `management/guidelines/writing/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
 - `management/guidelines/charts/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
-- `management/section-release-notes/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
-- `management/section-release-notes/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
+- `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
+- `management/release-notes/sections/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
+- `management/release-notes/guidelines/README.md`: 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 같은 관리 문서의 릴리즈노트 위치와 기본 형식을 다루는 운영 문서입니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
 - `part-XX-open-checklist.md`: 이미 반영된 설명을 반복 저장하지 않고, 각 Part에서 아직 남은 작업만 추린 체크리스트입니다.
@@ -58,7 +60,7 @@
 3. 필요하면 해당 `section-...-evidence-analysis.md`
 4. 문단 재구성이 크면 `management/guidelines/writing/manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 본다.
 5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
-6. 실제로 수정한 Section이라면 `management/section-release-notes/README.md`를 따라 버전 코드와 릴리즈노트도 함께 갱신한다.
+6. 실제로 수정한 Section이라면 `management/release-notes/sections/README.md`를 따라 버전 코드와 릴리즈노트도 함께 갱신한다.
 7. 번역본이 아직 없더라도 릴리즈노트에 번역 반영 필요 여부를 남긴다.
 
 ### Python 예제를 넣거나 고칠 때

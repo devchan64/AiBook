@@ -46,7 +46,7 @@
 - 날짜성 메타데이터는 `Version` 한 줄만 사용합니다.
 - `Last Updated` 같은 별도 수정일 줄은 Section 본문에 두지 않습니다.
 - 같은 날 여러 차례 수정한 경우에도 Section 본문 안의 버전 코드는 날짜 기준으로 유지하고, 세부 변경 차이는 릴리즈노트에 기록합니다.
-- Section별 릴리즈노트는 `management/section-release-notes/` 아래에서 관리합니다.
+- Section별 릴리즈노트는 `management/release-notes/sections/` 아래에서 관리합니다.
 - 본문을 수정했다면 가능한 한 같은 작업에서 릴리즈노트 파일도 함께 갱신합니다.
 - 번역본이 생기면 릴리즈노트에 `원문 기준 버전`, `언어별 추가 수정`, `번역 반영 상태`를 구분해서 남깁니다.
 - 릴리즈노트 파일은 별도 체인지로그를 두지 않고, 버전 항목을 같은 파일 안에서 이어서 유지합니다. 상단에는 `Section ID`와 본문 경로만 남깁니다.
@@ -56,7 +56,7 @@
 1. 수정 대상 Section의 `Section ID`를 확인합니다.
 2. 본문 제목 아래에 `Section ID`와 `Version`이 있는지 확인합니다.
 3. 본문을 수정한 뒤 수정일 기준으로 `Version`을 갱신합니다.
-4. `management/section-release-notes/part-XX/` 아래 대응 릴리즈노트 파일을 갱신하거나 새로 만듭니다.
+4. `management/release-notes/sections/part-XX/` 아래 대응 릴리즈노트 파일을 갱신하거나 새로 만듭니다.
 5. 상단에는 `Section ID`와 본문 경로만 두고, 변경 이유와 본문 반영 내용은 최신 버전 항목에만 남깁니다.
 6. 같은 작업에서 Part 체크리스트를 함께 쓰는 경우, 남은 후속 작업만 요약해 적고 릴리즈노트 내용을 중복 저장하지 않습니다.
 

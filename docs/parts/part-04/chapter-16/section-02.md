@@ -1,5 +1,8 @@
 # P4-16.2 부스팅의 성능과 위험
 
+> Section ID: `P4-16.2`
+> Version: `v2026.07.06`
+
 P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계의 오차를 다음 단계가 순차적으로 보정하는 방식이라는 점을 보았습니다. 바로 여기서 부스팅의 강점과 위험이 동시에 나옵니다.
 
 같은 질문을 더 정확히 바꾸면 다음과 같습니다.
@@ -56,8 +59,6 @@ P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계�
 ## 왜 부스팅은 성능이 강하게 느껴지는가
 
 scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gradient boosting이 실무에서 자주 강한 성능 후보라고 설명합니다. 그 배경에는 순차 보정 구조가 있습니다.
-
-다음처럼 이해하면 좋습니다.
 
 - 한 번에 큰 규칙 하나를 찾기보다
 - 작은 규칙을 계속 더해 가며
@@ -128,8 +129,6 @@ scikit-learn 문서는 learning rate를 shrinkage라고 설명하고, 작은 lea
 
 scikit-learn 문서는 gradient boosting에서 tree size가 모델이 포착할 수 있는 상호작용(interaction)의 복잡도와 연결된다고 설명합니다.
 
-여기서는 이렇게 이해하면 충분합니다.
-
 - 작은 트리: 단계 하나가 단순한 보정만 한다
 - 큰 트리: 단계 하나가 더 복잡한 보정을 한다
 
@@ -144,7 +143,7 @@ scikit-learn 문서는 gradient boosting에서 tree size가 모델이 포착할 
 
 scikit-learn 문서는 Friedman(2001)의 shrinkage 전략을 소개하며, 각 weak learner의 기여를 learning rate로 축소해 반영한다고 설명합니다.
 
-입문적으로는 shrinkage를 다음처럼 읽으면 좋습니다.
+입문적으로는 shrinkage를 다음처럼 읽습니다.
 
 `새 단계가 정답을 크게 밀어붙이지 못하게 속도를 늦춘다.`
 
@@ -155,7 +154,7 @@ scikit-learn 문서는 Friedman(2001)의 shrinkage 전략을 소개하며, 각 w
 - 초반에 빠르게 train score를 올릴 수 있지만
 - 금방 과하게 휘어질 수 있습니다
 
-따라서 부스팅에서 learning rate는 단순 속도 조절이 아니라 `과적합 제어 장치`로 읽는 편이 더 중요합니다.
+따라서 부스팅에서 learning rate는 단순 속도 조절이 아니라 `과적합 제어 장치`로 읽는 것이 더 중요합니다.
 
 ## subsampling은 무엇을 막으려 하나
 
@@ -177,7 +176,7 @@ scikit-learn 문서는 stochastic gradient boosting을 설명하면서, 각 단�
 
 scikit-learn 문서는 `staged_predict`, `train_score_`, validation 기반 점검을 통해 적절한 단계 수를 찾을 수 있다고 설명하고, histogram-based gradient boosting에서는 `early_stopping`, `validation_fraction`, `n_iter_no_change` 같은 옵션을 제공합니다.
 
-early stopping을 다음처럼 이해하면 좋습니다.
+early stopping을 다음처럼 이해합니다.
 
 `계속 좋아질 것 같아 보여도, 검증 성능이 더 이상 좋아지지 않으면 거기서 멈추자.`
 
@@ -271,9 +270,9 @@ learning_rate=0.8
 
 scikit-learn 문서는 HistGradientBoostingClassifier와 HistGradientBoostingRegressor를 대용량 표 형식 데이터에서 더 빠른 대안으로 소개합니다. 또한 missing value, categorical feature, early stopping 같은 실무 기능을 더 많이 제공합니다.
 
-여기서는 지금 당장 세부 구현보다 다음 정도만 기억하면 충분합니다.
+여기서는 지금 당장 세부 구현보다 다음 기준만 기억하면 됩니다.
 
-- 일반 gradient boosting은 입문 개념을 배우기에 좋습니다.
+- 일반 gradient boosting은 입문 개념을 배우기에 적합합니다.
 - histogram-based gradient boosting은 실무 구현에서 자주 만나는 현대적 형태입니다.
 
 즉, 16.1과 16.2에서 배우는 사고방식은 이후 XGBoost, LightGBM, CatBoost를 읽을 때도 그대로 이어집니다.
@@ -282,7 +281,7 @@ scikit-learn 문서는 HistGradientBoostingClassifier와 HistGradientBoostingReg
 
 ### 사례 1. 사기 탐지 모델이 훈련 데이터에는 완벽해 보이는데 운영 성능은 흔들릴 때
 
-결제 사기 탐지 팀이 그래디언트 부스팅 모델을 학습했더니 훈련 데이터에서는 거의 모든 사기 거래를 맞히는 결과가 나왔다고 해 보겠습니다. 처음에는 `성능이 아주 좋다`고 보이지만, 실제 운영 데이터에서는 특정 기간의 우연한 패턴까지 따라간 탓에 오탐이 늘고 새 사기 유형을 놓칠 수 있습니다. 이때 팀은 단계 수, learning rate, 트리 깊이를 함께 줄여 보고 early stopping과 validation 점검을 붙여서, `훈련 점수`가 아니라 `처음 보는 데이터에서 유지되는 성능`을 다시 확인해야 합니다. 즉, 부스팅에서는 높은 점수 하나보다 `어디까지 보정하고 어디서 멈출지`를 관리하는 과정이 더 중요합니다.
+결제 사기 탐지 팀이 그래디언트 부스팅 모델을 학습했더니 훈련 데이터에서는 거의 모든 사기 거래를 맞히는 결과가 나왔다고 해 보겠습니다. `성능이 아주 좋다`고 보일 수 있지만, 실제 운영 데이터에서는 특정 기간의 우연한 패턴까지 따라간 탓에 오탐이 늘고 새 사기 유형을 놓칠 수 있습니다. 이때 팀은 단계 수, learning rate, 트리 깊이를 함께 줄여 보고 early stopping과 validation 점검을 붙여서, `훈련 점수`가 아니라 `처음 보는 데이터에서 유지되는 성능`을 다시 확인해야 합니다. 즉, 부스팅에서는 높은 점수 하나보다 `어디까지 보정하고 어디서 멈출지`를 관리하는 과정이 더 중요합니다.
 
 이 상황은 다음처럼 더 짧게 기록할 수 있습니다. `train은 거의 완벽한데 validation/test가 흔들리면 지금 부스팅은 패턴보다 잡음을 더 배우고 있을 가능성이 크다. 다음 조치는 learning_rate, 단계 수, 트리 깊이를 함께 줄여 보고 early stopping 기준을 다시 확인하는 일이다.` 부스팅 절의 핵심은 `점수가 높다`에서 끝나지 않고 `어느 지점부터 과한 보정이 시작됐는가`, `그 과한 보정을 무엇으로 먼저 줄일 것인가`까지 이어지는 데 있습니다. 같은 점수처럼 보여도 남는 오류 사례가 다르면 멈춤 지점과 다음 조정 순서도 달라질 수 있습니다.
 

@@ -1,7 +1,7 @@
 # 9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.05`
+> Version: `v2026.07.06`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
@@ -11,11 +11,27 @@
 
 > 딥러닝의 중요한 변화는 모델이 출력만 맞추는 것이 아니라, 입력을 다루기 좋은 내부 표현도 함께 학습한다는 점이다.
 
+Part 1 안에서는 이 절을 `이미지 인식(image recognition)`, `수작업 특징(hand-crafted features)`, `학습된 표현(learned representation)`, `CNN(convolutional neural network)`, `AlexNet`의 대표 상세 설명 위치로 사용합니다. `표현(representation)`의 기본 감각은 3.3과 4.3에서 먼저 소개했고, `지도학습(supervised learning)`의 기본 구조는 8.1에서 정리했습니다. 여기서는 그 위에서 `딥러닝이 왜 이미지 문제에서 전환점으로 읽히는가`를 잡습니다.
+
+처음 읽을 때는 `이미지 인식`, `수작업 특징`, `표현 학습`, `CNN`, `AlexNet`이 모두 비슷한 딥러닝 역사 용어처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+
+| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
+| --- | --- | --- |
+| 이미지 인식 | 이미지에서 무엇이 있는지 예측하는 문제 | Chapter 9의 첫 사례 |
+| 수작업 특징 | 사람이 미리 설계한 단서 | 딥러닝 이전 접근의 기준점 |
+| 학습된 표현 | 모델이 데이터에서 함께 배운 내부 표현 | 딥러닝 전환의 핵심 |
+| CNN | 이미지의 지역 패턴을 계층적으로 다루는 신경망 구조 | 이미지 인식에서 중요한 대표 구조 |
+| AlexNet | 대규모 데이터, GPU, 깊은 CNN이 결합된 전환점 사례 | 딥러닝 확산의 상징적 사례 |
+
+처음 단계에서는 `수작업 특징 vs 학습된 표현`, `CNN은 이미지용 구조`, `AlexNet은 확산의 전환점` 정도로만 잡아도 충분합니다.
+
 ## 이 절의 범위
 
 이 절은 합성곱 신경망(CNN, convolutional neural network)을 수식으로 설명하지 않습니다. 합성곱(convolution)과 풀링(pooling)은 Part 5의 P5-11.2에서, 활성화 함수(activation function)는 P5-3.1과 P5-3.2에서, 역전파(backpropagation)와 옵티마이저(optimizer)는 P5-5.1, P5-5.2, P5-7.1에서 다시 다룹니다.
 
 또한 AlexNet을 “모든 딥러닝의 시작”으로 쓰지 않습니다. 신경망과 CNN 연구는 그 이전에도 오래 이어졌습니다. 여기서는 AlexNet을 2010년대 딥러닝 확산을 보여 주는 대표적 전환점으로만 다룹니다.
+
+또한 `표현(representation)` 자체를 다시 처음부터 정의하지는 않습니다. 이 절에서는 `표현을 사람이 설계할 것인가, 모델이 함께 학습할 것인가`라는 대비에 집중합니다. LLM의 직접 계보는 다음 절과 9.3에서 따로 구분합니다.
 
 이때 시간축을 한 번 더 구분해 둘 필요가 있습니다. 신경망(neural network) 자체는 2010년대에 갑자기 등장한 것이 아니고, 2006년 전후에는 딥 빌리프 네트워크(deep belief network)와 표현 학습(representation learning) 연구가 다시 주목받으며 딥러닝 부흥의 초기 신호를 만들었습니다. 따라서 2012년 AlexNet은 완전히 무(無)에서 시작된 사건이라기보다, 더 오래된 신경망 연구와 2006년 전후의 부활 흐름 위에서 대규모 데이터와 GPU 계산이 결합되어 확산의 전환점이 된 사례로 읽는 편이 정확합니다.
 
