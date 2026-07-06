@@ -34,7 +34,8 @@
 - 배포 목차는 `mkdocs.yml`의 `nav`에서 관리합니다.
 - 집필 기준, 조사 자료, 근거 분석, 작성 원칙은 `management/` 아래에 둡니다.
 - `management/README.md`는 관리 문서의 역할 분담과 위치를 설명하는 인덱스로 사용합니다.
-- Section 버전 정책과 Section별 릴리즈노트는 `management/section-release-notes/` 아래에 둡니다.
+- 릴리즈노트는 `management/release-notes/` 아래에 모아 둡니다.
+- Section 버전 정책과 Section별 릴리즈노트는 `management/release-notes/sections/` 아래에 둡니다.
 - `mkdocs.yml`의 `nav`에는 배포할 책 본문만 연결하고, 관리자료는 연결하지 않습니다.
 - `.tmp/`는 외부 자료 원문 확인을 위한 임시 작업공간이며 커밋하지 않습니다.
 - `site/`는 빌드 산출물이며 명시적 지시 없이 커밋하지 않습니다.
@@ -47,7 +48,7 @@
   - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
 - 차트·도식 워크플로우: `management/guidelines/charts/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
-- Section 버전·릴리즈노트 워크플로우: `management/section-release-notes/README.md`
+- Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`
   - Section 본문 수정, 번역본 동기화, 개정 이력 기록 전에 먼저 본다.
 
 `AGENTS.md`는 저장소 전체 규칙과 주요 업무 흐름의 인덱스를 맡고, 세부 절차와 반복 체크 항목은 가능한 한 `management/guidelines/` 아래 워크플로우 문서에서 안내한다.
@@ -57,7 +58,7 @@
 - 현재 기본 집필 언어는 한국어입니다.
 - 향후 다국어 배포를 도입하더라도, 언어별 원고와 공용 자산의 경계를 먼저 분리합니다.
 - 다국어를 도입하더라도 Section의 기준 단위는 언어별 파일명이 아니라 `Section ID`로 유지합니다.
-- 같은 내용을 다른 언어로 배포할 때도, 어떤 언어 파일이든 대응 관계를 `Section ID`와 `management/section-release-notes/`의 릴리즈노트로 추적할 수 있어야 합니다.
+- 같은 내용을 다른 언어로 배포할 때도, 어떤 언어 파일이든 대응 관계를 `Section ID`와 `management/release-notes/sections/`의 릴리즈노트로 추적할 수 있어야 합니다.
 - 다국어를 도입할 때는 `한 언어의 본문`, `언어 공통 자산`, `언어별 보조 자산`을 구분할 수 있는 디렉터리 구조를 먼저 설계합니다.
 - 다국어 도입 전까지는 기존 `docs/` 구조를 유지하되, 새 파일과 자산 이름은 특정 언어에 과도하게 종속되지 않게 짓습니다.
 - 다국어를 본격 도입할 때는 기본적으로 다음 원칙을 따릅니다.
@@ -116,7 +117,7 @@
 - Section의 날짜성 메타데이터는 `Version` 한 줄만 사용합니다.
 - `Last Updated` 같은 별도 수정일 줄은 Section 본문에 두지 않습니다.
 - 같은 날 여러 번 수정해도 기본 버전 코드는 날짜 기준으로 유지하고, 세부 변경 사항은 Section별 릴리즈노트에 기록합니다.
-- Section별 릴리즈노트는 `management/section-release-notes/` 아래에서 관리합니다.
+- Section별 릴리즈노트는 `management/release-notes/sections/` 아래에서 관리합니다.
 - Section을 수정했다면 해당 릴리즈노트도 같은 작업 안에서 함께 갱신하는 것을 기본 원칙으로 합니다.
 - 다국어 본문이 생기면 언어별 문장과 별개로 같은 `Section ID`와 대응 버전 이력을 추적할 수 있어야 합니다.
 - 번역본에서는 `원문 기준 버전`, `번역 반영 날짜`, `언어별 추가 수정 여부`를 구분해 남깁니다.

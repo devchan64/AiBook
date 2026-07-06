@@ -1,7 +1,7 @@
 # 11.3 Transformer와 사전학습 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.05`
+> Version: `v2026.07.06`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤고, 11.2에서는 RNN, Seq2Seq, Attention이 순서와 문맥을 다루는 흐름을 봤습니다.
 
@@ -16,9 +16,26 @@
 
 > Transformer는 self-attention을 중심에 놓아 시퀀스 안의 토큰들이 서로를 직접 참고하게 했고, 사전학습 LLM은 대규모 텍스트에서 언어 패턴을 먼저 학습한 뒤 fine-tuning이나 prompt, in-context learning 방식으로 여러 과업에 연결되었다.
 
+Part 1 안에서는 이 절을 `Transformer`, `self-attention`, `positional encoding`, `Encoder`, `Decoder`, `사전학습(pretraining)`, `fine-tuning`, `BERT`, `GPT`, `in-context learning`의 대표 상세 설명 위치로 사용합니다. 11.2에서는 RNN, Seq2Seq, Attention이 왜 등장했는지를 먼저 봤고, 여기서는 그 흐름 위에서 `현대 LLM이 어떤 구조와 학습 절차 위에 올라왔는가`를 정리합니다.
+
 ## 이 절의 범위
 
 이 절은 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 5에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
+
+처음 읽을 때는 `Transformer`, `self-attention`, `Encoder`, `Decoder`, `사전학습`, `BERT`, `GPT`, `in-context learning`이 모두 현대 LLM의 비슷한 이름처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+
+| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
+| --- | --- | --- |
+| Transformer | self-attention 중심의 순차 모델 구조 | 현대 LLM의 핵심 구조 계열 |
+| self-attention | 토큰끼리 서로의 관련도를 계산하는 구조 | Transformer의 중심 메커니즘 |
+| positional encoding | 토큰 위치 정보를 더하는 장치 | recurrence 없는 순서 처리 보완 |
+| Encoder | 입력 전체의 문맥적 표현을 만드는 구조 | BERT 계열 이해의 기반 |
+| Decoder | 이전 토큰을 바탕으로 다음 토큰을 생성하는 구조 | GPT 계열 이해의 기반 |
+| 사전학습 | 큰 텍스트에서 먼저 배우는 단계 | 범용 언어 패턴 학습의 핵심 |
+| fine-tuning | 특정 과업에 맞게 추가 조정하는 단계 | 사전학습 뒤의 적용 방식 |
+| in-context learning | 가중치 업데이트 없이 프롬프트 문맥으로 행동을 바꾸는 방식 | GPT-3 이후 사용 경험의 핵심 |
+
+처음 단계에서는 `Transformer는 self-attention`, `BERT는 encoder 중심`, `GPT는 decoder 중심`, `사전학습 후 활용` 정도로만 잡아도 충분합니다.
 
 여기서는 다음 질문에만 집중합니다.
 
@@ -30,6 +47,8 @@
 | 문맥 내 학습(in-context learning) | 왜 prompt 안의 예시가 모델 행동을 바꿀 수 있는가? |
 
 이 절은 prompt engineering은 P1-12.1부터 P1-12.3에서, vector search와 RAG는 P1-13.1부터 P1-13.4와 P1-14.2에서, AI 서비스 아키텍처는 P1-14.1부터 P1-14.6에서 다시 다룹니다. 여기서는 현대 LLM이 갑자기 등장한 것이 아니라, 언어 모델링, 임베딩, sequence modeling, Attention, 사전학습이 결합된 결과라는 큰 흐름만 잡습니다.
+
+또한 이 절은 프롬프트 작성법 자체를 가르치는 절도 아니고, RAG나 서비스 구성까지 미리 설명하는 절도 아닙니다. 그 주제들은 뒤 장에서 따로 회수하고, 여기서는 `구조`, `학습 절차`, `사용 경험의 변화`만 구분합니다.
 
 ## 이 절의 목표
 

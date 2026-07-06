@@ -208,37 +208,40 @@ nav:
   - Part 3. 데이터 모델링:
       - 개요: parts/part-03/index.md
       - Module 1. 역할과 문제 장면:
-          - Chapter 1. 데이터 모델링은 데이터 생애주기 어디에 놓이는가:
-              - "3.1 저장 구조와 문제 표현 구조는 어떻게 다른가": parts/part-03/chapter-01/section-01.md
-              - "3.2 샘플, 특징, 기준선, 출력 구조를 한눈에 보기": parts/part-03/chapter-01/section-02.md
-          - Chapter 2. 데이터셋은 처음부터 주어지지 않는다:
-              - "3.3 원천데이터를 처음 보면 왜 바로 모델을 떠올리게 되는가": parts/part-03/chapter-02/section-01.md
-              - "3.4 데이터셋은 주어진 표가 아니라 다시 만든 구조다": parts/part-03/chapter-02/section-02.md
+          - Chapter 1. 데이터 모델링은 무엇을 달성하고 어떻게 진행하는가:
+              - "3.1 데이터 모델링은 무엇을 달성하려는가": parts/part-03/chapter-01/section-01.md
+              - "3.2 데이터 모델링은 어떤 순서로 진행하는가": parts/part-03/chapter-01/section-02.md
+          - Chapter 2. 저장 구조와 설계 축을 먼저 읽기:
+              - "3.3 저장 구조와 문제 표현 구조는 어떻게 다른가": parts/part-03/chapter-02/section-01.md
+              - "3.4 샘플, 특징, 기준선, 출력 구조를 한눈에 보기": parts/part-03/chapter-02/section-02.md
+          - Chapter 3. 데이터셋은 처음부터 주어지지 않는다:
+              - "3.5 원천데이터를 처음 보면 왜 바로 모델을 떠올리게 되는가": parts/part-03/chapter-03/section-01.md
+              - "3.6 데이터셋은 주어진 표가 아니라 다시 만든 구조다": parts/part-03/chapter-03/section-02.md
       - Module 2. 샘플과 표 구조:
-          - Chapter 3. 샘플 단위를 어떻게 정하는가:
-              - "3.5 행 하나가 뜻하는 것은 무엇인가": parts/part-03/chapter-03/section-01.md
-              - "3.6 측정값과 샘플을 혼동하면 왜 문제가 생기는가": parts/part-03/chapter-03/section-02.md
-          - Chapter 4. 원시 로그를 요약 표로 바꾸는 법:
-              - "3.7 원시 로그, 요약 표, 집계 표의 차이": parts/part-03/chapter-04/section-01.md
-              - "3.8 같은 평균, 다른 패턴을 어떻게 드러내는가": parts/part-03/chapter-04/section-02.md
+          - Chapter 4. 샘플 단위를 어떻게 정하는가:
+              - "3.7 행 하나가 뜻하는 것은 무엇인가": parts/part-03/chapter-04/section-01.md
+              - "3.8 측정값과 샘플을 혼동하면 왜 문제가 생기는가": parts/part-03/chapter-04/section-02.md
+          - Chapter 5. 원시 로그를 요약 표로 바꾸는 법:
+              - "3.9 원시 로그, 요약 표, 집계 표의 차이": parts/part-03/chapter-05/section-01.md
+              - "3.10 같은 평균, 다른 패턴을 어떻게 드러내는가": parts/part-03/chapter-05/section-02.md
       - Module 3. 특징과 비교 구조:
-          - Chapter 5. 특징과 중간 표현을 설계하는 법:
-              - "3.9 평균, 기울기, 변동성은 왜 특징이 되는가": parts/part-03/chapter-05/section-01.md
-              - "3.10 세그먼트 표현과 토큰화된 표현은 어디까지 쓸 수 있는가": parts/part-03/chapter-05/section-02.md
-          - Chapter 6. 기준선 비교 구조를 읽는 법:
-              - "3.11 기준선은 왜 데이터 모델링의 일부인가": parts/part-03/chapter-06/section-01.md
-              - "3.12 최근 구간과 기준선 비교표는 어떻게 읽는가": parts/part-03/chapter-06/section-02.md
+          - Chapter 6. 특징과 중간 표현을 설계하는 법:
+              - "3.11 평균, 기울기, 변동성은 왜 특징이 되는가": parts/part-03/chapter-06/section-01.md
+              - "3.12 세그먼트 표현과 토큰화된 표현은 어디까지 쓸 수 있는가": parts/part-03/chapter-06/section-02.md
+          - Chapter 7. 기준선 비교 구조를 읽는 법:
+              - "3.13 기준선은 왜 데이터 모델링의 일부인가": parts/part-03/chapter-07/section-01.md
+              - "3.14 최근 구간과 기준선 비교표는 어떻게 읽는가": parts/part-03/chapter-07/section-02.md
       - Module 4. 해석 경계:
-          - Chapter 7. 표본 수와 반복성은 어떻게 읽는가:
-              - "3.13 표본 수가 적을 때 무엇을 말하지 말아야 하는가": parts/part-03/chapter-07/section-01.md
-              - "3.14 변화 신호와 통계적 보수성을 왜 함께 봐야 하는가": parts/part-03/chapter-07/section-02.md
+          - Chapter 8. 표본 수와 반복성은 어떻게 읽는가:
+              - "3.15 표본 수가 적을 때 무엇을 말하지 말아야 하는가": parts/part-03/chapter-08/section-01.md
+              - "3.16 변화 신호와 통계적 보수성을 왜 함께 봐야 하는가": parts/part-03/chapter-08/section-02.md
       - Module 5. 문제 유형과 handoff:
-          - Chapter 8. 어떤 문제를 예측 문제로 만들 것인가:
-              - "3.15 경고, 검토 후보, 라벨 예측을 어떻게 구분하는가": parts/part-03/chapter-08/section-01.md
-              - "3.16 어떤 운영 문제는 왜 비교 리포트로 남겨야 하는가": parts/part-03/chapter-08/section-02.md
-          - Chapter 9. 머신러닝 Part로 무엇을 넘길 것인가:
-              - "3.17 Part 4가 이어받을 feature와 target의 전제": parts/part-03/chapter-09/section-01.md
-              - "3.18 split, baseline, evaluation으로 넘어가기 전 확인할 것": parts/part-03/chapter-09/section-02.md
+          - Chapter 9. 어떤 문제를 예측 문제로 만들 것인가:
+              - "3.17 경고, 검토 후보, 라벨 예측을 어떻게 구분하는가": parts/part-03/chapter-09/section-01.md
+              - "3.18 어떤 운영 문제는 왜 비교 리포트로 남겨야 하는가": parts/part-03/chapter-09/section-02.md
+          - Chapter 10. 머신러닝 Part로 무엇을 넘길 것인가:
+              - "3.19 Part 4가 이어받을 feature와 target의 전제": parts/part-03/chapter-10/section-01.md
+              - "3.20 split, baseline, evaluation으로 넘어가기 전 확인할 것": parts/part-03/chapter-10/section-02.md
       - Part 3 마무리: parts/part-03/summary.md
   - Part 4. 머신러닝:
       - 개요: parts/part-04/index.md

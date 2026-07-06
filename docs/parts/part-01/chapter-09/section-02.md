@@ -1,7 +1,7 @@
 # 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.05`
+> Version: `v2026.07.06`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 통해 딥러닝(deep learning)이 왜 중요한 전환점으로 읽히는지 봤습니다. 이미지 분류는 “이 이미지가 무엇인가”를 묻는 문제였습니다.
 
@@ -11,11 +11,28 @@
 
 > 객체 검출과 음성 생성 사례는 LLM의 직접 조상이 아니라, 딥러닝이 여러 입력과 출력 문제에서 수작업 파이프라인을 학습 기반 구조로 바꿔 간 흐름을 보여 주는 주변 근거다.
 
+Part 1 안에서는 이 절을 `객체 검출(object detection)`, `바운딩 박스(bounding box)`, `YOLO`, `음성 생성(speech generation)`, `WaveNet`, `TTS(text-to-speech)` 보조 맥락의 대표 상세 설명 위치로 사용합니다. `이미지 인식(image recognition)`과 `학습된 표현`의 기본 대비는 9.1에서 먼저 봤고, 여기서는 그 딥러닝 패러다임이 다른 출력 구조로 어떻게 확장되는지만 봅니다. LLM의 직접 계보와의 경계는 9.3에서 다시 정리합니다.
+
+처음 읽을 때는 `객체 검출`, `YOLO`, `음성 생성`, `WaveNet`, `TTS`가 모두 생성형 AI 계보에 바로 붙는 사례처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+
+| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
+| --- | --- | --- |
+| 객체 검출 | 무엇이 어디에 있는지 함께 찾는 문제 | 분류보다 복잡한 출력 구조의 사례 |
+| 바운딩 박스 | 물체 위치를 사각형으로 표시한 것 | 검출 출력의 기본 표현 |
+| YOLO | 검출을 하나의 예측 문제로 묶은 사례 | end-to-end 재구성의 대표 사례 |
+| 음성 생성 | 시간 순서의 오디오 출력을 만드는 문제 | 순차 생성의 다른 도메인 사례 |
+| WaveNet | raw audio를 확률적으로 생성한 모델 | 음성 생성의 대표 사례 |
+| TTS | 텍스트를 음성으로 바꾸는 응용 맥락 | 9.2에서는 보조 사례로만 둘 대상 |
+
+처음 단계에서는 `검출은 위치+범주`, `YOLO는 한 번에 예측`, `WaveNet은 오디오 순차 생성`, `TTS는 보조 맥락` 정도로만 잡아도 충분합니다.
+
 ## 이 절의 범위
 
 이 절은 YOLO와 WaveNet의 알고리즘을 구현하지 않습니다. 바운딩 박스(bounding box), mAP(mean average precision), dilated convolution, autoregressive model, vocoder 같은 세부 개념은 이름과 역할만 지나갑니다. Deep Voice 같은 TTS 시스템은 주요 소재가 아니라 보조 사례로만 둡니다.
 
 또한 이 사례들을 LLM(large language model)의 직접 계보로 설명하지 않습니다. LLM의 직접 흐름은 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN/LSTM, Seq2Seq, Attention, Transformer, 사전학습 언어 모델에서 따로 다룹니다.
+
+또한 9.1의 이미지 인식 사례를 반복 설명하지는 않습니다. 이 절의 핵심은 `문제 재구성`입니다. 즉, 딥러닝이 분류를 넘어 `위치와 범주를 함께 예측하는 문제`, `시간 순서의 파형을 생성하는 문제`로 어떻게 확장되었는지를 보는 데 집중합니다.
 
 여기서는 다음 정도만 잡습니다.
 

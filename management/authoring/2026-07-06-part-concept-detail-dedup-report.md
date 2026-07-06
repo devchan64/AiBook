@@ -43,5 +43,8 @@
 
 - `management/authoring/concept-glossary-guidelines.md`
 - `docs/reference/concept-glossary.md`
+- `docs/parts/part-02/index.md`
+- `docs/parts/part-02/chapter-01/`부터 `docs/parts/part-02/chapter-14/`
+- `management/release-notes/sections/part-02/`
 
-앞으로 Part 1 본문을 계속 순차 보강할 때 이 원칙을 기준으로 중복 상세 설명 여부를 함께 점검한다.
+Part 2를 순차 보강하면서 각 Chapter의 대표 설명 위치 문단, 용어 재소개 표, 범위 경계 문장을 이 원칙에 맞춰 정리했다. 앞으로 이어지는 본문 개정에서도 같은 Part 안의 중복 상세 설명 여부와 개념사전 연결 상태를 함께 점검한다.

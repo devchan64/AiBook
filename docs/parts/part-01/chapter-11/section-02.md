@@ -1,7 +1,7 @@
 # 11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.05`
+> Version: `v2026.07.06`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 
@@ -13,9 +13,24 @@
 
 > RNN은 이전 상태를 다음 계산에 넘기며 순서를 다루었고, Seq2Seq는 입력 시퀀스를 출력 시퀀스로 바꾸는 구조를 만들었으며, Attention은 출력 시점마다 입력의 관련 위치를 다시 참고할 수 있게 했다.
 
+Part 1 안에서는 이 절을 `RNN(recurrent neural network)`, `hidden state`, `LSTM`, `GRU`, `Seq2Seq(sequence-to-sequence)`, `Encoder-Decoder`, `Attention`, `fixed-length vector` 병목의 대표 상세 설명 위치로 사용합니다. 11.1에서는 언어 모델과 임베딩을 봤고, 여기서는 `벡터로 바꾼 토큰의 순서와 문맥을 어떻게 다루었는가`를 다룹니다. Transformer는 아직 다루지 않고 11.3에서 이어집니다.
+
 ## 이 절의 범위
 
 이 절은 Transformer를 설명하지 않습니다. Transformer는 11.3에서 다룹니다.
+
+처음 읽을 때는 `RNN`, `hidden state`, `LSTM`, `Seq2Seq`, `Attention`이 모두 순차 모델의 비슷한 부품처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+
+| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
+| --- | --- | --- |
+| RNN | 이전 상태를 다음 계산에 넘기는 순차 신경망 | 순서 처리의 첫 구조 |
+| hidden state | 지금까지 입력을 누적한 내부 상태 | RNN 문맥 처리의 핵심 |
+| LSTM/GRU | 긴 문맥을 더 안정적으로 다루려는 RNN 변형 | RNN 한계 보완 |
+| Seq2Seq | 입력 시퀀스를 출력 시퀀스로 바꾸는 구조 | 번역·요약 같은 과업의 틀 |
+| Encoder-Decoder | 입력을 읽는 부분과 출력을 만드는 부분 | Seq2Seq의 기본 구조 |
+| Attention | 출력할 때 입력의 관련 위치를 다시 참고하는 구조 | Transformer로 가는 핵심 전환 |
+
+처음 단계에서는 `RNN은 순서 누적`, `Seq2Seq는 입력-출력 변환`, `Attention은 다시 참고` 정도로만 잡아도 충분합니다.
 
 여기서는 Transformer 이전에 중요한 전환이 된 세 가지 흐름만 봅니다.
 
@@ -26,6 +41,8 @@
 | Attention | 출력 단어를 만들 때 입력의 어떤 부분을 참고할지 어떻게 정하는가? |
 
 LSTM(long short-term memory)과 GRU(gated recurrent unit)는 RNN 계열에서 긴 의존성(long-range dependency)을 다루기 위해 등장한 중요한 구조입니다. 하지만 이 절에서는 게이트(gate) 수식이나 내부 구조를 깊게 설명하지 않고, 왜 필요했는지 정도만 봅니다.
+
+또한 이 절은 `사전학습(pretraining)`이나 `BERT/GPT`의 차이를 설명하지 않습니다. 그 주제는 11.3에서 Transformer와 함께 다시 묶습니다.
 
 ## 이 절의 목표
 

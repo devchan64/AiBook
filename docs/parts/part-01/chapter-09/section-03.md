@@ -1,7 +1,7 @@
 # 9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.05`
+> Version: `v2026.07.06`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 봤습니다. 9.2에서는 객체 검출(object detection)과 음성 생성(speech generation)을 봤습니다.
 
@@ -10,6 +10,21 @@
 이 절의 핵심 질문은 AlexNet, YOLO, WaveNet 같은 사례가 LLM의 직접 조상인가, 아니면 딥러닝 패러다임이 넓어진 주변 근거인가입니다.
 
 > LLM의 직접 계보는 언어 모델링(language modeling), 순차 모델링(sequence modeling), Seq2Seq, Attention, Transformer 쪽에서 설명해야 한다. 이미지, 객체 검출, 음성 생성 사례는 직접 조상이 아니라 딥러닝 접근이 여러 분야에서 힘을 얻었다는 주변 근거로 두는 편이 안전하다.
+
+Part 1 안에서는 이 절을 `직접 계보(direct lineage)`, `주변 근거(surrounding evidence)`, `언어 모델링(language modeling)`, `Seq2Seq`, `Attention`, `Transformer`를 LLM 관점에서 구분하는 대표 상세 설명 위치로 사용합니다. 9.1과 9.2에서는 이미지, 검출, 음성 사례를 먼저 봤고, 여기서는 그 사례들이 `LLM의 직접 조상`이 아니라 `딥러닝 확산의 배경`임을 정리합니다. 이후의 직접 흐름은 Part 1 Chapter 11부터 Chapter 14, 그리고 Part 6에서 본격적으로 이어집니다.
+
+처음 읽을 때는 `직접 계보`, `주변 근거`, `언어 모델링`, `Attention`, `Transformer`가 모두 비슷한 역사 구분처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+
+| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
+| --- | --- | --- |
+| 직접 계보 | LLM 핵심 구조로 직접 이어지는 흐름 | 무엇이 LLM 설명에 필수인지 가르는 기준 |
+| 주변 근거 | 딥러닝 확산의 배경이 되는 사례 | 직접 조상은 아니지만 배경이 되는 흐름 |
+| 언어 모델링 | 다음 단어나 토큰 확률을 다루는 문제 | LLM 직접 흐름의 출발점 |
+| Seq2Seq | 입력 시퀀스를 출력 시퀀스로 바꾸는 구조 | 직접 계보의 중요한 전 단계 |
+| Attention | 필요한 입력 위치를 더 강하게 참고하는 구조 | Transformer 이전 핵심 전환 |
+| Transformer | Attention 중심의 순차 모델 구조 | 현대 LLM의 핵심 구조 계열 |
+
+처음 단계에서는 `LLM 직접 계보는 언어 모델링 쪽`, `AlexNet/YOLO/WaveNet은 주변 근거`, `Transformer는 핵심이지만 전부는 아님` 정도로만 잡아도 충분합니다.
 
 이 절에는 한 가지 더 중요한 의도가 있습니다. 최근에는 AI라는 말을 곧바로 LLM이나 챗봇으로 이해하는 분위기가 강합니다. 여기서는 그 시각을 조심합니다. LLM은 현대 AI를 이해하는 데 매우 중요한 기술이지만, AI 전체를 LLM으로 환원하면 규칙 기반 AI, 탐색, 확률 모델, 컴퓨터 비전, 음성, 강화학습, 추천, 로보틱스 같은 다른 흐름이 가려집니다.
 
@@ -20,6 +35,8 @@
 여기서는 P1-9의 마무리로 두 가지 역할만 맡습니다.
 
 첫째, LLM의 직접 계보(direct lineage)를 언어 모델링(language modeling)과 순차 모델링(sequence modeling) 쪽에 놓습니다. 둘째, AI 전체를 LLM과 같은 뜻으로 줄여 말하지 않도록 경계를 둡니다.
+
+또한 토큰화(tokenization), 임베딩(embedding), 사전학습(pretraining)을 이 절에서 깊게 풀지는 않습니다. 이 절의 핵심은 세부 구조 설명이 아니라 `무엇이 직접 계보이고 무엇이 주변 근거인가`를 가르는 지도 만들기입니다.
 
 따라서 이 절의 범위는 다음 구분을 잡는 일입니다.
 
