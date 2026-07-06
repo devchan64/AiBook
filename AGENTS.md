@@ -98,6 +98,7 @@
 - 같은 Part 안에서는 새로운 핵심 개념의 상세 설명을 가능한 한 한 Section에서만 충분히 다룹니다.
 - 같은 Part 안의 후속 Section에서는 이미 정리한 핵심 개념의 상세 정의, 비교 표, 용어 구분 표를 반복하지 않고 개념사전 링크로 연결합니다.
 - 다음 Part로 넘어간 뒤 그 개념이 다시 핵심 전개를 떠받치면, 그 Part에서 처음 등장하는 Section에서 필요한 범위만 다시 정리하고 다시 개념사전으로 연결합니다.
+- 개념사전 항목은 `중심 Section` 1개와 `등장 Section` 목록을 함께 유지해, 대표 설명 위치와 실제 재등장 위치를 구분하고 위치 표기 오류나 누락이 생기는지 관측할 수 있어야 합니다.
 - 원고 작성, Python 예제, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
 
 ## Section 경계

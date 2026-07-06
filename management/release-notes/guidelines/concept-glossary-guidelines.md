@@ -3,6 +3,15 @@
 - Document ID: `GUIDE-concept-glossary-guidelines`
 - Source File: `management/authoring/concept-glossary-guidelines.md`
 
+### v2026.07.07-6
+
+- 변경 이유: 개념사전의 `등장 Section`이 단순 보조 필드로만 읽히면, 실제 재등장 위치 누락이나 잘못된 Section ID 표기를 체계적으로 관측하기 어렵다는 기준을 규칙 문서에 더 분명히 적어 둘 필요가 생겼다.
+- 문서 반영: 레포 전역 원칙과 개념사전 작성 규칙에 `등장 Section`을 `목록`으로 유지하고, 대표 설명 위치와 실제 재등장 위치를 구분하며, 위치 표기 오류와 누락을 관측하는 용도로도 사용한다는 문장을 추가했다. 또한 오표기나 누락을 발견하면 개념사전 항목과 관련 본문, 릴리즈노트를 함께 바로잡는 기준을 명시했다.
+- 번역 동기화 메모: 향후 다국어 원고가 생기면 `appearance-section list`를 canonical trace field로 유지하고, missing or wrong Section IDs도 같은 `Section ID` 기준으로 함께 바로잡아야 한다.
+- 번역 반영 상태: 번역본 없음
+- 관련 자산: `AGENTS.md`, `docs/reference/concept-glossary.md`
+- 원문 기준 버전: `v2026.07.07`
+
 ### v2026.07.07-5
 
 - 변경 이유: 개념사전이 한국어 표면형만으로 읽히면 서로 다른 영어 개념이 섞일 수 있고, 본문 초반 신규 용어를 개념사전에 연결하는 방식도 항목별 직접 앵커와 1회 링크 기준까지 문서화할 필요가 생겼다.
