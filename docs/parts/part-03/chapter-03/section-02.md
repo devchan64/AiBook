@@ -60,95 +60,15 @@
 
 확인할 개념: 데이터셋은 파일 하나의 이름이 아니라 질문에 맞게 다시 설계한 표 구조다
 
-```python
-import pandas as pd
+같은 원천 시계열을 놓고도, 질문이 달라지면 먼저 만들어야 할 표 초안은 아래처럼 달라집니다.
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.8, "is_recent": 1},
-        {"event_id": "A", "second": 1, "flow": 1.5, "is_recent": 1},
-        {"event_id": "A", "second": 2, "flow": 1.1, "is_recent": 1},
-        {"event_id": "B", "second": 0, "flow": 0.7, "is_recent": 0},
-        {"event_id": "B", "second": 1, "flow": 1.2, "is_recent": 0},
-        {"event_id": "B", "second": 2, "flow": 1.0, "is_recent": 0},
-        {"event_id": "C", "second": 0, "flow": 0.9, "is_recent": 1},
-        {"event_id": "C", "second": 1, "flow": 1.6, "is_recent": 1},
-        {"event_id": "C", "second": 2, "flow": 1.3, "is_recent": 1},
-    ]
-)
+| 질문 | 먼저 잡는 샘플 단위 | 먼저 남길 열 | 바로 읽히는 출력 |
+| --- | --- | --- | --- |
+| 동작 1회가 다른 동작보다 불안정했는가 | `event_id`별 동작 1회 | `flow_mean`, `flow_max`, `duration` | 동작 단위 비교 표 |
+| 최근 20건이 평소 200건과 다른가 | 최근 구간 1묶음 vs 기준 구간 1묶음 | `recent_mean`, `baseline_mean`, `diff` | 최근 구간 비교 리포트 |
+| 나중에 학습 후보를 만들 수 있는가 | `event_id`별 동작 1회 | `flow_mean`, `flow_max`, `target_candidate` | 입력 열과 결과 후보가 분리된 표 |
 
-print("1) raw log")
-print(raw)
-print()
-
-event_dataset = (
-    raw.groupby("event_id", as_index=False)
-    .agg(
-        flow_mean=("flow", "mean"),
-        flow_max=("flow", "max"),
-        is_recent=("is_recent", "max"),
-    )
-)
-print("2) question: compare one event with other events")
-print(event_dataset)
-print()
-
-baseline_mean = event_dataset.loc[event_dataset["is_recent"] == 0, "flow_mean"].mean()
-report_dataset = event_dataset.assign(
-    baseline_mean=baseline_mean,
-    baseline_diff=lambda df: df["flow_mean"] - df["baseline_mean"],
-    review_needed=lambda df: (df["baseline_diff"] >= 0.20).astype(int),
-)
-print("3) question: compare recent events with a baseline")
-print(
-    report_dataset[
-        ["event_id", "flow_mean", "baseline_mean", "baseline_diff", "review_needed"]
-    ]
-)
-print()
-
-learning_candidate = report_dataset.assign(
-    target_candidate=lambda df: df["review_needed"].map({1: "review", 0: "normal"})
-)[["event_id", "flow_mean", "flow_max", "target_candidate"]]
-print("4) question: prepare a later learning candidate table")
-print(learning_candidate)
-```
-
-예상 출력:
-
-```text
-1) raw log
-  event_id  second  flow  is_recent
-0        A       0   0.8          1
-1        A       1   1.5          1
-2        A       2   1.1          1
-3        B       0   0.7          0
-4        B       1   1.2          0
-5        B       2   1.0          0
-6        C       0   0.9          1
-7        C       1   1.6          1
-8        C       2   1.3          1
-
-2) question: compare one event with other events
-  event_id  flow_mean  flow_max  is_recent
-0        A   1.133333       1.5          1
-1        B   0.966667       1.2          0
-2        C   1.266667       1.6          1
-
-3) question: compare recent events with a baseline
-  event_id  flow_mean  baseline_mean  baseline_diff  review_needed
-0        A   1.133333       0.966667       0.166667              0
-1        B   0.966667       0.966667       0.000000              0
-2        C   1.266667       0.966667       0.300000              1
-
-4) question: prepare a later learning candidate table
-  event_id  flow_mean  flow_max target_candidate
-0        A   1.133333       1.5           normal
-1        B   0.966667       1.2           normal
-2        C   1.266667       1.6           review
-```
-
-이 예제에서는 같은 원천데이터에서 세 번 다른 질문을 던집니다. 2단계는 `동작 1회 비교`를 위해 동작 단위 표를 만들고, 3단계는 `최근 상태와 기준선 비교`를 위해 기준선 열과 검토 열을 추가합니다. 4단계는 같은 요약 표를 바탕으로도 `나중의 학습 후보 표`를 따로 만들 수 있음을 보여 줍니다. 즉 데이터셋은 원시 파일 하나를 가리키는 이름이 아니라, 질문이 요구하는 샘플 단위와 열 구조를 다시 고른 결과입니다.
+핵심은 원천데이터가 세 번 바뀌는 것이 아니라, 같은 기록을 어떤 질문으로 읽느냐에 따라 `한 행의 뜻`, `남길 열`, `바로 필요한 출력`이 달라진다는 점입니다. 동작 1회 비교를 하려면 먼저 `event_id` 기준으로 묶인 표가 필요하고, 최근 구간 비교를 하려면 동작별 표보다 `최근 묶음`과 `기준 묶음`을 나란히 두는 구조가 더 먼저 필요합니다. 반대로 나중의 학습 후보를 생각하면 비교 리포트 문장보다 입력 열과 결과 후보를 분리한 표가 더 중요해집니다.
 
 이 차이를 더 짧게 잡으면, 같은 원천데이터에서도 표를 다시 만드는 이유는 다음처럼 나뉩니다.
 

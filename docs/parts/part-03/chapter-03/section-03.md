@@ -71,63 +71,13 @@ Chapter 3 앞 절까지 읽으면 독자는 이제 두 가지는 이해합니다
 
 확인할 개념: 첫 표 초안은 완성된 열 이름 목록이 아니라, 질문이 요구하는 역할별 열 묶음을 먼저 드러내는 단계다
 
-```python
-drafts = [
-    {
-        "question": "최근 동작 1회가 평소보다 더 흔들렸는가",
-        "sample_id": ["event_id"],
-        "feature_candidates": ["flow_mean", "flow_std", "late_drop_rate"],
-        "comparison_columns": ["baseline_diff"],
-        "output_columns": ["review_needed"],
-    },
-    {
-        "question": "최근 20건이 이전 200건보다 달라졌는가",
-        "sample_id": ["window_id"],
-        "feature_candidates": ["recent_flow_mean", "recent_variability"],
-        "comparison_columns": ["prior_200_baseline_diff"],
-        "output_columns": ["report_sentence"],
-    },
-    {
-        "question": "나중에 맞힐 결과 후보를 만들 수 있는가",
-        "sample_id": ["event_id"],
-        "feature_candidates": ["flow_mean", "late_drop_rate", "repeatability_score"],
-        "comparison_columns": ["baseline_diff"],
-        "output_columns": ["target_candidate"],
-    },
-]
+| 질문 | 식별 열 초안 | 특징 후보 열 초안 | 비교 열 초안 | 결과 열 초안 |
+| --- | --- | --- | --- | --- |
+| 최근 동작 1회가 평소보다 더 흔들렸는가 | `event_id` | `flow_mean`, `flow_std`, `late_drop_rate` | `baseline_diff` | `review_needed` |
+| 최근 20건이 이전 200건보다 달라졌는가 | `window_id` | `recent_flow_mean`, `recent_variability` | `prior_200_baseline_diff` | `report_sentence` |
+| 나중에 맞힐 결과 후보를 만들 수 있는가 | `event_id` | `flow_mean`, `late_drop_rate`, `repeatability_score` | `baseline_diff` | `target_candidate` |
 
-for draft in drafts:
-    print("question:", draft["question"])
-    print("  sample_id:", draft["sample_id"])
-    print("  feature_candidates:", draft["feature_candidates"])
-    print("  comparison_columns:", draft["comparison_columns"])
-    print("  output_columns:", draft["output_columns"])
-    print()
-```
-
-예상 출력:
-
-```text
-question: 최근 동작 1회가 평소보다 더 흔들렸는가
-  sample_id: ['event_id']
-  feature_candidates: ['flow_mean', 'flow_std', 'late_drop_rate']
-  comparison_columns: ['baseline_diff']
-  output_columns: ['review_needed']
-
-question: 최근 20건이 이전 200건보다 달라졌는가
-  sample_id: ['window_id']
-  feature_candidates: ['recent_flow_mean', 'recent_variability']
-  comparison_columns: ['prior_200_baseline_diff']
-  output_columns: ['report_sentence']
-
-question: 나중에 맞힐 결과 후보를 만들 수 있는가
-  sample_id: ['event_id']
-  feature_candidates: ['flow_mean', 'late_drop_rate', 'repeatability_score']
-  comparison_columns: ['baseline_diff']
-  output_columns: ['target_candidate']
-```
-
-이 예제의 핵심은 열 이름 자체보다 `질문이 달라지면 어느 열 묶음이 먼저 달라지는가`를 보는 데 있습니다. 동작 1회 비교에서는 `event_id`와 `review_needed`가 먼저 보이고, 최근 20건 비교에서는 `window_id`와 `report_sentence`가 더 자연스럽습니다. 반대로 나중의 학습 후보를 생각하면 결과 열이 `target_candidate`로 바뀝니다. 즉 첫 표 초안은 정답 표를 한 번에 완성하는 과정이 아니라, 질문이 요구하는 샘플 단위와 결과 방향을 먼저 드러내는 스케치입니다.
+이 예시의 핵심은 열 이름 자체보다 `질문이 달라지면 어느 열 묶음이 먼저 달라지는가`를 보는 데 있습니다. 동작 1회 비교에서는 `event_id`와 `review_needed`가 먼저 보이고, 최근 20건 비교에서는 `window_id`와 `report_sentence`가 더 자연스럽습니다. 반대로 나중의 학습 후보를 생각하면 결과 열이 `target_candidate`로 바뀝니다. 즉 첫 표 초안은 정답 표를 한 번에 완성하는 과정이 아니라, 질문이 요구하는 샘플 단위와 결과 방향을 먼저 드러내는 스케치입니다.
 
 ## 왜 이 절이 Chapter 4 앞에 필요한가
 
