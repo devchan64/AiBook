@@ -46,6 +46,8 @@
   - Section 수정, 예시 보강, 문단 재배치 전에 먼저 본다.
 - 원고 작성 세부 절차: `management/guidelines/manuscript-writing-workflow.md`
   - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
+- 영문 번역 워크플로우: `management/guidelines/english-translation-guidelines.md`
+  - 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
 - 차트·도식 워크플로우: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
 - Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`

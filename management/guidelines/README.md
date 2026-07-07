@@ -22,6 +22,8 @@
 현재 이관된 문서는 다음과 같다.
 
 - `chart-guidelines.md`
+- `concept-glossary-guidelines.md`
+- `english-translation-guidelines.md`
 - `rules-and-guidelines-summary.md`
 - `manuscript-writing-workflow.md`
 
