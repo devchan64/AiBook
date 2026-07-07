@@ -31,63 +31,114 @@
 
 이 네 질문은 각각 샘플, 특징, 기준선, 출력 구조에 대응합니다. 그래서 용어가 흐릿더라도 질문 순서를 따라가면 현재 어떤 데이터셋 설계 단계에 있는지 다시 확인할 수 있습니다.
 
-아래 표는 네 요소가 같은 흐름 안에 있다는 점을 보여 줍니다.
+아래 표는 네 요소가 한 행 안에서 어떻게 이어지는지 더 구체적으로 보여 줍니다. 같은 동작 1회라도 먼저 샘플을 한 건으로 세우고, 그 위에 특징을 적고, 그 특징을 평소 기준선과 비교한 뒤, 마지막에 사람이 읽을 출력으로 마무리합니다.
 
-| sample_id | duration_seconds | late_drop_rate | baseline_diff | output |
-| --- | --- | --- | --- | --- |
-| A | 28 | -0.32 | -0.27 | `검토 필요` |
-| B | 24 | -0.08 | -0.03 | `정상 범위` |
+| sample_id | mean_flow | late_drop_rate | baseline_mean_flow | baseline_late_drop_rate | baseline_gap | output |
+| --- | --- | --- | --- | --- | --- | --- |
+| A | 0.74 | -0.32 | 0.92 | -0.05 | -0.27 | `검토 필요` |
+| B | 0.89 | -0.08 | 0.92 | -0.05 | -0.03 | `정상 범위` |
 
-여기서 `sample_id`는 샘플 식별자를, `duration_seconds`와 `late_drop_rate`는 특징을, `baseline_diff`는 기준선 비교 결과를, `output`은 사람이 읽게 될 출력 구조를 나타냅니다. 즉 네 요소는 따로 존재하는 것이 아니라 같은 표 안에서도 연결되어 나타납니다.
+이 표를 읽는 순서는 왼쪽에서 오른쪽으로 자연스럽게 이어집니다. `sample_id`는 무엇을 한 건의 샘플로 셌는지를 고정합니다. `mean_flow`와 `late_drop_rate`는 그 샘플을 설명하는 특징입니다. `baseline_mean_flow`와 `baseline_late_drop_rate`는 평소 기준선입니다. `baseline_gap`은 현재 샘플의 후반 하강률이 기준선보다 얼마나 더 떨어졌는지를 적어 둔 비교 결과입니다. 그리고 이 비교 결과가 충분히 크면 `output`에서 `검토 필요` 같은 운영 판단이 만들어집니다.
+
+즉 `검토 필요`라는 출력은 표 맨 끝에서 갑자기 붙는 문구가 아닙니다. 앞 열들에서 이미 `무엇을 비교할지`, `무엇이 평소와 다른지`가 정리되어 있어야만 마지막 출력 열도 설명할 수 있습니다. 이런 이유로 샘플, 특징, 기준선, 출력 구조는 같은 표 안에 들어 있더라도 서로 독립된 목록이 아니라 앞에서 뒤로 이어지는 설계 흐름입니다.
+
+문제 상황: 동작 1회를 샘플 1건으로 잡은 뒤, 특징을 적고, 평소 기준선과 비교해, 마지막 운영 출력을 만드는 흐름을 표로 확인합니다.
+
+입력(input): 샘플별 특징값과 평소 기준선 값
+
+기대 출력(output): 같은 샘플 행이 `특징 -> 기준선 비교 -> 운영 출력` 순서로 확장되는 과정
+
+확인할 개념: 출력 구조는 앞선 샘플·특징·기준선 비교의 결과로 생긴다
 
 ```python
 import pandas as pd
 
-table = pd.DataFrame(
+samples = pd.DataFrame(
     [
-        {"sample_id": "A", "duration_seconds": 28, "late_drop_rate": -0.32, "baseline_diff": -0.27, "output": "검토 필요"},
-        {"sample_id": "B", "duration_seconds": 24, "late_drop_rate": -0.08, "baseline_diff": -0.03, "output": "정상 범위"},
+        {
+            "sample_id": "A",
+            "mean_flow": 0.74,
+            "late_drop_rate": -0.32,
+            "baseline_mean_flow": 0.92,
+            "baseline_late_drop_rate": -0.05,
+        },
+        {
+            "sample_id": "B",
+            "mean_flow": 0.89,
+            "late_drop_rate": -0.08,
+            "baseline_mean_flow": 0.92,
+            "baseline_late_drop_rate": -0.05,
+        },
     ]
 )
 
-feature_cols = ["duration_seconds", "late_drop_rate"]
-comparison_col = "baseline_diff"
-output_col = "output"
+print("1) sample rows")
+print(samples[["sample_id"]])
+print()
 
-print("features:")
-print(table[feature_cols])
-print("comparison:")
-print(table[comparison_col])
-print("output:")
-print(table[output_col])
+feature_table = samples[["sample_id", "mean_flow", "late_drop_rate"]].copy()
+print("2) add features")
+print(feature_table)
+print()
+
+comparison_table = samples[
+    [
+        "sample_id",
+        "mean_flow",
+        "late_drop_rate",
+        "baseline_mean_flow",
+        "baseline_late_drop_rate",
+    ]
+].copy()
+comparison_table["baseline_gap"] = (
+    comparison_table["late_drop_rate"] - comparison_table["baseline_late_drop_rate"]
+)
+print("3) compare with baseline")
+print(comparison_table)
+print()
+
+output_table = comparison_table.copy()
+output_table["output"] = output_table["baseline_gap"].apply(
+    lambda gap: "검토 필요" if gap <= -0.20 else "정상 범위"
+)
+print("4) final output structure")
+print(output_table)
 ```
 
 예상 출력:
 
 ```text
-features:
-   duration_seconds  late_drop_rate
-0                28           -0.32
-1                24           -0.08
-comparison:
-0   -0.27
-1   -0.03
-Name: baseline_diff, dtype: float64
-output:
-0    검토 필요
-1    정상 범위
-Name: output, dtype: object
+1) sample rows
+  sample_id
+0         A
+1         B
+
+2) add features
+  sample_id  mean_flow  late_drop_rate
+0         A       0.74           -0.32
+1         B       0.89           -0.08
+
+3) compare with baseline
+  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
+0         A       0.74           -0.32                0.92                    -0.05         -0.27
+1         B       0.89           -0.08                0.92                    -0.05         -0.03
+
+4) final output structure
+  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
+0         A       0.74           -0.32                0.92                    -0.05         -0.27  검토 필요
+1         B       0.89           -0.08                0.92                    -0.05         -0.03  정상 범위
 ```
 
-이 출력은 `특징`, `비교`, `출력`이 같은 흐름 안에 놓인다는 점을 보여 줍니다. 즉 어떤 값을 남길지, 무엇과 비교할지, 최종적으로 어떤 판단 형식으로 내보낼지는 한 번에 설계되는 문제입니다.
+이 예제는 같은 행이 네 번에 걸쳐 확장되는 모습을 보여 줍니다. 처음에는 샘플 식별자만 있고, 그다음 특징 열이 붙고, 이어서 기준선과의 차이 열이 계산되고, 마지막에 운영 출력 열이 추가됩니다. 즉 출력 열은 단독으로 존재하는 것이 아니라 `샘플 설정 -> 특징 계산 -> 기준선 비교 -> 운영 판단`이라는 앞선 단계의 결과를 이어받아 만들어집니다.
 
 같은 표를 조금 더 해부해서 보면, 네 구조가 실제로 어느 칸에 들어 있는지도 분명해집니다.
 
 | 열 이름 | 여기서 맡는 역할 | 왜 이 역할로 읽는가 |
 | --- | --- | --- |
 | `sample_id` | 샘플 식별자 | 무엇을 한 건으로 셌는지 가리키기 때문 |
-| `duration_seconds`, `late_drop_rate` | 특징 | 샘플의 상태를 설명하는 값이기 때문 |
-| `baseline_diff` | 기준선 비교 열 | 평소와의 차이를 직접 적어 둔 값이기 때문 |
+| `mean_flow`, `late_drop_rate` | 특징 | 샘플의 상태를 설명하는 값이기 때문 |
+| `baseline_mean_flow`, `baseline_late_drop_rate` | 기준선 열 | 평소 구간의 대표값을 따로 적어 둔 값이기 때문 |
+| `baseline_gap` | 기준선 비교 열 | 현재 샘플과 평소 기준선의 차이를 직접 적어 둔 값이기 때문 |
 | `output` | 출력 구조 | 사람이 읽거나 다음 단계가 이어받을 결과 형식이기 때문 |
 
 이 표를 보면 `데이터셋 후보`가 단순히 열이 많은 표를 뜻하는 것이 아니라, 같은 행 안에 `샘플`, `설명 값`, `비교 결과`, `결과 형식`이 서로 역할을 나눠 들어 있는 구조라는 점이 드러납니다.
