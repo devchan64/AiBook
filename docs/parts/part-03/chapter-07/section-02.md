@@ -44,31 +44,23 @@
 
 이 문장들이 안전한 이유는 비교표를 곧바로 자동 진단 결과처럼 쓰지 않기 때문입니다. 경고는 자동 진단 확정이라기보다 사람이 먼저 볼 대상을 좁히는 신호에 가깝습니다. 최근 구간과 기준선을 나란히 두는 이유도 바로 그 검토 대상을 더 정직하게 좁히기 위해서입니다.
 
-간단한 비교표만으로도 같은 읽기 순서를 보여 줄 수 있습니다.
+간단한 도식으로도 같은 읽기 순서를 직접 보여 줄 수 있습니다.
 
-```python
-import pandas as pd
+```mermaid
+flowchart TD
+    A[Comparison table]
+    A --> B[1. Check recent_count]
+    B --> C[2. Check baseline condition]
+    C --> D[3. Read diff and ratio]
+    D --> E[4. Check variability and pattern]
+    E --> F[5. Write review sentence]
 
-report = pd.DataFrame(
-    [
-        {"process_type": "type-A", "recent_count": 20, "recent_mean": 2.10, "baseline_mean": 2.45, "recent_std": 0.22, "baseline_std": 0.11},
-        {"process_type": "type-B", "recent_count": 3, "recent_mean": 2.05, "baseline_mean": 2.45, "recent_std": 0.35, "baseline_std": 0.12},
-    ]
-)
-report["diff"] = report["recent_mean"] - report["baseline_mean"]
-
-print(report[["process_type", "recent_count", "recent_mean", "baseline_mean", "diff", "recent_std", "baseline_std"]])
+    B --> G[Few cases?<br/>lower confidence]
+    D --> H[Large diff?<br/>possible change]
+    E --> I[Repeated pattern?<br/>stronger review reason]
 ```
 
-예상 출력:
-
-```text
-  process_type  recent_count  recent_mean  baseline_mean  diff  recent_std  baseline_std
-0       type-A            20         2.10           2.45 -0.35        0.22          0.11
-1       type-B             3         2.05           2.45 -0.40        0.35          0.12
-```
-
-두 행 모두 차이값은 비슷하게 커 보입니다. 하지만 `type-B`는 최근 구간이 3건뿐이라 더 조심스럽게 읽어야 합니다. 이런 예시는 왜 `차이값만 먼저 보면 안 된다`는 말을 하는지 더 직접적으로 보여 줍니다.
+이 도식은 비교표에서 가장 눈에 띄는 `diff`부터 바로 읽지 않고, 먼저 표본 수와 기준선 조건을 확인해야 한다는 순서를 보여 줍니다. 즉 이 절의 중심은 숫자 예시보다 `비교표를 어떤 순서로 읽어야 사람 검토 문장으로 안전하게 바뀌는가`를 고정하는 데 있습니다.
 
 이제 두 행을 운영 문장으로 바꾸면 차이가 더 분명해집니다. `type-A`는 최근 20건에서 평균 저하와 변동성 증가가 함께 보이므로 반복 변화 후보로 볼 수 있습니다. 반면 `type-B`는 차이값이 더 커 보여도 최근 3건뿐이므로, 같은 강도의 문장으로 말하기보다 `표본이 적어 추가 관찰 필요`처럼 한 단계 낮춘 표현이 더 적절합니다. 바로 이런 이유 때문에 비교표 읽기와 운영 문장 쓰기는 같은 절 안에서 함께 다룹니다. 차이값은 설명 후보를 좁혀 주지만, 비교표 하나만으로 원인까지 자동으로 말해 주지는 않습니다.
 

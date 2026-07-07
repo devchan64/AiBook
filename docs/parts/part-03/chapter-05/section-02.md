@@ -75,19 +75,56 @@ summary = pd.DataFrame(
 summary["overall_mean"] = summary[
     ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
 ].mean(axis=1)
+summary["mid_minus_early"] = summary["mid_flow_mean"] - summary["early_flow_mean"]
+summary["late_minus_mid"] = summary["late_flow_mean"] - summary["mid_flow_mean"]
+summary["pattern_note"] = summary.apply(
+    lambda row: "mid peak then slight drop"
+    if row["mid_minus_early"] > 0 and row["late_minus_mid"] < 0
+    else "flat across segments",
+    axis=1,
+)
 
-print(summary)
+print("1) the same overall mean is not enough")
+print(summary[["event_id", "overall_mean"]])
+print()
+print("2) segment-level differences remain")
+print(
+    summary[
+        [
+            "event_id",
+            "early_flow_mean",
+            "mid_flow_mean",
+            "late_flow_mean",
+            "mid_minus_early",
+            "late_minus_mid",
+        ]
+    ]
+)
+print()
+print("3) one-line pattern interpretation")
+print(summary[["event_id", "pattern_note"]])
 ```
 
 예상 출력:
 
 ```text
-  event_id  early_flow_mean  mid_flow_mean  late_flow_mean  overall_mean
-0        A              1.8            2.8             2.6           2.4
-1        B              2.4            2.4             2.4           2.4
+1) the same overall mean is not enough
+  event_id  overall_mean
+0        A           2.4
+1        B           2.4
+
+2) segment-level differences remain
+  event_id  early_flow_mean  mid_flow_mean  late_flow_mean  mid_minus_early  late_minus_mid
+0        A              1.8            2.8             2.6              1.0            -0.2
+1        B              2.4            2.4             2.4              0.0             0.0
+
+3) one-line pattern interpretation
+  event_id               pattern_note
+0        A  mid peak then slight drop
+1        B       flat across segments
 ```
 
-두 동작의 `overall_mean`은 모두 2.4입니다. 하지만 A는 초반이 낮고 중반이 높으며 후반에 조금 내려갑니다. B는 세 구간이 모두 같습니다. 따라서 평균만 보면 같은 사례처럼 보이지만, 구간 평균을 함께 보면 서로 다른 동작 구조라는 점이 드러납니다.
+두 동작의 `overall_mean`은 모두 2.4입니다. 하지만 2단계를 보면 A는 `mid_minus_early=1.0`, `late_minus_mid=-0.2`로 중반 상승 뒤 후반 하강이 보이고, B는 두 값이 모두 0.0이라 구간 구조 변화가 없습니다. 3단계의 `pattern_note`는 이 차이를 한 문장으로 다시 접은 결과입니다. 따라서 평균만 보면 같은 사례처럼 보이지만, 구간 평균과 구간 차이를 함께 보면 서로 다른 동작 구조라는 점이 드러납니다.
 
 이 예제는 아래 순서로 읽으면 평균과 패턴의 차이가 더 분명해집니다.
 

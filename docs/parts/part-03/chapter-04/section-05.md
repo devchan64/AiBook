@@ -45,25 +45,23 @@ Part 3에서는 아직 엄밀한 표본추출 이론보다, 아래 네 가지를
 
 이 메모는 뒤에서 일반화를 증명하기 위한 것이 아니라, 지금 표가 무엇을 대표하고 무엇을 아직 대표하지 못하는지 먼저 드러내기 위한 것입니다.
 
-## 작은 예시로 보기
+## 작은 도식으로 보기
 
-| event_id | shift | load_mode | machine_id | maintenance_phase |
-| --- | --- | --- | --- | --- |
-| A | day | normal | M1 | stable |
-| B | day | normal | M1 | stable |
-| C | day | high | M1 | stable |
-| D | day | normal | M2 | stable |
-| E | night | normal | M1 | stable |
-| F | day | normal | M1 | after-maintenance |
+```mermaid
+flowchart TD
+    A[Current sample set]
+    A --> B[Mostly day shift]
+    A --> C[Mostly machine M1]
+    A --> D[Only one high-load case]
+    A --> E[Only one after-maintenance case]
 
-이 표는 얼핏 다양한 것처럼 보일 수 있습니다. 하지만 조금만 보면 편중이 드러납니다.
+    B --> F[Coverage is uneven]
+    C --> F
+    D --> F
+    E --> F
+```
 
-1. `day`가 대부분입니다.
-2. `M1`이 대부분입니다.
-3. `high` 부하는 한 건뿐입니다.
-4. `after-maintenance`는 한 건뿐입니다.
-
-즉 샘플 단위는 모두 `동작 1회`로 맞더라도, 전체 운영 범위를 고르게 대표한다고 보기는 어렵습니다.
+이 도식은 샘플 단위가 모두 `동작 1회`로 맞아도, 덮는 운영 범위는 한쪽으로 기울 수 있다는 점을 보여 줍니다. 즉 이 절의 예시는 원시 표 값을 많이 읽는 데 있지 않고, `어떤 조건이 과다대표되고 어떤 조건이 거의 비어 있는가`를 먼저 파악하는 데 있습니다.
 
 ## 왜 이 문제가 샘플 단위 다음에 와야 하는가
 
@@ -85,38 +83,52 @@ import pandas as pd
 
 samples = pd.DataFrame(
     [
-        {"event_id": "A", "shift": "day", "load_mode": "normal", "machine_id": "M1"},
-        {"event_id": "B", "shift": "day", "load_mode": "normal", "machine_id": "M1"},
-        {"event_id": "C", "shift": "day", "load_mode": "high", "machine_id": "M1"},
-        {"event_id": "D", "shift": "day", "load_mode": "normal", "machine_id": "M2"},
-        {"event_id": "E", "shift": "night", "load_mode": "normal", "machine_id": "M1"},
-        {"event_id": "F", "shift": "day", "load_mode": "normal", "machine_id": "M1"},
+        {"event_id": "A", "shift": "day", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "stable"},
+        {"event_id": "B", "shift": "day", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "stable"},
+        {"event_id": "C", "shift": "day", "load_mode": "high", "machine_id": "M1", "maintenance_phase": "stable"},
+        {"event_id": "D", "shift": "day", "load_mode": "normal", "machine_id": "M2", "maintenance_phase": "stable"},
+        {"event_id": "E", "shift": "night", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "stable"},
+        {"event_id": "F", "shift": "day", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "after-maintenance"},
     ]
 )
 
-print(samples["shift"].value_counts())
-print(samples["load_mode"].value_counts())
-print(samples["machine_id"].value_counts())
+coverage = pd.DataFrame(
+    [
+        {"scope": "shift", "most_seen": samples["shift"].value_counts().idxmax(), "count": samples["shift"].value_counts().max(), "least_seen": samples["shift"].value_counts().idxmin()},
+        {"scope": "load_mode", "most_seen": samples["load_mode"].value_counts().idxmax(), "count": samples["load_mode"].value_counts().max(), "least_seen": samples["load_mode"].value_counts().idxmin()},
+        {"scope": "machine_id", "most_seen": samples["machine_id"].value_counts().idxmax(), "count": samples["machine_id"].value_counts().max(), "least_seen": samples["machine_id"].value_counts().idxmin()},
+        {"scope": "maintenance_phase", "most_seen": samples["maintenance_phase"].value_counts().idxmax(), "count": samples["maintenance_phase"].value_counts().max(), "least_seen": samples["maintenance_phase"].value_counts().idxmin()},
+    ]
+)
+
+print("1) raw sample coverage table")
+print(samples)
+print()
+print("2) coverage summary")
+print(coverage)
 ```
 
 예상 출력:
 
 ```text
-shift
-day      5
-night    1
-Name: count, dtype: int64
-load_mode
-normal    5
-high      1
-Name: count, dtype: int64
-machine_id
-M1    5
-M2    1
-Name: count, dtype: int64
+1) raw sample coverage table
+  event_id  shift load_mode machine_id  maintenance_phase
+0        A    day    normal         M1             stable
+1        B    day    normal         M1             stable
+2        C    day      high         M1             stable
+3        D    day    normal         M2             stable
+4        E  night    normal         M1             stable
+5        F    day    normal         M1  after-maintenance
+
+2) coverage summary
+               scope most_seen  count         least_seen
+0              shift       day      5              night
+1          load_mode    normal      5               high
+2         machine_id        M1      5                 M2
+3  maintenance_phase    stable      5  after-maintenance
 ```
 
-이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다.
+이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 1단계에서는 실제로 어떤 조건 조합이 들어왔는지 보고, 2단계에서는 각 범위에서 무엇이 과다대표되고 무엇이 거의 보이지 않는지 바로 읽습니다. 이렇게 해야 `샘플 수는 6건인데도 왜 대표성은 약한가`를 숫자와 표 둘 다로 설명할 수 있습니다.
 
 ## 인계 직전의 마지막 판정
 

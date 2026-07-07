@@ -61,7 +61,7 @@ Chapter 3 앞 절까지 읽으면 독자는 이제 두 가지는 이해합니다
 
 이 정도만 적어도 질문이 어떤 표 구조를 요구하는지 윤곽이 생깁니다.
 
-## 작은 예시로 보기
+## 작은 도식으로 보기
 
 문제 상황: 질문이 바뀌면 첫 표 초안의 열 묶음도 함께 바뀐다는 점을 확인합니다.
 
@@ -71,13 +71,25 @@ Chapter 3 앞 절까지 읽으면 독자는 이제 두 가지는 이해합니다
 
 확인할 개념: 첫 표 초안은 완성된 열 이름 목록이 아니라, 질문이 요구하는 역할별 열 묶음을 먼저 드러내는 단계다
 
-| 질문 | 식별 열 초안 | 특징 후보 열 초안 | 비교 열 초안 | 결과 열 초안 |
-| --- | --- | --- | --- | --- |
-| 최근 동작 1회가 평소보다 더 흔들렸는가 | `event_id` | `flow_mean`, `flow_std`, `late_drop_rate` | `baseline_diff` | `review_needed` |
-| 최근 20건이 이전 200건보다 달라졌는가 | `window_id` | `recent_flow_mean`, `recent_variability` | `prior_200_baseline_diff` | `report_sentence` |
-| 나중에 맞힐 결과 후보를 만들 수 있는가 | `event_id` | `flow_mean`, `late_drop_rate`, `repeatability_score` | `baseline_diff` | `target_candidate` |
+```mermaid
+flowchart TD
+    A[Question: one event vs baseline?] --> A1[ID: event_id]
+    A1 --> A2[Features: flow_mean, flow_std, late_drop_rate]
+    A2 --> A3[Compare: baseline_diff]
+    A3 --> A4[Output: review_needed]
 
-이 예시의 핵심은 열 이름 자체보다 `질문이 달라지면 어느 열 묶음이 먼저 달라지는가`를 보는 데 있습니다. 동작 1회 비교에서는 `event_id`와 `review_needed`가 먼저 보이고, 최근 20건 비교에서는 `window_id`와 `report_sentence`가 더 자연스럽습니다. 반대로 나중의 학습 후보를 생각하면 결과 열이 `target_candidate`로 바뀝니다. 즉 첫 표 초안은 정답 표를 한 번에 완성하는 과정이 아니라, 질문이 요구하는 샘플 단위와 결과 방향을 먼저 드러내는 스케치입니다.
+    B[Question: recent 20 vs prior 200?] --> B1[ID: window_id]
+    B1 --> B2[Features: recent summaries]
+    B2 --> B3[Compare: prior_200_baseline_diff]
+    B3 --> B4[Output: report_sentence]
+
+    C[Question: define a future target?] --> C1[ID: event_id]
+    C1 --> C2[Features: flow_mean, late_drop_rate, repeatability_score]
+    C2 --> C3[Compare: baseline_diff]
+    C3 --> C4[Output: target_candidate]
+```
+
+이 예시의 핵심은 열 이름 목록보다 `질문이 달라지면 어느 열 묶음이 먼저 달라지는가`를 보는 데 있습니다. 동작 1회 비교에서는 `event_id`와 `review_needed`가 먼저 보이고, 최근 20건 비교에서는 `window_id`와 `report_sentence`가 더 자연스럽습니다. 반대로 나중의 학습 후보를 생각하면 결과 열이 `target_candidate`로 바뀝니다. 즉 첫 표 초안은 정답 표를 한 번에 완성하는 과정이 아니라, 질문이 요구하는 샘플 단위와 결과 방향을 먼저 드러내는 스케치입니다.
 
 ## 왜 이 절이 Chapter 4 앞에 필요한가
 

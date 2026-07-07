@@ -45,28 +45,43 @@
 작은 예시:
 
 ```python
+import pandas as pd
+
 follow_ups = {
     "A": ["review", "failure"],
     "B": ["review"],
     "C": [],
 }
 
+severity = {"none": 0, "review": 1, "warning": 2, "failure": 3}
+rows = []
 for event_id, events in follow_ups.items():
-    any_failure = int("failure" in events)
     first_event = events[0] if events else "none"
-    event_count = len(events)
-    print(event_id, any_failure, first_event, event_count)
+    worst_event = max(events, key=lambda name: severity[name]) if events else "none"
+    rows.append(
+        {
+            "event_id": event_id,
+            "any_failure": int("failure" in events),
+            "first_event": first_event,
+            "worst_event": worst_event,
+            "event_count": len(events),
+        }
+    )
+
+result = pd.DataFrame(rows)
+print(result)
 ```
 
 예상 출력:
 
 ```text
-A 1 review 2
-B 0 review 1
-C 0 none 0
+  event_id  any_failure first_event worst_event  event_count
+0        A            1      review     failure            2
+1        B            0      review      review            1
+2        C            0        none        none            0
 ```
 
-핵심 문장은 다음과 같습니다. `같은 샘플 뒤에 여러 후속 사건이 있다면, 어떤 규칙으로 하나의 결과 열에 접었는지 먼저 적어야 표 구조의 뜻이 흔들리지 않는다.`
+이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`는 `review`, `worst_event`는 `failure`, `event_count`는 2처럼 서로 다른 결과 열이 동시에 만들어질 수 있다는 점입니다. 즉 어떤 규칙으로 접었는지를 적지 않으면 같은 `A` 샘플도 표마다 다른 뜻으로 읽히게 됩니다. 핵심 문장은 다음과 같습니다. `같은 샘플 뒤에 여러 후속 사건이 있다면, 어떤 규칙으로 하나의 결과 열에 접었는지 먼저 적어야 표 구조의 뜻이 흔들리지 않는다.`
 
 ## 짧은 점검
 

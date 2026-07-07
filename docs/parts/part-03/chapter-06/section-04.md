@@ -90,27 +90,40 @@ summary = pd.DataFrame(
     ]
 )
 
-feature_cols = ["mid_flow_mean", "late_minus_early"]
-comparison_cols = ["baseline_mid_flow_mean"]
-target_candidate_cols = ["review_needed"]
-context_cols = ["event_id"]
+column_roles = pd.DataFrame(
+    [
+        {"column_name": "event_id", "role": "context", "used_as_model_input": "no"},
+        {"column_name": "mid_flow_mean", "role": "feature", "used_as_model_input": "yes"},
+        {"column_name": "late_minus_early", "role": "feature", "used_as_model_input": "yes"},
+        {"column_name": "baseline_mid_flow_mean", "role": "comparison", "used_as_model_input": "depends"},
+        {"column_name": "review_needed", "role": "target_candidate", "used_as_model_input": "no"},
+    ]
+)
 
-print("feature cols:", feature_cols)
-print("comparison cols:", comparison_cols)
-print("target candidate cols:", target_candidate_cols)
-print("context cols:", context_cols)
+print("1) mixed working table")
+print(summary)
+print()
+print("2) column roles")
+print(column_roles)
 ```
 
 예상 출력:
 
 ```text
-feature cols: ['mid_flow_mean', 'late_minus_early']
-comparison cols: ['baseline_mid_flow_mean']
-target candidate cols: ['review_needed']
-context cols: ['event_id']
+1) mixed working table
+  event_id  mid_flow_mean  late_minus_early  baseline_mid_flow_mean  review_needed
+0        A            2.4              -0.8                    3.05              1
+
+2) column roles
+             column_name              role used_as_model_input
+0               event_id           context                  no
+1          mid_flow_mean           feature                 yes
+2       late_minus_early           feature                 yes
+3  baseline_mid_flow_mean        comparison             depends
+4          review_needed  target_candidate                  no
 ```
 
-이 예시가 보여 주는 것은 대단한 분류 규칙이 아닙니다. 같은 요약 표 안의 열도 역할을 먼저 나누어 읽어야 한다는 점입니다.
+이 예시가 보여 주는 것은 대단한 분류 규칙이 아닙니다. 1단계처럼 하나의 작업 표 안에 여러 종류의 열이 잠시 함께 있을 수 있고, 2단계처럼 그 열을 역할별로 다시 읽어야 한다는 점이 핵심입니다. 특히 `baseline_mid_flow_mean`는 숫자 열이지만 먼저는 비교 열로 읽히고, `review_needed`는 숫자 열이지만 먼저는 결과 후보로 읽힌다는 점이 코드 결과에서 바로 보이게 해야 이 절의 질문과 맞닿습니다.
 
 ## 왜 Chapter 6에 이 절이 필요한가
 

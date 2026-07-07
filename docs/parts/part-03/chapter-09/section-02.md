@@ -49,34 +49,22 @@
 | B | -0.08 | low | 0 | 없음 |
 | C | -0.31 | high | 1 | 없음 |
 
-```python
-import pandas as pd
+## 작은 도식으로 보기
 
-report_table = pd.DataFrame(
-    [
-        {"event_id": "A", "diff": -0.35, "repeatability": "high", "review_needed": 1, "cause_label": None},
-        {"event_id": "B", "diff": -0.08, "repeatability": "low", "review_needed": 0, "cause_label": None},
-        {"event_id": "C", "diff": -0.31, "repeatability": "high", "review_needed": 1, "cause_label": None},
-    ]
-)
+```mermaid
+flowchart TD
+    A[Operational question]
+    A --> B{Need to show what changed first?}
+    B -->|Yes| C[Keep compare report]
+    B -->|No| D{Have stable target labels?}
+    D -->|No| C
+    D -->|Yes| E[Consider prediction task]
 
-print(report_table)
-print("review label count:", report_table["review_needed"].notna().sum())
-print("cause label count:", report_table["cause_label"].notna().sum())
+    C --> F[Review queue can still follow]
+    E --> G[Prediction becomes reasonable]
 ```
 
-예상 출력:
-
-```text
-  event_id  diff repeatability  review_needed cause_label
-0        A -0.35          high              1        None
-1        B -0.08           low              0        None
-2        C -0.31          high              1        None
-review label count: 3
-cause label count: 0
-```
-
-이 출력에서는 `review_needed`는 모두 있지만 `cause_label`은 하나도 없습니다. 이런 상황에서는 검토 우선순위 리포트는 만들 수 있어도, 원인 예측 모델은 아직 바로 만들기 어렵습니다. 따라서 비교 리포트는 예측 모델의 실패 대안이 아니라, 데이터와 라벨 상태에 맞는 올바른 산출물일 수 있습니다.
+이 도식은 비교 리포트가 예측을 못 해서 잠깐 머무는 단계가 아니라, 어떤 질문에서는 끝까지 더 맞는 산출물일 수 있다는 점을 보여 줍니다. 먼저 필요한 것이 `무엇이 달라졌는가`를 보여 주는 일이라면 비교 리포트가 자연스럽고, 안정된 목표 라벨이 있을 때만 예측 문제로 넘어갑니다.
 
 여기서 한 걸음 더 나가면 `모델링 사다리` 관점도 보입니다. 비교 리포트와 규칙 기반 검토 큐(review queue)로 시작하고, 라벨이 쌓이면 `review_needed` 예측으로 넘어가며, 그보다 더 안정된 라벨이 생기면 원인 분류나 더 복잡한 모델을 검토할 수 있습니다. 즉 좋은 데이터 모델링은 처음부터 가장 복잡한 문제를 세우는 일이 아니라, 현재 데이터 상태에 맞는 문제를 정직하게 고르는 일입니다.
 

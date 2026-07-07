@@ -89,15 +89,24 @@ print("1) raw table")
 print(table)
 print()
 
-print("2) quick reading memo")
-print("- row meaning: one measurement at one elapsed time")
-print("- group key: event_id")
-print("- time/order column: elapsed_seconds")
-print("- direct sample comparison: not ready")
+row_check = pd.DataFrame(
+    [
+        {"check_item": "row_count", "value": len(table)},
+        {"check_item": "event_id_count", "value": table["event_id"].nunique()},
+        {"check_item": "has_time_order", "value": "yes"},
+    ]
+)
+print("2) quick structural check")
+print(row_check)
+print()
+
+rows_per_event = table.groupby("event_id", as_index=False).size().rename(columns={"size": "row_count"})
+print("3) repeated rows per event")
+print(rows_per_event)
 print()
 
 wrong_reading = table[["event_id", "elapsed_seconds", "flow"]]
-print("3) if we compare rows as if each row were a sample")
+print("4) if we compare rows as if each row were a sample")
 print(wrong_reading)
 print()
 
@@ -109,7 +118,7 @@ event_summary = (
         peak_pressure=("pressure", "max"),
     )
 )
-print("4) after regrouping into one row per event")
+print("5) after regrouping into one row per event")
 print(event_summary)
 ```
 
@@ -124,13 +133,18 @@ print(event_summary)
 3        B                0   0.7       1.1
 4        B                1   0.8       1.2
 
-2) quick reading memo
-- row meaning: one measurement at one elapsed time
-- group key: event_id
-- time/order column: elapsed_seconds
-- direct sample comparison: not ready
+2) quick structural check
+      check_item  value
+0      row_count      5
+1  event_id_count      2
+2  has_time_order    yes
 
-3) if we compare rows as if each row were a sample
+3) repeated rows per event
+  event_id  row_count
+0        A          3
+1        B          2
+
+4) if we compare rows as if each row were a sample
   event_id  elapsed_seconds  flow
 0        A                0   0.8
 1        A                1   1.5
@@ -138,13 +152,13 @@ print(event_summary)
 3        B                0   0.7
 4        B                1   0.8
 
-4) after regrouping into one row per event
+5) after regrouping into one row per event
   event_id  duration_seconds  mean_flow  peak_pressure
 0        A                 2   1.066667            2.0
 1        B                 1   0.750000            1.2
 ```
 
-이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 그 두 열을 먼저 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있다는 점이 중요합니다. 그래서 3단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 4단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
+이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 2단계와 3단계에서 먼저 보이는 것은 `행 수 5`보다 `event_id 수 2`가 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 4단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 5단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
 
 ## 이 절이 왜 Chapter 3 앞에 필요한가
 

@@ -59,7 +59,7 @@ Chapter 8 앞 절까지 읽으면 비교표를 보수적으로 읽고, 원인 �
 
 즉 문장은 강도를 정리해 주지만, 실제 운영 열과 정책으로 갈 때는 한 번 더 구조화가 필요합니다.
 
-## 작은 예시로 보기
+## 비교 표로 먼저 보기
 
 | event_id | diff | repeatability | conservative_sentence |
 | --- | ---: | --- | --- |
@@ -75,35 +75,27 @@ Chapter 8 앞 절까지 읽으면 비교표를 보수적으로 읽고, 원인 �
 
 이 두 표가 함께 필요한 이유는 첫 번째 표가 `왜 그렇게 판단했는가`를 남기고, 두 번째 표가 `운영에서 다시 쓸 수 있는 형식`을 남기기 때문입니다.
 
-## 작은 코드 예시
+## 작은 도식으로 보기
 
-```python
-cases = [
-    {"event_id": "A", "diff": -0.35, "repeatability": "high"},
-    {"event_id": "B", "diff": -0.35, "repeatability": "low"},
-]
+```mermaid
+flowchart TD
+    A[Comparison result<br/>diff, repeatability, recent count]
+    A --> B1[Case A<br/>repeatable change<br/>enough observations]
+    A --> B2[Case B<br/>same diff<br/>few observations]
 
-for item in cases:
-    if item["repeatability"] == "high":
-        warning_level = "caution"
-        review_needed = 1
-        priority_score = 0.82
-    else:
-        warning_level = "watch"
-        review_needed = 0
-        priority_score = 0.41
+    B1 --> C1[Conservative sentence<br/>raise review priority<br/>hold cause claim]
+    B2 --> C2[Conservative sentence<br/>need more observation]
 
-    print(item["event_id"], warning_level, review_needed, priority_score)
+    C1 --> D1[warning_level = caution]
+    C1 --> D2[review_needed = 1]
+    C1 --> D3[priority_score = high]
+
+    C2 --> E1[warning_level = watch]
+    C2 --> E2[review_needed = 0]
+    C2 --> E3[priority_score = lower]
 ```
 
-예상 출력:
-
-```text
-A caution 1 0.82
-B watch 0 0.41
-```
-
-이 예시는 아주 단순하지만, 해석 강도 차이가 어떻게 운영 열 차이로 바뀌는지 보여 줍니다.
+이 도식은 같은 차이값이라도 바로 같은 운영 열로 넘어가지 않는다는 점을 보여 줍니다. 먼저 비교 결과를 읽고, 그다음 사람 문장으로 해석 강도를 조절한 뒤에야 `warning_level`, `review_needed`, `priority_score` 같은 운영 열로 압축됩니다. 즉 이 절의 중심은 계산 자체가 아니라 `숫자 -> 문장 -> 운영 열`로 내려가는 판단 구조입니다.
 
 ## 왜 Chapter 9 앞에 있어야 하는가
 

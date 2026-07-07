@@ -116,14 +116,15 @@ unit_check = pd.DataFrame(
     ]
 )
 
-print("1) measurement rows:", len(raw))
-print("2) event samples:", len(event_summary))
-print("3) window aggregates:", len(window_summary))
+print("1) count rows under each candidate unit")
+print("measurement rows:", len(raw))
+print("event samples:", len(event_summary))
+print("window aggregates:", len(window_summary))
 print()
-print("raw rows per event")
+print("2) raw rows still mean per-time-step records")
 print(raw.groupby("event_id").size().reset_index(name="measurement_rows"))
 print()
-print("event summary")
+print("3) event-level summaries can hold comparison features and labels")
 print(
     event_summary[
         [
@@ -137,38 +138,39 @@ print(
     ]
 )
 print()
-print("window summary")
+print("4) window-level aggregates are for broader comparison, not single-sample judgment")
 print(window_summary)
 print()
-print("unit check")
+print("5) unit check for comparable-sample suitability")
 print(unit_check)
 ```
 
 예상 출력:
 
 ```text
-1) measurement rows: 9
-2) event samples: 3
-3) window aggregates: 2
+1) count rows under each candidate unit
+measurement rows: 9
+event samples: 3
+window aggregates: 2
 
-raw rows per event
+2) raw rows still mean per-time-step records
   event_id  measurement_rows
 0        A                 3
 1        B                 3
 2        C                 3
 
-event summary
+3) event-level summaries can hold comparison features and labels
   event_id  total_duration_seconds  pressure_mean  pressure_rise  flow_mean  review_needed
 0        A                       2       1.800000            1.4   1.000000              1
 1        B                       2       1.600000            0.9   0.766667              0
 2        C                       2       2.066667            1.5   1.133333              1
 
-window summary
+4) window-level aggregates are for broader comparison, not single-sample judgment
   window_name  event_count  pressure_mean  flow_mean
 0    baseline            1       1.600000   0.766667
 1      recent            2       1.933333   1.066667
 
-unit check
+5) unit check for comparable-sample suitability
          unit_name  sample_count can_use_pressure_rise label_attaches_naturally
 0  measurement_row             9                    no                      weak
 1            event             3                   yes                       yes

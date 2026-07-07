@@ -58,7 +58,7 @@ Chapter 8 앞 절까지 읽으면 이제 독자는 여러 비교 열을 보게 �
 
 즉 우선순위 후보는 설명을 버리는 것이 아니라, 문장을 다시 `판단 축`으로 압축한 결과입니다.
 
-## 작은 예시로 보기
+## 비교 표로 먼저 보기
 
 | event_id | diff_mean | repeatability_score | recent_count | safety_related |
 | --- | ---: | ---: | ---: | --- |
@@ -76,32 +76,25 @@ Chapter 8 앞 절까지 읽으면 이제 독자는 여러 비교 열을 보게 �
 
 이제야 왜 A가 가장 먼저 오고, B는 차이값이 커도 한 단계 아래로 내려갈 수 있는지 설명이 됩니다.
 
-## 아주 단순한 코드 예시
+## 작은 도식으로 보기
 
-```python
-cases = [
-    {"event_id": "A", "diff_mean": -0.35, "repeatability_score": 4, "recent_count": 20, "safety_related": True},
-    {"event_id": "B", "diff_mean": -0.35, "repeatability_score": 1, "recent_count": 3, "safety_related": False},
-    {"event_id": "C", "diff_mean": -0.18, "repeatability_score": 4, "recent_count": 18, "safety_related": True},
-]
+```mermaid
+flowchart TD
+    A[Many comparison columns]
+    A --> B1[Change magnitude]
+    A --> B2[Repeatability]
+    A --> B3[Interpretation confidence]
+    A --> B4[Operational importance]
 
-for item in cases:
-    change_strength = "high" if abs(item["diff_mean"]) >= 0.3 else "medium"
-    repeatability = "high" if item["repeatability_score"] >= 3 else "low"
-    confidence = "high" if item["recent_count"] >= 10 else "low"
-    importance = "high" if item["safety_related"] else "normal"
-    print(item["event_id"], change_strength, repeatability, confidence, importance)
+    B1 --> C[Priority candidate]
+    B2 --> C
+    B3 --> C
+    B4 --> C
+
+    C --> D[Review queue or structured output]
 ```
 
-예상 출력:
-
-```text
-A high high high high
-B high low low normal
-C medium high high high
-```
-
-이 예시는 완성된 점수 규칙을 만들자는 뜻이 아닙니다. 여러 비교 열을 바로 합치기 전에, 어떤 축으로 다시 묶어 읽는지가 먼저 필요하다는 점을 보여 줍니다.
+이 도식은 여러 열을 곧바로 점수 하나로 합치는 것이 아니라, 먼저 `무슨 판단 축인가`로 다시 묶어야 한다는 점을 보여 줍니다. 즉 이 절의 핵심은 규칙 구현보다 `비교 열 -> 판단 축 -> 검토 후보`의 압축 구조를 보는 데 있습니다.
 
 ## 왜 이 절이 Chapter 9 앞에 필요한가
 

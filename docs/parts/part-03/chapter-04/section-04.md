@@ -65,28 +65,83 @@ raw = pd.DataFrame(
         {"event_id": "A", "second": 0, "flow": 0.5, "review_needed": 1},
         {"event_id": "A", "second": 1, "flow": 1.8, "review_needed": 1},
         {"event_id": "A", "second": 2, "flow": 1.1, "review_needed": 1},
+        {"event_id": "B", "second": 0, "flow": 0.4, "review_needed": 0},
+        {"event_id": "B", "second": 1, "flow": 1.1, "review_needed": 0},
+        {"event_id": "B", "second": 2, "flow": 1.0, "review_needed": 0},
     ]
 )
 
+label_repetition = raw.groupby("event_id", as_index=False).agg(
+    row_count=("second", "count"),
+    review_needed_sum=("review_needed", "sum"),
+)
+
+event_summary = raw.groupby("event_id", as_index=False).agg(
+    duration_seconds=("second", "max"),
+    flow_mean=("flow", "mean"),
+    review_needed=("review_needed", "max"),
+)
+
+warning_check = pd.DataFrame(
+    [
+        {
+            "warning_sign": "same event repeated across many rows",
+            "seen_in_output": "yes" if label_repetition["row_count"].max() > 1 else "no",
+        },
+        {
+            "warning_sign": "same label repeated within one event",
+            "seen_in_output": "yes" if label_repetition["review_needed_sum"].max() > 1 else "no",
+        },
+        {
+            "warning_sign": "event-level features appear only after regrouping",
+            "seen_in_output": "yes" if "duration_seconds" in event_summary.columns else "no",
+        },
+    ]
+)
+
+print("1) row-level table")
 print(raw)
-print("warning sign 1: one event_id appears on many rows")
-print("warning sign 2: the same review label repeats on every row")
-print("warning sign 3: a feature like duration_seconds is not directly visible per row")
+print()
+print("2) repeated rows and repeated labels per event")
+print(label_repetition)
+print()
+print("3) event-level summary that appears only after regrouping")
+print(event_summary)
+print()
+print("4) warning check")
+print(warning_check)
 ```
 
 예상 출력:
 
 ```text
+1) row-level table
   event_id  second  flow  review_needed
 0        A       0   0.5              1
 1        A       1   1.8              1
 2        A       2   1.1              1
-warning sign 1: one event_id appears on many rows
-warning sign 2: the same review label repeats on every row
-warning sign 3: a feature like duration_seconds is not directly visible per row
+3        B       0   0.4              0
+4        B       1   1.1              0
+5        B       2   1.0              0
+
+2) repeated rows and repeated labels per event
+  event_id  row_count  review_needed_sum
+0        A          3                  3
+1        B          3                  0
+
+3) event-level summary that appears only after regrouping
+  event_id  duration_seconds  flow_mean  review_needed
+0        A                 2   1.133333              1
+1        B                 2   0.833333              0
+
+4) warning check
+                                  warning_sign seen_in_output
+0           same event repeated across many rows            yes
+1              same label repeated within one event            yes
+2  event-level features appear only after regrouping            yes
 ```
 
-이 예시의 핵심은 계산 결과가 아니라 `경고 신호를 보는 순서`입니다. 같은 `event_id` 반복, 같은 라벨 반복, 동작 전체 특징의 부재가 함께 보이면 시점별 줄을 샘플로 읽고 있지 않은지 다시 확인해야 합니다.
+이 예시의 핵심은 계산 결과가 아니라 `경고 신호가 실제로 어디서 보이는가`입니다. 2단계에서는 같은 `event_id`가 여러 줄 반복되고, `review_needed`가 한 동작 안에서 그대로 복사되어 있다는 점이 드러납니다. 3단계에서는 `duration_seconds`, `flow_mean` 같은 동작 단위 특징이 원시 행에는 없고 재묶은 뒤에야 나타난다는 점이 보입니다. 그래서 4단계의 경고 표는 별도 판단을 새로 만드는 것이 아니라, 앞 출력에서 이미 보인 신호를 다시 묶어 준 것입니다.
 
 ## 샘플 단위 오판을 줄이는 짧은 점검 순서
 

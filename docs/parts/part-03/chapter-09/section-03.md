@@ -75,42 +75,31 @@
 
 이 순서가 중요한 이유는 세 표가 서로 대체재가 아니기 때문입니다. 비교 리포트 없이 검토 후보 큐를 만들면 왜 그 사례가 올라왔는지 설명이 약해집니다. 검토 후보 큐 없이 목표 라벨 후보 표만 만들면 운영상 왜 이 문제가 중요했는지가 빠질 수 있습니다. 반대로 목표 라벨 후보 표 없이 검토 큐만 있으면 Part 4로 넘길 입력과 결과를 분리하기 어렵습니다.
 
-아래 작은 코드 예시는 같은 사건 목록에서 세 산출물의 열 구성이 어떻게 달라지는지 보여 줍니다.
+아래 도식은 같은 사건 목록이 세 산출물로 어떻게 갈라지는지 보여 줍니다.
 
-```python
-import pandas as pd
+```mermaid
+flowchart TD
+    A[Same event list<br/>baseline difference<br/>repeatability<br/>operator context]
 
-events = pd.DataFrame(
-    [
-        {"event_id": "A", "baseline_mean": 2.6, "current_mean": 2.2, "diff": -0.4, "repeatability": "high", "review_needed": 1},
-        {"event_id": "B", "baseline_mean": 2.5, "current_mean": 2.4, "diff": -0.1, "repeatability": "low", "review_needed": 0},
-        {"event_id": "C", "baseline_mean": 2.7, "current_mean": 2.1, "diff": -0.6, "repeatability": "high", "review_needed": 1},
-    ]
-)
+    A --> B[Report table<br/>show what changed]
+    A --> C[Review queue<br/>decide what to inspect first]
+    A --> D[Target-candidate table<br/>prepare inputs and result columns]
 
-report_cols = ["event_id", "baseline_mean", "current_mean", "diff", "repeatability"]
-queue_cols = ["event_id", "diff", "repeatability", "review_needed"]
-target_cols = ["diff", "review_needed"]
+    B --> B1[baseline_mean]
+    B --> B2[current_mean]
+    B --> B3[diff]
+    B --> B4[report sentence]
 
-print("report columns:", report_cols)
-print("queue columns:", queue_cols)
-print("target-ready columns:", target_cols)
-print(events[report_cols])
+    C --> C1[review_needed]
+    C --> C2[priority_score]
+    C --> C3[queue rank]
+
+    D --> D1[feature columns]
+    D --> D2[target candidate]
+    D --> D3[holdout columns]
 ```
 
-예상 출력:
-
-```text
-report columns: ['event_id', 'baseline_mean', 'current_mean', 'diff', 'repeatability']
-queue columns: ['event_id', 'diff', 'repeatability', 'review_needed']
-target-ready columns: ['diff', 'review_needed']
-  event_id  baseline_mean  current_mean  diff repeatability
-0        A            2.6           2.2  -0.4          high
-1        B            2.5           2.4  -0.1           low
-2        C            2.7           2.1  -0.6          high
-```
-
-이 예시에서 핵심은 행 수가 아니라 `열의 역할`이 달라진다는 점입니다. 비교 리포트는 기준선 비교를 설명하는 열이 많고, 검토 후보 큐는 우선순위 판단 열이 더 중요하며, 목표 라벨 후보 표는 학습 입력과 결과를 가르는 열만 남기게 됩니다.
+이 도식에서 먼저 봐야 할 것은 `한 표가 세 번 복제된다`가 아니라 `한 사건 목록이 세 질문에 맞게 다시 자른다`는 점입니다. 비교 리포트는 변화 설명을 남기고, 검토 후보 큐는 운영 우선순위를 남기고, 목표 라벨 후보 표는 Part 4로 넘길 입력과 결과 구분을 남깁니다. 즉 여기서는 코드로 열 목록을 찍는 것보다, 같은 출발점이 어떤 목적에 따라 세 갈래로 나뉘는지를 보는 편이 더 직접적입니다.
 
 ## 언제 무엇으로 멈춰야 하는가
 

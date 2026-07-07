@@ -79,46 +79,24 @@ Chapter 9를 읽다 보면 자주 다시 멈추는 지점이 있습니다. 비�
 
 즉 목표 라벨 후보 표는 완전히 `깨끗한 학습용 표`가 되기 전에도, 최소한의 근거를 따라갈 수 있는 구조를 잠시 유지하는 편이 안전합니다.
 
-## 작은 코드 예시
+## 작은 도식으로 보기
 
-```python
-import pandas as pd
+```mermaid
+flowchart TD
+    A[event_id = A]
 
-report_table = pd.DataFrame(
-    [
-        {"event_id": "A", "diff": -0.4, "report_sentence": "후반 구간 평균이 기준선보다 낮다"},
-        {"event_id": "B", "diff": -0.1, "report_sentence": "기준선과 큰 차이는 없다"},
-    ]
-)
+    A --> B[Report table<br/>diff<br/>report sentence]
+    A --> C[Review queue<br/>review_needed<br/>priority score]
+    A --> D[Target-candidate table<br/>late_drop_rate<br/>note_source]
 
-queue_table = pd.DataFrame(
-    [
-        {"event_id": "A", "review_needed": 1, "priority_score": 0.81},
-        {"event_id": "B", "review_needed": 0, "priority_score": 0.18},
-    ]
-)
+    B --> E[Trace back to comparison evidence]
+    C --> E
+    D --> E
 
-target_candidate_table = pd.DataFrame(
-    [
-        {"event_id": "A", "late_drop_rate": -0.4, "review_needed": 1},
-        {"event_id": "B", "late_drop_rate": -0.1, "review_needed": 0},
-    ]
-)
-
-print(report_table["event_id"].tolist())
-print(queue_table["event_id"].tolist())
-print(target_candidate_table["event_id"].tolist())
+    E[Why was A promoted?<br/>same sample identity<br/>retained evidence links]
 ```
 
-예상 출력:
-
-```text
-['A', 'B']
-['A', 'B']
-['A', 'B']
-```
-
-이 예시에서 중요한 것은 값이 아니라 같은 `event_id`가 세 표를 모두 관통한다는 점입니다. 표의 목적은 달라져도 추적 기준이 유지되어야 나중에 설명과 검증이 가능합니다.
+이 도식은 같은 `event_id`가 여러 표에 반복 등장한다는 사실보다, 그 반복이 왜 필요한지를 더 직접적으로 보여 줍니다. 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표가 서로 다른 목적을 가지더라도, 마지막에는 다시 `왜 A가 올라왔는가`를 설명할 수 있어야 합니다. 그래서 이 절의 중심은 병합 코드가 아니라 `같은 샘플 정체 + 남겨 둔 근거`가 추적 구조를 만든다는 점입니다.
 
 ## 왜 이 절이 Chapter 9 뒤 Part 연결 구간 앞에 필요한가
 

@@ -102,38 +102,40 @@ unit_summary = pd.DataFrame(
     ]
 )
 
+print("1) sample counts change with the chosen unit")
 print("row-level samples:", len(per_row))
 print("event-level samples:", len(per_event))
 print()
-print("row-level label repetition")
+print("2) row-level labels are repeated because the label belongs to the whole event")
 print(per_row.groupby("event_id", as_index=False)["review_needed"].sum())
 print()
-print("event-level features and labels")
+print("3) event-level features and labels line up on the same unit")
 print(per_event)
 print()
-print("unit summary")
+print("4) split stability differs by unit")
 print(unit_summary)
 ```
 
 예상 출력:
 
 ```text
+1) sample counts change with the chosen unit
 row-level samples: 9
 event-level samples: 3
 
-row-level label repetition
+2) row-level labels are repeated because the label belongs to the whole event
   event_id  review_needed
 0        A              3
 1        B              0
 2        C              3
 
-event-level features and labels
+3) event-level features and labels line up on the same unit
   event_id  flow_mean  flow_max  late_drop  review_needed
 0        A   1.133333       1.8        0.7              1
 1        B   0.833333       1.1        0.1              0
 2        C   1.266667       1.9        0.6              1
 
-unit summary
+4) split stability differs by unit
     unit  sample_count                    feature_example  label_rows train_events test_events
 0    row             9                 flow at one second           6        A,B,C       A,B,C
 1  event             3  flow_mean / flow_max / late_drop           2          A,B           C

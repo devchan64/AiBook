@@ -54,12 +54,13 @@ print(cases)
 예상 출력:
 
 ```text
+1) same diff, different sample size
        window_id  event_count  recent_mean  baseline_mean  diff
 0   small-sample            2         2.10            2.4  -0.3
 1   large-sample           20         2.10            2.4  -0.3
 ```
 
-두 경우의 차이값은 모두 `-0.3`입니다. 하지만 첫 번째는 2건, 두 번째는 20건에서 나온 값입니다. 따라서 숫자는 같아도 해석 강도는 같을 수 없습니다. 이처럼 표본 수는 단순 부가 정보가 아니라, 비교 결과를 얼마나 강하게 말할 수 있는지를 바꾸는 조건입니다.
+두 경우의 차이값은 모두 `-0.3`입니다. 하지만 이 예제의 목적은 `같은 diff라도 표본 수가 다르면 해석 강도는 달라진다`는 점을 먼저 확인하는 데 있습니다. 첫 번째는 2건, 두 번째는 20건에서 나온 값이므로, 숫자가 같아도 같은 문장으로 말할 수 없습니다. 즉 여기서 `event_count`는 부가 정보가 아니라 해석 강도를 바꾸는 조건입니다.
 
 반복성도 비슷하게 볼 수 있습니다.
 
@@ -72,18 +73,20 @@ repeatability = pd.DataFrame(
 )
 repeatability["repeatability_score"] = repeatability["direction_signals"].apply(sum)
 
+print("2) same direction scale, different repeatability")
 print(repeatability[["window_id", "repeatability_score"]])
 ```
 
 예상 출력:
 
 ```text
+2) same direction scale, different repeatability
         window_id  repeatability_score
 0     single-drop                   -1
 1   repeated-drop                   -4
 ```
 
-여기서는 단순히 방향 신호를 더한 아주 작은 예시지만, 한 번의 하락과 반복적 하락이 다른 의미를 가질 수 있다는 점은 분명히 보여 줍니다.
+이 예제의 목적은 반복성 축을 따로 보여 주는 데 있습니다. 한 번의 하락과 반복적 하락은 같은 변화 신호가 아니므로, 해석 강도도 같을 수 없습니다. 따라서 이 절의 두 코드는 각각 `표본 수 축`과 `반복성 축`을 따로 확인하는 예제로 읽어야 합니다.
 
 이 두 예제는 다음 순서로 연결됩니다.
 
