@@ -1,7 +1,7 @@
 # Section Release Note
 
-- Section ID: `P6-13.1`
-- Source File: `docs/parts/part-06/chapter-13/section-01.md`
+- Section ID: `P6-index`
+- Source File: `docs/parts/part-06/index.md`
 
 ### vYYYY.MM.DD
 
