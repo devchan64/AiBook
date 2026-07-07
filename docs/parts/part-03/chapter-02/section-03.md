@@ -3,13 +3,13 @@
 > Section ID: `P3-2.3`
 > Version: `v2026.07.07`
 
-Chapter 2 앞 절을 읽고 나면 원칙은 이해됩니다. 저장 구조와 문제 표현 구조는 다르고, 저장된 기록은 아직 데이터셋 후보일 뿐일 수 있습니다. 그런데 실제 작업으로 들어가면 다시 막히는 지점이 있습니다. `그러면 새 표를 처음 받았을 때 무엇부터 확인해야 하는가?` 이 질문 앞에서는 다시 모델 이름이나 특징 후보부터 떠올리기 쉽습니다. 그래서 이 절에서는 표를 처음 받을 때 가장 먼저 적어 두어야 할 관찰 항목을 고정합니다.
+Chapter 2 앞 절을 읽고 나면 원칙은 이해됩니다. 저장 구조와 문제 표현 구조는 다르고, 저장된 기록은 아직 데이터셋 후보일 뿐일 수 있습니다. 그런데 실제 작업으로 들어가면 다시 막히는 지점이 있습니다. `그러면 새 표를 처음 받았을 때 무엇부터 확인해야 하는가?` 이 질문 앞에서는 다시 모델 이름이나 특징 후보부터 떠올리기 쉽습니다. 그래서 이 절에서는 표를 처음 읽을 때 상위 원리를 놓치지 않도록, 작업용 관찰 메모의 축을 하나 정해 둡니다.
 
-새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하지 말고, 먼저 `이 표의 한 행은 무엇이고, 무엇을 묶을 수 있으며, 무엇이 아직 빠져 있는가`를 적어야 합니다. 이 세 가지가 정리되면 뒤의 샘플 설계와 데이터셋 재설계가 훨씬 쉬워집니다.
+새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하기보다, 먼저 `이 표의 한 행은 무엇이고, 무엇을 묶을 수 있으며, 무엇이 아직 빠져 있는가`를 메모해 두는 편이 해석에 도움이 됩니다. 이 세 가지가 정리되면 뒤의 샘플 설계와 데이터셋 재설계도 훨씬 덜 추상적으로 바뀝니다.
 
 ## 가장 먼저 적는 다섯 가지
 
-새 표를 처음 받으면 아래 다섯 가지를 먼저 적어 두는 편이 안전합니다.
+이 절에서는 아래 다섯 가지를 `새 표를 처음 읽을 때 빠르게 확인하는 작업용 메모`로 사용합니다. 이것이 어떤 표준 방법론의 고정 절차를 뜻하는 것은 아니고, `행 단위`, `묶음 기준`, `시간 구조`, `비교 가능성`, `원시 근거`라는 상위 질문을 놓치지 않기 위한 축약형입니다.
 
 1. 한 행은 무엇을 뜻하는가
 2. 같은 대상을 묶어 주는 식별자는 무엇인가
@@ -27,7 +27,7 @@ Chapter 2 앞 절을 읽고 나면 원칙은 이해됩니다. 저장 구조와 �
 | 비교 가능성 | 지금 바로 샘플 비교가 가능한지, 요약 표가 먼저 필요한지 결정해야 하기 때문 |
 | 원시 근거 위치 | 나중에 이상 사례를 다시 추적할 수 있어야 하기 때문 |
 
-이 항목들은 복잡한 데이터 프로파일링을 하자는 뜻이 아닙니다. Part 3 입구에서는 이 다섯 줄만 적어도 저장 구조와 문제 표현 구조를 훨씬 덜 섞어 읽게 됩니다.
+이 항목들은 복잡한 데이터 프로파일링 절차를 대신하자는 뜻이 아닙니다. Part 3 입구에서는 이 다섯 축만 먼저 적어도 저장 구조와 문제 표현 구조를 훨씬 덜 섞어 읽게 됩니다.
 
 ## 잘못된 시작과 더 나은 시작
 
@@ -42,7 +42,7 @@ Chapter 2 앞 절을 읽고 나면 원칙은 이해됩니다. 저장 구조와 �
 
 ## 아주 짧은 표 읽기 메모
 
-여기서는 아래처럼 다섯 줄 메모 형식으로 바로 적는 것이 가장 단순합니다.
+여기서는 아래처럼 다섯 줄 메모 형식으로 바로 적어 두면 앞 절의 상위 원리를 실제 표 읽기로 옮기기 쉽습니다.
 
 - 한 행은 `_____`를 뜻한다.
 - 같은 대상을 묶는 키는 `_____`다.
@@ -58,9 +58,17 @@ Chapter 2 앞 절을 읽고 나면 원칙은 이해됩니다. 저장 구조와 �
 - 지금 표는 바로 비교 가능한 샘플 표가 아니라 다시 묶어야 한다.
 - 이상 사례를 다시 확인할 원시 근거는 `event_id`별 원시 로그다.
 
-이 다섯 줄이 있으면 Chapter 3에서 `질문에 맞는 데이터셋을 다시 설계한다`는 말도 훨씬 덜 추상적으로 읽힙니다.
+이 다섯 줄 메모가 있으면 Chapter 3에서 `질문에 맞는 데이터셋을 다시 설계한다`는 말도 훨씬 덜 추상적으로 읽힙니다.
 
 ## 작은 예시로 보기
+
+문제 상황: 새 로그 표를 받았을 때, 이 표를 바로 샘플 비교 표로 읽어도 되는지 확인합니다.
+
+입력(input): `event_id`별 여러 시점 기록이 섞여 있는 원시 로그 표
+
+기대 출력(output): 같은 표라도 `행 의미`, `묶음 기준`, `시간/순서 열`을 먼저 확인해야 아직 바로 비교할 수 없는 표라는 점이 드러납니다.
+
+확인할 개념: 표를 처음 읽을 때는 계산보다 먼저 `이 행이 샘플 1건인가, 아니면 샘플의 일부 기록인가`를 확인해야 한다
 
 ```python
 import pandas as pd
@@ -69,30 +77,76 @@ table = pd.DataFrame(
     [
         {"event_id": "A", "elapsed_seconds": 0, "flow": 0.8, "pressure": 1.0},
         {"event_id": "A", "elapsed_seconds": 1, "flow": 1.5, "pressure": 2.0},
+        {"event_id": "A", "elapsed_seconds": 2, "flow": 0.9, "pressure": 1.4},
         {"event_id": "B", "elapsed_seconds": 0, "flow": 0.7, "pressure": 1.1},
+        {"event_id": "B", "elapsed_seconds": 1, "flow": 0.8, "pressure": 1.2},
     ]
 )
 
-print("columns:", table.columns.tolist())
-print("row meaning candidate: one measurement at one elapsed time")
-print("group key candidate: event_id")
-print("time/order column candidate: elapsed_seconds")
+print("1) raw table")
+print(table)
+print()
+
+print("2) quick reading memo")
+print("- row meaning: one measurement at one elapsed time")
+print("- group key: event_id")
+print("- time/order column: elapsed_seconds")
+print("- direct sample comparison: not ready")
+print()
+
+wrong_reading = table[["event_id", "elapsed_seconds", "flow"]]
+print("3) if we compare rows as if each row were a sample")
+print(wrong_reading)
+print()
+
+event_summary = (
+    table.groupby("event_id", as_index=False)
+    .agg(
+        duration_seconds=("elapsed_seconds", "max"),
+        mean_flow=("flow", "mean"),
+        peak_pressure=("pressure", "max"),
+    )
+)
+print("4) after regrouping into one row per event")
+print(event_summary)
 ```
 
 예상 출력:
 
 ```text
-columns: ['event_id', 'elapsed_seconds', 'flow', 'pressure']
-row meaning candidate: one measurement at one elapsed time
-group key candidate: event_id
-time/order column candidate: elapsed_seconds
+1) raw table
+  event_id  elapsed_seconds  flow  pressure
+0        A                0   0.8       1.0
+1        A                1   1.5       2.0
+2        A                2   0.9       1.4
+3        B                0   0.7       1.1
+4        B                1   0.8       1.2
+
+2) quick reading memo
+- row meaning: one measurement at one elapsed time
+- group key: event_id
+- time/order column: elapsed_seconds
+- direct sample comparison: not ready
+
+3) if we compare rows as if each row were a sample
+  event_id  elapsed_seconds  flow
+0        A                0   0.8
+1        A                1   1.5
+2        A                2   0.9
+3        B                0   0.7
+4        B                1   0.8
+
+4) after regrouping into one row per event
+  event_id  duration_seconds  mean_flow  peak_pressure
+0        A                 2   1.066667            2.0
+1        B                 1   0.750000            1.2
 ```
 
-이 예시의 핵심은 숫자 계산이 아니라, 표를 처음 읽을 때 어떤 칸을 먼저 봐야 하는지를 보여 주는 데 있습니다. `event_id`가 반복되고 `elapsed_seconds`가 있으면, 지금 표는 동작 1회 요약 표보다 시점 기록 표일 가능성이 더 큽니다. 그러면 바로 특징을 뽑기보다 먼저 동작 1회로 다시 묶을 준비를 해야 합니다.
+이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 그 두 열을 먼저 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있다는 점이 중요합니다. 그래서 3단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 4단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
 
 ## 이 절이 왜 Chapter 3 앞에 필요한가
 
-Chapter 3에서는 모델 이름을 늦추고 질문에 맞는 데이터셋을 다시 설계하는 법을 다룹니다. 그런데 그 전에 표를 읽는 최소 메모 습관이 없으면, `질문에 맞게 다시 설계한다`는 말도 여전히 추상적으로 남습니다. 그래서 Chapter 2 마지막에는 새 표를 받았을 때의 첫 점검 항목을 고정해 두는 편이 더 안전합니다.
+Chapter 3에서는 모델 이름을 늦추고 질문에 맞는 데이터셋을 다시 설계하는 법을 다룹니다. 그런데 그 전에 표를 읽는 최소 메모 축이 없으면, `질문에 맞게 다시 설계한다`는 말도 여전히 추상적으로 남습니다. 그래서 Chapter 2 마지막에는 새 표를 받을 때 바로 적용할 수 있는 작업용 점검 메모를 하나 두는 편이 더 자연스럽습니다.
 
 즉 이 절은 `저장 구조와 문제 표현 구조를 구분하는 개념`과 `질문에 맞게 데이터셋을 다시 만든다는 실행` 사이의 짧은 브리지입니다.
 
