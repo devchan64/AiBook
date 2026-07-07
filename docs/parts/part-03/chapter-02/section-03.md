@@ -7,6 +7,8 @@ Chapter 2 앞 절을 읽고 나면 원칙은 이해됩니다. 저장 구조와 �
 
 새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하기보다, 먼저 `이 표의 한 행은 무엇이고, 무엇을 묶을 수 있으며, 무엇이 아직 빠져 있는가`를 메모해 두는 편이 해석에 도움이 됩니다. 이 세 가지가 정리되면 뒤의 샘플 설계와 데이터셋 재설계도 훨씬 덜 추상적으로 바뀝니다.
 
+이 작업용 메모는 아무 표에나 붙는 독립 방법론이 아니라 몇 가지 더 넓은 원리를 실무 쪽으로 줄인 것입니다. `한 행은 무엇인가`라는 질문은 통계와 데이터 정리에서 말하는 `observation` 단위 확인과 이어지고, `무엇을 묶을 수 있는가`는 시간 데이터에서 `key`와 `index`를 먼저 드러내야 한다는 원리와 이어집니다. `원시 근거`를 남겨 두는 항목도 데이터 provenance와 traceability를 확보해야 나중에 품질과 신뢰성을 다시 판단할 수 있다는 원리에서 나왔습니다. Part 3의 다섯 줄 메모는 이런 상위 프레임을 표를 처음 읽을 때 바로 써먹을 수 있게 줄여 둔 형태입니다.
+
 ## 가장 먼저 적는 다섯 가지
 
 이 절에서는 아래 다섯 가지를 `새 표를 처음 읽을 때 빠르게 확인하는 작업용 메모`로 사용합니다. 이것이 어떤 표준 방법론의 고정 절차를 뜻하는 것은 아니고, `행 단위`, `묶음 기준`, `시간 구조`, `비교 가능성`, `원시 근거`라는 상위 질문을 놓치지 않기 위한 축약형입니다.
@@ -162,3 +164,10 @@ Chapter 3에서는 모델 이름을 늦추고 질문에 맞는 데이터셋을 �
 - 새 CSV나 로그 표를 처음 받았을 때 무엇부터 봐야 할지 막히면 이 절의 다섯 가지 점검 항목을 먼저 떠올립니다.
 - 평균, 최대값, 모델 이름부터 바로 떠오를 때 한 행의 뜻과 묶음 기준을 먼저 적어야 한다는 점을 다시 확인합니다.
 - 저장 구조와 문제 표현 구조를 실무에서 어떻게 구분해 읽기 시작해야 하는지 헷갈릴 때 이 절로 돌아옵니다.
+
+## 출처와 참고 자료
+
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* (2014). `each observation is a row`라는 tidy data 원리를 통해 `한 행이 무엇 1건인가`를 먼저 확인해야 하는 근거를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
+- Google for Developers, `Machine Learning Glossary`의 `feature`, `example` 항목. 머신러닝에서 example이 feature들로 구성되는 단위라는 점을 설명하므로, 원시 표의 한 행이 곧바로 모델 입력 단위인지 먼저 구분해야 한다는 근거로 읽을 수 있습니다. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
+- Earo Wang, Dianne Cook, Rob J Hyndman, `A new tidy data structure to support exploration and modeling of temporal data` (2019). 시간 데이터에서는 명시적인 시간 index와 개체를 구분하는 key가 필요하다고 설명하므로, `묶음 기준`과 `시간/순서 열`을 먼저 보는 근거가 됩니다. [https://arxiv.org/abs/1901.10257](https://arxiv.org/abs/1901.10257){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
+- W3C, `PROV-Overview` (2013). provenance를 데이터가 어떻게 만들어졌는지에 관한 정보로 설명하며, 품질과 신뢰성 판단에 쓰인다고 정리합니다. 이는 `이상 사례를 다시 확인할 원시 근거`를 남겨 두어야 한다는 항목의 상위 근거입니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
