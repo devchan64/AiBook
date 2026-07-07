@@ -1,13 +1,13 @@
-# Section 버전·릴리즈노트 관리
+# 본문 Section 버전·릴리즈노트 관리
 
 작성일: 2026-07-05
 
-이 디렉터리는 `management/release-notes/` 아래에서 Section 본문의 버전 코드와 개정 이력을 관리한다. 목적은 다음 세 가지다.
+이 디렉터리는 `management/release-notes/` 아래에서 책 본문 문서의 버전 코드와 개정 이력을 관리한다. 여기서 책 본문 문서는 Section 본문과 Part 시작/마무리 페이지를 뜻한다. 목적은 다음 세 가지다.
 
-- Section별 변경 이력을 따로 남겨 이후 회고, 검토, 번역 동기화에 재사용할 수 있게 한다.
+- Section별 변경 이력과 Part 진입/마무리 페이지 개정 이력을 남겨 이후 회고, 검토, 번역 동기화에 재사용할 수 있게 한다.
 - 다국어 본문이 생겼을 때 원문과 번역본의 대응 버전을 추적할 수 있게 한다.
 
-이 디렉터리의 파일은 `Section Release Note` 하나로만 관리한다. 별도의 체인지로그를 따로 두지 않는다.
+이 디렉터리의 파일은 책 본문 문서용 `Section Release Note`로만 관리한다. 별도의 체인지로그를 따로 두지 않는다.
 
 ## 기본 원칙
 
@@ -44,9 +44,12 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 
 - 파일은 `management/release-notes/sections/part-XX/` 아래에 둔다.
 - 파일명은 기본적으로 `Px-y.z.md` 형식을 사용한다.
+- Part 시작 페이지와 Part 마무리 페이지는 각각 `Px-index.md`, `Px-summary.md` 형식을 사용한다.
 - 예:
   - `management/release-notes/sections/part-05/P5-11.1.md`
   - `management/release-notes/sections/part-06/P6-15.2.md`
+  - `management/release-notes/sections/part-06/P6-index.md`
+  - `management/release-notes/sections/part-07/P7-summary.md`
 
 ## 릴리즈노트 항목 형식
 
@@ -78,8 +81,8 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 
 - Part별 하위 폴더는 `part-01`, `part-02`처럼 현재 책의 Part 번호와 일치시킨다.
 - 새 Part에서 처음 Section 릴리즈노트를 만들 때는 해당 Part 폴더를 먼저 만든다.
-- Part 시작 페이지와 Part 마무리 페이지는 현재 기본 릴리즈노트 대상이 아니며, Section 본문 수정이 우선 대상이다.
-- 다만 필요하면 Part 소개/요약 페이지도 별도 운영 규칙을 정한 뒤 같은 디렉터리 체계에 확장할 수 있다.
+- Part 시작 페이지와 Part 마무리 페이지도 현재 기본 릴리즈노트 대상에 포함한다.
+- 개요/마무리 페이지는 `Section ID` 대신 `P6-index`, `P6-summary`처럼 Part 단위 식별자를 사용해 추적한다.
 
 ## 번역본 대응 원칙
 
@@ -93,6 +96,6 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 
 ## 지금부터의 적용 범위
 
-- 이 규칙은 지금부터 수정하는 Section부터 적용한다.
-- 기존 Section 전체를 한 번에 소급 정리하지 않는다.
-- 다만 이미 손대는 Section이라면 버전 코드와 릴리즈노트를 함께 추가하는 것을 기본으로 한다.
+- 이 규칙은 지금부터 수정하는 Section과 Part 시작/마무리 페이지부터 적용한다.
+- 기존 본문 전체를 한 번에 소급 정리하지 않는다.
+- 다만 이미 손대는 Section이나 Part 개요/마무리 페이지라면 버전 코드와 릴리즈노트를 함께 추가하는 것을 기본으로 한다.
