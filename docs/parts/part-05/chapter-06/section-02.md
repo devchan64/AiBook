@@ -1,7 +1,7 @@
 # P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)
 
-> Section ID: `P5-6.2`
-> Version: `v2026.07.05`
+Section ID: `P5-6.2`
+Version: `v2026.07.07`
 
 P5-6.1에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 
@@ -11,9 +11,9 @@ P5-6.1에서는 학습(learning)과 모델 실행(inference)을 `파라미터를
 
 학습 모드(training mode)는 파라미터 업데이트를 준비하는 계산 환경이고, 평가 모드(evaluation mode)는 현재 모델을 안정적으로 측정하거나 사용하는 계산 환경이다.
 
-## 이 절의 범위
+mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode)와 [평가 모드(evaluation mode)](../../../reference/concept-glossary.md#evaluation-mode) 항목으로 돌아갑니다.
 
-이 절은 다음 질문에 답합니다.
+## 이 절의 범위
 
 - 학습 모드와 평가 모드는 왜 나뉘는가?
 - 모든 층이 아니라 어떤 층들이 모드 차이에 민감한가?
@@ -225,6 +225,17 @@ eval_run mean = 0.98
 
 즉, 이 절은 단순한 라이브러리 팁이 아니라, `딥러닝이 왜 단순 함수보다 운영 상태를 가진 시스템처럼 보이는가`를 설명하는 절입니다.
 
+## 언제 training/eval mode 차이를 따로 읽는가
+
+learning과 inference를 구분한 뒤에는 `같은 모델이라도 계산 규칙이 일부 달라질 수 있는가`를 따로 확인해야 합니다. 그 경계가 바로 training/eval mode입니다.
+
+| 먼저 보이는 문제 장면 | mode 차이를 따로 읽어야 하는 이유 | 바로 다음에 이어질 곳 |
+| --- | --- | --- |
+| 같은 입력인데 학습 중과 검증 중 결과 느낌이 다르다 | dropout과 batch normalization이 모드에 따라 다르게 동작할 수 있기 때문입니다. | optimizer가 어떤 상태에서 업데이트를 하는지 뒤 장에서 봅니다. |
+| 검증 점수가 들쭉날쭉해 보인다 | 평가 모드가 공정하고 안정적인 측정을 위해 필요하다는 점을 분명히 할 수 있습니다. | regularization과 normalization 의미를 뒤 절에서 더 봅니다. |
+| 배포 서비스에서 출력 흔들림이 커 보인다 | 학습용 확률적 동작을 서비스 실행에 그대로 두면 불안정해질 수 있기 때문입니다. | inference serving과 optimizer 분리를 이어서 읽습니다. |
+| dropout, batch normalization이 왜 특별 취급되는지 감이 없다 | 모드 차이에 민감한 층을 따로 구분해 읽을 수 있습니다. | 정규화·옵티마이저 장과 연결됩니다. |
+
 ## 다음 절과의 연결
 
 여기까지 오면 다음 질문이 남습니다.
@@ -240,12 +251,22 @@ eval_run mean = 0.98
 - 검증, 테스트, 배포에서는 같은 입력을 넣었을 때 흔들림이 줄어든 안정적 출력이 나오는지 확인하기 위해 평가 모드가 중요합니다.
 - 딥러닝 모델은 단순 함수라기보다, 학습 상태를 가진 계산 시스템으로 읽을 필요가 있습니다.
 
+## 짧은 점검
+
+- 왜 같은 모델이라도 training mode와 evaluation mode를 따로 두어야 하는지 설명할 수 있는가?
+- dropout과 batch normalization이 모드 차이에 민감한 대표 예라는 점을 말할 수 있는가?
+- 이 절 다음에는 gradient를 실제 업데이트 규칙으로 바꾸는 optimizer 장으로 넘어간다는 흐름을 이해했는가?
+
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- 같은 입력인데 학습 중과 검증 중 결과 느낌이 다를 때, training/evaluation mode 차이를 먼저 떠올립니다.
+- dropout과 batch normalization이 왜 특별 취급되는지 설명해야 할 때, 모드에 따라 계산이 실제로 달라진다는 점을 다시 봅니다.
+- 검증과 배포에서 출력 흔들림을 줄여야 할 때, 평가 모드가 안정적 기준을 제공한다는 관점을 꺼냅니다.
+
 ## 체크리스트
 
-- 학습 모드와 평가 모드를 왜 구분하는지 설명할 수 있는가?
-- dropout이 왜 학습 중과 평가 중에 다르게 동작해야 하는지 말할 수 있는가?
-- batch normalization이 왜 평가 모드에서 다른 기준을 쓸 수 있는지 설명할 수 있는가?
-- 다음 장의 optimizer가 어떤 자리에 들어오는지 연결할 수 있는가?
+- 학습 모드(training mode)와 평가 모드(evaluation mode)가 왜 다른 계산 규칙을 가질 수 있는지 설명할 수 있는가?
+- dropout이나 batch normalization에서 mode 구분이 왜 중요한지 말할 수 있는가?
 
 ## 출처와 참고 자료
 

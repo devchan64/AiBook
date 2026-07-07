@@ -1,19 +1,19 @@
-# 9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
+# P1-9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 봤습니다. 9.2에서는 객체 검출(object detection)과 음성 생성(speech generation)을 봤습니다.
 
 이제 이 사례들을 LLM(large language model)의 역사와 어떻게 연결해야 하는지 정리합니다.
 
-이 절의 핵심 질문은 AlexNet, YOLO, WaveNet 같은 사례가 LLM의 직접 조상인가, 아니면 딥러닝 패러다임이 넓어진 주변 근거인가입니다.
+여기서 던지는 핵심 질문은 AlexNet, YOLO, WaveNet 같은 사례가 LLM의 직접 조상인가, 아니면 딥러닝 패러다임이 넓어진 주변 근거인가입니다.
 
 > LLM의 직접 계보는 언어 모델링(language modeling), 순차 모델링(sequence modeling), Seq2Seq, Attention, Transformer 쪽에서 설명해야 한다. 이미지, 객체 검출, 음성 생성 사례는 직접 조상이 아니라 딥러닝 접근이 여러 분야에서 힘을 얻었다는 주변 근거로 두는 편이 안전하다.
 
-Part 1 안에서는 이 절을 `직접 계보(direct lineage)`, `주변 근거(surrounding evidence)`, `언어 모델링(language modeling)`, `Seq2Seq`, `Attention`, `Transformer`를 LLM 관점에서 구분하는 대표 상세 설명 위치로 사용합니다. 9.1과 9.2에서는 이미지, 검출, 음성 사례를 먼저 봤고, 여기서는 그 사례들이 `LLM의 직접 조상`이 아니라 `딥러닝 확산의 배경`임을 정리합니다. 이후의 직접 흐름은 Part 1 Chapter 11부터 Chapter 14, 그리고 Part 6에서 본격적으로 이어집니다.
+이 절에서는 `직접 계보(direct lineage)`, `주변 근거(surrounding evidence)`, `언어 모델링(language modeling)`, `Seq2Seq`, `Attention`, `Transformer`를 LLM 관점에서 구분합니다. 9.1과 9.2에서 본 이미지, 검출, 음성 사례는 `LLM의 직접 조상`이 아니라 `딥러닝 확산의 배경`으로 정리하고, 직접 흐름은 Chapter 11부터 Chapter 14, Part 6으로 넘깁니다.
 
-처음 읽을 때는 `직접 계보`, `주변 근거`, `언어 모델링`, `Attention`, `Transformer`가 모두 비슷한 역사 구분처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`직접 계보`, `주변 근거`, `언어 모델링`, `Attention`, `Transformer`는 초반에 모두 비슷한 역사 구분처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -24,21 +24,21 @@ Part 1 안에서는 이 절을 `직접 계보(direct lineage)`, `주변 근거(s
 | Attention | 필요한 입력 위치를 더 강하게 참고하는 구조 | Transformer 이전 핵심 전환 |
 | Transformer | Attention 중심의 순차 모델 구조 | 현대 LLM의 핵심 구조 계열 |
 
-처음 단계에서는 `LLM 직접 계보는 언어 모델링 쪽`, `AlexNet/YOLO/WaveNet은 주변 근거`, `Transformer는 핵심이지만 전부는 아님` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `LLM 직접 계보는 언어 모델링 쪽`, `AlexNet/YOLO/WaveNet은 주변 근거`, `Transformer는 핵심이지만 전부는 아님`입니다.
 
 이 절에는 한 가지 더 중요한 의도가 있습니다. 최근에는 AI라는 말을 곧바로 LLM이나 챗봇으로 이해하는 분위기가 강합니다. 여기서는 그 시각을 조심합니다. LLM은 현대 AI를 이해하는 데 매우 중요한 기술이지만, AI 전체를 LLM으로 환원하면 규칙 기반 AI, 탐색, 확률 모델, 컴퓨터 비전, 음성, 강화학습, 추천, 로보틱스 같은 다른 흐름이 가려집니다.
 
 ## 이 절의 범위
 
-이 절은 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 Part 1 Chapter 11부터 Chapter 14에서 먼저 개요를 잡고, Transformer의 구조적 기반은 Part 5에서, LLM 본류의 사전학습과 생성 흐름은 Part 6에서 더 자세히 다룹니다.
+여기서는 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 Part 1 Chapter 11부터 Chapter 14에서 먼저 개요를 잡고, Transformer의 구조적 기반은 Part 5에서, LLM 본류의 사전학습과 생성 흐름은 Part 6에서 더 자세히 다룹니다.
 
 여기서는 P1-9의 마무리로 두 가지 역할만 맡습니다.
 
 첫째, LLM의 직접 계보(direct lineage)를 언어 모델링(language modeling)과 순차 모델링(sequence modeling) 쪽에 놓습니다. 둘째, AI 전체를 LLM과 같은 뜻으로 줄여 말하지 않도록 경계를 둡니다.
 
-또한 토큰화(tokenization), 임베딩(embedding), 사전학습(pretraining)을 이 절에서 깊게 풀지는 않습니다. 이 절의 핵심은 세부 구조 설명이 아니라 `무엇이 직접 계보이고 무엇이 주변 근거인가`를 가르는 지도 만들기입니다.
+또한 토큰화(tokenization), 임베딩(embedding), 사전학습(pretraining)을 여기서 깊게 풀지는 않습니다. 여기서의 핵심은 세부 구조 설명이 아니라 `무엇이 직접 계보이고 무엇이 주변 근거인가`를 가르는 지도 만들기입니다.
 
-따라서 이 절의 범위는 다음 구분을 잡는 일입니다.
+따라서 여기서의 범위는 다음 구분을 잡는 일입니다.
 
 > 직접 계보:
 > 언어와 순차 데이터를 다루는 모델 구조와 학습 흐름
@@ -58,15 +58,15 @@ Part 1 안에서는 이 절을 `직접 계보(direct lineage)`, `주변 근거(s
 - Transformer를 중요한 전환점으로 보되, Transformer 하나만으로 LLM 전체 역사를 설명하지 않습니다.
 - Part 1 Chapter 11부터 Chapter 14, Part 5의 Transformer 기초, Part 6의 LLM 본류로 넘어가기 위한 지도를 만듭니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 LLM 역사 전체를 다루는 절이 아니라, 어떤 사례를 어디까지 연결해야 안전한지 정리하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 LLM 역사 전체보다 어떤 사례를 어디까지 연결해야 안전한지 정리합니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| LLM의 직접 계보는 언어 모델링과 순차 모델링 쪽에 있다는 점 | 이미지나 음성 사례를 바로 LLM 역사로 이어 붙이는 혼동을 막아 줍니다. | 단어, 문장, 순서 데이터를 다루는 흐름이 직접 계보다라고 이해하면 충분합니다. |
-| AlexNet, YOLO, WaveNet은 주변 근거라는 점 | 딥러닝 확산의 의미는 살리되 원인 관계를 과장하지 않게 해 줍니다. | 다른 분야에서도 딥러닝이 힘을 얻었다는 증거라고만 보면 충분합니다. |
-| AI 전체를 LLM으로 환원하면 다른 흐름이 가려진다는 점 | 이 책의 전체 지형도를 유지하는 핵심 경계입니다. | LLM은 큰 흐름 중 하나이지 AI 전체와 같은 말은 아니라고 이해하면 충분합니다. |
+| LLM의 직접 계보는 언어 모델링과 순차 모델링 쪽에 있다는 점 | 이미지나 음성 사례를 바로 LLM 역사로 이어 붙이는 혼동을 막아 줍니다. | 단어, 문장, 순서 데이터를 다루는 흐름이 직접 계보라고 이해하면 됩니다. |
+| AlexNet, YOLO, WaveNet은 주변 근거라는 점 | 딥러닝 확산의 의미는 살리되 원인 관계를 과장하지 않게 해 줍니다. | 다른 분야에서도 딥러닝이 힘을 얻었다는 증거라고 보면 됩니다. |
+| AI 전체를 LLM으로 환원하면 다른 흐름이 가려진다는 점 | 이 책의 전체 지형도를 유지하는 핵심 경계입니다. | LLM은 큰 흐름 중 하나이지 AI 전체와 같은 말은 아니라고 이해하면 됩니다. |
 
 ## 먼저 구분하기: 직접 계보와 주변 근거
 
@@ -133,7 +133,7 @@ LLM의 조상처럼 보이는 자료는 여럿 있습니다. 다만 모두 같�
 
 언어 모델링(language modeling)은 단어 또는 토큰의 순서를 확률적으로 다루는 문제입니다. Bengio 등은 통계적 언어 모델링(statistical language modeling)의 목표를 언어 안에서 단어열(word sequence)의 결합확률(joint probability)을 학습하는 것으로 설명했습니다. 이 논문은 동시에 단어의 분산 표현(distributed representation)을 학습해 차원의 저주(curse of dimensionality)를 줄이려는 방향을 제시했습니다.
 
-입문 단계에서는 다음처럼 이해하면 충분합니다.
+입문 단계의 기준선은 다음과 같습니다.
 
 > 언어 모델은 문장을 이해했다는 선언에서 출발하지 않는다.
 > 먼저 단어와 토큰의 순서가 얼마나 그럴듯한지,
@@ -161,7 +161,7 @@ Sutskever, Vinyals, Le의 Seq2Seq 논문은 LSTM(long short-term memory)이 일�
 
 Bahdanau, Cho, Bengio의 Attention 논문은 이 문제를 줄이기 위해 번역을 생성하는 각 시점마다 입력 문장의 관련 부분을 참고하는 구조를 제안했습니다. 논문은 decoder가 source sentence의 어떤 부분에 주의를 기울일지 결정한다고 설명합니다.
 
-입문 단계에서는 Attention을 다음처럼 볼 수 있습니다.
+Attention은 다음처럼 볼 수 있습니다.
 
 > 출력 단어를 만들 때마다
 > 입력 전체를 뭉뚱그려 기억하는 것이 아니라,
@@ -234,15 +234,15 @@ LLM의 역사를 설명할 때는 직접 계보와 주변 근거를 나눠야 �
 > 언어 모델링과 순차 모델링의 발전사에서 찾아야 한다.
 > 이미지, 음성, 객체 검출 사례는 딥러닝 패러다임이 확산된 배경으로 함께 읽는다.
 
-처음 읽은 뒤에는 아래 세 줄만 다시 말할 수 있어도 충분합니다.
+이 절을 읽은 뒤 최소한 아래 세 줄은 다시 말할 수 있어야 합니다.
 
-| 지금은 이 정도만 남기면 충분한 것 | 왜 이것만 먼저 남겨도 되는가 |
+| 남겨야 할 핵심 구분 | 왜 이 구분이 중요한가 |
 | --- | --- |
 | LLM의 직접 계보는 언어 모델링, Seq2Seq, Attention, Transformer 쪽에 있다 | 뒤의 LLM 설명을 이미지·음성 사례와 덜 섞어 읽게 해 주기 때문입니다. |
 | AlexNet, YOLO, WaveNet은 직접 조상보다 딥러닝 확산의 주변 근거에 가깝다 | 딥러닝의 넓은 성공과 LLM의 직접 역사 사이를 과장 없이 구분하게 해 주기 때문입니다. |
 | AI 전체를 LLM으로 환원하면 다른 흐름이 가려진다 | Part 1 전체 지형도를 유지한 채 Part 6의 LLM 본류로 넘어가게 해 주기 때문입니다. |
 
-## 체크리스트
+## 짧은 점검
 
 - 직접 계보(direct lineage)와 주변 근거(surrounding evidence)를 구분할 수 있다.
 - LLM의 직접 흐름을 언어 모델링(language modeling), Seq2Seq, Attention, Transformer 쪽에서 설명할 수 있다.
@@ -251,17 +251,27 @@ LLM의 역사를 설명할 때는 직접 계보와 주변 근거를 나눠야 �
 - 딥러닝 패러다임의 확산과 LLM의 직접 발전사를 함께 설명하되 혼동하지 않을 수 있다.
 - AI 전체를 LLM과 같은 뜻으로 쓰지 않을 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 현대 AI 이야기가 곧바로 LLM 이야기로 수축되거나, 반대로 모든 딥러닝 사례가 LLM의 직접 역사처럼 이어질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- AlexNet, YOLO, WaveNet 같은 사례를 어디까지 연결해야 하는지 정리해야 할 때
+- LLM의 직접 흐름을 언어 모델링(language modeling), Seq2Seq, Attention, Transformer 쪽에서 다시 세워야 할 때
+- AI 전체를 LLM으로 환원하지 않으면서도 LLM의 중요성은 유지하는 설명이 필요할 때
+
+이때는 먼저 `직접 계보`, `주변 근거`, `전체 AI 지형`을 나누면 됩니다. 그러면 이미지·음성 사례는 배경으로, 언어 모델링과 Transformer 계열은 직접 흐름으로 배치할 수 있어 이후 장과의 연결도 더 안정적입니다.
+
 ## 출처와 참고 자료
 
-- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://jmlr.org/papers/v3/bengio03a.html), Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781), arXiv, 2013, 확인 날짜: 2026-06-23.
-- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215), arXiv, 2014, 확인 날짜: 2026-06-23.
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473), arXiv, 2014, 확인 날짜: 2026-06-23.
-- Ashish Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), arXiv, 2017, 확인 날짜: 2026-06-23.
-- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365), arXiv, 2018, 확인 날짜: 2026-06-23.
-- Jeremy Howard, Sebastian Ruder, [Universal Language Model Fine-tuning for Text Classification](https://arxiv.org/abs/1801.06146), arXiv, 2018, 확인 날짜: 2026-06-23.
-- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf), OpenAI, 2018, 확인 날짜: 2026-06-23.
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805), arXiv, 2018, 확인 날짜: 2026-06-23.
-- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf), OpenAI, 2019, 확인 날짜: 2026-06-23.
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165), arXiv, 2020, 확인 날짜: 2026-06-23.
-- Yann LeCun, Yoshua Bengio, Geoffrey Hinton, [Deep learning](https://www.nature.com/articles/nature14539), Nature 521, 436-444, 2015-05-27, 확인 날짜: 2026-06-23.
+- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
+- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
+- Ashish Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-06-23.
+- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.
+- Jeremy Howard, Sebastian Ruder, [Universal Language Model Fine-tuning for Text Classification](https://arxiv.org/abs/1801.06146){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-06-23.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.
+- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2019, 확인 날짜: 2026-06-23.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
+- Yann LeCun, Yoshua Bengio, Geoffrey Hinton, [Deep learning](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }, Nature 521, 436-444, 2015-05-27, 확인 날짜: 2026-06-23.

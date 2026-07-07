@@ -1,7 +1,7 @@
-# 13.2 유사도 검색(similarity search)의 직관
+# P1-13.2 유사도 검색(similarity search)의 직관
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현한다는 뜻을 봤습니다. 텍스트를 벡터로 바꾸면 문장, 문단, 문서를 계산 가능한 위치로 놓을 수 있습니다.
 
@@ -11,13 +11,13 @@ P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현한다는 뜻을 봤
 
 여기서 핵심은 `정답을 찾는다`가 아니라 `관련 후보를 찾는다`입니다.
 
-Part 1 안에서는 이 절을 `유사도 검색(similarity search)`, `유사도(similarity)`, `거리(distance)`, `코사인 유사도(cosine similarity)`, `최근접 이웃(nearest neighbor)`, `상위 k개(top-k)`의 대표 상세 설명 위치로 사용합니다. 13.1에서는 텍스트를 벡터로 바꾸는 이유를 먼저 봤고, 여기서는 그 벡터들을 `어떻게 비교해 후보를 고르는가`를 다룹니다. RAG로의 연결은 13.3에서 다시 이어집니다.
+Part 1에서 `유사도 검색(similarity search)`, `유사도(similarity)`, `거리(distance)`, `코사인 유사도(cosine similarity)`, `최근접 이웃(nearest neighbor)`, `상위 k개(top-k)`의 기본 구분은 여기서 잡습니다. 13.1에서는 텍스트를 벡터로 바꾸는 이유를 먼저 봤고, 여기서는 그 벡터들을 `어떻게 비교해 후보를 고르는가`를 다룹니다. RAG로의 연결은 13.3에서 다시 이어집니다.
 
 ## 이 절의 범위
 
-이 절은 유사도 검색의 직관을 다룹니다. 벡터 데이터베이스(vector database), 인덱스(index), 근사 최근접 이웃(approximate nearest neighbor, ANN) 같은 구현 구조는 여기서 자세히 다루지 않고, P1-13.4에서 `왜 빠른 검색을 위해 별도 구조가 필요한가`라는 구현 직관으로 다시 연결합니다.
+여기서는 유사도 검색의 직관을 다룹니다. 벡터 데이터베이스(vector database), 인덱스(index), 근사 최근접 이웃(approximate nearest neighbor, ANN) 같은 구현 구조는 여기서 자세히 다루지 않고, P1-13.4에서 `왜 빠른 검색을 위해 별도 구조가 필요한가`라는 구현 직관으로 다시 연결합니다.
 
-처음 읽을 때는 `유사도`, `거리`, `코사인 유사도`, `최근접 이웃`, `top-k`가 모두 비슷한 검색 계산 말처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`유사도`, `거리`, `코사인 유사도`, `최근접 이웃`, `top-k`는 서로 다른 비교 기준과 결과 선택 방식입니다. 여기서는 각 용어의 역할을 먼저 다음처럼 구분합니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -28,13 +28,13 @@ Part 1 안에서는 이 절을 `유사도 검색(similarity search)`, `유사도
 | 최근접 이웃 | 가장 가까운 후보 | 검색 결과 선정의 기본 개념 |
 | 상위 k개 | 가까운 후보 여러 개를 가져오는 방식 | RAG 입력 후보 수를 정하는 방법 |
 
-처음 단계에서는 `유사도는 비슷함`, `거리는 가까움`, `top-k는 후보 여러 개` 정도로만 잡아도 충분합니다.
+여기서는 `유사도는 비슷함`, `거리는 가까움`, `top-k는 후보 여러 개`라는 구분을 기준선으로 둡니다.
 
 그래프(graph) 자료구조도 이 구현 단계에서 다시 등장할 수 있습니다. 하지만 P1-13.2를 이해하기 위해 그래프를 먼저 알아야 하는 것은 아닙니다. 그래프는 Part 2의 기초 복구에서 짧게 다루고, 벡터 검색 구현을 설명하는 후속 절에서 다시 연결하는 편이 자연스럽습니다.
 
 RAG(retrieval-augmented generation)는 P1-13.3에서 다룹니다. P1-13.2에서는 검색 결과를 LLM에 넣기 전, “가까운 벡터를 찾는다”는 단계에 집중합니다.
 
-또한 이 절은 검색 결과를 어떻게 프롬프트에 넣는지까지 설명하지 않습니다. 그 연결은 다음 절의 RAG에서 다루고, 여기서는 `후보 검색은 정답 판정과 다르다`는 점을 분명히 하는 데 집중합니다.
+또한 여기서는 검색 결과를 어떻게 프롬프트에 넣는지까지 설명하지 않습니다. 그 연결은 다음 절의 RAG에서 다루고, 여기서는 `후보 검색은 정답 판정과 다르다`는 점을 분명히 하는 데 집중합니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -51,15 +51,15 @@ RAG(retrieval-augmented generation)는 P1-13.3에서 다룹니다. P1-13.2에서
 - 검색 결과가 정답이 아니라 후보(candidate)임을 구분합니다.
 - P1-13.3의 RAG 흐름으로 넘어갈 준비를 합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 유사도 공식을 외우는 절이 아니라, 벡터 검색이 무엇을 비교하는지 이해하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 유사도 공식을 외우기보다, 벡터 검색이 무엇을 비교하는지 이해하는 데 집중합니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 유사도(similarity)는 완전히 같은지보다 얼마나 가까운지를 묻는다는 점 | 키워드 일치와 벡터 검색의 차이를 보여 줍니다. | 비슷한 표현을 가까운 이웃으로 찾는다고 이해하면 충분합니다. |
-| 거리(distance)와 방향(direction) 같은 관점이 함께 쓰일 수 있다는 점 | 벡터 비교가 단순 문자열 비교와 다르다는 점을 보여 줍니다. | 숫자 공간에서 가까움과 방향 유사성을 본다고 알면 충분합니다. |
-| 유사도가 높아도 항상 정답은 아니라는 점 | 검색 결과를 과신하지 않게 해 줍니다. | 비슷한 문서를 찾는 것과 정확한 답을 보장하는 것은 다르다고 이해하면 충분합니다. |
+| 유사도(similarity)는 완전히 같은지보다 얼마나 가까운지를 묻는다는 점 | 키워드 일치와 벡터 검색의 차이를 보여 줍니다. | 비슷한 표현을 가까운 이웃으로 찾는 과정으로 이해합니다. |
+| 거리(distance)와 방향(direction) 같은 관점이 함께 쓰일 수 있다는 점 | 벡터 비교가 단순 문자열 비교와 다르다는 점을 보여 줍니다. | 숫자 공간에서 가까움과 방향 유사성을 함께 본다고 이해합니다. |
+| 유사도가 높아도 항상 정답은 아니라는 점 | 검색 결과를 과신하지 않게 해 줍니다. | 비슷한 문서를 찾는 것과 정확한 답을 보장하는 것은 다르다고 이해합니다. |
 
 ## 검색은 질문과 가까운 후보를 찾는 일이다
 
@@ -91,7 +91,7 @@ P1-13.1에서 본 흐름을 다시 가져오겠습니다.
 
 유사도(similarity)는 두 벡터가 얼마나 비슷한지 보는 기준입니다. 거리(distance)는 두 벡터가 얼마나 떨어져 있는지 보는 기준입니다.
 
-입문 단계에서는 다음처럼 생각할 수 있습니다.
+여기서는 다음처럼 생각하면 됩니다.
 
 > 유사도 높음:
 > 서로 비슷한 위치 또는 방향에 있다.
@@ -116,7 +116,7 @@ P1-13.1에서 본 흐름을 다시 가져오겠습니다.
 
 텍스트 임베딩 검색에서 자주 나오는 표현이 코사인 유사도(cosine similarity)입니다. 여기서도 수식을 먼저 외울 필요는 없습니다.
 
-입문 단계에서는 이렇게 이해하면 됩니다.
+여기서는 이렇게 이해하면 됩니다.
 
 > 코사인 유사도(cosine similarity):
 > 두 벡터가 같은 방향을 향하는 정도를 보는 기준
@@ -216,7 +216,7 @@ Mikolov 등의 word2vec 연구에서도 벡터 공간에서 가까운 단어를 
 
 예를 들어 `환각`이라는 단어가 없는 문서라도 `근거 없는 생성`, `그럴듯한 오류`, `confabulation`을 설명하고 있다면 유사도 검색에서 후보가 될 수 있습니다. 반대로 같은 단어가 있어도 질문과 다른 맥락이면 좋은 후보가 아닐 수 있습니다.
 
-실제 시스템에서는 키워드 검색과 유사도 검색을 함께 쓰기도 합니다. 하지만 이 절에서는 두 방식을 자세히 비교하지 않습니다. 여기서 중요한 것은 벡터 검색이 단순 문자열 일치와 다른 기준으로 후보를 찾는다는 점입니다.
+실제 시스템에서는 키워드 검색과 유사도 검색을 함께 쓰기도 합니다. 하지만 여기서는 두 방식을 자세히 비교하지 않습니다. 중요한 것은 벡터 검색이 단순 문자열 일치와 다른 기준으로 후보를 찾는다는 점입니다.
 
 ## 이 절에서 기억할 관점
 
@@ -229,7 +229,17 @@ Mikolov 등의 word2vec 연구에서도 벡터 공간에서 가까운 단어를 
 
 이 관점을 잡으면 P1-13.3의 RAG를 과장하지 않고 이해할 수 있습니다. RAG는 검색된 후보를 LLM 입력에 넣는 구조이지만, 검색 결과의 품질과 검토 책임은 여전히 중요합니다.
 
-## 체크리스트
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 검색 결과를 바로 정답처럼 받아들이거나, 유사도 검색과 문자열 검색의 차이가 흐려질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 질문과 문서를 비교할 때 무엇이 `가깝다`는 뜻인지 다시 설명해야 할 때
+- 상위 k개(top-k) 후보를 왜 여러 개 가져오는지 정리해야 할 때
+- 검색된 문서가 관련 후보일 뿐 정답 보장은 아니라는 점을 다시 확인해야 할 때
+
+이때는 먼저 `벡터를 비교한다`, `가까운 후보를 고른다`, `후보는 다시 검토한다`를 나누면 됩니다. 그러면 RAG 앞단의 검색 단계를 과장하지 않고 설명할 수 있습니다.
+
+## 짧은 점검
 
 - 유사도 검색(similarity search)을 가까운 벡터 후보를 찾는 과정으로 설명할 수 있다.
 - 유사도(similarity)와 거리(distance)를 비교 기준으로 설명할 수 있다.
@@ -241,6 +251,6 @@ Mikolov 등의 word2vec 연구에서도 벡터 공간에서 가까운 단어를 
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html), Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781), arXiv, 2013, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546), arXiv, 2013, 확인 날짜: 2026-06-23.
+- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.

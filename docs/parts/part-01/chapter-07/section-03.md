@@ -1,7 +1,7 @@
-# 7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이
+# P1-7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 7.2에서는 휴리스틱(heuristic)을 가능한 후보를 모두 볼 수 없을 때, 먼저 볼 후보와 줄일 후보를 정하는 경험적 기준으로 봤습니다. 이제 비슷하게 보이지만 다른 개념을 분리합니다.
 
@@ -13,9 +13,9 @@
 
 > 휴리스틱은 탐색과 판단을 줄이는 기준이고, 확률 모델은 불확실성을 숫자로 표현하고 갱신하는 모델이다.
 
-Part 1 안에서는 이 절을 `휴리스틱 점수(heuristic score)`, `확률 모델(probabilistic model)`, `확률 추정값(probability estimate)`, `임계값(threshold)`, `보정(calibration)`의 대표 상세 설명 위치로 사용합니다. 7.2에서는 휴리스틱이 탐색 부담을 어떻게 줄이는지 먼저 봤고, 6.2와 6.3에서는 불확실성과 확률 숫자를 어떻게 읽는지 정리했습니다. 여기서는 그 흐름을 이어 받아 `점수`, `확률`, `운영 기준`을 같은 말처럼 읽지 않도록 경계를 분명히 합니다.
+Part 1에서 `휴리스틱 점수(heuristic score)`, `확률 모델(probabilistic model)`, `확률 추정값(probability estimate)`, `임계값(threshold)`, `보정(calibration)`의 기본 구분은 이 절에서 잡습니다. 7.2에서는 휴리스틱이 탐색 부담을 어떻게 줄이는지 먼저 봤고, 6.2와 6.3에서는 불확실성과 확률 숫자를 어떻게 읽는지 정리했습니다. 여기서는 그 흐름을 이어 받아 `점수`, `확률`, `운영 기준`을 같은 말처럼 읽지 않도록 경계를 분명히 합니다.
 
-처음 읽을 때는 `휴리스틱`, `확률 모델`, `점수`, `확률`, `임계값`, `보정`이 모두 숫자를 다루는 비슷한 장치처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`휴리스틱`, `확률 모델`, `점수`, `확률`, `임계값`, `보정`은 초반에 모두 숫자를 다루는 비슷한 장치처럼 들릴 수 있습니다. 아래처럼 자리만 짧게 구분해 둡니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -26,15 +26,15 @@ Part 1 안에서는 이 절을 `휴리스틱 점수(heuristic score)`, `확률 �
 | 임계값 | 출력을 행동으로 바꾸는 기준선 | 자동 처리, 보류, 사람 검토를 가르는 운영 기준 |
 | 보정 | 출력 숫자가 실제 빈도와 맞는지 확인하는 절차 | 점수와 확률을 혼동하지 않게 하는 검증 |
 
-처음 단계에서는 `휴리스틱은 탐색 축소`, `확률 모델은 불확실성 표현`, `임계값은 운영 기준`, `보정은 숫자 해석 검증` 정도로만 잡아도 충분합니다.
+여기서는 `휴리스틱은 탐색 축소`, `확률 모델은 불확실성 표현`, `임계값은 운영 기준`, `보정은 숫자 해석 검증`이라는 자리 구분을 유지합니다.
 
 ## 이 절의 범위
 
-이 절은 베이즈 규칙(Bayes' rule), 확률 분포(probability distribution), 조건부 확률(conditional probability)을 계산하지 않습니다. 수식은 Part 2와 Part 4에서 다시 다룹니다.
+여기서는 베이즈 규칙(Bayes' rule), 확률 분포(probability distribution), 조건부 확률(conditional probability)을 계산하지 않습니다. 수식은 Part 2와 Part 4에서 다시 다룹니다.
 
 또한 휴리스틱 자체를 다시 길게 정의하지는 않습니다. 휴리스틱의 기본 성격과 휴리스틱 함수(heuristic function)는 7.2에서 먼저 설명했고, 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)의 기본 구분은 6.2에서, 실제 시스템에서 확률 숫자를 읽는 법은 6.3에서 먼저 다뤘습니다.
 
-또한 이 절은 모든 휴리스틱을 나쁜 것으로 보거나, 모든 확률 모델을 더 과학적인 것으로 평가하지 않습니다. 둘은 서로 다른 역할을 맡는 도구입니다.
+또한 여기서는 모든 휴리스틱을 나쁜 것으로 보거나, 모든 확률 모델을 더 과학적인 것으로 평가하지 않습니다. 둘은 서로 다른 역할을 맡는 도구입니다.
 
 여기서는 다음 구분만 분명히 합니다.
 
@@ -50,15 +50,15 @@ Part 1 안에서는 이 절을 `휴리스틱 점수(heuristic score)`, `확률 �
 - “휴리스틱은 불확실성을 반영한다”라는 직관을 안전한 표현으로 바꿀 수 있습니다.
 - 휴리스틱과 확률 모델이 한 시스템 안에서 함께 쓰이는 방식을 설명할 수 있습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 둘 다 숫자를 쓸 수 있다는 이유로 섞이기 쉬운 개념을 분리하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 둘 다 숫자를 쓸 수 있다는 이유로 섞이기 쉬운 개념을 분리하는 데 목적을 둡니다. 아래 세 가지를 먼저 가릅니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 이해할 수준 |
 | --- | --- | --- |
-| 휴리스틱은 `어디를 먼저 볼지` 정하는 기준이라는 점 | 탐색 문제와 확률 문제를 분리해 읽게 해 줍니다. | 후보의 우선순위를 정하는 점수라고 보면 충분합니다. |
-| 확률 모델은 `얼마나 그럴듯한지`를 표현하는 구조라는 점 | 점수와 확률을 같은 뜻처럼 읽는 실수를 줄여 줍니다. | 숫자가 있어도 확률로 해석되려면 별도 정의가 필요하다고 알면 충분합니다. |
-| 임계값(threshold)은 모델 자체보다 운영 기준일 수 있다는 점 | 모델 출력과 서비스 정책을 구분하게 해 줍니다. | 0.8 이상 자동 처리 같은 규칙은 확률 모델 자체와 다르다고 이해하면 충분합니다. |
+| 휴리스틱은 `어디를 먼저 볼지` 정하는 기준이라는 점 | 탐색 문제와 확률 문제를 분리해 읽게 해 줍니다. | 후보의 우선순위를 정하는 점수라고 이해합니다. |
+| 확률 모델은 `얼마나 그럴듯한지`를 표현하는 구조라는 점 | 점수와 확률을 같은 뜻처럼 읽는 실수를 줄여 줍니다. | 숫자가 있어도 확률로 해석되려면 별도 정의가 필요하다고 봅니다. |
+| 임계값(threshold)은 모델 자체보다 운영 기준일 수 있다는 점 | 모델 출력과 서비스 정책을 구분하게 해 줍니다. | 0.8 이상 자동 처리 같은 규칙은 확률 모델 자체와 다르다고 이해합니다. |
 
 ## 한눈에 보기
 
@@ -73,7 +73,7 @@ Part 1 안에서는 이 절을 `휴리스틱 점수(heuristic score)`, `확률 �
 | 위험 | 좋은 후보를 일찍 버릴 수 있음 | 숫자를 과신하거나 보정되지 않은 확률을 믿을 수 있음 |
 | 검증 | 놓친 후보, 편향, 적용 조건 확인 | 보정(calibration), 데이터 분포, 실제 빈도 확인 |
 
-입문 단계에서는 이렇게 기억하면 됩니다.
+여기서는 이렇게 기억합니다.
 
 > 휴리스틱은 어디를 볼지 정한다.
 > 확률 모델은 얼마나 그럴듯한지 표현한다.
@@ -99,7 +99,7 @@ Part 1 안에서는 이 절을 `휴리스틱 점수(heuristic score)`, `확률 �
 | 확률 추정값(probability estimate) | 특정 클래스가 맞을 가능성을 확률처럼 출력 | 실제 빈도와 맞는지 calibration 확인 필요 |
 | 운영 기준(operation rule) | 0.80 이상이면 자동 처리 같은 임계값 | 비용, 위험, 책임을 함께 고려해야 함 |
 
-따라서 숫자를 볼 때는 먼저 물어야 합니다.
+따라서 숫자를 볼 때는 먼저 다음을 물어야 합니다.
 
 > 이 숫자는 확률인가?
 > 점수인가?
@@ -153,7 +153,7 @@ Poole과 Mackworth는 확률(probability)을 믿음의 계산법으로 설명하
 > 하나의 AI 시스템 안에서도
 > 휴리스틱, 확률 모델, 근거 확인, 운영 기준이 함께 쓰일 수 있다.
 
-따라서 “이 시스템은 휴리스틱인가, 확률 모델인가”라고만 묻기보다, 어느 단계에서 어떤 역할을 하는지 나누어 보는 편이 좋습니다.
+따라서 “이 시스템은 휴리스틱인가, 확률 모델인가”라고만 묻기보다, 어느 단계에서 어떤 역할을 하는지 나누어 보는 쪽이 더 정확합니다.
 
 ## 임계값(threshold)은 확률 모델이 아니라 운영 기준일 수 있다
 
@@ -205,7 +205,7 @@ Poole과 Mackworth는 확률(probability)을 믿음의 계산법으로 설명하
 >   ↓
 > 운영 기준: 자동 처리, 보류, 사람 검토를 결정
 
-이 흐름은 `점수가 나오면 바로 행동한다`가 아니라, `점수나 확률을 해석하고 검증한 뒤 운영 기준으로 연결한다`는 순서를 보여 줍니다. 초심자는 이 그림을 `탐색 기준`, `확률 표현`, `검증`, `운영 정책`이 한 시스템 안에서 다른 층위(level)를 이룬다고 읽으면 충분합니다.
+이 흐름은 `점수가 나오면 바로 행동한다`가 아니라, `점수나 확률을 해석하고 검증한 뒤 운영 기준으로 연결한다`는 순서를 보여 줍니다. 여기서는 `탐색 기준`, `확률 표현`, `검증`, `운영 정책`이 한 시스템 안에서 다른 층위(level)를 이룬다고 읽습니다.
 
 ## 현대 AI에서의 주의점
 
@@ -242,7 +242,7 @@ Poole과 Mackworth는 확률(probability)을 믿음의 계산법으로 설명하
 
 이 구분을 유지하면 AI 시스템을 더 차분하게 읽을 수 있습니다. 어떤 부분이 경험 규칙인지, 어떤 부분이 확률 모델인지, 어떤 부분이 정책과 책임의 영역인지 분리해서 볼 수 있기 때문입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 휴리스틱(heuristic)과 확률 모델(probabilistic model)을 같은 말처럼 쓰지 않아야 함을 설명할 수 있다.
 - 휴리스틱 점수(score)와 확률(probability)을 구분할 수 있다.
@@ -250,10 +250,20 @@ Poole과 Mackworth는 확률(probability)을 믿음의 계산법으로 설명하
 - 휴리스틱이 불확실성을 계산한다기보다 불확실한 상황에서 판단을 가능하게 하는 기준이라는 점을 설명할 수 있다.
 - 하나의 AI 시스템 안에서 휴리스틱, 확률 모델, 보정, 운영 기준이 함께 쓰일 수 있음을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 점수, 확률, 임계값, 운영 기준이 한 덩어리처럼 섞여 보일 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 모델 점수 하나를 보고 곧바로 확률이나 최종 판단으로 읽고 싶어질 때
+- 분류 임계값(threshold)이 모델 내부 개념인지 서비스 운영 기준인지 나눠 설명해야 할 때
+- 휴리스틱, 확률 모델, 보정(calibration), 정책 기준이 한 시스템 안에서 어떻게 다른 역할을 하는지 정리해야 할 때
+
+이때는 먼저 `탐색을 줄이는 기준`, `불확실성을 숫자로 표현하는 모델`, `숫자를 행동으로 바꾸는 운영 기준`을 분리하면 됩니다. 그러면 어떤 부분이 모델의 일이고 어떤 부분이 시스템 설계의 일인지 더 선명하게 읽을 수 있습니다.
+
 ## 출처와 참고 자료
 
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html), 확인 날짜: 2026-06-23.
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 9.1 Probability](https://artint.info/3e/html/ArtInt3e.Ch9.S1.html), 확인 날짜: 2026-06-22.
-- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html), 확인 날짜: 2026-06-22.
-- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary), 확인 날짜: 2026-06-23.
-- scikit-learn, [1.16. Probability calibration](https://scikit-learn.org/stable/modules/calibration.html), 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 9.1 Probability](https://artint.info/3e/html/ArtInt3e.Ch9.S1.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- scikit-learn, [1.16. Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.

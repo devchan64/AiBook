@@ -1,33 +1,28 @@
-# P5-14.1 Transformer의 기본 구성
+# P5-14.1 트랜스포머(Transformer)의 기본 구성
 
-P5-13.2에서는 self-attention이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, Transformer의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
+Section ID: `P5-14.1`
+Version: `v2026.07.07`
 
-그렇다면 Transformer는 self-attention 하나만 있는 구조인가, 아니면 그 주변에 어떤 기본 구성 요소들이 함께 있는가?
+P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, 트랜스포머(Transformer)의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
 
-이 절은 그 질문에 답합니다.
+그렇다면 트랜스포머는 셀프 어텐션 하나만 있는 구조인가, 아니면 그 주변에 어떤 기본 구성 요소들이 함께 있는가?
 
-Transformer는 self-attention으로 문맥 관계를 읽고, feed-forward 네트워크로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 그 계산 블록을 무너지지 않게 이어 가는 구조로 이해할 수 있다.
+트랜스포머는 셀프 어텐션(self-attention)으로 문맥 관계를 읽고, 피드포워드 네트워크(feed-forward network)로 각 위치 표현을 다시 가공하며, 잔차 연결(residual connection)과 레이어 정규화(layer normalization)로 그 계산 블록을 무너지지 않게 이어 가는 구조로 이해할 수 있다.
+
+블록 부품 이름이 다시 섞일 때는 개념사전의 [트랜스포머(Transformer)](../../../reference/concept-glossary.md#transformer), [피드포워드 네트워크(feed-forward network)](../../../reference/concept-glossary.md#feed-forward-network), [잔차 연결(residual connection)](../../../reference/concept-glossary.md#residual-connection), [레이어 정규화(layer normalization)](../../../reference/concept-glossary.md#layer-normalization) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 이 절의 범위
 
-이 절은 다음 질문에 답합니다.
-
-- Transformer의 핵심 블록은 무엇으로 이루어지는가?
-- self-attention, feed-forward, residual connection, layer normalization은 각각 어떤 역할을 하나?
+- 트랜스포머의 핵심 블록은 무엇으로 이루어지는가?
+- 셀프 어텐션(self-attention), 피드포워드 네트워크(feed-forward network), 잔차 연결(residual connection), 레이어 정규화(layer normalization)는 각각 어떤 역할을 하나?
 - 왜 이 구조가 RNN 이후 큰 전환점처럼 보였는가?
 - encoder/decoder 세부 이전에 어떤 큰 지도를 먼저 잡아야 하는가?
 
-이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 self-attention이라는 한 아이디어가 아니라, 문맥 읽기와 표현 가공, 블록 유지 장치를 한 묶음으로 가진 구조`라는 점입니다.
-
-이 절은 `구조 축`으로 먼저 고정해 두는 편이 덜 흔들립니다.
-
-즉, 지금 장의 핵심은 `필요한 위치를 어떻게 참고할까`에서 `그 참조 계산을 어떤 블록 구성으로 안정적으로 반복할까`로 손잡이가 바뀐다는 점입니다.
-
-여기서 먼저 읽는 것은 optimizer나 regularization 같은 학습 절차가 아니라, Transformer 블록 안에서 각 부품이 어떻게 역할을 나누는가입니다.
+이 절에서 먼저 붙잡아야 할 핵심은 `트랜스포머는 셀프 어텐션이라는 한 아이디어가 아니라, 문맥 읽기와 표현 가공, 블록 유지 장치를 한 묶음으로 가진 구조`라는 점입니다. 지금 장의 손잡이는 `필요한 위치를 어떻게 참고할까`에서 `그 참조 계산을 어떤 블록 구성으로 안정적으로 반복할까`로 옮겨 갑니다. 따라서 여기서는 optimizer나 regularization 같은 학습 절차보다, Transformer 블록 안에서 각 부품이 어떻게 역할을 나누는가를 먼저 읽습니다.
 
 | 지금 이 절에서 읽는 것 | 아직 다음 절로 넘기는 것 |
 | --- | --- |
-| self-attention, feed-forward, residual, normalization이 한 블록 안에서 어떻게 역할을 나누는가 | 그 블록이 병렬 처리, 긴 문맥 비용, 계산 규모에서 무엇을 바꾸는가 |
+| 셀프 어텐션, 피드포워드, 잔차 연결, 정규화가 한 블록 안에서 어떻게 역할을 나누는가 | 그 블록이 병렬 처리, 긴 문맥 비용, 계산 규모에서 무엇을 바꾸는가 |
 | 블록 내부의 관계 읽기와 표현 가공 | 대규모 학습 절차와 long-context 최적화 |
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
@@ -48,8 +43,6 @@ multi-head attention과 query, key, value의 입문적 설명은 보충학습 P5
 - 실행 가능한 Python 예제로 토큰 표현이 여러 단계를 거쳐 바뀌는 흐름을 직관적으로 확인할 수 있습니다.
 
 ## 이 절을 읽는 순서
-
-이 절은 다음 순서로 읽으면 흐름이 잘 잡힙니다.
 
 1. 먼저 P5-13.2에서 본 self-attention이 Transformer 안에서 어느 자리에 놓이는지 확인합니다.
 2. 그 다음 self-attention, feed-forward, residual, layer normalization의 역할을 나눠 읽습니다.
@@ -187,6 +180,14 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 
 즉, Transformer는 `sequence modeling의 핵심 계산 방식`을 새 블록 단위로 다시 묶은 아키텍처였습니다.
 
+여기서 한 번 멈추고, `언제 attention 개념 자체보다 Transformer 블록 구성 관점부터 먼저 읽어야 하는가`를 짧게 고정해 두면 다음 절의 병렬 처리 설명으로 넘어갈 때 기준선이 덜 흔들립니다.
+
+| 먼저 떠올릴 질문 | Transformer 기본 구성 관점이 먼저 필요한 이유 | 바로 다음 절에서 이어질 것 |
+| --- | --- | --- |
+| self-attention만으로 왜 모델이 끝나지 않는가 | 문맥 읽기 외에도 위치별 가공과 안정적 전달 장치가 함께 있어야 반복 블록이 성립하기 때문 | 이 블록을 반복할 때 계산 감각이 왜 달라지는가 |
+| residual과 layer normalization은 왜 같이 언급되는가 | 강한 문맥 계산만이 아니라 깊은 블록 반복을 견디게 하는 안정화 축이 필요하기 때문 | 병렬 학습과 규모 확장에서 블록 반복이 어떤 의미를 갖는가 |
+| feed-forward는 attention과 무엇이 다른가 | 관계 읽기와 위치별 가공을 분리해서 봐야 블록 내부 역할이 섞이지 않기 때문 | 긴 문맥과 GPU 계산에서 블록 전체가 어떻게 작동하는가 |
+
 ## 사례로 보기
 
 사례에 들어가기 전에, 이 절에서 같은 Transformer 블록이 과업마다 어떻게 다르게 읽히는지만 먼저 짧게 고정하면 뒤 설명이 덜 길게 느껴집니다.
@@ -226,6 +227,12 @@ flowchart TD
 코드 생성에서 함수 시작부의 인자 이름과 아래쪽 반환 로직이 멀리 떨어져 있는 장면을 떠올려 볼 수 있습니다. 사람은 바로 앞 몇 줄만 보며 이어 써도 될 것처럼 느끼기 쉽지만, 그렇게 쓰면 위에서 쓴 변수 이름과 아래에서 참조하는 이름이 어긋나거나, 열어 둔 조건 분기와 닫는 구조가 맞지 않기 쉽습니다. 예를 들어 함수 초반에 `user_id`를 받았는데 뒤쪽에서 갑자기 `account_id`로 바꿔 쓰면, 앞뒤 맥락이 연결되지 않아 코드가 어색해집니다. 긴 자연어 생성도 마찬가지로, 앞에서 세운 제약과 뒤 문장에서 이어질 설명이 멀리 떨어져 연결됩니다. 여기서 바뀌는 점은 `바로 앞 토큰만 따라 쓰는 방식`에서 `먼 앞쪽 제약과 현재 위치를 함께 묶는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 이런 멀리 떨어진 토큰 관계를 반복적으로 반영하며 각 위치의 표현을 갱신합니다.
 
 세 사례에서 공통으로 확인해야 할 결과는 먼 위치의 단서를 현재 표현 안에 함께 반영할 수 있다는 점입니다. 번역에서는 뒤쪽 조건과 목적어가 앞 해석까지 이어지는지, 요약에서는 흩어진 조건 문장이 결론과 함께 묶이는지, 코드와 자연어 생성에서는 변수명과 분기 구조 같은 앞 제약이 끝까지 유지되는지를 보면 충분합니다.
+
+## 짧은 점검
+
+- Transformer를 `attention이 있는 모델` 정도로만 말하지 않고, `관계 읽기, 위치별 가공, 안정적 전달을 반복하는 블록 구조`로 설명할 수 있는가?
+- self-attention과 feed-forward의 역할 차이를 `바깥과의 관계 읽기`와 `현재 위치 표현 가공`으로 나눠 말할 수 있는가?
+- 다음 절의 병렬 처리 설명을 읽을 때도 먼저 `이 블록을 많이 반복하면 계산 흐름이 왜 달라지는가`를 떠올릴 준비가 되어 있는가?
 
 ## 실행 가능한 Python 예제로 보기
 
@@ -412,12 +419,16 @@ Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 �
 - residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
 - 이 블록 구조를 이해하면 이후 다른 생성 모델 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- attention 일반론만으로는 Transformer를 설명하기 부족할 때, 블록 구성 관점을 먼저 떠올립니다.
+- 문맥 읽기, 위치별 가공, 안정화 역할이 한꺼번에 섞여 보일 때, self-attention / feed-forward / residual / normalization을 다시 분리해 봅니다.
+- 병렬 처리와 긴 문맥 장점이 왜 이 블록 위에서 가능해지는지 연결해야 할 때, 이 절을 기준선으로 씁니다.
+
 ## 체크리스트
 
-- Transformer의 기본 구성 요소를 말할 수 있는가?
-- 각 구성 요소의 역할을 한 문장씩 설명할 수 있는가?
-- self-attention과 feed-forward의 차이를 설명할 수 있는가?
-- 다음 절의 병렬 처리와 긴 문맥으로 왜 자연스럽게 이어지는지 설명할 수 있는가?
+- 트랜스포머(Transformer) 블록을 셀프 어텐션, feed-forward, residual connection, layer normalization으로 설명할 수 있는가?
+- 트랜스포머가 한 아이디어가 아니라 부품 묶음 구조라는 점을 말할 수 있는가?
 
 ## 출처와 참고 자료
 

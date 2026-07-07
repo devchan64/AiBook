@@ -1,7 +1,7 @@
-# 12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)
+# P1-12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 12.1에서는 프롬프트(prompt)가 무엇을 지정하는지 봤습니다. 12.2에서는 지시(instruction), 맥락(context), 예시(example)를 나눠 봤습니다.
 
@@ -9,19 +9,19 @@
 
 > 프롬프트를 잘 쓰면 충분한가?
 
-입문 단계의 답은 분명합니다.
+여기서의 답은 분명합니다.
 
 > 프롬프트는 모델의 출력을 유도할 수 있지만, 사실성(factuality), 근거성(evidence), 안전성(safety), 일관성(consistency)을 자동으로 보장하지 않는다.
 
-Part 1 안에서는 이 절을 `프롬프트의 한계(limit)`, `평가(evaluation)`, `사실성(factuality)`, `근거성(evidence)`, `최신성(recency)`, `환각(hallucination)`, `재현성(reproducibility)`의 입문 구분을 정리하는 대표 상세 설명 위치로 사용합니다. 12.1에서는 프롬프트가 무엇을 지정하는지, 12.2에서는 지시·맥락·예시를 나눴고, 여기서는 `좋은 입력을 넣는 일`과 `좋은 결과를 검토하는 일`이 다른 작업임을 분리합니다.
+Part 1에서 `프롬프트의 한계(limit)`, `평가(evaluation)`, `사실성(factuality)`, `근거성(evidence)`, `최신성(recency)`, `환각(hallucination)`, `재현성(reproducibility)`의 입문 구분은 이 절에서 잡습니다. 12.1에서는 프롬프트가 무엇을 지정하는지, 12.2에서는 지시·맥락·예시를 나눴고, 여기서는 `좋은 입력을 넣는 일`과 `좋은 결과를 검토하는 일`이 다른 작업임을 분리합니다.
 
 따라서 프롬프트를 다룰 때는 “어떻게 잘 요청할 것인가”와 함께 “무엇을 검토해야 하는가”를 같이 배워야 합니다.
 
 ## 이 절의 범위
 
-이 절은 프롬프트의 한계와 검토 기준을 다룹니다. RAG(retrieval-augmented generation), 벡터 검색(vector search), 도구 사용(tool use), 에이전트(agent), 하네스(harness)는 자세히 다루지 않습니다. 그런 구조는 바로 다음 장의 P1-13.3과 P1-13.4, 그리고 P1-14.2부터 P1-14.5에서 다시 다룹니다.
+여기서는 프롬프트의 한계와 검토 기준을 다룹니다. RAG(retrieval-augmented generation), 벡터 검색(vector search), 도구 사용(tool use), 에이전트(agent), 하네스(harness)는 자세히 다루지 않습니다. 그런 구조는 바로 다음 장의 P1-13.3과 P1-13.4, 그리고 P1-14.2부터 P1-14.5에서 다시 다룹니다.
 
-처음 읽을 때는 `한계`, `평가`, `사실성`, `근거성`, `환각`, `재현성`이 모두 비슷한 검토 항목처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`한계`, `평가`, `사실성`, `근거성`, `환각`, `재현성`은 초반에 모두 비슷한 검토 항목처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -33,7 +33,7 @@ Part 1 안에서는 이 절을 `프롬프트의 한계(limit)`, `평가(evaluati
 | 환각 | 그럴듯하지만 틀린 생성 | 생성형 AI의 대표 오류 |
 | 재현성 | 무엇을 바꿨고 결과가 어땠는지 다시 확인할 수 있는가 | 프롬프트 실험 기록의 기준 |
 
-처음 단계에서는 `프롬프트는 보장 아님`, `평가는 별도 작업`, `사실성/근거성/최신성은 다름`, `재현성 기록이 필요` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `프롬프트는 보장 아님`, `평가는 별도 작업`, `사실성/근거성/최신성은 다름`, `재현성 기록이 필요`입니다.
 
 여기서는 다음 질문에 집중합니다.
 
@@ -43,7 +43,7 @@ Part 1 안에서는 이 절을 `프롬프트의 한계(limit)`, `평가(evaluati
 | 왜 평가가 필요한가? | 출력이 그럴듯해도 틀릴 수 있기 때문 |
 | 어떤 기준으로 검토할 것인가? | 목적, 근거, 재현성, 위험, 수정 가능성 |
 
-또한 이 절은 프롬프트 작성법을 더 늘어놓는 절이 아닙니다. 여기서는 평가와 한계를 분리하고, 왜 다음 장의 RAG, 도구 사용, 에이전트, 하네스 같은 구조가 필요해지는지를 설명하는 데 집중합니다.
+또한 여기서는 프롬프트 작성법을 더 늘어놓지 않습니다. 평가와 한계를 분리하고, 왜 다음 장의 RAG, 도구 사용, 에이전트, 하네스 같은 구조가 필요해지는지를 설명하는 데 집중합니다.
 
 ## 이 절의 목표
 
@@ -53,15 +53,15 @@ Part 1 안에서는 이 절을 `프롬프트의 한계(limit)`, `평가(evaluati
 - 학습용 책을 작성할 때 필요한 최소 평가 기준을 정리합니다.
 - RAG, 도구 사용(tool use), 에이전트(agent), 하네스(harness)가 왜 다음 단계의 주제가 되는지 예고합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 프롬프트를 포기하자는 절이 아니라, 프롬프트만으로 해결되지 않는 한계를 구분하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 프롬프트를 포기하자는 쪽이 아니라, 프롬프트만으로 해결되지 않는 한계를 구분하는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 프롬프트를 바꿔도 모델 한계가 사라지지는 않는다는 점 | 입력 설계와 모델 능력을 구분하게 해 줍니다. | 더 잘 묻는다고 모든 오류가 없어지지는 않는다고 이해하면 충분합니다. |
-| 프롬프트 결과는 평가 기준으로 비교해야 한다는 점 | 감으로 “좋아 보인다”에 머무르지 않게 해 줍니다. | 정확성, 일관성, 근거 같은 기준을 함께 봐야 한다고 알면 충분합니다. |
-| 기록 없는 프롬프트 수정은 재현하기 어렵다는 점 | 이후 하네스, 평가, 실험 기록 흐름과 연결됩니다. | 무엇을 바꿨고 결과가 어땠는지 남겨야 한다고 이해하면 충분합니다. |
+| 프롬프트를 바꿔도 모델 한계가 사라지지는 않는다는 점 | 입력 설계와 모델 능력을 구분하게 해 줍니다. | 더 잘 묻는다고 모든 오류가 없어지지는 않는다고 이해하면 됩니다. |
+| 프롬프트 결과는 평가 기준으로 비교해야 한다는 점 | 감으로 “좋아 보인다”에 머무르지 않게 해 줍니다. | 정확성, 일관성, 근거 같은 기준을 함께 봐야 한다고 알면 됩니다. |
+| 기록 없는 프롬프트 수정은 재현하기 어렵다는 점 | 이후 하네스, 평가, 실험 기록 흐름과 연결됩니다. | 무엇을 바꿨고 결과가 어땠는지 남겨야 한다고 이해하면 됩니다. |
 
 ## 프롬프트는 보장이 아니라 조건이다
 
@@ -150,7 +150,7 @@ LLM의 출력은 입력, 모델, 설정, 대화 이력에 따라 달라질 수 �
 
 Ouyang 등의 InstructGPT 논문은 모델 출력을 평가할 때 단순 자동 점수만이 아니라 human evaluation을 사용하고, 도움됨(helpfulness), 진실성(truthfulness), 해로움 없음(harmlessness) 같은 기준을 다룹니다. 이 책에서 그대로 같은 평가 절차를 구현할 필요는 없지만, LLM 출력 평가는 하나의 기준으로 끝나지 않는다는 점은 참고할 수 있습니다.
 
-입문 단계에서는 다음 정도의 검토표가 실용적입니다.
+여기서는 다음 정도의 검토표가 실용적입니다.
 
 | 검토 항목 | 질문 |
 | --- | --- |
@@ -222,7 +222,7 @@ Ouyang 등의 InstructGPT 논문은 모델 출력을 평가할 때 단순 자동
 
 이 다음에는 LLM이 외부 자료와 만나는 방식으로 넘어갑니다. 그 출발점이 임베딩(embedding), 벡터 검색(vector search), RAG입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 프롬프트가 출력 조건을 지정하지만 사실성을 보장하지 않는다고 설명할 수 있다.
 - 사실성(factuality), 근거성(evidence), 최신성(recency)을 구분할 수 있다.
@@ -232,9 +232,19 @@ Ouyang 등의 InstructGPT 논문은 모델 출력을 평가할 때 단순 자동
 - 프롬프트만으로 줄일 수 있는 위험과 줄이기 어려운 위험을 구분할 수 있다.
 - RAG, 도구 사용(tool use), 에이전트(agent), 하네스(harness)가 왜 다음 단계의 주제가 되는지 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 프롬프트를 더 고치면 문제가 다 해결될 것처럼 느껴져, 평가와 검토를 별도 작업으로 다시 세워야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 결과가 그럴듯해 보여도 사실성(factuality), 근거성(evidence), 최신성(recency)을 따로 확인해야 할 때
+- 프롬프트 수정과 모델 한계를 구분하지 못하고 있을 때
+- 왜 RAG, 도구 사용, 에이전트, 하네스 같은 다음 구조가 필요한지 설명해야 할 때
+
+이때는 먼저 `입력 조건`, `출력 평가`, `근거 확인`, `재현성 기록`을 나누면 됩니다. 그러면 프롬프트 개선이 중요한 일이라는 점은 유지하면서도, 그것만으로는 부족하다는 경계를 더 분명히 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155), arXiv, 2022, 확인 날짜: 2026-06-23.
-- Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927), arXiv, 2024, 확인 날짜: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1), NIST AI 600-1, 2024, 확인 날짜: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering), OpenAI API documentation, 확인 날짜: 2026-06-23.
+- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-06-23.
+- Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, 확인 날짜: 2026-06-23.
+- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-06-23.

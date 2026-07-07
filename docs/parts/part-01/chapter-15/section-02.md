@@ -1,7 +1,7 @@
-# 15.2 저작권(copyright)과 학습 데이터(training data)
+# P1-15.2 저작권(copyright)과 학습 데이터(training data)
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-15.1에서는 AI 결과가 사람과 사회에 영향을 줄 때 편향(bias), 안전성(safety), 책임(accountability)을 어떻게 봐야 하는지 살펴봤습니다. 이제 질문은 조금 더 구체적입니다.
 
@@ -11,13 +11,13 @@ P1-15.1에서는 AI 결과가 사람과 사회에 영향을 줄 때 편향(bias)
 
 저작권(copyright)은 AI 시대에 새로 생긴 문제가 아닙니다. 하지만 생성형 AI(generative AI)는 저작권 문제를 더 어렵게 만듭니다. 사람이 책에서 짧은 문장을 인용하는 일과, 대규모 데이터를 수집해 모델 학습(training)에 사용하는 일은 같은 문제가 아닙니다.
 
-이 절은 법률 자문이 아닙니다. 여기서는 한국어 책을 만들고 배포하는 관점에서 어떤 개념을 구분해야 하는지, 어떤 자료 사용을 보류해야 하는지, 어떤 근거를 남겨야 하는지를 정리합니다.
+여기서는 법률 결론을 단정하지 않고, 한국어 책을 만들고 배포하는 관점에서 어떤 개념을 구분해야 하는지, 어떤 자료 사용을 보류해야 하는지, 어떤 근거를 남겨야 하는지를 정리합니다.
 
-Part 1 안에서는 이 절을 `저작권(copyright)`, `인용(quotation)`, `학습 데이터(training data)`, `표현(expression)`, `출처 표시(attribution)`, `라이선스(license)`의 대표 상세 설명 위치로 사용합니다. 15.1에서는 AI 결과가 사람과 사회에 미치는 위험을 봤고, 여기서는 그중 `타인의 표현과 자료를 어떻게 다루어야 하는가`를 정리합니다. 보안과 개인정보는 15.3에서 다시 다룹니다.
+이 절에서는 `저작권(copyright)`, `인용(quotation)`, `학습 데이터(training data)`, `표현(expression)`, `출처 표시(attribution)`, `라이선스(license)`를 중심으로 타인의 표현과 자료를 어떻게 다뤄야 하는지 정리합니다. 15.1의 사회적 위험 설명을 이어받고, 보안과 개인정보는 15.3에서 다룹니다.
 
 ## 이 절의 범위
 
-이 절은 저작권과 학습 데이터 논쟁의 검토 지점을 다룹니다. 보안(security), 개인정보(privacy), 비밀 정보 유출은 P1-15.3에서 다룹니다.
+여기서는 저작권과 학습 데이터 논쟁의 검토 지점을 다룹니다. 보안(security), 개인정보(privacy), 비밀 정보 유출은 P1-15.3에서 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -27,7 +27,7 @@ Part 1 안에서는 이 절을 `저작권(copyright)`, `인용(quotation)`, `학
 | 생성 결과(output) | AI 출력물이 기존 저작물과 너무 비슷하면 어떤 문제가 생기는가? |
 | 작성 원칙(authoring rule) | 이 책을 만들 때 어떤 자료 사용을 피해야 하는가? |
 
-이 절은 한국 저작권법을 기준으로 먼저 생각하되, 생성형 AI 학습 데이터 논쟁은 아직 국가별 제도와 판례가 다르게 전개되고 있음을 함께 봅니다.
+여기서는 한국 저작권법을 기준으로 먼저 생각하되, 생성형 AI 학습 데이터 논쟁은 아직 국가별 제도와 판례가 다르게 전개되고 있음을 함께 봅니다.
 
 ## 이 절의 목표
 
@@ -37,15 +37,15 @@ Part 1 안에서는 이 절을 `저작권(copyright)`, `인용(quotation)`, `학
 - 생성형 AI 학습 데이터 논쟁에서 권리자(rightsholder)와 AI 개발자가 무엇을 다투는지 이해합니다.
 - 이 책을 작성할 때 유료 출판물, 폐쇄형 강의자료, 무단 복제 PDF를 AI 입력으로 사용하지 않아야 함을 설명합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 법률 결론을 단정하는 절이 아니라, 무엇을 조심해야 하는지 구분하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 법률 결론을 단정하기보다 무엇을 조심해야 하는지 구분합니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 저작권은 아이디어보다 표현(expression)을 보호한다는 점 | 주제 참고와 문장 복제를 구분하게 해 줍니다. | 개념 자체와 구체적 문장·도표는 다르게 봐야 한다고 이해하면 충분합니다. |
-| 책 본문 인용과 AI 학습 데이터 사용은 다른 문제라는 점 | “출처만 쓰면 된다”는 단순화된 오해를 줄여 줍니다. | 사람이 본문에 인용하는 것과 모델이 대규모로 학습하는 것은 별도 쟁점이라고 알면 충분합니다. |
-| 이 책에서는 보수적으로 자료 사용을 제한해야 한다는 점 | 실제 집필 원칙과 바로 연결됩니다. | 유료 출판물, 폐쇄형 강의자료, 무단 복제 PDF는 입력으로 쓰지 않는다고 이해하면 충분합니다. |
+| 저작권은 아이디어보다 표현(expression)을 보호한다는 점 | 주제 참고와 문장 복제를 구분하게 해 줍니다. | 개념 자체와 구체적 문장·도표는 다르게 봐야 한다고 이해합니다. |
+| 책 본문 인용과 AI 학습 데이터 사용은 다른 문제라는 점 | “출처만 쓰면 된다”는 단순화된 오해를 줄여 줍니다. | 사람이 본문에 인용하는 것과 모델이 대규모로 학습하는 것은 별도 쟁점이라고 이해합니다. |
+| 이 책에서는 보수적으로 자료 사용을 제한해야 한다는 점 | 실제 집필 원칙과 바로 연결됩니다. | 유료 출판물, 폐쇄형 강의자료, 무단 복제 PDF는 입력으로 쓰지 않는다고 이해합니다. |
 
 ## 저작권은 표현을 보호한다
 
@@ -167,8 +167,6 @@ AI가 만든 문장이라고 해서 저작권 위험이 사라지지는 않습�
 
 AI 초안은 항상 검토 대상입니다. “AI가 써 줬다”는 말은 책임을 줄여 주지 않습니다.
 
-또한 이 절은 `보안 사고와 개인정보 유출`을 다루는 절도, `국가별 AI 저작권 판례를 포괄적으로 비교`하는 절도 아닙니다. 여기서는 공개 배포 원고를 만드는 입장에서 필요한 구분과 보수적 사용 원칙을 먼저 세우고, 정보 보호 문제는 15.3으로 넘깁니다.
-
 ## 이 절에서 기억할 관점
 
 저작권 논의의 핵심은 “출처를 달았는가” 하나로 끝나지 않습니다. 어떤 자료를, 어떤 목적으로, 얼마나, 어떤 방식으로 사용했는지 봐야 합니다.
@@ -182,7 +180,7 @@ AI 초안은 항상 검토 대상입니다. “AI가 써 줬다”는 말은 책
 
 이 관점은 P1-15.3의 보안(security)과 개인정보(privacy) 논의로 이어집니다. 저작권이 “타인의 표현을 어떻게 다루는가”의 문제라면, 보안과 개인정보는 “타인의 정보와 권한을 어떻게 다루는가”의 문제입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 저작권(copyright)이 아이디어가 아니라 구체적 표현(expression)을 중심으로 보호한다는 점을 설명할 수 있다.
 - 출처 표시(attribution)와 이용 허락(permission), 라이선스(license), 인용(quotation)을 구분할 수 있다.
@@ -195,11 +193,19 @@ AI 초안은 항상 검토 대상입니다. “AI가 써 줬다”는 말은 책
 - 유료 전자책, 무단 PDF, 폐쇄형 강의자료를 AI 입력으로 사용하지 않아야 함을 설명할 수 있다.
 - AI 출력물이 기존 저작물과 실질적으로 유사한지 검토해야 함을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- 출처만 쓰면 괜찮다는 식으로 저작권 검토를 단순화하려 할 때
+- 책 본문 인용과 AI 학습 데이터 논쟁을 같은 문제처럼 다루려 할 때
+- 공개 배포 원고에서 어떤 자료 사용을 보류해야 하는지 다시 확인해야 할 때
+
+이때는 먼저 `표현 보호`, `인용 판단`, `학습 데이터 논쟁`, `자료 사용 보류 기준`을 나누면 됩니다. 그러면 저작권 검토를 출처 표기 하나의 문제로 축소하지 않게 됩니다.
+
 ## 출처와 참고 자료
 
-- 국가법령정보센터, [저작권법](https://www.law.go.kr/법령/저작권법), 시행 2026-05-11, 확인 날짜: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/), 확인 날짜: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf), Pre-publication version, 2025-05-09, 확인 날짜: 2026-06-23.
-- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57), Associated Press, 2023-12-27, 확인 날짜: 2026-06-23.
-- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133), arXiv, 2023, 확인 날짜: 2026-06-23.
-- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560), arXiv, 2024, 확인 날짜: 2026-06-23.
+- 국가법령정보센터, [저작권법](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, 시행 2026-05-11, 확인 날짜: 2026-06-23.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, Pre-publication version, 2025-05-09, 확인 날짜: 2026-06-23.
+- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, 확인 날짜: 2026-06-23.
+- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-06-23.
+- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.

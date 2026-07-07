@@ -42,11 +42,13 @@
 
 ## 주요 워크플로우
 
-- 원고 작성·수정 워크플로우: `management/guidelines/writing/rules-and-guidelines-summary.md`
+- 원고 작성·수정 워크플로우: `management/guidelines/rules-and-guidelines-summary.md`
   - Section 수정, 예시 보강, 문단 재배치 전에 먼저 본다.
-- 원고 작성 세부 절차: `management/guidelines/writing/manuscript-writing-workflow.md`
+- 원고 작성 세부 절차: `management/guidelines/manuscript-writing-workflow.md`
   - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
-- 차트·도식 워크플로우: `management/guidelines/charts/chart-guidelines.md`
+- 영문 번역 워크플로우: `management/guidelines/english-translation-guidelines.md`
+  - 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
+- 차트·도식 워크플로우: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
 - Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`
   - Section 본문 수정, 번역본 동기화, 개정 이력 기록 전에 먼저 본다.
@@ -75,12 +77,12 @@
 ## Part 구조
 
 - Part 시작 페이지와 마무리 페이지는 각각 오버뷰와 요약 역할을 맡습니다.
-- Part 시작/마무리 페이지의 세부 포함 항목과 작성 순서는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
+- Part 시작/마무리 페이지의 세부 포함 항목과 작성 순서는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 - 새 Part를 만들거나 Part 구조를 바꾸면 `index.md`, `summary.md`, `mkdocs.yml`의 `nav` 반영 여부를 함께 확인합니다.
 
 ## 작성 원칙
 
-- 원고는 한국어로 작성하되 핵심 기술 용어는 필요하면 영어 원어를 병기합니다.
+- 원고는 한국어로 작성하되, 용어 설명은 영어 원어 병기를 원칙으로 합니다.
 - 설명은 가능한 한 `왜 필요한가`, `핵심 원리는 무엇인가`, `간단히 어떻게 확인할 수 있는가`의 흐름을 따릅니다.
 - 정의만 나열하지 말고 개념 사이의 연결을 설명합니다.
 - 초반 도입에서는 `초심자 기준에서는`, `초심자를 위해`, `다음 한 문장으로 먼저 잡으면 충분합니다`, `이런 질문이 자연스럽게 나옵니다`처럼 집필자의 진행 멘트를 반복하기보다, 문제 상황과 핵심 개념으로 바로 들어가는 문장을 우선합니다.
@@ -89,13 +91,17 @@
 - 근거 확인의 목적은 출처 문장을 그대로 옮기는 것이 아니라, 검증된 내용을 독자가 재사용할 수 있는 일반화된 표현으로 정리하는 것입니다.
 - 특정 도구, 언어, 제품의 문법이나 사용법을 설명할 때도 그 뒤에 있는 일반 개념, 판단 기준, 다른 맥락으로 이어지는 관점을 함께 제시합니다.
 - 하나의 문서는 초심자도 따라올 수 있고, 재학습자는 잊은 개념을 회복할 수 있으며, 경험 있는 비전공자는 흩어진 경험을 표준 용어와 구조로 정리할 수 있도록 씁니다.
-- 초심자를 위해 처음 등장하는 개념은 짧은 직관, 쉬운 예시, 용어 해설을 제공합니다.
+- 초심자를 위해 새로운 핵심 개념이 한 Part에서 처음 등장하는 Section에는 짧은 직관, 쉬운 예시, 용어 해설을 두고 개념사전으로 이어지는 연결을 함께 제공합니다.
 - 재학습자를 위해 오래전에 배웠을 법한 개념은 기억을 되살리는 질문과 이전/다음 개념의 연결을 함께 둡니다.
 - 경험 있는 비전공자를 위해 도구 사용 경험과 학술·기술 용어 사이의 차이를 구분하고, 과도한 전문 세부 구현으로 바로 들어가지 않습니다.
 - 독자 수준이 섞여 있으므로, 쉬운 설명을 이유로 부정확하게 단정하지 않고, 정확성을 이유로 초반부터 증명과 세부 구현을 과도하게 늘리지 않습니다.
 - 모든 Part는 초심자를 기준으로 원고를 작성합니다.
-- 모든 Section에서는 이전 Part에서 다룬 용어라도 핵심 개념이면 짧게 재소개합니다.
-- 원고 작성, Python 예제, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
+- 머신러닝, 딥러닝, LLM처럼 뒤 Part의 이해를 떠받치는 구간에서는 초심자 이해에 실제로 도움이 된다면 학술적 배경이나 교육용 보강 주제를 새 Chapter나 Section으로 추가할 수 있습니다.
+- 같은 Part 안에서는 새로운 핵심 개념의 상세 설명을 가능한 한 한 Section에서만 충분히 다룹니다.
+- 같은 Part 안의 후속 Section에서는 이미 정리한 핵심 개념의 상세 정의, 비교 표, 용어 구분 표를 반복하지 않고 개념사전 링크로 연결합니다.
+- 다음 Part로 넘어간 뒤 그 개념이 다시 핵심 전개를 떠받치면, 그 Part에서 처음 등장하는 Section에서 필요한 범위만 다시 정리하고 다시 개념사전으로 연결합니다.
+- 개념사전 항목은 `중심 Section` 1개와 `등장 Section` 목록을 함께 유지해, 대표 설명 위치와 실제 재등장 위치를 구분하고 위치 표기 오류나 누락이 생기는지 관측할 수 있어야 합니다.
+- 원고 작성, Python 예제, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 
 ## Section 경계
 
@@ -103,7 +109,7 @@
 - 하나의 Section은 하나의 중심 질문에 답해야 합니다.
 - 현재 Section의 논의가 이어질 때는 그 Section의 범위 안에서만 본문을 확장합니다.
 - 다른 Section의 핵심 설명, 예시, 결론, 체크리스트를 미리 작성하지 않습니다.
-- Section 경계, 생략 회수, 새 Section 후보 판단의 세부 절차는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
+- Section 경계, 생략 회수, 새 Section 후보 판단의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 
 ## Section 버전과 릴리즈노트
 
@@ -113,6 +119,7 @@
   - `Section ID`
   - `Version`
 - `Section ID`는 본문 인덱스 표기와 같은 값을 사용합니다. 예를 들어 `P5-11.1`처럼 Part/Chapter/Section 체계와 일치해야 합니다.
+- Section 제목 앞에 붙는 인덱스도 `Section ID`와 완전히 같은 값을 사용합니다. 축약형 번호(`11.1`, `3.7`)나 별도 번호 체계를 따로 두지 않습니다.
 - `Version`은 해당 Section 본문이 실제로 수정된 날짜를 기준으로 갱신합니다.
 - Section의 날짜성 메타데이터는 `Version` 한 줄만 사용합니다.
 - `Last Updated` 같은 별도 수정일 줄은 Section 본문에 두지 않습니다.
@@ -131,6 +138,7 @@
 ## 용어 원칙
 
 - 영어 병기는 장식이 아니라, 독자가 논문, 공식 문서, 해외 강의, API 문서에서 같은 개념을 다시 찾게 하기 위한 장치입니다.
+- 용어 설명은 기본적으로 `한국어(English)` 형식 병기를 원칙으로 합니다.
 - 처음 등장하는 핵심 용어는 가능한 한 `한국어(English)` 형식으로 병기합니다.
 - 학술적으로 정의된 개념어, 연구 분야에서 표준적으로 쓰이는 기술 용어, 번역어만으로 오해가 생길 수 있는 용어는 한영 병기를 명시합니다.
 - 단순 외래어 표기는 반드시 한영 병기할 필요는 없습니다. 예를 들어 이미 한국어 문맥에서 일반 명사처럼 쓰이는 표현은 문맥상 혼동이 없으면 영어 원어를 반복하지 않습니다.
@@ -217,7 +225,7 @@
 - 간단한 비교와 수치 정리는 Markdown 표를 먼저 사용합니다.
 - 복잡한 그림은 `docs/assets/` 아래에 SVG 또는 PNG로 저장하고, 가능하면 생성 원본도 함께 보관합니다.
 - 외부 자료의 도식이나 차트를 재작성한 경우에도 출처를 남깁니다.
-- 수학·개념 차트를 새로 만들거나 수정할 때는 `management/guidelines/charts/chart-guidelines.md`를 먼저 확인합니다.
+- 수학·개념 차트를 새로 만들거나 수정할 때는 `management/guidelines/chart-guidelines.md`를 먼저 확인합니다.
 
 ## 브랜치와 배포
 
@@ -231,10 +239,12 @@
 ## 편집과 검증
 
 - 기존 문서의 톤과 목차 구조를 우선 따릅니다.
+- 이해를 늘리지 않는 표현 간소화나 의미 변화 없는 문장 손질처럼, 내용 변화에 영향을 주지 않는 수정은 하지 않습니다.
 - 불필요한 대규모 리팩터링이나 파일 이동은 피합니다.
 - 수동 파일 수정은 가능하면 패치 단위로 작게 수행합니다.
 - 작업 전후에 변경 목록을 확인하고, 관련 없는 변경을 되돌리지 않습니다.
-- 변경 후 가능하면 빌드 여부를 확인합니다.
+- 빌드 검사는 개별 Section이나 작은 패치마다 반복하지 않고, 기본적으로 전체 파트를 순차적으로 확인하고 수정한 작업이 끝난 뒤 수행합니다.
+- 작업 중간에는 본문 구조, 용어, 링크, 릴리즈노트 정합성을 먼저 점검하고, 빌드 확인은 개별 Part 마감마다 하지 않고 전체 파트 검토 종료 시점에 모아 실행합니다.
 - 현재 저장소의 기본 빌드 확인 명령은 다음과 같습니다.
   - `.venv/bin/python -m mkdocs build`
 - MkDocs 빌드와 관련 스크립트 실행 시에는 가능하면 시스템 `python3` 대신 `.venv/bin/python`을 우선 사용합니다.

@@ -1,7 +1,7 @@
 # P7-3.2 오류 사례 분석
 
 > Section ID: `P7-3.2`
-> Version: `v2026.07.05`
+> Version: `v2026.07.07`
 
 P7-3.1에서는 작은 이미지 분류기 하나를 학습하고, test 정확도가 `0.667`로 끝나는 장면을 확인했습니다. 여기서 중요한 것은 점수가 낮았다는 사실 자체보다, `왜 틀렸는가`를 프로젝트 문서에 남기는 일입니다.
 
@@ -10,8 +10,6 @@ P7-3.1에서는 작은 이미지 분류기 하나를 학습하고, test 정확�
 오류 사례 분석의 목적은 틀렸다는 사실을 적는 것이 아니라, 다음 반복에서 무엇을 바꿔야 할지 좁혀 가는 것이다.
 
 ## 이 절의 범위
-
-이 절은 다음 질문에 답합니다.
 
 - 이미지 분류 프로젝트에서 오류 사례(error case)는 왜 따로 봐야 하는가?
 - `틀렸다`는 기록만으로는 왜 부족한가?
@@ -24,6 +22,10 @@ P7-3.1에서는 작은 이미지 분류기 하나를 학습하고, test 정확�
 - saliency map과 feature visualization
 
 이 절에서는 오류 사례를 프로젝트 회고로 남기는 최소 감각만 다룹니다. 더 다양한 평가 축과 기록 방식은 P7-4.2 토큰화와 평가, P7-7.2 실패 기록과 개선 계획에서 다시 이어지며, 설명 가능성 기법의 본격 구현은 현재 본편 범위 밖으로 둡니다.
+
+Part 7의 error analysis는 이 절처럼 샘플 단위로 흔들린 이유를 남기는 방식으로 읽으면 됩니다. 점수보다 `어떤 샘플이 왜 흔들렸는가`를 남기는 프로젝트 회고 기준을 여기서 고정합니다.
+
+Part 7에서 `회고(retrospective)`, `검토(review)`, `평가(evaluation)`의 역할이 다시 섞이면 이 절과 [개념사전](../../../reference/concept-glossary.md)을 함께 다시 보는 편이 좋습니다.
 
 ## 이 절의 목표
 
@@ -55,7 +57,7 @@ test_probs =
 
 세 번째 샘플에서 두 클래스 확률이 정확히 반반에 가깝다는 점이 중요합니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+이 오류 샘플을 따로 기록해야 하는 이유를 판단 기준으로 고정하면 다음과 같습니다.
 
 | 질문 | 짧은 답 |
 | --- | --- |
@@ -75,14 +77,14 @@ test_probs =
 | 입력 표현(representation) | 4x4 흑백 배열만으로 충분한가? |
 | 모델(model) | 현재 분류기가 너무 단순해 경계가 거칠지 않은가? |
 
-이렇게 나누면 `모델이 멍청하다` 같은 막연한 결론 대신, 다음 수정 지점을 더 정확히 적을 수 있습니다. 특히 작은 표본에서는 한 샘플의 오분류를 곧바로 원인 확정으로 읽지 말고, review 우선순위를 올리는 변화 신호로 남겨 두는 편이 안전합니다.
+이렇게 나누면 `모델이 멍청하다` 같은 막연한 결론 대신, 다음 수정 지점을 더 정확히 적을 수 있습니다. 특히 작은 표본에서는 한 샘플의 오분류를 곧바로 원인 확정으로 읽지 말고, 검토 우선순위를 올리는 변화 신호로 남겨 두는 편이 안전합니다.
 
-여기에 한 가지를 더 붙이면 오류 사례 분석 절이 Part 7 전체의 공통 review 구조와 더 직접 연결됩니다. 오류 사례는 단순히 `틀린 이미지 1장`이 아니라, `확인된 사실`, `review가 필요한 사례`, `다음에 보강할 데이터 또는 모델 질문`을 한 묶음으로 남겨야 합니다.
+여기에 한 가지를 더 붙이면 오류 사례 분석 절이 Part 7 전체의 공통 검토 구조와 더 직접 연결됩니다. 오류 사례는 단순히 `틀린 이미지 1장`이 아니라, `확인된 사실`, `추가 검토가 필요한 사례`, `다음에 보강할 데이터 또는 모델 질문`을 한 묶음으로 남겨야 합니다.
 
 | 같이 남길 기록 | 왜 필요한가 |
 | --- | --- |
 | 오류 샘플 ID | 다음 반복에서 같은 사례를 다시 찾기 위해서입니다. |
-| review 이유 | 확률이 애매했는지, 데이터 범위가 부족했는지 분리하기 위해서입니다. |
+| 검토 이유 | 확률이 애매했는지, 데이터 범위가 부족했는지 분리하기 위해서입니다. |
 | 다음 보강 항목 | 데이터 추가, 표현 변경, 모델 확장 중 어디를 먼저 볼지 정하기 위해서입니다. |
 | 공통 회고 문장 | 다른 프로젝트와 같은 형식으로 결과를 남기기 위해서입니다. |
 
@@ -90,11 +92,11 @@ test_probs =
 
 ```mermaid
 flowchart TD
-  A["wrong or uncertain sample"]
-  B["check image pattern"]
-  C["check train data coverage"]
-  D["check model simplicity"]
-  E["write next improvement plan"]
+  A["오류 또는 애매한 샘플"]
+  B["이미지 패턴 확인"]
+  C["학습 데이터 범위 확인"]
+  D["모델 단순성 확인"]
+  E["다음 개선 계획 작성"]
 
   A --> B --> C --> D --> E
 ```
@@ -115,7 +117,7 @@ flowchart TD
 
 ### 1. 데이터 관점
 
-학습 데이터에는 `순수한 세로 막대`와 `순수한 가로 막대`만 있었습니다. 혼합 패턴은 한 번도 보지 못했습니다. 따라서 test의 세 번째 샘플은 모델 입장에서 낯선 입력입니다.
+학습 데이터에는 `순수한 세로 막대`와 `순수한 가로 막대`만 있었습니다. 혼합 패턴은 한 번도 보지 못했습니다. 따라서 평가 셋의 세 번째 샘플은 모델 입장에서 낯선 입력입니다.
 
 ### 2. 입력 표현 관점
 
@@ -129,9 +131,9 @@ flowchart TD
 
 이번 예제의 목적은 P7-3.1의 애매한 샘플 하나를 실제 프로젝트 회고 기록으로 바꾸는 것입니다.
 
-- 문제 상황: `test-mixed-pattern`이 왜 틀렸는지 기록한다.
-- 입력(input): test 샘플별 예측 결과와 학습 데이터 패턴 목록
-- 기대 출력(output): 오류 사례 기록, 원인 가설, 다음 조치 목록
+- 문제 상황: `평가-혼합-패턴`이 왜 틀렸는지 기록한다.
+- 입력: 평가 샘플별 예측 결과와 학습 데이터 패턴 목록
+- 기대 출력: 오류 사례 기록, 원인 가설, 다음 조치 목록
 - 확인할 개념:
   - 오류 사례는 샘플 ID 기준으로 다시 추적할 수 있어야 한다
   - 원인을 데이터 / 표현 / 모델 층위로 나누어 적을 수 있어야 한다
@@ -140,32 +142,32 @@ flowchart TD
 ```python
 test_records = [
     {
-        "sample_id": "test-vertical-clear",
-        "pattern_name": "vertical_bar",
-        "true_label": 0,
-        "pred_label": 0,
-        "probs": [0.997, 0.003],
-        "confidence_margin": 0.994,
-        "needs_error_review": False,
+        "샘플": "평가-세로-명확",
+        "패턴 이름": "세로 막대",
+        "실제 라벨": 0,
+        "예측 라벨": 0,
+        "클래스별 확률": [0.997, 0.003],
+        "확신 차이": 0.994,
+        "오류 검토 필요": "아니오",
     },
     {
-        "sample_id": "test-horizontal-clear",
-        "pattern_name": "horizontal_bar",
-        "true_label": 1,
-        "pred_label": 1,
-        "probs": [0.003, 0.997],
-        "confidence_margin": 0.994,
-        "needs_error_review": False,
+        "샘플": "평가-가로-명확",
+        "패턴 이름": "가로 막대",
+        "실제 라벨": 1,
+        "예측 라벨": 1,
+        "클래스별 확률": [0.003, 0.997],
+        "확신 차이": 0.994,
+        "오류 검토 필요": "아니오",
     },
     {
-        "sample_id": "test-mixed-pattern",
-        "pattern_name": "mixed_bar",
-        "true_label": 1,
-        "pred_label": 0,
-        "probs": [0.5, 0.5],
-        "confidence_margin": 0.0,
-        "needs_error_review": True,
-        "image": [
+        "샘플": "평가-혼합-패턴",
+        "패턴 이름": "혼합 막대",
+        "실제 라벨": 1,
+        "예측 라벨": 0,
+        "클래스별 확률": [0.5, 0.5],
+        "확신 차이": 0.0,
+        "오류 검토 필요": "예",
+        "이미지": [
             [0, 1, 1, 0],
             [0, 1, 1, 0],
             [1, 1, 1, 1],
@@ -174,73 +176,75 @@ test_records = [
     },
 ]
 
-train_pattern_names = [
-    "vertical_bar",
-    "vertical_bar",
-    "horizontal_bar",
-    "horizontal_bar",
+학습_패턴_이름 = [
+    "세로 막대",
+    "세로 막대",
+    "가로 막대",
+    "가로 막대",
 ]
 
-label_names = {0: "vertical_bar", 1: "horizontal_bar"}
+라벨_이름 = {0: "세로 막대", 1: "가로 막대"}
 
-error_case_record = None
+오류_사례_기록 = None
 for row in test_records:
-    if row["needs_error_review"]:
-        contains_mixed_pattern = row["pattern_name"] == "mixed_bar"
-        seen_in_train = row["pattern_name"] in train_pattern_names
-        error_case_record = {
-            "sample_id": row["sample_id"],
-            "true_label_name": label_names[row["true_label"]],
-            "pred_label_name": label_names[row["pred_label"]],
-            "probs": row["probs"],
-            "confidence_margin": row["confidence_margin"],
-            "contains_mixed_pattern": contains_mixed_pattern,
-            "seen_in_train": seen_in_train,
-            "data_hypothesis": "train data lacks mixed examples",
-            "representation_hypothesis": "flattened 4x4 input loses local layout emphasis",
-            "model_hypothesis": "linear softmax boundary is too simple for mixed patterns",
+    if row["오류 검토 필요"] == "예":
+        혼합_패턴_여부 = "예" if row["패턴 이름"] == "혼합 막대" else "아니오"
+        학습_데이터_포함_여부 = (
+            "예" if row["패턴 이름"] in 학습_패턴_이름 else "아니오"
+        )
+        오류_사례_기록 = {
+            "오류 샘플": row["샘플"],
+            "실제 라벨": 라벨_이름[row["실제 라벨"]],
+            "예측 라벨": 라벨_이름[row["예측 라벨"]],
+            "클래스별 확률": row["클래스별 확률"],
+            "확신 차이": row["확신 차이"],
+            "혼합 패턴 여부": 혼합_패턴_여부,
+            "학습 데이터 포함 여부": 학습_데이터_포함_여부,
+            "데이터 가설": "학습 데이터에 혼합 패턴 예시가 없다",
+            "표현 가설": "4x4 입력을 평평하게 펼치면서 위치 구조의 강조가 약해졌다",
+            "모델 가설": "선형 경계만으로는 혼합 패턴을 충분히 구분하기 어렵다",
         }
         break
 
-next_actions = [
+다음_조치_목록 = [
     {
-        "action": "add_mixed_patterns_to_train",
-        "reason": "current train data only contains pure vertical/horizontal patterns",
+        "다음 조치": "학습 데이터에 혼합 패턴 추가",
+        "이유": "현재 학습 데이터가 순수한 세로/가로 패턴만 포함하기 때문",
     },
     {
-        "action": "add_shifted_or_noisy_variants",
-        "reason": "current examples are too clean and repetitive",
+        "다음 조치": "이동되거나 잡음이 있는 변형 추가",
+        "이유": "현재 예시가 너무 정적이고 반복적이기 때문",
     },
     {
-        "action": "try_cnn_style_followup",
-        "reason": "spatial structure may matter more than flattened pixels",
+        "다음 조치": "공간 구조를 더 읽는 후속 모델 검토",
+        "이유": "평평하게 펼친 입력보다 공간 구조가 더 중요할 수 있기 때문",
     },
 ]
 
-review_summary = {
-    "error_case_count": sum(row["needs_error_review"] for row in test_records),
-    "review_target_ids": [
-        row["sample_id"] for row in test_records if row["needs_error_review"]
+검토_요약 = {
+    "오류 사례 수": sum(row["오류 검토 필요"] == "예" for row in test_records),
+    "검토 대상 샘플": [
+        row["샘플"] for row in test_records if row["오류 검토 필요"] == "예"
     ],
-    "next_action_count": len(next_actions),
+    "다음 조치 수": len(다음_조치_목록),
 }
 
-print("review_summary =", review_summary)
-print("error_case_record =", error_case_record)
-print("next_actions =")
-for row in next_actions:
+print("검토 요약 =", 검토_요약)
+print("오류 사례 기록 =", 오류_사례_기록)
+print("다음 조치 목록 =")
+for row in 다음_조치_목록:
     print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-review_summary = {'error_case_count': 1, 'review_target_ids': ['test-mixed-pattern'], 'next_action_count': 3}
-error_case_record = {'sample_id': 'test-mixed-pattern', 'true_label_name': 'horizontal_bar', 'pred_label_name': 'vertical_bar', 'probs': [0.5, 0.5], 'confidence_margin': 0.0, 'contains_mixed_pattern': True, 'seen_in_train': False, 'data_hypothesis': 'train data lacks mixed examples', 'representation_hypothesis': 'flattened 4x4 input loses local layout emphasis', 'model_hypothesis': 'linear softmax boundary is too simple for mixed patterns'}
-next_actions =
-{'action': 'add_mixed_patterns_to_train', 'reason': 'current train data only contains pure vertical/horizontal patterns'}
-{'action': 'add_shifted_or_noisy_variants', 'reason': 'current examples are too clean and repetitive'}
-{'action': 'try_cnn_style_followup', 'reason': 'spatial structure may matter more than flattened pixels'}
+검토 요약 = {'오류 사례 수': 1, '검토 대상 샘플': ['평가-혼합-패턴'], '다음 조치 수': 3}
+오류 사례 기록 = {'오류 샘플': '평가-혼합-패턴', '실제 라벨': '가로 막대', '예측 라벨': '세로 막대', '클래스별 확률': [0.5, 0.5], '확신 차이': 0.0, '혼합 패턴 여부': '예', '학습 데이터 포함 여부': '아니오', '데이터 가설': '학습 데이터에 혼합 패턴 예시가 없다', '표현 가설': '4x4 입력을 평평하게 펼치면서 위치 구조의 강조가 약해졌다', '모델 가설': '선형 경계만으로는 혼합 패턴을 충분히 구분하기 어렵다'}
+다음 조치 목록 =
+{'다음 조치': '학습 데이터에 혼합 패턴 추가', '이유': '현재 학습 데이터가 순수한 세로/가로 패턴만 포함하기 때문'}
+{'다음 조치': '이동되거나 잡음이 있는 변형 추가', '이유': '현재 예시가 너무 정적이고 반복적이기 때문'}
+{'다음 조치': '공간 구조를 더 읽는 후속 모델 검토', '이유': '평평하게 펼친 입력보다 공간 구조가 더 중요할 수 있기 때문'}
 ```
 
 ## 이 출력은 어떻게 읽는가
@@ -263,10 +267,10 @@ next_actions =
 
 | 기록 항목 | 예 |
 | --- | --- |
-| fact | `test-mixed-pattern`은 오분류되었다 |
-| 검토 대상 사례 | `confidence_margin = 0.0`이라 매우 애매했다 |
-| 다음 조치 | `mixed pattern을 train에 추가해 다시 확인한다` |
-| 다음 질문 | `공간 구조를 더 읽는 CNN이 필요한가` |
+| 사실 | `평가-혼합-패턴`은 오분류되었다 |
+| 검토 대상 사례 | `확신 차이 = 0.0`이라 매우 애매했다 |
+| 다음 조치 | `혼합 패턴을 학습 데이터에 추가해 다시 확인한다` |
+| 다음 질문 | `공간 구조를 더 읽는 합성곱 신경망(CNN)이 필요한가` |
 
 이 표가 있으면 오류 사례 분석 절이 `사실 -> 검토 사례 -> 다음 보강 질문` 구조로 먼저 읽힙니다.
 
@@ -274,7 +278,7 @@ next_actions =
 
 이 프로젝트의 오류 사례 회고는 다음처럼 정리할 수 있습니다.
 
-> test 셋의 세 번째 이미지에서는 세로 막대와 가로 막대 패턴이 동시에 나타나 모델이 두 클래스를 거의 동일한 확률로 보았다. 현재 학습 데이터에는 이런 혼합 패턴이 없었으므로, 이번 결과는 데이터 범위 부족이나 모델 단순화를 먼저 의심해 볼 신호로 읽을 수 있다. 다음 반복에서는 혼합 패턴을 더 추가하거나, 공간 구조를 더 잘 읽는 CNN 계열 모델로 확장한 뒤 같은 샘플을 다시 확인하는 방향을 검토할 수 있다.
+> 평가 셋의 세 번째 이미지에서는 세로 막대와 가로 막대 패턴이 동시에 나타나 모델이 두 클래스를 거의 동일한 확률로 보았다. 현재 학습 데이터에는 이런 혼합 패턴이 없었으므로, 이번 결과는 데이터 범위 부족이나 모델 단순화를 먼저 의심해 볼 신호로 읽을 수 있다. 다음 반복에서는 혼합 패턴을 더 추가하거나, 공간 구조를 더 잘 읽는 합성곱 신경망(CNN) 계열 모델로 확장한 뒤 같은 샘플을 다시 확인하는 방향을 검토할 수 있다.
 
 이 문단에서 독자가 익혀야 할 형식은 다음 네 가지입니다.
 
@@ -321,7 +325,17 @@ next_actions =
 - 애매한 확률 출력은 중요한 단서입니다.
 - 이미지 프로젝트의 다음 개선은 보통 `데이터 추가`와 `모델 구조 확장`으로 이어집니다.
 
-## 체크리스트
+## 언제 오류 사례 분석 관점을 먼저 떠올려야 하는가
+
+다음처럼 평가 점수는 나왔지만 무엇을 다시 봐야 하는지가 아직 문서로 정리되지 않았다면 이 절의 관점을 먼저 떠올리는 편이 좋습니다.
+
+- 오분류 샘플은 있는데 어떤 사실과 어떤 가설을 구분해 적을지 정리되지 않은 경우
+- 애매한 확률 출력이 있었지만 검토 대상과 다음 조치가 바로 연결되지 않은 경우
+- `틀렸다`는 기록은 있지만 데이터, 표현, 모델 중 어디를 먼저 바꿀지 남기지 않은 경우
+
+이때는 성능 수치를 더 비교하기 전에 `오류 샘플`, `검토 이유`, `다음 보강 항목`, `다음 질문`을 먼저 고정해야 합니다.
+
+## 짧은 점검
 
 - 틀린 샘플을 원문 형태로 다시 보여 줄 수 있는가?
 - 오류 원인을 데이터 / 표현 / 모델로 나누어 적을 수 있는가?

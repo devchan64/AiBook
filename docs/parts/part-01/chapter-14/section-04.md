@@ -1,7 +1,7 @@
-# 14.4 MCP(Model Context Protocol)와 도구 연결 표준화
+# P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-14.3에서는 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation)을 이어 가는 작업 흐름(workflow)으로 봤습니다. 이때 에이전트가 외부 자료나 도구를 쓰려면 연결 방식이 필요합니다.
 
@@ -15,15 +15,15 @@ MCP(Model Context Protocol)는 AI 애플리케이션(application)이 외부 시�
 
 > MCP는 AI 앱과 외부 데이터, 도구, 작업 템플릿 사이의 연결 방식을 맞추기 위한 프로토콜이다.
 
-이 절에서는 MCP를 깊게 구현하지 않고, 왜 이런 표준화가 필요한지와 어떤 구성요소로 생각하면 되는지 봅니다.
+여기서는 MCP를 깊게 구현하지 않고, 왜 이런 표준화가 필요한지와 어떤 구성요소로 생각하면 되는지 봅니다.
 
-Part 1 안에서는 이 절을 `MCP(Model Context Protocol)`, `호스트(host)`, `클라이언트(client)`, `서버(server)`, `도구(tools)`, `리소스(resources)`, `프롬프트(prompts)`의 대표 상세 설명 위치로 사용합니다. 14.3에서는 에이전트가 목표를 따라 여러 단계를 이어 가는 구조를 봤고, 여기서는 그 구조가 `외부 도구와 데이터를 어떤 공통 방식으로 발견하고 호출할 수 있는가`를 정리합니다. 실행 추적과 평가는 14.5에서 다시 다룹니다.
+Part 1에서 `MCP(Model Context Protocol)`, `호스트(host)`, `클라이언트(client)`, `서버(server)`, `도구(tools)`, `리소스(resources)`, `프롬프트(prompts)`의 기본 구분은 여기서 잡습니다. 14.3에서는 에이전트가 목표를 따라 여러 단계를 이어 가는 구조를 봤고, 여기서는 그 구조가 `외부 도구와 데이터를 어떤 공통 방식으로 발견하고 호출할 수 있는가`를 정리합니다. 실행 추적과 평가는 14.5에서 다시 다룹니다.
 
 ## 이 절의 범위
 
-이 절은 MCP(Model Context Protocol)의 기본 역할과 구조를 설명합니다. MCP 서버 구현, SDK 사용법, JSON-RPC 메시지 상세, OAuth 인증 흐름은 다루지 않습니다. 하네스(harness), 평가(evaluation), 실행 로그(log)는 P1-14.5에서 다룹니다. 보안(security)과 개인정보(privacy)의 세부 쟁점은 P1-15.1, P1-15.2, P1-15.3에서 다시 다룹니다.
+여기서는 MCP(Model Context Protocol)의 기본 역할과 구조를 설명합니다. MCP 서버 구현, SDK 사용법, JSON-RPC 메시지 상세, OAuth 인증 흐름은 다루지 않습니다. 하네스(harness), 평가(evaluation), 실행 로그(log)는 P1-14.5에서 다룹니다. 보안(security)과 개인정보(privacy)의 세부 쟁점은 P1-15.1, P1-15.2, P1-15.3에서 다시 다룹니다.
 
-처음 읽을 때는 `MCP`, `호스트`, `클라이언트`, `서버`, `도구`, `리소스`, `프롬프트`가 모두 연결 관련 용어라 섞이기 쉽습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`MCP`, `호스트`, `클라이언트`, `서버`, `도구`, `리소스`, `프롬프트`는 서로 다른 연결 층위의 개념입니다. 각 용어의 역할은 다음처럼 구분할 수 있습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ Part 1 안에서는 이 절을 `MCP(Model Context Protocol)`, `호스트(host)`,
 | 리소스 | 읽을 수 있는 맥락 데이터 | 상태와 근거의 입력면 |
 | 프롬프트 | 재사용 가능한 상호작용 템플릿 | 지시 형식 재사용 장치 |
 
-처음 단계에서는 `MCP는 연결 규칙`, `서버는 능력 제공`, `도구는 실행`, `리소스는 읽기`, `프롬프트는 재사용 템플릿` 정도로만 잡아도 충분합니다.
+여기서는 `MCP는 연결 규칙`, `서버는 능력 제공`, `도구는 실행`, `리소스는 읽기`, `프롬프트는 재사용 템플릿`이라는 구분을 기준선으로 둡니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -53,15 +53,15 @@ Part 1 안에서는 이 절을 `MCP(Model Context Protocol)`, `호스트(host)`,
 - MCP가 도구 사용(tool use)을 편하게 만들 수 있지만, 권한(permission), 승인(approval), 검증(validation)을 자동으로 해결하지는 않음을 이해합니다.
 - P1-14.5의 하네스(harness)와 평가 실행 환경으로 넘어갈 준비를 합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 MCP를 새 모델처럼 설명하는 절이 아니라, 연결 규약으로 이해하게 만드는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 MCP를 새 모델처럼 설명하지 않고 연결 규약으로 이해하게 만듭니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| MCP는 에이전트가 아니라 연결 프로토콜(protocol)이라는 점 | MCP를 “또 하나의 AI”처럼 오해하지 않게 해 줍니다. | 앱과 외부 시스템이 연결되는 규칙이라고 이해하면 충분합니다. |
-| 호스트, 클라이언트, 서버는 역할이 다르다는 점 | 표준화가 어떤 구조에서 쓰이는지 읽게 해 줍니다. | 누가 요청하고, 누가 중개하고, 누가 기능을 제공하는지만 구분하면 충분합니다. |
-| 표준화가 있어도 권한과 검증 문제는 따로 남는다는 점 | 프로토콜이 모든 운영 문제를 해결한다고 과신하지 않게 해 줍니다. | 연결은 쉬워져도 승인과 보안은 별도로 관리해야 한다고 알면 충분합니다. |
+| MCP는 에이전트가 아니라 연결 프로토콜(protocol)이라는 점 | MCP를 “또 하나의 AI”처럼 오해하지 않게 해 줍니다. | 앱과 외부 시스템이 연결되는 규칙으로 이해합니다. |
+| 호스트, 클라이언트, 서버는 역할이 다르다는 점 | 표준화가 어떤 구조에서 쓰이는지 읽게 해 줍니다. | 누가 요청하고, 누가 중개하고, 누가 기능을 제공하는지 구분합니다. |
+| 표준화가 있어도 권한과 검증 문제는 따로 남는다는 점 | 프로토콜이 모든 운영 문제를 해결한다고 과신하지 않게 해 줍니다. | 연결은 쉬워져도 승인과 보안은 별도로 관리해야 한다고 이해합니다. |
 
 ## 왜 연결 표준이 필요한가
 
@@ -84,7 +84,7 @@ P1-14.1에서 AI 서비스는 모델(model), 앱(application), 데이터(data), 
 
 이런 상황에서는 같은 도구를 여러 앱에 붙일 때마다 비슷한 코드를 반복하게 됩니다. MCP는 이 문제를 줄이기 위해 `AI 앱이 외부 시스템과 대화하는 공통 규칙`을 제공하려는 흐름으로 볼 수 있습니다.
 
-입문 단계에서는 MCP를 이렇게 이해하면 충분합니다.
+여기서는 MCP를 이렇게 이해하면 됩니다.
 
 > 도구마다 제각각 연결하는 방식
 > -> 공통 프로토콜을 통해 발견하고 호출하는 방식
@@ -164,7 +164,7 @@ MCP의 핵심 직관 중 하나는 `발견(discovery)`입니다. AI 앱은 연�
 > 4. 필요한 도구를 선택해 호출한다.
 > 5. 실행 결과를 받아 모델 입력이나 앱 상태에 반영한다.
 
-공식 아키텍처 문서는 도구 목록을 가져오는 `tools/list`와 도구를 실행하는 `tools/call` 같은 흐름을 예로 듭니다. 입문 단계에서는 메서드 이름을 외울 필요는 없습니다. 중요한 것은 실행 전에 “어떤 도구가 있는지”를 확인하고, 호출할 때 “어떤 이름과 인자를 보낼지”를 구조화한다는 점입니다.
+공식 아키텍처 문서는 도구 목록을 가져오는 `tools/list`와 도구를 실행하는 `tools/call` 같은 흐름을 예로 듭니다. 여기서 중요한 것은 실행 전에 “어떤 도구가 있는지”를 확인하고, 호출할 때 “어떤 이름과 인자를 보낼지”를 구조화한다는 점입니다.
 
 예를 들어 날씨 MCP 서버가 있다고 합시다.
 
@@ -220,9 +220,9 @@ MCP는 도구 연결을 표준화하는 데 도움이 되지만, 모든 문제�
 | 결과의 사실성 | 도구 결과를 어떻게 해석할지는 별도 검토가 필요함 |
 | 에이전트 평가 | 작업이 성공했는지 측정하는 기준은 하네스와 평가 문제 |
 
-MCP 보안 문서도 혼동된 대리인 문제(confused deputy problem), 토큰 전달(token passthrough), SSRF(Server-Side Request Forgery), 세션 하이재킹(session hijacking), 로컬 MCP 서버 손상(local MCP server compromise) 같은 위험을 별도로 다룹니다. 이 절에서 보안을 깊게 설명하지는 않지만, MCP 서버는 외부 시스템과 연결되므로 신뢰 경계(trust boundary)를 반드시 생각해야 합니다.
+MCP 보안 문서도 혼동된 대리인 문제(confused deputy problem), 토큰 전달(token passthrough), SSRF(Server-Side Request Forgery), 세션 하이재킹(session hijacking), 로컬 MCP 서버 손상(local MCP server compromise) 같은 위험을 별도로 다룹니다. 여기서 보안을 깊게 설명하지는 않지만, MCP 서버는 외부 시스템과 연결되므로 신뢰 경계(trust boundary)를 반드시 생각해야 합니다.
 
-입문 단계에서 기억할 안전한 원칙은 다음입니다.
+먼저 유지해야 할 안전 원칙은 다음과 같습니다.
 
 > MCP 서버를 연결한다는 것은 외부 능력을 추가한다는 뜻이다.
 > 외부 능력은 권한, 승인, 로그, 격리와 함께 다뤄야 한다.
@@ -265,9 +265,7 @@ MCP(Model Context Protocol)는 AI 앱과 외부 시스템 사이의 연결을 �
 
 이 관점을 잡으면 다음 절의 하네스(harness)를 더 정확히 볼 수 있습니다. 하네스는 모델, 도구, MCP 연결을 실제 실행 환경에서 어떻게 감싸고, 기록하고, 평가할지의 문제로 이어집니다.
 
-또한 이 절은 `MCP 서버 구현 절차`를 설명하는 절도, `보안 정책 전체`를 정리하는 절도 아닙니다. 여기서는 연결 표준의 역할과 경계만 먼저 잡고, 실행 통제와 평가 장치는 14.5, 보안과 개인정보는 15장에서 다시 다룹니다.
-
-## 체크리스트
+## 짧은 점검
 
 - MCP(Model Context Protocol)를 모델이나 에이전트가 아니라 연결 프로토콜(protocol)로 설명할 수 있다.
 - MCP 호스트(host), 클라이언트(client), 서버(server)의 역할을 구분할 수 있다.
@@ -275,8 +273,16 @@ MCP(Model Context Protocol)는 AI 앱과 외부 시스템 사이의 연결을 �
 - MCP가 에이전트의 도구 연결과 맥락 확보를 도울 수 있음을 설명할 수 있다.
 - MCP가 권한(permission), 승인(approval), 보안(security), 평가(evaluation)를 자동으로 해결하지는 않음을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- MCP를 모델, 에이전트, 도구 자체와 같은 층위의 개념으로 섞고 있을 때
+- 외부 시스템 연결에서 표준화와 실제 실행 책임을 구분해야 할 때
+- 도구 연결 편의성과 권한·승인·검증 책임이 별개임을 다시 확인해야 할 때
+
+이때는 먼저 `연결 규약`, `능력 제공`, `실행 책임`을 나누면 됩니다. 그러면 MCP를 도구 그 자체나 에이전트 그 자체로 잘못 겹쳐 읽지 않게 됩니다.
+
 ## 출처와 참고 자료
 
-- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro), 확인 날짜: 2026-06-23.
-- Model Context Protocol, [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture), 확인 날짜: 2026-06-23.
-- Model Context Protocol, [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices), 확인 날짜: 2026-06-23.
+- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Model Context Protocol, [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Model Context Protocol, [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.

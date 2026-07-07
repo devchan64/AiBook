@@ -1,9 +1,9 @@
 # P4-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
-P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 먼저 잡았습니다. 그런데 실제 문서나 라이브러리 문서를 읽다 보면 곧 더 낯선 이름이 나옵니다.
+P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 잡았습니다. 그런데 실제 문서나 라이브러리 문서를 읽다 보면 곧 더 낯선 이름이 나옵니다.
 
 - ROC curve
 - PR curve
@@ -11,20 +11,18 @@ P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 
 - calibration
 - silhouette score
 
-이 보충학습의 목적은 수식을 길게 계산하는 것이 아닙니다. 이 지표들이 `무슨 질문에 답하려고 등장했는가`를 먼저 연결하는 것입니다.
+이 보충학습의 목적은 수식을 길게 계산하는 것이 아닙니다. 이 지표들이 `무슨 질문에 답하려고 등장했는가`를 연결하는 것입니다.
 
 ## 이 보충학습의 범위
 
-이 절은 분류와 군집화에서 자주 등장하는 ROC, PR, log loss, calibration, silhouette를 처음 읽기 위한 보충학습입니다. 여기서는 세부 증명보다 `언제 왜 보게 되는가`에 집중합니다.
-
-이 보충학습은 다음 질문에 답합니다.
+이 절은 분류와 군집화에서 자주 등장하는 ROC, PR, log loss, calibration, silhouette를 처음 읽는 보충학습입니다. 세부 증명보다 `언제 왜 보게 되는가`에 집중합니다.
 
 - ROC와 PR 곡선은 왜 점수(score)와 임계값(threshold) 문제로 이어지는가?
 - log loss는 왜 `맞고 틀림`보다 확률 출력까지 함께 보게 하는가?
 - calibration은 왜 `확률처럼 보이는 점수`를 다시 의심하게 하는가?
 - silhouette는 왜 군집화에서 정답 라벨 없이도 구조를 읽게 하는가?
 
-이 절은 AUC 계산 증명, 로그 손실 수식 전개, 보정 알고리즘 구현, 여러 군집 지표의 전면 비교를 깊게 다루지 않습니다. 그런 세부 계산은 이 책의 현재 범위 밖에 두고, 여기서는 읽는 기준만 회수합니다.
+이 절은 AUC 계산 증명, 로그 손실 수식 전개, 보정 알고리즘 구현, 여러 군집 지표의 전면 비교를 깊게 다루지 않습니다. 그런 세부 계산은 이 책의 현재 범위 밖에 두고, 읽는 기준만 회수합니다.
 
 ## 이 보충학습의 목표
 
@@ -55,7 +53,15 @@ P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 
 | 정확도는 괜찮은데 확률 점수를 그대로 믿어도 되는가? | log loss, calibration | P4-6.2, P4-15.3 |
 | 군집을 만들었는데 정답 라벨 없이도 구조를 읽을 수 있는가? | silhouette | P4-17.1, P4-17.2 |
 
-즉, 이 절은 본편을 대신하는 새로운 평가 장이 아니라, 본편에서 이미 세운 `문제 유형별 질문`을 더 세밀하게 읽기 위한 우회 절입니다. 여기서 이름과 질문을 연결한 뒤에는 다시 본편의 분류, 군집화, threshold 조정 장면으로 돌아가 읽는 편이 가장 자연스럽습니다.
+보충 지표는 `지금 질문이 본편 지표만으로 충분한가, 더 세부적인 읽기 틀이 필요한가`를 기준으로 꺼냅니다.
+
+| 현재 질문 | 이 절에서 먼저 볼 것 | 이유 |
+| --- | --- | --- |
+| threshold를 바꾸면 FP/FN 균형이 어떻게 달라지는가 | ROC, PR | 분류 점수와 임계값 변화가 함께 움직이기 때문입니다. |
+| 확률 점수의 자신감까지 믿어도 되는가 | log loss, calibration | 맞고 틀림만으로는 확률 해석을 다 못 보기 때문입니다. |
+| 정답 없이 군집 구조가 그럴듯한가 | silhouette | 내부 구조를 읽는 기준이 따로 필요하기 때문입니다. |
+
+즉, 이 절은 본편을 대신하는 새로운 평가 장이 아니라, 본편에서 이미 세운 `문제 유형별 질문`을 더 세밀하게 읽기 위한 우회 절입니다. 여기서 이름과 질문을 연결한 뒤에는 다시 본편의 분류, 군집화, threshold 조정 장면으로 돌아가 읽는 흐름이 가장 자연스럽습니다.
 
 ## ROC와 PR 곡선은 임계값 문제를 드러낸다
 
@@ -103,7 +109,7 @@ calibration은 비슷한 점수를 받은 사례들을 모아 봤을 때, 그 �
 - 확률 해석이 직접 의사결정에 연결되는 장면
 - threshold를 정할 때 점수 크기 자체를 믿어야 하는 장면
 
-P4-15.3에서 threshold 조정과 calibration 이야기가 다시 나오므로, 여기서는 `확률처럼 보이는 점수도 다시 검토해야 한다`는 관점을 먼저 연결해 두면 됩니다.
+P4-15.3에서 threshold 조정과 calibration 이야기가 다시 나오므로, 이 절은 `확률처럼 보이는 점수도 다시 검토해야 한다`는 관점을 먼저 연결해 둡니다.
 
 ## silhouette는 정답 없이 군집 구조를 읽는 내부 기준이다
 
@@ -118,11 +124,11 @@ silhouette는 `내 군집과의 가까움`과 `가장 가까운 다른 군집과
 - 지금 묶음이 너무 뒤섞여 있지는 않은가?
 - 군집 수를 바꿨을 때 구조가 더 나아지는가?
 
-P4-17.1과 P4-17.2에서 군집화 결과 해석과 군집 품질 지표가 다시 등장하므로, 여기서는 `정답 없이도 구조를 읽는 내부 기준`이라는 점만 먼저 잡으면 됩니다.
+P4-17.1과 P4-17.2에서 군집화 결과 해석과 군집 품질 지표가 다시 등장하므로, 이 절은 `정답 없이도 구조를 읽는 내부 기준`이라는 점을 먼저 고정합니다.
 
 ## 이 다섯 이름을 한 번에 외우지 않아도 된다
 
-처음 읽는 독자에게 중요한 것은 지표 이름 암기보다 질문 연결입니다.
+중요한 것은 지표 이름 암기보다 질문 연결입니다.
 
 | 질문 | 연결되는 이름 |
 | --- | --- |
@@ -131,7 +137,7 @@ P4-17.1과 P4-17.2에서 군집화 결과 해석과 군집 품질 지표가 다�
 | 점수가 실제 빈도와 맞는가? | calibration |
 | 정답 없이도 묶음 구조가 그럴듯한가? | silhouette |
 
-즉, 이 지표들은 모두 `정확도 하나로 충분하지 않을 때` 꺼내 보는 도구라고 기억하면 됩니다.
+즉, 이 지표들은 모두 `정확도 하나로 충분하지 않을 때` 꺼내 보는 도구입니다.
 
 ## 사례로 보기
 
@@ -143,7 +149,7 @@ P4-17.1과 P4-17.2에서 군집화 결과 해석과 군집 품질 지표가 다�
 
 이때 ROC와 PR은 임계값 변화에 따라 무엇이 달라지는지 보게 하고, log loss는 틀린 답을 얼마나 과하게 확신했는지 읽게 하며, calibration은 점수 자체를 얼마나 믿어도 되는지 점검하게 합니다. silhouette는 정답 라벨 없이 고객 묶음 구조를 볼 때 등장합니다.
 
-확인 가능한 결과도 질문마다 다릅니다. threshold를 바꿨을 때 precision과 recall이 어떻게 흔들리는지, 높은 위험 점수 묶음이 실제 사기 비율과 얼마나 맞는지, 군집 안 거래들이 실제로 비슷한지 각각 따로 확인해야 합니다. 그래서 이 지표들은 `새 이름`이 아니라 `더 구체적인 질문`에 대응하는 도구로 읽는 편이 맞습니다.
+확인 가능한 결과도 질문마다 다릅니다. threshold를 바꿨을 때 precision과 recall이 어떻게 흔들리는지, 높은 위험 점수 묶음이 실제 사기 비율과 얼마나 맞는지, 군집 안 거래들이 실제로 비슷한지 각각 따로 확인해야 합니다. 그래서 이 지표들은 `새 이름`이 아니라 `더 구체적인 질문`에 대응하는 도구로 읽어야 합니다.
 
 ## 이 보충학습에서 기억할 관점
 
@@ -156,15 +162,20 @@ P4-17.1과 P4-17.2에서 군집화 결과 해석과 군집 품질 지표가 다�
 
 즉, `지표가 많다`는 것은 `좋은 결과의 뜻이 하나가 아니다`라는 말과 같습니다.
 
-## 체크리스트
+## 짧은 점검
 
-- ROC와 PR 곡선을 임계값 변화와 연결해 설명할 수 있는가?
-- log loss를 확률 출력의 자신감까지 함께 보는 지표로 설명할 수 있는가?
-- calibration을 점수와 실제 빈도의 맞음 정도로 설명할 수 있는가?
-- silhouette를 정답 라벨 없이 군집 구조를 읽는 기준으로 설명할 수 있는가?
+- ROC와 PR을 언제 본편의 accuracy/precision/recall 뒤에 꺼내야 하는지 설명할 수 있는가
+- 왜 log loss와 calibration은 `확률처럼 보이는 점수`를 다시 의심하게 만드는지 말할 수 있는가
+- silhouette가 군집화에서 어떤 질문에 답하는 내부 기준인지 설명할 수 있는가
+
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- accuracy/precision/recall만으로는 부족한 상황에서 ROC, PR, log loss, calibration, silhouette 같은 보충 지표를 떠올려야 할 때 이 절을 봅니다.
+- 확률처럼 보이는 점수의 자신감까지 다시 의심해야 하거나, 정답 라벨 없는 군집 구조를 내부 기준으로 읽어야 할 때 이 절로 돌아옵니다.
+- 같은 `지표`라는 이름 아래 서로 다른 층위의 질문이 섞이지 않게 정리할 때 이 절이 기준이 됩니다.
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html), 확인 날짜: 2026-06-29.
-- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html), 확인 날짜: 2026-06-29.
-- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation), 확인 날짜: 2026-06-29.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- scikit-learn developers, [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- scikit-learn developers, [Clustering performance evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.

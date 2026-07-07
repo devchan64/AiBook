@@ -1,7 +1,7 @@
-# 15.3 보안(security)과 개인정보(privacy)
+# P1-15.3 보안(security)과 개인정보(privacy)
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-15.2에서는 타인의 표현과 저작물을 어떻게 다룰 것인지 살펴봤습니다. P1-15.3에서는 타인의 정보와 권한을 어떻게 다룰 것인지 봅니다.
 
@@ -11,11 +11,11 @@ P1-15.2에서는 타인의 표현과 저작물을 어떻게 다룰 것인지 살
 
 보안(security)과 개인정보(privacy)는 AI 서비스에서 별도 부록이 아닙니다. 프롬프트(prompt), 검색 문서, 로그(log), 도구 호출(tool call), 에이전트(agent) 실행 흐름 전체에 붙어 있는 운영 조건입니다.
 
-Part 1 안에서는 이 절을 `보안(security)`, `개인정보(privacy)`, `프롬프트 인젝션(prompt injection)`, `최소 권한(least privilege)`, `민감 정보(sensitive information)`, `로그(log)`의 대표 상세 설명 위치로 사용합니다. 15.2에서는 타인의 표현과 저작물을 어떻게 다룰지 봤고, 여기서는 `타인의 정보와 권한을 어떻게 다룰 것인가`를 정리합니다. 교육과 실무 적용은 16장에서 이어집니다.
+이 절에서는 `보안(security)`, `개인정보(privacy)`, `프롬프트 인젝션(prompt injection)`, `최소 권한(least privilege)`, `민감 정보(sensitive information)`, `로그(log)`를 중심으로 타인의 정보와 권한을 어떻게 다뤄야 하는지 정리합니다. 15.2의 저작물 다루기와 나란히 읽되, 교육과 실무 적용은 16장으로 넘깁니다.
 
 ## 이 절의 범위
 
-이 절은 AI 서비스를 사용할 때 입력, 출력, 도구 권한, 로그, 개인정보를 어떻게 조심해야 하는지 다룹니다.
+여기서는 AI 서비스를 사용할 때 입력, 출력, 도구 권한, 로그, 개인정보를 어떻게 조심해야 하는지 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -34,15 +34,15 @@ Part 1 안에서는 이 절을 `보안(security)`, `개인정보(privacy)`, `프
 - 에이전트(agent)의 도구 권한은 최소 권한(least privilege)으로 제한해야 함을 이해합니다.
 - 보안과 개인정보는 모델 하나가 아니라 서비스 구조 전체에서 관리해야 함을 설명합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 보안을 전문가 전용 부록처럼 보지 않게 만드는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 보안을 전문가 전용 부록이 아니라 서비스 구조의 일부로 읽습니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| AI 입력은 대화가 아니라 데이터 이동이라는 점 | 입력을 가볍게 생각하는 습관을 줄여 줍니다. | 넣은 정보가 서버, 로그, 검색 시스템으로 이동할 수 있다고 이해하면 충분합니다. |
-| 프롬프트 인젝션은 외부 문서가 AI 행동을 바꿀 수 있는 보안 문제라는 점 | 검색과 도구 사용이 붙은 시스템에서 왜 위험한지 보여 줍니다. | 문서 안의 숨은 지시가 원래 규칙을 흔들 수 있다고 알면 충분합니다. |
-| 에이전트 권한은 최소 권한으로 제한해야 한다는 점 | 자동화 편의와 보안 위험을 함께 보게 해 줍니다. | 필요한 도구만, 필요한 범위만 열어야 한다고 이해하면 충분합니다. |
+| AI 입력은 대화가 아니라 데이터 이동이라는 점 | 입력을 가볍게 생각하는 습관을 줄여 줍니다. | 넣은 정보가 서버, 로그, 검색 시스템으로 이동할 수 있다고 이해합니다. |
+| 프롬프트 인젝션은 외부 문서가 AI 행동을 바꿀 수 있는 보안 문제라는 점 | 검색과 도구 사용이 붙은 시스템에서 왜 위험한지 보여 줍니다. | 문서 안의 숨은 지시가 원래 규칙을 흔들 수 있다고 이해합니다. |
+| 에이전트 권한은 최소 권한으로 제한해야 한다는 점 | 자동화 편의와 보안 위험을 함께 보게 해 줍니다. | 필요한 도구만, 필요한 범위만 열어야 한다고 이해합니다. |
 
 ## 입력은 대화가 아니라 데이터 이동이다
 
@@ -113,8 +113,6 @@ P1-14.5에서 하네스(harness), 로그(log), 평가(evaluation)는 AI 실행�
 
 문제 해결을 위해 모든 것을 남기는 방식은 안전하지 않습니다. 필요한 기간만 보관하고, 민감 정보는 마스킹(masking)하거나 저장하지 않는 설계가 필요합니다.
 
-또한 이 절은 `저작권과 학습 데이터의 사용 허용 범위`를 다루는 절도, `고급 보안 아키텍처 설계`를 모두 설명하는 절도 아닙니다. 여기서는 AI 서비스에서 반복적으로 부딪히는 기본 보안 질문을 먼저 잡고, 실무 적용은 16장에서 다시 연결합니다.
-
 ## 이 절에서 기억할 관점
 
 AI 보안은 모델을 막는 일이 아니라 데이터, 권한, 기록의 흐름을 관리하는 일입니다.
@@ -127,7 +125,7 @@ AI 보안은 모델을 막는 일이 아니라 데이터, 권한, 기록의 흐�
 
 Part 1 Chapter 15는 여기서 끝납니다. Part 1 Chapter 16에서는 이 책과 실제 업무에서 AI를 어떻게 적용하고 검증할지 살펴봅니다.
 
-## 체크리스트
+## 짧은 점검
 
 - AI 입력(input)이 외부 서비스와 로그로 이동할 수 있음을 설명할 수 있다.
 - 개인정보(privacy), 인증 정보(credential), 회사 비밀(confidential information)을 AI 입력에서 제외해야 함을 설명할 수 있다.
@@ -135,8 +133,16 @@ Part 1 Chapter 15는 여기서 끝납니다. Part 1 Chapter 16에서는 이 책�
 - 에이전트(agent)의 실행 권한을 최소 권한(least privilege)으로 제한해야 함을 설명할 수 있다.
 - 로그(log), trace, 평가 데이터도 개인정보와 보안 위험을 만들 수 있음을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- AI 입력을 단순 대화처럼 여기고 데이터 이동으로 보지 않을 때
+- RAG, 도구 사용, 에이전트 권한이 붙은 구조에서 보안 위험을 다시 점검해야 할 때
+- 로그와 추적이 문제 해결 기록이면서 동시에 개인정보 위험이 될 수 있음을 확인해야 할 때
+
+이때는 먼저 `입력 데이터`, `외부 문서 지시`, `실행 권한`, `기록 보관`을 나누면 됩니다. 그러면 보안 문제를 모델 품질 문제와 섞지 않고 서비스 구조 안에서 다시 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/), 확인 날짜: 2026-06-23.
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), 확인 날짜: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1), NIST AI 600-1, 2024, 확인 날짜: 2026-06-23.
+- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, 확인 날짜: 2026-06-23.

@@ -1,13 +1,13 @@
-# 1.1 AI라는 말의 범위
+# P1-1.1 AI라는 말의 범위
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 AI를 다시 공부할 때 첫 번째 어려움은 기술 자체보다 말의 범위입니다. 같은 `AI`라는 표현이 어떤 문맥에서는 규칙 기반 프로그램을 가리키고, 어떤 문맥에서는 머신러닝 모델을 가리키며, 최근에는 생성형 AI나 LLM을 거의 같은 뜻처럼 부르기도 합니다.
 
-이 절의 목적은 AI를 하나의 문장으로 완벽하게 정의하는 것이 아닙니다. 이후 절과 장에서 다룰 규칙 기반 AI, 머신러닝, 딥러닝, 생성형 AI, LLM을 같은 지도 위에 놓고 읽을 수 있도록 범위를 정리하는 것입니다.
+이 절의 목적은 AI를 하나의 문장으로 완벽하게 정의하는 것이 아닙니다. 이후 절과 장에서 다룰 규칙 기반 시스템, 머신러닝, 딥러닝, 생성형 AI, LLM을 같은 지도 위에 놓고 읽을 수 있도록 범위를 정리하는 것입니다.
 
-Part 1 안에서는 이 절을 `AI`라는 가장 넓은 바깥 범주의 대표 상세 설명 위치로 사용합니다. 뒤 절에서 `AI`라는 말이 다시 나오더라도, 그 절의 중심 질문에 필요한 만큼만 연결하고 상세 정의는 여기와 개념사전으로 다시 돌아오면 됩니다.
+Part 1에서 `AI`는 가장 넓은 바깥 범주입니다. 뒤 절에서 `AI`라는 말이 다시 나오더라도 그 절의 중심 질문에 필요한 만큼만 연결하고, 범위 자체를 다시 구분해야 할 때는 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아옵니다.
 
 ## 이 절의 범위
 
@@ -23,7 +23,7 @@ Part 1 안에서는 이 절을 `AI`라는 가장 넓은 바깥 범주의 대표 
 - 딥러닝 학습 과정의 내부 구현
 - 생성형 AI 제품 비교와 최신 모델 계보
 
-세부 기술 흐름은 Part 1 Chapter 2, Part 1 Chapter 3, 그리고 Part 4 이후에서 다시 회수합니다. 이 절은 먼저 `AI가 가장 넓은 바깥 범주`라는 감각을 잡는 데 집중합니다.
+세부 기술 흐름은 Part 1 Chapter 2, Part 1 Chapter 3, 그리고 Part 4 이후에서 다시 회수합니다. 여기서는 `AI가 가장 넓은 바깥 범주`라는 기준을 세우는 데 집중합니다.
 
 ## 이 절의 목표
 
@@ -31,17 +31,36 @@ Part 1 안에서는 이 절을 `AI`라는 가장 넓은 바깥 범주의 대표 
 - AI를 특정 제품이나 최신 모델이 아니라 문제를 다루는 분야로 봅니다.
 - AI, 머신러닝, 딥러닝, 생성형 AI의 관계를 이후 장에서 다시 읽을 수 있는 수준으로 정리합니다.
 
+## 먼저 연결할 개념
+
+이 절은 뒤에서 반복해서 쓸 핵심 용어를 처음 한꺼번에 소개하는 입구이기도 합니다. 아래 개념은 지금 짧게 뜻을 잡아 두고, 더 자세한 정의가 필요할 때는 각 링크를 눌러 해당 항목으로 바로 이동해 다시 확인합니다. 같은 한국어 단어라도 영어 기준으로 다른 개념으로 갈릴 수 있으므로, 개념사전 표제어는 한국어와 영어를 함께 봅니다.
+
+| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
+| --- | --- | --- |
+| [AI](../../../reference/concept-glossary.md#ai-artificial-intelligence) | 가장 넓은 바깥 범주 | 뒤에서 나올 여러 접근을 한 지도에 놓기 위해 |
+| [머신러닝](../../../reference/concept-glossary.md#machine-learning) | 데이터에서 패턴을 학습하는 접근 | 규칙 기반 방식과 학습 기반 방식을 구분하기 위해 |
+| [딥러닝](../../../reference/concept-glossary.md#deep-learning) | 신경망으로 복잡한 표현을 학습하는 흐름 | 머신러닝 안의 중요한 확장 방향을 잡기 위해 |
+| [생성형 AI](../../../reference/concept-glossary.md#aigenerative-ai) | 텍스트, 이미지, 음성 같은 결과를 만들어 내는 흐름 | 최근 AI 경험을 좁게 오해하지 않기 위해 |
+| [LLM](../../../reference/concept-glossary.md#llm) | 언어 데이터를 중심으로 다루는 대규모 언어 모델 | 생성형 AI와 AI 전체를 구분하기 위해 |
+| [시스템](../../../reference/concept-glossary.md#system) | 입력을 받아 결과를 만드는 실제 구현 구조 | 분야와 구현을 구분하기 위해 |
+| [입력](../../../reference/concept-glossary.md#input) | 시스템이 받아 보는 정보 | 무엇을 근거로 판단하는지 읽기 위해 |
+| [출력](../../../reference/concept-glossary.md#output) | 시스템이 만들어 내는 결과 | 분류, 추천, 생성 같은 차이를 읽기 위해 |
+| [목표](../../../reference/concept-glossary.md#goal) | 왜 그런 출력을 만들게 하는가에 대한 목적 | 같은 출력도 다른 목적에서 쓰일 수 있음을 보기 위해 |
+| [예측](../../../reference/concept-glossary.md#prediction) | 현재 정보에서 결과를 추정하는 일 | 생성, 추천, 분류와 헷갈리지 않게 하기 위해 |
+| [추천](../../../reference/concept-glossary.md#recommendation) | 여러 후보 중 다음에 볼 만한 것을 고르는 결과 | AI가 답변만 만드는 것이 아님을 보기 위해 |
+| [규칙 기반 시스템](../../../reference/concept-glossary.md#rule-based-system) | 사람이 규칙을 써서 결론을 내리는 시스템 | AI 범위를 최신 학습 모델로만 좁히지 않기 위해 |
+
 ## 주요 학습내용
 
-이 절은 용어가 많이 나오므로 처음부터 완벽히 구분하려고 하면 오히려 더 어렵습니다. 아래 세 가지를 이 절의 큰 지도로 삼으면 흐름을 놓치지 않기 쉽습니다.
+이 절은 용어가 많이 나오지만, 처음에 모두 같은 층위의 말처럼 다루지만 않으면 구조는 비교적 분명해집니다. 아래 세 가지가 이 절의 큰 지도입니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 잡을 기준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
 | `AI`는 하나의 제품 이름이 아니라 넓은 분야라는 점 | 그래야 머신러닝, 딥러닝, LLM을 AI 전체와 같은 말로 섞지 않게 됩니다. | AI가 가장 넓은 바깥 범주라는 점을 먼저 구분합니다. |
 | 같은 `AI`라도 시대마다 구현 방식이 달랐다는 점 | 규칙, 탐색, 확률, 학습, 딥러닝이 왜 함께 등장하는지 보이기 시작합니다. | AI의 정의와 AI의 구현 방식이 같지 않다는 점을 먼저 구분합니다. |
-| 최근의 LLM은 AI 전체가 아니라 한 흐름이라는 점 | 현재의 제품 경험이 곧 AI 전체라고 오해하는 일을 줄여 줍니다. | 생성형 AI와 LLM이 넓은 지도 안의 후반부 흐름이라는 점을 먼저 잡습니다. |
+| 최근의 LLM은 AI 전체가 아니라 한 흐름이라는 점 | 현재의 제품 경험이 곧 AI 전체라고 오해하는 일을 줄여 줍니다. | 생성형 AI와 LLM이 넓은 지도 안의 후반부 흐름이라는 점을 구분합니다. |
 
-`분야`, `시스템`, `입력`, `출력`, `목표`는 초반에 서로 비슷한 말처럼 들릴 수 있습니다. 이 절에서는 아래 정도로 짧게 구분해 두고 계속 읽으면 됩니다.
+`분야`, `시스템`, `입력`, `출력`, `목표`는 초반에 서로 비슷한 말처럼 들릴 수 있습니다. 이 절에서는 아래처럼 역할을 나누어 둡니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -50,14 +69,17 @@ Part 1 안에서는 이 절을 `AI`라는 가장 넓은 바깥 범주의 대표 
 | 입력 | 시스템이 받아 보는 정보 | 문장, 기록, 이미지, 센서값 |
 | 출력 | 시스템이 만들어 내는 결과 | 분류, 추천, 예측, 생성 결과 |
 | 목표 | 왜 그런 출력을 만들게 하는가에 대한 목적 | 승인 보조, 추천, 검색, 답변 생성 |
+| 영향 | 그 출력이 사람의 판단이나 환경에 미치는 결과 | 승인 결정, 노출 순위 변화, 업무 흐름 변경 |
 
-이 단계에서는 `AI는 넓은 분야`이고 `그 안의 AI 시스템은 입력과 목표와 출력을 가진 구조`라는 점이 먼저 남아 있으면 됩니다.
+이 절에서 먼저 남겨야 하는 기준은 `AI는 넓은 분야`이고 `그 안의 AI 시스템은 입력과 목표와 출력을 가진 구조`라는 점입니다. 여기에 `영향`을 함께 보는 이유는, 같은 출력이라도 실제 사람의 판단과 환경에 어떤 결과를 남기는지까지 봐야 시스템의 역할을 더 정확히 읽을 수 있기 때문입니다. 용어를 다시 확인할 때는 [개념사전](../../../reference/concept-glossary.md)의 해당 항목을 찾아보면 됩니다.
+
+예를 들어 `온라인 상점의 상품 추천`을 한 줄로 읽어 보면, AI는 이런 추천 문제를 다루는 넓은 분야이고, `추천 시스템`은 실제 구현된 시스템이며, 입력은 사용자의 클릭 기록과 구매 기록이고, 출력은 추천 상품 목록이며, 목표는 사용자가 다음에 볼 만한 상품을 고르는 것이고, `영향`은 어떤 상품이 더 자주 노출되고 사용자의 선택 흐름이 바뀐다는 점입니다. 뒤 절들에서 다른 사례를 만나더라도 먼저 이 여섯 칸으로 나눠 보면, 용어를 외우기보다 구조를 읽는 데 도움이 됩니다.
 
 ## 세부 학습내용
 
 ### AI는 하나의 기술 이름이 아니다
 
-AI는 하나의 기술 이름이라기보다 넓은 연구 분야이자 시스템 범주에 가깝습니다. 그래서 AI를 이해할 때는 “이것이 진짜 지능인가?”라는 질문만으로 시작하면 금방 막힙니다. 실제 학습에서는 “어떤 문제를 어떤 방식으로 풀려고 하는가?”를 먼저 보는 편이 더 유용합니다.
+AI는 하나의 기술 이름이라기보다 넓은 연구 분야이자 시스템 범주에 가깝습니다. 그래서 AI를 이해할 때는 “이것이 진짜 지능인가?”라는 질문만으로 시작하면 금방 막힙니다. 실제로는 “어떤 문제를 어떤 방식으로 풀려고 하는가?”를 먼저 봐야 범위를 더 안정적으로 나눌 수 있습니다.
 
 예를 들어 체스나 바둑에서 다음 수를 찾는 시스템, 이미지에서 사물을 인식하는 모델, 문장을 번역하는 모델, 사용자의 질문에 답하는 챗봇은 겉보기에는 매우 다릅니다. 하지만 모두 입력을 받아 어떤 계산 과정을 거쳐 출력, 결정, 추천, 예측, 생성 결과를 만든다는 공통점이 있습니다.
 
@@ -132,7 +154,7 @@ flowchart TD
   Gen --> LLM
 ```
 
-이 그림은 `AI`를 가장 바깥 범주로 두고, 그 안에 규칙 기반 접근, 탐색과 계획, 확률적 추론, 머신러닝, 딥러닝, 생성형 AI, LLM이 서로 어떤 자리에 놓이는지 보여 주는 학습용 지도입니다. 여기서 중요한 점은 선 하나하나를 엄격한 포함 관계로 외우는 것이 아니라, `LLM이 AI 전체와 같은 말은 아니며`, `규칙 기반 접근도 AI 바깥이 아니라 안쪽의 한 흐름`이라는 정도를 먼저 잡는 데 있습니다.
+이 그림은 `AI`를 가장 바깥 범주로 두고, 그 안에 규칙 기반 접근, 탐색과 계획, 확률적 추론, 머신러닝, 딥러닝, 생성형 AI, LLM이 서로 어떤 자리에 놓이는지 보여 주는 학습용 지도입니다. 여기서 중요한 점은 선 하나하나를 엄격한 포함 관계로 외우는 것이 아니라, `LLM이 AI 전체와 같은 말은 아니며`, `규칙 기반 접근도 AI 바깥이 아니라 안쪽의 한 흐름`이라는 관계를 읽는 데 있습니다.
 
 이 그림은 완전한 분류표가 아니라 학습용 지도입니다. 실제 기술은 서로 겹칩니다. LLM은 생성형 AI를 대표하는 모델 계열 중 하나로 볼 수 있지만, 모든 생성형 AI가 LLM인 것은 아닙니다. 예를 들어 최신 AI 서비스는 LLM만으로 구성되지 않고, 검색, 데이터베이스, 규칙, 권한 관리, 외부 도구 호출, 안전 필터를 함께 사용합니다. 반대로 전통적인 규칙 기반 시스템도 서비스 안에서는 여전히 유용합니다.
 
@@ -166,7 +188,7 @@ flowchart TD
 - 최근의 생성형 AI 경험만으로 AI 전체를 정의하면 규칙 기반 시스템, 검색, 추천, 예측 같은 다른 층위를 놓치기 쉽습니다.
 - AI를 볼 때는 먼저 입력, 목표, 출력, 영향이라는 질문으로 구조를 나눠 읽는 편이 안정적입니다.
 
-지금 단계의 최소 기억점은 `AI는 하나의 제품이 아니라 입력과 목표와 출력을 가진 넓은 시스템 범주`라는 한 문장입니다.
+이 절의 최소 기준은 `AI는 하나의 제품이 아니라 입력과 목표와 출력을 가진 넓은 시스템 범주`라는 한 문장입니다. Part 1의 뒤 절에서 `AI`를 다시 만나면, 먼저 여기의 범위 설명을 기준선으로 삼고 필요한 용어 확인은 [개념사전](../../../reference/concept-glossary.md)에서 이어서 확인하면 됩니다.
 
 ## 사례로 보기
 
@@ -178,7 +200,7 @@ flowchart TD
 
 대출 심사 시스템이 사람이 정한 규칙표로 신청서를 1차 판정한다고 해 보겠습니다. 사용자는 학습 데이터도 없고 채팅도 하지 않으니 `이건 AI가 아닌 것 아닌가`라고 느낄 수 있습니다. 하지만 이 시스템도 입력을 받아 규칙과 목표에 따라 판단을 내리고, 그 결과가 사람의 결정과 환경에 영향을 줍니다. 즉, 머신러닝이 아니어도 `지능과 관련된 기능을 수행하도록 설계된 시스템`이라는 넓은 AI 범주 안에서는 읽을 수 있습니다. 이 사례는 AI의 범위를 최신 학습 모델로만 좁히면 놓치는 층위가 있다는 점을 보여 줍니다.
 
-## 체크리스트
+## 짧은 점검
 
 - AI라는 말이 하나의 기술 이름이 아니라 넓은 분야와 시스템 범주로 쓰인다는 점을 설명할 수 있다.
 - AI, 머신러닝, 딥러닝, 생성형 AI, LLM을 같은 층위(level)의 단어처럼 섞어 쓰면 왜 혼동이 생기는지 설명할 수 있다.
@@ -186,17 +208,27 @@ flowchart TD
 - AI 시스템을 입력, 목표, 출력, 영향이라는 관점에서 볼 수 있다.
 - 생성형 AI의 결과가 자연스럽다는 사실과 결과가 사실이라는 판단을 구분할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 어떤 시스템을 두고 `이것도 AI인가`, `왜 이것도 AI라고 부르는가`가 먼저 헷갈릴 때 이 절의 관점을 다시 꺼내면 됩니다.
+
+- 규칙표로 판정하는 시스템을 보고 머신러닝이 아니니 AI도 아니라고 느껴질 때
+- 챗봇 경험만 떠올라 AI 전체가 질문-답변 서비스처럼 보일 때
+- 검색, 추천, 승인 보조, 예측 같은 시스템이 한 조직 안에 함께 있을 때 무엇을 같은 범주로 읽어야 할지 막힐 때
+
+이때는 먼저 `AI가 가장 넓은 바깥 범주`라는 기준으로 돌아가, 입력, 목표, 출력, 영향이 어떤 구조로 묶여 있는지부터 다시 보면 됩니다.
+
 ## 출처와 참고 자료
 
-- OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update), 2023-11-29, 확인 날짜: 2026-06-22.
-- NIST AI Resource Center, [Glossary](https://airc.nist.gov/glossary/), 확인 날짜: 2026-06-22.
-- Merriam-Webster, [Artificial intelligence Definition & Meaning](https://www.merriam-webster.com/dictionary/artificial%20intelligence), 확인 날짜: 2026-06-22.
-- Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence), 확인 날짜: 2026-06-22.
-- Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence), 확인 날짜: 2026-06-22.
-- 汉典, [人工智能](https://www.zdic.net/hans/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD), 확인 날짜: 2026-06-22.
-- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/), 2018-07-12, 확인 날짜: 2026-06-22.
-- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/), 확인 날짜: 2026-06-22.
-- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1), NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-22.
-- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223), arXiv:2303.18223, 확인 날짜: 2026-06-22.
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf), AI Magazine, 1996, 확인 날짜: 2026-06-22.
-- D. J. Power, [A Brief History of Decision Support Systems](https://dssresources.com/history/dsshistory.html), DSSResources.COM, version 4.0, 2007-03-10, 확인 날짜: 2026-06-22.
+- OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update){: target="_blank" rel="noopener noreferrer" }, 2023-11-29, 확인 날짜: 2026-06-22.
+- NIST AI Resource Center, [Glossary](https://airc.nist.gov/glossary/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Merriam-Webster, [Artificial intelligence Definition & Meaning](https://www.merriam-webster.com/dictionary/artificial%20intelligence){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- 汉典, [人工智能](https://www.zdic.net/hans/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 확인 날짜: 2026-06-22.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-22.
+- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, arXiv:2303.18223, 확인 날짜: 2026-06-22.
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }, AI Magazine, 1996, 확인 날짜: 2026-06-22.
+- D. J. Power, [A Brief History of Decision Support Systems](https://dssresources.com/history/dsshistory.html){: target="_blank" rel="noopener noreferrer" }, DSSResources.COM, version 4.0, 2007-03-10, 확인 날짜: 2026-06-22.

@@ -1,19 +1,17 @@
 # P7-3.1 이미지 분류 모델 목표
 
 > Section ID: `P7-3.1`
-> Version: `v2026.07.05`
+> Version: `v2026.07.07`
 
 P7-2까지는 표 데이터와 작은 분류 문제를 다뤘습니다. 이제 입력이 `표의 행(row)`이 아니라 `이미지 텐서(tensor)`일 때 프로젝트 문서가 어떻게 바뀌는지 확인합니다.
 
 하지만 여기서도 먼저 분명히 해야 할 점이 있습니다.
 
-이미지 분류 프로젝트의 핵심은 멋진 CNN 코드를 길게 쓰는 것이 아니라, 입력 모양(shape), 라벨(label), 예측 출력(prediction), 오류 사례를 함께 기록하는 것이다.
+이미지 분류 프로젝트의 핵심은 멋진 합성곱 신경망(CNN) 코드를 길게 쓰는 것이 아니라, 입력 모양(shape), 라벨(label), 예측 결과, 오류 사례를 함께 기록하는 것이다.
 
 이 절의 목적은 딥러닝 성능 경쟁이 아니라, 이미지 분류 프로젝트 문서에 무엇을 먼저 적어야 하는지 익히는 것이다.
 
 ## 이 절의 범위
-
-이 절은 다음 질문에 답합니다.
 
 - 이미지 분류 프로젝트는 표 데이터 프로젝트와 무엇이 다른가?
 - 작은 이미지 텐서를 분류 문제로 바꾸려면 무엇을 먼저 적어야 하는가?
@@ -27,6 +25,8 @@ P7-2까지는 표 데이터와 작은 분류 문제를 다뤘습니다. 이제 �
 - GPU 최적화
 
 이 절은 이미지 프로젝트의 입력, 라벨, 예측, 오류 기록 구조를 먼저 잡는 데 집중합니다. 실제 오류 사례를 어떻게 읽고 다음 개선으로 넘길지는 바로 다음 P7-3.2 오류 사례 분석에서 다시 회수하고, 프레임워크 전반 사용법과 대규모 훈련은 현재 본편 범위 밖으로 둡니다.
+
+이미지 입력으로 바뀌어도 프로젝트 메모의 기본 항목은 여기서 그대로 유지됩니다. 이 절은 이미지 텐서, 라벨, 예측, 테스트 기록을 어떤 문서 항목으로 남길지 정리합니다.
 
 ## 이 절의 목표
 
@@ -45,7 +45,7 @@ P7-2까지는 표 데이터와 작은 분류 문제를 다뤘습니다. 이제 �
 
 즉, Part 7의 이미지 프로젝트는 `딥러닝 프레임워크 훈련법`을 전부 배우는 자리가 아니라, Part 4에서 본 신경망 감각을 실제 프로젝트 기록 형태로 바꾸는 자리입니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+이미지 분류 프로젝트 입구에서 바로 확인해야 할 판단 기준을 표로 고정하면 다음과 같습니다.
 
 | 질문 | 짧은 답 |
 | --- | --- |
@@ -53,36 +53,28 @@ P7-2까지는 표 데이터와 작은 분류 문제를 다뤘습니다. 이제 �
 | 왜 작은 패턴 이미지로 시작하는가? | 픽셀 배열과 예측 흐름을 눈으로 확인하기 위해 |
 | 최소 산출물은 무엇인가? | 예측값, 정확도, 애매한 샘플 기록 |
 
-여기에 한 가지를 더 붙이면 이미지 프로젝트의 입구부터 기록 구조가 더 분명해집니다. 입력 모양과 라벨만 적는 데서 끝내지 말고, `어떤 샘플을 review 대상으로 남길 것인가`, `어떤 예측이 비교 기준선이 되는가`, `다음 절에서 어떤 오류 사례를 더 볼 것인가`를 같이 적어 두는 것입니다.
+여기에 한 가지를 더 붙이면 이미지 프로젝트의 입구부터 기록 구조가 더 분명해집니다. 입력 모양과 라벨만 적는 데서 끝내지 말고, `어떤 샘플을 추가 검토 대상으로 남길 것인가`, `어떤 예측이 비교 기준선이 되는가`, `다음 절에서 어떤 오류 사례를 더 볼 것인가`를 같이 적어 두는 것입니다.
 
 | 입구에서 같이 남길 기록 | 왜 필요한가 |
 | --- | --- |
-| 입력 shape | 어떤 숫자 배열을 다루는지 고정하기 위해서입니다. |
+| 입력 모양(shape) | 어떤 숫자 배열을 다루는지 고정하기 위해서입니다. |
 | 클래스 라벨 | 예측 목표를 분명히 하기 위해서입니다. |
-| review 대상 샘플 기준 | 낮은 margin이나 오분류 샘플을 따로 보기 위해서입니다. |
+| 추가 검토 대상 샘플 기준 | 확신 차이(margin)가 낮거나 오분류된 샘플을 따로 보기 위해서입니다. |
 | 다음 점검 질문 | 데이터, 표현, 모델 중 어디를 먼저 볼지 정하기 위해서입니다. |
 
 ## 프로젝트 질문 설정
 
-이번 절의 질문은 일부러 아주 작게 잡겠습니다.
-
-> 4x4 흑백 패턴 이미지에서 `세로 막대(vertical bar)`와 `가로 막대(horizontal bar)`를 구분할 수 있는가?
-
-이 질문이 좋은 이유는 다음과 같습니다.
-
-- 픽셀(pixel) 배열을 직접 눈으로 볼 수 있습니다.
-- 라벨이 명확합니다.
-- 애매한 혼합 패턴을 일부러 넣어 오류 분석까지 이어 갈 수 있습니다.
+이번 절은 `4x4 흑백 패턴 이미지에서 세로 막대와 가로 막대를 구분할 수 있는가?`라는 작은 질문에서 시작합니다. 픽셀(pixel) 배열을 직접 눈으로 볼 수 있고, 라벨이 명확하며, 애매한 혼합 패턴을 일부러 넣어 오류 분석까지 이어 갈 수 있기 때문입니다.
 
 ## 프로젝트 흐름
 
 ```mermaid
 flowchart TD
-  A["image tensor<br/>4x4 grayscale values"]
-  B["label<br/>vertical or horizontal"]
-  C["train simple classifier<br/>score each class"]
-  D["predict test images"]
-  E["inspect wrong or ambiguous cases"]
+  A["이미지 텐서<br/>4x4 흑백 값"]
+  B["라벨<br/>세로 또는 가로"]
+  C["작은 분류기 학습<br/>클래스별 점수 계산"]
+  D["평가 이미지 예측"]
+  E["오류 또는 애매한 사례 확인"]
 
   A --> B --> C --> D --> E
 ```
@@ -93,7 +85,7 @@ flowchart TD
 
 | 단계 | 문서에 남길 것 |
 | --- | --- |
-| 입력 | 이미지 shape와 픽셀 예시 |
+| 입력 | 이미지 모양과 픽셀 예시 |
 | 라벨 | 클래스 정의 |
 | 학습 | 어떤 작은 분류기를 썼는가 |
 | 결과 | train/test 예측과 정확도 |
@@ -103,8 +95,8 @@ flowchart TD
 
 이번 절에서는 흑백 4x4 이미지를 직접 배열로 넣습니다.
 
-- class 0: 세로 막대(vertical bar)
-- class 1: 가로 막대(horizontal bar)
+- 클래스 0: 세로 막대
+- 클래스 1: 가로 막대
 
 예시 이미지를 글자로 보면 다음과 같습니다.
 
@@ -130,11 +122,11 @@ flowchart TD
 
 ## Python 예제
 
-이번 예제의 목적은 4x4 이미지를 펼쳐 16차원 입력으로 바꾸고, 매우 작은 softmax 분류기를 학습해 test 예측을 확인하는 것입니다. 이번에는 `정확도`만 보는 대신, 어떤 test 이미지가 애매했는지 바로 추적할 수 있도록 `sample_id`, `pattern_name`, `confidence_margin`도 함께 남기겠습니다.
+이번 예제의 목적은 4x4 이미지를 펼쳐 16차원 입력으로 바꾸고, 매우 작은 소프트맥스(softmax) 분류기를 학습해 평가 예측을 확인하는 것입니다. 이번에는 `정확도`만 보는 대신, 어떤 평가 이미지가 애매했는지 바로 추적할 수 있도록 평가 샘플 이름, 패턴 이름, 확신 차이도 함께 남기겠습니다.
 
 - 문제 상황: 세로 막대와 가로 막대를 구분한다.
-- 입력(input): 4x4 흑백 이미지 4장(train), 3장(test)
-- 정답(label): vertical = 0, horizontal = 1
+- 입력: 4x4 흑백 이미지 4장(학습), 3장(평가)
+- 정답 라벨: 세로 막대 = 0, 가로 막대 = 1
 - 확인할 개념:
   - 이미지도 숫자 배열이다
   - 분류기는 클래스 점수(score)를 비교해 예측을 만든다
@@ -146,56 +138,56 @@ import numpy as np
 
 train_rows = [
     {
-        "sample_id": "train-vertical-01",
-        "pattern_name": "vertical_bar",
-        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
-        "label": 0,
+        "샘플": "학습-세로-01",
+        "패턴 이름": "세로 막대",
+        "이미지": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
+        "라벨": 0,
     },
     {
-        "sample_id": "train-vertical-02",
-        "pattern_name": "vertical_bar",
-        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
-        "label": 0,
+        "샘플": "학습-세로-02",
+        "패턴 이름": "세로 막대",
+        "이미지": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
+        "라벨": 0,
     },
     {
-        "sample_id": "train-horizontal-01",
-        "pattern_name": "horizontal_bar",
-        "image": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
-        "label": 1,
+        "샘플": "학습-가로-01",
+        "패턴 이름": "가로 막대",
+        "이미지": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "라벨": 1,
     },
     {
-        "sample_id": "train-horizontal-02",
-        "pattern_name": "horizontal_bar",
-        "image": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
-        "label": 1,
+        "샘플": "학습-가로-02",
+        "패턴 이름": "가로 막대",
+        "이미지": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "라벨": 1,
     },
 ]
 
 test_rows = [
     {
-        "sample_id": "test-vertical-clear",
-        "pattern_name": "vertical_bar",
-        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
-        "label": 0,
+        "샘플": "평가-세로-명확",
+        "패턴 이름": "세로 막대",
+        "이미지": [[0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 1, 1, 0]],
+        "라벨": 0,
     },
     {
-        "sample_id": "test-horizontal-clear",
-        "pattern_name": "horizontal_bar",
-        "image": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
-        "label": 1,
+        "샘플": "평가-가로-명확",
+        "패턴 이름": "가로 막대",
+        "이미지": [[0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "라벨": 1,
     },
     {
-        "sample_id": "test-mixed-pattern",
-        "pattern_name": "mixed_bar",
-        "image": [[0, 1, 1, 0], [0, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]],
-        "label": 1,
+        "샘플": "평가-혼합-패턴",
+        "패턴 이름": "혼합 막대",
+        "이미지": [[0, 1, 1, 0], [0, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]],
+        "라벨": 1,
     },
 ]
 
-X_train = np.array([row["image"] for row in train_rows], dtype=float)
-y_train = np.array([row["label"] for row in train_rows])
-X_test = np.array([row["image"] for row in test_rows], dtype=float)
-y_test = np.array([row["label"] for row in test_rows])
+X_train = np.array([row["이미지"] for row in train_rows], dtype=float)
+y_train = np.array([row["라벨"] for row in train_rows])
+X_test = np.array([row["이미지"] for row in test_rows], dtype=float)
+y_test = np.array([row["라벨"] for row in test_rows])
 
 original_train_shape = X_train.shape
 original_test_shape = X_test.shape
@@ -239,30 +231,30 @@ for index, row in enumerate(test_rows):
         float(np.sort(test_probs[index])[-1] - np.sort(test_probs[index])[-2]), 3
     )
     test_records.append({
-        "sample_id": row["sample_id"],
-        "pattern_name": row["pattern_name"],
-        "true_label": row["label"],
-        "pred_label": int(test_pred[index]),
-        "correct": bool(test_pred[index] == y_test[index]),
-        "probs": probs.tolist(),
-        "confidence_margin": confidence_margin,
-        "needs_error_review": bool(confidence_margin <= 0.1),
+        "평가 샘플": row["샘플"],
+        "패턴 이름": row["패턴 이름"],
+        "실제 라벨": row["라벨"],
+        "예측 라벨": int(test_pred[index]),
+        "정답 여부": "예" if test_pred[index] == y_test[index] else "아니오",
+        "클래스별 확률": probs.tolist(),
+        "확신 차이": confidence_margin,
+        "오류 검토 필요": "예" if confidence_margin <= 0.1 else "아니오",
     })
 
 project_run = {
-    "original_train_shape": original_train_shape,
-    "original_test_shape": original_test_shape,
-    "flattened_train_shape": X_train.shape,
-    "flattened_test_shape": X_test.shape,
-    "train_accuracy": round(float((train_pred == y_train).mean()), 3),
-    "test_accuracy": round(float((test_pred == y_test).mean()), 3),
-    "uncertain_sample_ids": [
-        row["sample_id"] for row in test_records if row["needs_error_review"]
+    "원래 학습 입력 모양": original_train_shape,
+    "원래 평가 입력 모양": original_test_shape,
+    "펼친 학습 입력 모양": X_train.shape,
+    "펼친 평가 입력 모양": X_test.shape,
+    "학습 정확도": round(float((train_pred == y_train).mean()), 3),
+    "평가 정확도": round(float((test_pred == y_test).mean()), 3),
+    "추가 검토 샘플": [
+        row["평가 샘플"] for row in test_records if row["오류 검토 필요"] == "예"
     ],
 }
 
-print("project_run =", project_run)
-print("test_records =")
+print("실행 요약 =", project_run)
+print("샘플별 평가 =")
 for row in test_records:
     print(row)
 ```
@@ -270,11 +262,11 @@ for row in test_records:
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-project_run = {'original_train_shape': (4, 4, 4), 'original_test_shape': (3, 4, 4), 'flattened_train_shape': (4, 16), 'flattened_test_shape': (3, 16), 'train_accuracy': 1.0, 'test_accuracy': 0.667, 'uncertain_sample_ids': ['test-mixed-pattern']}
-test_records =
-{'sample_id': 'test-vertical-clear', 'pattern_name': 'vertical_bar', 'true_label': 0, 'pred_label': 0, 'correct': True, 'probs': [0.997, 0.003], 'confidence_margin': 0.994, 'needs_error_review': False}
-{'sample_id': 'test-horizontal-clear', 'pattern_name': 'horizontal_bar', 'true_label': 1, 'pred_label': 1, 'correct': True, 'probs': [0.003, 0.997], 'confidence_margin': 0.994, 'needs_error_review': False}
-{'sample_id': 'test-mixed-pattern', 'pattern_name': 'mixed_bar', 'true_label': 1, 'pred_label': 0, 'correct': False, 'probs': [0.5, 0.5], 'confidence_margin': 0.0, 'needs_error_review': True}
+실행 요약 = {'원래 학습 입력 모양': (4, 4, 4), '원래 평가 입력 모양': (3, 4, 4), '펼친 학습 입력 모양': (4, 16), '펼친 평가 입력 모양': (3, 16), '학습 정확도': 1.0, '평가 정확도': 0.667, '추가 검토 샘플': ['평가-혼합-패턴']}
+샘플별 평가 =
+{'평가 샘플': '평가-세로-명확', '패턴 이름': '세로 막대', '실제 라벨': 0, '예측 라벨': 0, '정답 여부': '예', '클래스별 확률': [0.997, 0.003], '확신 차이': 0.994, '오류 검토 필요': '아니오'}
+{'평가 샘플': '평가-가로-명확', '패턴 이름': '가로 막대', '실제 라벨': 1, '예측 라벨': 1, '정답 여부': '예', '클래스별 확률': [0.003, 0.997], '확신 차이': 0.994, '오류 검토 필요': '아니오'}
+{'평가 샘플': '평가-혼합-패턴', '패턴 이름': '혼합 막대', '실제 라벨': 1, '예측 라벨': 0, '정답 여부': '아니오', '클래스별 확률': [0.5, 0.5], '확신 차이': 0.0, '오류 검토 필요': '예'}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -282,18 +274,18 @@ test_records =
 이 결과에서 읽어야 할 핵심은 세 가지입니다.
 
 1. 입력 모양  
-   예제의 실행 요약에는 원래 shape `(4, 4, 4)`와 펼친 뒤 shape `(4, 16)`이 함께 남습니다. 즉, 이미지가 원래는 4x4 픽셀 묶음이었고, 학습 직전에는 16개 숫자 입력으로 바뀌었다는 점을 한 번에 확인할 수 있습니다.
+   예제의 실행 요약에는 원래 모양(shape) `(4, 4, 4)`와 펼친 뒤 모양 `(4, 16)`이 함께 남습니다. 즉, 이미지가 원래는 4x4 픽셀 묶음이었고, 학습 직전에는 16개 숫자 입력으로 바뀌었다는 점을 한 번에 확인할 수 있습니다.
 
 2. 학습 데이터와 평가 데이터 분리  
-   train에서는 모두 맞았지만, test에서는 `test-mixed-pattern`을 틀렸습니다. 즉, 학습 성공과 일반화 성공은 같은 말이 아닙니다.
+   학습에서는 모두 맞았지만, 평가에서는 `평가-혼합-패턴`을 틀렸습니다. 즉, 학습 성공과 일반화 성공은 같은 말이 아닙니다.
 
 3. 확률 분포의 애매함  
-   세 번째 샘플의 확률이 `[0.5, 0.5]`로 나온 것은 현재 모델이 이 이미지를 뚜렷하게 가르지 못했다는 신호입니다. `confidence_margin = 0.0`과 `needs_error_review = True`를 함께 남겼기 때문에, 이 결과를 원인 확정으로 읽기보다 다음 절에서 어떤 샘플을 우선 검토해야 하는지 바로 정할 수 있습니다.
+   세 번째 샘플의 확률이 `[0.5, 0.5]`로 나온 것은 현재 모델이 이 이미지를 뚜렷하게 가르지 못했다는 신호입니다. `확신 차이 = 0.0`과 `오류 검토 필요 = 예`를 함께 남겼기 때문에, 이 결과를 원인 확정으로 읽기보다 다음 절에서 어떤 샘플을 우선 검토해야 하는지 바로 정할 수 있습니다.
 
 이 결과는 다음 세 줄로 요약할 수 있습니다.
 
 - 이미지는 결국 16개 숫자 입력으로 바뀌었다
-- train에서는 맞아도 test에서는 애매한 샘플이 틀릴 수 있다
+- 학습에서는 맞아도 평가에서는 애매한 샘플이 틀릴 수 있다
 - 샘플 ID와 불확실성 기록이 있어야 다음 오류 분석으로 자연스럽게 이어진다
 - 애매한 확률 출력은 다음 절 오류 분석의 출발점이다
 
@@ -308,13 +300,13 @@ test_records =
 
 같은 흐름을 최소 기록으로 줄이면 다음 표처럼 정리할 수 있습니다.
 
-| 단계 | review가 필요한 상태 | 다음 행동 |
+| 단계 | 다시 검토가 필요한 상태 | 다음 행동 |
 | --- | --- | --- |
-| 입력 확인 | shape가 예상과 다르다 | 전처리 다시 확인 |
-| 예측 확인 | confidence margin이 낮다 | 오류 사례 분석으로 넘김 |
-| test 결과 | 오분류 샘플이 있다 | 데이터/모델/표현 확인 질문 기록 |
+| 입력 확인 | 입력 모양이 예상과 다르다 | 전처리 다시 확인 |
+| 예측 확인 | 확신 차이가 낮다 | 오류 사례 분석으로 넘김 |
+| 평가 결과 | 오분류 샘플이 있다 | 데이터/모델/표현 확인 질문 기록 |
 
-이 표가 있으면 이미지 분류 프로젝트 입구부터 `입력 -> 비교 기준 -> review 질문` 구조가 보입니다.
+이 표가 있으면 이미지 분류 프로젝트 입구부터 `입력 -> 비교 기준 -> 다시 볼 질문` 구조가 보입니다.
 
 ## 다음 절과의 연결
 
@@ -324,14 +316,24 @@ P7-3.2에서는 방금 틀린 세 번째 샘플을 중심으로 `오류 사례 �
 
 - 이미지도 숫자 배열(array)입니다.
 - 이미지 분류 프로젝트는 입력 모양, 라벨, 예측값, 오류 사례를 함께 남겨야 합니다.
-- train 정확도와 test 정확도는 반드시 분리해서 읽어야 합니다.
+- 학습 정확도와 평가 정확도는 반드시 분리해서 읽어야 합니다.
 - 애매한 확률 출력은 오류 분석의 출발점이 됩니다.
 
-## 체크리스트
+## 언제 이미지 분류 프로젝트 입구 관점을 먼저 떠올려야 하는가
 
-- 이미지 입력이 어떤 shape으로 모델에 들어가는지 설명할 수 있는가?
+다음처럼 이미지 모델 이야기를 시작했는데 프로젝트 기록의 뼈대가 아직 없는 상태라면 이 절의 관점을 먼저 떠올리는 편이 좋습니다.
+
+- 합성곱 신경망(CNN)이나 프레임워크 이름부터 적기 시작했지만 입력 모양(shape)과 라벨 정의가 문서에 고정되지 않은 경우
+- 학습 정확도는 봤지만 평가 오분류 샘플과 검토 대상을 따로 남기지 않은 경우
+- 이미지가 숫자 배열이라는 설명은 했지만 어떤 예측 기록을 다음 절로 넘길지 비어 있는 경우
+
+이때는 모델 구조를 더 늘리기 전에 `입력 모양 -> 라벨 -> 예측 -> 오류 사례` 순서를 먼저 문서에 세우는 편이 안전합니다.
+
+## 짧은 점검
+
+- 이미지 입력이 어떤 모양(shape)으로 모델에 들어가는지 설명할 수 있는가?
 - 클래스 라벨이 무엇인지 분명히 적을 수 있는가?
-- train과 test 결과를 분리해 기록했는가?
+- 학습과 평가 결과를 분리해 기록했는가?
 - 애매하거나 틀린 샘플을 다음 절 분석 대상으로 남겼는가?
 
 ## 출처와 참고 자료

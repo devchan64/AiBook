@@ -1,23 +1,23 @@
-# 3.1 규칙 기반 시스템의 강점과 한계
+# P1-3.1 규칙 기반 시스템의 강점과 한계
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
-2.1에서는 기호 기반 AI(symbolic AI)와 규칙 기반 접근(rule-based approach)의 역사적 위치를 봤습니다. 이번 절에서는 한 걸음 더 좁혀, 실제 규칙 기반 시스템(rule-based system)이 어떤 장점을 가졌고 어디에서 한계를 드러냈는지 정리합니다.
+2.1에서는 기호 기반 AI(symbolic AI)와 규칙 기반 접근(rule-based approach)의 역사적 위치를 봤습니다. 2.3에서는 같은 업무 안에서도 `정책 조건처럼 규칙으로 적기 쉬운 부분`과 `문의 의도 분류처럼 데이터에서 관계를 배워야 하는 부분`이 갈라진다는 점을 봤습니다. 이번 절에서는 한 걸음 더 좁혀, 실제 규칙 기반 시스템(rule-based system)이 어떤 장점을 가졌고 어디에서 한계를 드러냈는지 정리합니다.
 
-이 절의 목적은 규칙 기반 AI를 과거의 실패한 방식으로 단정하는 것이 아닙니다. 오히려 현대 AI 서비스를 이해하려면 규칙 기반 시스템이 왜 유용했고, 왜 머신러닝(machine learning)으로 관심이 이동했으며, 지금도 어떤 부분에서 규칙이 필요한지 구분해야 합니다.
+여기서 필요한 일은 규칙 기반 AI를 과거의 실패한 방식으로 단정하는 것이 아니라, 규칙 기반 시스템이 왜 유용했고 왜 머신러닝(machine learning)으로 관심이 이동했으며 지금도 어떤 부분에서 규칙이 필요한지를 구분하는 것입니다.
 
-Part 1 안에서는 이 절을 `규칙 기반 시스템(rule-based system)`의 강점, 한계, 현대 운영 역할의 대표 상세 설명 위치로 사용합니다. `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기본 뜻은 2.1에서 먼저 잡았고, 여기서는 실제 시스템이 왜 유용하고 어디에서 어려워지는지 평가하는 데 필요한 만큼만 다시 연결합니다.
+Part 1에서 `규칙 기반 시스템(rule-based system)`의 강점, 한계, 현대 운영 역할은 이 절에서 기준선을 잡습니다. `기호 기반 AI`, `규칙 기반 접근`, `지식 표현`의 기본 뜻은 2.1에서 먼저 잡았고, 여기서는 실제 시스템이 왜 유용하고 어디에서 어려워지는지 평가하는 데 필요한 만큼만 다시 연결합니다.
 
 ## 이 절의 범위
 
-이 절은 다음 질문을 정리합니다.
+여기서는 다음 질문을 정리합니다.
 
 - 규칙 기반 시스템은 어떤 구성 요소로 이루어지는가?
 - 이 방식의 강점과 한계는 각각 어디에서 드러나는가?
 - 현대 시스템에서는 왜 여전히 규칙이 필요한가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+다음 내용은 여기서 깊게 다루지 않습니다.
 
 - 전문가 시스템 구현 프레임워크의 세부 구조
 - 머신러닝과의 정량 성능 실험 비교
@@ -33,15 +33,27 @@ Part 1 안에서는 이 절을 `규칙 기반 시스템(rule-based system)`의 �
 - 규칙 작성, 지식 획득, 예외 관리가 왜 어려운지 이해합니다.
 - 현대 시스템에서 규칙과 모델이 함께 쓰이는 위치를 간단히 잡습니다.
 
-## 먼저 볼 세 가지
+## 먼저 연결할 개념
 
-이 절은 규칙 기반 시스템을 평가하는 절입니다. 아래 세 가지 관점을 먼저 잡으면 구조를 따라가기 쉽습니다.
+이 절은 규칙 기반 시스템을 실제 운영 구조로 읽는 대표 설명 위치입니다. 아래 개념은 지금 역할을 먼저 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 잡을 기준 |
+| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
 | --- | --- | --- |
-| 규칙 기반 시스템은 `현재 사실`과 `규칙`을 연결해 결론을 낸다는 점 | 시스템의 기본 구조를 먼저 잡게 해 줍니다. | 입력, 규칙, 결과의 세 자리를 먼저 구분합니다. |
-| 강점은 `설명 가능성`과 `통제 가능성`이라는 점 | 왜 지금도 정책과 운영 절차에 남아 있는지 이해하게 해 줍니다. | 왜 이렇게 처리했는지 추적하기 쉽다는 점을 먼저 연결합니다. |
-| 한계는 `예외와 변화가 많아질수록 규칙 관리가 어려워진다`는 점 | 머신러닝으로 관심이 이동한 이유와 연결됩니다. | 좁은 문제에는 강하지만 복잡한 현실 전체를 다 적기 어렵다는 점을 먼저 잡습니다. |
+| [규칙 기반 시스템](../../../reference/concept-glossary.md#rule-based-system) | 현재 사실과 규칙을 대조해 결론이나 행동을 정하는 시스템 | 장점과 한계를 평가할 대상 자체를 분명히 하기 위해 |
+| [사실](../../../reference/concept-glossary.md#fact) | 현재 참이라고 두는 상태 정보 | 규칙이 무엇에 적용되는지 보기 위해 |
+| [지식 기반](../../../reference/concept-glossary.md#knowledge-base) | 사실과 규칙과 도메인 지식을 모아 둔 구조 | 규칙 집합이 어디에 담기는지 보기 위해 |
+| [추론 엔진](../../../reference/concept-glossary.md#inference-engine) | 현재 사실에 맞는 규칙을 찾아 적용하는 장치 | 결론이 실제로 어떻게 만들어지는지 보기 위해 |
+| [설명 기능](../../../reference/concept-glossary.md#explanation-facility) | 어떤 규칙 때문에 결과가 나왔는지 보여 주는 기능 | 규칙 기반 시스템의 강점인 설명 가능성을 잡기 위해 |
+
+## 세 가지 기준
+
+이 장면에서는 규칙 기반 시스템을 평가합니다. 아래 세 가지가 평가의 기준선입니다.
+
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
+| --- | --- | --- |
+| 규칙 기반 시스템은 `현재 사실`과 `규칙`을 연결해 결론을 낸다는 점 | 시스템의 기본 구조를 먼저 잡게 해 줍니다. | 입력, 규칙, 결과의 세 자리를 구분합니다. |
+| 강점은 `설명 가능성`과 `통제 가능성`이라는 점 | 왜 지금도 정책과 운영 절차에 남아 있는지 이해하게 해 줍니다. | 왜 이렇게 처리했는지 추적하기 쉽다는 점을 연결합니다. |
+| 한계는 `예외와 변화가 많아질수록 규칙 관리가 어려워진다`는 점 | 머신러닝으로 관심이 이동한 이유와 연결됩니다. | 좁은 문제에는 강하지만 복잡한 현실 전체를 다 적기 어렵다는 점을 정리합니다. |
 
 ## 규칙 기반 시스템의 기본 구조
 
@@ -73,7 +85,7 @@ MYCIN 연구를 정리한 Buchanan과 Shortliffe의 책은 MYCIN을 규칙 기�
 | 추론 엔진 | 맞는 규칙을 골라 적용하는 부분 | 어떤 승인 단계로 보내야 할지 계산하는 절차 |
 | 설명 기능 | 왜 그런 결과가 나왔는지 보여 주는 부분 | `예산 충분 + 100만 원 초과 -> 부서장 승인` 설명 |
 
-이 단계에서는 `사실은 현재 상태`, `규칙은 판단 기준`, `지식 기반은 그것을 모아 둔 곳`, `추론 엔진은 적용 장치`, `설명 기능은 이유를 보여 주는 장치`라는 구분이 먼저 남아 있으면 됩니다.
+이 절에서 먼저 남겨야 할 구분은 `사실은 현재 상태`, `규칙은 판단 기준`, `지식 기반은 그것을 모아 둔 곳`, `추론 엔진은 적용 장치`, `설명 기능은 이유를 보여 주는 장치`라는 점입니다.
 
 ```mermaid
 flowchart TD
@@ -91,7 +103,7 @@ flowchart TD
   Engine --> Explain
 ```
 
-이 도식은 규칙 기반 시스템을 `현재 입력 -> 사실 정리 -> 지식 기반과 대조 -> 결론 -> 설명` 흐름으로 읽게 해 줍니다. 여기서는 `결과만 나오는 것이 아니라 왜 그런 결과가 나왔는지 함께 보여 줄 수 있다`는 점까지 포함해 시스템을 읽으면 됩니다.
+이 도식은 규칙 기반 시스템을 `현재 입력 -> 사실 정리 -> 지식 기반과 대조 -> 결론 -> 설명` 흐름으로 읽게 해 줍니다. 여기서 읽어야 할 핵심은 `결과만 나오는 것이 아니라 왜 그런 결과가 나왔는지 함께 보여 줄 수 있다`는 점입니다.
 
 ## 예시: 승인 업무를 규칙으로 표현하기
 
@@ -193,6 +205,15 @@ flowchart TD
 
 이런 규칙은 예측 모델이 아니어도 충분히 유용합니다. 중요한 것은 “정해진 조건을 놓치지 않고 반복 실행하는 것”입니다.
 
+다만 여기서 한 가지를 더 구분해야 합니다. `같은 입력에 같은 출력이 나온다`는 것은 `판단이 재현 가능하다`는 뜻이지, `판단이 항상 옳다`는 뜻은 아닙니다. 규칙 자체가 잘못되었거나 예외 조건이 빠져 있으면, 규칙 기반 시스템은 그 잘못을 매우 일관되게 반복할 수도 있습니다.
+
+| 구분 | 무엇을 뜻하는가 | 규칙 기반 시스템에서의 의미 |
+| --- | --- | --- |
+| 재현성 | 같은 조건이면 같은 결과가 다시 나온다 | 감사, 추적, 테스트에 유리합니다. |
+| 정확성 | 그 결과가 실제 정책이나 현실 판단에 맞다 | 규칙 자체가 맞는지 따로 검토해야 합니다. |
+
+예를 들어 승인 규칙에 `해외 법인 구매는 항상 본사 부서장 승인`이라는 문장이 잘못 들어가 있으면, 시스템은 같은 상황마다 같은 결과를 안정적으로 내놓을 수 있습니다. 그러나 그 결과가 회사의 실제 정책과 다르면, 재현성은 높아도 정확성은 낮습니다. 그래서 규칙 기반 시스템에서는 `같은 결과가 반복되는가`와 `그 규칙이 맞는가`를 따로 점검해야 합니다.
+
 ## 강점 3: 작은 영역에서는 빠르게 유용해질 수 있다
 
 규칙 기반 시스템은 문제 범위가 좁고 기준이 분명할 때 빠르게 유용해질 수 있습니다. 도메인 전문가가 판단 기준을 설명할 수 있고, 입력 데이터의 형태가 비교적 안정적이며, 예외가 많지 않다면 규칙은 강력한 도구가 됩니다.
@@ -271,7 +292,7 @@ flowchart TD
 
 이 그림은 “앞 단계가 사라지고 다음 단계가 완전히 대체했다”는 뜻이 아닙니다. 실제 역사는 더 겹쳐 있습니다. 규칙 기반 시스템, 탐색, 확률 추론, 머신러닝, 신경망은 서로 다른 시기에 중요성이 달라졌고, 현대 시스템 안에서도 함께 쓰입니다.
 
-이 그림은 `규칙 기반 -> 데이터 학습`으로 한 번에 갈아탄 역사라기보다, `문제와 계산 조건이 바뀌면서 설명의 중심이 이동했다`는 흐름으로 읽는 편이 안전합니다. 이 절에서는 그 이동을 `규칙 기반 시스템의 강점과 한계가 드러난 결과`로 이해하면 됩니다.
+이 그림은 `규칙 기반 -> 데이터 학습`으로 한 번에 갈아탄 역사라기보다, `문제와 계산 조건이 바뀌면서 설명의 중심이 이동했다`는 흐름으로 읽는 편이 안전합니다. 이 절에서 읽어야 할 핵심은 그 이동이 `규칙 기반 시스템의 강점과 한계가 드러난 결과`라는 점입니다.
 
 흔한 오해를 줄이면 다음과 같습니다.
 
@@ -290,6 +311,8 @@ flowchart TD
 전문가는 많은 판단을 하지만, 그 판단을 항상 간단한 문장으로 설명할 수 있는 것은 아닙니다. 경험, 예외, 암묵지(tacit knowledge), 상황 판단이 섞여 있기 때문입니다. 전문가가 말로 설명한 규칙도 실제 사례에 적용해 보면 빠진 조건이 있거나, 다른 규칙과 충돌하거나, 너무 좁게 작성되었을 수 있습니다.
 
 이 과정을 지식 획득(knowledge acquisition) 또는 지식 공학(knowledge engineering)이라고 볼 수 있습니다. MYCIN 계열 연구에서도 전문가의 지식을 시스템의 지식 기반으로 옮기고, 규칙을 입력하고, 수정하고, 설명하고, 디버깅하는 문제가 중요하게 다뤄졌습니다.
+
+여기서 초심자가 특히 놓치기 쉬운 점은 `전문가가 잘 판단한다`와 `그 판단을 규칙으로 쉽게 적을 수 있다`가 같은 말이 아니라는 점입니다. 예를 들어 숙련 상담원은 고객이 같은 `환불`이라는 단어를 써도 정말 환불을 원하는지, 배송 지연에 화가 나 있는지, 이미 이전 대화에서 부분 환불을 받았는지까지 함께 보고 처리할 수 있습니다. 하지만 이런 판단은 `환불이라는 단어가 있으면 환불 요청` 같은 한 줄 규칙으로는 충분히 옮겨지지 않습니다. 이런 차이가 바로 암묵지(tacit knowledge)가 규칙화되기 어려운 이유입니다.
 
 규칙 기반 시스템의 어려움은 단순히 “코드를 많이 써야 한다”가 아닙니다. 더 정확히는 다음과 같습니다.
 
@@ -442,7 +465,7 @@ flowchart TD
 
 따라서 규칙 기반 시스템의 한계는 머신러닝으로 넘어가는 중요한 이유가 됩니다. 다음 절에서는 이 전환을 이어 받아, “데이터에서 패턴을 배운다는 것”이 무엇인지 살펴봅니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 규칙 기반 시스템을 사실, 규칙, 지식 기반, 추론 엔진, 설명 기능으로 나누어 설명할 수 있다.
 - 규칙 기반 시스템이 설명 가능성과 통제 가능성에서 강한 이유를 말할 수 있다.
@@ -453,13 +476,23 @@ flowchart TD
 - 연구 중심의 이동과 역할 변화를 데이터, 계산 성능, 병렬 처리, 도구 생태계 변화와 연결해 설명할 수 있다.
 - 현대 시스템에서도 명시적 규칙이 필요한 영역을 예로 들 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 규칙 기반 시스템을 두고 `지금도 필요한가`, `어디까지 규칙으로 맡길 수 있는가`를 다시 가려야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 권한, 승인, 안전 필터처럼 반드시 지켜야 하는 절차를 모델에게 맡겨도 되는지 검토할 때
+- 규칙이 계속 늘어나며 예외와 충돌 관리가 어려워지는 문제를 설명해야 할 때
+- 생성형 AI 서비스 안에서도 왜 명시적 정책 규칙이 함께 남는지 정리해야 할 때
+
+이때는 먼저 `설명 가능성과 통제 가능성`이 중요한지, 아니면 `모호한 입력과 복잡한 패턴 인식`이 더 중요한지 나누어 보면 됩니다. 그다음 규칙이 맡을 부분과 모델이 맡을 부분을 분리해 읽으면 역할 경계가 선명해집니다.
+
 ## 출처와 참고 자료
 
-- Bruce G. Buchanan, Edward H. Shortliffe (eds.), [Rule-Based Expert Systems: The MYCIN Experiments of the Stanford Heuristic Programming Project](https://people.dbmi.columbia.edu/~ehs7001/Buchanan-Shortliffe-1984/MYCIN%20Book.htm), Addison-Wesley, 1984, 확인 날짜: 2026-06-22.
-- Stanford Encyclopedia of Philosophy, Richmond H. Thomason, [Logic-Based Artificial Intelligence](https://plato.stanford.edu/entries/logic-ai/), substantive revision 2024-02-27, 확인 날짜: 2026-06-22.
-- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html), 확인 날짜: 2026-06-22.
-- Daniel Saez Trigueros, Li Meng, Margaret Hartnett, [Face Recognition: From Traditional to Deep Learning Methods](https://arxiv.org/abs/1811.00116), arXiv:1811.00116, 2018, 확인 날짜: 2026-06-22.
-- Shervin Minaee, Ping Luo, Zhe Lin, Kevin Bowyer, [Going Deeper Into Face Detection: A Survey](https://arxiv.org/abs/2103.14983), arXiv:2103.14983, 2021, 확인 날짜: 2026-06-22.
-- Sertap Kamci, Dogukan Aksu, Muhammed Ali Aydin, [Lane Detection For Prototype Autonomous Vehicle](https://arxiv.org/abs/1912.05220), arXiv:1912.05220, 2019, 확인 날짜: 2026-06-22.
-- Wojciech Skut, Stefan Ulrich, Kathrine Hammervold, [A Flexible Rule Compiler for Speech Synthesis](https://arxiv.org/abs/cs/0403039), arXiv:cs/0403039, 2004, 확인 날짜: 2026-06-22.
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html), NeurIPS, 2012, 확인 날짜: 2026-06-22.
+- Bruce G. Buchanan, Edward H. Shortliffe (eds.), [Rule-Based Expert Systems: The MYCIN Experiments of the Stanford Heuristic Programming Project](https://people.dbmi.columbia.edu/~ehs7001/Buchanan-Shortliffe-1984/MYCIN%20Book.htm){: target="_blank" rel="noopener noreferrer" }, Addison-Wesley, 1984, 확인 날짜: 2026-06-22.
+- Stanford Encyclopedia of Philosophy, Richmond H. Thomason, [Logic-Based Artificial Intelligence](https://plato.stanford.edu/entries/logic-ai/){: target="_blank" rel="noopener noreferrer" }, substantive revision 2024-02-27, 확인 날짜: 2026-06-22.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Daniel Saez Trigueros, Li Meng, Margaret Hartnett, [Face Recognition: From Traditional to Deep Learning Methods](https://arxiv.org/abs/1811.00116){: target="_blank" rel="noopener noreferrer" }, arXiv:1811.00116, 2018, 확인 날짜: 2026-06-22.
+- Shervin Minaee, Ping Luo, Zhe Lin, Kevin Bowyer, [Going Deeper Into Face Detection: A Survey](https://arxiv.org/abs/2103.14983){: target="_blank" rel="noopener noreferrer" }, arXiv:2103.14983, 2021, 확인 날짜: 2026-06-22.
+- Sertap Kamci, Dogukan Aksu, Muhammed Ali Aydin, [Lane Detection For Prototype Autonomous Vehicle](https://arxiv.org/abs/1912.05220){: target="_blank" rel="noopener noreferrer" }, arXiv:1912.05220, 2019, 확인 날짜: 2026-06-22.
+- Wojciech Skut, Stefan Ulrich, Kathrine Hammervold, [A Flexible Rule Compiler for Speech Synthesis](https://arxiv.org/abs/cs/0403039){: target="_blank" rel="noopener noreferrer" }, arXiv:cs/0403039, 2004, 확인 날짜: 2026-06-22.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-06-22.

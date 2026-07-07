@@ -1,13 +1,13 @@
-# 1.2 AI가 다루는 문제
+# P1-1.2 AI가 다루는 문제
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 1.1에서는 AI라는 말의 범위를 정리했습니다. 이번 절에서는 그 넓은 범위 안에서 AI가 실제로 어떤 종류의 문제를 다루는지 봅니다.
 
 AI를 기술 이름으로만 보면 규칙 기반 AI, 머신러닝, 딥러닝, 생성형 AI가 서로 다른 세계처럼 보입니다. 하지만 문제의 형태로 보면 공통점이 보입니다. 대부분의 AI 시스템은 어떤 입력(input)을 받아, 목표(objective)에 맞는 출력(output)을 만들고, 그 결과가 사람의 판단이나 환경에 영향을 줍니다.
 
-Part 1 안에서는 이 절을 `AI가 다루는 문제 유형`의 대표 상세 설명 위치로 사용합니다. 뒤 절에서 분류, 예측, 추천, 생성 같은 말이 다시 나오더라도, 그 절의 중심 질문에 필요한 만큼만 연결하고 문제 유형 자체의 상세 구분은 여기와 개념사전으로 다시 돌아오면 됩니다.
+Part 1에서 분류, 예측, 추천, 생성 같은 문제 유형의 기본 구분은 이 절에서 잡습니다. 뒤 절에서 같은 말이 다시 나오더라도 그 절의 중심 질문에 필요한 만큼만 연결하고, 문제 유형 자체를 다시 나눠 봐야 할 때는 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아옵니다.
 
 ## 이 절의 범위
 
@@ -23,7 +23,7 @@ Part 1 안에서는 이 절을 `AI가 다루는 문제 유형`의 대표 상세 
 - 문제 유형별 수학적 최적화 기법
 - 실제 서비스 파이프라인의 복합 설계
 
-문제 유형별 알고리즘과 학습 구조는 머신러닝 문제를 다루는 Part 4, 딥러닝 구조를 다루는 Part 5, LLM과 생성형 AI를 다루는 Part 6에서 다시 회수합니다. 이 절은 먼저 `무엇을 넣고 무엇이 나오는가`라는 문제 정의 감각을 만드는 데 집중합니다.
+문제 유형별 알고리즘과 학습 구조는 머신러닝 문제를 다루는 Part 4, 딥러닝 구조를 다루는 Part 5, LLM과 생성형 AI를 다루는 Part 6에서 다시 회수합니다. 여기서는 `무엇을 넣고 무엇이 나오는가`라는 문제 정의 기준을 세우는 데 집중합니다.
 
 ## 이 절의 목표
 
@@ -31,26 +31,32 @@ Part 1 안에서는 이 절을 `AI가 다루는 문제 유형`의 대표 상세 
 - 인식, 탐색, 예측, 추천, 생성, 제어 같은 문제 유형을 구분합니다.
 - 같은 현실 문제가 문제 정의에 따라 다른 AI 문제로 바뀔 수 있음을 이해합니다.
 
+## 먼저 연결할 개념
+
+이 절은 문제 유형을 읽을 때 반복해서 다시 만날 용어를 먼저 묶어 두는 대표 설명 위치이기도 합니다. 아래 개념은 지금 짧게 뜻을 잡아 두고, 더 자세한 정의가 필요할 때는 각 표제어 항목으로 바로 이동해 다시 확인합니다.
+
+| 개념 | 여기서 먼저 잡을 뜻 | 왜 지금 필요한가 |
+| --- | --- | --- |
+| [인식](../../../reference/concept-glossary.md#recognition) | 입력에서 대상이나 상태를 읽는 문제 | 분류보다 더 넓은 읽기 문제를 먼저 구분하기 위해 |
+| [분류](../../../reference/concept-glossary.md#classification) | 미리 정한 범주 가운데 하나를 고르는 문제 | `무엇을 맞히는가`가 분명한 대표 문제를 잡기 위해 |
+| [예측](../../../reference/concept-glossary.md#prediction) | 현재 정보에서 미래 값이나 결과를 추정하는 문제 | 분류와 달리 값이나 가능성을 내는 문제를 구분하기 위해 |
+| [추천](../../../reference/concept-glossary.md#recommendation) | 여러 후보 중 다음에 볼 만한 것을 고르는 문제 | AI가 답변 생성만 하는 것이 아님을 보기 위해 |
+| [생성](../../../reference/concept-glossary.md#generation) | 새 텍스트, 이미지, 음성, 코드를 만드는 문제 | 출력의 성격이 왜 다른지 잡기 위해 |
+| [입력](../../../reference/concept-glossary.md#input) | 시스템이 받아 보는 정보 | 문제 정의를 `무엇을 넣는가`부터 읽기 위해 |
+| [출력](../../../reference/concept-glossary.md#output) | 시스템이 만들어 내는 결과 | 문제 유형을 `무엇이 나오는가`로 나누기 위해 |
+| [목표](../../../reference/concept-glossary.md#goal) | 어떤 출력을 좋다고 볼지 정하는 기준 | 같은 데이터도 질문이 바뀌면 다른 문제가 됨을 보기 위해 |
+
 ## 주요 학습내용
 
-이 절은 알고리즘 이름보다 문제의 모양을 먼저 보는 절입니다. 아래 세 가지를 전체 지도처럼 먼저 붙잡으면 흐름을 따라가기 쉽습니다.
+이 절은 알고리즘 이름보다 문제의 모양을 먼저 봅니다. 아래 세 가지가 문제 유형을 나누는 기본 지도입니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 잡을 기준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
 | AI는 먼저 `입력`과 `출력`으로 읽을 수 있다는 점 | 그래야 서로 다른 기술 이름이 나와도 공통 구조가 보입니다. | 무엇을 넣고 무엇이 나오는지 먼저 말할 수 있어야 합니다. |
-| 같은 데이터도 `질문`이 바뀌면 다른 문제가 된다는 점 | 그래야 분류, 예측, 추천, 생성이 왜 갈라지는지 보입니다. | 고객 데이터 하나로도 여러 문제를 만들 수 있다는 점을 먼저 잡습니다. |
-| 결과는 사람이나 서비스에 `영향`을 준다는 점 | AI를 단순 계산이 아니라 실제 판단 구조로 보게 해 줍니다. | 출력이 어디에 쓰이는지 한 문장으로 연결해 봅니다. |
+| 같은 데이터도 `질문`이 바뀌면 다른 문제가 된다는 점 | 그래야 분류, 예측, 추천, 생성이 왜 갈라지는지 보입니다. | 고객 데이터 하나로도 여러 문제를 만들 수 있다는 점을 구분합니다. |
+| 결과는 사람이나 서비스에 `영향`을 준다는 점 | AI를 단순 계산이 아니라 실제 판단 구조로 보게 해 줍니다. | 출력이 어디에 쓰이는지 한 문장으로 연결합니다. |
 
-`입력`, `출력`, `목표`, `영향`은 초반에 서로 비슷하게 들릴 수 있습니다. 이 절에서는 아래처럼 짧게 다시 구분해 두고 계속 읽으면 됩니다.
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 입력 | 시스템이 받아 보는 정보 | 문장, 기록, 이미지, 센서값 |
-| 출력 | 시스템이 만들어 내는 결과 | 분류, 점수, 추천 목록, 생성 문장 |
-| 목표 | 어떤 출력을 좋다고 볼지 정하는 기준 | 정확한 분류, 좋은 추천, 안전한 제어 |
-| 영향 | 출력이 사람이나 환경에 미치는 실제 결과 | 승인, 경고, 자동 응답, 제어 행동 |
-
-이 단계에서는 `입력은 넣는 정보`, `출력은 나오는 결과`, `목표는 왜 그렇게 만들려는가`, `영향은 그 결과가 어디에 쓰이는가`라는 구분이 먼저 남아 있으면 됩니다.
+`입력`, `출력`, `목표`, `영향`은 앞 절에서 이미 AI 시스템을 읽는 기본 언어로 등장했습니다. 여기서는 그 네 가지를 문제 유형 구분에 다시 연결합니다. 입력은 시스템이 받아 보는 정보, 출력은 만들어 내는 결과, 목표는 어떤 출력을 좋다고 볼지 정하는 기준입니다. `영향`은 그 결과가 실제 사람의 판단이나 환경 변화로 어디에 닿는지를 가리킵니다. 용어 자체가 다시 헷갈리면 앞 절과 [개념사전](../../../reference/concept-glossary.md)의 대표 항목으로 돌아가고, 이 절에서는 문제 유형을 `무엇을 넣고 무엇이 나오는가`라는 구조로 읽습니다.
 
 ## 세부 학습내용
 
@@ -77,7 +83,9 @@ AI를 다시 배울 때 처음부터 알고리즘 이름을 외우면 금방 복
 
 이 표에서 중요한 점은 문제 유형과 구현 방식이 같지 않다는 것입니다. 예를 들어 `분류` 문제는 사람이 직접 작성한 규칙으로도 풀 수 있고, 머신러닝 모델로도 풀 수 있으며, 딥러닝 모델로도 풀 수 있습니다. 반대로 LLM 서비스 하나도 내부에서는 생성, 검색, 추천, 도구 호출, 안전 필터링이 함께 동작할 수 있습니다.
 
-모든 문제 유형을 여기서 끝까지 붙잡으려 하기보다, `어느 문제를 뒤 Part에서 본격적으로 다시 읽는가`를 먼저 연결해 두는 편이 더 중요합니다.
+초심자가 자주 헷갈리는 쌍은 `인식`과 `분류`입니다. 인식은 입력에서 `무엇이 있는지`, `어떤 상태인지`, `어떤 뜻인지`를 읽어 내는 더 넓은 문제 유형이고, 분류는 그 결과를 미리 정해 둔 범주 가운데 하나로 고르는 문제에 가깝습니다. 예를 들어 사진을 보고 `고양이`라고 답하는 일은 분류로 볼 수 있지만, 사진 속에서 고양이의 위치까지 찾거나 표정을 설명하거나 여러 물체를 함께 읽는 일은 더 넓은 인식 문제로 보는 편이 자연스럽습니다. 이 구분을 엄격한 시험 답처럼 외울 필요는 없지만, 뒤에서 이미지·음성·텍스트를 다룰 때 `인식이 더 넓고 분류는 그 안의 대표 작업 하나`라는 감각은 도움이 됩니다.
+
+모든 문제 유형을 여기서 끝까지 닫지는 않습니다. 대신 `어느 문제를 뒤 Part에서 본격적으로 다시 읽는가`를 먼저 연결합니다.
 
 | 지금 잡는 문제 유형 | 뒤에서 본격적으로 다시 읽는 위치 | 지금 단계에서 기억할 이유 |
 | --- | --- | --- |
@@ -165,7 +173,7 @@ flowchart TD
   Output --> Impact
 ```
 
-이 도식은 현실의 넓은 질문이 그대로 모델 문제가 되지 않고, 먼저 `문제 정의`, `입력`, `출력`으로 잘려 나간 뒤 실제 결과가 사람이나 환경에 영향을 주는 흐름을 보여 줍니다. 이 그림에서는 `현실의 질문 -> 계산 가능한 문제 -> 결과의 영향`이라는 세 단계가 먼저 보이면 됩니다.
+이 도식은 현실의 넓은 질문이 그대로 모델 문제가 되지 않고, 먼저 `문제 정의`, `입력`, `출력`으로 잘려 나간 뒤 실제 결과가 사람이나 환경에 영향을 주는 흐름을 보여 줍니다. 여기서 읽어야 할 핵심은 `현실의 질문 -> 계산 가능한 문제 -> 결과의 영향`이라는 세 단계입니다.
 
 ## 사례로 보기
 
@@ -191,7 +199,7 @@ flowchart TD
 
 ### 간단한 문제 유형 판별 연습
 
-아래 장면을 보고 먼저 `무엇을 넣고`, `무엇이 나오며`, `어떤 문제 유형에 더 가까운지`를 스스로 적어 보면 이 절의 핵심이 더 잘 고정됩니다.
+아래 장면은 `무엇을 넣고`, `무엇이 나오며`, `어떤 문제 유형에 더 가까운지`를 직접 나눠 보기 위한 연습입니다.
 
 | 장면 | 입력은 무엇인가 | 출력은 무엇인가 | 먼저 붙여 볼 문제 유형 |
 | --- | --- | --- | --- |
@@ -200,7 +208,7 @@ flowchart TD
 | 상담 통화 내용을 세 문장으로 줄인다 | 상담 원문, 요약 지시 | 요약 문장 | 생성 |
 | 공장 센서값을 보고 이상 상태를 경고한다 | 온도, 진동, 전류 같은 센서값 | 정상, 경고, 점검 필요 | 분류 또는 인식 |
 
-이 연습에서 중요한 것은 정답을 외우는 일이 아닙니다. 같은 업무 데이터도 `미래 수량을 맞히는가`, `우선순위를 고르는가`, `새 문장을 만드는가`, `상태를 판정하는가`에 따라 전혀 다른 문제로 읽힌다는 점을 직접 확인하는 데 있습니다.
+이 연습의 핵심은 정답 암기가 아니라, 같은 업무 데이터도 `미래 수량을 맞히는가`, `우선순위를 고르는가`, `새 문장을 만드는가`, `상태를 판정하는가`에 따라 전혀 다른 문제로 읽힌다는 점을 직접 확인하는 데 있습니다.
 
 ## 이 절에서 기억할 관점
 
@@ -210,7 +218,7 @@ flowchart TD
 
 지금 단계의 최소 기억점은 `같은 데이터라도 질문이 바뀌면 다른 AI 문제가 된다`는 한 문장입니다.
 
-이 절을 읽은 뒤에는 아래 세 줄이 먼저 남아 있으면 됩니다.
+이 절에서 먼저 남겨야 할 기준은 아래 세 줄입니다.
 
 | 먼저 남길 기준 | 왜 이것이 먼저 중요한가 |
 | --- | --- |
@@ -218,7 +226,7 @@ flowchart TD
 | 같은 데이터도 질문이 바뀌면 예측, 추천, 생성처럼 다른 문제가 된다 | 개론 단계에서 모든 알고리즘보다 문제 정의가 먼저라는 기준을 남기기 때문입니다. |
 | 실제 서비스는 검색, 순위화, 생성 같은 여러 문제를 한 흐름으로 묶을 수 있다 | 뒤 Part에서 한 서비스 안에 여러 구조가 왜 함께 나오는지 덜 놀라게 하기 때문입니다. |
 
-## 체크리스트
+## 짧은 점검
 
 - AI 문제를 입력과 출력의 관점에서 설명할 수 있다.
 - 인식, 분류, 예측, 탐색, 추천, 생성, 제어의 차이를 예시로 설명할 수 있다.
@@ -226,11 +234,21 @@ flowchart TD
 - 문제 유형과 구현 방식이 같지 않다는 점을 구분할 수 있다.
 - AI 시스템을 볼 때 모델보다 문제 정의를 먼저 확인해야 하는 이유를 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 같은 데이터나 같은 서비스가 무엇을 하고 있는지 설명하려는데 문제 유형이 한 번에 잡히지 않을 때 이 절의 기준을 먼저 꺼내면 됩니다.
+
+- 고객 데이터 하나를 두고 예측, 추천, 군집화, 생성이 어떻게 다른지 설명해야 할 때
+- 검색창 하나로 보이는 서비스 안에 검색, 순위화, 생성이 함께 들어 있는지 나눠 봐야 할 때
+- 모델 이름보다 먼저 `무엇을 넣고 무엇이 나오는가`를 정리해야 할 때
+
+이때는 기술 이름보다 먼저 입력, 출력, 목표, 영향의 네 칸으로 문제를 적어 보고, 그 위에 분류, 예측, 추천, 생성, 제어 같은 문제 유형을 얹어 읽으면 됩니다.
+
 ## 출처와 참고 자료
 
-- OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update), 2023-11-29, 확인 날짜: 2026-06-22.
-- Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence), 확인 날짜: 2026-06-22.
-- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/), 2018-07-12, 확인 날짜: 2026-06-22.
-- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/), 확인 날짜: 2026-06-22.
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed.](https://artint.info/3e/html/ArtInt3e.html), 2023, 확인 날짜: 2026-06-22.
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf), AI Magazine, 1996, 확인 날짜: 2026-06-22.
+- OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update){: target="_blank" rel="noopener noreferrer" }, 2023-11-29, 확인 날짜: 2026-06-22.
+- Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 확인 날짜: 2026-06-22.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed.](https://artint.info/3e/html/ArtInt3e.html){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-22.
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }, AI Magazine, 1996, 확인 날짜: 2026-06-22.

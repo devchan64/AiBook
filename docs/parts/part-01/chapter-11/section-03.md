@@ -1,28 +1,28 @@
-# 11.3 Transformer와 사전학습 LLM(pretrained LLM)
+# P1-11.3 Transformer와 사전학습 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤고, 11.2에서는 RNN, Seq2Seq, Attention이 순서와 문맥을 다루는 흐름을 봤습니다.
 
-이번 절에서는 현대 LLM(large language model)의 직접 계보를 만들었던 두 가지 전환을 봅니다.
+여기서는 현대 LLM(large language model)의 직접 계보를 만들었던 두 가지 전환을 봅니다.
 
 > Attention을 중심 구조로 올려놓은 Transformer
 > 대규모 텍스트로 먼저 학습하는 사전학습(pretraining)
 
-이 절의 핵심 질문은 Attention이 중요해졌다면 현대 LLM이 어떻게 Transformer와 사전학습 위에서 커졌는가입니다.
+여기서 던지는 핵심 질문은 Attention이 중요해졌다면 현대 LLM이 어떻게 Transformer와 사전학습 위에서 커졌는가입니다.
 
-입문 단계에서는 다음 흐름이 중요합니다.
+여기서 중요한 흐름은 다음과 같습니다.
 
 > Transformer는 self-attention을 중심에 놓아 시퀀스 안의 토큰들이 서로를 직접 참고하게 했고, 사전학습 LLM은 대규모 텍스트에서 언어 패턴을 먼저 학습한 뒤 fine-tuning이나 prompt, in-context learning 방식으로 여러 과업에 연결되었다.
 
-Part 1 안에서는 이 절을 `Transformer`, `self-attention`, `positional encoding`, `Encoder`, `Decoder`, `사전학습(pretraining)`, `fine-tuning`, `BERT`, `GPT`, `in-context learning`의 대표 상세 설명 위치로 사용합니다. 11.2에서는 RNN, Seq2Seq, Attention이 왜 등장했는지를 먼저 봤고, 여기서는 그 흐름 위에서 `현대 LLM이 어떤 구조와 학습 절차 위에 올라왔는가`를 정리합니다.
+Part 1에서 `Transformer`, `self-attention`, `positional encoding`, `Encoder`, `Decoder`, `사전학습(pretraining)`, `fine-tuning`, `BERT`, `GPT`, `in-context learning`의 기본 구분은 여기서 잡습니다. 11.2에서는 RNN, Seq2Seq, Attention이 왜 등장했는지를 먼저 봤고, 여기서는 그 흐름 위에서 `현대 LLM이 어떤 구조와 학습 절차 위에 올라왔는가`를 정리합니다.
 
 ## 이 절의 범위
 
-이 절은 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 5에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
+여기서는 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 5에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
 
-처음 읽을 때는 `Transformer`, `self-attention`, `Encoder`, `Decoder`, `사전학습`, `BERT`, `GPT`, `in-context learning`이 모두 현대 LLM의 비슷한 이름처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`Transformer`, `self-attention`, `Encoder`, `Decoder`, `사전학습`, `BERT`, `GPT`, `in-context learning`은 초반에 모두 현대 LLM의 비슷한 이름처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ Part 1 안에서는 이 절을 `Transformer`, `self-attention`, `positional enco
 | fine-tuning | 특정 과업에 맞게 추가 조정하는 단계 | 사전학습 뒤의 적용 방식 |
 | in-context learning | 가중치 업데이트 없이 프롬프트 문맥으로 행동을 바꾸는 방식 | GPT-3 이후 사용 경험의 핵심 |
 
-처음 단계에서는 `Transformer는 self-attention`, `BERT는 encoder 중심`, `GPT는 decoder 중심`, `사전학습 후 활용` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `Transformer는 self-attention`, `BERT는 encoder 중심`, `GPT는 decoder 중심`, `사전학습 후 활용`입니다.
 
 여기서는 다음 질문에만 집중합니다.
 
@@ -46,9 +46,7 @@ Part 1 안에서는 이 절을 `Transformer`, `self-attention`, `positional enco
 | 사전학습(pretraining) | 모델은 왜 먼저 큰 텍스트에서 학습되는가? |
 | 문맥 내 학습(in-context learning) | 왜 prompt 안의 예시가 모델 행동을 바꿀 수 있는가? |
 
-이 절은 prompt engineering은 P1-12.1부터 P1-12.3에서, vector search와 RAG는 P1-13.1부터 P1-13.4와 P1-14.2에서, AI 서비스 아키텍처는 P1-14.1부터 P1-14.6에서 다시 다룹니다. 여기서는 현대 LLM이 갑자기 등장한 것이 아니라, 언어 모델링, 임베딩, sequence modeling, Attention, 사전학습이 결합된 결과라는 큰 흐름만 잡습니다.
-
-또한 이 절은 프롬프트 작성법 자체를 가르치는 절도 아니고, RAG나 서비스 구성까지 미리 설명하는 절도 아닙니다. 그 주제들은 뒤 장에서 따로 회수하고, 여기서는 `구조`, `학습 절차`, `사용 경험의 변화`만 구분합니다.
+프롬프트 작성법은 P1-12.1부터 P1-12.3에서, vector search와 RAG는 P1-13.1부터 P1-13.4와 P1-14.2에서, AI 서비스 아키텍처는 P1-14.1부터 P1-14.6에서 다시 다룹니다. 여기서는 현대 LLM이 갑자기 등장한 것이 아니라, 언어 모델링, 임베딩, sequence modeling, Attention, 사전학습이 결합된 결과라는 큰 흐름만 잡고 `구조`, `학습 절차`, `사용 경험의 변화`만 구분합니다.
 
 ## 이 절의 목표
 
@@ -61,15 +59,15 @@ Part 1 안에서는 이 절을 `Transformer`, `self-attention`, `positional enco
 - GPT-2와 GPT-3가 zero-shot, few-shot, in-context learning 경험으로 이어졌다는 흐름을 이해합니다.
 - LLM을 AI 전체와 동일시하지 않습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 Transformer 수식을 계산하는 절이 아니라, 현대 LLM의 직접 계보를 정리하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 Transformer 수식을 계산하기보다, 현대 LLM의 직접 계보를 정리하는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| Transformer는 attention을 중심 구조로 올려놓았다는 점 | 왜 현대 LLM 설명에서 Transformer가 빠지지 않는지 보여 줍니다. | 토큰들이 서로를 직접 참고하는 구조라고 이해하면 충분합니다. |
-| pretraining은 큰 텍스트에서 먼저 배우는 단계라는 점 | LLM이 왜 범용적인 언어 감각을 가지는지 설명해 줍니다. | 특정 업무 전에 큰 말뭉치에서 먼저 학습한다고 알면 충분합니다. |
-| BERT와 GPT는 둘 다 Transformer 계열이지만 쓰임이 다르다는 점 | Transformer를 하나의 제품처럼 오해하지 않게 해 줍니다. | 같은 계열 안에서도 학습 목표와 사용 방향이 다르다고 이해하면 충분합니다. |
+| Transformer는 attention을 중심 구조로 올려놓았다는 점 | 왜 현대 LLM 설명에서 Transformer가 빠지지 않는지 보여 줍니다. | 토큰들이 서로를 직접 참고하는 구조라고 이해하면 됩니다. |
+| pretraining은 큰 텍스트에서 먼저 배우는 단계라는 점 | LLM이 왜 범용적인 언어 감각을 가지는지 설명해 줍니다. | 특정 업무 전에 큰 말뭉치에서 먼저 학습한다고 알면 됩니다. |
+| BERT와 GPT는 둘 다 Transformer 계열이지만 쓰임이 다르다는 점 | Transformer를 하나의 제품처럼 오해하지 않게 해 줍니다. | 같은 계열 안에서도 학습 목표와 사용 방향이 다르다고 이해하면 됩니다. |
 
 ## Transformer는 Attention을 중심 구조로 올려놓았다
 
@@ -105,7 +103,7 @@ RNN은 입력을 순서대로 처리하기 때문에 순서 정보가 구조 안
 > positional encoding:
 > 토큰이 어느 위치에 있는지 알려 주는 정보
 
-입문 단계에서는 다음처럼 이해하면 충분합니다.
+여기서는 다음처럼 이해합니다.
 
 > "나는 책을 읽었다"
 >
@@ -190,7 +188,7 @@ GPT-3는 이 흐름을 더 크게 확장했습니다. Brown 등의 2020년 논�
 > prompt 안의 설명과 예시를 보고 출력 행동을 바꾼다.
 > 이때 기본적으로 모델 가중치는 업데이트되지 않는다.
 
-이것이 오늘날 사용자가 LLM에게 자연어로 작업을 설명하고 예시를 넣는 경험으로 이어졌습니다. 하지만 이 절에서는 prompt 작성 기법을 다루지 않습니다. prompt의 구성 요소와 한계는 12.1부터 12.3에서 다시 다룹니다. 여기서는 GPT-2와 GPT-3가 “자연어 입력 자체가 과업 지정 방식이 될 수 있다”는 경험을 넓혔다는 정도만 기억합니다.
+이것이 오늘날 사용자가 LLM에게 자연어로 작업을 설명하고 예시를 넣는 경험으로 이어졌습니다. 하지만 여기서는 prompt 작성 기법을 다루지 않습니다. prompt의 구성 요소와 한계는 12.1부터 12.3에서 다시 다룹니다. 여기서는 GPT-2와 GPT-3가 “자연어 입력 자체가 과업 지정 방식이 될 수 있다”는 경험을 넓혔다는 정도만 기억합니다.
 
 GPT-3 논문도 한계를 함께 언급합니다. few-shot 성능이 좋아졌다고 해서 모델이 사람처럼 새 과업을 이해해 학습한다고 단정할 수는 없습니다. 논문은 모델이 새로운 과업을 실제로 학습하는지, 학습 데이터에서 본 패턴을 인식하는지 구분하기 어렵다는 문제도 지적합니다.
 
@@ -221,7 +219,7 @@ LLM을 이해할 때 다음 축약은 조심해야 합니다.
 
 이 흐름을 알면 LLM을 갑자기 등장한 마술 같은 기술로 보지 않게 됩니다. LLM은 언어를 확률적으로 다루는 연구, 벡터 표현, sequence modeling, Attention, Transformer, 대규모 사전학습이 결합된 결과입니다.
 
-처음 읽을 때는 모든 계보를 외우려 하지 말고 아래 세 줄만 남겨도 충분합니다.
+여기서는 모든 계보를 외우기보다 아래 세 줄을 기준선으로 두면 이후 본문을 따라가기가 쉬워집니다.
 
 | 지금은 이것만 기억 | 뒤에서 다시 읽는 위치 |
 | --- | --- |
@@ -229,7 +227,7 @@ LLM을 이해할 때 다음 축약은 조심해야 합니다.
 | 사전학습은 큰 텍스트에서 언어 패턴을 먼저 배우는 단계다. | Part 6의 GPT/LLM 본류 설명 |
 | BERT와 GPT는 모두 Transformer 계열이지만 같은 역할의 모델은 아니다. | Part 5의 BERT 비교와 Part 6의 LLM 발전사 배경 축 |
 
-## 체크리스트
+## 짧은 점검
 
 - Transformer를 self-attention 중심 구조로 설명할 수 있다.
 - self-attention을 사람의 의식적 주의가 아니라 토큰 간 관련도 계산으로 설명할 수 있다.
@@ -241,12 +239,22 @@ LLM을 이해할 때 다음 축약은 조심해야 합니다.
 - in-context learning을 가중치 업데이트 없는 입력 문맥 기반 행동 변화로 설명할 수 있다.
 - LLM을 AI 전체와 동일시하지 않을 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 Transformer, 사전학습, BERT, GPT가 한 덩어리의 최신 용어처럼 섞여 보여 현대 LLM의 구조와 학습 절차를 다시 구분해야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- Transformer가 왜 Attention을 중심 구조로 올려놓은 전환인지 다시 설명해야 할 때
+- BERT와 GPT를 같은 Transformer 계열 안에서 어떻게 다르게 배치해야 하는지 정리해야 할 때
+- pretraining, fine-tuning, in-context learning이 각각 무엇을 바꾸는 절차인지 구분해야 할 때
+
+이때는 먼저 `구조`, `학습 절차`, `사용 경험의 변화`를 나누면 됩니다. 그러면 현대 LLM을 하나의 제품 이름처럼 보지 않고, self-attention 구조와 대규모 사전학습 위에서 커진 계열로 더 안정적으로 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762), arXiv, 2017, 확인 날짜: 2026-06-23.
-- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365), arXiv, 2018, 확인 날짜: 2026-06-23.
-- Jeremy Howard, Sebastian Ruder, [Universal Language Model Fine-tuning for Text Classification](https://arxiv.org/abs/1801.06146), arXiv, 2018, 확인 날짜: 2026-06-23.
-- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf), OpenAI, 2018, 확인 날짜: 2026-06-23.
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805), arXiv, 2018, 확인 날짜: 2026-06-23.
-- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf), OpenAI, 2019, 확인 날짜: 2026-06-23.
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165), arXiv, 2020, 확인 날짜: 2026-06-23.
+- Ashish Vaswani et al., [Attention Is All You Need](https://arxiv.org/abs/1706.03762){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-06-23.
+- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.
+- Jeremy Howard, Sebastian Ruder, [Universal Language Model Fine-tuning for Text Classification](https://arxiv.org/abs/1801.06146){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-06-23.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.
+- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2019, 확인 날짜: 2026-06-23.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.

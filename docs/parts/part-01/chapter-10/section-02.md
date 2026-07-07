@@ -1,27 +1,27 @@
-# 10.2 다음 출력 생성(next-output generation)의 직관
+# P1-10.2 다음 출력 생성(next-output generation)의 직관
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)을 구분했습니다. 분류는 범주를 고르고, 예측은 값이나 상태를 추정하고, 생성은 조건에 맞는 새 산출물을 만듭니다.
 
-이번 절에서는 생성이 어떻게 일어나는지 아주 큰 직관만 잡습니다.
+여기서는 생성이 어떻게 일어나는지 아주 큰 직관만 설명합니다.
 
-이 절의 핵심 질문은 생성형 AI가 완성된 답을 한 번에 꺼내는가, 아니면 작은 출력 조각을 이어 가며 만드는가입니다.
+여기서 던지는 핵심 질문은 생성형 AI가 완성된 답을 한 번에 꺼내는가, 아니면 작은 출력 조각을 이어 가며 만드는가입니다.
 
-입문 단계에서는 다음 관점이 유용합니다.
+입문 단계에서 유용한 기준선은 다음과 같습니다.
 
 > 생성형 AI는 대체로 조건(condition)을 바탕으로 다음 출력 조각을 만들고, 그 결과를 다시 다음 단계의 조건으로 사용하면서 산출물을 구성한다.
 
-Part 1 안에서는 이 절을 `다음 출력 생성(next-output generation)`, `다음 토큰 예측(next-token prediction)`의 입문 직관, `오디오 샘플(audio sample)` 순차 생성, `diffusion model`의 점진적 복원 직관을 구분하는 대표 상세 설명 위치로 사용합니다. 10.1에서는 `분류/예측/생성`의 출력 차이를 먼저 구분했고, 여기서는 그중 `생성`이 어떻게 이어지는지의 계산 직관만 잡습니다. 세부 구조와 수식은 뒤 Part에서 다시 다룹니다.
+Part 1에서 `다음 출력 생성(next-output generation)`, `다음 토큰 예측(next-token prediction)`의 입문 직관, `오디오 샘플(audio sample)` 순차 생성, `diffusion model`의 점진적 복원 직관을 구분하는 기본 기준은 여기서 잡습니다. 10.1에서는 `분류/예측/생성`의 출력 차이를 먼저 구분했고, 여기서는 그중 `생성`이 어떻게 이어지는지의 계산 직관만 잡습니다. 세부 구조와 수식은 뒤 Part에서 다시 다룹니다.
 
 다만 이 문장은 모든 모델이 같은 방식으로 동작한다는 뜻이 아닙니다. 텍스트 생성(text generation), 음성 생성(audio generation), 이미지 생성(image generation)은 모두 반복적 생성이라는 공통 직관을 공유할 수 있지만, 실제 생성 단위와 알고리즘은 다릅니다.
 
 ## 이 절의 범위
 
-이 절은 생성형 AI의 세부 알고리즘을 설명하지 않습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.2와 Part 6의 P6-5.2에서, diffusion model의 구조는 이 책의 현재 본편 범위 밖에서, Transformer 구조는 P1-11.3, Part 5의 P5-14.1과 P5-14.2, Part 6의 P6-3.1에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다.
+여기서는 생성형 AI의 세부 알고리즘을 설명하지 않습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.2와 Part 6의 P6-5.2에서, diffusion model의 구조는 이 책의 현재 본편 범위 밖에서, Transformer 구조는 P1-11.3, Part 5의 P5-14.1과 P5-14.2, Part 6의 P6-3.1에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다.
 
-처음 읽을 때는 `다음 출력 생성`, `다음 토큰`, `오디오 샘플`, `diffusion`이 모두 같은 생성 알고리즘처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`다음 출력 생성`, `다음 토큰`, `오디오 샘플`, `diffusion`은 초반에 모두 같은 생성 알고리즘처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -31,23 +31,16 @@ Part 1 안에서는 이 절을 `다음 출력 생성(next-output generation)`, `
 | diffusion 복원 | 노이즈를 점진적으로 줄여 이미지를 복원하는 방식 | 이미지 생성이 텍스트와 다른 점 |
 | sampling | 후보 중 실제 출력을 선택하는 절차 | 같은 입력에도 결과가 달라지는 이유의 일부 |
 
-처음 단계에서는 `텍스트는 다음 토큰`, `음성은 다음 샘플`, `이미지는 복원 과정`, `sampling은 선택 절차` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `텍스트는 다음 토큰`, `음성은 다음 샘플`, `이미지는 복원 과정`, `sampling은 선택 절차`입니다.
 
-- 토큰화(tokenization)
-- 다음 토큰 예측(next-token prediction)
-- sampling, temperature, top-k, top-p
-- diffusion model의 수학적 구조
-- Transformer 구조
-- 프롬프트(prompt)와 평가
-
-여기서는 다음 직관만 잡습니다.
+여기서는 다음 직관을 기준선으로 둡니다.
 
 > 조건을 읽는다.
 > 가능한 다음 출력 후보를 계산한다.
 > 하나의 출력을 선택하거나 복원한다.
 > 그 결과를 바탕으로 다음 단계를 이어 간다.
 
-또한 이 절은 `좋은 생성 결과를 어떻게 판단할 것인가`를 다루지 않습니다. 그 질문은 10.3에서 `품질`, `근거`, `안전`, `권리와 책임`으로 따로 나눠 봅니다.
+또한 여기서는 `좋은 생성 결과를 어떻게 판단할 것인가`를 다루지 않습니다. 그 질문은 10.3에서 `품질`, `근거`, `안전`, `권리와 책임`으로 따로 나눠 봅니다.
 
 ## 이 절의 목표
 
@@ -57,15 +50,15 @@ Part 1 안에서는 이 절을 `다음 출력 생성(next-output generation)`, `
 - 이미지 생성은 다음 픽셀을 단순히 이어 붙이는 방식으로만 설명하면 안 되며, diffusion 계열에서는 노이즈를 점진적으로 복원한다는 점을 구분합니다.
 - `다음 출력 생성`은 입문용 직관이지, 모든 생성 모델의 정확한 알고리즘 설명이 아님을 기억합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 생성 알고리즘 세부를 배우는 절이 아니라, 생성이 어떻게 이어지는지 직관을 잡는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 생성 알고리즘 세부를 배우기보다, 생성이 어떻게 이어지는지 직관을 잡는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 생성은 완성본을 한 번에 꺼내기보다 단계적으로 이어질 수 있다는 점 | 생성형 AI를 더 현실적인 계산 과정으로 보게 해 줍니다. | 작은 출력 조각을 이어 가며 만든다고 이해하면 충분합니다. |
-| 텍스트에서는 다음 토큰(next token) 직관이 중요하다는 점 | LLM 설명으로 넘어갈 때 핵심 손잡이가 됩니다. | 문장을 통째로 고르는 게 아니라 다음 토큰 후보를 계속 고른다고 알면 충분합니다. |
-| 이미지와 음성도 반복 생성이라는 공통점은 있지만 단위와 방식은 다르다는 점 | 모든 생성 모델을 같은 알고리즘으로 오해하지 않게 해 줍니다. | “반복 생성”은 공통 직관일 뿐, 실제 구현은 다르다고 이해하면 충분합니다. |
+| 생성은 완성본을 한 번에 꺼내기보다 단계적으로 이어질 수 있다는 점 | 생성형 AI를 더 현실적인 계산 과정으로 보게 해 줍니다. | 작은 출력 조각을 이어 가며 만든다고 이해하면 됩니다. |
+| 텍스트에서는 다음 토큰(next token) 직관이 중요하다는 점 | LLM 설명으로 넘어갈 때 핵심 손잡이가 됩니다. | 문장을 통째로 고르는 게 아니라 다음 토큰 후보를 계속 고른다고 알면 됩니다. |
+| 이미지와 음성도 반복 생성이라는 공통점은 있지만 단위와 방식은 다르다는 점 | 모든 생성 모델을 같은 알고리즘으로 오해하지 않게 해 줍니다. | “반복 생성”은 공통 직관일 뿐, 실제 구현은 다르다고 이해하면 됩니다. |
 
 ## 텍스트는 다음 토큰을 이어 가며 만들어진다
 
@@ -154,7 +147,7 @@ GPT-3 논문은 GPT-3를 175B 파라미터의 자기회귀 언어 모델(autoreg
 
 음성 생성(audio generation)도 순차 생성의 직관으로 볼 수 있습니다. WaveNet 논문은 raw audio waveform을 직접 다루는 생성 모델을 제안했고, 파형(waveform)의 결합확률(joint probability)을 이전 샘플들에 조건화된 확률의 곱으로 factorization한다고 설명했습니다.
 
-입문 단계에서는 다음처럼 볼 수 있습니다.
+입문 단계의 기준선은 다음과 같습니다.
 
 > 이전 오디오 샘플들
 > -> 다음 오디오 샘플의 후보 분포
@@ -251,7 +244,7 @@ Latent Diffusion Models 논문은 diffusion model을 더 낮은 차원의 latent
 
 다만 이 직관은 모델별 차이를 지워서는 안 됩니다. 텍스트 생성은 다음 토큰을 이어 가는 설명이 잘 맞고, 음성 생성도 순차 샘플 생성으로 설명할 수 있습니다. 이미지 생성, 특히 diffusion 계열은 노이즈를 점진적으로 복원하는 방식으로 따로 이해해야 합니다.
 
-처음 읽을 때는 아래 세 줄만 붙잡고 넘어가도 충분합니다.
+여기서는 아래 세 줄만 붙잡고 넘어가면 됩니다.
 
 | 지금은 이것만 기억 | 뒤에서 다시 읽는 위치 |
 | --- | --- |
@@ -259,7 +252,7 @@ Latent Diffusion Models 논문은 diffusion model을 더 낮은 차원의 latent
 | 같은 입력에서도 후보 분포와 선택 방식 때문에 출력이 달라질 수 있다. | Part 5의 P5-15.2, Part 6의 P6-5.2 |
 | 이미지 생성은 텍스트처럼 단순 `다음 조각 붙이기`로만 보면 부족하다. | P1-11.3, Part 5의 P5-14.1과 P5-14.2, Part 6의 P6-3.1. diffusion 세부는 현재 본편 범위 밖이다. |
 
-## 체크리스트
+## 짧은 점검
 
 - 생성형 AI가 완성된 산출물을 한 번에 꺼내는 것이 아니라 반복적 생성 과정으로 이해될 수 있음을 설명할 수 있다.
 - 텍스트 생성에서 토큰(token)과 다음 토큰 예측(next-token prediction)의 직관을 설명할 수 있다.
@@ -268,9 +261,19 @@ Latent Diffusion Models 논문은 diffusion model을 더 낮은 차원의 latent
 - 이미지 생성, 특히 diffusion model을 단순한 다음 픽셀 예측으로 설명하지 않아야 함을 말할 수 있다.
 - 생성 결과는 사람의 검토와 반복 수정이 필요하다는 점을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 생성형 AI가 완성된 답을 통째로 꺼내는 것처럼 느껴져 내부의 반복적 생성 과정을 다시 설명해야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 텍스트 생성에서 왜 `다음 토큰(next token)` 직관이 중요한지 다시 잡아야 할 때
+- 음성, 이미지 생성도 반복적 생성이라는 공통점은 있지만 단위와 방식은 다르다고 구분해야 할 때
+- 같은 프롬프트라도 모델과 생성 방식에 따라 내부 절차가 달라진다는 점을 설명해야 할 때
+
+이때는 먼저 `무엇이 다음 출력 단위인가`, `그 단위를 어떤 조건으로 선택하거나 복원하는가`, `앞 단계 출력이 다음 단계 조건으로 어떻게 이어지는가`를 나누면 됩니다. 그러면 생성 과정을 마술적 인출이 아니라 계산적 구성 과정으로 읽기 쉬워집니다.
+
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165), arXiv, 2020, 확인 날짜: 2026-06-23.
-- Aäron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499), arXiv, 2016, 확인 날짜: 2026-06-23.
-- Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239), arXiv, 2020, 확인 날짜: 2026-06-23.
-- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752), arXiv, 2021, 확인 날짜: 2026-06-23.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
+- Aäron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-06-23.
+- Jonathan Ho, Ajay Jain, Pieter Abbeel, [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
+- Robin Rombach et al., [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, 확인 날짜: 2026-06-23.

@@ -1,22 +1,31 @@
-# 7.1 탐색 공간(search space)과 계산 한계(computational limit)
+# P1-7.1 탐색 공간(search space)과 계산 한계(computational limit)
 
 > Section ID: `P1-7.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 6장에서는 불완전한 정보와 확률적 판단을 다뤘습니다. 이제 다른 종류의 어려움을 봅니다. 어떤 문제는 정보가 부족해서 어렵기도 하지만, 가능한 선택지가 너무 많아서 어렵기도 합니다.
 
-이 절의 질문은 다음입니다.
+여기서 던지는 질문은 다음입니다.
 
 > 가능한 해가 너무 많을 때,
 > AI는 무엇을 모두 살펴볼 수 없게 되는가?
 
-이 질문이 P1-7의 출발점입니다. 휴리스틱(heuristic)을 이해하려면 먼저 탐색(search)과 탐색 공간(search space)을 이해해야 합니다.
+휴리스틱(heuristic)을 이해하려면 먼저 탐색(search)과 탐색 공간(search space)을 이해해야 합니다.
 
-Part 1 안에서는 이 절을 `탐색(search)`, `탐색 공간(search space)`, `계산 한계(computational limit)`, `완전 탐색(exhaustive search)`의 대표 상세 설명 위치로 사용합니다. 6장에서는 불확실성과 확률의 문제를 먼저 봤고, 여기서는 그와 다른 종류의 어려움인 `후보가 너무 많아 전부 볼 수 없는 문제`를 중심으로 잡습니다. 휴리스틱(heuristic)의 구체 역할은 바로 다음 7.2에서 더 자세히 다룹니다.
+Part 1에서 `탐색(search)`, `탐색 공간(search space)`, `계산 한계(computational limit)`, `완전 탐색(exhaustive search)`의 기본 구분은 이 절에서 잡습니다. 6장에서는 불확실성과 확률의 문제를 먼저 봤고, 여기서는 그와 다른 종류의 어려움인 `후보가 너무 많아 전부 볼 수 없는 문제`를 중심으로 잡습니다. 휴리스틱(heuristic)의 구체 역할은 바로 다음 7.2에서 더 자세히 다룹니다.
+
+6장과 7장의 차이는 같은 서비스 안에서도 한 장면으로 나란히 볼 수 있습니다.
+
+| 같은 서비스 안의 장면 | 어려움의 핵심 | 먼저 떠올릴 접근 |
+| --- | --- | --- |
+| 배송이 늦는 이유를 추정한다 | 정보가 부족하고 원인이 여러 개라서 무엇이 참인지 확실하지 않다 | 불확실성, 확률, 근거 갱신 |
+| 오늘 방문할 배송 경로를 정한다 | 가능한 경로 후보가 너무 많아 전부 비교하기 어렵다 | 탐색, 가지치기, 휴리스틱 |
+
+이 표의 핵심은 `모르는 것이 많아서 어려운 문제`와 `후보가 너무 많아서 어려운 문제`를 분리하는 데 있습니다. 현실에서는 둘이 함께 나타날 수 있지만, 6장은 먼저 `무엇이 참인지 확실하지 않은 문제`를 다루고, 7장은 `가능한 선택지를 전부 보기 어려운 문제`를 다룹니다.
 
 > 후보가 많아지는 순간, 문제는 정답을 아는 일이 아니라 정답을 찾아가는 일이 된다.
 
-초심자는 이 문장을 `정답의 정의`와 `정답을 찾는 절차`를 구분하는 기준으로 읽으면 충분합니다. 어떤 문제는 답이 맞는지 확인하기는 쉬워도, 그 답에 도달하는 경로를 찾는 일이 훨씬 더 어려울 수 있습니다.
+이 문장은 `정답의 정의`와 `정답을 찾는 절차`를 구분하는 기준입니다. 어떤 문제는 답이 맞는지 확인하기는 쉬워도, 그 답에 도달하는 경로를 찾는 일이 훨씬 더 어려울 수 있습니다.
 
 ## 이 절의 범위
 
@@ -37,17 +46,17 @@ Part 1 안에서는 이 절을 `탐색(search)`, `탐색 공간(search space)`, 
 - 가능한 모든 경우를 살펴보는 완전 탐색(exhaustive search)이 왜 현실적으로 어려워지는지 설명할 수 있습니다.
 - 7.2의 휴리스틱(heuristic)이 왜 필요한지 준비합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 탐색 알고리즘 구현을 배우는 절이 아니라, 왜 “찾는 문제”가 어려워지는지 이해하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 탐색 알고리즘 구현을 배우기보다, 왜 “찾는 문제”가 어려워지는지 이해하는 데 목적을 둡니다. 아래 세 가지를 먼저 가릅니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 이해할 수준 |
 | --- | --- | --- |
-| 탐색(search)은 후보를 따라가며 해를 찾는 과정이라는 점 | AI 문제를 단순 계산이 아니라 선택의 문제로 보게 해 줍니다. | 길찾기처럼 “어디로 갈지 하나씩 고른다”는 감각만 잡으면 충분합니다. |
-| 탐색 공간(search space)은 가능한 상태와 선택지의 전체라는 점 | 후보 수가 왜 갑자기 커지는지 설명해 줍니다. | 단계가 늘수록 경우의 수가 빠르게 늘어난다는 점만 이해하면 충분합니다. |
-| 계산 한계(computational limit) 때문에 모든 경우를 다 볼 수 없다는 점 | 바로 다음 절의 휴리스틱이 왜 필요한지 연결해 줍니다. | 완전 탐색이 이론적으로는 가능해도 현실적으로는 느릴 수 있다는 점만 알면 충분합니다. |
+| 탐색(search)은 후보를 따라가며 해를 찾는 과정이라는 점 | AI 문제를 단순 계산이 아니라 선택의 문제로 보게 해 줍니다. | 길찾기처럼 “어디로 갈지 하나씩 고른다”는 감각을 잡습니다. |
+| 탐색 공간(search space)은 가능한 상태와 선택지의 전체라는 점 | 후보 수가 왜 갑자기 커지는지 설명해 줍니다. | 단계가 늘수록 경우의 수가 빠르게 늘어난다는 점을 이해합니다. |
+| 계산 한계(computational limit) 때문에 모든 경우를 다 볼 수 없다는 점 | 바로 다음 절의 휴리스틱이 왜 필요한지 연결해 줍니다. | 완전 탐색이 이론적으로는 가능해도 현실적으로는 느릴 수 있다는 점을 봅니다. |
 
-처음 읽을 때는 `탐색`, `탐색 공간`, `상태`, `행동`, `경로`, `비용`, `계산 한계`가 모두 비슷한 구조 설명처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`탐색`, `탐색 공간`, `상태`, `행동`, `경로`, `비용`, `계산 한계`는 초반에 비슷한 구조 설명처럼 들릴 수 있습니다. 아래처럼 자리만 짧게 구분해 둡니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -59,7 +68,7 @@ Part 1 안에서는 이 절을 `탐색(search)`, `탐색 공간(search space)`, 
 | 비용 | 더 좋은 경로를 고르는 기준 | 거리, 시간, 자원 같은 비교 기준 |
 | 계산 한계 | 모든 후보를 현실적으로 다 보기 어려운 상태 | 휴리스틱이 왜 필요한지 설명하는 이유 |
 
-처음 단계에서는 `탐색은 찾는 과정`, `탐색 공간은 후보 전체`, `상태와 행동은 그 안의 단위`, `계산 한계는 전부 못 보는 이유` 정도로만 잡아도 충분합니다.
+여기서는 `탐색은 찾는 과정`, `탐색 공간은 후보 전체`, `상태와 행동은 그 안의 단위`, `계산 한계는 전부 못 보는 이유`라는 자리 구분을 유지합니다.
 
 ## 탐색(search)은 후보를 살펴보는 문제 해결 방식이다
 
@@ -70,7 +79,7 @@ Poole과 Mackworth는 이 흐름을 짧게 이렇게 표현합니다.
 > “Search underlies much of AI.”  
 > — David L. Poole, Alan K. Mackworth, *Artificial Intelligence: Foundations of Computational Agents*
 
-입문 단계에서는 탐색을 이렇게 이해하면 됩니다.
+여기서는 탐색을 이렇게 이해합니다.
 
 > 지금 상태에서 가능한 선택을 따라가며
 > 목표에 도달하는 경로를 찾는 과정
@@ -196,7 +205,7 @@ FunSearch는 조금 다른 사례입니다. FunSearch는 정답 하나를 직접
 
 물론 현실 문제에서는 이 셋이 함께 나타납니다. 길 찾기에서도 가능한 경로가 많고, 교통 상황은 불확실하며, 예상 시간은 데이터로 학습될 수 있습니다.
 
-하지만 입문 단계에서는 먼저 구분하는 편이 좋습니다.
+하지만 여기서는 이 셋을 먼저 구분해 두는 편이 안전합니다.
 
 > 모르는 것과,
 > 후보가 너무 많은 것과,
@@ -217,7 +226,7 @@ FunSearch는 조금 다른 사례입니다. FunSearch는 정답 하나를 직접
 
 가능한 목차 조합은 매우 많습니다. 모든 후보를 만들어 비교하기는 어렵기 때문에, 보통은 큰 구조를 먼저 잡고 각 섹션의 중심 질문을 정한 뒤 세부 후보를 줄여 갑니다.
 
-이것은 엄밀한 탐색 알고리즘은 아닙니다. 하지만 “가능한 후보를 모두 볼 수 없으므로 기준을 두고 줄인다”는 점에서 탐색과 휴리스틱을 이해하는 비유로는 충분합니다.
+이것은 엄밀한 탐색 알고리즘은 아닙니다. 하지만 “가능한 후보를 모두 볼 수 없으므로 기준을 두고 줄인다”는 점에서 탐색과 휴리스틱을 이해하는 비유가 됩니다.
 
 ## 왜 휴리스틱(heuristic)이 다음에 필요한가
 
@@ -241,7 +250,7 @@ FunSearch는 조금 다른 사례입니다. FunSearch는 정답 하나를 직접
 
 이 질문이 7.2의 휴리스틱(heuristic)으로 이어집니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 탐색(search)을 가능한 후보를 살펴보며 해를 찾는 과정으로 설명할 수 있다.
 - 상태(state), 행동(action), 목표(goal), 경로(path), 비용(cost)을 길 찾기 예시로 설명할 수 있다.
@@ -250,10 +259,20 @@ FunSearch는 조금 다른 사례입니다. FunSearch는 정답 하나를 직접
 - 불확실성(uncertainty), 탐색 공간(search space), 학습(learning)의 어려움을 구분할 수 있다.
 - 탐색 공간이 커질 때 휴리스틱(heuristic)이 왜 필요해지는지 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 문제가 `무엇이 참인가`보다 `가능한 후보가 너무 많다`는 어려움으로 보일 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 가능한 조합이나 경로를 전부 비교하는 방식이 금방 비현실적으로 커질 때
+- 계산 성능을 높이면 해결될 문제인지, 후보 공간 자체가 폭발하는 문제인지 구분해야 할 때
+- 왜 다음 절에서 휴리스틱(heuristic)이 필요한지 연결해서 설명해야 할 때
+
+이때는 먼저 `상태`, `행동`, `목표`, `비용`이 무엇인지 잡고, 후보 수가 어떤 식으로 늘어나는지 확인하면 됩니다. 그러면 지금의 어려움이 불확실성인지, 학습 부족인지, 탐색 공간 폭증인지 더 분명해집니다.
+
 ## 출처와 참고 자료
 
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 3 Searching for Solutions](https://artint.info/3e/html/ArtInt3e.Ch3.html), 확인 날짜: 2026-06-23.
-- David L. Poole, Alan K. Mackworth, [3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html), 확인 날짜: 2026-06-23.
-- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html), 확인 날짜: 2026-06-22.
-- Google DeepMind, Daniel J. Mankowitz and Andrea Michi, [AlphaDev discovers faster sorting algorithms](https://deepmind.google/discover/blog/alphadev-discovers-faster-sorting-algorithms/), 2023-06-07, 확인 날짜: 2026-06-23.
-- Google DeepMind, Alhussein Fawzi and Bernardino Romera-Paredes, [FunSearch: Making new discoveries in mathematical sciences using Large Language Models](https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/), 2023-12-14, 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 3 Searching for Solutions](https://artint.info/3e/html/ArtInt3e.Ch3.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Google DeepMind, Daniel J. Mankowitz and Andrea Michi, [AlphaDev discovers faster sorting algorithms](https://deepmind.google/discover/blog/alphadev-discovers-faster-sorting-algorithms/){: target="_blank" rel="noopener noreferrer" }, 2023-06-07, 확인 날짜: 2026-06-23.
+- Google DeepMind, Alhussein Fawzi and Bernardino Romera-Paredes, [FunSearch: Making new discoveries in mathematical sciences using Large Language Models](https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/){: target="_blank" rel="noopener noreferrer" }, 2023-12-14, 확인 날짜: 2026-06-23.

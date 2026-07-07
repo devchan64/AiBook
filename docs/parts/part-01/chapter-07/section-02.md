@@ -1,16 +1,14 @@
-# 7.2 휴리스틱(heuristic)은 무엇을 줄이는가
+# P1-7.2 휴리스틱(heuristic)은 무엇을 줄이는가
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 7.1에서는 탐색 공간(search space)이 커질 때 모든 후보를 살펴보는 방식이 계산 한계(computational limit)에 부딪힌다는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
 > 가능한 후보를 모두 볼 수 없다면,
 > 무엇을 기준으로 먼저 보고, 무엇을 줄일 것인가?
 
-이 질문이 휴리스틱(heuristic)의 출발점입니다.
-
-Part 1 안에서는 이 절을 `휴리스틱(heuristic)`, `휴리스틱 함수(heuristic function)`, `충분히 좋은 해(good-enough solution)`의 대표 상세 설명 위치로 사용합니다. 7.1에서는 왜 탐색 공간이 커질 때 계산 한계가 생기는지 먼저 잡았고, 여기서는 그 한계를 줄이기 위해 어떤 기준을 두는지에 집중합니다. 휴리스틱과 확률 모델, 학습 모델의 더 분명한 경계는 7.3에서 다시 정리합니다.
+Part 1에서 `휴리스틱(heuristic)`, `휴리스틱 함수(heuristic function)`, `충분히 좋은 해(good-enough solution)`의 기본 구분은 이 절에서 잡습니다. 7.1에서는 왜 탐색 공간이 커질 때 계산 한계가 생기는지 먼저 잡았고, 여기서는 그 한계를 줄이기 위해 어떤 기준을 두는지에 집중합니다. 휴리스틱과 확률 모델, 학습 모델의 더 분명한 경계는 7.3에서 다시 정리합니다.
 
 > 휴리스틱은 정답을 보장하는 공식이 아니라, 먼저 볼 후보를 정하는 경험적 기준이다.
 
@@ -18,12 +16,12 @@ Part 1 안에서는 이 절을 `휴리스틱(heuristic)`, `휴리스틱 함수(h
 
 휴리스틱(heuristic)의 어원은 이 개념을 이해하는 데 도움이 됩니다. Online Etymology Dictionary는 `heuristic`이 그리스어 `heuriskein`에서 왔고, “찾다, 알아내다, 발견하다”의 의미와 연결된다고 설명합니다. 같은 어근은 “찾았다”라는 의미로 알려진 `eureka`와도 연결됩니다.
 
-그래서 휴리스틱을 한국어로 이해할 때는 “정답을 맞히는 요령”보다 “찾아내기 위한 방법”에 가깝게 보는 편이 안전합니다.
+그래서 휴리스틱을 한국어로 이해할 때는 “정답을 맞히는 요령”보다 “찾아내기 위한 방법”에 가깝게 읽는 쪽이 더 안전합니다.
 
 > 휴리스틱은 답을 이미 알고 있다는 뜻이 아니라,
 > 답을 찾기 위해 어디를 먼저 볼지 정하는 방법이다.
 
-초심자는 이 문장을 `휴리스틱은 정답을 대신하는 것이 아니라 탐색 순서를 정하는 기준`으로 읽으면 충분합니다. 그래서 휴리스틱이 유용하더라도, 그 자체가 진실이나 최종 근거를 보장하는 것은 아닙니다.
+이 문장은 `휴리스틱은 정답을 대신하는 것이 아니라 탐색 순서를 정하는 기준`이라는 뜻입니다. 그래서 휴리스틱이 유용하더라도, 그 자체가 진실이나 최종 근거를 보장하는 것은 아닙니다.
 
 이 어원은 7.1의 탐색(search)과도 잘 이어집니다. 탐색 공간(search space)이 너무 넓을 때 휴리스틱은 모든 곳을 다 뒤지는 대신, 발견 가능성이 더 높아 보이는 방향을 먼저 보게 합니다.
 
@@ -51,7 +49,7 @@ Simon의 관점도 이 흐름과 연결됩니다. Nobel Prize 자료는 Simon이
 
 ## 이 절의 범위
 
-이 절은 A* 탐색(A* search), greedy best-first search, admissible heuristic, consistent heuristic 같은 알고리즘 세부 조건을 계산하지 않습니다.
+여기서는 A* 탐색(A* search), greedy best-first search, admissible heuristic, consistent heuristic 같은 알고리즘 세부 조건을 계산하지 않습니다.
 
 또한 휴리스틱을 확률 모델(probabilistic model)이나 학습된 모델(learned model)과 같은 것으로 설명하지 않습니다. 휴리스틱과 확률 모델의 차이는 7.3에서 따로 다룹니다.
 
@@ -68,17 +66,17 @@ Simon의 관점도 이 흐름과 연결됩니다. Nobel Prize 자료는 Simon이
 - 충분히 좋은 해(good-enough solution, satisficing solution)가 왜 필요한지 이해합니다.
 - 휴리스틱은 빠른 판단을 돕지만, 최적해(optimal solution)를 보장하지 않는다는 점을 기억합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 휴리스틱 공식을 외우는 절이 아니라, 왜 후보를 줄여야 하는지 설명하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 휴리스틱 공식을 외우기보다, 왜 후보를 줄여야 하는지 설명하는 데 목적을 둡니다. 아래 세 가지를 먼저 가릅니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 이해할 수준 |
 | --- | --- | --- |
-| 휴리스틱은 정답 공식이 아니라 먼저 볼 후보를 정하는 기준이라는 점 | 휴리스틱을 “찍기”나 “요령” 정도로 오해하지 않게 해 줍니다. | 답을 보장하지 않아도 탐색을 줄여 주는 기준이라고 이해하면 충분합니다. |
-| 휴리스틱은 시간, 메모리, 비교 부담을 줄인다는 점 | 계산 한계와 실제 문제 해결이 어떻게 연결되는지 보여 줍니다. | 모든 후보를 다 보지 않기 위한 장치라고만 알면 충분합니다. |
-| 충분히 좋은 해(good-enough solution)가 현실에서 중요하다는 점 | 최적해만 찾으려는 사고에서 벗어나게 해 줍니다. | 완벽한 답보다 제한된 시간 안의 쓸 만한 답이 중요할 때가 많다는 점만 이해하면 충분합니다. |
+| 휴리스틱은 정답 공식이 아니라 먼저 볼 후보를 정하는 기준이라는 점 | 휴리스틱을 “찍기”나 “요령” 정도로 오해하지 않게 해 줍니다. | 답을 보장하지 않아도 탐색을 줄여 주는 기준이라고 이해합니다. |
+| 휴리스틱은 시간, 메모리, 비교 부담을 줄인다는 점 | 계산 한계와 실제 문제 해결이 어떻게 연결되는지 보여 줍니다. | 모든 후보를 다 보지 않기 위한 장치라고 봅니다. |
+| 충분히 좋은 해(good-enough solution)가 현실에서 중요하다는 점 | 최적해만 찾으려는 사고에서 벗어나게 해 줍니다. | 완벽한 답보다 제한된 시간 안의 쓸 만한 답이 중요할 때가 많다는 점을 이해합니다. |
 
-처음 읽을 때는 `휴리스틱`, `휴리스틱 함수`, `좋은 해`, `최적해`, `검증`이 모두 비슷한 판단 기준처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`휴리스틱`, `휴리스틱 함수`, `좋은 해`, `최적해`, `검증`은 초반에 비슷한 판단 기준처럼 들릴 수 있습니다. 아래처럼 자리만 짧게 구분해 둡니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -88,13 +86,11 @@ Simon의 관점도 이 흐름과 연결됩니다. Nobel Prize 자료는 Simon이
 | 최적해 | 가능한 후보 중 가장 좋은 답 | 휴리스틱이 항상 보장하지 않는 목표 |
 | 검증 | 휴리스틱이 놓친 문제를 다시 확인하는 절차 | 빠른 판단을 그대로 믿지 않게 하는 장치 |
 
-처음 단계에서는 `휴리스틱은 탐색 축소`, `휴리스틱 함수는 점수 기준`, `좋은 해는 실용적 답`, `최적해는 이상적 답`, `검증은 빠진 것을 다시 보는 절차` 정도로만 잡아도 충분합니다.
+여기서는 `휴리스틱은 탐색 축소`, `휴리스틱 함수는 점수 기준`, `좋은 해는 실용적 답`, `최적해는 이상적 답`, `검증은 빠진 것을 다시 보는 절차`라는 자리 구분을 유지합니다.
 
 ## 휴리스틱은 모든 후보를 보지 않기 위한 기준이다
 
 Poole과 Mackworth는 사람이 모든 문제에서 최적해(optimal solution)를 찾지는 않으며, 종종 충분히 좋은 해(good-enough solution)를 찾는다고 설명합니다. 또한 탐색 공간(search space)만으로는 부족할 때, 특수한 경우에 대한 추가 지식이 해를 찾는 방향을 안내할 수 있으며 이것을 휴리스틱 지식(heuristic knowledge)이라고 설명합니다.
-
-입문 단계에서는 휴리스틱을 이렇게 이해하면 됩니다.
 
 > 가능한 후보가 너무 많을 때,
 > 더 유망해 보이는 후보를 먼저 보게 하는 기준
@@ -157,7 +153,7 @@ DeepMind의 FunSearch 사례도 현대적 휴리스틱을 이해하는 데 도�
 
 ## 휴리스틱 함수(heuristic function)는 후보에 추정값을 붙인다
 
-AI 교재에서 휴리스틱은 종종 휴리스틱 함수(heuristic function)로 설명됩니다. 함수(function)라는 말이 나오면 어렵게 느껴질 수 있지만, 입문 단계에서는 다음처럼 보면 됩니다.
+AI 교재에서 휴리스틱은 종종 휴리스틱 함수(heuristic function)로 설명됩니다. 함수(function)라는 말이 나오면 어렵게 느껴질 수 있지만, 여기서는 다음 기준으로 읽으면 됩니다.
 
 > 후보를 입력으로 받아,
 > 그 후보가 얼마나 유망한지 추정값을 돌려주는 기준
@@ -226,7 +222,7 @@ AI 교재에서 휴리스틱은 종종 휴리스틱 함수(heuristic function)�
 
 ## 휴리스틱과 규칙, 확률, 학습은 다르다
 
-휴리스틱은 다른 개념과 쉽게 섞입니다. 입문 단계에서는 다음처럼 구분합니다.
+휴리스틱은 다른 개념과 쉽게 섞입니다. 여기서는 다음 기준으로 구분합니다.
 
 | 구분 | 중심 역할 | 휴리스틱과의 차이 |
 | --- | --- | --- |
@@ -242,12 +238,12 @@ AI 교재에서 휴리스틱은 종종 휴리스틱 함수(heuristic function)�
 
 휴리스틱(heuristic)은 가능한 후보를 모두 볼 수 없을 때, 먼저 볼 후보와 줄일 후보를 정하는 경험적 기준입니다. 후보 수, 시간, 메모리, 비교 부담을 줄일 수 있지만, 최적해(optimal solution)를 보장하지는 않습니다.
 
-그래서 휴리스틱은 다음 문장으로 기억하는 것이 좋습니다.
+그래서 휴리스틱은 다음 문장으로 정리할 수 있습니다.
 
 > 휴리스틱은 탐색을 줄이는 기준이고,
 > 검증은 그 기준이 놓친 것을 확인하는 과정이다.
 
-## 체크리스트
+## 짧은 점검
 
 - 휴리스틱(heuristic)을 후보를 줄이고 우선순위를 정하는 경험적 기준으로 설명할 수 있다.
 - 휴리스틱이 후보 수, 시간, 메모리, 비교 부담을 줄인다는 점을 설명할 수 있다.
@@ -256,13 +252,23 @@ AI 교재에서 휴리스틱은 종종 휴리스틱 함수(heuristic function)�
 - 휴리스틱은 정답, 확률 모델, 학습 모델과 같은 말이 아님을 설명할 수 있다.
 - 휴리스틱을 사용할수록 검증 기준이 필요하다는 점을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 모든 후보를 다 볼 수는 없는데도 어떤 기준으로 먼저 줄여야 하는지 설명해야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 완전 탐색보다 우선순위와 가지치기가 더 중요해지는 상황을 설명해야 할 때
+- 빠른 판단 기준이 왜 필요하지만 왜 그대로 정답은 아닌지도 함께 말해야 할 때
+- 휴리스틱 함수(heuristic function), 충분히 좋은 해(good-enough solution), 검증의 관계를 나누어 보여 줘야 할 때
+
+이때는 먼저 `무엇을 줄이는가`, `무엇을 보장하지 않는가`, `어디서 검증이 다시 필요한가`를 따로 나누면 됩니다. 그러면 휴리스틱을 규칙, 확률, 학습과 섞지 않고 설명하기 쉬워집니다.
+
 ## 출처와 참고 자료
 
-- Douglas Harper, [Online Etymology Dictionary, heuristic](https://www.etymonline.com/word/heuristic), 확인 날짜: 2026-06-23.
-- ACM A.M. Turing Award, [Allen Newell](https://amturing.acm.org/award_winners/newell_3167755.cfm), 확인 날짜: 2026-06-23.
-- ACM A.M. Turing Award, [Herbert A. Simon](https://amturing.acm.org/award_winners/simon_1031467.cfm), 확인 날짜: 2026-06-23.
-- Nobel Prize, [Herbert Simon - Facts](https://www.nobelprize.org/prizes/economic-sciences/1978/simon/facts/), 확인 날짜: 2026-06-23.
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html), 확인 날짜: 2026-06-23.
-- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html), 확인 날짜: 2026-06-22.
-- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary), 확인 날짜: 2026-06-22.
-- Google DeepMind, Alhussein Fawzi and Bernardino Romera-Paredes, [FunSearch: Making new discoveries in mathematical sciences using Large Language Models](https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/), 2023-12-14, 확인 날짜: 2026-06-23.
+- Douglas Harper, [Online Etymology Dictionary, heuristic](https://www.etymonline.com/word/heuristic){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- ACM A.M. Turing Award, [Allen Newell](https://amturing.acm.org/award_winners/newell_3167755.cfm){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- ACM A.M. Turing Award, [Herbert A. Simon](https://amturing.acm.org/award_winners/simon_1031467.cfm){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Nobel Prize, [Herbert Simon - Facts](https://www.nobelprize.org/prizes/economic-sciences/1978/simon/facts/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed., Full Table of Contents](https://aima.cs.berkeley.edu/contents.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Google DeepMind, Alhussein Fawzi and Bernardino Romera-Paredes, [FunSearch: Making new discoveries in mathematical sciences using Large Language Models](https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/){: target="_blank" rel="noopener noreferrer" }, 2023-12-14, 확인 날짜: 2026-06-23.

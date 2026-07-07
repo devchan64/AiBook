@@ -1,17 +1,17 @@
-# 16.3 프로젝트(project)로 검증하는 방법
+# P1-16.3 프로젝트(project)로 검증하는 방법
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-16.2에서는 업무 자동화와 검색을 업무 흐름 관점에서 봤습니다. 이제 학습과 실무 적용을 작은 프로젝트(project)로 검증하는 방법을 정리합니다.
 
 AI를 이해했다는 느낌은 빠르게 생깁니다. 그러나 실제로 이해했는지는 작은 산출물을 만들어 봐야 드러납니다.
 
-Part 1 안에서는 이 절을 `프로젝트(project)`, `성공 기준(success criteria)`, `평가(evaluation)`, `기록(record)`, `실패 유형(failure type)`의 대표 상세 설명 위치로 사용합니다. 16.1에서는 개인 학습 문서화를, 16.2에서는 업무 자동화와 검색을 봤고, 여기서는 그 두 흐름을 `작은 검증 가능한 프로젝트`로 바꾸는 방식을 정리합니다. 알고리즘 구현과 대규모 서비스 개발은 후속 Part에서 다룹니다.
+이 절에서는 `프로젝트(project)`, `성공 기준(success criteria)`, `평가(evaluation)`, `기록(record)`, `실패 유형(failure type)`을 중심으로 앞선 학습 문서화와 업무 자동화 흐름을 `작은 검증 가능한 프로젝트`로 바꾸는 방식을 정리합니다. 알고리즘 구현과 대규모 서비스 개발은 후속 Part에서 다룹니다.
 
 ## 이 절의 범위
 
-이 절은 Part 1을 마친 뒤 어떤 방식으로 작은 프로젝트를 설계하고 검증할지 다룹니다. 특정 알고리즘 구현이나 대규모 서비스 개발은 후속 Part에서 다룹니다.
+여기서는 Part 1을 마친 뒤 어떤 방식으로 작은 프로젝트를 설계하고 검증할지 다룹니다. 특정 알고리즘 구현이나 대규모 서비스 개발은 후속 Part에서 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -26,15 +26,15 @@ Part 1 안에서는 이 절을 `프로젝트(project)`, `성공 기준(success c
 - 성공 기준(success criteria)과 평가(evaluation) 기준을 먼저 적는 습관을 설명할 수 있습니다.
 - 실패 기록이 학습 자료가 된다는 점을 프로젝트 회고 관점에서 말할 수 있습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 “프로젝트를 해 보자”를 막연한 말로 두지 않고, 학습 검증 단위로 줄이는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 “프로젝트를 해 보자”를 막연한 말로 두지 않고, 학습 검증 단위로 줄입니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 작은 프로젝트는 기술 이름보다 질문 하나에서 시작해야 한다는 점 | 시작 범위를 과하게 키우는 실수를 줄여 줍니다. | “RAG를 만들자”보다 “내 문서 모음에서 관련 절을 찾을 수 있는가?”처럼 묻는다고 이해하면 충분합니다. |
-| 성공 기준(success criteria)을 먼저 적어야 한다는 점 | 결과 평가가 감각에만 머무르지 않게 해 줍니다. | 몇 개 질문에서 맞아야 하는지, 무엇을 실패로 볼지 먼저 정하면 충분합니다. |
-| 실패 기록이 학습 자료가 된다는 점 | 프로젝트를 단순 성공/실패로만 보지 않게 해 줍니다. | 검색 실패, 출처 누락, 과도한 생성 같은 유형을 남긴다고 이해하면 충분합니다. |
+| 작은 프로젝트는 기술 이름보다 질문 하나에서 시작해야 한다는 점 | 시작 범위를 과하게 키우는 실수를 줄여 줍니다. | “RAG를 만들자”보다 “내 문서 모음에서 관련 절을 찾을 수 있는가?”처럼 묻는다고 이해합니다. |
+| 성공 기준(success criteria)을 먼저 적어야 한다는 점 | 결과 평가가 감각에만 머무르지 않게 해 줍니다. | 몇 개 질문에서 맞아야 하는지, 무엇을 실패로 볼지 먼저 정한다고 이해합니다. |
+| 실패 기록이 학습 자료가 된다는 점 | 프로젝트를 단순 성공/실패로만 보지 않게 해 줍니다. | 검색 실패, 출처 누락, 과도한 생성 같은 유형을 남긴다고 이해합니다. |
 
 ## 작은 프로젝트는 질문 하나에서 시작한다
 
@@ -91,8 +91,6 @@ AI 프로젝트에서는 실패가 자주 발생합니다. 중요한 것은 실�
 > 검증 기준을 바꾼다.
 > 작은 수정 후 다시 테스트한다.
 
-또한 이 절은 `후속 Part의 구체적인 구현 기술`을 설명하는 절도, `업무 자동화 도입 판단`을 다시 반복하는 절도 아닙니다. 여기서는 Part 1에서 배운 내용을 검증 가능한 프로젝트 단위로 묶는 데 집중하고, 세부 구현은 후속 Part로 넘깁니다.
-
 ## 이 절에서 기억할 관점
 
 AI 프로젝트는 큰 도구를 붙이는 일이 아니라, 작은 질문을 검증 가능한 산출물로 바꾸는 일입니다.
@@ -103,15 +101,23 @@ AI 프로젝트는 큰 도구를 붙이는 일이 아니라, 작은 질문을 �
 > 실패 기록은 다음 개선의 자료다.
 > 작은 프로젝트가 이해를 검증한다.
 
-## 체크리스트
+## 짧은 점검
 
 - AI 프로젝트를 기술 이름이 아니라 중심 질문으로 시작해야 함을 설명할 수 있다.
 - 성공 기준(success criteria)을 먼저 적어야 함을 설명할 수 있다.
 - 평가(evaluation)에 근거 표시, 비용, 지연 시간, 보안 조건을 포함할 수 있다.
 - 실패 기록이 다음 요구사항(requirement)이 된다는 점을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- “프로젝트를 해 보자”는 말만 있고 검증 질문이 아직 없는 상태일 때
+- 성공 기준 없이 결과를 감각적으로만 좋다 나쁘다 판단하려 할 때
+- 실패를 지우기보다 다음 요구사항으로 바꿔야 하는 시점일 때
+
+이때는 먼저 `중심 질문`, `성공 기준`, `평가 방식`, `실패 기록`을 나누면 됩니다. 그러면 프로젝트를 큰 기술 이름이 아니라 검증 가능한 학습 단위로 다시 줄일 수 있습니다.
+
 ## 출처와 참고 자료
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), 확인 날짜: 2026-06-23.
-- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/), 확인 날짜: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.

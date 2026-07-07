@@ -1,17 +1,15 @@
 # P7-2.1 전통 머신러닝 예측 모델 목표
 
 > Section ID: `P7-2.1`
-> Version: `v2026.07.05`
+> Version: `v2026.07.07`
 
 P7-1에서는 모델 없이도 프로젝트를 시작할 수 있다는 점을 확인했습니다. 이제 Part 7의 두 번째 프로젝트에서는 정말로 `예측 모델`을 하나 붙여 봅니다.
 
 하지만 여기서도 출발점은 모델 이름이 아닙니다.
 
-먼저 문제 정의, 데이터 분리, 기준점(baseline), 비교 가능한 출력이라는 네 가지를 갖춰야 합니다. 예측 프로젝트의 첫 목표는 높은 점수를 내는 것이 아니라, 비교 가능한 방식으로 baseline과 모델을 나란히 놓는 데 있습니다.
+먼저 문제 정의, 데이터 분리, 기준점(baseline), 비교 가능한 출력이라는 네 가지를 갖춰야 합니다. 예측 프로젝트의 첫 목표는 높은 점수를 내는 것이 아니라, 비교 가능한 방식으로 기준점(baseline)과 모델을 나란히 놓는 데 있습니다.
 
 ## 이 절의 범위
-
-이 절은 다음 질문을 정리합니다.
 
 - 작은 예측 모델 프로젝트는 어떤 구조로 시작하면 좋은가?
 - 학습(train)과 평가(test)를 분리해 기록하는 이유는 무엇인가?
@@ -27,6 +25,10 @@ P7-1에서는 모델 없이도 프로젝트를 시작할 수 있다는 점을 �
 
 이 절은 작은 분류 프로젝트의 최소 기록 구조를 잡는 데 집중하고, baseline 이후의 개선 비교는 바로 다음 P7-2.2 기준 모델과 개선에서 다시 회수합니다. 라이브러리 전반 사용법과 대규모 성능 비교는 현재 본편 범위 밖으로 둡니다.
 
+예측 모델 프로젝트는 여기서 문제 정의와 baseline 문서부터 출발합니다. 이 절은 train/test 분리와 비교 가능한 기록 뼈대를 먼저 고정합니다.
+
+Part 7에서 `기준점(baseline)`을 단순한 임시 숫자가 아니라 `비교 기준선`으로 다시 잡아야 할 때는, 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아와 뜻을 함께 다시 확인하면 됩니다.
+
 ## 이 절의 목표
 
 - 예측 프로젝트를 `문제 -> 데이터 분리 -> baseline -> 모델 -> 비교` 흐름으로 설명할 수 있습니다.
@@ -35,17 +37,9 @@ P7-1에서는 모델 없이도 프로젝트를 시작할 수 있다는 점을 �
 
 ## 프로젝트 질문 설정
 
-이번 실습의 질문은 다음처럼 단순하게 잡겠습니다.
+이번 실습은 `공부 시간과 출석률로 합격 여부를 예측할 수 있는가?`라는 질문에서 시작합니다. 입력 두 개와 정답 하나로 구조가 단순하고, 분류(classification) 문제의 기본 틀을 보여 주기에 적합하며, 기준점과 개선 모델을 비교하기도 쉽습니다.
 
-> 공부 시간(hours)과 출석률(attendance rate)로 합격 여부(pass/fail)를 예측할 수 있는가?
-
-이 질문이 좋은 이유는 다음과 같습니다.
-
-- 입력(input) 두 개와 라벨(label) 하나로 구조가 단순합니다.
-- 분류(classification) 문제의 기본 틀을 보여 주기에 적합합니다.
-- baseline과 개선 모델을 비교하기 쉽습니다.
-
-먼저 다음 세 질문으로 읽으면 좋습니다.
+예측 프로젝트를 시작할 때 바로 필요한 판단 기준을 먼저 표로 고정하면 다음과 같습니다.
 
 | 질문 | 짧은 답 |
 | --- | --- |
@@ -57,11 +51,11 @@ P7-1에서는 모델 없이도 프로젝트를 시작할 수 있다는 점을 �
 
 ```mermaid
 flowchart TD
-  A["question<br/>predict pass or fail"]
-  B["split data<br/>train and test"]
-  C["baseline<br/>simple constant rule"]
-  D["model<br/>nearest neighbor"]
-  E["compare outputs<br/>accuracy and cases"]
+  A["질문 정리<br/>합격 여부 예측"]
+  B["데이터 분리<br/>학습과 평가"]
+  C["기준점 준비<br/>단순 고정 규칙"]
+  D["모델 적용<br/>가장 가까운 이웃"]
+  E["결과 비교<br/>정확도와 사례"]
 
   A --> B --> C --> D --> E
 ```
@@ -76,9 +70,9 @@ flowchart TD
 - 특징(feature) 2: 출석률(%)
 - 라벨(label): 합격(1) / 불합격(0)
 
-학습용 데이터(train):
+학습용 데이터:
 
-| hours | attendance | label |
+| 공부 시간 | 출석률 | 정답 |
 | ---: | ---: | ---: |
 | 2.0 | 60.0 | 0 |
 | 3.0 | 65.0 | 0 |
@@ -89,9 +83,9 @@ flowchart TD
 | 8.0 | 88.0 | 1 |
 | 9.0 | 92.0 | 1 |
 
-평가용 데이터(test):
+평가용 데이터:
 
-| hours | attendance | label |
+| 공부 시간 | 출석률 | 정답 |
 | ---: | ---: | ---: |
 | 4.5 | 68.0 | 0 |
 | 5.5 | 78.0 | 1 |
@@ -134,8 +128,8 @@ flowchart TD
 | 샘플별 비교 행 | 어떤 샘플에서 예측이 달랐는지 숫자 뒤의 실제 사례를 남기기 위해 | 오류 사례 묶음, 회고 메모, 재평가 후보를 정리할 때 근거가 된다 |
 
 - 문제 상황: 합격 여부를 예측한다.
-- 입력(input): 공부 시간, 출석률
-- 정답(label): 합격(1) / 불합격(0)
+- 입력: 공부 시간, 출석률
+- 정답: 합격(1) / 불합격(0)
 - 확인할 개념:
   - baseline과 모델을 나란히 비교해야 한다
   - 평가 데이터는 따로 두어야 한다
@@ -146,82 +140,82 @@ flowchart TD
 import numpy as np
 
 train_rows = [
-    {"student_id": "train-01", "hours": 2.0, "attendance": 60.0, "label": 0},
-    {"student_id": "train-02", "hours": 3.0, "attendance": 65.0, "label": 0},
-    {"student_id": "train-03", "hours": 4.0, "attendance": 70.0, "label": 0},
-    {"student_id": "train-04", "hours": 5.0, "attendance": 72.0, "label": 0},
-    {"student_id": "train-05", "hours": 6.0, "attendance": 80.0, "label": 1},
-    {"student_id": "train-06", "hours": 7.0, "attendance": 85.0, "label": 1},
-    {"student_id": "train-07", "hours": 8.0, "attendance": 88.0, "label": 1},
-    {"student_id": "train-08", "hours": 9.0, "attendance": 92.0, "label": 1},
+    {"샘플": "학습-01", "공부 시간": 2.0, "출석률": 60.0, "정답": 0},
+    {"샘플": "학습-02", "공부 시간": 3.0, "출석률": 65.0, "정답": 0},
+    {"샘플": "학습-03", "공부 시간": 4.0, "출석률": 70.0, "정답": 0},
+    {"샘플": "학습-04", "공부 시간": 5.0, "출석률": 72.0, "정답": 0},
+    {"샘플": "학습-05", "공부 시간": 6.0, "출석률": 80.0, "정답": 1},
+    {"샘플": "학습-06", "공부 시간": 7.0, "출석률": 85.0, "정답": 1},
+    {"샘플": "학습-07", "공부 시간": 8.0, "출석률": 88.0, "정답": 1},
+    {"샘플": "학습-08", "공부 시간": 9.0, "출석률": 92.0, "정답": 1},
 ]
 
 test_rows = [
-    {"student_id": "test-01", "hours": 4.5, "attendance": 68.0, "label": 0},
-    {"student_id": "test-02", "hours": 5.5, "attendance": 78.0, "label": 1},
-    {"student_id": "test-03", "hours": 7.5, "attendance": 87.0, "label": 1},
-    {"student_id": "test-04", "hours": 3.5, "attendance": 66.0, "label": 0},
+    {"샘플": "평가-01", "공부 시간": 4.5, "출석률": 68.0, "정답": 0},
+    {"샘플": "평가-02", "공부 시간": 5.5, "출석률": 78.0, "정답": 1},
+    {"샘플": "평가-03", "공부 시간": 7.5, "출석률": 87.0, "정답": 1},
+    {"샘플": "평가-04", "공부 시간": 3.5, "출석률": 66.0, "정답": 0},
 ]
 
-X_train = np.array([[row["hours"], row["attendance"]] for row in train_rows])
-y_train = np.array([row["label"] for row in train_rows])
+X_train = np.array([[row["공부 시간"], row["출석률"]] for row in train_rows])
+y_train = np.array([row["정답"] for row in train_rows])
 
-X_test = np.array([[row["hours"], row["attendance"]] for row in test_rows])
-y_test = np.array([row["label"] for row in test_rows])
+X_test = np.array([[row["공부 시간"], row["출석률"]] for row in test_rows])
+y_test = np.array([row["정답"] for row in test_rows])
 
 # baseline: train에서 가장 많은 라벨 하나만 계속 예측
 baseline_class = int(np.bincount(y_train).argmax())
 baseline_pred = np.full_like(y_test, baseline_class)
 
-# 1-NN: 가장 가까운 train 샘플의 라벨을 사용
+# 1-NN: 가장 가까운 학습 샘플의 정답을 사용
 knn_pred = []
 nearest_train_ids = []
 for x in X_test:
     distances = np.linalg.norm(X_train - x, axis=1)
     nearest_index = int(np.argmin(distances))
     knn_pred.append(int(y_train[nearest_index]))
-    nearest_train_ids.append(train_rows[nearest_index]["student_id"])
+    nearest_train_ids.append(train_rows[nearest_index]["샘플"])
 
 knn_pred = np.array(knn_pred)
 
 comparison_rows = []
 for index, row in enumerate(test_rows):
     comparison_rows.append({
-        "student_id": row["student_id"],
-        "hours": row["hours"],
-        "attendance": row["attendance"],
-        "true_label": row["label"],
-        "baseline_pred": int(baseline_pred[index]),
-        "baseline_correct": bool(baseline_pred[index] == y_test[index]),
-        "knn_pred": int(knn_pred[index]),
-        "knn_correct": bool(knn_pred[index] == y_test[index]),
-        "nearest_train_id": nearest_train_ids[index],
+        "평가 샘플": row["샘플"],
+        "공부 시간": row["공부 시간"],
+        "출석률": row["출석률"],
+        "실제 정답": row["정답"],
+        "기준점 예측": int(baseline_pred[index]),
+        "기준점 정답 여부": "예" if baseline_pred[index] == y_test[index] else "아니오",
+        "1-NN 예측": int(knn_pred[index]),
+        "1-NN 정답 여부": "예" if knn_pred[index] == y_test[index] else "아니오",
+        "가장 가까운 학습 샘플": nearest_train_ids[index],
     })
 
 baseline_errors = [
-    row["student_id"] for row in comparison_rows if not row["baseline_correct"]
+    row["평가 샘플"] for row in comparison_rows if row["기준점 정답 여부"] == "아니오"
 ]
 knn_errors = [
-    row["student_id"] for row in comparison_rows if not row["knn_correct"]
+    row["평가 샘플"] for row in comparison_rows if row["1-NN 정답 여부"] == "아니오"
 ]
 
 project_run = {
-    "question": "Can study hours and attendance predict pass or fail?",
-    "train_size": len(train_rows),
-    "test_size": len(test_rows),
-    "baseline_class": baseline_class,
-    "baseline_accuracy": round(
-        sum(row["baseline_correct"] for row in comparison_rows) / len(comparison_rows), 3
+    "질문": "공부 시간과 출석률로 합격 여부를 예측할 수 있는가?",
+    "학습 샘플 수": len(train_rows),
+    "평가 샘플 수": len(test_rows),
+    "기준점 라벨": baseline_class,
+    "기준점 정확도": round(
+        sum(row["기준점 정답 여부"] for row in comparison_rows) / len(comparison_rows), 3
     ),
-    "knn_accuracy": round(
-        sum(row["knn_correct"] for row in comparison_rows) / len(comparison_rows), 3
+    "1-NN 정확도": round(
+        sum(row["1-NN 정답 여부"] for row in comparison_rows) / len(comparison_rows), 3
     ),
-    "baseline_error_ids": baseline_errors,
-    "knn_error_ids": knn_errors,
+    "기준점 실패 샘플": baseline_errors,
+    "1-NN 실패 샘플": knn_errors,
 }
 
-print("project_run =", project_run)
-print("comparison_rows =")
+print("실행 요약 =", project_run)
+print("샘플별 비교 =")
 for row in comparison_rows:
     print(row)
 ```
@@ -229,12 +223,12 @@ for row in comparison_rows:
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-project_run = {'question': 'Can study hours and attendance predict pass or fail?', 'train_size': 8, 'test_size': 4, 'baseline_class': 0, 'baseline_accuracy': 0.5, 'knn_accuracy': 1.0, 'baseline_error_ids': ['test-02', 'test-03'], 'knn_error_ids': []}
-comparison_rows =
-{'student_id': 'test-01', 'hours': 4.5, 'attendance': 68.0, 'true_label': 0, 'baseline_pred': 0, 'baseline_correct': True, 'knn_pred': 0, 'knn_correct': True, 'nearest_train_id': 'train-03'}
-{'student_id': 'test-02', 'hours': 5.5, 'attendance': 78.0, 'true_label': 1, 'baseline_pred': 0, 'baseline_correct': False, 'knn_pred': 1, 'knn_correct': True, 'nearest_train_id': 'train-05'}
-{'student_id': 'test-03', 'hours': 7.5, 'attendance': 87.0, 'true_label': 1, 'baseline_pred': 0, 'baseline_correct': False, 'knn_pred': 1, 'knn_correct': True, 'nearest_train_id': 'train-07'}
-{'student_id': 'test-04', 'hours': 3.5, 'attendance': 66.0, 'true_label': 0, 'baseline_pred': 0, 'baseline_correct': True, 'knn_pred': 0, 'knn_correct': True, 'nearest_train_id': 'train-02'}
+실행 요약 = {'질문': '공부 시간과 출석률로 합격 여부를 예측할 수 있는가?', '학습 샘플 수': 8, '평가 샘플 수': 4, '기준점 라벨': 0, '기준점 정확도': 0.5, '1-NN 정확도': 1.0, '기준점 실패 샘플': ['평가-02', '평가-03'], '1-NN 실패 샘플': []}
+샘플별 비교 =
+{'평가 샘플': '평가-01', '공부 시간': 4.5, '출석률': 68.0, '실제 정답': 0, '기준점 예측': 0, '기준점 정답 여부': '예', '1-NN 예측': 0, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-03'}
+{'평가 샘플': '평가-02', '공부 시간': 5.5, '출석률': 78.0, '실제 정답': 1, '기준점 예측': 0, '기준점 정답 여부': '아니오', '1-NN 예측': 1, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-05'}
+{'평가 샘플': '평가-03', '공부 시간': 7.5, '출석률': 87.0, '실제 정답': 1, '기준점 예측': 0, '기준점 정답 여부': '아니오', '1-NN 예측': 1, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-07'}
+{'평가 샘플': '평가-04', '공부 시간': 3.5, '출석률': 66.0, '실제 정답': 0, '기준점 예측': 0, '기준점 정답 여부': '예', '1-NN 예측': 0, '1-NN 정답 여부': '예', '가장 가까운 학습 샘플': '학습-02'}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -243,8 +237,8 @@ comparison_rows =
 
 - 예제의 실행 요약은 baseline과 모델을 한 번에 비교할 최소 기록입니다.
 - 이 기록이 있어야 `이번 개선이 정말 baseline보다 나아졌는가`를 다음 회고에서 다시 같은 기준으로 확인할 수 있습니다.
-- baseline은 네 샘플 중 절반만 맞췄고, 실패한 샘플은 `test-02`, `test-03`입니다.
-- 1-NN 모델은 네 샘플을 모두 맞췄고, 각 test 샘플이 어떤 train 샘플과 가장 가까웠는지도 함께 남겼습니다.
+- baseline은 네 샘플 중 절반만 맞췄고, 실패한 샘플은 `평가-02`, `평가-03`입니다.
+- 1-NN 모델은 네 샘플을 모두 맞췄고, 각 평가 샘플이 어떤 학습 샘플과 가장 가까웠는지도 함께 남겼습니다.
 - 따라서 이번 작은 데이터에서는 `특징을 실제로 사용한 모델`이 `아무 특징도 보지 않는 baseline`보다 낫다고 말할 수 있습니다.
 
 하지만 동시에 조심해야 할 점도 있습니다.
@@ -282,7 +276,17 @@ comparison_rows =
 - 모델 점수는 단독 숫자보다 baseline 대비 차이로 읽어야 합니다.
 - 작은 데이터 실습이라도 예측값 자체를 직접 읽을 수 있어야 합니다.
 
-## 체크리스트
+## 언제 예측 프로젝트 시작 관점을 먼저 떠올려야 하는가
+
+다음처럼 모델을 빨리 붙이고 싶은데 비교 기준이 아직 비어 있을 때 이 절의 관점을 먼저 떠올리는 편이 좋습니다.
+
+- 문제 문장은 있는데 train/test 분리와 baseline 기록이 아직 없는 경우
+- 정확도 숫자는 적기 시작했지만 어떤 샘플에서 달라졌는지 남기지 않은 경우
+- `모델을 돌렸다`는 사실은 있는데 다음 회고에서 같은 기준으로 다시 비교할 표가 없는 경우
+
+이때는 모델 종류를 더 늘리기 전에 `문제 -> 분리 -> baseline -> 샘플별 비교` 순서를 먼저 고정하는 편이 안전합니다.
+
+## 짧은 점검
 
 - 문제를 분류(classification) 문제로 한 문장으로 설명할 수 있는가?
 - 학습용 데이터와 평가용 데이터를 구분할 수 있는가?

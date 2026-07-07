@@ -1,7 +1,7 @@
-# 13.1 텍스트(text)를 벡터(vector)로 표현한다는 것
+# P1-13.1 텍스트(text)를 벡터(vector)로 표현한다는 것
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 12장에서는 프롬프트(prompt)를 통해 LLM에 작업 조건을 주는 방법과 그 한계를 봤습니다. 프롬프트만으로는 사실성(factuality), 근거성(evidence), 최신성(recency)을 보장하기 어렵습니다.
 
@@ -11,13 +11,13 @@
 
 여기서 중요한 점은 임베딩이 “의미 자체”가 아니라는 것입니다. 임베딩은 텍스트가 데이터 안에서 쓰인 방식과 모델의 학습 목표를 바탕으로 만들어진 수치 표현입니다.
 
-Part 1 안에서는 이 절을 `임베딩(embedding)`, `벡터(vector)`, `벡터 공간(vector space)`, `문장/문단/문서 임베딩`, `임베딩 vs 프롬프트`의 대표 상세 설명 위치로 사용합니다. 11.1에서는 언어 모델의 역사적 흐름 안에서 임베딩의 배경을 먼저 봤고, 12장에서는 프롬프트가 입력 조건을 어떻게 지정하는지 정리했습니다. 여기서는 그 두 흐름을 서비스 관점으로 연결해 `외부 자료를 찾기 위해 왜 먼저 텍스트를 벡터로 바꾸는가`를 잡습니다.
+Part 1에서 `임베딩(embedding)`, `벡터(vector)`, `벡터 공간(vector space)`, `문장/문단/문서 임베딩`, `임베딩 vs 프롬프트`의 기본 구분은 여기서 잡습니다. 11.1에서는 언어 모델의 역사적 흐름 안에서 임베딩의 배경을 먼저 봤고, 12장에서는 프롬프트가 입력 조건을 어떻게 지정하는지 정리했습니다. 여기서는 그 두 흐름을 서비스 관점으로 연결해 `외부 자료를 찾기 위해 왜 먼저 텍스트를 벡터로 바꾸는가`를 설명합니다.
 
 ## 이 절의 범위
 
 P1-11.1에서는 LLM의 역사적 흐름 안에서 언어 모델(language model), n-gram, 분산 표현(distributed representation), word2vec을 봤습니다. 이번 절은 그 역사를 반복하지 않습니다.
 
-처음 읽을 때는 `임베딩`, `벡터`, `벡터 공간`, `문장 임베딩`, `문서 임베딩`이 모두 비슷한 수학 용어처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`임베딩`, `벡터`, `벡터 공간`, `문장 임베딩`, `문서 임베딩`은 서로 다른 층위의 표현입니다. 여기서는 각 용어의 역할을 먼저 다음처럼 구분합니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ P1-11.1에서는 LLM의 역사적 흐름 안에서 언어 모델(language model)
 | 문장/문단/문서 임베딩 | 더 긴 텍스트 단위를 벡터로 바꾼 표현 | 검색과 RAG의 실제 입력 단위 |
 | 임베딩 vs 프롬프트 | 검색용 표현과 작업 지시 입력의 구분 | Part 1 후반 서비스 흐름의 핵심 경계 |
 
-처음 단계에서는 `임베딩은 벡터 표현`, `벡터 공간은 비교 공간`, `프롬프트와 역할이 다르다` 정도로만 잡아도 충분합니다.
+여기서는 `임베딩은 벡터 표현`, `벡터 공간은 비교 공간`, `프롬프트와 역할이 다르다`는 구분을 기준선으로 둡니다.
 
 P1-13.1에서는 현대 AI 서비스 흐름에서 임베딩이 어떤 역할을 하는지 봅니다.
 
@@ -37,9 +37,7 @@ P1-13.1에서는 현대 AI 서비스 흐름에서 임베딩이 어떤 역할을 
 | 벡터 공간(vector space) | 텍스트를 좌표처럼 놓는다는 말은 무슨 뜻인가? |
 | 임베딩의 한계 | 벡터가 의미 자체라고 보면 왜 위험한가? |
 
-유사도(similarity)를 어떻게 계산하는지, 가까운 벡터를 어떻게 찾는지는 P1-13.2에서 다룹니다. 검색 결과를 LLM 입력으로 연결하는 RAG(retrieval-augmented generation)는 P1-13.3에서 다룹니다.
-
-또한 이 절은 유사도 공식을 계산하는 절도, RAG 전체 구조를 설명하는 절도 아닙니다. 여기서는 `검색 이전 단계로서의 표현 변환`에만 집중하고, 비교는 13.2, 생성 연결은 13.3으로 넘깁니다.
+유사도(similarity)를 어떻게 계산하는지와 가까운 벡터를 어떻게 찾는지는 P1-13.2에서, 검색 결과를 LLM 입력으로 연결하는 RAG(retrieval-augmented generation)는 P1-13.3에서 다룹니다. 여기서는 `검색 이전 단계로서의 표현 변환`에만 집중합니다.
 
 ## 이 절의 목표
 
@@ -50,15 +48,15 @@ P1-13.1에서는 현대 AI 서비스 흐름에서 임베딩이 어떤 역할을 
 - 임베딩이 의미 자체가 아니라 학습된 표현(learned representation)임을 구분합니다.
 - P1-13.2의 유사도 검색(similarity search)으로 넘어갈 준비를 합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 임베딩 수식을 깊게 다루는 절이 아니라, 왜 텍스트를 벡터로 바꾸는지 이해하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 임베딩 수식을 깊게 다루기보다, 왜 텍스트를 벡터로 바꾸는지 이해하는 데 집중합니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 임베딩은 텍스트를 계산 가능한 벡터로 바꾸는 표현이라는 점 | 이후 벡터 검색과 RAG를 읽는 기본 전제가 됩니다. | 문장을 숫자 좌표처럼 바꾼다고 이해하면 충분합니다. |
-| 가까운 위치는 비슷한 사용 맥락을 뜻할 수 있다는 점 | “벡터 공간” 직관을 잡게 해 줍니다. | 의미 자체를 저장한다기보다 비슷한 쓰임이 가깝게 놓인다고 알면 충분합니다. |
-| 임베딩은 의미 그 자체가 아니라 계산용 표현이라는 점 | 벡터를 인간 의미와 동일시하는 오해를 줄여 줍니다. | 의미를 다루기 위한 수치 표현이라고 이해하면 충분합니다. |
+| 임베딩은 텍스트를 계산 가능한 벡터로 바꾸는 표현이라는 점 | 이후 벡터 검색과 RAG를 읽는 기본 전제가 됩니다. | 문장을 숫자 좌표처럼 바꾸는 표현으로 이해합니다. |
+| 가까운 위치는 비슷한 사용 맥락을 뜻할 수 있다는 점 | “벡터 공간” 직관을 잡게 해 줍니다. | 의미 자체를 저장한다기보다 비슷한 쓰임이 가깝게 놓인다고 이해합니다. |
+| 임베딩은 의미 그 자체가 아니라 계산용 표현이라는 점 | 벡터를 인간 의미와 동일시하는 오해를 줄여 줍니다. | 의미를 다루기 위한 수치 표현으로 이해합니다. |
 
 ## 컴퓨터는 문장을 그대로 비교하지 않는다
 
@@ -81,7 +79,7 @@ P1-13.1에서는 현대 AI 서비스 흐름에서 임베딩이 어떤 역할을 
 
 ## 벡터는 여러 숫자로 된 표현이다
 
-벡터(vector)는 여러 숫자로 이루어진 값입니다. 입문 단계에서는 “좌표”처럼 생각해도 됩니다.
+벡터(vector)는 여러 숫자로 이루어진 값입니다. 여기서는 이를 “좌표”에 가까운 표현으로 이해하면 됩니다.
 
 ```text
 문장 A -> [0.12, -0.44, 0.87, ...]
@@ -211,15 +209,15 @@ P1-11.1에서는 주로 단어 임베딩(word embedding)을 봤습니다. 하지
 
 다음 절에서는 이렇게 만들어진 벡터를 어떻게 비교하는지 봅니다.
 
-처음 읽은 뒤에는 아래 세 줄만 다시 말할 수 있어도 충분합니다.
+이 절을 읽은 뒤에는 아래 세 가지 구분을 다시 설명할 수 있어야 합니다.
 
-| 지금은 이 정도만 남기면 충분한 것 | 왜 이것만 먼저 남겨도 되는가 |
+| 남겨야 할 핵심 구분 | 왜 중요한가 |
 | --- | --- |
 | 임베딩은 텍스트를 계산 가능한 벡터 표현으로 바꾸는 방법이다. | 벡터 검색과 RAG를 읽을 때 `왜 먼저 숫자 표현이 필요한가`를 잊지 않게 해 줍니다. |
 | 가까운 벡터는 같은 문장을 뜻한다기보다 비슷한 사용 맥락일 가능성이 크다는 뜻이다. | 벡터 공간을 의미 그 자체로 오해하지 않아야 뒤의 유사도 검색 설명이 과장되지 않습니다. |
 | 프롬프트는 작업 조건을 주고, 임베딩은 검색과 비교를 가능하게 한다. | Part 1 후반의 서비스 흐름을 읽을 때 두 역할을 분리해야 RAG 설명이 덜 혼란스럽습니다. |
 
-## 체크리스트
+## 짧은 점검
 
 - 임베딩(embedding)을 텍스트를 벡터 표현으로 바꾸는 방법으로 설명할 수 있다.
 - 벡터(vector)를 여러 숫자로 이루어진 계산 가능한 표현으로 설명할 수 있다.
@@ -229,9 +227,19 @@ P1-11.1에서는 주로 단어 임베딩(word embedding)을 봤습니다. 하지
 - 프롬프트(prompt)와 임베딩(embedding)의 역할 차이를 설명할 수 있다.
 - P1-13.2의 유사도 검색(similarity search)으로 이어지는 흐름을 말할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 외부 자료 검색이나 RAG를 설명하려는데, 왜 먼저 텍스트를 벡터로 바꿔야 하는지가 빠져 있을 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 질문과 문서를 문자열이 아니라 계산 가능한 표현으로 비교해야 할 때
+- 프롬프트(prompt)와 임베딩(embedding)의 역할을 섞어 이해하고 있을 때
+- 문장, 문단, 문서 단위를 왜 따로 벡터화하는지 다시 설명해야 할 때
+
+이때는 먼저 `텍스트를 벡터로 바꾼다`, `그 벡터를 비교한다`, `프롬프트는 작업 조건을 준다`를 나누면 됩니다. 그러면 검색 이전 단계의 표현 변환이 왜 필요한지 더 자연스럽게 이어집니다.
+
 ## 출처와 참고 자료
 
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 6: Neural Networks and Neural Language Models](https://web.stanford.edu/~jurafsky/slp3/6.pdf), draft of 2026-01-06, 확인 날짜: 2026-06-23.
-- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html), Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781), arXiv, 2013, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546), arXiv, 2013, 확인 날짜: 2026-06-23.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 6: Neural Networks and Neural Language Models](https://web.stanford.edu/~jurafsky/slp3/6.pdf){: target="_blank" rel="noopener noreferrer" }, draft of 2026-01-06, 확인 날짜: 2026-06-23.
+- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.

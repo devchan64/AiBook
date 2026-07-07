@@ -1,7 +1,7 @@
-# 14.5 하네스(harness)와 평가 실행 환경
+# P1-14.5 하네스(harness)와 평가 실행 환경
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-14.4에서는 MCP(Model Context Protocol)를 AI 앱과 외부 도구, 데이터가 연결되는 방식을 표준화하는 프로토콜(protocol)로 봤습니다. 이제 질문은 한 단계 더 실무적으로 바뀝니다.
 
@@ -17,15 +17,15 @@ AI 서비스 문맥에서는 이 직관을 모델 호출, 도구 호출, 상태 
 
 > 하네스(harness)는 모델과 도구를 실제 작업 흐름 안에서 실행하고, 그 과정을 기록하고, 결과를 검증하고, 반복 평가할 수 있게 감싸는 장치다.
 
-이 절에서는 하네스를 특정 제품 이름으로 보지 않고, `에이전트 실행을 감싸고 관찰, 검증, 평가하게 하는 실행 장치`라는 좁은 의미로 제한합니다.
+여기서는 하네스를 특정 제품 이름으로 보지 않고, `에이전트 실행을 감싸고 관찰, 검증, 평가하게 하는 실행 장치`라는 좁은 의미로 제한합니다.
 
-Part 1 안에서는 이 절을 `하네스(harness)`, `추적(trace)`, `로그(log)`, `평가(evaluation)`, `그레이더(grader)`, `재현성(reproducibility)`의 대표 상세 설명 위치로 사용합니다. 14.3에서는 에이전트가 여러 단계를 이어 가는 구조를, 14.4에서는 MCP가 도구 연결을 표준화하는 방식을 봤습니다. 여기서는 그 실행이 `어떻게 관찰 가능하고 비교 가능해지는가`를 정리합니다. 비용과 운영 제약은 14.6에서 이어집니다.
+이 절에서는 `하네스(harness)`, `추적(trace)`, `로그(log)`, `평가(evaluation)`, `그레이더(grader)`, `재현성(reproducibility)`을 중심으로 실행이 어떻게 관찰 가능하고 비교 가능해지는지 정리합니다. 14.3의 에이전트 구조와 14.4의 MCP 연결을 받아, 비용과 운영 제약은 14.6으로 넘깁니다.
 
 ## 이 절의 범위
 
-이 절은 하네스(harness), 추적(trace), 로그(log), 평가(evaluation), 그레이더(grader)의 기본 역할을 설명합니다. 하네스의 어원적 직관과 테스트 하네스(test harness)에서 AI 실행 하네스로 이어지는 흐름은 다루지만, 에이전트 하네스(agent harness)의 엄밀한 학술 정의 논쟁은 이 책의 현재 본편 범위 밖에 둡니다. 특정 SDK 코드, 대시보드 사용법, 평가 API 구현, 대규모 운영 비용은 다루지 않습니다. 비용(cost), 지연 시간(latency), 운영(operation) 제약은 P1-14.6에서 다시 다룹니다.
+여기서는 하네스(harness), 추적(trace), 로그(log), 평가(evaluation), 그레이더(grader)의 기본 역할을 설명합니다. 하네스의 어원적 직관과 테스트 하네스(test harness)에서 AI 실행 하네스로 이어지는 흐름은 다루지만, 에이전트 하네스(agent harness)의 엄밀한 학술 정의 논쟁은 이 책의 현재 본편 범위 밖에 둡니다. 특정 SDK 코드, 대시보드 사용법, 평가 API 구현, 대규모 운영 비용은 다루지 않습니다. 비용(cost), 지연 시간(latency), 운영(operation) 제약은 P1-14.6에서 다시 다룹니다.
 
-처음 읽을 때는 `하네스`, `추적`, `로그`, `평가`, `그레이더`, `재현성`이 모두 비슷한 검증 용어처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`하네스`, `추적`, `로그`, `평가`, `그레이더`, `재현성`은 서로 다른 실행 검증 요소입니다. 각 용어의 역할은 다음처럼 구분할 수 있습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -36,7 +36,7 @@ Part 1 안에서는 이 절을 `하네스(harness)`, `추적(trace)`, `로그(lo
 | 그레이더 | 평가 기준을 실행 가능한 형태로 만든 것 | 자동 비교의 도구 |
 | 재현성 | 같은 조건에서 다시 확인할 수 있는 성질 | 회귀와 반복 검증의 전제 |
 
-처음 단계에서는 `하네스는 실행을 감싸고, 추적과 로그는 기록을 남기고, 평가는 비교 기준을 만든다` 정도로만 잡아도 충분합니다.
+여기서는 `하네스는 실행을 감싸고, 추적과 로그는 기록을 남기고, 평가는 비교 기준을 만든다`는 구분을 기준선으로 둡니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -55,15 +55,15 @@ Part 1 안에서는 이 절을 `하네스(harness)`, `추적(trace)`, `로그(lo
 - 디버깅(debugging), 회귀(regression) 확인, 개선 루프(improvement loop)를 구분합니다.
 - AI 서비스가 “한 번 잘 답한 것”과 “반복적으로 안정적인 것”은 다르다는 점을 이해합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 하네스를 특정 제품 이름으로 이해하지 않게 만드는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 하네스를 특정 제품 이름으로 이해하지 않게 만듭니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 하네스(harness)는 모델이 아니라 실행을 감싸는 장치라는 점 | 하네스를 또 다른 AI 능력으로 오해하지 않게 해 줍니다. | 실행을 묶고 기록하고 검증하게 하는 환경이라고 이해하면 충분합니다. |
-| 에이전트 실행에는 추적(trace)과 로그(log)가 필요하다는 점 | 여러 단계 작업을 나중에 다시 읽고 고치게 해 줍니다. | 어떤 단계가 어떤 순서로 실행됐는지 남겨야 한다고 알면 충분합니다. |
-| 한 번 잘 된 결과와 반복적으로 안정적인 결과는 다르다는 점 | 평가(evaluation)의 필요성을 가장 잘 보여 줍니다. | 우연한 성공이 아니라 반복 확인이 중요하다고 이해하면 충분합니다. |
+| 하네스(harness)는 모델이 아니라 실행을 감싸는 장치라는 점 | 하네스를 또 다른 AI 능력으로 오해하지 않게 해 줍니다. | 실행을 묶고 기록하고 검증하게 하는 환경으로 이해합니다. |
+| 에이전트 실행에는 추적(trace)과 로그(log)가 필요하다는 점 | 여러 단계 작업을 나중에 다시 읽고 고치게 해 줍니다. | 어떤 단계가 어떤 순서로 실행됐는지 남겨야 한다고 이해합니다. |
+| 한 번 잘 된 결과와 반복적으로 안정적인 결과는 다르다는 점 | 평가(evaluation)의 필요성을 가장 잘 보여 줍니다. | 우연한 성공이 아니라 반복 확인이 중요하다고 이해합니다. |
 
 ## 하네스라는 말이 왜 어울리는가
 
@@ -90,7 +90,7 @@ AI 에이전트(agent)에서도 비슷합니다. LLM이 문장을 생성할 수 
 
 이렇게 보면 하네스는 AI의 능력을 과장하는 말이 아닙니다. 오히려 AI의 능력을 실제 일에 쓰기 위해 필요한 제약과 관찰 장치를 가리키는 말입니다. “힘을 억누르는 장치”라기보다 “힘을 안전하게 쓰게 하는 연결 장치”로 이해하면 직관적으로 따라가기 쉽습니다.
 
-최근에는 이 느슨한 용어를 학술적으로 정리하려는 시도도 등장했습니다. 2026년 arXiv 프리프린트는 하네스의 계보를 말의 장구, 소프트웨어 테스트 하네스, 머신러닝 평가 하네스, 에이전트 하네스로 이어지는 흐름으로 재구성합니다. 다만 이 자료는 최근 프리프린트이므로, 이 절에서는 표준 정의의 근거라기보다 “왜 이 용어가 AI 에이전트 문맥에서 중요해졌는가”를 설명하는 보조 근거로만 사용합니다.
+최근에는 이 느슨한 용어를 학술적으로 정리하려는 시도도 등장했습니다. 2026년 arXiv 프리프린트는 하네스의 계보를 말의 장구, 소프트웨어 테스트 하네스, 머신러닝 평가 하네스, 에이전트 하네스로 이어지는 흐름으로 재구성합니다. 다만 이 자료는 최근 프리프린트이므로, 여기서는 표준 정의의 근거라기보다 “왜 이 용어가 AI 에이전트 문맥에서 중요해졌는가”를 설명하는 보조 근거로만 사용합니다.
 
 ## 가까운 말들과 구분하기
 
@@ -152,7 +152,7 @@ AI 에이전트(agent)에서도 비슷합니다. LLM이 문장을 생성할 수 
 
 추적(trace)은 하나의 요청이 어떤 단계를 거쳐 처리되었는지 남기는 기록입니다. 로그(log)가 넓은 의미의 기록이라면, trace는 특히 요청 하나의 흐름과 단계 관계를 보는 데 가깝습니다.
 
-OpenAI Agents SDK 문서는 실행 추적이 모델 호출, 도구 호출, 핸드오프(handoff), 가드레일(guardrail), 커스텀 스팬(custom span)을 구조화된 기록으로 남길 수 있음을 설명합니다. 이 문서를 제품 사용법으로 외울 필요는 없습니다. 입문 단계에서는 “에이전트 실행은 단계별 관찰이 필요하다”는 근거로 보면 충분합니다.
+OpenAI Agents SDK 문서는 실행 추적이 모델 호출, 도구 호출, 핸드오프(handoff), 가드레일(guardrail), 커스텀 스팬(custom span)을 구조화된 기록으로 남길 수 있음을 설명합니다. 이 문서를 제품 사용법으로 외울 필요는 없습니다. 여기서는 “에이전트 실행은 단계별 관찰이 필요하다”는 근거로 읽으면 됩니다.
 
 | 추적 대상 | 확인하려는 질문 |
 | --- | --- |
@@ -193,7 +193,7 @@ trace는 정답을 자동으로 알려 주지는 않습니다. 하지만 원인�
 
 다만 로그는 무조건 많이 남기면 좋은 것이 아닙니다. 개인정보(personal information), 비밀키(secret), 내부 문서, 사용자의 민감한 입력이 그대로 남으면 보안 문제가 됩니다. 그래서 로그는 “나중에 설명할 수 있을 만큼 충분히, 위험한 정보는 줄여서” 남겨야 합니다.
 
-이 문제는 Part 1 Chapter 15의 보안과 개인정보 논의로 이어집니다. 이 절에서는 하네스가 기록을 남겨야 하지만, 기록 자체도 설계 대상이라는 점만 잡습니다.
+이 문제는 Part 1 Chapter 15의 보안과 개인정보 논의로 이어집니다. 여기서는 하네스가 기록을 남겨야 하지만, 기록 자체도 설계 대상이라는 점만 잡습니다.
 
 ## 평가는 느낌이 아니라 반복 가능한 비교다
 
@@ -258,8 +258,6 @@ OpenAI의 에이전트 평가 문서는 개별 trace를 살펴본 뒤, 반복성
 
 이 관점이 없으면 AI 서비스는 “오늘은 잘 되는 것처럼 보이는 상태”에 머무르기 쉽습니다. 학습자 입장에서도 평가 기준을 세우면 AI 결과를 더 차분하게 검토할 수 있습니다.
 
-또한 이 절은 `비용과 지연 시간을 어떻게 관리할 것인가`를 중심으로 다루는 절도, `보안과 개인정보 기록 정책`을 상세히 다루는 절도 아닙니다. 여기서는 실행 관찰과 평가 장치를 먼저 잡고, 운영 제약은 14.6, 보안과 개인정보는 15장에서 다시 다룹니다.
-
 ## 하네스가 해결하지 않는 것
 
 하네스가 있다고 해서 AI 서비스가 자동으로 안전하고 정확해지는 것은 아닙니다.
@@ -291,7 +289,7 @@ OpenAI의 에이전트 평가 문서는 개별 trace를 살펴본 뒤, 반복성
 
 이 관점을 잡으면 다음 절에서 다룰 `AI 서비스가 현실에서 만나는 제약`을 더 현실적으로 볼 수 있습니다. 추적, 로그, 평가도 모두 품질을 높이지만, 동시에 비용(cost), 지연 시간(latency), 운영(operation) 부담을 만듭니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 하네스(harness)를 모델 자체가 아니라 실행을 감싸는 환경으로 설명할 수 있다.
 - 하네스의 어원적 직관을 장비, 고정, 연결, 활용의 흐름으로 설명할 수 있다.
@@ -302,11 +300,19 @@ OpenAI의 에이전트 평가 문서는 개별 trace를 살펴본 뒤, 반복성
 - 프롬프트, 모델, RAG, 도구 변경 후 회귀(regression)를 확인해야 함을 설명할 수 있다.
 - 하네스가 정답을 보장하는 장치가 아니라 관찰과 개선을 가능하게 하는 장치임을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- 모델이 답을 내면 서비스 품질 검증도 끝난 것처럼 느껴질 때
+- 로그, 추적, 평가가 왜 별도 실행 환경 안에서 다뤄지는지 설명해야 할 때
+- 변경 뒤 회귀 여부를 확인하는 장치를 아직 서비스 구조에 넣지 못했을 때
+
+이때는 먼저 `실행을 감싼다`, `단계를 기록한다`, `반복 비교한다`를 나누면 됩니다. 그러면 우연한 성공과 반복 가능한 안정성을 같은 것으로 섞지 않게 됩니다.
+
 ## 출처와 참고 자료
 
-- Merriam-Webster, [Harness](https://www.merriam-webster.com/dictionary/harness), Merriam-Webster Dictionary, 확인 날짜: 2026-06-23.
-- Online Etymology Dictionary, [Harness](https://www.etymonline.com/word/harness), 확인 날짜: 2026-06-23.
-- Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106), arXiv preprint, 2026, 확인 날짜: 2026-06-23.
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability), OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals), OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals), OpenAI API Docs, 확인 날짜: 2026-06-23.
+- Merriam-Webster, [Harness](https://www.merriam-webster.com/dictionary/harness){: target="_blank" rel="noopener noreferrer" }, Merriam-Webster Dictionary, 확인 날짜: 2026-06-23.
+- Online Etymology Dictionary, [Harness](https://www.etymonline.com/word/harness){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106){: target="_blank" rel="noopener noreferrer" }, arXiv preprint, 2026, 확인 날짜: 2026-06-23.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.

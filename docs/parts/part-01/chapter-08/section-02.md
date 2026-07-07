@@ -1,7 +1,7 @@
-# 8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
+# P1-8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 8.1에서는 라벨(label)을 데이터에 붙인 구분 표식으로 설명했습니다. 지도학습(supervised learning)은 입력(input)과 라벨(label)이 함께 있는 예시에서 입력과 출력의 관계를 맞추려 합니다.
 
@@ -11,9 +11,9 @@
 
 > 비지도학습은 아무 기준 없이 배우는 일이 아니라, 사람이 붙인 라벨 없이 데이터 안의 구조를 찾는 일이다.
 
-Part 1 안에서는 이 절을 `비지도학습(unsupervised learning)`, `구조(structure)`, `군집화(clustering)`, `차원 축소(dimensionality reduction)`, `클러스터 라벨(cluster label)`의 대표 상세 설명 위치로 사용합니다. `라벨(label)`과 `지도학습(supervised learning)`의 기본 구분은 8.1에서 먼저 봤고, `표현(representation)`의 아주 기본적인 감각은 3.3과 4.3에서 이미 소개했습니다. 여기서는 `라벨이 없는 데이터에서 구조를 찾는 학습`이라는 관점 위에서 그 개념들을 다시 묶습니다.
+이 절에서는 `비지도학습(unsupervised learning)`, `구조(structure)`, `군집화(clustering)`, `차원 축소(dimensionality reduction)`, `클러스터 라벨(cluster label)`을 `라벨이 없는 데이터에서 구조를 찾는 학습`이라는 관점으로 묶어 봅니다. `라벨(label)`과 `지도학습(supervised learning)`은 8.1에서, `표현(representation)`의 기본 감각은 3.3과 4.3에서 먼저 다뤘습니다.
 
-처음 읽을 때는 `비지도학습`, `구조`, `군집화`, `차원 축소`, `표현`, `클러스터 라벨`이 모두 데이터를 정리하는 비슷한 말처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`비지도학습`, `구조`, `군집화`, `차원 축소`, `표현`, `클러스터 라벨`은 초반에 모두 데이터를 정리하는 비슷한 말처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -24,17 +24,17 @@ Part 1 안에서는 이 절을 `비지도학습(unsupervised learning)`, `구조
 | 표현 | 모델이 다루기 쉬운 데이터의 모양 | 구조가 드러나게 바꾸는 관점 |
 | 클러스터 라벨 | 알고리즘이 만든 묶음 번호나 표식 | 사람이 붙인 지도학습 라벨과 구분할 대상 |
 
-처음 단계에서는 `비지도학습은 라벨 없음`, `군집화는 묶기`, `차원 축소는 축 줄이기`, `표현은 데이터의 계산 가능한 모양`, `클러스터 라벨은 해석 전 결과 표식` 정도로만 잡아도 충분합니다.
+이 절에서 유지해야 할 최소 구분은 `비지도학습은 라벨 없음`, `군집화는 묶기`, `차원 축소는 축 줄이기`, `표현은 데이터의 계산 가능한 모양`, `클러스터 라벨은 해석 전 결과 표식`입니다.
 
 ## 이 절의 범위
 
-이 절은 비지도학습 알고리즘을 계산하지 않습니다. K-평균(k-means), 계층적 군집화(hierarchical clustering), 주성분 분석(PCA, principal component analysis), t-SNE, 오토인코더(autoencoder)는 이름과 역할만 지나갑니다.
+여기서는 비지도학습 알고리즘을 계산하지 않습니다. K-평균(k-means), 계층적 군집화(hierarchical clustering), 주성분 분석(PCA, principal component analysis), t-SNE, 오토인코더(autoencoder)는 이름과 역할만 지나갑니다.
 
 또한 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표, 매니폴드 학습(manifold learning)은 자세히 다루지 않습니다. 이 주제들은 Part 4의 클러스터링과 차원 축소 장에서 다시 다루고, 매니폴드 학습의 세부 수학은 현재 본편 범위 밖에 둡니다.
 
 또한 `라벨(label)` 자체를 다시 길게 정의하지는 않습니다. 그 기본 구분은 8.1에서 먼저 다뤘고, 여기서는 `라벨이 없을 때 무엇이 학습의 기준이 되는가`에 집중합니다. `표현(representation)`도 이 절에서 처음 도입하는 새 말이라기보다, 비지도학습이 구조를 드러내기 위해 표현을 바꿀 수 있다는 연결 정도만 잡습니다.
 
-여기서는 다음 정도만 잡습니다.
+여기서는 다음 정의를 기준선으로 둡니다.
 
 > 비지도학습은 사람이 붙인 라벨 없이
 > 데이터 안의 구조, 군집, 표현을 찾는 방식이다.
@@ -47,19 +47,19 @@ Part 1 안에서는 이 절을 `비지도학습(unsupervised learning)`, `구조
 - 클러스터 라벨(cluster label)과 사람이 붙인 라벨(label)을 혼동하지 않습니다.
 - 비지도학습과 지도학습, 강화학습, 딥러닝을 같은 분류로 섞지 않습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 “정답이 없다”는 말만으로 비지도학습을 설명하지 않기 위한 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 “정답이 없다”는 말만으로 비지도학습을 설명하지 않기 위해 세 가지 기준을 먼저 둡니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 비지도학습은 라벨 없이 데이터 안의 구조를 찾으려는 시도라는 점 | 지도학습과의 차이를 가장 먼저 보여 줍니다. | 사람이 미리 정한 정답 없이 비슷함, 묶임, 축을 찾는다고 이해하면 충분합니다. |
-| 결과는 자동으로 의미가 정해지지 않고 사람이 해석해야 한다는 점 | 군집이나 축을 곧바로 진실로 읽는 실수를 줄여 줍니다. | 모델이 묶음을 만들더라도 이름 붙이는 일은 사람이 한다고 알면 충분합니다. |
-| 군집화, 차원 축소, 밀도 같은 문제는 질문이 서로 다르다는 점 | 비지도학습을 하나의 기법처럼 뭉뚱그리지 않게 해 줍니다. | “무엇이 비슷한가”, “어떻게 줄여 볼까”, “어디가 빽빽한가” 정도의 차이만 잡으면 충분합니다. |
+| 비지도학습은 라벨 없이 데이터 안의 구조를 찾으려는 시도라는 점 | 지도학습과의 차이를 보여 주는 가장 기본적인 기준입니다. | 사람이 미리 정한 정답 없이 비슷함, 묶임, 축을 찾는다고 이해하면 됩니다. |
+| 결과는 자동으로 의미가 정해지지 않고 사람이 해석해야 한다는 점 | 군집이나 축을 곧바로 진실로 읽는 실수를 줄여 줍니다. | 모델이 묶음을 만들더라도 이름 붙이는 일은 사람이 한다고 알면 됩니다. |
+| 군집화, 차원 축소, 밀도 같은 문제는 질문이 서로 다르다는 점 | 비지도학습을 하나의 기법처럼 뭉뚱그리지 않게 해 줍니다. | “무엇이 비슷한가”, “어떻게 줄여 볼까”, “어디가 빽빽한가” 정도의 차이를 잡으면 됩니다. |
 
 ## 라벨이 없다는 말은 목표가 없다는 말이 아니다
 
-비지도학습에서 `unsupervised`는 “아무 안내가 없다”는 뜻으로 읽히기 쉽습니다. 하지만 입문 단계에서는 이렇게 읽는 편이 안전합니다.
+비지도학습에서 `unsupervised`는 “아무 안내가 없다”는 뜻으로 읽히기 쉽습니다. 그러나 여기서 중요한 뜻은 사람이 미리 붙인 라벨이 없다는 점입니다.
 
 > 사람이 미리 붙인 라벨이 없다.
 > 그래도 데이터 안에서 구조를 찾으려는 목표는 있다.
@@ -168,7 +168,7 @@ Google의 Machine Learning Glossary는 비지도학습(unsupervised machine lear
 
 scikit-learn의 PCA 설명은 PCA가 다변량 데이터셋을 분산(variance)을 많이 설명하는 직교 성분들로 분해한다고 설명합니다. 또한 낮은 차원 공간으로 투영하면서 설명된 분산을 많이 보존하는 일이 관심사라고 설명합니다.
 
-입문 단계에서는 이렇게 이해하면 충분합니다.
+입문 단계의 기준선은 다음과 같습니다.
 
 > 차원 축소는 복잡한 데이터를 더 적은 축으로 다시 보는 일이다.
 > 목표는 중요한 구조를 최대한 잃지 않고 보기 쉽게 만드는 것이다.
@@ -188,7 +188,7 @@ scikit-learn의 PCA 설명은 PCA가 다변량 데이터셋을 분산(variance)�
 | 고객 행동 로그 | 행동 패턴 벡터 |
 | 문서 묶음 | 주제와 관련된 낮은 차원 표현 |
 
-이 절에서는 표현 학습(representation learning)을 깊게 다루지 않습니다. 표현을 모델이 함께 학습하는 흐름은 P1-9와 Part 5에서 다시 연결하고, 임베딩이 검색과 RAG로 이어지는 흐름은 Part 6에서 다시 봅니다. 여기서는 비지도학습이 “라벨 없이 데이터의 구조가 보이도록 표현을 바꾸는 일”과 연결될 수 있다는 정도만 잡습니다.
+여기서는 표현 학습(representation learning)을 깊게 다루지 않습니다. 표현을 모델이 함께 학습하는 흐름은 P1-9와 Part 5에서 다시 연결하고, 임베딩이 검색과 RAG로 이어지는 흐름은 Part 6에서 다시 봅니다. 비지도학습이 “라벨 없이 데이터의 구조가 보이도록 표현을 바꾸는 일”과 연결될 수 있다는 정도만 잡습니다.
 
 ## 비지도학습 결과는 해석이 필요하다
 
@@ -232,7 +232,7 @@ scikit-learn의 PCA 설명은 PCA가 다변량 데이터셋을 분산(variance)�
 
 라벨이 없다는 말은 목표가 없다는 뜻이 아닙니다. 목표는 데이터를 예측 라벨에 맞추는 것이 아니라, 데이터 안에 숨어 있는 묶음, 축, 표현을 찾는 것입니다. 그래서 비지도학습 결과는 발견의 출발점이지, 곧바로 업무적 진실이 아닙니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조를 찾는 방식으로 설명할 수 있다.
 - 라벨 없음이 목표 없음과 같지 않다는 점을 설명할 수 있다.
@@ -241,9 +241,19 @@ scikit-learn의 PCA 설명은 PCA가 다변량 데이터셋을 분산(variance)�
 - 클러스터 라벨(cluster label)과 사람이 붙인 지도학습 라벨(label)을 구분할 수 있다.
 - 비지도학습 결과에는 사람의 해석과 검토가 필요하다는 점을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 라벨이 없다는 사실만으로 비지도학습을 설명하고 있다는 느낌이 들 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 지도학습과 비지도학습의 차이를 `정답 유무`가 아니라 `구조를 찾는 질문`으로 바꿔 설명해야 할 때
+- 군집 번호나 축소된 좌표를 곧바로 업무 의미나 진실처럼 읽고 싶어질 때
+- 군집화(clustering), 차원 축소(dimensionality reduction), 표현(representation)의 역할 차이를 정리해야 할 때
+
+이때는 먼저 `무엇을 비슷하다고 볼 것인가`, `어떤 구조를 찾으려는가`, `결과를 누가 어떻게 해석할 것인가`를 나누면 됩니다. 그러면 비지도학습을 막연한 정리 기술이 아니라 구조 탐색 문제로 더 정확히 읽을 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary), 확인 날짜: 2026-06-23.
-- scikit-learn, [2. Unsupervised learning](https://scikit-learn.org/stable/unsupervised_learning.html), 확인 날짜: 2026-06-23.
-- scikit-learn, [2.3. Clustering](https://scikit-learn.org/stable/modules/clustering.html), 확인 날짜: 2026-06-23.
-- scikit-learn, [2.5. Decomposing signals in components](https://scikit-learn.org/stable/modules/decomposition.html), 확인 날짜: 2026-06-23.
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- scikit-learn, [2. Unsupervised learning](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- scikit-learn, [2.3. Clustering](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- scikit-learn, [2.5. Decomposing signals in components](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
