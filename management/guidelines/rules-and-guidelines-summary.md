@@ -22,11 +22,10 @@
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
-| `management/guidelines/writing/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전 |
+| `management/guidelines/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전 |
 | `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
-| `management/guidelines/charts/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
+| `management/guidelines/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `management/release-notes/sections/README.md` | Section 버전 코드와 릴리즈노트 관리 기준 | Section 수정, 번역본 동기화, 개정 이력 기록 전 |
-| `management/release-notes/guidelines/README.md` | 가이드라인·관리 문서 릴리즈노트 관리 기준 | 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 수정 전 |
 | `management/authoring/part-XX-open-checklist.md` | Part별 미반영 작업 체크리스트 | 기존 메모 정리, 후속 작업 우선순위 점검 전 |
 
 ### 3. 보조 메모와 분석 문서
@@ -42,11 +41,11 @@
 
 - `AGENTS.md`: 프로젝트 목적, 독자 기준, 문서 위치, Section 경계, Python 예제, 용어, 출처, 저작권, 배포, 빌드 검증까지 포함하는 최상위 규칙 문서입니다.
 - `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
-- `management/guidelines/writing/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
-- `management/guidelines/charts/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
+- `management/guidelines/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
+- `management/guidelines/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
 - `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, 제목 앞 인덱스와 `Section ID`의 동일 규칙, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
 - `management/release-notes/sections/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
-- `management/release-notes/guidelines/README.md`: 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 같은 관리 문서의 릴리즈노트 위치와 기본 형식을 다루는 운영 문서입니다.
+- 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신합니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
 - `part-XX-open-checklist.md`: 이미 반영된 설명을 반복 저장하지 않고, 각 Part에서 아직 남은 작업만 추린 체크리스트입니다.
@@ -56,9 +55,9 @@
 ### Section 본문을 새로 쓰거나 크게 고칠 때
 
 1. `AGENTS.md`
-2. `management/guidelines/writing/manuscript-writing-workflow.md`
+2. `management/guidelines/manuscript-writing-workflow.md`
 3. 필요하면 해당 `section-...-evidence-analysis.md`
-4. 문단 재구성이 크면 `management/guidelines/writing/manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 본다.
+4. 문단 재구성이 크면 `management/guidelines/manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 본다.
 5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
 6. 실제로 수정한 Section이라면 `management/release-notes/sections/README.md`를 따라 버전 코드와 릴리즈노트도 함께 갱신한다.
 7. 번역본이 아직 없더라도 릴리즈노트에 번역 반영 필요 여부를 남긴다.
@@ -66,7 +65,7 @@
 ### Python 예제를 넣거나 고칠 때
 
 1. `AGENTS.md`의 Python 예제 규칙
-2. `management/guidelines/writing/manuscript-writing-workflow.md`
+2. `management/guidelines/manuscript-writing-workflow.md`
 3. 현재 Section의 중심 질문과 출력값 점검
 4. 필요하면 `AGENTS.md`의 초심자 보강 기준으로 예제 보강 수준 판단
 
@@ -224,6 +223,7 @@
 ### 용어
 
 - 처음 나오는 핵심 용어는 `한국어(English)` 형식 병기를 우선합니다.
+- 같은 Part 안에서는 새로운 핵심 개념의 상세 설명을 처음 등장하는 Section 한 곳에 두고, 이후 Section에서는 개념사전 링크 중심으로 연결합니다.
 - 특히 `추론`, `파라미터`, `모델`, `생성`, `층위`는 문맥별로 구분합니다.
 - 번역어 하나가 여러 영어 개념을 덮으면 영어 원어를 기준으로 분해합니다.
 
@@ -250,6 +250,7 @@
 - 불필요한 대규모 리팩터링이나 파일 이동은 피합니다.
 - 관련 없는 변경은 되돌리지 않습니다.
 - 기본 빌드 확인 명령은 `.venv/bin/python -m mkdocs build`입니다.
+- 빌드 검사는 개별 수정마다 반복하지 않고, 기본적으로 전체 파트를 순차적으로 점검하고 본문 보강이 끝난 뒤 한 번에 수행합니다.
 
 ## 한 줄 판단 기준
 
@@ -267,7 +268,7 @@
 3. 작업이 문단 재배치면 `manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 봅니다.
 4. 작업이 차트 수정이면 `chart-guidelines.md`를 기준으로 봅니다.
 5. 기존 절을 고칠 때는 해당 `section-...-evidence-analysis.md` 메모가 있는지 확인합니다.
-6. 수정 후에는 최소한 변경 범위에 대해 구조, 용어, 출처, 후속 연결, 빌드 필요 여부를 점검합니다.
+6. 수정 후에는 우선 변경 범위의 구조, 용어, 출처, 후속 연결을 점검하고, 빌드는 개별 패치 직후나 개별 Part 마감 직후가 아니라 전체 파트 검토가 끝난 뒤 실행합니다.
 
 ## 빠른 점검표
 

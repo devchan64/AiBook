@@ -21,17 +21,15 @@
 
 현재 이관된 문서는 다음과 같다.
 
-- `charts/chart-guidelines.md`
-- `writing/rules-and-guidelines-summary.md`
-- `writing/manuscript-writing-workflow.md`
+- `chart-guidelines.md`
+- `rules-and-guidelines-summary.md`
+- `manuscript-writing-workflow.md`
 
 함께 봐야 하지만 이 폴더 밖에서 관리하는 문서는 다음과 같다.
 
 - `../release-notes/sections/README.md`
   - Section 버전 코드, 수정일 기준 버전 관리, 제목 앞 인덱스와 `Section ID` 일치 규칙, 번역본 동기화 메모, Section별 릴리즈노트 형식을 다룬다.
   - Section 본문을 실제로 수정했다면 이 문서를 따라 메타데이터와 릴리즈노트를 함께 갱신한다.
-- `../release-notes/guidelines/README.md`
-  - 개념사전, 소개 페이지, 목차, Part 시작/요약 페이지 같은 관리 문서 릴리즈노트의 위치와 형식을 다룬다.
 
 운영 원칙은 다음과 같다.
 
@@ -39,7 +37,5 @@
 - `management/README.md`는 `authoring/`, `guidelines/`, `release-notes/`의 역할 분담을 빠르게 찾는 인덱스를 맡는다.
 - `management/guidelines/`는 특정 워크플로우를 실제로 수행할 때 다시 여는 세부 규칙 문서를 맡는다.
 - `management/release-notes/sections/`는 Section 단위 변경 이력과 다국어 동기화 기준점을 맡는다.
-- `management/release-notes/guidelines/`는 가이드라인과 관리 문서의 개정 이력 기준점을 맡는다.
+- 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 - 새 워크플로우 문서는 가능하면 `목적 -> 언제 보는가 -> 작업 전 확인 -> 작업 순서 -> 예외 -> 작업 후 검증 -> 함께 볼 문서` 순서를 따른다.
-
-이후 워크플로우가 늘어나면 필요에 따라 `evidence/`, `structure/` 같은 하위 묶음을 추가할 수 있다.

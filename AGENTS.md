@@ -42,11 +42,11 @@
 
 ## 주요 워크플로우
 
-- 원고 작성·수정 워크플로우: `management/guidelines/writing/rules-and-guidelines-summary.md`
+- 원고 작성·수정 워크플로우: `management/guidelines/rules-and-guidelines-summary.md`
   - Section 수정, 예시 보강, 문단 재배치 전에 먼저 본다.
-- 원고 작성 세부 절차: `management/guidelines/writing/manuscript-writing-workflow.md`
+- 원고 작성 세부 절차: `management/guidelines/manuscript-writing-workflow.md`
   - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
-- 차트·도식 워크플로우: `management/guidelines/charts/chart-guidelines.md`
+- 차트·도식 워크플로우: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
 - Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`
   - Section 본문 수정, 번역본 동기화, 개정 이력 기록 전에 먼저 본다.
@@ -75,7 +75,7 @@
 ## Part 구조
 
 - Part 시작 페이지와 마무리 페이지는 각각 오버뷰와 요약 역할을 맡습니다.
-- Part 시작/마무리 페이지의 세부 포함 항목과 작성 순서는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
+- Part 시작/마무리 페이지의 세부 포함 항목과 작성 순서는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 - 새 Part를 만들거나 Part 구조를 바꾸면 `index.md`, `summary.md`, `mkdocs.yml`의 `nav` 반영 여부를 함께 확인합니다.
 
 ## 작성 원칙
@@ -99,7 +99,7 @@
 - 같은 Part 안의 후속 Section에서는 이미 정리한 핵심 개념의 상세 정의, 비교 표, 용어 구분 표를 반복하지 않고 개념사전 링크로 연결합니다.
 - 다음 Part로 넘어간 뒤 그 개념이 다시 핵심 전개를 떠받치면, 그 Part에서 처음 등장하는 Section에서 필요한 범위만 다시 정리하고 다시 개념사전으로 연결합니다.
 - 개념사전 항목은 `중심 Section` 1개와 `등장 Section` 목록을 함께 유지해, 대표 설명 위치와 실제 재등장 위치를 구분하고 위치 표기 오류나 누락이 생기는지 관측할 수 있어야 합니다.
-- 원고 작성, Python 예제, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
+- 원고 작성, Python 예제, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 
 ## Section 경계
 
@@ -107,7 +107,7 @@
 - 하나의 Section은 하나의 중심 질문에 답해야 합니다.
 - 현재 Section의 논의가 이어질 때는 그 Section의 범위 안에서만 본문을 확장합니다.
 - 다른 Section의 핵심 설명, 예시, 결론, 체크리스트를 미리 작성하지 않습니다.
-- Section 경계, 생략 회수, 새 Section 후보 판단의 세부 절차는 `management/guidelines/writing/manuscript-writing-workflow.md`를 따릅니다.
+- Section 경계, 생략 회수, 새 Section 후보 판단의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 
 ## Section 버전과 릴리즈노트
 
@@ -223,7 +223,7 @@
 - 간단한 비교와 수치 정리는 Markdown 표를 먼저 사용합니다.
 - 복잡한 그림은 `docs/assets/` 아래에 SVG 또는 PNG로 저장하고, 가능하면 생성 원본도 함께 보관합니다.
 - 외부 자료의 도식이나 차트를 재작성한 경우에도 출처를 남깁니다.
-- 수학·개념 차트를 새로 만들거나 수정할 때는 `management/guidelines/charts/chart-guidelines.md`를 먼저 확인합니다.
+- 수학·개념 차트를 새로 만들거나 수정할 때는 `management/guidelines/chart-guidelines.md`를 먼저 확인합니다.
 
 ## 브랜치와 배포
 
