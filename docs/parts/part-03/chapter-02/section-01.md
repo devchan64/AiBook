@@ -42,34 +42,51 @@ import pandas as pd
 
 storage_table = pd.DataFrame(
     [
-        {"timestamp": "10:00:01", "sensor_name": "flow", "value": 0.8},
-        {"timestamp": "10:00:02", "sensor_name": "flow", "value": 1.4},
-        {"timestamp": "10:00:03", "sensor_name": "flow", "value": 1.2},
+        {"event_id": "A", "second": 0, "flow": 0.8},
+        {"event_id": "A", "second": 1, "flow": 1.4},
+        {"event_id": "A", "second": 2, "flow": 1.2},
+        {"event_id": "B", "second": 0, "flow": 0.7},
+        {"event_id": "B", "second": 1, "flow": 1.1},
+        {"event_id": "B", "second": 2, "flow": 0.6},
     ]
 )
 
-analysis_table = pd.DataFrame(
-    [
-        {"event_id": "A", "mid_flow_mean": 1.35, "late_drop_rate": -0.40},
-    ]
+dataset_candidate = (
+    storage_table.groupby("event_id")
+    .agg(
+        duration_seconds=("second", "max"),
+        mean_flow=("flow", "mean"),
+        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
+    )
+    .reset_index()
 )
 
-print("storage rows:", len(storage_table))
-print("analysis rows:", len(analysis_table))
-print(storage_table.columns.tolist())
-print(analysis_table.columns.tolist())
+print("storage table")
+print(storage_table)
+print()
+print("dataset candidate")
+print(dataset_candidate.round(2))
 ```
 
 예상 출력:
 
 ```text
-storage rows: 3
-analysis rows: 1
-['timestamp', 'sensor_name', 'value']
-['event_id', 'mid_flow_mean', 'late_drop_rate']
+storage table
+  event_id  second  flow
+0        A       0   0.8
+1        A       1   1.4
+2        A       2   1.2
+3        B       0   0.7
+4        B       1   1.1
+5        B       2   0.6
+
+dataset candidate
+  event_id  duration_seconds  mean_flow  late_drop_rate
+0        A                 2       1.13            -0.2
+1        B                 2       0.80            -0.5
 ```
 
-출력에서 먼저 봐야 할 것은 `행 수`와 `열 이름`입니다. 저장 구조는 기록을 남기기 위해 세부 시점을 많이 보존합니다. 반면 문제 표현 구조는 비교 질문에 맞춰 훨씬 적은 행과 더 해석적인 열을 가집니다.
+출력에서 먼저 봐야 할 것은 `같은 기록을 그대로 본 표`와 `질문에 맞게 다시 만든 표`의 차이입니다. 첫 표에서는 한 행이 한 시점 기록이라서 `이번 동작의 평균 유량`이나 `후반 하강률`이 아직 보이지 않습니다. 둘째 표로 다시 묶고 나서야 비로소 동작 1회가 한 행이 되고, 비교에 바로 쓸 수 있는 열이 생깁니다. 저장된 기록이 있다는 사실과, 질문에 답할 수 있는 데이터셋 후보가 준비되었다는 사실은 같은 말이 아닙니다.
 
 같은 데이터를 저장 구조 그대로 들고 가면 실제로 어디서 막히는지도 짧게 확인해 볼 수 있습니다.
 
