@@ -61,32 +61,21 @@
 
 어떤 운영 문제는 끝까지 비교 리포트와 검토 큐(review queue)로 남겨 두는 편이 더 정직할 수도 있습니다. 비교 구조만으로 충분히 지원할 수 있는 판단을 굳이 분류 문제로 끌어올릴 필요는 없습니다.
 
-```python
-import pandas as pd
+## 작은 도식으로 보기
 
-cases = pd.DataFrame(
-    [
-        {"event_id": "A", "diff": -0.35, "repeatability": "high", "review_needed": 1, "root_cause_label": None},
-        {"event_id": "B", "diff": -0.08, "repeatability": "low", "review_needed": 0, "root_cause_label": None},
-    ]
-)
-
-print(cases)
-print("review labels:", cases["review_needed"].dropna().tolist())
-print("root cause labels:", cases["root_cause_label"].dropna().tolist())
+```mermaid
+flowchart TD
+    A[Current data state]
+    A --> B{Only comparison signal?}
+    B -->|Yes| C[Stop at alert]
+    B -->|No| D{Signal + review rules?}
+    D -->|Yes| E[Stop at review candidate]
+    D -->|No| F{Stable target labels + evaluation setup?}
+    F -->|Yes| G[Move to label prediction]
+    F -->|No| E
 ```
 
-예상 출력:
-
-```text
-  event_id  diff repeatability  review_needed root_cause_label
-0        A -0.35          high              1             None
-1        B -0.08           low              0             None
-review labels: [1, 0]
-root cause labels: []
-```
-
-이 출력은 `검토 필요` 같은 운영 라벨은 만들 수 있어도, `원인 라벨`은 아직 비어 있을 수 있음을 보여 줍니다. 이런 상황에서는 경고나 검토 후보 생성은 가능하지만, 원인 분류 문제는 아직 무리일 수 있습니다.
+이 도식은 문제를 위로 올리는 판단이 `무조건 한 단계 상승`이 아니라, 현재 근거가 어느 수준까지 있는지를 묻는 분기라는 점을 보여 줍니다. 즉 이 절의 중심은 라벨 목록을 찍는 것이 아니라 `경고에서 멈출지`, `검토 후보까지 갈지`, `라벨 예측으로 올릴지`를 단계별로 가르는 판단 구조입니다.
 
 이 예제는 지금 만들 수 있는 문제 형태와 아직 올리기 어려운 문제 형태를 다음 순서로 보여 줍니다.
 

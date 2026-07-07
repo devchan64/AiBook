@@ -63,34 +63,22 @@
 
 이 표는 `어떤 상태면 무조건 어떤 라벨`이라는 뜻이 아닙니다. 다만 문장을 쓸 때 지나치게 강한 확정형 어휘로 미끄러지지 않도록, 기본 끝맺음을 정해 두는 역할을 합니다.
 
-## 작은 예시로 보기
+## 작은 도식으로 보기
 
-```python
-cases = [
-    {"case": "A", "diff": -0.12, "event_count": 3, "repeatability": "low"},
-    {"case": "B", "diff": -0.31, "event_count": 8, "repeatability": "medium"},
-    {"case": "C", "diff": -0.45, "event_count": 20, "repeatability": "high"},
-]
-
-for item in cases:
-    if item["event_count"] < 5:
-        sentence = "추가 관찰이 필요하다"
-    elif item["repeatability"] == "high":
-        sentence = "검토 우선순위를 높인다"
-    else:
-        sentence = "사람이 먼저 검토할 가치가 있다"
-    print(item["case"], sentence)
+```mermaid
+flowchart TD
+    A[Comparison result]
+    A --> B[State the difference first]
+    B --> C{How strong is the evidence?}
+    C -->|Few cases| D[Add low-confidence condition]
+    C -->|Repeated and enough cases| E[Add stronger review condition]
+    D --> F[End with next action<br/>keep observing]
+    E --> G[End with next action<br/>raise review priority]
+    F --> H[Do not add cause claim]
+    G --> H
 ```
 
-예상 출력:
-
-```text
-A 추가 관찰이 필요하다
-B 사람이 먼저 검토할 가치가 있다
-C 검토 우선순위를 높인다
-```
-
-이 예시는 아주 단순하지만, 같은 `이상/정상` 이분법보다 `어떤 강도의 문장으로 남길 것인가`가 먼저 필요하다는 점을 보여 줍니다. Part 3의 해석 단계에서는 점수를 확정하는 것보다 문장의 강도를 정직하게 조절하는 일이 더 중요합니다.
+이 도식은 문장을 쓰는 순서 자체가 이 절의 핵심이라는 점을 보여 줍니다. 비교 결과를 먼저 말하고, 그다음 강도 조건을 붙이고, 마지막에 다음 행동으로 닫아야 과장과 공백이 함께 줄어듭니다. 즉 이 절에서 중요한 것은 조건문 구현보다 `비교 결과 -> 강도 조건 -> 다음 행동` 골격을 먼저 잡는 일입니다.
 
 ## 왜 이 절이 Chapter 9 앞에 필요한가
 

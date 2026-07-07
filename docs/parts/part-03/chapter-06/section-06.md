@@ -106,12 +106,12 @@ print(feature_catalog[["feature_name", "same_definition_group"]])
 
 ```text
   feature_name                     same_definition_group
-0    flow_mean  flow_mean|L/min|v1|early-mid-late
-1    flow_mean   flow_mean|mL/s|v2|early-mid-late
-2    flow_mean    flow_mean|mL/s|v2|quartile-4bin
+0    flow_mean   flow_mean|L/min|v1|early-mid-late
+1    flow_mean    flow_mean|mL/s|v2|early-mid-late
+2    flow_mean     flow_mean|mL/s|v2|quartile-4bin
 ```
 
-이 예시의 핵심은 코드 문법이 아니라, 같은 열 이름 아래에서도 실제 정의 그룹은 여러 개일 수 있다는 점입니다.
+이 예제의 목적은 새 특징을 계산하는 것이 아니라, `같은 열 이름이라도 실제로는 몇 개의 정의 그룹으로 갈라지는가`를 먼저 확인하는 데 있습니다. `feature_name`은 모두 같지만 `same_definition_group`가 셋으로 갈라지는 출력을 보면, 왜 이 절에서 숫자 비교보다 먼저 단위, 버전, 계산 규칙을 묶어 보라고 하는지 바로 드러납니다.
 
 ## 인계 직전의 마지막 판정
 

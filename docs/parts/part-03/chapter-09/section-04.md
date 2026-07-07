@@ -95,35 +95,21 @@ Part 4에서는 `target`이 자연스럽게 등장하지만, 종종 `그 target�
 
 즉 Part 3은 단순히 입력 특징만 만드는 Part가 아니라, 나중에 목표 라벨 후보가 생길 수 있는 운영 기록 구조까지 설계하는 Part이기도 합니다.
 
-## 작은 코드 예시
+## 작은 도식으로 보기
 
-```python
-import pandas as pd
+```mermaid
+flowchart TD
+    A[Review queue result<br/>event_id + review_needed + operator note]
+    A --> B[Free-form notes accumulate]
+    B --> C[Shared note patterns<br/>repeated late drop<br/>record only]
+    C --> D[Target-candidate columns]
 
-review_log = pd.DataFrame(
-    [
-        {"event_id": "A", "review_needed": 1, "operator_note": "후반 급락 반복, 재확인 필요"},
-        {"event_id": "B", "review_needed": 0, "operator_note": "기록만 남김"},
-        {"event_id": "C", "review_needed": 1, "operator_note": "후반 급락 반복, 점검 권장"},
-    ]
-)
-
-review_log["late_drop_repeated"] = review_log["operator_note"].str.contains("후반 급락").astype(int)
-review_log["needs_manual_review"] = review_log["review_needed"]
-
-print(review_log[["event_id", "late_drop_repeated", "needs_manual_review"]])
+    D --> D1[late_drop_repeated]
+    D --> D2[needs_manual_review]
+    D --> D3[note_source]
 ```
 
-예상 출력:
-
-```text
-  event_id  late_drop_repeated  needs_manual_review
-0        A                   1                    1
-1        B                   0                    0
-2        C                   1                    1
-```
-
-이 예시는 아주 단순화했지만, 자유로운 메모를 그대로 target으로 쓰기보다 반복 의미를 같은 열로 옮기면서 라벨 후보가 생긴다는 점을 보여 줍니다.
+이 도식은 자유 메모가 바로 target이 되는 것이 아니라, 중간에 `같은 뜻을 묶는 단계`가 꼭 들어간다는 점을 보여 줍니다. 먼저 검토 결과와 메모가 쌓이고, 그 메모에서 반복되는 판단을 공통 패턴으로 정리한 뒤에야 `late_drop_repeated`, `needs_manual_review` 같은 열이 생깁니다. 이 절에서 중요한 것은 문자열 처리 기술이 아니라 `메모 -> 공통 의미 -> 라벨 후보 열`의 전환 구조입니다.
 
 ## 한 문장으로 묶기
 

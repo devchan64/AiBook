@@ -56,21 +56,19 @@ Part 3에서는 아직 복잡한 결측치 보정 기법보다, 아래 네 가�
 
 즉 Part 3의 관심사는 `어떻게 채울까`보다 먼저 `이 샘플을 지금 어떤 상태로 분류할까`에 가깝습니다.
 
-## 작은 예시로 보기
+## 작은 도식으로 보기
 
-| event_id | early_flow_mean | mid_flow_mean | late_flow_mean | end_detected |
-| --- | ---: | ---: | ---: | --- |
-| A | 1.1 | 2.4 | 1.8 | yes |
-| B | 1.0 | 2.5 | 없음 | yes |
-| C | 1.2 | 없음 | 없음 | no |
+```mermaid
+flowchart TD
+    A[Missing values in summary sample]
+    A --> B{Only one segment missing?}
+    B -->|Yes| C[Keep sample<br/>avoid affected features]
+    B -->|No| D{Sample boundary broken?}
+    D -->|Yes| E[Do not keep as event sample]
+    D -->|No| F[Check if missingness itself should be flagged]
+```
 
-이 표를 보면 세 행 모두 같은 형식처럼 보이지만 판단은 달라집니다.
-
-1. `A`는 완전한 요약 샘플입니다.
-2. `B`는 후반 구간이 비어 있어 `late_minus_early`나 후반 하강률 특징이 흔들릴 수 있습니다.
-3. `C`는 종료 시점 자체가 불분명하므로 동작 1회 샘플로 유지할지부터 다시 봐야 합니다.
-
-즉 `비어 있음`은 하나의 상태가 아니라, 샘플 구조에 미치는 영향이 다른 여러 상태입니다.
+이 도식은 `비어 있음`을 하나의 상태로 보지 않고, 누락 위치와 샘플 경계 상태에 따라 판단이 갈라진다는 점을 보여 줍니다. 즉 이 절의 예시는 값 자체보다 `유지`, `특징 제외`, `구조 붕괴`로 나뉘는 판단 구조를 먼저 드러내는 데 있습니다.
 
 ## 빠짐 자체를 왜 열로 남길 수 있는가
 
@@ -101,20 +99,38 @@ summary = pd.DataFrame(
 
 summary["late_segment_missing"] = summary["late_flow_mean"].isna().astype(int)
 summary["sample_structure_broken"] = ((summary["end_detected"] == 0)).astype(int)
+summary["keep_sample"] = summary["sample_structure_broken"].map({0: "yes", 1: "no"})
+summary["avoid_features"] = summary.apply(
+    lambda row: "late_drop features"
+    if row["late_segment_missing"] == 1 and row["sample_structure_broken"] == 0
+    else ("all event-level features" if row["sample_structure_broken"] == 1 else "none"),
+    axis=1,
+)
 
+print("1) missingness flags")
 print(summary[["event_id", "late_segment_missing", "sample_structure_broken"]])
+print()
+print("2) sample decision")
+print(summary[["event_id", "keep_sample", "avoid_features"]])
 ```
 
 예상 출력:
 
 ```text
+1) missingness flags
   event_id  late_segment_missing  sample_structure_broken
 0        A                     0                        0
 1        B                     1                        0
 2        C                     1                        1
+
+2) sample decision
+  event_id keep_sample           avoid_features
+0        A         yes                     none
+1        B         yes       late_drop features
+2        C          no  all event-level features
 ```
 
-이 예시의 핵심은 값을 채우는 코드가 아니라, `부분 구간 누락`과 `샘플 구조 붕괴`를 같은 빈칸으로 처리하지 않는다는 점입니다.
+이 예시의 핵심은 값을 채우는 코드가 아니라, `부분 구간 누락`과 `샘플 구조 붕괴`를 같은 빈칸으로 처리하지 않는다는 점입니다. 1단계에서 누락 위치를 구분하고, 2단계에서 그 차이가 바로 `샘플 유지 여부`와 `만들지 말아야 할 특징` 판단으로 이어집니다. 그래서 `B`는 샘플은 유지하되 후반 하강 특징은 보수적으로 빼야 하고, `C`는 샘플 경계 자체가 흔들려 동작 1회 비교 샘플로 바로 쓰기 어렵다는 점이 코드 결과에서 직접 드러납니다.
 
 ## 인계 직전의 마지막 판정
 

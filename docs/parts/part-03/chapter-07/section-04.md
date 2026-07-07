@@ -59,40 +59,23 @@
 
 이 표의 핵심은 `숫자가 비슷해 보이는가`보다 `같은 비교 조건인가`를 먼저 보라는 점입니다.
 
-## 작은 예시로 보기
+## 작은 도식으로 보기
 
-```python
-import pandas as pd
-
-baseline_candidates = pd.DataFrame(
-    [
-        {"candidate": "same-type-stable", "process_type": "type-A", "event_count": 24, "maintenance_phase": "after", "baseline_mean": 2.42},
-        {"candidate": "mixed-types", "process_type": "mixed", "event_count": 40, "maintenance_phase": "after", "baseline_mean": 2.41},
-        {"candidate": "too-small", "process_type": "type-A", "event_count": 3, "maintenance_phase": "after", "baseline_mean": 2.39},
-        {"candidate": "before-maintenance", "process_type": "type-A", "event_count": 28, "maintenance_phase": "before", "baseline_mean": 2.44},
-    ]
-)
-
-print(baseline_candidates)
+```mermaid
+flowchart TD
+    A[Baseline candidates]
+    A --> B{Same sample unit?}
+    B -->|No| X[Do not use]
+    B -->|Yes| C{Same process and mode?}
+    C -->|No| X
+    C -->|Yes| D{Enough event count?}
+    D -->|No| X
+    D -->|Yes| E{Same operational phase?}
+    E -->|No| X
+    E -->|Yes| F[Use as baseline candidate]
 ```
 
-예상 출력:
-
-```text
-             candidate process_type  event_count maintenance_phase  baseline_mean
-0     same-type-stable       type-A           24             after           2.42
-1          mixed-types        mixed           40             after           2.41
-2            too-small       type-A            3             after           2.39
-3   before-maintenance       type-A           28            before           2.44
-```
-
-숫자만 보면 네 후보 모두 기준선처럼 보일 수 있습니다. 하지만 비교 구조 관점에서 보면 `same-type-stable`이 가장 자연스럽고, `mixed-types`는 집단이 섞였으며, `too-small`은 표본 수가 약하고, `before-maintenance`는 운영 상태가 달라졌을 수 있습니다. 즉 기준선 선택은 평균값 하나를 고르는 일이 아니라, 비교 조건을 먼저 맞추는 일입니다.
-
-이 예제는 다음 순서로 읽으면 더 분명합니다.
-
-1. 평균이 비슷해 보여도 비교 조건이 다른 후보를 구분한다.
-2. 공정 유형, 표본 수, 운영 상태가 왜 기준선 품질을 바꾸는지 본다.
-3. 마지막에야 어떤 후보를 현재 비교표의 기준선으로 둘지 정한다.
+이 도식은 기준선 선택이 평균값 하나를 고르는 일이 아니라, 비교 조건을 단계별로 거르는 판단이라는 점을 보여 줍니다. 즉 이 절의 중심은 후보 표를 출력하는 것보다 `같은 샘플 단위`, `같은 공정 조건`, `충분한 표본 수`, `같은 운영 상태`를 차례로 맞춰 가는 선택 구조를 붙잡는 데 있습니다.
 
 ## 왜 이것이 Part 4와 Part 5에도 영향을 주는가
 

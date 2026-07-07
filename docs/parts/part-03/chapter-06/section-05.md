@@ -93,27 +93,69 @@ feature_table = pd.DataFrame(
     ]
 )
 
-feature_roles = {
-    "duration_seconds": "duration",
-    "pressure_mean": "level",
-    "flow_std": "variability",
-    "late_drop_rate": "change",
+baseline = {
+    "duration_seconds": 45,
+    "pressure_mean": 101.0,
+    "flow_std": 0.03,
+    "late_drop_rate": -0.12,
 }
 
-print(feature_table)
-print("feature roles:", feature_roles)
+feature_table["duration_delta"] = feature_table["duration_seconds"] - baseline["duration_seconds"]
+feature_table["pressure_delta"] = feature_table["pressure_mean"] - baseline["pressure_mean"]
+feature_table["flow_std_delta"] = feature_table["flow_std"] - baseline["flow_std"]
+feature_table["late_drop_delta"] = feature_table["late_drop_rate"] - baseline["late_drop_rate"]
+
+role_table = pd.DataFrame(
+    [
+        {"column_name": "duration_seconds", "role": "duration", "compare_as": "delta from baseline"},
+        {"column_name": "pressure_mean", "role": "level", "compare_as": "delta from baseline"},
+        {"column_name": "flow_std", "role": "variability", "compare_as": "delta from baseline"},
+        {"column_name": "late_drop_rate", "role": "change", "compare_as": "delta from baseline"},
+    ]
+)
+
+print("1) feature table")
+print(feature_table[["event_id", "duration_seconds", "pressure_mean", "flow_std", "late_drop_rate"]])
+print()
+print("2) same-role comparisons against baseline")
+print(
+    feature_table[
+        [
+            "event_id",
+            "duration_delta",
+            "pressure_delta",
+            "flow_std_delta",
+            "late_drop_delta",
+        ]
+    ]
+)
+print()
+print("3) reading roles")
+print(role_table)
 ```
 
 예상 출력:
 
 ```text
+1) feature table
   event_id  duration_seconds  pressure_mean  flow_std  late_drop_rate
 0        A                48          101.2      0.18           -0.42
 1        B                44          100.9      0.05           -0.10
-feature roles: {'duration_seconds': 'duration', 'pressure_mean': 'level', 'flow_std': 'variability', 'late_drop_rate': 'change'}
+
+2) same-role comparisons against baseline
+  event_id  duration_delta  pressure_delta  flow_std_delta  late_drop_delta
+0        A               3             0.2            0.15            -0.30
+1        B              -1            -0.1            0.02             0.02
+
+3) reading roles
+        column_name         role            compare_as
+0  duration_seconds     duration  delta from baseline
+1     pressure_mean        level  delta from baseline
+2          flow_std  variability  delta from baseline
+3    late_drop_rate       change  delta from baseline
 ```
 
-이 예시에서 중요한 것은 숫자의 절대 크기가 아니라, 각 열이 맡는 역할입니다. `101.2`가 크기 때문에 자동으로 더 중요한 것이 아니라, `pressure_mean`가 수준(level)을 뜻하는 열이라는 점이 먼저 읽혀야 합니다.
+이 예시에서 중요한 것은 숫자의 절대 크기가 아니라, 각 열이 맡는 역할과 같은 열 안에서의 변화입니다. 1단계만 보면 `101.2`가 커 보이고 `0.18`은 작아 보일 수 있지만, 2단계에서 기준선 대비 변화를 보면 `flow_std_delta=0.15`는 오히려 큰 흔들림 증가일 수 있고, `pressure_delta=0.2`는 작은 수준 차이일 수 있습니다. 그래서 이 절의 핵심은 `큰 숫자`보다 `같은 역할의 같은 열을 어떻게 비교하는가`를 먼저 읽는 데 있습니다.
 
 ## Part 4와는 어떻게 연결되는가
 

@@ -40,34 +40,55 @@
 작은 예시를 보면 더 분명합니다.
 
 ```python
-events = {
-    "A": 100,
-    "B": 100,
-}
+import pandas as pd
 
-window = 30
-stride = 10
+events = pd.DataFrame(
+    [
+        {"event_id": "A", "length": 100, "window": 30, "stride": 10},
+        {"event_id": "B", "length": 100, "window": 30, "stride": 10},
+    ]
+)
 
-window_count = 0
-for event_id, length in events.items():
-    count = ((length - window) // stride) + 1
-    window_count += count
-    print(event_id, count)
+events["window_count"] = ((events["length"] - events["window"]) // events["stride"]) + 1
+events["source_event_weight"] = 1
 
-print("source_events:", len(events))
-print("windows:", window_count)
+print("1) how many windows each source event creates")
+print(events[["event_id", "length", "window", "stride", "window_count"]])
+print()
+print("2) source-event count vs window count")
+print(
+    pd.DataFrame(
+        [
+            {"unit": "source_event", "count": events["source_event_weight"].sum()},
+            {"unit": "window", "count": events["window_count"].sum()},
+        ]
+    )
+)
+print()
+print("3) expansion per source event")
+print(events[["event_id", "window_count"]])
 ```
 
 예상 출력:
 
 ```text
-A 8
-B 8
-source_events: 2
-windows: 16
+1) how many windows each source event creates
+  event_id  length  window  stride  window_count
+0        A     100      30      10             8
+1        B     100      30      10             8
+
+2) source-event count vs window count
+          unit  count
+0  source_event      2
+1        window     16
+
+3) expansion per source event
+  event_id  window_count
+0        A             8
+1        B             8
 ```
 
-핵심 문장은 다음과 같습니다. `겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으므로, 창 수를 곧바로 사건 수처럼 읽으면 안 된다.`
+이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 그래서 1단계에서는 사건 하나가 몇 개 창으로 늘어나는지 보고, 2단계에서는 `source_event`와 `window`를 따로 세고, 3단계에서는 각 사건의 확장 정도를 다시 확인합니다. 핵심 문장은 다음과 같습니다. `겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으므로, 창 수를 곧바로 사건 수처럼 읽으면 안 된다.`
 
 ## 짧은 점검
 

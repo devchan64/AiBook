@@ -42,31 +42,19 @@
 
 예를 들어 `최근 구간은 기준선 대비 후반 하강이 커졌으며, 최근 건수는 6건이므로 원인 확정 없이 검토 우선순위를 높인다` 같은 문장은 비교 구조와 해석 경계를 함께 반영합니다. 반대로 `센서 이상이 발생했다` 같은 문장은 아직 없는 근거를 미리 끌어다 쓰는 셈이 됩니다. 이때 경고는 자동 진단 결과라기보다 사람이 먼저 볼 대상을 좁히는 신호라는 점을 유지해야 합니다.
 
-```python
-report = {
-    "recent_count": 6,
-    "late_drop_diff": -0.28,
-    "repeatability": "medium",
-    "root_cause_confirmed": False,
-}
+## 작은 도식으로 보기
 
-if report["root_cause_confirmed"]:
-    sentence = "원인이 확정되었다."
-else:
-    sentence = "변화는 보이지만 원인은 아직 확정되지 않았다."
-
-print(report)
-print(sentence)
+```mermaid
+flowchart TD
+    A[Comparison result<br/>late-drop difference<br/>repeatability<br/>recent count]
+    A --> B[Signal statement<br/>something changed]
+    B --> C[Review statement<br/>worth checking]
+    C --> D{Extra causal evidence?}
+    D -->|No| E[Stop here<br/>do not claim root cause]
+    D -->|Yes| F[Cause claim can be tested separately]
 ```
 
-예상 출력:
-
-```text
-{'recent_count': 6, 'late_drop_diff': -0.28, 'repeatability': 'medium', 'root_cause_confirmed': False}
-변화는 보이지만 원인은 아직 확정되지 않았다.
-```
-
-이 예시는 아주 단순하지만, 비교 구조가 있어도 원인 확정 플래그가 따로 없으면 보수적으로 말해야 한다는 점을 보여 줍니다. 즉 수치 차이와 원인 진단은 같은 층위의 문제가 아닙니다.
+이 도식은 비교 결과가 곧바로 원인 확정으로 이어지지 않는다는 점을 보여 줍니다. 먼저 변화 신호를 말하고, 그다음 검토 필요 수준까지는 갈 수 있지만, 원인 주장은 별도 근거가 생길 때만 다음 단계로 넘어갑니다. 즉 이 절의 중심은 계산보다 `어디까지 말하고 어디서 멈추는가`라는 해석 경계입니다.
 
 같은 경계를 더 짧게 줄이면 다음처럼 구분할 수 있습니다.
 

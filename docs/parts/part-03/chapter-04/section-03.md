@@ -50,6 +50,14 @@
 
 즉 `A, second=1`은 샘플이 아니라 샘플을 이루는 한 조각일 수 있고, `최근 20건`은 샘플 20건을 다시 묶은 더 큰 비교 단위일 수 있습니다.
 
+이 장면을 문장으로 다시 풀면 더 또렷합니다.
+
+- 운영자가 `1초 시점의 유량이 얼마였는가`를 묻고 있다면 보고 싶은 것은 행입니다.
+- 운영자가 `A 동작 1회가 평소보다 흔들렸는가`를 묻고 있다면 보고 싶은 것은 샘플입니다.
+- 운영자가 `최근 20건 전체가 지난주 기준선보다 나빠졌는가`를 묻고 있다면 보고 싶은 것은 구간입니다.
+
+질문이 달라질 때마다 같은 원천데이터가 다른 층위로 다시 읽힌다는 점이 핵심입니다. 헷갈림은 보통 데이터가 복잡해서가 아니라, 지금 내가 어느 질문을 붙이고 있는지 적지 않은 상태에서 표를 보기 시작할 때 생깁니다.
+
 ## 왜 이 구분이 필요한가
 
 이 구분이 필요한 이유는 뒤 개념이 각기 다른 층위에 붙기 때문입니다.
@@ -76,41 +84,79 @@ raw = pd.DataFrame(
         {"event_id": "B", "second": 0, "flow": 0.7},
         {"event_id": "B", "second": 1, "flow": 1.2},
         {"event_id": "B", "second": 2, "flow": 1.0},
+        {"event_id": "C", "second": 0, "flow": 0.9},
+        {"event_id": "C", "second": 1, "flow": 1.6},
+        {"event_id": "C", "second": 2, "flow": 1.2},
     ]
 )
 
 per_event = (
-    raw.groupby("event_id")
-    .agg(flow_mean=("flow", "mean"))
-    .reset_index()
+    raw.groupby("event_id", as_index=False)
+    .agg(
+        flow_mean=("flow", "mean"),
+        flow_max=("flow", "max"),
+    )
+    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
 )
 
-recent_window = pd.DataFrame(
-    [
-        {"window_id": "recent-20", "event_count": 20, "flow_mean_recent": 1.92, "flow_mean_baseline": 2.15}
-    ]
+per_window = (
+    per_event.groupby("window", as_index=False)
+    .agg(
+        event_count=("event_id", "count"),
+        flow_mean=("flow_mean", "mean"),
+    )
 )
 
 print("row count:", len(raw))
 print("sample count:", len(per_event))
-print("window count:", len(recent_window))
+print("window count:", len(per_window))
+print()
+print("one row example")
+print(raw.loc[[1], ["event_id", "second", "flow"]])
+print()
+print("one sample example")
+print(per_event.loc[per_event["event_id"] == "A", ["event_id", "flow_mean", "flow_max"]])
+print()
+print("window summary")
+print(per_window)
 ```
 
 예상 출력:
 
 ```text
-row count: 6
-sample count: 2
-window count: 1
+row count: 9
+sample count: 3
+window count: 2
+
+one row example
+  event_id  second  flow
+1        A       1   1.5
+
+one sample example
+  event_id  flow_mean  flow_max
+0        A   1.133333       1.5
+
+window summary
+     window  event_count  flow_mean
+0  baseline            1   0.966667
+1    recent            2   1.183333
 ```
 
 여기서 봐야 할 것은 숫자 자체보다 `무엇을 세고 있는가`입니다.
 
-- `row count: 6`은 시점 기록 여섯 줄입니다.
-- `sample count: 2`는 동작 두 건입니다.
-- `window count: 1`은 최근 구간 비교 한 건입니다.
+- `row count: 9`는 시점 기록 아홉 줄입니다.
+- `sample count: 3`는 동작 세 건입니다.
+- `window count: 2`는 `recent`, `baseline` 두 구간입니다.
+
+그리고 바로 아래 세 출력은 각 층위의 대표 모양을 눈으로 보여 줍니다.
+
+- `one row example`은 `A, second=1, flow=1.5`처럼 시점 한 줄입니다.
+- `one sample example`은 `A` 동작 1회의 평균과 최대값처럼 샘플 한 건입니다.
+- `window summary`는 이렇게 만든 샘플 표를 다시 `recent`, `baseline`으로 묶은 구간 집계입니다.
 
 행 수가 줄어드는 것은 단순 압축이 아니라, `무엇을 한 건으로 볼지`가 바뀐 결과입니다.
+
+이 예제를 한 문장으로 요약하면 다음과 같습니다. `A, second=1`은 지금 무슨 일이 있었는지 보여 주고, `event_id=A`는 한 동작이 전체적으로 어땠는지 보여 주며, `recent`는 이렇게 만든 샘플 여러 건을 다시 묶은 상태 비교를 보여 줍니다. 같은 데이터에서도 질문이 바뀌면 바로 이 세 층위 사이를 오가게 됩니다.
 
 ## 지금 표를 받을 때 빠르게 묻는 질문
 
@@ -124,7 +170,7 @@ window count: 1
 
 ## 짧은 점검
 
-- 시점별 로그 6행이 왜 샘플 6건과 같은 뜻이 아닐 수 있는가
+- 시점별 로그 9행이 왜 샘플 9건과 같은 뜻이 아닐 수 있는가
 - 동작 1회 샘플과 최근 20건 구간이 왜 서로 다른 비교 단위인가
 - 특징은 왜 주로 샘플 단위에 붙고, 기준선 비교는 왜 구간 단위까지 올라가야 하는가
 - `한 줄`, `한 동작`, `최근 구간`을 구분하면 왜 Part 3의 뒤 설명이 덜 추상적으로 읽히는가

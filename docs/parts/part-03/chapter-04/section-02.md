@@ -29,6 +29,8 @@
 
 이 네 문제를 한 번에 보면 왜 샘플 단위가 단순한 용어 문제가 아닌지 더 분명해집니다.
 
+짧은 운영 장면으로 다시 보면 더 분명합니다. 생산 라인에서 자동 세척 동작이 하루에 수백 번 반복된다고 하겠습니다. 운영자가 실제로 묻는 질문은 보통 `12시 03분 01초의 유량이 정상인가`가 아니라 `방금 끝난 세척 1회가 평소보다 불안정했는가`, `최근 30분 동안 같은 이상이 반복되는가`에 가깝습니다. 그런데 시점별 한 줄을 샘플로 잡아 버리면, 운영 질문은 동작 1회 단위인데 데이터셋은 초 단위 기록을 가리키게 됩니다. 이 순간부터 특징은 너무 잘게 쪼개지고, 라벨은 반복 복사되고, 평가는 실제 운영 판단 단위와 어긋나기 시작합니다.
+
 | 흔들리는 것 | 왜 같이 흔들리는가 |
 | --- | --- |
 | 특징(feature) | 무엇을 요약해야 하는지가 샘플 단위에 달려 있기 때문 |
@@ -46,7 +48,7 @@
 
 즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 뒤에서 다룰 특징 설계(feature engineering), 기준선 비교, 검토 큐(review queue), Part 4로 넘길 입력 구조까지 모두 기대는 바닥 구조입니다.
 
-아래 예시는 같은 원천데이터를 `시점별 표`로 볼 때와 `동작 단위 표`로 볼 때 해석이 어떻게 달라지는지 보여 줍니다.
+아래 예시는 같은 원천데이터를 `시점별 표`로 볼 때와 `동작 단위 표`로 볼 때 특징, 라벨, 분할 해석이 어떻게 달라지는지 보여 줍니다.
 
 ```python
 import pandas as pd
@@ -59,36 +61,87 @@ raw = pd.DataFrame(
         {"event_id": "B", "second": 0, "flow": 0.4, "review_needed": 0},
         {"event_id": "B", "second": 1, "flow": 1.1, "review_needed": 0},
         {"event_id": "B", "second": 2, "flow": 1.0, "review_needed": 0},
+        {"event_id": "C", "second": 0, "flow": 0.6, "review_needed": 1},
+        {"event_id": "C", "second": 1, "flow": 1.9, "review_needed": 1},
+        {"event_id": "C", "second": 2, "flow": 1.3, "review_needed": 1},
     ]
 )
 
 per_row = raw[["event_id", "second", "flow", "review_needed"]]
 per_event = (
-    raw.groupby("event_id")
+    raw.groupby("event_id", as_index=False)
     .agg(
         flow_mean=("flow", "mean"),
         flow_max=("flow", "max"),
+        late_drop=("flow", lambda s: s.iloc[-2] - s.iloc[-1]),
         review_needed=("review_needed", "max"),
     )
-    .reset_index()
 )
 
+row_split = raw.assign(split=lambda df: df["second"].map({0: "train", 1: "train", 2: "test"}))
+event_split = per_event.assign(split=lambda df: df["event_id"].map({"A": "train", "B": "train", "C": "test"}))
+
+unit_summary = pd.DataFrame(
+    [
+        {
+            "unit": "row",
+            "sample_count": len(per_row),
+            "feature_example": "flow at one second",
+            "label_rows": per_row["review_needed"].sum(),
+            "train_events": ",".join(sorted(row_split.loc[row_split["split"] == "train", "event_id"].unique())),
+            "test_events": ",".join(sorted(row_split.loc[row_split["split"] == "test", "event_id"].unique())),
+        },
+        {
+            "unit": "event",
+            "sample_count": len(per_event),
+            "feature_example": "flow_mean / flow_max / late_drop",
+            "label_rows": per_event["review_needed"].sum(),
+            "train_events": ",".join(sorted(event_split.loc[event_split["split"] == "train", "event_id"].unique())),
+            "test_events": ",".join(sorted(event_split.loc[event_split["split"] == "test", "event_id"].unique())),
+        },
+    ]
+)
+
+print("1) sample counts change with the chosen unit")
 print("row-level samples:", len(per_row))
 print("event-level samples:", len(per_event))
+print()
+print("2) row-level labels are repeated because the label belongs to the whole event")
+print(per_row.groupby("event_id", as_index=False)["review_needed"].sum())
+print()
+print("3) event-level features and labels line up on the same unit")
 print(per_event)
+print()
+print("4) split stability differs by unit")
+print(unit_summary)
 ```
 
 예상 출력:
 
 ```text
-row-level samples: 6
-event-level samples: 2
-  event_id  flow_mean  flow_max  review_needed
-0        A   1.133333       1.8              1
-1        B   0.833333       1.1              0
+1) sample counts change with the chosen unit
+row-level samples: 9
+event-level samples: 3
+
+2) row-level labels are repeated because the label belongs to the whole event
+  event_id  review_needed
+0        A              3
+1        B              0
+2        C              3
+
+3) event-level features and labels line up on the same unit
+  event_id  flow_mean  flow_max  late_drop  review_needed
+0        A   1.133333       1.8        0.7              1
+1        B   0.833333       1.1        0.1              0
+2        C   1.266667       1.9        0.6              1
+
+4) split stability differs by unit
+    unit  sample_count                    feature_example  label_rows train_events test_events
+0    row             9                 flow at one second           6        A,B,C       A,B,C
+1  event             3  flow_mean / flow_max / late_drop           2          A,B           C
 ```
 
-이 출력에서 `review_needed`는 동작 1회에 붙는 라벨입니다. 그런데 원시 표를 그대로 샘플처럼 읽으면 라벨이 여섯 줄에 반복되어 붙습니다. 반면 동작 단위 표로 바꾸면 라벨이 두 건의 샘플에만 붙습니다. 이 차이가 바로 특징(feature), 라벨(label), 평가(evaluation) 단위가 함께 흔들리는 이유입니다.
+이 출력은 세 가지를 한 번에 보여 줍니다. 첫째, `review_needed`는 동작 1회에 붙는 라벨인데 시점별 표에서는 A와 C에 대해 3번씩 반복됩니다. 둘째, `late_drop` 같은 특징은 동작 1회로 묶였을 때만 계산됩니다. 셋째, `unit summary`를 보면 시점별 분할에서는 같은 `event_id`가 훈련과 평가 양쪽에 동시에 나타날 수 있지만, 동작 단위 분할에서는 `C` 전체를 테스트로 떼어 낼 수 있습니다. 이 차이가 바로 특징(feature), 라벨(label), 분할(split), 평가(evaluation) 단위가 함께 흔들리는 이유입니다.
 
 이 예제는 출력값 자체보다 다음 세 질문을 먼저 확인하면 샘플 단위가 왜 먼저 고정되어야 하는지 더 분명해집니다.
 
@@ -103,6 +156,15 @@ event-level samples: 2
 - `review_needed`가 동작 1회 라벨이라면 `per_row` 분할은 라벨 단위를 잘못 자를 위험이 큽니다.
 - `flow_mean`, `flow_max`가 여러 줄을 묶어 만든 특징이라면 시점별 한 줄을 샘플로 읽는 순간 특징 뜻도 바뀝니다.
 - 따라서 샘플 단위가 흔들리면 특징, 라벨, 분할이 각자 따로 흔들리는 것이 아니라 함께 어긋납니다.
+
+같은 내용을 더 짧게 정리하면 아래처럼 읽을 수 있습니다.
+
+| 시점별 한 줄을 샘플로 잡으면 | 동작 1회를 샘플로 잡으면 |
+| --- | --- |
+| 라벨이 여러 줄에 반복 복사된다 | 라벨이 한 동작에 한 번 붙는다 |
+| 동작 전체 특징을 바로 만들기 어렵다 | 요약 특징을 같은 방식으로 붙일 수 있다 |
+| 같은 동작이 훈련/평가에 함께 섞일 수 있다 | 동작 단위로 분할할 수 있다 |
+| 운영 질문과 데이터 단위가 어긋난다 | 운영 질문과 데이터 단위가 맞는다 |
 
 ## 짧은 점검
 

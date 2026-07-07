@@ -61,17 +61,17 @@ dataset_candidate = (
     .reset_index()
 )
 
-print("storage table")
+print("1) stored time-step records")
 print(storage_table)
 print()
-print("dataset candidate")
+print("2) event-level dataset candidate for comparison")
 print(dataset_candidate.round(2))
 ```
 
 예상 출력:
 
 ```text
-storage table
+1) stored time-step records
   event_id  second  flow
 0        A       0   0.8
 1        A       1   1.4
@@ -80,7 +80,7 @@ storage table
 4        B       1   1.1
 5        B       2   0.6
 
-dataset candidate
+2) event-level dataset candidate for comparison
   event_id  duration_seconds  mean_flow  late_drop_rate
 0        A                 2       1.13            -0.2
 1        B                 2       0.80            -0.5

@@ -32,7 +32,7 @@ Chapter 9에서 운영 메모가 목표 라벨 후보로 바뀌는 흐름까지 
 
 즉 라벨 후보의 문제는 `틀렸다/맞았다`만이 아니라, `같은 규칙이 반복되고 있는가`의 문제이기도 합니다.
 
-## 작은 예시로 보기
+## 비교 표로 먼저 보기
 
 | event_id | diff | repeatability | reviewer | review_label |
 | --- | ---: | --- | --- | --- |
@@ -93,28 +93,40 @@ reviews = pd.DataFrame(
 label_variety = reviews.groupby("event_id")["review_label"].nunique()
 disagreed_events = label_variety[label_variety > 1]
 
-print("label variety by event:")
+review_counts = reviews.groupby("event_id").size()
+
+print("1) reviews per event:")
+print(review_counts)
+print()
+print("2) label variety by event:")
 print(label_variety)
 print()
-print("events with disagreement:")
+print("3) events with disagreement:")
 print(disagreed_events.index.tolist())
 ```
 
 예상 출력:
 
 ```text
-label variety by event:
+1) reviews per event:
+event_id
+A    2
+B    2
+C    2
+dtype: int64
+
+2) label variety by event:
 event_id
 A    2
 B    1
 C    1
 Name: review_label, dtype: int64
 
-events with disagreement:
+3) events with disagreement:
 ['A']
 ```
 
-이 예시에서 중요한 것은 복잡한 계산이 아니라, `A`처럼 같은 사건에 여러 라벨이 붙는 사례를 먼저 세어 보는 습관입니다.
+이 예제의 목적은 모델 입력을 만드는 것이 아니라, `같은 사건에 대해 검토가 몇 번 있었고 그중 어디서 라벨이 갈렸는가`를 먼저 확인하는 데 있습니다. 먼저 사건별 검토 수를 보고, 그다음 라벨 종류 수를 세고, 마지막에 실제 불일치 사건 목록만 뽑아내면 왜 이 절에서 `라벨 열이 있다`보다 `라벨 의미가 반복되는가`를 먼저 보라고 하는지 더 분명해집니다.
 
 ## 인계 직전의 마지막 판정
 

@@ -44,7 +44,7 @@ flowchart TD
 
 집계 표는 한 번 더 역할이 달라집니다. 여기서는 개별 동작의 모양보다 `최근 20건의 평균`, `최근 20건의 변동성`, `기준선 대비 차이`, `같은 방향 변화가 반복된 횟수`처럼 여러 동작을 묶은 흐름이 중심이 됩니다. 즉 요약 표가 `사례 읽기`라면, 집계 표는 `상태 읽기`에 더 가깝습니다.
 
-다음 예시는 원시 로그가 어떻게 동작 단위 요약 표로 바뀌는지 보여 줍니다. 여기서는 세 개의 진행도 구간으로 나눠 구간 평균을 만든다고 가정하겠습니다.
+다음 예시는 원시 로그가 어떻게 동작 단위 요약 표를 거쳐 최근/기준선 집계 표로까지 이어지는지 보여 줍니다. 여기서는 세 개의 진행도 구간으로 나눠 구간 평균을 만든다고 가정하겠습니다.
 
 ```python
 import pandas as pd
@@ -57,6 +57,18 @@ raw = pd.DataFrame(
         {"event_id": "A", "progress_bin": "mid", "flow": 2.5},
         {"event_id": "A", "progress_bin": "late", "flow": 1.9},
         {"event_id": "A", "progress_bin": "late", "flow": 1.6},
+        {"event_id": "B", "progress_bin": "early", "flow": 0.7},
+        {"event_id": "B", "progress_bin": "early", "flow": 0.9},
+        {"event_id": "B", "progress_bin": "mid", "flow": 2.1},
+        {"event_id": "B", "progress_bin": "mid", "flow": 2.0},
+        {"event_id": "B", "progress_bin": "late", "flow": 1.8},
+        {"event_id": "B", "progress_bin": "late", "flow": 1.7},
+        {"event_id": "C", "progress_bin": "early", "flow": 0.9},
+        {"event_id": "C", "progress_bin": "early", "flow": 1.1},
+        {"event_id": "C", "progress_bin": "mid", "flow": 2.6},
+        {"event_id": "C", "progress_bin": "mid", "flow": 2.7},
+        {"event_id": "C", "progress_bin": "late", "flow": 2.0},
+        {"event_id": "C", "progress_bin": "late", "flow": 1.8},
     ]
 )
 
@@ -75,15 +87,33 @@ summary = (
         }
     )
     .reset_index()
+    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
 )
 
-print(raw)
+aggregate = (
+    summary.groupby("window", as_index=False)
+    .agg(
+        event_count=("event_id", "count"),
+        early_flow_mean=("early_flow_mean", "mean"),
+        mid_flow_mean=("mid_flow_mean", "mean"),
+        late_flow_mean=("late_flow_mean", "mean"),
+    )
+)
+
+print("1) raw log rows before comparison")
+print(raw.head(6))
+print()
+print("2) per-event summary table for direct comparison")
 print(summary)
+print()
+print("3) recent-vs-baseline aggregate table built from event summaries")
+print(aggregate)
 ```
 
 예상 출력:
 
 ```text
+1) raw log rows before comparison
   event_id progress_bin  flow
 0        A        early   0.8
 1        A        early   1.0
@@ -91,11 +121,20 @@ print(summary)
 3        A          mid   2.5
 4        A         late   1.9
 5        A         late   1.6
-  event_id  early_flow_mean  late_flow_mean  mid_flow_mean
-0        A              0.9            1.75           2.45
+
+2) per-event summary table for direct comparison
+  event_id  early_flow_mean  late_flow_mean  mid_flow_mean    window
+0        A              0.9            1.75           2.45    recent
+1        B              0.8            1.75           2.05  baseline
+2        C              1.0            1.90           2.65    recent
+
+3) recent-vs-baseline aggregate table built from event summaries
+     window  event_count  early_flow_mean  mid_flow_mean  late_flow_mean
+0  baseline            1             0.80           2.05           1.750
+1    recent            2             0.95           2.55           1.825
 ```
 
-위 출력에서 원시 로그는 여섯 줄의 시점 기록이지만, 요약 표는 동작 1회를 나타내는 한 줄로 바뀝니다. 이때 중요한 것은 단순히 줄 수가 줄었다는 사실이 아니라, `초반`, `중반`, `후반`이라는 비교 단위가 열 구조 안으로 들어왔다는 점입니다.
+위 출력에서 원시 로그는 시점 기록이고, 2단계에서야 동작 1회가 한 줄이 되며, 3단계에서는 그 샘플 여러 건이 다시 최근/기준선 집계로 올라갑니다. 이때 중요한 것은 단순히 줄 수가 줄었다는 사실이 아니라, `초반`, `중반`, `후반`이라는 비교 단위가 요약 표의 열 구조 안으로 들어오고, 그 요약 표가 다시 최근 상태 비교 표의 재료가 된다는 점입니다.
 
 이 예제를 본 뒤에는 아래 질문으로 지금 일어난 변화가 단순 축약인지 표현 전환인지 확인할 수 있습니다.
 
