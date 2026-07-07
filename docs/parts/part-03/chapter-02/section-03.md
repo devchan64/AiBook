@@ -166,22 +166,3 @@ Chapter 3에서는 모델 이름을 늦추고 질문에 맞는 데이터셋을 �
 
 즉 이 절은 `저장 구조와 문제 표현 구조를 구분하는 개념`과 `질문에 맞게 데이터셋을 다시 만든다는 실행` 사이의 짧은 브리지입니다.
 
-## 짧은 점검
-
-- 왜 새 표를 보자마자 특징 계산이나 모델 선택으로 들어가면 너무 빠른지 설명할 수 있는가
-- 행 의미, 식별자, 시간/순서 열을 먼저 적는 이유를 말할 수 있는가
-- 지금 표가 바로 비교 가능한 샘플 표인지, 다시 묶어야 하는 표인지 어떻게 판별하는지 설명할 수 있는가
-- 이 절의 다섯 줄 메모가 왜 Chapter 3의 데이터셋 재설계로 이어지는지 말할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 새 CSV나 로그 표를 처음 받았을 때 무엇부터 봐야 할지 막히면 이 절의 다섯 가지 점검 항목을 먼저 떠올립니다.
-- 평균, 최대값, 모델 이름부터 바로 떠오를 때 한 행의 뜻과 묶음 기준을 먼저 적어야 한다는 점을 다시 확인합니다.
-- 저장 구조와 문제 표현 구조를 실무에서 어떻게 구분해 읽기 시작해야 하는지 헷갈릴 때 이 절로 돌아옵니다.
-
-## 출처와 참고 자료
-
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* (2014). `each observation is a row`라는 tidy data 원리를 통해 `한 행이 무엇 1건인가`를 먼저 확인해야 하는 근거를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
-- Google for Developers, `Machine Learning Glossary`의 `feature`, `example` 항목. 머신러닝에서 example이 feature들로 구성되는 단위라는 점을 설명하므로, 원시 표의 한 행이 곧바로 모델 입력 단위인지 먼저 구분해야 한다는 근거로 읽을 수 있습니다. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
-- Earo Wang, Dianne Cook, Rob J Hyndman, `A new tidy data structure to support exploration and modeling of temporal data` (2019). 시간 데이터에서는 명시적인 시간 index와 개체를 구분하는 key가 필요하다고 설명하므로, `묶음 기준`과 `시간/순서 열`을 먼저 보는 근거가 됩니다. [https://arxiv.org/abs/1901.10257](https://arxiv.org/abs/1901.10257){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07
-- W3C, `PROV-Overview` (2013). provenance를 데이터가 어떻게 만들어졌는지에 관한 정보로 설명하며, 품질과 신뢰성 판단에 쓰인다고 정리합니다. 이는 `이상 사례를 다시 확인할 원시 근거`를 남겨 두어야 한다는 항목의 상위 근거입니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-07

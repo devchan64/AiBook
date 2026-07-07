@@ -171,20 +171,3 @@ Part 4와 Part 5로 넘기기 전에는 아래처럼 짧게 판정하면 좋습�
 
 `목표 라벨 후보는 열이 있다는 사실만으로 충분하지 않고, 같은 사건과 비슷한 조건에서 비슷한 판단이 반복되는지도 함께 확인해야 한다.`
 
-## 짧은 점검
-
-- 왜 같은 사건에도 사람이나 시기에 따라 다른 라벨이 붙을 수 있는지 설명할 수 있는가
-- 라벨 후보 열이 있어도 바로 학습 문제로 올리기 어려운 경우가 왜 있는지 말할 수 있는가
-- 현재 target 후보에 대해 `자주 갈리는 사례`, `기준 변경 시점`, `바로 승격 가능한지`를 한 줄씩 적을 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 운영 메모를 정리해 target 후보 열을 만들었지만, 그 열의 뜻이 정말 안정적인지 아직 자신 없을 때 이 절을 먼저 떠올립니다.
-- 모델보다 먼저 라벨 기준이 흔들리고 있는지 점검해야 할 때, 같은 사건의 중복 검토 결과를 다시 볼 때 이 절로 돌아옵니다.
-- Part 4나 Part 5로 넘어가기 전에 `열은 있는데 정답이 아직 약하다`는 느낌이 들 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- Google for Developers, `Machine Learning Glossary`의 `label`. label을 supervised example의 `answer` 또는 `result` 부분으로 설명하므로, target 후보가 실제로 같은 뜻의 정답 역할을 하는지 점검해야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `rater`. rater를 label을 제공하는 사람으로 설명하므로, 사람마다 판단이 갈릴 때 라벨 의미 안정성을 따로 봐야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `proxy labels`. proxy label은 종종 imperfect하다고 설명하므로, 운영 메모에서 만든 불안정한 라벨 후보를 곧바로 정답처럼 쓰지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

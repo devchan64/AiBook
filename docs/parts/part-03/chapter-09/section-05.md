@@ -100,8 +100,6 @@ flowchart TD
 
 ## 일반화된 상위 프레임으로 다시 보면
 
-이 절은 특정 `event_id` 열을 유지하는 습관이 아니라, `추적 가능성(traceability)`과 `출처 정보(provenance)`를 어떻게 남길 것인가의 문제로 다시 볼 수 있습니다.
-
 | 상위 프레임 | 이 절에서의 대응 |
 | --- | --- |
 | 같은 대상 식별 | `event_id`, `sample_id` 같은 추적 키 |
@@ -129,19 +127,3 @@ Chapter 9 후반에서는 Part 4와 Part 5로 무엇을 넘길 수 있는지 함
 
 `비교 리포트, 검토 후보 큐, 목표 라벨 후보 표는 역할은 달라도 가능하면 같은 샘플 식별 기준을 유지해야, 나중에 근거와 라벨 후보를 다시 연결할 수 있다.`
 
-## 짧은 점검
-
-- 왜 세 산출물이 서로 다른 표여도 같은 `event_id` 같은 추적 기준은 유지하는 편이 좋은지 설명할 수 있는가
-- 목표 라벨 후보 표에 `review_needed`만 남기고 근거를 모두 버리면 어떤 점검이 어려워지는지 말할 수 있는가
-- 같은 사건이 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표를 어떻게 차례로 거치는지 설명할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 같은 사건이 왜 여러 표에 반복 등장하는지 설명해야 할 때 이 절의 추적 기준 관점을 먼저 떠올립니다.
-- 목표 라벨 후보가 어디서 왔는지 다시 따져 봐야 할 때 `event_id`, 메모 참조, 비교 근거를 함께 남겨야 한다는 점을 확인할 때 이 절로 돌아옵니다.
-- Chapter 9 뒤 Part 연결 구간으로 넘어가기 전에 현재 특징 표와 라벨 후보가 어떤 산출물에서 왔는지 다시 연결할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- W3C, `PROV-Overview`. provenance를 데이터 생산에 관여한 entities, activities, people에 대한 정보로 설명하고, quality, reliability, trustworthiness 판단과 연결하므로, 같은 사건을 여러 산출물 사이에서 다시 추적할 수 있어야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. PROV가 identifying an object, representing processing steps, reproducibility, versioning, representing derivation을 지원해야 한다고 요약하므로, `같은 샘플 식별 + 생성 맥락 + 파생 결과 연결`을 함께 남겨야 한다는 상위 프레임을 뒷받침합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

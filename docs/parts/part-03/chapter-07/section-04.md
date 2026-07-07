@@ -127,22 +127,3 @@ flowchart TD
 
 즉 기준선 선택은 해석 단계의 작은 취향 문제가 아니라, 뒤의 예측 문제와 시계열 입력 해석까지 함께 흔들 수 있는 전제입니다.
 
-## 짧은 점검
-
-- 기준선을 `과거 데이터 아무 묶음`으로 잡으면 왜 비교표 해석이 흔들리는가
-- 같은 평균보다 같은 공정 조건을 먼저 맞춰야 하는 이유를 설명할 수 있는가
-- 고정 기준선과 최근 평소 기준선이 각각 어떤 질문에 더 잘 맞는지 말할 수 있는가
-- 기준선 선택이 왜 뒤의 라벨 후보 품질과 입력 해석에도 영향을 주는지 설명할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- `무엇과 비교할 것인가` 다음에 `그 기준선을 어떤 조건으로 잡을 것인가`가 막힐 때 이 절을 먼저 떠올립니다.
-- 평균이 비슷한 과거 사례를 그냥 섞어 기준선으로 두려 할 때 공정 조건, 표본 수, 운영 상태를 먼저 맞춰야 한다는 점을 다시 확인합니다.
-- 뒤에서 검토 라벨 후보나 예측 문제로 넘길 때도 기준선 선택이 이미 흔들리고 있지 않은지 점검할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 기준선을 비교용 참조 구간으로 읽는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- National Cancer Institute, `baseline`. baseline을 초기 측정값이자 시간에 따른 변화를 보기 위한 비교 기준으로 설명하므로, `지금 상태를 무엇에 비춰 읽을 것인가`라는 Section 질문을 일반화하는 데 도움이 됩니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 같은 essential conditions 아래에서 충분한 예비 표본으로 기준을 잡아야 한다는 설명과, 기준을 자주 바꾸면 비교 효용이 약해진다는 설명이 있어, 비교 가능한 기준 구간과 기준 유지 정책을 정하는 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Rob J Hyndman, George Athanasopoulos, *Forecasting: Principles and Practice (3rd ed)*, `5.10 Time series cross-validation`. rolling forecasting origin은 과거 관측만으로 기준 구간을 순차적으로 이동시키는 유사 개념을 보여 주며, 최근 평소 기준선의 직관을 설명하는 보조 근거로 사용할 수 있습니다. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

@@ -78,24 +78,3 @@ flowchart TD
 
 이 표의 핵심은 비교 구조가 직접 지지하는 층위와, 추가 근거가 더 필요한 층위를 섞지 않는 데 있습니다.
 
-## 짧은 점검
-
-- 변화 신호와 원인 확정을 왜 같은 문장으로 쓰면 안 되는가
-- 비교표가 직접 뒷받침하는 것은 어디까지인가
-- `검토 필요`와 `원인 확정`은 왜 다른 출력 구조인가
-- 보수적으로 말한다는 것이 왜 아무 말도 하지 않는다는 뜻은 아닌가
-
-핵심은 `비교표는 변화의 존재를 보여 주지만, 원인을 자동으로 말해 주지는 않는다`는 점입니다. 다음 장에서는 이 경계를 바탕으로, 경고와 검토 후보, 라벨 예측이 왜 서로 다른 문제 설정인지 정리합니다.
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 평소와 다른 구조가 보인다는 사실과 그 원인을 확정하는 일을 섞어 말하려 할 때 이 절의 경계를 먼저 떠올립니다.
-- `변화 신호`, `경고 후보`, `검토 필요`, `원인 확정`이 서로 다른 출력 구조라는 점을 다시 확인해야 할 때 이 절로 돌아옵니다.
-- 함께 움직인 값들을 보고 곧바로 상관관계를 원인처럼 읽으려 할 때, 특히 금융 모형화처럼 판단 비용이 큰 문제를 다룰 때 이 절의 경계를 먼저 떠올립니다.
-- 비교표가 직접 지지하는 문장과 추가 근거가 더 필요한 문장을 구분할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 비교 구조가 먼저 지지하는 것은 `무엇이 달라졌는가`라는 변화 읽기라는 점을 일반화하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- National Cancer Institute, `baseline`. baseline을 시간에 따른 변화를 보기 위한 초기 비교 기준으로 설명하므로, 비교 결과가 우선 `변화 신호`를 말하는 구조임을 보강합니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. out-of-control signal과 이후 investigation을 구분해 설명하므로, 신호와 원인 판정을 같은 단계로 두지 않는 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

@@ -94,20 +94,3 @@ flowchart TD
 
 이 절은 단어의 보편 정의를 만들려는 Section이 아니라, Part 3의 비교 구조와 Part 4의 평가 구조가 서로 다른 질문을 다룬다는 점을 분리해 주는 Section입니다. 그래서 일반화도 `비교용 참조`와 `평가용 벤치마크`라는 상위 프레임까지만 사용합니다.
 
-## 짧은 점검
-
-- 왜 Part 3의 기준선은 `최근 vs 평소` 비교이고, Part 4의 기준 모델은 `새 모델 vs 쉬운 출발점` 비교인지 설명할 수 있는가
-- 기준선 비교 없이 바로 기준 모델 이야기로 넘어가면 무엇이 흐려지는지 말할 수 있는가
-- 같은 `baseline`이라는 단어가 나와도 데이터 비교 층위와 모델 평가 층위를 구분할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- `baseline`이라는 단어가 같은 뜻처럼 느껴질 때 Part 3 기준선과 Part 4 기준 모델의 질문 차이를 먼저 떠올립니다.
-- 기준선 비교를 끝냈다고 해서 곧바로 모델 평가 기준까지 같은 개념으로 넘겨 읽으려 할 때 이 절로 돌아옵니다.
-- Part 4를 읽기 전에 왜 Part 3의 비교 구조가 여전히 필요한지 다시 확인할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference로 설명되며, Part 3의 기준선 비교를 일반 비교 기준 관점에서 이해하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `baseline`. baseline을 다른 모델 성능을 비교하는 reference point로 설명하므로, Part 4의 기준 모델을 `모델 평가 기준`으로 구분하는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Rob J Hyndman, George Athanasopoulos, *Forecasting: Principles and Practice (3rd ed)*, `5.2 Some simple forecasting methods`. 간단한 방법을 benchmark로 두고 새 방법이 그보다 나은지 비교해야 한다고 설명하므로, 기준 모델의 일반적 역할을 보강하는 근거가 됩니다. [https://otexts.com/fpp3/simple-methods.html](https://otexts.com/fpp3/simple-methods.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

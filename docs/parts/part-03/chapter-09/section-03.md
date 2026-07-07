@@ -103,8 +103,6 @@ flowchart TD
 
 ## 일반화된 상위 프레임으로 다시 보면
 
-이 절은 표를 여러 번 만드는 요령이 아니라, `산출물 분화(output differentiation)`를 어떻게 설계할 것인가의 문제로 다시 볼 수 있습니다.
-
 | 상위 프레임 | 이 절에서의 대응 |
 | --- | --- |
 | 변화 설명 산출물 | 비교 리포트 |
@@ -125,20 +123,3 @@ flowchart TD
 
 핵심은 세 산출물이 `같은 데이터를 세 번 낭비하는 중복 작업`이 아니라, 서로 다른 질문에 답하는 구조라는 점입니다. 비교 리포트는 변화 해석을 맡고, 검토 후보 큐는 운영 우선순위를 맡고, 목표 라벨 후보 표는 Part 4 인계를 맡습니다. 다음 절에서는 바로 이 관점을 이어 받아, Part 4로 넘기기 전에 무엇을 다시 점검해야 하는지 정리합니다.
 
-## 짧은 점검
-
-- 같은 사건 목록이 왜 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표로 각각 다르게 보일 수 있는지 설명할 수 있는가
-- `무엇이 달라졌는가`, `무엇부터 볼 것인가`, `무엇을 맞히고 싶은가`가 왜 서로 다른 질문인지 말할 수 있는가
-- `review_needed`가 있어도 곧바로 안정된 원인 예측 문제까지 올라간 것은 아니라는 점을 설명할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 비교 리포트, 검토 후보, 목표 라벨 후보가 자꾸 같은 표처럼 느껴질 때 이 절의 세 산출물 비교를 먼저 떠올립니다.
-- 같은 데이터에서 왜 표를 여러 번 다시 만드는지 설명해야 할 때 이 절로 돌아옵니다.
-- Part 4로 넘길 준비 표가 비교 리포트나 검토 큐와 어떻게 다른지 다시 점검할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 비교 리포트가 먼저 `무엇이 달라졌는가`를 보여 주는 산출물이라는 점을 일반화하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `label`. label을 supervised example의 `answer` 또는 `result` 부분으로 설명하므로, 목표 라벨 후보 표가 학습용 입력과 결과를 분리하는 산출물이라는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `proxy labels`. proxy label은 종종 imperfect하다고 설명하므로, 목표 라벨 후보 표가 곧바로 안정된 정답표와 같다고 보면 안 된다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

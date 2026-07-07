@@ -131,20 +131,3 @@ flowchart TD
 
 이 문장이 서면 Part 4의 `target`도 갑자기 나타나는 열이 아니라, Part 3의 비교 리포트와 검토 큐 운영을 거쳐 축적된 결과로 읽히게 됩니다.
 
-## 짧은 점검
-
-- 왜 운영 메모가 있다고 해서 곧바로 학습 목표 라벨이 준비된 것은 아닌지 설명할 수 있는가
-- 검토 큐와 목표 라벨 후보 표가 왜 서로 다른 산출물인지 말할 수 있는가
-- `review_needed` 같은 열이 왜 자유 서술 메모보다 먼저 목표 라벨 후보가 되기 쉬운지 설명할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- Part 4의 `target`이 실제로 어디서 오는지 설명해야 할 때 이 절을 먼저 떠올립니다.
-- 운영 메모를 그대로 라벨처럼 쓰려 할 때, 같은 뜻을 같은 열로 옮기는 과정이 먼저 필요하다는 점을 확인할 때 이 절로 돌아옵니다.
-- 검토 결과가 어떻게 목표 라벨 후보로 축적되는지 다시 정리해야 할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- Google for Developers, `Machine Learning Glossary`의 `label`. label을 supervised example의 `answer` 또는 `result` 부분으로 설명하므로, 운영 메모에서 실제 target 역할을 할 수 있는 열로 바꾸는 정리 과정이 필요하다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `proxy labels`. proxy label은 종종 imperfect하다고 설명하므로, 자유로운 운영 메모를 바로 정답처럼 쓰지 않고 더 안정된 후보 열로 정리해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `rater`. rater를 label을 제공하는 사람으로 설명하므로, 검토 결과가 쌓이며 사람 판단이 구조화된 열로 바뀐다는 흐름을 이해하는 보조 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

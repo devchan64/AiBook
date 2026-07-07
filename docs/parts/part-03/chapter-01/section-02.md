@@ -92,23 +92,3 @@ Part 3의 각 장은 사실 이 여섯 항목을 더 자세히 펼친 것입니�
 
 같은 이유로 Part 3은 `데이터과학을 배우는 중`이라는 감각보다 `학습 가능한 데이터 문제를 설계하는 중`이라는 감각으로 읽어야 합니다. 이 관점이 서면 뒤에서 나올 샘플 설계, 요약 표, 특징 설계, 기준선 비교도 흩어진 기법이 아니라 하나의 문제 설정 절차로 읽히기 시작합니다.
 
-## 짧은 점검
-
-- 질문을 정하기 전에 학습 문제의 틀부터 정하면 왜 문제가 되는가
-- 샘플 단위와 요약 표가 서로 왜 붙어 다니는가
-- 기준선 비교가 없는 특징 표는 어떤 한계를 가지는가
-- 출력 구조와 목표 라벨 후보를 왜 같은 말로 쓰지 않는가
-
-데이터 모델링은 질문, 샘플, 표, 특징, 비교, 출력 구조를 앞단에서 연결해 읽는 과정으로 볼 수 있습니다. 다음 Chapter부터는 이 여섯 항목을 실제 장면과 표 구조로 하나씩 펼쳐서 봅니다.
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 데이터 문제를 보자마자 모델 종류부터 고르는 대신, 질문과 샘플 단위부터 함께 정리해 보고 싶을 때 이 절의 여섯 항목을 먼저 떠올립니다.
-- 샘플, 표, 특징, 기준선, 출력 구조 가운데 어디에서 막혔는지 진단해야 할 때 여섯 항목의 흐름으로 돌아옵니다.
-- Part 3의 개별 장이 지금 전체 절차 중 어디에 놓이는지 다시 확인해야 할 때 이 절이 기준 지도가 됩니다.
-
-## 출처와 참고 자료
-
-- Google for Developers, *Machine Learning Glossary* - `task`, `example`, `feature engineering`, `feature vector`, `label`, `target`, `classification threshold` 항목 참고. https://developers.google.com/machine-learning/glossary {: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, *Common pitfalls and recommended practices* - preprocessing, feature selection, data leakage 설명 참고. https://scikit-learn.org/stable/common_pitfalls.html {: target="_blank" rel="noopener noreferrer" }
-- Stefan Studer et al., *Towards CRISP-ML(Q): A Machine Learning Process Model with Quality Assurance Methodology* - 문제 정의, 데이터 이해/준비, 모델링, 평가를 포함한 상위 ML process model 참고. https://arxiv.org/abs/2003.05155 {: target="_blank" rel="noopener noreferrer" }

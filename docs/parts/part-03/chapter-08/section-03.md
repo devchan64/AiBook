@@ -82,8 +82,6 @@ flowchart TD
 
 ## 일반화된 상위 프레임으로 다시 보면
 
-이 절은 특정 운영 문장 습관을 말하는 것이 아니라, `관찰 보고(observation reporting)`의 기본 골격을 정하는 문제로 다시 볼 수 있습니다.
-
 | 상위 프레임 | 이 절에서의 대응 |
 | --- | --- |
 | 관찰 결과 진술 | 기준선 대비 어떤 차이가 보였는지 먼저 말한다 |
@@ -98,20 +96,3 @@ Chapter 9에서는 무엇을 비교 리포트로 두고, 무엇을 검토 후보
 
 즉 이 절은 `해석 경계`와 `문제 유형 구분` 사이의 다리 역할을 합니다. Chapter 8에서 너무 세게 말하지 않는 법을 문장 수준으로 고정해 두어야, Chapter 9에서 산출물 구분도 더 자연스럽게 읽힙니다.
 
-## 짧은 점검
-
-- 비교표를 보고 문장을 쓸 때 왜 `비교 결과 -> 강도 조건 -> 다음 행동` 순서가 안전한지 설명할 수 있는가
-- `원인 확정` 대신 `검토 우선순위를 높인다` 같은 문장이 왜 더 정직한지 말할 수 있는가
-- 표본 수와 반복성이 문장 끝맺음을 어떻게 바꾸는지 예시로 설명할 수 있는가
-- 이 절이 왜 Chapter 9의 비교 리포트/검토 후보 구분 앞에 필요한지 설명할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 비교표는 읽었는데 실제 보고 문장을 어떻게 써야 할지 막힐 때 이 절의 문장 골격을 먼저 떠올립니다.
-- 비교 결과를 쓰다가 원인 단정형 어휘가 자꾸 섞일 때 `비교 결과 -> 강도 조건 -> 다음 행동` 순서로 다시 정리합니다.
-- Chapter 9로 넘어가기 전에 비교 리포트 문장이 이미 너무 세게 쓰이고 있지 않은지 점검할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 관리도는 신호를 먼저 읽고, 그다음 조사와 판단을 이어 가는 구조를 설명하므로, 비교 결과와 다음 행동을 분리해 문장화하는 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 보고 문장에서 먼저 `무엇과 비교해 어떤 차이가 보였는가`를 적어야 한다는 점을 일반화하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

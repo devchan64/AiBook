@@ -20,8 +20,6 @@
 
 ## 일반화된 상위 프레임으로 다시 보면
 
-이 절은 특정 운영팀의 민감도 선택이 아니라, `오류 비용 비대칭(asymmetric error cost)`을 먼저 적는 문제로 다시 볼 수 있습니다.
-
 | 상위 프레임 | 이 절에서의 대응 |
 | --- | --- |
 | 놓침 비용 | false negative가 더 아픈 경우 |
@@ -30,13 +28,3 @@
 
 이 프레임을 잡아 두면 정확도 하나로 문제를 닫지 않고, 어떤 오류를 더 줄이려는지가 왜 먼저 적혀 있어야 하는지 더 직접적으로 보입니다.
 
-## 짧은 점검
-
-- false negative와 false positive 중 무엇이 더 아픈지 현재 문제에서 설명할 수 있는가
-- 그 차이가 운영 행동과 어떻게 연결되는지 적을 수 있는가
-- 같은 정확도라도 운영 체감이 달라질 수 있는 이유를 말할 수 있는가
-
-## 출처와 참고 자료
-
-- Google for Developers, `Machine Learning Glossary`의 `false negative (FN)`과 `false positive (FP)`. 각각 실제 양성을 놓친 경우와 실제 음성을 양성으로 잘못 예측한 경우를 구분해 설명하므로, 같은 target 아래에서도 어떤 실수가 더 아픈지 따로 적어야 한다는 기본 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 ROC 설명. ideal threshold 선택은 false negatives와 false positives의 상대적 고통에 영향을 받는다고 설명하므로, 뒤 Part에서 threshold와 지표를 읽기 전에 오류 비용 방향을 먼저 적어야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

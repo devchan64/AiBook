@@ -68,8 +68,6 @@ flowchart TD
 
 ## 일반화된 상위 프레임으로 다시 보면
 
-이 절은 `예측으로 갈까 말까`의 문제가 아니라, `산출물 선택(output choice)`을 현재 데이터 성숙도에 맞게 하는 문제로 다시 볼 수 있습니다.
-
 | 상위 프레임 | 이 절에서의 대응 |
 | --- | --- |
 | 변화 설명 중심 산출물 | 비교 리포트 |
@@ -82,20 +80,3 @@ flowchart TD
 
 결론은 단순합니다. `비교 리포트는 임시 대안이 아니라, 그 자체로 올바른 문제 설정일 수 있다.` 다음 장에서는 바로 이 구분을 바탕으로, Part 4로 넘길 feature, target, split 전제가 어디까지 정리되어야 하는지 마무리합니다.
 
-## 짧은 점검
-
-- 왜 어떤 운영 문제에서는 `무엇을 맞히는가`보다 `무엇을 먼저 보여 주는가`가 더 중요한지 설명할 수 있는가
-- `review_needed`는 있지만 `cause_label`이 없을 때 어떤 산출물이 더 정직한지 말할 수 있는가
-- 비교 리포트가 임시물인지, 독립적인 문제 설정인지 현재 예제로 구분할 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 예측 문제로 끌어올리는 것보다 비교 리포트로 남겨 두는 편이 더 정직한지 판단해야 할 때 이 절을 먼저 떠올립니다.
-- 운영자가 실제로 원하는 것이 정답 분류보다 `무엇을 먼저 보여 줄 것인가`인지 점검해야 할 때 이 절로 돌아옵니다.
-- `review_needed`는 있으나 `cause_label`은 없는 상태에서 어떤 산출물이 더 맞는지 다시 확인할 때 이 절이 기준이 됩니다.
-
-## 출처와 참고 자료
-
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 비교 리포트가 먼저 `무엇이 달라졌는가`를 보여 주는 산출물이라는 점을 일반화하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- National Cancer Institute, `baseline`. baseline을 시간에 따른 변화를 보기 위한 비교 기준으로 설명하므로, 비교 리포트가 예측 이전의 실패한 단계가 아니라 변화 설명 구조라는 점을 보강합니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `proxy labels`. proxy label은 종종 imperfect하다고 설명하므로, 라벨이 약한 상태에서 예측 문제로 억지 승격하지 말고 비교 리포트나 검토 큐로 남겨 두는 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
