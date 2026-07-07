@@ -56,6 +56,18 @@ flowchart TD
 
 이 도식은 비교 결과가 곧바로 원인 확정으로 이어지지 않는다는 점을 보여 줍니다. 먼저 변화 신호를 말하고, 그다음 검토 필요 수준까지는 갈 수 있지만, 원인 주장은 별도 근거가 생길 때만 다음 단계로 넘어갑니다. 즉 이 절의 중심은 계산보다 `어디까지 말하고 어디서 멈추는가`라는 해석 경계입니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 `운영 문장을 보수적으로 쓰자`는 취향이 아니라, `관찰(observation)`, `검토(review)`, `인과 주장(causal claim)`의 층위를 분리하는 문제입니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 관찰된 신호 | 평소와 다른 구조가 보인다고 말하는 단계 |
+| 추가 검토 필요 | 사람이 다시 볼 가치가 있다고 말하는 단계 |
+| 원인 주장 | 별도 근거가 있을 때만 시험할 수 있는 단계 |
+
+이 상위 프레임을 잡아 두면, 비교표는 관찰과 검토 단계까지는 잘 지지하지만 원인 주장을 자동으로 완성해 주지는 않는다는 점이 더 분명해집니다.
+
 같은 경계를 더 짧게 줄이면 다음처럼 구분할 수 있습니다.
 
 | 지금 말하는 문장 | 더 가까운 층위 |
@@ -81,3 +93,9 @@ flowchart TD
 - `변화 신호`, `경고 후보`, `검토 필요`, `원인 확정`이 서로 다른 출력 구조라는 점을 다시 확인해야 할 때 이 절로 돌아옵니다.
 - 함께 움직인 값들을 보고 곧바로 상관관계를 원인처럼 읽으려 할 때, 특히 금융 모형화처럼 판단 비용이 큰 문제를 다룰 때 이 절의 경계를 먼저 떠올립니다.
 - 비교표가 직접 지지하는 문장과 추가 근거가 더 필요한 문장을 구분할 때 이 절이 기준이 됩니다.
+
+## 출처와 참고 자료
+
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 비교 구조가 먼저 지지하는 것은 `무엇이 달라졌는가`라는 변화 읽기라는 점을 일반화하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- National Cancer Institute, `baseline`. baseline을 시간에 따른 변화를 보기 위한 초기 비교 기준으로 설명하므로, 비교 결과가 우선 `변화 신호`를 말하는 구조임을 보강합니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. out-of-control signal과 이후 investigation을 구분해 설명하므로, 신호와 원인 판정을 같은 단계로 두지 않는 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

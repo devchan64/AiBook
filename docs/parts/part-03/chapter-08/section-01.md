@@ -119,6 +119,18 @@ flowchart TD
     F -- Yes --> G[Stronger warning]
 ```
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 특정 운영 도메인의 `감`을 말하는 것이 아니라, `증거 강도(evidence strength)`를 어떻게 읽을 것인가의 문제로 다시 묶을 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 관측 수량의 충분성 | 표본 수가 너무 적으면 같은 차이도 덜 강하게 읽는다 |
+| 신호의 반복성 | 같은 방향 변화가 반복될수록 우연 한 번보다 더 무게를 둔다 |
+| 행동 강도의 단계화 | 기록, 검토 후보, 강한 경고를 같은 수준으로 말하지 않는다 |
+
+이 프레임으로 보면 이 절의 핵심은 `차이가 있는가` 하나만 보는 것이 아니라, `그 차이를 어느 강도로 말할 수 있는가`를 함께 정하는 데 있습니다.
+
 ## 짧은 점검
 
 - 같은 `diff`라도 표본 수가 다르면 왜 같은 문장으로 말하면 안 되는가
@@ -133,3 +145,7 @@ flowchart TD
 - 같은 차이값이라도 표본 수와 반복성에 따라 말하는 강도를 다르게 해야 할 때 해석 강도 조절 관점을 먼저 떠올립니다.
 - `기록`, `검토 후보`, `강한 경고`를 어떤 관측 조건에서 구분해야 하는지 점검할 때 이 절로 돌아옵니다.
 - 해석을 멈추는 것이 아니라 덜 확신하며 말해야 한다는 원칙을 다시 확인할 때 이 절이 기준이 됩니다.
+
+## 출처와 참고 자료
+
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 같은 essential conditions 아래에서 충분한 예비 표본을 확보해야 한다는 설명과, 반복 패턴을 out-of-control 신호로 읽는 WECO rules 설명이 있어 표본 수와 반복성 기준을 일반화하는 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

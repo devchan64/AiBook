@@ -111,6 +111,18 @@ flowchart TD
 
 이 도식은 자유 메모가 바로 target이 되는 것이 아니라, 중간에 `같은 뜻을 묶는 단계`가 꼭 들어간다는 점을 보여 줍니다. 먼저 검토 결과와 메모가 쌓이고, 그 메모에서 반복되는 판단을 공통 패턴으로 정리한 뒤에야 `late_drop_repeated`, `needs_manual_review` 같은 열이 생깁니다. 이 절에서 중요한 것은 문자열 처리 기술이 아니라 `메모 -> 공통 의미 -> 라벨 후보 열`의 전환 구조입니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 운영 메모 정리 기술이 아니라, `비정형 판단을 구조화된 라벨 후보(structured target candidate)로 바꾸는 과정`을 설명하는 절로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 자유로운 운영 판단 | operator note, review result |
+| 반복 의미 정규화 | 같은 뜻의 메모를 공통 패턴으로 묶기 |
+| 구조화된 target 후보 | needs_manual_review, late_drop_repeated 같은 열 |
+
+이 프레임을 잡아 두면 Part 4의 target이 갑자기 주어지는 값이 아니라, Part 3의 검토 기록을 구조화한 결과라는 점이 더 분명해집니다.
+
 ## 한 문장으로 묶기
 
 이 절에서 붙잡아야 할 문장은 다음과 같습니다.
@@ -130,3 +142,9 @@ flowchart TD
 - Part 4의 `target`이 실제로 어디서 오는지 설명해야 할 때 이 절을 먼저 떠올립니다.
 - 운영 메모를 그대로 라벨처럼 쓰려 할 때, 같은 뜻을 같은 열로 옮기는 과정이 먼저 필요하다는 점을 확인할 때 이 절로 돌아옵니다.
 - 검토 결과가 어떻게 목표 라벨 후보로 축적되는지 다시 정리해야 할 때 이 절이 기준이 됩니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `label`. label을 supervised example의 `answer` 또는 `result` 부분으로 설명하므로, 운영 메모에서 실제 target 역할을 할 수 있는 열로 바꾸는 정리 과정이 필요하다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `proxy labels`. proxy label은 종종 imperfect하다고 설명하므로, 자유로운 운영 메모를 바로 정답처럼 쓰지 않고 더 안정된 후보 열로 정리해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `rater`. rater를 label을 제공하는 사람으로 설명하므로, 검토 결과가 쌓이며 사람 판단이 구조화된 열로 바뀐다는 흐름을 이해하는 보조 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

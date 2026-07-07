@@ -141,6 +141,18 @@ Name: review_label, dtype: int64
 
 이 예제의 목적은 모델 입력을 만드는 것이 아니라, `같은 사건에 대해 검토가 몇 번 있었고 그중 어디서 라벨이 갈렸는가`를 먼저 확인하는 데 있습니다. 먼저 사건별 검토 수를 보고, 그다음 라벨 종류 수를 세고, 마지막에 실제 불일치 사건 목록만 뽑아내면 왜 이 절에서 `라벨 열이 있다`보다 `라벨 의미가 반복되는가`를 먼저 보라고 하는지 더 분명해집니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절의 핵심은 특정 운영팀의 메모 습관이 아니라, `라벨 의미 안정성(label meaning stability)`을 확인하는 문제입니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 라벨 존재 여부 | 열이 있는가 |
+| 라벨 일관성 | 같은 사건이나 비슷한 조건에서 비슷한 판단이 반복되는가 |
+| 라벨 승격 가능성 | 바로 target으로 쓸지, 더 단순한 후보로 낮출지 |
+
+이 프레임을 잡아 두면 `라벨 열이 있다`는 사실은 출발점일 뿐이고, 실제로는 그 열이 같은 뜻으로 반복되는지까지 봐야 한다는 점이 더 선명해집니다.
+
 ## 인계 직전의 마지막 판정
 
 Part 4와 Part 5로 넘기기 전에는 아래처럼 짧게 판정하면 좋습니다.
@@ -170,3 +182,9 @@ Part 4와 Part 5로 넘기기 전에는 아래처럼 짧게 판정하면 좋습�
 - 운영 메모를 정리해 target 후보 열을 만들었지만, 그 열의 뜻이 정말 안정적인지 아직 자신 없을 때 이 절을 먼저 떠올립니다.
 - 모델보다 먼저 라벨 기준이 흔들리고 있는지 점검해야 할 때, 같은 사건의 중복 검토 결과를 다시 볼 때 이 절로 돌아옵니다.
 - Part 4나 Part 5로 넘어가기 전에 `열은 있는데 정답이 아직 약하다`는 느낌이 들 때 이 절이 기준이 됩니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `label`. label을 supervised example의 `answer` 또는 `result` 부분으로 설명하므로, target 후보가 실제로 같은 뜻의 정답 역할을 하는지 점검해야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `rater`. rater를 label을 제공하는 사람으로 설명하므로, 사람마다 판단이 갈릴 때 라벨 의미 안정성을 따로 봐야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `proxy labels`. proxy label은 종종 imperfect하다고 설명하므로, 운영 메모에서 만든 불안정한 라벨 후보를 곧바로 정답처럼 쓰지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

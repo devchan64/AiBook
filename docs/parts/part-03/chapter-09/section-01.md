@@ -77,6 +77,18 @@ flowchart TD
 
 이 도식은 문제를 위로 올리는 판단이 `무조건 한 단계 상승`이 아니라, 현재 근거가 어느 수준까지 있는지를 묻는 분기라는 점을 보여 줍니다. 즉 이 절의 중심은 라벨 목록을 찍는 것이 아니라 `경고에서 멈출지`, `검토 후보까지 갈지`, `라벨 예측으로 올릴지`를 단계별로 가르는 판단 구조입니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 `어떤 모델을 먼저 쓸까`가 아니라, `문제 승격(problem escalation)`을 어디까지 할 수 있는가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 신호 탐지(signal detection) | 기준선 대비 차이를 보고 경고를 만든다 |
+| 운영 검토 우선순위화(review prioritization) | 반복성과 운영 맥락을 더해 먼저 볼 대상을 고른다 |
+| 감독 학습 문제화(supervised prediction) | 안정된 target label과 평가 구조가 있을 때만 예측 문제로 올린다 |
+
+이 프레임을 잡아 두면 `위로 올릴수록 더 고급`이 아니라, `위로 올릴수록 더 강한 전제와 근거가 필요`하다는 점이 더 선명해집니다.
+
 이 예제는 지금 만들 수 있는 문제 형태와 아직 올리기 어려운 문제 형태를 다음 순서로 보여 줍니다.
 
 1. 이미 있는 라벨이 `review_needed`인지 `root_cause_label`인지 구분한다.
@@ -96,3 +108,10 @@ flowchart TD
 - 지금 문제를 경고, 검토 후보, 라벨 예측 중 어디까지 올릴 수 있는지 판단해야 할 때 이 절의 문제 승격 기준을 먼저 떠올립니다.
 - `review_needed`는 있지만 안정된 원인 라벨은 없는 상황에서 분류 문제로 바로 올리려 할 때 이 절로 돌아옵니다.
 - 더 높은 단계의 학습 문제로 올리고 싶은 마음과 현재 데이터가 정직하게 지지하는 문제 설정을 구분할 때 이 절이 기준이 됩니다.
+
+## 출처와 참고 자료
+
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 경고 단계가 먼저 비교 구조 위에 놓인다는 점을 일반화하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- National Cancer Institute, `baseline`. baseline을 비교를 위한 초기 측정값으로 설명하므로, 경고 단계가 우선 `변화 감지` 문제라는 점을 보강합니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. signal이 나왔을 때 곧바로 원인 확정을 하지 않고 조사와 판단을 이어 간다는 구조를 보여 주므로, 경고와 더 무거운 문제 설정을 분리하는 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label`과 `proxy labels`. label은 supervised learning example의 answer/result portion이고, proxy labels는 종종 imperfect하다고 설명합니다. 따라서 안정된 실제 라벨 없이 문제를 바로 예측 문제로 승격하지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
