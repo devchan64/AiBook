@@ -71,29 +71,15 @@ Part 3 앞단에서는 데이터 질문을 아주 복잡하게 쓸 필요가 없
 | 나중에 맞힐 결과 후보를 만들 수 있는가 | 목표 라벨 후보와 입력 특징 표를 나눈다 |
 
 즉 질문 하나가 곧바로 다음 Chapter의 방향을 정합니다.
+이 예시에서 중요한 것은 코드 실행이 아니라 대응 관계입니다. 질문이 달라지면 바로 뒤의 표 구조도 달라지고, 그래서 같은 원천데이터라도 독자가 먼저 그려야 할 다음 표가 달라집니다.
 
-```python
-question_map = {
-    "single_event": "동작 1회 요약 표로 간다",
-    "recent_vs_baseline": "최근 구간 비교표로 간다",
-    "review_priority": "검토 후보 큐로 간다",
-    "prediction_candidate": "목표 라벨 후보 표로 간다",
-}
-
-for key, value in question_map.items():
-    print(key, "->", value)
+```mermaid
+flowchart TD
+    A[Question: one event vs baseline?] --> A1[Next: one-event summary table]
+    B[Question: recent 20 vs prior 200?] --> B1[Next: aggregate and baseline table]
+    C[Question: which cases need review first?] --> C1[Next: review queue and output structure]
+    D[Question: can we define a future target?] --> D1[Next: target-candidate and feature table]
 ```
-
-예상 출력:
-
-```text
-single_event -> 동작 1회 요약 표로 간다
-recent_vs_baseline -> 최근 구간 비교표로 간다
-review_priority -> 검토 후보 큐로 간다
-prediction_candidate -> 목표 라벨 후보 표로 간다
-```
-
-이 예시의 핵심은 코드가 아니라 대응 관계입니다. 질문이 달라지면 바로 뒤의 표 구조도 달라진다는 점을 짧게 보여 줍니다.
 
 ## 왜 이 절이 앞단에 필요한가
 
