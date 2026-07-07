@@ -20,6 +20,8 @@
 
 이 절이 다루는 것은 데이터과학 전체 절차가 아닙니다. 원천데이터를 수집하는 운영 절차, 본격적인 탐색적 데이터 분석(exploratory data analysis), 통계적 검정의 형식, 모델 학습과 평가 실험은 각각 필요한 순간에 다시 등장합니다. 여기서는 그보다 앞서 `샘플, 표, 특징, 비교, 출력 구조`를 어떤 흐름으로 읽으면 뒤 설명이 덜 흩어지는지에 집중합니다.
 
+공식 문서에서는 이 여섯 항목이 하나의 고정된 절차 이름으로 제시되기보다, `task`, `example`, `feature engineering`, `label/target`, `preprocessing`, `classification threshold` 같은 개별 개념으로 더 자주 설명됩니다. Part 3에서는 바로 그 개별 개념들을 `학습 전에 문제 구조를 읽는 흐름`으로 다시 묶어 봅니다.
+
 이 여섯 항목의 연결을 한 줄로 잡으면 다음과 같습니다.
 
 ```mermaid
@@ -104,3 +106,9 @@ Part 3의 각 장은 사실 이 여섯 항목을 더 자세히 펼친 것입니�
 - 데이터 문제를 보자마자 모델 종류부터 고르는 대신, 질문과 샘플 단위부터 함께 정리해 보고 싶을 때 이 절의 여섯 항목을 먼저 떠올립니다.
 - 샘플, 표, 특징, 기준선, 출력 구조 가운데 어디에서 막혔는지 진단해야 할 때 여섯 항목의 흐름으로 돌아옵니다.
 - Part 3의 개별 장이 지금 전체 절차 중 어디에 놓이는지 다시 확인해야 할 때 이 절이 기준 지도가 됩니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, *Machine Learning Glossary* - `task`, `example`, `feature engineering`, `feature vector`, `label`, `target`, `classification threshold` 항목 참고. https://developers.google.com/machine-learning/glossary {: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, *Common pitfalls and recommended practices* - preprocessing, feature selection, data leakage 설명 참고. https://scikit-learn.org/stable/common_pitfalls.html {: target="_blank" rel="noopener noreferrer" }
+- Stefan Studer et al., *Towards CRISP-ML(Q): A Machine Learning Process Model with Quality Assurance Methodology* - 문제 정의, 데이터 이해/준비, 모델링, 평가를 포함한 상위 ML process model 참고. https://arxiv.org/abs/2003.05155 {: target="_blank" rel="noopener noreferrer" }
