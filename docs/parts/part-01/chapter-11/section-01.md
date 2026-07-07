@@ -1,7 +1,7 @@
-# 11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)
+# P1-11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 10장에서는 생성형 AI(generative AI)가 산출물을 만들 때 자연스러움, 사실성, 근거, 위험을 따로 검토해야 한다는 점을 봤습니다.
 
@@ -9,7 +9,7 @@
 
 > LLM은 어디에서 왔는가?
 
-이 절에서는 LLM(large language model)을 바로 Transformer로 설명하지 않습니다. 먼저 LLM 이전에 언어를 다루던 두 가지 흐름을 봅니다.
+여기서는 LLM(large language model)을 바로 Transformer로 설명하지 않습니다. 먼저 LLM 이전에 언어를 다루던 두 가지 흐름을 설명합니다.
 
 > 언어를 확률로 다루는 흐름
 > 언어를 벡터로 표현하는 흐름
@@ -18,13 +18,13 @@
 
 > 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현으로 바꾼다.
 
-Part 1 안에서는 이 절을 `언어 모델(language model)`, `통계적 언어 모델(statistical language model)`, `n-gram`, `데이터 희소성(sparsity)`, `분산 표현(distributed representation)`, `임베딩(embedding)`, `word2vec`의 대표 상세 설명 위치로 사용합니다. `직접 계보(direct lineage)`와 `언어 모델링(language modeling)`의 큰 지도는 9.3에서 먼저 잡았고, `다음 출력 생성`의 직관은 10.2에서 이미 봤습니다. 여기서는 그 흐름을 `LLM 이전의 언어 모델`과 `벡터 표현` 수준에서 다시 시작합니다.
+Part 1에서 `언어 모델(language model)`, `통계적 언어 모델(statistical language model)`, `n-gram`, `데이터 희소성(sparsity)`, `분산 표현(distributed representation)`, `임베딩(embedding)`, `word2vec`의 기본 구분은 이 절에서 잡습니다. `직접 계보(direct lineage)`와 `언어 모델링(language modeling)`의 큰 지도는 9.3에서 먼저 잡았고, `다음 출력 생성`의 직관은 10.2에서 이미 봤습니다. 여기서는 그 흐름을 `LLM 이전의 언어 모델`과 `벡터 표현` 수준에서 다시 시작합니다.
 
 ## 이 절의 범위
 
-이 절은 LLM의 전체 역사를 설명하지 않습니다. RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer는 11.2와 11.3에서 다룹니다.
+여기서는 LLM의 전체 역사를 설명하지 않습니다. RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer는 11.2와 11.3에서 다룹니다.
 
-처음 읽을 때는 `언어 모델`, `n-gram`, `희소성`, `분산 표현`, `임베딩`, `word2vec`이 모두 비슷한 NLP 기초 용어처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`언어 모델`, `n-gram`, `희소성`, `분산 표현`, `임베딩`, `word2vec`은 초반에 모두 비슷한 NLP 기초 용어처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -35,9 +35,9 @@ Part 1 안에서는 이 절을 `언어 모델(language model)`, `통계적 언�
 | 임베딩 | 단어·토큰을 조밀한 벡터로 놓는 표현 | 이후 LLM 계산의 입력 기반 |
 | word2vec | 임베딩을 널리 각인시킨 대표 학습 방식 | 분산 표현의 실용적 사례 |
 
-처음 단계에서는 `언어 모델은 다음 말 확률`, `n-gram은 짧은 문맥`, `임베딩은 벡터 표현` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `언어 모델은 다음 말 확률`, `n-gram은 짧은 문맥`, `임베딩은 벡터 표현`입니다.
 
-여기서는 다음 세 가지에만 집중합니다.
+여기서는 다음 세 가지에 집중합니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -47,7 +47,7 @@ Part 1 안에서는 이 절을 `언어 모델(language model)`, `통계적 언�
 
 이 절의 목적은 “수식을 완전히 이해하기”가 아닙니다. 언어를 확률과 벡터로 다루는 사고방식이 왜 LLM으로 이어지는지 감을 잡는 것입니다.
 
-또한 이 절에서는 RNN, Attention, Transformer를 아직 설명하지 않습니다. 그 구조적 흐름은 11.2와 11.3에서 따로 다루고, 여기서는 `언어를 확률적으로 다룬다`와 `단어를 벡터로 바꾼다`는 두 출발점에만 집중합니다.
+또한 여기서는 RNN, Attention, Transformer를 아직 설명하지 않습니다. 그 구조적 흐름은 11.2와 11.3에서 따로 다루고, 여기서는 `언어를 확률적으로 다룬다`와 `단어를 벡터로 바꾼다`는 두 출발점에만 집중합니다.
 
 ## 이 절의 목표
 
@@ -58,15 +58,15 @@ Part 1 안에서는 이 절을 `언어 모델(language model)`, `통계적 언�
 - 임베딩이 사전적 정의가 아니라, 데이터 안의 사용 맥락에서 학습된 표현임을 구분합니다.
 - LLM을 “갑자기 나온 챗봇”이 아니라 언어 모델링과 벡터 표현의 누적 위에서 읽습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 LLM을 바로 Transformer로 설명하지 않고, 그 전에 있었던 언어 처리 사고방식을 복구하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 LLM을 바로 Transformer로 설명하지 않고, 그 전에 있었던 언어 처리 사고방식을 복구하는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 언어 모델은 다음 단어 또는 토큰의 가능성을 다루는 문제라는 점 | LLM의 가장 기본적인 질문이 무엇인지 보여 줍니다. | 앞 문맥을 보고 다음 말을 얼마나 그럴듯한지 계산한다고 이해하면 충분합니다. |
-| n-gram은 짧은 문맥의 빈도로 언어를 다루려 했다는 점 | 초기 언어 모델의 장점과 한계를 함께 보여 줍니다. | 가까운 몇 개 단어만 보고 다음 단어를 추정했다고 알면 충분합니다. |
-| 임베딩은 단어를 벡터로 표현하는 방식이라는 점 | 뒤의 토큰, 표현, 벡터 검색 설명으로 이어집니다. | 단어를 사전 뜻이 아니라 계산 가능한 위치로 바꾼다고 이해하면 충분합니다. |
+| 언어 모델은 다음 단어 또는 토큰의 가능성을 다루는 문제라는 점 | LLM의 가장 기본적인 질문이 무엇인지 보여 줍니다. | 앞 문맥을 보고 다음 말을 얼마나 그럴듯한지 계산한다고 이해하면 됩니다. |
+| n-gram은 짧은 문맥의 빈도로 언어를 다루려 했다는 점 | 초기 언어 모델의 장점과 한계를 함께 보여 줍니다. | 가까운 몇 개 단어만 보고 다음 단어를 추정했다고 알면 됩니다. |
+| 임베딩은 단어를 벡터로 표현하는 방식이라는 점 | 뒤의 토큰, 표현, 벡터 검색 설명으로 이어집니다. | 단어를 사전 뜻이 아니라 계산 가능한 위치로 바꾼다고 이해하면 됩니다. |
 
 ## 언어 모델은 다음 말을 맞히는 문제에서 출발한다
 
@@ -88,7 +88,7 @@ Part 1 안에서는 이 절을 `언어 모델(language model)`, `통계적 언�
 
 ## n-gram은 짧은 문맥으로 확률을 근사한다
 
-n-gram은 연속된 n개의 단위입니다. 단위는 문자(character), 단어(word), 토큰(token)이 될 수 있습니다. 입문 단계에서는 단어 n-gram으로 생각해도 충분합니다.
+n-gram은 연속된 n개의 단위입니다. 단위는 문자(character), 단어(word), 토큰(token)이 될 수 있습니다. 여기서는 단어 n-gram으로 생각해도 됩니다.
 
 > unigram: 나는
 > bigram: 나는 / 아침에
@@ -265,15 +265,15 @@ LLM은 갑자기 등장한 챗봇이 아닙니다. 언어를 확률로 다루는
 > 임베딩은 단어와 토큰을 계산 가능한 벡터 표현으로 바꾼다.
 > LLM은 이 두 흐름을 대규모 신경망과 긴 문맥 처리로 확장한 결과다.
 
-처음 읽은 뒤에는 아래 세 줄만 다시 말할 수 있어도 충분합니다.
+이 절을 읽은 뒤 최소한 아래 세 줄은 다시 말할 수 있어야 합니다.
 
-| 지금은 이 정도만 남기면 충분한 것 | 왜 이것만 먼저 남겨도 되는가 |
+| 남겨야 할 핵심 구분 | 왜 이 구분이 중요한가 |
 | --- | --- |
 | 언어 모델은 `다음 말이 무엇일까`를 확률적으로 다루는 흐름이다 | 뒤의 next-token prediction 설명을 너무 갑작스러운 새 개념으로 느끼지 않게 해 주기 때문입니다. |
 | n-gram은 짧은 문맥 빈도로 시작했지만 긴 문맥과 일반화에 한계가 있었다 | 왜 더 강한 신경망 언어 모델과 Transformer 계열이 필요해졌는지 연결되기 때문입니다. |
 | 임베딩은 단어와 토큰을 계산 가능한 벡터 표현으로 바꾼다 | 뒤의 벡터 검색, RAG, 토큰 표현 설명을 한 줄로 다시 붙잡게 해 주기 때문입니다. |
 
-## 체크리스트
+## 짧은 점검
 
 - 언어 모델(language model)을 다음 단어 또는 다음 토큰의 확률을 다루는 모델로 설명할 수 있다.
 - n-gram이 짧은 문맥의 빈도에 기반한다는 점을 설명할 수 있다.
@@ -283,10 +283,20 @@ LLM은 갑자기 등장한 챗봇이 아닙니다. 언어를 확률로 다루는
 - 임베딩이 사전적 정의가 아니라 데이터에서 학습된 표현임을 설명할 수 있다.
 - 기호와 임베딩을 대체 관계가 아니라 다른 층위(level)의 표현으로 구분할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 LLM을 곧바로 Transformer나 챗봇 경험으로만 설명하고 있어, 그 앞단의 언어 모델링과 벡터 표현 흐름을 다시 세워야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- `다음 토큰 예측`이라는 말을 들었지만 그 출발점인 언어 모델(language model)과 n-gram을 다시 연결해야 할 때
+- 짧은 문맥 빈도 기반 접근이 왜 한계를 가졌는지 설명해야 할 때
+- 임베딩(embedding)이 사전 뜻풀이가 아니라 학습된 벡터 표현이라는 점을 다시 잡아야 할 때
+
+이때는 먼저 `다음 말의 가능성을 계산하는 문제`, `짧은 문맥 빈도 기반 근사`, `단어를 벡터 공간에 놓는 표현`을 나누면 됩니다. 그러면 LLM을 갑자기 나온 구조로 보지 않고, 언어 모델링과 분산 표현의 누적 위에서 읽기 쉬워집니다.
+
 ## 출처와 참고 자료
 
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 3: N-gram Language Models](https://web.stanford.edu/~jurafsky/slp3/3.pdf), draft of 2026-01-06, 확인 날짜: 2026-06-23.
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 6: Neural Networks and Neural Language Models](https://web.stanford.edu/~jurafsky/slp3/6.pdf), draft of 2026-01-06, 확인 날짜: 2026-06-23.
-- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html), Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781), arXiv, 2013, 확인 날짜: 2026-06-23.
-- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546), arXiv, 2013, 확인 날짜: 2026-06-23.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 3: N-gram Language Models](https://web.stanford.edu/~jurafsky/slp3/3.pdf){: target="_blank" rel="noopener noreferrer" }, draft of 2026-01-06, 확인 날짜: 2026-06-23.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 6: Neural Networks and Neural Language Models](https://web.stanford.edu/~jurafsky/slp3/6.pdf){: target="_blank" rel="noopener noreferrer" }, draft of 2026-01-06, 확인 날짜: 2026-06-23.
+- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
+- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.

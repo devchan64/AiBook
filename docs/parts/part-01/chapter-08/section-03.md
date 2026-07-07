@@ -1,21 +1,21 @@
-# 8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
+# P1-8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 8.1에서는 지도학습(supervised learning)을 입력(input)과 라벨(label)이 함께 있는 예시에서 배우는 방식으로 설명했습니다. 8.2에서는 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조(structure), 군집(cluster), 표현(representation)을 찾는 방식으로 설명했습니다.
 
 이번 절은 세 번째 기본 구분입니다. 강화학습(reinforcement learning)은 라벨을 바로 맞추는 문제도 아니고, 라벨 없이 구조만 찾는 문제도 아닙니다. 어떤 상태(state)에서 행동(action)을 선택하고, 그 행동 이후 돌아오는 보상(reward)을 통해 더 나은 행동 방식(policy)을 찾으려는 학습 방식입니다.
 
-이 구분은 비교적 최근에 갑자기 생긴 것이 아닙니다. 강화학습은 1990년대와 2000년대에도 이미 AI와 머신러닝을 배울 때 중요한 축으로 다뤄졌습니다. 그래서 오래전 AI 입문 자료에서 강화학습이 크게 보였다면 그것이 특별히 시대를 잘못 기억한 것은 아닙니다. 다만 그 시기의 강화학습을 오늘날 대중에게 익숙한 Atari, AlphaGo, RLHF 같은 사례와 곧바로 같은 장면으로 보면 시간축이 섞입니다. 이 절에서는 딥 강화학습 유행 이전부터 이어져 온 기본 문제 설정, 즉 상태(state), 행동(action), 보상(reward), 정책(policy)의 틀을 먼저 잡습니다.
+이 구분은 비교적 최근에 갑자기 생긴 것이 아닙니다. 강화학습은 1990년대와 2000년대에도 이미 AI와 머신러닝을 배울 때 중요한 축으로 다뤄졌습니다. 그래서 오래전 AI 입문 자료에서 강화학습이 크게 보였다면 그것이 특별히 시대를 잘못 기억한 것은 아닙니다. 다만 그 시기의 강화학습을 오늘날 대중에게 익숙한 Atari, AlphaGo, RLHF 같은 사례와 곧바로 같은 장면으로 보면 시간축이 섞입니다. 여기서는 딥 강화학습 유행 이전부터 이어져 온 기본 문제 설정, 즉 상태(state), 행동(action), 보상(reward), 정책(policy)의 틀을 기준으로 설명합니다.
 
 이 절의 핵심 질문은 정답 라벨이 바로 주어지지 않을 때 모델이 행동의 결과를 보고 무엇을 바꾸려 하는가입니다.
 
 > 강화학습은 정답표를 맞히는 방식이 아니라, 행동 뒤에 돌아오는 보상 신호를 통해 행동 방식을 조정하는 방식이다.
 
-Part 1 안에서는 이 절을 `강화학습(reinforcement learning)`, `에이전트(agent)`, `환경(environment)`, `상태(state)`, `행동(action)`, `보상(reward)`, `정책(policy)`, `탐험(exploration)`, `활용(exploitation)`의 대표 상세 설명 위치로 사용합니다. `상태(state)`와 `행동(action)`의 기본 감각은 7.1의 탐색에서 먼저 봤고, `라벨(label)`과 `지도학습/비지도학습`의 구분은 8.1과 8.2에서 이미 정리했습니다. 여기서는 그와 다른 축으로서 `행동 결과의 보상 신호`를 중심에 둡니다.
+이 절에서는 `강화학습(reinforcement learning)`, `에이전트(agent)`, `환경(environment)`, `상태(state)`, `행동(action)`, `보상(reward)`, `정책(policy)`, `탐험(exploration)`, `활용(exploitation)`을 `행동 결과의 보상 신호`라는 축으로 정리합니다. `상태(state)`와 `행동(action)`의 감각은 7.1에서, `라벨(label)`과 `지도학습/비지도학습`의 구분은 8.1과 8.2에서 먼저 다뤘습니다.
 
-처음 읽을 때는 `에이전트`, `환경`, `상태`, `행동`, `보상`, `정책`, `탐험`, `활용`이 모두 비슷한 시스템 구성 요소처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`에이전트`, `환경`, `상태`, `행동`, `보상`, `정책`, `탐험`, `활용`은 초반에 모두 비슷한 시스템 구성 요소처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -29,17 +29,17 @@ Part 1 안에서는 이 절을 `강화학습(reinforcement learning)`, `에이�
 | 탐험 | 아직 충분히 시도하지 않은 행동을 해 보는 것 | 학습을 위한 정보 수집 |
 | 활용 | 현재 가장 좋아 보이는 행동을 선택하는 것 | 이미 얻은 지식의 사용 |
 
-처음 단계에서는 `강화학습은 행동과 보상`, `정책은 행동 기준`, `보상은 라벨이 아님`, `탐험과 활용은 균형 문제` 정도로만 잡아도 충분합니다.
+이 절에서 유지해야 할 최소 구분은 `강화학습은 행동과 보상`, `정책은 행동 기준`, `보상은 라벨이 아님`, `탐험과 활용은 균형 문제`입니다.
 
 ## 이 절의 범위
 
-이 절은 강화학습 알고리즘을 계산하지 않습니다. 마르코프 결정 과정(MDP, Markov decision process), 벨만 방정식(Bellman equation), Q-learning, 정책 경사(policy gradient), 액터-크리틱(actor-critic), 딥 강화학습(deep reinforcement learning)은 이름과 위치만 지나갑니다.
+여기서는 강화학습 알고리즘을 계산하지 않습니다. 마르코프 결정 과정(MDP, Markov decision process), 벨만 방정식(Bellman equation), Q-learning, 정책 경사(policy gradient), 액터-크리틱(actor-critic), 딥 강화학습(deep reinforcement learning)은 이름과 위치만 지나갑니다.
 
-또한 게임 AI, 로봇 제어, 추천 시스템, RLHF(reinforcement learning from human feedback)를 자세히 다루지 않습니다. 강화학습의 후속 알고리즘과 RLHF의 큰 그림은 Part 4 Chapter 19에서 다시 보고, LLM 정렬 맥락의 RLHF는 Part 6에서 다시 연결합니다. 이 절에서는 강화학습이 지도학습, 비지도학습과 왜 다른 문제 설정인지 잡는 데 집중합니다.
+또한 게임 AI, 로봇 제어, 추천 시스템, RLHF(reinforcement learning from human feedback)를 자세히 다루지 않습니다. 강화학습의 후속 알고리즘과 RLHF의 큰 그림은 Part 4 Chapter 19에서 다시 보고, LLM 정렬 맥락의 RLHF는 Part 6에서 다시 연결합니다. 여기서는 강화학습이 지도학습, 비지도학습과 왜 다른 문제 설정인지 잡는 데 집중합니다.
 
 또한 `상태(state)`와 `행동(action)`의 기본 직관을 다시 처음부터 정의하지는 않습니다. 그 감각은 7.1의 탐색 맥락에서도 먼저 다뤘고, 여기서는 `행동 뒤에 보상이 돌아오는 문제 설정`이 왜 따로 구분되는지를 보는 데 집중합니다.
 
-여기서는 다음 정도만 잡습니다.
+여기서는 다음 정의를 기준선으로 둡니다.
 
 > 강화학습은 상태에서 행동을 선택하고,
 > 행동 뒤의 보상을 통해
@@ -54,15 +54,15 @@ Part 1 안에서는 이 절을 `강화학습(reinforcement learning)`, `에이�
 - 탐험(exploration)과 활용(exploitation)의 긴장을 이해합니다.
 - 강화학습과 딥러닝(deep learning), 게임 AI, RLHF를 같은 말로 섞지 않습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 강화학습 수식을 배우는 절이 아니라, 왜 “행동의 결과”가 중요한지 보는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 강화학습 수식보다 왜 “행동의 결과”가 중요한지에 집중합니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 강화학습은 상태를 보고 행동을 고르고, 그 결과의 보상으로 조정된다는 점 | 지도학습과 문제 설정이 어떻게 다른지 한 번에 보여 줍니다. | 입력-정답 쌍보다 행동-결과의 흐름으로 읽으면 충분합니다. |
-| 보상(reward)은 라벨(label)과 다르다는 점 | 강화학습을 지도학습의 변형 정도로 오해하지 않게 해 줍니다. | 정답을 미리 주는 것이 아니라 행동 뒤의 피드백을 준다고 이해하면 충분합니다. |
-| 좋은 행동은 즉시 보이지 않을 수 있다는 점 | 지연 보상과 탐험/활용 문제의 출발점이 됩니다. | 지금 손해처럼 보여도 나중에 더 좋은 결과가 나올 수 있다는 감각만 잡으면 충분합니다. |
+| 강화학습은 상태를 보고 행동을 고르고, 그 결과의 보상으로 조정된다는 점 | 지도학습과 문제 설정이 어떻게 다른지 한 번에 보여 줍니다. | 입력-정답 쌍보다 행동-결과의 흐름으로 읽으면 됩니다. |
+| 보상(reward)은 라벨(label)과 다르다는 점 | 강화학습을 지도학습의 변형 정도로 오해하지 않게 해 줍니다. | 정답을 미리 주는 것이 아니라 행동 뒤의 피드백을 준다고 이해하면 됩니다. |
+| 좋은 행동은 즉시 보이지 않을 수 있다는 점 | 지연 보상과 탐험/활용 문제의 출발점이 됩니다. | 지금 손해처럼 보여도 나중에 더 좋은 결과가 나올 수 있다는 감각을 잡으면 됩니다. |
 
 ## 강화학습은 행동의 결과에서 배운다
 
@@ -70,7 +70,7 @@ Part 1 안에서는 이 절을 `강화학습(reinforcement learning)`, `에이�
 
 OpenAI의 Spinning Up 문서는 강화학습을 에이전트가 시행착오(trial and error)를 통해 배우는 분야로 소개하고, 에이전트가 환경과 상호작용하며 행동을 선택하고 보상 신호를 받는다고 설명합니다. Google의 Machine Learning Glossary도 강화학습에서 에이전트가 정책(policy)을 사용해 행동을 선택하고, 환경(environment)의 상태(state)를 관찰한다고 설명합니다.
 
-입문 단계에서는 다음 흐름을 먼저 기억하면 됩니다.
+입문 단계의 기준선은 다음 흐름입니다.
 
 > 상태(state)를 본다.
 > 행동(action)을 선택한다.
@@ -122,7 +122,7 @@ OpenAI의 Spinning Up 문서는 강화학습을 에이전트가 시행착오(tri
 
 정책(policy)은 에이전트가 상태나 관측을 보고 어떤 행동을 선택할지 정하는 방식입니다. Google의 Machine Learning Glossary는 정책을 에이전트가 상태에서 행동으로 매핑하는 것으로 설명합니다. OpenAI Spinning Up도 정책을 에이전트가 어떤 행동을 할지 결정하는 규칙으로 설명합니다.
 
-입문 단계에서는 정책을 다음처럼 읽으면 됩니다.
+정책은 다음처럼 읽을 수 있습니다.
 
 > 정책(policy) = 상태를 보고 행동을 고르는 방식
 
@@ -173,7 +173,7 @@ OpenAI의 Spinning Up 문서는 강화학습을 에이전트가 시행착오(tri
 | 탐험(exploration) | 새로운 행동을 시도해 정보를 얻음 | 당장은 낮은 보상을 받을 수 있음 |
 | 활용(exploitation) | 지금까지 좋은 행동을 선택함 | 더 좋은 행동을 발견하지 못할 수 있음 |
 
-Google의 Machine Learning Glossary는 epsilon greedy policy를 설명하면서, 초기에는 무작위 정책(random policy)을 더 따르다가 시간이 지나며 greedy policy 쪽으로 옮겨 가는 흐름을 예로 듭니다. 입문 단계에서는 알고리즘 이름보다 다음 직관이 중요합니다.
+Google의 Machine Learning Glossary는 epsilon greedy policy를 설명하면서, 초기에는 무작위 정책(random policy)을 더 따르다가 시간이 지나며 greedy policy 쪽으로 옮겨 가는 흐름을 예로 듭니다. 입문 단계에서 중요한 직관은 다음과 같습니다.
 
 > 모르는 행동을 시도해야 배울 수 있다.
 > 하지만 계속 시도만 하면 성과를 내기 어렵다.
@@ -202,7 +202,7 @@ Google의 Machine Learning Glossary는 epsilon greedy policy를 설명하면서,
 | 재고 관리 | 현재 재고, 수요 예측, 비용 | 주문량 조정 | 품절 감소, 보관 비용 감소 |
 | 대화형 시스템 | 사용자의 요청, 이전 대화 상태 | 다음 응답 방식 선택 | 문제 해결, 사용자 평가, 안전 기준 충족 |
 
-다만 이런 예시는 개념 설명용입니다. 실제 업무에서 강화학습을 적용하려면 보상 설계, 안전 제약, 탐험 비용, 데이터 수집, 평가 방식, 사용자 영향 같은 문제가 매우 중요합니다. 이 절에서는 적용 가능성을 주장하지 않고, 문제 구조를 이해하는 데만 사용합니다.
+다만 이런 예시는 개념 설명용입니다. 실제 업무에서 강화학습을 적용하려면 보상 설계, 안전 제약, 탐험 비용, 데이터 수집, 평가 방식, 사용자 영향 같은 문제가 매우 중요합니다. 여기서는 적용 가능성을 주장하지 않고, 문제 구조를 이해하는 데만 사용합니다.
 
 ## 강화학습과 다른 학습 유형의 경계
 
@@ -230,7 +230,7 @@ RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것�
 
 따라서 강화학습을 이해할 때는 “정답을 맞힌다”보다 “어떤 행동 방식이 결과적으로 더 나은가”를 먼저 물어야 합니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 강화학습(reinforcement learning)을 상태(state), 행동(action), 보상(reward)의 흐름으로 설명할 수 있다.
 - 에이전트(agent), 환경(environment), 정책(policy)을 입문 수준에서 구분할 수 있다.
@@ -239,8 +239,18 @@ RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것�
 - 탐험(exploration)과 활용(exploitation)의 차이를 설명할 수 있다.
 - 강화학습과 딥러닝(deep learning), 딥 강화학습(deep reinforcement learning), RLHF를 같은 말로 쓰지 않을 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 학습 문제를 `입력과 정답`의 틀로만 보고 있어 행동과 결과의 시간 흐름이 사라질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 보상(reward)을 라벨(label)처럼 읽고 있어 강화학습과 지도학습의 차이를 다시 설명해야 할 때
+- 어떤 행동이 장기적으로 좋은지 따져야 하는 문제를 예측 문제처럼 단순화하고 있을 때
+- 탐험(exploration), 활용(exploitation), 지연 보상(delayed reward)이 왜 함께 등장하는지 연결해 보여 줘야 할 때
+
+이때는 먼저 `상태에서 행동을 고른다`, `결과가 나중에 돌아올 수 있다`, `정책(policy)은 반복적으로 조정된다`를 나누면 됩니다. 그러면 강화학습을 게임 예시 하나로만 이해하지 않고, 행동과 피드백의 구조로 읽기 쉬워집니다.
+
 ## 출처와 참고 자료
 
-- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary), 확인 날짜: 2026-06-23.
-- OpenAI Spinning Up, [Part 1: Key Concepts in RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html), 확인 날짜: 2026-06-23.
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 12 Planning with Uncertainty](https://artint.info/3e/html/ArtInt3e.Ch12.html), 확인 날짜: 2026-06-23.
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- OpenAI Spinning Up, [Part 1: Key Concepts in RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 12 Planning with Uncertainty](https://artint.info/3e/html/ArtInt3e.Ch12.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.

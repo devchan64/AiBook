@@ -1,7 +1,7 @@
-# 13.3 RAG(retrieval-augmented generation)로 이어지는 흐름
+# P1-13.3 RAG(retrieval-augmented generation)로 이어지는 흐름
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 질문 벡터(query vector)와 가까운 문서 벡터(document vector)를 찾는 유사도 검색(similarity search)을 봤습니다.
 
@@ -11,13 +11,13 @@ P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(emb
 
 여기서 중요한 점은 RAG가 “정답 보장 장치”가 아니라는 것입니다. RAG는 LLM이 참고할 수 있는 문맥(context)을 더해 주는 구조입니다. 검색 결과가 틀리거나 부족하면 답변도 흔들릴 수 있습니다.
 
-Part 1 안에서는 이 절을 `RAG(retrieval-augmented generation)`, `검색(retrieval)`, `보강(augmentation)`, `생성(generation)`, `parametric memory`, `non-parametric memory`, `출처 추적(provenance)`의 대표 상세 설명 위치로 사용합니다. 13.1에서는 임베딩을, 13.2에서는 유사도 검색을 봤고, 여기서는 그 두 단계를 `LLM 입력 맥락 보강`으로 연결합니다. 구현 세부와 서비스 아키텍처는 뒤 절과 14장에서 다시 다룹니다.
+Part 1에서 `RAG(retrieval-augmented generation)`, `검색(retrieval)`, `보강(augmentation)`, `생성(generation)`, `parametric memory`, `non-parametric memory`, `출처 추적(provenance)`의 기본 구분은 여기서 잡습니다. 13.1에서는 임베딩을, 13.2에서는 유사도 검색을 봤고, 여기서는 그 두 단계를 `LLM 입력 맥락 보강`으로 연결합니다. 구현 세부와 서비스 아키텍처는 뒤 절과 14장에서 다시 다룹니다.
 
 ## 이 절의 범위
 
-이 절은 RAG의 전체 흐름을 개념적으로 봅니다. 벡터 데이터베이스(vector database), 인덱스(index), 근사 최근접 이웃(approximate nearest neighbor, ANN), 그래프(graph) 기반 검색 구조는 P1-13.4에서 다룹니다.
+여기서는 RAG의 전체 흐름을 개념적으로 봅니다. 벡터 데이터베이스(vector database), 인덱스(index), 근사 최근접 이웃(approximate nearest neighbor, ANN), 그래프(graph) 기반 검색 구조는 P1-13.4에서 다룹니다.
 
-처음 읽을 때는 `RAG`, `검색`, `보강`, `생성`, `parametric memory`, `provenance`가 모두 검색 시스템의 비슷한 부품처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`RAG`, `검색`, `보강`, `생성`, `parametric memory`, `provenance`는 서로 다른 단계와 기억 자원입니다. 여기서는 각 용어의 역할을 먼저 다음처럼 구분합니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -29,11 +29,11 @@ Part 1 안에서는 이 절을 `RAG(retrieval-augmented generation)`, `검색(re
 | non-parametric memory | 외부 문서 저장소 같은 검색 가능한 자료 | RAG가 더하는 바깥 지식 |
 | provenance | 어떤 출처를 참고했는지 추적하는 정보 | 근거 검토와 연결되는 요소 |
 
-처음 단계에서는 `RAG는 검색+생성 연결`, `외부 문서는 모델 밖 근거`, `출처 추적은 별도 확인 요소` 정도로만 잡아도 충분합니다.
+여기서는 `RAG는 검색+생성 연결`, `외부 문서는 모델 밖 근거`, `출처 추적은 별도 확인 요소`라는 구분을 기준선으로 둡니다.
 
 P1-14에서는 RAG가 실제 서비스 아키텍처와 도구 사용(tool use), 에이전트(agent) 구조 안에서 어디에 놓이는지 봅니다. P1-13.3에서는 검색 결과가 LLM 입력으로 들어가는 연결 흐름에 집중합니다.
 
-또한 이 절은 RAG를 `환각 제거 장치`로 소개하는 절이 아닙니다. 여기서는 RAG가 `근거 후보를 붙이는 구조`라는 점을 분명히 하고, 검증 책임은 여전히 남는다는 점에 집중합니다.
+또한 여기서는 RAG를 `환각 제거 장치`로 소개하지 않습니다. RAG가 `근거 후보를 붙이는 구조`라는 점을 분명히 하고, 검증 책임은 여전히 남는다는 점에 집중합니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -50,15 +50,15 @@ P1-14에서는 RAG가 실제 서비스 아키텍처와 도구 사용(tool use), 
 - RAG가 최신성(recency), 근거성(evidence), 출처 추적(provenance)에 도움을 줄 수 있지만 자동 보장은 아님을 이해합니다.
 - P1-14의 AI 서비스 구조로 넘어갈 준비를 합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 RAG 프레임워크 사용법보다, 왜 검색을 생성 앞에 붙이는지 이해하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 RAG 프레임워크 사용법보다, 왜 검색을 생성 앞에 붙이는지 이해하는 데 집중합니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| RAG는 검색과 생성을 연결하는 구조라는 점 | 모델 단독 답변과 검색 보강 답변의 차이를 보여 줍니다. | 필요한 문서를 먼저 찾고 그걸 바탕으로 답한다고 이해하면 충분합니다. |
-| 외부 문서는 파라미터 밖의 최신 근거를 보충할 수 있다는 점 | 모델 기억과 문서 근거를 구분하게 해 줍니다. | 모델이 모를 수 있는 정보나 최신 정보를 문서에서 가져온다고 알면 충분합니다. |
-| RAG가 있어도 결과 검토는 여전히 필요하다는 점 | 검색이 붙었다고 자동으로 정확해진다고 오해하지 않게 해 줍니다. | 문서를 잘못 찾거나 잘못 읽을 수 있으므로 검증이 필요하다고 이해하면 충분합니다. |
+| RAG는 검색과 생성을 연결하는 구조라는 점 | 모델 단독 답변과 검색 보강 답변의 차이를 보여 줍니다. | 필요한 문서를 먼저 찾고 그 문서를 바탕으로 답한다고 이해합니다. |
+| 외부 문서는 파라미터 밖의 최신 근거를 보충할 수 있다는 점 | 모델 기억과 문서 근거를 구분하게 해 줍니다. | 모델이 모를 수 있는 정보나 최신 정보를 문서에서 가져온다고 이해합니다. |
+| RAG가 있어도 결과 검토는 여전히 필요하다는 점 | 검색이 붙었다고 자동으로 정확해진다고 오해하지 않게 해 줍니다. | 문서를 잘못 찾거나 잘못 읽을 수 있으므로 검증이 필요하다고 이해합니다. |
 
 ## RAG는 검색한 뒤 생성한다
 
@@ -101,7 +101,7 @@ LLM은 이 입력을 바탕으로 답변을 생성합니다. 이때 답변은 �
 
 RAG 논문에서는 사전학습된 모델이 파라미터(parameter) 안에 지식을 저장하지만, 지식을 정밀하게 접근하거나 갱신하는 데 한계가 있다는 문제의식이 제시됩니다. RAG는 여기에 외부의 비파라미터 기억(non-parametric memory)을 결합하는 방식으로 설명됩니다.
 
-입문 단계에서는 이렇게 이해해도 됩니다.
+여기서는 이렇게 이해하면 됩니다.
 
 | 구분 | 직관 |
 | --- | --- |
@@ -241,7 +241,7 @@ RAG는 임베딩과 유사도 검색을 LLM 생성 과정에 연결하는 구조
 
 이 관점을 잡으면 P1-14에서 AI 서비스를 볼 때, RAG를 하나의 독립 기능이 아니라 데이터, 검색, 프롬프트, 모델, 검토가 이어진 흐름으로 이해할 수 있습니다.
 
-## 체크리스트
+## 짧은 점검
 
 - RAG(retrieval-augmented generation)를 검색과 생성을 결합한 구조로 설명할 수 있다.
 - 검색(retrieval), 보강(augmentation), 생성(generation)의 역할을 구분할 수 있다.
@@ -251,8 +251,18 @@ RAG는 임베딩과 유사도 검색을 LLM 생성 과정에 연결하는 구조
 - RAG가 사실 검증이나 환각 제거를 자동으로 보장하지 않는다고 설명할 수 있다.
 - RAG의 품질이 문서 준비, 조각 나누기, 검색, 프롬프트 구성, 생성 단계에 영향을 받는다고 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 RAG를 `환각 제거 기능` 정도로만 이해하고 있어, 검색과 생성의 연결 구조를 다시 분리해야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- RAG가 프롬프트(prompt)의 반대 개념이 아니라 맥락을 준비하는 구조라는 점을 설명해야 할 때
+- 모델 내부 지식(parametric memory)과 외부 검색 자료(non-parametric memory)를 나눠 봐야 할 때
+- 검색이 붙어도 여전히 검토 책임이 남는다는 점을 다시 세워야 할 때
+
+이때는 먼저 `검색`, `보강`, `생성`, `검토`를 나누면 됩니다. 그러면 RAG를 정답 보장 장치가 아니라, 외부 근거 후보를 LLM 입력에 연결하는 구조로 더 안정적으로 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401), arXiv, 2020, 확인 날짜: 2026-06-23.
-- Vladimir Karpukhin et al., [Dense Passage Retrieval for Open-Domain Question Answering](https://arxiv.org/abs/2004.04906), arXiv, 2020, 확인 날짜: 2026-06-23.
-- Kelvin Guu et al., [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/abs/2002.08909), arXiv, 2020, 확인 날짜: 2026-06-23.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
+- Vladimir Karpukhin et al., [Dense Passage Retrieval for Open-Domain Question Answering](https://arxiv.org/abs/2004.04906){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
+- Kelvin Guu et al., [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/abs/2002.08909){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.

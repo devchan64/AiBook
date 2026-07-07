@@ -1,19 +1,19 @@
-# 9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
+# P1-9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 통해 딥러닝(deep learning)이 왜 중요한 전환점으로 읽히는지 봤습니다. 이미지 분류는 “이 이미지가 무엇인가”를 묻는 문제였습니다.
 
-이번 절에서는 딥러닝 패러다임이 다른 문제로 어떻게 확산되었는지 봅니다. 첫 번째는 객체 검출(object detection)입니다. 두 번째는 음성 생성(speech generation)입니다. 음성 합성(TTS, text-to-speech)은 WaveNet이 적용된 보조 맥락으로만 짧게 언급합니다.
+여기서는 딥러닝 패러다임이 다른 문제로 어떻게 확산되었는지 설명합니다. 첫 번째는 객체 검출(object detection)입니다. 두 번째는 음성 생성(speech generation)입니다. 음성 합성(TTS, text-to-speech)은 WaveNet이 적용된 보조 맥락으로만 짧게 언급합니다.
 
-이 절의 핵심 질문은 딥러닝이 이미지 분류를 넘어 위치 찾기와 소리 생성 같은 문제를 어떻게 다시 구성했는가입니다.
+여기서 던지는 핵심 질문은 딥러닝이 이미지 분류를 넘어 위치 찾기와 소리 생성 같은 문제를 어떻게 다시 구성했는가입니다.
 
 > 객체 검출과 음성 생성 사례는 LLM의 직접 조상이 아니라, 딥러닝이 여러 입력과 출력 문제에서 수작업 파이프라인을 학습 기반 구조로 바꿔 간 흐름을 보여 주는 주변 근거다.
 
-Part 1 안에서는 이 절을 `객체 검출(object detection)`, `바운딩 박스(bounding box)`, `YOLO`, `음성 생성(speech generation)`, `WaveNet`, `TTS(text-to-speech)` 보조 맥락의 대표 상세 설명 위치로 사용합니다. `이미지 인식(image recognition)`과 `학습된 표현`의 기본 대비는 9.1에서 먼저 봤고, 여기서는 그 딥러닝 패러다임이 다른 출력 구조로 어떻게 확장되는지만 봅니다. LLM의 직접 계보와의 경계는 9.3에서 다시 정리합니다.
+이 절에서는 `객체 검출(object detection)`, `바운딩 박스(bounding box)`, `YOLO`, `음성 생성(speech generation)`, `WaveNet`, `TTS(text-to-speech)`를 딥러닝 패러다임이 다른 출력 구조로 확장되는 사례로 묶어 봅니다. `이미지 인식(image recognition)`과 `학습된 표현`의 대비는 9.1에서 먼저 봤고, LLM의 직접 계보와의 경계는 9.3에서 다시 정리합니다.
 
-처음 읽을 때는 `객체 검출`, `YOLO`, `음성 생성`, `WaveNet`, `TTS`가 모두 생성형 AI 계보에 바로 붙는 사례처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`객체 검출`, `YOLO`, `음성 생성`, `WaveNet`, `TTS`는 초반에 모두 생성형 AI 계보에 바로 붙는 사례처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -24,17 +24,17 @@ Part 1 안에서는 이 절을 `객체 검출(object detection)`, `바운딩 박
 | WaveNet | raw audio를 확률적으로 생성한 모델 | 음성 생성의 대표 사례 |
 | TTS | 텍스트를 음성으로 바꾸는 응용 맥락 | 9.2에서는 보조 사례로만 둘 대상 |
 
-처음 단계에서는 `검출은 위치+범주`, `YOLO는 한 번에 예측`, `WaveNet은 오디오 순차 생성`, `TTS는 보조 맥락` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `검출은 위치+범주`, `YOLO는 한 번에 예측`, `WaveNet은 오디오 순차 생성`, `TTS는 보조 맥락`입니다.
 
 ## 이 절의 범위
 
-이 절은 YOLO와 WaveNet의 알고리즘을 구현하지 않습니다. 바운딩 박스(bounding box), mAP(mean average precision), dilated convolution, autoregressive model, vocoder 같은 세부 개념은 이름과 역할만 지나갑니다. Deep Voice 같은 TTS 시스템은 주요 소재가 아니라 보조 사례로만 둡니다.
+여기서는 YOLO와 WaveNet의 알고리즘을 구현하지 않습니다. 바운딩 박스(bounding box), mAP(mean average precision), dilated convolution, autoregressive model, vocoder 같은 세부 개념은 이름과 역할만 지나갑니다. Deep Voice 같은 TTS 시스템은 주요 소재가 아니라 보조 사례로만 둡니다.
 
 또한 이 사례들을 LLM(large language model)의 직접 계보로 설명하지 않습니다. LLM의 직접 흐름은 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN/LSTM, Seq2Seq, Attention, Transformer, 사전학습 언어 모델에서 따로 다룹니다.
 
-또한 9.1의 이미지 인식 사례를 반복 설명하지는 않습니다. 이 절의 핵심은 `문제 재구성`입니다. 즉, 딥러닝이 분류를 넘어 `위치와 범주를 함께 예측하는 문제`, `시간 순서의 파형을 생성하는 문제`로 어떻게 확장되었는지를 보는 데 집중합니다.
+또한 9.1의 이미지 인식 사례를 반복 설명하지는 않습니다. 여기서의 핵심은 `문제 재구성`입니다. 즉, 딥러닝이 분류를 넘어 `위치와 범주를 함께 예측하는 문제`, `시간 순서의 파형을 생성하는 문제`로 어떻게 확장되었는지를 보는 데 집중합니다.
 
-여기서는 다음 정도만 잡습니다.
+여기서는 다음 정의를 기준선으로 둡니다.
 
 > 이미지, 위치, 파형, 음성 같은 다른 출력 문제에서도
 > 딥러닝은 수작업 특징과 여러 단계 파이프라인을 줄이고,
@@ -48,15 +48,15 @@ Part 1 안에서는 이 절을 `객체 검출(object detection)`, `바운딩 박
 - TTS(text-to-speech)는 음성 생성 모델이 실제 음성 합성 문제와 만나는 보조 맥락으로만 이해합니다.
 - 이 사례들이 LLM의 직접 원인이 아니라 딥러닝 패러다임 확산의 주변 근거임을 구분합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 YOLO나 WaveNet을 구현하는 절이 아니라, 딥러닝이 다른 문제로 확산되는 모습을 보는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 YOLO나 WaveNet 구현보다 딥러닝이 다른 문제로 확산되는 모습을 보는 데 집중합니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 객체 검출은 “무엇이 있는가”뿐 아니라 “어디에 있는가”도 묻는다는 점 | 분류와 검출의 차이를 가장 빨리 보여 줍니다. | 범주와 위치를 함께 내야 한다고 이해하면 충분합니다. |
-| YOLO는 여러 단계를 하나의 예측 문제로 묶으려 한 사례라는 점 | 딥러닝이 파이프라인을 다시 구성한 방식을 보여 줍니다. | 후보 찾기와 분류를 나눠 하던 흐름을 한 번에 예측하려 했다고 알면 충분합니다. |
-| WaveNet 같은 음성 생성 사례는 LLM의 직접 조상이 아니라 주변 근거라는 점 | 역사 흐름을 과장해서 섞는 일을 막아 줍니다. | 딥러닝이 여러 출력 문제에 확산되었다는 증거 정도로 이해하면 충분합니다. |
+| 객체 검출은 “무엇이 있는가”뿐 아니라 “어디에 있는가”도 묻는다는 점 | 분류와 검출의 차이를 가장 빨리 보여 줍니다. | 범주와 위치를 함께 내야 한다고 이해하면 됩니다. |
+| YOLO는 여러 단계를 하나의 예측 문제로 묶으려 한 사례라는 점 | 딥러닝이 파이프라인을 다시 구성한 방식을 보여 줍니다. | 후보 찾기와 분류를 나눠 하던 흐름을 한 번에 예측하려 했다고 알면 됩니다. |
+| WaveNet 같은 음성 생성 사례는 LLM의 직접 조상이 아니라 주변 근거라는 점 | 역사 흐름을 과장해서 섞는 일을 막아 줍니다. | 딥러닝이 여러 출력 문제에 확산되었다는 증거 정도로 이해하면 됩니다. |
 
 ## 분류(classification)와 검출(detection)은 다르다
 
@@ -85,7 +85,7 @@ Part 1 안에서는 이 절을 `객체 검출(object detection)`, `바운딩 박
 
 YOLO(You Only Look Once)는 객체 검출을 단일 신경망(single neural network)의 예측 문제로 재구성한 대표 사례입니다. Redmon, Divvala, Girshick, Farhadi의 YOLO 논문은 기존 객체 검출이 분류기를 검출에 재사용하는 경우가 많았지만, YOLO는 객체 검출을 바운딩 박스와 클래스 확률(class probabilities)을 예측하는 회귀 문제(regression problem)로 본다고 설명합니다.
 
-입문 단계에서는 다음 차이를 기억하면 됩니다.
+입문 단계에서 유지할 핵심 차이는 다음과 같습니다.
 
 | 관점 | 전통적 검출 파이프라인 | YOLO의 관점 |
 | --- | --- | --- |
@@ -120,7 +120,7 @@ WaveNet은 DeepMind가 발표한 raw audio 생성 모델입니다. van den Oord 
 
 여기서 raw audio waveform은 사람이 미리 추출한 음향 특징만이 아니라, 시간 순서로 이어진 실제 오디오 파형 값에 가까운 입력과 출력을 가리킵니다. WaveNet은 파형의 결합확률(joint probability)을 이전 샘플들에 조건부로 분해해 다음 샘플을 생성하는 방식으로 설명됩니다.
 
-입문 단계에서는 다음처럼 이해하면 됩니다.
+입문 단계의 기준선은 다음과 같습니다.
 
 > WaveNet은 음성을 미리 정한 작은 조각만 이어 붙이는 방식이 아니라,
 > 오디오 파형을 시간 순서의 확률적 생성 문제로 다룬 사례다.
@@ -141,7 +141,7 @@ WaveNet은 LLM이 아닙니다. 하지만 “다음 출력을 순차적으로 �
 
 음성 합성(TTS, text-to-speech)은 중요한 분야지만, 이 절의 주요 소재는 아닙니다. 3.1에서 TTS는 규칙 기반 처리도 성공적으로 쓰인 영역으로 잠깐 언급했습니다. 여기서는 WaveNet이 TTS에 적용되며 raw audio 생성의 가능성을 보여 줬다는 정도만 잡습니다.
 
-Deep Voice 같은 신경망 TTS 시스템은 전통적 TTS 파이프라인의 여러 구성요소를 신경망 기반으로 바꿔 간 사례로 볼 수 있습니다. 다만 9.2에서 이 사례를 자세히 다루면 음성 합성 기술사로 논의가 넘어갑니다. 따라서 이 절에서는 다음 정도로만 정리합니다.
+Deep Voice 같은 신경망 TTS 시스템은 전통적 TTS 파이프라인의 여러 구성요소를 신경망 기반으로 바꿔 간 사례로 볼 수 있습니다. 다만 9.2에서 이 사례를 자세히 다루면 음성 합성 기술사로 논의가 넘어갑니다. 따라서 여기서는 다음 정도로만 정리합니다.
 
 > TTS는 이 절의 중심 사례가 아니다.
 > 다만 음성 합성에서도 수작업 규칙과 파이프라인 일부가
@@ -162,7 +162,7 @@ YOLO와 WaveNet은 서로 다른 문제를 다룹니다.
 > 사람이 직접 설계하던 특징, 후보 생성, 규칙, 파이프라인 일부를
 > 학습 가능한 신경망 구조로 옮기는 흐름을 강화했다.
 
-이 흐름은 이미지 분류, 객체 검출, 음성 생성에서 각각 다른 모습으로 나타났습니다. TTS는 이 흐름이 실제 음성 합성 시스템과 만나는 보조 맥락으로 보면 충분합니다. 그러나 모두 대규모 데이터, 계산 자원, 신경망 구조, 학습 기법이 결합될 때 강해졌다는 점에서 9.1의 AlexNet 사례와 연결됩니다.
+이 흐름은 이미지 분류, 객체 검출, 음성 생성에서 각각 다른 모습으로 나타났습니다. TTS는 이 흐름이 실제 음성 합성 시스템과 만나는 보조 맥락으로 읽으면 됩니다. 그러나 모두 대규모 데이터, 계산 자원, 신경망 구조, 학습 기법이 결합될 때 강해졌다는 점에서 9.1의 AlexNet 사례와 연결됩니다.
 
 ## LLM의 직접 계보와 구분하기
 
@@ -192,7 +192,7 @@ YOLO와 WaveNet은 서로 다른 문제를 다룹니다.
 
 이 사례들은 딥러닝이 이미지 분류를 넘어 더 복잡한 출력 구조로 확산되었음을 보여 줍니다. 그러나 LLM의 직접 조상으로 쓰지는 않습니다. 직접 계보와 주변 근거를 구분하는 것이 이 장의 중요한 목적입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 객체 검출(object detection)이 이미지 분류(classification)와 다른 점을 설명할 수 있다.
 - YOLO를 객체 검출을 단일 신경망 예측 문제로 재구성한 사례로 설명할 수 있다.
@@ -200,8 +200,18 @@ YOLO와 WaveNet은 서로 다른 문제를 다룹니다.
 - TTS를 9.2의 주요 소재가 아니라 보조 맥락으로 둘 수 있다.
 - YOLO, WaveNet, TTS 시스템을 LLM의 직접 계보로 쓰지 않을 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 딥러닝이 다른 도메인으로 확산된 흐름을 설명해야 하는데, 사례들이 곧바로 LLM 역사로 직결되는 것처럼 읽힐 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 이미지 분류와 객체 검출(object detection)의 출력 구조 차이를 짚어야 할 때
+- YOLO가 여러 검출 단계를 하나의 예측 문제로 재구성했다는 점을 강조해야 할 때
+- WaveNet과 TTS를 생성형 AI 일반 역사로는 보되 LLM의 직접 조상으로는 쓰지 않도록 경계를 잡아야 할 때
+
+이때는 먼저 `무엇이 있는가`와 `어디에 있는가`를 함께 묻는 문제인지, 출력이 시간 순서의 오디오 샘플인지, 그리고 이 사례가 `직접 계보`가 아니라 `주변 근거`인지 나누면 됩니다. 그러면 도메인 사례를 늘려도 역사 연결이 과장되지 않습니다.
+
 ## 출처와 참고 자료
 
-- Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi, [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640), arXiv, 2015, 확인 날짜: 2026-06-23.
-- Aaron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499), arXiv, 2016, 확인 날짜: 2026-06-23.
-- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://arxiv.org/abs/1702.07825), arXiv, 2017, 확인 날짜: 2026-06-23. 보조 TTS 사례.
+- Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi, [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640){: target="_blank" rel="noopener noreferrer" }, arXiv, 2015, 확인 날짜: 2026-06-23.
+- Aaron van den Oord et al., [WaveNet: A Generative Model for Raw Audio](https://arxiv.org/abs/1609.03499){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-06-23.
+- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://arxiv.org/abs/1702.07825){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-06-23. 보조 TTS 사례.

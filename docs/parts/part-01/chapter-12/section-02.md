@@ -1,11 +1,11 @@
-# 12.2 지시(instruction), 맥락(context), 예시(example)
+# P1-12.2 지시(instruction), 맥락(context), 예시(example)
 
 > Section ID: `P1-12.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 12.1에서는 프롬프트(prompt)를 “현재 입력 안에 작업 조건을 배치하는 방법”으로 봤습니다. 프롬프트는 모델을 다시 학습시키지 않습니다. 대신 모델 실행(inference) 때 참고할 지시, 맥락, 예시, 제약, 출력 형식을 입력 안에 둡니다.
 
-이번 절에서는 그중 가장 기본이 되는 세 가지를 나눠 봅니다.
+여기서는 그중 가장 기본이 되는 세 가지를 나눠 봅니다.
 
 > 지시(instruction):
 > 무엇을 하라고 요청하는가?
@@ -18,13 +18,13 @@
 
 이 세 가지를 구분하면 프롬프트를 “말을 잘 꾸미는 문장”이 아니라 “작업 조건을 나눠 배치하는 입력 구조”로 볼 수 있습니다.
 
-Part 1 안에서는 이 절을 `지시(instruction)`, `맥락(context)`, `예시(example)`, `few-shot prompting`의 기본 직관, `프롬프트 구조화`의 대표 상세 설명 위치로 사용합니다. 12.1에서는 프롬프트가 무엇을 지정하는지 먼저 봤고, 여기서는 그중 가장 핵심적인 세 요소를 분리합니다. 평가 기준과 한계는 12.3에서 따로 다룹니다.
+Part 1에서 `지시(instruction)`, `맥락(context)`, `예시(example)`, `few-shot prompting`의 기본 직관, `프롬프트 구조화`의 기본 구분은 이 절에서 잡습니다. 12.1에서는 프롬프트가 무엇을 지정하는지 먼저 봤고, 여기서는 그중 가장 핵심적인 세 요소를 분리합니다. 평가 기준과 한계는 12.3에서 따로 다룹니다.
 
 ## 이 절의 범위
 
-이 절은 프롬프트 엔지니어링(prompt engineering)의 고급 기법을 다루지 않습니다. Chain-of-thought(CoT), self-consistency, automatic prompt optimization 같은 기법은 여기서 자세히 설명하지 않고, Part 5의 P5-9.3 보충학습에서 실전 문맥으로 다시 다룹니다.
+여기서는 프롬프트 엔지니어링(prompt engineering)의 고급 기법을 다루지 않습니다. Chain-of-thought(CoT), self-consistency, automatic prompt optimization 같은 기법은 여기서 자세히 설명하지 않고, Part 5의 P5-9.3 보충학습에서 실전 문맥으로 다시 다룹니다.
 
-처음 읽을 때는 `지시`, `맥락`, `예시`, `few-shot`이 모두 프롬프트를 길게 만드는 장식처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`지시`, `맥락`, `예시`, `few-shot`은 초반에 모두 프롬프트를 길게 만드는 장식처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -34,11 +34,11 @@ Part 1 안에서는 이 절을 `지시(instruction)`, `맥락(context)`, `예시
 | few-shot prompting | 몇 개 예시를 함께 넣는 방식 | 예시가 어떻게 작동하는지 보여 주는 대표 형태 |
 | 프롬프트 구조화 | 입력 안의 역할을 나눠 쓰는 방식 | 긴 작업에서 재현성과 검토성을 높이는 방법 |
 
-처음 단계에서는 `지시는 작업`, `맥락은 참고 정보`, `예시는 시범`, `few-shot은 예시 포함 프롬프트` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `지시는 작업`, `맥락은 참고 정보`, `예시는 시범`, `few-shot은 예시 포함 프롬프트`입니다.
 
 또한 RAG(retrieval-augmented generation), 도구 사용(tool use), 에이전트(agent)는 다루지 않습니다. RAG는 다음 장의 P1-13.3과 P1-13.4에서, 도구 사용과 에이전트는 P1-14.2와 P1-14.3에서 다시 연결합니다. 이 절의 목표는 LLM에게 요청을 줄 때 가장 먼저 분리해야 하는 기본 요소를 익히는 것입니다.
 
-또한 이 절은 `프롬프트가 실제로 좋은 결과를 보장하는가`를 묻는 절이 아닙니다. 그 질문은 12.3에서 `한계`, `평가`, `재현성`의 관점으로 다시 다룹니다.
+또한 여기서는 `프롬프트가 실제로 좋은 결과를 보장하는가`를 묻지 않습니다. 그 질문은 12.3에서 `한계`, `평가`, `재현성`의 관점으로 다시 다룹니다.
 
 | 요소 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -54,15 +54,15 @@ Part 1 안에서는 이 절을 `지시(instruction)`, `맥락(context)`, `예시
 - 맥락을 제공하더라도 사실 검증이 자동으로 끝나지 않음을 이해합니다.
 - 12.3에서 다룰 프롬프트의 한계와 평가 기준으로 자연스럽게 넘어갑니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 프롬프트를 잘 쓰는 비결보다, 입력을 구성하는 세 요소를 분리해서 보는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 프롬프트를 잘 쓰는 비결보다, 입력을 구성하는 세 요소를 분리해서 보는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 지시(instruction)는 “무엇을 하라”는 요청이라는 점 | 프롬프트의 가장 눈에 띄는 부분을 분명히 해 줍니다. | 번역하라, 요약하라 같은 명령이라고 알면 충분합니다. |
-| 맥락(context)은 모델이 참고해야 할 배경이라는 점 | 같은 질문도 왜 배경 정보에 따라 답이 달라지는지 보여 줍니다. | 문서 조각, 역할, 조건처럼 참고 재료를 붙인다고 이해하면 충분합니다. |
-| 예시(example)는 원하는 출력 패턴을 보여 주는 장치라는 점 | few-shot과 입력 유도 방식을 읽기 쉽게 만들어 줍니다. | 이런 형식으로 답하라는 시범이라고 보면 충분합니다. |
+| 지시(instruction)는 “무엇을 하라”는 요청이라는 점 | 프롬프트의 가장 눈에 띄는 부분을 분명히 해 줍니다. | 번역하라, 요약하라 같은 명령이라고 알면 됩니다. |
+| 맥락(context)은 모델이 참고해야 할 배경이라는 점 | 같은 질문도 왜 배경 정보에 따라 답이 달라지는지 보여 줍니다. | 문서 조각, 역할, 조건처럼 참고 재료를 붙인다고 이해하면 됩니다. |
+| 예시(example)는 원하는 출력 패턴을 보여 주는 장치라는 점 | few-shot과 입력 유도 방식을 읽기 쉽게 만들어 줍니다. | 이런 형식으로 답하라는 시범이라고 보면 됩니다. |
 
 ## 지시는 모델에게 작업을 지정한다
 
@@ -151,7 +151,7 @@ Part 1 안에서는 이 절을 `지시(instruction)`, `맥락(context)`, `예시
 
 예시(example)는 모델에게 원하는 입력-출력 패턴을 보여 주는 부분입니다. Brown 등의 GPT-3 논문에서 다룬 few-shot setting은 모델을 추가로 fine-tuning하지 않고, 입력 안에 몇 개의 task demonstration을 넣어 과업을 수행하게 하는 방식으로 설명됩니다.
 
-입문 단계에서는 다음처럼 이해하면 됩니다.
+여기서는 다음처럼 이해합니다.
 
 > 지시:
 > 용어를 한국어와 영어로 함께 정리해줘.
@@ -262,7 +262,7 @@ Part 1 안에서는 이 절을 `지시(instruction)`, `맥락(context)`, `예시
 
 세 요소를 나누면 프롬프트가 더 길어질 수 있습니다. 하지만 목표는 길게 쓰는 것이 아니라, 모델이 참고할 작업 조건을 분명하게 만드는 것입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 지시(instruction)가 모델에게 수행할 작업을 지정한다고 설명할 수 있다.
 - 맥락(context)이 작업에 필요한 배경 정보와 자료를 제공한다고 설명할 수 있다.
@@ -271,9 +271,19 @@ Part 1 안에서는 이 절을 `지시(instruction)`, `맥락(context)`, `예시
 - 긴 프롬프트를 작업, 맥락, 원문, 예시, 출력 형식으로 나눠 읽을 수 있다.
 - 프롬프트 구조화가 사실 검증을 대신하지 않음을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 긴 프롬프트가 한 덩어리의 자연어처럼 보여 무엇이 작업 요청이고 무엇이 배경 정보인지 흐려질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 지시(instruction), 맥락(context), 예시(example)를 섞어 쓰고 있어 역할을 다시 나눠야 할 때
+- few-shot prompting이 모델을 다시 학습시키는 것이 아니라 현재 입력 안의 패턴 제시라는 점을 설명해야 할 때
+- 긴 요청문을 검토 가능한 구조로 바꿔야 할 때
+
+이때는 먼저 `무엇을 하라`, `무엇을 참고하라`, `어떤 패턴을 따라라`를 분리하면 됩니다. 그러면 프롬프트를 더 길게 쓰는 문제보다, 역할을 나눠 읽고 점검하는 문제로 더 정확히 다룰 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165), arXiv, 2020, 확인 날짜: 2026-06-23.
-- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155), arXiv, 2022, 확인 날짜: 2026-06-23.
-- Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927), arXiv, 2024, 확인 날짜: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering), OpenAI API documentation, 확인 날짜: 2026-06-23.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
+- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-06-23.
+- Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.
+- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-06-23.

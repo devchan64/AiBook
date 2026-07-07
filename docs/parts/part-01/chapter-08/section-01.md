@@ -1,23 +1,23 @@
-# 8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
+# P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
-7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 가장 먼저 볼 방식은 지도학습(supervised learning)입니다.
+7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 첫 번째 기준점은 지도학습(supervised learning)입니다.
 
-이 절의 핵심은 알고리즘이 아니라 라벨(label)입니다. 지도학습을 이해하려면 먼저 “라벨이 무엇을 가리키는가”를 잡아야 합니다. 라벨을 막연히 정답으로 이해하면, 모델이 무엇을 배우는지보다 사람이 어떤 기준을 데이터에 붙였는지를 놓치기 쉽습니다.
+이 절의 핵심은 알고리즘이 아니라 라벨(label)입니다. 지도학습을 이해할 때는 “라벨이 무엇을 가리키는가”가 먼저 정리되어야 합니다. 라벨을 막연히 정답으로 이해하면, 모델이 무엇을 배우는지보다 사람이 어떤 기준을 데이터에 붙였는지를 놓치기 쉽습니다.
 
-한국어로 이해할 때는 라벨을 먼저 `인식표`로 생각하는 편이 안전합니다. 여기서 인식표는 대상을 정의하는 설명문이 아니라, 대상을 구분할 수 있게 붙인 표식입니다. 라벨은 데이터에 붙인 구분 표식이고, 라벨링(labeling)은 데이터에 그런 표식을 붙이는 일입니다. AWS와 IBM의 데이터 라벨링 설명도 원시 데이터(raw data)를 식별하고 라벨을 추가하거나 할당하는 과정으로 설명합니다. 이 표식은 모델이 따라가야 할 기준을 알려 주지만, 그 자체가 항상 절대적 진실이라는 뜻은 아닙니다.
+한국어 문맥에서는 라벨을 `인식표`에 가까운 말로 이해하는 편이 오해가 적습니다. 여기서 인식표는 대상을 정의하는 설명문이 아니라, 대상을 구분할 수 있게 붙인 표식입니다. 라벨은 데이터에 붙인 구분 표식이고, 라벨링(labeling)은 데이터에 그런 표식을 붙이는 일입니다. AWS와 IBM의 데이터 라벨링 설명도 원시 데이터(raw data)를 식별하고 라벨을 추가하거나 할당하는 과정으로 설명합니다. 이 표식은 모델이 따라가야 할 기준을 알려 주지만, 그 자체가 항상 절대적 진실이라는 뜻은 아닙니다.
 
 이 절의 핵심 질문은 라벨이 무엇을 가리키며, 모델이 그 라벨 기준을 어떻게 따라가려 하는가입니다.
 
-지도학습은 입력(input)과 라벨(label)이 함께 있는 예시(example)를 사용합니다. 모델은 새 입력이 들어왔을 때 라벨 기준에 맞는 출력을 만들도록 훈련(training)됩니다. 따라서 8.1에서 먼저 확인할 대상은 모델의 복잡한 내부가 아니라, 데이터에 붙은 라벨의 의미와 기준입니다.
+지도학습은 입력(input)과 라벨(label)이 함께 있는 예시(example)를 사용합니다. 모델은 새 입력이 들어왔을 때 라벨 기준에 맞는 출력을 만들도록 훈련(training)됩니다. 따라서 8.1에서 확인할 대상은 모델의 복잡한 내부보다 데이터에 붙은 라벨의 의미와 기준입니다.
 
 > 지도학습은 라벨 목록을 외우는 일이 아니라, 입력과 라벨 사이의 관계를 맞추는 일이다.
 
-Part 1 안에서는 이 절을 `지도학습(supervised learning)`, `라벨(label)`, `라벨링(labeling)`, `타깃(target)`, `분류(classification)`, `회귀(regression)`의 대표 상세 설명 위치로 사용합니다. `입력(input)`과 `출력(output)`의 기본 구분은 4.2에서 먼저 봤고, `훈련(training)`과 `예측(prediction)`의 실행 흐름은 5.1과 5.2에서 다뤘습니다. 7장에서는 탐색과 휴리스틱을 정리했으므로, 여기서는 학습 유형 중 `라벨이 있는 데이터`가 만드는 구조에 집중합니다.
+Part 1에서 `지도학습(supervised learning)`, `라벨(label)`, `라벨링(labeling)`, `타깃(target)`, `분류(classification)`, `회귀(regression)`의 기본 구분은 이 절에서 잡습니다. `입력(input)`과 `출력(output)`의 기본 구분은 4.2에서 먼저 봤고, `훈련(training)`과 `예측(prediction)`의 실행 흐름은 5.1과 5.2에서 다뤘습니다. 7장에서는 탐색과 휴리스틱을 정리했으므로, 여기서는 학습 유형 중 `라벨이 있는 데이터`가 만드는 구조에 집중합니다.
 
-처음 읽을 때는 `지도학습`, `라벨`, `라벨링`, `타깃`, `분류`, `회귀`가 모두 비슷한 데이터 처리 말처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`지도학습`, `라벨`, `라벨링`, `타깃`, `분류`, `회귀`는 초반에 비슷한 데이터 처리 말처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -28,17 +28,17 @@ Part 1 안에서는 이 절을 `지도학습(supervised learning)`, `라벨(labe
 | 분류 | 범주형 라벨을 고르는 문제 | 지도학습의 대표 형태 중 하나 |
 | 회귀 | 숫자 라벨을 예측하는 문제 | 지도학습의 다른 대표 형태 |
 
-처음 단계에서는 `지도학습은 라벨 있는 학습`, `라벨은 목표 표식`, `라벨링은 기준 만들기`, `분류는 이름표`, `회귀는 숫자` 정도로만 잡아도 충분합니다.
+이 절에서 유지해야 할 최소 구분은 `지도학습은 라벨 있는 학습`, `라벨은 목표 표식`, `라벨링은 기준 만들기`, `분류는 이름표`, `회귀는 숫자`입니다.
 
 ## 이 절의 범위
 
-이 절은 지도학습 알고리즘을 계산하지 않습니다. 선형 회귀(linear regression), 로지스틱 회귀(logistic regression), 결정트리(decision tree), 서포트 벡터 머신(support vector machine), 신경망(neural network)은 이름만 지나갑니다.
+여기서는 지도학습 알고리즘을 계산하지 않습니다. 선형 회귀(linear regression), 로지스틱 회귀(logistic regression), 결정트리(decision tree), 서포트 벡터 머신(support vector machine), 신경망(neural network)은 이름만 지나갑니다.
 
 또한 손실 함수(loss function), 경사하강법(gradient descent), 검증 데이터(validation data), 과적합(overfitting)은 자세히 다루지 않습니다. 이 주제들은 Part 4의 데이터 분리와 검증, 과적합과 일반화, 최적화와 학습 장에서 다시 다룹니다.
 
 또한 `입력(input)`과 `출력(output)`의 기본 정의를 다시 길게 반복하지는 않습니다. 그 구분은 4.2에서 먼저 잡았고, `훈련(training)`과 `inference`의 차이도 5장에서 정리했습니다. 여기서는 그 위에 `라벨이 있는 예시가 어떻게 학습 신호가 되는가`를 얹습니다.
 
-여기서는 다음 정도만 잡습니다.
+여기서는 다음 정의를 기준선으로 둡니다.
 
 > 지도학습은 입력과 라벨이 함께 있는 예시를 사용해
 > 새 입력의 출력을 예측하도록 모델을 훈련하는 방식이다.
@@ -54,15 +54,15 @@ Part 1 안에서는 이 절을 `지도학습(supervised learning)`, `라벨(labe
 - 라벨이 있다는 말이 항상 절대적 진실을 뜻하지 않는다는 점을 이해합니다.
 - 지도학습, 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 섞지 않도록 준비합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 지도학습 알고리즘보다 라벨(label)이 무엇인지 이해하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 지도학습 알고리즘보다 라벨(label)이 무엇인지 이해하는 데 목적을 둡니다. 아래 세 가지 기준이 잡히면 전체 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 지도학습은 입력(input)과 라벨(label)이 함께 있는 사례를 쓴다는 점 | 다른 학습 유형과 가장 먼저 구분되는 기준입니다. | 과거 사례에 사람이 붙인 구분 표식이 함께 있다는 점만 알면 충분합니다. |
-| 라벨(label)은 먼저 `인식표`처럼 이해하는 편이 안전하다는 점 | 라벨을 절대적 정답으로 단정하는 오해를 줄여 줍니다. | 대상을 구분하기 위해 붙인 표식이라는 감각만 잡으면 충분합니다. |
-| 모델은 새 입력에 대해 그 라벨 기준을 일반화하려 한다는 점 | 지도학습의 목적을 한 문장으로 묶어 줍니다. | 과거 사례에서 본 기준을 새 사례에도 적용하려는 시도라고 이해하면 충분합니다. |
+| 지도학습은 입력(input)과 라벨(label)이 함께 있는 사례를 쓴다는 점 | 다른 학습 유형과 구분되는 가장 기본적인 기준입니다. | 과거 사례에 사람이 붙인 구분 표식이 함께 있다는 점을 이해하면 됩니다. |
+| 라벨(label)은 `인식표`처럼 읽는 편이 더 정확하다는 점 | 라벨을 절대적 정답으로 단정하는 오해를 줄여 줍니다. | 대상을 구분하기 위해 붙인 표식이라는 감각을 잡으면 됩니다. |
+| 모델은 새 입력에 대해 그 라벨 기준을 일반화하려 한다는 점 | 지도학습의 목적을 한 문장으로 묶어 줍니다. | 과거 사례에서 본 기준을 새 사례에도 적용하려는 시도로 이해하면 됩니다. |
 
 ## 라벨은 학습 방향을 알려 주는 신호다
 
@@ -81,7 +81,7 @@ Part 1 안에서는 이 절을 `지도학습(supervised learning)`, `라벨(labe
 
 Google의 Machine Learning Glossary는 지도학습(supervised machine learning)을 입력 특징(features)과 그에 대응하는 라벨(labels)에서 모델을 훈련하는 방식으로 설명합니다. 또한 라벨이 있는 예시(labeled example)는 하나 이상의 특징과 하나의 라벨로 구성되며, 이런 예시가 훈련(training)에 사용된다고 설명합니다.
 
-입문 단계에서는 특징(feature)을 아직 깊게 생각하지 않아도 됩니다. 먼저 다음 구조만 잡으면 됩니다.
+여기서는 특징(feature)을 아직 깊게 다루지 않습니다. 먼저 다음 구조가 핵심입니다.
 
 > 입력(input) + 라벨(label) = 라벨이 있는 예시(labeled example)
 
@@ -176,7 +176,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 | 이미지 분류 | 이미지 | 고양이, 강아지, 자동차 |
 | 위험 탐지 | 거래 정보 | 정상, 의심 |
 
-이 절에서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 P1-6.3과 P1-7.3에서 이미 위치를 잡았고, Part 4에서 평가와 함께 다시 다룹니다.
+여기서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 P1-6.3과 P1-7.3에서 이미 위치를 잡았고, Part 4에서 평가와 함께 다시 다룹니다.
 
 ## 회귀(regression)는 숫자 라벨을 예측한다
 
@@ -198,7 +198,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 | 분류(classification) | 범주 | 배송, 환불, 교환 |
 | 회귀(regression) | 숫자 | 3.5시간, 12000원, 27.2도 |
 
-입문 단계에서는 이렇게 기억하면 충분합니다.
+입문 단계의 핵심 구분은 다음 한 줄입니다.
 
 > 분류는 이름표를 고른다.
 > 회귀는 숫자를 예측한다.
@@ -226,7 +226,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 > 라벨이 서로 겹치지 않는가?
 > 모델이 실제 입력만 보고 그 라벨을 예측할 수 있는가?
 
-라벨 기준은 가능하면 데이터 설명과 함께 남겨야 합니다. `Datasheets for Datasets` 논문은 데이터셋의 동기, 구성, 수집 과정, 권장 사용 등을 문서화해 데이터 생산자와 사용자 사이의 소통을 개선하자는 제안을 합니다. 8.1의 수준에서는 이 논문을 깊게 다루지 않지만, 라벨 기준도 데이터셋을 이해하는 데 필요한 문맥이라는 점을 기억하면 충분합니다.
+라벨 기준은 가능하면 데이터 설명과 함께 남겨야 합니다. `Datasheets for Datasets` 논문은 데이터셋의 동기, 구성, 수집 과정, 권장 사용 등을 문서화해 데이터 생산자와 사용자 사이의 소통을 개선하자는 제안을 합니다. 8.1 수준에서 중요한 점은 라벨 기준도 데이터셋을 이해하는 데 필요한 문맥이라는 사실입니다.
 
 ## 라벨이 있다는 말은 진실이 있다는 말이 아니다
 
@@ -280,7 +280,7 @@ Google의 Machine Learning Glossary도 사람 평가자가 라벨링에서 실�
 > 8.1의 핵심 질문은 “이 모델은 무엇인가?”보다
 > “이 데이터의 라벨은 무엇을 뜻하는가?”에 가깝다.
 
-## 체크리스트
+## 짧은 점검
 
 - 지도학습(supervised learning)을 입력과 라벨이 함께 있는 예시로 설명할 수 있다.
 - 라벨(label), 타깃(target), 기대 출력(expected output)의 관계를 구분할 수 있다.
@@ -288,10 +288,20 @@ Google의 Machine Learning Glossary도 사람 평가자가 라벨링에서 실�
 - 라벨 기준이 흔들리면 지도학습 데이터도 흔들린다는 점을 설명할 수 있다.
 - 지도학습, 비지도학습, 강화학습, 딥러닝을 같은 분류로 섞지 않을 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 모델 설명보다 먼저 데이터의 목표 표식이 무엇인지 확인해야 할 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 어떤 문제가 지도학습인지 아닌지 라벨의 유무로 먼저 나눠야 할 때
+- 분류(classification)와 회귀(regression)를 알고리즘이 아니라 라벨 형태 차이로 설명해야 할 때
+- 모델 성능을 보기 전에 라벨 기준 자체가 일관적인지 점검해야 할 때
+
+이때는 먼저 `라벨이 실제로 무엇을 뜻하는가`, `사람이 같은 기준으로 붙일 수 있는가`, `모델이 입력만 보고 그 라벨을 예측할 수 있는가`를 따로 확인하면 됩니다. 그러면 지도학습을 단순히 `정답이 있는 학습`이라고 뭉뚱그리는 실수를 줄일 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary), 확인 날짜: 2026-06-23.
-- scikit-learn, [1. Supervised learning](https://scikit-learn.org/stable/supervised_learning.html), 확인 날짜: 2026-06-23.
-- AWS, [What is Data Labeling?](https://aws.amazon.com/what-is/data-labeling/), 확인 날짜: 2026-06-23.
-- IBM, [What Is Data Labeling?](https://www.ibm.com/think/topics/data-labeling), 확인 날짜: 2026-06-23.
-- Timnit Gebru et al., [Datasheets for Datasets](https://arxiv.org/abs/1803.09010), arXiv, 2018, 확인 날짜: 2026-06-23.
+- Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- scikit-learn, [1. Supervised learning](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- AWS, [What is Data Labeling?](https://aws.amazon.com/what-is/data-labeling/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- IBM, [What Is Data Labeling?](https://www.ibm.com/think/topics/data-labeling){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Timnit Gebru et al., [Datasheets for Datasets](https://arxiv.org/abs/1803.09010){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.

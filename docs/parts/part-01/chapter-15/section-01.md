@@ -1,7 +1,7 @@
-# 15.1 편향(bias), 안전성(safety), 책임(accountability)
+# P1-15.1 편향(bias), 안전성(safety), 책임(accountability)
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-14에서는 AI 서비스를 모델, 데이터, 도구, 에이전트(agent), 하네스(harness), 서비스 제약(service constraints)의 흐름으로 봤습니다. 이제 질문은 기술 구조에서 사회적 영향으로 넘어갑니다.
 
@@ -14,13 +14,13 @@ P1-14에서는 AI 서비스를 모델, 데이터, 도구, 에이전트(agent), �
 
 AI 윤리(AI ethics)는 추상적인 선의만을 말하는 분야가 아닙니다. 실제로 AI 시스템이 사람의 기회, 평판, 안전, 권리, 비용, 업무 판단에 영향을 줄 때 어떤 위험이 생기고, 그 위험을 어떻게 줄일 것인지 묻는 분야입니다.
 
-이 절에서는 AI 윤리를 편향(bias), 안전성(safety), 책임(accountability)이라는 세 단어로 좁혀 봅니다.
+여기서는 AI 윤리를 편향(bias), 안전성(safety), 책임(accountability)이라는 세 단어로 좁혀 봅니다.
 
-Part 1 안에서는 이 절을 `편향(bias)`, `안전성(safety)`, `책임(accountability)`, `투명성(transparency)`, `인간 감독(human oversight)`의 대표 상세 설명 위치로 사용합니다. 14장에서는 모델, 도구, 에이전트, 하네스, 서비스 제약을 중심으로 `AI 서비스가 어떻게 작동하는가`를 봤고, 여기서는 그 구조가 `사람과 사회에 어떤 위험을 만들 수 있는가`를 정리합니다. 저작권과 학습 데이터는 15.2로, 보안과 개인정보는 15.3으로 넘깁니다.
+이 절에서는 `편향(bias)`, `안전성(safety)`, `책임(accountability)`, `투명성(transparency)`, `인간 감독(human oversight)`을 중심으로 AI 서비스 구조가 사람과 사회에 어떤 위험을 만들 수 있는지 정리합니다. 14장의 기술 구조 설명을 이어받아, 저작권과 학습 데이터는 15.2로, 보안과 개인정보는 15.3으로 넘깁니다.
 
 ## 이 절의 범위
 
-이 절은 AI 결과가 사회적으로 문제를 만들 수 있는 기본 이유를 다룹니다. 저작권(copyright)과 학습 데이터(training data) 논쟁은 P1-15.2에서, 보안(security)과 개인정보(privacy)는 P1-15.3에서 별도로 다룹니다.
+여기서는 AI 결과가 사회적으로 문제를 만들 수 있는 기본 이유를 다룹니다. 저작권(copyright)과 학습 데이터(training data) 논쟁은 P1-15.2에서, 보안(security)과 개인정보(privacy)는 P1-15.3에서 별도로 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -30,7 +30,7 @@ Part 1 안에서는 이 절을 `편향(bias)`, `안전성(safety)`, `책임(acco
 | 투명성(transparency) | 사용자가 AI의 역할과 한계를 알 수 있는가? |
 | 인간 감독(human oversight) | 사람이 언제 개입하고 최종 판단해야 하는가? |
 
-여기서 말하는 책임은 법률적 책임을 확정하는 뜻이 아닙니다. 입문 단계에서는 “AI가 만든 결과를 사람이 어떻게 검토하고 사용할 것인가”라는 실무적 책임으로 먼저 이해합니다.
+여기서 말하는 책임은 법률적 책임을 확정하는 뜻이 아닙니다. 여기서는 “AI가 만든 결과를 사람이 어떻게 검토하고 사용할 것인가”라는 실무적 책임으로 먼저 이해합니다.
 
 ## 이 절의 목표
 
@@ -40,15 +40,15 @@ Part 1 안에서는 이 절을 `편향(bias)`, `안전성(safety)`, `책임(acco
 - 책임(accountability)을 “AI가 했다”로 넘기지 않고, 설계자, 배포자, 사용자, 조직의 역할로 나누어 봅니다.
 - 뉴스와 칼럼, 탐사보도 사례를 읽을 때 사실 주장, 해석, 정책 제안을 구분합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 윤리를 추상적인 구호로 다루는 절이 아니라, 실제 피해 가능성을 읽는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 윤리를 추상적인 구호가 아니라 실제 피해 가능성으로 읽습니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 편향(bias)은 나쁜 의도만이 아니라 데이터와 기준에서 생길 수 있다는 점 | AI 윤리를 도덕성 문제 하나로만 좁히지 않게 해 줍니다. | 학습 데이터와 평가 방식이 결과를 틀어지게 할 수 있다고 이해하면 충분합니다. |
-| 안전성(safety)은 물리 사고뿐 아니라 잘못된 자동화까지 포함한다는 점 | AI 결과가 현실 행동과 이어질 때의 위험을 보게 해 줍니다. | 틀린 추천이나 과신도 안전 문제라고 알면 충분합니다. |
-| 책임(accountability)은 결국 사람이 설명하고 고쳐야 한다는 점 | “AI가 했다”로 책임을 넘기는 사고를 막아 줍니다. | 설계자, 운영자, 사용자 조직이 각자 책임을 가진다고 이해하면 충분합니다. |
+| 편향(bias)은 나쁜 의도만이 아니라 데이터와 기준에서 생길 수 있다는 점 | AI 윤리를 도덕성 문제 하나로만 좁히지 않게 해 줍니다. | 학습 데이터와 평가 방식이 결과를 틀어지게 할 수 있다고 이해합니다. |
+| 안전성(safety)은 물리 사고뿐 아니라 잘못된 자동화까지 포함한다는 점 | AI 결과가 현실 행동과 이어질 때의 위험을 보게 해 줍니다. | 틀린 추천이나 과신도 안전 문제라고 이해합니다. |
+| 책임(accountability)은 결국 사람이 설명하고 고쳐야 한다는 점 | “AI가 했다”로 책임을 넘기는 사고를 막아 줍니다. | 설계자, 운영자, 사용자 조직이 각자 책임을 가진다고 이해합니다. |
 
 ## 왜 윤리 문제가 기술 문제와 떨어져 있지 않은가
 
@@ -137,7 +137,7 @@ OECD AI Principles는 신뢰할 수 있는 AI(trustworthy AI)를 위해 인권�
 | 근거 | 결과가 어떤 자료나 입력에 기반했는가? |
 | 이의 제기 | 결과가 부당할 때 사람이 다시 검토할 수 있는가? |
 
-설명가능성(explainability)과 해석가능성(interpretability)은 이 투명성의 일부입니다. 하지만 입문 단계에서는 수학적 설명가능성보다 “사용자가 AI 결과의 위치와 한계를 알 수 있는가”를 먼저 잡는 편이 좋습니다.
+설명가능성(explainability)과 해석가능성(interpretability)은 이 투명성의 일부입니다. 하지만 여기서는 수학적 설명가능성보다 “사용자가 AI 결과의 위치와 한계를 알 수 있는가”를 먼저 잡는 편이 좋습니다.
 
 ## 인간 감독은 형식이 아니라 실제 개입이어야 한다
 
@@ -178,8 +178,6 @@ AI 윤리 쟁점은 뉴스, 칼럼, 탐사보도에서 먼저 눈에 띄는 경�
 > 공식 문서와 연구는 개념과 기준을 정리한다.
 > 본문은 둘을 연결하되, 단일 사례를 과도하게 일반화하지 않는다.
 
-또한 이 절은 `저작권과 학습 데이터의 법적 쟁점`을 설명하는 절도, `보안과 개인정보 통제 방식`을 정리하는 절도 아닙니다. 여기서는 사회적 위험의 큰 틀을 먼저 잡고, 표현 사용의 문제는 15.2, 정보와 권한의 문제는 15.3에서 다시 좁혀 봅니다.
-
 ## 이 절에서 기억할 관점
 
 AI 윤리는 기술 바깥의 장식이 아닙니다. AI가 실제 사람과 조직에 영향을 주는 순간, 편향(bias), 안전성(safety), 책임(accountability)은 서비스 설계의 일부가 됩니다.
@@ -192,7 +190,7 @@ AI 윤리는 기술 바깥의 장식이 아닙니다. AI가 실제 사람과 조
 
 이 관점은 P1-15.2의 저작권과 학습 데이터, P1-15.3의 보안과 개인정보 논의로 이어집니다.
 
-## 체크리스트
+## 짧은 점검
 
 - AI 윤리(AI ethics)를 추상적 선언이 아니라 실제 피해 가능성을 다루는 질문으로 설명할 수 있다.
 - 편향(bias)이 데이터, 라벨, 특징, 지표, 사용 맥락에서 생길 수 있음을 설명할 수 있다.
@@ -203,11 +201,19 @@ AI 윤리는 기술 바깥의 장식이 아닙니다. AI가 실제 사람과 조
 - 인간 감독(human oversight)이 형식적 승인으로 끝나면 위험하다는 점을 설명할 수 있다.
 - 뉴스와 칼럼을 사용할 때 사실 주장, 분석, 반론, 정책 제안을 구분해야 함을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- AI 윤리를 기술 바깥의 선언처럼만 다루고 있을 때
+- 편향, 안전성, 책임을 하나의 도덕 문제로 뭉뚱그려 말하려 할 때
+- 실제 서비스 피해 가능성과 인간 감독 조건을 함께 점검해야 할 때
+
+이때는 먼저 `편향`, `안전성`, `책임`, `투명성`, `인간 감독`을 나누면 됩니다. 그러면 윤리 논의를 추상적 태도 문제가 아니라 서비스 설계 조건으로 다시 읽을 수 있습니다.
+
 ## 출처와 참고 자료
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), National Institute of Standards and Technology, 확인 날짜: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf), NIST AI 100-1, 2023, 확인 날짜: 2026-06-23.
-- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles), OECD AI Policy Observatory, 확인 날짜: 2026-06-23.
-- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics), UNESCO, 확인 날짜: 2026-06-23.
-- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing), ProPublica, 2016-05-23, 확인 날짜: 2026-06-23.
-- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157), Associated Press, 2025-09-17, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, 확인 날짜: 2026-06-23.
+- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, 확인 날짜: 2026-06-23.
+- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, 확인 날짜: 2026-06-23.
+- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, UNESCO, 확인 날짜: 2026-06-23.
+- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, 확인 날짜: 2026-06-23.
+- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, 확인 날짜: 2026-06-23.

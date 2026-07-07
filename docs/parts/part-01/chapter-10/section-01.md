@@ -1,21 +1,21 @@
-# 10.1 분류(classification), 예측(prediction), 생성(generation)의 차이
+# P1-10.1 분류(classification), 예측(prediction), 생성(generation)의 차이
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 9장에서는 딥러닝(deep learning)이 여러 분야로 확산된 흐름을 봤습니다. 이미지 인식(image recognition), 객체 검출(object detection), 음성 생성(speech generation), 언어 모델링(language modeling)은 모두 신경망이 데이터에서 표현(representation)을 학습한다는 큰 흐름 안에 있습니다.
 
-10장부터는 생성형 AI(generative AI)로 들어갑니다. 하지만 생성형 AI를 이해하려면 먼저 기존 머신러닝(machine learning)에서 자주 보던 작업과 무엇이 다른지 구분해야 합니다.
+10장부터는 생성형 AI(generative AI)로 들어갑니다. 생성형 AI를 이해하려면 기존 머신러닝(machine learning)에서 자주 보던 작업과 무엇이 다른지 먼저 구분해야 합니다.
 
-이 절의 핵심 질문은 분류, 예측, 생성이 모두 모델의 출력(output)을 만든다면 생성형 AI는 기존 모델과 무엇이 다른가입니다.
+여기서 던지는 핵심 질문은 분류, 예측, 생성이 모두 모델의 출력(output)을 만든다면 생성형 AI는 기존 모델과 무엇이 다른가입니다.
 
-Part 1 안에서는 이 절을 `분류(classification)`, `예측(prediction)`, `회귀(regression)`, `생성(generation)`, `생성형 AI(generative AI)` 도입의 대표 상세 설명 위치로 사용합니다. `분류`와 `회귀`의 기본 예시는 8.1에서 먼저 소개했고, `이미지 인식`, `객체 검출`, `언어 모델링` 같은 사례는 9장에서 이어 봤습니다. 여기서는 그 사례들을 다시 묶어 `출력의 성격이 어떻게 다른가`를 먼저 구분합니다.
+Part 1에서 `분류(classification)`, `예측(prediction)`, `회귀(regression)`, `생성(generation)`, `생성형 AI(generative AI)` 도입의 기본 구분은 이 절에서 잡습니다. `분류`와 `회귀`의 기본 예시는 8.1에서 먼저 소개했고, `이미지 인식`, `객체 검출`, `언어 모델링` 같은 사례는 9장에서 이어 봤습니다. 여기서는 그 사례들을 다시 묶어 `출력의 성격이 어떻게 다른가`를 먼저 구분합니다.
 
 ## 이 절의 범위
 
-이 절은 생성형 AI의 전체 구조를 설명하지 않습니다. 다음 토큰 예측(next-token prediction), 이미지 생성(image generation), diffusion model, Transformer, prompt, sampling 같은 내용은 뒤 절과 뒤 장에서 다시 다룹니다.
+여기서는 생성형 AI의 전체 구조를 설명하지 않습니다. 다음 토큰 예측(next-token prediction), 이미지 생성(image generation), diffusion model, Transformer, prompt, sampling 같은 내용은 뒤 절과 뒤 장에서 다시 다룹니다.
 
-처음 읽을 때는 `분류`, `예측`, `회귀`, `생성`, `생성형 AI`가 모두 비슷한 모델 출력처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`분류`, `예측`, `회귀`, `생성`, `생성형 AI`는 초반에 모두 비슷한 모델 출력처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -25,9 +25,9 @@ Part 1 안에서는 이 절을 `분류(classification)`, `예측(prediction)`, `
 | 생성 | 조건에 맞는 새 산출물을 만드는 일 | 생성형 AI 이해의 출발점 |
 | 생성형 AI | 생성 작업을 중심에 둔 AI 사용 방식 | Chapter 10 전체의 중심 주제 |
 
-처음 단계에서는 `분류는 후보 선택`, `예측은 넓은 추정`, `회귀는 숫자`, `생성은 새 산출물` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `분류는 후보 선택`, `예측은 넓은 추정`, `회귀는 숫자`, `생성은 새 산출물`입니다.
 
-여기서는 세 가지 출력 방식을 먼저 구분합니다.
+여기서는 세 가지 출력 방식을 기준선으로 구분합니다.
 
 | 구분 | 영어 표현 | 핵심 질문 |
 | --- | --- | --- |
@@ -35,9 +35,9 @@ Part 1 안에서는 이 절을 `분류(classification)`, `예측(prediction)`, `
 | 예측 | prediction | 어떤 값이나 상태가 나올 가능성이 높은가? |
 | 생성 | generation | 조건에 맞는 새 산출물을 어떻게 만들어 낼 것인가? |
 
-이 구분은 완전히 배타적이지 않습니다. 분류도 넓은 의미에서는 예측이고, 생성 모델도 내부적으로 확률 분포(probability distribution)를 사용합니다. 다만 입문 단계에서는 출력의 성격을 나눠 보는 편이 이해에 도움이 됩니다.
+이 구분은 완전히 배타적이지 않습니다. 분류도 넓은 의미에서는 예측이고, 생성 모델도 내부적으로 확률 분포(probability distribution)를 사용합니다. 다만 여기서는 출력의 성격을 나눠 보는 편이 이해에 도움이 됩니다.
 
-또한 이 절에서는 `다음 출력을 어떻게 만들어 가는가`를 아직 설명하지 않습니다. 그 직관은 10.2에서 따로 다루고, 생성 결과의 품질과 위험은 10.3에서 다시 분리해 봅니다.
+또한 여기서는 `다음 출력을 어떻게 만들어 가는가`를 아직 설명하지 않습니다. 그 직관은 10.2에서 따로 다루고, 생성 결과의 품질과 위험은 10.3에서 다시 분리해 봅니다.
 
 ## 이 절의 목표
 
@@ -47,21 +47,21 @@ Part 1 안에서는 이 절을 `분류(classification)`, `예측(prediction)`, `
 - 생성형 AI가 기존 머신러닝과 완전히 끊어진 기술이 아니라, 모델이 출력하는 대상과 방식이 확장된 흐름임을 봅니다.
 - `정답을 맞힌다`와 `그럴듯한 산출물을 만든다`를 같은 말처럼 쓰지 않습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 생성형 AI를 특별한 마법처럼 설명하는 절이 아니라, 출력 유형을 구분하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 생성형 AI를 특별한 마법처럼 설명하기보다, 출력 유형을 구분하는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 분류는 범주를 고르는 일이라는 점 | 가장 익숙한 머신러닝 작업과 비교 기준을 만들어 줍니다. | 스팸/정상처럼 후보 중 하나를 고른다고 이해하면 충분합니다. |
-| 예측은 값, 상태, 확률을 추정하는 더 넓은 말이라는 점 | 분류와 생성 사이의 중간 영역을 읽게 해 줍니다. | 숫자나 다음 상태를 맞히는 작업까지 포함한다고 보면 충분합니다. |
-| 생성은 새 산출물을 만든다는 점 | 생성형 AI가 기존 분류기와 어떻게 다른지 가장 빨리 보여 줍니다. | 범주 하나를 고르는 대신 문장, 이미지, 코드 같은 결과를 만든다고 이해하면 충분합니다. |
+| 분류는 범주를 고르는 일이라는 점 | 가장 익숙한 머신러닝 작업과 비교 기준을 만들어 줍니다. | 스팸/정상처럼 후보 중 하나를 고른다고 이해하면 됩니다. |
+| 예측은 값, 상태, 확률을 추정하는 더 넓은 말이라는 점 | 분류와 생성 사이의 중간 영역을 읽게 해 줍니다. | 숫자나 다음 상태를 맞히는 작업까지 포함한다고 보면 됩니다. |
+| 생성은 새 산출물을 만든다는 점 | 생성형 AI가 기존 분류기와 어떻게 다른지 가장 빨리 보여 줍니다. | 범주 하나를 고르는 대신 문장, 이미지, 코드 같은 결과를 만든다고 이해하면 됩니다. |
 
 ## 분류는 범주를 고르는 일이다
 
 분류(classification)는 입력이 어떤 범주(class)에 속하는지 고르는 작업입니다. Google Machine Learning Crash Course는 classification을 예제가 여러 class 중 어디에 속하는지 예측하는 작업으로 설명합니다.
 
-입문 단계에서는 다음처럼 볼 수 있습니다.
+입문 단계의 기준선은 다음과 같습니다.
 
 > 입력:
 > 메일 제목과 본문
@@ -142,7 +142,7 @@ AI 문서에서 prediction은 매우 넓게 쓰입니다. 그래서 `예측`이�
 
 IBM의 생성형 AI 설명은 생성형 AI가 대량의 데이터에서 패턴과 관계를 학습하고, 그 정보를 사용해 사용자의 요청에 응답하는 새 콘텐츠를 만든다고 설명합니다. Feuerriegel 등의 개념 논문도 생성형 AI를 훈련 데이터에서 텍스트, 이미지, 오디오 같은 의미 있는 새 콘텐츠를 생성할 수 있는 계산 기법으로 설명합니다.
 
-입문 단계에서는 다음 차이를 기억하면 좋습니다.
+입문 단계에서 유지할 핵심 차이는 다음과 같습니다.
 
 > 분류:
 > 정해진 후보 중 하나를 고른다.
@@ -166,6 +166,17 @@ IBM의 생성형 AI 설명은 생성형 AI가 대량의 데이터에서 패턴�
 | 생성(generation) | 이 문의에 대한 초안 답변을 작성할 수 있는가? | 새 답변 문장 |
 
 같은 데이터라도 문제 정의(problem definition)가 달라지면 모델의 역할도 달라집니다. 4장에서 본 것처럼 모델은 문제를 대신 다루는 모형(model)입니다. 따라서 “AI가 무엇을 한다”보다 “입력과 출력이 어떻게 정의되었는가”를 먼저 봐야 합니다.
+
+실제 서비스에서는 이 네 가지가 한 요청 안에서 이어질 수도 있습니다. 고객 지원 서비스를 예로 들면 다음처럼 읽을 수 있습니다.
+
+| 단계 | 이 단계의 질문 | 가장 가까운 작업 유형 | 출력 |
+| --- | --- | --- | --- |
+| 1 | 이 문의는 어떤 종류인가? | 분류(classification) | 환불 / 배송 / 교환 / 계정 문제 |
+| 2 | 이 문의가 긴급 처리로 이어질 가능성은 얼마나 큰가? | 예측(prediction) | 긴급도 점수, 처리 지연 위험 점수 |
+| 3 | 어떤 도움말이나 처리 절차를 먼저 보여 주는 것이 좋은가? | 추천(recommendation) | 관련 문서 후보, 응답 절차 후보의 우선순위 |
+| 4 | 상담원이 바로 쓸 수 있는 답변 초안을 만들 수 있는가? | 생성(generation) | 새 답변 문장, 요약, 처리 초안 |
+
+이 통합 사례의 핵심은 `분류, 예측, 추천, 생성`이 서로 경쟁하는 기술 이름이 아니라, 같은 업무 흐름 안에서도 서로 다른 출력 역할을 맡는다는 점입니다. 분류는 문의의 자리를 정하고, 예측은 위험이나 우선순위를 가늠하고, 추천은 다음에 볼 후보를 좁히고, 생성은 사람이 바로 검토할 초안을 만듭니다.
 
 ## 생성형 AI가 기존 모델과 다른 지점
 
@@ -197,7 +208,7 @@ IBM의 생성형 AI 설명은 생성형 AI가 대량의 데이터에서 패턴�
 
 다음 절에서는 이 관점을 바탕으로 텍스트, 이미지, 음성 생성에서 `다음 출력 생성`이라는 직관이 어떻게 쓰이는지 봅니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 분류(classification)를 범주를 고르는 작업으로 설명할 수 있다.
 - 예측(prediction)이 분류보다 넓은 표현임을 설명할 수 있다.
@@ -206,10 +217,20 @@ IBM의 생성형 AI 설명은 생성형 AI가 대량의 데이터에서 패턴�
 - 같은 입력도 문제 정의에 따라 분류, 예측, 생성 작업으로 달라질 수 있음을 설명할 수 있다.
 - 생성형 AI의 위험이 출력의 자유도와 관련 있음을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 `AI가 답을 만든다`는 말을 너무 넓게 써서 분류, 예측, 생성의 차이가 흐려질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 생성형 AI를 기존 분류기나 회귀 모델과 무엇이 다른지 먼저 구분해야 할 때
+- 같은 입력 데이터라도 문제 정의에 따라 출력 성격이 달라진다는 점을 설명해야 할 때
+- 생성 결과의 자유도가 왜 더 큰 검토 부담으로 이어지는지 연결해야 할 때
+
+이때는 먼저 `범주를 고르는가`, `값이나 상태를 추정하는가`, `새 산출물을 구성하는가`를 나누면 됩니다. 그러면 생성형 AI를 과장된 예외 기술처럼 보지 않으면서도, 출력 방식의 차이를 분명히 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Google for Developers, [Classification](https://developers.google.com/machine-learning/crash-course/classification), Machine Learning Crash Course, 확인 날짜: 2026-06-23.
-- Google for Developers, [Linear regression](https://developers.google.com/machine-learning/crash-course/linear-regression), Machine Learning Crash Course, 확인 날짜: 2026-06-23.
-- IBM, [What is Machine Learning?](https://www.ibm.com/think/topics/machine-learning), IBM Think, 확인 날짜: 2026-06-23.
-- IBM, [What is Generative AI?](https://www.ibm.com/think/topics/generative-ai), IBM Think, 확인 날짜: 2026-06-23.
-- Stefan Feuerriegel, Jochen Hartmann, Christian Janiesch, Patrick Zschech, [Generative AI](https://arxiv.org/abs/2309.07930), arXiv, 2023, 확인 날짜: 2026-06-23.
+- Google for Developers, [Classification](https://developers.google.com/machine-learning/crash-course/classification){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-06-23.
+- Google for Developers, [Linear regression](https://developers.google.com/machine-learning/crash-course/linear-regression){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-06-23.
+- IBM, [What is Machine Learning?](https://www.ibm.com/think/topics/machine-learning){: target="_blank" rel="noopener noreferrer" }, IBM Think, 확인 날짜: 2026-06-23.
+- IBM, [What is Generative AI?](https://www.ibm.com/think/topics/generative-ai){: target="_blank" rel="noopener noreferrer" }, IBM Think, 확인 날짜: 2026-06-23.
+- Stefan Feuerriegel, Jochen Hartmann, Christian Janiesch, Patrick Zschech, [Generative AI](https://arxiv.org/abs/2309.07930){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-06-23.

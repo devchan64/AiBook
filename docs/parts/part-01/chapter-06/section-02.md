@@ -1,7 +1,7 @@
-# 6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분
+# P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 6.1에서는 어떤 문제가 명시적 규칙만으로 처리하기 어려운지 봤습니다. 정보가 부족하고, 관측이 흔들리고, 가능한 결과가 여러 개일 때 AI는 불확실성을 다뤄야 합니다.
 
@@ -13,11 +13,11 @@
 
 이 셋은 서로 연결되지만 같은 말은 아닙니다.
 
-Part 1 안에서는 이 절을 `불확실성(uncertainty)`, `확률(probability)`, `확률적 과정(stochastic)`의 대표 상세 설명 위치로 사용합니다. 6.1에서는 왜 이런 구분이 필요한 문제 조건을 먼저 잡았고, 여기서는 그 조건을 읽기 위한 용어 기준을 세웁니다. `탐색`과 `휴리스틱`의 구조는 P1-7에서 다시 다루고, 확률 계산의 더 자세한 수식은 Part 2와 Part 4에서 회수합니다.
+Part 1에서 `불확실성(uncertainty)`, `확률(probability)`, `확률적 과정(stochastic)`의 기본 구분은 이 절에서 잡습니다. 6.1에서는 왜 이런 구분이 필요한 문제 조건을 먼저 잡았고, 여기서는 그 조건을 읽기 위한 용어 기준을 세웁니다. `탐색`과 `휴리스틱`의 구조는 P1-7에서 다시 다루고, 확률 계산의 더 자세한 수식은 Part 2와 Part 4에서 회수합니다.
 
-## 왜 이 구분이 흥미로운가
+## 왜 이 구분이 필요한가
 
-처음에는 “AI가 확률적으로 답한다”는 말 하나로 충분해 보일 수 있습니다. 하지만 실제로는 여러 질문이 갈라집니다.
+“AI가 확률적으로 답한다”는 말은 겉으로는 간단해 보이지만, 실제로는 여러 질문이 갈라집니다.
 
 | 질문 | 연결되는 개념 |
 | --- | --- |
@@ -26,9 +26,9 @@ Part 1 안에서는 이 절을 `불확실성(uncertainty)`, `확률(probability)
 | 같은 행동을 반복해도 왜 결과가 조금씩 달라질까? | 확률적 과정(stochastic process) |
 | 데이터가 부족해서 모르는 것과, 세상 자체가 흔들리는 것은 같은가? | 인식적 불확실성(epistemic uncertainty), 우연적 불확실성(aleatoric uncertainty) |
 
-Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵심 방법론 요소이며, 실무 적용과 안전 요구가 커지면서 우연적 불확실성(aleatoric uncertainty)과 인식적 불확실성(epistemic uncertainty)을 구분하는 일이 중요해졌다고 설명합니다. 이 절에서는 두 용어를 깊게 다루지 않습니다. 이 책 본편에서도 두 구분을 별도 장으로 확장하지는 않고, 여기서는 “불확실성에도 종류가 있다”는 감각만 남겨 둡니다. 대신 확률을 읽는 기본 언어는 Part 2의 통계 기초에서, 모델 출력의 신뢰도와 평가 감각은 Part 4의 평가 장에서 다시 연결합니다.
+Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵심 방법론 요소이며, 실무 적용과 안전 요구가 커지면서 우연적 불확실성(aleatoric uncertainty)과 인식적 불확실성(epistemic uncertainty)을 구분하는 일이 중요해졌다고 설명합니다. 여기서는 두 용어를 깊게 다루지 않습니다. 대신 “불확실성에도 종류가 있다”는 감각만 남겨 둡니다. 확률을 읽는 기본 언어는 Part 2의 통계 기초에서, 모델 출력의 신뢰도와 평가 감각은 Part 4의 평가 장에서 다시 연결합니다.
 
-입문 단계에서는 다음 질문을 기억하면 충분합니다.
+여기서는 다음 세 질문이 기준선을 잡아 줍니다.
 
 > 더 관측하면 줄어드는 모름인가?
 > 반복해도 남는 변동인가?
@@ -38,7 +38,7 @@ Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵�
 
 6.2는 확률 수식을 깊게 다루지 않습니다. 조건부 확률, 베이즈 규칙, 확률 분포 계산은 Part 2의 통계 기초 장과 Part 4의 평가·예측 장에서 다시 다룹니다.
 
-또한 이 절은 LLM의 생성 원리를 설명하는 절도 아닙니다. LLM의 샘플링, temperature, top-p, 다음 토큰 예측은 Part 6의 P6-5.1 다음 토큰 예측, P6-5.2 생성 과정의 직관에서 다시 다룹니다.
+또한 여기서는 LLM의 생성 원리를 설명하지 않습니다. LLM의 샘플링, temperature, top-p, 다음 토큰 예측은 Part 6의 P6-5.1 다음 토큰 예측, P6-5.2 생성 과정의 직관에서 다시 다룹니다.
 
 여기서는 AI 문서를 읽기 위한 용어 기준만 세웁니다.
 
@@ -50,27 +50,17 @@ Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵�
 - 무작위(random), 비결정적(nondeterministic), 확률적(probabilistic)을 같은 말처럼 쓰지 않도록 주의합니다.
 - `불확실성(uncertainty)`, `확률(probability)`, `불확정성`을 한국어에서 섞어 쓰지 않도록 기준을 잡습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 수식을 먼저 계산하는 절이 아니라, 비슷한 말을 분리해서 읽는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 수식을 먼저 계산하기보다, 비슷한 말을 분리해서 읽는 데 목적을 둡니다. 아래 세 가지를 먼저 가릅니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 이해할 수준 |
 | --- | --- | --- |
-| 불확실성(uncertainty)은 `아직 모르는 상태`라는 점 | 확률과 같은 숫자 개념과 섞이지 않게 해 줍니다. | 숫자가 붙기 전의 모름이라는 점만 이해하면 충분합니다. |
-| 확률(probability)은 그 모름을 표현하는 숫자 언어라는 점 | 모델 점수와 확률 해석의 출발점이 됩니다. | 더 그럴듯한 후보를 숫자로 비교하는 도구라는 점만 알면 충분합니다. |
-| stochastic은 `과정에 변동이 들어 있는 성질`이라는 점 | 불확실성, 확률, 무작위를 같은 말처럼 쓰는 실수를 줄여 줍니다. | 결과만이 아니라 과정 자체가 흔들릴 수 있다는 점만 잡으면 충분합니다. |
+| 불확실성(uncertainty)은 `아직 모르는 상태`라는 점 | 확률과 같은 숫자 개념과 섞이지 않게 해 줍니다. | 숫자가 붙기 전의 모름이라는 점을 이해합니다. |
+| 확률(probability)은 그 모름을 표현하는 숫자 언어라는 점 | 모델 점수와 확률 해석의 출발점이 됩니다. | 더 그럴듯한 후보를 숫자로 비교하는 도구라는 점을 봅니다. |
+| stochastic은 `과정에 변동이 들어 있는 성질`이라는 점 | 불확실성, 확률, 무작위를 같은 말처럼 쓰는 실수를 줄여 줍니다. | 결과만이 아니라 과정 자체가 흔들릴 수 있다는 점을 잡습니다. |
 
-처음 읽을 때는 `불확실성`, `확률`, `확률적 과정`, `무작위`, `비결정적`이 모두 비슷하게 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 불확실성 | 아직 확정해서 알 수 없는 상태 | 숫자가 붙기 전의 모름 |
-| 확률 | 그 모름을 숫자로 표현하는 방식 | 후보를 비교하고 갱신하는 언어 |
-| 확률적 과정 | 과정 자체에 변동이 들어 있는 성질 | 같은 행동에도 결과가 흔들릴 수 있음을 설명 |
-| 무작위 | 임의로 뽑거나 선택하는 방식 | 결과 선택이나 표본 추출을 설명할 때 자주 쓰는 말 |
-| 비결정적 | 같은 입력에도 결과가 하나로 고정되지 않을 수 있는 성질 | 확률 분포가 있든 없든 결과 고정이 약한 상황을 설명 |
-
-처음 단계에서는 `불확실성은 모름`, `확률은 숫자`, `확률적 과정은 흔들리는 과정`, `무작위는 임의 선택`, `비결정적은 결과 비고정` 정도로만 잡아도 충분합니다.
+`불확실성`, `확률`, `확률적 과정`, `무작위`, `비결정적`은 이 절 전체를 끌고 가는 핵심 용어입니다. 지금 단계에서는 `불확실성은 모름`, `확률은 숫자`, `확률적 과정은 흔들리는 과정`, `무작위는 임의 선택`, `비결정적은 결과 비고정`이라는 큰 구분을 먼저 남깁니다. 각 용어는 아래 본문에서 한 번 더 묶어 정리합니다.
 
 ## 불확실성(uncertainty)은 모르는 상태다
 
@@ -86,8 +76,6 @@ Hüllermeier와 Waegeman은 머신러닝에서 불확실성(uncertainty)이 핵�
 | 배송 예측 | 내일 도착할지 지연될지 확실하지 않음 |
 
 Poole과 Mackworth는 실제 세계의 에이전트가 모든 것을 아는 존재가 아니며, 관측한 정보에 따라 믿음을 갱신해야 한다고 설명합니다. SEP의 AI 항목도 단순한 논리 기반 접근만으로는 모든 명제의 참·거짓을 알 수 없으며, 무지, 물리 세계의 비결정성, 표현의 모호함 때문에 확률적 접근이 필요해질 수 있다고 설명합니다.
-
-입문 단계에서는 이렇게 기억하면 됩니다.
 
 > 불확실성(uncertainty) = 아직 확정해서 말할 수 없는 상태
 
@@ -113,6 +101,8 @@ Poole과 Mackworth는 확률을 0과 1 사이의 숫자로 다루며, 0은 거�
 > 확률: 배송 0.70, 환불 0.20, 기타 0.10처럼 표현한다.
 
 따라서 확률은 불확실성 그 자체가 아니라, 불확실성을 계산하고 비교하기 위한 표현 방식입니다.
+
+같은 장면을 더 짧게 말하면 `불확실성`은 아직 답을 확정하지 못한 상태이고, `확률`은 그 상태를 숫자로 적어 놓은 표현입니다. 즉 `무엇이 맞는지 아직 모른다`는 판단이 먼저 있고, 그다음에 `배송 0.70, 환불 0.20`처럼 숫자로 비교하는 단계가 옵니다.
 
 ## 0.70이라는 숫자는 얼마나 믿을 수 있을까
 
@@ -145,7 +135,7 @@ Poole과 Mackworth는 에이전트가 관측한 정보를 근거(evidence)로 �
 | 추가 근거(evidence) | 결제 로그에 중복 결제가 있음 |
 | 갱신된 판단 | 단순 배송 문의가 아니라 결제 문제도 함께 고려해야 함 |
 
-이 절에서는 베이즈 규칙(Bayes' rule)을 계산하지 않습니다. 중요한 것은 새 관측이 들어오면 판단의 그럴듯함이 바뀔 수 있다는 점입니다.
+여기서는 베이즈 규칙(Bayes' rule)을 계산하지 않습니다. 중요한 것은 새 관측이 들어오면 판단의 그럴듯함이 바뀔 수 있다는 점입니다.
 
 > 관측이 바뀌면
 > 가능한 결론의 그럴듯함도 바뀔 수 있다.
@@ -153,8 +143,6 @@ Poole과 Mackworth는 에이전트가 관측한 정보를 근거(evidence)로 �
 ## 확률적 과정(stochastic)은 과정에 확률적 변동이 있는 성질이다
 
 확률적 과정 또는 확률적 성질(stochastic)은 한국어로 보통 `확률적`이라고 번역됩니다. 하지만 확률(probability)과 같은 말은 아닙니다.
-
-입문 단계에서는 다음처럼 구분합니다.
 
 | 영어 표현 | 한국어 표현 | 중심 의미 |
 | --- | --- | --- |
@@ -209,7 +197,7 @@ Poole과 Mackworth는 어떤 행동이 확률적 과정(stochastic process)처�
 | 확률적 | probabilistic, stochastic | 확률을 사용하거나, 과정에 확률적 변동이 있음을 설명 |
 | 불확정성 | 별도 확인 필요 | 특정 학문 분야의 용어가 아니라면 일반 AI 설명에서는 피함 |
 
-이 기준의 목적은 한국어를 억지로 통제하려는 것이 아니라, 초심자가 용어를 보고 서로 다른 층위를 섞어 읽지 않게 하는 데 있습니다. 초심자는 먼저 `지금 이 문장이 모르는 상태를 말하는가, 숫자 표현을 말하는가, 과정의 변동을 말하는가`를 한 번 더 확인하면 충분합니다.
+이 기준의 목적은 한국어를 억지로 통제하려는 것이 아니라, 초심자가 용어를 보고 서로 다른 층위를 섞어 읽지 않게 하는 데 있습니다. 여기서는 `지금 이 문장이 모르는 상태를 말하는가, 숫자 표현을 말하는가, 과정의 변동을 말하는가`를 한 번 더 확인하는 습관이 중요합니다.
 
 ## 같은 예시로 다시 보기
 
@@ -236,7 +224,7 @@ Poole과 Mackworth는 어떤 행동이 확률적 과정(stochastic process)처�
 
 이 구분을 잡아야 이후의 휴리스틱, 확률 모델, 머신러닝, LLM 생성 설정을 같은 말처럼 섞지 않을 수 있습니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 불확실성(uncertainty)을 숫자가 아니라 모르는 상태로 설명할 수 있다.
 - 확률(probability)을 불확실성을 표현하고 갱신하는 숫자 언어로 설명할 수 있다.
@@ -245,9 +233,19 @@ Poole과 Mackworth는 어떤 행동이 확률적 과정(stochastic process)처�
 - 무작위(random), 확률적 과정(stochastic), 비결정적(nondeterministic), 확률적(probabilistic)을 같은 말처럼 쓰지 않아야 함을 설명할 수 있다.
 - AI 일반 문맥에서는 불확정성보다 불확실성(uncertainty)을 우선 사용해야 함을 설명할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 `확률`, `불확실성`, `확률적`이라는 말을 거의 같은 뜻으로 쓰고 있다는 느낌이 들 때 이 절의 관점을 다시 떠올리면 됩니다.
+
+- 모델 점수 하나를 보고 곧바로 “불확실성이 0.30이다”처럼 섞어 말하고 있을 때
+- 같은 행동을 반복해도 결과가 달라지는 상황을 무작위, 비결정적, 확률적 중 무엇으로 불러야 할지 막힐 때
+- 더 관측하면 줄어드는 모름과, 과정 자체에 남는 변동을 구분해야 할 때
+
+이때는 먼저 `불확실성은 모르는 상태`, `확률은 그 모름을 나타내는 숫자`, `stochastic은 과정의 변동성`으로 다시 나누면 됩니다. 그런 뒤 지금 문장이 상태를 말하는지, 숫자 표현을 말하는지, 과정의 성질을 말하는지 확인하면 혼동이 줄어듭니다.
+
 ## 출처와 참고 자료
 
-- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed.](https://artint.info/3e/html/ArtInt3e.html), 확인 날짜: 2026-06-22.
-- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/), 2018-07-12, 확인 날짜: 2026-06-22.
-- Eyke Hüllermeier, Willem Waegeman, [Aleatoric and Epistemic Uncertainty in Machine Learning: An Introduction to Concepts and Methods](https://arxiv.org/abs/1910.09457), arXiv:1910.09457, 2019, 확인 날짜: 2026-06-23.
-- scikit-learn, [1.16. Probability calibration](https://scikit-learn.org/stable/modules/calibration.html), 확인 날짜: 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed.](https://artint.info/3e/html/ArtInt3e.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 확인 날짜: 2026-06-22.
+- Eyke Hüllermeier, Willem Waegeman, [Aleatoric and Epistemic Uncertainty in Machine Learning: An Introduction to Concepts and Methods](https://arxiv.org/abs/1910.09457){: target="_blank" rel="noopener noreferrer" }, arXiv:1910.09457, 2019, 확인 날짜: 2026-06-23.
+- scikit-learn, [1.16. Probability calibration](https://scikit-learn.org/stable/modules/calibration.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.

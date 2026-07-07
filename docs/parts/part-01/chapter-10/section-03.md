@@ -1,25 +1,25 @@
-# 10.3 생성 결과(output)의 품질(quality)과 위험(risk)
+# P1-10.3 생성 결과(output)의 품질(quality)과 위험(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)의 차이를 봤습니다. 10.2에서는 생성형 AI(generative AI)가 조건(condition)을 바탕으로 산출물을 점진적으로 구성한다는 직관을 봤습니다.
 
-이번 절에서는 생성된 결과를 어떻게 받아들여야 하는지 다룹니다.
+여기서는 생성된 결과를 어떻게 받아들여야 하는지 다룹니다.
 
-이 절의 핵심 질문은 생성형 AI의 결과가 자연스럽고 그럴듯해 보이면 그 결과를 믿어도 되는가입니다.
+여기서 던지는 핵심 질문은 생성형 AI의 결과가 자연스럽고 그럴듯해 보이면 그 결과를 믿어도 되는가입니다.
 
-입문 단계에서의 답은 분명합니다.
+입문 단계의 기준선은 분명합니다.
 
 > 자연스러움은 품질의 일부일 뿐이고, 사실성, 근거, 안전성, 저작권, 개인정보, 사용 맥락을 따로 검토해야 한다.
 
-Part 1 안에서는 이 절을 `품질(quality)`, `근거(evidence)`, `환각(hallucination)`, `confabulation`, `안전(safety)`, `권리와 책임(rights and responsibility)`의 입문 구분을 정리하는 대표 상세 설명 위치로 사용합니다. 10.1에서는 `무엇을 출력하는가`를, 10.2에서는 `어떻게 생성해 가는가`를 봤고, 여기서는 `그 결과를 어떻게 읽고 검토할 것인가`를 따로 분리합니다. 저작권, 보안, 개인정보의 상세 논의는 P1-15에서 다시 이어집니다.
+Part 1에서 `품질(quality)`, `근거(evidence)`, `환각(hallucination)`, `confabulation`, `안전(safety)`, `권리와 책임(rights and responsibility)`의 입문 구분은 여기서 잡습니다. 10.1에서는 `무엇을 출력하는가`를, 10.2에서는 `어떻게 생성해 가는가`를 봤고, 여기서는 `그 결과를 어떻게 읽고 검토할 것인가`를 따로 분리합니다. 저작권, 보안, 개인정보의 상세 논의는 P1-15에서 다시 이어집니다.
 
 ## 이 절의 범위
 
-이 절은 생성형 AI의 위험을 모두 다루지 않습니다. 법률 판단, 보안 설계, 개인정보 보호, 저작권 분쟁, AI 거버넌스(governance)는 P1-15에서 더 자세히 다룹니다.
+여기서는 생성형 AI의 위험을 모두 다루지 않습니다. 법률 판단, 보안 설계, 개인정보 보호, 저작권 분쟁, AI 거버넌스(governance)는 P1-15에서 더 자세히 다룹니다.
 
-처음 읽을 때는 `품질`, `근거`, `환각`, `안전`, `권리와 책임`이 모두 비슷한 검토 항목처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`품질`, `근거`, `환각`, `안전`, `권리와 책임`은 초반에 모두 비슷한 검토 항목처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -29,9 +29,9 @@ Part 1 안에서는 이 절을 `품질(quality)`, `근거(evidence)`, `환각(ha
 | 안전 | 사람과 시스템에 해를 줄 가능성 | 출력 사용 맥락의 위험 평가 |
 | 권리와 책임 | 저작권, 개인정보, 비밀 정보, 사용 책임 | 공개·배포 전 검토 축 |
 
-처음 단계에서는 `자연스러움 != 사실성`, `환각은 그럴듯한 오류`, `안전과 권리는 따로 본다` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `자연스러움 != 사실성`, `환각은 그럴듯한 오류`, `안전과 권리는 따로 본다`입니다.
 
-여기서는 10장의 마무리로 다음 네 가지 관점만 잡습니다.
+여기서는 10장의 마무리로 다음 네 가지 관점을 기준선으로 둡니다.
 
 | 관점 | 핵심 질문 |
 | --- | --- |
@@ -48,15 +48,15 @@ Part 1 안에서는 이 절을 `품질(quality)`, `근거(evidence)`, `환각(ha
 - 생성 결과의 위험을 품질, 근거, 안전, 권리 관점으로 나눠 봅니다.
 - 이 책에서 AI가 만든 초안을 사람이 검토해야 하는 이유를 정리합니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 생성형 AI를 금지하거나 두려워하자는 절이 아니라, 결과를 어떻게 읽어야 하는지 정리하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 생성형 AI를 금지하거나 두려워하자는 쪽이 아니라, 결과를 어떻게 읽어야 하는지 정리하는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 자연스러운 문장과 사실이 맞는 문장은 다를 수 있다는 점 | 생성형 AI의 가장 흔한 오해를 바로 잡아 줍니다. | 매끄럽게 써도 틀릴 수 있다는 점만 분명히 알면 충분합니다. |
-| 출처와 근거는 자동으로 따라오지 않는다는 점 | 이 책 전체의 검증 원칙과 연결됩니다. | 사실 주장은 따로 확인해야 한다고 이해하면 충분합니다. |
-| 위험은 품질만이 아니라 안전, 권리, 책임까지 포함한다는 점 | P1-15의 윤리·저작권·보안 장으로 자연스럽게 이어집니다. | “잘 써졌다”만으로는 충분하지 않다고 알면 충분합니다. |
+| 자연스러운 문장과 사실이 맞는 문장은 다를 수 있다는 점 | 생성형 AI의 가장 흔한 오해를 바로 잡아 줍니다. | 매끄럽게 써도 틀릴 수 있다는 점만 분명히 알면 됩니다. |
+| 출처와 근거는 자동으로 따라오지 않는다는 점 | 이 책 전체의 검증 원칙과 연결됩니다. | 사실 주장은 따로 확인해야 한다고 이해하면 됩니다. |
+| 위험은 품질만이 아니라 안전, 권리, 책임까지 포함한다는 점 | P1-15의 윤리·저작권·보안 장으로 자연스럽게 이어집니다. | “잘 써졌다”만으로는 충분하지 않다고 알면 됩니다. |
 
 ## 자연스러운 문장과 맞는 문장은 다르다
 
@@ -134,7 +134,7 @@ NIST의 Generative AI Profile은 `confabulation`을 자신 있게 제시되지�
 
 NIST는 생성형 AI 위험으로 confabulation, data privacy, information integrity, information security, intellectual property 같은 범주를 제시합니다. OWASP Top 10 for LLM Applications 2025도 prompt injection, sensitive information disclosure, improper output handling, excessive agency 같은 LLM 애플리케이션 보안 위험을 별도로 다룹니다.
 
-입문 단계에서는 다음 정도로 나눠 볼 수 있습니다.
+여기서는 다음 정도로 나눠 봅니다.
 
 | 위험 | 설명 | 예 |
 | --- | --- | --- |
@@ -172,7 +172,7 @@ NIST는 생성형 AI 위험으로 confabulation, data privacy, information integ
 
 미국 저작권청(US Copyright Office)의 AI와 저작권 보고서는 인간 저작(human authorship)이 저작권 보호의 핵심 요건이라는 관점을 유지합니다. 또한 AI가 전적으로 생성한 콘텐츠와 인간의 창작적 기여가 포함된 AI 보조 산출물은 구분해서 검토해야 한다고 설명합니다.
 
-이 책은 한국어 공개 문서이고, 한국 출판물과 교육 자료를 다룰 수 있으므로 대한민국 저작권법 관점의 검토가 별도로 필요합니다. 다만 이 절에서는 법률 결론을 내리지 않습니다. P1-15에서 더 자세히 다룹니다.
+이 책은 한국어 공개 문서이고, 한국 출판물과 교육 자료를 다룰 수 있으므로 대한민국 저작권법 관점의 검토가 별도로 필요합니다. 다만 여기서는 법률 결론을 내리지 않습니다. P1-15에서 더 자세히 다룹니다.
 
 10.3에서 기억할 기준은 다음입니다.
 
@@ -221,7 +221,7 @@ NIST는 생성형 AI 위험으로 confabulation, data privacy, information integ
 
 생성형 AI를 학습 도구로 사용할 때의 핵심은 “대신 생각하게 하는 것”이 아니라, 빠르게 나온 초안을 사람이 더 엄격하게 검토하는 것입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 자연스러운 문장과 정확한 문장을 구분할 수 있다.
 - 환각(hallucination) 또는 confabulation을 그럴듯한 오류로 설명할 수 있다.
@@ -230,12 +230,22 @@ NIST는 생성형 AI 위험으로 confabulation, data privacy, information integ
 - AI 초안을 공개 문서에 반영하기 전에 사람의 검토가 필요함을 설명할 수 있다.
 - P1-15에서 저작권, 보안, 개인정보를 더 자세히 다뤄야 함을 기억할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 생성 결과가 자연스럽게 보여서 사실성, 근거, 안전, 권리 문제를 뒤로 미루고 싶어질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 잘 쓰인 문장처럼 보여도 실제 근거와 사실 확인이 별도라는 점을 다시 강조해야 할 때
+- 생성 결과의 위험을 단순 오류가 아니라 정보 무결성, 개인정보, 보안, 저작권, 과신 문제로 넓혀 봐야 할 때
+- AI 초안을 공개 문서나 고위험 맥락에 반영하기 전 사람 검토 절차를 분명히 적어야 할 때
+
+이때는 먼저 `자연스러움`, `정확성`, `근거`, `사용 맥락`, `권리와 책임`을 분리하면 됩니다. 그러면 결과가 그럴듯하다는 이유만으로 검토를 생략하는 실수를 줄일 수 있습니다.
+
 ## 출처와 참고 자료
 
-- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf), NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-23.
-- OWASP GenAI Security Project, [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/), 2024-11-17, 확인 날짜: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 2: Copyrightability](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf), 2025-01, 확인 날짜: 2026-06-23.
-- IBM, [What are AI hallucinations?](https://www.ibm.com/think/topics/ai-hallucinations), IBM Think, 확인 날짜: 2026-06-23.
-- Associated Press, [Philly sheriff's campaign takes down bogus 'news' stories posted to site that were generated by AI](https://apnews.com/article/fake-news-philadelphia-sheriff-website-ai-headlines-7bace99ffe0f11d8e8b17862c7b55e4e), 2024-02-05, 확인 날짜: 2026-06-23.
-- Associated Press, [UK judge warns of risk to justice after lawyers cited fake AI-generated cases in court](https://apnews.com/article/uk-courts-fake-ai-cases-46013a78d78dc869bdfd6b42579411cb), 2025-06-07, 확인 날짜: 2026-06-23.
-- Associated Press, [Creating and sharing deceptive AI-generated media is now a crime in New Jersey](https://apnews.com/article/new-jersey-deepfake-videos-criminal-civil-penalties-276ca23b00b10a7ee7e7303ead8b4260), 2025-04-03, 확인 날짜: 2026-06-23.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-23.
+- OWASP GenAI Security Project, [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/){: target="_blank" rel="noopener noreferrer" }, 2024-11-17, 확인 날짜: 2026-06-23.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 2: Copyrightability](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf){: target="_blank" rel="noopener noreferrer" }, 2025-01, 확인 날짜: 2026-06-23.
+- IBM, [What are AI hallucinations?](https://www.ibm.com/think/topics/ai-hallucinations){: target="_blank" rel="noopener noreferrer" }, IBM Think, 확인 날짜: 2026-06-23.
+- Associated Press, [Philly sheriff's campaign takes down bogus 'news' stories posted to site that were generated by AI](https://apnews.com/article/fake-news-philadelphia-sheriff-website-ai-headlines-7bace99ffe0f11d8e8b17862c7b55e4e){: target="_blank" rel="noopener noreferrer" }, 2024-02-05, 확인 날짜: 2026-06-23.
+- Associated Press, [UK judge warns of risk to justice after lawyers cited fake AI-generated cases in court](https://apnews.com/article/uk-courts-fake-ai-cases-46013a78d78dc869bdfd6b42579411cb){: target="_blank" rel="noopener noreferrer" }, 2025-06-07, 확인 날짜: 2026-06-23.
+- Associated Press, [Creating and sharing deceptive AI-generated media is now a crime in New Jersey](https://apnews.com/article/new-jersey-deepfake-videos-criminal-civil-penalties-276ca23b00b10a7ee7e7303ead8b4260){: target="_blank" rel="noopener noreferrer" }, 2025-04-03, 확인 날짜: 2026-06-23.

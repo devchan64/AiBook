@@ -1,19 +1,19 @@
-# 9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
+# P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
-이번 절은 딥러닝 전체를 설명하지 않습니다. 먼저 이미지 인식(image recognition) 사례를 통해, 딥러닝이 왜 “특징을 사람이 모두 설계하는 방식”에서 “모델이 표현을 함께 학습하는 방식”으로 이해되는지 봅니다.
+여기서는 딥러닝 전체를 설명하지 않습니다. 이미지 인식(image recognition) 사례를 통해, 딥러닝이 왜 “특징을 사람이 모두 설계하는 방식”에서 “모델이 표현을 함께 학습하는 방식”으로 이해되는지 설명합니다.
 
-이 절의 핵심 질문은 이미지를 분류할 때 사람이 특징을 직접 쓰는 방식과 모델이 표현을 학습하는 방식이 무엇이 다른가입니다.
+여기서 던지는 핵심 질문은 이미지를 분류할 때 사람이 특징을 직접 쓰는 방식과 모델이 표현을 학습하는 방식이 무엇이 다른가입니다.
 
 > 딥러닝의 중요한 변화는 모델이 출력만 맞추는 것이 아니라, 입력을 다루기 좋은 내부 표현도 함께 학습한다는 점이다.
 
-Part 1 안에서는 이 절을 `이미지 인식(image recognition)`, `수작업 특징(hand-crafted features)`, `학습된 표현(learned representation)`, `CNN(convolutional neural network)`, `AlexNet`의 대표 상세 설명 위치로 사용합니다. `표현(representation)`의 기본 감각은 3.3과 4.3에서 먼저 소개했고, `지도학습(supervised learning)`의 기본 구조는 8.1에서 정리했습니다. 여기서는 그 위에서 `딥러닝이 왜 이미지 문제에서 전환점으로 읽히는가`를 잡습니다.
+이 절에서는 `이미지 인식(image recognition)`, `수작업 특징(hand-crafted features)`, `학습된 표현(learned representation)`, `CNN(convolutional neural network)`, `AlexNet`을 바탕으로 왜 딥러닝이 이미지 문제의 전환점으로 읽히는지 정리합니다. `표현(representation)`의 기본 감각은 3.3과 4.3에서, `지도학습(supervised learning)`의 기본 구조는 8.1에서 먼저 다뤘습니다.
 
-처음 읽을 때는 `이미지 인식`, `수작업 특징`, `표현 학습`, `CNN`, `AlexNet`이 모두 비슷한 딥러닝 역사 용어처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`이미지 인식`, `수작업 특징`, `표현 학습`, `CNN`, `AlexNet`은 초반에 모두 비슷한 딥러닝 역사 용어처럼 들릴 수 있습니다. 우선 각 용어의 자리를 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -23,19 +23,19 @@ Part 1 안에서는 이 절을 `이미지 인식(image recognition)`, `수작업
 | CNN | 이미지의 지역 패턴을 계층적으로 다루는 신경망 구조 | 이미지 인식에서 중요한 대표 구조 |
 | AlexNet | 대규모 데이터, GPU, 깊은 CNN이 결합된 전환점 사례 | 딥러닝 확산의 상징적 사례 |
 
-처음 단계에서는 `수작업 특징 vs 학습된 표현`, `CNN은 이미지용 구조`, `AlexNet은 확산의 전환점` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `수작업 특징 vs 학습된 표현`, `CNN은 이미지용 구조`, `AlexNet은 확산의 전환점`입니다.
 
 ## 이 절의 범위
 
-이 절은 합성곱 신경망(CNN, convolutional neural network)을 수식으로 설명하지 않습니다. 합성곱(convolution)과 풀링(pooling)은 Part 5의 P5-11.2에서, 활성화 함수(activation function)는 P5-3.1과 P5-3.2에서, 역전파(backpropagation)와 옵티마이저(optimizer)는 P5-5.1, P5-5.2, P5-7.1에서 다시 다룹니다.
+여기서는 합성곱 신경망(CNN, convolutional neural network)을 수식으로 설명하지 않습니다. 합성곱(convolution)과 풀링(pooling)은 Part 5의 P5-11.2에서, 활성화 함수(activation function)는 P5-3.1과 P5-3.2에서, 역전파(backpropagation)와 옵티마이저(optimizer)는 P5-5.1, P5-5.2, P5-7.1에서 다시 다룹니다.
 
 또한 AlexNet을 “모든 딥러닝의 시작”으로 쓰지 않습니다. 신경망과 CNN 연구는 그 이전에도 오래 이어졌습니다. 여기서는 AlexNet을 2010년대 딥러닝 확산을 보여 주는 대표적 전환점으로만 다룹니다.
 
-또한 `표현(representation)` 자체를 다시 처음부터 정의하지는 않습니다. 이 절에서는 `표현을 사람이 설계할 것인가, 모델이 함께 학습할 것인가`라는 대비에 집중합니다. LLM의 직접 계보는 다음 절과 9.3에서 따로 구분합니다.
+또한 `표현(representation)` 자체를 다시 처음부터 정의하지는 않습니다. 여기서는 `표현을 사람이 설계할 것인가, 모델이 함께 학습할 것인가`라는 대비에 집중합니다. LLM의 직접 계보는 다음 절과 9.3에서 따로 구분합니다.
 
 이때 시간축을 한 번 더 구분해 둘 필요가 있습니다. 신경망(neural network) 자체는 2010년대에 갑자기 등장한 것이 아니고, 2006년 전후에는 딥 빌리프 네트워크(deep belief network)와 표현 학습(representation learning) 연구가 다시 주목받으며 딥러닝 부흥의 초기 신호를 만들었습니다. 따라서 2012년 AlexNet은 완전히 무(無)에서 시작된 사건이라기보다, 더 오래된 신경망 연구와 2006년 전후의 부활 흐름 위에서 대규모 데이터와 GPU 계산이 결합되어 확산의 전환점이 된 사례로 읽는 편이 정확합니다.
 
-여기서는 다음 정도만 잡습니다.
+여기서는 다음 정의를 기준선으로 둡니다.
 
 > 이미지 인식에서 딥러닝은
 > 사람이 직접 설계한 특징만 사용하는 방식보다,
@@ -49,15 +49,15 @@ Part 1 안에서는 이 절을 `이미지 인식(image recognition)`, `수작업
 - AlexNet을 대규모 데이터, GPU, 깊은 CNN, 표현 학습이 결합된 전환점으로 읽습니다.
 - 이미지 인식 사례를 LLM의 직접 계보로 과장하지 않습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 CNN 수식을 배우는 절이 아니라, 왜 딥러닝이 이미지 인식에서 전환점이 되었는지 이해하는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 CNN 수식보다 왜 딥러닝이 이미지 인식에서 전환점이 되었는지 이해하는 데 집중합니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 이미지 분류는 사람에게 쉬워 보여도 규칙으로 쓰기 어렵다는 점 | 딥러닝이 왜 필요해졌는지 문제 배경을 보여 줍니다. | 조명, 각도, 가림 때문에 규칙이 쉽게 깨진다고 이해하면 충분합니다. |
-| 수작업 특징과 학습된 표현은 접근 방식이 다르다는 점 | 딥러닝의 핵심 전환을 한 문장으로 잡게 해 줍니다. | 사람이 단서를 직접 고르던 방식에서 모델이 표현을 함께 배우는 방식으로 이동했다고 알면 충분합니다. |
-| AlexNet은 표현 학습이 확산되는 전환점으로 읽는다는 점 | 역사 설명을 과장하지 않으면서도 중요한 분기점을 남겨 줍니다. | “처음”이라기보다 “확산의 전환점”이라고 이해하면 충분합니다. |
+| 이미지 분류는 사람에게 쉬워 보여도 규칙으로 쓰기 어렵다는 점 | 딥러닝이 왜 필요해졌는지 문제 배경을 보여 줍니다. | 조명, 각도, 가림 때문에 규칙이 쉽게 깨진다고 이해하면 됩니다. |
+| 수작업 특징과 학습된 표현은 접근 방식이 다르다는 점 | 딥러닝의 핵심 전환을 한 문장으로 잡게 해 줍니다. | 사람이 단서를 직접 고르던 방식에서 모델이 표현을 함께 배우는 방식으로 이동했다고 알면 됩니다. |
+| AlexNet은 표현 학습이 확산되는 전환점으로 읽는다는 점 | 역사 설명을 과장하지 않으면서도 중요한 분기점을 남겨 줍니다. | “처음”이라기보다 “확산의 전환점”이라고 이해하면 됩니다. |
 
 ## 이미지 인식은 사람에게 쉬워 보여도 규칙으로 쓰기 어렵다
 
@@ -117,7 +117,7 @@ Part 1 안에서는 이 절을 `이미지 인식(image recognition)`, `수작업
 > -> 물체의 일부(object part)
 > -> 범주 판단(category prediction)
 
-이 흐름은 실제 모델 내부가 항상 사람이 읽기 좋은 단계로 나뉜다는 뜻은 아닙니다. 입문용으로는 다음 정도로 이해하면 충분합니다.
+이 흐름은 실제 모델 내부가 항상 사람이 읽기 좋은 단계로 나뉜다는 뜻은 아닙니다. 입문용으로는 다음 정도로 이해하면 됩니다.
 
 > 모델은 원래 이미지를 그대로 분류하는 것이 아니라,
 > 여러 계산 단계를 거쳐 분류에 유용한 내부 표현을 만든다.
@@ -126,7 +126,7 @@ LeCun, Bengio, Hinton의 Nature 리뷰는 딥러닝을 여러 처리 층(process
 
 ## CNN은 이미지의 지역 패턴을 계층적으로 본다
 
-합성곱 신경망(CNN, convolutional neural network)은 이미지 인식에서 중요하게 쓰인 신경망 구조입니다. 이 절에서는 수식 대신 직관만 봅니다.
+합성곱 신경망(CNN, convolutional neural network)은 이미지 인식에서 중요하게 쓰인 신경망 구조입니다. 여기서는 수식 대신 직관만 봅니다.
 
 이미지는 위치가 중요합니다. 눈, 코, 입, 바퀴, 문, 손잡이 같은 단서는 이미지의 작은 영역에서 먼저 나타납니다. CNN은 이런 지역 패턴(local pattern)을 여러 위치에서 반복적으로 탐지하고, 다음 층에서 더 큰 패턴으로 조합할 수 있도록 설계된 구조입니다.
 
@@ -206,7 +206,7 @@ Nature 리뷰는 AlexNet 논문을 컴퓨터 비전(computer vision) 커뮤니�
 
 AlexNet은 이 전환을 널리 각인시킨 대표 사례입니다. 이 사례를 통해 기억할 것은 “이미지 인식이 LLM을 만들었다”가 아니라, “표현 학습과 대규모 신경망이 여러 분야에서 강한 성과를 보이며 딥러닝 패러다임을 확산시켰다”는 점입니다.
 
-## 체크리스트
+## 짧은 점검
 
 - 이미지 인식(image recognition)을 이미지에서 범주를 예측하는 문제로 설명할 수 있다.
 - 수작업 특징(hand-crafted features)과 학습된 표현(learned representation)을 구분할 수 있다.
@@ -214,9 +214,19 @@ AlexNet은 이 전환을 널리 각인시킨 대표 사례입니다. 이 사례�
 - AlexNet을 대규모 데이터, 깊은 CNN, GPU, 학습 기법이 결합된 전환점으로 설명할 수 있다.
 - 이미지 인식 사례를 LLM의 직접 계보로 과장하지 않을 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 딥러닝의 전환점을 단순히 `성능이 좋아졌다`로만 설명하고 있어 표현 학습의 의미가 빠질 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- 사람이 특징을 직접 설계하던 방식과 모델이 표현을 함께 학습하는 방식을 대비해야 할 때
+- CNN(convolutional neural network)이 왜 이미지에서 중요한 구조였는지 직관 수준으로 설명해야 할 때
+- AlexNet을 `최초`가 아니라 `확산의 전환점`으로 안전하게 자리 잡아야 할 때
+
+이때는 먼저 `문제는 왜 규칙으로 쓰기 어려웠는가`, `무엇을 사람이 설계했고 무엇을 모델이 배웠는가`, `왜 데이터·GPU·모델 구조가 함께 중요했는가`를 나누면 됩니다. 그러면 이미지 인식 사례를 과장하지 않으면서도 딥러닝 패러다임의 변화를 선명하게 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html), NeurIPS, 2012, 확인 날짜: 2026-06-23.
-- Yann LeCun, Yoshua Bengio, Geoffrey Hinton, [Deep learning](https://www.nature.com/articles/nature14539), Nature 521, 436-444, 2015-05-27, 확인 날짜: 2026-06-23.
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538), arXiv, 2012-06-24, 확인 날짜: 2026-06-23.
-- Daniel Saez Trigueros, Li Meng, Margaret Hartnett, [Face Recognition: From Traditional to Deep Learning Methods](https://arxiv.org/abs/1811.00116), arXiv, 2018, 확인 날짜: 2026-06-23.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-06-23.
+- Yann LeCun, Yoshua Bengio, Geoffrey Hinton, [Deep learning](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }, Nature 521, 436-444, 2015-05-27, 확인 날짜: 2026-06-23.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012-06-24, 확인 날짜: 2026-06-23.
+- Daniel Saez Trigueros, Li Meng, Margaret Hartnett, [Face Recognition: From Traditional to Deep Learning Methods](https://arxiv.org/abs/1811.00116){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.

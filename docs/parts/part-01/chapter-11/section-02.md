@@ -1,25 +1,25 @@
-# 11.2 RNN, Seq2Seq, Attention
+# P1-11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 
-이번 절에서는 순서가 있는 데이터를 신경망이 어떻게 다루려고 했는지 봅니다.
+여기서는 순서가 있는 데이터를 신경망이 어떻게 다루려고 했는지 봅니다.
 
-이 절의 핵심 질문은 단어와 토큰을 벡터로 바꾼 뒤 그 순서와 문맥을 어떻게 모델 안에서 다룰 수 있었는가입니다.
+여기서 던지는 핵심 질문은 단어와 토큰을 벡터로 바꾼 뒤 그 순서와 문맥을 어떻게 모델 안에서 다룰 수 있었는가입니다.
 
-입문 단계에서는 다음 흐름이 중요합니다.
+여기서 중요한 흐름은 다음과 같습니다.
 
 > RNN은 이전 상태를 다음 계산에 넘기며 순서를 다루었고, Seq2Seq는 입력 시퀀스를 출력 시퀀스로 바꾸는 구조를 만들었으며, Attention은 출력 시점마다 입력의 관련 위치를 다시 참고할 수 있게 했다.
 
-Part 1 안에서는 이 절을 `RNN(recurrent neural network)`, `hidden state`, `LSTM`, `GRU`, `Seq2Seq(sequence-to-sequence)`, `Encoder-Decoder`, `Attention`, `fixed-length vector` 병목의 대표 상세 설명 위치로 사용합니다. 11.1에서는 언어 모델과 임베딩을 봤고, 여기서는 `벡터로 바꾼 토큰의 순서와 문맥을 어떻게 다루었는가`를 다룹니다. Transformer는 아직 다루지 않고 11.3에서 이어집니다.
+Part 1에서 `RNN(recurrent neural network)`, `hidden state`, `LSTM`, `GRU`, `Seq2Seq(sequence-to-sequence)`, `Encoder-Decoder`, `Attention`, `fixed-length vector` 병목의 기본 구분은 여기서 잡습니다. 11.1에서는 언어 모델과 임베딩을 봤고, 여기서는 `벡터로 바꾼 토큰의 순서와 문맥을 어떻게 다루었는가`를 다룹니다. Transformer는 아직 다루지 않고 11.3에서 이어집니다.
 
 ## 이 절의 범위
 
-이 절은 Transformer를 설명하지 않습니다. Transformer는 11.3에서 다룹니다.
+여기서는 Transformer를 설명하지 않습니다. Transformer는 11.3에서 다룹니다.
 
-처음 읽을 때는 `RNN`, `hidden state`, `LSTM`, `Seq2Seq`, `Attention`이 모두 순차 모델의 비슷한 부품처럼 들릴 수 있습니다. 이 절에서는 아래 정도로만 짧게 구분해 두면 충분합니다.
+`RNN`, `hidden state`, `LSTM`, `Seq2Seq`, `Attention`은 초반에 모두 순차 모델의 비슷한 부품처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.
 
 | 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
 | --- | --- | --- |
@@ -30,7 +30,7 @@ Part 1 안에서는 이 절을 `RNN(recurrent neural network)`, `hidden state`, 
 | Encoder-Decoder | 입력을 읽는 부분과 출력을 만드는 부분 | Seq2Seq의 기본 구조 |
 | Attention | 출력할 때 입력의 관련 위치를 다시 참고하는 구조 | Transformer로 가는 핵심 전환 |
 
-처음 단계에서는 `RNN은 순서 누적`, `Seq2Seq는 입력-출력 변환`, `Attention은 다시 참고` 정도로만 잡아도 충분합니다.
+여기서 유지해야 할 최소 구분은 `RNN은 순서 누적`, `Seq2Seq는 입력-출력 변환`, `Attention은 다시 참고`입니다.
 
 여기서는 Transformer 이전에 중요한 전환이 된 세 가지 흐름만 봅니다.
 
@@ -40,9 +40,9 @@ Part 1 안에서는 이 절을 `RNN(recurrent neural network)`, `hidden state`, 
 | Seq2Seq(sequence-to-sequence) | 입력 문장을 출력 문장으로 어떻게 바꾸는가? |
 | Attention | 출력 단어를 만들 때 입력의 어떤 부분을 참고할지 어떻게 정하는가? |
 
-LSTM(long short-term memory)과 GRU(gated recurrent unit)는 RNN 계열에서 긴 의존성(long-range dependency)을 다루기 위해 등장한 중요한 구조입니다. 하지만 이 절에서는 게이트(gate) 수식이나 내부 구조를 깊게 설명하지 않고, 왜 필요했는지 정도만 봅니다.
+LSTM(long short-term memory)과 GRU(gated recurrent unit)는 RNN 계열에서 긴 의존성(long-range dependency)을 다루기 위해 등장한 중요한 구조입니다. 하지만 여기서는 게이트(gate) 수식이나 내부 구조를 깊게 설명하지 않고, 왜 필요했는지 정도만 봅니다.
 
-또한 이 절은 `사전학습(pretraining)`이나 `BERT/GPT`의 차이를 설명하지 않습니다. 그 주제는 11.3에서 Transformer와 함께 다시 묶습니다.
+또한 여기서는 `사전학습(pretraining)`이나 `BERT/GPT`의 차이를 설명하지 않습니다. 그 주제는 11.3에서 Transformer와 함께 다시 묶습니다.
 
 ## 이 절의 목표
 
@@ -54,15 +54,15 @@ LSTM(long short-term memory)과 GRU(gated recurrent unit)는 RNN 계열에서 �
 - Attention을 출력 시점마다 입력의 관련 위치를 가중치로 참고하는 구조로 이해합니다.
 - Attention을 인간의 의식적 주의나 논리적 이해로 과장하지 않습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 수식을 먼저 보는 절이 아니라, 순서와 문맥을 신경망이 어떻게 다루려 했는지 흐름을 보는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 수식을 먼저 보기보다, 순서와 문맥을 신경망이 어떻게 다루려 했는지 흐름을 보는 데 집중합니다. 아래 세 가지 기준이 잡히면 흐름이 정리됩니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| RNN은 이전 상태를 다음 계산에 넘기며 순서를 다룬다는 점 | 시퀀스 데이터를 왜 별도 구조로 다뤘는지 보여 줍니다. | 앞의 정보를 조금씩 들고 간다고 이해하면 충분합니다. |
-| Seq2Seq는 입력 시퀀스를 출력 시퀀스로 바꾸는 구조라는 점 | 번역, 요약 같은 문제를 어떻게 모델링했는지 이해하게 해 줍니다. | 문장 하나를 다른 문장으로 바꾸는 틀이라고 보면 충분합니다. |
-| Attention은 출력할 때 입력의 관련 부분을 다시 참고하게 해 준다는 점 | Transformer로 넘어가는 핵심 전환을 준비해 줍니다. | 모든 정보를 하나의 고정 벡터에만 담지 않으려 한 시도라고 이해하면 충분합니다. |
+| RNN은 이전 상태를 다음 계산에 넘기며 순서를 다룬다는 점 | 시퀀스 데이터를 왜 별도 구조로 다뤘는지 보여 줍니다. | 앞의 정보를 조금씩 들고 간다고 이해하면 됩니다. |
+| Seq2Seq는 입력 시퀀스를 출력 시퀀스로 바꾸는 구조라는 점 | 번역, 요약 같은 문제를 어떻게 모델링했는지 이해하게 해 줍니다. | 문장 하나를 다른 문장으로 바꾸는 틀이라고 보면 됩니다. |
+| Attention은 출력할 때 입력의 관련 부분을 다시 참고하게 해 준다는 점 | Transformer로 넘어가는 핵심 전환을 준비해 줍니다. | 모든 정보를 하나의 고정 벡터에만 담지 않으려 한 시도라고 이해하면 됩니다. |
 
 ## RNN은 이전 상태를 다음 계산에 넘긴다
 
@@ -91,7 +91,7 @@ RNN(recurrent neural network)은 이런 순서 데이터를 다루기 위해 이
 
 RNN의 아이디어는 단순하고 강력하지만, 긴 문맥을 안정적으로 학습하는 것은 쉽지 않았습니다. 멀리 떨어진 단어 사이의 관계를 학습하려면 오류 신호가 많은 시간 단계를 거슬러 전달되어야 합니다. 이 과정에서 gradient가 너무 작아지거나(vanishing gradient), 너무 커지는(exploding gradient) 문제가 생길 수 있습니다.
 
-입문 단계에서는 다음 정도로 이해하면 충분합니다.
+여기서는 다음 정도로 이해합니다.
 
 > 짧은 문맥:
 > 앞의 정보가 비교적 쉽게 뒤까지 전달됨
@@ -101,7 +101,7 @@ RNN의 아이디어는 단순하고 강력하지만, 긴 문맥을 안정적으�
 
 LSTM(long short-term memory)은 이런 긴 의존성 문제를 다루기 위해 널리 쓰인 RNN 변형입니다. LSTM은 cell state와 gate 구조를 사용해 어떤 정보를 유지하고, 어떤 정보를 새로 받아들이고, 어떤 정보를 출력에 사용할지 조절합니다.
 
-GRU(gated recurrent unit)는 LSTM보다 단순한 게이트 구조로 비슷한 목적을 수행하는 RNN 변형입니다. 이 절에서는 LSTM과 GRU를 자세히 비교하지 않습니다. 중요한 것은 RNN 계열 연구가 “순서가 있는 데이터를 어떻게 오래 기억하고 처리할 것인가”라는 문제를 중심으로 발전했다는 점입니다.
+GRU(gated recurrent unit)는 LSTM보다 단순한 게이트 구조로 비슷한 목적을 수행하는 RNN 변형입니다. 여기서는 LSTM과 GRU를 자세히 비교하지 않습니다. 중요한 것은 RNN 계열 연구가 “순서가 있는 데이터를 어떻게 오래 기억하고 처리할 것인가”라는 문제를 중심으로 발전했다는 점입니다.
 
 ## Seq2Seq는 입력 순서를 출력 순서로 바꾼다
 
@@ -122,7 +122,7 @@ Seq2Seq의 기본 구조는 Encoder-Decoder입니다.
 
 Sutskever, Vinyals, Le의 2014년 논문은 LSTM을 사용해 입력 시퀀스를 고정 차원 벡터로 바꾸고, 다른 LSTM이 그 벡터에서 출력 시퀀스를 생성하는 일반적인 sequence learning 접근을 제시했습니다. Cho 등의 RNN Encoder-Decoder 논문도 하나의 RNN이 심볼 시퀀스를 fixed-length vector로 인코딩하고, 다른 RNN이 그 표현을 다른 심볼 시퀀스로 디코딩하는 구조를 제안했습니다.
 
-입문 관점에서는 다음 그림으로 충분합니다.
+입문 관점에서는 다음 그림으로 이해할 수 있습니다.
 
 > 입력 문장
 > -> Encoder
@@ -189,7 +189,7 @@ Attention이라는 이름 때문에 모델이 사람처럼 의식적으로 주�
 
 Attention은 모델이 입력의 관련 위치를 더 많이 참고하도록 도와줍니다. 또한 일부 경우에는 어떤 입력 위치가 특정 출력에 강하게 연결되었는지 시각화할 수 있습니다.
 
-하지만 attention weight를 곧바로 “모델의 진짜 이유”나 “인간식 이해”로 해석하면 위험합니다. 이 절에서는 Attention을 해석 가능성의 완전한 답이 아니라, sequence-to-sequence 모델의 병목을 줄이는 중요한 구조로만 둡니다.
+하지만 attention weight를 곧바로 “모델의 진짜 이유”나 “인간식 이해”로 해석하면 위험합니다. 여기서는 Attention을 해석 가능성의 완전한 답이 아니라, sequence-to-sequence 모델의 병목을 줄이는 중요한 구조로만 둡니다.
 
 ## Transformer로 이어지는 이유
 
@@ -199,7 +199,7 @@ RNN 기반 모델은 순서를 따라 계산합니다. 이전 상태를 다음 �
 
 Attention은 입력의 관련 위치를 직접 참고하는 강력한 방법을 보여 주었습니다. Transformer는 이 Attention을 더 중심에 놓고, recurrence 없이 self-attention을 사용해 시퀀스 안의 토큰들이 서로를 참고하게 만든 구조입니다.
 
-이 절에서는 여기까지만 기억합니다.
+여기서는 여기까지만 기억합니다.
 
 > RNN:
 > 이전 상태를 넘기며 순서를 처리
@@ -225,7 +225,7 @@ RNN, Seq2Seq, Attention은 모두 언어를 단순한 단어 목록이 아니라
 
 이 흐름을 알면 Transformer와 LLM을 갑자기 등장한 구조로 보지 않게 됩니다. Transformer는 Attention 이전의 문제의식, 즉 긴 문맥, 입력-출력 대응, 병렬 계산의 필요성 위에서 이해해야 합니다.
 
-## 체크리스트
+## 짧은 점검
 
 - RNN(recurrent neural network)이 이전 hidden state를 다음 계산에 넘기는 구조임을 설명할 수 있다.
 - hidden state를 사람의 기억이 아니라 내부 벡터 상태로 설명할 수 있다.
@@ -237,9 +237,19 @@ RNN, Seq2Seq, Attention은 모두 언어를 단순한 단어 목록이 아니라
 - Attention을 인간의 의식적 주의나 완전한 설명 가능성으로 과장하지 않을 수 있다.
 - 11.3에서 Transformer가 왜 Attention을 중심에 놓는지 이어서 읽을 준비가 되었다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+다음처럼 Transformer 이전의 sequence modeling 흐름이 사라져서 현대 LLM 구조가 갑자기 등장한 것처럼 보일 때 이 절의 관점을 먼저 떠올리면 됩니다.
+
+- RNN이 왜 순서 데이터를 따로 다뤘는지 다시 설명해야 할 때
+- Seq2Seq(sequence-to-sequence)와 Encoder-Decoder가 번역·요약 같은 문제를 어떻게 모델링했는지 정리해야 할 때
+- Attention이 왜 fixed-length vector 병목을 줄이는 핵심 전환이었는지 연결해야 할 때
+
+이때는 먼저 `순서를 누적하는 구조`, `입력 시퀀스를 출력 시퀀스로 바꾸는 구조`, `출력 시점마다 입력을 다시 참고하는 구조`를 나누면 됩니다. 그러면 Transformer를 단독 발명처럼 보지 않고, 앞선 문제의식 위에서 읽을 수 있습니다.
+
 ## 출처와 참고 자료
 
-- Kyunghyun Cho et al., [Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation](https://arxiv.org/abs/1406.1078), arXiv, 2014, 확인 날짜: 2026-06-23.
-- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215), arXiv, 2014, 확인 날짜: 2026-06-23.
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473), arXiv, 2014, 확인 날짜: 2026-06-23.
-- Graham Neubig, [Neural Machine Translation and Sequence-to-sequence Models: A Tutorial](https://arxiv.org/abs/1703.01619), arXiv, 2017, 확인 날짜: 2026-06-23.
+- Kyunghyun Cho et al., [Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
+- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
+- Graham Neubig, [Neural Machine Translation and Sequence-to-sequence Models: A Tutorial](https://arxiv.org/abs/1703.01619){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-06-23.

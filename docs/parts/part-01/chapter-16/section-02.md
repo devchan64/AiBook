@@ -1,17 +1,17 @@
-# 16.2 업무 자동화(work automation)와 검색(search)
+# P1-16.2 업무 자동화(work automation)와 검색(search)
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.06`
+> Version: `v2026.07.07`
 
 P1-16.1에서는 AI 재학습 문서화 프로젝트를 개인 학습과 문서화의 사례로 봤습니다. 이제 업무 적용으로 시야를 넓혀 봅니다.
 
 AI를 실무에서 쓸 때 가장 먼저 떠올릴 수 있는 적용은 반복 업무 자동화(work automation)와 검색(search)입니다. 하지만 “AI가 알아서 한다”가 아니라, 사람이 하던 업무 흐름(workflow) 중 어느 부분을 맡길 수 있는지 나누어 봐야 합니다.
 
-Part 1 안에서는 이 절을 `업무 자동화(work automation)`, `검색(search)`, `요약(summary)`, `검토(review)`, `생산성(productivity)`의 대표 상세 설명 위치로 사용합니다. 16.1에서는 개인 학습과 문서화를 다뤘고, 여기서는 그보다 더 넓은 `업무 흐름에서 AI를 어디까지 보조 도구로 쓸 수 있는가`를 정리합니다. 프로젝트 단위 검증은 16.3에서 이어집니다.
+이 절에서는 `업무 자동화(work automation)`, `검색(search)`, `요약(summary)`, `검토(review)`, `생산성(productivity)`을 중심으로 업무 흐름에서 AI를 어디까지 보조 도구로 쓸 수 있는지 정리합니다. 16.1의 개인 학습 문서화보다 범위를 넓히고, 프로젝트 단위 검증은 16.3에서 이어집니다.
 
 ## 이 절의 범위
 
-이 절은 반복 업무와 문서 검색에서 AI를 어떻게 보조 도구로 사용할 수 있는지 다룹니다. 프로젝트로 검증하는 방법은 P1-16.3에서 다룹니다.
+여기서는 반복 업무와 문서 검색에서 AI를 어떻게 보조 도구로 사용할 수 있는지 다룹니다. 프로젝트로 검증하는 방법은 P1-16.3에서 다룹니다.
 
 | 주제 | 이 절에서 볼 질문 |
 | --- | --- |
@@ -26,15 +26,15 @@ Part 1 안에서는 이 절을 `업무 자동화(work automation)`, `검색(sear
 - 검색(search) 결과를 답이 아니라 근거 후보로 읽어야 하는 이유를 말할 수 있습니다.
 - 생산성을 검토 비용까지 포함해 판단해야 한다는 점을 설명할 수 있습니다.
 
-## 먼저 볼 세 가지
+## 세 가지 기준
 
-이 절은 AI가 업무를 전부 대신한다는 환상을 줄이고, 어느 단계에서 보조가 되는지 나누어 보는 절입니다. 먼저는 아래 세 가지 관점만 보면 충분합니다.
+여기서는 AI가 업무를 전부 대신한다는 환상을 줄이고, 어느 단계에서 보조가 되는지 나누어 봅니다. 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
-| 먼저 볼 것 | 왜 중요한가 | 이 절에서 먼저 이해할 수준 |
+| 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
 | --- | --- | --- |
-| 자동화는 업무 전체가 아니라 단계를 나누는 일이라는 점 | AI 활용 범위를 현실적으로 보게 해 줍니다. | 분류, 초안, 검색처럼 맡길 수 있는 부분을 나눠 본다고 이해하면 충분합니다. |
-| 검색 결과는 답이 아니라 근거 후보라는 점 | RAG와 벡터 검색을 과신하지 않게 해 줍니다. | 관련 문서를 찾아도 원문 확인은 사람이 해야 한다고 알면 충분합니다. |
-| 생산성은 검토 비용까지 포함해야 한다는 점 | “빠르다”와 “쓸 만하다”를 구분하게 해 줍니다. | 초안이 빨라도 수정이 많이 들면 전체 생산성은 낮을 수 있다고 이해하면 충분합니다. |
+| 자동화는 업무 전체가 아니라 단계를 나누는 일이라는 점 | AI 활용 범위를 현실적으로 보게 해 줍니다. | 분류, 초안, 검색처럼 맡길 수 있는 부분을 나눠 본다고 이해합니다. |
+| 검색 결과는 답이 아니라 근거 후보라는 점 | RAG와 벡터 검색을 과신하지 않게 해 줍니다. | 관련 문서를 찾아도 원문 확인은 사람이 해야 한다고 이해합니다. |
+| 생산성은 검토 비용까지 포함해야 한다는 점 | “빠르다”와 “쓸 만하다”를 구분하게 해 줍니다. | 초안이 빨라도 수정이 많이 들면 전체 생산성은 낮을 수 있다고 이해합니다. |
 
 ## 자동화는 업무 전체가 아니라 단계를 나누는 일이다
 
@@ -94,8 +94,6 @@ AI 도구는 초안을 빠르게 만들 수 있습니다. 하지만 초안이 �
 
 AI 적용의 생산성(productivity)은 생성 속도만으로 판단하면 안 됩니다. 검토 비용(review cost), 실패 비용(failure cost), 운영 비용(operation cost)을 함께 봐야 합니다.
 
-또한 이 절은 `프로젝트 성공 기준과 평가 설계`를 자세히 설명하는 절도, `개인 학습 문서화 방법`을 다시 반복하는 절도 아닙니다. 여기서는 업무 흐름 관점의 적용 기준을 먼저 잡고, 작은 프로젝트 검증은 16.3에서 다시 정리합니다.
-
 ## 이 절에서 기억할 관점
 
 실무 AI 적용은 자동화의 환상이 아니라 업무 흐름을 재설계하는 일입니다.
@@ -106,15 +104,23 @@ AI 적용의 생산성(productivity)은 생성 속도만으로 판단하면 안 
 > 요약은 원문 확인을 대체하지 않는다.
 > 생산성은 검토 비용까지 포함해서 본다.
 
-## 체크리스트
+## 짧은 점검
 
 - 업무 자동화(work automation)를 전체 대체가 아니라 단계 분해로 설명할 수 있다.
 - 검색(search)과 RAG 결과를 근거 후보로 다뤄야 함을 설명할 수 있다.
 - 요약(summary)이 원문 확인을 대체하지 못한다는 점을 설명할 수 있다.
 - AI 생산성을 초안 속도와 검토 비용을 함께 보고 판단할 수 있다.
 
+## 언제 이 관점을 먼저 떠올려야 하는가
+
+- AI가 업무 전체를 대신할 수 있다고 막연히 기대할 때
+- 검색 결과와 요약 결과를 바로 답으로 채택하려 할 때
+- 생산성을 생성 속도만으로 판단하고 검토 비용을 놓치려 할 때
+
+이때는 먼저 `업무 단계 분해`, `근거 후보 검색`, `원문 확인`, `검토 비용`을 나누면 됩니다. 그러면 자동화 기대와 실제 운영 가능한 보조 범위를 더 현실적으로 설명할 수 있습니다.
+
 ## 출처와 참고 자료
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework), 확인 날짜: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf), 2023, 확인 날짜: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/), 2025-01-07, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-06-23.
