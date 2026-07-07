@@ -55,7 +55,7 @@ Chapter 4 앞 절까지 읽으면 샘플 단위가 중요하다는 점은 이해
 
 즉 문장이 자꾸 `한 줄`보다 큰 대상을 말하고 있다면, 샘플 단위를 다시 의심해야 합니다.
 
-## 작은 예시로 보기
+## 작은 코드 예시
 
 ```python
 import pandas as pd
@@ -99,7 +99,7 @@ warning_check = pd.DataFrame(
     ]
 )
 
-print("1) row-level table")
+print("1) row-level table where labels repeat inside one event")
 print(raw)
 print()
 print("2) repeated rows and repeated labels per event")
@@ -108,14 +108,14 @@ print()
 print("3) event-level summary that appears only after regrouping")
 print(event_summary)
 print()
-print("4) warning check")
+print("4) warning signs that sample unit may be wrong")
 print(warning_check)
 ```
 
 예상 출력:
 
 ```text
-1) row-level table
+1) row-level table where labels repeat inside one event
   event_id  second  flow  review_needed
 0        A       0   0.5              1
 1        A       1   1.8              1
@@ -134,7 +134,7 @@ print(warning_check)
 0        A                 2   1.133333              1
 1        B                 2   0.833333              0
 
-4) warning check
+4) warning signs that sample unit may be wrong
                                   warning_sign seen_in_output
 0           same event repeated across many rows            yes
 1              same label repeated within one event            yes

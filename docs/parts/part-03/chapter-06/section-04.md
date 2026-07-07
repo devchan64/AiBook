@@ -1,7 +1,7 @@
 # P3-6.4 요약 표의 모든 열이 왜 특징은 아닌가
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 Chapter 5에서 원시 로그를 요약 표로 바꾸고, Chapter 6 앞 절에서 어떤 구조를 특징(feature)으로 남길지 보았습니다. 그런데 여기서 자주 다시 멈춥니다. `요약 표를 만들었으면, 그 안에 있는 열은 전부 feature 아닌가?` Part 3이 어렵게 느껴지는 이유 중 하나가 바로 이 지점입니다. 요약 표에는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있기 때문입니다.
 
@@ -75,55 +75,138 @@ Chapter 5에서 원시 로그를 요약 표로 바꾸고, Chapter 6 앞 절에�
 
 ## 작은 코드 예시
 
+문제 상황: 같은 요약 표 안에 특징 열, 비교 열, 결과 후보 열, 식별 열이 함께 있을 때 무엇을 바로 feature로 읽고 무엇을 따로 남겨야 하는지 확인합니다.
+
+입력(input): 동작 1회 요약값과 기준선 값, 결과 후보가 함께 들어 있는 작업 표
+
+기대 출력(output): 작업 표에서 비교 열을 추가한 뒤, 각 열이 왜 feature, comparison, target_candidate, context로 읽히는지 정리한 표
+
+확인할 개념: 숫자 열이라는 이유만으로 모두 feature가 되는 것은 아니며, 열을 만든 목적이 먼저 역할을 가른다
+
 ```python
 import pandas as pd
 
-summary = pd.DataFrame(
+working_table = pd.DataFrame(
     [
         {
             "event_id": "A",
             "mid_flow_mean": 2.40,
             "late_minus_early": -0.80,
             "baseline_mid_flow_mean": 3.05,
+            "review_score": 87,
             "review_needed": 1,
+            "captured_at": "2026-07-08T09:10:00",
+        },
+        {
+            "event_id": "B",
+            "mid_flow_mean": 2.55,
+            "late_minus_early": -0.10,
+            "baseline_mid_flow_mean": 2.60,
+            "review_score": 32,
+            "review_needed": 0,
+            "captured_at": "2026-07-08T09:18:00",
         }
     ]
 )
 
-column_roles = pd.DataFrame(
+working_table["delta_from_baseline"] = (
+    working_table["mid_flow_mean"] - working_table["baseline_mid_flow_mean"]
+)
+
+column_check = pd.DataFrame(
     [
-        {"column_name": "event_id", "role": "context", "used_as_model_input": "no"},
-        {"column_name": "mid_flow_mean", "role": "feature", "used_as_model_input": "yes"},
-        {"column_name": "late_minus_early", "role": "feature", "used_as_model_input": "yes"},
-        {"column_name": "baseline_mid_flow_mean", "role": "comparison", "used_as_model_input": "depends"},
-        {"column_name": "review_needed", "role": "target_candidate", "used_as_model_input": "no"},
+        {
+            "column_name": "event_id",
+            "role": "context",
+            "why_read_it_this_way": "identifies the sample",
+            "use_as_model_input_now": "no",
+        },
+        {
+            "column_name": "mid_flow_mean",
+            "role": "feature",
+            "why_read_it_this_way": "describes the sample itself",
+            "use_as_model_input_now": "yes",
+        },
+        {
+            "column_name": "late_minus_early",
+            "role": "feature",
+            "why_read_it_this_way": "describes within-sample change",
+            "use_as_model_input_now": "yes",
+        },
+        {
+            "column_name": "baseline_mid_flow_mean",
+            "role": "comparison",
+            "why_read_it_this_way": "stores the baseline itself",
+            "use_as_model_input_now": "depends",
+        },
+        {
+            "column_name": "delta_from_baseline",
+            "role": "comparison",
+            "why_read_it_this_way": "expresses gap versus baseline",
+            "use_as_model_input_now": "depends",
+        },
+        {
+            "column_name": "review_score",
+            "role": "target_candidate",
+            "why_read_it_this_way": "records an outcome-like score",
+            "use_as_model_input_now": "no",
+        },
+        {
+            "column_name": "review_needed",
+            "role": "target_candidate",
+            "why_read_it_this_way": "marks the result we may want to predict",
+            "use_as_model_input_now": "no",
+        },
+        {
+            "column_name": "captured_at",
+            "role": "context",
+            "why_read_it_this_way": "keeps time context for the sample",
+            "use_as_model_input_now": "no",
+        },
     ]
 )
 
 print("1) mixed working table")
-print(summary)
+print(
+    working_table[
+        [
+            "event_id",
+            "mid_flow_mean",
+            "late_minus_early",
+            "baseline_mid_flow_mean",
+            "delta_from_baseline",
+            "review_score",
+            "review_needed",
+            "captured_at",
+        ]
+    ]
+)
 print()
-print("2) column roles")
-print(column_roles)
+print("2) why each column is read differently")
+print(column_check)
 ```
 
 예상 출력:
 
 ```text
 1) mixed working table
-  event_id  mid_flow_mean  late_minus_early  baseline_mid_flow_mean  review_needed
-0        A            2.4              -0.8                    3.05              1
+  event_id  mid_flow_mean  late_minus_early  baseline_mid_flow_mean  delta_from_baseline  review_score  review_needed          captured_at
+0        A           2.40              -0.8                    3.05                -0.65            87              1  2026-07-08T09:10:00
+1        B           2.55              -0.1                    2.60                -0.05            32              0  2026-07-08T09:18:00
 
-2) column roles
-             column_name              role used_as_model_input
-0               event_id           context                  no
-1          mid_flow_mean           feature                 yes
-2       late_minus_early           feature                 yes
-3  baseline_mid_flow_mean        comparison             depends
-4          review_needed  target_candidate                  no
+2) why each column is read differently
+             column_name              role                    why_read_it_this_way use_as_model_input_now
+0               event_id           context                 identifies the sample                     no
+1          mid_flow_mean           feature            describes the sample itself                    yes
+2       late_minus_early           feature         describes within-sample change                    yes
+3  baseline_mid_flow_mean        comparison               stores the baseline itself               depends
+4    delta_from_baseline        comparison            expresses gap versus baseline               depends
+5           review_score  target_candidate           records an outcome-like score                 no
+6          review_needed  target_candidate  marks the result we may want to predict                 no
+7            captured_at           context        keeps time context for the sample                 no
 ```
 
-이 예시가 보여 주는 것은 대단한 분류 규칙이 아닙니다. 1단계처럼 하나의 작업 표 안에 여러 종류의 열이 잠시 함께 있을 수 있고, 2단계처럼 그 열을 역할별로 다시 읽어야 한다는 점이 핵심입니다. 특히 `baseline_mid_flow_mean`는 숫자 열이지만 먼저는 비교 열로 읽히고, `review_needed`는 숫자 열이지만 먼저는 결과 후보로 읽힌다는 점이 코드 결과에서 바로 보이게 해야 이 절의 질문과 맞닿습니다.
+이 예시가 보여 주는 것은 대단한 분류 규칙이 아닙니다. 1단계처럼 하나의 작업 표 안에 여러 종류의 열이 잠시 함께 있을 수 있고, 2단계처럼 그 열을 역할별 근거와 함께 다시 읽어야 한다는 점이 핵심입니다. 특히 `baseline_mid_flow_mean`와 `delta_from_baseline`는 숫자 열이지만 먼저는 비교 열로 읽히고, `review_score`, `review_needed`는 숫자 열이지만 먼저는 결과 후보로 읽힙니다. `depends`가 붙은 이유도 여기서 드러납니다. 기준선 자체나 기준선 차이값은 비교 설명을 위해 만든 열이므로, 바로 입력 특징으로 넘길지 여부는 뒤에서 어떤 예측 문제를 만들지에 따라 다시 판단해야 하기 때문입니다.
 
 ## 왜 Chapter 6에 이 절이 필요한가
 

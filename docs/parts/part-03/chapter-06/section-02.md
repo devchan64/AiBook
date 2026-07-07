@@ -53,15 +53,15 @@ def slope_to_token(slope: float) -> str:
 slopes = [0.9, 0.3, 0.05, -0.4, -1.0]
 tokens = [slope_to_token(value) for value in slopes]
 
-print("slopes:", slopes)
-print("tokens:", tokens)
+print("1) segment slopes before tokenization:", slopes)
+print("2) tokens after tokenization:", tokens)
 ```
 
 예상 출력:
 
 ```text
-slopes: [0.9, 0.3, 0.05, -0.4, -1.0]
-tokens: ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']
+1) segment slopes before tokenization: [0.9, 0.3, 0.05, -0.4, -1.0]
+2) tokens after tokenization: ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']
 ```
 
 이 출력에서 봐야 할 핵심은 연속 수치가 짧은 기호열로 바뀌는 순간입니다. 이제 사람은 `상승, 완만한 상승, 거의 평평, 하강, 큰 하강`처럼 더 빠르게 구조를 읽을 수 있습니다. 동시에 어떤 임계값을 기준으로 토큰을 만들었는지도 드러나므로, 규칙 자체도 다시 점검할 수 있습니다.

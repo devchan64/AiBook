@@ -1,7 +1,7 @@
 # P3-6.6 같은 열 이름이라도 측정 방식이나 단위가 바뀌면 왜 같은 특징이 아닐 수 있는가
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 특징(feature)을 설계하다 보면 놓치기 쉬운 함정이 하나 더 있습니다. `열 이름이 같으니 같은 특징이겠지`라고 생각하는 순간입니다. 하지만 현실 데이터에서는 같은 `flow_mean`이라는 이름 아래에서도 센서 버전이 바뀌었거나, 단위가 바뀌었거나, 계산 규칙이 달라졌을 수 있습니다. 이런 변화가 있으면 숫자는 있어도 더 이상 같은 특징이라고 보기 어렵습니다.
 
@@ -32,22 +32,36 @@
 
 이 네 가지는 모두 모델 기법 문제가 아니라, `지금 남긴 특징이 무엇을 뜻하는가`의 문제입니다.
 
-## 작은 예시로 보기
+## 작은 도식으로 보기
 
-| event_id | flow_mean | flow_unit | sensor_version | segment_rule |
-| --- | ---: | --- | --- | --- |
-| A | 2.4 | L/min | v1 | early-mid-late |
-| B | 2.5 | L/min | v1 | early-mid-late |
-| C | 41.0 | mL/s | v2 | early-mid-late |
-| D | 39.5 | mL/s | v2 | quartile-4bin |
+| event_id | flow_mean | flow_unit | sensor_version | segment_rule | ops_definition |
+| --- | ---: | --- | --- | --- | --- |
+| A | 2.4 | L/min | v1 | early-mid-late | normal-band-v1 |
+| B | 2.5 | L/min | v1 | early-mid-late | normal-band-v1 |
+| C | 41.0 | mL/s | v2 | early-mid-late | normal-band-v1 |
+| D | 39.5 | mL/s | v2 | quartile-4bin | normal-band-v2 |
 
 이 표를 보면 모두 `flow_mean`이라는 이름을 쓰지만 실제로는 두 가지 이상이 동시에 바뀌었습니다.
 
 1. `A`, `B`와 `C`, `D`는 단위가 다릅니다.
 2. `C`, `D`는 센서 버전도 다릅니다.
 3. `D`는 구간 계산 규칙도 다릅니다.
+4. `D`는 운영 정의도 달라 같은 기준선 메모로 바로 묶기 어렵습니다.
 
 즉 이 네 행을 같은 특징 한 열로 그대로 읽으면, 숫자가 비슷한지 아닌지를 말하기 전에 특징 뜻부터 흔들리게 됩니다.
+
+```mermaid
+flowchart TD
+    A[Same column name: flow_mean] --> B{Same unit?}
+    B -- No --> X[Separate definition group]
+    B -- Yes --> C{Same sensor version?}
+    C -- No --> X
+    C -- Yes --> D{Same segment rule?}
+    D -- No --> X
+    D -- Yes --> E{Same ops definition?}
+    E -- No --> X
+    E -- Yes --> Y[Same feature definition]
+```
 
 ## 그래서 지금 단계에서 무엇을 먼저 적어야 하는가
 
@@ -83,9 +97,38 @@ import pandas as pd
 
 feature_catalog = pd.DataFrame(
     [
-        {"feature_name": "flow_mean", "unit": "L/min", "sensor_version": "v1", "segment_rule": "early-mid-late"},
-        {"feature_name": "flow_mean", "unit": "mL/s", "sensor_version": "v2", "segment_rule": "early-mid-late"},
-        {"feature_name": "flow_mean", "unit": "mL/s", "sensor_version": "v2", "segment_rule": "quartile-4bin"},
+        {
+            "event_id": "A",
+            "feature_name": "flow_mean",
+            "unit": "L/min",
+            "sensor_version": "v1",
+            "segment_rule": "early-mid-late",
+            "ops_definition": "normal-band-v1",
+        },
+        {
+            "event_id": "B",
+            "feature_name": "flow_mean",
+            "unit": "L/min",
+            "sensor_version": "v1",
+            "segment_rule": "early-mid-late",
+            "ops_definition": "normal-band-v1",
+        },
+        {
+            "event_id": "C",
+            "feature_name": "flow_mean",
+            "unit": "mL/s",
+            "sensor_version": "v2",
+            "segment_rule": "early-mid-late",
+            "ops_definition": "normal-band-v1",
+        },
+        {
+            "event_id": "D",
+            "feature_name": "flow_mean",
+            "unit": "mL/s",
+            "sensor_version": "v2",
+            "segment_rule": "quartile-4bin",
+            "ops_definition": "normal-band-v2",
+        },
     ]
 )
 
@@ -97,21 +140,54 @@ feature_catalog["same_definition_group"] = (
     + feature_catalog["sensor_version"]
     + "|"
     + feature_catalog["segment_rule"]
+    + "|"
+    + feature_catalog["ops_definition"]
 )
 
-print(feature_catalog[["feature_name", "same_definition_group"]])
+definition_groups = (
+    feature_catalog.groupby("same_definition_group", as_index=False)
+    .agg(
+        event_count=("event_id", "count"),
+        event_ids=("event_id", lambda values: ",".join(values)),
+    )
+)
+
+print("1) same column name, different definition notes")
+print(
+    feature_catalog[
+        [
+            "event_id",
+            "feature_name",
+            "unit",
+            "sensor_version",
+            "segment_rule",
+            "ops_definition",
+        ]
+    ]
+)
+print()
+print("2) rows that can be treated as the same definition group")
+print(definition_groups)
 ```
 
 예상 출력:
 
 ```text
-  feature_name                     same_definition_group
-0    flow_mean   flow_mean|L/min|v1|early-mid-late
-1    flow_mean    flow_mean|mL/s|v2|early-mid-late
-2    flow_mean     flow_mean|mL/s|v2|quartile-4bin
+1) same column name, different definition notes
+  event_id feature_name   unit sensor_version    segment_rule ops_definition
+0        A    flow_mean  L/min             v1  early-mid-late  normal-band-v1
+1        B    flow_mean  L/min             v1  early-mid-late  normal-band-v1
+2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
+3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
+
+2) rows that can be treated as the same definition group
+                                same_definition_group  event_count event_ids
+0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
+1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
+2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
 ```
 
-이 예제의 목적은 새 특징을 계산하는 것이 아니라, `같은 열 이름이라도 실제로는 몇 개의 정의 그룹으로 갈라지는가`를 먼저 확인하는 데 있습니다. `feature_name`은 모두 같지만 `same_definition_group`가 셋으로 갈라지는 출력을 보면, 왜 이 절에서 숫자 비교보다 먼저 단위, 버전, 계산 규칙을 묶어 보라고 하는지 바로 드러납니다.
+이 예제의 목적은 새 특징을 계산하는 것이 아니라, `같은 열 이름이라도 실제로는 어디까지를 같은 정의로 묶을 수 있는가`를 먼저 확인하는 데 있습니다. 1단계에서는 네 행이 모두 `flow_mean`이지만 정의 메모가 다르다는 점을 보고, 2단계에서는 실제로 `A,B`만 같은 정의 그룹으로 묶이고 `C`, `D`는 각각 따로 남는다는 점을 봅니다. 즉 이 절에서 중요한 것은 내부 키 문자열 자체가 아니라, 어떤 행끼리만 같은 기준선과 같은 비교표에 올릴 수 있는지를 먼저 가르는 일입니다.
 
 ## 인계 직전의 마지막 판정
 

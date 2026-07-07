@@ -1,7 +1,7 @@
 # P3-8.1 해석 강도는 무엇으로 조절하는가
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 지금까지 우리는 샘플 단위, 요약 표, 특징, 기준선 비교 구조를 만들었습니다. 하지만 비교표가 있다고 해서 모든 차이를 같은 강도로 읽을 수 있는 것은 아닙니다. 특히 운영 데이터에서는 표본 수가 적고, 같은 변화가 반복되는지 여부가 불분명할 수 있습니다. 그래서 해석 단계에서는 `무엇이 달라졌는가`만이 아니라 `그 차이를 얼마나 믿을 수 있는가`도 함께 봐야 합니다. Part 3의 마무리 구간은 바로 이 해석 강도를 조절하는 기준에서 시작합니다.
 
@@ -105,6 +105,19 @@ print(repeatability[["window_id", "repeatability_score"]])
 | 표본 수 충분 + 반복 있음 | 더 강한 변화 신호로 읽을 수 있다 |
 
 이 표의 핵심은 해석을 멈추자는 뜻이 아니라, 같은 차이라도 관측 조건에 따라 말하는 강도를 조절해야 한다는 점입니다.
+
+## 작은 도식으로 보기
+
+```mermaid
+flowchart TD
+    A[Difference observed] --> B{Sample size enough?}
+    B -- No --> C{Repeated in same direction?}
+    C -- No --> D[Record only]
+    C -- Yes --> E[Review candidate]
+    B -- Yes --> F{Repeated in same direction?}
+    F -- No --> E
+    F -- Yes --> G[Stronger warning]
+```
 
 ## 짧은 점검
 
