@@ -3,6 +3,15 @@
 - Section ID: `P3-index`
 - Source File: `docs/parts/part-03/index.md`
 
+### v2026.07.07-32
+
+- 변경 이유: Part 3 시작 페이지가 반복 질문 축과 뒤 Part 연결을 지나치게 길게 나열해, 오버뷰보다 설계 메모처럼 읽히는 문제가 남아 있었다.
+- 본문 반영: 도입부와 전체 흐름 설명에서 중복되는 설계 문단을 줄이고, 긴 질문 축 나열을 핵심 묶음으로 압축했다. 말미의 `짧은 점검`은 제거하고, Part 4·5 연결 설명도 입력 구조와 문제 경계를 닫는 수준으로 간소화했다.
+- 번역 동기화 메모: preserve the shorter overview that groups recurring questions into a few modeling axes and keeps the Part 4/5 handoff at a high-level summary only. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.07`
+
 ### v2026.07.07-31
 
 - 변경 이유: Chapter 10을 별도 인계 장으로 유지하지 않고 Chapter 5, 8, 9에 흡수하는 권장안을 실제 Part 3 구조에 반영할 필요가 있었다.
