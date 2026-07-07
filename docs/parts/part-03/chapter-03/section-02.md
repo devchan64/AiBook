@@ -50,50 +50,105 @@
 
 여기서 중요한 점은 데이터셋이 하나만 존재하지 않는다는 사실입니다. 같은 원천데이터라도 비교 리포트를 위한 데이터셋, 검토 우선순위를 위한 데이터셋, 나중에 지도학습으로 넘길 데이터셋이 서로 다를 수 있습니다. 이 차이를 인정해야 `왜 같은 데이터인데 표를 여러 번 다시 만드나`라는 질문에도 답할 수 있습니다.
 
-아래 예시는 같은 원천데이터에서 서로 다른 목적의 표가 어떻게 나오는지 보여 줍니다.
+아래 예시는 같은 원천데이터에서 질문이 바뀔 때 어떤 표가 먼저 필요해지는지 보여 줍니다.
+
+문제 상황: 같은 원천데이터를 보고도 `동작 1회 비교`, `최근 상태 비교`, `나중의 학습 후보 준비`라는 질문이 서로 다른 표를 요구한다는 점을 확인합니다.
+
+입력(input): `event_id`별 시점 로그와, 각 동작이 최근 구간에 속하는지 보여 주는 구분 열
+
+기대 출력(output): 같은 원천 표에서 `동작 단위 표`, `비교 리포트 표`, `학습 후보 표`가 목적에 따라 다르게 만들어지는 흐름이 드러납니다.
+
+확인할 개념: 데이터셋은 파일 하나의 이름이 아니라 질문에 맞게 다시 설계한 표 구조다
 
 ```python
 import pandas as pd
 
 raw = pd.DataFrame(
     [
-        {"event_id": "A", "second": 0, "flow": 0.8},
-        {"event_id": "A", "second": 1, "flow": 1.5},
-        {"event_id": "A", "second": 2, "flow": 1.1},
-        {"event_id": "B", "second": 0, "flow": 0.7},
-        {"event_id": "B", "second": 1, "flow": 1.2},
-        {"event_id": "B", "second": 2, "flow": 1.0},
+        {"event_id": "A", "second": 0, "flow": 0.8, "is_recent": 1},
+        {"event_id": "A", "second": 1, "flow": 1.5, "is_recent": 1},
+        {"event_id": "A", "second": 2, "flow": 1.1, "is_recent": 1},
+        {"event_id": "B", "second": 0, "flow": 0.7, "is_recent": 0},
+        {"event_id": "B", "second": 1, "flow": 1.2, "is_recent": 0},
+        {"event_id": "B", "second": 2, "flow": 1.0, "is_recent": 0},
+        {"event_id": "C", "second": 0, "flow": 0.9, "is_recent": 1},
+        {"event_id": "C", "second": 1, "flow": 1.6, "is_recent": 1},
+        {"event_id": "C", "second": 2, "flow": 1.3, "is_recent": 1},
     ]
 )
 
+print("1) raw log")
+print(raw)
+print()
+
 event_dataset = (
-    raw.groupby("event_id")
-    .agg(flow_mean=("flow", "mean"), flow_max=("flow", "max"))
-    .reset_index()
+    raw.groupby("event_id", as_index=False)
+    .agg(
+        flow_mean=("flow", "mean"),
+        flow_max=("flow", "max"),
+        is_recent=("is_recent", "max"),
+    )
 )
-
-report_dataset = event_dataset.assign(baseline_diff=[-0.22, -0.05], review_needed=[1, 0])
-
-print("event dataset:")
+print("2) question: compare one event with other events")
 print(event_dataset)
-print("report dataset:")
-print(report_dataset)
+print()
+
+baseline_mean = event_dataset.loc[event_dataset["is_recent"] == 0, "flow_mean"].mean()
+report_dataset = event_dataset.assign(
+    baseline_mean=baseline_mean,
+    baseline_diff=lambda df: df["flow_mean"] - df["baseline_mean"],
+    review_needed=lambda df: (df["baseline_diff"] >= 0.20).astype(int),
+)
+print("3) question: compare recent events with a baseline")
+print(
+    report_dataset[
+        ["event_id", "flow_mean", "baseline_mean", "baseline_diff", "review_needed"]
+    ]
+)
+print()
+
+learning_candidate = report_dataset.assign(
+    target_candidate=lambda df: df["review_needed"].map({1: "review", 0: "normal"})
+)[["event_id", "flow_mean", "flow_max", "target_candidate"]]
+print("4) question: prepare a later learning candidate table")
+print(learning_candidate)
 ```
 
 예상 출력:
 
 ```text
-event dataset:
-  event_id  flow_mean  flow_max
-0        A   1.133333       1.5
-1        B   0.966667       1.2
-report dataset:
-  event_id  flow_mean  flow_max  baseline_diff  review_needed
-0        A   1.133333       1.5          -0.22              1
-1        B   0.966667       1.2          -0.05              0
+1) raw log
+  event_id  second  flow  is_recent
+0        A       0   0.8          1
+1        A       1   1.5          1
+2        A       2   1.1          1
+3        B       0   0.7          0
+4        B       1   1.2          0
+5        B       2   1.0          0
+6        C       0   0.9          1
+7        C       1   1.6          1
+8        C       2   1.3          1
+
+2) question: compare one event with other events
+  event_id  flow_mean  flow_max  is_recent
+0        A   1.133333       1.5          1
+1        B   0.966667       1.2          0
+2        C   1.266667       1.6          1
+
+3) question: compare recent events with a baseline
+  event_id  flow_mean  baseline_mean  baseline_diff  review_needed
+0        A   1.133333       0.966667       0.166667              0
+1        B   0.966667       0.966667       0.000000              0
+2        C   1.266667       0.966667       0.300000              1
+
+4) question: prepare a later learning candidate table
+  event_id  flow_mean  flow_max target_candidate
+0        A   1.133333       1.5           normal
+1        B   0.966667       1.2           normal
+2        C   1.266667       1.6           review
 ```
 
-첫 번째 표는 동작 단위 특징 표이고, 두 번째 표는 비교 리포트에 더 가깝습니다. 같은 원천데이터에서 나왔지만 목적이 다르므로 열 구조도 달라집니다. 이 예시는 `데이터셋은 하나의 고정된 표`가 아니라 목적에 따라 다시 설계되는 구조라는 점을 보여 줍니다.
+이 예제에서는 같은 원천데이터에서 세 번 다른 질문을 던집니다. 2단계는 `동작 1회 비교`를 위해 동작 단위 표를 만들고, 3단계는 `최근 상태와 기준선 비교`를 위해 기준선 열과 검토 열을 추가합니다. 4단계는 같은 요약 표를 바탕으로도 `나중의 학습 후보 표`를 따로 만들 수 있음을 보여 줍니다. 즉 데이터셋은 원시 파일 하나를 가리키는 이름이 아니라, 질문이 요구하는 샘플 단위와 열 구조를 다시 고른 결과입니다.
 
 이 차이를 더 짧게 잡으면, 같은 원천데이터에서도 표를 다시 만드는 이유는 다음처럼 나뉩니다.
 
