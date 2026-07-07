@@ -1,17 +1,15 @@
 # P7-4.2 토큰화와 평가
 
 > Section ID: `P7-4.2`
-> Version: `v2026.07.05`
+> Version: `v2026.07.07`
 
 P7-4.1에서는 공백 기준 토큰화로 아주 작은 텍스트 분류기를 만들었습니다. 그런데 텍스트 프로젝트는 정확도 숫자만으로 끝내기 어렵습니다.
 
-왜냐하면 텍스트는 `무슨 단어를 알고 있었는가`, `무슨 단어를 몰랐는가`, `토큰 coverage가 어느 정도였는가`에 따라 결과 해석이 크게 달라지기 때문입니다.
+왜냐하면 텍스트는 `무슨 단어를 알고 있었는가`, `무슨 단어를 몰랐는가`, `기존 어휘 포함 비율이 어느 정도였는가`에 따라 결과 해석이 크게 달라지기 때문입니다.
 
 이 절의 목적은 정확도 숫자 하나를 보는 대신, 모델이 실제로 어떤 단어를 읽을 수 있었는지까지 같이 기록하는 것이다.
 
 ## 이 절의 범위
-
-이 절은 다음 질문에 답합니다.
 
 - 토큰화(tokenization)는 프로젝트 성능 해석에 왜 직접 영향을 주는가?
 - OOV(out-of-vocabulary) 토큰이 많은 문장은 왜 위험한가?
@@ -23,15 +21,19 @@ P7-4.1에서는 공백 기준 토큰화로 아주 작은 텍스트 분류기를 
 - BPE, WordPiece, SentencePiece의 내부 비교
 - 정밀도(precision), 재현율(recall), F1의 심화 계산
 
-이 절에서는 coverage와 OOV를 프로젝트 문서에 남기는 최소 감각만 다룹니다. 토크나이저 내부 비교는 Part 5의 P5-1.3 보충학습에서 이미 다시 읽을 수 있고, 정밀도·재현율·F1 같은 추가 평가 축은 Part 3의 P3-6장 평가 지표와 다시 연결됩니다.
+이 절에서는 `기존 어휘 포함 비율(token coverage)`과 `사전에 없는 토큰(OOV token)`을 프로젝트 문서에 남기는 최소 감각만 다룹니다. 토크나이저 내부 비교는 Part 5의 P5-1.3 보충학습에서 이미 다시 읽을 수 있고, 정밀도·재현율·F1 같은 추가 평가 축은 Part 3의 P3-6장 평가 지표와 다시 연결됩니다.
+
+텍스트 평가는 이 절에서 정확도 밖의 기록 항목까지 확장됩니다. 정확도 숫자만이 아니라 기존 어휘 포함 비율과 사전에 없는 토큰을 함께 남겨야 한다는 기준을 여기서 세웁니다.
+
+Part 7에서 `토큰화(tokenization)`, `토큰 커버리지(token coverage)`, `평가(evaluation)`의 경계가 흐려지면 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 다시 연결해 읽는 편이 안전합니다.
 
 ## 이 절의 목표
 
 - 토큰화와 평가를 분리하지 않고 함께 읽어야 하는 이유를 설명할 수 있습니다.
-- OOV 토큰과 coverage 비율을 프로젝트 문서에 기록할 수 있습니다.
-- 정확도는 같아도 입력 coverage가 낮으면 해석이 달라진다는 점을 이해할 수 있습니다.
+- 사전에 없는 토큰(OOV token)과 기존 어휘 포함 비율을 프로젝트 문서에 기록할 수 있습니다.
+- 정확도는 같아도 입력의 기존 어휘 포함 비율이 낮으면 해석이 달라진다는 점을 이해할 수 있습니다.
 
-## 왜 coverage를 봐야 하나
+## 왜 기존 어휘 포함 비율을 봐야 하나
 
 텍스트 분류 모델이 예측을 잘했다는 말은, 적어도 어떤 단어 구조를 읽고 분류했는지와 함께 나와야 합니다.
 
@@ -42,28 +44,28 @@ P7-4.1에서는 공백 기준 토큰화로 아주 작은 텍스트 분류기를 
 
 첫 번째 문장은 학습 어휘에 있는 단어가 많을 수 있고, 두 번째 문장은 거의 다 낯선 단어일 수 있습니다. 이 차이를 기록하지 않으면 결과 해석이 부정확해집니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+평가표를 읽기 전에 먼저 붙들어야 할 판단 기준을 표로 고정하면 다음과 같습니다.
 
 | 질문 | 짧은 답 |
 | --- | --- |
-| 왜 coverage를 보아야 하는가? | 모델이 실제로 읽은 단어 비율을 알아야 해서 |
-| 무엇이 낮으면 위험한가? | known token coverage |
-| 그래서 문서에 무엇을 남기는가? | OOV, coverage, 틀린 문장 사례 |
+| 왜 기존 어휘 포함 비율을 보아야 하는가? | 모델이 실제로 읽은 단어 비율을 알아야 해서 |
+| 무엇이 낮으면 위험한가? | 기존 어휘 포함 비율 |
+| 그래서 문서에 무엇을 남기는가? | 사전에 없던 토큰, 포함 비율, 틀린 문장 사례 |
 
-여기에 한 가지를 더 붙이면 텍스트 프로젝트의 평가 메모가 훨씬 좋아집니다. 단순히 `틀린 문장`을 적는 데서 끝내지 말고, `입력 표현이 약했던 문장`, `review가 필요한 문장`, `다음 tokenizer 실험 후보`를 같이 남기는 것입니다. 그래야 정확도 변화가 표현 문제인지 분류 규칙 문제인지 구분하기 쉬워집니다.
+여기에 한 가지를 더 붙이면 텍스트 프로젝트의 평가 메모가 훨씬 좋아집니다. 단순히 `틀린 문장`을 적는 데서 끝내지 말고, `입력 표현이 약했던 문장`, `추가 검토가 필요한 문장`, `다음 토큰화 실험 후보`를 같이 남기는 것입니다. 그래야 정확도 변화가 표현 문제인지 분류 규칙 문제인지 구분하기 쉬워집니다.
 
 | 평가 메모에 같이 남길 것 | 왜 필요한가 |
 | --- | --- |
-| coverage가 낮은 문장 ID | 어떤 입력부터 다시 검토할지 바로 잡기 위해서입니다. |
-| OOV 토큰 목록 | 어휘 범위를 넓힐지 tokenizer를 바꿀지 판단하기 위해서입니다. |
-| 같은 라벨인데 다른 coverage를 보인 문장 비교 | 정확도는 같아도 입력 해석 위험이 다를 수 있기 때문입니다. |
-| 다음 표현 실험 질문 | `어휘 확장`, `subword`, `데이터 추가` 중 어디서 시작할지 정하기 위해서입니다. |
+| 기존 어휘 포함 비율이 낮은 문장 ID | 어떤 입력부터 다시 검토할지 바로 잡기 위해서입니다. |
+| 사전에 없는 토큰 목록 | 어휘 범위를 넓힐지 토큰화(tokenization) 방식을 바꿀지 판단하기 위해서입니다. |
+| 같은 라벨인데 다른 포함 비율을 보인 문장 비교 | 정확도는 같아도 입력 해석 위험이 다를 수 있기 때문입니다. |
+| 다음 표현 실험 질문 | `어휘 확장`, `부분 단어 단위 분리(subword)`, `데이터 추가` 중 어디서 시작할지 정하기 위해서입니다. |
 
 ## 이번 프로젝트의 확장 평가
 
 이번 절에서는 평가 문장 하나를 일부러 바꿉니다.
 
-- 기존 praise 문장 대신 `excellent item arrived today`를 넣습니다.
+- 기존 칭찬(praise) 문장 대신 `excellent item arrived today`를 넣습니다.
 - 이 문장에는 학습 어휘에 없던 단어가 많이 들어 있습니다.
 
 즉, 프로젝트 질문은 이렇게 바뀝니다.
@@ -72,30 +74,30 @@ P7-4.1에서는 공백 기준 토큰화로 아주 작은 텍스트 분류기를 
 
 ## Python 예제
 
-이번 예제의 목적은 각 test 문장의 토큰 목록과 known token coverage를 함께 출력하는 것입니다. 이번에는 단순히 coverage 한 줄만 출력하지 않고, 평가 기록, 검토 요약, OOV 토큰 목록을 함께 남겨서 어떤 문장을 다음 회고 대상으로 삼아야 하는지 바로 보이게 하겠습니다.
+이번 예제의 목적은 각 평가 문장의 토큰 목록과 기존 어휘 포함 비율을 함께 출력하는 것입니다. 이번에는 단순히 포함 비율 한 줄만 출력하지 않고, 평가 기록, 검토 요약, 사전에 없는 토큰 목록을 함께 남겨서 어떤 문장을 다음 회고 대상으로 삼아야 하는지 바로 보이게 하겠습니다.
 
-- 문제 상황: 문장 분류 결과를 coverage와 함께 읽는다.
-- 입력(input): 학습 문장 6개, 평가 문장 4개
-- 기대 출력(output): 문장별 토큰 목록, OOV 토큰, known token coverage, review 대상 문장 목록
+- 문제 상황: 문장 분류 결과를 기존 어휘 포함 비율과 함께 읽는다.
+- 입력: 학습 문장 6개, 평가 문장 4개
+- 기대 출력: 문장별 토큰 목록, 사전에 없는 토큰, 기존 어휘 포함 비율, 검토 대상 문장 목록
 - 확인할 개념:
   - 토큰화 결과가 그대로 프로젝트 해석 자료가 된다
-  - OOV 토큰이 많으면 예측 신뢰가 약해질 수 있다
-  - review 대상 문장을 명시적으로 남겨야 다음 개선 계획이 쉬워진다
+  - 사전에 없는 토큰(OOV token)이 많으면 예측 신뢰가 약해질 수 있다
+  - 검토 대상 문장을 명시적으로 남겨야 다음 개선 계획이 쉬워진다
 
 ```python
 import numpy as np
 
 train_rows = [
-    {"sample_id": "train-01", "text": "refund delay angry", "label": 0},
-    {"sample_id": "train-02", "text": "broken product complaint", "label": 0},
-    {"sample_id": "train-03", "text": "thank you fast delivery", "label": 1},
-    {"sample_id": "train-04", "text": "love this product great", "label": 1},
-    {"sample_id": "train-05", "text": "refund request not working", "label": 0},
-    {"sample_id": "train-06", "text": "happy with quick support", "label": 1},
+    {"샘플": "학습-01", "문장": "refund delay angry", "라벨": 0},
+    {"샘플": "학습-02", "문장": "broken product complaint", "라벨": 0},
+    {"샘플": "학습-03", "문장": "thank you fast delivery", "라벨": 1},
+    {"샘플": "학습-04", "문장": "love this product great", "라벨": 1},
+    {"샘플": "학습-05", "문장": "refund request not working", "라벨": 0},
+    {"샘플": "학습-06", "문장": "happy with quick support", "라벨": 1},
 ]
-train_texts = [row["text"] for row in train_rows]
-y_train = np.array([row["label"] for row in train_rows])
-label_names = {0: "complaint", 1: "praise"}
+train_texts = [row["문장"] for row in train_rows]
+y_train = np.array([row["라벨"] for row in train_rows])
+라벨_이름 = {0: "불만", 1: "칭찬"}
 
 vocab = sorted({token for text in train_texts for token in text.split()})
 token_to_index = {token: i for i, token in enumerate(vocab)}
@@ -133,13 +135,13 @@ class_centroids = np.vstack([
 ])
 
 test_rows = [
-    {"sample_id": "test-01", "text": "refund for broken product", "label": 0},
-    {"sample_id": "test-02", "text": "great support thank you", "label": 1},
-    {"sample_id": "test-03", "text": "delay but quick refund", "label": 0},
-    {"sample_id": "test-04", "text": "excellent item arrived today", "label": 1},
+    {"샘플": "평가-01", "문장": "refund for broken product", "라벨": 0},
+    {"샘플": "평가-02", "문장": "great support thank you", "라벨": 1},
+    {"샘플": "평가-03", "문장": "delay but quick refund", "라벨": 0},
+    {"샘플": "평가-04", "문장": "excellent item arrived today", "라벨": 1},
 ]
-test_texts = [row["text"] for row in test_rows]
-y_test = np.array([row["label"] for row in test_rows])
+test_texts = [row["문장"] for row in test_rows]
+y_test = np.array([row["라벨"] for row in test_rows])
 
 X_test, token_lists, known_counts, total_counts, oov_tokens_per_text = vectorize(test_texts)
 
@@ -149,35 +151,35 @@ for index, x in enumerate(X_test):
     distances = np.linalg.norm(class_centroids - x, axis=1)
     pred_label = int(np.argmin(distances))
     predictions.append(pred_label)
-    coverage = known_counts[index] / total_counts[index] if total_counts[index] else 0.0
+    known_ratio = known_counts[index] / total_counts[index] if total_counts[index] else 0.0
     evaluation_records.append({
-        "sample_id": test_rows[index]["sample_id"],
-        "text": test_rows[index]["text"],
-        "tokens": token_lists[index],
-        "oov_tokens": oov_tokens_per_text[index],
-        "known_token_coverage": round(coverage, 3),
-        "pred_label_name": label_names[pred_label],
-        "true_label_name": label_names[y_test[index]],
-        "correct": bool(pred_label == y_test[index]),
-        "needs_token_review": bool(coverage < 0.5 or pred_label != y_test[index]),
+        "평가 샘플": test_rows[index]["샘플"],
+        "문장": test_rows[index]["문장"],
+        "토큰": token_lists[index],
+        "사전에 없는 토큰": oov_tokens_per_text[index],
+        "기존 어휘 포함 비율": round(known_ratio, 3),
+        "예측 라벨": 라벨_이름[pred_label],
+        "실제 라벨": 라벨_이름[y_test[index]],
+        "정답 여부": "예" if pred_label == y_test[index] else "아니오",
+        "토큰 검토 필요": "예" if (known_ratio < 0.5 or pred_label != y_test[index]) else "아니오",
     })
 
 predictions = np.array(predictions)
 
-review_summary = {
-    "vocab_size": len(vocab),
-    "tokenization_rule": "whitespace split",
-    "test_accuracy": round(float((predictions == y_test).mean()), 3),
-    "review_target_ids": [
-        row["sample_id"] for row in evaluation_records if row["needs_token_review"]
+검토_요약 = {
+    "어휘 수": len(vocab),
+    "토큰화 규칙": "공백 기준 분리",
+    "평가 정확도": round(float((predictions == y_test).mean()), 3),
+    "검토 대상 샘플": [
+        row["평가 샘플"] for row in evaluation_records if row["토큰 검토 필요"] == "예"
     ],
-    "low_coverage_count": sum(
-        row["known_token_coverage"] < 0.5 for row in evaluation_records
+    "낮은 포함 비율 샘플 수": sum(
+        row["기존 어휘 포함 비율"] < 0.5 for row in evaluation_records
     ),
 }
 
-print("review_summary =", review_summary)
-print("evaluation_records =")
+print("검토 요약 =", 검토_요약)
+print("샘플별 평가 =")
 for row in evaluation_records:
     print(row)
 ```
@@ -185,12 +187,12 @@ for row in evaluation_records:
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-review_summary = {'vocab_size': 20, 'tokenization_rule': 'whitespace split', 'test_accuracy': 0.75, 'review_target_ids': ['test-04'], 'low_coverage_count': 1}
-evaluation_records =
-{'sample_id': 'test-01', 'text': 'refund for broken product', 'tokens': ['refund', 'for', 'broken', 'product'], 'oov_tokens': ['for'], 'known_token_coverage': 0.75, 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'needs_token_review': False}
-{'sample_id': 'test-02', 'text': 'great support thank you', 'tokens': ['great', 'support', 'thank', 'you'], 'oov_tokens': [], 'known_token_coverage': 1.0, 'pred_label_name': 'praise', 'true_label_name': 'praise', 'correct': True, 'needs_token_review': False}
-{'sample_id': 'test-03', 'text': 'delay but quick refund', 'tokens': ['delay', 'but', 'quick', 'refund'], 'oov_tokens': ['but'], 'known_token_coverage': 0.75, 'pred_label_name': 'complaint', 'true_label_name': 'complaint', 'correct': True, 'needs_token_review': False}
-{'sample_id': 'test-04', 'text': 'excellent item arrived today', 'tokens': ['excellent', 'item', 'arrived', 'today'], 'oov_tokens': ['excellent', 'item', 'arrived', 'today'], 'known_token_coverage': 0.0, 'pred_label_name': 'complaint', 'true_label_name': 'praise', 'correct': False, 'needs_token_review': True}
+검토 요약 = {'어휘 수': 20, '토큰화 규칙': '공백 기준 분리', '평가 정확도': 0.75, '검토 대상 샘플': ['평가-04'], '낮은 포함 비율 샘플 수': 1}
+샘플별 평가 =
+{'평가 샘플': '평가-01', '문장': 'refund for broken product', '토큰': ['refund', 'for', 'broken', 'product'], '사전에 없는 토큰': ['for'], '기존 어휘 포함 비율': 0.75, '예측 라벨': '불만', '실제 라벨': '불만', '정답 여부': '예', '토큰 검토 필요': '아니오'}
+{'평가 샘플': '평가-02', '문장': 'great support thank you', '토큰': ['great', 'support', 'thank', 'you'], '사전에 없는 토큰': [], '기존 어휘 포함 비율': 1.0, '예측 라벨': '칭찬', '실제 라벨': '칭찬', '정답 여부': '예', '토큰 검토 필요': '아니오'}
+{'평가 샘플': '평가-03', '문장': 'delay but quick refund', '토큰': ['delay', 'but', 'quick', 'refund'], '사전에 없는 토큰': ['but'], '기존 어휘 포함 비율': 0.75, '예측 라벨': '불만', '실제 라벨': '불만', '정답 여부': '예', '토큰 검토 필요': '아니오'}
+{'평가 샘플': '평가-04', '문장': 'excellent item arrived today', '토큰': ['excellent', 'item', 'arrived', 'today'], '사전에 없는 토큰': ['excellent', 'item', 'arrived', 'today'], '기존 어휘 포함 비율': 0.0, '예측 라벨': '불만', '실제 라벨': '칭찬', '정답 여부': '아니오', '토큰 검토 필요': '예'}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -198,25 +200,25 @@ evaluation_records =
 가장 중요한 사례는 마지막 문장입니다.
 
 - `excellent item arrived today`
-- known token coverage = `0.0`
-- 예측은 `complaint`
-- 실제 라벨은 `praise`
+- 기존 어휘 포함 비율 = `0.0`
+- 예측은 `불만(complaint)`
+- 실제 라벨은 `칭찬(praise)`
 
-이 사례는 정확도 0.75라는 숫자보다 더 많은 정보를 줍니다. 검토 요약은 `test-04`를 다시 봐야 할 사례로 바로 가리키고, 평가 기록은 OOV 토큰이 네 개 모두였다는 점을 한 줄로 보여 줍니다.
+이 사례는 정확도 0.75라는 숫자보다 더 많은 정보를 줍니다. 검토 요약은 `평가-04`를 다시 봐야 할 사례로 바로 가리키고, 평가 기록은 사전에 없는 토큰이 네 개 모두였다는 점을 한 줄로 보여 줍니다.
 
 `모델이 틀린 이유는 단지 분류 규칙이 약해서가 아니라, 학습 어휘에 없는 단어가 너무 많아 입력 표현 자체가 빈약해졌기 때문일 수 있다.`
 
 즉, 텍스트 프로젝트에서는 `틀렸다`와 함께 `왜 이 문장을 잘 읽지 못했는가`를 토큰 수준에서 남기는 것이 중요합니다.
 
-다만 여기서도 원인을 곧바로 확정해서는 안 됩니다. 이번 예제는 작은 장난감 데이터의 한 번의 실행이므로, coverage 0.0은 `입력 표현 문제를 먼저 의심해 볼 신호`로 읽고, tokenizer 변경이나 어휘 확장 뒤에 같은 문장을 다시 확인하는 순서가 더 안전합니다.
+다만 여기서도 원인을 곧바로 확정해서는 안 됩니다. 이번 예제는 작은 장난감 데이터의 한 번의 실행이므로, 기존 어휘 포함 비율 0.0은 `입력 표현 문제를 먼저 의심해 볼 신호`로 읽고, 토큰화 방식 변경이나 어휘 확장 뒤에 같은 문장을 다시 확인하는 순서가 더 안전합니다.
 
-이런 기록은 텍스트 프로젝트의 baseline을 더 넓게 읽게도 해 줍니다. 어떤 경우 baseline은 단순 다수 클래스 분류기일 수 있지만, 어떤 경우에는 `현재 tokenizer + 현재 vocabulary` 자체가 비교 기준선이 됩니다. 다음 실험에서 tokenizer를 바꾸거나 어휘를 넓힐 때는, 바로 이 기준선과 무엇이 달라졌는지 비교해야 개선을 말할 수 있습니다.
+이런 기록은 텍스트 프로젝트의 기준점(baseline)을 더 넓게 읽게도 해 줍니다. 어떤 경우 기준점은 단순 다수 클래스 분류기일 수 있지만, 어떤 경우에는 `현재 토큰화 규칙 + 현재 어휘 범위` 자체가 비교 기준선이 됩니다. 다음 실험에서 토큰화 규칙을 바꾸거나 어휘를 넓힐 때는, 바로 이 기준선과 무엇이 달라졌는지 비교해야 개선을 말할 수 있습니다.
 
 이 사례는 다음 세 줄로 요약할 수 있습니다.
 
 - 마지막 문장은 어휘에 없는 단어가 너무 많았다
-- coverage가 0.0이면 예측 해석이 더 조심스러워져야 한다
-- review 대상 문장과 OOV 목록을 함께 남겨야 다음 tokenizer 개선으로 이어진다
+- 기존 어휘 포함 비율이 0.0이면 예측 해석이 더 조심스러워져야 한다
+- 검토 대상 문장과 사전에 없는 토큰 목록을 함께 남겨야 다음 토큰화 개선으로 이어진다
 - 따라서 정확도 하락은 분류 규칙뿐 아니라 입력 표현 문제일 수도 있다
 
 ## 평가 문서에 추가할 항목
@@ -225,18 +227,18 @@ evaluation_records =
 
 | 항목 | 왜 필요한가 |
 | --- | --- |
-| vocabulary size | 모델이 어떤 어휘 범위를 보고 있는지 보여 줍니다. |
-| tokenization rule | 공백 기준인지, subword인지 기록해야 해석이 가능합니다. |
-| known token coverage | test 문장이 훈련 어휘를 얼마나 공유하는지 보여 줍니다. |
-| wrong example | 실제로 어떤 문장을 틀렸는지 봐야 개선 방향이 나옵니다. |
+| 어휘 수 | 모델이 어떤 어휘 범위를 보고 있는지 보여 줍니다. |
+| 토큰화 규칙 | 공백 기준인지, 부분 단어(subword) 기준인지 기록해야 해석이 가능합니다. |
+| 기존 어휘 포함 비율 | 평가 문장이 훈련 어휘를 얼마나 공유하는지 보여 줍니다. |
+| 오류 사례 | 실제로 어떤 문장을 틀렸는지 봐야 개선 방향이 나옵니다. |
 
 같은 표를 `비교 가능한 기록 묶음`으로 다시 적으면 다음과 같습니다.
 
 | 기록 묶음 | 지금 남기는 이유 |
 | --- | --- |
-| 현재 tokenizer 규칙 | 다음 실험에서 무엇을 바꿨는지 비교하기 위해 |
-| vocabulary와 coverage | 입력 표현이 실제로 얼마나 읽혔는지 남기기 위해 |
-| review 대상 문장 목록 | 다음 반복에서 먼저 다시 볼 사례를 고정하기 위해 |
+| 현재 토큰화 규칙 | 다음 실험에서 무엇을 바꿨는지 비교하기 위해 |
+| 어휘 범위와 포함 비율 | 입력 표현이 실제로 얼마나 읽혔는지 남기기 위해 |
+| 검토 대상 문장 목록 | 다음 반복에서 먼저 다시 볼 사례를 고정하기 위해 |
 | 회고 문장 | 정확도 변화와 표현 한계를 함께 요약하기 위해 |
 
 이 표는 Part 7의 텍스트 프로젝트에서 사실상 `평가 기록 템플릿` 역할을 합니다.
@@ -245,12 +247,12 @@ evaluation_records =
 
 이번 프로젝트의 회고를 한 문단으로 적으면 다음처럼 쓸 수 있습니다.
 
-> 이번 장난감 텍스트 분류 프로젝트는 공백 기준 토큰화와 count vector만으로도 기본 분류 흐름을 재현했다. 그러나 `excellent item arrived today` 문장은 학습 어휘에 포함된 토큰이 하나도 없어 coverage가 0.0이었고, 결과적으로 praise 문장을 complaint로 잘못 분류했다. 따라서 이번 결과는 단순 정확도 0.75보다 `어휘 범위가 좁을 때 입력 표현이 흔들릴 수 있다`는 점을 먼저 의심해 볼 신호를 준다. 다음 반복에서는 어휘를 넓히거나 subword tokenizer를 도입한 뒤 같은 문장을 다시 확인하는 방향을 검토할 수 있다.
+> 이번 장난감 텍스트 분류 프로젝트는 공백 기준 토큰화와 단어 수 세기 벡터만으로도 기본 분류 흐름을 재현했다. 그러나 `excellent item arrived today` 문장은 학습 어휘에 포함된 토큰이 하나도 없어 기존 어휘 포함 비율이 0.0이었고, 결과적으로 칭찬(praise) 문장을 불만(complaint)으로 잘못 분류했다. 따라서 이번 결과는 단순 정확도 0.75보다 `어휘 범위가 좁을 때 입력 표현이 흔들릴 수 있다`는 점을 먼저 의심해 볼 신호를 준다. 다음 반복에서는 어휘를 넓히거나 부분 단어(subword) 토큰화를 도입한 뒤 `평가-04`와 같은 문장을 다시 확인하는 방향을 검토할 수 있다.
 
 이 문단에서 독자가 익혀야 할 형식은 다음과 같습니다.
 
 - 어떤 문장이 틀렸는가
-- coverage는 어땠는가
+- 기존 어휘 포함 비율은 어땠는가
 - 오류를 규칙 문제로 볼지 표현 문제로 먼저 의심할지
 - 다음 개선을 어디서 시작할지
 
@@ -258,7 +260,7 @@ evaluation_records =
 
 이 절은 Part 5의 토큰(token), 토큰화(tokenization), OOV, 임베딩(embedding) 설명과 직접 이어집니다.
 
-LLM 시대에는 더 정교한 tokenizer를 쓰더라도, 기본 질문은 그대로 남습니다.
+LLM 시대에는 더 정교한 토큰화기(tokenizer)를 쓰더라도, 기본 질문은 그대로 남습니다.
 
 - 입력이 어떻게 쪼개졌는가?
 - 모델이 실제로 읽은 단위는 무엇인가?
@@ -271,17 +273,27 @@ LLM 시대에는 더 정교한 tokenizer를 쓰더라도, 기본 질문은 그�
 ## 이 절에서 기억할 관점
 
 - 텍스트 프로젝트에서는 정확도만으로 해석이 부족합니다.
-- 토큰화 규칙과 vocabulary 범위를 함께 기록해야 합니다.
-- OOV 토큰이 많은 문장은 예측 해석이 더 조심스러워야 합니다.
-- coverage가 낮은 문장은 원인 확정보다 재확인 우선순위를 먼저 남기는 편이 안전합니다.
+- 토큰화 규칙과 어휘 범위를 함께 기록해야 합니다.
+- 사전에 없는 토큰(OOV token)이 많은 문장은 예측 해석이 더 조심스러워야 합니다.
+- 기존 어휘 포함 비율이 낮은 문장은 원인 확정보다 재확인 우선순위를 먼저 남기는 편이 안전합니다.
 - 잘못 분류된 문장을 토큰 수준으로 다시 읽는 습관이 중요합니다.
 
-## 체크리스트
+## 언제 토큰화와 평가 관점을 먼저 떠올려야 하는가
+
+다음처럼 텍스트 분류 결과는 나왔지만 입력 해석 근거가 약하다면 이 절의 관점을 먼저 떠올리는 편이 좋습니다.
+
+- 정확도는 봤지만 어떤 문장이 사전에 없는 토큰(OOV token) 때문에 흔들렸는지 남기지 않은 경우
+- 토큰화 규칙을 바꾸려 하면서 현재 어휘 범위와 기존 어휘 포함 비율을 기준선으로 기록하지 않은 경우
+- 틀린 문장을 분류 규칙 문제로만 보고 입력 표현 문제 여부를 아직 분리하지 않은 경우
+
+이때는 새 모델을 붙이기 전에 `토큰화 규칙`, `기존 어휘 포함 비율`, `사전에 없는 토큰`, `검토 대상 문장`을 먼저 문서에 남겨야 합니다.
+
+## 짧은 점검
 
 - 토큰화 규칙을 한 문장으로 적을 수 있는가?
-- vocabulary size와 coverage를 기록했는가?
+- 어휘 수와 기존 어휘 포함 비율을 기록했는가?
 - 틀린 문장을 토큰 수준으로 다시 보여 줄 수 있는가?
-- 다음 개선 방향을 어휘 확장 / tokenizer 변경 / 데이터 추가로 나누어 적을 수 있는가?
+- 다음 개선 방향을 어휘 확장 / 토큰화 방식 변경 / 데이터 추가로 나누어 적을 수 있는가?
 
 ## 출처와 참고 자료
 

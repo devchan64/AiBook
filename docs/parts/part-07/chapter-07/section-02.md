@@ -1,17 +1,13 @@
 # P7-7.2 실패 기록과 개선 계획
 
 > Section ID: `P7-7.2`
-> Version: `v2026.07.05`
+> Version: `v2026.07.07`
 
 배포 프로젝트의 마지막 단계는 배포 성공 화면을 보고 끝내는 일이 아닙니다. 실제로는 `무엇이 실패할 수 있었고, 무엇을 다음에 먼저 개선할 것인가`를 남겨야 프로젝트가 닫힙니다.
-
-이번 절은 그 회고 문서를 다룹니다.
 
 이 절의 목적은 배포가 끝난 뒤 성공 화면만 남기는 것이 아니라, 실패 유형과 다음 조치를 분리해 기록하는 데 있습니다.
 
 ## 이 절의 범위
-
-이 절은 다음 질문을 정리합니다.
 
 - 정적 사이트 프로젝트에서 어떤 실패를 기록해야 하는가?
 - 배포 실패와 콘텐츠 실패를 왜 구분해야 하는가?
@@ -19,11 +15,15 @@
 
 이 절은 다음 내용은 깊게 다루지 않습니다.
 
-- 본격 incident management 시스템
+- 본격 장애 관리 체계(incident management system)
 - 장기 비용 분석
-- 팀 단위 SLO 설계
+- 팀 단위 서비스 수준 목표(SLO, service level objective) 설계
 
-이 절은 작은 문서 배포 프로젝트의 실패 유형과 우선순위 기록에 집중합니다. 대규모 incident management나 팀 단위 SLO 설계는 이 책의 현재 프로젝트 입문 범위 밖으로 두고, 대신 `실패를 원인 추정과 다음 조치로 남기는 습관`까지를 이 절의 회수 범위로 삼습니다.
+이 절은 작은 문서 배포 프로젝트의 실패 유형과 우선순위 기록에 집중합니다. 대규모 장애 관리 체계(incident management)나 팀 단위 서비스 수준 목표(SLO) 설계는 이 책의 현재 프로젝트 입문 범위 밖으로 두고, 대신 `실패를 원인 추정과 다음 조치로 남기는 습관`까지를 이 절의 회수 범위로 삼습니다.
+
+Part 7의 마지막 회고는 이 절에서 실패 범주와 다음 조치를 함께 남기는 형식으로 닫힙니다. 빌드 실패, 배포 실패, 본문 반영 실패, 실행 중 실패를 같은 말로 묶지 않고 다음 조치까지 남기는 회고 기준을 여기서 고정합니다.
+
+Part 7에서 `회고(retrospective)`, `배포(deployment)`, `검토(review)`의 구분이 다시 흐려지면 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아와 기준을 다시 잡는 편이 좋습니다.
 
 ## 이 절의 목표
 
@@ -37,19 +37,19 @@
 
 | 실패 유형 | 예시 |
 | --- | --- |
-| build failure | MkDocs 설정 오류, 링크 문법 오류 |
-| deploy failure | Actions workflow 실패, publishing source 문제 |
-| content failure | 최신 수정이 누락됨, 제목/섹션 배치 오류 |
-| runtime failure | 공개 URL은 열리지만 링크가 깨짐, 404 발생 |
+| 빌드 실패 | MkDocs 설정 오류, 링크 문법 오류 |
+| 배포 실패 | GitHub Actions 배포 흐름 실패, 배포 원본 설정 문제 |
+| 본문 반영 실패 | 최신 수정이 누락됨, 제목/섹션 배치 오류 |
+| 실행 중 실패 | 공개 URL은 열리지만 링크가 깨짐, 404 발생 |
 
 이 구분이 중요한 이유는 해결 책임과 다음 행동이 다르기 때문입니다.
 
-- build failure는 로컬 재현이 중요합니다.
-- deploy failure는 CI 로그 확인이 중요합니다.
-- content failure는 문서 검토가 중요합니다.
-- runtime failure는 공개 페이지 실제 확인이 중요합니다.
+- 빌드 실패는 로컬 재현이 중요합니다.
+- 배포 실패는 CI 로그 확인이 중요합니다.
+- 본문 반영 실패는 문서 검토가 중요합니다.
+- 실행 중 실패는 공개 페이지 실제 확인이 중요합니다.
 
-먼저 다음 세 질문으로 읽으면 좋습니다.
+실패 기록을 쓰기 전에 먼저 가를 판단 기준을 표로 고정하면 다음과 같습니다.
 
 | 질문 | 짧은 답 |
 | --- | --- |
@@ -68,21 +68,21 @@
 
 같은 회고 구조는 Part 3에서 다뤘던 검토 기록 언어와도 자연스럽게 이어집니다.
 
-| 최종 실패 기록에서 다시 보일 것 | 더 짧게 적는 공통 언어 |
+| 최종 실패 기록에서 다시 보일 것 | 더 짧게 적는 공통 구조 |
 | --- | --- |
-| 실패 신호와 점검 값 | 사실(fact) |
-| 지금 단계에서 붙일 수 있는 원인 추정과 해석 경계 | 해석(interpretation) |
-| 다음 반복에서 먼저 확인할 항목 | 다음 질문(next question) |
+| 실패 신호와 점검 값 | 사실 |
+| 지금 단계에서 붙일 수 있는 원인 추정과 해석 경계 | 해석 |
+| 다음 반복에서 먼저 확인할 항목 | 다음 질문 |
 
 ## 작은 실패 기록 예시
 
 이번 절에서는 프로젝트 회고 문서를 다음 형식으로 남기는 예를 듭니다.
 
-| date | issue | category | likely cause | next action |
+| 날짜 | 문제 | 범주 | 가능한 원인 | 다음 조치 |
 | --- | --- | --- | --- | --- |
-| 2026-06-29 | 최신 섹션이 배포 페이지에 보이지 않음 | deploy/content | main 미반영 또는 workflow 지연 | Actions 로그 확인, main 반영 상태 재확인 |
-| 2026-06-29 | 내부 링크 404 | runtime | nav와 실제 경로 불일치 | mkdocs nav와 파일 경로 재검토 |
-| 2026-06-29 | 수식 렌더링 누락 | content/runtime | JS 로드 또는 문법 문제 | 브라우저 확인, 수식 블록 점검 |
+| 2026-06-29 | 최신 수정이 배포 페이지에 보이지 않음 | 배포/본문 반영 | 배포 브랜치 미반영 또는 워크플로 지연 | 배포 로그 확인, 배포 브랜치 반영 상태 재확인 |
+| 2026-06-29 | 내부 링크 404 | 실행 중 | 목차 경로와 실제 경로 불일치 | 목차 경로 설정과 파일 경로 재검토 |
+| 2026-06-29 | 수식 렌더링 누락 | 본문/실행 중 | JS 로드 또는 문법 문제 | 브라우저 확인, 수식 블록 점검 |
 
 이 표는 단순하지만 Part 7의 배포 프로젝트에서 사실상 `운영 회고 템플릿` 역할을 합니다.
 
@@ -91,38 +91,38 @@
 배포 프로젝트를 마친 뒤 바로 채울 수 있는 최소 템플릿은 아래 정도로 시작할 수 있습니다.
 
 ```text
-### incident record
-- date:
-- issue:
-- category:
-- likely_cause:
-- user_impact:
-- priority:
-- next_action:
+### 실패 기록
+- 날짜:
+- 문제:
+- 범주:
+- 가능한 원인:
+- 독자 영향:
+- 우선순위:
+- 다음 조치:
 
-### review summary
+### 회고 요약
 - 가장 먼저 고칠 문제:
 - 이번 반복에서 미루는 문제:
 - 다음 배포 전에 추가할 점검:
 ```
 
-여기서도 중요한 점은 코드 식별자를 그대로 외우는 것이 아닙니다. `incident record`는 실패 사건 한 건의 기록이고, `review summary`는 그 사건들을 이번 반복의 우선순위로 다시 묶은 요약으로 읽으면 됩니다.
+여기서도 중요한 점은 코드 식별자를 그대로 외우는 것이 아닙니다. `실패 기록`은 실패 사건 한 건의 기록이고, `회고 요약`은 그 사건들을 이번 반복의 우선순위로 다시 묶은 요약으로 읽으면 됩니다.
 
 이 템플릿의 핵심은 `실패했다`에서 멈추지 않는 것입니다. 적어도 `어떤 종류의 실패였는가`, `독자에게 어떤 영향이 있었는가`, `다음에 무엇을 먼저 할 것인가`까지는 같이 적어야 합니다.
 
 예를 들어 내부 링크가 404였던 경우는 다음처럼 바로 채울 수 있습니다.
 
 ```text
-### incident record
-- date: 2026-06-29
-- issue: 내부 링크 404
-- category: runtime
-- likely_cause: mkdocs nav와 실제 파일 경로 불일치
-- user_impact: 독자 흐름이 끊긴다
-- priority: 1
-- next_action: nav와 target 경로를 함께 다시 확인한다
+### 실패 기록
+- 날짜: 2026-06-29
+- 문제: 내부 링크 404
+- 범주: 실행 중
+- 가능한 원인: 목차 경로 설정과 실제 파일 경로 불일치
+- 독자 영향: 독자 흐름이 끊긴다
+- 우선순위: 1
+- 다음 조치: 목차 경로 설정과 대상 경로를 함께 다시 확인한다
 
-### review summary
+### 회고 요약
 - 가장 먼저 고칠 문제: 독자가 바로 만나게 되는 404 링크
 - 이번 반복에서 미루는 문제: 수식 렌더링 미세 조정
 - 다음 배포 전에 추가할 점검: 공개 URL에서 핵심 링크 3개 직접 클릭
@@ -133,89 +133,89 @@
 이번 예제의 목적은 실패 표를 실제 회고 기록 구조로 바꾸는 것입니다. 실패 기록 목록은 실패를 우선순위가 있는 운영 사건으로 바꾸고, 개선 계획은 그 사건을 다음 반복의 작업 묶음으로 다시 정리하며, 검토 요약은 무엇을 먼저 고쳐야 하는지 한 줄로 보여 주는 요약 표지입니다.
 
 - 문제 상황: 배포 이후 생긴 문제를 다시 읽고 다음 조치를 정리한다.
-- 입력(input): 실패 항목 목록
-- 기대 출력(output): 우선순위가 붙은 실패 기록과 개선 계획
+- 입력: 실패 항목 목록
+- 기대 출력: 우선순위가 붙은 실패 기록과 개선 계획
 - 확인할 개념:
   - 실패는 범주별로 나누어 남겨야 한다
-  - likely cause와 next action이 함께 있어야 한다
+  - 가능한 원인과 다음 조치가 함께 있어야 한다
   - 우선순위가 붙어야 다음 반복으로 이어진다
 
 ```python
-incident_records = [
+실패_기록 = [
     {
-        "date": "2026-06-29",
-        "issue": "latest section missing on deployed page",
-        "category": "deploy/content",
-        "likely_cause": "main branch not updated or workflow still pending",
-        "user_impact": "readers cannot see the newest section",
-        "priority": 1,
-        "next_action": "check Actions run and confirm main branch status",
+        "날짜": "2026-06-29",
+        "문제": "최신 수정이 배포 페이지에 보이지 않음",
+        "범주": "배포/본문 반영",
+        "가능한 원인": "배포 브랜치가 갱신되지 않았거나 워크플로가 아직 끝나지 않음",
+        "독자 영향": "독자가 최신 수정 내용을 볼 수 없음",
+        "우선순위": 1,
+        "다음 조치": "배포 실행 이력과 배포 브랜치 상태를 다시 확인한다",
     },
     {
-        "date": "2026-06-29",
-        "issue": "internal link returns 404",
-        "category": "runtime",
-        "likely_cause": "nav path and actual file path do not match",
-        "user_impact": "reader flow is interrupted",
-        "priority": 1,
-        "next_action": "review mkdocs nav and target file paths",
+        "날짜": "2026-06-29",
+        "문제": "내부 링크가 404를 반환함",
+        "범주": "실행 중",
+        "가능한 원인": "목차 경로와 실제 파일 경로가 일치하지 않음",
+        "독자 영향": "독서 흐름이 끊김",
+        "우선순위": 1,
+        "다음 조치": "목차 경로 설정과 대상 파일 경로를 다시 확인한다",
     },
     {
-        "date": "2026-06-29",
-        "issue": "math rendering is missing on one page",
-        "category": "content/runtime",
-        "likely_cause": "script load or markdown syntax problem",
-        "user_impact": "equation explanation becomes unclear",
-        "priority": 2,
-        "next_action": "recheck browser rendering and math block syntax",
+        "날짜": "2026-06-29",
+        "문제": "한 페이지에서 수식 렌더링이 누락됨",
+        "범주": "본문/실행 중",
+        "가능한 원인": "스크립트 로드 또는 Markdown 문법 문제",
+        "독자 영향": "수식 설명이 불분명해짐",
+        "우선순위": 2,
+        "다음 조치": "브라우저 렌더링과 수식 블록 문법을 다시 확인한다",
     },
 ]
 
-incident_records.sort(key=lambda row: (row["priority"], row["date"]))
+실패_기록.sort(key=lambda row: (row["우선순위"], row["날짜"]))
 
-improvement_plan = []
-for row in incident_records:
-    if row["priority"] == 1:
-        action_bucket = "fix_immediately"
-    elif row["priority"] == 2:
-        action_bucket = "fix_next_cycle"
+개선_계획 = []
+for row in 실패_기록:
+    if row["우선순위"] == 1:
+        행동_구간 = "즉시 수정"
+    elif row["우선순위"] == 2:
+        행동_구간 = "다음 반복에서 수정"
     else:
-        action_bucket = "track_for_later"
+        행동_구간 = "추후 추적"
 
-    improvement_plan.append({
-        "issue": row["issue"],
-        "action_bucket": action_bucket,
-        "next_action": row["next_action"],
+    개선_계획.append({
+        "문제": row["문제"],
+        "행동 구간": 행동_구간,
+        "다음 조치": row["다음 조치"],
     })
 
-review_summary = {
-    "incident_count": len(incident_records),
-    "priority_1_count": sum(row["priority"] == 1 for row in incident_records),
-    "priority_2_count": sum(row["priority"] == 2 for row in incident_records),
-    "categories": sorted({row["category"] for row in incident_records}),
+회고_요약 = {
+    "실패 수": len(실패_기록),
+    "우선순위 1 문제 수": sum(row["우선순위"] == 1 for row in 실패_기록),
+    "우선순위 2 문제 수": sum(row["우선순위"] == 2 for row in 실패_기록),
+    "범주 목록": sorted({row["범주"] for row in 실패_기록}),
 }
 
-print("review_summary =", review_summary)
-print("incident_records =")
-for row in incident_records:
+print("회고 요약 =", 회고_요약)
+print("실패 기록 =")
+for row in 실패_기록:
     print(row)
-print("improvement_plan =")
-for row in improvement_plan:
+print("개선 계획 =")
+for row in 개선_계획:
     print(row)
 ```
 
 실행 결과 예시는 다음과 같습니다.
 
 ```text
-review_summary = {'incident_count': 3, 'priority_1_count': 2, 'priority_2_count': 1, 'categories': ['content/runtime', 'deploy/content', 'runtime']}
-incident_records =
-{'date': '2026-06-29', 'issue': 'latest section missing on deployed page', 'category': 'deploy/content', 'likely_cause': 'main branch not updated or workflow still pending', 'user_impact': 'readers cannot see the newest section', 'priority': 1, 'next_action': 'check Actions run and confirm main branch status'}
-{'date': '2026-06-29', 'issue': 'internal link returns 404', 'category': 'runtime', 'likely_cause': 'nav path and actual file path do not match', 'user_impact': 'reader flow is interrupted', 'priority': 1, 'next_action': 'review mkdocs nav and target file paths'}
-{'date': '2026-06-29', 'issue': 'math rendering is missing on one page', 'category': 'content/runtime', 'likely_cause': 'script load or markdown syntax problem', 'user_impact': 'equation explanation becomes unclear', 'priority': 2, 'next_action': 'recheck browser rendering and math block syntax'}
-improvement_plan =
-{'issue': 'latest section missing on deployed page', 'action_bucket': 'fix_immediately', 'next_action': 'check Actions run and confirm main branch status'}
-{'issue': 'internal link returns 404', 'action_bucket': 'fix_immediately', 'next_action': 'review mkdocs nav and target file paths'}
-{'issue': 'math rendering is missing on one page', 'action_bucket': 'fix_next_cycle', 'next_action': 'recheck browser rendering and math block syntax'}
+회고 요약 = {'실패 수': 3, '우선순위 1 문제 수': 2, '우선순위 2 문제 수': 1, '범주 목록': ['본문/실행 중', '배포/본문 반영', '실행 중']}
+실패 기록 =
+{'날짜': '2026-06-29', '문제': '최신 수정이 배포 페이지에 보이지 않음', '범주': '배포/본문 반영', '가능한 원인': '배포 브랜치가 갱신되지 않았거나 워크플로가 아직 끝나지 않음', '독자 영향': '독자가 최신 수정 내용을 볼 수 없음', '우선순위': 1, '다음 조치': '배포 실행 이력과 배포 브랜치 상태를 다시 확인한다'}
+{'날짜': '2026-06-29', '문제': '내부 링크가 404를 반환함', '범주': '실행 중', '가능한 원인': '목차 경로와 실제 파일 경로가 일치하지 않음', '독자 영향': '독서 흐름이 끊김', '우선순위': 1, '다음 조치': '목차 경로 설정과 대상 파일 경로를 다시 확인한다'}
+{'날짜': '2026-06-29', '문제': '한 페이지에서 수식 렌더링이 누락됨', '범주': '본문/실행 중', '가능한 원인': '스크립트 로드 또는 Markdown 문법 문제', '독자 영향': '수식 설명이 불분명해짐', '우선순위': 2, '다음 조치': '브라우저 렌더링과 수식 블록 문법을 다시 확인한다'}
+개선 계획 =
+{'문제': '최신 수정이 배포 페이지에 보이지 않음', '행동 구간': '즉시 수정', '다음 조치': '배포 실행 이력과 배포 브랜치 상태를 다시 확인한다'}
+{'문제': '내부 링크가 404를 반환함', '행동 구간': '즉시 수정', '다음 조치': '목차 경로 설정과 대상 파일 경로를 다시 확인한다'}
+{'문제': '한 페이지에서 수식 렌더링이 누락됨', '행동 구간': '다음 반복에서 수정', '다음 조치': '브라우저 렌더링과 수식 블록 문법을 다시 확인한다'}
 ```
 
 ## 이 출력은 어떻게 읽는가
@@ -223,7 +223,7 @@ improvement_plan =
 이 예제에서 중요한 점은 세 가지입니다.
 
 1. 실패 기록 목록  
-   실패를 단순 사건 메모가 아니라 `category`, `likely_cause`, `user_impact`, `priority`가 있는 운영 기록으로 남깁니다.
+   실패를 단순 사건 메모가 아니라 `범주`, `가능한 원인`, `독자 영향`, `우선순위`가 있는 운영 기록으로 남깁니다.
 
 2. 개선 계획  
    같은 실패 목록이라도 `즉시 수정`, `다음 반복 수정`처럼 행동 구간으로 나누면 다음 반복이 쉬워집니다.
@@ -234,11 +234,11 @@ improvement_plan =
 
 즉, 회고 문서는 과거 설명이 아니라 다음 반복을 여는 작업 목록이어야 합니다.
 
-같은 관점으로 보면 텍스트 프로젝트의 검토 대상 문장, RAG 프로젝트의 근거 부족 질문, agent 프로젝트의 보류 단계도 모두 `무엇을 먼저 다시 볼 것인가`를 정하는 실패 기록 재료가 됩니다. 즉, 최종 실패 기록 절의 역할은 새 실패 유형을 더 만드는 일이 아니라, 이미 각 프로젝트에서 남긴 기록을 `실패 신호 -> 해석 경계 -> 다음 질문` 순서로 다시 압축하는 데 있습니다.
+같은 관점으로 보면 텍스트 프로젝트의 검토 대상 문장, RAG 프로젝트의 근거 부족 질문, 에이전트 프로젝트의 보류 단계도 모두 `무엇을 먼저 다시 볼 것인가`를 정하는 실패 기록 재료가 됩니다. 즉, 최종 실패 기록 절의 역할은 새 실패 유형을 더 만드는 일이 아니라, 이미 각 프로젝트에서 남긴 기록을 `실패 신호 -> 해석 경계 -> 다음 질문` 순서로 다시 압축하는 데 있습니다.
 
-## 왜 postmortem 습관이 필요한가
+## 왜 장애 회고 습관이 필요한가
 
-Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹니다. 이 책의 Part 7 프로젝트 수준에서는 거대한 조직 절차까지 갈 필요는 없지만, 핵심 태도는 그대로 가져올 수 있습니다.
+Google SRE 책은 장애 회고 문화를 실패에서 배우는 문화로 다룹니다. 이 책의 Part 7 프로젝트 수준에서는 거대한 조직 절차까지 갈 필요는 없지만, 핵심 태도는 그대로 가져올 수 있습니다.
 
 - 실패를 숨기지 않는다.
 - 원인을 단정하기보다 가능한 설명을 적는다.
@@ -253,7 +253,7 @@ Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹
 개선 계획은 많아질수록 오히려 실행되지 않기 쉽습니다. 그래서 작은 프로젝트에서는 다음처럼 우선순위를 붙이는 편이 좋습니다.
 
 1. 다시 발생하면 바로 보이는 문제  
-   예: broken link, build failure
+   예: 깨진 링크, 빌드 실패
 2. 독자 경험을 직접 해치는 문제  
    예: 최신 내용 미반영, 모바일 가독성 저하
 3. 나중에 구조적으로 키워야 할 문제  
@@ -274,11 +274,11 @@ Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹
 | 구분 | 예시 |
 | --- | --- |
 | 나쁜 기록 | `배포가 좀 이상했다. 나중에 확인 필요.` |
-| 좋은 기록 | `최신 섹션이 배포 페이지에 보이지 않았다. category는 deploy/content로 보고, main 미반영 또는 workflow 지연 가능성을 먼저 확인한다. 독자는 최신 내용을 읽을 수 없으므로 priority는 1로 둔다.` |
+| 좋은 기록 | `최신 수정이 배포 페이지에 보이지 않았다. 범주는 배포/본문 반영으로 보고, 배포 브랜치 미반영 또는 워크플로 지연 가능성을 먼저 확인한다. 독자는 최신 내용을 읽을 수 없으므로 우선순위는 1로 둔다.` |
 
 좋은 기록은 완벽한 원인 분석이 없어도 괜찮습니다. 대신 `관찰된 현상`, `현재 가능한 원인 추정`, `다음 조치`, `우선순위`가 함께 남아 있어야 다음 반복에서 바로 다시 잡을 수 있습니다.
 
-여기서 `likely_cause`는 확정 원인이라기보다 현재 기록 시점에 붙일 수 있는 가장 가까운 설명 후보로 읽는 편이 맞습니다. 실제 원인은 추가 확인 뒤 바뀔 수 있으므로, 실패 기록에는 다음 검토 질문을 함께 남겨 두는 것이 중요합니다.
+여기서 `가능한 원인`은 확정 원인이라기보다 현재 기록 시점에 붙일 수 있는 가장 가까운 설명 후보로 읽는 편이 맞습니다. 실제 원인은 추가 확인 뒤 바뀔 수 있으므로, 실패 기록에는 다음 검토 질문을 함께 남겨 두는 것이 중요합니다.
 
 여기서 특히 중요한 점은 `원인 확정`을 너무 서두르지 않는 것입니다.
 
@@ -288,9 +288,9 @@ Google SRE 책은 postmortem culture를 failure에서 배우는 문화로 다룹
 
 ## 프로젝트 회고 문장 예시
 
-> 이번 정적 문서 배포 프로젝트는 로컬 빌드와 GitHub Pages 배포를 분리해 확인하는 구조를 정리했다. 그러나 배포 성공 여부만으로는 충분하지 않았고, 최신 문서 반영, 내부 링크 정상 동작, 실제 공개 페이지 확인이 별도 단계로 필요했다. 다음 반복에서는 배포 후 점검 체크리스트를 더 짧고 명확하게 만들고, 링크 점검과 최근 수정 반영 여부를 우선 확인 항목으로 두는 것이 적절하다.
+> 이번 정적 문서 배포 프로젝트는 로컬 빌드와 정적 사이트 배포를 분리해 확인하는 구조를 정리했다. 그러나 배포 성공 여부만으로는 충분하지 않았고, 최신 문서 반영, 내부 링크 정상 동작, 실제 공개 페이지 확인이 별도 단계로 필요했다. 다음 반복에서는 배포 후 점검 체크리스트를 더 짧고 명확하게 만들고, 링크 점검과 최근 수정 반영 여부를 우선 확인 항목으로 두는 것이 적절하다.
 
-이 회고 문장도 같은 기준으로 읽으면 좋습니다. `성공 여부`와 `likely_cause`는 현재 반복의 관찰과 해석이고, 다음 반복에서는 실제 재현 결과에 따라 우선순위나 설명이 다시 조정될 수 있습니다.
+이 회고 문장도 같은 기준으로 읽으면 좋습니다. `성공 여부`와 `가능한 원인`은 현재 반복의 관찰과 해석이고, 다음 반복에서는 실제 재현 결과에 따라 우선순위나 설명이 다시 조정될 수 있습니다.
 
 ## 이 책 전체와의 연결
 
@@ -306,14 +306,24 @@ Part 7의 마지막 회고는 이 책 전체의 학습 방식과도 연결됩니
 ## 이 절에서 기억할 관점
 
 - 배포 프로젝트에도 실패 기록이 필요합니다.
-- build, deploy, content, runtime 실패를 구분하면 회고가 더 선명해집니다.
+- 빌드, 배포, 본문 반영, 실행 중 실패를 구분하면 회고가 더 선명해집니다.
 - 개선 계획은 우선순위를 붙여야 실제 행동으로 이어집니다.
 - 작은 프로젝트의 회고 습관이 큰 운영 문화의 출발점입니다.
 
-## 체크리스트
+## 언제 실패 기록과 개선 계획 관점을 먼저 떠올려야 하는가
+
+다음처럼 문제는 있었지만 회고가 아직 다음 반복 계획으로 이어지지 않는다면 이 절의 관점을 먼저 떠올리는 편이 좋습니다.
+
+- 실패 현상은 적었지만 범주, 가능한 원인, 다음 조치가 함께 남아 있지 않은 경우
+- 독자 영향이 큰 문제와 나중에 미뤄도 되는 문제를 같은 무게로 적은 경우
+- 각 프로젝트에서 남긴 검토 대상과 보류 상태를 마지막 회고 문서로 다시 묶지 않은 경우
+
+이때는 새 해결책을 더 붙이기 전에 `실패 범주`, `영향`, `우선순위`, `다음 조치`를 먼저 정리해야 합니다.
+
+## 짧은 점검
 
 - 실패를 유형별로 나눠 기록할 수 있는가?
-- likely cause와 next action을 함께 적었는가?
+- 가능한 원인과 다음 조치를 함께 적었는가?
 - 독자 경험에 직접 영향을 주는 문제를 우선순위로 올렸는가?
 - 회고가 다음 반복 계획으로 이어지는가?
 
