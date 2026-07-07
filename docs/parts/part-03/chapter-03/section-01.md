@@ -37,6 +37,14 @@
 
 이 표만 보면 `분류 문제`, `예측 문제`, `시계열 학습 문제` 같은 말을 쉽게 떠올릴 수 있습니다. 하지만 아직 이 표가 `한 시점 기록`인지, `동작 1회 표`인지조차 정하지 않았습니다. 따라서 여기서 바로 학습 문제 틀을 고르면 문제보다 문제 형식이 먼저 앞서게 됩니다.
 
+문제 상황: 시점별 로그 표를 받았을 때, 이를 곧바로 학습 문제로 읽으면 어떤 핵심 질문이 비어 있는지 확인합니다.
+
+입력(input): `event_id`별 여러 시점 측정값이 섞여 있는 원시 로그 표
+
+기대 출력(output): `지금 바로 분류 문제로 읽기`와 `먼저 비어 있는 질문 채우기`가 다른 결과를 만든다는 점이 드러납니다.
+
+확인할 개념: 원천데이터를 학습 문제처럼 읽기 전에 `샘플 1건`, `라벨 후보`, `비교 표`가 무엇인지 먼저 정해야 한다
+
 ```python
 import pandas as pd
 
@@ -45,26 +53,68 @@ raw = pd.DataFrame(
         {"event_id": "A", "second": 0, "pressure": 1.0, "flow": 0.0},
         {"event_id": "A", "second": 1, "pressure": 2.0, "flow": 1.4},
         {"event_id": "A", "second": 2, "pressure": 2.4, "flow": 1.6},
+        {"event_id": "B", "second": 0, "pressure": 1.1, "flow": 0.1},
+        {"event_id": "B", "second": 1, "pressure": 1.7, "flow": 1.0},
+        {"event_id": "B", "second": 2, "pressure": 1.9, "flow": 1.1},
     ]
 )
 
+print("1) raw log")
 print(raw)
-print("row meaning candidate: one measurement at one second")
-print("sample meaning candidate: not decided yet")
+print()
+
+print("2) too-early reading")
+print("- maybe this is a classification problem")
+print("- label column: not found yet")
+print("- one training sample: not decided yet")
+print()
+
+event_summary = (
+    raw.groupby("event_id", as_index=False)
+    .agg(
+        max_pressure=("pressure", "max"),
+        mean_flow=("flow", "mean"),
+    )
+)
+print("3) questions that must be settled first")
+print("- one sample: one event")
+print("- candidate comparison table: one row per event")
+print("- label candidate: still not decided")
+print()
+
+print("4) event-level table after defining the sample")
+print(event_summary)
 ```
 
 예상 출력:
 
 ```text
+1) raw log
   event_id  second  pressure  flow
 0        A       0       1.0   0.0
 1        A       1       2.0   1.4
 2        A       2       2.4   1.6
-row meaning candidate: one measurement at one second
-sample meaning candidate: not decided yet
+3        B       0       1.1   0.1
+4        B       1       1.7   1.0
+5        B       2       1.9   1.1
+
+2) too-early reading
+- maybe this is a classification problem
+- label column: not found yet
+- one training sample: not decided yet
+
+3) questions that must be settled first
+- one sample: one event
+- candidate comparison table: one row per event
+- label candidate: still not decided
+
+4) event-level table after defining the sample
+  event_id  max_pressure  mean_flow
+0        A           2.4   1.000000
+1        B           1.9   0.733333
 ```
 
-마지막 두 줄이 중요합니다. 지금은 `행 의미`만 보일 뿐, `샘플 의미`는 아직 정해지지 않았습니다. 이 상태에서 학습 문제 틀부터 고르면, 뒤에서 데이터셋 구조를 다시 바꿔야 하는 일이 거의 반드시 생깁니다.
+이 예제의 핵심은 2단계와 3단계의 차이입니다. 2단계에서는 `분류 문제일지도 모른다`는 말만 먼저 나오지만, 실제로는 라벨 열도 없고 샘플 1건도 아직 정해지지 않았습니다. 반대로 3단계에서는 먼저 `한 샘플은 동작 1회`, `비교 표는 동작별 1행`이라는 구조를 정합니다. 그 뒤에야 4단계처럼 비교 가능한 표가 생깁니다. 즉 원천데이터를 너무 빨리 학습 문제로 읽으면, 아직 비어 있는 질문을 덮어 둔 채 문제 형식만 먼저 정하게 됩니다.
 
 실제로 학습 문제의 틀이 먼저 떠오를 때 비어 있는 질문을 나란히 적어 보면 문제가 더 분명해집니다.
 
