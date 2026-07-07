@@ -1,7 +1,7 @@
 # P3-6.1 비교할 구조는 어떤 특징으로 남기는가
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 특징을 처음 배울 때는 `열이 많을수록 좋은 것 아닐까`라고 받아들이곤 합니다. 하지만 특징(feature)은 단순히 많은 값을 넣는 일이 아닙니다. 특징은 샘플이 가진 구조를 비교와 예측에 쓸 수 있도록 다시 표현한 값입니다. 그래서 좋은 특징은 많기보다, `무엇을 보여 주려는가`가 분명해야 합니다. 앞 절에서 원시 로그를 요약 표로 바꿨다면, 이제 그 요약 표 안에 어떤 구조를 남길지 정해야 합니다.
 
@@ -24,32 +24,68 @@
 | A | 비슷함 | 완만함 | 낮음 | 비교적 안정적 |
 | B | 비슷함 | 급함 | 높음 | 불안정하거나 변화 큼 |
 
-짧은 코드로 보면 특징이 어떻게 만들어지는지 더 분명해집니다.
+문제 상황: 두 동작의 전체 수준은 비슷하지만, 상승 폭과 흔들림 정도가 다를 때 어떤 특징을 남겨야 하는지 확인합니다.
+
+입력(input): 구간별 평균만 남아 있는 동작 요약 표
+
+기대 출력(output): 같은 요약 표에서 수준, 구간 차이, 기울기, 변동성을 각각 계산한 특징 표
+
+확인할 개념: 특징은 이미 있던 열을 그대로 나열하는 것이 아니라, 비교하고 싶은 구조를 계산해 붙인 표현이다
 
 ```python
 import pandas as pd
 
-summary = pd.DataFrame(
+segment_summary = pd.DataFrame(
     [
-        {"event_id": "A", "early_flow_mean": 1.8, "late_flow_mean": 2.6, "flow_std": 0.30},
-        {"event_id": "B", "early_flow_mean": 2.4, "late_flow_mean": 2.4, "flow_std": 0.05},
+        {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
+        {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
     ]
 )
 
-summary["late_minus_early"] = summary["late_flow_mean"] - summary["early_flow_mean"]
+feature_table = segment_summary.copy()
+feature_table["overall_mean"] = feature_table[
+    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
+].mean(axis=1)
+feature_table["late_minus_early"] = (
+    feature_table["late_flow_mean"] - feature_table["early_flow_mean"]
+)
+feature_table["early_to_late_slope"] = feature_table["late_minus_early"] / 2
+feature_table["segment_variability"] = feature_table[
+    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
+].std(axis=1)
 
-print(summary[["event_id", "early_flow_mean", "late_flow_mean", "late_minus_early", "flow_std"]])
+print("1) segment means before feature design")
+print(segment_summary)
+print()
+print("2) designed features for comparison")
+print(
+    feature_table[
+        [
+            "event_id",
+            "overall_mean",
+            "late_minus_early",
+            "early_to_late_slope",
+            "segment_variability",
+        ]
+    ].round(2)
+)
 ```
 
 예상 출력:
 
 ```text
-  event_id  early_flow_mean  late_flow_mean  late_minus_early  flow_std
-0        A              1.8             2.6               0.8      0.30
-1        B              2.4             2.4               0.0      0.05
+1) segment means before feature design
+  event_id  early_flow_mean  mid_flow_mean  late_flow_mean
+0        A              1.8            2.2             2.6
+1        B              2.1            2.2             2.3
+
+2) designed features for comparison
+  event_id  overall_mean  late_minus_early  early_to_late_slope  segment_variability
+0        A           2.2               0.8                  0.4                  0.40
+1        B           2.2               0.2                  0.1                  0.10
 ```
 
-여기서 `late_minus_early`는 방향과 변화 크기를, `flow_std`는 흔들림의 크기를 보여 줍니다. 이 값들은 원시 표에 그대로 적혀 있던 열이 아니라, 비교를 위해 다시 만든 열입니다. 즉 특징은 단순 수집 결과가 아니라 설계 결과입니다.
+출력의 1단계는 아직 구간 평균만 있는 요약 표입니다. 2단계에 가서야 `overall_mean`, `late_minus_early`, `early_to_late_slope`, `segment_variability`가 새로 붙습니다. `overall_mean`은 전체 수준을, `late_minus_early`는 초반 대비 후반 차이를, `early_to_late_slope`는 그 차이를 구간 거리로 나눈 단순 기울기 표현을, `segment_variability`는 구간별 흔들림 정도를 보여 줍니다. 즉 특징은 원래 적혀 있던 값을 다시 보여 주는 것이 아니라, 같은 요약 표에서 비교하고 싶은 구조를 계산해 붙인 결과입니다.
 
 이 특징들은 작은 층위로 나누어 읽으면 각 값이 맡는 역할이 더 분명해집니다.
 

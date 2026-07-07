@@ -1,7 +1,7 @@
 # P3-9.6 같은 사건도 사람이나 시기에 따라 다른 라벨이 붙으면 어떻게 해야 하는가
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 Chapter 9에서 운영 메모가 목표 라벨 후보로 바뀌는 흐름까지 보면, 자연스럽게 한 걸음 더 들어갑니다. `라벨 후보 열이 생기긴 했는데, 사람마다 판단이 다르거나 시기마다 기준이 바뀌면 이 열을 그대로 써도 되는가` 하는 질문입니다. 현실 데이터에서는 이 문제가 자주 생깁니다. 같은 사건을 두 검토자가 다르게 적을 수 있고, 지난달에는 `주의`로 보던 상태를 이번 달에는 `정상`으로 기록할 수도 있습니다.
 
@@ -73,6 +73,19 @@ Part 3에서는 아직 복잡한 통계 지표보다 아래 메모를 먼저 남
 즉 불안정한 원인 분류를 억지로 바로 예측 문제로 올리는 것보다, 더 단순하고 반복적인 판단 열부터 목표 후보로 잡는 편이 Part 3 흐름에 맞습니다.
 
 이 메모를 남겨 두어야 뒤에서 학습 입력이나 긴 시퀀스를 다룰 때도 `열이 있다`는 사실보다 `그 열이 같은 뜻으로 반복되는가`를 먼저 점검할 수 있습니다. 즉 이 절의 중심은 Part 4·5의 학습 설명을 미리 펼치는 데 있지 않고, 현재 목표 라벨 후보가 아직 비교 리포트 단계에 머물러야 하는지까지 판단하는 데 있습니다.
+
+## 작은 도식으로 보기
+
+```mermaid
+flowchart TD
+    A[Repeated review results] --> B{Same event, same label?}
+    B -- No --> C[Keep review-report stage]
+    C --> C1[Leave disagreement memo]
+    C --> C2[Delay target promotion]
+    B -- Yes --> D{Policy stable across time?}
+    D -- No --> E[Split by period or mark rule change]
+    D -- Yes --> F[Promote simpler target candidate]
+```
 
 ## 작은 코드 예시
 

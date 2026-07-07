@@ -71,7 +71,7 @@
 
 예를 들어 `late_drop_rate` 같은 특징은 시점 한 줄에 바로 붙지 않고, 동작 1회 샘플을 만든 뒤에야 계산할 수 있습니다. 반면 `recent_count=20` 같은 값은 개별 샘플 특징이 아니라 최근 구간 집계에 더 가깝습니다. 그래서 층위를 섞어 읽으면 특징, 기준선, 출력 구조가 모두 추상적으로 느껴집니다.
 
-## 한눈에 비교하는 작은 예시
+## 한눈에 비교하는 작은 코드 예시
 
 ```python
 import pandas as pd
@@ -107,36 +107,38 @@ per_window = (
     )
 )
 
+print("1) counts change by level")
 print("row count:", len(raw))
 print("sample count:", len(per_event))
 print("window count:", len(per_window))
 print()
-print("one row example")
+print("2) one row still means one time-step record")
 print(raw.loc[[1], ["event_id", "second", "flow"]])
 print()
-print("one sample example")
+print("3) one sample means one whole event")
 print(per_event.loc[per_event["event_id"] == "A", ["event_id", "flow_mean", "flow_max"]])
 print()
-print("window summary")
+print("4) one window means multiple samples regrouped")
 print(per_window)
 ```
 
 예상 출력:
 
 ```text
+1) counts change by level
 row count: 9
 sample count: 3
 window count: 2
 
-one row example
+2) one row still means one time-step record
   event_id  second  flow
 1        A       1   1.5
 
-one sample example
+3) one sample means one whole event
   event_id  flow_mean  flow_max
 0        A   1.133333       1.5
 
-window summary
+4) one window means multiple samples regrouped
      window  event_count  flow_mean
 0  baseline            1   0.966667
 1    recent            2   1.183333

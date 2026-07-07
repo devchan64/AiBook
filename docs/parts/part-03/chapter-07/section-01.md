@@ -1,7 +1,7 @@
 # P3-7.1 남겨 둔 구조를 무엇과 비교해야 변화가 보이는가
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 기준선이라는 말을 들으면 모델 평가나 성능 비교를 먼저 떠올리곤 합니다. 실제로 머신러닝에서는 기준 모델(baseline model)이라는 말도 자주 쓰기 때문입니다. 하지만 이 Part에서 말하는 기준선은 그보다 앞선 단계에 있습니다. 여기서 기준선은 모델 성능 비교 이전에, `지금 상태를 무엇과 비교할 것인가`를 정하는 데이터 표현 구조의 일부입니다. 앞 장에서 특징과 중간 표현으로 구조를 남겼다면, 이제는 그 구조를 무엇과 비교해야 변화가 보이는지 정해야 합니다.
 
@@ -60,12 +60,14 @@ comparison = pd.DataFrame(
 )
 comparison["diff"] = comparison["recent_mid_flow"] - comparison["baseline_mid_flow"]
 
+print("1) comparison table appears only after recent and baseline meet")
 print(comparison)
 ```
 
 예상 출력:
 
 ```text
+1) comparison table appears only after recent and baseline meet
   process_type  recent_mid_flow  baseline_mid_flow  recent_count  diff
 0       type-A             2.10               2.45            20 -0.35
 1       type-B             2.30               2.28            18  0.02
