@@ -1,7 +1,7 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
@@ -98,6 +98,26 @@ P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는
 즉, 과소적합은 보통 다음 질문으로 요약할 수 있습니다.
 
 `이 모델은 문제를 풀기 위해 필요한 정도만큼도 아직 설명력을 갖추지 못했는가?`
+
+불량 탐지 사례로 바꾸면, 같은 사진 분류 문제도 `너무 단순해서 놓치는 경우`와 `학습 예시를 너무 외운 경우`를 다른 흐름으로 읽어야 합니다.
+
+```mermaid
+flowchart TD
+  A["part images<br/>crack / color / edge pattern"]
+  B["too simple rule<br/>few signals only"]
+  C["balanced model<br/>main defect pattern"]
+  D["too complex fit<br/>memorizes training quirks"]
+  E["miss obvious defects<br/>train low / val low"]
+  F["holds on new images<br/>train high / val similar"]
+  G["fails on new images<br/>train very high / val drop"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G
+```
 
 ### 과적합은 너무 많이 외운 상태다
 

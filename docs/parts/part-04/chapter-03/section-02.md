@@ -1,7 +1,7 @@
 # P4-3.2 휴리스틱과 모델 선택
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 모델 선택(model selection)에 적용합니다.
 
@@ -49,6 +49,30 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 | 그래디언트 부스팅(gradient boosting) | 표 형식 데이터에서 강한 성능을 보일 때가 많습니다. | 튜닝과 검증을 더 신중히 해야 합니다. | P4-16 |
 
 여기서 휴리스틱은 “로지스틱 회귀가 정답이다”라고 말하지 않습니다. 대신 “간단한 기준 모델을 세우고, 그다음 설명 가능성과 성능을 비교해 보자”라는 실험 순서를 만듭니다.
+
+이 판단을 사례 흐름으로 그려 보면, 모델 선택은 이름을 고르는 일이 아니라 `문제와 제약으로 후보를 줄인 뒤 작은 비교 집합을 만든다`는 뜻이 더 분명해집니다.
+
+```mermaid
+flowchart TD
+  A["churn problem<br/>predict leave / stay"]
+  B["task type<br/>classification"]
+  C["constraints<br/>interpretability / tabular data / cost"]
+  D["baseline first<br/>logistic regression"]
+  E["tree candidate<br/>decision tree"]
+  F["stronger ensemble<br/>random forest"]
+  G["compare with validation<br/>recall / precision / cost"]
+  H["keep or expand set<br/>record why"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> G
+  F --> G
+  G --> H
+```
 
 ## 모델 선택은 후보를 줄이는 과정이다
 

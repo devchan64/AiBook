@@ -1,7 +1,7 @@
 # P4-8.2 기준 모델(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제 그 후보들을 바로 복잡한 순서대로 붙잡기보다, 먼저 비교의 출발점을 세우는 질문으로 넘어갑니다.
 
@@ -76,6 +76,25 @@ P4-8.1에서 우리는 후보 모델군을 세웠습니다. 하지만 후보군�
 - 나아졌다면 어떤 지표에서 나아진 것인가?
 
 여기서 한 가지를 더 붙여야 합니다. 분류 문제에서는 baseline보다 점수가 조금 높아졌다는 사실만으로 충분하지 않습니다. 혼동 행렬(confusion matrix)과 대표 오류 사례를 같이 놓고 `놓침이 줄었는가`, `괜한 경보가 늘었는가`, `중요한 소수 사례를 더 잘 잡는가`를 봐야만 baseline 비교가 살아납니다. 즉, baseline은 숫자 비교표이면서 동시에 오류 해석의 기준선입니다.
+
+고객 이탈 사례로 바꾸면 baseline은 `점수 하나`보다 `지금 모델이 정말 쉬운 기준을 넘었는가`를 읽는 분기점으로 보입니다.
+
+```mermaid
+flowchart TD
+  A["churn dataset"]
+  B["baseline model<br/>always stay or dummy rule"]
+  C["candidate model<br/>uses behavior features"]
+  D["same metric<br/>accuracy / recall / F1"]
+  E["error check<br/>missed churn cases"]
+  F["meaningful gain?<br/>keep or rethink"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D
+  D --> E
+  E --> F
+```
 
 또 한 가지를 분리해서 기억할 필요가 있습니다. `기준 모델(baseline model)`과 `비교 기준선(baseline reference)`은 같은 문맥에서 만나지만 완전히 같은 대상은 아닙니다. 전자는 가장 단순한 예측기를 뜻하는 경우가 많고, 후자는 최근 결과를 평소 구간과 나란히 놓는 비교 프레임까지 포함할 수 있습니다. 이 절에서는 두 의미를 구분해 두어야 Part 6에서 프로젝트 회고 문서를 쓸 때도 문장이 헷갈리지 않습니다.
 

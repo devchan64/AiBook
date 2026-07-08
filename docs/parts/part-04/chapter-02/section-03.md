@@ -1,7 +1,7 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supervised learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 비지도학습(unsupervised learning)을 봤습니다. 이번에는 모델이 행동(action)을 하고, 그 결과로 보상(reward)을 받으며, 다음 행동 방식을 조정하는 강화학습(reinforcement learning)을 봅니다.
 
@@ -105,6 +105,29 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 | 점수 없이 우회함 | 당장은 `0` | 목표 도착으로 `+10`을 받을 수 있음 |
 
 이런 이유로 강화학습은 “당장 좋은 행동”과 “나중에 좋은 결과를 만드는 행동”을 구분해야 합니다. 이 지점이 강화학습을 어렵고 흥미롭게 만드는 핵심입니다.
+
+쿠폰 추천 사례로 바꾸어 보면, 같은 행동도 `즉시 클릭`과 `나중 구매`를 함께 읽어야 강화학습 문제라는 점이 더 분명해집니다.
+
+```mermaid
+flowchart TD
+  A["user state<br/>recent visits / cart / past coupon use"]
+  B{"choose coupon"}
+  C["coupon A<br/>high click"]
+  D["coupon B<br/>lower click"]
+  E["immediate response<br/>click or ignore"]
+  F["later outcome<br/>purchase / return / no purchase"]
+  G["reward design<br/>short-term + long-term"]
+  H["update policy<br/>better next offer"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  D --> E
+  E --> F
+  F --> G
+  G --> H
+```
 
 ## 탐험과 활용
 

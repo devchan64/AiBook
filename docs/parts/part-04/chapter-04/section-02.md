@@ -1,7 +1,7 @@
 # P4-4.2 검증(validation)과 테스트(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터(evaluation data)로 나누는 이유를 봤습니다. 이제 한 단계 더 나아갑니다. 모델을 고르는 과정에서 쓰는 데이터와, 마지막에 한 번만 확인하는 데이터는 같은 역할이 아닙니다.
 
@@ -194,6 +194,26 @@ flowchart TB
 - `이 모델을 이제 발표해도 되는가?` -> 테스트 데이터에 묻는 질문
 
 질문이 다르면 사용하는 데이터의 역할도 달라집니다.
+
+같은 고객 이탈 표라도 질문이 바뀌면 쓰는 데이터의 역할이 달라집니다. 아래 도식은 `후보를 고르는 단계`와 `마지막 확인 단계`가 왜 같은 데이터 조각을 공유하면 안 되는지 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["customer churn table"]
+  B["train split<br/>fit several models"]
+  C["validation split<br/>choose depth / features / model"]
+  D["final candidate"]
+  E["test split<br/>open once at the end"]
+  F["reported final result"]
+
+  A --> B
+  A --> C
+  A --> E
+  B --> C
+  C --> D
+  D --> E
+  E --> F
+```
 
 ## 연습 및 예제
 
