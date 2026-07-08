@@ -571,6 +571,11 @@ plugins:
                         - "P1-3.1 Strengths and Limits of Rule-Based Systems": en/parts/part-01/chapter-03/section-01.md
                         - "P1-3.2 What It Means to Learn Patterns from Data": en/parts/part-01/chapter-03/section-02.md
                         - "P1-3.3 Rule-Based Approaches and Representation Learning": en/parts/part-01/chapter-03/section-03.md
+                    - Chapter 4. Turning Real-World Problems into Models:
+                        - "P1-4.1 Becoming Comfortable with the Word Model": en/parts/part-01/chapter-04/section-01.md
+                        - "P1-4.2 Input, Output, and Data": en/parts/part-01/chapter-04/section-02.md
+                        - "P1-4.3 Features, Representations, and Parameters": en/parts/part-01/chapter-04/section-03.md
+                        - "P1-4.4 How Problem Definition Determines the Model": en/parts/part-01/chapter-04/section-04.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
