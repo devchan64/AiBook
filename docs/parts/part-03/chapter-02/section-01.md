@@ -7,6 +7,15 @@
 
 여기서는 `저장된 기록`과 `데이터셋 후보`를 구분하는 데 집중합니다. 뒤 절에서는 `샘플`, `특징`, `기준선`, `출력 구조`를 한 번에 펼쳐 보겠지만, 여기서는 아직 그 용어를 길게 정의하기보다 왜 저장 구조만으로는 그 단계에 바로 들어갈 수 없는지를 먼저 고정합니다.
 
+도입부에 나오는 용어도 같은 무게로 읽지 않는 편이 좋습니다. `DSS`, `BI`, `DW`, `OLAP`는 데이터 활용 맥락을 보여 주는 배경 약어이고, 이 절의 핵심 개념은 `저장 구조`, `데이터셋 후보`, `샘플 단위`, `문제 표현 구조`입니다.
+
+| 구분 | 여기서 어떻게 읽는가 |
+| --- | --- |
+| `DSS/BI/DW/OLAP` | 데이터를 모아 의사결정에 연결해 온 배경 맥락 |
+| 저장 구조 | 기록을 빠짐없이 보존하기 위한 표 |
+| 데이터셋 후보 | 질문에 맞게 다시 묶어 비교 가능한 표 |
+| 샘플 단위 | 무엇을 한 건으로 셀지 정하는 기준 |
+
 예를 들어 자동으로 실행되는 동작의 원천데이터가 있다고 하겠습니다. 시간 순서대로 쌓인 제어 파라미터와 센서 값은 저장용 테이블에 바로 담을 수 있습니다. 한 행마다 시점, 센서 이름, 측정값, 제어 설정값을 넣으면 됩니다. 이 구조는 기록을 보존하고, 문제가 생겼을 때 세부 흐름을 다시 보는 데 적합합니다.
 
 하지만 이 표를 그대로 보고 `이번 동작은 평소보다 길었는가`, `후반 하강이 유난히 느렸는가`, `최근 20건은 기준선과 비교해 달라졌는가` 같은 질문에 바로 답하기는 어렵습니다. 왜냐하면 저장 구조의 한 행은 보통 `한 시점의 기록`이고, 지금 질문이 요구하는 비교 단위는 `동작 1회`나 `여러 동작을 묶은 최근 구간`이기 때문입니다. 즉 저장된 기록이 있다는 사실만으로 아직 데이터셋이 생긴 것은 아닙니다.
@@ -114,3 +123,9 @@ print(dataset_candidate.round(2))
 
 
 따라서 저장된 기록이 곧바로 데이터셋이 아니라는 말은 `형식이 다르다`는 뜻보다 `질문에 답할 단위와 파생 표현이 아직 정해지지 않았다`는 뜻에 가깝습니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `example`, `labeled example`, `feature`. example 단위와 feature 역할을 분리해 설명하므로, 저장된 행과 비교 가능한 샘플 행이 다를 수 있다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance, derivation, traceability를 함께 다루므로, 저장 구조는 원시 근거를 남기고 문제 표현 구조는 다른 질문에 맞는 파생 표현을 만든다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조의 관계를 정리하므로, 저장 구조의 한 행과 분석용 표의 한 행이 같은 뜻이 아닐 수 있다는 설명의 일반 원리를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

@@ -7,6 +7,12 @@
 
 `원시 로그 -> 요약 표 -> 집계 표`는 같은 시계열을 서로 다른 질문에 맞는 표로 다시 표현하는 순서입니다. 이 순서가 보여야 [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline) 비교와 [중간 표현(intermediate representation)](../../../reference/concept-glossary.md#glossary-intermediate-representation) 설계도 어느 층위에서 붙는지 분명해집니다.
 
+Chapter 4에서 샘플 단위와 대표성 범위를 정했다면, 이번 장에서는 그 샘플을 실제로 비교 가능한 표로 다시 묶어야 합니다.
+
+| 이전 Chapter에서 남긴 것 | 이번 Chapter에서 추가로 정하는 것 | 다음 Chapter로 넘길 구조 |
+| --- | --- | --- |
+| 샘플 단위, 대표성 범위, 샘플 붕괴 신호 | 원시 로그를 요약 표와 집계 표로 어떻게 바꿀지 | 특징 설계에 바로 쓸 비교 가능한 표 |
+
 Chapter 5가 회수하려는 데이터과학 관점도 이 지점에서 함께 선명해집니다. 수치형 탐색(numerical exploration)은 요약 표에서 수준, 변화, 변동성을 비교할 수 있어야 시작되고, 범주형 탐색(categorical exploration)은 상태 구간, 결측 여부, 겹침 여부, 비교 불가 사유 같은 범주 정보를 함께 정리해야 시작됩니다. 다시 말해 이 장은 `표를 만든다`는 말보다 `수치형 값과 범주형 상태를 함께 탐색 가능한 구조로 바꾼다`는 쪽에 더 가깝습니다.
 
 | 탐색 관점 | 표에서 먼저 남겨야 하는 것 | 뒤 절에서 더 읽게 되는 것 |

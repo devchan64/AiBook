@@ -148,3 +148,8 @@ print(summary[["event_id", "pattern_note"]])
 
 평균이 같다는 이유로 두 동작을 같은 범주로 묶어 버리면, 실제로는 후반 하강이 급한 사례를 놓칠 수 있습니다. 그래서 요약 표에서는 `평균이 같아도 구조는 다를 수 있다`는 점이 드러나야 합니다. 이 생각이 나중의 특징 설계, 세그먼트 표현, 기준선 비교로 자연스럽게 이어집니다.
 
+## 출처와 참고 자료
+
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 시간 흐름 안에서 신호와 패턴을 읽는 관점을 제공하므로, 평균 하나만으로는 구조 변화를 다 설명할 수 없고 구간별 변화와 모양 차이를 함께 남겨야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 원시 데이터를 더 유용한 입력 표현으로 바꾸는 과정으로 설명하므로, 요약 표가 평균만 남기는 표가 아니라 구간 평균, 기울기, 시점 같은 구조 정보를 함께 남겨야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 derivation과 processing steps를 설명 가능하게 남겨야 한다고 정리하므로, 전체 평균 외에 어떤 구간 요약과 파생값을 남겼는지 재구성 가능해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

@@ -7,6 +7,8 @@
 
 입력 창은 `모델에 넣기 좋은 길이`부터 고르는 것이 아니라, `지금 문제에서 무엇을 한 입력으로 보아야 하는가`부터 정한 뒤에 잘라야 합니다.
 
+앞 절까지가 `한 줄 특징 표`에 무엇을 남길지 묻는 흐름이었다면, 여기서부터는 같은 원천 시계열을 `시간 순서가 남는 입력 구조`로도 읽을 수 있는지 따져 봅니다.
+
 ## 왜 입력 창이 필요한가
 
 원시 시계열은 대개 길이가 다르고, 시작점과 끝점의 의미도 다를 수 있습니다. 어떤 동작은 40초, 어떤 동작은 75초일 수 있고, 어떤 센서는 초반에 급격히 변하고 어떤 센서는 후반에만 차이가 나타날 수 있습니다. 이런 상태에서 `그대로 넣자`고 하면, 사실상 서로 다른 길이와 서로 다른 의미 구간을 한 묶음처럼 다루게 됩니다.
@@ -83,6 +85,17 @@
 
 즉 입력 창을 정하는 일은 한쪽에서는 요약 특징이 어디서 나왔는지 설명하고, 다른 한쪽에서는 순서가 남은 입력 구조를 어떤 기준으로 만들었는지 설명합니다.
 
+아래 작은 도식으로 보면 같은 창 결정이 왜 두 갈래 입력 구조 후보를 만든다고 말하는지 더 분명해집니다.
+
+```mermaid
+flowchart TD
+    A[Windowed event sequence]
+    A --> B[Collapse into summary features]
+    A --> C[Keep ordered segments]
+    B --> D[One-row feature input]
+    C --> E[Sequence-like input candidate]
+```
+
 여기서도 경계를 분명히 해야 합니다. 이 절은 `입력 창을 왜 그렇게 잘랐는가`를 답하는 자리이지, 그 입력 위에서 어떤 학습 구조가 잘 맞는지까지 설명하는 자리는 아닙니다.
 
 | 질문 | 이 절에서 답하는가 | 여기서 미루는가 |
@@ -93,3 +106,9 @@
 | padding, masking, architecture 세부 구현은 어떻게 하는가 | 아니오 | 예 |
 
 입력 창(window)은 모델이 요구해서 생기는 형식이 아니라, 무엇을 한 입력으로 비교할 것인지 정한 데이터 모델링 결과입니다. 이렇게 정리해 두면 뒤에서 더 긴 입력 구조를 읽더라도 먼저 `입력 창이 왜 이렇게 잘렸는가`를 보게 됩니다. 요약 특징 역시 이미 어떤 창과 정렬 기준 위에서 만들어진 결과라는 점이 함께 드러납니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의되는 단위이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 입력의 시작점, 끝점, 길이 기준을 먼저 닫아야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 identifying an object, derivation, reproducibility를 지원해야 한다고 정리하므로, 입력 창과 정렬 기준이 어떤 규칙으로 만들어졌는지 재현 가능하게 남겨야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 reference period라는 일반 개념을 제공하므로, 절대 시간 기준과 진행률 기준 가운데 무엇을 비교 기준으로 삼을지 질문이 먼저 결정한다는 이 절의 판단을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

@@ -169,3 +169,9 @@ print(output_table)
 
 
 따라서 데이터셋 후보는 `열이 많은 표`가 아니라, 하나의 example 안에 설명 값, 비교 기준, 결과 형식이 서로 역할을 나눠 들어 있는 구조로 읽어야 합니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `example`, `labeled example`, `feature`, `label`. example 안에서 feature와 label이 어떤 역할을 맡는지 분리해 설명하므로, 샘플-특징-기준선-출력 구조를 한 표 안의 역할 구분으로 읽는 이 절의 전개를 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 기준 구간(reference period)이라는 일반 개념을 제공하므로, 현재 샘플의 값이 기준선과 비교되어야 의미를 얻는다는 이 절의 `baseline` 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. derivation과 activity context를 함께 남겨야 한다고 정리하므로, 출력 구조가 앞선 샘플 설정, 특징 계산, 기준선 비교의 결과라는 이 절의 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

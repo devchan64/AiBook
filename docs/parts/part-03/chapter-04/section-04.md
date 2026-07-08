@@ -155,3 +155,9 @@ print(warning_check)
 이 네 질문 중 두세 개 이상이 어긋나면, 특징을 더 만들기 전에 샘플 단위를 다시 보는 편이 낫습니다.
 
 이 진단 신호를 먼저 모아 두면, 샘플 단위를 다시 묶어야 하는 상황과 그대로 유지해도 되는 상황을 더 일찍 구분할 수 있습니다. 즉 여기서 중요한 것은 다음 단계를 예고하는 일이 아니라, 현재 표에서 이미 보이는 반복 라벨, 설명되지 않는 특징, 어색한 비교 문장을 통해 샘플 단위 오판을 먼저 알아차리는 일입니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label leakage`. label이 어떤 example 단위에 붙는지와 feature/label 역할 혼동의 위험을 설명하므로, 반복 라벨과 설명되지 않는 특징이 보일 때 샘플 단위를 다시 의심해야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. identifying an object와 derivation을 함께 남겨야 한다고 정리하므로, 현재 줄이 시점 기록인지 동작 1회 요약인지 추적 가능해야 샘플 단위 오판을 더 일찍 찾아낼 수 있다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조를 구분해 설명하므로, 동작 단위 특징을 시점 행에 억지로 붙이면 왜 해석이 어색해지는지 설명하는 일반 원리를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

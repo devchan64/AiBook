@@ -135,3 +135,9 @@ print(summary[["event_id", "keep_sample", "avoid_features"]])
 여기서 마지막으로 확인할 것은 세 가지입니다. 이 샘플이 아직 같은 비교 단위인지, 누락 때문에 만들면 안 되는 특징을 구분했는지, 빠짐 자체를 표시 열로 남길지 정했는지입니다. 이 세 조건이 함께 서야 빈칸은 단순 청소 대상이 아니라, 샘플 구조 판단이 섞인 데이터 모델링 항목으로 읽히게 됩니다.
 
 값이 빠졌다는 사실은 단순 전처리 문제가 아니라, 이 샘플이 아직 같은 비교 단위인지와 빠짐 자체를 구조 정보로 남길지 다시 묻게 하는 데이터 모델링 신호입니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 같은 단위를 전제로 하므로, 결측이 샘플 경계를 흔들 때는 값을 채우기 전에 그 샘플이 아직 같은 비교 단위인지 먼저 확인해야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering은 원시 데이터를 학습과 비교에 더 유용한 형태로 바꾸는 과정이므로, 구간 누락 때문에 뜻이 깨진 특징은 만들지 말아야 한다는 이 절의 판단을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 derivation과 activity context를 설명 가능하게 남겨야 한다고 정리하므로, 누락 위치와 샘플 구조 붕괴 여부를 별도 정보로 남겨야 나중에 품질과 재현성을 다시 판단할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
