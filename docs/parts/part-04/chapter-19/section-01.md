@@ -1,7 +1,7 @@
 # P4-19.1 가치 기반 강화학습(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보상(reward)을 통해 정책(policy)을 조정하는 학습`으로 잡았습니다. 여기서 한 단계 더 들어가면 다음 질문이 나옵니다.
 
@@ -322,6 +322,19 @@ SARSA updated = 0.835
 ### 사례 1. 창고 로봇이 교차로에서 어느 방향으로 가야 할지 점수판으로 배우는 장면
 
 창고 로봇이 물건을 가지러 갈 때 매번 `왼쪽`, `오른쪽`, `직진` 중 무엇이 더 나은지 바로 규칙으로 적기는 어렵다고 해 보겠습니다. 어떤 길은 지금은 짧아 보여도 이후 교통이 막히거나 회전 비용이 커서 장기적으로 손해일 수 있습니다. 가치 기반 강화학습은 각 위치와 행동 조합에 `앞으로 얼마나 유리한가`를 점수처럼 붙여, 로봇이 더 나은 경로를 점진적으로 배우게 합니다. 그래서 같은 교차로에서도 즉시 이동 거리만이 아니라 이후 이동 흐름까지 반영한 선택이 점점 더 높은 Q-value를 갖게 됩니다.
+
+```mermaid
+flowchart TD
+  A["intersection state"]
+  B["left / right / forward"]
+  C["take one action"]
+  D["observe delay or reward"]
+  E["update Q-value for that action"]
+  F["compare actions again next visit"]
+  G["higher long-run route preference"]
+
+  A --> B --> C --> D --> E --> F --> G
+```
 
 이 사례를 review 메모처럼 줄이면 다음과 같이 적을 수 있습니다.
 

@@ -1,7 +1,7 @@
 # P4-17.1 클러스터링(clustering)의 직관
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정답(label)이 있는 문제에서 모델이 어떻게 예측 성능을 올리는지를 따라왔습니다. 여기서 시선을 조금 바꾸면 다음 질문이 나옵니다.
 
@@ -330,6 +330,27 @@ group sizes: 3 3
 ### 사례 1. 쇼핑몰 고객을 매출 순위가 아니라 이용 패턴으로 다시 묶어 보고 싶을 때
 
 온라인 쇼핑몰 팀이 고객을 볼 때는 `이번 달 구매액이 큰가` 같은 단일 기준으로만 나누기 쉽습니다. 하지만 실제로는 방문은 잦지만 소액으로 자주 사는 고객, 방문은 드물지만 한 번에 크게 사는 고객, 최근 방문이 끊긴 고객처럼 서로 다른 패턴이 섞여 있어서, 금액 하나만 보면 같은 부류로 묶여 버릴 수 있습니다. 클러스터링은 방문 수, 구매 금액, 최근 접속일 같은 특징을 함께 보고 비슷한 고객 묶음을 제안합니다. 그래서 팀은 단순 매출 순위표로는 보이지 않던 `행동 패턴 중심`의 고객 그룹을 발견하고, 이후 해석과 마케팅 전략 검토를 이어갈 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["customer table"]
+  B["rank by purchase only"]
+  C["mixed behavior stays hidden"]
+  D["cluster by visit, spend, recency"]
+  E["frequent small buyers"]
+  F["rare big spenders"]
+  G["recently inactive customers"]
+  H["review business meaning later"]
+
+  A --> B --> C
+  A --> D
+  D --> E
+  D --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H
+```
 
 이 사례를 review 메모처럼 줄이면 다음과 같이 적을 수 있습니다.
 

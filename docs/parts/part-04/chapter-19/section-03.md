@@ -1,7 +1,7 @@
 # P4-19.3 강화학습 적용의 주의점
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을, P4-19.2에서는 정책 기반 강화학습(policy-based reinforcement learning)을 보았습니다. 여기까지 오면 다음 질문이 나옵니다.
 
@@ -276,6 +276,20 @@ flowchart TB
 ### 사례 1. 추천 정책이 클릭 수만 올리다 사용자 만족은 떨어뜨리는 장면
 
 콘텐츠 추천 팀이 강화학습 정책의 보상을 `클릭 수 증가` 하나로만 두었다고 해 보겠습니다. 정책은 곧 더 자극적인 제목과 짧은 체류를 유도하는 콘텐츠를 자주 내보내 클릭 숫자는 빠르게 올릴 수 있습니다. 하지만 실제 목표가 장기 만족과 재방문이라면, 불만 신고가 늘고 서비스 신뢰가 떨어져 진짜 목표에서는 오히려 손해가 커질 수 있습니다. 이런 사례는 강화학습에서 보상 숫자가 곧바로 사람의 의도를 뜻하지 않으며, 적용 전에 대리 지표와 실제 목표 사이의 차이를 반드시 점검해야 한다는 점을 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["reward = clicks only"]
+  B["policy serves more provocative content"]
+  C["click metric rises"]
+  D["complaints and churn rise too"]
+  E["suspect proxy reward mismatch"]
+  F["redefine reward with longer-term signals"]
+  G["test in offline or limited rollout"]
+
+  A --> B --> C
+  C --> D --> E --> F --> G
+```
 
 이 장면은 다음처럼 바로 기록할 수 있습니다. `정책이 클릭은 올렸지만 신고율과 이탈률도 함께 올랐다면, 보상 설계가 실제 목표를 잘못 대신한 것이다. 다음 조치는 더 오래 남는 만족 지표를 보상에 다시 묶고, 위험한 탐험은 오프라인 평가나 제한된 실험 구간으로 먼저 줄여 보는 일이다.` 강화학습 적용 절의 핵심은 `보상 숫자가 올랐다`에서 끝나지 않고 `어떤 부작용이 같이 늘었는가`, `그 부작용을 배포 전에 어디서 줄일 것인가`까지 이어지는 데 있습니다.
 

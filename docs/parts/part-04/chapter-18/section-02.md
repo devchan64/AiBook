@@ -1,7 +1,7 @@
 # P4-18.2 시각화와 정보 손실
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-18.1에서는 차원 축소(dimensionality reduction)가 많은 특징을 더 적은 축으로 다시 표현하는 일이라는 점을 보았습니다. 다음 단계에서는 그 그림을 어디까지 믿을지 묻게 됩니다.
 
@@ -293,6 +293,24 @@ flowchart TB
 ### 사례 1. 2D 그림에서 두 상품군이 멀리 보여도 원래 특징까지 바로 다르다고 단정하면 왜 위험할까
 
 상품 기획 팀이 수십 개 상품 특징을 차원 축소해 2D 그림으로 봤더니 두 점무리가 멀리 떨어져 보였다고 해 보겠습니다. 그림만 보면 `완전히 다른 상품군`처럼 보일 수 있지만, 실제 원본 특징에서는 가격대와 핵심 기능이 꽤 비슷하고 일부 보조 특징이 투영 과정에서 더 크게 드러난 것일 수도 있습니다. 반대로 그림에서 조금 겹쳐 보이는 상품도 원래 고차원 공간에서는 충분히 구분될 수 있습니다. 그래서 차원 축소 그림은 분리 가설을 만드는 데는 유용하지만, 최종 판단은 원래 특징 요약과 후속 분석으로 다시 확인해야 합니다.
+
+```mermaid
+flowchart TD
+  A["2D reduced plot"]
+  B["two groups look far apart"]
+  C["jump to different product families"]
+  D["possible projection exaggeration"]
+  E["return to original features"]
+  F["compare price and core function"]
+  G["check another projection or axis count"]
+  H["keep or weaken the grouping hypothesis"]
+
+  A --> B --> C
+  B --> D
+  D --> E
+  E --> F
+  F --> G --> H
+```
 
 이 장면을 해석 메모로 남기면 다음처럼 정리할 수 있습니다.
 

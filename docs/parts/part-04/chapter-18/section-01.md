@@ -1,7 +1,7 @@
 # P4-18.1 차원 축소(dimensionality reduction)
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-17에서는 클러스터링(clustering)을 통해 라벨 없이 데이터 구조를 찾아보는 관점을 보았습니다. 같은 비지도학습 흐름 안에서 여기서는 또 다른 질문이 나옵니다.
 
@@ -339,6 +339,27 @@ flowchart TB
 ### 사례 1. 수십 개 고객 지표를 한눈에 보기 어려워 먼저 몇 개 축으로 줄여 보고 싶을 때
 
 고객 분석 팀이 방문 수, 구매 금액, 최근 접속, 반품 비율, 카테고리 선호도처럼 많은 지표를 한꺼번에 보고 있다고 해 보겠습니다. 숫자는 많지만 서로 비슷하게 움직이는 지표도 섞여 있어서, 원래 표만으로는 어떤 고객 흐름이 있는지 직관적으로 잡기 어렵습니다. 차원 축소는 이런 여러 지표를 몇 개의 새 축으로 다시 묶어, `활동성`, `구매 규모`, `최근성`처럼 큰 변동 흐름을 더 압축된 형태로 보게 도와줍니다. 그래서 팀은 원래 표에서는 보이지 않던 전체 구조를 먼저 보고, 이후 군집화나 후속 모델링에 쓸 표현을 더 단순하게 준비할 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["many customer features"]
+  B["hard to read the whole table"]
+  C["compress into a few components"]
+  D["activity-like axis"]
+  E["spend-size axis"]
+  F["recency-like axis"]
+  G["inspect structure more easily"]
+  H["reuse for clustering or downstream models"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> G
+  F --> G
+  G --> H
+```
 
 이 사례를 review 메모로 바꾸면 다음처럼 적을 수 있습니다.
 

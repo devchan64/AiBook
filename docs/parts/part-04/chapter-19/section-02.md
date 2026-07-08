@@ -1,7 +1,7 @@
 # P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
 
@@ -365,6 +365,21 @@ actor-critic이 자주 쓰이는 이유는 `정책을 직접 조정하는 자유
 ### 사례 1. 로봇 팔이 집기 각도를 조금씩 조정해야 할 때 정책을 직접 배우는 편이 자연스러운 이유
 
 로봇 팔이 상자를 집을 때는 `왼쪽`이나 `오른쪽`처럼 몇 개 행동만 고르는 것이 아니라, 각도와 힘을 얼마나 줄지 연속적으로 정해야 합니다. 이런 상황에서 모든 가능한 행동의 점수를 표처럼 적어 두기보다는, 현재 상태에서 어떤 각도와 힘이 더 자주 나오게 할지 정책 자체를 조정하는 편이 더 자연스럽습니다. 정책 기반 강화학습은 성공적으로 집은 동작의 확률을 높이고 실패한 동작의 확률을 낮추면서, 행동 분포를 직접 다듬어 갑니다. 그래서 복잡한 연속 제어 문제에서는 `점수표를 만든 뒤 최고값을 고르는 방식`보다 `행동 방식을 바로 수정하는 방식`이 더 잘 맞을 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["robot arm state"]
+  B["policy outputs angle and force tendency"]
+  C["try a control action"]
+  D["successful grasp or slip"]
+  E["raise probability of helpful action"]
+  F["lower probability of harmful action"]
+  G["policy becomes better aligned to the task"]
+
+  A --> B --> C --> D
+  D --> E --> G
+  D --> F --> G
+```
 
 이 사례를 project memo처럼 줄이면 다음처럼 적을 수 있습니다.
 
