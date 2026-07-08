@@ -605,6 +605,10 @@ plugins:
                         - "P1-11.1 Statistical Language Models and Embeddings": en/parts/part-01/chapter-11/section-01.md
                         - "P1-11.2 RNN, Seq2Seq, and Attention": en/parts/part-01/chapter-11/section-02.md
                         - "P1-11.3 Transformers and Pretrained LLMs": en/parts/part-01/chapter-11/section-03.md
+                    - Chapter 12. Prompting and User Interaction:
+                        - "P1-12.1 What Does a Prompt Specify?": en/parts/part-01/chapter-12/section-01.md
+                        - "P1-12.2 Instructions, Context, and Examples": en/parts/part-01/chapter-12/section-02.md
+                        - "P1-12.3 The Limits and Evaluation of Prompts": en/parts/part-01/chapter-12/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
