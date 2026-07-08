@@ -1,7 +1,7 @@
 # P1-14.1 모델(model), 앱(application), 데이터(data), 도구(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 13장에서는 임베딩(embedding), 유사도 검색(similarity search), RAG(retrieval-augmented generation), 벡터 검색 구현의 직관을 봤습니다. 이 흐름은 중요한 전환을 만듭니다.
 
@@ -204,10 +204,10 @@ AI 서비스를 단순화하면 다음 구조로 볼 수 있습니다.
 ```mermaid
 flowchart LR
   U[사용자]
-  A[앱 application]
-  D[데이터 data]
-  M[모델 model]
-  T[도구 tool]
+  A[앱]
+  D[데이터]
+  M[모델]
+  T[도구]
   R[결과]
 
   U --> A

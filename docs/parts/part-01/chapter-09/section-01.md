@@ -1,7 +1,7 @@
 # P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
@@ -133,7 +133,7 @@ LeCun, Bengio, Hinton의 Nature 리뷰는 딥러닝을 여러 처리 층(process
 ```mermaid
 flowchart LR
   Pixels[픽셀]
-  Edges[선과 모서리]
+  Edges[윤곽과 모서리]
   Parts[부분 형태]
   Object[물체 표현]
   Class[분류 결과]

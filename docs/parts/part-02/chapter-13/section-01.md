@@ -1,7 +1,7 @@
 # P2-13.1 그래프(plot)는 무엇을 드러내는가
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 계산을 확인했고, Part 2 Chapter 12에서는 Pandas `DataFrame`으로 표 형식 데이터를 읽었습니다. 이제 같은 숫자를 그림으로 확인합니다.
 
@@ -90,7 +90,7 @@ plt.show()
 
 위 코드를 실행하면 다음처럼 epoch가 늘어날수록 loss가 내려가는 모양을 확인할 수 있습니다.
 
-![Line plot output showing loss decreasing over epochs](../../../assets/part-02/chapter-13/pyplot-loss-line.png)
+![에폭이 늘수록 손실이 감소하는 선 그래프](../../../assets/part-02/chapter-13/pyplot-loss-line-ko.svg)
 
 이 예제에서 중요한 것은 코드 문법보다 `손실값이 반복 학습을 거치며 줄어드는가?`라는 질문입니다.
 
@@ -198,7 +198,7 @@ plt.show()
 
 출력 결과는 네 개의 점으로 나타납니다. 점들이 오른쪽 위로 이어지는 모양은 두 값이 함께 커지는지 질문하게 만듭니다.
 
-![Scatter plot output showing study hours and score](../../../assets/part-02/chapter-13/pyplot-study-scatter.png)
+![공부 시간과 점수의 관계를 보여 주는 산점도](../../../assets/part-02/chapter-13/pyplot-study-scatter-ko.svg)
 
 이 그래프는 원인을 증명하지 않습니다. 다만 두 값이 함께 움직이는 모양을 빠르게 확인하게 해 줍니다.
 
@@ -298,7 +298,7 @@ plt.show()
 
 출력 결과는 점수 값이 어느 구간에 몰려 있는지 보여 줍니다.
 
-![Histogram output showing score distribution](../../../assets/part-02/chapter-13/pyplot-score-hist.png)
+![점수 분포를 보여 주는 히스토그램](../../../assets/part-02/chapter-13/pyplot-score-hist-ko.svg)
 
 이 코드는 점수의 평균을 계산하지 않습니다. 대신 점수들이 어디에 몰려 있는지 확인합니다.
 

@@ -1,7 +1,7 @@
 # P3-4.2 샘플 단위가 흔들리면 무엇이 함께 흔들리는가
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 샘플 단위는 뒤에 나오는 거의 모든 개념의 기준점입니다. 따라서 측정값과 샘플을 혼동하면 단지 용어 하나를 잘못 쓰는 데서 끝나지 않습니다. 특징(feature)의 뜻도 흔들리고, 라벨(label)의 뜻도 흔들리고, 평가(evaluation)가 무엇을 평가하는지도 같이 흔들립니다. 앞 절에서 샘플 한 건을 무엇으로 볼지 정했다면, 이제는 그 결정이 무엇을 함께 고정하고 무엇을 함께 흔드는지 봐야 합니다.
 
@@ -46,7 +46,7 @@
 | 이 줄에 라벨을 붙이면 되나 | 라벨이 보통 동작 1회나 최근 구간에 붙기 때문 | 라벨이 붙는 대상은 한 시점인가, 한 동작인가 |
 | 이 줄을 훈련 데이터 한 건으로 쓰면 되나 | 같은 동작의 가까운 줄들이 훈련/평가에 섞일 수 있음 | 분할 대상은 시점 행인가, 동작 단위 샘플인가 |
 
-즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 뒤에서 다룰 특징 설계(feature engineering), 기준선 비교, 검토 큐(review queue), Part 4로 넘길 입력 구조까지 모두 기대는 바닥 구조입니다.
+즉 샘플 단위는 Part 3의 한 절에서만 필요한 결정이 아니라, 특징 설계(feature engineering), 기준선 비교, 검토 큐(review queue), 예측용 입력 구조 해석까지 모두 기대는 바닥 구조입니다.
 
 아래 예시는 같은 원천데이터를 `시점별 표`로 볼 때와 `동작 단위 표`로 볼 때 특징, 라벨, 분할 해석이 어떻게 달라지는지 보여 줍니다.
 
@@ -166,17 +166,10 @@ event-level samples: 3
 | 같은 동작이 훈련/평가에 함께 섞일 수 있다 | 동작 단위로 분할할 수 있다 |
 | 운영 질문과 데이터 단위가 어긋난다 | 운영 질문과 데이터 단위가 맞는다 |
 
-## 짧은 점검
+따라서 샘플 단위가 흔들릴 때의 문제는 단순한 표기 혼동이 아니라, feature, label, split, evaluation이 서로 다른 단위를 가리키기 시작하는 정합성 붕괴로 봐야 합니다.
 
-- 샘플 단위가 바뀌면 왜 특징의 뜻부터 달라지는가
-- `review_needed` 같은 라벨이 왜 시점별 한 줄보다 동작 1회에 더 자연스럽게 붙는가
-- 같은 동작의 여러 줄이 훈련/평가에 섞이면 왜 평가 단위가 흔들리는가
-- 운영자가 묻는 질문과 데이터 구조가 어긋나면 왜 해석 문장도 흔들리는가
+## 출처와 참고 자료
 
-이 절에서 중요한 것은 `샘플 단위가 흔들리면 후속 개념이 함께 흔들린다`는 점입니다. 특징(feature), 라벨(label), 분할(split), 평가(evaluation)는 따로 떨어진 주제가 아니라, 무엇을 한 건으로 볼지에 기대고 있습니다. 따라서 이 절에서 기억할 핵심은 다음 문장입니다. `측정값과 샘플을 구분하지 못하면 데이터셋 전체의 뜻이 흔들린다.` 다음 장에서는 바로 이 구분을 전제로, 원시 로그를 어떤 표로 다시 묶어야 비교 가능한 샘플 구조가 생기는지 더 직접적으로 다룹니다.
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 특징, 라벨, 분할, 평가가 따로따로 흔들리는 것처럼 보일 때 실제로는 샘플 단위가 먼저 어긋난 것인지 점검해야 할 때 이 절을 떠올립니다.
-- `review_needed` 같은 결과가 시점별 한 줄에 붙는지, 동작 1회에 붙는지 다시 확인해야 할 때 이 절로 돌아옵니다.
-- 훈련/평가 분할을 어떤 단위로 해야 하는지 헷갈릴 때 샘플 단위의 파급효과를 먼저 점검합니다.
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 같은 단위 위에 정렬되어 있어야 하므로, 샘플 단위가 흔들리면 feature와 label의 뜻도 함께 흔들린다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 잘못된 단위에서 row-level feature와 event-level label을 섞으면 구조적 오류가 생길 수 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 reproducibility와 derivation을 지원해야 한다고 정리하므로, 어떤 단위에서 feature와 label이 만들어졌는지 재현 가능하게 남겨야 split/evaluation도 같은 기준을 유지할 수 있다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

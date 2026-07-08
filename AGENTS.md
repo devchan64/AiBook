@@ -26,12 +26,14 @@
 
 - 이 저장소는 MkDocs + Material for MkDocs 기반입니다.
 - 독자에게 배포할 책 본문은 `docs/` 아래 Markdown 파일로 작성합니다.
+- 사이트 소개 페이지 `docs/index.md`와 독자용 목차 설명 페이지 `docs/book/table-of-contents.md`도 배포 본문으로 관리합니다.
 - 책 본문은 Part 단위로 `docs/parts/part-XX/` 아래에 둡니다.
 - 각 Part의 개요는 `docs/parts/part-XX/index.md`로 작성하고, 장별 본문은 `docs/parts/part-XX/chapter-YY/section-ZZ.md` 형식으로 작성합니다.
 - 각 Part에는 시작 페이지와 마무리 페이지가 있어야 합니다.
 - Part 시작 페이지는 `docs/parts/part-XX/index.md`를 사용합니다.
 - Part 마무리 페이지는 `docs/parts/part-XX/summary.md`를 사용합니다.
 - 배포 목차는 `mkdocs.yml`의 `nav`에서 관리합니다.
+- `docs/index.md`와 `docs/book/table-of-contents.md`는 Part 본문 밖에 있는 공개 진입 문서이므로, 본문 메타데이터와 릴리즈노트 관리 대상에 포함합니다.
 - 집필 기준, 조사 자료, 근거 분석, 작성 원칙은 `management/` 아래에 둡니다.
 - `management/README.md`는 관리 문서의 역할 분담과 위치를 설명하는 인덱스로 사용합니다.
 - 릴리즈노트는 `management/release-notes/` 아래에 모아 둡니다.
@@ -123,12 +125,15 @@
 - `Version`은 해당 Section 본문이 실제로 수정된 날짜를 기준으로 갱신합니다.
 - Section의 날짜성 메타데이터는 `Version` 한 줄만 사용합니다.
 - `Last Updated` 같은 별도 수정일 줄은 Section 본문에 두지 않습니다.
-- 같은 날 여러 번 수정해도 기본 버전 코드는 날짜 기준으로 유지하고, 세부 변경 사항은 Section별 릴리즈노트에 기록합니다.
+- 같은 날 여러 번 수정해도 기본 버전 코드는 날짜 기준으로 유지합니다.
+- 같은 날의 여러 수정 사항은 Section별 릴리즈노트에서 `### vYYYY.MM.DD` 한 항목으로 통합해 기록합니다.
 - Section별 릴리즈노트는 `management/release-notes/sections/` 아래에서 관리합니다.
+- 소개 페이지와 독자용 목차 설명 페이지처럼 Part 바깥의 공개 본문도 같은 릴리즈노트 체계에서 관리합니다.
 - Section을 수정했다면 해당 릴리즈노트도 같은 작업 안에서 함께 갱신하는 것을 기본 원칙으로 합니다.
 - 다국어 본문이 생기면 언어별 문장과 별개로 같은 `Section ID`와 대응 버전 이력을 추적할 수 있어야 합니다.
 - 번역본에서는 `원문 기준 버전`, `번역 반영 날짜`, `언어별 추가 수정 여부`를 구분해 남깁니다.
 - 번역본 파일이 별도 경로로 분리되더라도 Section 단위의 변경 이력 기준점은 `Section ID`와 릴리즈노트 파일로 유지합니다.
+- 소개 페이지와 독자용 목차 설명 페이지도 언어별 파일명이 아니라 공통 `Section ID`를 기준으로 추적합니다.
 - 공용 자산만 바뀌고 본문 문장이 바뀌지 않은 경우에도, 해당 Section의 이해에 영향을 주면 릴리즈노트에 자산 변경 사실과 번역본 영향 여부를 남깁니다.
 - Section 본문을 수정했다면 같은 작업 안에서 다음 두 가지를 함께 맞춥니다.
   - 본문 메타데이터의 `Version`

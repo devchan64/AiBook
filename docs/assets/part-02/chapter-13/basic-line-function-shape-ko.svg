@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="640" viewBox="0 0 1024 640" role="img" aria-labelledby="title desc">
+  <title id="title">y는 x 제곱인 함수의 모양</title>
+  <desc id="desc">원점을 지나며 양쪽으로 올라가는 포물선 그래프</desc>
+  <rect width="1024" height="640" fill="#ffffff"/>
+  <g stroke="#d1d5db" stroke-width="1">
+    <line x1="84" y1="526" x2="960" y2="526"/>
+    <line x1="84" y1="426" x2="960" y2="426"/>
+    <line x1="84" y1="326" x2="960" y2="326"/>
+    <line x1="84" y1="226" x2="960" y2="226"/>
+    <line x1="84" y1="126" x2="960" y2="126"/>
+    <line x1="126" y1="90" x2="126" y2="550"/>
+    <line x1="264" y1="90" x2="264" y2="550"/>
+    <line x1="402" y1="90" x2="402" y2="550"/>
+    <line x1="540" y1="90" x2="540" y2="550"/>
+    <line x1="678" y1="90" x2="678" y2="550"/>
+    <line x1="816" y1="90" x2="816" y2="550"/>
+    <line x1="954" y1="90" x2="954" y2="550"/>
+  </g>
+  <g stroke="#64748b" stroke-width="2">
+    <line x1="84" y1="526" x2="960" y2="526"/>
+    <line x1="540" y1="90" x2="540" y2="550"/>
+  </g>
+  <path d="M126 112 C250 290, 410 510, 540 526 C670 510, 830 290, 954 112" fill="none" stroke="#2563eb" stroke-width="6"/>
+  <g fill="#111827" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">
+    <text x="512" y="48" font-size="28" text-anchor="middle">함수의 모양: y = x^2</text>
+    <text x="512" y="612" font-size="20" text-anchor="middle">x</text>
+    <text x="42" y="320" font-size="20" text-anchor="middle" transform="rotate(-90 42 320)">y</text>
+    <text x="126" y="578" font-size="16" text-anchor="middle">-3</text>
+    <text x="264" y="578" font-size="16" text-anchor="middle">-2</text>
+    <text x="402" y="578" font-size="16" text-anchor="middle">-1</text>
+    <text x="540" y="578" font-size="16" text-anchor="middle">0</text>
+    <text x="678" y="578" font-size="16" text-anchor="middle">1</text>
+    <text x="816" y="578" font-size="16" text-anchor="middle">2</text>
+    <text x="954" y="578" font-size="16" text-anchor="middle">3</text>
+    <text x="72" y="531" font-size="16" text-anchor="end">0</text>
+    <text x="72" y="431" font-size="16" text-anchor="end">2</text>
+    <text x="72" y="331" font-size="16" text-anchor="end">4</text>
+    <text x="72" y="231" font-size="16" text-anchor="end">6</text>
+    <text x="72" y="131" font-size="16" text-anchor="end">8</text>
+  </g>
+</svg>

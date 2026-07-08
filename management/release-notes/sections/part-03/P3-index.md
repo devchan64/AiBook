@@ -3,6 +3,38 @@
 - Section ID: `P3-index`
 - Source File: `docs/parts/part-03/index.md`
 
+### v2026.07.08
+
+- 변경 이유: 범위 설명 구간이 `뒤 Part에서 다시 다룬다`는 예고를 직접 호출해, Part 3 오버뷰보다 인계 메모처럼 읽히는 문장이 남아 있었다.
+- 본문 반영: 비범위 설명을 `여기서 중심으로 다루지 않는다`는 현재 범위 진술로 바꾸고, 범위 제한 이유도 `Part 3의 책임은 어떤 데이터를 어떤 구조로 만들어야 하는가를 먼저 분명히 하는 데 있다`는 직접 설명으로 정리했다.
+
+- 변경 이유: Part 시작 페이지가 `이후 Part로의 연결`을 독립 소제목으로 세워, 오버뷰보다 뒤 Part 인계 메모가 구조적으로 더 크게 보였다.
+- 본문 반영: 독립 handoff 소제목을 제거하고, Part 3을 읽고 나면 생겨야 할 이해 문단 안에 이후 학습을 읽기 위한 전제만 한 문장으로 흡수했다.
+
+- 변경 이유: Part 시작 페이지가 개념사전의 `중심 Section`·`등장 Section` 사용법과 뒤 Part 인계 문장을 함께 길게 적어, 오버뷰보다 운영 메모처럼 읽히는 구간이 남아 있었다.
+- 본문 반영: 개념사전 안내를 표제어 앵커 재확인 수준으로 줄이고, 마지막 Chapter 설명과 범위/연결 문장의 뒤 Part 언급도 고수준 범위 설명으로 압축했다.
+
+- 변경 이유: Part 시작 페이지가 Part 3 핵심 용어를 개념사전으로 되돌릴 때 여전히 페이지 전체 링크만 두고 있어, 표제어 단위 직접 연결 규칙과 맞지 않았다.
+- 본문 반영: `샘플`, `특징`, `기준선`, `비교 리포트`, `타깃`을 개념사전 세부 앵커로 직접 연결하고, 각 표제어의 `중심 Section`과 `등장 Section`이 참조점이라는 문장으로 정리했다.
+- 번역 동기화 메모: preserve the direct term-level glossary links in the Part 3 overview and keep the reference cue tied to each entry's anchor rather than the glossary page as a whole. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: `docs/reference/concept-glossary.md`
+- 원문 기준 버전: `v2026.07.08`
+
+- 변경 이유: Chapter 5와 6이 실제 본문에서는 `원시 로그 재구성`, `특징 설계`로만 읽혀, 기준 계획서가 요구한 `수치형/범주형 탐색`, `변수변환/특징 선택` 관점이 장 단위에서 덜 선명하게 보였다.
+- 본문 반영: 전체 흐름 문단에 Chapter 5의 수치형/범주형 탐색과 Chapter 6의 변수변환/특징 선택을 직접 적고, Part 3 요약 표의 해당 행도 같은 관점이 드러나게 다시 정리했다.
+- 번역 동기화 메모: preserve that Chapter 5 now explicitly frames raw-log restructuring as numerical and categorical exploration, and Chapter 6 as variable transformation plus feature selection. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.08`
+
+- 변경 이유: Part 시작 페이지가 오버뷰보다 `Part 4·5 인계 설계`를 반복해, 독자용 안내보다 집필 설계 메모처럼 읽히는 문제가 남아 있었다.
+- 본문 반영: 뒤 Part 인계 문장을 줄이고, Part 3의 목적, 범위, 9개 Chapter 흐름, 현재 Part에서 닫는 문제 구조를 중심으로 다시 정리했다. 마지막 Chapter와 요약 표의 명칭도 `문제 유형 구분`과 `입력/결과 경계` 중심으로 조정했다.
+- 번역 동기화 메모: keep the overview centered on Part 3's scope and flow, with only a brief high-level bridge to later learning sections. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.08`
+
 ### v2026.07.07-32
 
 - 변경 이유: Part 3 시작 페이지가 반복 질문 축과 뒤 Part 연결을 지나치게 길게 나열해, 오버뷰보다 설계 메모처럼 읽히는 문제가 남아 있었다.

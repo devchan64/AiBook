@@ -43,84 +43,84 @@ nav:
       - 개요: parts/part-01/index.md
       - Module 1. AI의 범위와 역사:
           - Chapter 1. AI란 무엇인가:
-              - 1.1 AI라는 말의 범위: parts/part-01/chapter-01/section-01.md
-              - 1.2 AI가 다루는 문제: parts/part-01/chapter-01/section-02.md
-              - 1.3 AI, 머신러닝, 딥러닝, 생성형 AI의 관계: parts/part-01/chapter-01/section-03.md
+              - P1-1.1 AI라는 말의 범위: parts/part-01/chapter-01/section-01.md
+              - P1-1.2 AI가 다루는 문제: parts/part-01/chapter-01/section-02.md
+              - P1-1.3 AI, 머신러닝, 딥러닝, 생성형 AI의 관계: parts/part-01/chapter-01/section-03.md
           - Chapter 2. AI의 역사와 패러다임 변화:
-              - 2.1 기호 기반 AI와 규칙 기반 접근: parts/part-01/chapter-02/section-01.md
-              - 2.2 탐색, 지식 표현, 확률 추론: parts/part-01/chapter-02/section-02.md
-              - 2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름: parts/part-01/chapter-02/section-03.md
+              - P1-2.1 기호 기반 AI와 규칙 기반 접근: parts/part-01/chapter-02/section-01.md
+              - P1-2.2 탐색, 지식 표현, 확률 추론: parts/part-01/chapter-02/section-02.md
+              - P1-2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름: parts/part-01/chapter-02/section-03.md
       - Module 2. 규칙, 모델, 학습:
           - Chapter 3. 규칙에서 학습으로:
-              - 3.1 규칙 기반 시스템의 강점과 한계: parts/part-01/chapter-03/section-01.md
-              - 3.2 데이터에서 패턴을 배운다는 것: parts/part-01/chapter-03/section-02.md
-              - 3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning): parts/part-01/chapter-03/section-03.md
+              - P1-3.1 규칙 기반 시스템의 강점과 한계: parts/part-01/chapter-03/section-01.md
+              - P1-3.2 데이터에서 패턴을 배운다는 것: parts/part-01/chapter-03/section-02.md
+              - P1-3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning): parts/part-01/chapter-03/section-03.md
           - Chapter 4. 문제를 모델로 바꾼다는 것:
-              - "4.1 모델(model, 모형)이라는 말에 익숙해지기": parts/part-01/chapter-04/section-01.md
-              - "4.2 입력(input), 출력(output), 데이터(data)": parts/part-01/chapter-04/section-02.md
-              - "4.3 특징(feature), 표현(representation), 파라미터(parameter)": parts/part-01/chapter-04/section-03.md
-              - 4.4 문제 정의가 모델을 결정하는 방식: parts/part-01/chapter-04/section-04.md
+              - "P1-4.1 모델(model, 모형)이라는 말에 익숙해지기": parts/part-01/chapter-04/section-01.md
+              - "P1-4.2 입력(input), 출력(output), 데이터(data)": parts/part-01/chapter-04/section-02.md
+              - "P1-4.3 특징(feature), 표현(representation), 파라미터(parameter)": parts/part-01/chapter-04/section-03.md
+              - P1-4.4 문제 정의가 모델을 결정하는 방식: parts/part-01/chapter-04/section-04.md
           - "Chapter 5. 학습(learning)과 모델 실행(inference)":
-              - "5.1 학습(learning)은 무엇을 바꾸는가": parts/part-01/chapter-05/section-01.md
-              - "5.2 모델 실행(inference)은 무엇을 실행하는가": parts/part-01/chapter-05/section-02.md
-              - 5.3 한국어 추론 표현의 혼동: parts/part-01/chapter-05/section-03.md
+              - "P1-5.1 학습(learning)은 무엇을 바꾸는가": parts/part-01/chapter-05/section-01.md
+              - "P1-5.2 모델 실행(inference)은 무엇을 실행하는가": parts/part-01/chapter-05/section-02.md
+              - P1-5.3 추론 관련 용어의 구분: parts/part-01/chapter-05/section-03.md
       - Module 3. 불확실성과 문제 해결:
           - Chapter 6. 불확실성과 확률적 판단:
-              - 6.1 불완전한 정보와 예외가 많은 문제: parts/part-01/chapter-06/section-01.md
-              - "6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분": parts/part-01/chapter-06/section-02.md
-              - 6.3 AI에서 확률적 판단이 쓰이는 곳: parts/part-01/chapter-06/section-03.md
+              - P1-6.1 불완전한 정보와 예외가 많은 문제: parts/part-01/chapter-06/section-01.md
+              - "P1-6.2 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분": parts/part-01/chapter-06/section-02.md
+              - P1-6.3 AI에서 확률적 판단이 쓰이는 곳: parts/part-01/chapter-06/section-03.md
           - Chapter 7. 탐색과 휴리스틱:
-              - "7.1 탐색 공간(search space)과 계산 한계(computational limit)": parts/part-01/chapter-07/section-01.md
-              - "7.2 휴리스틱(heuristic)은 무엇을 줄이는가": parts/part-01/chapter-07/section-02.md
-              - "7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이": parts/part-01/chapter-07/section-03.md
-              - "7.4 보충학습: 길찾기에서 자율주행 경로 계획으로 이어지는 흐름": parts/part-01/chapter-07/section-04.md
+              - "P1-7.1 탐색 공간(search space)과 계산 한계(computational limit)": parts/part-01/chapter-07/section-01.md
+              - "P1-7.2 휴리스틱(heuristic)은 무엇을 줄이는가": parts/part-01/chapter-07/section-02.md
+              - "P1-7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이": parts/part-01/chapter-07/section-03.md
+              - "P1-7.4 보충학습: 길찾기에서 자율주행 경로 계획으로 이어지는 흐름": parts/part-01/chapter-07/section-04.md
           - Chapter 8. 학습 유형의 기본 구분:
-              - "8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": parts/part-01/chapter-08/section-01.md
-              - "8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": parts/part-01/chapter-08/section-02.md
-              - "8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)": parts/part-01/chapter-08/section-03.md
+              - "P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)": parts/part-01/chapter-08/section-01.md
+              - "P1-8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)": parts/part-01/chapter-08/section-02.md
+              - "P1-8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)": parts/part-01/chapter-08/section-03.md
       - Module 4. 딥러닝과 생성형 AI로의 전환:
           - Chapter 9. 딥러닝 패러다임의 확산:
-              - "9.1 이미지 인식(image recognition)과 표현 학습(representation learning)": parts/part-01/chapter-09/section-01.md
-              - "9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례": parts/part-01/chapter-09/section-02.md
-              - "9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분": parts/part-01/chapter-09/section-03.md
+              - "P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)": parts/part-01/chapter-09/section-01.md
+              - "P1-9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례": parts/part-01/chapter-09/section-02.md
+              - "P1-9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분": parts/part-01/chapter-09/section-03.md
           - Chapter 10. 생성형 AI 개론:
-              - "10.1 분류(classification), 예측(prediction), 생성(generation)의 차이": parts/part-01/chapter-10/section-01.md
-              - "10.2 다음 출력 생성(next-output generation)의 직관": parts/part-01/chapter-10/section-02.md
-              - "10.3 생성 결과(output)의 품질(quality)과 위험(risk)": parts/part-01/chapter-10/section-03.md
+              - "P1-10.1 분류(classification), 예측(prediction), 생성(generation)의 차이": parts/part-01/chapter-10/section-01.md
+              - "P1-10.2 다음 출력 생성(next-output generation)의 직관": parts/part-01/chapter-10/section-02.md
+              - "P1-10.3 생성 결과(output)의 품질(quality)과 위험(risk)": parts/part-01/chapter-10/section-03.md
           - Chapter 11. LLM은 어디에서 왔는가:
-              - "11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)": parts/part-01/chapter-11/section-01.md
-              - "11.2 RNN, Seq2Seq, Attention": parts/part-01/chapter-11/section-02.md
-              - "11.3 Transformer와 사전학습 LLM(pretrained LLM)": parts/part-01/chapter-11/section-03.md
+              - "P1-11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)": parts/part-01/chapter-11/section-01.md
+              - "P1-11.2 RNN, Seq2Seq, Attention": parts/part-01/chapter-11/section-02.md
+              - "P1-11.3 Transformer와 사전학습 LLM(pretrained LLM)": parts/part-01/chapter-11/section-03.md
       - Module 5. LLM 사용 경험의 핵심 요소:
           - Chapter 12. 프롬프트와 LLM 사용 경험:
-              - "12.1 프롬프트(prompt)는 무엇을 지정하는가": parts/part-01/chapter-12/section-01.md
-              - "12.2 지시(instruction), 맥락(context), 예시(example)": parts/part-01/chapter-12/section-02.md
-              - "12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)": parts/part-01/chapter-12/section-03.md
+              - "P1-12.1 프롬프트(prompt)는 무엇을 지정하는가": parts/part-01/chapter-12/section-01.md
+              - "P1-12.2 지시(instruction), 맥락(context), 예시(example)": parts/part-01/chapter-12/section-02.md
+              - "P1-12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)": parts/part-01/chapter-12/section-03.md
           - Chapter 13. 임베딩과 벡터 검색:
-              - "13.1 텍스트(text)를 벡터(vector)로 표현한다는 것": parts/part-01/chapter-13/section-01.md
-              - "13.2 유사도 검색(similarity search)의 직관": parts/part-01/chapter-13/section-02.md
-              - "13.3 RAG(retrieval-augmented generation)로 이어지는 흐름": parts/part-01/chapter-13/section-03.md
-              - "13.4 벡터 검색(vector search) 구현의 직관": parts/part-01/chapter-13/section-04.md
+              - "P1-13.1 텍스트(text)를 벡터(vector)로 표현한다는 것": parts/part-01/chapter-13/section-01.md
+              - "P1-13.2 유사도 검색(similarity search)의 직관": parts/part-01/chapter-13/section-02.md
+              - "P1-13.3 RAG(retrieval-augmented generation)로 이어지는 흐름": parts/part-01/chapter-13/section-03.md
+              - "P1-13.4 벡터 검색(vector search) 구현의 직관": parts/part-01/chapter-13/section-04.md
           - Chapter 14. AI 서비스 아키텍처와 실행 환경:
-              - "14.1 모델(model), 앱(application), 데이터(data), 도구(tool)": parts/part-01/chapter-14/section-01.md
-              - "14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치": parts/part-01/chapter-14/section-02.md
-              - "14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조": parts/part-01/chapter-14/section-03.md
-              - "14.4 MCP(Model Context Protocol)와 도구 연결 표준화": parts/part-01/chapter-14/section-04.md
-              - "14.5 하네스(harness)와 평가 실행 환경": parts/part-01/chapter-14/section-05.md
-              - "14.6 AI 서비스가 현실에서 만나는 제약": parts/part-01/chapter-14/section-06.md
+              - "P1-14.1 모델(model), 앱(application), 데이터(data), 도구(tool)": parts/part-01/chapter-14/section-01.md
+              - "P1-14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치": parts/part-01/chapter-14/section-02.md
+              - "P1-14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조": parts/part-01/chapter-14/section-03.md
+              - "P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화": parts/part-01/chapter-14/section-04.md
+              - "P1-14.5 하네스(harness)와 평가 실행 환경": parts/part-01/chapter-14/section-05.md
+              - "P1-14.6 AI 서비스가 현실에서 만나는 제약": parts/part-01/chapter-14/section-06.md
       - Module 6. 사회적 쟁점과 적용:
           - Chapter 15. AI 윤리, 저작권, 보안:
-              - "15.1 편향(bias), 안전성(safety), 책임(accountability)": parts/part-01/chapter-15/section-01.md
-              - "15.2 저작권(copyright)과 학습 데이터(training data)": parts/part-01/chapter-15/section-02.md
-              - "15.3 보안(security)과 개인정보(privacy)": parts/part-01/chapter-15/section-03.md
+              - "P1-15.1 편향(bias), 안전성(safety), 책임(accountability)": parts/part-01/chapter-15/section-01.md
+              - "P1-15.2 저작권(copyright)과 학습 데이터(training data)": parts/part-01/chapter-15/section-02.md
+              - "P1-15.3 보안(security)과 개인정보(privacy)": parts/part-01/chapter-15/section-03.md
           - Chapter 16. 실무 적용 사례:
-              - "16.1 개인 학습(personal learning)과 문서화(documentation)": parts/part-01/chapter-16/section-01.md
-              - "16.2 업무 자동화(work automation)와 검색(search)": parts/part-01/chapter-16/section-02.md
-              - "16.3 프로젝트(project)로 검증하는 방법": parts/part-01/chapter-16/section-03.md
+              - "P1-16.1 개인 학습(personal learning)과 문서화(documentation)": parts/part-01/chapter-16/section-01.md
+              - "P1-16.2 업무 자동화(work automation)와 검색(search)": parts/part-01/chapter-16/section-02.md
+              - "P1-16.3 프로젝트(project)로 검증하는 방법": parts/part-01/chapter-16/section-03.md
           - Chapter 17. 앞으로의 AI:
-              - "17.1 전망(forecast)은 어떤 근거로 다룰 것인가": parts/part-01/chapter-17/section-01.md
-              - "17.2 언론(news), 칼럼(column), 보고서(report) 읽기": parts/part-01/chapter-17/section-02.md
-              - "17.3 예측(prediction)과 작업 가설(working hypothesis) 구분": parts/part-01/chapter-17/section-03.md
+              - "P1-17.1 전망(forecast)은 어떤 근거로 다룰 것인가": parts/part-01/chapter-17/section-01.md
+              - "P1-17.2 언론(news), 칼럼(column), 보고서(report) 읽기": parts/part-01/chapter-17/section-02.md
+              - "P1-17.3 예측(prediction)과 작업 가설(working hypothesis) 구분": parts/part-01/chapter-17/section-03.md
       - Part 1 마무리: parts/part-01/summary.md
   - Part 2. 기초 복구:
       - 개요: parts/part-02/index.md
@@ -248,6 +248,7 @@ nav:
               - "P3-7.2 비교표를 사람 검토 문장으로 어떻게 읽는가": parts/part-03/chapter-07/section-02.md
               - "P3-7.3 기준선 비교와 기준 모델은 왜 다른데 둘 다 필요한가": parts/part-03/chapter-07/section-03.md
               - "P3-7.4 기준선은 어떤 구간과 조건으로 잡아야 하는가": parts/part-03/chapter-07/section-04.md
+              - "P3-7.5 기준선은 고정해야 하는가, 최근 평소 기준으로 갱신해야 하는가": parts/part-03/chapter-07/section-05.md
       - Module 4. 해석 경계:
           - Chapter 8. 표본 수와 반복성은 어떻게 읽는가:
               - "P3-8.1 해석 강도는 무엇으로 조절하는가": parts/part-03/chapter-08/section-01.md
@@ -552,6 +553,7 @@ plugins:
           nav:
             - Start:
                 - Introduction: en/index.md
+                - Table of Contents: en/book/table-of-contents.md
                 - Concept Glossary: en/reference/concept-glossary.md
             - Part 1. Introduction to AI and the Landscape:
                 - Overview: en/parts/part-01/index.md
@@ -560,6 +562,77 @@ plugins:
                         - "P1-1.1 Scope of the Word AI": en/parts/part-01/chapter-01/section-01.md
                         - "P1-1.2 Problems AI Deals With": en/parts/part-01/chapter-01/section-02.md
                         - "P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI": en/parts/part-01/chapter-01/section-03.md
+                    - Chapter 2. History of AI and Shifts in Paradigm:
+                        - "P1-2.1 Symbolic AI and Rule-Based Approaches": en/parts/part-01/chapter-02/section-01.md
+                        - "P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning": en/parts/part-01/chapter-02/section-02.md
+                        - "P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI": en/parts/part-01/chapter-02/section-03.md
+                - Module 2. Rules, Models, and Learning:
+                    - Chapter 3. From Rules to Learning:
+                        - "P1-3.1 Strengths and Limits of Rule-Based Systems": en/parts/part-01/chapter-03/section-01.md
+                        - "P1-3.2 What It Means to Learn Patterns from Data": en/parts/part-01/chapter-03/section-02.md
+                        - "P1-3.3 Rule-Based Approaches and Representation Learning": en/parts/part-01/chapter-03/section-03.md
+                    - Chapter 4. Turning Real-World Problems into Models:
+                        - "P1-4.1 Becoming Comfortable with the Word Model": en/parts/part-01/chapter-04/section-01.md
+                        - "P1-4.2 Input, Output, and Data": en/parts/part-01/chapter-04/section-02.md
+                        - "P1-4.3 Features, Representations, and Parameters": en/parts/part-01/chapter-04/section-03.md
+                        - "P1-4.4 How Problem Definition Determines the Model": en/parts/part-01/chapter-04/section-04.md
+                    - Chapter 5. Learning, Execution, and Inference:
+                        - "P1-5.1 What Does Learning Change?": en/parts/part-01/chapter-05/section-01.md
+                        - "P1-5.2 What Does Model Execution Run?": en/parts/part-01/chapter-05/section-02.md
+                        - "P1-5.3 Distinguishing Inference-Related Terms": en/parts/part-01/chapter-05/section-03.md
+                    - Chapter 6. Uncertainty and Probabilistic Thinking:
+                        - "P1-6.1 Problems with Incomplete Information and Many Exceptions": en/parts/part-01/chapter-06/section-01.md
+                        - "P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes": en/parts/part-01/chapter-06/section-02.md
+                        - "P1-6.3 Where Probabilistic Judgment Is Used in AI": en/parts/part-01/chapter-06/section-03.md
+                    - Chapter 7. Search and Heuristics:
+                        - "P1-7.1 Search Space and Computational Limits": en/parts/part-01/chapter-07/section-01.md
+                        - "P1-7.2 What Does a Heuristic Reduce?": en/parts/part-01/chapter-07/section-02.md
+                        - "P1-7.3 The Difference Between Heuristics and Probabilistic Models": en/parts/part-01/chapter-07/section-03.md
+                        - "P1-7.4 Supplemental Learning: From Route Finding to Autonomous-Driving Path Planning": en/parts/part-01/chapter-07/section-04.md
+                    - Chapter 8. Three Learning Types:
+                        - "P1-8.1 Supervised Learning: Inputs and Labels": en/parts/part-01/chapter-08/section-01.md
+                        - "P1-8.2 Unsupervised Learning: Structure and Representation": en/parts/part-01/chapter-08/section-02.md
+                        - "P1-8.3 Reinforcement Learning: Actions and Rewards": en/parts/part-01/chapter-08/section-03.md
+                    - Chapter 9. Deep Learning and the First Turning Points:
+                        - "P1-9.1 Image Recognition and Representation Learning": en/parts/part-01/chapter-09/section-01.md
+                        - "P1-9.2 Object Detection and Speech Generation Cases": en/parts/part-01/chapter-09/section-02.md
+                        - "P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence": en/parts/part-01/chapter-09/section-03.md
+                    - Chapter 10. What Generative AI Changes:
+                        - "P1-10.1 The Difference Among Classification, Prediction, and Generation": en/parts/part-01/chapter-10/section-01.md
+                        - "P1-10.2 The Intuition of Next-Output Generation": en/parts/part-01/chapter-10/section-02.md
+                        - "P1-10.3 The Quality and Risk of Generated Outputs": en/parts/part-01/chapter-10/section-03.md
+                    - Chapter 11. The Direct Lineage of LLMs:
+                        - "P1-11.1 Statistical Language Models and Embeddings": en/parts/part-01/chapter-11/section-01.md
+                        - "P1-11.2 RNN, Seq2Seq, and Attention": en/parts/part-01/chapter-11/section-02.md
+                        - "P1-11.3 Transformers and Pretrained LLMs": en/parts/part-01/chapter-11/section-03.md
+                    - Chapter 12. Prompting and User Interaction:
+                        - "P1-12.1 What Does a Prompt Specify?": en/parts/part-01/chapter-12/section-01.md
+                        - "P1-12.2 Instructions, Context, and Examples": en/parts/part-01/chapter-12/section-02.md
+                        - "P1-12.3 The Limits and Evaluation of Prompts": en/parts/part-01/chapter-12/section-03.md
+                    - Chapter 13. Embeddings, Retrieval, and RAG:
+                        - "P1-13.1 What It Means to Represent Text as Vectors": en/parts/part-01/chapter-13/section-01.md
+                        - "P1-13.2 The Intuition of Similarity Search": en/parts/part-01/chapter-13/section-02.md
+                        - "P1-13.3 The Flow That Leads into RAG": en/parts/part-01/chapter-13/section-03.md
+                        - "P1-13.4 The Intuition of Vector Search Implementation": en/parts/part-01/chapter-13/section-04.md
+                    - Chapter 14. AI Service Architecture and Execution Environment:
+                        - "P1-14.1 Model, Application, Data, and Tool": en/parts/part-01/chapter-14/section-01.md
+                        - "P1-14.2 Where RAG and Tool Use Sit": en/parts/part-01/chapter-14/section-02.md
+                        - "P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow": en/parts/part-01/chapter-14/section-03.md
+                        - "P1-14.4 MCP and the Standardization of Tool Connections": en/parts/part-01/chapter-14/section-04.md
+                        - "P1-14.5 Harness and the Evaluation Execution Environment": en/parts/part-01/chapter-14/section-05.md
+                        - "P1-14.6 The Constraints AI Services Meet in the Real World": en/parts/part-01/chapter-14/section-06.md
+                    - Chapter 15. AI Ethics, Copyright, and Security:
+                        - "P1-15.1 Bias, Safety, and Accountability": en/parts/part-01/chapter-15/section-01.md
+                        - "P1-15.2 Copyright and Training Data": en/parts/part-01/chapter-15/section-02.md
+                        - "P1-15.3 Security and Privacy": en/parts/part-01/chapter-15/section-03.md
+                    - Chapter 16. Practical Application Cases:
+                        - "P1-16.1 Personal Learning and Documentation": en/parts/part-01/chapter-16/section-01.md
+                        - "P1-16.2 Work Automation and Search": en/parts/part-01/chapter-16/section-02.md
+                        - "P1-16.3 How to Validate with a Project": en/parts/part-01/chapter-16/section-03.md
+                    - Chapter 17. The Future of AI:
+                        - "P1-17.1 What Evidence Should Forecasts Rely On?": en/parts/part-01/chapter-17/section-01.md
+                        - "P1-17.2 Reading News, Columns, and Reports": en/parts/part-01/chapter-17/section-02.md
+                        - "P1-17.3 Distinguishing Prediction from a Working Hypothesis": en/parts/part-01/chapter-17/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
@@ -569,6 +642,87 @@ plugins:
           nav:
             - 开始:
                 - 介绍: zh/index.md
+                - 目录: zh/book/table-of-contents.md
+            - Part 1. AI 导论与地形图:
+                - 概览: zh/parts/part-01/index.md
+                - Module 1. AI 的范围与历史:
+                    - Chapter 1. 什么是 AI:
+                        - "P1-1.1 AI 这个词的范围": zh/parts/part-01/chapter-01/section-01.md
+                        - "P1-1.2 AI 处理的问题": zh/parts/part-01/chapter-01/section-02.md
+                        - "P1-1.3 AI、机器学习、深度学习与生成式 AI 的关系": zh/parts/part-01/chapter-01/section-03.md
+                    - Chapter 2. AI 的历史与范式变化:
+                        - "P1-2.1 符号主义 AI 与规则式方法": zh/parts/part-01/chapter-02/section-01.md
+                        - "P1-2.2 搜索、知识表示与概率推理": zh/parts/part-01/chapter-02/section-02.md
+                        - "P1-2.3 走向机器学习、深度学习与生成式 AI 的脉络": zh/parts/part-01/chapter-02/section-03.md
+                - Module 2. 规则、模型与学习:
+                    - Chapter 3. 从规则走向学习:
+                        - "P1-3.1 规则式系统的优势与限制": zh/parts/part-01/chapter-03/section-01.md
+                        - "P1-3.2 从数据中学习模式意味着什么": zh/parts/part-01/chapter-03/section-02.md
+                        - "P1-3.3 规则式方法与表征学习": zh/parts/part-01/chapter-03/section-03.md
+                    - Chapter 4. 把现实问题变成模型:
+                        - "P1-4.1 先熟悉 model 这个词": zh/parts/part-01/chapter-04/section-01.md
+                        - "P1-4.2 输入、输出与数据": zh/parts/part-01/chapter-04/section-02.md
+                        - "P1-4.3 特征、表征与参数": zh/parts/part-01/chapter-04/section-03.md
+                        - "P1-4.4 问题定义如何决定模型": zh/parts/part-01/chapter-04/section-04.md
+                    - Chapter 5. 学习、执行与推理:
+                        - "P1-5.1 学习会改变什么": zh/parts/part-01/chapter-05/section-01.md
+                        - "P1-5.2 模型执行在运行什么": zh/parts/part-01/chapter-05/section-02.md
+                        - "P1-5.3 区分推理相关术语": zh/parts/part-01/chapter-05/section-03.md
+                - Module 3. 不确定性与问题求解:
+                    - Chapter 6. 不确定性与概率性判断:
+                        - "P1-6.1 信息不完整且例外很多的问题": zh/parts/part-01/chapter-06/section-01.md
+                        - "P1-6.2 区分概率、不确定性与随机过程": zh/parts/part-01/chapter-06/section-02.md
+                        - "P1-6.3 AI 在哪些地方使用概率性判断": zh/parts/part-01/chapter-06/section-03.md
+                    - Chapter 7. 搜索与启发式:
+                        - "P1-7.1 搜索空间与计算极限": zh/parts/part-01/chapter-07/section-01.md
+                        - "P1-7.2 启发式到底减少了什么": zh/parts/part-01/chapter-07/section-02.md
+                        - "P1-7.3 启发式与概率模型的差异": zh/parts/part-01/chapter-07/section-03.md
+                        - "P1-7.4 补充学习：从路径寻找走向自动驾驶路径规划": zh/parts/part-01/chapter-07/section-04.md
+                    - Chapter 8. 三种学习类型:
+                        - "P1-8.1 监督学习：输入与标签": zh/parts/part-01/chapter-08/section-01.md
+                        - "P1-8.2 无监督学习：结构与表征": zh/parts/part-01/chapter-08/section-02.md
+                        - "P1-8.3 强化学习：动作与奖励": zh/parts/part-01/chapter-08/section-03.md
+                    - Chapter 9. 深度学习与最初的转折点:
+                        - "P1-9.1 图像识别与表征学习": zh/parts/part-01/chapter-09/section-01.md
+                        - "P1-9.2 目标检测与语音生成案例": zh/parts/part-01/chapter-09/section-02.md
+                        - "P1-9.3 区分 LLM 的直接谱系与周边证据": zh/parts/part-01/chapter-09/section-03.md
+                    - Chapter 10. 生成式 AI 导论:
+                        - "P1-10.1 分类(classification)、预测(prediction)与生成(generation)的区别": zh/parts/part-01/chapter-10/section-01.md
+                        - "P1-10.2 生成下一个输出(next-output generation)的直觉": zh/parts/part-01/chapter-10/section-02.md
+                        - "P1-10.3 生成结果(output)的质量(quality)与风险(risk)": zh/parts/part-01/chapter-10/section-03.md
+                    - Chapter 11. LLM 的直接谱系:
+                        - "P1-11.1 统计语言模型(statistical language model)与嵌入(embedding)": zh/parts/part-01/chapter-11/section-01.md
+                        - "P1-11.2 RNN、Seq2Seq 与 Attention": zh/parts/part-01/chapter-11/section-02.md
+                        - "P1-11.3 Transformer 与预训练 LLM(pretrained LLM)": zh/parts/part-01/chapter-11/section-03.md
+                    - Chapter 12. Prompt 与用户交互:
+                        - "P1-12.1 提示词(prompt)指定了什么": zh/parts/part-01/chapter-12/section-01.md
+                        - "P1-12.2 指示(instruction)、上下文(context)、示例(example)": zh/parts/part-01/chapter-12/section-02.md
+                        - "P1-12.3 提示词(prompt)的限制(limit)与评估(evaluation)": zh/parts/part-01/chapter-12/section-03.md
+                    - Chapter 13. 嵌入、检索与 RAG:
+                        - "P1-13.1 把文本(text)表示为向量(vector)意味着什么": zh/parts/part-01/chapter-13/section-01.md
+                        - "P1-13.2 相似度搜索(similarity search)的直觉": zh/parts/part-01/chapter-13/section-02.md
+                        - "P1-13.3 通向 RAG(retrieval-augmented generation)的流程": zh/parts/part-01/chapter-13/section-03.md
+                        - "P1-13.4 向量搜索(vector search)实现的直觉": zh/parts/part-01/chapter-13/section-04.md
+                    - Chapter 14. AI 服务架构与执行环境:
+                        - "P1-14.1 模型(model)、应用(application)、数据(data)、工具(tool)": zh/parts/part-01/chapter-14/section-01.md
+                        - "P1-14.2 RAG(retrieval-augmented generation)与工具使用(tool use)的位置": zh/parts/part-01/chapter-14/section-02.md
+                        - "P1-14.3 agent：把目标(goal)连接成工作流(workflow)的结构": zh/parts/part-01/chapter-14/section-03.md
+                        - "P1-14.4 MCP(Model Context Protocol)与工具连接标准化": zh/parts/part-01/chapter-14/section-04.md
+                        - "P1-14.5 harness 与评估执行环境": zh/parts/part-01/chapter-14/section-05.md
+                        - "P1-14.6 AI 服务在现实中遇到的约束": zh/parts/part-01/chapter-14/section-06.md
+                    - Chapter 15. AI 伦理、版权与安全:
+                        - "P1-15.1 偏见(bias)、安全性(safety)、责任(accountability)": zh/parts/part-01/chapter-15/section-01.md
+                        - "P1-15.2 版权(copyright)与训练数据(training data)": zh/parts/part-01/chapter-15/section-02.md
+                        - "P1-15.3 安全(security)与隐私(privacy)": zh/parts/part-01/chapter-15/section-03.md
+                    - Chapter 16. 实际应用案例:
+                        - "P1-16.1 个人学习(personal learning)与文档化(documentation)": zh/parts/part-01/chapter-16/section-01.md
+                        - "P1-16.2 工作自动化(work automation)与搜索(search)": zh/parts/part-01/chapter-16/section-02.md
+                        - "P1-16.3 如何通过项目(project)来验证": zh/parts/part-01/chapter-16/section-03.md
+                    - Chapter 17. AI 的未来:
+                        - "P1-17.1 应该依据什么来讨论预测": zh/parts/part-01/chapter-17/section-01.md
+                        - "P1-17.2 阅读新闻(news)、专栏(column)、报告(report)": zh/parts/part-01/chapter-17/section-02.md
+                        - "P1-17.3 区分预测(prediction)与工作假设(working hypothesis)": zh/parts/part-01/chapter-17/section-03.md
+                - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
   - search:

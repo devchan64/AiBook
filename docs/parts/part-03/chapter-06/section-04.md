@@ -3,9 +3,9 @@
 > Section ID: `P3-6.4`
 > Version: `v2026.07.08`
 
-Chapter 5에서 원시 로그를 요약 표로 바꾸고, Chapter 6 앞 절에서 어떤 구조를 특징(feature)으로 남길지 보았습니다. 그런데 여기서 자주 다시 멈춥니다. `요약 표를 만들었으면, 그 안에 있는 열은 전부 feature 아닌가?` Part 3이 어렵게 느껴지는 이유 중 하나가 바로 이 지점입니다. 요약 표에는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있기 때문입니다.
+요약 표에 열이 들어 있다는 사실과 그것이 특징(feature)이라는 판단은 같은 말이 아닙니다. 요약 표에는 샘플 구조를 설명하는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있습니다.
 
-`요약 표에 있다`와 `특징이다`는 같은 말이 아닙니다.
+요약 표에 있다는 사실과 특징(feature)이라는 판단은 같은 말이 아닙니다.
 
 ## 왜 이 구분이 필요한가
 
@@ -53,13 +53,7 @@ Chapter 5에서 원시 로그를 요약 표로 바꾸고, Chapter 6 앞 절에�
 | 결과 열 후보 | 이 값이 나중에 맞히고 싶은 결과인가 | `review_needed`, `final_status` |
 | 식별·문맥 열 | 이 값은 샘플을 구분하거나 시점을 설명하는가 | `event_id`, `captured_at` |
 
-이 네 칸으로 나누면 뒤의 Chapter가 왜 갈라지는지도 더 분명해집니다.
-
-- Chapter 7은 비교 열을 더 본격적으로 읽습니다.
-- Chapter 9는 결과 열 후보를 어디까지 예측 문제로 올리고, 뒤 Part로 무엇을 넘길지 함께 다룹니다.
-- Part 4로 넘어갈 때는 특징 열과 결과 열 후보를 다시 가릅니다.
-
-즉 지금 이 구분은 단순 분류표가 아니라, Part 3 전체 구조를 다시 정렬하는 기준입니다.
+이 네 칸으로 나누면 같은 작업 표 안에 함께 있는 열들도 왜 서로 다른 역할을 맡는지 더 분명해집니다. 비교 열은 평소와 최근의 차이를 읽게 하고, 결과 열 후보는 나중에 맞히고 싶은 값을 따로 세우게 하며, 식별·문맥 열은 그 판단이 어떤 샘플과 시점에서 나왔는지 잃지 않게 합니다. 즉 지금 이 구분은 단순 분류표가 아니라, 한 표 안의 열들이 왜 같은 방식으로 읽히면 안 되는지 정리하는 기준입니다.
 
 ## 같은 숫자 열도 항상 feature는 아니다
 
@@ -208,25 +202,15 @@ print(column_check)
 
 이 예시가 보여 주는 것은 대단한 분류 규칙이 아닙니다. 1단계처럼 하나의 작업 표 안에 여러 종류의 열이 잠시 함께 있을 수 있고, 2단계처럼 그 열을 역할별 근거와 함께 다시 읽어야 한다는 점이 핵심입니다. 특히 `baseline_mid_flow_mean`와 `delta_from_baseline`는 숫자 열이지만 먼저는 비교 열로 읽히고, `review_score`, `review_needed`는 숫자 열이지만 먼저는 결과 후보로 읽힙니다. `depends`가 붙은 이유도 여기서 드러납니다. 기준선 자체나 기준선 차이값은 비교 설명을 위해 만든 열이므로, 바로 입력 특징으로 넘길지 여부는 뒤에서 어떤 예측 문제를 만들지에 따라 다시 판단해야 하기 때문입니다.
 
-## 왜 Chapter 6에 이 절이 필요한가
+이 구분을 특징 설계 바로 뒤에서 한 번 짚어 두어야 `어차피 다 feature 아닌가`라는 착각이 줄어듭니다. 요약 표는 feature만 모아 둔 표가 아니라, feature 후보, 비교 열, 결과 후보, 식별·문맥 열이 함께 잠시 놓일 수 있는 작업 표입니다. 이렇게 읽어 두면 뒤에서 기준선 비교 열과 target 후보 열을 다시 만날 때도 각 열의 역할이 덜 갑자기 바뀌어 보입니다.
 
-이 절이 뒤 Part 연결 직전에만 나오면, Chapter 6과 Chapter 7을 읽는 동안 계속 `어차피 다 feature 아닌가`라는 착각을 안고 가게 됩니다. 하지만 실제로는 특징 설계 바로 뒤에서 이 구분을 한 번 짚어 두어야, 다음 장의 기준선 비교와 뒤 장의 target 후보 구분이 덜 갑자기 이어집니다.
+이 절은 `어떤 숫자 열이 feature인가`만 따지는 문제가 아니라, `작업 표 안의 열 역할을 어떻게 분리할 것인가(column-role separation in a working table)`의 문제로 다시 볼 수 있습니다.
 
-즉 Chapter 6의 끝에서는 다음 문장이 서 있어야 합니다.
 
-`요약 표는 feature만 모아 둔 표가 아니라, feature 후보, 비교 열, 결과 후보, 식별·문맥 열이 함께 잠시 놓일 수 있는 작업 표다.`
+따라서 `숫자 열이면 다 feature`라는 오해 대신, 각 열이 샘플을 설명하는지, 비교 기준을 담는지, 결과를 적어 둔 것인지, 맥락만 남기는지부터 따져야 합니다.
 
-이 문장이 서면 Part 3의 중반부터 후반까지의 연결이 더 부드러워집니다.
+## 출처와 참고 자료
 
-## 짧은 점검
-
-- 왜 `요약 표에 있다`와 `바로 feature다`가 같은 뜻이 아닌지 설명할 수 있는가
-- `baseline_mid_flow_mean` 같은 열이 왜 비교 열로 먼저 읽힐 수 있는지 말할 수 있는가
-- `review_needed`가 왜 결과 열 후보이지 입력 특징이 아닐 수 있는지 설명할 수 있는가
-- 현재 보고 있는 요약 표의 열을 `특징`, `비교`, `결과 후보`, `식별·문맥`으로 나눌 수 있는가
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 요약 표를 만들고 나서 모든 숫자 열을 한꺼번에 feature처럼 읽기 시작할 때 이 절을 먼저 떠올립니다.
-- 기준선 비교 열과 결과 후보 열이 특징 열과 섞여 보일 때 이 절로 돌아옵니다.
-- Chapter 7의 비교 구조와 Chapter 9의 뒤 Part 연결 구간이 왜 같은 요약 표에서 다른 방향으로 갈라지는지 다시 설명해야 할 때 이 절이 기준이 됩니다.
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example을 features와 label의 결합으로 설명하므로, 입력 설명 열과 결과 열 후보를 구분해야 한다는 기본 틀을 제공합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, `review_needed`나 `review_score` 같은 결과 후보 열을 무심코 feature로 섞지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance information을 별도로 기록하고 추적하는 표준 문맥을 제공하므로, `event_id`, `captured_at` 같은 식별·문맥 열은 샘플을 설명하는 feature와 다른 역할의 정보로 남길 수 있다는 일반 근거로 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

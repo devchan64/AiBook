@@ -3,7 +3,7 @@
 > Section ID: `P3-4.3`
 > Version: `v2026.07.07`
 
-앞 절까지 읽고도 Part 3이 어렵게 느껴지는 가장 큰 이유 중 하나는 `한 행`, `샘플 1건`, `최근 구간 1개`가 머릿속에서 한꺼번에 섞이기 때문입니다. 원천데이터 표를 볼 때는 행이 먼저 보이고, 모델 이야기를 들으면 샘플이 먼저 떠오르고, 기준선 비교를 보면 최근 구간이 또 다른 한 건처럼 등장합니다. 그래서 여기서는 세 단위를 한 화면에 놓고 직접 구분하는 짧은 브리지 절을 둡니다.
+`한 행`, `샘플 1건`, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. 원천데이터 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, 기준선 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
 
 세 단위를 한 번에 구분해야 하는 이유는 특징, 기준선 비교, 검토 문장이 서로 다른 층위에 붙기 때문입니다. 행을 샘플로 착각하거나 구간을 샘플 한 건처럼 읽는 순간, 뒤에서 만드는 표와 비교 구조도 함께 흔들리기 시작합니다.
 
@@ -170,17 +170,13 @@ window count: 2
 
 이 세 질문은 각각 `행`, `샘플`, `구간`을 다시 분리하는 역할을 합니다.
 
-## 짧은 점검
+이 절은 용어 구분표가 아니라, `표현 층위(levels of representation)`를 동시에 읽는 문제로 다시 볼 수 있습니다.
 
-- 시점별 로그 9행이 왜 샘플 9건과 같은 뜻이 아닐 수 있는가
-- 동작 1회 샘플과 최근 20건 구간이 왜 서로 다른 비교 단위인가
-- 특징은 왜 주로 샘플 단위에 붙고, 기준선 비교는 왜 구간 단위까지 올라가야 하는가
-- `한 줄`, `한 동작`, `최근 구간`을 구분하면 왜 Part 3의 뒤 설명이 덜 추상적으로 읽히는가
 
-행은 표의 줄이고, 샘플은 비교의 기본 단위이며, 최근 구간은 샘플 여러 건을 다시 묶은 비교 단위다. 이 구분이 잡혀야 뒤에서 특징, 기준선, 검토 문장을 서로 다른 층위에 놓고 읽을 수 있습니다.
+따라서 `한 행`, `샘플 1건`, `최근 구간 1개`는 이름이 비슷한 세 객체가 아니라, 서로 다른 질문에 답하기 위해 같은 원천데이터를 다른 층위로 다시 표현한 결과로 읽어야 합니다.
 
-## 언제 이 관점을 먼저 떠올려야 하는가
+## 출처와 참고 자료
 
-- 표를 보며 `행이 많으니 샘플도 많다`고 바로 생각할 때 이 절의 세 층위 구분을 먼저 떠올립니다.
-- 특징을 어디에 붙여야 하는지, 기준선 비교를 어느 단위에서 읽어야 하는지 헷갈릴 때 이 절로 돌아옵니다.
-- Part 3의 설명이 추상적으로 느껴질 때 `한 줄`, `한 동작`, `최근 구간`을 따로 적어 보는 것부터 다시 시작합니다.
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간과 기준 구간 같은 집계 수준 표현은 sample-level 표현과 다른 비교 층위를 가진다는 점을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 sample-level 구조를 전제로 하므로, row-level record와 window-level aggregate를 sample-level example와 섞어 읽지 말아야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

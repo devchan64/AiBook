@@ -35,66 +35,57 @@
 
 여기서 중요한 점은 `판단을 멈추는가`보다 `판단의 강도를 어떻게 조절하는가`입니다. 이 관점이 있어야 뒤에서 경고 임계값, 검토 큐(review queue), 평가(evaluation)를 설명할 때도 독자가 왜 둔감함이 필요한지 이해할 수 있습니다.
 
-짧은 숫자 예시로 보면 왜 같은 차이도 다르게 읽어야 하는지 더 분명합니다.
+짧은 Python 예시로 보면, 같은 차이값이라도 왜 다른 해석 강도로 가는지 더 직접 확인할 수 있습니다.
+
+문제 상황: 최근 평균과 기준선 평균의 차이는 모두 `-0.3`인데, 표본 수와 반복성은 서로 다른 세 구간이 있습니다.
+
+입력(input): 구간별 `event_count`, `diff`, `same_direction_count`
+
+기대 출력(output): 같은 `diff`라도 `record_only`, `review_candidate`, `stronger_warning`처럼 다른 해석 강도로 갈리는 표
+
+확인할 개념: 해석 강도는 차이값 하나가 아니라 표본 수와 반복성을 함께 보고 정한다
 
 ```python
 import pandas as pd
 
 cases = pd.DataFrame(
     [
-        {"window_id": "small-sample", "event_count": 2, "recent_mean": 2.10, "baseline_mean": 2.40},
-        {"window_id": "large-sample", "event_count": 20, "recent_mean": 2.10, "baseline_mean": 2.40},
+        {"window_id": "few-and-weak", "event_count": 2, "diff": -0.3, "same_direction_count": 1},
+        {"window_id": "few-but-repeated", "event_count": 4, "diff": -0.3, "same_direction_count": 4},
+        {"window_id": "enough-and-repeated", "event_count": 20, "diff": -0.3, "same_direction_count": 17},
     ]
 )
-cases["diff"] = cases["recent_mean"] - cases["baseline_mean"]
 
-print(cases)
+cases["repeat_ratio"] = cases["same_direction_count"] / cases["event_count"]
+
+
+def interpretation_level(row):
+    if row["event_count"] < 3 and row["repeat_ratio"] < 0.5:
+        return "record_only"
+    if row["event_count"] < 10 or row["repeat_ratio"] < 0.7:
+        return "review_candidate"
+    return "stronger_warning"
+
+
+cases["interpretation_level"] = cases.apply(interpretation_level, axis=1)
+
+print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation_level"]])
 ```
 
 예상 출력:
 
 ```text
-1) same diff, different sample size
-       window_id  event_count  recent_mean  baseline_mean  diff
-0   small-sample            2         2.10            2.4  -0.3
-1   large-sample           20         2.10            2.4  -0.3
+             window_id  diff  event_count  repeat_ratio interpretation_level
+0         few-and-weak  -0.3            2          0.50          record_only
+1     few-but-repeated  -0.3            4          1.00     review_candidate
+2  enough-and-repeated  -0.3           20          0.85      stronger_warning
 ```
 
-두 경우의 차이값은 모두 `-0.3`입니다. 하지만 이 예제의 목적은 `같은 diff라도 표본 수가 다르면 해석 강도는 달라진다`는 점을 먼저 확인하는 데 있습니다. 첫 번째는 2건, 두 번째는 20건에서 나온 값이므로, 숫자가 같아도 같은 문장으로 말할 수 없습니다. 즉 여기서 `event_count`는 부가 정보가 아니라 해석 강도를 바꾸는 조건입니다.
+이 예제에서 중요한 점은 세 구간의 `diff`가 모두 같다는 사실입니다. 달라지는 것은 `event_count`와 `repeat_ratio`, 그리고 그 둘이 합쳐 만든 해석 강도입니다. 첫 번째는 차이는 보여도 표본 수가 너무 적어 기록 수준에 가깝고, 두 번째는 표본 수는 아직 적지만 반복성이 뚜렷해 검토 후보로 올릴 만합니다. 세 번째는 표본 수와 반복성이 함께 충분하므로 더 강한 변화 신호로 읽을 수 있습니다.
 
-반복성도 비슷하게 볼 수 있습니다.
+이렇게 해석 강도를 조절하면 무엇을 얻는지도 분명합니다. 첫째, 표본 수가 약한 신호를 곧바로 강한 경고로 올리지 않아 과잉 경보를 줄일 수 있습니다. 둘째, 반복성이 있는 약한 신호는 그냥 버리지 않고 `검토 후보`로 남겨 사람의 확인 자원을 더 아껴 쓸 수 있습니다. 셋째, 표본 수와 반복성이 함께 충분한 경우에만 더 강한 경고를 붙이므로, 같은 `diff`라도 `기록`, `검토`, `강한 경고`가 왜 갈리는지 나중에 다시 설명하기 쉬워집니다.
 
-```python
-repeatability = pd.DataFrame(
-    [
-        {"window_id": "single-drop", "direction_signals": [-1, 0, 0, 0]},
-        {"window_id": "repeated-drop", "direction_signals": [-1, -1, -1, -1]},
-    ]
-)
-repeatability["repeatability_score"] = repeatability["direction_signals"].apply(sum)
-
-print("2) same direction scale, different repeatability")
-print(repeatability[["window_id", "repeatability_score"]])
-```
-
-예상 출력:
-
-```text
-2) same direction scale, different repeatability
-        window_id  repeatability_score
-0     single-drop                   -1
-1   repeated-drop                   -4
-```
-
-이 예제의 목적은 반복성 축을 따로 보여 주는 데 있습니다. 한 번의 하락과 반복적 하락은 같은 변화 신호가 아니므로, 해석 강도도 같을 수 없습니다. 따라서 이 절의 두 코드는 각각 `표본 수 축`과 `반복성 축`을 따로 확인하는 예제로 읽어야 합니다.
-
-이 두 예제는 다음 순서로 연결됩니다.
-
-1. 차이값이 같아도 표본 수가 다르면 표현 강도가 달라져야 함을 본다.
-2. 표본 수가 비슷해도 반복 방향이 다르면 같은 종류의 변화로 읽지 않는다는 점을 본다.
-3. 마지막에야 `기록`, `검토 후보`, `강한 경고` 중 어디까지 말할지 정한다.
-
-두 예시를 합쳐 읽으면 더 분명해집니다. `-0.3` 차이가 있다고 해서 곧바로 같은 수준의 경고를 내릴 수는 없습니다. 그 차이가 2건에서 나왔는지 20건에서 나왔는지, 그리고 최근 여러 구간에서 같은 방향으로 반복되었는지를 같이 봐야 합니다. 즉 해석은 숫자 하나를 읽는 일이 아니라, 숫자가 놓인 관측 조건을 함께 읽는 일입니다.
+즉 이 절의 핵심은 `차이값을 계산하는 법`보다 `같은 차이를 어떤 문장 강도로 옮길 것인가`를 정하는 데 있습니다. Python 예제도 바로 그 판단 사다리를 작은 표 하나로 보여 주는 쪽이 더 적합합니다.
 
 이 판단을 더 짧게 줄이면 다음처럼 정리할 수 있습니다.
 
@@ -119,17 +110,12 @@ flowchart TD
     F -- Yes --> G[Stronger warning]
 ```
 
-## 짧은 점검
+이 절은 특정 운영 도메인의 `감`을 말하는 것이 아니라, `증거 강도(evidence strength)`를 어떻게 읽을 것인가의 문제로 다시 묶을 수 있습니다.
 
-- 같은 `diff`라도 표본 수가 다르면 왜 같은 문장으로 말하면 안 되는가
-- 반복성이 약한 변화와 반복되는 변화는 왜 운영상 의미가 다를 수 있는가
-- `기록`, `검토 후보`, `강한 경고`를 왜 같은 강도로 쓰지 않는가
-- 해석 강도를 낮춘다는 말을 이 절의 예시로 설명할 수 있는가
 
-핵심은 `표본 수가 적을수록 차이는 더 조심스럽게 읽어야 한다`는 점과 `반복되는 변화는 단발성 변화와 다른 의미를 가질 수 있다`는 점입니다. 다음 절에서는 이 기준을 바탕으로, 왜 변화 신호와 원인 확정을 같은 문장으로 말하면 안 되는지 더 분명히 다룹니다.
+따라서 `차이가 있는가` 하나만 보는 것이 아니라, `그 차이를 어느 강도로 말할 수 있는가`를 함께 정해야 합니다.
 
-## 언제 이 관점을 먼저 떠올려야 하는가
+## 출처와 참고 자료
 
-- 같은 차이값이라도 표본 수와 반복성에 따라 말하는 강도를 다르게 해야 할 때 해석 강도 조절 관점을 먼저 떠올립니다.
-- `기록`, `검토 후보`, `강한 경고`를 어떤 관측 조건에서 구분해야 하는지 점검할 때 이 절로 돌아옵니다.
-- 해석을 멈추는 것이 아니라 덜 확신하며 말해야 한다는 원칙을 다시 확인할 때 이 절이 기준이 됩니다.
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 같은 본질 조건 아래에서 얻은 표본이 필요하다는 설명을 제공하므로, 차이값만이 아니라 표본 수와 반복성을 함께 보고 해석 강도를 조절해야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 비교는 참조 시점과의 관계에서 읽어야 한다는 일반 reference 개념을 제공하므로, 같은 diff도 관측 조건에 따라 다르게 말해야 한다는 이 절의 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

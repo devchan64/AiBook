@@ -1,7 +1,7 @@
 # P2-13.2 기본 차트와 수식의 모양 확인
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P2-13.1에서는 그래프(plot)를 숫자의 모양을 확인하는 도구로 봤습니다. 이제 기본 차트를 몇 가지 직접 연결해 봅니다.
 
@@ -73,7 +73,7 @@ plt.show()
 
 출력 결과는 다음처럼 보입니다.
 
-![Line plot showing the function shape y equals x squared](../../../assets/part-02/chapter-13/basic-line-function-shape.png)
+![y는 x 제곱인 함수의 모양을 보여 주는 선 그래프](../../../assets/part-02/chapter-13/basic-line-function-shape-ko.svg)
 
 이 그래프가 보여 주는 것은 정답 풀이가 아니라 모양입니다.
 
@@ -112,7 +112,7 @@ plt.show()
 
 출력 결과는 다음처럼 보입니다.
 
-![Scatter plot showing a relationship with variation](../../../assets/part-02/chapter-13/basic-scatter-relationship.png)
+![흩어짐이 있는 관계를 보여 주는 산점도](../../../assets/part-02/chapter-13/basic-scatter-relationship-ko.svg)
 
 이 그래프에서는 점들이 완벽한 직선 위에 있지 않습니다. 하지만 오른쪽으로 갈수록 대체로 위로 올라가는 흐름이 있습니다.
 
@@ -149,7 +149,7 @@ plt.show()
 
 출력 결과는 다음처럼 보입니다.
 
-![Histogram showing where sampled values gather](../../../assets/part-02/chapter-13/basic-hist-distribution.png)
+![값이 모이는 구간을 보여 주는 히스토그램](../../../assets/part-02/chapter-13/basic-hist-distribution-ko.svg)
 
 히스토그램을 볼 때는 다음 질문을 합니다.
 
@@ -189,7 +189,7 @@ plt.show()
 
 출력 결과는 다음처럼 두 흐름을 비교하게 해 줍니다.
 
-![Line plot comparing steady and unstable loss curves](../../../assets/part-02/chapter-13/basic-loss-curve-comparison.png)
+![꾸준히 감소하는 손실과 흔들리는 손실을 비교한 선 그래프](../../../assets/part-02/chapter-13/basic-loss-curve-comparison-ko.svg)
 
 이 그래프를 보고 바로 “좋은 모델”이라고 결론 내리면 안 됩니다. 다만 다음 질문을 할 수 있습니다.
 

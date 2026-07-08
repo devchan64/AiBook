@@ -1,7 +1,7 @@
 # P3-9.2 어떤 문제는 왜 끝까지 비교 리포트로 남겨야 하는가
 
 > Section ID: `P3-9.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 모든 운영 문제를 예측 문제로 밀어 넣는 것은 좋은 데이터 모델링이 아닙니다. 어떤 경우에는 비교 리포트가 더 정직하며 현재 데이터 상태에도 더 잘 맞습니다. 특히 원인 라벨이 약하거나, 운영자가 실제로 보고 싶은 것이 `정답 분류`보다 `지금 먼저 볼 대상을 고르는 일`일 때 그렇습니다. Part 3의 마지막 문제 유형 판단에서는, 어떤 문제를 위로 올리지 않고 끝까지 비교 리포트로 남겨 두는 편이 더 올바를 수 있다는 점도 함께 정리해야 합니다.
 
@@ -66,18 +66,15 @@ flowchart TD
 
 이 도식은 비교 리포트가 예측을 못 해서 잠깐 머무는 단계가 아니라, 어떤 질문에서는 끝까지 더 맞는 산출물일 수 있다는 점을 보여 줍니다. 먼저 필요한 것이 `무엇이 달라졌는가`를 보여 주는 일이라면 비교 리포트가 자연스럽고, 안정된 목표 라벨이 있을 때만 예측 문제로 넘어갑니다.
 
-여기서 한 걸음 더 나가면 `모델링 사다리` 관점도 보입니다. 비교 리포트와 규칙 기반 검토 큐(review queue)로 시작하고, 라벨이 쌓이면 `review_needed` 예측으로 넘어가며, 그보다 더 안정된 라벨이 생기면 원인 분류나 더 복잡한 모델을 검토할 수 있습니다. 즉 좋은 데이터 모델링은 처음부터 가장 복잡한 문제를 세우는 일이 아니라, 현재 데이터 상태에 맞는 문제를 정직하게 고르는 일입니다.
 
-결론은 단순합니다. `비교 리포트는 임시 대안이 아니라, 그 자체로 올바른 문제 설정일 수 있다.` 다음 장에서는 바로 이 구분을 바탕으로, Part 4로 넘길 feature, target, split 전제가 어디까지 정리되어야 하는지 마무리합니다.
+따라서 비교 리포트는 예측 이전의 임시 단계가 아니라, 어떤 질문에서는 끝까지 더 맞는 출력 구조일 수 있습니다.
 
-## 짧은 점검
+좋은 데이터 모델링은 처음부터 가장 복잡한 문제를 세우는 일이 아니라, 현재 데이터 상태에 맞는 산출물 형태를 정직하게 고르는 일입니다. 변화 설명과 검토 우선순위가 더 중요하고 안정된 목표 라벨이 아직 약하다면, 비교 리포트를 끝까지 유지하는 편이 더 정확할 수 있습니다.
 
-- 왜 어떤 운영 문제에서는 `무엇을 맞히는가`보다 `무엇을 먼저 보여 주는가`가 더 중요한지 설명할 수 있는가
-- `review_needed`는 있지만 `cause_label`이 없을 때 어떤 산출물이 더 정직한지 말할 수 있는가
-- 비교 리포트가 임시물인지, 독립적인 문제 설정인지 현재 예제로 구분할 수 있는가
+따라서 비교 리포트는 예측 이전의 임시 대안이 아니라, 어떤 질문에서는 그 자체로 가장 올바른 출력 구조일 수 있습니다.
 
-## 언제 이 관점을 먼저 떠올려야 하는가
+## 출처와 참고 자료
 
-- 예측 문제로 끌어올리는 것보다 비교 리포트로 남겨 두는 편이 더 정직한지 판단해야 할 때 이 절을 먼저 떠올립니다.
-- 운영자가 실제로 원하는 것이 정답 분류보다 `무엇을 먼저 보여 줄 것인가`인지 점검해야 할 때 이 절로 돌아옵니다.
-- `review_needed`는 있으나 `cause_label`은 없는 상태에서 어떤 산출물이 더 맞는지 다시 확인할 때 이 절이 기준이 됩니다.
+- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
+- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `proxy labels`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
