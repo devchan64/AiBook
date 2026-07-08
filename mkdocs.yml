@@ -678,6 +678,10 @@ plugins:
                         - "P1-7.2 启发式到底减少了什么": zh/parts/part-01/chapter-07/section-02.md
                         - "P1-7.3 启发式与概率模型的差异": zh/parts/part-01/chapter-07/section-03.md
                         - "P1-7.4 补充学习：从路径寻找走向自动驾驶路径规划": zh/parts/part-01/chapter-07/section-04.md
+                    - Chapter 8. 三种学习类型:
+                        - "P1-8.1 监督学习：输入与标签": zh/parts/part-01/chapter-08/section-01.md
+                        - "P1-8.2 无监督学习：结构与表征": zh/parts/part-01/chapter-08/section-02.md
+                        - "P1-8.3 强化学习：动作与奖励": zh/parts/part-01/chapter-08/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
