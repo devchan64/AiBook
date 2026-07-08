@@ -589,6 +589,10 @@ plugins:
                         - "P1-7.2 What Does a Heuristic Reduce?": en/parts/part-01/chapter-07/section-02.md
                         - "P1-7.3 The Difference Between Heuristics and Probabilistic Models": en/parts/part-01/chapter-07/section-03.md
                         - "P1-7.4 Supplemental Learning: From Route Finding to Autonomous-Driving Path Planning": en/parts/part-01/chapter-07/section-04.md
+                    - Chapter 8. Three Learning Types:
+                        - "P1-8.1 Supervised Learning: Inputs and Labels": en/parts/part-01/chapter-08/section-01.md
+                        - "P1-8.2 Unsupervised Learning: Structure and Representation": en/parts/part-01/chapter-08/section-02.md
+                        - "P1-8.3 Reinforcement Learning: Actions and Rewards": en/parts/part-01/chapter-08/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
