@@ -562,6 +562,15 @@ plugins:
                         - "P1-1.1 Scope of the Word AI": en/parts/part-01/chapter-01/section-01.md
                         - "P1-1.2 Problems AI Deals With": en/parts/part-01/chapter-01/section-02.md
                         - "P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI": en/parts/part-01/chapter-01/section-03.md
+                    - Chapter 2. History of AI and Shifts in Paradigm:
+                        - "P1-2.1 Symbolic AI and Rule-Based Approaches": en/parts/part-01/chapter-02/section-01.md
+                        - "P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning": en/parts/part-01/chapter-02/section-02.md
+                        - "P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI": en/parts/part-01/chapter-02/section-03.md
+                - Module 2. Rules, Models, and Learning:
+                    - Chapter 3. From Rules to Learning:
+                        - "P1-3.1 Strengths and Limits of Rule-Based Systems": en/parts/part-01/chapter-03/section-01.md
+                        - "P1-3.2 What It Means to Learn Patterns from Data": en/parts/part-01/chapter-03/section-02.md
+                        - "P1-3.3 Rule-Based Approaches and Representation Learning": en/parts/part-01/chapter-03/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
