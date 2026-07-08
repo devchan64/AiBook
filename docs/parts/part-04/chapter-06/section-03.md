@@ -197,23 +197,27 @@ Google SRE Book은 사용자 대상 시스템에서 특히 중요한 네 가지 
 이 네 가지는 운영 관점의 기본 좌표처럼 쓸 수 있습니다.
 
 ```mermaid
-flowchart TB
-  subgraph TOP[" "]
-    direction LR
-    A["latency<br/>how slow?"]
-    B["traffic<br/>how much demand?"]
-  end
+flowchart TD
+  A["user requests arrive"]
+  B["traffic<br/>how much demand is coming in?"]
+  C{"is the system near capacity?"}
+  D["saturation<br/>cpu / memory / queue / connection pool fills up"]
+  E["latency rises<br/>responses become slower"]
+  F["errors rise<br/>timeouts / failed requests increase"]
+  G["user-facing reliability drops"]
+  H["latency stays stable<br/>normal user experience"]
 
-  subgraph BOTTOM[" "]
-    direction LR
-    C["errors<br/>how many failures?"]
-    D["saturation<br/>how full?"]
-  end
-
-  TOP ~~~ BOTTOM
+  A --> B
+  B --> C
+  C -->|yes| D
+  D --> E
+  D --> F
+  E --> G
+  F --> G
+  C -->|no| H
 ```
 
-이 도식은 운영 지표를 `무엇이 느린가`, `수요가 얼마나 큰가`, `어디서 실패하는가`, `한계에 얼마나 가까운가`라는 네 질문으로 나누어 읽어야 한다는 점을 보여 줍니다.
+이 도식은 네 신호를 단순 목록으로 외우기보다, 운영 팀이 실제로 읽는 질문 순서로 보여 줍니다. 먼저 traffic으로 `지금 얼마나 많은 요청이 들어오는가`를 보고, saturation으로 `시스템이 한계에 가까운가`를 확인합니다. 한계에 가까워지면 latency와 errors가 사용자에게 드러나는 문제로 나타나고, 그 결과 최종적으로 서비스 신뢰성이 흔들립니다. 반대로 saturation이 높지 않다면 latency가 안정적으로 유지되는지 보며 정상 상태를 확인할 수 있습니다.
 
 이 네 신호는 머신러닝 지표를 대체하지 않습니다. 대신 `좋은 모델이 실제 사용자에게 좋은 경험으로 전달되고 있는가`를 확인하게 해 줍니다.
 
@@ -475,8 +479,9 @@ remaining budget    : -0.05
 
 출력(output):
 
-- 각 사례의 모델 품질 지표
-- 각 사례의 운영 상태 지표
+- 각 사례의 모델 품질 판단
+- 각 사례의 운영 상태 판단
+- 두 숫자를 함께 읽었을 때의 해석 문장
 
 확인할 개념:
 
@@ -501,30 +506,62 @@ service_cases = [
     },
 ]
 
+model_precision_threshold = 0.85
+model_recall_threshold = 0.85
+latency_threshold_ms = 250
+error_rate_threshold = 0.02
+
 for case in service_cases:
+    model_ok = (
+        case["precision"] >= model_precision_threshold
+        and case["recall"] >= model_recall_threshold
+    )
+    service_ok = (
+        case["p95_latency_ms"] <= latency_threshold_ms
+        and case["error_rate"] <= error_rate_threshold
+    )
+
+    if model_ok and not service_ok:
+        interpretation = "model is strong, but service reliability is weak"
+    elif not model_ok and service_ok:
+        interpretation = "service is stable, but model quality is weak"
+    elif model_ok and service_ok:
+        interpretation = "model quality and service reliability are both acceptable"
+    else:
+        interpretation = "both model quality and service reliability need work"
+
     print(case["name"])
-    print("  model quality : precision =", case["precision"], ", recall =", case["recall"])
-    print("  service state : p95 latency =", case["p95_latency_ms"], "ms, error rate =", case["error_rate"])
+    print(
+        "  model quality :",
+        "good" if model_ok else "needs work",
+        f"(precision={case['precision']}, recall={case['recall']})",
+    )
+    print(
+        "  service state :",
+        "stable" if service_ok else "unstable",
+        f"(p95 latency={case['p95_latency_ms']}ms, error rate={case['error_rate']})",
+    )
+    print("  interpretation :", interpretation)
 ```
 
 실행 결과는 다음과 같습니다.
 
 ```text
 case_A
-  model quality : precision = 0.91 , recall = 0.88
-  service state : p95 latency = 420 ms, error rate = 0.06
+  model quality : good (precision=0.91, recall=0.88)
+  service state : unstable (p95 latency=420ms, error rate=0.06)
+  interpretation : model is strong, but service reliability is weak
 case_B
-  model quality : precision = 0.72 , recall = 0.68
-  service state : p95 latency = 180 ms, error rate = 0.01
+  model quality : needs work (precision=0.72, recall=0.68)
+  service state : stable (p95 latency=180ms, error rate=0.01)
+  interpretation : service is stable, but model quality is weak
 ```
 
-이 숫자는 `A가 무조건 더 좋다` 또는 `B가 무조건 더 좋다`고 말하지 않습니다. 대신 이런 질문을 가능하게 합니다.
+이 예제의 핵심은 두 사례를 점수 하나로 줄이지 않는 데 있습니다. `case_A`는 모델 품질은 좋지만 운영 상태가 불안정하고, `case_B`는 서비스는 안정적이지만 모델 품질이 부족합니다. 즉, 어떤 숫자가 나쁜지에 따라 다음 행동도 달라져야 합니다.
 
-- 지금 가장 먼저 해결해야 할 문제는 모델 품질인가, 운영 안정성인가?
-- 제품 목적이 더 중요한가, 응답 안정성이 더 중요한가?
-- 어떤 상황에서는 A를, 어떤 상황에서는 B를 택할 수 있는가?
-
-즉, AI 서비스 운영에서는 모델 숫자와 운영 숫자를 따로 읽고, 마지막에는 함께 판단해야 합니다.
+- `case_A`에서는 precision이나 recall보다 p95 latency와 error rate를 먼저 고쳐야 합니다.
+- `case_B`에서는 인프라보다 모델 개선이나 데이터 품질 점검이 먼저일 수 있습니다.
+- 결국 AI 서비스 운영에서는 `모델이 약한가`와 `서비스가 약한가`를 분리해서 읽어야 다음 조치가 선명해집니다.
 
 ## 이후 장과의 연결
 
