@@ -95,3 +95,8 @@ flowchart TD
 Chapter 9에서는 무엇을 비교 리포트로 두고, 무엇을 검토 후보 큐로 두고, 무엇을 목표 라벨 후보로 넘길지 구분합니다. 그런데 그 전에 문장 강도가 정리되어 있지 않으면, 비교 리포트 안에 이미 원인 확정 같은 과도한 표현이 들어가 버릴 수 있습니다. 그러면 검토 후보와 라벨 후보의 경계도 함께 흐려집니다.
 
 즉 이 절은 `해석 경계`와 `문제 유형 구분` 사이의 다리 역할을 합니다. Chapter 8에서 너무 세게 말하지 않는 법을 문장 수준으로 고정해 두어야, Chapter 9에서 산출물 구분도 더 자연스럽게 읽힙니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. 관찰 결과와 그 근거 경로를 분리해 남기는 provenance 관점을 제공하므로, 비교 결과, 확신 강도 조건, 다음 행동을 한 문장 안에서 층위별로 나누어 적어야 한다는 이 절의 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 비교 신호를 읽되 곧바로 기능 판정이나 원인 확정으로 넘어가지 않는 관리도 문맥을 제공하므로, 보수적 해석 문장을 `비교 결과 -> 강도 조건 -> 다음 행동`의 순서로 쓰는 이 절의 경계 감각을 뒷받침합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

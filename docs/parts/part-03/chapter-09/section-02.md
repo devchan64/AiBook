@@ -79,3 +79,9 @@ flowchart TD
 여기서 한 걸음 더 나가면 `모델링 사다리` 관점도 보입니다. 비교 리포트와 규칙 기반 검토 큐(review queue)로 시작하고, 라벨이 쌓이면 `review_needed` 예측으로 넘어가며, 그보다 더 안정된 라벨이 생기면 원인 분류나 더 복잡한 모델을 검토할 수 있습니다. 즉 좋은 데이터 모델링은 처음부터 가장 복잡한 문제를 세우는 일이 아니라, 현재 데이터 상태에 맞는 문제를 정직하게 고르는 일입니다.
 
 결론은 단순합니다. `비교 리포트는 임시 대안이 아니라, 그 자체로 올바른 문제 설정일 수 있다.` 다음 장에서는 바로 이 구분을 바탕으로, 학습 문제로 올릴 전제가 어디까지 정리되어야 하는지 마무리합니다.
+
+## 출처와 참고 자료
+
+- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
+- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `proxy labels`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }

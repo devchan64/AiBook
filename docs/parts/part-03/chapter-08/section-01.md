@@ -130,3 +130,8 @@ flowchart TD
 | 행동 강도의 단계화 | 기록, 검토 후보, 강한 경고를 같은 수준으로 말하지 않는다 |
 
 이 프레임으로 보면 `차이가 있는가` 하나만 보는 것이 아니라, `그 차이를 어느 강도로 말할 수 있는가`를 함께 정하는 일이 중요합니다.
+
+## 출처와 참고 자료
+
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 같은 본질 조건 아래에서 얻은 표본이 필요하다는 설명을 제공하므로, 차이값만이 아니라 표본 수와 반복성을 함께 보고 해석 강도를 조절해야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 비교는 참조 시점과의 관계에서 읽어야 한다는 일반 reference 개념을 제공하므로, 같은 diff도 관측 조건에 따라 다르게 말해야 한다는 이 절의 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

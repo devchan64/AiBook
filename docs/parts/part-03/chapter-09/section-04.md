@@ -111,6 +111,8 @@ flowchart TD
 
 이 절은 운영 메모 정리 기술이 아니라, `비정형 판단을 구조화된 라벨 후보(structured target candidate)로 바꾸는 과정`을 설명합니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
 | 상위 프레임 | 이 절에서의 대응 |
 | --- | --- |
 | 자유로운 운영 판단 | operator note, review result |
@@ -122,3 +124,8 @@ flowchart TD
 `목표 라벨 후보는 처음부터 주어진 정답이 아니라, 검토 과정에서 반복적으로 남은 운영 판단을 더 안정된 열로 바꾼 결과일 때가 많다.`
 
 이 문장이 서면 Part 4의 `target`도 갑자기 나타나는 열이 아니라, Part 3의 비교 리포트와 검토 큐 운영을 거쳐 축적된 결과로 읽히게 됩니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `label`, `labeled example`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }

@@ -32,3 +32,8 @@
 | 상태 메모 | `pending`, 추적 기간, horizon 메모 |
 
 즉 여기서 중요한 것은 `0과 1을 더 세밀하게 나누는 기술`이 아니라, 아직 닫히지 않은 라벨과 충분히 관측된 음성을 같은 값으로 섞지 않기 위한 관측 완결성 구분입니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 확인일 2026-07-08. 이 절의 `관측 미완료 음성` 해석은 glossary의 proxy label 설명을 운영 관측 완결성 문맥으로 확장해 적용한 것입니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned state overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }

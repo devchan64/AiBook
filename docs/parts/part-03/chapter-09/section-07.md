@@ -33,3 +33,9 @@
 | 재현 가능성 | 같은 규칙으로 운영에서도 다시 만들 수 있는가 |
 
 즉 뒤 Part로 넘기는 일은 `표를 전달하는 일`이 아니라 `예측 시점에 성립하는 입력/결과 계약을 닫는 일`입니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `label`, `label leakage`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Crash Course: Dividing Datasets*, train/validation/test separation and real-world consistency. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }

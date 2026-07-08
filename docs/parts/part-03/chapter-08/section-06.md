@@ -43,3 +43,8 @@
 | 해석 메모 | 검토 경로, 라벨 없음의 뜻, 편중 가능성 |
 
 따라서 확정 라벨 표는 `전체 사건의 정답표`가 아니라, 검토 경로를 거친 일부 사건의 확인 결과일 수 있다는 점을 먼저 봐야 합니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. label은 각 example에 붙은 결과 정보라는 기본 틀을 제공하므로, 일부 사례에만 확정 라벨이 남아 있다면 그 라벨 집합이 전체 사건 집합과 같은 범위를 대표하지 않을 수 있다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. 어떤 결과가 어떤 검토 절차를 거쳐 생성되었는지를 provenance information으로 남기는 관점을 제공하므로, 확정 라벨이 붙은 사례 집합에서는 검토 경로와 라벨 없음의 뜻을 함께 적어야 한다는 이 절의 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

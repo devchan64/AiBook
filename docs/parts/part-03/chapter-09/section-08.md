@@ -31,3 +31,9 @@
 | 실제 행동 | 검토 큐 등록, 보류, 자동 조치 |
 
 즉 예측 1회의 의미는 `숫자 하나를 내는 일`이 아니라, 그 숫자가 어떤 규칙을 거쳐 어떤 행동으로 이어지는지까지 포함한 결정 구조입니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, thresholds, score-to-action decisions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Crash Course: ROC and AUC*, ranking behavior and threshold-independent comparison. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }

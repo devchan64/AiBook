@@ -30,3 +30,20 @@
 | 조치 전 신호를 보려는지, 조치 후 운영 결과를 보려는지 | 같은 결과 열의 뜻을 섞지 않기 위해 |
 
 여기서 중요한 점은 `현재 운영 규칙이 이미 미래 데이터를 바꾸고 있다면, 나중에 보이는 차이는 원래 패턴 차이와 개입 효과를 함께 담고 있을 수 있다`는 사실입니다.
+
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 특정 운영팀의 개입 사례가 아니라, `관찰 대상이 이미 정책과 개입에 의해 바뀔 수 있는가(feedback from intervention)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 개입 전 신호 | review_needed 이전의 자연 경과 관찰 |
+| 개입 자체 | immediate_check, 조기 중단, 점검 강화 |
+| 개입 후 결과 | failure 감소, 로그 길이 변화, 후속 라벨 변화 |
+
+이 프레임을 쓰면 나중 데이터는 항상 자연 경과의 연장이 아니라, 현재 규칙과 조치가 되먹임된 결과일 수 있다는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. 데이터와 결과가 어떤 활동(activity)을 거쳐 생성되었는지를 추적하는 provenance 관점을 제공하므로, 검토 규칙이나 조치가 후속 로그와 라벨을 바꿀 수 있다면 그 뒤 데이터도 개입 맥락과 함께 읽어야 한다는 이 절의 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Datasets: Dividing the original dataset`. 학습/평가 데이터가 실제 운영에서 만나는 데이터와 달라질 수 있으며, 같은 변환을 real-world data에도 재현해야 한다고 설명하므로, 현재 운영 개입이 후속 데이터 분포와 의미를 바꿀 수 있다는 이 절의 경계 감각을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

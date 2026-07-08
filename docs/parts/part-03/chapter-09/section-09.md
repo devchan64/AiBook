@@ -29,3 +29,7 @@
 | 둘 사이의 거리 기록 | 왜 대신 쓰는지, 어디까지 믿을 수 있는지 메모 |
 
 즉 proxy target은 편의상 붙인 임시 이름이 아니라, 원래 목표와 다른 대상을 대신 측정하고 있다는 사실을 명시하는 장치입니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }

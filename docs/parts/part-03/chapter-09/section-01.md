@@ -94,3 +94,10 @@ flowchart TD
 3. 비어 있는 라벨을 억지로 상상해서 모델 문제를 올리지 않는다는 원칙을 확인한다.
 
 핵심은 `경고는 변화 신호이고, 검토 후보는 운영 우선순위이며, 라벨 예측은 그보다 더 강한 문제 설정이다`는 점입니다. 다음 절에서는 바로 이 구분을 바탕으로, 어떤 문제를 끝까지 비교 리포트로 남기는 편이 더 정직한지 정리합니다.
+
+## 출처와 참고 자료
+
+- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
+- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Control Charts?*, signal detection and process monitoring. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" }

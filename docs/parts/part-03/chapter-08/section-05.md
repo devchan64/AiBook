@@ -121,3 +121,8 @@ Chapter 9에서는 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표
 즉 이 절은 Chapter 8의 해석 단계와 Chapter 9의 산출물 구분 사이를 이어 주는 다리입니다.
 
 `검토 우선순위는 차이값 하나가 아니라, 변화 크기, 반복성, 해석 신뢰도, 운영 중요도를 함께 묶어 만든 후보 판단이다.`
+
+## 출처와 참고 자료
+
+- Google for Developers, `Thresholds and the confusion matrix`. score 하나가 곧바로 행동이 아니라 threshold와 비용 구조를 거쳐 해석된다는 설명을 제공하므로, 여러 비교 열을 한 번에 숫자 하나로 합치기보다 먼저 판단 축으로 묶는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Classification: ROC and AUC`. 모델 점수의 핵심 용도 중 하나가 순서를 세우는 것임을 보여 주므로, 검토 우선순위를 `변화 크기`, `반복성`, `해석 신뢰도`, `운영 중요도` 축으로 압축해 review queue 후보를 만든다는 이 절의 일반화된 관점을 뒷받침합니다. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

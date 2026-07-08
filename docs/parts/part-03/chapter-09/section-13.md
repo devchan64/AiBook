@@ -36,3 +36,9 @@
 | 산출물 형식 선택 | classification, ranking, regression |
 
 이 프레임을 잡아 두면 이 절의 목적은 각각을 다 가르치는 것이 아니라, 현재 문제 구조 안에서 어떤 경계가 이미 닫혀 있어야 하는지 확인하는 일이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `label leakage`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Crash Course: ROC and AUC*, ranking interpretation. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned setup overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }

@@ -111,3 +111,8 @@ flowchart TD
 `비교 리포트, 검토 후보 큐, 목표 라벨 후보 표는 역할은 달라도 가능하면 같은 샘플 식별 기준을 유지해야, 나중에 근거와 라벨 후보를 다시 연결할 수 있다.`
 
 이 식별 기준이 흐리면 같은 사건의 비교 근거, 검토 결과, 목표 후보를 다시 잇기 어려워집니다. 그래서 여기서 필요한 것은 `나중에 어디로 넘길 것인가`보다 먼저, 현재 산출물들 사이에서 같은 사건의 정체와 근거 연결을 잃지 않는 일입니다.
+
+## 출처와 참고 자료
+
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and entity linkage overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `labeled example`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }

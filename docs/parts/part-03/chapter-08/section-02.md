@@ -78,3 +78,7 @@ flowchart TD
 
 이 표의 핵심은 비교 구조가 직접 지지하는 층위와, 추가 근거가 더 필요한 층위를 섞지 않는 데 있습니다.
 
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. 관찰 결과와 그 결과가 어떤 절차와 근거를 거쳐 나왔는지 구분해 남기는 provenance 관점을 제공하므로, 비교표가 뒷받침하는 것은 변화 관찰과 검토 후보 수준이지 원인 확정까지는 아니라는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 신호 구조와, control limits와 specification limits를 구분하는 설명을 제공하므로, 변화 신호와 원인 확정 또는 기능 판정을 같은 층위로 섞지 말아야 한다는 이 절의 판단 경계를 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

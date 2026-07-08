@@ -166,3 +166,8 @@ Part 4와 Part 5로 넘기기 전에는 아래처럼 짧게 판정하면 좋습�
 이 세 줄이 있어야 목표 라벨 후보 표는 단순한 열 목록이 아니라, `라벨 의미의 안정성`까지 포함한 인계 구조가 됩니다.
 
 `목표 라벨 후보는 열이 있다는 사실만으로 충분하지 않고, 같은 사건과 비슷한 조건에서 비슷한 판단이 반복되는지도 함께 확인해야 한다.`
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }

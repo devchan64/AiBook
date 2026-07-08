@@ -27,3 +27,8 @@
 | 판정 기준 조정 | 뒤 Part에서 지표와 threshold를 읽는 방향 |
 
 즉 정확도 하나로 문제를 닫지 않고, 어떤 오류를 더 줄이려는지가 왜 먼저 적혀 있어야 하는지부터 봐야 합니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `false negative`, `false positive`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, threshold choice under asymmetric costs. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }

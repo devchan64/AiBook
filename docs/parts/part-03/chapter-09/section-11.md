@@ -28,3 +28,8 @@
 | 확장 후보 관리 | 보조 target을 어떻게 남길 것인가 |
 
 즉 target 후보가 많을 때의 어려움은 `이름 충돌`보다 `대표 결과와 정의 버전을 함께 고정하지 않으면 문제 자체가 흔들린다`는 점에 있습니다.
+
+## 출처와 참고 자료
+
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, versioning and derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }

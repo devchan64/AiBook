@@ -117,3 +117,7 @@ flowchart TD
 
 이 문장이 있어야 Chapter 9의 산출물 구분이 더 자연스럽게 읽힙니다.
 
+## 출처와 참고 자료
+
+- Google for Developers, `Thresholds and the confusion matrix`. 모델의 raw score와 최종 분류는 threshold를 거쳐 연결된다고 설명하므로, 사람 해석 문장과 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열을 분리해 보는 이 절의 일반 근거가 됩니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. 관찰 결과가 어떤 중간 판단을 거쳐 파생되었는지 추적하는 provenance 관점을 제공하므로, 비교 결과에서 보수적 문장, 다시 구조화된 운영 열로 내려가는 이 절의 단계 구분을 설명하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
