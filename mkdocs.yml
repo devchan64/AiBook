@@ -614,6 +614,13 @@ plugins:
                         - "P1-13.2 The Intuition of Similarity Search": en/parts/part-01/chapter-13/section-02.md
                         - "P1-13.3 The Flow That Leads into RAG": en/parts/part-01/chapter-13/section-03.md
                         - "P1-13.4 The Intuition of Vector Search Implementation": en/parts/part-01/chapter-13/section-04.md
+                    - Chapter 14. AI Service Architecture and Execution Environment:
+                        - "P1-14.1 Model, Application, Data, and Tool": en/parts/part-01/chapter-14/section-01.md
+                        - "P1-14.2 Where RAG and Tool Use Sit": en/parts/part-01/chapter-14/section-02.md
+                        - "P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow": en/parts/part-01/chapter-14/section-03.md
+                        - "P1-14.4 MCP and the Standardization of Tool Connections": en/parts/part-01/chapter-14/section-04.md
+                        - "P1-14.5 Harness and the Evaluation Execution Environment": en/parts/part-01/chapter-14/section-05.md
+                        - "P1-14.6 The Constraints AI Services Meet in the Real World": en/parts/part-01/chapter-14/section-06.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
