@@ -1,7 +1,7 @@
 # P1-14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P1-14.2에서는 RAG(retrieval-augmented generation)와 도구 사용(tool use)을 구분했습니다.
 
@@ -105,16 +105,16 @@ Part 1에서 `에이전트(agent)`, `목표(goal)`, `상태(state)`, `행동(act
 
 ```mermaid
 flowchart TD
-  G["goal"]
+  G["목표"]
 
-  subgraph L["agent loop"]
+  subgraph L["에이전트 루프"]
     direction LR
-    S["state"] --> P["choose next step"] --> A["action"] --> O["observation"] --> E{"stop?"}
+    S["상태"] --> P["다음 단계 선택"] --> A["행동"] --> O["관찰"] --> E{"멈출까?"}
   end
 
   G --> S
-  E -->|continue| S
-  E -->|finish| R["report result"]
+  E -->|계속| S
+  E -->|종료| R["결과 보고"]
 ```
 
 각 요소는 다음처럼 볼 수 있습니다.

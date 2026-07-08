@@ -1,7 +1,7 @@
 # P1-6.1 불완전한 정보와 예외가 많은 문제
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 5장에서는 학습(learning)과 모델 실행(inference)을 구분했습니다. 이제는 왜 AI가 규칙, 탐색, 확률, 학습을 함께 사용하게 되었는지 볼 차례입니다.
 
@@ -147,20 +147,20 @@ AIMA의 목차는 탐색(search), 휴리스틱 탐색(heuristic search), 부분 
 
 ```mermaid
 flowchart TD
-  I["incomplete input"]
-  J{"what makes rules alone hard?"}
+  I["불완전한 입력"]
+  J{"왜 규칙만으로는 어렵나?"}
 
   I --> J
-  J --> R["explicit rules"]
-  J --> S["search / heuristic"]
-  J --> P["probability"]
-  J --> L["learned model"]
+  J --> R["명시적 규칙"]
+  J --> S["탐색 / 휴리스틱"]
+  J --> P["확률"]
+  J --> L["학습된 모델"]
 
-  R --> H["human review or policy decision"]
+  R --> H["사람 검토 또는 정책 판단"]
   S --> H
   P --> H
   L --> H
-  H --> O["result"]
+  H --> O["결과"]
 ```
 
 이 그림은 실제 서비스 아키텍처가 아닙니다. 6.1에서는 AI가 왜 여러 접근을 조합하게 되는지 이해하는 데만 사용합니다.
