@@ -718,6 +718,10 @@ plugins:
                         - "P1-16.1 个人学习(personal learning)与文档化(documentation)": zh/parts/part-01/chapter-16/section-01.md
                         - "P1-16.2 工作自动化(work automation)与搜索(search)": zh/parts/part-01/chapter-16/section-02.md
                         - "P1-16.3 如何通过项目(project)来验证": zh/parts/part-01/chapter-16/section-03.md
+                    - Chapter 17. AI 的未来:
+                        - "P1-17.1 应该依据什么来讨论预测": zh/parts/part-01/chapter-17/section-01.md
+                        - "P1-17.2 阅读新闻(news)、专栏(column)、报告(report)": zh/parts/part-01/chapter-17/section-02.md
+                        - "P1-17.3 区分预测(prediction)与工作假设(working hypothesis)": zh/parts/part-01/chapter-17/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
