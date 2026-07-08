@@ -422,7 +422,8 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-7.1 Feature Selection**: reviews how to choose which inputs to feed into a model
 - **P4-7.2 Preprocessing**: reviews the basic decisions around missing values, scaling, and categorical data
-- **P4-7.3 Supplementary Learning: How to Distinguish Filters, Wrappers, and Dimensionality Reduction for the First Time**: adds criteria for not mixing feature selection with dimensionality reduction
+- **P4-7.3 Supplementary Learning: How to Separate Missing Values, Scale, and Encoding by Input Problem**: adds a beginner bridge for splitting preprocessing by the kind of input problem
+- **P4-7.4 Supplementary Learning: How to Distinguish Filters, Wrappers, and Dimensionality Reduction for the First Time**: adds criteria for not mixing feature selection with dimensionality reduction
 
 #### Chapter 8. Heuristics for Model Selection `Practical Heuristics`
 
