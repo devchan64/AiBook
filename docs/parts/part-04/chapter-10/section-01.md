@@ -1,7 +1,7 @@
 # P4-10.1 선형회귀(linear regression)의 직관
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-9.2에서는 튜닝(tuning)과 검증 비용(validation cost)을 통해 `좋아 보이는 설정을 어떻게 비교할 것인가`를 봤습니다. 이제 그 비교 절차를 실제 알고리즘 하나에 연결할 차례입니다.
 
@@ -332,6 +332,17 @@ flowchart TD
 이 장면에서 선형회귀는 `현실이 직선이다`라고 단정하는 모델이 아니라, `직선으로 먼저 설명해 볼 수 있는가`를 묻는 모델입니다. 광고비와 매출의 관계가 대체로 같은 방향으로 움직인다면, 기울기와 절편은 그 관계를 가장 투명하게 보여 주는 첫 설명이 됩니다.
 
 확인 가능한 결과는 학습된 직선과 계수 해석에서 드러납니다. 기울기가 양수라면 광고비 증가와 매출 증가가 함께 움직이는 경향을 읽을 수 있고, 예측값과 실제값의 차이를 보면 직선 하나로 설명하기에 얼마나 거친지도 바로 확인할 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["monthly ad spend and sales"]
+  B["fit one straight line first"]
+  C["read slope direction and size"]
+  D["compare predicted and actual points"]
+  E["decide whether the linear summary is a useful first explanation"]
+
+  A --> B --> C --> D --> E
+```
 
 ## 사례 및 예시
 

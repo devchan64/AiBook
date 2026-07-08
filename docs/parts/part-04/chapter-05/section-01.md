@@ -285,6 +285,20 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 
 확인 가능한 결과는 학습 점수와 검증 점수를 나란히 볼 때 드러납니다. 두 점수의 수준과 차이를 함께 보면, 지금 필요한 다음 행동이 `더 많은 설명력을 주는 것`인지 `덜 외우게 만드는 것`인지 판단할 수 있습니다.
 
+```mermaid
+flowchart TD
+  A["defect image model"]
+  B["train score almost perfect"]
+  C["validation score drops"]
+  D["suspect overfitting"]
+  E["both train and validation stay low"]
+  F["suspect underfitting"]
+  G["decide whether to simplify or strengthen the model"]
+
+  A --> B --> C --> D --> G
+  A --> E --> F --> G
+```
+
 ## 사례 및 예시
 
 ### 실무 장면으로 다시 읽기

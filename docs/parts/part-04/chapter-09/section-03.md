@@ -1,7 +1,7 @@
 # P4-9.3 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼파라미터를 검증 절차 안에서 비교하는 기본 흐름을 잡았습니다. 그다음에는 보통 다음 이름들이 등장합니다.
 
@@ -159,6 +159,19 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 이 장면에서 고급 모델 선택 도구들은 모두 다른 문제를 푸는 장치로 읽어야 합니다. benchmark와 leaderboard는 비교판을 만들고, AutoML은 후보 생성과 탐색 일부를 자동화하며, nested cross-validation은 선택과 평가를 더 엄격히 분리하고, experiment tracking은 그 모든 과정을 다시 설명 가능하게 만듭니다.
 
 확인 가능한 결과는 기록 항목이 남아 있는지로 바로 드러납니다. 데이터 버전, 전처리 규칙, 하이퍼파라미터, metric, 실행 시각이 함께 남아 있다면 왜 특정 조합이 좋았는지 다시 검토할 수 있지만, 점수만 남아 있다면 그 비교는 쉽게 재현되지 않습니다.
+
+```mermaid
+flowchart TD
+  A["many model and tuning runs"]
+  B["only top scores remain"]
+  C["comparison becomes hard to explain"]
+  D["store data version, preprocessing, params, metric, time"]
+  E["retrace why one run won"]
+  F["reuse benchmark or tracking records later"]
+
+  A --> B --> C
+  A --> D --> E --> F
+```
 
 ## 이 절에서 기억할 관점
 

@@ -331,6 +331,20 @@ scikit-learn의 dummy 계열 모델은 교육적으로 특히 유용합니다.
 
 확인 가능한 결과는 같은 지표로 baseline과 실제 모델을 나란히 비교할 때 드러납니다. 정확도만이 아니라 recall, F1까지 함께 놓고 보면 왜 baseline이 `낮은 성능 모델`이 아니라 `점수 해석 기준선`인지 분명해집니다.
 
+```mermaid
+flowchart TD
+  A["fraud dataset"]
+  B["always predict normal"]
+  C["accuracy looks high"]
+  D["fraud recall stays near zero"]
+  E["train a richer model"]
+  F["compare accuracy, recall, and F1"]
+  G["decide whether the gain is operationally meaningful"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G
+```
+
 ## 사례 및 예시
 
 ### 작은 예시로 baseline의 역할 보기

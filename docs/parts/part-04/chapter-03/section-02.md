@@ -199,6 +199,20 @@ flowchart TB
 
 확인 가능한 결과도 분명합니다. 기준 모델과 규칙 기반 분류의 오류 유형을 비교하고, 클래스별 정밀도와 재현율을 보면 어떤 문의 유형에서 더 나아졌는지 확인할 수 있습니다. 만약 기준 모델이 이미 대부분의 반복 문의를 안정적으로 잡는다면, 더 복잡한 모델은 뒤 단계로 미뤄도 됩니다. 반대로 표현 변형이 많은 문의에서 계속 틀린다면 더 강한 표현 모델을 검토해야 합니다.
 
+```mermaid
+flowchart TD
+  A["inquiry classification problem"]
+  B["rule-based start point"]
+  C["too many misses from wording changes"]
+  D["try a simple baseline model first"]
+  E["compare with tree or stronger candidates"]
+  F["check precision and recall by class"]
+  G["keep the shortlist or expand it"]
+
+  A --> B --> C
+  C --> D --> E --> F --> G
+```
+
 ## 이 절에서 기억할 관점
 
 - 모델 선택은 모델 이름을 맞히는 일이 아니라 후보를 줄이고 검증하는 과정입니다.

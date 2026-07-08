@@ -1,7 +1,7 @@
 # P4-9.1 하이퍼파라미터(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-8에서는 모델 후보를 고르고, baseline으로 비교의 출발점을 세웠습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -217,6 +217,20 @@ James Bergstra, Daniel Yamins, David Cox는 2012년 논문에서 컴퓨터 비�
 이 장면에서 하이퍼파라미터는 모델 바깥에서 미리 정하는 손잡이로 읽어야 합니다. `max_depth`를 작게 두면 단순한 규칙만 허용하고, 크게 두면 더 복잡한 규칙을 허용합니다. 즉, 결정트리가 무엇을 배울지는 데이터가 정하지만, 어디까지 복잡해질 수 있는지는 사람이 먼저 정하는 셈입니다.
 
 확인 가능한 결과는 train 점수와 validation 점수를 함께 볼 때 드러납니다. 깊이를 바꿨을 때 학습 점수와 검증 점수가 어떻게 달라지는지 비교하면, 왜 하이퍼파라미터가 단순 옵션이 아니라 모델 성격을 바꾸는 설정인지 설명할 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["same decision tree family"]
+  B["shallow depth"]
+  C["deep depth"]
+  D["simple rule, lower scores"]
+  E["high train score, unstable validation"]
+  F["compare train and validation together"]
+  G["read hyperparameters as behavior controls"]
+
+  A --> B --> D --> F
+  A --> C --> E --> F --> G
+```
 
 ## 사례 및 예시
 

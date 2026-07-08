@@ -1,7 +1,7 @@
 # P4-9.2 튜닝(tuning)과 검증 비용
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오래전부터 별도 문제로 다뤄졌는지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -306,6 +306,21 @@ flowchart TD
 이 장면에서 튜닝은 `값을 많이 바꾸기`가 아니라 `검증 절차 안에서 후보를 비교하기`로 읽어야 합니다. train 안의 validation으로 설정을 비교하고, test는 마지막 한 번만 확인해야 합니다. grid search와 random search의 차이도 결국 `모든 조합을 다 볼 것인가`, `넓은 공간을 일부 샘플링할 것인가`의 비용 관리 문제로 연결됩니다.
 
 확인 가능한 결과는 조합 수와 교차검증 횟수를 곱해 본 학습 횟수, 그리고 validation 최고 점수와 최종 test 점수를 따로 읽을 때 드러납니다. 같은 0.002의 개선이라도 몇 배의 계산 비용과 어떤 검증 위험을 치른 결과인지 함께 봐야 설명 가능한 튜닝이 됩니다.
+
+```mermaid
+flowchart TD
+  A["many parameter candidates"]
+  B["run every combination"]
+  C["training cost grows fast"]
+  D["keep staring at validation or test"]
+  E["comparison reliability weakens"]
+  F["compare within a controlled validation loop"]
+  G["open test only once at the end"]
+
+  A --> B --> C
+  B --> D --> E
+  A --> F --> G
+```
 
 ## 사례 및 예시
 

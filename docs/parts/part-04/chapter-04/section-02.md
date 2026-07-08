@@ -400,6 +400,20 @@ problem: test data has started to influence model choice
 
 확인 가능한 결과는 실험 기록에서 드러납니다. 후보별 검증 점수를 기준으로 최종 모델을 고른 뒤 테스트 점수를 한 번만 확인하면, 어떤 숫자가 선택 과정에 쓰였고 어떤 숫자가 마지막 확인에 쓰였는지 분리해서 읽을 수 있습니다. 반대로 테스트 점수를 여러 번 기록하며 선택을 바꿨다면, 그 테스트 결과는 더 이상 최종 확인용 근거로 보기 어렵습니다.
 
+```mermaid
+flowchart TD
+  A["spam dataset"]
+  B["check test score early"]
+  C["change features or settings again"]
+  D["test becomes part of selection"]
+  E["use validation for candidate choice"]
+  F["freeze one final model"]
+  G["open test once at the end"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G
+```
+
 ### 검증과 테스트를 어떻게 읽어야 하는가
 
 실험 결과를 읽을 때는 숫자 하나보다 역할을 먼저 구분해야 합니다.
