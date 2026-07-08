@@ -654,6 +654,11 @@ plugins:
                         - "P1-2.1 符号主义 AI 与规则式方法": zh/parts/part-01/chapter-02/section-01.md
                         - "P1-2.2 搜索、知识表示与概率推理": zh/parts/part-01/chapter-02/section-02.md
                         - "P1-2.3 走向机器学习、深度学习与生成式 AI 的脉络": zh/parts/part-01/chapter-02/section-03.md
+                - Module 2. 规则、模型与学习:
+                    - Chapter 3. 从规则走向学习:
+                        - "P1-3.1 规则式系统的优势与限制": zh/parts/part-01/chapter-03/section-01.md
+                        - "P1-3.2 从数据中学习模式意味着什么": zh/parts/part-01/chapter-03/section-02.md
+                        - "P1-3.3 规则式方法与表征学习": zh/parts/part-01/chapter-03/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
