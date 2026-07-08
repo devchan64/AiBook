@@ -668,6 +668,11 @@ plugins:
                         - "P1-5.1 学习会改变什么": zh/parts/part-01/chapter-05/section-01.md
                         - "P1-5.2 模型执行在运行什么": zh/parts/part-01/chapter-05/section-02.md
                         - "P1-5.3 区分推理相关术语": zh/parts/part-01/chapter-05/section-03.md
+                - Module 3. 不确定性与问题求解:
+                    - Chapter 6. 不确定性与概率性判断:
+                        - "P1-6.1 信息不完整且例外很多的问题": zh/parts/part-01/chapter-06/section-01.md
+                        - "P1-6.2 区分概率、不确定性与随机过程": zh/parts/part-01/chapter-06/section-02.md
+                        - "P1-6.3 AI 在哪些地方使用概率性判断": zh/parts/part-01/chapter-06/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
