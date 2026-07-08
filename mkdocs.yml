@@ -601,6 +601,10 @@ plugins:
                         - "P1-10.1 The Difference Among Classification, Prediction, and Generation": en/parts/part-01/chapter-10/section-01.md
                         - "P1-10.2 The Intuition of Next-Output Generation": en/parts/part-01/chapter-10/section-02.md
                         - "P1-10.3 The Quality and Risk of Generated Outputs": en/parts/part-01/chapter-10/section-03.md
+                    - Chapter 11. The Direct Lineage of LLMs:
+                        - "P1-11.1 Statistical Language Models and Embeddings": en/parts/part-01/chapter-11/section-01.md
+                        - "P1-11.2 RNN, Seq2Seq, and Attention": en/parts/part-01/chapter-11/section-02.md
+                        - "P1-11.3 Transformers and Pretrained LLMs": en/parts/part-01/chapter-11/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
