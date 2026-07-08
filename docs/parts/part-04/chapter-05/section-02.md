@@ -1,7 +1,7 @@
 # P4-5.2 일반화(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분했습니다. 이제 한 단계 더 올라가야 합니다. 왜 우리는 그 구분을 중요하게 여길까요? 결국 머신러닝의 목적이 `학습 데이터 점수 높이기`가 아니라, `아직 보지 못한 데이터에서도 쓸 만하게 작동하기` 때문입니다. 이 질문을 정리하는 말이 `일반화(generalization)`입니다.
 
@@ -225,6 +225,22 @@ flowchart TB
 일반화 관점에서는 질문이 달라집니다. 중요한 것은 `과거 기록을 잘 설명했는가`보다 `아직 보지 못한 비슷한 사용자에게도 버티는가`입니다. 검증 데이터와 테스트 데이터는 바로 이 점을 미리 확인하기 위한 장치로 읽어야 합니다.
 
 확인 가능한 결과는 익숙한 사용자 집합에서의 점수와 새 사용자 집합에서의 점수를 비교할 때 드러납니다. 모델이 같은 문제 안에서 얼마나 안정적으로 유지되는지 읽을 수 있고, 차이가 작다면 일반화가 비교적 유지된 것이며, 차이가 크다면 과거 패턴에만 너무 적응했는지 다시 점검해야 합니다.
+
+```mermaid
+flowchart TD
+  A["past-user recommendation data"]
+  B["model fits familiar users well"]
+  C["new or shifted users appear"]
+  D["compare unseen-user performance"]
+  E["small gap"]
+  F["large gap"]
+  G["generalization looks stable"]
+  H["model may rely on old patterns too much"]
+
+  A --> B --> C --> D
+  D --> E --> G
+  D --> F --> H
+```
 
 ## 사례 및 예시
 
