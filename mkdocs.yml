@@ -629,6 +629,10 @@ plugins:
                         - "P1-16.1 Personal Learning and Documentation": en/parts/part-01/chapter-16/section-01.md
                         - "P1-16.2 Work Automation and Search": en/parts/part-01/chapter-16/section-02.md
                         - "P1-16.3 How to Validate with a Project": en/parts/part-01/chapter-16/section-03.md
+                    - Chapter 17. The Future of AI:
+                        - "P1-17.1 What Evidence Should Forecasts Rely On?": en/parts/part-01/chapter-17/section-01.md
+                        - "P1-17.2 Reading News, Columns, and Reports": en/parts/part-01/chapter-17/section-02.md
+                        - "P1-17.3 Distinguishing Prediction from a Working Hypothesis": en/parts/part-01/chapter-17/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
