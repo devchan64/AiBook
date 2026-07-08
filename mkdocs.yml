@@ -642,6 +642,10 @@ plugins:
           nav:
             - 开始:
                 - 介绍: zh/index.md
+                - 目录: zh/book/table-of-contents.md
+            - Part 1. AI 导论与地形图:
+                - 概览: zh/parts/part-01/index.md
+                - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
   - search:

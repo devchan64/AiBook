@@ -25,9 +25,9 @@ The current base edition of the book is Korean.
 
 - Korean: the main edition currently being written and reviewed
 - English: Part 1 is available first, and the remaining Parts will be added progressively
-- Simplified Chinese: only a basic entry page is planned for now
+- Simplified Chinese: the introduction, table of contents, and Part 1 overview and summary are available first, and section-level text will be added progressively
 
-So at the current stage, the English edition is no longer only a placeholder, but it is still incomplete compared with the Korean edition.
+So at the current stage, neither the English edition nor the Simplified Chinese edition is only a placeholder anymore, but both are still incomplete compared with the Korean edition.
 
 ## Why Relearn AI
 
