@@ -703,6 +703,13 @@ plugins:
                         - "P1-13.2 相似度搜索(similarity search)的直觉": zh/parts/part-01/chapter-13/section-02.md
                         - "P1-13.3 通向 RAG(retrieval-augmented generation)的流程": zh/parts/part-01/chapter-13/section-03.md
                         - "P1-13.4 向量搜索(vector search)实现的直觉": zh/parts/part-01/chapter-13/section-04.md
+                    - Chapter 14. AI 服务架构与执行环境:
+                        - "P1-14.1 模型(model)、应用(application)、数据(data)、工具(tool)": zh/parts/part-01/chapter-14/section-01.md
+                        - "P1-14.2 RAG(retrieval-augmented generation)与工具使用(tool use)的位置": zh/parts/part-01/chapter-14/section-02.md
+                        - "P1-14.3 agent：把目标(goal)连接成工作流(workflow)的结构": zh/parts/part-01/chapter-14/section-03.md
+                        - "P1-14.4 MCP(Model Context Protocol)与工具连接标准化": zh/parts/part-01/chapter-14/section-04.md
+                        - "P1-14.5 harness 与评估执行环境": zh/parts/part-01/chapter-14/section-05.md
+                        - "P1-14.6 AI 服务在现实中遇到的约束": zh/parts/part-01/chapter-14/section-06.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
