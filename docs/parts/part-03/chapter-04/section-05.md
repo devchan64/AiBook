@@ -131,3 +131,9 @@ print(coverage)
 이 표를 읽을 때는 세 가지를 함께 확인하면 됩니다. 이 표가 모은 시간·모드·장비 범위를 설명할 수 있는가, 거의 보지 못한 조건을 적어 둘 수 있는가, 그리고 나중에 평가 점수를 읽을 때도 이 대표성 범위를 함께 떠올릴 수 있는가입니다. 이런 메모가 붙어 있어야 샘플 표는 단순히 `정리된 표`가 아니라, `어떤 운영 범위를 대표하는지`까지 함께 남긴 표가 됩니다.
 
 샘플 단위를 잘 정했다고 해서 그 샘플 묶음이 전체 운영 상황을 자동으로 대표하는 것은 아닙니다. 그래서 Part 3에서는 시간·모드·장비 범위와 남은 공백을 함께 적어 두어야 합니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example 단위가 먼저 정해져야 그다음에 어떤 example 집합이 현재 문제를 대표하는지 묻는 단계로 넘어갈 수 있으므로, 샘플 한 건의 정의와 샘플 묶음의 대표성을 분리해 읽어야 한다는 이 절의 출발점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance와 activity context를 함께 남겨야 한다고 정리하므로, 현재 샘플 묶음이 어느 기간, 어느 장비, 어느 운영 모드에서 나왔는지 추적 가능해야 대표성 범위를 설명할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교할 때 같은 본질 조건 아래에서 얻은 표본이 필요하다고 설명하므로, 샘플 수가 아니라 어떤 운영 조건을 얼마나 덮고 있는지가 먼저 정리되어야 한다는 대표성 점검의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

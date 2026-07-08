@@ -82,3 +82,9 @@ print(result)
 ```
 
 이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`는 `review`, `worst_event`는 `failure`, `event_count`는 2처럼 서로 다른 결과 열이 동시에 만들어질 수 있다는 점입니다. 즉 어떤 규칙으로 접었는지를 적지 않으면 같은 `A` 샘플도 표마다 다른 뜻으로 읽히게 됩니다. 같은 샘플 뒤에 여러 후속 사건이 있다면, 어떤 규칙으로 하나의 결과 열에 접었는지 먼저 적어야 표 구조의 뜻이 흔들리지 않습니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `label`과 `labeled example`. result information이 어떤 example에 붙는지 먼저 정해져야 하므로, 후속 사건 여러 개를 하나의 결과 열로 접을 때도 `any`, `first`, `worst`, `count` 가운데 어떤 규칙을 썼는지 먼저 명세해야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. 결과 열이 어떤 규칙으로 만들어졌는지 불분명하면 보고용 결과와 예측 후보용 결과를 섞어 읽기 쉬우므로, 접기 규칙을 먼저 적어 표 구조의 뜻을 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 derivation과 activity context를 설명 가능하게 남겨야 한다고 정리하므로, 여러 후속 사건이 어떤 규칙을 거쳐 대표 결과 열로 접혔는지 추적 가능해야 한다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

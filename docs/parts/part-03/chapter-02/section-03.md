@@ -179,3 +179,9 @@ print(event_summary)
 같은 결과를 형식과 품질 관점으로 다시 읽으면 더 분명해집니다. `event_id`가 반복된다는 사실은 형식 정합성 차원에서 `한 샘플을 묶을 키가 있다`는 뜻이고, `rows per event`가 서로 다르다는 사실은 첫 품질 점검 차원에서 `샘플마다 기록 길이가 다르다`는 신호입니다. 이 차이를 초기에 적어 두어야 나중에 평균을 비교할 때도 `왜 어떤 샘플은 더 적은 근거 위에 서 있는가`를 함께 읽을 수 있습니다.
 
 형식 정합성과 첫 품질 점검을 먼저 적는 이유는, 새 표를 받자마자 평균이나 모델 이름부터 붙이지 않고 `지금 손에 든 행이 무엇이며, 무엇이 아직 비교를 막고 있는가`를 먼저 보게 하기 위해서입니다. 키 형식, 시간 순서, 반복 길이, 결측과 고아 행이 초기에 정리되어 있어야만 그다음에 샘플을 다시 묶고 비교 가능한 열을 만들 때도 같은 표를 흔들리지 않는 기준으로 읽을 수 있습니다.
+
+## 출처와 참고 자료
+
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조를 구분해 설명하므로, `한 행은 무엇인가`를 먼저 적어 두어야 한다는 이 절의 출발점을 뒷받침합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- E. Wang, D. L. Cook, R. J. Hyndman, and R. Wickham, `A Grammar of Spatiotemporal Data Transformation`, *Journal of Computational and Graphical Statistics* 27(2), 2018. key와 index를 분리해 시간 데이터를 읽는 원리를 제공하므로, `무엇을 묶을 수 있는가`, `시간/순서 열이 있는가`를 먼저 점검해야 한다는 판단을 보강합니다. [https://doi.org/10.1080/10618600.2017.1371377](https://doi.org/10.1080/10618600.2017.1371377){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance와 traceability를 함께 다루므로, 이상 사례가 보일 때 다시 돌아갈 원시 근거를 초기에 적어 두어야 한다는 이 절의 마지막 점검 항목을 지지합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

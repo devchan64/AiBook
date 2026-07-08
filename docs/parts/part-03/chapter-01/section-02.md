@@ -84,3 +84,9 @@ flowchart TD
 이 여섯 항목은 뒤 설명을 대신하는 목록이 아니라, 뒤 설명이 흔들리지 않게 붙잡아 주는 순서 기준입니다. 어느 한 단계가 비면 그다음 단계도 함께 모호해지기 쉽기 때문에, Part 3에서는 `질문 -> 샘플 -> 표 -> 특징과 기준선 -> 출력 구조 -> 해석 경계`의 맞물림을 먼저 잡아 두는 편이 안전합니다.
 
 같은 이유로 Part 3은 `데이터과학을 배우는 중`이라는 감각보다 `학습 가능한 데이터 문제를 설계하는 중`이라는 감각으로 읽어야 합니다. 이 관점이 서면 뒤에서 나올 샘플 설계, 요약 표, 특징 설계, 기준선 비교도 흩어진 기법이 아니라 하나의 문제 설정 절차로 읽히기 시작합니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `feature engineering`, `label`, `label leakage`. example, feature, label의 역할이 따로 정해져야 한다고 설명하므로, 질문-샘플-표-특징-출력 구조를 순서 있게 맞물려 읽어야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. identifying an object와 derivation을 함께 남겨야 한다고 정리하므로, 샘플 단위와 파생 표, 결과 구조가 어떤 단계로 만들어졌는지 순서 있게 설명 가능해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 데이터 선택, 전처리, 변환, 해석이 함께 이어지는 더 넓은 흐름을 설명하므로, Part 3이 그중 `학습 전 문제 구조`를 순서 있게 고정하는 구간이라는 일반 배경을 제공합니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

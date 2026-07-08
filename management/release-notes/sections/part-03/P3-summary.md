@@ -5,6 +5,15 @@
 
 ### v2026.07.08-4
 
+- 변경 이유: Part 마무리 페이지가 여전히 9개 Chapter 역할표와 별도 결과 구조표를 유지해, summary보다 세부 spine 반복으로 읽히는 밀도가 남아 있었다.
+- 본문 반영: Chapter 단위 표를 `역할과 순서 고정 / 비교 구조 재구성 / 해석과 문제 마감`의 3단계 표로 줄이고, 별도 결과 구조표는 한 문장 요약으로 흡수해 마무리 페이지를 `무엇이 남는가` 중심으로 다시 압축했다.
+
+- 변경 이유: Part 마무리 페이지가 Chapter 흐름을 다시 길게 되풀이해, summary라기보다 세부 spine 재전개처럼 읽히는 구간이 남아 있었다.
+- 본문 반영: `핵심 흐름` 목록을 `저장 구조와 문제 표현 구조 구분 -> 비교 가능한 표 재구성 -> 해석 경계와 문제 유형 구분 -> 입력/결과 경계 마감`의 네 줄로 압축해, 요약 페이지 역할에 맞게 정리했다.
+
+- 변경 이유: Part 3 요약 페이지가 커리큘럼 마감 논리를 설명하지만 `출처와 참고 자료`가 없어, 특징/결과 후보 구분과 재현성 전제가 어떤 일반 원리 위에 서 있는지 본문 끝에서 바로 회수되지 않았다.
+- 본문 반영: NASEM의 `Data Science for Undergraduates`, Google ML Glossary, W3C PROV를 `출처와 참고 자료`에 추가해, Part 3이 남기는 최소 전제를 데이터과학 일반 원리와 연결했다.
+
 - 변경 이유: Part 마무리 페이지가 요약보다 `Part 4·5 인계`를 다시 설명하는 비중이 커, summary보다 handoff 메모처럼 읽히는 문제가 남아 있었다.
 - 본문 반영: Chapter 역할 표와 핵심 흐름, 대표 결과 구조를 `문제 구조 마감` 중심으로 정리하고, 뒤 Part 인계 문장은 현재 Part에서 남는 구조와 최소 전제로 압축했다.
 - 번역 동기화 메모: keep the summary focused on retained structures and minimal closure conditions, not on detailed handoff planning to later parts. / pending

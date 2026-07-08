@@ -87,3 +87,9 @@ flowchart TD
 
 
 좋은 데이터 질문은 `말을 예쁘게 쓰는 문장`이 아니라, 뒤의 표 구조와 비교 구조를 결정하는 최소 설계 문장입니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label`, `label leakage`. example와 label의 결합 단위를 먼저 정해야 한다고 설명하므로, 데이터 질문 안에 샘플 단위와 결과 구조가 함께 드러나야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 기준 기간(reference period)이라는 일반 개념을 제공하므로, 좋은 데이터 질문이 `무엇을 무엇과 비교할 것인가`를 함께 드러내야 한다는 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 문제 정의와 데이터 준비를 분리하지 않는 더 넓은 지식 발견 흐름을 설명하므로, 데이터 질문이 바로 뒤의 표 구조와 비교 구조를 여는 출발점이라는 일반 배경이 됩니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
