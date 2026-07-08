@@ -714,6 +714,10 @@ plugins:
                         - "P1-15.1 偏见(bias)、安全性(safety)、责任(accountability)": zh/parts/part-01/chapter-15/section-01.md
                         - "P1-15.2 版权(copyright)与训练数据(training data)": zh/parts/part-01/chapter-15/section-02.md
                         - "P1-15.3 安全(security)与隐私(privacy)": zh/parts/part-01/chapter-15/section-03.md
+                    - Chapter 16. 实际应用案例:
+                        - "P1-16.1 个人学习(personal learning)与文档化(documentation)": zh/parts/part-01/chapter-16/section-01.md
+                        - "P1-16.2 工作自动化(work automation)与搜索(search)": zh/parts/part-01/chapter-16/section-02.md
+                        - "P1-16.3 如何通过项目(project)来验证": zh/parts/part-01/chapter-16/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
