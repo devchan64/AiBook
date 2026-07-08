@@ -2,7 +2,7 @@
 
 작성일: 2026-07-05
 
-이 디렉터리는 `management/release-notes/` 아래에서 책 본문 문서의 버전 코드와 개정 이력을 관리한다. 여기서 책 본문 문서는 Section 본문과 Part 시작/마무리 페이지를 뜻한다. 목적은 다음 세 가지다.
+이 디렉터리는 `management/release-notes/` 아래에서 책 본문 문서의 버전 코드와 개정 이력을 관리한다. 여기서 책 본문 문서는 Section 본문, Part 시작/마무리 페이지, 그리고 `docs/index.md`, `docs/book/table-of-contents.md` 같은 공개 진입 문서를 뜻한다. 목적은 다음 세 가지다.
 
 - Section별 변경 이력과 Part 진입/마무리 페이지 개정 이력을 남겨 이후 회고, 검토, 번역 동기화에 재사용할 수 있게 한다.
 - 다국어 본문이 생겼을 때 원문과 번역본의 대응 버전을 추적할 수 있게 한다.
@@ -46,6 +46,7 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 - 파일은 `management/release-notes/sections/part-XX/` 아래에 둔다.
 - 파일명은 기본적으로 `Px-y.z.md` 형식을 사용한다.
 - Part 시작 페이지와 Part 마무리 페이지는 각각 `Px-index.md`, `Px-summary.md` 형식을 사용한다.
+- Part 바깥의 공개 진입 문서는 별도 하위 폴더를 두고 관리할 수 있다. 현재 소개 페이지와 독자용 목차 설명 페이지는 `book/` 아래에서 관리한다.
 - 예:
   - `management/release-notes/sections/part-05/P5-11.1.md`
   - `management/release-notes/sections/part-06/P6-15.2.md`
@@ -85,13 +86,25 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 - Part 시작 페이지와 Part 마무리 페이지도 현재 기본 릴리즈노트 대상에 포함한다.
 - 개요/마무리 페이지는 `Section ID` 대신 `P6-index`, `P6-summary`처럼 Part 단위 식별자를 사용해 추적한다.
 
+## 공개 진입 문서 운영
+
+- `docs/index.md`와 `docs/book/table-of-contents.md` 같은 공개 진입 문서도 릴리즈노트 대상에 포함한다.
+- 이 문서들은 Part 번호 대신 공통 `Section ID`를 사용한다.
+  - 소개 페이지: `BOOK-index`
+  - 독자용 목차 설명 페이지: `BOOK-toc`
+- 대응 릴리즈노트 파일은 `management/release-notes/sections/book/` 아래에 둔다.
+- 영어판과 다른 언어판이 추가되어도 같은 `Section ID`를 유지하고 공통 릴리즈노트에서 추적한다.
+
 ## 번역본 대응 원칙
 
 - 번역본이 생기면 `Section ID`는 동일하게 유지한다.
+- 기존 번역본이 있으면, 대응 한국어 원문의 현재 `Version`과 번역본의 `Version`을 먼저 비교해 업데이트 필요 여부를 판단한다.
 - 릴리즈노트에는 다음을 구분해 남긴다.
   - 원문 기준 버전
   - 번역 반영 상태
   - 번역만 따로 손본 부분
+- 한국어 원문의 `Version`이 번역본보다 앞서면 `향후 반영 필요` 또는 그에 준하는 갱신 필요 상태를 남긴다.
+- 번역본과 한국어 원문의 `Version`이 같아도, 같은 날짜 안에서 추가 수정이 있었을 수 있으므로 최신 릴리즈노트 항목의 `번역 동기화 메모`와 `원문 기준 버전`을 함께 확인한다.
 - 공용 자산 수정 여부도 함께 남긴다.
 - 번역본을 아직 만들지 않았더라도, 나중에 번역 동기화를 판단할 수 있게 `번역 동기화 메모`는 비워 두지 않고 최소 판단을 남긴다.
 

@@ -248,6 +248,7 @@ nav:
               - "P3-7.2 비교표를 사람 검토 문장으로 어떻게 읽는가": parts/part-03/chapter-07/section-02.md
               - "P3-7.3 기준선 비교와 기준 모델은 왜 다른데 둘 다 필요한가": parts/part-03/chapter-07/section-03.md
               - "P3-7.4 기준선은 어떤 구간과 조건으로 잡아야 하는가": parts/part-03/chapter-07/section-04.md
+              - "P3-7.5 기준선은 고정해야 하는가, 최근 평소 기준으로 갱신해야 하는가": parts/part-03/chapter-07/section-05.md
       - Module 4. 해석 경계:
           - Chapter 8. 표본 수와 반복성은 어떻게 읽는가:
               - "P3-8.1 해석 강도는 무엇으로 조절하는가": parts/part-03/chapter-08/section-01.md
@@ -552,6 +553,7 @@ plugins:
           nav:
             - Start:
                 - Introduction: en/index.md
+                - Table of Contents: en/book/table-of-contents.md
                 - Concept Glossary: en/reference/concept-glossary.md
             - Part 1. Introduction to AI and the Landscape:
                 - Overview: en/parts/part-01/index.md
