@@ -214,6 +214,24 @@ Google의 클러스터링 설명도 라벨 없는 예시를 유사도(similarity
 
 확인 가능한 결과는 묶음과 축이 실제 검토 질문을 만드는지로 볼 수 있습니다. 예를 들어 비슷한 구매 패턴의 고객이 몇 그룹으로 나뉘고, 그 차이를 사람이 설명할 수 있다면 비지도학습 결과가 다음 분석 단계의 출발점이 됩니다.
 
+```mermaid
+flowchart TD
+  A["customer behavior table"]
+  B["no labels yet"]
+  C["look for similar patterns"]
+  D["group candidates appear"]
+  E["outlier or reduced-view hints appear"]
+  F["human interpretation comes later"]
+  G["use the result for the next analysis question"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  D --> F
+  E --> F
+  F --> G
+```
+
 ## 언제 이 관점을 먼저 떠올려야 하는가
 
 - 정답 라벨이 없는 상태에서 구조 후보를 먼저 찾아야 할 때 비지도학습 관점을 떠올립니다.

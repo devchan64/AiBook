@@ -195,6 +195,19 @@ flowchart TD
 
 확인 가능한 결과는 정책 비교에서 드러납니다. 클릭률만 높은 정책과 장기 구매 보상이 더 큰 정책이 다르게 나타난다면, 이미 이 문제는 단순 분류보다 순차적 의사결정과 보상 설계 문제에 더 가깝습니다.
 
+```mermaid
+flowchart TD
+  A["user state"]
+  B["choose a coupon action"]
+  C["observe immediate click"]
+  D["observe later purchase or return"]
+  E["combine them into reward design"]
+  F["update the policy"]
+  G["compare short-term and long-term policies"]
+
+  A --> B --> C --> D --> E --> F --> G
+```
+
 ## 언제 이 관점을 먼저 떠올려야 하는가
 
 - 한 번의 입력과 정답 맞히기보다 시간에 따라 행동과 보상을 누적해 읽어야 하는 문제를 만났을 때 강화학습 관점을 먼저 떠올립니다.

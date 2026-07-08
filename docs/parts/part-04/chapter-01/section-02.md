@@ -263,6 +263,21 @@ scikit-learn의 기본 사용 흐름도 이 구조와 비슷합니다. 모델 �
 
 확인 가능한 결과는 새 문의 평가에서 드러납니다. 규칙 기반 분류는 단어가 조금만 바뀌어도 놓칠 수 있지만, 학습 기반 모델은 과거 사례에서 비슷한 패턴을 배웠다면 더 안정적으로 예측할 수 있습니다. 반대로 학습 데이터만 잘 맞고 새 문의에서 자주 틀리면, 아직 일반화가 부족한 상태입니다.
 
+```mermaid
+flowchart TD
+  A["customer inquiry"]
+  B["match a hand-written keyword rule"]
+  C["phrasing changes or mixed intent appears"]
+  D["rule path becomes brittle"]
+  E["collect labeled past inquiries"]
+  F["learn input-label relation"]
+  G["test on unseen inquiries"]
+  H["decide whether generalization is good enough"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G --> H
+```
+
 ## 이 절에서 기억할 관점
 
 - 규칙 기반 접근은 사람이 판단 기준을 직접 작성하는 방식입니다.
