@@ -690,6 +690,10 @@ plugins:
                         - "P1-10.1 分类(classification)、预测(prediction)与生成(generation)的区别": zh/parts/part-01/chapter-10/section-01.md
                         - "P1-10.2 生成下一个输出(next-output generation)的直觉": zh/parts/part-01/chapter-10/section-02.md
                         - "P1-10.3 生成结果(output)的质量(quality)与风险(risk)": zh/parts/part-01/chapter-10/section-03.md
+                    - Chapter 11. LLM 的直接谱系:
+                        - "P1-11.1 统计语言模型(statistical language model)与嵌入(embedding)": zh/parts/part-01/chapter-11/section-01.md
+                        - "P1-11.2 RNN、Seq2Seq 与 Attention": zh/parts/part-01/chapter-11/section-02.md
+                        - "P1-11.3 Transformer 与预训练 LLM(pretrained LLM)": zh/parts/part-01/chapter-11/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
