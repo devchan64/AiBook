@@ -682,6 +682,10 @@ plugins:
                         - "P1-8.1 监督学习：输入与标签": zh/parts/part-01/chapter-08/section-01.md
                         - "P1-8.2 无监督学习：结构与表征": zh/parts/part-01/chapter-08/section-02.md
                         - "P1-8.3 强化学习：动作与奖励": zh/parts/part-01/chapter-08/section-03.md
+                    - Chapter 9. 深度学习与最初的转折点:
+                        - "P1-9.1 图像识别与表征学习": zh/parts/part-01/chapter-09/section-01.md
+                        - "P1-9.2 目标检测与语音生成案例": zh/parts/part-01/chapter-09/section-02.md
+                        - "P1-9.3 区分 LLM 的直接谱系与周边证据": zh/parts/part-01/chapter-09/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
