@@ -306,7 +306,8 @@ nav:
           - Chapter 7. 특징 선택과 전처리 휴리스틱:
               - "P4-7.1 특징 선택(feature selection)": parts/part-04/chapter-07/section-01.md
               - "P4-7.2 전처리(preprocessing)": parts/part-04/chapter-07/section-02.md
-              - "P4-7.3 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법": parts/part-04/chapter-07/section-03.md
+              - "P4-7.3 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가": parts/part-04/chapter-07/section-03.md
+              - "P4-7.4 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법": parts/part-04/chapter-07/section-04.md
           - Chapter 8. 모델 선택 휴리스틱:
               - "P4-8.1 모델 선택(model selection)": parts/part-04/chapter-08/section-01.md
               - "P4-8.2 기준 모델(baseline)": parts/part-04/chapter-08/section-02.md
