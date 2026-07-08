@@ -3,7 +3,7 @@
 > Section ID: `P3-9.3`
 > Version: `v2026.07.08`
 
-앞 절까지 읽으면 `[비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report)로 남긴다`, `[검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue)를 고른다`, `예측 문제로 넘긴다`는 말은 이해되더라도, 실제 표가 어떻게 달라지는지는 아직 흐릿할 수 있습니다. 특히 어려운 지점은 여기입니다. 같은 원천데이터를 보고 있는데 왜 어떤 때는 비교 문장과 차이값 표가 나오고, 어떤 때는 검토 우선순위 큐가 나오며, 어떤 때는 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표가 따로 생기는지 한 번에 잡기 어렵기 때문입니다.
+같은 사건 목록도 목적에 따라 [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표로 달라집니다. 어떤 표는 비교 문장과 차이값을 앞세우고, 어떤 표는 검토 우선순위를 앞세우며, 어떤 표는 입력 열과 결과 후보 열 구분을 앞세웁니다.
 
 이 절에서는 목표 라벨 후보(target candidate)를 아직 확정 정답으로 굳지 않았더라도, 입력 열과 결과 열을 가르는 문제 구조 안에서 결과 후보로 세워 보는 준비 열로 읽습니다.
 
