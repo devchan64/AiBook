@@ -49,33 +49,9 @@ flowchart TD
 
 여기서 `2.10`이나 `2.30`만 따로 보면 큰 의미를 말하기 어렵습니다. 하지만 같은 조건의 기준선과 함께 놓으면 `type-A는 평소보다 낮아졌다`, `type-B는 거의 비슷하다`처럼 비교 문장이 생깁니다.
 
-```python
-import pandas as pd
+여기서 먼저 읽어야 할 것은 `diff`입니다. 하지만 그 차이값도 기준선이 있어야만 계산됩니다. 즉 기준선은 비교 후에 덧붙는 부가 정보가 아니라, 애초에 비교 열을 만들기 위해 필요한 전제입니다.
 
-comparison = pd.DataFrame(
-    [
-        {"process_type": "type-A", "recent_mid_flow": 2.10, "baseline_mid_flow": 2.45, "recent_count": 20},
-        {"process_type": "type-B", "recent_mid_flow": 2.30, "baseline_mid_flow": 2.28, "recent_count": 18},
-    ]
-)
-comparison["diff"] = comparison["recent_mid_flow"] - comparison["baseline_mid_flow"]
-
-print("1) comparison table appears only after recent and baseline meet")
-print(comparison)
-```
-
-예상 출력:
-
-```text
-1) comparison table appears only after recent and baseline meet
-  process_type  recent_mid_flow  baseline_mid_flow  recent_count  diff
-0       type-A             2.10               2.45            20 -0.35
-1       type-B             2.30               2.28            18  0.02
-```
-
-이 출력에서 먼저 읽어야 할 것은 `diff`입니다. 하지만 그 차이값도 기준선이 있어야만 계산됩니다. 즉 기준선은 비교 후에 덧붙는 부가 정보가 아니라, 애초에 비교 열을 만들기 위해 필요한 전제입니다.
-
-이 예제는 아래 순서로 보면 기준선이 비교 열의 전제라는 점이 더 분명해집니다.
+이 비교표는 아래 순서로 보면 기준선이 비교 열의 전제라는 점이 더 분명해집니다.
 
 1. 최근 값과 기준선 값을 따로 볼 때는 무엇을 말하기 어려운지 본다.
 2. `diff`가 생기자마자 어떤 비교 문장을 만들 수 있게 되는지 본다.
@@ -93,17 +69,10 @@ print(comparison)
 
 이 표의 핵심은 기준선이 `추가 참고 수치`가 아니라, 변화 여부를 말하기 위한 비교 전제라는 점입니다.
 
-## 일반화된 상위 프레임으로 다시 보면
-
 이 절은 기준선 용어 소개가 아니라, `현재 상태를 읽기 위해 어떤 참조 구간을 함께 둘 것인가(reference window for comparison)`의 문제로 다시 볼 수 있습니다.
 
-| 상위 프레임 | 이 절에서의 대응 |
-| --- | --- |
-| 현재 상태 | recent window |
-| 참조 구간 | baseline window |
-| 비교 결과 | diff, 차이 문장, 검토 후보 |
 
-이 프레임을 쓰면 기준선은 부가 숫자가 아니라, 현재 구조를 단독 값이 아닌 `비교 가능한 상태`로 바꾸는 참조 구간이라는 점이 더 분명해집니다.
+따라서 기준선은 부가 숫자가 아니라, 현재 구조를 단독 값이 아닌 `비교 가능한 상태`로 바꾸는 참조 구간으로 이해해야 합니다.
 
 ## 출처와 참고 자료
 
