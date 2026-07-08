@@ -659,6 +659,11 @@ plugins:
                         - "P1-3.1 规则式系统的优势与限制": zh/parts/part-01/chapter-03/section-01.md
                         - "P1-3.2 从数据中学习模式意味着什么": zh/parts/part-01/chapter-03/section-02.md
                         - "P1-3.3 规则式方法与表征学习": zh/parts/part-01/chapter-03/section-03.md
+                    - Chapter 4. 把现实问题变成模型:
+                        - "P1-4.1 先熟悉 model 这个词": zh/parts/part-01/chapter-04/section-01.md
+                        - "P1-4.2 输入、输出与数据": zh/parts/part-01/chapter-04/section-02.md
+                        - "P1-4.3 特征、表征与参数": zh/parts/part-01/chapter-04/section-03.md
+                        - "P1-4.4 问题定义如何决定模型": zh/parts/part-01/chapter-04/section-04.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
