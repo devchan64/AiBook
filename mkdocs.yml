@@ -673,6 +673,11 @@ plugins:
                         - "P1-6.1 信息不完整且例外很多的问题": zh/parts/part-01/chapter-06/section-01.md
                         - "P1-6.2 区分概率、不确定性与随机过程": zh/parts/part-01/chapter-06/section-02.md
                         - "P1-6.3 AI 在哪些地方使用概率性判断": zh/parts/part-01/chapter-06/section-03.md
+                    - Chapter 7. 搜索与启发式:
+                        - "P1-7.1 搜索空间与计算极限": zh/parts/part-01/chapter-07/section-01.md
+                        - "P1-7.2 启发式到底减少了什么": zh/parts/part-01/chapter-07/section-02.md
+                        - "P1-7.3 启发式与概率模型的差异": zh/parts/part-01/chapter-07/section-03.md
+                        - "P1-7.4 补充学习：从路径寻找走向自动驾驶路径规划": zh/parts/part-01/chapter-07/section-04.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
