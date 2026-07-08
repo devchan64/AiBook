@@ -576,6 +576,10 @@ plugins:
                         - "P1-4.2 Input, Output, and Data": en/parts/part-01/chapter-04/section-02.md
                         - "P1-4.3 Features, Representations, and Parameters": en/parts/part-01/chapter-04/section-03.md
                         - "P1-4.4 How Problem Definition Determines the Model": en/parts/part-01/chapter-04/section-04.md
+                    - Chapter 5. Learning, Execution, and Inference:
+                        - "P1-5.1 What Does Learning Change?": en/parts/part-01/chapter-05/section-01.md
+                        - "P1-5.2 What Does Model Execution Run?": en/parts/part-01/chapter-05/section-02.md
+                        - "P1-5.3 Confusion Around the Korean Word for Inference": en/parts/part-01/chapter-05/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
