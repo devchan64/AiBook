@@ -3,6 +3,15 @@
 - Section ID: `P3-index`
 - Source File: `docs/parts/part-03/index.md`
 
+### v2026.07.08
+
+- 변경 이유: Part 시작 페이지가 오버뷰보다 `Part 4·5 인계 설계`를 반복해, 독자용 안내보다 집필 설계 메모처럼 읽히는 문제가 남아 있었다.
+- 본문 반영: 뒤 Part 인계 문장을 줄이고, Part 3의 목적, 범위, 9개 Chapter 흐름, 현재 Part에서 닫는 문제 구조를 중심으로 다시 정리했다. 마지막 Chapter와 요약 표의 명칭도 `문제 유형 구분`과 `입력/결과 경계` 중심으로 조정했다.
+- 번역 동기화 메모: keep the overview centered on Part 3's scope and flow, with only a brief high-level bridge to later learning sections. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.08`
+
 ### v2026.07.07-32
 
 - 변경 이유: Part 3 시작 페이지가 반복 질문 축과 뒤 Part 연결을 지나치게 길게 나열해, 오버뷰보다 설계 메모처럼 읽히는 문제가 남아 있었다.

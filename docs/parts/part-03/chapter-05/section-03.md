@@ -1,7 +1,7 @@
 # P3-5.3 원시 시계열이 있어도 왜 바로 학습 입력이라고 말할 수 없는가
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 원시 시계열을 보면 많은 독자가 이렇게 생각합니다. `값도 많고 순서도 있으니, 이걸 그냥 순차 학습 입력으로 넘기면 되지 않을까?` 실제로 뒤 Part에서는 시계열 입력과 순차 구조를 배우게 되므로, 이 생각은 더 자연스럽게 떠오릅니다. 하지만 Part 3에서는 여기서 한 번 멈춰야 합니다. 원시 시계열이 있다는 사실만으로 아직 `바로 학습 입력이 준비되었다`고 말할 수는 없기 때문입니다.
 
@@ -77,13 +77,22 @@
 
 즉 `원시 시계열이 있다 -> 바로 학습 입력이다`가 아니라, `원시 시계열이 있다 -> 어떤 입력 구조로 바꿀지 결정한다`가 올바른 순서입니다.
 
-## 뒤 Part와의 연결
+이 질문이 먼저 닫혀 있어야, 나중에 더 긴 시계열 입력을 읽더라도 `구조 이름`보다 `왜 이런 입력 구조가 필요한가`를 먼저 보게 됩니다. 즉 이 절에서 붙잡아야 하는 것은 모델 종류가 아니라, 원시 시계열을 곧바로 입력이라고 부르기 전에 샘플 경계, 구간 기준, 목표 구조를 먼저 정해야 한다는 순서입니다.
 
-이 절은 Part 5의 세부 모델 설명을 미리 대신하지는 않습니다. 다만 뒤에서 순차 구조나 표현 학습을 읽을 때도, 여전히 아래 질문이 먼저 필요하다는 점을 미리 고정합니다.
+## 일반화된 상위 프레임으로 다시 보면
 
-- 한 입력은 어디서 시작하고 끝나는가
-- 어떤 길이나 구간을 같은 입력으로 볼 것인가
-- 요약 표와 원시 시계열 중 지금 문제에 더 직접적인 표현은 무엇인가
+이 절은 원시 시계열 사용 경고가 아니라, `입력 구조 명세(input-structure specification)`를 먼저 닫는 문제로 다시 볼 수 있습니다.
 
-이 질문이 먼저 닫혀 있어야 뒤에서 CNN, RNN, Attention 같은 구조를 읽을 때도 `구조 이름`보다 `왜 이런 입력 구조가 필요한가`를 먼저 보게 됩니다.
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 샘플 경계 | 한 입력이 어디서 시작하고 끝나는가 |
+| 길이/구간 규칙 | 어느 길이와 어느 구간 기준으로 자를 것인가 |
+| 목표 구조 | 무엇을 결과로 둘 것인가 |
 
+이 프레임을 잡아 두면 원시 시계열이 바로 학습 입력이 아니라는 말은 `데이터가 부족하다`는 뜻보다 `입력 구조의 경계와 목적이 아직 명세되지 않았다`는 뜻이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의된 구조이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 샘플의 경계와 결과 열을 먼저 정해야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 입력 구조와 목표 구조를 먼저 정하지 않으면 원시 시계열 일부를 잘못된 입력으로 그대로 넘길 위험이 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 identifying an object, derivation, reproducibility를 지원해야 한다고 정리하므로, 입력 길이와 구간 규칙도 어떤 구조로 만들어졌는지 재현 가능하게 남겨야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

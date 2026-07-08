@@ -89,3 +89,20 @@
 
 이 네 줄을 적고 나면 `지금 하는 일이 저장 구조 확인인지, 데이터셋 설계인지`가 분명해집니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 파일을 다시 만드는 절차가 아니라, `질문 맞춤 표 재설계(question-aligned table redesign)`를 어떤 기준으로 할 것인가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 분석 단위 선택 | 동작 1회, 최근 구간, 세부 시점 중 무엇을 한 행으로 둘 것인가 |
+| 열 역할 재선정 | 어떤 열을 요약 feature, 비교 열, 결과 열로 둘 것인가 |
+| 목적별 표 분리 | 비교 리포트용, 검토용, 예측 후보용 표를 구분 |
+
+이 프레임을 잡아 두면 데이터셋 재설계는 `표를 많이 만든다`는 뜻보다, 질문이 바뀔 때 행의 뜻과 열의 역할을 다시 정렬하는 일이라는 점이 더 선명해집니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. provenance framework가 representing processing steps, derivation, versioning을 지원해야 한다고 정리하므로, 같은 원천데이터에서도 목적에 따라 어떤 변환을 거쳐 어떤 표를 만들었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label 구조를 전제로 하므로, 질문에 따라 한 행의 뜻과 결과 열의 역할이 달라질 때 표도 다시 설계해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간 비교표처럼 무엇을 기준 묶음으로 둘지에 따라 표 구조가 달라질 수 있다는 점을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

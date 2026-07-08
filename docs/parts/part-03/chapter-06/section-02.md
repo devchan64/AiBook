@@ -1,7 +1,7 @@
 # P3-6.2 특징만으로 부족할 때 어떤 중간 표현을 더 둘 수 있는가
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 평균, 기울기, 변동성 같은 특징은 좋은 출발점이 됩니다. 하지만 어떤 경우에는 숫자 몇 개만으로는 구간별 구조를 충분히 설명하기 어렵습니다. 예를 들어 초반에는 천천히 오르고, 중반에는 평평하게 유지되다가, 후반에는 빠르게 떨어지는 패턴이 있다고 하겠습니다. 이런 구조를 숫자 두세 개로만 남기면 사람이 다시 읽을 때도 아쉽고, 모델이 비교할 때도 중요한 모양 차이를 놓칠 수 있습니다. 그래서 Part 3에서는 숫자 특징만으로 부족할 때 `중간 표현`을 하나 더 둘 수 있다는 점을 함께 봅니다.
 
@@ -94,3 +94,19 @@ print("2) tokens after tokenization:", tokens)
 
 즉 숫자 특징과 중간 표현은 경쟁 관계가 아니라, 무엇을 더 잘 보이게 할지에 따라 나누어 쓰는 도구입니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 특정 토큰 규칙 소개가 아니라, `원시 구조와 요약 특징 사이에 어떤 중간 표현을 둘 것인가(intermediate representation between raw structure and summarized features)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 원시 구조 보존 | 원시 곡선을 그대로 두어 가장 많은 정보를 유지 |
+| 중간 표현 설계 | 세그먼트 표현, `UP`/`FLAT`/`DOWN` 같은 기호열 |
+| 요약 특징 설계 | 평균, 기울기, 변동성처럼 비교용 숫자 특징 |
+
+이 프레임을 잡아 두면 토큰화는 독립 기법처럼 보이기보다, 원시 로그를 그대로 둘지 너무 강하게 요약할지 사이에서 `구조를 어느 해상도로 남길지` 정하는 선택으로 읽힙니다.
+
+## 출처와 참고 자료
+
+- TensorFlow, `Subword tokenizers`. subword tokenizer를 word-based tokenization과 character-based tokenization 사이를 잇는 표현으로 설명하므로, Part 3의 세그먼트 토큰도 원시 로그와 강한 요약 사이에 놓이는 중간 표현이라는 일반화된 관점을 설명하는 데 참고할 수 있습니다. 여기서 시계열 토큰화와 직접 동일시하는 부분은 이 공식 설명을 바탕으로 한 유비적 적용입니다. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformations를 결정하는 과정으로 설명하므로, 중간 표현도 원시 값을 그대로 두지 않고 비교와 학습에 도움이 되는 형태로 바꾸는 변환이라는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

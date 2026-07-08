@@ -580,6 +580,10 @@ plugins:
                         - "P1-5.1 What Does Learning Change?": en/parts/part-01/chapter-05/section-01.md
                         - "P1-5.2 What Does Model Execution Run?": en/parts/part-01/chapter-05/section-02.md
                         - "P1-5.3 Confusion Around the Korean Word for Inference": en/parts/part-01/chapter-05/section-03.md
+                    - Chapter 6. Uncertainty and Probabilistic Thinking:
+                        - "P1-6.1 Problems with Incomplete Information and Many Exceptions": en/parts/part-01/chapter-06/section-01.md
+                        - "P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes": en/parts/part-01/chapter-06/section-02.md
+                        - "P1-6.3 Where Probabilistic Judgment Is Used in AI": en/parts/part-01/chapter-06/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en

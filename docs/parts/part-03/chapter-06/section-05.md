@@ -1,7 +1,7 @@
 # P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 특징을 몇 개 만들고 나면 다시 이런 혼동을 겪기 쉽습니다. `값이 큰 열이 더 중요한가?`, `초 단위와 압력 단위를 같은 표에 둬도 되는가?`, `평균이 200인 열과 0.2인 열을 그냥 나란히 비교해도 되는가?` Part 4에서 전처리(preprocessing)와 스케일(scale)을 더 본격적으로 다루기 전에, Part 3에서는 먼저 이 혼동을 줄이는 기초 감각을 잡아 둘 필요가 있습니다.
 
@@ -155,9 +155,7 @@ print(role_table)
 3    late_drop_rate       change  delta from baseline
 ```
 
-이 예시에서 중요한 것은 숫자의 절대 크기가 아니라, 각 열이 맡는 역할과 같은 열 안에서의 변화입니다. 1단계만 보면 `101.2`가 커 보이고 `0.18`은 작아 보일 수 있지만, 2단계에서 기준선 대비 변화를 보면 `flow_std_delta=0.15`는 오히려 큰 흔들림 증가일 수 있고, `pressure_delta=0.2`는 작은 수준 차이일 수 있습니다. 그래서 이 절의 핵심은 `큰 숫자`보다 `같은 역할의 같은 열을 어떻게 비교하는가`를 먼저 읽는 데 있습니다.
-
-## Part 4와는 어떻게 연결되는가
+이 예시에서 중요한 것은 숫자의 절대 크기가 아니라, 각 열이 맡는 역할과 같은 열 안에서의 변화입니다. 1단계만 보면 `101.2`가 커 보이고 `0.18`은 작아 보일 수 있지만, 2단계에서 기준선 대비 변화를 보면 `flow_std_delta=0.15`는 오히려 큰 흔들림 증가일 수 있고, `pressure_delta=0.2`는 작은 수준 차이일 수 있습니다. 그래서 `큰 숫자`보다 `같은 역할의 같은 열을 어떻게 비교하는가`를 먼저 읽는 데 있습니다.
 
 Part 4에서는 전처리, 스케일 조정, 거리와 크기 해석을 더 본격적으로 다룹니다. 하지만 그 전에 Part 3에서 먼저 잡아야 하는 것은 `왜 서로 다른 단위와 범위의 특징을 그냥 한 숫자 모음처럼 읽으면 안 되는가`입니다.
 
@@ -169,9 +167,22 @@ Part 4에서는 전처리, 스케일 조정, 거리와 크기 해석을 더 본�
 
 그 다음 Part 4에서야 `어떻게 스케일을 맞추고`, `왜 어떤 학습 방식은 크기 차이에 더 민감한가`를 더 구체적으로 읽을 수 있습니다.
 
-## 한 문장으로 묶기
-
-이 절에서 붙잡아야 할 문장은 다음과 같습니다.
-
 `특징 표의 숫자들은 모두 같은 종류의 크기를 말하지 않으므로, 단위와 역할을 먼저 적고 같은 열의 기준선 대비 변화로 읽어야 한다.`
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 스케일 공식 소개가 아니라, `서로 다른 측정 축을 한 작업 표 안에서 어떻게 역할별로 읽을 것인가(role-aware reading across heterogeneous scales)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 측정 축 구분 | 시간, 수준, 변동성, 변화율 |
+| 역할별 비교 | 같은 열의 기준선 대비 변화로 읽기 |
+| 해석 분리 | 큰 숫자와 중요한 숫자를 같은 뜻으로 보지 않기 |
+
+이 프레임을 쓰면 특징 표는 숫자 크기 경쟁표가 아니라, 서로 다른 측정 축을 역할별로 나란히 두고 읽는 구조라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 prediction에 쓰는 input variable로 설명하므로, 특징은 숫자 크기 자체보다 무엇을 입력 변수로 재고 있는지가 먼저 중요하다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. 원시 데이터를 학습에 더 유용한 형태로 바꾸는 과정을 설명하므로, 시간 길이, 수준, 변동성, 변화율처럼 서로 다른 역할의 특징을 구분해 읽어야 한다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 비교는 같은 항목을 기준 시점과 나란히 놓을 때 성립한다는 일반 reference 개념을 제공하므로, 서로 다른 특징끼리 직접 크기 비교하기보다 같은 열의 기준선 대비 변화로 읽어야 한다는 설명에 참고할 수 있습니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

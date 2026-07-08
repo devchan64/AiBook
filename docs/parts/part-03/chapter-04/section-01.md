@@ -226,3 +226,20 @@ window aggregates: 2
 
 이 절을 읽고 실제로 남겨야 할 가장 짧은 판단은 다음 한 줄입니다. `비교 가능한 샘플은 데이터가 먼저 정해 주는 것이 아니라, 질문이 요구하는 비교 단위와 그 위에 올릴 특징·라벨 구조가 함께 정한다.` 이 기준이 잡혀야 다음 절에서 샘플 단위가 흔들릴 때 왜 후속 구조 전체가 같이 흔들리는지도 자연스럽게 이어집니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 행 의미 설명이 아니라, `분석 단위 결정(choosing the analytical unit)`을 어떤 기준으로 할 것인가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 관측 단위 | 시점 기록 한 줄 |
+| 분석 단위 | 동작 1회 샘플 |
+| 집계 단위 | 최근 구간, 기준선 구간 |
+
+이 프레임을 잡아 두면 `샘플 1건`을 정한다는 말은 행 개수를 다시 세는 일이 아니라, 관측 단위와 집계 단위 사이에서 어떤 대상을 비교 가능한 분석 단위로 둘지 결정하는 일이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 시점 기록, 동작 1회, 최근 구간처럼 서로 다른 단위를 구분해 어떤 대상을 분석 단위로 삼았는지 설명 가능해야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 자연스럽게 붙는 단위여야 하므로, 시점 행이 아니라 동작 1회처럼 특징과 결과가 함께 놓이는 단위를 샘플로 삼아야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 기준선 구간과 비교하려면 먼저 무엇을 비교 단위로 둘지 정해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

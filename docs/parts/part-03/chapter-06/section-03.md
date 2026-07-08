@@ -1,7 +1,7 @@
 # P3-6.3 사람이 만든 특징과 뒤에서 학습될 표현은 어떻게 이어지는가
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 Part 3에서 특징(feature)과 중간 표현을 길게 다루면, 곧 이런 질문이 나옵니다. `뒤에서 딥러닝이 표현을 학습한다면 지금 사람이 이렇게 특징을 만드는 일은 왜 필요한가?` 이 질문은 아주 중요합니다. 이 지점이 흐려지면 Part 3의 특징 설계가 낡은 전처리처럼 보이거나, 반대로 딥러닝이 모든 문제 구조를 자동으로 해결해 줄 것처럼 오해하기 쉽기 때문입니다.
 
@@ -80,3 +80,20 @@ Part 3에서 특징(feature)과 중간 표현을 길게 다루면, 곧 이런 �
 
 이 순서를 보면 Part 3은 딥러닝 이전의 낡은 준비 단계가 아니라, 뒤의 머신러닝과 딥러닝이 모두 기대는 입력 정의 단계라는 점이 분명해집니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 `사람이 만든 특징 vs 딥러닝`의 대립이 아니라, `입력 명세(input specification)`와 `표현 학습(representation learning)`이 어디서 갈리는가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 입력 명세 | 샘플 경계, 특징 열, 세그먼트 시퀀스를 먼저 정함 |
+| 입력 변환 | 사람이 읽고 모델이 받을 수 있게 표와 시퀀스로 재구성함 |
+| 표현 학습 | 뒤 Part에서 모델이 그 입력 안의 패턴을 더 깊게 조합함 |
+
+이 프레임을 쓰면 Part 3의 특징 설계는 낡은 수작업이 아니라, 뒤의 학습 단계가 기대는 입력 구조를 먼저 명세하는 일로 정리됩니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 prediction에 쓰는 input variable로 설명하므로, 사람이 먼저 무엇을 입력 변수로 남길지 정하는 단계와 뒤의 학습 단계를 구분하는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 원시 데이터를 학습에 더 유용한 형태로 바꾸는 과정으로 설명하므로, Part 3의 특징 설계와 중간 표현 설계가 입력 정의 단계라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- TensorFlow, `Subword tokenizers`. 토큰화된 시퀀스를 token IDs 형태의 모델 입력으로 쓰는 전처리 과정을 보여 주므로, Part 3에서 만든 세그먼트 시퀀스가 `학습된 내부 표현`이 아니라 `모델에 들어가기 전 입력 재표현`이라는 설명을 뒷받침합니다. 이 연결은 공식 전처리 설명을 시계열 예시로 일반화한 해석입니다. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

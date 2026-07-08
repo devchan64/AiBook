@@ -97,3 +97,21 @@ Chapter 4부터는 본격적으로 `한 행`, `샘플 1건`, `최근 구간 1개
 
 즉 이 절은 `질문 문장`과 `샘플/요약 표 설계` 사이의 다리입니다. 질문을 어떻게 표 구조로 옮길지 보이면, 왜 다음 장에서 샘플과 요약 열을 먼저 만드는지도 더 직접적으로 읽힙니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 열 이름 스케치 요령이 아니라, `첫 표 명세(first-table specification)`를 어떤 역할 단위로 적을 것인가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 식별 역할 | sample ID, window ID 같은 샘플 식별 열 |
+| 설명 역할 | feature 후보 열 |
+| 비교 역할 | baseline diff, repeatability 같은 비교 열 |
+| 결과 역할 | review_needed, report_sentence, target_candidate 같은 결과 열 |
+
+이 프레임을 잡아 두면 첫 표 초안은 완성된 컬럼 사전이 아니라, 질문이 요구하는 역할별 열 묶음을 먼저 명세하는 단계라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 feature와 label 구조를 전제로 하므로, 첫 표 초안에서도 식별/설명/결과 역할을 먼저 나눠 두어야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 결과 열과 설명 열의 역할을 초안 단계에서부터 구분해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, baseline diff 같은 비교 역할 열을 별도로 두는 초안이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

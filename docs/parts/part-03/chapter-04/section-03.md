@@ -170,3 +170,20 @@ window count: 2
 
 이 세 질문은 각각 `행`, `샘플`, `구간`을 다시 분리하는 역할을 합니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 용어 구분표가 아니라, `표현 층위(levels of representation)`를 동시에 읽는 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 행 수준 표현 | time-step row |
+| 샘플 수준 표현 | one whole event |
+| 구간 수준 표현 | multiple samples regrouped |
+
+이 프레임을 잡아 두면 `한 행`, `샘플 1건`, `최근 구간 1개`는 이름이 비슷한 세 객체가 아니라, 서로 다른 질문에 답하기 위해 같은 원천데이터를 다른 층위로 다시 표현한 결과라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간과 기준 구간 같은 집계 수준 표현은 sample-level 표현과 다른 비교 층위를 가진다는 점을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 sample-level 구조를 전제로 하므로, row-level record와 window-level aggregate를 sample-level example와 섞어 읽지 말아야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

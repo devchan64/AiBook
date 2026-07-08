@@ -95,7 +95,7 @@ print(
 | 변화 특징 | 구간 차이, 기울기 | 방향과 속도 |
 | 안정성 특징 | 표준편차, 변동성 | 흔들림의 정도 |
 
-이 표는 뒤 절의 세그먼트 표현과도 연결됩니다. 숫자 특징은 구조를 요약하는 첫 단계이고, 토큰화된 표현은 그 구조를 좀 더 사람이 읽기 쉬운 중간 표현으로 바꾸는 다음 단계입니다. 다시 말해 이 절의 중심은 `특징이 무엇인가`를 다시 사전식으로 정의하는 데 있지 않고, 어떤 구조를 숫자 특징으로 남길지 고르는 데 있습니다.
+이 표는 뒤 절의 세그먼트 표현과도 연결됩니다. 숫자 특징은 구조를 요약하는 첫 단계이고, 토큰화된 표현은 그 구조를 좀 더 사람이 읽기 쉬운 중간 표현으로 바꾸는 다음 단계입니다. 다시 말해 `특징이 무엇인가`를 다시 사전식으로 정의하는 데 있지 않고, 어떤 구조를 숫자 특징으로 남길지 고르는 데 있습니다.
 
 특징을 설계할 때는 다음 질문을 계속 확인해야 합니다.
 
@@ -126,3 +126,20 @@ print(
 
 즉 특징은 `열 후보 목록`에서 고르는 것이 아니라, `지금 무엇을 묻고 있는가`를 숫자 표현으로 옮기는 일입니다. 질문이 `전체 수준`에 있으면 수준 특징이 먼저 나오고, 질문이 `형태 변화`에 있으면 구간 차이와 기울기 같은 변화 특징이 먼저 나와야 합니다. 이 연결이 잡혀야 뒤의 기준선 비교에서도 `왜 하필 이 특징을 남겼는가`를 다시 설명할 수 있습니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 특징 목록 소개가 아니라, `구조를 수치 표현으로 옮기는 일(numeric representation of structure)`을 어떤 질문으로 할 것인가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 수준 표현 | 평균, 최댓값 |
+| 변화 표현 | 구간 차이, 기울기 |
+| 안정성 표현 | 표준편차, 변동성 |
+
+이 프레임을 잡아 두면 특징은 `열을 더 많이 추가하는 일`이 아니라, 비교하고 싶은 구조를 수준, 변화, 안정성 같은 수치 표현으로 다시 옮기는 일이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 input variable used to make predictions라고 설명하므로, 어떤 구조를 보여 줄지를 먼저 정한 뒤 그 구조를 입력 변수로 옮겨야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformation을 결정하는 과정으로 설명하므로, 특징 설계는 원시 값을 그대로 두는 일이 아니라 구조를 비교 가능한 숫자 표현으로 바꾸는 일이라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 수준/변화/안정성 특징도 결국 기준선 비교에서 읽히기 쉬운 구조를 남기는 방향으로 선택해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

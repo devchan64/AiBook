@@ -1,7 +1,7 @@
 # P3-7.2 비교표를 사람 검토 문장으로 어떻게 읽는가
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 기준선 비교표가 만들어지면 이제 숫자가 많이 보이기 시작합니다. 최근 평균, 기준선 평균, 차이값, 비율 차이, 최근 변동성, 기준선 변동성 같은 열이 한꺼번에 나타날 수 있습니다. 이때는 가장 눈에 띄는 차이값 하나만 보고 곧바로 결론을 내리곤 합니다. 하지만 비교표는 읽는 순서가 중요합니다. Part 3에서는 이 비교표를 자동 진단 결과표보다 `사람 검토 문장을 만들기 위한 표`로 읽어야 합니다.
 
@@ -60,7 +60,7 @@ flowchart TD
     E --> I[Repeated pattern?<br/>stronger review reason]
 ```
 
-이 도식은 비교표에서 가장 눈에 띄는 `diff`부터 바로 읽지 않고, 먼저 표본 수와 기준선 조건을 확인해야 한다는 순서를 보여 줍니다. 즉 이 절의 중심은 숫자 예시보다 `비교표를 어떤 순서로 읽어야 사람 검토 문장으로 안전하게 바뀌는가`를 고정하는 데 있습니다.
+이 도식은 비교표에서 가장 눈에 띄는 `diff`부터 바로 읽지 않고, 먼저 표본 수와 기준선 조건을 확인해야 한다는 순서를 보여 줍니다. 즉 숫자 예시보다 `비교표를 어떤 순서로 읽어야 사람 검토 문장으로 안전하게 바뀌는가`를 고정하는 데 있습니다.
 
 이제 두 행을 운영 문장으로 바꾸면 차이가 더 분명해집니다. `type-A`는 최근 20건에서 평균 저하와 변동성 증가가 함께 보이므로 반복 변화 후보로 볼 수 있습니다. 반면 `type-B`는 차이값이 더 커 보여도 최근 3건뿐이므로, 같은 강도의 문장으로 말하기보다 `표본이 적어 추가 관찰 필요`처럼 한 단계 낮춘 표현이 더 적절합니다. 바로 이런 이유 때문에 비교표 읽기와 운영 문장 쓰기는 같은 절 안에서 함께 다룹니다. 차이값은 설명 후보를 좁혀 주지만, 비교표 하나만으로 원인까지 자동으로 말해 주지는 않습니다.
 
@@ -75,3 +75,19 @@ flowchart TD
 
 이 표는 `어떤 숫자가 먼저 눈에 띄는가`보다 `어떤 맥락을 먼저 확인해야 과잉 해석이 줄어드는가`를 정해 줍니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 표 읽기 요령이 아니라, `비교 신호를 사람 검토 문장으로 낮은 강도로 번역하는 순서(signal-to-review translation order)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 비교 맥락 확인 | recent_count, baseline condition |
+| 신호 읽기 | diff, ratio, variability, pattern |
+| 검토 문장 작성 | review sentence, priority, further check |
+
+이 프레임을 쓰면 비교표는 자동 결론표가 아니라, 맥락을 확인한 뒤 사람이 신호를 문장으로 바꾸는 중간 단계라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 비교 신호가 곧바로 기능 판정과 같은 뜻이 아니라는 구분을 설명하므로, 비교표를 원인 확정표가 아니라 검토 신호표로 읽어야 한다는 점을 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. 데이터가 어떤 조건과 절차를 거쳐 만들어졌는지의 문맥을 provenance information으로 남기는 일반 틀을 제공하므로, 비교표도 diff만 보기보다 기준선 조건과 recent_count 같은 비교 맥락을 함께 읽어야 한다는 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

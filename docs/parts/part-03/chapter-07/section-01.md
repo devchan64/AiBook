@@ -93,3 +93,19 @@ print(comparison)
 
 이 표의 핵심은 기준선이 `추가 참고 수치`가 아니라, 변화 여부를 말하기 위한 비교 전제라는 점입니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 기준선 용어 소개가 아니라, `현재 상태를 읽기 위해 어떤 참조 구간을 함께 둘 것인가(reference window for comparison)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 현재 상태 | recent window |
+| 참조 구간 | baseline window |
+| 비교 결과 | diff, 차이 문장, 검토 후보 |
+
+이 프레임을 쓰면 기준선은 부가 숫자가 아니라, 현재 구조를 단독 값이 아닌 `비교 가능한 상태`로 바꾸는 참조 구간이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- U.S. Bureau of Labor Statistics, `Base period`. base period를 다른 시점과 비교하기 위한 reference로 설명하므로, 현재 구간과 기준선 구간을 함께 두어야 변화가 보인다는 이 절의 핵심을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- National Cancer Institute, `baseline`. baseline을 초기 측정값을 두고 시간 경과에 따라 변화를 비교하는 기준으로 설명하므로, Part 3에서 기준선을 `상태 비교 기준`으로 읽는 일반 근거가 됩니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

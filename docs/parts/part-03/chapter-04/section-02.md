@@ -166,3 +166,20 @@ event-level samples: 3
 | 같은 동작이 훈련/평가에 함께 섞일 수 있다 | 동작 단위로 분할할 수 있다 |
 | 운영 질문과 데이터 단위가 어긋난다 | 운영 질문과 데이터 단위가 맞는다 |
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 샘플 정의의 후속 주의사항이 아니라, `단위 정합성(unit alignment)`이 무너지면 무엇이 함께 어긋나는가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| feature 정합성 | 특징이 같은 단위 위에서 계산되는가 |
+| label 정합성 | 라벨이 같은 단위에 자연스럽게 붙는가 |
+| split/evaluation 정합성 | 훈련/평가 분할이 같은 단위를 기준으로 이뤄지는가 |
+
+이 프레임을 잡아 두면 샘플 단위가 흔들릴 때의 문제는 단순한 표기 혼동이 아니라, feature, label, split, evaluation이 서로 다른 단위를 가리키기 시작하는 정합성 붕괴라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 같은 단위 위에 정렬되어 있어야 하므로, 샘플 단위가 흔들리면 feature와 label의 뜻도 함께 흔들린다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 잘못된 단위에서 row-level feature와 event-level label을 섞으면 구조적 오류가 생길 수 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 reproducibility와 derivation을 지원해야 한다고 정리하므로, 어떤 단위에서 feature와 label이 만들어졌는지 재현 가능하게 남겨야 split/evaluation도 같은 기준을 유지할 수 있다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

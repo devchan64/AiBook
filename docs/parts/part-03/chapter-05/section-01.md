@@ -156,3 +156,20 @@ print(aggregate)
 
 또 하나 중요한 점은 세 표가 경쟁 관계가 아니라는 사실입니다. 요약 표를 만들었다고 해서 원시 로그가 필요 없어지는 것은 아닙니다. 집계 표를 만들었다고 해서 동작 단위 표가 쓸모없어지는 것도 아닙니다. 오히려 집계 표에서 이상한 변화가 보이면 다시 요약 표와 원시 로그로 내려가 확인해야 합니다. 비교를 위한 표현이 늘어날수록 원시 시계열을 다시 확인하는 절차도 함께 중요해집니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 표 변환 절차 소개가 아니라, `시계열 재표현(representing time-series at multiple levels)`을 어떤 단계로 할 것인가의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 기록 수준 표현 | raw log rows |
+| 샘플 수준 표현 | summary per event |
+| 상태 수준 표현 | aggregate across events |
+
+이 프레임을 잡아 두면 `원시 로그 -> 요약 표 -> 집계 표`는 단순 축약 순서가 아니라, 같은 시계열을 기록 수준, 샘플 수준, 상태 수준으로 다시 표현하는 연속된 설계라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. provenance framework가 representing processing steps, derivation, versioning을 지원해야 한다고 정리하므로, 원시 로그가 어떤 처리 단계를 거쳐 요약 표와 집계 표로 바뀌었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 샘플 수준 구조를 전제로 하므로, raw row 수준과 event summary 수준을 구분해 sample-level table을 만들어야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, aggregate table처럼 최근 상태와 기준선 상태를 비교하는 별도 표현 수준이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

@@ -128,3 +128,20 @@ print(event_summary)
 
 즉 원천데이터를 처음 받았을 때 가장 흔한 실수는 `기록 구조`를 `학습 구조`로 착각하는 것입니다. 시점별 로그가 있다는 사실만으로 아직 예측 문제가 정해진 것은 아닙니다. 그 로그를 어떤 단위로 묶고, 무엇을 남기고, 무엇과 비교할지 정해야 비로소 데이터셋이라는 말을 쓸 수 있습니다. 학습 문제의 틀이 먼저 떠오르면 이 앞단 설계가 건너뛰어지기 쉽고, 뒤에서 샘플 단위와 표 구조를 다시 뜯어고치게 됩니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 학습 문제 이름을 늦게 고르자는 조언이 아니라, `문제 승격(problem escalation)`의 시점을 관리하는 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 기록 구조 확인 | 지금 손에 있는 것이 원천 로그인지, 요약 표인지 구분 |
+| 샘플/라벨 공백 확인 | 한 샘플과 안정된 label이 아직 없는지 점검 |
+| 학습 문제 승격 보류 | 비교 가능한 표가 생기기 전에는 문제 틀을 고정하지 않음 |
+
+이 프레임을 잡아 두면 이 절의 핵심은 `모델 이름을 늦게 떠올리자`가 아니라, 샘플 단위와 라벨 후보가 정리되기 전까지는 학습 문제로 성급히 승격하지 않는 판단이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example은 features와 label로 구성된다고 설명하므로, 아직 샘플 1건과 label이 정해지지 않은 원천데이터를 곧바로 학습 문제로 읽으면 안 된다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 문제 틀을 먼저 고르면 아직 정리되지 않은 원천 열을 잘못된 학습 구조로 읽을 위험이 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 무엇을 한 대상(example)로 보고 어떤 변환을 거쳐 데이터셋 후보를 만들었는지 먼저 정리해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

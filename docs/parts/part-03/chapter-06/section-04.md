@@ -218,3 +218,21 @@ print(column_check)
 
 이 문장이 서면 Part 3의 중반부터 후반까지의 연결이 더 부드러워집니다.
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 `어떤 숫자 열이 feature인가`만 따지는 문제가 아니라, `작업 표 안의 열 역할을 어떻게 분리할 것인가(column-role separation in a working table)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 입력 설명 열 | `mid_flow_mean`, `late_minus_early` |
+| 비교 열 | `baseline_mid_flow_mean`, `delta_from_baseline` |
+| 결과 열 후보 | `review_score`, `review_needed` |
+| 식별·문맥 열 | `event_id`, `captured_at` |
+
+이 프레임을 쓰면 `숫자 열이면 다 feature`라는 오해 대신, 각 열이 샘플을 설명하는지, 비교 기준을 담는지, 결과를 적어 둔 것인지, 맥락만 남기는지부터 따져야 한다는 기준이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example을 features와 label의 결합으로 설명하므로, 입력 설명 열과 결과 열 후보를 구분해야 한다는 기본 틀을 제공합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, `review_needed`나 `review_score` 같은 결과 후보 열을 무심코 feature로 섞지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance information을 별도로 기록하고 추적하는 표준 문맥을 제공하므로, `event_id`, `captured_at` 같은 식별·문맥 열은 샘플을 설명하는 feature와 다른 역할의 정보로 남길 수 있다는 일반 근거로 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

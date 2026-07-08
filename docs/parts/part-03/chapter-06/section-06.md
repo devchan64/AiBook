@@ -88,7 +88,7 @@ Part 3에서는 아직 복잡한 보정 기법보다, 특징 정의 메모를 �
 
 즉 기준선은 같은 집단 비교만이 아니라, `같은 특징 정의` 비교여야 합니다.
 
-이 메모를 남겨 두어야 뒤에서 분할, 평가, 시계열 입력을 읽을 때도 `모델이 이상하다`기보다 먼저 `같은 특징 정의가 섞였는가`를 점검할 수 있습니다. 즉 이 절의 중심은 뒤 Part 설명을 미리 펼치는 데 있지 않고, 현재 특징 표가 같은 뜻의 열끼리만 비교 가능한 구조인지 확인하는 데 있습니다.
+이 메모를 남겨 두어야 뒤에서 분할, 평가, 시계열 입력을 읽을 때도 `모델이 이상하다`기보다 먼저 `같은 특징 정의가 섞였는가`를 점검할 수 있습니다. 즉 뒤 Part 설명을 미리 펼치는 데 있지 않고, 현재 특징 표가 같은 뜻의 열끼리만 비교 가능한 구조인지 확인하는 데 있습니다.
 
 ## 작은 코드 예시
 
@@ -201,9 +201,21 @@ print(definition_groups)
 
 이 세 줄이 있어야 특징 표는 단순 숫자 모음이 아니라, 비교 가능한 정의가 붙은 구조로 남습니다.
 
-## 한 문장으로 묶기
-
-이 절에서 붙잡아야 할 문장은 다음과 같습니다.
-
 `같은 열 이름이라도 측정 단위, 센서 버전, 계산 규칙이 바뀌면 더 이상 같은 특징이 아닐 수 있으므로, Part 3에서는 숫자보다 먼저 특징 정의가 같은지 확인해야 한다.`
 
+## 일반화된 상위 프레임으로 다시 보면
+
+이 절은 열 이름 관리 요령이 아니라, `같은 특징 정의를 어떻게 식별할 것인가(feature-definition identity)`의 문제로 다시 볼 수 있습니다.
+
+| 상위 프레임 | 이 절에서의 대응 |
+| --- | --- |
+| 이름 | `flow_mean` |
+| 정의 메모 | unit, sensor version, segment rule, ops definition |
+| 비교 가능성 | 같은 정의 그룹끼리만 기준선과 비교표에 올림 |
+
+이 프레임을 쓰면 특징 동일성은 열 이름 한 줄이 아니라, 무엇을 어떤 규칙과 버전으로 만들었는지까지 포함한 정의 묶음이라는 점이 더 분명해집니다.
+
+## 출처와 참고 자료
+
+- W3C, `PROV-Overview`. provenance information을 통해 데이터가 어떤 과정과 버전을 거쳐 생성되었는지 추적하는 일반 틀을 제공하므로, 특징도 이름만이 아니라 생성 규칙과 버전까지 함께 남겨야 비교 가능성이 유지된다는 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature가 원시 값을 그대로 쓰는 것이 아니라 선택된 변환의 결과라는 점을 설명하므로, 단위나 계산 규칙이 달라지면 같은 열 이름이어도 같은 특징 정의라고 보기 어렵다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
