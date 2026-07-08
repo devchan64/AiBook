@@ -710,6 +710,10 @@ plugins:
                         - "P1-14.4 MCP(Model Context Protocol)与工具连接标准化": zh/parts/part-01/chapter-14/section-04.md
                         - "P1-14.5 harness 与评估执行环境": zh/parts/part-01/chapter-14/section-05.md
                         - "P1-14.6 AI 服务在现实中遇到的约束": zh/parts/part-01/chapter-14/section-06.md
+                    - Chapter 15. AI 伦理、版权与安全:
+                        - "P1-15.1 偏见(bias)、安全性(safety)、责任(accountability)": zh/parts/part-01/chapter-15/section-01.md
+                        - "P1-15.2 版权(copyright)与训练数据(training data)": zh/parts/part-01/chapter-15/section-02.md
+                        - "P1-15.3 安全(security)与隐私(privacy)": zh/parts/part-01/chapter-15/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
