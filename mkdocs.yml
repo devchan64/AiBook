@@ -694,6 +694,10 @@ plugins:
                         - "P1-11.1 统计语言模型(statistical language model)与嵌入(embedding)": zh/parts/part-01/chapter-11/section-01.md
                         - "P1-11.2 RNN、Seq2Seq 与 Attention": zh/parts/part-01/chapter-11/section-02.md
                         - "P1-11.3 Transformer 与预训练 LLM(pretrained LLM)": zh/parts/part-01/chapter-11/section-03.md
+                    - Chapter 12. Prompt 与用户交互:
+                        - "P1-12.1 提示词(prompt)指定了什么": zh/parts/part-01/chapter-12/section-01.md
+                        - "P1-12.2 指示(instruction)、上下文(context)、示例(example)": zh/parts/part-01/chapter-12/section-02.md
+                        - "P1-12.3 提示词(prompt)的限制(limit)与评估(evaluation)": zh/parts/part-01/chapter-12/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
