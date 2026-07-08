@@ -1,7 +1,7 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
@@ -302,6 +302,18 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
 ### 사례 1. 고객 이탈 예측에서 한 번에 큰 규칙보다 여러 번의 작은 보정이 더 잘 맞을 때
 
 구독 서비스 팀이 고객 이탈을 예측할 때 `최근 로그인 횟수`나 `결제 실패 여부` 같은 한두 개 기준으로만 위험 고객을 가르려 할 수 있습니다. 하지만 실제로는 가입 기간, 최근 이용 감소, 결제 이력, 문의 증가가 조금씩 겹칠 때 이탈 가능성이 커져서, 단순 규칙만으로는 놓치는 고객이 생깁니다. 그래디언트 부스팅은 첫 단계가 놓친 오차를 다음 작은 트리가 이어서 보정하면서, 이런 약한 신호 조합을 차례대로 반영합니다. 그래서 첫 규칙에서는 일반 고객처럼 보이던 사례도 뒤 단계 보정이 쌓이면서 더 높은 이탈 점수로 올라갈 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["initial churn rule"]
+  B["missed customer patterns"]
+  C["fit small correction tree"]
+  D["update churn score"]
+  E["fit next correction"]
+  F["hard cases become clearer"]
+
+  A --> B --> C --> D --> E --> F
+```
 
 이 절에서는 이 장면도 `현재 오류 -> 다음 보정 -> 남는 review 사례` 구조로 읽습니다. 같은 성능처럼 보여도 어떤 부스팅 설정은 특정 고객 유형의 오류를 더 줄이고, 다른 설정은 여전히 같은 경계 사례를 남길 수 있으므로 단계별 남는 패턴을 같이 적어 둡니다.
 

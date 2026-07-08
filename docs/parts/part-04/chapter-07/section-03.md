@@ -1,7 +1,7 @@
 # P4-7.3 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-7.1과 P4-7.2에서는 특징을 고르고 입력 표현을 다듬는 기본 판단을 잡았습니다. 그런데 실제로는 독자가 곧 이런 이름을 만나게 됩니다.
 
@@ -113,6 +113,21 @@ RFE는 래퍼(wrapper) 접근의 대표 예로 보면 됩니다. 아주 단순�
 마케팅 팀이 고객 세분화를 준비하면서 입력 칼럼을 줄이려 합니다. 사람이 먼저 보던 기준은 `최근 방문`, `구매 금액`, `할인 반응`, `문의 패턴` 같은 행동 신호였습니다.
 
 그런데 회의에서는 서로 다른 방법 이름이 한꺼번에 나옵니다. 어떤 사람은 상관이 낮은 칼럼을 먼저 빼자고 하고, 어떤 사람은 모델을 반복 돌려 중요도가 낮은 칼럼을 줄이자고 하며, 또 어떤 사람은 PCA로 축을 줄이자고 말합니다. 모두 `차원을 줄인다`는 말로 묶이지만 실제로는 무엇을 남기고 무엇을 바꾸는지가 다릅니다.
+
+```mermaid
+flowchart TD
+  A["customer behavior columns"]
+  B["quick first pass"]
+  C["model-based repeat check"]
+  D["new compressed axes"]
+  E["filter keeps original columns"]
+  F["wrapper or RFE keeps best subset"]
+  G["dimensionality reduction rewrites representation"]
+
+  A --> B --> E
+  A --> C --> F
+  A --> D --> G
+```
 
 여기서 구분이 필요합니다. 필터 방식은 원래 특징을 빠르게 점검해 1차 후보를 줄이는 데 가깝고, 래퍼 방식인 RFE는 현재 모델 성능을 기준으로 반복해서 특징을 줄입니다. 차원 축소는 원래 칼럼 일부를 고르는 것이 아니라 여러 특징을 섞어 새 축으로 다시 표현하는 쪽에 더 가깝습니다.
 

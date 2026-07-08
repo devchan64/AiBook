@@ -1,7 +1,7 @@
 # P4-10.2 선형회귀의 평가와 한계
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-10.1에서는 선형회귀(linear regression)를 `관계를 직선으로 먼저 읽어 보는 모델`로 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -387,6 +387,20 @@ R²가 높으면 모델이 데이터를 잘 설명하는 것처럼 보입니다.
 물류 팀이 배송 거리와 주문 시간대로 도착 시간을 예측하고 있습니다. 사람이 먼저 보던 기준은 `거리가 멀수록 오래 걸리는가`, `퇴근 시간 주문은 더 늦어지는가` 같은 관계였습니다.
 
 선형회귀를 돌려 보니 전체 R²는 꽤 높고 MAE도 나쁘지 않습니다. 표면적으로는 모델이 괜찮아 보일 수 있습니다. 하지만 자세히 보면 장거리 배송이나 폭우가 낀 날에는 예측이 크게 빗나가고, RMSE는 그 큰 실패들 때문에 생각보다 높게 나옵니다.
+
+```mermaid
+flowchart TD
+  A["delivery time data"]
+  B["linear regression"]
+  C["compare with baseline"]
+  D["check MAE for average miss"]
+  E["check RMSE for large misses"]
+  F["inspect residuals by route and weather"]
+  G["decide whether linear fit is enough"]
+
+  A --> B --> C --> D
+  D --> E --> F --> G
+```
 
 이 장면에서 회귀 평가는 숫자 하나로 끝나지 않습니다. MAE는 평균적으로 얼마나 빗나가는지 보여 주고, RMSE는 드문 큰 실패에 더 민감하게 반응하며, R²는 전체 설명력의 크기를 요약합니다. 따라서 `R²가 높다`만으로는 실제 운영 위험을 다 설명할 수 없습니다.
 

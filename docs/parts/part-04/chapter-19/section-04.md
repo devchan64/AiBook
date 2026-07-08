@@ -1,7 +1,7 @@
 # P4-19.4 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-19.1부터 P4-19.3까지 읽고 나면 강화학습을 더 공부할 때 곧 여러 이름을 만나게 됩니다.
 
@@ -137,6 +137,23 @@ RLHF(reinforcement learning from human feedback)는 이름 그대로 보면 강�
 ### 사례 1. DQN, PPO, RLHF가 한꺼번에 나왔을 때 무엇부터 구분해야 할까
 
 강화학습 입문자가 자료를 찾다 보면 게임 성능을 다루는 DQN, 정책 안정화를 말하는 PPO, LLM 정렬 문맥의 RLHF를 한 자리에서 연달아 만나기 쉽습니다. 이름만 보면 모두 최신 강화학습 기법처럼 보이지만, 실제로는 `값을 더 큰 상태 공간으로 확장하려는 흐름`, `정책을 더 안정적으로 조정하려는 흐름`, `사람 선호를 반영해 언어 모델을 조정하는 흐름`으로 문제의식이 다릅니다. 이 차이를 구분하지 않으면 알고리즘 이름만 외우고 왜 분기되었는지를 놓치게 됩니다. 그래서 먼저 `무슨 문제를 해결하려고 나온 이름인가`를 묶어 읽는 것이 더 중요합니다.
+
+```mermaid
+flowchart TD
+  A["meet DQN, PPO, RLHF together"]
+  B["ask what bottleneck appears first"]
+  C["state space is too large"]
+  D["policy updates are unstable"]
+  E["human preference must guide outputs"]
+  F["read as DQN branch"]
+  G["read as PPO or actor-critic branch"]
+  H["read as RLHF or preference branch"]
+
+  A --> B
+  B --> C --> F
+  B --> D --> G
+  B --> E --> H
+```
 
 이 사례를 handoff 메모처럼 줄이면 다음처럼 적을 수 있습니다.
 

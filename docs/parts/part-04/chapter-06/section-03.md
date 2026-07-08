@@ -1,7 +1,7 @@
 # P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-6.1과 P4-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 시선을 조금 바깥으로 돌립니다. 모델이 잘 맞는 것과 서비스가 잘 운영되는 것은 같은 말이 아닙니다. 이 차이를 이해하려면 SRE(site reliability engineering)에서 `metric`이라는 말을 어떻게 쓰는지 볼 필요가 있습니다.
 
@@ -249,6 +249,21 @@ SW 엔지니어가 SRE metric에 익숙하다면, 머신러닝 metric도 조금 
 운영 팀이 상담 챗봇을 개선했습니다. 사람 기준으로는 답변 내용이 더 풍부해졌고, 내부 평가에서도 분류 정확도와 응답 적절성이 좋아졌습니다.
 
 그런데 실제 사용자 불만은 줄지 않습니다. 이유를 보니 피크 시간에 응답 지연이 길어지고 timeout이 늘어, 좋은 답변이 나와도 늦게 도착하는 경우가 많았습니다. 이 상황은 모델 metric과 운영 metric이 서로 다른 층위를 본다는 점을 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["chatbot release"]
+  B["offline quality rises"]
+  C["user complaints stay high"]
+  D["check latency and timeout"]
+  E["check answer quality"]
+  F["service issue"]
+  G["model issue"]
+
+  A --> B --> C
+  C --> D --> F
+  C --> E --> G
+```
 
 여기서 모델 metric은 `답의 품질`을, 운영 metric은 `서비스 경험`을 읽습니다. 답변 적절성이 높아도 latency와 error rate가 나쁘면 서비스 품질은 낮게 느껴질 수 있습니다. 반대로 서비스는 빨라도 답이 부정확하면 역시 목표를 이루지 못합니다.
 
