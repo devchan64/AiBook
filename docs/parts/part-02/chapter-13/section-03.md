@@ -1,7 +1,7 @@
 # P2-13.3 여러 그래프를 비교하고 저장하기
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P2-13.2에서는 선 그래프(line plot), 산점도(scatter plot), 히스토그램(histogram)처럼 기본 차트를 어떤 질문에 쓰는지 봤습니다. 이제 한 걸음 더 나아가 여러 그래프를 함께 보고, 그 결과를 파일로 남기는 흐름을 정리합니다.
 
@@ -82,7 +82,7 @@ plt.show()
 
 출력 결과는 다음처럼 관련된 두 질문을 한 `Figure` 안에서 나누어 보여 줍니다.
 
-![Two subplots comparing loss and accuracy over epochs](../../../assets/part-02/chapter-13/subplot-loss-accuracy.png)
+![손실과 정확도를 나란히 비교하는 두 개의 서브플롯](../../../assets/part-02/chapter-13/subplot-loss-accuracy-ko.svg)
 
 이 그림은 두 가지를 동시에 묻습니다.
 
@@ -154,7 +154,7 @@ plt.show()
 
 출력 결과는 다음처럼 두 손실 곡선을 한 축에서 비교하게 해 줍니다.
 
-![Training loss and validation loss diverging after several epochs](../../../assets/part-02/chapter-13/train-validation-loss-diverge.png)
+![학습 손실과 검증 손실이 벌어지는 모습을 보여 주는 비교 그래프](../../../assets/part-02/chapter-13/train-validation-loss-diverge-ko.svg)
 
 이 예시는 Part 3에서 다시 만날 과적합(overfitting)의 직관과 연결됩니다. 학습 손실은 계속 내려가는데 검증 손실이 다시 올라간다면, 모델이 학습 데이터에는 더 잘 맞지만 새로운 데이터에는 덜 맞을 가능성을 의심할 수 있습니다.
 

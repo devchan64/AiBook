@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="640" viewBox="0 0 1024 640" role="img" aria-labelledby="title desc">
+  <title id="title">값이 모이는 구간을 보여 주는 히스토그램</title>
+  <desc id="desc">중심 근처 구간에 더 많은 샘플이 몰린 연속 구간 히스토그램</desc>
+  <rect width="1024" height="640" fill="#ffffff"/>
+  <g stroke="#d1d5db" stroke-width="1">
+    <line x1="110" y1="520" x2="960" y2="520"/>
+    <line x1="110" y1="440" x2="960" y2="440"/>
+    <line x1="110" y1="360" x2="960" y2="360"/>
+    <line x1="110" y1="280" x2="960" y2="280"/>
+    <line x1="110" y1="200" x2="960" y2="200"/>
+    <line x1="110" y1="120" x2="960" y2="120"/>
+    <line x1="160" y1="90" x2="160" y2="520"/>
+    <line x1="310" y1="90" x2="310" y2="520"/>
+    <line x1="460" y1="90" x2="460" y2="520"/>
+    <line x1="610" y1="90" x2="610" y2="520"/>
+    <line x1="760" y1="90" x2="760" y2="520"/>
+    <line x1="910" y1="90" x2="910" y2="520"/>
+  </g>
+  <g stroke="#111827" stroke-width="2">
+    <line x1="110" y1="520" x2="960" y2="520"/>
+    <line x1="110" y1="90" x2="110" y2="520"/>
+  </g>
+  <g fill="#64748b" fill-opacity="0.9" stroke="#334155" stroke-width="2">
+    <rect x="150" y="460" width="46" height="60"/>
+    <rect x="196" y="420" width="46" height="100"/>
+    <rect x="242" y="392" width="46" height="128"/>
+    <rect x="288" y="332" width="46" height="188"/>
+    <rect x="334" y="300" width="46" height="220"/>
+    <rect x="380" y="292" width="46" height="228"/>
+    <rect x="426" y="240" width="46" height="280"/>
+    <rect x="472" y="224" width="46" height="296"/>
+    <rect x="518" y="110" width="46" height="410"/>
+    <rect x="564" y="268" width="46" height="252"/>
+    <rect x="610" y="320" width="46" height="200"/>
+    <rect x="656" y="256" width="46" height="264"/>
+    <rect x="702" y="360" width="46" height="160"/>
+    <rect x="748" y="388" width="46" height="132"/>
+    <rect x="794" y="450" width="46" height="70"/>
+    <rect x="840" y="490" width="46" height="30"/>
+    <rect x="886" y="472" width="46" height="48"/>
+  </g>
+  <g fill="#111827" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">
+    <text x="512" y="48" font-size="28" text-anchor="middle">히스토그램: 값이 모이는 위치</text>
+    <text x="512" y="598" font-size="20" text-anchor="middle">값</text>
+    <text x="42" y="310" font-size="20" text-anchor="middle" transform="rotate(-90 42 310)">개수</text>
+    <text x="160" y="548" font-size="16" text-anchor="middle">-2</text>
+    <text x="310" y="548" font-size="16" text-anchor="middle">-1</text>
+    <text x="460" y="548" font-size="16" text-anchor="middle">0</text>
+    <text x="610" y="548" font-size="16" text-anchor="middle">1</text>
+    <text x="760" y="548" font-size="16" text-anchor="middle">2</text>
+    <text x="88" y="523" font-size="16" text-anchor="end">0</text>
+    <text x="88" y="443" font-size="16" text-anchor="end">10</text>
+    <text x="88" y="363" font-size="16" text-anchor="end">20</text>
+    <text x="88" y="283" font-size="16" text-anchor="end">30</text>
+    <text x="88" y="203" font-size="16" text-anchor="end">40</text>
+  </g>
+</svg>

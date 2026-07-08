@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1088" height="640" viewBox="0 0 1088 640" role="img" aria-labelledby="title desc">
+  <title id="title">학습 손실과 검증 손실의 벌어짐</title>
+  <desc id="desc">학습 손실은 계속 감소하지만 검증 손실은 중간 이후 다시 증가하는 비교 그래프</desc>
+  <rect width="1088" height="640" fill="#ffffff"/>
+  <g stroke="#d1d5db" stroke-width="1">
+    <line x1="106" y1="520" x2="1020" y2="520"/>
+    <line x1="106" y1="450" x2="1020" y2="450"/>
+    <line x1="106" y1="380" x2="1020" y2="380"/>
+    <line x1="106" y1="310" x2="1020" y2="310"/>
+    <line x1="106" y1="240" x2="1020" y2="240"/>
+    <line x1="106" y1="170" x2="1020" y2="170"/>
+    <line x1="106" y1="100" x2="1020" y2="100"/>
+    <line x1="150" y1="90" x2="150" y2="520"/>
+    <line x1="212" y1="90" x2="212" y2="520"/>
+    <line x1="274" y1="90" x2="274" y2="520"/>
+    <line x1="336" y1="90" x2="336" y2="520"/>
+    <line x1="398" y1="90" x2="398" y2="520"/>
+    <line x1="460" y1="90" x2="460" y2="520"/>
+    <line x1="522" y1="90" x2="522" y2="520"/>
+    <line x1="584" y1="90" x2="584" y2="520"/>
+    <line x1="646" y1="90" x2="646" y2="520"/>
+    <line x1="708" y1="90" x2="708" y2="520"/>
+    <line x1="770" y1="90" x2="770" y2="520"/>
+    <line x1="832" y1="90" x2="832" y2="520"/>
+    <line x1="894" y1="90" x2="894" y2="520"/>
+    <line x1="956" y1="90" x2="956" y2="520"/>
+  </g>
+  <g stroke="#111827" stroke-width="2">
+    <line x1="106" y1="520" x2="1020" y2="520"/>
+    <line x1="106" y1="90" x2="106" y2="520"/>
+  </g>
+  <line x1="584" y1="90" x2="584" y2="520" stroke="#64748b" stroke-width="3" stroke-dasharray="10 8"/>
+  <polyline fill="none" stroke="#2563eb" stroke-width="4" points="150,96 212,164 274,254 336,320 398,366 460,402 522,432 584,456 646,476 708,492 770,504 832,514 894,524 956,532 1020,540"/>
+  <polyline fill="none" stroke="#dc2626" stroke-width="4" points="150,78 212,132 274,202 336,264 398,312 460,340 522,354 584,360 646,356 708,346 770,328 832,304 894,272 956,244 1020,214"/>
+  <g fill="#2563eb">
+    <circle cx="150" cy="96" r="8"/><circle cx="212" cy="164" r="8"/><circle cx="274" cy="254" r="8"/><circle cx="336" cy="320" r="8"/><circle cx="398" cy="366" r="8"/><circle cx="460" cy="402" r="8"/><circle cx="522" cy="432" r="8"/><circle cx="584" cy="456" r="8"/><circle cx="646" cy="476" r="8"/><circle cx="708" cy="492" r="8"/><circle cx="770" cy="504" r="8"/><circle cx="832" cy="514" r="8"/><circle cx="894" cy="524" r="8"/><circle cx="956" cy="532" r="8"/><circle cx="1020" cy="540" r="8"/>
+  </g>
+  <g fill="#dc2626">
+    <circle cx="150" cy="78" r="8"/><circle cx="212" cy="132" r="8"/><circle cx="274" cy="202" r="8"/><circle cx="336" cy="264" r="8"/><circle cx="398" cy="312" r="8"/><circle cx="460" cy="340" r="8"/><circle cx="522" cy="354" r="8"/><circle cx="584" cy="360" r="8"/><circle cx="646" cy="356" r="8"/><circle cx="708" cy="346" r="8"/><circle cx="770" cy="328" r="8"/><circle cx="832" cy="304" r="8"/><circle cx="894" cy="272" r="8"/><circle cx="956" cy="244" r="8"/><circle cx="1020" cy="214" r="8"/>
+  </g>
+  <g fill="#111827" font-family="Pretendard, Apple SD Gothic Neo, Noto Sans KR, sans-serif">
+    <text x="544" y="48" font-size="28" text-anchor="middle">학습 손실과 검증 손실은 서로 벌어질 수 있다</text>
+    <text x="544" y="598" font-size="20" text-anchor="middle">에폭</text>
+    <text x="42" y="310" font-size="20" text-anchor="middle" transform="rotate(-90 42 310)">손실</text>
+    <text x="604" y="200" font-size="18" fill="#475569">이 지점부터 검증 손실이 다시 상승한다</text>
+    <line x1="816" y1="116" x2="862" y2="116" stroke="#2563eb" stroke-width="4"/>
+    <text x="884" y="122" font-size="18">학습 손실</text>
+    <line x1="816" y1="152" x2="862" y2="152" stroke="#dc2626" stroke-width="4"/>
+    <text x="884" y="158" font-size="18">검증 손실</text>
+  </g>
+</svg>
