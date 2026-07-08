@@ -74,7 +74,7 @@ Before going deeply into individual technologies, this Part rebuilds the large m
 
 - **P1-5.1 What Learning Changes**: reviews what it means for parameters and representations to change during learning
 - **P1-5.2 What Inference Executes**: separates the use of a trained model from the learning process
-- **P1-5.3 Confusion Around the Korean Word for Inference**: distinguishes `inference` from `reasoning`
+- **P1-5.3 Distinguishing Inference-Related Terms**: distinguishes `inference` from `reasoning`
 
 ### Module 3. Uncertainty and Problem Solving
 
