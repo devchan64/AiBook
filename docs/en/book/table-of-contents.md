@@ -189,8 +189,9 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-3.1 Scalars, Vectors, and Matrices**: fixes the basic representations in which data becomes numbers, lists, and tables
 - **P2-3.2 Vector Space and the Intuition of Position**: builds the minimum intuition needed for embeddings and feature representation
 - **P2-3.3 What Matrix Multiplication Reuses**: reviews the meaning of linear transformation and batch calculation from a code perspective
-- **P2-3.4 Python Execution Environments: Colab and Local PC**: separates browser-based Colab from terminal execution on a personal machine
-- **P2-3.5 Checking Linear Algebra Through NumPy**: reproduces vectors, matrices, and matrix multiplication in small code
+- **P2-3.4 Dot Product, Norm, Distance, and Similarity**: restores vector comparison criteria before k-NN, embeddings, and vector search
+- **P2-3.5 Python Execution Environments: Colab and Local PC**: separates browser-based Colab from terminal execution on a personal machine
+- **P2-3.6 Checking Linear Algebra Through NumPy**: reproduces vectors, matrices, and matrix multiplication in small code
 
 #### Chapter 4. What Derivatives Are a Tool for Finding `Mathematical Foundations`
 
