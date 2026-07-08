@@ -597,6 +597,10 @@ plugins:
                         - "P1-9.1 Image Recognition and Representation Learning": en/parts/part-01/chapter-09/section-01.md
                         - "P1-9.2 Object Detection and Speech Generation Cases": en/parts/part-01/chapter-09/section-02.md
                         - "P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence": en/parts/part-01/chapter-09/section-03.md
+                    - Chapter 10. What Generative AI Changes:
+                        - "P1-10.1 The Difference Among Classification, Prediction, and Generation": en/parts/part-01/chapter-10/section-01.md
+                        - "P1-10.2 The Intuition of Next-Output Generation": en/parts/part-01/chapter-10/section-02.md
+                        - "P1-10.3 The Quality and Risk of Generated Outputs": en/parts/part-01/chapter-10/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
