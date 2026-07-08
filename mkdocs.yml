@@ -63,7 +63,7 @@ nav:
           - "Chapter 5. 학습(learning)과 모델 실행(inference)":
               - "P1-5.1 학습(learning)은 무엇을 바꾸는가": parts/part-01/chapter-05/section-01.md
               - "P1-5.2 모델 실행(inference)은 무엇을 실행하는가": parts/part-01/chapter-05/section-02.md
-              - P1-5.3 한국어 추론 표현의 혼동: parts/part-01/chapter-05/section-03.md
+              - P1-5.3 추론 관련 용어의 구분: parts/part-01/chapter-05/section-03.md
       - Module 3. 불확실성과 문제 해결:
           - Chapter 6. 불확실성과 확률적 판단:
               - P1-6.1 불완전한 정보와 예외가 많은 문제: parts/part-01/chapter-06/section-01.md
@@ -579,7 +579,7 @@ plugins:
                     - Chapter 5. Learning, Execution, and Inference:
                         - "P1-5.1 What Does Learning Change?": en/parts/part-01/chapter-05/section-01.md
                         - "P1-5.2 What Does Model Execution Run?": en/parts/part-01/chapter-05/section-02.md
-                        - "P1-5.3 Confusion Around the Korean Word for Inference": en/parts/part-01/chapter-05/section-03.md
+                        - "P1-5.3 Distinguishing Inference-Related Terms": en/parts/part-01/chapter-05/section-03.md
                     - Chapter 6. Uncertainty and Probabilistic Thinking:
                         - "P1-6.1 Problems with Incomplete Information and Many Exceptions": en/parts/part-01/chapter-06/section-01.md
                         - "P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes": en/parts/part-01/chapter-06/section-02.md
@@ -664,6 +664,10 @@ plugins:
                         - "P1-4.2 输入、输出与数据": zh/parts/part-01/chapter-04/section-02.md
                         - "P1-4.3 特征、表征与参数": zh/parts/part-01/chapter-04/section-03.md
                         - "P1-4.4 问题定义如何决定模型": zh/parts/part-01/chapter-04/section-04.md
+                    - Chapter 5. 学习、执行与推理:
+                        - "P1-5.1 学习会改变什么": zh/parts/part-01/chapter-05/section-01.md
+                        - "P1-5.2 模型执行在运行什么": zh/parts/part-01/chapter-05/section-02.md
+                        - "P1-5.3 区分推理相关术语": zh/parts/part-01/chapter-05/section-03.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
