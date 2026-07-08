@@ -1,7 +1,7 @@
 # P4-13.1 SVM의 직관
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-11.2에서는 분류를 `경계(boundary)를 그어 공간을 나누는 일`로 보았습니다. P4-12에서는 `가까운 이웃을 보고 판단하는 방식`도 살펴보았습니다. 이제 같은 분류 문제를 다른 질문으로 다시 읽습니다.
 
@@ -314,6 +314,20 @@ flowchart TD
 - 더 큰 margin:
   - 경계가 양쪽 class에서 조금 더 떨어져 있습니다.
   - 애매한 거래는 남더라도, 기준선 자체는 덜 예민하게 흔들립니다.
+
+```mermaid
+flowchart TD
+  A["transaction features"]
+  B["candidate boundary"]
+  C["small margin"]
+  D["large margin"]
+  E["many near-boundary reviews"]
+  F["more stable separation"]
+
+  A --> B
+  B --> C --> E
+  B --> D --> F
+```
 
 ### 사례 2. 채용 서류 분류
 

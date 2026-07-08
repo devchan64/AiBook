@@ -1,7 +1,7 @@
 # P4-14.2 트리의 과적합
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-14.1에서는 결정트리(decision tree)를 `질문을 나누어 예측하는 모델`로 보았습니다. 그 절의 장점은 분명했습니다.
 
@@ -283,6 +283,18 @@ flowchart TD
 제조 팀이 센서 값으로 제품 불량 여부를 가르는 결정트리를 만들고 있습니다. 사람이 먼저 보던 기준은 `온도가 기준보다 높은가`, `진동이 특정 범위를 넘는가`, `압력 변화가 급격한가` 같은 질문들이었습니다.
 
 질문을 많이 만들수록 모델이 똑똑해지는 것처럼 보일 수 있습니다. 실제로 트리를 깊게 두면 훈련 데이터에서는 거의 틀리지 않게 될 수 있습니다. 하지만 뒤쪽 가지를 보면 한두 개의 예외 사례만 설명하는 leaf가 생기고, 그 leaf는 공정이 조금만 달라져도 새 데이터에서 쉽게 흔들립니다.
+
+```mermaid
+flowchart TD
+  A["sensor records"]
+  B["more and more splits"]
+  C["tiny leaves for rare cases"]
+  D["train fit rises"]
+  E["test stability drops"]
+  F["need depth or pruning control"]
+
+  A --> B --> C --> D --> E --> F
+```
 
 이 장면에서 트리의 과적합은 `질문을 너무 세밀하게 늘려 훈련 데이터를 외우는 현상`으로 읽어야 합니다. `max_depth`는 트리가 어디까지 자랄지 막고, `min_samples_leaf`는 leaf가 너무 작은 예외 집합이 되지 않게 막으며, `ccp_alpha`는 이미 자란 가지를 다시 줄이는 역할을 합니다. 즉, 더 많은 질문이 항상 더 좋은 설명을 뜻하지는 않습니다.
 

@@ -1,7 +1,7 @@
 # P4-2.1 지도학습(supervised learning)
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-1.2에서는 머신러닝을 “데이터에서 입력과 출력의 관계를 추정하는 접근”으로 보았습니다. 이제 그중 가장 먼저 만나는 형태인 지도학습(supervised learning)을 봅니다.
 
@@ -216,6 +216,19 @@ flowchart TD
 이 절이 지도학습을 `X`와 `y`가 함께 있는 문제로 설명하는 이유가 여기에 있습니다. 문의 내용, 링크 수, 길이 같은 특징은 `X`가 되고, 사람이 붙인 유형은 `y`가 됩니다. 이 구조가 있어야 모델이 무엇을 맞추려 하는지 분명해집니다.
 
 확인 가능한 결과는 학습에 쓰지 않은 문의 평가에서 드러납니다. 과거 문의에만 잘 맞는 것이 아니라 새 문의에서도 분류 정확도가 유지된다면, 라벨이 있는 사례를 이용한 지도학습 문제로 잘 정리된 것입니다.
+
+```mermaid
+flowchart TD
+  A["past inquiries"]
+  B["human labels exist"]
+  C["set X = inquiry features"]
+  D["set y = inquiry type"]
+  E["train a supervised model"]
+  F["predict a new inquiry"]
+  G["check unseen-data accuracy"]
+
+  A --> B --> C --> D --> E --> F --> G
+```
 
 ## 이 절에서 기억할 관점
 

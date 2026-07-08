@@ -1,7 +1,7 @@
 # P4-4.2 검증(validation)과 테스트(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터(evaluation data)로 나누는 이유를 봤습니다. 이제 한 단계 더 나아갑니다. 모델을 고르는 과정에서 쓰는 데이터와, 마지막에 한 번만 확인하는 데이터는 같은 역할이 아닙니다.
 
@@ -195,6 +195,26 @@ flowchart TB
 
 질문이 다르면 사용하는 데이터의 역할도 달라집니다.
 
+같은 고객 이탈 표라도 질문이 바뀌면 쓰는 데이터의 역할이 달라집니다. 아래 도식은 `후보를 고르는 단계`와 `마지막 확인 단계`가 왜 같은 데이터 조각을 공유하면 안 되는지 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["customer churn table"]
+  B["train split<br/>fit several models"]
+  C["validation split<br/>choose depth / features / model"]
+  D["final candidate"]
+  E["test split<br/>open once at the end"]
+  F["reported final result"]
+
+  A --> B
+  A --> C
+  A --> E
+  B --> C
+  C --> D
+  D --> E
+  E --> F
+```
+
 ## 연습 및 예제
 
 ### Python 예제로 분리 구조 보기
@@ -379,6 +399,20 @@ problem: test data has started to influence model choice
 검증 데이터와 테스트 데이터를 나누는 이유는 바로 여기 있습니다. 검증 데이터는 `어떤 후보가 더 나은가`를 묻는 곳이고, 테스트 데이터는 `지금 선택한 모델을 마지막으로 확인해도 되는가`를 묻는 곳입니다. 이 역할이 분리되어야 모델 선택 과정이 테스트 결과에 끌려가지 않습니다.
 
 확인 가능한 결과는 실험 기록에서 드러납니다. 후보별 검증 점수를 기준으로 최종 모델을 고른 뒤 테스트 점수를 한 번만 확인하면, 어떤 숫자가 선택 과정에 쓰였고 어떤 숫자가 마지막 확인에 쓰였는지 분리해서 읽을 수 있습니다. 반대로 테스트 점수를 여러 번 기록하며 선택을 바꿨다면, 그 테스트 결과는 더 이상 최종 확인용 근거로 보기 어렵습니다.
+
+```mermaid
+flowchart TD
+  A["spam dataset"]
+  B["check test score early"]
+  C["change features or settings again"]
+  D["test becomes part of selection"]
+  E["use validation for candidate choice"]
+  F["freeze one final model"]
+  G["open test once at the end"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G
+```
 
 ### 검증과 테스트를 어떻게 읽어야 하는가
 

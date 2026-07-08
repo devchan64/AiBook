@@ -1,7 +1,7 @@
 # P4-3.1 휴리스틱(heuristic)이 필요한 이유
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 큰 학습 유형으로 나누어 봤습니다. 이제 질문이 하나 생깁니다. 실제 문제를 풀 때는 어떤 데이터부터 보고, 어떤 모델부터 시도하고, 어느 정도 결과가 나오면 다음 단계로 넘어가야 할까요?
 
@@ -162,6 +162,20 @@ flowchart TB
 여기서 휴리스틱은 “모든 특징을 다 넣기 전에 반품과 직접 연결될 가능성이 큰 특징부터 작은 기준 모델로 확인하자”라는 작업 가설이 됩니다. 예를 들어 최근 반품 횟수, 상품군, 주문 금액, 배송 지연 여부만 먼저 골라 간단한 분류 실험을 해 볼 수 있습니다.
 
 이 판단이 맞는지는 검증으로 확인해야 합니다. 선택한 특징만 썼을 때와 더 넓은 특징 집합을 썼을 때의 성능 차이를 비교하고, 사람이 중요하다고 본 기준이 실제로도 신호가 되는지 확인하면 됩니다. 결과가 비슷하다면 단순한 출발점이 유효하다는 뜻이고, 차이가 크다면 휴리스틱을 수정해야 합니다.
+
+```mermaid
+flowchart TD
+  A["order table"]
+  B["list every possible feature"]
+  C["comparison becomes too large"]
+  D["pick a small heuristic subset first"]
+  E["build a small baseline model"]
+  F["compare with a wider feature set"]
+  G["keep or revise the heuristic"]
+
+  A --> B --> C
+  A --> D --> E --> F --> G
+```
 
 ## 이 절에서 기억할 관점
 

@@ -1,7 +1,7 @@
 # P4-7.2 전처리(preprocessing)
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-7.1에서는 `어떤 입력을 남길 것인가`를 봤습니다. 이제 남긴 입력을 그대로 모델에 던지지 않고, 모델이 읽기 좋은 형태로 정리하는 단계로 넘어갑니다. 이 단계가 전처리(preprocessing)입니다.
 
@@ -375,6 +375,26 @@ scikit-learn의 `Pipeline` 문서는 `fit`과 `transform` 단계를 연결해 �
 이때 전처리는 `입력을 모델이 다룰 수 있는 표현으로 바꾸는 규칙`이 됩니다. 결측치는 어떤 기준으로 채울지 정하고, 숫자형은 필요하면 스케일을 맞추고, 범주형은 인코딩해 동일한 규칙으로 훈련 데이터와 테스트 데이터에 적용해야 합니다. 특히 테스트 데이터에 `fit`하지 않고 훈련 데이터에서 배운 규칙만 재사용하는 점이 중요합니다.
 
 확인 가능한 결과는 전처리 전후 비교와 데이터 분할 절차에서 드러납니다. 스케일 조정 전후의 모델 성능 차이, 문자열 칼럼 인코딩 여부, 훈련 데이터에서 계산한 중앙값을 테스트 데이터에도 그대로 썼는지 등을 확인하면 왜 전처리가 단순 청소가 아니라 입력 표현 설계인지 설명할 수 있습니다.
+
+이 사례를 흐름으로 그리면, 전처리는 데이터 청소 한 번이 아니라 `칼럼 상태별 규칙을 세우고 같은 규칙을 다시 쓰는 과정`이라는 점이 더 잘 보입니다.
+
+```mermaid
+flowchart TD
+  A["customer table<br/>missing / numeric / category mixed"]
+  B["missing-value rule<br/>fill from train statistics"]
+  C["numeric rule<br/>scale selected columns"]
+  D["category rule<br/>encode channel / grade"]
+  E["same transform rules<br/>reuse on validation / test"]
+  F["comparable model input"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> E
+  D --> E
+  E --> F
+```
 
 ## 사례 및 예시
 

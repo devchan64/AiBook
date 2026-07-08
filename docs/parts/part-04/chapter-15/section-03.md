@@ -1,7 +1,7 @@
 # P4-15.3 OOB(out-of-bag)와 랜덤포레스트 점검
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. P4-15.2에서는 그 숲이 무엇을 중요하게 보았는지, 즉 특징 중요도(feature importance)를 조심해서 읽는 법을 보았습니다.
 
@@ -343,6 +343,20 @@ trees=300 | oob=0.960 | test=0.947
 사기 거래 탐지 팀이 랜덤포레스트를 학습했더니 train accuracy가 거의 완벽하게 나옵니다. 사람이 먼저 보던 기준은 `짧은 시간 내 반복 결제`, `이상한 지역`, `심야 거래` 같은 신호였습니다.
 
 이 높은 훈련 점수만 보면 모델이 충분히 좋아졌다고 느낄 수 있습니다. 하지만 팀은 이미 결정트리에서 `훈련에 잘 맞는다`와 `새 데이터에도 잘 맞는다`가 다를 수 있다는 점을 배웠습니다. 랜덤포레스트에서는 bootstrap 때문에 각 트리가 보지 않은 샘플이 생기므로, 그 틈을 이용해 OOB 점수로 내부 점검을 합니다.
+
+```mermaid
+flowchart TD
+  A["forest training result"]
+  B["train score looks perfect"]
+  C["check OOB score"]
+  D["check held-out test score"]
+  E["read the gaps"]
+  F["decide whether forest is stable"]
+
+  A --> B --> C --> E
+  A --> D --> E
+  E --> F
+```
 
 이 장면에서 OOB는 `최종 성능 점수`가 아니라 `내부 일반화 추정치`로 읽어야 합니다. train 점수는 높지만 OOB와 test가 함께 낮다면 여전히 과적합이나 데이터 표현 문제를 의심해야 하고, train과 OOB, test가 큰 차이 없이 따라오면 비교적 안정적인 숲으로 읽습니다. 즉, 중요한 것은 숫자 하나가 아니라 숫자 사이의 간격입니다.
 

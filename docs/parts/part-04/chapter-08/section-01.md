@@ -1,7 +1,7 @@
 # P4-8.1 모델 선택(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바꿀지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -365,6 +365,30 @@ flowchart TD
 이 장면에서 모델 선택은 `유명한 알고리즘 고르기`가 아니라 `문제와 제약을 후보군으로 번역하기`가 됩니다. 분류 문제인지, 표 데이터인지, 설명이 필요한지, 실시간 추론이 아닌지 같은 조건이 후보군을 좁히는 기준이 됩니다. 그래서 로지스틱 회귀, 결정트리, 랜덤포레스트처럼 성격이 다른 두세 개 모델을 먼저 세우는 것이 더 합리적입니다.
 
 확인 가능한 결과는 후보군 표와 비교 실험에서 드러납니다. 어떤 모델이 설명 가능성을 주고, 어떤 모델이 비선형 패턴을 더 잘 다루며, 어떤 모델이 운영 비용까지 감당 가능한지 나란히 비교하면 왜 `후보군 설계`가 모델 선택의 첫 단계인지 설명할 수 있습니다.
+
+이 장면을 도식으로 그리면, 같은 이탈 예측 문제도 제약 조건 때문에 후보군이 어떻게 갈라지는지 한눈에 보입니다.
+
+```mermaid
+flowchart TD
+  A["churn prediction task"]
+  B["tabular behavior data"]
+  C["need explanation"]
+  D["daily batch inference"]
+  E["linear candidate<br/>logistic regression"]
+  F["interpretable rule candidate<br/>decision tree"]
+  G["strong nonlinear candidate<br/>random forest"]
+  H["compare shortlist<br/>before tuning"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H
+```
 
 ## 사례 및 예시
 

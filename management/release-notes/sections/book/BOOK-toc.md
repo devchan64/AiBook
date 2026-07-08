@@ -1,11 +1,10 @@
+# Section Release Note
+
 - Section ID: `BOOK-toc`
 - Source File: `docs/book/table-of-contents.md`
 
 ### v2026.07.08
 
-- 변경 이유: 독자용 목차 설명 페이지도 배포 본문으로 사용되고 있으므로 Section 메타데이터와 공통 릴리즈노트 추적 대상에 포함한다.
-- 본문 반영: 중국어 간체 목차 페이지 `docs/zh/book/table-of-contents.md`를 추가하고, 중국어 `nav`에서도 연결했다.
-- 번역 동기화 메모: 영어판 `docs/en/book/table-of-contents.md`와 중국어 간체판 `docs/zh/book/table-of-contents.md`가 같은 `Section ID`와 `Version`을 공유한다. 목차 설명 페이지도 언어별 파일명이 아니라 공통 `Section ID` 기준으로 추적한다.
-- 번역 반영 상태: 영어 번역 반영, 중국어 간체 번역 반영
-- 관련 자산: `docs/en/book/table-of-contents.md`, `docs/zh/book/table-of-contents.md`, `mkdocs.yml`
-- 원문 기준 버전: `v2026.07.08`
+- 변경 이유: Part 2 수학 축에서 로그·지수, 벡터 비교 기준, 연쇄 법칙이 빠져 있으면 초심자가 뒤 Part의 핵심 계산 언어를 읽기 전에 빈칸이 생긴다는 판단이 추가되었다.
+- 본문 반영: Part 2 목차에 `P2-2.4`, `P2-3.6`, `P2-4.6` 더미 Section을 추가하고, 각 항목이 뒤 Part의 어떤 계산 이해를 미리 떠받치는지 한 줄 설명으로 정리했다.
+- 추가 정리: Chapter 3의 이해 순서와 번호 체계를 다시 맞추기 위해 `P2-3.4`, `P2-3.5`, `P2-3.6`의 목차 순서를 `벡터 비교 -> 실행 환경 -> NumPy 실습`으로 재배치했다.

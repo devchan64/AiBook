@@ -1,7 +1,7 @@
 # P4-7.1 특징 선택(feature selection)
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이제 질문을 한 단계 앞으로 옮깁니다. 평가 지표를 바꾸기 전에, 애초에 모델에게 어떤 입력을 줄지부터 점검해야 합니다. 특징 선택(feature selection)은 이 입력 설계의 시작점입니다.
 
@@ -463,6 +463,20 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 이 장면에서 특징 선택은 `많이 넣기`가 아니라 `정당하게 쓸 수 있는 신호만 남기기`가 됩니다. 먼저 예측 시점에 사용할 수 있는지 보고, 문제와 관련된 신호인지 확인하고, 운영에서 안정적으로 수집 가능한지 점검해야 합니다. 이 과정을 거치면 겉보기에는 정보가 줄어들어도, 실제로는 더 일반화 가능한 입력 공간을 만들게 됩니다.
 
 확인 가능한 결과도 분명합니다. 누수가 있는 칼럼을 포함했을 때와 제외했을 때의 검증 점수를 비교하면, 처음의 높은 성능이 왜 착시였는지 드러날 수 있습니다. 또 남긴 특징 목록을 검토하면 어떤 칼럼이 실제 행동 신호이고 어떤 칼럼이 사후 정보였는지 설명할 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["many churn columns"]
+  B["include IDs and after-the-fact fields"]
+  C["score may look high from leakage"]
+  D["keep only usable signals at prediction time"]
+  E["remove IDs, labels, post-outcome fields"]
+  F["recheck validation score"]
+  G["explain why the kept feature list is safer"]
+
+  A --> B --> C
+  A --> D --> E --> F --> G
+```
 
 ## 사례 및 예시
 

@@ -1,7 +1,7 @@
 # P4-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 잡았습니다. 그런데 실제 문서나 라이브러리 문서를 읽다 보면 곧 더 낯선 이름이 나옵니다.
 
@@ -148,6 +148,21 @@ P4-17.1과 P4-17.2에서 군집화 결과 해석과 군집 품질 지표가 다�
 정확도와 재현율만으로 모델을 비교하던 단계에서 운영으로 가면 더 복잡한 문제가 생깁니다. 어떤 모델은 양성과 음성을 잘 가르는 것처럼 보여도 threshold를 조금만 바꾸면 오탐이 급격히 늘고, 어떤 모델은 확률 점수 `0.8`을 많이 내놓지만 실제로는 그 정도로 위험하지 않을 수 있습니다. 또 고객 유형을 군집으로 나눠 보면 위험 거래가 특정 묶음에 모이는지 따로 보고 싶어집니다.
 
 이때 ROC와 PR은 임계값 변화에 따라 무엇이 달라지는지 보게 하고, log loss는 틀린 답을 얼마나 과하게 확신했는지 읽게 하며, calibration은 점수 자체를 얼마나 믿어도 되는지 점검하게 합니다. silhouette는 정답 라벨 없이 고객 묶음 구조를 볼 때 등장합니다.
+
+```mermaid
+flowchart TD
+  A["fraud risk scores"]
+  B["change threshold"]
+  C["check precision-recall shift"]
+  D["check score confidence"]
+  E["check score-frequency match"]
+  F["inspect unlabeled customer groups"]
+
+  A --> B --> C
+  A --> D
+  A --> E
+  A --> F
+```
 
 확인 가능한 결과도 질문마다 다릅니다. threshold를 바꿨을 때 precision과 recall이 어떻게 흔들리는지, 높은 위험 점수 묶음이 실제 사기 비율과 얼마나 맞는지, 군집 안 거래들이 실제로 비슷한지 각각 따로 확인해야 합니다. 그래서 이 지표들은 `새 이름`이 아니라 `더 구체적인 질문`에 대응하는 도구로 읽어야 합니다.
 

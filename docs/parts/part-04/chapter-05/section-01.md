@@ -1,7 +1,7 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
@@ -98,6 +98,26 @@ P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는
 즉, 과소적합은 보통 다음 질문으로 요약할 수 있습니다.
 
 `이 모델은 문제를 풀기 위해 필요한 정도만큼도 아직 설명력을 갖추지 못했는가?`
+
+불량 탐지 사례로 바꾸면, 같은 사진 분류 문제도 `너무 단순해서 놓치는 경우`와 `학습 예시를 너무 외운 경우`를 다른 흐름으로 읽어야 합니다.
+
+```mermaid
+flowchart TD
+  A["part images<br/>crack / color / edge pattern"]
+  B["too simple rule<br/>few signals only"]
+  C["balanced model<br/>main defect pattern"]
+  D["too complex fit<br/>memorizes training quirks"]
+  E["miss obvious defects<br/>train low / val low"]
+  F["holds on new images<br/>train high / val similar"]
+  G["fails on new images<br/>train very high / val drop"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G
+```
 
 ### 과적합은 너무 많이 외운 상태다
 
@@ -264,6 +284,20 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 이 장면은 과적합과 과소적합을 함께 구분해야 한다는 점을 보여 줍니다. 만약 학습 점수와 검증 점수가 둘 다 낮다면 아직 중요한 패턴을 덜 배운 과소적합 쪽일 수 있습니다. 반대로 학습 점수만 지나치게 높고 검증 점수가 크게 낮아지면, 모델이 불량의 본질적 특징보다 학습 사진의 우연한 배경과 노이즈를 너무 많이 따라간 과적합 쪽으로 읽어야 합니다.
 
 확인 가능한 결과는 학습 점수와 검증 점수를 나란히 볼 때 드러납니다. 두 점수의 수준과 차이를 함께 보면, 지금 필요한 다음 행동이 `더 많은 설명력을 주는 것`인지 `덜 외우게 만드는 것`인지 판단할 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["defect image model"]
+  B["train score almost perfect"]
+  C["validation score drops"]
+  D["suspect overfitting"]
+  E["both train and validation stay low"]
+  F["suspect underfitting"]
+  G["decide whether to simplify or strengthen the model"]
+
+  A --> B --> C --> D --> G
+  A --> E --> F --> G
+```
 
 ## 사례 및 예시
 

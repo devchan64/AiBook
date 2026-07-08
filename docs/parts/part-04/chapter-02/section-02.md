@@ -1,7 +1,7 @@
 # P4-2.2 비지도학습(unsupervised learning)
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-2.1에서는 라벨(label)이 있는 사례로 모델을 학습하는 지도학습(supervised learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning)을 봅니다.
 
@@ -41,6 +41,26 @@ P4-2.1에서는 라벨(label)이 있는 사례로 모델을 학습하는 지도�
 지도학습이라면 각 고객에 `우수 고객`, `이탈 위험`, `일반 고객` 같은 라벨이 붙어 있을 수 있습니다. 하지만 비지도학습에서는 그런 라벨 없이 시작합니다. 대신 데이터가 자연스럽게 비슷한 고객끼리 묶이는지, 어떤 축으로 차이가 나는지, 유난히 다른 고객이 있는지를 살펴봅니다.
 
 여기서 중요한 점은 모델이 고객 유형의 의미를 자동으로 이해하는 것이 아니라는 점입니다. 모델은 비슷한 패턴을 찾을 수 있습니다. 그러나 그 묶음이 “우수 고객”인지, “쿠폰 민감 고객”인지, “일시적 이벤트 참여자”인지는 사람이 데이터와 업무 맥락을 보고 해석해야 합니다.
+
+같은 고객 표라도 비지도학습에서는 `정답 라벨을 맞히는 표`보다 `구조 후보를 읽는 표`로 다룹니다. 아래 도식은 같은 입력 표가 군집 후보, 축 요약, 이상치 후보처럼 서로 다른 읽기 결과로 갈라질 수 있음을 보여 줍니다.
+
+```mermaid
+flowchart TD
+  A["customer table<br/>visits / purchases / amount / coupon use"]
+  B["cluster candidates<br/>active / browsing / dormant"]
+  C["reduced view<br/>2D map of behavior"]
+  D["outlier candidate<br/>unusual purchase pattern"]
+  E["human interpretation<br/>name and inspect"]
+  F["next task<br/>analysis or supervised learning"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> E
+  D --> E
+  E --> F
+```
 
 ## 지도학습과 비교하기
 
@@ -193,6 +213,24 @@ Google의 클러스터링 설명도 라벨 없는 예시를 유사도(similarity
 그래서 비지도학습은 `라벨 없는 데이터에서 구조 후보를 찾는 접근`으로 설명됩니다. 모델이 `이 집단은 VIP다`라는 이름까지 알려 주는 것은 아니고, 사람이 나중에 해석을 붙일 만한 패턴을 먼저 드러냅니다.
 
 확인 가능한 결과는 묶음과 축이 실제 검토 질문을 만드는지로 볼 수 있습니다. 예를 들어 비슷한 구매 패턴의 고객이 몇 그룹으로 나뉘고, 그 차이를 사람이 설명할 수 있다면 비지도학습 결과가 다음 분석 단계의 출발점이 됩니다.
+
+```mermaid
+flowchart TD
+  A["customer behavior table"]
+  B["no labels yet"]
+  C["look for similar patterns"]
+  D["group candidates appear"]
+  E["outlier or reduced-view hints appear"]
+  F["human interpretation comes later"]
+  G["use the result for the next analysis question"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  D --> F
+  E --> F
+  F --> G
+```
 
 ## 언제 이 관점을 먼저 떠올려야 하는가
 

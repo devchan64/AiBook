@@ -132,19 +132,22 @@ nav:
               - "P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기": parts/part-02/chapter-02/section-01.md
               - "P2-2.2 시그마(sigma)와 반복 계산": parts/part-02/chapter-02/section-02.md
               - "P2-2.3 극한(limit)과 변화의 직관": parts/part-02/chapter-02/section-03.md
+              - "P2-2.4 로그(log)와 지수(exp)는 왜 반복해서 등장하는가": parts/part-02/chapter-02/section-04.md
       - Module 2. 모델 계산을 읽기 위한 핵심 수학:
           - Chapter 3. 선형대수는 무엇을 모델링하는가:
               - "P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)": parts/part-02/chapter-03/section-01.md
               - "P2-3.2 벡터 공간(vector space)과 위치의 직관": parts/part-02/chapter-03/section-02.md
               - "P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가": parts/part-02/chapter-03/section-03.md
-              - "P2-3.4 파이썬 실행 환경: Colab과 로컬 PC": parts/part-02/chapter-03/section-04.md
-              - "P2-3.5 선형대수를 NumPy로 확인하기": parts/part-02/chapter-03/section-05.md
+              - "P2-3.4 내적(dot product), 길이(norm), 거리(distance), 유사도(similarity)": parts/part-02/chapter-03/section-04.md
+              - "P2-3.5 파이썬 실행 환경: Colab과 로컬 PC": parts/part-02/chapter-03/section-05.md
+              - "P2-3.6 선형대수를 NumPy로 확인하기": parts/part-02/chapter-03/section-06.md
           - Chapter 4. 미분은 무엇을 찾기 위한 도구인가:
               - "P2-4.1 미분을 어떻게 배웠는지 다시 보기": parts/part-02/chapter-04/section-01.md
               - "P2-4.2 변화율(rate of change)과 기울기(slope)": parts/part-02/chapter-04/section-02.md
               - "P2-4.3 미분(derivative)과 그래디언트(gradient)": parts/part-02/chapter-04/section-03.md
               - "P2-4.4 학습에서 미분이 필요한 이유": parts/part-02/chapter-04/section-04.md
               - "P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로": parts/part-02/chapter-04/section-05.md
+              - "P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)": parts/part-02/chapter-04/section-06.md
           - Chapter 5. 확률과 통계는 왜 필요한가:
               - "P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가": parts/part-02/chapter-05/section-01.md
               - "P2-5.2 분포(distribution), 평균(mean), 분산(variance)": parts/part-02/chapter-05/section-02.md

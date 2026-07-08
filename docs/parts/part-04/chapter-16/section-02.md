@@ -1,7 +1,7 @@
 # P4-16.2 부스팅의 성능과 위험
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계의 오차를 다음 단계가 순차적으로 보정하는 방식이라는 점을 보았습니다. 바로 여기서 부스팅의 강점과 위험이 동시에 나옵니다.
 
@@ -298,6 +298,26 @@ scikit-learn 문서는 HistGradientBoostingClassifier와 HistGradientBoostingReg
 ### 사례 1. 사기 탐지 모델이 훈련 데이터에는 완벽해 보이는데 운영 성능은 흔들릴 때
 
 결제 사기 탐지 팀이 그래디언트 부스팅 모델을 학습했더니 훈련 데이터에서는 거의 모든 사기 거래를 맞히는 결과가 나왔다고 해 보겠습니다. `성능이 아주 좋다`고 보일 수 있지만, 실제 운영 데이터에서는 특정 기간의 우연한 패턴까지 따라간 탓에 오탐이 늘고 새 사기 유형을 놓칠 수 있습니다. 이때 팀은 단계 수, learning rate, 트리 깊이를 함께 줄여 보고 early stopping과 validation 점검을 붙여서, `훈련 점수`가 아니라 `처음 보는 데이터에서 유지되는 성능`을 다시 확인해야 합니다. 즉, 부스팅에서는 높은 점수 하나보다 `어디까지 보정하고 어디서 멈출지`를 관리하는 과정이 더 중요합니다.
+
+```mermaid
+flowchart TD
+  A["fraud model training"]
+  B["train score looks almost perfect"]
+  C["validation or test becomes unstable"]
+  D["suspect noise-following corrections"]
+  E["lower learning rate"]
+  F["reduce stages or tree depth"]
+  G["check early stopping point"]
+  H["compare unseen-data errors again"]
+
+  A --> B --> C --> D
+  D --> E
+  D --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H
+```
 
 이 상황은 다음처럼 더 짧게 기록할 수 있습니다. `train은 거의 완벽한데 validation/test가 흔들리면 지금 부스팅은 패턴보다 잡음을 더 배우고 있을 가능성이 크다. 다음 조치는 learning_rate, 단계 수, 트리 깊이를 함께 줄여 보고 early stopping 기준을 다시 확인하는 일이다.` 부스팅 절의 핵심은 `점수가 높다`에서 끝나지 않고 `어느 지점부터 과한 보정이 시작됐는가`, `그 과한 보정을 무엇으로 줄일 것인가`까지 이어지는 데 있습니다. 같은 점수처럼 보여도 남는 오류 사례가 다르면 멈춤 지점과 다음 조정 순서도 달라질 수 있습니다.
 

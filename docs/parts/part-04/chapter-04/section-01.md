@@ -1,7 +1,7 @@
 # P4-4.1 학습 데이터와 평가 데이터
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 후보를 좁히는 법을 봤습니다. 이제 중요한 질문이 생깁니다. 그 선택이 실제로 괜찮은지 어떻게 확인할 수 있을까요?
 
@@ -337,6 +337,20 @@ Name: churned, dtype: float64
 여기서 데이터 분리는 판단 방식을 바꿉니다. 먼저 일부 고객 기록은 학습용으로 두고, 일부는 평가용으로 남겨 두면 모델이 처음 보는 고객 기록에서도 비슷하게 동작하는지 확인할 수 있습니다. 사람이 중요하다고 본 기준이 실제로도 반복되는 신호인지, 아니면 우연히 이번 표에서만 강하게 보인 흔적인지도 구분하기 쉬워집니다.
 
 확인 가능한 결과도 분명합니다. 같은 데이터로 평가했을 때의 점수와, 따로 남겨 둔 평가 데이터에서의 점수를 나란히 보면 차이가 나는지 볼 수 있습니다. 학습 점수만 높고 평가 점수가 크게 떨어진다면, 데이터 분리가 없을 때 과하게 낙관적인 해석을 했다는 신호로 읽어야 합니다.
+
+```mermaid
+flowchart TD
+  A["customer coupon table"]
+  B["train and evaluate on the whole table"]
+  C["score looks too good"]
+  D["leave out an evaluation split"]
+  E["train on one part only"]
+  F["check unseen-customer score"]
+  G["read whether optimism was justified"]
+
+  A --> B --> C
+  A --> D --> E --> F --> G
+```
 
 ## 사례 및 예시
 

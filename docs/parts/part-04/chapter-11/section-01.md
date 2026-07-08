@@ -1,7 +1,7 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
@@ -319,6 +319,18 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 
 - 출력값은 `이탈할 가능성`
 - 실제 서비스 판단은 `어느 점수 이상이면 리텐션 캠페인을 보낼 것인가`
+
+```mermaid
+flowchart TD
+  A["customer features"]
+  B["linear score"]
+  C["sigmoid output"]
+  D["churn probability-like score"]
+  E["threshold policy"]
+  F["campaign or review action"]
+
+  A --> B --> C --> D --> E --> F
+```
 
 이 장면에서 로지스틱 회귀를 먼저 고려하는 이유는 보통 세 가지입니다. 빠르게 기준선을 세울 수 있고, 어떤 특징이 점수를 밀어 올리는지 비교적 읽기 쉬우며, threshold 정책을 바꿔 여러 운영 시나리오를 바로 비교할 수 있기 때문입니다.
 

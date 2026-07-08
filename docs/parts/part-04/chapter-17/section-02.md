@@ -1,7 +1,7 @@
 # P4-17.2 군집 결과를 해석할 때의 주의점
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning) 문제로 보았습니다. 이제 더 중요한 단계는 해석입니다.
 
@@ -328,6 +328,22 @@ flowchart TB
 ### 사례 1. 군집 번호를 바로 고객 등급으로 써서 쿠폰 정책을 만들면 왜 위험할까
 
 마케팅 팀이 고객 데이터를 군집화한 뒤 `cluster 2` 고객에게만 큰 할인 쿠폰을 자동 발송하려 한다고 해 보겠습니다. 하지만 이 번호는 단지 알고리즘이 붙인 식별자일 뿐이고, 다른 특징 선택이나 다른 `k` 값으로 다시 돌리면 같은 고객들이 다른 번호를 받을 수도 있습니다. 더구나 현재 군집이 실제 이탈 위험이나 장기 가치와 연결되는지도 검증되지 않았다면, 쿠폰 비용만 늘고 핵심 고객은 놓칠 수 있습니다. 그래서 군집 결과는 바로 정책 규칙으로 쓰기보다, 각 군집의 특성을 요약하고 후속 성과 지표와 대조하는 검토 단계를 거쳐야 합니다.
+
+```mermaid
+flowchart TD
+  A["cluster output"]
+  B["see cluster 2"]
+  C["treat as premium group immediately"]
+  D["coupon policy goes live"]
+  E["review feature summary first"]
+  F["check parameter sensitivity"]
+  G["compare retention or value labels"]
+  H["decide whether policy use is justified"]
+
+  A --> B --> C --> D
+  A --> E
+  E --> F --> G --> H
+```
 
 이 사례를 프로젝트 메모처럼 줄이면 다음처럼 적을 수 있습니다.
 

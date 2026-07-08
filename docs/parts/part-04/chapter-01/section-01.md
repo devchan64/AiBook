@@ -1,7 +1,7 @@
 # P4-1.1 AI, 머신러닝, 딥러닝의 관계
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 Part 1에서는 AI라는 말의 넓은 범위를 봤습니다. Part 2에서는 수식, Python, 배열, 표, 그래프를 다시 읽었습니다. 이제 Part 4에서는 그 기반 위에서 머신러닝(machine learning)을 따로 떼어 봅니다.
 
@@ -225,6 +225,19 @@ Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐�
 이 절이 AI, 머신러닝, 딥러닝, 생성형 AI, LLM의 포함 관계를 따로 잡는 이유가 여기에 있습니다. LLM 경험은 현대 AI 이해의 중요한 출발점이지만, AI 전체를 대표하는 하나의 이름으로 놓으면 Part 4에서 다시 볼 데이터, 모델, 학습, 평가 흐름이 가려집니다.
 
 확인 가능한 결과는 서비스 구조를 질문으로 나눠 볼 때 드러납니다. 어떤 부분은 검색이 담당하고, 어떤 부분은 분류 모델이 담당하고, 어떤 부분은 LLM이 생성 응답을 담당한다면, 이미 `AI = LLM`이라는 단순한 등식으로는 설명이 부족합니다.
+
+```mermaid
+flowchart TD
+  A["chatbot or image-tool experience"]
+  B["jump to AI = LLM"]
+  C["service structure stays hidden"]
+  D["separate search, rules, models, policy, human review"]
+  E["LLM becomes one component"]
+  F["AI scope becomes wider again"]
+
+  A --> B --> C
+  A --> D --> E --> F
+```
 
 ## 이 절에서 기억할 관점
 

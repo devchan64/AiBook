@@ -1,7 +1,7 @@
 # P4-15.1 랜덤포레스트(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-14에서는 결정트리(decision tree)가 왜 직관적이면서도 과적합(overfitting)에 쉽게 빠질 수 있는지 보았습니다. 이제 다음 질문이 나옵니다.
 
@@ -278,6 +278,21 @@ OOB는 각 트리가 보지 못한 샘플을 활용해, 별도 검증 감각을 
 구독 서비스 팀이 고객 이탈 예측을 위해 결정트리를 먼저 써 보았습니다. 사람이 먼저 보던 기준은 `최근 방문 수`, `결제 지연`, `문의 횟수`, `멤버십 등급` 같은 신호였습니다.
 
 단일 트리는 규칙을 읽기 쉬웠지만, 특정 예외 고객 몇 명에 경계가 쉽게 끌리는 문제가 있었습니다. 어떤 데이터 분할에서는 잘 맞고, 다른 분할에서는 조금만 바뀌어도 첫 분기와 예측 결과가 흔들립니다. 팀은 트리의 질문 흐름은 유지하되, 한 그루의 과한 예민함은 줄이고 싶어 합니다.
+
+```mermaid
+flowchart TD
+  A["customer churn table"]
+  B["single tree reacts to rare cases"]
+  C["bootstrap different samples"]
+  D["random feature subsets"]
+  E["many trees vote together"]
+  F["more stable churn decision"]
+
+  A --> B
+  A --> C --> E
+  A --> D --> E
+  E --> F
+```
 
 이 장면에서 랜덤포레스트는 `트리를 버리는 방법`이 아니라 `조금씩 다른 트리를 여러 개 모아 합의하는 방법`으로 읽어야 합니다. bootstrap으로 각 트리가 조금 다른 고객 집합을 보고, `max_features`로 분기 후보도 다르게 보면, 한 그루가 특정 예외에 끌리는 현상이 숲 전체에서는 평균적으로 약해질 수 있습니다.
 

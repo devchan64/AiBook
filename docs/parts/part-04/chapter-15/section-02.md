@@ -1,7 +1,7 @@
 # P4-15.2 특징 중요도(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
 
@@ -223,6 +223,22 @@ scikit-learn 예제는 multicollinear or correlated features에서는 permutatio
 마케팅 팀이 랜덤포레스트로 고객 반응을 예측한 뒤, 어떤 특징이 중요했는지 보고 싶어 합니다. 사람이 먼저 보던 기준은 `최근 방문 수`, `할인 메시지 반응`, `구매 금액`, `회원 등급` 같은 신호였습니다.
 
 모델을 학습하고 `feature_importances_`를 보니 `recent_visits`와 `discount_clicks`가 높게 나옵니다. 이때 팀은 곧바로 `방문 수가 가장 큰 원인이다`라고 말하고 싶어질 수 있습니다. 하지만 그 숫자는 먼저 `모델이 분기에서 얼마나 많이 활용했는가`의 요약이지, 현실 세계의 인과 순위를 바로 보여 주는 값은 아닙니다.
+
+```mermaid
+flowchart TD
+  A["trained forest"]
+  B["observe high importance score"]
+  C["check MDI meaning"]
+  D["check permutation result"]
+  E["review correlated or high-cardinality features"]
+  F["write cautious interpretation"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E --> F
+  D --> E
+```
 
 이 장면에서 특징 중요도는 `설명 출발점`으로 읽습니다. MDI는 모델 내부 사용 흔적을 요약하고, permutation importance는 그 특징을 섞었을 때 실제 성능이 얼마나 흔들리는지를 봅니다. 또 비슷한 뜻의 특징이 여러 개 있으면 하나는 높고 다른 하나는 낮게 보여도, 실제로는 정보를 서로 대신하고 있을 수 있습니다.
 

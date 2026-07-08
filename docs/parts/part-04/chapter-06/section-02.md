@@ -1,7 +1,7 @@
 # P4-6.2 문제 유형별 평가 기준
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-6.1에서는 평가 지표(metric)가 단순 점수판이 아니라, 무엇을 중요하게 보는지 드러내는 기준이라는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다. `문제가 달라지면 왜 보는 지표도 달라질까요?`
 
@@ -334,6 +334,26 @@ flowchart TD
 여기서 문제 유형 구분은 평가 기준을 바꾸는 출발점이 됩니다. 분류면 precision/recall/F1 쪽 질문을 먼저 보고, 회귀면 MAE나 RMSE처럼 오차 크기를 보며, 군집화면 silhouette나 사람 해석 가능성을 함께 봐야 합니다.
 
 확인 가능한 결과도 다르게 읽힙니다. 같은 고객 데이터라도 분류에서는 양성 놓침 건수, 회귀에서는 평균 오차 크기, 군집화에서는 군집 내 조밀함과 군집 간 분리를 따로 확인해야 합니다. 즉, 먼저 바뀌어야 하는 것은 데이터가 아니라 질문입니다.
+
+같은 고객 표가 다른 평가 질문으로 갈라지는 장면을 도식으로 보면 더 분명합니다.
+
+```mermaid
+flowchart TD
+  A["same customer table"]
+  B["classification question<br/>who may churn?"]
+  C["regression question<br/>how much will they spend?"]
+  D["clustering question<br/>which groups appear?"]
+  E["read FP / FN and F1"]
+  F["read error size<br/>MAE / RMSE"]
+  G["read group structure<br/>silhouette / interpretation"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G
+```
 
 ## 짧은 점검
 

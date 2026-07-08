@@ -20,13 +20,13 @@ P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 �
 
 | 지금 이 절에서 잡을 것 | 바로 다음에 이어질 질문 | 이후 다시 쓰이는 위치 |
 | --- | --- | --- |
-| 행렬 곱이 위치별 곱이 아니라는 구분 | P2-3.5에서 NumPy로 배열 shape와 곱셈을 직접 확인합니다. | Part 3에서 특징 행렬 `X`를 읽고, Part 4와 Part 5에서 가중치와 점수 계산을 읽을 때 다시 씁니다. |
+| 행렬 곱이 위치별 곱이 아니라는 구분 | P2-3.6에서 NumPy로 배열 shape와 곱셈을 직접 확인합니다. | Part 3에서 특징 행렬 `X`를 읽고, Part 4와 Part 5에서 가중치와 점수 계산을 읽을 때 다시 씁니다. |
 | 가중합을 여러 출력에 재사용하는 감각 | 뒤 절에서 코드로 shape 오류와 계산 결과를 확인합니다. | Part 5에서 선형층(layer), attention 계산, 표현 변환 설명으로 이어집니다. |
 | 입력 차원과 출력 차원이 shape에 반영된다는 점 | `P2-6.1`, `P2-6.2`, `P2-6.3`에서 가중치와 손실이 어떻게 연결되는지로 넘어갑니다. | Part 5에서 임베딩 투영, 로짓(logit), 출력 벡터 설명을 읽을 때 다시 등장합니다. |
 
 ## 이 절의 범위
 
-여기서는 행렬 곱(matrix multiplication), 가중합(weighted sum), 선형 변환(linear transformation)의 입문적 의미를 다룹니다. 행렬식(determinant), 역행렬(inverse matrix), 고유값(eigenvalue), 고유벡터(eigenvector)는 다루지 않습니다. NumPy로 행렬 곱을 직접 실행하는 실습은 P2-3.5로 넘깁니다.
+여기서는 행렬 곱(matrix multiplication), 가중합(weighted sum), 선형 변환(linear transformation)의 입문적 의미를 다룹니다. 행렬식(determinant), 역행렬(inverse matrix), 고유값(eigenvalue), 고유벡터(eigenvector)는 다루지 않습니다. NumPy로 행렬 곱을 직접 실행하는 실습은 P2-3.6로 넘깁니다.
 
 여기서는 다음 다섯 질문에 집중합니다.
 

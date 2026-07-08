@@ -1,7 +1,7 @@
 # P4-3.2 휴리스틱과 모델 선택
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 모델 선택(model selection)에 적용합니다.
 
@@ -49,6 +49,30 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 | 그래디언트 부스팅(gradient boosting) | 표 형식 데이터에서 강한 성능을 보일 때가 많습니다. | 튜닝과 검증을 더 신중히 해야 합니다. | P4-16 |
 
 여기서 휴리스틱은 “로지스틱 회귀가 정답이다”라고 말하지 않습니다. 대신 “간단한 기준 모델을 세우고, 그다음 설명 가능성과 성능을 비교해 보자”라는 실험 순서를 만듭니다.
+
+이 판단을 사례 흐름으로 그려 보면, 모델 선택은 이름을 고르는 일이 아니라 `문제와 제약으로 후보를 줄인 뒤 작은 비교 집합을 만든다`는 뜻이 더 분명해집니다.
+
+```mermaid
+flowchart TD
+  A["churn problem<br/>predict leave / stay"]
+  B["task type<br/>classification"]
+  C["constraints<br/>interpretability / tabular data / cost"]
+  D["baseline first<br/>logistic regression"]
+  E["tree candidate<br/>decision tree"]
+  F["stronger ensemble<br/>random forest"]
+  G["compare with validation<br/>recall / precision / cost"]
+  H["keep or expand set<br/>record why"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> G
+  F --> G
+  G --> H
+```
 
 ## 모델 선택은 후보를 줄이는 과정이다
 
@@ -174,6 +198,20 @@ flowchart TB
 이때 모델 선택 휴리스틱은 “먼저 로지스틱 회귀 같은 간단한 기준 모델로 문장 분류가 어느 정도 되는지 보고, 그다음 설명 가능성과 성능이 더 필요한지 비교하자”가 될 수 있습니다. 이후 결정트리나 더 강한 모델을 추가해 비교하면, 복잡도를 올렸을 때 실제 이득이 있는지 볼 수 있습니다.
 
 확인 가능한 결과도 분명합니다. 기준 모델과 규칙 기반 분류의 오류 유형을 비교하고, 클래스별 정밀도와 재현율을 보면 어떤 문의 유형에서 더 나아졌는지 확인할 수 있습니다. 만약 기준 모델이 이미 대부분의 반복 문의를 안정적으로 잡는다면, 더 복잡한 모델은 뒤 단계로 미뤄도 됩니다. 반대로 표현 변형이 많은 문의에서 계속 틀린다면 더 강한 표현 모델을 검토해야 합니다.
+
+```mermaid
+flowchart TD
+  A["inquiry classification problem"]
+  B["rule-based start point"]
+  C["too many misses from wording changes"]
+  D["try a simple baseline model first"]
+  E["compare with tree or stronger candidates"]
+  F["check precision and recall by class"]
+  G["keep the shortlist or expand it"]
+
+  A --> B --> C
+  C --> D --> E --> F --> G
+```
 
 ## 이 절에서 기억할 관점
 

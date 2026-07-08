@@ -1,7 +1,7 @@
 # P4-11.2 결정 경계(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -293,6 +293,21 @@ flowchart TD
 ## 사례로 보기
 
 ### 실무 예시로 보면 경계 관점이 더 분명해진다
+
+```mermaid
+flowchart TD
+  A["input features"]
+  B["linear decision score"]
+  C["boundary or threshold line"]
+  D["class 0 side"]
+  E["class 1 side"]
+  F["near-boundary review cases"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  C --> F
+```
 
 ### 사례 1. 합격 예측
 

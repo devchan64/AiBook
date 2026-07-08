@@ -1,7 +1,7 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.08`
 
 P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supervised learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 비지도학습(unsupervised learning)을 봤습니다. 이번에는 모델이 행동(action)을 하고, 그 결과로 보상(reward)을 받으며, 다음 행동 방식을 조정하는 강화학습(reinforcement learning)을 봅니다.
 
@@ -106,6 +106,29 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 
 이런 이유로 강화학습은 “당장 좋은 행동”과 “나중에 좋은 결과를 만드는 행동”을 구분해야 합니다. 이 지점이 강화학습을 어렵고 흥미롭게 만드는 핵심입니다.
 
+쿠폰 추천 사례로 바꾸어 보면, 같은 행동도 `즉시 클릭`과 `나중 구매`를 함께 읽어야 강화학습 문제라는 점이 더 분명해집니다.
+
+```mermaid
+flowchart TD
+  A["user state<br/>recent visits / cart / past coupon use"]
+  B{"choose coupon"}
+  C["coupon A<br/>high click"]
+  D["coupon B<br/>lower click"]
+  E["immediate response<br/>click or ignore"]
+  F["later outcome<br/>purchase / return / no purchase"]
+  G["reward design<br/>short-term + long-term"]
+  H["update policy<br/>better next offer"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  D --> E
+  E --> F
+  F --> G
+  G --> H
+```
+
 ## 탐험과 활용
 
 강화학습에서는 탐험(exploration)과 활용(exploitation)을 함께 생각해야 합니다.
@@ -171,6 +194,19 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 이런 문제는 한 번의 입력과 정답 라벨을 맞추는 지도학습과 다르게, 행동 이후의 보상 흐름을 함께 봐야 합니다. 그래서 강화학습은 상태, 행동, 보상, 정책을 중심으로 읽고, 즉시 보상과 장기 보상을 함께 고려하는 학습으로 설명됩니다.
 
 확인 가능한 결과는 정책 비교에서 드러납니다. 클릭률만 높은 정책과 장기 구매 보상이 더 큰 정책이 다르게 나타난다면, 이미 이 문제는 단순 분류보다 순차적 의사결정과 보상 설계 문제에 더 가깝습니다.
+
+```mermaid
+flowchart TD
+  A["user state"]
+  B["choose a coupon action"]
+  C["observe immediate click"]
+  D["observe later purchase or return"]
+  E["combine them into reward design"]
+  F["update the policy"]
+  G["compare short-term and long-term policies"]
+
+  A --> B --> C --> D --> E --> F --> G
+```
 
 ## 언제 이 관점을 먼저 떠올려야 하는가
 

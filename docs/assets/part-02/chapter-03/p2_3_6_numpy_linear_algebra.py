@@ -1,7 +1,7 @@
-"""P2-3.5 NumPy linear algebra examples.
+"""P2-3.6 NumPy linear algebra examples.
 
 Run:
-    python docs/assets/part-02/chapter-03/p2_3_5_numpy_linear_algebra.py
+    python docs/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py
 """
 
 import numpy as np
