@@ -698,6 +698,11 @@ plugins:
                         - "P1-12.1 提示词(prompt)指定了什么": zh/parts/part-01/chapter-12/section-01.md
                         - "P1-12.2 指示(instruction)、上下文(context)、示例(example)": zh/parts/part-01/chapter-12/section-02.md
                         - "P1-12.3 提示词(prompt)的限制(limit)与评估(evaluation)": zh/parts/part-01/chapter-12/section-03.md
+                    - Chapter 13. 嵌入、检索与 RAG:
+                        - "P1-13.1 把文本(text)表示为向量(vector)意味着什么": zh/parts/part-01/chapter-13/section-01.md
+                        - "P1-13.2 相似度搜索(similarity search)的直觉": zh/parts/part-01/chapter-13/section-02.md
+                        - "P1-13.3 通向 RAG(retrieval-augmented generation)的流程": zh/parts/part-01/chapter-13/section-03.md
+                        - "P1-13.4 向量搜索(vector search)实现的直觉": zh/parts/part-01/chapter-13/section-04.md
                 - 总结: zh/parts/part-01/summary.md
           theme:
             language: zh
