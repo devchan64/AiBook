@@ -621,6 +621,10 @@ plugins:
                         - "P1-14.4 MCP and the Standardization of Tool Connections": en/parts/part-01/chapter-14/section-04.md
                         - "P1-14.5 Harness and the Evaluation Execution Environment": en/parts/part-01/chapter-14/section-05.md
                         - "P1-14.6 The Constraints AI Services Meet in the Real World": en/parts/part-01/chapter-14/section-06.md
+                    - Chapter 15. AI Ethics, Copyright, and Security:
+                        - "P1-15.1 Bias, Safety, and Accountability": en/parts/part-01/chapter-15/section-01.md
+                        - "P1-15.2 Copyright and Training Data": en/parts/part-01/chapter-15/section-02.md
+                        - "P1-15.3 Security and Privacy": en/parts/part-01/chapter-15/section-03.md
                 - Summary: en/parts/part-01/summary.md
           theme:
             language: en
