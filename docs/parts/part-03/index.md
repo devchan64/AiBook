@@ -13,7 +13,7 @@ Part 3은 바로 그 지점을 다룹니다. 여기서 데이터 모델링은 �
 
 Part 3은 데이터과학 커리큘럼에서 따로따로 보이는 데이터 정리(data wrangling), 특징 설계(feature engineering), 샘플 설계(sample design), 추론(inference), 문제 구조화(problem framing)를 재학습 흐름으로 다시 묶어 설명합니다. 여기서는 이 항목들을 이름별 절차로 나열하지 않고, 하나의 사례를 따라 `무엇을 샘플로 만들고`, `어떤 표로 다시 묶고`, `무엇과 비교하고`, `어디까지 말할 수 있는가`를 차례로 확인합니다. 따라서 Part 3의 초점은 알고리즘보다 먼저 `문제 표현 구조`를 세우는 데 있습니다.
 
-Part 3 안에서는 `데이터 모델링` 자체의 큰 정의를 3.1에서 먼저 잡고, 3.2에서 진행 순서를 고정합니다. 이후 Section에서는 같은 용어의 상세 정의를 반복하기보다 현재 질문에 필요한 최소 연결만 남깁니다. [샘플(sample)](../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../reference/concept-glossary.md#glossary-baseline), [비교 리포트(comparison report)](../../reference/concept-glossary.md#glossary-comparison-report), [타깃(target)](../../reference/concept-glossary.md#glossary-target)의 위치가 다시 헷갈릴 때는 각 표제어의 `중심 Section`과 `등장 Section`이 기준 참조점이 됩니다.
+Part 3 안에서는 `데이터 모델링` 자체의 큰 정의를 3.1에서 먼저 잡고, 3.2에서 진행 순서를 고정합니다. 이후 Section에서는 같은 용어의 상세 정의를 반복하기보다 현재 질문에 필요한 최소 연결만 남깁니다. [샘플(sample)](../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../reference/concept-glossary.md#glossary-baseline), [비교 리포트(comparison report)](../../reference/concept-glossary.md#glossary-comparison-report), [타깃(target)](../../reference/concept-glossary.md#glossary-target)은 필요할 때 개념사전에서 다시 확인할 수 있습니다.
 
 Part 3에서는 먼저 데이터 모델링이 무엇을 달성하려는지와 어떤 순서로 진행되는지부터 고정합니다. 그 다음 저장된 기록을 왜 곧바로 데이터셋처럼 읽으면 안 되는지 확인하고, 한 행과 한 샘플의 뜻을 정한 뒤, 원시 로그를 비교 가능한 표로 다시 묶습니다. 이 단계에서 수치형 값의 수준, 변화, 흔들림을 어떻게 탐색할지와 범주형 상태, 결측, 구간 라벨을 어떻게 함께 읽을지도 정리합니다. 이어서 특징과 중간 표현을 설계하고, 어떤 표현 변환을 거쳐 어떤 특징만 남길지 고릅니다. 이 과정에서 어떤 열이 식별용인지, 어떤 열이 비교용인지, 어떤 열이 목표 후보인지 같은 열 역할도 분리합니다. 그 다음 최근 구간과 기준선을 비교하는 구조를 세우고, 적은 표본과 흔들리는 반복성 앞에서 어디까지 해석할 수 있는지 경계를 둡니다. 마지막에는 비교 리포트로 남길 문제와 예측 문제로 올릴 문제를 구분하고, 입력/결과 경계와 시간 경계를 닫습니다.
 
@@ -54,7 +54,7 @@ Part 3은 다음 9개 Chapter 흐름을 의도적으로 따릅니다.
 6. 특징과 중간 표현을 설계한다.
 7. 기준선과 비교 구조를 만든다.
 8. 해석 경계를 세운다.
-9. 비교 리포트와 예측 문제를 구분하고, 뒤 Part로 넘길 최소 전제를 함께 닫는다.
+9. 비교 리포트와 예측 문제를 구분하고, 입력/결과 경계를 닫는다.
 
 이 순서를 지키는 이유는 저장 구조를 문제 구조로 바꾸기 전에 feature와 label을 말하면 용어가 공중에 뜨고, 해석 경계가 세워지기 전에 예측 문제부터 꺼내면 데이터 구조보다 모델 이름이 먼저 보이기 쉽기 때문입니다.
 
@@ -93,7 +93,7 @@ Part 3에서 반복해서 다루는 질문은 몇 갈래로 묶입니다. 무엇
 
 Part 3에서는 샘플 단위, 원시 로그와 요약 표, 특징과 중간 표현, 기준선 비교, 표본 수와 반복성, 경고 후보와 라벨 예측의 경계를 다룹니다.
 
-반면 특정 머신러닝 알고리즘의 학습 방식과 train/validation/test 분리의 세부 절차는 Part 4에서, 복잡한 시계열 딥러닝 구조는 Part 5에서 다시 다룹니다.
+반면 특정 머신러닝 알고리즘의 학습 방식과 train/validation/test 분리의 세부 절차, 복잡한 시계열 딥러닝 구조는 뒤 Part에서 다시 다룹니다.
 
 이 생략은 회피가 아니라 역할 분리입니다. Part 3의 책임은 `어떤 데이터를 어떤 구조로 만들어야 하는가`를 먼저 분명히 하는 데 있습니다.
 
@@ -103,7 +103,7 @@ Part 2가 계산과 표현 도구를 복구했다면, Part 3은 그 도구로 `�
 
 ## 이후 Part로의 연결
 
-Part 3에서 샘플 구조, 특징, 목표 후보, 시간 경계를 먼저 정리해 두면, 이후 Part의 학습 설명도 `무엇을 예측하는가`와 `어떤 입력을 쓰는가`가 분명한 상태에서 읽을 수 있습니다.
+Part 3에서 샘플 구조, 특징, 목표 후보, 시간 경계를 먼저 정리해 두면, 이후 학습 설명도 `무엇을 예측하는가`와 `어떤 입력을 쓰는가`가 분명한 상태에서 읽을 수 있습니다.
 
 ## Part 3을 읽고 나면 생겨야 할 이해
 

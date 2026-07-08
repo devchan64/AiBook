@@ -5,6 +5,9 @@
 
 ### v2026.07.08
 
+- 변경 이유: Part 시작 페이지가 개념사전의 `중심 Section`·`등장 Section` 사용법과 뒤 Part 인계 문장을 함께 길게 적어, 오버뷰보다 운영 메모처럼 읽히는 구간이 남아 있었다.
+- 본문 반영: 개념사전 안내를 표제어 앵커 재확인 수준으로 줄이고, 마지막 Chapter 설명과 범위/연결 문장의 뒤 Part 언급도 고수준 범위 설명으로 압축했다.
+
 - 변경 이유: Part 시작 페이지가 Part 3 핵심 용어를 개념사전으로 되돌릴 때 여전히 페이지 전체 링크만 두고 있어, 표제어 단위 직접 연결 규칙과 맞지 않았다.
 - 본문 반영: `샘플`, `특징`, `기준선`, `비교 리포트`, `타깃`을 개념사전 세부 앵커로 직접 연결하고, 각 표제어의 `중심 Section`과 `등장 Section`이 참조점이라는 문장으로 정리했다.
 - 번역 동기화 메모: preserve the direct term-level glossary links in the Part 3 overview and keep the reference cue tied to each entry's anchor rather than the glossary page as a whole. / pending

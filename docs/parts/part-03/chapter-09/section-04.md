@@ -5,7 +5,7 @@
 
 운영 현장에서는 [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue)와 [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report)는 먼저 생겨도, [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate)는 대개 바로 주어지지 않습니다. 처음 남는 것은 깔끔한 `정답 라벨`보다 제각각의 검토 결과와 운영 메모인 경우가 많기 때문입니다. 그래서 이 절에서는 `운영 메모가 왜 곧바로 target이 아닌가`, 그리고 `어떤 조건이 붙어야 반복 가능한 라벨 후보 열로 바뀌는가`를 정리합니다.
 
-[목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate)는 대개 `처음부터 주어진 정답`이 아니라, `검토 과정에서 반복적으로 남은 운영 판단을 더 안정된 열로 바꾼 결과`입니다.
+목표 라벨 후보(target candidate)는 대개 `처음부터 주어진 정답`이 아니라, `검토 과정에서 반복적으로 남은 운영 판단을 더 안정된 열로 바꾼 결과`입니다.
 
 ## 처음에는 왜 메모만 남는가
 
