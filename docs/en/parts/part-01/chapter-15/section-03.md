@@ -1,7 +1,7 @@
 # P1-15.3 Security and Privacy
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-15.2 examined how to handle other people's expression and copyrighted works. P1-15.3 turns to a parallel question:
 
@@ -132,7 +132,7 @@ AI security is not only about blocking the model. It is about managing the flow 
 
 Part 1 Chapter 15 ends here. Chapter 16 then turns to how AI can be applied and verified in this book and in real work.
 
-## Short Check
+## Checklist
 
 - You can explain that AI input may travel into external services and logs.
 - You can explain why personal data, credentials, and confidential information should be excluded from AI input.

@@ -1,7 +1,7 @@
 # P1-3.1 Strengths and Limits of Rule-Based Systems
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 2.1 located symbolic AI and rule-based approaches historically. Section 2.3 showed that even inside the same workflow, some parts are easy to write explicitly as policy conditions while other parts require learned relations from data. This section narrows the question further: what practical strengths did rule-based systems have, and where did they begin to fail?
 
@@ -159,7 +159,7 @@ Rules did not disappear when machine learning and deep learning became strong. T
 
 So the strongest summary is not that rule-based systems belong only to the past. It is that they remain strong in places where explicit policy, procedure, and auditability matter, while other parts of the same system may require learning-based models.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Internal Purchase Approval
 

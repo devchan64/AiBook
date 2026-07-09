@@ -1,7 +1,7 @@
 # P1-12.3 The Limits and Evaluation of Prompts
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 12.1 explained what prompts specify. Section 12.2 separated `instructions`, `context`, and `examples`.
 
@@ -240,7 +240,7 @@ This also summarizes the whole flow of Chapter 12:
 
 From here, the discussion moves to how LLMs meet external material. That begins with embeddings, vector search, and RAG.
 
-## Short Check
+## Checklist
 
 - I can explain that prompts specify output conditions but do not guarantee factuality.
 - I can distinguish factuality, evidence, and recency.

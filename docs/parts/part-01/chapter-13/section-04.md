@@ -1,7 +1,7 @@
 # P1-13.4 벡터 검색 구현의 직관
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 가까운 벡터를 찾는 유사도 검색(similarity search)을 봤습니다. P1-13.3에서는 검색된 후보를 LLM 입력 맥락(context)에 붙이는 RAG(retrieval-augmented generation)를 봤습니다.
 
@@ -216,7 +216,7 @@ HNSW(hierarchical navigable small world)는 이런 그래프 기반 근사 최�
 
 또한 여기서는 `FAISS나 HNSW의 세부 구현 수식`을 설명하지도, `벡터 검색 제품 비교`를 다루지도 않습니다. RAG 이전의 저장과 검색 구현 직관을 먼저 잡고, 서비스 운영과 품질 평가는 14장과 Part 5에서 다시 이어집니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 전체 비교(brute-force search)가 데이터가 커질수록 느려질 수 있음을 설명할 수 있다.
 - 인덱스(index)를 검색을 빠르게 하기 위해 미리 만든 구조로 설명할 수 있다.

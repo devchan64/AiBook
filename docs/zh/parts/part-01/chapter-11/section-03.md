@@ -1,7 +1,7 @@
 # P1-11.3 Transformer 与预训练 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)；在 11.2 中，我们又看了 RNN、Seq2Seq、Attention 如何处理顺序与上下文。
 
@@ -245,7 +245,7 @@ GPT-3 论文也指出了局限。few-shot 性能变好，并不自动证明模�
 | 预训练是在大规模文本中先学习一般语言模式的阶段。 | Part 6 中 GPT/LLM 主线说明 |
 | BERT 与 GPT 都属于 Transformer 家族，但它们并不是同一种角色的模型。 | Part 5 中对 BERT 的比较，以及 Part 6 中 LLM 发展史背景 |
 
-## 简短检查
+## 检查清单
 
 - 我可以把 Transformer 解释成以 self-attention 为中心的结构。
 - 我可以把 self-attention 解释成 token 之间相关度的计算，而不是人类式注意。

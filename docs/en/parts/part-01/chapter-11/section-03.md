@@ -1,7 +1,7 @@
 # P1-11.3 Transformers and Pretrained LLMs
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 11.1 introduced language models and embeddings. Section 11.2 covered the flow of RNNs, Seq2Seq, and Attention for handling order and context.
 
@@ -248,7 +248,7 @@ For now, these three lines are enough to keep:
 | pretraining is the stage where general language patterns are learned first from large text | the main GPT/LLM line in Part 6 |
 | BERT and GPT both belong to the Transformer family, but they do not play the same role | later BERT comparison in Part 5 and LLM-development history in Part 6 |
 
-## Short Check
+## Checklist
 
 - I can explain Transformers as self-attention-centered structures.
 - I can explain self-attention as relevance computation among tokens rather than human conscious attention.

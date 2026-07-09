@@ -1,7 +1,7 @@
 # P1-10.3 生成结果(output)的质量(quality)与风险(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 10.1 中，我们看了分类(classification)、预测(prediction)、生成(generation)之间的区别。在 10.2 中，我们又看了生成式 AI(generative AI)会基于条件(condition)逐步构造产出物的直觉。
 
@@ -227,7 +227,7 @@ NIST 列出的生成式 AI 风险包括 confabulation、data privacy、informati
 
 把生成式 AI 当作学习工具时，关键并不是“让它替我们思考”，而是对快速产出的草稿施加更严格的人工审查。
 
-## 简短检查
+## 检查清单
 
 - 我可以区分自然的句子与准确的句子。
 - 我可以把幻觉(hallucination)或 confabulation 解释成似是而非的错误。

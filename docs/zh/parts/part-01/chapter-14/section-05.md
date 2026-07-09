@@ -1,7 +1,7 @@
 # P1-14.5 harness 与评估执行环境
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 P1-14.4 中，我们把 MCP 看成标准化 AI 应用连接外部工具与数据的协议。接下来问题会更偏向实务：
 
@@ -238,7 +238,7 @@ harness 是一种把模型与工具执行包起来的环境。
 > evaluation 建立可重复比较。  
 > grader 把评估标准变成可执行形式。
 
-## 简短检查
+## 检查清单
 
 - 能把 harness 解释成包裹执行的环境，而不是模型本身。
 - 能解释从物理 harness 到 test harness，再到 AI 执行 harness 的直觉延伸。

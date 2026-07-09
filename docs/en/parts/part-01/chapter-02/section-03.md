@@ -1,7 +1,7 @@
 # P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 2.1 reviewed symbolic AI and rule-based approaches. Section 2.2 reviewed search, knowledge representation, and probabilistic reasoning. This section asks what came next: why did the center of AI explanation move more and more toward models that learn from data?
 
@@ -178,7 +178,7 @@ This diagram should not be read as if each stage erased the one before it. It sh
 
 Modern AI services still do not consist of one LLM alone. Search, tools, explicit rules, permissions, logging, evaluation, and interfaces can all remain part of the same system.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Why Image Classification Stops Scaling as a Rule List
 

@@ -1,7 +1,7 @@
 # P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
@@ -206,7 +206,7 @@ Nature 리뷰는 AlexNet 논문을 컴퓨터 비전(computer vision) 커뮤니�
 
 AlexNet은 이 전환을 널리 각인시킨 대표 사례입니다. 이 사례를 통해 기억할 것은 “이미지 인식이 LLM을 만들었다”가 아니라, “표현 학습과 대규모 신경망이 여러 분야에서 강한 성과를 보이며 딥러닝 패러다임을 확산시켰다”는 점입니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 이미지 인식(image recognition)을 이미지에서 범주를 예측하는 문제로 설명할 수 있다.
 - 수작업 특징(hand-crafted features)과 학습된 표현(learned representation)을 구분할 수 있다.

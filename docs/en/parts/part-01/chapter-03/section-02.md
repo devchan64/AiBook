@@ -1,7 +1,7 @@
 # P1-3.2 What It Means to Learn Patterns from Data
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 3.1 reviewed the strengths and limits of writing rules directly. This section moves to the next question: if people cannot write every useful rule explicitly, how can a system obtain judgment criteria from data?
 
@@ -164,7 +164,7 @@ If the model only remembers the old messages, it has not really learned the clas
 
 This is why data quality matters so much. If examples are noisy, labels are inconsistent, or the collected cases represent only a narrow situation, the learned pattern becomes weak.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Customer-Support Message Classification
 

@@ -1,7 +1,7 @@
 # P1-17.3 Distinguishing Prediction from a Working Hypothesis
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-17.2 discussed how to read news, columns, and reports. The final section of Part 1 turns to a different question:
 
@@ -112,7 +112,7 @@ Personal intuition can become the starting point of learning, but factual explan
 > do not write AI-generated forecasts as if they were facts  
 > use personal perspective in clearly separated places
 
-## Short Check
+## Checklist
 
 - You can distinguish factual claim, interpretation, prediction, and working hypothesis.
 - You can explain why personal intuition should not be written as verified fact.

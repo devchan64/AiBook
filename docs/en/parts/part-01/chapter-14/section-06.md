@@ -1,7 +1,7 @@
 # P1-14.6 The Constraints AI Services Meet in the Real World
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14.5 described a `harness` as an execution environment that wraps model and tool runs and makes tracing, logging, and evaluation possible. The next question moves in a more practical direction:
 
@@ -248,7 +248,7 @@ An AI service is not sustained by model quality alone.
 
 Especially once agents and tool use are involved, the number of calls and failure points increases. That is why quality and constraints must be read together.
 
-## Short Check
+## Checklist
 
 - You can explain service constraints through cost, latency, throughput, and failure response.
 - You can explain that cost is connected not only to tokens but also to model choice, request count, tool calls, retries, and evaluation runs.

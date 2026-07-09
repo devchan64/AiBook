@@ -1,7 +1,7 @@
 # P1-14.1 模型(model)、应用(application)、数据(data)、工具(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 第 13 章已经看过嵌入(embedding)、相似度搜索(similarity search)、RAG(retrieval-augmented generation)，以及向量搜索实现的直觉。这条脉络会带来一个重要转向：
 
@@ -231,7 +231,7 @@ AI 服务不是只有模型。模型很重要，但只有当应用、数据、�
 > 工具连接外部动作。  
 > 编排把这些部分串起来。
 
-## 简短检查
+## 检查清单
 
 - 能把 AI 服务解释成模型、应用、数据、工具、编排的组合。
 - 能区分模型(model)、应用(application)、数据(data)、工具(tool)各自的作用。

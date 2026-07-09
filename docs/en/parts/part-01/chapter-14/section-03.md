@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -192,7 +192,7 @@ An `agent` is not a model name. It is an execution structure.
 
 With that view, MCP in the next section is easier to read correctly: it is not the agent itself, but a way to standardize how agents and AI applications connect to tools or data.
 
-## Short Check
+## Checklist
 
 - You can explain an agent through `goal`, `state`, `action`, `observation`, and `stop condition`.
 - You can distinguish prompts, RAG, tool use, and agents instead of mixing them together.

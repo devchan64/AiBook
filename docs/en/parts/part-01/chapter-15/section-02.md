@@ -1,7 +1,7 @@
 # P1-15.2 Copyright and Training Data
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when AI results affect people and society. The next question is more specific.
 
@@ -171,7 +171,7 @@ If copyright is the question of how to handle other people's expression, then th
 
 > how should we handle other people's information and permissions?
 
-## Short Check
+## Checklist
 
 - You can explain that copyright mainly protects concrete `expression`, not ideas alone.
 - You can distinguish attribution from permission, licensing, and quotation review.

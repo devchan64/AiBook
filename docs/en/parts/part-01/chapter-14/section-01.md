@@ -1,7 +1,7 @@
 # P1-14.1 Model, Application, Data, and Tool
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 13 covered embeddings, similarity search, RAG, and the intuition behind vector search implementation. That flow creates an important shift:
 
@@ -184,7 +184,7 @@ An AI service is not a model alone. The model is important, but the service beco
 > tools connect the service to outside action  
 > orchestration ties these parts together
 
-## Short Check
+## Checklist
 
 - You can explain an AI service as a combination of the model, application, data, tools, and orchestration.
 - You can distinguish the roles of the model, application, data, and tool.

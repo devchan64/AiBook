@@ -1,7 +1,7 @@
 # P1-16.1 Personal Learning and Documentation
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-15 examined where AI connects to social risk, copyright, and security. P1-16 moves into application cases. The first case is an AI relearning documentation project.
 
@@ -108,7 +108,7 @@ In personal learning, AI is not an answer sheet. It is a tool for building learn
 > checking sources is part of learning  
 > working hypotheses should be preserved separately from standard concepts
 
-## Short Check
+## Checklist
 
 - You can explain why personal memory should be preserved as a `working hypothesis`.
 - You can distinguish an AI draft from a verified explanation.

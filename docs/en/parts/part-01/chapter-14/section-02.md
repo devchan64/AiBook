@@ -1,7 +1,7 @@
 # P1-14.2 Where RAG and Tool Use Sit
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14.1 described an AI service as a combination of the `model`, `application`, `data`, `tool`, and `orchestration`. This section separates two parts that are easy to confuse.
 
@@ -188,7 +188,7 @@ RAG and tool use both involve something outside the model, but they are not the 
 
 This distinction makes it easier to move into the next section, where several such steps are tied together into an `agent` workflow.
 
-## Short Check
+## Checklist
 
 - You can explain RAG as a structure for retrieving outside material and attaching it to context.
 - You can explain tool use as a structure for calling external system functions.

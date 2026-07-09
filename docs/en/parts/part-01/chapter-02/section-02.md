@@ -1,7 +1,7 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 2.1 reviewed symbolic AI and rule-based approaches. This section asks what comes next when writing rules alone is not enough. AI then had to search through candidates, represent the necessary knowledge, and reason under uncertainty.
 
@@ -152,7 +152,7 @@ For example, a warehouse robot may need:
 - search for path and task order
 - probabilistic reasoning for uncertain sensors or changing corridor conditions
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Route Planning in a Delivery App
 

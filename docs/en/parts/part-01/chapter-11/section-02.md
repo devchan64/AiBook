@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, and Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 11.1 introduced `language models` and `embeddings`. Language models handle the order of words and tokens probabilistically, and embeddings turn words and tokens into computable `vector representations`.
 
@@ -246,7 +246,7 @@ Knowing this keeps Transformers and LLMs from looking like structures that appea
 - the need to reduce bottlenecks
 - the need for more parallel computation
 
-## Short Check
+## Checklist
 
 - I can explain that an RNN passes the previous hidden state into the next computation.
 - I can explain hidden state as an internal vector state rather than human memory.

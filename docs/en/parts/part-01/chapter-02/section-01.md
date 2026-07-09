@@ -1,7 +1,7 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 1 organized the scope of AI and the relationship among the major terms. This section begins the historical-paradigm view of how AI tried to solve problems. Its central focus is `symbolic AI` and the `rule-based approach`.
 
@@ -149,7 +149,7 @@ But the limits are also clear.
 
 So the right contrast is not `symbolic AI was wrong and machine learning is right`. The more accurate reading is that problem characteristics differ: some problems fit explicit rules, while others are better solved by learning patterns from data.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Shipping-Refund Rules in Customer Support
 

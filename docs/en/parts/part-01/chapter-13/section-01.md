@@ -1,7 +1,7 @@
 # P1-13.1 What It Means to Represent Text as Vectors
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 12 explained how prompts give task conditions to an LLM and also why prompts alone cannot guarantee `factuality`, `evidence`, or `recency`.
 
@@ -230,7 +230,7 @@ After this section, these three distinctions should remain:
 | nearby vectors do not mean `the exact same sentence`, but usually indicate similar usage context | This prevents vector space from being overstated as if it were meaning itself. |
 | prompts give task conditions, while embeddings make search and comparison possible | This separation is essential for understanding the service flow later in Part 1 without confusion. |
 
-## Short Check
+## Checklist
 
 - I can explain embeddings as a way of turning text into vector representations.
 - I can explain vectors as computable representations made of many numbers.

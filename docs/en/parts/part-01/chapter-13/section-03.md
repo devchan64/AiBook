@@ -1,7 +1,7 @@
 # P1-13.3 The Flow That Leads into RAG
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds document vectors close to a query vector.
 
@@ -267,7 +267,7 @@ RAG is the structure that connects embeddings and similarity search to the gener
 
 With this perspective, RAG becomes easier to understand later in P1-14 not as a single feature, but as a flow connecting data, retrieval, prompts, models, and review.
 
-## Short Check
+## Checklist
 
 - I can explain RAG as a structure that combines retrieval and generation.
 - I can distinguish the roles of retrieval, augmentation, and generation.

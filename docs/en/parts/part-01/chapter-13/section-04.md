@@ -1,7 +1,7 @@
 # P1-13.4 The Intuition of Vector Search Implementation
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds nearby vectors. P1-13.3 introduced RAG, which attaches retrieved candidates into the LLM’s input context.
 
@@ -236,7 +236,7 @@ This section also does not explain:
 
 The goal is only to recover the implementation intuition of storage and retrieval before moving deeper into service architecture and quality evaluation later.
 
-## Short Check
+## Checklist
 
 - I can explain that brute-force search becomes slow as the number of vectors grows.
 - I can explain an index as a structure prepared in advance for faster search.

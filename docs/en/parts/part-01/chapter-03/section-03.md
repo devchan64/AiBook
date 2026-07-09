@@ -1,7 +1,7 @@
 # P1-3.3 Rule-Based Approaches and Representation Learning
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 3.1 reviewed the strengths and limits of writing rules directly. Section 3.2 reviewed the basic structure of learning patterns from data. This section does not repeat the entire learning pipeline. Instead, it focuses on one narrower question: how is the input handled differently in a rule-based approach and in representation learning?
 
@@ -205,7 +205,7 @@ flowchart TD
 
 The point of this diagram is division of responsibility: explicit rules can enforce non-negotiable constraints, while learned representations help handle flexible variation.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Support-Message Routing
 

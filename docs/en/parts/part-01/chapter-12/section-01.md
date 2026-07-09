@@ -1,7 +1,7 @@
 # P1-12.1 What Does a Prompt Specify?
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 11 explained where `LLMs` came from. Language models began from the problem of next-token probability, and Transformers and pretraining became key foundations of modern LLMs.
 
@@ -253,7 +253,7 @@ After this section, at minimum these three distinctions should remain:
 | prompts can contain instruction, context, example, constraint, and output format | This gives one common frame for understanding later prompt components. |
 | prompts can guide output but cannot replace fact verification | This helps explain naturally why evaluation, evidence checking, and later RAG need to be handled separately. |
 
-## Short Check
+## Checklist
 
 - I can explain a prompt as the current input given to an LLM.
 - I can distinguish instruction from context.

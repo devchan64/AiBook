@@ -1,7 +1,7 @@
 # P1-14.3 agent：把目标(goal)连接成工作流(workflow)的结构
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 在 P1-14.2 中，我们已经区分了 RAG 与工具使用(tool use)。
 
@@ -210,7 +210,7 @@ agent 不是模型名字，而是一种执行结构。
 > agent 把目标、状态、动作、观察串成多步工作流。  
 > 应用与服务器管理权限、审批、状态与停止条件。
 
-## 简短检查
+## 检查清单
 
 - 能用目标(goal)、状态(state)、动作(action)、观察(observation)、停止条件(stop condition)来解释 agent。
 - 能区分提示词(prompt)、RAG、工具使用(tool use)、agent，而不是把它们混为一谈。

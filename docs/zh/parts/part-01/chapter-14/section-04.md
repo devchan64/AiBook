@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)与工具连接标准化
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 在 P1-14.3 中，我们把 agent 看成一种把 `目标(goal)`、`状态(state)`、`动作(action)`、`观察(observation)` 持续推进的工作流结构。要让 agent 使用外部资料或工具，就必须有一种连接方式。
 
@@ -179,7 +179,7 @@ MCP 不是模型，也不是 agent。它是一种协议，用来标准化 AI 应
 > resources 用于提供可读上下文。  
 > prompts 用于复用交互模式。
 
-## 简短检查
+## 检查清单
 
 - 能把 MCP 解释成一种连接协议，而不是 agent 或模型。
 - 能区分 host、client、server 的角色。

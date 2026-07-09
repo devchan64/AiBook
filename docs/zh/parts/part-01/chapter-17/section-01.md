@@ -1,7 +1,7 @@
 # P1-17.1 应该依据什么来讨论预测
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 Part 1 Chapter 16 中，我们已经看过如何把 AI 用于个人学习、工作自动化与小项目。最后的 Chapter 17 则讨论“AI 的未来”。
 
@@ -100,7 +100,7 @@ Stanford HAI 的 AI Index Report 会长期追踪 AI 研究、性能、投资、�
 > 当多个来源不同，要把差异写出来。  
 > 不要把 AI 生成的未来叙述当成事实来写。
 
-## 简短检查
+## 检查清单
 
 - 能在预测(forecast)句子上附上是谁、何时、在什么语境下说的。
 - 能区分预测(prediction)、情景(scenario)、政策建议(policy proposal)与企业发布(company announcement)。

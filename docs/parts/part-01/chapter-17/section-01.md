@@ -1,7 +1,7 @@
 # P1-17.1 전망은 어떤 근거로 다룰 것인가
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Part 1 Chapter 16에서는 AI를 개인 학습, 업무 자동화, 작은 프로젝트에 적용하는 방법을 봤습니다. 마지막 17장에서는 “앞으로의 AI”를 다룹니다.
 
@@ -95,7 +95,7 @@ Stanford HAI의 AI Index Report는 AI 연구, 성능, 투자, 정책, 산업 적
 > 여러 출처가 다르면 차이를 드러낸다.
 > AI가 만든 미래 이야기를 사실처럼 쓰지 않는다.
 
-## 짧은 점검
+## 체크리스트
 
 - 전망(forecast) 문장에 누가, 언제, 어떤 맥락에서 말했는지 붙일 수 있다.
 - 예측(prediction), 시나리오(scenario), 정책 제안(policy proposal), 기업 발표(company announcement)를 구분할 수 있다.

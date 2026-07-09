@@ -1,7 +1,7 @@
 # P1-9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 봤습니다. 9.2에서는 객체 검출(object detection)과 음성 생성(speech generation)을 봤습니다.
 
@@ -242,7 +242,7 @@ LLM의 역사를 설명할 때는 직접 계보와 주변 근거를 나눠야 �
 | AlexNet, YOLO, WaveNet은 직접 조상보다 딥러닝 확산의 주변 근거에 가깝다 | 딥러닝의 넓은 성공과 LLM의 직접 역사 사이를 과장 없이 구분하게 해 주기 때문입니다. |
 | AI 전체를 LLM으로 환원하면 다른 흐름이 가려진다 | Part 1 전체 지형도를 유지한 채 Part 6의 LLM 본류로 넘어가게 해 주기 때문입니다. |
 
-## 짧은 점검
+## 체크리스트
 
 - 직접 계보(direct lineage)와 주변 근거(surrounding evidence)를 구분할 수 있다.
 - LLM의 직접 흐름을 언어 모델링(language modeling), Seq2Seq, Attention, Transformer 쪽에서 설명할 수 있다.

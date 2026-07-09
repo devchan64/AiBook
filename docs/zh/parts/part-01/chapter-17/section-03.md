@@ -1,7 +1,7 @@
 # P1-17.3 区分预测(prediction)与工作假设(working hypothesis)
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-17.2 讨论了如何阅读新闻、专栏与报告。Part 1 的最后一节则要整理：个人想法应当如何被安全地保留下来。
 
@@ -107,7 +107,7 @@ Part 1 的目标，是先建立 AI 的大地图。更细的数学、代码与模
 > 不要把 AI 生成的预测当成事实来写。  
 > 个人视角要按位置区分使用。
 
-## 简短检查
+## 检查清单
 
 - 能区分事实主张(factual claim)、解释(interpretation)、预测(prediction)与工作假设(working hypothesis)。
 - 能说明为什么个人直觉不能直接写成已经验证的事实。

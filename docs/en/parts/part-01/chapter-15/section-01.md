@@ -1,7 +1,7 @@
 # P1-15.1 Bias, Safety, and Accountability
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14 followed the flow of the AI service through the model, data, tools, agent, harness, and service constraints. The next question moves from technical structure to social impact.
 
@@ -174,7 +174,7 @@ AI ethics is not an external decoration around technology. Once AI affects real 
 
 This view leads directly into P1-15.2 on copyright and training data, and P1-15.3 on security and privacy.
 
-## Short Check
+## Checklist
 
 - You can explain AI ethics as a question about real possible harm rather than abstract declarations.
 - You can explain that bias can arise from data, labels, features, metrics, and context of use.

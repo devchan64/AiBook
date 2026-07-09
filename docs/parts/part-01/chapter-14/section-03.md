@@ -1,7 +1,7 @@
 # P1-14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P1-14.2에서는 RAG(retrieval-augmented generation)와 도구 사용(tool use)을 구분했습니다.
 
@@ -227,7 +227,7 @@ Codex 같은 코딩 에이전트형 도구는 에이전트 구조를 이해하�
 
 이 관점을 잡으면 다음 절의 MCP(Model Context Protocol)를 더 정확히 볼 수 있습니다. MCP는 에이전트 자체가 아니라, 에이전트와 도구 또는 데이터가 연결되는 방식을 표준화하려는 흐름으로 다루는 것이 안전합니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation), 종료 조건(stop condition)의 흐름으로 설명할 수 있다.
 - 프롬프트(prompt), RAG, 도구 사용(tool use), 에이전트(agent)를 같은 말로 섞지 않고 구분할 수 있다.

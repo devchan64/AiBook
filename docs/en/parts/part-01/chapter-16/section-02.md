@@ -1,7 +1,7 @@
 # P1-16.2 Work Automation and Search
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-16.1 treated an AI relearning documentation project as a case of personal learning and documentation. This section widens the view toward workplace use.
 
@@ -104,7 +104,7 @@ Applying AI at work is not a fantasy of total automation. It is a redesign of wo
 > summary does not replace checking the original source  
 > productivity should include review cost
 
-## Short Check
+## Checklist
 
 - You can explain work automation through workflow decomposition rather than total replacement.
 - You can explain why search and RAG results should be treated as evidence candidates.

@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 
@@ -225,7 +225,7 @@ RNN, Seq2Seq, Attention은 모두 언어를 단순한 단어 목록이 아니라
 
 이 흐름을 알면 Transformer와 LLM을 갑자기 등장한 구조로 보지 않게 됩니다. Transformer는 Attention 이전의 문제의식, 즉 긴 문맥, 입력-출력 대응, 병렬 계산의 필요성 위에서 이해해야 합니다.
 
-## 짧은 점검
+## 체크리스트
 
 - RNN(recurrent neural network)이 이전 hidden state를 다음 계산에 넘기는 구조임을 설명할 수 있다.
 - hidden state를 사람의 기억이 아니라 내부 벡터 상태로 설명할 수 있다.

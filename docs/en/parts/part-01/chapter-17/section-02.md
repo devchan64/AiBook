@@ -1,7 +1,7 @@
 # P1-17.2 Reading News, Columns, and Reports
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-17.1 explained that, when writing forecasts, sources and the nature of the material should be checked first. This section turns to the practical question:
 
@@ -118,7 +118,7 @@ Reading AI material is not mainly about reaching a quick conclusion. It is about
 > in policy documents, check scope and timing of application  
 > read different sources together in layers
 
-## Short Check
+## Checklist
 
 - You can separate event from interpretation in a news article.
 - You can check the issuing institution, scope, sample, metric, and limit of a report.

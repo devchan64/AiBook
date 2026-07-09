@@ -1,7 +1,7 @@
 # P1-10.2 生成下一个输出(next-output generation)的直觉
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 10.1 中，我们区分了分类(classification)、预测(prediction)和生成(generation)。分类是选择类别，预测是估计值或状态，生成是创建符合条件的新内容。
 
@@ -255,7 +255,7 @@ Latent Diffusion Models 论文表明，diffusion 过程可以在更低维的 lat
 | 即使输入相同，候选分布和选择方式也会让输出不同。 | Part 5 的 P5-15.2、Part 6 的 P6-5.2 |
 | 图像生成不能只按文本那样理解成简单的 `接上下一块`。 | P1-11.3、Part 5 的 P5-14.1 与 P5-14.2、Part 6 的 P6-3.1。diffusion 细节超出当前正文范围。 |
 
-## 简短检查
+## 检查清单
 
 - 我可以说明生成式 AI 更安全的理解方式是重复生成过程，而不是一次拿出完成品。
 - 我可以解释文本生成中 token(token) 与下一 token 预测(next-token prediction) 的直觉。

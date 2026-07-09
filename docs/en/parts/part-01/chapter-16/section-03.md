@@ -1,7 +1,7 @@
 # P1-16.3 How to Validate with a Project
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-16.2 looked at work automation and search from the viewpoint of workflow. This section organizes how to validate learning and practical use through a small `project`.
 
@@ -99,7 +99,7 @@ An AI project is not mainly about attaching a large tool. It is about turning on
 > failure records become material for the next improvement  
 > small projects verify understanding
 
-## Short Check
+## Checklist
 
 - You can explain why an AI project should start from a central question rather than from a technology name.
 - You can explain why success criteria should be written first.

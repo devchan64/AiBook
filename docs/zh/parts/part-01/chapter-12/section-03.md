@@ -1,7 +1,7 @@
 # P1-12.3 提示词(prompt)的限制(limit)与评估(evaluation)
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 12.1 中，我们看了提示词(prompt)指定了什么；在 12.2 中，我们又把指示(instruction)、上下文(context)、示例(example)拆开来看。
 
@@ -239,7 +239,7 @@ Ouyang 等人的 InstructGPT 论文在评估模型输出时，不只使用自动
 
 从这里开始，讨论会转向 LLM 如何与外部资料连接起来。这个入口就是嵌入(embedding)、向量检索(vector search)、RAG。
 
-## 简短检查
+## 检查清单
 
 - 我可以说明提示词只是在指定输出条件，并不保证事实性。
 - 我可以区分事实性(factuality)、依据性(evidence)、时效性(recency)。

@@ -1,7 +1,7 @@
 # P1-9.2 Object Detection and Speech Generation Cases
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 9.1 used image recognition and representation learning to show why deep learning became an important turning point. Image classification asked `what is this image?`
 
@@ -199,7 +199,7 @@ The point of 9.2 is not to memorize the full structures of three models. The mai
 
 These cases show that deep learning expanded beyond image classification into more complex output structures. But they should not be written as the direct ancestors of LLMs. Distinguishing `direct lineage` from `surrounding evidence` is one of the core purposes of this chapter.
 
-## Short Check
+## Checklist
 
 - I can explain how object detection differs from image classification.
 - I can describe YOLO as a case that reframed object detection as a single neural-network prediction problem.
