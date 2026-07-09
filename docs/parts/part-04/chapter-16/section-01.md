@@ -1,7 +1,7 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
@@ -184,9 +184,9 @@ flowchart TD
 
 이 대비는 앞으로 성능, 튜닝 민감성, 과적합 위험을 읽는 데 매우 중요합니다.
 
-## 작은 숫자 예제로 보정 흐름 보기
+## 연습 및 예제
 
-이번 예제는 회귀 관점에서 `보정이 누적된다`는 감각만 익히기 위한 장난감 예제입니다.
+이번 예제는 회귀 관점에서 `보정이 누적된다`는 감각만 익히기 위한 장난감 예제입니다. 여기서도 한 번 보정해 보는 데서 멈추지 않고, 보정 강도를 바꾸면 residual이 얼마나 다르게 줄어드는지 같이 확인합니다.
 
 - 문제 상황: 현재 예측이 실제값과 얼마나 다른지 보고, 다음 단계가 작은 보정을 더한다.
 - 입력(input): 현재 예측과 실제값
@@ -238,6 +238,45 @@ stage2 residual  : [18.5, 9.0, -9.0, -18.5]
 4. 그래서 residual이 즉시 0이 되지 않고, 여러 단계가 이어질 여지가 남습니다.
 
 즉, 그래디언트 부스팅은 `큰 수정 한 번`보다 `작은 수정 여러 번`에 가깝습니다.
+
+### 값 하나 바꿔 보기: learning_rate를 키우면 같은 correction도 어떻게 다르게 반영될까
+
+이번에는 같은 correction을 두고 `learning_rate`만 `0.5`로 바꿔 봅니다.
+
+```python
+actual = [120, 110, 90, 80]
+pred_stage0 = [100, 100, 100, 100]
+
+tree1_correction = [15, 10, -10, -15]
+learning_rate = 0.5
+
+pred_stage1 = [
+    p + learning_rate * c
+    for p, c in zip(pred_stage0, tree1_correction)
+]
+
+residual_stage2 = [a - p for a, p in zip(actual, pred_stage1)]
+
+print("stage1 prediction:", [round(x, 1) for x in pred_stage1])
+print("stage2 residual  :", [round(x, 1) for x in residual_stage2])
+```
+
+```text
+stage1 prediction: [107.5, 105.0, 95.0, 92.5]
+stage2 residual  : [12.5, 5.0, -5.0, -12.5]
+```
+
+`learning_rate = 0.1`일 때보다 residual이 더 빨리 줄었습니다. 대신 한 단계 correction의 영향이 훨씬 커졌습니다. 이 비교는 그래디언트 부스팅을 읽을 때 `다음 트리가 residual을 본다`는 사실만으로는 부족하고, `그 residual을 얼마나 세게 반영하는가`까지 같이 봐야 한다는 점을 보여 줍니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 Part 4의 목표를 부스팅 문맥에서 직접 회수합니다. 문제는 `남은 오류를 어떻게 줄일 것인가`이고, 실습은 `같은 correction을 어떤 강도로 반영할 것인가`를 비교하게 하며, 평가는 `residual이 얼마나 줄었는가`와 `과한 보정 위험이 얼마나 커졌는가`를 함께 읽게 만듭니다. 즉, 그래디언트 부스팅 예제를 돌렸는데도 목표가 체감되지 않았다면, 부스팅 정의가 어려워서라기보다 `잔여 오차 보정`과 `튜닝 손잡이`가 같은 장면에서 연결되는 비교가 약했던 경우가 많습니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 같은 correction도 learning_rate에 따라 residual 감소 속도가 달라졌다 |
+| 해석 경계 | residual이 빨리 줄어도 그 한 단계 보정이 항상 더 안전하거나 더 일반화된다는 뜻은 아니다 |
+| 다음 질문 | 단계 수(`n_estimators`)를 늘리면 남는 오류와 과적합 위험이 어떻게 함께 바뀌는가 |
 
 ## learning_rate는 왜 중요한가
 
