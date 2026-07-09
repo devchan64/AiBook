@@ -1,7 +1,7 @@
 # P2-3.5 파이썬 실행 환경: Colab과 로컬 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P2-3.1부터 P2-3.4까지는 선형대수(linear algebra)를 수식과 비교 기준 중심으로 봤습니다. 다음 절에서는 NumPy로 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)을 직접 확인합니다. 그 전에 파이썬(Python) 코드를 어디에서 실행하는지 먼저 구분해야 합니다.
 
@@ -41,6 +41,18 @@ Colab의 파일 관리, Google Drive 연동, GPU/TPU 런타임, 노트북 공유
 - Colab 코드 셀 명령과 개인 PC 터미널 명령을 구분할 수 있습니다.
 - 다음 절의 NumPy 예제를 Colab에서 실행할 준비를 할 수 있습니다.
 
+## 먼저 붙잡을 한 장면
+
+이 절에서 가장 먼저 붙잡아야 할 장면은 `NumPy를 쓰려면 어디에 무엇을 입력하는가`입니다.
+
+| 하고 싶은 일 | Colab 코드 셀 | 로컬 PC 터미널 | Python 코드 |
+| --- | --- | --- | --- |
+| NumPy 설치 | `%pip install numpy` | `python -m pip install numpy` | 쓰지 않음 |
+| NumPy 불러오기 | `import numpy as np` | 쓰지 않음 | `import numpy as np` |
+| 간단한 계산 실행 | `print(np.array([1, 2]))` | `python example.py`처럼 실행 가능 | `print(np.array([1, 2]))` |
+
+즉 독자가 제일 먼저 구분해야 할 것은 `무슨 명령인가`보다 `어디에 쓰는 문장인가`입니다.
+
 ## 세 가지 기준
 
 | 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
@@ -63,6 +75,14 @@ Colab의 파일 관리, Google Drive 연동, GPU/TPU 런타임, 노트북 공유
 
 1. 패키지는 Colab 코드 셀 또는 로컬 PC 터미널에서 설치합니다.
 2. 설치된 패키지는 파이썬 코드 안에서 `import`로 불러옵니다.
+
+여기서 가장 자주 막히는 혼동을 한 번 더 짧게 적으면 다음과 같습니다.
+
+| 혼동 장면 | 왜 막히는가 | 먼저 고칠 질문 |
+| --- | --- | --- |
+| `%pip install numpy`를 `.py` 파일에 적는다 | 설치 명령과 Python 코드를 섞었기 때문 | 지금 쓰는 곳이 코드 셀인가, Python 파일인가 |
+| `import numpy as np`를 터미널에 그대로 실행하려 한다 | Python 문장을 셸 명령처럼 본 것 | 지금 쓰는 곳이 터미널인가, Python 실행기인가 |
+| Colab 예제를 로컬에서 그대로 복사한다 | 실행 위치가 바뀌었는데 문법을 안 바꿨기 때문 | 지금 환경이 브라우저 노트북인가, 내 PC인가 |
 
 ## Colab은 브라우저에서 여는 노트북 환경이다
 
@@ -104,7 +124,9 @@ print("hello, colab")
 
 실행 결과는 다음처럼 나옵니다.
 
-> hello, colab
+```text
+hello, colab
+```
 
 이때 `print(...)`는 파이썬 코드입니다. 반면 패키지를 설치하는 명령은 일반 파이썬 코드와 성격이 조금 다릅니다.
 
@@ -126,6 +148,24 @@ Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느
 
 여기서는 노트북 환경에 설치한다는 뜻이 더 분명한 `%pip install numpy`를 우선 사용합니다.
 
+이 차이를 흐름으로 다시 쓰면 다음과 같습니다.
+
+```mermaid
+flowchart TD
+    ask["what am I doing?"]
+    install["install a package"]
+    run["run Python code"]
+    colab["Colab code cell<br/>%pip install numpy"]
+    local["local terminal<br/>python -m pip install numpy"]
+    py["Python code<br/>import numpy as np"]
+
+    ask --> install
+    ask --> run
+    install --> colab
+    install --> local
+    run --> py
+```
+
 ## 개인 PC 터미널 명령과 섞지 않는다
 
 개인 PC의 터미널에서는 `%pip`나 `!pip`를 쓰지 않습니다. 이 표시는 Colab/Jupyter 코드 셀에서 쓰는 방식입니다.
@@ -143,6 +183,25 @@ python -m pip install numpy
 3. 파이썬 코드 안에서는 `import numpy as np`를 씁니다.
 
 다음 절에서는 이 구분을 전제로 NumPy 코드를 확인합니다.
+
+독자가 여기서 남겨야 할 최소 문장은 다음 한 줄입니다.
+
+- `설치는 코드 셀이나 터미널에서 하고, import와 계산은 Python 코드에서 한다.`
+
+## 이 절에서 기억할 관점
+
+- Colab은 브라우저에서 바로 여는 노트북 실행 환경입니다.
+- 로컬 PC는 내 컴퓨터의 터미널과 설치된 Python 환경을 쓰는 방식입니다.
+- `%pip install numpy`, `python -m pip install numpy`, `import numpy as np`는 모두 NumPy와 관련 있지만 쓰는 자리가 다릅니다.
+- 환경을 고르기 전에 문법을 외우면 자꾸 막히고, 먼저 실행 위치를 고르면 명령 형태가 정리됩니다.
+- Part 3나 뒤 실습에서 막히면 `지금 이 문장을 어디에 입력해야 하는가`부터 다시 물어야 합니다.
+
+## 짧은 점검
+
+- Colab과 로컬 PC 실행의 차이를 한 문장으로 설명할 수 있는가?
+- `%pip install numpy`와 `python -m pip install numpy`가 왜 같은 자리에 쓰이지 않는지 말할 수 있는가?
+- `import numpy as np`가 설치 명령이 아니라 Python 코드라는 점을 설명할 수 있는가?
+- 지금 보는 문장이 코드 셀용인지, 터미널용인지, Python 코드용인지 구분할 수 있는가?
 
 ## 출처와 참고 자료
 

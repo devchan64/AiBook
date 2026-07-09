@@ -1,7 +1,7 @@
 # P2-7.8 보충학습: 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 환경 변수(environment variable) 읽기
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-7.2와 P2-7.6에서는 터미널을 열고 현재 위치를 확인하는 수준까지 다뤘습니다. 그런데 실제 학습 자료를 따라가다 보면 금방 더 낯선 표현을 만납니다.
 
@@ -14,6 +14,17 @@ export OPENAI_API_KEY=...
 여기서는 `셸 스크립트(shell script)`, `파이프(pipe)`, `리다이렉션(redirection)`, `환경 변수(environment variable)`를 읽는 기본 기준을 설명합니다. 이 보충학습은 실제 문서에서 이런 기호를 만났을 때 어떤 종류의 동작인지 읽는 기준을 정리합니다.
 
 이 보충학습에서는 이 문법을 모두 자유롭게 쓰기보다, 앞으로 문서나 튜토리얼에서 이런 표현을 봤을 때 적어도 `무슨 종류의 동작인지`를 읽을 수 있게 만드는 데 집중합니다.
+
+## 처음엔 이것만 읽으면 됩니다
+
+재실습하거나 튜토리얼을 따라가다 다시 돌아왔을 때는 아래 네 줄부터 먼저 떠올리면 충분합니다.
+
+- `|`는 앞 명령의 결과를 뒤 명령으로 넘기는 연결입니다.
+- `>`와 `<`는 입출력 방향을 파일 쪽으로 바꾸는 표기입니다.
+- `KEY=...`나 `export ...`는 코드 밖 설정값을 넘기는 환경 변수 장면일 가능성이 큽니다.
+- `sudo`, `rm`, 비밀값 노출, 파일 덮어쓰기가 보이면 뜻을 다 알기 전에는 바로 실행하지 않습니다.
+
+즉 이 절을 처음부터 다시 다 읽지 않아도, `연결`, `방향`, `설정값`, `위험 신호` 네 단어를 먼저 붙잡으면 낯선 한 줄을 훨씬 안전하게 읽을 수 있습니다.
 
 | 용어 | 이 절에서 먼저 잡을 뜻 |
 | --- | --- |
@@ -216,7 +227,7 @@ AI 학습 문서와 프로젝트 예제는 파일, 로그, 데이터, 비밀값,
 
 ## 출처와 참고 자료
 
-- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html), 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines), 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection), 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables), 확인 날짜: 2026-06-29.
+- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.

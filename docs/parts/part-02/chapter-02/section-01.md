@@ -75,7 +75,7 @@ y = f(x)
 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
 | 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
-| --- | --- |
+| --- | --- | --- |
 | 변수는 값 자체가 아니라 값을 가리키는 이름이라는 점 | 기호를 실체와 바로 혼동하지 않게 해 줍니다. | 변수는 값을 담는 이름이라고 이해합니다. |
 | 함수는 입력을 출력으로 바꾸는 관계라는 점 | 모델과 규칙을 같은 구조 안에서 읽게 해 줍니다. | `y = f(x)`를 입력-변환-출력 구조로 읽는다고 이해합니다. |
 | 식은 계산이나 관계를 짧게 적은 표현이라는 점 | 손실, 예측, 오차 수식이 무엇을 하는지 해석하는 출발점이 됩니다. | 식은 계산 절차의 압축 표현이라고 이해합니다. |
@@ -88,14 +88,7 @@ y = f(x)
 x = 3,\quad y = 2,\quad n = 4
 \]
 
-여기서 `x`, `y`, `n`은 값 자체가 아니라 값을 가리키는 이름입니다. AI 문서에서는 변수 이름이 더 많은 의미를 품습니다.
-
-> x: 입력 데이터(input data)
-> y: 정답 또는 목표값(target)
-> w: 가중치(weight)
-> b: 편향(bias)
-> ŷ: 모델이 만든 예측값(prediction)
-> L: 손실(loss)
+여기서 `x`, `y`, `n`은 값 자체가 아니라 값을 가리키는 이름입니다. AI 문서에서는 변수 이름이 더 많은 의미를 품습니다. 예를 들어 `x`는 입력 데이터(input data), `y`는 정답 또는 목표값(target), `w`는 가중치(weight), `b`는 편향(bias), `ŷ`는 모델이 만든 예측값(prediction), `L`은 손실(loss)로 자주 쓰입니다.
 
 기호는 문서마다 달라질 수 있습니다. 그래서 수식을 볼 때는 “이 글에서 이 기호를 무엇으로 정의했는가?”를 먼저 찾아야 합니다. 같은 `x`라도 어떤 문서에서는 하나의 값이고, 어떤 문서에서는 벡터(vector)이며, 어떤 문서에서는 데이터셋(dataset) 전체일 수 있습니다.
 
@@ -150,19 +143,9 @@ print(x.dtype)
 y = f(x)
 \]
 
-이 식은 다음처럼 읽습니다.
+이 식은 `x가 들어가고, f라는 관계 또는 규칙을 지나, y가 나온다`고 읽습니다.
 
-> x가 들어간다.
-> f라는 관계 또는 규칙을 지난다.
-> y가 나온다.
-
-AI 문맥에서는 `f`가 사람이 직접 만든 규칙일 수도 있고, 학습된 모델(model)일 수도 있습니다.
-
-> 규칙 기반 함수:
-> 나이가 19 이상이면 성인으로 분류한다.
->
-> 학습된 모델:
-> 입력 특징을 바탕으로 구매 가능성을 예측한다.
+AI 문맥에서는 `f`가 사람이 직접 만든 규칙일 수도 있고, 학습된 모델(model)일 수도 있습니다. 예를 들어 규칙 기반 함수라면 `나이가 19 이상이면 성인으로 분류한다`고 읽을 수 있고, 학습된 모델이라면 `입력 특징을 바탕으로 구매 가능성을 예측한다`고 읽을 수 있습니다.
 
 코드에서는 둘 다 함수처럼 호출될 수 있습니다.
 
@@ -217,11 +200,7 @@ f(x)
 (\mathrm{prediction} - \mathrm{target})^2
 \]
 
-이 식은 다음처럼 읽을 수 있습니다.
-
-> 예측값에서 목표값을 뺀다.
-> 그 차이를 제곱한다.
-> 오차의 크기를 양수로 만든다.
+이 식은 예측값에서 목표값을 빼고, 그 차이를 제곱해, 오차의 크기를 양수로 만든다고 읽을 수 있습니다.
 
 코드로는 다음처럼 쓸 수 있습니다.
 
@@ -277,13 +256,7 @@ prediction = [0, 1, 1, 0]
 target = [0, 1, 0, 0]
 ```
 
-이 코드는 이름만 보면 prediction과 target이 무엇인지 알 것 같습니다. 그러나 실제로는 더 확인해야 합니다.
-
-> 각 값은 클래스 번호인가?
-> 확률인가?
-> 참/거짓인가?
-> 데이터 개수는 같은가?
-> 순서는 맞는가?
+이 코드는 이름만 보면 prediction과 target이 무엇인지 알 것 같습니다. 그러나 실제로는 각 값이 클래스 번호인지, 확률인지, 참/거짓인지, 데이터 개수가 같은지, 순서가 맞는지를 더 확인해야 합니다.
 
 AI에서 오류는 수식보다 데이터와 코드의 연결 지점에서 자주 생깁니다. 변수 이름이 그럴듯해도, 값의 모양(shape), 타입(type), 의미(meaning), 단위(unit)를 확인해야 합니다.
 
@@ -301,18 +274,9 @@ AI에서 오류는 수식보다 데이터와 코드의 연결 지점에서 자�
 
 ## 이 절에서 기억할 관점
 
-변수, 함수, 식은 수학의 기초 표기이지만 AI 문서에서는 모델 계산을 읽는 출발점입니다.
+변수, 함수, 식은 수학의 기초 표기이지만 AI 문서에서는 모델 계산을 읽는 출발점입니다. 변수(variable)는 값이나 데이터에 붙인 이름이고, 함수(function)는 입력을 출력으로 바꾸는 관계이며, 식(expression)은 값과 관계를 이용해 계산을 표현한 것입니다.
 
-> 변수(variable): 값이나 데이터에 붙인 이름
-> 함수(function): 입력을 출력으로 바꾸는 관계
-> 식(expression): 값과 관계를 이용해 계산을 표현한 것
-
-이 셋을 읽을 때는 항상 코드와 데이터로 되돌아갑니다.
-
-> 이 변수는 실제로 어떤 값인가?
-> 이 함수는 무엇을 입력받고 무엇을 출력하는가?
-> 이 식은 무엇을 비교하거나 계산하는가?
-> 코드에서는 어떤 타입과 shape으로 나타나는가?
+이 셋을 읽을 때는 항상 코드와 데이터로 되돌아갑니다. 즉 이 변수가 실제로 어떤 값인지, 이 함수가 무엇을 입력받고 무엇을 출력하는지, 이 식이 무엇을 비교하거나 계산하는지, 코드에서는 어떤 타입과 shape으로 나타나는지를 함께 봐야 합니다.
 
 ## 짧은 점검
 
@@ -331,6 +295,6 @@ AI에서 오류는 수식보다 데이터와 코드의 연결 지점에서 자�
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/), Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/), MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256), Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.

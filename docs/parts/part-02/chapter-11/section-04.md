@@ -1,7 +1,7 @@
 # P2-11.4 보충학습: NumPy에서 모양(shape)과 원본 공유를 함께 읽는 법
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 봤고, P2-11.3에서는 브로드캐스팅(broadcasting)과 벡터화(vectorization)를 봤습니다. 그런데 실제 NumPy 코드를 읽다 보면 그 다음에 자주 막히는 질문이 남습니다.
 
@@ -34,6 +34,19 @@ P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 봤고
 - `shape`가 같아 보여도 원본 공유 여부는 다를 수 있음을 설명할 수 있습니다.
 - `np.newaxis`를 길이 1인 축을 추가하는 표기로 설명할 수 있습니다.
 - broadcasting 코드를 읽을 때 `값`, `shape`, `원본 공유`를 함께 점검해야 함을 설명할 수 있습니다.
+
+## 먼저 붙잡을 한 장면
+
+이 보충학습에서 가장 먼저 붙잡아야 할 장면은 `어떻게 골랐는가`와 `shape를 어떻게 바꿨는가`가 원본 공유와 계산 방향을 함께 바꾼다는 점입니다.
+
+| 코드 장면 | 먼저 읽는 질문 | 지금 붙잡을 핵심 |
+| --- | --- | --- |
+| `x[1:4]` | 구간을 그대로 보고 있는가 | 원본 공유 가능성이 크다 |
+| `x[[1, 3, 4]]` | 위치를 따로 모으는가 | 새 배열처럼 읽는 편이 안전하다 |
+| `x[x >= 80]` | 조건에 맞는 값만 걸러내는가 | 새 배열처럼 읽는 편이 안전하다 |
+| `x[:, np.newaxis]` | 축을 하나 더 추가하는가 | `shape`가 바뀌고 broadcasting 읽기가 달라진다 |
+
+즉 NumPy에서는 `일부를 골랐다`는 말만으로는 부족합니다. `구간 보기`, `위치 모으기`, `조건 걸러내기`, `축 추가하기`를 먼저 나눠 읽어야 `view/copy`, `shape`, `broadcasting`을 함께 이해할 수 있습니다.
 
 ## 배경
 
@@ -235,6 +248,27 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 
 특히 데이터 전처리에서는 이 판단이 중요합니다. 일부 샘플만 골라 새 데이터셋을 만드는지, 기존 배열 일부를 직접 수정하는지에 따라 실험 결과 해석이 달라질 수 있기 때문입니다.
 
+이 흐름을 한 번에 묶으면 다음과 같습니다.
+
+```mermaid
+flowchart TD
+    select["select values<br/>slice / fancy / mask"]
+    share["share original?<br/>view or copy"]
+    reshape["reshape with newaxis?<br/>shape changes"]
+    broadcast["broadcasting rule<br/>how will it align?"]
+    result["resulting calculation<br/>and possible side effect"]
+
+    select --> share
+    select --> reshape
+    reshape --> broadcast
+    share --> result
+    broadcast --> result
+```
+
+독자가 여기서 남겨야 할 최소 문장은 다음입니다.
+
+- `어떻게 골랐는가`가 원본 공유를 바꾸고, `shape를 어떻게 바꿨는가`가 broadcasting 방향을 바꾼다.
+
 ## 어디로 돌아가야 하나
 
 이 절을 읽은 뒤에는 다음 본문으로 다시 연결해 읽습니다.
@@ -252,6 +286,14 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 - `np.newaxis`는 길이 1인 축을 추가해 broadcasting 방향을 드러내는 표기입니다.
 - NumPy 코드를 읽을 때는 값만 보지 말고 `shape`와 원본 공유 여부를 함께 봐야 합니다.
 
+## 짧은 복귀 표
+
+| 막히는 장면 | 먼저 돌아갈 곳 |
+| --- | --- |
+| 인덱싱, 슬라이싱, 축 자체가 아직 헷갈린다 | `P2-11.2` |
+| broadcasting 방향이 왜 바뀌는지 흐릿하다 | `P2-11.3` |
+| 원본과 복사본이 왜 함께 바뀌는지 낯설다 | `P2-8.7` |
+
 ## 짧은 점검
 
 - `x[1:4]`와 `x[[1, 3, 4]]`의 차이를 설명할 수 있는가?
@@ -268,6 +310,6 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 
 ## 출처와 참고 자료
 
-- NumPy documentation, "Copies and views", https://numpy.org/doc/stable/user/basics.copies.html (확인일: 2026-07-01)
-- NumPy documentation, "Indexing on ndarrays", https://numpy.org/doc/stable/user/basics.indexing.html (확인일: 2026-07-01)
-- NumPy documentation, "Broadcasting", https://numpy.org/doc/stable/user/basics.broadcasting.html (확인일: 2026-07-01)
+- NumPy documentation, ["Copies and views"](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
+- NumPy documentation, ["Indexing on ndarrays"](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
+- NumPy documentation, ["Broadcasting"](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)

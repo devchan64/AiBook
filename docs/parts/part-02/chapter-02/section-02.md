@@ -78,7 +78,7 @@ P2-2.1에서는 변수(variable), 함수(function), 식(expression)을 다시 �
 본문을 읽을 때 기준이 되는 세 가지 관점은 다음과 같습니다.
 
 | 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
-| --- | --- |
+| --- | --- | --- |
 | 시그마는 같은 모양의 덧셈을 반복하라는 압축 표기라는 점 | 낯선 기호를 계산 구조로 다시 읽게 해 줍니다. | 시그마를 보면 무엇을 몇 번 더하는지 묻는다고 이해합니다. |
 | 인덱스는 몇 번째 값을 더하는지 구분하는 이름이라는 점 | 반복 위치를 놓치지 않게 해 줍니다. | 아래 첨자와 반복 인덱스를 연결해 읽는다고 이해합니다. |
 | 시그마가 AI 문서에 자주 나오는 이유는 여러 데이터를 모아 합·평균·손실을 계산하기 때문이라는 점 | 통계와 손실 집계가 왜 같은 표기를 공유하는지 보여 줍니다. | 평균과 손실 집계가 반복 덧셈 구조라는 점을 이해합니다. |
@@ -182,12 +182,7 @@ x_1 + x_2 + x_3 + x_4
 x_1 + x_2 + x_3 + x_4
 \]
 
-시그마를 볼 때 가장 먼저 볼 것은 기호의 모양이 아니라 반복 구조입니다.
-
-> 무엇을 더하는가?
-> 어디서 시작하는가?
-> 어디서 끝나는가?
-> 반복 위치를 나타내는 이름은 무엇인가?
+시그마를 볼 때 가장 먼저 볼 것은 기호의 모양이 아니라 반복 구조입니다. 즉 무엇을 더하는지, 어디서 시작하는지, 어디서 끝나는지, 반복 위치를 나타내는 이름이 무엇인지를 먼저 봅니다.
 
 ## 인덱스는 반복 위치를 나타낸다
 
@@ -331,18 +326,9 @@ print(mean_loss)
 
 ## 배치 계산도 같은 관점으로 읽는다
 
-딥러닝에서는 데이터를 하나씩 처리하기보다 여러 개를 묶어 배치(batch)로 처리하는 일이 많습니다. 배치 안에는 여러 샘플(sample)이 있고, 모델은 각 샘플에 대해 출력을 만듭니다.
+딥러닝에서는 데이터를 하나씩 처리하기보다 여러 개를 묶어 배치(batch)로 처리하는 일이 많습니다. 배치 안에는 여러 샘플(sample)이 있고, 모델은 각 샘플에 대해 출력을 만듭니다. 여기서 `batch`는 여러 입력 데이터 묶음이고, `prediction`은 각 입력에 대한 모델 출력이며, `loss`는 각 출력과 기준값의 차이이고, `mean_loss`는 배치 안 손실의 평균입니다.
 
-> batch = 여러 입력 데이터 묶음
-> prediction = 각 입력에 대한 모델 출력
-> loss = 각 출력과 기준값의 차이
-> mean_loss = 배치 안 손실의 평균
-
-이때도 시그마의 관점은 유지됩니다.
-
-> 배치 안의 각 샘플을 본다.
-> 각 샘플의 손실을 계산한다.
-> 손실들을 더하거나 평균 낸다.
+이때도 시그마의 관점은 유지됩니다. 즉 배치 안의 각 샘플을 보고, 각 샘플의 손실을 계산한 뒤, 그 손실들을 더하거나 평균 냅니다.
 
 ## 사례로 보기
 
@@ -381,11 +367,11 @@ print(mean_loss)
 
 시그마가 나오면 다음 순서로 읽습니다.
 
-> 1. 더할 대상이 무엇인가?
-> 2. 반복 인덱스는 무엇인가?
-> 3. 시작 위치와 끝 위치는 어디인가?
-> 4. 결과는 합인가, 평균인가?
-> 5. 코드에서는 반복문인가, 배열 계산인가?
+1. 더할 대상이 무엇인가?
+2. 반복 인덱스는 무엇인가?
+3. 시작 위치와 끝 위치는 어디인가?
+4. 결과는 합인가, 평균인가?
+5. 코드에서는 반복문인가, 배열 계산인가?
 
 예를 들어 다음 식을 봅니다.
 
@@ -393,24 +379,13 @@ print(mean_loss)
 \frac{1}{n}\sum_{i=1}^{n}(\mathrm{prediction}_i - \mathrm{target}_i)^2
 \]
 
-이 식은 다음처럼 읽을 수 있습니다.
-
-> i번째 예측값과 i번째 목표값의 차이를 구한다.
-> 그 차이를 제곱한다.
-> i를 1부터 n까지 바꾸며 모두 더한다.
-> n으로 나누어 평균을 낸다.
+이 식은 `i`번째 예측값과 `i`번째 목표값의 차이를 구하고, 그 차이를 제곱한 뒤, `i`를 1부터 `n`까지 바꾸며 모두 더하고, 마지막으로 `n`으로 나누어 평균을 낸다고 읽을 수 있습니다.
 
 이것은 평균 제곱 오차(mean squared error, MSE)의 직관으로 이어집니다. 다만 MSE 자체는 평가 지표와 손실 함수에서 다시 다루면 됩니다. 여기서는 시그마가 반복 계산을 압축한다는 점만 기억합니다.
 
 ## 시그마가 어렵게 느껴지는 이유
 
-시그마가 어려운 이유는 덧셈 자체가 어려워서가 아닙니다. 압축된 정보가 한곳에 모여 있기 때문입니다.
-
-> 반복할 변수
-> 반복 범위
-> 더할 항
-> 전체 합
-> 평균 여부
+시그마가 어려운 이유는 덧셈 자체가 어려워서가 아닙니다. 반복할 변수, 반복 범위, 더할 항, 전체 합, 평균 여부 같은 압축된 정보가 한곳에 모여 있기 때문입니다.
 
 이 정보가 한 줄에 들어가면 낯설게 보일 수 있습니다. 그러나 코드로 풀면 대부분 반복문 또는 배열 계산입니다.
 
@@ -447,6 +422,6 @@ print(mean_loss)
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/), Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/), MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256), Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
