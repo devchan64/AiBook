@@ -723,6 +723,13 @@ plugins:
                         - "P2-13.1 What Does a Plot Reveal?": en/parts/part-02/chapter-13/section-01.md
                         - "P2-13.2 Checking Basic Charts and the Shape of Formulas": en/parts/part-02/chapter-13/section-02.md
                         - "P2-13.3 Comparing and Saving Multiple Plots": en/parts/part-02/chapter-13/section-03.md
+                - Module 5. Reproducibility and Integrated Review:
+                    - Chapter 14. Git and Document Management:
+                        - "P2-14.1 Git as a Tool for Managing Change History": en/parts/part-02/chapter-14/section-01.md
+                        - "P2-14.2 Branches, Commits, and Document Reproducibility": en/parts/part-02/chapter-14/section-02.md
+                    - Chapter 15. Revisiting Math Through Software:
+                        - "P2-15.1 A Small Procedure for Turning Formulas into Code": en/parts/part-02/chapter-15/section-01.md
+                        - "P2-15.2 Final Check Before Moving to Part 3": en/parts/part-02/chapter-15/section-02.md
           theme:
             language: en
         - locale: zh
@@ -890,6 +897,13 @@ plugins:
                         - "P2-13.1 图表能揭示什么": zh/parts/part-02/chapter-13/section-01.md
                         - "P2-13.2 基本图表与公式形状检查": zh/parts/part-02/chapter-13/section-02.md
                         - "P2-13.3 比较并保存多个图": zh/parts/part-02/chapter-13/section-03.md
+                - Module 5. 可复现性与综合复习:
+                    - Chapter 14. Git 与文档管理:
+                        - "P2-14.1 Git 是管理变更历史的工具": zh/parts/part-02/chapter-14/section-01.md
+                        - "P2-14.2 分支、提交与文档可复现性": zh/parts/part-02/chapter-14/section-02.md
+                    - Chapter 15. 用软件重新看数学:
+                        - "P2-15.1 把公式变成代码的小流程": zh/parts/part-02/chapter-15/section-01.md
+                        - "P2-15.2 进入 Part 3 前的最终检查": zh/parts/part-02/chapter-15/section-02.md
           theme:
             language: zh
   - search:
