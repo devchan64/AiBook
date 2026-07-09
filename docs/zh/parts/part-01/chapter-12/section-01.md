@@ -1,7 +1,7 @@
 # P1-12.1 提示词(prompt)指定了什么
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在第 11 章中，我们看了 LLM(large language model) 是从哪里来的。语言模型(language model)起始于“下一个 token 的概率”这个问题，而 Transformer 与预训练(pretraining)成为现代 LLM 的关键基础。
 
@@ -245,7 +245,7 @@ Brown 等人的 GPT-3 论文在比较 zero-shot、one-shot、few-shot 设置时�
 | 提示词中可以包含指示、上下文、示例、约束与输出格式。 | 这样在后面阅读提示词组成部分时，就能在同一个框架里重新理解“让模型做什么”和“给模型什么条件”。 |
 | 提示词能引导结果，但不能替代事实验证。 | 只有不夸大提示词技巧，后面为何还要单独讨论评估、依据检查与 RAG 才会自然接上。 |
 
-## 简短检查
+## 检查清单
 
 - 我可以把提示词(prompt)解释成给 LLM 的当前输入。
 - 我可以区分指示(instruction)与上下文(context)。

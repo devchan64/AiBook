@@ -1,7 +1,7 @@
 # P1-12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 12.1에서는 프롬프트(prompt)가 무엇을 지정하는지 봤습니다. 12.2에서는 지시(instruction), 맥락(context), 예시(example)를 나눠 봤습니다.
 
@@ -222,7 +222,7 @@ Ouyang 등의 InstructGPT 논문은 모델 출력을 평가할 때 단순 자동
 
 이 다음에는 LLM이 외부 자료와 만나는 방식으로 넘어갑니다. 그 출발점이 임베딩(embedding), 벡터 검색(vector search), RAG입니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 프롬프트가 출력 조건을 지정하지만 사실성을 보장하지 않는다고 설명할 수 있다.
 - 사실성(factuality), 근거성(evidence), 최신성(recency)을 구분할 수 있다.

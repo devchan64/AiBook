@@ -1,7 +1,7 @@
 # P1-9.1 Image Recognition and Representation Learning
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 8 distinguished supervised learning, unsupervised learning, and reinforcement learning by the kind of learning signal they use. Now we move into `deep learning`.
 
@@ -219,7 +219,7 @@ AlexNet is the representative case that made this shift widely visible. The poin
 
 > representation learning and large-scale neural networks spread the deep-learning paradigm by showing strong results across many domains
 
-## Short Check
+## Checklist
 
 - I can explain image recognition as the problem of predicting a category from an image.
 - I can distinguish hand-crafted features from learned representations.

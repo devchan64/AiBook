@@ -1,7 +1,7 @@
 # P1-14.6 The Constraints AI Services Meet in the Real World
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14.5 described a `harness` as an execution environment that wraps model and tool runs and makes tracing, logging, and evaluation possible. The next question moves in a more practical direction:
 
@@ -14,6 +14,8 @@ P1-14.5 described a `harness` as an execution environment that wraps model and t
 An AI service is not completed by good answers alone. If it is too expensive, it cannot be sustained. If it is too slow, users will not wait. If failure cannot be explained or recovered from, it is hard to put the service into real work.
 
 This section looks at that problem through the lens of `service constraints`: `cost`, `latency`, `throughput`, `usage limit`, `rate limit`, `retry`, `batch`, `caching`, and `monitoring`.
+
+The focus here is `cost`, `latency`, `throughput`, `rate limit`, `retry`, `batch`, `caching`, and `operations`: how long an execution structure can be sustained as a real service, how often it can run, and at what cost. This extends the execution-harness view from 14.5, while security and privacy move to Chapter 15.
 
 ## Scope of This Section
 
@@ -35,6 +37,17 @@ The baseline distinction here is:
 - quality alone is not enough
 - cost and latency have to be considered together
 - failure and limits are part of design, not just accidents
+
+| Topic | Question in this section |
+| --- | --- |
+| cost | what increases cost? |
+| latency | where does the user spend time waiting? |
+| throughput | how many requests can be processed at once? |
+| limit | where do usage and call counts get blocked? |
+| failure response | how should the system retry or stop after failure? |
+| operational observation | what should be watched to know whether the service is running well? |
+
+Security, privacy, and copyright are handled separately in P1-15. Here the focus stays on the service question: can this structure actually keep running in repeated real use?
 
 ## Goal of This Section
 
@@ -248,7 +261,7 @@ An AI service is not sustained by model quality alone.
 
 Especially once agents and tool use are involved, the number of calls and failure points increases. That is why quality and constraints must be read together.
 
-## Short Check
+## Checklist
 
 - You can explain service constraints through cost, latency, throughput, and failure response.
 - You can explain that cost is connected not only to tokens but also to model choice, request count, tool calls, retries, and evaluation runs.

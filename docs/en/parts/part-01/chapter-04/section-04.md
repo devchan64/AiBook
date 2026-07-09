@@ -1,62 +1,80 @@
 # P1-4.4 How Problem Definition Determines the Model
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
-Section 4.1 treated a model as a computational representation reduced for a purpose. Section 4.2 organized input, output, and data. Section 4.3 showed that inputs are turned into features and representations and computed together with internal parameters.
+Section 4.1 treated a model as a computational representation reduced for a purpose. Section 4.2 organized input, output, and data. Section 4.3 showed that input is transformed into features and representations and then computed together with internal parameters.
 
-This section ties that flow together with one question: how do we define a real-world goal as an AI task?
+This section ties that flow into one question: how should a real-world goal be defined as an AI problem?
 
-Problem definition can look like planning work done before model building. In reality, it determines the kind of model, the data that must be collected, the evaluation criteria, and the way the output connects to work.
+Problem definition can look like documentation work that happens before model building. In reality, it determines the model type, the data that must be collected, the evaluation criteria, and the way the result connects to business workflow. If problem definition is unstable, the result can miss the target even when a strong algorithm is used.
+
+In Part 1, this section fixes the baseline for `task definition` and the way a real-world goal is turned into a modeling task. The basic meanings of `model`, `input/output/data`, and `features/representations/parameters` were prepared first in 4.1 through 4.3. Here the focus shifts to deciding what task those elements should be grouped into and what should count as doing well.
 
 ## Scope of This Section
 
-This section is not about the detailed formulas of evaluation metrics such as accuracy, precision, recall, or loss functions. Those are handled later in Part 4.
+Section 4.4 is not a section for calculating detailed model metrics. The detailed formulas of accuracy, precision, recall, and loss functions are handled in Part 4.
 
-It is also not about full AI service architecture. Routing, permission checks, human review, tool use, and post-deployment monitoring are revisited in P1-14 and Part 7.
+Section 4.4 is also not a section for designing a full AI service architecture. Routing, permission checks, human review, tool use, and post-deployment monitoring are handled in P1-14 and Part 7.
 
-The focus here is one earlier step: deciding what real-world goal becomes what input-output task, and deciding what counts as doing well.
+This section only covers the step before that: defining which real-world goal becomes which input-output problem, and deciding what should count as doing well.
 
 ## Goal of This Section
 
 - Distinguish a real-world goal from a modeling task.
-- Understand that the same real-world goal can be split into several different AI tasks.
-- See that once the output definition changes, the data, model, and evaluation criteria also change together.
+- Understand that the same real-world goal can split into several different AI problems.
+- See that the output definition changes the data, the model, and the evaluation criteria together.
 - Understand that model performance and business performance are not always the same.
-- Summarize what it means to turn a problem into a model.
+- Summarize what it means to turn a problem into a model at the end of Chapter 4.
 
 ## Three Standards
 
+Before choosing a good algorithm, we should first separate the three ideas below.
+
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
-| a real-world goal and a modeling task are not the same | This prevents us from exaggerating the range of what AI solves. | Distinguish `improve customer satisfaction` from `classify support messages`. |
-| the same goal can become several different output definitions | This shows how classification, score prediction, and generation split apart. | Fix the idea that we must decide what output the model should produce. |
-| the output definition changes the data and evaluation criteria together | This shows why problem design matters before model choice. | Understand that changing the output also changes the needed examples and the meaning of success. |
+| a real-world goal and a modeling task are not the same | This prevents us from exaggerating the scope of what AI solves. | Distinguish `improve customer satisfaction` from `classify support messages` as different levels. |
+| the same goal can become several output definitions | This shows how classification, score prediction, and generation split apart. | Fix the point that we must decide what the model should output. |
+| the output definition changes the data and evaluation criteria together | This shows that problem design matters before model choice. | Understand that when output changes, the needed examples and the standard of success change together. |
+
+`real-world goal`, `modeling task`, `output definition`, `evaluation`, and `business performance` are connected, but they are not the same thing.
+
+| Term | Very short meaning | Role in this section |
+| --- | --- | --- |
+| real-world goal | the outside problem we actually want to improve | the starting point that explains why the model is needed |
+| modeling task | the narrowed computational problem given to the model | a form such as classification, score prediction, or generation |
+| output definition | the format of the result the model must produce | the baseline that determines what data to collect and what metrics to watch |
+| evaluation | the standard used to check how correct the model output is | a judging frame such as accuracy, recall, or score error |
+| business performance | whether real work improved after the model was inserted | outside effects such as speed, cost, safety, and customer experience |
+
+The important positional distinction here is this: `the real-world goal is the outside problem`, `the modeling task is the narrowed computational problem`, `the output definition is what we ask the model to produce`, `evaluation checks the model`, and `business performance is the real result`.
 
 ## A Real-World Goal Is Not Yet a Modeling Task
 
-`We want to handle customer-support messages better` is a real-world goal. But this sentence alone does not yet tell us what task to give the model.
+`We want to handle customer-support messages better` is a real-world goal. But that sentence alone does not yet tell us what we should ask a model to do.
 
 To become a modeling task, it needs a more specific form.
 
 | Real-world goal | Expression after turning it into a modeling task |
 | --- | --- |
 | we want to handle customer-support messages better | classify the message type from the support sentence |
-| we want to reduce delivery problems | predict the probability of delivery delay from order information |
+| we want to reduce delivery problems | predict delivery-delay risk from order information |
 | we want to reduce repetitive support work | generate a draft reply from the message and policy |
 | we want to reduce risky transactions | output a risk score from transaction information |
 
-Google’s Machine Learning Glossary describes a `task` as a problem that can be solved with machine-learning methods, giving examples such as classification, regression, clustering, and anomaly detection.
+Google's Machine Learning Glossary explains `task` as a problem that can be solved with machine-learning methods, and gives examples such as classification, regression, clustering, and anomaly detection.
 
-So problem definition means turning a real-world goal into a task form like that.
+So problem definition is the work of changing a real-world goal into a task form like that.
 
 > real-world goal -> modeling task -> input / output / data / evaluation
 
-## The Same Goal Can Become Several Different Tasks
+This order is not just a planning sentence. It is a baseline that keeps later model candidates and data-collection scope from drifting. The core point here is to understand clearly that `a real-world problem is not put directly into a model`; there is an intermediate task-definition step in between.
 
-Even the same goal, `help with customer-support messages`, can become different problems depending on what we ask the model to produce.
+## The Same Goal Can Become Several Tasks
 
-| Task given to the model | Output | Task character |
+Even the same goal, `help with customer-support messages`, becomes a different problem depending on what we ask the model to produce.
+
+| What we ask the model to do | Output | Character of the task |
 | --- | --- | --- |
 | choose a message type | `refund`, `delivery`, `exchange`, `other` | classification |
 | predict urgency | score from 1 to 5 | regression or score prediction |
@@ -64,64 +82,77 @@ Even the same goal, `help with customer-support messages`, can become different 
 | write a draft reply | natural-language sentence | generation |
 | decide whether human review is needed | yes/no | binary classification |
 
-The Google glossary distinguishes classification models, which predict classes, from regression models, which predict numeric values. That distinction is important because the model learns different kinds of relations depending on whether the output is a category, number, or sentence.
+Google's Machine Learning Glossary explains a classification model as a model that predicts classes, and a regression model as a model that predicts numeric values. That distinction is very important at the introductory level. When the output is a category, a number, or a sentence, the model must learn a different kind of relation.
 
-Suppose the same input sentence is:
+For example, even with the same support sentence, the problem changes completely when the output definition changes.
 
-> I ordered yesterday, but tracking still does not work.
+> `I ordered yesterday, but tracking still does not work.`
 
 | Output definition | Possible output | Required data |
 | --- | --- | --- |
-| message-type classification | delivery | message sentence plus message-type labels |
-| urgency prediction | 2 | message sentence plus urgency scores |
-| draft-reply generation | `Tracking updates can take some time...` | message, order state, policy, and examples of good replies |
-| human-review decision | no | message plus labels saying whether automation was safe |
+| message-type classification | delivery | message sentence and message-type labels |
+| urgency prediction | 2 | message sentence and urgency scores |
+| draft-reply generation | `Tracking updates may take some time...` | message, order state, policy, and examples of good replies |
+| human-review decision | no | the message and labels indicating whether automatic handling is safe |
 
-So before asking `Which model should we use?`, we first need to ask `What exactly should it output?`
+Even when the input sentence is the same, changing the output changes both the needed data and the evaluation style. So before asking `Which model should we use?`, we have to ask `What should the model output?`
 
-## The Output Definition Changes Evaluation Metrics
+In practice, different teams often imagine different outputs first, even with the same goal. An operations team may think, `let's attach message types automatically`. A manager may think, `let's surface urgent cases first`. A writing-support team may think, `let's generate draft replies`. All three begin from the same goal of `handling messages better`, but the real modeling tasks split into classification, score prediction, and generation. That split is not a problem. The role of problem definition is to fix that difference clearly in writing.
 
-Once we decide what the model should output, we also need to decide what counts as doing well.
+## The Output Definition Changes the Evaluation Metrics
 
-Google’s glossary describes evaluation as the process of measuring model quality or comparing models, and a metric as a statistic we care about. The scikit-learn model-evaluation guide also explains that evaluation should begin from the final goal and the context in which predictions are used.
+Once we decide what the model should output, we then need to decide what should count as doing well.
 
-In the support-message example, the evaluation standard changes with the output definition.
+Google's Machine Learning Glossary explains evaluation as the process of measuring model quality or comparing different models. It also explains a metric as a statistic we care about.
 
-| Output definition | Evaluation criteria we may look at |
+The scikit-learn model-evaluation guide explains that evaluation functions should be chosen by starting from the final goal and the context in which predictions are used. It also distinguishes `prediction` from the `decision making` that uses that prediction. Section 4.4 adopts this perspective and connects metrics not only to model output, but also to where that output is used.
+
+In the support-message example, the evaluation criteria change with the output definition.
+
+| Output definition | Possible evaluation criteria |
 | --- | --- |
 | message-type classification | accuracy, precision, recall, confusion matrix |
-| urgency score | difference between true urgency and predicted score |
+| urgency score | the gap between the true urgency and the predicted score |
 | draft-reply generation | factuality, policy compliance, tone, safety, human-review result |
-| human-review decision | how well the model catches cases that must not be missed |
+| human-review decision | how well the model catches the cases that must not be missed |
 
-Choosing a metric is also choosing which mistakes are more dangerous.
+The important point here is that an evaluation metric means more than a number. Choosing a metric is also deciding `which mistakes should be treated as more dangerous`.
+
+For example, sending a message that needs human review into automatic handling can be dangerous. By contrast, sending a message that could have been automated to a human may mainly increase cost. Both are wrong predictions, but their business effects are different.
 
 | Mistake | Business effect |
 | --- | --- |
-| a risky message is handled automatically | possible customer harm, policy violation, security risk |
-| a safe message is sent to human review | higher cost and slower response |
+| a risky message is handled automatically | possible customer harm, policy violation, or security problems |
+| a safe message is sent to a human | higher processing cost and slower response |
 
-So problem definition includes not only the output, but also the cost of mistakes.
+So problem definition must include not only the output itself, but also the cost of mistakes.
 
-## Problem Definition Also Determines What Data Must Be Collected
+## Problem Definition Also Determines the Scope of Data Collection
 
-Problem definition determines what data should be gathered. Even large amounts of data may be unhelpful if they do not match the task the model is meant to solve.
+Problem definition also determines what data needs to be collected. Even if there is a lot of data, it may not be useful when it does not match the task the model is supposed to solve.
 
-Let us split the broad goal `reduce delivery problems` into three tasks.
+For example, let us rewrite the goal `we want to reduce delivery problems` into three different tasks.
 
 | Task | Required input data | Required output data |
 | --- | --- | --- |
 | delivery-delay prediction | order time, shipment time, region, product, delivery status | delay flag or expected arrival time |
 | delivery-message classification | customer-support sentence | message-type label |
-| delivery-reply generation | message sentence, order state, delivery policy | good reply examples or reply rules |
+| delivery-reply generation | message sentence, order state, delivery policy | examples of good replies or reply criteria |
 
-The same delivery problem creates completely different data shapes depending on the task.
+Even with the same delivery problem, the shape of the data changes completely. Collecting only message-classification data makes it hard to build a delivery-delay prediction model. By contrast, having many order logs does not directly teach reply quality for customer messages.
+
+So before collecting data, we need these questions:
+
+> What output are we trying to predict or generate?  
+> What input can the model actually see to produce that output?  
+> Do we have past cases where that input and output appear together?  
+> Is the labeling standard consistent across people?
 
 ## Model Choice Comes After Problem Definition
 
-At this stage, names like linear model, tree model, neural network, or LLM can draw attention first. But if the model name comes first, people often force the problem to fit the model.
+At this point, model names can easily grab attention first. Linear model, tree model, neural network, and LLM all sound familiar. But when the model name comes first, the problem is often forced to fit the model.
 
-The safer order is this.
+The safer order is the following:
 
 1. define the real-world goal
 2. define the modeling task
@@ -129,34 +160,40 @@ The safer order is this.
 4. define the data and labeling standard
 5. define the evaluation criteria
 6. choose model candidates
-7. check where the output will be used
+7. confirm where the output will be used
 
-For example, a customer-support classification problem does not automatically require an LLM. If message types are clear and the data is well organized, a simpler classifier or a mix of rules and model signals may be enough. On the other hand, if the output must be a natural-language draft reply, a generative model or LLM may be worth considering.
+For example, in a support-message classification problem, we do not need to decide from the start that we must use an LLM. If message types are clear and the data is well organized, a simpler classifier or a mix of rules and model signals may be enough. By contrast, if the task is to generate a natural-language draft reply, then a generative model or an LLM becomes worth considering.
 
-Model choice matters, but it cannot replace problem definition.
+Model choice matters, but it cannot replace problem definition. If problem definition is unclear, even a large model makes it hard to judge what it should do well.
 
 ## Model Performance and Business Performance Can Be Different
 
-Even if model metrics improve, that does not guarantee that real work improved. A model is only one part of a larger system.
+Even when model metrics improve, we cannot automatically conclude that real business performance improved. A model is only one part inside a larger system.
 
-| The model may do well, but... | A problem may still appear in the business flow |
+For example, suppose message-type classification accuracy became higher. Even then, the following problems may remain:
+
+| The model did well, but... | A problem may still appear in real work |
 | --- | --- |
-| it classifies message types correctly | routing rules may still send the case to the wrong team |
-| it predicts whether automation is possible | policy changes may not be reflected, leading to wrong guidance |
-| it generates fluent draft replies | the draft may still be rejected in review for unsupported content |
-| it predicts delay risk well | alerts may still be sent too late to improve customer experience |
+| it classifies message types correctly | routing rules still send the case to the wrong team |
+| it predicts whether automatic handling is possible well | a policy change was not reflected, so guidance is wrong |
+| it generates a fluent draft reply | the draft is rejected in review because it contains unsupported content |
+| it predicts delay risk well | alerts are sent too late, so customer experience does not improve |
 
-So we must distinguish model evaluation from business evaluation.
+Google's Machine Learning Glossary notes that LLM evaluation helps not only with performance comparison, but also with checking safe and ethical use. That topic is developed later in the generative-AI part. In Section 4.4, it is enough to remember that `when the output changes, the evaluation criteria also change`.
+
+So we must separate model evaluation from business evaluation.
 
 | Distinction | Question |
 | --- | --- |
-| model evaluation | how well does the output match the target or criterion? |
-| business evaluation | did real-world work improve after the model was added? |
-| safety evaluation | can a bad output create risk for users or the organization? |
+| model evaluation | how well does the output match the answer or criterion? |
+| business evaluation | did real work improve after the model was inserted? |
+| safety evaluation | can bad output create risk for users or the organization? |
 
-## What Should Be Written in a Problem-Definition Note
+The two evaluations can move differently even for the same model. For example, message-type classification accuracy may be high, but business performance may still improve only a little if the routing rules are outdated or the responsible team receives the result too late. On the other hand, even if model accuracy is not extremely high, actual business safety may improve if the system is good at catching risky messages and sending them to human review.
 
-Even for a small modeling task, confusion decreases if the following are written down.
+## What Should Be Written in a Problem-Definition Document
+
+Even for a small modeling task, confusion decreases if the following items are written down.
 
 | Item | Question | Example for support messages |
 | --- | --- | --- |
@@ -164,33 +201,51 @@ Even for a small modeling task, confusion decreases if the following are written
 | modeling task | what problem does the model solve? | message-type classification |
 | input | what does the model actually see? | message sentence |
 | output | what must the model produce? | `refund`, `delivery`, `exchange`, `other` |
-| data | what are the past examples? | message sentences with human labels |
-| labeling standard | can people label cases by the same criteria? | definition of refund, delivery, exchange, other |
-| evaluation metric | what counts as doing well? | accuracy, recall, human-review result |
+| data | what are the past cases? | message sentences and labels attached by people |
+| labeling standard | can people apply the same standard? | the definitions of refund, delivery, exchange, and other |
+| evaluation metric | what should count as doing well? | accuracy, recall, human-review result |
 | cost of mistakes | which mistakes are more dangerous? | automatically handling a risky message |
-| usage point | where will the output be used? | routing, auto-reply support, human review |
-| excluded scope | what does the model not do? | final approval of refund or policy responsibility |
+| usage point | where will the output be used? | routing, auto-reply support, input to human review |
+| excluded scope | what does the model not do? | final refund approval and final policy responsibility |
 
-This is not a grand planning document. It is the minimum map that defines the world the model is meant to handle.
+This kind of document is not a large planning document. It is the minimum map that defines the world the model is supposed to handle. Without this map, it becomes hard to judge whether the model improved or whether the data is sufficient. Whether deployment is actually possible still requires later chapters, because security, permissions, review flow, and operational responsibility must also be checked together.
 
 ## What to Remember from This Section
 
-Problem definition is not just preparation before the model. It is the stage that decides what the model will see, what it will output, and how success will be judged.
+Problem definition is not preparation that sits before the model. It is the central stage that determines what the model will see, what it will produce, and how we will judge whether it did well.
 
-The flow of Chapter 4 can be summarized like this.
+If we tie Chapter 4 together again, the flow is this:
 
-1. A real-world problem becomes a model when we reduce it for a purpose.
-2. A model takes input and produces output.
-3. Input is turned into features and representations for computation.
-4. Problem definition sets the standard for all those choices.
+1. a real-world problem becomes a model when it is reduced for a purpose
+2. a model receives input and produces output
+3. input is turned into features and representations for computation
+4. problem definition sets the standard for all of those choices
 
-Before choosing a model, we should be able to complete this sentence:
+So before choosing a model, we should be able to complete the following sentence:
 
 > We want to use [what input] to produce [what output],  
 > and we want to check whether that output helps [what business goal]  
 > by using [what metrics and review criteria].
 
-If we cannot complete that sentence, the issue is probably not yet a model problem, but a real-world goal that still needs to be clarified.
+If we cannot complete that sentence, then it is probably not yet a model problem. It is closer to a real-world goal that still needs more clarification.
+
+## Checklist
+
+- I can distinguish a real-world goal from a modeling task.
+- I can explain that the same goal can become different tasks such as classification, regression, recommendation, or generation.
+- I can explain that the output definition changes the data, the model candidates, and the evaluation criteria together.
+- I can explain that model performance and real business performance can differ.
+- I can write the input, output, data, labeling standard, evaluation criteria, cost of mistakes, and excluded scope into a problem-definition note.
+
+## When Should This Perspective Come to Mind First?
+
+This section's perspective should come to mind first when you feel that the problem itself is still not defined enough, even though people have already started discussing which model to use.
+
+- when goals such as `improve customer satisfaction` or `reduce delivery problems` have not yet been narrowed into modeling tasks
+- when team discussion keeps splitting over whether to classify, output a score, or generate a reply
+- when you need to explain why model metrics improved but real business performance did not
+
+At that point, write the problem again in the order `real-world goal -> modeling task -> input/output/data -> evaluation -> business performance`. Then it becomes visible that when the output definition changes, the data and the evaluation also change together, and the discussion finally has a stable baseline for model choice.
 
 ## Sources and Further Reading
 

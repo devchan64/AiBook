@@ -1,7 +1,7 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
@@ -203,7 +203,7 @@ The point of this exercise is not memorizing inclusion relations. The point is t
 
 The minimum sentence to keep at this stage is this: `AI is the widest category, generative AI is an output category, and LLM is a language-model family inside it.`
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Why an Image-Generation Service Is Not Fully Explained as an LLM
 
@@ -213,7 +213,7 @@ Suppose a user sees a service that creates a poster image from a text prompt. Be
 
 Suppose an internal approval system works only through human-written conditions. The user may feel it is AI because it supports business judgment, but if there is no structure that learns patterns from data, it is hard to call it machine learning. In other words, it may belong to AI in the broad sense while still sitting at a different level from machine learning, deep learning, or generative AI. This case shows why the large map `AI > machine learning > deep learning` still needs to be read together with the actual implementation style.
 
-## Short Check
+## Checklist
 
 - You can explain that AI is a broader term than machine learning.
 - You can explain the difference between machine learning and deep learning through the viewpoints of data learning and neural representation learning.
@@ -238,4 +238,3 @@ At that point, separate `field and system category`, `learning approach`, `outpu
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-22.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, checked 2026-06-22.
 - Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-22.
-

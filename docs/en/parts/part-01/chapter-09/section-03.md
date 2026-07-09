@@ -1,7 +1,7 @@
 # P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 9.1 looked at image recognition and representation learning. Section 9.2 looked at object detection and speech generation.
 
@@ -244,7 +244,7 @@ After this section, at minimum these three distinctions should remain:
 | AlexNet, YOLO, and WaveNet are closer to surrounding evidence than to direct ancestors | it separates the broad success of deep learning from the direct history of LLMs without exaggeration |
 | reducing all of AI to LLMs hides other important streams | it preserves the overall map of Part 1 while still preparing the move into the LLM-focused Part 6 |
 
-## Short Check
+## Checklist
 
 - I can distinguish direct lineage from surrounding evidence.
 - I can explain the direct flow of LLMs through language modeling, Seq2Seq, Attention, and Transformers.

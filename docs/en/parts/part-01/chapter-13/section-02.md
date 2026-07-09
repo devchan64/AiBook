@@ -1,7 +1,7 @@
 # P1-13.2 The Intuition of Similarity Search
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section P1-13.1 explained what it means to represent text as `vectors`. Once text is turned into vectors, sentences, paragraphs, and documents can be placed as computable positions.
 
@@ -267,7 +267,7 @@ In those moments, it helps to separate:
 
 That makes the retrieval stage before RAG easier to explain without exaggeration.
 
-## Short Check
+## Checklist
 
 - I can explain similarity search as the process of finding nearby vector candidates.
 - I can explain similarity and distance as comparison criteria.

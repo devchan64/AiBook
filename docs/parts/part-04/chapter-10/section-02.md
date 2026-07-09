@@ -1,7 +1,7 @@
 # P4-10.2 선형회귀의 평가와 한계
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-10.1에서는 선형회귀(linear regression)를 `관계를 직선으로 먼저 읽어 보는 모델`로 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -547,6 +547,49 @@ outlier RMSE: 7.431
 
 즉, 실증적으로 보면 RMSE는 `큰 실패를 더 싫어하는 지표`라는 말이 숫자로 바로 드러납니다.
 
+### 값 하나 더 바꿔 보기: 큰 실패가 두 점으로 늘어나면 무엇이 유지되고 무엇이 달라지는가
+
+이번에는 마지막 한 점만 크게 틀리는 대신, 마지막 두 점이 함께 크게 틀리는 장면으로 바꿔 봅니다.
+
+```python
+import numpy as np
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+actual = np.array([52, 55, 61, 64, 68, 72])
+pred_outlier = np.array([51, 56, 60, 65, 67, 90])
+pred_two_outliers = np.array([51, 56, 60, 65, 84, 90])
+
+print("one-outlier MAE :", round(mean_absolute_error(actual, pred_outlier), 3))
+print("one-outlier RMSE:", round(mean_squared_error(actual, pred_outlier) ** 0.5, 3))
+print("two-outlier MAE :", round(mean_absolute_error(actual, pred_two_outliers), 3))
+print("two-outlier RMSE:", round(mean_squared_error(actual, pred_two_outliers) ** 0.5, 3))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+one-outlier MAE : 3.833
+one-outlier RMSE: 7.431
+two-outlier MAE : 6.5
+two-outlier RMSE: 8.91
+```
+
+### 무엇이 유지되고 무엇이 바뀌었는가
+
+- 유지된 점: 두 경우 모두 RMSE가 MAE보다 더 크게 반응합니다. `큰 실패에 더 민감하다`는 해석은 그대로 유지됩니다.
+- 바뀐 점: 큰 실패가 한 점에서 두 점으로 늘어나자 MAE도 더 빠르게 커집니다. 즉, `평균적으로도 많이 틀리고 있다`는 신호가 더 강해집니다.
+- 먼저 남길 판단: 한 점짜리 사고인지, 여러 구간에서 반복되는 실패인지에 따라 같은 `오차 증가`도 전혀 다른 운영 질문으로 이어집니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 회귀 평가를 `숫자 읽기`에서 `실패 구조 읽기`로 다시 묶어 줍니다. 문제는 단순히 오차가 커졌는가가 아니라, `어디서`, `몇 점에서`, `같은 방향으로` 실패가 커졌는가입니다. Part 4의 목표는 모델 점수를 구경하는 것이 아니라 평가 결과를 다음 판단으로 넘기는 데 있으므로, MAE와 RMSE의 차이를 외우는 것보다 `큰 실패가 한 점인지 반복 구간인지`를 구분하는 훈련이 더 중요합니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 한 점짜리 큰 실패와 여러 점으로 번진 큰 실패는 MAE와 RMSE를 서로 다른 속도로 키웠다 |
+| 해석 경계 | RMSE가 크게 튄 사실만으로 실패 원인이 이상치 하나인지 구조적 누락인지 바로 확정할 수는 없다 |
+| 다음 질문 | 큰 오차가 특정 구간에 몰렸는지, 입력 누락이나 비선형 패턴이 반복되는지부터 다시 볼 것인가 |
+
 ## 이 절에서 기억할 관점
 
 - 잔차(residual)는 실제값과 예측값의 차이입니다.
@@ -574,6 +617,8 @@ outlier RMSE: 7.431
 - baseline보다 나아졌는지 확인하기 전에 오차 숫자 하나만 보고 결론내리고 있지 않은지 점검할 때 이 절을 떠올립니다.
 - 평균 오차와 큰 실패를 구분하고, 잔차와 대표 오류 사례를 함께 읽어야 할 때 이 절로 돌아옵니다.
 - 좋은 숫자가 보여도 원인을 바로 확정하지 않고 입력 누락이나 비선형 가능성을 다시 봐야 할 때 이 절이 기준이 됩니다.
+
+## 이해 점검
 
 - 잔차의 부호가 무엇을 뜻하는지 설명할 수 있는가?
 - MAE와 RMSE의 차이를 `큰 오차에 대한 민감도`로 설명할 수 있는가?

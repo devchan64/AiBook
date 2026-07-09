@@ -1,7 +1,7 @@
 # P6-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization을 처음 읽는 법
 
 > Section ID: `P6-9.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)을 입력 설계의 첫 번째 손잡이로 봤고, P6-9.2에서는 프롬프트만으로 해결되지 않는 한계를 봤습니다. 그런데 실무 문서나 논문을 읽기 시작하면 금방 더 낯선 이름들이 따라붙습니다.
 
@@ -161,7 +161,7 @@ self-consistency는 CoT와 자주 함께 언급됩니다. 직관은 다음과 �
 
 즉 이 전략들은 `입력 설계의 정교화`에는 도움이 되지만, `시스템 보장`을 대신하지는 않습니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 조건이 많은 분류 문제에서 CoT를 붙이는 이유
 
@@ -203,14 +203,6 @@ self-consistency는 CoT와 자주 함께 언급됩니다. 직관은 다음과 �
 - CoT, self-consistency, automatic prompt optimization을 각각 다른 프롬프트 전략으로 구분할 수 있는가?
 - 이 전략들이 최신성·근거·실행 보장을 대신하지 않는다고 설명할 수 있는가?
 - 다음 장들을 읽을 때 프롬프트 전략 보강과 시스템 구조 보강을 섞지 않을 준비가 되었는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- Chain-of-thought를 중간 단계 reasoning 전개 전략으로 설명할 수 있는가?
-- self-consistency를 여러 후보 합의 전략으로 설명할 수 있는가?
-- automatic prompt optimization을 프롬프트 개선 자동화 접근으로 설명할 수 있는가?
-- 이 전략들이 RAG, 도구 사용, 실행 로그를 대신하지 않는다고 설명할 수 있는가?
-- 프롬프트 층의 개선과 시스템 층의 보장을 구분할 수 있는가?
 
 ## 출처와 참고 자료
 

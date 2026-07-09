@@ -1,7 +1,7 @@
 # P2-7.8 보충학습: 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 환경 변수(environment variable) 읽기
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-7.2와 P2-7.6에서는 터미널을 열고 현재 위치를 확인하는 수준까지 다뤘습니다. 그런데 실제 학습 자료를 따라가다 보면 금방 더 낯선 표현을 만납니다.
 
@@ -15,6 +15,17 @@ export OPENAI_API_KEY=...
 
 이 보충학습에서는 이 문법을 모두 자유롭게 쓰기보다, 앞으로 문서나 튜토리얼에서 이런 표현을 봤을 때 적어도 `무슨 종류의 동작인지`를 읽을 수 있게 만드는 데 집중합니다.
 
+## 처음엔 이것만 읽으면 됩니다
+
+재실습하거나 튜토리얼을 따라가다 다시 돌아왔을 때는 아래 네 줄부터 먼저 떠올리면 충분합니다.
+
+- `|`는 앞 명령의 결과를 뒤 명령으로 넘기는 연결입니다.
+- `>`와 `<`는 입출력 방향을 파일 쪽으로 바꾸는 표기입니다.
+- `KEY=...`나 `export ...`는 코드 밖 설정값을 넘기는 환경 변수 장면일 가능성이 큽니다.
+- `sudo`, `rm`, 비밀값 노출, 파일 덮어쓰기가 보이면 뜻을 다 알기 전에는 바로 실행하지 않습니다.
+
+즉 이 절을 처음부터 다시 다 읽지 않아도, `연결`, `방향`, `설정값`, `위험 신호` 네 단어를 먼저 붙잡으면 낯선 한 줄을 훨씬 안전하게 읽을 수 있습니다.
+
 | 용어 | 이 절에서 먼저 잡을 뜻 |
 | --- | --- |
 | 셸 스크립트(shell script) | 터미널 명령 여러 줄을 파일에 묶어 둔 실행 기록입니다. |
@@ -27,7 +38,9 @@ export OPENAI_API_KEY=...
 
 여기서는 셸 스크립트, 파이프, 리다이렉션, 환경 변수를 처음 읽을 때 필요한 기준을 정리합니다. 각 개념이 왜 등장하는지와 어떤 장면에서 보이는지를 잡고, 실제 Bash 프로그래밍이나 배포 자동화 설계는 이 책의 현재 범위 밖에 둡니다. 로컬 Python 환경 점검 순서는 P2-7.9에서 다시 다룹니다.
 
-여기서는 다음 질문에 답합니다.
+여기서 먼저 해결할 질문은 이것입니다. `튜토리얼 명령 한 줄을 봤을 때, 세부 문법을 다 몰라도 무슨 종류의 동작인지 어떻게 먼저 구분할 것인가`입니다.
+
+그래서 이 보충학습은 다음 질문에 답합니다.
 
 - 셸 스크립트는 무엇을 묶는가?
 - 파이프는 왜 명령을 연결한다고 말하는가?
@@ -36,6 +49,11 @@ export OPENAI_API_KEY=...
 - 어떤 명령부터 조심해서 읽어야 하는가?
 
 여기서는 복잡한 Bash 프로그래밍, PowerShell 스크립팅, 셸 문법 전체, 보안 정책, 배포 자동화 파이프라인을 깊게 다루지 않습니다. 그런 내용은 이 책의 현재 본편 범위 밖에 둡니다. `터미널에서 자주 보이는 낯선 기호를 읽는 법`만 회수합니다.
+
+이 절 다음 흐름도 단순합니다.
+
+- `P2-7.9`에서는 지금 본 기호와 환경 변수 감각을 실제 로컬 Python 환경 점검 순서로 다시 묶습니다.
+- 이후 Part 6 프로젝트 구간에서는 로그 저장, 환경 변수, 실행 스크립트 같은 표현이 다시 등장합니다.
 
 ## 이 보충학습의 목표
 
@@ -216,7 +234,7 @@ AI 학습 문서와 프로젝트 예제는 파일, 로그, 데이터, 비밀값,
 
 ## 출처와 참고 자료
 
-- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html), 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines), 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection), 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables), 확인 날짜: 2026-06-29.
+- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.

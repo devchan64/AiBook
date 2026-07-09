@@ -1,7 +1,7 @@
 # P1-1.2 Problems AI Deals With
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
@@ -175,7 +175,7 @@ flowchart TD
 
 This diagram shows that a broad real-world question does not become a model problem directly. It is first cut into `problem definition`, `input`, and `output`, and only then does the result affect people or the environment. The key point to read here is the three-step flow: `real-world question -> computational problem -> impact of the result`.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. The Same Customer Data, Different Problems
 
@@ -226,7 +226,7 @@ The baseline that should remain from this section can be compressed into three l
 | The same data can become prediction, recommendation, or generation when the question changes | because at the introductory stage, problem definition comes before all algorithms |
 | Real services can bundle several problems such as search, ranking, and generation into one flow | because later Parts will be less surprising when several structures appear inside one service |
 
-## Short Check
+## Checklist
 
 - You can explain AI problems through the viewpoint of input and output.
 - You can explain the difference among recognition, classification, prediction, search, recommendation, generation, and control through examples.
@@ -252,4 +252,3 @@ At that point, write the problem first in four slots: input, output, goal, and i
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-22.
 - David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed.](https://artint.info/3e/html/ArtInt3e.html){: target="_blank" rel="noopener noreferrer" }, 2023, checked 2026-06-22.
 - Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }, AI Magazine, 1996, checked 2026-06-22.
-

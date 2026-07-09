@@ -1,7 +1,7 @@
 # P4-10.3 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지만 실제 문서나 강의에서는 곧 다음 표현을 만나게 됩니다.
 
@@ -70,6 +70,29 @@ P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지
 - 잔차가 한쪽으로 매우 길게 치우치면 해석에 주의가 필요하다
 - 큰 이상치(outlier)가 잔차 모양을 크게 흔들 수 있다
 
+아주 작은 비교 실습으로 보면 다음처럼 읽을 수 있습니다.
+
+```python
+balanced_residuals = [-3, -1, 0, 1, 3]
+skewed_residuals = [-1, 0, 1, 2, 12]
+
+print("balanced residuals:", balanced_residuals)
+print("skewed residuals  :", skewed_residuals)
+print("balanced range    :", max(balanced_residuals) - min(balanced_residuals))
+print("skewed range      :", max(skewed_residuals) - min(skewed_residuals))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+balanced residuals: [-3, -1, 0, 1, 3]
+skewed residuals  : [-1, 0, 1, 2, 12]
+balanced range    : 6
+skewed range      : 13
+```
+
+이 비교는 정규성 검정을 대신하지는 않지만, `오차가 대체로 균형 있게 퍼진 장면`과 `한쪽 긴 꼬리가 생긴 장면`의 차이를 입문 수준에서 바로 보여 줍니다. 즉, 잔차의 정규성은 `오차가 한쪽으로 길게 늘어져 해석을 흔들지 않는가`를 먼저 걱정하는 언어로 받아들이면 충분합니다.
+
 ## 등분산성은 무엇을 걱정하나
 
 등분산성은 오차의 퍼짐 정도가 입력 구간에 따라 너무 달라지지 않는가를 보는 걱정입니다.
@@ -80,6 +103,15 @@ P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지
 - 직선 하나로 설명하기 어려운 구조가 숨어 있는가?
 
 즉, 등분산성은 `오차가 모든 구간에서 비슷한 정도로 퍼지는가`를 보는 관점입니다.
+
+아주 작은 비교 표로 보면 다음처럼 읽을 수 있습니다.
+
+| 입력 구간 | 잔차 예시 | 먼저 드는 걱정 |
+| --- | --- | --- |
+| 낮은 가격대 | `-2, 1, 0` | 오차 퍼짐이 비교적 작다 |
+| 높은 가격대 | `-15, 12, 18` | 특정 구간에서 오차 퍼짐이 훨씬 커진다 |
+
+이런 장면에서는 `평균 성능이 괜찮다`보다 `어느 구간에서 설명이 무너지는가`를 먼저 확인해야 합니다.
 
 ## 다중공선성은 왜 계수 해석을 흔드나
 
@@ -123,10 +155,146 @@ flowchart TD
 
 확인 가능한 결과는 잔차 분포와 입력 특징의 겹침 정도를 함께 볼 때 드러납니다. 예측은 비슷하게 유지되는데 계수 크기와 부호가 실험마다 흔들린다면, 그 회귀식은 `예측에는 쓸 수 있어도 설명에는 더 조심해야 하는 모델`일 수 있습니다.
 
+## 연습 및 예제
+
+### Python 예제로 겹치는 특징이 계수 해석을 어떻게 흔드는지 보기
+
+아래 예제는 `monthly_spend`와 `yearly_spend_proxy`처럼 거의 같은 정보를 담는 두 특징이 함께 들어갈 때, 예측은 비슷해도 계수 해석이 얼마나 흔들릴 수 있는지 보여 줍니다.
+
+- 문제 상황: 월 지출과 연 지출 추정치가 함께 들어간 회귀식을 읽는다.
+- 입력(input): `monthly_spend`, `yearly_spend_proxy`
+- 정답(label): 다음 달 매출
+- 확인할 개념:
+  - 서로 강하게 겹치는 특징이 함께 있으면 계수 역할이 나뉘어 보일 수 있습니다.
+  - 예측이 유지되는 것과 계수 해석이 안정적인 것은 같은 말이 아닙니다.
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+monthly_spend = np.array([10, 12, 14, 16, 18, 20], dtype=float)
+yearly_spend_proxy = np.array([121, 145, 167, 193, 215, 239], dtype=float)
+y = np.array([30, 35, 40, 45, 50, 55], dtype=float)
+
+X_two_features = np.column_stack([monthly_spend, yearly_spend_proxy])
+X_one_feature = monthly_spend.reshape(-1, 1)
+
+model_two = LinearRegression()
+model_two.fit(X_two_features, y)
+
+model_one = LinearRegression()
+model_one.fit(X_one_feature, y)
+
+query_two = np.array([[17, 203]], dtype=float)
+query_one = np.array([[17]], dtype=float)
+
+print("two-feature coefficients :", np.round(model_two.coef_, 3))
+print("two-feature prediction   :", round(model_two.predict(query_two)[0], 3))
+print("one-feature coefficient  :", round(model_one.coef_[0], 3))
+print("one-feature prediction   :", round(model_one.predict(query_one)[0], 3))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+two-feature coefficients : [1.661 0.143]
+two-feature prediction   : 47.517
+one-feature coefficient  : 2.5
+one-feature prediction   : 47.5
+```
+
+이 결과에서 먼저 읽어야 할 점은 다음과 같습니다.
+
+- 두 모델의 예측은 거의 같습니다.
+- 하지만 두 특징을 함께 넣었을 때는 계수 해석이 `1.661`과 `0.143`으로 나뉘어 보입니다.
+- 즉, 예측은 유지돼도 `어느 특징이 정말 더 중요했는가`는 더 흔들릴 수 있습니다.
+
+### 값 하나 더 바꿔 보기: 겹치는 특징 한 점만 흔들어도 무엇이 유지되고 무엇이 달라지는가
+
+이번에는 `yearly_spend_proxy`의 마지막 값만 `239`에서 `233`으로 바꿔 다시 학습해 봅니다.
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+monthly_spend = np.array([10, 12, 14, 16, 18, 20], dtype=float)
+yearly_spend_proxy = np.array([121, 145, 167, 193, 215, 239], dtype=float)
+yearly_spend_shifted = np.array([121, 145, 167, 193, 215, 233], dtype=float)
+y = np.array([30, 35, 40, 45, 50, 55], dtype=float)
+
+query = np.array([[17, 203]], dtype=float)
+
+model_original = LinearRegression().fit(
+    np.column_stack([monthly_spend, yearly_spend_proxy]), y
+)
+model_shifted = LinearRegression().fit(
+    np.column_stack([monthly_spend, yearly_spend_shifted]), y
+)
+
+print("original coefficients :", np.round(model_original.coef_, 3))
+print("original prediction   :", round(model_original.predict(query)[0], 3))
+print("shifted coefficients  :", np.round(model_shifted.coef_, 3))
+print("shifted prediction    :", round(model_shifted.predict(query)[0], 3))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+original coefficients : [1.661 0.143]
+original prediction   : 47.517
+shifted coefficients  : [2.157 0.097]
+shifted prediction    : 47.479
+```
+
+### 무엇이 유지되고 무엇이 달라지는가
+
+- 유지된 점: 두 모델의 예측값은 여전히 거의 같습니다.
+- 바뀐 점: 겹치는 특징의 값 하나를 조금만 바꿨는데도 계수 분배 방식은 꽤 크게 움직입니다.
+- 먼저 남길 판단: 이런 장면에서는 `예측은 쓸 수 있지만 계수 해석은 더 조심해야 한다`는 회귀 진단의 경고를 먼저 떠올려야 합니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 회귀 진단을 `나중에 배우는 통계 용어 목록`이 아니라 `모델 결과를 어디까지 믿어도 되는가를 다시 묻는 절차`로 회수합니다. Part 4의 목표는 점수와 계수 표를 그냥 받아들이는 것이 아니라, 어떤 변화에서는 예측이 흔들리고 어떤 변화에서는 해석만 흔들리는지를 구분하는 데 있습니다. 다중공선성은 바로 그 구분을 요구하는 대표 장면입니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 겹치는 특징이 있으면 예측은 유지돼도 계수 해석은 쉽게 흔들릴 수 있었다 |
+| 해석 경계 | 계수 변화만 보고 특정 특징의 실제 영향력이 갑자기 바뀌었다고 단정할 수는 없다 |
+| 다음 질문 | 잔차 퍼짐과 구간별 실패까지 같이 보면 이 회귀식을 설명용으로 써도 되는지 다시 판단할 것인가 |
+
+### 작은 비교로 등분산성도 같이 읽어 보기
+
+다중공선성만 보는 것으로 끝내지 않고, 구간별 오차 퍼짐이 다른 장면도 아주 작게 비교해 보겠습니다.
+
+```python
+low_range_residuals = [-2, 1, 0]
+high_range_residuals = [-15, 12, 18]
+
+print("low-range spread  :", max(low_range_residuals) - min(low_range_residuals))
+print("high-range spread :", max(high_range_residuals) - min(high_range_residuals))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+low-range spread  : 3
+high-range spread : 33
+```
+
+이 숫자는 복잡한 검정을 대신하지는 않지만, `같은 회귀식이라도 어떤 구간에서는 오차가 훨씬 더 넓게 퍼질 수 있다`는 등분산성 걱정을 입문 수준에서 바로 보여 줍니다. 즉, 회귀 진단은 계수 해석 흔들림만이 아니라 `오차 퍼짐의 불균형`도 함께 묻는 절차입니다.
+
+### 이 보충학습의 작은 실습들을 함께 읽으면
+
+- 잔차의 정규성 비교는 `오차 모양이 한쪽으로 길게 치우치는가`를 먼저 보게 만듭니다.
+- 등분산성 비교는 `어느 구간에서 오차 퍼짐이 커지는가`를 먼저 보게 만듭니다.
+- 다중공선성 비교는 `예측은 유지되는데 계수 해석만 흔들리는가`를 먼저 보게 만듭니다.
+
+즉, 회귀 진단은 한 가지 검정 이름을 외우는 절이 아니라, `오차 모양`, `오차 퍼짐`, `계수 해석 안정성` 중 어디가 흔들리는지 구분하는 절로 읽는 편이 맞습니다.
+
 ## 이 절에서 기억할 관점
 
 - 회귀 진단은 점수를 더 높이는 기술보다 해석을 더 조심하게 만드는 점검입니다.
-- 유의성은 성능을, 등분산성은 오차 퍼짐을, 다중공선성은 계수 해석 안정성을 특히 흔듭니다.
+- 유의성은 관계 해석의 신호를, 등분산성은 오차 퍼짐을, 다중공선성은 계수 해석 안정성을 특히 흔듭니다.
 - 선형회귀 표를 읽을 때는 `숫자가 있다`보다 `그 숫자를 어디까지 믿어도 되는가`를 함께 물어야 합니다.
 
 ## 언제 이 관점을 먼저 떠올려야 하는가
@@ -134,6 +302,8 @@ flowchart TD
 - 예측 성능과 계수 해석 안정성을 같은 말로 보고 있지 않은지 점검해야 할 때 회귀 진단 관점을 떠올립니다.
 - 유의성, 등분산성, 다중공선성이 각각 무엇을 흔드는지 다시 설명해야 할 때 이 절로 돌아옵니다.
 - `숫자가 있다`보다 `그 숫자를 어디까지 믿어도 되는가`를 먼저 물어야 할 때 이 절이 기준이 됩니다.
+
+## 이해 점검
 
 - 유의성과 실무 중요도를 같은 말로 보지 않을 수 있는가?
 - 등분산성이 `오차 크기가 구간별로 달라지는가`를 걱정한다는 점을 말할 수 있는가?

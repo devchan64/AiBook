@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -36,6 +36,14 @@ The baseline distinction here is:
 - it chooses actions by looking at state
 - it updates state from observations
 - it stops under a defined condition
+
+| Topic | Question in this section |
+| --- | --- |
+| goal | what part of the request should be interpreted as the working goal? |
+| state | what is already known, and what has already been done? |
+| action | what tool should be used next, or what response should be produced next? |
+| observation | how should tool results be reflected back into the flow? |
+| stop condition | when should the task stop and the result be reported? |
 
 ## Goal of This Section
 
@@ -72,6 +80,21 @@ An agent does not use these only once. It continues connecting them until the ta
 > -> observe the result  
 > -> update state  
 > -> decide whether to continue or stop
+
+Suppose a user asks for something like this:
+
+> write one section of a technical document, leave a review record, and confirm that the result is reflected correctly in the final artifact
+
+That request does not end with one generated paragraph.
+
+| Stage | Possible action |
+| --- | --- |
+| understand the goal | confirm the section's central question and document boundary |
+| inspect the state | read the table of contents, the related earlier sections, and existing review records |
+| gather evidence | check official documents and papers related to agents |
+| write | draft the section text and supporting notes |
+| verify | run a build or review procedure to confirm the result is reflected correctly |
+| report | tell the user what files changed and what was verified |
 
 ## The Agent Loop: Goal, State, Action, Observation
 
@@ -178,6 +201,14 @@ Agents are powerful, but their failures are more complex too.
 | missing approval | deleting files, sending messages, or deploying without human confirmation |
 | missing evidence | writing unsupported claims as if they were facts |
 
+That is why agent-style services also have to ask:
+
+> how should this goal be broken into steps?  
+> what data and tools are needed at each step?  
+> which actions require human approval?  
+> where should the flow stop when it fails or becomes ambiguous?  
+> does the final result preserve evidence and execution history?
+
 These questions then lead naturally to the next section on harnesses, logs, and evaluation.
 
 ## The View to Keep from This Section
@@ -192,7 +223,7 @@ An `agent` is not a model name. It is an execution structure.
 
 With that view, MCP in the next section is easier to read correctly: it is not the agent itself, but a way to standardize how agents and AI applications connect to tools or data.
 
-## Short Check
+## Checklist
 
 - You can explain an agent through `goal`, `state`, `action`, `observation`, and `stop condition`.
 - You can distinguish prompts, RAG, tool use, and agents instead of mixing them together.

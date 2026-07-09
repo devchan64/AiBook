@@ -1,7 +1,7 @@
 # P4-19.1 가치 기반 강화학습(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보상(reward)을 통해 정책(policy)을 조정하는 학습`으로 잡았습니다. 여기서 한 단계 더 들어가면 다음 질문이 나옵니다.
 
@@ -225,7 +225,7 @@ flowchart TB
 
 실무에서는 문제 규모가 커지면 단순 Q-table만으로는 상태 수를 감당하기 어렵습니다. 그때는 함수 근사(function approximation), 신경망, 더 복잡한 정책 기반 기법으로 넘어가게 됩니다. 이 연결은 Part 4와 Part 5에서 다시 중요해집니다.
 
-## 실행 가능한 Python 예제로 업데이트 차이 보기
+## 연습 및 예제
 
 이번 예제는 `Q-learning`과 `SARSA`가 같은 경험을 조금 다르게 읽는다는 점을 숫자로 직접 확인하는 데 초점을 둡니다.
 
@@ -307,6 +307,59 @@ SARSA updated = 0.835
 - SARSA는 `S1에서 실제로 택한 행동(down)`의 값 `0.3`을 사용했습니다.
 
 따라서 Q-learning 쪽 업데이트가 더 크게 올라갔습니다.
+
+### 값 하나 바꿔 보기: 실제 다음 행동이 달라지면 갱신 태도는 얼마나 달라질까
+
+이번에는 현재 경험은 그대로 두고, 다음 상태에서 실제로 선택한 행동만 `up`으로 바꿔 봅니다.
+
+```python
+alpha = 0.5
+gamma = 0.9
+
+q_table = {
+    ("S0", "right"): 0.40,
+    ("S1", "up"): 0.80,
+    ("S1", "down"): 0.30,
+}
+
+state = "S0"
+action = "right"
+reward = 1.0
+next_state = "S1"
+actual_next_action = "up"
+
+old_value = q_table[(state, action)]
+best_next_value = max(
+    q_table[(next_state, "up")],
+    q_table[(next_state, "down")],
+)
+q_learning_target = reward + gamma * best_next_value
+q_learning_updated = old_value + alpha * (q_learning_target - old_value)
+
+actual_next_value = q_table[(next_state, actual_next_action)]
+sarsa_target = reward + gamma * actual_next_value
+sarsa_updated = old_value + alpha * (sarsa_target - old_value)
+
+print("Q-learning updated =", round(q_learning_updated, 3))
+print("SARSA updated =", round(sarsa_updated, 3))
+```
+
+```text
+Q-learning updated = 1.06
+SARSA updated = 1.06
+```
+
+첫 실행에서는 실제 다음 행동이 `down`이어서 SARSA가 더 보수적으로 갱신됐습니다. 하지만 실제 다음 행동을 `up`으로 바꾸면 SARSA도 Q-learning과 같은 값을 만듭니다. 즉, 두 방법의 차이는 이름 암기보다 `정책이 실제로 어떤 행동을 이어 가는가`를 업데이트에 얼마나 직접 반영하느냐에 있습니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+Part 4에서 강화학습을 읽는 목적은 공식을 외우는 것이 아니라, `환경과 상호작용하며 어떤 기준으로 업데이트하는가`를 문제 정의 수준에서 이해하는 데 있습니다. 이 비교 실습은 같은 보상이라도 실제 다음 행동이 다르면 학습 결과가 달라질 수 있음을 보여 주고, 따라서 평가 기준도 평균 보상 하나가 아니라 `탐험 비용`, `실패 위험`, `정책의 실제 행동 흐름`까지 포함해야 함을 드러냅니다. 독자가 목표를 체감하지 못했다면 Q-learning 식이 어려워서라기보다, 값이 달라진 이유를 운영 판단 문장으로 회수하는 단계가 약했을 가능성이 큽니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 같은 보상 경험도 실제 다음 행동에 따라 Q-learning과 SARSA 업데이트가 갈렸다 |
+| 해석 경계 | 높은 Q-value나 큰 업데이트가 곧바로 안전한 정책을 뜻하지는 않는다 |
+| 다음 질문 | 보상, 탐험률, 실패 비용을 바꾸면 어떤 갱신 태도가 더 맞는가 |
 
 이 절에서도 값 설명만 두지 말고, 어떤 상태-행동 후보와 어떤 실패 비용이 함께 놓이는지 기록해야 합니다. 같은 높은 Q-value처럼 보여도 어떤 상태에서는 안전하게 반복되고, 어떤 상태에서는 탐험 비용과 실패 손해가 더 크게 남을 수 있으므로 검토 메모를 같이 남겨야 합니다.
 

@@ -50,6 +50,8 @@
   - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
 - 영문 번역 워크플로우: `management/guidelines/english-translation-guidelines.md`
   - 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
+- 중국어 번역 워크플로우: `management/guidelines/chinese-translation-guidelines.md`
+  - 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
 - 차트·도식 워크플로우: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
 - Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`
@@ -103,6 +105,7 @@
 - 사례 흐름도는 새로운 이론을 추가 설명하는 자리가 아니라, 바로 앞 사례 문단의 해석 순서를 압축해 되짚는 자리로 씁니다.
 - 모든 Part는 초심자를 기준으로 원고를 작성합니다.
 - 머신러닝, 딥러닝, LLM처럼 뒤 Part의 이해를 떠받치는 구간에서는 초심자 이해에 실제로 도움이 된다면 학술적 배경이나 교육용 보강 주제를 새 Chapter나 Section으로 추가할 수 있습니다.
+- 다만 학술적 배경과 역사 설명은 현재 Section의 중심 질문을 더 선명하게 할 때만 남깁니다. 배경이나 역사가 독립된 위치 설명, 계보 설명, 연표 설명으로 길어져 현재 절의 핵심 설명보다 앞서기 시작하면 축약하거나 다른 위치로 분리합니다.
 - 같은 Part 안에서는 새로운 핵심 개념의 상세 설명을 가능한 한 한 Section에서만 충분히 다룹니다.
 - 같은 Part 안의 후속 Section에서는 이미 정리한 핵심 개념의 상세 정의, 비교 표, 용어 구분 표를 반복하지 않고 개념사전 링크로 연결합니다.
 - 다음 Part로 넘어간 뒤 그 개념이 다시 핵심 전개를 떠받치면, 그 Part에서 처음 등장하는 Section에서 필요한 범위만 다시 정리하고 다시 개념사전으로 연결합니다.
@@ -114,6 +117,7 @@
 - 책 본문은 Section 단위로 작성합니다.
 - 하나의 Section은 하나의 중심 질문에 답해야 합니다.
 - 현재 Section의 논의가 이어질 때는 그 Section의 범위 안에서만 본문을 확장합니다.
+- 배경 설명, 역사 설명, 이전/다음 Part 연결은 현재 Section의 중심 질문을 돕는 범위에서만 넣습니다. 이런 설명이 현재 절의 핵심 개념보다 길어지거나 앞자리를 차지하면 오버뷰 성격으로 분리할지 먼저 판단합니다.
 - 다른 Section의 핵심 설명, 예시, 결론, 체크리스트를 미리 작성하지 않습니다.
 - Section 경계, 생략 회수, 새 Section 후보 판단의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
 

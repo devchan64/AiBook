@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
+  <title id="title">Graph nodes, edges, and adjacency list</title>
+  <desc id="desc">A graph represents objects as nodes and relationships as edges. The same graph can be written as an adjacency list in Python.</desc>
+  <defs>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .code { font: 500 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #334155; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.6; }
+      .node { fill: #ffffff; stroke: #64748b; stroke-width: 2; }
+      .edge { stroke: #64748b; stroke-width: 2.4; fill: none; }
+      .edge-strong { stroke: #2563eb; stroke-width: 3; fill: none; }
+      .tag { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.6; }
+    </style>
+  </defs>
+
+  <rect width="920" height="560" fill="#ffffff"/>
+  <text x="34" y="44" class="title">A graph is objects plus relationships</text>
+  <text x="34" y="72" class="subtitle">Nodes are objects. Edges are relationships. An adjacency list records who is connected to whom.</text>
+
+  <rect x="34" y="108" width="402" height="330" rx="14" class="box"/>
+  <text x="58" y="140" class="panel-title">Graph view</text>
+  <text x="58" y="166" class="small">Question: which objects are connected?</text>
+
+  <g transform="translate(98 210)">
+    <line x1="116" y1="0" x2="34" y2="94" class="edge-strong"/>
+    <line x1="116" y1="0" x2="218" y2="88" class="edge"/>
+    <line x1="34" y1="94" x2="218" y2="88" class="edge"/>
+    <line x1="218" y1="88" x2="296" y2="34" class="edge"/>
+    <circle cx="116" cy="0" r="28" class="node"/>
+    <circle cx="34" cy="94" r="28" class="node"/>
+    <circle cx="218" cy="88" r="28" class="node"/>
+    <circle cx="296" cy="34" r="28" class="node"/>
+    <text x="116" y="5" text-anchor="middle" class="label">Kim</text>
+    <text x="34" y="99" text-anchor="middle" class="label">Lee</text>
+    <text x="218" y="93" text-anchor="middle" class="label">Park</text>
+    <text x="296" y="39" text-anchor="middle" class="label">Choi</text>
+    <rect x="18" y="132" width="196" height="34" rx="8" class="tag"/>
+    <text x="116" y="154" text-anchor="middle" class="small">Kim and Lee are adjacent</text>
+  </g>
+
+  <rect x="484" y="108" width="402" height="330" rx="14" class="box"/>
+  <text x="508" y="140" class="panel-title">Adjacency list view</text>
+  <text x="508" y="166" class="small">Question: what neighbors does each node have?</text>
+  <g transform="translate(524 206)">
+    <rect x="0" y="0" width="320" height="184" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+    <text x="24" y="34" class="code">friends = {</text>
+    <text x="48" y="62" class="code">"Kim":  ["Lee", "Park"],</text>
+    <text x="48" y="90" class="code">"Lee":  ["Kim", "Park"],</text>
+    <text x="48" y="118" class="code">"Park": ["Kim", "Lee", "Choi"],</text>
+    <text x="48" y="146" class="code">"Choi": ["Park"],</text>
+    <text x="24" y="172" class="code">}</text>
+  </g>
+  <rect x="118" y="484" width="684" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="460" y="506" text-anchor="middle" class="small">The drawing and the list express the same relationships.</text>
+</svg>

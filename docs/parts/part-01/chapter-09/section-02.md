@@ -1,7 +1,7 @@
 # P1-9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 통해 딥러닝(deep learning)이 왜 중요한 전환점으로 읽히는지 봤습니다. 이미지 분류는 “이 이미지가 무엇인가”를 묻는 문제였습니다.
 
@@ -192,7 +192,7 @@ YOLO와 WaveNet은 서로 다른 문제를 다룹니다.
 
 이 사례들은 딥러닝이 이미지 분류를 넘어 더 복잡한 출력 구조로 확산되었음을 보여 줍니다. 그러나 LLM의 직접 조상으로 쓰지는 않습니다. 직접 계보와 주변 근거를 구분하는 것이 이 장의 중요한 목적입니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 객체 검출(object detection)이 이미지 분류(classification)와 다른 점을 설명할 수 있다.
 - YOLO를 객체 검출을 단일 신경망 예측 문제로 재구성한 사례로 설명할 수 있다.

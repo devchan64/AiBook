@@ -1,7 +1,7 @@
 # P1-13.4 向量搜索(vector search)实现的直觉
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 P1-13.1 中，我们看了如何通过嵌入(embedding)把文本(text)表示成向量(vector)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到接近的向量。在 P1-13.3 中，我们又看了怎样把这些检索候选接进 LLM 的输入上下文(context)中，形成 RAG(retrieval-augmented generation)。
 
@@ -216,7 +216,7 @@ HNSW(hierarchical navigable small world) 就是这种基于图的近似最近邻
 
 这里也不会进一步解释 `FAISS 或 HNSW 的细节公式`，也不会展开 `向量搜索产品比较`。重点是先建立 RAG 之前的存储与搜索实现直觉，至于服务运维与质量评估，会在第 14 章与 Part 5 继续展开。
 
-## 简短检查
+## 检查清单
 
 - 能说明全量比较(brute-force search)会随着数据变大而变慢。
 - 能把索引(index)解释为为了加快搜索而预先构造的结构。

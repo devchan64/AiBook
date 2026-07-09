@@ -1,7 +1,7 @@
 # P2-11.2 인덱싱(indexing), 슬라이싱(slicing), 축(axis)
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-11.1에서는 NumPy 배열(array)을 만들고, `shape`, `ndim`, `dtype`을 확인했습니다. 이제 배열 안에서 어느 값을 읽을지, 어느 구간을 잘라 볼지, 어느 방향으로 계산할지를 봅니다.
 
@@ -34,6 +34,20 @@ NumPy 배열을 읽을 때 자주 만나는 말은 세 가지입니다.
 - 2차원 배열에서 첫 번째 축(axis 0)을 행 방향, 두 번째 축(axis 1)을 열 방향으로 읽을 수 있습니다.
 - `sum(axis=0)`과 `sum(axis=1)`의 결과 shape이 왜 다른지 설명할 수 있습니다.
 - 데이터셋에서 행은 샘플, 열은 특징으로 읽히는 경우가 많다는 관점을 설명할 수 있습니다.
+
+## 먼저 붙잡을 한 장면
+
+이 절에서 가장 먼저 붙잡아야 할 장면은 다음입니다.
+
+| 배열 표현 | 데이터셋처럼 읽을 때 먼저 떠올릴 질문 |
+| --- | --- |
+| `shape = (4, 3)` | 샘플이 4개인가, 특징이 3개인가 |
+| `x[1, :]` | 두 번째 샘플 하나를 고르는가 |
+| `x[:, 2]` | 세 번째 특징 열 전체를 고르는가 |
+| `sum(axis=0)` | 특징별 요약을 남기는가 |
+| `sum(axis=1)` | 샘플별 요약을 남기는가 |
+
+즉 `인덱싱`, `슬라이싱`, `축(axis)`은 따로 외우는 문법이 아니라, `지금 한 샘플을 보고 있는가`, `한 특징 전체를 보고 있는가`, `어느 방향으로 요약하는가`를 배열 위에서 분명히 적는 방법입니다.
 
 ## 세 가지 기준
 
@@ -168,7 +182,7 @@ print(scores[1:3])
 
 아래 도식은 `start:stop:step` 표기를 한 줄 배열에서 어떻게 읽는지 보여 줍니다.
 
-![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step.svg)
+![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step-ko.svg)
 
 여기서 중요한 점은 `stop` 위치의 값은 선택되지 않는다는 것입니다. `scores[1:5:2]`는 1번 위치에서 시작해 5번 위치 전까지 보되, 두 칸씩 이동합니다.
 
@@ -228,7 +242,7 @@ print(data[:, 3])
 
 아래 도식은 같은 배열을 인덱싱, 행 슬라이싱, 열 슬라이싱으로 다르게 읽는 상황을 보여 줍니다.
 
-![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map.svg)
+![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map-ko.svg)
 
 이 도식에서 파란색은 하나의 값, 초록색은 한 행, 주황색은 한 열을 강조합니다. 모두 같은 배열에서 나온 선택입니다.
 
@@ -305,7 +319,7 @@ print(data.sum(axis=1))
 
 아래 도식은 축에 따라 어떤 방향이 접히고 어떤 결과가 남는지 보여 줍니다.
 
-![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction.svg)
+![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction-ko.svg)
 
 중요한 점은 `axis=0`이 “0번 행을 고른다”는 뜻이 아니라는 것입니다. 인덱싱에서 `0`은 위치를 고르는 숫자입니다. 하지만 `axis=0`은 계산이 진행되는 차원을 지정합니다.
 
@@ -351,9 +365,20 @@ print(features[:, 1])
 
 이 감각은 이후 데이터셋(dataset)을 다룰 때 중요합니다. 모델에 입력할 때는 “어떤 행이 하나의 사례인가”, “어떤 열이 하나의 특징인가”를 먼저 정해야 합니다.
 
+여기서 한 번 더 짧게 다시 묶으면 다음과 같습니다.
+
+| NumPy 배열에서 보는 것 | 데이터셋 언어로 다시 읽을 때 |
+| --- | --- |
+| 한 행(row) | 샘플(sample) 한 건 |
+| 한 열(column) | 특징(feature) 하나 전체 |
+| `shape[0]` | 샘플 수 |
+| `shape[1]` | 특징 수 |
+
+이 표를 먼저 붙잡아 두면 뒤의 Pandas와 머신러닝 문서에서 `X.shape`, `sample`, `feature matrix` 같은 표현이 훨씬 덜 낯설어집니다.
+
 아래 도식은 같은 관점을 조금 더 데이터셋에 가깝게 보여 줍니다.
 
-![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection.svg)
+![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection-ko.svg)
 
 여기서 `features[1, :]`는 한 샘플의 모든 특징을 꺼내는 코드입니다. 반대로 `features[:, 1]`는 모든 샘플에서 같은 특징 하나를 꺼내는 코드입니다.
 
@@ -413,6 +438,10 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 
 그래서 인덱싱과 슬라이싱은 단순 문법이 아니라 질문을 배열 위에 올리는 방식으로 읽습니다. 이 감각이 있어야 Pandas의 행·열 선택과 NumPy의 축 계산도 서로 연결됩니다.
 
+특히 Part 3로 넘어갈 때는 다음 한 문장을 바로 말할 수 있어야 합니다.
+
+- `행(row)은 보통 샘플(sample), 열(column)은 보통 특징(feature)이고, shape는 샘플 수와 특징 수를 함께 보여 준다.`
+
 ## 이 절에서 기억할 관점
 
 | 지금 장의 손잡이 | 바로 다음 장에서 더 보는 것 | Part 3에서 다시 쓰이는 위치 |
@@ -431,6 +460,8 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 
 `axis=0`과 `axis=1`은 위치 선택이 아니라 요약 계산의 방향 선택입니다.
 
+`shape = (샘플 수, 특징 수)`처럼 읽는 감각은 뒤의 `X`, `y`, sample, feature 구분으로 직접 이어집니다.
+
 ## 짧은 점검
 
 - NumPy 인덱스가 0부터 시작한다는 점을 설명할 수 있다.
@@ -439,6 +470,7 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 - `data[0:2, 1:3]`이 어떤 부분 배열을 선택하는지 설명할 수 있다.
 - `sum(axis=0)`과 `sum(axis=1)`의 결과가 왜 다른지 설명할 수 있다.
 - 행을 샘플, 열을 특징으로 읽는 데이터셋 관점을 설명할 수 있다.
+- `shape = (4, 3)`을 보면 `샘플 4개, 특징 3개`처럼 읽을 수 있다.
 
 ## 언제 이 관점을 먼저 떠올려야 하는가
 

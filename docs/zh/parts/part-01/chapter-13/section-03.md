@@ -1,7 +1,7 @@
 # P1-13.3 通向 RAG(retrieval-augmented generation)的流程
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 P1-13.1 中，我们看了把文本(text)表示成向量(vector)的嵌入(embedding)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到与问题向量(query vector)接近的文档向量(document vector)。
 
@@ -241,7 +241,7 @@ RAG 是把嵌入与相似度搜索接到 LLM 生成过程中的结构。检索�
 
 只要抓住这个视角，在 P1-14 看 AI 服务时，就更容易把 RAG 理解成一条由数据、检索、提示词、模型与审查共同组成的流程，而不是一个孤立功能。
 
-## 简短检查
+## 检查清单
 
 - 能把 RAG(retrieval-augmented generation)解释为结合检索与生成的结构。
 - 能区分检索(retrieval)、增强(augmentation)、生成(generation)各自的作用。

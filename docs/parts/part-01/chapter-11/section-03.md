@@ -1,7 +1,7 @@
 # P1-11.3 Transformer와 사전학습 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤고, 11.2에서는 RNN, Seq2Seq, Attention이 순서와 문맥을 다루는 흐름을 봤습니다.
 
@@ -227,7 +227,7 @@ LLM을 이해할 때 다음 축약은 조심해야 합니다.
 | 사전학습은 큰 텍스트에서 언어 패턴을 먼저 배우는 단계다. | Part 6의 GPT/LLM 본류 설명 |
 | BERT와 GPT는 모두 Transformer 계열이지만 같은 역할의 모델은 아니다. | Part 5의 BERT 비교와 Part 6의 LLM 발전사 배경 축 |
 
-## 짧은 점검
+## 체크리스트
 
 - Transformer를 self-attention 중심 구조로 설명할 수 있다.
 - self-attention을 사람의 의식적 주의가 아니라 토큰 간 관련도 계산으로 설명할 수 있다.

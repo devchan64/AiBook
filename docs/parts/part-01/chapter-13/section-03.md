@@ -1,7 +1,7 @@
 # P1-13.3 RAG(retrieval-augmented generation)로 이어지는 흐름
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 질문 벡터(query vector)와 가까운 문서 벡터(document vector)를 찾는 유사도 검색(similarity search)을 봤습니다.
 
@@ -241,7 +241,7 @@ RAG는 임베딩과 유사도 검색을 LLM 생성 과정에 연결하는 구조
 
 이 관점을 잡으면 P1-14에서 AI 서비스를 볼 때, RAG를 하나의 독립 기능이 아니라 데이터, 검색, 프롬프트, 모델, 검토가 이어진 흐름으로 이해할 수 있습니다.
 
-## 짧은 점검
+## 체크리스트
 
 - RAG(retrieval-augmented generation)를 검색과 생성을 결합한 구조로 설명할 수 있다.
 - 검색(retrieval), 보강(augmentation), 생성(generation)의 역할을 구분할 수 있다.

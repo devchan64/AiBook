@@ -1,7 +1,7 @@
 # P1-9.3 区分 LLM 的直接谱系与周边证据
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 9.1 看的是图像识别与表征学习，9.2 看的是目标检测与语音生成。
 
@@ -241,6 +241,23 @@ Transformer 论文说明，sequence transduction 可以只靠 Attention 实现�
 | LLM 的 direct lineage 位于 language modeling、Seq2Seq、Attention 和 Transformer 一边 | 这样后面的 LLM 说明就不容易和图像、语音案例混成一团 |
 | AlexNet、YOLO、WaveNet 更接近 surrounding evidence，而不是 direct ancestors | 这样能把深度学习的广泛成功与 LLM 的直接历史区分开，又不夸大 |
 | 把 AI 全部缩成 LLM 会遮住其他重要主线 | 这样既能保住 Part 1 的整体地图，也能更稳地过渡到 Part 6 的 LLM 主线 |
+
+## 检查清单
+
+- 能区分 direct lineage 和 surrounding evidence。
+- 能把 LLM 的直接主线放在 language modeling、Seq2Seq、Attention 和 Transformer 一边来解释。
+- 不会把 AlexNet、YOLO、WaveNet 写成 LLM 的直接祖先。
+- 能把 Transformer 看成重要转折点，但不会把完整 LLM 历史压缩成 Transformer 一项。
+- 能同时说明深度学习范式的扩散与 LLM 的直接发展线，而不把两者混在一起。
+- 不会把 AI 和 LLM 当成同一个词使用。
+
+## 什么时候应该先想起这个视角
+
+当现代 AI 讨论一开口就缩成“只有 LLM”，或者反过来把所有深度学习案例都拉成 LLM 的直接历史时，就该先想起这一节。
+
+- 当你需要判断 AlexNet、YOLO、WaveNet 到底应该被连接到什么程度时
+- 当你需要重新把 LLM 的直接主线放回 language modeling、Seq2Seq、Attention 和 Transformer 一边时
+- 当你既想保留 LLM 的重要性，又不想把整个 AI 地图压扁成 LLM 时
 
 ## 来源与参考资料
 

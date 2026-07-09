@@ -1,7 +1,7 @@
 # P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 모양(shape)의 관점에서 봤습니다. P2-3.2에서는 벡터를 공간 안의 위치(position)처럼 읽고, 가까움과 멂을 비교하는 직관을 잡았습니다. 이제 행렬 곱(matrix multiplication)을 봅니다.
 
@@ -56,7 +56,7 @@ P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 �
 ## 세 가지 기준
 
 | 기준 | 왜 중요한가 | 이 절에서 필요한 이해 수준 |
-| --- | --- |
+| --- | --- | --- |
 | 행렬 곱은 가중합을 재사용한다 | 출력 하나가 아니라 여러 출력을 한 번에 만들 수 있는 기본 계산이기 때문입니다. | 입력값에 가중치를 곱해 더한 계산이 열마다 반복된다고 이해합니다. |
 | shape가 계산 가능 여부를 정한다 | 안쪽 차원이 맞지 않으면 어떤 값과 어떤 가중치를 대응시킬지 정할 수 없기 때문입니다. | 입력 길이와 가중치 행렬의 입력 방향 크기가 맞아야 한다고 이해합니다. |
 | 선형 변환은 표현을 바꾼다 | 신경망 층과 분류기 설명이 모두 입력을 새 표현으로 바꾸는 계산으로 이어지기 때문입니다. | 행렬 곱이 벡터를 다른 길이와 의미의 벡터로 옮길 수 있다고 이해합니다. |
@@ -164,11 +164,7 @@ W =
 두 번째 출력: 2 x 1 + 3 x 2 = 8
 ```
 
-행렬 곱은 “곱하고 더한다”는 작은 계산을 여러 출력에 반복 적용합니다. 그래서 행렬 곱은 하나의 입력 벡터를 다른 모양의 출력 벡터로 바꾸는 도구가 됩니다.
-
-> 입력 벡터 shape: 2
-> 가중치 행렬 shape: 2 x 2
-> 출력 벡터 shape: 2
+행렬 곱은 “곱하고 더한다”는 작은 계산을 여러 출력에 반복 적용합니다. 그래서 행렬 곱은 하나의 입력 벡터를 다른 모양의 출력 벡터로 바꾸는 도구가 됩니다. 여기서는 입력 벡터 shape이 2이고, 가중치 행렬 shape이 `2 x 2`이며, 출력 벡터 shape도 2입니다.
 
 ## shape은 계산 가능 여부를 정한다
 
@@ -283,7 +279,7 @@ W \in \mathbb{R}^{2 \times 3}
 
 2차원에서는 이 변화를 그림으로 볼 수 있습니다. 다음 예시는 입력 벡터 \(\mathbf{x} = [2,\ 3]\)에 단순한 행렬 \(W\)를 곱해 \(\mathbf{y} = [2,\ 4]\)로 옮기는 모습을 보여 줍니다.
 
-![행렬 곱이 벡터 위치를 바꾸는 예시](../../../assets/part-02/chapter-03/matrix-multiplication-position-change.svg)
+![행렬 곱이 벡터 위치를 바꾸는 예시](../../../assets/part-02/chapter-03/matrix-multiplication-position-change-ko.svg)
 
 이 그림에서 중요한 것은 숫자 계산 자체보다 관점입니다. 벡터는 공간 안의 위치처럼 읽을 수 있고, 행렬 곱은 그 위치를 다른 위치로 옮기는 계산으로 볼 수 있습니다.
 
@@ -369,6 +365,6 @@ W \in \mathbb{R}^{2 \times 3}
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/), Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/), MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256), Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.

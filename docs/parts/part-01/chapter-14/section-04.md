@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P1-14.3에서는 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation)을 이어 가는 작업 흐름(workflow)으로 봤습니다. 이때 에이전트가 외부 자료나 도구를 쓰려면 연결 방식이 필요합니다.
 
@@ -265,7 +265,7 @@ MCP(Model Context Protocol)는 AI 앱과 외부 시스템 사이의 연결을 �
 
 이 관점을 잡으면 다음 절의 하네스(harness)를 더 정확히 볼 수 있습니다. 하네스는 모델, 도구, MCP 연결을 실제 실행 환경에서 어떻게 감싸고, 기록하고, 평가할지의 문제로 이어집니다.
 
-## 짧은 점검
+## 체크리스트
 
 - MCP(Model Context Protocol)를 모델이나 에이전트가 아니라 연결 프로토콜(protocol)로 설명할 수 있다.
 - MCP 호스트(host), 클라이언트(client), 서버(server)의 역할을 구분할 수 있다.

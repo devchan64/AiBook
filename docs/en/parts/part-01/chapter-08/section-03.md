@@ -1,7 +1,7 @@
 # P1-8.3 Reinforcement Learning: Actions and Rewards
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 8.1 explained supervised learning as learning from examples where inputs and labels are given together. Section 8.2 explained unsupervised learning as learning that looks for structure, clusters, or representations in unlabeled data.
 
@@ -221,6 +221,23 @@ Reinforcement learning is a problem setting that learns from the consequences of
 > and use that feedback to find a better long-term policy
 
 Here, reward is not the same thing as a supervised-learning label. It is feedback that evaluates the consequences of behavior. That is why reinforcement learning is better understood through the question `what way of acting leads to better long-term outcome?` than through the question `what is the correct answer to this input?`
+
+## Checklist
+
+- Explain reinforcement learning through the flow of state, action, and reward.
+- Distinguish agent, environment, and policy at an introductory level.
+- Explain why reward is not the same thing as a supervised-learning label.
+- Explain why delayed reward makes reinforcement learning harder.
+- Explain the difference between exploration and exploitation.
+- Avoid using reinforcement learning, deep learning, deep reinforcement learning, and RLHF as if they were the same thing.
+
+## When Should This View Come First?
+
+Recall this section when a learning problem is being read only through the frame of `input and correct answer`, so the time flow of action and consequence disappears.
+
+- when reward starts to be read as if it were just another label
+- when a problem about long-term consequences is being simplified into a one-step prediction problem
+- when you need to connect exploration, exploitation, and delayed reward in one explanation
 
 ## Sources and Further Reading
 

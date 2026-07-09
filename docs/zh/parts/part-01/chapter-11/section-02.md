@@ -1,7 +1,7 @@
 # P1-11.2 RNN、Seq2Seq 与 Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)。语言模型会以概率方式处理单词和 token 的顺序，而嵌入会把单词和 token 变成可计算的向量表示(vector representation)。
 
@@ -229,7 +229,7 @@ RNN、Seq2Seq、Attention 都属于同一条努力：它们试图不再把语言
 
 知道这条脉络，就不容易把 Transformer 和 LLM 误看成凭空出现的结构。Transformer 应该放在更早的问题意识之上理解：长上下文、输入输出对应、瓶颈减少，以及更强并行计算的需要。
 
-## 简短检查
+## 检查清单
 
 - 我可以说明 RNN(recurrent neural network)会把前一个 hidden state 传给下一次计算。
 - 我可以把 hidden state 解释成内部向量状态，而不是人的记忆。

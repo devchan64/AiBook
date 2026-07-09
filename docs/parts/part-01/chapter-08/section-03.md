@@ -1,7 +1,7 @@
 # P1-8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 8.1에서는 지도학습(supervised learning)을 입력(input)과 라벨(label)이 함께 있는 예시에서 배우는 방식으로 설명했습니다. 8.2에서는 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조(structure), 군집(cluster), 표현(representation)을 찾는 방식으로 설명했습니다.
 
@@ -230,7 +230,7 @@ RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것�
 
 따라서 강화학습을 이해할 때는 “정답을 맞힌다”보다 “어떤 행동 방식이 결과적으로 더 나은가”를 먼저 물어야 합니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 강화학습(reinforcement learning)을 상태(state), 행동(action), 보상(reward)의 흐름으로 설명할 수 있다.
 - 에이전트(agent), 환경(environment), 정책(policy)을 입문 수준에서 구분할 수 있다.

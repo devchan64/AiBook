@@ -324,10 +324,13 @@ nav:
           - Chapter 11. 로지스틱 회귀:
               - "P4-11.1 로지스틱 회귀(logistic regression)의 직관": parts/part-04/chapter-11/section-01.md
               - "P4-11.2 결정 경계(decision boundary)": parts/part-04/chapter-11/section-02.md
-              - "P4-11.3 보충학습: 로지스틱 회귀를 한 단계 더 이해하는 법": parts/part-04/chapter-11/section-03.md
+              - "P4-11.3 보충학습: log-odds와 MLE를 처음 읽는 법": parts/part-04/chapter-11/section-03.md
+              - "P4-11.4 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법": parts/part-04/chapter-11/section-04.md
+              - "P4-11.5 보충학습: solver와 regularization을 처음 읽는 법": parts/part-04/chapter-11/section-05.md
           - Chapter 12. k-NN:
               - "P4-12.1 k-NN의 직관": parts/part-04/chapter-12/section-01.md
               - "P4-12.2 거리(distance)와 스케일(scale)": parts/part-04/chapter-12/section-02.md
+              - "P4-12.3 k-NN을 사용할 때 무엇을 먼저 점검할까": parts/part-04/chapter-12/section-03.md
           - Chapter 13. SVM:
               - "P4-13.1 SVM의 직관": parts/part-04/chapter-13/section-01.md
               - "P4-13.2 커널(kernel)의 입문적 의미": parts/part-04/chapter-13/section-02.md
@@ -339,6 +342,7 @@ nav:
               - "P4-15.1 랜덤포레스트(random forest)": parts/part-04/chapter-15/section-01.md
               - "P4-15.2 특징 중요도(feature importance)": parts/part-04/chapter-15/section-02.md
               - "P4-15.3 OOB(out-of-bag)와 랜덤포레스트 점검": parts/part-04/chapter-15/section-03.md
+              - "P4-15.4 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법": parts/part-04/chapter-15/section-04.md
           - Chapter 16. 그래디언트 부스팅:
               - "P4-16.1 그래디언트 부스팅(gradient boosting)": parts/part-04/chapter-16/section-01.md
               - "P4-16.2 부스팅의 성능과 위험": parts/part-04/chapter-16/section-02.md
@@ -545,6 +549,7 @@ plugins:
   - i18n:
       docs_structure: folder
       fallback_to_default: false
+      build_only_locale: !ENV [BUILD_ONLY_LOCALE]
       reconfigure_material: false
       languages:
         - locale: ko
@@ -640,6 +645,92 @@ plugins:
                         - "P1-17.2 Reading News, Columns, and Reports": en/parts/part-01/chapter-17/section-02.md
                         - "P1-17.3 Distinguishing Prediction from a Working Hypothesis": en/parts/part-01/chapter-17/section-03.md
                 - Summary: en/parts/part-01/summary.md
+            - Part 2. Rebuilding the Foundations:
+                - Overview: en/parts/part-02/index.md
+                - Module 1. Rereading Math as a Computational Language:
+                    - Chapter 1. Why Math Is Needed in AI:
+                        - "P2-1.1 What Math Does in AI Computation": en/parts/part-02/chapter-01/section-01.md
+                        - "P2-1.2 Where Formulas, Code, and Data Meet": en/parts/part-02/chapter-01/section-02.md
+                    - Chapter 2. Rereading Formula Notation:
+                        - "P2-2.1 Rereading Variables, Functions, and Expressions": en/parts/part-02/chapter-02/section-01.md
+                        - "P2-2.2 Sigma and Repeated Computation": en/parts/part-02/chapter-02/section-02.md
+                        - "P2-2.3 Limits and the Intuition of Change": en/parts/part-02/chapter-02/section-03.md
+                        - "P2-2.4 Why Log and Exp Keep Reappearing": en/parts/part-02/chapter-02/section-04.md
+                - Module 2. Core Math for Reading Model Computation:
+                    - Chapter 3. What Does Linear Algebra Model:
+                        - "P2-3.1 Scalars, Vectors, and Matrices": en/parts/part-02/chapter-03/section-01.md
+                        - "P2-3.2 Vector Spaces and the Intuition of Position": en/parts/part-02/chapter-03/section-02.md
+                        - "P2-3.3 What Does Matrix Multiplication Reuse?": en/parts/part-02/chapter-03/section-03.md
+                        - "P2-3.4 Dot Product, Norm, Distance, and Similarity": en/parts/part-02/chapter-03/section-04.md
+                        - "P2-3.5 Python Runtime Environments: Colab and Local PC": en/parts/part-02/chapter-03/section-05.md
+                        - "P2-3.6 Checking Linear Algebra with NumPy": en/parts/part-02/chapter-03/section-06.md
+                    - Chapter 4. What Tool Is Differentiation Looking For:
+                        - "P2-4.1 Rereading How We Learned Differentiation": en/parts/part-02/chapter-04/section-01.md
+                        - "P2-4.2 Rate of Change and Slope": en/parts/part-02/chapter-04/section-02.md
+                        - "P2-4.3 Derivative and Gradient": en/parts/part-02/chapter-04/section-03.md
+                        - "P2-4.4 Why Learning Needs Differentiation": en/parts/part-02/chapter-04/section-04.md
+                        - "P2-4.5 Gradient Supplement: From School Differentiation to Multivariable Differentiation": en/parts/part-02/chapter-04/section-05.md
+                        - "P2-4.6 Composite Functions and the Chain Rule": en/parts/part-02/chapter-04/section-06.md
+                    - Chapter 5. Why Probability and Statistics Are Needed:
+                        - "P2-5.1 How Probability Represents Uncertainty as Numbers": en/parts/part-02/chapter-05/section-01.md
+                        - "P2-5.2 Distribution, Mean, and Variance": en/parts/part-02/chapter-05/section-02.md
+                        - "P2-5.3 Sample, Estimation, and Error": en/parts/part-02/chapter-05/section-03.md
+                        - "P2-5.4 Checking Probability and Statistics with Small Data": en/parts/part-02/chapter-05/section-04.md
+                        - "P2-5.5 Supplemental Learning: How to First Read Standard Deviation, Correlation, and Confidence Intervals": en/parts/part-02/chapter-05/section-05.md
+                    - Chapter 6. What Problem Does Optimization Solve:
+                        - "P2-6.1 What Does Optimization Search For?": en/parts/part-02/chapter-06/section-01.md
+                        - "P2-6.2 Loss Functions and Objective Functions": en/parts/part-02/chapter-06/section-02.md
+                        - "P2-6.3 The Intuition of Gradient Descent": en/parts/part-02/chapter-06/section-03.md
+                - Module 3. Execution Environments and Python Basics:
+                    - Chapter 7. Setting Up the Learning Environment:
+                        - "P2-7.1 Local Environments and Runtimes": en/parts/part-02/chapter-07/section-01.md
+                        - "P2-7.2 Terminal, Shell, and Working Directory": en/parts/part-02/chapter-07/section-02.md
+                        - "P2-7.3 The Python Interpreter and Scripts": en/parts/part-02/chapter-07/section-03.md
+                        - "P2-7.4 Virtual Environments and Packages": en/parts/part-02/chapter-07/section-04.md
+                        - "P2-7.5 Dependency and Reproducibility": en/parts/part-02/chapter-07/section-05.md
+                        - "P2-7.6 Supplemental Learning: Using Terminals on Windows, macOS, and Linux": en/parts/part-02/chapter-07/section-06.md
+                        - "P2-7.7 Supplemental Learning: When Is Python Installation Actually Needed?": en/parts/part-02/chapter-07/section-07.md
+                        - "P2-7.8 Supplemental Learning: Reading Shell Scripts, Pipes, Redirection, and Environment Variables": en/parts/part-02/chapter-07/section-08.md
+                        - "P2-7.9 Supplemental Learning: Checking Common Local Python Environment Problems": en/parts/part-02/chapter-07/section-09.md
+                    - Chapter 8. Reviewing Core Python Syntax:
+                        - "P2-8.1 Values, Variables, and Types": en/parts/part-02/chapter-08/section-01.md
+                        - "P2-8.2 Lists: Ordered Groups of Values": en/parts/part-02/chapter-08/section-02.md
+                        - "P2-8.3 Dictionaries: Structures That Find Values by Key": en/parts/part-02/chapter-08/section-03.md
+                        - "P2-8.4 Loops: Processing Iterables One by One": en/parts/part-02/chapter-08/section-04.md
+                        - "P2-8.5 Functions and Small Reuse": en/parts/part-02/chapter-08/section-05.md
+                        - "P2-8.6 Supplemental Learning: First Meeting Classes and Objects": en/parts/part-02/chapter-08/section-06.md
+                        - "P2-8.7 Supplemental Learning: Distinguishing References, Shallow Copy, and Deep Copy": en/parts/part-02/chapter-08/section-07.md
+                    - Chapter 9. The Intuition of Data Structures and Graphs:
+                        - "P2-9.1 Why Are Data Structures Needed?": en/parts/part-02/chapter-09/section-01.md
+                        - "P2-9.2 The Intuition of Arrays, Tables, Trees, and Graphs": en/parts/part-02/chapter-09/section-02.md
+                        - "P2-9.3 How Does a Graph Represent Relationships?": en/parts/part-02/chapter-09/section-03.md
+                        - "P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names": en/parts/part-02/chapter-09/section-04.md
+                    - Chapter 10. Jupyter and Colab Notebooks:
+                        - "P2-10.1 Why Are Notebooks Useful for Learning?": en/parts/part-02/chapter-10/section-01.md
+                        - "P2-10.2 The Difference Among Jupyter, Colab, and Local Execution": en/parts/part-02/chapter-10/section-02.md
+                        - "P2-10.3 Organizing Notebooks as Re-runnable Records": en/parts/part-02/chapter-10/section-03.md
+                - Module 4. Data Computation and Visualization Tools:
+                    - Chapter 11. Reusing Vectors and Matrices with NumPy:
+                        - "P2-11.1 Building Vectors and Matrices with NumPy Arrays": en/parts/part-02/chapter-11/section-01.md
+                        - "P2-11.2 Indexing, Slicing, and Axis": en/parts/part-02/chapter-11/section-02.md
+                        - "P2-11.3 Broadcasting and Vectorization": en/parts/part-02/chapter-11/section-03.md
+                        - "P2-11.4 Supplemental: Reading Shape Changes and Shared Origins Together in NumPy": en/parts/part-02/chapter-11/section-04.md
+                    - Chapter 12. Handling Data Structures with Pandas:
+                        - "P2-12.1 What Does a Pandas DataFrame Represent?": en/parts/part-02/chapter-12/section-01.md
+                        - "P2-12.2 Selection, Filtering, and Aggregation": en/parts/part-02/chapter-12/section-02.md
+                        - "P2-12.3 The Intuition of Preparing a Learning Dataset": en/parts/part-02/chapter-12/section-03.md
+                    - Chapter 13. Visualizing Concepts with Matplotlib:
+                        - "P2-13.1 What Does a Plot Reveal?": en/parts/part-02/chapter-13/section-01.md
+                        - "P2-13.2 Checking Basic Charts and the Shape of Formulas": en/parts/part-02/chapter-13/section-02.md
+                        - "P2-13.3 Comparing and Saving Multiple Plots": en/parts/part-02/chapter-13/section-03.md
+                - Module 5. Reproducibility and Integrated Review:
+                    - Chapter 14. Git and Document Management:
+                        - "P2-14.1 Git as a Tool for Managing Change History": en/parts/part-02/chapter-14/section-01.md
+                        - "P2-14.2 Branches, Commits, and Document Reproducibility": en/parts/part-02/chapter-14/section-02.md
+                    - Chapter 15. Revisiting Math Through Software:
+                        - "P2-15.1 A Small Procedure for Turning Formulas into Code": en/parts/part-02/chapter-15/section-01.md
+                        - "P2-15.2 Final Check Before Moving to Part 3": en/parts/part-02/chapter-15/section-02.md
+                - Summary: en/parts/part-02/summary.md
           theme:
             language: en
         - locale: zh
@@ -729,6 +820,92 @@ plugins:
                         - "P1-17.2 阅读新闻(news)、专栏(column)、报告(report)": zh/parts/part-01/chapter-17/section-02.md
                         - "P1-17.3 区分预测(prediction)与工作假设(working hypothesis)": zh/parts/part-01/chapter-17/section-03.md
                 - 总结: zh/parts/part-01/summary.md
+            - Part 2. 基础恢复:
+                - 概览: zh/parts/part-02/index.md
+                - Module 1. 把数学重新读成计算语言:
+                    - Chapter 1. 为什么 AI 需要数学:
+                        - "P2-1.1 数学在 AI 计算中扮演什么角色": zh/parts/part-02/chapter-01/section-01.md
+                        - "P2-1.2 公式、代码与数据相遇的地方": zh/parts/part-02/chapter-01/section-02.md
+                    - Chapter 2. 重新阅读公式记号:
+                        - "P2-2.1 重新阅读变量(variable)、函数(function)、表达式(expression)": zh/parts/part-02/chapter-02/section-01.md
+                        - "P2-2.2 sigma(sigma)与重复计算": zh/parts/part-02/chapter-02/section-02.md
+                        - "P2-2.3 极限(limit)与变化的直觉": zh/parts/part-02/chapter-02/section-03.md
+                        - "P2-2.4 为什么 log 与 exp 会反复出现": zh/parts/part-02/chapter-02/section-04.md
+                - Module 2. 读懂模型计算所需的核心数学:
+                    - Chapter 3. 线性代数在建模什么:
+                        - "P2-3.1 标量、向量与矩阵": zh/parts/part-02/chapter-03/section-01.md
+                        - "P2-3.2 向量空间与位置直觉": zh/parts/part-02/chapter-03/section-02.md
+                        - "P2-3.3 矩阵乘法到底在复用什么": zh/parts/part-02/chapter-03/section-03.md
+                        - "P2-3.4 点积、范数、距离与相似度": zh/parts/part-02/chapter-03/section-04.md
+                        - "P2-3.5 Python 运行环境：Colab 与本地 PC": zh/parts/part-02/chapter-03/section-05.md
+                        - "P2-3.6 用 NumPy 确认线性代数": zh/parts/part-02/chapter-03/section-06.md
+                    - Chapter 4. 微分到底在寻找什么工具:
+                        - "P2-4.1 重新阅读我们当年学过的微分": zh/parts/part-02/chapter-04/section-01.md
+                        - "P2-4.2 变化率与斜率": zh/parts/part-02/chapter-04/section-02.md
+                        - "P2-4.3 导数与梯度": zh/parts/part-02/chapter-04/section-03.md
+                        - "P2-4.4 为什么学习需要微分": zh/parts/part-02/chapter-04/section-04.md
+                        - "P2-4.5 梯度补充学习：从高中微分到多变量微分": zh/parts/part-02/chapter-04/section-05.md
+                        - "P2-4.6 复合函数与链式法则": zh/parts/part-02/chapter-04/section-06.md
+                    - Chapter 5. 为什么需要概率与统计:
+                        - "P2-5.1 概率如何把不确定性表示成数字": zh/parts/part-02/chapter-05/section-01.md
+                        - "P2-5.2 分布、均值与方差": zh/parts/part-02/chapter-05/section-02.md
+                        - "P2-5.3 样本、估计与误差": zh/parts/part-02/chapter-05/section-03.md
+                        - "P2-5.4 用小数据确认概率与统计": zh/parts/part-02/chapter-05/section-04.md
+                        - "P2-5.5 补充学习：第一次阅读标准差、相关与置信区间": zh/parts/part-02/chapter-05/section-05.md
+                    - Chapter 6. 最优化到底在解决什么问题:
+                        - "P2-6.1 最优化到底在寻找什么": zh/parts/part-02/chapter-06/section-01.md
+                        - "P2-6.2 损失函数与目标函数": zh/parts/part-02/chapter-06/section-02.md
+                        - "P2-6.3 梯度下降的直觉": zh/parts/part-02/chapter-06/section-03.md
+                - Module 3. 执行环境与 Python 基础:
+                    - Chapter 7. 学习环境设置:
+                        - "P2-7.1 本地环境与运行时": zh/parts/part-02/chapter-07/section-01.md
+                        - "P2-7.2 终端、Shell 与工作目录": zh/parts/part-02/chapter-07/section-02.md
+                        - "P2-7.3 Python 解释器与脚本": zh/parts/part-02/chapter-07/section-03.md
+                        - "P2-7.4 虚拟环境与包": zh/parts/part-02/chapter-07/section-04.md
+                        - "P2-7.5 依赖与可复现性": zh/parts/part-02/chapter-07/section-05.md
+                        - "P2-7.6 补充学习：Windows、macOS、Linux 的终端使用": zh/parts/part-02/chapter-07/section-06.md
+                        - "P2-7.7 补充学习：什么时候真的需要安装 Python": zh/parts/part-02/chapter-07/section-07.md
+                        - "P2-7.8 补充学习：阅读 Shell 脚本、管道、重定向与环境变量": zh/parts/part-02/chapter-07/section-08.md
+                        - "P2-7.9 补充学习：检查常见的本地 Python 环境问题": zh/parts/part-02/chapter-07/section-09.md
+                    - Chapter 8. 复习 Python 核心语法:
+                        - "P2-8.1 值、变量与类型": zh/parts/part-02/chapter-08/section-01.md
+                        - "P2-8.2 列表：有顺序的值集合": zh/parts/part-02/chapter-08/section-02.md
+                        - "P2-8.3 字典：按键查值的结构": zh/parts/part-02/chapter-08/section-03.md
+                        - "P2-8.4 循环：逐个处理 iterable": zh/parts/part-02/chapter-08/section-04.md
+                        - "P2-8.5 函数与小规模复用": zh/parts/part-02/chapter-08/section-05.md
+                        - "P2-8.6 补充学习：第一次遇到类与对象": zh/parts/part-02/chapter-08/section-06.md
+                        - "P2-8.7 补充学习：第一次区分引用、浅拷贝与深拷贝": zh/parts/part-02/chapter-08/section-07.md
+                    - Chapter 9. 数据结构与图的直觉:
+                        - "P2-9.1 为什么需要数据结构": zh/parts/part-02/chapter-09/section-01.md
+                        - "P2-9.2 数组、表、树、图的直觉": zh/parts/part-02/chapter-09/section-02.md
+                        - "P2-9.3 图如何表达关系": zh/parts/part-02/chapter-09/section-03.md
+                        - "P2-9.4 补充学习：第一次阅读传统数据结构名称": zh/parts/part-02/chapter-09/section-04.md
+                    - Chapter 10. Jupyter 与 Colab 笔记本:
+                        - "P2-10.1 为什么笔记本对学习有用": zh/parts/part-02/chapter-10/section-01.md
+                        - "P2-10.2 Jupyter、Colab 与本地执行的区别": zh/parts/part-02/chapter-10/section-02.md
+                        - "P2-10.3 把笔记本整理成可重新执行的记录": zh/parts/part-02/chapter-10/section-03.md
+                - Module 4. 数据计算与可视化工具:
+                    - Chapter 11. 用 NumPy 复用向量与矩阵:
+                        - "P2-11.1 用 NumPy 数组构建向量与矩阵": zh/parts/part-02/chapter-11/section-01.md
+                        - "P2-11.2 索引、切片与轴": zh/parts/part-02/chapter-11/section-02.md
+                        - "P2-11.3 广播与向量化": zh/parts/part-02/chapter-11/section-03.md
+                        - "P2-11.4 补充学习：在 NumPy 中一起读取 shape 变化与原数组共享": zh/parts/part-02/chapter-11/section-04.md
+                    - Chapter 12. 用 Pandas 处理数据结构:
+                        - "P2-12.1 Pandas DataFrame 表达什么": zh/parts/part-02/chapter-12/section-01.md
+                        - "P2-12.2 选择、过滤与聚合": zh/parts/part-02/chapter-12/section-02.md
+                        - "P2-12.3 准备学习数据集的直觉": zh/parts/part-02/chapter-12/section-03.md
+                    - Chapter 13. 用 Matplotlib 可视化概念:
+                        - "P2-13.1 图表能揭示什么": zh/parts/part-02/chapter-13/section-01.md
+                        - "P2-13.2 基本图表与公式形状检查": zh/parts/part-02/chapter-13/section-02.md
+                        - "P2-13.3 比较并保存多个图": zh/parts/part-02/chapter-13/section-03.md
+                - Module 5. 可复现性与综合复习:
+                    - Chapter 14. Git 与文档管理:
+                        - "P2-14.1 Git 是管理变更历史的工具": zh/parts/part-02/chapter-14/section-01.md
+                        - "P2-14.2 分支、提交与文档可复现性": zh/parts/part-02/chapter-14/section-02.md
+                    - Chapter 15. 用软件重新看数学:
+                        - "P2-15.1 把公式变成代码的小流程": zh/parts/part-02/chapter-15/section-01.md
+                        - "P2-15.2 进入 Part 3 前的最终检查": zh/parts/part-02/chapter-15/section-02.md
+                - 总结: zh/parts/part-02/summary.md
           theme:
             language: zh
   - search:

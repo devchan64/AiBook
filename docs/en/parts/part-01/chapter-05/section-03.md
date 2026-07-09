@@ -1,13 +1,13 @@
 # P1-5.3 Distinguishing Inference-Related Terms
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
-Section 5.2 explained `inference` as the execution that applies a trained model to a new input and produces output. But when people read actual AI texts, this one word often overlaps with different translations, everyday expressions, and neighboring concepts across languages.
+Section 5.2 explained `inference` as the execution that applies a trained model to a new input and produces output. But when we read real AI documents, this one word often overlaps with different translations, everyday expressions, and neighboring concepts across languages.
 
-In Korean, that overlap becomes especially visible because the usual translation also suggests a human thought process. If this section is framed only as a Korean-language problem, however, the core standard becomes weaker in English and in future translations. So the real focus here is not one language-specific habit, but how to separate different conceptual roles before translation choices blur them.
+In Korean, that overlap becomes especially visible because the usual translation strongly suggests the word `reasoning`. But if we explain the issue only as a special feature of Korean, the central standard becomes weaker in English and in other language editions. So this section focuses first on how to separate different conceptual roles, before any one translation habit.
 
-The expressions that need separation are these:
+The five expressions we want to separate here are:
 
 > inference  
 > reasoning  
@@ -15,169 +15,194 @@ The expressions that need separation are these:
 > statistical inference  
 > generation
 
-The execution perspective of `inference` was fixed first in 5.2. Here the focus is narrower: when nearby terms collide, how should we separate them again? The goal is not to give a perfect philosophical definition of each word. It is to set a reading standard for the rest of the manuscript.
+The goal of this section is not to define these terms completely in a philosophical sense. The goal is to build a reading standard that lets us ask first, `Is this sentence talking about model execution, a thought process, or an output value?`
 
 ## Scope of This Section
 
-This section does not cover all of inference in logic, statistics, or cognitive science. It is also not the place to decide whether an LLM really thinks like a person.
+This section does not cover all of `inference` in logic, statistics, or cognitive science. It is also not the section that judges whether an LLM really thinks like a human.
 
-It only fixes the minimum distinctions needed for an introductory reader of AI texts:
+It only covers the minimum distinctions needed when an introductory reader reads AI documents:
 
-> inference as model execution  
-> reasoning as a logical thought process  
-> prediction as model output  
-> statistical inference as the statistical treatment of estimation and testing  
-> generation as the creation of text or images
+> `inference` meaning model execution  
+> `reasoning` meaning a logical thought process  
+> `prediction` meaning a model's output value  
+> `statistical inference` meaning the statistical treatment of estimation and testing  
+> `generation` meaning the creation of text or images
 
 ## Goal of This Section
 
 - Distinguish the central meanings of `inference`, `reasoning`, `prediction`, `statistical inference`, and `generation`.
-- Set a reading standard that does not depend on one language's translation habit.
+- Set a reading standard that does not depend only on one language's translation.
 - Set the notation policy used in this book.
-- Understand that an LLM response may look like reasoning, but that does not guarantee a valid thought process.
+- Understand that an LLM response can look like reasoning, but that appearance does not automatically guarantee a correct thought process.
 
 ## Three Standards
 
+The goal here is not to organize the terms as strict philosophical categories, but to make AI documents less confusing to read. We first separate the three points below.
+
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
-| inference is usually closer to `running the model` | This separates it from the human-thinking image that some translations suggest. | Understand it as the process of putting in input and producing output. |
-| prediction is the output value, while inference is the process that produces it | This keeps process and result separate. | Understand the relation `inference -> prediction`. |
-| reasoning, statistical inference, and generation belong to different contexts | This prevents LLM discussion, statistics discussion, and general AI discussion from collapsing into one word. | Even if translations look similar, separate them again by original term and context. |
+| `inference` is usually closer to `running the model` | This separates it from the human-thinking image suggested by everyday translation. | Understand it as the process of giving input and producing output. |
+| `prediction` is the output value, while `inference` is the process that creates that output | This keeps process and result separate when reading. | Understand the relation `inference -> prediction`. |
+| `reasoning`, `statistical inference`, and `generation` belong to different contexts | This prevents LLM discussion, statistics discussion, and general AI discussion from collapsing into one word. | Even when translations look similar, split them again by original term and context. |
 
-The five expressions may all sound vaguely like `making a result`, so a short role split is useful:
+At first, all five expressions can sound like vague versions of `making a result`. So we first keep only the positional distinction below.
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
-| inference | execution that applies a trained model to new input | the process that produces output |
-| reasoning | thought process that follows grounds to a conclusion | a term for logical explanation or thinking steps |
-| prediction | output produced by the model | a result-side expression rather than a process |
-| statistical inference | statistical procedure that draws conclusions about populations or uncertainty from samples | a statistical context that should not be mixed with deployment-time model inference |
-| generation | creating outputs such as text, image, or audio | the result-making expression used in generative AI |
+| inference | execution that applies a trained model to a new input | the process by which the model produces output |
+| reasoning | a thought process that reaches a conclusion by following grounds | a term for logical explanation or thought steps |
+| prediction | the output value produced by the model | the result-side expression rather than the process |
+| statistical inference | a statistical procedure that works with populations, uncertainty, and hypotheses from samples | the statistical context that must be separated from deployment-time model inference |
+| generation | creating outputs such as text, image, or audio | the expression for result creation in generative AI |
 
-## Why Does the Confusion Happen?
+Here we keep the positional rule that `inference is execution`, `prediction is result`, `reasoning is a thought process`, `statistical inference is statistical context`, and `generation is result creation`.
 
-The core problem is that one translated word can end up covering several conceptual roles at once. Korean is a clear example because the usual word for `inference` often suggests drawing a conclusion from clues or evidence. Here we do not need a dictionary definition. What matters is the reading confusion this creates in AI texts.
+## Why Does Confusion Happen?
 
-A person might say:
+The core reason for confusion is that a single translated word can easily cover several conceptual positions at once. In Korean, `추론` is the most visible example. The word usually suggests drawing a conclusion from clues or evidence.
+
+For example, a person may say the following:
 
 > The sky is dark and the wind is strong.  
-> So I inferred that it will rain soon.
+> So I inferred that it would rain soon.
 
-That sentence combines clues, background knowledge, judgment, and conclusion. So when readers start from that translation, they may naturally imagine `thinking and reaching a conclusion`.
+This sentence contains clues, background knowledge, judgment, and conclusion together. So if readers begin with the translation first, they can easily read AI `inference` as something close to a human thought process.
 
-AI `inference` touches that feeling only in a very broad sense. In machine-learning writing, `inference` is usually narrower and more execution-focused:
+But in machine-learning contexts, `inference` usually has a narrower and more execution-centered meaning.
 
 > trained model + new input -> output
 
-Google’s glossary explains inference in traditional machine learning as applying a trained model to unlabeled examples to make predictions, and in LLMs as using a trained model to generate a response to a prompt. The center of that explanation is not `thinking like a person`, but `applying a trained model`.
+Google's Machine Learning Glossary explains inference in traditional machine learning as the process of applying a trained model to unlabeled examples to make predictions. For LLMs, it explains inference as the process of using a trained model to generate a response to an input prompt. The center of that explanation is not `thinking like a human`, but `applying a trained model`.
 
-So the issue is broader than Korean alone. Korean simply makes the overlap easy to see. The safer reading rule is to ask which conceptual role the sentence is pointing to before trusting the local translation.
+So the core issue is not Korean alone. It is a general reading problem that appears when a translated word is read before its conceptual role. Korean is simply a case where that problem becomes very visible.
 
 ## Separating the Terms
 
-The table below gives the preferred distinction used in this book.
+The table below gives the preferred distinctions used in this book.
 
-| English expression | Preferred expression here | Central meaning | Simple example |
+| English expression | Preferred wording in this book | Central meaning | Simple example |
 | --- | --- | --- | --- |
-| `inference` | inference, model execution, model application | the process of applying a trained model to new input and producing output | put in a message sentence and get the label `delivery` |
-| `reasoning` | reasoning, logical reasoning, thought process | a process that follows grounds and relations toward a conclusion | explain a conclusion by checking rules, conditions, and cases |
-| `prediction` | prediction, model output | the output value produced by the model | `delivery`, 0.72, estimated price 32,000 won |
+| `inference` | inference, model execution, model application | the process that applies a trained model to new input and produces output | put in a support sentence and get the label `delivery` |
+| `reasoning` | reasoning, logical reasoning, thought process | the process of reaching a conclusion through grounds and relations | explain a conclusion by checking rules, conditions, and cases |
+| `prediction` | prediction, model output | the output value produced by the model | `delivery`, `0.72`, estimated price `32,000 won` |
 | `statistical inference` | statistical inference | working with populations, uncertainty, and hypotheses from sample data | confidence intervals, hypothesis tests |
-| `generation` | generation | producing outputs such as text, images, or audio | generate a reply draft |
+| `generation` | generation | producing results such as text, images, or audio | generate a draft reply |
 
-The important relation here is between `inference` and `prediction`.
+The most important relation in this table is the relation between `inference` and `prediction`. Google's glossary describes `prediction` as the output of a model. In traditional machine learning, `inference` can therefore be read as the process that produces a `prediction`.
 
 > inference = the execution process that creates a prediction  
 > prediction = the output produced by that execution
 
-The scikit-learn explanation of `predict` also helps here. It describes `predict` as creating predictions for each sample and returning values in the target space used during training. In other words, `predict` belongs to the usage stage after the model has already been learned.
+The explanation of `predict` in scikit-learn is also helpful here. It says that `predict` creates a prediction for each sample and returns values in the target space used during training. In other words, `predict` can be read as a usage-stage API that produces outputs for new input after the model has already been trained.
 
 ## Comparing Them on the Same Example
 
-Take the support-message example again:
+Let us return to the example of automatic handling for customer-support messages.
 
 > input:  
 > `I ordered yesterday, but tracking still does not work.`
 
-In that situation, the words separate like this:
+In a situation that processes this sentence, the terms separate as follows.
 
 | Distinction | Explanation | Example result |
 | --- | --- | --- |
-| inference | the trained classifier is applied to the sentence | label and score are computed |
-| prediction | the output produced by the model | `delivery`, 0.72 |
-| reasoning | an explanation of why it should be treated as a delivery message | `the sentence mentions an order, tracking, and not yet working, which connects to delivery-status checking` |
-| generation | a user-facing sentence is produced | `We are sorry for the delay in tracking updates...` |
-| statistical inference | uncertainty in model performance is evaluated on validation data | accuracy estimate, confidence-interval review |
+| inference | apply the trained support-message classifier to the input sentence | compute a label and a score |
+| prediction | the output produced by the model | `delivery`, `0.72` |
+| reasoning | explain why the message should be seen as a delivery inquiry | `The words order, tracking, and not yet connect to the intent of checking delivery status.` |
+| generation | generate a user-facing reply sentence | `We are sorry for the delay in tracking updates...` |
+| statistical inference | evaluate uncertainty in model performance using validation data | accuracy estimate, confidence-interval review |
 
-Inference does not necessarily include reasoning. A simple classifier can perform inference without generating an explicit explanation. Conversely, reasoning may be something a human adds after the model output, or a text explanation generated by an LLM.
+In this example, `inference` does not necessarily include `reasoning`. Even a simple classifier can perform inference. By contrast, `reasoning` may be a human explanation added after the model output, or a text explanation generated by an LLM.
+
+Put even more simply, a `prediction` is closer to a single result fragment like `delivery` or `0.72`, while `reasoning` and `generation` are closer to longer text that explains the result or presents it to a user. So when an explanation sentence appears, we should not immediately read that sentence itself as identical to `prediction` or `inference`.
 
 ## Why Is It More Confusing with LLMs?
 
-LLMs answer in natural language, so their inference output can look like human reasoning.
+LLMs respond in natural language. So an inference result can look like human `reasoning`.
 
 For example, an LLM may answer like this:
 
-> First, the message mentions delivery tracking.  
+> First, the message includes delivery tracking.  
 > Second, it says the tracking has not updated after the order.  
 > Therefore, this message can be classified as a delivery inquiry.
 
-This looks like reasoning. But from the model’s point of view, that sentence is itself output generated during inference. A step-by-step appearance does not guarantee that a sound reasoning process actually happened.
+This looks like reasoning. But from the model's point of view, the sentence itself is also output generated during inference. A step-by-step appearance does not guarantee that a correct grounding process really took place.
 
-So this book keeps the wording conservative:
+So this book uses the following conservative wording:
 
 > LLM inference can generate text that looks like reasoning.  
-> But the generated explanation must still be reviewed separately.
+> But the generated explanation must be reviewed separately.
 
-That point becomes especially important in generative-AI writing, because fluent output does not automatically guarantee factuality, valid grounds, or coherent logic.
+This point is especially important in generative-AI writing. A generated reply can look natural, but factuality, evidence, and logical connection are not automatically guaranteed.
 
 ## It Is Also Different from Statistical Inference
 
-`Statistical inference` is also translated with the same Korean word family, but it is not the same thing as deployment-time machine-learning inference.
+`Statistical inference` is also translated using the word family of `inference`, but it is not the same thing as `inference` in the machine-learning deployment context.
 
-Google’s glossary also notes that inference has a somewhat different meaning in statistics. Here we do not need the full statistical definition. We only need the boundary:
+Google's glossary also distinguishes inference in statistics as having a somewhat different meaning. Here we do not define statistical inference in detail. We only confirm that it should not be read as the same thing as machine-learning deployment-time inference.
 
-> statistical inference is not the same thing as running a trained model on a new input
-
-By contrast, the machine-learning inference discussed in 5.2 and 5.3 is closer to this:
+By contrast, the machine-learning inference discussed in 5.2 and 5.3 is closer to the following:
 
 > use a trained model to produce output for a new input
 
-Machine learning is deeply connected to statistics, but mixing the two expressions without context makes reading harder.
+Machine learning is deeply connected to statistics. Even so, it is safer here not to use the two expressions as though they were interchangeable.
 
 ## Notation Policy in This Book
 
-From this point on, the book follows these rules:
+From this point on, the book follows the policies below.
 
 | Situation | Notation policy |
 | --- | --- |
-| meaning `run the trained model` | at first, write `inference (model execution)` or `inference (model application)` together |
-| when Korean prose needs a short expression | avoid using the Korean word alone; prefer `model inference`, `model execution`, or `inference` together |
-| when speaking about logical thought process | write `reasoning` together with a Korean gloss such as `logical reasoning` |
-| when speaking about model result values | distinguish it as `prediction` or `model output` |
-| when speaking about the statistical meaning | write `statistical inference` together |
-| when speaking about generative-AI result creation | distinguish it as `generation` |
+| when the meaning is to run a trained model | at first, write `inference (model execution)` or `inference (model application)` together |
+| when short wording is needed in Korean prose | avoid using only the translated word by itself; prefer `model inference`, `model execution`, or `inference` together |
+| when referring to a logical thought process | write `reasoning (logical reasoning)` or equivalent wording together |
+| when referring to the model's result value | distinguish it as `prediction (model output)` |
+| when referring to the statistical meaning | write `statistical inference` together |
+| when referring to result creation in generative AI | distinguish it as `generation` |
 
-The point is not to erase translations. It is to keep the conceptual role visible even after translation.
+The point is not to erase local translation. Even when a translation exists, we should first make clear which conceptual position the word points to.
 
-In Korean, using that one word by itself can blur several meanings:
+In Korean, if we use only the word for `inference`, the following meanings can easily blur together:
 
-> is this model execution?  
-> logical reasoning?  
-> a prediction value?  
-> statistical inference?  
-> a generative process?
+> Is it model execution?  
+> Is it logical reasoning?  
+> Is it a prediction value?  
+> Is it statistical inference?  
+> Is it a generative process?
 
-That is why the early part of this book keeps the English expression alongside the local wording. The English term is not decorative. It is a safety rail that lets different language editions and outside materials meet on the same conceptual axis.
+That is why the early part of this book keeps the English expression alongside the local wording. The English term is not decoration. It is a safety device that keeps different language editions and outside materials on the same conceptual axis.
+
+The important habit here is not memorizing every English word, but refusing to decide the meaning only from the translated term. If we ask once more, `Is this sentence talking about model execution, a thought process, or an output value?`, then terminology collisions become much easier to avoid.
 
 ## What to Remember from This Section
 
-It is possible to translate `inference` with the Korean word often used for it, but in this book we read the conceptual role first and the translation second:
+It is possible to translate `inference` with a word like `reasoning`, but in this book we read the conceptual position before the translation:
 
 > inference = the execution that applies a trained model to a new input and produces output
 
-Human thought process is separated as `reasoning`. Model output is separated as `prediction` or a generated result. The statistical meaning is separated as `statistical inference`.
+A human logical thought process is separated as `reasoning`. A model's output is separated as `prediction` or a generated result. The statistical meaning is kept separately as `statistical inference`.
 
-If we keep those distinctions, later explanations of deep learning, LLMs, prompts, agents, and AI service architecture become much easier to read without unnecessary confusion.
+If we keep that distinction, unnecessary confusion decreases later when we explain deep learning, LLMs, prompts, agents, and AI service architecture.
+
+## Checklist
+
+- I can explain `inference` as `model execution` or `model application`.
+- I can explain why `inference` and `reasoning` should not be treated as the same thing.
+- I can explain that `prediction` is not the process, but the model's output.
+- I can explain that `statistical inference` is different from inference in the machine-learning deployment context.
+- I can explain that an LLM can generate text that looks like reasoning, but that explanation must still be reviewed separately.
+- I can explain why this book keeps the English term visible.
+
+## When Should This Perspective Come to Mind First?
+
+This section's perspective should come back first when a single translated word makes several English terms look as if they were on the same level.
+
+- when you begin to read `inference` as almost the same thing as human `reasoning`
+- when `prediction`, `generation`, and `statistical inference` all start to look like the same translated word and the context disappears
+- when an LLM generates text that looks like reasoning and you begin to treat it as a correct thought process by default
+
+At that point, separate the terms again as `inference is model execution`, `prediction is result`, `reasoning is thought process`, `generation is generation`, and `statistical inference is statistical context`. Then check whether the current sentence is talking about process, result, explanation, or statistics. That is how terminology collisions are reduced.
 
 ## Sources and Further Reading
 

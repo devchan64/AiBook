@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -186,7 +186,7 @@ The point of this exercise is not to decide instantly whether something is or is
 
 The minimum sentence to keep from this section is this: `AI is not one product but a broad category of systems with inputs, goals, and outputs.` When the term `AI` appears again in later sections of Part 1, use this scope as the baseline and use the [Concept Glossary](../../../reference/concept-glossary.md) whenever term checking is needed.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Treating a Chatbot as If It Were All of AI
 
@@ -196,7 +196,7 @@ If the first AI a user has encountered is only a chatbot, it is easy to feel tha
 
 Suppose a loan-review system uses only a hand-written rule table to make a first pass over applications. A reader may feel that, since there is no training data and no chat interface, this is not really AI. But the system still receives input, follows rules and goals to produce a judgment, and affects human decisions and the environment. In that broad sense, it can still be read inside AI as a system designed to perform a function associated with intelligence. This case shows that if AI is narrowed only to recent learned models, an important layer is lost.
 
-## Short Check
+## Checklist
 
 - You can explain that AI is used not only as the name of one technology but as a broad field and system category.
 - You can explain why confusion arises when AI, machine learning, deep learning, generative AI, and LLMs are treated as if they belonged to the same conceptual level.
@@ -214,3 +214,18 @@ Bring this section back first whenever it becomes unclear whether something shou
 
 At that point, return to the baseline that `AI is the widest outer category`, then ask how input, goal, output, and impact are organized.
 
+One practical benefit of keeping this baseline is that later chapters do not collapse into one technology story. Once AI is fixed as the outer category, later discussions of rules, search, machine learning, deep learning, generative AI, and LLMs can be read as different streams on one map rather than as competing definitions of one single thing.
+
+## Sources and Further Reading
+
+- OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update){: target="_blank" rel="noopener noreferrer" }, 2023-11-29, accessed 2026-06-22.
+- NIST AI Resource Center, [Glossary](https://airc.nist.gov/glossary/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Merriam-Webster, [Artificial intelligence Definition & Meaning](https://www.merriam-webster.com/dictionary/artificial%20intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, accessed 2026-06-22.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, accessed 2026-06-22.
+- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, arXiv:2303.18223, accessed 2026-06-22.
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }, AI Magazine, 1996, accessed 2026-06-22.
+- D. J. Power, [A Brief History of Decision Support Systems](https://dssresources.com/history/dsshistory.html){: target="_blank" rel="noopener noreferrer" }, DSSResources.COM, version 4.0, 2007-03-10, accessed 2026-06-22.

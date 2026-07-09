@@ -1,7 +1,7 @@
 # P1-5.1 What Does Learning Change?
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 4 organized real-world problems in terms of `input`, `output`, `feature`, `representation`, and `parameter` so that a model could handle them. Now we move one step further and ask: when we say a model learns, what inside the model actually changes?
 
@@ -331,6 +331,24 @@ Learning is not a process of inserting knowledge into a model the way knowledge 
 > as a result, the trained model becomes ready to produce outputs for new inputs
 
 This perspective helps us read the sentence `the AI learned` more carefully. Before asking what it learned, we should ask from what data, for what output goal, under what loss criterion, and with what internal values adjusted.
+
+## Checklist
+
+- Explain training as the process of adjusting internal model values.
+- Distinguish learning from training.
+- Avoid mixing supervised learning, unsupervised learning, reinforcement learning, and deep learning as if they were the same category.
+- Explain how parameters, weights, and biases connect to learning.
+- Explain loss as the signal that guides the direction of learning.
+- Explain why learning is not the same thing as storing all training data as-is.
+- Prepare the boundary among training, fitting, and inference.
+
+## When Should This View Come First?
+
+Recall this section when the word `learning` starts to sound as if it automatically means human-like understanding, or when `learning`, `training`, `fitting`, and `inference` start collapsing into one vague process.
+
+- when you need to separate the broad result of improvement from the concrete procedure that changes values
+- when you need to explain what actually changes inside the model during training
+- when you need to connect loss, parameters, fitting, and later inference without mixing their roles
 
 ## Sources and Further Reading
 

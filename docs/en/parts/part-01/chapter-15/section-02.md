@@ -1,7 +1,7 @@
 # P1-15.2 Copyright and Training Data
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when AI results affect people and society. The next question is more specific.
 
@@ -12,6 +12,8 @@ P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when 
 `Copyright` is not a problem invented by the AI era. But generative AI makes copyright questions harder. A person quoting a short sentence from a book is not the same problem as collecting large-scale data and using it for model `training`.
 
 This section does not force a final legal conclusion. Instead, from the standpoint of making and publishing a Korean-language book, it organizes what concepts need to stay separate, what kinds of material use should be postponed, and what evidence should be preserved.
+
+The focus here is on `copyright`, `quotation`, `training data`, `expression`, `attribution`, and `license`: how to handle other people's expression and source material in public-facing writing. It extends the social-risk discussion from 15.1, while security and privacy move to 15.3.
 
 ## Scope of This Section
 
@@ -26,6 +28,8 @@ This section reviews the main checkpoints in copyright and training-data debates
 | authoring rule | what material use should this book avoid? |
 
 This section starts from Korean copyright law, but it also treats the legal and case-law landscape of generative AI training as something still developing differently across countries.
+
+The practical stance in this book is cautious rather than permissive. When the source material is paid, closed, copied without authorization, or hard to verify, the safer default is to hold its use back instead of forcing it into the drafting flow.
 
 ## Goal of This Section
 
@@ -61,6 +65,8 @@ Copyright does not grant exclusive ownership over every idea. What copyright gen
 This matters when building a book. It is different to conclude that "an introduction to AI should cover copyright" and to copy the sentences, sequence, examples, or diagrams of a specific source.
 
 `Attribution` is necessary, but source citation alone does not automatically authorize all use. Attribution may be one condition of lawful use, but it does not replace permission, licensing, or the legal requirements for quotation.
+
+That is why copyright review in this project cannot stop at source formatting. It also has to examine permission, amount, purpose, replacement risk, and whether the original expression is being reproduced too closely.
 
 ## Quotation and Training Data Are Not the Same Problem
 
@@ -171,7 +177,7 @@ If copyright is the question of how to handle other people's expression, then th
 
 > how should we handle other people's information and permissions?
 
-## Short Check
+## Checklist
 
 - You can explain that copyright mainly protects concrete `expression`, not ideas alone.
 - You can distinguish attribution from permission, licensing, and quotation review.

@@ -1,7 +1,7 @@
 # P1-17.1 What Evidence Should Forecasts Rely On?
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Part 1 Chapter 16 covered how AI can be applied to personal learning, work automation, and small projects. The final chapter, Chapter 17, turns to:
 
@@ -103,7 +103,7 @@ Forecasting is not a matter of imagination. It is a skill of reading evidence.
 > when sources disagree, show the difference  
 > do not write AI-generated future stories as if they were facts
 
-## Short Check
+## Checklist
 
 - You can attach who said a forecast, when, and in what context.
 - You can distinguish prediction, scenario, policy proposal, and company announcement.

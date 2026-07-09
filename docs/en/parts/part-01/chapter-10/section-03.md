@@ -1,7 +1,7 @@
 # P1-10.3 The Quality and Risk of Generated Outputs
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 10.1 examined the difference among classification, prediction, and generation. Section 10.2 introduced the intuition that generative AI builds artifacts progressively from conditions.
 
@@ -233,7 +233,7 @@ Generated output may be natural. But naturalness does not replace factuality, ev
 
 The key to using generative AI as a learning tool is not `letting it think instead of us`. The key is subjecting a quickly produced draft to stricter human review.
 
-## Short Check
+## Checklist
 
 - I can distinguish a natural sentence from an accurate sentence.
 - I can explain hallucination or confabulation as a plausible error.

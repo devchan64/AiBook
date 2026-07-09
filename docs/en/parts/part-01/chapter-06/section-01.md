@@ -1,7 +1,7 @@
 # P1-6.1 Problems with Incomplete Information and Many Exceptions
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 5 distinguished `learning` from `inference`. Now we turn to the next question: why did AI end up using rules, search, probability, and learning together?
 
@@ -161,6 +161,8 @@ flowchart TD
 
 This is not a real service architecture diagram. In 6.1, it is only meant to show why AI often combines several approaches rather than relying on one rule set alone.
 
+This picture is not asking us to memorize one final architecture. The point is to connect problem conditions with the kinds of approaches they tend to call for. Different conditions push us toward different combinations.
+
 ## What to Remember from This Section
 
 Rules have not disappeared from AI. They are still strong for policy, safety, permission, procedure, and validation. But real-world problems often contain incomplete information, unstable observation, growing exceptions, and too many candidates.
@@ -174,6 +176,21 @@ That is why AI ends up asking several questions together:
 > what should remain for human review?
 
 Section 6.2 continues that flow by distinguishing terms such as `probability`, `uncertainty`, and `stochastic`.
+
+## Checklist
+
+- Explain the conditions where rule-based approaches work well.
+- Divide rule-resistant problem conditions into incomplete information, partial observability, noise, exceptions, and explosion of candidates.
+- Explain that rules did not disappear, but are combined with other approaches.
+- Explain why uncertainty, probability, search, heuristics, and learning appear next.
+
+## When Should This View Come First?
+
+Recall this section when you need to explain why rules are clearly necessary but still do not close many real problems by themselves.
+
+- when policies and procedures are explicit, but the input is unstable or key information is missing
+- when exceptions keep growing and rule priority or conflict management becomes increasingly complex
+- when you need to connect why probability, search, heuristics, and learning appear after rules rather than instead of rules
 
 ## Sources and Further Reading
 

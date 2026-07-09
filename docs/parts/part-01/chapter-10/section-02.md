@@ -1,7 +1,7 @@
 # P1-10.2 다음 출력 생성(next-output generation)의 직관
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)을 구분했습니다. 분류는 범주를 고르고, 예측은 값이나 상태를 추정하고, 생성은 조건에 맞는 새 산출물을 만듭니다.
 
@@ -252,7 +252,7 @@ Latent Diffusion Models 논문은 diffusion model을 더 낮은 차원의 latent
 | 같은 입력에서도 후보 분포와 선택 방식 때문에 출력이 달라질 수 있다. | Part 5의 P5-15.2, Part 6의 P6-5.2 |
 | 이미지 생성은 텍스트처럼 단순 `다음 조각 붙이기`로만 보면 부족하다. | P1-11.3, Part 5의 P5-14.1과 P5-14.2, Part 6의 P6-3.1. diffusion 세부는 현재 본편 범위 밖이다. |
 
-## 짧은 점검
+## 체크리스트
 
 - 생성형 AI가 완성된 산출물을 한 번에 꺼내는 것이 아니라 반복적 생성 과정으로 이해될 수 있음을 설명할 수 있다.
 - 텍스트 생성에서 토큰(token)과 다음 토큰 예측(next-token prediction)의 직관을 설명할 수 있다.

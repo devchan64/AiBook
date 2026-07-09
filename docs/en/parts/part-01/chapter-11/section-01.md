@@ -1,7 +1,7 @@
 # P1-11.1 Statistical Language Models and Embeddings
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 10 showed that when generative AI creates outputs, naturalness, factuality, evidence, and risk all need separate review.
 
@@ -278,7 +278,7 @@ After this section, at minimum these three distinctions should remain:
 | n-grams began with short-context frequency, but had limits in long context and generalization | This helps explain why stronger neural language models and Transformer-family models became necessary. |
 | embeddings turn words and tokens into computable vector representations | This becomes the one-line handle for later discussion of vector search, RAG, and token representation. |
 
-## Short Check
+## Checklist
 
 - I can explain a language model as a model that handles probabilities of the next word or next token.
 - I can explain that n-grams are based on short-context frequency.

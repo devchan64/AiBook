@@ -1,7 +1,7 @@
 # P1-10.2 The Intuition of Next-Output Generation
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -264,7 +264,7 @@ For now, only these three lines need to remain:
 | Even with the same input, the output can differ because of candidate distributions and selection procedures. | Part 5 P5-15.2, Part 6 P6-5.2 |
 | Image generation is not well explained as only `attaching the next piece` like text. | P1-11.3, Part 5 P5-14.1 and P5-14.2, Part 6 P6-3.1. Detailed diffusion treatment is outside the current main scope. |
 
-## Short Check
+## Checklist
 
 - I can explain that generative AI can be understood as an iterative generation process rather than as something that pulls out a finished artifact all at once.
 - I can explain the intuition of tokens and next-token prediction in text generation.

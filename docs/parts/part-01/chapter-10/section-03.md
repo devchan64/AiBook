@@ -1,7 +1,7 @@
 # P1-10.3 생성 결과(output)의 품질(quality)과 위험(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)의 차이를 봤습니다. 10.2에서는 생성형 AI(generative AI)가 조건(condition)을 바탕으로 산출물을 점진적으로 구성한다는 직관을 봤습니다.
 
@@ -221,7 +221,7 @@ NIST는 생성형 AI 위험으로 confabulation, data privacy, information integ
 
 생성형 AI를 학습 도구로 사용할 때의 핵심은 “대신 생각하게 하는 것”이 아니라, 빠르게 나온 초안을 사람이 더 엄격하게 검토하는 것입니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 자연스러운 문장과 정확한 문장을 구분할 수 있다.
 - 환각(hallucination) 또는 confabulation을 그럴듯한 오류로 설명할 수 있다.

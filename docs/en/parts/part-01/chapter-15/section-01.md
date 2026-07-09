@@ -1,7 +1,7 @@
 # P1-15.1 Bias, Safety, and Accountability
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P1-14 followed the flow of the AI service through the model, data, tools, agent, harness, and service constraints. The next question moves from technical structure to social impact.
 
@@ -16,6 +16,8 @@ P1-14 followed the flow of the AI service through the model, data, tools, agent,
 
 This section narrows that broad topic into three words: `bias`, `safety`, and `accountability`.
 
+The section also keeps `transparency` and `human oversight` in view as the conditions that connect technical structure to real people and institutions. It extends the service-structure discussion from Chapter 14, then passes copyright and training data to 15.2 and security and privacy to 15.3.
+
 ## Scope of This Section
 
 This section covers the basic reasons AI results can create social problems. Copyright and training-data debates are covered in P1-15.2. Security and privacy are covered separately in P1-15.3.
@@ -29,6 +31,8 @@ This section covers the basic reasons AI results can create social problems. Cop
 | human oversight | when should people intervene and make the final judgment? |
 
 The `accountability` discussed here is not a final legal determination. It is a practical question of how people review and use results produced by AI.
+
+The working meaning of responsibility here is simple: when AI affects a person, some human role still has to explain, check, and correct the result in practice.
 
 ## Goal of This Section
 
@@ -58,6 +62,8 @@ AI systems perform computation, but that computation is used inside real institu
 That is why AI ethics is not just a slogan about using technology kindly. It includes what data was used, how evaluation was done, who is affected, and who can correct the result when it goes wrong.
 
 The NIST AI Risk Management Framework is useful here because it describes AI risk as something that can affect individuals, groups, organizations, society, and the environment, and treats AI systems as socio-technical systems shaped by social context and human behavior.
+
+That perspective keeps ethics tied to design, deployment, operation, and review rather than leaving it outside the technical workflow.
 
 ## Where Bias Can Arise
 
@@ -174,7 +180,7 @@ AI ethics is not an external decoration around technology. Once AI affects real 
 
 This view leads directly into P1-15.2 on copyright and training data, and P1-15.3 on security and privacy.
 
-## Short Check
+## Checklist
 
 - You can explain AI ethics as a question about real possible harm rather than abstract declarations.
 - You can explain that bias can arise from data, labels, features, metrics, and context of use.

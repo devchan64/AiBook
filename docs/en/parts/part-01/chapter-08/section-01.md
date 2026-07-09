@@ -1,7 +1,7 @@
 # P1-8.1 Supervised Learning: Inputs and Labels
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 
@@ -20,11 +20,24 @@ Supervised learning uses examples in which `input` and `label` are given togethe
 
 In Part 1, this section fixes the basic distinction among `supervised learning`, `label`, `labeling`, `target`, `classification`, and `regression`. The basic distinction between `input` and `output` was handled first in 4.2, and the execution flow of `training` and `prediction` was handled in 5.1 and 5.2. Since Chapter 7 already organized search and heuristics, this section can focus directly on the structure created by `labeled data`.
 
+`supervised learning`, `label`, `labeling`, `target`, `classification`, and `regression` can initially sound like similar data-processing terms. A short positional split looks like this:
+
+| Term | Very short meaning | Role in this section |
+| --- | --- | --- |
+| supervised learning | learning from examples that contain labels | the first baseline in Chapter 8 |
+| label | a target marker attached to data | the standard the model tries to fit |
+| labeling | the act of attaching labels to data | the preparation that builds the learning standard |
+| target | the value the model is meant to match | often close in meaning to label |
+| classification | predicting a categorical label | one representative form of supervised learning |
+| regression | predicting a numeric label | another representative form of supervised learning |
+
+The minimum distinction to keep is this: `supervised learning is learning with labels`, `a label is a target marker`, `labeling builds the standard`, `classification chooses a name tag`, and `regression predicts a number`.
+
 ## Scope of This Section
 
 This section does not calculate supervised-learning algorithms. Linear regression, logistic regression, decision trees, support vector machines, and neural networks only pass by as names.
 
-It also does not explain loss functions, gradient descent, validation data, or overfitting in detail. Those return later in Part 4.
+It also does not explain loss functions, gradient descent, validation data, or overfitting in detail. Those return later in Part 4 in the sections on data splitting, validation, overfitting, generalization, and optimization.
 
 Likewise, this section does not redefine `input` and `output` at length. Their basic distinction was already fixed in 4.2, and the difference between training and inference was handled in Chapter 5. Here we add one layer on top: how examples with labels become a training signal.
 
@@ -45,22 +58,13 @@ The working definition here is:
 
 ## Three Standards
 
+This section is not mainly about algorithms. It is about understanding what a label is. If the following three standards are fixed, the whole flow becomes much clearer.
+
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
 | supervised learning uses examples that contain both inputs and labels | This is the most basic standard that separates it from other learning types. | It is enough to understand that people-attached distinguishing markers come together with past examples. |
 | a label is more accurate when read as an `identification marker` than as absolute truth | This reduces the mistake of treating labels as unquestionable answers. | Keep the intuition that labels are markers attached to distinguish cases. |
 | the model tries to generalize that label standard to new inputs | This summarizes the goal of supervised learning in one sentence. | Understand it as an attempt to apply standards seen in past examples to new ones. |
-
-At the minimum, the distinction to keep is:
-
-| Term | Very short meaning | Role in this section |
-| --- | --- | --- |
-| supervised learning | learning from examples that contain labels | the first baseline in Chapter 8 |
-| label | target marker attached to data | the standard the model tries to fit |
-| labeling | the act of attaching labels to data | the preparation that builds the learning standard |
-| target | the value the model is meant to match | often close in meaning to label |
-| classification | predicting a categorical label | one representative form of supervised learning |
-| regression | predicting a numeric label | another representative form of supervised learning |
 
 ## A Label Is a Signal That Tells the Model What Direction to Learn
 
@@ -97,7 +101,7 @@ The model sees these examples and then predicts which label fits a new sentence:
 > new input: `The product I ordered still has not arrived.`  
 > model output: delivery
 
-The crucial point is that supervised learning uses a standard already attached by people. Without labels, the same problem would have to be approached differently.
+The crucial point is that supervised learning uses a standard already attached by people. Without labels, the same problem would have to be approached through unsupervised learning or another method. So when we read a supervised-learning problem, we should ask about the label standard before we ask about the model type.
 
 ## Label, Target, and Expected Output
 
@@ -116,7 +120,7 @@ In introductory explanation, labels are often called `answers`. But this wording
 
 Consider the sentence:
 
-> I want to cancel the payment.
+> `I want to cancel the payment.`
 
 Its label may differ depending on the labeling scheme:
 
@@ -174,7 +178,7 @@ Typical classification outputs are category labels:
 | image classification | image | cat, dog, car |
 | risk detection | transaction information | normal, suspicious |
 
-This section does not go deeply into probability estimates or thresholds. Their place was already introduced in P1-6.3 and P1-7.3.
+This section does not go deeply into probability estimates or thresholds. Their place was already introduced in P1-6.3 and P1-7.3, and they return again in Part 4 together with evaluation.
 
 ## Regression Predicts Numeric Labels
 
@@ -236,22 +240,68 @@ Some labels are relatively clear:
 | --- | --- |
 | image of a handwritten digit | one of 0 through 9 |
 | product sales record | actual sale price |
+| delivery-completion record | complete or incomplete |
 
-But many real-world labels are not that simple. They can depend on business conventions, human judgment, timing, or partial information. So a label is better understood as a target marker attached under a specific definition than as an absolute universal answer.
+But other labels depend on human judgment, policy, historical context, or measurement devices:
+
+| Input | Why the label may be unstable |
+| --- | --- |
+| customer emotion classification | people may interpret emotion differently |
+| risky-transaction judgment | it can change with policy and cost criteria |
+| harmful-content classification | it can change with culture, law, and platform policy |
+| quality evaluation | raters may apply different standards |
+
+Google’s glossary also notes that human raters can make mistakes during labeling, and that proxy labels must be chosen carefully when the real label is not directly available.
+
+So the important attitude in supervised learning is this:
+
+> the existence of a label does not mean truth is automatically settled  
+> first check what standard created the label
+
+## The Boundary Between Supervised Learning and Other Learning Types
+
+Section 8.1 covers only supervised learning. It helps to fix the boundary to the next sections in advance.
+
+| Learning type | Data and signal | Central question | Relation to the next sections |
+| --- | --- | --- | --- |
+| supervised learning | inputs and labels | what label should be predicted for this input? | 8.1 |
+| unsupervised learning | unlabeled data | what structure exists inside the data? | 8.2 |
+| reinforcement learning | states, actions, and rewards | what action increases long-term reward? | 8.3 |
+
+`Deep learning` does not live on the same conceptual level as this table. Deep learning is an approach that learns representations with multi-layer neural networks, and it can be used together with supervised learning, unsupervised learning, or reinforcement learning.
 
 ## What to Remember from This Section
 
-Supervised learning uses examples in which input and label are given together. The model learns not by memorizing label names one by one, but by trying to generalize the relationship between inputs and the attached label standard.
+Supervised learning uses labeled examples that contain both `input` and `label`. Through those examples, a model is trained so that it can predict outputs for new inputs.
 
-> supervised learning = training from examples that contain both inputs and labels  
-> label = the target marker attached to data  
-> labeling = the act of attaching those markers
+> supervised learning = a learning method that fits the relation between inputs and outputs  
+> by using examples where input and label are given together
 
-The safest reading is that labels are standards inside a problem definition, not automatically absolute truth.
+But labels are not guaranteed absolute truth. A label is a target value created inside a problem definition and a data-collection standard. That is why understanding supervised learning starts with checking the label standard before checking the model.
+
+> the core question of 8.1 is closer to `what does the label in this dataset mean?`  
+> than to `what is the model?`
+
+## Checklist
+
+- I can explain supervised learning as using examples that contain both inputs and labels.
+- I can distinguish the relation among label, target, and expected output.
+- I can explain that classification chooses categories while regression predicts numbers.
+- I can explain that if the label standard is unstable, the supervised-learning data also becomes unstable.
+- I can keep supervised learning, unsupervised learning, reinforcement learning, and deep learning from collapsing into the same category.
+
+## When Should This Perspective Come to Mind First?
+
+- when a problem first needs to be split by whether labels exist or not
+- when classification and regression need to be explained through label shape rather than through algorithm names
+- when the consistency of label standards needs to be checked before model performance is discussed
+
+At that point, ask separately `what do these labels actually mean?`, `can people assign them by the same standard?`, and `can the model predict them from the input alone?` That helps prevent supervised learning from being reduced to the vague phrase `learning with correct answers`.
 
 ## Sources and Further Reading
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- AWS, [What is data labeling?](https://aws.amazon.com/what-is/data-labeling/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- IBM, [What is data labeling?](https://www.ibm.com/think/topics/data-labeling){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- Timnit Gebru, Jamie Morgenstern, Briana Vecchione, Jennifer Wortman Vaughan, Hanna Wallach, Hal Daumé III, Kate Crawford, [Datasheets for Datasets](https://arxiv.org/abs/1803.09010){: target="_blank" rel="noopener noreferrer" }, 2021-03-01, accessed 2026-06-23.
+- scikit-learn, [1. Supervised learning](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- AWS, [What is Data Labeling?](https://aws.amazon.com/what-is/data-labeling/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- IBM, [What Is Data Labeling?](https://www.ibm.com/think/topics/data-labeling){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- Timnit Gebru et al., [Datasheets for Datasets](https://arxiv.org/abs/1803.09010){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, accessed 2026-06-23.
