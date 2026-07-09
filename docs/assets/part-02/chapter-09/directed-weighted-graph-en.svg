@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
+  <title id="title">Directed and weighted graph examples</title>
+  <desc id="desc">A directed graph represents one-way links, while a weighted graph adds numeric information such as distance, cost, score, or similarity to edges.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.6; }
+      .node { fill: #ffffff; stroke: #64748b; stroke-width: 2; }
+      .node-blue { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; }
+      .node-green { fill: #ecfdf5; stroke: #10b981; stroke-width: 2; }
+      .edge { stroke: #64748b; stroke-width: 2.4; fill: none; }
+      .edge-directed { stroke: #64748b; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .weight { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; }
+      .note { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="920" height="560" fill="#ffffff"/>
+  <text x="34" y="44" class="title">Direction and weight change what an edge means</text>
+  <text x="34" y="72" class="subtitle">A link can have a direction. A relationship can also carry a number.</text>
+
+  <rect x="34" y="110" width="402" height="330" rx="14" class="box"/>
+  <text x="58" y="144" class="panel-title">Directed graph</text>
+  <text x="58" y="170" class="small">Question: where does this relationship point?</text>
+  <g transform="translate(102 232)">
+    <circle cx="20" cy="66" r="30" class="node-blue"/>
+    <circle cx="154" cy="0" r="30" class="node"/>
+    <circle cx="284" cy="66" r="30" class="node"/>
+    <path d="M 48 52 C 78 22, 104 8, 124 4" class="edge-directed"/>
+    <path d="M 184 10 C 218 20, 242 36, 258 50" class="edge-directed"/>
+    <path d="M 274 96 C 220 144, 98 142, 42 94" class="edge-directed"/>
+    <text x="20" y="71" text-anchor="middle" class="label">A</text>
+    <text x="154" y="5" text-anchor="middle" class="label">B</text>
+    <text x="284" y="71" text-anchor="middle" class="label">C</text>
+    <rect x="66" y="160" width="170" height="34" rx="8" class="note"/>
+    <text x="151" y="182" text-anchor="middle" class="small">Direction matters</text>
+  </g>
+
+  <rect x="484" y="110" width="402" height="330" rx="14" class="box"/>
+  <text x="508" y="144" class="panel-title">Weighted graph</text>
+  <text x="508" y="170" class="small">Question: how strong, costly, or close is the link?</text>
+  <g transform="translate(548 232)">
+    <circle cx="58" cy="66" r="30" class="node-green"/>
+    <circle cx="178" cy="0" r="30" class="node"/>
+    <circle cx="298" cy="66" r="30" class="node"/>
+    <line x1="84" y1="50" x2="152" y2="16" class="edge"/>
+    <line x1="204" y1="16" x2="272" y2="50" class="edge"/>
+    <line x1="88" y1="78" x2="268" y2="78" class="edge"/>
+    <rect x="102" y="22" width="52" height="26" rx="8" class="weight"/>
+    <rect x="226" y="22" width="52" height="26" rx="8" class="weight"/>
+    <rect x="154" y="96" width="52" height="26" rx="8" class="weight"/>
+    <text x="128" y="40" text-anchor="middle" class="small">0.8</text>
+    <text x="252" y="40" text-anchor="middle" class="small">0.4</text>
+    <text x="180" y="114" text-anchor="middle" class="small">0.9</text>
+    <text x="58" y="71" text-anchor="middle" class="label">User</text>
+    <text x="178" y="5" text-anchor="middle" class="label">Item A</text>
+    <text x="298" y="71" text-anchor="middle" class="label">Item B</text>
+    <rect x="86" y="160" width="182" height="34" rx="8" class="note"/>
+    <text x="177" y="182" text-anchor="middle" class="small">Numbers qualify edges</text>
+  </g>
+
+  <rect x="118" y="486" width="684" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="460" y="508" text-anchor="middle" class="small">Do not read an edge as just a line. Ask whether it has direction and whether it has a number.</text>
+</svg>

@@ -681,6 +681,34 @@ plugins:
                         - "P2-6.1 What Does Optimization Search For?": en/parts/part-02/chapter-06/section-01.md
                         - "P2-6.2 Loss Functions and Objective Functions": en/parts/part-02/chapter-06/section-02.md
                         - "P2-6.3 The Intuition of Gradient Descent": en/parts/part-02/chapter-06/section-03.md
+                - Module 3. Execution Environments and Python Basics:
+                    - Chapter 7. Setting Up the Learning Environment:
+                        - "P2-7.1 Local Environments and Runtimes": en/parts/part-02/chapter-07/section-01.md
+                        - "P2-7.2 Terminal, Shell, and Working Directory": en/parts/part-02/chapter-07/section-02.md
+                        - "P2-7.3 The Python Interpreter and Scripts": en/parts/part-02/chapter-07/section-03.md
+                        - "P2-7.4 Virtual Environments and Packages": en/parts/part-02/chapter-07/section-04.md
+                        - "P2-7.5 Dependency and Reproducibility": en/parts/part-02/chapter-07/section-05.md
+                        - "P2-7.6 Supplemental Learning: Using Terminals on Windows, macOS, and Linux": en/parts/part-02/chapter-07/section-06.md
+                        - "P2-7.7 Supplemental Learning: When Is Python Installation Actually Needed?": en/parts/part-02/chapter-07/section-07.md
+                        - "P2-7.8 Supplemental Learning: Reading Shell Scripts, Pipes, Redirection, and Environment Variables": en/parts/part-02/chapter-07/section-08.md
+                        - "P2-7.9 Supplemental Learning: Checking Common Local Python Environment Problems": en/parts/part-02/chapter-07/section-09.md
+                    - Chapter 8. Reviewing Core Python Syntax:
+                        - "P2-8.1 Values, Variables, and Types": en/parts/part-02/chapter-08/section-01.md
+                        - "P2-8.2 Lists: Ordered Groups of Values": en/parts/part-02/chapter-08/section-02.md
+                        - "P2-8.3 Dictionaries: Structures That Find Values by Key": en/parts/part-02/chapter-08/section-03.md
+                        - "P2-8.4 Loops: Processing Iterables One by One": en/parts/part-02/chapter-08/section-04.md
+                        - "P2-8.5 Functions and Small Reuse": en/parts/part-02/chapter-08/section-05.md
+                        - "P2-8.6 Supplemental Learning: First Meeting Classes and Objects": en/parts/part-02/chapter-08/section-06.md
+                        - "P2-8.7 Supplemental Learning: Distinguishing References, Shallow Copy, and Deep Copy": en/parts/part-02/chapter-08/section-07.md
+                    - Chapter 9. The Intuition of Data Structures and Graphs:
+                        - "P2-9.1 Why Are Data Structures Needed?": en/parts/part-02/chapter-09/section-01.md
+                        - "P2-9.2 The Intuition of Arrays, Tables, Trees, and Graphs": en/parts/part-02/chapter-09/section-02.md
+                        - "P2-9.3 How Does a Graph Represent Relationships?": en/parts/part-02/chapter-09/section-03.md
+                        - "P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names": en/parts/part-02/chapter-09/section-04.md
+                    - Chapter 10. Jupyter and Colab Notebooks:
+                        - "P2-10.1 Why Are Notebooks Useful for Learning?": en/parts/part-02/chapter-10/section-01.md
+                        - "P2-10.2 The Difference Among Jupyter, Colab, and Local Execution": en/parts/part-02/chapter-10/section-02.md
+                        - "P2-10.3 Organizing Notebooks as Re-runnable Records": en/parts/part-02/chapter-10/section-03.md
           theme:
             language: en
         - locale: zh
@@ -806,6 +834,34 @@ plugins:
                         - "P2-6.1 最优化到底在寻找什么": zh/parts/part-02/chapter-06/section-01.md
                         - "P2-6.2 损失函数与目标函数": zh/parts/part-02/chapter-06/section-02.md
                         - "P2-6.3 梯度下降的直觉": zh/parts/part-02/chapter-06/section-03.md
+                - Module 3. 执行环境与 Python 基础:
+                    - Chapter 7. 学习环境设置:
+                        - "P2-7.1 本地环境与运行时": zh/parts/part-02/chapter-07/section-01.md
+                        - "P2-7.2 终端、Shell 与工作目录": zh/parts/part-02/chapter-07/section-02.md
+                        - "P2-7.3 Python 解释器与脚本": zh/parts/part-02/chapter-07/section-03.md
+                        - "P2-7.4 虚拟环境与包": zh/parts/part-02/chapter-07/section-04.md
+                        - "P2-7.5 依赖与可复现性": zh/parts/part-02/chapter-07/section-05.md
+                        - "P2-7.6 补充学习：Windows、macOS、Linux 的终端使用": zh/parts/part-02/chapter-07/section-06.md
+                        - "P2-7.7 补充学习：什么时候真的需要安装 Python": zh/parts/part-02/chapter-07/section-07.md
+                        - "P2-7.8 补充学习：阅读 Shell 脚本、管道、重定向与环境变量": zh/parts/part-02/chapter-07/section-08.md
+                        - "P2-7.9 补充学习：检查常见的本地 Python 环境问题": zh/parts/part-02/chapter-07/section-09.md
+                    - Chapter 8. 复习 Python 核心语法:
+                        - "P2-8.1 值、变量与类型": zh/parts/part-02/chapter-08/section-01.md
+                        - "P2-8.2 列表：有顺序的值集合": zh/parts/part-02/chapter-08/section-02.md
+                        - "P2-8.3 字典：按键查值的结构": zh/parts/part-02/chapter-08/section-03.md
+                        - "P2-8.4 循环：逐个处理 iterable": zh/parts/part-02/chapter-08/section-04.md
+                        - "P2-8.5 函数与小规模复用": zh/parts/part-02/chapter-08/section-05.md
+                        - "P2-8.6 补充学习：第一次遇到类与对象": zh/parts/part-02/chapter-08/section-06.md
+                        - "P2-8.7 补充学习：第一次区分引用、浅拷贝与深拷贝": zh/parts/part-02/chapter-08/section-07.md
+                    - Chapter 9. 数据结构与图的直觉:
+                        - "P2-9.1 为什么需要数据结构": zh/parts/part-02/chapter-09/section-01.md
+                        - "P2-9.2 数组、表、树、图的直觉": zh/parts/part-02/chapter-09/section-02.md
+                        - "P2-9.3 图如何表达关系": zh/parts/part-02/chapter-09/section-03.md
+                        - "P2-9.4 补充学习：第一次阅读传统数据结构名称": zh/parts/part-02/chapter-09/section-04.md
+                    - Chapter 10. Jupyter 与 Colab 笔记本:
+                        - "P2-10.1 为什么笔记本对学习有用": zh/parts/part-02/chapter-10/section-01.md
+                        - "P2-10.2 Jupyter、Colab 与本地执行的区别": zh/parts/part-02/chapter-10/section-02.md
+                        - "P2-10.3 把笔记本整理成可重新执行的记录": zh/parts/part-02/chapter-10/section-03.md
           theme:
             language: zh
   - search:

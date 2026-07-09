@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" role="img" aria-labelledby="title desc">
+  <title id="title">질문으로 자료구조를 고르기</title>
+  <desc id="desc">A learning note shows four questions and maps each question to a different data structure: array, table, tree, or graph.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.6; }
+      .question { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; }
+      .array { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.8; }
+      .table { fill: #fff7ed; stroke: #f97316; stroke-width: 1.8; }
+      .tree { fill: #ecfdf5; stroke: #10b981; stroke-width: 1.8; }
+      .graph { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.8; }
+      .arrow { stroke: #64748b; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="920" height="620" fill="#ffffff"/>
+  <text x="34" y="44" class="title">질문에 따라 구조를 고른다</text>
+  <text x="34" y="72" class="subtitle">같은 원자료도 질문이 바뀌면 다시 조직할 수 있다.</text>
+
+  <rect x="34" y="112" width="852" height="394" rx="14" class="box"/>
+  <text x="58" y="146" class="panel-title">질문에서 시작해 읽는 구조를 고른다</text>
+
+  <g transform="translate(78 184)">
+    <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
+    <text x="18" y="24" class="label">질문: 값을 계산할 것인가</text>
+    <text x="18" y="44" class="small">예: 평균 점수 또는 벡터 길이</text>
+    <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
+    <rect x="420" y="0" width="300" height="54" rx="10" class="array"/>
+    <text x="438" y="24" class="label">배열</text>
+    <text x="438" y="44" class="small">위치, 축, 수치 연산</text>
+  </g>
+
+  <g transform="translate(78 260)">
+    <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
+    <text x="18" y="24" class="label">질문: 사례를 비교할 것인가</text>
+    <text x="18" y="44" class="small">예: 학생 행과 특징 열</text>
+    <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
+    <rect x="420" y="0" width="300" height="54" rx="10" class="table"/>
+    <text x="438" y="24" class="label">표</text>
+    <text x="438" y="44" class="small">행, 열, 셀, 데이터셋</text>
+  </g>
+
+  <g transform="translate(78 336)">
+    <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
+    <text x="18" y="24" class="label">질문: 계층에서 위치를 찾을 것인가</text>
+    <text x="18" y="44" class="small">예: 폴더, 장, 범주</text>
+    <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
+    <rect x="420" y="0" width="300" height="54" rx="10" class="tree"/>
+    <text x="438" y="24" class="label">트리</text>
+    <text x="438" y="44" class="small">루트, 부모, 자식, 경로</text>
+  </g>
+
+  <g transform="translate(78 412)">
+    <rect x="0" y="0" width="300" height="54" rx="10" class="question"/>
+    <text x="18" y="24" class="label">질문: 관계를 따라갈 것인가</text>
+    <text x="18" y="44" class="small">예: 링크, 추천, 인용</text>
+    <line x1="312" y1="27" x2="402" y2="27" class="arrow"/>
+    <rect x="420" y="0" width="300" height="54" rx="10" class="graph"/>
+    <text x="438" y="24" class="label">그래프</text>
+    <text x="438" y="44" class="small">노드, 엣지, 이웃, 경로</text>
+  </g>
+
+  <rect x="118" y="550" width="684" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="460" y="572" text-anchor="middle" class="small">자료구조는 단순한 그릇이 아니라, 어떤 질문을 더 쉽게 만드는 방식이다.</text>
+</svg>

@@ -83,7 +83,7 @@ P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로
 
 아래 도식은 네 구조가 각각 어떤 질문을 강조하는지 보여 줍니다.
 
-![Array, table, tree, and graph compare different data questions](../../../assets/part-02/chapter-09/data-structure-four-views.svg)
+![Array, table, tree, and graph compare different data questions](../../../assets/part-02/chapter-09/data-structure-four-views-ko.svg)
 
 | 구조 | 핵심 질문 | 기본 단위 | AI 실습에서 만나는 예 |
 | --- | --- | --- | --- |
@@ -98,7 +98,7 @@ P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로
 
 아래 도식은 질문에서 자료구조로 넘어가는 흐름을 다시 정리한 것입니다.
 
-![Choose array, table, tree, or graph by the question](../../../assets/part-02/chapter-09/question-to-structure-map.svg)
+![Choose array, table, tree, or graph by the question](../../../assets/part-02/chapter-09/question-to-structure-map-ko.svg)
 
 데이터의 이름보다 질문을 먼저 적습니다.
 
@@ -388,7 +388,7 @@ for friend in friends["Kim"]:
 
 아래 도식은 같은 학생 데이터를 점수 배열, 레코드 표, 학교 계층, 친구 관계로 바꾸어 읽는 방식을 보여 줍니다.
 
-![The same student data can become an array, table, tree, or graph](../../../assets/part-02/chapter-09/same-data-four-structures.svg)
+![The same student data can become an array, table, tree, or graph](../../../assets/part-02/chapter-09/same-data-four-structures-ko.svg)
 
 점수만 순서대로 보면 배열 감각입니다.
 

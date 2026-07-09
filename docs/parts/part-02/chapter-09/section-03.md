@@ -1,7 +1,7 @@
 # P2-9.3 그래프(graph)는 관계를 어떻게 표현하는가
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 관점으로 비교했습니다. 그중 그래프는 특히 낯설 수 있습니다.
 
@@ -68,7 +68,7 @@ NIST Dictionary of Algorithms and Data Structures는 그래프를 엣지(edge)�
 
 아래 도식은 같은 그래프를 그림과 인접 리스트(adjacency list)로 함께 보여 줍니다.
 
-![A graph can be shown as nodes and edges or as an adjacency list](../../../assets/part-02/chapter-09/graph-node-edge-adjacency.svg)
+![A graph can be shown as nodes and edges or as an adjacency list](../../../assets/part-02/chapter-09/graph-node-edge-adjacency-ko.svg)
 
 그림에서 `Kim`, `Lee`, `Park`, `Choi`는 노드입니다.
 
@@ -109,7 +109,7 @@ print(friends["Kim"])
 
 아래 도식은 같은 관계 데이터를 표로 읽을 때와 그래프로 읽을 때 질문이 어떻게 달라지는지 보여 줍니다.
 
-![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading.svg)
+![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading-ko.svg)
 
 표 데이터를 Python에서 그래프처럼 다루려면 먼저 관계 목록을 인접 리스트로 바꾸어 볼 수 있습니다.
 
@@ -217,7 +217,7 @@ AI와 검색 문맥에서는 방향이 중요할 때가 많습니다. 문서가 
 
 아래 도식은 방향과 가중치가 엣지의 의미를 어떻게 바꾸는지 보여 줍니다.
 
-![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph.svg)
+![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph-ko.svg)
 
 방향 그래프를 코드로 표현할 때는 양쪽에 모두 관계를 넣지 않습니다. 관계가 실제로 향하는 쪽만 적습니다.
 
@@ -332,7 +332,7 @@ print(friends_of_friends)
 
 아래 도식은 Kim을 기준으로 직접 이웃과 두 단계 이웃을 구분해 보여 줍니다.
 
-![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop.svg)
+![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop-ko.svg)
 
 문제 상황: 직접 연결과 두 단계 연결을 분리해서 비교하고 싶습니다.
 입력(input): 친구 관계 딕셔너리에서 `Kim`의 직접 이웃과 그 이웃들의 이웃입니다.

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-labelledby="title desc">
+  <title id="title">Table rows and graph relationships</title>
+  <desc id="desc">The same friendship records can be read as table rows or as graph connections. A table is good for listing records, while a graph is good for following connected neighbors.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .panel-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 400 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.6; }
+      .node { fill: #ffffff; stroke: #64748b; stroke-width: 2; }
+      .edge { stroke: #64748b; stroke-width: 2.4; fill: none; }
+      .edge-main { stroke: #2563eb; stroke-width: 3; fill: none; }
+      .table-line { stroke: #64748b; stroke-width: 1.8; fill: none; }
+      .row-highlight { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.4; }
+      .note { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="920" height="560" fill="#ffffff"/>
+  <text x="34" y="44" class="title">The same relationship records can be read two ways</text>
+  <text x="34" y="72" class="subtitle">A table lists pairs. A graph makes it easier to follow connected neighbors.</text>
+
+  <rect x="34" y="110" width="346" height="330" rx="14" class="box"/>
+  <text x="58" y="144" class="panel-title">Table view: list records</text>
+  <text x="58" y="170" class="small">Question: which rows exist?</text>
+  <g transform="translate(85 210)">
+    <rect x="0" y="0" width="244" height="184" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+    <rect x="0" y="46" width="244" height="34" class="row-highlight"/>
+    <line x1="0" y1="34" x2="244" y2="34" class="table-line"/>
+    <line x1="0" y1="80" x2="244" y2="80" class="table-line"/>
+    <line x1="0" y1="114" x2="244" y2="114" class="table-line"/>
+    <line x1="0" y1="148" x2="244" y2="148" class="table-line"/>
+    <line x1="122" y1="0" x2="122" y2="184" class="table-line"/>
+    <text x="28" y="22" class="label">person</text>
+    <text x="150" y="22" class="label">friend</text>
+    <text x="28" y="58" class="small">Kim</text>
+    <text x="150" y="58" class="small">Lee</text>
+    <text x="28" y="96" class="small">Kim</text>
+    <text x="150" y="96" class="small">Park</text>
+    <text x="28" y="130" class="small">Lee</text>
+    <text x="150" y="130" class="small">Park</text>
+    <text x="28" y="164" class="small">Park</text>
+    <text x="150" y="164" class="small">Choi</text>
+  </g>
+
+  <g transform="translate(406 244)">
+    <rect x="0" y="0" width="108" height="34" rx="8" class="note"/>
+    <text x="54" y="22" text-anchor="middle" class="small">same data</text>
+    <line x1="54" y1="50" x2="54" y2="84" stroke="#64748b" stroke-width="2.2"/>
+    <path d="M 18 84 L 90 84" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)" fill="none"/>
+  </g>
+
+  <rect x="540" y="110" width="346" height="330" rx="14" class="box"/>
+  <text x="564" y="144" class="panel-title">Graph view: follow links</text>
+  <text x="564" y="170" class="small">Question: who is connected to Kim?</text>
+  <g transform="translate(592 238)">
+    <line x1="92" y1="0" x2="18" y2="88" class="edge-main"/>
+    <line x1="92" y1="0" x2="192" y2="84" class="edge-main"/>
+    <line x1="18" y1="88" x2="192" y2="84" class="edge"/>
+    <line x1="192" y1="84" x2="260" y2="32" class="edge"/>
+    <circle cx="92" cy="0" r="28" class="node"/>
+    <circle cx="18" cy="88" r="28" class="node"/>
+    <circle cx="192" cy="84" r="28" class="node"/>
+    <circle cx="260" cy="32" r="28" class="node"/>
+    <text x="92" y="5" text-anchor="middle" class="label">Kim</text>
+    <text x="18" y="93" text-anchor="middle" class="label">Lee</text>
+    <text x="192" y="89" text-anchor="middle" class="label">Park</text>
+    <text x="260" y="37" text-anchor="middle" class="label">Choi</text>
+    <rect x="64" y="130" width="198" height="34" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"/>
+    <text x="163" y="152" text-anchor="middle" class="small">Kim's neighbors: Lee, Park</text>
+  </g>
+
+  <rect x="104" y="486" width="712" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="460" y="508" text-anchor="middle" class="small">A table is a good storage view. A graph is a good relationship-reading view.</text>
+</svg>
