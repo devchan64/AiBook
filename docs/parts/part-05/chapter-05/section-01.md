@@ -1,7 +1,7 @@
 # P5-5.1 역전파(backpropagation)의 직관
 
 Section ID: `P5-5.1`
-Version: `v2026.07.07`
+Version: `v2026.07.09`
 
 P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이의 어긋남을 숫자로 만든다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -141,7 +141,7 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 
 연쇄 법칙은 이 직관을 수학적으로 가능하게 해 주는 규칙입니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 가중치 하나짜리 예측 오차
 
@@ -170,7 +170,7 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 
 물론 실제 계산은 수학적으로 정확하게 이루어지지만, 여기서는 `책임 분해`라는 감각이 핵심입니다.
 
-## 실행 가능한 Python 예제로 gradient 감각 보기
+## 연습 및 예제
 
 이번 예제의 목표는 역전파 전체를 코드로 재구현하는 것이 아니라, 아주 작은 예에서 손실이 가중치에 어떤 방향 신호를 주는지 확인하는 것입니다. 한 사례만 보는 대신 `예측이 작은 경우`와 `예측이 큰 경우`를 같이 돌려, gradient 부호가 어떻게 바뀌는지도 함께 보겠습니다.
 
