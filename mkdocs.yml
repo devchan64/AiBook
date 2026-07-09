@@ -311,6 +311,7 @@ nav:
           - Chapter 8. 모델 선택 휴리스틱:
               - "P4-8.1 모델 선택(model selection)": parts/part-04/chapter-08/section-01.md
               - "P4-8.2 기준 모델(baseline)": parts/part-04/chapter-08/section-02.md
+              - "P4-8.3 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법": parts/part-04/chapter-08/section-03.md
           - Chapter 9. 하이퍼파라미터 튜닝:
               - "P4-9.1 하이퍼파라미터(hyperparameter)": parts/part-04/chapter-09/section-01.md
               - "P4-9.2 튜닝(tuning)과 검증 비용": parts/part-04/chapter-09/section-02.md
