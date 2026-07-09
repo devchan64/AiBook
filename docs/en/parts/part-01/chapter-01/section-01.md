@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -186,7 +186,7 @@ The point of this exercise is not to decide instantly whether something is or is
 
 The minimum sentence to keep from this section is this: `AI is not one product but a broad category of systems with inputs, goals, and outputs.` When the term `AI` appears again in later sections of Part 1, use this scope as the baseline and use the [Concept Glossary](../../../reference/concept-glossary.md) whenever term checking is needed.
 
-## Cases
+## Cases and Examples
 
 ### Case 1. Treating a Chatbot as If It Were All of AI
 
@@ -196,7 +196,7 @@ If the first AI a user has encountered is only a chatbot, it is easy to feel tha
 
 Suppose a loan-review system uses only a hand-written rule table to make a first pass over applications. A reader may feel that, since there is no training data and no chat interface, this is not really AI. But the system still receives input, follows rules and goals to produce a judgment, and affects human decisions and the environment. In that broad sense, it can still be read inside AI as a system designed to perform a function associated with intelligence. This case shows that if AI is narrowed only to recent learned models, an important layer is lost.
 
-## Short Check
+## Checklist
 
 - You can explain that AI is used not only as the name of one technology but as a broad field and system category.
 - You can explain why confusion arises when AI, machine learning, deep learning, generative AI, and LLMs are treated as if they belonged to the same conceptual level.
@@ -213,4 +213,3 @@ Bring this section back first whenever it becomes unclear whether something shou
 - when recommendation, approval support, prediction, and search systems coexist and you need to know what belongs in one larger category
 
 At that point, return to the baseline that `AI is the widest outer category`, then ask how input, goal, output, and impact are organized.
-
