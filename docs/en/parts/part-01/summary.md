@@ -3,15 +3,15 @@
 > Section ID: `P1-summary`
 > Version: `v2026.07.07`
 
-Part 1 was the section for rebuilding the overall terrain before studying AI again. Instead of implementing detailed algorithms or proving formulas in depth, it first organized the terms and viewpoints that will return repeatedly in later learning.
+Part 1 was the section for rebuilding the overall terrain before studying AI again. Instead of implementing detailed algorithms or proving formulas in depth, it first organized the terms and viewpoints that reappear throughout later learning.
 
-This summary is not meant to repeat every concept from Part 1 at full length. Its role is to help the reader recall where the baseline for each major concept was fixed. If a term becomes unstable again, return to the [Concept Glossary](../../reference/concept-glossary.md) and the representative sections listed there.
+This summary is not meant to repeat every concept from Part 1 at full length. Its role is to help the reader recall where the baseline for each major concept was established. If a term becomes unclear again, return to the [Concept Glossary](../../reference/concept-glossary.md) and the representative sections listed there.
 
 The most important goal here is not to treat AI as a buzzword or as the name of one product. AI is a broad field in which rule-based approaches, search, heuristics, probabilistic judgment, data-driven learning, deep learning, generative AI, LLMs, agents, service operation, and social responsibility overlap.
 
 ## Purpose of This Part
 
-The purpose of Part 1 was not to finish the technology in depth. It was to establish a common map that keeps later Parts from losing track of where each explanation belongs.
+The purpose of Part 1 was not to cover the technology in depth. It was to establish a common map that keeps later Parts from losing track of where each explanation belongs.
 
 The shortest version of that map is the following:
 
@@ -45,7 +45,7 @@ This does not mean that older techniques vanished and were fully replaced by new
 
 For example, `search` and `heuristics` mattered in early AI problem solving, but they still reappear in modern AI as ways of reducing candidates and lowering computational cost. `Probability` and `uncertainty` keep returning whenever predictions, classifications, or generated outputs have to be interpreted.
 
-There are also boundaries that Part 1 deliberately closed early. `Uncertainty`, `probability`, and `stochastic process` are not the same thing, and a `heuristic` does not play the same role as a `probabilistic model`. That distinction is needed before later Parts discuss classification scores, calibration, generation settings, and prompt heuristics without flattening them into one level.
+There are also boundaries that Part 1 deliberately fixed early. `Uncertainty`, `probability`, and `stochastic process` are not the same thing, and a `heuristic` does not play the same role as a `probabilistic model`. That distinction is needed before later Parts discuss classification scores, calibration, generation settings, and prompt heuristics without flattening them into one level.
 
 The relationship between generative AI and LLMs should be read the same way. `Generative AI` is the broader category that produces new content such as text, images, audio, or code. An `LLM` is one major stream inside that broader category, especially around language modeling and Transformer-based development. Part 6 returns to that boundary through the main line of `token -> Transformer -> GPT` and through the background comparison with BERT-style models.
 
@@ -122,7 +122,7 @@ Part 1 intentionally leaves the following questions open:
 - What is the shared computational structure of machine learning and deep learning?
 - How do LLMs and generative AI work inside service structure?
 
-Those questions are recovered later through fuller explanation and practice.
+Those questions return later through fuller explanation and practice.
 
 ## Questions to Check Before Moving to the Next Part
 
@@ -138,7 +138,7 @@ Before moving to Part 2, check whether you can roughly answer the following:
 
 You do not need perfect answers to every question. The purpose of Part 1 is not memorizing final answers. It is building the map you can return to during later study.
 
-There are also things it is completely normal not to know yet after Part 1.
+There are also things it is completely normal not to know yet after finishing Part 1.
 
 - It is fine if you still cannot explain loss functions and gradients with formulas.
 - It is fine if you do not yet know the internal calculations of Transformers and attention in detail.
@@ -166,7 +166,7 @@ When Part 1 is complete, the reader should be ready to see AI not as a single wo
 
 Two attitudes matter next.
 
-First, personal intuition should not be discarded. Old classroom memories, practical questions from work, and impressions formed through recent tools are good starting points for learning.
+First, personal intuition should not be discarded. Old classroom memories, practical questions from work, and impressions formed while using recent tools are good starting points for learning.
 
 Second, that intuition should not be treated as established fact without checking. It has to be adjusted through standard terminology, external evidence, actual code, and small experiments.
 
