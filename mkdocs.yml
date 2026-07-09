@@ -644,6 +644,17 @@ plugins:
                         - "P1-17.2 Reading News, Columns, and Reports": en/parts/part-01/chapter-17/section-02.md
                         - "P1-17.3 Distinguishing Prediction from a Working Hypothesis": en/parts/part-01/chapter-17/section-03.md
                 - Summary: en/parts/part-01/summary.md
+            - Part 2. Rebuilding the Foundations:
+                - Overview: en/parts/part-02/index.md
+                - Module 1. Rereading Math as a Computational Language:
+                    - Chapter 1. Why Math Is Needed in AI:
+                        - "P2-1.1 What Math Does in AI Computation": en/parts/part-02/chapter-01/section-01.md
+                        - "P2-1.2 Where Formulas, Code, and Data Meet": en/parts/part-02/chapter-01/section-02.md
+                    - Chapter 2. Rereading Formula Notation:
+                        - "P2-2.1 Rereading Variables, Functions, and Expressions": en/parts/part-02/chapter-02/section-01.md
+                        - "P2-2.2 Sigma and Repeated Computation": en/parts/part-02/chapter-02/section-02.md
+                        - "P2-2.3 Limits and the Intuition of Change": en/parts/part-02/chapter-02/section-03.md
+                        - "P2-2.4 Why Log and Exp Keep Reappearing": en/parts/part-02/chapter-02/section-04.md
           theme:
             language: en
         - locale: zh
@@ -733,6 +744,17 @@ plugins:
                         - "P1-17.2 阅读新闻(news)、专栏(column)、报告(report)": zh/parts/part-01/chapter-17/section-02.md
                         - "P1-17.3 区分预测(prediction)与工作假设(working hypothesis)": zh/parts/part-01/chapter-17/section-03.md
                 - 总结: zh/parts/part-01/summary.md
+            - Part 2. 基础恢复:
+                - 概览: zh/parts/part-02/index.md
+                - Module 1. 把数学重新读成计算语言:
+                    - Chapter 1. 为什么 AI 需要数学:
+                        - "P2-1.1 数学在 AI 计算中扮演什么角色": zh/parts/part-02/chapter-01/section-01.md
+                        - "P2-1.2 公式、代码与数据相遇的地方": zh/parts/part-02/chapter-01/section-02.md
+                    - Chapter 2. 重新阅读公式记号:
+                        - "P2-2.1 重新阅读变量(variable)、函数(function)、表达式(expression)": zh/parts/part-02/chapter-02/section-01.md
+                        - "P2-2.2 sigma(sigma)与重复计算": zh/parts/part-02/chapter-02/section-02.md
+                        - "P2-2.3 极限(limit)与变化的直觉": zh/parts/part-02/chapter-02/section-03.md
+                        - "P2-2.4 为什么 log 与 exp 会反复出现": zh/parts/part-02/chapter-02/section-04.md
           theme:
             language: zh
   - search:
