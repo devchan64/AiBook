@@ -548,6 +548,7 @@ plugins:
   - i18n:
       docs_structure: folder
       fallback_to_default: false
+      build_only_locale: !ENV [BUILD_ONLY_LOCALE]
       reconfigure_material: false
       languages:
         - locale: ko
