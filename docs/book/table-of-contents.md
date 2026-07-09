@@ -484,6 +484,7 @@ flowchart LR
 - **P4-15.1 랜덤포레스트(random forest)**: 여러 트리를 합쳐 안정성을 높이는 방식을 봅니다.
 - **P4-15.2 특징 중요도(feature importance)**: 모델 해석의 입문적 관점을 봅니다.
 - **P4-15.3 OOB(out-of-bag)와 랜덤포레스트 점검**: train, OOB, test를 함께 읽는 기본 점검 태도를 봅니다.
+- **P4-15.4 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법**: 같은 숲 계열 안에서 split 무작위화, bootstrap 기본값, OOB 가능 조건이 어떻게 달라지는지 비교합니다.
 
 #### Chapter 16. 그래디언트 부스팅 `알고리즘`
 
