@@ -3,69 +3,73 @@
 > Section ID: `P1-3.3`
 > Version: `v2026.07.09`
 
-Section 3.1 reviewed the strengths and limits of writing rules directly. Section 3.2 reviewed the basic structure of learning patterns from data. This section does not repeat the entire learning pipeline. Instead, it focuses on one narrower question: how is the input handled differently in a rule-based approach and in representation learning?
+Section 3.1 examined the strengths and limits of the way people write rules directly, and Section 3.2 examined the basic structure of learning patterns from data. This section does not explain the whole learning process again. Instead, it narrows the focus to one point: what changes when the system handles input in different forms?
 
-The core task here is not to explain deep learning internally in detail. It is to fix the positions of `rule`, `feature`, `representation`, and `parameter` so they are not mixed together.
+The central question is simple. What is different between the approach in which people write rules directly and the approach in which a model learns representations from data?
 
-In Part 1, the baseline meaning of `representation`, `vector`, `activation`, and `representation learning` is fixed here. The earlier structure of `example`, `label`, `training`, and `generalization` was fixed in 3.2 and is reconnected here only as much as needed to explain the internal form of input.
+The task here is not to explain the internal details of deep learning. It is to first fix the positions of `rule`, `feature`, `representation`, and `parameter` so that they do not get mixed together.
+
+In Part 1, the baseline meanings of `representation`, `vector`, `activation`, and `representation learning` are fixed in this section. The earlier structure of `example`, `label`, `training`, and `generalization` was already fixed in 3.2, and is reconnected here only as much as needed to explain what internal form the input turns into inside the model, and how that differs from rule-based approaches.
 
 ## Scope of This Section
 
 This section organizes the following questions.
 
 - What is different between rule-based approaches and representation learning in the way input is handled?
-- What is the safest way to read the relationship between `feature` and `representation`?
-- What does it mean to say that learned representations are powerful but harder to interpret?
+- What is the safest way to read the relation between features and representations?
+- What does it mean to say that learned representations are powerful but can be hard to interpret?
 
 This section does not go deeply into the following.
 
-- detailed formulas for layers and parameter learning
-- dimensionality and optimization details of learned vectors
-- full implementation of model-interpretation methods
+- detailed formulas of internal layers and parameter learning in deep learning
+- the dimensionality of representation vectors and optimization procedures
+- full implementation of model-interpretation techniques
 
-The focus is on one central distinction: `rules are outside the model, while learned representations are inside it`.
+The focus here is on organizing the distinction that `rules are outside, and representations are inside`. The more systematic organization of input, output, data, features, and parameters returns immediately in Part 1 Chapter 4.
 
 ## Goal of This Section
 
 - Distinguish rule-based approaches from representation learning.
 - Understand the relation between features and representations.
-- See the difference between human-designed features and model-learned representations.
-- Understand why learned representations can be strong but harder to read.
-- Connect naturally to the next chapter on inputs, outputs, data, features, and parameters.
+- See the difference between features designed by people and representations learned by the model.
+- Understand that learned representations can be strong but hard to interpret.
+- Connect forward to the input, output, data, feature, and parameter concepts used in Part 1 Chapter 4.
 
 ## Three Standards
 
+This scene is about the form in which the model handles input. The following three points are the structural baseline.
+
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
-| rules are `criteria written outside`, while representations are `internal forms used inside the model` | This makes the location difference visible. | Distinguish explicit readable criteria from internal computation. |
-| features can be human-designed, while the model may learn deeper representations | This leads to the contrast between classical machine learning and deep learning. | Organize the difference between input clues and learned internal forms. |
-| learned representations can be powerful but harder to interpret | This explains why evaluation and interpretation matter later. | Connect strength in handling variation with reduced direct readability. |
+| a rule is a `criterion written outside`, while a representation is an `internal form used inside the model` | This makes the location difference between rule-based and learning-based approaches visible. | Distinguish that rules are readable, while representations are internal values for computation. |
+| a feature can be designed by people, while the model may transform it into deeper representations | This leads to the difference between traditional machine learning and deep learning. | Organize that human-made clues and model-learned internal forms are not the same thing. |
+| learned representations are powerful, but can make it harder to read `why the model saw it that way` | This connects naturally to why model interpretation and evaluation are needed. | Connect broader handling of similarity with weaker direct explainability. |
 
-At this stage, the useful baseline is: `rules are external criteria`, `features are extracted clues`, `representations are internal forms`, `vectors are numeric bundles`, `activations are intermediate values`, and `parameters are learned internal criteria`.
+`rule`, `feature`, `representation`, `vector`, `activation`, and `parameter` are the core terms repeated throughout this section. The first broad distinction that should remain is: `a rule is an external criterion`, `a feature is a clue extracted from input`, `a representation is an internal form`, `a vector is a bundle of numbers`, `an activation is an intermediate value`, and `a parameter is a learned criterion`. Each term is tied together again in the body below.
 
-## First Compare the Same Problem in Two Ways
+## First Look at the Same Problem in Two Ways
 
-Keep using the customer-support example. Suppose the message is:
+Keep using the customer-inquiry classification example. Suppose the following sentence comes in.
 
 > If the delivery does not arrive by tomorrow, I will cancel it.
 
-A rule-based approach may write explicit conditions such as:
+Under a rule-based approach, a person writes the conditions directly.
 
-- if the message contains `delivery` and `tomorrow`, classify it as delivery-related
-- if it contains `cancel`, mark it as a cancel candidate
-- if both conditions appear, send it to human review
+> If the sentence contains “delivery” and “tomorrow”, classify it as a delivery inquiry.  
+> If the sentence contains “cancel”, mark it as an order-cancellation candidate.  
+> If both conditions appear together, send it to human review.
 
-This is readable because the criteria are written directly.
+These rules can be read by people. It is also comparatively easy to trace which condition produced which result. But someone has to keep writing the conditions and exceptions.
 
-A learning-based model takes a different path:
+A learning-based model takes a different route. As seen in 3.2, the model is trained from past inquiries and their classes. The new point in this section is that the model changes the sentence into internal values, and then uses those internal values to compute which class is more plausible.
 
-> message -> internal representation -> model computation -> class score
+> sentence -> internal representation -> model computation -> class score
 
-The new part to focus on here is the `internal representation`. The model does not use the sentence exactly as a human reads it. It turns the input into values that can be computed over.
+The key point here is `internal representation`. The model does not simply read the sentence exactly as it appears. It changes the sentence into a bundle of computable values and uses that for prediction.
 
 ```mermaid
 flowchart TD
-  Text["Input Sentence"]
+  Text["Inquiry Sentence"]
   Rule["Human-Written Rules"]
   RuleOut["Rule Result"]
 
@@ -77,54 +81,74 @@ flowchart TD
   Text --> Rep --> Model --> ModelOut
 ```
 
-This diagram is meant to show only one difference in location: rules sit outside as written criteria, while the representation is created inside the model before prediction.
+This diagram only shows that the same input can be processed in two branches. The left branch is a structure in which rules written in advance by people influence the result directly. The right branch is a structure in which the input is first changed into an internal representation the model can compute over, and only then is a prediction produced. The key point of this section is not `which one is better`, but the difference between whether the criterion is `written outside` or `computed inside the model`.
 
-## The Boundary of This Section
+## The Boundary of This Section: It Focuses on Representation, Not All of Learning
 
-Section 3.2 explained examples, labels, models, training, inference, and generalization. Section 3.3 does not repeat that whole pipeline. Its focus is narrower.
+Section 3.2 explained the basic structure of training data, labels, models, training, and inference. Section 3.3 does not repeat that structure. The concern here is how input changes into some internal form inside the model, and how that differs from rules written by people.
 
 | Distinction | Center of 3.2 | Center of 3.3 |
 | --- | --- | --- |
-| main question | what does it mean to learn patterns from data? | what does it mean to transform input into an internal representation? |
+| question | what does it mean to learn patterns from data? | what does it mean to turn input into a representation? |
 | key terms | example, label, model, training, inference, generalization | rule, feature, representation, parameter |
-| main risk | memorization, overfitting, weak data quality | opacity and difficulty of interpretation |
+| main risk | memorization, overfitting, data-quality problems | difficulty of interpretation and opacity of representation |
+| next connection | the learning structure of machine learning | the process of turning a problem into a model-friendly form |
 
-## Rules Are Outside; Representations Are Inside
+## Rules Are Outside, Representations Are Inside
 
-Explicit rules live outside the model in a relatively human-readable form: code, configuration, policy documents, or knowledge bases.
+Explicit rules are close to the outside of the system. They exist in forms that people can read, document, and revise.
 
-Learned representations, by contrast, live inside the model. They are intermediate values or transformed forms produced as the input passes through learned parameters.
+> If a condition is satisfied, produce a certain result.
+
+Learned representations, by contrast, live inside the model. They are intermediate values created as input passes through the model, or values created when learned parameters transform the input. Those values are not usually sentences or rules that people can read directly.
 
 | Distinction | Explicit rule | Learned representation |
 | --- | --- | --- |
-| location | code, configuration, policy, knowledge base | internal vectors, activations, learned transforms |
-| how it is created | written directly by people | adjusted through data and training |
-| strength | readable, reviewable, easier to control | better at handling complex patterns and variation |
-| weakness | hard to maintain when exceptions explode | harder to explain directly in human terms |
+| location | code, configuration, knowledge base, policy document | vectors, activations, and parameters inside the model |
+| how it is created | a person writes the condition and result directly | adjusted through data and training procedure |
+| strength | easier to read, review, and control | better at handling complex patterns and context |
+| weakness | difficult to manage when exceptions grow | can be hard to explain why the judgment came out that way |
+| how it is changed | add, remove, or reprioritize rules | adjust data, labels, features, the model, or the training procedure |
 
-This is why it is dangerous to say “the AI learned rules by itself” without qualification. The model may have learned internal criteria, but that does not mean it produced a clean human-readable rule list.
+When terms such as `representation`, `vector`, `activation`, and `parameter` appear together, they can all sound like the same kind of internal value. So they should be tied together once here as a baseline, and the rest of the section can assume that distinction.
 
-## Features Can Be Designed by People or Learned More Deeply
+| Term | Very short meaning | What to remember in this section |
+| --- | --- | --- |
+| representation | the internal form that makes input usable for the model | the sentence people read and the form the model computes over can differ |
+| vector | a bundle of numbers arranged side by side | representations are often handled in this kind of numeric bundle |
+| activation | an intermediate value computed at one stage inside the model | think of it as the value while the input is changing as it passes through layers |
+| parameter | an internal value adjusted through learning | the criterion that influences how the model transforms the same input |
 
-Section 3.2 explained `features` as the values used by the model as input. Those features can arise in at least two ways.
+The first distinction that should remain here is: `a representation is an internal form`, `a vector is the numeric bundle that can hold that representation`, `an activation is a computed intermediate value`, and `a parameter is the value adjusted through learning`.
 
-First, people can design them explicitly.
+As a short analogy, a `vector` can be read as the numeric table that carries the representation, while an `activation` can be read as the current value of that table after the model has actually computed one step. For example, if the inquiry sentence goes through one layer and produces something like `[0.2, 0.8, -0.1, ...]`, that bundle is a vector-shaped representation and at the same time the activation value computed at that layer. The key difference to keep is: `vector` is the format, while `activation` is the value at a computation step.
 
-| Original input | Human-designed feature example |
+Once this distinction is understood, the expression “the AI created rules by itself” can be read more carefully. The model may have learned internal criteria, but it did not automatically produce a human-readable list of rules.
+
+## Features Can Be Designed by People, and Representations Can Be Learned by the Model
+
+Section 3.2 explained a feature as a value the model uses as input. Features can arise in two ways.
+
+First, people can design them directly.
+
+| Original input | Human-designed feature |
 | --- | --- |
-| support sentence | whether the word `refund` appears |
-| support sentence | whether the word `delivery` appears |
-| support sentence | sentence length |
-| customer record | number of recent orders |
+| inquiry sentence | whether the word `refund` is present |
+| inquiry sentence | whether the word `delivery` is present |
+| inquiry sentence | sentence length |
+| inquiry sentence | whether a negative expression appears |
+| customer information | recent number of orders |
 
-These features sit between rule writing and deeper learned representations. People choose what to extract, but the final judgment can still be made by a learned model.
+These features sit between rule writing and learning. People decide what value to calculate, but the final judgment can still be learned by the model. In this section, such values are read as `human-designed input features`, and are distinguished from the `learned representations` discussed later.
 
-Second, the model can learn richer internal representations. This becomes especially important in deep learning, where the input can pass through several layers and become a different internal form at each stage.
+Second, the model can learn representations. In deep learning in particular, the input can pass through several layers and become a different representation at each stage. So a human-made feature may be the starting point, but inside the model that input can still be turned into a more abstract internal representation.
+
+The Stanford Encyclopedia of Philosophy entry on AI explains this with face images: lower layers may react to clues such as edges, the next layers may combine them into face parts such as eyes or noses, and higher layers may respond to bundles of those features. This kind of explanation helps distinguish deep learning from the approach in which people try to write every feature directly.
 
 ```mermaid
 flowchart TD
   Input["Original Input"]
-  Low["Lower-Level Clues"]
+  Low["Low-Level Features"]
   Mid["Intermediate Representation"]
   High["Higher-Level Representation"]
   Output["Prediction"]
@@ -132,68 +156,93 @@ flowchart TD
   Input --> Low --> Mid --> High --> Output
 ```
 
-This should not be read as if all real models store neat human-readable levels. It is a learning diagram. The key point is only that the input can be transformed gradually into different internal forms before the output is produced.
+This diagram shows that input does not have to be understood all at once. It can change through several stages into representations at different levels. The key point is that `low-level features` are comparatively small clues, `intermediate representations` are combinations of several clues, and `higher-level representations` are closer to more abstract bundles of meaning. A real model is not necessarily stored with such neat stage names, but the structure that `the input changes gradually into different representations` still remains.
 
-## Representation Changes the Difficulty of the Problem
+If simplified through the customer-inquiry example, it can be read as follows.
 
-The same raw input can become easier or harder to model depending on how it is represented.
+| Stage | Human-readable explanation |
+| --- | --- |
+| raw text | “If the delivery does not arrive by tomorrow, I will cancel it.” |
+| low-level clues | `delivery`, `by tomorrow`, `if it does not arrive`, `cancel` |
+| intermediate representation | delivery delay, time condition, cancellation possibility |
+| higher-level representation | the customer is requesting a solution under a deadline condition |
+| output | delivery inquiry or cancellation-related review |
 
-Consider the two sentences below.
+It should not be claimed that the real internal representation of a model is stored as human-readable stages like this. This table is only a simplification for understanding the concept. What matters is that input changes into computable representations inside the model, and that those representations are used for prediction.
+
+## When the Representation Changes, the Difficulty of the Problem Changes
+
+The review by Bengio, Courville, and Vincent on representation learning explains that the success of machine-learning algorithms depends strongly on how data is represented. Even with the same data, one form of representation can make important factors stand out, while another can hide them.
+
+For example, in inquiry classification, the following two sentences look different if seen only as raw strings.
 
 > The item arrived broken.  
-> The product I received yesterday was damaged, so I want it resent.
+> The product I received yesterday was damaged, and I want it sent again.
 
-As raw strings, they look different. As useful internal representations, they may become closer because both relate to receipt, damage, and replacement.
+But if read at the level of meaning, both can connect to `received item`, `damage`, and `exchange or reship possibility`. A good representation makes such common structure easier for the model to use.
 
-| Representation style | What it makes easier to see | What it may miss |
+| Representation style | What the model sees more easily | What it can miss |
 | --- | --- | --- |
-| raw string | exact repeated wording | same meaning in different wording |
-| human-designed keywords | explicit token presence | context, negation, and richer interaction |
-| learned representation | combinations of clues and broader similarity | direct human readability |
+| raw string | exact repetition of the same words | different expressions with the same meaning |
+| human-designed keywords | presence of important words | context, negation, and conditions |
+| learned representation | combinations of several clues and broader similarity | internal criteria that are harder for people to read directly |
 
-That is why the choice of representation matters almost as much as the choice of algorithm.
+That is why, in machine learning, the question `what algorithm should be used?` is not the only important question. It is also important to ask `what form should the input be turned into?`
 
-## Learned Representations Are Broader but Less Transparent
+## Learning Analogy: Grouping by Meaning Units
+
+When describing fast human judgment, one might think of an expression like “context compression.” In this book, however, this is used only as a learning analogy, not as a standard neuroscience term. The “compression” here means something closer to how people use concepts and remembered definitions to handle a complicated situation as a smaller number of meaning units.
+
+In cognitive psychology, one can connect this loosely to ideas such as chunking and recoding. Miller’s classic paper explains that people can increase the amount of information they handle by organizing input into familiar units or chunks and then regrouping those chunks into larger bundles. This reference is used only to support the analogy about human information handling, not as evidence that machine-learning models understand in a human way.
+
+For example, the sentence `If the delivery does not arrive by tomorrow, I will cancel it.` can be grouped by meaning units rather than read one token at a time.
+
+| Expression visible in the input | Grouped meaning unit |
+| --- | --- |
+| if the delivery does not arrive by tomorrow | delivery delay and deadline condition |
+| I will cancel it | cancellation intent or cancellation possibility |
+| the whole sentence | the customer is requesting problem resolution under a time condition |
+
+This analogy matters not because it proves representation learning is “human-like understanding.” It matters because it shows that a judgment problem can become easier or harder depending on what units the details of the input are reorganized into.
+
+## Learned Representations Are Less Crisp than Rules but Can Respond More Broadly
 
 An explicit rule is crisp.
 
-> if the phrase means address change, route it to delivery-information change
+> If the phrase indicates an address change, send it to delivery-information change.
 
-But real sentences are not always crisp.
+But real sentences are not crisp.
 
-> I wrote the wrong number for the recipient.  
-> If it has not shipped yet, can it go to another place?  
+> I wrote the wrong recipient number.  
+> If it has not shipped yet, can it be sent somewhere else?  
 > Please send it to the office instead of the previous address.
 
-These may all relate to delivery-information change even without using the exact same keyword. Learned representations are useful here because they can capture broader similarity across varying surface forms.
+Even without using the exact phrase `address change`, these sentences can all relate to delivery-information change. Learned representations can be advantageous in handling such similarity because the model can reflect not just one word, but the way several clues appear together in its internal values.
 
-But this strength creates a tradeoff. It can become harder to explain exactly what clue mattered most or why two cases are considered similar.
+But the same advantage is also a risk. It can be difficult for people to read directly which clue mattered how much, and the model may also follow bias or accidental repetition in the training data. That is why evaluation, failure-case analysis, and data review become important in systems using learned representations.
 
-| Situation | When explicit rules are stronger | When learned representations are stronger |
+| Situation | When rules are advantageous | When learned representations are advantageous |
 | --- | --- | --- |
-| legal prohibition | when the condition must be blocked exactly | only as an auxiliary signal |
-| approval procedure | when explicit criteria must be enforced | when suggesting exception candidates |
-| text classification | when keywords are unambiguous | when phrasing varies and context matters |
-| image recognition | when simple thresholds are enough | when angle, lighting, and background vary a lot |
+| legal prohibition condition | when something must be blocked clearly | only as an auxiliary detection signal |
+| approval procedure | when it must be fixed who approves under what condition | when recommending exception candidates |
+| sentence classification | when keywords are explicit | when expressions vary and context matters |
+| image recognition | when simple color or size conditions are enough | when lighting, pose, and background vary a lot |
+| operations automation | when the procedure must repeat exactly | when trying to find candidates for anomaly signs |
 
 ## Rules and Representations Do Not Only Compete
 
-It is misleading to read rule-based approaches and learned representations as if one simply replaced the other everywhere. Many real systems use both together.
+If rule-based approaches and learning-based approaches are divided only into `old method` and `new method`, real systems become harder to understand. Many systems use both together.
 
-For example, a support-routing system may:
-
-- use explicit policy rules to filter prohibited or mandatory cases first
-- use a learned model to classify more varied language patterns
-- send low-confidence or high-risk cases to human review
+For example, an automatic customer-inquiry classification system can be structured like this.
 
 ```mermaid
 flowchart TD
-  Input["Customer Message"]
-  Policy["Explicit Policy Rules"]
-  Model["Learned Classifier"]
-  Score["Class Score"]
+  Input["Customer Inquiry"]
+  Policy["Explicit Business Rules"]
+  Model["Learning-Based Classification Model"]
+  Score["Classification Score"]
   Review["Human Review"]
-  Action["Final Handling"]
+  Action["Handling"]
 
   Input --> Policy
   Policy --> Model
@@ -203,23 +252,79 @@ flowchart TD
   Review --> Action
 ```
 
-The point of this diagram is division of responsibility: explicit rules can enforce non-negotiable constraints, while learned representations help handle flexible variation.
+This diagram means that `policy rules can first filter forbidden and required conditions at the front`, then `the model can calculate classification candidates while reflecting diversity of expression`, and finally `depending on the score or sensitivity, the case can split into automatic handling or human review`. In other words, the purpose of the diagram is to show that rules and models can divide responsibility inside one system.
+
+### A Short Exercise in Role Distinction
+
+Look at the following cases and first distinguish whether the central difficulty is closer to `rule design`, `representation learning`, or `a combination of both`.
+
+| Case | First question to bring to mind | First-pass judgment by the standard of this section |
+| --- | --- | --- |
+| a prohibition such as `if a resident-registration number appears, do not store it` must be enforced | can the condition be written clearly as a sentence by people? | closer to rule design |
+| expressions such as `please send it to the office`, `I want to change the receiving place`, and `please modify the delivery address` should be grouped as one intent | must the system treat different surface forms as close in meaning? | closer to representation learning |
+| customer inquiries should be classified automatically, but messages containing sensitive information should go to human review | must policy blocking and semantic classification be handled together? | closer to a combination of both |
+| fine cracks must be found in product images | can people write all the useful visual features directly? | stronger weight on representation learning |
+| approval stages must be divided by amount ranges according to policy | is the center of the task an explicit standard rather than varied expression? | closer to rule design |
+
+The key to this exercise is not to ask `which is more modern, rules or representation`. It is to first separate `which part can be written explicitly by people` and `which part requires learning similarity from data`.
+
+In that structure, rules take responsibility for policies that must always be followed, while the model handles the diversity and similarity of expressions that are difficult for people to write directly.
+
+For example, the roles can be divided like this.
+
+| Role | Main handling method |
+| --- | --- |
+| do not respond automatically when the inquiry contains personal information | explicit rule |
+| classify candidates such as refund, delivery, and exchange | model using learned representations |
+| send low-score or sensitive cases to a person | combination of rules and model score |
+| collect repeated failure cases and strengthen the dataset | operational review and retraining |
+
+So the important question is not `rules or model?` A better question is the following.
+
+> Which part must be explicitly controlled by people?  
+> Which part can be left to the model to learn representation from data?  
+> Which judgments should remain with human review?
 
 ## Cases and Examples
 
-### Case 1. Support-Message Routing
+### Case 1. An Inquiry Box Where the Intention Is Similar but the Sentences Keep Changing
 
-A company may use hard policy rules for prohibited actions, mandatory escalation, or special customer categories, while using learned representations to classify varied message language. This shows that rules and learned representations often coexist inside one service.
+Imagine that customers contact support because they want to change the delivery destination. One person writes `I want to change the address`, another writes `it should be delivered to the office`, and another says `I entered the recipient number incorrectly`.
 
-### Case 2. Visual Defect Detection
+A rule-based approach keeps increasing the list of words and combinations such as `address`, `modify`, `change`, `recipient`, `phone number`, and `to the office` in order to catch all these expressions. That approach is easy for people to read and revise, but gaps appear as soon as the expression changes slightly, and once negation or condition clauses are attached, rule priority becomes complicated.
 
-A simple visual system may begin with brightness thresholds or shape rules, but deeper variation in angle, reflection, and texture pushes the system toward learned internal representations. This shows how representation learning becomes more important as raw input grows more complex.
+Representation learning treats the problem more broadly than a word list. If different sentences can be grouped into internal representations that are close to `delivery-information change`, then even without the exact same keyword the model can place similar intentions near one another. The tradeoff is that the internal criterion is not directly readable like a rule table.
+
+This case reveals the key distinction of 3.3. Rules are criteria written outside by people, while representations are internal forms computed inside the model. Real systems often do not choose only one. Instead, they divide the roles so that policies stay fixed as rules while bundles of varied expression are handled by the model.
 
 ## What to Remember from This Section
 
-- rules are written outside the model, while learned representations are created inside it
-- features are not exactly the same thing as learned internal representations
-- learned representations help models handle variation, but they are less transparent than explicit rules
-- real systems often combine rule layers and learned-model layers rather than choosing only one
+An explicit rule is a judgment standard people can read. It is strong in explanation and control, but as exceptions and variation in expression grow, it becomes harder to manage.
 
-The shortest sentence to keep is this: `rule-based systems rely on explicit external criteria, while representation learning turns input into internal forms that the model uses for prediction.`
+A learned representation is the result of turning input into a computable form inside the model. It is strong at handling complex patterns and similarity, but it is not a human-readable rule list.
+
+This distinction connects directly to the next chapters. Part 1 Chapter 4 handles the process of turning real problems into input, output, data, and features, while Parts 4 and 5 go deeper into how models adjust parameters and representations.
+
+## Checklist
+
+- I can explain the difference between rule-based approaches and representation learning.
+- I can explain that both features and representations are concepts for turning input into a form that is easier for the model to use.
+- I can distinguish between human-designed features and model-learned representations.
+- I can explain that learned representations are powerful but can be difficult to interpret.
+- I can read rules and models not only as competitors, but as a division of responsibility.
+
+## When This View Should Come to Mind First
+
+Bring back the view of this section when it becomes more important to ask `in what form should the input be handled?` rather than to choose only one between rules and a model.
+
+- when sentences with the same meaning keep appearing in different surface forms and word rules alone begin to fail
+- when feature, representation, vector, activation, and parameter all start sounding like the same kind of internal term
+- when you need to explain why policy should stay fixed as rules while semantic similarity should be handled by the model
+
+At that point, divide again by the criterion that `rules are outside and representations are inside`. First separate whether the issue is a standard that people must directly control, or a part where the system should learn similarity from data. That makes both system design and explanation easier.
+
+## Sources and Further Reading
+
+- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, accessed 2026-06-22.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012-06-24, accessed 2026-06-22.
+- George A. Miller, [The Magical Number Seven, Plus or Minus Two: Some Limits on our Capacity for Processing Information](http://psychclassics.yorku.ca/Miller/){: target="_blank" rel="noopener noreferrer" }, Psychological Review, 1956, accessed 2026-06-22.

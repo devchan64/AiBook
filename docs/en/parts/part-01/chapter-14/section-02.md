@@ -13,11 +13,23 @@ P1-14.1 described an AI service as a combination of the `model`, `application`, 
 
 Both seem similar because they involve something outside the model. Their roles are still different.
 
-> RAG is a structure for bringing in material needed for an answer, while tool use is a structure for calling external system functions
+> RAG is a structure for bringing in material needed for an answer, while tool use is a structure for calling external system functions.
 
-Part 1 establishes the basic distinction among `RAG`, `tool use`, `retrieval`, `tool call`, and `approval` here. Section 13.3 already introduced RAG as a structure that attaches retrieved results to generation input. Section 14.1 widened the view to the whole service. This section connects those two flows and asks:
+This section compares the two structures and explains where each sits inside an AI service.
 
-> how are RAG and tool use positioned differently inside an AI service?
+Part 1 establishes the basic distinction among `RAG`, `tool use`, `retrieval`, `tool call`, and `approval` here. Section 13.3 first introduced RAG as a structure that attaches retrieved results to generation input, and 14.1 widened the frame to the whole service. This section connects the two and asks:
+
+> how are RAG and tool use positioned differently inside a service?
+
+The three words most often mixed between Chapters 13 and 14 can be fixed first like this:
+
+| Distinction | One-sentence baseline | Closest role |
+| --- | --- | --- |
+| RAG | finds outside documents and attaches them to the model context | reading and evidence reinforcement |
+| tool use | calls external system functions to query or act | execution and outside connection |
+| agent | ties RAG and tool use into multiple steps toward a goal | workflow and state management |
+
+The key point of this summary box is: `RAG`, `tool use`, and `agent` can work together, but they are not the same thing. This section first separates `reading` from `execution`, and the structure that carries multiple steps as an `agent` continues in P1-14.3.
 
 ## Scope of This Section
 
@@ -33,11 +45,15 @@ This section compares the positions of RAG and tool use. The more detailed struc
 | tool call | the step of executing an outside function with a name and arguments | the key action in tool use |
 | approval | a process in which a person or policy checks whether execution is allowed | a safety device before risky action |
 
-The baseline distinction here is:
+The baseline distinction here is simple: `RAG is for reading`, `tool use is for execution`, and `approval is for review before action`.
 
-- RAG is for reading
-- tool use is for execution
-- approval is for review before action
+| Topic | Question examined in this section |
+| --- | --- |
+| RAG | why search outside material and place it into input context? |
+| tool use | why call an outside system? |
+| difference | how is reading material different from executing an action? |
+| combination | can RAG and tool use be used together? |
+| responsibility | who reviews retrieval results and tool execution results? |
 
 ## Goal of This Section
 
@@ -49,9 +65,11 @@ The baseline distinction here is:
 
 ## Three Standards
 
+These two structures are often mixed together simply because both `use something outside the model`. The following three perspectives are the reading baseline.
+
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
-| RAG is a structure that finds material and attaches it to context | This clarifies what retrieval plus generation means. | It is enough to understand it as a way to read documents and attach them as evidence. |
+| RAG is a structure that finds material and attaches it to context | This clarifies what retrieval plus generation means. | It is enough to understand it as reading documents and attaching them as evidence. |
 | tool use is a structure that actually calls an external function | This separates referencing material from executing action. | It is enough to understand it as calling things like search APIs, calculators, databases, or file tools. |
 | the two can be used together, but their roles and risks differ | This sets the boundary needed before discussing agents. | It is enough to understand that reading and acting are different and require different review responsibility. |
 
@@ -68,11 +86,26 @@ The central question of RAG is:
 
 > where should the model get the material it needs to refer to?
 
+Suppose a user asks:
+
+> In this document set, was embedding explained as if it were meaning itself?
+
+RAG can search the document collection and retrieve the relevant passages.
+
+| Step | Role |
+| --- | --- |
+| question embedding | turn the question into a vector |
+| similarity search | find candidate document passages |
+| context augmentation | place the retrieved passages into the prompt |
+| answer generation | let the model answer using the retrieved material |
+
 In RAG, outside material is being `read into` the model's context. It is not directly editing a document, sending email, or making a payment.
 
 ## Tool Use Calls an External System
 
-`Tool use` allows the model to use the functions of an outside system.
+`Tool use` allows the model to use the functions of an outside system. OpenAI’s function-calling documentation also explains that models can be connected to outside data and systems in this way.
+
+At a first pass, it can be understood like this:
 
 > model:  
 > proposes the needed tool and arguments
@@ -83,7 +116,11 @@ In RAG, outside material is being `read into` the model's context. It is not dir
 > tool:  
 > performs work such as retrieval, calculation, file processing, or API calls
 
-If a user asks, "Check tomorrow's weather in Seoul and add it to my schedule note," the request may involve:
+Suppose a user asks:
+
+> Check tomorrow's weather in Seoul and add it to my schedule note.
+
+Two different kinds of outside work may appear in one request:
 
 | Work | Possible method |
 | --- | --- |
@@ -91,7 +128,13 @@ If a user asks, "Check tomorrow's weather in Seoul and add it to my schedule not
 | add a schedule note | calendar or memo API tool call |
 | explain the result | model-generated natural language |
 
-Tool use can read or change the state of an external system. That makes its execution responsibility heavier than RAG.
+Tool use can read from or change the state of an external system. That makes its execution responsibility heavier than RAG.
+
+> RAG:  
+> brings material into the input
+>
+> tool use:  
+> calls an outside system to query or act
 
 ## RAG and Tool Use Have Different Purposes
 
@@ -105,7 +148,7 @@ The contrast becomes clearer when the two are placed side by side.
 | representative question | what should the model refer to? | what should the system execute? |
 | main risk | wrong, stale, or irrelevant material | wrong execution, permission problems, or external state change |
 
-The same source material can still lead to different structures.
+Even the same source, such as `meeting notes`, can lead to different structures.
 
 > explain the decisions from the meeting notes  
 > -> mainly RAG or file retrieval
@@ -113,30 +156,39 @@ The same source material can still lead to different structures.
 > find the decisions from the meeting notes and register them in the calendar  
 > -> RAG plus tool use
 
+The first request mainly needs retrieval and summarization. The second request must also execute an action in an outside system after the material is found.
+
 ## The Two Can Be Combined
 
 Real AI services often use RAG and tool use together.
 
-For example:
+For example, imagine a work assistant that uses internal company documents:
+
+> user:  
+> process this receipt according to the travel-expense policy
+
+A possible flow is:
 
 > 1. use RAG to retrieve the travel-expense policy  
-> 2. let the model compare the policy with a receipt  
-> 3. ask the user if some required field is missing  
+> 2. let the model compare the policy with the receipt  
+> 3. if some required field is missing, ask the user a follow-up question  
 > 4. if the action is allowed, call the expense-processing API  
-> 5. show the result together with the supporting material
+> 5. show the result together with the supporting policy text
 
-In that flow, RAG and tool use have clearly different roles.
+In this flow, RAG and tool use have different roles.
 
 | Step | Structure | Role |
 | --- | --- | --- |
-| policy retrieval | RAG | finds the basis for judgment |
-| receipt interpretation | model | reads and organizes the input material |
-| expense submission | tool use | executes the external business system |
-| result display | application | shows the result and the basis to the user |
+| retrieve the policy | RAG | finds the basis for judgment |
+| interpret the receipt | model | reads and organizes the input material |
+| submit the expense | tool use | executes the outside business system |
+| show the result | application | displays the result and the basis |
+
+This kind of combination can later develop into an `agent` structure. But this section does not yet go into the agent explanation that ties multiple steps together automatically.
 
 ## Tool Use Requires Permission and Approval Flow
 
-Because tool use can call external systems, `permission` and `approval` matter.
+Because tool use can call outside systems, `permission` and `approval` matter.
 
 If RAG retrieves the wrong document, answer quality may drop. If tool use goes wrong, the state of an outside system may change.
 
@@ -156,6 +208,8 @@ That is why tool use should always raise questions such as:
 > if execution fails, how will it be rolled back or recorded?  
 > how will the result be reviewed?
 
+This is also connected to security, privacy, and operation. But the longer discussions of ethics, copyright, and security are left for P1-15.
+
 ## The Model Proposes the Call, the System Executes It
 
 One boundary is especially important in tool use:
@@ -163,12 +217,17 @@ One boundary is especially important in tool use:
 > the model does not directly change the outside world  
 > the application and server execute the tool call
 
-The model may generate something like:
+The model may generate information such as:
 
-> tool name: `calendar.create_event`  
-> arguments: date, time, title, participants
+> tool name:  
+> `calendar.create_event`
+>
+> arguments:  
+> date, time, title, participants
 
-But the actual calendar API call is still made by application or server code. That code must check permissions, validate arguments, and request user approval when needed.
+But the actual calendar API call is still made by application or server code. That code must check permissions, validate arguments, and ask for user approval when required.
+
+This distinction makes responsibility clearer.
 
 | Component | Responsibility |
 | --- | --- |
@@ -177,29 +236,59 @@ But the actual calendar API call is still made by application or server code. Th
 | tool | reads from or acts on the external system |
 | user | approves or edits when necessary |
 
+This perspective is also important when reading agent-style tools such as Codex. Even if the model proposes work, actual file editing, command execution, commits, and deployment still happen inside an execution environment and permission policy.
+
+## A Small Example of the Positional Difference
+
+Take the example of checking and updating a long learning document.
+
+> request:  
+> verify the evidence for the vector-search explanation and strengthen the related paragraph
+
+A possible flow is:
+
+| Step | Structure | Description |
+| --- | --- | --- |
+| read the current document | tool use | read the current section from the file system |
+| find supporting material | search or RAG | find candidate papers and documents |
+| review the evidence | model plus person | judge whether the material really supports the claim |
+| modify the document | tool use | patch the file |
+| verify the build | tool use | run the MkDocs build |
+| report the result | application or chat UI | show the change and the verification result |
+
+In this flow, RAG is closest to `finding supporting material and strengthening the answer context`, while tool use is the part that actually touches the outside environment through file reading, patching, building, and committing.
+
 ## The View to Keep from This Section
 
-RAG and tool use both involve something outside the model, but they are not the same thing.
+RAG and tool use both involve resources outside the model, but they are not the same structure.
 
-> RAG reads outside material into the model's context  
-> tool use executes outside functions  
-> the two can be combined in one service flow  
-> reading and acting have different risks and different review responsibility
+> RAG makes the model read outside material  
+> tool use calls the functions of an outside system  
+> RAG strengthens answer evidence  
+> tool use can lead to actions such as lookup, calculation, storage, modification, and sending  
+> both still have to live inside the permission, validation, and execution flow of the application and server
 
-This distinction makes it easier to move into the next section, where several such steps are tied together into an `agent` workflow.
-
-## Checklist
-
-- You can explain RAG as a structure for retrieving outside material and attaching it to context.
-- You can explain tool use as a structure for calling external system functions.
-- You can distinguish reading evidence from executing action.
-- You can explain that RAG and tool use can be combined in a single service flow.
-- You can explain why tool use requires permission, approval, and validation flow.
+With this distinction in place, the next section's `agent` becomes easier to read safely. An agent may tie together RAG and tool use across multiple steps, but first the roles and responsibilities of each building block need to stay separate.
 
 ## When to Recall This View First
 
-- When RAG and tool use are being used as if they meant the same thing
-- When you need to explain why reading a document and changing an external system are different
-- When an AI service needs both evidence retrieval and outside execution
+- when search and tool calls both look like vague `outside connections` and the difference starts to blur
+- when someone tries to explain RAG and tool use as if they were the same structure
+- when you want to separate the responsibilities of reading and execution before moving on to agents
 
-In those situations, separate `reading` from `execution` first. That prevents the two structures from being collapsed into one vague idea of "using something outside the model."
+At that point, first separate: `is this reading material?`, `is this executing an outside function?`, and `does this require prior approval and validation?` That prevents RAG and tool use from being flattened into one vague idea of `using something outside the model`.
+
+## Checklist
+
+- You can explain RAG as a structure that retrieves outside material and attaches it to input context.
+- You can explain tool use as a structure that calls the functions of an outside system.
+- You can distinguish the difference as `reading material` versus `executing action`.
+- You can explain with an example that RAG and tool use may be used together.
+- You can explain that tool use requires permission, approval, validation, and execution logs.
+- You can explain that the model may propose a tool call, but the actual execution is handled by the application or server.
+
+## Sources and Further Reading
+
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, accessed 2026-06-23.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
+- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
