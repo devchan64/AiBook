@@ -1,7 +1,7 @@
 # P4-11.2 결정 경계(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -18,6 +18,8 @@ P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽�
 결정 경계는 모델이 class 0과 class 1을 나누는 기준선 또는 기준면이다.
 
 이 절은 로지스틱 회귀의 기본 정의를 다시 길게 반복하지 않습니다. `확률처럼 읽히는 점수를 만드는 선형 분류기`라는 핵심 직관은 P4-11.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 여기서는 그 점수가 입력 공간을 어떻게 가르는지에 집중합니다.
+
+결정 경계까지 읽고 나면 `왜 확률을 이런 형태로 바꿔 읽는가`, `왜 학습 설명에 log-odds와 MLE가 따라붙는가`가 다음 질문으로 남습니다. 그 회수는 P4-11.3 보충학습에서 이어집니다.
 
 ## 이 절의 범위
 
@@ -130,14 +132,14 @@ sigmoid 출력이 0.5라는 것은 선형 점수 \(z\)가 0이라는 뜻과 연�
 
 ```mermaid
 flowchart TD
-  T["one feature axis: study_hours"]
+  T["feature axis: study_hours"]
   T --> A
 
   subgraph A["1D reading"]
     direction LR
     L1["3h<br/>class 0"]
     L2["4h<br/>class 0"]
-    B["boundary near 4.5h"]
+    B["boundary"]
     R1["5h<br/>class 1"]
     R2["6h<br/>class 1"]
   end
@@ -158,11 +160,11 @@ flowchart TD
 ```mermaid
 flowchart TD
   A["input point (exam_1, exam_2)"]
-  A --> B["linear score z = w1*exam_1 + w2*exam_2 + b"]
-  B --> C{"compare with boundary<br/>z = 0"}
+  A --> B["linear score z"]
+  B --> C{"z vs 0"}
   C -->|z < 0| D["class 0 side"]
   C -->|z > 0| E["class 1 side"]
-  C -->|z = 0| F["decision boundary itself"]
+  C -->|z = 0| F["boundary"]
 ```
 
 이 도식은 로지스틱 회귀의 결정 경계를 `입력 공간 안에서 점수 z를 0과 비교하는 규칙이 남긴 흔적`으로 보여 줍니다. 여기서 선을 그리는 것이 아니라, 선형 점수가 어느 쪽 부호를 가지는지에 따라 class가 갈린다는 점을 읽으면 됩니다.
@@ -217,10 +219,10 @@ threshold가 0.5일 때의 경계와 0.7일 때의 경계는 같은 자리에 �
 ```mermaid
 flowchart TD
   A["threshold 0.5"]
-  B["boundary at basic cutoff"]
+  B["basic boundary"]
   C["threshold 0.7"]
-  D["boundary moves to a stricter side"]
-  E["class 1 region becomes smaller"]
+  D["stricter boundary"]
+  E["smaller class 1 region"]
 
   A --> B --> C --> D --> E
 ```
@@ -294,19 +296,27 @@ flowchart TD
 
 ### 실무 예시로 보면 경계 관점이 더 분명해진다
 
+사례를 읽기 전에 이번 절의 공통 비교 프레임을 먼저 잡으면 다음과 같습니다.
+
+| 장면 | 사람이 먼저 쓰기 쉬운 기준 | 그 기준의 한계 | 결정 경계 관점이 바꾸는 점 | 확인할 결과 |
+| --- | --- | --- | --- | --- |
+| 합격 예측 | 점수 하나에 합격선 하나를 둔다 | 여러 특징이 함께 작동할 때 설명이 약하다 | 조합형 기준선으로 본다 | 한 점이 아니라 선이나 면으로 읽게 된다 |
+| 고객 이탈 | 변수 하나만 보고 위험을 판단한다 | 조합 패턴을 놓친다 | 여러 특징의 조합이 위험 영역을 만드는지 본다 | 어떤 조합이 경계 너머인지 설명할 수 있다 |
+| 의료 위험 | 수치 하나로 위험 여부를 본다 | 애매한 조합 사례를 놓친다 | 경계 근처 사례를 따로 본다 | review 우선순위 대상을 식별할 수 있다 |
+| 대출 / 스팸 | 단일 규칙으로 승인과 차단을 설명한다 | 복합 특징과 선형 경계의 한계를 놓친다 | 경계가 어떤 조합을 나누는지 본다 | 선형 경계의 장점과 한계를 함께 읽는다 |
+
 ```mermaid
 flowchart TD
-  A["input features"]
-  B["linear decision score"]
-  C["boundary or threshold line"]
-  D["class 0 side"]
-  E["class 1 side"]
-  F["near-boundary review cases"]
+  A["many features"]
+  B["single-rule reading"]
+  C["mixed patterns"]
+  D["boundary view<br/>which side of z = 0"]
+  E["near-boundary review"]
+  F["why it crossed"]
 
-  A --> B --> C
-  C --> D
-  C --> E
-  C --> F
+  A --> B --> C --> D
+  D --> E
+  D --> F
 ```
 
 ### 사례 1. 합격 예측
@@ -352,6 +362,14 @@ flowchart TD
   - 로지스틱 회귀는 두 특징을 함께 써서 점수를 계산합니다.
   - 계수 두 개와 절편 하나가 결정 경계의 위치와 방향에 관여합니다.
   - 같은 입력 공간에서도 경계 양쪽의 class가 나뉩니다.
+
+입력은 다음처럼 읽으면 됩니다.
+
+| 입력 묶음 | 뜻 |
+| --- | --- |
+| `X` | 두 과목 점수로 이뤄진 2차원 입력 |
+| `y` | 합격 / 불합격 정답 |
+| `samples` | 경계 아래, 경계 근처, 경계 위를 확인하기 위한 샘플 |
 
 ```python
 import numpy as np
@@ -419,6 +437,12 @@ prediction      : [0 1 1]
 - 경계에서 멀리 떨어진 샘플은 자동 처리 후보가 되기 쉽습니다.
 - 경계에 매우 가까운 샘플은 검토(review) 대상으로 분리하기 쉽습니다.
 - 따라서 결정 경계는 단순한 시각화가 아니라, `애매한 사례를 찾는 운영 기준`으로도 연결됩니다.
+
+직접 값을 바꿔 보면 더 잘 보이는 지점도 있습니다.
+
+- `samples`를 `[48, 49]`, `[50, 50]`, `[52, 51]`처럼 더 촘촘히 바꾸면 경계 근처 점수 이동을 더 자세히 볼 수 있습니다.
+- `X`의 한두 점을 움직이면 계수와 절편이 달라지면서 경계 해석도 함께 달라집니다.
+- 같은 모델이라도 threshold를 다르게 두면, 경계 근처 샘플의 최종 행동이 바뀐다는 점은 다음 예제와 연결됩니다.
 
 ### threshold 변화도 작은 코드로 확인하기
 

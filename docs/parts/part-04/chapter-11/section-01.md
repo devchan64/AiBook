@@ -1,7 +1,7 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
@@ -34,7 +34,7 @@ P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값
 - 다중 클래스(multinomial) 로지스틱 회귀의 세부 수식
 - solver별 차이와 정규화 설정
 
-결정 경계(decision boundary)와 threshold의 공간적 해석은 P4-11.2에서 바로 이어서 다루고, 정규화 설정과 하이퍼파라미터 읽기는 P4-9.1, P4-9.2와 P4-8.1에서 다시 연결합니다. 다중 클래스(multinomial) 로지스틱 회귀의 세부 수식과 solver별 구현 차이는 이 책의 현재 본편 범위 밖에 둡니다.
+결정 경계(decision boundary)와 threshold의 공간적 해석은 P4-11.2에서 바로 이어서 다룹니다. `왜 log-odds를 보게 되는가`, `왜 최대우도추정(maximum likelihood estimation, MLE)을 쓰는가`, `이진 분류에서 다중 클래스(multinomial)로 어떻게 확장되는가`, `solver와 regularization을 왜 구현 설정으로 만나게 되는가`는 P4-11.3 보충학습에서 다시 묶어 회수합니다. 정규화(regularization)의 더 넓은 일반 원리와 하이퍼파라미터 읽기는 P4-9.1, P4-9.2, P5-8.1에서 다시 연결합니다.
 
 ## 이 절의 목표
 
@@ -106,9 +106,9 @@ sigmoid 함수는 바로 이 역할을 합니다.
 ```mermaid
 flowchart TD
   A["features x"]
-  B["linear score z<br/>weighted sum"]
+  B["linear score z"]
   C["sigmoid"]
-  D["probability-like output<br/>between 0 and 1"]
+  D["0-1 score"]
   E["class decision"]
 
   A --> B --> C --> D --> E
@@ -313,6 +313,15 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 
 ### 실증 예시로 보면 더 분명해진다
 
+사례를 읽기 전에 이번 절의 공통 비교 프레임을 먼저 잡으면 다음과 같습니다.
+
+| 장면 | 사람이 먼저 쓰기 쉬운 기준 | 그 기준의 한계 | 로지스틱 회귀가 바꾸는 점 | 확인할 결과 |
+| --- | --- | --- | --- | --- |
+| 이탈 예측 | 위험 고객을 감으로 고른다 | 같은 고객도 사람마다 다르게 볼 수 있다 | 확률처럼 읽히는 점수와 threshold를 같이 둔다 | review 대상과 자동 행동 기준을 나눌 수 있다 |
+| 스팸 분류 | 의심 메일을 강하게 막는다 | FP와 FN 비용을 한 기준으로 섞기 쉽다 | 점수와 정책 기준을 분리해 읽는다 | 서비스별 threshold 차이를 설명할 수 있다 |
+| 의료 위험 분류 | 위험해 보이면 넓게 경고한다 | 놓침 비용과 과잉 경고 비용을 같이 다루기 어렵다 | 같은 점수라도 더 민감한 threshold를 둘 수 있다 | 정확도 외의 판단 기준이 필요함을 본다 |
+| 대출 / 사기 탐지 | 한두 기준으로 승인과 차단을 정한다 | 도메인별 비용 구조 차이를 놓친다 | 같은 모델이어도 다른 운영 정책을 얹는다 | 모델 점수와 행동 정책을 분리해 읽는다 |
+
 ### 사례 1. 고객 이탈 예측
 
 고객 이탈(churn) 예측에서는 로지스틱 회귀가 baseline처럼 자주 쓰입니다.
@@ -324,10 +333,10 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 flowchart TD
   A["customer features"]
   B["linear score"]
-  C["sigmoid output"]
-  D["churn probability-like score"]
+  C["sigmoid"]
+  D["class 1 score"]
   E["threshold policy"]
-  F["campaign or review action"]
+  F["campaign or review"]
 
   A --> B --> C --> D --> E --> F
 ```
@@ -389,6 +398,14 @@ flowchart TD
   - `predict_proba`와 `predict`는 같은 단계가 아닙니다.
   - 계수의 부호는 어느 방향으로 가능성을 올리는지 보여 줍니다.
 
+입력은 다음처럼 읽으면 됩니다.
+
+| 입력 묶음 | 뜻 |
+| --- | --- |
+| `study_hours` | 한 특징만 있는 1차원 입력 |
+| `passed` | 합격 / 불합격 정답 |
+| `[[3], [5], [7]]` | 경계 전, 경계 근처, 경계 뒤를 확인하기 위한 샘플 |
+
 ```python
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -429,6 +446,12 @@ class prediction : [0 1 1]
 - `x=7`에서는 합격 쪽 가능성을 더 높게 봅니다.
 
 중요한 것은 `0.548` 같은 값이 보이면, 그것이 곧 절대적 사실이라기보다 `현재 모델이 이 데이터를 보고 그쪽 class를 더 가능성 높게 본다`는 뜻으로 읽어야 한다는 점입니다.
+
+직접 값을 바꿔 보면 더 잘 보이는 지점도 있습니다.
+
+- `[[3], [5], [7]]` 대신 `[[4], [5], [6]]`처럼 더 촘촘히 넣으면 경계 근처 점수 변화를 더 자세히 볼 수 있습니다.
+- `passed`에서 경계 근처 정답을 조금 바꾸면 계수와 절편도 함께 움직입니다.
+- 같은 점수라도 threshold를 바꾸면 최종 행동이 달라진다는 점은 바로 다음 예제로 이어집니다.
 
 ### Python 예제로 threshold 차이도 함께 보기
 

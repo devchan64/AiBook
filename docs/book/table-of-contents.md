@@ -455,6 +455,7 @@ flowchart LR
 
 - **P4-11.1 로지스틱 회귀(logistic regression)의 직관**: 분류 문제에서 확률처럼 해석되는 출력을 봅니다.
 - **P4-11.2 결정 경계(decision boundary)**: 분류 모델이 경계를 만든다는 관점을 봅니다.
+- **P4-11.3 보충학습: 로지스틱 회귀를 한 단계 더 이해하는 법**: log-odds, MLE, 다중 클래스, solver와 regularization이 왜 함께 등장하는지 보강합니다.
 
 #### Chapter 12. k-NN `알고리즘`
 
