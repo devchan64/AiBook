@@ -1,7 +1,7 @@
 # P2-9.1 자료구조(data structure)는 왜 필요한가
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.10`
 
 P2-8에서는 Python의 값(value), 리스트(list), 딕셔너리(dictionary), 반복(loop), 함수(function), 클래스(class)를 봤습니다. 이제 한 걸음 물러서서 질문을 바꿉니다.
 
@@ -382,7 +382,7 @@ print(student_by_name["Kim"]["score"])
 
 P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 더 넓은 지도로 놓고 비교합니다. P2-9.3에서는 그래프를 노드(node)와 엣지(edge) 관점으로 따로 보고, P2-9.4에서는 전통적인 자료구조 이름을 보충학습으로 다시 정리합니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 같은 학생 데이터인데 왜 구조를 다시 골라야 하는가
 

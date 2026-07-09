@@ -1,7 +1,7 @@
 # P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 수학 기호와 작은 코드로 확인했습니다. Part 2 Chapter 8에서는 Python의 리스트(list)와 딕셔너리(dictionary)를 봤고, Part 2 Chapter 9에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 구조 관점으로 구분했습니다. Part 2 Chapter 10에서는 노트북(notebook)을 실행 가능한 학습 기록으로 정리하는 방법을 봤습니다.
 
@@ -394,7 +394,7 @@ python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 
 출력에는 Python 리스트의 `+`와 NumPy 배열의 `+`가 어떻게 다른지도 포함되어 있습니다. 같은 기호라도 자료구조가 달라지면 의미가 달라질 수 있다는 점을 직접 확인하기 위한 예제입니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 학생 점수표가 왜 갑자기 숫자 행렬로 보이기 시작하는가
 

@@ -1,7 +1,7 @@
 # P2-10.1 노트북(notebook)은 왜 학습에 유용한가
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.10`
 
 Part 2 Chapter 7에서는 Python을 어디에서 실행하는지, 터미널(terminal), 셸(shell), 인터프리터(interpreter), 스크립트(script), 가상환경(virtual environment)을 나누어 봤습니다. Part 2 Chapter 8과 Chapter 9에서는 Python 문법과 자료구조를 작은 예제로 복구했습니다.
 
@@ -257,7 +257,7 @@ x + 5
 
 노트북은 자유롭게 실행할 수 있다는 장점 때문에, 오히려 실행 순서가 흐트러질 수 있습니다. 이 점은 스크립트보다 조심해야 합니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 평균과 분산을 다시 확인하는 학습 노트
 

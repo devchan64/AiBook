@@ -1,7 +1,7 @@
 # P2-5.3 표본(sample), 추정(estimation), 오차(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-5.2에서는 데이터 묶음의 모양을 분포(distribution)로 보고, 중심을 평균(mean)으로 보고, 퍼짐을 분산(variance)으로 봤습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -227,7 +227,7 @@ flowchart TD
 
 이 관점은 이후 train/test split, validation data, cross-validation을 이해하는 바탕이 됩니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 앱 사용자 1만 명 로그로 전체 사용자를 말할 수 있을까
 
