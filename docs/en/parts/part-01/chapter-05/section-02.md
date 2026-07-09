@@ -1,7 +1,7 @@
 # P1-5.2 What Does Model Execution Run?
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 5.1 distinguished `learning` from `training`. Training is the procedure that uses data to adjust internal model values, while learning is the broader idea that performance on a task improves as a result.
 
@@ -255,6 +255,27 @@ When reading an AI system, it helps to separate these three moments:
 > when model output is used in a larger service decision
 
 Keeping those moments separate reduces confusion such as `Is the AI learning while it answers?`, `Is the model output already the business decision?`, or `Is inference the same as reasoning?`
+
+The same distinction also makes later chapters easier to read. When we reach search, probability-like scores, and LLM generation settings, we still need to ask the same question first: are we looking at the model’s output stage itself, or at a larger service step that interprets and uses that output?
+
+## Checklist
+
+- Explain inference as the execution process that uses a trained model.
+- Read inference as `running the model`, `applying the model`, or `executing output creation`.
+- Distinguish training from inference.
+- Explain that inference usually does not change model parameters.
+- Connect traditional machine-learning prediction with LLM response generation in one larger structure.
+- Explain why inference output is not the same thing as the whole business-handling process.
+
+## When Should This View Come First?
+
+Recall this section when the word `inference` starts to feel larger than `running a trained model on new input`.
+
+- when you need to separate `training`, `inference`, and `post-processing`
+- when you are tempted to think the model keeps relearning immediately while it answers a user
+- when you need to explain why model output, service routing, policy checking, and human review are not all the same stage
+
+In those moments, return first to the smallest safe definition: inference is the stage where a trained model is run on new input to produce output.
 
 ## Sources and Further Reading
 

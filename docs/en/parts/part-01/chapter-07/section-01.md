@@ -1,7 +1,7 @@
 # P1-7.1 Search Space and Computational Limits
 
 > Section ID: `P1-7.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Chapter 6 dealt with incomplete information and probabilistic judgment. Now we turn to a different kind of difficulty. Some problems are hard because information is missing, but some are hard because there are simply too many possible choices.
 
@@ -236,6 +236,23 @@ So AI ends up asking:
 > and where should we stop?
 
 That question leads directly into the heuristic discussion in 7.2.
+
+## Checklist
+
+- Explain search as the process of looking through possible candidates to find a solution.
+- Explain `state`, `action`, `goal`, `path`, and `cost` with a route-finding example.
+- Explain that the number of combinations can grow quickly as the search space expands.
+- Explain why exhaustive search may work for small problems but hit computational limits for large ones.
+- Distinguish the difficulties of uncertainty, search space, and learning.
+- Explain why heuristics become necessary once the search space grows too large.
+
+## When to Recall This View First
+
+Recall this section when a problem feels difficult not because truth is unclear, but because the number of possible candidates has become too large to inspect comfortably.
+
+- when you need to explain why route choice, scheduling, game play, or outline design turns into a search problem
+- when you need to separate `not knowing what is true` from `having too many candidates`
+- when you need to prepare the intuition for why heuristics and pruning come next
 
 ## Sources and Further Reading
 

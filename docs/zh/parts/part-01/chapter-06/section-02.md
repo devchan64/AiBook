@@ -214,6 +214,17 @@ Poole 和 Mackworth 说明，某些动作可以像 `stochastic process` 那样�
 - 能说明 `evidence` 是会更新判断的观测信息。
 - 能把 `stochastic` 说明成“过程或动作里带有概率性波动”的性质。
 - 能说明 `random`、`stochastic`、`nondeterministic` 和 `probabilistic` 不该被当成同义词。
+- 能说明在一般 AI 语境里，应该先把“未知状态”“数字表达”“过程波动”分开，而不是混成一句模糊的话。
+
+## 什么时候应该先想起这个视角
+
+当 `probability`、`uncertainty` 和 `stochastic` 开始被当成几乎同一个词时，就该先回到这一节的区分。
+
+- 看到一个模型分数，就立刻把它和不确定性本身混在一起时
+- 遇到同一动作重复后结果会变化，却拿不准该叫 random、nondeterministic 还是 stochastic 时
+- 需要区分“多观察后会缩小的未知”和“过程本身仍然会留下的波动”时
+
+这时可以先重新拆成 `uncertainty 是状态上的未知`、`probability 是数字表达`、`stochastic 是过程的波动性`。然后再检查当前这句话到底是在谈状态、数字，还是过程的性质。
 
 ## 来源与参考资料
 

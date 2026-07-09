@@ -213,3 +213,19 @@ Bring this section back first whenever it becomes unclear whether something shou
 - when recommendation, approval support, prediction, and search systems coexist and you need to know what belongs in one larger category
 
 At that point, return to the baseline that `AI is the widest outer category`, then ask how input, goal, output, and impact are organized.
+
+One practical benefit of keeping this baseline is that later chapters do not collapse into one technology story. Once AI is fixed as the outer category, later discussions of rules, search, machine learning, deep learning, generative AI, and LLMs can be read as different streams on one map rather than as competing definitions of one single thing.
+
+## Sources and Further Reading
+
+- OECD.AI, Stuart Russell, Karine Perset, Marko Grobelnik, [Updates to the OECD’s definition of an AI system explained](https://oecd.ai/en/wonk/ai-system-definition-update){: target="_blank" rel="noopener noreferrer" }, 2023-11-29, accessed 2026-06-22.
+- NIST AI Resource Center, [Glossary](https://airc.nist.gov/glossary/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Merriam-Webster, [Artificial intelligence Definition & Meaning](https://www.merriam-webster.com/dictionary/artificial%20intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, accessed 2026-06-22.
+- Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, accessed 2026-06-22.
+- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, arXiv:2303.18223, accessed 2026-06-22.
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, [From Data Mining to Knowledge Discovery in Databases](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" }, AI Magazine, 1996, accessed 2026-06-22.
+- D. J. Power, [A Brief History of Decision Support Systems](https://dssresources.com/history/dsshistory.html){: target="_blank" rel="noopener noreferrer" }, DSSResources.COM, version 4.0, 2007-03-10, accessed 2026-06-22.

@@ -240,6 +240,16 @@ AI 教材里常通过 `heuristic function` 来说明启发式。看到 function 
 - 能说明启发式不等于答案、概率模型或学习模型。
 - 能说明启发式越多，越需要明确验证标准。
 
+## 什么时候应该先想起这个视角
+
+当你明知道不可能把所有候选都看完，却还需要说明“应该凭什么先减少一部分”时，就应该先想起这一节。
+
+- 当优先级和剪枝开始比完全搜索更重要时
+- 当你需要同时说明“为什么需要快速判断标准”和“为什么它仍然不是最终答案”时
+- 当你需要把 heuristic function、good-enough solution 和 verification 的关系分开讲清楚时
+
+这时先分开 `它到底减少了什么`、`它并不保证什么`、`验证要从哪里重新补上`。这样更容易把启发式和规则、概率或学习区分开。
+
 ## 来源与参考资料
 
 - Douglas Harper, [Online Etymology Dictionary, heuristic](https://www.etymonline.com/word/heuristic){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.

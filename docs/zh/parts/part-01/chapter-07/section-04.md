@@ -233,6 +233,16 @@ waypoint 可以承担几种作用：
 - 能说明为什么 `path` 和 `trajectory` 不能混用。
 - 能用 `search space`、`cost`、`heuristic` 和 `layering` 的语言重读自动驾驶规划。
 
+## 什么时候应该先想起这个视角
+
+当你需要把抽象搜索概念接到真实系统结构上时，可以先回到这一节的视角。
+
+- 需要用一个案例说明路径寻找、`path`、`trajectory` 和控制是从哪里开始分开的
+- 需要把自动驾驶读成多个 planning 层，而不是一个巨大模型
+- 想说明 7.1 到 7.3 的搜索、启发式和运行标准在真实系统里怎样被拆开
+
+这时可以先把问题拆成 `决定整体路线`、`选择当前要执行的短时 trajectory`、`把计划变成真实转向与加减速命令`。这样即使使用自动驾驶案例，重点也仍然会留在 planning 层次和概念对应上。
+
 ## 来源与参考资料
 
 - David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., 3.1 Problem Solving as Search](https://artint.info/3e/html/ArtInt3e.Ch3.S1.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-29.

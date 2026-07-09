@@ -23,9 +23,13 @@ This section does not treat a harness as a product name. It limits the term to a
 
 > an execution device that wraps an agent run so that it can be observed, validated, and evaluated
 
+This section organizes how execution becomes observable and comparable around the terms `harness`, `trace`, `log`, `evaluation`, `grader`, and `reproducibility`. It takes the agent structure from 14.3 and the MCP connection structure from 14.4 as given, and leaves cost and operational constraints to 14.6.
+
 ## Scope of This Section
 
 This section explains the basic roles of the `harness`, `trace`, `log`, `evaluation`, and `grader`. It touches the intuitive flow from the word's origin through the software `test harness` into the AI execution harness, but it does not attempt a full academic debate over the exact formal definition of an `agent harness`. Specific SDK code, dashboard usage, evaluation API implementation, and large-scale operational cost are outside the current scope. Cost, latency, and operations return in P1-14.6.
+
+`harness`, `trace`, `log`, `evaluation`, `grader`, and `reproducibility` are different execution-verification elements. Their roles can be separated like this:
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
@@ -36,11 +40,15 @@ This section explains the basic roles of the `harness`, `trace`, `log`, `evaluat
 | grader | an executable form of an evaluation criterion | a tool for automated comparison |
 | reproducibility | the property of being checkable again under the same conditions | the basis for regression checks and repeated verification |
 
-The baseline distinction here is:
+The baseline distinction here is that `the harness wraps execution, traces and logs preserve records, and evaluation creates comparison standards`.
 
-- the harness wraps execution
-- traces and logs preserve records
-- evaluation creates a repeatable comparison standard
+| Topic | Question this section asks |
+| --- | --- |
+| harness | why does execution need to be wrapped? |
+| trace | what steps ran in what order? |
+| log | what should remain checkable later? |
+| evaluation | how do we compare whether a result became better? |
+| reproducibility | can the same condition be checked again? |
 
 ## Goal of This Section
 
@@ -53,6 +61,8 @@ The baseline distinction here is:
 
 ## Three Standards
 
+This section tries to keep the harness from being mistaken for a product name or a new AI capability. The three standards below are the main reading baseline.
+
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
 | the harness wraps execution rather than adding another AI ability | This prevents the harness from being mistaken for a model capability. | It is enough to understand it as an environment that binds, records, and validates execution. |
@@ -61,7 +71,7 @@ The baseline distinction here is:
 
 ## Why the Word Harness Fits
 
-A harness does not create force. It holds, connects, and directs force so that it can be used safely. That intuition carries well into software and then into AI execution.
+A harness does not create force. It holds, connects, and directs force so that it can be used safely. Etymological explanations also connect the word to equipment, preparation, and controlled use of force. If that intuition is lost, AI `harness` is easily mistaken for the model itself or for a new algorithm.
 
 > physical harness:  
 > does not create force, but holds and connects it
@@ -72,7 +82,19 @@ A harness does not create force. It holds, connects, and directs force so that i
 > AI execution harness:  
 > does not create the model's capability, but binds model and tool execution into an observable workflow
 
-That is why the harness should not be mistaken for the model itself or for a new algorithm. It is closer to an execution environment that makes the model's work inspectable.
+That is why the word `harness` feels natural in software testing. A system under test often cannot recreate real operating conditions by itself. So a test harness supplies inputs, imitates necessary conditions, and compares outputs and failures.
+
+The same is true of AI agents. Even if an LLM can generate text and call tools, that alone does not make a service. Prompts, context, tools, permissions, approvals, logs, and evaluation all need to be tied together to form a real workflow.
+
+> state with only a model:  
+> it can produce an answer, but the execution condition and responsibility boundary stay blurry
+>
+> state with a harness:  
+> input, tools, intermediate steps, output, and evaluation criteria are tied together
+
+Seen that way, the harness does not exaggerate AI capability. It points to the constraints and observation devices needed to use AI capability in real work. It is easier to follow if we understand it not as something that suppresses force, but as something that lets force be used safely.
+
+Recently, there have also been attempts to organize this loose term more academically. A 2026 arXiv preprint reconstructs a lineage from horse tack, to software test harnesses, to machine-learning evaluation harnesses, and finally to agent harnesses. In this book, that source is used only as supporting background for why the term became important in the AI-agent context, not as the final standard definition.
 
 ## Close Terms Need to Stay Separate
 
@@ -86,7 +108,11 @@ The harness can be compared with `workflow`, `pipeline`, `operations`, and `fram
 | framework | what structure and APIs are provided to the developer? | a wider structure that may include or implement a harness |
 | harness | how do we wrap, record, and evaluate execution? | the central concept of this section |
 
-A harness should not simply be equated with DevOps, MLOps, LLMOps, or with a fixed bundle of one trace tool plus one log tool plus one eval tool.
+A harness should not simply be equated with DevOps, MLOps, or LLMOps. The operational perspective is only a comparison background that helps us ask why observation, repetition, and verification are needed. A harness also does not have to exist as a separate product bundle such as `trace tool + log tool + eval tool`.
+
+In some systems, one agent can call another, a review agent can inspect the result, and a separate evaluation flow can check the execution again. In that case, the harness appears less as the name of one tool and more as a pattern that makes execution connected, held together, and verifiable.
+
+But simply linking several agents does not automatically create a harness. The harness viewpoint appears only when that connection limits execution conditions, preserves intermediate steps, compares results, and makes failures checkable again.
 
 ## Why Execution Has to Be Wrapped
 
@@ -120,9 +146,17 @@ When the output is wrong, it is no longer enough to say only, "the model was wro
 
 The harness wraps the execution step by step so that the service can see where the problem appeared.
 
+> execution without wrapping:  
+> only the result is visible
+>
+> execution with wrapping:  
+> input, retrieval, tool calls, intermediate results, final output, and errors are visible together
+
 ## Trace Preserves the Flow of an Execution
 
 A `trace` is a record of how one request moved through its steps. If a `log` is a broad record, a trace is especially close to the flow and relationship of steps within one request.
+
+OpenAI Agents SDK documentation explains that execution traces can preserve model calls, tool calls, handoffs, guardrails, and custom spans as structured records. The reader does not need to memorize those product details here. They matter only as evidence for one general point: agent execution needs step-level observation.
 
 | Trace target | Question it helps answer |
 | --- | --- |
@@ -132,6 +166,17 @@ A `trace` is a record of how one request moved through its steps. If a `log` is 
 | guardrail | what validation or blocking condition fired? |
 | error | at what stage did the failure happen? |
 | duration | which stage took a long time? |
+
+Suppose a request such as `find the document, summarize it, and create an issue` fails.
+
+> failed result:  
+> the created issue contains the wrong content
+>
+> questions a trace can help ask:  
+> was the retrieved document correct?  
+> was the summary wrong?  
+> were the arguments to the issue-creation tool wrong?  
+> was user approval skipped?
 
 Trace does not automatically tell the right answer. It provides the clues needed to find the cause.
 
@@ -150,7 +195,9 @@ A `log` is a record that can be checked after execution. In AI services, logs ar
 | final output | to see what was sent to the user |
 | error | to analyze why the run failed |
 
-Logging more is not automatically better. Logs can also create security problems if they preserve personal information, secrets, internal documents, or sensitive user input without care.
+Logging more is not automatically better. Logs can also create security problems if they preserve personal information, secrets, internal documents, or sensitive user input without care. So logs need to be kept `sufficiently enough to explain later, but reduced enough to avoid dangerous exposure`.
+
+That issue connects forward to Chapter 15 on security and personal information. Here it is enough to keep one point: the harness must preserve records, but the records themselves must also be designed.
 
 ## Evaluation Is a Repeatable Comparison, Not a Feeling
 
@@ -166,12 +213,12 @@ Evaluation commonly includes:
 | eval run | the process of running many cases under the same standard |
 | report | the summary that shows what improved or worsened |
 
-This shifts the view from:
+OpenAI's agent-evaluation material recommends looking at individual traces first, and then moving to datasets and repeated evaluation once repeatability is needed. That flow is not just a product usage tip. It is a general way of thinking needed whenever an AI service is improved.
 
+> checking one case:  
 > why did this one request fail?
-
-to:
-
+>
+> repeated evaluation:  
 > did this change improve performance across many requests?
 
 ## A Grader Turns an Evaluation Criterion into an Executable Form
@@ -183,7 +230,7 @@ In traditional software testing, the expected answer is often clear:
 > input: `2 + 2`  
 > expected output: `4`
 
-In generative AI, one exact answer may not exist, so graders often use more varied standards:
+In generative AI, one exact answer may not exist. So graders often use more varied standards:
 
 | Evaluation standard | Example |
 | --- | --- |
@@ -193,7 +240,7 @@ In generative AI, one exact answer may not exist, so graders often use more vari
 | safety | did it avoid forbidden actions or exposure of sensitive information? |
 | task success | did it actually finish the requested task? |
 
-Graders are not perfect. Human review may still be needed, and automated evaluation may miss some quality issues.
+Graders are not perfect. Human review may still be needed, and automated evaluation may miss some quality issues. So it is safer to see the grader not as a full replacement for human judgment, but as a repeatable standard that helps repeated checking.
 
 ## Preventing Regression Matters
 
@@ -215,6 +262,8 @@ Harnesses and evaluation help detect these tradeoffs.
 | tool addition | did wrong tool calls increase? |
 | approval-policy change | are risky actions still being blocked? |
 
+Without this perspective, AI services easily remain in a state of `it seems to work today`. For a learner as well, setting evaluation criteria makes it easier to inspect AI output more calmly.
+
 ## What the Harness Does Not Solve
 
 Even if a harness exists, it does not automatically make the service safe or correct.
@@ -229,7 +278,7 @@ Even if a harness exists, it does not automatically make the service safe or cor
 
 So the harness is not a device that guarantees the right answer. It is a device that makes execution observable and improvable.
 
-## The View to Keep from This Section
+## What to Keep from This Section
 
 A `harness` is an execution environment that wraps models and tools.
 
@@ -238,29 +287,29 @@ A `harness` is an execution environment that wraps models and tools.
 > the agent harness wraps multi-step execution so that it can be traced, logged, and evaluated  
 > traces reveal execution flow  
 > logs preserve what can later be explained  
-> evaluation creates repeatable comparison  
-> graders make evaluation criteria executable
+> evaluation builds repeatable comparison  
+> graders turn criteria into executable form
 
-With that view, the next section becomes easier to read:
-
-> traces, logs, and evaluation improve quality, but they also create cost, latency, and operational burden
+If this perspective is fixed, then the next section on `the constraints AI services meet in the real world` becomes easier to read more realistically. Traces, logs, and evaluation all raise quality, but they also create cost, latency, and operational burden.
 
 ## Checklist
 
-- You can explain the harness as an environment that wraps execution rather than as the model itself.
-- You can explain the intuitive flow from physical harness to test harness to AI execution harness.
-- You can explain why traces and logs are needed in agent execution.
-- You can explain evaluation through datasets, criteria, graders, and repeated runs.
-- You can explain why prompt, model, RAG, or tool changes need regression checks.
-- You can explain that the harness enables observation and improvement rather than guaranteeing correctness.
+- I can explain a harness as an environment that wraps execution, not as the model itself.
+- I can explain the intuitive origin of harness through the flow of equipment, fastening, connecting, and useful application.
+- I can explain how the meaning grows from a test harness into an agent harness.
+- I can explain why the harness should not be treated as the same thing as DevOps, a framework, or a fixed bundle of trace/log/eval tools.
+- I can explain why traces and logs are necessary for understanding agent execution.
+- I can explain evaluation as the combination of a dataset, criteria, a grader, and an eval run.
+- I can explain why prompt changes, model changes, RAG changes, and tool changes all need regression checks.
+- I can explain that a harness does not guarantee the correct answer, but makes observation and improvement possible.
 
-## When to Recall This View First
+## When Should This Perspective Come to Mind First?
 
-- When a model answer is being treated as if service validation were already complete
-- When you need to explain why traces, logs, and evaluation belong in a separate execution environment
-- When the service still lacks a way to detect regression after changes
+- when a model producing an answer starts to feel like the whole service has already been validated
+- when you need to explain why logs, traces, and evaluation are handled inside a separate execution environment
+- when the service still lacks a way to check regressions after changes
 
-In those cases, separate `wrapping execution`, `preserving step records`, and `running repeatable comparison` first.
+At that point, separate the problem again into `wrapping execution`, `recording steps`, and `comparing repeatedly`. That prevents accidental success from being confused with repeatable stability.
 
 ## Sources and Further Reading
 

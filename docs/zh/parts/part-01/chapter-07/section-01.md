@@ -245,6 +245,14 @@ FunSearch 则展示了另一种情况。它并不是直接搜索最终答案，�
 - 能区分 `uncertainty`、`search space` 和 `learning` 三类不同困难。
 - 能说明搜索空间一旦变大，为什么会需要 `heuristic`。
 
+## 什么时候应该先想起这个视角
+
+当一个问题之所以困难，并不是因为真相不清楚，而是因为候选多到无法舒服地逐个检查时，就应该先想起这一节。
+
+- 当你需要解释为什么路径选择、排程、博弈或目录设计会变成搜索问题时
+- 当你需要把“不知道什么是真的”和“候选太多看不完”分开说明时
+- 当你需要为后面的 heuristic 与 pruning 先建立直觉时
+
 ## 来源与参考资料
 
 - David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 3 Searching for Solutions](https://artint.info/3e/html/ArtInt3e.Ch3.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.

@@ -1,7 +1,7 @@
 # P1-7.3 The Difference Between Heuristics and Probabilistic Models
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 7.2 treated heuristics as empirical standards for deciding which candidates to inspect first and which to reduce when we cannot inspect all of them. Now we separate another pair of ideas that often look similar:
 
@@ -46,6 +46,8 @@ The narrow distinction here is:
 | a probabilistic model expresses how plausible outcomes are | This reduces the mistake of reading every score as a probability. | Understand that a numeric output is not automatically a probability. |
 | a threshold may be an operating standard rather than the model itself | This separates model output from service policy. | Understand `above 0.8, handle automatically` as an operating rule, not necessarily part of the model. |
 
+At first encounter, `heuristic`, `probabilistic model`, `score`, `probability`, `threshold`, and `calibration` can all sound like similar numeric devices. A short role split helps keep their places separate.
+
 A short role split is useful:
 
 | Term | Very short meaning | Role in this section |
@@ -56,6 +58,8 @@ A short role split is useful:
 | probability estimate | numeric estimate of how likely a result is | output that may or may not be safe to read like a real probability |
 | threshold | boundary line that turns output into action | operating standard for automation, hold, or review |
 | calibration | procedure that checks whether a numeric output matches real frequencies | safeguard against confusing scores with trustworthy probabilities |
+
+The baseline distinction in this section stays simple: heuristics reduce search, probabilistic models express uncertainty, thresholds set operating rules, and calibration checks whether a number deserves probabilistic interpretation.
 
 ## One View at a Glance
 
@@ -207,6 +211,18 @@ In modern AI systems, the boundary can look blurrier because many numeric criter
 
 Especially in generative AI, plausible output can look like verified fact. That is why this book keeps evidence, verification, and policy layers separate from the fact that a score or probability was produced.
 
+## If We Generalize This Intuition
+
+At first encounter, it is tempting to interpret heuristics as `an attempt to reflect uncertainty in software`. The safest generalization for this book is:
+
+> a heuristic is an empirical standard that lets software choose the next candidate  
+> under uncertainty and computational limits
+>
+> a probabilistic model expresses uncertainty with numbers or distributions  
+> and makes it possible to update belief when evidence changes
+
+This preserves the useful beginner intuition without collapsing the standard boundary between the two ideas.
+
 ## What to Remember from This Section
 
 Heuristics and probabilistic models can both appear in incomplete-information and high-complexity settings, but they are not the same.
@@ -216,6 +232,22 @@ Heuristics and probabilistic models can both appear in incomplete-information an
 > operating rules turn output into action
 
 Keeping that distinction makes AI systems easier to read calmly, because it lets us separate experiential rules, probabilistic modeling, and responsibility or policy layers.
+
+## Checklist
+
+- Explain why `heuristic` and `probabilistic model` should not be used as if they were the same thing.
+- Distinguish a heuristic score from a probability.
+- Explain why a classification threshold may be an operating standard rather than the model itself.
+- Explain why heuristics do not calculate uncertainty so much as make judgment possible under uncertain conditions.
+- Explain how heuristics, probabilistic models, calibration, and operating rules can coexist inside one system.
+
+## When Should This View Come First?
+
+Recall this section first when scores, probabilities, thresholds, and operating rules begin to look like one blended idea.
+
+- when you want to read one model score immediately as probability or final judgment
+- when you need to explain whether a `threshold` belongs to the model itself or to service operation
+- when you need to describe how heuristics, probabilistic models, calibration, and policy standards play different roles inside one system
 
 ## Sources and Further Reading
 

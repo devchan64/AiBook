@@ -1,7 +1,7 @@
 # P1-7.2 What Does a Heuristic Reduce?
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Section 7.1 showed that when the search space grows, methods that inspect every candidate quickly hit computational limits. Now we move to the next question:
 
@@ -232,6 +232,23 @@ So the section can be summarized in one sentence:
 
 > a heuristic is a standard that reduces search,  
 > and verification is the process that checks what that standard may have missed
+
+## Checklist
+
+- Explain a heuristic as an empirical standard for reducing candidates and deciding priority.
+- Explain that heuristics reduce candidate count, time, memory, and evaluation burden.
+- Explain a heuristic function as a standard that attaches an estimate to candidates.
+- Distinguish a good-enough solution from an optimal solution.
+- Explain why heuristics are not the same thing as the answer, a probabilistic model, or a learned model.
+- Explain why the more we rely on heuristics, the more explicit verification standards matter.
+
+## When Should This View Come First?
+
+Recall this section when you cannot inspect every candidate, but still need to explain how some standard should reduce the search first.
+
+- when prioritization and pruning become more important than exhaustive search
+- when you need to explain both why fast judgment is necessary and why it still is not the final answer
+- when you need to separate heuristic filtering from later verification, probability, or learning
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P1-8.3 强化学习：动作与奖励
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 8.1 把监督学习说明成：从同时包含 input 与 label 的例子中学习。8.2 则把无监督学习说明成：从无标签数据中寻找 `structure`、`cluster` 和 `representation`。
 
@@ -228,6 +228,23 @@ Google 的术语表也用 `epsilon-greedy policy` 来解释这种平衡。入门
 而不是先问：
 
 > 这个输入的正确答案是什么？
+
+## 检查清单
+
+- 能把 reinforcement learning 说明成由 state、action 和 reward 串起来的学习流程。
+- 能在入门层面区分 agent、environment 和 policy。
+- 能说明 reward 并不等于监督学习里的 label。
+- 能说明 delayed reward 为什么会让强化学习更难。
+- 能说明 exploration 和 exploitation 的差别。
+- 能避免把 reinforcement learning、deep learning、deep reinforcement learning 和 RLHF 混成同一个词。
+
+## 什么时候应该先想起这个视角
+
+当一个学习问题被压成“输入和标准答案”的框架，导致动作和结果的时间流消失时，就该先想起这一节。
+
+- 当 reward 开始被当成另一种 label 来读时
+- 当一个涉及长期后果的问题，被过度简化成一步预测问题时
+- 当你需要把 exploration、exploitation 和 delayed reward 串在同一条说明线上时
 
 ## 来源与参考资料
 
