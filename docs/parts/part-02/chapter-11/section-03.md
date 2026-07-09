@@ -1,7 +1,7 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-11.1에서는 NumPy 배열(array)의 `shape`, `ndim`, `dtype`을 확인했습니다. P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 사용해 배열의 어느 부분을 읽고 어느 방향으로 계산할지 봤습니다.
 
@@ -101,7 +101,7 @@ print(scores * 2)
 
 아래 도식은 스칼라가 배열 전체에 반복 적용되는 모습을 보여 줍니다. 실제로 같은 값을 물리적으로 여러 번 복사한다고 이해하기보다, 계산 규칙상 각 위치에 적용된다고 이해하는 편이 안전합니다.
 
-![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array.svg)
+![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array-ko.svg)
 
 ## 배열끼리 계산할 때는 shape을 먼저 본다
 
@@ -148,7 +148,7 @@ NumPy는 `(3,)` 배열을 각 행(row)에 적용할 수 있다고 판단합니�
 
 아래 도식은 `(4, 3)` 데이터 행렬에 `(3,)` 벡터가 행마다 적용되는 모습을 보여 줍니다.
 
-![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector.svg)
+![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector-ko.svg)
 
 ## 맞지 않는 shape은 오류를 만든다
 

@@ -1,7 +1,7 @@
 # P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 수학 기호와 작은 코드로 확인했습니다. Part 2 Chapter 8에서는 Python의 리스트(list)와 딕셔너리(dictionary)를 봤고, Part 2 Chapter 9에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 구조 관점으로 구분했습니다. Part 2 Chapter 10에서는 노트북(notebook)을 실행 가능한 학습 기록으로 정리하는 방법을 봤습니다.
 
@@ -158,7 +158,7 @@ NumPy 배열은 “자료를 담는 구조”이면서 동시에 “계산을 �
 
 아래 도식은 같은 `+` 기호가 리스트와 NumPy 배열에서 다르게 읽히는 상황을 보여 줍니다.
 
-![Python list and NumPy array use the plus sign differently](../../../assets/part-02/chapter-11/list-vs-numpy-array.svg)
+![Python list and NumPy array use the plus sign differently](../../../assets/part-02/chapter-11/list-vs-numpy-array-ko.svg)
 
 이 차이는 사소해 보일 수 있지만, AI 코드에서는 중요합니다. 숫자 묶음을 저장하고 싶은 것인지, 숫자 묶음 전체에 같은 계산을 적용하고 싶은 것인지가 달라지기 때문입니다.
 
@@ -341,7 +341,7 @@ print(scores.shape)
 
 아래 도식은 같은 계산을 shape 관점으로 다시 정리한 것입니다.
 
-![Feature matrix times weight vector produces one score per sample](../../../assets/part-02/chapter-11/feature-weight-shape-flow.svg)
+![Feature matrix times weight vector produces one score per sample](../../../assets/part-02/chapter-11/feature-weight-shape-flow-ko.svg)
 
 왼쪽의 `features`는 샘플 3개와 특징 2개를 가진 행렬입니다. 가운데의 `weights`는 특징 2개에 대응하는 가중치 벡터입니다. 두 배열의 안쪽 크기 2가 맞기 때문에 각 샘플마다 하나의 점수(score)가 만들어집니다.
 

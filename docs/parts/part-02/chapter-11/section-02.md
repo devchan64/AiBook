@@ -182,7 +182,7 @@ print(scores[1:3])
 
 아래 도식은 `start:stop:step` 표기를 한 줄 배열에서 어떻게 읽는지 보여 줍니다.
 
-![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step.svg)
+![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step-ko.svg)
 
 여기서 중요한 점은 `stop` 위치의 값은 선택되지 않는다는 것입니다. `scores[1:5:2]`는 1번 위치에서 시작해 5번 위치 전까지 보되, 두 칸씩 이동합니다.
 
@@ -242,7 +242,7 @@ print(data[:, 3])
 
 아래 도식은 같은 배열을 인덱싱, 행 슬라이싱, 열 슬라이싱으로 다르게 읽는 상황을 보여 줍니다.
 
-![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map.svg)
+![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map-ko.svg)
 
 이 도식에서 파란색은 하나의 값, 초록색은 한 행, 주황색은 한 열을 강조합니다. 모두 같은 배열에서 나온 선택입니다.
 
@@ -319,7 +319,7 @@ print(data.sum(axis=1))
 
 아래 도식은 축에 따라 어떤 방향이 접히고 어떤 결과가 남는지 보여 줍니다.
 
-![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction.svg)
+![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction-ko.svg)
 
 중요한 점은 `axis=0`이 “0번 행을 고른다”는 뜻이 아니라는 것입니다. 인덱싱에서 `0`은 위치를 고르는 숫자입니다. 하지만 `axis=0`은 계산이 진행되는 차원을 지정합니다.
 
@@ -378,7 +378,7 @@ print(features[:, 1])
 
 아래 도식은 같은 관점을 조금 더 데이터셋에 가깝게 보여 줍니다.
 
-![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection.svg)
+![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection-ko.svg)
 
 여기서 `features[1, :]`는 한 샘플의 모든 특징을 꺼내는 코드입니다. 반대로 `features[:, 1]`는 모든 샘플에서 같은 특징 하나를 꺼내는 코드입니다.
 

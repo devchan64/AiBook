@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 450" role="img" aria-labelledby="title desc">
+  <title id="title">Feature matrix times weight vector produces one score per sample</title>
+  <desc id="desc">A feature matrix with shape three by two is multiplied by a weight vector with shape two to produce a score vector with shape three.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .panel-title { font: 700 19px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 500 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .mono { font: 600 15px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #1e293b; }
+      .value { font: 700 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #1e3a8a; }
+      .shape { font: 700 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f766e; }
+      .note { font: 600 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="920" height="450" fill="#ffffff"/>
+  <text class="title" x="30" y="42">shape은 배열 계산이 가능한지 알려 준다</text>
+  <text class="subtitle" x="30" y="70">특징 행은 특징별 가중치와 만나고, 각 행마다 하나의 점수를 만든다.</text>
+
+  <rect x="42" y="112" width="336" height="246" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="panel-title" x="66" y="146">특징 행렬</text>
+  <text class="shape" x="66" y="174">shape = (3, 2)</text>
+  <text class="label" x="66" y="200">샘플 3개, 특징은 각 2개</text>
+
+  <g transform="translate(92 226)">
+    <rect x="0" y="0" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="66" y="0" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="0" y="36" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="66" y="36" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="0" y="72" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <rect x="66" y="72" width="66" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2"/>
+    <text class="value" x="33" y="23" text-anchor="middle">1.0</text>
+    <text class="value" x="99" y="23" text-anchor="middle">0.2</text>
+    <text class="value" x="33" y="59" text-anchor="middle">0.8</text>
+    <text class="value" x="99" y="59" text-anchor="middle">0.4</text>
+    <text class="value" x="33" y="95" text-anchor="middle">0.3</text>
+    <text class="value" x="99" y="95" text-anchor="middle">0.9</text>
+  </g>
+  <text class="label" x="250" y="250">행: 샘플</text>
+  <text class="label" x="250" y="280">열: 특징</text>
+
+  <line x1="392" y1="235" x2="452" y2="235" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <text class="mono" x="422" y="218" text-anchor="middle">@</text>
+
+  <rect x="470" y="112" width="164" height="246" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="panel-title" x="494" y="146">가중치</text>
+  <text class="shape" x="494" y="174">shape = (2,)</text>
+  <text class="label" x="494" y="200">특징마다 하나</text>
+  <g transform="translate(516 234)">
+    <rect x="0" y="0" width="72" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="0" y="54" width="72" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <text class="value" x="36" y="27" text-anchor="middle">0.6</text>
+    <text class="value" x="36" y="81" text-anchor="middle">0.4</text>
+  </g>
+
+  <line x1="650" y1="235" x2="710" y2="235" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="728" y="112" width="150" height="246" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="panel-title" x="752" y="146">점수</text>
+  <text class="shape" x="752" y="174">shape = (3,)</text>
+  <text class="label" x="752" y="200">샘플마다 하나</text>
+  <g transform="translate(768 226)">
+    <rect x="0" y="0" width="72" height="36" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <rect x="0" y="42" width="72" height="36" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <rect x="0" y="84" width="72" height="36" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <text class="value" x="36" y="23" text-anchor="middle">0.68</text>
+    <text class="value" x="36" y="65" text-anchor="middle">0.64</text>
+    <text class="value" x="36" y="107" text-anchor="middle">0.54</text>
+  </g>
+
+  <rect x="104" y="386" width="712" height="38" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text class="note" x="460" y="411" text-anchor="middle">안쪽 크기 2가 맞아야 한다. 각 행에는 특징이 2개이고 가중치 벡터에도 숫자가 2개다.</text>
+</svg>

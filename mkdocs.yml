@@ -709,6 +709,20 @@ plugins:
                         - "P2-10.1 Why Are Notebooks Useful for Learning?": en/parts/part-02/chapter-10/section-01.md
                         - "P2-10.2 The Difference Among Jupyter, Colab, and Local Execution": en/parts/part-02/chapter-10/section-02.md
                         - "P2-10.3 Organizing Notebooks as Re-runnable Records": en/parts/part-02/chapter-10/section-03.md
+                - Module 4. Data Computation and Visualization Tools:
+                    - Chapter 11. Reusing Vectors and Matrices with NumPy:
+                        - "P2-11.1 Building Vectors and Matrices with NumPy Arrays": en/parts/part-02/chapter-11/section-01.md
+                        - "P2-11.2 Indexing, Slicing, and Axis": en/parts/part-02/chapter-11/section-02.md
+                        - "P2-11.3 Broadcasting and Vectorization": en/parts/part-02/chapter-11/section-03.md
+                        - "P2-11.4 Supplemental: Reading Shape Changes and Shared Origins Together in NumPy": en/parts/part-02/chapter-11/section-04.md
+                    - Chapter 12. Handling Data Structures with Pandas:
+                        - "P2-12.1 What Does a Pandas DataFrame Represent?": en/parts/part-02/chapter-12/section-01.md
+                        - "P2-12.2 Selection, Filtering, and Aggregation": en/parts/part-02/chapter-12/section-02.md
+                        - "P2-12.3 The Intuition of Preparing a Learning Dataset": en/parts/part-02/chapter-12/section-03.md
+                    - Chapter 13. Visualizing Concepts with Matplotlib:
+                        - "P2-13.1 What Does a Plot Reveal?": en/parts/part-02/chapter-13/section-01.md
+                        - "P2-13.2 Checking Basic Charts and the Shape of Formulas": en/parts/part-02/chapter-13/section-02.md
+                        - "P2-13.3 Comparing and Saving Multiple Plots": en/parts/part-02/chapter-13/section-03.md
           theme:
             language: en
         - locale: zh
@@ -862,6 +876,20 @@ plugins:
                         - "P2-10.1 为什么笔记本对学习有用": zh/parts/part-02/chapter-10/section-01.md
                         - "P2-10.2 Jupyter、Colab 与本地执行的区别": zh/parts/part-02/chapter-10/section-02.md
                         - "P2-10.3 把笔记本整理成可重新执行的记录": zh/parts/part-02/chapter-10/section-03.md
+                - Module 4. 数据计算与可视化工具:
+                    - Chapter 11. 用 NumPy 复用向量与矩阵:
+                        - "P2-11.1 用 NumPy 数组构建向量与矩阵": zh/parts/part-02/chapter-11/section-01.md
+                        - "P2-11.2 索引、切片与轴": zh/parts/part-02/chapter-11/section-02.md
+                        - "P2-11.3 广播与向量化": zh/parts/part-02/chapter-11/section-03.md
+                        - "P2-11.4 补充学习：在 NumPy 中一起读取 shape 变化与原数组共享": zh/parts/part-02/chapter-11/section-04.md
+                    - Chapter 12. 用 Pandas 处理数据结构:
+                        - "P2-12.1 Pandas DataFrame 表达什么": zh/parts/part-02/chapter-12/section-01.md
+                        - "P2-12.2 选择、过滤与聚合": zh/parts/part-02/chapter-12/section-02.md
+                        - "P2-12.3 准备学习数据集的直觉": zh/parts/part-02/chapter-12/section-03.md
+                    - Chapter 13. 用 Matplotlib 可视化概念:
+                        - "P2-13.1 图表能揭示什么": zh/parts/part-02/chapter-13/section-01.md
+                        - "P2-13.2 基本图表与公式形状检查": zh/parts/part-02/chapter-13/section-02.md
+                        - "P2-13.3 比较并保存多个图": zh/parts/part-02/chapter-13/section-03.md
           theme:
             language: zh
   - search:
