@@ -139,6 +139,27 @@ scikit-learn 문서는 트리의 레벨이 하나 늘어날 때마다 트리를 
 
 앞쪽 분기는 종종 의미 있는 큰 경향을 잡습니다. 문제는 뒤로 갈수록 생깁니다. 마지막 몇 단계는 `진짜 구조`가 아니라 `훈련 데이터에서만 보인 우연한 흔들림`을 설명하게 될 수 있습니다.
 
+이 흐름을 단계로 나누면 다음처럼 읽을 수 있습니다.
+
+| 흐름 단계 | 트리가 주로 하는 일 | 먼저 떠올릴 질문 |
+| --- | --- | --- |
+| 앞쪽 분기 | 큰 패턴을 나눈다 | 정말 중요한 차이를 잡고 있는가? |
+| 중간 분기 | 예외와 하위 패턴을 더 본다 | 아직 반복되는 구조를 보고 있는가? |
+| 뒤쪽 분기 | 소수 사례를 따로 떼기 시작한다 | 이제는 우연한 흔들림을 외우는가? |
+| 마지막 leaf | 거의 훈련 데이터 전용 규칙이 될 수 있다 | 새 데이터에서도 이 leaf가 살아남을까? |
+
+예를 들어 앞쪽에서는 `온도가 높고 진동이 큰가`, `접속 감소와 불만 신호가 같이 있는가`처럼 비교적 큰 기준이 작동할 수 있습니다. 그런데 뒤쪽으로 갈수록 `셋째 시점에만 값이 살짝 흔들렸는가`, `특정 주차에만 접속이 두 번 줄었는가` 같은 좁은 질문이 붙기 쉽습니다.
+
+이때 중요한 것은 `질문이 많아졌다`는 사실 자체가 아니라, `질문의 성격이 큰 패턴 설명에서 훈련 데이터 예외 설명으로 바뀌기 시작했는가`입니다.
+
+즉, 과적합을 데이터 흐름으로 본다는 것은 다음 이동을 읽는 일에 가깝습니다.
+
+- 앞쪽: 많은 샘플이 함께 움직이는 큰 경향
+- 뒤쪽: 점점 더 적은 샘플만 설명하는 잔질문
+- 마지막: train 점수는 오르지만 test에서 반복되지 않을 수 있는 leaf
+
+그래서 트리를 읽을 때는 `분기가 늘었는가`만 보는 것이 아니라, `뒤쪽 분기가 아직 구조를 설명하는가, 아니면 소수 사례를 따로 외우는가`를 같이 봐야 합니다.
+
 ### train 성능과 test 성능을 함께 봐야 하는 이유
 
 트리의 과적합은 train 성능과 test 성능을 같이 보면 특히 잘 드러납니다.
@@ -262,6 +283,36 @@ scikit-learn은 `Minimal Cost-Complexity Pruning`을 지원하며, API 문서에
 
 `훈련 데이터를 외우기보다, 새 데이터에서도 버틸 구조를 남기려는 것`
 
+여기서 초심자가 먼저 잡아야 할 차이는 `언제 멈추는가`입니다.
+
+| 방식 | 언제 개입하는가 | 먼저 읽을 뜻 |
+| --- | --- | --- |
+| `max_depth`, `min_samples_leaf` | 트리가 자라는 도중 | 처음부터 너무 세밀한 분기를 막는다 |
+| pruning, `ccp_alpha` | 일단 자란 뒤 | 효과가 약한 잔가지를 다시 줄인다 |
+
+즉, pre-pruning은 `애초에 너무 깊게 자라지 않게 막는 손잡이`이고, pruning은 `한번 자란 트리에서 남길 가지와 버릴 가지를 다시 고르는 손잡이`입니다.
+
+작은 장면으로 보면 더 분명합니다.
+
+| 가지 상태 | pruning 전 | pruning 후 |
+| --- | --- | --- |
+| 앞쪽 큰 분기 | 유지 | 대체로 유지 |
+| 소수 사례만 설명하는 leaf | 남아 있을 수 있음 | 잘려 나갈 수 있음 |
+| train 점수 | 더 높아 보일 수 있음 | 약간 내려갈 수 있음 |
+| test 안정성 | 흔들릴 수 있음 | 더 안정될 수 있음 |
+
+이 표의 핵심은 pruning이 `트리를 망가뜨리는 일`이 아니라, `큰 구조는 남기고 잔질문만 덜어 내는 일`로 읽혀야 한다는 점입니다.
+
+예를 들어 뒤쪽 가지 하나가 `온도는 높고`, `진동은 크고`, `셋째 시점 압력만 특정 범위였는가` 같은 아주 좁은 조건으로 leaf를 하나 더 만든다고 해 보겠습니다. 이 leaf가 훈련 데이터의 두 제품만 겨우 설명하고 있다면, pruning은 바로 이런 가지를 `남겨 둘 가치가 큰가`라는 질문으로 다시 보게 합니다.
+
+그래서 `ccp_alpha`는 단순히 숫자를 하나 더 붙이는 옵션이 아니라, `이 작은 가지가 train 점수를 올리는 이익이 복잡도를 늘리는 비용보다 큰가`를 다시 묻게 하는 손잡이입니다.
+
+방향만 먼저 읽으면 다음처럼 기억하면 됩니다.
+
+- `ccp_alpha`가 아주 작으면 더 많은 가지를 남기기 쉽습니다.
+- `ccp_alpha`가 커질수록 작은 가지를 더 적극적으로 자르기 쉽습니다.
+- 너무 작으면 외우기 쪽으로 기울 수 있고, 너무 크면 중요한 패턴도 함께 잘릴 수 있습니다.
+
 ### pruning을 흐름으로 보기
 
 ```mermaid
@@ -274,7 +325,7 @@ flowchart TD
   A --> B --> C --> D
 ```
 
-이 절에서는 pruning 공식을 계산하지 않습니다. 대신 `너무 많은 가지를 그대로 두지 않는 이유`를 중심으로 읽습니다.
+이 절에서는 pruning 공식을 계산하지 않습니다. 대신 `어떤 잔가지를 남기지 않을 것인가`, `왜 train 점수를 조금 포기하고 test 안정성을 얻으려 하는가`를 중심으로 읽습니다.
 
 ## 사례로 보기
 
@@ -400,6 +451,16 @@ flowchart TD
   - test 성능은 어느 지점 이후 정체하거나 떨어질 수 있다.
   - 트리 깊이는 복잡도 손잡이 중 하나다.
 
+입력과 출력에서 무엇을 비교할지 먼저 표로 잡으면 다음과 같습니다.
+
+| 비교할 값 | 왜 같이 보나 |
+| --- | --- |
+| `max_depth` | 트리가 어디까지 자라는지 보기 위해서입니다. |
+| `leaves` | 깊이가 실제로 얼마나 많은 끝노드를 만들었는지 보기 위해서입니다. |
+| train accuracy | 훈련 데이터 적합 정도를 보기 위해서입니다. |
+| test accuracy | 새 데이터 일반화 정도를 보기 위해서입니다. |
+| `train - test` 차이 | 외우기와 일반화 차이가 얼마나 벌어지는지 보기 위해서입니다. |
+
 ```python
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -415,11 +476,15 @@ for depth in [1, 2, 3, 5, None]:
     model = DecisionTreeClassifier(max_depth=depth, random_state=42)
     model.fit(X_train, y_train)
 
+    train_score = model.score(X_train, y_train)
+    test_score = model.score(X_test, y_test)
+
     print(f"max_depth={depth}")
     print("  depth          :", model.get_depth())
     print("  leaves         :", model.get_n_leaves())
-    print("  train accuracy :", round(model.score(X_train, y_train), 3))
-    print("  test accuracy  :", round(model.score(X_test, y_test), 3))
+    print("  train accuracy :", round(train_score, 3))
+    print("  test accuracy  :", round(test_score, 3))
+    print("  train-test gap :", round(train_score - test_score, 3))
     print()
 ```
 
@@ -431,39 +496,59 @@ max_depth=1
   leaves         : 2
   train accuracy : 0.667
   test accuracy  : 0.667
+  train-test gap : 0.0
 
 max_depth=2
   depth          : 2
   leaves         : 3
   train accuracy : 0.952
   test accuracy  : 0.889
+  train-test gap : 0.063
 
 max_depth=3
   depth          : 3
   leaves         : 5
   train accuracy : 0.981
   test accuracy  : 0.933
+  train-test gap : 0.048
 
 max_depth=5
   depth          : 5
   leaves         : 8
   train accuracy : 1.0
   test accuracy  : 0.911
+  train-test gap : 0.089
 
 max_depth=None
   depth          : 5
   leaves         : 8
   train accuracy : 1.0
   test accuracy  : 0.911
+  train-test gap : 0.089
 ```
 
 이 결과에서 읽어야 할 것은 다음입니다.
 
 1. 깊이를 늘리면 train accuracy는 계속 좋아지기 쉽습니다.
 2. 하지만 test accuracy는 어느 지점 이후 더 좋아지지 않을 수 있습니다.
-3. `max_depth=3` 부근이 현재 예제에서는 더 균형 있어 보입니다.
+3. `train-test gap`이 커질수록 외우기 신호가 강해질 수 있습니다.
+4. `max_depth=3` 부근이 현재 예제에서는 더 균형 있어 보입니다.
 
 즉, 트리의 성능을 볼 때는 `깊어졌는가`보다 `깊어졌을 때 train/test가 어떻게 갈리는가`를 같이 봐야 합니다.
+
+짧게 다시 묶으면 다음 비교가 핵심입니다.
+
+| 깊이 구간 | 먼저 읽을 판단 |
+| --- | --- |
+| 너무 얕음 | 아직 단순해서 충분히 배우지 못했는가 |
+| 중간 깊이 | train과 test가 함께 좋아지는가 |
+| 너무 깊음 | train만 더 좋아지고 gap이 커지는가 |
+
+직접 값을 바꿔 보면 더 잘 보이는 질문도 있습니다.
+
+- `max_depth=4`를 넣으면 깊이 3과 5 사이에서 어떤 변화가 생기는가
+- `random_state`를 바꾸면 깊이별 gap 패턴이 어느 정도 반복되는가
+- `max_depth=None`이 실제로 어느 깊이에서 멈추는가
 
 ## 이 절에서 기억할 관점
 
