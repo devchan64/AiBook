@@ -324,10 +324,13 @@ nav:
           - Chapter 11. 로지스틱 회귀:
               - "P4-11.1 로지스틱 회귀(logistic regression)의 직관": parts/part-04/chapter-11/section-01.md
               - "P4-11.2 결정 경계(decision boundary)": parts/part-04/chapter-11/section-02.md
-              - "P4-11.3 보충학습: 로지스틱 회귀를 한 단계 더 이해하는 법": parts/part-04/chapter-11/section-03.md
+              - "P4-11.3 보충학습: log-odds와 MLE를 처음 읽는 법": parts/part-04/chapter-11/section-03.md
+              - "P4-11.4 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법": parts/part-04/chapter-11/section-04.md
+              - "P4-11.5 보충학습: solver와 regularization을 처음 읽는 법": parts/part-04/chapter-11/section-05.md
           - Chapter 12. k-NN:
               - "P4-12.1 k-NN의 직관": parts/part-04/chapter-12/section-01.md
               - "P4-12.2 거리(distance)와 스케일(scale)": parts/part-04/chapter-12/section-02.md
+              - "P4-12.3 k-NN을 사용할 때 무엇을 먼저 점검할까": parts/part-04/chapter-12/section-03.md
           - Chapter 13. SVM:
               - "P4-13.1 SVM의 직관": parts/part-04/chapter-13/section-01.md
               - "P4-13.2 커널(kernel)의 입문적 의미": parts/part-04/chapter-13/section-02.md
