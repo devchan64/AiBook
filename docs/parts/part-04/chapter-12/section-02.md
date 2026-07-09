@@ -278,6 +278,78 @@ k=3 prediction after scaling = safe
 
 원본 거리에서는 `risky` 그룹이 먼저 올라오지만, 표준화 뒤에는 `safe` 그룹이 먼저 올라옵니다. 그리고 `k=3`으로 읽어 보면, 원본 거리에서는 `risky, risky, safe`라서 최종 예측도 `risky`가 되고, 표준화 뒤에는 `safe, safe, risky`라서 최종 예측이 `safe`로 바뀝니다. 따라서 이 예제는 단순 점수보다 `이웃 순서 자체가 바뀌었고, 그 변화가 k-NN 판단까지 바꿀 수 있다`는 사실을 먼저 읽게 해야 합니다.
 
+### 값 하나 더 바꿔 보기: 같은 스케일에서 연체 횟수만 늘리면 이웃 순서는 어떻게 다시 섞이는가
+
+이번에는 표준화 방식은 그대로 두고, query의 연체 횟수만 `0`에서 `2`로 바꿔 봅니다.
+
+```python
+from math import sqrt
+
+train = [
+    ((1800000, 1), "safe"),
+    ((2200000, 0), "safe"),
+    ((9000000, 7), "risky"),
+    ((9500000, 8), "risky"),
+]
+
+def euclidean(a, b):
+    return sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))
+
+def zscore_from_train(train_points):
+    cols = list(zip(*train_points))
+    means = [sum(col) / len(col) for col in cols]
+    stds = []
+    for i, col in enumerate(cols):
+        m = means[i]
+        var = sum((x - m) ** 2 for x in col) / len(col)
+        stds.append(var ** 0.5)
+    return means, stds
+
+def scale(point, means, stds):
+    return tuple((x - m) / s for x, m, s in zip(point, means, stds))
+
+def ranked_neighbors(points_with_labels, query_point):
+    ranked = []
+    for point, label in points_with_labels:
+        ranked.append((euclidean(point, query_point), point, label))
+    return sorted(ranked, key=lambda x: x[0])
+
+train_points = [point for point, _ in train]
+means, stds = zscore_from_train(train_points)
+
+scaled_query_0 = scale((6000000, 0), means, stds)
+scaled_query_2 = scale((6000000, 2), means, stds)
+
+ranked_0 = ranked_neighbors([(scale(point, means, stds), label) for point, label in train], scaled_query_0)
+ranked_2 = ranked_neighbors([(scale(point, means, stds), label) for point, label in train], scaled_query_2)
+
+print("top-2 after scaling, late_payment=0 :", [(label, round(distance, 3)) for distance, _, label in ranked_0[:2]])
+print("top-2 after scaling, late_payment=2 :", [(label, round(distance, 3)) for distance, _, label in ranked_2[:2]])
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+top-2 after scaling, late_payment=0 : [('safe', 1.046), ('safe', 1.305)]
+top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
+```
+
+### 무엇이 유지되고 무엇이 바뀌었는가
+
+- 유지된 점: 스케일 조정 뒤에는 여전히 소득 하나만이 아니라 `연체 횟수` 축도 실제 거리 계산에 참여합니다.
+- 바뀐 점: query의 연체 횟수를 조금만 올려도 두 번째 이웃이 `safe`에서 `risky`로 바뀌기 시작합니다.
+- 먼저 남길 판단: 표준화는 한 번 하고 끝나는 기술 체크가 아니라, `어떤 특징 변화가 이웃 구성과 예측을 얼마나 민감하게 흔드는가`를 다시 보는 출발점입니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 k-NN을 `가까운 사례를 가져오는 모델`에서 `표현과 입력 변화에 민감한 비교 규칙`으로 다시 읽게 만듭니다. Part 4의 목표는 k 값을 외우는 것이 아니라, 같은 query라도 표현 방식과 특징값이 조금 달라지면 어떤 이웃이 들어오고 빠지는지 설명할 수 있게 되는 데 있습니다. 즉, 반복 변화 실습의 학습효과는 `예측이 바뀌었다`보다 `무엇을 바꾸자 비교 기준이 다시 섞였는가`를 말할 수 있을 때 생깁니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 스케일을 맞춘 뒤에는 작은 특징 변화도 이웃 구성과 최종 판단을 다시 섞을 수 있었다 |
+| 해석 경계 | 한 query에서 이웃이 바뀌었다는 사실만으로 특정 특징이 항상 더 중요하다고 단정할 수는 없다 |
+| 다음 질문 | k 값을 바꾸면 이웃 교체가 최종 다수결까지 이어지는지, 다른 query에서도 같은 민감도가 반복되는지 다시 볼 것인가 |
+
 ## 이 절에서 기억할 관점
 
 - 거리 함수는 모델 바깥의 장식이 아니라 이웃 순서를 정하는 규칙입니다.

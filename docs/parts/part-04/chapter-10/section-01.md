@@ -1,7 +1,7 @@
 # P4-10.1 선형회귀(linear regression)의 직관
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-9.2에서는 튜닝(tuning)과 검증 비용(validation cost)을 통해 `좋아 보이는 설정을 어떻게 비교할 것인가`를 봤습니다. 이제 그 비교 절차를 실제 알고리즘 하나에 연결할 차례입니다.
 
@@ -527,6 +527,63 @@ prediction new    : 73.12
 이 다변수 예제는 선형회귀를 다음처럼 다시 보여 줍니다.
 
 `여러 특징의 영향을 각각 읽고, 그 영향을 더해 하나의 예측값을 만드는 모델`
+
+### 값 하나 더 바꿔 보기: 입력 하나를 올리면 무엇이 유지되고 무엇이 달라지는가
+
+이번에는 같은 학생에서 `attendance`와 `assignment_score`는 그대로 두고 `study_hours`만 `5`에서 `7`로 올려 봅니다.
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [2, 80, 60],
+    [3, 82, 65],
+    [4, 85, 70],
+    [5, 88, 72],
+    [6, 90, 78],
+    [7, 93, 83],
+])
+
+y = np.array([58, 63, 67, 71, 77, 82])
+
+model = LinearRegression()
+model.fit(X, y)
+
+student_base = np.array([[5, 89, 75]])
+student_more_hours = np.array([[7, 89, 75]])
+
+pred_base = model.predict(student_base)[0]
+pred_more_hours = model.predict(student_more_hours)[0]
+
+print("prediction at [5,89,75] :", round(pred_base, 3))
+print("prediction at [7,89,75] :", round(pred_more_hours, 3))
+print("difference              :", round(pred_more_hours - pred_base, 3))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+prediction at [5,89,75] : 73.12
+prediction at [7,89,75] : 77.468
+difference              : 4.348
+```
+
+### 무엇이 유지되고 무엇이 달라지는가
+
+- 유지된 점: 다른 특징을 고정했을 때 `study_hours` 계수의 방향은 그대로 유지됩니다. 공부 시간이 늘면 예측 점수도 올라갑니다.
+- 바뀐 점: 입력 하나만 바꿨을 뿐인데 예측값은 약 `4.348`점 올라갑니다. 즉, 선형회귀는 `입력 변화량 x 계수`의 감각으로 변화를 읽게 만듭니다.
+- 먼저 남길 판단: 이 변화는 현재 모델이 만든 추정 변화이지, 현실에서 반드시 같은 크기로 오른다는 보장이 아닙니다. 단위와 데이터 범위를 함께 봐야 합니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 선형회귀를 `직선을 외우는 모델`이 아니라 `입력 하나를 바꿨을 때 예측이 어떤 방향과 크기로 움직이는가`를 읽는 출발점으로 회수합니다. Part 4에서 중요한 것은 계수 이름을 아는 것보다, 값을 하나 바꿔 보며 `무엇을 고정했고 무엇이 변했는가`를 설명하는 데 있습니다. 이런 반복 실습이 있어야 나중에 baseline 비교, 잔차 해석, 특징 추가 판단도 같은 언어로 이어집니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 같은 학생에서 특징 하나만 바꾸자 예측값은 계수 방향대로 연속적으로 움직였다 |
+| 해석 경계 | 예측값 차이가 곧 현실의 인과 효과나 확정된 성과 개선 폭을 뜻하지는 않는다 |
+| 다음 질문 | 같은 변화가 학습 범위 밖에서도 유지되는지, 잔차와 baseline 비교까지 붙이면 여전히 타당한지 다시 볼 것인가 |
 
 ### 이 절에서 숫자를 읽는 기본 순서
 

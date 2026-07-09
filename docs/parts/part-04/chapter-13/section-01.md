@@ -1,7 +1,7 @@
 # P4-13.1 SVM의 직관
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-11.2에서는 분류를 `경계(boundary)를 그어 공간을 나누는 일`로 보았습니다. P4-12에서는 `가까운 이웃을 보고 판단하는 방식`도 살펴보았습니다. 이제 같은 분류 문제를 다른 질문으로 다시 읽습니다.
 
@@ -411,6 +411,59 @@ boundary x = 5.2
 - 경계 근처의 예외 점 하나만 들어와도 일부 경계는 더 이상 완벽히 분리되지 않습니다.
 - 겨우 분리가 되더라도 margin이 매우 작아질 수 있습니다.
 - 그래서 현실의 SVM은 `완벽 분리만 고집하지 않고`, `margin과 오류 허용을 함께 조정`하는 방향으로 넘어갑니다.
+
+### 값 하나 더 바꿔 보기: 예외 점이 경계에 더 가까워지면 무엇이 유지되고 무엇이 달라지는가
+
+이번에는 애매한 negative 점을 `(4.7, 2.4)`에서 `(4.9, 2.4)`로 더 오른쪽으로 옮겨 봅니다.
+
+```python
+negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.9, 2.4)]
+positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
+
+for boundary_x in [4.8, 4.95]:
+    neg_min = min(boundary_x - x for x, _ in negative)
+    pos_min = min(x - boundary_x for x, _ in positive)
+    margin = min(neg_min, pos_min)
+
+    print("boundary x =", boundary_x)
+    print("  negative-side nearest distance =", round(neg_min, 3))
+    print("  positive-side nearest distance =", round(pos_min, 3))
+    print("  margin =", round(margin, 3))
+    print("  perfectly separates? =", neg_min > 0 and pos_min > 0)
+    print()
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+boundary x = 4.8
+  negative-side nearest distance = -0.1
+  positive-side nearest distance = 0.2
+  margin = -0.1
+  perfectly separates? = False
+
+boundary x = 4.95
+  negative-side nearest distance = 0.05
+  positive-side nearest distance = 0.05
+  margin = 0.05
+  perfectly separates? = True
+```
+
+### 무엇이 유지되고 무엇이 달라지는가
+
+- 유지된 점: 여전히 질문은 `class를 나눌 수 있는가`보다 `얼마나 여유 있게 나눌 수 있는가`에 있습니다.
+- 바뀐 점: 예외 점이 경계에 더 가까워지자, 원래 가능해 보이던 경계도 더 쉽게 분리 실패로 바뀌거나 아주 작은 margin만 남깁니다.
+- 먼저 남길 판단: 같은 분리 성공 여부라도 margin이 `0.2`일 때와 `0.05`일 때의 안정성은 전혀 다릅니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 SVM을 `정답을 맞히는 분류기`에서 `경계 품질을 비교하는 모델`로 다시 회수합니다. Part 4의 목표는 분류 결과 하나를 보는 것이 아니라, 어떤 사례가 경계를 얼마나 빡빡하게 만들고 일반화 위험을 키우는지 읽는 데 있습니다. 예외 점을 조금씩 움직여 보는 반복 실습이 있어야 margin이 숫자 정의를 넘어 `흔들림에 대한 감각`으로 연결됩니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 경계 근처 예외 점을 조금만 움직여도 분리 가능 여부와 margin 크기가 함께 크게 흔들렸다 |
+| 해석 경계 | 한 장난감 예제에서 margin이 작아졌다고 해서 실제 모든 데이터에서 같은 경계가 항상 나쁘다고 단정할 수는 없다 |
+| 다음 질문 | soft margin과 `C`를 쓰면 이 침범을 어디까지 허용할지, 다른 분류기와 비교하면 무엇이 더 먼저 보이는지 다시 볼 것인가 |
 
 ### 로지스틱 회귀, k-NN과는 무엇이 다른가
 

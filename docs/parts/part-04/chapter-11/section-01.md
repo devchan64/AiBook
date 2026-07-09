@@ -543,6 +543,54 @@ threshold 0.7   : [0 0 1]
 
 예를 들어 0.58 하나만 보고 바로 경고를 보낼지, 검토 대상으로 둘지는 모델이 아니라 정책이 정합니다. 다음 조치는 경계 근처 점수들을 모아 FP와 FN 비용에 맞는 threshold를 다시 확인하는 일입니다. 즉, threshold 절의 핵심은 점수 해석보다 `경계 근처 사례를 어떻게 처리할 것인가`까지 이어지는 판단입니다.
 
+### 값 하나 더 바꿔 보기: 경계 근처 정답이 하나 바뀌면 점수 해석은 어떻게 흔들리는가
+
+이번에는 훈련 데이터에서 경계 근처의 `study_hours = 4` 사례를 `불합격(0)`에서 `합격(1)`으로 바꿔 봅니다.
+
+```python
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+study_hours = np.array([1, 2, 3, 4, 5, 6, 7, 8]).reshape(-1, 1)
+passed_original = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+passed_shifted = np.array([0, 0, 0, 1, 1, 1, 1, 1])
+
+model_original = LogisticRegression()
+model_original.fit(study_hours, passed_original)
+
+model_shifted = LogisticRegression()
+model_shifted.fit(study_hours, passed_shifted)
+
+score_original = model_original.predict_proba([[4]])[0][1]
+score_shifted = model_shifted.predict_proba([[4]])[0][1]
+
+print("class 1 score at x=4, original labels :", round(score_original, 3))
+print("class 1 score at x=4, shifted labels  :", round(score_shifted, 3))
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+class 1 score at x=4, original labels : 0.327
+class 1 score at x=4, shifted labels  : 0.579
+```
+
+### 무엇이 유지되고 무엇이 달라지는가
+
+- 유지된 점: 공부 시간이 늘수록 합격 쪽 점수가 올라간다는 전체 방향은 유지됩니다.
+- 바뀐 점: 경계 근처 정답 하나가 바뀌자 `x=4`의 class 1 점수는 `0.327`에서 `0.579`로 크게 움직입니다.
+- 먼저 남길 판단: 로지스틱 회귀의 점수는 자연에 원래 있던 확률을 발견한 것이 아니라, 현재 학습 데이터 경계가 만든 해석 결과입니다.
+
+### 이 연습이 Part 4 목표를 어떻게 회수하는가
+
+이 연습은 로지스틱 회귀를 `점수를 출력하는 모델`에서 `경계 근처 사례에 민감한 분류 기준`으로 다시 읽게 만듭니다. Part 4의 목표는 점수 숫자 하나를 믿는 것이 아니라, 어떤 사례 변화가 점수와 threshold 판단을 얼마나 흔드는지 읽는 데 있습니다. 같은 예제를 반복해서 바꿔 보면 모델 출력과 서비스 행동 사이에 항상 데이터 해석 단계가 하나 더 있다는 점이 더 분명해집니다.
+
+| 공통 기록 언어 | 이번 연습에서 바로 남길 내용 |
+| --- | --- |
+| 보인 구조 | 경계 근처 정답 하나만 바뀌어도 같은 입력의 class 1 점수 해석이 크게 흔들렸다 |
+| 해석 경계 | 이 점수 변화만으로 실제 확률이 갑자기 그렇게 바뀌었다고 단정할 수는 없고, 표본과 데이터 경계를 같이 봐야 한다 |
+| 다음 질문 | 경계 근처 사례를 더 모으면 점수 흔들림이 줄어드는지, threshold 정책까지 붙이면 어떤 행동이 달라지는지 다시 볼 것인가 |
+
 | 먼저 보인 신호 | 이 신호가 뜻하는 것 | 바로 이어질 다음 조치 |
 | --- | --- | --- |
 | 0.5 근처 점수가 많고 threshold를 바꾸면 판단이 자주 뒤집힌다 | 모델 점수보다 운영 경계 설정이 더 큰 차이를 만들고 있다는 뜻 | 경계 근처 사례를 모아 FP와 FN 비용에 맞는 threshold를 다시 본다 |
