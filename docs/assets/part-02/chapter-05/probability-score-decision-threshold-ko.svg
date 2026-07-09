@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 650" role="img" aria-labelledby="title desc">
+  <title id="title">확률 점수와 결정 임계값</title>
+  <desc id="desc">AI 모델의 확률 점수가 정책 규칙을 거쳐 서비스 행동으로 바뀌는 흐름을 보여 주는 차트입니다.</desc>
+  <rect width="920" height="650" fill="#ffffff"/>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">확률 점수는 서비스 결정과 같은 것이 아니다</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">모델은 점수를 추정하고, 제품은 그 점수로 무엇을 할지 결정한다.</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="50" y="132" width="170" height="92" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="88" y="167" font-size="18" font-weight="700" fill="#334155">입력</text>
+    <text x="78" y="197" font-size="15" fill="#475569">이메일 내용</text>
+
+    <path d="M232 178 L294 178" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="306" y="132" width="170" height="92" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="355" y="167" font-size="18" font-weight="700" fill="#1d4ed8">모델</text>
+    <text x="334" y="197" font-size="15" fill="#475569">점수 추정</text>
+
+    <path d="M488 178 L550 178" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="560" y="118" width="190" height="120" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+    <text x="592" y="154" font-size="18" font-weight="700" fill="#854d0e">확률 점수</text>
+    <text x="619" y="198" font-size="34" font-weight="700" fill="#854d0e">0.92</text>
+    <text x="586" y="226" font-size="13" fill="#854d0e">점수만으로는 행동하지 않음</text>
+
+    <path d="M655 250 L655 300" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="400" y="312" width="480" height="128" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="436" y="346" font-size="18" font-weight="700" fill="#334155">임계값 정책</text>
+    <text x="436" y="376" font-size="15" fill="#475569">score &gt;= 0.90  -&gt; 차단</text>
+    <text x="436" y="402" font-size="15" fill="#475569">0.60 &lt;= score &lt; 0.90  -&gt; 검토</text>
+    <text x="436" y="428" font-size="15" fill="#475569">score &lt; 0.60  -&gt; 허용</text>
+
+    <path d="M655 452 L655 492" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+    <rect x="558" y="504" width="194" height="62" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="609" y="532" font-size="16" font-weight="700" fill="#991b1b">선택된 행동</text>
+    <text x="633" y="556" font-size="18" font-weight="700" fill="#991b1b">차단</text>
+
+    <rect x="50" y="312" width="270" height="128" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="72" y="342" font-size="15" fill="#475569">가능한 서비스 행동</text>
+    <rect x="74" y="360" width="70" height="42" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="89" y="386" font-size="14" font-weight="700" fill="#991b1b">차단</text>
+    <rect x="156" y="360" width="70" height="42" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="172" y="386" font-size="14" font-weight="700" fill="#92400e">검토</text>
+    <rect x="238" y="360" width="70" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+    <text x="256" y="386" font-size="14" font-weight="700" fill="#047857">허용</text>
+    <text x="72" y="426" font-size="14" fill="#64748b">Actions are policy outputs, not 모델 outputs.</text>
+
+    <rect x="50" y="504" width="396" height="58" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="74" y="530" font-size="15" fill="#334155">같은 점수도 다른 행동으로 이어질 수 있다</text>
+    <text x="74" y="554" font-size="15" fill="#334155">제품이 정책 임계값을 바꾸면 그렇다.</text>
+  </g>
+
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

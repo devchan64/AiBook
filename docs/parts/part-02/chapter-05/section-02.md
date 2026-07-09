@@ -112,7 +112,7 @@ P2-5.1에서는 확률(probability)을 불확실성(uncertainty)을 숫자로 �
 
 아래 차트는 분포, 평균, 분산을 읽는 순서를 보여 줍니다. 먼저 전체 모양을 보고, 그다음 중심과 퍼짐을 봅니다.
 
-![분포의 모양, 평균, 분산을 함께 읽는 차트](../../../assets/part-02/chapter-05/distribution-mean-variance-summary.svg)
+![분포의 모양, 평균, 분산을 함께 읽는 차트](../../../assets/part-02/chapter-05/distribution-mean-variance-summary-ko.svg)
 
 ## 데이터 분포와 확률분포를 구분한다
 
@@ -181,7 +181,7 @@ AI에서는 이 구분이 중요합니다. 학습 데이터의 분포는 모델�
 
 아래 차트는 평균이 같아도 퍼짐이 다를 수 있음을 보여 줍니다.
 
-![평균은 같지만 분산이 다른 두 데이터 묶음](../../../assets/part-02/chapter-05/same-mean-different-variance.svg)
+![평균은 같지만 분산이 다른 두 데이터 묶음](../../../assets/part-02/chapter-05/same-mean-different-variance-ko.svg)
 
 이 장면을 더 짧게 다시 요약하면:
 

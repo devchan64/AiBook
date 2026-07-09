@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">Gradient descent update intuition</title>
+  <desc id="desc">경사하강법 업데이트가 현재 값에서 그래디언트 반대 방향으로 학습률만큼 조금 이동하는 과정임을 보여 준다.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
+    .card { fill: #ffffff; stroke: #d0d7de; stroke-width: 1.2; }
+    .axis { stroke: #6b7280; stroke-width: 2; }
+    .curve { stroke: #2563eb; stroke-width: 4; fill: none; }
+    .grad { stroke: #dc2626; stroke-width: 4; fill: none; marker-end: url(#arrow-red); }
+    .move { stroke: #059669; stroke-width: 4; fill: none; marker-end: url(#arrow-green); }
+    .point { fill: #111827; }
+    .newpoint { fill: #059669; }
+    .label { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; font-weight: 650; }
+    .small { fill: #4b5563; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; }
+    .math { fill: #111827; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 17px; }
+  </style>
+  <defs>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626" /></marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#059669" /></marker>
+  </defs>
+  <rect class="bg" width="920" height="430" />
+  <text class="label" x="42" y="42">Gradient descent update: move a little against the gradient</text>
+  <rect class="panel" x="38" y="66" width="844" height="302" rx="8" />
+
+  <g transform="translate(94,312)">
+    <path class="axis" d="M0 0 H420 M0 0 V-220" />
+    <path class="curve" d="M20 -24 C92 -120 150 -190 224 -188 C304 -186 350 -96 402 -28" />
+    <circle class="point" cx="318" cy="-128" r="6" />
+    <circle class="newpoint" cx="278" cy="-164" r="6" />
+    <path class="grad" d="M318 -128 L360 -92" />
+    <path class="move" d="M318 -128 L280 -162" />
+    <text class="math" x="300" y="-96">∇L</text>
+    <text class="math" x="214" y="-166">-η∇L</text>
+    <text class="small" x="312" y="-146">current</text>
+    <text class="small" x="230" y="-188">next</text>
+    <text class="small" x="380" y="-10">w</text>
+    <text class="small" x="-24" y="-202">loss</text>
+  </g>
+
+  <rect class="card" x="548" y="112" width="286" height="168" rx="8" />
+  <text class="math" x="574" y="150">w_next = w - η ∇L</text>
+  <text class="small" x="574" y="188">w: current parameter</text>
+  <text class="small" x="574" y="216">η: learning rate</text>
+  <text class="small" x="574" y="244">∇L: local change direction</text>
+
+  <text class="small" x="64" y="342">The formula says: read the local slope, choose a small step size, and move against the gradient.</text>
+</svg>

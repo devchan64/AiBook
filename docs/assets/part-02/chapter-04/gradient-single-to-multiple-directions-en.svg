@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">From one derivative to multiple partial derivatives</title>
+  <desc id="desc">한 변수 함수의 변화율 하나가 여러 입력을 가진 함수에서는 여러 방향의 편미분으로 확장되는 모습을 비교한다.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .panel { fill: #f8fafc; stroke: #d0d7de; stroke-width: 1.2; }
+    .grid { stroke: #e5e7eb; stroke-width: 1; }
+    .axis { stroke: #6b7280; stroke-width: 2; }
+    .curve { stroke: #2563eb; stroke-width: 4; fill: none; }
+    .tangent { stroke: #dc2626; stroke-width: 3; fill: none; }
+    .arrow-blue { stroke: #2563eb; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+    .arrow-green { stroke: #059669; stroke-width: 3; fill: none; marker-end: url(#arrow-green); }
+    .arrow-red { stroke: #dc2626; stroke-width: 3; fill: none; marker-end: url(#arrow-red); }
+    .point { fill: #111827; }
+    .label { fill: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; font-weight: 650; }
+    .small { fill: #4b5563; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; }
+    .math { fill: #111827; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 16px; }
+  </style>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#059669" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="920" height="430" />
+  <text class="label" x="42" y="42">Derivative grows into partial derivatives</text>
+
+  <rect class="panel" x="38" y="70" width="390" height="296" rx="8" />
+  <rect class="panel" x="492" y="70" width="390" height="296" rx="8" />
+
+  <text class="small" x="58" y="100">One input</text>
+  <text class="small" x="512" y="100">Multiple inputs</text>
+
+  <g transform="translate(82,310)">
+    <path class="grid" d="M0 -50 H300 M0 -100 H300 M0 -150 H300 M0 -200 H300 M60 0 V-220 M120 0 V-220 M180 0 V-220 M240 0 V-220" />
+    <path class="axis" d="M0 0 H320 M0 0 V-230" />
+    <path class="curve" d="M0 -8 C70 -18 130 -62 180 -126 C220 -176 260 -205 300 -218" />
+    <path class="tangent" d="M118 -78 L248 -176" />
+    <circle class="point" cx="180" cy="-126" r="5" />
+    <path class="arrow-red" d="M180 -126 L238 -170" />
+    <text class="math" x="178" y="-204">y = f(x)</text>
+    <text class="math" x="178" y="-180">f'(x)</text>
+    <text class="small" x="22" y="-16">x</text>
+    <text class="small" x="-20" y="-210">y</text>
+  </g>
+
+  <g transform="translate(548,304)">
+    <path class="grid" d="M0 -50 H280 M0 -100 H280 M0 -150 H280 M0 -200 H280 M56 0 V-220 M112 0 V-220 M168 0 V-220 M224 0 V-220" />
+    <path class="axis" d="M0 0 H300 M0 0 V-230" />
+    <ellipse cx="152" cy="-118" rx="104" ry="62" fill="none" stroke="#bfdbfe" stroke-width="3" />
+    <ellipse cx="152" cy="-118" rx="66" ry="38" fill="none" stroke="#93c5fd" stroke-width="3" />
+    <ellipse cx="152" cy="-118" rx="30" ry="18" fill="none" stroke="#60a5fa" stroke-width="3" />
+    <circle class="point" cx="152" cy="-118" r="5" />
+    <path class="arrow-green" d="M152 -118 L222 -118" />
+    <path class="arrow-red" d="M152 -118 L152 -174" />
+    <path class="arrow-blue" d="M152 -118 L222 -174" />
+    <text class="math" x="190" y="-100">∂L/∂w1</text>
+    <text class="math" x="96" y="-182">∂L/∂w2</text>
+    <text class="math" x="208" y="-188">∇L</text>
+    <text class="small" x="250" y="-12">w1</text>
+    <text class="small" x="-24" y="-214">w2</text>
+  </g>
+
+  <text class="small" x="52" y="398">One derivative reads one direction. A gradient collects several directional changes.</text>
+</svg>

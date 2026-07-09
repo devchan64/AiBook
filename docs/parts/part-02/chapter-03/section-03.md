@@ -1,7 +1,7 @@
 # P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.09`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 모양(shape)의 관점에서 봤습니다. P2-3.2에서는 벡터를 공간 안의 위치(position)처럼 읽고, 가까움과 멂을 비교하는 직관을 잡았습니다. 이제 행렬 곱(matrix multiplication)을 봅니다.
 
@@ -279,7 +279,7 @@ W \in \mathbb{R}^{2 \times 3}
 
 2차원에서는 이 변화를 그림으로 볼 수 있습니다. 다음 예시는 입력 벡터 \(\mathbf{x} = [2,\ 3]\)에 단순한 행렬 \(W\)를 곱해 \(\mathbf{y} = [2,\ 4]\)로 옮기는 모습을 보여 줍니다.
 
-![행렬 곱이 벡터 위치를 바꾸는 예시](../../../assets/part-02/chapter-03/matrix-multiplication-position-change.svg)
+![행렬 곱이 벡터 위치를 바꾸는 예시](../../../assets/part-02/chapter-03/matrix-multiplication-position-change-ko.svg)
 
 이 그림에서 중요한 것은 숫자 계산 자체보다 관점입니다. 벡터는 공간 안의 위치처럼 읽을 수 있고, 행렬 곱은 그 위치를 다른 위치로 옮기는 계산으로 볼 수 있습니다.
 

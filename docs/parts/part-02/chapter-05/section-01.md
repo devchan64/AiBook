@@ -87,7 +87,7 @@ AI를 공부할 때 확률은 주사위나 동전 문제에만 머물지 않습�
 
 아래 차트는 불확실한 상태를 0과 1 사이의 확률 숫자로 표현하는 감각을 보여 줍니다.
 
-![불확실성을 0과 1 사이의 확률 숫자로 표현하는 눈금](../../../assets/part-02/chapter-05/probability-uncertainty-scale.svg)
+![불확실성을 0과 1 사이의 확률 숫자로 표현하는 눈금](../../../assets/part-02/chapter-05/probability-uncertainty-scale-ko.svg)
 
 ## 확률은 0과 1 사이의 숫자로 표현한다
 
@@ -127,7 +127,7 @@ P(\text{짝수}) = \frac{3}{6} = 0.5
 
 아래 차트처럼 사건(event)은 표본공간(sample space) 안에서 관심 있는 결과(outcome)를 묶은 것입니다.
 
-![표본공간 안에서 사건과 결과의 관계를 보여 주는 주사위 예시](../../../assets/part-02/chapter-05/sample-space-event-outcome.svg)
+![표본공간 안에서 사건과 결과의 관계를 보여 주는 주사위 예시](../../../assets/part-02/chapter-05/sample-space-event-outcome-ko.svg)
 
 다만 이 방식은 모든 결과가 똑같이 일어날 가능성이 있다고 볼 수 있을 때에만 바로 적용됩니다. 실제 데이터에서는 모든 결과가 균등하게 일어나지 않는 경우가 많습니다.
 
@@ -262,7 +262,7 @@ AI는 많은 경우 확실한 규칙만으로 동작하지 않습니다. 데이�
 
 아래 차트는 모델의 확률 점수와 서비스의 운영 결정을 분리해서 봐야 한다는 점을 보여 줍니다. 같은 확률 점수라도 서비스 목적, 위험, 비용, 정책에 따라 다른 행동으로 이어질 수 있습니다.
 
-![AI 모델의 확률 점수와 서비스 운영 결정 기준을 분리해서 보여 주는 흐름](../../../assets/part-02/chapter-05/probability-score-decision-threshold.svg)
+![AI 모델의 확률 점수와 서비스 운영 결정 기준을 분리해서 보여 주는 흐름](../../../assets/part-02/chapter-05/probability-score-decision-threshold-ko.svg)
 
 ## 이 절에서 기억할 관점
 

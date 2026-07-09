@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 600" role="img" aria-labelledby="title desc">
+  <title id="title">Checking basic statistics with small data</title>
+  <desc id="desc">작은 데이터에서 원자료, 중심, 퍼짐, 표본 추정을 구분해 확인하는 도식입니다.</desc>
+  <rect width="920" height="600" fill="#ffffff"/>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Small data can be read in separate ways</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Start with raw values, then separate center, spread, and sample estimates.</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="58" y="120" width="804" height="126" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="88" y="156" font-size="18" font-weight="700" fill="#334155">1. raw data</text>
+    <text x="88" y="182" font-size="14" fill="#64748b">The observed values before summarizing</text>
+    <g font-size="16" font-weight="700" text-anchor="middle">
+      <circle cx="178" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="178" y="220" fill="#1e3a8a">42</text>
+      <circle cx="252" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="252" y="220" fill="#1e3a8a">47</text>
+      <circle cx="326" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="326" y="220" fill="#1e3a8a">48</text>
+      <circle cx="400" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="400" y="220" fill="#1e3a8a">50</text>
+      <circle cx="474" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="474" y="220" fill="#1e3a8a">52</text>
+      <circle cx="548" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="548" y="220" fill="#1e3a8a">55</text>
+      <circle cx="622" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="622" y="220" fill="#1e3a8a">63</text>
+      <circle cx="696" cy="214" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+      <text x="696" y="220" fill="#1e3a8a">70</text>
+    </g>
+
+    <rect x="58" y="286" width="382" height="132" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="88" y="322" font-size="18" font-weight="700" fill="#334155">2. center</text>
+    <line x1="110" y1="370" x2="388" y2="370" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="246" y1="338" x2="246" y2="398" stroke="#10b981" stroke-width="4"/>
+    <line x1="232" y1="342" x2="232" y2="398" stroke="#f59e0b" stroke-width="4" stroke-dasharray="7 5"/>
+    <text x="116" y="350" font-size="14" fill="#047857">mean = 53.375</text>
+    <text x="116" y="394" font-size="14" fill="#92400e">median = 51</text>
+    <text x="284" y="394" font-size="14" fill="#475569">center measures</text>
+
+    <rect x="480" y="286" width="382" height="132" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="510" y="322" font-size="18" font-weight="700" fill="#334155">3. spread</text>
+    <line x1="532" y1="370" x2="810" y2="370" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="668" y1="338" x2="668" y2="400" stroke="#10b981" stroke-width="4"/>
+    <circle cx="560" cy="370" r="7" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
+    <circle cx="668" cy="370" r="7" fill="#dcfce7" stroke="#10b981" stroke-width="3"/>
+    <circle cx="788" cy="370" r="7" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
+    <line x1="560" y1="350" x2="668" y2="350" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 5"/>
+    <line x1="668" y1="350" x2="788" y2="350" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="546" y="336" font-size="13" fill="#991b1b">low</text>
+    <text x="650" y="336" font-size="13" fill="#047857">mean</text>
+    <text x="774" y="336" font-size="13" fill="#991b1b">high</text>
+    <text x="530" y="394" font-size="14" fill="#475569">spread reads distances from the center</text>
+
+    <rect x="58" y="454" width="804" height="86" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="88" y="490" font-size="18" font-weight="700" fill="#334155">4. sample estimates</text>
+    <text x="88" y="516" font-size="14" fill="#64748b">Three samples from similar values produce three sample means.</text>
+    <line x1="560" y1="504" x2="806" y2="504" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="684" y1="476" x2="684" y2="530" stroke="#10b981" stroke-width="4"/>
+    <text x="650" y="474" font-size="13" fill="#047857">overall mean</text>
+    <circle cx="622" cy="504" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+    <circle cx="698" cy="504" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+    <circle cx="724" cy="504" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+    <text x="604" y="532" font-size="13" fill="#1e3a8a">48.5</text>
+    <text x="684" y="532" font-size="13" fill="#1e3a8a">56.0</text>
+    <text x="708" y="492" font-size="13" fill="#1e3a8a">58.25</text>
+  </g>
+
+  <rect x="170" y="558" width="580" height="30" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="235" y="579" font-family="Arial, sans-serif" font-size="14" fill="#334155">Code makes each reading inspectable, but interpretation still matters.</text>
+</svg>

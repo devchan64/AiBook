@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
+  <title id="title">Sample space, event, and outcome</title>
+  <desc id="desc">주사위 예시로 표본공간, 사건, 결과의 관계를 보여 주는 차트입니다.</desc>
+  <rect width="920" height="520" fill="#ffffff"/>
+  <text x="40" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Sample space, event, and outcome</text>
+  <text x="40" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">A sample space contains all outcomes. An event selects the outcomes we care about.</text>
+
+  <rect x="70" y="122" width="780" height="254" rx="18" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+  <text x="96" y="158" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#334155">sample space S: all possible die outcomes</text>
+
+  <text x="118" y="208" font-family="Arial, sans-serif" font-size="15" fill="#64748b">all outcomes in S</text>
+
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="108" y="222" width="76" height="56" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+    <text x="146" y="257" font-size="22" font-weight="700" fill="#334155">1</text>
+
+    <rect x="238" y="222" width="76" height="56" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="276" y="257" font-size="22" font-weight="700" fill="#1d4ed8">2</text>
+
+    <rect x="368" y="222" width="76" height="56" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+    <text x="406" y="257" font-size="22" font-weight="700" fill="#334155">3</text>
+
+    <rect x="498" y="222" width="76" height="56" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="536" y="257" font-size="22" font-weight="700" fill="#1d4ed8">4</text>
+
+    <rect x="628" y="222" width="76" height="56" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+    <text x="666" y="257" font-size="22" font-weight="700" fill="#334155">5</text>
+
+    <rect x="758" y="222" width="76" height="56" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="796" y="257" font-size="22" font-weight="700" fill="#1d4ed8">6</text>
+  </g>
+
+  <rect x="228" y="304" width="606" height="52" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="258" y="336" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#1d4ed8">event E = {2, 4, 6}: selected even outcomes</text>
+
+  <path d="M276 280 L276 304" stroke="#2563eb" stroke-width="2"/>
+  <path d="M536 280 L536 304" stroke="#2563eb" stroke-width="2"/>
+  <path d="M796 280 L796 304" stroke="#2563eb" stroke-width="2"/>
+
+  <rect x="92" y="402" width="736" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="118" y="432" font-family="Arial, sans-serif" font-size="17" fill="#334155">favorable outcomes in E: 3</text>
+  <text x="382" y="432" font-family="Arial, sans-serif" font-size="17" fill="#334155">all outcomes in S: 6</text>
+  <text x="626" y="432" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">P(E) = 3 / 6 = 0.5</text>
+  <text x="118" y="458" font-family="Arial, sans-serif" font-size="15" fill="#64748b">Assumption: each die outcome is equally likely.</text>
+</svg>
