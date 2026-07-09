@@ -1,7 +1,7 @@
 # P4-8.2 기준 모델(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.08`
+> Version: `v2026.07.09`
 
 P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제 그 후보들을 바로 복잡한 순서대로 붙잡기보다, 먼저 비교의 출발점을 세우는 질문으로 넘어갑니다.
 
@@ -27,14 +27,21 @@ baseline 비교 순서는 아래처럼 짧게 고정해 둡니다.
 | 혼동 행렬과 대표 오류 사례 | 어떤 실패가 줄었고 어떤 실패가 남았는가 | 이 변화가 운영상 의미 있는가 |
 | 후보 모델 점수 | 정확도 외에 recall, F1, 오차 크기에서 무엇이 달라졌는가 | 튜닝으로 더 갈지, 후보를 바꿀지 정할 수 있는가 |
 
+baseline을 실제로 세우려면 두 가지가 함께 필요합니다.
+
+1. `무엇을 가장 단순한 비교 기준으로 둘 것인가`를 정하는 방법론
+2. `왜 그런 단순 기준과 먼저 비교해야 하는가`를 설명하는 최소 이론
+
+이 절은 이 가운데 `왜 먼저 필요한가`와 `무엇을 먼저 고정해야 하는가`를 맡고, 이어지는 `P4-8.3 보충학습`은 `어떤 대표 baseline을 어떻게 세울 것인가`를 예시와 예제로 이어서 다룹니다.
+
 ## 이 절의 범위
 
 이 절은 다음 질문에 답합니다.
 
 - 기준 모델(baseline)은 왜 먼저 필요한가?
 - baseline이 없으면 어떤 착시가 생길 수 있는가?
-- 분류(classification)와 회귀(regression)에서 어떤 단순 기준을 먼저 세울 수 있는가?
-- dummy baseline과 실제 모델 비교는 무엇을 알려 주는가?
+- baseline과 후보 모델을 같은 조건에서 비교해야 하는 이유는 무엇인가?
+- baseline을 세우는 실무 절차를 읽을 준비로서 무엇을 먼저 붙잡아야 하는가?
 
 이 절은 다음 내용은 깊게 다루지 않습니다.
 
@@ -47,9 +54,10 @@ baseline 비교 순서는 아래처럼 짧게 고정해 둡니다.
 ## 이 절의 목표
 
 - baseline을 `복잡한 모델보다 먼저 세우는 비교 기준`으로 설명할 수 있습니다.
-- 분류와 회귀에서 아주 단순한 baseline이 왜 필요한지 말할 수 있습니다.
+- baseline이 없을 때 왜 정확도 착시, 평균 예측 착시가 생기는지 말할 수 있습니다.
 - DummyClassifier, DummyRegressor 같은 도구가 왜 교육적으로 유용한지 설명할 수 있습니다.
 - 좋은 모델이란 단순히 높은 점수가 아니라, baseline보다 의미 있는 개선을 만든 모델이라는 관점을 가질 수 있습니다.
+- 다음 절 P4-8.3에서 baseline을 실제로 세우는 방법을 왜 따로 보강하는지 설명할 수 있습니다.
 
 ## 학습 배경
 
@@ -128,6 +136,42 @@ flowchart TD
 
 ## 주요 학습내용
 
+### baseline을 세우기 전에 무엇을 먼저 고정해야 하는가
+
+baseline을 세우는 실제 절차는 다음 절 P4-8.3에서 따로 자세히 봅니다. 다만 이 절에서도 먼저 고정해야 할 준비물은 분명히 잡아 둘 필요가 있습니다. baseline은 갑자기 떠오르는 규칙이 아니라, `무슨 문제를 푸는가`, `무엇을 한 샘플로 보는가`, `무슨 점수로 비교할 것인가`가 먼저 정해져야 세울 수 있기 때문입니다.
+
+| baseline 전에 먼저 고정할 것 | 왜 여기서 먼저 고정해야 하는가 |
+| --- | --- |
+| 문제 유형 | 분류인지 회귀인지에 따라 단순 기준 자체가 달라지기 때문입니다. |
+| 샘플 단위 | 한 행이 무엇을 뜻하는지 흔들리면 baseline 점수도 같이 흔들리기 때문입니다. |
+| 평가 지표 | accuracy를 볼지, recall을 볼지, MAE를 볼지에 따라 baseline 해석이 달라지기 때문입니다. |
+| 데이터 분포 | 클래스 불균형이나 목표값 분포를 알아야 무엇이 `쉬운 기준`인지 보이기 때문입니다. |
+| 중요한 실패 장면 | baseline을 넘는 개선이 실제로 의미 있는지 판단하려면 운영상 중요한 오류를 먼저 알아야 하기 때문입니다. |
+
+즉, baseline의 첫 단계는 `어떤 규칙을 바로 고를까`보다 `무슨 비교를 하려는가`를 고정하는 일입니다. 다음 절에서는 바로 이 준비물을 가지고 문제 유형별 대표 baseline을 실제로 세우는 법을 봅니다.
+
+### baseline에 왜 이론적인 지식이 필요한가
+
+baseline을 세우는 데 고급 수학이 먼저 필요한 것은 아닙니다. 하지만 최소한의 이론적 배경은 필요합니다. 그래야 baseline이 단순히 `대충 만든 약한 모델`이 아니라, 왜 먼저 필요한 비교 기준인지 설명할 수 있기 때문입니다.
+
+직접 확인한 문서들에서 바로 잡히는 공통점은 분명합니다. scikit-learn은 `DummyClassifier`를 `더 복잡한 분류기와 비교하기 위한 simple baseline`으로, `DummyRegressor`를 `다른 회귀기와 비교하기 위한 simple baseline`으로 설명합니다. scikit-learn의 교차검증 문서는 평가 성능을 데이터 분할 위에서 확인하는 절차를 다루고, Raschka의 리뷰 문헌은 모델 평가와 선택 절차가 중요하다고 정리합니다. 여기서 이 절이 가져오는 최소 일반화는 `단순 기준과 후보 모델을 비교 가능한 조건 위에 올려야 점수 차이를 읽을 수 있다`는 정도입니다.
+
+여기서 필요한 이론은 크게 세 가지입니다.
+
+| 이 절에서 가져오는 해석 관점 | baseline과의 연결 |
+| --- | --- |
+| 대조 비교 관점 | 복잡한 모델의 개선이 정말 모델링 덕분인지 보려면 최소 비교 대상이 필요합니다. |
+| 최소 기준 관점 | 입력을 거의 쓰지 않아도 나오는 기본 성능을 알아야 입력 특징의 실제 기여를 읽을 수 있습니다. |
+| 비교 가능성 관점 | 같은 평가 절차와 지표 위에 올려야 점수 차이 해석이 덜 흔들립니다. |
+
+이 세 가지를 아주 짧게 말하면 다음과 같습니다.
+
+- baseline은 `입력을 거의 쓰지 않는 단순 비교 대상`으로 읽을 수 있습니다.
+- baseline이 있어야 `입력이 실제로 도움을 줬는가`를 묻는 실험이 됩니다.
+- baseline과 후보 모델을 비교 가능한 평가 조건에 올려야만 점수 차이를 해석하기 쉬워집니다.
+
+즉, 이 절은 baseline을 특정 라이브러리 문법으로 읽기보다, `개선을 말하려면 먼저 단순 비교 대상을 고정하고 비교 가능한 조건에서 점수 차이를 읽어야 한다`는 해석 원리로 묶습니다.
+
 ### 기준 모델은 무엇을 하는가
 
 scikit-learn의 `DummyClassifier` 문서는 입력 특징을 무시하고 예측하는 분류기를 `더 복잡한 분류기와 비교하기 위한 simple baseline`이라고 설명합니다. `DummyRegressor` 문서도 마찬가지로 평균(mean), 중앙값(median) 같은 단순 규칙으로 예측하는 회귀기를 `simple baseline`이라고 설명합니다.
@@ -138,7 +182,7 @@ scikit-learn의 `DummyClassifier` 문서는 입력 특징을 무시하고 예측
 
 즉, baseline은 현실 문제를 잘 풀기 위한 완성형 모델이 아니라, `이 정도보다 낫지 않으면 복잡한 모델을 쓴 의미가 없다`는 최소 기준입니다.
 
-조금 더 학술적으로 말하면 baseline은 모델링의 유효성(validity)을 확인하는 최소 대조군(control) 역할을 합니다. 복잡한 구조를 넣고 튜닝을 많이 했더라도 baseline보다 의미 있게 낫지 않다면, 그 실험은 개선이 아니라 복잡도만 늘린 것일 수 있습니다.
+조금 더 이론적으로 읽으면 baseline은 최소 비교 대상으로 기능합니다. 복잡한 구조를 넣고 튜닝을 많이 했더라도 baseline보다 의미 있게 낫지 않다면, 그 실험은 개선이 아니라 복잡도만 늘린 것일 수 있습니다.
 
 ### baseline이 없으면 어떤 착시가 생기는가
 
@@ -156,11 +200,11 @@ baseline이 없으면 높은 수치가 곧 좋은 모델처럼 보일 수 있습
 
 그래서 baseline은 점수를 낮추기 위한 장치가 아니라, 점수를 `읽을 수 있게` 만드는 장치입니다.
 
-기준 모델(baseline)은 꼭 가장 단순한 알고리즘 이름만 뜻하지는 않습니다. 어떤 운영 문제에서는 최근 구간을 비슷한 조건의 평소 기준선과 비교하는 구조 자체가 baseline 역할을 하기도 합니다. 이 비교 프레임이 있어야 뒤에서 보는 규칙 기반 경고나 학습 모델의 점수도, 실제로 얼마나 의미 있는 개선인지 더 분명하게 읽을 수 있습니다.
+이 책에서는 `기준 모델(baseline model)`과 `비교 기준선(baseline reference)`을 구분해서 읽습니다. 전자는 가장 단순한 예측 기준을 뜻하고, 후자는 최근 결과를 평소 기준과 나란히 놓아 해석하는 비교 프레임을 뜻합니다. 이런 비교 프레임을 따로 세우면 뒤에서 보는 규칙 기반 경고나 학습 모델의 점수도, 실제로 얼마나 의미 있는 변화인지 더 분명하게 읽을 수 있습니다.
 
 다만 최근 구간과 기준선의 차이는 설명 후보를 좁혀 주는 비교 신호이지, 그 차이의 원인을 자동으로 확정하는 장치는 아닙니다.
 
-즉, baseline은 두 층위에서 동시에 등장할 수 있습니다.
+즉, 이 책에서는 baseline이라는 말을 두 층위에서 함께 읽습니다.
 
 | baseline이 놓이는 층위 | 예 | 이 절에서 읽는 방식 |
 | --- | --- | --- |
@@ -175,7 +219,7 @@ baseline이 없으면 높은 수치가 곧 좋은 모델처럼 보일 수 있습
 
 이 표를 읽을 때도 중요한 것은 절대값 하나보다 비교 프레임입니다. 그리고 이런 비교가 가능하려면, 먼저 여러 시점의 원시 시계열을 동작 1회 요약 행으로 바꾸어 같은 단위끼리 나란히 놓을 수 있어야 합니다.
 
-즉, baseline reference는 baseline model과 경쟁하는 별도 기술이 아니라, baseline model에서 시작한 `비교 기준을 먼저 세운다`는 원칙이 운영 데이터 해석까지 이어진 장면으로 보면 됩니다.
+즉, 이 절에서의 baseline reference는 baseline model과 경쟁하는 별도 기술이라기보다, `비교 기준을 먼저 세운다`는 읽기 원칙을 운영 데이터 해석 장면까지 확장한 표현으로 보면 됩니다.
 
 이 차이를 가장 단순하게 그리면 다음과 같습니다.
 
@@ -216,65 +260,20 @@ flowchart TD
 - baseline이 놓치고 있는 대표 오류 장면은 무엇인가
 - 후보 모델이 줄인 실패가 운영상 정말 중요한 실패인가
 
-### 분류에서 가장 단순한 baseline은 무엇인가
+이 질문들이 바로 baseline 방법론의 마지막 단계입니다. baseline의 역할은 숫자를 한 줄 적는 데서 끝나는 것이 아니라, `그 숫자가 어떤 실패를 그대로 남기고 있는가`까지 보여 주는 데 있습니다.
 
-분류에서는 다음 같은 단순 baseline을 먼저 생각할 수 있습니다.
+### 대표적인 baseline 방법은 어디서 이어서 보는가
 
-| baseline 형태 | 의미 |
+이 절에서 baseline의 필요성과 해석 원리를 먼저 잡았다면, 그다음 자연스러운 질문은 `그래서 어떤 baseline을 어떻게 세우는가`입니다. 그 질문은 `P4-8.3 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법`에서 이어서 다룹니다.
+
+다음 절에서는 특히 아래 내용을 실제 예시와 예제로 묶어 봅니다.
+
+| 다음 절에서 이어서 볼 것 | 왜 바로 이어서 봐야 하는가 |
 | --- | --- |
-| 가장 자주 나오는 클래스만 예측 | 다수 클래스 기준 |
-| 클래스 비율대로 무작위 예측 | 분포 수준 기준 |
-| 항상 같은 클래스 예측 | 정말 최소한의 바닥선 |
-
-예를 들어 고객 이탈 예측에서 이탈이 드문 경우, `항상 비이탈`을 말하는 baseline은 꽤 높은 정확도를 낼 수 있습니다. 이 baseline보다 겨우 조금만 높은 모델이라면, 그 모델은 실제로는 별로 유용하지 않을 수 있습니다.
-
-이 절의 핵심은 baseline이 좋아 보이는지를 평가하는 것이 아닙니다. 오히려 `너무 단순한데도 이 정도 점수가 나온다`는 사실이 문제의 난이도와 지표의 함정을 동시에 보여 준다는 점이 중요합니다.
-
-즉, baseline은 `낮은 기준`이라서 중요한 것이 아니라, `속기 쉬운 지점을 먼저 드러내기 때문에` 중요합니다.
-
-실무 장면으로 바꾸면 다음처럼 읽을 수 있습니다.
-
-| 업무 상황 | 너무 쉬운 baseline 예 | 왜 먼저 확인해야 하는가 |
-| --- | --- | --- |
-| 고객 이탈 예측 | 항상 `비이탈` 예측 | 높은 정확도 착시를 막기 위해 |
-| 결제 사기 탐지 | 항상 `정상 거래` 예측 | 희귀 이벤트를 놓치는지 확인하기 위해 |
-| 광고 클릭 예측 | 항상 `비클릭` 예측 | 불균형 데이터에서 지표를 바로 읽기 위해 |
-| 불량 검출 | 항상 `정상 제품` 예측 | 생산 라인의 소수 불량을 잡는지 보기 위해 |
-
-### 어떤 baseline을 먼저 세워야 하는가
-
-baseline도 하나의 고정 정답이 아니라, 현재 문제에서 `가장 단순하지만 의미 있는 비교선`이 무엇인지 고르는 일입니다.
-
-| 문제 장면 | 먼저 세울 baseline | 이유 |
-| --- | --- | --- |
-| 다수 클래스가 매우 많은 분류 | 다수 클래스 예측 | 정확도 착시를 먼저 드러낼 수 있기 때문 |
-| 클래스 비율 자체가 중요하다 | 분포 기반 dummy 예측 | 단순 비율 추종과 실제 학습을 구분할 수 있기 때문 |
-| 회귀에서 입력이 정말 도움이 되는지 보고 싶다 | 평균값 또는 중앙값 예측 | 특징이 없는 상태의 기본 오차를 확인할 수 있기 때문 |
-| 운영에서 최근 변화 해석이 중요하다 | 최근 구간 vs 기준선 비교 | 점수뿐 아니라 변화 방향을 읽는 비교 프레임이 필요하기 때문 |
-| 후보 모델이 조금만 좋아 보인다 | 현재 baseline 재확인 + 오류 사례 비교 | 작은 점수 차이가 실제 개선인지 확인해야 하기 때문 |
-
-이 표의 핵심은 baseline이 낮은 점수표가 아니라, `현재 실험에서 무엇과 비교해야 숫자의 의미가 살아나는가`를 고정하는 장치라는 점입니다.
-
-### 회귀에서 가장 단순한 baseline은 무엇인가
-
-회귀에서는 다음 같은 단순 baseline을 먼저 둘 수 있습니다.
-
-| baseline 형태 | 의미 |
-| --- | --- |
-| 모든 샘플에 평균값 예측 | 가장 기본적인 중심값 기준 |
-| 모든 샘플에 중앙값 예측 | 극단값에 덜 민감한 기준 |
-| 특정 상수값 예측 | 도메인 고정 기준 |
-
-예를 들어 집값 예측에서 아무 입력도 보지 않고 평균 집값만 예측하는 baseline을 세울 수 있습니다. 이보다 나은 모델을 만들지 못한다면, 복잡한 전처리와 알고리즘을 도입했더라도 실제 개선은 없다고 봐야 합니다.
-
-실무 장면으로 바꾸면 회귀 baseline은 다음처럼 읽을 수 있습니다.
-
-| 업무 상황 | 단순 baseline 예 | 왜 필요한가 |
-| --- | --- | --- |
-| 집값 예측 | 평균 집값만 예측 | 입력 특징이 실제로 도움 되는지 확인하기 위해 |
-| 배송 시간 예측 | 평균 배송 시간만 예측 | 지역, 거리, 물량 정보가 개선을 만드는지 보기 위해 |
-| 월 매출 예측 | 지난 평균 매출만 예측 | 계절성이나 캠페인 정보가 추가 이득을 주는지 확인하기 위해 |
-| 콜센터 통화량 예측 | 평균 통화량만 예측 | 시간대나 이벤트 정보가 유효한지 판단하기 위해 |
+| 분류 baseline | 높은 정확도 착시를 어떤 단순 기준으로 먼저 드러낼지 알아야 하기 때문입니다. |
+| 회귀 baseline | 평균/중앙값 기준이 입력 특징의 실제 기여를 판단하는 출발점이 되기 때문입니다. |
+| 시계열 baseline | naive, seasonal naive 같은 기준이 시간 축 문제에서 왜 자주 쓰이는지 알아야 하기 때문입니다. |
+| baseline 설정 절차 | 문제 유형 고정부터 오류 해석까지 어떤 순서로 비교를 시작할지 알아야 하기 때문입니다. |
 
 ### baseline은 왜 튜닝보다 먼저 와야 하는가
 
@@ -345,123 +344,6 @@ flowchart TD
   A --> E --> F --> G
 ```
 
-## 사례 및 예시
-
-### 작은 예시로 baseline의 역할 보기
-
-다음과 같은 고객 이탈 예측 문제를 생각해 보겠습니다.
-
-| 항목 | 내용 |
-| --- | --- |
-| 문제 | 다음 달 고객 이탈 여부 예측 |
-| 클래스 분포 | 비이탈 90%, 이탈 10% |
-| 지표 | 정확도, 재현율(recall), F1 |
-
-이 경우 baseline으로 `항상 비이탈`을 예측하면 정확도는 90%가 될 수 있습니다. 하지만 이탈 고객 재현율은 0입니다.
-
-이제 어떤 실제 모델이 정확도 91%를 냈다고 해 보겠습니다. 숫자만 보면 baseline보다 나아 보이지만, 이탈 재현율이 여전히 매우 낮다면 서비스적으로는 큰 의미가 없을 수 있습니다.
-
-즉, baseline은 `점수의 절대값`보다 `점수의 해석 기준`을 제공합니다.
-
-실무적으로는 다음처럼 읽을 수 있습니다.
-
-| 비교 장면 | baseline이 알려 주는 것 |
-| --- | --- |
-| 새 모델이 정확도는 조금 높다 | 그 차이가 실제로 의미 있는지 다시 보게 함 |
-| recall, F1이 크게 오른다 | 소수 클래스 문제를 더 잘 다루는지 보여 줌 |
-| 복잡한 모델이 baseline보다 약간만 낫다 | 운영 비용까지 감수할 가치가 있는지 묻게 함 |
-| 단순 모델이 baseline을 크게 넘는다 | 복잡한 모델로 급히 가지 않아도 될 수 있음을 보여 줌 |
-
-## 연습 및 예제
-
-### Python 예제로 baseline과 비교해 보기
-
-아래 예제는 scikit-learn의 `DummyClassifier`와 간단한 분류 모델을 비교하는 아주 작은 실습입니다.
-
-문제 상황:
-
-- 새 모델이 정말 도움이 되는지 보려면 최소 기준선과 나란히 놓고 비교해야 한다
-
-입력(input):
-
-- `make_classification`으로 만든 불균형 분류 데이터
-- `DummyClassifier`
-- `LogisticRegression`
-
-기대 출력(output):
-
-- baseline과 실제 모델의 accuracy, recall, F1
-
-확인할 개념:
-
-- baseline은 복잡한 모델이 최소한 넘어야 할 비교 기준이다
-- 불균형 데이터에서는 accuracy만이 아니라 recall과 F1도 함께 봐야 한다
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.dummy import DummyClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, recall_score, f1_score
-from sklearn.model_selection import train_test_split
-
-X, y = make_classification(
-    n_samples=400,
-    n_features=6,
-    n_informative=3,
-    n_redundant=0,
-    weights=[0.9, 0.1],
-    random_state=42,
-)
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, stratify=y, random_state=42
-)
-
-baseline = DummyClassifier(strategy="most_frequent")
-baseline.fit(X_train, y_train)
-baseline_pred = baseline.predict(X_test)
-
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train, y_train)
-model_pred = model.predict(X_test)
-
-print("baseline accuracy :", round(accuracy_score(y_test, baseline_pred), 3))
-print("baseline recall   :", round(recall_score(y_test, baseline_pred), 3))
-print("baseline f1       :", round(f1_score(y_test, baseline_pred), 3))
-print()
-print("model accuracy    :", round(accuracy_score(y_test, model_pred), 3))
-print("model recall      :", round(recall_score(y_test, model_pred), 3))
-print("model f1          :", round(f1_score(y_test, model_pred), 3))
-```
-
-실행 결과 예시는 다음과 같습니다.
-
-```text
-baseline accuracy : 0.9
-baseline recall   : 0.0
-baseline f1       : 0.0
-
-model accuracy    : 0.942
-model recall      : 0.5
-model f1          : 0.632
-```
-
-이 예제가 보여 주는 것은 단순합니다.
-
-- baseline 정확도는 이미 높을 수 있다.
-- 하지만 중요한 클래스는 전혀 잡지 못할 수 있다.
-- 실제 모델의 개선은 baseline보다 얼마나 더 잘 잡는지로 읽어야 한다.
-
-즉, baseline은 `낮은 성능 모델`이 아니라 `성능 숫자를 해석하기 위한 기준선`입니다.
-
-독자가 이 예제에서 꼭 읽어야 할 것은 숫자 크기 하나가 아닙니다.
-
-- accuracy는 baseline도 높을 수 있습니다.
-- recall과 F1은 중요한 소수 class를 실제로 잡는지 더 잘 보여 줄 수 있습니다.
-- 따라서 baseline 비교는 `어느 지표에서 개선되었는가`를 같이 보게 만듭니다.
-
-운영 문장으로 옮기면 더 분명합니다. `baseline은 정확도는 높지만 이탈을 하나도 못 잡았다. 다음 조치는 새 모델의 recall이 오른 대신 어떤 고객을 여전히 놓쳤는지 오류 ID부터 다시 보는 일이다.` 즉, baseline 비교는 `점수가 올랐다`에서 끝나지 않고 `어떤 실패가 줄었고 어떤 실패가 남았는가`를 다음 확인 항목으로 넘겨야 합니다.
-
 ## 이 절에서 기억할 관점
 
 | 먼저 보인 신호 | 이 신호가 뜻하는 것 | 바로 이어질 다음 조치 |
@@ -470,7 +352,7 @@ model f1          : 0.632
 
 - baseline은 복잡한 모델 전에 세우는 비교 기준이다.
 - 높은 점수도 baseline과 비교하지 않으면 해석하기 어렵다.
-- 분류에서는 다수 클래스 예측, 회귀에서는 평균/중앙값 예측이 대표적인 단순 baseline이 될 수 있다.
+- 대표적인 baseline 종류와 실제 설정 절차는 다음 절 P4-8.3에서 문제 유형별로 다시 본다.
 - 튜닝은 baseline보다 나은 후보가 있는지 확인한 뒤에 들어가야 한다.
 
 이 절의 핵심은 baseline이 `점수 하나를 더 보는 절`이 아니라는 점입니다.
@@ -482,7 +364,7 @@ model f1          : 0.632
 ## 짧은 점검
 
 - baseline보다 높다는 사실만이 아니라 어떤 실패가 줄었는지도 함께 보고 있는가?
-- 분류와 회귀에서 baseline을 같은 방식으로 잡지 않고 문제 형태에 맞게 나누고 있는가?
+- 분류와 회귀, 시계열에서 baseline을 같은 방식으로 잡지 않고 문제 형태에 맞게 나누어 보고 있는가?
 - 작은 점수 차이가 보일 때 혼동 행렬이나 대표 오류 사례로 실제 개선을 확인하고 있는가?
 
 ## 언제 이 관점을 먼저 떠올려야 하는가
@@ -499,10 +381,12 @@ model f1          : 0.632
 
 ## 다음 절과의 연결
 
-다음 절 P4-9에서는 baseline보다 나은 후보가 생겼을 때, 그 후보를 어떻게 조정하고 비교할지를 다룹니다. 이후의 알고리즘 절에서는 각 모델이 왜 baseline을 넘을 수 있는지, 또는 어떤 조건에서 baseline을 넘기 어려운지를 더 구체적으로 보게 됩니다.
+다음 절 `P4-8.3 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법`에서는 분류, 회귀, 시계열에서 대표적인 baseline을 어떤 기준으로 고르고, 어떤 예시와 예제로 비교를 시작할지를 봅니다. 그다음 P4-9에서는 baseline보다 나은 후보가 생겼을 때, 그 후보를 어떻게 조정하고 비교할지를 다룹니다.
 
 ## 출처와 참고 자료
 
-- scikit-learn, `DummyClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `DummyRegressor`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }
-- Sebastian Raschka, `Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`, arXiv, 2018, 확인 날짜: 2026-06-26. [https://arxiv.org/abs/1811.12808](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-09.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-09.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-09.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-09.
