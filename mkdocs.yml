@@ -730,6 +730,7 @@ plugins:
                     - Chapter 15. Revisiting Math Through Software:
                         - "P2-15.1 A Small Procedure for Turning Formulas into Code": en/parts/part-02/chapter-15/section-01.md
                         - "P2-15.2 Final Check Before Moving to Part 3": en/parts/part-02/chapter-15/section-02.md
+                - Summary: en/parts/part-02/summary.md
           theme:
             language: en
         - locale: zh
@@ -904,6 +905,7 @@ plugins:
                     - Chapter 15. 用软件重新看数学:
                         - "P2-15.1 把公式变成代码的小流程": zh/parts/part-02/chapter-15/section-01.md
                         - "P2-15.2 进入 Part 3 前的最终检查": zh/parts/part-02/chapter-15/section-02.md
+                - 总结: zh/parts/part-02/summary.md
           theme:
             language: zh
   - search:
