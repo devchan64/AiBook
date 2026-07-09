@@ -22,6 +22,7 @@
 - `guidelines/README.md`
 - `guidelines/manuscript-writing-workflow.md`
 - `guidelines/english-translation-guidelines.md`
+- `guidelines/chinese-translation-guidelines.md`
 - `guidelines/chart-guidelines.md`
 - `release-notes/README.md`
 

@@ -45,6 +45,8 @@
 - `management/guidelines/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
 - `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, 제목 앞 인덱스와 `Section ID`의 동일 규칙, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
 - `management/release-notes/sections/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
+- `management/guidelines/english-translation-guidelines.md`: 영어 번역 시 한국어 원문 대조, 공통 릴리즈노트 기록, `빈 줄 제외 라인 수 5% 미만` 검수 기준을 포함한 번역 운영 문서입니다.
+- `management/guidelines/chinese-translation-guidelines.md`: 중국어 간체 번역 시 한국어 원문 대조, 공통 릴리즈노트 기록, `빈 줄 제외 라인 수 5% 미만` 검수 기준을 포함한 번역 운영 문서입니다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신합니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.

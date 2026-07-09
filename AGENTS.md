@@ -50,6 +50,8 @@
   - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
 - 영문 번역 워크플로우: `management/guidelines/english-translation-guidelines.md`
   - 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
+- 중국어 번역 워크플로우: `management/guidelines/chinese-translation-guidelines.md`
+  - 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
 - 차트·도식 워크플로우: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
 - Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`
