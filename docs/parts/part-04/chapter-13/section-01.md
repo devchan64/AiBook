@@ -139,22 +139,23 @@ SVM은 바로 이 차이를 `margin`이라는 말로 잡습니다.
 
 다시 말해 SVM은 `선을 그릴 수 있는가`를 넘어서 `여러 경계 후보 중 어떤 경계가 더 안정적인가`를 묻습니다. 핵심은 분리 가능 여부가 아니라, 가장 가까운 점들과의 최소 간격을 기준으로 더 여유 있는 경계를 고른다는 데 있습니다.
 
-같은 생각을 더 직접적으로 비교하면 다음과 같습니다.
+같은 생각을 판단 순서로 다시 압축하면 다음과 같습니다.
 
 ```mermaid
 flowchart TD
-  subgraph S1["small margin"]
-    direction LR
-    A1["boundary too close<br/>경계가 한쪽에 붙음"] --> B1["small movement can flip class<br/>작은 흔들림에도 뒤집힘"]
-  end
+  A["same classes can be split<br/>같은 class를 나누는 선은 여러 개일 수 있음"]
+  B["compare the closest points<br/>각 선에서 가장 가까운 점들을 비교"]
+  C["boundary too close to one side<br/>한쪽 class에 너무 가까운 경계"]
+  D["boundary leaves room on both sides<br/>양쪽에 여유를 남기는 경계"]
+  E["small changes create more review cases<br/>작은 흔들림에도 검토 대상이 늘어남"]
+  F["new cases are less likely to flip<br/>새 사례에도 덜 예민한 해석"]
 
-  subgraph S2["large margin"]
-    direction LR
-    A2["boundary with more room<br/>양쪽에 여유가 있음"] --> B2["more stable reading<br/>더 안정적인 해석"]
-  end
+  A --> B
+  B --> C --> E
+  B --> D --> F
 ```
 
-이 도식은 작은 margin과 큰 margin의 차이를 직관적으로 비교합니다. 경계가 한쪽 class에 너무 가까우면 작은 흔들림에도 결과가 쉽게 바뀌지만, 양쪽에서 여유를 둔 경계는 새 데이터에도 덜 예민하게 반응할 가능성이 큽니다.
+이 도식의 핵심은 `margin을 따로 보는 일`이 부가 장식이 아니라는 점입니다. 먼저 같은 데이터를 나눌 수 있는 여러 경계를 후보로 두고, 그다음 각 경계에서 가장 가까운 점들을 비교해야 비로소 작은 흔들림에 취약한 경계와 여유를 남긴 경계를 구분할 수 있습니다. 경계가 한쪽 class에 너무 가까우면 새 사례가 조금만 움직여도 near-boundary review가 빠르게 늘고, 양쪽에 여유를 둔 경계는 같은 변화에도 즉시 뒤집힐 가능성이 상대적으로 줄어듭니다.
 
 ### 큰 margin은 왜 좋은가
 
@@ -194,13 +195,16 @@ SVM의 직관에서 가장 중요한 점들은 보통 `경계에 가장 가까�
 ```mermaid
 flowchart TD
   A["all training points<br/>전체 학습 점들"]
-  B["points closest to the boundary<br/>경계에 가장 가까운 점들"]
-  C["support vectors<br/>경계를 떠받치는 핵심 점들"]
+  B["far from the boundary<br/>경계에서 멀리 떨어진 점들"]
+  C["closest to the boundary<br/>경계에 가장 가까운 점들"]
+  D["little effect on the boundary<br/>경계를 덜 흔듦"]
+  E["support vectors<br/>경계를 실제로 떠받치는 핵심 점들"]
 
-  A --> B --> C
+  A --> B --> D
+  A --> C --> E
 ```
 
-이 도식은 support vector가 왜 특별한지 보여 줍니다. 전체 학습 점이 모두 같은 무게로 경계를 정하는 것이 아니라, 경계에 가장 가까운 일부 점들이 실제로는 분리선 위치를 더 강하게 떠받친다는 뜻입니다.
+이 도식은 support vector가 왜 특별한지 보여 줍니다. 전체 학습 점이 모두 같은 무게로 경계를 정하는 것이 아니라, 경계에서 멀리 떨어진 점들은 경계를 덜 흔들고, 가장 가까운 일부 점들이 실제로는 분리선 위치를 더 강하게 떠받친다는 뜻입니다.
 
 실무적으로는 support vector를 다음처럼 읽을 수도 있습니다.
 
@@ -294,10 +298,13 @@ SVM은 `나눌 수 있는가`에서 멈추지 않고 `얼마나 여유 있게 �
 
 ```mermaid
 flowchart TD
-  A["clean separation<br/>깔끔한 분리"] --> B["maximize margin<br/>margin 최대화"]
-  C["overlapping points<br/>겹치는 점이 등장"] --> D["allow some violation<br/>일부 침범 허용"]
-  B --> E["stable boundary idea<br/>안정적 경계 추구"]
-  D --> E
+  A["clean separation is possible<br/>깔끔한 분리가 가능함"] --> B["maximize margin<br/>margin 최대화"]
+  C["overlapping points appear<br/>겹치는 점이 생김"]
+  C --> D["insist on perfect separation only<br/>완벽 분리만 고집"]
+  C --> E["allow some violation<br/>일부 침범 허용"]
+  D --> F["too tight or impossible boundary<br/>경계가 너무 빡빡해지거나 불가능"]
+  E --> G["keep the wider-margin idea<br/>여유 있는 경계 발상 유지"]
+  B --> G
 ```
 
 ## 사례 및 예시
@@ -337,6 +344,20 @@ flowchart TD
 - 더 큰 margin:
   - 경계가 한두 사례에 덜 끌립니다.
   - 기준이 더 일반적이고 설명 가능한 방향으로 유지될 가능성이 높습니다.
+
+```mermaid
+flowchart TD
+  A["resume features"]
+  B["candidate boundary"]
+  C["pulled by a few unusual resumes"]
+  D["room around borderline resumes"]
+  E["criteria swing more easily"]
+  F["criteria stay more explainable"]
+
+  A --> B
+  B --> C --> E
+  B --> D --> F
+```
 
 `SVM의 margin 직관은 모델이 만든 경계가 현장에서 얼마나 예민하게 흔들릴지를 묻는 질문과 연결된다.`
 
@@ -505,6 +526,20 @@ SVM은 통계학습이론과 일반화 논의에서 매우 중요한 위치를 �
 - 그래서 SVM은 분류 문제를 `경계의 품질` 문제로 다시 보게 해 줍니다.
 
 이 절의 핵심은 SVM 이름을 외우는 일이 아니라, 좋은 경계를 어떤 기준으로 읽을지 고정하는 데 있습니다.
+
+같은 흐름을 한 번에 다시 묶으면 다음과 같습니다.
+
+```mermaid
+flowchart TD
+  A["many candidate boundaries<br/>여러 경계 후보"]
+  B["compare the margin<br/>margin 비교"]
+  C["closest points matter most<br/>가장 가까운 점이 더 중요"]
+  D["support vectors shape the boundary<br/>support vector가 경계를 떠받침"]
+  E["overlap leads to soft margin thinking<br/>겹침이 생기면 soft margin으로 이동"]
+  F["next: nonlinear boundary with kernel<br/>다음 절: kernel과 비선형 경계"]
+
+  A --> B --> C --> D --> E --> F
+```
 
 | 같이 봐야 할 것 | 이 절에서 먼저 읽는 질문 | 바로 다음에 이어질 곳 |
 | --- | --- | --- |
