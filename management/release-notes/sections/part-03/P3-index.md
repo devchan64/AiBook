@@ -8,8 +8,8 @@
 - 변경 이유: 시작 페이지가 Part 2와의 관계, Part 3의 책임, 전체 진행 흐름을 서로 다른 문단에서 다시 반복해 오버뷰 밀도가 느슨해졌다.
 - 본문 반영: Part 2와 Part 3의 기본기 점검 관계를 도입부에 합치고, 중반의 흐름 설명도 `정의 고정 -> 표 재구성 -> 해석 경계` 축이 한 번에 읽히도록 재배치했다.
 
-- 번역 동기화 메모: preserve the tighter overview that binds Part 2 linkage, Part 3 responsibility, and the three-part spine into a single flow. / pending
-- 번역 반영 상태: not-started
+- 번역 동기화 메모: preserve the tighter overview that binds Part 2 linkage, Part 3 responsibility, and the three-part spine into a single flow. / reflected in English and Simplified Chinese on 2026-07-10
+- 번역 반영 상태: 영어 번역 반영, 중국어 간체 번역 반영
 - 관련 자산: 없음.
 - 원문 기준 버전: `v2026.07.10`
 
