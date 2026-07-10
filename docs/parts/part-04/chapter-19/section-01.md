@@ -32,7 +32,7 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 - 함수 근사(function approximation)와 딥 Q-네트워크(DQN)
 - policy gradient, actor-critic의 업데이트 절차
 
-이 절은 가치 기반 강화학습의 기본 구조와 Q-learning, SARSA의 해석 차이를 붙잡는 데 집중합니다. 정책 기반 강화학습(policy-based reinforcement learning)은 P4-19.2에서 이어서 다루고, 보상 설계, 탐험 비용, 현실 적용의 주의점은 P4-19.3에서 다시 정리합니다. DQN과 함수 근사(function approximation), 가치 기반에서 정책 기반으로 이어지는 흐름은 P4-19.4 보충학습에서 다시 연결합니다.
+이 절은 가치 기반 강화학습의 기본 구조와 Q-learning, SARSA의 해석 차이를 붙잡는 데 집중합니다. 정책 기반 강화학습(policy-based reinforcement learning)은 P4-19.2에서 이어서 다루고, 보상 설계, 탐험 비용, 현실 적용의 주의점은 P4-19.3에서 다시 정리합니다. DQN과 정책 계열의 큰 흐름은 P4-19.4 보충학습에서 다시 연결하고, 벨만 방정식, 수렴, 함수 근사의 최소 연결은 P4-19.5 보충학습에서 다시 묶습니다.
 
 ## 이 절의 목표
 
