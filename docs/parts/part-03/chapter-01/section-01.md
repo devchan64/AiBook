@@ -1,11 +1,9 @@
 # P3-1.1 데이터 모델링은 무엇을 달성하려는가
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.10`
 
-Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary.md#glossary-target) 같은 말을 만나게 됩니다. 그런데 이 용어들을 어떻게 쓸지는 [데이터 모델링(data modeling)](../../../reference/concept-glossary.md#glossary-data-modeling)이 무엇을 하려는 일인지 먼저 잡혀야 정리됩니다.
-
-데이터 모델링을 이해하려면 뒤에서 나올 `샘플(sample)`, `특징(feature)`, `기준선(baseline)`, [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report) 같은 말을 하나의 설계 문제로 먼저 묶어 볼 필요가 있습니다. 무엇을 남기고 무엇과 비교하며 어떤 결과 구조로 넘길지를 정하는 바깥 판단이 바로 데이터 모델링입니다.
+Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary.md#glossary-data-modeling)입니다.
 
 데이터 모델링을 저장 구조 정리로만 이해하면, 이미 쌓여 있는 표를 보기 좋게 바꾸는 정도로 생각하기 쉽습니다. 하지만 AI와 데이터 분석에서 말하는 데이터 모델링은 그보다 더 앞선 판단입니다. 데이터 모델링은 `지금 있는 원천데이터로 어떤 질문에 답할 수 있게 만들 것인가`를 정하는 일입니다.
 
@@ -45,6 +43,17 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 이 표에서 중요한 점은 데이터 모델링이 아직 `모델 선택` 단계가 아니라는 사실입니다. 이 단계에서는 분류기 이름이나 딥러닝 구조보다 먼저, 어떤 표를 만들고 어떤 비교를 가능하게 할 것인지가 결정되어야 합니다. 그래야 뒤의 머신러닝 Part에서도 `X`, `y`, `평가`, `기준 모델`이 공중에 뜨지 않습니다.
 
+짧게 요약하면 데이터 모델링의 판단 순서는 다음처럼 읽을 수 있습니다.
+
+```mermaid
+flowchart TD
+  A["Raw time-series logs"] --> B["Choose one sample unit"]
+  B --> C["Summarize into features"]
+  C --> D["Compare with a baseline"]
+  D --> E["Decide output structure"]
+  E --> F["Review candidate or prediction-ready table"]
+```
+
 추상적으로만 보면 이 말이 쉽게 손에 잡히지 않을 수 있으므로, 같은 장면을 원천데이터와 모델링 후 표로 나누어 봅니다.
 
 원천데이터가 다음처럼 시점별 로그로 쌓여 있다고 가정합니다.
@@ -72,6 +81,24 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 - `review_flag` 같은 출력 구조는 사람이 먼저 볼 건을 고르는 데 쓰인다.
 - `baseline_gap` 같은 비교 열은 최근 상태와 평소 상태를 직접 이어 준다.
 
+사람이 먼저 쓰던 기준과 데이터 모델링이 바꾸는 점을 한 장면으로 압축하면 더 분명합니다.
+
+| 판단 단계 | 사람이 로그를 바로 볼 때 | 데이터 모델링을 거친 뒤 |
+| --- | --- | --- |
+| 한 건을 세는 방식 | 시간 행 하나씩 본다 | 동작 1회를 샘플 1건으로 묶는다 |
+| 비교 방식 | 눈으로 여러 행을 훑는다 | 평균, 흔들림, 기준선 차이로 바로 비교한다 |
+| 우선순위 결정 | 사람이 다시 읽으며 고른다 | `review_flag` 같은 출력 열로 먼저 거른다 |
+| 다음 행동 | 기록은 남지만 판단이 늦다 | 검토 후보 표나 예측 입력 표로 바로 넘긴다 |
+
+```mermaid
+flowchart TD
+  A["Time-step logs"] --> B["Human scans rows one by one"]
+  B --> C["Hard to compare whole actions"]
+  A --> D["Model one action as one sample"]
+  D --> E["Make features and baseline gap"]
+  E --> F["Emit review flag or prediction-ready output"]
+```
+
 데이터 모델링이 잘 되었는지는 화려한 모델을 썼는지로 판단하지 않습니다. 오히려 다음 질문에 답할 수 있는지로 판단합니다.
 
 - 지금 표의 한 행은 무엇을 뜻하는가
@@ -79,7 +106,7 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 - 무엇과 비교하면 변화가 보이는가
 - 이 결과는 자동 확정인가, 사람 검토 후보인가
 
-이 네 질문에 답할 수 있으면, 데이터 모델링은 이미 상당 부분 성공한 것입니다. 반대로 이 질문에 답하지 못하면 원천데이터가 아무리 많아도 뒤의 모델 설명은 흔들리기 쉽습니다.
+이 네 질문에 답할 수 있으면, 데이터 모델링은 이미 상당 부분 성공한 것입니다. 반대로 이 질문에 답하지 못하면 원천데이터가 아무리 많아도 뒤의 모델 설명은 흔들리기 쉽습니다. 학습 밀도를 높인다는 것은 정의를 더 많이 늘어놓는 일이 아니라, 이 네 질문에 독자가 스스로 답할 수 있게 사례와 비교 구조를 충분히 보여 주는 일에 더 가깝습니다.
 
 그래서 Part 3에서는 데이터과학의 다른 주제를 모두 펼치지 않습니다. 데이터 정제와 탐색은 필요한 만큼만 끌어오고, 통계적 검정이나 학습 알고리즘 세부는 범위 밖에 둡니다. 대신 `무엇을 샘플로 보고`, `어떤 값을 남기고`, `무엇과 비교하고`, `어떤 결과 구조로 넘길 것인가`를 먼저 고정합니다. 이 경계가 잡혀야 데이터 문제를 `이미 설계된 구조 위에서 푸는 문제`로 읽을 수 있습니다.
 
