@@ -346,6 +346,7 @@ nav:
           - Chapter 16. 그래디언트 부스팅:
               - "P4-16.1 그래디언트 부스팅(gradient boosting)": parts/part-04/chapter-16/section-01.md
               - "P4-16.2 부스팅의 성능과 위험": parts/part-04/chapter-16/section-02.md
+              - "P4-16.3 보충학습: 부스팅 라이브러리와 운영 감각": parts/part-04/chapter-16/section-03.md
       - Module 6. 구조 찾기:
           - Chapter 17. 클러스터링:
               - "P4-17.1 클러스터링(clustering)의 직관": parts/part-04/chapter-17/section-01.md

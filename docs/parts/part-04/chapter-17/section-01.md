@@ -1,7 +1,7 @@
 # P4-17.1 클러스터링(clustering)의 직관
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정답(label)이 있는 문제에서 모델이 어떻게 예측 성능을 올리는지를 따라왔습니다. 여기서 시선을 조금 바꾸면 다음 질문이 나옵니다.
 
@@ -106,22 +106,17 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 이 차이를 한 번 더 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  subgraph S["supervised learning"]
-    S1["input data"]
-    S2["given labels"]
-    S3["learn mapping"]
-    S4["predict known target type"]
-    S1 --> S2 --> S3 --> S4
-  end
+flowchart TD
+  A["input data"]
+  B{"given labels?"}
+  C["learn mapping"]
+  D["predict known target"]
+  E["search similarity structure"]
+  F["propose cluster groups"]
 
-  subgraph C["clustering"]
-    C1["input data"]
-    C2["no given labels"]
-    C3["search similarity structure"]
-    C4["propose cluster groups"]
-    C1 --> C2 --> C3 --> C4
-  end
+  A --> B
+  B -->|yes| C --> D
+  B -->|no| E --> F
 ```
 
 이 도식은 지도학습과 클러스터링의 출발점이 어디서 갈리는지 한 번에 보여 줍니다. 지도학습은 정답 라벨을 가지고 mapping을 배우지만, 클러스터링은 라벨 없이 비슷함의 구조를 먼저 찾고 그 묶음을 사람이 다시 해석해야 합니다.
@@ -179,10 +174,10 @@ flowchart TD
 이 점을 그림으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
+flowchart TD
   A["algorithm output<br/>cluster 0 / 1 / 2"]
-  B["human review"]
-  C["possible business meaning<br/>VIP? casual? risk?"]
+  B["review representative cases"]
+  C["attach possible meaning later<br/>VIP? casual? risk?"]
 
   A --> B --> C
 ```
@@ -232,26 +227,27 @@ scikit-learn clustering 개요 표는 DBSCAN을 `non-flat geometry`, `uneven clu
 
 이 비교는 “무엇이 더 좋다”가 아니라 “무슨 구조를 기대하느냐”의 차이입니다.
 
-직관만 비교하면 다음처럼 봅니다.
+직관만 비교하면, 두 알고리즘은 아예 다른 질문에서 출발한다고 보는 편이 더 읽기 쉽습니다.
 
 ```mermaid
-flowchart TB
-  subgraph K["k-means intuition"]
-    K1["choose k centers"]
-    K2["assign each point to nearest center"]
-    K3["update centers"]
-    K1 --> K2 --> K3
-  end
+flowchart LR
+  A["choose k centers"]
+  B["assign points to nearest center"]
+  C["update centers"]
 
-  subgraph D["DBSCAN intuition"]
-    D1["find dense neighborhoods"]
-    D2["expand connected dense areas"]
-    D3["leave sparse points as noise"]
-    D1 --> D2 --> D3
-  end
+  A --> B --> C
 ```
 
-이 도식은 k-means와 DBSCAN이 `무엇을 중심으로 군집을 만든다고 보는가`가 다르다는 점을 압축합니다. k-means는 중심점을 기준으로 점을 모으고, DBSCAN은 빽빽하게 이어진 영역을 확장하면서 듬성한 점은 노이즈로 남길 수 있습니다.
+```mermaid
+flowchart LR
+  A["find dense neighborhoods"]
+  B["expand connected dense areas"]
+  C["leave sparse points as noise"]
+
+  A --> B --> C
+```
+
+앞 도식은 k-means가 `중심점을 먼저 두고 점을 붙이는 방식`임을, 뒤 도식은 DBSCAN이 `빽빽하게 이어진 영역을 확장하고 듬성한 점은 남기는 방식`임을 각각 따로 보여 줍니다. 비교를 한 장에 몰아넣지 않고 분리하면, 독자는 `중심 기반`과 `밀도 기반`이 서로 다른 군집 질문이라는 점을 더 빨리 읽을 수 있습니다.
 
 ## 짧은 점검
 
@@ -368,7 +364,7 @@ Part 4의 목표는 모델 이름을 나열하는 것이 아니라, 문제를 �
 | 대표 사례 | 각 묶음을 대표하는 샘플이나 요약값 | 군집 번호 대신 실제 패턴을 읽기 위해 |
 | 다음 확인 질문 | 이 묶음이 업무적으로 어떤 의미를 가질 수 있는가 | 구조 제안과 의미 해석을 구분하기 위해 |
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 쇼핑몰 고객을 매출 순위가 아니라 이용 패턴으로 다시 묶어 보고 싶을 때
 
