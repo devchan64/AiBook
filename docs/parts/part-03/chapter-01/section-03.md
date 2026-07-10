@@ -73,10 +73,10 @@ Part 3 앞단에서는 데이터 질문을 아주 복잡하게 쓸 필요가 없
 
 ```mermaid
 flowchart TD
-    A[Question: one event vs baseline?] --> A1[Next: one-event summary table]
-    B[Question: recent 20 vs prior 200?] --> B1[Next: aggregate and baseline table]
-    C[Question: which cases need review first?] --> C1[Next: review queue and output structure]
-    D[Question: can we define a future target?] --> D1[Next: target-candidate and feature table]
+    A[질문: 동작 1회를 기준선과 비교할까?] --> A1[다음 표: 동작 1회 요약 표]
+    B[질문: 최근 20건과 이전 200건을 비교할까?] --> B1[다음 표: 집계와 기준선 비교 표]
+    C[질문: 어떤 건을 먼저 검토할까?] --> C1[다음 표: 검토 큐와 출력 구조]
+    D[질문: 미래 목표를 정의할 수 있을까?] --> D1[다음 표: 목표 후보와 특징 표]
 ```
 
 질문 자체가 흐리면 `무슨 표를 다시 만들어야 하는가`도 계속 추상적으로 남습니다. 그래서 데이터 질문을 고쳐 쓰는 일은 부가적인 문장 다듬기가 아니라, 저장 구조를 어떤 샘플과 표 구조로 다시 읽을지 정하는 출발점입니다. 질문을 더 잘 쓰는 순간, 왜 샘플과 기준선이 먼저 필요한지도 훨씬 직접적으로 보이기 시작합니다. 더 넓게 보면 좋은 데이터 질문은 단순한 문장 표현이 아니라 `대상 단위`, `알고 싶은 결과`, `비교 또는 산출물 구조`를 한 번에 고정하는 문제 정의 장치입니다. 즉 좋은 데이터 질문은 `말을 예쁘게 쓰는 문장`이 아니라, 뒤의 표 구조와 비교 구조를 결정하는 최소 설계 문장입니다.

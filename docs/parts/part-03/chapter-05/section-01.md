@@ -34,9 +34,9 @@
 
 ```mermaid
 flowchart TD
-    A[Raw log rows] --> B[Segment by progress]
-    B --> C[Summary per event]
-    C --> D[Aggregate across events]
+    A[원시 로그 행] --> B[진행률 기준 구간 나누기]
+    B --> C[동작별 요약]
+    C --> D[동작 간 집계]
 ```
 
 이 흐름에서는 `Segment by progress` 단계가 특히 중요합니다. 원시 로그를 그대로 평균 내는 것이 아니라, 동작 안에서 초반과 중반, 후반처럼 비교 가능한 구간을 먼저 나눈 뒤에야 요약값이 생기기 때문입니다. 그리고 `Aggregate across events`는 그 다음 단계입니다. 동작 1회 요약과 최근 구간 집계는 같은 일이 아니라, 한 번 더 묶는 일입니다.

@@ -71,20 +71,20 @@
 
 ```mermaid
 flowchart TD
-    A[Question: one event vs baseline?] --> A1[ID: event_id]
-    A1 --> A2[Features: flow_mean, flow_std, late_drop_rate]
-    A2 --> A3[Compare: baseline_diff]
-    A3 --> A4[Output: review_needed]
+    A[질문: 동작 1회를 기준선과 비교할까?] --> A1[식별: event_id]
+    A1 --> A2[특징: flow_mean, flow_std, late_drop_rate]
+    A2 --> A3[비교: baseline_diff]
+    A3 --> A4[출력: review_needed]
 
-    B[Question: recent 20 vs prior 200?] --> B1[ID: window_id]
-    B1 --> B2[Features: recent summaries]
-    B2 --> B3[Compare: prior_200_baseline_diff]
-    B3 --> B4[Output: report_sentence]
+    B[질문: 최근 20건과 이전 200건을 비교할까?] --> B1[식별: window_id]
+    B1 --> B2[특징: 최근 요약값]
+    B2 --> B3[비교: prior_200_baseline_diff]
+    B3 --> B4[출력: report_sentence]
 
-    C[Question: define a future target?] --> C1[ID: event_id]
-    C1 --> C2[Features: flow_mean, late_drop_rate, repeatability_score]
-    C2 --> C3[Compare: baseline_diff]
-    C3 --> C4[Output: target_candidate]
+    C[질문: 미래 목표를 정의할까?] --> C1[식별: event_id]
+    C1 --> C2[특징: flow_mean, late_drop_rate, repeatability_score]
+    C2 --> C3[비교: baseline_diff]
+    C3 --> C4[출력: target_candidate]
 ```
 
 이 예시의 핵심은 열 이름 목록보다 `질문이 달라지면 어느 열 묶음이 먼저 달라지는가`를 보는 데 있습니다. 동작 1회 비교에서는 `event_id`와 `review_needed`가 먼저 보이고, 최근 20건 비교에서는 `window_id`와 `report_sentence`가 더 자연스럽습니다. 반대로 나중의 학습 후보를 생각하면 결과 열이 `target_candidate`로 바뀝니다. 즉 첫 표 초안은 정답 표를 한 번에 완성하는 과정이 아니라, 질문이 요구하는 샘플 단위와 결과 방향을 먼저 드러내는 스케치입니다.

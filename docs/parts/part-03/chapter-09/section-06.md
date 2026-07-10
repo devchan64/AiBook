@@ -76,13 +76,13 @@ Part 3에서는 아직 복잡한 통계 지표보다 아래 메모를 먼저 남
 
 ```mermaid
 flowchart TD
-    A[Repeated review results] --> B{Same event, same label?}
-    B -- No --> C[Keep review-report stage]
-    C --> C1[Leave disagreement memo]
-    C --> C2[Delay target promotion]
-    B -- Yes --> D{Policy stable across time?}
-    D -- No --> E[Split by period or mark rule change]
-    D -- Yes --> F[Promote simpler target candidate]
+    A[반복된 검토 결과] --> B{같은 사건에 같은 라벨이 붙는가?}
+    B -- 아니오 --> C[검토 리포트 단계 유지]
+    C --> C1[불일치 메모 남김]
+    C --> C2[목표 승격 지연]
+    B -- 예 --> D{시간이 지나도 기준이 안정적인가?}
+    D -- 아니오 --> E[기간을 나누거나 규칙 변경 표시]
+    D -- 예 --> F[더 단순한 목표 후보로 승격]
 ```
 
 ## 작은 코드 예시

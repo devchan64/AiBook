@@ -58,12 +58,12 @@
 
 ```mermaid
 flowchart TD
-    A[Comparison result<br/>late-drop difference<br/>repeatability<br/>recent count]
-    A --> B[Signal statement<br/>something changed]
-    B --> C[Review statement<br/>worth checking]
-    C --> D{Extra causal evidence?}
-    D -->|No| E[Stop here<br/>do not claim root cause]
-    D -->|Yes| F[Cause claim can be tested separately]
+    A[비교 결과<br/>late-drop 차이<br/>반복성<br/>최근 건수]
+    A --> B[신호 문장<br/>무언가 달라짐]
+    B --> C[검토 문장<br/>확인할 가치가 있음]
+    C --> D{추가 인과 근거가 있는가?}
+    D -->|아니오| E[여기서 멈춤<br/>근본 원인은 주장하지 않음]
+    D -->|예| F[원인 주장은 별도로 검증]
 ```
 
 이 도식은 비교 결과가 곧바로 원인 확정으로 이어지지 않는다는 점을 보여 줍니다. 먼저 변화 신호를 말하고, 그다음 검토 필요 수준까지는 갈 수 있지만, 원인 주장은 별도 근거가 생길 때만 다음 단계로 넘어갑니다. 즉 계산보다 `어디까지 말하고 어디서 멈추는가`라는 해석 경계입니다.

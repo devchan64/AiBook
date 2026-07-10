@@ -60,12 +60,12 @@
 
 ```mermaid
 flowchart TD
-    A[Missing values in summary sample]
-    A --> B{Only one segment missing?}
-    B -->|Yes| C[Keep sample<br/>avoid affected features]
-    B -->|No| D{Sample boundary broken?}
-    D -->|Yes| E[Do not keep as event sample]
-    D -->|No| F[Check if missingness itself should be flagged]
+    A[요약 샘플의 결측값]
+    A --> B{한 구간만 빠졌는가?}
+    B -->|예| C[샘플은 유지<br/>영향 받은 특징은 제외]
+    B -->|아니오| D{샘플 경계가 깨졌는가?}
+    D -->|예| E[동작 샘플로 유지하지 않음]
+    D -->|아니오| F[결측 자체를 표시할지 확인]
 ```
 
 이 도식은 `비어 있음`을 하나의 상태로 보지 않고, 누락 위치와 샘플 경계 상태에 따라 판단이 갈라진다는 점을 보여 줍니다. 즉 이 절의 예시는 값 자체보다 `유지`, `특징 제외`, `구조 붕괴`로 나뉘는 판단 구조를 먼저 드러내는 데 있습니다.

@@ -89,11 +89,10 @@
 
 ```mermaid
 flowchart TD
-    A[Windowed event sequence]
-    A --> B[Collapse into summary features]
-    A --> C[Keep ordered segments]
-    B --> D[One-row feature input]
-    C --> E[Sequence-like input candidate]
+    A[창을 적용한 동작 순서] --> B[요약 특징으로 접기]
+    A --> C[순서 구간을 유지하기]
+    B --> D[한 줄 특징 입력]
+    C --> E[순서형 입력 후보]
 ```
 
 여기서도 경계를 분명히 해야 합니다. 이 절은 `입력 창을 왜 그렇게 잘랐는가`를 답하는 자리이지, 그 입력 위에서 어떤 학습 구조가 잘 맞는지까지 설명하는 자리는 아닙니다.

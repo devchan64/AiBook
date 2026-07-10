@@ -71,24 +71,24 @@
 
 ```mermaid
 flowchart TD
-    A[Same event list<br/>baseline difference<br/>repeatability<br/>operator context]
+    A[같은 사건 목록<br/>기준선 차이<br/>반복성<br/>운영 문맥]
 
-    A --> B[Report table<br/>show what changed]
-    A --> C[Review queue<br/>decide what to inspect first]
-    A --> D[Target-candidate table<br/>prepare inputs and result columns]
+    A --> B[리포트 표<br/>무엇이 달라졌는지 보여 줌]
+    A --> C[검토 큐<br/>무엇을 먼저 볼지 정함]
+    A --> D[목표 후보 표<br/>입력 열과 결과 열을 준비]
 
-    B --> B1[baseline_mean]
-    B --> B2[current_mean]
-    B --> B3[diff]
-    B --> B4[report sentence]
+    B --> B1[기준선 평균<br/>baseline_mean]
+    B --> B2[현재 평균<br/>current_mean]
+    B --> B3[차이값<br/>diff]
+    B --> B4[리포트 문장<br/>report sentence]
 
-    C --> C1[review_needed]
-    C --> C2[priority_score]
-    C --> C3[queue rank]
+    C --> C1[검토 필요<br/>review_needed]
+    C --> C2[우선순위 점수<br/>priority_score]
+    C --> C3[큐 순위<br/>queue rank]
 
-    D --> D1[feature columns]
-    D --> D2[target candidate]
-    D --> D3[holdout columns]
+    D --> D1[특징 열<br/>feature columns]
+    D --> D2[목표 후보<br/>target candidate]
+    D --> D3[홀드아웃 열<br/>holdout columns]
 ```
 
 이 도식에서 먼저 봐야 할 것은 `한 표가 세 번 복제된다`가 아니라 `한 사건 목록이 세 질문에 맞게 다시 자른다`는 점입니다. 비교 리포트는 변화 설명을 남기고, 검토 후보 큐는 운영 우선순위를 남기고, 목표 라벨 후보 표는 입력 열과 결과 열 구분을 남깁니다. 즉 세 표는 같은 데이터를 중복 복사한 결과가 아니라, 서로 다른 질문에 맞춰 같은 사건 목록을 다시 조직한 결과로 읽어야 합니다.

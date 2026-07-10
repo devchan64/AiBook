@@ -53,15 +53,15 @@
 
 ```mermaid
 flowchart TD
-    A[Operational question]
-    A --> B{Need to show what changed first?}
-    B -->|Yes| C[Keep compare report]
-    B -->|No| D{Have stable target labels?}
-    D -->|No| C
-    D -->|Yes| E[Consider prediction task]
+    A[운영 질문]
+    A --> B{무엇이 달라졌는지 먼저 보여야 하는가?}
+    B -->|예| C[비교 리포트를 유지]
+    B -->|아니오| D{안정된 목표 라벨이 있는가?}
+    D -->|아니오| C
+    D -->|예| E[예측 문제를 검토]
 
-    C --> F[Review queue can still follow]
-    E --> G[Prediction becomes reasonable]
+    C --> F[뒤에 검토 큐가 이어질 수 있음]
+    E --> G[예측이 합리적이 됨]
 ```
 
 이 도식은 비교 리포트가 예측을 못 해서 잠깐 머무는 단계가 아니라, 어떤 질문에서는 끝까지 더 맞는 산출물일 수 있다는 점을 보여 줍니다. 먼저 필요한 것이 `무엇이 달라졌는가`를 보여 주는 일이라면 비교 리포트가 자연스럽고, 안정된 목표 라벨이 있을 때만 예측 문제로 넘어갑니다. 좋은 데이터 모델링은 처음부터 가장 복잡한 문제를 세우는 일이 아니라, 현재 데이터 상태에 맞는 산출물 형태를 정직하게 고르는 일입니다. 변화 설명과 검토 우선순위가 더 중요하고 안정된 목표 라벨이 아직 약하다면, 비교 리포트를 끝까지 유지하는 편이 더 정확할 수 있습니다.

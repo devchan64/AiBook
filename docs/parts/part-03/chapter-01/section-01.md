@@ -47,11 +47,11 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 ```mermaid
 flowchart TD
-  A["Raw time-series logs"] --> B["Choose one sample unit"]
-  B --> C["Summarize into features"]
-  C --> D["Compare with a baseline"]
-  D --> E["Decide output structure"]
-  E --> F["Review candidate or prediction-ready table"]
+  A["원천 시계열 로그"] --> B["샘플 단위 정하기"]
+  B --> C["특징으로 요약하기"]
+  C --> D["기준선과 비교하기"]
+  D --> E["출력 구조 정하기"]
+  E --> F["검토 후보 표 또는 예측 준비 표"]
 ```
 
 추상적으로만 보면 이 말이 쉽게 손에 잡히지 않을 수 있으므로, 같은 장면을 원천데이터와 모델링 후 표로 나누어 봅니다.
@@ -92,11 +92,11 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["Time-step logs"] --> B["Human scans rows one by one"]
-  B --> C["Hard to compare whole actions"]
-  A --> D["Model one action as one sample"]
-  D --> E["Make features and baseline gap"]
-  E --> F["Emit review flag or prediction-ready output"]
+  A["시점별 로그"] --> B["사람이 행을 하나씩 훑음"]
+  B --> C["동작 전체 비교가 어려움"]
+  A --> D["동작 1회를 샘플 1건으로 모델링"]
+  D --> E["특징과 기준선 차이 만들기"]
+  E --> F["검토 플래그 또는 예측용 출력 생성"]
 ```
 
 데이터 모델링이 잘 되었는지는 화려한 모델을 썼는지로 판단하지 않습니다. 오히려 다음 질문에 답할 수 있는지로 판단합니다.

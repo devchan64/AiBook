@@ -47,13 +47,13 @@ Part 3에서는 아직 엄밀한 표본추출 이론보다, 아래 네 가지를
 
 ```mermaid
 flowchart TD
-    A[Current sample set]
-    A --> B[Mostly day shift]
-    A --> C[Mostly machine M1]
-    A --> D[Only one high-load case]
-    A --> E[Only one after-maintenance case]
+    A[현재 샘플 묶음]
+    A --> B[주로 주간 근무조]
+    A --> C[주로 기계 M1]
+    A --> D[고부하 사례는 1건뿐]
+    A --> E[정비 직후 사례는 1건뿐]
 
-    B --> F[Coverage is uneven]
+    B --> F[포괄 범위가 고르지 않음]
     C --> F
     D --> F
     E --> F

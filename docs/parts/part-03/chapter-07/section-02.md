@@ -40,16 +40,16 @@
 
 ```mermaid
 flowchart TD
-    A[Comparison table]
-    A --> B[1. Check recent_count]
-    B --> C[2. Check baseline condition]
-    C --> D[3. Read diff and ratio]
-    D --> E[4. Check variability and pattern]
-    E --> F[5. Write review sentence]
+    A[비교 표]
+    A --> B[1. recent_count 확인]
+    B --> C[2. 기준선 조건 확인]
+    C --> D[3. diff와 비율 읽기]
+    D --> E[4. 변동성과 패턴 확인]
+    E --> F[5. 검토 문장 작성]
 
-    B --> G[Few cases?<br/>lower confidence]
-    D --> H[Large diff?<br/>possible change]
-    E --> I[Repeated pattern?<br/>stronger review reason]
+    B --> G[사례가 적은가?<br/>신뢰도 낮춤]
+    D --> H[차이가 큰가?<br/>변화 가능성]
+    E --> I[반복 패턴이 있는가?<br/>더 강한 검토 근거]
 ```
 
 이 도식은 비교표에서 가장 눈에 띄는 `diff`부터 바로 읽지 않고, 먼저 표본 수와 기준선 조건을 확인해야 한다는 순서를 보여 줍니다. 즉 숫자 예시보다 `비교표를 어떤 순서로 읽어야 사람 검토 문장으로 안전하게 바뀌는가`를 고정하는 데 있습니다.

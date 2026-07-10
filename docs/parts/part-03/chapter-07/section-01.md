@@ -30,10 +30,10 @@
 
 ```mermaid
 flowchart TD
-    A[Recent window] --> C[Comparison table]
-    B[Baseline window] --> C
-    C --> D[Difference columns]
-    D --> E[Human review sentence]
+    A[최근 구간] --> C[비교 표]
+    B[기준선 구간] --> C
+    C --> D[차이 열]
+    D --> E[사람 검토 문장]
 ```
 
 최근 구간과 기준선 구간이 각각 따로 존재하다가, `Comparison table`에서 처음 한 표 안으로 만납니다. 그리고 사람이 실제로 읽는 것은 최근 값이나 기준선 값 하나가 아니라, 그 둘이 만나 만들어 낸 `Difference columns`입니다. 마지막 `Human review sentence`는 원인 확정이 아니라, 사람이 검토할 비교 문장이라는 뜻입니다.

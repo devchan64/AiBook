@@ -52,15 +52,15 @@
 
 ```mermaid
 flowchart TD
-    A[Same column name: flow_mean] --> B{Same unit?}
-    B -- No --> X[Separate definition group]
-    B -- Yes --> C{Same sensor version?}
+    A[같은 열 이름: flow_mean] --> B{같은 단위인가?}
+    B -- 아니오 --> X[정의 그룹 분리]
+    B -- 예 --> C{같은 센서 버전인가?}
     C -- No --> X
-    C -- Yes --> D{Same segment rule?}
-    D -- No --> X
-    D -- Yes --> E{Same ops definition?}
-    E -- No --> X
-    E -- Yes --> Y[Same feature definition]
+    C -- 예 --> D{같은 구간 규칙인가?}
+    D -- 아니오 --> X
+    D -- 예 --> E{같은 운영 정의인가?}
+    E -- 아니오 --> X
+    E -- 예 --> Y[같은 특징 정의]
 ```
 
 ## 그래서 지금 단계에서 무엇을 먼저 적어야 하는가

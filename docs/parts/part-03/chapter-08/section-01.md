@@ -101,13 +101,13 @@ print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation
 
 ```mermaid
 flowchart TD
-    A[Difference observed] --> B{Sample size enough?}
-    B -- No --> C{Repeated in same direction?}
-    C -- No --> D[Record only]
-    C -- Yes --> E[Review candidate]
-    B -- Yes --> F{Repeated in same direction?}
-    F -- No --> E
-    F -- Yes --> G[Stronger warning]
+    A[차이가 관측됨] --> B{표본 수가 충분한가?}
+    B -- 아니오 --> C{같은 방향 반복이 있는가?}
+    C -- 아니오 --> D[기록만 남김]
+    C -- 예 --> E[검토 후보]
+    B -- 예 --> F{같은 방향 반복이 있는가?}
+    F -- 아니오 --> E
+    F -- 예 --> G[더 강한 경고]
 ```
 
 이 절은 특정 운영 도메인의 `감`을 말하는 것이 아니라, `증거 강도(evidence strength)`를 어떻게 읽을 것인가의 문제로 다시 묶을 수 있습니다.

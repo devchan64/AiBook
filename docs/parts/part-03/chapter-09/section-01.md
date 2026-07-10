@@ -55,14 +55,14 @@
 
 ```mermaid
 flowchart TD
-    A[Current data state]
-    A --> B{Only comparison signal?}
-    B -->|Yes| C[Stop at alert]
-    B -->|No| D{Signal + review rules?}
-    D -->|Yes| E[Stop at review candidate]
-    D -->|No| F{Stable target labels + evaluation setup?}
-    F -->|Yes| G[Move to label prediction]
-    F -->|No| E
+    A[현재 데이터 상태]
+    A --> B{비교 신호만 있는가?}
+    B -->|예| C[경고에서 멈춤]
+    B -->|아니오| D{신호와 검토 규칙이 함께 있는가?}
+    D -->|예| E[검토 후보에서 멈춤]
+    D -->|아니오| F{안정된 목표 라벨과 평가 구조가 있는가?}
+    F -->|예| G[라벨 예측으로 올림]
+    F -->|아니오| E
 ```
 
 이 도식은 문제를 위로 올리는 판단이 `무조건 한 단계 상승`이 아니라, 현재 근거가 어느 수준까지 있는지를 묻는 분기라는 점을 보여 줍니다. 즉 라벨 목록을 찍는 것이 아니라 `경고에서 멈출지`, `검토 후보까지 갈지`, `라벨 예측으로 올릴지`를 단계별로 가르는 판단 구조입니다. 핵심은 `경고는 변화 신호이고, 검토 후보는 운영 우선순위이며, 라벨 예측은 그보다 더 강한 문제 설정이다`는 점입니다. 지금 문제를 어디까지 올릴지는 `더 고급인가`가 아니라 `현재 데이터가 어디까지 정직하게 지지하는가`로 판단해야 합니다.

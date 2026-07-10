@@ -24,11 +24,11 @@
 
 ```mermaid
 flowchart TD
-    A[Question] --> B[Sample unit]
-    B --> C[Summary table]
-    C --> D[Feature and baseline]
-    D --> E[Output structure]
-    E --> F[Conservative interpretation]
+    A[질문] --> B[샘플 단위]
+    B --> C[요약 표]
+    C --> D[특징과 기준선]
+    D --> E[출력 구조]
+    E --> F[보수적 해석]
 ```
 
 이 묶음이 추상적으로만 보인다면, 실제로 자주 밟는 `잘못된 시작 순서`와 비교해 보는 편이 이해가 빠릅니다.

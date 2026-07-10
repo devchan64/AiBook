@@ -66,16 +66,15 @@ NIST의 관리도 설명은 공정이 통제 상태에 도달했다고 보려면
 
 ```mermaid
 flowchart TD
-    A[Baseline candidates]
-    A --> B{Same sample unit?}
-    B -->|No| X[Do not use]
-    B -->|Yes| C{Same process and mode?}
-    C -->|No| X
-    C -->|Yes| D{Enough event count?}
-    D -->|No| X
-    D -->|Yes| E{Same operational phase?}
-    E -->|No| X
-    E -->|Yes| F[Use as baseline candidate]
+    A[기준선 후보] --> B{같은 샘플 단위인가?}
+    B -->|아니오| X[사용하지 않음]
+    B -->|예| C{같은 공정과 모드인가?}
+    C -->|아니오| X
+    C -->|예| D{사건 수가 충분한가?}
+    D -->|아니오| X
+    D -->|예| E{같은 운영 단계인가?}
+    E -->|아니오| X
+    E -->|예| F[기준선 후보로 사용]
 ```
 
 이 도식은 기준선 선택이 평균값 하나를 고르는 일이 아니라, 비교 조건을 단계별로 거르는 판단이라는 점을 보여 줍니다. 즉 후보 표를 출력하는 것보다 `같은 샘플 단위`, `같은 공정 조건`, `충분한 표본 수`, `같은 운영 상태`를 차례로 맞춰 가는 선택 구조를 붙잡는 데 있습니다.

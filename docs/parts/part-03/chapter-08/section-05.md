@@ -80,18 +80,18 @@
 
 ```mermaid
 flowchart TD
-    A[Many comparison columns]
-    A --> B1[Change magnitude]
-    A --> B2[Repeatability]
-    A --> B3[Interpretation confidence]
-    A --> B4[Operational importance]
+    A[여러 비교 열]
+    A --> B1[변화 크기]
+    A --> B2[반복성]
+    A --> B3[해석 확신도]
+    A --> B4[운영 중요도]
 
-    B1 --> C[Priority candidate]
+    B1 --> C[우선순위 후보]
     B2 --> C
     B3 --> C
     B4 --> C
 
-    C --> D[Review queue or structured output]
+    C --> D[검토 큐 또는 구조화된 출력]
 ```
 
 이 도식은 여러 열을 곧바로 점수 하나로 합치는 것이 아니라, 먼저 `무슨 판단 축인가`로 다시 묶어야 한다는 점을 보여 줍니다. 즉 여기서 먼저 봐야 하는 것은 `열이 많다`는 복잡함보다 `서로 다른 질문을 몇 개의 판단 축으로 묶는다`는 구조입니다. 검토 우선순위는 차이값 하나가 아니라, 변화 크기, 반복성, 해석 신뢰도, 운영 중요도를 함께 묶어 만든 후보 판단입니다. 따라서 이 절의 핵심은 `여러 비교 열을 어떻게 한 줄 점수로 구현할까`보다 `여러 비교 열이 어떤 질문 묶음으로 다시 압축되는가`를 먼저 분명히 하는 데 있습니다.

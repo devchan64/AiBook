@@ -73,20 +73,20 @@
 
 ```mermaid
 flowchart TD
-    A[Comparison result<br/>diff, repeatability, recent count]
-    A --> B1[Case A<br/>repeatable change<br/>enough observations]
-    A --> B2[Case B<br/>same diff<br/>few observations]
+    A[비교 결과<br/>diff, 반복성, 최근 건수]
+    A --> B1[사례 A<br/>반복되는 변화<br/>관측이 충분함]
+    A --> B2[사례 B<br/>같은 차이값<br/>관측이 적음]
 
-    B1 --> C1[Conservative sentence<br/>raise review priority<br/>hold cause claim]
-    B2 --> C2[Conservative sentence<br/>need more observation]
+    B1 --> C1[보수적 문장<br/>검토 우선순위 상향<br/>원인 주장은 보류]
+    B2 --> C2[보수적 문장<br/>더 많은 관측 필요]
 
-    C1 --> D1[warning_level = caution]
-    C1 --> D2[review_needed = 1]
-    C1 --> D3[priority_score = high]
+    C1 --> D1[경고 수준<br/>warning_level = caution]
+    C1 --> D2[검토 필요<br/>review_needed = 1]
+    C1 --> D3[우선순위 점수<br/>priority_score = high]
 
-    C2 --> E1[warning_level = watch]
-    C2 --> E2[review_needed = 0]
-    C2 --> E3[priority_score = lower]
+    C2 --> E1[경고 수준<br/>warning_level = watch]
+    C2 --> E2[검토 필요<br/>review_needed = 0]
+    C2 --> E3[우선순위 점수<br/>priority_score = lower]
 ```
 
 이 도식은 같은 차이값이라도 바로 같은 운영 열로 넘어가지 않는다는 점을 보여 줍니다. 먼저 비교 결과를 읽고, 그다음 사람 문장으로 해석 강도를 조절한 뒤에야 `warning_level`, `review_needed`, `priority_score` 같은 운영 열로 압축됩니다. 즉 `warning_level` 같은 열은 갑자기 만들어 낸 구현물이 아니라, 관찰 결과를 사람 해석을 거쳐 운영에 다시 쓰기 쉬운 형식으로 압축한 결과입니다. 여기서 먼저 고정해야 하는 것도 `무엇이 달라졌는가`를 읽고, 그 차이를 얼마나 강하게 말할지 문장으로 조절한 뒤, 다시 운영 열로 압축하는 순서입니다.
