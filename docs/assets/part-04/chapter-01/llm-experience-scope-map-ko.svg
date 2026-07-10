@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 280" role="img" aria-labelledby="title desc">
+  <title id="title">LLM 경험과 더 넓은 AI 범위를 구분하는 도식</title>
+  <desc id="desc">한 경로는 챗봇이나 이미지 도구 경험에서 AI는 곧 LLM이라는 점프로 가고, 서비스 구조가 가려진다. 다른 경로는 같은 경험에서 검색, 규칙, 모델, 정책, 사람 검토를 분리해 보고, LLM이 한 구성요소가 된 뒤 AI 범위가 다시 넓어지는 흐름으로 간다.</desc>
+  <defs><style>
+      .bg{fill:#f6f4ef}.box{fill:#fffdfa;stroke:#3f3a34;stroke-width:2;rx:18;ry:18}.accent{fill:#e7efe3;stroke:#2f6b3b;stroke-width:2;rx:18;ry:18}.text{fill:#1f1b16;font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;font-size:20px;text-anchor:middle}.small{font-size:17px}.arrow{fill:none;stroke:#5b5349;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    </style><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#5b5349"/></marker></defs>
+  <rect class="bg" width="920" height="280"/>
+  <rect class="accent" x="28" y="108" width="210" height="64"/><text class="text small" x="133" y="136">챗봇 또는 이미지 도구</text><text class="text small" x="133" y="158">사용 경험</text>
+  <rect class="box" x="296" y="38" width="170" height="64"/><text class="text" x="381" y="76">AI = LLM으로 점프</text>
+  <rect class="box" x="524" y="38" width="170" height="64"/><text class="text small" x="609" y="66">서비스 구조가</text><text class="text small" x="609" y="88">가려진다</text>
+  <rect class="box" x="296" y="178" width="200" height="64"/><text class="text small" x="396" y="206">검색, 규칙, 모델, 정책,</text><text class="text small" x="396" y="228">사람 검토를 분리해 본다</text>
+  <rect class="box" x="554" y="178" width="150" height="64"/><text class="text small" x="629" y="206">LLM은 하나의</text><text class="text small" x="629" y="228">구성요소가 된다</text>
+  <rect class="accent" x="762" y="178" width="130" height="64"/><text class="text small" x="827" y="206">AI 범위가</text><text class="text small" x="827" y="228">다시 넓어진다</text>
+  <path class="arrow" marker-end="url(#ah)" d="M238 120 L296 82"/>
+  <path class="arrow" marker-end="url(#ah)" d="M466 70 L524 70"/>
+  <path class="arrow" marker-end="url(#ah)" d="M238 160 L296 210"/>
+  <path class="arrow" marker-end="url(#ah)" d="M496 210 L554 210"/>
+  <path class="arrow" marker-end="url(#ah)" d="M704 210 L762 210"/>
+</svg>
