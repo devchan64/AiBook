@@ -1,15 +1,11 @@
 # P3-9.3 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표는 어떻게 다른가
 
 > Section ID: `P3-9.3`
-> Version: `v2026.07.08`
+> Version: `v2026.07.10`
 
-같은 사건 목록도 목적에 따라 [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표로 달라집니다. 어떤 표는 비교 문장과 차이값을 앞세우고, 어떤 표는 검토 우선순위를 앞세우며, 어떤 표는 입력 열과 결과 후보 열 구분을 앞세웁니다.
+같은 사건 목록도 목적에 따라 [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표로 달라집니다. 어떤 표는 비교 문장과 차이값을 앞세우고, 어떤 표는 검토 우선순위를 앞세우며, 어떤 표는 입력 열과 결과 후보 열 구분을 앞세웁니다. 여기서 목표 라벨 후보는 아직 확정 정답으로 굳지 않았더라도, 입력 열과 결과 열을 가르는 문제 구조 안에서 결과 후보로 세워 보는 준비 열로 읽습니다.
 
-이 절에서는 목표 라벨 후보(target candidate)를 아직 확정 정답으로 굳지 않았더라도, 입력 열과 결과 열을 가르는 문제 구조 안에서 결과 후보로 세워 보는 준비 열로 읽습니다.
-
-이 절에서는 같은 장면을 세 가지 산출물로 나누어 봅니다. 핵심은 `무엇을 계산하느냐`보다 `무엇을 바로 보여 주고, 무엇을 입력 열과 결과 열이 갈린 문제 구조로 정리하느냐`가 다르다는 점입니다.
-
-먼저 세 산출물을 가장 짧게 구분하면 다음과 같습니다.
+핵심은 `무엇을 계산하느냐`보다 `같은 사건 목록을 어떤 질문에 맞춰 다시 조직하느냐`가 다르다는 점입니다.
 
 | 산출물 | 지금 가장 직접적인 목적 | 표에서 먼저 보이는 것 |
 | --- | --- | --- |
@@ -17,13 +13,7 @@
 | 검토 후보 큐 | 사람이 먼저 볼 대상을 순서대로 고른다 | 우선순위, 검토 필요 여부, 반복성 |
 | 목표 라벨 후보 표 | 나중에 맞히고 싶은 결과를 학습 문제로 정리한다 | 특징 열, 목표 라벨 후보, 보류할 열 |
 
-이 차이는 같은 사건을 어떻게 읽는지에서 더 분명해집니다.
-
-| 같은 사건에 대한 질문 | 더 자연스러운 산출물 | 이유 |
-| --- | --- | --- |
-| 평소보다 무엇이 얼마나 달라졌는가 | 비교 리포트 | 차이 자체를 먼저 보여 주는 일이 중요하기 때문 |
-| 지금 무엇부터 사람이 봐야 하는가 | 검토 후보 큐 | 운영 우선순위를 정해야 하기 때문 |
-| 나중에 무엇을 자동으로 맞히고 싶은가 | 목표 라벨 후보 표 | 학습 입력과 결과를 분리해야 하기 때문 |
+같은 사건을 두고도 질문이 달라지면 표의 중심 열이 달라집니다. `평소보다 무엇이 얼마나 달라졌는가`를 묻는다면 비교 리포트가 자연스럽고, `지금 무엇부터 사람이 봐야 하는가`를 묻는다면 검토 후보 큐가 자연스럽습니다. `나중에 무엇을 자동으로 맞히고 싶은가`를 묻는다면 목표 라벨 후보 표가 필요합니다.
 
 예를 들어 동작 1회 요약 표가 이미 있고, 기준선 대비 차이와 반복성, 운영 메모가 함께 있다고 가정해 봅시다. 이때 같은 데이터도 아래처럼 세 번 다른 표로 읽힐 수 있습니다.
 
@@ -81,30 +71,27 @@
 
 ```mermaid
 flowchart TD
-    A[Same event list<br/>baseline difference<br/>repeatability<br/>operator context]
+    A[같은 사건 목록<br/>기준선 차이<br/>반복성<br/>운영 문맥]
 
-    A --> B[Report table<br/>show what changed]
-    A --> C[Review queue<br/>decide what to inspect first]
-    A --> D[Target-candidate table<br/>prepare inputs and result columns]
+    A --> B[리포트 표<br/>무엇이 달라졌는지 보여 줌]
+    A --> C[검토 큐<br/>무엇을 먼저 볼지 정함]
+    A --> D[목표 후보 표<br/>입력 열과 결과 열을 준비]
 
-    B --> B1[baseline_mean]
-    B --> B2[current_mean]
-    B --> B3[diff]
-    B --> B4[report sentence]
+    B --> B1[기준선 평균<br/>baseline_mean]
+    B --> B2[현재 평균<br/>current_mean]
+    B --> B3[차이값<br/>diff]
+    B --> B4[리포트 문장<br/>report sentence]
 
-    C --> C1[review_needed]
-    C --> C2[priority_score]
-    C --> C3[queue rank]
+    C --> C1[검토 필요<br/>review_needed]
+    C --> C2[우선순위 점수<br/>priority_score]
+    C --> C3[큐 순위<br/>queue rank]
 
-    D --> D1[feature columns]
-    D --> D2[target candidate]
-    D --> D3[holdout columns]
+    D --> D1[특징 열<br/>feature columns]
+    D --> D2[목표 후보<br/>target candidate]
+    D --> D3[홀드아웃 열<br/>holdout columns]
 ```
 
-이 도식에서 먼저 봐야 할 것은 `한 표가 세 번 복제된다`가 아니라 `한 사건 목록이 세 질문에 맞게 다시 자른다`는 점입니다. 비교 리포트는 변화 설명을 남기고, 검토 후보 큐는 운영 우선순위를 남기고, 목표 라벨 후보 표는 입력 열과 결과 열 구분을 남깁니다. 즉 여기서는 코드로 열 목록을 찍는 것보다, 같은 출발점이 어떤 목적에 따라 세 갈래로 나뉘는지를 보는 편이 더 직접적입니다.
-
-
-즉 세 표는 같은 데이터를 중복 복사한 결과가 아니라, 서로 다른 질문에 맞춰 같은 사건 목록을 다시 조직한 결과로 읽어야 합니다.
+이 도식에서 먼저 봐야 할 것은 `한 표가 세 번 복제된다`가 아니라 `한 사건 목록이 세 질문에 맞게 다시 자른다`는 점입니다. 비교 리포트는 변화 설명을 남기고, 검토 후보 큐는 운영 우선순위를 남기고, 목표 라벨 후보 표는 입력 열과 결과 열 구분을 남깁니다. 즉 세 표는 같은 데이터를 중복 복사한 결과가 아니라, 서로 다른 질문에 맞춰 같은 사건 목록을 다시 조직한 결과로 읽어야 합니다.
 
 ## 언제 무엇으로 멈춰야 하는가
 

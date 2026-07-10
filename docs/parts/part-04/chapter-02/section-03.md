@@ -1,7 +1,7 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.08`
+> Version: `v2026.07.10`
 
 P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supervised learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 비지도학습(unsupervised learning)을 봤습니다. 이번에는 모델이 행동(action)을 하고, 그 결과로 보상(reward)을 받으며, 다음 행동 방식을 조정하는 강화학습(reinforcement learning)을 봅니다.
 
@@ -183,7 +183,7 @@ flowchart TD
 - 왜 보상은 라벨처럼 즉시 정답을 알려 주는 신호가 아닌지 말할 수 있는가
 - 강화학습의 에이전트와 LLM 서비스의 에이전트를 왜 같은 뜻으로 쓰면 안 되는지 설명할 수 있는가
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 쿠폰 추천이 지금 클릭만 높일지, 장기 구매를 높일지 고민할 때
 

@@ -252,11 +252,11 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 
 ```mermaid
 flowchart TD
-    select["select values<br/>slice / fancy / mask"]
-    share["share original?<br/>view or copy"]
-    reshape["reshape with newaxis?<br/>shape changes"]
-    broadcast["broadcasting rule<br/>how will it align?"]
-    result["resulting calculation<br/>and possible side effect"]
+    select["값 선택 방식<br/>슬라이스 / 팬시 / 마스크"]
+    share["원본을 함께 보는가<br/>view인지 copy인지"]
+    reshape["newaxis로 shape 변경<br/>축이 어떻게 바뀌는가"]
+    broadcast["broadcasting 규칙<br/>어떻게 맞춰 계산되는가"]
+    result["계산 결과와 부작용<br/>값 변화와 원본 영향"]
 
     select --> share
     select --> reshape

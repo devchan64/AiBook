@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 280" role="img" aria-labelledby="title desc">
+  <title id="title">Rule-based versus learning-based decision flow</title>
+  <desc id="desc">A new case goes into a decision point that asks who made the decision rule. One branch goes to a rule-based result, the other to a model prediction. Both feed a service policy and then an action or response.</desc>
+  <defs><style>
+      .bg{fill:#f6f4ef}.box{fill:#fffdfa;stroke:#3f3a34;stroke-width:2;rx:18;ry:18}.accent{fill:#e7efe3;stroke:#2f6b3b;stroke-width:2;rx:18;ry:18}.diamond{fill:#fffdfa;stroke:#3f3a34;stroke-width:2}.text{fill:#1f1b16;font-family:"Helvetica Neue",Arial,sans-serif;font-size:20px;text-anchor:middle}.small{font-size:17px}.arrow{fill:none;stroke:#5b5349;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    </style><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#5b5349"/></marker></defs>
+  <rect class="bg" width="920" height="280"/>
+  <rect class="accent" x="36" y="108" width="150" height="64"/><text class="text" x="111" y="146">new case</text>
+  <polygon class="diamond" points="300,76 408,140 300,204 192,140"/>
+  <text class="text small" x="300" y="132">who made the</text><text class="text small" x="300" y="154">decision rule?</text>
+  <rect class="box" x="474" y="38" width="180" height="64"/><text class="text small" x="564" y="66">rule-based result</text>
+  <rect class="box" x="474" y="178" width="180" height="64"/><text class="text small" x="564" y="206">model prediction</text>
+  <rect class="accent" x="720" y="108" width="150" height="64"/><text class="text" x="795" y="146">service policy</text>
+  <rect class="box" x="720" y="206" width="150" height="52"/><text class="text small" x="795" y="238">action or response</text>
+  <path class="arrow" marker-end="url(#ah)" d="M186 140 L192 140"/>
+  <path class="arrow" marker-end="url(#ah)" d="M408 110 L474 70"/>
+  <path class="arrow" marker-end="url(#ah)" d="M408 170 L474 210"/>
+  <path class="arrow" marker-end="url(#ah)" d="M654 70 L720 130"/>
+  <path class="arrow" marker-end="url(#ah)" d="M654 210 L720 150"/>
+  <path class="arrow" marker-end="url(#ah)" d="M795 172 L795 206"/>
+</svg>

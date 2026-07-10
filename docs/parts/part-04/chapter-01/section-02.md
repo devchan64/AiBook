@@ -1,7 +1,7 @@
 # P4-1.2 데이터에서 규칙을 배운다는 말
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.08`
+> Version: `v2026.07.10`
 
 P4-1.1에서는 AI, 머신러닝(machine learning), 딥러닝(deep learning), 생성형 AI(generative AI), LLM(large language model)의 위치를 구분했습니다. 이제 머신러닝을 조금 더 가까이 봅니다.
 
@@ -59,19 +59,7 @@ Part 3에서는 데이터과학(data science) 전체를 다루기보다, 그 안
 
 다음 도식은 두 접근의 차이를 흐름으로 보여 줍니다. 규칙 기반 접근은 사람이 기준을 먼저 쓰고, 학습 기반 접근은 데이터 사례로부터 모델을 만듭니다. 두 방식 모두 마지막에는 서비스의 판단이나 행동으로 이어질 수 있습니다.
 
-```mermaid
-flowchart TD
-  I["new case"]
-  P{"who made the decision rule?"}
-
-  I --> P
-  P -->|person writes it| R["rule-based result"]
-  P -->|data trains it| L["model prediction"]
-
-  R --> D["service policy"]
-  L --> D
-  D --> O["action or response"]
-```
+![규칙 기반과 학습 기반 판단 흐름](../../../assets/part-04/chapter-01/rule-vs-learning-flow-ko.svg)
 
 여기서 중요한 지점은 `model prediction`이 곧 최종 행동은 아니라는 점입니다. 모델은 점수나 분류 결과를 낼 수 있지만, 실제 서비스는 비용, 위험, 정책, 사용자 경험을 고려해 최종 행동을 정할 수 있습니다.
 
@@ -158,18 +146,7 @@ Part 3에서 넘어온 표를 떠올리면, 여기서도 `무엇을 바로 학�
 
 머신러닝 흐름은 다음 다섯 단계로 읽을 수 있습니다.
 
-```mermaid
-flowchart TD
-  A["examples"]
-  B["features X + labels y"]
-  C["training"]
-  D["trained model"]
-  E["new input"]
-  F["prediction"]
-
-  A --> B --> C --> D
-  E --> D --> F
-```
+![머신러닝 기본 학습 흐름](../../../assets/part-04/chapter-01/learning-pipeline-flow-ko.svg)
 
 이 그림에서 `X`는 모델에 넣는 입력 데이터입니다. 보통 샘플(sample)이 행(row), 특징(feature)이 열(column)인 배열이나 표로 생각할 수 있습니다. `y`는 지도학습에서 모델이 맞추려는 목표값입니다. 분류 문제에서는 라벨일 수 있고, 회귀 문제에서는 숫자값일 수 있습니다.
 
@@ -251,7 +228,7 @@ scikit-learn의 기본 사용 흐름도 이 구조와 비슷합니다. 모델 �
 
 이 구분은 머신러닝의 핵심입니다. 데이터에서 관계를 추정하는 모델은 항상 학습 데이터에 너무 맞을 위험이 있습니다. 따라서 모델이 실제로 유용한지 보려면 학습에 쓰지 않은 데이터로 평가해야 합니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 고객 문의를 사람이 규칙으로 나눌지, 데이터로 학습할지 결정해야 할 때
 
@@ -263,20 +240,7 @@ scikit-learn의 기본 사용 흐름도 이 구조와 비슷합니다. 모델 �
 
 확인 가능한 결과는 새 문의 평가에서 드러납니다. 규칙 기반 분류는 단어가 조금만 바뀌어도 놓칠 수 있지만, 학습 기반 모델은 과거 사례에서 비슷한 패턴을 배웠다면 더 안정적으로 예측할 수 있습니다. 반대로 학습 데이터만 잘 맞고 새 문의에서 자주 틀리면, 아직 일반화가 부족한 상태입니다.
 
-```mermaid
-flowchart TD
-  A["customer inquiry"]
-  B["match a hand-written keyword rule"]
-  C["phrasing changes or mixed intent appears"]
-  D["rule path becomes brittle"]
-  E["collect labeled past inquiries"]
-  F["learn input-label relation"]
-  G["test on unseen inquiries"]
-  H["decide whether generalization is good enough"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G --> H
-```
+![고객 문의 분류에서 규칙 경로와 학습 경로를 비교하는 도식](../../../assets/part-04/chapter-01/inquiry-rule-vs-learning-flow-ko.svg)
 
 ## 이 절에서 기억할 관점
 

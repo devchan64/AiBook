@@ -1,7 +1,7 @@
 # P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-4장에서는 미분(derivative)과 그래디언트(gradient)를 통해 “값을 어떻게 바꾸면 손실(loss)이 줄어드는가”를 봤습니다. 이제 다른 종류의 수학 언어가 필요합니다.
 
@@ -183,9 +183,9 @@ AI에서는 두 관점이 모두 등장합니다. 데이터에서 관측된 빈�
 
 ```mermaid
 flowchart TD
-  A["prior belief<br/>what we believe before<br/>new observation"]
-  B["evidence<br/>new observed information<br/>that changes our belief"]
-  C["posterior belief<br/>what we believe after<br/>the evidence"]
+  A["사전 믿음<br/>새 관측 전의 가능성 판단"]
+  B["증거<br/>판단을 바꾸게 만드는 관측 정보"]
+  C["사후 믿음<br/>증거를 본 뒤의 갱신된 판단"]
 
   A --> B --> C
 ```
@@ -212,7 +212,7 @@ AI는 많은 경우 확실한 규칙만으로 동작하지 않습니다. 데이�
 
 자연어 모델도 비슷한 구조를 가집니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 스팸 메일 판단은 왜 확률 언어를 필요로 하는가
 

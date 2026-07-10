@@ -1,7 +1,7 @@
 # P2-12.3 학습용 데이터셋(dataset) 준비의 직관
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-12.1에서는 `DataFrame`을 표 형식 데이터 구조로 읽었습니다. P2-12.2에서는 그 표에서 필요한 열을 고르고, 조건으로 행을 걸러 내고, 요약값을 확인했습니다. 이제 질문은 `이 표를 모델이 읽을 수 있는 학습용 데이터셋으로 바꾸려면 무엇을 준비해야 하는가?`로 한 단계 더 앞으로 갑니다.
 
@@ -136,9 +136,9 @@ y = df["passed"]
 
 ```mermaid
 flowchart TD
-    raw["raw DataFrame<br/>student_id, region, absences, score, passed"]
-    choose["choose target<br/>what do we want to predict?"]
-    split["separate columns<br/>X and y"]
+    raw["원본 DataFrame<br/>student_id, region, absences, score, passed"]
+    choose["타깃 선택<br/>무엇을 맞히려는가"]
+    split["열 분리<br/>X와 y 나누기"]
     x["X<br/>region, absences, score"]
     y["y<br/>passed"]
 
@@ -225,10 +225,10 @@ print(X_encoded)
 
 ```mermaid
 flowchart TD
-    full["full dataset"]
-    train["train set<br/>used to fit"]
-    val["validation set<br/>used to compare choices"]
-    test["test set<br/>used for final check"]
+    full["전체 데이터셋"]
+    train["train set<br/>학습에 사용하는 데이터"]
+    val["validation set<br/>설정 비교에 쓰는 데이터"]
+    test["test set<br/>마지막 확인에 쓰는 데이터"]
 
     full --> train
     full --> val
@@ -270,15 +270,15 @@ scikit-learn의 common pitfalls 문서는 두 가지 실수를 강하게 경고�
 
 ```mermaid
 flowchart TD
-    full["full table"]
-    choose["choose X and y"]
-    split["split first<br/>train / validation / test"]
-    fit_train["learn transforms<br/>from train only"]
-    apply_other["apply same transforms<br/>to validation and test"]
-    bad["wrong order<br/>learn from full table first"]
+    full["전체 표"]
+    choose["X와 y 선택"]
+    split["먼저 분리<br/>train / validation / test"]
+    fit_train["변환 기준 학습<br/>train에서만 fit"]
+    apply_other["같은 변환 적용<br/>validation, test에는 apply만"]
+    bad["잘못된 순서<br/>전체 표에서 먼저 기준 학습"]
 
     full --> choose --> split --> fit_train --> apply_other
-    full -.avoid.-> bad
+    full -.피해야 함.-> bad
 ```
 
 잘못된 순서와 더 안전한 순서를 질문으로 다시 쓰면 다음과 같습니다.
@@ -289,7 +289,7 @@ flowchart TD
 | 평균, 표준화, 인코딩 기준은 어디서 배우는가 | train에서만 배운다 |
 | validation, test는 무엇을 하는가 | train에서 배운 같은 기준을 적용만 한다 |
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 합격 여부를 맞히려는데 정답 열을 같이 넣어 버린 경우
 

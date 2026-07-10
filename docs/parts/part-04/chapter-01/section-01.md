@@ -1,7 +1,7 @@
 # P4-1.1 AI, 머신러닝, 딥러닝의 관계
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.08`
+> Version: `v2026.07.10`
 
 Part 1에서는 AI라는 말의 넓은 범위를 봤습니다. Part 2에서는 수식, Python, 배열, 표, 그래프를 다시 읽었습니다. 이제 Part 4에서는 그 기반 위에서 머신러닝(machine learning)을 따로 떼어 봅니다.
 
@@ -65,50 +65,13 @@ AI(artificial intelligence)는 가장 넓은 말입니다. 규칙 기반 시스�
 
 LLM(large language model)은 대규모 언어 모델입니다. 현재 많은 사람이 AI를 LLM 경험으로 처음 만나지만, LLM은 AI 전체가 아니라 언어를 중심으로 발전한 특정한 모델 계열입니다.
 
-```mermaid
-flowchart TD
-  A["AI<br/>artificial intelligence"]
-  B["machine learning<br/>data-driven learning"]
-  C["deep learning<br/>neural-network-based learning"]
-  D["generative AI<br/>generate text, image, audio, code"]
-  E["LLM<br/>large language model"]
-
-  A --> B
-  A --> R["rule-based systems<br/>search, heuristic, knowledge"]
-  B --> C
-  C --> D
-  D --> E
-```
+![AI, 머신러닝, 딥러닝, 생성형 AI, LLM 관계 지도](../../../assets/part-04/chapter-01/ai-ml-dl-llm-map-ko.svg)
 
 이 그림은 엄밀한 분류표라기보다 학습용 지도입니다. 실제 연구와 제품에서는 여러 기술이 섞입니다. 예를 들어 검색 시스템, 규칙 기반 필터, 머신러닝 모델, LLM이 하나의 서비스 안에서 함께 작동할 수 있습니다.
 
 다음 도식은 포함 관계와 실제 서비스 조합이 다르다는 점을 분리해서 보여 줍니다. 위 도식이 “용어의 큰 위치”를 보여 준다면, 아래 도식은 “하나의 서비스 안에서 여러 접근이 함께 작동할 수 있음”을 보여 줍니다.
 
-```mermaid
-flowchart TD
-  U["user request"]
-  A["application"]
-  R["rule checks"]
-  S["search / database"]
-  M["ML model"]
-  L["LLM"]
-  P["policy decision"]
-  H["human review<br/>when needed"]
-  O["service response"]
-
-  U --> A
-  A --> R
-  A --> S
-  A --> M
-  A --> L
-  R --> P
-  S --> P
-  M --> P
-  L --> P
-  P --> O
-  P -. "low confidence / high risk" .-> H
-  H --> O
-```
+![규칙, 검색, 모델, LLM이 함께 있는 서비스 구성도](../../../assets/part-04/chapter-01/service-composition-map-ko.svg)
 
 이 도식에서 LLM은 서비스의 전부가 아니라 여러 구성 요소 중 하나입니다. 모델 출력은 정책 판단과 결합될 수 있고, 위험이 크거나 확신이 낮은 경우에는 사람 검토로 넘어갈 수도 있습니다.
 
@@ -214,7 +177,7 @@ Part 4를 시작할 때 가장 먼저 피해야 할 오해는 다음입니다.
 
 Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐름입니다. 알고리즘 이름은 이 흐름 안에서 이해해야 합니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 챗봇을 써 봤다고 해서 머신러닝 전체를 안 것은 아닌 이유
 
@@ -226,18 +189,7 @@ Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐�
 
 확인 가능한 결과는 서비스 구조를 질문으로 나눠 볼 때 드러납니다. 어떤 부분은 검색이 담당하고, 어떤 부분은 분류 모델이 담당하고, 어떤 부분은 LLM이 생성 응답을 담당한다면, 이미 `AI = LLM`이라는 단순한 등식으로는 설명이 부족합니다.
 
-```mermaid
-flowchart TD
-  A["chatbot or image-tool experience"]
-  B["jump to AI = LLM"]
-  C["service structure stays hidden"]
-  D["separate search, rules, models, policy, human review"]
-  E["LLM becomes one component"]
-  F["AI scope becomes wider again"]
-
-  A --> B --> C
-  A --> D --> E --> F
-```
+![LLM 경험과 더 넓은 AI 범위를 구분하는 도식](../../../assets/part-04/chapter-01/llm-experience-scope-map-ko.svg)
 
 ## 이 절에서 기억할 관점
 

@@ -1,7 +1,7 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-11.1에서는 NumPy 배열(array)의 `shape`, `ndim`, `dtype`을 확인했습니다. P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 사용해 배열의 어느 부분을 읽고 어느 방향으로 계산할지 봤습니다.
 
@@ -344,7 +344,7 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 
 출력에는 스칼라 broadcasting, 행 벡터 broadcasting, shape mismatch 오류 확인, 특징별 평균 제거 예제가 포함되어 있습니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 학생별 보정 점수를 한 번에 더하는 이유
 

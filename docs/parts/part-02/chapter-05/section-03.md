@@ -1,7 +1,7 @@
 # P2-5.3 표본(sample), 추정(estimation), 오차(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-5.2에서는 데이터 묶음의 모양을 분포(distribution)로 보고, 중심을 평균(mean)으로 보고, 퍼짐을 분산(variance)으로 봤습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -105,15 +105,15 @@ AI에서도 이 흐름은 매우 중요합니다. 모델은 현실 전체를 다
 
 ```mermaid
 flowchart TD
-  subgraph P["population"]
+  subgraph P["모집단"]
     direction TB
-    P1["all cases we care about"]
-    subgraph S["sample"]
-      S1["observed subset of the population"]
+    P1["알고 싶은 전체 대상"]
+    subgraph S["표본"]
+      S1["모집단에서 실제로 관측한 일부"]
     end
   end
 
-  S --> D["dataset<br/>structured records of collected sample data"]
+  S --> D["데이터셋<br/>수집한 표본을 정리한 기록 묶음"]
 ```
 
 아래 차트는 모집단 전체에서 표본을 뽑고, 그 표본으로 모집단의 값을 추정하는 흐름을 보여 줍니다.
@@ -207,14 +207,14 @@ AI 학습 데이터(training data)는 현실 전체가 아닙니다. 현실에�
 
 ```mermaid
 flowchart TD
-  A["real world<br/>unknown population"]
-  B["dataset<br/>observed sample"]
-  C["train data<br/>learn patterns"]
-  D["test data<br/>estimate quality"]
+  A["현실 세계<br/>아직 다 볼 수 없는 전체"]
+  B["데이터셋<br/>현실에서 수집한 표본"]
+  C["훈련 데이터<br/>패턴을 학습하는 표본"]
+  D["테스트 데이터<br/>성능을 추정하는 표본"]
 
-  A -->|collect| B
-  B -->|split| C
-  B -->|split| D
+  A -->|수집| B
+  B -->|분할| C
+  B -->|분할| D
 ```
 
 ## 테스트 데이터는 왜 따로 두는가
@@ -227,7 +227,7 @@ flowchart TD
 
 이 관점은 이후 train/test split, validation data, cross-validation을 이해하는 바탕이 됩니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 앱 사용자 1만 명 로그로 전체 사용자를 말할 수 있을까
 

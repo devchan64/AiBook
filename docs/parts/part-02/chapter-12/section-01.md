@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.10`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -239,10 +239,10 @@ print(df)
 flowchart TB
     subgraph frame["DataFrame"]
         direction TB
-        cols["columns<br/>name | score | passed"]
-        body["rows<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
+        cols["열(columns)<br/>name | score | passed"]
+        body["행(rows)<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
     end
-    idx["index<br/>0, 1, 2"]
+    idx["인덱스(index)<br/>0, 1, 2"]
 
     idx --> body
     cols --> body
@@ -477,7 +477,7 @@ dtype: object
 
 아직 조작을 시작하지 않아도, 이 확인만으로도 “이 표가 어떤 종류의 데이터인가”를 훨씬 빨리 파악할 수 있습니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 출석부 표를 처음 받았을 때 어디부터 읽어야 하는가
 

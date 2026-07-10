@@ -1,7 +1,7 @@
 # P2-15.2 Part 3로 넘어가기 전 점검
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 Part 2는 기초 복구 구간입니다. 모든 수학과 Python을 완벽히 끝냈다는 뜻이 아닙니다. 머신러닝으로 넘어가도 되는 최소한의 읽기 능력과 실습 감각을 확인하는 구간입니다.
 
@@ -69,13 +69,13 @@ Part 2의 흐름은 다음처럼 정리할 수 있습니다.
 
 ```mermaid
 flowchart TD
-  A["math notation<br/>수식 읽기"]
-  B["Python<br/>작은 계산"]
+  A["수식 표기<br/>읽기와 해석"]
+  B["Python<br/>작은 계산 실습"]
   C["NumPy<br/>배열 계산"]
-  D["Pandas<br/>표 데이터"]
+  D["Pandas<br/>표 데이터 다루기"]
   E["Matplotlib<br/>시각화"]
   F["Git<br/>재현 가능한 기록"]
-  G["machine learning<br/>Part 3"]
+  G["머신러닝<br/>Part 3"]
 
   A --> B --> C
   C --> D
@@ -148,12 +148,12 @@ scikit-learn 문서는 모델을 estimator라고 부르고, 일반적으로 `fit
 
 ```mermaid
 flowchart LR
-    table["table"]
-    xy["X and y"]
-    split["train / test"]
-    fit["fit"]
-    predict["predict"]
-    metric["metric"]
+    table["표 데이터"]
+    xy["X와 y 구성"]
+    split["train / test 분리"]
+    fit["학습(fit)"]
+    predict["예측(predict)"]
+    metric["평가 지표(metric)"]
 
     table --> xy --> split --> fit --> predict --> metric
 ```
@@ -197,7 +197,7 @@ Part 3에서는 알고리즘 이름보다 다음 질문을 먼저 봅니다.
 
 이 질문을 유지하면 Part 3의 여러 알고리즘을 서로 다른 이름 목록으로만 보지 않게 됩니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 모델 이름은 아는데 데이터 흐름이 안 보이는 상태
 

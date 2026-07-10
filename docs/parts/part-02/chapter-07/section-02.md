@@ -1,7 +1,7 @@
 # P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.10`
 
 P2-7.1에서는 코드가 실행되는 자리를 먼저 봤습니다. 이제는 로컬 PC에서 명령을 입력할 때 가장 먼저 만나는 화면을 봅니다.
 
@@ -284,7 +284,7 @@ P2-3.5에서 `!pip install numpy`와 `%pip install numpy`를 구분했던 이유
 
 이 세 질문은 단순해 보이지만, 이후 Python 스크립트 실행, 가상환경 활성화, 패키지 설치, 데이터 파일 읽기에서 계속 반복됩니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 파일은 있는데 `python example.py`가 실패하는 이유
 

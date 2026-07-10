@@ -1,7 +1,7 @@
 # P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.07`
+> Version: `v2026.07.10`
 
 P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory)의 개념을 봤습니다. 여기서는 그 개념을 실제 운영체제에서 어떻게 확인하는지 다룹니다.
 
@@ -387,7 +387,7 @@ PS C:\Users\someone> python example.py
 - 이 명령은 어떤 파일이나 프로그램을 찾으려 하는가?
 - 이 명령은 내 컴퓨터에서 실행되는가, Colab 런타임에서 실행되는가?
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 같은 명령을 복사했는데 Windows와 macOS에서 다르게 보일 때
 

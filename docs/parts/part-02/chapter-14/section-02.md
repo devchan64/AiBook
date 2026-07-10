@@ -1,7 +1,7 @@
 # P2-14.2 브랜치(branch), 커밋(commit), 문서 재현성
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-14.1에서는 Git을 변경 이력 관리 도구로 봤습니다. 이제 문서 프로젝트의 작성 흐름에 맞춰 브랜치(branch), 커밋(commit), 배포 문서의 재현성을 연결합니다.
 
@@ -92,10 +92,10 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 
 ```mermaid
 flowchart TD
-  A["writing branch<br/>ordinary writing"]
-  B["review<br/>build and check"]
-  C["publish branch<br/>published source"]
-  D["static site deploy<br/>deployed book"]
+  A["작성 브랜치<br/>일반 작성과 편집"]
+  B["검토<br/>빌드와 점검"]
+  C["배포 브랜치<br/>공개 기준 원본"]
+  D["정적 사이트 배포<br/>독자에게 보이는 책"]
 
   A --> B --> C --> D
 ```
@@ -169,7 +169,7 @@ flowchart TD
 
 반대로 작성 중인 원고 수정이나 실험 중간 정리는 기본적으로 작성 브랜치에서 진행하는 편이 안전합니다.
 
-## 사례로 보기
+## 사례 및 예시
 
 ### 사례 1. 아직 점검 중인 원고가 배포 페이지에 올라가면 생기는 문제
 
