@@ -183,9 +183,9 @@ AI에서는 두 관점이 모두 등장합니다. 데이터에서 관측된 빈�
 
 ```mermaid
 flowchart TD
-  A["prior belief<br/>what we believe before<br/>new observation"]
-  B["evidence<br/>new observed information<br/>that changes our belief"]
-  C["posterior belief<br/>what we believe after<br/>the evidence"]
+  A["사전 믿음<br/>새 관측 전의 가능성 판단"]
+  B["증거<br/>판단을 바꾸게 만드는 관측 정보"]
+  C["사후 믿음<br/>증거를 본 뒤의 갱신된 판단"]
 
   A --> B --> C
 ```

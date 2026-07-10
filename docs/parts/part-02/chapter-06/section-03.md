@@ -42,11 +42,11 @@ P2-6.1에서는 최적화를 더 나은 값을 찾는 문제로 봤고, P2-6.2�
 
 ```mermaid
 flowchart TD
-  A["current parameters"]
-  B["gradient direction"]
-  C["learning rate<br/>step size"]
-  D["updated parameters"]
-  E["measure loss again"]
+  A["현재 파라미터"]
+  B["그래디언트 방향<br/>손실이 커지는 쪽"]
+  C["학습률<br/>한 번에 움직일 크기"]
+  D["업데이트된 파라미터"]
+  E["손실 다시 계산"]
 
   A --> B
   B --> C

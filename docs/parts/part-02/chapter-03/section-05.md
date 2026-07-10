@@ -1,7 +1,7 @@
 # P2-3.5 파이썬 실행 환경: Colab과 로컬 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.10`
 
 P2-3.1부터 P2-3.4까지는 선형대수(linear algebra)를 수식과 비교 기준 중심으로 봤습니다. 다음 절에서는 NumPy로 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)을 직접 확인합니다. 그 전에 파이썬(Python) 코드를 어디에서 실행하는지 먼저 구분해야 합니다.
 
@@ -152,18 +152,25 @@ Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느
 
 ```mermaid
 flowchart TD
-    ask["what am I doing?"]
-    install["install a package"]
-    run["run Python code"]
-    colab["Colab code cell<br/>%pip install numpy"]
-    local["local terminal<br/>python -m pip install numpy"]
-    py["Python code<br/>import numpy as np"]
+  A["실행할 문장을 먼저 본다"]
+  B{"어디에 입력하는가?"}
+  C["Colab 코드 셀"]
+  D["로컬 PC 터미널"]
+  E["Python 코드"]
+  F["%pip install numpy"]
+  G["python -m pip install numpy"]
+  H["import numpy as np"]
+  I["print(np.array([1, 2]))"]
 
-    ask --> install
-    ask --> run
-    install --> colab
-    install --> local
-    run --> py
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+  C --> F
+  C --> I
+  D --> G
+  E --> H
+  E --> I
 ```
 
 ## 개인 PC 터미널 명령과 섞지 않는다

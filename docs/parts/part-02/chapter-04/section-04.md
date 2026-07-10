@@ -209,11 +209,11 @@ L'(w) = 2(w - 3)
 
 ```mermaid
 flowchart TD
-  A["prediction error<br/>실제 5억, 예측 4억"]
-  B["loss value<br/>얼마나 틀렸는지 점수화"]
-  C["gradient signal<br/>어느 방향으로 바꿀지 읽기"]
-  D["small update<br/>파라미터를 조금 조정"]
-  E["recheck loss<br/>손실이 줄었는지 다시 확인"]
+  A["예측 오차<br/>실제 5억, 예측 4억"]
+  B["손실 계산<br/>틀린 정도를 점수화"]
+  C["조정 방향 판단<br/>어느 쪽으로 바꿀지 읽기"]
+  D["작게 조정<br/>파라미터를 조금 바꿈"]
+  E["손실 다시 확인<br/>정말 줄었는지 봄"]
 
   A --> B --> C --> D --> E
 ```
