@@ -80,9 +80,9 @@ Git 공식 책은 버전 관리를 시간이 지나며 파일 변화 기록을 �
 
 ```mermaid
 flowchart TD
-  A["working tree<br/>현재 파일을 수정하는 곳"]
-  B["staging area<br/>이번 기록에 포함할 변경을 고르는 곳"]
-  C["repository<br/>commit으로 저장된 이력"]
+  A["작업 디렉터리<br/>현재 파일을 수정하는 곳"]
+  B["스테이징 영역<br/>이번 기록에 넣을 변경을 고르는 곳"]
+  C["저장소<br/>commit으로 쌓이는 이력"]
 
   A -->|"git add"| B
   B -->|"git commit"| C

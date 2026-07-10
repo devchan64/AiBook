@@ -92,10 +92,10 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 
 ```mermaid
 flowchart TD
-  A["writing branch<br/>ordinary writing"]
-  B["review<br/>build and check"]
-  C["publish branch<br/>published source"]
-  D["static site deploy<br/>deployed book"]
+  A["작성 브랜치<br/>일반 작성과 편집"]
+  B["검토<br/>빌드와 점검"]
+  C["배포 브랜치<br/>공개 기준 원본"]
+  D["정적 사이트 배포<br/>독자에게 보이는 책"]
 
   A --> B --> C --> D
 ```

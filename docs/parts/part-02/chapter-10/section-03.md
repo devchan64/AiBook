@@ -79,16 +79,16 @@ Jupyter Notebook 파일은 `.ipynb` 확장자를 가진 JSON 기반 문서입니
 
 ```mermaid
 flowchart TB
-  A["Notebook file<br/>.ipynb document"]
-  B["Markdown cells<br/>question and explanation"]
-  C["Code cells<br/>Python code"]
-  D["Outputs<br/>values, tables, charts, errors"]
-  E["Runtime state<br/>variables and imported packages"]
+  A["노트북 파일<br/>.ipynb 문서"]
+  B["마크다운 셀<br/>질문과 설명"]
+  C["코드 셀<br/>Python 코드"]
+  D["출력<br/>값, 표, 차트, 오류"]
+  E["런타임 상태<br/>변수와 import된 패키지"]
 
   A --> B
   A --> C
   C --> D
-  C -. "created while running" .-> E
+  C -. "실행 중에 만들어짐" .-> E
 ```
 
 여기서 중요한 점은 파일에 저장된 내용과 실행 중인 상태가 같지 않다는 것입니다.
@@ -105,13 +105,13 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-  A["1. Purpose<br/>what will this notebook check?"]
-  B["2. Setup<br/>imports and options"]
-  C["3. Data<br/>small example or file loading"]
-  D["4. Calculation<br/>run one idea at a time"]
-  E["5. Output<br/>values, table, chart"]
-  F["6. Interpretation<br/>what changed?"]
-  G["7. Next step<br/>what to try later?"]
+  A["1. 목적<br/>무엇을 확인할 노트북인가"]
+  B["2. 설정<br/>import와 옵션"]
+  C["3. 데이터 준비<br/>작은 예제나 파일 불러오기"]
+  D["4. 계산<br/>한 번에 한 아이디어씩 실행"]
+  E["5. 출력<br/>값, 표, 차트 확인"]
+  F["6. 해석<br/>무엇이 어떻게 바뀌었는가"]
+  G["7. 다음 단계<br/>이후에 무엇을 더 볼 것인가"]
 
   A --> B --> C --> D --> E --> F --> G
 ```

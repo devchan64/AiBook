@@ -109,10 +109,10 @@ average
 
 ```mermaid
 flowchart TD
-  A["Markdown cell<br/>explain the question"]
-  B["Code cell<br/>run a small calculation"]
-  C["Output<br/>inspect result"]
-  D["Markdown cell<br/>write interpretation"]
+  A["마크다운 셀<br/>질문과 목표를 적기"]
+  B["코드 셀<br/>작은 계산 실행"]
+  C["출력<br/>결과 확인"]
+  D["마크다운 셀<br/>해석과 다음 질문 적기"]
 
   A --> B --> C --> D
 ```
@@ -151,10 +151,10 @@ sum(scores) / len(scores)
 
 ```mermaid
 flowchart TB
-  A["1. prepare data"]
-  B["2. calculate summary"]
-  C["3. draw chart"]
-  D["4. write interpretation"]
+  A["1. 데이터 준비"]
+  B["2. 요약값 계산"]
+  C["3. 차트 그리기"]
+  D["4. 해석 적기"]
 
   A --> B --> C --> D
 ```

@@ -239,10 +239,10 @@ print(df)
 flowchart TB
     subgraph frame["DataFrame"]
         direction TB
-        cols["columns<br/>name | score | passed"]
-        body["rows<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
+        cols["열(columns)<br/>name | score | passed"]
+        body["행(rows)<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
     end
-    idx["index<br/>0, 1, 2"]
+    idx["인덱스(index)<br/>0, 1, 2"]
 
     idx --> body
     cols --> body

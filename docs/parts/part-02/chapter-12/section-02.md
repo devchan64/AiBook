@@ -100,11 +100,11 @@ print(df)
 
 ```mermaid
 flowchart TD
-    full["full table<br/>all rows, all columns"]
-    col["column selection<br/>which variables?"]
-    row["row selection<br/>which case?"]
-    cond["filtering<br/>which rows satisfy the condition?"]
-    agg["aggregation<br/>what summary is enough?"]
+    full["전체 표<br/>모든 행, 모든 열"]
+    col["열 선택<br/>어떤 변수를 볼 것인가"]
+    row["행 선택<br/>어떤 사례를 볼 것인가"]
+    cond["필터링<br/>어떤 행을 남길 것인가"]
+    agg["집계<br/>어떤 요약값이면 충분한가"]
 
     full --> col
     full --> row

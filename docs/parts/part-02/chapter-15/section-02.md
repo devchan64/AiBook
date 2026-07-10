@@ -69,13 +69,13 @@ Part 2의 흐름은 다음처럼 정리할 수 있습니다.
 
 ```mermaid
 flowchart TD
-  A["math notation<br/>수식 읽기"]
-  B["Python<br/>작은 계산"]
+  A["수식 표기<br/>읽기와 해석"]
+  B["Python<br/>작은 계산 실습"]
   C["NumPy<br/>배열 계산"]
-  D["Pandas<br/>표 데이터"]
+  D["Pandas<br/>표 데이터 다루기"]
   E["Matplotlib<br/>시각화"]
   F["Git<br/>재현 가능한 기록"]
-  G["machine learning<br/>Part 3"]
+  G["머신러닝<br/>Part 3"]
 
   A --> B --> C
   C --> D
@@ -148,12 +148,12 @@ scikit-learn 문서는 모델을 estimator라고 부르고, 일반적으로 `fit
 
 ```mermaid
 flowchart LR
-    table["table"]
-    xy["X and y"]
-    split["train / test"]
-    fit["fit"]
-    predict["predict"]
-    metric["metric"]
+    table["표 데이터"]
+    xy["X와 y 구성"]
+    split["train / test 분리"]
+    fit["학습(fit)"]
+    predict["예측(predict)"]
+    metric["평가 지표(metric)"]
 
     table --> xy --> split --> fit --> predict --> metric
 ```
