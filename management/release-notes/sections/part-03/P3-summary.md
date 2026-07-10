@@ -3,6 +3,15 @@
 - Section ID: `P3-summary`
 - Source File: `docs/parts/part-03/summary.md`
 
+### v2026.07.10
+
+- 변경 이유: 마무리 페이지가 `남는 구조`와 `최소 전제`를 따로 끊어 말해, 요약 결론이 한 번 더 재진술되는 느낌이 남아 있었다.
+- 본문 반영: `원천데이터 -> 비교 가능한 표 -> 보수적 해석 -> 문제 구조 마감`의 요약 문장과 최소 전제 도입을 한 흐름으로 묶어, summary가 더 직접적으로 닫히도록 정리했다.
+- 번역 동기화 메모: preserve the tighter summary close that moves directly from retained structure to minimal closure conditions. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: 없음.
+- 원문 기준 버전: `v2026.07.10`
+
 ### v2026.07.08-4
 
 - 변경 이유: Part 마무리 페이지가 여전히 9개 Chapter 역할표와 별도 결과 구조표를 유지해, summary보다 세부 spine 반복으로 읽히는 밀도가 남아 있었다.
