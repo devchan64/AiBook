@@ -1,0 +1,11 @@
+flowchart TD
+  A["delivery time data"]
+  B["linear regression"]
+  C["compare with baseline"]
+  D["check MAE for average miss"]
+  E["check RMSE for large misses"]
+  F["inspect residuals by route and weather"]
+  G["decide whether linear fit is enough"]
+
+  A --> B --> C --> D
+  D --> E --> F --> G

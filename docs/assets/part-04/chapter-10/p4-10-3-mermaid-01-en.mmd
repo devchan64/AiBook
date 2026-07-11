@@ -1,0 +1,11 @@
+flowchart TD
+  A["housing features"]
+  B["good prediction fit"]
+  C["unstable coefficients"]
+  D["check overlapping features"]
+  E["check residual spread"]
+  F["check interpretation stability"]
+
+  A --> B
+  A --> C
+  C --> D --> E --> F

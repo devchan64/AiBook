@@ -1,0 +1,11 @@
+flowchart TD
+  A["actual value"]
+  B["prediction"]
+  C["residual = actual - prediction"]
+  D["positive residual<br/>predicted too low"]
+  E["negative residual<br/>predicted too high"]
+
+  A --> C
+  B --> C
+  C --> D
+  C --> E
