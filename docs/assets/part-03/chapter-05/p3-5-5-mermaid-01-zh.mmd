@@ -1,7 +1,0 @@
-flowchart TD
-    A[Missing values in summary sample]
-    A --> B{Only one segment missing?}
-    B -->|Yes| C[Keep sample<br/>avoid affected features]
-    B -->|No| D{Sample boundary broken?}
-    D -->|Yes| E[Do not keep as event sample]
-    D -->|No| F[Check if missingness itself should be flagged]

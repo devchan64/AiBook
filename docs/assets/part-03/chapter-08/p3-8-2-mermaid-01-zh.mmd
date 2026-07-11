@@ -1,7 +1,0 @@
-flowchart TD
-    A[Comparison result<br/>late-drop difference<br/>repeatability<br/>recent count]
-    A --> B[Signal statement<br/>something changed]
-    B --> C[Review statement<br/>worth checking]
-    C --> D{Extra causal evidence?}
-    D -->|No| E[Stop here<br/>do not claim root cause]
-    D -->|Yes| F[Cause claim can be tested separately]

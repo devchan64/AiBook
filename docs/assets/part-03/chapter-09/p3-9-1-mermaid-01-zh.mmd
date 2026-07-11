@@ -1,9 +1,0 @@
-flowchart TD
-    A[Current data state]
-    A --> B{Only comparison signal?}
-    B -->|Yes| C[Stop at alert]
-    B -->|No| D{Signal + review rules?}
-    D -->|Yes| E[Stop at review candidate]
-    D -->|No| F{Stable target labels + evaluation setup?}
-    F -->|Yes| G[Move to label prediction]
-    F -->|No| E

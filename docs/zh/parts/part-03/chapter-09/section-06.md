@@ -75,7 +75,7 @@
 ## 用一个小图来看
 
 ```mermaid
---8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-zh.mmd"
+--8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-en.mmd"
 ```
 
 ## 一个小 Python 例子

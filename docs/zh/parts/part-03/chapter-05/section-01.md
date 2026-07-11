@@ -33,7 +33,7 @@
 下面的图，把这个转换压缩成了最短的形式。
 
 ```mermaid
---8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-zh.mmd"
+--8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-en.mmd"
 ```
 
 在这条流程里，`Segment by progress` 这一步尤其重要。我们并不是直接对原始日志整体求平均，而是先把动作切成前段、中段、后段这样的可比较区间，然后才会得到汇总值。`Aggregate across events` 则是下一步。对一次动作做汇总，和对近期区间再做聚合，不是同一件事，后者是再往上做一次组合。
