@@ -1,7 +1,7 @@
 # P6-19.2 이해 중심 태스크
 
 > Section ID: `P6-19.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-19.1에서는 BERT 계열을 Transformer 인코더 기반의 표현 모델로 설명했습니다. 그러면 다음 질문이 이어집니다.
 
@@ -152,13 +152,7 @@ BERT 계열과 그 이후의 encoder 중심 모델은 문장을 임베딩으로 
 그래서 다음처럼 하나의 흐름으로 묶을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["input text or text pair"]
-  B["encoder-based contextual representations"]
-  C["classification / relevance / embedding output"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-06/chapter-19/p6-c19-s02-diagram-01-ko.mmd"
 ```
 
 이 도식은 BERT 계열의 실무 사용 감각을 가장 단순하게 묶은 것입니다. 그래서 이 도식에서 확인해야 할 결과는 긴 답변 생성보다 `읽고 구분하고 연결하는 흐름`이 먼저 필요한 업무가 실제로 따로 보이는가입니다.

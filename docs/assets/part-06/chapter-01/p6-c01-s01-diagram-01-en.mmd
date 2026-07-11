@@ -1,0 +1,9 @@
+flowchart TD
+  A["raw text"]
+  B["split into tokens"]
+  C["model reads token sequence"]
+  D["predict next token"]
+
+  A --> B
+  B --> C
+  C --> D

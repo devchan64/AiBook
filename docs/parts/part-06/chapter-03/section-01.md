@@ -1,7 +1,7 @@
 # P6-3.1 Transformer를 LLM 관점에서 다시 읽기
 
 > Section ID: `P6-3.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 
@@ -163,17 +163,7 @@ LLM 설명에서 중요한 차이는 마지막 출력 해석입니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["tokens"]
-  B["embeddings + positions"]
-  C["Transformer blocks"]
-  D["next-token scores"]
-  E["chosen next token"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-03/p6-c03-s01-diagram-01-ko.mmd"
 ```
 
 이 도식은 Part 6에서 Transformer를 읽을 때 가장 자주 떠올려야 하는 최소 구조입니다.
@@ -183,15 +173,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `다음 한 토큰을 고른다`보다 `앞 문맥 전체가 다음 후보 분포를 어떻게 바꾸는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same Transformer question"]
-  B["autocomplete<br/>which continuation fits this context?"]
-  C["code generation<br/>which identifier and logic stay consistent?"]
-  D["long summary<br/>which earlier conditions must remain active?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-03/p6-c03-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 마지막 단계는 비슷하다는 것입니다. 모두 `다음 토큰 하나를 찍는다`가 아니라, 앞에서 들어온 문맥 전체를 반영해 `지금 어떤 후보 분포가 만들어지는가`를 먼저 봐야 합니다.

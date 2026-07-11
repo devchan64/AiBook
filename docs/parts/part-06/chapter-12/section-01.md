@@ -196,17 +196,7 @@ Chapter 10~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["user request"]
-  B["model decides tool is needed"]
-  C["application calls external tool"]
-  D["tool result returns"]
-  E["model or app produces final answer"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-12/p6-c12-s01-diagram-01-ko.mmd"
 ```
 
 ## 사례 및 예시
@@ -244,16 +234,7 @@ flowchart TD
 같은 내용을 실행 위임 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["user request"]
-  B["model decides whether tool is needed"]
-  C["tool call plan<br/>name + arguments"]
-  D["execution environment runs tool"]
-  E["tool result"]
-  F["final answer"]
-
-  A --> B
-  B --> C --> D --> E --> F
+--8<-- "assets/part-06/chapter-12/p6-c12-s01-diagram-02-ko.mmd"
 ```
 
 핵심은 `답변` 전에 `실행 준비 구조`가 따로 생긴다는 점입니다.

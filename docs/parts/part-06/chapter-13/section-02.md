@@ -159,22 +159,7 @@ P6-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["goal"]
-  B["plan next step"]
-  C["act with tool or search"]
-  D["observe result"]
-  E["decide next move"]
-  F["stop"]
-  G["ask human review"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E -->|continue| B
-  E -->|enough evidence| F
-  E -->|conflict or approval needed| G
+--8<-- "assets/part-06/chapter-13/p6-c13-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 agent가 일직선 파이프라인이 아니라, 관찰 뒤에 다시 다음 계획으로 돌아가거나, 충분하면 멈추거나, 사람 검토로 넘길 수 있는 루프 구조라는 점입니다.
@@ -204,15 +189,7 @@ flowchart TD
 같은 내용을 loop 분기 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  subgraph L["agent loop"]
-    direction LR
-    A["plan"] --> B["action"] --> C["observation"] --> D["decision"]
-  end
-
-  D -->|continue| A
-  D -->|enough evidence| F["stop"]
-  D -->|need approval or conflict check| G["ask human review"]
+--8<-- "assets/part-06/chapter-13/p6-c13-s02-diagram-02-ko.mmd"
 ```
 
 핵심은 `행동` 다음에 바로 끝나는 것이 아니라, `관찰과 결정`을 거쳐 다음 루프로 되돌아가거나 멈춘다는 점입니다.

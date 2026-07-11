@@ -122,15 +122,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["query vector"]
-  B["index narrows candidates"]
-  C["top-k nearest candidates"]
-  D["retrieved chunks for generation"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 인덱스가 `답변 생성`을 직접 하는 것이 아니라, `검색 후보를 빠르게 좁히는 역할`을 한다는 점입니다.
@@ -160,17 +152,7 @@ flowchart TD
 같은 내용을 검색 타협 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["query vector"]
-  B["faster index setting"]
-  C["slower but stricter setting"]
-  D["lower latency"]
-  E["better candidate quality"]
-  F["risk: wrong top-k"]
-
-  A --> B --> D
-  A --> C --> E
-  B --> F
+--8<-- "assets/part-06/chapter-11/p6-c11-s02-diagram-02-ko.mmd"
 ```
 
 핵심은 `빠르다`와 `좋다`가 자동으로 같은 뜻이 아니라는 점입니다.

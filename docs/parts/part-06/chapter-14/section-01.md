@@ -102,15 +102,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 다시 고�
 이 차이를 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["user task"]
-  B["agent chooses tool"]
-  C["shared connection rule"]
-  D["tool or resource"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-14/p6-c14-s01-diagram-01-ko.mmd"
 ```
 
 이 그림에서 핵심은 에이전트가 매번 도구마다 다른 사적 규칙을 외우는 대신, 공통 연결 규칙을 통해 도구와 자원을 본다는 점입니다.
@@ -196,13 +188,7 @@ MCP가 있다고 해서:
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["model or agent"]
-  B["shared connection interface"]
-  C["tools and data sources"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-06/chapter-14/p6-c14-s01-diagram-02-ko.mmd"
 ```
 
 이 도식의 핵심은 MCP를 `모델과 도구 사이의 연결 계층`으로 읽는 데 있습니다.

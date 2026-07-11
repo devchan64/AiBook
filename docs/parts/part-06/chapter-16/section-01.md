@@ -197,17 +197,7 @@ AI 서비스는 보통 호출마다 비용이 생기거나, 자체 운영 시에
 이 흐름을 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["higher quality plan"]
-  B["more steps"]
-  C["higher cost"]
-  D["more latency"]
-  E["capacity pressure"]
-
-  A --> B
-  B --> C
-  B --> D
-  B --> E
+--8<-- "assets/part-06/chapter-16/p6-c16-s01-diagram-01-ko.mmd"
 ```
 
 이 그림의 핵심은 품질을 올리는 선택이 종종 더 많은 단계와 운영 부담을 함께 데려온다는 점입니다.

@@ -1,0 +1,11 @@
+flowchart TD
+  A["previous tokens"]
+  B["decoder Transformer"]
+  C["next-token scores"]
+  D["chosen next token"]
+  E["extended sequence"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

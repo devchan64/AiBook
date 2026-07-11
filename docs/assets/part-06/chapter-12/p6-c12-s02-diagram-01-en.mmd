@@ -1,0 +1,11 @@
+flowchart TD
+  A["user request"]
+  B["model produces structured function call"]
+  C["application validates and executes"]
+  D["tool result"]
+  E["final answer"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

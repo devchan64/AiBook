@@ -1,7 +1,7 @@
 # P6-6.1 사전학습(pretraining)
 
 > Section ID: `P6-6.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-5까지에서는 Transformer와 다음 토큰 예측이 왜 생성으로 이어지는지를 보았습니다. 하지만 그 설명만으로는 `왜 같은 구조가 실제 서비스에서 더 유용한 반응을 보이는가`가 아직 남습니다. 이 절부터는 생성 구조 위에 어떤 학습과 조정이 더 얹히는지 읽는 구간으로 들어갑니다.
 
@@ -184,15 +184,7 @@ Part 6에서 `사전학습(pretraining)`, `범용 언어 기반을 먼저 배우
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["large text corpus"]
-  B["pretraining"]
-  C["general language patterns"]
-  D["task-specific tuning or prompting"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-06/p6-c06-s01-diagram-01-ko.mmd"
 ```
 
 이 도식은 사전학습이 끝이 아니라, 이후 여러 사용 방식의 출발점이라는 점을 정리한 것입니다. 그래서 이 도식에서 확인해야 할 결과는 큰 텍스트에서 넓은 기반을 만든 뒤, 이후 단계가 그 기반을 목적별로 조정하는 흐름으로 실제로 나뉘어 읽히는가입니다.
@@ -208,15 +200,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `처음부터 과업 하나만 학습시키는가`보다 `넓은 언어 기반을 먼저 만들고 그 위에 목적을 얹는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same pretraining question"]
-  B["document summary<br/>does general language structure come first?"]
-  C["customer classification<br/>can small labels reuse broad patterns?"]
-  D["chat response<br/>does dialogue quality sit on language base?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-06/p6-c06-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 세 장면이 모두 `처음부터 목적 하나만 외우는 학습`보다 `먼저 넓은 기반을 만들고 나중에 목적을 조정하는 학습`에 더 가깝다는 것입니다. 과업은 달라도, 먼저 일반 패턴을 익힌 뒤 세부 목적을 얹는다는 순서는 공통입니다.

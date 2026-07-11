@@ -1,7 +1,7 @@
 # P6-1.2 토큰화(tokenization)의 실제 영향
 
 > Section ID: `P6-1.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-1.1에서는 토큰(token)을 모델이 텍스트를 계산하기 위해 사용하는 기본 단위라고 설명했습니다. 이제는 텍스트를 어떤 규칙으로 토큰으로 나누느냐가 실제로 왜 중요한지 바로 이어서 봐야 합니다. 토큰화(tokenization)는 텍스트를 모델 계산 단위로 바꾸는 절차이며, 이 절차가 입력 길이, 비용, 문맥 사용량, 검색 품질, 생성 결과 해석에 실제 영향을 줍니다.
 
@@ -107,17 +107,7 @@ LLM 서비스에서는 토큰화가 곧 비용과 연결됩니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["raw text"]
-  B["tokenization"]
-  C["token count"]
-  D["cost and context usage"]
-  E["retrieval / generation behavior"]
-
-  A --> B
-  B --> C
-  C --> D
-  B --> E
+--8<-- "assets/part-06/chapter-01/p6-c01-s02-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 같은 문장이라도 토큰 경계가 달라지면 비용 계산, 청크 분할, 응답 길이 제한 같은 서비스 동작 기준도 함께 달라진다는 점입니다.
@@ -127,15 +117,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `문장이 어떻게 보이는가`보다 `토큰 경계가 바뀌면 어떤 실무 판단이 함께 바뀌는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same tokenization question"]
-  B["cost estimate<br/>does the token count grow faster?"]
-  C["RAG chunking<br/>does context stay together?"]
-  D["response limit<br/>does the key ending survive?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-01/p6-c01-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 토큰화가 단순 분리 작업으로 끝나지 않는다는 것입니다. 같은 입력도 토큰 경계가 달라지면 비용 계산, 청크 설계, 출력 길이 제한처럼 실제 서비스 판단 기준이 함께 달라집니다.

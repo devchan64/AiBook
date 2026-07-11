@@ -1,7 +1,7 @@
 # P6-18.1 LLM 발전사의 큰 흐름
 
 > Section ID: `P6-18.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-2장에서는 토큰(token)이 임베딩(embedding) 벡터로 바뀌고, 그 벡터 사이의 거리와 유사도(similarity)가 검색과 비교의 기준이 된다는 점을 보았습니다. 이제 질문은 조금 더 역사적인 방향으로 옮겨갑니다.
 
@@ -157,16 +157,7 @@ GPT 계열이 커지면서 사용자 경험도 달라졌습니다.
 ## 이 흐름을 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["statistical language models"]
-  B["embeddings and distributed representations"]
-  C["RNN / LSTM / Seq2Seq"]
-  D["attention"]
-  E["Transformer"]
-  F["large-scale pretraining"]
-  G["modern LLM experience"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-06/chapter-18/p6-c18-s01-diagram-01-ko.mmd"
 ```
 
 이 도식은 복잡한 세부보다 `큰 전환의 순서`를 잡기 위한 것입니다. 그래서 이 도식에서 확인해야 할 결과는 통계적 언어 모델, 임베딩, 순차 모델, attention, Transformer, 대규모 사전학습이 서로 뒤섞이지 않고 어떤 순서로 이어졌는지 실제로 설명할 수 있는가입니다.

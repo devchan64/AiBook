@@ -1,0 +1,15 @@
+flowchart TD
+  A["failure observed"]
+  J{"what is missing first?"}
+
+  A --> J
+
+  J --> B["format / instruction fit"]
+  J --> C["current grounding"]
+  J --> D["calculation / action"]
+  J --> E["persistent style"]
+
+  B --> F["prompt revision"]
+  C --> G["RAG"]
+  D --> H["tool use"]
+  E --> I["fine-tuning"]

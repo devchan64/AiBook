@@ -187,15 +187,7 @@ LLM 기반 시스템은 보통 모델만으로 이루어지지 않습니다. 예
 이를 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["candidate outputs"]
-  B["check multiple criteria"]
-  C["find weak axis"]
-  D["revise or accept"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-15/p6-c15-s01-diagram-01-ko.mmd"
 ```
 
 이 그림의 핵심은 evaluation이 `좋다/나쁘다`를 한 번 말하고 끝나는 단계가 아니라, 어떤 축이 약한지 찾아 다음 수정을 결정하는 단계라는 점입니다.
@@ -203,15 +195,7 @@ flowchart LR
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["user task"]
-  B["model or system output"]
-  C["check multiple criteria"]
-  D["improve or accept"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-15/p6-c15-s01-diagram-02-ko.mmd"
 ```
 
 이 도식의 핵심은 출력이 나온 뒤 `무엇을 기준으로 괜찮다고 볼지`가 반드시 필요하다는 점입니다.

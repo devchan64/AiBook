@@ -163,13 +163,7 @@ P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["better prompt"]
-  B["better response shape"]
-  C["still missing: fresh data, tools, verification"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-06/chapter-09/p6-c09-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 프롬프트 개선이 중요하지만, 그것만으로 구조 문제를 다 해결하지는 못한다는 점입니다.
@@ -199,15 +193,7 @@ flowchart TD
 같은 내용을 시스템 경계 기준으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["stronger prompt"]
-  B["response may look better"]
-  C{"is the missing part\na system guarantee?"}
-
-  A --> B --> C
-  C -->|fresh source needed| D["document access"]
-  C -->|numeric correctness needed| E["calculation verification"]
-  C -->|real action needed| F["execution + retry flow"]
+--8<-- "assets/part-06/chapter-09/p6-c09-s02-diagram-02-ko.mmd"
 ```
 
 핵심은 `더 강한 문장`과 `더 강한 시스템 보장`이 서로 다른 층이라는 점입니다.

@@ -1,0 +1,11 @@
+flowchart TD
+  A["agent run"]
+  B["trace and logs"]
+  C["evaluation and replay"]
+  D["improve or approve"]
+  E["human handoff or policy block"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E

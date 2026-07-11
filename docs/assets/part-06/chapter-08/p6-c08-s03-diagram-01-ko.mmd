@@ -1,0 +1,17 @@
+flowchart TD
+  A["problem observed"]
+  B["prompt issue?"]
+  C["knowledge/grounding issue?"]
+  D["execution/tool issue?"]
+  E["prompt revision"]
+  F["RAG or retrieval"]
+  G["tool use"]
+  H["fine-tuning if pattern is persistent"]
+
+  A --> B
+  B -->|yes| E
+  B -->|no| C
+  C -->|yes| F
+  C -->|no| D
+  D -->|yes| G
+  D -->|no| H

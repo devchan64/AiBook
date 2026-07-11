@@ -1,0 +1,9 @@
+flowchart TD
+  A["all possible prior information"]
+  B["selected tokens inside context window"]
+  C["attention over selected tokens"]
+  D["next-token prediction"]
+
+  A --> B
+  B --> C
+  C --> D

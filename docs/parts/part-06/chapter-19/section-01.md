@@ -1,7 +1,7 @@
 # P6-19.1 BERT 계열의 위치
 
 > Section ID: `P6-19.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-3.2에서는 attention과 context window를 구분하며, Transformer가 실제로는 입력 길이 제한 안에서 문맥을 읽는 구조라는 점을 보았습니다. 이제 같은 Transformer 계열 안에서도 방향이 갈라집니다.
 
@@ -169,13 +169,7 @@ BERT 계열의 핵심 직관은 다음과 같습니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["input tokens"]
-  B["encoder Transformer layers"]
-  C["contextual token representations"]
-  D["classification / ranking / embedding tasks"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-06/chapter-19/p6-c19-s01-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 BERT 계열이 문장을 읽은 뒤 곧바로 긴 답변을 생성하는 구조가 아니라, 문맥 표현을 만든 다음 그 표현을 분류, 검색, 임베딩 과업으로 연결하는 구조라는 점입니다.

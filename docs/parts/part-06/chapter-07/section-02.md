@@ -1,7 +1,7 @@
 # P6-7.2 LoRA와 효율적 조정
 
 > Section ID: `P6-7.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-7.1에서는 파인튜닝(fine-tuning)이 사전학습된 모델을 특정 목적에 더 잘 맞게 추가 조정하는 과정이라는 점을 보았습니다. 하지만 여기서 바로 현실적인 다음 질문이 생깁니다.
 
@@ -170,13 +170,7 @@ LoRA 같은 방식이 매력적인 이유는 다음과 같습니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["base model"]
-  B["small trainable update"]
-  C["task-adapted model behavior"]
-
-  A --> C
-  B --> C
+--8<-- "assets/part-06/chapter-07/p6-c07-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 기반 모델 본체와 작은 조정분을 개념적으로 분리해 보는 데 있습니다.
@@ -186,15 +180,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `더 가볍다`보다 `같은 기반 모델을 유지한 채 얼마나 많은 목적 적응을 감당할 수 있는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same PEFT question"]
-  B["shared base model<br/>can many tasks reuse one backbone?"]
-  C["limited budget<br/>can experiments start at all?"]
-  D["fast comparison<br/>can we rotate more hypotheses?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-07/p6-c07-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 LoRA의 장점이 단순히 `파라미터 수가 적다`에서 끝나지 않는다는 것입니다. 같은 기반 모델을 재사용하고, 제한된 자원 안에서 더 많은 적응 실험을 돌리고, 여러 업무용 조정본을 더 가볍게 관리할 수 있다는 운영 흐름까지 함께 봐야 합니다.

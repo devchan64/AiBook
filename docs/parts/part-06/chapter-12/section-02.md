@@ -144,17 +144,7 @@ function calling은 `구조화된 실행 요청`을 다루는 절이고, 그다�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["user request"]
-  B["model produces structured function call"]
-  C["application validates and executes"]
-  D["tool result"]
-  E["final answer"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-12/p6-c12-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 `문장 -> 구조 -> 실행 -> 결과` 흐름으로 바뀐다는 점입니다.
@@ -184,16 +174,7 @@ flowchart TD
 같은 내용을 구조화된 실행 요청 흐름으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["natural language request"]
-  B["structured call<br/>name + arguments"]
-  C["validation<br/>missing fields?"]
-  D["ready to execute"]
-  E["needs clarification or retry"]
-
-  A --> B --> C
-  C -->|valid| D
-  C -->|invalid| E
+--8<-- "assets/part-06/chapter-12/p6-c12-s02-diagram-02-ko.mmd"
 ```
 
 핵심은 `구조화됐다`와 `바로 실행 가능하다`가 같은 말이 아니라는 점입니다.

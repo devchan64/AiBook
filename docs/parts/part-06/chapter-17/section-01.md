@@ -94,17 +94,7 @@ P6-16장까지 오면 LLM, RAG, 도구 사용, 에이전트, 평가, 실패 대�
 이 흐름을 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["user question"]
-  B["classify request"]
-  C["prompt only / retrieve / tool"]
-  D["answer with evidence or state"]
-  E["record and evaluate"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-17/p6-c17-s01-diagram-01-ko.mmd"
 ```
 
 이 그림의 핵심은 작은 기능도 `질문 분류`, `근거 또는 상태 확보`, `답변`, `기록`의 흐름으로 읽어야 한다는 점입니다.
@@ -220,22 +210,7 @@ Part 6 뒤쪽 본류는 여기서 `좋은 답 판정`과 `실패 시 운영 경�
 같은 내용을 설계 선택 흐름으로 다시 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["question arrives"]
-  B{"is current input enough?"}
-  C{"is latest document grounding needed?"}
-  D{"is live system state needed?"}
-  E["prompt-centered flow"]
-  F["prompt + retrieval flow"]
-  G["prompt + tool flow"]
-
-  A --> B
-  B -->|yes| E
-  B -->|no| C
-  C -->|yes| F
-  C -->|no| D
-  D -->|yes| G
-  D -->|no| E
+--8<-- "assets/part-06/chapter-17/p6-c17-s01-diagram-02-ko.mmd"
 ```
 
 이 도식의 핵심은 기능 구조를 모델 종류로 고르는 것이 아니라, 질문을 닫는 데 필요한 근거와 상태가 무엇인지로 고른다는 점입니다.

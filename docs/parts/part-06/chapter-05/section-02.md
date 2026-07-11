@@ -1,7 +1,7 @@
 # P6-5.2 생성 과정의 직관
 
 > Section ID: `P6-5.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token prediction)이라는 점을 보았습니다. 하지만 사용자 경험은 단지 `다음 한 조각 예측`이라는 말보다 훨씬 복잡해 보입니다.
 
@@ -136,17 +136,7 @@ greedy는 더 예측 가능하고, sampling은 더 다양합니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["context"]
-  B["token probability distribution"]
-  C["selection rule: greedy or sampling"]
-  D["append token"]
-  E["repeat until stop"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-05/p6-c05-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 생성이 `확률 분포 계산`과 `선택 규칙`의 결합이라는 점입니다.
@@ -156,15 +146,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `무작위로 고른다`보다 `어떤 목적에서 얼마나 보수적으로 또는 다양하게 고를 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same decoding question"]
-  B["customer reply<br/>how stable should wording stay?"]
-  C["marketing draft<br/>how many distinct options are useful?"]
-  D["code generation<br/>how much variation can we tolerate?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-05/p6-c05-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 생성 설정이 `창의성 버튼` 하나가 아니라는 것입니다. 같은 모델이라도 고객 응답, 마케팅 문구, 코드 생성처럼 목적이 달라지면 `안정성`, `다양성`, `재현성`의 우선순위가 달라지고, 그에 따라 greedy, sampling, temperature를 보는 기준도 달라집니다.

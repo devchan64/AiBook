@@ -1,0 +1,11 @@
+flowchart TD
+  A["user request"]
+  B["model decides tool is needed"]
+  C["application calls external tool"]
+  D["tool result returns"]
+  E["model or app produces final answer"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

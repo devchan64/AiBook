@@ -1,0 +1,9 @@
+flowchart TD
+  A["query vector"]
+  B["index narrows candidates"]
+  C["top-k nearest candidates"]
+  D["retrieved chunks for generation"]
+
+  A --> B
+  B --> C
+  C --> D

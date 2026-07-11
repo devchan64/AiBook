@@ -1,7 +1,7 @@
 # P6-6.2 데이터와 스케일
 
 > Section ID: `P6-6.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-6.1에서는 사전학습(pretraining)을 대규모 텍스트에서 일반 언어 패턴과 표현을 먼저 배우는 단계로 설명했습니다. 그러면 다음 질문이 자연스럽게 생깁니다.
 
@@ -144,19 +144,7 @@ LLM 문맥에서 스케일은 보통 하나만 커지는 것을 뜻하지 않습
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["more data"]
-  B["larger model"]
-  C["more compute"]
-  D["better capability potential"]
-  E["higher cost and risk"]
-
-  A --> D
-  B --> D
-  C --> D
-  A --> E
-  B --> E
-  C --> E
+--8<-- "assets/part-06/chapter-06/p6-c06-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 한 가지입니다.
@@ -168,15 +156,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `더 큰 모델이 더 좋은가`보다 `어떤 능력을 얻는 대신 어떤 비용과 운영 부담을 함께 받아들이는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same scaling question"]
-  B["broader task handling<br/>does capability widen?"]
-  C["longer input handling<br/>does context preservation improve?"]
-  D["service operation<br/>can latency and cost still be carried?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-06/p6-c06-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 스케일이 `능력 상승`만의 문제가 아니라는 것입니다. 같은 변화라도 어떤 장면에서는 더 넓은 작업 반응으로 보이고, 다른 장면에서는 긴 문맥 유지로 보이며, 운영팀 입장에서는 비용과 지연 부담으로 먼저 보일 수 있습니다.

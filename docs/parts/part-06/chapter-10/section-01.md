@@ -221,15 +221,7 @@ RAG가 있다고 해서:
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["user question"]
-  B["retrieve relevant documents"]
-  C["attach documents to context"]
-  D["generate grounded answer"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-10/p6-c10-s01-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 `검색이 먼저 오고, 생성이 그 뒤에 온다`는 점입니다.
@@ -267,14 +259,7 @@ flowchart TD
 같은 내용을 근거 우선 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["user question"]
-  B{"answer from memory first?"}
-
-  A --> B
-  B -->|yes| D["old or generic answer risk"]
-  B -->|no, retrieve first| E["current document attached"]
-  E --> F["grounded answer"]
+--8<-- "assets/part-06/chapter-10/p6-c10-s01-diagram-02-ko.mmd"
 ```
 
 핵심은 `질문 다음에 바로 생성`이 아니라 `질문 다음에 먼저 근거 검색`이 들어간다는 점입니다.

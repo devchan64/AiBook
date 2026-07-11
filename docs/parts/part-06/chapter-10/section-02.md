@@ -142,15 +142,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["user question"]
-  B["retrieve top documents"]
-  C["build prompt with question plus docs"]
-  D["generate answer"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-10/p6-c10-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 검색 결과가 답변 뒤에 붙는 것이 아니라, `답변 전에 입력 맥락으로 들어간다`는 점입니다.
@@ -180,16 +172,7 @@ flowchart TD
 같은 내용을 단계 분리 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["user question"]
-  B["retrieval stage<br/>which docs are attached?"]
-  C["generation stage<br/>how are docs rewritten?"]
-  D["retrieval failure<br/>wrong or irrelevant docs"]
-  E["generation failure<br/>overclaim or wrong rewrite"]
-
-  A --> B --> C
-  B --> D
-  C --> E
+--8<-- "assets/part-06/chapter-10/p6-c10-s02-diagram-02-ko.mmd"
 ```
 
 핵심은 `RAG가 한 단계처럼 보이더라도 내부에서는 검색과 생성이 따로 흔들린다`는 점입니다.

@@ -214,19 +214,7 @@ Part 6에서 `프롬프트 엔지니어링(prompt engineering)`, `입력 설계�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["instruction"]
-  B["context"]
-  C["examples"]
-  D["prompt"]
-  E["model response"]
-  F["observe and revise"]
-
-  A --> D
-  B --> D
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-06/chapter-09/p6-c09-s01-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 프롬프트가 한 번 쓰고 끝나는 문장이 아니라, 관찰과 수정이 이어지는 작업이라는 점입니다.
@@ -265,13 +253,7 @@ flowchart TD
 세 사례를 더 압축하면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["막연한 요청<br/>요약해 줘 / 분류해 줘 / 답해 줘"]
-  B["흔들리는 출력<br/>길이 / 라벨 경계 / 근거 범위"]
-  C["프롬프트 구조화<br/>지시 + 맥락 + 예시"]
-  D["더 안정된 응답<br/>형식 / 범위 / 패턴 유지"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-06/chapter-09/p6-c09-s01-diagram-02-ko.mmd"
 ```
 
 핵심은 `더 화려한 문장`이 아니라 `무엇을 명시해야 흔들림이 줄어드는가`를 찾는 일입니다.

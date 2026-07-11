@@ -1,7 +1,7 @@
 # P6-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법
 
 > Section ID: `P6-3.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-3.1과 P6-3.2에서는 Transformer와 context window의 큰 구조를 보았습니다. 여기서는 본문에서 잠시 넘긴 구현 쪽 핵심 이름들을 입문 기준으로 정리합니다.
 
@@ -362,19 +362,7 @@ saved_ratio = 0.444
 아래 도식은 이 보충학습의 사례를 `Transformer 내부 이름이 무엇인가`보다 `어떤 문제를 해결하려고 이 장치가 붙는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same implementation question"]
-  B["multi-head<br/>which relation should each head focus on?"]
-  C["position info<br/>how does the model know order?"]
-  D["KV cache<br/>how can repeated decoding be faster?"]
-  E["sparse attention<br/>which links can be reduced?"]
-  F["long-context<br/>which far clues must stay reachable?"]
-
-  A --> B
-  A --> C
-  A --> D
-  A --> E
-  A --> F
+--8<-- "assets/part-06/chapter-03/p6-c03-s03-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 다섯 이름이 서로 다른 문제를 다룬다는 것입니다. multi-head는 `관계를 여러 시선으로 본다`, 위치 표현은 `순서를 알려 준다`, KV cache는 `반복 생성을 더 빠르게 만든다`, sparse attention은 `연결 수를 줄여 계산 부담을 낮추려 한다`, long-context는 `긴 입력에서도 중요한 단서를 유지하려 한다`는 식으로 역할을 나누어 읽는 편이 입문 단계에서 안전합니다.

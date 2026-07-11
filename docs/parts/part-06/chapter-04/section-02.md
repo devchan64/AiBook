@@ -1,7 +1,7 @@
 # P6-4.2 대화형 LLM으로의 전환
 
 > Section ID: `P6-4.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-4.1에서는 GPT 계열을 이전 토큰을 바탕으로 다음 토큰을 이어 생성하는 decoder 중심 흐름으로 설명했습니다. 이제 다음 질문이 생깁니다.
 
@@ -175,13 +175,7 @@ GPT-3 시기 이후 사용자는 prompt 안에 설명과 예시를 넣어 모델
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["pretrained GPT-style model"]
-  B["instruction / dialogue tuning"]
-  C["chat interface and safety layer"]
-  D["user-facing conversational LLM"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-06/chapter-04/p6-c04-s02-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 오늘의 대화형 경험이 한 번에 완성된 기능이 아니라, 자동완성, 지시 수행, 대화 정렬 단계를 거치며 누적된 구조라는 점입니다.
@@ -191,15 +185,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `문장이 이어지는가`보다 `사용자 의도와 형식 제약이 실제 응답 구조에 반영되는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same conversational question"]
-  B["autocomplete<br/>does the text continue naturally?"]
-  C["chatbot<br/>does the answer follow the requested format?"]
-  D["copilot<br/>does the suggestion reflect surrounding context?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-04/p6-c04-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 세 경험이 모두 생성 위에 놓여 있어도 평가 기준이 달라진다는 것입니다. 자동완성은 `자연스럽게 이어지는가`가 중심이지만, 대화형 LLM은 `의도, 형식, 안전 제약이 실제 응답 구조에 반영되는가`까지 함께 봐야 합니다.

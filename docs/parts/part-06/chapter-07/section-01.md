@@ -1,7 +1,7 @@
 # P6-7.1 파인튜닝(fine-tuning)
 
 > Section ID: `P6-7.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-6.1에서는 넓은 언어 기반을 먼저 만드는 사전학습을 보았습니다. 하지만 사전학습만으로는 아직 `우리 업무 기준에 맞는 반응`이 자동으로 생기지 않습니다. 이 절은 생성 구조 위에 올라간 학습 축이 이제 `범용 기반 만들기`에서 `목적 맞춤 조정`으로 어떻게 좁혀지는지 설명합니다.
 
@@ -175,15 +175,7 @@ P6-5.2에서는 생성이 확률 분포에서 다음 토큰을 반복 선택하�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["pretrained base model"]
-  B["task or domain data"]
-  C["fine-tuning"]
-  D["more specialized behavior"]
-
-  A --> C
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-07/p6-c07-s01-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 파인튜닝이 `새 모델을 처음부터 만드는 일`이 아니라, 이미 넓게 학습된 기반 모델을 현재 과업 기준에 맞게 조정하는 과정이라는 점입니다.
@@ -199,15 +191,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `모델을 더 똑똑하게 만드는가`보다 `우리 업무의 형식과 판단 기준에 더 안정적으로 맞추는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same fine-tuning question"]
-  B["internal routing<br/>does label boundary stay stable?"]
-  C["medical summary<br/>do domain terms stay consistent?"]
-  D["legal draft<br/>does output structure repeat reliably?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-07/p6-c07-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 파인튜닝의 핵심이 `무조건 더 많은 지식을 넣는다`가 아니라는 것입니다. 세 장면 모두에서 먼저 중요한 것은 `내부 라벨`, `도메인 용어`, `출력 구조`처럼 업무 쪽 규칙을 더 안정적으로 반영하는가입니다.

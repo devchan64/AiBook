@@ -90,16 +90,7 @@ ANN의 핵심 감각은 다음과 같습니다.
 아래 도식은 이 보충학습의 사례를 `임베딩을 어떻게 배우는가`와 `가까운 벡터를 어떻게 빨리 찾는가`라는 두 축으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same retrieval representation question"]
-  B["embedding learning<br/>which items should move closer?"]
-  C["fast search<br/>which nearby candidates can be found quickly?"]
-  D["service outcome<br/>which candidates actually get reviewed?"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
+--8<-- "assets/part-06/chapter-02/p6-c02-s03-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 `좋은 벡터를 만드는 문제`와 `그 벡터들 중 가까운 후보를 빨리 찾는 문제`가 서로 다른 단계라는 것입니다. 임베딩 학습은 표현 공간을 만들고, ANN은 그 공간 안에서 실무 속도로 후보를 찾게 해 주는 장치입니다.

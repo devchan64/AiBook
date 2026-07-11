@@ -1,7 +1,7 @@
 # P6-2.1 임베딩(embedding)의 직관
 
 > Section ID: `P6-2.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-1장에서는 LLM이 텍스트를 토큰(token) 단위로 읽고, 그 토큰 길이가 비용과 문맥 길이에 직접 연결된다는 점을 보았습니다. 그러면 다음 질문이 생깁니다.
 
@@ -124,15 +124,7 @@ Part 5에서 본 Transformer는 토큰들 사이 관계를 계산합니다. 하�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["token sequence"]
-  B["embedding vectors"]
-  C["model computation"]
-  D["similarity search"]
-
-  A --> B
-  B --> C
-  B --> D
+--8<-- "assets/part-06/chapter-02/p6-c02-s01-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 임베딩이 최종 답을 직접 내는 기능이 아니라, 이후 유사도 검색과 표현 비교 같은 계산이 가능해지도록 입력을 벡터 공간으로 옮기는 출발점이라는 점입니다.
@@ -142,15 +134,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `문자열을 그대로 읽는가`보다 `표현을 어떤 비교 좌표로 바꾸는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same embedding question"]
-  B["language model<br/>which token relations can be computed?"]
-  C["search<br/>which sentences land near the query?"]
-  D["recommendation<br/>which items share a similar usage pattern?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-02/p6-c02-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 먼저 필요한 단계가 같다는 것입니다. 모두 문자열 자체를 바로 계산하는 대신, 토큰이나 문장을 `비교 가능한 벡터 좌표`로 옮긴 뒤 다음 계산이 시작됩니다.

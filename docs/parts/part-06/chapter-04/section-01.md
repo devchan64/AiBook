@@ -1,7 +1,7 @@
 # P6-4.1 GPT 계열의 위치
 
 > Section ID: `P6-4.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다.
 
@@ -148,17 +148,7 @@ GPT 계열은 구조적으로 생성에 잘 맞습니다. 그래서 사용자는
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["previous tokens"]
-  B["decoder Transformer"]
-  C["next-token scores"]
-  D["chosen next token"]
-  E["extended sequence"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-04/p6-c04-s01-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 GPT 계열이 완성 문장을 한 번에 꺼내는 구조가 아니라, 앞 토큰을 바탕으로 다음 토큰 후보를 반복해서 이어 붙이는 생성 구조라는 점입니다.
@@ -168,15 +158,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `생성 결과가 무엇인가`보다 `초기 토큰 선택이 뒤 경로를 어떻게 밀어 가는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same autoregressive question"]
-  B["autocomplete<br/>which early phrase shapes the whole sentence?"]
-  C["summary draft<br/>which first sentence sets the later focus?"]
-  D["code generation<br/>which first identifier shapes the later block?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-04/p6-c04-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 생성 감각이 비슷하다는 것입니다. 모두 `지금 한 번 고른 토큰이나 문장이 뒤 출력의 다음 입력 일부가 된다`는 구조를 가지며, 그래서 초반 선택이 뒤 경로 전체를 계속 밀어 갑니다.

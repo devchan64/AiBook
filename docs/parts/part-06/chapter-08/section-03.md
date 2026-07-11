@@ -1,7 +1,7 @@
 # P6-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까
 
 > Section ID: `P6-8.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-8.2까지 오면 지시 튜닝과 정렬 문제를 보게 됩니다. 그러면 실무 관점에서는 다음 질문이 바로 따라옵니다.
 
@@ -116,23 +116,7 @@ P6-8.2까지 오면 지시 튜닝과 정렬 문제를 보게 됩니다. 그러�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["problem observed"]
-  B["prompt issue?"]
-  C["knowledge/grounding issue?"]
-  D["execution/tool issue?"]
-  E["prompt revision"]
-  F["RAG or retrieval"]
-  G["tool use"]
-  H["fine-tuning if pattern is persistent"]
-
-  A --> B
-  B -->|yes| E
-  B -->|no| C
-  C -->|yes| F
-  C -->|no| D
-  D -->|yes| G
-  D -->|no| H
+--8<-- "assets/part-06/chapter-08/p6-c08-s03-diagram-01-ko.mmd"
 ```
 
 이 도식은 모든 선택을 기계적으로 자동화하려는 것이 아니라, 후속 장을 읽는 판단 순서를 주는 데 목적이 있습니다.
@@ -167,21 +151,7 @@ flowchart TD
 같은 내용을 `무엇이 부족한가` 기준으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["failure observed"]
-  J{"what is missing first?"}
-
-  A --> J
-
-  J --> B["format / instruction fit"]
-  J --> C["current grounding"]
-  J --> D["calculation / action"]
-  J --> E["persistent style"]
-
-  B --> F["prompt revision"]
-  C --> G["RAG"]
-  D --> H["tool use"]
-  E --> I["fine-tuning"]
+--8<-- "assets/part-06/chapter-08/p6-c08-s03-diagram-02-ko.mmd"
 ```
 
 핵심은 `기술 이름을 먼저 고르는 것`이 아니라 `현재 실패가 어느 부족으로 설명되는가`를 먼저 나누는 일입니다.

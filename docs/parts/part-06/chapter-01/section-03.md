@@ -90,16 +90,7 @@ Part 6에서 `BPE`, `WordPiece`, `SentencePiece`, `토큰 수 감각과 분절 �
 아래 도식은 이 보충학습의 사례를 `토크나이저 이름이 무엇인가`보다 `어떻게 자르느냐가 어떤 결과 차이로 이어지는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same tokenizer question"]
-  B["similar request<br/>does token count change?"]
-  C["chunk boundary<br/>does key condition stay attached?"]
-  D["later retrieval / cost<br/>does downstream behavior shift?"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
+--8<-- "assets/part-06/chapter-01/p6-c01-s03-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 토크나이저 차이가 `이름 차이`로만 끝나지 않는다는 것입니다. 같은 뜻의 문장도 자르는 방식이 달라지면 토큰 수, 청크 경계, 이후 검색과 비용 판단까지 함께 달라질 수 있습니다.

@@ -84,17 +84,7 @@ MCP, 하네스, 평가, 운영의 최소 차이는 아래 표처럼 다시 고�
 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["input"]
-  B["agent run"]
-  C["tool calls and trace"]
-  D["evaluation / replay / approval"]
-  E["operate or improve"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-14/p6-c14-s02-diagram-01-ko.mmd"
 ```
 
 이 그림의 핵심은 하네스가 결과 문장만 남기는 것이 아니라, 그 결과에 이르기까지의 실행과 점검 단계를 함께 남긴다는 점입니다.
@@ -167,17 +157,7 @@ agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["agent run"]
-  B["trace and logs"]
-  C["evaluation and replay"]
-  D["improve or approve"]
-  E["human handoff or policy block"]
-
-  A --> B
-  B --> C
-  C --> D
-  C --> E
+--8<-- "assets/part-06/chapter-14/p6-c14-s02-diagram-02-ko.mmd"
 ```
 
 이 도식의 핵심은 harness가 실행을 둘러싸서 `관찰 가능성`과 `개선 가능성`을 만들고, 필요하면 사람 검토나 정책 차단으로 넘기는 구조라는 점입니다.

@@ -139,15 +139,7 @@ RAG는 `질문 -> 관련 문서 검색 -> 생성` 구조입니다. 여기서 검
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["text chunk"]
-  B["embedding vector"]
-  C["vector database"]
-  D["nearest matching chunks"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-11/p6-c11-s01-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 텍스트가 먼저 벡터로 바뀌고, 검색은 그 벡터 저장소에서 일어난다는 점입니다.
@@ -177,17 +169,7 @@ flowchart TD
 같은 내용을 저장 구조 관점으로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["text chunk"]
-  B["embedding vector"]
-  C["metadata<br/>source / category / version"]
-  D["vector database record"]
-  E["retrieval payload<br/>text + metadata"]
-
-  A --> D
-  B --> D
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-11/p6-c11-s01-diagram-02-ko.mmd"
 ```
 
 핵심은 `벡터만 따로 저장`이 아니라, 검색 뒤에 생성 단계가 바로 다시 쓸 수 있게 텍스트와 메타데이터까지 연결된 레코드로 다룬다는 점입니다.

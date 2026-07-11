@@ -1,7 +1,7 @@
 # P6-18.2 직접 계보와 주변 근거
 
 > Section ID: `P6-18.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-18.1에서는 LLM 발전사를 큰 흐름으로 정리했습니다. 하지만 여기서 한 가지 구분이 더 필요합니다.
 
@@ -136,22 +136,7 @@ P6-18.1에서는 LLM 발전사를 큰 흐름으로 정리했습니다. 하지만
 ## 직접 계보와 주변 근거를 나눠 그리면
 
 ```mermaid
-flowchart TD
-  A["language modeling"]
-  B["embeddings"]
-  C["RNN / Seq2Seq"]
-  D["attention"]
-  E["Transformer"]
-  F["pretrained LLM"]
-
-  G["computer vision breakthroughs"]
-  H["speech generation breakthroughs"]
-  I["large-scale compute trend"]
-
-  A --> B --> C --> D --> E --> F
-  G -. surrounding evidence .-> F
-  H -. surrounding evidence .-> F
-  I -. enabling background .-> F
+--8<-- "assets/part-06/chapter-18/p6-c18-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 목적은 한 가지입니다.

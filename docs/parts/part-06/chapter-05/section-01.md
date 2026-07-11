@@ -1,7 +1,7 @@
 # P6-5.1 다음 토큰 예측(next-token prediction)
 
 > Section ID: `P6-5.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-4.2에서는 GPT 기반 생성 구조가 어떻게 대화형 LLM 경험으로 이어졌는지 보았습니다. 이제 질문을 더 좁힐 차례입니다.
 
@@ -145,15 +145,7 @@ LLM은 보통 글자를 그대로 다루지 않고 토큰(token) 단위로 다�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["context tokens"]
-  B["predict next token"]
-  C["append token"]
-  D["repeat with longer context"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-05/p6-c05-s01-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 생성이 `한 번에 끝나는 계산`이 아니라 `반복되는 순차 계산`이라는 점입니다.
@@ -163,15 +155,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `다음 한 토큰을 고른다`보다 `초반 선택이 뒤 문맥 전체를 어떻게 밀고 가는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same next-token question"]
-  B["email drafting<br/>which tone does the first phrase set?"]
-  C["summary writing<br/>which first sentence sets the focus?"]
-  D["code generation<br/>which early token constrains later structure?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-05/p6-c05-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 생성이 모두 누적 구조라는 것입니다. 초반 토큰 하나의 선택이 뒤 문장, 뒤 요약, 뒤 코드 구조까지 연쇄적으로 영향을 줄 수 있으므로, 다음 토큰 예측은 `한 조각 찍기`보다 `뒤 흐름을 정하는 시작 선택`으로 읽는 편이 더 정확합니다.

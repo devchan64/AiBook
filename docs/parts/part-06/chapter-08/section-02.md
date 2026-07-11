@@ -1,7 +1,7 @@
 # P6-8.2 정렬(alignment)의 기본 문제
 
 > Section ID: `P6-8.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-8.1에서는 지시 튜닝(instruction tuning)이 모델을 더 `assistant-like`하게 만드는 조정 단계라는 점을 보았습니다. 하지만 여기서 바로 더 어려운 문제가 나옵니다.
 
@@ -132,17 +132,7 @@ Part 6에서 `정렬(alignment)`, `유용성·안전성·사실성의 구분`, `
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["user request"]
-  B["helpful answer"]
-  C["safety check"]
-  D["factuality check or grounding"]
-  E["final response"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-08/p6-c08-s02-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 `좋은 답변` 하나만으로 평가가 끝나는 것이 아니라, 도움 됨, 안전성, 정책 준수 같은 여러 기준이 동시에 걸린다는 점입니다.
@@ -172,13 +162,7 @@ flowchart TD
 또는 세 사례를 더 압축하면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["겉보기 유용성<br/>빨리 답함 / 바로 실행됨 / 보기 좋게 정리됨"]
-  B["숨은 위험<br/>오답 / 위험 작업 / 민감 정보 노출"]
-  C["정렬 기준 추가<br/>질문 확인 / 제한 / 검토 / 거절"]
-  D["운영 가능한 응답<br/>도움이 되면서도 정책을 넘지 않음"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-06/chapter-08/p6-c08-s02-diagram-02-ko.mmd"
 ```
 
 ## 연습 및 예제

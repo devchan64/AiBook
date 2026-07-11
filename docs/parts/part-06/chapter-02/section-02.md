@@ -1,7 +1,7 @@
 # P6-2.2 의미와 거리
 
 > Section ID: `P6-2.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-2.1에서는 임베딩(embedding)을 토큰이나 문장을 벡터(vector)로 바꾸는 표현 방식이라고 설명했습니다. 이제 다음 질문이 생깁니다.
 
@@ -117,15 +117,7 @@ Part 6에서 `의미와 거리`, `유사도(similarity)와 거리(distance)의 �
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["query embedding"]
-  B["nearby vectors"]
-  C["candidate documents or answers"]
-  D["human or system review"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-02/p6-c02-s02-diagram-01-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 `가까운 것 찾기`와 `그것을 최종 답으로 정리하기`가 서로 다른 단계이며, 검색이 맞아도 답변 정리는 별도 판단을 거친다는 점입니다.
@@ -135,15 +127,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `무엇이 같은가`보다 `무엇을 먼저 가까운 후보로 올릴 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same similarity question"]
-  B["help search<br/>which question is near this issue?"]
-  C["document retrieval<br/>which passage is near this query?"]
-  D["recommendation<br/>which item is near this viewing pattern?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-02/p6-c02-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 `먼저 가까운 후보를 고른다`는 단계가 공통으로 들어간다는 것입니다. 다만 그 후보가 곧 정답이라는 뜻은 아니므로, 이후 검토와 정리 단계가 따로 필요합니다.

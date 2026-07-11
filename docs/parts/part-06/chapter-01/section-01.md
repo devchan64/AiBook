@@ -1,7 +1,7 @@
 # P6-1.1 토큰(token)은 무엇인가
 
 > Section ID: `P6-1.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Part 5의 마지막에서는 생성 모델이 여러 후보 중 실제 출력을 선택하는 과정으로 샘플링(sampling)을 설명했습니다. 그러면 이제 LLM(large language model) 쪽에서는 모델이 텍스트를 정확히 무엇의 단위로 읽고, 무엇의 단위로 다음 출력을 고르는지 더 구체적으로 물어야 합니다. 이 절은 바로 그 질문에서 시작합니다. 토큰(token)은 모델이 텍스트를 그대로 문장으로 읽지 않고, 내부 계산을 위해 나누어 다루는 입력과 출력의 기본 단위입니다.
 
@@ -117,15 +117,7 @@ LLM 서비스에서는 보통 다음 요소들이 토큰 기준으로 설명됩�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["raw text"]
-  B["split into tokens"]
-  C["model reads token sequence"]
-  D["predict next token"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-01/p6-c01-s01-diagram-01-ko.mmd"
 ```
 
 이 도식은 Part 6 전체의 가장 작은 출발점입니다.
@@ -135,15 +127,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `문장이 몇 개인가`보다 `모델이 몇 개의 계산 조각으로 읽는가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same token question"]
-  B["single sentence<br/>how many pieces are read?"]
-  C["long document<br/>can the whole token sequence fit?"]
-  D["cost check<br/>how many tokens are billed?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-01/p6-c01-s01-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 먼저 세는 단위가 같다는 것입니다. 모두 사람이 보는 `문장`이나 `문서 개수`보다, 모델이 실제로 읽는 `토큰 수`를 먼저 따져야 다음 판단이 가능해집니다.

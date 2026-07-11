@@ -1,7 +1,7 @@
 # P6-3.2 attention과 context window
 
 > Section ID: `P6-3.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-3.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이제 바로 다음 제약을 봐야 합니다.
 
@@ -141,15 +141,7 @@ RAG(retrieval-augmented generation)는 바로 이 문제와 연결됩니다.
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["all possible prior information"]
-  B["selected tokens inside context window"]
-  C["attention over selected tokens"]
-  D["next-token prediction"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-03/p6-c03-s02-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 다음입니다.
@@ -163,15 +155,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `얼마나 많이 넣는가`보다 `제한된 창 안에 무엇을 우선 남길 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same context-window question"]
-  B["long report<br/>which sections must survive?"]
-  C["code assistant<br/>which files are directly relevant now?"]
-  D["chatbot memory<br/>which state must remain visible?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-06/chapter-03/p6-c03-s02-diagram-02-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 점은 과업이 달라도 핵심 제약이 같다는 것입니다. 모두 `전부 넣는가`보다 `중요한 문맥을 먼저 남기는가`가 더 중요하며, attention은 그 뒤에 남은 범위 안에서만 계산됩니다.

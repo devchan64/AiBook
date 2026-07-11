@@ -224,17 +224,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["goal"]
-  B["choose next step"]
-  C["use docs or tools"]
-  D["observe result"]
-  E["continue or stop"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-06/chapter-13/p6-c13-s01-diagram-01-ko.mmd"
 ```
 
 이 도식의 핵심은 agent가 `질문 -> 답변` 한 번으로 끝나는 구조가 아니라, `목표 -> 단계 선택 -> 실행 -> 관찰`의 반복 구조라는 점입니다.
@@ -280,16 +270,7 @@ flowchart TD
 같은 내용을 작업 흐름 구조로 다시 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["goal"]
-  B["current state"]
-  C["choose next step"]
-  D["act with docs or tools"]
-  E["observe result"]
-  F["update state"]
-
-  A --> B --> C --> D --> E --> F
-  F --> C
+--8<-- "assets/part-06/chapter-13/p6-c13-s01-diagram-02-ko.mmd"
 ```
 
 핵심은 `답변 한 번`이 아니라 `상태를 갱신하며 다음 행동을 다시 고르는 반복`입니다.

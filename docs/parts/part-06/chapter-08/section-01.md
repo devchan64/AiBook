@@ -1,7 +1,7 @@
 # P6-8.1 지시 튜닝(instruction tuning)
 
 > Section ID: `P6-8.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-7.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요한지 보았습니다. 그러면 이제 다음 질문이 자연스럽게 이어집니다.
 
@@ -172,15 +172,7 @@ Part 6에서 `지시 튜닝(instruction tuning)`, `지시 따르기 성향의 �
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["pretrained model"]
-  B["instruction-response examples"]
-  C["instruction tuning"]
-  D["more assistant-like responses"]
-
-  A --> C
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-08/p6-c08-s01-diagram-01-ko.mmd"
 ```
 
 이 도식은 지시 튜닝을 `언어 모델 본체` 위에 `응답 형식 조정`이 더해지는 흐름으로 읽게 합니다. 그래서 이 도식에서 확인해야 할 결과는 기반 모델의 일반 언어 능력과, 이후에 얹히는 응답 형식 조정이 실제로 다른 층위로 구분되는가입니다.

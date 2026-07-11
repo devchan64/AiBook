@@ -1,0 +1,11 @@
+flowchart LR
+  A["input"]
+  B["agent run"]
+  C["tool calls and trace"]
+  D["evaluation / replay / approval"]
+  E["operate or improve"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

@@ -1,0 +1,9 @@
+flowchart TD
+  subgraph L["agent loop"]
+    direction LR
+    A["plan"] --> B["action"] --> C["observation"] --> D["decision"]
+  end
+
+  D -->|continue| A
+  D -->|enough evidence| F["stop"]
+  D -->|need approval or conflict check| G["ask human review"]

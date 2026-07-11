@@ -1,0 +1,11 @@
+flowchart TD
+  A["context"]
+  B["token probability distribution"]
+  C["selection rule: greedy or sampling"]
+  D["append token"]
+  E["repeat until stop"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

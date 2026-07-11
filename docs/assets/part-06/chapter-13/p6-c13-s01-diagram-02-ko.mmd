@@ -1,0 +1,10 @@
+flowchart LR
+  A["goal"]
+  B["current state"]
+  C["choose next step"]
+  D["act with docs or tools"]
+  E["observe result"]
+  F["update state"]
+
+  A --> B --> C --> D --> E --> F
+  F --> C

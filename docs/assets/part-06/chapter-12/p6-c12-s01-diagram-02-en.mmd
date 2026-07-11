@@ -1,0 +1,10 @@
+flowchart LR
+  A["user request"]
+  B["model decides whether tool is needed"]
+  C["tool call plan<br/>name + arguments"]
+  D["execution environment runs tool"]
+  E["tool result"]
+  F["final answer"]
+
+  A --> B
+  B --> C --> D --> E --> F

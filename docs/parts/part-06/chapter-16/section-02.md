@@ -206,15 +206,7 @@ P6-15.2의 자동 평가와 사람 평가, P6-16.1의 운영 제약, 지금 절�
 이 흐름을 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["failure detected"]
-  B["classify failure"]
-  C["retry / fallback / stop / review"]
-  D["save trace and improve"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-16/p6-c16-s02-diagram-01-ko.mmd"
 ```
 
 이 그림의 핵심은 실패 대응이 오류 문구를 보여 주고 끝나는 것이 아니라, 실패를 분류하고 대응 경로를 고른 뒤 흔적을 남겨 다음 개선으로 이어지는 구조라는 점입니다.

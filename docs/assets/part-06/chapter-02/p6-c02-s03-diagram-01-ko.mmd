@@ -1,0 +1,10 @@
+flowchart TD
+  A["same retrieval representation question"]
+  B["embedding learning<br/>which items should move closer?"]
+  C["fast search<br/>which nearby candidates can be found quickly?"]
+  D["service outcome<br/>which candidates actually get reviewed?"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D

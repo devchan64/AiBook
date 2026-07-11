@@ -1,0 +1,11 @@
+flowchart TD
+  A["tokens"]
+  B["embeddings + positions"]
+  C["Transformer blocks"]
+  D["next-token scores"]
+  E["chosen next token"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

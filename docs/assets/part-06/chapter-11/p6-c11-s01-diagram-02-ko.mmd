@@ -1,0 +1,11 @@
+flowchart LR
+  A["text chunk"]
+  B["embedding vector"]
+  C["metadata<br/>source / category / version"]
+  D["vector database record"]
+  E["retrieval payload<br/>text + metadata"]
+
+  A --> D
+  B --> D
+  C --> D
+  D --> E

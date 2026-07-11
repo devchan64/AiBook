@@ -1,0 +1,8 @@
+flowchart TD
+  A["user question"]
+  B{"answer from memory first?"}
+
+  A --> B
+  B -->|yes| D["old or generic answer risk"]
+  B -->|no, retrieve first| E["current document attached"]
+  E --> F["grounded answer"]

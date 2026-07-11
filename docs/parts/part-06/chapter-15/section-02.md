@@ -156,15 +156,7 @@ judge model 설계와 통계적 샘플링 전략의 세부는 여기서 다루�
 이 분업을 한 번 더 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  A["candidate outputs"]
-  B["automatic gate"]
-  C["human review"]
-  D["approve / revise / reject"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-06/chapter-15/p6-c15-s02-diagram-01-ko.mmd"
 ```
 
 이 그림의 핵심은 자동 평가가 먼저 모든 판단을 끝내는 것이 아니라, 사람 검토가 필요한 후보를 줄이고 최종 조치를 더 빠르게 정하게 만든다는 점입니다.
@@ -172,16 +164,7 @@ flowchart LR
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["system outputs"]
-  B["automatic checks"]
-  C["human review"]
-  D["combined quality decision"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
+--8<-- "assets/part-06/chapter-15/p6-c15-s02-diagram-02-ko.mmd"
 ```
 
 이 도식의 핵심은 실제 품질 판단이 한 경로로만 끝나지 않는다는 점입니다.
