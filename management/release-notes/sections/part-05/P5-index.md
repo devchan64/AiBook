@@ -25,6 +25,7 @@
 
 - 변경 이유: Part 5 커리큘럼 적합성 재점검에서 Part 시작 페이지의 자기 확인 표지가 AGENTS의 `체크리스트` 규칙과 어긋나 있었다.
 - 본문 반영: Part 시작 페이지 하단의 `짧은 점검` 표지를 `체크리스트`로 통일해 Part 단위 자기 확인 구조를 현재 기준과 맞췄다.
+- 추가 반영: 학습 밀도 검토 결과를 반영해, 후반부 구조 전환을 `순차 상태 -> 직접 참조 -> 병렬 블록 -> 생성 후보 선택`으로 다시 묶는 짧은 문단과 표를 추가했다.
 - 번역 동기화 메모: Part-level self-check label was aligned to the shared `checklist` convention. / wording change only. / pending
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
