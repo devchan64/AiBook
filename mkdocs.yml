@@ -780,6 +780,23 @@ plugins:
                         - "P4-9.1 Hyperparameters": en/parts/part-04/chapter-09/section-01.md
                         - "P4-9.2 Tuning And Validation Cost": en/parts/part-04/chapter-09/section-02.md
                         - "P4-9.3 Supplementary Learning: Reading The Big Picture Of Advanced Model Selection, Tuning Automation, And Experiment Tracking": en/parts/part-04/chapter-09/section-03.md
+                    - Chapter 10. Linear Regression:
+                        - "P4-10.1 Intuition For Linear Regression": en/parts/part-04/chapter-10/section-01.md
+                        - "P4-10.2 Evaluating Linear Regression And Reading Its Limits": en/parts/part-04/chapter-10/section-02.md
+                        - "P4-10.3 Supplementary Learning: How To Read Regression Diagnostics For The First Time": en/parts/part-04/chapter-10/section-03.md
+                    - Chapter 11. Logistic Regression:
+                        - "P4-11.1 Intuition For Logistic Regression": en/parts/part-04/chapter-11/section-01.md
+                        - "P4-11.2 Decision Boundary": en/parts/part-04/chapter-11/section-02.md
+                        - "P4-11.3 Supplementary Learning: How To Read Log-Odds And MLE For The First Time": en/parts/part-04/chapter-11/section-03.md
+                        - "P4-11.4 Supplementary Learning: How To Read Multinomial Logistic Regression": en/parts/part-04/chapter-11/section-04.md
+                        - "P4-11.5 Supplementary Learning: How To Read Solver And Regularization For The First Time": en/parts/part-04/chapter-11/section-05.md
+                    - Chapter 12. k-NN:
+                        - "P4-12.1 Intuition For k-NN": en/parts/part-04/chapter-12/section-01.md
+                        - "P4-12.2 Distance And Scale": en/parts/part-04/chapter-12/section-02.md
+                        - "P4-12.3 What Should Be Checked First When Using k-NN?": en/parts/part-04/chapter-12/section-03.md
+                    - Chapter 13. SVM:
+                        - "P4-13.1 Intuition For SVM": en/parts/part-04/chapter-13/section-01.md
+                        - "P4-13.2 Introductory Meaning Of The Kernel": en/parts/part-04/chapter-13/section-02.md
           theme:
             language: en
         - locale: zh
@@ -993,6 +1010,23 @@ plugins:
                         - "P4-9.1 超参数(hyperparameter)": zh/parts/part-04/chapter-09/section-01.md
                         - "P4-9.2 调优(tuning)与验证成本": zh/parts/part-04/chapter-09/section-02.md
                         - "P4-9.3 补充学习：从大图景读取高级模型选择、调优自动化与实验追踪": zh/parts/part-04/chapter-09/section-03.md
+                    - Chapter 10. 线性回归:
+                        - "P4-10.1 线性回归(linear regression)的直觉": zh/parts/part-04/chapter-10/section-01.md
+                        - "P4-10.2 线性回归的评估与局限": zh/parts/part-04/chapter-10/section-02.md
+                        - "P4-10.3 补充学习：第一次如何读 regression diagnostics": zh/parts/part-04/chapter-10/section-03.md
+                    - Chapter 11. 逻辑回归:
+                        - "P4-11.1 逻辑回归(logistic regression)的直觉": zh/parts/part-04/chapter-11/section-01.md
+                        - "P4-11.2 决策边界(decision boundary)": zh/parts/part-04/chapter-11/section-02.md
+                        - "P4-11.3 补充学习：第一次如何读 log-odds 与 MLE": zh/parts/part-04/chapter-11/section-03.md
+                        - "P4-11.4 补充学习：如何读取多类别(multinomial)逻辑回归": zh/parts/part-04/chapter-11/section-04.md
+                        - "P4-11.5 补充学习：第一次如何读 solver 与 regularization": zh/parts/part-04/chapter-11/section-05.md
+                    - Chapter 12. k-NN:
+                        - "P4-12.1 k-NN 的直觉": zh/parts/part-04/chapter-12/section-01.md
+                        - "P4-12.2 距离(distance)与尺度(scale)": zh/parts/part-04/chapter-12/section-02.md
+                        - "P4-12.3 使用 k-NN 时，应该先检查什么？": zh/parts/part-04/chapter-12/section-03.md
+                    - Chapter 13. SVM:
+                        - "P4-13.1 SVM 的直觉": zh/parts/part-04/chapter-13/section-01.md
+                        - "P4-13.2 kernel 的入门含义": zh/parts/part-04/chapter-13/section-02.md
           theme:
             language: zh
   - search:

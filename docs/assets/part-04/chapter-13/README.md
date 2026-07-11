@@ -1,14 +1,25 @@
 # Part 4 Chapter 13 Mermaid Assets
 
+- Canonical Mermaid assets for this chapter live under `docs/assets/part-04/chapter-13/`.
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
-- This chapter currently operates only Korean Mermaid assets. Add matching `-en.mmd` and translated derivatives when the chapter opens in other language paths.
+- English translation pages now use the shared `-en.mmd` source assets.
+- Chinese translation pages currently reuse the shared `-en.mmd` assets directly for Chapter 13.
 - Current language sets:
   - `p4-13-1-mermaid-01-ko.mmd`
+  - `p4-13-1-mermaid-01-en.mmd`
   - `p4-13-1-mermaid-02-ko.mmd`
+  - `p4-13-1-mermaid-02-en.mmd`
   - `p4-13-1-mermaid-03-ko.mmd`
+  - `p4-13-1-mermaid-03-en.mmd`
   - `p4-13-1-mermaid-04-ko.mmd`
+  - `p4-13-1-mermaid-04-en.mmd`
   - `p4-13-1-mermaid-05-ko.mmd`
+  - `p4-13-1-mermaid-05-en.mmd`
   - `p4-13-1-mermaid-06-ko.mmd`
+  - `p4-13-1-mermaid-06-en.mmd`
   - `p4-13-2-mermaid-01-ko.mmd`
+  - `p4-13-2-mermaid-01-en.mmd`
   - `p4-13-2-mermaid-02-ko.mmd`
+  - `p4-13-2-mermaid-02-en.mmd`
   - `p4-13-2-mermaid-03-ko.mmd`
+  - `p4-13-2-mermaid-03-en.mmd`

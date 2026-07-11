@@ -1,0 +1,18 @@
+flowchart TD
+  A["same score axis"]
+
+  subgraph L["threshold 0.5"]
+    direction TB
+    L1["boundary earlier"]
+    L2["class 1 region wider"]
+  end
+
+  subgraph R["threshold 0.7"]
+    direction TB
+    R1["boundary moves right"]
+    R2["class 1 region smaller"]
+  end
+
+  A --> L
+  A --> R
+  L --> R

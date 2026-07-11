@@ -1,0 +1,11 @@
+flowchart TD
+  A["the same classes can be split<br/>by several lines"]
+  B["compare the closest points<br/>for each line"]
+  C["boundary too close to one side"]
+  D["boundary leaves room on both sides"]
+  E["small changes create more review cases"]
+  F["new cases are less likely to flip"]
+
+  A --> B
+  B --> C --> E
+  B --> D --> F

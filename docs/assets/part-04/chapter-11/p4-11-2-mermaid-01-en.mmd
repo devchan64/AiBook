@@ -1,0 +1,19 @@
+flowchart TD
+  A["study_hours increases"]
+
+  subgraph L["class 0 side"]
+    direction TB
+    L1["3h<br/>score 0.17"]
+    L2["4h<br/>score 0.31"]
+  end
+
+  B["boundary<br/>score 0.50"]
+
+  subgraph R["class 1 side"]
+    direction TB
+    R1["5h<br/>score 0.55"]
+    R2["6h<br/>score 0.76"]
+  end
+
+  A --> L
+  L --> B --> R
