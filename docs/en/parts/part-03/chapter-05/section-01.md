@@ -1,7 +1,7 @@
 # P3-5.1 How Do We Turn Raw Logs into Comparable Tables
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 At first glance, raw logs look very rich. They contain many values in time order, often from several sensors, sometimes together with control parameters. But that richness does not automatically mean we already have a comparable dataset. After the [sample](../../../reference/concept-glossary.md#glossary-sample) unit has been fixed, we still need a procedure that turns raw logs into a summary table and an aggregate table. Raw logs, summary tables, and aggregate tables play different roles, and one row means something different in each of them.
 
@@ -33,10 +33,7 @@ Moving from the raw log to the summary table is not only about reducing the numb
 The diagram below compresses this transformation into its shortest form.
 
 ```mermaid
-flowchart TD
-    A[Raw log rows] --> B[Segment by progress]
-    B --> C[Summary per event]
-    C --> D[Aggregate across events]
+--8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-en.mmd"
 ```
 
 In this flow, the `Segment by progress` stage is especially important. We do not simply average the raw log as-is. First we divide the action into comparable ranges such as early, middle, and late, and only then do summary values appear. `Aggregate across events` comes after that. Summarizing one action and aggregating a recent operating range are not the same job. The second one groups once more.

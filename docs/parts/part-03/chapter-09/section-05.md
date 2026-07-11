@@ -80,18 +80,7 @@
 ## 작은 도식으로 보기
 
 ```mermaid
-flowchart TD
-    A[사건 식별자<br/>event_id = A]
-
-    A --> B[리포트 표<br/>차이값 diff<br/>리포트 문장 report sentence]
-    A --> C[검토 큐<br/>검토 필요 review_needed<br/>우선순위 점수 priority_score]
-    A --> D[목표 후보 표<br/>late_drop_rate<br/>note_source]
-
-    B --> E[비교 근거로 다시 추적]
-    C --> E
-    D --> E
-
-    E[왜 A가 이 표에 남았는가?<br/>같은 샘플 정체 유지<br/>근거 연결 보존]
+--8<-- "assets/part-03/chapter-09/p3-9-5-mermaid-01-ko.mmd"
 ```
 
 이 도식은 같은 `event_id`가 여러 표에 반복 등장한다는 사실보다, 그 반복이 왜 필요한지를 더 직접적으로 보여 줍니다. 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표가 서로 다른 목적을 가지더라도, 마지막에는 다시 `왜 A가 올라왔는가`를 설명할 수 있어야 합니다. 따라서 병합 코드보다 `같은 샘플 정체 + 남겨 둔 근거`가 추적 구조를 만든다는 점이 더 중요합니다.

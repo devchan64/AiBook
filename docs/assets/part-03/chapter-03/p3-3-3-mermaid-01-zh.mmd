@@ -1,0 +1,15 @@
+flowchart TD
+    A[Question: one event vs baseline?] --> A1[ID: event_id]
+    A1 --> A2[Features: flow_mean, flow_std, late_drop_rate]
+    A2 --> A3[Compare: baseline_diff]
+    A3 --> A4[Output: review_needed]
+
+    B[Question: recent 20 vs prior 200?] --> B1[ID: window_id]
+    B1 --> B2[Features: recent summaries]
+    B2 --> B3[Compare: prior_200_baseline_diff]
+    B3 --> B4[Output: report_sentence]
+
+    C[Question: define a future target?] --> C1[ID: event_id]
+    C1 --> C2[Features: flow_mean, late_drop_rate, repeatability_score]
+    C2 --> C3[Compare: baseline_diff]
+    C3 --> C4[Output: target_candidate]

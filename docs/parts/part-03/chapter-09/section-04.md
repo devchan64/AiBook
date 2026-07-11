@@ -88,15 +88,7 @@
 ## 작은 도식으로 보기
 
 ```mermaid
-flowchart TD
-    A[검토 큐 결과<br/>event_id + review_needed + 검토 메모]
-    A --> B[자유 형식 메모가 쌓임]
-    B --> C[공통 메모 패턴<br/>late drop 반복<br/>기록만 남김]
-    C --> D[목표 후보 열]
-
-    D --> D1[후반 하락 반복 여부<br/>late_drop_repeated]
-    D --> D2[수동 검토 필요<br/>needs_manual_review]
-    D --> D3[메모 출처<br/>note_source]
+--8<-- "assets/part-03/chapter-09/p3-9-4-mermaid-01-ko.mmd"
 ```
 
 이 도식은 자유 메모가 바로 target이 되는 것이 아니라, 중간에 `같은 뜻을 묶는 단계`가 꼭 들어간다는 점을 보여 줍니다. 먼저 검토 결과와 메모가 쌓이고, 그 메모에서 반복되는 판단을 공통 패턴으로 정리한 뒤에야 `late_drop_repeated`, `needs_manual_review` 같은 열이 생깁니다. 이 절에서 중요한 것은 문자열 처리 기술이 아니라 `메모 -> 공통 의미 -> 라벨 후보 열`의 전환 구조입니다. 따라서 target은 갑자기 주어지는 값이 아니라, 검토 기록을 구조화한 결과로 읽어야 합니다. 목표 라벨 후보는 처음부터 주어진 정답이 아니라, 검토 과정에서 반복적으로 남은 판단을 더 안정된 열로 바꾼 결과일 때가 많습니다.

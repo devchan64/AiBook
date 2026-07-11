@@ -1,0 +1,15 @@
+flowchart TD
+    A[비교 결과<br/>diff, 반복성, 최근 건수]
+    A --> B1[사례 A<br/>반복되는 변화<br/>관측이 충분함]
+    A --> B2[사례 B<br/>같은 차이값<br/>관측이 적음]
+
+    B1 --> C1[보수적 문장<br/>검토 우선순위 상향<br/>원인 주장은 보류]
+    B2 --> C2[보수적 문장<br/>더 많은 관측 필요]
+
+    C1 --> D1[경고 수준<br/>warning_level = caution]
+    C1 --> D2[검토 필요<br/>review_needed = 1]
+    C1 --> D3[우선순위 점수<br/>priority_score = high]
+
+    C2 --> E1[경고 수준<br/>warning_level = watch]
+    C2 --> E2[검토 필요<br/>review_needed = 0]
+    C2 --> E3[우선순위 점수<br/>priority_score = lower]

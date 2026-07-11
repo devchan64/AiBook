@@ -1,7 +1,7 @@
 # P3-8.1 What Controls Interpretation Strength
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Having a comparison table does not mean every difference should be read with the same strength. In operational data, sample sizes are often small, and it may be unclear whether the same change repeats. At the interpretation stage, you need to ask not only `what changed` but also `how strongly that difference can be trusted`.
 
@@ -100,14 +100,7 @@ The key point of this table is not to stop interpreting. It is that even the sam
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Difference observed] --> B{Sample size enough?}
-    B -- No --> C{Repeated in same direction?}
-    C -- No --> D[Record only]
-    C -- Yes --> E[Review candidate]
-    B -- Yes --> F{Repeated in same direction?}
-    F -- No --> E
-    F -- Yes --> G[Stronger warning]
+--8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-en.mmd"
 ```
 
 This section can be regrouped not as a matter of intuition from one domain, but as a question of how to read `evidence strength`.

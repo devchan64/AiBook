@@ -1,7 +1,7 @@
 # P3-1.1 What Is Data Modeling Trying to Achieve
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 As soon as the reader enters Part 3, they meet words such as [sample](../../../reference/concept-glossary.md#glossary-sample), [feature](../../../reference/concept-glossary.md#glossary-feature), [baseline](../../../reference/concept-glossary.md#glossary-baseline), [output structure](../../../reference/concept-glossary.md#glossary-output-structure), and [target](../../../reference/concept-glossary.md#glossary-target). These terms do not stand alone. The outer judgment that decides what counts as one case, which values remain, what gets compared, and in what result format the process closes is [data modeling](../../../reference/concept-glossary.md#glossary-data-modeling).
 
@@ -46,12 +46,7 @@ The important point in this table is that data modeling is not yet the `model se
 Reduced to a short summary, the order of judgment in data modeling can be read like this.
 
 ```mermaid
-flowchart TD
-  A["Raw time-series logs"] --> B["Choose one sample unit"]
-  B --> C["Summarize into features"]
-  C --> D["Compare with a baseline"]
-  D --> E["Decide output structure"]
-  E --> F["Review candidate or prediction-ready table"]
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-01-en.mmd"
 ```
 
 If this still feels too abstract, it becomes clearer when source data and post-modeling tables are placed side by side in the same scene.
@@ -91,12 +86,7 @@ The difference between the old human-centered reading and what data modeling cha
 | Next action | records remain, but judgment is slower | the structure can be passed directly to a review-candidate table or prediction-input table |
 
 ```mermaid
-flowchart TD
-  A["Time-step logs"] --> B["Human scans rows one by one"]
-  B --> C["Hard to compare whole actions"]
-  A --> D["Model one action as one sample"]
-  D --> E["Make features and baseline gap"]
-  E --> F["Emit review flag or prediction-ready output"]
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-02-en.mmd"
 ```
 
 Whether data modeling has succeeded is not judged by whether a flashy model was used. It is judged by whether the following questions can be answered.

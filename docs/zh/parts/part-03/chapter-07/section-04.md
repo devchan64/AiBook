@@ -1,7 +1,7 @@
 # P3-7.4 基准线应该用什么区间、什么条件来设定
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一旦理解了基准线是必要的，接下来立刻就会冒出下一个问题。`那到底什么算平时？` 读者很容易再次卡在这里。如果拿来和最近区间比较的过去区间是随意拼出来的，那么即使比较表能做出来，解释也会很容易晃动。所以，更好的先后顺序是先抓住：`先写下比较问题`，`只保留适合这个问题的候选`，然后 `再从剩下的候选里选出和当前样本条件最接近的那一组。`
 
@@ -65,17 +65,7 @@ NIST 关于管理图的说明里提到，要把过程看作处于控制状态，
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Baseline candidates]
-    A --> B{Same sample unit?}
-    B -->|No| X[Do not use]
-    B -->|Yes| C{Same process and mode?}
-    C -->|No| X
-    C -->|Yes| D{Enough event count?}
-    D -->|No| X
-    D -->|Yes| E{Same operational phase?}
-    E -->|No| X
-    E -->|Yes| F[Use as baseline candidate]
+--8<-- "assets/part-03/chapter-07/p3-7-4-mermaid-01-zh.mmd"
 ```
 
 这张图说明，选择基准线并不是去挑一个平均值，而是一步一步筛掉不满足比较条件的候选。也就是说，它与其说是在打印候选表，不如说更像是在抓住一个筛选结构：依次检查 `同一样本单位`、`同一工艺条件`、`足够样本数`、`同一运行状态`。

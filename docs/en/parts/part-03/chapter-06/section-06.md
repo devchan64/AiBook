@@ -1,7 +1,7 @@
 # P3-6.6 Why the Same Column Name May Still Not Mean the Same Feature When the Measurement Rule or Unit Changes
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 There is one more trap that is easy to miss while designing features. It appears the moment we think `if the column name is the same, it must be the same feature`. But in real data, even under the same name `flow_mean`, the sensor version may have changed, the unit may have changed, or the calculation rule may have changed. Once such changes happen, the numbers may still exist, yet it becomes difficult to say that it is still the same feature.
 
@@ -51,16 +51,7 @@ If we look at this table, every row uses the same name `flow_mean`, but more tha
 So if we read these four rows as one unchanged feature column, the meaning of the feature itself becomes unstable even before we talk about whether the numbers are similar. That is why the conclusion we should hold first here is simple. `The same column name` does not guarantee `the same feature definition`.
 
 ```mermaid
-flowchart TD
-    A[Same column name: flow_mean] --> B{Same unit?}
-    B -- No --> X[Separate definition group]
-    B -- Yes --> C{Same sensor version?}
-    C -- No --> X
-    C -- Yes --> D{Same segment rule?}
-    D -- No --> X
-    D -- Yes --> E{Same ops definition?}
-    E -- No --> X
-    E -- Yes --> Y[Same feature definition]
+--8<-- "assets/part-03/chapter-06/p3-6-6-mermaid-01-en.mmd"
 ```
 
 ## So What Should Be Written Down First at This Stage

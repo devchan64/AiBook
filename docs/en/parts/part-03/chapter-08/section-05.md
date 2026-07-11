@@ -1,7 +1,7 @@
 # P3-8.5 How Are Multiple Comparison Columns Grouped into One Review-Priority Candidate
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` As the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
 
@@ -79,19 +79,7 @@ Only at that point does it become explainable why A comes first and why B can mo
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Many comparison columns]
-    A --> B1[Change magnitude]
-    A --> B2[Repeatability]
-    A --> B3[Interpretation confidence]
-    A --> B4[Operational importance]
-
-    B1 --> C[Priority candidate]
-    B2 --> C
-    B3 --> C
-    B4 --> C
-
-    C --> D[Review queue or structured output]
+--8<-- "assets/part-03/chapter-08/p3-8-5-mermaid-01-en.mmd"
 ```
 
 This diagram shows that the columns should not be collapsed straight into one score. They first need to be regrouped by `what judgment axis is this`. What should be seen first here is not the complexity that `there are many columns`, but the structure that `different questions are grouped into a few judgment axes`. Review priority is a candidate judgment created by grouping change magnitude, repeatability, interpretation confidence, and operational importance together, not by reading one difference value in isolation. The core of this section is therefore not `how should one implement a single-line score`, but `into what bundles of questions are multiple comparison columns compressed first`.

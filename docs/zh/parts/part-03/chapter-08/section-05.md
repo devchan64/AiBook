@@ -1,7 +1,7 @@
 # P3-8.5 多个比较列如何归并成一个复核优先级候选
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 当一张表里同时出现均值差异、波动性差异、重复性、最近区间样本数和模式摘要时，马上就会出现一个问题：`列很多，那应该先看什么，又该如何压缩成一行判断？` 比较列越多，真正需要的往往不是更多数字，而是把不同信号重新归并成几个判断轴的方法。
 
@@ -79,19 +79,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Many comparison columns]
-    A --> B1[Change magnitude]
-    A --> B2[Repeatability]
-    A --> B3[Interpretation confidence]
-    A --> B4[Operational importance]
-
-    B1 --> C[Priority candidate]
-    B2 --> C
-    B3 --> C
-    B4 --> C
-
-    C --> D[Review queue or structured output]
+--8<-- "assets/part-03/chapter-08/p3-8-5-mermaid-01-zh.mmd"
 ```
 
 这张图显示的重点是：不要把许多列直接压成一个分数，而是先按`它属于哪种判断轴`重新归并。这里首先要看的，不是`列太多了`这种复杂感，而是`不同问题会被归并成几个判断轴`这一结构。复核优先级候选不是由单个差值直接产生，而是由变化幅度、重复性、解读可信度和运营重要性一起压缩出来的判断结果。因此，本节的核心不是`如何实现一行分数`，而是`多个比较列会先被压缩成哪些问题组合`。

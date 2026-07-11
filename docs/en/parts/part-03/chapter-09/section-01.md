@@ -54,15 +54,7 @@ Prediction is therefore not the starting point. It becomes worth considering onl
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Current data state]
-    A --> B{Only comparison signal?}
-    B -->|Yes| C[Stop at alert]
-    B -->|No| D{Signal + review rules?}
-    D -->|Yes| E[Stop at review candidate]
-    D -->|No| F{Stable target labels + evaluation setup?}
-    F -->|Yes| G[Move to label prediction]
-    F -->|No| E
+--8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-en.mmd"
 ```
 
 This diagram shows that the judgment of raising a problem upward is not `always move one stage higher`, but a branch that asks what level of evidence currently exists. It is not about listing label names, but about separating, step by step, whether to stop at `alert`, whether to go to `review candidate`, or whether to raise it to `label prediction`. The key is that `an alert is a change signal, a review candidate is review prioritization, and label prediction is a stronger problem setup than both`. How far the current problem should be raised must be judged not by `is it more advanced`, but by `how far does the current data honestly support`.

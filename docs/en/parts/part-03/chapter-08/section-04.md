@@ -1,7 +1,7 @@
 # P3-8.4 How Conservative Interpretation Sentences Become Warning Columns and Review-Queue Criteria
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 After reading a comparison table, you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into `structured operational output` such as a [review queue](../../../reference/concept-glossary.md#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
 
@@ -72,21 +72,7 @@ These two tables are both needed because the first table records `why that judgm
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Comparison result<br/>diff, repeatability, recent count]
-    A --> B1[Case A<br/>repeatable change<br/>enough observations]
-    A --> B2[Case B<br/>same diff<br/>few observations]
-
-    B1 --> C1[Conservative sentence<br/>raise review priority<br/>hold cause claim]
-    B2 --> C2[Conservative sentence<br/>need more observation]
-
-    C1 --> D1[warning_level = caution]
-    C1 --> D2[review_needed = 1]
-    C1 --> D3[priority_score = high]
-
-    C2 --> E1[warning_level = watch]
-    C2 --> E2[review_needed = 0]
-    C2 --> E3[priority_score = lower]
+--8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-en.mmd"
 ```
 
 This diagram shows that even the same difference value does not move directly into the same operational columns. You first read the comparison result, then adjust the interpretation strength in a human sentence, and only after that compress it into columns such as `warning_level`, `review_needed`, and `priority_score`. A column such as `warning_level` is therefore not a suddenly invented implementation artifact. It is the result of compressing an observed result, through human interpretation, into a format that is easier to reuse in operations. The order that must be fixed first is also this one: read `what changed`, adjust how strongly that difference should be stated in a sentence, and then compress it again into operational columns.

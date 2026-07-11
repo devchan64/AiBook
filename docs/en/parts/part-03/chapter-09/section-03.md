@@ -70,13 +70,7 @@ This order matters because the three tables are not substitutes for one another.
 The diagram below shows how the same event list splits into three outputs.
 
 ```mermaid
-flowchart TD
-    A[Same event list<br/>baseline difference<br/>repeatability<br/>judgment context]
-
-    A --> B[Report table<br/>show what changed]
-    A --> C[Review queue<br/>decide what to inspect first]
-    A --> D[Target-candidate table<br/>prepare inputs and result columns]
-
+--8<-- "assets/part-03/chapter-09/p3-9-3-mermaid-01-en.mmd"
 ```
 
 What should be seen first in this diagram is not `one table is copied three times`, but `one event list is cut again for three questions`. A comparison report keeps change explanation, a review queue keeps review priority, and a target-candidate table keeps the split between input columns and result columns. The three tables should therefore be read not as duplicated copies of the same data, but as reorganizations of the same event list for different purposes.
@@ -84,18 +78,7 @@ What should be seen first in this diagram is not `one table is copied three time
 If you briefly reread only the role of the representative columns, it becomes the following.
 
 ```mermaid
-flowchart TD
-    B[Comparison report]
-    B --> B1[difference value]
-    B --> B2[comparison sentence]
-
-    C[Review-candidate queue]
-    C --> C1[review needed]
-    C --> C2[priority score]
-
-    D[Target-candidate table]
-    D --> D1[feature columns]
-    D --> D2[result-candidate column]
+--8<-- "assets/part-03/chapter-09/p3-9-3-mermaid-02-en.mmd"
 ```
 
 This second diagram compresses only `what appears first in each output` after the split shown in the first diagram. A comparison report foregrounds the difference value and the comparison sentence, a review-candidate queue foregrounds review-needed status and priority score, and a target-candidate table foregrounds the split between feature columns and result-candidate columns. So the first diagram should be read as `what does it split into`, and the second as `what is foregrounded after it splits`.

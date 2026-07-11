@@ -1,0 +1,6 @@
+flowchart TD
+  A["Time-step logs"] --> B["Human scans rows one by one"]
+  B --> C["Hard to compare whole actions"]
+  A --> D["Model one action as one sample"]
+  D --> E["Make features and baseline gap"]
+  E --> F["Emit review flag or prediction-ready output"]

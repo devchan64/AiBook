@@ -1,0 +1,8 @@
+flowchart TD
+    A[Difference observed] --> B{Sample size enough?}
+    B -- No --> C{Repeated in same direction?}
+    C -- No --> D[Record only]
+    C -- Yes --> E[Review candidate]
+    B -- Yes --> F{Repeated in same direction?}
+    F -- No --> E
+    F -- Yes --> G[Stronger warning]

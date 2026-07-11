@@ -1,7 +1,7 @@
 # P3-8.1 解读强度由什么来调节
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 即使已经有了比较表，也不代表所有差异都应该用同样的强度去解读。尤其在运营数据里，样本量往往较小，而且同样的变化是否重复出现也未必明确。因此在解读阶段，不仅要看`哪里变了`，还要一起看`这个差异可以被多大程度地信任`。
 
@@ -100,14 +100,7 @@ print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Difference observed] --> B{Sample size enough?}
-    B -- No --> C{Repeated in same direction?}
-    C -- No --> D[Record only]
-    C -- Yes --> E[Review candidate]
-    B -- Yes --> F{Repeated in same direction?}
-    F -- No --> E
-    F -- Yes --> G[Stronger warning]
+--8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-zh.mmd"
 ```
 
 这一节可以重新归并为一个更一般的问题，不是某个特定运营领域里的`经验感`，而是如何读取`证据强度（evidence strength）`。

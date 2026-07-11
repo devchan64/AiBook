@@ -1,7 +1,7 @@
 # P3-1.1 데이터 모델링은 무엇을 달성하려는가
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary.md#glossary-data-modeling)입니다.
 
@@ -46,12 +46,7 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 짧게 요약하면 데이터 모델링의 판단 순서는 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["원천 시계열 로그"] --> B["샘플 단위 정하기"]
-  B --> C["특징으로 요약하기"]
-  C --> D["기준선과 비교하기"]
-  D --> E["출력 구조 정하기"]
-  E --> F["검토 후보 표 또는 예측 준비 표"]
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-01-ko.mmd"
 ```
 
 추상적으로만 보면 이 말이 쉽게 손에 잡히지 않을 수 있으므로, 같은 장면을 원천데이터와 모델링 후 표로 나누어 봅니다.
@@ -91,12 +86,7 @@ flowchart TD
 | 다음 행동 | 기록은 남지만 판단이 늦다 | 검토 후보 표나 예측 입력 표로 바로 넘긴다 |
 
 ```mermaid
-flowchart TD
-  A["시점별 로그"] --> B["사람이 행을 하나씩 훑음"]
-  B --> C["동작 전체 비교가 어려움"]
-  A --> D["동작 1회를 샘플 1건으로 모델링"]
-  D --> E["특징과 기준선 차이 만들기"]
-  E --> F["검토 플래그 또는 예측용 출력 생성"]
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-02-ko.mmd"
 ```
 
 데이터 모델링이 잘 되었는지는 화려한 모델을 썼는지로 판단하지 않습니다. 오히려 다음 질문에 답할 수 있는지로 판단합니다.

@@ -1,0 +1,11 @@
+flowchart TD
+    A[Current sample set]
+    A --> B[Mostly day shift]
+    A --> C[Mostly machine M1]
+    A --> D[Only one high-load case]
+    A --> E[Only one after-maintenance case]
+
+    B --> F[Coverage is uneven]
+    C --> F
+    D --> F
+    E --> F

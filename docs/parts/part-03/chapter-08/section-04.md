@@ -1,7 +1,7 @@
 # P3-8.4 보수적 해석 문장은 어떻게 경고 열과 검토 큐 기준으로 바뀌는가
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 비교표를 읽은 뒤에는 `최근 구간은 기준선 대비 후반 하강이 커졌고 검토 우선순위를 높인다` 같은 보수적 해석 문장이 남습니다. 여기서 필요한 다음 판단은 이 문장을 어떻게 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열로 바꿀 것인가입니다. 보수적 해석 문장은 끝이 아니라, [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue)와 같은 `구조화된 운영 출력`으로 바뀌기 전 마지막 사람 해석 단계입니다. 비교표를 곧바로 구조화된 운영 출력으로 바꾸면 중간의 판단 이유가 빠질 수 있고, 반대로 문장만 남기면 운영 우선순위를 정하거나 같은 기준으로 다시 정렬하기 어렵습니다.
 
@@ -72,21 +72,7 @@
 ## 작은 도식으로 보기
 
 ```mermaid
-flowchart TD
-    A[비교 결과<br/>diff, 반복성, 최근 건수]
-    A --> B1[사례 A<br/>반복되는 변화<br/>관측이 충분함]
-    A --> B2[사례 B<br/>같은 차이값<br/>관측이 적음]
-
-    B1 --> C1[보수적 문장<br/>검토 우선순위 상향<br/>원인 주장은 보류]
-    B2 --> C2[보수적 문장<br/>더 많은 관측 필요]
-
-    C1 --> D1[경고 수준<br/>warning_level = caution]
-    C1 --> D2[검토 필요<br/>review_needed = 1]
-    C1 --> D3[우선순위 점수<br/>priority_score = high]
-
-    C2 --> E1[경고 수준<br/>warning_level = watch]
-    C2 --> E2[검토 필요<br/>review_needed = 0]
-    C2 --> E3[우선순위 점수<br/>priority_score = lower]
+--8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-ko.mmd"
 ```
 
 이 도식은 같은 차이값이라도 바로 같은 운영 열로 넘어가지 않는다는 점을 보여 줍니다. 먼저 비교 결과를 읽고, 그다음 사람 문장으로 해석 강도를 조절한 뒤에야 `warning_level`, `review_needed`, `priority_score` 같은 운영 열로 압축됩니다. 즉 `warning_level` 같은 열은 갑자기 만들어 낸 구현물이 아니라, 관찰 결과를 사람 해석을 거쳐 운영에 다시 쓰기 쉬운 형식으로 압축한 결과입니다. 여기서 먼저 고정해야 하는 것도 `무엇이 달라졌는가`를 읽고, 그 차이를 얼마나 강하게 말할지 문장으로 조절한 뒤, 다시 운영 열로 압축하는 순서입니다.

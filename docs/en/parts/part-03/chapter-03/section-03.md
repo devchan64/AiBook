@@ -1,7 +1,7 @@
 # P3-3.3 Which Columns Should Be Sketched First to Move a Question into the First Table Draft
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which columns identify the sample and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into problem-representation structure, this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
 
@@ -70,21 +70,7 @@ Expected output: for each question, the draft columns for `identification`, `fea
 Concept to check: the first table draft is not a finished list of column names, but the stage where the role-based column groups required by the question are made visible first
 
 ```mermaid
-flowchart TD
-    A[Question: one event vs baseline?] --> A1[ID: event_id]
-    A1 --> A2[Features: flow_mean, flow_std, late_drop_rate]
-    A2 --> A3[Compare: baseline_diff]
-    A3 --> A4[Output: review_needed]
-
-    B[Question: recent 20 vs prior 200?] --> B1[ID: window_id]
-    B1 --> B2[Features: recent summaries]
-    B2 --> B3[Compare: prior_200_baseline_diff]
-    B3 --> B4[Output: report_sentence]
-
-    C[Question: define a future target?] --> C1[ID: event_id]
-    C1 --> C2[Features: flow_mean, late_drop_rate, repeatability_score]
-    C2 --> C3[Compare: baseline_diff]
-    C3 --> C4[Output: target_candidate]
+--8<-- "assets/part-03/chapter-03/p3-3-3-mermaid-01-en.mmd"
 ```
 
 The key in this example is not the list of column names, but seeing `which column group changes first when the question changes`. In comparing one action, `event_id` and `review_needed` appear first. In comparing the recent 20 cases, `window_id` and `report_sentence` are more natural. By contrast, once later learning candidates are being considered, the result column changes into `target_candidate`. So the first table draft is not the process of completing the correct table all at once. It is a sketch that first reveals the sample unit and result direction required by the question.

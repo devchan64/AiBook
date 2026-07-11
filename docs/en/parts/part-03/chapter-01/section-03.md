@@ -1,7 +1,7 @@
 # P3-1.3 How Should a Data Question Be Written So the Problem Structure Appears Before the Model
 
 > Section ID: `P3-1.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 A good data question should first reveal `what will count as one case`, `what will be compared with what`, and `what we ultimately want to know`. Only when this question structure is in place before model names or technology names do the later sample unit, table structure, features, baselines, and output structure also settle into place together. In particular, the question that selects what a person should inspect first should visibly lead to a [review queue](../../../reference/concept-glossary.md#glossary-review-queue), while the question that defines what should later be predicted should lead to a [target candidate](../../../reference/concept-glossary.md#glossary-target-candidate). A bad question, by contrast, has a model name but leaves the sample unit and comparison reference empty.
 
@@ -72,11 +72,7 @@ In other words, one question immediately determines the direction of the next Ch
 What matters in this example is not code execution but the correspondence itself. When the question changes, the table structure that comes next changes with it, so even with the same source data the next table the reader should imagine first also changes.
 
 ```mermaid
-flowchart TD
-    A[Question: one event vs baseline?] --> A1[Next: one-event summary table]
-    B[Question: recent 20 vs prior 200?] --> B1[Next: aggregate and baseline table]
-    C[Question: which cases need review first?] --> C1[Next: review queue and output structure]
-    D[Question: can we define a future target?] --> D1[Next: target-candidate and feature table]
+--8<-- "assets/part-03/chapter-01/p3-1-3-mermaid-01-en.mmd"
 ```
 
 If the question itself is vague, then `what table has to be rebuilt` also remains abstract. That is why rewriting the data question is not an extra sentence-polishing step. It is the starting point for deciding through what sample and table structure the stored data will be read again. The moment the question is written better, it also becomes much more direct why the sample and baseline are needed first. More broadly, a good data question is not just a sentence formulation. It is a problem-definition device that fixes the `target unit`, `desired outcome`, and `comparison or output structure` together at once. In other words, a good data question is not `a nicely worded sentence`, but the minimum design sentence that determines the table structure and comparison structure that follow.

@@ -1,7 +1,7 @@
 # P3-5.4 输入窗口(window)应该从哪里切，长度又该如何对齐
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 如果原始时间序列本身还不是学习输入，那么立刻就会留下一个更具体的问题。`那真正的输入到底应该从哪里开始、到哪里结束？` `长度各不相同的动作，又该怎样像同一种输入那样对待？` 输入窗口(window)正是回答这些问题的数据建模决定。
 
@@ -88,12 +88,7 @@
 下面这个小图，会更清楚地说明为什么同一个窗口决定，会产生两种候选输入结构。
 
 ```mermaid
-flowchart TD
-    A[Windowed event sequence]
-    A --> B[Collapse into summary features]
-    A --> C[Keep ordered segments]
-    B --> D[One-row feature input]
-    C --> E[Sequence-like input candidate]
+--8<-- "assets/part-03/chapter-05/p3-5-4-mermaid-01-zh.mmd"
 ```
 
 这里也需要把边界分清。这一节回答的是 `为什么把输入窗口切成这样`，而不是解释在这个输入之上，哪种学习结构更合适。

@@ -1,0 +1,13 @@
+flowchart TD
+    A[Many comparison columns]
+    A --> B1[Change magnitude]
+    A --> B2[Repeatability]
+    A --> B3[Interpretation confidence]
+    A --> B4[Operational importance]
+
+    B1 --> C[Priority candidate]
+    B2 --> C
+    B3 --> C
+    B4 --> C
+
+    C --> D[Review queue or structured output]

@@ -1,0 +1,9 @@
+flowchart TD
+    A[검토 큐 결과<br/>event_id + review_needed + 검토 메모]
+    A --> B[자유 형식 메모가 쌓임]
+    B --> C[공통 메모 패턴<br/>late drop 반복<br/>기록만 남김]
+    C --> D[목표 후보 열]
+
+    D --> D1[후반 하락 반복 여부<br/>late_drop_repeated]
+    D --> D2[수동 검토 필요<br/>needs_manual_review]
+    D --> D3[메모 출처<br/>note_source]

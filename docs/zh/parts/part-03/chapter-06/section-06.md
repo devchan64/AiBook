@@ -1,7 +1,7 @@
 # P3-6.6 即使列名相同，只要测量方式或单位变了，为什么也可能不是同一个特征
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 在设计特征(feature)时，还有一个很容易被忽略的陷阱。那就是一想到 `列名一样，那应该就是同一个特征吧`。但在真实数据里，即使都叫 `flow_mean`，也可能是传感器版本变了、单位变了，或者计算规则变了。只要发生这种变化，数字虽然还在那里，也很难再说它还是同一个特征。
 
@@ -51,16 +51,7 @@
 所以，如果把这四行当作同一列“没变的特征”来读，那么在谈数字是否相近之前，特征含义本身就已经晃了。也正因为如此，这里最先应该抓住的结论很简单：`相同列名` 并不保证 `相同特征定义`。
 
 ```mermaid
-flowchart TD
-    A[Same column name: flow_mean] --> B{Same unit?}
-    B -- No --> X[Separate definition group]
-    B -- Yes --> C{Same sensor version?}
-    C -- No --> X
-    C -- Yes --> D{Same segment rule?}
-    D -- No --> X
-    D -- Yes --> E{Same ops definition?}
-    E -- No --> X
-    E -- Yes --> Y[Same feature definition]
+--8<-- "assets/part-03/chapter-06/p3-6-6-mermaid-01-zh.mmd"
 ```
 
 ## 所以，这个阶段最先要写下什么

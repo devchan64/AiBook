@@ -1,7 +1,7 @@
 # P3-8.3 保守解读句子应当按什么顺序、用什么词来写
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完比较表之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的比较结果和解读强度按正确顺序放进句子里。
 
@@ -64,16 +64,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Comparison result]
-    A --> B[State the difference first]
-    B --> C{How strong is the evidence?}
-    C -->|Few cases| D[Add low-confidence condition]
-    C -->|Repeated and enough cases| E[Add stronger review condition]
-    D --> F[End with next action<br/>keep observing]
-    E --> G[End with next action<br/>raise review priority]
-    F --> H[Do not add cause claim]
-    G --> H
+--8<-- "assets/part-03/chapter-08/p3-8-3-mermaid-01-zh.mmd"
 ```
 
 这张图说明，写句子的顺序本身就是关键。先说比较结果，再加上强度条件，最后用下一步动作收尾，既能减少夸大，也能减少空泛。这里重要的不是`怎样把句子写得更弱`，而是`怎样按证据直接支撑的顺序来放置句子`。只有这个顺序先立住，报告句子才不会失去比较依据，也不会把还不存在的原因判断提前拉进来。

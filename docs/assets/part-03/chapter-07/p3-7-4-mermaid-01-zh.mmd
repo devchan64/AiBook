@@ -1,0 +1,11 @@
+flowchart TD
+    A[Baseline candidates]
+    A --> B{Same sample unit?}
+    B -->|No| X[Do not use]
+    B -->|Yes| C{Same process and mode?}
+    C -->|No| X
+    C -->|Yes| D{Enough event count?}
+    D -->|No| X
+    D -->|Yes| E{Same operational phase?}
+    E -->|No| X
+    E -->|Yes| F[Use as baseline candidate]

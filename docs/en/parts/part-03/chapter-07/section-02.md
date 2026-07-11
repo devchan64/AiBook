@@ -1,7 +1,7 @@
 # P3-7.2 How Should We Read a Comparison Table as a Human Review Sentence
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Once the baseline comparison table is built, many numbers start appearing at once. Columns such as recent average, baseline average, difference value, ratio difference, recent variability, and baseline variability can all appear together. At this point, people often look at the single most noticeable difference value and jump straight to a conclusion. But the order in which a comparison table is read matters. In Part 3, this table should be read not as an automatic diagnosis result table, but as `a table for building a human review sentence`.
 
@@ -39,17 +39,7 @@ These sentences are safer because they do not use the comparison table immediate
 The same reading order can also be shown directly through a simple diagram.
 
 ```mermaid
-flowchart TD
-    A[Comparison table]
-    A --> B[1. Check recent_count]
-    B --> C[2. Check baseline condition]
-    C --> D[3. Read diff and ratio]
-    D --> E[4. Check variability and pattern]
-    E --> F[5. Write review sentence]
-
-    B --> G[Few cases?<br/>lower confidence]
-    D --> H[Large diff?<br/>possible change]
-    E --> I[Repeated pattern?<br/>stronger review reason]
+--8<-- "assets/part-03/chapter-07/p3-7-2-mermaid-01-en.mmd"
 ```
 
 This diagram shows the order in which we should not jump directly to the most visible `diff`, but should first check sample count and baseline conditions. In other words, it is less about numerical examples themselves and more about fixing `in what order the comparison table should be read so that it can be safely translated into a human review sentence`.

@@ -1,0 +1,8 @@
+flowchart TD
+    A[Repeated review results] --> B{Same event, same label?}
+    B -- No --> C[Keep review-report stage]
+    C --> C1[Leave disagreement memo]
+    C --> C2[Delay fixing the result column]
+    B -- Yes --> D{Are the criteria stable over time?}
+    D -- No --> E[Split by period or mark rule change]
+    D -- Yes --> F[Organize as a simpler target candidate]

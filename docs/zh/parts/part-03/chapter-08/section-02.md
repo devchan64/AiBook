@@ -1,7 +1,7 @@
 # P3-8.2 变化信号能说到哪里，原因又该停在哪里
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一旦有了基线，就可以读取最近区间和平时状态之间的差异。但即便如此，若把它理解成`既然看到了差异，原因也应该马上知道`，仍然非常危险。变化信号可见，和原因被确认，是完全不同的两个阶段。调节了解读强度之后，接下来还必须更明确地规定`可以说到哪里`，以及`应该停在哪里`。
 
@@ -57,13 +57,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Comparison result<br/>late-drop difference<br/>repeatability<br/>recent count]
-    A --> B[Signal statement<br/>something changed]
-    B --> C[Review statement<br/>worth checking]
-    C --> D{Extra causal evidence?}
-    D -->|No| E[Stop here<br/>do not claim root cause]
-    D -->|Yes| F[Cause claim can be tested separately]
+--8<-- "assets/part-03/chapter-08/p3-8-2-mermaid-01-zh.mmd"
 ```
 
 这张图展示的是：比较结果不会直接通向原因确认。要先说变化信号，然后最多推进到需要复核这一层；只有在出现独立因果证据时，才可以进入下一阶段。这里讨论的重点不是计算本身，而是`该说到哪里、该停在哪里`这一解读边界。

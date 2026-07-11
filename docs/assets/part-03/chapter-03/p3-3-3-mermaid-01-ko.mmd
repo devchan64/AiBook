@@ -1,0 +1,15 @@
+flowchart TD
+    A[질문: 동작 1회를 기준선과 비교할까?] --> A1[식별: event_id]
+    A1 --> A2[특징: flow_mean, flow_std, late_drop_rate]
+    A2 --> A3[비교: baseline_diff]
+    A3 --> A4[출력: review_needed]
+
+    B[질문: 최근 20건과 이전 200건을 비교할까?] --> B1[식별: window_id]
+    B1 --> B2[특징: 최근 요약값]
+    B2 --> B3[비교: prior_200_baseline_diff]
+    B3 --> B4[출력: report_sentence]
+
+    C[질문: 미래 목표를 정의할까?] --> C1[식별: event_id]
+    C1 --> C2[특징: flow_mean, late_drop_rate, repeatability_score]
+    C2 --> C3[비교: baseline_diff]
+    C3 --> C4[출력: target_candidate]

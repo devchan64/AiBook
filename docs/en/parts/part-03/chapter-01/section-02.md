@@ -1,7 +1,7 @@
 # P3-1.2 In What Sequence Does Data Modeling Proceed
 
 > Section ID: `P3-1.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Once we understand what data modeling is trying to achieve, the next question follows immediately: in what sequence should the work actually proceed? Features cannot be built before the sample unit is fixed, and without a comparison reference even the [output structure](../../../reference/concept-glossary.md#glossary-output-structure) becomes unstable. So data modeling is best read as an order that fixes the structures needed later, one by one, from the front.
 
@@ -23,12 +23,7 @@ In official documentation, these six items are usually explained not as one fixe
 Reduced to one line, the connection among these six items is as follows.
 
 ```mermaid
-flowchart TD
-    A[Question] --> B[Sample unit]
-    B --> C[Summary table]
-    C --> D[Feature and baseline]
-    D --> E[Output structure]
-    E --> F[Conservative interpretation]
+--8<-- "assets/part-03/chapter-01/p3-1-2-mermaid-01-en.mmd"
 ```
 
 If this grouping still feels abstract, it becomes easier to understand when compared with a `wrong starting order` that people often follow in real work.

@@ -1,7 +1,7 @@
 # P3-7.1 What Should We Compare the Structure We Kept Against So That Change Becomes Visible
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 When people hear the word baseline, they often think first of model evaluation or performance comparison. That is understandable, because the phrase baseline model also appears often in machine learning. But the baseline discussed in this Part comes earlier than that. Here, a baseline is part of the data-representation structure that decides `what should the current state be compared against` before model-performance comparison begins. If the previous chapter preserved structure through features and intermediate representations, then we now have to decide what that structure should be compared against so that change becomes visible.
 
@@ -29,11 +29,7 @@ So the current baseline is closer not to `setting up one model`, but to `prepari
 That comparison structure can be read like this.
 
 ```mermaid
-flowchart TD
-    A[Recent window] --> C[Comparison table]
-    B[Baseline window] --> C
-    C --> D[Difference columns]
-    D --> E[Human review sentence]
+--8<-- "assets/part-03/chapter-07/p3-7-1-mermaid-01-en.mmd"
 ```
 
 The recent window and the baseline window first exist separately, and they meet for the first time in the `Comparison table`. What a person actually reads is not one recent value or one baseline value, but the `Difference columns` created when the two meet. The final `Human review sentence` means not a fixed cause, but a comparison sentence that a person should review.

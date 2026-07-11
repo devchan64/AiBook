@@ -1,7 +1,7 @@
 # P3-8.4 保守解读句子如何转成告警列和复核队列标准
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 读完比较表之后，往往会留下类似`最近区间相对基线后段下降更大，因此提高复核优先级`这样的保守解读句子。接下来需要做的判断，是如何把这句话转成 `warning_level`、`review_needed`、`priority_score` 这样的结构化运营列。保守解读句子不是终点，而是在转成[复核候选队列（review queue）](../../../reference/concept-glossary.md#glossary-review-queue)这类`结构化运营输出`之前，最后一层人工解读。如果把比较表直接改写成结构化运营输出，中间的判断理由可能会丢失；但如果只留下句子，又很难按同一标准去排运营优先级、检索、或重新排序。
 
@@ -72,21 +72,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Comparison result<br/>diff, repeatability, recent count]
-    A --> B1[Case A<br/>repeatable change<br/>enough observations]
-    A --> B2[Case B<br/>same diff<br/>few observations]
-
-    B1 --> C1[Conservative sentence<br/>raise review priority<br/>hold cause claim]
-    B2 --> C2[Conservative sentence<br/>need more observation]
-
-    C1 --> D1[warning_level = caution]
-    C1 --> D2[review_needed = 1]
-    C1 --> D3[priority_score = high]
-
-    C2 --> E1[warning_level = watch]
-    C2 --> E2[review_needed = 0]
-    C2 --> E3[priority_score = lower]
+--8<-- "assets/part-03/chapter-08/p3-8-4-mermaid-01-zh.mmd"
 ```
 
 这张图显示的是，即使差值相同，也不会直接进入同样的运营列。要先读取比较结果，再通过人工句子调节解读强度，之后才压缩成 `warning_level`、`review_needed`、`priority_score` 这样的运营列。也就是说，像 `warning_level` 这样的列，并不是突然冒出来的实现物，而是把观测结果经过人工解读之后，再压缩成更容易在运营里复用的格式。这里首先要固定的顺序，同样是先读`哪里变了`，再用句子调节`可以说得多强`，最后再压缩成运营列。

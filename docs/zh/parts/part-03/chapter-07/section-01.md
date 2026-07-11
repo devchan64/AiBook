@@ -1,7 +1,7 @@
 # P3-7.1 应该把留下来的结构拿去和什么比较，变化才会显现
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一听到“基准线”这个词，人们往往会先想到模型评估或性能比较。确实，在机器学习里也常常会听到 baseline model 这个说法。但这一 Part 里说的基准线，处在更前面的阶段。这里的基准线，是在模型性能比较之前，决定 `当前状态应该和什么相比` 的数据表示结构的一部分。如果前一章已经通过特征和中间表示把结构留下来了，那么现在就要决定：应该把这些结构拿去和什么比较，变化才会显现。
 
@@ -29,11 +29,7 @@
 这个比较结构，可以像下面这样来读。
 
 ```mermaid
-flowchart TD
-    A[Recent window] --> C[Comparison table]
-    B[Baseline window] --> C
-    C --> D[Difference columns]
-    D --> E[Human review sentence]
+--8<-- "assets/part-03/chapter-07/p3-7-1-mermaid-01-zh.mmd"
 ```
 
 最近区间和基准线区间最开始是分开的，只有在 `Comparison table` 里它们才第一次进入同一张表。人真正读取的，不是单独一个最近值或基准线值，而是两者相遇后产生的 `Difference columns`。最后的 `Human review sentence`，意思不是直接固定原因，而是一个应该由人去复核的比较句子。

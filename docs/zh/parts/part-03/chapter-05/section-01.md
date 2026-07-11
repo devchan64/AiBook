@@ -1,7 +1,7 @@
 # P3-5.1 如何把原始日志转换成可比较的表
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/en/reference/concept-glossary.md#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成汇总表和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且每一行所代表的对象也不同。
 
@@ -33,10 +33,7 @@
 下面的图，把这个转换压缩成了最短的形式。
 
 ```mermaid
-flowchart TD
-    A[Raw log rows] --> B[Segment by progress]
-    B --> C[Summary per event]
-    C --> D[Aggregate across events]
+--8<-- "assets/part-03/chapter-05/p3-5-1-mermaid-01-zh.mmd"
 ```
 
 在这条流程里，`Segment by progress` 这一步尤其重要。我们并不是直接对原始日志整体求平均，而是先把动作切成前段、中段、后段这样的可比较区间，然后才会得到汇总值。`Aggregate across events` 则是下一步。对一次动作做汇总，和对近期区间再做聚合，不是同一件事，后者是再往上做一次组合。

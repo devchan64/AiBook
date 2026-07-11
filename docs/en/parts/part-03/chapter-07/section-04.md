@@ -1,7 +1,7 @@
 # P3-7.4 By What Range and Conditions Should We Set the Baseline
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Once we understand that a baseline is needed, the next question immediately follows. `Then what exactly should count as usual?` This is where readers easily get stuck again. If we gather past ranges at random for comparison with the recent range, a comparison table may still be produced, but the interpretation will shake easily. So it is better to hold on first to the order: `write the comparison question first`, `leave only the candidates that fit that question`, and `among the remaining candidates, choose the bundle that matches the current sample most closely in condition`.
 
@@ -65,17 +65,7 @@ The key point of this table is not `do the numbers look similar?` but `are the c
 ## Looking Through a Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Baseline candidates]
-    A --> B{Same sample unit?}
-    B -->|No| X[Do not use]
-    B -->|Yes| C{Same process and mode?}
-    C -->|No| X
-    C -->|Yes| D{Enough event count?}
-    D -->|No| X
-    D -->|Yes| E{Same operational phase?}
-    E -->|No| X
-    E -->|Yes| F[Use as baseline candidate]
+--8<-- "assets/part-03/chapter-07/p3-7-4-mermaid-01-en.mmd"
 ```
 
 This diagram shows that baseline selection is not the act of picking one average value. It is a judgment that filters comparison conditions step by step. In other words, it is less about printing a candidate table and more about holding on to the selection structure that checks in sequence `same sample unit`, `same process condition`, `enough sample count`, and `same operational state`.

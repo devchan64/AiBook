@@ -1,0 +1,10 @@
+flowchart TD
+    A[Current question]
+    A --> B{Need to show what changed first?}
+    B -->|Yes| C[Keep compare report]
+    B -->|No| D{Have stable target labels?}
+    D -->|No| C
+    D -->|Yes| E[Consider prediction task]
+
+    C --> F[Keep change explanation centered]
+    E --> G[Define as prediction problem]

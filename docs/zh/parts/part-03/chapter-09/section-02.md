@@ -52,16 +52,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[当前问题]
-    A --> B{Need to show what changed first?}
-    B -->|Yes| C[Keep compare report]
-    B -->|No| D{Have stable target labels?}
-    D -->|No| C
-    D -->|Yes| E[Consider prediction task]
-
-    C --> F[Keep change explanation centered]
-    E --> G[Define as prediction problem]
+--8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-zh.mmd"
 ```
 
 这张图说明，比较报告不是因为还做不了预测，所以暂时停在那里的过渡阶段。对某些问题来说，它本来就可能一直是更合适的产物。如果首先需要做的是展示`哪里变了`，那 comparison report 就是自然的；只有在存在稳定目标标签时，进入 prediction problem 才变得合理。好的数据建模，不是从一开始就定义最复杂的问题，而是诚实地选择最符合当前数据状态的输出形式。如果变化说明和复核优先级更重要，而稳定目标标签仍然偏弱，那么把 comparison report 一直保留到最后，反而可能更准确。

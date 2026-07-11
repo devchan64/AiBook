@@ -1,7 +1,7 @@
 # P3-5.4 Where Do We Cut the Input Window and How Do We Align Its Length
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 If a raw time series is not yet a learning input by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The input window is the data-modeling decision that answers exactly these questions.
 
@@ -88,12 +88,7 @@ So deciding the input window explains, on one side, where the summary features c
 The small diagram below makes it clearer why the same window decision creates two candidate input structures.
 
 ```mermaid
-flowchart TD
-    A[Windowed event sequence]
-    A --> B[Collapse into summary features]
-    A --> C[Keep ordered segments]
-    B --> D[One-row feature input]
-    C --> E[Sequence-like input candidate]
+--8<-- "assets/part-03/chapter-05/p3-5-4-mermaid-01-en.mmd"
 ```
 
 The boundary should also be kept clear here. This section answers `why was the input window cut this way?` It is not the place that explains what learning structure fits best on top of that input.

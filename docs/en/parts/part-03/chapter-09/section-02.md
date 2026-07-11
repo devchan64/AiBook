@@ -52,16 +52,7 @@ The difference between comparison reports and prediction problems becomes cleare
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Current question]
-    A --> B{Need to show what changed first?}
-    B -->|Yes| C[Keep compare report]
-    B -->|No| D{Have stable target labels?}
-    D -->|No| C
-    D -->|Yes| E[Consider prediction task]
-
-    C --> F[Keep change explanation centered]
-    E --> G[Define as prediction problem]
+--8<-- "assets/part-03/chapter-09/p3-9-2-mermaid-01-en.mmd"
 ```
 
 This diagram shows that a comparison report is not just a stopover used because prediction is not yet possible. For some questions, it can remain the better output all the way through. If what is needed first is to show `what changed`, then a comparison report is natural, and only when stable target labels exist does it make sense to move to a prediction problem. Good data modeling is not the act of defining the most complex problem from the start. It is the act of honestly choosing the output form that matches the current data state. If change explanation and review priority matter more, and stable target labels are still weak, then keeping a comparison report through to the end can be more accurate.

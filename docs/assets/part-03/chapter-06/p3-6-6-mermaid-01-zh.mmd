@@ -1,0 +1,10 @@
+flowchart TD
+    A[Same column name: flow_mean] --> B{Same unit?}
+    B -- No --> X[Separate definition group]
+    B -- Yes --> C{Same sensor version?}
+    C -- No --> X
+    C -- Yes --> D{Same segment rule?}
+    D -- No --> X
+    D -- Yes --> E{Same ops definition?}
+    E -- No --> X
+    E -- Yes --> Y[Same feature definition]

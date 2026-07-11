@@ -70,13 +70,7 @@
 下面这张图展示了同一个事件列表如何分叉成三种产物。
 
 ```mermaid
-flowchart TD
-    A[Same event list<br/>baseline difference<br/>repeatability<br/>judgment context]
-
-    A --> B[Report table<br/>show what changed]
-    A --> C[Review queue<br/>decide what to inspect first]
-    A --> D[Target-candidate table<br/>prepare inputs and result columns]
-
+--8<-- "assets/part-03/chapter-09/p3-9-3-mermaid-01-zh.mmd"
 ```
 
 这张图里首先要看的，不是`一张表被复制了三次`，而是`一个事件列表，会为了三个问题被重新切开`。比较报告留下的是变化说明，复核候选队列留下的是复核优先级，目标标签候选表留下的是输入列与结果列的分界。所以，这三张表不该被读成同一份数据的重复拷贝，而应被读成：同一份事件列表，针对不同目的被重新组织后的结果。
@@ -84,18 +78,7 @@ flowchart TD
 如果只把代表列的作用再压缩着看一次，可以读成下面这样。
 
 ```mermaid
-flowchart TD
-    B[比较报告]
-    B --> B1[差值]
-    B --> B2[比较句子]
-
-    C[复核候选队列]
-    C --> C1[是否需要复核]
-    C --> C2[优先级分数]
-
-    D[目标标签候选表]
-    D --> D1[特征列]
-    D --> D2[结果候选列]
+--8<-- "assets/part-03/chapter-09/p3-9-3-mermaid-02-zh.mmd"
 ```
 
 这第二张图，只是把第一张图分叉之后`每种产物里什么会先被看见`再次压缩出来。比较报告更先看到差值和比较句子，复核候选队列更先看到是否需要复核和优先级分数，目标标签候选表更先看到特征列与结果候选列的分界。所以，第一张图更适合读成`会分成什么`，第二张图更适合读成`分开之后什么会被放在前面`。

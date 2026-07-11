@@ -1,0 +1,12 @@
+flowchart TD
+    A[사건 식별자<br/>event_id = A]
+
+    A --> B[리포트 표<br/>차이값 diff<br/>리포트 문장 report sentence]
+    A --> C[검토 큐<br/>검토 필요 review_needed<br/>우선순위 점수 priority_score]
+    A --> D[목표 후보 표<br/>late_drop_rate<br/>note_source]
+
+    B --> E[비교 근거로 다시 추적]
+    C --> E
+    D --> E
+
+    E[왜 A가 이 표에 남았는가?<br/>같은 샘플 정체 유지<br/>근거 연결 보존]

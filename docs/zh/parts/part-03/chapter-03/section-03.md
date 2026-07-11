@@ -1,7 +1,7 @@
 # P3-3.3 要把问题搬到第一张表草案里，应该先草拟哪些列
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 拿到问题之后，真正立刻需要的，不是一次把完成表写出来，而是先在第一张表草案里分清：哪些列负责识别样本，哪些列负责状态、比较和结果。问题句一变，表草案的列结构也会跟着变，所以如果要把已存记录搬到问题表达结构里，这第一张草图就必须清楚。第一张表草案真正重要的，不是完整列名清单，而是这种角色划分。
 
@@ -70,21 +70,7 @@
 要确认的概念：第一张表草案不是一份完成的列名清单，而是先把问题要求的按角色分组的列显露出来的阶段
 
 ```mermaid
-flowchart TD
-    A[Question: one event vs baseline?] --> A1[ID: event_id]
-    A1 --> A2[Features: flow_mean, flow_std, late_drop_rate]
-    A2 --> A3[Compare: baseline_diff]
-    A3 --> A4[Output: review_needed]
-
-    B[Question: recent 20 vs prior 200?] --> B1[ID: window_id]
-    B1 --> B2[Features: recent summaries]
-    B2 --> B3[Compare: prior_200_baseline_diff]
-    B3 --> B4[Output: report_sentence]
-
-    C[Question: define a future target?] --> C1[ID: event_id]
-    C1 --> C2[Features: flow_mean, late_drop_rate, repeatability_score]
-    C2 --> C3[Compare: baseline_diff]
-    C3 --> C4[Output: target_candidate]
+--8<-- "assets/part-03/chapter-03/p3-3-3-mermaid-01-zh.mmd"
 ```
 
 这个例子的关键，不在于列名清单本身，而在于看到 `问题一变，最先变化的是哪一组列`。在比较一次动作时，先显露出来的是 `event_id` 和 `review_needed`；在比较最近 20 次时，更自然的是 `window_id` 和 `report_sentence`；反过来，一旦开始考虑以后的学习候选，结果列就会变成 `target_candidate`。所以，第一张表草案并不是一次把正确表完整做出来的过程，而是一张先把问题要求的样本单位和结果方向显露出来的草图。

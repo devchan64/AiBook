@@ -1,7 +1,7 @@
 # P3-1.2 数据建模按什么顺序推进
 
 > Section ID: `P3-1.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一旦理解了数据建模到底想达成什么，接下来的问题就会立刻出现：实际工作应该按什么顺序推进？在样本单位还没定下来之前，特征没法先做；如果没有比较基准，连 [output structure](/AiBook/en/reference/concept-glossary.md#glossary-output-structure) 也会跟着晃动。所以，数据建模最好被读成一种前段顺序：把后面会用到的结构，从前往后逐步固定下来。
 
@@ -23,12 +23,7 @@
 如果把这六项之间的连接压成一行，就是下面这样。
 
 ```mermaid
-flowchart TD
-    A[Question] --> B[Sample unit]
-    B --> C[Summary table]
-    C --> D[Feature and baseline]
-    D --> E[Output structure]
-    E --> F[Conservative interpretation]
+--8<-- "assets/part-03/chapter-01/p3-1-2-mermaid-01-zh.mmd"
 ```
 
 如果这组内容看上去还太抽象，和现实中很常见的 `错误起步顺序` 放在一起比较，会更容易理解。

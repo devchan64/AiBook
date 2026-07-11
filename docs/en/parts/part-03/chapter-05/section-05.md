@@ -1,7 +1,7 @@
 # P3-5.5 How Do We Handle Samples with Missing Values or Empty Segments
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 By the time we reach the stage of turning raw logs into a summary table, questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the missing values disturb the sample boundary and the meaning of the features.
 
@@ -59,13 +59,7 @@ So the concern here is closer to `how should we classify the current state of th
 ## Looking Through a Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Missing values in summary sample]
-    A --> B{Only one segment missing?}
-    B -->|Yes| C[Keep sample<br/>avoid affected features]
-    B -->|No| D{Sample boundary broken?}
-    D -->|Yes| E[Do not keep as event sample]
-    D -->|No| F[Check if missingness itself should be flagged]
+--8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-en.mmd"
 ```
 
 This diagram shows that we do not treat `being empty` as one single state. The judgment branches according to the location of the missingness and the state of the sample boundary. So the example in this section aims less to reveal values themselves and more to reveal first the judgment structure that branches into `keep`, `exclude features`, and `structural collapse`.

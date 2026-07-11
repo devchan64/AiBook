@@ -88,15 +88,7 @@ So what becomes easier to structure first is usually columns such as `whether re
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Review queue result<br/>event_id + review_needed + review note]
-    A --> B[Free-form notes accumulate]
-    B --> C[Shared note patterns<br/>repeated late drop<br/>record only]
-    C --> D[Target-candidate columns]
-
-    D --> D1[late_drop_repeated]
-    D --> D2[needs_manual_review]
-    D --> D3[note_source]
+--8<-- "assets/part-03/chapter-09/p3-9-4-mermaid-01-en.mmd"
 ```
 
 This diagram shows that a free-form note does not become a target directly. A middle stage of `grouping the same meaning` must be present. Review results and notes accumulate first, repeated judgments inside those notes are organized into common patterns, and only then do columns such as `late_drop_repeated` and `needs_manual_review` appear. What matters in this section is not string-processing technique, but the conversion structure `note -> shared meaning -> target-candidate column`. A target should therefore be read not as a suddenly given value, but as the result of structuring the review records themselves. A target candidate is often not an answer given from the start, but the result of turning repeated judgments left in the review process into more stable columns.

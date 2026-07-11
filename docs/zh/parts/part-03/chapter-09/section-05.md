@@ -80,18 +80,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[event_id = A]
-
-    A --> B[Report table<br/>diff<br/>report sentence]
-    A --> C[Review queue<br/>review_needed<br/>priority score]
-    A --> D[Target-candidate table<br/>late_drop_rate<br/>note_source]
-
-    B --> E[Trace back to comparison evidence]
-    C --> E
-    D --> E
-
-    E[Why was A promoted?<br/>same sample identity<br/>retained evidence links]
+--8<-- "assets/part-03/chapter-09/p3-9-5-mermaid-01-zh.mmd"
 ```
 
 这张图更直接展示的，不只是同一个 `event_id` 会在多张表里重复出现，而是为什么这种重复是必要的。即使比较报告、复核候选队列和目标标签候选表承担不同目的，最后也仍然应该能够重新回答：`为什么 A 会被提上来？` 所以，比起合并代码，更重要的是`同一样本身份 + 被保留下来的依据`共同构成了这套追踪结构。

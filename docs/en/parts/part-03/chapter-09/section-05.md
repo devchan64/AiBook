@@ -80,18 +80,7 @@ So even before a target-candidate table becomes a completely `clean learning tab
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[event_id = A]
-
-    A --> B[Report table<br/>diff<br/>report sentence]
-    A --> C[Review queue<br/>review_needed<br/>priority score]
-    A --> D[Target-candidate table<br/>late_drop_rate<br/>note_source]
-
-    B --> E[Trace back to comparison evidence]
-    C --> E
-    D --> E
-
-    E[Why was A promoted?<br/>same sample identity<br/>retained evidence links]
+--8<-- "assets/part-03/chapter-09/p3-9-5-mermaid-01-en.mmd"
 ```
 
 This diagram shows more directly not just that the same `event_id` repeats across many tables, but why that repetition is needed. Even when the comparison report, review queue, and target-candidate table serve different purposes, it should still be possible in the end to explain `why was A promoted`. So what matters more than merge code is that `the same sample identity + retained evidence` creates the traceability structure.

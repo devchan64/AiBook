@@ -75,14 +75,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Repeated review results] --> B{Same event, same label?}
-    B -- No --> C[Keep review-report stage]
-    C --> C1[Leave disagreement memo]
-    C --> C2[Delay fixing the result column]
-    B -- Yes --> D{Are the criteria stable over time?}
-    D -- No --> E[Split by period or mark rule change]
-    D -- Yes --> F[Organize as a simpler target candidate]
+--8<-- "assets/part-03/chapter-09/p3-9-6-mermaid-01-zh.mmd"
 ```
 
 ## 一个小 Python 例子

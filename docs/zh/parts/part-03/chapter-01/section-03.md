@@ -1,7 +1,7 @@
 # P3-1.3 数据问题要怎么写，问题结构才会先于模型显现出来
 
 > Section ID: `P3-1.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一个好的数据问题，首先应该让人看见 `什么算一条案例`、`什么和什么比较`、`最终想知道什么`。只有在模型名或技术名之前，先把这种问题结构立起来，后面的样本单位、表结构、特征、基准线、输出结构才会一起跟着定下来。尤其是，先挑出人要优先看的对象的问题，应该能自然通向 [review queue](/AiBook/en/reference/concept-glossary.md#glossary-review-queue)；而先定义以后要预测什么结果的问题，则应该通向 [target candidate](/AiBook/en/reference/concept-glossary.md#glossary-target-candidate)。相反，不好的问题往往只有模型名字，却把样本单位和比较基准留空了。
 
@@ -72,11 +72,7 @@
 这个例子里重要的不是代码执行，而是对应关系本身。问题一变，后面要接的表结构也会一起变，所以就算源数据完全一样，读者脑中首先该画出的下一张表也会跟着不同。
 
 ```mermaid
-flowchart TD
-    A[Question: one event vs baseline?] --> A1[Next: one-event summary table]
-    B[Question: recent 20 vs prior 200?] --> B1[Next: aggregate and baseline table]
-    C[Question: which cases need review first?] --> C1[Next: review queue and output structure]
-    D[Question: can we define a future target?] --> D1[Next: target-candidate and feature table]
+--8<-- "assets/part-03/chapter-01/p3-1-3-mermaid-01-zh.mmd"
 ```
 
 如果问题本身就是模糊的，那么 `到底要重建哪一张表` 也会一直停留在抽象层面。所以，改写数据问题并不是额外的句子润色，而是决定要通过什么样本和表结构重新读取存量数据的起点。问题一旦写得更好，为什么样本和基准线要先定，也会跟着变得直接得多。再往大一点看，好的数据问题并不只是一个句子写法，它是一个一次性固定 `对象单位`、`想得到的结果`、`比较或产出结构` 的问题定义装置。换句话说，好的数据问题不是 `一句写得漂亮的话`，而是决定后续表结构和比较结构的最小设计句。

@@ -1,7 +1,7 @@
 # P3-8.2 How Far Should You Describe a Change Signal, and Where Should You Stop on Cause
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Once you have a baseline, you can read the difference between a recent window and the usual state. But it is still very risky to think, `if a difference appears, the cause must be obvious too`. A visible change signal and a confirmed cause are completely different stages. After adjusting interpretation strength, you next need to define more clearly `how far you can speak` and `where you should stop`.
 
@@ -57,13 +57,7 @@ For example, a sentence like `The recent window shows a larger late-stage drop t
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Comparison result<br/>late-drop difference<br/>repeatability<br/>recent count]
-    A --> B[Signal statement<br/>something changed]
-    B --> C[Review statement<br/>worth checking]
-    C --> D{Extra causal evidence?}
-    D -->|No| E[Stop here<br/>do not claim root cause]
-    D -->|Yes| F[Cause claim can be tested separately]
+--8<-- "assets/part-03/chapter-08/p3-8-2-mermaid-01-en.mmd"
 ```
 
 This diagram shows that a comparison result does not go directly to confirmed cause. You first describe the change signal, then you can move as far as the level of review needed, but a causal claim should move to the next stage only when separate evidence exists. The issue here is not the calculation itself but the interpretation boundary of `how far you speak` and `where you stop`.

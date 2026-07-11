@@ -1,7 +1,7 @@
 # P3-4.5 How Well Does the Sample Set We Collected Represent the Overall Operating Situation
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Once the sample unit has been fixed as something like one full action or one recent segment, one more question remains that is easy to miss. `How well does the sample set we collected represent the overall operating situation?` Even if the table itself is well organized, if the cases in it were gathered only from a specific process mode, a specific time period, or a specific equipment state, then the table may fail to describe the overall operating scene evenly. Choosing the sample unit correctly and having a sample bundle that evenly represents the whole situation are not the same thing.
 
@@ -46,17 +46,7 @@ These notes are not for proving generalization later. They are for first making 
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Current sample set]
-    A --> B[Mostly day shift]
-    A --> C[Mostly machine M1]
-    A --> D[Only one high-load case]
-    A --> E[Only one after-maintenance case]
-
-    B --> F[Coverage is uneven]
-    C --> F
-    D --> F
-    E --> F
+--8<-- "assets/part-03/chapter-04/p3-4-5-mermaid-01-en.mmd"
 ```
 
 This diagram shows that even if every sample unit is consistently `one full action`, the operating range it covers can still be tilted to one side. In other words, the point of this section's example is not to read many raw table values, but to identify first `which conditions are overrepresented and which conditions are nearly empty`.

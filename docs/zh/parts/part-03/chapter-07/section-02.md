@@ -1,7 +1,7 @@
 # P3-7.2 应该怎样把比较表读成人工复核句子
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一旦基准线比较表做出来，眼前就会开始同时出现很多数字。最近平均值、基准线平均值、差值、比例差、最近波动性、基准线波动性，这些列都可能一起冒出来。这时人们很容易只盯住最显眼的那一个差值，然后立刻下结论。但比较表的阅读顺序很重要。在 Part 3 里，这张表不该被读成自动诊断结果表，而应该被读成 `一张用来生成“人工复核句子”的表`。
 
@@ -39,17 +39,7 @@
 同样的阅读顺序，也可以直接用一个简单图来显示。
 
 ```mermaid
-flowchart TD
-    A[Comparison table]
-    A --> B[1. Check recent_count]
-    B --> C[2. Check baseline condition]
-    C --> D[3. Read diff and ratio]
-    D --> E[4. Check variability and pattern]
-    E --> F[5. Write review sentence]
-
-    B --> G[Few cases?<br/>lower confidence]
-    D --> H[Large diff?<br/>possible change]
-    E --> I[Repeated pattern?<br/>stronger review reason]
+--8<-- "assets/part-03/chapter-07/p3-7-2-mermaid-01-zh.mmd"
 ```
 
 这张图展示的是：不要一上来就从最显眼的 `diff` 开始读，而应该先确认样本数和基准线条件。也就是说，这里与其说是在给出数值例子，不如说是在固定一件事：`比较表应按什么顺序读取，才能安全地转换成一条人工复核句子。`

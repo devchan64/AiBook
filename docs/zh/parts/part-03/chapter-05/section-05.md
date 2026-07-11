@@ -1,7 +1,7 @@
 # P3-5.5 数值缺失或区间为空的样本应该怎样处理
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 当我们已经来到“把原始日志变成汇总表”的阶段后，像 `动作是有的，但部分传感器值为空怎么办？`、`中间区间记录缺了，这条样本该丢掉，还是部分使用？` 这样的问题就会立刻出现。这时首先要看的，不是怎么填值，而是这些缺失会在多大程度上动摇样本边界和特征含义。
 
@@ -59,13 +59,7 @@
 ## 用一个小图来看
 
 ```mermaid
-flowchart TD
-    A[Missing values in summary sample]
-    A --> B{Only one segment missing?}
-    B -->|Yes| C[Keep sample<br/>avoid affected features]
-    B -->|No| D{Sample boundary broken?}
-    D -->|Yes| E[Do not keep as event sample]
-    D -->|No| F[Check if missingness itself should be flagged]
+--8<-- "assets/part-03/chapter-05/p3-5-5-mermaid-01-zh.mmd"
 ```
 
 这张图说明：我们并不把 `为空` 看成单一状态。判断会随着缺失发生的位置和样本边界状态而分叉。也就是说，这一节的例子重点，与其说是在展示数值本身，不如说是在先展示一个判断结构：它会分成 `保留`、`排除特征`、`结构坍塌` 三条路。

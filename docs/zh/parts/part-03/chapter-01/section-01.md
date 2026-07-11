@@ -1,7 +1,7 @@
 # P3-1.1 数据建模想要达成什么
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 一进入 Part 3，读者很快就会遇到 [sample](/AiBook/en/reference/concept-glossary.md#glossary-sample)、[feature](/AiBook/en/reference/concept-glossary.md#glossary-feature)、[baseline](/AiBook/en/reference/concept-glossary.md#glossary-baseline)、[output structure](/AiBook/en/reference/concept-glossary.md#glossary-output-structure)、[target](/AiBook/en/reference/concept-glossary.md#glossary-target) 这些词。它们并不是彼此分开的。真正把 `什么算一条记录`、`哪些值要保留`、`拿什么去比较`、`最终要用什么结果格式收口` 一起决定下来的外层判断，就是 [data modeling](/AiBook/en/reference/concept-glossary.md#glossary-data-modeling)。
 
@@ -46,12 +46,7 @@
 把数据建模的判断顺序再压成一句话，可以这样读：
 
 ```mermaid
-flowchart TD
-  A["Raw time-series logs"] --> B["Choose one sample unit"]
-  B --> C["Summarize into features"]
-  C --> D["Compare with a baseline"]
-  D --> E["Decide output structure"]
-  E --> F["Review candidate or prediction-ready table"]
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-01-zh.mmd"
 ```
 
 如果这样看仍然太抽象，把源数据表和建模后的表放在同一个场景里并排看，会更容易抓住。
@@ -91,12 +86,7 @@ flowchart TD
 | 下一步行动 | 记录在，但判断会慢 | 可以直接交给复核候选表或预测输入表 |
 
 ```mermaid
-flowchart TD
-  A["Time-step logs"] --> B["Human scans rows one by one"]
-  B --> C["Hard to compare whole actions"]
-  A --> D["Model one action as one sample"]
-  D --> E["Make features and baseline gap"]
-  E --> F["Emit review flag or prediction-ready output"]
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-02-zh.mmd"
 ```
 
 数据建模做得好不好，并不是看有没有用上华丽的模型。更关键的是，看下面这些问题能不能回答。

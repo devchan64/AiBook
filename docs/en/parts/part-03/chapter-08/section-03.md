@@ -1,7 +1,7 @@
 # P3-8.3 In What Order and With What Wording Should Conservative Interpretation Sentences Be Written
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a comparison table so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed comparison results and interpretation strength in the sentence.
 
@@ -64,16 +64,7 @@ This table does not mean `every state always gets this label`. Its role is to ke
 ## A Small Diagram
 
 ```mermaid
-flowchart TD
-    A[Comparison result]
-    A --> B[State the difference first]
-    B --> C{How strong is the evidence?}
-    C -->|Few cases| D[Add low-confidence condition]
-    C -->|Repeated and enough cases| E[Add stronger review condition]
-    D --> F[End with next action<br/>keep observing]
-    E --> G[End with next action<br/>raise review priority]
-    F --> H[Do not add cause claim]
-    G --> H
+--8<-- "assets/part-03/chapter-08/p3-8-3-mermaid-01-en.mmd"
 ```
 
 This diagram shows that the order of sentence construction is itself the key point. If you state the comparison result first, then add the strength condition, and close with the next action, both exaggeration and empty vagueness are reduced. The issue here is not `how to write weak sentences`, but `how to place a sentence in the order directly supported by the evidence`. When that order is fixed, report sentences keep the comparison basis and avoid dragging in a cause judgment that does not yet exist.
