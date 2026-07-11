@@ -216,6 +216,14 @@ These three methods are not completely separate worlds. They differ in what aspe
 
 So kernel SVM is better understood not as `throwing away linear SVM`, but as `making the space read by linear SVM richer`.
 
+Compressed again in curriculum language, the flow becomes the following.
+
+- logistic regression in P4-11: learn linear scores and decision boundaries
+- SVM in P4-13.1: choose the more stable boundary among those linear boundaries
+- kernel in P4-13.2: redesign the very space in which the linear boundary works
+
+Once that summary is clear, even later models can be reorganized through questions such as `does this model change the boundary, the comparison rule, or the representation?`
+
 ## Cases And Examples
 
 ### Case 1. A Defect Pattern That Does Not Split With A Straight Line But Splits Once Interaction Features Are Read
@@ -256,6 +264,8 @@ The safer reading order is usually the following.
 4. only then raise kernel-based SVM as a candidate
 
 The reason for this order is that the kernel is powerful enough to blur `what actually improved` if used too quickly.
+
+That is why what matters is not using a kernel quickly, but being able to explain `why linear was insufficient` and `why the kernel addressed that insufficiency`.
 
 ### Historical And Academic Background
 
@@ -337,6 +347,12 @@ When Module 4 is reread as a whole, it is often more useful to organize not by a
 | ask whether a straight boundary feels persistently awkward and feature combinations or curved structure seem important | kernel SVM | how do the same cases get rearranged when the representation space changes? | should polynomial, RBF, or explicit feature expansion be checked first? |
 
 The point of this comparison is not `which model is more advanced`. It is to fix again that even in the same scene, different models make the reader ask different first questions.
+
+| Common record language | What to leave immediately from this Module 4 comparison |
+| --- | --- |
+| structure observed | even the same classification problem was reread through different questions such as score, neighbors, margin, and representation space |
+| interpretation boundary | a more complex candidate does not automatically mean a better starting point or an easier explanation |
+| next question | is what is currently lacking average-error reading, threshold policy, the distance rule, boundary room, or the representation space itself? |
 
 ## Perspectives To Remember In This Section
 

@@ -198,23 +198,117 @@ Logistic regression is often the first comparison model for a classification pro
 
 The key point of this table is to use logistic regression as both `a comparison model that goes beyond a first classification baseline` and `a training model for reading score and policy separately`.
 
+## Supplementary Reading Points
+
+### Where Do The Main Discussion Points Arise?
+
+After seeing the operating idea and a few examples, the next question becomes `how far should this model be trusted, and from where should the reader become careful?` Logistic regression is often used as an introductory model, and it is also known as comparatively interpretable. But in practice it is also `a model that looks easy to explain, so it is easy to oversimplify and misunderstand`.
+
+### 1. Are Score And Decision The Same Thing?
+
+The most common misunderstanding is to treat the model output and the service action as though they were the same thing.
+
+- The model usually emits a score close to `how likely is class 1?`
+- The service decides actions such as `block`, `warn`, `review`, or `pass` on top of that score
+
+So the first discussion point around logistic regression is `how far does the model speak, and where does service policy begin to intervene?`
+
+`Logistic regression creates material for judgment, but it does not automatically determine the final behavior rule.`
+
+When rewritten in the form of operating notes, it can be recorded like this.
+
+| Record item | Example |
+| --- | --- |
+| score | `0.58` |
+| current threshold | `0.50` |
+| current action | `warn` |
+| whether review is needed | `review because it is near the boundary` |
+| next question | `if threshold rises above 0.60, how much does FN increase?` |
+
+### 2. Until When Is A Probability-Like Value Really A Probability?
+
+Even if the output is `0.82`, that does not automatically mean it perfectly represents the true real-world probability. Depending on data distribution, learning procedure, and calibration state, `a score that looks like a probability` and `the actual observed frequency` can differ.
+
+The discussion point here is simple.
+
+- Is this value closer to `a ranking score`?
+- Or is it safe to read it as `a real-world probability`?
+
+This difference matters in practice. If the task is customer prioritization, the ranking may matter more. If the scene is something sensitive like medical risk guidance, calibration can matter much more.
+
+`The output of logistic regression is a score that can be read like a probability, but it does not always mean a perfectly calibrated real-world probability.`
+
+### 3. Is A Coefficient An Explanation Or A Cause?
+
+One reason logistic regression is used widely is that its coefficients are comparatively readable. But `being readable` and `knowing the cause` are different things.
+
+- The sign of a coefficient can show which direction pushes the score
+- The size of a coefficient can provide a clue for relative influence inside the model
+- But that does not by itself prove a direct real-world cause
+
+This discussion point matters especially in social data, medical data, and user-behavior data. If correlation and causation are mixed together, the explanation may look easy while the conclusion becomes risky.
+
+### 4. Is Logistic Regression Good Because It Is Simple, Or Weak Because It Is Simple?
+
+Logistic regression is a linear model. That simplicity is both a strength and a limit.
+
+- Strength: it is fast, works well as a baseline, and is comparatively easy to interpret
+- Limit: when the relation between input and result is highly complex or nonlinear, its expressive power may be weak
+
+That is why practice often leads to a question like this.
+
+- Should the reader start with logistic regression and set the first reference line?
+- Or should the reader move to a more complex model from the beginning?
+
+This book takes the first route as the default. Logistic regression matters not because it is `the best model`, but because it is `a good model for first understanding the structure of classification problems`.
+
+### 5. Why Is Threshold 0.5 Common, Yet Not An Absolute Criterion?
+
+`0.5` is only a common default. In real services, a different threshold can be more appropriate depending on cost structure, class imbalance, and policy goals.
+
+- a service that must not miss spam
+- a service that must not wrongly block normal users
+- a service that must catch risk signals broadly and early
+
+can all use different thresholds even on top of the same logistic regression output.
+
+So one important discussion point around logistic regression is that `a good score` and `a good action rule` are not always the same thing.
+
 ## Cases And Examples
+
+Before reading the cases, the common comparison frame of this Section can be arranged as follows.
+
+| Scene | Easy rule a person may use first | Limit of that rule | What logistic regression changes | Result to check |
+| --- | --- | --- | --- | --- |
+| churn prediction | choose risky customers by intuition | the same customer can be judged differently by different people | keep a probability-like score and a threshold together | review targets and automatic actions can be separated |
+| spam classification | block suspicious mail aggressively | FP and FN costs are easily mixed into one rough rule | read score and policy criterion separately | different service thresholds become explainable |
+| medical risk classification | warn broadly when it looks risky | hard to handle miss cost and over-warning cost together | even the same score can be read with a more sensitive threshold | the need for criteria beyond accuracy becomes visible |
+| loan / fraud detection | approve or block from one or two rules | easy to miss domain-specific cost differences | place different operating policies on top of the same model | model score and action policy stay separable |
 
 ### Case 1. Why Does Logistic Regression Fit Churn Prediction Well As A First Model?
 
-Suppose a team wants to predict customer churn from login frequency, time since last purchase, and complaint count. If a class 1 score of `0.82` appears, the model is not directly ordering `take action now`. It is saying `this user is read as quite likely to belong to the churn class`.
+Logistic regression is often used like a baseline in churn prediction.
 
-That interpretation is useful because the team can still decide what to do with a threshold:
+- the output value is `the likelihood of churn`
+- the service decision is `from which score should a retention campaign begin?`
 
-- immediate campaign
-- human review
-- monitoring only
+Suppose a subscription service first looks only at the following three features.
 
-So logistic regression is often useful not because it finishes the policy, but because it separates `score creation` from `behavior decision`.
+| Customer | Login days in the last 30 days | Payments in the last 30 days | Complaint inquiry | Class 1 score | Action under 0.5 |
+| --- | ---: | ---: | --- | ---: | --- |
+| A | 26 | 4 | none | 0.18 | keep normally |
+| B | 9 | 1 | yes | 0.61 | retention campaign |
+| C | 4 | 0 | yes | 0.84 | priority review plus strong retention |
+
+The first thing to hold onto in this table is that `input features do not go straight to action`. The model creates a score first, and the service then divides actions such as `keep normally`, `campaign`, and `human review` on top of that score.
+
+The reason logistic regression is often considered first here is usually threefold. A first reference line can be set quickly, the direction in which features push the score is comparatively readable, and several operating scenarios can be compared immediately by changing the threshold.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-02-en.mmd"
 ```
+
+In this scene, threshold policy matters more than the model name itself. Whether a customer like B at `0.61` becomes an automatic campaign target, or only customers like C above `0.80` receive stronger intervention, depends on cost structure. Even with the same score table, `where automatic action starts` is an operating decision outside the model.
 
 ### Case 2. Why Is Spam Filtering Not Finished By The Probability Alone?
 
@@ -228,7 +322,119 @@ The service may still:
 
 This case shows why `probability-like output` and `final behavior` should not be read as the same sentence.
 
+### Case 3. Medical Risk Classification
+
+In medicine, the cost of missing a positive-risk case can be very large. In that case, the service may need a lower threshold than `0.5` so that warnings are issued more sensitively.
+
+For example, in an outpatient triage stage, the table may be read like this.
+
+| Patient | Example signals the model saw | Class 1 score | Under 0.5 | Under 0.3 |
+| --- | --- | ---: | --- | --- |
+| P1 | younger age, main indicators stable | 0.11 | general guidance | general guidance |
+| P2 | raised blood pressure, family history | 0.34 | general guidance | recommend extra test |
+| P3 | several major indicators abnormal | 0.79 | recommend extra test | recommend extra test |
+
+The key case here is P2. `0.34` may look low under a 0.5 rule, but in an environment where the cost of missing risk is high, recommending another test first may be safer.
+
+In this kind of scene, plain accuracy alone is not enough. A viewpoint closer to sensitivity can matter more, so logistic regression is often used first as `a score model`, while the actual operation is designed separately together with medical criteria.
+
+### Case 4. The Difference Between Loan Review And Fraud Detection
+
+In loan review, both false approval and false rejection are costly. In fraud detection, blocking normal users is costly too, but missing real fraud can be even more expensive.
+
+Both tasks look like binary classification, but their operating perspectives differ.
+
+- loan review: explainability and policy consistency can matter more
+- fraud detection: fast warning and higher recall can matter more
+
+| Scene | How a score of 0.62 may be read |
+| --- | --- |
+| loan review | it may be sent to additional document review or reviewer inspection rather than being rejected immediately |
+| fraud detection | the system may react faster by temporarily holding payment or requiring extra authentication |
+
+So even if the scores look similar, the same logistic-regression output can lead to different actions when `the type of mistake the service can tolerate` is different.
+
+For that reason, the same logistic regression can survive as a long-lived baseline in some fields, while in other fields it is used mainly as a starting point before more complex models.
+
+`Logistic regression creates the score, and the service separately decides how to turn that score into action.`
+
 ## Practice And Example
+
+### Python Example: A Small Logistic Regression
+
+The example below is a very small binary-classification practice that predicts whether a student `passed` from `study_hours`.
+
+- problem situation: assume passing becomes more likely as study time increases
+- input: study hours
+- label: pass (`1`) or fail (`0`)
+- concepts to check:
+  - the linear score is read as a 0-1 value after sigmoid
+  - `predict_proba` and `predict` are not the same stage
+  - the sign of the coefficient shows which direction raises the chance
+
+| Input bundle | Meaning |
+| --- | --- |
+| `study_hours` | one-dimensional input with only one feature |
+| `passed` | pass / fail labels |
+| `[[3], [5], [7]]` | samples to inspect before the boundary, near the boundary, and after the boundary |
+
+| Student | Study hours | Actual result |
+| --- | ---: | --- |
+| S1 | 1 | fail |
+| S2 | 2 | fail |
+| S3 | 3 | fail |
+| S4 | 4 | fail |
+| S5 | 5 | pass |
+| S6 | 6 | pass |
+| S7 | 7 | pass |
+| S8 | 8 | pass |
+
+```python
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+study_hours = np.array([1, 2, 3, 4, 5, 6, 7, 8]).reshape(-1, 1)
+passed = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+
+model = LogisticRegression()
+model.fit(study_hours, passed)
+
+proba = model.predict_proba([[3], [5], [7]])
+pred = model.predict([[3], [5], [7]])
+
+print("coefficient      :", round(model.coef_[0][0], 3))
+print("intercept        :", round(model.intercept_[0], 3))
+print("proba at x=3     :", np.round(proba[0], 3))
+print("proba at x=5     :", np.round(proba[1], 3))
+print("proba at x=7     :", np.round(proba[2], 3))
+print("class prediction :", pred)
+```
+
+An example output is as follows.
+
+```text
+coefficient      : 1.236
+intercept        : -5.561
+proba at x=3     : [0.831 0.169]
+proba at x=5     : [0.452 0.548]
+proba at x=7     : [0.117 0.883]
+class prediction : [0 1 1]
+```
+
+This output can be read as follows.
+
+- Because the coefficient is positive, more study time pushes the score toward the pass class.
+- At `x=3`, the value read like the class 1 probability is low, so the sample is classified on the fail side.
+- At `x=5`, the class changes while passing near the 0.5 region.
+- At `x=7`, the model sees the pass side as more likely.
+
+The important point is that if a value such as `0.548` appears, it should not be read as an absolute fact. It should be read as `the current model, after seeing this data, considers that class more likely`.
+
+There are also places that become clearer if the reader changes values directly.
+
+- If `[[3], [5], [7]]` is replaced with a denser set such as `[[4], [5], [6]]`, the score change near the boundary becomes easier to inspect.
+- If labels near the boundary are changed slightly inside `passed`, the coefficient and intercept move with them.
+- The fact that the same score can lead to different final behavior once the threshold changes continues directly into the next example.
 
 ### Python Example: Reading `predict_proba` And `predict` Separately
 

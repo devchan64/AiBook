@@ -17,7 +17,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 ## 本节范围
 
-这一节是第一次用 SVM 抓住 `什么是好的 boundary` 这个问题的地方。这里会围绕 margin、support vector、soft margin 的直觉，先读出不只是 `能不能分开`，还包括 `什么样的 기준 能分得更稳定`。
+这一节是第一次用 SVM 抓住 `什么是好的 boundary` 这个问题的地方。这里会围绕 margin、support vector、soft margin 的直觉，先读出不只是 `能不能分开`，还包括 `什么样的标准能分得更稳定`。
 
 这一节回答下面这些问题。
 
@@ -27,7 +27,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 - 当数据不能被完美分开时，会多出什么想法？
 - SVM 和前面的 logistic regression、k-NN 有什么不同？
 
-这一节不会详细展开优化目标函数的严格推导、Lagrange multiplier 和 dual problem、kernel trick 的具体计算，也不会深入到 `C`、`gamma` 等 hyperparameter 的细节调优。kernel 的大图景和 nonlinear boundary 会在 P4-13.2 立刻继续；`C`、`gamma` 这类 hyperparameter 的读取 기준 和验证成本，会在 P4-9.1 和 P4-9.2 再接回来。目标函数、Lagrange multiplier、dual problem 的严格推导则放在本书当前正文范围之外。
+这一节不会详细展开优化目标函数的严格推导、Lagrange multiplier 和 dual problem、kernel trick 的具体计算，也不会深入到 `C`、`gamma` 等 hyperparameter 的细节调优。kernel 的大图景和 nonlinear boundary 会在 P4-13.2 立刻继续；`C`、`gamma` 这类 hyperparameter 的读取标准和验证成本，会在 P4-9.1 和 P4-9.2 再接回来。目标函数、Lagrange multiplier、dual problem 的严格推导则放在本书当前正文范围之外。
 
 ## 本节目标
 
@@ -122,7 +122,7 @@ SVM 这个名字里就带着 `support vector`。之所以重要，是因为并�
 
 - 不是每一条客户记录都同样重要
 - 不是每一份答卷都同样会摇动 cutoff
-- 实际上，最模糊、最靠近 boundary 的案例，往往最能改变 기준
+- 实际上，最模糊、最靠近 boundary 的案例，往往最能改变标准
 
 ### Python 例子：直接看哪一条 boundary 的 margin 更大
 
@@ -222,7 +222,7 @@ scikit-learn 官方文档把 SVM 介绍成一组用于 classification、regressi
 | 不及格 / 及格 | 0 / 1 |
 | 不流失 / 流失 | 0 / 1 |
 
-在这些任务里，SVM 感兴趣的不只是 `猜对 class`，还包括 `这个分界 기준 到底留了多少余量`
+在这些任务里，SVM 感兴趣的不只是 `猜对 class`，还包括 `这个分界标准到底留了多少余量`
 
 ### 它和 logistic regression、k-NN 有什么不同
 
@@ -231,16 +231,30 @@ scikit-learn 官方文档把 SVM 介绍成一组用于 classification、regressi
 | 模型 | 中心问题 |
 | --- | --- |
 | logistic regression | 用什么线性 score 和 threshold 来切开 class？ |
-| k-NN | 这个点 주변的相似案例属于什么 class？ |
+| k-NN | 这个点周边的相似案例属于什么 class？ |
 | SVM | 哪一条能把 class 分开、同时又留出更多余量的 boundary 更好？ |
 
-这个比较很重要。三种模型都在做 classification，但它们定义 `好的判断 기준` 的方式并不一样。
+这个比较很重要。三种模型都在做 classification，但它们定义 `好的判断标准` 的方式并不一样。
 
 - logistic regression 更容易读出 score 与像 probability 一样的输出
-- k-NN 更容易展示基于 주변案例的判断
+- k-NN 更容易展示基于周边案例的判断
 - SVM 更容易展示以 boundary 质量和 margin 为中心的判断
 
 所以读取 SVM 时，不能只看最终 class prediction，还要一起看 `boundary 到底有多紧`，以及 `哪些点在真正撑住这条 boundary`
+
+### 什么时候适合先把 SVM 放上候选
+
+SVM 不是所有分类问题的默认答案，但当 `boundary 稳定性本身` 很重要时，它会是很好的候选。
+
+| 当前问题状态 | 为什么先考虑 SVM | 先确认什么 |
+| --- | --- | --- |
+| 分类边界看起来太紧 | 因为它会优先寻找更大 margin 的 boundary | 边界附近案例是不是很多 |
+| 只要有小扰动 class 就常常翻转 | 因为需要一种更稳定的分割线思路 | 哪些点看起来像 support vector |
+| 已经存在线性 boundary 候选，但余量值得怀疑 | 因为即使都能分开，也能继续比较更好的 boundary | 和 baseline 或 logistic regression 有什么不同 |
+| 想把边界附近案例作为 review 对象管理 | 因为 margin 附近案例适合单独记录 | 哪些案例应该继续留在 review 里 |
+| 以后可能扩展到非线性 boundary | 因为 linear SVM 能自然接到 kernel SVM | 当前线性是不是已经足够 |
+
+这张表的关键，是把 SVM 放在 `另一个分类器` 之外，更像 `更强地追问什么是好 boundary 的候选`。
 
 ## 案例与示例
 
@@ -253,7 +267,7 @@ scikit-learn 官方文档把 SVM 介绍成一组用于 classification、regressi
   - 金额、地区、时间这些信号只要微微变化，就容易翻类
 - 如果 margin 更大：
   - boundary 在两边都能留出更多空间
-  - 模糊案例仍然存在，但 기준 本身没那么容易晃动
+  - 模糊案例仍然存在，但标准本身没那么容易晃动
 
 ```mermaid
 --8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-04-en.mmd"
@@ -262,17 +276,81 @@ scikit-learn 官方文档把 SVM 介绍成一组用于 classification、regressi
 ### 案例 2. 简历筛选
 
 - 如果 margin 太小：
-  - 少数非常特殊的简历会过度拉动 기준
+  - 少数非常特殊的简历会过度拉动标准
   - 一旦评分规则变化，或有不同背景的候选人出现，结果就容易晃动
 - 如果 margin 更大：
   - boundary 不会那么容易被一两个例外点拉走
-  - 기준 更可能保持在一个更一般、更容易解释的方向上
+  - 标准更可能保持在一个更一般、更容易解释的方向上
 
 ```mermaid
 --8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-05-en.mmd"
 ```
 
-`SVM 的 margin 直觉，会直接连到：模型 만든 boundary 在现实工作里到底会多敏感地摇晃`
+`SVM 的 margin 直觉，会直接连到：模型生成的 boundary 在现实工作里到底会多敏感地摇晃`
+
+## 练习与示例
+
+### Python 例子：一旦完美分离被打破，会发生什么
+
+这次在前一个例子里，再加入一个靠近 boundary 的模糊 negative 点。
+
+- 问题场景：原本还能分开的两类之间，插进来一个例外点
+- 输入(input)：
+  - negative 点
+  - positive 点
+  - 多个候选 boundary `boundary_x`
+- 期待输出(output)：
+  - negative 一侧最近距离
+  - positive 一侧最近距离
+  - margin 值
+- 要检查的概念：
+  - 有些 boundary 可能不再能完美分离
+  - 一旦完美分离变困难，就不只是看 `margin 大不大`，还要一起想 `允许多少侵入`
+
+```python
+negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
+positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
+
+for boundary_x in [4.0, 4.8, 5.2]:
+    neg_min = min(boundary_x - x for x, _ in negative)
+    pos_min = min(x - boundary_x for x, _ in positive)
+    margin = min(neg_min, pos_min)
+
+    print("boundary x =", boundary_x)
+    print("  negative-side nearest distance =", round(neg_min, 3))
+    print("  positive-side nearest distance =", round(pos_min, 3))
+    print("  margin =", round(margin, 3))
+    print("  perfectly separates? =", neg_min > 0 and pos_min > 0)
+    print()
+```
+
+示例输出如下。
+
+```text
+boundary x = 4.0
+  negative-side nearest distance = -0.7
+  positive-side nearest distance = 1.0
+  margin = -0.7
+  perfectly separates? = False
+
+boundary x = 4.8
+  negative-side nearest distance = 0.1
+  positive-side nearest distance = 0.2
+  margin = 0.1
+  perfectly separates? = True
+
+boundary x = 5.2
+  negative-side nearest distance = 0.5
+  positive-side nearest distance = -0.2
+  margin = -0.2
+  perfectly separates? = False
+```
+
+这个输出里最重要的点很明确。
+
+- 边界附近只多一个例外点，就可能让某些候选 boundary 失去完美分离
+- 即使还能分开，margin 也可能变得非常小
+- 所以现实里的 SVM 会从 `只追求完美分离` 转向 `margin 和允许错误一起调整`
 
 ### 学术背景与历史
 
@@ -282,8 +360,8 @@ SVM 在 statistical learning theory 和 generalization 讨论里占据很重要�
 
 1. classification 可以读成寻找 boundary 的问题
 2. boundary 候选不止一条
-3. 所以必须有 `哪条 boundary 更好` 的 기준
-4. SVM 用最大化 margin 的语言给出了这个 기준
+3. 所以必须有 `哪条 boundary 更好` 的标准
+4. SVM 用最大化 margin 的语言给出了这个标准
 
 ### 再改一个值：如果例外点更靠近 boundary，什么保持不变，什么会改变
 
@@ -346,7 +424,7 @@ boundary x = 4.95
 - 在真实数据里，比起完美分离本身，`余量` 和 `允许错误` 之间的平衡更重要
 - 所以 SVM 会让读者把分类问题重新读成 `boundary 质量` 的问题
 
-这一节的核心，不是背住 SVM 这个名字，而是固定住：好的 boundary 应该按什么 기준 来读。
+这一节的核心，不是背住 SVM 这个名字，而是固定住：好的 boundary 应该按什么标准来读。
 
 把整条 흐름 再重新绑一次，会变成下面这样。
 
@@ -358,7 +436,7 @@ boundary x = 4.95
 | --- | --- | --- |
 | margin 与 support vector | 多条 boundary 里，哪条留了更多余量、看起来更稳定？ | P4-13.2 kernel 与 nonlinear boundary |
 | soft margin 与允许错误 | 比起只追求完美分离，应该选择怎样的平衡？ | P4-9 hyperparameter 和 `C` 的读取 |
-| 和前面模型的比较 | 除了 logistic regression 和 k-NN，现在又多了什么新的 기준？ | 后面分类器比较与 generalization 读取 |
+| 和前面模型的比较 | 除了 logistic regression 和 k-NN，现在又多了什么新的标准？ | 后面分类器比较与 generalization 读取 |
 
 ## 检查清单
 

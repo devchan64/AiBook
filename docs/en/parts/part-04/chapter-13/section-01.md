@@ -248,6 +248,16 @@ So when reading SVM, the reader should not inspect only the final predicted clas
 
 SVM is not the default answer to every classification problem, but it is a good candidate when `boundary stability itself` matters.
 
+| Current problem state | Why raise SVM first | What to check first |
+| --- | --- | --- |
+| the classification boundary looks too tight | because it first searches for a larger-margin boundary | whether there are many near-boundary cases |
+| the class changes too often under small perturbations | because the idea of a more stable separator is needed | which points look like support vectors |
+| there is at least one linear boundary candidate but the room looks doubtful | because even among separating lines, better ones can be compared | what differs from the baseline or logistic regression |
+| near-boundary cases should be managed as review targets | because cases near the margin are easy to record separately | which cases should remain in review |
+| there is a chance of extending later to nonlinear boundaries | because linear SVM continues naturally into kernel SVM | whether linear is enough for now |
+
+The key point of this table is to place SVM not as just `one more classifier`, but as `a candidate that asks the criterion of a good boundary more strongly`.
+
 ## Cases And Examples
 
 The intuition of this Section can become blurry if it stays only abstract, so it helps to reread it through work scenes.
@@ -279,6 +289,70 @@ The intuition of this Section can become blurry if it stays only abstract, so it
 ```
 
 `The margin intuition of SVM connects directly to the question of how sensitively a model's boundary will shake in real work.`
+
+## Practice And Example
+
+### Python Example: What Changes Once Perfect Separation Breaks?
+
+This time, add one ambiguous negative point near the boundary to the previous example.
+
+- problem situation: an exceptional case appears between two classes that were once cleanly separated
+- input:
+  - negative points
+  - positive points
+  - several candidate boundaries `boundary_x`
+- expected output:
+  - nearest distance on the negative side
+  - nearest distance on the positive side
+  - the resulting margin
+- concepts to check:
+  - some boundaries may no longer separate perfectly
+  - once perfect separation becomes difficult, the reader must think not only about `is the margin large?` but also `how much intrusion should be tolerated?`
+
+```python
+negative = [(1.0, 2.0), (2.0, 3.0), (3.0, 2.5), (4.7, 2.4)]
+positive = [(5.0, 2.2), (6.0, 3.2), (7.0, 2.8)]
+
+for boundary_x in [4.0, 4.8, 5.2]:
+    neg_min = min(boundary_x - x for x, _ in negative)
+    pos_min = min(x - boundary_x for x, _ in positive)
+    margin = min(neg_min, pos_min)
+
+    print("boundary x =", boundary_x)
+    print("  negative-side nearest distance =", round(neg_min, 3))
+    print("  positive-side nearest distance =", round(pos_min, 3))
+    print("  margin =", round(margin, 3))
+    print("  perfectly separates? =", neg_min > 0 and pos_min > 0)
+    print()
+```
+
+An example output is as follows.
+
+```text
+boundary x = 4.0
+  negative-side nearest distance = -0.7
+  positive-side nearest distance = 1.0
+  margin = -0.7
+  perfectly separates? = False
+
+boundary x = 4.8
+  negative-side nearest distance = 0.1
+  positive-side nearest distance = 0.2
+  margin = 0.1
+  perfectly separates? = True
+
+boundary x = 5.2
+  negative-side nearest distance = 0.5
+  positive-side nearest distance = -0.2
+  margin = -0.2
+  perfectly separates? = False
+```
+
+The main points to read here are clear.
+
+- One exceptional point near the boundary can already break perfect separation for some candidates.
+- Even when separation still succeeds, the margin can become very small.
+- That is why realistic SVM moves from `perfect separation only` toward `adjusting margin together with tolerated error`.
 
 ### Historical And Academic Background
 

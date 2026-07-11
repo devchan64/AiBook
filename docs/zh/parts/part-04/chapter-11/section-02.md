@@ -7,7 +7,7 @@
 
 为什么这个 score 会把某些输入读成 class 0，把另一些输入读成 class 1？
 
-要回答这个问题，只问 `probability 是多少` 还不够。还必须看见 `到哪里为止按 class 0 来读，从哪里开始按 class 1 来读`。把这个 기준放回 input space 里来读的视角，就是 decision boundary。
+要回答这个问题，只问 `probability 是多少` 还不够。还必须看见 `到哪里为止按 class 0 来读，从哪里开始按 class 1 来读`。把这个标准放回 input space 里来读的视角，就是 decision boundary。
 
 所以，`模型在输入空间里把线画在哪里` 这个说法更接近结果，而不是最根本的意思。更本质的问题是：
 
@@ -15,7 +15,7 @@
 
 如果说 P4-11.1 是从 output 角度来读，那么 P4-11.2 就是回头看 input 的 Section。
 
-`decision boundary 是把 class 0 和 class 1 分开的 기준线或 기준面。`
+`decision boundary 是把 class 0 和 class 1 分开的标准线或标准面。`
 
 这一节不会重新长篇重复 logistic regression 的基本定义。`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。这里专注的是：那个 score 怎样切开 input space。
 
@@ -40,7 +40,7 @@ hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinea
 
 ## 本节目标
 
-- 能把 decision boundary 解释成不是 `输出 score`，而是 `切开 input space 的 기준`。
+- 能把 decision boundary 解释成不是 `输出 score`，而是 `切开 input space 的标准`。
 - 能理解在一维时它像 `一个点`，在二维时通常像 `一条线`。
 - 能说明 logistic regression 的 coefficient 会参与改变 boundary 的方向。
 - 能说明 threshold 改变时，boundary 的解释也可能跟着移动。
@@ -54,7 +54,7 @@ hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinea
 
 - 某个输入为什么变成了 class 0？
 - 某个输入为什么变成了 class 1？
-- 两个 class 之间的 기준到底在哪里？
+- 两个 class 之间的标准到底在哪里？
 
 这些问题单靠 output 表并不能充分回答。output 表会告诉你 `结果是什么`，但不够说明 `为什么会得到这个结果`。
 
@@ -62,12 +62,12 @@ hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinea
 
 - 为了说明某个输入为什么会落到 class 0
 - 为了说明某个输入为什么会落到 class 1
-- 为了说清楚两个 class 的分界 기준在哪里
+- 为了说清楚两个 class 的分界标准在哪里
 - 为了单独识别那些边界附近的模糊案例
 
 所以，decision boundary 不是单纯的可视化装饰，而是一个 `读取分类理由的解释工具`。
 
-当我们必须问 `模型到底是在哪个 기준上把空间切成两边的`，就会出现 decision boundary 这个视角。
+当我们必须问 `模型到底是按什么标准把空间切成两边的`，就会出现 decision boundary 这个视角。
 
 而且它还必须和下面四样东西一起看。
 
@@ -95,7 +95,7 @@ hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinea
 
 ### 什么是 decision boundary
 
-分类模型通常会在内部先计算一个 score，再用这个 score 来切 class。decision boundary 就是 `这个 score 刚好等于 기준值的位置`。
+分类模型通常会在内部先计算一个 score，再用这个 score 来切 class。decision boundary 就是 `这个 score 刚好等于标准值的位置`。
 
 如果把 logistic regression 在入门层面上简化，可以先这样想。
 
@@ -142,7 +142,7 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 - 另一个轴是 `exam_2`
 - 每个学生都是平面上的一个点
 
-在这种情况下，logistic regression 会尝试找到一条 기준线，把这些点分成两边。所以在二维里，decision boundary 通常会像 `一条直线`。
+在这种情况下，logistic regression 会尝试找到一条标准线，把这些点分成两边。所以在二维里，decision boundary 通常会像 `一条直线`。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-02-en.mmd"
@@ -215,13 +215,26 @@ decision boundary 不是只有在画图时才重要。当你必须问 `为什么
 
 这张表的目的，不是为了欣赏 boundary 图长得好不好看，而是为了追踪 `分类规则到底在哪里分开、又错过了什么`。
 
+## 补充读取点
+
+### 历史背景与阅读流向
+
+下面两个视角不是不同的模型，而是同一个模型的两种读法。
+
+- 11.1 的视角：logistic regression 会生成可按 probability 来读的 score
+- 11.2 的视角：logistic regression 会在 input space 里画出 boundary，并用它把 class 分开
+
+在现代机器学习里，decision boundary 视角之所以重要，也很明显。后面会出现的 SVM、decision tree、neural network，最终都可以再读回同一个问题：`model 到底怎样切开 input space？`
+
+`classification 既是一个算 score 的问题，同时也是一个怎样切开 input space 的问题。`
+
 ## 案例与示例
 
 在进入具体案例前，可以先把本节的公共比较框架整理成下面这样。
 
-| 场景 | 人最容易先用的 기준 | 这个 기준 的限制 | decision boundary 视角改变的点 | 要确认的结果 |
+| 场景 | 人最容易先用的标准 | 这个标准的限制 | decision boundary 视角改变的点 | 要确认的结果 |
 | --- | --- | --- | --- | --- |
-| 合格预测 | 对单一分数设一条合格线 | 多个 feature 一起起作用时解释很弱 | 改成组合型 기준线 | boundary 不再只是一个点，而会变成线或面 |
+| 合格预测 | 对单一分数设一条合格线 | 多个 feature 一起起作用时解释很弱 | 改成组合型标准线 | boundary 不再只是一个点，而会变成线或面 |
 | 客户流失 | 只看一个变量判断风险 | 会漏掉组合模式 | 看多个 feature 的组合是否形成风险区域 | 说明哪些组合跨过了 boundary |
 | 医疗风险 | 用一个数值判断风险 | 会漏掉模糊的组合案例 | 把边界附近案例单独拿出来看 | 识别 review 优先级更高的对象 |
 | 贷款 / 垃圾邮件 | 用单一规则解释通过与拦截 | 会漏掉混合特征和线性 boundary 的限制 | 观察 boundary 到底切开了哪些组合 | 同时读取线性 boundary 的优点与限制 |
@@ -230,7 +243,125 @@ decision boundary 不是只有在画图时才重要。当你必须问 `为什么
 --8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-04-en.mmd"
 ```
 
+### 案例 1. 合格预测
+
+如果只有一个分数，一个 cutoff point 就会成为 boundary。但如果变成两个科目，就会出现像 `数学高、英语低` 这样的抵消关系。此时，比起只看单科，更适合用把两个分数一起读进去的 boundary line。
+
+| 学生 | 数学分数 | 英语分数 | boundary 解释 |
+| --- | ---: | ---: | --- |
+| A | 92 | 38 | 一科很高，但另一科较低，可能仍然停留在边界附近 |
+| B | 71 | 68 | 两科都在中等以上，更容易跨到及格一侧 |
+| C | 45 | 44 | 两科都低，更可能留在不及格一侧 |
+
+这张表的关键是，像 `数学是否超过 90 分` 这样的单一规则，并不足以解释 A 和 B 的差别。decision boundary 视角会迫使读者去看：`两个分数的组合到底落在哪一边。`
+
+### 案例 2. 客户流失预测
+
+| 客户 | 最近 30 天登录天数 | 最近 30 天支付次数 | 咨询次数 | boundary 解释 |
+| --- | ---: | ---: | ---: | --- |
+| A | 22 | 3 | 0 | 更可能留在留存区域 |
+| B | 11 | 1 | 2 | 很容易被读成边界附近的 review 对象 |
+| C | 4 | 0 | 4 | 容易被读成已经跨入风险区域 |
+
+这里最重要的是 B。只看登录天数，它还不算极低；但如果支付频率下降、咨询上升一起出现，这个样本就可能变成边界附近案例。
+
+### 案例 3. 医疗风险分类
+
+| 患者 | 血压 | 血糖 | 年龄 | boundary 解释 |
+| --- | ---: | ---: | ---: | --- |
+| P1 | 正常 | 正常 | 34 | 离风险区域较远 |
+| P2 | 略高 | 接近边界值 | 58 | 作为边界附近案例，可能需要追加检查 |
+| P3 | 高 | 高 | 67 | 容易被读成已经跨入风险区域 |
+
+这说明 `边界附近患者` 为什么特别重要。实际决策里，比起一个分数明显很高的患者，多个指标模糊地堆在边界附近的患者，往往更难判断。
+
+### 案例 4. 贷款审核
+
+| 申请人 | 收入 | 负债率 | 逾期记录 | boundary 解释 |
+| --- | --- | --- | --- | --- |
+| D1 | 高 | 低 | 无 | 容易被读在批准一侧 |
+| D2 | 中等 | 高 | 无 | 可能在边界附近，需要补充材料复核 |
+| D3 | 低 | 高 | 有 | 容易被读成已跨入拒绝一侧 |
+
+重要的是，现实里确实存在很多不能用一个标准解释完的申请人。收入可以高，但负债率也高；工作年限可以短，但没有逾期记录。
+
+### 案例 5. 垃圾邮件与正常邮件的分离
+
+| 邮件 | 链接数 | 发件人是否异常 | 标题表达 | boundary 解释 |
+| --- | ---: | --- | --- | --- |
+| M1 | 0 | 否 | 普通工作标题 | 接近正常区域 |
+| M2 | 2 | 否 | 有夸张表达 | 可作为边界附近案例交给人工 review |
+| M3 | 5 | 是 | 反复夸张措辞 | 容易被读成已跨入垃圾区域 |
+
+这个案例也同时展示了 linear boundary 的优点与限制。简单分离很快，也容易解释；但现实中的垃圾邮件形式非常混杂，一条直线未必足够。
+
 ## 练习与示例
+
+### Python 例子：读取一个二维 decision boundary
+
+这个例子是一个很小的二元分类练习：用两门考试分数 `exam_1`、`exam_2` 去分类学生是否 `passed`。
+
+| 输入组 | 含义 |
+| --- | --- |
+| `X` | 由两门分数组成的二维输入 |
+| `y` | 通过 / 未通过标签 |
+| `samples` | 用来观察边界下方、边界附近、边界上方的样本 |
+
+```python
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+X = np.array([
+    [35, 40],
+    [40, 45],
+    [45, 35],
+    [55, 60],
+    [60, 55],
+    [65, 70],
+    [50, 52],
+    [48, 46],
+])
+y = np.array([0, 0, 0, 1, 1, 1, 1, 0])
+
+model = LogisticRegression()
+model.fit(X, y)
+
+samples = np.array([
+    [42, 42],
+    [50, 50],
+    [62, 60],
+])
+
+print("coef            :", np.round(model.coef_[0], 3))
+print("intercept       :", round(model.intercept_[0], 3))
+print("decision score  :", np.round(model.decision_function(samples), 3))
+print("predict_proba   :", np.round(model.predict_proba(samples), 3))
+print("prediction      :", model.predict(samples))
+```
+
+示例输出如下。
+
+```text
+coef            : [0.518 0.471]
+intercept       : -48.263
+decision score  : [-4.102  0.187 12.979]
+predict_proba   : [[0.984 0.016]
+                   [0.453 0.547]
+                   [0.    1.   ]]
+prediction      : [0 1 1]
+```
+
+| 样本 | 输入 | decision score \(z\) | 与 boundary \(z = 0\) 的关系 | 预测 |
+| --- | --- | ---: | --- | --- |
+| A | `[42, 42]` | -4.102 | 低于 boundary | class 0 |
+| B | `[50, 50]` | 0.187 | 刚好在 boundary 上方 | class 1 |
+| C | `[62, 60]` | 12.979 | 明显高于 boundary | class 1 |
+
+在实际运营里，这种读法会直接继续下去。
+
+- 离 boundary 很远的样本，更容易作为自动处理候选
+- 离 boundary 很近的样本，更容易被单独划成 review 对象
+- 所以 decision boundary 不只是一个图，也会连到寻找模糊案例的运营标准
 
 ### Python 例子：同一组 score，在两个 threshold 下分别怎么读
 
@@ -306,7 +437,7 @@ decision boundary 看起来像一张简单的图，但读者很常在下面这�
 
 ### 1. boundary 是一堵墙吗
 
-不是。decision boundary 不是现实世界里的墙，而是 `model 为了方便而画出的分离 기준`。边界附近的样本，稍微变动就可能跨到另一边。
+不是。decision boundary 不是现实世界里的墙，而是 `model 为了方便而画出的分离标准`。边界附近的样本，稍微变动就可能跨到另一边。
 
 ### 2. 离 boundary 越远，就一定越确定吗
 
@@ -342,7 +473,7 @@ decision boundary 看起来像一张简单的图，但读者很常在下面这�
 
 ## 本节要记住的视角
 
-- decision boundary 是切开 class 的 기준线或 기준面。
+- decision boundary 是切开 class 的标准线或标准面。
 - 在一维里它像一个点，在二维里通常像一条线。
 - logistic regression 的 coefficient 与 intercept 会参与决定 boundary 的方向和位置。
 - threshold 一改，class 区域与 boundary 的解释也会跟着改变。

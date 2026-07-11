@@ -215,6 +215,19 @@ The decision boundary is not just a pretty picture. It becomes especially import
 
 The point of this table is not to admire the picture of the boundary, but to track `where the classification rule really splits and what it misses`.
 
+## Supplementary Reading Points
+
+### Historical Background And Flow
+
+The two perspectives below are not different models. They are two ways of reading the same model.
+
+- 11.1's perspective: logistic regression creates scores that can be read like probabilities
+- 11.2's perspective: logistic regression draws a boundary in the input space and divides classes
+
+The reason the decision-boundary perspective matters in modern machine learning is also clear. Models that appear later, such as SVMs, decision trees, and neural networks, can all be reread through the question `how does the model divide the input space?`
+
+`Classification is a problem of calculating scores, but at the same time it is also a problem of how to divide the input space.`
+
 ## Cases And Examples
 
 Before the cases, the common comparison frame of this Section can be organized as follows.
@@ -230,7 +243,129 @@ Before the cases, the common comparison frame of this Section can be organized a
 --8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-04-en.mmd"
 ```
 
+### Case 1. Pass Prediction
+
+If there is only one score, one cutoff point becomes the boundary. But if there are two subjects, a tradeoff can appear, such as `high math score but low English score`. Then a boundary line that reads two scores together fits better than a criterion on only one subject.
+
+| Student | Math score | English score | Boundary interpretation |
+| --- | ---: | ---: | --- |
+| A | 92 | 38 | one subject is high, but the student may remain near the boundary because the other is low |
+| B | 71 | 68 | both scores are together above the middle, so the student can cross toward the pass side more easily |
+| C | 45 | 44 | both scores are low, so the student is likely to remain on the fail side |
+
+The key in this table is that a single rule such as `is math above 90?` does not explain the difference between A and B well enough. The decision-boundary perspective makes the reader inspect `on which side of the region the combination of the two scores lies`.
+
+### Case 2. Customer Churn Prediction
+
+If the inputs become several variables such as `recent login days`, `payment frequency`, and `customer-service inquiry count`, it becomes hard to explain churn from only one variable. The decision-boundary perspective helps the reader ask `which combinations of several features enter the risky region?`
+
+| Customer | Login days in the last 30 days | Payments in the last 30 days | Inquiry count | Boundary interpretation |
+| --- | ---: | ---: | ---: | --- |
+| A | 22 | 3 | 0 | likely to remain in the retain region |
+| B | 11 | 1 | 2 | easy to read as a near-boundary review target |
+| C | 4 | 0 | 4 | easy to read as having crossed into the risky region |
+
+B is the important case here. Login days alone are not extremely low, but if payment frequency falls and inquiries rise together, the sample can become a near-boundary case.
+
+### Case 3. Medical Risk Classification
+
+One measurement alone may look ambiguous, but if `blood pressure`, `blood sugar`, and `age` are read together, the risky region can become clearer.
+
+| Patient | Blood pressure | Blood sugar | Age | Boundary interpretation |
+| --- | ---: | ---: | ---: | --- |
+| P1 | normal | normal | 34 | far from the risky region |
+| P2 | slightly high | near boundary value | 58 | can require additional review as a near-boundary case |
+| P3 | high | high | 67 | easy to read as having crossed into the risky region |
+
+This case shows why `near-boundary patients` matter especially. In real decisions, a patient whose values overlap ambiguously near the boundary can be harder than a patient with an obviously high score.
+
+### Case 4. Loan Review
+
+| Applicant | Income | Debt ratio | Delinquency record | Boundary interpretation |
+| --- | --- | --- | --- | --- |
+| D1 | high | low | none | easy to read as being on the approval side |
+| D2 | medium | high | none | may require extra-document review near the boundary |
+| D3 | low | high | yes | easy to read as having crossed into the rejection side |
+
+The important point is that some applicants cannot be explained with only one criterion. Income can be high while debt ratio is also high, and employment period can be short while delinquency record is absent.
+
+### Case 5. Separating Spam And Normal Mail
+
+| Mail | Number of links | Suspicious sender | Subject expression | Boundary interpretation |
+| --- | ---: | --- | --- | --- |
+| M1 | 0 | no | ordinary work subject | close to the normal region |
+| M2 | 2 | no | exaggerated expression present | can require human review as a near-boundary case |
+| M3 | 5 | yes | repeated exaggerated wording | easy to read as having crossed into the spam region |
+
+This case shows both the strength and the limit of a linear boundary. A simple separation is fast and easy to explain, but real spam mixes many forms, so one straight line may not be enough.
+
 ## Practice And Example
+
+### Python Example: Reading A Two-Dimensional Decision Boundary
+
+This example uses two exam scores, `exam_1` and `exam_2`, to classify whether a student `passed`.
+
+| Input bundle | Meaning |
+| --- | --- |
+| `X` | two-dimensional input made of the two subject scores |
+| `y` | pass / fail labels |
+| `samples` | samples to inspect below the boundary, near the boundary, and above the boundary |
+
+```python
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+X = np.array([
+    [35, 40],
+    [40, 45],
+    [45, 35],
+    [55, 60],
+    [60, 55],
+    [65, 70],
+    [50, 52],
+    [48, 46],
+])
+y = np.array([0, 0, 0, 1, 1, 1, 1, 0])
+
+model = LogisticRegression()
+model.fit(X, y)
+
+samples = np.array([
+    [42, 42],
+    [50, 50],
+    [62, 60],
+])
+
+print("coef            :", np.round(model.coef_[0], 3))
+print("intercept       :", round(model.intercept_[0], 3))
+print("decision score  :", np.round(model.decision_function(samples), 3))
+print("predict_proba   :", np.round(model.predict_proba(samples), 3))
+print("prediction      :", model.predict(samples))
+```
+
+An example output is as follows.
+
+```text
+coef            : [0.518 0.471]
+intercept       : -48.263
+decision score  : [-4.102  0.187 12.979]
+predict_proba   : [[0.984 0.016]
+                   [0.453 0.547]
+                   [0.    1.   ]]
+prediction      : [0 1 1]
+```
+
+| Sample | Input | Decision score \(z\) | Relation to the boundary \(z = 0\) | Prediction |
+| --- | --- | ---: | --- | --- |
+| A | `[42, 42]` | -4.102 | lower than the boundary | class 0 |
+| B | `[50, 50]` | 0.187 | just above the boundary | class 1 |
+| C | `[62, 60]` | 12.979 | far above the boundary | class 1 |
+
+In actual operation, this way of reading continues directly.
+
+- Samples far from the boundary are easier to treat as automatic candidates.
+- Samples very near the boundary are easier to separate as review targets.
+- So the decision boundary is not just a picture. It also connects to an operating criterion for finding ambiguous cases.
 
 ### Python Example: Read The Same Scores Under Two Thresholds
 
