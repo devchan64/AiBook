@@ -251,7 +251,7 @@ NumPy 代码之所以容易让人混乱，是因为 `选了什么`、`shape 怎�
 把这个流程一次性绑起来，可以得到下面的图。
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow/zh.mmd"
 ```
 
 读者在这里至少要留下这句话。

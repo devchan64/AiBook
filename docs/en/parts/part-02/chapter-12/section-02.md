@@ -99,7 +99,7 @@ We begin by looking at the whole table, but quickly move to questions such as `w
 Seen as a diagram, the flow of this Section is as follows.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/table-reading-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/table-reading-flow/en.mmd"
 ```
 
 ## Choosing One Column Returns a Series
@@ -520,7 +520,7 @@ You can read the output like this.
 Selection, filtering, and aggregation usually connect in the following flow.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/table-processing-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/table-processing-flow/en.mmd"
 ```
 
 In real work, the order is not always fixed. Even so, the flow of `rather than holding the table as it is, narrow and summarize it according to the question` remains important.

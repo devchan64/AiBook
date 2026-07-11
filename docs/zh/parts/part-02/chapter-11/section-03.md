@@ -236,7 +236,7 @@ NumPy 官方文档说明，broadcasting 提供了 vectorizing array operations �
 下面的图示展示了：同一个计算如何分别以循环和数组运算的形式表达。
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow/zh.mmd"
 ```
 
 ## 按 Feature 减去平均值的例子

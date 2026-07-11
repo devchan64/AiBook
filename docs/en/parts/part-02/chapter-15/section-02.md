@@ -68,7 +68,7 @@ This section answers the following questions.
 The flow of Part 2 can be summarized as follows.
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/part2-learning-map-flow-en.mmd"
+--8<-- "assets/part-02/chapter-15/part2-learning-map-flow/en.mmd"
 ```
 
 What matters in this map is not the tool names. It is what question each tool answers.
@@ -133,7 +133,7 @@ What matters here is not to treat `fit` and `predict` as magic. They are the lea
 If you compress it once again, you should be able to read the following order immediately.
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/ml-reading-flow-en.mmd"
+--8<-- "assets/part-02/chapter-15/ml-reading-flow/en.mmd"
 ```
 
 If you get stuck at any point in this flow, return as follows.

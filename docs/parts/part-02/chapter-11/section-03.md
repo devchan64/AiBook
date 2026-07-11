@@ -236,7 +236,7 @@ NumPy 공식 문서는 브로드캐스팅이 배열 연산을 벡터화하는 �
 아래 도식은 같은 계산을 반복문과 배열 연산으로 다르게 표현하는 모습을 보여 줍니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow/ko.mmd"
 ```
 
 ## 특징별 평균을 빼는 예

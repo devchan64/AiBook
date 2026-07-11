@@ -91,7 +91,7 @@ A branch is not merely a convenience feature for developers. It is a device that
 In a document project, the branch for writing and the branch for deployment standards can be operated separately. Branch names differ by team, but you can separate roles, for example, into a writing branch and a deployment branch.
 
 ```mermaid
---8<-- "assets/part-02/chapter-14/branch-review-deploy-flow-en.mmd"
+--8<-- "assets/part-02/chapter-14/branch-review-deploy-flow/en.mmd"
 ```
 
 The writing branch is one example of a branch used for ordinary writing and editing. You can understand that work such as adding manuscript text, writing example code, editing charts, and organizing research notes happens on this kind of writing branch.

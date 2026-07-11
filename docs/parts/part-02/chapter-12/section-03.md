@@ -135,7 +135,7 @@ y = df["passed"]
 도식으로 보면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/x-y-split-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-12/x-y-split-flow/ko.mmd"
 ```
 
 핵심은 `X`와 `y`가 원래부터 정해져 있지 않다는 점입니다. 문제 정의가 먼저이고, 그다음에 열을 나눕니다.
@@ -215,7 +215,7 @@ print(X_encoded)
 도식으로 보면:
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/train-val-test-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-12/train-val-test-flow/ko.mmd"
 ```
 
 왜 나누어야 할까요? 모델이 이미 본 데이터에서 잘하는 것은 충분하지 않기 때문입니다. 우리가 알고 싶은 것은 `처음 보는 데이터에서도 비슷하게 작동하는가`입니다.
@@ -252,7 +252,7 @@ scikit-learn의 common pitfalls 문서는 두 가지 실수를 강하게 경고�
 아래 도식으로 다시 보면 더 분명합니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow/ko.mmd"
 ```
 
 잘못된 순서와 더 안전한 순서를 질문으로 다시 쓰면 다음과 같습니다.

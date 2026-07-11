@@ -27,7 +27,7 @@ P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제
 즉 모델이 예측하고, 실제값과 비교하고, 틀린 정도를 숫자로 만든 뒤, 그 숫자를 줄이는 방향으로 학습합니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-06/loss-objective-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-06/loss-objective-flow/ko.mmd"
 ```
 
 ## 이 절의 범위

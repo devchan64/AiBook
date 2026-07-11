@@ -182,7 +182,7 @@ P(\text{偶数}) = \frac{3}{6} = 0.5
 下面这张图并不是把贝叶斯规则画成公式，而是把它画成“用新证据更新相信程度”的流程。
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/belief-update-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-05/belief-update-flow/zh.mmd"
 ```
 
 这里最重要的词是 evidence。evidence 不只是“证据材料”的意思，它也会被用来指代“让概率判断发生变化的观测信息”。在 AI 文档里看到 evidence 时，问一句“是什么改变了判断？”通常很有帮助。

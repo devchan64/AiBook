@@ -99,7 +99,7 @@ print(df)
 도식으로 보면 이 절의 흐름은 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/table-reading-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-12/table-reading-flow/ko.mmd"
 ```
 
 ## 한 열을 고르면 Series가 된다
@@ -520,7 +520,7 @@ print(summary)
 선택, 필터링, 집계는 대개 다음 흐름으로 이어집니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/table-processing-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-12/table-processing-flow/ko.mmd"
 ```
 
 실제 작업에서는 이 순서가 항상 고정되지는 않습니다. 그래도 “표를 그대로 들고 있기보다, 질문에 맞게 점점 좁히고 요약한다”는 흐름은 계속 중요합니다.

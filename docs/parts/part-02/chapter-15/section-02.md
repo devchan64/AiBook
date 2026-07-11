@@ -68,7 +68,7 @@ Part 3에서는 데이터로부터 규칙을 학습한다는 말을 다룹니다
 Part 2의 흐름은 다음처럼 정리할 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/part2-learning-map-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-15/part2-learning-map-flow/ko.mmd"
 ```
 
 이 지도에서 중요한 것은 도구 이름이 아닙니다. 각 도구가 어떤 질문에 답하는지입니다.
@@ -133,7 +133,7 @@ scikit-learn 문서는 모델을 estimator라고 부르고, 일반적으로 `fit
 여기서 한 번 더 작게 묶으면 다음 순서를 바로 읽을 수 있어야 합니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/ml-reading-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-15/ml-reading-flow/ko.mmd"
 ```
 
 이 흐름에서 막히는 지점이 있으면 다음처럼 돌아갑니다.

@@ -236,7 +236,7 @@ A safer expression is to view vectorization as `a way of expressing repeated cal
 The diagram below shows the same calculation expressed differently as a loop and as an array operation.
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-en.mmd"
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow/en.mmd"
 ```
 
 ## An Example of Subtracting the Mean by Feature

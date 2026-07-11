@@ -79,7 +79,7 @@ Git 공식 책은 버전 관리를 시간이 지나며 파일 변화 기록을 �
 여기서는 Git의 흐름을 다음 세 공간으로 나누어 봅니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-14/git-three-areas-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-14/git-three-areas-flow/ko.mmd"
 ```
 
 이 흐름에서 중요한 점은 `저장`과 `커밋`이 다르다는 것입니다.

@@ -108,7 +108,7 @@ A notebook is usually made of cells. A cell is a small block inside the document
 The flow can be seen like this.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow/en.mmd"
 ```
 
 The core of notebook learning is to repeat in a short cycle the four steps: `write the question`, `run the code`, `look at the result`, and `leave the interpretation`.
@@ -144,7 +144,7 @@ The second reason is that code can be divided and run cell by cell.
 For example, you can imagine the following flow.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-experiment-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-experiment-flow/en.mmd"
 ```
 
 The same thing can be done in a script too, but compared with running a whole file at once, checking one cell at a time can feel less burdensome.

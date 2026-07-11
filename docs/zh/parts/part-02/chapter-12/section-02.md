@@ -99,7 +99,7 @@ print(df)
 如果用图示来看，本节流程如下。
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/table-reading-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-12/table-reading-flow/zh.mmd"
 ```
 
 ## 选一列时会得到 Series
@@ -520,7 +520,7 @@ print(summary)
 选择、过滤、聚合大多会连成下面这样的流程。
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/table-processing-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-12/table-processing-flow/zh.mmd"
 ```
 
 在真实工作里，这个顺序不一定总是固定的。即便如此，`不要原封不动地抱着整张表，而是根据问题不断缩小并总结`这条流程仍然重要。

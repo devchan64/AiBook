@@ -65,7 +65,7 @@ z = f(g(x))
 아래 흐름으로 보면 더 직관적입니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-04/chain-rule-composition-flow/ko.mmd"
 ```
 
 조금 더 일상적인 계산처럼 쓰면:

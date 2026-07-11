@@ -236,7 +236,7 @@ print(df)
 도식으로 보면 더 분명합니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/dataframe-structure-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-12/dataframe-structure-flow/ko.mmd"
 ```
 
 이 도식의 핵심은 인덱스가 데이터 값 자체가 아니라 `행을 가리키는 기준`이라는 점입니다.

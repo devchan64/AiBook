@@ -208,7 +208,7 @@ At that point, derivative and gradient take the role. If we inspect whether loss
 A checkable result is to compare whether the loss really decreases when a specific parameter is adjusted slightly on the same validation sample. If the loss falls from 0.82 to 0.76, that adjustment was a direction of improvement. If it rises to 0.90 instead, we read that the direction was wrong.
 
 ```mermaid
---8<-- "assets/part-02/chapter-04/learning-adjustment-flow-en.mmd"
+--8<-- "assets/part-02/chapter-04/learning-adjustment-flow/en.mmd"
 ```
 
 ## Short Check

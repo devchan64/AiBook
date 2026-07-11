@@ -61,7 +61,7 @@ Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다
 수식을 코드로 옮길 때는 바로 코드를 쓰기보다 다음 순서로 읽습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/formula-to-code-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-15/formula-to-code-flow/ko.mmd"
 ```
 
 핵심은 수식을 한 번에 코드로 바꾸지 않는 것입니다. 먼저 기호가 무엇을 가리키는지 정하고, 값이 하나인지 묶음인지 확인한 뒤 계산합니다.

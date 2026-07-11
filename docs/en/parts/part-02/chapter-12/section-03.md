@@ -135,7 +135,7 @@ This code can be read as a classification problem that predicts `passed`.
 Seen as a diagram, it looks like this.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/x-y-split-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/x-y-split-flow/en.mmd"
 ```
 
 The core point is that `X` and `y` are not fixed from the beginning. The problem definition comes first, and then the columns are divided.
@@ -215,7 +215,7 @@ Here, it is enough to understand it like this.
 Seen as a diagram:
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/train-val-test-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/train-val-test-flow/en.mmd"
 ```
 
 Why should we split it? Because performing well on data the model has already seen is not enough. What we want to know is `does it work similarly on data it sees for the first time?`
@@ -252,7 +252,7 @@ In this Section, we fix this judgment standard before implementation details.
 It becomes clearer again in the following diagram.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow/en.mmd"
 ```
 
 If you rewrite the wrong order and the safer order as questions:

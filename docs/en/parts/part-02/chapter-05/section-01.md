@@ -182,7 +182,7 @@ In other words, at first the email may have looked unlikely to be spam, but afte
 The chart below shows Bayes' rule not as a formula but as `a flow that updates belief with new evidence`.
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/belief-update-flow-en.mmd"
+--8<-- "assets/part-02/chapter-05/belief-update-flow/en.mmd"
 ```
 
 The important word here is evidence. Evidence does not mean only `supporting material`. It is also used to mean the observed information that changes a probabilistic judgment. When the word evidence appears in AI documents, it helps to ask `what changed the judgment?`

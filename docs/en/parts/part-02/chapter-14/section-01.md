@@ -79,7 +79,7 @@ The official Git book explains version control as a system that records file cha
 Here, we divide the Git flow into the following three spaces.
 
 ```mermaid
---8<-- "assets/part-02/chapter-14/git-three-areas-flow-en.mmd"
+--8<-- "assets/part-02/chapter-14/git-three-areas-flow/en.mmd"
 ```
 
 The important point in this flow is that `saving` and `committing` are different.

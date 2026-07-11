@@ -151,7 +151,7 @@ Here we prefer `%pip install numpy`, because it makes more explicit that the ins
 If we rewrite that difference again as a flow, it becomes:
 
 ```mermaid
---8<-- "assets/part-02/chapter-03/execution-location-flow-en.mmd"
+--8<-- "assets/part-02/chapter-03/execution-location-flow/en.mmd"
 ```
 
 ## Do Not Mix It with Personal-PC Terminal Commands

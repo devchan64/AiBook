@@ -208,7 +208,7 @@ L'(w) = 2(w - 3)
 확인 가능한 결과는 같은 검증 샘플에서 특정 파라미터를 소폭 조정했을 때 손실이 실제로 줄어드는지 비교하는 것입니다. 손실이 0.82에서 0.76으로 내려갔다면 그 조정은 개선 방향이었고, 반대로 0.90으로 올라갔다면 방향이 잘못되었다고 읽을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-04/learning-adjustment-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-04/learning-adjustment-flow/ko.mmd"
 ```
 
 ## 짧은 점검

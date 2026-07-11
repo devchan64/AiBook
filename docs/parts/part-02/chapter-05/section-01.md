@@ -182,7 +182,7 @@ AI에서는 두 관점이 모두 등장합니다. 데이터에서 관측된 빈�
 아래 차트는 베이즈 규칙을 공식이 아니라 “새 증거로 믿음을 갱신하는 흐름”으로 보여 줍니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/belief-update-flow-ko.mmd"
+--8<-- "assets/part-02/chapter-05/belief-update-flow/ko.mmd"
 ```
 
 여기서 중요한 단어는 증거(evidence)입니다. evidence는 단순히 “근거 자료”라는 뜻만이 아니라, 확률 판단을 바꾸는 관측 정보로도 쓰입니다. AI 문서에서 evidence라는 말이 나오면 “무엇이 판단을 바꾸게 했는가?”라고 물어보면 도움이 됩니다.

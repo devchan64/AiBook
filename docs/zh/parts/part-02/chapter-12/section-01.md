@@ -236,7 +236,7 @@ print(df)
 这个关系用图看会更清楚。
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/dataframe-structure-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-12/dataframe-structure-flow/zh.mmd"
 ```
 
 这里最关键的一点是：index 本身不是数据值，而是指向行的规则。

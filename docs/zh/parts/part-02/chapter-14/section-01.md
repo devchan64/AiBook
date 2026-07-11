@@ -79,7 +79,7 @@ Git 官方书把版本控制解释为：一种能随着时间记录文件变化�
 这里把 Git 的流程分成下面三个空间来看。
 
 ```mermaid
---8<-- "assets/part-02/chapter-14/git-three-areas-flow-zh.mmd"
+--8<-- "assets/part-02/chapter-14/git-three-areas-flow/zh.mmd"
 ```
 
 这个流程里最重要的一点是：`保存`和`提交`并不相同。
