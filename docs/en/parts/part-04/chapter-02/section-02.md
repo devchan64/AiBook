@@ -1,7 +1,7 @@
 # P4-2.2 Unsupervised Learning
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-2.1 looked at supervised learning, where a model is trained using examples that already have labels. This time we look at unsupervised learning, which looks for structure in data without labels.
 

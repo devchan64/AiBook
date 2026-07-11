@@ -1,7 +1,7 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supervised learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 비지도학습(unsupervised learning)을 봤습니다. 이번에는 모델이 행동(action)을 하고, 그 결과로 보상(reward)을 받으며, 다음 행동 방식을 조정하는 강화학습(reinforcement learning)을 봅니다.
 
@@ -48,11 +48,11 @@ P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supe
 
 ```mermaid
 flowchart TB
-  A["1. observe state<br/>current situation"]
-  B["2. choose action<br/>agent acts"]
-  C["3. environment changes<br/>next state"]
-  D["4. receive reward<br/>feedback signal"]
-  E["5. update policy<br/>act better next time"]
+  A["1. 상태 관찰<br/>현재 상황"]
+  B["2. 행동 선택<br/>에이전트가 움직임"]
+  C["3. 환경 변화<br/>다음 상태"]
+  D["4. 보상 받기<br/>되돌아오는 신호"]
+  E["5. 정책 갱신<br/>다음에는 더 잘 행동"]
 
   A --> B
   B --> C
@@ -110,14 +110,14 @@ MIT Press의 Sutton과 Barto 교재 설명도 강화학습을 복잡하고 불�
 
 ```mermaid
 flowchart TD
-  A["user state<br/>recent visits / cart / past coupon use"]
-  B{"choose coupon"}
-  C["coupon A<br/>high click"]
-  D["coupon B<br/>lower click"]
-  E["immediate response<br/>click or ignore"]
-  F["later outcome<br/>purchase / return / no purchase"]
-  G["reward design<br/>short-term + long-term"]
-  H["update policy<br/>better next offer"]
+  A["사용자 상태<br/>최근 방문 / 장바구니 / 과거 쿠폰 사용"]
+  B{"쿠폰 선택"}
+  C["쿠폰 A<br/>클릭은 높음"]
+  D["쿠폰 B<br/>클릭은 낮음"]
+  E["즉시 반응<br/>클릭 또는 무시"]
+  F["나중 결과<br/>구매 / 재방문 / 미구매"]
+  G["보상 설계<br/>단기 + 장기"]
+  H["정책 갱신<br/>다음 제안을 더 잘 고르기"]
 
   A --> B
   B --> C
@@ -197,13 +197,13 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["user state"]
-  B["choose a coupon action"]
-  C["observe immediate click"]
-  D["observe later purchase or return"]
-  E["combine them into reward design"]
-  F["update the policy"]
-  G["compare short-term and long-term policies"]
+  A["사용자 상태"]
+  B["쿠폰 행동 선택"]
+  C["즉시 클릭 관찰"]
+  D["나중 구매나 재방문 관찰"]
+  E["둘을 묶어 보상 설계"]
+  F["정책 갱신"]
+  G["단기 정책과 장기 정책 비교"]
 
   A --> B --> C --> D --> E --> F --> G
 ```

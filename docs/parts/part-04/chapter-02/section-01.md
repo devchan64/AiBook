@@ -1,7 +1,7 @@
 # P4-2.1 지도학습(supervised learning)
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-1.2에서는 머신러닝을 “데이터에서 입력과 출력의 관계를 추정하는 접근”으로 보았습니다. 이제 그중 가장 먼저 만나는 형태인 지도학습(supervised learning)을 봅니다.
 
@@ -84,13 +84,13 @@ Part 3의 데이터 정리 흐름을 가져오면, 지도학습으로 넘어가�
 
 ```mermaid
 flowchart TD
-  A["labeled examples<br/>X and y"]
-  B["split data<br/>train / test"]
-  C["train model<br/>fit on training data"]
-  D["evaluate<br/>compare predictions with y"]
-  E["new input<br/>unlabeled case"]
-  F["prediction<br/>model output"]
-  G["service decision<br/>policy or action"]
+  A["라벨이 있는 사례<br/>X와 y"]
+  B["데이터 나누기<br/>학습 / 테스트"]
+  C["모델 학습<br/>학습 데이터에 맞추기"]
+  D["평가<br/>예측과 y 비교"]
+  E["새 입력<br/>라벨 없는 사례"]
+  F["예측<br/>모델 출력"]
+  G["서비스 결정<br/>정책 또는 행동"]
 
   A --> B
   B --> C
@@ -219,13 +219,13 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["past inquiries"]
-  B["human labels exist"]
-  C["set X = inquiry features"]
-  D["set y = inquiry type"]
-  E["train a supervised model"]
-  F["predict a new inquiry"]
-  G["check unseen-data accuracy"]
+  A["과거 문의 기록"]
+  B["사람이 붙인 라벨이 있음"]
+  C["X = 문의 특징으로 정리"]
+  D["y = 문의 유형으로 정리"]
+  E["지도학습 모델 학습"]
+  F["새 문의 예측"]
+  G["처음 보는 문의 정확도 확인"]
 
   A --> B --> C --> D --> E --> F --> G
 ```

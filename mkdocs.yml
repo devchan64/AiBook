@@ -736,6 +736,16 @@ plugins:
                         - "P2-15.1 A Small Procedure for Turning Formulas into Code": en/parts/part-02/chapter-15/section-01.md
                         - "P2-15.2 Final Check Before Moving to Part 3": en/parts/part-02/chapter-15/section-02.md
                 - Summary: en/parts/part-02/summary.md
+            - Part 4. Machine Learning:
+                - Overview: en/parts/part-04/index.md
+                - Module 1. Machine Learning in Context:
+                    - Chapter 1. Where Machine Learning Sits:
+                        - "P4-1.1 The Relationship Among AI, Machine Learning, and Deep Learning": en/parts/part-04/chapter-01/section-01.md
+                        - "P4-1.2 What It Means To Learn Rules From Data": en/parts/part-04/chapter-01/section-02.md
+                    - Chapter 2. Supervised, Unsupervised, and Reinforcement Learning:
+                        - "P4-2.1 Supervised Learning": en/parts/part-04/chapter-02/section-01.md
+                        - "P4-2.2 Unsupervised Learning": en/parts/part-04/chapter-02/section-02.md
+                        - "P4-2.3 Reinforcement Learning": en/parts/part-04/chapter-02/section-03.md
           theme:
             language: en
         - locale: zh
@@ -911,6 +921,16 @@ plugins:
                         - "P2-15.1 把公式变成代码的小流程": zh/parts/part-02/chapter-15/section-01.md
                         - "P2-15.2 进入 Part 3 前的最终检查": zh/parts/part-02/chapter-15/section-02.md
                 - 总结: zh/parts/part-02/summary.md
+            - Part 4. 机器学习:
+                - 概览: zh/parts/part-04/index.md
+                - Module 1. 机器学习的定位:
+                    - Chapter 1. 机器学习放在什么位置:
+                        - "P4-1.1 AI、机器学习、深度学习之间的关系": zh/parts/part-04/chapter-01/section-01.md
+                        - "P4-1.2 从数据中学习规则这句话是什么意思": zh/parts/part-04/chapter-01/section-02.md
+                    - Chapter 2. 监督学习、无监督学习、强化学习:
+                        - "P4-2.1 监督学习": zh/parts/part-04/chapter-02/section-01.md
+                        - "P4-2.2 无监督学习": zh/parts/part-04/chapter-02/section-02.md
+                        - "P4-2.3 强化学习": zh/parts/part-04/chapter-02/section-03.md
           theme:
             language: zh
   - search:

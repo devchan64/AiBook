@@ -1,7 +1,7 @@
 # P4-2.2 비지도학습(unsupervised learning)
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-2.1에서는 라벨(label)이 있는 사례로 모델을 학습하는 지도학습(supervised learning)을 봤습니다. 이번에는 라벨이 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning)을 봅니다.
 
@@ -46,12 +46,12 @@ P4-2.1에서는 라벨(label)이 있는 사례로 모델을 학습하는 지도�
 
 ```mermaid
 flowchart TD
-  A["customer table<br/>visits / purchases / amount / coupon use"]
-  B["cluster candidates<br/>active / browsing / dormant"]
-  C["reduced view<br/>2D map of behavior"]
-  D["outlier candidate<br/>unusual purchase pattern"]
-  E["human interpretation<br/>name and inspect"]
-  F["next task<br/>analysis or supervised learning"]
+  A["고객 표<br/>방문 / 구매 / 금액 / 쿠폰 사용"]
+  B["군집 후보<br/>활동형 / 탐색형 / 휴면형"]
+  C["축소된 보기<br/>행동의 2차원 지도"]
+  D["이상치 후보<br/>유난한 구매 패턴"]
+  E["사람 해석<br/>이름 붙이고 점검"]
+  F["다음 작업<br/>분석 또는 지도학습"]
 
   A --> B
   A --> C
@@ -82,12 +82,12 @@ flowchart TD
 
 ```mermaid
 flowchart TB
-  A["1. unlabeled data<br/>X only"]
-  B["2. representation<br/>choose features"]
-  C["3. structure candidates<br/>clusters / axes / density"]
-  D["4. inspection<br/>visualize and compare"]
-  E["5. interpretation<br/>name or use the pattern"]
-  F["6. next task<br/>analysis or supervised learning"]
+  A["1. 라벨 없는 데이터<br/>X만 있음"]
+  B["2. 표현 정하기<br/>특징 선택"]
+  C["3. 구조 후보 찾기<br/>군집 / 축 / 밀도"]
+  D["4. 점검<br/>시각화하고 비교"]
+  E["5. 해석<br/>패턴에 이름 붙이거나 활용"]
+  F["6. 다음 작업<br/>분석 또는 지도학습"]
 
   A --> B
   B --> C
@@ -216,13 +216,13 @@ Google의 클러스터링 설명도 라벨 없는 예시를 유사도(similarity
 
 ```mermaid
 flowchart TD
-  A["customer behavior table"]
-  B["no labels yet"]
-  C["look for similar patterns"]
-  D["group candidates appear"]
-  E["outlier or reduced-view hints appear"]
-  F["human interpretation comes later"]
-  G["use the result for the next analysis question"]
+  A["고객 행동 표"]
+  B["아직 라벨이 없음"]
+  C["비슷한 패턴 찾기"]
+  D["묶음 후보가 보임"]
+  E["이상치나 축소 보기 단서가 보임"]
+  F["사람 해석은 뒤에 따라옴"]
+  G["다음 분석 질문에 활용"]
 
   A --> B --> C
   C --> D
