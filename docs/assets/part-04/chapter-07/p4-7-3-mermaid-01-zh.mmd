@@ -6,12 +6,12 @@ flowchart TD
   E["填补规则"]
   F["编码规则"]
   G["缩放规则"]
-  H["在 validation / test 上复用同样学到的规则"]
+  H["在 验证 / 测试 上复用同样学到的规则"]
 
   A --> B
-  B -->|yes| E --> C
-  B -->|no| C
-  C -->|no| F --> H
-  C -->|yes| D
-  D -->|yes| G --> H
-  D -->|no| H
+  B -->|是| E --> C
+  B -->|否| C
+  C -->|否| F --> H
+  C -->|是| D
+  D -->|是| G --> H
+  D -->|否| H

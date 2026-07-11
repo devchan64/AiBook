@@ -1,13 +1,13 @@
 flowchart TD
   subgraph Q1["把任务翻译成建模问题"]
-    direction LR
+    方向 LR
     A["1. 业务问题<br/>要支持什么决策？"]
-    B["2. 任务类型<br/>classification / regression / clustering"]
+    B["2. 任务类型<br/>分类 / 回归 / 聚类"]
     C["3. 数据条件<br/>规模 / 特征类型 / 稀疏性"]
   end
 
   subgraph Q2["设定限制并列出候选"]
-    direction LR
+    方向 LR
     D["4. 约束<br/>可解释性 / 速度 / 成本"]
     E["5. 候选短名单<br/>2 到 4 个模型家族"]
   end

@@ -6,12 +6,12 @@ flowchart TD
   E["결측 보정 규칙"]
   F["인코딩 규칙"]
   G["스케일 조정 규칙"]
-  H["학습한 규칙을 validation/test에 재사용"]
+  H["학습한 규칙을 검증/test에 재사용"]
 
   A --> B
-  B -->|yes| E --> C
-  B -->|no| C
-  C -->|no| F --> H
-  C -->|yes| D
-  D -->|yes| G --> H
-  D -->|no| H
+  B -->|예| E --> C
+  B -->|아니오| C
+  C -->|아니오| F --> H
+  C -->|예| D
+  D -->|예| G --> H
+  D -->|아니오| H
