@@ -42,3 +42,4 @@
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 - 번역본이 생겨도 개정 이력의 기준 키는 언어별 파일명이 아니라 `Section ID`로 유지한다.
 - Section을 수정할 때는 가능하면 `본문 메타데이터의 Version 갱신 -> 대응 릴리즈노트 갱신 -> Part 체크리스트 메모 반영` 순서로 정리한다.
+- 공개 본문 자산의 실제 저장소는 `docs/assets/` 하나로 본다. 자산 경로와 Mermaid 운영 규칙은 `guidelines/chart-guidelines.md`와 `../docs/assets/README.md`를 함께 기준으로 삼는다.
