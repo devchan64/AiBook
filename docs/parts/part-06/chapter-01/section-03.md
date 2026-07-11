@@ -1,7 +1,7 @@
 # P6-1.3 보충학습: BPE, WordPiece, SentencePiece를 처음 구분하는 법
 
 > Section ID: `P6-1.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-1.1과 P6-1.2에서는 토큰과 토큰화가 왜 중요한지 보았습니다. 여기서는 본문에서 잠시 넘긴 대표 토크나이저 계열을 입문 기준으로 다시 정리합니다.
 
@@ -127,6 +127,40 @@ flowchart TD
 | 왜 한국어에서는 토큰 감각이 더 낯설게 느껴지나 | 조사, 어미, 복합어가 분절 방식 차이를 더 크게 체감하게 만들기 때문 | 한국어 청크 설계와 검색 품질 |
 | 왜 검색 청크 경계가 토크나이저에 따라 다르게 흔들리나 | 문단 경계보다 내부 토큰 조각 경계가 회수 품질에 더 직접 영향을 주기 때문 | RAG 청크와 벡터 검색 설계 |
 
+## 연습 및 예제
+
+이 절은 구현 세부를 외우는 자리가 아니라, `어떤 차이를 먼저 읽어야 하는가`를 손에 익히는 자리입니다. 아래 두 연습은 실제 토크나이저 코드를 돌리지 않아도 판단 기준을 먼저 잡게 해 줍니다.
+
+### 연습 1. 같은 뜻의 요청에서 먼저 비교할 것
+
+다음 세 문장은 모두 비슷한 의도를 가리킵니다.
+
+- `환불 정책을 알려줘`
+- `환불 관련 정책을 간단히 설명해 줘`
+- `환불이 가능한 조건만 짧게 정리해 줘`
+
+이때 처음부터 `어느 토크나이저가 더 우수한가`를 묻기보다, 먼저 아래 비교표처럼 어떤 관찰값을 볼지 정하는 편이 안전합니다.
+
+| 먼저 볼 것 | 왜 먼저 보는가 | 뒤에서 이어질 판단 |
+| --- | --- | --- |
+| 토큰 수가 얼마나 달라지는가 | 겉보기 문장 길이와 실제 계산 길이가 다를 수 있기 때문 | 비용, context window 여유 |
+| 어디서 조각 경계가 달라지는가 | 조사, 어미, 복합 표현이 서로 다른 방식으로 끊길 수 있기 때문 | 의미 단위 보존, 청크 설계 |
+| 핵심 조건이 한 조각 묶음 안에 남는가 | 같은 뜻이라도 중요 조건이 흩어질 수 있기 때문 | 검색 회수 품질, 근거 연결 안정성 |
+
+이 연습의 핵심은 `뜻이 비슷하다`는 사실만으로 토큰 비용과 검색 안정성도 비슷할 것이라고 가정하지 않는 일입니다.
+
+### 연습 2. BPE, WordPiece, SentencePiece 이름을 보고 무엇을 먼저 떠올릴까
+
+대표 토크나이저 이름을 봤을 때 입문 단계에서 먼저 떠올릴 기준은 다음 정도면 충분합니다.
+
+| 이름을 봤을 때 먼저 떠올릴 질문 | 입문 단계의 답 |
+| --- | --- |
+| BPE를 보면 무엇을 먼저 떠올릴까 | 자주 함께 나오는 조각을 점점 묶어 가는 감각을 먼저 떠올립니다. |
+| WordPiece를 보면 무엇을 먼저 떠올릴까 | 조각을 고르는 기준이 BPE와 같지 않고, 실제 토큰화도 longest-match 방식으로 다르게 읽힐 수 있음을 먼저 떠올립니다. |
+| SentencePiece를 보면 무엇을 먼저 떠올릴까 | 공백 처리까지 포함해 문자열 자체를 더 직접 다루려는 관점을 먼저 떠올립니다. |
+
+여기서 목표는 구현 공식을 암기하는 것이 아니라, `같은 문장도 계열에 따라 다른 조각 경계가 나올 수 있다`는 점을 떠올리는 데 있습니다. Hugging Face LLM Course도 WordPiece를 일반 개요만이 아니라 학습 규칙, longest-match 토큰화, 구현 예제로 길게 설명합니다. 이것은 토크나이저 이름을 `단순 용어 목록`으로 넘기지 않고 실제 분절 차이로 연결해 읽어야 한다는 신호로 볼 수 있습니다.
+
 ## 다음 절과의 연결
 
 이 보충학습은 토큰을 `잘게 나누는 감각`을 정리하는 역할을 합니다. 다음 장의 P6-2.1 임베딩은 이 토큰 조각들이 어떻게 벡터로 바뀌는지로 넘어가므로, 여기서 잡은 `조각 단위의 차이`는 이후 벡터 표현 차이로 이어집니다.
@@ -137,7 +171,7 @@ flowchart TD
 - 토큰은 단어와 다를 수 있고, 한국어에서는 그 차이가 더 크게 느껴질 수 있습니다.
 - 토큰화 차이는 비용, 문맥 길이, 검색 품질까지 이어집니다.
 
-## 짧은 점검
+## 체크리스트
 
 - BPE, WordPiece, SentencePiece를 `완전히 다른 목적`이 아니라 `계산하기 좋은 조각을 만드는 서로 다른 방식`으로 설명할 수 있는가?
 - 같은 뜻과 같은 토큰 조각이 자동으로 같지 않다는 점을 사례로 말할 수 있는가?
@@ -151,6 +185,6 @@ flowchart TD
 
 ## 출처와 참고 자료
 
-- Rico Sennrich, Barry Haddow, Alexandra Birch, `Neural Machine Translation of Rare Words with Subword Units`, ACL, 2016, 확인 날짜: 2026-06-29.
-- Taku Kudo, John Richardson, `SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing`, EMNLP, 2018, 확인 날짜: 2026-06-29.
-- Hugging Face, tokenization 관련 문서, 확인 날짜: 2026-06-29.
+- Rico Sennrich, Barry Haddow, Alexandra Birch, [Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/){: target="_blank" rel="noopener noreferrer" }, ACL, 2016, 확인 날짜: 2026-06-29.
+- Taku Kudo, John Richardson, [SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing](https://aclanthology.org/D18-2012/){: target="_blank" rel="noopener noreferrer" }, EMNLP, 2018, 확인 날짜: 2026-06-29.
+- Hugging Face, [WordPiece tokenization](https://huggingface.co/learn/llm-course/chapter6/6){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-11.

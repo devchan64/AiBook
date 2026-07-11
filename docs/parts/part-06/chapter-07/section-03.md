@@ -1,7 +1,7 @@
 # P6-7.3 보충학습: LoRA, adapter, QLoRA를 처음 구분하는 법
 
 > Section ID: `P6-7.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-7.1과 P6-7.2에서는 파인튜닝과 LoRA의 큰 흐름을 보았습니다. 여기서는 본문에서 잠시 넘긴 이름들을 더 차분하게 정리합니다.
 
@@ -225,6 +225,14 @@ rank=32: lora_update_params=262144, ratio=0.0156
 
 그 차이가 왜 `효율적 조정`이라는 말을 낳았는지 이해하게 해 줍니다.
 
+이 예제를 실제 선택 기준으로 다시 묶으면 다음처럼 읽는 편이 안전합니다.
+
+| 먼저 막히는 질문 | 먼저 떠올릴 선택지 | 이유 |
+| --- | --- | --- |
+| 기반 모델 사본이 너무 많이 늘어난다 | LoRA / adapter 계열 | 전체 모델을 매번 따로 저장하고 다시 조정하는 부담을 줄이려는 흐름이기 때문입니다. |
+| GPU 메모리가 빠듯해 실험 시작 자체가 어렵다 | QLoRA를 먼저 검토 | LoRA만이 아니라 기반 모델을 더 가벼운 표현으로 다루는 조건이 함께 중요해지기 때문입니다. |
+| 여러 과업 정의를 빨리 비교해야 한다 | 작은 조정본 중심 접근 | 최고 점수 하나보다 실험 회전 수와 비용이 더 중요한 단계일 수 있기 때문입니다. |
+
 ## 다음 절과의 연결
 
 이 보충학습은 LoRA, adapter, QLoRA를 이름별로 정리해 파인튜닝 선택지를 덜 혼동하게 만드는 역할을 합니다. 다음 장의 P6-8.1 지시 튜닝을 읽을 때는 `무엇을 가르칠 것인가`라는 데이터 문제와 `어떻게 가볍게 조정할 것인가`라는 방법 문제를 분리해 보는 데 이 구분이 바로 쓰입니다.
@@ -244,7 +252,7 @@ rank=32: lora_update_params=262144, ratio=0.0156
 - adapter, LoRA, QLoRA는 모두 효율적 조정 흐름에 속하지만 같은 방식은 아닙니다.
 - 깊이 있게 본다는 것은 수식 암기보다 `왜 이런 선택지가 생겼는가`를 읽는 데 가깝습니다.
 
-## 짧은 점검
+## 체크리스트
 
 - adapter, LoRA, QLoRA를 `추가 모듈`, `작은 변화분`, `더 낮은 메모리 조건`이라는 축으로 구분할 수 있는가?
 - low-rank를 모델 크기 축이 아니라 업데이트 표현 축으로 설명할 수 있는가?
@@ -252,6 +260,6 @@ rank=32: lora_update_params=262144, ratio=0.0156
 
 ## 출처와 참고 자료
 
-- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-06-29.
-- Edward J. Hu et al., `LoRA: Low-Rank Adaptation of Large Language Models`, arXiv, 2021, 확인 날짜: 2026-06-29.
-- Tim Dettmers et al., `QLoRA: Efficient Finetuning of Quantized LLMs`, arXiv, 2023, 확인 날짜: 2026-06-29.
+- Neil Houlsby et al., [Parameter-Efficient Transfer Learning for NLP](https://proceedings.mlr.press/v97/houlsby19a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2019, 확인 날짜: 2026-06-29.
+- Edward J. Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, 확인 날짜: 2026-06-29.
+- Tim Dettmers et al., [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-06-29.

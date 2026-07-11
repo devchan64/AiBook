@@ -1,7 +1,7 @@
 # P6-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기
 
 > Section ID: `P6-2.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P6-2.1과 P6-2.2에서는 임베딩과 거리의 직관을 잡았습니다. 여기서는 본문에서 생략한 `임베딩을 어떻게 배우는가`와 `가까운 벡터를 어떻게 빨리 찾는가`를 큰 그림으로 정리합니다.
 
@@ -204,6 +204,14 @@ fast_scan_ops = 2
 
 앞의 예제는 진짜 ANN 인덱스를 구현한 것은 아닙니다. 하지만 `표현 공간을 만든다`와 `그 공간에서 가까운 후보를 빨리 찾는다`가 서로 다른 문제라는 점은 분명하게 보여 줍니다. 실제 서비스에서는 더 정교한 인덱스를 쓰지만, 독자가 먼저 잡아야 할 핵심은 `좋은 벡터가 있어도 검색이 느리면 서비스가 어렵고, 검색이 빨라도 벡터가 나쁘면 후보 품질이 무너진다`는 이중 조건입니다.
 
+이 예제를 실무 판단 기준으로 다시 묶으면 다음 비교가 가장 먼저 필요합니다.
+
+| 먼저 막히는 질문 | 먼저 점검할 층위 | 왜 그 층위를 먼저 보나 |
+| --- | --- | --- |
+| 비슷한 문장이 왜 서로 멀리 잡히나 | 임베딩 학습 층위 | 표현 공간 자체가 어긋나면 ANN을 바꿔도 후보 품질이 먼저 흔들리기 때문입니다. |
+| 후보는 그럴듯한데 응답이 너무 느리다 | ANN / 인덱스 층위 | 표현 품질이 유지돼도 전수 비교 비용이 커지면 서비스 속도가 먼저 무너지기 때문입니다. |
+| 후보 수를 줄였더니 중요한 문서가 자주 빠진다 | 표현 품질과 탐색 속도 둘 다 | coarse filtering 기준과 임베딩 품질을 함께 봐야 하기 때문입니다. |
+
 ## 다음 절과의 연결
 
 이 보충학습은 임베딩이 어떻게 학습되고 검색에서 왜 빨라져야 하는지를 큰 그림으로 묶습니다. 다음 장의 P6-3.1 Transformer 구조를 읽을 때는 `벡터 표현을 만든다`는 감각이 `벡터들 사이의 관계를 다시 계산한다`는 흐름으로 확장된다고 보면 연결이 자연스럽습니다.
@@ -214,7 +222,7 @@ fast_scan_ops = 2
 - contrastive learning은 가까운 것과 먼 것을 함께 배우는 감각입니다.
 - ANN은 큰 검색 공간에서 속도를 확보하기 위한 실용적 타협입니다.
 
-## 짧은 점검
+## 체크리스트
 
 - 좋은 벡터를 만드는 문제와 가까운 벡터를 빨리 찾는 문제가 다르다는 점을 설명할 수 있는가?
 - contrastive learning을 `가까워져야 할 것과 멀어져야 할 것을 배우는 방법`으로 설명할 수 있는가?
@@ -228,13 +236,15 @@ fast_scan_ops = 2
 | 좋은 벡터가 있어도 왜 검색은 느릴 수 있을까? | 표현의 품질과 빠르게 찾는 문제는 서로 다른 층위이기 때문입니다. | ANN, 인덱스, 벡터 DB의 역할 |
 | ANN이 왜 `대충 찾기`가 아니라 실용적 타협으로 설명될까? | 정확도 100%보다 지연 시간과 규모 대응이 중요한 상황이 많기 때문입니다. | 검색 품질과 속도의 균형 읽기 |
 
+## 이 절에서 다시 확인할 질문
+
 - word2vec, GloVe, sentence embedding의 큰 차이를 말할 수 있는가?
 - contrastive learning의 목적을 수식 없이 설명할 수 있는가?
 - ANN이 왜 벡터 검색에서 필요한지 말할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Tomas Mikolov et al., `Efficient Estimation of Word Representations in Vector Space`, arXiv, 2013, 확인 날짜: 2026-06-29.
-- Jeffrey Pennington, Richard Socher, Christopher Manning, `GloVe: Global Vectors for Word Representation`, EMNLP, 2014, 확인 날짜: 2026-06-29.
-- Nils Reimers, Iryna Gurevych, `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks`, EMNLP-IJCNLP, 2019, 확인 날짜: 2026-06-29.
-- Pinecone, ANN/vector search 기초 문서, 확인 날짜: 2026-06-29.
+- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-29.
+- Jeffrey Pennington, Richard Socher, Christopher Manning, [GloVe: Global Vectors for Word Representation](https://aclanthology.org/D14-1162/){: target="_blank" rel="noopener noreferrer" }, EMNLP, 2014, 확인 날짜: 2026-06-29.
+- Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://aclanthology.org/D19-1410/){: target="_blank" rel="noopener noreferrer" }, EMNLP-IJCNLP, 2019, 확인 날짜: 2026-06-29.
+- Alexandr Andoni, Piotr Indyk, Ilya Razenshteyn, [Approximate Nearest Neighbor Search in High Dimensions](https://arxiv.org/abs/1806.09823){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-11.
