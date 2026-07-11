@@ -1,9 +1,9 @@
 flowchart TD
-  A["all training points<br/>전체 학습 점들"]
-  B["far from the boundary<br/>경계에서 멀리 떨어진 점들"]
-  C["closest to the boundary<br/>경계에 가장 가까운 점들"]
-  D["little effect on the boundary<br/>경계를 덜 흔듦"]
-  E["support vectors<br/>경계를 실제로 떠받치는 핵심 점들"]
+  A["전체 학습 점들<br/>모든 학습 샘플"]
+  B["경계에서 멀리 떨어진 점들<br/>영향이 적은 점들"]
+  C["경계에 가장 가까운 점들<br/>판단을 좌우하는 점들"]
+  D["경계를 덜 흔듦<br/>영향이 작은 점들"]
+  E["서포트 벡터<br/>경계를 실제로 떠받치는 핵심 점들"]
 
   A --> B --> D
   A --> C --> E

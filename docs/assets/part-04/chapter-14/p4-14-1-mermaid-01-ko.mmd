@@ -1,10 +1,10 @@
 flowchart TD
-  A["new case<br/>새 입력 사례"]
-  B["question 1<br/>recent visits <= 3?"]
-  C["question 2<br/>late payment?"]
-  D["leaf<br/>likely churn"]
-  E["leaf<br/>likely stay"]
-  F["leaf<br/>review or another label"]
+  A["새 입력 사례<br/>새 고객 케이스"]
+  B["질문 1<br/>최근 방문 수가 3 이하인가?"]
+  C["질문 2<br/>연체 결제가 있었는가?"]
+  D["리프 노드<br/>이탈 가능성이 높음"]
+  E["리프 노드<br/>유지 가능성이 높음"]
+  F["리프 노드<br/>검토 또는 다른 레이블 필요"]
 
   A --> B
   B -->|예| C

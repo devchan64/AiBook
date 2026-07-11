@@ -1,9 +1,9 @@
 flowchart TD
-  A["many candidate boundaries<br/>여러 경계 후보"]
-  B["compare the 마진<br/>마진 비교"]
-  C["closest points matter most<br/>가장 가까운 점이 더 중요"]
-  D["support vectors shape the boundary<br/>support vector가 경계를 떠받침"]
-  E["overlap leads to soft 마진 thinking<br/>겹침이 생기면 soft margin으로 이동"]
-  F["next: nonlinear boundary with 커널<br/>다음 절: kernel과 비선형 경계"]
+  A["여러 경계 후보<br/>가능한 선이 많다"]
+  B["마진 비교<br/>가장 여유 있는 선을 본다"]
+  C["가장 가까운 점이 더 중요<br/>경계 근처 점을 본다"]
+  D["서포트 벡터가 경계를 만든다<br/>핵심 점이 선을 떠받친다"]
+  E["겹침이 생기면 소프트 마진으로 간다<br/>약간의 위반을 허용한다"]
+  F["다음: 커널과 비선형 경계<br/>직선이 안 될 때의 확장"]
 
   A --> B --> C --> D --> E --> F

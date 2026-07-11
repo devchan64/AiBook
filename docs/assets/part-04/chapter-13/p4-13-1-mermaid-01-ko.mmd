@@ -1,10 +1,10 @@
 flowchart TD
-  A["same classes can be split<br/>같은 class를 나누는 선은 여러 개일 수 있음"]
-  B["compare the closest points<br/>각 선에서 가장 가까운 점들을 비교"]
-  C["boundary too close to one side<br/>한쪽 class에 너무 가까운 경계"]
-  D["boundary leaves room on both sides<br/>양쪽에 여유를 남기는 경계"]
-  E["small changes create more review cases<br/>작은 흔들림에도 검토 대상이 늘어남"]
-  F["new cases are less likely to flip<br/>새 사례에도 덜 예민한 해석"]
+  A["같은 클래스를 가르는 선은 여러 개일 수 있음<br/>같은 클래스를 나누는 선은 여러 개일 수 있음"]
+  B["가장 가까운 점 비교<br/>각 선에서 가장 가까운 점들을 비교"]
+  C["한쪽에 너무 가까운 경계<br/>한쪽 클래스에 너무 가까운 경계"]
+  D["양쪽에 여유를 남기는 경계<br/>양쪽에 여유를 남기는 경계"]
+  E["작은 흔들림에도 검토 사례가 늘어남<br/>작은 흔들림에도 검토 대상이 늘어남"]
+  F["새 사례에서도 판단이 덜 뒤집힘<br/>새 사례에도 덜 예민한 해석"]
 
   A --> B
   B --> C --> E
