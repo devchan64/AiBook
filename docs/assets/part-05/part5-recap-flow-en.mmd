@@ -1,0 +1,13 @@
+flowchart TD
+  A["change input into better representations"]
+  B["measure error with loss"]
+  C["send adjustment signals backward"]
+  D["stabilize learning with optimizer and regularization"]
+  E["branch into CNN, RNN, attention, Transformer"]
+  F["turn model outputs into generated results"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F

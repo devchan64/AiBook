@@ -30,3 +30,11 @@
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
 - 원문 기준 버전: `v2026.07.11`
+
+### v2026.07.11-2
+- 변경 이유: Part 5 마무리 페이지에서 구조, 학습 절차, 구조 분기, 생성 연결을 한 번에 복습할 수 있는 도식이 필요했다.
+- 본문 반영: `표현 변화 -> 손실과 역전파 -> 학습 안정화 -> 구조 분기 -> 생성 결과 선택` 흐름을 압축한 Mermaid 도식을 추가했다.
+- 번역 동기화 메모: Keep the English Mermaid source aligned with the Korean public include target. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: `docs/assets/part-05/part5-recap-flow-en.mmd`, `docs/assets/part-05/part5-recap-flow-ko.mmd`
+- 원문 기준 버전: `v2026.07.11`

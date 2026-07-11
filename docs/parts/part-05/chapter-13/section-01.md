@@ -127,6 +127,14 @@ attention은 번역(sequence-to-sequence translation) 맥락에서 설명하면 
 
 P5-12.2를 `상태가 멀리 갈수록 정보가 희미해질 수 있다`는 절로 읽었다면, 이 절은 그 문제를 `그러면 지금 필요한 위치를 다시 보자`로 뒤집는 절입니다.
 
+이 전환만 따로 아주 짧게 압축하면 다음 흐름으로 읽을 수 있습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-13/attention-direct-reference-bridge-ko.mmd"
+```
+
+이 도식의 핵심은 `오래 들고 가는 것`에서 `필요할 때 다시 찾는 것`으로 손잡이가 바뀐다는 점입니다.
+
 ## 이를 아주 단순하게 그리면
 
 ```mermaid

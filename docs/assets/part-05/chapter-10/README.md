@@ -6,3 +6,5 @@
 - Current language pairs:
   - `feature-engineering-vs-representation-learning-en.mmd` / `feature-engineering-vs-representation-learning-ko.mmd`
   - `hierarchical-representation-flow-en.mmd` / `hierarchical-representation-flow-ko.mmd`
+  - `manual-vs-learned-coordinates-en.mmd` / `manual-vs-learned-coordinates-ko.mmd`
+  - `layered-recomposition-flow-en.mmd` / `layered-recomposition-flow-ko.mmd`

@@ -30,3 +30,11 @@
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
 - 원문 기준 버전: `v2026.07.11`
+
+### v2026.07.11-2
+- 변경 이유: Part 5 시작 페이지에서 독자가 장 흐름 전체를 한 번에 다시 잡을 수 있는 학습 지도형 도식이 필요했다.
+- 본문 반영: `신경망 기초 -> 학습과 확장 -> 구조 분기 -> 생성` 흐름을 압축한 Mermaid 도식을 추가했다.
+- 번역 동기화 메모: Keep the English Mermaid source aligned with the Korean public include target. / pending
+- 번역 반영 상태: not-started
+- 관련 자산: `docs/assets/part-05/part5-learning-map-en.mmd`, `docs/assets/part-05/part5-learning-map-ko.mmd`
+- 원문 기준 버전: `v2026.07.11`

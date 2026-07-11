@@ -1,0 +1,13 @@
+flowchart TD
+  A["current output"]
+  B["looks over source positions"]
+  C["selects relevant source clues"]
+  D["same idea moves inside one sequence"]
+  E["each token looks over other tokens"]
+  F["token representations are rebuilt together"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F

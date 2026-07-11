@@ -1,0 +1,20 @@
+flowchart TD
+  subgraph A["Neural Basics"]
+    A1["perceptron and multilayer"] --> A2["activation, output, loss"]
+    A2 --> A3["backpropagation"]
+  end
+
+  subgraph B["Training and Scale"]
+    B1["optimizer and regularization"] --> B2["batch, tensor, GPU"]
+    B2 --> B3["representation learning"]
+  end
+
+  subgraph C["Architecture Branches"]
+    C1["CNN for local patterns"] --> C2["RNN for sequence state"]
+    C2 --> C3["attention and self-attention"]
+    C3 --> C4["Transformer blocks"]
+    C4 --> C5["generation and sampling"]
+  end
+
+  A3 --> B1
+  B3 --> C1

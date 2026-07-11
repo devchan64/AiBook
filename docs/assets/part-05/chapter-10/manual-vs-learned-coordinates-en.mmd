@@ -1,0 +1,11 @@
+flowchart TD
+  A["same raw data"]
+  B["human picks a few explicit features"]
+  C["one fixed score or rule"]
+  D["model builds hidden axes during training"]
+  E["new internal coordinate space"]
+
+  A --> B
+  B --> C
+  A --> D
+  D --> E
