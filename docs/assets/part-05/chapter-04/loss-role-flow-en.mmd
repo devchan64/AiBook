@@ -1,0 +1,13 @@
+flowchart TD
+  A["Model prediction"]
+  B["Target"]
+  C["Compare the gap"]
+  D["Loss value"]
+  E["Gradient signal"]
+  F["Parameter update"]
+
+  A --> C
+  B --> C
+  C --> D
+  D --> E
+  E --> F

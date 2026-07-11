@@ -1,0 +1,11 @@
+flowchart TD
+  A["Loss value"]
+  B["How much did the output move the loss?"]
+  C["How much did each earlier weight affect that output?"]
+  D["Gradient for each weight"]
+  E["Optimizer update later"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

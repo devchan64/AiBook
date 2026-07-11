@@ -1,0 +1,10 @@
+flowchart TD
+  A["Early clue"]
+  B["Many intermediate steps"]
+  C["Current decision"]
+  D["Direct reference to the needed clue"]
+
+  A --> B
+  B --> C
+  A -. jump when needed .-> D
+  D --> C

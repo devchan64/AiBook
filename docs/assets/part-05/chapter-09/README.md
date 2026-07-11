@@ -5,3 +5,4 @@
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
   - `batch-tensor-flow-en.mmd` / `batch-tensor-flow-ko.mmd`
+  - `cpu-gpu-parallel-flow-en.mmd` / `cpu-gpu-parallel-flow-ko.mmd`

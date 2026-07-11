@@ -9,4 +9,5 @@
   - `cnn-feature-map-hierarchy-en.svg` / `cnn-feature-map-hierarchy-ko.svg`
   - `cnn-object-detection-flow-en.mmd` / `cnn-object-detection-flow-ko.mmd`
   - `convolution-pooling-flow-en.mmd` / `convolution-pooling-flow-ko.mmd`
+  - `filter-reading-options-en.mmd` / `filter-reading-options-ko.mmd`
   - `vit-patch-flow-en.mmd` / `vit-patch-flow-ko.mmd`

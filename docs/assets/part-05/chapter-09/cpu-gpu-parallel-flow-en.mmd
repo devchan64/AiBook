@@ -1,0 +1,15 @@
+flowchart TD
+  subgraph CPU["CPU-like sequential path"]
+    A1["Sample 1"] --> B1["Compute"]
+    B1 --> C1["Sample 2"]
+    C1 --> D1["Compute again"]
+    D1 --> E1["Sample 3 next"]
+  end
+
+  subgraph GPU["GPU-like parallel path"]
+    A2["Sample 1"] --> P["Same matrix operation"]
+    A3["Sample 2"] --> P
+    A4["Sample 3"] --> P
+    A5["Sample 4"] --> P
+    P --> O["Outputs together"]
+  end

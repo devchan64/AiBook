@@ -1,7 +1,7 @@
 # P5-8.1 정규화(regularization)
 
 Section ID: `P5-8.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규칙이라는 점을 보았습니다. 하지만 optimizer가 잘 작동한다고 해서 항상 좋은 모델이 되는 것은 아닙니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -117,6 +117,14 @@ total\ loss = data\ loss + regularization\ term
 즉, regularization은 `정답을 맞추는 비용` 외에 `너무 과한 복잡성을 쓰는 비용`을 더 붙이는 생각입니다.
 
 이 때문에 optimizer는 이제 단순한 원래 손실이 아니라, regularization이 반영된 전체 목적을 줄이게 됩니다.
+
+이 연결을 아주 짧게 압축하면 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-08/regularization-role-flow-ko.mmd"
+```
+
+이 도식에서 먼저 확인할 결과는, regularization이 `오차를 대신 계산하는 다른 손실`이 아니라, data loss 옆에 붙어 전체 목적 함수를 바꾸고 그 결과 모델이 덜 과격한 해를 선호하게 만드는 장치라는 점입니다.
 
 ## optimizer와 regularization은 무엇이 다른가
 

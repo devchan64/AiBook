@@ -1,0 +1,10 @@
+flowchart TD
+  subgraph SGD["SGD intuition"]
+    A["Current gradient"] --> B["One learning rate"]
+    B --> C["Direct update step"]
+  end
+
+  subgraph Adam["Adam intuition"]
+    D["Current gradient"] --> E["Recent gradient history"]
+    E --> F["Coordinate-wise adjusted step"]
+  end

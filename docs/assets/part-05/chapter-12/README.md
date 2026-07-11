@@ -6,3 +6,4 @@
 - Current language pairs:
   - `rnn-state-flow-en.mmd` / `rnn-state-flow-ko.mmd`
   - `long-term-dependency-flow-en.mmd` / `long-term-dependency-flow-ko.mmd`
+  - `state-vs-direct-reference-flow-en.mmd` / `state-vs-direct-reference-flow-ko.mmd`

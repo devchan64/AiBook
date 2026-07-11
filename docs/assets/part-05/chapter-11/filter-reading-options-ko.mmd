@@ -1,0 +1,24 @@
+flowchart TD
+  A["같은 입력 이미지"]
+
+  subgraph P["Padding"]
+    P1["가장자리에 여백 추가"]
+    P2["가장자리 정보를 더 오래 본다"]
+  end
+
+  subgraph S["Stride"]
+    S1["필터를 더 큰 보폭으로 이동"]
+    S2["출력 크기를 더 빨리 줄인다"]
+  end
+
+  subgraph D["Dilation"]
+    D1["필터 칸 사이 간격을 벌림"]
+    D2["큰 커널 없이 더 넓게 본다"]
+  end
+
+  A --> P1
+  P1 --> P2
+  A --> S1
+  S1 --> S2
+  A --> D1
+  D1 --> D2

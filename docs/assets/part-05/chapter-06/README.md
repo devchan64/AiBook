@@ -6,3 +6,4 @@
 - Current language pairs:
   - `training-vs-inference-flow-en.mmd` / `training-vs-inference-flow-ko.mmd`
   - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-ko.mmd`
+  - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd`

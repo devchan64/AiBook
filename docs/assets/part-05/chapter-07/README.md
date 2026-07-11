@@ -5,3 +5,4 @@
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
 - Current language pairs:
   - `optimizer-loop-flow-en.mmd` / `optimizer-loop-flow-ko.mmd`
+  - `sgd-vs-adam-flow-en.mmd` / `sgd-vs-adam-flow-ko.mmd`

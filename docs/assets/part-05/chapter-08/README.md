@@ -6,3 +6,4 @@
 - Current language pairs:
   - `dropout-path-flow-en.mmd` / `dropout-path-flow-ko.mmd`
   - `training-loop-regularization-flow-en.mmd` / `training-loop-regularization-flow-ko.mmd`
+  - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`

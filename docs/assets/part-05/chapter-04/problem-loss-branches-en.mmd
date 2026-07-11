@@ -1,0 +1,15 @@
+flowchart TD
+  A["Problem type"]
+  B["Regression"]
+  C["Classification"]
+  D["Generation"]
+  E["How far from the target number?"]
+  F["How confident is the true class?"]
+  G["How probable is the next true token?"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G

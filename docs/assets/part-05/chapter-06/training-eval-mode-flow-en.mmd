@@ -1,0 +1,22 @@
+flowchart TD
+  I["Same model input"]
+
+  subgraph T["Training mode"]
+    T1["Dropout stays stochastic"]
+    T2["Batch statistics are used"]
+    T3["Loss and parameter update continue"]
+  end
+
+  subgraph E["Evaluation mode"]
+    E1["Dropout is turned off"]
+    E2["Running statistics are used"]
+    E3["Stable measurement or serving output"]
+  end
+
+  I --> T1
+  T1 --> T2
+  T2 --> T3
+
+  I --> E1
+  E1 --> E2
+  E2 --> E3

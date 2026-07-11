@@ -109,6 +109,14 @@ P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이�
 
 이 구분을 잡아 두면 뒤에서 SGD와 Adam을 볼 때도 `optimizer가 바꾸는 대상`이 무엇인지 더 분명하게 읽을 수 있습니다.
 
+이 연결을 손실과 gradient 역할만 남겨 압축하면 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-05/loss-to-gradient-role-ko.mmd"
+```
+
+이 도식에서 먼저 확인할 결과는, 역전파가 손실을 바로 업데이트로 바꾸는 단계가 아니라 `손실 -> 책임 분해 -> 가중치별 gradient`를 계산해 다음 optimizer 단계로 넘기는 절차라는 점입니다.
+
 ## 연쇄 법칙(chain rule)은 왜 등장하나
 
 신경망은 함수가 여러 단계로 겹쳐 있는 구조입니다.

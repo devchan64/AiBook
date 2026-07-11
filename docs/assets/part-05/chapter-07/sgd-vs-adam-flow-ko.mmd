@@ -1,0 +1,10 @@
+flowchart TD
+  subgraph SGD["SGD 직관"]
+    A["현재 gradient"] --> B["하나의 learning rate"]
+    B --> C["직접적인 업데이트 한 걸음"]
+  end
+
+  subgraph Adam["Adam 직관"]
+    D["현재 gradient"] --> E["최근 gradient 흐름"]
+    E --> F["좌표별로 조절된 한 걸음"]
+  end
