@@ -151,7 +151,7 @@ hello, colab
 如果把这个差别再写成一条流程，会变成这样：
 
 ```mermaid
---8<-- "assets/part-02/chapter-03/execution-location-flow-en.mmd"
+--8<-- "assets/part-02/chapter-03/execution-location-flow-zh.mmd"
 ```
 
 ## 不要和个人电脑终端命令混用

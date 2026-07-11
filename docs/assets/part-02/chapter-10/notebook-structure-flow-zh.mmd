@@ -1,0 +1,11 @@
+flowchart TB
+  A["notebook 文件<br/>.ipynb 文档"]
+  B["Markdown 单元<br/>问题与说明"]
+  C["代码单元<br/>Python 代码"]
+  D["输出<br/>数值、表格、图表与错误"]
+  E["运行时状态<br/>变量与已导入包"]
+
+  A --> B
+  A --> C
+  C --> D
+  C -. "运行时创建" .-> E

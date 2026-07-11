@@ -1,0 +1,9 @@
+flowchart LR
+  Raw[原始输入]
+  Rep[特征或表征]
+  Model[训练好的模型]
+  Param[参数]
+  Out[输出]
+
+  Raw --> Rep --> Model --> Out
+  Param -. 模型内部数值 .- Model

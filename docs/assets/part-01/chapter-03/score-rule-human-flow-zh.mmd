@@ -1,0 +1,13 @@
+flowchart TD
+  Input[新输入]
+  Model[训练好的模型]
+  Score[分数或概率]
+  Rule[业务规则]
+  Human[人工复核]
+  动作[动作]
+
+  Input --> Model --> Score
+  Score --> Rule
+  Rule --> 动作
+  Rule --> Human
+  Human --> 动作

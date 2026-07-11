@@ -108,7 +108,7 @@ Notebook 通常由 cell 组成。Cell 是文档里的小区块。
 流程可以看成下面这样。
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-zh.mmd"
 ```
 
 Notebook 学习的核心，就是短循环地重复四步：`写下问题`、`运行代码`、`看结果`、`留下解释`。
@@ -144,7 +144,7 @@ sum(scores) / len(scores)
 例如可以想象下面这样的流程。
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-experiment-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-experiment-flow-zh.mmd"
 ```
 
 同样的事在 script 中也能做，但相比一次性运行整个文件，按一个 cell 一个 cell 检查往往压力更小。

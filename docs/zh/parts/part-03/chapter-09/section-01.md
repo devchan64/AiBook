@@ -54,7 +54,7 @@ alert 是最轻的一层。只要看见了与基线不同的变化，就可以�
 ## 用一个小图来看
 
 ```mermaid
---8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-en.mmd"
+--8<-- "assets/part-03/chapter-09/p3-9-1-mermaid-01-zh.mmd"
 ```
 
 这张图说明，把问题往上提，并不是`无条件上升一层`，而是一个要问当前证据到底到了哪一层的分支判断。它不是在列标签名称，而是在一层层判断：是停在`alert`，还是走到`review candidate`，还是再提升成`label prediction`。关键在于：`alert 是变化信号，review candidate 是复核优先级，而 label prediction 是比它们都更强的问题设定。` 现在的问题能提升到哪一层，判断标准不应该是`是不是更高级`，而应是`当前数据究竟诚实地支撑到哪里`。

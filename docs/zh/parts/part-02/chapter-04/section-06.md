@@ -65,7 +65,7 @@ z = f(g(x))
 把它画成下面这样的流程会更直观。
 
 ```mermaid
---8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-en.mmd"
+--8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-zh.mmd"
 ```
 
 如果写得更像日常计算：

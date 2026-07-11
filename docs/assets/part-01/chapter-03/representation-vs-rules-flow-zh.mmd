@@ -1,0 +1,11 @@
+flowchart TD
+  Text[咨询文本]
+  Rule[人工编写的规则]
+  RuleOut[规则输出]
+
+  Rep[内部表征]
+  Model[训练好的模型]
+  ModelOut[预测输出]
+
+  Text --> Rule --> RuleOut
+  Text --> Rep --> Model --> ModelOut

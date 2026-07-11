@@ -1,0 +1,15 @@
+flowchart TD
+    A[比较结果<br/>差值、重复性、最近计数]
+    A --> B1[案例 A<br/>可重复变化<br/>观测足够]
+    A --> B2[案例 B<br/>相同差值<br/>观测较少]
+
+    B1 --> C1[保守表述<br/>提高复核优先级<br/>暂不作因果判断]
+    B2 --> C2[保守表述<br/>需要更多观测]
+
+    C1 --> D1[warning_level = caution]
+    C1 --> D2[review_needed = 1]
+    C1 --> D3[priority_score = high]
+
+    C2 --> E1[warning_level = watch]
+    C2 --> E2[review_needed = 0]
+    C2 --> E3[priority_score = lower]

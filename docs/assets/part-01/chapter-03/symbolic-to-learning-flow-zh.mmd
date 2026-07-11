@@ -1,0 +1,17 @@
+flowchart TD
+  Symbolic[符号 AI]
+  Rule[基于规则的系统]
+  Search[搜索与知识表示]
+  Prob[概率推理]
+  ML[机器学习]
+  NN[神经网络与深度学习]
+  Compute[算力与并行处理]
+
+  Symbolic --> Rule
+  Symbolic --> Search
+  Search --> Prob
+  Prob --> ML
+  ML --> NN
+  Rule -. 局限与互补 .-> ML
+  Compute -. 加速 .-> ML
+  Compute -. 加速 .-> NN

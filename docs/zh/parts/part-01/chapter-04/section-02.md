@@ -83,7 +83,7 @@ AI 模型不会直接处理整个现实问题。人必须先从现实里挑出�
 > input -> model -> output
 
 ```mermaid
---8<-- "assets/part-01/chapter-04/reality-to-model-flow-en.mmd"
+--8<-- "assets/part-01/chapter-04/reality-to-model-flow-zh.mmd"
 ```
 
 这个图说明：我们不会把整个现实问题直接丢进模型，而是先拆成 `input`、`target output` 和 `past examples`，再通过学习和预测把它们连接起来。最上面的 `real-world problem` 仍然是宽泛现实问题，往下走时，模型真正会看到什么、又会被要求预测什么，都会变得更窄。读这个图时，最好不要把它看成“直接解决现实的机器”，而要看成“把现实问题切成可计算小任务的过程”。

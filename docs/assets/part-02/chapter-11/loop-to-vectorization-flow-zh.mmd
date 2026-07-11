@@ -1,0 +1,14 @@
+flowchart TD
+    loop["Python 循环视图<br/>adjusted = []<br/>for score in scores:<br/>adjusted.append(score + 10)"]
+    bridge["同一个意思"]
+    vectorized["NumPy 向量化视图<br/>adjusted = scores + 10"]
+
+    loop --> bridge --> vectorized
+
+    classDef loopBox fill:#f8fafc,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
+    classDef bridgeBox fill:#ffffff,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
+    classDef vectorBox fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#0f172a;
+
+    class loop loopBox;
+    class bridge bridgeBox;
+    class vectorized vectorBox;

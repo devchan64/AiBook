@@ -1,0 +1,15 @@
+flowchart TD
+  Rule[显式规则]
+  Search[搜索与知识表示]
+  Prob[概率推理]
+  Data[数据挖掘与机器学习]
+  Rep[表征学习与深度学习]
+  Gen[生成式 AI]
+  LLM[LLM]
+
+  Rule --> Search
+  Search --> Prob
+  Prob --> Data
+  Data --> Rep
+  Rep --> Gen
+  Gen --> LLM

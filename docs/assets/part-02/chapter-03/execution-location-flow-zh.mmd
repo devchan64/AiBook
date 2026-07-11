@@ -1,0 +1,20 @@
+flowchart TD
+  A["先看说明"]
+  B{"你要在哪里输入？"}
+  C["Colab 代码单元"]
+  D["本地电脑终端"]
+  E["Python 代码"]
+  F["%pip install numpy"]
+  G["python -m pip install numpy"]
+  H["import numpy as np"]
+  I["print(np.array([1, 2]))"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+  C --> F
+  C --> I
+  D --> G
+  E --> H
+  E --> I

@@ -46,7 +46,7 @@
 把数据建模的判断顺序再压成一句话，可以这样读：
 
 ```mermaid
---8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-01-en.mmd"
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-01-zh.mmd"
 ```
 
 如果这样看仍然太抽象，把源数据表和建模后的表放在同一个场景里并排看，会更容易抓住。
@@ -86,7 +86,7 @@
 | 下一步行动 | 记录在，但判断会慢 | 可以直接交给复核候选表或预测输入表 |
 
 ```mermaid
---8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-02-en.mmd"
+--8<-- "assets/part-03/chapter-01/p3-1-1-mermaid-02-zh.mmd"
 ```
 
 数据建模做得好不好，并不是看有没有用上华丽的模型。更关键的是，看下面这些问题能不能回答。

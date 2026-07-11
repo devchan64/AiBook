@@ -1,0 +1,13 @@
+flowchart TD
+  U["用户"]
+  H["MCP 主机"]
+
+  subgraph C["由主机管理的连接"]
+    direction LR
+    C1["文件服务器客户端"] --> S1["MCP 服务器：文件"]
+    C2["问题服务器客户端"] --> S2["MCP 服务器：问题跟踪器"]
+  end
+
+  U --> H
+  H --> C1
+  H --> C2

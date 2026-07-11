@@ -1,0 +1,14 @@
+flowchart TD
+  Rule输入[输入]
+  Rules[人工编写的规则]
+  RuleOutput[结果]
+
+  Data[示例数据]
+  Train[训练]
+  Model[训练好的模型]
+  New输入[新输入]
+  Pred[预测]
+
+  Rule输入 --> Rules --> RuleOutput
+  Data --> Train --> Model
+  New输入 --> Model --> Pred

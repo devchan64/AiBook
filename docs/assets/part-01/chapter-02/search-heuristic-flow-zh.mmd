@@ -1,0 +1,11 @@
+flowchart TD
+  Start[起始状态]
+  Candidates[候选选项]
+  Heuristic[启发式或评分规则]
+  搜索[搜索]
+  Goal[目标状态]
+
+  Start --> Candidates
+  Candidates --> Heuristic
+  Heuristic --> 搜索
+  搜索 --> Goal

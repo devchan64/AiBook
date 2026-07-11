@@ -1,0 +1,8 @@
+flowchart TD
+    frame["DataFrame<br/>完整表格"]
+    select["选择列<br/>哪些变量重要？"]
+    filter["过滤行<br/>保留哪些案例？"]
+    agg["聚合<br/>怎样的汇总才够？"]
+    group["groupby<br/>按类别汇总"]
+
+    frame --> select --> filter --> agg --> group

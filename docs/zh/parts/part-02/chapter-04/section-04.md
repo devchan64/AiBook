@@ -208,7 +208,7 @@ L'(w) = 2(w - 3)
 可以验证的结果是：在同一个验证样本上，稍微调整某个参数后，损失是否真的下降了。如果损失从 0.82 降到 0.76，那就是改善方向；反过来，如果损失升到 0.90，就可以读成方向错了。
 
 ```mermaid
---8<-- "assets/part-02/chapter-04/learning-adjustment-flow-en.mmd"
+--8<-- "assets/part-02/chapter-04/learning-adjustment-flow-zh.mmd"
 ```
 
 ## 简短检查

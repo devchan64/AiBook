@@ -1,0 +1,12 @@
+flowchart TD
+    select["选择方法<br/>切片 / fancy / 掩码"]
+    share["它是否共享原对象？<br/>视图还是副本"]
+    reshape["用 newaxis 改变形状<br/>轴会怎样变化？"]
+    broadcast["广播规则<br/>形状如何对齐？"]
+    result["结果与副作用<br/>数值变化与源对象影响"]
+
+    select --> share
+    select --> reshape
+    reshape --> broadcast
+    share --> result
+    broadcast --> result

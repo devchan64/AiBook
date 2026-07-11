@@ -1,0 +1,9 @@
+flowchart TD
+    A[复核队列结果<br/>event_id + review_needed + review note]
+    A --> B[自由文本备注逐渐累积]
+    B --> C[共享备注模式<br/>重复出现的 late drop<br/>只记录]
+    C --> D[目标候选列]
+
+    D --> D1[late_drop_repeated]
+    D --> D2[needs_manual_review]
+    D --> D3[note_source]

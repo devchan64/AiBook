@@ -182,7 +182,7 @@ slicing 问的是：`要保留哪一段区间？`
 
 下面的图示展示了一维数组里 `start:stop:step` 的读取方式。
 
-![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step-en.svg)
+![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step-zh.svg)
 
 这里重要的是：`stop` 位置上的值不会被选中。`scores[1:5:2]` 的意思是从位置 1 开始，到位置 5 之前结束，并且每次走两步。
 
@@ -242,7 +242,7 @@ print(data[:, 3])
 
 下面的图示展示了：同一个数组，如何通过 indexing、行 slicing、列 slicing 读出不同部分。
 
-![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map-en.svg)
+![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map-zh.svg)
 
 在这张图里，蓝色强调一个值，绿色强调一行，橙色强调一列。它们都来自同一个数组。
 
@@ -319,7 +319,7 @@ print(data.sum(axis=1))
 
 下面的图示展示了：根据 axis 的不同，哪个方向会被折叠，最终留下什么结果。
 
-![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction-en.svg)
+![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction-zh.svg)
 
 重要的是，`axis=0` 并不表示 `选择第 0 行`。在 indexing 中，`0` 是选择位置的数字；但在 `axis=0` 中，它表示计算沿哪一个维度进行。
 
@@ -378,7 +378,7 @@ print(features[:, 1])
 
 下面的图示把同样的视角呈现得更像一个数据集。
 
-![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection-en.svg)
+![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection-zh.svg)
 
 这里 `features[1, :]` 的代码，是取出一个 sample 的全部 feature。相反，`features[:, 1]` 是从所有 sample 中取出同一个 feature。
 

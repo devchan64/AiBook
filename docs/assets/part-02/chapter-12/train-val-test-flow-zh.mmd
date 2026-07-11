@@ -1,0 +1,9 @@
+flowchart TD
+    full["完整数据集"]
+    train["训练集<br/>用于学习的数据"]
+    val["验证集<br/>用于比较设置的数据"]
+    test["测试集<br/>用于最终检查的数据"]
+
+    full --> train
+    full --> val
+    full --> test

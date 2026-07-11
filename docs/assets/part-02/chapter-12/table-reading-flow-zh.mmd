@@ -1,0 +1,10 @@
+flowchart TD
+    full["完整表格<br/>所有行、所有列"]
+    col["选择列<br/>哪些变量重要？"]
+    row["选择行<br/>你要查看哪些案例？"]
+    cond["过滤<br/>保留哪些行？"]
+    agg["聚合<br/>怎样的汇总才够？"]
+
+    full --> col
+    full --> row
+    full --> cond --> agg

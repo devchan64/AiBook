@@ -100,7 +100,7 @@ agent 和这些不同的地方在于：它不会只做一次，而是会把这�
 理解 agent 时，`循环(loop)` 这个视角很有用。
 
 ```mermaid
---8<-- "assets/part-01/chapter-14/agent-loop-flow-en.mmd"
+--8<-- "assets/part-01/chapter-14/agent-loop-flow-zh.mmd"
 ```
 
 | 元素 | 说明 |

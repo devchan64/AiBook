@@ -1,0 +1,12 @@
+flowchart TD
+  问题[问题]
+  Representation[知识表示]
+  搜索[搜索]
+  Probability[概率推理]
+  Decision[结论或动作]
+
+  问题 --> Representation
+  Representation --> 搜索
+  Representation --> Probability
+  搜索 --> Decision
+  Probability --> Decision

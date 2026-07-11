@@ -135,7 +135,7 @@ y = df["passed"]
 画成图后如下。
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/x-y-split-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/x-y-split-flow-zh.mmd"
 ```
 
 核心点在于：`X` 与 `y` 不是一开始就固定好的。先有问题定义，再去拆列。
@@ -215,7 +215,7 @@ print(X_encoded)
 画成图就是：
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/train-val-test-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/train-val-test-flow-zh.mmd"
 ```
 
 为什么一定要分开？因为模型在已经见过的数据上表现好，并不够。我们真正想知道的是：`它在第一次见到的数据上，能不能也差不多地工作？`
@@ -252,7 +252,7 @@ scikit-learn 的 common pitfalls 文档强烈警告两类错误。
 再用下面的图看会更清楚。
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow-en.mmd"
+--8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow-zh.mmd"
 ```
 
 如果把错误顺序与更安全顺序重新写成问题，可以得到下面的表。

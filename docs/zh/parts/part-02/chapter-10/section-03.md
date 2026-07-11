@@ -78,7 +78,7 @@ Jupyter Notebook 文件是带有 `.ipynb` 扩展名的 JSON 文档。nbformat �
 这里把这种结构理解成下面这样。
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-structure-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-structure-flow-zh.mmd"
 ```
 
 这里重要的是：保存在文件里的内容，和执行中的状态，并不是同一回事。
@@ -94,7 +94,7 @@ Notebook 文件里可以留下 code 和一部分 output。但变量、import 过
 下面这个流程可以作为默认标准。
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-rerun-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-rerun-flow-zh.mmd"
 ```
 
 这种结构不是形式主义，而是思考顺序。
@@ -319,7 +319,7 @@ Colab FAQ 说明，共享 notebook 时，text、code、output、comments 等 not
 流程可以这样看。
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-to-module-flow-en.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-to-module-flow-zh.mmd"
 ```
 
 这里并不要求你一开始就建立 package 结构。先在 notebook 中理解，等重复代码出现后再打包成函数，等复用真正变重要时再拆分成文件。

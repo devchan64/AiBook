@@ -1,0 +1,14 @@
+flowchart TD
+  Input[客户咨询]
+  Policy[显式业务规则]
+  Model[基于学习的分类器]
+  Score[分类分数]
+  Review[人工复核]
+  动作[动作]
+
+  Input --> Policy
+  Policy --> Model
+  Model --> Score
+  Score --> 动作
+  Score --> Review
+  Review --> 动作

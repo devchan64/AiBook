@@ -1,0 +1,15 @@
+flowchart TD
+    A[问题：单次事件对比基线？] --> A1[ID：event_id]
+    A1 --> A2[特征：flow_mean、flow_std、late_drop_rate]
+    A2 --> A3[比较：baseline_diff]
+    A3 --> A4[输出：review_needed]
+
+    B[问题：最近 20 次对比前 200 次？] --> B1[ID：window_id]
+    B1 --> B2[特征：最近汇总值]
+    B2 --> B3[比较：prior_200_baseline_diff]
+    B3 --> B4[输出：report_sentence]
+
+    C[问题：定义未来目标？] --> C1[ID：event_id]
+    C1 --> C2[特征：flow_mean、late_drop_rate、repeatability_score]
+    C2 --> C3[比较：baseline_diff]
+    C3 --> C4[输出：target_candidate]

@@ -1,0 +1,15 @@
+flowchart TD
+  Ex[带标签示例]
+  特征[特征]
+  标签[标签]
+  Train[训练]
+  模型[模型]
+  New[新咨询的特征]
+  Output[预测]
+
+  Ex --> 特征
+  Ex --> 标签
+  特征 --> Train
+  标签 --> Train
+  Train --> 模型
+  New --> 模型 --> Output

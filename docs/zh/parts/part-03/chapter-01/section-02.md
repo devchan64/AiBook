@@ -23,7 +23,7 @@
 如果把这六项之间的连接压成一行，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-03/chapter-01/p3-1-2-mermaid-01-en.mmd"
+--8<-- "assets/part-03/chapter-01/p3-1-2-mermaid-01-zh.mmd"
 ```
 
 如果这组内容看上去还太抽象，和现实中很常见的 `错误起步顺序` 放在一起比较，会更容易理解。

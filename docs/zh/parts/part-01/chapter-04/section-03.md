@@ -238,7 +238,7 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 把它们串成流程，大致是这样。
 
 ```mermaid
---8<-- "assets/part-01/chapter-04/representation-model-parameter-flow-en.mmd"
+--8<-- "assets/part-01/chapter-04/representation-model-parameter-flow-zh.mmd"
 ```
 
 这个图是简化版。真实模型里，feature 和 representation 的边界可能会变模糊；在深度学习里，representation 本身也可能经过多层逐步学出来。这里先只读出一个主干：`输入会变成模型能用的值，再和模型内部已调整的值一起参与输出计算`。

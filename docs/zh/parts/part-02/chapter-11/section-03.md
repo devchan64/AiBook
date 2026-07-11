@@ -101,7 +101,7 @@ print(scores * 2)
 
 下面的图示展示了：一个 scalar 如何被重复应用到整个数组。更安全的理解方式，不是把同一个值真的复制很多次，而是理解成“同一条计算规则应用到了每个位置”。
 
-![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array-en.svg)
+![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array-zh.svg)
 
 ## 数组一起计算时，要先看 Shape
 
@@ -148,7 +148,7 @@ NumPy 会判断：形状 `(3,)` 的数组可以作用到每一行上。所以同
 
 下面的图示展示了：形状 `(3,)` 的向量如何逐行应用到 `(4, 3)` 的数据矩阵。
 
-![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector-en.svg)
+![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector-zh.svg)
 
 ## 不兼容的 Shape 会导致错误
 
@@ -236,7 +236,7 @@ NumPy 官方文档说明，broadcasting 提供了 vectorizing array operations �
 下面的图示展示了：同一个计算如何分别以循环和数组运算的形式表达。
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-en.mmd"
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-zh.mmd"
 ```
 
 ## 按 Feature 减去平均值的例子

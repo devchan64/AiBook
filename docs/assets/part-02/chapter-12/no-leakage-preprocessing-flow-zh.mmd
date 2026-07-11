@@ -1,0 +1,10 @@
+flowchart TD
+    full["完整表格"]
+    choose["选择 X 和 y"]
+    split["先划分<br/>训练 / 验证 / 测试"]
+    fit_train["学习转换规则<br/>只在训练集上拟合"]
+    apply_other["应用相同转换<br/>只应用到验证集和测试集"]
+    bad["错误顺序<br/>先从完整表格学习规则"]
+
+    full --> choose --> split --> fit_train --> apply_other
+    full -. 避免 .-> bad

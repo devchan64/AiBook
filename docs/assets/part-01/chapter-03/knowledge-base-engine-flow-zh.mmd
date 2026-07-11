@@ -1,0 +1,13 @@
+flowchart TD
+  Input[当前输入]
+  事实[事实]
+  KB[知识库]
+  Engine[推理引擎]
+  Output[结论或动作]
+  Explain[解释]
+
+  Input --> 事实
+  事实 --> Engine
+  KB --> Engine
+  Engine --> Output
+  Engine --> Explain

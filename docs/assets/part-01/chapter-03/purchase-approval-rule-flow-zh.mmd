@@ -1,0 +1,19 @@
+flowchart TD
+  Start[采购申请]
+  Budget{预算足够吗？}
+  Self{申请人与审批人相同吗？}
+  Amount{申请金额}
+  Reject[因预算不足而拒绝]
+  Reassign[重新指定审批人]
+  Auto[自动批准]
+  Team[等待组长审批]
+  Dept[等待部门负责人审批]
+
+  Start --> Budget
+  Budget -- No --> Reject
+  Budget -- Yes --> Self
+  Self -- Yes --> Reassign
+  Self -- No --> Amount
+  Amount -- 低于 10 万韩元 --> Auto
+  Amount -- 低于 100 万韩元 --> Team
+  Amount -- 高于 100 万韩元 --> Dept

@@ -29,7 +29,7 @@
 这个比较结构，可以像下面这样来读。
 
 ```mermaid
---8<-- "assets/part-03/chapter-07/p3-7-1-mermaid-01-en.mmd"
+--8<-- "assets/part-03/chapter-07/p3-7-1-mermaid-01-zh.mmd"
 ```
 
 最近区间和基准线区间最开始是分开的，只有在 `Comparison table` 里它们才第一次进入同一张表。人真正读取的，不是单独一个最近值或基准线值，而是两者相遇后产生的 `Difference columns`。最后的 `Human review sentence`，意思不是直接固定原因，而是一个应该由人去复核的比较句子。

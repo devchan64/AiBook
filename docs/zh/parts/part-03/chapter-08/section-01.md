@@ -100,7 +100,7 @@ print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation
 ## 用一个小图来看
 
 ```mermaid
---8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-en.mmd"
+--8<-- "assets/part-03/chapter-08/p3-8-1-mermaid-01-zh.mmd"
 ```
 
 这一节可以重新归并为一个更一般的问题，不是某个特定运营领域里的`经验感`，而是如何读取`证据强度（evidence strength）`。

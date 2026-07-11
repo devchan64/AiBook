@@ -204,7 +204,7 @@ Part 1 会在这里先建立 `模型(model)`、`应用(application)`、`数据(d
 如果把 AI 服务进一步简化，可以得到下面这张结构图：
 
 ```mermaid
---8<-- "assets/part-01/chapter-14/ai-service-components-flow-en.mmd"
+--8<-- "assets/part-01/chapter-14/ai-service-components-flow-zh.mmd"
 ```
 
 这张图并没有覆盖真实系统中的全部细节，但足以让我们一眼把这些组成部分的角色连接起来。

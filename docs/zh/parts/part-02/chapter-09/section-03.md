@@ -68,7 +68,7 @@ NIST 的 Dictionary of Algorithms and Data Structures 把图解释成“由边�
 
 下面这张图同时用示意图和邻接表展示同一个图。
 
-![A graph can be shown as nodes and edges or as an adjacency list](../../../assets/part-02/chapter-09/graph-node-edge-adjacency-en.svg)
+![A graph can be shown as nodes and edges or as an adjacency list](../../../assets/part-02/chapter-09/graph-node-edge-adjacency-zh.svg)
 
 图里的 `Kim`、`Lee`、`Park`、`Choi` 是节点。
 
@@ -109,7 +109,7 @@ print(friends["Kim"])
 
 下面这张图展示了：同样的关系数据，在按表来读和按图来读时，问题会怎样变化。
 
-![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading-en.svg)
+![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading-zh.svg)
 
 如果想在 Python 中把表数据当成图来处理，可以先把关系列表转换成邻接表。
 
@@ -217,7 +217,7 @@ links = {
 
 下面这张图展示了方向和权重会怎样改变边的意义。
 
-![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph-en.svg)
+![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph-zh.svg)
 
 在代码里表达有向图时，不会把关系同时写在两边。只写关系真正指向的那一边。
 
@@ -332,7 +332,7 @@ print(friends_of_friends)
 
 下面这张图展示了如何以 Kim 为中心区分直接邻居和两跳邻居。
 
-![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop-en.svg)
+![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop-zh.svg)
 
 问题场景：你想把直接连接和两步连接分开比较。
 输入(input)：朋友关系字典中 `Kim` 的直接邻居，以及这些邻居的邻居。

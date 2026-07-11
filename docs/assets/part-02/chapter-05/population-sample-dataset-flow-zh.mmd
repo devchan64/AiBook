@@ -1,0 +1,10 @@
+flowchart TD
+  subgraph P["总体"]
+    direction TB
+    P1["我们想了解的完整目标"]
+    subgraph S["样本"]
+      S1["从总体中观测到的子集"]
+    end
+  end
+
+  S --> D["数据集<br/>对收集样本整理后的记录"]

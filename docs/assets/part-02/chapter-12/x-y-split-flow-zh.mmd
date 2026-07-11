@@ -1,0 +1,10 @@
+flowchart TD
+    raw["原始 DataFrame<br/>student_id, region, absences, score, passed"]
+    choose["选择目标<br/>你想预测什么？"]
+    split["拆分列<br/>分开 X 和 y"]
+    x["X<br/>region, absences, score"]
+    y["y<br/>passed"]
+
+    raw --> choose --> split
+    split --> x
+    split --> y
