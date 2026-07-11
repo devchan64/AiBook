@@ -1,30 +1,30 @@
-# P3-9.4 How Do Review Results Turn from Operating Notes into Target Candidates
+# P3-9.4 How Do Review Results Turn from Review Notes into Target Candidates
 
 > Section ID: `P3-9.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
-Even when the [review queue](../../../reference/concept-glossary.md#glossary-review-queue) and [comparison report](../../../reference/concept-glossary.md#glossary-comparison-report) appear first, a [target candidate](../../../reference/concept-glossary.md#glossary-target-candidate) is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and operating notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning operating judgments that repeatedly remained in the review process into more stable columns`.
+Even when the [review queue](../../../reference/concept-glossary.md#glossary-review-queue) and [comparison report](../../../reference/concept-glossary.md#glossary-comparison-report) appear first, a [target candidate](../../../reference/concept-glossary.md#glossary-target-candidate) is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
 
 ## Why Do Only Notes Remain at First
 
-In operating sites, what remains first is often not organized labels such as `normal`, `abnormal`, `cause A`, or `cause B`, but mixed review notes like these.
+At first, what remains is often not organized labels such as `normal`, `abnormal`, `cause A`, or `cause B`, but mixed review notes like these.
 
-| event_id | review_needed | operator_note |
+| event_id | review_needed | reviewer_note |
 | --- | --- | --- |
 | A | 1 | Late sharp drop pattern confirmed, check the next case too |
 | B | 0 | No large difference from the baseline |
-| C | 1 | Repeated decline, sensor check recommended |
+| C | 1 | Repeated decline, further check recommended |
 
-This table is useful for operations, but it is still unstable for immediate use as a learning label. Note lengths differ, expression styles differ, and one person may write a cause while another writes only the next action. So `there is an operating note` and `a target label is ready` are not the same thing.
+This table is useful for follow-up judgment, but it is still unstable for immediate use as a learning label. Note lengths differ, expression styles differ, and one person may write a cause while another writes only the next action. So `there is a review note` and `a target label is ready` are not the same thing.
 
 ## What Else Is Needed Before Notes Become Label Candidates
 
-For operating notes to turn into target candidates, the following conditions are usually needed.
+For review notes to turn into target candidates, the following conditions are usually needed.
 
 | What is additionally needed | Why it is needed |
 | --- | --- |
 | A shared rule that repeatedly points to the same meaning | Because different expressions from different people must be grouped under the same judgment |
-| A recording style that matches the sample unit | Because the note must align with whether the sample is one run or one period summary |
+| A recording style that matches the sample unit | Because the note must align with whether the sample is one event or one period summary |
 | A rule for handling empty cases | Because it must be decided how to treat cases with no note |
 | A basis column that can be checked again later | Because it should remain traceable why the label was attached |
 
@@ -53,17 +53,17 @@ The same event list usually changes in the following order.
 
 This order matters because it shows that a target candidate does not appear out of nowhere. It comes from `repetition in the review process`.
 
-## Example: Building Label Candidates from Operating Notes
+## Example: Building Label Candidates from Review Notes
 
 At first, the notes may vary like this.
 
-| event_id | diff | repeatability | review_needed | operator_note |
+| event_id | diff | repeatability | review_needed | reviewer_note |
 | --- | --- | --- | --- | --- |
 | A | -0.35 | high | 1 | Repeated late sharp drop, recheck needed |
 | B | -0.08 | low | 0 | Leave only a record |
 | C | -0.31 | high | 1 | Repeated late sharp drop, inspection recommended |
 
-In this state, it is hard to use `operator_note` directly as a target label. Instead, repeated phrases can be reorganized into more stable columns.
+In this state, it is hard to use `reviewer_note` directly as a target label. Instead, repeated phrases can be reorganized into more stable columns.
 
 | event_id | late_drop_repeated | needs_manual_review | note_source |
 | --- | --- | --- | --- |
@@ -71,25 +71,25 @@ In this state, it is hard to use `operator_note` directly as a target label. Ins
 | B | 0 | 0 | Leave only a record |
 | C | 1 | 1 | Repeated late sharp drop, inspection recommended |
 
-What makes this second table important is not that the sentences were completely removed, but that repeated operating judgments were moved into columns with the same meaning. If `note_source` remains, it is also possible to trace again why the label candidate was attached.
+What makes this second table important is not that the sentences were completely removed, but that repeated judgments were moved into columns with the same meaning. If `note_source` remains, it is also possible to trace again why the label candidate was attached.
 
 ## Which Columns Tend to Become Target Candidates First
 
-Not every operating note becomes an equally good target candidate.
+Not every review note becomes an equally good target candidate.
 
 | What tends to become a candidate first | What is still difficult |
 | --- | --- |
-| Repeated 0/1 operational judgments such as `review_needed` | Entire long free-form descriptive notes |
+| Repeated 0/1 judgments such as `review_needed` | Entire long free-form descriptive notes |
 | Judgments such as `late_drop_repeated` that can be attached again with nearly the same meaning | Cause descriptions whose names differ by person |
 | Statuses such as `normal/caution` with relatively shared criteria | Cause classification without a detailed cause taxonomy |
 
-So what becomes easier to structure first is usually columns such as `needs operational review`, `whether a repeated warning exists`, and `simple state categories`. Detailed cause classification tends to stabilize later. In many cases, the target is not something that was originally inside the dataset, but the result of turning judgments accumulated while operating comparison reports and review queues back into columns. Part 3 is therefore not only a part for building input features. It is also a part for designing the operating-record structure from which target candidates may later emerge.
+So what becomes easier to structure first is usually columns such as `whether review is needed`, `whether a repeated warning exists`, and `simple state categories`. Detailed cause classification tends to stabilize later. In many cases, the target is not something that was originally inside the dataset, but the result of turning judgments accumulated through comparison reports and review queues back into columns. What matters here is deciding whether something should still remain a free-form note, whether it can be raised into a shared judgment column, and whether it repeats enough to become a target candidate.
 
 ## A Small Diagram
 
 ```mermaid
 flowchart TD
-    A[Review queue result<br/>event_id + review_needed + operator note]
+    A[Review queue result<br/>event_id + review_needed + review note]
     A --> B[Free-form notes accumulate]
     B --> C[Shared note patterns<br/>repeated late drop<br/>record only]
     C --> D[Target-candidate columns]
@@ -99,10 +99,9 @@ flowchart TD
     D --> D3[note_source]
 ```
 
-This diagram shows that a free-form note does not become a target directly. A middle stage of `grouping the same meaning` must be present. Review results and notes accumulate first, repeated judgments inside those notes are organized into common patterns, and only then do columns such as `late_drop_repeated` and `needs_manual_review` appear. What matters in this section is not string-processing technique, but the conversion structure `note -> shared meaning -> target-candidate column`. A target should therefore be read not as a suddenly given value, but as the result of structuring the review records of Part 3. A target candidate is often not an answer given from the start, but the result of turning repeated operating judgments left in the review process into more stable columns.
+This diagram shows that a free-form note does not become a target directly. A middle stage of `grouping the same meaning` must be present. Review results and notes accumulate first, repeated judgments inside those notes are organized into common patterns, and only then do columns such as `late_drop_repeated` and `needs_manual_review` appear. What matters in this section is not string-processing technique, but the conversion structure `note -> shared meaning -> target-candidate column`. A target should therefore be read not as a suddenly given value, but as the result of structuring the review records themselves. A target candidate is often not an answer given from the start, but the result of turning repeated judgments left in the review process into more stable columns.
 
 ## Sources and References
 
 - Google, *Machine Learning Glossary*, `label`, `labeled example`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
-

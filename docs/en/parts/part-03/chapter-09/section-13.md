@@ -1,9 +1,9 @@
 # P3-9.13 Why Must Time Boundaries, Entity Boundaries, Information Boundaries, and Output Format Be Closed Together Right Now
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
-If the structure has been organized enough to define a learning problem, there is one final set of boundaries that still must be closed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real output closer to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
+If the structure has been organized enough to sort out the current problem type, there is one final set of boundaries that still must be closed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real output closer to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
 
 | Item to check right here | Minimum sentence to hold now |
 | --- | --- |
@@ -14,18 +14,17 @@ If the structure has been organized enough to define a learning problem, there i
 | ranking | Selecting the top few cases can be centered on order rather than class |
 | multiclass / regression | The result structure may not be only one 0/1 label |
 
-In Part 3, it is enough if boundaries like the following are closed.
+At the stage of sorting out the current problem type, it is enough if boundaries like the following are closed.
 
 - Does this problem require a time-order split first?
 - Should the same entity be prevented from appearing on both sides?
 - Has information from after the result leaked into the input?
 - Is the actual target closer to ranking or a continuous value than to 0/1 classification?
 
-In this section, what matters more than memorizing all the names is checking whether the current data structure has properly closed the time boundary, entity boundary, information boundary, and output format. At the present stage, what is needed is not to unfold detailed procedures at length, but to make the current structure able to state without contradiction what it predicts and what it still should not predict. This section should therefore be read not as a list of names, but as the final checklist for whether `split design`, `information-boundary inspection`, and `output-format selection` are closed without contradiction inside the current problem structure.
+In this section, what matters more than memorizing all the names is checking whether the current data structure has properly closed the time boundary, entity boundary, information boundary, and output format. At the present stage, what is needed is not to unfold detailed procedures at length, but to make the current structure able to state without contradiction what it predicts and what it still should not predict. This section should therefore be read not as a list of names, but as the final checklist for whether `split design`, `information-boundary inspection`, and `output-format selection` are closed without contradiction inside the current problem structure at the stage of sorting out the current problem type.
 
 ## Sources and References
 
 - Google, *Machine Learning Glossary*, `label leakage`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Crash Course: ROC and AUC*, ranking interpretation. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned setup overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
-

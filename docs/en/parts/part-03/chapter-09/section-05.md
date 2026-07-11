@@ -1,7 +1,7 @@
 # P3-9.5 By What Is the Same Event Continuously Tracked Across Multiple Outputs
 
 > Section ID: `P3-9.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Even if a comparison report, a review-candidate queue, and a target-candidate table play different roles, one sample should still be tracked continuously by the same identification rule whenever possible. That is why a column such as `event_id` appears repeatedly across multiple tables. If this link becomes vague, it may still be possible to understand that the three outputs are different tables, but it becomes hard to explain again why a given event was promoted and how a given review result later turned into a target candidate. A [comparison report](../../../reference/concept-glossary.md#glossary-comparison-report), [review queue](../../../reference/concept-glossary.md#glossary-review-queue), and [target candidate](../../../reference/concept-glossary.md#glossary-target-candidate) table can play different roles, but the same sample identity and the minimum evidence link should not be broken if possible.
 
@@ -23,7 +23,7 @@ In the simplest case, an identifier column such as `event_id` or `sample_id` bec
 
 | Traceability criterion | Why it is used |
 | --- | --- |
-| Sample identifier | To point to the basic unit such as one run or one recent window |
+| Sample identifier | To point to the basic unit such as one event or one recent window |
 | Time point or creation time | To distinguish when the same sample was created |
 | Version or baseline context | To see again under which comparison condition the output was produced |
 
@@ -102,4 +102,3 @@ The same identifier column therefore repeats not `to mechanically join tables`, 
 
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and entity linkage overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Glossary*, `labeled example`, `label`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-

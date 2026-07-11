@@ -1,7 +1,7 @@
 # P3-9.12 即使 target 名称相同，为什么也要先写清哪种错误更痛
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 即使 target 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种差别写下来，才能明确当前更想减少的是哪一种判断错误。
 
@@ -16,10 +16,25 @@
 | 这种成本在真实运营中以什么形式出现？ | 为了把它解释成行动负担，而不只是数字 |
 | 当前更想减少什么？ | 为了即使 target 相同，也能固定解释方向 |
 
+## 为什么错误成本会改变 target 的解释方式
+
+即使是同一个 `review_needed` target，也不是所有预测分数都要用同一种方式去读。在有些问题里，`漏判（false negative）`更痛，所以即使要让更多项目进入复核队列，也宁可少漏掉风险案例；而在另一些问题里，`过检（false positive）`更痛，所以反而更适合把复核队列压得更窄。这里改变的，不只是某个 threshold 数字，而是`应该用什么判断结构去解释这个 target`。
+
+例如，假设模型分数如下。
+
+| event_id | score | 解读 1：漏判成本高 | 解读 2：过检成本高 |
+| --- | --- | --- | --- |
+| A | 0.82 | 直接放到复核队列顶部 | 放到复核队列顶部 |
+| B | 0.64 | 纳入复核队列 | 先保留 |
+| C | 0.41 | 作为辅助复核候选保留 | 排除 |
+
+如果漏判成本高，那么把 `B` 也放进复核队列会更自然。相反，如果过检成本高，那么更自然的做法可能是先保留 `B`，只看 `A`。也就是说，即使分数相同、target 名称相同，只要错误成本结构不同，复核队列优先级和 threshold 解读也会一起改变。
+
+因此，这一节并不只是定义 `false negative` 和 `false positive`。它更是在迫使我们把当前问题重新读成：`到底更想减少哪一种错误`。如果 target 名称已经固定，那么下一步就必须写清楚，在这个 target 之下，哪种错误更痛，这样分数、threshold、复核队列优先级才能沿着同一个方向来解释。
+
 所以，不要只靠准确率就把问题关上，而是先要看：为什么`想优先减少哪一类错误`这件事必须先写出来。这一节把`漏判成本`、`过检成本`和`判定规则调整`捆在一起，先固定错误成本结构，再看它如何改变目标的解释方式。
 
 ## 来源与参考资料
 
 - Google, *Machine Learning Glossary*, `false negative`, `false positive`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, threshold choice under asymmetric costs. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
-

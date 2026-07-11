@@ -1,7 +1,7 @@
 # P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 In real data, the result you truly want to predict is often not directly visible. So it becomes tempting to use an intermediate operational judgment or a substitute column as a temporary target. The distinction needed here is between `actual target` and `proxy target`. You should first write whether the target currently in use is the result you truly want to know, or a substitute column used in its place.
 
@@ -10,17 +10,40 @@ In real data, the result you truly want to predict is often not directly visible
 | Actual target | The result you truly want to know and ultimately want to reduce |
 | Proxy target | A substitute column used because the actual target cannot be seen directly or is seen too late |
 
-For example, if `confirmed failure` cannot be observed directly, `review needed` may be used first as a target candidate. But the two do not mean the same thing. A proxy target can become a starting point, but it does not automatically become the same thing as the actual target.
+For example, if `actual state confirmation` cannot be observed directly, `review needed` may be used first as a target candidate. But the two do not mean the same thing. A proxy target can become a starting point, but it does not automatically become the same thing as the actual target.
 
 | Note to write first | Why it is needed |
 | --- | --- |
 | What is the result you really want to know? | To avoid hiding the original purpose of the problem |
 | Why is the current column a proxy target? | To leave the distance and limitation relative to the actual target |
-| How will it later be reconnected to the actual target? | To preserve the limitation of the proxy target and the distance back to the actual target |
+| How is it connected to the actual target, and at what distance? | To preserve the limitation of the proxy target and its distance from the actual target |
+
+## Why This Distinction Changes the Problem Type Itself
+
+The difference between an actual target and a proxy target does not end as a naming difference. Once what you are really predicting changes, the decision about whether the current problem should remain `a comparison report`, become `a review-candidate selection problem`, or be raised into `a prediction problem` also changes with it.
+
+| What can actually be seen now | More natural problem type | Why |
+| --- | --- | --- |
+| The actual target is directly visible | Predict the actual target | Because inputs and results can be tied directly to the same question |
+| The actual target appears late and only a proxy column is visible first | Predict the proxy target or treat it as a review-candidate problem | Because the value being predicted now is different from the value you truly want to know |
+| Both the actual target and the proxy column are weak | Keep it as a comparison report or a review queue | Because even the choice of which result column to use is not yet sufficiently closed |
+
+In other words, the moment you use a proxy target, you must distinguish between `this problem is solvable` and `this problem is directly solving the original goal`. Even if it looks like a prediction problem, it may actually be predicting `a proxy judgment` rather than `the actual target`. If that difference is not written down, it becomes unclear later what the score is really measuring.
+
+## One Scene at a Time
+
+Suppose the result you truly want to know is `final state confirmation`, but the only thing observable right now is `review_needed`.
+
+| event_id | recent_diff | repeatability | review_needed | final_status |
+| --- | --- | --- | --- | --- |
+| A | -0.31 | high | 1 | not yet available |
+| B | -0.05 | low | 0 | not yet available |
+| C | -0.28 | high | 1 | not yet available |
+
+In this table, the prediction problem you can build right now may be `review_needed`. But that is not the same thing as directly predicting `final state confirmation`. The problem defined here is `does this need review`, not `what will the final state be`. Keeping the proxy-target label makes it explicit whether the current problem type is `actual-target prediction` or `proxy-column prediction`.
 
 A proxy target is therefore not a temporary convenient name, but a device that explicitly states that a different observable is being used in place of the original goal. The core here is to leave together `the result you truly want to know`, `the proxy column you can observe now`, and `a record of the distance between them`, so that the limitation of the proxy goal stays preserved inside the structure.
 
 ## Sources and References
 
 - Google, *Machine Learning Glossary*, `label`, `proxy labels`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-
