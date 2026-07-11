@@ -746,6 +746,9 @@ plugins:
                         - "P4-2.1 Supervised Learning": en/parts/part-04/chapter-02/section-01.md
                         - "P4-2.2 Unsupervised Learning": en/parts/part-04/chapter-02/section-02.md
                         - "P4-2.3 Reinforcement Learning": en/parts/part-04/chapter-02/section-03.md
+                    - Chapter 3. Why Heuristics Are Needed:
+                        - "P4-3.1 Why Heuristics Are Needed": en/parts/part-04/chapter-03/section-01.md
+                        - "P4-3.2 Heuristics And Model Selection": en/parts/part-04/chapter-03/section-02.md
           theme:
             language: en
         - locale: zh
@@ -931,6 +934,9 @@ plugins:
                         - "P4-2.1 监督学习": zh/parts/part-04/chapter-02/section-01.md
                         - "P4-2.2 无监督学习": zh/parts/part-04/chapter-02/section-02.md
                         - "P4-2.3 强化学习": zh/parts/part-04/chapter-02/section-03.md
+                    - Chapter 3. 为什么需要启发式:
+                        - "P4-3.1 为什么需要启发式": zh/parts/part-04/chapter-03/section-01.md
+                        - "P4-3.2 启发式与模型选择": zh/parts/part-04/chapter-03/section-02.md
           theme:
             language: zh
   - search:

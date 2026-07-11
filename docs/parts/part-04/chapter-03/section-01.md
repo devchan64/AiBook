@@ -1,7 +1,7 @@
 # P4-3.1 휴리스틱(heuristic)이 필요한 이유
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 큰 학습 유형으로 나누어 봤습니다. 이제 질문이 하나 생깁니다. 실제 문제를 풀 때는 어떤 데이터부터 보고, 어떤 모델부터 시도하고, 어느 정도 결과가 나오면 다음 단계로 넘어가야 할까요?
 
@@ -50,11 +50,11 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 ```mermaid
 flowchart TB
-  A["many possible choices<br/>features / models / settings"]
-  B["heuristic<br/>use experience and constraints"]
-  C["smaller candidate set<br/>try first"]
-  D["validation<br/>check with data"]
-  E["revise<br/>keep, change, or discard"]
+  A["가능한 선택이 많음<br/>특징 / 모델 / 설정"]
+  B["휴리스틱<br/>경험과 제약 활용"]
+  C["줄어든 후보 집합<br/>먼저 시도"]
+  D["검증<br/>데이터로 확인"]
+  E["수정<br/>유지, 변경, 폐기"]
 
   A --> B
   B --> C
@@ -165,13 +165,13 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-  A["order table"]
-  B["list every possible feature"]
-  C["comparison becomes too large"]
-  D["pick a small heuristic subset first"]
-  E["build a small baseline model"]
-  F["compare with a wider feature set"]
-  G["keep or revise the heuristic"]
+  A["주문 표"]
+  B["가능한 모든 특징 나열"]
+  C["비교 규모가 너무 커짐"]
+  D["작은 휴리스틱 부분집합 먼저 고르기"]
+  E["작은 기준 모델 만들기"]
+  F["더 넓은 특징 집합과 비교"]
+  G["휴리스틱 유지 또는 수정"]
 
   A --> B --> C
   A --> D --> E --> F --> G

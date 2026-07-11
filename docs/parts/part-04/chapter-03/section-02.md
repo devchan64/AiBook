@@ -1,7 +1,7 @@
 # P4-3.2 휴리스틱과 모델 선택
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 모델 선택(model selection)에 적용합니다.
 
@@ -54,14 +54,14 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 
 ```mermaid
 flowchart TD
-  A["churn problem<br/>predict leave / stay"]
-  B["task type<br/>classification"]
-  C["constraints<br/>interpretability / tabular data / cost"]
-  D["baseline first<br/>logistic regression"]
-  E["tree candidate<br/>decision tree"]
-  F["stronger ensemble<br/>random forest"]
-  G["compare with validation<br/>recall / precision / cost"]
-  H["keep or expand set<br/>record why"]
+  A["이탈 문제<br/>이탈 / 유지 예측"]
+  B["문제 유형<br/>분류"]
+  C["제약 조건<br/>설명 가능성 / 표 데이터 / 비용"]
+  D["기준 모델 먼저<br/>로지스틱 회귀"]
+  E["트리 후보<br/>결정트리"]
+  F["더 강한 앙상블<br/>랜덤포레스트"]
+  G["검증으로 비교<br/>재현율 / 정밀도 / 비용"]
+  H["유지 또는 확장<br/>이유 기록"]
 
   A --> B
   B --> C
@@ -80,12 +80,12 @@ flowchart TD
 
 ```mermaid
 flowchart TB
-  A["problem type<br/>classification / regression / clustering"]
-  B["constraints<br/>data size / interpretability / cost"]
-  C["baseline<br/>simple first model"]
-  D["candidate models<br/>small set to compare"]
-  E["validation<br/>compare with agreed metric"]
-  F["decision log<br/>why keep or change"]
+  A["문제 유형<br/>분류 / 회귀 / 군집화"]
+  B["제약 조건<br/>데이터 크기 / 설명 가능성 / 비용"]
+  C["기준 모델<br/>먼저 단순한 모델"]
+  D["후보 모델<br/>비교할 작은 집합"]
+  E["검증<br/>합의한 지표로 비교"]
+  F["결정 기록<br/>왜 유지하거나 바꾸는가"]
 
   A --> B
   B --> C
@@ -201,13 +201,13 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-  A["inquiry classification problem"]
-  B["rule-based start point"]
-  C["too many misses from wording changes"]
-  D["try a simple baseline model first"]
-  E["compare with tree or stronger candidates"]
-  F["check precision and recall by class"]
-  G["keep the shortlist or expand it"]
+  A["문의 분류 문제"]
+  B["규칙 기반 출발점"]
+  C["표현 변화로 놓치는 경우가 많음"]
+  D["먼저 단순한 기준 모델 시도"]
+  E["트리나 더 강한 후보와 비교"]
+  F["클래스별 정밀도와 재현율 확인"]
+  G["후보 집합 유지 또는 확장"]
 
   A --> B --> C
   C --> D --> E --> F --> G

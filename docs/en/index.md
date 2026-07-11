@@ -1,7 +1,7 @@
 # AiBook
 
 > Section ID: `BOOK-index`
-> Version: `v2026.07.08`
+> Version: `v2026.07.11`
 
 AiBook is a relearning-focused web book designed for several kinds of readers at once: people studying AI for the first time, people who learned introductory AI long ago but now remember only fragments, and non-specialists who have used AI tools but want a more structured understanding.
 
@@ -24,10 +24,10 @@ The book assumes a reader who `may not have received a university-level undergra
 The current base edition of the book is Korean.
 
 - Korean: the main edition currently being written and reviewed
-- English: Part 1 is available first, and the remaining Parts will be added progressively
-- Simplified Chinese: the introduction, table of contents, and Part 1 overview and summary are available first, and section-level text will be added progressively
+- English: the introduction, table of contents, all of Part 1, all of Part 2, all of Part 3, and selected sections of Part 4 are available
+- Simplified Chinese: the introduction, table of contents, all of Part 1, all of Part 2, all of Part 3, and selected sections of Part 4 are available
 
-So at the current stage, neither the English edition nor the Simplified Chinese edition is only a placeholder anymore, but both are still incomplete compared with the Korean edition.
+So at the current stage, neither the English edition nor the Simplified Chinese edition is a placeholder anymore. Both already include Parts 1 through 3 in full, while Part 4 and later Parts are still being expanded compared with the Korean edition.
 
 ## Why Relearn AI
 
