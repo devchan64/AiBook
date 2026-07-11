@@ -104,7 +104,7 @@ MCP 遵循 client-server 结构。但如果只想到一般 웹 服务里的 clie
 这条关系可以简化成：
 
 ```mermaid
---8<-- "assets/part-01/chapter-14/mcp-connection-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-14/mcp-connection-flow-en.mmd"
 ```
 
 一个 AI 应用可能同时连接多个 MCP server。此时通常会由不同的 MCP client 分别管理每个 server 的连接。例如，一个编码工具可能会同时连接文件系统 MCP server 和 issue tracker MCP server。

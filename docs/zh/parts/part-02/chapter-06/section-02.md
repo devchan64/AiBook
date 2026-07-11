@@ -27,7 +27,7 @@
 也就是说，模型先做预测，再拿它和真实值比较，把错了多少变成数字，然后朝着让这个数字变小的方向去学习。
 
 ```mermaid
---8<-- "assets/part-02/chapter-06/loss-objective-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
 ```
 
 ## 本节范围

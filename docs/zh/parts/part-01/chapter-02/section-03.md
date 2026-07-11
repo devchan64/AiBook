@@ -195,7 +195,7 @@ LLM(large language model) 是生成式 AI 中最有代表性的模型家族之�
 这一节最重要的不是把 LLM 看成突然出现的例外。它可以建立在下面这条脉络之上来理解。
 
 ```mermaid
---8<-- "assets/part-01/chapter-02/ai-history-bridge-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-02/ai-history-bridge-flow-en.mmd"
 ```
 
 这张图不该被读成“后一阶段把前一阶段彻底消灭了”。更准确的读法是：随着时间推进，AI 说明中心一层一层地累积出更多结构。这里要读出的关键，是 `规则 -> 处理不确定性 -> 数据学习 -> 表征学习 -> 生成` 的累积脉络。

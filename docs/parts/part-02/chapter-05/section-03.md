@@ -104,7 +104,7 @@ AI에서도 이 흐름은 매우 중요합니다. 모델은 현실 전체를 다
 아래 도식은 모집단과 표본의 포함 관계를 먼저 보여 줍니다. 표본은 모집단과 나란히 있는 별도 세계가 아니라, 모집단에서 실제로 관측한 일부입니다. 데이터셋(dataset)은 그 관측된 표본을 파일, 테이블, 레코드 형태로 정리한 결과로 볼 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/population-sample-dataset-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-05/population-sample-dataset-flow-ko.mmd"
 ```
 
 아래 차트는 모집단 전체에서 표본을 뽑고, 그 표본으로 모집단의 값을 추정하는 흐름을 보여 줍니다.
@@ -197,7 +197,7 @@ AI 학습 데이터(training data)는 현실 전체가 아닙니다. 현실에�
 아래 도식은 현실 세계의 일부가 데이터셋으로 수집되고, 그 데이터셋이 다시 훈련 데이터와 테스트 데이터로 나뉘는 흐름을 보여 줍니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/dataset-train-test-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-05/dataset-train-test-flow-ko.mmd"
 ```
 
 ## 테스트 데이터는 왜 따로 두는가

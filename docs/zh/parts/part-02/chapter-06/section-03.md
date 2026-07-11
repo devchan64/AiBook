@@ -41,7 +41,7 @@
 如果把这种移动读成一个学习循环，就像下面这样。
 
 ```mermaid
---8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
 
 ## 本节范围

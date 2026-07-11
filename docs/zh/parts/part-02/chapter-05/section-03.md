@@ -104,7 +104,7 @@
 下面这张图先展示总体和样本的包含关系。样本不是和总体并排存在的另一个世界，而是总体中实际被观察到的一部分。数据集(dataset)可以看作把这个被观察到的样本整理成文件、表格、记录后的结果。
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/population-sample-dataset-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-05/population-sample-dataset-flow-en.mmd"
 ```
 
 下面这张图展示的是：先从总体里抽出样本，再用这个样本做出对总体的估计。
@@ -197,7 +197,7 @@ AI 的训练数据(training data)不是现实的全部，而是从现实里收�
 下面这张图展示的是：现实世界的一部分先被收集成数据集，而这个数据集又继续被分成训练数据和测试数据。
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/dataset-train-test-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-05/dataset-train-test-flow-en.mmd"
 ```
 
 ## 为什么要把测试数据单独留出来

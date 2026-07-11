@@ -41,7 +41,7 @@ P2-6.1에서는 최적화를 더 나은 값을 찾는 문제로 봤고, P2-6.2�
 이 이동을 학습 루프로 보면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-ko.mmd"
 ```
 
 ## 이 절의 범위

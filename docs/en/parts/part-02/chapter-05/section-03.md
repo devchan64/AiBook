@@ -104,7 +104,7 @@ A sample is not the whole. If the sample represents the population well, that sa
 The diagram below first shows the containment relationship between population and sample. A sample is not a separate world standing beside the population. It is the part actually observed from the population. A dataset can be seen as the result of organizing that observed sample into files, tables, or records.
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/population-sample-dataset-flow/en.mmd"
+--8<-- "assets/part-02/chapter-05/population-sample-dataset-flow-en.mmd"
 ```
 
 The chart below shows the flow of drawing a sample from the whole population and then producing an estimate from that sample.
@@ -197,7 +197,7 @@ This problem leads into the larger machine-learning theme of `generalization`.
 The diagram below shows the flow in which part of the real world is collected into a dataset, and that dataset is then divided again into training data and test data.
 
 ```mermaid
---8<-- "assets/part-02/chapter-05/dataset-train-test-flow/en.mmd"
+--8<-- "assets/part-02/chapter-05/dataset-train-test-flow-en.mmd"
 ```
 
 ## Why Keep Test Data Separate?

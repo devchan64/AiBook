@@ -236,7 +236,7 @@ Here:
 The diagram makes that more explicit.
 
 ```mermaid
---8<-- "assets/part-02/chapter-12/dataframe-structure-flow/en.mmd"
+--8<-- "assets/part-02/chapter-12/dataframe-structure-flow-en.mmd"
 ```
 
 The key point is that the index is not itself a data value. It is the rule for pointing at rows.

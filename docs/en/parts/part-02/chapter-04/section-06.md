@@ -65,7 +65,7 @@ This same intuition returns directly when we look at neural networks, because th
 It becomes more intuitive if we see it as the following flow.
 
 ```mermaid
---8<-- "assets/part-02/chapter-04/chain-rule-composition-flow/en.mmd"
+--8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-en.mmd"
 ```
 
 If we write it more like an everyday calculation:

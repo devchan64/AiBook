@@ -91,7 +91,7 @@ Git 官方书把分支解释为指向提交的轻量指针。与其把这些内�
 在文档项目里，可以把写作中的分支和部署标准分支分开运作。不同团队的分支名字会不同，但例如可以把角色分成写作分支与部署分支。
 
 ```mermaid
---8<-- "assets/part-02/chapter-14/branch-review-deploy-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-14/branch-review-deploy-flow-en.mmd"
 ```
 
 写作分支是普通写作与编辑使用的一类分支示例。你可以把添加正文、编写示例代码、修改图表、整理调查笔记等工作，理解为在这种写作分支上进行。

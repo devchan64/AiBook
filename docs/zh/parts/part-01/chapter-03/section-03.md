@@ -68,7 +68,7 @@
 这里真正重要的是 `internal representation`。模型并不是把句子 그대로 当成和人读到的一样的东西，而是先把句子变成一组可计算的值，再利用它们做预测。
 
 ```mermaid
---8<-- "assets/part-01/chapter-03/representation-vs-rules-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-03/representation-vs-rules-flow-en.mmd"
 ```
 
 这个图只是在说明：同一个输入可以走两条处理分支。左边是人 заранее 写好的规则直接影响结果，右边则是输入先变成模型能计算的内部表征，然后才产生预测。本节的关键不是 `哪一个更好`，而是区分判断标准到底是 `写在外面`，还是 `在模型内部被计算出来`。
@@ -134,7 +134,7 @@
 Stanford Encyclopedia of Philosophy 的 AI 条目曾用人脸图像举例：较低层可能先对 edge 一类线索产生反应，下一层再把它们组合成眼睛、鼻子等部件，更高层则可能对这些特征的组合整体产生反应。这种解释有助于把深度学习和“人把所有特征都直接写出来”的方式区分开。
 
 ```mermaid
---8<-- "assets/part-01/chapter-03/layered-representation-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-03/layered-representation-flow-en.mmd"
 ```
 
 这个图说明，输入不一定是一开始就被“理解”的。它可能经过多个阶段，逐渐变成不同层次的表征。关键点在于：`低层特征` 更接近较小的线索，`中间表征` 更接近多条线索的组合，`高层表征` 则更接近更抽象的意义束。真实模型内部未必会以这样整齐的名字被存下来，但 `输入会逐步变成不同表征` 这个结构仍然成立。
@@ -217,7 +217,7 @@ Bengio、Courville 与 Vincent 关于表征学习的综述指出，机器学习�
 例如，一个自动客户咨询分类系统可以像下面这样搭起来。
 
 ```mermaid
---8<-- "assets/part-01/chapter-03/policy-model-review-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-03/policy-model-review-flow-en.mmd"
 ```
 
 这个图的意思是：`前端可以先用政策规则筛掉禁止条件和必选条件`，然后 `模型再去计算具有表达多样性的分类候选`，最后 `根据分数或敏感度，再决定自动处理还是转人工复核`。换句话说，这个图是为了说明：规则和模型可以在同一个系统里分担不同责任。

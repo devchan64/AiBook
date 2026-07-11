@@ -41,7 +41,7 @@ Seen first on a loss curve, gradient descent is the method of repeating small mo
 If we read this movement as a learning loop, it looks like this.
 
 ```mermaid
---8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow/en.mmd"
+--8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
 
 ## Scope of This Section

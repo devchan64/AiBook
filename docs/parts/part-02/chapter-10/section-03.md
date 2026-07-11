@@ -78,7 +78,7 @@ Jupyter Notebook 파일은 `.ipynb` 확장자를 가진 JSON 기반 문서입니
 여기서는 이 구조를 이렇게 이해합니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-structure-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-structure-flow-ko.mmd"
 ```
 
 여기서 중요한 점은 파일에 저장된 내용과 실행 중인 상태가 같지 않다는 것입니다.
@@ -94,7 +94,7 @@ Jupyter Notebook 파일은 `.ipynb` 확장자를 가진 JSON 기반 문서입니
 다음 흐름을 기본으로 삼을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-rerun-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-rerun-flow-ko.mmd"
 ```
 
 이 구조는 형식이 아니라 사고 순서입니다.
@@ -319,7 +319,7 @@ Colab FAQ는 노트북을 공유하면 텍스트, 코드, 출력, 댓글 같은 
 흐름은 다음처럼 잡을 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-to-module-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-to-module-flow-ko.mmd"
 ```
 
 여기서는 처음부터 패키지 구조를 만들라고 요구하지 않습니다. 먼저 노트북에서 이해하고, 반복되는 코드가 보이면 함수로 묶고, 재사용이 필요해지면 파일로 분리합니다.

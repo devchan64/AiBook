@@ -1,10 +1,11 @@
-# Part 3 Chapter 1 Mermaid Assets
+# Part 3 Chapter 01 Mermaid Assets
 
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
 - English translation pages include the matching `-en.mmd` files.
-- Simplified Chinese translation pages reuse the `-en.mmd` files when the diagram labels stay English, and only keep a `-zh.mmd` derivative when the diagram itself is translated.
-- When updating a shared Mermaid diagram set, revise the English original first, then sync the Korean derivative and any active Simplified Chinese derivative so the node relations and flow structure stay aligned.
-- Current assets:
+- Simplified Chinese translation pages use `-zh.mmd` only when a diagram needs localized labels. Diagrams that remain English are shared from the `-en.mmd` original.
+- Each Mermaid set uses a flat filename pattern so language variants stay grouped by basename.
+- When updating a Mermaid diagram set, revise the English original first. Sync the Korean derivative, and add or refresh a Simplified Chinese derivative only when the diagram itself needs localized labels.
+- Current language sets:
   - `p3-1-1-mermaid-01-en.mmd` / `p3-1-1-mermaid-01-ko.mmd`
   - `p3-1-1-mermaid-02-en.mmd` / `p3-1-1-mermaid-02-ko.mmd`
   - `p3-1-2-mermaid-01-en.mmd` / `p3-1-2-mermaid-01-ko.mmd`

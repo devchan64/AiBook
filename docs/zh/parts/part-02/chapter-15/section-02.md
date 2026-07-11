@@ -68,7 +68,7 @@ Part 3 会讨论“从数据中学习规则”。那时真正需要的，不是�
 Part 2 的流程可以整理成下面这样。
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/part2-learning-map-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-15/part2-learning-map-flow-zh.mmd"
 ```
 
 这张地图里重要的不是工具名称，而是每个工具在回答什么问题。
@@ -133,7 +133,7 @@ scikit-learn 文档把模型叫作 estimator，一般会展示用 `fit` 学习�
 如果再压缩一次，你应该能立刻读出下面这个顺序。
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/ml-reading-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-15/ml-reading-flow-en.mmd"
 ```
 
 如果在这条流程里的某一点卡住了，可以按下面这样回去。

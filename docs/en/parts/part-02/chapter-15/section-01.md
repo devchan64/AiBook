@@ -61,7 +61,7 @@ This section answers the following questions.
 When turning a formula into code, do not write code immediately. Read it in the following order first.
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/formula-to-code-flow/en.mmd"
+--8<-- "assets/part-02/chapter-15/formula-to-code-flow-en.mmd"
 ```
 
 The key point is not to convert the formula into code all at once. First decide what the symbols point to, then check whether the values are single values or bundles, and only then compute.

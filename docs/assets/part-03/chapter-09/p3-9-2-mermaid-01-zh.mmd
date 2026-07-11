@@ -1,10 +1,10 @@
 flowchart TD
     A[当前问题]
-    A --> B{Need to show what changed first?}
-    B -->|Yes| C[Keep compare report]
-    B -->|No| D{Have stable target labels?}
-    D -->|No| C
-    D -->|Yes| E[Consider prediction task]
+    A --> B{是否需要先展示变化内容？}
+    B -->|是| C[保留比较报告]
+    B -->|否| D{目标标签是否已经稳定？}
+    D -->|否| C
+    D -->|是| E[考虑预测任务]
 
-    C --> F[Keep change explanation centered]
-    E --> G[Define as prediction problem]
+    C --> F[继续以变更说明为中心]
+    E --> G[定义为预测问题]

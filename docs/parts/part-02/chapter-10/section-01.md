@@ -108,7 +108,7 @@ average
 흐름은 다음처럼 볼 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-ko.mmd"
 ```
 
 노트북 학습의 핵심은 `질문을 적고`, `코드를 실행하고`, `결과를 보고`, `해석을 남기는` 네 단계를 짧게 반복하는 데 있습니다.
@@ -144,7 +144,7 @@ sum(scores) / len(scores)
 예를 들어 다음 흐름을 생각해 볼 수 있습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-10/notebook-experiment-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-10/notebook-experiment-flow-ko.mmd"
 ```
 
 스크립트에서도 같은 일을 할 수 있지만, 한 번에 전체 파일을 실행하는 것보다 한 셀씩 확인하는 방식이 부담이 덜할 수 있습니다.

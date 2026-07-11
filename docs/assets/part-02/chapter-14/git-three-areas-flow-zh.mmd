@@ -1,0 +1,8 @@
+flowchart TD
+  A["工作区<br/>当前编辑文件的地方"]
+  B["暂存区<br/>挑选本次记录所含变更的地方"]
+  C["仓库<br/>以 commit 形式保存的历史"]
+
+  A -->|"git add"| B
+  B -->|"git commit"| C
+  C -->|"用 git log 查看"| C

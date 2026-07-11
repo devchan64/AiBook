@@ -151,7 +151,7 @@ Colab이나 Jupyter 문서에서는 셸 명령을 실행할 때 다음처럼 느
 이 차이를 흐름으로 다시 쓰면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-03/execution-location-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-03/execution-location-flow-ko.mmd"
 ```
 
 ## 개인 PC 터미널 명령과 섞지 않는다

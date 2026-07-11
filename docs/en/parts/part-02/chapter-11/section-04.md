@@ -251,7 +251,7 @@ This judgment matters especially in data preprocessing. Whether you created a ne
 If you tie this flow together at once, it becomes the following.
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow/en.mmd"
+--8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-en.mmd"
 ```
 
 The minimum sentence the reader should keep here is the following.

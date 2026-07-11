@@ -251,7 +251,7 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 이 흐름을 한 번에 묶으면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow/ko.mmd"
+--8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-ko.mmd"
 ```
 
 독자가 여기서 남겨야 할 최소 문장은 다음입니다.

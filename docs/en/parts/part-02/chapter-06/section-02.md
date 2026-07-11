@@ -27,7 +27,7 @@ If we place one candidate line as `\(\hat{y} = 10x + 45\)`, the predicted values
 That is, the model predicts, compares with the actual values, turns the degree of wrongness into a number, and then learns in the direction that reduces that number.
 
 ```mermaid
---8<-- "assets/part-02/chapter-06/loss-objective-flow/en.mmd"
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
 ```
 
 ## Scope of This Section

@@ -88,7 +88,7 @@ Buchanan 与 Shortliffe 关于 MYCIN 的书，把 MYCIN 视为规则式专家系
 这一节首先应留下的区分是：`fact 是当前状态`，`rule 是判断标准`，`knowledge base 是汇集它们的地方`，`inference engine 是应用机制`，`explanation facility 是展示理由的机制`。
 
 ```mermaid
---8<-- "assets/part-01/chapter-03/knowledge-base-engine-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-03/knowledge-base-engine-flow-en.mmd"
 ```
 
 这个图帮助我们把规则式系统读成 `当前输入 -> 整理事实 -> 与知识库对照 -> 结论 -> 解释` 的流程。关键点是：系统不仅能给出结果，还经常能把“为什么会得到这个结果”一起展示出来。
@@ -110,7 +110,7 @@ Buchanan 与 Shortliffe 关于 MYCIN 的书，把 MYCIN 视为规则式专家系
 如果把它读成流程，大致如下。
 
 ```mermaid
---8<-- "assets/part-01/chapter-03/purchase-approval-rule-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-03/purchase-approval-rule-flow-en.mmd"
 ```
 
 这个例子很简单，但很好地展示了规则式系统的性格。规则可以被人阅读，结论可以被解释，而且如果业务政策变化，也可以修改某条具体规则。
@@ -241,7 +241,7 @@ Buchanan 与 Shortliffe 关于 MYCIN 的书，把 MYCIN 视为规则式专家系
 如果画成图，大致是这样。
 
 ```mermaid
---8<-- "assets/part-01/chapter-03/symbolic-to-learning-flow-zh.mmd"
+--8<-- "assets/part-01/chapter-03/symbolic-to-learning-flow-en.mmd"
 ```
 
 这张图并不表示“前一阶段消失，后一阶段完全取代它”。真实历史比这更重叠。规则式系统、搜索、概率推理、机器学习与神经网络在不同时期重要性不同，而且在现代系统中也仍然会被一起使用。

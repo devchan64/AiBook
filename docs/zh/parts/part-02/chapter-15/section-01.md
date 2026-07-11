@@ -61,7 +61,7 @@
 把公式变成代码时，不要立刻写代码，而要先按下面的顺序阅读。
 
 ```mermaid
---8<-- "assets/part-02/chapter-15/formula-to-code-flow/zh.mmd"
+--8<-- "assets/part-02/chapter-15/formula-to-code-flow-zh.mmd"
 ```
 
 关键点在于：不要一下子把公式整体变成代码。先决定符号指向什么，再确认这些值是单个数字还是一组数据，最后再计算。
