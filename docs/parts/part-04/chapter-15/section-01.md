@@ -1,9 +1,9 @@
 # P4-15.1 랜덤포레스트(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
-P4-14에서는 결정트리(decision tree)가 왜 직관적이면서도 과적합(overfitting)에 쉽게 빠질 수 있는지 보았습니다. 이제 다음 질문이 나옵니다.
+P4-14에서는 결정트리(decision tree)가 왜 직관적이면서도 과적합(overfitting)에 쉽게 빠질 수 있는지 보았습니다. 특히 `max_depth`, `min_samples_leaf`, `ccp_alpha`를 바꾸어도 한 그루의 구조 흔들림이 완전히 사라지지 않을 수 있다는 점을 확인했습니다. 이제 다음 질문이 나옵니다.
 
 그렇다면 트리의 장점은 살리고, 한 그루의 과한 흔들림은 줄일 방법이 없을까?
 

@@ -68,10 +68,10 @@ LLM(large language model)은 대규모 언어 모델입니다. 현재 많은 사
 ```mermaid
 flowchart TD
   AI["AI<br/>artificial intelligence"]
-  ML["Machine Learning<br/>data-driven learning"]
-  RB["Rule-Based Systems<br/>search, heuristic, knowledge"]
-  DL["Deep Learning<br/>neural-network learning"]
-  GEN["Generative AI<br/>text, image, audio, code"]
+  ML["머신러닝<br/>machine learning"]
+  RB["규칙 기반 시스템<br/>search, heuristic, knowledge"]
+  DL["딥러닝<br/>deep learning"]
+  GEN["생성형 AI<br/>text, image, audio, code"]
   LLM["LLM<br/>large language model"]
 
   AI --> ML
@@ -87,15 +87,15 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  U["User Request"]
-  A["Application"]
-  R["Rule Check"]
-  S["Search / Database"]
-  M["ML Model"]
+  U["사용자 요청"]
+  A["애플리케이션"]
+  R["규칙 점검"]
+  S["검색 / 데이터베이스"]
+  M["머신러닝 모델"]
   L["LLM"]
-  P["Policy Decision"]
-  H["Human Review<br/>if needed"]
-  O["Service Response"]
+  P["정책 판단"]
+  H["사람 검토<br/>필요할 때"]
+  O["서비스 응답"]
 
   U --> A
   A --> R
@@ -107,7 +107,7 @@ flowchart TD
   M --> P
   L --> P
   P --> O
-  P -. high risk / low confidence .-> H
+  P -. 위험이 크거나<br/>확신이 낮을 때 .-> H
   H --> O
 ```
 
@@ -229,12 +229,12 @@ Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐�
 
 ```mermaid
 flowchart TD
-  X["Chatbot or image-tool experience"]
-  J["Jump to<br/>AI = LLM"]
-  H["Service structure<br/>gets hidden"]
-  D["Separate search, rules, model,<br/>policy, and human review"]
-  C["LLM becomes<br/>one component"]
-  W["AI scope<br/>widens again"]
+  X["챗봇 또는 이미지 도구<br/>사용 경험"]
+  J["곧바로<br/>AI = LLM으로 점프"]
+  H["서비스 구조가<br/>가려진다"]
+  D["검색, 규칙, 모델,<br/>정책, 사람 검토를 분리해 본다"]
+  C["LLM은 하나의<br/>구성요소가 된다"]
+  W["AI 범위가<br/>다시 넓어진다"]
 
   X --> J --> H
   X --> D --> C --> W
