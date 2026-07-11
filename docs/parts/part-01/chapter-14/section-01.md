@@ -1,7 +1,7 @@
 # P1-14.1 모델(model), 앱(application), 데이터(data), 도구(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 13장에서는 임베딩(embedding), 유사도 검색(similarity search), RAG(retrieval-augmented generation), 벡터 검색 구현의 직관을 봤습니다. 이 흐름은 중요한 전환을 만듭니다.
 
@@ -202,21 +202,7 @@ AI 서비스에서 데이터는 단순히 “많을수록 좋은 것”이 아�
 AI 서비스를 단순화하면 다음 구조로 볼 수 있습니다.
 
 ```mermaid
-flowchart LR
-  U[사용자]
-  A[앱]
-  D[데이터]
-  M[모델]
-  T[도구]
-  R[결과]
-
-  U --> A
-  A --> D
-  A --> M
-  M --> A
-  A --> T
-  T --> A
-  A --> R
+--8<-- "assets/part-01/chapter-14/ai-service-components-flow-ko.mmd"
 ```
 
 이 그림은 실제 시스템 전체를 모두 담지는 않지만, 서비스 구성요소의 역할을 한눈에 연결하는 데는 충분히 유용합니다.

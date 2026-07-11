@@ -1,0 +1,11 @@
+flowchart TD
+  Start[시작 상태]
+  Candidates[가능한 후보]
+  Heuristic[휴리스틱 또는 평가 기준]
+  Search[탐색]
+  Goal[목표 상태]
+
+  Start --> Candidates
+  Candidates --> Heuristic
+  Heuristic --> Search
+  Search --> Goal

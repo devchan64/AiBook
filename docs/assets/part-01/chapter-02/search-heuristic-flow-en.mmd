@@ -1,0 +1,11 @@
+flowchart TD
+  Start[Start state]
+  Candidates[Candidate options]
+  Heuristic[Heuristic or scoring rule]
+  Search[Search]
+  Goal[Goal state]
+
+  Start --> Candidates
+  Candidates --> Heuristic
+  Heuristic --> Search
+  Search --> Goal

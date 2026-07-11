@@ -1,0 +1,9 @@
+flowchart LR
+  Raw[원래 입력]
+  Rep[특징 또는 표현]
+  Model[학습된 모델]
+  Param[파라미터]
+  Out[출력]
+
+  Raw --> Rep --> Model --> Out
+  Param -. 모델 내부 값 .- Model

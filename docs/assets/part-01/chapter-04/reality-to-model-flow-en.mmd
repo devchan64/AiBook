@@ -1,0 +1,11 @@
+flowchart TD
+  R["Real-world problem"]
+
+  R --> I["Input"]
+  R --> T["Target output"]
+  R --> D["Past cases"]
+
+  D --> L["Training"]
+  L --> M["Trained model"]
+  I --> M
+  M --> P["Prediction for a new case"]

@@ -1,7 +1,7 @@
 # P1-3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning)
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 3.1에서는 사람이 규칙을 직접 쓰는 방식의 장점과 한계를 봤고, 3.2에서는 데이터에서 패턴을 배우는 기본 구조를 봤습니다. 이번 절에서는 학습 과정 전체를 다시 설명하지 않고, 입력을 어떤 형태로 다루는가에 초점을 맞춥니다.
 
@@ -68,17 +68,7 @@ Part 1에서 `표현(representation)`, `벡터(vector)`, `활성값(activation)`
 여기서 핵심은 `내부 표현`입니다. 모델은 문장을 그대로 읽는 것이 아니라, 계산 가능한 값의 묶음으로 바꿔 사용합니다.
 
 ```mermaid
-flowchart TD
-  Text[문의 문장]
-  Rule[사람이 작성한 규칙]
-  RuleOut[규칙 결과]
-
-  Rep[모델 내부 표현]
-  Model[학습된 모델]
-  ModelOut[예측 결과]
-
-  Text --> Rule --> RuleOut
-  Text --> Rep --> Model --> ModelOut
+--8<-- "assets/part-01/chapter-03/representation-vs-rules-flow-ko.mmd"
 ```
 
 이 그림은 같은 입력이 두 갈래로 처리된다는 점만 보여 줍니다. 왼쪽 갈래는 사람이 미리 써 둔 규칙이 바로 결과에 영향을 주는 구조이고, 오른쪽 갈래는 입력이 먼저 모델이 계산할 수 있는 내부 표현으로 바뀐 뒤 예측이 나오는 구조입니다. 이 절의 핵심은 `어느 쪽이 더 좋다`가 아니라, 판단 기준이 `밖에 적혀 있는가` 아니면 `모델 안에서 계산되는가`의 차이를 구분하는 데 있습니다.
@@ -146,14 +136,7 @@ flowchart TD
 Stanford Encyclopedia of Philosophy의 AI 항목은 얼굴 이미지를 예로 들며, 낮은 층은 edge 같은 단서를 잡고, 다음 층은 눈이나 코 같은 얼굴 특징을 조합하고, 더 높은 층은 여러 특징의 묶음에 반응할 수 있다고 설명합니다. 이 설명은 딥러닝을 “사람이 모든 특징을 직접 쓰는 방식”과 구분하는 데 도움이 됩니다.
 
 ```mermaid
-flowchart TD
-  Input[원래 입력]
-  Low[낮은 수준 특징]
-  Mid[중간 수준 표현]
-  High[높은 수준 표현]
-  Output[예측]
-
-  Input --> Low --> Mid --> High --> Output
+--8<-- "assets/part-01/chapter-03/layered-representation-flow-ko.mmd"
 ```
 
 이 그림은 입력이 한 번에 이해되는 것이 아니라, 여러 단계를 거치며 다른 수준의 표현으로 바뀔 수 있다는 점을 보여 줍니다. 여기서 읽어야 할 핵심은 `낮은 수준 특징`은 비교적 작은 단서, `중간 수준 표현`은 여러 단서의 조합, `높은 수준 표현`은 더 추상적인 의미 묶음에 가깝다는 점입니다. 실제 모델 내부가 항상 이렇게 깔끔한 단계 이름으로 저장되는 것은 아니지만, `입력이 지나가며 점점 다른 표현으로 바뀐다`는 구조는 유지됩니다.
@@ -236,20 +219,7 @@ Bengio, Courville, Vincent의 표현 학습(representation learning) 리뷰는 �
 예를 들어 고객 문의 자동 분류 시스템은 다음처럼 구성될 수 있습니다.
 
 ```mermaid
-flowchart TD
-  Input[고객 문의]
-  Policy[명시적 업무 규칙]
-  Model[학습 기반 분류 모델]
-  Score[분류 점수]
-  Review[사람 검토]
-  Action[처리]
-
-  Input --> Policy
-  Policy --> Model
-  Model --> Score
-  Score --> Action
-  Score --> Review
-  Review --> Action
+--8<-- "assets/part-01/chapter-03/policy-model-review-flow-ko.mmd"
 ```
 
 이 도식은 `정책 규칙이 앞단에서 금지 조건과 필수 조건을 먼저 걸러 주고`, 그다음 `모델이 표현의 다양성을 반영해 분류 후보를 계산하며`, 마지막에 `점수나 민감도에 따라 자동 처리 또는 사람 검토로 갈라질 수 있다`는 흐름을 뜻합니다. 즉 도식의 목적은 규칙과 모델이 한 시스템 안에서 서로 다른 책임을 나눌 수 있음을 보여 주는 데 있습니다.

@@ -1,0 +1,14 @@
+flowchart TD
+  Input[Customer inquiry]
+  Policy[Explicit business rules]
+  Model[Learning-based classifier]
+  Score[Classification score]
+  Review[Human review]
+  Action[Action]
+
+  Input --> Policy
+  Policy --> Model
+  Model --> Score
+  Score --> Action
+  Score --> Review
+  Review --> Action

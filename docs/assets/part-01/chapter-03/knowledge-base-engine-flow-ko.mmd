@@ -1,0 +1,13 @@
+flowchart TD
+  Input[현재 입력]
+  Facts[사실]
+  KB[지식 기반]
+  Engine[추론 엔진]
+  Output[결론 또는 행동]
+  Explain[설명]
+
+  Input --> Facts
+  Facts --> Engine
+  KB --> Engine
+  Engine --> Output
+  Engine --> Explain

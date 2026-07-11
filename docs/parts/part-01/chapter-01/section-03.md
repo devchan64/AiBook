@@ -1,7 +1,7 @@
 # P1-1.3 AI, 머신러닝, 딥러닝, 생성형 AI의 관계
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 1.1에서는 AI라는 말의 범위를, 1.2에서는 AI가 다루는 문제 유형을 봤습니다. 이번 절에서는 앞으로 반복해서 나올 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계를 정리합니다.
 
@@ -72,26 +72,7 @@ Part 1에서 `AI`, `머신러닝`, `딥러닝`, `생성형 AI`, `LLM`의 관계�
 LLM(large language model, 대규모 언어 모델)은 대규모 텍스트 데이터로 학습한 언어 모델 계열입니다. LLM은 오늘날 생성형 AI를 대표하는 기술 중 하나이지만, 생성형 AI 전체가 LLM은 아닙니다. 이미지 생성 모델, 음성 생성 모델, 영상 생성 모델처럼 언어 모델이 아닌 생성형 AI도 있습니다.
 
 ```mermaid
-flowchart TD
-  AI[AI]
-  Rule[규칙 기반 AI]
-  Search[탐색과 계획]
-  Prob[확률적 추론]
-  ML[머신러닝]
-  DL[딥러닝]
-  Gen[생성형 AI]
-  LLM[LLM]
-  OtherGen[이미지·음성·영상 생성 모델]
-
-  AI --> Rule
-  AI --> Search
-  AI --> Prob
-  AI --> ML
-  ML --> DL
-  AI --> Gen
-  DL -.-> Gen
-  Gen --> LLM
-  Gen --> OtherGen
+--8<-- "assets/part-01/chapter-01/ai-to-llm-map-ko.mmd"
 ```
 
 이 그림은 학습용 지도입니다. 실제 연구와 서비스에서는 경계가 더 복잡합니다. 예를 들어 검색 서비스에 LLM을 붙이면 생성형 AI처럼 보이지만, 그 안에는 검색 엔진, 데이터베이스, 권한 관리, 규칙 기반 필터, 추천 모델이 함께 들어갈 수 있습니다.

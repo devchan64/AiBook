@@ -1,7 +1,7 @@
 # P1-2.1 기호 기반 AI와 규칙 기반 접근
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P1-1에서는 AI라는 말의 범위와 용어 관계를 정리했습니다. P1-2에서는 AI가 어떤 방식으로 문제를 풀려고 해 왔는지 역사적 패러다임을 봅니다. 이번 절의 중심은 기호 기반 AI(symbolic AI)와 규칙 기반 접근(rule-based approach)입니다.
 
@@ -152,15 +152,7 @@ Stanford Encyclopedia of Philosophy의 논리 기반 AI 항목은 John McCarthy�
 이 예시는 실제 의료·비즈니스·보안 규칙으로 쓰기에는 너무 단순합니다. 여기서 중요한 것은 구조입니다. 규칙 기반 시스템은 사실(fact)과 규칙(rule)을 모아 두고, 현재 상황에 맞는 규칙을 적용해 결론을 냅니다.
 
 ```mermaid
-flowchart TD
-  Facts[현재 사실]
-  Rules[규칙]
-  Engine[추론 엔진]
-  Result[결론 또는 행동]
-
-  Facts --> Engine
-  Rules --> Engine
-  Engine --> Result
+--8<-- "assets/part-01/chapter-02/rule-based-decision-flow-ko.mmd"
 ```
 
 이 도식은 규칙 기반 시스템을 `현재 사실`, `명시적 규칙`, `적용 절차`, `결론`의 네 부분으로 읽게 해 주는 가장 기본적인 그림입니다. 여기서 읽어야 할 핵심은 `사실만으로도 안 되고 규칙만으로도 안 되며, 둘을 맞춰 결론을 내는 절차가 따로 있다`는 구조입니다.

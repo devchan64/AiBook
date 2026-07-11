@@ -1,7 +1,7 @@
 # P1-2.3 머신러닝, 딥러닝, 생성형 AI로의 흐름
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 2.1에서는 기호 기반 AI와 규칙 기반 접근을 봤고, 2.2에서는 탐색, 지식 표현, 확률 추론을 봤습니다. 이번 절에서는 그 다음 흐름을 봅니다. 왜 AI의 중심 설명은 점점 데이터에서 학습하는 모델로 이동했을까요?
 
@@ -195,21 +195,7 @@ LLM(large language model, 대규모 언어 모델)은 생성형 AI를 대표하�
 이 절에서 중요한 것은 LLM을 갑자기 등장한 예외로 보지 않는 것입니다. LLM은 다음 흐름 위에서 이해할 수 있습니다.
 
 ```mermaid
-flowchart TD
-  Rule[명시적 규칙]
-  Search[탐색과 지식 표현]
-  Prob[확률 추론]
-  Data[데이터마이닝과 머신러닝]
-  Rep[표현 학습과 딥러닝]
-  Gen[생성형 AI]
-  LLM[LLM]
-
-  Rule --> Search
-  Search --> Prob
-  Prob --> Data
-  Data --> Rep
-  Rep --> Gen
-  Gen --> LLM
+--8<-- "assets/part-01/chapter-02/ai-history-bridge-flow-ko.mmd"
 ```
 
 이 그림은 한 기술이 이전 기술을 지워 버렸다는 뜻이 아니라, AI 설명의 중심이 점점 더 많은 층을 쌓아 왔다는 뜻으로 읽어야 합니다. 여기서 읽어야 할 핵심은 `규칙 -> 불확실성 처리 -> 데이터 학습 -> 표현 학습 -> 생성`이라는 누적 흐름입니다.

@@ -1,0 +1,20 @@
+flowchart TD
+  AI[AI]
+  Rule[Rule-based AI]
+  Search[Search and planning]
+  Prob[Probabilistic reasoning]
+  ML[Machine learning]
+  DL[Deep learning]
+  Gen[Generative AI]
+  LLM[LLM]
+  OtherGen[Image, audio, and video generation models]
+
+  AI --> Rule
+  AI --> Search
+  AI --> Prob
+  AI --> ML
+  ML --> DL
+  AI --> Gen
+  DL -.-> Gen
+  Gen --> LLM
+  Gen --> OtherGen

@@ -1,0 +1,13 @@
+flowchart TD
+  Input[New input]
+  Model[Trained model]
+  Score[Score or probability]
+  Rule[Business rules]
+  Human[Human review]
+  Action[Action]
+
+  Input --> Model --> Score
+  Score --> Rule
+  Rule --> Action
+  Rule --> Human
+  Human --> Action

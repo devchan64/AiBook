@@ -1,0 +1,11 @@
+flowchart TD
+  Text[Inquiry text]
+  Rule[Human-written rules]
+  RuleOut[Rule output]
+
+  Rep[Internal representation]
+  Model[Trained model]
+  ModelOut[Prediction output]
+
+  Text --> Rule --> RuleOut
+  Text --> Rep --> Model --> ModelOut

@@ -1,0 +1,13 @@
+flowchart TD
+  Input[Current input]
+  Facts[Facts]
+  KB[Knowledge base]
+  Engine[Inference engine]
+  Output[Conclusion or action]
+  Explain[Explanation]
+
+  Input --> Facts
+  Facts --> Engine
+  KB --> Engine
+  Engine --> Output
+  Engine --> Explain

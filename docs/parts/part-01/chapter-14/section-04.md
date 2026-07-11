@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P1-14.3에서는 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation)을 이어 가는 작업 흐름(workflow)으로 봤습니다. 이때 에이전트가 외부 자료나 도구를 쓰려면 연결 방식이 필요합니다.
 
@@ -104,19 +104,7 @@ MCP는 클라이언트-서버(client-server) 구조를 따릅니다. 다만 일�
 흐름은 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  U["사용자"]
-  H["MCP 호스트"]
-
-  subgraph C["호스트가 관리하는 연결"]
-    direction LR
-    C1["파일 서버용 클라이언트"] --> S1["MCP 서버: 파일"]
-    C2["이슈 서버용 클라이언트"] --> S2["MCP 서버: 이슈 트래커"]
-  end
-
-  U --> H
-  H --> C1
-  H --> C2
+--8<-- "assets/part-01/chapter-14/mcp-connection-flow-ko.mmd"
 ```
 
 하나의 AI 앱은 여러 MCP 서버에 연결될 수 있습니다. 이때 보통 서버마다 별도의 MCP 클라이언트가 연결을 관리합니다. 예를 들어 코딩 도구가 파일 시스템 MCP 서버와 이슈 트래커 MCP 서버에 동시에 연결될 수 있습니다.

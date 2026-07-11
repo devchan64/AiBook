@@ -1,0 +1,11 @@
+flowchart TD
+  G["Goal"]
+
+  subgraph L["Agent loop"]
+    direction LR
+    S["State"] --> P["Choose next step"] --> A["Action"] --> O["Observation"] --> E{"Stop?"}
+  end
+
+  G --> S
+  E -->|Continue| S
+  E -->|Finish| R["Report result"]

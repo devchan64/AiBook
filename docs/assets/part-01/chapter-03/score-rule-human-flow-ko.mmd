@@ -1,0 +1,13 @@
+flowchart TD
+  Input[새 입력]
+  Model[학습된 모델]
+  Score[점수 또는 확률]
+  Rule[업무 규칙]
+  Human[사람 검토]
+  Action[처리]
+
+  Input --> Model --> Score
+  Score --> Rule
+  Rule --> Action
+  Rule --> Human
+  Human --> Action

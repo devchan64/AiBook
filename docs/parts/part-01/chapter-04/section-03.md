@@ -1,7 +1,7 @@
 # P1-4.3 특징(feature), 표현(representation), 파라미터(parameter)
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 4.2에서는 모델에게 무엇을 보여 주고 무엇을 받으려는지, 즉 `입력(input)`, `출력(output)`, `데이터(data)`의 관계를 봤습니다. 이번 절에서는 그 입력이 모델 안에서 어떤 계산 재료로 보이는지 설명합니다.
 
@@ -238,15 +238,7 @@ Google의 머신러닝 용어집은 자연어 이해(NLU, Natural Language Under
 흐름으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart LR
-  Raw[원래 입력]
-  Rep[특징 또는 표현]
-  Model[학습된 모델]
-  Param[파라미터]
-  Out[출력]
-
-  Raw --> Rep --> Model --> Out
-  Param -. 모델 내부 값 .- Model
+--8<-- "assets/part-01/chapter-04/representation-model-parameter-flow-ko.mmd"
 ```
 
 이 그림은 단순화입니다. 실제 모델에서는 특징과 표현의 경계가 흐릴 수 있고, 딥러닝에서는 표현 자체가 여러 층을 거치며 학습될 수 있습니다. 여기서는 “입력은 모델이 쓰기 쉬운 값으로 바뀌고, 모델 내부의 조정된 값과 함께 출력 계산에 쓰인다”는 흐름을 읽습니다.

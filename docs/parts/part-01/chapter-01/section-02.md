@@ -1,7 +1,7 @@
 # P1-1.2 AI가 다루는 문제
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 1.1에서는 AI라는 말의 범위를 정리했습니다. 이번 절에서는 그 넓은 범위 안에서 AI가 실제로 어떤 종류의 문제를 다루는지 봅니다.
 
@@ -158,19 +158,7 @@ OECD의 AI 시스템 설명도 입력, 목표, 출력, 환경에 대한 영향�
 따라서 문제 유형은 딱딱한 분류가 아니라 분석 도구입니다. 어떤 시스템이 여러 문제를 어떻게 묶고 있는지 보면, AI라는 넓은 말을 더 작은 단위로 나누어 이해할 수 있습니다.
 
 ```mermaid
-flowchart TD
-  Reality[현실의 질문]
-  Problem[문제 정의]
-  Input[입력]
-  Model[계산 과정]
-  Output[출력]
-  Impact[영향]
-
-  Reality --> Problem
-  Problem --> Input
-  Input --> Model
-  Model --> Output
-  Output --> Impact
+--8<-- "assets/part-01/chapter-01/problem-definition-flow-ko.mmd"
 ```
 
 이 도식은 현실의 넓은 질문이 그대로 모델 문제가 되지 않고, 먼저 `문제 정의`, `입력`, `출력`으로 잘려 나간 뒤 실제 결과가 사람이나 환경에 영향을 주는 흐름을 보여 줍니다. 여기서 읽어야 할 핵심은 `현실의 질문 -> 계산 가능한 문제 -> 결과의 영향`이라는 세 단계입니다.

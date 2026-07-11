@@ -1,0 +1,19 @@
+flowchart TD
+  Start[Purchase request]
+  Budget{Enough budget?}
+  Self{Requester and approver are the same?}
+  Amount{Request amount}
+  Reject[Reject for insufficient budget]
+  Reassign[Reassign approver]
+  Auto[Auto approve]
+  Team[Wait for team lead approval]
+  Dept[Wait for department head approval]
+
+  Start --> Budget
+  Budget -- No --> Reject
+  Budget -- Yes --> Self
+  Self -- Yes --> Reassign
+  Self -- No --> Amount
+  Amount -- Under KRW 100,000 --> Auto
+  Amount -- Under KRW 1,000,000 --> Team
+  Amount -- Over KRW 1,000,000 --> Dept

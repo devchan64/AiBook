@@ -1,0 +1,17 @@
+flowchart TD
+  Symbolic[기호 기반 AI]
+  Rule[규칙 기반 시스템]
+  Search[탐색과 지식 표현]
+  Prob[확률 추론]
+  ML[머신러닝]
+  NN[신경망과 딥러닝]
+  Compute[계산 성능과 병렬 처리]
+
+  Symbolic --> Rule
+  Symbolic --> Search
+  Search --> Prob
+  Prob --> ML
+  ML --> NN
+  Rule -. 한계와 보완 .-> ML
+  Compute -. 강화 .-> ML
+  Compute -. 강화 .-> NN

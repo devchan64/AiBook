@@ -1,0 +1,15 @@
+flowchart TD
+  Ex[라벨이 있는 예시]
+  Features[특징]
+  Label[라벨]
+  Train[학습]
+  Model[모델]
+  New[새 문의의 특징]
+  Output[예측값]
+
+  Ex --> Features
+  Ex --> Label
+  Features --> Train
+  Label --> Train
+  Train --> Model
+  New --> Model --> Output

@@ -1,7 +1,7 @@
 # P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
@@ -131,14 +131,7 @@ LeCun, Bengio, Hinton의 Nature 리뷰는 딥러닝을 여러 처리 층(process
 이미지는 위치가 중요합니다. 눈, 코, 입, 바퀴, 문, 손잡이 같은 단서는 이미지의 작은 영역에서 먼저 나타납니다. CNN은 이런 지역 패턴(local pattern)을 여러 위치에서 반복적으로 탐지하고, 다음 층에서 더 큰 패턴으로 조합할 수 있도록 설계된 구조입니다.
 
 ```mermaid
-flowchart LR
-  Pixels[픽셀]
-  Edges[윤곽과 모서리]
-  Parts[부분 형태]
-  Object[물체 표현]
-  Class[분류 결과]
-
-  Pixels --> Edges --> Parts --> Object --> Class
+--8<-- "assets/part-01/chapter-09/cnn-feature-hierarchy-flow-ko.mmd"
 ```
 
 예를 들어 자동차 이미지를 단순화하면 다음처럼 볼 수 있습니다.

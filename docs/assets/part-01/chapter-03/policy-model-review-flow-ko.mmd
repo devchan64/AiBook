@@ -1,0 +1,14 @@
+flowchart TD
+  Input[고객 문의]
+  Policy[명시적 업무 규칙]
+  Model[학습 기반 분류 모델]
+  Score[분류 점수]
+  Review[사람 검토]
+  Action[처리]
+
+  Input --> Policy
+  Policy --> Model
+  Model --> Score
+  Score --> Action
+  Score --> Review
+  Review --> Action

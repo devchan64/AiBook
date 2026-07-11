@@ -1,0 +1,13 @@
+flowchart TD
+  U["사용자"]
+  H["MCP 호스트"]
+
+  subgraph C["호스트가 관리하는 연결"]
+    direction LR
+    C1["파일 서버용 클라이언트"] --> S1["MCP 서버: 파일"]
+    C2["이슈 서버용 클라이언트"] --> S2["MCP 서버: 이슈 트래커"]
+  end
+
+  U --> H
+  H --> C1
+  H --> C2

@@ -1,0 +1,17 @@
+flowchart TD
+  Symbolic[Symbolic AI]
+  Rule[Rule-based systems]
+  Search[Search and knowledge representation]
+  Prob[Probabilistic reasoning]
+  ML[Machine learning]
+  NN[Neural networks and deep learning]
+  Compute[Compute power and parallel processing]
+
+  Symbolic --> Rule
+  Symbolic --> Search
+  Search --> Prob
+  Prob --> ML
+  ML --> NN
+  Rule -. Limits and complement .-> ML
+  Compute -. Acceleration .-> ML
+  Compute -. Acceleration .-> NN

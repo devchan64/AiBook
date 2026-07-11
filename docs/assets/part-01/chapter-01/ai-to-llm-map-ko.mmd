@@ -1,0 +1,20 @@
+flowchart TD
+  AI[AI]
+  Rule[규칙 기반 AI]
+  Search[탐색과 계획]
+  Prob[확률적 추론]
+  ML[머신러닝]
+  DL[딥러닝]
+  Gen[생성형 AI]
+  LLM[LLM]
+  OtherGen[이미지·음성·영상 생성 모델]
+
+  AI --> Rule
+  AI --> Search
+  AI --> Prob
+  AI --> ML
+  ML --> DL
+  AI --> Gen
+  DL -.-> Gen
+  Gen --> LLM
+  Gen --> OtherGen

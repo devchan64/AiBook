@@ -1,0 +1,14 @@
+flowchart TD
+  RuleInput[Input]
+  Rules[Human-written rules]
+  RuleOutput[Result]
+
+  Data[Example data]
+  Train[Training]
+  Model[Trained model]
+  NewInput[New input]
+  Pred[Prediction]
+
+  RuleInput --> Rules --> RuleOutput
+  Data --> Train --> Model
+  NewInput --> Model --> Pred

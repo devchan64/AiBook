@@ -1,0 +1,19 @@
+flowchart TD
+  Start[구매 요청]
+  Budget{예산 충분?}
+  Self{요청자와 승인자가 같은가?}
+  Amount{요청 금액}
+  Reject[예산 부족 반려]
+  Reassign[승인자 재지정]
+  Auto[자동 승인]
+  Team[팀장 승인 대기]
+  Dept[부서장 승인 대기]
+
+  Start --> Budget
+  Budget -- 아니오 --> Reject
+  Budget -- 예 --> Self
+  Self -- 예 --> Reassign
+  Self -- 아니오 --> Amount
+  Amount -- 10만 원 이하 --> Auto
+  Amount -- 100만 원 이하 --> Team
+  Amount -- 100만 원 초과 --> Dept

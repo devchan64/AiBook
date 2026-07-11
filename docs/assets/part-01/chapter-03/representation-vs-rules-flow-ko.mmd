@@ -1,0 +1,11 @@
+flowchart TD
+  Text[문의 문장]
+  Rule[사람이 작성한 규칙]
+  RuleOut[규칙 결과]
+
+  Rep[모델 내부 표현]
+  Model[학습된 모델]
+  ModelOut[예측 결과]
+
+  Text --> Rule --> RuleOut
+  Text --> Rep --> Model --> ModelOut

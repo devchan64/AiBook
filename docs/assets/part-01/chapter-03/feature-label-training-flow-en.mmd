@@ -1,0 +1,15 @@
+flowchart TD
+  Ex[Labeled examples]
+  Features[Features]
+  Label[Label]
+  Train[Training]
+  Model[Model]
+  New[Features of a new inquiry]
+  Output[Prediction]
+
+  Ex --> Features
+  Ex --> Label
+  Features --> Train
+  Label --> Train
+  Train --> Model
+  New --> Model --> Output

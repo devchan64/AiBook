@@ -1,7 +1,7 @@
 # P1-3.2 데이터에서 패턴을 배운다는 것
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 3.1에서는 사람이 규칙을 직접 쓰는 방식의 강점과 한계를 봤습니다. 이번 절에서는 그 다음 질문으로 넘어갑니다. 사람이 모든 규칙을 쓰기 어렵다면, 시스템은 어떻게 데이터에서 판단 기준을 얻을 수 있을까요?
 
@@ -109,20 +109,7 @@ Tom Mitchell의 머신러닝 교재 소개 페이지도 머신러닝을 경험�
 두 방식 모두 입력을 받아 결과를 냅니다. 차이는 판단 기준을 어디서 얻는가에 있습니다. 규칙 기반 시스템은 사람이 기준을 명시적으로 쓰고, 머신러닝 모델은 데이터에서 기준을 조정합니다.
 
 ```mermaid
-flowchart TD
-  RuleInput[입력]
-  Rules[사람이 작성한 규칙]
-  RuleOutput[결과]
-
-  Data[예시 데이터]
-  Train[학습]
-  Model[학습된 모델]
-  NewInput[새 입력]
-  Pred[예측]
-
-  RuleInput --> Rules --> RuleOutput
-  Data --> Train --> Model
-  NewInput --> Model --> Pred
+--8<-- "assets/part-01/chapter-03/rule-vs-learning-flow-ko.mmd"
 ```
 
 이 도식은 `사람이 기준을 직접 쓰는 흐름`과 `예시 데이터로 기준을 맞추는 흐름`을 나란히 비교하게 해 줍니다. 여기서 읽어야 할 핵심은 `규칙 기반은 기준이 바깥에 적혀 있고`, `학습 기반은 기준이 데이터로 조정된다`는 대비입니다.
@@ -204,21 +191,7 @@ Google의 머신러닝 입문 자료는 지도학습에서 예시가 특징(feat
 즉 `문의 1`, `문의 2`처럼 한 줄 전체가 예시이고, 그 안에서 `환불`, `배송`, `깨져서`처럼 모델이 읽는 입력 단서가 특징입니다. 라벨은 그 예시 전체에 대해 사람이 붙인 정답이며, 모델은 개별 단어 하나가 아니라 이런 특징 묶음과 라벨의 관계를 여러 예시에서 함께 배웁니다.
 
 ```mermaid
-flowchart TD
-  Ex[라벨이 있는 예시]
-  Features[특징]
-  Label[라벨]
-  Train[학습]
-  Model[모델]
-  New[새 문의의 특징]
-  Output[예측값]
-
-  Ex --> Features
-  Ex --> Label
-  Features --> Train
-  Label --> Train
-  Train --> Model
-  New --> Model --> Output
+--8<-- "assets/part-01/chapter-03/feature-label-training-flow-ko.mmd"
 ```
 
 이 그림은 지도학습을 `예시 -> 특징과 라벨 -> 학습 -> 모델 -> 새 입력 예측` 순서로 읽게 해 줍니다. 여기서 중요한 점은 모델이 새 입력을 바로 외워서 처리하는 것이 아니라, 예시에서 맞춘 기준으로 새 입력을 해석한다는 데 있습니다.
@@ -347,19 +320,7 @@ Google의 머신러닝 입문 자료는 데이터셋의 크기(size)와 다양�
 이 점수는 “모델이 이렇게 계산했다”는 신호이지, 반드시 실제 정답이라는 뜻은 아닙니다. 그래서 학습 기반 시스템에서는 모델 출력 뒤에 임계값(threshold), 사람 검토, 규칙 기반 안전장치가 붙을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  Input[새 입력]
-  Model[학습된 모델]
-  Score[점수 또는 확률]
-  Rule[업무 규칙]
-  Human[사람 검토]
-  Action[처리]
-
-  Input --> Model --> Score
-  Score --> Rule
-  Rule --> Action
-  Rule --> Human
-  Human --> Action
+--8<-- "assets/part-01/chapter-03/score-rule-human-flow-ko.mmd"
 ```
 
 이 구조는 3.1의 결론과 연결됩니다. 규칙 기반 시스템과 머신러닝은 서로 대체만 하는 관계가 아닙니다. 모델은 사람이 규칙으로 쓰기 어려운 패턴을 찾고, 규칙은 반드시 지켜야 하는 절차와 안전 조건을 관리할 수 있습니다.

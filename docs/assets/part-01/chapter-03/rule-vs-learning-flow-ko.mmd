@@ -1,0 +1,14 @@
+flowchart TD
+  RuleInput[입력]
+  Rules[사람이 작성한 규칙]
+  RuleOutput[결과]
+
+  Data[예시 데이터]
+  Train[학습]
+  Model[학습된 모델]
+  NewInput[새 입력]
+  Pred[예측]
+
+  RuleInput --> Rules --> RuleOutput
+  Data --> Train --> Model
+  NewInput --> Model --> Pred

@@ -1,0 +1,15 @@
+flowchart TD
+  I["Incomplete input"]
+  J{"Why is it hard with rules alone?"}
+
+  I --> J
+  J --> R["Explicit rules"]
+  J --> S["Search / heuristic"]
+  J --> P["Probability"]
+  J --> L["Learned model"]
+
+  R --> H["Human review or policy decision"]
+  S --> H
+  P --> H
+  L --> H
+  H --> O["Result"]

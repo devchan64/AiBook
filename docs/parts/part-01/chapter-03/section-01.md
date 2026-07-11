@@ -1,7 +1,7 @@
 # P1-3.1 규칙 기반 시스템의 강점과 한계
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 2.1에서는 기호 기반 AI(symbolic AI)와 규칙 기반 접근(rule-based approach)의 역사적 위치를 봤습니다. 2.3에서는 같은 업무 안에서도 `정책 조건처럼 규칙으로 적기 쉬운 부분`과 `문의 의도 분류처럼 데이터에서 관계를 배워야 하는 부분`이 갈라진다는 점을 봤습니다. 이번 절에서는 한 걸음 더 좁혀, 실제 규칙 기반 시스템(rule-based system)이 어떤 장점을 가졌고 어디에서 한계를 드러냈는지 정리합니다.
 
@@ -88,19 +88,7 @@ MYCIN 연구를 정리한 Buchanan과 Shortliffe의 책은 MYCIN을 규칙 기�
 이 절에서 먼저 남겨야 할 구분은 `사실은 현재 상태`, `규칙은 판단 기준`, `지식 기반은 그것을 모아 둔 곳`, `추론 엔진은 적용 장치`, `설명 기능은 이유를 보여 주는 장치`라는 점입니다.
 
 ```mermaid
-flowchart TD
-  Input[현재 입력]
-  Facts[사실]
-  KB[지식 기반]
-  Engine[추론 엔진]
-  Output[결론 또는 행동]
-  Explain[설명]
-
-  Input --> Facts
-  Facts --> Engine
-  KB --> Engine
-  Engine --> Output
-  Engine --> Explain
+--8<-- "assets/part-01/chapter-03/knowledge-base-engine-flow-ko.mmd"
 ```
 
 이 도식은 규칙 기반 시스템을 `현재 입력 -> 사실 정리 -> 지식 기반과 대조 -> 결론 -> 설명` 흐름으로 읽게 해 줍니다. 여기서 읽어야 할 핵심은 `결과만 나오는 것이 아니라 왜 그런 결과가 나왔는지 함께 보여 줄 수 있다`는 점입니다.
@@ -122,25 +110,7 @@ flowchart TD
 이를 절차로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  Start[구매 요청]
-  Budget{예산 충분?}
-  Self{요청자와 승인자가 같은가?}
-  Amount{요청 금액}
-  Reject[예산 부족 반려]
-  Reassign[승인자 재지정]
-  Auto[자동 승인]
-  Team[팀장 승인 대기]
-  Dept[부서장 승인 대기]
-
-  Start --> Budget
-  Budget -- 아니오 --> Reject
-  Budget -- 예 --> Self
-  Self -- 예 --> Reassign
-  Self -- 아니오 --> Amount
-  Amount -- 10만 원 이하 --> Auto
-  Amount -- 100만 원 이하 --> Team
-  Amount -- 100만 원 초과 --> Dept
+--8<-- "assets/part-01/chapter-03/purchase-approval-rule-flow-ko.mmd"
 ```
 
 이 예시는 단순하지만 규칙 기반 시스템의 성격을 잘 보여 줍니다. 규칙은 사람이 읽을 수 있고, 결론을 설명할 수 있으며, 업무 정책이 바뀌면 특정 규칙을 수정할 수 있습니다.
@@ -271,23 +241,7 @@ flowchart TD
 흐름을 그림으로 나타내면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  Symbolic[기호 기반 AI]
-  Rule[규칙 기반 시스템]
-  Search[탐색과 지식 표현]
-  Prob[확률 추론]
-  ML[머신러닝]
-  NN[신경망과 딥러닝]
-  Compute[계산 성능과 병렬 처리]
-
-  Symbolic --> Rule
-  Symbolic --> Search
-  Search --> Prob
-  Prob --> ML
-  ML --> NN
-  Rule -. 한계와 보완 .-> ML
-  Compute -. 강화 .-> ML
-  Compute -. 강화 .-> NN
+--8<-- "assets/part-01/chapter-03/symbolic-to-learning-flow-ko.mmd"
 ```
 
 이 그림은 “앞 단계가 사라지고 다음 단계가 완전히 대체했다”는 뜻이 아닙니다. 실제 역사는 더 겹쳐 있습니다. 규칙 기반 시스템, 탐색, 확률 추론, 머신러닝, 신경망은 서로 다른 시기에 중요성이 달라졌고, 현대 시스템 안에서도 함께 쓰입니다.

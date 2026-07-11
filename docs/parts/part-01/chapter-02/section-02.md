@@ -1,7 +1,7 @@
 # P1-2.2 탐색, 지식 표현, 확률 추론
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 2.1에서는 기호 기반 AI와 규칙 기반 접근을 봤습니다. 이번 절에서는 그 다음 질문을 다룹니다. 규칙을 적는 것만으로는 충분하지 않을 때, AI는 가능한 후보를 탐색(search)하고, 필요한 지식을 표현(knowledge representation)하며, 불확실한 정보에서 그럴듯한 결론을 추론(probabilistic reasoning)하려 했습니다.
 
@@ -129,17 +129,7 @@ Poole과 Mackworth의 공개 교재도 경로 찾기, 배송 로봇, 격자 게�
 예를 들어 배달 경로를 고를 때 시스템은 `목적지까지의 직선거리`를 휴리스틱으로 써서 먼저 볼 후보를 좁힐 수 있고, 동시에 `비 때문에 특정 구간이 지연될 확률`을 계산해 어느 경로가 더 불안정한지 판단할 수 있습니다. 앞의 값은 탐색 순서를 돕고, 뒤의 값은 불확실성을 반영합니다. 둘 다 숫자처럼 보이지만 시스템 안에서 맡는 일은 다릅니다.
 
 ```mermaid
-flowchart TD
-  Start[시작 상태]
-  Candidates[가능한 후보]
-  Heuristic[휴리스틱 또는 평가 기준]
-  Search[탐색]
-  Goal[목표 상태]
-
-  Start --> Candidates
-  Candidates --> Heuristic
-  Heuristic --> Search
-  Search --> Goal
+--8<-- "assets/part-01/chapter-02/search-heuristic-flow-ko.mmd"
 ```
 
 이 도식은 탐색을 `시작 상태 -> 후보 -> 평가 기준 -> 목표` 흐름으로 읽게 해 줍니다. 여기서 읽어야 할 핵심은 `문제를 풀려면 후보를 만들고, 그중 어디를 먼저 볼지 기준이 필요하다`는 구조입니다.
@@ -210,18 +200,7 @@ Stanford Encyclopedia of Philosophy의 논리 기반 AI 항목은 초기 전문�
 탐색, 지식 표현, 확률 추론은 서로 다른 질문에서 출발하지만 함께 쓰일 수 있습니다.
 
 ```mermaid
-flowchart TD
-  Problem[문제]
-  Representation[지식 표현]
-  Search[탐색]
-  Probability[확률 추론]
-  Decision[결론 또는 행동]
-
-  Problem --> Representation
-  Representation --> Search
-  Representation --> Probability
-  Search --> Decision
-  Probability --> Decision
+--8<-- "assets/part-01/chapter-02/search-knowledge-probability-flow-ko.mmd"
 ```
 
 이 그림은 세 흐름이 서로 경쟁하는 것이 아니라, 같은 문제를 풀 때 서로 다른 역할로 연결된다는 점을 보여 줍니다. 여기서 읽어야 할 핵심은 `지식 표현은 바탕을 적고`, `탐색은 후보를 찾고`, `확률 추론은 애매한 정보를 계산해 결론을 돕는다`는 분업 구조입니다.

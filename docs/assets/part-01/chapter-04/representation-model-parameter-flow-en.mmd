@@ -1,0 +1,9 @@
+flowchart LR
+  Raw[Raw input]
+  Rep[Features or representation]
+  Model[Trained model]
+  Param[Parameters]
+  Out[Output]
+
+  Raw --> Rep --> Model --> Out
+  Param -. Internal model values .- Model
