@@ -1,0 +1,369 @@
+# P4-17.1 Intuition For Clustering
+
+> Section ID: `P4-17.1`
+> Version: `v2026.07.11`
+
+Up through gradient boosting in P4-16, we followed how models improve predictive performance on problems where answer labels already exist. If we shift the viewpoint slightly here, the next question appears.
+
+If there is no answer label at all, how can we find structure inside the data?
+
+That question is the starting point of clustering.
+
+Clustering is an unsupervised learning problem that tries to find what groups of similar data points form clusters without answer labels.
+
+In other words, clustering is closer to `discovering structure` than to `solving a problem by getting the answer right`.
+
+This Section explains `clustering`, `cluster`, and `the difference between answer labels and clusters`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+
+## Scope Of This Section
+
+This Section answers the following questions.
+
+- How is clustering different from supervised learning?
+- Why is the phrase `similar` so important?
+- Why is a cluster different from a class label?
+- What different intuitions do k-means and DBSCAN show?
+- With what attitude should clustering results be read?
+
+This Section does not go deeply into the following topics.
+
+- The optimization formulas behind k-means
+- Detailed parameter tuning for DBSCAN
+- The implementation of hierarchical clustering and spectral clustering
+- Cluster quality metrics such as silhouette score
+
+This Section focuses on understanding, at an introductory level, `what question clustering answers`. Cautions for interpreting results continue in P4-17.2. Hierarchical clustering and spectral clustering are revisited in P4-17.3 supplementary learning as the first criteria for distinguishing them. Cluster quality metrics such as silhouette score are revisited in P4-6.4 supplementary learning, and cautions for reading cluster structure together with dimensionality reduction reconnect in P4-18.1 and P4-18.2.
+
+## Goals Of This Section
+
+- You can explain clustering as `finding structure without labels`.
+- You can explain that a cluster is not a human-assigned correct answer, but a group found from the data.
+- You can describe that k-means and DBSCAN have different clustering intuitions.
+- You can get an initial sense of why it is risky to immediately treat clustering results as facts or causes.
+
+## Why This Section Is Needed
+
+When first learning machine learning, people usually start by asking whether a problem is classification or regression. But in real work, unlabeled data are often even more common.
+
+For example:
+
+- You want to group customers by a few usage patterns
+- You want to see what topic bundles news articles gather into
+- You want to see whether sensor data separate into a few states
+- You want to see whether outliers stick out on their own
+
+These questions ask not `what is the correct answer?` but `what structure is hidden here?` Clustering is the first tool that enters exactly that kind of question.
+
+So P4-17.1 is the Section where the viewpoint shifts from `prediction models` to `exploring data structure`.
+
+### When Does It Make Sense To Think Of Clustering First?
+
+Clustering does not appear when the goal is getting the answer right. It appears naturally when the criterion is `do I want to see the structure first without labels?`
+
+| Current question | Why clustering comes to mind first | What to check first |
+| --- | --- | --- |
+| I want to group usage patterns without labels | Because it fits proposing groups of similar data | Which features will define similarity |
+| Exploratory structure matters more than prediction | Because the goal is discovering structure, not forecasting | Whether clusters are being read as correct answers |
+| I want to see outliers or groups that stand apart | Because density- or distance-based clustering can show structure | Whether k-means or DBSCAN fits better |
+| I want to break customers, documents, or sensor states into a few lumps | Because it becomes a starting point for segment hypotheses | Sensitivity to cluster count or density criteria |
+| I want to make follow-up labeling or domain-review questions | Because clusters can suggest candidates for interpretation | Whether the cluster result is being sent directly into policy |
+
+The core of this table is to place clustering not as `a substitute for a predictive model`, but as `a tool for structure exploration and hypothesis generation`.
+
+## What Is Clustering Trying To Do?
+
+The scikit-learn user guide describes clustering as a task performed on unlabeled data. That means it is not about predicting after the correct answer has already been given. It is about letting the algorithm search for a basis on which the data can be grouped.
+
+`Look at unlabeled points and try grouping together the ones that are close or show similar patterns.`
+
+The important thing here is `similarity`. Clustering is ultimately connected to the question `what counts as similar?`
+
+## How Is It Different From Supervised Learning?
+
+In classification, people usually ask questions like these.
+
+- Is this email spam or not?
+- Will this customer churn or not?
+
+These already have answer labels.
+
+Clustering asks questions like these instead.
+
+- How do these customers appear to separate by usage pattern?
+- What topic bundles do these documents appear to form?
+
+In other words, clustering is not `a problem of predicting labels`, but `a problem of proposing groups when labels are absent`.
+
+| Question | Supervised learning | Clustering |
+| --- | --- | --- |
+| Is there an answer label? | Yes | No |
+| Goal | Predict the correct answer | Explore structure |
+| Output | class, score, value | cluster label, grouping |
+| Key question | What should be predicted? | What gets grouped together as similar? |
+
+The cluster label here is not meaning given in advance by humans. It is only a number attached for convenience by the algorithm.
+
+If we view this difference once through a diagram, it looks like this.
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-01-en.mmd"
+```
+
+This diagram shows at a glance where supervised learning and clustering diverge at the starting point. Supervised learning learns a mapping with answer labels, but clustering first finds the structure of similarity without labels, and then humans must interpret those groups again.
+
+## Why Does The Word `Similar` Matter So Much?
+
+Clustering ultimately works on ideas such as distance, density, connectivity, and center between data points.
+
+That means clusters do not just appear on their own. They change depending on `what standard was used to define similarity`.
+
+Consider customer data, for example.
+
+- Number of monthly visits
+- Average purchase amount
+- Days since the last login
+
+If we look at customers through these three features, similarity can mean that their positions are close along these three axes.
+
+But for text documents, similarity may change into closeness in word distributions or embedding space.
+
+So in clustering, the word `similar` is not an emotional expression. It is `a definition of relationships inside feature space`.
+
+If this is compressed into a data flow, it looks like this.
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-02-en.mmd"
+```
+
+This diagram shows that clustering is not a process that pulls an answer directly out of raw data. Only after choosing features and deciding what similarity rule to use do clusters form, so the result is always affected by representation and similarity definition.
+
+The final stage of the diagram right above is important. Clustering is not `an answer generator`, but `a structure proposer`. Once the result comes out, humans still need to interpret what those groups actually mean.
+
+## Why Is A Cluster Different From A Class?
+
+The most common misunderstanding is this.
+
+`Now that clusters came out, this must already be the true category.`
+
+But clusters and classes are different.
+
+- Class: a correct category whose meaning was defined by humans
+- Cluster: a group found by the algorithm inside the data
+
+For example, even if customer segments are divided into three clusters, that does not automatically mean they are official categories such as `VIP / regular / churn risk`. That interpretation is attached later by humans.
+
+So clustering does not `automatically finalize meaning`. It is closer to `proposing interpretation candidates`.
+
+If we picture this point, it looks like the following.
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-03-en.mmd"
+```
+
+This diagram separates cluster numbers from business meaning. Outputs such as `cluster 0` and `cluster 1` are still only temporary IDs, and interpreting them as `VIP customer`, `light user`, or `risk group` happens later in the human review step.
+
+## What Intuition Does k-means Show?
+
+The scikit-learn user guide explains K-means as an algorithm that divides samples into `n groups of equal variance` and tries to reduce inertia, or the within-cluster sum of squares. It also describes the process of assigning each sample to the nearest cluster based on centroids.
+
+k-means creates clusters by placing a few centers and attaching each point to the nearest center.
+
+In other words, k-means is a center-based intuition.
+
+So it tends to fit the following situations.
+
+- When the number of clusters can be decided in advance
+- When clusters look round and relatively even in size
+- When you want a quick first look at the basic structure
+
+But as the scikit-learn documentation also points out, it may not fit elongated or complex cluster shapes well.
+
+## What Intuition Does DBSCAN Show?
+
+The scikit-learn clustering overview table describes DBSCAN as useful for `non-flat geometry`, `uneven cluster sizes`, and `outlier removal`.
+
+`DBSCAN builds clusters by looking at how densely points gather, without deciding centers first.`
+
+In other words, DBSCAN is a density-based intuition.
+
+So it comes to mind in the following situations.
+
+- When cluster shapes are not round
+- When some points should be left separately as noise or outliers
+- When cluster sizes may not be even
+
+On the other hand, if density differences are very large or the parameters do not fit, clusters may be hard to capture well.
+
+## Putting k-means And DBSCAN Side By Side
+
+| Question | k-means | DBSCAN |
+| --- | --- | --- |
+| Cluster intuition | center | density |
+| Is the number of clusters fixed in advance? | Usually yes | Usually no |
+| Outlier handling | Weak | Relatively better at exposing them |
+| Cluster shape | Better for round and even shapes | Can handle more complex shapes |
+
+This comparison is not about `which one is better`. It is about `what kind of structure you expect`.
+
+If we compare only the intuition, it is often easier to read the two algorithms as starting from entirely different questions.
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-04-en.mmd"
+```
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-05-en.mmd"
+```
+
+The first diagram shows that k-means is `a way of placing centers first and then attaching points`. The second shows that DBSCAN is `a way of expanding dense connected regions while leaving sparse points behind`. When the comparison is split instead of forced into one panel, readers can understand more quickly that `center-based` and `density-based` are different clustering questions.
+
+## Cases And Examples
+
+### Case 1. When You Want To Regroup Shopping-Mall Customers By Usage Pattern Rather Than Sales Rank
+
+When an online shopping team looks at customers, it is easy to separate them only by a single criterion such as `how large was this month's purchase amount?` But in reality, patterns are mixed: customers who visit often but buy small amounts, customers who visit rarely but spend a lot at once, customers whose recent visits stopped, and so on. If you look only at amount, they can be forced into the same category. Clustering proposes similar customer groups by looking together at features such as visit count, purchase amount, and recency. As a result, the team can discover `behavior-pattern-centered` groups that were not visible in a simple sales ranking table, and then continue with interpretation and marketing-strategy review.
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-06-en.mmd"
+```
+
+If this case is compressed into a review memo, it can be written like this.
+
+| Candidate group | Representative case | What not to decide immediately | Next question to check |
+| --- | --- | --- | --- |
+| Group of customers who visit often but purchase in small amounts | Sample customers with high visit count and mid-to-low spend | Do not call them VIPs or loyal customers right away | Does this also connect with revisit rate, lifetime value, and churn rate? |
+| Group of customers who visit rarely but spend heavily at once | Sample customers with low visit count and high spend | Do not immediately pass this to a special high-price customer policy | Is this seasonal buying or a repeated pattern? |
+
+### Case 2. When There Are No Article Classification Labels Yet And You Want To Build Topic Groups For Editorial Review First
+
+Suppose a news-service team wants to organize incoming articles, but there are not yet enough labels such as `politics`, `economy`, or `sports`. If humans try to classify articles one by one just by skimming titles, documents with fuzzy boundaries, such as technology pieces and industry pieces, repeatedly shake the judgment about where they belong. In that situation, clustering gives a starting point for `first grouping similar articles together` based on article embeddings or word distributions.
+
+The important point here is that clusters do not immediately replace the correct categories. For example, if one group gathers articles about `semiconductor investment`, `AI chips`, and `data centers`, that group could be read as a `technology` cluster or as an `industry` cluster. In other words, clustering suggests `sets of documents the editorial team should review together first`, but the final topic names and operational classification system still have to be attached later by humans.
+
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-07-en.mmd"
+```
+
+If this case is compressed into a work memo, it can be written like this.
+
+| Candidate group | Representative case | What not to decide immediately | Next question to check |
+| --- | --- | --- | --- |
+| Group where semiconductor investment and AI infrastructure articles gather together | Data-center investment article, AI-chip demand article | Do not immediately finalize it as a `technology` cluster | Where exactly does the boundary between industry and technology articles fall? |
+| Group where player results and club-management stories gather together | Match-summary article, coach-replacement article | Do not fix it only as one `sports` cluster immediately | Do result articles and operations articles also need to be separated again? |
+
+## Practice And Example
+
+This example is a tiny exercise that uses only two coordinates to see whether points look like they form two groups. It does not stop after one run. It also looks at how the cluster hypothesis becomes less stable when one point changes.
+
+- Problem situation: inspect whether unlabeled points naturally look like a few groups
+- Input: two-dimensional coordinates
+- Expected output: an intuition for nearby point groups
+- Concepts to check:
+  - Clusters begin from spatial relationships
+  - Even without labels, a sense of grouping can appear
+
+```python
+points = [
+    (1.0, 1.2),
+    (1.1, 0.9),
+    (0.8, 1.0),
+    (5.0, 5.1),
+    (5.2, 4.9),
+    (4.8, 5.0),
+]
+
+left_group = [p for p in points if p[0] < 3]
+right_group = [p for p in points if p[0] >= 3]
+
+print("all points :", points)
+print("group A    :", left_group)
+print("group B    :", right_group)
+print("group sizes:", len(left_group), len(right_group))
+```
+
+The result is as follows.
+
+```text
+all points : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
+group A    : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0)]
+group B    : [(5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
+group sizes: 3 3
+```
+
+This code is not an actual clustering algorithm. But it gives an important sense.
+
+1. Even without labels, point positions can suggest a sense of groups.
+2. Clusters are ultimately connected to the question of which points gather closely in some space.
+3. Real algorithms try to generalize that grouping criterion and find it automatically.
+
+### Change One Value: How Should We Read It When A Point Appears In The Middle?
+
+Now add one ambiguous point between the two groups.
+
+```python
+points = [
+    (1.0, 1.2),
+    (1.1, 0.9),
+    (0.8, 1.0),
+    (3.0, 3.1),
+    (5.0, 5.1),
+    (5.2, 4.9),
+    (4.8, 5.0),
+]
+
+left_group = [p for p in points if p[0] < 3]
+right_group = [p for p in points if p[0] >= 3]
+
+print("all points :", points)
+print("group A    :", left_group)
+print("group B    :", right_group)
+print("group sizes:", len(left_group), len(right_group))
+```
+
+```text
+all points : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0), (3.0, 3.1), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
+group A    : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0)]
+group B    : [(3.0, 3.1), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
+group sizes: 3 4
+```
+
+Even adding one point makes the interpretation of `two groups` less clear. What the reader should feel here is that clustering is not `a device that gives the answer`, but `a device for seeing how the structure hypothesis changes once a standard of similarity is chosen`. Since interpretation changes depending on how points near the boundary are read, in practice you should record `what remained ambiguous` before you record cluster numbers.
+
+### What Should Be Read Together In This Example?
+
+The goal of Part 4 is not to list model names, but to build criteria for how problems should be defined and how results should be read. This exercise checks all at once the problem definition `a structure exploration problem without answer labels`, the evaluation viewpoint `one point in the middle can shake the cluster hypothesis`, and the application principle `the grouping hypothesis and representative cases should be recorded together`. In other words, if you ran a clustering example but still did not feel the goal of the Part, the problem usually was not too few runs. It was that the sentences for `interpreting the difference in results and passing it to the next question` were missing.
+
+| Shared recording language | What to record immediately in this example |
+| --- | --- |
+| What structure appeared | A set of points that looked like two groups could be shaken by only one boundary point |
+| Interpretation boundary | A cluster is not an automatic answer, but an interpretation candidate built on a similarity criterion |
+| Next question | How do groups change if the distance rule, scaling, or outlier handling changes? |
+
+## What To Remember From This Section
+
+- Clustering is unsupervised learning that finds structure in unlabeled data.
+- A cluster is not a correct class defined by humans, but a group proposed by the algorithm.
+- Similarity is defined on criteria such as distance, density, and connectivity.
+- k-means shows a center-based intuition, while DBSCAN shows a density-based intuition.
+- Clustering results are the starting point of interpretation, not truth that becomes fixed automatically.
+
+| What should be looked at together | The question read first in this Section | Where it goes immediately next |
+| --- | --- | --- |
+| Grouping hypothesis | Under what feature criteria did what groups appear? | P4-17.2 cautions for cluster interpretation |
+| Representative cases | How should each group be described at the sample level? | Cluster summaries and domain interpretation |
+| Next verification question | By what should we recheck whether this structure is really meaningful? | Scaling, parameters, and follow-up outcome comparison |
+
+## Checklist
+
+- When you want to see grouping hypotheses inside data before having answer labels, think of clustering as a structure-exploration tool.
+- When you become tempted to talk about clusters and classes as if they are the same thing, separate again the algorithm's proposed grouping from the correct answer defined by people.
+- When you need to compare k-means and DBSCAN, bring back first the intuition difference between center-based and density-based clustering.
+- Have you made it clear that the need here is not answer prediction but structure exploration?
+- Can you explain that a cluster is not a correct class but an interpretation candidate?
+- Can you speak separately about what similarity criterion is being used and what clustering intuition, such as k-means or DBSCAN, is being used?
+
+## Sources And References
+
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `KMeans`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `DBSCAN`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,0 +1,18 @@
+flowchart TD
+  A["many customer features"]
+  B["hard to read the whole table"]
+  C["compress into a few components"]
+  D["activity-like axis"]
+  E["spend-size axis"]
+  F["recency-like axis"]
+  G["inspect structure more easily"]
+  H["reuse for clustering or downstream models"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> G
+  F --> G
+  G --> H

@@ -1,0 +1,10 @@
+flowchart TD
+  A["cluster similar samples"]
+  B["assume one label for the whole group"]
+  C["spread label to all unlabeled samples"]
+  D["boundary errors also spread"]
+  E["review representative and boundary samples first"]
+  F["apply labels only after validation"]
+
+  A --> B --> C --> D
+  A --> E --> F

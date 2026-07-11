@@ -1,0 +1,15 @@
+flowchart TB
+  A["A"]
+  B["B"]
+  C["C"]
+  D["D"]
+  AB["A+B"]
+  CD["C+D"]
+  ALL["(A+B)+(C+D)"]
+
+  A --> AB
+  B --> AB
+  C --> CD
+  D --> CD
+  AB --> ALL
+  CD --> ALL

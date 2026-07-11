@@ -1,0 +1,11 @@
+flowchart TD
+  A["input data"]
+  B{"given labels?"}
+  C["learn mapping"]
+  D["predict known target"]
+  E["search similarity structure"]
+  F["propose cluster groups"]
+
+  A --> B
+  B -->|yes| C --> D
+  B -->|no| E --> F

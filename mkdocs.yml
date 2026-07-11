@@ -809,6 +809,17 @@ plugins:
                         - "P4-16.1 Gradient Boosting": en/parts/part-04/chapter-16/section-01.md
                         - "P4-16.2 Performance And Risk In Boosting": en/parts/part-04/chapter-16/section-02.md
                         - "P4-16.3 Supplementary Learning: Boosting Libraries And Operational Feel": en/parts/part-04/chapter-16/section-03.md
+                    - Chapter 17. Clustering:
+                        - "P4-17.1 Intuition For Clustering": en/parts/part-04/chapter-17/section-01.md
+                        - "P4-17.2 Cautions When Interpreting Clustering Results": en/parts/part-04/chapter-17/section-02.md
+                        - "P4-17.3 Supplementary Learning: How To Distinguish Hierarchical Clustering And Spectral Clustering For The First Time": en/parts/part-04/chapter-17/section-03.md
+                        - "P4-17.4 Supplementary Learning: How To Connect Clustering And Semi-Supervised Learning For The First Time": en/parts/part-04/chapter-17/section-04.md
+                    - Chapter 18. Dimensionality Reduction:
+                        - "P4-18.1 Dimensionality Reduction": en/parts/part-04/chapter-18/section-01.md
+                        - "P4-18.2 Visualization And Information Loss": en/parts/part-04/chapter-18/section-02.md
+                    - Chapter 19. Reinforcement Learning Algorithms:
+                        - "P4-19.5 Supplementary Learning: How To Read The Bellman Equation, Convergence, And Function Approximation For The First Time": en/parts/part-04/chapter-19/section-05.md
+                        - "P4-19.6 Supplementary Learning: How To Read Policy Gradient And The Likelihood Ratio Trick For The First Time": en/parts/part-04/chapter-19/section-06.md
           theme:
             language: en
         - locale: zh
@@ -1051,6 +1062,17 @@ plugins:
                         - "P4-16.1 梯度提升(gradient boosting)": zh/parts/part-04/chapter-16/section-01.md
                         - "P4-16.2 提升模型的性能与风险": zh/parts/part-04/chapter-16/section-02.md
                         - "P4-16.3 补充学习：提升库与运营感": zh/parts/part-04/chapter-16/section-03.md
+                    - Chapter 17. 聚类:
+                        - "P4-17.1 聚类(clustering)的直觉": zh/parts/part-04/chapter-17/section-01.md
+                        - "P4-17.2 解释聚类结果时的注意点": zh/parts/part-04/chapter-17/section-02.md
+                        - "P4-17.3 补充学习：如何第一次区分层次聚类与谱聚类": zh/parts/part-04/chapter-17/section-03.md
+                        - "P4-17.4 补充学习：如何第一次把聚类和半监督学习连接起来": zh/parts/part-04/chapter-17/section-04.md
+                    - Chapter 18. 降维:
+                        - "P4-18.1 降维(dimensionality reduction)": zh/parts/part-04/chapter-18/section-01.md
+                        - "P4-18.2 可视化与信息损失": zh/parts/part-04/chapter-18/section-02.md
+                    - Chapter 19. 强化学习算法:
+                        - "P4-19.5 补充学习：如何第一次阅读贝尔曼方程、收敛与函数近似": zh/parts/part-04/chapter-19/section-05.md
+                        - "P4-19.6 补充学习：如何第一次阅读 policy gradient 和 likelihood ratio trick": zh/parts/part-04/chapter-19/section-06.md
           theme:
             language: zh
   - search:
