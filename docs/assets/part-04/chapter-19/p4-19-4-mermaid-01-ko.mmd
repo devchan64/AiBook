@@ -1,12 +1,12 @@
 flowchart TD
-  A["meet DQN, PPO, RLHF together"]
-  B["ask what bottleneck appears first"]
-  C["state space is too large"]
-  D["policy updates are unstable"]
-  E["human preference must guide outputs"]
-  F["read as DQN branch"]
-  G["read as PPO or actor-critic branch"]
-  H["read as RLHF or preference branch"]
+  A["DQN, PPO, RLHF를 함께 마주함"]
+  B["어떤 병목이 먼저 나타나는지 묻는다"]
+  C["상태 공간이 너무 큼"]
+  D["정책 갱신이 불안정함"]
+  E["사람 선호가 출력을 이끌어야 함"]
+  F["DQN 계열로 읽는다"]
+  G["PPO 또는 actor-critic 계열로 읽는다"]
+  H["RLHF 또는 선호 학습 계열로 읽는다"]
 
   A --> B
   B --> C --> F

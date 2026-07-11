@@ -1,0 +1,7 @@
+flowchart TD
+  A["输入点 (exam_1, exam_2)"]
+  A --> B["线性分数 z"]
+  B --> C{"z 与 0 比较"}
+  C -->|z < 0| D["class 0 一侧"]
+  C -->|z > 0| E["class 1 一侧"]
+  C -->|z = 0| F["边界"]

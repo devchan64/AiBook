@@ -96,7 +96,7 @@ dimension 既是一个数学抽象概念，也可以理解成`描述数据时用
 如果把这个感觉画得很简单，会是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-01-zh.mmd"
 ```
 
 这张图展示出：维度越多，数据就越难像简单图形那样直接想象。只要先抓住“一个特征就多一条轴”这个感觉，就更容易理解：为什么高维数据里又需要重新做概括轴。
@@ -140,7 +140,7 @@ scikit-learn 用户指南把 PCA 描述成：把多变量(multivariate)数据集
 ## 先看一个场景
 
 ```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-02-zh.mmd"
 ```
 
 这张图的核心在于：降维不是简单删除，而是`通过新建轴来重新表达`。当特征太多、很难直接看见结构，而且还可能存在重叠信息时，就会创建更少的轴，用来重新解释结构，或者送进后续模型。
@@ -168,7 +168,7 @@ PCA 就是在尝试寻找`比原始坐标系更贴近数据流向的坐标系`�
 把这个感觉压缩成图，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-03-zh.mmd"
 ```
 
 这张图帮助读者把 PCA 读成`根据数据真正扩散较多的方向，再次旋转轴的过程`。一旦找到更贴近数据流向的轴，第一成分就能比原来的坐标轴更高效地解释主要变动。
@@ -316,7 +316,7 @@ scikit-learn 文档也说明，PCA 可能对 K-means 这类 downstream 模型有
 把这个连接压成图，会像下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-04-zh.mmd"
 ```
 
 ## 案例与示例
@@ -326,7 +326,7 @@ scikit-learn 文档也说明，PCA 可能对 K-means 这类 downstream 模型有
 假设一个业务团队手里同时有很多客户指标：访问次数、购买金额、最近活跃度、会话时长、品类多样性、折扣响应等等。直接盯着完整表格看，很难抓住整体流向。这时，降维可以把信息压缩成少数几个成分，比如 `类似活跃度的轴`、`消费规模轴`、`类似最近性的轴`，让结构更容易重新被看见。这里重要的不是原始特征从此没用了，而是`先建立一种新的表达，让大的结构变得可读。`
 
 ```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-05-en.mmd"
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-05-zh.mmd"
 ```
 
 如果把这个案例压缩成审查备忘，可以写成这样。

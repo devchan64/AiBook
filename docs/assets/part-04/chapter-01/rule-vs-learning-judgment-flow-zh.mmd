@@ -1,11 +1,11 @@
 flowchart TD
-  I["new case"]
-  P{"who made the decision rule?"}
+  I["新案例"]
+  P{"判断规则是谁制定的？"}
 
   I --> P
-  P -->|person writes it| R["rule-based result"]
-  P -->|data trains it| L["model prediction"]
+  P -->|由人编写| R["基于规则的结果"]
+  P -->|由数据训练得到| L["模型预测"]
 
-  R --> D["service policy"]
+  R --> D["服务策略"]
   L --> D
-  D --> O["action or response"]
+  D --> O["动作或响应"]

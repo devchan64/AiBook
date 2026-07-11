@@ -1,9 +1,9 @@
 flowchart TD
-  A["trained model"]
-  B["measure baseline score"]
-  C["shuffle one feature"]
-  D["measure score again"]
-  E["compare score drop"]
-  F["larger drop -> more dependence"]
+  A["학습된 모델"]
+  B["기준 점수를 측정"]
+  C["특징 하나를 섞는다"]
+  D["점수를 다시 측정"]
+  E["점수 하락을 비교"]
+  F["더 크게 떨어질수록 더 의존함"]
 
   A --> B --> C --> D --> E --> F

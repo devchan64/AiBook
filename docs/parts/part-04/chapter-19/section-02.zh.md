@@ -71,7 +71,7 @@
 如果把它画得非常简单，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-01-zh.mmd"
 ```
 
 这个图显示的是：policy 不一定只是吐出`唯一正确行动`，它也可以在看到状态后，直接生成多个行动候选的倾向或强度。也正因为如此，策略型强化学习会被读成一种不经过记分板、直接调整行动分布本身的视角。
@@ -124,11 +124,11 @@
 把同一个场景拆成价值型与策略型两边来读，差别会更清楚。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-02-zh.mmd"
 ```
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-03-zh.mmd"
 ```
 
 第一张图是`比较行动值后再选`，第二张图则是`直接表达行动出现概率的结构`。
@@ -152,7 +152,7 @@ policy gradient 是一类代表性方法，它直接调整 policy parameter，�
 压成图，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-04-zh.mmd"
 ```
 
 这个图的关键点，是把 policy 读成`可调整的行动倾向`，而不是`固定输出规则`。
@@ -201,7 +201,7 @@ actor-critic 应该这样读。
 | actor-critic 组合 | 同时使用 policy 调整与评价信号 | 以为只是把两个独立算法硬拼在一起 | 应读成降低波动的分工结构 |
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-05-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-05-zh.mmd"
 ```
 
 在这个图里，critic 不是替 actor 决定行动的存在，而是给 actor update 提供更稳定评价信号的角色。
@@ -291,7 +291,7 @@ actor-critic 常被使用，是因为人们希望同时拿到`直接调整 polic
 机器人手臂抓箱子时，不是在 `left` 或 `right` 这几个动作里选一个，而是要连续决定角度与力度该给多少。在这种场景里，比起把所有可能行动都写成表分数，更自然的是直接调整 policy，让某些角度和力度在当前状态下更常出现。策略型强化学习会提高成功抓取动作的概率、降低失败动作的概率，从而直接修整行动分布。所以，在复杂连续控制问题里，`直接修改行动方式`往往比`先做记分板再挑最高值`更贴切。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-06-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-06-zh.mmd"
 ```
 
 把这个案例压成 project memo，可以写成下面这样。

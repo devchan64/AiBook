@@ -70,7 +70,7 @@
 把这个大流程压一下，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-01-zh.mmd"
 ```
 
 强化学习不只是`选一个算法`的问题，而是同时追问目标定义、实验可行性、部署可行性的结构。
@@ -97,7 +97,7 @@
 这时就会变得重要：`reward 可能只是对真实目标的代理(proxy)`。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-02-zh.mmd"
 ```
 
 这个图显示的是强化学习里最常见的风险之一。如果人真正想要的目标和学习器拿到的 reward 数字没有对齐，policy 就可能只把数字冲高，却把意图丢掉。
@@ -213,7 +213,7 @@ AI 安全文献把 safe exploration 当成单独问题。原因很简单。
 这种差异通常就叫 sim-to-real gap。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-03-zh.mmd"
 ```
 
 这个图很简单，但很重要。强化学习在现实里变难，不是因为算法太弱，而是因为`训练它的世界和要部署它的世界可能不是同一个世界`。
@@ -291,7 +291,7 @@ sim-to-real gap 也不能只被读成`成绩差一点`。更实际的读法应�
 假设内容推荐团队把强化学习 policy 的 reward 只设成`点击数增加`。policy 可能很快通过更多刺激性标题和短停留内容把点击冲高。但如果真实目标是长期满意和回访，那投诉上升、服务信任下降，反而会让真实目标受损。这个案例显示的是：在强化学习里，reward 数字并不直接等于人的意图，部署前必须检查代理指标和真实目标之间的差距。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-04-zh.mmd"
 ```
 
 这个场景可以立刻被记录成这样：`如果 policy 提高了点击，但投诉率和流失率也一起上升，那就说明 reward 设计错误地代替了真实目标。下一步应该把更长期的满意指标重新绑回 reward，并先把危险的 exploration 缩到 offline evaluation 或限制实验段里。` 这一节的核心，不是停在`reward 数字上去了`，而是继续问`哪些副作用也跟着上去了`、`这些副作用该在部署前哪里被压住`。

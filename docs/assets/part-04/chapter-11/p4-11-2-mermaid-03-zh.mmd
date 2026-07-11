@@ -1,0 +1,18 @@
+flowchart TD
+  A["同一条分数轴"]
+
+  subgraph L["阈值 0.5"]
+    direction TB
+    L1["边界更早出现"]
+    L2["class 1 区域更宽"]
+  end
+
+  subgraph R["阈值 0.7"]
+    direction TB
+    R1["边界向右移动"]
+    R2["class 1 区域更小"]
+  end
+
+  A --> L
+  A --> R
+  L --> R

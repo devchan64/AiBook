@@ -106,7 +106,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 把这个差别再用图看一次，会像下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-01-zh.mmd"
 ```
 
 这张图一眼就展示出监督学习和聚类在起点上是从哪里分开的。监督学习带着正确答案标签去学习映射，而聚类是在没有标签的情况下先找相似结构，之后还需要人重新解释那些分组。
@@ -132,7 +132,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 如果把它压缩成数据流，会像下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-02-zh.mmd"
 ```
 
 这张图说明，聚类不是一个从原始数据里直接掏出答案的过程。只有在选定特征、决定好相似规则之后，聚类才会形成，所以结果总会受到表达方式和相似度定义的影响。
@@ -157,7 +157,7 @@ scikit-learn 用户指南把 clustering 描述成对无标签数据执行的任�
 把这一点画出来，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-03-zh.mmd"
 ```
 
 这张图把聚类编号和业务意义分开来读。像 `cluster 0`、`cluster 1` 这样的输出，还只是临时编号；把它们解释成 `VIP 客户`、`轻度用户`、`风险群`，是在后面的人类审查阶段才发生的。
@@ -208,11 +208,11 @@ scikit-learn 的 clustering 概览表把 DBSCAN 描述成适用于 `non-flat geo
 如果只比较直觉，往往更容易把它们理解成：它们从完全不同的问题出发。
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-04-zh.mmd"
 ```
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-05-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-05-zh.mmd"
 ```
 
 前一张图展示的是：k-means 是`先放中心再贴点`；后一张图展示的是：DBSCAN 是`扩展稠密相连的区域，并把稀疏点留在外面`。把比较拆开，而不是塞进一张图里，更容易让读者意识到：`中心型`和`密度型`其实是在回答不同的聚类问题。
@@ -224,7 +224,7 @@ scikit-learn 的 clustering 概览表把 DBSCAN 描述成适用于 `non-flat geo
 当电商团队查看客户时，很容易只按`这个月消费额大不大`这样的单一标准来分。但现实里，常常会混杂着这些模式：访问频繁但每次花得少的客户、访问少但单次消费很高的客户、最近不再访问的客户。只看消费额的话，它们很可能会被硬塞进同一类。聚类会把访问次数、购买金额、最近活跃度这些特征放在一起看，提出相似客户群。这样，团队就能发现那些在简单销售排行表里看不出来的`以行为模式为中心`的客户组，并在此基础上继续做解释和营销策略审查。
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-06-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-06-zh.mmd"
 ```
 
 把这个案例压缩成 review 备忘，可以写成下面这样。
@@ -241,7 +241,7 @@ scikit-learn 的 clustering 概览表把 DBSCAN 描述成适用于 `non-flat geo
 这里重要的是：聚类并不会直接代替正确类别。举例来说，如果某个分组把 `半导体投资`、`AI 芯片`、`数据中心` 的文章聚在一起，那么这个组既可能被读成 `技术`，也可能被读成 `产业`。也就是说，聚类是向编辑团队提出`应该先放在一起审查的文档组`，而最终的主题名和运营分类体系，仍然得由人重新贴上去。
 
 ```mermaid
---8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-07-en.mmd"
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-07-zh.mmd"
 ```
 
 把这个案例压缩成工作备忘，可以写成下面这样。

@@ -1,9 +1,9 @@
 flowchart TD
-  A["same node data"]
-  B["random subset of features"]
-  C["Random Forest<br/>search best threshold"]
-  D["Extra Trees<br/>draw random thresholds"]
-  E["pick split"]
+  A["같은 노드 데이터"]
+  B["특징의 랜덤 부분집합"]
+  C["Random Forest<br/>가장 좋은 임계값 탐색"]
+  D["Extra Trees<br/>랜덤 임계값 추출"]
+  E["분할 선택"]
 
   A --> B
   B --> C --> E

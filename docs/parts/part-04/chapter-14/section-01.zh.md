@@ -128,7 +128,7 @@ scikit-learn 用户指南把决策树介绍为用于分类和回归的非参数(
 先把它读成 `沿着问题往下走的决策流程`。
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-01-zh.mmd"
 ```
 
 这个图会帮助读者把决策树理解成 `沿着问题走到某个 leaf 的流程`。
@@ -238,7 +238,7 @@ scikit-learn 对 `predict_proba` 的说明也把分类树中的预测概率读�
 把这个过程简化画出来，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-02-zh.mmd"
 ```
 
 这个图说明，决策树训练本质上就是 `不断挑第一好问题和下一好问题`。
@@ -288,7 +288,7 @@ scikit-learn 对 `predict_proba` 的说明也把分类树中的预测概率读�
 在这里，决策树不再被读成一条边界线，而是一个寻找 `更好问题顺序` 的模型。
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-03-zh.mmd"
 ```
 
 这个场景里最重要的一点，是问题本身来自数据选择。

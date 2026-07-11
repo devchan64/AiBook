@@ -1,12 +1,12 @@
 flowchart TD
-  A["customer table"]
-  B["rank by purchase only"]
-  C["mixed behavior stays hidden"]
-  D["cluster by visit, spend, recency"]
-  E["frequent small buyers"]
-  F["rare big spenders"]
-  G["recently inactive customers"]
-  H["review business meaning later"]
+  A["고객 표"]
+  B["구매만으로 순위를 매긴다"]
+  C["섞인 행동 패턴이 숨는다"]
+  D["방문, 지출, 최근성으로 군집화"]
+  E["자주 사지만 소액인 고객"]
+  F["드물게 사지만 고액인 고객"]
+  G["최근 비활성 고객"]
+  H["사업적 의미는 나중에 검토"]
 
   A --> B --> C
   A --> D

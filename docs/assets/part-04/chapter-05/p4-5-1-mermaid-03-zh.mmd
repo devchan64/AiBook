@@ -1,11 +1,11 @@
 flowchart TD
-  A["defect image model"]
-  B["train score almost perfect"]
-  C["validation score drops"]
-  D["suspect overfitting"]
-  E["both train and validation stay low"]
-  F["suspect underfitting"]
-  G["decide whether to simplify or strengthen the model"]
+  A["缺陷图像模型"]
+  B["train 分数几乎完美"]
+  C["validation 分数下降"]
+  D["怀疑过拟合"]
+  E["train 和 validation 都偏低"]
+  F["怀疑欠拟合"]
+  G["决定是简化模型还是增强模型"]
 
   A --> B --> C --> D --> G
   A --> E --> F --> G

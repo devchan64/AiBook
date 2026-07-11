@@ -108,7 +108,7 @@ random forest 会在每个 node 里搜索 `best split`。
 还包括 `到底从哪里切`。
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-01-zh.mmd"
 ```
 
 这张图的重点是：
@@ -260,7 +260,7 @@ Extra Trees 则更接近：
 - 计算时间差
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-02-zh.mmd"
 ```
 
 这个流程里真正重要的不是
@@ -311,7 +311,7 @@ Extra Trees 使用更随机的阈值，
 - 计算时间差在实务里是否明显
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-03-zh.mmd"
 ```
 
 这个案例的核心不是

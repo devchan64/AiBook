@@ -1,11 +1,11 @@
 flowchart TD
-  A["part images<br/>crack / color / edge pattern"]
-  B["too simple rule<br/>few signals only"]
-  C["balanced model<br/>main defect pattern"]
-  D["too complex fit<br/>memorizes training quirks"]
-  E["miss obvious defects<br/>train low / val low"]
-  F["holds on new images<br/>train high / val similar"]
-  G["fails on new images<br/>train very high / val drop"]
+  A["零件图像<br/>裂纹 / 颜色 / 边缘模式"]
+  B["过于简单的规则<br/>只看少量信号"]
+  C["平衡的模型<br/>抓住主要缺陷模式"]
+  D["过于复杂的拟合<br/>记住训练集的偶然细节"]
+  E["漏掉明显缺陷<br/>train 低 / val 低"]
+  F["在新图像上也稳住<br/>train 高 / val 接近"]
+  G["在新图像上失效<br/>train 很高 / val 下跌"]
 
   A --> B
   A --> C

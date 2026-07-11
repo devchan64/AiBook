@@ -1,10 +1,10 @@
 flowchart TD
-  A["many model and tuning runs"]
-  B["only top scores remain"]
-  C["comparison becomes hard to explain"]
-  D["store data version, preprocessing, params, metric, time"]
-  E["retrace why one run won"]
-  F["reuse benchmark or tracking records later"]
+  A["很多模型和调参运行"]
+  B["最后只剩下几个高分结果"]
+  C["比较过程变得难以解释"]
+  D["记录数据版本、预处理、参数、指标、时间"]
+  E["回溯为什么某次运行胜出"]
+  F["以后复用基准或跟踪记录"]
 
   A --> B --> C
   A --> D --> E --> F

@@ -1,0 +1,22 @@
+flowchart TD
+  subgraph RF["random forest"]
+    direction TB
+    R1["树 A"]
+    R2["树 B"]
+    R3["树 C"]
+    R4["聚合投票<br/>或平均值"]
+    R1 --> R4
+    R2 --> R4
+    R3 --> R4
+  end
+
+  subgraph GB["gradient boosting"]
+    direction TB
+    G1["基础阶段"]
+    G2["修正阶段 1"]
+    G3["修正阶段 2"]
+    G4["把所有阶段加起来"]
+    G1 --> G2 --> G3 --> G4
+    G2 -. 修正前面的误差 .-> G1
+    G3 -. 修正剩余误差 .-> G2
+  end

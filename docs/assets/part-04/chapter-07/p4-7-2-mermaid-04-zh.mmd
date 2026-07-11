@@ -1,10 +1,10 @@
 flowchart TD
-  A["customer table<br/>missing / numeric / category mixed"]
-  B["missing-value rule<br/>fill from train statistics"]
-  C["numeric rule<br/>scale selected columns"]
-  D["category rule<br/>encode channel / grade"]
-  E["same transform rules<br/>reuse on validation / test"]
-  F["comparable model input"]
+  A["客户数据表<br/>混合了缺失值 / 数值 / 类别"]
+  B["缺失值规则<br/>用 train 统计量填补"]
+  C["数值规则<br/>缩放选定列"]
+  D["类别规则<br/>编码渠道 / 等级"]
+  E["同一套变换规则<br/>复用到 validation / test"]
+  F["可比较的模型输入"]
 
   A --> B
   A --> C

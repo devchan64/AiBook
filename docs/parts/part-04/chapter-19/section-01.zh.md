@@ -123,7 +123,7 @@ action value 通常写成 Q-value。`Q(s, a)` 表示在状态 `s` 下采取行�
 价值型强化学习的核心，是`做一次行动，看一次结果，再把价值表轻微改一下`的循环。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-01-zh.mmd"
 ```
 
 这个图会让价值型强化学习被读成`看完行动结果后，一点点修正记分板的循环`。关键不是一次性把整个 policy 做完，而是在循环里逐步调整状态-行动的值。
@@ -170,7 +170,7 @@ SARSA 的核心想法和 Q-learning 相似，但标准不同。
 两者都会更新 Q-value，但它们取下一个值的位置不同。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-02-zh.mmd"
 ```
 
 这个图把 Q-learning 与 SARSA 的差异直接分开了。两者都会看下一个状态，但一个是按`看起来最好的下一个行动`来改值，另一个是按`实际继续做了的下一个行动`来改值。
@@ -266,7 +266,7 @@ SARSA 的核心想法和 Q-learning 相似，但标准不同。
 这个表最关键地显示的是：`现在最短的行动` 和 `长期最有利的行动` 可能并不一样。价值型强化学习，正是在尝试把这个差异累积成数字去读。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-03-zh.mmd"
 ```
 
 如果把这个案例压成 review memo，可以这样写。

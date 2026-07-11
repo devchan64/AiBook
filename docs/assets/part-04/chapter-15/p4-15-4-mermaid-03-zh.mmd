@@ -1,0 +1,11 @@
+flowchart TD
+  A["传感器批次数据"]
+  B["Random Forest<br/>搜索更细的阈值"]
+  C["对训练数据拟合得非常好"]
+  D["检查 test 波动"]
+  E["Extra Trees<br/>注入更多随机阈值"]
+  F["再次检查稳定性"]
+
+  A --> B --> C --> D
+  A --> E --> F
+  D --> F

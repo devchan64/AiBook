@@ -161,7 +161,7 @@ MDI 的计算顺序如下。
 简短画出来就是：
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-01-zh.mmd"
 ```
 
 正因为有这个结构，
@@ -236,7 +236,7 @@ permutation importance 会看：
 ### 把 permutation importance 读成流程
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-02-zh.mmd"
 ```
 
 这个流程之所以重要，
@@ -504,7 +504,7 @@ importance 数字大小很直观，
 而不是现实世界的原因排序。
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-03-zh.mmd"
 ```
 
 在这个场景里，

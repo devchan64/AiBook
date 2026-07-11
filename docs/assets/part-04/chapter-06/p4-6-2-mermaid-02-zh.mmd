@@ -1,10 +1,10 @@
 flowchart TD
-  A["clustering result"]
-  B["ground-truth labels available?"]
-  C["yes<br/>compare two labelings"]
-  D["no<br/>inspect cluster structure itself"]
+  A["聚类结果"]
+  B["是否有真实标签？"]
+  C["有<br/>比较两套标注"]
+  D["没有<br/>直接检查聚类结构"]
   E["ARI / FMI / homogeneity-completeness"]
-  F["silhouette or other internal criteria"]
+  F["silhouette 或其他内部指标"]
 
   A --> B
   B --> C

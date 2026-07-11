@@ -1,10 +1,10 @@
 flowchart TD
-  A["new customer query"]
-  B["find nearest customers"]
-  C["compare labels of neighbors"]
-  D["vote with current k"]
-  E["prediction"]
-  F["review if neighbors are mixed"]
+  A["새 고객 질의"]
+  B["가까운 고객을 찾는다"]
+  C["이웃의 label을 비교한다"]
+  D["현재 k로 투표한다"]
+  E["예측"]
+  F["이웃이 섞였는지 검토한다"]
 
   A --> B --> C --> D --> E
   C --> F

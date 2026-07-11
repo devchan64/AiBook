@@ -1,8 +1,8 @@
 flowchart TB
-  A["1. observe state<br/>current state s"]
-  B["2. choose action<br/>try action a"]
-  C["3. receive reward<br/>reward r and next state s'"]
-  D["4. estimate future value<br/>what looks good next?"]
-  E["5. update Q-value<br/>revise Q(s, a)"]
+  A["1. 상태를 관찰<br/>현재 상태 s"]
+  B["2. 행동을 선택<br/>행동 a를 시도"]
+  C["3. 보상을 받음<br/>보상 r과 다음 상태 s'"]
+  D["4. 미래 가치를 추정<br/>다음엔 무엇이 좋아 보이는가?"]
+  E["5. Q-value 갱신<br/>Q(s, a)를 수정"]
 
   A --> B --> C --> D --> E --> A

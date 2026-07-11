@@ -1,11 +1,11 @@
 flowchart TD
-  A["many churn columns"]
-  B["include IDs and after-the-fact fields"]
-  C["score may look high from leakage"]
-  D["keep only usable signals at prediction time"]
-  E["remove IDs, labels, post-outcome fields"]
-  F["recheck validation score"]
-  G["explain why the kept feature list is safer"]
+  A["很多流失相关列"]
+  B["把 ID 和事后字段也放进去"]
+  C["由于泄漏，分数可能看起来很高"]
+  D["只保留预测时可用的信号"]
+  E["移除 ID、标签、结果发生后的字段"]
+  F["重新检查 validation 分数"]
+  G["解释为何保留后的特征列表更安全"]
 
   A --> B --> C
   A --> D --> E --> F --> G

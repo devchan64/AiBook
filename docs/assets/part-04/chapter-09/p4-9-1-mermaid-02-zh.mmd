@@ -1,11 +1,11 @@
 flowchart TD
-  A["same decision tree family"]
-  B["shallow depth"]
-  C["deep depth"]
-  D["simple rule, lower scores"]
-  E["high train score, unstable validation"]
-  F["compare train and validation together"]
-  G["read hyperparameters as behavior controls"]
+  A["同一个决策树家族"]
+  B["较浅的深度"]
+  C["较深的深度"]
+  D["规则简单，分数较低"]
+  E["train 分数高，但 validation 不稳定"]
+  F["把 train 和 validation 一起比较"]
+  G["把超参数理解为行为控制杆"]
 
   A --> B --> D --> F
   A --> C --> E --> F --> G

@@ -1,11 +1,11 @@
 flowchart TD
-  A["customer coupon table"]
-  B["train and evaluate on the whole table"]
-  C["score looks too good"]
-  D["leave out an evaluation split"]
-  E["train on one part only"]
-  F["check unseen-customer score"]
-  G["read whether optimism was justified"]
+  A["客户优惠券数据表"]
+  B["在整张表上同时训练和评估"]
+  C["分数看起来过于理想"]
+  D["留出一部分做评估"]
+  E["只在其中一部分上训练"]
+  F["检查未见客户上的分数"]
+  G["判断这种乐观是否合理"]
 
   A --> B --> C
   A --> D --> E --> F --> G

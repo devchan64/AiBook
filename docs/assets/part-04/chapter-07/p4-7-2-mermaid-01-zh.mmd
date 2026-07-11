@@ -1,8 +1,8 @@
 flowchart LR
-  A["raw table<br/>missing / mixed scales / category text"]
-  B["split first<br/>train / validation / test"]
-  C["learn preprocessing rules on train<br/>fill values / scaling stats / category map"]
-  D["transform rows with same rules"]
-  E["model-ready matrix"]
+  A["原始表<br/>缺失值 / 尺度混杂 / 类别文本"]
+  B["先划分数据<br/>train / validation / test"]
+  C["只在 train 上学习预处理规则<br/>填充值 / 缩放统计量 / 类别映射"]
+  D["用同一套规则转换各行"]
+  E["可直接送入模型的矩阵"]
 
   A --> B --> C --> D --> E

@@ -117,7 +117,7 @@ regularization 可以先读成 `防止模型把训练数据贴得过紧的装置
 如果实验 A 和实验 B 都是 logistic regression，但一个用了 `lbfgs + L2`，另一个用了 `saga + Elastic-Net`，那就不能简单地把结果变化读成 `logistic regression 变好了`。在这种情况下，设置差异本身就可能比模型名字更重要。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-5-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-5-mermaid-01-zh.mmd"
 ```
 
 ## 练习与示例

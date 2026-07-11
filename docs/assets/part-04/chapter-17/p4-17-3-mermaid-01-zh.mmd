@@ -1,0 +1,15 @@
+flowchart TB
+  A["簇 A"]
+  B["簇 B"]
+  C["簇 C"]
+  D["簇 D"]
+  AB["A+B 合并"]
+  CD["C+D 合并"]
+  ALL["(A+B)+(C+D) 合并"]
+
+  A --> AB
+  B --> AB
+  C --> CD
+  D --> CD
+  AB --> ALL
+  CD --> ALL

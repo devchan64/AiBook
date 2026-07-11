@@ -102,7 +102,7 @@ P4-10.1 把 linear regression 介绍成 `总结关系的第一个 model`。但�
 把这个差简单画出来，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-01-zh.mmd"
 ```
 
 这张图让 residual 不再只是一个平面的 `失败标记`，而是一个 `带方向的差`。只有把 prediction 比 reality 低还是高一起看，读者以后才能怀疑：model 是否在某个区间里系统性地偏向某一边。
@@ -219,7 +219,7 @@ R² 是 linear regression 入门里经常出现的数字，但也很容易被误
 把这个顺序简单画出来，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-02-zh.mmd"
 ```
 
 这张图整理的是 regression metric 的阅读顺序。好的 regression evaluation 不是看完一个数字就结束，而是要按顺序确认：它有没有超过 baseline、平均误差有多大、以及后面有没有藏着大失败。
@@ -373,7 +373,7 @@ linear regression 的优点之一是解释性高，但正因为如此，草率�
 把 linear regression 跑出来之后，整体 R² 不低，MAE 看起来也还可以。表面上，model 似乎能用。但仔细看时，在长距离配送或暴雨天里 prediction 会明显偏掉，而 RMSE 也因为这些大失败而比预想更高。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-03-zh.mmd"
 ```
 
 在这个场景里，regression evaluation 不是一个数字就能结束。MAE 展示的是平均偏了多少，RMSE 对少数大失败更敏感，而 R² 只是总结整体解释力有多大。因此，单看 `R² 很高` 还远远不够说明实际运营风险。

@@ -72,7 +72,7 @@ SVM 正是用 `margin` 这个词来抓住这种差别。
 把这个想法压成一个判断流程，可以画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-01-zh.mmd"
 ```
 
 这张图的关键在于：单独读取 margin 并不是附带装饰。必须先看到同一批数据上可以有多个候选 boundary，再去比较各自最近的点，读者才能真正区分：为什么有的 boundary 紧贴一侧而显得脆弱，而有的 boundary 能在两边都留下余地。
@@ -113,7 +113,7 @@ SVM 这个名字里就带着 `support vector`。之所以重要，是因为并�
 这个想法可以简单画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-02-zh.mmd"
 ```
 
 这张图说明了为什么 support vector 特别。并不是所有 training points 都以同样的权重塑造 boundary。远离 boundary 的点摇动它较少，而少量最近的点真正撑住了分割线的位置。
@@ -207,7 +207,7 @@ boundary x = 4.6
 这个想法可以概念化地画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-03-zh.mmd"
 ```
 
 ### SVM 适合处理什么问题
@@ -270,7 +270,7 @@ SVM 不是所有分类问题的默认答案，但当 `boundary 稳定性本身` 
   - 模糊案例仍然存在，但标准本身没那么容易晃动
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-04-zh.mmd"
 ```
 
 ### 案例 2. 简历筛选
@@ -283,7 +283,7 @@ SVM 不是所有分类问题的默认答案，但当 `boundary 稳定性本身` 
   - 标准更可能保持在一个更一般、更容易解释的方向上
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-05-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-05-zh.mmd"
 ```
 
 `SVM 的 margin 直觉，会直接连到：模型生成的 boundary 在现实工作里到底会多敏感地摇晃`
@@ -429,7 +429,7 @@ boundary x = 4.95
 把整条 흐름 再重新绑一次，会变成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-06-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-06-zh.mmd"
 ```
 
 | 需要一起看的东西 | 这一节先问的问题 | 立刻会接到哪里 |

@@ -1,10 +1,10 @@
 flowchart TD
-  A["customer churn table"]
-  B["train split<br/>fit several models"]
-  C["validation split<br/>choose depth / features / model"]
-  D["final candidate"]
-  E["test split<br/>open once at the end"]
-  F["reported final result"]
+  A["客户流失数据表"]
+  B["训练集<br/>拟合多个模型"]
+  C["验证集<br/>选择深度 / 特征 / 模型"]
+  D["最终候选"]
+  E["测试集<br/>最后只打开一次"]
+  F["对外报告的最终结果"]
 
   A --> B
   A --> C

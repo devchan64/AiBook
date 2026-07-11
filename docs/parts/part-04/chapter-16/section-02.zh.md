@@ -153,7 +153,7 @@ scikit-learn 文档说明，
 下面这张图很重要。
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-01-zh.mmd"
 ```
 
 它的意思很简单。
@@ -372,7 +372,7 @@ early stopping 不是单纯的便利功能。
 以及 validation 是从哪一阶段开始不再改善的。
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-02-zh.mmd"
 ```
 
 这个场景也可以压成一句更短的记录：
@@ -404,7 +404,7 @@ Boosting 在努力压残余误差时，
 但一旦进入真实运营动作，性价比却可能变差。
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-03-zh.mmd"
 ```
 
 所以在这个场景里，

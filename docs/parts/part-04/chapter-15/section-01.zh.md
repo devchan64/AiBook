@@ -167,7 +167,7 @@ scikit-learn 文档把 random forests 解释成
 ### 先用一个画面来读
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-01-zh.mmd"
 ```
 
 这个图里最重要的一点是 `每棵树看到的东西并不完全一样`。
@@ -328,7 +328,7 @@ scikit-learn 文档说明，
 ### 把随机森林读成一个流程
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-02-zh.mmd"
 ```
 
 这里的核心不是 `树更多` 本身，
@@ -416,7 +416,7 @@ OOB 只是把这些剩下来的样本再次利用。
 同时减少单棵树过度敏感的问题。
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-03-zh.mmd"
 ```
 
 在这个场景里，

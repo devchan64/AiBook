@@ -1,14 +1,14 @@
 flowchart TB
   subgraph QL["Q-learning"]
-    Q1["current state-action<br/>Q(s, a)"]
-    Q2["next state s'"]
-    Q3["use the best-looking next action<br/>max_a' Q(s', a')"]
+    Q1["현재 상태-행동<br/>Q(s, a)"]
+    Q2["다음 상태 s'"]
+    Q3["가장 좋아 보이는 다음 행동 사용<br/>max_a' Q(s', a')"]
     Q1 --> Q2 --> Q3
   end
 
   subgraph SA["SARSA"]
-    S1["current state-action<br/>Q(s, a)"]
-    S2["next state s'"]
-    S3["use the actual next action<br/>Q(s', a_next)"]
+    S1["현재 상태-행동<br/>Q(s, a)"]
+    S2["다음 상태 s'"]
+    S3["실제로 택한 다음 행동 사용<br/>Q(s', a_next)"]
     S1 --> S2 --> S3
   end

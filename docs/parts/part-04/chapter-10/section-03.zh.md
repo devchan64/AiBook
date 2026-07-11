@@ -138,7 +138,7 @@ multicollinearity 出现在输入 feature 之间携带了太多重叠信息的�
 但即使输入列里没有像 `monthly_spend` 这样明显的重复名，`套内面积`、`供应面积`、`房间数`、`客厅数` 这样的信息仍然会强烈重叠地一起进入。prediction 本身可能看起来不错，但某次实验里面积 coefficient 更大，另一次实验里房间数 coefficient 又更大，甚至 coefficient 的方向也会不稳。在这种场景里，prediction performance 和 coefficient interpretation stability 绝不能当成同一句话。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-3-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-3-mermaid-01-zh.mmd"
 ```
 
 这时 regression diagnostics 问的是：`这个数字到底能信到哪里？` multicollinearity 会因为相似 feature 彼此分摊解释角色，而让 coefficient 解读变得不稳；如果 homoscedasticity 破了，某些价格区间里的 error spread 会更大；如果 residual 形状向一侧偏去，解释也要更加谨慎。所以，得到一条直线，并不等于整个 coefficient 表立刻就是一个安全解释。

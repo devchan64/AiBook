@@ -104,7 +104,7 @@ sigmoid 正是做这件事的函数。
 这个流程可以简单画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-01-zh.mmd"
 ```
 
 关键点在于，logistic regression 不是把直线丢掉，而是 `在直线式计算之后，再加上一层解释用的变换`。
@@ -301,7 +301,7 @@ logistic regression 是 linear model。这种简单性同时是优点，也是�
 在这种场景里，之所以常先考虑 logistic regression，通常有三个原因：可以很快建立第一条基准线，较容易读出哪些特征在把 score 往上推，以及可以通过改变 threshold 立即比较多种运营场景。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-02-zh.mmd"
 ```
 
 在这个场景里，真正关键的往往不是模型名字，而是 threshold policy。像 B 这种 `0.61` 的客户，要不要直接进入自动 campaign；还是像 C 这种 `0.80` 以上才进入强干预，都取决于成本结构。即使是同一张 score 表，`从哪里开始自动行动` 也是模型外部的运营决定。

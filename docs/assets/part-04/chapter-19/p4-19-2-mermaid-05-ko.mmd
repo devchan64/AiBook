@@ -1,9 +1,9 @@
 flowchart TB
-  A["state"]
-  B["actor<br/>choose action"]
-  C["environment<br/>next state and reward"]
-  D["critic<br/>evaluate transition"]
-  E["actor update"]
+  A["상태"]
+  B["actor<br/>행동 선택"]
+  C["environment<br/>다음 상태와 보상"]
+  D["critic<br/>전이를 평가"]
+  E["actor 갱신"]
 
   A --> B --> C --> D --> E
   E --> B

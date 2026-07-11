@@ -111,7 +111,7 @@ p = \frac{1}{1 + e^{-z}}
 也就是说，在 P4-11.2 里说的 `decision boundary 是 linear score \(z = 0\) 的地方`，也可以重新读成 `probability 0.5`、`odds 1`、`log-odds 0` 指向同一个位置。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-zh.mmd"
 ```
 
 ### MLE 的意思是：找到能给正确答案高 probability 的参数
@@ -204,7 +204,7 @@ L(w, b) = \prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}
 这个场景正好说明为什么需要 MLE 和 log loss。分类模型要区分的不只是 `有没有猜对`，还包括 `对正确答案解释得有多像`。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-02-zh.mmd"
 ```
 
 ## 练习与示例

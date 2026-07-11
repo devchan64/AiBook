@@ -97,7 +97,7 @@ y = wx + b
 如果把这个结构画成图，可以读成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-01-zh.mmd"
 ```
 
 这张图把单变量 linear regression 表示成 `一个输入经过系数和截距，最后到达预测值` 的结构。这里首先要抓住的是：linear regression 不是一个把数据背下来的 model，而是一个用数字读取 `输入变化会怎样推动输出上升或下降` 的 model。
@@ -129,7 +129,7 @@ y = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 把这一点简单画出来，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-02-zh.mmd"
 ```
 
 这张图说明：即使输入变成多个，linear regression 的核心结构也没有变。每个 feature 虽然各自有意义，但 model 最终还是把它们合成一个 weighted sum，再得到一个 prediction。这正是 `linear` 最核心的感觉。
@@ -177,7 +177,7 @@ scikit-learn 的 `LinearRegression` 默认使用的是对应 ordinary least squa
 把这个流程画得最简单，就是下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-03-zh.mmd"
 ```
 
 这张图展示的是：linear regression 不是简单地画一条线，而是在 `减少误差` 的标准下，不断找一条更好的线。所以算法真正的核心，不是那条线的外形，而是 `它怎样在整体上减少 prediction 与 reality 的差距`。
@@ -310,7 +310,7 @@ linear regression 对解释训练尤其有用。更复杂的 model 也许能把�
 可确认的结果会在学出来的直线与 coefficient 解读里出现。如果 coefficient 为正，读者就可以读出广告费增加与销售额增加一起出现的趋势；再把 prediction 和 actual 的差拿来一起看，也能马上判断只用一条直线来解释这个场景到底有多粗糙。
 
 ```mermaid
---8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-zh.mmd"
 ```
 
 ## 案例及示例

@@ -1,9 +1,9 @@
 flowchart TD
-  A["training data"]
-  B["make question candidates<br/>feature + threshold"]
-  C["compare impurity reduction<br/>or another split score"]
-  D["choose the best split"]
-  E["send rows to each branch"]
-  F["repeat if needed"]
+  A["학습 데이터"]
+  B["질문 후보를 만든다<br/>특징 + 임계값"]
+  C["불순도 감소나<br/>다른 분할 점수를 비교한다"]
+  D["가장 좋은 분할을 고른다"]
+  E["행을 각 가지로 보낸다"]
+  F["필요하면 반복한다"]
 
   A --> B --> C --> D --> E --> F

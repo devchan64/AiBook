@@ -1,12 +1,12 @@
 flowchart TD
-  A["one column"]
-  B["is it missing?"]
-  C["can it be computed as numeric?"]
-  D["is its scale too different?"]
-  E["imputation rule"]
-  F["encoding rule"]
-  G["scaling rule"]
-  H["reuse same learned rules on validation/test"]
+  A["某一列"]
+  B["它有缺失吗？"]
+  C["它能作为数值计算吗？"]
+  D["它的尺度差异是否过大？"]
+  E["填补规则"]
+  F["编码规则"]
+  G["缩放规则"]
+  H["在 validation / test 上复用同样学到的规则"]
 
   A --> B
   B -->|yes| E --> C

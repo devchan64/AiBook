@@ -1,8 +1,8 @@
 flowchart TB
-  A["train score<br/>did it fit what it saw?"]
-  B["OOB score<br/>how does unseen-per-tree data look?"]
-  C["test score<br/>how does held-out data look?"]
-  D["read the gaps<br/>underfit / overfit / stable"]
+  A["학습 점수<br/>본 데이터에 얼마나 맞았나?"]
+  B["OOB 점수<br/>트리별 미관측 데이터는 어떤가?"]
+  C["테스트 점수<br/>홀드아웃 데이터는 어떤가?"]
+  D["차이를 읽는다<br/>과소적합 / 과적합 / 안정"]
 
   A --> D
   B --> D

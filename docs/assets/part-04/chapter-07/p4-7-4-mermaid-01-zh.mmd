@@ -1,11 +1,11 @@
 flowchart TD
-  A["customer behavior columns"]
-  B["quick first pass"]
-  C["model-based repeat check"]
-  D["new compressed axes"]
-  E["filter keeps original columns"]
-  F["wrapper or RFE keeps best subset"]
-  G["dimensionality reduction rewrites representation"]
+  A["客户行为列"]
+  B["快速第一轮筛选"]
+  C["基于模型的反复检查"]
+  D["新的压缩坐标轴"]
+  E["filter 保留原始列"]
+  F["wrapper 或 RFE 保留最佳子集"]
+  G["降维会重写原始表示"]
 
   A --> B --> E
   A --> C --> F

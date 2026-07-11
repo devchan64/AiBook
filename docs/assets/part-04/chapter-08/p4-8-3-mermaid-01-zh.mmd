@@ -1,11 +1,11 @@
 flowchart TD
-  A["churn data"]
-  B["baseline: always stay"]
-  C["accuracy looks high"]
-  D["churn recall is 0"]
-  E["candidate model"]
-  F["compare accuracy, recall, F1"]
-  G["check missed churn cases"]
+  A["流失数据"]
+  B["基线：始终预测留存"]
+  C["accuracy 看起来很高"]
+  D["流失 recall = 0"]
+  E["候选模型"]
+  F["比较 accuracy、recall、F1"]
+  G["检查漏掉的流失案例"]
 
   A --> B --> C --> D
   A --> E --> F --> G

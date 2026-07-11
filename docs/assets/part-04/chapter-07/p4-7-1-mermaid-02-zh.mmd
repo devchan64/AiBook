@@ -1,11 +1,11 @@
 flowchart TB
-  A["candidate feature<br/>possible input signal"]
-  B["signal<br/>related to target?"]
-  C["noise<br/>stable enough?"]
-  D["timing<br/>available at prediction time?"]
-  E["redundancy<br/>not just repetition?"]
-  F["operations<br/>reproducible in service?"]
-  G["good feature candidate<br/>worth keeping"]
+  A["候选特征<br/>可能的输入信号"]
+  B["signal<br/>与目标相关吗？"]
+  C["noise<br/>是否足够稳定？"]
+  D["timing<br/>预测时能获得吗？"]
+  E["redundancy<br/>是否只是重复信息？"]
+  F["operations<br/>在线服务中能稳定复现吗？"]
+  G["好的特征候选<br/>值得保留"]
 
   A --> B
   B --> C

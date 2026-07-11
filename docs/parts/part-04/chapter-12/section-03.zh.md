@@ -104,7 +104,7 @@ k-NN 并不是所有 classification 问题的默认答案。但在 `用附近相
 所以，一个 review query 更适合被读成：`能暴露判断规则哪一层正在摇晃的观察点`，而不是 `一个错掉的 prediction`
 
 ```mermaid
---8<-- "assets/part-04/chapter-12/p4-12-3-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-12/p4-12-3-mermaid-01-zh.mmd"
 ```
 
 ### 对需要 review 的 query，应该怎么读

@@ -45,7 +45,7 @@ k-NN 会先计算新输入与已有数据之间的距离，然后再找出最近
 即使是同一个 query，只要 distance rule 改变，neighbor 顺序就可能改变，prediction 也可能跟着改变。
 
 ```mermaid
---8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-01-zh.mmd"
 ```
 
 这里最关键的一句话是：
@@ -97,7 +97,7 @@ k-NN 会先计算新输入与已有数据之间的距离，然后再找出最近
 这两件事最终都会导向类似的问题：`大的轴支配了 distance`
 
 ```mermaid
---8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-02-zh.mmd"
 ```
 
 ### standardization 改变了什么
@@ -123,7 +123,7 @@ standardization 不是为了让数字变得更漂亮。更准确地说，它是�
 问题在于，这些列的单位差得很大。annual income 可能是很大的数字，而 late-payment count 只是在 0 到几次之间。如果在这种状态下直接计算 k-NN distance，那么 late-payment count 就算在现实里很重要，也可能会被 income 这一轴淹没。
 
 ```mermaid
---8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-03-zh.mmd"
 ```
 
 这个案例显示了下面几个关键点。

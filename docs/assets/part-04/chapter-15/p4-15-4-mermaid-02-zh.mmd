@@ -1,0 +1,10 @@
+flowchart TD
+  A["同一份流失数据"]
+  B["Random Forest<br/>搜索更强的分裂"]
+  C["Extra Trees<br/>使用更多随机阈值"]
+  D["比较 test 分数"]
+  E["比较稳定性与成本"]
+
+  A --> B --> D
+  A --> C --> D
+  D --> E

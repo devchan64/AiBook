@@ -1,0 +1,14 @@
+flowchart TB
+  subgraph QL["Q-learning"]
+    Q1["当前状态-动作<br/>Q(s, a)"]
+    Q2["下一状态 s'"]
+    Q3["使用看起来最优的下一动作<br/>max_a' Q(s', a')"]
+    Q1 --> Q2 --> Q3
+  end
+
+  subgraph SA["SARSA"]
+    S1["当前状态-动作<br/>Q(s, a)"]
+    S2["下一状态 s'"]
+    S3["使用实际采取的下一动作<br/>Q(s', a_next)"]
+    S1 --> S2 --> S3
+  end

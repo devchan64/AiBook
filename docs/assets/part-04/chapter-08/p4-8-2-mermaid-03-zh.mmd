@@ -1,11 +1,11 @@
 flowchart TB
-  A["baseline"]
-  B["candidate model"]
-  C["compare before tuning"]
-  D["tuning after comparison"]
-  E["complex model first"]
-  F["tuning without baseline"]
-  G["score change, but unclear meaning"]
+  A["基线"]
+  B["候选模型"]
+  C["先比较，再调参"]
+  D["比较后再调参"]
+  E["一开始就上复杂模型"]
+  F["没有基线就开始调参"]
+  G["分数变了，但含义不清楚"]
 
   A --> B --> C --> D
   E --> F --> G

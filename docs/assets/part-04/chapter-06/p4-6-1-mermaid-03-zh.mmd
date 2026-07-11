@@ -1,11 +1,11 @@
 flowchart TD
-  A["inspection images"]
-  B["model prediction"]
-  C["confusion matrix"]
-  D["many false alarms"]
-  E["many missed defects"]
-  F["check precision first"]
-  G["check recall first"]
+  A["检验图像"]
+  B["模型预测"]
+  C["混淆矩阵"]
+  D["误报很多"]
+  E["漏检很多"]
+  F["先看 precision"]
+  G["先看 recall"]
 
   A --> B --> C
   C --> D --> F

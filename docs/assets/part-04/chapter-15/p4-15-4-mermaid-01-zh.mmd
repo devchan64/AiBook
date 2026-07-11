@@ -1,0 +1,10 @@
+flowchart TD
+  A["同一个节点上的数据"]
+  B["随机抽取一部分特征"]
+  C["Random Forest<br/>搜索最佳阈值"]
+  D["Extra Trees<br/>随机抽取阈值"]
+  E["选择分裂"]
+
+  A --> B
+  B --> C --> E
+  B --> D --> E

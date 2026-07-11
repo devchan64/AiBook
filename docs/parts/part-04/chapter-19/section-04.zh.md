@@ -193,7 +193,7 @@ RLHF，reinforcement learning from human feedback，从名字上看像是强化�
 强化学习初学者找资料时，很容易在同一个位置连续碰到 DQN 的游戏表现、PPO 的策略稳定化、RLHF 的 LLM 对齐说明。单看名字，它们都像最新的强化学习技巧；但实际上，它们分别对应`把 value 扩到更大状态空间`、`让 policy 调整更稳定`、`用人类偏好去调整语言模型`这三种不同的问题意识。如果不先分开，读者就会只记算法名，而错过为什么会分叉出来。所以，先按`它到底是在解决什么问题`来归组会更重要。
 
 ```mermaid
---8<-- "assets/part-04/chapter-19/p4-19-4-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-19/p4-19-4-mermaid-01-zh.mmd"
 ```
 
 如果把这个案例压成 handoff memo，可以写成下面这样。

@@ -1,0 +1,15 @@
+flowchart TD
+  A["训练数据"]
+  B["树 1<br/>bootstrap + 随机特征"]
+  C["树 2<br/>bootstrap + 随机特征"]
+  D["树 3<br/>bootstrap + 随机特征"]
+  E["聚合预测<br/>投票或平均"]
+  F["最终预测"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> E
+  D --> E
+  E --> F

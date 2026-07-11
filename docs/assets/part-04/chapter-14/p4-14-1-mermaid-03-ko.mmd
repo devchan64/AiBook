@@ -1,10 +1,10 @@
 flowchart TD
-  A["customer record"]
-  B["ask visits threshold"]
-  C["ask late-payment question"]
-  D["leaf: likely churn"]
-  E["leaf: likely stay"]
-  F["leaf: mixed cases to review"]
+  A["고객 기록"]
+  B["방문 횟수 임계값을 묻는다"]
+  C["연체 여부를 묻는다"]
+  D["리프: 이탈 가능성 높음"]
+  E["리프: 유지 가능성 높음"]
+  F["리프: 섞인 사례라 검토 필요"]
 
   A --> B
   B --> C

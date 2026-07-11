@@ -1,11 +1,11 @@
 flowchart TD
-  A["robot arm state"]
-  B["policy outputs angle and force tendency"]
-  C["try a control action"]
-  D["successful grasp or slip"]
-  E["raise probability of helpful action"]
-  F["lower probability of harmful action"]
-  G["policy becomes better aligned to the task"]
+  A["로봇 팔 상태"]
+  B["정책이 각도와 힘 방향을 출력"]
+  C["제어 행동을 시도"]
+  D["성공적 집기 또는 미끄러짐"]
+  E["도움이 된 행동 확률을 높임"]
+  F["해로운 행동 확률을 낮춤"]
+  G["정책이 과업에 더 잘 맞게 됨"]
 
   A --> B --> C --> D
   D --> E --> G

@@ -1,12 +1,12 @@
 flowchart TD
-  A["fraud model training"]
-  B["train score looks almost perfect"]
-  C["validation or test becomes unstable"]
-  D["suspect noise-following corrections"]
-  E["lower learning rate"]
-  F["reduce stages or tree depth"]
-  G["check early stopping point"]
-  H["compare unseen-data errors again"]
+  A["사기 탐지 모델 학습"]
+  B["학습 점수는 거의 완벽해 보임"]
+  C["검증 또는 테스트가 불안정해짐"]
+  D["잡음을 따라가는 보정을 의심"]
+  E["learning rate를 낮춘다"]
+  F["단계 수나 트리 깊이를 줄인다"]
+  G["early stopping 지점을 확인한다"]
+  H["미관측 데이터 오차를 다시 비교한다"]
 
   A --> B --> C --> D
   D --> E

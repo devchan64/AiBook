@@ -1,9 +1,9 @@
 flowchart TD
-  A["train split"]
-  B["fit preprocessing<br/>learn fill values / scaling / encoding rules"]
-  C["transform train"]
-  D["test split"]
-  E["transform test<br/>reuse learned rules only"]
+  A["train 划分"]
+  B["拟合预处理<br/>学习填充值 / 缩放 / 编码规则"]
+  C["转换 train"]
+  D["test 划分"]
+  E["转换 test<br/>只能复用已学到的规则"]
 
   A --> B --> C
   B --> E

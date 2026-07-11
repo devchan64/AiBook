@@ -1,0 +1,17 @@
+flowchart TD
+  A["欺诈模型训练"]
+  B["train 分数几乎完美"]
+  C["validation 或 test 开始不稳定"]
+  D["怀疑修正步骤在追随噪声"]
+  E["降低 learning rate"]
+  F["减少阶段数或树深"]
+  G["检查 early stopping 点"]
+  H["再次比较未见数据上的误差"]
+
+  A --> B --> C --> D
+  D --> E
+  D --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H

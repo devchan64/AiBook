@@ -127,7 +127,7 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 这个想法可以简单画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-01-zh.mmd"
 ```
 
 这张图的关键是：随着输入值上升，score 也跟着上升，并且在 `score 0.50` 的边界点附近，把轴分成了 class 0 一侧和 class 1 一侧。
@@ -145,7 +145,7 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 在这种情况下，logistic regression 会尝试找到一条标准线，把这些点分成两边。所以在二维里，decision boundary 通常会像 `一条直线`。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-02-zh.mmd"
 ```
 
 这张图展示的是：logistic regression 的 decision boundary 可以被读成 `把 score z 和 0 作比较` 这一条规则，在输入空间里留下的痕迹。重点不是先有一条线，而是因为 linear score 在平面两侧的符号变了，class 也跟着变了。
@@ -190,7 +190,7 @@ threshold 为 0.5 时的 boundary，与 threshold 为 0.7 时的 boundary，不�
 这个移动可以概念化地画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-03-zh.mmd"
 ```
 
 这里的关键是：即使不重新训练 model，只要 threshold 更严格，同一条 score 轴上的有效 boundary 就会向右移动，class 1 区域会被读得更小。所以 boundary 的移动，应该先读成一种 policy change，而不是把 feature 的原因解释已经完成。
@@ -240,7 +240,7 @@ decision boundary 不是只有在画图时才重要。当你必须问 `为什么
 | 贷款 / 垃圾邮件 | 用单一规则解释通过与拦截 | 会漏掉混合特征和线性 boundary 的限制 | 观察 boundary 到底切开了哪些组合 | 同时读取线性 boundary 的优点与限制 |
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-04-zh.mmd"
 ```
 
 ### 案例 1. 合格预测

@@ -1,15 +1,15 @@
 flowchart TD
-  subgraph R1["start from the problem"]
+  subgraph R1["从问题出发"]
     direction LR
-    A["problem statement"]
-    B["data and features"]
-    C["constraints<br/>speed / cost / explanation"]
+    A["问题陈述"]
+    B["数据与特征"]
+    C["约束<br/>速度 / 成本 / 可解释性"]
   end
 
-  subgraph R2["then narrow the options"]
+  subgraph R2["然后缩小选择范围"]
     direction LR
-    D["candidate models"]
-    E["compare and narrow down"]
+    D["候选模型"]
+    E["比较并收敛"]
   end
 
   A --> B --> C

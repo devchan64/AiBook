@@ -107,7 +107,7 @@ gradient-boosted trees 是一种顺序堆叠树的方法。
 ## 先用一个场景来读
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-01-zh.mmd"
 ```
 
 这张图的重点是：
@@ -279,7 +279,7 @@ scikit-learn 文档在 gradient boosting 里，
 但运作哲学并不一样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-02-zh.mmd"
 ```
 
 这张图会直接把差异摆出来：
@@ -505,7 +505,7 @@ boosting 很容易被优先想起。
 也可能被后面的阶段拉回一点。
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-03-zh.mmd"
 ```
 
 这个场景也应该按

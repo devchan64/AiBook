@@ -109,7 +109,7 @@ scikit-learn 用户指南说明，决策树学习器可能会长出 `over-comple
 同样的意思可以压缩成下面这张图。
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-01-zh.mmd"
 ```
 
 这个图说明，树的过拟合不是 `问题越多越好`。
@@ -347,7 +347,7 @@ pruning 不应该被读成 `把树弄坏了`。
 ### 把 pruning 读成一个流程
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-02-zh.mmd"
 ```
 
 这一节不去计算 pruning 公式。
@@ -394,7 +394,7 @@ pruning 不应该被读成 `把树弄坏了`。
 | 是否应该先列为 review 对象 | 只适合一两个产品的细碎分支 |
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-03-zh.mmd"
 ```
 
 如果把同一场景分成 `相对简单的阅读` 和 `过深的阅读`，差异会更清楚。
@@ -464,7 +464,7 @@ pruning 不应该被读成 `把树弄坏了`。
 还要问 `这种细节会不会在新客户身上重复出现？`、`它有没有真正改善实务中的 review 优先顺序？`
 
 ```mermaid
---8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-04-en.mmd"
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-04-zh.mmd"
 ```
 
 如果不用分数表，而是用 leaf 场景重新阅读，同样的情况会更容易诊断。

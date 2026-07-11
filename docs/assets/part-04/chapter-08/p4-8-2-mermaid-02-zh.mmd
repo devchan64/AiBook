@@ -1,15 +1,15 @@
 flowchart TD
-  subgraph M2["read the score with baseline"]
+  subgraph M2["带着基线读分数"]
     direction LR
     C["baseline 0.90"]
     D["model 0.91"]
-    E["small gain<br/>check if it is useful"]
+    E["提升很小<br/>要检查是否真的有用"]
   end
 
-  subgraph M1["read the score without baseline"]
+  subgraph M1["没有基线时读分数"]
     direction LR
-    A["score 0.91"]
-    B["looks good"]
+    A["分数 0.91"]
+    B["看起来不错"]
   end
 
   E --> A

@@ -112,7 +112,7 @@ scikit-learn 用户指南说明，
 如果用一个场景画出来，大概是这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-3-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-3-mermaid-01-zh.mmd"
 ```
 
 这个图里最重要的一点是：
@@ -231,7 +231,7 @@ OOB 并不会替代所有评价，
 把这三个数字并排放在一起的习惯非常重要。
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-3-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-3-mermaid-02-zh.mmd"
 ```
 
 例如：
@@ -442,7 +442,7 @@ train accuracy 几乎完美。
 所以团队用 OOB 分数做内部检查。
 
 ```mermaid
---8<-- "assets/part-04/chapter-15/p4-15-3-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-15/p4-15-3-mermaid-03-zh.mmd"
 ```
 
 在这个场景里，

@@ -1,9 +1,9 @@
 flowchart TB
-  A["1. run policy<br/>sample actions"]
-  B["2. observe rewards<br/>which choices helped?"]
-  C["3. raise helpful action probability"]
-  D["4. lower harmful action probability"]
-  E["5. update policy parameters"]
+  A["1. 정책 실행<br/>행동을 샘플링"]
+  B["2. 보상 관찰<br/>어떤 선택이 도움이 되었나?"]
+  C["3. 도움이 된 행동 확률을 높임"]
+  D["4. 해로운 행동 확률을 낮춤"]
+  E["5. 정책 파라미터를 갱신"]
 
   A --> B --> C --> E
   B --> D --> E

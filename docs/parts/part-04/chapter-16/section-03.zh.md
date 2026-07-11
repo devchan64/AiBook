@@ -407,7 +407,7 @@ stage 一长，就得更久地盯 validation 曲线；
 fold 一多，停点判断也会被一遍遍重复。
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-3-mermaid-01-ko.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-3-mermaid-01-zh.mmd"
 ```
 
 到这个时候，

@@ -1,11 +1,11 @@
 flowchart TD
-  A["many parameter candidates"]
-  B["run every combination"]
-  C["training cost grows fast"]
-  D["keep staring at validation or test"]
-  E["comparison reliability weakens"]
-  F["compare within a controlled validation loop"]
-  G["open test only once at the end"]
+  A["参数候选很多"]
+  B["把每种组合都跑一遍"]
+  C["训练成本迅速增长"]
+  D["不断盯着 validation 或 test 看"]
+  E["比较结果的可靠性下降"]
+  F["在受控的 validation 循环中比较"]
+  G["只在最后打开 test 一次"]
 
   A --> B --> C
   B --> D --> E

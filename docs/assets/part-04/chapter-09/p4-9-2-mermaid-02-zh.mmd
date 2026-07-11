@@ -1,12 +1,12 @@
 flowchart TD
-  subgraph A["candidate grid"]
-    B["max_depth: 4 values"]
-    C["min_samples_split: 5 values"]
-    D["criterion: 2 values"]
+  subgraph A["候选网格"]
+    B["max_depth: 4 个取值"]
+    C["min_samples_split: 5 个取值"]
+    D["criterion: 2 个取值"]
   end
 
-  B --> E["40 combinations"]
+  B --> E["40 种组合"]
   C --> E
   D --> E
-  E --> F["5-fold cross-validation"]
-  F --> G["200 training runs"]
+  E --> F["5 折交叉验证"]
+  F --> G["200 次训练运行"]

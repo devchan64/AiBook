@@ -122,7 +122,7 @@ likelihood 的形式，也是在和二元分类同样的思路上扩展。假设
 如果一条咨询里同时混着 `退款`、`取消付款`、`账号锁定` 这样的词，one-vs-rest 会把每个 class 分开检查，再做比较；而 multinomial 会把所有 class 一次性放在一起，直接决定相对 probability。对初学者来说，后者常常更容易被读成 `一次性的比较结构`。
 
 ```mermaid
---8<-- "assets/part-04/chapter-11/p4-11-4-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-11/p4-11-4-mermaid-01-zh.mmd"
 ```
 
 ## 练习与示例

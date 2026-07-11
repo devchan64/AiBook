@@ -1,12 +1,12 @@
 flowchart TD
-  A["past-user recommendation data"]
-  B["model fits familiar users well"]
-  C["new or shifted users appear"]
-  D["compare unseen-user performance"]
-  E["small gap"]
-  F["large gap"]
-  G["generalization looks stable"]
-  H["model may rely on old patterns too much"]
+  A["过去用户的推荐数据"]
+  B["模型对熟悉用户拟合得很好"]
+  C["出现新用户或分布变化的用户"]
+  D["比较未见用户上的表现"]
+  E["差距很小"]
+  F["差距很大"]
+  G["泛化看起来较稳定"]
+  H["模型可能过度依赖旧模式"]
 
   A --> B --> C --> D
   D --> E --> G

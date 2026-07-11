@@ -1,0 +1,9 @@
+flowchart TB
+  A["状态"]
+  B["actor<br/>选择动作"]
+  C["environment<br/>下一状态与奖励"]
+  D["critic<br/>评估这次转移"]
+  E["actor 更新"]
+
+  A --> B --> C --> D --> E
+  E --> B

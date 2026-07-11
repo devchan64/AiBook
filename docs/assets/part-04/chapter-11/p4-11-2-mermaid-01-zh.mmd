@@ -1,0 +1,19 @@
+flowchart TD
+  A["study_hours 增加"]
+
+  subgraph L["class 0 一侧"]
+    direction TB
+    L1["3h<br/>分数 0.17"]
+    L2["4h<br/>分数 0.31"]
+  end
+
+  B["边界<br/>分数 0.50"]
+
+  subgraph R["class 1 一侧"]
+    direction TB
+    R1["5h<br/>分数 0.55"]
+    R2["6h<br/>分数 0.76"]
+  end
+
+  A --> L
+  L --> B --> R

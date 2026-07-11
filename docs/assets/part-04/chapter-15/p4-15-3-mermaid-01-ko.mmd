@@ -1,12 +1,12 @@
 flowchart TD
-  A["training set"]
-  B["bootstrap sample for tree 1"]
-  C["samples not selected for tree 1"]
-  D["fit tree 1"]
-  E["use left-out samples for OOB prediction"]
-  F["repeat over many trees"]
-  G["aggregate OOB predictions per sample"]
-  H["OOB score"]
+  A["학습 세트"]
+  B["트리 1용 부트스트랩 샘플"]
+  C["트리 1에 뽑히지 않은 샘플"]
+  D["트리 1 학습"]
+  E["남겨진 샘플로 OOB 예측"]
+  F["여러 트리에서 반복"]
+  G["샘플별 OOB 예측을 집계"]
+  H["OOB 점수"]
 
   A --> B --> D
   A --> C --> E

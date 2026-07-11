@@ -1,10 +1,10 @@
 flowchart TD
-  A["forest training result"]
-  B["train score looks perfect"]
-  C["check OOB score"]
-  D["check held-out test score"]
-  E["read the gaps"]
-  F["decide whether forest is stable"]
+  A["포레스트 학습 결과"]
+  B["학습 점수는 거의 완벽해 보임"]
+  C["OOB 점수를 확인"]
+  D["홀드아웃 테스트 점수를 확인"]
+  E["차이를 읽는다"]
+  F["포레스트가 안정적인지 판단한다"]
 
   A --> B --> C --> E
   A --> D --> E

@@ -118,7 +118,7 @@ P4-13.2 不是把这三件事扔掉，而是在问：当它们都还不够时，
 这个流程可以简单画成下面这样。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-01-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-01-zh.mmd"
 ```
 
 这张图展示的就是 kernel 想法的起点。比起先把 boundary 变复杂，它更先去问：如果 feature representation 变了，同样的数据是不是就能被更简单的线性 boundary 重新读懂？
@@ -164,7 +164,7 @@ P4-13.2 不是把这三件事扔掉，而是在问：当它们都还不够时，
 这个想法可以画成下面这个流程。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-02-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-02-zh.mmd"
 ```
 
 这张图展示了为什么说 kernel 能 `不显式地把所有新特征都做出来，却依然有帮助`。关键就在这条绕行路径：从原始输入对直接计算 similarity，然后像是在那个隐含的新空间里运行一个 linear SVM。
@@ -233,7 +233,7 @@ XOR 是交互特征的代表性例子。相对地，当想到 RBF 时，通常�
 团队先试了 linear model 和 linear SVM，但 boundary 总是显得不自然。如果只看每个轴，正常和不良样本会混在一起；一条直线很难把这种对角线交错的模式切干净。如果一直只把问题读成 `还有没有更好的直线？`，解释就会继续卡住。
 
 ```mermaid
---8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-03-en.mmd"
+--8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-03-zh.mmd"
 ```
 
 在这个场景里，kernel 的想法更接近 `先换表示方式试试`，而不是 `直接把 boundary 画得更复杂`。如果读者开始把像乘积、平方这种交互特征纳入考虑，原来空间里看起来纠缠的模式，在新空间里就可能变得简单得多。

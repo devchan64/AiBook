@@ -1,16 +1,16 @@
 flowchart TD
-  A["same score axis"]
+  A["같은 점수 축"]
 
-  subgraph L["threshold 0.5"]
+  subgraph L["임계값 0.5"]
     direction TB
-    L1["boundary earlier"]
-    L2["class 1 region wider"]
+    L1["경계가 더 이르게 옴"]
+    L2["class 1 구간이 더 넓음"]
   end
 
-  subgraph R["threshold 0.7"]
+  subgraph R["임계값 0.7"]
     direction TB
-    R1["boundary moves right"]
-    R2["class 1 region smaller"]
+    R1["경계가 오른쪽으로 이동"]
+    R2["class 1 구간이 더 작음"]
   end
 
   A --> L
