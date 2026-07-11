@@ -914,17 +914,20 @@ plugins:
           theme:
             language: zh
   - search:
+      enabled: !ENV [MKDOCS_ENABLE_SEARCH, true]
       lang:
         - ko
         - en
         - zh
   - git-revision-date-localized:
+      enabled: !ENV [MKDOCS_ENABLE_GIT_REVISION, true]
       enable_creation_date: true
       type: date
       timezone: Asia/Seoul
       locale: ko
       fallback_to_build_date: true
   - minify:
+      enabled: !ENV [MKDOCS_ENABLE_MINIFY, true]
       minify_html: true
 
 extra_css:

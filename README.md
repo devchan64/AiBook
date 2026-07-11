@@ -78,23 +78,34 @@ pip install -r requirements.txt
 
 브라우저에서 `http://127.0.0.1:8000`을 열어 확인합니다.
 
-수정 중 반복 확인할 때는 다음 명령을 더 자주 쓸 수 있습니다.
+배포 기준 설정은 `mkdocs.yml`, 개발 중 반복 확인용 진입점은 `mkdocs.dev.yml`입니다. 개발용 설정은 배포 설정을 상속하면서 출력 디렉터리를 `site-dev/`로 분리합니다.
+
+수정 중 반복 확인할 때는 다음 명령을 우선 사용합니다.
 
 ```bash
-./.venv/bin/python -m mkdocs serve --dirty -a 0.0.0.0:9000
+BUILD_ONLY_LOCALE=ko \
+MKDOCS_ENABLE_GIT_REVISION=false \
+MKDOCS_ENABLE_MINIFY=false \
+./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml --dirty
 ```
 
-특정 언어만 빠르게 확인하고 싶다면 `BUILD_ONLY_LOCALE` 환경변수를 함께 사용합니다.
+이 경우 브라우저에서는 `http://127.0.0.1:9000`을 열어 확인합니다.
+
+영문이나 중국어만 확인할 때도 같은 개발용 설정 파일을 사용합니다.
 
 ```bash
-BUILD_ONLY_LOCALE=ko ./.venv/bin/python -m mkdocs serve --dirty -a 0.0.0.0:9000
-BUILD_ONLY_LOCALE=en ./.venv/bin/python -m mkdocs serve --dirty -a 0.0.0.0:9000
+BUILD_ONLY_LOCALE=en \
+MKDOCS_ENABLE_GIT_REVISION=false \
+MKDOCS_ENABLE_MINIFY=false \
+./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml --dirty
 ```
 
 - `--dirty`는 바뀐 파일 중심으로 다시 빌드해 기본 `serve`보다 체감 속도를 줄이는 데 도움이 됩니다.
 - 이 저장소는 `i18n` 플러그인과 큰 `nav`를 함께 쓰므로, `--dirty`를 써도 완전히 `수정된 파일 하나만` 처리되는 수준은 아닐 수 있습니다.
 - `BUILD_ONLY_LOCALE=ko`처럼 실행하면 개발 중에는 해당 locale만 빌드할 수 있어 다국어 전체 빌드보다 가볍게 확인할 수 있습니다.
 - `BUILD_ONLY_LOCALE`를 지정하지 않으면 기존처럼 `ko`, `en`, `zh` 전체를 빌드합니다.
+- `MKDOCS_ENABLE_GIT_REVISION=false`는 수정일 계산 플러그인을 끄고, `MKDOCS_ENABLE_MINIFY=false`는 HTML minify를 꺼서 개발 중 재빌드 부담을 줄입니다.
+- 검색 인덱스까지 끄고 싶다면 `MKDOCS_ENABLE_SEARCH=false`를 추가할 수 있습니다. 다만 이 경우 로컬 검색 UI 확인은 함께 생략됩니다.
 - `-w docs/parts`는 보통 필요 없습니다. `mkdocs serve`는 기본적으로 `docs/` 아래를 감시하고, `-w`는 추가 감시 경로를 더할 때 사용합니다.
 
 ## 빌드 검증

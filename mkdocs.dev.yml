@@ -1,0 +1,4 @@
+INHERIT: mkdocs.yml
+
+site_dir: site-dev
+dev_addr: 0.0.0.0:9000
