@@ -1,7 +1,7 @@
 # P4-14.2 트리의 과적합
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-14.1에서는 결정트리(decision tree)를 `질문을 나누어 예측하는 모델`로 보았습니다. 그 절의 장점은 분명했습니다.
 
@@ -9,11 +9,7 @@ P4-14.1에서는 결정트리(decision tree)를 `질문을 나누어 예측하�
 - 조건문처럼 설명하기 쉽다.
 - 표 형식 데이터(tabular data)에서 직관적으로 느껴진다.
 
-하지만 같은 성질이 바로 위험으로도 이어집니다.
-
-질문을 계속 더 만들 수 있다면, 훈련 데이터를 거의 외워 버릴 수도 있지 않을까?
-
-이 질문이 바로 트리의 과적합(overfitting) 문제입니다.
+하지만 같은 성질이 바로 위험으로도 이어집니다. 질문을 계속 더 만들 수 있다면, 트리는 훈련 데이터를 거의 외워 버릴 수도 있습니다. 이 지점이 바로 트리의 과적합(overfitting) 문제입니다.
 
 이 절은 결정트리의 기본 정의를 다시 길게 반복하지 않습니다. `질문을 나누어 예측한다`는 핵심 직관은 P4-14.1과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결하고, 과적합 자체의 일반 손잡이는 P4-5.1을 함께 다시 떠올려야 합니다.
 
@@ -418,8 +414,6 @@ flowchart TD
   A --> B --> C --> D --> E
 ```
 
-## 사례 및 예시
-
 ### 실무에서 어떤 손잡이를 보아야 하는가
 
 입문자와 실무 초반에는 모든 값을 한 번에 건드리기보다 역할별로 나누어 보는 편이 낫습니다.
@@ -536,6 +530,8 @@ max_depth=None
 
 즉, 트리의 성능을 볼 때는 `깊어졌는가`보다 `깊어졌을 때 train/test가 어떻게 갈리는가`를 같이 봐야 합니다.
 
+여기서 한 번 더 중요한 것은 `정확도 숫자만` 보지 않는 일입니다. `max_depth=5`와 `max_depth=3`의 차이는 단지 점수 차이만이 아니라, 더 깊은 트리가 더 많은 leaf를 만들며 train 데이터를 더 세밀하게 설명하기 시작했다는 구조 차이이기도 합니다.
+
 짧게 다시 묶으면 다음 비교가 핵심입니다.
 
 | 깊이 구간 | 먼저 읽을 판단 |
@@ -549,6 +545,179 @@ max_depth=None
 - `max_depth=4`를 넣으면 깊이 3과 5 사이에서 어떤 변화가 생기는가
 - `random_state`를 바꾸면 깊이별 gap 패턴이 어느 정도 반복되는가
 - `max_depth=None`이 실제로 어느 깊이에서 멈추는가
+
+### 값 하나 더 바꿔 보며 `depth`와 `leaf`를 같이 읽기
+
+이번에는 깊이만 볼 때와 leaf 크기를 같이 볼 때 판단이 어떻게 달라지는지 확인합니다.
+
+- 바꿔 볼 값: `min_samples_leaf`
+- 바꾸는 이유: 같은 깊이 제한 아래에서도 작은 leaf를 막으면 예외 외우기가 줄어드는지 보기 위해서입니다.
+- 확인할 개념:
+  - `max_depth`와 `min_samples_leaf`는 같은 복잡도 문제를 서로 다른 위치에서 제어합니다.
+  - 깊이가 같아 보여도 leaf가 더 커지면 train/test 해석이 달라질 수 있습니다.
+  - 과적합 점검은 `깊이 하나`가 아니라 `깊이 + leaf 크기 + gap`을 함께 읽는 편이 안전합니다.
+
+```python
+for leaf_size in [1, 2, 5]:
+    model = DecisionTreeClassifier(
+        max_depth=5,
+        min_samples_leaf=leaf_size,
+        random_state=42,
+    )
+    model.fit(X_train, y_train)
+
+    train_score = model.score(X_train, y_train)
+    test_score = model.score(X_test, y_test)
+
+    print(f"min_samples_leaf={leaf_size}")
+    print("  depth          :", model.get_depth())
+    print("  leaves         :", model.get_n_leaves())
+    print("  train accuracy :", round(train_score, 3))
+    print("  test accuracy  :", round(test_score, 3))
+    print("  train-test gap :", round(train_score - test_score, 3))
+    print()
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+min_samples_leaf=1
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
+  train-test gap : 0.089
+
+min_samples_leaf=2
+  depth          : 4
+  leaves         : 7
+  train accuracy : 0.981
+  test accuracy  : 0.933
+  train-test gap : 0.048
+
+min_samples_leaf=5
+  depth          : 3
+  leaves         : 4
+  train accuracy : 0.971
+  test accuracy  : 0.933
+  train-test gap : 0.038
+```
+
+이 비교에서 먼저 봐야 할 것은 `train accuracy가 약간 내려가도 test accuracy가 더 안정될 수 있다`는 점입니다. 즉 과적합 완화는 점수를 포기하는 패배가 아니라, `덜 외우고 더 버티게 만드는 조정`으로 읽어야 합니다.
+
+초심자 기준에서는 아래 세 문장을 직접 적어 보면 좋습니다.
+
+1. `max_depth=5, min_samples_leaf=1`은 어떤 면에서 가장 예민한 구조인가
+2. `min_samples_leaf=2`나 `5`가 되면 무엇이 덜 예민해졌는가
+3. 다음에 pruning까지 비교한다면 어떤 잔가지가 잘릴 것 같은가
+
+### `ccp_alpha`를 바꿔 pruning 방향 읽어 보기
+
+이제 같은 데이터에서 `이미 자란 트리`를 얼마나 줄일지 한 번 더 흔들어 봅니다.
+
+- 바꿔 볼 값: `ccp_alpha`
+- 바꾸는 이유: depth 제한과 leaf 크기 조정이 `처음부터 덜 자라게 하는 방법`이었다면, pruning은 `자란 뒤 잔가지를 줄이는 방법`이라는 차이를 직접 확인하기 위해서입니다.
+- 확인할 개념:
+  - `ccp_alpha`가 커질수록 작은 가지를 더 적극적으로 줄이기 쉽다.
+  - train 점수는 조금 내려가도 test 쪽이 더 안정될 수 있다.
+  - pruning은 `트리를 망가뜨리는 것`이 아니라 `남길 큰 구조를 다시 고르는 것`에 가깝다.
+
+```python
+for alpha in [0.0, 0.005, 0.02]:
+    model = DecisionTreeClassifier(
+        random_state=42,
+        ccp_alpha=alpha,
+    )
+    model.fit(X_train, y_train)
+
+    train_score = model.score(X_train, y_train)
+    test_score = model.score(X_test, y_test)
+
+    print(f"ccp_alpha={alpha}")
+    print("  depth          :", model.get_depth())
+    print("  leaves         :", model.get_n_leaves())
+    print("  train accuracy :", round(train_score, 3))
+    print("  test accuracy  :", round(test_score, 3))
+    print("  train-test gap :", round(train_score - test_score, 3))
+    print()
+```
+
+실행 결과 예시는 다음과 같습니다.
+
+```text
+ccp_alpha=0.0
+  depth          : 5
+  leaves         : 8
+  train accuracy : 1.0
+  test accuracy  : 0.911
+  train-test gap : 0.089
+
+ccp_alpha=0.005
+  depth          : 4
+  leaves         : 6
+  train accuracy : 0.981
+  test accuracy  : 0.933
+  train-test gap : 0.048
+
+ccp_alpha=0.02
+  depth          : 2
+  leaves         : 3
+  train accuracy : 0.952
+  test accuracy  : 0.889
+  train-test gap : 0.063
+```
+
+이 결과에서 먼저 읽어야 할 것은 `조금 자르자 더 나아졌지만, 너무 많이 자르면 다시 단순해진다`는 점입니다. 즉 pruning도 `많이 할수록 좋다`가 아니라, `잔가지를 덜어 내되 큰 패턴은 남기는 균형`을 찾는 일입니다.
+
+가능하면 여기서 아래 문장도 직접 적어 봅니다.
+
+1. `ccp_alpha=0.005`는 어떤 작은 가지를 덜어 낸 상태처럼 읽히는가
+2. `ccp_alpha=0.02`는 왜 지나치게 단순해진 후보처럼 보이는가
+3. `max_depth`, `min_samples_leaf`, `ccp_alpha` 중 지금 내 데이터에서 먼저 건드릴 손잡이는 무엇인가
+
+### 연습: 복잡도 손잡이를 기록 언어로 남기기
+
+위 두 실험을 실행했다면, 이제 결과를 짧은 비교 기록으로 남겨 봅니다.
+
+| 비교 항목 | depth만 바꾼 실험 | leaf 크기까지 바꾼 실험 |
+| --- | --- | --- |
+| 가장 균형 있어 보이는 설정 |  |  |
+| 가장 예민해 보이는 설정 |  |  |
+| train-test gap이 가장 크게 벌어진 설정 |  |  |
+| 다음에 조정할 손잡이 |  |  |
+
+이 표를 채울 때는 `점수가 가장 높은 설정`만 적지 말고, `왜 그 설정을 균형 있다고 읽었는가`를 한 문장으로 같이 남기는 편이 좋습니다.
+
+가능하면 pruning 실험도 같은 방식으로 한 줄 더 적습니다.
+
+| pruning 비교 항목 | 기록 |
+| --- | --- |
+| 가장 균형 있어 보이는 `ccp_alpha` |  |
+| 너무 많이 잘랐다고 느껴지는 `ccp_alpha` |  |
+| 다음에 함께 비교할 손잡이 |  |
+
+예를 들면 다음처럼 적을 수 있습니다.
+
+- `max_depth=3`은 train과 test가 함께 좋아져 기본 기준선으로 삼기 좋다.
+- `max_depth=5, min_samples_leaf=1`은 train은 완벽하지만 gap이 커져 예외를 더 많이 외우는 후보처럼 보인다.
+- 다음에는 `ccp_alpha`를 써서 잔가지를 줄였을 때 같은 실패가 남는지 보고 싶다.
+
+### Part 4 목표 회수
+
+이 절의 예제와 연습은 Part 4의 공통 목표를 다음 방식으로 다시 보여 줍니다.
+
+- 문제 정의: 지금 보는 것은 `트리가 새 데이터에서도 버티는가`라는 일반화 문제입니다.
+- 입력 표현: 같은 `X`, `y`를 써도 복잡도 손잡이에 따라 전혀 다른 모델 구조가 만들어집니다.
+- 평가 읽기: train accuracy, test accuracy, gap, leaf 수를 함께 읽어야 외우기와 일반화를 구분할 수 있습니다.
+- 다음 질문: 깊이 제한, leaf 크기, pruning 중 무엇을 먼저 조정할지로 자연스럽게 이어집니다.
+
+즉 이 절의 핵심은 `과적합이 위험하다`는 경고 문장을 외우는 데 있지 않고, `복잡도 손잡이를 바꾸면 어떤 실패가 줄고 어떤 실패가 남는가`를 비교 언어로 읽는 데 있습니다.
+
+| 보인 구조 | 해석 경계 | 다음 질문 |
+| --- | --- | --- |
+| 깊이가 늘면 train 적합은 쉽게 올라간다 | train 상승만으로 일반화가 좋아졌다고 말할 수 없다 | 어느 깊이부터 gap이 벌어지는가 |
+| leaf를 크게 하면 예외 외우기가 줄 수 있다 | 너무 크게 하면 중요한 패턴도 놓칠 수 있다 | `min_samples_leaf`를 얼마나 크게 둘 것인가 |
+| pruning은 자란 뒤 잔가지를 줄이는 손잡이다 | 작은 가지를 무조건 자르는 것이 정답은 아니다 | `ccp_alpha`를 바꾸면 어떤 leaf가 먼저 사라지는가 |
 
 ## 이 절에서 기억할 관점
 
@@ -566,7 +735,7 @@ max_depth=None
 | 복잡도 손잡이 | `max_depth`, `min_samples_leaf`, `ccp_alpha` 중 무엇이 어떤 식으로 과적합을 줄이는가 | P4-9 하이퍼파라미터 |
 | 대표 실패 구간과 다음 모델 | 어떤 가지가 예외를 외우고 있고, 이를 bagging이나 boosting이 어떻게 완화할 수 있는가 | P4-15 랜덤포레스트, P4-16 그래디언트 부스팅 |
 
-## 짧은 점검
+## 체크리스트
 
 - train 성능 상승과 test 성능 상승을 같은 말처럼 읽고 있지 않은가?
 - leaf가 너무 작아져 예외 사례를 규칙처럼 말하고 있지 않은가?
