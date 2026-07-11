@@ -1,7 +1,7 @@
 # P5-5.1 역전파(backpropagation)의 직관
 
 Section ID: `P5-5.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이의 어긋남을 숫자로 만든다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -80,13 +80,7 @@ P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이�
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["forward pass<br/>input -> hidden -> output"]
-  B["loss computed at output"]
-  C["backward pass<br/>output -> hidden -> input-side weights"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-05/forward-loss-backward-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 순전파(forward pass)와 역전파(backward pass)가 방향이 다르다는 점입니다.

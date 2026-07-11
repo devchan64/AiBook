@@ -1,7 +1,7 @@
 # P5-5.2 계산 그래프(computation graph)
 
 Section ID: `P5-5.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-5.1에서는 역전파(backpropagation)를 `손실이 각 가중치에 얼마나 책임이 있는지 뒤에서 앞으로 계산하는 절차`로 설명했습니다. 여기까지 이해하면 다음 질문이 남습니다.
 
@@ -99,23 +99,7 @@ L = (a - t)^2
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  X["x"]
-  W["w"]
-  M["multiply<br/>wx"]
-  B["b"]
-  Z["add<br/>z = wx + b"]
-  A["ReLU<br/>a"]
-  T["target t"]
-  L["loss L"]
-
-  X --> M
-  W --> M
-  M --> Z
-  B --> Z
-  Z --> A
-  A --> L
-  T --> L
+--8<-- "assets/part-05/chapter-05/computation-graph-flow-ko.mmd"
 ```
 
 이 그림은 두 가지를 보여 줍니다.

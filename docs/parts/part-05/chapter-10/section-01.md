@@ -1,7 +1,7 @@
 # P5-10.1 표현 학습(representation learning)
 
 Section ID: `P5-10.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복하며, GPU와 병렬 처리 덕분에 실용적인 규모로 확산되었다는 점을 보았습니다. 이제 다시 질문을 모델 안쪽으로 돌리면 다음 물음이 생깁니다.
 
@@ -167,17 +167,7 @@ P5-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복�
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["raw input"]
-  B["hand-crafted features"]
-  C["traditional model"]
-  D["deep model"]
-  E["learned internal representations"]
-
-  A --> B
-  B --> C
-  A --> D
-  D --> E
+--8<-- "assets/part-05/chapter-10/feature-engineering-vs-representation-learning-ko.mmd"
 ```
 
 이 도식은 전통적 특징 공학과 딥러닝 표현 학습의 관점 차이를 압축합니다.

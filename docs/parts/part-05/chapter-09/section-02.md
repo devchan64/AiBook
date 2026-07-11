@@ -1,7 +1,7 @@
 # P5-9.2 배치(batch)와 텐서(tensor) 계산
 
 Section ID: `P5-9.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-9.1에서는 딥러닝이 왜 GPU와 병렬 처리(parallel processing)에 잘 맞는지 보았습니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -125,19 +125,7 @@ P5-9.1에서 본 GPU의 강점은 비슷한 연산을 많이 동시에 처리하
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["sample 1"]
-  B["sample 2"]
-  C["sample 3"]
-  D["batch tensor"]
-  E["same model computation"]
-  F["batch outputs"]
-
-  A --> D
-  B --> D
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-05/chapter-09/batch-tensor-flow-ko.mmd"
 ```
 
 ## 사례 및 예시

@@ -1,7 +1,7 @@
 # P5-10.2 깊은 층의 표현
 
 Section ID: `P5-10.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-10.1에서는 표현 학습(representation learning)을 `모델이 유용한 내부 특징을 스스로 배우는 과정`으로 설명했습니다. 이제 다음 질문이 자연스럽게 이어집니다.
 
@@ -147,15 +147,7 @@ P5-10.1에서는 표현 학습(representation learning)을 `모델이 유용한 
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["raw input"]
-  B["low-level patterns"]
-  C["mid-level structures"]
-  D["high-level task features"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-10/hierarchical-representation-flow-ko.mmd"
 ```
 
 이 도식은 깊은 층의 표현 직관을 가장 압축한 형태입니다.

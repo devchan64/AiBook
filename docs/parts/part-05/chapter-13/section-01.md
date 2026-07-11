@@ -1,7 +1,7 @@
 # P5-13.1 어텐션(Attention)의 직관
 
 Section ID: `P5-13.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-12.2에서는 장기 의존성(long-term dependency) 때문에 순차 모델이 오래전 정보를 충분히 유지하기 어려울 수 있다는 점을 보았습니다. 여기서 다음 질문이 생깁니다.
 
@@ -130,15 +130,7 @@ P5-12.2를 `상태가 멀리 갈수록 정보가 희미해질 수 있다`는 절
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["current step"]
-  B["look over previous positions"]
-  C["assign higher weight to important ones"]
-  D["build focused context"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-13/attention-focus-flow-ko.mmd"
 ```
 
 이 도식은 attention을 `필요한 위치 탐색 -> 가중치 부여 -> 집중된 문맥 형성`으로 압축합니다.

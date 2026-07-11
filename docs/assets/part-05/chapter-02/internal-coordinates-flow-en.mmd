@@ -1,0 +1,10 @@
+flowchart TD
+  A["same examples"]
+  B["original coordinates<br/>mixed and hard to separate"]
+  C["hidden layer re-expresses them"]
+  D["new internal coordinates<br/>easier to separate"]
+  E["final prediction becomes easier"]
+
+  A --> B
+  A --> C
+  B --> C --> D --> E

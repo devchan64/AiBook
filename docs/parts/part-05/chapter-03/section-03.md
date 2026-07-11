@@ -1,7 +1,7 @@
 # P5-3.3 출력층(output layer)과 활성화의 선택
 
 Section ID: `P5-3.3`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았고, P5-3.2에서는 ReLU, sigmoid, tanh가 어떻게 다르게 반응하는지 비교했습니다. 여기까지 오면 다음 질문이 자연스럽게 생깁니다.
 
@@ -121,15 +121,7 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["hidden representation"]
-  B["class scores<br/>cat, dog, bird"]
-  C["softmax comparison"]
-  D["class probability-like outputs"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-03/softmax-output-flow-ko.mmd"
 ```
 
 이 도식은 다중 분류 출력층을 `점수를 만든 뒤 비교하는 구조`로 읽게 해 줍니다. softmax는 단순히 숫자를 예쁘게 바꾸는 것이 아니라, 여러 클래스 후보 사이에서 어느 쪽이 상대적으로 더 강한지를 드러내는 단계입니다.

@@ -1,7 +1,7 @@
 # P5-1.1 퍼셉트론(perceptron)의 직관
 
 Section ID: `P5-1.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 Part 4에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평가, 모델 선택의 흐름으로 읽었습니다. 이제 Part 5에서는 모델이 값을 받아서 출력을 만드는 가장 작은 신경망 계산 단위가 어떻게 생겼는지를 먼저 묻습니다. 이 질문에서 퍼셉트론(perceptron)으로 들어갑니다. 퍼셉트론은 여러 입력(input)에 서로 다른 중요도(weight)를 곱해 합친 뒤, 그 결과를 기준으로 출력을 내는 가장 단순한 신경망 판단 단위입니다.
 
@@ -65,15 +65,7 @@ Part 4에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평�
 퍼셉트론의 계산 흐름은 매우 짧게 줄일 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["inputs<br/>x1, x2, x3"]
-  B["weights<br/>w1, w2, w3"]
-  C["weighted sum<br/>x1w1 + x2w2 + x3w3 + b"]
-  D["output<br/>0 or 1, or a score"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-01/perceptron-flow-ko.mmd"
 ```
 
 이 도식에서 중요한 것은 가중치(weight)입니다. 모든 입력을 똑같이 보지 않고, 어떤 입력은 더 크게 보고 어떤 입력은 더 작게 보는 구조가 이미 들어 있습니다.

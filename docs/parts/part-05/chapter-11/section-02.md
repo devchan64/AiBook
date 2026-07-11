@@ -1,7 +1,7 @@
 # P5-11.2 합성곱(convolution)과 풀링(pooling)
 
 Section ID: `P5-11.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -127,17 +127,7 @@ max pooling은 작은 창 안에서 가장 큰 값 하나를 고릅니다. 이 �
 둘을 아주 단순하게 이어 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input image"]
-  B["convolution<br/>detect local pattern"]
-  C["feature map"]
-  D["pooling<br/>summarize response"]
-  E["smaller feature map"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-05/chapter-11/convolution-pooling-flow-ko.mmd"
 ```
 
 이 도식은 `찾는다 -> 기록한다 -> 요약한다`라는 세 동작을 보여 줍니다.

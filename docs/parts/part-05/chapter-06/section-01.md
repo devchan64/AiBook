@@ -1,7 +1,7 @@
 # P5-6.1 학습(learning)과 모델 실행(inference)
 
 Section ID: `P5-6.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-5장에서는 손실(loss), 역전파(backpropagation), 계산 그래프(computation graph)를 통해 딥러닝 모델이 어떻게 gradient를 계산하는지 보았습니다. 여기까지 오면 다음 질문이 생깁니다.
 
@@ -101,17 +101,7 @@ gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input"]
-  B["forward pass"]
-  C["prediction"]
-  D["loss + backward + update"]
-  E["serve result"]
-
-  A --> B
-  B --> C
-  C --> D
-  C --> E
+--8<-- "assets/part-05/chapter-06/training-vs-inference-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 같은 예측값이라도 학습 단계에서는 손실 계산과 업데이트로 이어지고, 실행 단계에서는 바로 사용자 결과로 이어진다는 점입니다.

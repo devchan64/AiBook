@@ -1,0 +1,17 @@
+flowchart TD
+  X["x"]
+  W["w"]
+  M["multiply<br/>wx"]
+  B["b"]
+  Z["add<br/>z = wx + b"]
+  A["ReLU<br/>a"]
+  T["target t"]
+  L["loss L"]
+
+  X --> M
+  W --> M
+  M --> Z
+  B --> Z
+  Z --> A
+  A --> L
+  T --> L

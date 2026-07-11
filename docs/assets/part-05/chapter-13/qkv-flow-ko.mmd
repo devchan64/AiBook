@@ -1,0 +1,11 @@
+flowchart TD
+  A["current token query"]
+  B["compare with all keys"]
+  C["higher weights for better matches"]
+  D["mix the values"]
+  E["new token representation"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

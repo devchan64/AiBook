@@ -1,0 +1,16 @@
+flowchart TB
+  subgraph S["single perceptron"]
+    S1["input features"]
+    S2["one linear score"]
+    S3["one activation"]
+    S4["final decision"]
+    S1 --> S2 --> S3 --> S4
+  end
+
+  subgraph M["multilayer network"]
+    M1["input features"]
+    M2["hidden representation 1"]
+    M3["hidden representation 2"]
+    M4["final decision"]
+    M1 --> M2 --> M3 --> M4
+  end

@@ -1,7 +1,7 @@
 # P5-13.2 셀프 어텐션(self-attention)으로 이어지는 흐름
 
 Section ID: `P5-13.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-13.1에서는 어텐션(Attention)을 `현재 계산에 중요한 위치를 더 크게 참고하는 방식`으로 설명했습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -137,18 +137,7 @@ self-attention이 중요한 이유는 단순히 `더 똑똑해 보여서`가 아
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["token 1"]
-  B["token 2"]
-  C["token 3"]
-  D["token 4"]
-
-  A --- B
-  A --- C
-  A --- D
-  B --- C
-  B --- D
-  C --- D
+--8<-- "assets/part-05/chapter-13/self-attention-token-graph-ko.mmd"
 ```
 
 이 도식은 각 토큰이 다른 토큰들을 서로 참고할 수 있다는 직관을 압축합니다. 실제 구현은 더 정교하지만, 여기서 먼저 확인해야 할 점은 토큰이 앞에서 뒤로만 정보를 넘기는 것이 아니라 서로의 관련도를 함께 계산한다는 구조입니다.

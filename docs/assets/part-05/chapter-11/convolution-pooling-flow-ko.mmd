@@ -1,0 +1,11 @@
+flowchart TD
+  A["input image"]
+  B["convolution<br/>detect local pattern"]
+  C["feature map"]
+  D["pooling<br/>summarize response"]
+  E["smaller feature map"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

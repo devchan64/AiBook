@@ -1,7 +1,7 @@
 # P5-7.1 옵티마이저(optimizer)의 역할
 
 Section ID: `P5-7.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분했습니다. 여기까지 오면 이제 아주 직접적인 질문이 남습니다.
 
@@ -55,17 +55,7 @@ Part 5 초반 흐름을 다시 묶어 보면 딥러닝 학습은 다음 순서�
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["forward pass"]
-  B["loss"]
-  C["backpropagation"]
-  D["optimizer update"]
-  E["new parameters"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-05/chapter-07/optimizer-loop-flow-ko.mmd"
 ```
 
 다음 구분을 먼저 잡아야 `틀림을 재는 단계`, `책임을 계산하는 단계`, `실제로 파라미터를 움직이는 단계`를 섞지 않게 됩니다.

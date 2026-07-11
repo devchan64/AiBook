@@ -1,7 +1,7 @@
 # P5-8.3 학습 루프를 한 번에 다시 묶기
 
 Section ID: `P5-8.3`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-6장에서는 학습과 모델 실행을 구분했고, P5-7장에서는 옵티마이저를, P5-8장에서는 정규화와 드롭아웃을 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
 
@@ -77,19 +77,7 @@ training mode와 evaluation mode는 루프 바깥의 부가 설정이 아닙니�
 ## 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["input batch"]
-  B["forward pass"]
-  C["loss"]
-  D["backward pass"]
-  E["optimizer step"]
-  F["repeat with regularization and mode control"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-05/chapter-08/training-loop-regularization-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 지금까지 따로 본 개념들이 실제로는 한 반복 안에 묶여 있다는 점입니다.

@@ -144,19 +144,7 @@ residual connection은 정보 손실을 줄이고 학습을 더 안정적으로 
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["input tokens"]
-  B["self-attention"]
-  C["add + norm"]
-  D["feed-forward"]
-  E["add + norm"]
-  F["contextual token representations"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-05/chapter-14/transformer-block-flow-ko.mmd"
 ```
 
 이 도식은 Transformer 블록 하나를 입문 수준에서 압축한 것입니다.
@@ -201,15 +189,7 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 아래 도식은 같은 Transformer 블록이 서로 다른 과업에서 어떻게 읽히는지를 아주 거칠게 묶어 보여 줍니다.
 
 ```mermaid
-flowchart TD
-  A["same transformer block"]
-  B["translation<br/>keep distant condition"]
-  C["document summary<br/>combine scattered clues"]
-  D["code / llm generation<br/>keep long-range consistency"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-05/chapter-14/transformer-task-flow-ko.mmd"
 ```
 
 이 도식에서 봐야 할 점은 과업이 달라도 블록 자체가 바뀌는 것이 아니라, `문맥 관계를 읽고 표현을 다시 가공하는 같은 기본 구조`가 번역, 요약, 코드 생성에 공통으로 쓰인다는 점입니다.

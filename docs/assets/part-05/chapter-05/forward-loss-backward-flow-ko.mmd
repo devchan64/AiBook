@@ -1,0 +1,7 @@
+flowchart TD
+  A["순전파<br/>input -> hidden -> output"]
+  B["출력에서 손실 계산"]
+  C["역전파<br/>output -> hidden -> 입력 쪽 가중치"]
+
+  A --> B
+  B --> C

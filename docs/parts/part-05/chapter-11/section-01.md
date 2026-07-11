@@ -1,7 +1,7 @@
 # P5-11.1 합성곱 신경망(CNN)의 직관
 
 Section ID: `P5-11.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-10장에서는 깊은 신경망이 층을 거치며 더 유용한 표현(representation)을 학습할 수 있다는 점을 보았습니다. 이제 이 관점을 이미지 쪽으로 좁히면 다음 질문이 생깁니다.
 
@@ -171,17 +171,7 @@ CNN은 이미지 전체를 한 번에 보기보다, 작은 창(window)이나 필
 객체 검출(object detection)도 지역 단서가 모여 물체 위치와 라벨 판단으로 이어지는 흐름으로 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["image pixels"]
-  B["edges / textures"]
-  C["wheel / window / handle"]
-  D["car-like region"]
-  E["object box + label"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-05/chapter-11/cnn-object-detection-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 객체 검출도 전체 장면을 한 번에 외우는 일이 아니라, 앞의 장면 표에서 본 바퀴나 창문 같은 부분 단서를 먼저 읽고 그것이 모여 `car-like region`을 만든 뒤 최종 위치와 라벨 판단으로 이어진다는 점입니다.

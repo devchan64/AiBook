@@ -1,7 +1,7 @@
 # P5-11.3 보충학습: 합성곱 신경망(CNN)과 비전 트랜스포머(ViT, Vision Transformer) 비교
 
 Section ID: `P5-11.3`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-11.1과 P5-11.2에서는 합성곱 신경망(CNN)이 왜 이미지와 잘 맞는지, 그리고 convolution과 pooling이 어떤 역할을 하는지를 먼저 보았습니다. 여기서 자연스럽게 다음 질문이 생깁니다.
 
@@ -72,17 +72,7 @@ ViT는 이미지를 작은 패치 조각들로 나눈 뒤, 각 패치를 토큰�
 이 흐름을 아주 단순하게 쓰면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input image"]
-  B["split into patches"]
-  C["patch embeddings"]
-  D["self-attention across patches"]
-  E["image representation"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-05/chapter-11/vit-patch-flow-ko.mmd"
 ```
 
 이 도식은 이미지가 patch 관계 계산을 거쳐 표현으로 묶이는 순서를 압축합니다.

@@ -1,7 +1,7 @@
 # P5-3.2 ReLU, sigmoid, tanh
 
 Section ID: `P5-3.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지, 그리고 비선형성(nonlinearity)이 딥러닝의 깊이를 실제 표현력으로 바꾸는 핵심 장치라는 점을 보았습니다. 이제 다음 질문이 자연스럽게 이어집니다.
 
@@ -99,13 +99,7 @@ ReLU(rectified linear unit)는 모양과 직관이 훨씬 단순합니다.
 함수의 이름을 외우기보다, 입력이 어느 구간에서 눌리고 어느 구간에서 그대로 통과하는지 모양으로 먼저 구분하는 편이 더 유용합니다.
 
 ```mermaid
-flowchart TD
-  A["sigmoid<br/>squash to 0..1"]
-  B["tanh<br/>squash to -1..1"]
-  C["ReLU<br/>cut negatives, keep positives"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-03/activation-family-flow-ko.mmd"
 ```
 
 이 도식은 수학 그래프를 정확히 그린 것은 아니지만, 세 함수의 해석 차이를 압축합니다.

@@ -1,7 +1,7 @@
 # P5-1.2 선형 결합과 활성화
 
 Section ID: `P5-1.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-1.1에서는 퍼셉트론(perceptron)을 `입력(input) -> 가중치(weight) -> 합(sum) -> 출력(output)` 흐름으로 보았습니다. 이제는 입력들을 가중합으로 묶는다는 것이 정확히 무엇을 뜻하는지, 그리고 왜 그 합만으로는 딥러닝이 되지 않는지를 바로 이어서 봅니다. 퍼셉트론은 먼저 입력들의 선형 결합(linear combination)을 만들고, 그 결과를 활성화(activation) 규칙에 통과시켜 판단을 만듭니다.
 
@@ -87,15 +87,7 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b
 2차원 예시를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input space<br/>x1 and x2"]
-  B["linear combination<br/>w1x1 + w2x2 + b"]
-  C["one boundary<br/>separate two sides"]
-  D["decision<br/>class 0 or class 1"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-01/linear-boundary-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 퍼셉트론 하나가 여러 입력을 하나의 점수 축으로 모은 뒤, 그 점수를 기준으로 입력을 경계 양쪽으로 가르는 구조라는 점입니다.
@@ -120,13 +112,7 @@ flowchart TD
 즉, 활성화는 `계산된 점수를 출력 규칙으로 바꾸는 단계`입니다.
 
 ```mermaid
-flowchart TD
-  A["weighted sum z"]
-  B["activation rule<br/>compare with threshold"]
-  C["output<br/>0 or 1"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-01/activation-threshold-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 점수 `z`를 만드는 단계와 그 점수를 실제 출력 0 또는 1 같은 판단으로 바꾸는 단계가 서로 다르다는 점입니다. 그래서 퍼셉트론은 단순 `합산기`가 아니라 `합산 + 결정` 단위로 이해해야 합니다.
@@ -178,14 +164,7 @@ XOR는 입력 두 개가 `다를 때만 1`이 되는 규칙입니다.
 이를 도식으로 아주 간단히 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["single perceptron"]
-  B["one linear boundary"]
-  C["works for linearly separable patterns"]
-  D["struggles with XOR-like patterns"]
-
-  A --> B --> C
-  B --> D
+--8<-- "assets/part-05/chapter-01/xor-limit-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 단일 퍼셉트론이 한 번에 하나의 선형 경계만 만들기 때문에, XOR처럼 규칙 설명은 짧아도 직선 하나로 나누기 어려운 문제에서는 바로 한계를 드러낸다는 점입니다.

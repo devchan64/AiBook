@@ -1,0 +1,10 @@
+flowchart TD
+  A["earlier token"]
+  B["sequential path"]
+  C["later token"]
+  D["direct reference"]
+
+  A --> B
+  B --> C
+  A -.-> D
+  D -.-> C

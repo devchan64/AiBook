@@ -1,7 +1,7 @@
 # P5-2.2 은닉층(hidden layer)과 표현
 
 Section ID: `P5-2.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-2.1에서는 다층 신경망(multilayer neural network)이 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아, 입력을 바로 최종 판단으로 보내지 않고 중간 단계를 거치게 만든다는 점을 보았습니다. 이제 질문을 조금 더 구체적으로 바꿔 봅니다.
 
@@ -89,16 +89,7 @@ representation이라는 말은 독자에게 추상적으로 들릴 수 있습니
 이를 아주 간단히 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["same examples"]
-  B["original coordinates<br/>mixed and hard to separate"]
-  C["hidden layer re-expresses them"]
-  D["new internal coordinates<br/>easier to separate"]
-  E["final prediction becomes easier"]
-
-  A --> B
-  A --> C
-  B --> C --> D --> E
+--8<-- "assets/part-05/chapter-02/internal-coordinates-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 `데이터가 바뀌는 것`이 아니라 `같은 데이터를 보는 내부 표현 방식이 바뀐다`는 점입니다. 원래 좌표계에서는 뒤섞여 보이던 예시들이, 은닉층을 지난 뒤에는 더 나누기 쉬운 좌표계로 다시 적힐 수 있기 때문에 `내부 좌표계`라는 말이 유용합니다.

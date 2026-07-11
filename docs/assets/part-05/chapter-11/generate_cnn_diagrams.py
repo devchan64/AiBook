@@ -3,6 +3,9 @@ from __future__ import annotations
 import base64
 from pathlib import Path
 
+# Keep both language variants together:
+# `-en.svg` is the canonical source set for future translation reuse,
+# and `-ko.svg` is the current public-facing asset set for Korean pages.
 
 ASSET_DIR = Path(__file__).resolve().parent
 HORSE_PHOTO = ASSET_DIR / "horse-field-photo.png"

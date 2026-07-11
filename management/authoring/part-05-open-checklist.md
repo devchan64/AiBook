@@ -92,6 +92,12 @@
 - 조치: `P5-11.1`의 `지역 패턴 -> 큰 시각 단서` 요지를 한 번으로 압축하고, 지역 패치 예제 아래 핵심 포인트를 더 직접적으로 읽히게 정리했습니다. Chapter 12는 현재 단계에서는 즉시 수정이 필요한 번호 오기나 규칙 위반보다, 설명 밀도 관리 쪽이 더 큰 과제로 보입니다.
 - `2026-07-05`: `P5-11.1`의 `generate_cnn_diagrams.py` 관련 하위 절은 Section 학습 목표와 맞지 않는 자산 생성 예제로 판단했습니다.
 - 조치: 자산 생성 스크립트 소개와 SVG 합성 코드를 본문 학습 예제에서 제거하고, 해당 파일은 `docs/assets/part-05/chapter-11/`의 자산 생성 원본으로만 유지했습니다. 동시에 Section 상단에 버전 메타데이터를 추가하고 `management/release-notes/sections/part-05/P5-11.1.md`에 개정 이력을 남겼습니다.
+- `2026-07-11`: Part 5 도식의 언어별 자산 보관 방식을 다시 점검했습니다.
+- 판단: 현재 Part 5에서 파일 자산으로 관리되는 도식은 `chapter-11`의 CNN 도식 3종이며, 한국어 본문은 이미 `-ko.svg`를 참조하고 있습니다. 대응 `-en.svg`는 향후 영문 번역과 다른 언어 파생 작업의 기준 원본으로 계속 보관하는 편이 맞습니다.
+- 조치: `docs/assets/part-05/chapter-11/README.md`에 `-ko` 사용, `-en` 보관, `영문 원본 우선 수정 -> 한글 파생본 동기화` 원칙을 명시했습니다.
+- `2026-07-11`: Part 5의 Mermaid 도식을 외부 파일 자산처럼 분리할 수 있도록 MkDocs include 경로를 다시 정리했습니다.
+- 판단: 현재 저장소는 `pymdownx.snippets`와 `pymdownx.superfences`를 함께 쓰면 Mermaid 외부 원본 파일(`.mmd`)도 본문에서 include해 렌더링할 수 있습니다. 따라서 Part 5에서도 `영문 기준 원본 + 한글 파생본` 파일 쌍을 유지하는 방식이 가능합니다.
+- 조치: `mkdocs.yml`에 `pymdownx.snippets`를 추가했고, `P5-14.1`의 Transformer 블록 도식을 `docs/assets/part-05/chapter-14/transformer-block-flow-en.mmd`, `transformer-block-flow-ko.mmd`로 분리한 뒤 한국어 본문이 `-ko` 파일을 include하도록 바꿨습니다. `docs/assets/part-05/chapter-14/README.md`에는 언어별 자산 운용 원칙을 남겼습니다.
 - `2026-07-05`: `chapter-13/section-01.md`, `chapter-13/section-02.md`, `chapter-13/section-03.md`를 순차 점검했습니다.
 - Chapter 13은 장기 의존성에서 attention -> self-attention -> QKV/multi-head 보충학습으로 넘어가는 손잡이가 비교적 안정적이었고, 현재 Part 5 후반부의 `직접 참조 구조 -> 전체 관계 계산 -> Transformer 준비` 흐름과도 잘 맞았습니다.
 - 현재 구간에서는 관리 메모 누수나 특정 사업 도메인 침범은 크지 않았습니다. 다만 `P5-13.1` 예제 구간에는 `문제 상황` 표지가 중복으로 한 번 더 들어가 있어 형식 호흡이 깨지는 부분이 있었습니다.

@@ -1,0 +1,11 @@
+flowchart TD
+  A["input image"]
+  B["split into patches"]
+  C["patch embeddings"]
+  D["self-attention across patches"]
+  E["image representation"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

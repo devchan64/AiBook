@@ -1,7 +1,7 @@
 # P5-4.2 문제 유형별 손실
 
 Section ID: `P5-4.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목표와 얼마나 어긋나는지 숫자로 만드는 기준`으로 보았습니다. 이제 자연스럽게 다음 질문이 생깁니다.
 
@@ -50,13 +50,7 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 이를 큰 흐름으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["problem type"]
-  B["what counts as error?"]
-  C["choose loss"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-04/loss-selection-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 모델보다 먼저 문제 구조를 봐야 한다는 점입니다.

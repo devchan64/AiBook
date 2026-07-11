@@ -51,15 +51,7 @@ ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.2에서 다시 연결�
 이 흐름을 아주 짧게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["initialization<br/>start values"]
-  B["forward / backward<br/>value and gradient flow"]
-  C["numerical stability<br/>avoid exploding or vanishing"]
-  D["batch normalization<br/>keep activations manageable"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-06/stabilization-bridge-flow-ko.mmd"
 ```
 
 핵심은 `학습이 잘 안 된다`는 현상이 항상 한 가지 원인으로만 생기지 않는다는 점입니다.

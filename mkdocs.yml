@@ -541,6 +541,11 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.snippets:
+      base_path:
+        - docs
+      restrict_base_path: true
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

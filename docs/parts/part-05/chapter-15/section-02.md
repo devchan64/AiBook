@@ -123,13 +123,7 @@ P5-15.1이 `생성 모델은 무엇을 배우는가`를 설명하는 절이었�
 ## 아주 단순한 흐름으로 그리면
 
 ```mermaid
-flowchart TD
-  A["model scores candidate outputs"]
-  B["sampling rule chooses one candidate"]
-  C["actual generated output"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-15/sampling-selection-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 `모델 점수`를 계산하는 단계와 그 후보 중 무엇을 실제 출력으로 꺼낼지 정하는 단계가 서로 다르다는 점입니다.
@@ -149,15 +143,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `무엇이 정답인가`보다 `여러 후보 중 무엇을 실제 출력으로 고를 것인가`라는 공통 질문으로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same sampling question"]
-  B["autocomplete<br/>which phrasing should be emitted?"]
-  C["chatbot answer<br/>which explanation style should be chosen?"]
-  D["image generation<br/>which scene variation should be realized?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-05/chapter-15/sampling-task-flow-ko.mmd"
 ```
 
 ### 사례 1. 문장 자동완성

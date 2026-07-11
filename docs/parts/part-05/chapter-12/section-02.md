@@ -195,15 +195,7 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["early information"]
-  B["many time steps"]
-  C["important clue becomes weak"]
-  D["current decision"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-12/long-term-dependency-flow-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 오래전 입력의 중요한 단서가 상태 갱신을 거치며 현재 결정 단계에 도달할수록 점점 약해질 수 있다는 점입니다.

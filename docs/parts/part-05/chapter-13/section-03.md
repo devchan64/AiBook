@@ -1,7 +1,7 @@
 # P5-13.3 보충학습: 쿼리-키-값(query-key-value, QKV)과 멀티헤드 어텐션(multi-head attention)
 
 Section ID: `P5-13.3`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-13.1과 P5-13.2에서는 어텐션(Attention)과 셀프 어텐션(self-attention)의 직관을 먼저 잡았습니다. 그런데 여기까지 읽으면 자연스럽게 다음 질문이 생깁니다.
 
@@ -81,17 +81,7 @@ P5-13.2에서는 self-attention을 `같은 시퀀스 안 토큰들이 서로를 
 이 흐름을 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["current token query"]
-  B["compare with all keys"]
-  C["higher weights for better matches"]
-  D["mix the values"]
-  E["new token representation"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-05/chapter-13/qkv-flow-ko.mmd"
 ```
 
 이 도식은 다음 순서의 계산을 압축합니다.
@@ -157,21 +147,7 @@ flowchart TD
 ## 도식으로 보면
 
 ```mermaid
-flowchart TD
-  A["same input tokens"]
-  B["head 1<br/>one relation pattern"]
-  C["head 2<br/>another relation pattern"]
-  D["head 3<br/>different relation pattern"]
-  E["combine heads"]
-  F["richer token representation"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-05/chapter-13/multihead-flow-ko.mmd"
 ```
 
 이 도식에서 핵심은 `입력이 여러 개로 쪼개진다`가 아니라, `같은 입력을 여러 관점으로 읽은 결과를 다시 합친다`는 점입니다.

@@ -1,0 +1,7 @@
+flowchart TD
+  A["forward pass<br/>input -> hidden -> output"]
+  B["loss computed at output"]
+  C["backward pass<br/>output -> hidden -> input-side weights"]
+
+  A --> B
+  B --> C

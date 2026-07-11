@@ -1,7 +1,7 @@
 # P5-3.1 활성화 함수(activation function)
 
 Section ID: `P5-3.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-2.2에서는 은닉층(hidden layer)이 입력을 더 유용한 내부 표현(representation)으로 바꿀 수 있다는 점을 보았습니다. 이제 바로 다음 질문이 생깁니다.
 
@@ -87,13 +87,7 @@ P5-1장과 P5-2장에서 본 신경망 계산은 기본적으로 다음 구조�
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["linear layer 1"]
-  B["linear layer 2"]
-  C["still behaves like a larger linear mapping"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-03/stacked-linear-layers-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 선형 층을 여러 번 쌓아도 중간에 비선형 변환이 없으면 전체가 결국 더 큰 선형 계산처럼 접혀, 표현력이 자동으로 크게 늘지 않는다는 점입니다.
@@ -101,15 +95,7 @@ flowchart TD
 반대로 활성화 함수가 사이에 들어가면 흐름이 달라집니다.
 
 ```mermaid
-flowchart TD
-  A["linear layer"]
-  B["activation<br/>nonlinear transform"]
-  C["linear layer"]
-  D["richer representation"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-03/linear-activation-linear-ko.mmd"
 ```
 
 이 도식에서 확인해야 할 결과는 활성화 함수가 선형 계산 사이에 비선형 변환을 넣어 줌으로써, 다음 층이 더 복잡한 표현을 만들 수 있게 하고 깊이를 실제 표현력 증가로 연결한다는 점입니다.

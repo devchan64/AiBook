@@ -1,0 +1,7 @@
+flowchart TD
+  A["sigmoid<br/>0..1로 압축"]
+  B["tanh<br/>-1..1로 압축"]
+  C["ReLU<br/>음수는 자르고 양수는 유지"]
+
+  A --> B
+  B --> C

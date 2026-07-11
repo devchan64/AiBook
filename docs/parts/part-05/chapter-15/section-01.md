@@ -156,13 +156,7 @@ P5-14.2에서는 Transformer가 병렬 처리와 긴 문맥 처리에서 큰 전
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["training data"]
-  B["learn patterns / distribution"]
-  C["produce likely next output or new sample"]
-
-  A --> B
-  B --> C
+--8<-- "assets/part-05/chapter-15/generative-model-flow-ko.mmd"
 ```
 
 이 도식은 생성 모델을 가장 넓은 수준에서 압축합니다.
@@ -178,15 +172,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `하나의 라벨을 고르는 문제`가 아니라 `여러 후보 중 자연스러운 출력을 만드는 문제`로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same generative question"]
-  B["next word<br/>which continuation is natural?"]
-  C["chatbot response<br/>which answer structure fits?"]
-  D["image generation<br/>which visual composition is plausible?"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-05/chapter-15/generative-task-flow-ko.mmd"
 ```
 
 ### 사례 1. 다음 단어 예측

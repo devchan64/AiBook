@@ -1,0 +1,13 @@
+flowchart TD
+  A["input batch"]
+  B["forward pass"]
+  C["loss"]
+  D["backward pass"]
+  E["optimizer step"]
+  F["repeat with regularization and mode control"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F

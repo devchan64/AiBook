@@ -1,0 +1,11 @@
+flowchart TD
+  A["input"]
+  B["forward pass"]
+  C["prediction"]
+  D["loss + backward + update"]
+  E["serve result"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E

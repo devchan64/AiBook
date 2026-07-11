@@ -115,16 +115,7 @@ RNN에서는 아주 먼 정보가 현재까지 오려면 상태를 여러 step �
 ## 이를 아주 단순하게 그리면
 
 ```mermaid
-flowchart TD
-  A["earlier token"]
-  B["sequential path"]
-  C["later token"]
-  D["direct reference"]
-
-  A --> B
-  B --> C
-  A -.-> D
-  D -.-> C
+--8<-- "assets/part-05/chapter-14/long-context-direct-reference-ko.mmd"
 ```
 
 이 도식은 RNN식 순차 전달과, self-attention이 주는 더 직접적인 참조 감각을 함께 상징합니다.
@@ -134,15 +125,7 @@ flowchart TD
 아래 도식은 이 절의 세 사례를 `순차 전달 중심 읽기`와 `직접 참조 중심 읽기`의 차이로 다시 묶은 것입니다.
 
 ```mermaid
-flowchart TD
-  A["same long-context problem"]
-  B["translation<br/>keep earlier negation or condition"]
-  C["document summary<br/>bring back early key sentence"]
-  D["code / analysis<br/>reuse far definition or unit"]
-
-  A --> B
-  A --> C
-  A --> D
+--8<-- "assets/part-05/chapter-14/long-context-task-flow-ko.mmd"
 ```
 
 이 도식은 과업이 달라도 문제의 핵심이 비슷하다는 점을 보여 줍니다. 모두 `먼 앞쪽 단서를 현재 위치에서 다시 끌어와야 한다`는 문제를 갖고 있고, Transformer는 그 문제를 더 직접 참조하는 방식으로 다룹니다.

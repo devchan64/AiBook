@@ -1,7 +1,7 @@
 # P5-2.1 다층 신경망(multilayer neural network)
 
 Section ID: `P5-2.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-1.2에서는 퍼셉트론(perceptron) 하나가 입력의 선형 결합(linear combination)과 활성화(activation)로 판단을 만든다는 점을 보았습니다. 동시에 퍼셉트론 하나는 한 번에 하나의 선형 경계(linear boundary)만 만들기 때문에, 표현할 수 있는 패턴에 한계가 있다는 점도 보았습니다.
 
@@ -66,15 +66,7 @@ P5-1.2에서는 퍼셉트론(perceptron) 하나가 입력의 선형 결합(linea
 ## 다층 신경망을 한 장면으로 보기
 
 ```mermaid
-flowchart TD
-  A["input layer<br/>raw values"]
-  B["hidden layer 1<br/>small combinations"]
-  C["hidden layer 2<br/>richer combinations"]
-  D["output layer<br/>final prediction"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-05/chapter-02/multilayer-network-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 층(layer)이 늘어날수록 단순히 계산이 많아지는 것이 아니라, `중간 표현`이 생긴다는 점입니다.
@@ -156,22 +148,7 @@ flowchart TD
 ## 퍼셉트론 하나와 다층 구조 비교
 
 ```mermaid
-flowchart TB
-  subgraph S["single perceptron"]
-    S1["input features"]
-    S2["one linear score"]
-    S3["one activation"]
-    S4["final decision"]
-    S1 --> S2 --> S3 --> S4
-  end
-
-  subgraph M["multilayer network"]
-    M1["input features"]
-    M2["hidden representation 1"]
-    M3["hidden representation 2"]
-    M4["final decision"]
-    M1 --> M2 --> M3 --> M4
-  end
+--8<-- "assets/part-05/chapter-02/single-vs-multilayer-flow-ko.mmd"
 ```
 
 왼쪽은 입력 특징을 한 번의 선형 점수와 한 번의 활성화로 바로 최종 판단에 연결합니다. 오른쪽은 입력 특징이 먼저 중간 표현으로 바뀌고, 그 표현이 다시 다음 표현으로 바뀐 뒤 최종 판단에 도달합니다. 사람은 두 구조 모두 결국 입력을 넣어 답을 내니 비슷하다고 느끼기 쉽지만, 실제 차이는 `중간에서 어떤 조합을 새로 만들 수 있는가`에 있습니다. 딥러닝의 중요한 변화는 바로 이 `중간 표현을 여러 단계에 걸쳐 학습할 수 있다`는 점입니다.

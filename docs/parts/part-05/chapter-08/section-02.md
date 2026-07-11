@@ -1,7 +1,7 @@
 # P5-8.2 드롭아웃(dropout)
 
 Section ID: `P5-8.2`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-8.1에서는 정규화(regularization)를 `과적합을 줄이기 위한 제약과 설계 철학`으로 설명했습니다. 여기서 다음 질문이 자연스럽게 이어집니다.
 
@@ -66,21 +66,7 @@ inverted dropout 공식과 dropout 비율 조정 경험칙은 여기서 공식�
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input"]
-  B["hidden unit 1"]
-  C["hidden unit 2"]
-  D["hidden unit 3"]
-  E["output"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-
-  style C fill:#fde2e2,stroke:#cc4b4b,stroke-width:2px
+--8<-- "assets/part-05/chapter-08/dropout-path-flow-ko.mmd"
 ```
 
 이 도식에서 `hidden unit 2`는 현재 학습 step에서 쉬고 있는 경로처럼 읽으면 됩니다.
