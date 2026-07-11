@@ -13,5 +13,6 @@
 ## Locale Directory Policy
 
 - Do not recreate `docs/en/assets` or `docs/zh/assets` as symlinks or duplicate directories.
-- Language-specific manuscript trees under `docs/en/` and `docs/zh/` own text content, not asset storage.
+- Keep translated manuscripts beside the Korean source as `section-01.en.md` and `section-01.zh.md`.
+- Regardless of manuscript layout, asset storage remains centralized under `docs/assets/`.
 - All asset additions and edits must still target the real files under `docs/assets/`.

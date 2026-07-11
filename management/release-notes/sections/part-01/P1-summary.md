@@ -3,7 +3,7 @@
 
 ### v2026.07.07
 
-- 핵심 변경: 중국어 간체 Part 1 마무리 페이지 `docs/zh/parts/part-01/summary.md`를 추가하고 중국어 `nav`에 연결했다.
+- 핵심 변경: 중국어 간체 Part 1 마무리 페이지 `docs/parts/part-01/summary.zh.md`를 추가하고 중국어 `nav`에 연결했다.
 
 ### v2026.07.10
 
