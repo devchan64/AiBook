@@ -1,0 +1,10 @@
+flowchart TD
+  A["same node data"]
+  B["random subset of features"]
+  C["Random Forest<br/>search best threshold"]
+  D["Extra Trees<br/>draw random thresholds"]
+  E["pick split"]
+
+  A --> B
+  B --> C --> E
+  B --> D --> E

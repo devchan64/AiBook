@@ -1,0 +1,13 @@
+flowchart TD
+  A["trained forest"]
+  B["observe high importance score"]
+  C["check MDI meaning"]
+  D["check permutation result"]
+  E["review correlated or high-cardinality features"]
+  F["write cautious interpretation"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E --> F
+  D --> E

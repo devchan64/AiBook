@@ -1,0 +1,10 @@
+flowchart TD
+  A["same churn data"]
+  B["Random Forest<br/>search stronger split"]
+  C["Extra Trees<br/>use more random thresholds"]
+  D["compare test score"]
+  E["compare stability and cost"]
+
+  A --> B --> D
+  A --> C --> D
+  D --> E

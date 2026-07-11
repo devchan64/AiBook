@@ -1,0 +1,11 @@
+flowchart TD
+  A["base prediction"]
+  B["measure residuals<br/>remaining error"]
+  C["fit a small tree<br/>to residuals"]
+  D["add a small correction<br/>scaled by learning rate"]
+  E["update prediction"]
+  F["repeat many stages"]
+  G["final boosted model"]
+
+  A --> B --> C --> D --> E --> F --> G
+  E -. remaining error again .-> B

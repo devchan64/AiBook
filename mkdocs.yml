@@ -800,6 +800,15 @@ plugins:
                     - Chapter 14. Decision Trees:
                         - "P4-14.1 Decision Tree": en/parts/part-04/chapter-14/section-01.md
                         - "P4-14.2 Overfitting In Trees": en/parts/part-04/chapter-14/section-02.md
+                    - Chapter 15. Random Forest:
+                        - "P4-15.1 Random Forest": en/parts/part-04/chapter-15/section-01.md
+                        - "P4-15.2 Feature Importance": en/parts/part-04/chapter-15/section-02.md
+                        - "P4-15.3 OOB And Checking Random Forest": en/parts/part-04/chapter-15/section-03.md
+                        - "P4-15.4 Supplementary Learning: How To Compare Extra Trees And Random Forest For The First Time": en/parts/part-04/chapter-15/section-04.md
+                    - Chapter 16. Gradient Boosting:
+                        - "P4-16.1 Gradient Boosting": en/parts/part-04/chapter-16/section-01.md
+                        - "P4-16.2 Performance And Risk In Boosting": en/parts/part-04/chapter-16/section-02.md
+                        - "P4-16.3 Supplementary Learning: Boosting Libraries And Operational Feel": en/parts/part-04/chapter-16/section-03.md
           theme:
             language: en
         - locale: zh
@@ -1033,6 +1042,15 @@ plugins:
                     - Chapter 14. 决策树:
                         - "P4-14.1 决策树(decision tree)": zh/parts/part-04/chapter-14/section-01.md
                         - "P4-14.2 树的过拟合": zh/parts/part-04/chapter-14/section-02.md
+                    - Chapter 15. 随机森林:
+                        - "P4-15.1 随机森林(random forest)": zh/parts/part-04/chapter-15/section-01.md
+                        - "P4-15.2 特征重要度(feature importance)": zh/parts/part-04/chapter-15/section-02.md
+                        - "P4-15.3 OOB(out-of-bag)与随机森林检查": zh/parts/part-04/chapter-15/section-03.md
+                        - "P4-15.4 补充学习：如何第一次比较 Extra Trees 与随机森林": zh/parts/part-04/chapter-15/section-04.md
+                    - Chapter 16. 梯度提升:
+                        - "P4-16.1 梯度提升(gradient boosting)": zh/parts/part-04/chapter-16/section-01.md
+                        - "P4-16.2 提升模型的性能与风险": zh/parts/part-04/chapter-16/section-02.md
+                        - "P4-16.3 补充学习：提升库与运营感": zh/parts/part-04/chapter-16/section-03.md
           theme:
             language: zh
   - search:

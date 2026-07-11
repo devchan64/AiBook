@@ -1,0 +1,14 @@
+flowchart TD
+  A["training set"]
+  B["bootstrap sample for tree 1"]
+  C["samples not selected for tree 1"]
+  D["fit tree 1"]
+  E["use left-out samples for OOB prediction"]
+  F["repeat over many trees"]
+  G["aggregate OOB predictions per sample"]
+  H["OOB score"]
+
+  A --> B --> D
+  A --> C --> E
+  D --> E
+  E --> F --> G --> H

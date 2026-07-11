@@ -1,0 +1,22 @@
+flowchart TD
+  subgraph RF["random forest"]
+    direction TB
+    R1["tree A"]
+    R2["tree B"]
+    R3["tree C"]
+    R4["aggregate votes<br/>or averages"]
+    R1 --> R4
+    R2 --> R4
+    R3 --> R4
+  end
+
+  subgraph GB["gradient boosting"]
+    direction TB
+    G1["base stage"]
+    G2["correction stage 1"]
+    G3["correction stage 2"]
+    G4["add all stages"]
+    G1 --> G2 --> G3 --> G4
+    G2 -. fix earlier error .-> G1
+    G3 -. fix remaining error .-> G2
+  end

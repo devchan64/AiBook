@@ -1,0 +1,11 @@
+flowchart TD
+  A["forest training result"]
+  B["train score looks perfect"]
+  C["check OOB score"]
+  D["check held-out test score"]
+  E["read the gaps"]
+  F["decide whether forest is stable"]
+
+  A --> B --> C --> E
+  A --> D --> E
+  E --> F

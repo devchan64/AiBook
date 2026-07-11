@@ -1,0 +1,9 @@
+flowchart TD
+  A["trained model"]
+  B["measure baseline score"]
+  C["shuffle one feature"]
+  D["measure score again"]
+  E["compare score drop"]
+  F["larger drop -> more dependence"]
+
+  A --> B --> C --> D --> E --> F
