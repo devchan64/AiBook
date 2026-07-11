@@ -132,7 +132,7 @@ AI 这个词会因语境不同而有不同用法。
 因此，这本书会先把 AI 放在最外层，再按问题求解方式把内部概念分出来。
 
 ```mermaid
---8<-- "assets/part-01/chapter-01/ai-scope-map-en.mmd"
+--8<-- "assets/part-01/chapter-01/ai-scope-map-zh.mmd"
 ```
 
 这张图是一张学习地图。它把 `AI` 放在最外层，并展示规则式方法、搜索与规划、概率推理、机器学习、深度学习、生成式 AI 与 LLM 之间的大致位置关系。重要的不是把每条箭头背成严格包含关系，而是看清：`LLM` 不是整个 AI，`rule-based approach` 也不是 AI 的外部，而是其内部的一条方法流。

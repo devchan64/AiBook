@@ -1,0 +1,18 @@
+flowchart TD
+  AI[AI]
+  Rule[基于规则的方法]
+  Search[搜索与规划]
+  Prob[概率推理]
+  ML[机器学习]
+  DL[深度学习]
+  Gen[生成式 AI]
+  LLM[LLM]
+
+  AI --> Rule
+  AI --> Search
+  AI --> Prob
+  AI --> ML
+  ML --> DL
+  AI --> Gen
+  DL -.-> Gen
+  Gen --> LLM
