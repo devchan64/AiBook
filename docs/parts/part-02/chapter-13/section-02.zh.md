@@ -85,7 +85,7 @@ plt.show()
 
 输出结果如下所示。
 
-![函数 y 等于 x 平方的形状折线图](../../../assets/part-02/chapter-13/basic-line-function-shape.png)
+![函数 y 等于 x 平方的形状折线图](/AiBook/assets/part-02/chapter-13/basic-line-function-shape.png)
 
 这张图展示的不是解题过程，而是形状。
 
@@ -124,7 +124,7 @@ plt.show()
 
 输出结果如下所示。
 
-![展示带有分散关系的散点图](../../../assets/part-02/chapter-13/basic-scatter-relationship.png)
+![展示带有分散关系的散点图](/AiBook/assets/part-02/chapter-13/basic-scatter-relationship.png)
 
 在这张图中，点并不落在一条完美直线上，但整体仍然呈现出“往右走时大致往上”的趋势。
 
@@ -161,7 +161,7 @@ plt.show()
 
 输出结果如下所示。
 
-![显示数值集中区间的直方图](../../../assets/part-02/chapter-13/basic-hist-distribution.png)
+![显示数值集中区间的直方图](/AiBook/assets/part-02/chapter-13/basic-hist-distribution.png)
 
 看直方图时，可以问下面这些问题。
 
@@ -201,7 +201,7 @@ plt.show()
 
 输出结果会像下面这样，让你比较两种流程。
 
-![比较稳定下降损失与摇摆损失的折线图](../../../assets/part-02/chapter-13/basic-loss-curve-comparison.png)
+![比较稳定下降损失与摇摆损失的折线图](/AiBook/assets/part-02/chapter-13/basic-loss-curve-comparison.png)
 
 看这张图时，不应立刻下结论说“这是好模型”。但你可以继续提出下面这些问题。
 

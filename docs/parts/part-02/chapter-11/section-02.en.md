@@ -182,7 +182,7 @@ Slicing is the act of asking, `Which range should remain?`
 
 The diagram below shows how the notation `start:stop:step` is read on a one-line array.
 
-![Slice notation selects a range from start to stop before the stop position](../../../assets/part-02/chapter-11/slice-start-stop-step-en.svg)
+![Slice notation selects a range from start to stop before the stop position](/AiBook/assets/part-02/chapter-11/slice-start-stop-step-en.svg)
 
 The important point here is that the value at the `stop` position is not selected. `scores[1:5:2]` starts from position 1, looks up to before position 5, and moves by two steps at a time.
 
@@ -242,7 +242,7 @@ The output is as follows.
 
 The diagram below shows the same array being read differently through indexing, row slicing, and column slicing.
 
-![Indexing, slicing, and axis read different parts of the same array](../../../assets/part-02/chapter-11/index-slice-axis-map-en.svg)
+![Indexing, slicing, and axis read different parts of the same array](/AiBook/assets/part-02/chapter-11/index-slice-axis-map-en.svg)
 
 In this diagram, blue highlights one value, green highlights one row, and orange highlights one column. All of them are selections from the same array.
 
@@ -319,7 +319,7 @@ The output is as follows.
 
 The diagram below shows which direction gets folded and what kind of result remains depending on the axis.
 
-![Axis controls the direction of reduction](../../../assets/part-02/chapter-11/axis-reduction-en.svg)
+![Axis controls the direction of reduction](/AiBook/assets/part-02/chapter-11/axis-reduction-en.svg)
 
 The important point is that `axis=0` does not mean `choose row 0`. In indexing, `0` is a number that chooses a position. But `axis=0` specifies the dimension along which calculation proceeds.
 
@@ -378,7 +378,7 @@ If you hold this table first, expressions such as `X.shape`, `sample`, and `feat
 
 The diagram below shows the same viewpoint in a slightly more dataset-like way.
 
-![Rows often represent samples and columns often represent features](../../../assets/part-02/chapter-11/dataset-row-column-selection-en.svg)
+![Rows often represent samples and columns often represent features](/AiBook/assets/part-02/chapter-11/dataset-row-column-selection-en.svg)
 
 Here, `features[1, :]` is code that pulls out all features of one sample. By contrast, `features[:, 1]` pulls out one same feature across all samples.
 
@@ -414,7 +414,7 @@ In this example, the last line calculates the mean of the second feature. In oth
 
 You can also check the example code from this Section in the following file.
 
-- [p2_11_2_index_slice_axis.py](../../../assets/part-02/chapter-11/p2_11_2_index_slice_axis.py)
+- [p2_11_2_index_slice_axis.py](/AiBook/assets/part-02/chapter-11/p2_11_2_index_slice_axis.py)
 
 On a local PC, you can run it from the project root like this.
 

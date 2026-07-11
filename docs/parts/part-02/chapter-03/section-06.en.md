@@ -114,7 +114,7 @@ Here, `np` is the conventional alias used to call NumPy briefly.
 
 The complete example code of this section can also be downloaded as the following file.
 
-- [p2_3_6_numpy_linear_algebra.py](../../../assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
+- [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 
 If you run it from the project root, you can use the following command in your personal-PC terminal.
 
@@ -495,7 +495,7 @@ When reading matrix multiplication, we distinguish `*` and `@`. `*` is element-w
 
 ## Sources and References
 
-- Example code of this section: [p2_3_6_numpy_linear_algebra.py](../../../assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
+- Example code of this section: [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.

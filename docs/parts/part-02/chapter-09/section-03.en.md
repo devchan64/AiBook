@@ -68,7 +68,7 @@ A graph is a structure that places objects as nodes and connects the relationshi
 
 The diagram below shows the same graph both as a picture and as an adjacency list.
 
-![A graph can be shown as nodes and edges or as an adjacency list](../../../assets/part-02/chapter-09/graph-node-edge-adjacency-en.svg)
+![A graph can be shown as nodes and edges or as an adjacency list](/AiBook/assets/part-02/chapter-09/graph-node-edge-adjacency-en.svg)
 
 In the picture, `Kim`, `Lee`, `Park`, and `Choi` are nodes.
 
@@ -109,7 +109,7 @@ But for questions such as `Who is connected to Kim?` or `Can we get to Choi thro
 
 The diagram below shows how the question changes when the same relational data is read as a table and when it is read as a graph.
 
-![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading-en.svg)
+![The same relationship records can be read as a table or a graph](/AiBook/assets/part-02/chapter-09/table-to-graph-reading-en.svg)
 
 To handle table data as a graph in Python, you can first convert the relationship list into an adjacency list.
 
@@ -217,7 +217,7 @@ In AI and search contexts, direction is often important. Cases such as a documen
 
 The diagram below shows how direction and weight change the meaning of an edge.
 
-![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph-en.svg)
+![Direction and weight change what a graph edge means](/AiBook/assets/part-02/chapter-09/directed-weighted-graph-en.svg)
 
 When expressing a directed graph in code, we do not put the relationship on both sides. We record only the side toward which the relationship actually points.
 
@@ -332,7 +332,7 @@ When you follow relationships, you can distinguish `direct connection` from `con
 
 The diagram below shows the distinction between direct neighbors and two-hop neighbors around Kim.
 
-![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop-en.svg)
+![A graph distinguishes direct neighbors and two-hop neighbors](/AiBook/assets/part-02/chapter-09/graph-neighbor-hop-en.svg)
 
 Problem situation: You want to compare direct connections and two-step connections separately.
 Input: The direct neighbors of `Kim` and the neighbors of those neighbors in the friendship dictionary.

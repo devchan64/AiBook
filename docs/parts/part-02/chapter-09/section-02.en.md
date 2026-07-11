@@ -83,7 +83,7 @@ When seeing a data structure for the first time, `what it asks` matters more tha
 
 The diagram below shows which question each of the four structures emphasizes.
 
-![Array, table, tree, and graph compare different data questions](../../../assets/part-02/chapter-09/data-structure-four-views-en.svg)
+![Array, table, tree, and graph compare different data questions](/AiBook/assets/part-02/chapter-09/data-structure-four-views-en.svg)
 
 | Structure | Core question | Basic unit | Example seen in AI practice |
 | --- | --- | --- | --- |
@@ -98,7 +98,7 @@ What matters here is not memorizing `the correct structure`. It is learning that
 
 The diagram below organizes again the flow from question to data structure.
 
-![Choose array, table, tree, or graph by the question](../../../assets/part-02/chapter-09/question-to-structure-map-en.svg)
+![Choose array, table, tree, or graph by the question](/AiBook/assets/part-02/chapter-09/question-to-structure-map-en.svg)
 
 Write the question before the name of the data.
 
@@ -375,7 +375,7 @@ Now let us look again at the same student data from four viewpoints.
 
 The diagram below shows how the same student data can be read as a score array, a record table, a school hierarchy, and a friendship relation.
 
-![The same student data can become an array, table, tree, or graph](../../../assets/part-02/chapter-09/same-data-four-structures-en.svg)
+![The same student data can become an array, table, tree, or graph](/AiBook/assets/part-02/chapter-09/same-data-four-structures-en.svg)
 
 If you look only at scores in order, it becomes array intuition.
 

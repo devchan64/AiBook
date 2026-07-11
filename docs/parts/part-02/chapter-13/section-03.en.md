@@ -82,7 +82,7 @@ plt.show()
 
 The output separates two related questions inside one `Figure` as follows.
 
-![Two subplots comparing loss and accuracy](../../../assets/part-02/chapter-13/subplot-loss-accuracy.png)
+![Two subplots comparing loss and accuracy](/AiBook/assets/part-02/chapter-13/subplot-loss-accuracy.png)
 
 This picture asks two things at once.
 
@@ -154,7 +154,7 @@ plt.show()
 
 The output lets you compare the two loss curves on one axis as follows.
 
-![Comparison plot showing train and validation loss diverging](../../../assets/part-02/chapter-13/train-validation-loss-diverge.png)
+![Comparison plot showing train and validation loss diverging](/AiBook/assets/part-02/chapter-13/train-validation-loss-diverge.png)
 
 This example connects to the intuition for overfitting that you will meet again in Part 3. If the training loss keeps falling but the validation loss rises again, you may suspect that the model is fitting the training data better while fitting new data worse.
 

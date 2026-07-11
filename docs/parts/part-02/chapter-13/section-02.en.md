@@ -85,7 +85,7 @@ plt.show()
 
 The output looks as follows.
 
-![Function shape for y equals x squared](../../../assets/part-02/chapter-13/basic-line-function-shape.png)
+![Function shape for y equals x squared](/AiBook/assets/part-02/chapter-13/basic-line-function-shape.png)
 
 What this graph shows is not a solution process but a shape.
 
@@ -124,7 +124,7 @@ plt.show()
 
 The output looks as follows.
 
-![Scatter plot showing a relationship with spread](../../../assets/part-02/chapter-13/basic-scatter-relationship.png)
+![Scatter plot showing a relationship with spread](/AiBook/assets/part-02/chapter-13/basic-scatter-relationship.png)
 
 In this plot, the points are not on one perfect line. But there is still a flow that goes generally upward as you move to the right.
 
@@ -161,7 +161,7 @@ plt.show()
 
 The output looks as follows.
 
-![Histogram showing where values gather](../../../assets/part-02/chapter-13/basic-hist-distribution.png)
+![Histogram showing where values gather](/AiBook/assets/part-02/chapter-13/basic-hist-distribution.png)
 
 When reading a histogram, ask the following questions.
 
@@ -201,7 +201,7 @@ plt.show()
 
 The output lets you compare the two flows as follows.
 
-![Line plot comparing steadily decreasing and unstable loss](../../../assets/part-02/chapter-13/basic-loss-curve-comparison.png)
+![Line plot comparing steadily decreasing and unstable loss](/AiBook/assets/part-02/chapter-13/basic-loss-curve-comparison.png)
 
 You should not look at this plot and conclude immediately, "This is a good model." But you can ask the following questions.
 

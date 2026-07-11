@@ -82,7 +82,7 @@ plt.show()
 
 输出结果会像下面这样，在一个 `Figure` 里分开显示两个相关问题。
 
-![并排比较损失与准确率的两个子图](../../../assets/part-02/chapter-13/subplot-loss-accuracy.png)
+![并排比较损失与准确率的两个子图](/AiBook/assets/part-02/chapter-13/subplot-loss-accuracy.png)
 
 这张图会同时提出两个问题。
 
@@ -154,7 +154,7 @@ plt.show()
 
 输出结果会像下面这样，让你在同一坐标轴上比较两条损失曲线。
 
-![展示训练损失与验证损失分离的比较图](../../../assets/part-02/chapter-13/train-validation-loss-diverge.png)
+![展示训练损失与验证损失分离的比较图](/AiBook/assets/part-02/chapter-13/train-validation-loss-diverge.png)
 
 这个例子会连接到 Part 3 里还会再见到的过拟合（overfitting）直觉。如果训练损失持续下降，而验证损失又重新上升，就可以怀疑：模型对训练数据拟合得更好，却对新数据拟合得更差。
 

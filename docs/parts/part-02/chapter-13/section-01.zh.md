@@ -90,7 +90,7 @@ plt.show()
 
 运行上面的代码后，你可以看到一条“随着 epoch 增加，loss 下降”的曲线形状。
 
-![Loss decreases over epochs](../../../assets/part-02/chapter-13/pyplot-loss-line.png)
+![Loss decreases over epochs](/AiBook/assets/part-02/chapter-13/pyplot-loss-line.png)
 
 这个例子里重要的不是代码语法，而是“loss 会不会随着重复学习而下降？”这个问题。
 
@@ -198,7 +198,7 @@ plt.show()
 
 输出结果会显示为四个点。点朝右上方延伸的形状，会让你继续追问两个值是否一起增大。
 
-![Study time and score relationship](../../../assets/part-02/chapter-13/pyplot-study-scatter.png)
+![Study time and score relationship](/AiBook/assets/part-02/chapter-13/pyplot-study-scatter.png)
 
 这张图不会证明原因。它只是帮助你快速检查两个值是否呈现出一起变化的形状。
 
@@ -298,7 +298,7 @@ plt.show()
 
 输出结果会展示分数集中在哪些区间。
 
-![Score distribution histogram](../../../assets/part-02/chapter-13/pyplot-score-hist.png)
+![Score distribution histogram](/AiBook/assets/part-02/chapter-13/pyplot-score-hist.png)
 
 这段代码并不计算平均分，而是查看分数集中在哪里。
 

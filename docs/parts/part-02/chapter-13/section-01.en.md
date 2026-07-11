@@ -90,7 +90,7 @@ plt.show()
 
 When you run the code above, you can check a shape where the loss falls as the epoch count increases.
 
-![Loss decreases over epochs](../../../assets/part-02/chapter-13/pyplot-loss-line.png)
+![Loss decreases over epochs](/AiBook/assets/part-02/chapter-13/pyplot-loss-line.png)
 
 The important point in this example is not the code syntax but the question, "Does the loss value decrease through repeated learning?"
 
@@ -198,7 +198,7 @@ plt.show()
 
 The output appears as four points. A shape where the points extend toward the upper right makes you ask whether the two values increase together.
 
-![Study time and score relationship](../../../assets/part-02/chapter-13/pyplot-study-scatter.png)
+![Study time and score relationship](/AiBook/assets/part-02/chapter-13/pyplot-study-scatter.png)
 
 This plot does not prove a cause. It simply helps you check quickly the shape in which two values move together.
 
@@ -298,7 +298,7 @@ plt.show()
 
 The output shows in which intervals the score values are concentrated.
 
-![Score distribution histogram](../../../assets/part-02/chapter-13/pyplot-score-hist.png)
+![Score distribution histogram](/AiBook/assets/part-02/chapter-13/pyplot-score-hist.png)
 
 This code does not calculate the average score. Instead, it checks where the scores are concentrated.
 

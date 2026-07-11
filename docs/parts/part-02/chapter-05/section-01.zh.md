@@ -87,7 +87,7 @@
 
 下面这张图展示了：如何把不确定状态表示成 0 到 1 之间的概率数字。
 
-![用 0 到 1 之间的概率数字表达不确定性的刻度](../../../assets/part-02/chapter-05/probability-uncertainty-scale-zh.svg)
+![用 0 到 1 之间的概率数字表达不确定性的刻度](/AiBook/assets/part-02/chapter-05/probability-uncertainty-scale-zh.svg)
 
 ## 概率写成 0 到 1 之间的数字
 
@@ -127,7 +127,7 @@ P(\text{偶数}) = \frac{3}{6} = 0.5
 
 就像下面这张图一样，事件(event)是在样本空间(sample space)里，把我们关心的结果(outcome)收成一组的东西。
 
-![用骰子例子展示样本空间、事件和结果关系的图](../../../assets/part-02/chapter-05/sample-space-event-outcome-zh.svg)
+![用骰子例子展示样本空间、事件和结果关系的图](/AiBook/assets/part-02/chapter-05/sample-space-event-outcome-zh.svg)
 
 不过，这种方法只有在所有结果都可以被看成“同样容易发生”时，才能直接使用。真实数据里，很多结果并不是均匀出现的。
 
@@ -257,7 +257,7 @@ P(\text{偶数}) = \frac{3}{6} = 0.5
 
 下面这张图展示的是：模型的概率分数与服务的运营决策必须分开看。同样一个概率分数，因服务目的、风险、成本、政策不同，最后可能接出完全不同的动作。
 
-![把 AI 模型的概率分数与服务运营决策标准分开显示的流程](../../../assets/part-02/chapter-05/probability-score-decision-threshold-zh.svg)
+![把 AI 模型的概率分数与服务运营决策标准分开显示的流程](/AiBook/assets/part-02/chapter-05/probability-score-decision-threshold-zh.svg)
 
 ## 本节要记住的视角
 

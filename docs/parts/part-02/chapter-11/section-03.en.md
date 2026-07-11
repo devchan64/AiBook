@@ -101,7 +101,7 @@ Here, `10` and `2` are scalars. NumPy applies the scalar to every position in th
 
 The diagram below shows a scalar being repeatedly applied across the whole array. It is safer to understand this not as physically copying the same value many times, but as applying the same calculation rule at each position.
 
-![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array-en.svg)
+![A scalar is applied across an array by broadcasting](/AiBook/assets/part-02/chapter-11/broadcast-scalar-array-en.svg)
 
 ## When Arrays Are Calculated Together, Check Shape First
 
@@ -148,7 +148,7 @@ NumPy judges that the array of shape `(3,)` can be applied to each row. So the s
 
 The diagram below shows a vector of shape `(3,)` being applied row by row to a data matrix of shape `(4, 3)`.
 
-![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector-en.svg)
+![A row-shaped vector is broadcast across each row of a feature matrix](/AiBook/assets/part-02/chapter-11/broadcast-row-vector-en.svg)
 
 ## Incompatible Shapes Produce an Error
 
@@ -319,7 +319,7 @@ Before calculating, check the shape.
 
 You can also inspect the example code from this Section in the following file.
 
-- [p2_11_3_broadcast_vectorization.py](../../../assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py)
+- [p2_11_3_broadcast_vectorization.py](/AiBook/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py)
 
 On a local PC, you can run it from the project root like this.
 

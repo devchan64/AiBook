@@ -83,7 +83,7 @@
 
 下面这张图展示了四种结构分别强调哪一种问题。
 
-![Array, table, tree, and graph compare different data questions](../../../assets/part-02/chapter-09/data-structure-four-views-zh.svg)
+![Array, table, tree, and graph compare different data questions](/AiBook/assets/part-02/chapter-09/data-structure-four-views-zh.svg)
 
 | 结构 | 核心问题 | 基本单位 | 在 AI 实践里会看到的例子 |
 | --- | --- | --- | --- |
@@ -98,7 +98,7 @@
 
 下面这张图重新整理了从问题走向数据结构的流程。
 
-![Choose array, table, tree, or graph by the question](../../../assets/part-02/chapter-09/question-to-structure-map-zh.svg)
+![Choose array, table, tree, or graph by the question](/AiBook/assets/part-02/chapter-09/question-to-structure-map-zh.svg)
 
 先写问题，再写数据名称。
 
@@ -375,7 +375,7 @@ for friend in friends["Kim"]:
 
 下面这张图展示了：同样的学生数据，如何被读成分数数组、记录表、学校层级、朋友关系。
 
-![The same student data can become an array, table, tree, or graph](../../../assets/part-02/chapter-09/same-data-four-structures-zh.svg)
+![The same student data can become an array, table, tree, or graph](/AiBook/assets/part-02/chapter-09/same-data-four-structures-zh.svg)
 
 如果只按顺序看分数，就是数组直觉。
 

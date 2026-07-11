@@ -13,7 +13,7 @@ Here we reorganize `small data`, `mean`, `median`, `variance`, and `sample mean`
 
 Rather than broadly learning how to use a statistics library, this Section focuses on rechecking the basic concepts of probability and statistics with small data and code. If you visually confirm mean, variance, and changes in the sample mean here, later statistics about datasets or evaluation numbers connect naturally to the concepts instead of floating apart from them.
 
-![Flow for checking raw data, center, spread, and sample estimation separately on small data](../../../assets/part-02/chapter-05/small-data-statistics-check-en.svg)
+![Flow for checking raw data, center, spread, and sample estimation separately on small data](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-en.svg)
 
 ## Scope of This Section
 
@@ -95,7 +95,7 @@ python -m pip install numpy
 
 You can also inspect the full example code of this Section in the following file.
 
-- [p2_5_4_small_statistics.py](../../../assets/part-02/chapter-05/p2_5_4_small_statistics.py)
+- [p2_5_4_small_statistics.py](/AiBook/assets/part-02/chapter-05/p2_5_4_small_statistics.py)
 
 If you run it from the project root, you can use the following command.
 

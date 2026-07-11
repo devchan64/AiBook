@@ -158,7 +158,7 @@ NumPy array 既是 `存放资料的结构`，也是 `执行计算的结构`。
 
 下面的图示展示了同一个 `+` 符号在 list 与 NumPy array 中被不同地读取。
 
-![Python list and NumPy array use the plus sign differently](../../../assets/part-02/chapter-11/list-vs-numpy-array-zh.svg)
+![Python list and NumPy array use the plus sign differently](/AiBook/assets/part-02/chapter-11/list-vs-numpy-array-zh.svg)
 
 这个差别看起来可能不大，但在 AI 代码里很重要。你到底是想保存一组数字，还是想把同样的计算施加到整组数字上，问题是不同的。
 
@@ -341,7 +341,7 @@ print(scores.shape)
 
 下面的图示从 shape 视角重新整理了同一个计算。
 
-![Feature matrix times weight vector produces one score per sample](../../../assets/part-02/chapter-11/feature-weight-shape-flow-zh.svg)
+![Feature matrix times weight vector produces one score per sample](/AiBook/assets/part-02/chapter-11/feature-weight-shape-flow-zh.svg)
 
 左边的 `features` 是一个有 3 个 sample、2 个 feature 的矩阵。中间的 `weights` 是对应这 2 个 feature 的权重向量。因为两个数组的内侧大小 2 一致，所以每个 sample 都会得到一个 score。
 
@@ -382,7 +382,7 @@ print(array.dtype)
 
 本节示例代码也可以在下面这个文件中查看。
 
-- [p2_11_1_numpy_arrays.py](../../../assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
+- [p2_11_1_numpy_arrays.py](/AiBook/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
 
 在 Colab 里，可以把代码内容贴到 cell 中运行。在本地 PC 上，可以在项目根目录这样执行。
 

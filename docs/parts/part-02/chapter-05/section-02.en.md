@@ -112,7 +112,7 @@ Distribution lets us read a list of values as a `shape`. That is why visualizati
 
 The chart below shows the order for reading distribution, mean, and variance. We first look at the whole shape, and then look at center and spread.
 
-![Chart for reading shape, mean, and variance together](../../../assets/part-02/chapter-05/distribution-mean-variance-summary-en.svg)
+![Chart for reading shape, mean, and variance together](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-en.svg)
 
 ## Separate Data Distribution and Probability Distribution
 
@@ -181,7 +181,7 @@ If we look only at the mean, the two data bundles may look similar. But in reali
 
 The chart below shows that even when the mean is the same, the spread can be different.
 
-![Two groups with the same mean but different variance](../../../assets/part-02/chapter-05/same-mean-different-variance-en.svg)
+![Two groups with the same mean but different variance](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-en.svg)
 
 If we summarize this scene more briefly:
 

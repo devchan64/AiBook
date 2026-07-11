@@ -110,7 +110,7 @@ y = 2x + 1
 
 这个值在图上就是斜率。斜率越大，同样的输入变化对应的输出变化就越大。斜率为 0 时，输入变了输出也不变。斜率为负时，输入增加，输出反而减少。
 
-![直线斜率示例](../../../assets/part-02/chapter-04/linear-slope-constant-zh.svg)
+![直线斜率示例](/AiBook/assets/part-02/chapter-04/linear-slope-constant-zh.svg)
 
 1. 如果斜率是正的，就表示输入变大时输出也倾向于变大。
 2. 如果斜率是 0，就表示输入变了，输出也倾向于不变。
@@ -164,7 +164,7 @@ y = x^2
 
 明明是同一个函数，但变化率会随着区间不同而不同。这就是为什么一旦处理曲线(curve)，斜率就会变得更难。
 
-![曲线斜率示例](../../../assets/part-02/chapter-04/curve-slope-changing-zh.svg)
+![曲线斜率示例](/AiBook/assets/part-02/chapter-04/curve-slope-changing-zh.svg)
 
 1. 直线无论从哪里看，斜率都一样。
 2. 曲线会随着你看的是哪个区间，而出现不同的斜率。

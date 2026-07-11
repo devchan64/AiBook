@@ -109,7 +109,7 @@ The diagram below first shows the containment relationship between population an
 
 The chart below shows the flow of drawing a sample from the whole population and then producing an estimate from that sample.
 
-![Flow of drawing a sample from a population and producing an estimate from the sample](../../../assets/part-02/chapter-05/population-sample-estimate-en.svg)
+![Flow of drawing a sample from a population and producing an estimate from the sample](/AiBook/assets/part-02/chapter-05/population-sample-estimate-en.svg)
 
 The most important question when looking at a sample is, "Does this sample represent the whole well?" So you should also examine whether the sample is too small, whether a specific group is included too heavily, whether any group is missing, and whether the collection method caused certain values to drop out.
 
@@ -141,7 +141,7 @@ In the real world, we often do not know the true overall value. So we cannot alw
 
 The chart below shows the flow of viewing the difference between the estimate and the true value as error.
 
-![Chart showing the difference between the estimate and the true value as error](../../../assets/part-02/chapter-05/estimate-error-gap-en.svg)
+![Chart showing the difference between the estimate and the true value as error](/AiBook/assets/part-02/chapter-05/estimate-error-gap-en.svg)
 
 It is a mistake to understand error only as "failure." In statistics, error is the language that acknowledges the unavoidable gap that appears when we talk about the whole from the part. In other words, as long as we estimate from a sample, we cannot know the whole perfectly, a gap may appear, and we treat that gap as error.
 
@@ -157,7 +157,7 @@ This difference is `sampling variation`. As long as we use samples, estimates co
 
 The chart below shows that if you draw multiple samples from the same population, the estimate can fluctuate around the true value. This fluctuation is a natural issue that appears whenever you use samples.
 
-![Chart comparing sampling variation and sampling bias](../../../assets/part-02/chapter-05/sampling-variation-vs-bias-en.svg)
+![Chart comparing sampling variation and sampling bias](/AiBook/assets/part-02/chapter-05/sampling-variation-vs-bias-en.svg)
 
 What matters is the point that "if the sample changes, the estimate can also change." You need this sense to read model evaluation results carefully too. A single evaluation score may not be an absolute truth, and a different test sample may produce a different score. If you can evaluate multiple times, you should look at the mean together with the variability.
 

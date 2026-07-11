@@ -101,7 +101,7 @@ print(scores * 2)
 
 下面的图示展示了：一个 scalar 如何被重复应用到整个数组。更安全的理解方式，不是把同一个值真的复制很多次，而是理解成“同一条计算规则应用到了每个位置”。
 
-![A scalar is applied across an array by broadcasting](../../../assets/part-02/chapter-11/broadcast-scalar-array-zh.svg)
+![A scalar is applied across an array by broadcasting](/AiBook/assets/part-02/chapter-11/broadcast-scalar-array-zh.svg)
 
 ## 数组一起计算时，要先看 Shape
 
@@ -148,7 +148,7 @@ NumPy 会判断：形状 `(3,)` 的数组可以作用到每一行上。所以同
 
 下面的图示展示了：形状 `(3,)` 的向量如何逐行应用到 `(4, 3)` 的数据矩阵。
 
-![A row-shaped vector is broadcast across each row of a feature matrix](../../../assets/part-02/chapter-11/broadcast-row-vector-zh.svg)
+![A row-shaped vector is broadcast across each row of a feature matrix](/AiBook/assets/part-02/chapter-11/broadcast-row-vector-zh.svg)
 
 ## 不兼容的 Shape 会导致错误
 
@@ -319,7 +319,7 @@ print(column_mean.shape)
 
 本节示例代码也可以在下面这个文件中查看。
 
-- [p2_11_3_broadcast_vectorization.py](../../../assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py)
+- [p2_11_3_broadcast_vectorization.py](/AiBook/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py)
 
 在本地 PC 上，可以在项目根目录这样运行。
 

@@ -158,7 +158,7 @@ A NumPy array is both `a structure that holds data` and `a structure that perfor
 
 The diagram below shows how the same `+` symbol is read differently in lists and NumPy arrays.
 
-![Python list and NumPy array use the plus sign differently](../../../assets/part-02/chapter-11/list-vs-numpy-array-en.svg)
+![Python list and NumPy array use the plus sign differently](/AiBook/assets/part-02/chapter-11/list-vs-numpy-array-en.svg)
 
 This difference may look small, but it matters in AI code. The question changes depending on whether you want to store a bundle of numbers or apply the same computation to the whole bundle.
 
@@ -341,7 +341,7 @@ What matters here is not memorizing the formula. The key point is that the numbe
 
 The diagram below reorganizes the same computation from the viewpoint of shape.
 
-![Feature matrix times weight vector produces one score per sample](../../../assets/part-02/chapter-11/feature-weight-shape-flow-en.svg)
+![Feature matrix times weight vector produces one score per sample](/AiBook/assets/part-02/chapter-11/feature-weight-shape-flow-en.svg)
 
 On the left, `features` is a matrix with 3 samples and 2 features. In the middle, `weights` is a weight vector corresponding to those 2 features. Because the inner size 2 matches between the arrays, one score is produced for each sample.
 
@@ -382,7 +382,7 @@ At the beginner stage, when an error occurs, it is usually better to check `shap
 
 You can also inspect the example code from this Section in the following file.
 
-- [p2_11_1_numpy_arrays.py](../../../assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
+- [p2_11_1_numpy_arrays.py](/AiBook/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py)
 
 In Colab, you can paste the code into a cell and run it. On a local PC, you can run it from the project root like this.
 

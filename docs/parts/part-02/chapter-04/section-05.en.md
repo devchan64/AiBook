@@ -139,7 +139,7 @@ This memory is very important. Gradient is not a concept that throws away that m
 
 The chart below shows the flow by which one-direction differentiation expands into partial derivatives in many directions and then into a gradient.
 
-![Flow that expands one-variable differentiation into partial derivatives and a gradient in many directions](../../../assets/part-02/chapter-04/gradient-single-to-multiple-directions-en.svg)
+![Flow that expands one-variable differentiation into partial derivatives and a gradient in many directions](/AiBook/assets/part-02/chapter-04/gradient-single-to-multiple-directions-en.svg)
 
 ## Why the Gradient Feels Unfamiliar
 
@@ -195,7 +195,7 @@ Instead of the axis direction, it asks how much the function value changes if we
 
 Partial derivatives and directional derivatives both deal with rates of change, but they look in different directions. In the chart below, the partial derivative is distinguished as the rate of change that looks at axis directions one by one, while the directional derivative is the rate of change that follows an arbitrary direction.
 
-![Chart comparing the directions observed by partial derivatives and directional derivatives](../../../assets/part-02/chapter-04/partial-vs-directional-derivative-en.svg)
+![Chart comparing the directions observed by partial derivatives and directional derivatives](/AiBook/assets/part-02/chapter-04/partial-vs-directional-derivative-en.svg)
 
 Here, we do not calculate the formula of the directional derivative. What we need now is the following distinction.
 
@@ -223,7 +223,7 @@ The point that a gradient is a vector also becomes natural here. A vector is an 
 
 Vector calculus is the wider mathematical language that deals with this relationship more broadly. Here, instead of learning the whole system, we only confirm that if we read the direction of change at each point of a scalar field, it becomes a gradient, and if such vectors are placed over space, they can be seen as a vector field.
 
-![Chart showing where scalar fields, gradients, and vector fields connect in vector calculus](../../../assets/part-02/chapter-04/vector-calculus-context-en.svg)
+![Chart showing where scalar fields, gradients, and vector fields connect in vector calculus](/AiBook/assets/part-02/chapter-04/vector-calculus-context-en.svg)
 
 ## What Direction Does the Gradient Tell Us?
 
@@ -233,7 +233,7 @@ The gradient direction connects to the side where loss grows, and the direction 
 
 The chart below shows how, at one point of a loss function, the gradient direction and the direction that reduces loss become opposites.
 
-![Chart comparing the gradient direction and the descending direction on contours of a loss function](../../../assets/part-02/chapter-04/gradient-direction-loss-contour-en.svg)
+![Chart comparing the gradient direction and the descending direction on contours of a loss function](/AiBook/assets/part-02/chapter-04/gradient-direction-loss-contour-en.svg)
 
 What matters here is that a gradient does not tell us the whole map. It tells us direction information near the current position. It tells us which side from the current position is likely to increase the value and which side is likely to decrease it.
 
@@ -274,7 +274,7 @@ That is why gradient descent is often explained with the analogy of coming down 
 
 Like the chart below, gradient descent is not a method that moves to the center in one jump. It moves a little in the direction where loss decreases from the current position, then reads the direction again from the new position.
 
-![Chart showing gradient descent as repeated small movement toward lower loss](../../../assets/part-02/chapter-04/gradient-descent-steps-en.svg)
+![Chart showing gradient descent as repeated small movement toward lower loss](/AiBook/assets/part-02/chapter-04/gradient-descent-steps-en.svg)
 
 In other words, it repeats the process of looking at the loss at the current position, reading the direction of change through the gradient, moving a little toward the side where loss decreases, and then looking at the loss again.
 
@@ -300,7 +300,7 @@ The word `a little` is important here. If we move too far, we may overshoot the 
 
 The chart below shows the update expression of gradient descent intuitively. Memorizing the formula is not the goal, but we should remember the structure `move a little from the current value in the direction opposite the gradient by the amount of the learning rate`.
 
-![Chart showing that the gradient-descent update means moving a little from the current value in the direction opposite the gradient](../../../assets/part-02/chapter-04/gradient-descent-update-intuition-en.svg)
+![Chart showing that the gradient-descent update means moving a little from the current value in the direction opposite the gradient](/AiBook/assets/part-02/chapter-04/gradient-descent-update-intuition-en.svg)
 
 Another important point is that gradient descent is not a magical method that always guarantees the perfect answer. It is a method that tries to go in a better direction by using the slope seen at the current position. The result can differ depending on the starting position, the shape of the loss function, the movement width, and the number of repetitions.
 
@@ -320,7 +320,7 @@ To learn, we must know how the loss changes with respect to the parameters of ea
 
 As in the chart below, the forward pass calculates values from input to output and loss, while the backward pass calculates from the loss backward how much each layer's parameters affect the loss.
 
-![Chart comparing the direction of computation in the forward pass and the direction in which gradients are sent back in backpropagation](../../../assets/part-02/chapter-04/backpropagation-gradient-flow-en.svg)
+![Chart comparing the direction of computation in the forward pass and the direction in which gradients are sent back in backpropagation](/AiBook/assets/part-02/chapter-04/backpropagation-gradient-flow-en.svg)
 
 Here, we separate them as follows: gradient descent deals with how to change values in order to reduce loss, and backpropagation deals with calculating how much each layer's parameters affect the loss.
 
