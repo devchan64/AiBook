@@ -23,3 +23,12 @@
 - 번역 반영 상태: 향후 반영 필요
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.09`
+
+### v2026.07.11
+
+- 변경 이유: Part 5 외부 커리큘럼 비교에서 `초기화(initialization)`, `수치 안정성(numerical stability)`, `batch normalization`을 한 자리에서 회수하는 초심자용 보강 위치가 필요해졌다.
+- 본문 반영: 독자용 목차의 Part 5 Chapter 6에 `P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법`을 추가했다.
+- 번역 동기화 메모: Part 5 Chapter 6 gained a new supplemental stabilization section and other language TOCs should preserve the same Section ID and placement. / pending
+- 번역 반영 상태: 향후 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.11`

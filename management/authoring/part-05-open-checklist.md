@@ -107,3 +107,21 @@
 - 구조 설명과 optimizer, regularization, 배치 같은 학습 절차 설명이 다시 한 장면에서 섞이지 않는지 점검합니다.
 - 후반 비교 표와 예시 아래 설명이 `새 차이`를 더하는지, 아니면 이미 말한 내용을 반복하는지 점검합니다.
 - 초반부에서는 역전파, 학습/평가 모드, optimizer 구간으로 가면서 `구조 설명`과 `학습 절차 설명`이 다시 한 문단 안에서 섞이지 않는지 점검합니다.
+
+- `2026-07-11`: Part 5 커리큘럼 적합성 관점에서 Part 단위 페이지와 Chapter 14~15의 회수 문장을 다시 점검했습니다.
+- 판단: Part 5의 큰 구조는 이미 안정적이지만, `뒤 Part`처럼만 적힌 회수 문장은 초심자가 실제 다음 학습 위치를 찾기 어렵게 만들 수 있었습니다. Part 시작/마무리 페이지의 `짧은 점검` 표지도 현재 `체크리스트` 규칙과 어긋나 있었습니다.
+- 조치: `P5-index`, `P5-summary`의 자기 확인 표지를 `체크리스트`로 통일했고, `P5-14.1`, `P5-14.2`, `P5-15.1`, `P5-15.2`에서 Part 6 회수 위치를 `P6-3.1`, `P6-3.3`, `P6-5.1`, `P6-5.2`처럼 구체적인 Section ID로 명시했습니다.
+
+- `2026-07-11`: 외부 딥러닝 커리큘럼과의 비교 메모를 [part-05-external-curriculum-comparison-2026-07-11.md](./part-05-external-curriculum-comparison-2026-07-11.md)로 정리했습니다.
+- 판단: Part 5의 큰 줄기는 D2L, Deep Learning, CS231n, CS224N과 대체로 잘 맞았지만, `초기화(initialization)`, `수치 안정성(numerical stability)`, `batch normalization`을 하나의 학습 안정화 축으로 묶는 설명은 상대적으로 약했습니다. 반면 seq2seq/encoder-decoder와 GAN/VAE/diffusion 계열은 현재 책의 범위를 고려하면 `의도적 압축`으로 볼 수 있었습니다.
+- 후속 과제:
+  - [x] `초기화 + 수치 안정성 + batch normalization`을 초심자용으로 한 번 더 묶는 새 보충학습 Section 후보를 만들지 결정한다.
+  - [x] 새 Section을 만들지 않는다면, `P5-3.2`, `P5-6.2`, `P5-8.1` 사이 연결 문장만으로 같은 학습 안정화 축이 충분히 보이는지 다시 점검한다.
+  - [x] RNN에서 Attention으로 넘어갈 때 `seq2seq / encoder-decoder` 전환을 작은 표와 짧은 문단 수준으로 `P5-12.2`에 직접 회수한다.
+- 조치: `P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법`을 새로 추가하고, 독자용 목차·MkDocs nav·개념사전·릴리즈노트를 함께 갱신했습니다. 이어서 `P5-12.2`의 attention 전환부에 seq2seq/encoder-decoder 압축 병목 설명과 비교 표를 추가해 `상태 전달 한계 -> 압축 병목 -> 직접 참조` 흐름도 더 분명히 닫았습니다.
+- 추가 점검: 같은 날 DeepLearning.AI Deep Learning Specialization과 fast.ai Practical Deep Learning for Coders를 다시 대조해 보니, 현재 Part 5에서 새로 즉시 보강해야 할 핵심 결손은 더 보이지 않았습니다. 다만 DeepLearning.AI가 `word embeddings -> seq2seq/attention -> transformer`를 한 코스 안에서 잇는다는 점은, 훗날 Part 5와 Part 6 경계를 다시 조정할 때 가장 먼저 재검토할 후보로 남깁니다.
+
+- `2026-07-11`: 학습 밀도 관점의 별도 비교 메모를 [part-05-learning-density-comparison-2026-07-11.md](./part-05-learning-density-comparison-2026-07-11.md)로 정리했습니다.
+- 판단: 구조 적합성과 별개로, 학습 밀도 기준에서는 `P5-6 ~ P5-8`의 학습 절차/안정화 묶음과 `P5-12 ~ P5-15`의 `RNN -> attention -> Transformer -> 생성` 전환부가 외부 입문 커리큘럼보다 더 압축된 편입니다. 다만 이것은 현재 단계에서 즉시 `새 개념 결손`을 뜻하지는 않았고, 이미 추가한 `P5-6.3`, `P5-12.2` 보강이 가장 큰 밀도 리스크를 완화하는 데 실제로 도움이 되었습니다.
+- 후속 과제:
+  - [ ] Part 5 index나 summary에서 후반부 구조 전환을 `순차 상태 -> 직접 참조 -> 병렬 블록 -> 생성 후보 선택`처럼 한 번 더 느리게 묶는 문장이 필요한지 검토한다.

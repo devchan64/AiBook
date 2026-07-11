@@ -13,3 +13,9 @@
 
 - 변경 이유: Part 4 Chapter 7 재배치 이후 특징 선택 관련 보충학습의 등장 Section 번호가 바뀌어 개념사전 참조 위치를 다시 맞출 필요가 있었다.
 - 본문 반영: `특징 선택(feature selection)` 항목과 `차원 축소(dimensionality reduction)` 항목의 등장 Section 목록에 `P4-7.4`를 반영해, 필터·래퍼·차원 축소 구분 보충학습의 새 번호 체계를 맞췄다.
+
+### v2026.07.11
+
+- 변경 이유: Part 5에 학습 안정화 보충학습 `P5-6.3`이 추가되면서, 해당 절의 핵심 용어인 `배치 정규화(batch normalization)`, `수치 안정성(numerical stability)`, `초기화(initialization)`를 개념사전에서도 바로 다시 찾을 수 있어야 했다.
+- 본문 반영: 개념사전에 `배치 정규화(batch normalization)`, `수치 안정성(numerical stability)`, `초기화(initialization)` 항목을 추가하고 중심 Section을 `P5-6.3`으로 연결했다.
+- 번역 반영 상태: 향후 번역 반영 필요

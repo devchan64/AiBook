@@ -747,6 +747,15 @@
 - 중심 Section: `P1-14.6`
 - 등장 Section: `P5-8.3`, `P5-9.2`
 
+<a id="glossary-batch-normalization"></a>
+### 배치 정규화(batch normalization)
+
+- 뜻: 한 배치 안의 평균과 분산을 참고해 활성값 분포를 다시 정리함으로써, 다음 층이 더 다루기 쉬운 범위의 값을 받게 하는 정규화 방식입니다.
+- 왜 중요한가: 깊은 네트워크에서 활성값 분포가 계속 흔들리면 학습이 불안정해질 수 있어, 학습 중 계산을 더 덜 흔들리게 만들고 mode 차이도 함께 이해하게 해 주기 때문입니다.
+- 함께 볼 개념: `학습 모드(training mode)`, `평가 모드(evaluation mode)`, `수치 안정성(numerical stability)`
+- 중심 Section: `P5-6.3`
+- 등장 Section: `P5-6.2`, `P5-8.1`
+
 ### 비전 트랜스포머(ViT, Vision Transformer)
 
 - 뜻: 이미지를 작은 패치 토큰으로 나눈 뒤, 각 패치 사이 관계를 self-attention으로 읽어 표현을 만드는 비전 모델 계열입니다.
@@ -1664,6 +1673,14 @@
 - 함께 볼 개념: `극한(limit)`, `변화율(rate of change)`, `최적화(optimization)`
 - 중심 Section: `P2-2.3`
 - 등장 Section: `P2-6.3`
+
+<a id="glossary-numerical-stability"></a>
+### 수치 안정성(numerical stability)
+
+- 뜻: 계산을 여러 번 반복하더라도 값과 gradient가 지나치게 커지거나 작아지지 않아, 학습이 감당 가능한 숫자 범위 안에서 계속 이어지는 성질입니다.
+- 왜 중요한가: 깊은 네트워크는 같은 종류의 계산을 층마다 반복하므로, 작은 불안정도 누적되면 학습 실패나 느린 수렴으로 이어질 수 있기 때문입니다.
+- 함께 볼 개념: `초기화(initialization)`, `배치 정규화(batch normalization)`, `역전파(backpropagation)`
+- 중심 Section: `P5-6.3`
 
 ### 평균(mean)
 
@@ -2636,6 +2653,15 @@
 - 함께 볼 개념: `지연 시간(latency)`, `레이트 리밋(rate limit)`, `배치(batch)`
 - 중심 Section: `P1-14.6`
 - 등장 Section: `P1-14.5`
+
+<a id="glossary-initialization"></a>
+### 초기화(initialization)
+
+- 뜻: 학습을 시작하기 전에 가중치와 같은 파라미터를 어떤 값으로 배치할지 정하는 단계입니다.
+- 왜 중요한가: 출발점이 너무 같거나 너무 극단적이면 여러 뉴런이 같은 역할로 묶이거나 값과 gradient 흐름이 흔들려, 깊은 네트워크가 제대로 학습을 시작하기 어려울 수 있기 때문입니다.
+- 함께 볼 개념: `수치 안정성(numerical stability)`, `가중치(weight)`, `역전파(backpropagation)`
+- 중심 Section: `P5-6.3`
+- 등장 Section: `P5-3.2`
 
 ### 추적(trace)
 

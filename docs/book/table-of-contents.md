@@ -1,7 +1,7 @@
 # 목차
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 이 목차는 현재 기준 목차로 확정한 학습 순서입니다. `확정`은 책의 구조로 채택했다는 뜻이며, 각 장의 내용이 모두 작성되었거나 검증되었다는 뜻은 아닙니다.
 
@@ -556,6 +556,7 @@ flowchart LR
 
 - **P5-6.1 학습(learning)과 모델 실행(inference)**: 파라미터를 바꾸는 단계와 사용하는 단계를 구분합니다.
 - **P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)**: dropout, batch norm 같은 차이를 나중에 이해할 준비를 합니다.
+- **P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법**: 깊은 네트워크가 왜 그냥 쌓는다고 바로 잘 학습되지 않는지, 학습 안정화 축을 한 자리에서 정리합니다.
 
 #### Chapter 7. 옵티마이저 `학습 원리`
 

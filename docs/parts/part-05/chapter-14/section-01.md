@@ -1,7 +1,7 @@
 # P5-14.1 트랜스포머(Transformer)의 기본 구성
 
 Section ID: `P5-14.1`
-Version: `v2026.07.09`
+Version: `v2026.07.11`
 
 P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, 트랜스포머(Transformer)의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
 
@@ -31,7 +31,7 @@ P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 내부 토
 - positional encoding의 상세 수학
 - encoder-only, decoder-only, encoder-decoder 계열의 세부 아키텍처 분화
 
-multi-head attention과 query, key, value의 입문적 설명은 보충학습 P5-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P5-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 세부 분화는 뒤 Part에서 다시 비교합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
+multi-head attention과 query, key, value의 입문적 설명은 보충학습 P5-13.3에서 회수합니다. 대신 병렬 처리와 긴 문맥의 장점은 P5-14.2에서 이어서 다루고, encoder-only, decoder-only, encoder-decoder의 세부 분화는 P6-3.1에서 LLM 관점으로 다시 비교합니다. 더 깊은 세부 아키텍처 분화와 수식 전개는 이 책의 현재 본편 범위 밖에 둡니다.
 
 여기서는 Transformer 논문 전체를 따라가기보다, 블록 수준에서 무엇이 결합되어 있는지 먼저 잡습니다.
 
