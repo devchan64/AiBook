@@ -1,0 +1,14 @@
+flowchart TD
+  A["meet DQN, PPO, RLHF together"]
+  B["ask what bottleneck appears first"]
+  C["state space is too large"]
+  D["policy updates are unstable"]
+  E["human preference must guide outputs"]
+  F["read as DQN branch"]
+  G["read as PPO or actor-critic branch"]
+  H["read as RLHF or preference branch"]
+
+  A --> B
+  B --> C --> F
+  B --> D --> G
+  B --> E --> H

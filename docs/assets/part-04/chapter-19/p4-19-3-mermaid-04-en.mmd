@@ -1,0 +1,11 @@
+flowchart TD
+  A["reward = clicks only"]
+  B["policy serves more provocative content"]
+  C["click metric rises"]
+  D["complaints and churn rise too"]
+  E["suspect proxy reward mismatch"]
+  F["redefine reward with longer-term signals"]
+  G["test in offline or limited rollout"]
+
+  A --> B --> C
+  C --> D --> E --> F --> G

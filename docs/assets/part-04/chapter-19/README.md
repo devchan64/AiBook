@@ -1,19 +1,34 @@
 # Part 4 Chapter 19 Mermaid Assets
 
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
-- This chapter currently operates only Korean Mermaid assets. Add matching `-en.mmd` and translated derivatives when the chapter opens in other language paths.
+- English and Chinese public manuscript pages now include the shared `-en.mmd` files through `pymdownx.snippets`.
+- This chapter keeps Korean `-ko.mmd` assets for the Korean manuscript and shared English-labeled `-en.mmd` originals for the English and Chinese paths.
 - Current language sets:
+  - `p4-19-1-mermaid-01-en.mmd`
   - `p4-19-1-mermaid-01-ko.mmd`
+  - `p4-19-1-mermaid-02-en.mmd`
   - `p4-19-1-mermaid-02-ko.mmd`
+  - `p4-19-1-mermaid-03-en.mmd`
   - `p4-19-1-mermaid-03-ko.mmd`
+  - `p4-19-2-mermaid-01-en.mmd`
   - `p4-19-2-mermaid-01-ko.mmd`
+  - `p4-19-2-mermaid-02-en.mmd`
   - `p4-19-2-mermaid-02-ko.mmd`
+  - `p4-19-2-mermaid-03-en.mmd`
   - `p4-19-2-mermaid-03-ko.mmd`
+  - `p4-19-2-mermaid-04-en.mmd`
   - `p4-19-2-mermaid-04-ko.mmd`
+  - `p4-19-2-mermaid-05-en.mmd`
   - `p4-19-2-mermaid-05-ko.mmd`
+  - `p4-19-2-mermaid-06-en.mmd`
   - `p4-19-2-mermaid-06-ko.mmd`
+  - `p4-19-3-mermaid-01-en.mmd`
   - `p4-19-3-mermaid-01-ko.mmd`
+  - `p4-19-3-mermaid-02-en.mmd`
   - `p4-19-3-mermaid-02-ko.mmd`
+  - `p4-19-3-mermaid-03-en.mmd`
   - `p4-19-3-mermaid-03-ko.mmd`
+  - `p4-19-3-mermaid-04-en.mmd`
   - `p4-19-3-mermaid-04-ko.mmd`
+  - `p4-19-4-mermaid-01-en.mmd`
   - `p4-19-4-mermaid-01-ko.mmd`
