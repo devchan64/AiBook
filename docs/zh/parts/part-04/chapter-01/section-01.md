@@ -1,7 +1,7 @@
 # P4-1.1 AI、机器学习、深度学习之间的关系
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python、数组、表格和图表。现在到了 Part 4，要在这个基础上把 machine learning 单独拎出来看。
 
@@ -67,14 +67,14 @@ LLM 指 large language model。现在很多人第一次真正接触 AI，往往�
 
 ```mermaid
 flowchart TD
-  A["AI<br/>artificial intelligence"]
-  B["machine learning<br/>data-driven learning"]
-  C["deep learning<br/>neural-network-based learning"]
-  D["generative AI<br/>generate text, image, audio, code"]
+  A["AI<br/>人工智能"]
+  B["机器学习<br/>从数据中学习"]
+  C["深度学习<br/>基于神经网络的学习"]
+  D["生成式 AI<br/>生成文本、图像、音频、代码"]
   E["LLM<br/>large language model"]
 
   A --> B
-  A --> R["rule-based systems<br/>search, heuristic, knowledge"]
+  A --> R["规则型系统<br/>搜索、启发式、知识表示"]
   B --> C
   C --> D
   D --> E
@@ -86,15 +86,15 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  U["user request"]
-  A["application"]
-  R["rule checks"]
-  S["search / database"]
-  M["ML model"]
+  U["用户请求"]
+  A["应用层"]
+  R["规则检查"]
+  S["搜索 / 数据库"]
+  M["机器学习模型"]
   L["LLM"]
-  P["policy decision"]
-  H["human review<br/>when needed"]
-  O["service response"]
+  P["策略判断"]
+  H["人工复核<br/>在需要时"]
+  O["服务响应"]
 
   U --> A
   A --> R
@@ -106,7 +106,7 @@ flowchart TD
   M --> P
   L --> P
   P --> O
-  P -. "low confidence / high risk" .-> H
+  P -. "置信度低 / 风险高" .-> H
   H --> O
 ```
 
@@ -228,12 +228,12 @@ Part 4 的核心不是模型目录，而是数据、学习、评估这条流程�
 
 ```mermaid
 flowchart TD
-  A["chatbot or image-tool experience"]
-  B["jump to AI = LLM"]
-  C["service structure stays hidden"]
-  D["separate search, rules, models, policy, human review"]
-  E["LLM becomes one component"]
-  F["AI scope becomes wider again"]
+  A["聊天机器人或图像工具<br/>使用经验"]
+  B["直接跳到<br/>AI = LLM"]
+  C["服务结构被遮住"]
+  D["拆开看搜索、规则、模型、<br/>策略、人工复核"]
+  E["LLM 只是其中一个组件"]
+  F["AI 的范围再次变宽"]
 
   A --> B --> C
   A --> D --> E --> F
@@ -246,7 +246,7 @@ flowchart TD
 - 真实服务里，规则、搜索、machine learning model、LLM、人工复核往往会一起工作。
 - Part 4 之所以先看 machine learning，是因为数据、模型、学习、评估这些共同问题，在后面的 deep learning 和 LLM 里还会不断回来。
 
-## 简短检查
+## 检查清单
 
 - 能不能说明为什么 `AI`、`machine learning`、`deep learning`、`generative AI`、`LLM` 不能当成可互换的名字？
 - 能不能说明为什么就算表面上看见的是 LLM，服务内部仍可能同时包含规则、搜索、model 和人工复核？

@@ -1,7 +1,7 @@
 # P4-3.2 Heuristics And Model Selection
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-3.1 treated a heuristic as a judgment criterion for reducing candidates under limited time and limited information. This Section applies that perspective to model selection.
 

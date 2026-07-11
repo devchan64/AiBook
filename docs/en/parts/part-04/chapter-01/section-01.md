@@ -1,7 +1,7 @@
 # P4-1.1 The Relationship Among AI, Machine Learning, and Deep Learning
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 1 looked at the broad scope of the word AI. Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out machine learning on top of that foundation.
 
@@ -246,7 +246,7 @@ flowchart TD
 - Real services often combine rules, search, machine learning models, LLMs, and human review together.
 - Part 4 starts from machine learning first because the shared questions about data, models, learning, and evaluation keep returning later in deep learning and LLM discussions.
 
-## Short Check
+## Checklist
 
 - Can you explain why `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` should not be used as interchangeable names?
 - Can you explain why the same service may still contain rules, search, models, and human review together even when an LLM is visible on the surface?

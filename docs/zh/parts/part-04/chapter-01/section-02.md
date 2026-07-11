@@ -1,7 +1,7 @@
 # P4-1.2 从数据中学习规则这句话是什么意思
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 在 P4-1.1 中，我们区分了 AI、machine learning、deep learning、generative AI、LLM 的位置。现在要把 machine learning 再拉近一点来看。
 
@@ -265,14 +265,14 @@ scikit-learn 的基本使用流程也和这个结构很像。先创建 model obj
 
 ```mermaid
 flowchart TD
-  A["customer inquiry"]
-  B["match a hand-written keyword rule"]
-  C["phrasing changes or mixed intent appears"]
-  D["rule path becomes brittle"]
-  E["collect labeled past inquiries"]
-  F["learn input-label relation"]
-  G["test on unseen inquiries"]
-  H["decide whether generalization is good enough"]
+  A["客户咨询"]
+  B["匹配手写关键词规则"]
+  C["措辞变化或混合意图出现"]
+  D["规则路径变脆弱"]
+  E["收集带标签的历史咨询"]
+  F["学习输入与标签的关系"]
+  G["在未见过的咨询上测试"]
+  H["判断泛化是否足够"]
 
   A --> B --> C --> D
   A --> E --> F --> G --> H
@@ -285,7 +285,7 @@ flowchart TD
 - 在训练之前，表仍然必须先分出 example、feature、label、identifier、运营语境这些不同角色。
 - `在训练数据上拟合得好` 和 `能 generalize 到没见过的数据` 不是一回事，所以 evaluation 不可缺少。
 
-## 简短检查
+## 检查清单
 
 - 能不能说明为什么 `学习规则` 并不总等于生成可读的句子规则？
 - 能不能说明 Part 3 里的表格设计，是怎样接到 machine learning 里的 `什么成为 X`、`什么成为 y`？

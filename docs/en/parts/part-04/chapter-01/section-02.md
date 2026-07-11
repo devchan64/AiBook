@@ -1,7 +1,7 @@
 # P4-1.2 What It Means To Learn Rules From Data
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-1.1 distinguished the positions of AI, machine learning, deep learning, generative AI, and LLM. Now we look at machine learning more closely.
 
@@ -285,7 +285,7 @@ flowchart TD
 - The table must still be separated into examples, features, labels, identifiers, and operational context before a model can be trained sensibly.
 - Matching the training data well is different from generalizing to unseen data, which is why evaluation is indispensable.
 
-## Short Check
+## Checklist
 
 - Can you explain why `learning rules` does not always mean producing human-readable sentence rules?
 - Can you explain how Part 3's table design connects to `what becomes X` and `what becomes y` in machine learning?

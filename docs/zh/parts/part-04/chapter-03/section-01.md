@@ -1,7 +1,7 @@
 # P4-3.1 为什么需要启发式
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 在 P4-2 章里，我们把 supervised learning、unsupervised learning、reinforcement learning 看成几种大的学习类型。接下来就会自然出现一个问题：真正去解决现实问题时，应该先看哪些数据、先试哪些 model、结果到什么程度才进入下一阶段？
 
@@ -50,11 +50,11 @@ heuristic 会减少为了解决问题而必须先看的候选。它不是把所�
 
 ```mermaid
 flowchart TB
-  A["many possible choices<br/>features / models / settings"]
-  B["heuristic<br/>use experience and constraints"]
-  C["smaller candidate set<br/>try first"]
-  D["validation<br/>check with data"]
-  E["revise<br/>keep, change, or discard"]
+  A["候选很多<br/>特征 / 模型 / 设置"]
+  B["启发式<br/>利用经验与约束"]
+  C["缩小后的候选集<br/>先试这些"]
+  D["验证<br/>用数据确认"]
+  E["修正<br/>保留、修改或丢弃"]
 
   A --> B
   B --> C
@@ -165,13 +165,13 @@ heuristic 可能很有用，但它不总是对的。一个好的 heuristic，既
 
 ```mermaid
 flowchart TD
-  A["order table"]
-  B["list every possible feature"]
-  C["comparison becomes too large"]
-  D["pick a small heuristic subset first"]
-  E["build a small baseline model"]
-  F["compare with a wider feature set"]
-  G["keep or revise the heuristic"]
+  A["订单表"]
+  B["列出所有可能的特征"]
+  C["比较规模变得过大"]
+  D["先挑一个小的启发式子集"]
+  E["建立一个小的基准模型"]
+  F["与更宽的特征集合比较"]
+  G["保留或修改启发式"]
 
   A --> B --> C
   A --> D --> E --> F --> G
@@ -186,7 +186,7 @@ flowchart TD
 - 好 heuristic 必须是可验证的。
 - heuristic 应该被当成 working hypothesis，而不是个人感觉。
 
-## 简短检查
+## 检查清单
 
 - 能不能说明在什么状态下，heuristic 不是 `随便猜`，而是缩小候选集的装置？
 - 能不能说明为什么 heuristic 总要和 baseline model 或 validation data 一起出现？

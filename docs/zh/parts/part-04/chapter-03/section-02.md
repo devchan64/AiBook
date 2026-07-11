@@ -1,7 +1,7 @@
 # P4-3.2 启发式与模型选择
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 在 P4-3.1 里，我们把 heuristic 看成 `在有限时间和有限信息下缩小候选集的判断标准`。这一节要把这个视角应用到 model selection 上。
 
@@ -54,14 +54,14 @@
 
 ```mermaid
 flowchart TD
-  A["churn problem<br/>predict leave / stay"]
-  B["task type<br/>classification"]
-  C["constraints<br/>interpretability / tabular data / cost"]
-  D["baseline first<br/>logistic regression"]
-  E["tree candidate<br/>decision tree"]
-  F["stronger ensemble<br/>random forest"]
-  G["compare with validation<br/>recall / precision / cost"]
-  H["keep or expand set<br/>record why"]
+  A["流失问题<br/>预测流失 / 留存"]
+  B["任务类型<br/>分类"]
+  C["约束条件<br/>可解释性 / 表格数据 / 成本"]
+  D["先立基准模型<br/>logistic regression"]
+  E["树模型候选<br/>decision tree"]
+  F["更强的集成候选<br/>random forest"]
+  G["用验证比较<br/>recall / precision / 成本"]
+  H["保留或扩展候选集<br/>记录原因"]
 
   A --> B
   B --> C
@@ -80,12 +80,12 @@ model selection 通常会按下面这样的流程推进。
 
 ```mermaid
 flowchart TB
-  A["problem type<br/>classification / regression / clustering"]
-  B["constraints<br/>data size / interpretability / cost"]
-  C["baseline<br/>simple first model"]
-  D["candidate models<br/>small set to compare"]
-  E["validation<br/>compare with agreed metric"]
-  F["decision log<br/>why keep or change"]
+  A["问题类型<br/>分类 / 回归 / 聚类"]
+  B["约束条件<br/>数据规模 / 可解释性 / 成本"]
+  C["基准模型<br/>先从简单模型开始"]
+  D["候选模型<br/>要比较的小集合"]
+  E["验证<br/>按约定指标比较"]
+  F["决策记录<br/>为什么保留或更换"]
 
   A --> B
   B --> C
@@ -201,13 +201,13 @@ baseline 会在 P4-8.2 里更详细地处理。这里先只把它当成 model-se
 
 ```mermaid
 flowchart TD
-  A["inquiry classification problem"]
-  B["rule-based start point"]
-  C["too many misses from wording changes"]
-  D["try a simple baseline model first"]
-  E["compare with tree or stronger candidates"]
-  F["check precision and recall by class"]
-  G["keep the shortlist or expand it"]
+  A["咨询分类问题"]
+  B["规则型起点"]
+  C["措辞变化导致漏判过多"]
+  D["先试简单基准模型"]
+  E["与树模型或更强候选比较"]
+  F["检查各类 precision 和 recall"]
+  G["保留候选短名单或继续扩展"]
 
   A --> B --> C
   C --> D --> E --> F --> G
@@ -222,7 +222,7 @@ flowchart TD
 - performance、interpretability、computational cost、data state、operability 都必须一起看。
 - model-selection heuristic 应该连同理由、风险、验证方法一起记录。
 
-## 简短检查
+## 检查清单
 
 - 能不能说明为什么 model selection 不是 `挑一个有名 model`，而是 `先缩小候选集`？
 - 能不能说明在什么状态下，比起继续加复杂度，更应该先重新检查 data 和 label？
