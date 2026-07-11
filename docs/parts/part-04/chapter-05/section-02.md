@@ -1,7 +1,7 @@
 # P4-5.2 일반화(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분했습니다. 이제 한 단계 더 올라가야 합니다. 왜 우리는 그 구분을 중요하게 여길까요? 결국 머신러닝의 목적이 `학습 데이터 점수 높이기`가 아니라, `아직 보지 못한 데이터에서도 쓸 만하게 작동하기` 때문입니다. 이 질문을 정리하는 말이 `일반화(generalization)`입니다.
 
@@ -129,10 +129,10 @@ Google의 머신러닝 용어집은 일반화를 사실상 `훈련 세트(traini
 
 ```mermaid
 flowchart TB
-  A["same task<br/>same meaning"]
-  B["same task<br/>new samples"]
-  C["same task<br/>condition shift"]
-  D["different task or meaning"]
+  A["같은 과제<br/>같은 의미"]
+  B["같은 과제<br/>새 샘플"]
+  C["같은 과제<br/>조건 변화"]
+  D["다른 과제 또는 다른 의미"]
 
   A --> B
   B --> C
@@ -173,10 +173,10 @@ P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 �
 
 ```mermaid
 flowchart TB
-  A["training data<br/>learn pattern"]
-  B["validation data<br/>compare candidates"]
-  C["test data<br/>final check"]
-  D["future unseen data<br/>real use"]
+  A["학습 데이터<br/>패턴 학습"]
+  B["검증 데이터<br/>후보 비교"]
+  C["테스트 데이터<br/>최종 확인"]
+  D["미래의 미관측 데이터<br/>실제 사용 환경"]
 
   A --> B
   B --> C
@@ -228,14 +228,14 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-  A["past-user recommendation data"]
-  B["model fits familiar users well"]
-  C["new or shifted users appear"]
-  D["compare unseen-user performance"]
-  E["small gap"]
-  F["large gap"]
-  G["generalization looks stable"]
-  H["model may rely on old patterns too much"]
+  A["기존 사용자 추천 데이터"]
+  B["익숙한 사용자에는 잘 맞음"]
+  C["새 사용자나 조건 변화 등장"]
+  D["처음 보는 사용자 성능 비교"]
+  E["차이가 작음"]
+  F["차이가 큼"]
+  G["일반화가 비교적 안정적임"]
+  H["오래된 패턴에 너무 기대고 있을 수 있음"]
 
   A --> B --> C --> D
   D --> E --> G

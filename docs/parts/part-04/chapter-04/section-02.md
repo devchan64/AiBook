@@ -1,7 +1,7 @@
 # P4-4.2 검증(validation)과 테스트(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터(evaluation data)로 나누는 이유를 봤습니다. 이제 한 단계 더 나아갑니다. 모델을 고르는 과정에서 쓰는 데이터와, 마지막에 한 번만 확인하는 데이터는 같은 역할이 아닙니다.
 
@@ -82,10 +82,10 @@ P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터
 
 ```mermaid
 flowchart TB
-  A["training data<br/>fit model"]
-  B["validation data<br/>compare choices"]
-  C["pick one model and setting"]
-  D["test data<br/>final check once"]
+  A["학습 데이터<br/>모델 학습"]
+  B["검증 데이터<br/>후보 비교"]
+  C["모델과 설정 하나 선택"]
+  D["테스트 데이터<br/>마지막에 한 번 확인"]
 
   A --> B
   B --> C
@@ -178,13 +178,13 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-  A["spam dataset"]
-  B["check test score early"]
-  C["change features or settings again"]
-  D["test becomes part of selection"]
-  E["use validation for candidate choice"]
-  F["freeze one final model"]
-  G["open test once at the end"]
+  A["스팸 분류 데이터셋"]
+  B["테스트 점수를 너무 일찍 확인"]
+  C["특징이나 설정을 다시 바꿈"]
+  D["테스트가 선택 과정에 섞임"]
+  E["검증으로 후보 선택"]
+  F["최종 모델 하나로 고정"]
+  G["마지막에 테스트를 한 번만 열기"]
 
   A --> B --> C --> D
   A --> E --> F --> G
@@ -217,12 +217,12 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["customer churn table"]
-  B["train split<br/>fit several models"]
-  C["validation split<br/>choose depth / features / model"]
-  D["final candidate"]
-  E["test split<br/>open once at the end"]
-  F["reported final result"]
+  A["고객 이탈 표"]
+  B["학습 분할<br/>여러 모델 학습"]
+  C["검증 분할<br/>깊이·특징·모델 선택"]
+  D["최종 후보"]
+  E["테스트 분할<br/>마지막에 한 번 열기"]
+  F["보고할 최종 결과"]
 
   A --> B
   A --> C

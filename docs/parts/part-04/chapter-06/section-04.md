@@ -1,7 +1,7 @@
 # P4-6.4 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-6.1과 P4-6.2에서는 평가 지표의 역할과 문제 유형별 차이를 잡았습니다. 그런데 실제 문서나 라이브러리 문서를 읽다 보면 곧 더 낯선 이름이 나옵니다.
 
@@ -325,12 +325,12 @@ silhouette를 읽을 때는 분류 지표를 읽던 습관을 잠시 내려놓�
 
 ```mermaid
 flowchart TD
-  A["fraud risk scores"]
-  B["change threshold"]
-  C["check precision-recall shift"]
-  D["check score confidence"]
-  E["check score-frequency match"]
-  F["inspect unlabeled customer groups"]
+  A["사기 위험 점수"]
+  B["threshold 변경"]
+  C["precision-recall 변화 확인"]
+  D["점수 자신감 확인"]
+  E["점수-빈도 일치 확인"]
+  F["라벨 없는 고객 집단 점검"]
 
   A --> B --> C
   A --> D

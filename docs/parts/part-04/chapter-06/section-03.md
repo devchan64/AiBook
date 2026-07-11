@@ -1,7 +1,7 @@
 # P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-6.1과 P4-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 시선을 조금 바깥으로 돌립니다. 모델이 잘 맞는 것과 서비스가 잘 운영되는 것은 같은 말이 아닙니다. 이 차이를 이해하려면 SRE(site reliability engineering)에서 `metric`이라는 말을 어떻게 쓰는지 볼 필요가 있습니다.
 
@@ -45,11 +45,11 @@ SRE에서 metric은 주로 서비스가 실제로 어떻게 동작하는지를 �
 
 ```mermaid
 flowchart TD
-  A["user request"]
-  B["model output"]
-  C["service response"]
-  D["model metrics<br/>accuracy / precision / recall / RMSE"]
-  E["service metrics<br/>latency / errors / traffic / saturation"]
+  A["사용자 요청"]
+  B["모델 출력"]
+  C["서비스 응답"]
+  D["모델 지표<br/>accuracy / precision / recall / RMSE"]
+  E["서비스 지표<br/>latency / errors / traffic / saturation"]
 
   A --> B --> C
   B --> D
@@ -128,10 +128,10 @@ Google SRE Book은 SLI, SLO, SLA를 구분해서 정의합니다. 이 구분은 
 
 ```mermaid
 flowchart TB
-  A["measured behavior"]
-  B["SLI<br/>chosen indicator"]
-  C["SLO<br/>target value"]
-  D["SLA<br/>consequence if missed"]
+  A["측정된 동작"]
+  B["SLI<br/>고른 지표"]
+  C["SLO<br/>목표값"]
+  D["SLA<br/>못 지켰을 때의 결과"]
 
   A --> B --> C --> D
 ```
@@ -198,14 +198,14 @@ Google SRE Book은 사용자 대상 시스템에서 특히 중요한 네 가지 
 
 ```mermaid
 flowchart TD
-  A["user requests arrive"]
-  B["traffic<br/>how much demand is coming in?"]
+  A["사용자 요청이 들어옴"]
+  B["traffic<br/>얼마나 많은 요청이 들어오는가?"]
   C{"is the system near capacity?"}
-  D["saturation<br/>cpu / memory / queue / connection pool fills up"]
-  E["latency rises<br/>responses become slower"]
-  F["errors rise<br/>timeouts / failed requests increase"]
-  G["user-facing reliability drops"]
-  H["latency stays stable<br/>normal user experience"]
+  D["saturation<br/>cpu / memory / queue / connection pool이 차오름"]
+  E["latency 상승<br/>응답이 느려짐"]
+  F["errors 상승<br/>timeout / 실패 요청이 늘어남"]
+  G["사용자 체감 신뢰성이 떨어짐"]
+  H["latency가 안정적임<br/>평소와 비슷한 사용자 경험"]
 
   A --> B
   B --> C
@@ -256,13 +256,13 @@ SW 엔지니어가 SRE metric에 익숙하다면, 머신러닝 metric도 조금 
 
 ```mermaid
 flowchart TD
-  A["chatbot release"]
-  B["offline quality rises"]
-  C["user complaints stay high"]
-  D["check latency and timeout"]
-  E["check answer quality"]
-  F["service issue"]
-  G["model issue"]
+  A["챗봇 배포"]
+  B["오프라인 품질 상승"]
+  C["사용자 불만은 여전히 높음"]
+  D["latency와 timeout 확인"]
+  E["답변 품질 확인"]
+  F["서비스 문제"]
+  G["모델 문제"]
 
   A --> B --> C
   C --> D --> F

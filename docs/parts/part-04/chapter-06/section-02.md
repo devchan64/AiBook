@@ -1,7 +1,7 @@
 # P4-6.2 문제 유형별 평가 기준
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-6.1에서는 평가 지표(metric)가 단순 점수판이 아니라, 무엇을 중요하게 보는지 드러내는 기준이라는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다. `문제가 달라지면 왜 보는 지표도 달라질까요?`
 
@@ -36,14 +36,14 @@ scikit-learn 문서는 평가 함수를 문제 목적별로 나누어 설명합�
 
 ```mermaid
 flowchart TB
-  A["problem type"]
-  B["classification<br/>choose a class"]
-  C["regression<br/>predict a number"]
-  D["clustering<br/>group similar samples"]
+  A["문제 유형"]
+  B["분류<br/>클래스를 고름"]
+  C["회귀<br/>숫자를 예측"]
+  D["군집화<br/>비슷한 샘플을 묶음"]
 
-  E["read mistakes by type<br/>accuracy / precision / recall / F1"]
-  F["read error size<br/>MAE / MSE / RMSE / R2"]
-  G["read group quality<br/>label agreement or silhouette"]
+  E["오류 종류로 읽기<br/>accuracy / precision / recall / F1"]
+  F["오차 크기로 읽기<br/>MAE / MSE / RMSE / R2"]
+  G["묶음 품질 읽기<br/>라벨 일치도 또는 silhouette"]
 
   A --> B
   A --> C
@@ -227,12 +227,12 @@ scikit-learn 문서는 군집화 성능 평가를 설명하면서, 이것이 지
 
 ```mermaid
 flowchart TD
-  A["clustering result"]
-  B["ground-truth labels available?"]
-  C["yes<br/>compare two labelings"]
-  D["no<br/>inspect cluster structure itself"]
+  A["군집화 결과"]
+  B["정답 라벨이 있는가?"]
+  C["예<br/>두 라벨링 비교"]
+  D["아니오<br/>군집 구조 자체를 점검"]
   E["ARI / FMI / homogeneity-completeness"]
-  F["silhouette or other internal criteria"]
+  F["silhouette 또는 다른 내부 기준"]
 
   A --> B
   B --> C
@@ -339,13 +339,13 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["same customer table"]
-  B["classification question<br/>who may churn?"]
-  C["regression question<br/>how much will they spend?"]
-  D["clustering question<br/>which groups appear?"]
-  E["read FP / FN and F1"]
-  F["read error size<br/>MAE / RMSE"]
-  G["read group structure<br/>silhouette / interpretation"]
+  A["같은 고객 표"]
+  B["분류 질문<br/>누가 이탈할까?"]
+  C["회귀 질문<br/>얼마나 지출할까?"]
+  D["군집화 질문<br/>어떤 집단이 보일까?"]
+  E["FP / FN과 F1 읽기"]
+  F["오차 크기 읽기<br/>MAE / RMSE"]
+  G["집단 구조 읽기<br/>silhouette / 해석"]
 
   A --> B
   A --> C

@@ -749,6 +749,17 @@ plugins:
                     - Chapter 3. Why Heuristics Are Needed:
                         - "P4-3.1 Why Heuristics Are Needed": en/parts/part-04/chapter-03/section-01.md
                         - "P4-3.2 Heuristics And Model Selection": en/parts/part-04/chapter-03/section-02.md
+                    - Chapter 4. Training, Validation, and Test:
+                        - "P4-4.1 Training Data And Evaluation Data": en/parts/part-04/chapter-04/section-01.md
+                        - "P4-4.2 Validation And Test": en/parts/part-04/chapter-04/section-02.md
+                    - Chapter 5. Overfitting, Underfitting, and Generalization:
+                        - "P4-5.1 Overfitting And Underfitting": en/parts/part-04/chapter-05/section-01.md
+                        - "P4-5.2 Generalization": en/parts/part-04/chapter-05/section-02.md
+                    - Chapter 6. Evaluation Metrics:
+                        - "P4-6.1 The Role Of Evaluation Metrics": en/parts/part-04/chapter-06/section-01.md
+                        - "P4-6.2 Metrics By Problem Type": en/parts/part-04/chapter-06/section-02.md
+                        - "P4-6.3 Model Metrics And Service Metrics": en/parts/part-04/chapter-06/section-03.md
+                        - "P4-6.4 Supplementary Learning: How To Read ROC, PR, Log Loss, Calibration, And Silhouette For The First Time": en/parts/part-04/chapter-06/section-04.md
           theme:
             language: en
         - locale: zh
@@ -937,6 +948,17 @@ plugins:
                     - Chapter 3. 为什么需要启发式:
                         - "P4-3.1 为什么需要启发式": zh/parts/part-04/chapter-03/section-01.md
                         - "P4-3.2 启发式与模型选择": zh/parts/part-04/chapter-03/section-02.md
+                    - Chapter 4. 训练、验证与测试:
+                        - "P4-4.1 训练数据与评估数据": zh/parts/part-04/chapter-04/section-01.md
+                        - "P4-4.2 验证(validation)与测试(test)": zh/parts/part-04/chapter-04/section-02.md
+                    - Chapter 5. 过拟合、欠拟合与泛化:
+                        - "P4-5.1 过拟合(overfitting)与欠拟合(underfitting)": zh/parts/part-04/chapter-05/section-01.md
+                        - "P4-5.2 泛化(generalization)": zh/parts/part-04/chapter-05/section-02.md
+                    - Chapter 6. 评价指标:
+                        - "P4-6.1 评价指标(metric)的作用": zh/parts/part-04/chapter-06/section-01.md
+                        - "P4-6.2 按问题类型区分的指标": zh/parts/part-04/chapter-06/section-02.md
+                        - "P4-6.3 模型指标与服务指标": zh/parts/part-04/chapter-06/section-03.md
+                        - "P4-6.4 补充学习：第一次如何读 ROC、PR、对数损失(log loss)、校准(calibration)、轮廓系数(silhouette)": zh/parts/part-04/chapter-06/section-04.md
           theme:
             language: zh
   - search:

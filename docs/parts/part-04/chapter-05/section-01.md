@@ -1,7 +1,7 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
@@ -103,13 +103,13 @@ P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는
 
 ```mermaid
 flowchart TD
-  A["part images<br/>crack / color / edge pattern"]
-  B["too simple rule<br/>few signals only"]
-  C["balanced model<br/>main defect pattern"]
-  D["too complex fit<br/>memorizes training quirks"]
-  E["miss obvious defects<br/>train low / val low"]
-  F["holds on new images<br/>train high / val similar"]
-  G["fails on new images<br/>train very high / val drop"]
+  A["부품 이미지<br/>균열·색·가장자리 패턴"]
+  B["너무 단순한 규칙<br/>신호를 적게 봄"]
+  C["균형 잡힌 모델<br/>주요 불량 패턴 파악"]
+  D["너무 복잡한 적합<br/>학습 데이터 특이점까지 외움"]
+  E["눈에 띄는 불량도 놓침<br/>학습 낮음 / 검증 낮음"]
+  F["새 이미지에서도 유지<br/>학습 높음 / 검증 비슷함"]
+  G["새 이미지에서 무너짐<br/>학습 매우 높음 / 검증 하락"]
 
   A --> B
   A --> C
@@ -205,12 +205,12 @@ flowchart TD
 
 ```mermaid
 flowchart TB
-  A["too simple model<br/>misses important pattern"]
-  A1["underfitting"]
-  B["balanced model<br/>captures main pattern"]
-  B1["usable fit"]
-  C["too complex model<br/>fits noise too"]
-  C1["overfitting"]
+  A["너무 단순한 모델<br/>중요한 패턴을 놓침"]
+  A1["과소적합"]
+  B["균형 잡힌 모델<br/>핵심 패턴을 잡음"]
+  B1["사용 가능한 적합"]
+  C["너무 복잡한 모델<br/>잡음까지 맞춤"]
+  C1["과적합"]
 
   A --> A1
   A1 --> B
@@ -281,13 +281,13 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 
 ```mermaid
 flowchart TD
-  A["defect image model"]
-  B["train score almost perfect"]
-  C["validation score drops"]
-  D["suspect overfitting"]
-  E["both train and validation stay low"]
-  F["suspect underfitting"]
-  G["decide whether to simplify or strengthen the model"]
+  A["불량 이미지 모델"]
+  B["학습 점수가 거의 완벽함"]
+  C["검증 점수가 떨어짐"]
+  D["과적합 의심"]
+  E["학습·검증이 둘 다 낮음"]
+  F["과소적합 의심"]
+  G["모델을 단순화할지 강화할지 결정"]
 
   A --> B --> C --> D --> G
   A --> E --> F --> G

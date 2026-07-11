@@ -1,7 +1,7 @@
 # P4-6.1 평가 지표(metric)의 역할
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-5장에서는 과적합(overfitting)과 일반화(generalization)를 봤습니다. 이제 다음 질문이 이어집니다. `새 데이터에서도 버틴다`는 말을 실제로 무엇으로 확인할까요? 그때 등장하는 것이 `평가 지표(metric)`입니다.
 
@@ -51,11 +51,11 @@ scikit-learn 문서는 평가 지표(metrics and scoring)를 `예측의 품질�
 
 ```mermaid
 flowchart TD
-  A["task<br/>what is the model for?"]
-  B["prediction<br/>score or class"]
-  C["decision<br/>approve / block / review"]
-  D["error cost<br/>which error hurts more?"]
-  E["metric focus<br/>accuracy / precision / recall / F1"]
+  A["과제<br/>모델을 어디에 쓰는가?"]
+  B["예측<br/>점수 또는 클래스"]
+  C["결정<br/>승인 / 차단 / 검토"]
+  D["오류 비용<br/>어떤 실수가 더 아픈가?"]
+  E["지표 초점<br/>accuracy / precision / recall / F1"]
 
   A --> B --> C --> D --> E
 ```
@@ -95,10 +95,10 @@ Google의 머신러닝 용어집은 정확도(accuracy)를 `전체 예측 중 �
 
 ```mermaid
 flowchart TB
-  A["ground truth<br/>actual class"]
-  B["model prediction<br/>predicted class"]
-  C["confusion matrix<br/>TP / FP / FN / TN"]
-  D["metrics<br/>accuracy / precision / recall"]
+  A["정답<br/>실제 클래스"]
+  B["모델 예측<br/>예측한 클래스"]
+  C["혼동 행렬<br/>TP / FP / FN / TN"]
+  D["평가 지표<br/>accuracy / precision / recall"]
 
   A --> C
   B --> C
@@ -181,13 +181,13 @@ Google 용어집은 재현율(recall)을 다음 질문으로 설명합니다.
 
 ```mermaid
 flowchart TD
-  A["inspection images"]
-  B["model prediction"]
-  C["confusion matrix"]
-  D["many false alarms"]
-  E["many missed defects"]
-  F["check precision first"]
-  G["check recall first"]
+  A["검사 이미지"]
+  B["모델 예측"]
+  C["혼동 행렬"]
+  D["false alarm이 많음"]
+  E["놓친 불량이 많음"]
+  F["precision 먼저 확인"]
+  G["recall 먼저 확인"]
 
   A --> B --> C
   C --> D --> F

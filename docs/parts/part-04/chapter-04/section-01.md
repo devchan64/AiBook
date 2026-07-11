@@ -1,7 +1,7 @@
 # P4-4.1 학습 데이터와 평가 데이터
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 후보를 좁히는 법을 봤습니다. 이제 중요한 질문이 생깁니다. 그 선택이 실제로 괜찮은지 어떻게 확인할 수 있을까요?
 
@@ -61,11 +61,11 @@ P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 �
 
 ```mermaid
 flowchart TB
-  A["all available data<br/>collected examples"]
-  B["training data<br/>model learns from this"]
-  C["evaluation data<br/>model is checked here"]
-  D["trained model<br/>patterns learned from training data"]
-  E["performance estimate<br/>how well it may work on unseen data"]
+  A["전체 데이터<br/>수집된 예시"]
+  B["학습 데이터<br/>모델이 여기서 배움"]
+  C["평가 데이터<br/>모델을 여기서 점검"]
+  D["학습된 모델<br/>학습 데이터에서 익힌 패턴"]
+  E["성능 추정<br/>새 데이터에서도 통할지 확인"]
 
   A --> B
   A --> C
@@ -334,13 +334,13 @@ Name: churned, dtype: float64
 
 ```mermaid
 flowchart TD
-  A["customer coupon table"]
-  B["train and evaluate on the whole table"]
-  C["score looks too good"]
-  D["leave out an evaluation split"]
-  E["train on one part only"]
-  F["check unseen-customer score"]
-  G["read whether optimism was justified"]
+  A["고객 쿠폰 반응 표"]
+  B["전체 표로 학습하고 평가"]
+  C["점수가 지나치게 좋아 보임"]
+  D["평가용 분리를 따로 남김"]
+  E["일부만으로 학습"]
+  F["처음 보는 고객 점수 확인"]
+  G["낙관이 타당했는지 읽기"]
 
   A --> B --> C
   A --> D --> E --> F --> G
