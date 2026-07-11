@@ -98,11 +98,15 @@ ReLU(rectified linear unit)는 모양과 직관이 훨씬 단순합니다.
 
 함수의 이름을 외우기보다, 입력이 어느 구간에서 눌리고 어느 구간에서 그대로 통과하는지 모양으로 먼저 구분하는 편이 더 유용합니다.
 
+![sigmoid, tanh, ReLU의 함수 곡선 비교](../../../assets/part-05/chapter-03/activation-function-curves-ko.svg)
+
+위 차트에서 먼저 확인할 결과는 세 함수가 모두 `비선형 변환`이지만, 값을 눌러 두는 방식이 서로 다르다는 점입니다. sigmoid는 양끝에서 0과 1 쪽으로 포화되고, tanh는 0을 중심으로 음수와 양수를 함께 압축하며, ReLU는 0 아래를 잘라 내고 0 위에서는 직선처럼 증가합니다.
+
 ```mermaid
 --8<-- "assets/part-05/chapter-03/activation-family-flow-ko.mmd"
 ```
 
-이 도식은 수학 그래프를 정확히 그린 것은 아니지만, 세 함수의 해석 차이를 압축합니다.
+이 Mermaid 도식은 좌표 그래프 자체를 다시 그리는 대신, 방금 본 곡선을 `어떤 해석 규칙으로 읽는가`만 압축합니다.
 
 - sigmoid: 확률형 압축
 - tanh: 대칭형 압축

@@ -8,3 +8,5 @@
   - `linear-activation-linear-en.mmd` / `linear-activation-linear-ko.mmd`
   - `activation-family-flow-en.mmd` / `activation-family-flow-ko.mmd`
   - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
+- SVG chart assets:
+  - `activation-function-curves-en.svg` / `activation-function-curves-ko.svg`
