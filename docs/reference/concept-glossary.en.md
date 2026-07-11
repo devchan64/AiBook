@@ -6,7 +6,6 @@ Glossary headwords are intentionally written in Korean and English together beca
 
 Use the shared glossary here:
 
-- [Shared Concept Glossary](../../reference/concept-glossary.md)
+- [Shared Concept Glossary](concept-glossary.md)
 
 When the English Part 1 pages refer to glossary terms, treat that shared glossary and its common `Section ID` references as the canonical anchor.
-
