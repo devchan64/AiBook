@@ -1,7 +1,7 @@
 # P1-1.2 Problems AI Deals With
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
@@ -158,19 +158,7 @@ Control and action are also easier to understand when read in small scenes rathe
 So problem types are not rigid categories. They are analysis tools. When you look at how one system bundles several problems together, the broad word AI becomes easier to divide into smaller and more understandable units.
 
 ```mermaid
-flowchart TD
-  Reality[Real-world question]
-  Problem[Problem definition]
-  Input[Input]
-  Model[Computation]
-  Output[Output]
-  Impact[Impact]
-
-  Reality --> Problem
-  Problem --> Input
-  Input --> Model
-  Model --> Output
-  Output --> Impact
+--8<-- "assets/part-01/chapter-01/problem-definition-flow-en.mmd"
 ```
 
 This diagram shows that a broad real-world question does not become a model problem directly. It is first cut into `problem definition`, `input`, and `output`, and only then does the result affect people or the environment. The key point to read here is the three-step flow: `real-world question -> computational problem -> impact of the result`.

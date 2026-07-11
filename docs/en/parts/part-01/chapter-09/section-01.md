@@ -1,7 +1,7 @@
 # P1-9.1 Image Recognition and Representation Learning
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Chapter 8 distinguished supervised learning, unsupervised learning, and reinforcement learning by the kind of learning signal they use. Now we move into `deep learning`.
 
@@ -144,14 +144,7 @@ The Nature review by LeCun, Bengio, and Hinton explains deep learning as a famil
 In images, location matters. Clues such as eyes, noses, mouths, wheels, doors, and handles first appear in small local regions. CNNs are structured so that local patterns can be detected repeatedly across positions and then combined in later layers into larger patterns.
 
 ```mermaid
-flowchart LR
-  Pixels[Pixels]
-  Edges[Edges and Corners]
-  Parts[Parts and Shapes]
-  Object[Object Representation]
-  Class[Class Prediction]
-
-  Pixels --> Edges --> Parts --> Object --> Class
+--8<-- "assets/part-01/chapter-09/cnn-feature-hierarchy-flow-en.mmd"
 ```
 
 For a simplified car image:

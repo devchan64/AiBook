@@ -1,7 +1,7 @@
 # P1-4.2 输入(input)、输出(output)与数据(data)
 
 > Section ID: `P1-4.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 4.1 已经把 `model` 说明成：它不是整个现实问题，而是为了某个目的而缩减出来的可计算表示。现在要进一步区分描述这个模型时最先拆开的三个元素：我们往里放什么、希望它产出什么、又需要收集哪些案例。
 
@@ -83,17 +83,7 @@ AI 模型不会直接处理整个现实问题。人必须先从现实里挑出�
 > input -> model -> output
 
 ```mermaid
-flowchart TD
-  R["real-world problem"]
-
-  R --> I["input"]
-  R --> T["target output"]
-  R --> D["past examples"]
-
-  D --> L["training"]
-  L --> M["trained model"]
-  I --> M
-  M --> P["prediction for new case"]
+--8<-- "assets/part-01/chapter-04/reality-to-model-flow-zh.mmd"
 ```
 
 这个图说明：我们不会把整个现实问题直接丢进模型，而是先拆成 `input`、`target output` 和 `past examples`，再通过学习和预测把它们连接起来。最上面的 `real-world problem` 仍然是宽泛现实问题，往下走时，模型真正会看到什么、又会被要求预测什么，都会变得更窄。读这个图时，最好不要把它看成“直接解决现实的机器”，而要看成“把现实问题切成可计算小任务的过程”。

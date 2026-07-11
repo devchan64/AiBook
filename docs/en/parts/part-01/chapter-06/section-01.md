@@ -1,7 +1,7 @@
 # P1-6.1 Problems with Incomplete Information and Many Exceptions
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Chapter 5 distinguished `learning` from `inference`. Now we turn to the next question: why did AI end up using rules, search, probability, and learning together?
 
@@ -142,21 +142,7 @@ That flow can be read like this:
 | responsible judgment is required | human review, policy decision |
 
 ```mermaid
-flowchart TD
-  I["incomplete input"]
-  J{"what makes rules alone hard?"}
-
-  I --> J
-  J --> R["explicit rules"]
-  J --> S["search / heuristic"]
-  J --> P["probability"]
-  J --> L["learned model"]
-
-  R --> H["human review or policy decision"]
-  S --> H
-  P --> H
-  L --> H
-  H --> O["result"]
+--8<-- "assets/part-01/chapter-06/why-learning-is-needed-flow-en.mmd"
 ```
 
 This is not a real service architecture diagram. In 6.1, it is only meant to show why AI often combines several approaches rather than relying on one rule set alone.

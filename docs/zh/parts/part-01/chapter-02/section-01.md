@@ -1,7 +1,7 @@
 # P1-2.1 符号主义 AI 与规则式方法
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P1-1 已经整理了 AI 这个词的范围与主要术语之间的关系。P1-2 转向 AI 历史上曾用来解决问题的范式。这一节的中心是 `symbolic AI` 和 `rule-based approach`。
 
@@ -148,15 +148,7 @@ Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目说明，John McCar
 这些例子对于医疗、业务或安全规则来说都过于简单。这里重要的是结构。规则式系统把事实(fact)与规则(rule)分别存放，然后对当前情境应用匹配规则，最终得出结论。
 
 ```mermaid
-flowchart TD
-  Facts["Current Facts"]
-  Rules["Rules"]
-  Engine["Inference Engine"]
-  Result["Conclusion or Action"]
-
-  Facts --> Engine
-  Rules --> Engine
-  Engine --> Result
+--8<-- "assets/part-01/chapter-02/rule-based-decision-flow-zh.mmd"
 ```
 
 这个图帮助我们把规则式系统读成四个部分：`当前事实`、`显式规则`、`应用步骤` 与 `结论`。这里要读出的关键是结构本身：只有事实不够，只有规则也不够，还需要一个单独的过程，把两者匹配起来并产出结论。

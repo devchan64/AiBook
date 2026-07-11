@@ -1,0 +1,13 @@
+flowchart TD
+  Input["Current Input"]
+  Facts["Facts"]
+  KB["Knowledge Base"]
+  Engine["Inference Engine"]
+  Output["Conclusion or Action"]
+  Explain["Explanation"]
+
+  Input --> Facts
+  Facts --> Engine
+  KB --> Engine
+  Engine --> Output
+  Engine --> Explain

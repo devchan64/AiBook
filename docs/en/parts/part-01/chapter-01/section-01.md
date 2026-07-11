@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -132,24 +132,7 @@ The word AI is used differently depending on context.
 So this book keeps AI as the widest category first, then separates lower concepts according to how problems are solved.
 
 ```mermaid
-flowchart TD
-  AI[AI]
-  Rule[Rule-based approach]
-  Search[Search and planning]
-  Prob[Probabilistic reasoning]
-  ML[Machine learning]
-  DL[Deep learning]
-  Gen[Generative AI]
-  LLM[LLM]
-
-  AI --> Rule
-  AI --> Search
-  AI --> Prob
-  AI --> ML
-  ML --> DL
-  AI --> Gen
-  DL -.-> Gen
-  Gen --> LLM
+--8<-- "assets/part-01/chapter-01/ai-scope-map-en.mmd"
 ```
 
 This diagram is a learning map. It places `AI` as the outer category and shows where rule-based approaches, search and planning, probabilistic reasoning, machine learning, deep learning, generative AI, and LLMs sit relative to one another. The important thing is not to memorize every arrow as a strict inclusion relation. The important thing is to read that `LLM` does not mean all of AI and that `rule-based approaches` are not outside AI but one stream inside it.

@@ -1,7 +1,7 @@
 # P1-3.1 规则式系统的优势与限制
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 2.1 已经从历史位置上介绍了符号主义 AI(symbolic AI) 与规则式方法(rule-based approach)。2.3 又说明：即使在同一条业务流程里，也会出现 `像政策条件那样容易显式写成规则的部分`，以及 `像意图分类那样需要从数据中学习关系的部分`。这一节把问题再缩小一步，整理真正的规则式系统(rule-based system)究竟有哪些优势，又会在什么地方暴露出限制。
 
@@ -88,19 +88,7 @@ Buchanan 与 Shortliffe 关于 MYCIN 的书，把 MYCIN 视为规则式专家系
 这一节首先应留下的区分是：`fact 是当前状态`，`rule 是判断标准`，`knowledge base 是汇集它们的地方`，`inference engine 是应用机制`，`explanation facility 是展示理由的机制`。
 
 ```mermaid
-flowchart TD
-  Input["Current Input"]
-  Facts["Facts"]
-  KB["Knowledge Base"]
-  Engine["Inference Engine"]
-  Output["Conclusion or Action"]
-  Explain["Explanation"]
-
-  Input --> Facts
-  Facts --> Engine
-  KB --> Engine
-  Engine --> Output
-  Engine --> Explain
+--8<-- "assets/part-01/chapter-03/knowledge-base-engine-flow-zh.mmd"
 ```
 
 这个图帮助我们把规则式系统读成 `当前输入 -> 整理事实 -> 与知识库对照 -> 结论 -> 解释` 的流程。关键点是：系统不仅能给出结果，还经常能把“为什么会得到这个结果”一起展示出来。
@@ -122,25 +110,7 @@ flowchart TD
 如果把它读成流程，大致如下。
 
 ```mermaid
-flowchart TD
-  Start["Purchase Request"]
-  Budget{"Budget Sufficient?"}
-  Self{"Requester Equals Approver?"}
-  Amount{"Request Amount"}
-  Reject["Reject for Insufficient Budget"]
-  Reassign["Reassign Approver"]
-  Auto["Automatic Approval"]
-  Team["Wait for Team Lead"]
-  Dept["Wait for Department Head"]
-
-  Start --> Budget
-  Budget -- No --> Reject
-  Budget -- Yes --> Self
-  Self -- Yes --> Reassign
-  Self -- No --> Amount
-  Amount -- <= 100,000 --> Auto
-  Amount -- <= 1,000,000 --> Team
-  Amount -- > 1,000,000 --> Dept
+--8<-- "assets/part-01/chapter-03/purchase-approval-rule-flow-zh.mmd"
 ```
 
 这个例子很简单，但很好地展示了规则式系统的性格。规则可以被人阅读，结论可以被解释，而且如果业务政策变化，也可以修改某条具体规则。
@@ -271,23 +241,7 @@ flowchart TD
 如果画成图，大致是这样。
 
 ```mermaid
-flowchart TD
-  Symbolic["Symbolic AI"]
-  Rule["Rule-Based Systems"]
-  Search["Search and Knowledge Representation"]
-  Prob["Probabilistic Reasoning"]
-  ML["Machine Learning"]
-  NN["Neural Networks and Deep Learning"]
-  Compute["Computational Performance and Parallel Processing"]
-
-  Symbolic --> Rule
-  Symbolic --> Search
-  Search --> Prob
-  Prob --> ML
-  ML --> NN
-  Rule -. limits and complement .-> ML
-  Compute -. strengthens .-> ML
-  Compute -. strengthens .-> NN
+--8<-- "assets/part-01/chapter-03/symbolic-to-learning-flow-zh.mmd"
 ```
 
 这张图并不表示“前一阶段消失，后一阶段完全取代它”。真实历史比这更重叠。规则式系统、搜索、概率推理、机器学习与神经网络在不同时期重要性不同，而且在现代系统中也仍然会被一起使用。

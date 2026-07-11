@@ -1,7 +1,7 @@
 # P1-14.4 MCP and the Standardization of Tool Connections
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P1-14.3 described an `agent` as a workflow that carries `goal`, `state`, `action`, and `observation` forward. When an agent uses outside data or tools, it needs a connection method.
 
@@ -104,19 +104,7 @@ MCP follows a client-server structure. But if we imagine only the usual web-serv
 The flow can be simplified like this:
 
 ```mermaid
-flowchart TD
-  U["user"]
-  H["MCP host"]
-
-  subgraph C["connections managed by host"]
-    direction LR
-    C1["client for file server"] --> S1["MCP server: files"]
-    C2["client for issue server"] --> S2["MCP server: issue tracker"]
-  end
-
-  U --> H
-  H --> C1
-  H --> C2
+--8<-- "assets/part-01/chapter-14/mcp-connection-flow-en.mmd"
 ```
 
 One AI application may connect to several MCP servers. In that case, there is usually a separate MCP client for each server connection. For example, a coding tool may be connected at the same time to a file-system MCP server and an issue-tracker MCP server.

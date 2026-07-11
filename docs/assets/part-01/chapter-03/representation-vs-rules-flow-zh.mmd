@@ -1,0 +1,11 @@
+flowchart TD
+  Text["Inquiry Sentence"]
+  Rule["Human-Written Rules"]
+  RuleOut["Rule Result"]
+
+  Rep["Internal Representation"]
+  Model["Learned Model"]
+  ModelOut["Predicted Result"]
+
+  Text --> Rule --> RuleOut
+  Text --> Rep --> Model --> ModelOut

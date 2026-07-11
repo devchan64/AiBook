@@ -1,7 +1,7 @@
 # P1-1.3 AI、机器学习、深度学习与生成式 AI 的关系
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 1.1 中，我们整理了 AI 这个词的范围；在 1.2 中，我们看了 AI 处理的问题类型。这一节要进一步整理之后会不断反复出现的几个词：`AI`、`machine learning`、`deep learning`、`generative AI`、`LLM`。
 
@@ -72,26 +72,7 @@
 LLM 是在大规模文本数据上训练出来的语言模型家族。它是今天生成式 AI 的代表技术之一，但它并不等于整个生成式 AI。图像生成模型、语音生成模型、视频生成模型，都属于生成式 AI，但不一定属于狭义上的语言模型。
 
 ```mermaid
-flowchart TD
-  AI[AI]
-  Rule[Rule-based AI]
-  Search[Search and planning]
-  Prob[Probabilistic reasoning]
-  ML[Machine learning]
-  DL[Deep learning]
-  Gen[Generative AI]
-  LLM[LLM]
-  OtherGen[Image, audio, and video generation models]
-
-  AI --> Rule
-  AI --> Search
-  AI --> Prob
-  AI --> ML
-  ML --> DL
-  AI --> Gen
-  DL -.-> Gen
-  Gen --> LLM
-  Gen --> OtherGen
+--8<-- "assets/part-01/chapter-01/ai-to-llm-map-en.mmd"
 ```
 
 这张图是一张学习地图。真实研究与真实服务中的边界会更复杂。比如，当一个 LLM 被接到搜索服务上时，从外面看它可能像生成式 AI，但整个系统里面仍可能同时有搜索引擎、数据库、权限控制、规则过滤器和推荐模型。

@@ -1,7 +1,7 @@
 # P1-14.3 agent：把目标(goal)连接成工作流(workflow)的结构
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P1-14.2 中，我们已经区分了 RAG 与工具使用(tool use)。
 
@@ -100,17 +100,7 @@ agent 和这些不同的地方在于：它不会只做一次，而是会把这�
 理解 agent 时，`循环(loop)` 这个视角很有用。
 
 ```mermaid
-flowchart TD
-  G["goal"]
-
-  subgraph L["agent loop"]
-    direction LR
-    S["state"] --> P["choose next step"] --> A["action"] --> O["observation"] --> E{"stop?"}
-  end
-
-  G --> S
-  E -->|continue| S
-  E -->|finish| R["report result"]
+--8<-- "assets/part-01/chapter-14/agent-loop-flow-zh.mmd"
 ```
 
 | 元素 | 说明 |

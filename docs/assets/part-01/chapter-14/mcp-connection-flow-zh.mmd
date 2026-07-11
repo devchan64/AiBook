@@ -1,0 +1,13 @@
+flowchart TD
+  U["user"]
+  H["MCP host"]
+
+  subgraph C["connections managed by host"]
+    direction LR
+    C1["client for file server"] --> S1["MCP server: files"]
+    C2["client for issue server"] --> S2["MCP server: issue tracker"]
+  end
+
+  U --> H
+  H --> C1
+  H --> C2

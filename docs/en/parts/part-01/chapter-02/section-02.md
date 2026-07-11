@@ -1,7 +1,7 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 2.1 covered symbolic AI and rule-based approaches. This section takes the next question. When writing rules alone is not enough, AI had to search through possible candidates, represent the knowledge it needed, and reason about plausible conclusions under incomplete information.
 
@@ -129,17 +129,7 @@ So a heuristic is closer to `search order`, and probability is closer to `degree
 For example, when choosing a delivery route, a system might use `straight-line distance to the destination` as a heuristic to narrow the candidates it examines first, while also calculating `the probability that a certain road segment will be delayed because of rain` in order to judge which route is more unstable. The first value helps search order, and the second reflects uncertainty. Both can look like numbers, but they do different jobs in the system.
 
 ```mermaid
-flowchart TD
-  Start["Initial State"]
-  Candidates["Possible Candidates"]
-  Heuristic["Heuristic or Evaluation Criterion"]
-  Search["Search"]
-  Goal["Goal State"]
-
-  Start --> Candidates
-  Candidates --> Heuristic
-  Heuristic --> Search
-  Search --> Goal
+--8<-- "assets/part-01/chapter-02/search-heuristic-flow-en.mmd"
 ```
 
 This diagram helps you read search as the flow `initial state -> candidates -> evaluation criterion -> goal`. The key point is structural: to solve the problem, the system must generate candidates, and it needs a criterion for which ones to inspect first.
@@ -210,18 +200,7 @@ This section does not calculate Bayes' rule or Bayesian networks. The difference
 Search, knowledge representation, and probabilistic reasoning begin from different questions, but they can be used together.
 
 ```mermaid
-flowchart TD
-  Problem["Problem"]
-  Representation["Knowledge Representation"]
-  Search["Search"]
-  Probability["Probabilistic Reasoning"]
-  Decision["Conclusion or Action"]
-
-  Problem --> Representation
-  Representation --> Search
-  Representation --> Probability
-  Search --> Decision
-  Probability --> Decision
+--8<-- "assets/part-01/chapter-02/search-knowledge-probability-flow-en.mmd"
 ```
 
 This picture shows that the three flows are not competing, but are connected by different roles in solving the same problem. The key point is the division of labor: `knowledge representation` writes the foundation, `search` finds candidates, and `probabilistic reasoning` calculates ambiguous information to help the conclusion.

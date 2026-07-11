@@ -1,7 +1,7 @@
 # P1-1.2 AI 处理的问题
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 1.1 中，我们先整理了 AI 这个词的范围。这一节要继续往前走，看 AI 在这样一个宽广范围里，实际反复处理的是哪些类型的问题。
 
@@ -158,19 +158,7 @@ OECD 对 AI 系统的说明，也会把输入、目标、输出和对环境的�
 因此，问题类型并不是僵硬的分类表，而是分析工具。只要你能看到一个系统怎样把多个问题绑进一条流程里，宽泛的 “AI” 就会变得更容易拆解和理解。
 
 ```mermaid
-flowchart TD
-  Reality[Real-world question]
-  Problem[Problem definition]
-  Input[Input]
-  Model[Computation]
-  Output[Output]
-  Impact[Impact]
-
-  Reality --> Problem
-  Problem --> Input
-  Input --> Model
-  Model --> Output
-  Output --> Impact
+--8<-- "assets/part-01/chapter-01/problem-definition-flow-en.mmd"
 ```
 
 这张图表示：现实中的大问题，并不会直接变成模型问题，而是先被切成 `问题定义`、`输入`、`输出`，然后结果才会进一步影响人或环境。这里最核心的是三步：`现实问题 -> 可计算问题 -> 结果影响`。

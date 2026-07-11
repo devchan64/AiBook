@@ -1,7 +1,7 @@
 # P1-3.2 从数据中学习模式意味着什么
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 3.1 看过人直接写规则这种方式的优势与限制。这一节继续进入下一个问题。如果人很难把每一条有用规则都写出来，系统又怎样才能从数据中获得判断标准？
 
@@ -103,20 +103,7 @@
 两种方法都仍然会接收输入、产出输出。差别在于判断标准到底从哪里来。规则式系统让人显式写标准，机器学习模型则让标准通过数据被调整。
 
 ```mermaid
-flowchart TD
-  RuleInput["Input"]
-  Rules["Human-Written Rules"]
-  RuleOutput["Result"]
-
-  Data["Example Data"]
-  Train["Training"]
-  Model["Trained Model"]
-  NewInput["New Input"]
-  Pred["Prediction"]
-
-  RuleInput --> Rules --> RuleOutput
-  Data --> Train --> Model
-  NewInput --> Model --> Pred
+--8<-- "assets/part-01/chapter-03/rule-vs-learning-flow-zh.mmd"
 ```
 
 这个图让我们并排比较 `人直接写标准的流程` 和 `用例子数据来调整标准的流程`。关键对比是：`在规则式流程里，标准写在模型外面`，而 `在学习式流程里，标准是通过数据被调整出来的`。
@@ -198,21 +185,7 @@ Google 的机器学习入门材料说明：在 supervised learning 中，example
 所以，像 `咨询 1`、`咨询 2` 这样整句文本才是 example，而像 `退款`、`配送`、`坏了` 这样的线索是从 example 里取出的 feature。Label 是人对整条 example 贴上的答案，而模型是在很多 examples 中一起学习这些特征组合与 label 之间的关系。
 
 ```mermaid
-flowchart TD
-  Ex["Labeled Example"]
-  Features["Features"]
-  Label["Label"]
-  Train["Training"]
-  Model["Model"]
-  New["Features of New Inquiry"]
-  Output["Predicted Value"]
-
-  Ex --> Features
-  Ex --> Label
-  Features --> Train
-  Label --> Train
-  Train --> Model
-  New --> Model --> Output
+--8<-- "assets/part-01/chapter-03/feature-label-training-flow-zh.mmd"
 ```
 
 这个图帮助我们把 supervised learning 读成 `example -> features 和 label -> training -> model -> 新输入预测`。重点在于：模型并不是直接记住新输入，而是用从 examples 调整出来的标准去解释新输入。
@@ -339,19 +312,7 @@ Google 的机器学习入门材料说明，数据集的大小(size) 与多样性
 这些分数表示的是 `模型这样算出来了`，并不等于它自动就是真实答案。所以在真实学习式系统里，模型输出后面经常还会接上阈值(threshold)、人工复核，或者规则式安全层。
 
 ```mermaid
-flowchart TD
-  Input["New Input"]
-  Model["Trained Model"]
-  Score["Score or Probability"]
-  Rule["Business Rule"]
-  Human["Human Review"]
-  Action["Handling"]
-
-  Input --> Model --> Score
-  Score --> Rule
-  Rule --> Action
-  Rule --> Human
-  Human --> Action
+--8<-- "assets/part-01/chapter-03/score-rule-human-flow-zh.mmd"
 ```
 
 这个结构会重新连回 3.1 的结论。规则式系统与机器学习不是只有替代关系。模型负责找出人难以直接写成规则的模式，而规则负责管理必须执行的程序与安全条件。

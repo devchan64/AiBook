@@ -1,7 +1,7 @@
 # P1-4.2 Input, Output, and Data
 
 > Section ID: `P1-4.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 4.1 described a model as a computable representation reduced for a purpose rather than the whole real-world problem. Now we move to the first three elements that should be separated when we describe that model: what we put in, what we want to get out, and what kinds of cases we need to gather.
 
@@ -83,17 +83,7 @@ Then the real-world task is organized into the following structure.
 > input -> model -> output
 
 ```mermaid
-flowchart TD
-  R["real-world problem"]
-
-  R --> I["input"]
-  R --> T["target output"]
-  R --> D["past examples"]
-
-  D --> L["training"]
-  L --> M["trained model"]
-  I --> M
-  M --> P["prediction for new case"]
+--8<-- "assets/part-01/chapter-04/reality-to-model-flow-en.mmd"
 ```
 
 This diagram shows that we do not place the whole real-world problem directly into the model. We first separate it into `input`, `target output`, and `past examples`, then connect them through training and prediction. The `real-world problem` at the top is still a broad real-world issue, and as the structure goes downward, what the model will actually see and what it will be asked to predict become narrower. The safest way to read this figure is not as `a machine that solves reality directly`, but as `a process that cuts a real-world problem into a smaller computable task`.

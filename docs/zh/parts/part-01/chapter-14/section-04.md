@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)与工具连接标准化
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P1-14.3 中，我们把 agent 看成一种把 `目标(goal)`、`状态(state)`、`动作(action)`、`观察(observation)` 持续推进的工作流结构。要让 agent 使用外部资料或工具，就必须有一种连接方式。
 
@@ -104,19 +104,7 @@ MCP 遵循 client-server 结构。但如果只想到一般 웹 服务里的 clie
 这条关系可以简化成：
 
 ```mermaid
-flowchart TD
-  U["user"]
-  H["MCP host"]
-
-  subgraph C["connections managed by host"]
-    direction LR
-    C1["client for file server"] --> S1["MCP server: files"]
-    C2["client for issue server"] --> S2["MCP server: issue tracker"]
-  end
-
-  U --> H
-  H --> C1
-  H --> C2
+--8<-- "assets/part-01/chapter-14/mcp-connection-flow-zh.mmd"
 ```
 
 一个 AI 应用可能同时连接多个 MCP server。此时通常会由不同的 MCP client 分别管理每个 server 的连接。例如，一个编码工具可能会同时连接文件系统 MCP server 和 issue tracker MCP server。

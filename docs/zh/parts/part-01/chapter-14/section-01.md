@@ -1,7 +1,7 @@
 # P1-14.1 模型(model)、应用(application)、数据(data)、工具(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 第 13 章已经看过嵌入(embedding)、相似度搜索(similarity search)、RAG(retrieval-augmented generation)，以及向量搜索实现的直觉。这条脉络会带来一个重要转向：
 
@@ -204,21 +204,7 @@ Part 1 会在这里先建立 `模型(model)`、`应用(application)`、`数据(d
 如果把 AI 服务进一步简化，可以得到下面这张结构图：
 
 ```mermaid
-flowchart LR
-  U[User]
-  A[Application]
-  D[Data]
-  M[Model]
-  T[Tool]
-  R[Result]
-
-  U --> A
-  A --> D
-  A --> M
-  M --> A
-  A --> T
-  T --> A
-  A --> R
+--8<-- "assets/part-01/chapter-14/ai-service-components-flow-zh.mmd"
 ```
 
 这张图并没有覆盖真实系统中的全部细节，但足以让我们一眼把这些组成部分的角色连接起来。

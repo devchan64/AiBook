@@ -1,7 +1,7 @@
 # P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 covered search, knowledge representation, and probabilistic reasoning. This section turns to the next flow. Why did the center of AI explanation move more and more toward models that learn from data?
 
@@ -195,21 +195,7 @@ LLMs, or large language models, are a representative model family inside generat
 The important point in this section is not to treat LLMs as a sudden exception. They can be understood on top of the following flow.
 
 ```mermaid
-flowchart TD
-  Rule["Explicit Rules"]
-  Search["Search and Knowledge Representation"]
-  Prob["Probabilistic Reasoning"]
-  Data["Data Mining and Machine Learning"]
-  Rep["Representation Learning and Deep Learning"]
-  Gen["Generative AI"]
-  LLM["LLM"]
-
-  Rule --> Search
-  Search --> Prob
-  Prob --> Data
-  Data --> Rep
-  Rep --> Gen
-  Gen --> LLM
+--8<-- "assets/part-01/chapter-02/ai-history-bridge-flow-en.mmd"
 ```
 
 This picture should not be read as if one technology erased the one before it. It should be read as showing that the center of AI explanation has gradually accumulated more layers over time. The key point is the cumulative flow: `rules -> handling uncertainty -> data learning -> representation learning -> generation`.

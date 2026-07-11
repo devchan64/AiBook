@@ -1,0 +1,17 @@
+flowchart TD
+  Symbolic["Symbolic AI"]
+  Rule["Rule-Based Systems"]
+  Search["Search and Knowledge Representation"]
+  Prob["Probabilistic Reasoning"]
+  ML["Machine Learning"]
+  NN["Neural Networks and Deep Learning"]
+  Compute["Computational Performance and Parallel Processing"]
+
+  Symbolic --> Rule
+  Symbolic --> Search
+  Search --> Prob
+  Prob --> ML
+  ML --> NN
+  Rule -. limits and complement .-> ML
+  Compute -. strengthens .-> ML
+  Compute -. strengthens .-> NN

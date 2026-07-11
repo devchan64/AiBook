@@ -1,7 +1,7 @@
 # P1-3.3 Rule-Based Approaches and Representation Learning
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly, and Section 3.2 examined the basic structure of learning patterns from data. This section does not explain the whole learning process again. Instead, it narrows the focus to one point: what changes when the system handles input in different forms?
 
@@ -68,17 +68,7 @@ A learning-based model takes a different route. As seen in 3.2, the model is tra
 The key point here is `internal representation`. The model does not simply read the sentence exactly as it appears. It changes the sentence into a bundle of computable values and uses that for prediction.
 
 ```mermaid
-flowchart TD
-  Text["Inquiry Sentence"]
-  Rule["Human-Written Rules"]
-  RuleOut["Rule Result"]
-
-  Rep["Internal Representation"]
-  Model["Learned Model"]
-  ModelOut["Predicted Result"]
-
-  Text --> Rule --> RuleOut
-  Text --> Rep --> Model --> ModelOut
+--8<-- "assets/part-01/chapter-03/representation-vs-rules-flow-en.mmd"
 ```
 
 This diagram only shows that the same input can be processed in two branches. The left branch is a structure in which rules written in advance by people influence the result directly. The right branch is a structure in which the input is first changed into an internal representation the model can compute over, and only then is a prediction produced. The key point of this section is not `which one is better`, but the difference between whether the criterion is `written outside` or `computed inside the model`.
@@ -146,14 +136,7 @@ Second, the model can learn representations. In deep learning in particular, the
 The Stanford Encyclopedia of Philosophy entry on AI explains this with face images: lower layers may react to clues such as edges, the next layers may combine them into face parts such as eyes or noses, and higher layers may respond to bundles of those features. This kind of explanation helps distinguish deep learning from the approach in which people try to write every feature directly.
 
 ```mermaid
-flowchart TD
-  Input["Original Input"]
-  Low["Low-Level Features"]
-  Mid["Intermediate Representation"]
-  High["Higher-Level Representation"]
-  Output["Prediction"]
-
-  Input --> Low --> Mid --> High --> Output
+--8<-- "assets/part-01/chapter-03/layered-representation-flow-en.mmd"
 ```
 
 This diagram shows that input does not have to be understood all at once. It can change through several stages into representations at different levels. The key point is that `low-level features` are comparatively small clues, `intermediate representations` are combinations of several clues, and `higher-level representations` are closer to more abstract bundles of meaning. A real model is not necessarily stored with such neat stage names, but the structure that `the input changes gradually into different representations` still remains.
@@ -236,20 +219,7 @@ If rule-based approaches and learning-based approaches are divided only into `ol
 For example, an automatic customer-inquiry classification system can be structured like this.
 
 ```mermaid
-flowchart TD
-  Input["Customer Inquiry"]
-  Policy["Explicit Business Rules"]
-  Model["Learning-Based Classification Model"]
-  Score["Classification Score"]
-  Review["Human Review"]
-  Action["Handling"]
-
-  Input --> Policy
-  Policy --> Model
-  Model --> Score
-  Score --> Action
-  Score --> Review
-  Review --> Action
+--8<-- "assets/part-01/chapter-03/policy-model-review-flow-en.mmd"
 ```
 
 This diagram means that `policy rules can first filter forbidden and required conditions at the front`, then `the model can calculate classification candidates while reflecting diversity of expression`, and finally `depending on the score or sensitivity, the case can split into automatic handling or human review`. In other words, the purpose of the diagram is to show that rules and models can divide responsibility inside one system.

@@ -1,7 +1,7 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P1-1 organized the scope of the word AI and the relationship among the major terms. P1-2 turns to the historical paradigms through which AI tried to solve problems. The center of this section is `symbolic AI` and the `rule-based approach`.
 
@@ -148,15 +148,7 @@ The same content can be rewritten in `IF-THEN` form like this.
 These examples are too simple to be used directly as medical, business, or security rules. What matters here is the structure. A rule-based system collects facts and rules, then applies the rules matching the current situation to produce a conclusion.
 
 ```mermaid
-flowchart TD
-  Facts["Current Facts"]
-  Rules["Rules"]
-  Engine["Inference Engine"]
-  Result["Conclusion or Action"]
-
-  Facts --> Engine
-  Rules --> Engine
-  Engine --> Result
+--8<-- "assets/part-01/chapter-02/rule-based-decision-flow-en.mmd"
 ```
 
 This diagram helps you read a rule-based system as four parts: `current facts`, `explicit rules`, `application procedure`, and `conclusion`. The key point is structural: facts alone are not enough, rules alone are not enough, and a separate procedure is needed to match them and produce a conclusion.

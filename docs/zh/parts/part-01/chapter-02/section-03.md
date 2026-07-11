@@ -1,7 +1,7 @@
 # P1-2.3 走向机器学习、深度学习与生成式 AI 的脉络
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 2.1 看过符号主义 AI 与规则式方法，2.2 看过搜索、知识表示与概率推理。这一节继续看下一个脉络。为什么 AI 的说明中心会越来越多地转向“从数据中学习的模型”？
 
@@ -195,21 +195,7 @@ LLM(large language model) 是生成式 AI 中最有代表性的模型家族之�
 这一节最重要的不是把 LLM 看成突然出现的例外。它可以建立在下面这条脉络之上来理解。
 
 ```mermaid
-flowchart TD
-  Rule["Explicit Rules"]
-  Search["Search and Knowledge Representation"]
-  Prob["Probabilistic Reasoning"]
-  Data["Data Mining and Machine Learning"]
-  Rep["Representation Learning and Deep Learning"]
-  Gen["Generative AI"]
-  LLM["LLM"]
-
-  Rule --> Search
-  Search --> Prob
-  Prob --> Data
-  Data --> Rep
-  Rep --> Gen
-  Gen --> LLM
+--8<-- "assets/part-01/chapter-02/ai-history-bridge-flow-zh.mmd"
 ```
 
 这张图不该被读成“后一阶段把前一阶段彻底消灭了”。更准确的读法是：随着时间推进，AI 说明中心一层一层地累积出更多结构。这里要读出的关键，是 `规则 -> 处理不确定性 -> 数据学习 -> 表征学习 -> 生成` 的累积脉络。

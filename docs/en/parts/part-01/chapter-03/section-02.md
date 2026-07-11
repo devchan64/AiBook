@@ -1,7 +1,7 @@
 # P1-3.2 What It Means to Learn Patterns from Data
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly. This section moves to the next question. If people find it difficult to write every useful rule, how can a system obtain judgment criteria from data?
 
@@ -103,20 +103,7 @@ If read again through the customer-inquiry example above, it looks like this.
 Both approaches still receive input and produce output. The difference lies in where the judgment criterion comes from. Rule-based systems have people write the criterion explicitly, while machine-learning models adjust the criterion from data.
 
 ```mermaid
-flowchart TD
-  RuleInput["Input"]
-  Rules["Human-Written Rules"]
-  RuleOutput["Result"]
-
-  Data["Example Data"]
-  Train["Training"]
-  Model["Trained Model"]
-  NewInput["New Input"]
-  Pred["Prediction"]
-
-  RuleInput --> Rules --> RuleOutput
-  Data --> Train --> Model
-  NewInput --> Model --> Pred
+--8<-- "assets/part-01/chapter-03/rule-vs-learning-flow-en.mmd"
 ```
 
 This diagram helps you compare side by side `the flow in which people write the criterion directly` and `the flow in which the criterion is adjusted from example data`. The key contrast is that `in the rule-based flow, the criterion is written outside the model`, while `in the learning-based flow, the criterion is adjusted through data`.
@@ -198,21 +185,7 @@ For beginners, one more step matters here. In real work, `example`, `feature`, a
 So a whole line like `inquiry 1` or `inquiry 2` is the example, while clues such as `refund`, `delivery`, and `broken` are the input features read from inside that example. The label is the answer attached by people to the entire example, and the model learns the relation between bundles of those features and labels across many examples together.
 
 ```mermaid
-flowchart TD
-  Ex["Labeled Example"]
-  Features["Features"]
-  Label["Label"]
-  Train["Training"]
-  Model["Model"]
-  New["Features of New Inquiry"]
-  Output["Predicted Value"]
-
-  Ex --> Features
-  Ex --> Label
-  Features --> Train
-  Label --> Train
-  Train --> Model
-  New --> Model --> Output
+--8<-- "assets/part-01/chapter-03/feature-label-training-flow-en.mmd"
 ```
 
 This picture helps you read supervised learning in the order `example -> features and label -> training -> model -> prediction for new input`. The important point is that the model is not just memorizing the new input directly. It interprets new input through the criterion adjusted from examples.
@@ -339,19 +312,7 @@ For example, an inquiry-classification model may judge a sentence like this.
 These scores are signals that `the model computed it this way`. They do not mean the result is automatically the true answer. So in real learning-based systems, model outputs can be followed by a threshold, human review, or rule-based safety layer.
 
 ```mermaid
-flowchart TD
-  Input["New Input"]
-  Model["Trained Model"]
-  Score["Score or Probability"]
-  Rule["Business Rule"]
-  Human["Human Review"]
-  Action["Handling"]
-
-  Input --> Model --> Score
-  Score --> Rule
-  Rule --> Action
-  Rule --> Human
-  Human --> Action
+--8<-- "assets/part-01/chapter-03/score-rule-human-flow-en.mmd"
 ```
 
 This structure reconnects to the conclusion of 3.1. Rule-based systems and machine learning are not related only by replacement. The model can find patterns that are too hard for people to write as rules, while rules can manage procedures and safety conditions that must be enforced.

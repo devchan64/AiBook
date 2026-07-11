@@ -1,7 +1,7 @@
 # P1-2.2 搜索、知识表示与概率推理
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 2.1 已经看过符号主义 AI 与规则式方法。这一节继续回答下一个问题：当“只把规则写下来”还不够时，AI 还必须搜索可能的候选、表示所需知识，并在不完整信息下推理出更可信的结论。
 
@@ -129,17 +129,7 @@ Poole 与 Mackworth 的公开教材也用路径查找、配送机器人与网格
 例如，在选择配送路线时，系统可以用 `到目的地的直线距离` 作为启发式，先缩小要看的候选范围；同时，它也可以计算 `因为下雨而导致某段道路延迟的概率`，从而判断哪条路线更不稳定。前者帮助搜索顺序，后者反映不确定性。两者都像数字，但在系统里承担的工作不同。
 
 ```mermaid
-flowchart TD
-  Start["Initial State"]
-  Candidates["Possible Candidates"]
-  Heuristic["Heuristic or Evaluation Criterion"]
-  Search["Search"]
-  Goal["Goal State"]
-
-  Start --> Candidates
-  Candidates --> Heuristic
-  Heuristic --> Search
-  Search --> Goal
+--8<-- "assets/part-01/chapter-02/search-heuristic-flow-zh.mmd"
 ```
 
 这个图把搜索读成 `初始状态 -> 候选 -> 评价标准 -> 目标` 的流程。这里要读出的关键，是结构本身：系统要先生成候选，并需要一个“先看哪里”的标准。
@@ -210,18 +200,7 @@ Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目指出，早期专�
 搜索、知识表示与概率推理从不同问题出发，但它们可以一起使用。
 
 ```mermaid
-flowchart TD
-  Problem["Problem"]
-  Representation["Knowledge Representation"]
-  Search["Search"]
-  Probability["Probabilistic Reasoning"]
-  Decision["Conclusion or Action"]
-
-  Problem --> Representation
-  Representation --> Search
-  Representation --> Probability
-  Search --> Decision
-  Probability --> Decision
+--8<-- "assets/part-01/chapter-02/search-knowledge-probability-flow-zh.mmd"
 ```
 
 这个图说明，三条脉络并不是彼此竞争，而是在解决同一个问题时承担不同角色。这里要读出的关键，是它们的分工结构：`knowledge representation` 写下基础，`search` 找候选，`probabilistic reasoning` 则在信息模糊时帮助形成结论。

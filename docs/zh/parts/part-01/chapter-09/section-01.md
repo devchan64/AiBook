@@ -1,7 +1,7 @@
 # P1-9.1 图像识别与表征学习
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 第 8 章已经按学习信号的差异区分了 `supervised learning`、`unsupervised learning` 和 `reinforcement learning`。现在开始转向 `deep learning`。
 
@@ -146,14 +146,7 @@ LeCun、Bengio 和 Hinton 的 Nature 综述把深度学习解释成：由多个�
 图像是有空间结构的。眼睛、鼻子、嘴巴、轮子、门把手之类线索，通常先出现在局部区域里。CNN 的结构特点就在于：它可以在不同位置反复探测这类局部模式，再在更高层里把它们组合成更大的模式。
 
 ```mermaid
-flowchart LR
-  Pixels[像素]
-  Edges[轮廓与边缘]
-  Parts[局部形状]
-  Object[物体表征]
-  Class[分类结果]
-
-  Pixels --> Edges --> Parts --> Object --> Class
+--8<-- "assets/part-01/chapter-09/cnn-feature-hierarchy-flow-zh.mmd"
 ```
 
 把汽车图像极度简化后，可以这样理解：

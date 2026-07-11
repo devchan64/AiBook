@@ -1,7 +1,7 @@
 # P1-4.3 Features, Representations, and Parameters
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 4.2 examined the relation among `input`, `output`, and `data`, or what we want to show the model and what we want back from it. This section explains what kind of computational material that input becomes inside the model.
 
@@ -238,15 +238,7 @@ Feature, representation, and parameter are connected, but they are not the same 
 The flow looks like this.
 
 ```mermaid
-flowchart LR
-  Raw[Original Input]
-  Rep[Feature or Representation]
-  Model[Trained Model]
-  Param[Parameter]
-  Out[Output]
-
-  Raw --> Rep --> Model --> Out
-  Param -. internal model value .- Model
+--8<-- "assets/part-01/chapter-04/representation-model-parameter-flow-en.mmd"
 ```
 
 This figure is a simplification. In real models, the boundary between features and representations can blur, and in deep learning the representation itself may be learned through multiple layers. Here the goal is only to read the flow that `input is changed into values the model can use, and those values are combined with adjusted internal values to compute the output`.

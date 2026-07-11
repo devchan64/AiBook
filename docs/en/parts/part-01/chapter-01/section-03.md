@@ -1,7 +1,7 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
@@ -72,26 +72,7 @@ The reason it is described as an `output character` becomes clearer by compariso
 An LLM is a language-model family trained on large-scale text data. It is one of the representative technologies behind today’s generative AI, but it is not the whole of generative AI. Image-generation models, speech-generation models, and video-generation models are also forms of generative AI without being language models in the same sense.
 
 ```mermaid
-flowchart TD
-  AI[AI]
-  Rule[Rule-based AI]
-  Search[Search and planning]
-  Prob[Probabilistic reasoning]
-  ML[Machine learning]
-  DL[Deep learning]
-  Gen[Generative AI]
-  LLM[LLM]
-  OtherGen[Image, audio, and video generation models]
-
-  AI --> Rule
-  AI --> Search
-  AI --> Prob
-  AI --> ML
-  ML --> DL
-  AI --> Gen
-  DL -.-> Gen
-  Gen --> LLM
-  Gen --> OtherGen
+--8<-- "assets/part-01/chapter-01/ai-to-llm-map-en.mmd"
 ```
 
 This diagram is a learning map. In real research and real services, the boundaries are more complex. For example, when an LLM is attached to a search service, the result may look like generative AI from the outside, but the full system can also include a search engine, a database, permission controls, rule-based filters, and recommendation models.

@@ -1,0 +1,14 @@
+flowchart TD
+  Input["Customer Inquiry"]
+  Policy["Explicit Business Rules"]
+  Model["Learning-Based Classification Model"]
+  Score["Classification Score"]
+  Review["Human Review"]
+  Action["Handling"]
+
+  Input --> Policy
+  Policy --> Model
+  Model --> Score
+  Score --> Action
+  Score --> Review
+  Review --> Action

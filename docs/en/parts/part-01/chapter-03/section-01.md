@@ -1,7 +1,7 @@
 # P1-3.1 Strengths and Limits of Rule-Based Systems
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Section 2.1 located symbolic AI and rule-based approaches historically. Section 2.3 showed that even inside the same workflow, there is a split between `parts that are easy to write as explicit policy conditions` and `parts that need to learn relations from data, such as intent classification`. This section narrows the question one step further and organizes what practical strengths rule-based systems had and where they began to show their limits.
 
@@ -88,19 +88,7 @@ These terms can sound similar at first. In a short dictionary-like form, they ca
 The first distinction that should remain in this section is this: `facts are the current state`, `rules are judgment standards`, `the knowledge base is where they are collected`, `the inference engine is the application mechanism`, and `the explanation facility is the mechanism that shows the reason`.
 
 ```mermaid
-flowchart TD
-  Input["Current Input"]
-  Facts["Facts"]
-  KB["Knowledge Base"]
-  Engine["Inference Engine"]
-  Output["Conclusion or Action"]
-  Explain["Explanation"]
-
-  Input --> Facts
-  Facts --> Engine
-  KB --> Engine
-  Engine --> Output
-  Engine --> Explain
+--8<-- "assets/part-01/chapter-03/knowledge-base-engine-flow-en.mmd"
 ```
 
 This diagram helps you read a rule-based system as the flow `current input -> organize facts -> compare with knowledge base -> conclusion -> explanation`. The key point is that the system can often show not only the result, but also why that result was produced.
@@ -122,25 +110,7 @@ For example, if a company's purchase-request handling rules are simplified, they
 If read as a procedure, it looks like this.
 
 ```mermaid
-flowchart TD
-  Start["Purchase Request"]
-  Budget{"Budget Sufficient?"}
-  Self{"Requester Equals Approver?"}
-  Amount{"Request Amount"}
-  Reject["Reject for Insufficient Budget"]
-  Reassign["Reassign Approver"]
-  Auto["Automatic Approval"]
-  Team["Wait for Team Lead"]
-  Dept["Wait for Department Head"]
-
-  Start --> Budget
-  Budget -- No --> Reject
-  Budget -- Yes --> Self
-  Self -- Yes --> Reassign
-  Self -- No --> Amount
-  Amount -- <= 100,000 --> Auto
-  Amount -- <= 1,000,000 --> Team
-  Amount -- > 1,000,000 --> Dept
+--8<-- "assets/part-01/chapter-03/purchase-approval-rule-flow-en.mmd"
 ```
 
 This example is simple, but it shows the character of a rule-based system well. Rules can be read by people, conclusions can be explained, and if policy changes, a particular rule can be revised.
@@ -271,23 +241,7 @@ This relation can be summarized like this.
 If expressed as a diagram, the flow looks like this.
 
 ```mermaid
-flowchart TD
-  Symbolic["Symbolic AI"]
-  Rule["Rule-Based Systems"]
-  Search["Search and Knowledge Representation"]
-  Prob["Probabilistic Reasoning"]
-  ML["Machine Learning"]
-  NN["Neural Networks and Deep Learning"]
-  Compute["Computational Performance and Parallel Processing"]
-
-  Symbolic --> Rule
-  Symbolic --> Search
-  Search --> Prob
-  Prob --> ML
-  ML --> NN
-  Rule -. limits and complement .-> ML
-  Compute -. strengthens .-> ML
-  Compute -. strengthens .-> NN
+--8<-- "assets/part-01/chapter-03/symbolic-to-learning-flow-en.mmd"
 ```
 
 This diagram does not mean that the earlier stage disappeared and the next stage completely replaced it. Real history overlaps more than that. Rule-based systems, search, probabilistic reasoning, machine learning, and neural networks changed in importance at different times, and they are still used together inside modern systems.

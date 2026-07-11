@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -101,17 +101,7 @@ That request does not end with one generated paragraph.
 The `loop` view is useful for understanding agents.
 
 ```mermaid
-flowchart TD
-  G["goal"]
-
-  subgraph L["agent loop"]
-    direction LR
-    S["state"] --> P["choose next step"] --> A["action"] --> O["observation"] --> E{"stop?"}
-  end
-
-  G --> S
-  E -->|continue| S
-  E -->|finish| R["report result"]
+--8<-- "assets/part-01/chapter-14/agent-loop-flow-en.mmd"
 ```
 
 | Element | Description |

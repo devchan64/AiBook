@@ -1,0 +1,11 @@
+flowchart TD
+  Start["Initial State"]
+  Candidates["Possible Candidates"]
+  Heuristic["Heuristic or Evaluation Criterion"]
+  Search["Search"]
+  Goal["Goal State"]
+
+  Start --> Candidates
+  Candidates --> Heuristic
+  Heuristic --> Search
+  Search --> Goal

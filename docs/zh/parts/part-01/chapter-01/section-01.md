@@ -1,7 +1,7 @@
 # P1-1.1 AI 这个词的范围
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 重新学习 AI 时，第一个困难往往不是技术本身，而是这个词的范围。同一个 `AI`，在某些语境里指规则式程序，在另一些语境里指机器学习模型，而在最近的使用中，它甚至会被当成几乎等同于生成式 AI 或 LLM。
 
@@ -132,24 +132,7 @@ AI 这个词会因语境不同而有不同用法。
 因此，这本书会先把 AI 放在最外层，再按问题求解方式把内部概念分出来。
 
 ```mermaid
-flowchart TD
-  AI[AI]
-  Rule[Rule-based approach]
-  Search[Search and planning]
-  Prob[Probabilistic reasoning]
-  ML[Machine learning]
-  DL[Deep learning]
-  Gen[Generative AI]
-  LLM[LLM]
-
-  AI --> Rule
-  AI --> Search
-  AI --> Prob
-  AI --> ML
-  ML --> DL
-  AI --> Gen
-  DL -.-> Gen
-  Gen --> LLM
+--8<-- "assets/part-01/chapter-01/ai-scope-map-en.mmd"
 ```
 
 这张图是一张学习地图。它把 `AI` 放在最外层，并展示规则式方法、搜索与规划、概率推理、机器学习、深度学习、生成式 AI 与 LLM 之间的大致位置关系。重要的不是把每条箭头背成严格包含关系，而是看清：`LLM` 不是整个 AI，`rule-based approach` 也不是 AI 的外部，而是其内部的一条方法流。

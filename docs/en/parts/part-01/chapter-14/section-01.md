@@ -1,7 +1,7 @@
 # P1-14.1 Model, Application, Data, and Tool
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Chapter 13 covered embeddings, similarity search, RAG, and the intuition behind vector search implementation. That flow creates an important shift:
 
@@ -204,21 +204,7 @@ The key point is that the model does not automatically own the whole flow. The m
 If we simplify an AI service further, we get a structure like this:
 
 ```mermaid
-flowchart LR
-  U[User]
-  A[Application]
-  D[Data]
-  M[Model]
-  T[Tool]
-  R[Result]
-
-  U --> A
-  A --> D
-  A --> M
-  M --> A
-  A --> T
-  T --> A
-  A --> R
+--8<-- "assets/part-01/chapter-14/ai-service-components-flow-en.mmd"
 ```
 
 This diagram does not show every detail of a real system, but it is enough to connect the roles of the components at a glance.

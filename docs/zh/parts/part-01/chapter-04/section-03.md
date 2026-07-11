@@ -1,7 +1,7 @@
 # P1-4.3 特征(feature)、表征(representation)与参数(parameter)
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 4.2 已经整理了 `input`、`output` 与 `data`，也就是模型要看什么、又想从它那里拿回什么。这一节继续往里走一步，解释这些输入在模型内部会变成怎样的计算材料。
 
@@ -238,15 +238,7 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 把它们串成流程，大致是这样。
 
 ```mermaid
-flowchart LR
-  Raw[Original Input]
-  Rep[Feature or Representation]
-  Model[Trained Model]
-  Param[Parameter]
-  Out[Output]
-
-  Raw --> Rep --> Model --> Out
-  Param -. internal model value .- Model
+--8<-- "assets/part-01/chapter-04/representation-model-parameter-flow-zh.mmd"
 ```
 
 这个图是简化版。真实模型里，feature 和 representation 的边界可能会变模糊；在深度学习里，representation 本身也可能经过多层逐步学出来。这里先只读出一个主干：`输入会变成模型能用的值，再和模型内部已调整的值一起参与输出计算`。
