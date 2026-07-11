@@ -1,0 +1,13 @@
+flowchart TD
+  A["new case<br/>new input example"]
+  B["question 1<br/>recent visits <= 3?"]
+  C["question 2<br/>late payment?"]
+  D["leaf<br/>likely churn"]
+  E["leaf<br/>likely stay"]
+  F["leaf<br/>review or another label"]
+
+  A --> B
+  B -->|yes| C
+  B -->|no| E
+  C -->|yes| D
+  C -->|no| F

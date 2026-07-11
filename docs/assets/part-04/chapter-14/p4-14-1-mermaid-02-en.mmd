@@ -1,0 +1,9 @@
+flowchart TD
+  A["training data"]
+  B["make question candidates<br/>feature + threshold"]
+  C["compare impurity reduction<br/>or another split score"]
+  D["choose the best split"]
+  E["send rows to each branch"]
+  F["repeat if needed"]
+
+  A --> B --> C --> D --> E --> F

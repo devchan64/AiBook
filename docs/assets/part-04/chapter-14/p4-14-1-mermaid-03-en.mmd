@@ -1,0 +1,13 @@
+flowchart TD
+  A["customer record"]
+  B["ask visits threshold"]
+  C["ask late-payment question"]
+  D["leaf: likely churn"]
+  E["leaf: likely stay"]
+  F["leaf: mixed cases to review"]
+
+  A --> B
+  B --> C
+  C --> D
+  B --> E
+  C --> F

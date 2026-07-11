@@ -248,6 +248,8 @@ Rather than listing regression metrics all at once, the reader should make the r
 
 The purpose of this table is not to lock the reader into one metric, but to make the evaluation order clear according to `what kind of failure is being read right now`.
 
+## Detailed Learning Content
+
 ### What Typical Situations Make Linear Regression Fit Poorly?
 
 The limits of linear regression usually appear when `one line is not enough, but the model is still pushed to explain everything with one line`.
@@ -298,6 +300,70 @@ That signal can be shortened into a practical retrospective note as follows.
 | interpretation boundary | `a nonlinear possibility is visible, but the cause still needs further feature review` |
 | next question | `is it time to split the region or add features instead of forcing one line` |
 
+## Supplement To The Detailed Learning Content
+
+### Academic Background And History
+
+Once evaluation and limits have been read, it becomes easier to understand why linear regression reads error in this way. There are two historical streams behind it.
+
+The first is the stream of `least squares`. The problem of choosing a line or formula that best explains data with observation error was very important in early nineteenth-century astronomy and geodesy. In that context, least squares quickly became established as a method for systematically reducing observational differences.
+
+The second is the stream behind the name `regression` itself. The word became widely known through Francis Galton's work on heredity and height in the late nineteenth century. At that time it described the tendency of extreme values to move back toward the average in the next generation, and later widened into the name of general linear-relation estimation in statistics.
+
+- least squares came from the history of `a computational method that reduces error`
+- regression came from the history of `a statistical interpretation that tries to quantify relationships`
+- today's linear regression is the result of these two streams being combined
+
+With that background, it becomes clearer that linear regression is not only the first algorithm in a textbook. It is the meeting point between `a way of handling observation error` and `a way of interpreting relationships`.
+
+### Where Do The Main Disputes Arise?
+
+Only after metrics and limits have been read can the disputes around linear regression be read more accurately. Linear regression itself is an old classical tool, but disputes about interpretation still repeat today. Four especially important ones are the following.
+
+#### 1. Treating Prediction And Explanation As If They Were The Same Sentence
+
+Even if a regression formula predicts quite well, its coefficient cannot automatically be taken as an explanation of the real-world cause. Having predictive performance and explaining causality are different issues.
+
+This dispute appears often in data-driven services too.
+
+- good sales prediction does not mean the ad-spend coefficient proves causal effect
+- good house-price prediction does not mean one specific variable determines price
+
+So linear regression helps interpretation, but it does not automatically prove causality.
+
+#### 2. Reading The Coefficient Directly As Importance
+
+A large coefficient does not directly mean that a feature is more essential. Scale, preprocessing, and feature-selection procedure all influence it together.
+
+This dispute is especially common in multivariable regression. When reading coefficients, the reader should ask not first `is it large or small?` but `under what unit was it measured?`
+
+#### 3. Overtrusting A High R²
+
+When R² is high, the model looks as if it explains the data well. But a few large failures, a structural error in one region, or missing important variables can all hide underneath a high R².
+
+So R² is a useful summary value, but not a final verdict.
+
+#### 4. The Gap Between The Historical Origin Of Regression And Social Interpretation
+
+The word `regression` spread widely together with Galton's heredity research, and around it there was also a history of determinism and eugenics that is critically reexamined today. When learning linear regression in modern statistics and machine learning, the reader should separate the mathematical tool itself from the social interpretations attached to it at the time.
+
+This is a different kind of dispute from technical limits, but it still shows that `explaining relationships with numbers` does not automatically justify the social meaning attached to those explanations.
+
+### Good And Bad Readings Of Linear Regression
+
+Linear regression has the advantage of high interpretability, but because of that it is also easy to produce hasty interpretation.
+
+| Bad reading | Better reading |
+| --- | --- |
+| the slope is positive, so it is the cause | a positive relationship is visible, but the cause still needs separate review |
+| R² is high, so it is already good enough | R² is high, but large errors and residual pattern also need to be checked together |
+| the coefficient is large, so this is the most important feature | the coefficient must be read together with unit and preprocessing |
+| the prediction is 76.4, so reality will be near that number | the current model estimates a value near there, but error possibility still remains |
+
+The especially important sentence is the following.
+
+`Linear regression helps interpretation begin, but it does not finish interpretation for us.`
+
 ## Cases And Examples
 
 ### Case 1. Delivery-Time Prediction That Looks Fine On Average But Fails Badly In A Specific Customer Region
@@ -314,11 +380,47 @@ In this scene, regression evaluation does not end with one number. MAE shows how
 
 The confirmable result appears when residuals and metrics are read together. Even if average error looks small, if residuals cluster strongly to one side in a certain region or large failures keep repeating, the reader should treat that as a signal that linear regression is not explaining the structure of that region well enough. Even this difference should first be read as a review-priority signal that says `what region must be inspected next`, not as a sentence that fixes the cause automatically.
 
+## Cases And Examples
+
+### Empirical Example 1. Delivery-Time Prediction
+
+Suppose a team is predicting delivery time for the same region.
+
+| Model | MAE | RMSE | Interpretation |
+| --- | --- | --- | --- |
+| Model A | 8 minutes | 9 minutes | it misses fairly evenly overall |
+| Model B | 7 minutes | 18 minutes | the average looks better, but some large failures are mixed in |
+
+If the reader looks only at the average number, B can look better. But if some customers experience delays of 30 or 40 minutes, the actual service experience may be worse instead.
+
+That means the empirical example shows why MAE and RMSE must be read together.
+
+### Empirical Example 2. Housing-Price Prediction
+
+In housing-price prediction, the model may fit most middle-price houses well but fail badly on very expensive houses.
+
+- MAE can still be fairly low.
+- RMSE can become higher because of the large errors on high-priced homes.
+- R² can still look high because the overall variation is explained reasonably well.
+
+The important question in this scene is not only `is it acceptable on average?`
+It is `in what region is it especially risky?`
+
+So metrics show the overall average, but a practical reading is only complete when the failure pattern by region is also checked.
+
 ## Practice And Example
 
 ### Looking At Residuals And Metrics Together In Python
 
 The example below reuses the study-time data from 10.1 and checks prediction, residuals, MAE, RMSE, and R² together.
+
+- problem situation: after predicting exam score from study time, check how much the model missed
+- input: study time
+- label: actual exam score
+- concepts to check:
+  - residuals are created separately for each data point
+  - MAE and RMSE summarize error
+  - R² shows how much more the model explains than an average prediction
 
 ```python
 import numpy as np
@@ -341,7 +443,7 @@ print("RMSE        :", round(mean_squared_error(exam_score, pred) ** 0.5, 3))
 print("R2          :", round(r2_score(exam_score, pred), 3))
 ```
 
-An example output is the following.
+An example output is as follows.
 
 ```text
 predictions : [51.714 55.829 59.943 64.057 68.171 72.286]
@@ -358,17 +460,37 @@ This output can be read as follows.
 - RMSE around `0.608` is an average error that reacts a little more strongly to larger misses.
 - R² around `0.992` shows that, in this small example, the line explains a large share of the variation in the data.
 
-Even here, however, the reader should stay careful.
+Even here, however, there are several cautions.
 
 - The dataset is small and simple.
 - The model is being evaluated again on the same points it learned from, so this is not the same as actual generalization performance.
-- A pretty number does not mean linear regression is sufficient for every regression problem.
+- A pretty-looking number does not mean linear regression is sufficient for every regression problem.
 
-So metrics are tools that help interpretation. They are not tools that hand down a final verdict in one step.
+So metrics are tools that help interpretation. They are not tools that deliver a final verdict all at once.
 
-### Seeing How One Outlier Disturbs Metrics In Python
+### Seeing How One Outlier Shakes Metrics In Python
 
-The example below inserts one deliberately large failure into the last point of an otherwise similar pattern in order to show how MAE and RMSE react differently.
+The example below inserts a large error into the last point of an otherwise similar pattern and shows how MAE and RMSE react differently.
+
+Problem situation:
+
+- assume a scene where most cases follow a similar pattern, but one data point fails badly
+
+Input:
+
+- actual-value array `actual`
+- ordinary prediction `pred_good`
+- prediction `pred_outlier` with a large error in the last point
+
+Expected output:
+
+- MAE in the two cases
+- RMSE in the two cases
+
+Concepts to check:
+
+- MAE shows the average miss
+- RMSE reacts more strongly to one large failure
 
 ```python
 import numpy as np
@@ -384,7 +506,7 @@ print("outlier MAE :", round(mean_absolute_error(actual, pred_outlier), 3))
 print("outlier RMSE:", round(mean_squared_error(actual, pred_outlier) ** 0.5, 3))
 ```
 
-An example output is the following.
+An example output is as follows.
 
 ```text
 good MAE    : 1.0
@@ -395,14 +517,14 @@ outlier RMSE: 7.431
 
 This output is very useful for interpretation training.
 
-- In the `good` prediction, MAE and RMSE stay almost the same.
-- In the `outlier` prediction, MAE also grows, but RMSE reacts much more sharply.
+- In the `good` prediction, MAE and RMSE are almost the same.
+- In the `outlier` prediction, MAE also rises, but RMSE reacts much more sharply.
 
-Seen practically, that means RMSE is indeed `the metric that dislikes large failures more`.
+Seen empirically, RMSE really is `the metric that dislikes large failures more`.
 
 ### What Stays The Same And What Changes If Large Failure Spreads To Two Points?
 
-This time, instead of only one large failure in the last point, the reader changes the scene so that the last two points both fail badly.
+This time, instead of only the last point failing badly, change the scene so that the last two points both fail badly.
 
 ```python
 import numpy as np
@@ -418,7 +540,7 @@ print("two-outlier MAE :", round(mean_absolute_error(actual, pred_two_outliers),
 print("two-outlier RMSE:", round(mean_squared_error(actual, pred_two_outliers) ** 0.5, 3))
 ```
 
-An example output is the following.
+An example output is as follows.
 
 ```text
 one-outlier MAE : 3.833
@@ -427,17 +549,17 @@ two-outlier MAE : 6.5
 two-outlier RMSE: 8.91
 ```
 
-#### What Stayed The Same And What Changed?
+### What Stayed The Same And What Changed?
 
-- What stayed the same: in both cases RMSE still reacts more strongly than MAE. The interpretation `it is more sensitive to large failures` remains valid.
-- What changed: once the large failure spreads from one point to two points, MAE also rises much faster. That means the signal `the model is also missing a lot on average now` becomes stronger.
-- What judgment should be left first: the same increase in error leads to very different operational questions depending on whether it is a one-point accident or a failure that repeats over several points.
+- What stayed the same: in both cases, RMSE still reacts more strongly than MAE. The interpretation `it is more sensitive to large failures` stays valid.
+- What changed: once large failure spread from one point to two points, MAE also rose much faster. That means the signal `the model is now also missing a lot on average` becomes stronger.
+- Judgment to leave first: the same rise in error leads to very different operational questions depending on whether it is a one-point accident or a repeated failure over several points.
 
-### How This Exercise Recovers The Part 4 Goal
+### How This Exercise Recovers The Goals Of Part 4
 
-This exercise ties regression evaluation back from `reading numbers` to `reading failure structure`. The real issue is not merely whether error increased, but `where`, `in how many points`, and `in what direction` the failures grew. Since the goal of Part 4 is not to admire model scores but to pass evaluation results into the next judgment, it is more important to train the distinction between `a single large failure` and `a repeated failure region` than to merely memorize the difference between MAE and RMSE.
+This exercise ties regression evaluation back from `reading numbers` to `reading failure structure`. The real issue is not simply whether error increased, but `where`, `at how many points`, and `in what direction` the failures became larger. Since the goal of Part 4 is not to admire model scores but to pass evaluation results into the next decision, it is more important to train the distinction between `one large failure` and `a repeated failure region` than to memorize only the difference between MAE and RMSE.
 
-| Common recording language | What should be recorded directly from this exercise |
+| Common record language | What should be recorded directly from this exercise |
 | --- | --- |
 | structure that appeared | a one-point large failure and a failure spread across several points increased MAE and RMSE at different speeds |
 | interpretation boundary | the fact that RMSE jumped is not enough to fix immediately whether the cause is one outlier or a structural omission |
@@ -452,6 +574,41 @@ This exercise ties regression evaluation back from `reading numbers` to `reading
 - The limits of linear regression usually appear in problems that are too much to summarize with one line.
 
 The core of this Section is not memorizing more metric names. It is fixing how far regression evaluation must be read together.
+
+| What should be checked together | First question in this Section | Where it reconnects later |
+| --- | --- | --- |
+| baseline error | is the line model actually better than a simple average prediction? | P4-8 baseline comparison |
+| average error and large-failure region | how much does the model miss overall, and where does it miss unusually badly? | P4-6 regression metrics |
+| representative error cases | under what input conditions does the model fail in the same way repeatedly? | P4-18 feature engineering, later regression-model comparison |
+
+## Quick Check
+
+- Are you drawing a conclusion from one error number before checking whether the model improved beyond the baseline?
+- Are you reading average error separately from large failures?
+- When a large-error region appears, are you avoiding fixing the cause immediately and instead rechecking missing features or nonlinear possibility?
+
+## When To Recall This Perspective First
+
+- Recall this Section when checking whether you are drawing a conclusion from one error number before asking whether the model improved beyond the baseline.
+- Return to this Section when you need to distinguish average error from large failures and read residuals together with representative error cases.
+- Use this Section as the reference point when a good-looking number appears but you still need to recheck missing features or nonlinear possibility before fixing the cause.
+
+## Understanding Check
+
+- Can you explain what the sign of a residual means?
+- Can you explain the difference between MAE and RMSE through `sensitivity to large errors`?
+- Did you understand R² not as a simple score, but as explanatory power relative to an average-prediction baseline?
+- Can you give one or two examples of scenes where the line assumption breaks down?
+- Can you explain why a good-looking number still should not be overtrusted immediately?
+
+## Connection To The Next Section
+
+After linear regression, the reader is ready to move from `a model that predicts continuous values with a line` to `a model that reads a line like a classification boundary`. The next chapter, P4-11 on logistic regression, shows that connection most directly.
+
+- linear regression: continuous-value prediction
+- logistic regression: probabilistic output and boundary interpretation for classification
+
+So Chapter 10 shows `how a line is used in regression`, and Chapter 11 shows `how that linear way of thinking changes in classification`.
 
 ## Sources And References
 

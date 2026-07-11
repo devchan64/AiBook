@@ -151,6 +151,13 @@ The confirmable result appears when residual distribution and feature overlap ar
 
 The example below shows that when two features carrying nearly the same information enter together, prediction may remain similar while coefficient interpretation wobbles.
 
+- problem situation: read a regression formula that contains both `monthly_spend` and `yearly_spend_proxy`
+- input: `monthly_spend`, `yearly_spend_proxy`
+- label: next-month sales
+- concepts to check:
+  - when strongly overlapping features enter together, coefficient roles can appear split
+  - keeping prediction stable and keeping coefficient interpretation stable are not the same thing
+
 ```python
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -229,7 +236,7 @@ shifted coefficients  : [2.157 0.097]
 shifted prediction    : 47.479
 ```
 
-#### What Stayed The Same And What Changed?
+### What Stayed The Same And What Changed?
 
 - What stayed the same: the predictions of the two models are still almost identical.
 - What changed: even though only one value of an overlapping feature moved slightly, the way the coefficients were distributed shifted quite a lot.
@@ -239,11 +246,58 @@ shifted prediction    : 47.479
 
 This exercise recovers regression diagnostics not as `a list of statistical terms learned later`, but as `a procedure that asks again how far the reader can trust the model result`. The goal of Part 4 is not to accept a score and coefficient table as they are. It is to separate cases in which prediction itself shakes from cases in which only interpretation shakes. Multicollinearity is one representative scene that forces exactly this distinction.
 
+| Common record language | What should be left immediately in this exercise |
+| --- | --- |
+| structure shown | when overlapping features exist, prediction may stay similar even though coefficient interpretation shakes easily |
+| boundary of interpretation | it is not valid to conclude from coefficient movement alone that the real influence of a certain feature suddenly changed |
+| next question | if residual spread and failure by region are viewed together, should this regression formula still be used for explanation? |
+
+### Read Homoscedasticity Too Through One Small Comparison
+
+Instead of stopping after multicollinearity alone, the reader can compare one tiny scene where the spread of error differs by region.
+
+```python
+low_range_residuals = [-2, 1, 0]
+high_range_residuals = [-15, 12, 18]
+
+print("low-range spread  :", max(low_range_residuals) - min(low_range_residuals))
+print("high-range spread :", max(high_range_residuals) - min(high_range_residuals))
+```
+
+An example output is the following.
+
+```text
+low-range spread  : 3
+high-range spread : 33
+```
+
+This does not replace a complex test, but it immediately shows at an introductory level that `even under the same regression formula, the spread of error can be much wider in one region than in another`. In other words, regression diagnostics asks not only about unstable coefficient interpretation, but also about `imbalance in how error spreads`.
+
+### When The Small Practices In This Supplementary Learning Are Read Together
+
+- the residual-normality comparison makes the reader inspect first `does the error shape stretch too far to one side?`
+- the homoscedasticity comparison makes the reader inspect first `in what region does the error spread become larger?`
+- the multicollinearity comparison makes the reader inspect first `does prediction remain stable while only coefficient interpretation shakes?`
+
+So regression diagnostics is better read not as a chapter for memorizing one test name, but as a chapter for separating which one is wobbling among `error shape`, `error spread`, and `stability of coefficient interpretation`.
+
 ## Perspective To Remember In This Section
 
 - Regression diagnostics is less about raising a score and more about making interpretation more cautious.
 - Significance mainly shakes the signal of relationship interpretation, homoscedasticity shakes the spread of error, and multicollinearity shakes the stability of coefficient interpretation.
 - When reading a linear-regression table, the reader should ask not only `is there a number?` but also `how far can this number be trusted?`
+
+## When To Recall This Perspective First
+
+- Recall the perspective of regression diagnostics when you need to check whether prediction performance and the stability of coefficient interpretation are being treated as the same statement.
+- Return to this Section when you need to explain again what significance, homoscedasticity, and multicollinearity each destabilize.
+- Use this Section as the reference point when the right question is not `is there a number?` but `up to what point can this number be trusted?`
+
+## Understanding Check
+
+- Can you avoid treating significance and practical importance as the same statement?
+- Can you explain that homoscedasticity worries about whether error size changes by region?
+- Can you explain why multicollinearity can shake coefficient interpretation?
 
 ## Sources And References
 

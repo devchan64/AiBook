@@ -421,8 +421,189 @@ This result can be read as follows.
 
 - A coefficient of about `4.114` means that when study time increases by one hour, the score tends to rise by about four points on average.
 - An intercept of about `47.6` is the mathematical starting point that the model places.
+- The prediction for `x=7` shows that the model can create a continuous-value prediction even for a new input that was not part of training.
+
+What matters here is not yet `exactly how many points were right`, but `whether the direction and size of the relationship were read with a line`.
+
+If the interpretation is written a little more carefully, it becomes the following.
+
+- In this example, the model read `a direction in which the score rises as study time increases`.
+- But that does not mean every interval must have exactly the same amount of increase.
+- The predicted value 76.4 means `the current line model estimates this value`, not that the real score must certainly be exactly that number.
+
+So the first interpretation of linear regression is not `a precise prophecy of the future`. It is `a simple summary of a relationship`.
+
+### Python Example: Reading Several Coefficients Together
+
+A one-variable example is good for learning the intuition of a line, but real work data usually have several features. The example below is a small multivariable linear-regression practice that predicts `final_score` from three features: `study_hours`, `attendance`, and `assignment_score`.
+
+- problem situation: predict a final score from study time, attendance, and assignment score together
+- input: three numeric features
+- label: final score
+- concepts to check:
+  - linear regression places one coefficient on each feature
+  - the sign of each coefficient helps read direction
+  - the size of each coefficient must be read carefully together with units
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [2, 80, 60],
+    [3, 82, 65],
+    [4, 85, 70],
+    [5, 88, 72],
+    [6, 90, 78],
+    [7, 93, 83],
+])
+
+y = np.array([58, 63, 67, 71, 77, 82])
+
+feature_names = ["study_hours", "attendance", "assignment_score"]
+
+model = LinearRegression()
+model.fit(X, y)
+
+new_student = np.array([[5, 89, 75]])
+pred_new = model.predict(new_student)[0]
+
+print("sample count :", len(X))
+for name, coef in zip(feature_names, model.coef_):
+    print(f"{name:17}: {coef:.3f}")
+print("intercept         :", round(model.intercept_, 3))
+print("prediction new    :", round(pred_new, 3))
+```
+
+An example output is as follows.
+
+```text
+sample count : 6
+study_hours      : 2.174
+attendance       : 0.609
+assignment_score : 1.130
+intercept         : -6.391
+prediction new    : 73.12
+```
+
+This result can be read in the following way.
+
+- Since the coefficient of `study_hours` is positive, if other conditions stay the same, the predicted score rises as study time rises.
+- Since `attendance` and `assignment_score` are also positive, all three features in this example are reflected in the direction of raising the score.
+- But the reader should not jump from `2.174` and `0.609` directly to the conclusion that `study time is more than three times as important as attendance`. The units and distributions of the two features may differ.
+- A negative intercept does not mean `real scores are negative in reality`. This too should be read as the mathematical starting point of the model.
+
+This multivariable example shows linear regression again as the following.
+
+`A model that reads the influence of several features separately and then adds those influences to make one prediction`
+
+### Change One More Value: What Stays The Same And What Changes When One Input Goes Up?
+
+Now keep `attendance` and `assignment_score` fixed for the same student and raise only `study_hours` from `5` to `7`.
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [2, 80, 60],
+    [3, 82, 65],
+    [4, 85, 70],
+    [5, 88, 72],
+    [6, 90, 78],
+    [7, 93, 83],
+])
+
+y = np.array([58, 63, 67, 71, 77, 82])
+
+model = LinearRegression()
+model.fit(X, y)
+
+student_base = np.array([[5, 89, 75]])
+student_more_hours = np.array([[7, 89, 75]])
+
+pred_base = model.predict(student_base)[0]
+pred_more_hours = model.predict(student_more_hours)[0]
+
+print("prediction at [5,89,75] :", round(pred_base, 3))
+print("prediction at [7,89,75] :", round(pred_more_hours, 3))
+print("difference              :", round(pred_more_hours - pred_base, 3))
+```
+
+An example output is as follows.
+
+```text
+prediction at [5,89,75] : 73.12
+prediction at [7,89,75] : 77.468
+difference              : 4.348
+```
+
+### What Stays The Same And What Changes?
+
+- What stayed the same: when other features are fixed, the direction of the `study_hours` coefficient remains the same. As study time rises, the predicted score also rises.
+- What changed: only one input changed, but the predicted value rose by about `4.348` points. In other words, linear regression lets the reader understand a change through the intuition of `amount of input change x coefficient`.
+- Judgment to leave first: this change is an estimated change produced by the current model. It is not a guarantee that reality will rise by the same amount. The units and the data range still need to be checked together.
+
+### How This Practice Recovers The Goals Of Part 4
+
+This practice recovers linear regression not as `a model that memorizes a line`, but as a starting point for reading `in what direction and by what size the prediction moves when one input is changed`.
+In Part 4, what matters is not only knowing the names of coefficients. It is being able to change one value and explain `what stayed fixed and what moved`.
+Only with that kind of repeated practice can later steps such as baseline comparison, residual interpretation, and deciding whether to add more features continue in the same language.
+
+| Shared record language | What should be left immediately in this practice |
+| --- | --- |
+| structure shown | for the same student, when only one feature changed, the prediction moved continuously in the direction of the coefficient |
+| boundary of interpretation | the difference between predicted values does not itself mean a causal effect in reality or a guaranteed performance gain |
+| next question | does the same change still hold outside the training range, and does it still look valid once residuals and baseline comparison are added? |
+
+### The Basic Order For Reading Numbers In This Section
+
+In an algorithm chapter, it is easy to jump from numbers straight to `performance is good` or `the prediction is correct`. In linear regression, the numbers should be read in the following order.
+
+1. First confirm that the current problem is regression.
+2. Confirm what the input and output are.
+3. Read the direction through the sign of the coefficient.
+4. Read the size of change through the unit of the coefficient.
+5. Check whether the intercept is meaningful in the current context.
+6. Remember that the predicted value is an estimate, not the actual value itself.
+
+The key point is that there is `an order for reading numbers`. Linear regression should not be trusted immediately just because it produced a calculation result. It should be read according to rules of interpretation like these.
+
+## Perspective To Remember In This Section
+
+- Regression is a problem of predicting a continuous value.
+- Linear regression is a model that first approximates the relationship between input and output with a line.
+- A coefficient shows the direction and size of change, while the intercept shows the starting point of the model.
+- Coefficient values must be read together with their units, and a positive relationship should not be read immediately as a cause.
+- Linear regression is not a model that explains reality perfectly. It is the first model for starting to read a relationship in the simplest way.
+- A predicted value is not the actual value, but an estimate produced by the current model.
+- Before trying more complex models, linear regression is often used like a baseline.
+
+## Quick Check
+
+- Did you first confirm that the current problem is continuous-value prediction?
+- Can you explain, from the viewpoint of a baseline, why linear regression is treated as the first interpretable comparison model?
+- Are you reading coefficient numbers together with units and context instead of immediately reading them as importance or cause?
+
+## When To Recall This Perspective First
+
+- Recall the perspective of linear regression when you first need to recheck that the current problem is regression rather than classification.
+- Return to this Section when you need to explain why linear regression is a good first baseline candidate and how far the coefficient should be read as meaning.
+- Use this Section as the reference point when organizing why a line can still be a useful starting point even when it is not perfect.
+
+- Did you distinguish clearly that the current problem is regression rather than classification?
+- Did you understand that the output of linear regression is a continuous value rather than a category?
+- Can you explain the coefficient and intercept as meaning rather than only as symbols in a formula?
+- Can you explain why linear regression is a good first baseline?
+- Can you explain why a line is still useful even when it is not perfect?
+
+## Connection To The Next Section
+
+This Section first read linear regression as `a model that reads a relationship with a line`. The next Section, P4-10.2, moves on to asking how well that line actually fit, when it becomes easy for it to bend away from the data, and how residual and error should be read.
+
+In other words, if P4-10.1 is the Section that examines `the shape of the model`, P4-10.2 is the Section that examines `how appropriate that shape really was`.
 
 ## Sources And References
 
-- scikit-learn developers, [Linear Models](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, [An Introduction to Statistical Learning](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-01.
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LinearRegression`, scikit-learn API Reference, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }

@@ -797,6 +797,9 @@ plugins:
                     - Chapter 13. SVM:
                         - "P4-13.1 Intuition For SVM": en/parts/part-04/chapter-13/section-01.md
                         - "P4-13.2 Introductory Meaning Of The Kernel": en/parts/part-04/chapter-13/section-02.md
+                    - Chapter 14. Decision Trees:
+                        - "P4-14.1 Decision Tree": en/parts/part-04/chapter-14/section-01.md
+                        - "P4-14.2 Overfitting In Trees": en/parts/part-04/chapter-14/section-02.md
           theme:
             language: en
         - locale: zh
@@ -1027,6 +1030,9 @@ plugins:
                     - Chapter 13. SVM:
                         - "P4-13.1 SVM 的直觉": zh/parts/part-04/chapter-13/section-01.md
                         - "P4-13.2 kernel 的入门含义": zh/parts/part-04/chapter-13/section-02.md
+                    - Chapter 14. 决策树:
+                        - "P4-14.1 决策树(decision tree)": zh/parts/part-04/chapter-14/section-01.md
+                        - "P4-14.2 树的过拟合": zh/parts/part-04/chapter-14/section-02.md
           theme:
             language: zh
   - search:

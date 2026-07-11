@@ -421,8 +421,187 @@ prediction at x=7 : 76.4
 
 - coefficient 大约 `4.114` 表示：学习时间每增加 1 小时，分数平均会上升大约 4 分。
 - intercept 大约 `47.6` 是 model 放下的数学起点。
+- `x=7` 的 prediction 说明：即使面对训练里没有直接出现过的新输入，model 也能沿着这条直线继续给出连续值预测。
+
+这里暂时最重要的，不是 `到底精确对了多少分`，而是 `它是否已经用直线把关系的方向和大小读出来了`。
+
+如果把解释写得再谨慎一点，可以改成下面这样。
+
+- 在这个例子里，model 读出了 `学习时间增加时，分数也上升` 这个方向。
+- 但这并不意味着所有区间都一定保持完全一样的增长幅度。
+- 76.4 这个 prediction 的意思是 `当前直线 model 会这样估计`，而不是现实中一定会得到那个准确分数。
+
+也就是说，linear regression 的第一层解释不是 `精确预言未来`，而是 `对关系做一个简单总结`。
+
+### 用 Python 一起读取多个 coefficient
+
+单变量例子适合抓住“直线”的感觉，但真实业务数据通常会有多个 feature。下面这个例子是一个小型多变量 linear regression 练习：用 `study_hours`、`attendance`、`assignment_score` 三个特征去预测 `final_score`。
+
+- 问题场景：把学习时间、出勤、作业分数一起放进去，预测最终成绩
+- 输入(input)：三个数值特征
+- 标签(label)：最终成绩
+- 要检查的概念：
+  - linear regression 会给每个 feature 放一个 coefficient
+  - coefficient 的符号可以用来读方向
+  - coefficient 的大小必须连同单位一起谨慎地读
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [2, 80, 60],
+    [3, 82, 65],
+    [4, 85, 70],
+    [5, 88, 72],
+    [6, 90, 78],
+    [7, 93, 83],
+])
+
+y = np.array([58, 63, 67, 71, 77, 82])
+
+feature_names = ["study_hours", "attendance", "assignment_score"]
+
+model = LinearRegression()
+model.fit(X, y)
+
+new_student = np.array([[5, 89, 75]])
+pred_new = model.predict(new_student)[0]
+
+print("sample count :", len(X))
+for name, coef in zip(feature_names, model.coef_):
+    print(f"{name:17}: {coef:.3f}")
+print("intercept         :", round(model.intercept_, 3))
+print("prediction new    :", round(pred_new, 3))
+```
+
+一个可能的输出如下。
+
+```text
+sample count : 6
+study_hours      : 2.174
+attendance       : 0.609
+assignment_score : 1.130
+intercept         : -6.391
+prediction new    : 73.12
+```
+
+这个结果可以这样读。
+
+- `study_hours` 的 coefficient 是正的，所以在其他条件固定时，学习时间越多，预测分数也越高。
+- `attendance` 和 `assignment_score` 也都是正值，所以在这个例子里，三个特征都朝着提高分数的方向被反映。
+- 但不能因为 `2.174` 和 `0.609` 这两个数字，就立刻断言 `学习时间比出勤重要三倍以上`。两个特征的单位和分布可能完全不同。
+- intercept 为负，并不表示 `现实里的分数会是负数`。这同样应该被读成模型的数学起点。
+
+这个多变量例子再次把 linear regression 展示成下面这种模型。
+
+`把多个特征各自的影响读出来，再把这些影响加起来，得到一个预测值的模型`
+
+### 再改一个值试试：只提高一个输入时，什么保持不变，什么发生变化
+
+这次保持同一个学生的 `attendance` 和 `assignment_score` 不变，只把 `study_hours` 从 `5` 提高到 `7`。
+
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [2, 80, 60],
+    [3, 82, 65],
+    [4, 85, 70],
+    [5, 88, 72],
+    [6, 90, 78],
+    [7, 93, 83],
+])
+
+y = np.array([58, 63, 67, 71, 77, 82])
+
+model = LinearRegression()
+model.fit(X, y)
+
+student_base = np.array([[5, 89, 75]])
+student_more_hours = np.array([[7, 89, 75]])
+
+pred_base = model.predict(student_base)[0]
+pred_more_hours = model.predict(student_more_hours)[0]
+
+print("prediction at [5,89,75] :", round(pred_base, 3))
+print("prediction at [7,89,75] :", round(pred_more_hours, 3))
+print("difference              :", round(pred_more_hours - pred_base, 3))
+```
+
+一个可能的输出如下。
+
+```text
+prediction at [5,89,75] : 73.12
+prediction at [7,89,75] : 77.468
+difference              : 4.348
+```
+
+### 什么保持不变，什么发生变化
+
+- 保持不变的点：当其他 feature 固定时，`study_hours` 的 coefficient 方向保持不变。学习时间增加，预测分数也会上升。
+- 发生变化的点：只改了一个输入，prediction 就上升了大约 `4.348` 分。也就是说，linear regression 会让读者用 `输入变化量 x coefficient` 的感觉去理解变化。
+- 最先应该留下的判断：这个变化是当前 model 给出的估计变化，并不保证现实里一定按同样幅度上升。单位和数据范围仍然要一起看。
+
+### 这个练习怎样回收 Part 4 的目标
+
+这个练习把 linear regression 从 `记住一条直线的模型`，重新拉回到 `当一个输入改变时，prediction 会朝什么方向、以多大幅度变化` 这个阅读起点上。对 Part 4 来说，重要的不是只知道 coefficient 这个名字，而是能亲自改一个值，然后说明 `什么被固定了，什么被改变了`。只有经过这种反复练习，后面的 baseline 比较、residual 解读、是否增加 feature 的判断，才能继续沿用同一种语言。
+
+| 共通记录语言 | 这次练习里应该立刻留下的内容 |
+| --- | --- |
+| 显示出来的结构 | 对同一个学生，只改一个 feature，prediction 就会沿着 coefficient 的方向连续移动 |
+| 解释边界 | prediction 的差值不等于现实中的因果效果，也不等于确定的成绩提升幅度 |
+| 下一步问题 | 这种变化在训练范围之外是否还成立？如果把 residual 和 baseline 比较也接上，解释是否仍然站得住？ |
+
+### 在这一节里，读取数字的基本顺序
+
+在算法章节里，一看到数字，人很容易立刻跳到 `性能很好` 或 `预测正确`。但在线性回归里，应该按下面这个顺序去读。
+
+1. 先确认当前问题是不是 regression。
+2. 确认输入和输出各是什么。
+3. 通过 coefficient 的符号读取方向。
+4. 通过 coefficient 的单位读取变化幅度。
+5. 检查 intercept 在当前语境里是否真的有可解释性。
+6. 记住 prediction 是 estimate，而不是 actual 本身。
+
+关键在于：`读数字是有顺序的`。面对 linear regression，不能只是因为算出了结果就直接相信，而要按这样的解释规则去读。
+
+## 本节要记住的视角
+
+- regression 是预测连续值的问题。
+- linear regression 是先用一条直线近似输入与输出关系的模型。
+- coefficient 展示变化的方向与大小，intercept 展示模型的起点。
+- coefficient 的数字必须连同单位一起读，而且不能把正相关立刻当成原因。
+- linear regression 不是完美解释现实的模型，而是最先用最简单方式开始读取关系的模型。
+- prediction 不是 actual，而是当前 model 给出的 estimate。
+- 在尝试更复杂 model 之前，linear regression 常常会像 baseline 一样先被拿来用。
+
+## 简短检查
+
+- 你是否先确认了当前问题是连续值预测？
+- 你能否从 baseline 的角度说明，为什么 linear regression 会被当成第一个可解释的比较 model？
+- 你是否没有立刻把 coefficient 数字读成重要性或原因，而是把单位和语境一起看？
+
+## 什么时候先想起这个视角
+
+- 当你需要先重新确认当前问题是 regression 而不是 classification 时，先想起 linear regression 的视角。
+- 当你需要再次解释“为什么 linear regression 是第一个 baseline 候选”“coefficient 到底能读到什么程度”时，回到这一节。
+- 当你想整理“即使直线不完美，为什么它仍然是有用起点”时，这一节就是基准。
+
+- 你有没有清楚地区分：当前问题是 regression，不是 classification？
+- 你有没有理解：linear regression 的输出是连续值，而不是类别？
+- 你能不能把 coefficient 和 intercept 讲成“意义”，而不是只讲成公式符号？
+- 你能不能说明 linear regression 为什么是一个好的首个 baseline？
+- 你能不能解释：即使直线不完美，它为什么仍然有用？
+
+## 和下一节的连接
+
+这一节先把 linear regression 读成 `用一条直线来读取关系的模型`。下一节 P4-10.2 会继续看：这条直线到底拟合得怎么样、它在哪些情况下容易偏掉、residual 和 error 又该怎样读取。
+
+也就是说，如果说 P4-10.1 看的是 `模型长成什么样`，那么 P4-10.2 看的是 `这个形状到底合不合适`。
 
 ## 出处与参考资料
 
-- scikit-learn developers, [Linear Models](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, [An Introduction to Statistical Learning](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-01.
+- scikit-learn, `1.1. Linear Models`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html](https://scikit-learn.org/stable/modules/linear_model.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `LinearRegression`, scikit-learn API Reference, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html){: target="_blank" rel="noopener noreferrer" }
