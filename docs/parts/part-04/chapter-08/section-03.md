@@ -1,7 +1,7 @@
 # P4-8.3 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-8.2에서 baseline이 왜 필요한지 봤다면, 이제 다음 질문이 바로 나옵니다.
 
@@ -96,13 +96,13 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 
 ```mermaid
 flowchart TD
-  A["churn data"]
-  B["baseline: always stay"]
-  C["accuracy looks high"]
-  D["churn recall is 0"]
-  E["candidate model"]
-  F["compare accuracy, recall, F1"]
-  G["check missed churn cases"]
+  A["이탈 데이터"]
+  B["baseline: 항상 유지"]
+  C["accuracy는 높아 보임"]
+  D["이탈 recall은 0"]
+  E["후보 모델"]
+  F["accuracy, recall, F1 비교"]
+  G["놓친 이탈 사례 확인"]
 
   A --> B --> C --> D
   A --> E --> F --> G

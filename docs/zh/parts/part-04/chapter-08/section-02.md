@@ -1,0 +1,392 @@
+# P4-8.2 基准模型(baseline)
+
+> Section ID: `P4-8.2`
+> Version: `v2026.07.11`
+
+在 P4-8.1 里，我们看过应该把哪些 model 家族提上候选。现在，与其立刻按复杂度去抓这些候选，不如先进入另一个问题：先把比较的出发点立起来。
+
+在这个问题里，最先必须赢过的最简单标准到底是什么？
+
+这个问题，正是 baseline 的出发点。
+
+人们常常把 baseline 理解成 `一个性能较低的临时模型`。但实际上，它比这重要得多。baseline 是比较的地板线(floor)，用来检查复杂 model 到底有没有带来真正有意义的改进。
+
+无论在学术语境还是实务语境里，baseline 更接近的都不是 `一个好模型`，而是 `让比较成为可能的最低标准`。也就是说，如果没有 baseline，即使性能数字看起来很高，也很难分辨这到底是因为问题本来就容易、因为数据有偏、还是因为模型真的起了作用。
+
+这一节会说明 `baseline` 的意义和作用。后面的章节会沿着这个抓手继续当前语境，而复杂 model 的改进到底应该和什么比较，这个标准也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
+
+这里必须先固定住的观念可以压缩成一句话。
+
+baseline 不是单纯必须打赢的弱对手，而是用来读取分数意义的基准线。
+
+baseline 的比较顺序，可以先固定成下面这样。
+
+| 先看什么 | 紧接着问的问题 | 再往后要判断什么 |
+| --- | --- | --- |
+| baseline 分数 | 这个分数是容易产生的幻觉，还是现实的出发点 | 候选 model 在同一指标上到底进步了多少 |
+| 混淆矩阵和代表错误案例 | 哪些失败减少了，哪些失败还留着 | 这种变化在运营上有没有意义 |
+| 候选 model 分数 | 除了 accuracy，recall、F1、误差大小到底变了什么 | 能不能决定继续调优，还是该换候选 |
+
+如果要真正建立 baseline，还需要两件事一起存在。
+
+1. 一个方法论，用来决定 `什么应该作为最简单的比较标准`
+2. 一点最低限度的理论，用来解释 `为什么要先和这种简单标准比较`
+
+这一节负责其中的 `为什么先需要` 和 `什么必须先固定`，而接下来的 `P4-8.3 补充学习` 会用示例和例子继续讲 `应该设哪些代表性 baseline，以及怎么设`。
+
+## 本节范围
+
+这一节回答下面这些问题。
+
+- 为什么 baseline 必须先出现？
+- 如果没有 baseline，会出现什么样的幻觉？
+- 为什么 baseline 和候选 model 必须在相同条件下比较？
+- 作为阅读实务 baseline 建立流程的准备，应该先抓住什么？
+
+这一节不会深入讲下面这些内容。
+
+- 复杂 benchmark 设计
+- 基于统计检验的模型比较流程
+- 大规模 leaderboard 运营方式
+
+benchmark 和 leaderboard 的运营视角，以及基于统计检验的模型比较大图景，会在 P4-9.3 补充学习里再整理；实际的超参数比较流程，则会在 P4-9.2 直接接着看。
+
+## 本节目标
+
+- 能把 baseline 解释成 `在复杂 model 之前先立起来的比较标准`。
+- 能说明没有 baseline 时，为什么会出现 accuracy 幻觉、平均预测幻觉。
+- 能说明 DummyClassifier、DummyRegressor 这样的工具为什么在教学上很有用。
+- 能拥有这样一种视角：好模型不只是分数高，而是比 baseline 带来了有意义的改进。
+- 能说明为什么下一节 P4-8.3 要单独补充“如何实际建立 baseline”。
+
+## 学习背景
+
+在 P4-8.1 里，我们建立了候选 model 家族。但即使有了候选家族，也不代表比较就能立刻开始。比较需要一个出发点。
+
+- 有候选家族，但没有比较标准，就很难分清到底是改进还是幻觉。
+- 有评价指标，但不知道这个分数是因为问题容易，还是因为 model 真起了作用。
+- 即使做了预处理和特征选择，如果不确认是不是比简单规则更好，实验就会悬在空中。
+
+所以，这一节在课程结构里承担下面这些作用。
+
+| 课程位置 | baseline 章节的作用 |
+| --- | --- |
+| 模型选择之后 | 把候选家族变成真正可以比较的对象 |
+| 调优之前 | 提供判断调优是否有意义的地板线 |
+| 算法入门之前 | 让读者准备好解释为什么复杂算法比简单标准更好 |
+
+也就是说，如果 P4-8.1 处理的是 `要把什么列为候选`，那么 P4-8.2 处理的就是 `要拿什么去比较这些候选`。
+
+这一节首先必须抓住的三个问题是下面这些。
+
+- 这是一个即使几乎不看特征，也能大致猜中的问题吗？
+- 我做出来的 model，真的比那个容易标准更好吗？
+- 如果更好了，它到底是在什么指标上更好了？
+
+这里还要再补上一点。对于分类问题来说，仅仅知道分数比 baseline 高一点，并不够。只有把 confusion matrix 和代表错误案例一起摆上来，去看 `漏判是不是变少了`、`误报是不是变多了`、`重要的少数案例是不是抓得更好了`，baseline 比较才真正活起来。也就是说，baseline 既是数字比较表，也是错误解释的基准线。
+
+如果把它换成客户流失例子，baseline 更像是一个分叉点，用来读 `当前 model 到底有没有真正越过那个容易标准`，而不只是 `一个分数`。
+
+```mermaid
+flowchart TD
+  A["churn dataset"]
+  B["baseline model<br/>always stay or dummy rule"]
+  C["candidate model<br/>uses behavior features"]
+  D["same metric<br/>accuracy / recall / F1"]
+  E["error check<br/>missed churn cases"]
+  F["meaningful gain?<br/>keep or rethink"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D
+  D --> E
+  E --> F
+```
+
+还有一点需要单独分开记。`baseline model` 和 `baseline reference` 会在同一个语境里相遇，但它们并不是完全同一个对象。前者通常指最简单的预测器，后者则还可以包含一种比较框架：把最近结果和通常区间并排放在一起。这一节要先把这两个意思分开，等到 Part 6 写项目回顾文档时，表述才不容易混乱。
+
+这一节是按下面这种方式来读它们的。
+
+| 区分 | 先问的问题 | 在本节中的作用 |
+| --- | --- | --- |
+| baseline model | `即使不深用特征，也能猜中到什么程度？` | 候选 model 至少必须超过的最低分数标准 |
+| baseline reference | `最近结果应该和什么并排放，变化才看得见？` | 用来解释数字变化和错误场景的比较框架 |
+
+两者对象不同，但也有共同点。它们都属于 `防止把数字孤立地、不带解释地单独看待的比较标准`。
+
+所以，在 baseline 比较里首先必须留下的确认项有下面四个。
+
+| 先要留下什么 | 为什么需要 |
+| --- | --- |
+| baseline 分数 | 因为必须先知道出发点大概在哪里 |
+| 候选 model 分数 | 因为要看它实际比 baseline 好了多少 |
+| 混淆矩阵里的问题格子或大误差区间 | 因为要知道分数变化到底减少了哪一类失败 |
+| 代表错误案例 | 因为必须确认 model 仍然是不是在漏同样类型的输入，还是变成了别的失败 |
+
+如果把同样标准换成一种记录结构，会更清楚。
+
+| 在 Part 4 里要留下的问题 | 在 Part 6 回顾文档里的语言 |
+| --- | --- |
+| baseline 是多少？ | 事实(fact) |
+| 什么真正比 baseline 变好了？ | 解释(interpretation) |
+| 下一轮比较或调优还要再看什么？ | 下一个问题(next question) |
+
+这个流程的核心是：baseline 必须放在“选择之后、调优之前”。先建立候选 model，然后要能把这些候选和 baseline 放在一起比较，之后再去接调优和算法扩展，这个顺序才自然。
+
+## 主要学习内容
+
+### 在建立 baseline 之前，必须先固定什么
+
+baseline 的实际建立流程，会在下一节 P4-8.3 再单独详细看。但即使在这一节里，也必须把那些最先要固定的准备物先抓清楚。baseline 不是一条突然冒出来的规则，而是只有在 `正在解决什么问题`、`什么算一个样本`、`准备用什么分数来比较` 先被定下来之后，才能建立。
+
+| baseline 之前必须先固定什么 | 为什么这里要先固定 |
+| --- | --- |
+| 问题类型 | 因为只要是分类还是回归不同，简单标准本身就会变 |
+| 样本单位 | 因为如果一行到底表示什么摇摆不定，baseline 分数也会一起摇摆 |
+| 评价指标 | 因为看 accuracy、recall 还是 MAE，baseline 的解释都会变 |
+| 数据分布 | 因为必须知道类不平衡或目标值分布，才看得出什么算 `简单标准` |
+| 重要失败场景 | 因为要判断超过 baseline 的改进是否真的有意义，必须先知道运营上重要的错误是什么 |
+
+也就是说，baseline 的第一步并不是 `先挑一条规则`，而是 `先固定自己到底要做什么比较`。下一节会拿着这些准备物，继续看如何按问题类型实际建立代表性 baseline。
+
+### 为什么 baseline 也需要一点理论知识
+
+要建立 baseline，并不需要先学高级数学。但最低限度的理论背景还是需要的。只有这样，baseline 才不会被读成 `随便做出来的弱模型`，而会被理解成一个必须优先出现的比较标准。
+
+从直接查过的文档里，能抓到的共同点很明确。scikit-learn 把 `DummyClassifier` 描述成 `simple baseline to compare against other more complex classifiers`，把 `DummyRegressor` 描述成 `simple baseline to compare against other regressors`。scikit-learn 的交叉验证文档处理的是如何在数据划分之上检查评价表现，Raschka 的综述文献则整理了模型评价和模型选择流程的重要性。这一节从这些来源里拿出的最低限度一般化，大致就是：`只有把简单标准和候选 model 放在可比较条件上，分数差距才会变得可读`。
+
+这里需要的理论，大致可以分成三点。
+
+| 本节使用的解释视角 | 和 baseline 的连接 |
+| --- | --- |
+| 对照比较视角 | 如果要看复杂 model 的改进到底是不是来自建模，就必须先有一个最小比较对象 |
+| 最低标准视角 | 只有先知道几乎不使用输入时能得到什么默认表现，才能读出输入特征的真实贡献 |
+| 可比性视角 | 只有放在同样的评价流程和指标上，分数差距才不容易被误读 |
+
+如果把这三点压缩得很短，大致就是下面这样。
+
+- baseline 可以读成 `几乎不使用输入的简单比较对象`
+- 只有有了 baseline，实验才真的在问 `输入到底有没有帮上忙`
+- 只有把 baseline 和候选 model 放到可比较的评价条件里，分数差距才更容易解释
+
+也就是说，这一节不是用某个特定库语法去理解 baseline，而是用这样一种解释原理去读它：`如果要谈改进，就必须先固定一个简单比较对象，并在可比较条件下读取分数差距`。
+
+### 基准模型到底在做什么
+
+scikit-learn 的 `DummyClassifier` 文档把“忽略输入特征直接做预测的分类器”解释成 `a simple baseline to compare against other more complex classifiers`。`DummyRegressor` 文档也类似，它把用平均值(mean)、中位数(median)这类简单规则做预测的回归器解释成 `simple baseline`。
+
+如果把这个说明压缩到最短，可以写成下面这样。
+
+`基准模型，是即使不深刻理解输入，也能建立出来的最简单比较标准。`
+
+也就是说，baseline 不是为了真正把现实问题解决得很好而准备的成品模型，而是一个最低标准：`如果还不比它好，那使用复杂 model 就没有意义`。
+
+如果再从理论上读一点，baseline 的作用就是充当“最小比较对象”。即使加了复杂结构、做了很多调优，如果仍然没有比 baseline 明显更好，那这个实验就可能只是把复杂度加上去了，而没有带来真正改进。
+
+### 没有 baseline 时会出现什么幻觉
+
+没有 baseline 时，一个很高的数字很容易立刻看起来像是好模型。但实际上不一定。
+
+例如，在只有 10% 客户流失的数据里，如果 model 对所有人都预测 `不会流失`，accuracy 仍然可以到 90%。这时只看 accuracy，会觉得表现很好，但实际上它完全没有抓住那个重要的少数类。
+
+也就是说，没有 baseline 时，会出现下面这些幻觉。
+
+| 表面数字 | 实际问题 |
+| --- | --- |
+| accuracy 很高 | 即使只预测多数类，也可能很高 |
+| 回归误差很小 | 即使只是一直预测平均值，也可能差不多 |
+| 新 model 很复杂 | 复杂并不自动等于改进 |
+
+所以，baseline 不是用来压低分数的装置，而是用来让分数 `变得可读` 的装置。
+
+这本书把 `baseline model` 和 `baseline reference` 分开来读。前者指最简单的预测标准，后者指一种比较框架：把最近结果和通常标准并排来解释。如果把这种比较框架单独立起来，那么后面看到的规则型告警或学习模型分数，也会更清楚地被读成“到底是多有意义的变化”。
+
+不过，最近区间和基准线之间的差异，并不是自动确认差异原因的装置。它只是一个比较信号，用来缩小解释候选。
+
+也就是说，这本书是在两个层次上一起读 baseline 这个词。
+
+| baseline 所在的层次 | 例子 | 本节里的读法 |
+| --- | --- | --- |
+| baseline model | 只预测多数类、只预测平均值 | 检查候选 model 是否至少好过最低标准 |
+| baseline reference | 最近区间和通常区间比较、上一版本规则和当前结果比较 | 解释数字变化到底代表什么差异 |
+
+| 项目 | 最近区间 | 平时基准线 | 差值 | 读法 |
+| --- | ---: | ---: | ---: | --- |
+| 中段平均 | 2.10 | 2.34 | -0.24 | 最近值比平时更低 |
+| 后段下降率 | -0.42 | -0.28 | -0.14 | 后段下降更陡 |
+| 动作数 | 18 | 20 | -2 | 可以比较，但要连样本数一起看 |
+
+读这张表时，重要的也不是某一个绝对值，而是比较框架。并且，为了实现这种比较，首先就必须把多个时间点的原始时序改造成“一次动作汇总行”，这样才能把同一单位并排放在一起。
+
+所以，在这一节里，baseline reference 与其说是和 baseline model 竞争的另一项技术，不如说它是在把 `先建立比较标准` 这个阅读原则扩展到运营数据解释场景。
+
+如果把这个差异画成最简单的图，就是下面这样。
+
+```mermaid
+flowchart TD
+  subgraph M2["read the score with baseline"]
+    direction LR
+    C["baseline 0.90"]
+    D["model 0.91"]
+    E["small gain<br/>check if it is useful"]
+  end
+
+  subgraph M1["read the score without baseline"]
+    direction LR
+    A["score 0.91"]
+    B["looks good"]
+  end
+
+  E --> A
+  A --> B
+  C --> D --> E
+```
+
+这张图的核心是：即使是同一个数字，只要有没有 baseline，读法就会完全不同。
+
+下面这张表尤其重要。
+
+| 表面场景 | 读者容易产生的误解 | baseline 帮忙做的事 |
+| --- | --- | --- |
+| accuracy 0.90 | `看起来已经挺准了` | 检查它是不是只是多数类预测 |
+| 回归误差很小 | `说明 model 把输入学得很好` | 检查是不是只预测平均值也会差不多 |
+| 复杂 model 让分数涨了一点 | `果然复杂 model 更好` | 检查这个改进幅度是否真的有意义 |
+
+也就是说，baseline 比较不是多贴一张分数表，而是一个解释装置，用来追问 `这个改进到底是不是因为更好地读到了结构`。
+
+所以，在看 baseline 时，不能只记数字，还要马上把下面两件事一起留下来。
+
+- baseline 仍然遗漏的代表错误场景是什么
+- 候选 model 减少掉的失败，在运营上是否真的是重要失败
+
+这两个问题就是 baseline 方法论的最后一步。baseline 的作用不是写下一行数字就结束，而是进一步显示 `这个数字到底还保留了什么失败`。
+
+### 代表性的 baseline 方法会在哪里继续看
+
+如果这一节先抓住了 baseline 的必要性和解释原理，那么接下来最自然的问题就是 `那到底该设什么 baseline，怎么设`。这个问题会在 `P4-8.3 补充学习: 按问题类型第一次建立 baseline 的方法` 里继续处理。
+
+下一节尤其会把下面这些内容连到实际示例和例子里。
+
+| 下一节会继续看的内容 | 为什么必须紧接着看 |
+| --- | --- |
+| 分类 baseline | 因为必须知道应该用什么简单标准先揭穿高 accuracy 幻觉 |
+| 回归 baseline | 因为平均值/中位数标准会成为判断输入特征真实贡献的起点 |
+| 时序 baseline | 因为必须知道 naive、seasonal naive 为什么在时间轴问题里经常出现 |
+| baseline 建立流程 | 因为必须知道从固定问题类型到解释错误，比较到底按什么顺序开始 |
+
+### 为什么 baseline 必须早于调优
+
+人们常常会这样做。
+
+1. 先挑一个复杂 model。
+2. 改很多参数。
+3. 只要分数涨了一点，就当作成功。
+
+但如果没有 baseline，就没有办法判断这种改进到底有没有意义。
+
+```mermaid
+flowchart TB
+  A["baseline"]
+  B["candidate model"]
+  C["compare before tuning"]
+  D["tuning after comparison"]
+  E["complex model first"]
+  F["tuning without baseline"]
+  G["score change, but unclear meaning"]
+
+  A --> B --> C --> D
+  E --> F --> G
+```
+
+这张图同时展示了两个意思：正确顺序应该是先立 baseline，再比较候选 model，然后才进入调优；而如果没有 baseline 就直接调复杂 model，那么分数变化的意义就会很难解释。
+
+在实务里，这种顺序差异很快就会变成成本差异。因为如果一个候选连 baseline 都过不了，却还被调了很久，那么花掉实验时间和计算成本之后，可能仍然不会留下能解释的改进。
+
+## 细部学习内容
+
+### 应该怎样理解 DummyClassifier 和 DummyRegressor
+
+scikit-learn 的 dummy 系列模型，在教学上尤其有用。
+
+| 工具 | 入门理解 |
+| --- | --- |
+| `DummyClassifier` | 忽略特征、按简单规则分类的基准线 |
+| `DummyRegressor` | 按平均值、中位数等简单规则预测的基准线 |
+
+这些工具的价值，不在于拿去做实际服务，而在于它们能很快显示 `真正的 model 至少必须赢到哪里`。
+
+也就是说，baseline 一方面是模型选择的一部分，另一方面也是评价解读的一部分。
+
+## 案例及示例
+
+### 案例 1. accuracy 看起来很高，但实际上什么也没抓住的欺诈检测
+
+一个支付服务团队正在建立用于抓取欺诈交易的分类 model。人们最先看的标准，是 `短时间内重复支付`、`和平时不同的地区`、`在奇怪时间段支付` 这类信号。
+
+在真正建立 model 之前，团队先立了一个非常简单的标准：把所有交易都预测成 `正常`。如果欺诈交易极少，那么这个 baseline 的 accuracy 也可能很高。所以，如果没有 baseline，只看复杂 model 的 accuracy，就很容易误以为性能已经改善。
+
+在这个场景里，baseline 就会成为用来检查 `复杂 model 是否真的有意义地变好` 的地板线。即使实际 model 的 accuracy 提高了一点，如果欺诈交易的 recall 仍然很低，那从运营角度看也未必是大改进。反过来，如果 recall 和 F1 都明显比 baseline 更好，这时才可以说复杂 model 更擅长处理少数类问题。
+
+能确认的结果，会出现在同一指标下把 baseline 和实际 model 并排比较的时候。只要把 accuracy、recall、F1 一起放出来，就会更清楚地看到：baseline 不是 `低性能模型`，而是 `解释分数的参考线`。
+
+```mermaid
+flowchart TD
+  A["fraud dataset"]
+  B["always predict normal"]
+  C["accuracy looks high"]
+  D["fraud recall stays near zero"]
+  E["train a richer model"]
+  F["compare accuracy, recall, and F1"]
+  G["decide whether the gain is operationally meaningful"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G
+```
+
+## 本节要记住的观念
+
+| 最先看到的信号 | 这个信号意味着什么 | 立刻接上的下一步 |
+| --- | --- | --- |
+| 分数比 baseline 稍高，但错误结构相似 | 这可能意味着复杂度提高了，但真正有意义的改进仍然很弱 | 重新看代表错误案例和关键指标差异，再决定继续调优还是换候选 |
+
+- baseline 是在复杂 model 之前先设好的比较标准。
+- 即使分数很高，如果不和 baseline 比，也很难解释。
+- 代表性的 baseline 类型和实际建立流程，会在下一节 P4-8.3 按问题类型再看一遍。
+- 只有先确认存在比 baseline 更好的候选，才应该进入调优。
+
+这一节的核心是：baseline 不是 `多看一个分数` 的章节。
+
+| baseline 负责什么 | 必须一起留下什么 | 下一节会继续什么 |
+| --- | --- | --- |
+| 建立出发点分数 | 混淆矩阵的问题格子、代表错误案例、关键指标差异 | 在这个出发点之上，通过调优去比较什么设置变化才是真正改进 |
+
+## 简短检查
+
+- 你看的不只是“比 baseline 高”这一点，也包括“到底减少了哪种失败”吗？
+- 你有没有按问题形态把分类、回归、时序分开，而不是用同一种方式设 baseline？
+- 当看到一点分数差距时，你有没有用混淆矩阵或代表错误案例去确认实际改进？
+
+## 什么时候应该先想起这个观念
+
+- 当你必须把分数和错误案例一起读，来确认复杂 model 比 baseline 实际减少了什么时，要先想起这一节。
+- 当你需要重新说明分类和回归应该以不同方式设置 baseline 时，就该回到这一节。
+- 当你必须再次验证一个很小的分数差距到底是不是有意义的改进时，这一节会成为标准。
+
+- 当前问题最简单的 baseline 是什么？
+- baseline 分数和实际 model 分数，是不是在同一指标下比较的？
+- 你能不能区分：它到底是比 baseline 更好，还是只是更复杂？
+- 你有没有通过 baseline 检查类不平衡、只预测平均值这类容易陷阱？
+- 在调优之前，你有没有先读 baseline 和候选 model 之间的差异？
+
+## 和下一节的连接
+
+下一节 `P4-8.3 补充学习: 按问题类型第一次建立 baseline 的方法` 会继续看：在分类、回归、时序里，到底应该先选哪些代表性 baseline，并用什么示例和例子开始比较。之后 P4-9 再处理：当出现了比 baseline 更好的候选时，应该如何进一步调整并比较它。
+
+## 出处与参考资料
+
+- scikit-learn developers, [`DummyClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-09.
+- scikit-learn developers, [`DummyRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyRegressor.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-09.
+- scikit-learn developers, [`Cross-validation: evaluating estimator performance`](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-09.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, [*The Elements of Statistical Learning*](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09.
+- Sebastian Raschka, [`Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning`](https://arxiv.org/abs/1811.12808){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期: 2026-07-09.

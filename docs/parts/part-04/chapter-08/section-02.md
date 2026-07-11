@@ -1,7 +1,7 @@
 # P4-8.2 기준 모델(baseline)
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-8.1에서는 어떤 모델 계열을 후보로 올릴지 봤습니다. 이제 그 후보들을 바로 복잡한 순서대로 붙잡기보다, 먼저 비교의 출발점을 세우는 질문으로 넘어갑니다.
 
@@ -89,12 +89,12 @@ P4-8.1에서 우리는 후보 모델군을 세웠습니다. 하지만 후보군�
 
 ```mermaid
 flowchart TD
-  A["churn dataset"]
-  B["baseline model<br/>always stay or dummy rule"]
-  C["candidate model<br/>uses behavior features"]
-  D["same metric<br/>accuracy / recall / F1"]
-  E["error check<br/>missed churn cases"]
-  F["meaningful gain?<br/>keep or rethink"]
+  A["이탈 데이터셋"]
+  B["기준 모델<br/>항상 유지 또는 dummy 규칙"]
+  C["후보 모델<br/>행동 특징 사용"]
+  D["같은 지표<br/>accuracy / recall / F1"]
+  E["오류 점검<br/>놓친 이탈 사례"]
+  F["의미 있는 향상인가?<br/>유지 또는 재검토"]
 
   A --> B
   A --> C
@@ -225,17 +225,17 @@ baseline이 없으면 높은 수치가 곧 좋은 모델처럼 보일 수 있습
 
 ```mermaid
 flowchart TD
-  subgraph M2["read the score with baseline"]
+  subgraph M2["baseline과 함께 점수 읽기"]
     direction LR
     C["baseline 0.90"]
-    D["model 0.91"]
-    E["small gain<br/>check if it is useful"]
+    D["모델 0.91"]
+    E["작은 향상<br/>실제로 쓸 만한지 확인"]
   end
 
-  subgraph M1["read the score without baseline"]
+  subgraph M1["baseline 없이 점수 읽기"]
     direction LR
-    A["score 0.91"]
-    B["looks good"]
+    A["점수 0.91"]
+    B["좋아 보임"]
   end
 
   E --> A
@@ -288,12 +288,12 @@ flowchart TD
 ```mermaid
 flowchart TB
   A["baseline"]
-  B["candidate model"]
-  C["compare before tuning"]
-  D["tuning after comparison"]
-  E["complex model first"]
-  F["tuning without baseline"]
-  G["score change, but unclear meaning"]
+  B["후보 모델"]
+  C["튜닝 전에 먼저 비교"]
+  D["비교 후 튜닝"]
+  E["복잡한 모델부터 시작"]
+  F["baseline 없이 튜닝"]
+  G["점수는 변하지만 의미가 불분명"]
 
   A --> B --> C --> D
   E --> F --> G
@@ -332,13 +332,13 @@ scikit-learn의 dummy 계열 모델은 교육적으로 특히 유용합니다.
 
 ```mermaid
 flowchart TD
-  A["fraud dataset"]
-  B["always predict normal"]
-  C["accuracy looks high"]
-  D["fraud recall stays near zero"]
-  E["train a richer model"]
-  F["compare accuracy, recall, and F1"]
-  G["decide whether the gain is operationally meaningful"]
+  A["사기 탐지 데이터셋"]
+  B["항상 정상이라고 예측"]
+  C["accuracy는 높아 보임"]
+  D["사기 recall은 거의 0"]
+  E["더 풍부한 모델 학습"]
+  F["accuracy, recall, F1 비교"]
+  G["향상이 운영상 의미 있는지 판단"]
 
   A --> B --> C --> D
   A --> E --> F --> G

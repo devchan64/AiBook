@@ -1,7 +1,7 @@
 # P4-7.4 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-7.1부터 P4-7.3까지에서는 특징을 고르고, 입력 표현 문제를 나누고, 전처리 기본 판단을 잡았습니다. 그런데 실제로는 독자가 곧 이런 이름을 만나게 됩니다.
 
@@ -116,13 +116,13 @@ RFE는 래퍼(wrapper) 접근의 대표 예로 보면 됩니다. 아주 단순�
 
 ```mermaid
 flowchart TD
-  A["customer behavior columns"]
-  B["quick first pass"]
-  C["model-based repeat check"]
-  D["new compressed axes"]
-  E["filter keeps original columns"]
-  F["wrapper or RFE keeps best subset"]
-  G["dimensionality reduction rewrites representation"]
+  A["고객 행동 칼럼"]
+  B["빠른 1차 점검"]
+  C["모델 기반 반복 점검"]
+  D["새로 압축된 축"]
+  E["filter는 원래 칼럼을 유지"]
+  F["wrapper 또는 RFE는 더 나은 부분집합을 유지"]
+  G["차원 축소는 표현 자체를 다시 만듦"]
 
   A --> B --> E
   A --> C --> F

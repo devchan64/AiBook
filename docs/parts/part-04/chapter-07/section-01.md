@@ -1,7 +1,7 @@
 # P4-7.1 특징 선택(feature selection)
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-6에서는 `무엇을 기준으로 평가할 것인가`를 봤습니다. 이제 질문을 한 단계 앞으로 옮깁니다. 평가 지표를 바꾸기 전에, 애초에 모델에게 어떤 입력을 줄지부터 점검해야 합니다. 특징 선택(feature selection)은 이 입력 설계의 시작점입니다.
 
@@ -101,10 +101,10 @@ scikit-learn 문서는 특징 선택 모듈이 불필요하거나 잡음이 큰 
 
 ```mermaid
 flowchart TB
-  A["reality<br/>people / products / events"]
-  B["feature design<br/>choose measurable aspects"]
-  C["feature space<br/>rows as points in input space"]
-  D["model learning<br/>find pattern or boundary"]
+  A["현실<br/>사람 / 제품 / 사건"]
+  B["특징 설계<br/>측정 가능한 관점 선택"]
+  C["특징 공간<br/>행을 입력 공간의 점으로 표현"]
+  D["모델 학습<br/>패턴이나 경계를 찾음"]
 
   A --> B
   B --> C
@@ -336,13 +336,13 @@ print(comparison.round(2))
 
 ```mermaid
 flowchart TB
-  A["candidate feature<br/>possible input signal"]
-  B["signal<br/>related to target?"]
-  C["noise<br/>stable enough?"]
-  D["timing<br/>available at prediction time?"]
-  E["redundancy<br/>not just repetition?"]
-  F["operations<br/>reproducible in service?"]
-  G["good feature candidate<br/>worth keeping"]
+  A["특징 후보<br/>가능한 입력 신호"]
+  B["신호성<br/>목표와 관련 있는가?"]
+  C["잡음성<br/>충분히 안정적인가?"]
+  D["시점<br/>예측 시점에 쓸 수 있는가?"]
+  E["중복<br/>단순 반복은 아닌가?"]
+  F["운영성<br/>서비스에서도 재현 가능한가?"]
+  G["좋은 특징 후보<br/>남길 가치가 있음"]
 
   A --> B
   B --> C
@@ -443,11 +443,11 @@ scikit-learn 문서는 분산이 거의 없는 특징(low variance), 단변량 �
 
 ```mermaid
 flowchart TD
-  A["raw columns<br/>all available fields"]
-  B["feature selection<br/>keep / drop / postpone"]
-  C["selected features<br/>usable input set"]
-  D["preprocessing<br/>scale / fill / encode"]
-  E["model input<br/>ready for training"]
+  A["원시 칼럼<br/>사용 가능한 모든 필드"]
+  B["특징 선택<br/>유지 / 제거 / 보류"]
+  C["선택된 특징<br/>사용 가능한 입력 묶음"]
+  D["전처리<br/>스케일 / 결측 보정 / 인코딩"]
+  E["모델 입력<br/>학습 준비 완료"]
 
   A --> B --> C
   C --> D --> E
@@ -529,13 +529,13 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 
 ```mermaid
 flowchart TD
-  A["many churn columns"]
-  B["include IDs and after-the-fact fields"]
-  C["score may look high from leakage"]
-  D["keep only usable signals at prediction time"]
-  E["remove IDs, labels, post-outcome fields"]
-  F["recheck validation score"]
-  G["explain why the kept feature list is safer"]
+  A["이탈 예측 칼럼이 많음"]
+  B["ID와 사후 정보 칼럼까지 포함"]
+  C["누수 때문에 점수가 높아 보일 수 있음"]
+  D["예측 시점에 쓸 수 있는 신호만 남김"]
+  E["ID, 라벨, 결과 이후 칼럼 제거"]
+  F["검증 점수를 다시 확인"]
+  G["왜 남긴 특징 목록이 더 안전한지 설명"]
 
   A --> B --> C
   A --> D --> E --> F --> G

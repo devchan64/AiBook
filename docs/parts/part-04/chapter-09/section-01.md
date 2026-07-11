@@ -1,7 +1,7 @@
 # P4-9.1 하이퍼파라미터(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-8에서는 모델 후보를 고르고, baseline으로 비교의 출발점을 세웠습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -99,10 +99,10 @@ P4-8.2까지 오면 독자는 이런 오해를 하기 쉽습니다.
 
 ```mermaid
 flowchart TD
-  A["data"]
-  B["choose hyperparameters<br/>before training"]
-  C["fit the model"]
-  D["learned parameters<br/>after training"]
+  A["데이터"]
+  B["학습 전 하이퍼파라미터 선택"]
+  C["모델 학습"]
+  D["학습 후 파라미터 획득"]
 
   A --> C
   B --> C
@@ -220,13 +220,13 @@ James Bergstra, Daniel Yamins, David Cox는 2012년 논문에서 컴퓨터 비�
 
 ```mermaid
 flowchart TD
-  A["same decision tree family"]
-  B["shallow depth"]
-  C["deep depth"]
-  D["simple rule, lower scores"]
-  E["high train score, unstable validation"]
-  F["compare train and validation together"]
-  G["read hyperparameters as behavior controls"]
+  A["같은 결정트리 계열"]
+  B["얕은 깊이"]
+  C["깊은 깊이"]
+  D["단순한 규칙, 낮은 점수"]
+  E["학습 점수는 높지만 검증은 불안정"]
+  F["train과 validation을 함께 비교"]
+  G["하이퍼파라미터를 거동 조절 손잡이로 읽기"]
 
   A --> B --> D --> F
   A --> C --> E --> F --> G

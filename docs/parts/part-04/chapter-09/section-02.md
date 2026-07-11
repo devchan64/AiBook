@@ -1,7 +1,7 @@
 # P4-9.2 튜닝(tuning)과 검증 비용
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오래전부터 별도 문제로 다뤄졌는지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -91,11 +91,11 @@ scikit-learn의 하이퍼파라미터 튜닝 문서는 추정기(estimator)의 �
 
 ```mermaid
 flowchart TD
-  A["choose a model family"]
-  B["set parameter candidates"]
-  C["compare by validation score"]
-  D["select one setting"]
-  E["check once on test"]
+  A["모델 계열 선택"]
+  B["파라미터 후보 설정"]
+  C["검증 점수로 비교"]
+  D["설정 하나 선택"]
+  E["test에서 한 번 확인"]
 
   A --> B --> C --> D --> E
 ```
@@ -132,10 +132,10 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  subgraph A["candidate grid"]
-    B["max_depth: 4 values"]
-    C["min_samples_split: 5 values"]
-    D["criterion: 2 values"]
+  subgraph A["후보 그리드"]
+    B["max_depth: 4개 값"]
+    C["min_samples_split: 5개 값"]
+    D["criterion: 2개 값"]
   end
 
   B --> E["40 combinations"]
@@ -273,13 +273,13 @@ P4-8.2에서 baseline을 먼저 둔 이유는 여기서 더 분명해집니다. 
 ```mermaid
 flowchart TD
   A["baseline 0.900"]
-  B["candidate 0.910"]
-  C["tuned 0.912"]
+  B["후보 0.910"]
+  C["튜닝 후 0.912"]
 
   A --> B --> C
-  C --> D["is the gain stable on validation?"]
-  C --> E["is the added cost worth it?"]
-  C --> F["did speed or simplicity get worse?"]
+  C --> D["이 향상이 validation에서도 안정적인가?"]
+  C --> E["추가 비용이 감당할 만한가?"]
+  C --> F["속도나 단순성이 나빠지지 않았는가?"]
 ```
 
 ### 실무에서는 왜 튜닝을 일찍 멈출 수도 있는가
@@ -309,13 +309,13 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["many parameter candidates"]
-  B["run every combination"]
-  C["training cost grows fast"]
-  D["keep staring at validation or test"]
-  E["comparison reliability weakens"]
-  F["compare within a controlled validation loop"]
-  G["open test only once at the end"]
+  A["파라미터 후보가 많음"]
+  B["모든 조합 실행"]
+  C["학습 비용이 빠르게 증가"]
+  D["validation이나 test를 계속 들여다봄"]
+  E["비교 신뢰성이 약해짐"]
+  F["통제된 validation 루프 안에서 비교"]
+  G["마지막에 test를 한 번만 열기"]
 
   A --> B --> C
   B --> D --> E

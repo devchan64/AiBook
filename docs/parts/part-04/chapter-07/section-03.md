@@ -1,7 +1,7 @@
 # P4-7.3 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산할 수 있는 표현으로 바꾸는 일`이라는 큰 뜻을 잡았습니다. 그런데 전처리를 처음 배우면 바로 이런 혼란이 생깁니다. 어떤 칼럼은 비어 있고, 어떤 칼럼은 숫자 크기가 제각각이고, 어떤 칼럼은 문자열인데, 이 셋을 왜 같은 전처리라는 한 단어 아래에서 다루는지 잘 감이 오지 않습니다.
 
@@ -103,14 +103,14 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 
 ```mermaid
 flowchart TD
-  A["one column"]
-  B["is it missing?"]
-  C["can it be computed as numeric?"]
-  D["is its scale too different?"]
-  E["imputation rule"]
-  F["encoding rule"]
-  G["scaling rule"]
-  H["reuse same learned rules on validation/test"]
+  A["한 칼럼"]
+  B["결측이 있는가?"]
+  C["수치형으로 계산 가능한가?"]
+  D["스케일 차이가 너무 큰가?"]
+  E["결측 보정 규칙"]
+  F["인코딩 규칙"]
+  G["스케일 조정 규칙"]
+  H["학습한 규칙을 validation/test에 재사용"]
 
   A --> B
   B -->|yes| E --> C

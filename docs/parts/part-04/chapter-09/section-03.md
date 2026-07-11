@@ -1,7 +1,7 @@
 # P4-9.3 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼파라미터를 검증 절차 안에서 비교하는 기본 흐름을 잡았습니다. 그다음에는 보통 다음 이름들이 등장합니다.
 
@@ -162,12 +162,12 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 
 ```mermaid
 flowchart TD
-  A["many model and tuning runs"]
-  B["only top scores remain"]
-  C["comparison becomes hard to explain"]
-  D["store data version, preprocessing, params, metric, time"]
-  E["retrace why one run won"]
-  F["reuse benchmark or tracking records later"]
+  A["모델과 튜닝 실행이 많아짐"]
+  B["상위 점수만 남음"]
+  C["비교 과정을 설명하기 어려워짐"]
+  D["데이터 버전, 전처리, 파라미터, 지표, 시간을 저장"]
+  E["왜 한 실행이 이겼는지 다시 추적"]
+  F["나중에 benchmark나 tracking 기록 재사용"]
 
   A --> B --> C
   A --> D --> E --> F

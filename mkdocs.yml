@@ -388,6 +388,7 @@ nav:
           - "Chapter P5-6. 학습(learning)과 모델 실행(inference)의 분리":
               - "P5-6.1 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-01.md
               - "P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-06/section-02.md
+              - "P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법": parts/part-05/chapter-06/section-03.md
           - Chapter P5-7. 옵티마이저:
               - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
               - "P5-7.2 SGD, Adam의 직관": parts/part-05/chapter-07/section-02.md
@@ -760,6 +761,20 @@ plugins:
                         - "P4-6.2 Metrics By Problem Type": en/parts/part-04/chapter-06/section-02.md
                         - "P4-6.3 Model Metrics And Service Metrics": en/parts/part-04/chapter-06/section-03.md
                         - "P4-6.4 Supplementary Learning: How To Read ROC, PR, Log Loss, Calibration, And Silhouette For The First Time": en/parts/part-04/chapter-06/section-04.md
+                - Module 3. Practical Heuristics:
+                    - Chapter 7. Heuristics For Feature Selection And Preprocessing:
+                        - "P4-7.1 Feature Selection": en/parts/part-04/chapter-07/section-01.md
+                        - "P4-7.2 Preprocessing": en/parts/part-04/chapter-07/section-02.md
+                        - "P4-7.3 Supplementary Learning: What Input Problems Do Missing Values, Scale, And Encoding Correspond To?": en/parts/part-04/chapter-07/section-03.md
+                        - "P4-7.4 Supplementary Learning: How To First Distinguish Filter, Wrapper, And Dimensionality Reduction": en/parts/part-04/chapter-07/section-04.md
+                    - Chapter 8. Model-Selection Heuristics:
+                        - "P4-8.1 Model Selection": en/parts/part-04/chapter-08/section-01.md
+                        - "P4-8.2 Baseline": en/parts/part-04/chapter-08/section-02.md
+                        - "P4-8.3 Supplementary Learning: How To First Set A Baseline By Problem Type": en/parts/part-04/chapter-08/section-03.md
+                    - Chapter 9. Hyperparameter Tuning:
+                        - "P4-9.1 Hyperparameters": en/parts/part-04/chapter-09/section-01.md
+                        - "P4-9.2 Tuning And Validation Cost": en/parts/part-04/chapter-09/section-02.md
+                        - "P4-9.3 Supplementary Learning: Reading The Big Picture Of Advanced Model Selection, Tuning Automation, And Experiment Tracking": en/parts/part-04/chapter-09/section-03.md
           theme:
             language: en
         - locale: zh
@@ -959,6 +974,20 @@ plugins:
                         - "P4-6.2 按问题类型区分的指标": zh/parts/part-04/chapter-06/section-02.md
                         - "P4-6.3 模型指标与服务指标": zh/parts/part-04/chapter-06/section-03.md
                         - "P4-6.4 补充学习：第一次如何读 ROC、PR、对数损失(log loss)、校准(calibration)、轮廓系数(silhouette)": zh/parts/part-04/chapter-06/section-04.md
+                - Module 3. 实务启发式:
+                    - Chapter 7. 特征选择与预处理启发式:
+                        - "P4-7.1 特征选择(feature selection)": zh/parts/part-04/chapter-07/section-01.md
+                        - "P4-7.2 预处理(preprocessing)": zh/parts/part-04/chapter-07/section-02.md
+                        - "P4-7.3 补充学习: 缺失值、尺度、编码分别对应什么输入问题": zh/parts/part-04/chapter-07/section-03.md
+                        - "P4-7.4 补充学习: 第一次区分 filter、wrapper、dimensionality reduction 的方法": zh/parts/part-04/chapter-07/section-04.md
+                    - Chapter 8. 模型选择启发式:
+                        - "P4-8.1 模型选择(model selection)": zh/parts/part-04/chapter-08/section-01.md
+                        - "P4-8.2 基准模型(baseline)": zh/parts/part-04/chapter-08/section-02.md
+                        - "P4-8.3 补充学习: 按问题类型第一次建立 baseline 的方法": zh/parts/part-04/chapter-08/section-03.md
+                    - Chapter 9. 超参数调优:
+                        - "P4-9.1 超参数(hyperparameter)": zh/parts/part-04/chapter-09/section-01.md
+                        - "P4-9.2 调优(tuning)与验证成本": zh/parts/part-04/chapter-09/section-02.md
+                        - "P4-9.3 补充学习：从大图景读取高级模型选择、调优自动化与实验追踪": zh/parts/part-04/chapter-09/section-03.md
           theme:
             language: zh
   - search:

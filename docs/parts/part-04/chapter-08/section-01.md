@@ -1,7 +1,7 @@
 # P4-8.1 모델 선택(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바꿀지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -252,17 +252,17 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 
 ```mermaid
 flowchart TD
-  subgraph R1["start from the problem"]
+  subgraph R1["문제에서 출발"]
     direction LR
-    A["problem statement"]
-    B["data and features"]
-    C["constraints<br/>speed / cost / explanation"]
+    A["문제 정의"]
+    B["데이터와 특징"]
+    C["제약<br/>속도 / 비용 / 설명 가능성"]
   end
 
-  subgraph R2["then narrow the options"]
+  subgraph R2["그다음 후보를 좁힘"]
     direction LR
-    D["candidate models"]
-    E["compare and narrow down"]
+    D["후보 모델"]
+    E["비교하며 좁혀 감"]
   end
 
   A --> B --> C
@@ -275,17 +275,17 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  subgraph Q1["translate the task"]
+  subgraph Q1["과제를 번역"]
     direction LR
-    A["1. business question<br/>what decision will be supported?"]
-    B["2. task type<br/>classification / regression / clustering"]
-    C["3. data condition<br/>size / feature type / sparsity"]
+    A["1. 업무 질문<br/>어떤 결정을 지원할 것인가?"]
+    B["2. 과제 유형<br/>classification / regression / clustering"]
+    C["3. 데이터 조건<br/>크기 / 특징 유형 / 희소성"]
   end
 
-  subgraph Q2["set limits and shortlist"]
+  subgraph Q2["제약을 세우고 후보군 구성"]
     direction LR
-    D["4. constraints<br/>explanation / speed / cost"]
-    E["5. candidate shortlist<br/>2 to 4 model families"]
+    D["4. 제약<br/>설명 가능성 / 속도 / 비용"]
+    E["5. 후보군<br/>2~4개 모델 계열"]
   end
 
   A --> B --> C
@@ -392,14 +392,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-  A["churn prediction task"]
-  B["tabular behavior data"]
-  C["need explanation"]
-  D["daily batch inference"]
-  E["linear candidate<br/>logistic regression"]
-  F["interpretable rule candidate<br/>decision tree"]
-  G["strong nonlinear candidate<br/>random forest"]
-  H["compare shortlist<br/>before tuning"]
+  A["이탈 예측 과제"]
+  B["표 형태의 행동 데이터"]
+  C["설명이 필요함"]
+  D["하루 한 번 배치 추론"]
+  E["선형 후보<br/>logistic regression"]
+  F["설명 가능한 규칙 후보<br/>decision tree"]
+  G["강한 비선형 후보<br/>random forest"]
+  H["튜닝 전에 후보군 비교"]
 
   A --> B
   B --> C

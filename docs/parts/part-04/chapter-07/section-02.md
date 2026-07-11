@@ -1,7 +1,7 @@
 # P4-7.2 전처리(preprocessing)
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-7.1에서는 `어떤 입력을 남길 것인가`를 봤습니다. 이제 남긴 입력을 그대로 모델에 던지지 않고, 모델이 읽기 좋은 형태로 정리하는 단계로 넘어갑니다. 이 단계가 전처리(preprocessing)입니다.
 
@@ -227,11 +227,11 @@ scikit-learn 전처리 문서는 `raw feature vectors`를 다운스트림 추정
 
 ```mermaid
 flowchart LR
-  A["raw table<br/>missing / mixed scales / category text"]
-  B["split first<br/>train / validation / test"]
-  C["learn preprocessing rules on train<br/>fill values / scaling stats / category map"]
-  D["transform rows with same rules"]
-  E["model-ready matrix"]
+  A["원시 표<br/>결측 / 다른 스케일 / 범주형 텍스트"]
+  B["먼저 분할<br/>train / validation / test"]
+  C["train에서 전처리 규칙 학습<br/>채울 값 / 스케일 통계 / 범주 맵"]
+  D["같은 규칙으로 행 변환"]
+  E["모델 입력용 행렬"]
 
   A --> B --> C --> D --> E
 ```
@@ -553,10 +553,10 @@ scikit-learn 전처리 문서는 선형 모델(linear models) 같은 여러 학�
 
 ```mermaid
 flowchart TB
-  A["raw input<br/>missing / scale gap / category text"]
-  B["diagnose input issue<br/>can it be computed?<br/>is comparison fair?<br/>can rules be reused?"]
-  C["choose preprocessing rule<br/>impute / scale / encode"]
-  D["consistent model input<br/>train and test use the same rule"]
+  A["원시 입력<br/>결측 / 스케일 차이 / 범주형 텍스트"]
+  B["입력 문제 진단<br/>계산 가능한가?<br/>비교가 공정한가?<br/>규칙 재사용이 가능한가?"]
+  C["전처리 규칙 선택<br/>보정 / 스케일 / 인코딩"]
+  D["일관된 모델 입력<br/>train과 test가 같은 규칙 사용"]
 
   A --> B
   B --> C
@@ -616,11 +616,11 @@ scikit-learn의 common pitfalls 문서는 다음을 강하게 권고합니다.
 
 ```mermaid
 flowchart TD
-  A["train split"]
-  B["fit preprocessing<br/>learn fill values / scaling / encoding rules"]
-  C["transform train"]
-  D["test split"]
-  E["transform test<br/>reuse learned rules only"]
+  A["train 분할"]
+  B["전처리 fit<br/>채울 값 / 스케일 / 인코딩 규칙 학습"]
+  C["train 변환"]
+  D["test 분할"]
+  E["test 변환<br/>학습한 규칙만 재사용"]
 
   A --> B --> C
   B --> E
@@ -711,12 +711,12 @@ scikit-learn의 `Pipeline` 문서는 `fit`과 `transform` 단계를 연결해 �
 
 ```mermaid
 flowchart TD
-  A["customer table<br/>missing / numeric / category mixed"]
-  B["missing-value rule<br/>fill from train statistics"]
-  C["numeric rule<br/>scale selected columns"]
-  D["category rule<br/>encode channel / grade"]
-  E["same transform rules<br/>reuse on validation / test"]
-  F["comparable model input"]
+  A["고객 표<br/>결측 / 수치형 / 범주형이 섞임"]
+  B["결측치 규칙<br/>train 통계로 채움"]
+  C["수치형 규칙<br/>선택 칼럼 스케일 조정"]
+  D["범주형 규칙<br/>채널 / 등급 인코딩"]
+  E["같은 변환 규칙<br/>validation / test에 재사용"]
+  F["비교 가능한 모델 입력"]
 
   A --> B
   A --> C
