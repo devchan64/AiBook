@@ -1,7 +1,7 @@
 # P2-11.4 보충학습: NumPy에서 모양(shape)과 원본 공유를 함께 읽는 법
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 봤고, P2-11.3에서는 브로드캐스팅(broadcasting)과 벡터화(vectorization)를 봤습니다. 그런데 실제 NumPy 코드를 읽다 보면 그 다음에 자주 막히는 질문이 남습니다.
 
@@ -251,18 +251,7 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 이 흐름을 한 번에 묶으면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-    select["값 선택 방식<br/>슬라이스 / 팬시 / 마스크"]
-    share["원본을 함께 보는가<br/>view인지 copy인지"]
-    reshape["newaxis로 shape 변경<br/>축이 어떻게 바뀌는가"]
-    broadcast["broadcasting 규칙<br/>어떻게 맞춰 계산되는가"]
-    result["계산 결과와 부작용<br/>값 변화와 원본 영향"]
-
-    select --> share
-    select --> reshape
-    reshape --> broadcast
-    share --> result
-    broadcast --> result
+--8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-ko.mmd"
 ```
 
 독자가 여기서 남겨야 할 최소 문장은 다음입니다.

@@ -1,7 +1,7 @@
 # P2-15.1 把公式翻译成代码的小步骤
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 Part 2，我们分别看过公式、Python、NumPy、Pandas、Matplotlib。现在把这条流程重新绑成一个整体。目标不是证明复杂公式，而是拥有一套把简单公式翻译成代码并检查结果的步骤。
 
@@ -61,14 +61,7 @@
 把公式变成代码时，不要立刻写代码，而要先按下面的顺序阅读。
 
 ```mermaid
-flowchart TD
-  A["1. formula<br/>读公式"]
-  B["2. symbols<br/>确定符号各自代表什么值"]
-  C["3. data shape<br/>区分标量、向量和表"]
-  D["4. computation<br/>翻译成循环或数组计算"]
-  E["5. check<br/>用小数字验证结果"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-02/chapter-15/formula-to-code-flow-zh.mmd"
 ```
 
 关键点在于：不要一下子把公式整体变成代码。先决定符号指向什么，再确认这些值是单个数字还是一组数据，最后再计算。

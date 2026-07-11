@@ -1,7 +1,7 @@
 # P2-5.3 样本(sample)、估计(estimation)、误差(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-5.2 中，我们把一组数据的形状看作分布(distribution)，把中心看作均值(mean)，把扩散看作方差(variance)。现在把问题再往前推一步。
 
@@ -104,16 +104,7 @@
 下面这张图先展示总体和样本的包含关系。样本不是和总体并排存在的另一个世界，而是总体中实际被观察到的一部分。数据集(dataset)可以看作把这个被观察到的样本整理成文件、表格、记录后的结果。
 
 ```mermaid
-flowchart TD
-  subgraph P["population"]
-    direction TB
-    P1["all cases we care about"]
-    subgraph S["sample"]
-      S1["observed subset of the population"]
-    end
-  end
-
-  S --> D["dataset<br/>structured records of collected sample data"]
+--8<-- "assets/part-02/chapter-05/population-sample-dataset-flow-zh.mmd"
 ```
 
 下面这张图展示的是：先从总体里抽出样本，再用这个样本做出对总体的估计。
@@ -206,15 +197,7 @@ AI 的训练数据(training data)不是现实的全部，而是从现实里收�
 下面这张图展示的是：现实世界的一部分先被收集成数据集，而这个数据集又继续被分成训练数据和测试数据。
 
 ```mermaid
-flowchart TD
-  A["real world<br/>unknown population"]
-  B["dataset<br/>observed sample"]
-  C["train data<br/>learn patterns"]
-  D["test data<br/>estimate quality"]
-
-  A -->|collect| B
-  B -->|split| C
-  B -->|split| D
+--8<-- "assets/part-02/chapter-05/dataset-train-test-flow-zh.mmd"
 ```
 
 ## 为什么要把测试数据单独留出来

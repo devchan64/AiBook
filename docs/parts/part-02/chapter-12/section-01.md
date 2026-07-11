@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -236,16 +236,7 @@ print(df)
 도식으로 보면 더 분명합니다.
 
 ```mermaid
-flowchart TB
-    subgraph frame["DataFrame"]
-        direction TB
-        cols["열(columns)<br/>name | score | passed"]
-        body["행(rows)<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
-    end
-    idx["인덱스(index)<br/>0, 1, 2"]
-
-    idx --> body
-    cols --> body
+--8<-- "assets/part-02/chapter-12/dataframe-structure-flow-ko.mmd"
 ```
 
 이 도식의 핵심은 인덱스가 데이터 값 자체가 아니라 `행을 가리키는 기준`이라는 점입니다.

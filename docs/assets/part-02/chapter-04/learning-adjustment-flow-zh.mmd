@@ -1,0 +1,8 @@
+flowchart TD
+  A["prediction error<br/>real 500M, predicted 400M"]
+  B["loss value<br/>score how wrong it is"]
+  C["gradient signal<br/>read which direction to change"]
+  D["small update<br/>adjust the parameter a little"]
+  E["recheck loss<br/>check again whether the loss decreased"]
+
+  A --> B --> C --> D --> E

@@ -1,0 +1,10 @@
+flowchart TD
+    raw["raw DataFrame<br/>student_id, region, absences, score, passed"]
+    choose["choose target<br/>what do we want to predict?"]
+    split["separate columns<br/>X and y"]
+    x["X<br/>region, absences, score"]
+    y["y<br/>passed"]
+
+    raw --> choose --> split
+    split --> x
+    split --> y

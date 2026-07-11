@@ -1,7 +1,7 @@
 # P2-11.4 Supplemental: How to Read Shape and Shared Origins Together in NumPy
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-11.2, we looked at indexing, slicing, and axis. In P2-11.3, we looked at broadcasting and vectorization. But when reading actual NumPy code, the next questions often remain.
 
@@ -251,18 +251,7 @@ This judgment matters especially in data preprocessing. Whether you created a ne
 If you tie this flow together at once, it becomes the following.
 
 ```mermaid
-flowchart TD
-    select["select values<br/>slice / fancy / mask"]
-    share["share original?<br/>view or copy"]
-    reshape["reshape with newaxis?<br/>shape changes"]
-    broadcast["broadcasting rule<br/>how will it align?"]
-    result["resulting calculation<br/>and possible side effect"]
-
-    select --> share
-    select --> reshape
-    reshape --> broadcast
-    share --> result
-    broadcast --> result
+--8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-en.mmd"
 ```
 
 The minimum sentence the reader should keep here is the following.

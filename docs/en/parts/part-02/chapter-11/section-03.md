@@ -1,7 +1,7 @@
 # P2-11.3 Broadcasting and Vectorization
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-11.1, we checked the `shape`, `ndim`, and `dtype` of NumPy arrays. In P2-11.2, we used indexing, slicing, and axis to decide which part of an array to read and in which direction to calculate.
 
@@ -236,20 +236,7 @@ A safer expression is to view vectorization as `a way of expressing repeated cal
 The diagram below shows the same calculation expressed differently as a loop and as an array operation.
 
 ```mermaid
-flowchart TD
-    loop["Python loop view<br/>adjusted = []<br/>for score in scores:<br/>adjusted.append(score + 10)"]
-    bridge["same idea"]
-    vectorized["NumPy vectorized view<br/>adjusted = scores + 10"]
-
-    loop --> bridge --> vectorized
-
-    classDef loopBox fill:#f8fafc,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
-    classDef bridgeBox fill:#ffffff,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
-    classDef vectorBox fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#0f172a;
-
-    class loop loopBox;
-    class bridge bridgeBox;
-    class vectorized vectorBox;
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-en.mmd"
 ```
 
 ## An Example of Subtracting the Mean by Feature

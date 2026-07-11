@@ -1,7 +1,7 @@
 # P2-4.6 Composite Functions and the Chain Rule
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 After reading derivatives, gradients, and gradient descent, one sentence still remains: `backpropagation uses the chain rule`. If we do not know the chain rule here, backpropagation easily looks like a memorized sentence rather than a calculation structure.
 
@@ -65,13 +65,7 @@ This same intuition returns directly when we look at neural networks, because th
 It becomes more intuitive if we see it as the following flow.
 
 ```mermaid
-flowchart LR
-    x["x"]
-    g["g(x) = 2x + 1"]
-    f["f(y) = y^2"]
-    z["z = (2x + 1)^2"]
-
-    x --> g --> f --> z
+--8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-en.mmd"
 ```
 
 If we write it more like an everyday calculation:

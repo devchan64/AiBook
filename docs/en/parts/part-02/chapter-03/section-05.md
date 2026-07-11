@@ -1,7 +1,7 @@
 # P2-3.5 Python Runtime Environments: Colab and Local PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 From P2-3.1 through P2-3.4, we looked at linear algebra mainly through formulas and comparison standards. In the next section, we will directly check vectors, matrices, and matrix multiplication with NumPy. Before that, we first need to separate where Python code is being run.
 
@@ -151,19 +151,7 @@ Here we prefer `%pip install numpy`, because it makes more explicit that the ins
 If we rewrite that difference again as a flow, it becomes:
 
 ```mermaid
-flowchart TD
-    ask["what am I doing?"]
-    install["install a package"]
-    run["run Python code"]
-    colab["Colab code cell<br/>%pip install numpy"]
-    local["local terminal<br/>python -m pip install numpy"]
-    py["Python code<br/>import numpy as np"]
-
-    ask --> install
-    ask --> run
-    install --> colab
-    install --> local
-    run --> py
+--8<-- "assets/part-02/chapter-03/execution-location-flow-en.mmd"
 ```
 
 ## Do Not Mix It with Personal-PC Terminal Commands

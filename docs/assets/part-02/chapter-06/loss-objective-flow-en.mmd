@@ -1,0 +1,12 @@
+flowchart TD
+  X["input x"]
+  M["model"]
+  P["prediction<br/>y-hat = 8"]
+  Y["target<br/>y = 10"]
+  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
+  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
+
+  X --> M --> P
+  P --> L
+  Y --> L
+  L --> O

@@ -1,7 +1,7 @@
 # P2-15.1 수식을 코드로 옮기는 작은 절차
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다. 이제 이 흐름을 하나로 묶습니다. 목표는 어려운 수식을 증명하는 것이 아니라, 간단한 수식을 코드로 옮기고 결과를 확인하는 절차를 갖는 것입니다.
 
@@ -61,14 +61,7 @@ Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다
 수식을 코드로 옮길 때는 바로 코드를 쓰기보다 다음 순서로 읽습니다.
 
 ```mermaid
-flowchart TD
-  A["1. formula<br/>수식을 읽는다"]
-  B["2. symbols<br/>기호가 뜻하는 값을 정한다"]
-  C["3. data shape<br/>스칼라, 벡터, 표를 구분한다"]
-  D["4. computation<br/>반복 또는 배열 계산으로 옮긴다"]
-  E["5. check<br/>작은 숫자로 결과를 확인한다"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-02/chapter-15/formula-to-code-flow-ko.mmd"
 ```
 
 핵심은 수식을 한 번에 코드로 바꾸지 않는 것입니다. 먼저 기호가 무엇을 가리키는지 정하고, 값이 하나인지 묶음인지 확인한 뒤 계산합니다.

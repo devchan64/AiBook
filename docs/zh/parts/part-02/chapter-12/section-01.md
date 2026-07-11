@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame 表达什么
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.11`
 
 在 Part 2 Chapter 11 里，我们用 NumPy array 处理了 vector、matrix、axis 与 broadcasting。那条路径很适合数值计算，但当我们开始读取长得像表格的数据集时，问题会发生变化。
 
@@ -236,16 +236,7 @@ print(df)
 这个关系用图看会更清楚。
 
 ```mermaid
-flowchart TB
-    subgraph frame["DataFrame"]
-        direction TB
-        cols["columns<br/>name | score | passed"]
-        body["rows<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
-    end
-    idx["index<br/>0, 1, 2"]
-
-    idx --> body
-    cols --> body
+--8<-- "assets/part-02/chapter-12/dataframe-structure-flow-zh.mmd"
 ```
 
 这里最关键的一点是：index 本身不是数据值，而是指向行的规则。

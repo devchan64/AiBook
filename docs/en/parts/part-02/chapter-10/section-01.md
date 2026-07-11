@@ -1,7 +1,7 @@
 # P2-10.1 Why Are Notebooks Useful for Learning?
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.11`
 
 In Part 2 Chapter 7, we separated where Python is executed, including the terminal, shell, interpreter, script, and virtual environment. In Part 2 Chapters 8 and 9, we recovered Python syntax and data structures through small examples.
 
@@ -108,13 +108,7 @@ A notebook is usually made of cells. A cell is a small block inside the document
 The flow can be seen like this.
 
 ```mermaid
-flowchart TD
-  A["Markdown cell<br/>explain the question"]
-  B["Code cell<br/>run a small calculation"]
-  C["Output<br/>inspect result"]
-  D["Markdown cell<br/>write interpretation"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-en.mmd"
 ```
 
 The core of notebook learning is to repeat in a short cycle the four steps: `write the question`, `run the code`, `look at the result`, and `leave the interpretation`.
@@ -150,13 +144,7 @@ The second reason is that code can be divided and run cell by cell.
 For example, you can imagine the following flow.
 
 ```mermaid
-flowchart TB
-  A["1. prepare data"]
-  B["2. calculate summary"]
-  C["3. draw chart"]
-  D["4. write interpretation"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-experiment-flow-en.mmd"
 ```
 
 The same thing can be done in a script too, but compared with running a whole file at once, checking one cell at a time can feel less burdensome.

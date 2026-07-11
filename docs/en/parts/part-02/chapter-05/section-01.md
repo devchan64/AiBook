@@ -1,7 +1,7 @@
 # P2-5.1 How Probability Represents Uncertainty as Numbers
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In Chapter 4 of Part 2, we used derivatives and gradients to see `how values should be changed so that loss decreases`. Now we need a different kind of mathematical language.
 
@@ -182,12 +182,7 @@ In other words, at first the email may have looked unlikely to be spam, but afte
 The chart below shows Bayes' rule not as a formula but as `a flow that updates belief with new evidence`.
 
 ```mermaid
-flowchart TD
-  A["prior belief<br/>what we believe before<br/>new observation"]
-  B["evidence<br/>new observed information<br/>that changes our belief"]
-  C["posterior belief<br/>what we believe after<br/>the evidence"]
-
-  A --> B --> C
+--8<-- "assets/part-02/chapter-05/belief-update-flow-en.mmd"
 ```
 
 The important word here is evidence. Evidence does not mean only `supporting material`. It is also used to mean the observed information that changes a probabilistic judgment. When the word evidence appears in AI documents, it helps to ask `what changed the judgment?`

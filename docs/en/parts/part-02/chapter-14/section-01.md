@@ -1,7 +1,7 @@
 # P2-14.1 Git as a Tool for Managing Change History
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In Part 2 Chapter 13, we created plots with Matplotlib and linked the output images into documents. A problem appears immediately at that point. If documents, code, images, and research notes all change together, it becomes hard later to remember "what changed, and why."
 
@@ -79,14 +79,7 @@ The official Git book explains version control as a system that records file cha
 Here, we divide the Git flow into the following three spaces.
 
 ```mermaid
-flowchart TD
-  A["working tree<br/>where you edit current files"]
-  B["staging area<br/>where you choose changes for this record"]
-  C["repository<br/>history saved as commits"]
-
-  A -->|"git add"| B
-  B -->|"git commit"| C
-  C -->|"check with git log"| C
+--8<-- "assets/part-02/chapter-14/git-three-areas-flow-en.mmd"
 ```
 
 The important point in this flow is that `saving` and `committing` are different.

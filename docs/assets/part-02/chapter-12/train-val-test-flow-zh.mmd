@@ -1,0 +1,9 @@
+flowchart TD
+    full["full dataset"]
+    train["train set<br/>used to fit"]
+    val["validation set<br/>used to compare choices"]
+    test["test set<br/>used for final check"]
+
+    full --> train
+    full --> val
+    full --> test

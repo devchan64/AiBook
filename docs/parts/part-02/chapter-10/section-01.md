@@ -1,7 +1,7 @@
 # P2-10.1 노트북(notebook)은 왜 학습에 유용한가
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 2 Chapter 7에서는 Python을 어디에서 실행하는지, 터미널(terminal), 셸(shell), 인터프리터(interpreter), 스크립트(script), 가상환경(virtual environment)을 나누어 봤습니다. Part 2 Chapter 8과 Chapter 9에서는 Python 문법과 자료구조를 작은 예제로 복구했습니다.
 
@@ -108,13 +108,7 @@ average
 흐름은 다음처럼 볼 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["마크다운 셀<br/>질문과 목표를 적기"]
-  B["코드 셀<br/>작은 계산 실행"]
-  C["출력<br/>결과 확인"]
-  D["마크다운 셀<br/>해석과 다음 질문 적기"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-ko.mmd"
 ```
 
 노트북 학습의 핵심은 `질문을 적고`, `코드를 실행하고`, `결과를 보고`, `해석을 남기는` 네 단계를 짧게 반복하는 데 있습니다.
@@ -150,13 +144,7 @@ sum(scores) / len(scores)
 예를 들어 다음 흐름을 생각해 볼 수 있습니다.
 
 ```mermaid
-flowchart TB
-  A["1. 데이터 준비"]
-  B["2. 요약값 계산"]
-  C["3. 차트 그리기"]
-  D["4. 해석 적기"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-experiment-flow-ko.mmd"
 ```
 
 스크립트에서도 같은 일을 할 수 있지만, 한 번에 전체 파일을 실행하는 것보다 한 셀씩 확인하는 방식이 부담이 덜할 수 있습니다.

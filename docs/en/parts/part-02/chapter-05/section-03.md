@@ -1,7 +1,7 @@
 # P2-5.3 Sample, Estimation, and Error
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-5.2, we looked at the shape of a data bundle as a distribution, its center as the mean, and its spread as the variance. Now we shift the question one step.
 
@@ -104,16 +104,7 @@ A sample is not the whole. If the sample represents the population well, that sa
 The diagram below first shows the containment relationship between population and sample. A sample is not a separate world standing beside the population. It is the part actually observed from the population. A dataset can be seen as the result of organizing that observed sample into files, tables, or records.
 
 ```mermaid
-flowchart TD
-  subgraph P["population"]
-    direction TB
-    P1["all cases we care about"]
-    subgraph S["sample"]
-      S1["observed subset of the population"]
-    end
-  end
-
-  S --> D["dataset<br/>structured records of collected sample data"]
+--8<-- "assets/part-02/chapter-05/population-sample-dataset-flow-en.mmd"
 ```
 
 The chart below shows the flow of drawing a sample from the whole population and then producing an estimate from that sample.
@@ -206,15 +197,7 @@ This problem leads into the larger machine-learning theme of `generalization`.
 The diagram below shows the flow in which part of the real world is collected into a dataset, and that dataset is then divided again into training data and test data.
 
 ```mermaid
-flowchart TD
-  A["real world<br/>unknown population"]
-  B["dataset<br/>observed sample"]
-  C["train data<br/>learn patterns"]
-  D["test data<br/>estimate quality"]
-
-  A -->|collect| B
-  B -->|split| C
-  B -->|split| D
+--8<-- "assets/part-02/chapter-05/dataset-train-test-flow-en.mmd"
 ```
 
 ## Why Keep Test Data Separate?

@@ -1,7 +1,7 @@
 # P2-5.1 概率(probability)如何把不确定性表示成数字
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-4 章里，我们通过微分(derivative)与梯度(gradient)看了 `怎样改变数值，损失(loss)才会下降`。现在，我们需要另一种类型的数学语言。
 
@@ -182,12 +182,7 @@ P(\text{偶数}) = \frac{3}{6} = 0.5
 下面这张图并不是把贝叶斯规则画成公式，而是把它画成“用新证据更新相信程度”的流程。
 
 ```mermaid
-flowchart TD
-  A["prior belief<br/>what we believe before<br/>new observation"]
-  B["evidence<br/>new observed information<br/>that changes our belief"]
-  C["posterior belief<br/>what we believe after<br/>the evidence"]
-
-  A --> B --> C
+--8<-- "assets/part-02/chapter-05/belief-update-flow-zh.mmd"
 ```
 
 这里最重要的词是 evidence。evidence 不只是“证据材料”的意思，它也会被用来指代“让概率判断发生变化的观测信息”。在 AI 文档里看到 evidence 时，问一句“是什么改变了判断？”通常很有帮助。

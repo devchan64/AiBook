@@ -1,7 +1,7 @@
 # P2-12.2 选择、过滤与聚合
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-12.1 中，我们把 Pandas `DataFrame` 看作带有行(row)、列(column)与索引(index)的表格型数据结构。接下来会自然出现另一个问题。
 
@@ -99,16 +99,7 @@ print(df)
 如果用图示来看，本节流程如下。
 
 ```mermaid
-flowchart TD
-    full["full table<br/>all rows, all columns"]
-    col["column selection<br/>which variables?"]
-    row["row selection<br/>which case?"]
-    cond["filtering<br/>which rows satisfy the condition?"]
-    agg["aggregation<br/>what summary is enough?"]
-
-    full --> col
-    full --> row
-    full --> cond --> agg
+--8<-- "assets/part-02/chapter-12/table-reading-flow-zh.mmd"
 ```
 
 ## 选一列时会得到 Series
@@ -529,14 +520,7 @@ print(summary)
 选择、过滤、聚合大多会连成下面这样的流程。
 
 ```mermaid
-flowchart TD
-    frame["DataFrame<br/>full table"]
-    select["select columns<br/>what variables matter?"]
-    filter["filter rows<br/>which cases stay?"]
-    agg["aggregate<br/>what summary is enough?"]
-    group["groupby<br/>summary by category"]
-
-    frame --> select --> filter --> agg --> group
+--8<-- "assets/part-02/chapter-12/table-processing-flow-zh.mmd"
 ```
 
 在真实工作里，这个顺序不一定总是固定的。即便如此，`不要原封不动地抱着整张表，而是根据问题不断缩小并总结`这条流程仍然重要。

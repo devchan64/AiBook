@@ -1,0 +1,8 @@
+flowchart TD
+    frame["DataFrame<br/>full table"]
+    select["select columns<br/>what variables matter?"]
+    filter["filter rows<br/>which cases stay?"]
+    agg["aggregate<br/>what summary is enough?"]
+    group["groupby<br/>summary by category"]
+
+    frame --> select --> filter --> agg --> group

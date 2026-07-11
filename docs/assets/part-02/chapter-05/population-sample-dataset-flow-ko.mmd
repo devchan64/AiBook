@@ -1,0 +1,10 @@
+flowchart TD
+  subgraph P["모집단"]
+    direction TB
+    P1["알고 싶은 전체 대상"]
+    subgraph S["표본"]
+      S1["모집단에서 실제로 관측한 일부"]
+    end
+  end
+
+  S --> D["데이터셋<br/>수집한 표본을 정리한 기록 묶음"]

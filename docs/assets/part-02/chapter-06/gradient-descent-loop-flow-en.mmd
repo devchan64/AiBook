@@ -1,0 +1,12 @@
+flowchart TD
+  A["current parameters"]
+  B["gradient direction<br/>the way loss increases"]
+  C["learning rate<br/>step size"]
+  D["updated parameters"]
+  E["recompute loss"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> A

@@ -1,7 +1,7 @@
 # P2-10.3 Organizing Notebooks as Re-runnable Records
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. In P2-10.2, we distinguished Jupyter, Colab, and local execution from the viewpoint of execution location and file access.
 
@@ -78,17 +78,7 @@ Jupyter Notebook files are JSON-based documents with the `.ipynb` extension. The
 Understand this structure here like this.
 
 ```mermaid
-flowchart TB
-  A["Notebook file<br/>.ipynb document"]
-  B["Markdown cells<br/>question and explanation"]
-  C["Code cells<br/>Python code"]
-  D["Outputs<br/>values, tables, charts, errors"]
-  E["Runtime state<br/>variables and imported packages"]
-
-  A --> B
-  A --> C
-  C --> D
-  C -. "created while running" .-> E
+--8<-- "assets/part-02/chapter-10/notebook-structure-flow-en.mmd"
 ```
 
 What matters here is that the content saved in the file and the state during execution are not the same thing.
@@ -104,16 +94,7 @@ A good learning notebook should be readable and runnable from top to bottom.
 The following flow can be used as a default.
 
 ```mermaid
-flowchart TB
-  A["1. Purpose<br/>what will this notebook check?"]
-  B["2. Setup<br/>imports and options"]
-  C["3. Data<br/>small example or file loading"]
-  D["4. Calculation<br/>run one idea at a time"]
-  E["5. Output<br/>values, table, chart"]
-  F["6. Interpretation<br/>what changed?"]
-  G["7. Next step<br/>what to try later?"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-02/chapter-10/notebook-rerun-flow-en.mmd"
 ```
 
 This structure is not formality. It is an order of thinking.
@@ -338,13 +319,7 @@ Consider separation when the following signals appear.
 The flow can be taken like this.
 
 ```mermaid
-flowchart TD
-  A["Notebook exploration<br/>try small ideas"]
-  B["Function<br/>name repeated logic"]
-  C["Script file<br/>run the same steps"]
-  D["Module<br/>reuse from notebooks"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-to-module-flow-en.mmd"
 ```
 
 Here it is not demanded that you create a package structure from the beginning. First understand it in a notebook, then when repeated code becomes visible, bundle it into a function, and when reuse becomes necessary, separate it into files.

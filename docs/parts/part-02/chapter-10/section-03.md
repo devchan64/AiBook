@@ -1,7 +1,7 @@
 # P2-10.3 노트북을 재실행 가능한 기록으로 정리하기
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P2-10.1에서는 노트북(notebook)을 코드, 설명, 출력이 함께 있는 계산 문서로 봤습니다. P2-10.2에서는 Jupyter, Colab, 로컬 실행의 차이를 실행 위치와 파일 접근 관점에서 구분했습니다.
 
@@ -78,17 +78,7 @@ Jupyter Notebook 파일은 `.ipynb` 확장자를 가진 JSON 기반 문서입니
 여기서는 이 구조를 이렇게 이해합니다.
 
 ```mermaid
-flowchart TB
-  A["노트북 파일<br/>.ipynb 문서"]
-  B["마크다운 셀<br/>질문과 설명"]
-  C["코드 셀<br/>Python 코드"]
-  D["출력<br/>값, 표, 차트, 오류"]
-  E["런타임 상태<br/>변수와 import된 패키지"]
-
-  A --> B
-  A --> C
-  C --> D
-  C -. "실행 중에 만들어짐" .-> E
+--8<-- "assets/part-02/chapter-10/notebook-structure-flow-ko.mmd"
 ```
 
 여기서 중요한 점은 파일에 저장된 내용과 실행 중인 상태가 같지 않다는 것입니다.
@@ -104,16 +94,7 @@ flowchart TB
 다음 흐름을 기본으로 삼을 수 있습니다.
 
 ```mermaid
-flowchart TB
-  A["1. 목적<br/>무엇을 확인할 노트북인가"]
-  B["2. 설정<br/>import와 옵션"]
-  C["3. 데이터 준비<br/>작은 예제나 파일 불러오기"]
-  D["4. 계산<br/>한 번에 한 아이디어씩 실행"]
-  E["5. 출력<br/>값, 표, 차트 확인"]
-  F["6. 해석<br/>무엇이 어떻게 바뀌었는가"]
-  G["7. 다음 단계<br/>이후에 무엇을 더 볼 것인가"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-02/chapter-10/notebook-rerun-flow-ko.mmd"
 ```
 
 이 구조는 형식이 아니라 사고 순서입니다.
@@ -338,13 +319,7 @@ Colab FAQ는 노트북을 공유하면 텍스트, 코드, 출력, 댓글 같은 
 흐름은 다음처럼 잡을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["Notebook exploration<br/>try small ideas"]
-  B["Function<br/>name repeated logic"]
-  C["Script file<br/>run the same steps"]
-  D["Module<br/>reuse from notebooks"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-to-module-flow-ko.mmd"
 ```
 
 여기서는 처음부터 패키지 구조를 만들라고 요구하지 않습니다. 먼저 노트북에서 이해하고, 반복되는 코드가 보이면 함수로 묶고, 재사용이 필요해지면 파일로 분리합니다.

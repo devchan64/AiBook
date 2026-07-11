@@ -1,0 +1,10 @@
+flowchart TD
+    full["전체 표"]
+    choose["X와 y 선택"]
+    split["먼저 분리<br/>train / validation / test"]
+    fit_train["변환 기준 학습<br/>train에서만 fit"]
+    apply_other["같은 변환 적용<br/>validation, test에는 apply만"]
+    bad["잘못된 순서<br/>전체 표에서 먼저 기준 학습"]
+
+    full --> choose --> split --> fit_train --> apply_other
+    full -.피해야 함.-> bad

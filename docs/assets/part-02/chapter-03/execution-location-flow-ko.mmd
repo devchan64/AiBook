@@ -1,0 +1,20 @@
+flowchart TD
+  A["실행할 문장을 먼저 본다"]
+  B{"어디에 입력하는가?"}
+  C["Colab 코드 셀"]
+  D["로컬 PC 터미널"]
+  E["Python 코드"]
+  F["%pip install numpy"]
+  G["python -m pip install numpy"]
+  H["import numpy as np"]
+  I["print(np.array([1, 2]))"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+  C --> F
+  C --> I
+  D --> G
+  E --> H
+  E --> I

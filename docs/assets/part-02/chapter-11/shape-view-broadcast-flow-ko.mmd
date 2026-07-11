@@ -1,0 +1,12 @@
+flowchart TD
+    select["값 선택 방식<br/>슬라이스 / 팬시 / 마스크"]
+    share["원본을 함께 보는가<br/>view인지 copy인지"]
+    reshape["newaxis로 shape 변경<br/>축이 어떻게 바뀌는가"]
+    broadcast["broadcasting 규칙<br/>어떻게 맞춰 계산되는가"]
+    result["계산 결과와 부작용<br/>값 변화와 원본 영향"]
+
+    select --> share
+    select --> reshape
+    reshape --> broadcast
+    share --> result
+    broadcast --> result

@@ -1,7 +1,7 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
 
@@ -91,13 +91,7 @@ A branch is not merely a convenience feature for developers. It is a device that
 In a document project, the branch for writing and the branch for deployment standards can be operated separately. Branch names differ by team, but you can separate roles, for example, into a writing branch and a deployment branch.
 
 ```mermaid
-flowchart TD
-  A["writing branch<br/>ordinary writing"]
-  B["review<br/>build and check"]
-  C["publish branch<br/>published source"]
-  D["static site deploy<br/>deployed book"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-14/branch-review-deploy-flow-en.mmd"
 ```
 
 The writing branch is one example of a branch used for ordinary writing and editing. You can understand that work such as adding manuscript text, writing example code, editing charts, and organizing research notes happens on this kind of writing branch.

@@ -1,0 +1,9 @@
+flowchart TD
+  A["real world<br/>full world we cannot inspect completely"]
+  B["dataset<br/>sample collected from reality"]
+  C["training data<br/>samples used to learn patterns"]
+  D["test data<br/>samples used to estimate performance"]
+
+  A -->|collect| B
+  B -->|split| C
+  B -->|split| D

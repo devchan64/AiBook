@@ -1,7 +1,7 @@
 # P2-4.4 为什么学习里需要微分
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)看成是“读取数值如何变化的语言”。现在，我们要把这门语言接到 AI 学习(training)里，说明为什么它在这里是必要的。
 
@@ -208,14 +208,7 @@ L'(w) = 2(w - 3)
 可以验证的结果是：在同一个验证样本上，稍微调整某个参数后，损失是否真的下降了。如果损失从 0.82 降到 0.76，那就是改善方向；反过来，如果损失升到 0.90，就可以读成方向错了。
 
 ```mermaid
-flowchart TD
-  A["prediction error<br/>real 500M, predicted 400M"]
-  B["loss value<br/>score how wrong it is"]
-  C["gradient signal<br/>read which direction to change"]
-  D["small update<br/>adjust the parameter a little"]
-  E["recheck loss<br/>check again whether the loss decreased"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-02/chapter-04/learning-adjustment-flow-zh.mmd"
 ```
 
 ## 简短检查

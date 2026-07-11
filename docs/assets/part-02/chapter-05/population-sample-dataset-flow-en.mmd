@@ -1,0 +1,10 @@
+flowchart TD
+  subgraph P["population"]
+    direction TB
+    P1["full target we want to know"]
+    subgraph S["sample"]
+      S1["observed subset from the population"]
+    end
+  end
+
+  S --> D["dataset<br/>organized record of collected samples"]

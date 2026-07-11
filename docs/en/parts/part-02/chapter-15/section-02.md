@@ -1,7 +1,7 @@
 # P2-15.2 Final Check Before Moving to Part 3
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Part 2 is the basic recovery zone. It does not mean that all mathematics and Python are finished perfectly. It is the stage where you check whether you now have the minimum reading ability and practice sense needed to move into machine learning.
 
@@ -68,21 +68,7 @@ This section answers the following questions.
 The flow of Part 2 can be summarized as follows.
 
 ```mermaid
-flowchart TD
-  A["math notation<br/>reading formulas"]
-  B["Python<br/>small calculations"]
-  C["NumPy<br/>array computation"]
-  D["Pandas<br/>tabular data"]
-  E["Matplotlib<br/>visualization"]
-  F["Git<br/>reproducible records"]
-  G["machine learning<br/>Part 3"]
-
-  A --> B --> C
-  C --> D
-  D --> E
-  B --> F
-  E --> F
-  F --> G
+--8<-- "assets/part-02/chapter-15/part2-learning-map-flow-en.mmd"
 ```
 
 What matters in this map is not the tool names. It is what question each tool answers.
@@ -147,15 +133,7 @@ What matters here is not to treat `fit` and `predict` as magic. They are the lea
 If you compress it once again, you should be able to read the following order immediately.
 
 ```mermaid
-flowchart LR
-    table["table"]
-    xy["X and y"]
-    split["train / test"]
-    fit["fit"]
-    predict["predict"]
-    metric["metric"]
-
-    table --> xy --> split --> fit --> predict --> metric
+--8<-- "assets/part-02/chapter-15/ml-reading-flow-en.mmd"
 ```
 
 If you get stuck at any point in this flow, return as follows.

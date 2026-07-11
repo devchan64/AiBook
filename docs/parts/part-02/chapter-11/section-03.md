@@ -1,7 +1,7 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P2-11.1에서는 NumPy 배열(array)의 `shape`, `ndim`, `dtype`을 확인했습니다. P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 사용해 배열의 어느 부분을 읽고 어느 방향으로 계산할지 봤습니다.
 
@@ -236,20 +236,7 @@ NumPy 공식 문서는 브로드캐스팅이 배열 연산을 벡터화하는 �
 아래 도식은 같은 계산을 반복문과 배열 연산으로 다르게 표현하는 모습을 보여 줍니다.
 
 ```mermaid
-flowchart TD
-    loop["Python loop view<br/>adjusted = []<br/>for score in scores:<br/>adjusted.append(score + 10)"]
-    bridge["same idea"]
-    vectorized["NumPy vectorized view<br/>adjusted = scores + 10"]
-
-    loop --> bridge --> vectorized
-
-    classDef loopBox fill:#f8fafc,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
-    classDef bridgeBox fill:#ffffff,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
-    classDef vectorBox fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#0f172a;
-
-    class loop loopBox;
-    class bridge bridgeBox;
-    class vectorized vectorBox;
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-ko.mmd"
 ```
 
 ## 특징별 평균을 빼는 예

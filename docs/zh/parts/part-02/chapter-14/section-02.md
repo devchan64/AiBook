@@ -1,7 +1,7 @@
 # P2-14.2 分支（branch）、提交（commit）与文档可复现性
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-14.1，我们把 Git 看成变更历史管理工具。现在，顺着文档项目的写作流程，把分支（branch）、提交（commit）和已发布文档的可复现性连接起来。
 
@@ -91,13 +91,7 @@ Git 官方书把分支解释为指向提交的轻量指针。与其把这些内�
 在文档项目里，可以把写作中的分支和部署标准分支分开运作。不同团队的分支名字会不同，但例如可以把角色分成写作分支与部署分支。
 
 ```mermaid
-flowchart TD
-  A["writing branch<br/>ordinary writing"]
-  B["review<br/>build and check"]
-  C["publish branch<br/>published source"]
-  D["static site deploy<br/>deployed book"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-14/branch-review-deploy-flow-zh.mmd"
 ```
 
 写作分支是普通写作与编辑使用的一类分支示例。你可以把添加正文、编写示例代码、修改图表、整理调查笔记等工作，理解为在这种写作分支上进行。

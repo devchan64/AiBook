@@ -1,7 +1,7 @@
 # P2-4.6 复合函数(composite function)与链式法则(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 读完导数(derivative)、梯度(gradient)、梯度下降(gradient descent)之后，还会留下这样一句话：`backpropagation uses the chain rule`。如果这里不知道链式法则(chain rule)，反向传播就很容易看起来像一句需要背下来的话，而不是一种计算结构。
 
@@ -65,13 +65,7 @@ z = f(g(x))
 把它画成下面这样的流程会更直观。
 
 ```mermaid
-flowchart LR
-    x["x"]
-    g["g(x) = 2x + 1"]
-    f["f(y) = y^2"]
-    z["z = (2x + 1)^2"]
-
-    x --> g --> f --> z
+--8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-zh.mmd"
 ```
 
 如果写得更像日常计算：

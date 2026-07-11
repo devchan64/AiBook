@@ -1,7 +1,7 @@
 # P2-10.1 为什么笔记本(notebook)对学习有用
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.11`
 
 在 Part 2 Chapter 7 中，我们已经区分了 Python 是在哪里执行的，包括 terminal、shell、interpreter、script、virtual environment。在 Part 2 Chapter 8 和 Chapter 9 中，我们通过小例子重新恢复了 Python 语法和数据结构。
 
@@ -108,13 +108,7 @@ Notebook 通常由 cell 组成。Cell 是文档里的小区块。
 流程可以看成下面这样。
 
 ```mermaid
-flowchart TD
-  A["Markdown cell<br/>explain the question"]
-  B["Code cell<br/>run a small calculation"]
-  C["Output<br/>inspect result"]
-  D["Markdown cell<br/>write interpretation"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-cell-learning-flow-zh.mmd"
 ```
 
 Notebook 学习的核心，就是短循环地重复四步：`写下问题`、`运行代码`、`看结果`、`留下解释`。
@@ -150,13 +144,7 @@ sum(scores) / len(scores)
 例如可以想象下面这样的流程。
 
 ```mermaid
-flowchart TB
-  A["1. prepare data"]
-  B["2. calculate summary"]
-  C["3. draw chart"]
-  D["4. write interpretation"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-experiment-flow-zh.mmd"
 ```
 
 同样的事在 script 中也能做，但相比一次性运行整个文件，按一个 cell 一个 cell 检查往往压力更小。

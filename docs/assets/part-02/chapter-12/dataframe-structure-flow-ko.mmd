@@ -1,0 +1,10 @@
+flowchart TB
+    subgraph frame["DataFrame"]
+        direction TB
+        cols["열(columns)<br/>name | score | passed"]
+        body["행(rows)<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
+    end
+    idx["인덱스(index)<br/>0, 1, 2"]
+
+    idx --> body
+    cols --> body

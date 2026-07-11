@@ -1,0 +1,10 @@
+flowchart TD
+    full["full table<br/>all rows, all columns"]
+    col["select columns<br/>which variables matter?"]
+    row["select rows<br/>which cases do you inspect?"]
+    cond["filter<br/>which rows stay?"]
+    agg["aggregate<br/>which summary is enough?"]
+
+    full --> col
+    full --> row
+    full --> cond --> agg

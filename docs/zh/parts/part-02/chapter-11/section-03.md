@@ -1,7 +1,7 @@
 # P2-11.3 广播与向量化
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-11.1 中，我们检查了 NumPy array 的 `shape`、`ndim`、`dtype`。在 P2-11.2 中，我们用 indexing、slicing、axis 来决定从数组的哪一部分读取，以及沿哪个方向计算。
 
@@ -236,20 +236,7 @@ NumPy 官方文档说明，broadcasting 提供了 vectorizing array operations �
 下面的图示展示了：同一个计算如何分别以循环和数组运算的形式表达。
 
 ```mermaid
-flowchart TD
-    loop["Python loop view<br/>adjusted = []<br/>for score in scores:<br/>adjusted.append(score + 10)"]
-    bridge["same idea"]
-    vectorized["NumPy vectorized view<br/>adjusted = scores + 10"]
-
-    loop --> bridge --> vectorized
-
-    classDef loopBox fill:#f8fafc,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
-    classDef bridgeBox fill:#ffffff,stroke:#cbd5e1,stroke-width:2px,color:#0f172a;
-    classDef vectorBox fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#0f172a;
-
-    class loop loopBox;
-    class bridge bridgeBox;
-    class vectorized vectorBox;
+--8<-- "assets/part-02/chapter-11/loop-to-vectorization-flow-zh.mmd"
 ```
 
 ## 按 Feature 减去平均值的例子

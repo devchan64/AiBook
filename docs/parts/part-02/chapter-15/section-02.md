@@ -1,7 +1,7 @@
 # P2-15.2 Part 3로 넘어가기 전 점검
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 Part 2는 기초 복구 구간입니다. 모든 수학과 Python을 완벽히 끝냈다는 뜻이 아닙니다. 머신러닝으로 넘어가도 되는 최소한의 읽기 능력과 실습 감각을 확인하는 구간입니다.
 
@@ -68,21 +68,7 @@ Part 3에서는 데이터로부터 규칙을 학습한다는 말을 다룹니다
 Part 2의 흐름은 다음처럼 정리할 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["수식 표기<br/>읽기와 해석"]
-  B["Python<br/>작은 계산 실습"]
-  C["NumPy<br/>배열 계산"]
-  D["Pandas<br/>표 데이터 다루기"]
-  E["Matplotlib<br/>시각화"]
-  F["Git<br/>재현 가능한 기록"]
-  G["머신러닝<br/>Part 3"]
-
-  A --> B --> C
-  C --> D
-  D --> E
-  B --> F
-  E --> F
-  F --> G
+--8<-- "assets/part-02/chapter-15/part2-learning-map-flow-ko.mmd"
 ```
 
 이 지도에서 중요한 것은 도구 이름이 아닙니다. 각 도구가 어떤 질문에 답하는지입니다.
@@ -147,15 +133,7 @@ scikit-learn 문서는 모델을 estimator라고 부르고, 일반적으로 `fit
 여기서 한 번 더 작게 묶으면 다음 순서를 바로 읽을 수 있어야 합니다.
 
 ```mermaid
-flowchart LR
-    table["표 데이터"]
-    xy["X와 y 구성"]
-    split["train / test 분리"]
-    fit["학습(fit)"]
-    predict["예측(predict)"]
-    metric["평가 지표(metric)"]
-
-    table --> xy --> split --> fit --> predict --> metric
+--8<-- "assets/part-02/chapter-15/ml-reading-flow-ko.mmd"
 ```
 
 이 흐름에서 막히는 지점이 있으면 다음처럼 돌아갑니다.

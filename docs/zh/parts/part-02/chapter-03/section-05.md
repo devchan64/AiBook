@@ -1,7 +1,7 @@
 # P2-3.5 Python 运行环境：Colab 与本地 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 从 P2-3.1 到 P2-3.4，我们主要是用公式和比较标准来阅读线性代数(linear algebra)。下一节会开始用 NumPy 直接检查向量(vector)、矩阵(matrix)、矩阵乘法(matrix multiplication)。在这之前，必须先分清 Python 代码到底是在哪里运行的。
 
@@ -151,19 +151,7 @@ hello, colab
 如果把这个差别再写成一条流程，会变成这样：
 
 ```mermaid
-flowchart TD
-    ask["what am I doing?"]
-    install["install a package"]
-    run["run Python code"]
-    colab["Colab code cell<br/>%pip install numpy"]
-    local["local terminal<br/>python -m pip install numpy"]
-    py["Python code<br/>import numpy as np"]
-
-    ask --> install
-    ask --> run
-    install --> colab
-    install --> local
-    run --> py
+--8<-- "assets/part-02/chapter-03/execution-location-flow-zh.mmd"
 ```
 
 ## 不要和个人电脑终端命令混用

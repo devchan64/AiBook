@@ -1,7 +1,7 @@
 # P2-12.2 Selection, Filtering, and Aggregation
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-12.1, we treated a Pandas `DataFrame` as a table-shaped data structure with rows, columns, and an index. That immediately raises one more question.
 
@@ -99,16 +99,7 @@ We begin by looking at the whole table, but quickly move to questions such as `w
 Seen as a diagram, the flow of this Section is as follows.
 
 ```mermaid
-flowchart TD
-    full["full table<br/>all rows, all columns"]
-    col["column selection<br/>which variables?"]
-    row["row selection<br/>which case?"]
-    cond["filtering<br/>which rows satisfy the condition?"]
-    agg["aggregation<br/>what summary is enough?"]
-
-    full --> col
-    full --> row
-    full --> cond --> agg
+--8<-- "assets/part-02/chapter-12/table-reading-flow-en.mmd"
 ```
 
 ## Choosing One Column Returns a Series
@@ -529,14 +520,7 @@ You can read the output like this.
 Selection, filtering, and aggregation usually connect in the following flow.
 
 ```mermaid
-flowchart TD
-    frame["DataFrame<br/>full table"]
-    select["select columns<br/>what variables matter?"]
-    filter["filter rows<br/>which cases stay?"]
-    agg["aggregate<br/>what summary is enough?"]
-    group["groupby<br/>summary by category"]
-
-    frame --> select --> filter --> agg --> group
+--8<-- "assets/part-02/chapter-12/table-processing-flow-en.mmd"
 ```
 
 In real work, the order is not always fixed. Even so, the flow of `rather than holding the table as it is, narrow and summarize it according to the question` remains important.

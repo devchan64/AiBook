@@ -1,7 +1,7 @@
 # P2-6.2 Loss Function and Objective Function
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-6.1, we looked at optimization as `placing candidates, comparing them by a criterion, and finding a better value within constraints`. Now we look at what name that criterion takes inside model learning.
 
@@ -27,18 +27,7 @@ If we place one candidate line as `\(\hat{y} = 10x + 45\)`, the predicted values
 That is, the model predicts, compares with the actual values, turns the degree of wrongness into a number, and then learns in the direction that reduces that number.
 
 ```mermaid
-flowchart TD
-  X["input x"]
-  M["model"]
-  P["prediction<br/>ŷ = 8"]
-  Y["target<br/>y = 10"]
-  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
-  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
-
-  X --> M --> P
-  P --> L
-  Y --> L
-  L --> O
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
 ```
 
 ## Scope of This Section

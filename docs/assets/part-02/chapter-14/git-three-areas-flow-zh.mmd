@@ -1,0 +1,8 @@
+flowchart TD
+  A["working tree<br/>当前编辑文件的地方"]
+  B["staging area<br/>挑选本次记录所含变更的地方"]
+  C["repository<br/>以 commit 形式保存的历史"]
+
+  A -->|"git add"| B
+  B -->|"git commit"| C
+  C -->|"用 git log 查看"| C

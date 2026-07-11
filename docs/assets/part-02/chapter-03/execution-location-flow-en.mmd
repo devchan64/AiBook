@@ -1,0 +1,20 @@
+flowchart TD
+  A["look at the statement first"]
+  B{"where do you type it?"}
+  C["Colab code cell"]
+  D["local PC terminal"]
+  E["Python code"]
+  F["%pip install numpy"]
+  G["python -m pip install numpy"]
+  H["import numpy as np"]
+  I["print(np.array([1, 2]))"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E
+  C --> F
+  C --> I
+  D --> G
+  E --> H
+  E --> I

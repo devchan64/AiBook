@@ -1,0 +1,10 @@
+flowchart TD
+    raw["원본 DataFrame<br/>student_id, region, absences, score, passed"]
+    choose["타깃 선택<br/>무엇을 맞히려는가"]
+    split["열 분리<br/>X와 y 나누기"]
+    x["X<br/>region, absences, score"]
+    y["y<br/>passed"]
+
+    raw --> choose --> split
+    split --> x
+    split --> y

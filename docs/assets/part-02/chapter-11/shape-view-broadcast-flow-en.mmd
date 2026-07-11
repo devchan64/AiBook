@@ -1,0 +1,12 @@
+flowchart TD
+    select["selection method<br/>slice / fancy / mask"]
+    share["does it share the original?<br/>view or copy"]
+    reshape["change shape with newaxis<br/>how do axes change?"]
+    broadcast["broadcasting rule<br/>how do shapes align?"]
+    result["result and side effects<br/>value change and source impact"]
+
+    select --> share
+    select --> reshape
+    reshape --> broadcast
+    share --> result
+    broadcast --> result

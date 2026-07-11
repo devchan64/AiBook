@@ -1,7 +1,7 @@
 # P2-15.1 A Small Procedure for Translating Formulas into Code
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In Part 2, we looked at formulas, Python, NumPy, Pandas, and Matplotlib separately. Now we bind that flow into one procedure. The goal is not to prove difficult formulas, but to have a procedure for translating a simple formula into code and checking the result.
 
@@ -61,14 +61,7 @@ This section answers the following questions.
 When turning a formula into code, do not write code immediately. Read it in the following order first.
 
 ```mermaid
-flowchart TD
-  A["1. formula<br/>read the formula"]
-  B["2. symbols<br/>decide what values the symbols mean"]
-  C["3. data shape<br/>distinguish scalar, vector, and table"]
-  D["4. computation<br/>translate into loops or array computation"]
-  E["5. check<br/>verify the result with small numbers"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-02/chapter-15/formula-to-code-flow-en.mmd"
 ```
 
 The key point is not to convert the formula into code all at once. First decide what the symbols point to, then check whether the values are single values or bundles, and only then compute.

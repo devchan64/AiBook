@@ -1,7 +1,7 @@
 # P2-4.4 Why Learning Needs Differentiation
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-4.3, we looked at derivative, partial derivative, and gradient as `the language for reading how values change`. Now we connect why that language becomes necessary in AI training.
 
@@ -208,14 +208,7 @@ At that point, derivative and gradient take the role. If we inspect whether loss
 A checkable result is to compare whether the loss really decreases when a specific parameter is adjusted slightly on the same validation sample. If the loss falls from 0.82 to 0.76, that adjustment was a direction of improvement. If it rises to 0.90 instead, we read that the direction was wrong.
 
 ```mermaid
-flowchart TD
-  A["prediction error<br/>real 500M, predicted 400M"]
-  B["loss value<br/>score how wrong it is"]
-  C["gradient signal<br/>read which direction to change"]
-  D["small update<br/>adjust the parameter a little"]
-  E["recheck loss<br/>check again whether the loss decreased"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-02/chapter-04/learning-adjustment-flow-en.mmd"
 ```
 
 ## Short Check

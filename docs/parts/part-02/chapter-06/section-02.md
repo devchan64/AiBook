@@ -1,7 +1,7 @@
 # P2-6.2 손실 함수(loss function)와 목적 함수(objective function)
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제약 안에서 더 나은 값을 찾는 문제”로 봤습니다. 이제 그 기준이 모델 학습에서는 어떤 이름으로 등장하는지 봅니다.
 
@@ -27,18 +27,7 @@ P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제
 즉 모델이 예측하고, 실제값과 비교하고, 틀린 정도를 숫자로 만든 뒤, 그 숫자를 줄이는 방향으로 학습합니다.
 
 ```mermaid
-flowchart TD
-  X["input x"]
-  M["model"]
-  P["prediction<br/>ŷ = 8"]
-  Y["target<br/>y = 10"]
-  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
-  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
-
-  X --> M --> P
-  P --> L
-  Y --> L
-  L --> O
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-ko.mmd"
 ```
 
 ## 이 절의 범위

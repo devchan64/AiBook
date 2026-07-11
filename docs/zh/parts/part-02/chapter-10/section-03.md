@@ -1,7 +1,7 @@
 # P2-10.3 把笔记本整理成可重新执行的记录
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-10.1 中，我们把 notebook 看成同时包含 code、explanation 和 output 的计算文档。在 P2-10.2 中，我们又从执行位置和文件访问的角度区分了 Jupyter、Colab 和本地执行。
 
@@ -78,17 +78,7 @@ Jupyter Notebook 文件是带有 `.ipynb` 扩展名的 JSON 文档。nbformat �
 这里把这种结构理解成下面这样。
 
 ```mermaid
-flowchart TB
-  A["Notebook file<br/>.ipynb document"]
-  B["Markdown cells<br/>question and explanation"]
-  C["Code cells<br/>Python code"]
-  D["Outputs<br/>values, tables, charts, errors"]
-  E["Runtime state<br/>variables and imported packages"]
-
-  A --> B
-  A --> C
-  C --> D
-  C -. "created while running" .-> E
+--8<-- "assets/part-02/chapter-10/notebook-structure-flow-zh.mmd"
 ```
 
 这里重要的是：保存在文件里的内容，和执行中的状态，并不是同一回事。
@@ -104,16 +94,7 @@ Notebook 文件里可以留下 code 和一部分 output。但变量、import 过
 下面这个流程可以作为默认标准。
 
 ```mermaid
-flowchart TB
-  A["1. Purpose<br/>what will this notebook check?"]
-  B["2. Setup<br/>imports and options"]
-  C["3. Data<br/>small example or file loading"]
-  D["4. Calculation<br/>run one idea at a time"]
-  E["5. Output<br/>values, table, chart"]
-  F["6. Interpretation<br/>what changed?"]
-  G["7. Next step<br/>what to try later?"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-02/chapter-10/notebook-rerun-flow-zh.mmd"
 ```
 
 这种结构不是形式主义，而是思考顺序。
@@ -338,13 +319,7 @@ Colab FAQ 说明，共享 notebook 时，text、code、output、comments 等 not
 流程可以这样看。
 
 ```mermaid
-flowchart TD
-  A["Notebook exploration<br/>try small ideas"]
-  B["Function<br/>name repeated logic"]
-  C["Script file<br/>run the same steps"]
-  D["Module<br/>reuse from notebooks"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-02/chapter-10/notebook-to-module-flow-zh.mmd"
 ```
 
 这里并不要求你一开始就建立 package 结构。先在 notebook 中理解，等重复代码出现后再打包成函数，等复用真正变重要时再拆分成文件。

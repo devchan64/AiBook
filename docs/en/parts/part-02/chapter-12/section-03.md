@@ -1,7 +1,7 @@
 # P2-12.3 The Intuition of Preparing a Learning Dataset
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-12.1, we read a `DataFrame` as a table-shaped data structure. In P2-12.2, we chose the needed columns from that table, filtered rows by condition, and checked summary values. Now the question moves one step further: `what must be prepared to turn this table into a learning dataset that a model can read?`
 
@@ -135,16 +135,7 @@ This code can be read as a classification problem that predicts `passed`.
 Seen as a diagram, it looks like this.
 
 ```mermaid
-flowchart TD
-    raw["raw DataFrame<br/>student_id, region, absences, score, passed"]
-    choose["choose target<br/>what do we want to predict?"]
-    split["separate columns<br/>X and y"]
-    x["X<br/>region, absences, score"]
-    y["y<br/>passed"]
-
-    raw --> choose --> split
-    split --> x
-    split --> y
+--8<-- "assets/part-02/chapter-12/x-y-split-flow-en.mmd"
 ```
 
 The core point is that `X` and `y` are not fixed from the beginning. The problem definition comes first, and then the columns are divided.
@@ -224,15 +215,7 @@ Here, it is enough to understand it like this.
 Seen as a diagram:
 
 ```mermaid
-flowchart TD
-    full["full dataset"]
-    train["train set<br/>used to fit"]
-    val["validation set<br/>used to compare choices"]
-    test["test set<br/>used for final check"]
-
-    full --> train
-    full --> val
-    full --> test
+--8<-- "assets/part-02/chapter-12/train-val-test-flow-en.mmd"
 ```
 
 Why should we split it? Because performing well on data the model has already seen is not enough. What we want to know is `does it work similarly on data it sees for the first time?`
@@ -269,16 +252,7 @@ In this Section, we fix this judgment standard before implementation details.
 It becomes clearer again in the following diagram.
 
 ```mermaid
-flowchart TD
-    full["full table"]
-    choose["choose X and y"]
-    split["split first<br/>train / validation / test"]
-    fit_train["learn transforms<br/>from train only"]
-    apply_other["apply same transforms<br/>to validation and test"]
-    bad["wrong order<br/>learn from full table first"]
-
-    full --> choose --> split --> fit_train --> apply_other
-    full -.avoid.-> bad
+--8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow-en.mmd"
 ```
 
 If you rewrite the wrong order and the safer order as questions:

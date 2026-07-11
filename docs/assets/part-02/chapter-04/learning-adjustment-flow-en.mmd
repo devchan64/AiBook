@@ -1,0 +1,8 @@
+flowchart TD
+  A["prediction error<br/>actual 500M, predicted 400M"]
+  B["compute loss<br/>score how wrong it is"]
+  C["decide update direction<br/>read which way to move"]
+  D["adjust a little<br/>change parameters slightly"]
+  E["check loss again<br/>did it really go down?"]
+
+  A --> B --> C --> D --> E

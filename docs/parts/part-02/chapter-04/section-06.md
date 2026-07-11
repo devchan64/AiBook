@@ -1,7 +1,7 @@
 # P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 미분(derivative), 그래디언트(gradient), 경사하강법(gradient descent)까지 읽고 나면 `역전파(backpropagation)는 chain rule을 사용한다`는 문장이 남습니다. 여기서 `연쇄 법칙(chain rule)`을 모르면 역전파는 계산 구조가 아니라 암기 문장처럼 보이기 쉽습니다.
 
@@ -65,13 +65,7 @@ z = f(g(x))
 아래 흐름으로 보면 더 직관적입니다.
 
 ```mermaid
-flowchart LR
-    x["x"]
-    g["g(x) = 2x + 1"]
-    f["f(y) = y^2"]
-    z["z = (2x + 1)^2"]
-
-    x --> g --> f --> z
+--8<-- "assets/part-02/chapter-04/chain-rule-composition-flow-ko.mmd"
 ```
 
 조금 더 일상적인 계산처럼 쓰면:

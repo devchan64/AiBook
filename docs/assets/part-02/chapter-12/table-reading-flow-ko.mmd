@@ -1,0 +1,10 @@
+flowchart TD
+    full["전체 표<br/>모든 행, 모든 열"]
+    col["열 선택<br/>어떤 변수를 볼 것인가"]
+    row["행 선택<br/>어떤 사례를 볼 것인가"]
+    cond["필터링<br/>어떤 행을 남길 것인가"]
+    agg["집계<br/>어떤 요약값이면 충분한가"]
+
+    full --> col
+    full --> row
+    full --> cond --> agg

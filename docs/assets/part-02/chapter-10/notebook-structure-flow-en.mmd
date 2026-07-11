@@ -1,0 +1,11 @@
+flowchart TB
+  A["notebook file<br/>.ipynb document"]
+  B["markdown cell<br/>question and explanation"]
+  C["code cell<br/>Python code"]
+  D["output<br/>values, tables, charts, errors"]
+  E["runtime state<br/>variables and imported packages"]
+
+  A --> B
+  A --> C
+  C --> D
+  C -. "created while running" .-> E

@@ -1,7 +1,7 @@
 # P2-6.2 损失函数(loss function)与目标函数(objective function)
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-6.1 中，我们把最优化看成 `摆出候选、用标准比较、在约束之内寻找更好值的问题`。现在来看，在模型学习里，这个标准会以什么名字出现。
 
@@ -27,18 +27,7 @@
 也就是说，模型先做预测，再拿它和真实值比较，把错了多少变成数字，然后朝着让这个数字变小的方向去学习。
 
 ```mermaid
-flowchart TD
-  X["input x"]
-  M["model"]
-  P["prediction<br/>ŷ = 8"]
-  Y["target<br/>y = 10"]
-  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
-  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
-
-  X --> M --> P
-  P --> L
-  Y --> L
-  L --> O
+--8<-- "assets/part-02/chapter-06/loss-objective-flow-zh.mmd"
 ```
 
 ## 本节范围

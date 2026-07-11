@@ -1,7 +1,7 @@
 # P2-12.3 准备学习数据集(dataset)的直觉
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-12.1 中，我们把 `DataFrame` 读成表格型数据结构。在 P2-12.2 中，我们从这张表里挑出需要的列，用条件筛掉行，并查看了总结值。现在问题再往前走一步：`如果要把这张表变成模型能读取的学习数据集，需要准备什么？`
 
@@ -135,16 +135,7 @@ y = df["passed"]
 画成图后如下。
 
 ```mermaid
-flowchart TD
-    raw["raw DataFrame<br/>student_id, region, absences, score, passed"]
-    choose["choose target<br/>what do we want to predict?"]
-    split["separate columns<br/>X and y"]
-    x["X<br/>region, absences, score"]
-    y["y<br/>passed"]
-
-    raw --> choose --> split
-    split --> x
-    split --> y
+--8<-- "assets/part-02/chapter-12/x-y-split-flow-zh.mmd"
 ```
 
 核心点在于：`X` 与 `y` 不是一开始就固定好的。先有问题定义，再去拆列。
@@ -224,15 +215,7 @@ print(X_encoded)
 画成图就是：
 
 ```mermaid
-flowchart TD
-    full["full dataset"]
-    train["train set<br/>used to fit"]
-    val["validation set<br/>used to compare choices"]
-    test["test set<br/>used for final check"]
-
-    full --> train
-    full --> val
-    full --> test
+--8<-- "assets/part-02/chapter-12/train-val-test-flow-zh.mmd"
 ```
 
 为什么一定要分开？因为模型在已经见过的数据上表现好，并不够。我们真正想知道的是：`它在第一次见到的数据上，能不能也差不多地工作？`
@@ -269,16 +252,7 @@ scikit-learn 的 common pitfalls 文档强烈警告两类错误。
 再用下面的图看会更清楚。
 
 ```mermaid
-flowchart TD
-    full["full table"]
-    choose["choose X and y"]
-    split["split first<br/>train / validation / test"]
-    fit_train["learn transforms<br/>from train only"]
-    apply_other["apply same transforms<br/>to validation and test"]
-    bad["wrong order<br/>learn from full table first"]
-
-    full --> choose --> split --> fit_train --> apply_other
-    full -.avoid.-> bad
+--8<-- "assets/part-02/chapter-12/no-leakage-preprocessing-flow-zh.mmd"
 ```
 
 如果把错误顺序与更安全顺序重新写成问题，可以得到下面的表。

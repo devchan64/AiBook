@@ -1,7 +1,7 @@
 # P2-6.3 The Intuition of Gradient Descent
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 In P2-6.1, we looked at optimization as the problem of finding a better value, and in P2-6.2, we looked at how model wrongness is turned into a number called `loss`. Now the question becomes more concrete.
 
@@ -41,18 +41,7 @@ Seen first on a loss curve, gradient descent is the method of repeating small mo
 If we read this movement as a learning loop, it looks like this.
 
 ```mermaid
-flowchart TD
-  A["current parameters"]
-  B["gradient direction"]
-  C["learning rate<br/>step size"]
-  D["updated parameters"]
-  E["measure loss again"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> A
+--8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
 
 ## Scope of This Section

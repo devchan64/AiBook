@@ -1,7 +1,7 @@
 # P2-14.1 Git 是管理变更历史的工具
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 Part 2 Chapter 13，我们用 Matplotlib 制作图表，并把输出图片链接进文档。问题也就在这里立刻出现了。如果文档、代码、图片、调查笔记一起变化，过一段时间后就很难再记清“到底改了什么，为什么改”。
 
@@ -79,14 +79,7 @@ Git 官方书把版本控制解释为：一种能随着时间记录文件变化�
 这里把 Git 的流程分成下面三个空间来看。
 
 ```mermaid
-flowchart TD
-  A["working tree<br/>当前编辑文件的地方"]
-  B["staging area<br/>挑选本次记录所含变更的地方"]
-  C["repository<br/>以 commit 形式保存的历史"]
-
-  A -->|"git add"| B
-  B -->|"git commit"| C
-  C -->|"用 git log 查看"| C
+--8<-- "assets/part-02/chapter-14/git-three-areas-flow-zh.mmd"
 ```
 
 这个流程里最重要的一点是：`保存`和`提交`并不相同。

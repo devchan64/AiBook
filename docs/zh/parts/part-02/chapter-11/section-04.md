@@ -1,7 +1,7 @@
 # P2-11.4 补充学习：在 NumPy 中一起读取 shape 与原数组共享
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-11.2 中，我们看了 indexing、slicing、axis；在 P2-11.3 中，我们看了 broadcasting 和 vectorization。但在真正读 NumPy 代码时，后面常常还会卡在几个问题上。
 
@@ -251,18 +251,7 @@ NumPy 代码之所以容易让人混乱，是因为 `选了什么`、`shape 怎�
 把这个流程一次性绑起来，可以得到下面的图。
 
 ```mermaid
-flowchart TD
-    select["select values<br/>slice / fancy / mask"]
-    share["share original?<br/>view or copy"]
-    reshape["reshape with newaxis?<br/>shape changes"]
-    broadcast["broadcasting rule<br/>how will it align?"]
-    result["resulting calculation<br/>and possible side effect"]
-
-    select --> share
-    select --> reshape
-    reshape --> broadcast
-    share --> result
-    broadcast --> result
+--8<-- "assets/part-02/chapter-11/shape-view-broadcast-flow-zh.mmd"
 ```
 
 读者在这里至少要留下这句话。

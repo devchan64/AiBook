@@ -1,7 +1,7 @@
 # P2-12.1 What Does a Pandas DataFrame Represent?
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.11`
 
 Part 2 Chapter 11 worked with NumPy arrays for vectors, matrices, axes, and broadcasting. That workflow is strong for numeric computation, but the question changes when we start reading a dataset that looks like a table.
 
@@ -236,16 +236,7 @@ Here:
 The diagram makes that more explicit.
 
 ```mermaid
-flowchart TB
-    subgraph frame["DataFrame"]
-        direction TB
-        cols["columns<br/>name | score | passed"]
-        body["rows<br/>0: Kim, 82, yes<br/>1: Park, 45, no<br/>2: Lee, 90, yes"]
-    end
-    idx["index<br/>0, 1, 2"]
-
-    idx --> body
-    cols --> body
+--8<-- "assets/part-02/chapter-12/dataframe-structure-flow-en.mmd"
 ```
 
 The key point is that the index is not itself a data value. It is the rule for pointing at rows.

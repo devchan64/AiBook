@@ -1,0 +1,10 @@
+flowchart TD
+    full["full table"]
+    choose["choose X and y"]
+    split["split first<br/>train / validation / test"]
+    fit_train["learn transform rule<br/>fit on train only"]
+    apply_other["apply same transform<br/>only apply to validation and test"]
+    bad["wrong order<br/>learn the rule from the full table first"]
+
+    full --> choose --> split --> fit_train --> apply_other
+    full -. avoid .-> bad

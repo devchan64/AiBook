@@ -1,7 +1,7 @@
 # P2-6.3 梯度下降(gradient descent)的直觉
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 在 P2-6.1 中，我们把最优化看成寻找更好值的问题；在 P2-6.2 中，我们又看到了怎样把模型的错误变成一个叫作 `损失(loss)` 的数字。现在问题变得更具体了。
 
@@ -41,18 +41,7 @@
 如果把这种移动读成一个学习循环，就像下面这样。
 
 ```mermaid
-flowchart TD
-  A["current parameters"]
-  B["gradient direction"]
-  C["learning rate<br/>step size"]
-  D["updated parameters"]
-  E["measure loss again"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> A
+--8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-zh.mmd"
 ```
 
 ## 本节范围

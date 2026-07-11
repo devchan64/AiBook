@@ -1,7 +1,7 @@
 # P2-15.2 进入 Part 3 之前的检查
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 Part 2 是基础恢复区间。它不意味着所有数学与 Python 都已经被完美学完，而是用来确认：你是否已经具备进入机器学习之前所需的最小阅读能力与实践感觉。
 
@@ -68,21 +68,7 @@ Part 3 会讨论“从数据中学习规则”。那时真正需要的，不是�
 Part 2 的流程可以整理成下面这样。
 
 ```mermaid
-flowchart TD
-  A["math notation<br/>读公式"]
-  B["Python<br/>小计算"]
-  C["NumPy<br/>数组计算"]
-  D["Pandas<br/>表格数据"]
-  E["Matplotlib<br/>可视化"]
-  F["Git<br/>可复现记录"]
-  G["machine learning<br/>Part 3"]
-
-  A --> B --> C
-  C --> D
-  D --> E
-  B --> F
-  E --> F
-  F --> G
+--8<-- "assets/part-02/chapter-15/part2-learning-map-flow-zh.mmd"
 ```
 
 这张地图里重要的不是工具名称，而是每个工具在回答什么问题。
@@ -147,15 +133,7 @@ scikit-learn 文档把模型叫作 estimator，一般会展示用 `fit` 学习�
 如果再压缩一次，你应该能立刻读出下面这个顺序。
 
 ```mermaid
-flowchart LR
-    table["table"]
-    xy["X and y"]
-    split["train / test"]
-    fit["fit"]
-    predict["predict"]
-    metric["metric"]
-
-    table --> xy --> split --> fit --> predict --> metric
+--8<-- "assets/part-02/chapter-15/ml-reading-flow-zh.mmd"
 ```
 
 如果在这条流程里的某一点卡住了，可以按下面这样回去。
