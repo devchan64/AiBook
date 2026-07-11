@@ -1,0 +1,12 @@
+flowchart TB
+  A["1. observe state<br/>current situation"]
+  B["2. choose action<br/>agent acts"]
+  C["3. environment changes<br/>next state"]
+  D["4. receive reward<br/>feedback signal"]
+  E["5. update policy<br/>act better next time"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> A

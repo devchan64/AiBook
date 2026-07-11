@@ -1,0 +1,9 @@
+flowchart TD
+  A["split uses feature X"]
+  B["measure impurity decrease"]
+  C["add contribution to feature X"]
+  D["sum over one tree"]
+  E["average over many trees"]
+  F["normalized importance score"]
+
+  A --> B --> C --> D --> E --> F

@@ -1,0 +1,17 @@
+flowchart TD
+  A["fraud model training"]
+  B["train score looks almost perfect"]
+  C["validation or test becomes unstable"]
+  D["suspect noise-following corrections"]
+  E["lower learning rate"]
+  F["reduce stages or tree depth"]
+  G["check early stopping point"]
+  H["compare unseen-data errors again"]
+
+  A --> B --> C --> D
+  D --> E
+  D --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H

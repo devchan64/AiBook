@@ -1,0 +1,16 @@
+flowchart TB
+  A["문제 유형"]
+  B["분류<br/>클래스를 고름"]
+  C["회귀<br/>숫자를 예측"]
+  D["군집화<br/>비슷한 샘플을 묶음"]
+
+  E["오류 종류로 읽기<br/>accuracy / precision / recall / F1"]
+  F["오차 크기로 읽기<br/>MAE / MSE / RMSE / R2"]
+  G["묶음 품질 읽기<br/>라벨 일치도 또는 silhouette"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G

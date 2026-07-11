@@ -1,0 +1,14 @@
+flowchart TB
+  A["problem type<br/>classification / regression / clustering"]
+  B["constraints<br/>data size / interpretability / cost"]
+  C["baseline<br/>simple first model"]
+  D["candidate models<br/>small set to compare"]
+  E["validation<br/>compare with agreed metric"]
+  F["decision log<br/>why keep or change"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F
+  F --> D

@@ -1,0 +1,12 @@
+flowchart TD
+  A["fraud risk scores"]
+  B["change threshold"]
+  C["check precision-recall shift"]
+  D["check score confidence"]
+  E["check score-frequency match"]
+  F["inspect unlabeled customer groups"]
+
+  A --> B --> C
+  A --> D
+  A --> E
+  A --> F

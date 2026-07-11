@@ -1,0 +1,15 @@
+flowchart TD
+  A["customer churn table"]
+  B["train split<br/>fit several models"]
+  C["validation split<br/>choose depth / features / model"]
+  D["final candidate"]
+  E["test split<br/>open once at the end"]
+  F["reported final result"]
+
+  A --> B
+  A --> C
+  A --> E
+  B --> C
+  C --> D
+  D --> E
+  E --> F

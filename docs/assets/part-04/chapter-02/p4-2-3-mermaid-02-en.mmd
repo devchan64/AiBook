@@ -1,0 +1,18 @@
+flowchart TD
+  A["user state<br/>recent visits / cart / past coupon use"]
+  B{"choose coupon"}
+  C["coupon A<br/>high click"]
+  D["coupon B<br/>lower click"]
+  E["immediate response<br/>click or ignore"]
+  F["later outcome<br/>purchase / return / no purchase"]
+  G["reward design<br/>short-term + long-term"]
+  H["update policy<br/>better next offer"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  D --> E
+  E --> F
+  F --> G
+  G --> H

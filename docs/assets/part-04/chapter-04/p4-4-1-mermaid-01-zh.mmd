@@ -1,0 +1,12 @@
+flowchart TB
+  A["all available data<br/>collected examples"]
+  B["training data<br/>model learns from this"]
+  C["evaluation data<br/>model is checked here"]
+  D["trained model<br/>patterns learned from training data"]
+  E["performance estimate<br/>how well it may work on unseen data"]
+
+  A --> B
+  A --> C
+  B --> D
+  D --> C
+  C --> E

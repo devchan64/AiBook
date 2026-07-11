@@ -1,0 +1,11 @@
+flowchart TD
+  A["sensor batches"]
+  B["Random Forest<br/>search finer thresholds"]
+  C["fit training data very well"]
+  D["check test fluctuation"]
+  E["Extra Trees<br/>inject more random thresholds"]
+  F["check stability again"]
+
+  A --> B --> C --> D
+  A --> E --> F
+  D --> F

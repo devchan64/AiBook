@@ -1,0 +1,12 @@
+flowchart TD
+  A["검사 이미지"]
+  B["모델 예측"]
+  C["혼동 행렬"]
+  D["false alarm이 많음"]
+  E["놓친 불량이 많음"]
+  F["precision 먼저 확인"]
+  G["recall 먼저 확인"]
+
+  A --> B --> C
+  C --> D --> F
+  C --> E --> G

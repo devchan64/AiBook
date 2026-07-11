@@ -1,0 +1,9 @@
+flowchart TB
+  A["state"]
+  B["actor<br/>choose action"]
+  C["environment<br/>next state and reward"]
+  D["critic<br/>evaluate transition"]
+  E["actor update"]
+
+  A --> B --> C --> D --> E
+  E --> B

@@ -1,0 +1,15 @@
+flowchart TD
+  A["part images<br/>crack / color / edge pattern"]
+  B["too simple rule<br/>few signals only"]
+  C["balanced model<br/>main defect pattern"]
+  D["too complex fit<br/>memorizes training quirks"]
+  E["miss obvious defects<br/>train low / val low"]
+  F["holds on new images<br/>train high / val similar"]
+  G["fails on new images<br/>train very high / val drop"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G

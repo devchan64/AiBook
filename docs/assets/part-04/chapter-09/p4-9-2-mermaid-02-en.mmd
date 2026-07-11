@@ -1,0 +1,12 @@
+flowchart TD
+  subgraph A["candidate grid"]
+    B["max_depth: 4 values"]
+    C["min_samples_split: 5 values"]
+    D["criterion: 2 values"]
+  end
+
+  B --> E["40 combinations"]
+  C --> E
+  D --> E
+  E --> F["5-fold cross-validation"]
+  F --> G["200 training runs"]

@@ -1,0 +1,11 @@
+flowchart TD
+  A["task<br/>what is the model for?"]
+  B["prediction<br/>score or class"]
+  C["decision<br/>approve / block / review"]
+  D["error cost<br/>which error hurts more?"]
+  E["metric focus<br/>accuracy / precision / recall / F1"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

@@ -1,0 +1,8 @@
+flowchart LR
+  A["raw table<br/>missing / mixed scales / category text"]
+  B["split first<br/>train / validation / test"]
+  C["learn preprocessing rules on train<br/>fill values / scaling stats / category map"]
+  D["transform rows with same rules"]
+  E["model-ready matrix"]
+
+  A --> B --> C --> D --> E

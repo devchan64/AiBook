@@ -1,0 +1,11 @@
+flowchart TD
+  I["new case"]
+  P{"who made the decision rule?"}
+
+  I --> P
+  P -->|person writes it| R["rule-based result"]
+  P -->|data trains it| L["model prediction"]
+
+  R --> D["service policy"]
+  L --> D
+  D --> O["action or response"]

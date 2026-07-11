@@ -1,0 +1,18 @@
+flowchart TD
+  A["사용자 요청이 들어옴"]
+  B["traffic<br/>얼마나 많은 요청이 들어오는가?"]
+  C{"is the system near capacity?"}
+  D["saturation<br/>cpu / memory / queue / connection pool이 차오름"]
+  E["latency 상승<br/>응답이 느려짐"]
+  F["errors 상승<br/>timeout / 실패 요청이 늘어남"]
+  G["사용자 체감 신뢰성이 떨어짐"]
+  H["latency가 안정적임<br/>평소와 비슷한 사용자 경험"]
+
+  A --> B
+  B --> C
+  C -->|yes| D
+  D --> E
+  D --> F
+  E --> G
+  F --> G
+  C -->|no| H

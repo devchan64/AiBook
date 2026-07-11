@@ -1,0 +1,11 @@
+flowchart TD
+  A["churn data"]
+  B["baseline: always stay"]
+  C["accuracy looks high"]
+  D["churn recall is 0"]
+  E["candidate model"]
+  F["compare accuracy, recall, F1"]
+  G["check missed churn cases"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G

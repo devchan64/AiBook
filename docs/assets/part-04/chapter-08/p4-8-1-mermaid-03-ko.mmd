@@ -1,0 +1,19 @@
+flowchart TD
+  A["이탈 예측 과제"]
+  B["표 형태의 행동 데이터"]
+  C["설명이 필요함"]
+  D["하루 한 번 배치 추론"]
+  E["선형 후보<br/>logistic regression"]
+  F["설명 가능한 규칙 후보<br/>decision tree"]
+  G["강한 비선형 후보<br/>random forest"]
+  H["튜닝 전에 후보군 비교"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H

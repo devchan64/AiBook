@@ -1,0 +1,17 @@
+flowchart TD
+  subgraph M2["read the score with baseline"]
+    direction LR
+    C["baseline 0.90"]
+    D["model 0.91"]
+    E["small gain<br/>check if it is useful"]
+  end
+
+  subgraph M1["read the score without baseline"]
+    direction LR
+    A["score 0.91"]
+    B["looks good"]
+  end
+
+  E --> A
+  A --> B
+  C --> D --> E

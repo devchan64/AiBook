@@ -1,0 +1,11 @@
+flowchart TD
+  A["customer coupon table"]
+  B["train and evaluate on the whole table"]
+  C["score looks too good"]
+  D["leave out an evaluation split"]
+  E["train on one part only"]
+  F["check unseen-customer score"]
+  G["read whether optimism was justified"]
+
+  A --> B --> C
+  A --> D --> E --> F --> G

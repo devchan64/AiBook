@@ -1,0 +1,15 @@
+flowchart TD
+  A["customer behavior table"]
+  B["no labels yet"]
+  C["look for similar patterns"]
+  D["group candidates appear"]
+  E["outlier or reduced-view hints appear"]
+  F["human interpretation comes later"]
+  G["use the result for the next analysis question"]
+
+  A --> B --> C
+  C --> D
+  C --> E
+  D --> F
+  E --> F
+  F --> G

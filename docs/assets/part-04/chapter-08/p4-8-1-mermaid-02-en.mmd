@@ -1,0 +1,16 @@
+flowchart TD
+  subgraph Q1["translate the task"]
+    direction LR
+    A["1. business question<br/>what decision will be supported?"]
+    B["2. task type<br/>classification / regression / clustering"]
+    C["3. data condition<br/>size / feature type / sparsity"]
+  end
+
+  subgraph Q2["set limits and shortlist"]
+    direction LR
+    D["4. constraints<br/>explanation / speed / cost"]
+    E["5. candidate shortlist<br/>2 to 4 model families"]
+  end
+
+  A --> B --> C
+  C --> D --> E

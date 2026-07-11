@@ -1,0 +1,16 @@
+flowchart TB
+  A["problem type"]
+  B["classification<br/>choose a class"]
+  C["regression<br/>predict a number"]
+  D["clustering<br/>group similar samples"]
+
+  E["read mistakes by type<br/>accuracy / precision / recall / F1"]
+  F["read error size<br/>MAE / MSE / RMSE / R2"]
+  G["read group quality<br/>label agreement or silhouette"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G

@@ -1,0 +1,10 @@
+flowchart TD
+  A["user request"]
+  B["model output"]
+  C["service response"]
+  D["model metrics<br/>accuracy / precision / recall / RMSE"]
+  E["service metrics<br/>latency / errors / traffic / saturation"]
+
+  A --> B --> C
+  B --> D
+  C --> E

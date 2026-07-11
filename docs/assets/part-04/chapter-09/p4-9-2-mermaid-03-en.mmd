@@ -1,0 +1,9 @@
+flowchart TD
+  A["baseline 0.900"]
+  B["candidate 0.910"]
+  C["tuned 0.912"]
+
+  A --> B --> C
+  C --> D["is the gain stable on validation?"]
+  C --> E["is the added cost worth it?"]
+  C --> F["did speed or simplicity get worse?"]

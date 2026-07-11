@@ -1,0 +1,15 @@
+flowchart TD
+  A["labeled examples<br/>X and y"]
+  B["split data<br/>train / test"]
+  C["train model<br/>fit on training data"]
+  D["evaluate<br/>compare predictions with y"]
+  E["new input<br/>unlabeled case"]
+  F["prediction<br/>model output"]
+  G["service decision<br/>policy or action"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E
+  E --> F
+  F --> G

@@ -1,0 +1,9 @@
+flowchart TB
+  A["1. run policy<br/>sample actions"]
+  B["2. observe rewards<br/>which choices helped?"]
+  C["3. raise helpful action probability"]
+  D["4. lower harmful action probability"]
+  E["5. update policy parameters"]
+
+  A --> B --> C --> E
+  B --> D --> E

@@ -1,0 +1,18 @@
+flowchart TD
+  A["user requests arrive"]
+  B["traffic<br/>how much demand is coming in?"]
+  C{"is the system near capacity?"}
+  D["saturation<br/>cpu / memory / queue / connection pool fills up"]
+  E["latency rises<br/>responses become slower"]
+  F["errors rise<br/>timeouts / failed requests increase"]
+  G["user-facing reliability drops"]
+  H["latency stays stable<br/>normal user experience"]
+
+  A --> B
+  B --> C
+  C -->|yes| D
+  D --> E
+  D --> F
+  E --> G
+  F --> G
+  C -->|no| H

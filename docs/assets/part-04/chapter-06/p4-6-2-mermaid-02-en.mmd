@@ -1,0 +1,13 @@
+flowchart TD
+  A["clustering result"]
+  B["ground-truth labels available?"]
+  C["yes<br/>compare two labelings"]
+  D["no<br/>inspect cluster structure itself"]
+  E["ARI / FMI / homogeneity-completeness"]
+  F["silhouette or other internal criteria"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  D --> F

@@ -1,0 +1,10 @@
+flowchart TD
+  A["past inquiries"]
+  B["human labels exist"]
+  C["set X = inquiry features"]
+  D["set y = inquiry type"]
+  E["train a supervised model"]
+  F["predict a new inquiry"]
+  G["check unseen-data accuracy"]
+
+  A --> B --> C --> D --> E --> F --> G

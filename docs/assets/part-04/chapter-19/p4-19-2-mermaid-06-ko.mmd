@@ -1,0 +1,12 @@
+flowchart TD
+  A["robot arm state"]
+  B["policy outputs angle and force tendency"]
+  C["try a control action"]
+  D["successful grasp or slip"]
+  E["raise probability of helpful action"]
+  F["lower probability of harmful action"]
+  G["policy becomes better aligned to the task"]
+
+  A --> B --> C --> D
+  D --> E --> G
+  D --> F --> G

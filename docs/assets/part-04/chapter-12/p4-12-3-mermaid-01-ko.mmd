@@ -1,0 +1,13 @@
+flowchart TD
+  A["review query<br/>(4.0, 4.2)"]
+  B["neighbors are mixed?<br/>이웃 구성이 갈리는가"]
+  C["change k<br/>k를 바꿔 본다"]
+  D["change distance rule<br/>거리 규칙을 다시 본다"]
+  E["check scale and representation<br/>스케일과 표현을 점검한다"]
+  F["stable interpretation<br/>어디서 흔들렸는지 정리"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F

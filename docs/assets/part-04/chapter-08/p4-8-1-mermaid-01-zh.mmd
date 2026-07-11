@@ -1,0 +1,16 @@
+flowchart TD
+  subgraph R1["start from the problem"]
+    direction LR
+    A["problem statement"]
+    B["data and features"]
+    C["constraints<br/>speed / cost / explanation"]
+  end
+
+  subgraph R2["then narrow the options"]
+    direction LR
+    D["candidate models"]
+    E["compare and narrow down"]
+  end
+
+  A --> B --> C
+  C --> D --> E

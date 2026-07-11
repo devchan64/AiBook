@@ -1,0 +1,15 @@
+flowchart TB
+  A["candidate feature<br/>possible input signal"]
+  B["signal<br/>related to target?"]
+  C["noise<br/>stable enough?"]
+  D["timing<br/>available at prediction time?"]
+  E["redundancy<br/>not just repetition?"]
+  F["operations<br/>reproducible in service?"]
+  G["good feature candidate<br/>worth keeping"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F
+  F --> G

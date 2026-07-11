@@ -1,0 +1,12 @@
+flowchart TD
+  A["customer behavior columns"]
+  B["quick first pass"]
+  C["model-based repeat check"]
+  D["new compressed axes"]
+  E["filter keeps original columns"]
+  F["wrapper or RFE keeps best subset"]
+  G["dimensionality reduction rewrites representation"]
+
+  A --> B --> E
+  A --> C --> F
+  A --> D --> G

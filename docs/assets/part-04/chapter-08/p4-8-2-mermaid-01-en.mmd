@@ -1,0 +1,14 @@
+flowchart TD
+  A["churn dataset"]
+  B["baseline model<br/>always stay or dummy rule"]
+  C["candidate model<br/>uses behavior features"]
+  D["same metric<br/>accuracy / recall / F1"]
+  E["error check<br/>missed churn cases"]
+  F["meaningful gain?<br/>keep or rethink"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D
+  D --> E
+  E --> F

@@ -1,0 +1,12 @@
+flowchart TD
+  A["사기 위험 점수"]
+  B["threshold 변경"]
+  C["precision-recall 변화 확인"]
+  D["점수 자신감 확인"]
+  E["점수-빈도 일치 확인"]
+  F["라벨 없는 고객 집단 점검"]
+
+  A --> B --> C
+  A --> D
+  A --> E
+  A --> F

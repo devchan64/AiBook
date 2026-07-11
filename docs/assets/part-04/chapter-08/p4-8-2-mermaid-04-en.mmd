@@ -1,0 +1,11 @@
+flowchart TD
+  A["fraud dataset"]
+  B["always predict normal"]
+  C["accuracy looks high"]
+  D["fraud recall stays near zero"]
+  E["train a richer model"]
+  F["compare accuracy, recall, and F1"]
+  G["decide whether the gain is operationally meaningful"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G

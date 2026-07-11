@@ -1,0 +1,10 @@
+flowchart TD
+  A["train split"]
+  B["fit preprocessing<br/>learn fill values / scaling / encoding rules"]
+  C["transform train"]
+  D["test split"]
+  E["transform test<br/>reuse learned rules only"]
+
+  A --> B --> C
+  B --> E
+  D --> E

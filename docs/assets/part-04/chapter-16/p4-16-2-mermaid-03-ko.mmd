@@ -1,0 +1,10 @@
+flowchart TD
+  A["churn signals overlap"]
+  B["boosting adds more correction stages"]
+  C["borderline customers are grouped as high risk"]
+  D["coupon target widens too much"]
+  E["campaign response drops"]
+  F["recheck stopping point and target threshold"]
+
+  A --> B --> C --> D --> E
+  E --> F

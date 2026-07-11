@@ -1,0 +1,13 @@
+flowchart TB
+  A["too simple model<br/>misses important pattern"]
+  A1["underfitting"]
+  B["balanced model<br/>captures main pattern"]
+  B1["usable fit"]
+  C["too complex model<br/>fits noise too"]
+  C1["overfitting"]
+
+  A --> A1
+  A1 --> B
+  B --> B1
+  B1 --> C
+  C --> C1

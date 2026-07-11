@@ -1,0 +1,10 @@
+flowchart TD
+  A["intersection state"]
+  B["left / right / forward"]
+  C["take one action"]
+  D["observe delay or reward"]
+  E["update Q-value for that action"]
+  F["compare actions again next visit"]
+  G["higher long-run route preference"]
+
+  A --> B --> C --> D --> E --> F --> G

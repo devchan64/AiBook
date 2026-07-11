@@ -1,0 +1,15 @@
+flowchart TD
+  A["same customer table"]
+  B["classification question<br/>who may churn?"]
+  C["regression question<br/>how much will they spend?"]
+  D["clustering question<br/>which groups appear?"]
+  E["read FP / FN and F1"]
+  F["read error size<br/>MAE / RMSE"]
+  G["read group structure<br/>silhouette / interpretation"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G

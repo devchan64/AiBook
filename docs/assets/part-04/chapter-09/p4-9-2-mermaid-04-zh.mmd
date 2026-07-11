@@ -1,0 +1,12 @@
+flowchart TD
+  A["many parameter candidates"]
+  B["run every combination"]
+  C["training cost grows fast"]
+  D["keep staring at validation or test"]
+  E["comparison reliability weakens"]
+  F["compare within a controlled validation loop"]
+  G["open test only once at the end"]
+
+  A --> B --> C
+  B --> D --> E
+  A --> F --> G

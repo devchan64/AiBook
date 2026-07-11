@@ -1,0 +1,9 @@
+flowchart TB
+  A["ground truth<br/>actual class"]
+  B["model prediction<br/>predicted class"]
+  C["confusion matrix<br/>TP / FP / FN / TN"]
+  D["metrics<br/>accuracy / precision / recall"]
+
+  A --> C
+  B --> C
+  C --> D

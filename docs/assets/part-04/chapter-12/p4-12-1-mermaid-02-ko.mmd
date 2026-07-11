@@ -1,0 +1,10 @@
+flowchart TD
+  A["new customer query"]
+  B["find nearest customers"]
+  C["compare labels of neighbors"]
+  D["vote with current k"]
+  E["prediction"]
+  F["review if neighbors are mixed"]
+
+  A --> B --> C --> D --> E
+  C --> F

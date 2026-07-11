@@ -1,0 +1,11 @@
+flowchart TD
+  A["order table"]
+  B["list every possible feature"]
+  C["comparison becomes too large"]
+  D["pick a small heuristic subset first"]
+  E["build a small baseline model"]
+  F["compare with a wider feature set"]
+  G["keep or revise the heuristic"]
+
+  A --> B --> C
+  A --> D --> E --> F --> G

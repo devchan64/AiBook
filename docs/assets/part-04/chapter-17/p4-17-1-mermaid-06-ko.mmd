@@ -1,0 +1,18 @@
+flowchart TD
+  A["customer table"]
+  B["rank by purchase only"]
+  C["mixed behavior stays hidden"]
+  D["cluster by visit, spend, recency"]
+  E["frequent small buyers"]
+  F["rare big spenders"]
+  G["recently inactive customers"]
+  H["review business meaning later"]
+
+  A --> B --> C
+  A --> D
+  D --> E
+  D --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H

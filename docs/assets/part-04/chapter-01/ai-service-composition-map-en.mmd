@@ -1,0 +1,23 @@
+flowchart TD
+  U["user request"]
+  A["application"]
+  R["rule checks"]
+  S["search / database"]
+  M["ML model"]
+  L["LLM"]
+  P["policy decision"]
+  H["human review<br/>when needed"]
+  O["service response"]
+
+  U --> A
+  A --> R
+  A --> S
+  A --> M
+  A --> L
+  R --> P
+  S --> P
+  M --> P
+  L --> P
+  P --> O
+  P -. "low confidence / high risk" .-> H
+  H --> O

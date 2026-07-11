@@ -1,0 +1,11 @@
+flowchart TD
+  A["raw columns<br/>all available fields"]
+  B["feature selection<br/>keep / drop / postpone"]
+  C["selected features<br/>usable input set"]
+  D["preprocessing<br/>scale / fill / encode"]
+  E["model input<br/>ready for training"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

@@ -1,0 +1,15 @@
+flowchart TD
+  A["training data"]
+  B["tree 1<br/>bootstrap + random features"]
+  C["tree 2<br/>bootstrap + random features"]
+  D["tree 3<br/>bootstrap + random features"]
+  E["aggregate predictions<br/>vote or average"]
+  F["final prediction"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> E
+  D --> E
+  E --> F

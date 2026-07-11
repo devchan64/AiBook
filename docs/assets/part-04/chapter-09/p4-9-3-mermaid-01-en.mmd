@@ -1,0 +1,10 @@
+flowchart TD
+  A["many model and tuning runs"]
+  B["only top scores remain"]
+  C["comparison becomes hard to explain"]
+  D["store data version, preprocessing, params, metric, time"]
+  E["retrace why one run won"]
+  F["reuse benchmark or tracking records later"]
+
+  A --> B --> C
+  A --> D --> E --> F

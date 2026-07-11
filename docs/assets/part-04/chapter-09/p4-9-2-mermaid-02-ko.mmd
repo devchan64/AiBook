@@ -1,0 +1,12 @@
+flowchart TD
+  subgraph A["후보 그리드"]
+    B["max_depth: 4개 값"]
+    C["min_samples_split: 5개 값"]
+    D["criterion: 2개 값"]
+  end
+
+  B --> E["40 combinations"]
+  C --> E
+  D --> E
+  E --> F["5-fold cross-validation"]
+  F --> G["200 training runs"]

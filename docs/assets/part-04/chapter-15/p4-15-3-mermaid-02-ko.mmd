@@ -1,0 +1,9 @@
+flowchart TB
+  A["train score<br/>did it fit what it saw?"]
+  B["OOB score<br/>how does unseen-per-tree data look?"]
+  C["test score<br/>how does held-out data look?"]
+  D["read the gaps<br/>underfit / overfit / stable"]
+
+  A --> D
+  B --> D
+  C --> D

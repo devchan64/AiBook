@@ -1,0 +1,11 @@
+flowchart TB
+  A["state<br/>robot arm position"]
+  B["policy output<br/>distribution or control"]
+  C["small left turn"]
+  D["small right turn"]
+  E["stronger push"]
+
+  A --> B
+  B --> C
+  B --> D
+  B --> E

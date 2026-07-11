@@ -1,0 +1,9 @@
+flowchart TB
+  A["raw input<br/>missing / scale gap / category text"]
+  B["diagnose input issue<br/>can it be computed?<br/>is comparison fair?<br/>can rules be reused?"]
+  C["choose preprocessing rule<br/>impute / scale / encode"]
+  D["consistent model input<br/>train and test use the same rule"]
+
+  A --> B
+  B --> C
+  C --> D

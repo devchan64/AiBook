@@ -1,0 +1,11 @@
+flowchart TD
+  A["defect image model"]
+  B["train score almost perfect"]
+  C["validation score drops"]
+  D["suspect overfitting"]
+  E["both train and validation stay low"]
+  F["suspect underfitting"]
+  G["decide whether to simplify or strengthen the model"]
+
+  A --> B --> C --> D --> G
+  A --> E --> F --> G

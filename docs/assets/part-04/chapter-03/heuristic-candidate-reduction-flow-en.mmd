@@ -1,0 +1,12 @@
+flowchart TB
+  A["many possible choices<br/>features / models / settings"]
+  B["heuristic<br/>use experience and constraints"]
+  C["smaller candidate set<br/>try first"]
+  D["validation<br/>check with data"]
+  E["revise<br/>keep, change, or discard"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> B

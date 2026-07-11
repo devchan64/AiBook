@@ -1,0 +1,10 @@
+flowchart TD
+  A["사용자 요청"]
+  B["모델 출력"]
+  C["서비스 응답"]
+  D["모델 지표<br/>accuracy / precision / recall / RMSE"]
+  E["서비스 지표<br/>latency / errors / traffic / saturation"]
+
+  A --> B --> C
+  B --> D
+  C --> E

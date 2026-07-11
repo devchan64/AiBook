@@ -1,0 +1,7 @@
+flowchart TD
+  A["input point (exam_1, exam_2)"]
+  A --> B["linear score z"]
+  B --> C{"z vs 0"}
+  C -->|z < 0| D["class 0 side"]
+  C -->|z > 0| E["class 1 side"]
+  C -->|z = 0| F["boundary"]

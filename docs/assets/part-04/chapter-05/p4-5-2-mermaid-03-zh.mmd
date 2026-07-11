@@ -1,0 +1,13 @@
+flowchart TD
+  A["past-user recommendation data"]
+  B["model fits familiar users well"]
+  C["new or shifted users appear"]
+  D["compare unseen-user performance"]
+  E["small gap"]
+  F["large gap"]
+  G["generalization looks stable"]
+  H["model may rely on old patterns too much"]
+
+  A --> B --> C --> D
+  D --> E --> G
+  D --> F --> H

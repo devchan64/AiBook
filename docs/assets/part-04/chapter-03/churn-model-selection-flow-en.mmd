@@ -1,0 +1,19 @@
+flowchart TD
+  A["churn problem<br/>predict leave / stay"]
+  B["task type<br/>classification"]
+  C["constraints<br/>interpretability / tabular data / cost"]
+  D["baseline first<br/>logistic regression"]
+  E["tree candidate<br/>decision tree"]
+  F["stronger ensemble<br/>random forest"]
+  G["compare with validation<br/>recall / precision / cost"]
+  H["keep or expand set<br/>record why"]
+
+  A --> B
+  B --> C
+  C --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> G
+  F --> G
+  G --> H

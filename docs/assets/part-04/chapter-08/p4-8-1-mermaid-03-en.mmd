@@ -1,0 +1,19 @@
+flowchart TD
+  A["churn prediction task"]
+  B["tabular behavior data"]
+  C["need explanation"]
+  D["daily batch inference"]
+  E["linear candidate<br/>logistic regression"]
+  F["interpretable rule candidate<br/>decision tree"]
+  G["strong nonlinear candidate<br/>random forest"]
+  H["compare shortlist<br/>before tuning"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  C --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H

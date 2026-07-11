@@ -1,0 +1,10 @@
+flowchart TD
+  subgraph S1["without scaling"]
+    direction LR
+    A1["large-scale feature<br/>큰 숫자 축"] --> B1["distance mostly follows this axis"]
+  end
+
+  subgraph S2["after scaling"]
+    direction LR
+    A2["features on comparable scale<br/>비교 가능한 범위"] --> B2["distance can use both features"]
+  end

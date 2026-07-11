@@ -1,0 +1,12 @@
+flowchart TD
+  A["customer churn table"]
+  B["single tree reacts to rare cases"]
+  C["bootstrap different samples"]
+  D["random feature subsets"]
+  E["many trees vote together"]
+  F["more stable churn decision"]
+
+  A --> B
+  A --> C --> E
+  A --> D --> E
+  E --> F

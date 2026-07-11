@@ -1,0 +1,11 @@
+flowchart TD
+  A["many churn columns"]
+  B["include IDs and after-the-fact fields"]
+  C["score may look high from leakage"]
+  D["keep only usable signals at prediction time"]
+  E["remove IDs, labels, post-outcome fields"]
+  F["recheck validation score"]
+  G["explain why the kept feature list is safer"]
+
+  A --> B --> C
+  A --> D --> E --> F --> G

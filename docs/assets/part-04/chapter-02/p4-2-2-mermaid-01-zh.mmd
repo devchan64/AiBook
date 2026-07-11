@@ -1,0 +1,15 @@
+flowchart TD
+  A["customer table<br/>visits / purchases / amount / coupon use"]
+  B["cluster candidates<br/>active / browsing / dormant"]
+  C["reduced view<br/>2D map of behavior"]
+  D["outlier candidate<br/>unusual purchase pattern"]
+  E["human interpretation<br/>name and inspect"]
+  F["next task<br/>analysis or supervised learning"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> E
+  D --> E
+  E --> F

@@ -1,0 +1,8 @@
+flowchart TB
+  A["1. observe state<br/>current state s"]
+  B["2. choose action<br/>try action a"]
+  C["3. receive reward<br/>reward r and next state s'"]
+  D["4. estimate future value<br/>what looks good next?"]
+  E["5. update Q-value<br/>revise Q(s, a)"]
+
+  A --> B --> C --> D --> E --> A

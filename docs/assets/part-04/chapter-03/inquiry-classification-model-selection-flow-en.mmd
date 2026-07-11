@@ -1,0 +1,11 @@
+flowchart TD
+  A["inquiry classification problem"]
+  B["rule-based start point"]
+  C["too many misses from wording changes"]
+  D["try a simple baseline model first"]
+  E["compare with tree or stronger candidates"]
+  F["check precision and recall by class"]
+  G["keep the shortlist or expand it"]
+
+  A --> B --> C
+  C --> D --> E --> F --> G

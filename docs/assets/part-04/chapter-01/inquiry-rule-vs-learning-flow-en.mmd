@@ -1,0 +1,12 @@
+flowchart TD
+  A["customer inquiry"]
+  B["match a hand-written keyword rule"]
+  C["phrasing changes or mixed intent appears"]
+  D["rule path becomes brittle"]
+  E["collect labeled past inquiries"]
+  F["learn input-label relation"]
+  G["test on unseen inquiries"]
+  H["decide whether generalization is good enough"]
+
+  A --> B --> C --> D
+  A --> E --> F --> G --> H

@@ -1,0 +1,12 @@
+flowchart TD
+  A["chatbot release"]
+  B["offline quality rises"]
+  C["user complaints stay high"]
+  D["check latency and timeout"]
+  E["check answer quality"]
+  F["service issue"]
+  G["model issue"]
+
+  A --> B --> C
+  C --> D --> F
+  C --> E --> G

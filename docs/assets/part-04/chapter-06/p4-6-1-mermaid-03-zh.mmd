@@ -1,0 +1,12 @@
+flowchart TD
+  A["inspection images"]
+  B["model prediction"]
+  C["confusion matrix"]
+  D["many false alarms"]
+  E["many missed defects"]
+  F["check precision first"]
+  G["check recall first"]
+
+  A --> B --> C
+  C --> D --> F
+  C --> E --> G

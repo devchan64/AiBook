@@ -1,0 +1,11 @@
+flowchart TB
+  A["baseline"]
+  B["candidate model"]
+  C["compare before tuning"]
+  D["tuning after comparison"]
+  E["complex model first"]
+  F["tuning without baseline"]
+  G["score change, but unclear meaning"]
+
+  A --> B --> C --> D
+  E --> F --> G

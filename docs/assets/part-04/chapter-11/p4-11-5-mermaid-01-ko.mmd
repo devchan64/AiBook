@@ -1,0 +1,10 @@
+flowchart TD
+  A["same model name"]
+  B["solver changes"]
+  C["regularization changes"]
+  D["training path and coefficients differ"]
+  E["comparison needs explicit record"]
+
+  A --> B --> D
+  A --> C --> D
+  D --> E
