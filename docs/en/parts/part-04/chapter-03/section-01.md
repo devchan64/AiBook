@@ -49,18 +49,7 @@ In this situation, the idea `let's try every possible combination all the way th
 A heuristic reduces the candidates needed to solve the problem. Instead of going down every path, it selects the paths worth examining first.
 
 ```mermaid
-flowchart TB
-  A["many possible choices<br/>features / models / settings"]
-  B["heuristic<br/>use experience and constraints"]
-  C["smaller candidate set<br/>try first"]
-  D["validation<br/>check with data"]
-  E["revise<br/>keep, change, or discard"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> B
+--8<-- "assets/part-04/chapter-03/heuristic-candidate-reduction-flow-en.mmd"
 ```
 
 In this diagram, the heuristic is not the final conclusion. It is the method for selecting the candidates to try first. Once real data are used for validation, the heuristic must be changed if it does not fit.
@@ -164,17 +153,7 @@ Here the heuristic becomes the working hypothesis `before feeding in every possi
 Whether that judgment is right still has to be checked through validation. You compare the performance of the chosen feature set with a wider feature set, and confirm whether the criteria that people considered important are also real signals in the data. If the results are similar, the simple starting point was useful. If the gap is large, the heuristic should be revised.
 
 ```mermaid
-flowchart TD
-  A["order table"]
-  B["list every possible feature"]
-  C["comparison becomes too large"]
-  D["pick a small heuristic subset first"]
-  E["build a small baseline model"]
-  F["compare with a wider feature set"]
-  G["keep or revise the heuristic"]
-
-  A --> B --> C
-  A --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-03/return-risk-heuristic-flow-en.mmd"
 ```
 
 ## Perspective To Remember In This Section

@@ -1,7 +1,7 @@
 # P4-17.3 보충학습: 계층적 군집화와 스펙트럴 클러스터링을 처음 구분하는 법
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니다.
 
@@ -57,21 +57,7 @@ P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니�
 이때 계층적 군집화는 `A와 B가 먼저 합쳐지고, C와 D가 합쳐진 뒤, 마지막에 두 묶음이 더 큰 묶음으로 합쳐진다`는 순서를 보여 줄 수 있습니다.
 
 ```mermaid
-flowchart TB
-  A["A"]
-  B["B"]
-  C["C"]
-  D["D"]
-  AB["A+B"]
-  CD["C+D"]
-  ALL["(A+B)+(C+D)"]
-
-  A --> AB
-  B --> AB
-  C --> CD
-  D --> CD
-  AB --> ALL
-  CD --> ALL
+--8<-- "assets/part-04/chapter-17/p4-17-3-mermaid-01-ko.mmd"
 ```
 
 이 도식의 핵심은 `최종 군집 수`보다 `합쳐지는 순서`입니다. 그래서 계층적 군집화는 `몇 개로 자를지 아직 확정하지 않았지만, 가까워지는 구조를 먼저 보고 싶다`는 장면에서 자연스럽게 떠오릅니다.
@@ -97,13 +83,7 @@ flowchart TB
 예를 들어 반달 모양처럼 휘어진 두 무리가 있다고 해 보겠습니다. 이런 장면에서는 중심 기반인 k-means가 경계를 곧게 잘라 버릴 수 있지만, 연결 구조를 본다면 같은 곡선 위의 점들을 한 묶음으로 읽는 편이 더 자연스러울 수 있습니다.
 
 ```mermaid
-flowchart LR
-  A["points"]
-  B["build similarity graph"]
-  C["find connected structure"]
-  D["split graph into groups"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-17/p4-17-3-mermaid-02-ko.mmd"
 ```
 
 이 흐름의 핵심은 `원래 좌표를 그대로 자르는가`가 아니라, `연결 관계를 새 표현으로 만든 뒤 그 구조를 끊는가`입니다. 그래서 스펙트럴 클러스터링은 `복잡한 모양인데도 연결은 또렷한가`를 먼저 묻는 장면에서 떠오릅니다.
@@ -158,14 +138,7 @@ flowchart LR
 즉, 이 장면에서 중요한 것은 정답 군집 수를 자동으로 찾는 일이 아니라, `묶음이 자라는 순서`를 보고 해석 후보를 더 신중하게 세우는 일입니다.
 
 ```mermaid
-flowchart TD
-  A["customer behavior table"]
-  B["fixed k is still unclear"]
-  C["inspect which groups merge first"]
-  D["compare 2-group and 4-group cuts"]
-  E["review segment meaning with domain context"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-17/p4-17-3-mermaid-03-ko.mmd"
 ```
 
 ### 사례 2. 굽은 이동 경로 패턴을 중심점으로는 잘 자르기 어려울 때
@@ -173,14 +146,7 @@ flowchart TD
 위치 로그나 이동 궤적처럼 데이터가 길게 휘어진 모양을 띠면, k-means는 중심점 기준으로 곧게 잘라 버릴 수 있습니다. 이런 장면에서는 `같은 곡선 위에서 연결된 점들`을 더 중요하게 보고 싶은 경우가 생기고, 이때 스펙트럴 클러스터링을 떠올릴 수 있습니다. 즉, `가까운 중심`보다 `같은 구조 안에서 이어져 있는가`가 더 중요한 문제 장면입니다.
 
 ```mermaid
-flowchart TD
-  A["curved trajectory points"]
-  B["center-based cut looks awkward"]
-  C["inspect neighborhood connections"]
-  D["split by connected structure"]
-  E["review whether the curve stays intact"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-17/p4-17-3-mermaid-04-ko.mmd"
 ```
 
 두 사례를 함께 보면 차이는 더 선명해집니다.

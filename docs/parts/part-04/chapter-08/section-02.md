@@ -88,20 +88,7 @@ P4-8.1에서 우리는 후보 모델군을 세웠습니다. 하지만 후보군�
 고객 이탈 사례로 바꾸면 baseline은 `점수 하나`보다 `지금 모델이 정말 쉬운 기준을 넘었는가`를 읽는 분기점으로 보입니다.
 
 ```mermaid
-flowchart TD
-  A["이탈 데이터셋"]
-  B["기준 모델<br/>항상 유지 또는 dummy 규칙"]
-  C["후보 모델<br/>행동 특징 사용"]
-  D["같은 지표<br/>accuracy / recall / F1"]
-  E["오류 점검<br/>놓친 이탈 사례"]
-  F["의미 있는 향상인가?<br/>유지 또는 재검토"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-01-ko.mmd"
 ```
 
 또 한 가지를 분리해서 기억할 필요가 있습니다. `기준 모델(baseline model)`과 `비교 기준선(baseline reference)`은 같은 문맥에서 만나지만 완전히 같은 대상은 아닙니다. 전자는 가장 단순한 예측기를 뜻하는 경우가 많고, 후자는 최근 결과를 평소 구간과 나란히 놓는 비교 프레임까지 포함할 수 있습니다. 이 절에서는 두 의미를 구분해 두어야 Part 6에서 프로젝트 회고 문서를 쓸 때도 문장이 헷갈리지 않습니다.
@@ -224,23 +211,7 @@ baseline이 없으면 높은 수치가 곧 좋은 모델처럼 보일 수 있습
 이 차이를 가장 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  subgraph M2["baseline과 함께 점수 읽기"]
-    direction LR
-    C["baseline 0.90"]
-    D["모델 0.91"]
-    E["작은 향상<br/>실제로 쓸 만한지 확인"]
-  end
-
-  subgraph M1["baseline 없이 점수 읽기"]
-    direction LR
-    A["점수 0.91"]
-    B["좋아 보임"]
-  end
-
-  E --> A
-  A --> B
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-02-ko.mmd"
 ```
 
 이 도식의 핵심은 같은 숫자도 baseline이 있을 때와 없을 때 전혀 다르게 읽힌다는 점입니다.
@@ -286,17 +257,7 @@ flowchart TD
 하지만 baseline이 없으면 이 개선이 정말 의미 있는지 알 수 없습니다.
 
 ```mermaid
-flowchart TB
-  A["baseline"]
-  B["후보 모델"]
-  C["튜닝 전에 먼저 비교"]
-  D["비교 후 튜닝"]
-  E["복잡한 모델부터 시작"]
-  F["baseline 없이 튜닝"]
-  G["점수는 변하지만 의미가 불분명"]
-
-  A --> B --> C --> D
-  E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-03-ko.mmd"
 ```
 
 이 도식은 먼저 baseline을 세우고 후보 모델을 비교한 뒤에 튜닝으로 들어가야 한다는 순서와, baseline 없이 바로 복잡한 모델을 튜닝하면 점수 변화의 의미를 해석하기 어려워진다는 점을 함께 보여 줍니다.
@@ -331,17 +292,7 @@ scikit-learn의 dummy 계열 모델은 교육적으로 특히 유용합니다.
 확인 가능한 결과는 같은 지표로 baseline과 실제 모델을 나란히 비교할 때 드러납니다. 정확도만이 아니라 recall, F1까지 함께 놓고 보면 왜 baseline이 `낮은 성능 모델`이 아니라 `점수 해석 기준선`인지 분명해집니다.
 
 ```mermaid
-flowchart TD
-  A["사기 탐지 데이터셋"]
-  B["항상 정상이라고 예측"]
-  C["accuracy는 높아 보임"]
-  D["사기 recall은 거의 0"]
-  E["더 풍부한 모델 학습"]
-  F["accuracy, recall, F1 비교"]
-  G["향상이 운영상 의미 있는지 판단"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-ko.mmd"
 ```
 
 ## 이 절에서 기억할 관점

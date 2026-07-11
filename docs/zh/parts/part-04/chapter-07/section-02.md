@@ -226,14 +226,7 @@ scikit-learn 的预处理文档说明，它提供了多种函数和 transformer�
 要真正理解预处理，还得同时抓住：这种翻译通常会按下面的顺序发生。
 
 ```mermaid
-flowchart LR
-  A["raw table<br/>missing / mixed scales / category text"]
-  B["split first<br/>train / validation / test"]
-  C["learn preprocessing rules on train<br/>fill values / scaling stats / category map"]
-  D["transform rows with same rules"]
-  E["model-ready matrix"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-01-zh.mmd"
 ```
 
 这个流程的核心有四点。
@@ -552,15 +545,7 @@ scikit-learn 的预处理文档说明，线性模型(linear models)等很多学�
 把这个流程画成最简单的图，大概就是下面这样。
 
 ```mermaid
-flowchart TB
-  A["raw input<br/>missing / scale gap / category text"]
-  B["diagnose input issue<br/>can it be computed?<br/>is comparison fair?<br/>can rules be reused?"]
-  C["choose preprocessing rule<br/>impute / scale / encode"]
-  D["consistent model input<br/>train and test use the same rule"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-02-zh.mmd"
 ```
 
 这张图的核心是：预处理不是 `背技术应用顺序`，而是 `诊断输入问题 -> 选择变换规则 -> 重构一致输入` 的流程。
@@ -615,16 +600,7 @@ scikit-learn 的 common pitfalls 文档强烈建议下面这些做法。
 如果简化来看，大致就是下面这样。
 
 ```mermaid
-flowchart TD
-  A["train split"]
-  B["fit preprocessing<br/>learn fill values / scaling / encoding rules"]
-  C["transform train"]
-  D["test split"]
-  E["transform test<br/>reuse learned rules only"]
-
-  A --> B --> C
-  B --> E
-  D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-03-zh.mmd"
 ```
 
 这张图最核心的是：`fit` 只会在训练数据上发生一次。
@@ -710,21 +686,7 @@ scikit-learn 的 `Pipeline` 文档展示了怎样把 `fit` 和 `transform` 这�
 如果把这个案例画成流程图，就更容易看出：预处理不是清洗一次数据，而是 `按列状态立规则，再重复使用同一规则的过程`。
 
 ```mermaid
-flowchart TD
-  A["customer table<br/>missing / numeric / category mixed"]
-  B["missing-value rule<br/>fill from train statistics"]
-  C["numeric rule<br/>scale selected columns"]
-  D["category rule<br/>encode channel / grade"]
-  E["same transform rules<br/>reuse on validation / test"]
-  F["comparable model input"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-04-zh.mmd"
 ```
 
 ## 案例及示例

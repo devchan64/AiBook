@@ -81,15 +81,7 @@ validation data 是在选模型过程中使用的数据。例如，它会用于�
 在这三个候选之间决定哪个更好时，用的就是 validation data。因为现在还不是公布最终部署模型的阶段，而是 `先找到更好候选` 的阶段。
 
 ```mermaid
-flowchart TB
-  A["training data<br/>fit model"]
-  B["validation data<br/>compare choices"]
-  C["pick one model and setting"]
-  D["test data<br/>final check once"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-04/p4-4-2-mermaid-01-zh.mmd"
 ```
 
 在这张图里，validation data 位于 model 最终固定之前。它会反复出现在 `改实验 -> 再看 -> 再改 -> 再看` 的循环里。
@@ -177,17 +169,7 @@ validation data 和 test data 的区分，只要先问 `现在这个问题是为
 真正可检查的结果，会出现在实验记录里。如果先根据候选各自的 validation 分数做出最终选择，然后只在最后看一次 test 分数，你就能分清：哪些数字是为了做选择，哪些数字是为了做最终确认。反过来，如果 test 分数被反复记录、并用来改选择，那么那份 test 结果就不再适合作为最终确认依据。
 
 ```mermaid
-flowchart TD
-  A["spam dataset"]
-  B["check test score early"]
-  C["change features or settings again"]
-  D["test becomes part of selection"]
-  E["use validation for candidate choice"]
-  F["freeze one final model"]
-  G["open test once at the end"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-04/p4-4-2-mermaid-02-zh.mmd"
 ```
 
 ### 再用一个小表把角色分开
@@ -216,21 +198,7 @@ flowchart TD
 即使面对同一张客户流失表，只要问题变了，数据的角色就会变。下面这张图展示的，就是为什么 `挑候选的阶段` 和 `最后确认的阶段` 不应该共享同一块数据。
 
 ```mermaid
-flowchart TD
-  A["customer churn table"]
-  B["train split<br/>fit several models"]
-  C["validation split<br/>choose depth / features / model"]
-  D["final candidate"]
-  E["test split<br/>open once at the end"]
-  F["reported final result"]
-
-  A --> B
-  A --> C
-  A --> E
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-04/p4-4-2-mermaid-03-zh.mmd"
 ```
 
 ## 练习与示例

@@ -128,15 +128,7 @@ The range of generalization becomes easier to organize when you first ask `how f
 The range can be visualized like this.
 
 ```mermaid
-flowchart TB
-  A["same task<br/>same meaning"]
-  B["same task<br/>new samples"]
-  C["same task<br/>condition shift"]
-  D["different task or meaning"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-01-en.mmd"
 ```
 
 This diagram divides the range that generalization points to. The most direct test of generalization happens on new samples of the same problem, and as you move toward condition shifts or entirely different tasks, it becomes harder to group everything under the same generalization claim.
@@ -172,15 +164,7 @@ The reason validation and test were separated in P4-4.2 was also generalization 
 - test data: a tool for checking one last time whether the final choice really holds up on new data
 
 ```mermaid
-flowchart TB
-  A["training data<br/>learn pattern"]
-  B["validation data<br/>compare candidates"]
-  C["test data<br/>final check"]
-  D["future unseen data<br/>real use"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-02-en.mmd"
 ```
 
 This diagram shows that train, validation, and test all exist in the end to estimate future unseen data in advance. Generalization should be read not as if validation or test score itself were the final goal, but as part of the full flow that asks how much the model will hold up on actual unseen data in real use.
@@ -227,19 +211,7 @@ From the perspective of generalization, the question changes. What matters is no
 The checkable result appears when you compare scores from a familiar user group and scores from a new user group. That lets you read how stably the model remains inside the same problem. If the gap is small, generalization is relatively preserved. If the gap is large, you need to check again whether the model adapted too strongly only to old patterns.
 
 ```mermaid
-flowchart TD
-  A["past-user recommendation data"]
-  B["model fits familiar users well"]
-  C["new or shifted users appear"]
-  D["compare unseen-user performance"]
-  E["small gap"]
-  F["large gap"]
-  G["generalization looks stable"]
-  H["model may rely on old patterns too much"]
-
-  A --> B --> C --> D
-  D --> E --> G
-  D --> F --> H
+--8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-03-en.mmd"
 ```
 
 ### Example 1. Reading Generalization Again Through Recommendation Systems And Price Prediction

@@ -226,14 +226,7 @@ scikit-learn 전처리 문서는 `raw feature vectors`를 다운스트림 추정
 전처리를 진짜로 이해하려면, 이 번역이 보통 다음 순서로 일어난다는 점도 함께 잡아야 합니다.
 
 ```mermaid
-flowchart LR
-  A["원시 표<br/>결측 / 다른 스케일 / 범주형 텍스트"]
-  B["먼저 분할<br/>train / validation / test"]
-  C["train에서 전처리 규칙 학습<br/>채울 값 / 스케일 통계 / 범주 맵"]
-  D["같은 규칙으로 행 변환"]
-  E["모델 입력용 행렬"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-01-ko.mmd"
 ```
 
 이 흐름의 핵심은 네 가지입니다.
@@ -552,15 +545,7 @@ scikit-learn 전처리 문서는 선형 모델(linear models) 같은 여러 학�
 이 흐름을 가장 단순한 도식으로 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["원시 입력<br/>결측 / 스케일 차이 / 범주형 텍스트"]
-  B["입력 문제 진단<br/>계산 가능한가?<br/>비교가 공정한가?<br/>규칙 재사용이 가능한가?"]
-  C["전처리 규칙 선택<br/>보정 / 스케일 / 인코딩"]
-  D["일관된 모델 입력<br/>train과 test가 같은 규칙 사용"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-02-ko.mmd"
 ```
 
 이 도식의 핵심은 전처리가 `기술 적용 순서 암기`가 아니라 `입력 문제 진단 -> 변환 규칙 선택 -> 일관된 입력 재구성`의 흐름이라는 점입니다.
@@ -615,16 +600,7 @@ scikit-learn의 common pitfalls 문서는 다음을 강하게 권고합니다.
 이를 단순화하면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["train 분할"]
-  B["전처리 fit<br/>채울 값 / 스케일 / 인코딩 규칙 학습"]
-  C["train 변환"]
-  D["test 분할"]
-  E["test 변환<br/>학습한 규칙만 재사용"]
-
-  A --> B --> C
-  B --> E
-  D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-03-ko.mmd"
 ```
 
 이 도식의 핵심은 `fit`이 한 번만 훈련 데이터에서 일어난다는 점입니다.
@@ -710,21 +686,7 @@ scikit-learn의 `Pipeline` 문서는 `fit`과 `transform` 단계를 연결해 �
 이 사례를 흐름으로 그리면, 전처리는 데이터 청소 한 번이 아니라 `칼럼 상태별 규칙을 세우고 같은 규칙을 다시 쓰는 과정`이라는 점이 더 잘 보입니다.
 
 ```mermaid
-flowchart TD
-  A["고객 표<br/>결측 / 수치형 / 범주형이 섞임"]
-  B["결측치 규칙<br/>train 통계로 채움"]
-  C["수치형 규칙<br/>선택 칼럼 스케일 조정"]
-  D["범주형 규칙<br/>채널 / 등급 인코딩"]
-  E["같은 변환 규칙<br/>validation / test에 재사용"]
-  F["비교 가능한 모델 입력"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-04-ko.mmd"
 ```
 
 ## 사례 및 예시

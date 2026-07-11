@@ -53,25 +53,7 @@
 把这个判断画成案例流程后，就会更清楚地看到：model selection 不是 `挑名字`，而是 `根据问题与约束先缩小候选，再做一个小比较集合`。
 
 ```mermaid
-flowchart TD
-  A["流失问题<br/>预测流失 / 留存"]
-  B["任务类型<br/>分类"]
-  C["约束条件<br/>可解释性 / 表格数据 / 成本"]
-  D["先立基准模型<br/>logistic regression"]
-  E["树模型候选<br/>decision tree"]
-  F["更强的集成候选<br/>random forest"]
-  G["用验证比较<br/>recall / precision / 成本"]
-  H["保留或扩展候选集<br/>记录原因"]
-
-  A --> B
-  B --> C
-  C --> D
-  C --> E
-  C --> F
-  D --> G
-  E --> G
-  F --> G
-  G --> H
+--8<-- "assets/part-04/chapter-03/churn-model-selection-flow-zh.mmd"
 ```
 
 ## 模型选择是缩小候选集的过程
@@ -79,20 +61,7 @@ flowchart TD
 model selection 通常会按下面这样的流程推进。
 
 ```mermaid
-flowchart TB
-  A["问题类型<br/>分类 / 回归 / 聚类"]
-  B["约束条件<br/>数据规模 / 可解释性 / 成本"]
-  C["基准模型<br/>先从简单模型开始"]
-  D["候选模型<br/>要比较的小集合"]
-  E["验证<br/>按约定指标比较"]
-  F["决策记录<br/>为什么保留或更换"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
-  F --> D
+--8<-- "assets/part-04/chapter-03/model-selection-basic-flow-zh.mmd"
 ```
 
 这里最重要的一点是：它并不试图一步就猜中最终 model。它会先看问题类型，再确认约束，再立 baseline，然后比较一个小候选集合。如果 validation 结果不好，就再次调整候选集合。
@@ -200,17 +169,7 @@ baseline 会在 P4-8.2 里更详细地处理。这里先只把它当成 model-se
 真正可检查的结果也很明确。你可以比较 baseline model 和 rule-based classifier 的错误类型，再看各个 class 的 precision 和 recall，就能知道到底是哪一类咨询得到了改善。如果 baseline 已经能稳定抓住大多数重复咨询，就可以把更复杂 model 延后。反之，如果在表达变化很大的咨询上持续出错，就应该考虑更强的表示模型。
 
 ```mermaid
-flowchart TD
-  A["咨询分类问题"]
-  B["规则型起点"]
-  C["措辞变化导致漏判过多"]
-  D["先试简单基准模型"]
-  E["与树模型或更强候选比较"]
-  F["检查各类 precision 和 recall"]
-  G["保留候选短名单或继续扩展"]
-
-  A --> B --> C
-  C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-03/inquiry-classification-model-selection-flow-zh.mmd"
 ```
 
 ## 本节要记住的视角

@@ -226,14 +226,7 @@ In short, if feature selection is `deciding the entrance`, preprocessing is `tra
 To understand preprocessing for real, readers also need to grasp that this translation usually happens in the following order.
 
 ```mermaid
-flowchart LR
-  A["raw table<br/>missing / mixed scales / category text"]
-  B["split first<br/>train / validation / test"]
-  C["learn preprocessing rules on train<br/>fill values / scaling stats / category map"]
-  D["transform rows with same rules"]
-  E["model-ready matrix"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-01-en.mmd"
 ```
 
 The core points of this flow are four.
@@ -552,15 +545,7 @@ In other words, in the field people usually think in the following order.
 If this flow is drawn as the simplest diagram, it looks like the following.
 
 ```mermaid
-flowchart TB
-  A["raw input<br/>missing / scale gap / category text"]
-  B["diagnose input issue<br/>can it be computed?<br/>is comparison fair?<br/>can rules be reused?"]
-  C["choose preprocessing rule<br/>impute / scale / encode"]
-  D["consistent model input<br/>train and test use the same rule"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-02-en.mmd"
 ```
 
 The core of this diagram is that preprocessing is not `memorizing the order of technique application`, but the flow of `diagnose input problem -> choose transformation rule -> reconstruct consistent input`.
@@ -615,16 +600,7 @@ The scikit-learn common pitfalls documentation strongly recommends the following
 Simplified, this means the following.
 
 ```mermaid
-flowchart TD
-  A["train split"]
-  B["fit preprocessing<br/>learn fill values / scaling / encoding rules"]
-  C["transform train"]
-  D["test split"]
-  E["transform test<br/>reuse learned rules only"]
-
-  A --> B --> C
-  B --> E
-  D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-03-en.mmd"
 ```
 
 The core of this diagram is that `fit` happens only once on the training data.
@@ -710,21 +686,7 @@ The confirmable results appear in the comparison before and after preprocessing 
 If this case is drawn as a flow, it becomes easier to see that preprocessing is not one round of data cleaning, but `the process of setting rules by column condition and reusing the same rules`.
 
 ```mermaid
-flowchart TD
-  A["customer table<br/>missing / numeric / category mixed"]
-  B["missing-value rule<br/>fill from train statistics"]
-  C["numeric rule<br/>scale selected columns"]
-  D["category rule<br/>encode channel / grade"]
-  E["same transform rules<br/>reuse on validation / test"]
-  F["comparable model input"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-07/p4-7-2-mermaid-04-en.mmd"
 ```
 
 ## Cases And Examples

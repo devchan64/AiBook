@@ -95,17 +95,7 @@ If the baseline predicts `always non-churn`, accuracy can become 90%. But what m
 | error to check immediately | cases where actual churn customers were missed |
 
 ```mermaid
-flowchart TD
-  A["churn data"]
-  B["baseline: always stay"]
-  C["accuracy looks high"]
-  D["churn recall is 0"]
-  E["candidate model"]
-  F["compare accuracy, recall, F1"]
-  G["check missed churn cases"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-3-mermaid-01-en.mmd"
 ```
 
 The key point of this case is that the baseline matters not because it is a low model, but because it is `the standard that immediately reveals the accuracy illusion`.

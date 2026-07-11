@@ -35,22 +35,7 @@ P4-6.1에서는 평가 지표(metric)가 단순 점수판이 아니라, 무엇�
 scikit-learn 문서는 평가 함수를 문제 목적별로 나누어 설명합니다. 분류 지표(classification metrics), 회귀 지표(regression metrics), 군집화 지표(clustering metrics)가 따로 있다는 점 자체가 중요한 힌트입니다. 같은 `성능`이라는 말 아래에 서로 다른 질문이 숨어 있다는 뜻입니다.
 
 ```mermaid
-flowchart TB
-  A["문제 유형"]
-  B["분류<br/>클래스를 고름"]
-  C["회귀<br/>숫자를 예측"]
-  D["군집화<br/>비슷한 샘플을 묶음"]
-
-  E["오류 종류로 읽기<br/>accuracy / precision / recall / F1"]
-  F["오차 크기로 읽기<br/>MAE / MSE / RMSE / R2"]
-  G["묶음 품질 읽기<br/>라벨 일치도 또는 silhouette"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 문제 유형을 먼저 고르면, 그다음에 읽어야 할 평가 질문도 자연스럽게 달라진다는 점을 보여 줍니다. 여기서 먼저 읽어야 할 것은 지표 이름보다 `지금 다루는 출력이 범주인가, 숫자인가, 묶음인가`라는 구분입니다.
@@ -226,19 +211,7 @@ scikit-learn 문서는 군집화 성능 평가를 설명하면서, 이것이 지
 이 차이가 매우 중요합니다.
 
 ```mermaid
-flowchart TD
-  A["군집화 결과"]
-  B["정답 라벨이 있는가?"]
-  C["예<br/>두 라벨링 비교"]
-  D["아니오<br/>군집 구조 자체를 점검"]
-  E["ARI / FMI / homogeneity-completeness"]
-  F["silhouette 또는 다른 내부 기준"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  D --> F
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-02-ko.mmd"
 ```
 
 이 도식의 핵심은 군집화 평가가 처음부터 두 갈래라는 점입니다. 사람의 정답 라벨이 있으면 `사람의 구분과 얼마나 비슷한가`를 보고, 정답 라벨이 없으면 `묶음 자체가 얼마나 그럴듯한가`를 따로 읽어야 합니다.
@@ -338,21 +311,7 @@ flowchart TD
 같은 고객 표가 다른 평가 질문으로 갈라지는 장면을 도식으로 보면 더 분명합니다.
 
 ```mermaid
-flowchart TD
-  A["같은 고객 표"]
-  B["분류 질문<br/>누가 이탈할까?"]
-  C["회귀 질문<br/>얼마나 지출할까?"]
-  D["군집화 질문<br/>어떤 집단이 보일까?"]
-  E["FP / FN과 F1 읽기"]
-  F["오차 크기 읽기<br/>MAE / RMSE"]
-  G["집단 구조 읽기<br/>silhouette / 해석"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-03-ko.mmd"
 ```
 
 ## 사례 및 예시

@@ -98,15 +98,7 @@ GridSearchCV 和 RandomizedSearchCV 的基本比较，以及验证成本，会�
 如果把这个差别画得非常短，就是下面这样。
 
 ```mermaid
-flowchart TD
-  A["data"]
-  B["choose hyperparameters<br/>before training"]
-  C["fit the model"]
-  D["learned parameters<br/>after training"]
-
-  A --> C
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-09/p4-9-1-mermaid-01-zh.mmd"
 ```
 
 这张图的核心是：`hyperparameter 是学习的输入`，而 `parameter 是学习的结果`。
@@ -219,17 +211,7 @@ James Bergstra、Daniel Yamins、David Cox 在 2012 年的论文里指出，很�
 可确认的结果，会在同时查看 train 分数和 validation 分数时出现。只要比较不同 depth 下训练分数和验证分数是怎样变化的，就能说明：为什么 hyperparameter 不是简单选项，而是改变 model 性格的设置。
 
 ```mermaid
-flowchart TD
-  A["same decision tree family"]
-  B["shallow depth"]
-  C["deep depth"]
-  D["simple rule, lower scores"]
-  E["high train score, unstable validation"]
-  F["compare train and validation together"]
-  G["read hyperparameters as behavior controls"]
-
-  A --> B --> D --> F
-  A --> C --> E --> F --> G
+--8<-- "assets/part-04/chapter-09/p4-9-1-mermaid-02-zh.mmd"
 ```
 
 只讲历史说明，感觉可能还是不够直接。实际上，hyperparameter 不是 `附加选项`，而是会强烈摇动结果的因素，这一点在很多案例里反复被观察到。

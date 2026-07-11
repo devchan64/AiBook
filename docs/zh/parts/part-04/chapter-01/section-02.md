@@ -60,17 +60,7 @@ rule-based 和 learning-based approach 都是接收输入，再输出结果。�
 下面这张图把两种方法的差别画成流程。rule-based approach 是先由人写标准，learning-based approach 则是从数据案例中做出 model。两条路线最后都可以连到服务的判断或动作上。
 
 ```mermaid
-flowchart TD
-  I["new case"]
-  P{"who made the decision rule?"}
-
-  I --> P
-  P -->|person writes it| R["rule-based result"]
-  P -->|data trains it| L["model prediction"]
-
-  R --> D["service policy"]
-  L --> D
-  D --> O["action or response"]
+--8<-- "assets/part-04/chapter-01/rule-vs-learning-judgment-flow-zh.mmd"
 ```
 
 这里最重要的点在于，`model prediction` 不等于最终动作。model 可以给出 score 或分类结果，但真实服务仍然可能把成本、风险、policy、用户体验一起考虑进去，再决定最终行为。
@@ -159,16 +149,7 @@ model 会从这些数据里学习 feature 和 label 之间的关系。之后一�
 machine learning 的流程，可以读成下面五步。
 
 ```mermaid
-flowchart TD
-  A["examples"]
-  B["features X + labels y"]
-  C["training"]
-  D["trained model"]
-  E["new input"]
-  F["prediction"]
-
-  A --> B --> C --> D
-  E --> D --> F
+--8<-- "assets/part-04/chapter-01/machine-learning-basic-flow-zh.mmd"
 ```
 
 在这张图里，`X` 是送进 model 的输入数据。通常最容易把它理解成一种 `行是 sample、列是 feature` 的数组或表。`y` 则是在监督学习里 model 想匹配的目标值。对于分类问题，它可以是 label；对于回归问题，它可以是数值。
@@ -264,18 +245,7 @@ scikit-learn 的基本使用流程也和这个结构很像。先创建 model obj
 真正可检查的结果，会出现在新咨询评估里。rule-based classifier 可能只要措辞稍微一变就漏掉，而 learning-based model 如果确实从历史案例里学到了相似模式，就能更稳定地预测。相反，如果它只是在训练数据上表现好，一遇到新咨询就频繁出错，那说明它的 generalization 还不够。
 
 ```mermaid
-flowchart TD
-  A["客户咨询"]
-  B["匹配手写关键词规则"]
-  C["措辞变化或混合意图出现"]
-  D["规则路径变脆弱"]
-  E["收集带标签的历史咨询"]
-  F["学习输入与标签的关系"]
-  G["在未见过的咨询上测试"]
-  H["判断泛化是否足够"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G --> H
+--8<-- "assets/part-04/chapter-01/inquiry-rule-vs-learning-flow-zh.mmd"
 ```
 
 ## 本节要记住的视角

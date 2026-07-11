@@ -66,18 +66,7 @@ Generative AI refers to models and services that generate new outputs such as te
 LLM means large language model. Many people now first encounter AI through LLM experience, but an LLM is not all of AI. It is a particular model family developed around language.
 
 ```mermaid
-flowchart TD
-  A["AI<br/>artificial intelligence"]
-  B["machine learning<br/>data-driven learning"]
-  C["deep learning<br/>neural-network-based learning"]
-  D["generative AI<br/>generate text, image, audio, code"]
-  E["LLM<br/>large language model"]
-
-  A --> B
-  A --> R["rule-based systems<br/>search, heuristic, knowledge"]
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-01/ai-scope-map-en.mmd"
 ```
 
 This diagram is a learning map rather than a strict classification table. In real research and products, many technologies are mixed. For example, a single service can operate with search systems, rule-based filters, machine learning models, and LLMs together.
@@ -85,29 +74,7 @@ This diagram is a learning map rather than a strict classification table. In rea
 The next diagram separates the inclusion relationship from the way real services are assembled. If the diagram above shows `the broad position of the terms`, the diagram below shows that `multiple approaches can work together inside one service`.
 
 ```mermaid
-flowchart TD
-  U["user request"]
-  A["application"]
-  R["rule checks"]
-  S["search / database"]
-  M["ML model"]
-  L["LLM"]
-  P["policy decision"]
-  H["human review<br/>when needed"]
-  O["service response"]
-
-  U --> A
-  A --> R
-  A --> S
-  A --> M
-  A --> L
-  R --> P
-  S --> P
-  M --> P
-  L --> P
-  P --> O
-  P -. "low confidence / high risk" .-> H
-  H --> O
+--8<-- "assets/part-04/chapter-01/ai-service-composition-map-en.mmd"
 ```
 
 In this diagram, the LLM is not the whole service but one component among several. Model outputs can be combined with policy judgment, and when risk is high or confidence is low, the flow can move to human review.
@@ -227,16 +194,7 @@ That is why this Section separates the inclusion relationship among AI, machine 
 The checkable result appears when the service structure is broken into questions. If one part is handled by search, another by a classification model, and another by an LLM-generated response, then the simple equation `AI = LLM` is already not enough as an explanation.
 
 ```mermaid
-flowchart TD
-  A["chatbot or image-tool experience"]
-  B["jump to AI = LLM"]
-  C["service structure stays hidden"]
-  D["separate search, rules, models, policy, human review"]
-  E["LLM becomes one component"]
-  F["AI scope becomes wider again"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-01/ai-llm-scope-misconception-flow-en.mmd"
 ```
 
 ## Perspective To Remember In This Section

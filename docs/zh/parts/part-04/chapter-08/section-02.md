@@ -88,20 +88,7 @@ benchmark 和 leaderboard 的运营视角，以及基于统计检验的模型比
 如果把它换成客户流失例子，baseline 更像是一个分叉点，用来读 `当前 model 到底有没有真正越过那个容易标准`，而不只是 `一个分数`。
 
 ```mermaid
-flowchart TD
-  A["churn dataset"]
-  B["baseline model<br/>always stay or dummy rule"]
-  C["candidate model<br/>uses behavior features"]
-  D["same metric<br/>accuracy / recall / F1"]
-  E["error check<br/>missed churn cases"]
-  F["meaningful gain?<br/>keep or rethink"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-01-zh.mmd"
 ```
 
 还有一点需要单独分开记。`baseline model` 和 `baseline reference` 会在同一个语境里相遇，但它们并不是完全同一个对象。前者通常指最简单的预测器，后者则还可以包含一种比较框架：把最近结果和通常区间并排放在一起。这一节要先把这两个意思分开，等到 Part 6 写项目回顾文档时，表述才不容易混乱。
@@ -224,23 +211,7 @@ scikit-learn 的 `DummyClassifier` 文档把“忽略输入特征直接做预测
 如果把这个差异画成最简单的图，就是下面这样。
 
 ```mermaid
-flowchart TD
-  subgraph M2["read the score with baseline"]
-    direction LR
-    C["baseline 0.90"]
-    D["model 0.91"]
-    E["small gain<br/>check if it is useful"]
-  end
-
-  subgraph M1["read the score without baseline"]
-    direction LR
-    A["score 0.91"]
-    B["looks good"]
-  end
-
-  E --> A
-  A --> B
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-02-zh.mmd"
 ```
 
 这张图的核心是：即使是同一个数字，只要有没有 baseline，读法就会完全不同。
@@ -286,17 +257,7 @@ flowchart TD
 但如果没有 baseline，就没有办法判断这种改进到底有没有意义。
 
 ```mermaid
-flowchart TB
-  A["baseline"]
-  B["candidate model"]
-  C["compare before tuning"]
-  D["tuning after comparison"]
-  E["complex model first"]
-  F["tuning without baseline"]
-  G["score change, but unclear meaning"]
-
-  A --> B --> C --> D
-  E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-03-zh.mmd"
 ```
 
 这张图同时展示了两个意思：正确顺序应该是先立 baseline，再比较候选 model，然后才进入调优；而如果没有 baseline 就直接调复杂 model，那么分数变化的意义就会很难解释。
@@ -331,17 +292,7 @@ scikit-learn 的 dummy 系列模型，在教学上尤其有用。
 能确认的结果，会出现在同一指标下把 baseline 和实际 model 并排比较的时候。只要把 accuracy、recall、F1 一起放出来，就会更清楚地看到：baseline 不是 `低性能模型`，而是 `解释分数的参考线`。
 
 ```mermaid
-flowchart TD
-  A["fraud dataset"]
-  B["always predict normal"]
-  C["accuracy looks high"]
-  D["fraud recall stays near zero"]
-  E["train a richer model"]
-  F["compare accuracy, recall, and F1"]
-  G["decide whether the gain is operationally meaningful"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-zh.mmd"
 ```
 
 ## 本节要记住的观念

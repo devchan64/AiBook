@@ -1,7 +1,7 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
@@ -77,17 +77,7 @@ scikit-learn 문서는 gradient boosted trees를 순차적으로 트리를 쌓�
 ## 한 장면으로 보기
 
 ```mermaid
-flowchart TD
-  A["base prediction"]
-  B["measure residuals<br/>remaining error"]
-  C["fit a small tree<br/>to residuals"]
-  D["add a small correction<br/>scaled by learning rate"]
-  E["update prediction"]
-  F["repeat many stages"]
-  G["final boosted model"]
-
-  A --> B --> C --> D --> E --> F --> G
-  E -. remaining error again .-> B
+--8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-01-ko.mmd"
 ```
 
 이 그림에서 핵심은 `새 트리가 처음부터 전체 문제를 다시 푸는 것이 아니라, 현재 예측이 남긴 residual에 맞춰 작은 보정을 더한다`는 점입니다. 점선 화살표는 `예측을 한 번 고친 뒤 다시 남은 오차를 계산한다`는 반복 구조를 보여 줍니다.
@@ -211,28 +201,7 @@ scikit-learn 문서는 gradient boosting 문맥에서 weak learner를 보통 고
 두 모델 모두 트리를 여러 개 쓰지만, 작동 철학은 다릅니다.
 
 ```mermaid
-flowchart TD
-  subgraph RF["random forest"]
-    direction TB
-    R1["tree A"]
-    R2["tree B"]
-    R3["tree C"]
-    R4["aggregate votes<br/>or averages"]
-    R1 --> R4
-    R2 --> R4
-    R3 --> R4
-  end
-
-  subgraph GB["gradient boosting"]
-    direction TB
-    G1["base stage"]
-    G2["correction stage 1"]
-    G3["correction stage 2"]
-    G4["add all stages"]
-    G1 --> G2 --> G3 --> G4
-    G2 -. fix earlier error .-> G1
-    G3 -. fix remaining error .-> G2
-  end
+--8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-02-ko.mmd"
 ```
 
 이 도식은 랜덤포레스트가 여러 트리의 결과를 모으는 구조라면, 그래디언트 부스팅은 이전 단계의 오차를 다음 단계가 이어서 보정하는 구조라는 점을 한눈에 대비해 줍니다.
@@ -384,15 +353,7 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
 그래디언트 부스팅은 이런 장면에서 첫 단계가 놓친 오차를 다음 작은 트리가 이어서 보정하면서, `짧은 가입 기간 + 문의 증가`, `결제 실패 + 사용량 감소`처럼 약한 신호 조합을 차례대로 반영합니다. 그래서 첫 규칙에서는 일반 고객처럼 보이던 사례도 뒤 단계 보정이 쌓이면서 더 높은 이탈 점수로 올라갈 수 있고, 반대로 최근 로그인만 줄어든 사례는 뒤 단계에서 과한 경고가 조금 완화될 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["initial churn rule"]
-  B["missed customer patterns"]
-  C["fit small correction tree"]
-  D["update churn score"]
-  E["fit next correction"]
-  F["hard cases become clearer"]
-
-  A --> B --> C --> D --> E --> F
+--8<-- "assets/part-04/chapter-16/p4-16-1-mermaid-03-ko.mmd"
 ```
 
 이 절에서는 이 장면도 `현재 오류 -> 다음 보정 -> 남는 review 사례` 구조로 읽습니다. 같은 성능처럼 보여도 어떤 부스팅 설정은 특정 고객 유형의 오류를 더 줄이고, 다른 설정은 여전히 같은 경계 사례를 남길 수 있으므로 단계별 남는 패턴을 같이 적어 둡니다.

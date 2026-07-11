@@ -1,7 +1,7 @@
 # P4-11.2 결정 경계(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -131,25 +131,7 @@ sigmoid 출력이 0.5라는 것은 선형 점수 \(z\)가 0이라는 뜻과 연�
 간단히 그리면 다음과 같습니다. 이번에는 `공부 시간 축 위에서 점수가 어떻게 커지고, 어디서 class가 바뀌는가`가 같이 보이도록 읽으면 됩니다.
 
 ```mermaid
-flowchart TD
-  A["study_hours increases"]
-
-  subgraph L["class 0 side"]
-    direction TB
-    L1["3h<br/>score 0.17"]
-    L2["4h<br/>score 0.31"]
-  end
-
-  B["boundary<br/>score 0.50"]
-
-  subgraph R["class 1 side"]
-    direction TB
-    R1["5h<br/>score 0.55"]
-    R2["6h<br/>score 0.76"]
-  end
-
-  A --> L
-  L --> B --> R
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-01-ko.mmd"
 ```
 
 이 도식에서 핵심은 입력값이 커질수록 점수가 올라가고, `score 0.50` 경계점에서 `class 0 쪽`과 `class 1 쪽`이 갈린다는 점입니다. 즉, 1차원에서는 복잡한 면이나 영역이 아니라 `축 위의 한 점`만 찾으면 경계를 읽을 수 있습니다.
@@ -167,13 +149,7 @@ flowchart TD
 이때 로지스틱 회귀는 그 점들을 둘로 나누는 기준선을 찾으려 합니다. 그래서 2차원에서는 결정 경계가 보통 `직선(line)`처럼 보입니다.
 
 ```mermaid
-flowchart TD
-  A["input point (exam_1, exam_2)"]
-  A --> B["linear score z"]
-  B --> C{"z vs 0"}
-  C -->|z < 0| D["class 0 side"]
-  C -->|z > 0| E["class 1 side"]
-  C -->|z = 0| F["boundary"]
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-02-ko.mmd"
 ```
 
 이 도식은 로지스틱 회귀의 결정 경계를 `입력 공간 안에서 점수 z를 0과 비교하는 규칙이 남긴 흔적`으로 보여 줍니다. 여기서 선을 그리는 것이 아니라, 선형 점수가 어느 쪽 부호를 가지는지에 따라 class가 갈린다는 점을 읽으면 됩니다.
@@ -226,24 +202,7 @@ threshold가 0.5일 때의 경계와 0.7일 때의 경계는 같은 자리에 �
 이 움직임을 개념적으로 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["same score axis"]
-
-  subgraph L["threshold 0.5"]
-    direction TB
-    L1["boundary earlier"]
-    L2["class 1 region wider"]
-  end
-
-  subgraph R["threshold 0.7"]
-    direction TB
-    R1["boundary moves right"]
-    R2["class 1 region smaller"]
-  end
-
-  A --> L
-  A --> R
-  L --> R
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-03-ko.mmd"
 ```
 
 이 도식에서 핵심은 `모델 자체를 새로 학습하지 않아도`, threshold를 더 엄격하게 잡으면 같은 점수 축 위에서 경계가 더 오른쪽으로 밀리고 class 1 영역을 더 좁게 읽게 된다는 점입니다. 따라서 경계 이동은 `어떤 사례가 반대편으로 넘어갔는가`를 다시 읽게 만드는 정책 변화로 보아야 하고, 그 이동만으로 특징의 원인 설명까지 끝난 것으로 읽으면 안 됩니다.
@@ -323,17 +282,7 @@ flowchart TD
 | 대출 / 스팸 | 단일 규칙으로 승인과 차단을 설명한다 | 복합 특징과 선형 경계의 한계를 놓친다 | 경계가 어떤 조합을 나누는지 본다 | 선형 경계의 장점과 한계를 함께 읽는다 |
 
 ```mermaid
-flowchart TD
-  A["many features"]
-  B["single-rule reading"]
-  C["mixed patterns"]
-  D["boundary view<br/>which side of z = 0"]
-  E["near-boundary review"]
-  F["why it crossed"]
-
-  A --> B --> C --> D
-  D --> E
-  D --> F
+--8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-04-ko.mmd"
 ```
 
 ### 사례 1. 합격 예측

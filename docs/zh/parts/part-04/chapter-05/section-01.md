@@ -102,21 +102,7 @@
 如果换成不良检测场景，同样的图像分类问题，也要用不同流程去读 `太简单所以漏掉` 和 `把训练样例背得太紧` 这两种情况。
 
 ```mermaid
-flowchart TD
-  A["part images<br/>crack / color / edge pattern"]
-  B["too simple rule<br/>few signals only"]
-  C["balanced model<br/>main defect pattern"]
-  D["too complex fit<br/>memorizes training quirks"]
-  E["miss obvious defects<br/>train low / val low"]
-  F["holds on new images<br/>train high / val similar"]
-  G["fails on new images<br/>train very high / val drop"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-01-zh.mmd"
 ```
 
 ### 过拟合是背得太多的状态
@@ -204,19 +190,7 @@ flowchart TD
 ### 用图看会更快
 
 ```mermaid
-flowchart TB
-  A["too simple model<br/>misses important pattern"]
-  A1["underfitting"]
-  B["balanced model<br/>captures main pattern"]
-  B1["usable fit"]
-  C["too complex model<br/>fits noise too"]
-  C1["overfitting"]
-
-  A --> A1
-  A1 --> B
-  B --> B1
-  B1 --> C
-  C --> C1
+--8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-02-zh.mmd"
 ```
 
 这张图不是精确数学说明，而是方向性说明。左边表示还不够的状态，中间表示相对平衡的状态，右边表示贴得过头的状态。
@@ -280,17 +254,7 @@ scikit-learn 的官方例子也说明了这一点。它指出：过于简单的�
 真正可检查的结果，会在把 training score 和 validation score 并排放时出现。一起看两边分数的水平和差距，才能判断下一步更需要的是 `给 model 更多解释力`，还是 `让它少背一点`。
 
 ```mermaid
-flowchart TD
-  A["defect image model"]
-  B["train score almost perfect"]
-  C["validation score drops"]
-  D["suspect overfitting"]
-  E["both train and validation stay low"]
-  F["suspect underfitting"]
-  G["decide whether to simplify or strengthen the model"]
-
-  A --> B --> C --> D --> G
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-03-zh.mmd"
 ```
 
 ## 案例与示例

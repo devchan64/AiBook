@@ -128,15 +128,7 @@ machine learning 几乎总是为了 `接下来会进来的数据` 而建立 mode
 把这个范围画出来，可以像下面这样。
 
 ```mermaid
-flowchart TB
-  A["same task<br/>same meaning"]
-  B["same task<br/>new samples"]
-  C["same task<br/>condition shift"]
-  D["different task or meaning"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-01-zh.mmd"
 ```
 
 这张图把 generalization 指向的范围分了出来。最直接的 generalization 检验，发生在同一问题的新样本上；而越往条件变化、乃至完全不同任务走，就越难把它们简单地统称为同一个 generalization。
@@ -172,15 +164,7 @@ P4-4.2 里为什么要把 validation 和 test 分开，说到底也是因为 gen
 - test data：最后再确认一次，最终选择是否真的在新数据上撑得住
 
 ```mermaid
-flowchart TB
-  A["training data<br/>learn pattern"]
-  B["validation data<br/>compare candidates"]
-  C["test data<br/>final check"]
-  D["future unseen data<br/>real use"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-02-zh.mmd"
 ```
 
 这张图显示的是：train、validation、test 归根到底，都是为了提前估计未来 unseen data。generalization 不能只被读成 validation 分数或 test 分数本身，而要放进一个完整流程里看：这些环节到底是在帮助我们判断 model 在真实使用里的 unseen data 上能撑到什么程度。
@@ -227,19 +211,7 @@ generalization 不是重复背过答案的力量，而是对第一次见到的�
 真正可检查的结果，会在把熟悉用户集合与新用户集合的分数拿来比较时出现。这能让你读出：model 在同一问题内部到底稳不稳。如果差距小，说明 generalization 相对还在；如果差距大，就要重新检查它是否只对旧模式适应得太深。
 
 ```mermaid
-flowchart TD
-  A["past-user recommendation data"]
-  B["model fits familiar users well"]
-  C["new or shifted users appear"]
-  D["compare unseen-user performance"]
-  E["small gap"]
-  F["large gap"]
-  G["generalization looks stable"]
-  H["model may rely on old patterns too much"]
-
-  A --> B --> C --> D
-  D --> E --> G
-  D --> F --> H
+--8<-- "assets/part-04/chapter-05/p4-5-2-mermaid-03-zh.mmd"
 ```
 
 ### 示例 1. 用推荐系统和价格预测重新读 generalization

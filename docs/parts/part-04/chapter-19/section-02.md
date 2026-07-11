@@ -1,7 +1,7 @@
 # P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
 
@@ -71,17 +71,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["state<br/>robot arm position"]
-  B["policy output<br/>distribution or control"]
-  C["small left turn"]
-  D["small right turn"]
-  E["stronger push"]
-
-  A --> B
-  B --> C
-  B --> D
-  B --> E
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 정책이 `정답 행동 하나`를 내놓는 것이 아니라, 상태를 보고 여러 행동 후보의 경향이나 강도를 직접 만들어 낼 수 있다는 점을 보여 줍니다. 그래서 정책 기반 강화학습은 점수표를 거치지 않고도 행동 분포 자체를 조정하는 관점으로 읽힙니다.
@@ -134,25 +124,11 @@ P4-2.3에서 정책(policy)은 `어떤 상태에서 어떤 행동을 할지 정�
 같은 장면을 가치 기반과 정책 기반으로 나누어 보면 차이가 더 잘 보입니다.
 
 ```mermaid
-flowchart TD
-  A["state s"]
-  B["read Q-values"]
-  C["compare actions"]
-  D["pick the larger value"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-02-ko.mmd"
 ```
 
 ```mermaid
-flowchart TD
-  A["state s"]
-  B["run policy"]
-  C["left: 0.3"]
-  D["right: 0.7"]
-
-  A --> B
-  B --> C
-  B --> D
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-03-ko.mmd"
 ```
 
 첫 번째 도식은 `행동의 값을 비교해 고르는 방식`이고, 두 번째 도식은 `행동이 나올 확률 구조 자체를 표현하는 방식`입니다.
@@ -176,15 +152,7 @@ policy gradient는 정책 파라미터(parameter)를 직접 조정해 기대 보
 이를 도식으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["1. run policy<br/>sample actions"]
-  B["2. observe rewards<br/>which choices helped?"]
-  C["3. raise helpful action probability"]
-  D["4. lower harmful action probability"]
-  E["5. update policy parameters"]
-
-  A --> B --> C --> E
-  B --> D --> E
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-04-ko.mmd"
 ```
 
 이 그림의 핵심은 정책이 `출력 규칙`이 아니라 `조정 가능한 행동 성향`으로 읽힌다는 점입니다.
@@ -233,15 +201,7 @@ actor-critic은 다음처럼 읽어야 합니다.
 | actor-critic 결합 | 정책 조정과 평가 신호를 함께 쓴다 | 둘이 독립된 알고리즘 둘을 억지로 붙인 것처럼 생각함 | 변동을 줄이기 위한 역할 분담으로 읽는다 |
 
 ```mermaid
-flowchart TB
-  A["state"]
-  B["actor<br/>choose action"]
-  C["environment<br/>next state and reward"]
-  D["critic<br/>evaluate transition"]
-  E["actor update"]
-
-  A --> B --> C --> D --> E
-  E --> B
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-05-ko.mmd"
 ```
 
 이 도식에서 critic은 `행동을 대신 결정하는 존재`가 아니라, actor update가 더 안정적으로 일어나도록 평가 신호를 주는 역할입니다.
@@ -331,18 +291,7 @@ actor-critic이 자주 쓰이는 이유는 `정책을 직접 조정하는 자유
 로봇 팔이 상자를 집을 때는 `왼쪽`이나 `오른쪽`처럼 몇 개 행동만 고르는 것이 아니라, 각도와 힘을 얼마나 줄지 연속적으로 정해야 합니다. 이런 상황에서 모든 가능한 행동의 점수를 표처럼 적어 두기보다는, 현재 상태에서 어떤 각도와 힘이 더 자주 나오게 할지 정책 자체를 조정하는 편이 더 자연스럽습니다. 정책 기반 강화학습은 성공적으로 집은 동작의 확률을 높이고 실패한 동작의 확률을 낮추면서, 행동 분포를 직접 다듬어 갑니다. 그래서 복잡한 연속 제어 문제에서는 `점수표를 만든 뒤 최고값을 고르는 방식`보다 `행동 방식을 바로 수정하는 방식`이 더 잘 맞을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["robot arm state"]
-  B["policy outputs angle and force tendency"]
-  C["try a control action"]
-  D["successful grasp or slip"]
-  E["raise probability of helpful action"]
-  F["lower probability of harmful action"]
-  G["policy becomes better aligned to the task"]
-
-  A --> B --> C --> D
-  D --> E --> G
-  D --> F --> G
+--8<-- "assets/part-04/chapter-19/p4-19-2-mermaid-06-ko.mmd"
 ```
 
 이 사례를 project memo처럼 줄이면 다음처럼 적을 수 있습니다.

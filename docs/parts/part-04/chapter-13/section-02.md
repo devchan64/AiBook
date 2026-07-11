@@ -117,13 +117,7 @@ P4-13.2는 이 셋을 버리는 절이 아닙니다. 오히려 그 셋이 충분
 이 흐름을 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["original features<br/>x1, x2"]
-  B["add a new interaction view<br/>예: x1 * x2"]
-  C["new feature space<br/>다른 표현 공간"]
-  D["a linear separator may now work<br/>여기서는 선형 경계가 가능할 수 있음"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 커널 발상의 출발점을 보여 줍니다. 경계를 먼저 복잡하게 만들기보다, 특징 표현을 바꾸면 같은 데이터도 더 단순한 선형 경계로 읽힐 수 있다는 점이 중요합니다.
@@ -177,14 +171,7 @@ flowchart TD
 이를 흐름으로 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["original input pair<br/>원래 입력 두 개"]
-  B["explicit feature map?<br/>새 특징을 직접 다 만들까?"]
-  C["kernel evaluation<br/>커널로 유사도 계산"]
-  D["linear SVM in the implied space<br/>암시된 공간에서 선형 SVM처럼 동작"]
-
-  A --> B
-  A --> C --> D
+--8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-02-ko.mmd"
 ```
 
 이 도식은 커널이 왜 `새 특징을 전부 명시적으로 만들지 않고도` 도움이 된다고 말하는지 보여 줍니다. 원래 입력쌍에서 바로 유사도를 계산해, 암시된 고차원 공간에서 선형 SVM처럼 동작하게 만드는 우회 경로가 핵심입니다.
@@ -305,16 +292,7 @@ XOR는 상호작용 특징의 감각을 보여 주는 대표 예시입니다. �
 선형 모델과 선형 SVM을 먼저 써 보지만 경계가 계속 어색합니다. 한 축만 보면 정상과 불량이 섞여 있고, 직선 하나로는 네 구역이 대각선처럼 엇갈린 패턴을 깔끔하게 나누기 어렵습니다. 이때 문제를 `더 좋은 직선이 없나`로만 읽으면 계속 답답합니다.
 
 ```mermaid
-flowchart TD
-  A["sensor pair"]
-  B["original feature space"]
-  C["linear boundary stays awkward"]
-  D["add interaction view"]
-  E["new feature space"]
-  F["linear separation becomes clearer"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-13/p4-13-2-mermaid-03-ko.mmd"
 ```
 
 이 장면에서 커널의 발상은 `경계를 더 복잡하게 그리자`보다 `표현을 바꿔 보자`에 가깝습니다. 예를 들어 두 센서 값의 곱이나 제곱처럼 상호작용 특징을 의식하면, 원래 공간에서는 얽혀 있던 패턴이 새 표현 공간에서는 더 단순한 선형 경계로 보일 수 있습니다. 즉, 데이터가 바뀐 것이 아니라 데이터를 읽는 좌표계가 바뀐 것입니다.

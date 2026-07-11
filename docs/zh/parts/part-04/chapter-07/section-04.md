@@ -115,18 +115,7 @@
 但在会议上，不同的方法名一下子全都冒出来。有人说先去掉相关性低的列，有人说反复跑 model 把重要度低的列减掉，还有人说直接用 PCA 把轴压缩。它们都被放在 `降维` 这个说法下面，但实际上留下什么、改变什么都不同。
 
 ```mermaid
-flowchart TD
-  A["customer behavior columns"]
-  B["quick first pass"]
-  C["model-based repeat check"]
-  D["new compressed axes"]
-  E["filter keeps original columns"]
-  F["wrapper or RFE keeps best subset"]
-  G["dimensionality reduction rewrites representation"]
-
-  A --> B --> E
-  A --> C --> F
-  A --> D --> G
+--8<-- "assets/part-04/chapter-07/p4-7-4-mermaid-01-zh.mmd"
 ```
 
 这里需要分清的是下面这些点。filter 方法更接近于快速检查原始特征，先缩小第一轮候选；wrapper 方法里的 RFE，则是按当前 model 性能反复减少特征。降维则更接近于不是挑出原始列中的一部分，而是把多个特征混合起来，重新表达成新轴。

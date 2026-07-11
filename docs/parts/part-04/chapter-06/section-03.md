@@ -44,16 +44,7 @@ SRE에서 metric은 주로 서비스가 실제로 어떻게 동작하는지를 �
 모델 metric은 답의 품질에 가깝고, 운영 metric은 서비스의 상태에 가깝습니다.
 
 ```mermaid
-flowchart TD
-  A["사용자 요청"]
-  B["모델 출력"]
-  C["서비스 응답"]
-  D["모델 지표<br/>accuracy / precision / recall / RMSE"]
-  E["서비스 지표<br/>latency / errors / traffic / saturation"]
-
-  A --> B --> C
-  B --> D
-  C --> E
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-01-ko.mmd"
 ```
 
 이 도식의 핵심은, 하나의 AI 서비스 안에서도 두 종류의 metric이 함께 존재한다는 점입니다.
@@ -127,13 +118,7 @@ Google SRE Book은 SLI, SLO, SLA를 구분해서 정의합니다. 이 구분은 
 | SLA | 못 지키면 무슨 일이 생기는가? | 환불, 크레딧, 계약상 보상 |
 
 ```mermaid
-flowchart TB
-  A["측정된 동작"]
-  B["SLI<br/>고른 지표"]
-  C["SLO<br/>목표값"]
-  D["SLA<br/>못 지켰을 때의 결과"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-02-ko.mmd"
 ```
 
 이 흐름을 보면, 운영에서 숫자를 읽는 일은 단순 관측이 아니라 `무엇을 약속하고 어떻게 반응할 것인가`까지 이어지는 구조라는 점을 알 수 있습니다.
@@ -197,24 +182,7 @@ Google SRE Book은 사용자 대상 시스템에서 특히 중요한 네 가지 
 이 네 가지는 운영 관점의 기본 좌표처럼 쓸 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["사용자 요청이 들어옴"]
-  B["traffic<br/>얼마나 많은 요청이 들어오는가?"]
-  C{"is the system near capacity?"}
-  D["saturation<br/>cpu / memory / queue / connection pool이 차오름"]
-  E["latency 상승<br/>응답이 느려짐"]
-  F["errors 상승<br/>timeout / 실패 요청이 늘어남"]
-  G["사용자 체감 신뢰성이 떨어짐"]
-  H["latency가 안정적임<br/>평소와 비슷한 사용자 경험"]
-
-  A --> B
-  B --> C
-  C -->|yes| D
-  D --> E
-  D --> F
-  E --> G
-  F --> G
-  C -->|no| H
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-03-ko.mmd"
 ```
 
 이 도식은 네 신호를 단순 목록으로 외우기보다, 운영 팀이 실제로 읽는 질문 순서로 보여 줍니다. 먼저 traffic으로 `지금 얼마나 많은 요청이 들어오는가`를 보고, saturation으로 `시스템이 한계에 가까운가`를 확인합니다. 한계에 가까워지면 latency와 errors가 사용자에게 드러나는 문제로 나타나고, 그 결과 최종적으로 서비스 신뢰성이 흔들립니다. 반대로 saturation이 높지 않다면 latency가 안정적으로 유지되는지 보며 정상 상태를 확인할 수 있습니다.
@@ -255,18 +223,7 @@ SW 엔지니어가 SRE metric에 익숙하다면, 머신러닝 metric도 조금 
 그런데 실제 사용자 불만은 줄지 않습니다. 이유를 보니 피크 시간에 응답 지연이 길어지고 timeout이 늘어, 좋은 답변이 나와도 늦게 도착하는 경우가 많았습니다. 이 상황은 모델 metric과 운영 metric이 서로 다른 층위를 본다는 점을 보여 줍니다.
 
 ```mermaid
-flowchart TD
-  A["챗봇 배포"]
-  B["오프라인 품질 상승"]
-  C["사용자 불만은 여전히 높음"]
-  D["latency와 timeout 확인"]
-  E["답변 품질 확인"]
-  F["서비스 문제"]
-  G["모델 문제"]
-
-  A --> B --> C
-  C --> D --> F
-  C --> E --> G
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-04-ko.mmd"
 ```
 
 여기서 모델 metric은 `답의 품질`을, 운영 metric은 `서비스 경험`을 읽습니다. 답변 적절성이 높아도 latency와 error rate가 나쁘면 서비스 품질은 낮게 느껴질 수 있습니다. 반대로 서비스는 빨라도 답이 부정확하면 역시 목표를 이루지 못합니다.

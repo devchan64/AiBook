@@ -90,14 +90,7 @@ scikit-learn 的 hyperparameter tuning 文档说明了一种流程：先把 esti
 也就是说，tuning 不是凭感觉点一个 `看起来不错的值`，而是在预先定好的候选空间和验证规则里做比较。
 
 ```mermaid
-flowchart TD
-  A["choose a model family"]
-  B["set parameter candidates"]
-  C["compare by validation score"]
-  D["select one setting"]
-  E["check once on test"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-01-zh.mmd"
 ```
 
 这张图说明：tuning 的核心，是 `先选一个 model，再用 validation 分数比较候选设置，最后才只检查一次 test`。这里尤其重要的是角色分工：`test 不是拿来选的，而是拿来做最后确认的。`
@@ -131,18 +124,7 @@ flowchart TD
 下面这张图用最简单的方式说明了为什么计算成本会涨得这么快。
 
 ```mermaid
-flowchart TD
-  subgraph A["candidate grid"]
-    B["max_depth: 4 values"]
-    C["min_samples_split: 5 values"]
-    D["criterion: 2 values"]
-  end
-
-  B --> E["40 combinations"]
-  C --> E
-  D --> E
-  E --> F["5-fold cross-validation"]
-  F --> G["200 training runs"]
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-02-zh.mmd"
 ```
 
 这张图说明的是：hyperparameter 候选只要稍微增加一点，实际训练次数就会以乘法方式迅速膨胀。这就意味着 tuning 不是简单的“玩一玩数值”，而是必须连同计算成本和实验设计一起管理的工作。
@@ -271,15 +253,7 @@ tuning 也不应该一上来就无限铺开，而应该根据当前候选数和�
 只看分数流动时，它看起来可能很简单。但真正的读取问题会越来越严格。
 
 ```mermaid
-flowchart TD
-  A["baseline 0.900"]
-  B["candidate 0.910"]
-  C["tuned 0.912"]
-
-  A --> B --> C
-  C --> D["is the gain stable on validation?"]
-  C --> E["is the added cost worth it?"]
-  C --> F["did speed or simplicity get worse?"]
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-03-zh.mmd"
 ```
 
 ### 为什么在实务里会提前停止 tuning
@@ -308,18 +282,7 @@ flowchart TD
 能确认的结果，会出现在把组合数和交叉验证次数相乘后的训练次数，以及把 validation 最高分和最终 test 分数分开来读的时候。即使同样是 0.002 的提升，也必须连同它付出了多少倍的计算成本、承担了多大的验证风险一起看，调优才算是可解释的。
 
 ```mermaid
-flowchart TD
-  A["many parameter candidates"]
-  B["run every combination"]
-  C["training cost grows fast"]
-  D["keep staring at validation or test"]
-  E["comparison reliability weakens"]
-  F["compare within a controlled validation loop"]
-  G["open test only once at the end"]
-
-  A --> B --> C
-  B --> D --> E
-  A --> F --> G
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-04-zh.mmd"
 ```
 
 ### 示例 1. 当候选组合数增加时，计算成本会怎样增长

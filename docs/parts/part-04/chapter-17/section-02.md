@@ -1,7 +1,7 @@
 # P4-17.2 군집 결과를 해석할 때의 주의점
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning) 문제로 보았습니다. 이제 더 중요한 단계는 해석입니다.
 
@@ -69,14 +69,7 @@ P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 �
 이 위험 흐름은 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["cluster output"]
-  B["looks plausible"]
-  C["attach meaning too quickly"]
-  D["treat as true category"]
-  E["make risky decision"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-17/p4-17-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 군집 결과를 너무 빠르게 사실처럼 받아들이는 위험한 해석 경로를 보여 줍니다. 묶음이 그럴듯해 보인다는 이유만으로 곧바로 진짜 범주처럼 취급하면, 마지막에는 정책 판단까지 과하게 앞질러 갈 수 있다는 점이 핵심입니다.
@@ -118,15 +111,7 @@ flowchart TB
 `cluster 2가 cluster 1보다 크다` 같은 해석은 보통 의미가 없습니다.
 
 ```mermaid
-flowchart TB
-  A["cluster 0"]
-  B["cluster 1"]
-  C["cluster 2"]
-  D["IDs only, not ranks"]
-
-  A --> D
-  B --> D
-  C --> D
+--8<-- "assets/part-04/chapter-17/p4-17-2-mermaid-02-ko.mmd"
 ```
 
 이 도식은 군집 번호가 등급이나 순서를 뜻하지 않는다는 점을 시각적으로 못 박습니다. `cluster 0`, `cluster 1`, `cluster 2`는 단지 식별자일 뿐이므로, 번호 크기만 보고 가치 판단을 붙이면 곧바로 잘못 읽게 됩니다.
@@ -146,15 +131,7 @@ flowchart TB
 이 점을 한 번에 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["same raw data"]
-  B["choose features, scaling, distance"]
-  C["set clustering parameters"]
-  D["cluster result 1"]
-  E["cluster result 2"]
-
-  A --> B --> C --> D
-  A --> B --> C --> E
+--8<-- "assets/part-04/chapter-17/p4-17-2-mermaid-03-ko.mmd"
 ```
 
 이 도식은 같은 원본 데이터라도 특징 선택, 스케일, 거리 기준, 파라미터가 바뀌면 서로 다른 군집 결과가 나올 수 있음을 한 번에 보여 줍니다. 즉, 알고리즘이 `유일한 진실`을 꺼낸다기보다, 어떤 렌즈와 기준으로 읽었는가에 따라 서로 다른 묶음을 제안할 수 있다는 뜻입니다.
@@ -290,14 +267,7 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
 `군집을 봤다 -> 요약한다 -> 흔들어 본다 -> 대표 사례를 읽는다 -> 검증 질문을 남긴다.`
 
 ```mermaid
-flowchart TD
-  A["cluster result"]
-  B["summarize each group"]
-  C["rerun with small changes"]
-  D["read representative cases"]
-  E["compare with labels or outcomes later"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-17/p4-17-2-mermaid-04-ko.mmd"
 ```
 
 이 도식은 군집 결과를 본 뒤 `해석을 늦추고 검토 단계를 하나씩 넣는 흐름`을 보여 줍니다. 핵심은 알고리즘 출력을 멈춤 없이 정책으로 넘기지 않고, 중간에 사람 검토와 재확인 단계를 반드시 두는 것입니다.
@@ -322,19 +292,7 @@ flowchart TD
 마케팅 팀이 고객 데이터를 군집화한 뒤 `cluster 2` 고객에게만 큰 할인 쿠폰을 자동 발송하려 한다고 해 보겠습니다. 하지만 이 번호는 단지 알고리즘이 붙인 식별자일 뿐이고, 다른 특징 선택이나 다른 `k` 값으로 다시 돌리면 같은 고객들이 다른 번호를 받을 수도 있습니다. 더구나 현재 군집이 실제 이탈 위험이나 장기 가치와 연결되는지도 검증되지 않았다면, 쿠폰 비용만 늘고 핵심 고객은 놓칠 수 있습니다. 그래서 군집 결과는 바로 정책 규칙으로 쓰기보다, 각 군집의 특성을 요약하고 후속 성과 지표와 대조하는 검토 단계를 거쳐야 합니다.
 
 ```mermaid
-flowchart TD
-  A["cluster output"]
-  B["see cluster 2"]
-  C["treat as premium group immediately"]
-  D["coupon policy goes live"]
-  E["review feature summary first"]
-  F["check parameter sensitivity"]
-  G["compare retention or value labels"]
-  H["decide whether policy use is justified"]
-
-  A --> B --> C --> D
-  A --> E
-  E --> F --> G --> H
+--8<-- "assets/part-04/chapter-17/p4-17-2-mermaid-05-ko.mmd"
 ```
 
 이 사례를 프로젝트 메모처럼 줄이면 다음처럼 적을 수 있습니다.
@@ -446,14 +404,7 @@ Part 4의 목표는 모델 결과를 사실처럼 소비하는 대신, 결과가
 이 흐름을 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["cluster result"]
-  B["summarize each group"]
-  C["check robustness<br/>features / scaling / parameters"]
-  D["compare with domain knowledge"]
-  E["use as hypothesis, not final truth"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-17/p4-17-2-mermaid-06-ko.mmd"
 ```
 
 핵심은 마지막 문장입니다.

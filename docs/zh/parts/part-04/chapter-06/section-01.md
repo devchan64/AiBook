@@ -50,17 +50,7 @@ scikit-learn 文档把 metrics and scoring 处理成 `把 prediction 质量数�
 这些问题也会被一起拉进来。
 
 ```mermaid
-flowchart TD
-  A["task<br/>what is the model for?"]
-  B["prediction<br/>score or class"]
-  C["decision<br/>approve / block / review"]
-  D["error cost<br/>which error hurts more?"]
-  E["metric focus<br/>accuracy / precision / recall / F1"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-06/p4-6-1-mermaid-01-zh.mmd"
 ```
 
 这张图说明：评价指标并不只是 model 内部数字的问题，它还是和真实决策语境连在一起的标准。即使是同样的 prediction，因为哪种错误更痛，最后先看的 metric 也会不同。
@@ -97,15 +87,7 @@ metric 阅读的起点，在于先确认 `现在首先想问的是哪一种错�
 要理解 precision 和 recall，应该先轻轻看一下 `confusion matrix`。Google glossary 把 confusion matrix 解释成 `把 model 做对和做错的情况整理成表的表格`。
 
 ```mermaid
-flowchart TB
-  A["ground truth<br/>actual class"]
-  B["model prediction<br/>predicted class"]
-  C["confusion matrix<br/>TP / FP / FN / TN"]
-  D["metrics<br/>accuracy / precision / recall"]
-
-  A --> C
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-06/p4-6-1-mermaid-02-zh.mmd"
 ```
 
 这张图说明了为什么 confusion matrix 会成为评价指标的起点。只有把真实值和预测值放进同一张表里，才能把 accuracy 之外的 FP、FN 这类不同错误分别读出来。
@@ -183,18 +165,7 @@ Google glossary 用下面这个问题来解释 recall。
 一开始，这个 model 因为 accuracy 很高而显得不错。但到了现场，它会把很多正常产品也送去复检。另一种 setting 则会减少复检，但实际漏掉的不良会变多。这时，就很难只靠 accuracy 说清到底哪个 model 更好。
 
 ```mermaid
-flowchart TD
-  A["inspection images"]
-  B["model prediction"]
-  C["confusion matrix"]
-  D["many false alarms"]
-  E["many missed defects"]
-  F["check precision first"]
-  G["check recall first"]
-
-  A --> B --> C
-  C --> D --> F
-  C --> E --> G
+--8<-- "assets/part-04/chapter-06/p4-6-1-mermaid-03-zh.mmd"
 ```
 
 这里，评价指标就会变成揭示 `到底哪种痛更大` 的标准。如果现场最痛的是复检成本，就要更仔细看 precision；如果漏掉不良更危险，就要更优先看 recall。即使是同一张 confusion matrix，因为先读的错误成本不同，判断也会变化。

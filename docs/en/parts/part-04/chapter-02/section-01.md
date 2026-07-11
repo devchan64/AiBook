@@ -83,21 +83,7 @@ The reason `conditionally yes` appears here is that even if something looks like
 The flow of supervised learning can be seen as follows.
 
 ```mermaid
-flowchart TD
-  A["labeled examples<br/>X and y"]
-  B["split data<br/>train / test"]
-  C["train model<br/>fit on training data"]
-  D["evaluate<br/>compare predictions with y"]
-  E["new input<br/>unlabeled case"]
-  F["prediction<br/>model output"]
-  G["service decision<br/>policy or action"]
-
-  A --> B
-  B --> C
-  C --> D
-  C --> E
-  E --> F
-  F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-1-mermaid-01-en.mmd"
 ```
 
 In this diagram, `train model` is the stage where the model adjusts internal values so that it fits the relation between inputs and labels in the training data. `evaluate` is the stage where predictions are compared with actual labels on data not used in training. `prediction` is the stage where the trained model is applied to a new input.
@@ -218,16 +204,7 @@ This is why the Section explains supervised learning as a problem where `X` and 
 The checkable result appears in evaluation on inquiries not used for learning. If classification accuracy remains stable not only on past inquiries but also on new ones, then the problem has been organized well as supervised learning using labeled examples.
 
 ```mermaid
-flowchart TD
-  A["past inquiries"]
-  B["human labels exist"]
-  C["set X = inquiry features"]
-  D["set y = inquiry type"]
-  E["train a supervised model"]
-  F["predict a new inquiry"]
-  G["check unseen-data accuracy"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-1-mermaid-02-en.mmd"
 ```
 
 ## Perspective To Remember In This Section

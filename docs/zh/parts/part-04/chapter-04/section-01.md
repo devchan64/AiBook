@@ -60,18 +60,7 @@ overfitting 和 generalization 会在 P4-5 详细处理。accuracy、precision�
 最基本的拆分，就是 `用于学习的一部分` 和 `用于评估的一部分`。
 
 ```mermaid
-flowchart TB
-  A["all available data<br/>collected examples"]
-  B["training data<br/>model learns from this"]
-  C["evaluation data<br/>model is checked here"]
-  D["trained model<br/>patterns learned from training data"]
-  E["performance estimate<br/>how well it may work on unseen data"]
-
-  A --> B
-  A --> C
-  B --> D
-  D --> C
-  C --> E
+--8<-- "assets/part-04/chapter-04/p4-4-1-mermaid-01-zh.mmd"
 ```
 
 在这张图里，evaluation data 指的是没有直接参与学习过程的数据。先用 training data 构建 model，再用 evaluation data 检查这个 model 在别的例子上是否还能工作。
@@ -333,17 +322,7 @@ evaluation data 是一种 `模拟尚未见过数据` 的装置。但它并不保
 真正可检查的结果也很明确。只要把 `在整份数据上评估时的分数` 和 `在单独留下来的 evaluation data 上的分数` 并排比较，就能看出有没有明显差距。如果只有 training score 很高，而 evaluation score 掉得很多，就应该把这读成：`没有做数据拆分时，解释过于乐观了。`
 
 ```mermaid
-flowchart TD
-  A["customer coupon table"]
-  B["train and evaluate on the whole table"]
-  C["score looks too good"]
-  D["leave out an evaluation split"]
-  E["train on one part only"]
-  F["check unseen-customer score"]
-  G["read whether optimism was justified"]
-
-  A --> B --> C
-  A --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-04/p4-4-1-mermaid-02-zh.mmd"
 ```
 
 ## 案例与示例

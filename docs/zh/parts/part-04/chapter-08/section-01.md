@@ -251,22 +251,7 @@ Part 4 到目前为止经过了下面这个流程。
 但模型选择真正的起点，与其说是决定一个正确答案，不如说更接近于建立 `第一批 shortlist`。
 
 ```mermaid
-flowchart TD
-  subgraph R1["start from the problem"]
-    direction LR
-    A["problem statement"]
-    B["data and features"]
-    C["constraints<br/>speed / cost / explanation"]
-  end
-
-  subgraph R2["then narrow the options"]
-    direction LR
-    D["candidate models"]
-    E["compare and narrow down"]
-  end
-
-  A --> B --> C
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-01-zh.mmd"
 ```
 
 这张图的核心是，先来的不是 model，而是问题和约束。
@@ -274,22 +259,7 @@ flowchart TD
 如果把实务流程再展开一点，可以读成下面这样。
 
 ```mermaid
-flowchart TD
-  subgraph Q1["translate the task"]
-    direction LR
-    A["1. business question<br/>what decision will be supported?"]
-    B["2. task type<br/>classification / regression / clustering"]
-    C["3. data condition<br/>size / feature type / sparsity"]
-  end
-
-  subgraph Q2["set limits and shortlist"]
-    direction LR
-    D["4. constraints<br/>explanation / speed / cost"]
-    E["5. candidate shortlist<br/>2 to 4 model families"]
-  end
-
-  A --> B --> C
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-02-zh.mmd"
 ```
 
 这张图把模型选择展示成：不是 `搜索算法`，而是 `把业务问题翻译成实验候选家族的过程`。
@@ -391,25 +361,7 @@ flowchart TD
 如果把这个场景画成图，就能一眼看出：即使是同一个流失预测问题，也会因为约束条件不同而分出不同候选家族。
 
 ```mermaid
-flowchart TD
-  A["churn prediction task"]
-  B["tabular behavior data"]
-  C["need explanation"]
-  D["daily batch inference"]
-  E["linear candidate<br/>logistic regression"]
-  F["interpretable rule candidate<br/>decision tree"]
-  G["strong nonlinear candidate<br/>random forest"]
-  H["compare shortlist<br/>before tuning"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  C --> F
-  D --> G
-  E --> H
-  F --> H
-  G --> H
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-03-zh.mmd"
 ```
 
 ## 案例及示例

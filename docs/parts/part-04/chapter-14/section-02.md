@@ -88,14 +88,7 @@ scikit-learn 사용자 가이드는 결정트리 학습기가 `over-complex tree
 같은 내용을 더 짧게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["training data"]
-  B["more splits"]
-  C["smaller leaves"]
-  D["train fit goes up"]
-  E["test behavior may get worse"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 트리의 과적합이 `질문을 더 많이 만들수록 무조건 좋아진다`가 아니라는 점을 보여 줍니다. 분기가 늘어나면 훈련 데이터에는 더 잘 맞을 수 있지만, 그 마지막 단계에서 일반화가 아니라 외우기가 시작될 수 있습니다.
@@ -314,13 +307,7 @@ scikit-learn은 `Minimal Cost-Complexity Pruning`을 지원하며, API 문서에
 ### pruning을 흐름으로 보기
 
 ```mermaid
-flowchart TD
-  A["fully grown tree<br/>많이 자란 트리"]
-  B["measure complexity cost<br/>복잡도에 벌점 부여"]
-  C["remove weak branches<br/>효과 작은 가지 제거"]
-  D["smaller tree<br/>더 단순한 트리"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-02-ko.mmd"
 ```
 
 이 절에서는 pruning 공식을 계산하지 않습니다. 대신 `어떤 잔가지를 남기지 않을 것인가`, `왜 train 점수를 조금 포기하고 test 안정성을 얻으려 하는가`를 중심으로 읽습니다.
@@ -351,15 +338,7 @@ flowchart TD
 | review 대상으로 먼저 볼 만한가 | 한두 개 제품만 맞추는 세밀한 분기 |
 
 ```mermaid
-flowchart TD
-  A["sensor records"]
-  B["more and more splits"]
-  C["tiny leaves for rare cases"]
-  D["train fit rises"]
-  E["test stability drops"]
-  F["need depth or pruning control"]
-
-  A --> B --> C --> D --> E --> F
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-03-ko.mmd"
 ```
 
 같은 장면을 `비교적 단순한 읽기`와 `지나치게 깊은 읽기`로 나누면 차이가 더 잘 보입니다.
@@ -406,14 +385,7 @@ flowchart TD
 이 장면에서 과적합은 `설명력이 높아 보이는 잔질문`이 실제로는 review 기준을 더 선명하게 만드는 것이 아니라, 훈련 데이터의 우연한 조합을 더 정교하게 외우는 현상으로 읽어야 합니다. 그래서 트리를 볼 때는 `설명이 자세해졌는가`만이 아니라 `그 자세함이 새 고객에서도 반복될 만한가`, `review 우선순위를 더 잘 세우는가`를 같이 물어야 합니다.
 
 ```mermaid
-flowchart TD
-  A["customer pattern"]
-  B["basic review signals"]
-  C["extra tiny questions"]
-  D["rare customer leaf"]
-  E["review rule becomes fragile"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-04-ko.mmd"
 ```
 
 같은 장면을 점수표가 아니라 leaf 장면으로 다시 읽으면, 과적합을 더 빨리 알아차릴 수 있습니다.

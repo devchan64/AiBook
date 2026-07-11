@@ -53,25 +53,7 @@ Here the heuristic does not say `logistic regression is the answer`. Instead, it
 If that judgment is drawn as a case flow, model selection becomes easier to read not as `choosing a name`, but as `reducing candidates through the problem and its constraints, then making a small comparison set`.
 
 ```mermaid
-flowchart TD
-  A["churn problem<br/>predict leave / stay"]
-  B["task type<br/>classification"]
-  C["constraints<br/>interpretability / tabular data / cost"]
-  D["baseline first<br/>logistic regression"]
-  E["tree candidate<br/>decision tree"]
-  F["stronger ensemble<br/>random forest"]
-  G["compare with validation<br/>recall / precision / cost"]
-  H["keep or expand set<br/>record why"]
-
-  A --> B
-  B --> C
-  C --> D
-  C --> E
-  C --> F
-  D --> G
-  E --> G
-  F --> G
-  G --> H
+--8<-- "assets/part-04/chapter-03/churn-model-selection-flow-en.mmd"
 ```
 
 ## Model Selection Is A Process Of Reducing Candidates
@@ -79,20 +61,7 @@ flowchart TD
 Model selection usually proceeds in the following flow.
 
 ```mermaid
-flowchart TB
-  A["problem type<br/>classification / regression / clustering"]
-  B["constraints<br/>data size / interpretability / cost"]
-  C["baseline<br/>simple first model"]
-  D["candidate models<br/>small set to compare"]
-  E["validation<br/>compare with agreed metric"]
-  F["decision log<br/>why keep or change"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
-  F --> D
+--8<-- "assets/part-04/chapter-03/model-selection-basic-flow-en.mmd"
 ```
 
 The important point in this flow is that it does not try to guess the final model in one step. It first looks at the problem type, then checks the constraints, sets a baseline model, and compares a small candidate set. If the validation result is poor, the candidate set is changed again.
@@ -200,17 +169,7 @@ Here a model-selection heuristic can become `first check how far simple sentence
 The checkable result is clear as well. By comparing the error types of the baseline model and the rule-based classifier, then looking at precision and recall by class, you can confirm which inquiry types improved. If the baseline already handles most repeated inquiries stably, more complex models can be postponed. If it keeps failing on inquiries with high wording variation, then a stronger representation model should be reviewed.
 
 ```mermaid
-flowchart TD
-  A["inquiry classification problem"]
-  B["rule-based start point"]
-  C["too many misses from wording changes"]
-  D["try a simple baseline model first"]
-  E["compare with tree or stronger candidates"]
-  F["check precision and recall by class"]
-  G["keep the shortlist or expand it"]
-
-  A --> B --> C
-  C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-03/inquiry-classification-model-selection-flow-en.mmd"
 ```
 
 ## Perspective To Remember In This Section

@@ -45,21 +45,7 @@
 即便是同一张客户表，在无监督学习里，它也不是 `拿来匹配答案标签的表`，而是 `拿来阅读结构候选的表`。下面这张图展示的，就是同一份输入表，怎样分出 cluster candidates、reduced view 和 outlier candidate。
 
 ```mermaid
-flowchart TD
-  A["customer table<br/>visits / purchases / amount / coupon use"]
-  B["cluster candidates<br/>active / browsing / dormant"]
-  C["reduced view<br/>2D map of behavior"]
-  D["outlier candidate<br/>unusual purchase pattern"]
-  E["human interpretation<br/>name and inspect"]
-  F["next task<br/>analysis or supervised learning"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-01-zh.mmd"
 ```
 
 ## 和监督学习比较来看
@@ -81,19 +67,7 @@ flowchart TD
 无监督学习的基本流程可以读成下面这样。
 
 ```mermaid
-flowchart TB
-  A["1. unlabeled data<br/>X only"]
-  B["2. representation<br/>choose features"]
-  C["3. structure candidates<br/>clusters / axes / density"]
-  D["4. inspection<br/>visualize and compare"]
-  E["5. interpretation<br/>name or use the pattern"]
-  F["6. next task<br/>analysis or supervised learning"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-02-zh.mmd"
 ```
 
 这张图里的关键，是 `human interpretation`。无监督学习得到的是数据中的结构候选。model 做出的分组或轴，仍然需要由人来命名、解释，并确认它是否在实际工作里可用。
@@ -215,21 +189,7 @@ outlier detection 是用来寻找那些看起来和大多数案例不一样的�
 可检查的结果，可以看它有没有真正形成下一步检查问题。比如，如果相似购买模式的客户确实分出了几个组，而且人能够解释它们之间的差别，那么无监督学习的结果就成了下一步分析的出发点。
 
 ```mermaid
-flowchart TD
-  A["customer behavior table"]
-  B["no labels yet"]
-  C["look for similar patterns"]
-  D["group candidates appear"]
-  E["outlier or reduced-view hints appear"]
-  F["human interpretation comes later"]
-  G["use the result for the next analysis question"]
-
-  A --> B --> C
-  C --> D
-  C --> E
-  D --> F
-  E --> F
-  F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-03-zh.mmd"
 ```
 
 ## 什么时候要先想到这个视角

@@ -1,7 +1,7 @@
 # P4-11.4 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 P4-11.3에서 본 log-odds와 MLE는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
 
@@ -122,14 +122,7 @@ P(y = k \mid x) = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}
 문의 내용에 `환불`, `결제 취소`, `계정 잠금` 같은 표현이 함께 섞여 있으면, one-vs-rest는 각 클래스를 따로 점검한 뒤 비교합니다. 반면 multinomial은 클래스 전체를 한 번에 놓고 상대 확률을 정합니다. 초심자 입장에서는 후자가 `한 번의 비교 구조`로 읽히기 쉬울 때가 많습니다.
 
 ```mermaid
-flowchart TD
-  A["input features"]
-  B["class scores"]
-  C["softmax probabilities"]
-  D["compare all classes"]
-  E["pick largest probability"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-11/p4-11-4-mermaid-01-ko.mmd"
 ```
 
 ## 연습 및 예제

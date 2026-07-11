@@ -324,18 +324,7 @@ When the discussion moves from comparing models by accuracy and recall into actu
 At that point, ROC and PR make it possible to read what changes when the threshold changes, log loss makes it possible to read how excessively the model was confident when it was wrong, calibration makes it possible to check how much the score itself can be trusted, and silhouette appears when unlabeled customer-group structure is being read.
 
 ```mermaid
-flowchart TD
-  A["fraud risk scores"]
-  B["change threshold"]
-  C["check precision-recall shift"]
-  D["check score confidence"]
-  E["check score-frequency match"]
-  F["inspect unlabeled customer groups"]
-
-  A --> B --> C
-  A --> D
-  A --> E
-  A --> F
+--8<-- "assets/part-04/chapter-06/p4-6-4-mermaid-01-en.mmd"
 ```
 
 The checkable result also differs by question. Precision and recall must be inspected separately when the threshold changes, the match between high-risk score groups and actual fraud ratio must be checked, and the internal similarity of transactions inside a cluster must be examined separately. So these names should be read not as `new terms`, but as tools that answer `more specific questions`.

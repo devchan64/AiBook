@@ -50,17 +50,7 @@ So a metric does not merely say, `what is the score?`
 It brings those questions in as well.
 
 ```mermaid
-flowchart TD
-  A["task<br/>what is the model for?"]
-  B["prediction<br/>score or class"]
-  C["decision<br/>approve / block / review"]
-  D["error cost<br/>which error hurts more?"]
-  E["metric focus<br/>accuracy / precision / recall / F1"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-06/p4-6-1-mermaid-01-en.mmd"
 ```
 
 This diagram shows that evaluation metrics are not only about numbers inside the model. They are criteria connected to an actual decision-making context. Even with the same prediction, the metric that gets inspected first changes depending on which kind of error hurts more.
@@ -97,15 +87,7 @@ The starting point of metric reading is to check `what kind of error or success 
 To understand precision and recall, you should first look lightly at the `confusion matrix`. Google's glossary explains the confusion matrix as `a table that summarizes what the model got right and wrong`.
 
 ```mermaid
-flowchart TB
-  A["ground truth<br/>actual class"]
-  B["model prediction<br/>predicted class"]
-  C["confusion matrix<br/>TP / FP / FN / TN"]
-  D["metrics<br/>accuracy / precision / recall"]
-
-  A --> C
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-06/p4-6-1-mermaid-02-en.mmd"
 ```
 
 This diagram shows why the confusion matrix becomes the starting point of evaluation metrics. Only when actual values and predicted values are gathered in one table can you read not only accuracy, but also different kinds of mistakes such as FP and FN separately.
@@ -183,18 +165,7 @@ A factory inspection system is separating product images into `defective` and `n
 At first, the model looked good because the accuracy was high. But in the actual field, it keeps sending normal products to reinspection as defects. Another setting reduces reinspections but increases the number of real defects that get missed. At that point, it is hard to say which model is better through accuracy alone.
 
 ```mermaid
-flowchart TD
-  A["inspection images"]
-  B["model prediction"]
-  C["confusion matrix"]
-  D["many false alarms"]
-  E["many missed defects"]
-  F["check precision first"]
-  G["check recall first"]
-
-  A --> B --> C
-  C --> D --> F
-  C --> E --> G
+--8<-- "assets/part-04/chapter-06/p4-6-1-mermaid-03-en.mmd"
 ```
 
 Here the evaluation metric becomes the criterion that reveals `which kind of pain matters more`. If reinspection cost is high in the field, precision deserves more careful inspection. If missing a defect is more dangerous, recall should be treated as more important. Even with the same confusion matrix, the judgment changes depending on which error cost is read first.

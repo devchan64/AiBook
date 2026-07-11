@@ -81,15 +81,7 @@ It becomes even easier if you translate it into a work scene. Suppose you are bu
 When choosing which of these three is better, you use validation data. This is not yet the stage of announcing the final model to deploy in the service. It is still `the stage of finding the better candidate`.
 
 ```mermaid
-flowchart TB
-  A["training data<br/>fit model"]
-  B["validation data<br/>compare choices"]
-  C["pick one model and setting"]
-  D["test data<br/>final check once"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-04/p4-4-2-mermaid-01-en.mmd"
 ```
 
 In this diagram, validation data sit before the model is fixed. They appear repeatedly in the cycle `change the experiment, check again, change again, check again`.
@@ -177,17 +169,7 @@ This is exactly why validation data and test data are separated. Validation data
 The checkable result appears in the experiment log. If the final model is chosen by candidate-specific validation scores and the test score is opened only once after that, you can read separately which numbers were used for selection and which number was used for the final check. By contrast, if the test score was recorded several times while changing selections, that test result is no longer a reliable basis for a final-confirmation claim.
 
 ```mermaid
-flowchart TD
-  A["spam dataset"]
-  B["check test score early"]
-  C["change features or settings again"]
-  D["test becomes part of selection"]
-  E["use validation for candidate choice"]
-  F["freeze one final model"]
-  G["open test once at the end"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-04/p4-4-2-mermaid-02-en.mmd"
 ```
 
 ### Separating The Roles Again With A Small Table
@@ -216,21 +198,7 @@ When the question changes, the role of the data being used also changes.
 Even with the same customer-churn table, once the question changes, the role of the data changes with it. The following diagram shows why `the candidate-selection stage` and `the final-confirmation stage` should not share the same data fragment.
 
 ```mermaid
-flowchart TD
-  A["customer churn table"]
-  B["train split<br/>fit several models"]
-  C["validation split<br/>choose depth / features / model"]
-  D["final candidate"]
-  E["test split<br/>open once at the end"]
-  F["reported final result"]
-
-  A --> B
-  A --> C
-  A --> E
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-04/p4-4-2-mermaid-03-en.mmd"
 ```
 
 ## Practice And Examples

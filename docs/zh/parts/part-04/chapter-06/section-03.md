@@ -44,16 +44,7 @@
 model metric 更接近答案质量，运营 metric 更接近服务状态。
 
 ```mermaid
-flowchart TD
-  A["user request"]
-  B["model output"]
-  C["service response"]
-  D["model metrics<br/>accuracy / precision / recall / RMSE"]
-  E["service metrics<br/>latency / errors / traffic / saturation"]
-
-  A --> B --> C
-  B --> D
-  C --> E
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-01-zh.mmd"
 ```
 
 这张图的核心是：即使在同一个 AI service 里，也会同时存在两种 metric。
@@ -127,13 +118,7 @@ Google SRE Book 会把 SLI、SLO、SLA 分开定义。这个区分很重要。�
 | SLA | 做不到会发生什么？ | 退款、credit、合同补偿 |
 
 ```mermaid
-flowchart TB
-  A["measured behavior"]
-  B["SLI<br/>chosen indicator"]
-  C["SLO<br/>target value"]
-  D["SLA<br/>consequence if missed"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-02-zh.mmd"
 ```
 
 看这条流程，就能知道：在运营里读数字，不只是观察，它还会接到 `要承诺什么、没做到时要怎样反应` 的结构上。
@@ -197,24 +182,7 @@ Google SRE Book 把 latency、traffic、errors、saturation 提出为面向用�
 这四个信号可以当成运营视角里的基本坐标。
 
 ```mermaid
-flowchart TD
-  A["user requests arrive"]
-  B["traffic<br/>how much demand is coming in?"]
-  C{"is the system near capacity?"}
-  D["saturation<br/>cpu / memory / queue / connection pool fills up"]
-  E["latency rises<br/>responses become slower"]
-  F["errors rise<br/>timeouts / failed requests increase"]
-  G["user-facing reliability drops"]
-  H["latency stays stable<br/>normal user experience"]
-
-  A --> B
-  B --> C
-  C -->|yes| D
-  D --> E
-  D --> F
-  E --> G
-  F --> G
-  C -->|no| H
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-03-zh.mmd"
 ```
 
 这张图不是把四个信号当成并列列表来背，而是按运营团队真实读取的顺序来呈现。先通过 traffic 看 `现在进来了多少请求`，再通过 saturation 看 `系统是不是逼近极限`。只要逼近极限，latency 和 errors 就会作为用户可感知的问题冒出来，最后把服务可靠性一起摇动。反过来，如果 saturation 不高，就可以通过 latency 是否保持稳定来确认正常状态。
@@ -255,18 +223,7 @@ flowchart TD
 但是，真实用户投诉并没有下降。原因一查，发现高峰时段响应延迟拉长，timeout 也变多，所以即使有好回答，也经常来得太晚。这个场景说明：model metric 和运营 metric 看的是不同层位。
 
 ```mermaid
-flowchart TD
-  A["chatbot release"]
-  B["offline quality rises"]
-  C["user complaints stay high"]
-  D["check latency and timeout"]
-  E["check answer quality"]
-  F["service issue"]
-  G["model issue"]
-
-  A --> B --> C
-  C --> D --> F
-  C --> E --> G
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-04-zh.mmd"
 ```
 
 这里，model metric 读的是 `答案质量`，运营 metric 读的是 `服务体验`。即使回答适切性很高，只要 latency 和 error rate 很差，服务质量仍会被感受到很低。反过来，就算服务很快，如果答案不准确，目标同样达不成。

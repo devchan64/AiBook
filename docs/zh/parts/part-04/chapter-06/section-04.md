@@ -324,18 +324,7 @@ silhouette 可以理解成：同时比较 `和自己 cluster 的接近程度` �
 这时，ROC 和 PR 会让人读出 threshold 变化时到底动了什么，log loss 会让人读出答错时到底有多过度自信，calibration 会让人检查分数本身到底能信多少，而 silhouette 会在没有答案 label 的客户分组结构里出现。
 
 ```mermaid
-flowchart TD
-  A["fraud risk scores"]
-  B["change threshold"]
-  C["check precision-recall shift"]
-  D["check score confidence"]
-  E["check score-frequency match"]
-  F["inspect unlabeled customer groups"]
-
-  A --> B --> C
-  A --> D
-  A --> E
-  A --> F
+--8<-- "assets/part-04/chapter-06/p4-6-4-mermaid-01-zh.mmd"
 ```
 
 可检验的结果也会随着问题不同而不同。只要 threshold 一动，就要分别看 precision 和 recall 的摆动；只要看高风险分数组，就要确认它和真实欺诈比例是否吻合；只要看 cluster，就要单独看 cluster 里面的交易是不是真的彼此相似。所以，这些指标不该被读成 `新名字`，而该被读成对 `更具体问题` 的回应工具。

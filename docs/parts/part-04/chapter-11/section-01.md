@@ -1,7 +1,7 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
@@ -104,14 +104,7 @@ sigmoid 함수는 바로 이 역할을 합니다.
 이 흐름을 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["features x"]
-  B["linear score z"]
-  C["sigmoid"]
-  D["0-1 score"]
-  E["class decision"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-01-ko.mmd"
 ```
 
 핵심은 로지스틱 회귀가 직선을 버리는 것이 아니라, `직선적 계산 뒤에 해석용 변환을 하나 더 붙인다`는 점입니다.
@@ -338,15 +331,7 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 이 표에서 독자가 먼저 잡아야 할 것은 `입력 특징이 바로 행동으로 가지 않는다`는 점입니다. 모델은 먼저 점수를 만들고, 서비스는 그 점수를 기준으로 `일반 유지`, `캠페인`, `사람 검토` 같은 행동을 나눕니다.
 
 ```mermaid
-flowchart TD
-  A["customer features"]
-  B["linear score"]
-  C["sigmoid"]
-  D["class 1 score"]
-  E["threshold policy"]
-  F["campaign or review"]
-
-  A --> B --> C --> D --> E --> F
+--8<-- "assets/part-04/chapter-11/p4-11-1-mermaid-02-ko.mmd"
 ```
 
 이 장면에서 로지스틱 회귀를 먼저 고려하는 이유는 보통 세 가지입니다. 빠르게 기준선을 세울 수 있고, 어떤 특징이 점수를 밀어 올리는지 비교적 읽기 쉬우며, threshold 정책을 바꿔 여러 운영 시나리오를 바로 비교할 수 있기 때문입니다.

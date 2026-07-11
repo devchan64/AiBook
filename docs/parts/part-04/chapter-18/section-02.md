@@ -78,14 +78,7 @@ P4-18.1에서는 차원 축소(dimensionality reduction)가 많은 특징을 더
 이 긴장을 그림으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["high-dimensional data"]
-  B["reduce to 2D or 3D"]
-  C["easier to inspect"]
-  D["some structure may be distorted or lost"]
-
-  A --> B --> C
-  B --> D
+--8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 차원 축소 그림의 장점과 한계를 한 번에 보여 줍니다. 차원을 줄이면 사람이 구조를 훨씬 쉽게 볼 수 있지만, 그 쉬움은 항상 일부 왜곡이나 손실과 함께 온다는 점을 같이 기억해야 합니다.
@@ -149,13 +142,7 @@ flowchart TB
 이 감각을 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["high-dimensional relation"]
-  B["project to 2D"]
-  C["visual distance in 2D"]
-  D["not always identical to original distance"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-02-ko.mmd"
 ```
 
 이 도식은 2D 그림의 거리와 원래 고차원 거리 사이가 항상 같지 않다는 점을 강조합니다. 그림에서 가깝게 보이는 두 점이 원래도 꼭 가깝다고 할 수 없고, 반대로 멀어 보이는 점도 원래 구조에서는 더 비슷할 수 있습니다.
@@ -381,14 +368,7 @@ T(k) = 1 - \frac{2}{nk(2n - 3k - 1)}
 이를 흐름으로 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["2D or 3D view"]
-  B["spot a pattern"]
-  C["go back to original features"]
-  D["check if the pattern is robust"]
-  E["use as hypothesis, not proof"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-03-ko.mmd"
 ```
 
 이 도식은 안전한 해석 순서를 정리합니다. 먼저 그림에서 패턴을 발견하더라도, 반드시 원래 특징으로 돌아가고 다른 방법에서도 비슷한지 확인한 뒤에야 그 패턴을 가설 수준에서 사용할 수 있습니다.
@@ -433,13 +413,7 @@ flowchart TB
 이 관계를 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["cluster labels"]
-  B["color on 2D plot"]
-  C["clear-looking separation"]
-  D["possible visual overconfidence"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-04-ko.mmd"
 ```
 
 ## 사례 및 예시
@@ -449,21 +423,7 @@ flowchart TB
 상품 기획 팀이 수십 개 상품 특징을 차원 축소해 2D 그림으로 봤더니 두 점무리가 멀리 떨어져 보였다고 해 보겠습니다. 그림만 보면 `완전히 다른 상품군`처럼 보일 수 있지만, 실제 원본 특징에서는 가격대와 핵심 기능이 꽤 비슷하고 일부 보조 특징이 투영 과정에서 더 크게 드러난 것일 수도 있습니다. 반대로 그림에서 조금 겹쳐 보이는 상품도 원래 고차원 공간에서는 충분히 구분될 수 있습니다. 그래서 차원 축소 그림은 분리 가설을 만드는 데는 유용하지만, 최종 판단은 원래 특징 요약과 후속 분석으로 다시 확인해야 합니다.
 
 ```mermaid
-flowchart TD
-  A["2D reduced plot"]
-  B["two groups look far apart"]
-  C["jump to different product families"]
-  D["possible projection exaggeration"]
-  E["return to original features"]
-  F["compare price and core function"]
-  G["check another projection or axis count"]
-  H["keep or weaken the grouping hypothesis"]
-
-  A --> B --> C
-  B --> D
-  D --> E
-  E --> F
-  F --> G --> H
+--8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-05-ko.mmd"
 ```
 
 이 장면을 해석 메모로 남기면 다음처럼 정리할 수 있습니다.

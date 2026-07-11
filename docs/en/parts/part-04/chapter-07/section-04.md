@@ -115,18 +115,7 @@ A marketing team is preparing customer segmentation and wants to reduce the inpu
 But in the meeting, different method names appear all at once. One person suggests removing columns with low correlation first, another suggests repeatedly running a model and reducing columns with low importance, and another suggests reducing axes with PCA. All of them are grouped under the phrase `reduce dimensions`, but in reality what is kept and what is changed are different.
 
 ```mermaid
-flowchart TD
-  A["customer behavior columns"]
-  B["quick first pass"]
-  C["model-based repeat check"]
-  D["new compressed axes"]
-  E["filter keeps original columns"]
-  F["wrapper or RFE keeps best subset"]
-  G["dimensionality reduction rewrites representation"]
-
-  A --> B --> E
-  A --> C --> F
-  A --> D --> G
+--8<-- "assets/part-04/chapter-07/p4-7-4-mermaid-01-en.mmd"
 ```
 
 The distinction needed here is the following. The filter approach is closer to quickly inspecting the original features and reducing first-round candidates, while RFE, which is a wrapper approach, repeatedly reduces features based on current model performance. Dimensionality reduction is closer not to choosing some of the original columns, but to mixing several features and re-expressing them as new axes.

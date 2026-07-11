@@ -90,14 +90,7 @@ Two things are important here.
 That means tuning is not the work of intuitively pointing at `a value that looks good`, but the work of comparing within a pre-fixed candidate space and validation rule.
 
 ```mermaid
-flowchart TD
-  A["choose a model family"]
-  B["set parameter candidates"]
-  C["compare by validation score"]
-  D["select one setting"]
-  E["check once on test"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-01-en.mmd"
 ```
 
 This diagram shows that the core of tuning is `the procedure that, after choosing a model, compares candidate settings by validation score and checks test only at the very end`. What is especially important here is the role separation that `test is not for selection, but for final confirmation`.
@@ -131,18 +124,7 @@ Validation cost should also be read as `the cost of repeated experiment records`
 The diagram below shows in the simplest form why computational cost grows so quickly.
 
 ```mermaid
-flowchart TD
-  subgraph A["candidate grid"]
-    B["max_depth: 4 values"]
-    C["min_samples_split: 5 values"]
-    D["criterion: 2 values"]
-  end
-
-  B --> E["40 combinations"]
-  C --> E
-  D --> E
-  E --> F["5-fold cross-validation"]
-  F --> G["200 training runs"]
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-02-en.mmd"
 ```
 
 This diagram shows that once hyperparameter candidates grow even a little, the actual number of training runs can rapidly grow multiplicatively. That means tuning is not simple value play, but work that must manage computational cost together with experiment design.
@@ -271,15 +253,7 @@ Only with such notes does tuning remain not as `score optimization`, but as `rep
 If only the flow of scores is seen, it can look simple. But the questions for reading it become increasingly demanding.
 
 ```mermaid
-flowchart TD
-  A["baseline 0.900"]
-  B["candidate 0.910"]
-  C["tuned 0.912"]
-
-  A --> B --> C
-  C --> D["is the gain stable on validation?"]
-  C --> E["is the added cost worth it?"]
-  C --> F["did speed or simplicity get worse?"]
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-03-en.mmd"
 ```
 
 ### Why Can Tuning Be Stopped Early In Practice?
@@ -308,18 +282,7 @@ In this scene, tuning must be read not as `changing many values`, but as `compar
 The confirmable result appears when the reader multiplies the number of combinations by the number of cross-validation runs and then reads separately the highest validation score and the final test score. Even if the improvement is the same 0.002, the reader must also see what multiple of computational cost and what degree of validation risk was paid for it in order for the tuning to remain explainable.
 
 ```mermaid
-flowchart TD
-  A["many parameter candidates"]
-  B["run every combination"]
-  C["training cost grows fast"]
-  D["keep staring at validation or test"]
-  E["comparison reliability weakens"]
-  F["compare within a controlled validation loop"]
-  G["open test only once at the end"]
-
-  A --> B --> C
-  B --> D --> E
-  A --> F --> G
+--8<-- "assets/part-04/chapter-09/p4-9-2-mermaid-04-en.mmd"
 ```
 
 ### Example 1. How Does Computational Cost Grow When Candidate Combinations Increase?

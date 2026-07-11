@@ -66,18 +66,7 @@ generative AI 指的是生成文本、图像、音频、代码等新输出的模
 LLM 指 large language model。现在很多人第一次真正接触 AI，往往就是通过 LLM 体验，但 LLM 不是整个 AI，而是围绕语言发展出来的一类特定模型。
 
 ```mermaid
-flowchart TD
-  A["AI<br/>人工智能"]
-  B["机器学习<br/>从数据中学习"]
-  C["深度学习<br/>基于神经网络的学习"]
-  D["生成式 AI<br/>生成文本、图像、音频、代码"]
-  E["LLM<br/>large language model"]
-
-  A --> B
-  A --> R["规则型系统<br/>搜索、启发式、知识表示"]
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-01/ai-scope-map-zh.mmd"
 ```
 
 这张图更像学习地图，而不是严格分类表。真实研究和产品里，很多技术会混在一起。比如一个服务里，search system、rule-based filter、machine learning model、LLM 都可能同时工作。
@@ -85,29 +74,7 @@ flowchart TD
 下面这张图会把 `包含关系` 和 `真实服务组合方式` 分开来看。上面那张图是在说明 `术语的大致位置`，而下面这张图强调的是 `一个服务里可以同时运行多种方法`。
 
 ```mermaid
-flowchart TD
-  U["用户请求"]
-  A["应用层"]
-  R["规则检查"]
-  S["搜索 / 数据库"]
-  M["机器学习模型"]
-  L["LLM"]
-  P["策略判断"]
-  H["人工复核<br/>在需要时"]
-  O["服务响应"]
-
-  U --> A
-  A --> R
-  A --> S
-  A --> M
-  A --> L
-  R --> P
-  S --> P
-  M --> P
-  L --> P
-  P --> O
-  P -. "置信度低 / 风险高" .-> H
-  H --> O
+--8<-- "assets/part-04/chapter-01/ai-service-composition-map-zh.mmd"
 ```
 
 在这张图里，LLM 不是整个服务，而只是多个组成部分中的一个。模型输出还可以和 policy judgment 结合，而当风险高或置信度低时，也可能转到 human review。
@@ -227,16 +194,7 @@ Part 4 的核心不是模型目录，而是数据、学习、评估这条流程�
 真正可检查的结果，会在把服务结构拆成问题之后显现出来。如果某一部分由 search 负责、另一部分由分类模型负责、还有一部分由 LLM 负责生成回答，那么光靠 `AI = LLM` 这个简单等式已经解释不够了。
 
 ```mermaid
-flowchart TD
-  A["聊天机器人或图像工具<br/>使用经验"]
-  B["直接跳到<br/>AI = LLM"]
-  C["服务结构被遮住"]
-  D["拆开看搜索、规则、模型、<br/>策略、人工复核"]
-  E["LLM 只是其中一个组件"]
-  F["AI 的范围再次变宽"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-01/ai-llm-scope-misconception-flow-zh.mmd"
 ```
 
 ## 本节要记住的视角

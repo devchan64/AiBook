@@ -1,7 +1,7 @@
 # P4-10.2 선형회귀의 평가와 한계
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-10.1에서는 선형회귀(linear regression)를 `관계를 직선으로 먼저 읽어 보는 모델`로 보았습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -102,17 +102,7 @@ P4-10.1은 선형회귀를 `관계를 요약하는 첫 모델`로 소개했습�
 이 차이를 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["actual value"]
-  B["prediction"]
-  C["residual = actual - prediction"]
-  D["positive residual<br/>predicted too low"]
-  E["negative residual<br/>predicted too high"]
-
-  A --> C
-  B --> C
-  C --> D
-  C --> E
+--8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-01-ko.mmd"
 ```
 
 이 도식은 잔차를 단순한 실패 표시가 아니라 `방향이 있는 차이`로 읽게 해 줍니다. 예측이 실제보다 낮았는지 높았는지를 함께 보아야, 모델이 특정 구간에서 한쪽 방향으로 치우치는지도 나중에 의심할 수 있습니다.
@@ -229,13 +219,7 @@ R²(score, coefficient of determination)는 선형회귀 입문에서 자주 보
 이 순서를 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["compare with baseline"]
-  B["check average error<br/>MAE or RMSE"]
-  C["check large misses"]
-  D["look for residual pattern"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-02-ko.mmd"
 ```
 
 이 도식은 회귀 지표를 읽는 순서를 정리한 것입니다. 좋은 회귀 평가는 숫자 하나를 보는 일이 아니라, 기준선보다 나아졌는지, 평균 오차가 어느 정도인지, 큰 실패가 숨어 있는지를 차례로 확인하는 일입니다.
@@ -389,17 +373,7 @@ R²가 높으면 모델이 데이터를 잘 설명하는 것처럼 보입니다.
 선형회귀를 돌려 보니 전체 R²는 꽤 높고 MAE도 나쁘지 않습니다. 표면적으로는 모델이 괜찮아 보일 수 있습니다. 하지만 자세히 보면 장거리 배송이나 폭우가 낀 날에는 예측이 크게 빗나가고, RMSE는 그 큰 실패들 때문에 생각보다 높게 나옵니다.
 
 ```mermaid
-flowchart TD
-  A["delivery time data"]
-  B["linear regression"]
-  C["compare with baseline"]
-  D["check MAE for average miss"]
-  E["check RMSE for large misses"]
-  F["inspect residuals by route and weather"]
-  G["decide whether linear fit is enough"]
-
-  A --> B --> C --> D
-  D --> E --> F --> G
+--8<-- "assets/part-04/chapter-10/p4-10-2-mermaid-03-ko.mmd"
 ```
 
 이 장면에서 회귀 평가는 숫자 하나로 끝나지 않습니다. MAE는 평균적으로 얼마나 빗나가는지 보여 주고, RMSE는 드문 큰 실패에 더 민감하게 반응하며, R²는 전체 설명력의 크기를 요약합니다. 따라서 `R²가 높다`만으로는 실제 운영 위험을 다 설명할 수 없습니다.

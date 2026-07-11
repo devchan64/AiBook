@@ -251,22 +251,7 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 하지만 모델 선택의 실제 출발점은 하나의 정답 모델보다 `첫 후보군(shortlist)`을 만드는 일에 더 가깝습니다.
 
 ```mermaid
-flowchart TD
-  subgraph R1["문제에서 출발"]
-    direction LR
-    A["문제 정의"]
-    B["데이터와 특징"]
-    C["제약<br/>속도 / 비용 / 설명 가능성"]
-  end
-
-  subgraph R2["그다음 후보를 좁힘"]
-    direction LR
-    D["후보 모델"]
-    E["비교하며 좁혀 감"]
-  end
-
-  A --> B --> C
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-01-ko.mmd"
 ```
 
 이 도식의 핵심은, 모델이 먼저가 아니라 문제와 제약이 먼저라는 점입니다.
@@ -274,22 +259,7 @@ flowchart TD
 실무 흐름으로 조금 더 펼치면 다음처럼 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  subgraph Q1["과제를 번역"]
-    direction LR
-    A["1. 업무 질문<br/>어떤 결정을 지원할 것인가?"]
-    B["2. 과제 유형<br/>classification / regression / clustering"]
-    C["3. 데이터 조건<br/>크기 / 특징 유형 / 희소성"]
-  end
-
-  subgraph Q2["제약을 세우고 후보군 구성"]
-    direction LR
-    D["4. 제약<br/>설명 가능성 / 속도 / 비용"]
-    E["5. 후보군<br/>2~4개 모델 계열"]
-  end
-
-  A --> B --> C
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-02-ko.mmd"
 ```
 
 이 도식은 모델 선택을 `알고리즘 검색`이 아니라 `업무 질문을 실험 후보군으로 번역하는 과정`으로 보여 줍니다.
@@ -391,25 +361,7 @@ flowchart TD
 이 장면을 도식으로 그리면, 같은 이탈 예측 문제도 제약 조건 때문에 후보군이 어떻게 갈라지는지 한눈에 보입니다.
 
 ```mermaid
-flowchart TD
-  A["이탈 예측 과제"]
-  B["표 형태의 행동 데이터"]
-  C["설명이 필요함"]
-  D["하루 한 번 배치 추론"]
-  E["선형 후보<br/>logistic regression"]
-  F["설명 가능한 규칙 후보<br/>decision tree"]
-  G["강한 비선형 후보<br/>random forest"]
-  H["튜닝 전에 후보군 비교"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  C --> F
-  D --> G
-  E --> H
-  F --> H
-  G --> H
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-03-ko.mmd"
 ```
 
 ## 사례 및 예시

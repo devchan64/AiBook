@@ -1,7 +1,7 @@
 # P4-18.1 차원 축소(dimensionality reduction)
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-17에서는 클러스터링(clustering)을 통해 라벨 없이 데이터 구조를 찾아보는 관점을 보았습니다. 같은 비지도학습 흐름 안에서 여기서는 또 다른 질문이 나옵니다.
 
@@ -96,13 +96,7 @@ P4-17에서는 클러스터링(clustering)을 통해 라벨 없이 데이터 구
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["1 feature<br/>1 axis"]
-  B["2 features<br/>2 axes"]
-  C["3 features<br/>3 axes"]
-  D["many features<br/>hard to visualize directly"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-01-ko.mmd"
 ```
 
 이 도식은 차원이 늘어날수록 데이터를 직접 그림처럼 상상하기 어려워진다는 점을 보여 줍니다. 특징 하나가 축 하나를 만든다는 감각만 잡아도, 왜 고차원 데이터에서 다시 요약 축이 필요해지는지 이해하기 쉬워집니다.
@@ -146,18 +140,7 @@ scikit-learn 사용자 가이드는 PCA를 다변량(multivariate) 데이터셋�
 ## 한 장면으로 보기
 
 ```mermaid
-flowchart TB
-  A["many original features"]
-  B["hard to visualize directly"]
-  C["overlap and correlation may exist"]
-  D["create fewer new axes"]
-  E["inspect structure or use in later models"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-02-ko.mmd"
 ```
 
 이 도식의 핵심은 차원 축소가 단순 삭제가 아니라 `새 축을 다시 만드는 재표현`이라는 점입니다. 특징이 너무 많아 직접 보기 어렵고, 서로 겹치는 정보도 있을 때, 더 적은 수의 축을 만들어 구조를 다시 해석하거나 후속 모델에 넘기게 됩니다.
@@ -185,14 +168,7 @@ PCA는 `원래 좌표계보다 데이터 흐름에 더 잘 맞는 좌표계`를 
 이를 도식으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["original axes"]
-  B["data spreads diagonally"]
-  C["rotate to a better aligned axis"]
-  D["component 1 explains more variance"]
-  E["component 2 explains the remaining orthogonal variance"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-03-ko.mmd"
 ```
 
 이 도식은 PCA를 `데이터가 실제로 많이 퍼진 방향으로 축을 다시 돌려 잡는 과정`으로 읽게 해 줍니다. 원래 좌표축보다 데이터 흐름에 더 잘 맞는 축을 찾으면, 첫 번째 성분이 큰 변동을 더 효율적으로 설명할 수 있습니다.
@@ -339,14 +315,7 @@ scikit-learn 문서도 PCA가 K-means 같은 downstream 모델에 유용할 수 
 이 연결을 그림으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["high-dimensional data"]
-  B["dimension reduction"]
-  C["visual inspection"]
-  D["clustering or downstream model"]
-
-  A --> B --> C
-  B --> D
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-04-ko.mmd"
 ```
 
 ## 사례 및 예시
@@ -356,24 +325,7 @@ flowchart TB
 고객 분석 팀이 방문 수, 구매 금액, 최근 접속, 반품 비율, 카테고리 선호도처럼 많은 지표를 한꺼번에 보고 있다고 해 보겠습니다. 숫자는 많지만 서로 비슷하게 움직이는 지표도 섞여 있어서, 원래 표만으로는 어떤 고객 흐름이 있는지 직관적으로 잡기 어렵습니다. 차원 축소는 이런 여러 지표를 몇 개의 새 축으로 다시 묶어, `활동성`, `구매 규모`, `최근성`처럼 큰 변동 흐름을 더 압축된 형태로 보게 도와줍니다. 그래서 팀은 원래 표에서는 보이지 않던 전체 구조를 먼저 보고, 이후 군집화나 후속 모델링에 쓸 표현을 더 단순하게 준비할 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["many customer features"]
-  B["hard to read the whole table"]
-  C["compress into a few components"]
-  D["activity-like axis"]
-  E["spend-size axis"]
-  F["recency-like axis"]
-  G["inspect structure more easily"]
-  H["reuse for clustering or downstream models"]
-
-  A --> B --> C
-  C --> D
-  C --> E
-  C --> F
-  D --> G
-  E --> G
-  F --> G
-  G --> H
+--8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-05-ko.mmd"
 ```
 
 이 사례를 review 메모로 바꾸면 다음처럼 적을 수 있습니다.

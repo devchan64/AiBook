@@ -47,18 +47,7 @@
 强化学习最基本的结构，是 agent 和 environment 之间不断重复的交互。
 
 ```mermaid
-flowchart TB
-  A["1. observe state<br/>current situation"]
-  B["2. choose action<br/>agent acts"]
-  C["3. environment changes<br/>next state"]
-  D["4. receive reward<br/>feedback signal"]
-  E["5. update policy<br/>act better next time"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> A
+--8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-01-zh.mmd"
 ```
 
 这张图里最重要的是循环。强化学习不是看一次输入、给一次输出的单步问题，而是 `agent 动作`、`environment 改变`、`reward 返回`，再把这次经验用于下一轮 policy 调整的重复过程。
@@ -109,24 +98,7 @@ reward 是对动作结果进行评价的数字信号。但它不像监督学习�
 如果把它换成优惠券推荐的例子，就会更清楚：只有把 `即时点击` 和 `后续购买` 一起读进去，它才真正像一个强化学习问题。
 
 ```mermaid
-flowchart TD
-  A["user state<br/>recent visits / cart / past coupon use"]
-  B{"choose coupon"}
-  C["coupon A<br/>high click"]
-  D["coupon B<br/>lower click"]
-  E["immediate response<br/>click or ignore"]
-  F["later outcome<br/>purchase / return / no purchase"]
-  G["reward design<br/>short-term + long-term"]
-  H["update policy<br/>better next offer"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  D --> E
-  E --> F
-  F --> G
-  G --> H
+--8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-02-zh.mmd"
 ```
 
 ## exploration 和 exploitation
@@ -196,16 +168,7 @@ exploration 指的是去尝试还不熟悉的动作；exploitation 指的是优�
 真正可检查的结果，会在 policy 对比里出现。如果 `点击率更高的 policy` 和 `长期购买 reward 更高的 policy` 并不相同，那这个问题就已经更接近 `连续决策与奖励设计`，而不是简单分类。
 
 ```mermaid
-flowchart TD
-  A["user state"]
-  B["choose a coupon action"]
-  C["observe immediate click"]
-  D["observe later purchase or return"]
-  E["combine them into reward design"]
-  F["update the policy"]
-  G["compare short-term and long-term policies"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-03-zh.mmd"
 ```
 
 ## 什么时候要先想到这个视角

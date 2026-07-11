@@ -1,7 +1,7 @@
 # P4-12.2 거리(distance)와 스케일(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-12.1에서 k-NN(k-nearest neighbors)은 `가까운 사례를 보고 판단하는 모델`이라고 했습니다. 그런데 여기서 가장 중요한 단어는 사실 `가깝다`입니다.
 
@@ -45,13 +45,7 @@ k-NN은 새 입력과 기존 데이터 사이의 거리를 계산한 뒤, 가장
 같은 query라도 거리 규칙이 바뀌면, 이웃 순서가 달라지고 예측도 달라질 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["same query<br/>같은 새 입력"]
-  B["choose distance rule<br/>거리 규칙 선택"]
-  C["rank neighbors<br/>이웃 순서 계산"]
-  D["prediction can change<br/>예측도 달라질 수 있음"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-01-ko.mmd"
 ```
 
 핵심은 이 문장입니다.
@@ -103,16 +97,7 @@ flowchart TD
 둘 다 결국 `큰 축이 거리를 지배한다`는 비슷한 문제로 이어질 수 있습니다.
 
 ```mermaid
-flowchart TD
-  subgraph S1["without scaling"]
-    direction LR
-    A1["large-scale feature<br/>큰 숫자 축"] --> B1["distance mostly follows this axis"]
-  end
-
-  subgraph S2["after scaling"]
-    direction LR
-    A2["features on comparable scale<br/>비교 가능한 범위"] --> B2["distance can use both features"]
-  end
+--8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-02-ko.mmd"
 ```
 
 ### 표준화(standardization)는 무엇을 바꾸는가
@@ -138,16 +123,7 @@ flowchart TD
 문제는 이 칼럼들의 단위가 크게 다르다는 점입니다. 연 소득은 수백만에서 수천만 단위 숫자이고, 연체 횟수는 0회에서 몇 회 수준입니다. 이 상태로 k-NN 거리를 계산하면, 연체 횟수는 실제로 중요해도 소득 차이에 묻혀 버릴 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["loan applicant query"]
-  B["raw distance by mixed scales"]
-  C["income axis dominates"]
-  D["scaled distance"]
-  E["late-payment signal returns"]
-  F["neighbor list changes"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-12/p4-12-2-mermaid-03-ko.mmd"
 ```
 
 이 사례가 보여 주는 핵심은 다음과 같습니다.

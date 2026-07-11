@@ -88,20 +88,7 @@ One more thing must be attached here. In classification problems, the mere fact 
 If this is translated into a customer-churn case, the baseline appears not as `one score`, but as the branching point for reading `did the current model really go beyond the easy standard`.
 
 ```mermaid
-flowchart TD
-  A["churn dataset"]
-  B["baseline model<br/>always stay or dummy rule"]
-  C["candidate model<br/>uses behavior features"]
-  D["same metric<br/>accuracy / recall / F1"]
-  E["error check<br/>missed churn cases"]
-  F["meaningful gain?<br/>keep or rethink"]
-
-  A --> B
-  A --> C
-  B --> D
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-01-en.mmd"
 ```
 
 One more thing needs to be remembered separately. `Baseline model` and `baseline reference` meet in the same context, but they are not exactly the same object. The former often means the simplest predictor, while the latter can include the comparison frame that places recent results next to the usual range. This Section separates these two meanings so that even when the reader writes project-retrospective documents in Part 6, the wording does not become confused.
@@ -224,23 +211,7 @@ That is why the baseline reference in this Section should be read not as a separ
 If this difference is drawn in the simplest way, it becomes the following.
 
 ```mermaid
-flowchart TD
-  subgraph M2["read the score with baseline"]
-    direction LR
-    C["baseline 0.90"]
-    D["model 0.91"]
-    E["small gain<br/>check if it is useful"]
-  end
-
-  subgraph M1["read the score without baseline"]
-    direction LR
-    A["score 0.91"]
-    B["looks good"]
-  end
-
-  E --> A
-  A --> B
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-02-en.mmd"
 ```
 
 The core of this diagram is that even the same number is read in a completely different way depending on whether a baseline exists.
@@ -286,17 +257,7 @@ People often proceed like this.
 But without a baseline, there is no way to know whether that improvement is actually meaningful.
 
 ```mermaid
-flowchart TB
-  A["baseline"]
-  B["candidate model"]
-  C["compare before tuning"]
-  D["tuning after comparison"]
-  E["complex model first"]
-  F["tuning without baseline"]
-  G["score change, but unclear meaning"]
-
-  A --> B --> C --> D
-  E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-03-en.mmd"
 ```
 
 This diagram shows together the correct order of setting the baseline first, comparing the candidate model, and only then entering tuning, and the problem that if a complex model is tuned immediately without a baseline, the meaning of the score change becomes difficult to interpret.
@@ -331,17 +292,7 @@ In this scene, the baseline becomes the floor line for checking `did the complex
 The confirmable result appears when the baseline and actual model are compared side by side on the same metrics. When not only accuracy but also recall and F1 are placed together, it becomes clear why the baseline is not `a low-performance model`, but `a reference line for interpreting scores`.
 
 ```mermaid
-flowchart TD
-  A["fraud dataset"]
-  B["always predict normal"]
-  C["accuracy looks high"]
-  D["fraud recall stays near zero"]
-  E["train a richer model"]
-  F["compare accuracy, recall, and F1"]
-  G["decide whether the gain is operationally meaningful"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-en.mmd"
 ```
 
 ## Perspective To Remember In This Section

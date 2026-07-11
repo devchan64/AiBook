@@ -83,21 +83,7 @@
 监督学习的流程可以读成下面这样。
 
 ```mermaid
-flowchart TD
-  A["labeled examples<br/>X and y"]
-  B["split data<br/>train / test"]
-  C["train model<br/>fit on training data"]
-  D["evaluate<br/>compare predictions with y"]
-  E["new input<br/>unlabeled case"]
-  F["prediction<br/>model output"]
-  G["service decision<br/>policy or action"]
-
-  A --> B
-  B --> C
-  C --> D
-  C --> E
-  E --> F
-  F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-1-mermaid-01-zh.mmd"
 ```
 
 在这张图里，`train model` 是 model 在 training data 上调整内部值，让输入与 label 之间的关系尽量匹配的阶段。`evaluate` 是拿没有参与训练的数据，把 prediction 和真实 label 拿来比较的阶段。`prediction` 则是把训练好的 model 用到一个新输入上的阶段。
@@ -218,16 +204,7 @@ model 在 training data 上表现好，并不够。我们真正想要的是：�
 真正可检查的结果，会出现在没有用于训练的新咨询评估里。如果它不只是对历史咨询表现好，在新咨询上的分类准确率也能保持，那么这个问题就被整理成了一个结构比较稳的监督学习问题。
 
 ```mermaid
-flowchart TD
-  A["past inquiries"]
-  B["human labels exist"]
-  C["set X = inquiry features"]
-  D["set y = inquiry type"]
-  E["train a supervised model"]
-  F["predict a new inquiry"]
-  G["check unseen-data accuracy"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-1-mermaid-02-zh.mmd"
 ```
 
 ## 本节要记住的视角

@@ -1,7 +1,7 @@
 # P4-11.5 보충학습: solver와 regularization을 처음 읽는 법
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.11`
 
 로지스틱 회귀를 라이브러리로 써 보면 곧 solver, penalty, `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
 
@@ -117,16 +117,7 @@ P4-8에서 baseline을 비교할 때 `같은 분할, 같은 지표, 같은 실�
 실험 A와 실험 B가 둘 다 로지스틱 회귀인데, 한쪽은 `lbfgs + L2`, 다른 쪽은 `saga + Elastic-Net`을 썼다면 결과 차이를 단순히 `로지스틱 회귀가 좋아졌다`고 읽으면 안 됩니다. 이 경우에는 모델명보다 설정 차이가 더 큰 원인일 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["same model name"]
-  B["solver changes"]
-  C["regularization changes"]
-  D["training path and coefficients differ"]
-  E["comparison needs explicit record"]
-
-  A --> B --> D
-  A --> C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-11/p4-11-5-mermaid-01-ko.mmd"
 ```
 
 ## 연습 및 예제

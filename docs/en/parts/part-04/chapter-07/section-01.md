@@ -100,15 +100,7 @@ Then one customer can be represented as one point, `(visit count, inquiry count)
 So feature selection is not only the job of reducing the number of columns. It is also the job of `designing the input space the model will see`.
 
 ```mermaid
-flowchart TB
-  A["reality<br/>people / products / events"]
-  B["feature design<br/>choose measurable aspects"]
-  C["feature space<br/>rows as points in input space"]
-  D["model learning<br/>find pattern or boundary"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-01-en.mmd"
 ```
 
 This diagram shows that feature selection is not simply choosing columns. It is a process of deciding into what kind of input space reality will be translated. Even with the same reality, the patterns and boundaries the model learns can change completely depending on what features are drawn out.
@@ -335,21 +327,7 @@ The important point here is not to find `the single feature with the strongest s
 If these five conditions are bundled once more, they can be organized like this.
 
 ```mermaid
-flowchart TB
-  A["candidate feature<br/>possible input signal"]
-  B["signal<br/>related to target?"]
-  C["noise<br/>stable enough?"]
-  D["timing<br/>available at prediction time?"]
-  E["redundancy<br/>not just repetition?"]
-  F["operations<br/>reproducible in service?"]
-  G["good feature candidate<br/>worth keeping"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
-  F --> G
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-02-en.mmd"
 ```
 
 This diagram means that `a good feature` should not be read as a single mysterious property. It should be split into the five questions of relevance, stability, timing legitimacy, redundancy management, and operational reproducibility.
@@ -442,17 +420,7 @@ Feature selection is `the job of fixing the entrance`, and preprocessing is `the
 If that difference is drawn simply, it becomes the following.
 
 ```mermaid
-flowchart TD
-  A["raw columns<br/>all available fields"]
-  B["feature selection<br/>keep / drop / postpone"]
-  C["selected features<br/>usable input set"]
-  D["preprocessing<br/>scale / fill / encode"]
-  E["model input<br/>ready for training"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-03-en.mmd"
 ```
 
 ### What Should Be Kept First, And What Should Be Removed First?
@@ -530,17 +498,7 @@ In this scene, feature selection becomes not `put in more` but `keep only signal
 The checkable result is clear as well. When the validation score is compared between the version that includes leakage columns and the version that excludes them, the reason the original high performance was an illusion can appear. And when the remaining feature list is reviewed, it becomes possible to explain which columns were actual behavior signals and which columns were post-outcome information.
 
 ```mermaid
-flowchart TD
-  A["many churn columns"]
-  B["include IDs and after-the-fact fields"]
-  C["score may look high from leakage"]
-  D["keep only usable signals at prediction time"]
-  E["remove IDs, labels, post-outcome fields"]
-  F["recheck validation score"]
-  G["explain why the kept feature list is safer"]
-
-  A --> B --> C
-  A --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-04-en.mmd"
 ```
 
 ## Cases And Examples

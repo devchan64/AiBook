@@ -47,18 +47,7 @@ In supervised learning, there could already be labels such as `from this positio
 The most basic flow in reinforcement learning is repeated interaction between the agent and the environment.
 
 ```mermaid
-flowchart TB
-  A["1. observe state<br/>current situation"]
-  B["2. choose action<br/>agent acts"]
-  C["3. environment changes<br/>next state"]
-  D["4. receive reward<br/>feedback signal"]
-  E["5. update policy<br/>act better next time"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> A
+--8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-01-en.mmd"
 ```
 
 The important point in this diagram is the loop. Reinforcement learning is not a one-shot problem where one input is observed and one output is matched. The agent acts, the environment changes, a reward returns, and that experience affects the next action policy.
@@ -109,24 +98,7 @@ For this reason, reinforcement learning must separate `actions that look good ri
 If you rewrite it as a coupon-recommendation case, the point that it becomes a reinforcement-learning problem only when `immediate click` and `later purchase` are read together becomes even clearer.
 
 ```mermaid
-flowchart TD
-  A["user state<br/>recent visits / cart / past coupon use"]
-  B{"choose coupon"}
-  C["coupon A<br/>high click"]
-  D["coupon B<br/>lower click"]
-  E["immediate response<br/>click or ignore"]
-  F["later outcome<br/>purchase / return / no purchase"]
-  G["reward design<br/>short-term + long-term"]
-  H["update policy<br/>better next offer"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  D --> E
-  E --> F
-  F --> G
-  G --> H
+--8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-02-en.mmd"
 ```
 
 ## Exploration And Exploitation
@@ -196,16 +168,7 @@ This kind of problem differs from supervised learning, where one input and one c
 The checkable result appears when policies are compared. If the policy with the higher click rate differs from the policy with the higher long-term purchase reward, then the problem is already closer to sequential decision making and reward design than to simple classification.
 
 ```mermaid
-flowchart TD
-  A["user state"]
-  B["choose a coupon action"]
-  C["observe immediate click"]
-  D["observe later purchase or return"]
-  E["combine them into reward design"]
-  F["update the policy"]
-  G["compare short-term and long-term policies"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-03-en.mmd"
 ```
 
 ## When This Perspective Should Come To Mind First

@@ -105,19 +105,7 @@ scikit-learn 사용자 가이드는 결정트리(decision tree)를 분류와 회
 결정트리를 아직 학습기로 보지 말고, `질문을 따라 내려가는 의사결정 흐름`으로 봅니다.
 
 ```mermaid
-flowchart TD
-  A["new case<br/>새 입력 사례"]
-  B["question 1<br/>recent visits <= 3?"]
-  C["question 2<br/>late payment?"]
-  D["leaf<br/>likely churn"]
-  E["leaf<br/>likely stay"]
-  F["leaf<br/>review or another label"]
-
-  A --> B
-  B -->|yes| C
-  B -->|no| E
-  C -->|yes| D
-  C -->|no| F
+--8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-01-ko.mmd"
 ```
 
 이 도식은 결정트리를 `질문을 따라 내려가며 leaf에 도달하는 흐름`으로 읽게 해 줍니다. 경계선을 한 번에 긋는 모델과 달리, 트리는 중간 질문을 차례로 거치며 점점 더 비슷한 사례 묶음으로 좁혀 간다는 점이 핵심입니다.
@@ -216,15 +204,7 @@ flowchart TD
 이를 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["training data"]
-  B["make question candidates<br/>feature + threshold"]
-  C["compare impurity reduction<br/>or another split score"]
-  D["choose the best split"]
-  E["send rows to each branch"]
-  F["repeat if needed"]
-
-  A --> B --> C --> D --> E --> F
+--8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-02-ko.mmd"
 ```
 
 이 도식은 결정트리 학습이 결국 `좋은 첫 질문과 다음 질문을 고르는 반복`이라는 점을 보여 줍니다. 특징과 threshold 후보를 비교해 impurity를 더 잘 줄이는 split을 고르고, 각 가지에서 같은 절차를 다시 반복하는 구조입니다.
@@ -260,19 +240,7 @@ flowchart TD
 이 팀은 선형 모델처럼 한 번에 점수를 계산하는 방식보다, 현업이 읽을 수 있는 질문 흐름이 필요합니다. 그래서 `최근 방문 수가 3회 이하인가?`를 묻고, 그다음 `결제 지연이 있었는가?`를 묻는 식으로 조건을 나누면, 비슷한 행동을 보인 고객끼리 점점 더 같은 가지로 모이기 시작합니다. 이때 결정트리는 경계선 하나보다 `좋은 질문 순서`를 찾는 모델로 읽습니다.
 
 ```mermaid
-flowchart TD
-  A["customer record"]
-  B["ask visits threshold"]
-  C["ask late-payment question"]
-  D["leaf: likely churn"]
-  E["leaf: likely stay"]
-  F["leaf: mixed cases to review"]
-
-  A --> B
-  B --> C
-  C --> D
-  B --> E
-  C --> F
+--8<-- "assets/part-04/chapter-14/p4-14-1-mermaid-03-ko.mmd"
 ```
 
 이 장면에서 중요한 것은 질문 자체가 데이터로부터 선택된다는 점입니다. 아무 조건이나 쓰는 것이 아니라, 현재 node 안의 label을 더 잘 정리해 주는 feature와 threshold를 비교해 첫 분기를 고르고, 그다음 같은 절차를 반복합니다. 그래서 결정트리는 사람이 규칙을 임의로 적는 모델이 아니라, 데이터를 더 정리해 주는 질문을 누적하는 모델입니다.

@@ -1,7 +1,7 @@
 # P4-12.1 k-NN의 직관
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-11.2에서는 로지스틱 회귀(logistic regression)가 `입력 공간에 경계를 그어 class를 나누는 방식`을 보았습니다. 이제 질문을 바꿉니다.
 
@@ -73,13 +73,7 @@ k-NN의 핵심 가정은 `비슷한 입력은 비슷한 출력을 가질 가능�
 이 직관을 계산 순서로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["new query<br/>새 입력"]
-  B["find nearest neighbors<br/>가까운 사례 찾기"]
-  C["collect their labels<br/>주변 label 모으기"]
-  D["vote or average<br/>판단 만들기"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-12/p4-12-1-mermaid-01-ko.mmd"
 ```
 
 다만 `가깝다`가 곧 `옳다`는 뜻은 아닙니다. 무엇을 기준으로 가까움을 계산하는지에 따라 이웃 자체가 달라질 수 있기 때문입니다. 바로 그 지점을 다음 절에서 다룹니다.
@@ -147,16 +141,7 @@ flowchart TD
 그런데 팀은 아직 `이탈 고객은 항상 이런 규칙을 따른다`고 말할 만큼 단순한 식을 찾지 못했습니다. 대신 기존 고객 기록을 보면 비슷한 행동을 보였던 고객끼리는 결과도 비슷한 경우가 자주 보입니다. 이때 k-NN은 새 고객을 혼자 해석하지 않고, 주변에서 가장 비슷한 기존 고객 몇 명을 먼저 찾아 그들의 label을 참고합니다.
 
 ```mermaid
-flowchart TD
-  A["new customer query"]
-  B["find nearest customers"]
-  C["compare labels of neighbors"]
-  D["vote with current k"]
-  E["prediction"]
-  F["review if neighbors are mixed"]
-
-  A --> B --> C --> D --> E
-  C --> F
+--8<-- "assets/part-04/chapter-12/p4-12-1-mermaid-02-ko.mmd"
 ```
 
 이 사례가 보여 주는 핵심은 세 가지입니다.

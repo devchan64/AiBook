@@ -126,21 +126,7 @@ scikit-learn 문서는 random forests를 `decision tree 기반의 averaging algo
 ### 한 장면으로 보기
 
 ```mermaid
-flowchart TD
-  A["training data"]
-  B["tree 1<br/>bootstrap + random features"]
-  C["tree 2<br/>bootstrap + random features"]
-  D["tree 3<br/>bootstrap + random features"]
-  E["aggregate predictions<br/>vote or average"]
-  F["final prediction"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-01-ko.mmd"
 ```
 
 이 그림에서 중요한 점은 `모든 트리가 완전히 같은 것을 보지 않는다`는 것입니다. 그래야 서로 다른 실수를 만들 여지가 생기고, 그 실수를 평균내거나 투표로 묶을 수 있습니다.
@@ -257,17 +243,7 @@ scikit-learn 문서는 분류 random forest에서 트리들의 확률 예측을 
 ### 랜덤포레스트를 흐름으로 읽기
 
 ```mermaid
-flowchart TB
-  A["one tree<br/>can overreact"]
-  B["many trees<br/>see different samples"]
-  C["many trees<br/>see different feature subsets"]
-  D["aggregate outputs"]
-  E["more stable prediction"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-02-ko.mmd"
 ```
 
 핵심은 `더 많은 트리` 자체가 아니라 `서로 다른 오류를 만들 수 있는 트리들`이라는 점입니다.
@@ -328,18 +304,7 @@ OOB는 각 트리가 보지 못한 샘플을 활용해, 별도 검증 감각을 
 단일 트리는 규칙을 읽기 쉬웠지만, 특정 예외 고객 몇 명에 경계가 쉽게 끌리는 문제가 있었습니다. 어떤 데이터 분할에서는 잘 맞고, 다른 분할에서는 조금만 바뀌어도 첫 분기와 예측 결과가 흔들립니다. 팀은 트리의 질문 흐름은 유지하되, 한 그루의 과한 예민함은 줄이고 싶어 합니다.
 
 ```mermaid
-flowchart TD
-  A["customer churn table"]
-  B["single tree reacts to rare cases"]
-  C["bootstrap different samples"]
-  D["random feature subsets"]
-  E["many trees vote together"]
-  F["more stable churn decision"]
-
-  A --> B
-  A --> C --> E
-  A --> D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-15/p4-15-1-mermaid-03-ko.mmd"
 ```
 
 이 장면에서 랜덤포레스트는 `트리를 버리는 방법`이 아니라 `조금씩 다른 트리를 여러 개 모아 합의하는 방법`으로 읽어야 합니다. bootstrap으로 각 트리가 조금 다른 고객 집합을 보고, `max_features`로 분기 후보도 다르게 보면, 한 그루가 특정 예외에 끌리는 현상이 숲 전체에서는 평균적으로 약해질 수 있습니다.

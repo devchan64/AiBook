@@ -1,7 +1,7 @@
 # P4-15.4 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 
@@ -80,16 +80,7 @@ scikit-learn 사용자 가이드는 random forest가 각 노드에서 `best spli
 즉, Extra Trees는 feature 선택만 무작위인 것이 아니라, `어디에서 자를지`도 더 무작위적입니다.
 
 ```mermaid
-flowchart TD
-  A["same node data"]
-  B["random subset of features"]
-  C["Random Forest<br/>search best threshold"]
-  D["Extra Trees<br/>draw random thresholds"]
-  E["pick split"]
-
-  A --> B
-  B --> C --> E
-  B --> D --> E
+--8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-01-ko.mmd"
 ```
 
 이 도식의 핵심은 두 모델 모두 feature 부분집합은 공유하지만, threshold를 고르는 태도는 다르다는 점입니다.
@@ -192,16 +183,7 @@ Extra Trees는 랜덤포레스트와 같은 후보군 안에서 `조금 더 빠�
 - 계산 시간 차이
 
 ```mermaid
-flowchart TD
-  A["same churn data"]
-  B["Random Forest<br/>search stronger split"]
-  C["Extra Trees<br/>use more random thresholds"]
-  D["compare test score"]
-  E["compare stability and cost"]
-
-  A --> B --> D
-  A --> C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-02-ko.mmd"
 ```
 
 이 흐름에서 중요한 것은 `누가 이겼는가` 하나보다, `무작위성 위치를 바꾸면 성능, 흔들림, 계산 비용이 어떻게 달라지는가`를 함께 보는 일입니다.
@@ -231,17 +213,7 @@ flowchart TD
 - 계산 시간이 실제로 차이 나는가
 
 ```mermaid
-flowchart TD
-  A["sensor batches"]
-  B["Random Forest<br/>search finer thresholds"]
-  C["fit training data very well"]
-  D["check test fluctuation"]
-  E["Extra Trees<br/>inject more random thresholds"]
-  F["check stability again"]
-
-  A --> B --> C --> D
-  A --> E --> F
-  D --> F
+--8<-- "assets/part-04/chapter-15/p4-15-4-mermaid-03-ko.mmd"
 ```
 
 이 사례의 핵심은 Extra Trees가 `항상 더 잘 맞는다`가 아니라, `세밀한 threshold 탐색이 오히려 예외 패턴에 민감할 때 바로 옆 비교 후보가 된다`는 점입니다.

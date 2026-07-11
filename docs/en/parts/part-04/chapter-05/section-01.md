@@ -102,21 +102,7 @@ So underfitting can usually be summarized by the following question.
 If you turn this into a defect-detection case, even the same image-classification problem must be read through a different flow when the model is `too simple and misses things` versus when it `memorizes the training examples too strongly`.
 
 ```mermaid
-flowchart TD
-  A["part images<br/>crack / color / edge pattern"]
-  B["too simple rule<br/>few signals only"]
-  C["balanced model<br/>main defect pattern"]
-  D["too complex fit<br/>memorizes training quirks"]
-  E["miss obvious defects<br/>train low / val low"]
-  F["holds on new images<br/>train high / val similar"]
-  G["fails on new images<br/>train very high / val drop"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-01-en.mmd"
 ```
 
 ### Overfitting Is A State That Memorized Too Much
@@ -204,19 +190,7 @@ In practice, the first judgment is often `which side should I suspect first righ
 ### It Becomes Faster To Read Through A Diagram
 
 ```mermaid
-flowchart TB
-  A["too simple model<br/>misses important pattern"]
-  A1["underfitting"]
-  B["balanced model<br/>captures main pattern"]
-  B1["usable fit"]
-  C["too complex model<br/>fits noise too"]
-  C1["overfitting"]
-
-  A --> A1
-  A1 --> B
-  B --> B1
-  B1 --> C
-  C --> C1
+--8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-02-en.mmd"
 ```
 
 This diagram is not an exact mathematical explanation. It is a directional explanation. The left side means a state that is still insufficient, the middle means a relatively balanced state, and the right side means a state that has fit too aggressively.
@@ -280,17 +254,7 @@ This scene shows why overfitting and underfitting must be distinguished together
 The checkable result appears when training score and validation score are placed side by side. Looking at both the level of the two scores and the gap between them lets you judge whether the next action should be `give the model more explanatory power` or `make it memorize less`.
 
 ```mermaid
-flowchart TD
-  A["defect image model"]
-  B["train score almost perfect"]
-  C["validation score drops"]
-  D["suspect overfitting"]
-  E["both train and validation stay low"]
-  F["suspect underfitting"]
-  G["decide whether to simplify or strengthen the model"]
-
-  A --> B --> C --> D --> G
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-03-en.mmd"
 ```
 
 ## Cases And Examples

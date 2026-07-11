@@ -1,7 +1,7 @@
 # P4-16.3 보충학습: 부스팅 라이브러리와 운영 감각
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-16.1과 P4-16.2에서 그래디언트 부스팅(gradient boosting)의 순차 보정 구조와 성능·과적합 위험을 보았습니다. 그다음에는 비슷한 부스팅 계열이라도 왜 XGBoost, LightGBM, CatBoost가 서로 다른 이름과 사용 감각으로 읽히는지 궁금해집니다.
 
@@ -279,14 +279,7 @@ L(F + \Delta) \approx L(F) + g\Delta + \frac{1}{2}h\Delta^2
 사기 탐지 데이터에서 learning rate, tree depth, stage 수를 바꿔 가며 실험하면, 모델 비교는 곧 운영 문제로 바뀝니다. stage가 길수록 validation 곡선을 계속 봐야 하고, fold가 늘수록 멈춤 판단도 반복됩니다.
 
 ```mermaid
-flowchart TD
-  A["many boosting settings"]
-  B["repeat train and validation"]
-  C["watch stage-wise score"]
-  D["choose stopping point"]
-  E["automation becomes necessary"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-16/p4-16-3-mermaid-01-ko.mmd"
 ```
 
 이때 GPU나 분산은 `실험을 감당하는 속도 문제`, 자동화는 `멈춤 판단을 반복하는 운영 문제`로 읽히게 됩니다.

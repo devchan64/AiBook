@@ -98,15 +98,7 @@ This distinction appears repeatedly throughout machine learning.
 If this difference is drawn very briefly, it becomes the following.
 
 ```mermaid
-flowchart TD
-  A["data"]
-  B["choose hyperparameters<br/>before training"]
-  C["fit the model"]
-  D["learned parameters<br/>after training"]
-
-  A --> C
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-09/p4-9-1-mermaid-01-en.mmd"
 ```
 
 The core of this diagram is that `hyperparameters are inputs to learning`, while `parameters are results of learning`.
@@ -219,17 +211,7 @@ In this scene, the hyperparameter should be read as a handle fixed in advance fr
 The confirmable result appears when train score and validation score are viewed together. If the reader compares how training score and validation score change when depth is changed, the reader can explain why a hyperparameter is not a simple option, but a setting that changes model character.
 
 ```mermaid
-flowchart TD
-  A["same decision tree family"]
-  B["shallow depth"]
-  C["deep depth"]
-  D["simple rule, lower scores"]
-  E["high train score, unstable validation"]
-  F["compare train and validation together"]
-  G["read hyperparameters as behavior controls"]
-
-  A --> B --> D --> F
-  A --> C --> E --> F --> G
+--8<-- "assets/part-04/chapter-09/p4-9-1-mermaid-02-en.mmd"
 ```
 
 Historical explanation alone may still feel weak. In practice, the point that hyperparameters are not `extra options`, but factors that shake results strongly, was repeatedly observed in many cases.

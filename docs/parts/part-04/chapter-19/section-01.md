@@ -1,7 +1,7 @@
 # P4-19.1 가치 기반 강화학습(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보상(reward)을 통해 정책(policy)을 조정하는 학습`으로 잡았습니다. 여기서 한 단계 더 들어가면 다음 질문이 나옵니다.
 
@@ -123,14 +123,7 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 가치 기반 강화학습의 핵심은 `행동하고, 결과를 보고, 가치 표를 조금 수정하는 반복`입니다.
 
 ```mermaid
-flowchart TB
-  A["1. observe state<br/>current state s"]
-  B["2. choose action<br/>try action a"]
-  C["3. receive reward<br/>reward r and next state s'"]
-  D["4. estimate future value<br/>what looks good next?"]
-  E["5. update Q-value<br/>revise Q(s, a)"]
-
-  A --> B --> C --> D --> E --> A
+--8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-01-ko.mmd"
 ```
 
 이 도식은 가치 기반 강화학습을 `행동 결과를 본 뒤 점수표를 조금씩 고쳐 가는 반복`으로 읽게 해 줍니다. 정책 전체를 한 번에 완성하는 것이 아니라, 상태-행동 값이 루프를 돌며 점진적으로 조정된다는 점이 핵심입니다.
@@ -177,20 +170,7 @@ SARSA의 핵심 생각은 Q-learning과 비슷하지만 기준이 다릅니다.
 둘 다 Q-value를 갱신하지만, 다음 값을 어디에서 가져오느냐가 다릅니다.
 
 ```mermaid
-flowchart TB
-  subgraph QL["Q-learning"]
-    Q1["current state-action<br/>Q(s, a)"]
-    Q2["next state s'"]
-    Q3["use the best-looking next action<br/>max_a' Q(s', a')"]
-    Q1 --> Q2 --> Q3
-  end
-
-  subgraph SA["SARSA"]
-    S1["current state-action<br/>Q(s, a)"]
-    S2["next state s'"]
-    S3["use the actual next action<br/>Q(s', a_next)"]
-    S1 --> S2 --> S3
-  end
+--8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-02-ko.mmd"
 ```
 
 이 도식은 Q-learning과 SARSA의 차이를 시각적으로 나눠 보여 줍니다. 둘 다 다음 상태를 보지만, 하나는 `가장 좋아 보이는 다음 행동`을 기준으로 하고 다른 하나는 `실제로 이어서 한 다음 행동`을 기준으로 값을 고친다는 점이 다릅니다.
@@ -286,16 +266,7 @@ flowchart TB
 이 표가 보여 주는 핵심은 `지금 가장 짧아 보이는 행동`과 `장기적으로 가장 유리한 행동`이 다를 수 있다는 점입니다. 가치 기반 강화학습은 바로 이 차이를 숫자로 누적해 읽으려는 접근입니다.
 
 ```mermaid
-flowchart TD
-  A["intersection state"]
-  B["left / right / forward"]
-  C["take one action"]
-  D["observe delay or reward"]
-  E["update Q-value for that action"]
-  F["compare actions again next visit"]
-  G["higher long-run route preference"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-19/p4-19-1-mermaid-03-ko.mmd"
 ```
 
 이 사례를 review 메모처럼 줄이면 다음과 같이 적을 수 있습니다.

@@ -102,23 +102,7 @@ filter、wrapper、embedded、降维的区分，会在下一节 P4-7.4 再处理
 也就是说，预处理种类不是 `互斥菜单`，而是 `可以按顺序接到同一行输入上的规则集合`。
 
 ```mermaid
-flowchart TD
-  A["one column"]
-  B["is it missing?"]
-  C["can it be computed as numeric?"]
-  D["is its scale too different?"]
-  E["imputation rule"]
-  F["encoding rule"]
-  G["scaling rule"]
-  H["reuse same learned rules on validation/test"]
-
-  A --> B
-  B -->|yes| E --> C
-  B -->|no| C
-  C -->|no| F --> H
-  C -->|yes| D
-  D -->|yes| G --> H
-  D -->|no| H
+--8<-- "assets/part-04/chapter-07/p4-7-3-mermaid-01-zh.mmd"
 ```
 
 这个流程展示的是: `预处理种类该怎么分` 这个问题，归根到底就是 `输入问题应该按什么顺序诊断` 这个问题。

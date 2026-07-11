@@ -60,18 +60,7 @@ In practice, you first need to judge `which split perspective should be used fir
 The most basic split is between the part used for learning and the part used for evaluation.
 
 ```mermaid
-flowchart TB
-  A["all available data<br/>collected examples"]
-  B["training data<br/>model learns from this"]
-  C["evaluation data<br/>model is checked here"]
-  D["trained model<br/>patterns learned from training data"]
-  E["performance estimate<br/>how well it may work on unseen data"]
-
-  A --> B
-  A --> C
-  B --> D
-  D --> C
-  C --> E
+--8<-- "assets/part-04/chapter-04/p4-4-1-mermaid-01-en.mmd"
 ```
 
 In this diagram, evaluation data are the data not used directly during learning. The model is built from training data, then evaluation data are used to check whether the model also works on other examples.
@@ -333,17 +322,7 @@ Here data splitting changes the way judgment is made. If part of the customer re
 The checkable result is clear as well. If you compare the score from evaluation on the whole dataset with the score from separately held-out evaluation data, you can see whether a gap appears. If only the training score is high while the evaluation score falls a lot, that should be read as a signal that the interpretation without data splitting was too optimistic.
 
 ```mermaid
-flowchart TD
-  A["customer coupon table"]
-  B["train and evaluate on the whole table"]
-  C["score looks too good"]
-  D["leave out an evaluation split"]
-  E["train on one part only"]
-  F["check unseen-customer score"]
-  G["read whether optimism was justified"]
-
-  A --> B --> C
-  A --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-04/p4-4-1-mermaid-02-en.mmd"
 ```
 
 ## Cases And Examples

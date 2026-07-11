@@ -100,15 +100,7 @@ scikit-learn 文档说明，feature selection 模块可以用于减少不必要�
 所以，特征选择不只是减少列数，它也是在 `设计 model 将会看到的输入空间本身`。
 
 ```mermaid
-flowchart TB
-  A["reality<br/>people / products / events"]
-  B["feature design<br/>choose measurable aspects"]
-  C["feature space<br/>rows as points in input space"]
-  D["model learning<br/>find pattern or boundary"]
-
-  A --> B
-  B --> C
-  C --> D
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-01-zh.mmd"
 ```
 
 这张图说明：特征选择并不只是挑列，而是在决定到底把现实翻译成什么样的输入空间。即使面对同样的现实，只要抽出的特征不同，model 学到的模式和边界就可能完全改变。
@@ -335,21 +327,7 @@ print(comparison.round(2))
 把这些条件再捆成一个图，可以像下面这样。
 
 ```mermaid
-flowchart TB
-  A["candidate feature<br/>possible input signal"]
-  B["signal<br/>related to target?"]
-  C["noise<br/>stable enough?"]
-  D["timing<br/>available at prediction time?"]
-  E["redundancy<br/>not just repetition?"]
-  F["operations<br/>reproducible in service?"]
-  G["good feature candidate<br/>worth keeping"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
-  F --> G
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-02-zh.mmd"
 ```
 
 这张图的意思是：不要把 `好特征` 看成一个神秘属性，而要把它拆成相关性、稳定性、时点正当性、重复管理、运营复现性这五个问题来读。
@@ -442,17 +420,7 @@ feature selection 是 `先把入口定下来`，而 preprocessing 是 `把选中
 如果把这个差别简单画出来，就是下面这样。
 
 ```mermaid
-flowchart TD
-  A["raw columns<br/>all available fields"]
-  B["feature selection<br/>keep / drop / postpone"]
-  C["selected features<br/>usable input set"]
-  D["preprocessing<br/>scale / fill / encode"]
-  E["model input<br/>ready for training"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-03-zh.mmd"
 ```
 
 ### 什么先留，什么先删
@@ -530,17 +498,7 @@ Guyon 和 Elisseeff 的经典综述把 `raw input variables` 和 `constructed fe
 可检查的结果也很清楚。只要比较包含泄漏列和排除泄漏列时的验证分数，就可能看出：最开始那个很高的分数为什么其实是幻觉。再回头检查保留下来的特征列表，也能说明哪些列是真正的行为信号，哪些列其实是事后信息。
 
 ```mermaid
-flowchart TD
-  A["many churn columns"]
-  B["include IDs and after-the-fact fields"]
-  C["score may look high from leakage"]
-  D["keep only usable signals at prediction time"]
-  E["remove IDs, labels, post-outcome fields"]
-  F["recheck validation score"]
-  G["explain why the kept feature list is safer"]
-
-  A --> B --> C
-  A --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-04-zh.mmd"
 ```
 
 ## 案例与示例

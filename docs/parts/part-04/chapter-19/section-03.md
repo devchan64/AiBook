@@ -70,13 +70,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 이를 큰 흐름으로 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TB
-  A["define reward<br/>what will be optimized?"]
-  B["allow exploration<br/>what can be safely tried?"]
-  C["train in simulation or environment"]
-  D["deploy in reality<br/>does the policy still work?"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-01-ko.mmd"
 ```
 
 강화학습은 단지 `알고리즘 선택`의 문제가 아니라, 목표 정의, 실험 가능성, 배포 가능성을 함께 묻는 구조입니다.
@@ -103,13 +97,7 @@ flowchart TB
 이 지점에서 `보상은 진짜 목표의 대리 변수(proxy)`일 수 있다는 사실이 중요해집니다.
 
 ```mermaid
-flowchart TB
-  A["true objective<br/>what humans actually want"]
-  B["reward signal<br/>the number we gave"]
-  C["policy optimization<br/>maximize reward"]
-  D["unexpected behavior<br/>reward rises but intent is missed"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-02-ko.mmd"
 ```
 
 이 도식은 강화학습에서 가장 자주 생기는 위험을 보여 줍니다. 사람이 원하는 진짜 목표와 학습기에 준 보상 숫자가 어긋나면, 정책은 숫자는 올리되 의도는 놓치는 방향으로 최적화될 수 있습니다.
@@ -225,13 +213,7 @@ AI 안전 문헌에서는 safe exploration을 별도 문제로 다룹니다. 이
 이 차이를 흔히 sim-to-real gap이라고 부릅니다.
 
 ```mermaid
-flowchart TB
-  A["simulation training<br/>cheap and repeatable"]
-  B["policy looks good in simulator"]
-  C["real environment<br/>noise, delay, mismatch"]
-  D["performance drop or unsafe behavior"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-03-ko.mmd"
 ```
 
 이 도식은 간단하지만 중요합니다. 강화학습이 현실에서 어려운 이유는 알고리즘이 약해서가 아니라, `학습한 세계와 배포되는 세계가 다를 수 있기 때문`입니다.
@@ -309,17 +291,7 @@ sim-to-real gap은 단순히 `조금 덜 잘 된다`는 뜻으로만 읽으면 �
 콘텐츠 추천 팀이 강화학습 정책의 보상을 `클릭 수 증가` 하나로만 두었다고 해 보겠습니다. 정책은 곧 더 자극적인 제목과 짧은 체류를 유도하는 콘텐츠를 자주 내보내 클릭 숫자는 빠르게 올릴 수 있습니다. 하지만 실제 목표가 장기 만족과 재방문이라면, 불만 신고가 늘고 서비스 신뢰가 떨어져 진짜 목표에서는 오히려 손해가 커질 수 있습니다. 이런 사례는 강화학습에서 보상 숫자가 곧바로 사람의 의도를 뜻하지 않으며, 적용 전에 대리 지표와 실제 목표 사이의 차이를 반드시 점검해야 한다는 점을 보여 줍니다.
 
 ```mermaid
-flowchart TD
-  A["reward = clicks only"]
-  B["policy serves more provocative content"]
-  C["click metric rises"]
-  D["complaints and churn rise too"]
-  E["suspect proxy reward mismatch"]
-  F["redefine reward with longer-term signals"]
-  G["test in offline or limited rollout"]
-
-  A --> B --> C
-  C --> D --> E --> F --> G
+--8<-- "assets/part-04/chapter-19/p4-19-3-mermaid-04-ko.mmd"
 ```
 
 이 장면은 다음처럼 바로 기록할 수 있습니다. `정책이 클릭은 올렸지만 신고율과 이탈률도 함께 올랐다면, 보상 설계가 실제 목표를 잘못 대신한 것이다. 다음 조치는 더 오래 남는 만족 지표를 보상에 다시 묶고, 위험한 탐험은 오프라인 평가나 제한된 실험 구간으로 먼저 줄여 보는 일이다.` 강화학습 적용 절의 핵심은 `보상 숫자가 올랐다`에서 끝나지 않고 `어떤 부작용이 같이 늘었는가`, `그 부작용을 배포 전에 어디서 줄일 것인가`까지 이어지는 데 있습니다.

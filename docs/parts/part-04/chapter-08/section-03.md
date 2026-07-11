@@ -95,17 +95,7 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 | 바로 확인할 오류 | 실제 이탈 고객을 놓친 사례 |
 
 ```mermaid
-flowchart TD
-  A["이탈 데이터"]
-  B["baseline: 항상 유지"]
-  C["accuracy는 높아 보임"]
-  D["이탈 recall은 0"]
-  E["후보 모델"]
-  F["accuracy, recall, F1 비교"]
-  G["놓친 이탈 사례 확인"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-3-mermaid-01-ko.mmd"
 ```
 
 이 사례의 핵심은 baseline이 낮은 모델이어서 중요한 것이 아니라, `정확도 착시를 바로 드러내는 기준`이어서 중요하다는 점입니다.

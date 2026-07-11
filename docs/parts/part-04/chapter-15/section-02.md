@@ -1,7 +1,7 @@
 # P4-15.2 특징 중요도(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
 
@@ -122,15 +122,7 @@ MDI는 다음 순서로 계산됩니다.
 이를 짧게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["split uses feature X"]
-  B["measure impurity decrease"]
-  C["add contribution to feature X"]
-  D["sum over one tree"]
-  E["average over many trees"]
-  F["normalized importance score"]
-
-  A --> B --> C --> D --> E --> F
+--8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-01-ko.mmd"
 ```
 
 이 구조 덕분에 `feature_importances_`는 계산이 빠르고, 랜덤포레스트를 학습한 뒤 바로 볼 수 있다.
@@ -183,15 +175,7 @@ MDI가 `모델 내부 사용 기록`이라면, permutation importance는 `그 fe
 ### permutation importance를 흐름으로 보기
 
 ```mermaid
-flowchart TD
-  A["trained model"]
-  B["measure baseline score"]
-  C["shuffle one feature"]
-  D["measure score again"]
-  E["compare score drop"]
-  F["larger drop -> more dependence"]
-
-  A --> B --> C --> D --> E --> F
+--8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-02-ko.mmd"
 ```
 
 이 흐름은 매우 중요합니다. 왜냐하면 중요도를 `숫자 속성`이 아니라 `성능 변화 실험`으로 다시 읽게 하기 때문입니다.
@@ -362,19 +346,7 @@ importance 숫자는 크고 작음이 분명해서, 독자가 곧바로 행동 �
 모델을 학습하고 `feature_importances_`를 보니 `recent_visits`와 `discount_clicks`가 높게 나옵니다. 이때 팀은 곧바로 `방문 수가 가장 큰 원인이다`라고 말하고 싶어질 수 있습니다. 하지만 그 숫자는 먼저 `모델이 분기에서 얼마나 많이 활용했는가`의 요약이지, 현실 세계의 인과 순위를 바로 보여 주는 값은 아닙니다.
 
 ```mermaid
-flowchart TD
-  A["trained forest"]
-  B["observe high importance score"]
-  C["check MDI meaning"]
-  D["check permutation result"]
-  E["review correlated or high-cardinality features"]
-  F["write cautious interpretation"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E --> F
-  D --> E
+--8<-- "assets/part-04/chapter-15/p4-15-2-mermaid-03-ko.mmd"
 ```
 
 이 장면에서 특징 중요도는 `설명 출발점`으로 읽습니다. MDI는 모델 내부 사용 흔적을 요약하고, permutation importance는 그 특징을 섞었을 때 실제 성능이 얼마나 흔들리는지를 봅니다. 또 비슷한 뜻의 특징이 여러 개 있으면 하나는 높고 다른 하나는 낮게 보여도, 실제로는 정보를 서로 대신하고 있을 수 있습니다.

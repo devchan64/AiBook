@@ -1,7 +1,7 @@
 # P4-17.4 보충학습: 군집과 반지도학습을 처음 연결하는 법
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
@@ -103,16 +103,7 @@ P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 따라서 군집 전체에 라벨을 한 번에 퍼뜨리면, 첫 가설의 오류가 더 넓게 번질 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["cluster similar samples"]
-  B["assume one label for the whole group"]
-  C["spread label to all unlabeled samples"]
-  D["boundary errors also spread"]
-  E["review representative and boundary samples first"]
-  F["apply labels only after validation"]
-
-  A --> B --> C --> D
-  A --> E --> F
+--8<-- "assets/part-04/chapter-17/p4-17-4-mermaid-01-ko.mmd"
 ```
 
 이 도식의 핵심은 단순합니다. 군집은 시작점일 수 있지만, 검토 없는 자동 전파는 오류까지 같이 키울 수 있습니다.

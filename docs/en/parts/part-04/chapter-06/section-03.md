@@ -44,16 +44,7 @@ The two resemble each other in the sense that both decide `what will be measured
 Model metrics are closer to the quality of the answer, while operational metrics are closer to the state of the service.
 
 ```mermaid
-flowchart TD
-  A["user request"]
-  B["model output"]
-  C["service response"]
-  D["model metrics<br/>accuracy / precision / recall / RMSE"]
-  E["service metrics<br/>latency / errors / traffic / saturation"]
-
-  A --> B --> C
-  B --> D
-  C --> E
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-01-en.mmd"
 ```
 
 The key point of this diagram is that even inside one AI service, two different kinds of metrics exist together.
@@ -127,13 +118,7 @@ If the same service is used as an example, it can be read like this.
 | SLA | What happens if the target is not met? | refund, credit, contractual compensation |
 
 ```mermaid
-flowchart TB
-  A["measured behavior"]
-  B["SLI<br/>chosen indicator"]
-  C["SLO<br/>target value"]
-  D["SLA<br/>consequence if missed"]
-
-  A --> B --> C --> D
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-02-en.mmd"
 ```
 
 This flow shows that reading numbers in operations is not simple observation. It becomes a structure that continues into `what will be promised, and how will people respond if it is missed?`
@@ -197,24 +182,7 @@ The Google SRE Book presents latency, traffic, errors, and saturation as four es
 These four can be used like basic coordinates for an operations perspective.
 
 ```mermaid
-flowchart TD
-  A["user requests arrive"]
-  B["traffic<br/>how much demand is coming in?"]
-  C{"is the system near capacity?"}
-  D["saturation<br/>cpu / memory / queue / connection pool fills up"]
-  E["latency rises<br/>responses become slower"]
-  F["errors rise<br/>timeouts / failed requests increase"]
-  G["user-facing reliability drops"]
-  H["latency stays stable<br/>normal user experience"]
-
-  A --> B
-  B --> C
-  C -->|yes| D
-  D --> E
-  D --> F
-  E --> G
-  F --> G
-  C -->|no| H
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-03-en.mmd"
 ```
 
 This diagram shows the four signals not as a list to memorize, but in the order an operations team actually reads them. First traffic is used to ask `how many requests are coming in right now?` Then saturation is used to ask `is the system near its limit?` If it is near its limit, latency and errors emerge as user-facing problems, and service reliability is shaken as a result. By contrast, if saturation is not high, the team checks whether latency remains stable and confirms a normal state.
@@ -255,18 +223,7 @@ An operations team improved its customer-support chatbot. By human judgment, the
 But actual user complaints do not fall. When the team checks why, it finds that during peak periods response delay grows and timeout increases, so even good answers often arrive too late. This scene shows that model metrics and operational metrics are looking at different levels.
 
 ```mermaid
-flowchart TD
-  A["chatbot release"]
-  B["offline quality rises"]
-  C["user complaints stay high"]
-  D["check latency and timeout"]
-  E["check answer quality"]
-  F["service issue"]
-  G["model issue"]
-
-  A --> B --> C
-  C --> D --> F
-  C --> E --> G
+--8<-- "assets/part-04/chapter-06/p4-6-3-mermaid-04-en.mmd"
 ```
 
 Here the model metric reads `the quality of the answer`, and the operational metric reads `the service experience`. Even if answer appropriateness is high, service quality can feel low when latency and error rate are bad. By contrast, even if the service is fast, the goal still fails if the answers are inaccurate.

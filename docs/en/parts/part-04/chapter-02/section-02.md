@@ -45,21 +45,7 @@ The important point here is that the model does not automatically understand the
 Even with the same customer table, unsupervised learning treats it not as `a table for matching answer labels`, but as `a table for reading structure candidates`. The following diagram shows how the same input table can split into cluster candidates, an axis summary, and an outlier candidate.
 
 ```mermaid
-flowchart TD
-  A["customer table<br/>visits / purchases / amount / coupon use"]
-  B["cluster candidates<br/>active / browsing / dormant"]
-  C["reduced view<br/>2D map of behavior"]
-  D["outlier candidate<br/>unusual purchase pattern"]
-  E["human interpretation<br/>name and inspect"]
-  F["next task<br/>analysis or supervised learning"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> E
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-01-en.mmd"
 ```
 
 ## Comparing It With Supervised Learning
@@ -81,19 +67,7 @@ Because there are no labels in unsupervised learning, it is hard to say simply `
 The basic flow of unsupervised learning can be seen as follows.
 
 ```mermaid
-flowchart TB
-  A["1. unlabeled data<br/>X only"]
-  B["2. representation<br/>choose features"]
-  C["3. structure candidates<br/>clusters / axes / density"]
-  D["4. inspection<br/>visualize and compare"]
-  E["5. interpretation<br/>name or use the pattern"]
-  F["6. next task<br/>analysis or supervised learning"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-02-en.mmd"
 ```
 
 The key in this diagram is `human interpretation`. The result of unsupervised learning is a structure candidate inside the data. The grouping or axis produced by the model must still be named by people and checked for actual usefulness.
@@ -215,21 +189,7 @@ That is why unsupervised learning is explained as `an approach that finds struct
 The checkable result can be judged by whether the groupings and axes actually create a review question. For example, if customers with similar purchase patterns separate into several groups and a person can explain the differences among them, then the result of unsupervised learning becomes a useful starting point for the next analysis step.
 
 ```mermaid
-flowchart TD
-  A["customer behavior table"]
-  B["no labels yet"]
-  C["look for similar patterns"]
-  D["group candidates appear"]
-  E["outlier or reduced-view hints appear"]
-  F["human interpretation comes later"]
-  G["use the result for the next analysis question"]
-
-  A --> B --> C
-  C --> D
-  C --> E
-  D --> F
-  E --> F
-  F --> G
+--8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-03-en.mmd"
 ```
 
 ## When This Perspective Should Come To Mind First

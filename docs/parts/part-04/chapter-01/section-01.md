@@ -66,19 +66,7 @@ AI(artificial intelligence)는 가장 넓은 말입니다. 규칙 기반 시스�
 LLM(large language model)은 대규모 언어 모델입니다. 현재 많은 사람이 AI를 LLM 경험으로 처음 만나지만, LLM은 AI 전체가 아니라 언어를 중심으로 발전한 특정한 모델 계열입니다.
 
 ```mermaid
-flowchart TD
-  AI["AI<br/>artificial intelligence"]
-  ML["머신러닝<br/>machine learning"]
-  RB["규칙 기반 시스템<br/>search, heuristic, knowledge"]
-  DL["딥러닝<br/>deep learning"]
-  GEN["생성형 AI<br/>text, image, audio, code"]
-  LLM["LLM<br/>large language model"]
-
-  AI --> ML
-  AI --> RB
-  ML --> DL
-  DL --> GEN
-  GEN --> LLM
+--8<-- "assets/part-04/chapter-01/ai-scope-map-ko.mmd"
 ```
 
 이 그림은 엄밀한 분류표라기보다 학습용 지도입니다. 실제 연구와 제품에서는 여러 기술이 섞입니다. 예를 들어 검색 시스템, 규칙 기반 필터, 머신러닝 모델, LLM이 하나의 서비스 안에서 함께 작동할 수 있습니다.
@@ -86,29 +74,7 @@ flowchart TD
 다음 도식은 포함 관계와 실제 서비스 조합이 다르다는 점을 분리해서 보여 줍니다. 위 도식이 “용어의 큰 위치”를 보여 준다면, 아래 도식은 “하나의 서비스 안에서 여러 접근이 함께 작동할 수 있음”을 보여 줍니다.
 
 ```mermaid
-flowchart TD
-  U["사용자 요청"]
-  A["애플리케이션"]
-  R["규칙 점검"]
-  S["검색 / 데이터베이스"]
-  M["머신러닝 모델"]
-  L["LLM"]
-  P["정책 판단"]
-  H["사람 검토<br/>필요할 때"]
-  O["서비스 응답"]
-
-  U --> A
-  A --> R
-  A --> S
-  A --> M
-  A --> L
-  R --> P
-  S --> P
-  M --> P
-  L --> P
-  P --> O
-  P -. 위험이 크거나<br/>확신이 낮을 때 .-> H
-  H --> O
+--8<-- "assets/part-04/chapter-01/ai-service-composition-map-ko.mmd"
 ```
 
 이 도식에서 LLM은 서비스의 전부가 아니라 여러 구성 요소 중 하나입니다. 모델 출력은 정책 판단과 결합될 수 있고, 위험이 크거나 확신이 낮은 경우에는 사람 검토로 넘어갈 수도 있습니다.
@@ -228,16 +194,7 @@ Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐�
 확인 가능한 결과는 서비스 구조를 질문으로 나눠 볼 때 드러납니다. 어떤 부분은 검색이 담당하고, 어떤 부분은 분류 모델이 담당하고, 어떤 부분은 LLM이 생성 응답을 담당한다면, 이미 `AI = LLM`이라는 단순한 등식으로는 설명이 부족합니다.
 
 ```mermaid
-flowchart TD
-  X["챗봇 또는 이미지 도구<br/>사용 경험"]
-  J["곧바로<br/>AI = LLM으로 점프"]
-  H["서비스 구조가<br/>가려진다"]
-  D["검색, 규칙, 모델,<br/>정책, 사람 검토를 분리해 본다"]
-  C["LLM은 하나의<br/>구성요소가 된다"]
-  W["AI 범위가<br/>다시 넓어진다"]
-
-  X --> J --> H
-  X --> D --> C --> W
+--8<-- "assets/part-04/chapter-01/ai-llm-scope-misconception-flow-ko.mmd"
 ```
 
 ## 이 절에서 기억할 관점

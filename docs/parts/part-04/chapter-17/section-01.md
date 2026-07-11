@@ -1,7 +1,7 @@
 # P4-17.1 클러스터링(clustering)의 직관
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-16에서는 그래디언트 부스팅(gradient boosting)까지 보면서, 정답(label)이 있는 문제에서 모델이 어떻게 예측 성능을 올리는지를 따라왔습니다. 여기서 시선을 조금 바꾸면 다음 질문이 나옵니다.
 
@@ -106,17 +106,7 @@ scikit-learn 사용자 가이드는 clustering을 unlabeled data에 대해 수�
 이 차이를 한 번 더 도식으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input data"]
-  B{"given labels?"}
-  C["learn mapping"]
-  D["predict known target"]
-  E["search similarity structure"]
-  F["propose cluster groups"]
-
-  A --> B
-  B -->|yes| C --> D
-  B -->|no| E --> F
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-01-ko.mmd"
 ```
 
 이 도식은 지도학습과 클러스터링의 출발점이 어디서 갈리는지 한 번에 보여 줍니다. 지도학습은 정답 라벨을 가지고 mapping을 배우지만, 클러스터링은 라벨 없이 비슷함의 구조를 먼저 찾고 그 묶음을 사람이 다시 해석해야 합니다.
@@ -142,14 +132,7 @@ flowchart TD
 이를 데이터 흐름처럼 줄이면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["raw records"]
-  B["choose features"]
-  C["define similarity<br/>distance / density / connectivity"]
-  D["group nearby or related points"]
-  E["inspect whether the grouping is meaningful"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-02-ko.mmd"
 ```
 
 이 도식은 클러스터링이 데이터 원본에서 곧바로 답을 꺼내는 과정이 아니라는 점을 보여 줍니다. 어떤 특징을 고르고, 어떤 비슷함 규칙을 쓸지 정한 뒤에야 군집이 만들어지므로, 결과는 항상 표현 방식과 유사도 정의의 영향을 받습니다.
@@ -174,12 +157,7 @@ flowchart TD
 이 점을 그림으로 보면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["algorithm output<br/>cluster 0 / 1 / 2"]
-  B["review representative cases"]
-  C["attach possible meaning later<br/>VIP? casual? risk?"]
-
-  A --> B --> C
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-03-ko.mmd"
 ```
 
 이 도식은 군집 번호와 비즈니스 의미를 분리해서 읽게 해 줍니다. `cluster 0`, `cluster 1` 같은 출력은 아직 임시 번호일 뿐이고, 그것을 `VIP 고객`, `가벼운 사용자`, `위험군`처럼 해석하는 일은 뒤의 사람 검토 단계에서 이루어집니다.
@@ -230,21 +208,11 @@ scikit-learn clustering 개요 표는 DBSCAN을 `non-flat geometry`, `uneven clu
 직관만 비교하면, 두 알고리즘은 아예 다른 질문에서 출발한다고 보는 편이 더 읽기 쉽습니다.
 
 ```mermaid
-flowchart LR
-  A["choose k centers"]
-  B["assign points to nearest center"]
-  C["update centers"]
-
-  A --> B --> C
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-04-ko.mmd"
 ```
 
 ```mermaid
-flowchart LR
-  A["find dense neighborhoods"]
-  B["expand connected dense areas"]
-  C["leave sparse points as noise"]
-
-  A --> B --> C
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-05-ko.mmd"
 ```
 
 앞 도식은 k-means가 `중심점을 먼저 두고 점을 붙이는 방식`임을, 뒤 도식은 DBSCAN이 `빽빽하게 이어진 영역을 확장하고 듬성한 점은 남기는 방식`임을 각각 따로 보여 줍니다. 비교를 한 장에 몰아넣지 않고 분리하면, 독자는 `중심 기반`과 `밀도 기반`이 서로 다른 군집 질문이라는 점을 더 빨리 읽을 수 있습니다.
@@ -256,24 +224,7 @@ flowchart LR
 온라인 쇼핑몰 팀이 고객을 볼 때는 `이번 달 구매액이 큰가` 같은 단일 기준으로만 나누기 쉽습니다. 하지만 실제로는 방문은 잦지만 소액으로 자주 사는 고객, 방문은 드물지만 한 번에 크게 사는 고객, 최근 방문이 끊긴 고객처럼 서로 다른 패턴이 섞여 있어서, 금액 하나만 보면 같은 부류로 묶여 버릴 수 있습니다. 클러스터링은 방문 수, 구매 금액, 최근 접속일 같은 특징을 함께 보고 비슷한 고객 묶음을 제안합니다. 그래서 팀은 단순 매출 순위표로는 보이지 않던 `행동 패턴 중심`의 고객 그룹을 발견하고, 이후 해석과 마케팅 전략 검토를 이어갈 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["customer table"]
-  B["rank by purchase only"]
-  C["mixed behavior stays hidden"]
-  D["cluster by visit, spend, recency"]
-  E["frequent small buyers"]
-  F["rare big spenders"]
-  G["recently inactive customers"]
-  H["review business meaning later"]
-
-  A --> B --> C
-  A --> D
-  D --> E
-  D --> F
-  D --> G
-  E --> H
-  F --> H
-  G --> H
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-06-ko.mmd"
 ```
 
 이 사례를 review 메모처럼 줄이면 다음과 같이 적을 수 있습니다.
@@ -290,16 +241,7 @@ flowchart TD
 여기서 중요한 것은 군집이 곧바로 정답 카테고리를 대신하지 않는다는 점입니다. 예를 들어 어떤 묶음이 `반도체 투자`, `AI 칩`, `데이터센터` 기사를 함께 모았다면, 그것은 `기술` 군집일 수도 있고 `산업` 군집일 수도 있습니다. 즉, 클러스터링은 편집팀에게 `먼저 같이 검토해 볼 문서 덩어리`를 제안해 주지만, 최종 주제명과 운영 분류 체계는 여전히 사람이 다시 붙여야 합니다.
 
 ```mermaid
-flowchart TD
-  A["incoming articles"]
-  B["manual skim by title only"]
-  C["borderline topics become inconsistent"]
-  D["cluster by text similarity"]
-  E["review grouped article sets"]
-  F["attach editorial labels later"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-17/p4-17-1-mermaid-07-ko.mmd"
 ```
 
 이 사례를 작업 메모처럼 줄이면 다음과 같이 적을 수 있습니다.

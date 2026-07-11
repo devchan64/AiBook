@@ -1,7 +1,7 @@
 # P4-10.1 선형회귀(linear regression)의 직관
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-9.2에서는 튜닝(tuning)과 검증 비용(validation cost)을 통해 `좋아 보이는 설정을 어떻게 비교할 것인가`를 봤습니다. 이제 그 비교 절차를 실제 알고리즘 하나에 연결할 차례입니다.
 
@@ -97,15 +97,7 @@ y = wx + b
 이 구조를 그림처럼 읽으면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["input x<br/>study hours"]
-  B["coefficient w<br/>change per 1 hour"]
-  C["intercept b<br/>starting point"]
-  D["prediction y<br/>exam score"]
-
-  A --> B
-  B --> D
-  C --> D
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-01-ko.mmd"
 ```
 
 이 도식은 한 변수 선형회귀를 `입력 하나가 기울기와 절편을 거쳐 예측값으로 이어지는 구조`로 보여 줍니다. 여기서 선형회귀가 데이터를 외우는 모델이 아니라, 입력 변화가 출력 변화를 어떻게 밀어 올리거나 끌어내리는지 수치로 읽는 모델이라는 점을 먼저 잡으면 됩니다.
@@ -137,19 +129,7 @@ y = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 이 점을 간단히 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["feature x1<br/>size"]
-  B["feature x2<br/>distance"]
-  C["feature x3<br/>age"]
-  D["weighted sum<br/>w1x1 + w2x2 + w3x3"]
-  E["intercept b"]
-  F["prediction y<br/>price"]
-
-  A --> D
-  B --> D
-  C --> D
-  D --> F
-  E --> F
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-02-ko.mmd"
 ```
 
 이 도식은 입력이 여러 개가 되어도 선형회귀의 핵심 구조는 그대로라는 점을 보여 줍니다. 각 특징이 따로 의미를 가지더라도, 모델은 결국 이들을 가중 합으로 모아 하나의 예측값을 만든다는 것이 `선형`의 중심 감각입니다.
@@ -197,14 +177,7 @@ scikit-learn의 `LinearRegression`은 기본적으로 ordinary least squares에 
 이 흐름을 가장 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
-flowchart TD
-  A["data points"]
-  B["make a trial line"]
-  C["compare prediction and actual"]
-  D["reduce overall error"]
-  E["choose a better line"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-03-ko.mmd"
 ```
 
 이 도식은 선형회귀가 단순히 직선을 그리는 것이 아니라, 오차를 줄이는 기준으로 더 나은 선을 찾아가는 과정이라는 점을 보여 줍니다. 즉, 보이는 선의 모양보다 `예측과 실제의 차이를 전체적으로 어떻게 줄이려 하는가`가 알고리즘의 핵심입니다.
@@ -334,14 +307,7 @@ flowchart TD
 확인 가능한 결과는 학습된 직선과 계수 해석에서 드러납니다. 기울기가 양수라면 광고비 증가와 매출 증가가 함께 움직이는 경향을 읽을 수 있고, 예측값과 실제값의 차이를 보면 직선 하나로 설명하기에 얼마나 거친지도 바로 확인할 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["monthly ad spend and sales"]
-  B["fit one straight line first"]
-  C["read slope direction and size"]
-  D["compare predicted and actual points"]
-  E["decide whether the linear summary is a useful first explanation"]
-
-  A --> B --> C --> D --> E
+--8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-04-ko.mmd"
 ```
 
 ## 사례 및 예시

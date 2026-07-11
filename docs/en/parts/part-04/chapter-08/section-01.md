@@ -251,22 +251,7 @@ People often ask:
 But the actual starting point of model selection is closer to making `a first shortlist` than to deciding on one correct model.
 
 ```mermaid
-flowchart TD
-  subgraph R1["start from the problem"]
-    direction LR
-    A["problem statement"]
-    B["data and features"]
-    C["constraints<br/>speed / cost / explanation"]
-  end
-
-  subgraph R2["then narrow the options"]
-    direction LR
-    D["candidate models"]
-    E["compare and narrow down"]
-  end
-
-  A --> B --> C
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-01-en.mmd"
 ```
 
 The core of this diagram is that the model does not come first. The problem and constraints come first.
@@ -274,22 +259,7 @@ The core of this diagram is that the model does not come first. The problem and 
 If the practical flow is unfolded a little more, it can be read as follows.
 
 ```mermaid
-flowchart TD
-  subgraph Q1["translate the task"]
-    direction LR
-    A["1. business question<br/>what decision will be supported?"]
-    B["2. task type<br/>classification / regression / clustering"]
-    C["3. data condition<br/>size / feature type / sparsity"]
-  end
-
-  subgraph Q2["set limits and shortlist"]
-    direction LR
-    D["4. constraints<br/>explanation / speed / cost"]
-    E["5. candidate shortlist<br/>2 to 4 model families"]
-  end
-
-  A --> B --> C
-  C --> D --> E
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-02-en.mmd"
 ```
 
 This diagram shows model selection not as `algorithm search`, but as `the process of translating a business question into an experimental shortlist`.
@@ -391,25 +361,7 @@ The confirmable results appear in the candidate-family table and comparison expe
 If this scene is drawn as a diagram, it becomes visible at a glance how even the same churn-prediction problem splits into different candidate families because of constraints.
 
 ```mermaid
-flowchart TD
-  A["churn prediction task"]
-  B["tabular behavior data"]
-  C["need explanation"]
-  D["daily batch inference"]
-  E["linear candidate<br/>logistic regression"]
-  F["interpretable rule candidate<br/>decision tree"]
-  G["strong nonlinear candidate<br/>random forest"]
-  H["compare shortlist<br/>before tuning"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  C --> F
-  D --> G
-  E --> H
-  F --> H
-  G --> H
+--8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-03-en.mmd"
 ```
 
 ## Cases And Examples

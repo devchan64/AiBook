@@ -35,22 +35,7 @@
 scikit-learn 文档会按问题目标来分评价函数。它把 classification metrics、regression metrics、clustering metrics 分开说明，这本身就是一个重要提示。意思是：在同一个 `performance` 这个词下面，其实藏着不同的问题。
 
 ```mermaid
-flowchart TB
-  A["problem type"]
-  B["classification<br/>choose a class"]
-  C["regression<br/>predict a number"]
-  D["clustering<br/>group similar samples"]
-
-  E["read mistakes by type<br/>accuracy / precision / recall / F1"]
-  F["read error size<br/>MAE / MSE / RMSE / R2"]
-  G["read group quality<br/>label agreement or silhouette"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-01-zh.mmd"
 ```
 
 这张图说明：只要先把问题类型选出来，接下来应该读的评价问题也会自然不同。这里先该抓住的，不是指标名字本身，而是 `当前处理的 output 到底是类别、数字，还是分组` 这个区分。
@@ -226,19 +211,7 @@ scikit-learn 文档在说明 clustering performance evaluation 时，也明确�
 这个区别非常重要。
 
 ```mermaid
-flowchart TD
-  A["clustering result"]
-  B["ground-truth labels available?"]
-  C["yes<br/>compare two labelings"]
-  D["no<br/>inspect cluster structure itself"]
-  E["ARI / FMI / homogeneity-completeness"]
-  F["silhouette or other internal criteria"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  D --> F
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-02-zh.mmd"
 ```
 
 这张图的核心是：clustering 评价从一开始就分成两条路。如果有人类标准 label，就问 `和人的分法像不像`；如果没有，就问 `这个分组本身看起来合不合理`。
@@ -338,21 +311,7 @@ clustering 比起 `答对既有答案`，更接近 `找出隐藏结构`。因此
 把同一张客户表分成不同评价问题的场景画出来，会更清楚。
 
 ```mermaid
-flowchart TD
-  A["same customer table"]
-  B["classification question<br/>who may churn?"]
-  C["regression question<br/>how much will they spend?"]
-  D["clustering question<br/>which groups appear?"]
-  E["read FP / FN and F1"]
-  F["read error size<br/>MAE / RMSE"]
-  G["read group structure<br/>silhouette / interpretation"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-03-zh.mmd"
 ```
 
 ## 案例与示例

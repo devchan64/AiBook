@@ -161,16 +161,7 @@ benchmark 是一种装置，目的是让多个 model 在同一份数据和同一
 可确认的结果，会立刻表现在记录项目有没有留下来。如果 data 版本、preprocessing 规则、hyperparameter、metric、执行时间都一起留下来了，就能重新检查为什么某个组合更好；但如果只剩分数，这个比较就不容易被复现。
 
 ```mermaid
-flowchart TD
-  A["many model and tuning runs"]
-  B["only top scores remain"]
-  C["comparison becomes hard to explain"]
-  D["store data version, preprocessing, params, metric, time"]
-  E["retrace why one run won"]
-  F["reuse benchmark or tracking records later"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-09/p4-9-3-mermaid-01-zh.mmd"
 ```
 
 ## 这一节要记住的视角

@@ -1,7 +1,7 @@
 # P4-16.2 부스팅의 성능과 위험
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-16.1에서는 그래디언트 부스팅(gradient boosting)이 앞선 단계의 오차를 다음 단계가 순차적으로 보정하는 방식이라는 점을 보았습니다. 바로 여기서 부스팅의 강점과 위험이 동시에 나옵니다.
 
@@ -114,12 +114,7 @@ scikit-learn 문서는 gradient boosting 모델의 `train_score_`와 `staged_pre
 입문적으로는 다음 그림이 중요합니다.
 
 ```mermaid
-flowchart TB
-  A["few stages<br/>underfit"]
-  B["enough stages<br/>good generalization"]
-  C["too many stages<br/>follow noise"]
-
-  A --> B --> C
+--8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-01-ko.mmd"
 ```
 
 이 그림의 뜻은 단순합니다.
@@ -274,23 +269,7 @@ Part 4 Module 5를 한 묶음으로 읽으려면, 같은 표 데이터 문제를
 즉, `사기 거래를 잘 잡는다`는 한 문장만으로는 부족합니다. `어떤 정상 거래를 새로 의심하기 시작했는가`, `어느 단계 이후 validation이 멈췄는가`를 같이 봐야 과한 보정이 시작된 지점을 읽을 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["fraud model training"]
-  B["train score looks almost perfect"]
-  C["validation or test becomes unstable"]
-  D["suspect noise-following corrections"]
-  E["lower learning rate"]
-  F["reduce stages or tree depth"]
-  G["check early stopping point"]
-  H["compare unseen-data errors again"]
-
-  A --> B --> C --> D
-  D --> E
-  D --> F
-  D --> G
-  E --> H
-  F --> H
-  G --> H
+--8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-02-ko.mmd"
 ```
 
 이 상황은 다음처럼 더 짧게 기록할 수 있습니다. `train은 거의 완벽한데 validation/test가 흔들리면 지금 부스팅은 패턴보다 잡음을 더 배우고 있을 가능성이 크다. 다음 조치는 learning_rate, 단계 수, 트리 깊이를 함께 줄여 보고 early stopping 기준을 다시 확인하는 일이다.` 부스팅 절의 핵심은 `점수가 높다`에서 끝나지 않고 `어느 지점부터 과한 보정이 시작됐는가`, `그 과한 보정을 무엇으로 줄일 것인가`까지 이어지는 데 있습니다. 같은 점수처럼 보여도 남는 오류 사례가 다르면 멈춤 지점과 다음 조정 순서도 달라질 수 있습니다.
@@ -308,16 +287,7 @@ flowchart TD
 이 사례에서 중요한 것은 단순히 AUC 숫자 하나가 아니라, `어떤 고객 묶음을 새로 위험군으로 넣기 시작했는가`입니다. 부스팅은 남은 오류를 줄이려다 보면 경계 근처의 애매한 고객까지 더 세밀하게 나누기 쉽습니다. 그 결과 점수는 조금 좋아져도, 운영 행동으로 옮겼을 때는 비용 대비 효과가 나빠질 수 있습니다.
 
 ```mermaid
-flowchart TD
-  A["churn signals overlap"]
-  B["boosting adds more correction stages"]
-  C["borderline customers are grouped as high risk"]
-  D["coupon target widens too much"]
-  E["campaign response drops"]
-  F["recheck stopping point and target threshold"]
-
-  A --> B --> C --> D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-16/p4-16-2-mermaid-03-ko.mmd"
 ```
 
 이 장면에서는 `validation AUC가 소폭 상승했다`보다 `캠페인 대상이 어떻게 바뀌었는가`가 더 중요한 점검 포인트가 됩니다. 따라서 부스팅 모델을 운영에 붙일 때는 stage 수와 learning rate를 조정하는 일과 함께, 예측 상위 구간에 실제 어떤 사례가 들어오는지도 같이 확인해야 합니다.

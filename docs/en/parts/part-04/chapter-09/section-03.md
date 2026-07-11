@@ -161,16 +161,7 @@ In this scene, advanced model-selection tools should all be read as devices that
 The confirmable result appears immediately in whether the record items remain. If the data version, preprocessing rules, hyperparameters, metric, and execution time are all left together, readers can review again why a certain combination was good. But if only the score remains, that comparison is not easily reproducible.
 
 ```mermaid
-flowchart TD
-  A["many model and tuning runs"]
-  B["only top scores remain"]
-  C["comparison becomes hard to explain"]
-  D["store data version, preprocessing, params, metric, time"]
-  E["retrace why one run won"]
-  F["reuse benchmark or tracking records later"]
-
-  A --> B --> C
-  A --> D --> E --> F
+--8<-- "assets/part-04/chapter-09/p4-9-3-mermaid-01-en.mmd"
 ```
 
 ## Perspectives To Remember In This Section

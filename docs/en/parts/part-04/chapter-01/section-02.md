@@ -60,17 +60,7 @@ The important point in this table is not that one of the two is the answer by it
 The next diagram shows the difference between the two approaches as a flow. The rule-based approach begins with a person writing the criterion first, while the learning-based approach builds the model from data cases. Both can ultimately lead to a judgment or action in a service.
 
 ```mermaid
-flowchart TD
-  I["new case"]
-  P{"who made the decision rule?"}
-
-  I --> P
-  P -->|person writes it| R["rule-based result"]
-  P -->|data trains it| L["model prediction"]
-
-  R --> D["service policy"]
-  L --> D
-  D --> O["action or response"]
+--8<-- "assets/part-04/chapter-01/rule-vs-learning-judgment-flow-en.mmd"
 ```
 
 The important point here is that `model prediction` is not automatically the final action. The model can output a score or a classification result, but the real service can still choose its final action by considering cost, risk, policy, and user experience.
@@ -159,16 +149,7 @@ In real work, you often have to judge first whether `writing more human rules is
 The machine learning flow can be read in the following five steps.
 
 ```mermaid
-flowchart TD
-  A["examples"]
-  B["features X + labels y"]
-  C["training"]
-  D["trained model"]
-  E["new input"]
-  F["prediction"]
-
-  A --> B --> C --> D
-  E --> D --> F
+--8<-- "assets/part-04/chapter-01/machine-learning-basic-flow-en.mmd"
 ```
 
 In this figure, `X` is the input data fed into the model. It is often easiest to think of it as an array or table with samples in rows and features in columns. `y` is the target value that the model tries to match in supervised learning. In a classification problem, it can be a label. In a regression problem, it can be a numeric value.
@@ -264,18 +245,7 @@ This is where the learning-based approach appears. If past inquiry cases and lab
 The checkable result appears in evaluation on new inquiries. A rule-based classifier can miss cases once the wording changes a little, while a learning-based model can predict more stably if it has learned similar patterns from past cases. On the other hand, if it only fits the training data and fails frequently on new inquiries, then generalization is still weak.
 
 ```mermaid
-flowchart TD
-  A["customer inquiry"]
-  B["match a hand-written keyword rule"]
-  C["phrasing changes or mixed intent appears"]
-  D["rule path becomes brittle"]
-  E["collect labeled past inquiries"]
-  F["learn input-label relation"]
-  G["test on unseen inquiries"]
-  H["decide whether generalization is good enough"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G --> H
+--8<-- "assets/part-04/chapter-01/inquiry-rule-vs-learning-flow-en.mmd"
 ```
 
 ## Perspective To Remember In This Section

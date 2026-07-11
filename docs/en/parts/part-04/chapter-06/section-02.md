@@ -35,22 +35,7 @@ This Section answers the following questions.
 The scikit-learn documentation explains evaluation functions by separating them according to the goal of the problem. The fact that classification metrics, regression metrics, and clustering metrics are separate is itself an important hint. It means that different questions are hidden under the same word `performance`.
 
 ```mermaid
-flowchart TB
-  A["problem type"]
-  B["classification<br/>choose a class"]
-  C["regression<br/>predict a number"]
-  D["clustering<br/>group similar samples"]
-
-  E["read mistakes by type<br/>accuracy / precision / recall / F1"]
-  F["read error size<br/>MAE / MSE / RMSE / R2"]
-  G["read group quality<br/>label agreement or silhouette"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-01-en.mmd"
 ```
 
 This diagram shows that once the problem type is chosen first, the evaluation question that should be read next also changes naturally. What should be read first here is not the metric name, but the distinction `is the current output a category, a number, or a grouping?`
@@ -226,19 +211,7 @@ The scikit-learn documentation explains clustering performance evaluation by sep
 This difference is extremely important.
 
 ```mermaid
-flowchart TD
-  A["clustering result"]
-  B["ground-truth labels available?"]
-  C["yes<br/>compare two labelings"]
-  D["no<br/>inspect cluster structure itself"]
-  E["ARI / FMI / homogeneity-completeness"]
-  F["silhouette or other internal criteria"]
-
-  A --> B
-  B --> C
-  B --> D
-  C --> E
-  D --> F
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-02-en.mmd"
 ```
 
 The key point of this diagram is that clustering evaluation splits into two branches from the beginning. If human answer labels exist, the question becomes `how similar is this to the human grouping?` If no such labels exist, the question becomes `how plausible is the grouping itself?`
@@ -338,21 +311,7 @@ The checkable result is also read differently. Even with the same customer data,
 It becomes even clearer when the same customer table is drawn as a diagram that branches into different evaluation questions.
 
 ```mermaid
-flowchart TD
-  A["same customer table"]
-  B["classification question<br/>who may churn?"]
-  C["regression question<br/>how much will they spend?"]
-  D["clustering question<br/>which groups appear?"]
-  E["read FP / FN and F1"]
-  F["read error size<br/>MAE / RMSE"]
-  G["read group structure<br/>silhouette / interpretation"]
-
-  A --> B
-  A --> C
-  A --> D
-  B --> E
-  C --> F
-  D --> G
+--8<-- "assets/part-04/chapter-06/p4-6-2-mermaid-03-en.mmd"
 ```
 
 ## Cases And Examples

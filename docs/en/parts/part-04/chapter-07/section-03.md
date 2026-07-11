@@ -102,23 +102,7 @@ Numeric columns are similar.
 That means preprocessing types are not `mutually exclusive menu items`, but `bundles of rules that can attach to the same input row one after another`.
 
 ```mermaid
-flowchart TD
-  A["one column"]
-  B["is it missing?"]
-  C["can it be computed as numeric?"]
-  D["is its scale too different?"]
-  E["imputation rule"]
-  F["encoding rule"]
-  G["scaling rule"]
-  H["reuse same learned rules on validation/test"]
-
-  A --> B
-  B -->|yes| E --> C
-  B -->|no| C
-  C -->|no| F --> H
-  C -->|yes| D
-  D -->|yes| G --> H
-  D -->|no| H
+--8<-- "assets/part-04/chapter-07/p4-7-3-mermaid-01-en.mmd"
 ```
 
 This flow shows that the question `how should preprocessing types be distinguished` is ultimately the same as the question `in what order should input problems be diagnosed`.

@@ -1,7 +1,7 @@
 # P4-12.3 k-NN을 사용할 때 무엇을 먼저 점검할까
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.11`
 
 P4-12.1에서 k-NN의 직관을 보았고, P4-12.2에서 거리(distance)와 스케일(scale)이 왜 결과를 바꾸는지 보았습니다. 이제 남는 질문은 이것입니다.
 
@@ -104,19 +104,7 @@ k-NN은 모든 분류 문제의 기본 해답은 아닙니다. 하지만 `가까
 즉, 검토(review) query는 `틀린 예측 한 건`이라기보다 `판단 규칙의 어느 층이 흔들리는지 보여 주는 관찰 지점`으로 읽는 편이 맞습니다.
 
 ```mermaid
-flowchart TD
-  A["review query<br/>(4.0, 4.2)"]
-  B["neighbors are mixed?<br/>이웃 구성이 갈리는가"]
-  C["change k<br/>k를 바꿔 본다"]
-  D["change distance rule<br/>거리 규칙을 다시 본다"]
-  E["check scale and representation<br/>스케일과 표현을 점검한다"]
-  F["stable interpretation<br/>어디서 흔들렸는지 정리"]
-
-  A --> B
-  B --> C
-  C --> D
-  D --> E
-  E --> F
+--8<-- "assets/part-04/chapter-12/p4-12-3-mermaid-01-ko.mmd"
 ```
 
 ### 검토(review)가 필요한 query는 어떻게 읽어야 하는가

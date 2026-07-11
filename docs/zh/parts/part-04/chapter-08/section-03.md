@@ -95,17 +95,7 @@ baseline 不是靠感觉定下来的临时规则，更安全的做法是把它�
 | 马上检查的错误 | 漏掉真实流失客户的案例 |
 
 ```mermaid
-flowchart TD
-  A["churn data"]
-  B["baseline: always stay"]
-  C["accuracy looks high"]
-  D["churn recall is 0"]
-  E["candidate model"]
-  F["compare accuracy, recall, F1"]
-  G["check missed churn cases"]
-
-  A --> B --> C --> D
-  A --> E --> F --> G
+--8<-- "assets/part-04/chapter-08/p4-8-3-mermaid-01-zh.mmd"
 ```
 
 这个案例的关键点是：baseline 之所以重要，不是因为它是一个低水平模型，而是因为它是 `能立刻揭露 accuracy 幻觉的标准`。
