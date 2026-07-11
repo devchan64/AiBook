@@ -1,8 +1,8 @@
 flowchart TD
-  A["clean separation is possible<br/>깔끔한 분리가 가능함"] --> B["maximize 마진<br/>마진 최대화"]
-  C["overlapping points appear<br/>겹치는 점이 생김"]
-  C --> D["insist on perfect separation only<br/>완벽 분리만 고집"]
-  C --> E["allow some violation<br/>일부 침범 허용"]
+  A["깔끔한 분리가 가능함<br/>겹침이 거의 없음"] --> B["마진 최대화<br/>여유 있는 경계를 찾음"]
+  C["겹치는 점이 생김<br/>완전 분리가 어려워짐"]
+  C --> D["완벽 분리만 고집<br/>예외를 허용하지 않음"]
+  C --> E["일부 침범 허용<br/>약간의 위반을 받아들임"]
   D --> F["너무 빡빡하거나 불가능한 경계<br/>경계가 지나치게 좁거나 성립하지 않음"]
-  E --> G["keep the wider-마진 idea<br/>여유 있는 경계 발상 유지"]
+  E --> G["여유 있는 마진 발상 유지<br/>소프트 마진으로 읽음"]
   B --> G

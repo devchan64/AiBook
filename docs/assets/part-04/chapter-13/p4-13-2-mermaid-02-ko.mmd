@@ -1,8 +1,8 @@
 flowchart TD
-  A["original input pair<br/>원래 입력 두 개"]
-  B["explicit feature map?<br/>새 특징을 직접 다 만들까?"]
-  C["커널 evaluation<br/>커널로 유사도 계산"]
-  D["linear SVM in the implied space<br/>암시된 공간에서 선형 SVM처럼 동작"]
+  A["원래 입력 두 개<br/>입력 쌍 그대로 보기"]
+  B["명시적 특성 맵이 필요한가?<br/>새 특징을 직접 다 만들까?"]
+  C["커널 평가<br/>커널로 유사도 계산"]
+  D["암시된 공간의 선형 SVM<br/>보이지 않는 공간에서 선형 경계처럼 동작"]
 
   A --> B
   A --> C --> D
