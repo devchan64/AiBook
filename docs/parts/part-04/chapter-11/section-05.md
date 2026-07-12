@@ -1,7 +1,7 @@
 # P4-11.5 보충학습: solver와 regularization을 처음 읽는 법
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 로지스틱 회귀를 라이브러리로 써 보면 곧 solver, penalty, `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
 
@@ -170,10 +170,6 @@ baseline_lr -> LogisticRegression(max_iter=1000)
 sparse_candidate -> LogisticRegression(C=0.5, l1_ratio=0.5, max_iter=1000,
                                        penalty='elasticnet', solver='saga')
 ```
-
-## 다음 연결
-
-여기까지 오면 Chapter 11의 보충학습 축은 닫힙니다. 즉, 로지스틱 회귀는 `확률처럼 읽히는 점수`, `경계`, `log-odds와 MLE`, `다중 클래스 확장`, `학습 계산과 규제 설정`이라는 다섯 층위로 나누어 읽을 수 있습니다.
 
 ## 출처와 참고 자료
 
