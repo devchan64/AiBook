@@ -13,7 +13,7 @@
 
 降维既是在`删去一部分信息`，同时也是在`让结构更容易看见`。
 
-这一节解释 `dimenstionality reduction`、`dimension`、`PCA(principal component analysis)` 的基本含义。下一节会在这个把手的基础上继续当前语境里的判断，而“把大量特征重新表达成更少的轴”这一基本感觉，会再次通过这一节和[概念词汇表](../../../reference/concept-glossary.md)连回来。
+这一节解释 `dimenstionality reduction`、`dimension`、`PCA(principal component analysis)` 的基本含义。下一节会在这个把手的基础上继续当前语境里的判断，而“把大量特征重新表达成更少的轴”这一基本感觉，会再次通过这一节和[概念词汇表](/AiBook/en/reference/concept-glossary/)连回来。
 
 ## 本节范围
 

@@ -7,7 +7,7 @@
 
 这一节的核心不是复杂的库语法，而是不要只把预处理理解成 `数据清扫`，而要把它理解成 `把输入表达改造成 model 能处理的形式`。
 
-这一节会说明 `预处理(preprocessing)`、`缺失值处理(imputation)`、`尺度(scale)调整`、`类别编码(encoding)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而输入表达变换的基本含义，也会以这一节和 [概念词汇表](../../../reference/concept-glossary.md) 为基准再次接回。
+这一节会说明 `预处理(preprocessing)`、`缺失值处理(imputation)`、`尺度(scale)调整`、`类别编码(encoding)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而输入表达变换的基本含义，也会以这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 为基准再次接回。
 
 还有一个重要原因。人们常常先学算法，再把预处理当成后面补上的辅助工作。但实际情况更接近相反。如果输入表达没有先整理好，后面要学的线性回归(linear regression)、逻辑回归(logistic regression)、k-NN、SVM 这些算法的性质也很难真正读清。
 

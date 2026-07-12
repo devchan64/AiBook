@@ -15,7 +15,7 @@ scikit-learn 文档把 hyperparameter 解释成 `不会在 estimator 内部直�
 
 hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 model 要以什么形状、什么强度去学习的值。
 
-这一节会说明 `超参数(hyperparameter)`、`学出来的值和预先固定的值之间的区分`、以及 `配置值会怎样影响比较实验`。后面的章节会沿着这个抓手继续当前语境，而从 model 外部先固定的配置值到底是什么意思，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
+这一节会说明 `超参数(hyperparameter)`、`学出来的值和预先固定的值之间的区分`、以及 `配置值会怎样影响比较实验`。后面的章节会沿着这个抓手继续当前语境，而从 model 外部先固定的配置值到底是什么意思，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
 
 最先要分清的标准是下面这个。
 

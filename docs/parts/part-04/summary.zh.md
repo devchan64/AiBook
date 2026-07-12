@@ -7,7 +7,7 @@ Part 4 是把机器学习重新整理成 `问题定义、数据结构、学习�
 
 这一 Part 最重要的目标，是先形成这样一种习惯：比起先问 `模型在算什么`，更早要问 `它在解决什么问题`、`它在读什么数据`、`这个结果到底凭什么可信`。监督学习、无监督学习、强化学习都在从数据里学东西，但它们的输入输出定义、学习信号、评估标准和应用风险并不一样。
 
-重新翻开 Part 4 时，最快的方法是抓住代表性 Section。学习类型划分先看 `P4-2.1` 到 `P4-2.3`，validation 和 test 的区分在 `P4-4.2`，overfitting 和 underfitting 在 `P4-5.1`，评估指标在 `P4-6.1`，feature selection 和 preprocessing 在 `P4-7.1` 到 `P4-7.2`，基准模型在 `P4-8.2`，linear regression 在 `P4-10.1`，logistic regression 在 `P4-11.1`，`k-NN` 在 `P4-12.1`，`SVM` 在 `P4-13.1`，decision tree 在 `P4-14.1`，random forest 在 `P4-15.1`，gradient boosting 在 `P4-16.1`，clustering 在 `P4-17.1`，dimensionality reduction 在 `P4-18.1`。同一 Part 里的后续 Section，如果能和这些代表位置以及 [概念词汇表](../../reference/concept-glossary.md) 一起重读，语境就不容易散掉。
+重新翻开 Part 4 时，最快的方法是抓住代表性 Section。学习类型划分先看 `P4-2.1` 到 `P4-2.3`，validation 和 test 的区分在 `P4-4.2`，overfitting 和 underfitting 在 `P4-5.1`，评估指标在 `P4-6.1`，feature selection 和 preprocessing 在 `P4-7.1` 到 `P4-7.2`，基准模型在 `P4-8.2`，linear regression 在 `P4-10.1`，logistic regression 在 `P4-11.1`，`k-NN` 在 `P4-12.1`，`SVM` 在 `P4-13.1`，decision tree 在 `P4-14.1`，random forest 在 `P4-15.1`，gradient boosting 在 `P4-16.1`，clustering 在 `P4-17.1`，dimensionality reduction 在 `P4-18.1`。同一 Part 里的后续 Section，如果能和这些代表位置以及 [概念词汇表](/AiBook/en/reference/concept-glossary/) 一起重读，语境就不容易散掉。
 
 尤其要维持住在 P1-8 里固定下来的区分。监督学习是在匹配标签；无监督学习是在没有人工标签时读结构；强化学习则是通过行动后的 reward 来调整 policy，而不是通过标签。不要把强化学习里的 reward 读成监督学习里的 label，这是这一整 Part 里很重要的一条边界。
 

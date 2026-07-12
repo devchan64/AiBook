@@ -13,7 +13,7 @@
 
 linear regression 对这个问题，首先用一条 `直线(line)` 来回答。
 
-这一节会说明 `回归(regression)`、`线性回归(linear regression)`、`系数(coefficient)`、`截距(intercept)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把连续值预测先读成一条直线的基础感觉，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
+这一节会说明 `回归(regression)`、`线性回归(linear regression)`、`系数(coefficient)`、`截距(intercept)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把连续值预测先读成一条直线的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
 
 ## 本节范围
 
@@ -96,7 +96,7 @@ y = wx + b
 
 放到坐标上看，这个直觉会更清楚。即使数据点没有完美排成一条线，linear regression 也会去找一条最经济地概括这些点整体方向的直线。这里的 slope 读的是 `往右走时会上升多少`，intercept 读的是 `x = 0` 时 model 设下的起点。
 
-![展示散点图上回归线、斜率与截距该如何阅读的图](../../../assets/part-04/chapter-10/p4-10-1-regression-line-intuition-zh.svg)
+![展示散点图上回归线、斜率与截距该如何阅读的图](/AiBook/assets/part-04/chapter-10/p4-10-1-regression-line-intuition-zh.svg)
 
 如果再把这个结构压缩成流程图，可以读成下面这样。
 

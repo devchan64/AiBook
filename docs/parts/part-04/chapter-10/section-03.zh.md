@@ -12,7 +12,7 @@
 
 本节的目的，不是去学习这些概念的全部证明，而是整理 `这些词到底在担心什么`，让读者在看到 regression result 表时不要停住。
 
-这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](../../../reference/concept-glossary.md) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
+这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](/AiBook/en/reference/concept-glossary/) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
 
 ## 本补充学习的范围
 
@@ -115,7 +115,7 @@ homoscedasticity 在担心的是：误差的 spread 会不会随着输入区间�
 
 如果把 regression diagnostics 压成一张图来读，一边是在问 `误差 spread 会不会随区间改变`，另一边是在问 `prediction 还差不多，但 coefficient interpretation 会不会单独摇动`。
 
-![把区间별误差 spread 放大与重叠特征导致 coefficient interpretation 摇动并排展示的比较图](../../../assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
+![把区间별误差 spread 放大与重叠特征导致 coefficient interpretation 摇动并排展示的比较图](/AiBook/assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
 
 ## 为什么 multicollinearity 会摇动 coefficient 解读
 

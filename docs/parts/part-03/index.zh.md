@@ -28,7 +28,7 @@ Part 3 把在数据科学课程里常常分开讲的 data wrangling、feature en
 | 建立特征与基准线的区段 | feature engineering, labeled example, base period | Google ML Glossary, BLS |
 | 收束解释强度与输出边界的区段 | problem framing, conservative interpretation, output structure | Google ML Glossary, NASEM |
 
-在 Part 3 里，`数据建模` 这个大定义本身先在 3.1 固定，工作顺序先在 3.2 固定。后面的 Section 不再重复同一个词的长定义，而只保留当前问题需要的最小连接。[样本(sample)](../../reference/concept-glossary.md#glossary-sample)、[特征(feature)](../../reference/concept-glossary.md#glossary-feature)、[基准线(baseline)](../../reference/concept-glossary.md#glossary-baseline)、[比较报告(comparison report)](../../reference/concept-glossary.md#glossary-comparison-report)、[目标(target)](../../reference/concept-glossary.md#glossary-target) 需要时可以回到概念词汇表再确认。
+在 Part 3 里，`数据建模` 这个大定义本身先在 3.1 固定，工作顺序先在 3.2 固定。后面的 Section 不再重复同一个词的长定义，而只保留当前问题需要的最小连接。[样本(sample)](/AiBook/en/reference/concept-glossary/#glossary-sample)、[特征(feature)](/AiBook/en/reference/concept-glossary/#glossary-feature)、[基准线(baseline)](/AiBook/en/reference/concept-glossary/#glossary-baseline)、[比较报告(comparison report)](/AiBook/en/reference/concept-glossary/#glossary-comparison-report)、[目标(target)](/AiBook/en/reference/concept-glossary/#glossary-target) 需要时可以回到概念词汇表再确认。
 
 Part 3 会先固定数据建模想要达成什么，以及它按什么顺序推进。接着再确认，为什么存储好的记录不能直接读成数据集，为什么要先决定一行和一样本分别代表什么，再把原始日志重组为可比较的表。然后才会设计特征和中间表示，区分哪些列用于标识、比较还是目标候选。接下来再建立近期区段与基准线的比较结构，并在小样本和重复性不稳定面前，给解释划出边界。最后才把应当保留为比较报告的问题，与应当提升为预测问题的问题分开，并把输入/结果边界和时间边界一起收口。
 

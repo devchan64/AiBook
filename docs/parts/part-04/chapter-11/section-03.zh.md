@@ -112,7 +112,7 @@ p = \frac{1}{1 + e^{-z}}
 
 与其把这件事当作表格来硬背，不如先抓成 `同一个状态被不同刻度重新读取`。
 
-![展示 probability 0.5、odds 1、log-odds 0 指向同一个决策中点的对应图](../../../assets/part-04/chapter-11/p4-11-3-probability-odds-logit-zh.svg)
+![展示 probability 0.5、odds 1、log-odds 0 指向同一个决策中点的对应图](/AiBook/assets/part-04/chapter-11/p4-11-3-probability-odds-logit-zh.svg)
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-zh.mmd"

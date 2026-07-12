@@ -23,7 +23,7 @@
 `
 
 这一节不会重新长篇重复 logistic regression 的基本定义。
-`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
+`会生成可按 probability 来读的 score 的线性分类器` 这个核心直觉，会通过 P4-11.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
 这里专注的是：
 那个 score 怎样切开 input space。
 
@@ -147,7 +147,7 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 
 把单变量时的 cutoff point 和双变量时的 boundary line 放进同一张图比较，会更容易抓住这个变化。
 
-![比较一维 cutoff point 与二维 decision boundary line 的图](../../../assets/part-04/chapter-11/p4-11-2-cutoff-boundary-zh.svg)
+![比较一维 cutoff point 与二维 decision boundary line 的图](/AiBook/assets/part-04/chapter-11/p4-11-2-cutoff-boundary-zh.svg)
 
 这个想法可以简单画成下面这样。
 
@@ -225,7 +225,7 @@ threshold 为 0.5 时的 boundary，与 threshold 为 0.7 时的 boundary，不�
 
 把同一组 score 只改 threshold 时，score 轴上的 cutoff 移动会怎样在输入空间里变成 `class 1 区域缩小`，放到坐标型比较里可以像下面这样看。
 
-![展示同一条分数轴上把 threshold 从 0.5 提高到 0.7 后，class 1 区域缩小的比较图](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
+![展示同一条分数轴上把 threshold 从 0.5 提高到 0.7 后，class 1 区域缩小的比较图](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
 
 这个移动可以概念化地画成下面这样。
 

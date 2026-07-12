@@ -13,7 +13,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 所以，SVM 不会停在 `找出一条分割线` 上，而是会继续去找 `看起来更稳定的分割线`。
 
-这一节会说明 `SVM`、`margin`、`support vector` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
+这一节会说明 `SVM`、`margin`、`support vector` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
 
 ## 本节范围
 

@@ -13,7 +13,7 @@ P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`�
 
 所以，这一节不是停在 `画出了一条直线`，而是进入 `那条直线到底解释了多少数据`。
 
-本节不会长篇重复 linear regression 的基本定义。`用直线读取关系的模型` 这个核心直觉，继续通过 P4-10.1 和 [概念词汇表](../../../reference/concept-glossary.md) 接回来；这里则把焦点放在评价与局限上。
+本节不会长篇重复 linear regression 的基本定义。`用直线读取关系的模型` 这个核心直觉，继续通过 P4-10.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 接回来；这里则把焦点放在评价与局限上。
 
 ## 本节范围
 
@@ -101,7 +101,7 @@ P4-10.1 把 linear regression 介绍成 `总结关系的第一个 model`。但�
 
 只盯着一个点看时，residual 就是 `真实点` 和 `回归线上的预测点` 之间的垂直距离。所以要读 residual，与其只盯着数字表，不如连着看 `它离那条线到底在上面还是下面、有多远`。
 
-![用实际点与回归线之间的垂直间隔来展示残差的图](../../../assets/part-04/chapter-10/p4-10-2-residual-gap-zh.svg)
+![用实际点与回归线之间的垂直间隔来展示残差的图](/AiBook/assets/part-04/chapter-10/p4-10-2-residual-gap-zh.svg)
 
 把这个差简单画出来，就是下面这样。
 
@@ -297,7 +297,7 @@ linear regression 无法直接无视大误差。如果少数数据点离得特�
 
 最典型要先怀疑的，是 `真实关系本来就是弯的`，以及 `少数极端值把整条线拉偏了` 这两种情况。
 
-![比较非线性关系与异常值拉扯，让一条直线变得吃力的两种场景的图](../../../assets/part-04/chapter-10/p4-10-2-line-limit-comparison-zh.svg)
+![比较非线性关系与异常值拉扯，让一条直线变得吃力的两种场景的图](/AiBook/assets/part-04/chapter-10/p4-10-2-line-limit-comparison-zh.svg)
 
 如果把这种信号压缩成实务型回顾记录，可以写成下面这样。
 

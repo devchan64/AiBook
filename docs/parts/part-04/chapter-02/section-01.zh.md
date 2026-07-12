@@ -9,7 +9,7 @@
 
 监督学习可以先读成 `看着同时带有例子和答案的案例，再去猜新案例输出` 的方式。但 model 并不是在理解人写的解释，它是在大量案例中不断调整自己的内部标准，让输入和输出之间的关系尽量匹配。
 
-这一节会说明 `supervised learning`、`输入 X 与目标 y`、`classification` 和 `regression` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于标签的学习到底是什么意思` 这个基础含义，会以本节和 [概念词汇表](../../../reference/concept-glossary.md) 为基准再次接回。
+这一节会说明 `supervised learning`、`输入 X 与目标 y`、`classification` 和 `regression` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于标签的学习到底是什么意思` 这个基础含义，会以本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 为基准再次接回。
 
 ## 本节范围
 

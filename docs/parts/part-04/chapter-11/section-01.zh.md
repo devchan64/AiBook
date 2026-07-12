@@ -15,7 +15,7 @@
 
 也就是说，logistic regression 不是 `把 linear regression 原样拿去做分类`，而是 `把线性计算的输出改写成可以按分类概率来解释的模型`。
 
-这一节会说明 `logistic regression`、`sigmoid`、`predict_proba`、`threshold` 的基本含义。后面的章节会沿着这个抓手继续当前语境下的判断，而把线性计算先读成分类概率的基础感觉，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
+这一节会说明 `logistic regression`、`sigmoid`、`predict_proba`、`threshold` 的基本含义。后面的章节会沿着这个抓手继续当前语境下的判断，而把线性计算先读成分类概率的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
 
 ## 本节范围
 
@@ -103,7 +103,7 @@ sigmoid 正是做这件事的函数。
 
 放到坐标上看会更直观。当 linear score \(z\) 从负值变到正值时，sigmoid 输出会从接近 0 平滑移动到接近 1，并且在 `z = 0` 处遇到 `p = 0.5`。
 
-![展示线性分数 z 经过 sigmoid 后变成 0 到 1 之间可像概率那样读取的值的图](../../../assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-zh.svg)
+![展示线性分数 z 经过 sigmoid 后变成 0 到 1 之间可像概率那样读取的值的图](/AiBook/assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-zh.svg)
 
 这个流程可以简单画成下面这样。
 
@@ -190,7 +190,7 @@ logistic regression 最常见的入门介绍，是把 `0.5` 当作分类标准�
 
 如果把 `同样的 score 会因为 policy line 放在哪里而导致最终行为不同` 压缩到同一条 score 轴上，可以像下面这样读。
 
-![展示同样概率分数在 threshold 0.5 与 0.7 下会被读成不同行为的比较图](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
+![展示同样概率分数在 threshold 0.5 与 0.7 下会被读成不同行为的比较图](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
 
 ### 什么时候适合先把 logistic regression 放上候选
 
