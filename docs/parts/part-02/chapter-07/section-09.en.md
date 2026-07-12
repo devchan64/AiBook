@@ -1,7 +1,7 @@
 # P2-7.9 Supplemental Learning: How to Check Common Local Python Environment Problems
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-7.4, we looked at virtual environments and packages, and in P2-7.5, we looked at dependency and reproducibility. In P2-7.7 and P2-7.8, we separately organized Python installation and environment variables.
 
@@ -260,13 +260,6 @@ In this case, the core is not a Python code error, but the command-mapping metho
 
 The result that must be checked in this case is not the fact that `python` does not work itself, but finding out `which command in my environment actually opens the Python interpreter?`
 
-## Perspective to Remember in This Supplement
-
-- For local Python environment problems, first separate `command`, `environment`, and `installation location`.
-- `pip install` and `import` are not the same action, and they must be based on the same Python environment.
-- A PATH problem may not be a Python syntax problem but a command-mapping problem.
-- Before reinstalling, it is safer to check which Python you are currently looking at.
-
 ## Short Return Table
 
 | Blocking scene | Where to return first |
@@ -276,19 +269,14 @@ The result that must be checked in this case is not the fact that `python` does 
 | I need to judge again whether Python installation is needed | `P2-7.7` |
 | PATH, environment variables, and shell syntax feel unfamiliar | `P2-7.8` |
 
-## Short Check
+## Checklist
 
 - Can you explain which of `python`, `python3`, and `py` works in my environment?
 - Can you distinguish system Python from virtual-environment Python?
 - Can you explain that `pip install` success and `import` success are different stages?
 - Can you distinguish a PATH problem from a package-missing problem?
 - When a problem appears, can you recall the checking order before jumping straight to reinstallation?
-
-## When Should You Recall This Perspective First?
-
-- Recall it when in a situation like `I definitely installed it, but it still does not work`, you need to check command mapping and environment mismatch before blaming the code.
-- Recall it when `pip install` succeeded but `import` fails, so you need to align again the installation environment and the execution environment.
-- Recall it when, before repeating reinstallation, you need to check `python`, `python3`, `py`, virtual environments, and PATH in order.
+- Can you first divide a local Python environment problem into `command`, `environment`, and `installation location`?
 
 ## Sources and References
 

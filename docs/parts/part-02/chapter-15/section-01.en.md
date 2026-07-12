@@ -1,7 +1,7 @@
 # P2-15.1 A Small Procedure for Translating Formulas into Code
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Part 2, we looked at formulas, Python, NumPy, Pandas, and Matplotlib separately. Now we bind that flow into one procedure. The goal is not to prove difficult formulas, but to have a procedure for translating a simple formula into code and checking the result.
 
@@ -270,28 +270,14 @@ Then, by shortening the same calculation with a NumPy array, you can read `the c
 
 This case continues directly into formula reading after Part 3. What matters first is not writing code quickly. It is having the sense of changing symbols into a procedure of input, repetition, and output.
 
-## Perspective to Remember from This Section
-
-- When you translate a formula into code, first separate the symbols, data shape, and computation procedure.
-- Sigma can usually be translated into repeated computation or array computation.
-- Confirm the meaning with a loop first, and then shorten the expression with NumPy.
-- You need to check intermediate values as well as the final number in order to understand the computation.
-- A plot is a supporting tool for interpreting a formula result.
-- This section is practice in retying together variables, loops, arrays, and plots, which were seen separately in earlier chapters, into one procedure.
-
-## Short Check
+## Checklist
 
 - Can you explain what \(y_i\), \(\hat{y}_i\), \(n\), and \(\sum\) mean in the MSE formula?
 - Can you write the same calculation both as a Python loop and as a NumPy array computation?
 - Can you explain the difference among `errors`, `squared_errors`, and `mse`?
 - Can you explain why intermediate values should be checked instead of looking only at the final result?
 - Can you explain that a plot helps interpretation instead of replacing the computation?
-
-## When Should You Recall This Perspective First?
-
-- Recall the formula-to-code perspective first when you need to turn a formula into a code procedure instead of merely memorizing it.
-- Return to this section when you need to explain how each symbol corresponds to a code variable, or when you need to compare loop computation and array computation.
-- Check it again when you need to verify a calculation by inspecting intermediate values instead of only the final number.
+- Can you first separate symbols, data shape, and computation procedure when translating a formula into code?
 
 ## Sources and References
 

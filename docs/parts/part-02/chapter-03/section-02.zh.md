@@ -1,7 +1,7 @@
 # P2-3.2 向量空间(vector space)与位置的直觉
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 在 P2-3.1 里，我们从数据形状(shape)的角度看了标量(scalar)、向量(vector)、矩阵(matrix)。现在再把向量从“值的列表”向前推进一步。在 AI 文档里，向量经常会被解释成 `某个空间里的位置`。
 
@@ -320,15 +320,7 @@ Mikolov、Chen、Corrado、Dean 的 word2vec 论文在大规模文本数据中�
 
 所以，向量空间的直觉重点不在于 `数字很多`，而在于 `这些表示可以在同一空间里比较`。只要抓住这一点，embedding、similarity search、recommendation、RAG 的说明就都能在同一张地图上阅读。
 
-## 本节要记住的视角
-
-这里把向量空间理解成 `一个可以摆放并比较向量的可计算之地`。严格的数学定义先往后放，先从 AI 数据表示的角度去看。
-
-对象会被表示成向量，而这些向量会被放进同一个空间。彼此接近的向量会成为相似的候选，但这种解释仍然必须按照问题和比较标准去验证。
-
-这个视角会在 P1-13.1 到 P1-13.4 的 embedding、similarity search、RAG 流程里再次出现，也会继续连到 Part 3 的 P3-17 clustering，以及 Part 6 的 `P6-11.1` 向量数据库和 `P6-11.2` 索引与检索质量说明。
-
-## 简短检查
+## 检查清单
 
 - 能把向量解释成“值的列表”与“像坐标一样可读的表达”吗？
 - 能把向量空间解释成摆放和比较向量的可计算空间吗？
@@ -338,12 +330,7 @@ Mikolov、Chen、Corrado、Dean 的 word2vec 论文在大规模文本数据中�
 - 能说明 embedding 是把对象转成向量空间内部表示的一种方式吗？
 - 能说明为什么向量空间直觉会在 similarity search、RAG、recommendation、clustering 中再次出现吗？
 - 能轻量解释 vector addition、scalar multiplication、linear combination 是向量空间的基本计算吗？
-
-## 什么时候要先想起这个视角
-
-- 当你能把向量读成值列表，却还连不到位置与接近的视角时
-- 当你对“为什么 embedding 和 similarity search 会使用向量空间语言”的感觉开始模糊时
-- 当你需要再次确认：比较只能发生在同一空间、同一维度之内时
+- 能说明 embedding 和 similarity search 为什么要求在同一空间、同一维度里比较吗？
 
 ## 来源与参考资料
 

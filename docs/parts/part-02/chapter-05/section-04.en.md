@@ -1,7 +1,7 @@
 # P2-5.4 Checking Probability and Statistics with Small Data
 
 > Section ID: `P2-5.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-5.1, we looked at probability as a numeric language for dealing with uncertainty. In P2-5.2, we looked at distribution, mean, and variance as tools for reading the shape of a data bundle. In P2-5.3, we looked at sample, estimation, and error as "speaking about the whole from the part."
 
@@ -339,7 +339,7 @@ Small-data practice is the process of touching statistical concepts by hand. The
 
 NumPy performs the calculation quickly. But it does not decide the meaning of mean, median, variance, sample, estimation, or error for you.
 
-## Short Check
+## Checklist
 
 - You can make a small data list as a NumPy `array`.
 - You can calculate the `mean` with `np.mean`.
@@ -350,12 +350,7 @@ NumPy performs the calculation quickly. But it does not decide the meaning of me
 - You can explain that `ddof=1` can be used in sample-variance calculation.
 - You can explain that the `sample mean` can change when the sample changes.
 - You can separate code output from issues of data collection method, sample representativeness, and interpretation.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when you remember mean, median, and variance only as definitions but they are not yet connected to actual numbers and code output.
-- Recall it first when you see results from `np.mean`, `np.median`, and `np.var` but it is still unclear how they connect to center, outliers, and spread.
-- Recall it first when statistical code output appears and you need to read the calculation result separately from the interpretation of the data.
+- You can explain that statistical code output is the start of interpretation, not the end of judgment.
 
 ## Sources and References
 

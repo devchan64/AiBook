@@ -1,7 +1,7 @@
 # P2-3.5 Python Runtime Environments: Colab and Local PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 From P2-3.1 through P2-3.4, we looked at linear algebra mainly through formulas and comparison standards. In the next section, we will directly check vectors, matrices, and matrix multiplication with NumPy. Before that, we first need to separate where Python code is being run.
 
@@ -176,20 +176,13 @@ The minimum sentence the reader should keep from here is the following.
 
 - `Install in a code cell or terminal, and use import and calculations inside Python code.`
 
-## Perspective to Keep from This Section
-
-- Colab is a notebook runtime environment opened directly in the browser.
-- A local PC means using the terminal of your own computer and its installed Python environment.
-- `%pip install numpy`, `python -m pip install numpy`, and `import numpy as np` all relate to NumPy, but they belong in different places.
-- If you memorize syntax before choosing the environment, you keep getting blocked; if you choose the execution place first, the command form becomes organized.
-- If you get stuck later in Part 3 or later practice, first ask again `where should I type this sentence?`
-
-## Short Check
+## Checklist
 
 - Can you explain the difference between Colab execution and local-PC execution in one sentence?
 - Can you explain why `%pip install numpy` and `python -m pip install numpy` are not written in the same place?
 - Can you explain that `import numpy as np` is not an installation command but Python code?
 - Can you distinguish whether the sentence in front of you is for a code cell, a terminal, or Python code?
+- Can you explain why you should distinguish the execution location before memorizing the syntax?
 
 ## Sources and References
 

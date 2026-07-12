@@ -1,7 +1,7 @@
 # P2-4.5 Gradient Supplement: From School Differentiation to Multivariable Differentiation
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-4.3, we connected derivative, partial derivative, and gradient, and in P2-4.4, we looked at why differentiation is needed in learning.
 
@@ -372,7 +372,7 @@ That is also why gradient supplementary learning is needed. School differentiati
 
 A checkable result is to record how the final sound-quality score changes when each knob is adjusted by only a very small amount. For example, we can compare how much the noise score grows when the volume is raised by one step, or how much the speech-clarity score improves when the bass is lowered by one step. Then we can intuitively see the difference between `the rate of change in one direction` and `the bundle of rates of change in many directions`.
 
-## Short Check
+## Checklist
 
 - You can explain that school-level differentiation memory mainly starts from the rate of change of a one-variable function.
 - You can explain that the gradient naturally appears in a function with several inputs.
@@ -382,12 +382,7 @@ A checkable result is to record how the final sound-quality score changes when e
 - You can explain gradient descent as `the repeated method that reduces loss using the gradient`.
 - You can explain backpropagation as `the procedure that efficiently computes the gradients of many parameters`.
 - You can explain that, even in the high school `AI Mathematics` curriculum, gradient descent appears, but the systems of gradient and partial derivatives may still need separate supplementary explanation.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when the gap between school-level differentiation memory and AI learning documents feels so large that gradient, gradient descent, and backpropagation all feel unfamiliar at once.
-- Recall it first when you need to sort out slowly again what partial derivatives, directional derivatives, and gradients each view differently.
-- Recall it first when the main text alone seems insufficient for a reader who needs more supplementary explanation of multivariable differentiation intuition.
+- You can explain the gap between school-level differentiation and the later language of gradient, gradient descent, and backpropagation.
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P2-13.3 Comparing and Saving Multiple Plots
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-13.2, we looked at what questions basic charts such as line plots, scatter plots, and histograms are used for. Now we go one step further and organize the flow of looking at several plots together and leaving the result as a file.
 
@@ -213,14 +213,6 @@ When comparing several plots, watch the following points.
 
 Plots do not replace conclusions. But a good plot helps the next question become more precise.
 
-## Perspective to Remember from This Section
-
-- The reason to arrange several plots is to compare related questions.
-- One `Figure` can contain multiple `Axes`.
-- Values with different units should be separated, while values with the same unit can be compared on one axis.
-- `savefig()` is the method for saving a plot as an image file.
-- For a saved plot to become a reproducible record, the code and data conditions must also remain with it.
-
 ## Case Study
 
 ### Case 1. When You Need to Leave Loss and Accuracy in One Figure
@@ -233,19 +225,14 @@ Also, if you look at it once on screen and stop there, it becomes hard to explai
 
 The checkable result appears in the saved file and in re-executability. If a figure comparing `train loss`, `validation loss`, and `accuracy` remains as a file and can be generated again with the same script, then that plot functions not as a simple capture but as an experiment record.
 
-## Short Check
+## Checklist
 
 - Can you explain that `plt.subplots(1, 2)` creates two Axes inside one Figure?
 - Can you explain why loss and accuracy should be compared side by side?
 - Can you explain why train loss and validation loss can be compared on the same axis?
 - Can you explain the difference between `plt.show()` and `fig.savefig()`?
 - Can you explain why a graph file alone is not sufficient for reproducibility?
-
-## When Should You Recall This Perspective First?
-
-- Recall the Figure and Axes layout first when several plots need to be placed side by side on one screen for comparison.
-- Return to this section when you need to explain why metrics of the same kind, such as train and validation curves, should be compared on one axis.
-- This section becomes the standard again when you need to recheck the difference between screen display and file saving, and why a plot image alone is not enough for reproducibility.
+- Can you recall Figure and Axes layout first when several plots need to be compared side by side?
 
 ## Sources and References
 
