@@ -1,7 +1,7 @@
 # P6-17.2 최소 구현과 회고 포인트
 
 > Section ID: `P6-17.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-17.1에서는 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도구 선택 -> 응답 생성 -> 평가와 기록`의 흐름으로 묶었습니다. 이 절에서는 그 흐름을 아주 작은 코드로 다시 그려 봅니다.
 
@@ -137,7 +137,6 @@ keyword_groups = {
     "복지": ["복지", "포인트", "제도"],
 }
 
-
 def score_document(query, doc):
     score = 0
     matched_groups = []
@@ -148,7 +147,6 @@ def score_document(query, doc):
             score += 1
             matched_groups.append(group_name)
     return score, matched_groups
-
 
 def retrieve_docs(query, docs, top_k=2):
     scored = []
@@ -164,7 +162,6 @@ def retrieve_docs(query, docs, top_k=2):
         )
     scored.sort(key=lambda item: item["score"], reverse=True)
     return scored[:top_k], scored
-
 
 def draft_answer(query, retrieved):
     top_docs = [doc for doc in retrieved if doc["score"] > 0]
@@ -184,7 +181,6 @@ def draft_answer(query, retrieved):
             summary_line,
         ]
     )
-
 
 def evaluate_run(query, retrieved):
     positive_docs = [doc for doc in retrieved if doc["score"] > 0]
@@ -207,7 +203,6 @@ def evaluate_run(query, retrieved):
         "run_status": run_status,
         "notes": notes,
     }
-
 
 run_records = []
 for query in queries:
@@ -393,14 +388,12 @@ needs_human_review = True
 - 여러 단계 판단이 필요하면 P6-13의 agent 구조로 갑니다.
 - 실패 기록과 안전 장치는 P6-16의 운영 관점으로 다시 읽습니다.
 
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 최소 구현은 완성품이 아니라 구조 확인용 기준점입니다.
 - 검색, 응답, 기록은 따로가 아니라 함께 출력되어야 합니다.
 - 기능이 돌아간다는 사실과 실제로 쓸 만하다는 판단은 다릅니다.
 - 회고를 남겨야 다음에 vector search, tool use, agent로 확장할 이유가 분명해집니다.
-
-## 체크리스트
 
 - 최소 구현을 `작은 데모`가 아니라 `요청 경로와 기록 구조를 확인하는 기준점`으로 설명할 수 있어야 합니다.
 - 검색 결과, 답변, 실패 기록, 사람 검토 필요 여부를 함께 남겨야 다음 개선 우선순위를 잡을 수 있다는 점을 말할 수 있어야 합니다.

@@ -1,7 +1,7 @@
 # P6-3.2 attention과 context window
 
 > Section ID: `P6-3.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-3.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이제 바로 다음 제약을 봐야 합니다.
 
@@ -255,7 +255,6 @@ token_budget = 60
 must_keep = {"system instruction", "user question", "current error log"}
 query_keywords = {"login", "fail", "deploy", "token", "signature", "mismatch"}
 
-
 def select_in_original_order(items, budget):
     selected = []
     used = 0
@@ -265,7 +264,6 @@ def select_in_original_order(items, budget):
             used += item["tokens"]
     dropped = [item for item in items if item not in selected]
     return selected, dropped, used
-
 
 def select_by_priority(items, budget):
     ranked = sorted(items, key=lambda item: item["priority"], reverse=True)
@@ -278,17 +276,14 @@ def select_by_priority(items, budget):
     dropped = [item for item in ranked if item not in selected]
     return selected, dropped, used
 
-
 naive_selected, naive_dropped, naive_used = select_in_original_order(context_items, token_budget)
 priority_selected, priority_dropped, priority_used = select_by_priority(context_items, token_budget)
-
 
 def coverage(selected, must_keep_names):
     selected_names = {item["name"] for item in selected}
     kept = sorted(selected_names & must_keep_names)
     missing = sorted(must_keep_names - selected_names)
     return kept, missing
-
 
 def relevance_ranking(selected, keywords):
     scored = []
@@ -361,29 +356,16 @@ relevance_ranking = [(5, 'current error log'), (3, 'user question'), (0, 'system
 
 초기 언어 모델에서는 이렇게 긴 문맥 관리 문제가 지금처럼 실무 전면에 드러나지 않았습니다. 하지만 Transformer와 LLM이 긴 입력을 다루는 범용 구조가 되면서, 이제 문맥 길이 관리 자체가 중요한 설계 주제가 되었습니다.
 
-## 다음 장과의 연결
-
-여기까지 오면 이제 Transformer 구조 위에서 갈라지는 두 흐름을 봐야 합니다.
-
-- 이전 토큰을 바탕으로 다음 토큰을 생성하는 GPT 계열
-- 그 생성 구조가 왜 사용자 경험을 크게 바꾸었는가
-
-가까운 본류는 P6-4.1 GPT 계열의 위치입니다. 여기서는 context window 제약이 생성 구조 설명으로 바로 이어진다는 점을 먼저 확인합니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - context window는 모델이 한 번에 참고할 수 있는 토큰 범위입니다.
 - attention은 그 범위 안에서 무엇이 중요한지 계산합니다.
 - 길이가 길어질수록 항상 좋은 것이 아니라, 선택과 압축이 더 중요해질 수 있습니다.
 - 이 절은 이후 RAG와 서비스 설계 설명의 기초입니다.
 
-## 짧은 점검
-
 - context window를 `입력 범위 제한`이라는 말로 설명할 수 있는가?
 - attention과 context window의 역할 차이를 다시 구분할 수 있는가?
 - 다음 장들을 `얼마나 많이 넣는가`보다 `무엇을 남길 것인가`의 문제로 읽을 준비가 되었는가?
-
-## 언제 context window 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | context window 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

@@ -1,7 +1,7 @@
 # P6-3.1 Transformer를 LLM 관점에서 다시 읽기
 
 > Section ID: `P6-3.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 
@@ -285,7 +285,6 @@ candidates = {
     },
 }
 
-
 def score_candidates(feature_values):
     scored = []
     for token, config in candidates.items():
@@ -303,7 +302,6 @@ def score_candidates(feature_values):
             }
         )
     return sorted(scored, key=lambda item: item["score"], reverse=True)
-
 
 for context_name, context in contexts.items():
     ranking = score_candidates(context["features"])
@@ -364,29 +362,16 @@ Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능�
 - 병렬 처리와 잘 맞았으며
 - 같은 기본 구조가 번역, 요약, 질의응답, 코드 생성 같은 여러 언어 작업에 넓게 재사용될 수 있었기 때문입니다
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- Transformer가 모든 이전 토큰을 볼 수 있다고 해도, 실제로는 어디까지 볼 수 있는가?
-- 왜 context window가 비용과 성능의 중요한 제약이 되는가?
-
-이 질문은 P6-3.2 attention과 context window로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - Part 6의 Transformer는 `다음 토큰을 예측하는 언어 모델 구조`로 다시 읽어야 합니다.
 - 토큰은 임베딩으로 바뀐 뒤 Transformer 블록을 통과합니다.
 - self-attention은 문맥 관계를 읽고, 마지막에는 다음 토큰 점수로 이어집니다.
 - 이 구조가 이후 GPT, 사전학습, 프롬프트 설명의 기반입니다.
 
-## 짧은 점검
-
 - Transformer를 `문맥 전체를 반영해 다음 후보 분포를 갱신하는 엔진`으로 설명할 수 있는가?
 - Part 5의 구조 설명과 Part 6의 생성 설명이 어디서 갈라지는지 구분할 수 있는가?
 - 다음 절을 `이 엔진이 실제로 어디까지 볼 수 있는가`의 문제로 읽을 준비가 되었는가?
-
-## 언제 Transformer 구조 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | Transformer 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

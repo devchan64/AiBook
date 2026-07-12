@@ -1,7 +1,7 @@
 # P6-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법
 
 > Section ID: `P6-3.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-3.1과 P6-3.2에서는 Transformer와 context window의 큰 구조를 보았습니다. 여기서는 본문에서 잠시 넘긴 구현 쪽 핵심 이름들을 입문 기준으로 정리합니다.
 
@@ -206,18 +206,15 @@ W_q = np.array(
 prefix_token_ids = [token_to_id["사용자"], token_to_id["로그인"], token_to_id["오류"]]
 generated_token_ids = [token_to_id["재현"], token_to_id["완료"]]
 
-
 def project_to_kv(token_ids):
     embeddings = embedding_table[token_ids]
     keys = embeddings @ W_k
     values = embeddings @ W_v
     return keys, values
 
-
 def project_query(token_id):
     embedding = embedding_table[[token_id]]
     return embedding @ W_q
-
 
 def attention_for_last_token(query, keys, values):
     scores = (query @ keys.T) / np.sqrt(keys.shape[1])
@@ -225,7 +222,6 @@ def attention_for_last_token(query, keys, values):
     weights = np.exp(shifted) / np.sum(np.exp(shifted))
     context = weights @ values
     return weights, context
-
 
 def decode_without_cache(prefix_ids, new_ids):
     seen_ids = prefix_ids[:]
@@ -242,7 +238,6 @@ def decode_without_cache(prefix_ids, new_ids):
 
     return step_logs, projected_token_count
 
-
 def decode_with_cache(prefix_ids, new_ids):
     cached_keys, cached_values = project_to_kv(prefix_ids)
     projected_token_count = len(prefix_ids)
@@ -258,7 +253,6 @@ def decode_with_cache(prefix_ids, new_ids):
         step_logs.append((new_id, 1, cached_keys.copy(), cached_values.copy(), weights, context))
 
     return step_logs, projected_token_count
-
 
 no_cache_logs, no_cache_count = decode_without_cache(prefix_token_ids, generated_token_ids)
 with_cache_logs, with_cache_count = decode_with_cache(prefix_token_ids, generated_token_ids)
@@ -392,19 +386,13 @@ saved_ratio = 0.444
 | sparse attention | 모든 연결을 다 유지하는 계산 부담 완화 | 긴 로그에서 핵심 연결만 남겨도 분석 가능 |
 | long-context | 앞 정의와 뒤 예외의 장거리 연결 유지 | 긴 계약서에서도 초반 조건을 뒤에서 다시 참조 |
 
-## 다음 절과의 연결
-
-이 보충학습은 Transformer 내부 이름을 읽는 데 필요한 최소 감각을 정리합니다. 다음 장의 P6-4.1 GPT 계열을 읽을 때는 여기서 본 attention, 위치 표현, 캐시, 긴 문맥 관련 개념이 `왜 생성형 구조가 실제 서비스 경험을 바꾸었는가`로 이어진다고 연결하면 됩니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - multi-head attention은 관련도 계산을 한 시선으로만 하지 않기 위한 장치입니다.
 - 위치 표현은 순서 정보를 공급합니다.
 - KV cache는 긴 생성에서 반복 계산 비용을 줄이기 위한 실용 장치입니다.
 - sparse attention은 모든 연결을 같은 밀도로 유지하지 않아 계산 부담을 줄이려는 방향입니다.
 - long-context는 긴 입력을 실제로 유지하고 다시 참고하려는 문제 전체를 가리킵니다.
-
-## 짧은 점검
 
 - 다섯 이름을 `문맥 읽기`, `계산 절약`, `긴 입력 유지`의 층위로 나누어 설명할 수 있는가?
 - KV cache가 모델 뜻을 바꾸는 장치가 아니라 반복 계산을 줄이는 장치라는 점을 설명할 수 있는가?

@@ -1,7 +1,7 @@
 # P5-8.1 정규화(regularization)
 
 Section ID: `P5-8.1`
-Version: `v2026.07.11`
+Version: `v2026.07.12`
 
 P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규칙이라는 점을 보았습니다. 하지만 optimizer가 잘 작동한다고 해서 항상 좋은 모델이 되는 것은 아닙니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -270,39 +270,17 @@ with_reg = 3.365
 | 큰 모델이 특정 특징 하나에 과하게 기대는 것처럼 보인다 | 어떤 해를 덜 선호하게 만들지라는 regularization 감각을 고정할 수 있습니다. | 벌점 외의 구조적 regularization도 이어서 봐야 합니다. |
 | 데이터가 적을수록 왜 더 조심해야 하는지 흐리다 | 과적합 억제 장치가 왜 작은 데이터에서 더 중요해지는지 설명할 수 있습니다. | dropout, early stopping 같은 실천 형태를 더 봐야 합니다. |
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- regularization을 벌점이 아니라 구조적 흔들림으로 넣는 방법은 무엇인가?
-- 왜 일부 연결을 무작위로 끊는 dropout이 과적합 억제에 도움이 되는가?
-
-이 질문은 바로 P5-8.2 드롭아웃(dropout)으로 이어집니다.
-
-## 이 절에서 기억할 관점
-
-- regularization은 과적합을 줄이기 위한 제약이나 비용을 추가하는 생각입니다.
-- regularization과 normalization은 이름이 비슷하지만, 하나는 과적합 억제 쪽을, 다른 하나는 값의 스케일과 분포 정리 쪽을 더 직접 다룹니다.
-- regularization은 벌점 공식만이 아니라 더 넓은 설계 철학으로 볼 수 있습니다.
-- optimizer는 업데이트 방법을, regularization은 선호하는 해의 성질을 조정합니다.
-- 일반화 문제를 이해하려면 regularization을 반드시 함께 봐야 합니다.
-
-## 짧은 점검
-
-- 왜 optimizer가 잘 작동한다고 해서 일반화가 자동으로 좋아지는 것은 아니라는 점을 설명할 수 있는가?
-- regularization과 normalization의 차이를 `과적합 억제`와 `값 스케일/분포 정리`로 구분할 수 있는가?
-- 이 절 다음에는 regularization의 대표 사례로 dropout을 봐야 한다는 흐름을 알고 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- optimizer가 잘 돌아가도 검증 성능이 흔들릴 때, 일반화 문제를 regularization 관점에서 먼저 떠올립니다.
-- regularization과 normalization이 비슷한 조정 장치처럼 들릴 때, 과적합 억제와 값 스케일 정리를 다시 구분합니다.
-- 특정 해를 덜 선호하게 만드는 제약이 왜 필요한지 설명해야 할 때, 벌점과 설계 철학으로서의 regularization을 다시 꺼냅니다.
-
 ## 체크리스트
 
 - 정규화(regularization)가 과적합(overfitting)을 줄이는 관점이라는 점을 설명할 수 있는가?
 - 옵티마이저와 정규화가 서로 다른 질문에 답한다는 점을 구분할 수 있는가?
+- regularization은 과적합을 줄이기 위한 제약이나 비용을 추가하는 생각이라는 점을 설명할 수 있는가?
+- 왜 optimizer가 잘 작동한다고 해서 일반화가 자동으로 좋아지는 것은 아니라는 점을 설명할 수 있는가?
+- regularization과 normalization의 차이를 `과적합 억제`와 `값 스케일/분포 정리`로 구분할 수 있는가?
+- regularization은 벌점 공식만이 아니라 더 넓은 설계 철학으로 볼 수 있다는 점을 말할 수 있는가?
+- optimizer는 업데이트 방법을, regularization은 선호하는 해의 성질을 조정한다는 점을 설명할 수 있는가?
+- optimizer가 잘 돌아가도 검증 성능이 흔들릴 때, 일반화 문제를 regularization 관점에서 먼저 떠올릴 수 있는가?
+- 이 절 다음에는 regularization의 대표 사례로 dropout을 봐야 한다는 흐름을 알고 있는가?
 
 ## 출처와 참고 자료
 

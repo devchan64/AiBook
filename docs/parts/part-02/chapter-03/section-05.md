@@ -1,7 +1,7 @@
 # P2-3.5 파이썬 실행 환경: Colab과 로컬 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P2-3.1부터 P2-3.4까지는 선형대수(linear algebra)를 수식과 비교 기준 중심으로 봤습니다. 다음 절에서는 NumPy로 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)을 직접 확인합니다. 그 전에 파이썬(Python) 코드를 어디에서 실행하는지 먼저 구분해야 합니다.
 
@@ -176,20 +176,13 @@ python -m pip install numpy
 
 - `설치는 코드 셀이나 터미널에서 하고, import와 계산은 Python 코드에서 한다.`
 
-## 이 절에서 기억할 관점
-
-- Colab은 브라우저에서 바로 여는 노트북 실행 환경입니다.
-- 로컬 PC는 내 컴퓨터의 터미널과 설치된 Python 환경을 쓰는 방식입니다.
-- `%pip install numpy`, `python -m pip install numpy`, `import numpy as np`는 모두 NumPy와 관련 있지만 쓰는 자리가 다릅니다.
-- 환경을 고르기 전에 문법을 외우면 자꾸 막히고, 먼저 실행 위치를 고르면 명령 형태가 정리됩니다.
-- Part 3나 뒤 실습에서 막히면 `지금 이 문장을 어디에 입력해야 하는가`부터 다시 물어야 합니다.
-
-## 짧은 점검
+## 체크리스트
 
 - Colab과 로컬 PC 실행의 차이를 한 문장으로 설명할 수 있는가?
 - `%pip install numpy`와 `python -m pip install numpy`가 왜 같은 자리에 쓰이지 않는지 말할 수 있는가?
 - `import numpy as np`가 설치 명령이 아니라 Python 코드라는 점을 설명할 수 있는가?
 - 지금 보는 문장이 코드 셀용인지, 터미널용인지, Python 코드용인지 구분할 수 있는가?
+- 환경을 고르기 전에 문법을 외우기보다 먼저 실행 위치를 구분해야 하는 이유를 설명할 수 있는가?
 
 ## 출처와 참고 자료
 

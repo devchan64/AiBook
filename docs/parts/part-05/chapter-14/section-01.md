@@ -1,7 +1,7 @@
 # P5-14.1 트랜스포머(Transformer)의 기본 구성
 
 Section ID: `P5-14.1`
-Version: `v2026.07.11`
+Version: `v2026.07.12`
 
 P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, 트랜스포머(Transformer)의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
 
@@ -275,12 +275,10 @@ ff_output = contextual @ ff_weights
 delta_from_input = ff_output - tokens
 residual_added = ff_output + tokens
 
-
 def simple_layer_norm(row):
     mean = np.mean(row)
     std = np.std(row)
     return (row - mean) / (std + 1e-6)
-
 
 normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
 
@@ -373,42 +371,16 @@ after simple layer norm =
 
 Transformer는 attention이 보조 장치에서 핵심 블록으로 승격된 사례입니다. 그리고 이 블록 설계는 이후 다양한 대규모 언어·멀티모달 모델에서 공통 기본 단위처럼 재사용되었습니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- Transformer는 왜 RNN보다 병렬 처리에 더 잘 맞는가?
-- 긴 문맥(long context)을 다룰 때 어떤 차이가 크게 드러나는가?
-
-이 질문은 바로 P5-14.2 병렬 처리와 긴 문맥으로 이어집니다.
-
-## 이 절에서 기억할 관점
-
-| 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 아직 여기서 하지 않는 일 |
-| --- | --- | --- |
-| Transformer는 attention, feed-forward, residual, normalization을 블록으로 묶는다 | 이 블록이 왜 긴 문맥과 대규모 병렬 처리에 유리했는가 | 사전학습과 LLM 운영 구조 전체를 설명하는 일 |
-
-- Transformer를 읽을 때는 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분해 보면 됩니다.
-- self-attention은 문맥 관계를 읽고, feed-forward는 표현을 다시 가공합니다.
-- residual과 normalization은 깊은 학습을 안정화하는 역할을 합니다.
-- 이 블록 구조를 이해하면 이후 다른 생성 모델 설명에서도 어떤 부분이 문맥 읽기이고 어떤 부분이 표현 가공과 안정화인지 구분할 수 있습니다.
-
-## 짧은 점검
-
-- Transformer를 `attention이 있는 모델` 정도로만 말하지 않고, `관계 읽기, 위치별 가공, 안정적 전달을 반복하는 블록 구조`로 설명할 수 있는가?
-- self-attention과 feed-forward의 역할 차이를 `바깥과의 관계 읽기`와 `현재 위치 표현 가공`으로 나눠 말할 수 있는가?
-- 다음 절의 병렬 처리 설명을 읽을 때도 먼저 `이 블록을 많이 반복하면 계산 흐름이 왜 달라지는가`를 떠올릴 준비가 되어 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- attention 일반론만으로는 Transformer를 설명하기 부족할 때, 블록 구성 관점을 먼저 떠올립니다.
-- 문맥 읽기, 위치별 가공, 안정화 역할이 한꺼번에 섞여 보일 때, self-attention / feed-forward / residual / normalization을 다시 분리해 봅니다.
-- 병렬 처리와 긴 문맥 장점이 왜 이 블록 위에서 가능해지는지 연결해야 할 때, 이 절을 기준선으로 씁니다.
-
 ## 체크리스트
 
 - 트랜스포머(Transformer) 블록을 셀프 어텐션, feed-forward, residual connection, layer normalization으로 설명할 수 있는가?
 - 트랜스포머가 한 아이디어가 아니라 부품 묶음 구조라는 점을 말할 수 있는가?
+- Transformer를 읽을 때 self-attention이 문맥 관계를 모으고, feed-forward가 표현을 가공하며, residual과 normalization이 깊은 계산을 안정화하는 블록 조합으로 구분할 수 있는가?
+- Transformer를 `attention이 있는 모델` 정도로만 말하지 않고, `관계 읽기, 위치별 가공, 안정적 전달을 반복하는 블록 구조`로 설명할 수 있는가?
+- self-attention과 feed-forward의 역할 차이를 `바깥과의 관계 읽기`와 `현재 위치 표현 가공`으로 나눠 말할 수 있는가?
+- residual과 normalization이 깊은 학습을 안정화하는 역할을 한다는 점을 설명할 수 있는가?
+- attention 일반론만으로는 Transformer를 설명하기 부족할 때, 블록 구성 관점을 먼저 떠올릴 수 있는가?
+- 다음 절의 병렬 처리 설명을 읽을 때도 먼저 `이 블록을 많이 반복하면 계산 흐름이 왜 달라지는가`를 떠올릴 준비가 되어 있는가?
 
 ## 출처와 참고 자료
 

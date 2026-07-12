@@ -1,7 +1,7 @@
 # P4-15.4 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 
@@ -291,18 +291,15 @@ print("  test accuracy :", round(et.score(X_test, y_test), 3))
 
 즉, 이 예제의 핵심은 `누가 항상 더 좋다`가 아니라, `같은 숲 계열 안에서도 무작위성 주입 방식이 다르다`는 점을 출력으로 직접 확인하는 데 있습니다.
 
-## 이 절에서 기억할 관점
-
-- Extra Trees는 랜덤포레스트와 같은 `randomized tree ensemble` 계열입니다.
-- 차이는 `feature 무작위 선택` 자체보다 `threshold를 얼마나 무작위로 고르느냐`에서 더 크게 드러납니다.
-- 랜덤포레스트는 기본적으로 bootstrap과 OOB 흐름에 잘 연결되고, Extra Trees는 기본값 그대로는 그렇지 않습니다.
-- Extra Trees는 보통 분산을 조금 더 줄이는 대신 bias를 약간 더 늘릴 수 있는 비교 후보로 읽습니다.
-
 ## 체크리스트
 
+- Extra Trees를 랜덤포레스트와 같은 `randomized tree ensemble` 계열로 설명할 수 있는가?
 - Extra Trees를 `랜덤포레스트의 아주 가까운 형제 모델`로 설명할 수 있는가?
+- 차이가 `feature 무작위 선택` 자체보다 `threshold를 얼마나 무작위로 고르느냐`에서 더 크게 드러난다는 점을 이해했는가?
 - `best split`과 `random threshold`의 차이를 말할 수 있는가?
+- 랜덤포레스트는 bootstrap과 OOB 흐름에 잘 연결되고, Extra Trees는 기본값 그대로는 그렇지 않다는 점을 알고 있는가?
 - Extra Trees 기본값에서 왜 OOB가 바로 나오지 않는지 설명할 수 있는가?
+- Extra Trees를 분산을 조금 더 줄이는 대신 bias를 약간 더 늘릴 수 있는 비교 후보로 읽고 있는가?
 - 랜덤포레스트와 Extra Trees를 비교할 때 train/test 간격, OOB 가능 여부, 계산 비용을 함께 봐야 한다는 점을 알고 있는가?
 
 ## 출처와 참고 자료

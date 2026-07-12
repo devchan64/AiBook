@@ -1,7 +1,7 @@
 # P6-6.1 사전학습(pretraining)
 
 > Section ID: `P6-6.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-5까지에서는 Transformer와 다음 토큰 예측이 왜 생성으로 이어지는지를 보았습니다. 하지만 그 설명만으로는 `왜 같은 구조가 실제 서비스에서 더 유용한 반응을 보이는가`가 아직 남습니다. 이 절부터는 생성 구조 위에 어떤 학습과 조정이 더 얹히는지 읽는 구간으로 들어갑니다.
 
@@ -279,7 +279,6 @@ customer_support_corpus = [
     "환불 요청 내용을 확인 합니다",
 ]
 
-
 def build_bigram_counts(sentences):
     counts = defaultdict(Counter)
     for sentence in sentences:
@@ -288,10 +287,8 @@ def build_bigram_counts(sentences):
             counts[left][right] += 1
     return counts
 
-
 def top_next_tokens(counts, token, top_k=5):
     return counts[token].most_common(top_k)
-
 
 general_counts = build_bigram_counts(general_corpus)
 adapted_counts = build_bigram_counts(general_corpus + customer_support_corpus)
@@ -338,29 +335,16 @@ adapted_next_tokens = [('확인', 6), ('정리', 1), ('설명', 1)]
 
 이 절에서 더 중요하게 붙잡아야 할 점은 `기반 능력을 넓게 만드는 단계`와 `그 위에 과업별 조정을 얹는 단계`가 같은 층이 아니라는 점입니다. LLM 시대를 읽을 때도 먼저 큰 기반 모델을 만들고, 그 위에 여러 과업 조정을 얹는 구조로 이해해야 뒤의 fine-tuning, instruction tuning, alignment를 같은 흐름 안에서 읽기 쉬워집니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 사전학습이 중요하다면, 얼마나 큰 데이터와 얼마나 큰 모델이 영향을 주는가?
-- `스케일(scale)`이라는 말은 왜 그렇게 자주 등장하는가?
-
-이 질문은 P6-6.2 데이터와 스케일로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 사전학습은 대규모 텍스트에서 일반 언어 패턴과 표현을 먼저 배우는 단계입니다.
 - 파인튜닝과 지시 튜닝은 그 위에 추가되는 조정 단계입니다.
 - 사전학습을 읽을 때는 `사실을 언제나 보장하는 단계`가 아니라, 다양한 문맥 패턴을 먼저 익혀 이후 과업 전이에 필요한 일반화 기반을 만드는 단계로 봐야 합니다.
 - 이 절은 다음 절의 스케일 논의와 이후 장의 instruction tuning 설명을 위한 기반입니다.
 
-## 짧은 점검
-
 - 사전학습을 `넓은 기반 형성`이라는 말로 파인튜닝과 구분해 설명할 수 있는가?
 - 프롬프트 사용과 학습 단계 조정을 같은 층으로 보지 않는 이유를 설명할 수 있는가?
 - 다음 절을 `왜 그 기반을 그렇게 큰 규모로 만드는가`의 문제로 읽을 준비가 되었는가?
-
-## 언제 사전학습 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 사전학습 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

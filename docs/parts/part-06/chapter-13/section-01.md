@@ -1,7 +1,7 @@
 # P6-13.1 에이전트(agent)
 
 > Section ID: `P6-13.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-12.2에서는 함수 호출(function calling)이 도구 사용을 구조화된 형식으로 표현하는 방식이라는 점을 보았습니다. 그러면 이제 질문이 한 단계 더 커집니다.
 
@@ -329,7 +329,6 @@ state = {
     "sources_attached": False,
 }
 
-
 def build_plan(state):
     steps = []
     if not state["documents_found"]:
@@ -341,7 +340,6 @@ def build_plan(state):
     elif not state["sources_attached"]:
         steps.append("attach_sources")
     return steps
-
 
 def simulate_step(step, state):
     if step == "search_policy_docs":
@@ -361,7 +359,6 @@ def simulate_step(step, state):
             "출처: policy_notice_2026_06_29, refund_rules_appendix"
         )
     return state
-
 
 round_reports = []
 while True:
@@ -481,16 +478,7 @@ print(inspection)
 - 다음 절의 계획, 행동, 관찰 루프를 이해하게 하며
 - 뒤의 P6-14.1 MCP, P6-14.2 하네스, P6-15.1 평가를 왜 함께 봐야 하는지 준비시키기 때문입니다
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 에이전트는 실제로 어떤 반복 구조로 움직이는가?
-- 계획(plan), 행동(action), 관찰(observation), 종료(stop)는 어떻게 구분되는가?
-
-이 질문은 P6-13.2 계획, 행동, 관찰로 이어집니다.
-
-## 언제 에이전트 관점을 먼저 떠올려야 하는가
+## 체크리스트
 
 | 상황 | 먼저 떠올릴 관점 | 왜 중요한가 |
 | --- | --- | --- |
@@ -498,16 +486,12 @@ print(inspection)
 | 중간 결과에 따라 다음 행동이 달라지는 작업을 다룰 때 | `다음 단계 선택`이 중심 문제라는 점 | 첫 결과를 보고 검색을 다시 하거나 도구를 바꾸는 장면은 agent 구조로 읽어야 설명이 정확해집니다. |
 | RAG, tool use, function calling을 배웠는데 여전히 전체 작업 단위가 헷갈릴 때 | agent는 상위 작업 흐름 층위라는 점 | 앞 절 개념들을 대체하는 새 기능이 아니라, 그것들을 목표 기준 순서로 묶는 구조라는 점을 먼저 잡아야 합니다. |
 
-## 이 절에서 기억할 관점
-
 - 에이전트는 목표를 작업 흐름으로 이어 가는 실행 구조입니다.
 - 프롬프트, RAG, tool use와는 다른 상위 구조입니다.
 - 에이전트는 여러 단계, 상태, 관찰, 재시도를 다룹니다.
 - 능력을 넓히는 대신 운영 복잡도도 키웁니다.
 
 agent는 `다음에 무엇을 하고 언제 멈출까`를 다루는 목표 흐름 구조입니다. 한 번의 읽기나 실행을 넘어 여러 단위를 순서로 이어 붙이고, P6-13.2에서는 이 흐름이 plan-action-observation 루프로 어떻게 반복되는지 더 봅니다. 그다음 P6-14에서는 이 흐름의 연결 규칙과 실행 관리로 넘어갑니다.
-
-## 체크리스트
 
 - 에이전트를 `더 똑똑한 챗봇`이 아니라 `여러 읽기와 실행을 목표 흐름으로 이어 가는 작업 구조`로 설명할 수 있어야 합니다.
 - RAG, tool use, function calling이 각각 읽기·실행·구조화라면, agent는 `다음 단계 선택`을 중심에 두는 상위 흐름이라는 점을 말할 수 있어야 합니다.

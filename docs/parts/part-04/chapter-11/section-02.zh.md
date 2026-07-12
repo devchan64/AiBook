@@ -1,7 +1,7 @@
 # P4-11.2 决策边界(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-11.1 里，我们把 logistic regression 看成 `生成可按 probability 来读的 score 的线性模型`。现在要把问题再换一步。
 
@@ -124,6 +124,10 @@ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
 
 在这个例子里，boundary 可以读成 `大约落在 4 小时和 5 小时之间`。所以一维 decision boundary 很接近 `一个 cutoff point`。
 
+把单变量时的 cutoff point 和双变量时的 boundary line 放进同一张图比较，会更容易抓住这个变化。
+
+![比较一维 cutoff point 与二维 decision boundary line 的图](../../../assets/part-04/chapter-11/p4-11-2-cutoff-boundary-zh.svg)
+
 这个想法可以简单画成下面这样。
 
 ```mermaid
@@ -186,6 +190,10 @@ threshold 为 0.5 时的 boundary，与 threshold 为 0.7 时的 boundary，不�
 所以，当 threshold 提高时，被分到 class 1 的区域会缩小，boundary 也会向更保守的方向移动。
 
 `模型的 coefficient 决定 boundary 的方向，而 threshold 可以进一步调整 boundary 具体落在哪里。`
+
+把同一组 score 只改 threshold 时，score 轴上的 cutoff 移动会怎样在输入空间里变成 `class 1 区域缩小`，放到坐标型比较里可以像下面这样看。
+
+![展示同一条分数轴上把 threshold 从 0.5 提高到 0.7 后，class 1 区域缩小的比较图](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
 
 这个移动可以概念化地画成下面这样。
 

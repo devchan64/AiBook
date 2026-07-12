@@ -1,7 +1,7 @@
 # P4-17.3 Supplementary Learning: How To Distinguish Hierarchical Clustering And Spectral Clustering For The First Time
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 After looking at k-means and DBSCAN in P4-17.1, this question naturally remains.
 
@@ -160,37 +160,25 @@ In short, hierarchical clustering is closer to interpreting `the order in which 
 
 ## Practice And Example
 
-This example is a short exercise for checking `what clustering intuition should come to mind first` when looking at the same data scene.
+This practice block is a verification exercise: choose first `what clustering intuition should come to mind` and then compare your choice with the explanation right below.
 
-- Problem situation: distinguish whether round groups, irregular groups, merge order, or connectivity structure matters first
-- Input: a description of the problem scene
-- Expected output: the clustering method that should come to mind first
+- Problem situation: distinguish, scene by scene, whether round groups, irregular groups, merge order, or connectivity structure matters first
+- Input: four short problem scenes
+- Expected output: for each scene, the method that should come to mind first and the reason
 - Concepts to check:
   - There are questions that must be read before algorithm names
   - Even with the same data, the starting point changes depending on `what structure you want to inspect`
 
-```python
-scenarios = [
-    {"scene": "round groups, quick baseline", "best_first": "k-means"},
-    {"scene": "irregular shape with noise", "best_first": "DBSCAN"},
-    {"scene": "want merge order before fixing k", "best_first": "hierarchical clustering"},
-    {"scene": "curved connected pattern", "best_first": "spectral clustering"},
-]
+First cover the `Method to think of first` column, write down your own choice for each scene, and then compare it with the table.
 
-for item in scenarios:
-    print(item["scene"], "->", item["best_first"])
-```
+| Scene | Method to think of first | Why this method fits first |
+| --- | --- | --- |
+| You want a quick baseline for round and fairly even groups | k-means | Because the question starts with putting centers down and grouping quickly |
+| You want to leave noise aside and inspect irregular groups | DBSCAN | Because density and noise separation matter first in this scene |
+| You want to see what merges first before fixing the number of clusters | Hierarchical clustering | Because merge order itself is the interpretation clue here |
+| You want to preserve a curved structure, and a center-based cut looks awkward | Spectral clustering | Because reading connectivity first is more natural than reading centers first |
 
-The result can be read like this.
-
-```text
-round groups, quick baseline -> k-means
-irregular shape with noise -> DBSCAN
-want merge order before fixing k -> hierarchical clustering
-curved connected pattern -> spectral clustering
-```
-
-The point of this example is not memorizing algorithm names. It is to ask first `what structure do I want to see?` Even when everything looks like a clustering problem, some scenes make centers more important, some make density more important, some make merge order more important, and some make connectivity structure more important.
+The point of this practice is not memorizing algorithm names. It is to ask first `what structure do I want to inspect?` More important than getting the label right is being able to explain why that question comes first in the scene.
 
 ## What Is Worth Recording In A First Comparison?
 
@@ -211,7 +199,7 @@ If you record these questions first, you will read more easily `what clustering 
 - Spectral clustering is closer to rereading `connectivity structure` than to rereading `distance itself`.
 - All clustering families solve the same broad problem, but they start from different handles such as center, density, order, and connectivity.
 
-## Short Check
+## Checklist
 
 - Is this a scene where you want to see what becomes close first, rather than fixing the number of clusters immediately?
 - Is this a scene where connectivity structure must be read first, not merely one with an irregular shape?

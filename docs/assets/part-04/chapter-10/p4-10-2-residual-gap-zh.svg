@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">拟合直线上的残差间隔</title>
+  <desc id="desc">这张带拟合直线的散点图把正残差与负残差显示为实际点和直线预测值之间的垂直间隔。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .point { fill: #2563eb; }
+      .line { stroke: #0f766e; stroke-width: 3.5; fill: none; }
+      .res-pos { stroke: #dc2626; stroke-width: 2.6; }
+      .res-neg { stroke: #f59e0b; stroke-width: 2.6; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="760" height="430" rx="22" />
+  <text class="title" x="38" y="42">残差就是实际值与预测值之间的垂直间隔</text>
+  <text class="subtitle" x="38" y="66">正残差表示模型预测偏低，负残差表示模型预测偏高。</text>
+
+  <rect class="panel" x="34" y="94" width="470" height="286" rx="16" />
+
+  <line class="grid" x1="92" y1="126" x2="454" y2="126" />
+  <line class="grid" x1="92" y1="176" x2="454" y2="176" />
+  <line class="grid" x1="92" y1="226" x2="454" y2="226" />
+  <line class="grid" x1="92" y1="276" x2="454" y2="276" />
+  <line class="grid" x1="92" y1="326" x2="454" y2="326" />
+  <line class="grid" x1="92" y1="126" x2="92" y2="326" />
+  <line class="grid" x1="152" y1="126" x2="152" y2="326" />
+  <line class="grid" x1="212" y1="126" x2="212" y2="326" />
+  <line class="grid" x1="272" y1="126" x2="272" y2="326" />
+  <line class="grid" x1="332" y1="126" x2="332" y2="326" />
+  <line class="grid" x1="392" y1="126" x2="392" y2="326" />
+  <line class="grid" x1="454" y1="126" x2="454" y2="326" />
+
+  <line class="axis" x1="92" y1="326" x2="454" y2="326" />
+  <line class="axis" x1="92" y1="326" x2="92" y2="126" />
+  <path class="line" d="M92 300 L454 154" />
+
+  <line class="res-pos" x1="154" y1="275" x2="154" y2="250" />
+  <line class="res-neg" x1="214" y1="250" x2="214" y2="272" />
+  <line class="res-pos" x1="332" y1="203" x2="332" y2="176" />
+
+  <circle class="point" cx="120" cy="288" r="6" />
+  <circle class="point" cx="154" cy="250" r="6" />
+  <circle class="point" cx="214" cy="272" r="6" />
+  <circle class="point" cx="272" cy="222" r="6" />
+  <circle class="point" cx="332" cy="176" r="6" />
+  <circle class="point" cx="392" cy="170" r="6" />
+
+  <text class="tick" x="88" y="344">0</text>
+  <text class="tick" x="148" y="344">1</text>
+  <text class="tick" x="208" y="344">2</text>
+  <text class="tick" x="268" y="344">3</text>
+  <text class="tick" x="328" y="344">4</text>
+  <text class="tick" x="388" y="344">5</text>
+  <text class="tick" x="448" y="344">6</text>
+
+  <text class="tick" x="62" y="330">52</text>
+  <text class="tick" x="62" y="280">58</text>
+  <text class="tick" x="62" y="230">64</text>
+  <text class="tick" x="62" y="180">70</text>
+  <text class="tick" x="62" y="130">76</text>
+
+  <text class="label" x="402" y="364">学习时间</text>
+  <text class="label" x="44" y="118">分数</text>
+  <text class="note" x="168" y="246">负残差</text>
+  <text class="note" x="342" y="172">正残差</text>
+
+  <rect class="card" x="530" y="122" width="194" height="78" rx="12" />
+  <text class="label" x="548" y="148">正残差</text>
+  <text class="card-body" x="548" y="172">actual - predicted &gt; 0</text>
+  <text class="card-body" x="548" y="192">模型预测得太低。</text>
+
+  <rect class="card" x="530" y="214" width="194" height="78" rx="12" />
+  <text class="label" x="548" y="240">负残差</text>
+  <text class="card-body" x="548" y="264">actual - predicted &lt; 0</text>
+  <text class="card-body" x="548" y="284">模型预测得太高。</text>
+
+  <rect class="card" x="530" y="306" width="194" height="58" rx="12" />
+  <text class="card-body" x="548" y="332">残差大小说明模型偏离了多远。</text>
+  <text class="card-body" x="548" y="352">残差符号说明偏离方向。</text>
+</svg>

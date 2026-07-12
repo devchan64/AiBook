@@ -3,7 +3,7 @@
 - Canonical Mermaid assets for this chapter live under `docs/assets/part-04/chapter-13/`.
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
 - English translation pages now use the shared `-en.mmd` source assets.
-- Chinese translation pages currently reuse the shared `-en.mmd` assets directly for Chapter 13.
+- Chinese translation pages should include the matching `-zh.mmd` files where they exist.
 - Current language sets:
   - `p4-13-1-mermaid-01-ko.mmd`
   - `p4-13-1-mermaid-01-en.mmd`

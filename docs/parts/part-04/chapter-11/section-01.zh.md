@@ -1,7 +1,7 @@
 # P4-11.1 逻辑回归(logistic regression)的直觉
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-10 里，我们通过 linear regression 看到了 `怎样用一条直线预测连续值`。现在要接着看：同样是线性思路，到了 classification 问题时会怎样变化。
 
@@ -101,6 +101,10 @@ sigmoid 正是做这件事的函数。
 
 `sigmoid 是把线性计算结果压进 0 到 1 范围，让它更容易按分类分数读取的函数。`
 
+放到坐标上看会更直观。当 linear score \(z\) 从负值变到正值时，sigmoid 输出会从接近 0 平滑移动到接近 1，并且在 `z = 0` 处遇到 `p = 0.5`。
+
+![展示线性分数 z 经过 sigmoid 后变成 0 到 1 之间可像概率那样读取的值的图](../../../assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-zh.svg)
+
 这个流程可以简单画成下面这样。
 
 ```mermaid
@@ -144,7 +148,7 @@ sigmoid 正是做这件事的函数。
 | C | 0.51 | class 1 |
 | D | 0.87 | class 1 |
 
-这个表里最重要的是 B 和 C。两个人的分数差距并不大，但在 threshold 0.5 下最终 class 已经分开了。也就是说，模型 만든 score 空间是连续的，而服务行为可能在上面不连续地分开。
+这个表里最重要的是 B 和 C。两个人的分数差距并不大，但在 threshold 0.5 下最终 class 已经分开了。也就是说，model 生成的 score 空间是连续的，而服务行为可能在上面不连续地分开。
 
 ### 为什么还需要 threshold
 
@@ -183,6 +187,10 @@ logistic regression 最常见的入门介绍，是把 `0.5` 当作分类标准�
 | 下一步调整问题 | 为了决定是改 threshold、补 feature，还是比较其他候选模型 |
 
 这样才能把 `分数提高了`、`threshold 改了`、`警告变多了` 这些事实分开读取。
+
+如果把 `同样的 score 会因为 policy line 放在哪里而导致最终行为不同` 压缩到同一条 score 轴上，可以像下面这样读。
+
+![展示同样概率分数在 threshold 0.5 与 0.7 下会被读成不同行为的比较图](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
 
 ### 什么时候适合先把 logistic regression 放上候选
 

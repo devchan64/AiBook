@@ -5,6 +5,10 @@ window.MathJax = {
     processEscapes: true,
     processEnvironments: true
   },
+  chtml: {
+    displayAlign: "left",
+    displayIndent: "0"
+  },
   options: {
     ignoreHtmlClass: ".*|",
     processHtmlClass: "arithmatex"

@@ -1,7 +1,7 @@
 # P4-9.3 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-8과 P4-9에서는 모델 후보를 세우고, baseline을 두고, 하이퍼파라미터를 검증 절차 안에서 비교하는 기본 흐름을 잡았습니다. 그다음에는 보통 다음 이름들이 등장합니다.
 
@@ -164,28 +164,16 @@ nested cross-validation은 단순히 교차검증을 한 번 더 복잡하게 �
 --8<-- "assets/part-04/chapter-09/p4-9-3-mermaid-01-ko.mmd"
 ```
 
-## 이 절에서 기억할 관점
-
-- AIC/BIC는 통계적 모형 선택의 언어입니다.
-- Bayesian optimization, Hyperband는 탐색 비용을 줄이려는 언어입니다.
-- nested cross-validation은 선택과 평가의 분리를 더 엄격하게 하려는 언어입니다.
-- AutoML, benchmark, leaderboard, experiment tracking은 실험을 더 크게 운영하려는 언어입니다.
-
-## 짧은 점검
+## 체크리스트
 
 - AIC/BIC, 탐색 기법, AutoML, tracking을 같은 층위의 해결책처럼 섞지 않고 있는가?
 - 지금 필요한 것이 더 넓은 탐색인지, 더 엄격한 검증 분리인지, 더 나은 기록인지 구분하고 있는가?
 - leaderboard의 높은 점수만이 아니라 비교 조건과 기록 가능성까지 함께 보고 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- AIC/BIC, 탐색 기법, nested cross-validation, AutoML, leaderboard, tracking을 같은 층위의 도구처럼 섞고 있지 않은지 점검해야 할 때 이 절을 떠올립니다.
-- 지금 병목이 더 넓은 탐색인지, 더 엄격한 선택/평가 분리인지, 더 나은 기록 체계인지 구분해야 할 때 이 절로 돌아옵니다.
-- 높은 점수뿐 아니라 비교 조건과 재현성 기록까지 함께 봐야 할 때 이 절이 기준이 됩니다.
-
 - AIC/BIC와 하이퍼파라미터 튜닝을 같은 층위의 문제로 섞지 않을 수 있는가?
 - benchmark 순위와 실제 일반화 성능을 바로 동일시하지 않을 수 있는가?
 - experiment tracking이 왜 `편의 기능`이 아니라 재현성의 일부인지 설명할 수 있는가?
+- AIC/BIC는 통계적 모형 선택의 언어이고, Bayesian optimization이나 Hyperband는 탐색 비용을 줄이려는 언어라는 점을 설명할 수 있는가
+- nested cross-validation은 선택과 평가의 분리를 더 엄격하게 하려는 언어이고, AutoML·benchmark·leaderboard·experiment tracking은 실험을 더 크게 운영하려는 언어라는 점을 설명할 수 있는가
 
 ## 출처와 참고 자료
 

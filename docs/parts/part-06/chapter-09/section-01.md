@@ -1,7 +1,7 @@
 # P6-9.1 프롬프트 엔지니어링(prompt engineering)
 
 > Section ID: `P6-9.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-8.2에서는 정렬(alignment)이 단순히 친절한 답을 만드는 문제가 아니라, 유용성, 안전성, 사실성, 서비스 정책이 함께 걸린 설계 문제라는 점을 보았습니다. 그러면 이제 사용자의 손에 가장 먼저 잡히는 도구를 봐야 합니다.
 
@@ -342,13 +342,11 @@ structured_prompt = {
     "required_slots": ["상황", "즉시 조치", "남은 위험"],
 }
 
-
 def simple_response(card):
     # 단순 요청에서는 앞부분 사실이 길게 이어지고, 운영상 중요한 뒷부분이 빠지기 쉽다.
     first = card["facts"][0]
     second = card["facts"][1]
     return f"{first} {second}"
-
 
 def structured_response(card):
     return "\n".join(
@@ -358,7 +356,6 @@ def structured_response(card):
             f"3. 남은 위험: {card['facts'][3]}",
         ]
     )
-
 
 def inspect_response(response, must_keep, required_slots):
     lines = [line.strip() for line in response.splitlines() if line.strip()]
@@ -376,7 +373,6 @@ def inspect_response(response, must_keep, required_slots):
         "present_keywords": present_keywords,
         "missing_slots": missing_slots,
     }
-
 
 def run_batch(prompt_name, response_fn):
     reports = []
@@ -413,7 +409,6 @@ def run_batch(prompt_name, response_fn):
         "slot_ok_count": slot_ok_count,
         "average_keyword_ratio": round(average_keyword_ratio, 2),
     }
-
 
 simple_batch = run_batch("simple", simple_response)
 structured_batch = run_batch("structured", structured_response)
@@ -498,29 +493,16 @@ average_keyword_ratio = 0.78
 
 프롬프트 엔지니어링은 멋진 문장을 찾는 일이 아니라, 같은 모델이 여러 입력에서도 더 안정적으로 원하는 형식과 핵심 정보를 내놓게 만드는 입력 설계 작업입니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 프롬프트를 잘 쓰면 어디까지 해결할 수 있는가?
-- 프롬프트만으로는 왜 최신성, 근거, 일관성을 완전히 보장하지 못하는가?
-
-이 질문은 P6-9.2 프롬프트의 한계로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 프롬프트 엔지니어링은 입력 설계를 통해 모델 행동을 관찰하고 조정하는 방법입니다.
 - 지시, 맥락, 예시는 서로 다른 역할을 가집니다.
 - 프롬프트는 빠른 실험과 관찰의 첫 번째 도구가 되었습니다.
 - 하지만 이것은 모델 재학습이나 외부 근거 연결을 완전히 대체하지 않습니다.
 
-## 짧은 점검
-
 - 프롬프트를 `문장 요령`이 아니라 `입력 설계와 행동 관찰 실험`으로 설명할 수 있는가?
 - 지시, 맥락, 예시가 각각 무엇을 먼저 바꾸는지 구분할 수 있는가?
 - 다음 절을 `입력 조정만으로는 안 닫히는 실패`를 찾는 단계로 읽을 준비가 되었는가?
-
-## 언제 프롬프트 엔지니어링 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 프롬프트 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

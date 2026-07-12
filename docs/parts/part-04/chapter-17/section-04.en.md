@@ -1,7 +1,7 @@
 # P4-17.4 Supplementary Learning: How To Connect Clustering And Semi-Supervised Learning For The First Time
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 After reading through P4-17.2, this question naturally remains.
 
@@ -116,7 +116,7 @@ This risk can be written more directly as a workflow like this.
 | Assume they share one label because they look similar | Even if they look similar, inspect boundary cases separately |
 | Trying to reduce review cost only increases error propagation | Narrow review priority, but delay error propagation |
 
-## What Should Be Distinguish First?
+## What Should Be Distinguished First?
 
 When reading semi-supervised learning for the first time, the following questions matter more than algorithm names.
 
@@ -135,10 +135,16 @@ If you write these questions down first, you can read semi-supervised learning m
 
 Suppose a news team has 100,000 articles, but only 5,000 of them carry actual topic labels. In that case, if similar article groups are built first with clustering, editors do not have to inspect all articles at random. Instead, they can begin with `representative articles and boundary articles inside the same group`. In other words, clustering is not a device that replaces true labels. It is an organizing tool that suggests `where label review should begin`.
 
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-4-mermaid-02-en.mmd"
+```
+
 | What to do first | What not to do immediately |
 | --- | --- |
 | Review representative and boundary articles for each cluster | Do not propagate one topic label to the entire cluster automatically |
 | Compare some labeled articles and unlabeled articles together | Do not use the cluster number itself as the final topic name |
+
+So the result to confirm in this case is not `the cluster fixed the label`, but `the cluster narrowed where review should start`.
 
 ### Case 2. When Inquiry Labels Are Scarce And It Becomes Tempting To Automate Support Classification Too Early
 
@@ -146,49 +152,46 @@ Suppose a customer support team has accumulated many inquiry logs, but only some
 
 So the safer flow is not to use the cluster as a signal for `automatic classification completed`, but as a signal for `which inquiry group should be reviewed first and which label candidates should be compared first`. In other words, the core of semi-supervised learning is not removing review altogether, but deploying review more selectively.
 
+```mermaid
+--8<-- "assets/part-04/chapter-17/p4-17-4-mermaid-03-en.mmd"
+```
+
 | The cluster that appears first | What should not be done immediately | Safer next step |
 | --- | --- | --- |
 | Refund and complaint inquiries gather together | Fix the whole cluster under one label | Review representative inquiries and boundary inquiries separately |
 | Some labeled inquiries are mixed inside the cluster | Propagate that label immediately to all unlabeled inquiries | Recheck the expression differences and follow-up handling outcomes |
 
+The result to confirm here is not `automatic classification completed`, but `which inquiries must be reviewed by people first became clearer`.
+
 ## Practice And Example
 
-This example is a tiny exercise for checking that `clustering can suggest label candidates, but it cannot jump straight to automatic confirmation`.
+This practice block is a verification exercise: decide first whether clustering should support review order rather than automatic confirmation, and then compare your choice with the explanation.
 
-- Problem situation: examine whether clusters can be used as the review order for label candidates in an article set where only some items are labeled
-- Input: cluster ID, article summary, and some existing labels
-- Expected output: a sense that even inside the same cluster there may still be boundary samples that need more review
+- Problem situation: decide whether clusters in an article set with only partial labels should be used for automatic labeling or for review ordering
+- Input: three short article-group scenes
+- Expected output: explain whether `immediate auto-propagation`, `review representative and boundary samples first`, or `limited adoption after validation` is needed first
 - Concepts to check:
   - Clustering shows similarity structure first
   - It can narrow label candidates, but automatic confirmation may still be risky
 
-```python
-articles = [
-    {"id": "A", "cluster": 0, "topic_hint": "AI chip investment", "label": "tech"},
-    {"id": "B", "cluster": 0, "topic_hint": "semiconductor policy", "label": None},
-    {"id": "C", "cluster": 0, "topic_hint": "data center expansion", "label": None},
-    {"id": "D", "cluster": 1, "topic_hint": "football match result", "label": "sports"},
-]
+First cover the `What is needed first` column, decide your own answer for each scene, and then compare it with the table.
 
-for article in articles:
-    print(article["id"], "cluster=", article["cluster"], "label=", article["label"], "hint=", article["topic_hint"])
-```
+| Scene | What is needed first | Why this is the safer reading |
+| --- | --- | --- |
+| One cluster mixes articles such as `AI chip investment`, `semiconductor policy`, and `data center expansion`, which look similar but may split by label context | Review representative and boundary samples first | The cluster shows similarity, but the true label boundary may still differ |
+| Only some labeled articles already exist inside one cluster, while the unlabeled articles still show large wording differences | Limited adoption after validation | If the few labels are spread immediately, the initial hypothesis error can grow |
+| A completely different sports article already sits in a separate cluster instead of mixing into the technology-like group | Use the cluster first to adjust review order | The grouping is still useful for deciding what should be compared together first |
 
-The result can be read like this.
-
-```text
-A cluster= 0 label= tech hint= AI chip investment
-B cluster= 0 label= None hint= semiconductor policy
-C cluster= 0 label= None hint= data center expansion
-D cluster= 1 label= sports hint= football match result
-```
-
-It is risky to conclude right away that `all of cluster 0 is tech`. `semiconductor policy` could also be read as an industry policy article, and `data center expansion` may mix investment, industry, and technology contexts. At the same time, the example also shows something useful. It becomes easier to see that the `cluster 0` group is at least a candidate set that should be reviewed first together.
-
-So the practical sense of semi-supervised learning is closer to `clustering makes review order smarter`, not `clustering replaces labels`.
+The point of this practice is not whether clustering replaces labels, but how far clustering can support review order. More important than getting the category name right is being able to explain why review and limited adoption must come before automatic propagation.
 
 ## What To Remember From This Section
 
 - Semi-supervised learning is a problem setting that uses a small amount of labeled data together with a large amount of unlabeled data.
 - Clustering can suggest label hypotheses and review priority, but it cannot automatically replace true labels.
 - The safer flow is `cluster -> review representative and boundary samples -> limited adoption -> follow-up validation`.
+
+## Checklist
+
+- Can you explain that clustering suggests review priority and label hypotheses, not final labels?
+- Can you explain why boundary cases inside the same cluster still need separate review?
+- Can you describe semi-supervised learning as a setting that connects few labels, many unlabeled examples, review, and follow-up validation?

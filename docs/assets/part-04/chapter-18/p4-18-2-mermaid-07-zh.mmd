@@ -1,0 +1,9 @@
+flowchart TD
+  A["降维后的质量检查"]
+  B["能否重建原始数值"]
+  C["重建误差"]
+  D["能否相信新出现的近邻关系"]
+  E["trustworthiness"]
+
+  A --> B --> C
+  A --> D --> E

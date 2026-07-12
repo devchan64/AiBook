@@ -1,7 +1,7 @@
 # P4-17.1 Intuition For Clustering
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Up through gradient boosting in P4-16, we followed how models improve predictive performance on problems where answer labels already exist. If we shift the viewpoint slightly here, the next question appears.
 
@@ -262,76 +262,132 @@ This example is a tiny exercise that uses only two coordinates to see whether po
   - Clusters begin from spatial relationships
   - Even without labels, a sense of grouping can appear
 
-```python
-points = [
-    (1.0, 1.2),
-    (1.1, 0.9),
-    (0.8, 1.0),
-    (5.0, 5.1),
-    (5.2, 4.9),
-    (4.8, 5.0),
-]
+First, look at the coordinates below and write down for yourself how many groups the points seem to form.
 
-left_group = [p for p in points if p[0] < 3]
-right_group = [p for p in points if p[0] >= 3]
+| Point ID | Coordinate |
+| --- | --- |
+| A | (1.0, 1.2) |
+| B | (1.1, 0.9) |
+| C | (0.8, 1.0) |
+| D | (5.0, 5.1) |
+| E | (5.2, 4.9) |
+| F | (4.8, 5.0) |
 
-print("all points :", points)
-print("group A    :", left_group)
-print("group B    :", right_group)
-print("group sizes:", len(left_group), len(right_group))
-```
+At this stage, readers usually make a judgment like the following.
 
-The result is as follows.
+| Grouping hypothesis that appears first | Why it is easy to read it this way |
+| --- | --- |
+| A, B, and C look like one group | They are close together in the lower-left area |
+| D, E, and F look like another group | They are close together in the upper-right area |
+| The whole set looks like two groups | The gap between the two point sets is relatively large |
 
-```text
-all points : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group A    : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0)]
-group B    : [(5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group sizes: 3 3
-```
-
-This code is not an actual clustering algorithm. But it gives an important sense.
+What should be read first here is the following.
 
 1. Even without labels, point positions can suggest a sense of groups.
 2. Clusters are ultimately connected to the question of which points gather closely in some space.
-3. Real algorithms try to generalize that grouping criterion and find it automatically.
+3. Real algorithms try to generalize this kind of grouping criterion and find it automatically.
 
 ### Change One Value: How Should We Read It When A Point Appears In The Middle?
 
-Now add one ambiguous point between the two groups.
+This time, add point G in the middle and read the scene again.
 
-```python
-points = [
-    (1.0, 1.2),
-    (1.1, 0.9),
-    (0.8, 1.0),
-    (3.0, 3.1),
-    (5.0, 5.1),
-    (5.2, 4.9),
-    (4.8, 5.0),
-]
+| Point ID | Coordinate |
+| --- | --- |
+| A | (1.0, 1.2) |
+| B | (1.1, 0.9) |
+| C | (0.8, 1.0) |
+| G | (3.0, 3.1) |
+| D | (5.0, 5.1) |
+| E | (5.2, 4.9) |
+| F | (4.8, 5.0) |
 
-left_group = [p for p in points if p[0] < 3]
-right_group = [p for p in points if p[0] >= 3]
+First answer these questions for yourself.
 
-print("all points :", points)
-print("group A    :", left_group)
-print("group B    :", right_group)
-print("group sizes:", len(left_group), len(right_group))
-```
+- Can you still immediately say that there are `two groups`?
+- Is G closer to the left group, the right group, or a boundary case?
+- What is needed right now: `the correct cluster number` or a note about where ambiguity appears?
 
-```text
-all points : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0), (3.0, 3.1), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group A    : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0)]
-group B    : [(3.0, 3.1), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group sizes: 3 4
-```
+Then compare with the explanation below.
+
+| What changed in the scene | What should be rechecked first | Why it matters |
+| --- | --- | --- |
+| Boundary point G was added | Whether the boundary between the two groups is still clear | A single boundary case can shake the structure hypothesis |
+| The simple `left three, right three` grouping no longer holds | Whether G is assigned automatically to one side | This reveals that a cluster is an interpretation candidate, not an answer |
+| The counts changed from 3 vs 3 to 3 vs 4 | Whether boundary interpretation now matters more than group size | In practice, ambiguous points should be recorded before cluster numbers |
 
 Even adding one point makes the interpretation of `two groups` less clear. What the reader should feel here is that clustering is not `a device that gives the answer`, but `a device for seeing how the structure hypothesis changes once a standard of similarity is chosen`. Since interpretation changes depending on how points near the boundary are read, in practice you should record `what remained ambiguous` before you record cluster numbers.
 
+### Apply k-means and DBSCAN to the same point set
+
+This time, apply `k-means` and `DBSCAN` side by side to the same toy data and check how the `center-based` and `density-based` viewpoints produce different outputs.
+
+- Problem situation: when there are two dense groups and one faraway point, examine how `k-means` and `DBSCAN` read that point differently
+- Input: two dense groups plus one faraway point
+- Expected output: confirm that `k-means` still places the faraway point into one of its clusters, while `DBSCAN` can leave it as noise
+- Concepts to check:
+  - `k-means` assigns every point inside a pre-decided number of clusters
+  - `DBSCAN` can leave low-density points outside the clusters
+
+```python
+import numpy as np
+from sklearn.cluster import DBSCAN, KMeans
+
+names = ["A", "B", "C", "D", "E", "F", "G"]
+X = np.array([
+    [1.0, 1.1],
+    [1.2, 0.9],
+    [0.9, 1.0],
+    [5.0, 5.1],
+    [5.2, 4.8],
+    [4.9, 5.0],
+    [8.5, 1.0],
+])
+
+kmeans = KMeans(n_clusters=2, random_state=0, n_init=10)
+km_labels = kmeans.fit_predict(X)
+
+left_km = int(np.argmin(kmeans.cluster_centers_[:, 0]))
+right_km = int(np.argmax(kmeans.cluster_centers_[:, 0]))
+km_groups = {
+    "left-centered group": [name for name, label in zip(names, km_labels) if label == left_km],
+    "right-centered group": [name for name, label in zip(names, km_labels) if label == right_km],
+}
+
+dbscan = DBSCAN(eps=0.6, min_samples=2)
+db_labels = dbscan.fit_predict(X)
+
+dense_labels = sorted(label for label in set(db_labels) if label != -1)
+db_groups = {}
+for order, label in enumerate(dense_labels, start=1):
+    db_groups[f"dense group {order}"] = [
+        name for name, current in zip(names, db_labels) if current == label
+    ]
+db_groups["noise"] = [name for name, current in zip(names, db_labels) if current == -1]
+
+print("k-means :", km_groups)
+print("DBSCAN  :", db_groups)
+```
+
+An example output is as follows.
+
+```text
+k-means : {'left-centered group': ['A', 'B', 'C'], 'right-centered group': ['D', 'E', 'F', 'G']}
+DBSCAN  : {'dense group 1': ['A', 'B', 'C'], 'dense group 2': ['D', 'E', 'F'], 'noise': ['G']}
+```
+
+What should be read first from this result is the following.
+
+| Comparison point | What appeared in k-means | What appeared in DBSCAN | Why it matters |
+| --- | --- | --- | --- |
+| Cluster-count handling | It placed every point into the two pre-decided clusters | It formed two dense groups and left G as noise | This is where `forcing a cluster count` and `leaving points outside clusters` diverge |
+| Faraway point G | It was assigned together with the right-side group | It was not placed into any cluster | The difference in handling outlier-like points becomes directly visible |
+| Interpretation style | It leans toward `every point belongs to one of the clusters` | It leans toward `only dense regions become clusters and the rest can remain outside` | It lets the reader verify the difference between center-based and density-based intuition at the output level |
+
+So, even on the same input, `k-means` reads the problem as `assignment by center inside a pre-decided number of clusters`, while `DBSCAN` reads it as `forming clusters from dense regions and leaving sparse points outside`. That is why `DBSCAN` feels more natural when you want to leave outlier-like points aside, while `k-means` feels more natural when you want a quick baseline grouping into `a few clusters`.
+
 ### What Should Be Read Together In This Example?
 
-The goal of Part 4 is not to list model names, but to build criteria for how problems should be defined and how results should be read. This exercise checks all at once the problem definition `a structure exploration problem without answer labels`, the evaluation viewpoint `one point in the middle can shake the cluster hypothesis`, and the application principle `the grouping hypothesis and representative cases should be recorded together`. In other words, if you ran a clustering example but still did not feel the goal of the Part, the problem usually was not too few runs. It was that the sentences for `interpreting the difference in results and passing it to the next question` were missing.
+The goal of Part 4 is not to list model names, but to build criteria for how problems should be defined and how results should be read. This exercise checks all at once the problem definition `a structure exploration problem without answer labels`, the evaluation viewpoint `one point in the middle can shake the cluster hypothesis`, the comparison viewpoint `k-means and DBSCAN can read the same point differently`, and the application principle `the grouping hypothesis and representative cases should be recorded together`. In other words, if you ran a clustering example but still did not feel the goal of the Part, the problem usually was not too few runs. It was that the sentences for `interpreting the difference in results and passing it to the next question` were missing.
 
 | Shared recording language | What to record immediately in this example |
 | --- | --- |

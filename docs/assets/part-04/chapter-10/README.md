@@ -2,18 +2,20 @@
 
 - Public manuscript pages include Mermaid assets through `pymdownx.snippets`.
 - The canonical asset root is `docs/assets/part-04/chapter-10/`.
-- English source assets are now open for `P4-10.1`, and Chinese manuscript pages currently share those `-en.mmd` files directly.
-- Sections that still operate only Korean Mermaid assets must add matching `-en.mmd` source files when their translation paths open.
+- English source assets are open for this chapter, and Chinese manuscript pages should include the matching `-zh.mmd` files where they exist.
+- Korean pages include `-ko.mmd`, English pages include `-en.mmd`, and Chinese pages include `-zh.mmd`.
 - Current language sets:
-  - `p4-10-1-mermaid-01-en.mmd` / `p4-10-1-mermaid-01-ko.mmd`
-    `docs/parts/part-04/chapter-10/section-01.zh.md` currently shares `p4-10-1-mermaid-01-en.mmd`.
-  - `p4-10-1-mermaid-02-en.mmd` / `p4-10-1-mermaid-02-ko.mmd`
-    `docs/parts/part-04/chapter-10/section-01.zh.md` currently shares `p4-10-1-mermaid-02-en.mmd`.
-  - `p4-10-1-mermaid-03-en.mmd` / `p4-10-1-mermaid-03-ko.mmd`
-    `docs/parts/part-04/chapter-10/section-01.zh.md` currently shares `p4-10-1-mermaid-03-en.mmd`.
-  - `p4-10-1-mermaid-04-en.mmd` / `p4-10-1-mermaid-04-ko.mmd`
-    `docs/parts/part-04/chapter-10/section-01.zh.md` currently shares `p4-10-1-mermaid-04-en.mmd`.
-  - `p4-10-2-mermaid-01-en.mmd` / `p4-10-2-mermaid-01-ko.mmd`
-  - `p4-10-2-mermaid-02-en.mmd` / `p4-10-2-mermaid-02-ko.mmd`
-  - `p4-10-2-mermaid-03-en.mmd` / `p4-10-2-mermaid-03-ko.mmd`
-  - `p4-10-3-mermaid-01-en.mmd` / `p4-10-3-mermaid-01-ko.mmd`
+  - `p4-10-1-mermaid-01-en.mmd` / `p4-10-1-mermaid-01-ko.mmd` / `p4-10-1-mermaid-01-zh.mmd`
+  - `p4-10-1-mermaid-02-en.mmd` / `p4-10-1-mermaid-02-ko.mmd` / `p4-10-1-mermaid-02-zh.mmd`
+  - `p4-10-1-mermaid-03-en.mmd` / `p4-10-1-mermaid-03-ko.mmd` / `p4-10-1-mermaid-03-zh.mmd`
+  - `p4-10-1-mermaid-04-en.mmd` / `p4-10-1-mermaid-04-ko.mmd` / `p4-10-1-mermaid-04-zh.mmd`
+  - `p4-10-2-mermaid-01-en.mmd` / `p4-10-2-mermaid-01-ko.mmd` / `p4-10-2-mermaid-01-zh.mmd`
+  - `p4-10-2-mermaid-02-en.mmd` / `p4-10-2-mermaid-02-ko.mmd` / `p4-10-2-mermaid-02-zh.mmd`
+  - `p4-10-2-mermaid-03-en.mmd` / `p4-10-2-mermaid-03-ko.mmd` / `p4-10-2-mermaid-03-zh.mmd`
+  - `p4-10-3-mermaid-01-en.mmd` / `p4-10-3-mermaid-01-ko.mmd` / `p4-10-3-mermaid-01-zh.mmd`
+- SVG assets added for coordinate-based explanation:
+  - `p4-10-1-regression-line-intuition-en.svg` / `p4-10-1-regression-line-intuition-ko.svg` / `p4-10-1-regression-line-intuition-zh.svg`
+  - `p4-10-2-residual-gap-en.svg` / `p4-10-2-residual-gap-ko.svg` / `p4-10-2-residual-gap-zh.svg`
+  - `p4-10-2-line-limit-comparison-en.svg` / `p4-10-2-line-limit-comparison-ko.svg` / `p4-10-2-line-limit-comparison-zh.svg`
+  - `p4-10-3-diagnostics-view-en.svg` / `p4-10-3-diagnostics-view-ko.svg` / `p4-10-3-diagnostics-view-zh.svg`
+- Korean manuscript pages reference the translated `-ko.svg` derivatives, Chinese manuscript pages reference the translated `-zh.svg` derivatives, and English pages keep the `-en.svg` source assets.

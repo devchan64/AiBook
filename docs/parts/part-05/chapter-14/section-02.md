@@ -1,7 +1,7 @@
 # P5-14.2 병렬 처리와 긴 문맥
 
 Section ID: `P5-14.2`
-Version: `v2026.07.11`
+Version: `v2026.07.12`
 
 P5-14.1에서는 트랜스포머(Transformer)를 셀프 어텐션(self-attention), feed-forward, residual connection, layer normalization의 조합으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -212,7 +212,6 @@ context = [
     "Request: ship the battery pack by air today.",
 ]
 
-
 def sequential_reader(lines, decay=0.55):
     state = {"hazardous": 0.0, "air": 0.0, "block": 0.0}
     history = []
@@ -232,7 +231,6 @@ def sequential_reader(lines, decay=0.55):
     decision = "block_air_shipping" if support >= 0.8 else "uncertain"
     return history, {key: round(value, 3) for key, value in state.items()}, support, decision
 
-
 def direct_reference_reader(lines):
     request = lines[-1].lower()
     keywords = {"battery", "pack", "air", "hazardous", "must", "not"}
@@ -251,7 +249,6 @@ def direct_reference_reader(lines):
         else "allow"
     )
     return top_matches, decision
-
 
 history, final_state, sequential_support, sequential_decision = sequential_reader(context)
 top_matches, direct_decision = direct_reference_reader(context)
@@ -334,38 +331,16 @@ Transformer가 attention 중심 구조와 병렬 계산의 장점을 결합하�
 
 를 한 절에서 묶어 주기 때문입니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 이렇게 강한 문맥 모델이 생겼을 때, 이제 모델은 분류만이 아니라 무엇을 생성할 수 있게 되었는가?
-- 생성 모델(generative model)은 분류 모델과 어떤 점에서 다른가?
-
-이 질문은 바로 P5-15.1 생성 모델(generative model)은 무엇을 배우는가로 이어집니다.
-
-## 이 절에서 기억할 관점
-
-- Transformer는 토큰을 순차 상태로만 전달하지 않고, 관계를 더 병렬적으로 계산합니다.
-- 이 구조는 GPU 병렬 처리와 잘 맞습니다.
-- self-attention은 먼 위치를 더 직접 참조하는 감각을 줍니다.
-- 이 차이가 대규모 생성 모델 확산의 핵심 기반이 됩니다.
-
-## 짧은 점검
-
-- Transformer의 강점을 `더 성능이 좋다`가 아니라 `계산 흐름을 GPU 친화적 관계 계산으로 바꿨다`는 말로 설명할 수 있는가?
-- 긴 문맥 문제를 `오래 기억한다`보다 `필요한 앞 단서를 현재 위치가 다시 본다`는 감각으로 설명할 수 있는가?
-- 이후 LLM 장을 읽을 때도 먼저 `구조가 무엇을 계산 가능하게 만들었는가`를 떠올릴 준비가 되어 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- Transformer를 단순히 더 성능 좋은 순차 모델처럼 말하고 있을 때, 병렬 처리와 긴 문맥 관점을 먼저 떠올립니다.
-- GPU 시대와 Transformer 확산이 왜 함께 설명되는지 묶어야 할 때, 관계 계산의 병렬성 관점을 다시 봅니다.
-- 긴 문맥을 `오래 기억한다`보다 `필요한 앞 위치를 다시 참조한다`로 설명해야 할 때, 이 절을 기준선으로 꺼냅니다.
-
 ## 체크리스트
 
 - 왜 트랜스포머가 RNN보다 병렬 처리에 더 잘 맞는지 설명할 수 있는가?
 - 긴 문맥(long context) 참조에서 셀프 어텐션의 장점을 말할 수 있는가?
+- Transformer는 토큰을 순차 상태로만 전달하지 않고, 관계를 더 병렬적으로 계산한다는 점을 설명할 수 있는가?
+- 이 구조가 GPU 병렬 처리와 잘 맞는다는 점을 말할 수 있는가?
+- self-attention은 먼 위치를 더 직접 참조하는 감각을 준다는 점을 설명할 수 있는가?
+- Transformer의 강점을 `더 성능이 좋다`가 아니라 `계산 흐름을 GPU 친화적 관계 계산으로 바꿨다`는 말로 설명할 수 있는가?
+- 긴 문맥 문제를 `오래 기억한다`보다 `필요한 앞 단서를 현재 위치가 다시 본다`는 감각으로 설명할 수 있는가?
+- 이후 LLM 장을 읽을 때도 먼저 `구조가 무엇을 계산 가능하게 만들었는가`를 떠올릴 준비가 되어 있는가?
 
 ## 출처와 참고 자료
 

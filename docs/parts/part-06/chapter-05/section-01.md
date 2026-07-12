@@ -1,7 +1,7 @@
 # P6-5.1 다음 토큰 예측(next-token prediction)
 
 > Section ID: `P6-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-4.2에서는 GPT 기반 생성 구조가 어떻게 대화형 LLM 경험으로 이어졌는지 보았습니다. 이제 질문을 더 좁힐 차례입니다.
 
@@ -221,10 +221,8 @@ training_sentences = [
     "배포 오류 확인 결과 로그 수집 범위를 먼저 확인합니다",
 ]
 
-
 def tokenize(sentence):
     return sentence.split()
-
 
 def build_ngram_counts(sentences):
     ngram_counts = defaultdict(Counter)
@@ -236,7 +234,6 @@ def build_ngram_counts(sentences):
             ngram_counts[context][next_token] += 1
     return ngram_counts
 
-
 def next_token_distribution(ngram_counts, context_tokens):
     context = tuple(context_tokens[-3:])
     counter = ngram_counts.get(context, Counter())
@@ -247,7 +244,6 @@ def next_token_distribution(ngram_counts, context_tokens):
         token: round(count / total, 2)
         for token, count in counter.most_common()
     }
-
 
 def generate_tokens(ngram_counts, prompt, max_steps=5):
     generated = ["<BOS1>", "<BOS2>", "<BOS3>"] + tokenize(prompt)
@@ -280,7 +276,6 @@ def generate_tokens(ngram_counts, prompt, max_steps=5):
 
     visible_tokens = [token for token in generated if not token.startswith("<BOS")]
     return visible_tokens, trace
-
 
 ngram_counts = build_ngram_counts(training_sentences)
 prompts = ["회의 결과", "고객 문의 확인 결과", "배포 오류 확인 결과"]
@@ -371,29 +366,16 @@ generated = ['배포', '오류', '확인', '결과', '설정', '파일', '경로
 
 여기서는 직접 계보를 더 늘리지 말고, 다음 토큰 예측이 긴 생성의 기본 학습 목표라는 점을 먼저 확인합니다.
 
-## 다음 절과의 연결
-
-여기까지 이해하면 다음 질문이 남습니다.
-
-- 실제 생성은 한 토큰씩 어떤 흐름으로 이어지는가?
-- 확률이 있다고 해서 항상 같은 답이 나오지 않는 이유는 무엇인가?
-
-이 질문은 P6-5.2 생성 과정의 직관으로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - LLM의 기본 학습 목표는 다음 토큰 예측입니다.
 - 생성은 문장 전체를 한 번에 꺼내는 것이 아니라 순차적으로 이어집니다.
 - 단순해 보이는 목표이지만, 잘 수행하려면 넓은 언어 패턴을 반영해야 합니다.
 - 다음 토큰 예측만으로 LLM 전체를 다 설명할 수는 없지만, 가장 중요한 출발점입니다.
 
-## 짧은 점검
-
 - 다음 토큰 예측을 `긴 답변 전체`가 아니라 `다음 한 조각 분포`의 반복이라는 말로 설명할 수 있는가?
 - 자동완성과 LLM을 같게 만드는 점과 다르게 만드는 점을 함께 말할 수 있는가?
 - 다음 절을 `무엇을 학습했는가`가 아니라 `후보 중 무엇을 고르는가`의 문제로 읽을 준비가 되었는가?
-
-## 언제 다음 토큰 예측 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 다음 토큰 예측 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

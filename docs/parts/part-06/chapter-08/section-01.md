@@ -1,7 +1,7 @@
 # P6-8.1 지시 튜닝(instruction tuning)
 
 > Section ID: `P6-8.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-7.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요한지 보았습니다. 그러면 이제 다음 질문이 자연스럽게 이어집니다.
 
@@ -264,10 +264,8 @@ requests = [
     },
 ]
 
-
 def base_response(facts):
     return " ".join(facts)
-
 
 def instruction_tuned_response(facts, request_name):
     if request_name == "three_line_summary":
@@ -296,7 +294,6 @@ def instruction_tuned_response(facts, request_name):
         )
     return " ".join(facts)
 
-
 def check_format(response, request_name):
     if request_name == "three_line_summary":
         lines = response.splitlines()
@@ -318,7 +315,6 @@ def check_format(response, request_name):
             "meets_request": has_uncertainty and bullet_count >= 2,
         }
     return {"meets_request": False}
-
 
 base_success = 0
 tuned_success = 0
@@ -429,29 +425,16 @@ tuned_meets_request_count = 4
 
 이 절에서 더 중요하게 붙잡아야 할 점은 `기반 능력`과 `응답 방식 조정`이 같은 층이 아니라는 것입니다. 그래서 지시 튜닝은 모델이 무엇을 아는가보다, 그 능력을 사용자의 요청 형식에 맞게 어떻게 꺼내 보이게 하는가를 읽는 절로 잡는 편이 좋습니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 사용자의 지시를 잘 따르는 것과, 안전하고 책임 있는 응답을 하는 것은 같은 문제인가?
-- 모델을 유용하게 만드는 것과 위험을 줄이는 것을 어떻게 함께 다루는가?
-
-이 질문은 P6-8.2 정렬(alignment)의 기본 문제로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 지시 튜닝은 자연어 지시를 더 잘 따르는 응답 형식을 강화하는 조정 단계입니다.
 - 사전학습은 언어 패턴 학습이고, 지시 튜닝은 assistant-like response 조정에 가깝습니다.
 - 지시 튜닝은 사용자 경험을 크게 바꾸지만, 사실성·최신성·안전성 전체를 혼자 해결하지는 않습니다.
 - 이 절은 다음 절의 alignment 논의를 이해하기 위한 직접 기반입니다.
 
-## 짧은 점검
-
 - 지시 튜닝을 `무엇을 아는가`보다 `어떻게 답하는가`를 조정하는 층으로 설명할 수 있는가?
 - 사전학습, 파인튜닝, 지시 튜닝이 각각 무엇을 바꾸는지 다시 구분할 수 있는가?
 - 다음 절을 `잘 따르는 것`과 `허용 가능한 행동`을 나누는 문제로 읽을 준비가 되었는가?
-
-## 언제 지시 튜닝 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 지시 튜닝 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

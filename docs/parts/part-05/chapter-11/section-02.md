@@ -1,7 +1,7 @@
 # P5-11.2 합성곱(convolution)과 풀링(pooling)
 
 Section ID: `P5-11.2`
-Version: `v2026.07.11`
+Version: `v2026.07.12`
 
 P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -387,7 +387,6 @@ kernel = np.array([
     [1, 0, 1],
 ], dtype=float)
 
-
 def conv2d(image, kernel, padding=0, stride=1, dilation=1):
     padded = np.pad(image, padding, mode="constant", constant_values=0)
     kernel_h, kernel_w = kernel.shape
@@ -411,7 +410,6 @@ def conv2d(image, kernel, padding=0, stride=1, dilation=1):
             output[out_i, out_j] = np.sum(sampled * kernel)
 
     return output, first_patch
-
 
 settings = [
     ("base", 0, 1, 1),
@@ -606,38 +604,16 @@ CNN 교육에서 convolution과 pooling은 거의 항상 함께 소개됩니다.
 | 왜 세부 위치를 모두 남기지 않고 줄이기도 하는가 | pooling은 중요한 반응을 압축해 다음 층이 더 큰 구조를 읽기 쉽게 만들기 때문 | 순차 데이터에서 필요한 기억 구조와의 차이 |
 | padding, stride, dilation 차이를 왜 먼저 알아야 하는가 | 무엇을 찾는가 못지않게 어떤 범위와 간격으로 훑는가가 출력 구조를 바꾸기 때문 | 뒤 구조 장에서 입력 구조가 바뀌면 읽는 방식도 달라진다는 비교 |
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 이미지처럼 공간 구조가 아니라 시간 순서(sequence)가 중요한 데이터는 어떻게 다루는가?
-- 앞에서 본 패턴을 기억해야 하는 문제에서는 왜 CNN만으로는 부족하다고 느껴졌는가?
-
-이 질문은 바로 P5-12.1 RNN, LSTM, GRU의 필요성으로 이어집니다.
-
-## 이 절에서 기억할 관점
-
-- convolution은 작은 필터로 지역 패턴 점수를 계산하는 연산입니다.
-- feature map은 필터 반응이 공간적으로 기록된 결과입니다.
-- pooling은 중요한 반응을 더 작은 형태로 요약합니다.
-- CNN은 지역 패턴 탐지와 요약을 반복하며 표현을 쌓아 갑니다.
-
-## 짧은 점검
-
-- convolution을 `수식 이름`이 아니라 `지역 패턴 점수화`로 설명할 수 있는가?
-- pooling을 `크기 줄이기` 정도로만 말하지 않고, `강한 반응을 요약해 다음 층으로 넘기는 역할`로 설명할 수 있는가?
-- padding, stride, dilation이 모두 `필터를 어떻게 훑을 것인가`를 바꾸는 선택이라는 점을 말할 수 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 연산 이름은 알지만 이미지 위를 어떻게 훑고 무엇을 남기는지가 흐릴 때, convolution·pooling 관점을 먼저 떠올립니다.
-- 왜 어떤 위치는 강하게 반응하고 어떤 위치는 약한지 설명해야 할 때, 지역 패턴 점수와 feature map을 다시 봅니다.
-- padding, stride, dilation 차이가 출력 구조를 왜 바꾸는지 설명해야 할 때, 훑는 범위와 간격 선택이라는 관점을 꺼냅니다.
-
 ## 체크리스트
 
 - 합성곱(convolution)과 풀링(pooling)이 각각 무엇을 계산하는지 설명할 수 있는가?
 - 지역 패턴 읽기와 요약이 왜 함께 등장하는지 말할 수 있는가?
+- convolution은 작은 필터로 지역 패턴 점수를 계산하는 연산이라는 점을 설명할 수 있는가?
+- feature map은 필터 반응이 공간적으로 기록된 결과라는 점을 말할 수 있는가?
+- pooling을 `크기 줄이기` 정도로만 말하지 않고, `강한 반응을 요약해 다음 층으로 넘기는 역할`로 설명할 수 있는가?
+- CNN은 지역 패턴 탐지와 요약을 반복하며 표현을 쌓아 간다는 점을 설명할 수 있는가?
+- 연산 이름은 알지만 이미지 위를 어떻게 훑고 무엇을 남기는지가 흐릴 때, convolution·pooling 관점을 먼저 떠올릴 수 있는가?
+- padding, stride, dilation이 모두 `필터를 어떻게 훑을 것인가`를 바꾸는 선택이라는 점을 말할 수 있는가?
 
 ## 출처와 참고 자료
 

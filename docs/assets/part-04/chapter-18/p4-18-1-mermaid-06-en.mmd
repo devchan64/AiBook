@@ -1,0 +1,11 @@
+flowchart TD
+  A["raw features<br/>x1, x2"]
+  B["center around the mean"]
+  C["shared change is strong"]
+  D["PC1-like axis<br/>large combined variation"]
+  E["mismatch is small"]
+  F["PC2-like axis<br/>small leftover difference"]
+
+  A --> B
+  B --> C --> D
+  B --> E --> F

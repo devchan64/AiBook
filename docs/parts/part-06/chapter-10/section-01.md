@@ -1,7 +1,7 @@
 # P6-10.1 RAG의 필요성
 
 > Section ID: `P6-10.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-9.2에서는 프롬프트만으로는 최신성, 근거 보장, 실행 가능성 같은 문제를 해결하기 어렵다는 점을 보았습니다. 여기서 다음 질문이 나옵니다.
 
@@ -387,7 +387,6 @@ tasks = [
     },
 ]
 
-
 def retrieve_docs(task):
     scored = []
     for doc in task["documents"]:
@@ -400,7 +399,6 @@ def retrieve_docs(task):
         scored.append((score, doc))
     scored.sort(key=lambda item: item[0], reverse=True)
     return [doc for score, doc in scored if score > 0][:2]
-
 
 def answer_with_rag(task, retrieved_docs):
     joined = " ".join(doc["text"] for doc in retrieved_docs)
@@ -416,7 +414,6 @@ def answer_with_rag(task, retrieved_docs):
         "answer": answer,
         "grounding_titles": [doc["title"] for doc in retrieved_docs],
     }
-
 
 def inspect_task(task):
     retrieved_docs = retrieve_docs(task)
@@ -437,7 +434,6 @@ def inspect_task(task):
         "rag_answer": rag_result["answer"],
         "inspection": inspection,
     }
-
 
 reports = [inspect_task(task) for task in tasks]
 summary = {
@@ -554,16 +550,7 @@ RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, �
 
 이 절에서 더 중요하게 붙잡아야 할 점은 `그럴듯하게 말하는가`와 `근거를 붙여 답하는가`가 같은 문제가 아니라는 것입니다. 그래서 RAG는 모델을 더 똑똑하게 만드는 장치라기보다, 답변 전에 근거 문서를 먼저 회수하게 해 프롬프트 한계를 구조적으로 보완하는 첫 번째 연결 구조로 읽는 편이 좋습니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 검색된 문서는 실제로 어디에 붙는가?
-- 검색 결과를 많이 넣는다고 항상 답이 좋아지는가?
-
-이 질문은 P6-10.2 검색 결과와 생성의 결합으로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - RAG는 관련 문서를 먼저 찾고, 그 문서를 바탕으로 생성하도록 연결하는 구조입니다.
 - 최신성, 근거, 내부 문서 활용 문제 때문에 RAG가 필요해집니다.
@@ -572,13 +559,9 @@ RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, �
 
 RAG는 `무엇을 근거로 답할까`를 먼저 닫는 구조입니다. 답의 재료를 현재 문서로 다시 고르고, P6-10.2에서는 그 문서를 생성 문맥에 어떻게 붙일지 더 봅니다. 그다음 P6-11에서는 이 근거를 저장 구조와 인덱스로 찾는 문제로 넘어갑니다.
 
-## 체크리스트
-
 - RAG를 `답변 전에 현재 문서를 먼저 붙이는 구조`로 설명할 수 있는가?
 - 프롬프트, 파인튜닝, RAG가 각각 무엇을 먼저 바꾸는지 구분할 수 있는가?
 - 다음 절을 `문서를 왜 붙이는가`가 아니라 `붙인 문서가 실제로 어떻게 답으로 이어지는가`의 문제로 읽을 준비가 되었는가?
-
-## 언제 RAG 필요성 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | RAG 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

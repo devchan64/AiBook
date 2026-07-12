@@ -1,7 +1,7 @@
 # P6-19.1 BERT 계열의 위치
 
 > Section ID: `P6-19.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-3.2에서는 attention과 context window를 구분하며, Transformer가 실제로는 입력 길이 제한 안에서 문맥을 읽는 구조라는 점을 보았습니다. 이제 같은 Transformer 계열 안에서도 방향이 갈라집니다.
 
@@ -238,7 +238,6 @@ examples = [
     "주문을 취소했는데 결제가 그대로 남아 있습니다",
 ]
 
-
 def naive_label(text):
     if "은행" in text:
         return "financial_topic"
@@ -247,7 +246,6 @@ def naive_label(text):
     if "결제" in text:
         return "payment_topic"
     return "unknown"
-
 
 def contextual_read(text):
     if "은행" in text and "돈" in text:
@@ -259,7 +257,6 @@ def contextual_read(text):
     if "주문" in text and "결제" in text and "취소" in text:
         return "order_cancel_with_payment_check", "order_support_intent"
     return "unknown_meaning", "human_review"
-
 
 for text in examples:
     interpreted_meaning, downstream_label = contextual_read(text)
@@ -316,16 +313,7 @@ BERT는 Transformer가 번역 구조에만 머물지 않고, 언어 이해(langu
 
 커리큘럼 관점에서 이 절에서 확인해야 할 결과는 바로 앞의 P6-3.1 Transformer 구조와 P6-4.1 GPT 계열 설명을 기준점으로 삼아, 생성형 AI 시대에도 `읽고 구분하고 연결하는 모델`의 역할이 사라진 것이 아니라 분류, 검색, 임베딩 같은 앞단 과업에서 여전히 별도 축으로 남아 있다는 점을 읽는 것입니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 자연스럽게 남습니다.
-
-- BERT 계열은 실제로 어떤 과업에 많이 쓰였는가?
-- 분류, 검색, 문장쌍 비교, 임베딩은 어떤 흐름으로 이어지는가?
-
-이 질문은 P6-19.2 이해 중심 태스크로 이어집니다.
-
-## 언제 BERT 비교 관점을 먼저 떠올려야 하는가
+## 체크리스트
 
 | 상황 | 먼저 떠올릴 관점 | 왜 중요한가 |
 | --- | --- | --- |
@@ -333,14 +321,10 @@ BERT는 Transformer가 번역 구조에만 머물지 않고, 언어 이해(langu
 | 분류, 검색, 임베딩 작업이 왜 생성 모델과 다른지 잘 안 잡힐 때 | encoder 중심 표현 모델의 위치를 먼저 잡아야 한다는 점 | 입력 전체 문맥을 반영한 표현을 만든다는 차이를 먼저 이해해야 BERT 계열 활용 범위가 선명해집니다. |
 | 다음 절의 이해 중심 태스크가 왜 이어지는지 감이 오지 않을 때 | 구조 비교 다음에 과업 묶음으로 좁혀 간다는 점 | BERT의 위치를 먼저 잡아야 그 표현이 실제 어떤 판단 작업에 쓰였는지 자연스럽게 넘어갑니다. |
 
-## 이 절에서 기억할 관점
-
 - BERT 계열은 encoder 중심 Transformer 흐름으로, 입력 전체를 함께 읽은 뒤 표현을 만드는 쪽으로 이해합니다.
 - 문장 전체 문맥을 반영한 표현이 필요할 때 분류, 검색, 임베딩 과업에서 특히 강점을 확인할 수 있습니다.
 - 생성보다 이해 중심 과업에서 먼저 쓰이는 이유를 출력 구조 차이와 함께 읽는 편이 정확합니다.
 - GPT 계열과의 차이는 어느 쪽이 더 낫다는 문제가 아니라, 어떤 입력·출력 구조와 과업에 맞는가의 차이로 읽는 편이 안전합니다.
-
-## 짧은 점검
 
 - BERT를 `옛 모델`이 아니라 `읽기 중심 Transformer 계열의 대표 비교축`으로 설명할 수 있어야 합니다.
 - BERT와 GPT의 차이를 우열이 아니라 `입력 전체를 읽어 판단값을 만들 것인가`, `다음 출력을 이어 생성할 것인가`의 차이로 말할 수 있어야 합니다.

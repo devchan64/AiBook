@@ -1,7 +1,7 @@
 # P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법
 
 Section ID: `P5-6.3`
-Version: `v2026.07.11`
+Version: `v2026.07.12`
 
 P5-6.2에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
 
@@ -252,19 +252,13 @@ normalized_large_outputs = [-0.141, 1.273, -1.131]
 
 즉, 이 예제는 `초기화가 출발 범위를 바꾸고, batch normalization이 중간 분포를 정리한다`는 점을 보여 주는 최소 장난감 예제입니다.
 
-## 이 절에서 기억할 관점
-
-- 깊은 네트워크는 구조를 쌓는 문제이면서 동시에 계산을 버티게 하는 문제입니다.
-- 초기화는 학습 출발점의 배치 문제입니다.
-- 수치 안정성은 반복 계산 중 값과 gradient가 감당 가능한 범위를 유지하는 문제입니다.
-- batch normalization은 활성값 분포를 더 다루기 쉬운 범위로 정리하는 학습 안정화 장치입니다.
-- optimizer와 regularization은 각각 업데이트 규칙과 일반화 제약을 다루므로, 이 절의 질문과 완전히 같지 않습니다.
-
 ## 체크리스트
 
+- 깊은 네트워크는 구조를 쌓는 문제이면서 동시에 계산을 버티게 하는 문제라는 점을 설명할 수 있는가?
 - 초기화(initialization)를 `출발 가중치 배치`라는 관점으로 설명할 수 있는가?
 - 수치 안정성(numerical stability)을 `깊은 반복 계산이 숫자 범위를 어떻게 흔드는가`라는 관점으로 설명할 수 있는가?
 - batch normalization이 왜 학습 안정화와 mode 차이 설명에 함께 등장하는지 말할 수 있는가?
+- batch normalization은 활성값 분포를 더 다루기 쉬운 범위로 정리하는 학습 안정화 장치라는 점을 설명할 수 있는가?
 - optimizer, regularization, batch normalization이 서로 다른 질문에 답한다는 점을 구분할 수 있는가?
 
 ## 출처와 참고 자료

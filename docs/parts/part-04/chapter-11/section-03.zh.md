@@ -1,7 +1,7 @@
 # P4-11.3 补充学习：第一次如何读 log-odds 与 MLE
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.1 把 logistic regression 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 decision boundary。走到这里，就会自然留下一个问题。
 
@@ -110,6 +110,10 @@ p = \frac{1}{1 + e^{-z}}
 
 也就是说，在 P4-11.2 里说的 `decision boundary 是 linear score \(z = 0\) 的地方`，也可以重新读成 `probability 0.5`、`odds 1`、`log-odds 0` 指向同一个位置。
 
+与其把这件事当作表格来硬背，不如先抓成 `同一个状态被不同刻度重新读取`。
+
+![展示 probability 0.5、odds 1、log-odds 0 指向同一个决策中点的对应图](../../../assets/part-04/chapter-11/p4-11-3-probability-odds-logit-zh.svg)
+
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-zh.mmd"
 ```
@@ -186,7 +190,7 @@ L(w, b) = \prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}
 
 在进入案例前，可以先把本节的比较框架压成下面这样一张表。
 
-| 场景 | 人最容易先用的 기준 | 这个 기준 的限制 | logistic regression 改变的点 | 要确认的结果 |
+| 场景 | 人最容易先用的标准 | 这个标准的限制 | logistic regression 改变的点 | 要确认的结果 |
 | --- | --- | --- | --- | --- |
 | probability 解释 | 只看 0 到 1 的数值 | 看不见它和 linear score 的连接 | 用 log-odds 把 probability 与 linear score 连起来 | \(z = 0\)、\(p = 0.5\)、odds 1 连在一起 |
 | 学习目标 | 只看有没有猜对 | 会漏掉同样 accuracy 里的信心差别 | 用 MLE 与 log loss 重新读取信心差别 | 即使 accuracy 相同，学习评价也会不同 |

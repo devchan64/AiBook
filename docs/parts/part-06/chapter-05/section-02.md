@@ -1,7 +1,7 @@
 # P6-5.2 생성 과정의 직관
 
 > Section ID: `P6-5.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token prediction)이라는 점을 보았습니다. 하지만 사용자 경험은 단지 `다음 한 조각 예측`이라는 말보다 훨씬 복잡해 보입니다.
 
@@ -230,7 +230,6 @@ reply_slots = {
     },
 }
 
-
 def apply_temperature(prob_dict, temperature):
     adjusted = {
         token: prob ** (1.0 / temperature)
@@ -239,14 +238,12 @@ def apply_temperature(prob_dict, temperature):
     total = sum(adjusted.values())
     return {token: adjusted[token] / total for token in adjusted}
 
-
 def greedy_reply(slots, temperature):
     parts = []
     for _, prob_dict in slots.items():
         adjusted = apply_temperature(prob_dict, temperature)
         parts.append(max(adjusted, key=adjusted.get))
     return " ".join(parts)
-
 
 def sample_many(slots, temperature, trials=12, seed=7):
     random.seed(seed)
@@ -262,7 +259,6 @@ def sample_many(slots, temperature, trials=12, seed=7):
         replies.append(" ".join(parts))
     unique_count = len(set(replies))
     return replies, unique_count
-
 
 for temperature in [0.5, 1.0, 1.5]:
     adjusted_opening = apply_temperature(reply_slots["opening"], temperature)
@@ -338,29 +334,16 @@ unique_reply_count = 9
 
 를 서로 다른 문제로 나눠 볼 수 있습니다.
 
-## 다음 장과의 연결
-
-여기까지 오면 이제 다음 질문이 남습니다.
-
-- 이렇게 한 토큰씩 이어 생성하는 구조를 모델은 대규모 데이터에서 먼저 무엇으로 학습하는가?
-- 사전학습(pretraining)은 이 생성 감각을 어떤 방식으로 키우는가?
-
-이 질문은 P6-6.1 사전학습(pretraining)으로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 생성은 확률 분포에서 다음 토큰을 반복 선택하는 과정입니다.
 - greedy와 sampling은 선택 규칙이 다릅니다.
 - temperature는 일반적으로 생성 시 선택 성향을 바꾸는 설정값입니다.
 - 같은 입력에서도 결과가 달라질 수 있는 이유는 생성 절차의 확률적 선택 구조와 연결됩니다.
 
-## 짧은 점검
-
 - `무엇을 학습했는가`와 `무엇을 실제로 뽑는가`를 분리해서 설명할 수 있는가?
 - greedy, sampling, temperature를 각각 안정성·다양성·재현성 관점으로 구분할 수 있는가?
 - 다음 장들을 읽을 때 모델 지식과 출력 선택 규칙을 섞지 않을 준비가 되었는가?
-
-## 언제 생성 선택 규칙 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 생성 선택 규칙 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |
