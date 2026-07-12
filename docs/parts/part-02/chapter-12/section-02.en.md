@@ -1,7 +1,7 @@
 # P2-12.2 Selection, Filtering, and Aggregation
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-12.1, we treated a Pandas `DataFrame` as a table-shaped data structure with rows, columns, and an index. That immediately raises one more question.
 
@@ -537,31 +537,14 @@ This case shows the difference among the three actions at once. Column selection
 
 That is why even short Pandas code should be read together with the structure of the question. Even with the same grade table, `look at one student`, `look at multiple students that satisfy a condition`, and `look at category-wise averages` are different reading actions, and you need to distinguish them so that dataset preparation and model-input construction later do not become confused.
 
-## Perspective to Keep from This Section
-
-| Handle in This Chapter | What the Next Chapter Looks at More Closely | Where It Reappears in Part 3 |
-| --- | --- | --- |
-| The standard for deciding which rows and columns to keep from a table and which summary values to reduce it to | In Matplotlib, what graph shape should we use to inspect this table and its summaries? | When choosing a dataset, splitting columns, creating category-wise summaries, and then preparing model inputs |
-
-- Selecting one column often reads as a `Series`, while selecting multiple columns often reads as a `DataFrame`.
-- `loc` selects by label, and `iloc` selects by position.
-- A condition filter keeps only rows that are `True`.
-- Aggregation is the process of turning many rows into a small number of summary results.
-- `groupby` is a method that groups the same category together and then summarizes.
-
-## Short Check
+## Checklist
 
 - Can you explain the difference between selecting one column and selecting multiple columns?
 - Can you say what `loc` and `iloc` each use as their standard?
 - Can you explain that Boolean conditions are how rows are kept or dropped?
 - Can you explain why aggregations such as mean, count, and maximum are needed?
 - Can you explain `groupby` as a flow of `group first, then summarize`?
-
-## When Should You Recall This Perspective First?
-
-- Recall the perspective of selection, filtering, and aggregation first when you need to decide which rows and columns to keep from a table and by what standard to group and summarize.
-- Return to this Section when you need to organize which questions `loc`, `iloc`, Boolean filters, and `groupby` each answer.
-- Review it again when you need to move from looking at the full original table to extracting only the needed parts and turning them into an analyzable form.
+- Can you explain that selecting one column often reads as a `Series`, while selecting multiple columns often reads as a `DataFrame`?
 
 ## Sources and References
 

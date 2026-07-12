@@ -1,7 +1,7 @@
 # P2-3.6 Checking Linear Algebra with NumPy
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-3.1, we looked at the shapes of scalar, vector, and matrix. In P2-3.2, we looked at the intuition of vector space and position. In P2-3.3, we read matrix multiplication as the reuse of weighted sums. In P2-3.5, we separated Python runtime environments into Google Colab and a local PC.
 
@@ -471,13 +471,7 @@ This case shows why the instruction `look at shape before values` keeps being re
 
 So the core of NumPy practice is less about memorizing syntax and more about rechecking the structure of a formula through shape. The standards for reading whether `*` is element-wise multiplication, whether `@` is matrix multiplication, and how input and output dimensions connect continue directly into later model calculations.
 
-## Perspective to Keep from This Section
-
-NumPy is a tool that lets us confirm linear algebra in code. What matters is not the syntax alone, but the habit of reading formula, shape, and output together. For example, we should read them together like: `formula: xW`, `shape: (2,) @ (2, 2)`, `output: (2,)`, `meaning: receive 2 inputs and make 2 outputs`.
-
-When reading matrix multiplication, we distinguish `*` and `@`. `*` is element-wise multiplication, and `@` is matrix multiplication. This distinction alone can reduce much confusion in AI code.
-
-## Short Check
+## Checklist
 
 - Can you create vectors and matrices as NumPy arrays?
 - Can you check vector and matrix shape with `.shape`?
@@ -486,12 +480,8 @@ When reading matrix multiplication, we distinguish `*` and `@`. `*` is element-w
 - Can you explain that NumPy’s `@` is matrix multiplication?
 - Can you read input shape, weight shape, and output shape in `x @ W`?
 - Can you explain batch calculation that groups several samples into a matrix and applies the same weight matrix?
-
-## When Should You Recall This Perspective First
-
-- When the standard of looking at shape before values keeps slipping away in NumPy code
-- When it becomes confusing what `*` and `@` are each calculating
-- When you need to recheck that formulas, array shapes, and output results are showing the same calculation structure
+- Can you explain the habit of checking formula, shape, and output together in NumPy rather than looking at syntax alone?
+- Can you distinguish `*` and `@` and apply the standard of checking shape before values?
 
 ## Sources and References
 

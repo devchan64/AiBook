@@ -1,7 +1,7 @@
 # P2-5.3 样本(sample)、估计(estimation)、误差(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P2-5.2 中，我们把一组数据的形状看作分布(distribution)，把中心看作均值(mean)，把扩散看作方差(variance)。现在把问题再往前推一步。
 

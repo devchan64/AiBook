@@ -1,7 +1,7 @@
 # P2-11.3 广播与向量化
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P2-11.1 中，我们检查了 NumPy array 的 `shape`、`ndim`、`dtype`。在 P2-11.2 中，我们用 indexing、slicing、axis 来决定从数组的哪一部分读取，以及沿哪个方向计算。
 

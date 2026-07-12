@@ -1,7 +1,7 @@
 # P2-1.2 Where Formulas, Code, and Data Meet
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-1.1, we treated mathematics as the language for reading AI computation. Now we look at where that language actually sits in real learning. When studying AI, formulas, code, and data are not separate things. They are closer to three faces that show the same computation in different ways.
 
@@ -326,25 +326,15 @@ This case shows why Part 2 does not separate formulas from Python. Only when you
 
 So the mean example is not just a simple arithmetic exercise. It is a reduced version of the basic frame for reading all of AI learning. Formula handles the structure of the computation, code handles the execution procedure, and data handles the material of the computation and the thing to be interpreted afterward. This distinction of places continues directly into vectors, matrices, loss, and probability calculations in later chapters.
 
-## Perspective to Remember from This Section
-
-Formula, code, and data are not in competition with one another. They explain one calculation from different positions. A formula is closer to the blueprint of the computation, code is closer to the execution procedure, data is both the material and the verification target of the computation, and the result must be interpreted again in the context of the problem.
-
-If you read Part 2 from this viewpoint, mathematics and software stop separating. Mathematics is checked through code, code is verified with data, and the result is interpreted again by returning to the formula and problem definition.
-
-## Short Check
+## Checklist
 
 - Can you explain that formula, code, and data can express the same computation in different ways?
 - Can you read `y = f(x)` as the relationship among input, function, and output?
 - Can you explain that the shape of data affects the way a computation is carried out?
 - Can you explain that code turns a formula into an executable procedure?
 - Can you explain that output must be interpreted together with data, formula, code, and problem context?
-
-## When Should You Recall This Perspective First?
-
-- When formula, code, and data start looking separated as if they were different topics
-- When you can read example code but still cannot feel what computational structure it is checking
-- When you need to recover the basic frame of the whole model computation again through a small calculation such as a mean
+- Can you explain the flow that mathematics is checked through code, code is verified with data, and the result is interpreted again by returning to the formula and problem definition?
+- When formula, code, and data start looking separated, can you tie them back together as different expressions of the same computation?
 
 ## Sources and References
 

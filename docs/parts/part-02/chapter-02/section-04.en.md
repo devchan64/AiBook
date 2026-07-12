@@ -1,7 +1,7 @@
 # P2-2.4 Why Do Log and Exp Keep Reappearing?
 
 > Section ID: `P2-2.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 After reconnecting limits, one more kind of notation still tends to block later machine learning and deep learning explanations: expressions such as `log`, `exp`, and `e^x`. These are not separate pieces of advanced mathematical decoration. They keep appearing when we explain `how fast a value grows or shrinks`, `how a multiplicative relationship can be reread as an additive one`, and `how to handle a score that behaves like a probability`.
 
@@ -210,13 +210,14 @@ Logs and exponentials are the language that makes calculations easier to read wh
 - `sigmoid`, `softmax`, and `log loss` all call this intuition back when moving between scores and probabilities.
 - When `exp`, `log`, `softmax`, and `log loss` appear in later Parts, first recall `how a score is turned into ratio and loss`.
 
-## Short Check
+## Checklist
 
 - Can you read `exp(x)` as a power of `e`?
 - Can you explain why `log(x)` reads an exponential backward?
 - Can you state the difference between increase by the same amount and increase by the same ratio?
 - Can you explain why taking a log makes several multiplied probabilities easier to read?
 - Can you explain why logs and exponentials reappear in `softmax` and `log loss`?
+- Can you connect exponentials and logs as `same-ratio increase`, `a way to reread multiplication as addition`, and `the calculation that turns scores into probabilities and loss`?
 
 ## Sources and References
 

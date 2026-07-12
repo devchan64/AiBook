@@ -1,7 +1,7 @@
 # P2-2.2 Sigma and Repeated Computation
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-2.1, we reread variables, functions, and expressions. Now we move to the notation for repeated computation that appears very often in formulas.
 
@@ -415,17 +415,7 @@ Sigma notation can unfold in code into a loop, an array operation, and the compu
 
 So rather than memorizing sigma, it is more important to practice expanding it.
 
-## Perspective to Remember from This Section
-
-Sigma is notation that compresses repeated addition. In AI, because there are many data points, the same calculation is often repeated and then the results are gathered through a sum or a mean.
-
-In other words, when there are many data items, the same computation is repeated, the results are summed or averaged, and this appears as sigma notation in formulas and as loops or array computation in code.
-
-When sigma appears, do not see it first as complicated mathematics. Read it as `what is being added, and how many times?`
-
-This perspective keeps returning again when reading mean and variance in P2-5.2, when calculating loss over a whole dataset in P2-6.2, and when handling a bundle of samples in the mini-batch learning context of Part 4. That is why sigma should be seen less as an isolated math symbol and more as the first sign for reading repetition and aggregation in AI computation.
-
-## Short Check
+## Checklist
 
 - Can you explain sigma as compressed notation for repeated addition?
 - Can you distinguish the index, the start position, the end position, and the term to be added?
@@ -435,12 +425,8 @@ This perspective keeps returning again when reading mean and variance in P2-5.2,
 - When sigma appears, can you unfold it by asking, `what is being added, and how many times?`
 - Can you explain why sigma helps later when reading statistics, loss calculation, batch computation, and optimization?
 - Can you expand a simple sigma expression into terms and compute the sum or mean?
-
-## When Should You Recall This Perspective First?
-
-- When, after seeing sigma, you try to memorize a formula immediately instead of unfolding the repeated structure
-- When it becomes blurry that mean, loss, and batch computation all share the same aggregation structure
-- When you need to recover again that loops, array computation, and sigma notation are different expressions of the same calculation
+- Can you explain sigma less as a symbol to memorize and more as the first sign for reading repetition and aggregation?
+- Can you connect mean, loss, and batch computation by explaining that they share the same aggregation structure through sigma and code?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P2-5.3 Sample, Estimation, and Error
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-5.2, we looked at the shape of a data bundle as a distribution, its center as the mean, and its spread as the variance. Now we shift the question one step.
 
