@@ -169,6 +169,7 @@
 - `../README.md`
 - `rules-and-guidelines-summary.md`
 - `manuscript-writing-workflow.md`
+- `python-example-guidelines.md`
 - `concept-glossary-guidelines.md`
 - `../release-notes/sections/README.md`
 - `../../AGENTS.md`

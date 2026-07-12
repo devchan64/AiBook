@@ -47,7 +47,9 @@
 - 원고 작성·수정 워크플로우: `management/guidelines/rules-and-guidelines-summary.md`
   - Section 수정, 예시 보강, 문단 재배치 전에 먼저 본다.
 - 원고 작성 세부 절차: `management/guidelines/manuscript-writing-workflow.md`
-  - Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전에 먼저 본다.
+  - Part/Section 초안 작성, 초심자 보강, 사례 작성 전에 먼저 본다.
+- Python 예제 작성 가이드: `management/guidelines/python-example-guidelines.md`
+  - Python 예제 추가·수정, 코드 블록 유지 여부 판단 전에 먼저 본다.
 - 영문 번역 워크플로우: `management/guidelines/english-translation-guidelines.md`
   - 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
 - 중국어 번역 워크플로우: `management/guidelines/chinese-translation-guidelines.md`
@@ -111,7 +113,8 @@
 - 다음 Part로 넘어간 뒤 그 개념이 다시 핵심 전개를 떠받치면, 그 Part에서 처음 등장하는 Section에서 필요한 범위만 다시 정리하고 다시 개념사전으로 연결합니다.
 - 개념사전 항목은 `중심 Section` 1개와 `등장 Section` 목록을 함께 유지해, 대표 설명 위치와 실제 재등장 위치를 구분하고 위치 표기 오류나 누락이 생기는지 관측할 수 있어야 합니다.
 - Section 말미의 자기 확인 블록은 원칙적으로 `체크리스트` 표지를 사용합니다. 같은 역할의 표지를 `짧은 점검`, `체크리스트`로 혼재시키지 않습니다.
-- 원고 작성, Python 예제, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
+- 원고 작성, 초심자 보강, 사례 작성, Section 공통 구조의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
+- Python 예제의 세부 작성 절차와 금지 패턴은 `management/guidelines/python-example-guidelines.md`를 따릅니다.
 
 ## Section 경계
 

@@ -22,7 +22,8 @@
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
-| `management/guidelines/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, Python 예제, 초심자 보강, 사례 작성 전 |
+| `management/guidelines/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, 초심자 보강, 사례 작성 전 |
+| `management/guidelines/python-example-guidelines.md` | Python 예제 작성 기준 | Python 예제 추가·수정, 코드 블록 유지 여부 판단 전 |
 | `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/guidelines/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `management/release-notes/sections/README.md` | Section 버전 코드와 릴리즈노트 관리 기준 | Section 수정, 번역본 동기화, 개정 이력 기록 전 |
@@ -39,9 +40,10 @@
 
 ## 문서별 역할 분담
 
-- `AGENTS.md`: 프로젝트 목적, 독자 기준, 문서 위치, Section 경계, Python 예제, 용어, 출처, 저작권, 배포, 빌드 검증까지 포함하는 최상위 규칙 문서입니다.
+- `AGENTS.md`: 프로젝트 목적, 독자 기준, 문서 위치, Section 경계, Python 예제 원칙, 용어, 출처, 저작권, 배포, 빌드 검증까지 포함하는 최상위 규칙 문서입니다.
 - `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
-- `management/guidelines/manuscript-writing-workflow.md`: Part/Section 작성, Python 예제, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
+- `management/guidelines/manuscript-writing-workflow.md`: Part/Section 작성, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
+- `management/guidelines/python-example-guidelines.md`: Python 예제의 입력·출력 제시 방식, 금지 패턴, 초심자 점검 기준을 다루는 상세 문서입니다.
 - `management/guidelines/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
 - `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, 제목 앞 인덱스와 `Section ID`의 동일 규칙, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
 - `management/release-notes/sections/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
@@ -66,8 +68,8 @@
 
 ### Python 예제를 넣거나 고칠 때
 
-1. `AGENTS.md`의 Python 예제 규칙
-2. `management/guidelines/manuscript-writing-workflow.md`
+1. `AGENTS.md`의 Python 예제 원칙
+2. `management/guidelines/python-example-guidelines.md`
 3. 현재 Section의 중심 질문과 출력값 점검
 4. 필요하면 `AGENTS.md`의 초심자 보강 기준으로 예제 보강 수준 판단
 
@@ -204,6 +206,7 @@
 
 ## Python 예제 기준
 
+- 세부 기준 원문은 `management/guidelines/python-example-guidelines.md`를 먼저 본다.
 - 코드 앞에 `문제 상황`, `입력(input)`, `기대 출력(output)` 또는 `출력`, `확인할 개념`을 짧게 둡니다.
 - 가능하면 `print` 등으로 실행 결과를 바로 확인하게 합니다.
 - 코드 블록 아래에는 가능하면 실행 결과 예시를 함께 둡니다.

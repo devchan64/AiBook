@@ -27,6 +27,7 @@
 - `english-translation-guidelines.md`
 - `rules-and-guidelines-summary.md`
 - `manuscript-writing-workflow.md`
+- `python-example-guidelines.md`
 
 함께 봐야 하지만 이 폴더 밖에서 관리하는 문서는 다음과 같다.
 
