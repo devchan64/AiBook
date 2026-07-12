@@ -1,7 +1,7 @@
 # P5-12.2 장기 의존성(long-term dependency)
 
 Section ID: `P5-12.2`
-Version: `v2026.07.11`
+Version: `v2026.07.12`
 
 P5-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 위해 등장한 구조라고 설명했습니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -243,7 +243,6 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 rule = "Rule: shipping fee is excluded from refunds."
 question = "Question: what is the final refund amount?"
 
-
 def sequential_state(document, decay=0.72):
     state = {"refund": 0.0, "exclude": 0.0, "fee": 0.0}
     for line in document:
@@ -260,7 +259,6 @@ def sequential_state(document, decay=0.72):
     decision = "keeps exclusion" if support >= 0.45 else "loses exclusion"
     return {key: round(value, 3) for key, value in state.items()}, support, decision
 
-
 def direct_reference(document):
     matches = []
     for idx, line in enumerate(document[:-1], start=1):
@@ -273,7 +271,6 @@ def direct_reference(document):
     best = max(matches)
     decision = "keeps exclusion" if best[0] == 3 else "loses exclusion"
     return best, decision
-
 
 for gap in [1, 3, 6]:
     filler = [f"Detail line {i}: general customer guidance only." for i in range(1, gap + 1)]
@@ -354,38 +351,16 @@ direct_decision = keeps exclusion
 | 왜 LSTM과 GRU가 있어도 문제가 완전히 끝나지 않았는가 | 기억 관리는 나아져도 여전히 순차 전달 부담과 거리 문제가 남기 때문 | 직접 참조 구조로의 발상 전환 |
 | 왜 attention이 단순 성능 개선이 아니라 구조 전환처럼 읽히는가 | `상태에 오래 담아 둔다`에서 `필요할 때 다시 본다`로 질문 자체가 바뀌기 때문 | self-attention과 Transformer 확장 |
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 그렇다면 현재 위치가 과거의 어떤 정보를 더 강하게 참고해야 하는지는 어떻게 정할 수 있는가?
-- 필요한 위치를 더 직접적으로 보는 방식은 무엇인가?
-
-이 질문은 바로 P5-13.1 Attention의 직관으로 이어집니다.
-
-## 이 절에서 기억할 관점
-
-- 장기 의존성은 오래전 정보가 중요한데도 충분히 유지되지 않는 문제입니다.
-- 기본 RNN에서는 시간이 길어질수록 오래전 단서가 약해지기 쉽습니다.
-- LSTM과 GRU는 이 문제를 더 잘 다루려는 구조입니다.
-- attention은 장기 의존성 문제에 더 직접적으로 응답하는 다음 발상입니다.
-
-## 짧은 점검
-
-- 장기 의존성을 `기억이 조금 약해진다` 정도가 아니라 `오래전 단서가 없으면 현재 판단 자체가 흔들리는가`의 문제로 설명할 수 있는가?
-- 상태 보존과 직접 참조를 서로 다른 발상으로 나눠 말할 수 있는가?
-- 다음 장의 attention을 읽을 때도 먼저 `어떤 앞 위치를 다시 봐야 하는가`를 떠올릴 준비가 되어 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 순차 상태 설명만으로는 왜 성능이 막히는지 부족할 때, 장기 의존성 문제를 먼저 떠올립니다.
-- 오래전 단서가 뒤 판단까지 유지되지 않는 이유를 설명해야 할 때, 상태 보존 구조의 거리 문제를 다시 봅니다.
-- attention이 단순 성능 개선이 아니라 발상 전환처럼 읽혀야 할 때, `오래 담아 둔다`에서 `필요할 때 다시 본다`로 바뀌는 질문을 꺼냅니다.
-
 ## 체크리스트
 
 - 장기 의존성(long-term dependency)이 어떤 문제를 뜻하는지 설명할 수 있는가?
 - 오래전 정보를 유지하기 어려운 점이 왜 attention으로 이어지는지 말할 수 있는가?
+- 장기 의존성은 오래전 정보가 중요한데도 충분히 유지되지 않는 문제라는 점을 설명할 수 있는가?
+- 기본 RNN에서는 시간이 길어질수록 오래전 단서가 약해지기 쉽다는 점을 말할 수 있는가?
+- LSTM과 GRU는 이 문제를 더 잘 다루려는 구조라는 점을 설명할 수 있는가?
+- 장기 의존성을 `기억이 조금 약해진다` 정도가 아니라 `오래전 단서가 없으면 현재 판단 자체가 흔들리는가`의 문제로 설명할 수 있는가?
+- 상태 보존과 직접 참조를 서로 다른 발상으로 나눠 말할 수 있는가?
+- 다음 장의 attention을 읽을 때도 먼저 `어떤 앞 위치를 다시 봐야 하는가`를 떠올릴 준비가 되어 있는가?
 
 ## 출처와 참고 자료
 

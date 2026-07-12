@@ -3,6 +3,15 @@
 - Section ID: `P5-summary`
 - Source File: `docs/parts/part-05/summary.md`
 
+### v2026.07.12
+
+- 변경 이유: 메타형 연결 예고 표지가 현재 절 이해보다 집필 순서를 먼저 드러내고 있었음.
+- 본문 반영: 집필 순서만 예고하는 `다음 ... 연결` 계열 표지를 제거했다. 본문 메타데이터 버전도 함께 갱신했다.
+- 번역 동기화 메모: 대응 번역본이 생기면 같은 메타 표지 제거와 단일 checklist 구조를 함께 반영해야 한다.
+- 번역 반영 상태: 향후 번역 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.12`
+
 ### v2026.07.07-1
 
 - 변경 이유: Part 마무리 페이지 후반 질문과 연결 문단에 영어 표면형 중심 용어 묶음이 남아 있어, 본문에서 맞춘 한국어 우선 병기 기준이 다시 약해지고 있었음.
@@ -10,7 +19,7 @@
 - 번역 동기화 메모: Korean-first terminology was reinforced across the latter half of the Part 5 summary page. / wording change only. / pending
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
-- 원문 기준 버전: `v2026.07.07`
+- 원문 기준 버전: `v2026.07.07-1`
 
 ### v2026.07.07-2
 
@@ -19,7 +28,7 @@
 - 번역 동기화 메모: Summary-page bridge wording was generalized to avoid introducing next-part concepts prematurely. / wording change only. / pending
 - 번역 반영 상태: not-started
 - 관련 자산: 없음.
-- 원문 기준 버전: `v2026.07.07`
+- 원문 기준 버전: `v2026.07.07-2`
 
 ### v2026.07.11
 
@@ -37,4 +46,4 @@
 - 번역 동기화 메모: Keep the English Mermaid source aligned with the Korean public include target. / pending
 - 번역 반영 상태: not-started
 - 관련 자산: `docs/assets/part-05/part5-recap-flow-en.mmd`, `docs/assets/part-05/part5-recap-flow-ko.mmd`
-- 원문 기준 버전: `v2026.07.11`
+- 원문 기준 버전: `v2026.07.11-2`
