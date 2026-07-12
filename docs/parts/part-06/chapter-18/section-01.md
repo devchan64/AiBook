@@ -1,7 +1,7 @@
 # P6-18.1 LLM 발전사의 큰 흐름
 
 > Section ID: `P6-18.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-2장에서는 토큰(token)이 임베딩(embedding) 벡터로 바뀌고, 그 벡터 사이의 거리와 유사도(similarity)가 검색과 비교의 기준이 된다는 점을 보았습니다. 이제 질문은 조금 더 역사적인 방향으로 옮겨갑니다.
 
@@ -242,14 +242,11 @@ synonyms = {
     "싶어요": "요청",
 }
 
-
 def tokenize(text):
     return text.replace(",", "").split()
 
-
 def normalize(tokens):
     return [synonyms.get(token, token) for token in tokens]
-
 
 def bigram_counts(tokenized_sentences):
     counts = Counter()
@@ -257,7 +254,6 @@ def bigram_counts(tokenized_sentences):
         for left, right in zip(sent, sent[1:]):
             counts[(left, right)] += 1
     return counts
-
 
 def lexical_search(query, docs):
     query_tokens = set(tokenize(query))
@@ -268,7 +264,6 @@ def lexical_search(query, docs):
         scored.append((doc, score))
     return sorted(scored, key=lambda item: item[1], reverse=True)
 
-
 def normalized_search(query, docs):
     query_tokens = set(normalize(tokenize(query)))
     scored = []
@@ -278,13 +273,11 @@ def normalized_search(query, docs):
         scored.append((doc, score))
     return sorted(scored, key=lambda item: item[1], reverse=True)
 
-
 def read_with_order(sentence):
     tokens = tokenize(sentence)
     if "않습니다" in tokens:
         return "negative"
     return "positive"
-
 
 def attention_like_focus(question, document):
     q_tokens = normalize(tokenize(question))
@@ -294,7 +287,6 @@ def attention_like_focus(question, document):
         score = sum(1 for q_token in q_tokens if q_token == token)
         scores.append((position, token, score))
     return sorted(scores, key=lambda item: item[2], reverse=True)
-
 
 print("[1] bigram counts")
 for pair, count in sorted(bigram_counts(sentences).items()):
@@ -379,16 +371,7 @@ position= 3 token= 안내와 score= 0
 - 이후 BERT, GPT, pretraining, instruction tuning, RAG를 읽을 때 구조적 혼동을 줄이며
 - LLM을 AI 전체와 동일시하는 오해를 줄이기 때문입니다
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 이 큰 흐름 중에서 무엇이 LLM의 `직접 계보`인가?
-- 반대로 무엇은 LLM의 분위기와 확산을 설명하는 `주변 근거`인가?
-
-이 질문은 P6-18.2 직접 계보와 주변 근거로 이어집니다.
-
-## 언제 발전사 배경 관점을 먼저 떠올려야 하는가
+## 체크리스트
 
 | 상황 | 먼저 떠올릴 관점 | 왜 중요한가 |
 | --- | --- | --- |
@@ -396,14 +379,10 @@ position= 3 token= 안내와 score= 0
 | LLM을 갑자기 등장한 단일 기술처럼 느끼기 시작할 때 | 누적된 구조 전환의 결과라는 점 | 지금의 생성 경험은 여러 단계의 계산 관점 변화가 겹친 결과라는 점을 먼저 잡아야 과장된 서사를 줄일 수 있습니다. |
 | 다음 절의 직접 계보와 주변 근거 구분이 왜 필요한지 감이 오지 않을 때 | 먼저 큰 역사 지도를 잡은 뒤 세부 계보를 가른다는 점 | 큰 흐름이 있어야 무엇이 구조 조상이고 무엇이 배경 조건인지 나누는 다음 절이 자연스럽게 이어집니다. |
 
-## 이 절에서 기억할 관점
-
 - LLM은 통계적 언어 모델, 임베딩, 순차 모델, Attention, Transformer, 사전학습이 겹쳐진 결과입니다.
 - Transformer는 중요한 중심 구조이지만, 그 앞단의 문제의식 없이 이해하면 흐름이 끊깁니다.
 - 사전학습은 모델 사용 방식 자체를 바꾸었습니다.
 - LLM은 AI 전체가 아니라 언어와 생성 인터페이스에서 큰 전환을 만든 계열입니다.
-
-## 짧은 점검
 
 - LLM 발전사를 `사건 이름 나열`이 아니라 `계산 관점의 전환 흐름`으로 설명할 수 있어야 합니다.
 - Transformer 이전의 문제의식과 사전학습 이후의 사용 방식 변화가 함께 있어야 현재 LLM을 더 정확히 읽을 수 있다는 점을 말할 수 있어야 합니다.

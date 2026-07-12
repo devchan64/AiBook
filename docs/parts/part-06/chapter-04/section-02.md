@@ -1,7 +1,7 @@
 # P6-4.2 대화형 LLM으로의 전환
 
 > Section ID: `P6-4.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-4.1에서는 GPT 계열을 이전 토큰을 바탕으로 다음 토큰을 이어 생성하는 decoder 중심 흐름으로 설명했습니다. 이제 다음 질문이 생깁니다.
 
@@ -269,7 +269,6 @@ def inspect_response(lines, required_count, blocked_terms):
         "starts_with_structured_answer": any(line.startswith(("첫째", "둘째", "셋째")) for line in lines),
     }
 
-
 def compare_experience(report):
     return {
         "format_followed": report["matches_requested_count"],
@@ -277,7 +276,6 @@ def compare_experience(report):
         "safety_ok": not report["contains_blocked_term"],
         "structured_response": report["starts_with_structured_answer"],
     }
-
 
 autocomplete_report = inspect_response(
     autocomplete_style, required_sentence_count, blocked_terms
@@ -342,29 +340,16 @@ instruction_experience = {'format_followed': True, 'role_followed': True, 'safet
 
 이 함께 묶였기 때문입니다.
 
-## 다음 장과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 대화형 사용자 경험 뒤에 있는 가장 작은 생성 규칙은 무엇인가?
-- 모델은 실제로 어떤 방식으로 다음 출력을 한 토큰씩 이어 가는가?
-
-이 질문은 P6-5.1 다음 토큰 예측(next-token prediction)으로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 대화형 LLM은 단순 자동완성 모델 위에 여러 조정 층이 더해진 사용자 경험입니다.
 - 자연어 지시, 안전 조정, 인터페이스 설계가 함께 중요합니다.
 - 사용자가 만나는 챗봇 경험은 모델 구조 하나만으로 설명되지 않습니다.
 - 이 절은 이후 instruction tuning, alignment, prompt, agent 설명의 기반입니다.
 
-## 짧은 점검
-
 - 대화형 LLM을 `생성 모델 + 조정 + 인터페이스`의 결합으로 설명할 수 있는가?
 - 자동완성과 대화형 응답의 차이를 형식 준수, 역할, 안전 제약 기준으로 구분할 수 있는가?
 - 다음 장들을 모델 자체와 조정층, 도구층을 나누어 읽을 준비가 되었는가?
-
-## 언제 대화형 조정 층을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 대화형 조정 층 관점이 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

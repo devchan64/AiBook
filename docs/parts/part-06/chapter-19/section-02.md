@@ -1,7 +1,7 @@
 # P6-19.2 이해 중심 태스크
 
 > Section ID: `P6-19.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-19.1에서는 BERT 계열을 Transformer 인코더 기반의 표현 모델로 설명했습니다. 그러면 다음 질문이 이어집니다.
 
@@ -254,10 +254,8 @@ synonyms = {
     "장비를": "장비",
 }
 
-
 def tokenize(text):
     return [synonyms.get(token, token) for token in text.replace("?", "").split()]
-
 
 def classify(text):
     tokens = tokenize(text)
@@ -267,14 +265,12 @@ def classify(text):
     best_label = max(scores, key=scores.get)
     return best_label, scores
 
-
 def jaccard_similarity(left, right):
     left_tokens = set(tokenize(left))
     right_tokens = set(tokenize(right))
     intersection = len(left_tokens & right_tokens)
     union = len(left_tokens | right_tokens)
     return round(intersection / union, 2) if union else 0.0
-
 
 def rank_documents(query, docs):
     query_tokens = Counter(tokenize(query))
@@ -284,7 +280,6 @@ def rank_documents(query, docs):
         score = sum(min(query_tokens[token], doc_tokens[token]) for token in query_tokens)
         ranked.append((doc, score))
     return sorted(ranked, key=lambda item: item[1], reverse=True)
-
 
 print("[classification]")
 for text in classification_examples:
@@ -384,7 +379,7 @@ BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니
 
 커리큘럼 관점에서 이 절은 GPT 계열과의 대비를 만들기 위한 기반입니다. 바로 앞의 P6-19.1에서 잡은 `encoder 중심 읽기 모델` 관점을 실제 태스크 흐름으로 펼쳐 봐야, GPT 계열이 왜 다른 사용 경험을 열었는지도 정확히 설명할 수 있습니다. 이후 검색, 임베딩, RAG로 넘어갈 때도 이 절의 판단 중심 관점을 다시 사용합니다.
 
-## 본류와의 연결
+## 판단 중심 태스크 비교가 GPT 이해를 어떻게 돕는가
 
 여기까지 오면 이 배경 비교가 왜 필요한지 더 분명해집니다.
 
@@ -393,7 +388,7 @@ BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니
 
 이 질문은 본류의 P6-4.1 GPT 계열의 위치를 다시 읽게 만듭니다. 즉, 이 절은 새 순서를 이끄는 절이 아니라, 앞서 읽은 GPT 중심 설명을 비교 관점으로 다시 정리하는 배경 장입니다.
 
-## 언제 이해 중심 태스크 관점을 먼저 떠올려야 하는가
+## 체크리스트
 
 | 상황 | 먼저 떠올릴 관점 | 왜 중요한가 |
 | --- | --- | --- |
@@ -401,14 +396,10 @@ BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니
 | 생성형 AI만 떠올리다 보니 앞단 판단 작업의 중요성이 흐려질 때 | 읽기 중심 과업도 서비스에서 큰 비중을 가진다는 점 | 처리 큐 분류, FAQ 검색, 관련도 판단 같은 작업은 긴 생성보다 먼저 필요한 경우가 많습니다. |
 | GPT 계열과의 차이를 다시 읽고 싶은데 기준이 모호할 때 | 판단 출력과 생성 출력의 차이를 비교해야 한다는 점 | 이 절을 통해 `입력을 읽고 무엇을 판단하나`를 먼저 잡아야 GPT 본류의 사용자 경험 변화도 더 선명해집니다. |
 
-## 이 절에서 기억할 관점
-
 - 이해 중심 태스크는 입력을 읽고 라벨, 점수, 관련도, 임베딩 같은 판단 결과를 내는 작업입니다.
 - 분류, 문장쌍 판단, 검색, 임베딩은 모두 `입력을 읽고 어떤 판단값이나 관련도 표현을 만든다`는 흐름으로 묶을 수 있습니다.
 - BERT 계열은 입력 전체를 함께 읽은 표현을 만든 뒤 그 표현을 바로 판단 과업으로 연결하기 때문에 이런 작업과 특히 잘 맞습니다.
 - 이 대비가 앞서 읽은 GPT 계열 설명을 더 선명하게 다시 정리하게 만듭니다.
-
-## 짧은 점검
 
 - 이해 중심 태스크를 `입력을 읽고 라벨·점수·관련도·임베딩을 내는 작업 묶음`으로 설명할 수 있어야 합니다.
 - 분류, 검색, 문장쌍 판단, 임베딩이 서로 다른 이름이라도 같은 판단 흐름으로 묶인다는 점을 말할 수 있어야 합니다.

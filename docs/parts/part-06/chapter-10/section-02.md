@@ -1,7 +1,7 @@
 # P6-10.2 검색 결과와 생성의 결합
 
 > Section ID: `P6-10.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-10.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제 한 단계 더 들어가야 합니다.
 
@@ -257,7 +257,6 @@ payloads = [
     },
 ]
 
-
 def generate_from_payload(payload):
     first = payload["docs"][0]["text"]
     second = payload["docs"][1]["text"]
@@ -269,7 +268,6 @@ def generate_from_payload(payload):
         f"벡터 검색은 {first} "
         "그래서 항상 최신 정보와 정답을 자동으로 보장한다."
     )
-
 
 def inspect_payload(payload, answer):
     contains_irrelevant_doc = any("무관" in doc["text"] for doc in payload["docs"])
@@ -285,7 +283,6 @@ def inspect_payload(payload, answer):
         "retrieval_failed": contains_irrelevant_doc,
         "generation_failed": (not contains_irrelevant_doc) and answer_overclaims,
     }
-
 
 reports = []
 for payload in payloads:
@@ -396,16 +393,7 @@ RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한�
 - 다음 장의 벡터 데이터베이스와 인덱스가 왜 필요한지 준비시키며
 - 이후 평가 장에서 `검색 품질`과 `답변 품질`을 따로 점검해야 한다는 관점을 만들기 때문입니다
 
-## 다음 장과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 검색은 어떤 자료구조와 저장 구조 위에서 빨라지는가?
-- 텍스트를 벡터로 저장하고 찾는 시스템은 어떤 역할을 하는가?
-
-이 질문은 P6-11.1 벡터 데이터베이스(vector database)로 이어집니다.
-
-## 언제 검색-생성 결합 관점을 먼저 떠올려야 하는가
+## 체크리스트
 
 | 먼저 떠올릴 질문 | 검색-생성 결합 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |
@@ -413,14 +401,10 @@ RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한�
 | 왜 문서를 많이 넣는 것이 항상 더 좋은 답으로 이어지지 않을까? | 관련성, 순서, 발췌 방식이 나쁘면 오히려 입력 맥락을 오염시킬 수 있기 때문입니다. | chunking, re-ranking, 인덱스 품질 |
 | 같은 오답처럼 보여도 왜 어떤 경우는 검색을, 어떤 경우는 생성을 먼저 고쳐야 할까? | 검색 실패와 생성 실패가 다른 기록과 다른 조치를 요구하기 때문입니다. | retrieval 기록과 답변 평가 분리 |
 
-## 이 절에서 기억할 관점
-
 - 검색 결과는 생성 전에 입력 맥락으로 붙습니다.
 - 많이 넣는 것보다 관련성 있게 잘 넣는 것이 더 중요합니다.
 - 검색 실패와 생성 실패는 구분해야 합니다.
 - 이 절은 다음 장의 벡터 데이터베이스와 인덱스 설명의 직접 기반입니다.
-
-## 체크리스트
 
 - 검색 결과가 답변 뒤가 아니라 생성 전 입력 구성 요소라는 점을 설명할 수 있는가?
 - 검색 실패와 생성 실패를 서로 다른 문제로 분리해 말할 수 있는가?

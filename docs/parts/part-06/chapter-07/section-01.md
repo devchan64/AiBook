@@ -1,7 +1,7 @@
 # P6-7.1 파인튜닝(fine-tuning)
 
 > Section ID: `P6-7.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-6.1에서는 넓은 언어 기반을 먼저 만드는 사전학습을 보았습니다. 하지만 사전학습만으로는 아직 `우리 업무 기준에 맞는 반응`이 자동으로 생기지 않습니다. 이 절은 생성 구조 위에 올라간 학습 축이 이제 `범용 기반 만들기`에서 `목적 맞춤 조정`으로 어떻게 좁혀지는지 설명합니다.
 
@@ -301,7 +301,6 @@ queries = [
     },
 ]
 
-
 def overlap_score(a, b):
     replacements = ["을", "를", "이", "가", "은", "는", ".", ","]
     for token in replacements:
@@ -311,10 +310,8 @@ def overlap_score(a, b):
     b_tokens = set(b.split())
     return len(a_tokens & b_tokens)
 
-
 def retrieve_best_example(query_text):
     return max(examples, key=lambda item: overlap_score(query_text, item["text"]))
-
 
 def base_model_response(query_text, best_example):
     label_to_phrase = {
@@ -325,14 +322,12 @@ def base_model_response(query_text, best_example):
     }
     return label_to_phrase[best_example["label"]]
 
-
 def fine_tuned_style_response(best_example):
     return (
         f"label={best_example['label']}"
         f"|priority={best_example['priority']}"
         f"|team={best_example['team']}"
     )
-
 
 def parse_label(response):
     if "label=" in response:
@@ -347,11 +342,9 @@ def parse_label(response):
     }
     return phrase_map.get(response)
 
-
 def check_format(response):
     required_fields = ["label=", "priority=", "team="]
     return all(field in response for field in required_fields)
-
 
 base_matches = 0
 tuned_matches = 0
@@ -469,29 +462,16 @@ tuned_format_ok_count = 4
 
 따라서 파인튜닝은 LLM 시대에 갑자기 생긴 낯선 발명이라기보다, `큰 기반을 만들고 나중에 목적별로 적응시키는 흐름`이 더 널리 보이게 된 결과로 이해하면 좋습니다.
 
-## 다음 절과의 연결
-
-여기서 바로 현실 문제가 나옵니다.
-
-- 거대한 모델 전체를 늘 다시 조정해야 하는가?
-- 더 적은 비용으로 일부만 효율적으로 조정할 수는 없는가?
-
-이 질문은 P6-7.2 LoRA와 효율적 조정으로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - 파인튜닝은 사전학습된 모델을 특정 과업이나 도메인에 맞게 추가 조정하는 과정입니다.
 - 프롬프트는 입력을 바꾸고, 파인튜닝은 모델 내부 가중치 조정을 포함합니다.
 - 파인튜닝은 형식 일관성과 과업 적합성에 유리할 수 있지만 만능 해결책은 아닙니다.
 - 최신성이나 외부 근거 문제는 RAG가 더 적합한 경우가 많습니다.
 
-## 짧은 점검
-
 - 파인튜닝을 `범용 기반 위에 목적 맞춤 조정을 얹는 단계`로 설명할 수 있는가?
 - 프롬프트, 파인튜닝, RAG가 각각 무엇을 바꾸는지 구분할 수 있는가?
 - 다음 절을 `파인튜닝이 필요할 때 그 비용을 어떻게 줄일 것인가`의 문제로 읽을 준비가 되었는가?
-
-## 언제 파인튜닝 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 파인튜닝 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

@@ -1,7 +1,7 @@
 # P6-14.1 MCP와 도구 연결
 
 > Section ID: `P6-14.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-13.2에서는 에이전트(agent)가 계획, 행동, 관찰의 반복 구조를 가진다는 점을 보았습니다. 이 절에서는 이런 도구와 상태를 여러 시스템 사이에서 더 일관되게 연결하려면 무엇이 필요한지 봅니다.
 
@@ -277,7 +277,6 @@ MCP가 있다고 해서:
 ```python
 from pprint import pprint
 
-
 connection_layers = [
     {
         "name": "consistent_layer",
@@ -308,7 +307,6 @@ connection_layers = [
         ],
     },
 ]
-
 
 requests = [
     {
@@ -341,20 +339,17 @@ requests = [
     },
 ]
 
-
 def find_tool(layer, tool_name):
     for tool in layer["tools"]:
         if tool.get("name") == tool_name:
             return tool
     return None
 
-
 def find_resource(layer, resource_name):
     for resource in layer["resources"]:
         if resource.get("name") == resource_name:
             return resource
     return None
-
 
 def run_request(layer, request):
     tool = find_tool(layer, request["tool_needed"])
@@ -425,7 +420,6 @@ def run_request(layer, request):
         "used_payload": request["payload"],
         "failure_reason": None,
     }
-
 
 layer_reports = []
 for layer in connection_layers:
@@ -596,16 +590,7 @@ for report in layer_reports:
 
 이 절에서 더 중요하게 붙잡아야 할 점은 `모델이 무엇을 말하는가`와 `그 모델이 어떤 시스템과 어떤 형식으로 연결되는가`가 같은 문제가 아니라는 것입니다. 그래서 MCP는 도구를 더 붙이는 기술이 아니라, agent와 tool use가 늘어날수록 연결 방식을 덜 제각각으로 만들기 위한 공통 인터페이스 관점으로 읽는 편이 좋습니다.
 
-## 다음 절과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 연결 형식이 정리되어도, 실행을 안정적으로 감싸고 로그와 평가를 남기는 구조는 무엇인가?
-- 에이전트 실행을 반복 가능하게 관리하려면 무엇이 더 필요한가?
-
-이 질문은 P6-14.2 하네스(harness)로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 | 지금 이 절에서 정리한 것 | 바로 다음에 붙는 질문 | 이 용어가 맡는 층위 |
 | --- | --- | --- |
@@ -618,13 +603,9 @@ for report in layer_reports:
 
 MCP는 `무엇과 어떻게 연결할까`를 일정한 형식으로 정리하는 연결 인터페이스 구조입니다. 핵심은 도구와 자원을 덜 제각각으로 노출하는 데 있습니다.
 
-## 체크리스트
-
 - MCP를 `새 모델 능력`이 아니라 `도구와 자원을 공통 형식으로 드러내는 연결 인터페이스 관점`으로 설명할 수 있어야 합니다.
 - 모델 문제와 연결 문제를 다른 층위로 나눠 봐야 한다는 점을 말할 수 있어야 합니다.
 - 다음 절은 연결을 다시 설명하는 절이 아니라, 이렇게 연결된 실행을 어떤 기록과 재현 환경 안에서 관리할지로 질문이 이동한다는 점을 잡고 있어야 합니다.
-
-## 언제 MCP 관점을 먼저 떠올려야 하는가
 
 | 상황 | 먼저 떠올릴 관점 | 왜 중요한가 |
 | --- | --- | --- |

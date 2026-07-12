@@ -1,7 +1,7 @@
 # P6-7.2 LoRA와 효율적 조정
 
 > Section ID: `P6-7.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-7.1에서는 파인튜닝(fine-tuning)이 사전학습된 모델을 특정 목적에 더 잘 맞게 추가 조정하는 과정이라는 점을 보았습니다. 하지만 여기서 바로 현실적인 다음 질문이 생깁니다.
 
@@ -245,10 +245,8 @@ lora_trainable_per_task = 8_000_000
 # float16 기준으로 파라미터 하나를 대략 2 bytes로 가정
 bytes_per_param = 2
 
-
 def to_gb(param_count):
     return round(param_count * bytes_per_param / (1024 ** 3), 2)
-
 
 full_total_trainable = full_finetuning_trainable_per_task * len(tasks)
 lora_total_trainable = lora_trainable_per_task * len(tasks)
@@ -304,29 +302,16 @@ lora_extra_storage_gb = 0.04
 
 LoRA는 갑자기 튀어나온 단발 기술이라기보다, 큰 사전학습 모델을 더 적은 비용으로 목적 적응시키려는 흐름 안에 있습니다. 이 흐름에는 adapter, prefix tuning, prompt tuning 같은 계열도 함께 등장합니다.
 
-## 다음 장과의 연결
-
-여기까지 오면 이제 다음 질문이 남습니다.
-
-- 단순 도메인 적응을 넘어서, 사용자의 자연어 지시를 더 잘 따르도록 만드는 과정은 무엇인가?
-- 유용성과 안전성을 함께 맞추는 정렬(alignment) 문제는 어디서 등장하는가?
-
-이 질문은 P6-8.1 지시 튜닝(instruction tuning)으로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - LoRA는 큰 기반 모델을 효율적으로 조정하려는 방법입니다.
 - 전체 파인튜닝과 달리 작은 추가 조정분 중심으로 학습합니다.
 - 비용, 저장, 버전 관리 측면에서 실무적 장점이 있습니다.
 - 하지만 품질 검증과 데이터 품질 문제를 대신 해결해 주지는 않습니다.
 
-## 짧은 점검
-
 - `파인튜닝이 필요하다`와 `전체 모델을 다시 조정해야 한다`를 같은 말로 보지 않는 이유를 설명할 수 있는가?
 - LoRA를 `본체 유지 + 작은 조정분 학습`이라는 말로 설명할 수 있는가?
 - 다음 절을 low-rank나 QLoRA의 이름 구분을 위한 보강 절로 읽을 준비가 되었는가?
-
-## 언제 효율적 조정 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 효율적 조정 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

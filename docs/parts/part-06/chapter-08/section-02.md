@@ -1,7 +1,7 @@
 # P6-8.2 정렬(alignment)의 기본 문제
 
 > Section ID: `P6-8.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-8.1에서는 지시 튜닝(instruction tuning)이 모델을 더 `assistant-like`하게 만드는 조정 단계라는 점을 보았습니다. 하지만 여기서 바로 더 어려운 문제가 나옵니다.
 
@@ -242,7 +242,6 @@ task_policy = {
     "internal_summary": {"min_safety": 3, "min_factuality": 2},
 }
 
-
 def evaluate_helpfulness(task_name, response):
     score = 0
     reasons = []
@@ -262,7 +261,6 @@ def evaluate_helpfulness(task_name, response):
         score += 1
         reasons.append("다음 행동이나 확인 포인트를 제시함")
     return score, reasons
-
 
 def evaluate_safety(response):
     score = 3
@@ -294,7 +292,6 @@ def evaluate_safety(response):
         reasons.append("사람 확인 또는 점검 경로가 없음")
     return max(score, 0), reasons
 
-
 def evaluate_factuality(response):
     score = 2
     reasons = []
@@ -318,7 +315,6 @@ def evaluate_factuality(response):
         score -= 1
         reasons.append("근거 없이 즉시 실행하거나 그대로 공개해도 된다고 단정함")
     return max(score, 0), reasons
-
 
 for task_name, task in tasks.items():
     best_candidate = None
@@ -478,29 +474,16 @@ alignment는 `잘 말하는 모델`을 만드는 문제가 아니라, 여러 업
 
 이 절에서 먼저 붙잡아야 할 점은 `지시를 따르는가`와 `어디까지 허용할 것인가`가 같은 문제가 아니라는 것입니다. 그래서 alignment는 유창한 답변을 더 만드는 절이 아니라, 여러 업무 장면에서 어떤 응답을 통과시키고 어디서 멈출지를 고르는 기준으로 읽는 편이 좋습니다.
 
-## 다음 장과의 연결
-
-여기까지 오면 이제 다음 질문이 남습니다.
-
-- 모델이 기대와 다르게 동작할 때 무엇을 먼저 손봐야 하는가?
-- 프롬프트, 파인튜닝, RAG, 도구 사용은 어떤 문제를 서로 다르게 겨냥하는가?
-
-이 질문은 P6-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까로 이어집니다.
-
-## 이 절에서 기억할 관점
+## 체크리스트
 
 - alignment는 모델 행동이 사람의 의도, 안전 기준, 사회적 제약과 얼마나 맞는지 다루는 문제입니다.
 - helpfulness, safety, factuality는 같은 말이 아닙니다.
 - 지시를 잘 따르는 모델도 위험할 수 있으므로, 지시 튜닝 다음에는 정렬 문제가 거의 반드시 등장합니다.
 - alignment는 모델만의 문제가 아니라 서비스 정책과 운영 구조의 문제이기도 합니다.
 
-## 짧은 점검
-
 - `잘 답한다`와 `허용 가능한 행동을 한다`를 다른 문제로 설명할 수 있는가?
 - helpfulness, safety, factuality를 각각 다른 실패 유형과 연결해 말할 수 있는가?
 - 다음 절을 기술 이름보다 `어떤 부족을 먼저 고칠 것인가`의 선택 문제로 읽을 준비가 되었는가?
-
-## 언제 정렬 관점을 먼저 떠올려야 하는가
 
 | 먼저 떠올릴 질문 | 정렬 관점이 먼저 필요한 이유 | 바로 다음 절이나 뒤 장에서 이어질 것 |
 | --- | --- | --- |

@@ -1,7 +1,7 @@
 # P6-11.2 인덱스(index)와 검색 품질
 
 > Section ID: `P6-11.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P6-11.1에서는 벡터 데이터베이스가 임베딩 벡터와 원문, 메타데이터를 함께 저장하고 검색 단계에서 실무형 저장소 역할을 한다는 점을 보았습니다. 이제 질문은 더 구체적이 됩니다.
 
@@ -264,7 +264,6 @@ queries = [
     },
 ]
 
-
 def inspect_search(result, target_doc):
     top1 = result["candidates"][0]
     return {
@@ -279,7 +278,6 @@ def inspect_search(result, target_doc):
         "top1_is_target": top1 == target_doc,
         "top1_version_ok": top1.startswith("sdk_v2_"),
     }
-
 
 def summarize_mode(queries, mode_name):
     reports = []
@@ -299,7 +297,6 @@ def summarize_mode(queries, mode_name):
     version_ok_rate = round(version_ok_count / len(queries), 3)
     avg_latency = round(total_latency / len(queries), 1)
     return reports, hit_rate, top1_hit_rate, version_ok_rate, avg_latency
-
 
 fast_reports, fast_hit_rate, fast_top1_hit_rate, fast_version_ok_rate, fast_avg_latency = summarize_mode(queries, "fast")
 strict_reports, strict_hit_rate, strict_top1_hit_rate, strict_version_ok_rate, strict_avg_latency = summarize_mode(queries, "strict")
@@ -392,16 +389,7 @@ strict_latency_per_hit = 85.0
 - 이후 평가 장에서 검색 지표를 왜 별도로 봐야 하는지 준비시키며
 - 서비스 구조에서 속도, 비용, 품질이 함께 얽힌다는 관점을 강화하기 때문입니다
 
-## 다음 장과의 연결
-
-여기까지 오면 다음 질문이 남습니다.
-
-- 검색된 정보를 넘어서, 모델이 외부 기능을 직접 호출해야 하는 경우는 무엇인가?
-- 문서 검색과 도구 사용은 어떻게 다른가?
-
-이 질문은 P6-12.1 도구 사용(tool use)으로 이어집니다.
-
-## 언제 인덱스와 검색 품질 관점을 먼저 떠올려야 하는가
+## 체크리스트
 
 | 상황 | 먼저 떠올릴 관점 | 왜 중요한가 |
 | --- | --- | --- |
@@ -409,14 +397,10 @@ strict_latency_per_hit = 85.0
 | 모델이 아니라 검색 설정이 원인인지 의심해야 할 때 | 정답 문서가 top-k 안에 들어왔는지 먼저 확인해야 한다는 점 | 생성 모델이 잘못 답한 것처럼 보여도 실제로는 검색 단계에서 근거 문서를 회수하지 못했을 수 있습니다. |
 | `빠른 검색`을 곧바로 `좋은 검색`으로 받아들이려 할 때 | 근사 탐색은 빠르지만 정답 후보를 일부 놓칠 수 있다는 점 | 인덱스 선택과 파라미터 조정은 속도뿐 아니라 회수 품질 관점에서 함께 판단해야 합니다. |
 
-## 이 절에서 기억할 관점
-
 - 인덱스는 검색 속도를 높이기 위한 탐색 구조입니다.
 - 벡터 검색에서는 속도와 정확도 사이의 균형을 함께 고민합니다.
 - 검색 품질은 인덱스뿐 아니라 임베딩, chunking, 메타데이터 전략에도 영향을 받습니다.
 - RAG 답변 품질은 검색 품질과 직접 연결됩니다.
-
-## 체크리스트
 
 - 인덱스를 `탐색 속도를 높이는 구조`로만이 아니라 `속도와 품질을 함께 좌우하는 탐색 구조`로 설명할 수 있어야 합니다.
 - `top-k 안에 정답이 포함되는가`와 `1등 결과가 바로 정답인가`를 서로 다른 품질 지표로 구분할 수 있어야 합니다.
