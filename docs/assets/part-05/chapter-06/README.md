@@ -7,6 +7,7 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
+  - `learning-inference-parameter-bridge-en.mmd` / `learning-inference-parameter-bridge-ko.mmd`
   - `training-vs-inference-flow-en.mmd` / `training-vs-inference-flow-ko.mmd`
   - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-ko.mmd`
   - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd`

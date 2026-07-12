@@ -11,7 +11,7 @@ P5-6.2에서는 학습 모드(training mode)와 평가 모드(evaluation mode)�
 
 초기화는 학습이 시작될 출발점을 정하고, 수치 안정성은 값과 gradient가 계산 중에 너무 커지거나 작아지지 않게 보는 기준이며, batch normalization은 학습 중 활성값 분포를 더 다루기 쉬운 범위로 정리해 주는 장치다.
 
-이 축이 다시 흐려질 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#학습-모드training-mode), [배치 정규화(batch normalization)](../../../reference/concept-glossary.md#glossary-batch-normalization), [초기화(initialization)](../../../reference/concept-glossary.md#glossary-initialization), [수치 안정성(numerical stability)](../../../reference/concept-glossary.md#glossary-numerical-stability) 항목을 함께 다시 보는 편이 좋습니다.
+이 축이 다시 흐려질 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode), [배치 정규화(batch normalization)](../../../reference/concept-glossary.md#batch-normalization), [초기화(initialization)](../../../reference/concept-glossary.md#initialization), [수치 안정성(numerical stability)](../../../reference/concept-glossary.md#numerical-stability) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 이 절의 범위
 

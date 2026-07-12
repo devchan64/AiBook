@@ -153,22 +153,30 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 이 표에서 독자가 먼저 붙잡아야 할 결과는, learning과 inference를 가르는 핵심이 `출력 변화 유무`가 아니라 `손실과 업데이트가 실제로 붙어 파라미터가 바뀌었는가`라는 점입니다.
 
+세 사례를 한 번에 다시 압축하면, learning과 inference를 읽는 첫 흐름은 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-06/learning-inference-parameter-bridge-ko.mmd"
+```
+
+이 도식은 경보 로그, 검사 이미지, 현장 지원 채팅 사례를 따로 다시 설명하려는 것이 아니라, 세 사례가 공통으로 보여 준 `새 입력을 처리해 출력이 달라지는 것`과 `손실-업데이트가 붙어 파라미터가 바뀌는 것`을 한 번에 다시 구분하기 위한 것입니다.
+
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 선형 모델이 `학습 데이터`를 볼 때는 가중치를 바꾸고, `서비스 입력`을 볼 때는 가중치를 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다.
+이번 예제의 목표는 같은 작은 위험 점수 모델이 `학습 배치`를 볼 때는 위험 가중치를 바꾸고, `서비스 입력`을 볼 때는 그 가중치를 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다.
 
 입력:
 
-- 학습 샘플 3개
-- 초기 가중치 `w`
+- 학습용 경보 샘플 3개
+- 초기 위험 가중치 `risk_weight`
 - 학습률 `learning_rate`
 
 출력:
 
-- step별 예측값, 손실, 가중치 변화
+- step별 위험 점수 예측값, 손실, 위험 가중치 변화
 - 학습 완료 뒤 inference 결과
-- inference 전후 가중치 비교
-- 같은 가중치로 여러 서비스 입력을 처리했을 때 출력만 달라지는지 확인
+- inference 전후 위험 가중치 비교
+- 같은 위험 가중치로 여러 서비스 입력을 처리했을 때 출력만 달라지는지 확인
 
 문제 상황:
 
@@ -183,86 +191,91 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 입력(input):
 
-위에 정리한 학습 데이터, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
+학습 배치에서는 `alarm_count`를 받아 `predicted_block_score`를 만들고, 목표값 `target_block_score`와 비교해 `risk_weight`를 갱신한다고 가정합니다. 이후 서비스 구간에서는 새 `alarm_count`가 들어와도 같은 `risk_weight`를 그대로 사용하는지만 확인합니다.
 
 코드를 보기 전에 먼저 어느 구간에서만 `weight`가 바뀔지 예상해 보면 좋습니다.
 
 | 구간 | 먼저 예상해 볼 비교 | 예상 이유 |
 | --- | --- | --- |
-| `train step 1~3` | `weight_before`와 `weight_after`가 달라질 가능성 | 손실과 gradient를 이용해 실제 업데이트를 수행하기 때문입니다. |
-| `service input 4.0` | 출력은 계산되지만 `weight`는 유지될 가능성 | inference는 현재 파라미터를 사용만 하기 때문입니다. |
-| `service input 5.0` | 출력은 달라질 수 있어도 `weight`는 여전히 같을 가능성 | 입력 변화와 파라미터 변화는 별개이기 때문입니다. |
+| `train step 1~3` | `risk_weight_before`와 `risk_weight_after`가 달라질 가능성 | 손실과 gradient를 이용해 실제 업데이트를 수행하기 때문입니다. |
+| `service alarm_count=4.0` | 출력은 계산되지만 `risk_weight`는 유지될 가능성 | inference는 현재 파라미터를 사용만 하기 때문입니다. |
+| `service alarm_count=5.0` | 출력은 달라질 수 있어도 `risk_weight`는 여전히 같을 가능성 | 입력 변화와 파라미터 변화는 별개이기 때문입니다. |
 
 이 표의 목적은 `출력 변화`와 `파라미터 변화`를 분리해서 읽는 것입니다.
 
 ```python
-train_data = [
-    (1.0, 3.0),
-    (2.0, 6.0),
-    (3.0, 9.0),
+train_alarm_data = [
+    {"alarm_count": 1.0, "target_block_score": 3.0},
+    {"alarm_count": 2.0, "target_block_score": 6.0},
+    {"alarm_count": 3.0, "target_block_score": 9.0},
 ]
 
-w = 0.5
+risk_weight = 0.5
 learning_rate = 0.1
 
-def predict(x, w):
-    return x * w
+def predict_block_score(alarm_count, risk_weight):
+    return alarm_count * risk_weight
 
-print("initial_weight =", round(w, 3))
+print("initial_risk_weight =", round(risk_weight, 3))
 
-for step, (x, target) in enumerate(train_data, start=1):
-    prediction = predict(x, w)
-    loss = (prediction - target) ** 2
-    gradient_w = 2 * (prediction - target) * x
-    new_w = w - learning_rate * gradient_w
+for step, sample in enumerate(train_alarm_data, start=1):
+    alarm_count = sample["alarm_count"]
+    target_block_score = sample["target_block_score"]
+    prediction = predict_block_score(alarm_count, risk_weight)
+    loss = (prediction - target_block_score) ** 2
+    gradient_risk_weight = 2 * (prediction - target_block_score) * alarm_count
+    new_risk_weight = risk_weight - learning_rate * gradient_risk_weight
     print(
         f"train step {step}: "
-        f"x={x}, target={target}, prediction={prediction:.3f}, "
-        f"loss={loss:.3f}, weight_before={w:.3f}, weight_after={new_w:.3f}"
+        f"alarm_count={alarm_count}, target_block_score={target_block_score}, "
+        f"prediction={prediction:.3f}, loss={loss:.3f}, "
+        f"risk_weight_before={risk_weight:.3f}, risk_weight_after={new_risk_weight:.3f}"
     )
-    w = new_w
+    risk_weight = new_risk_weight
 
-weight_before_inference = w
-service_inputs = [4.0, 5.0]
-for x in service_inputs:
+weight_before_inference = risk_weight
+service_alarm_counts = [4.0, 5.0]
+for alarm_count in service_alarm_counts:
     print(
-        f"inference: x={x}, prediction={predict(x, w):.3f}, weight_used={w:.3f}"
+        f"inference: alarm_count={alarm_count}, "
+        f"prediction={predict_block_score(alarm_count, risk_weight):.3f}, "
+        f"risk_weight_used={risk_weight:.3f}"
     )
 print("weight_before_inference =", round(weight_before_inference, 3))
-print("weight_after_inference =", round(w, 3))
+print("weight_after_inference =", round(risk_weight, 3))
 ```
 
 출력에서는 학습 단계의 weight_before/after 변화와 inference 단계의 weight 불변을 먼저 비교하면 됩니다.
 
 ```text
-initial_weight = 0.5
-train step 1: x=1.0, target=3.0, prediction=0.500, loss=6.250, weight_before=0.500, weight_after=1.000
-train step 2: x=2.0, target=6.0, prediction=2.000, loss=16.000, weight_before=1.000, weight_after=2.600
-train step 3: x=3.0, target=9.0, prediction=7.800, loss=1.440, weight_before=2.600, weight_after=3.320
+initial_risk_weight = 0.5
+train step 1: alarm_count=1.0, target_block_score=3.0, prediction=0.500, loss=6.250, risk_weight_before=0.500, risk_weight_after=1.000
+train step 2: alarm_count=2.0, target_block_score=6.0, prediction=2.000, loss=16.000, risk_weight_before=1.000, risk_weight_after=2.600
+train step 3: alarm_count=3.0, target_block_score=9.0, prediction=7.800, loss=1.440, risk_weight_before=2.600, risk_weight_after=3.320
 weight_before_inference = 3.32
-inference: x=4.0, prediction=13.280, weight_used=3.320
-inference: x=5.0, prediction=16.600, weight_used=3.320
+inference: alarm_count=4.0, prediction=13.280, risk_weight_used=3.320
+inference: alarm_count=5.0, prediction=16.600, risk_weight_used=3.320
 weight_after_inference = 3.32
 ```
 
-여기서는 학습 step에서 `weight`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 `weight`가 유지된다는 점을 먼저 확인하면 됩니다.
+여기서는 학습 step에서 `risk_weight`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 `risk_weight`가 유지된다는 점을 먼저 확인하면 됩니다.
 
-- 학습 step에서는 `weight_before`와 `weight_after`가 다르므로 파라미터가 실제로 바뀝니다
-- inference에서는 서로 다른 입력을 넣어도 `weight_used`가 계속 같고, `weight_before_inference`와 `weight_after_inference`도 같습니다
+- 학습 step에서는 `risk_weight_before`와 `risk_weight_after`가 다르므로 파라미터가 실제로 바뀝니다
+- inference에서는 서로 다른 입력을 넣어도 `risk_weight_used`가 계속 같고, `weight_before_inference`와 `weight_after_inference`도 같습니다
 - 즉, 서비스 입력을 많이 넣는다고 자동으로 재학습이 일어나는 것은 아닙니다
 
 | 구간 | 지금 읽어야 할 핵심 |
 | --- | --- |
-| `train step 1~3` | 출력과 손실을 본 뒤 실제 update가 붙으므로 `weight`가 계속 달라집니다. |
-| `inference x=4.0` | 새 입력을 처리해도 현재 `weight`를 그대로 사용합니다. |
-| `inference x=5.0` | 출력은 달라지지만, 바뀐 것은 입력이지 파라미터가 아닙니다. |
+| `train step 1~3` | 출력과 손실을 본 뒤 실제 update가 붙으므로 `risk_weight`가 계속 달라집니다. |
+| `inference alarm_count=4.0` | 새 입력을 처리해도 현재 `risk_weight`를 그대로 사용합니다. |
+| `inference alarm_count=5.0` | 출력은 달라지지만, 바뀐 것은 입력이지 파라미터가 아닙니다. |
 
 이 결과를 `출력 변화`와 `파라미터 변화` 기준으로 다시 묶으면 차이가 더 또렷합니다.
 
 | 실행 결과에서 보인 차이 | 결과만 보면 남기 쉬운 해석 | learning/inference 관점에서 다시 읽는 해석 |
 | --- | --- | --- |
-| `train step 1~3`에서 prediction이 계속 달라진다 | 그냥 입력을 여러 번 본 결과라고 느끼기 쉽다 | 손실과 update가 붙어 `weight` 자체가 바뀌었기 때문이라고 읽는다 |
-| `inference x=4.0`, `x=5.0`에서 prediction이 달라진다 | 출력이 달라졌으니 모델도 같이 변했다고 느끼기 쉽다 | 입력만 달라졌고 `weight_used`는 그대로라고 읽는다 |
+| `train step 1~3`에서 prediction이 계속 달라진다 | 그냥 경보 샘플을 여러 번 본 결과라고 느끼기 쉽다 | 손실과 update가 붙어 `risk_weight` 자체가 바뀌었기 때문이라고 읽는다 |
+| `inference alarm_count=4.0`, `alarm_count=5.0`에서 prediction이 달라진다 | 출력이 달라졌으니 모델도 같이 변했다고 느끼기 쉽다 | 입력만 달라졌고 `risk_weight_used`는 그대로라고 읽는다 |
 | `weight_before_inference`와 `weight_after_inference`가 같다 | 출력도 나왔으니 뭔가 학습이 있었을 수 있다고 느끼기 쉽다 | inference는 계산만 했고 파라미터는 고정됐다고 읽는다 |
 
 이 표까지 읽고 나면, learning과 inference의 핵심이 `둘 다 forward를 쓴다`가 아니라 `언제 update가 실제로 붙는가`를 구분하는 일이라는 점이 더 분명해집니다.

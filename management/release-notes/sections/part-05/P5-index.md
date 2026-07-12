@@ -47,3 +47,19 @@
 - 번역 반영 상태: not-started
 - 관련 자산: `docs/assets/part-05/part5-learning-map-en.mmd`, `docs/assets/part-05/part5-learning-map-ko.mmd`
 - 원문 기준 버전: `v2026.07.11-2`
+
+### v2026.07.12-diagram
+- 변경 이유: Part 5 시작 페이지의 한국어 학습 지도 도식에 `attention`, `Transformer` 같은 영문 내부 라벨이 남아 있어 본문 언어와 완전히 맞지 않았다.
+- 자산 반영: `part5-learning-map-ko.mmd`의 구조 분기 라벨을 `어텐션과 셀프 어텐션`, `트랜스포머 블록`으로 정리했다.
+- 번역 동기화 메모: The Korean learning-map asset now localizes the remaining attention/Transformer labels while preserving the same chapter-flow structure. Future translations should keep language-specific labels on their own asset files.
+- 번역 반영 상태: 향후 번역 반영 필요
+- 관련 자산: `docs/assets/part-05/part5-learning-map-ko.mmd`
+- 원문 기준 버전: `v2026.07.12`
+
+### v2026.07.12-zh-link
+- 변경 이유: 중국어 시작 페이지가 아직 존재하지 않는 중국어 개념사전 상대경로를 가리켜 MkDocs 다국어 빌드 경고를 만들고 있었다.
+- 번역 반영: `index.zh.md`의 개념사전 복귀 링크를 상대경로 `concept-glossary.md`에서 언어 전환이 명시된 영어 개념사전 절대경로 `/AiBook/en/reference/concept-glossary/`로 바꿨다.
+- 번역 동기화 메모: The Simplified Chinese overview page now uses an explicit language-switch link to the English glossary because a Chinese glossary page is not open yet. If a Chinese glossary is created later, this link should move back to the same-language target.
+- 번역 반영 상태: 중국어 간체 번역 반영
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.12`

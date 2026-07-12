@@ -1,0 +1,8 @@
+flowchart TD
+    A[New input arrives] --> B[Output is recalculated]
+    B --> C[No loss or update]
+    C --> D[Parameters stay fixed]
+
+    E[Training batch arrives] --> F[Prediction is compared with target]
+    F --> G[Loss, gradient, update follow]
+    G --> H[Parameters are changed]

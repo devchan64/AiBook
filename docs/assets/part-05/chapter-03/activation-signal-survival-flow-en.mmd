@@ -1,0 +1,12 @@
+flowchart TD
+    A[Weak combined signal] --> B[Linear score z stays low]
+    B --> C[Activation nearly cuts it]
+    C --> D[Little signal reaches next layer]
+
+    E[Borderline combined signal] --> F[Linear score z barely rises]
+    F --> G[Activation leaves a small positive]
+    G --> H[Weak signal barely survives]
+
+    I[Strong combined signal] --> J[Linear score z rises clearly]
+    J --> K[Activation keeps it active]
+    K --> L[Strong signal reaches next layer]

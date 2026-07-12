@@ -203,8 +203,8 @@ P5-15.1이 `생성 모델은 무엇을 배우는가`를 설명하는 절이었�
 
 입력:
 
-- 같은 점검 결과 prefix
-- 뒤에 붙을 수 있는 네 개의 운영 안내 후보
+- 같은 점검 결과 안내 prefix
+- 뒤에 붙을 수 있는 네 개의 운영 안내 문구 후보
 - 각 후보의 상대적 비중
 
 출력:
@@ -233,27 +233,27 @@ P5-15.1이 `생성 모델은 무엇을 배우는가`를 설명하는 절이었�
 
 입력(input):
 
-위에 정리한 점검 결과 prefix, 대응 문구 목록, 상대 가중치를 사용합니다.
+위에 정리한 점검 결과 안내 prefix, 대응 문구 목록, 상대 가중치를 사용합니다.
 
 ```python
 import random
 
-prefix = "배치 점검 결과"
-candidates = [
+inspection_prefix = "배치 점검 결과"
+response_candidates = [
     "재확인이 필요합니다.",
     "담당자 확인 후 재개합니다.",
     "10분 뒤 재측정합니다.",
     "현재 기준에서는 정상으로 유지합니다.",
 ]
-weights = [0.46, 0.24, 0.18, 0.12]
+response_weights = [0.46, 0.24, 0.18, 0.12]
 
-argmax_choice = candidates[weights.index(max(weights))]
-argmax_sentences = [f"{prefix} {argmax_choice}" for _ in range(5)]
+argmax_choice = response_candidates[response_weights.index(max(response_weights))]
+argmax_sentences = [f"{inspection_prefix} {argmax_choice}" for _ in range(5)]
 
 random.seed(7)
-sampled_choices = [random.choices(candidates, weights=weights, k=1)[0] for _ in range(20)]
-sampled_sentences = [f"{prefix} {choice}" for choice in sampled_choices]
-counts = {candidate: sampled_choices.count(candidate) for candidate in candidates}
+sampled_choices = [random.choices(response_candidates, weights=response_weights, k=1)[0] for _ in range(20)]
+sampled_sentences = [f"{inspection_prefix} {choice}" for choice in sampled_choices]
+counts = {candidate: sampled_choices.count(candidate) for candidate in response_candidates}
 avg_length = round(sum(len(sentence) for sentence in sampled_sentences) / len(sampled_sentences), 1)
 
 print("argmax_sentences =", argmax_sentences)
@@ -276,14 +276,14 @@ average_sampled_length = 21.6
 - argmax 방식은 `재확인이 필요합니다.` 하나만 반복하므로, 가장 보수적인 대응은 일관되지만 운영 표현 폭이 매우 좁습니다
 - sampling 방식은 재확인 문구가 가장 자주 나오더라도, `담당자 확인 후 재개합니다.`, `10분 뒤 재측정합니다.` 같은 다른 조치 문구도 실제 출력에 남길 수 있습니다
 - 빈도와 평균 길이를 함께 보면, 샘플링은 `어떤 대응이 얼마나 자주 나오나`뿐 아니라 `설명 밀도와 조치 선택 폭`까지 바꾼다는 점이 드러납니다
-- 따라서 `weights`를 계산한 단계와 `실제 문장을 어떤 절차로 꺼냈는가`를 분리해서 보지 않으면, 같은 모델인데 왜 결과 경험이 달라지는지 설명하기 어렵습니다
+- 따라서 `response_weights`를 계산한 단계와 `실제 문장을 어떤 절차로 꺼냈는가`를 분리해서 보지 않으면, 같은 모델인데 왜 결과 경험이 달라지는지 설명하기 어렵습니다
 
 이 결과도 단순히 `다르다`에서 멈추지 말고, 어떤 값을 바꿔 보면 다양성과 안정성 균형이 어떻게 흔들리는지 바로 확인할 수 있어야 합니다.
 
 | 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
 | --- | --- | --- |
 | `argmax_sentences`가 모두 같은 문장이다 | 가장 높은 후보 비중을 더 높이거나 낮춰 보수적 메시지가 얼마나 빨리 고정되는지 본다 | argmax가 항상 나쁘다고 단정하지 않는다 |
-| `counts`에서 재확인 문구가 가장 많지만 다른 대응도 남아 있다 | `weights`를 더 평평하게 하거나 더 뾰족하게 바꿔 대응 폭이 어떻게 달라지는지 본다 | sampling이 곧바로 더 좋은 품질을 만든다고 단정하지 않는다 |
+| `counts`에서 재확인 문구가 가장 많지만 다른 대응도 남아 있다 | `response_weights`를 더 평평하게 하거나 더 뾰족하게 바꿔 대응 폭이 어떻게 달라지는지 본다 | sampling이 곧바로 더 좋은 품질을 만든다고 단정하지 않는다 |
 | `average_sampled_length`가 달라질 수 있다 | 더 긴 안내 문구를 추가하거나 제거해 설명 밀도와 반복성이 함께 어떻게 바뀌는지 본다 | 길이가 늘어난 것이 자동으로 더 좋은 답이라는 결론으로 바로 가지 않는다 |
 
 여기서 한 걸음 더 나가면, 이 절의 예제를 `샘플링 민감도 실험`으로 읽는 편이 좋습니다.
@@ -291,7 +291,7 @@ average_sampled_length = 21.6
 | 먼저 바꿔 볼 값 | 무엇이 흔들리는지 보게 되는가 | 이 절에서 먼저 확인할 결과 |
 | --- | --- | --- |
 | 가장 높은 후보 비중을 0.46에서 0.65로 높인다 | argmax와 sampling 결과가 얼마나 더 비슷해지는가 | 재확인 중심 메시지 반복성이 더 강해지고 변주 폭은 줄어드는가 |
-| `weights`를 더 평평하게 만든다 | 낮은 후보가 실제 안내 문구로 얼마나 더 자주 등장하는가 | `counts` 분포가 넓어지고 조치 폭도 함께 달라지는가 |
+| `response_weights`를 더 평평하게 만든다 | 낮은 후보가 실제 안내 문구로 얼마나 더 자주 등장하는가 | `counts` 분포가 넓어지고 조치 폭도 함께 달라지는가 |
 | 후보 문장에 더 긴 설명형 후속 조치를 추가한다 | 표현 다양성뿐 아니라 설명 밀도도 함께 바뀌는가 | sampling이 길이 분포와 운영 표현 밀도까지 흔든다는 점이 더 분명해지는가 |
 
 즉, 이 절의 예제는 `argmax와 sampling이 다르다`는 확인에 머무르지 않고, `후보 분포를 흔들면 운영 메시지와 후속 조치 표현이 어떻게 달라지는가`를 직접 보게 해야 더 실험적입니다.

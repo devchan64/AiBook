@@ -12,5 +12,6 @@
   - `self-attention-target-shift-en.mmd` / `self-attention-target-shift-ko.mmd`
   - `self-attention-token-graph-en.mmd` / `self-attention-token-graph-ko.mmd`
   - `single-vs-multihead-baseline-en.mmd` / `single-vs-multihead-baseline-ko.mmd`
+  - `multihead-decision-condition-case-flow-en.mmd` / `multihead-decision-condition-case-flow-ko.mmd`
   - `qkv-flow-en.mmd` / `qkv-flow-ko.mmd`
   - `multihead-flow-en.mmd` / `multihead-flow-ko.mmd`

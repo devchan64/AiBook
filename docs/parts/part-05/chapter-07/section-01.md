@@ -158,6 +158,14 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 | 손실이 계속 흔들리는 학습 | 모델이 아예 못 배우는 것으로 보기 쉽습니다. | 방향은 있어도 보폭이 너무 커 좋은 지점을 반복해서 지나치고 있을 수 있습니다. | 손실 진동이 `학습 실패`인지 `과한 update`인지 구분해 봅니다. |
 | 큰 모델 학습 | 가중치 수만 많아졌을 뿐 같은 방식으로 업데이트하면 된다고 보기 쉽습니다. | 층별 gradient 스케일과 update 안정성이 다를 수 있어 더 정교한 규칙이 필요할 수 있습니다. | 일부 층만 과하게 흔들리거나 거의 멈추지 않는지 봅니다. |
 
+세 사례를 한 번에 다시 압축하면, optimizer를 읽는 첫 흐름은 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-07/optimizer-step-bridge-ko.mmd"
+```
+
+이 도식은 느린 학습, 흔들리는 학습, 큰 모델 학습을 따로 다시 설명하려는 것이 아니라, 세 사례가 공통으로 보여 준 `같은 gradient라도 update rule과 보폭이 실제 결과를 바꾼다`는 흐름을 한 번에 다시 붙잡기 위한 것입니다.
+
 ## 연습 및 예제
 
 이번 예제의 목표는 gradient 계산과 실제 update를 분리해서 보는 것입니다. 한 번의 업데이트뿐 아니라 여러 learning rate를 같이 비교해, gradient는 같아도 실제 이동 폭이 크게 달라질 수 있음을 눈으로 확인합니다.
@@ -208,29 +216,29 @@ target_block_score = 6.0
 risk_weight = 1.0
 prediction = pressure_unrecovered * risk_weight
 loss = (prediction - target_block_score) ** 2
-gradient_w = 2 * (prediction - target_block_score) * pressure_unrecovered
+gradient_risk_weight = 2 * (prediction - target_block_score) * pressure_unrecovered
 
 print("predicted_block_score =", round(prediction, 3))
 print("loss =", round(loss, 3))
-print("gradient_w =", round(gradient_w, 3))
+print("gradient_risk_weight =", round(gradient_risk_weight, 3))
 for lr in [0.01, 0.1, 0.5]:
-    updated_w = risk_weight - lr * gradient_w
-    updated_prediction = pressure_unrecovered * updated_w
+    updated_risk_weight = risk_weight - lr * gradient_risk_weight
+    updated_prediction = pressure_unrecovered * updated_risk_weight
     updated_loss = (updated_prediction - target_block_score) ** 2
     print(
         "lr =", lr,
-        "-> updated_risk_weight =", round(updated_w, 3),
+        "-> updated_risk_weight =", round(updated_risk_weight, 3),
         ", updated_block_score =", round(updated_prediction, 3),
         ", updated_loss =", round(updated_loss, 3),
     )
 ```
 
-출력에서는 `predicted_block_score`, `loss`, `gradient_w`를 먼저 보고, learning rate마다 `updated_risk_weight`가 얼마나 달라지는지 이어서 보면 됩니다.
+출력에서는 `predicted_block_score`, `loss`, `gradient_risk_weight`를 먼저 보고, learning rate마다 `updated_risk_weight`가 얼마나 달라지는지 이어서 보면 됩니다.
 
 ```text
 predicted_block_score = 2.0
 loss = 16.0
-gradient_w = -16.0
+gradient_risk_weight = -16.0
 lr = 0.01 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
 lr = 0.1 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
 lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
@@ -240,7 +248,7 @@ lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_los
 
 이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 
-- gradient는 그대로인데 결과는 달라질 수 있습니다.
+- `gradient_risk_weight`는 그대로인데 결과는 달라질 수 있습니다.
 - 달라지는 이유는 학습률과 업데이트 규칙이 다르기 때문입니다.
 - `0.1`은 목표에 가까워졌지만 `0.5`는 방향은 맞아도 너무 크게 움직여 오히려 손실을 키웠습니다.
 - 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아닙니다.

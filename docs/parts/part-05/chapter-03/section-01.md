@@ -159,6 +159,12 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b,\qquad a = f(z)
 | 배관 곡선과 계기판 테두리가 비슷한 선을 가지면 쉽게 헷갈린다고만 본다 | 같은 선 신호라도 특정 조합일 때만 더 크게 살아나는 표현이 가능하다고 본다 |
 | 단서의 양만 중요하다고 느끼기 쉽다 | 단서가 어떤 구간에서 잘리고 남는지가 더 중요하다고 본다 |
 
+```mermaid
+--8<-- "assets/part-05/chapter-03/activation-visual-signal-case-flow-ko.mmd"
+```
+
+이 도식은 사례 1의 긴 문장을 다시 그리는 것이 아니라, `약함 -> 경계 -> 강함`에 따라 시각 단서 조합이 어떻게 다른 \(z\)와 활성화 결과로 갈라지는지 한 번에 되짚게 하려는 목적입니다.
+
 ### 사례 2. 운영 표 데이터
 
 설비 상태 표에서 `최근 경보 수`, `압력 복귀 지연 시간`, `재기동 실패 횟수`를 함께 본다고 해 봅시다. 사람은 이 수치들을 그대로 조금씩 더하면 현재 위험 상태를 충분히 읽을 수 있다고 느끼기 쉽습니다.
@@ -202,7 +208,21 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b,\qquad a = f(z)
 | 낮은 신호도 계속 조금씩 영향 준다고 느끼기 쉽다 | 활성화 뒤에는 실제로 0이 되어 다음 층에 거의 안 갈 수 있다 |
 | 왜 특정 조건 조합에서만 반응이 커지는지 흐릴 수 있다 | 어느 구간부터 표현이 살아나는지 더 직접적으로 설명할 수 있다 |
 
+```mermaid
+--8<-- "assets/part-05/chapter-03/activation-tabular-signal-case-flow-ko.mmd"
+```
+
+이 도식은 사례 2에서 `약함 -> 경계 -> 강함`에 따라 운영 신호 조합이 어떻게 다른 \(z\)와 활성화 결과로 갈라지는지 빠르게 다시 확인하게 해 줍니다.
+
 즉, 활성화 함수는 다양한 데이터 도메인에서 `복잡한 규칙을 표현하게 하는 공통 장치`로 이해할 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 값이 조금씩 더해지는 단순 점수 합이 아니라, 특정 조건 조합에서만 위험 신호가 실제로 더 크게 반응하는가입니다.
+
+두 사례를 한 장면으로 다시 압축하면, 독자가 붙잡아야 할 흐름은 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-03/activation-signal-survival-flow-ko.mmd"
+```
+
+이 도식은 사례 1의 시각 신호와 사례 2의 운영 표 데이터를 따로 다시 그리려는 목적이 아니라, 두 사례가 공통으로 보여 준 `약함 -> 거의 잘림`, `경계 -> 약하게 남음`, `강함 -> 크게 살아남음`의 활성화 흐름을 한 번에 다시 읽게 하려는 목적입니다.
 
 두 사례를 나란히 놓고 보면, 활성화 함수의 역할은 `음수는 0으로 자른다` 수준에서 끝나지 않습니다.
 
@@ -219,10 +239,12 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b,\qquad a = f(z)
 
 입력:
 
-- 두 개의 입력값
-- 두 개의 가중치
+- 최근 경보 수
+- 압력 복귀 지연 시간
+- 재기동 실패 횟수
+- 세 신호에 대응하는 가중치
 - 편향
-- 네 가지 다른 입력 케이스
+- 네 가지 다른 운영 상태 케이스
 
 출력:
 
@@ -242,16 +264,16 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b,\qquad a = f(z)
 
 입력(input):
 
-위에 정리한 입력값, 가중치, 편향을 사용합니다.
+운영 표 사례와 같은 흐름으로, 중간 노드 하나가 `최근 경보 수`, `압력 복귀 지연 시간`, `재기동 실패 횟수`를 받아 선형 점수 \(z\)를 만든다고 가정합니다.
 
 코드를 보기 전에 먼저 각 입력이 활성화 뒤에 어떻게 보일지 예상해 보면 좋습니다.
 
 | 케이스 | 먼저 예상해 볼 결과 | 예상 이유 |
 | --- | --- | --- |
-| `stable_with_minor_noise` | `z`와 `a`가 모두 작은 양수 | 일부 신호는 상쇄되지만 기준 위에는 남을 가능성이 있습니다. |
-| `recovery_dominant_signal` | `z`는 음수, `a`는 `0` | 복구 쪽 신호보다 안정 신호가 더 커 보여 다음 층에 거의 안 남을 수 있습니다. |
-| `borderline_warning_signal` | `z`와 `a`가 모두 0에 가까운 작은 양수 | 간신히 살아남는 신호라 경계 바로 위에 걸릴 가능성이 있습니다. |
-| `strong_warning_signal` | `z`와 `a`가 모두 큰 양수 | 두 입력 조합이 기준을 충분히 넘길 가능성이 큽니다. |
+| `brief_alarm_recovered` | `z`는 음수, `a`는 `0` | 경보가 잠깐 있었어도 복귀가 빠르고 실패가 없으면 기준 아래에 머물 가능성이 큽니다. |
+| `recovery_dominant_signal` | `z`는 음수, `a`는 `0` | 복구 지연이 거의 없고 실패도 없으면 다음 층에 거의 안 남을 수 있습니다. |
+| `borderline_warning_signal` | `z`와 `a`가 모두 0에 가까운 작은 양수 | 경보와 지연이 조금 겹쳐 경계 바로 위에 걸릴 가능성이 있습니다. |
+| `strong_warning_signal` | `z`와 `a`가 모두 큰 양수 | 경보 반복, 복귀 지연, 재기동 실패가 함께 겹쳐 기준을 충분히 넘길 가능성이 큽니다. |
 
 이 표의 목적은 정확한 소수점 값을 맞히는 것이 아니라, `활성화 함수가 선형 점수를 그대로 복사하지 않고 일부 신호를 잘라낼 것`, `같은 양수라도 경계 바로 위와 충분히 큰 양수를 다르게 읽어야 한다`는 점을 먼저 예상해 보는 데 있습니다.
 
@@ -259,22 +281,28 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b,\qquad a = f(z)
 def relu(z):
     return max(0.0, z)
 
-w1 = 0.7
-w2 = 0.9
-b = -0.1
+w_alarm = 0.6
+w_delay = 0.8
+w_restart = 1.0
+b = -1.5
 
 examples = {
-    "stable_with_minor_noise": (1.0, -0.5),
-    "recovery_dominant_signal": (0.1, -1.0),
-    "borderline_warning_signal": (0.8, -0.4),
-    "strong_warning_signal": (1.2, 0.3),
+    "brief_alarm_recovered": {"alarm_count": 1, "recovery_delay": 0.3, "restart_failures": 0},
+    "recovery_dominant_signal": {"alarm_count": 1, "recovery_delay": 0.1, "restart_failures": 0},
+    "borderline_warning_signal": {"alarm_count": 2, "recovery_delay": 0.9, "restart_failures": 0},
+    "strong_warning_signal": {"alarm_count": 4, "recovery_delay": 1.5, "restart_failures": 2},
 }
 
-for name, (x1, x2) in examples.items():
-    z = x1 * w1 + x2 * w2 + b
+for name, values in examples.items():
+    z = (
+        values["alarm_count"] * w_alarm
+        + values["recovery_delay"] * w_delay
+        + values["restart_failures"] * w_restart
+        + b
+    )
     a = relu(z)
     print(f"[{name}]")
-    print("inputs =", {"x1": x1, "x2": x2})
+    print("inputs =", values)
     print("linear score z =", round(z, 3))
     print("after activation =", round(a, 3))
     print("---")
@@ -283,51 +311,51 @@ for name, (x1, x2) in examples.items():
 출력에서는 각 `inputs`에 대해 `linear score z`가 먼저 계산되고, 음수 점수가 `after activation`에서 어떻게 0으로 바뀌는지 이어서 보면 됩니다.
 
 ```text
-[stable_with_minor_noise]
-inputs = {'x1': 1.0, 'x2': -0.5}
-linear score z = 0.15
-after activation = 0.15
+[brief_alarm_recovered]
+inputs = {'alarm_count': 1, 'recovery_delay': 0.3, 'restart_failures': 0}
+linear score z = -0.66
+after activation = 0.0
 ---
 [recovery_dominant_signal]
-inputs = {'x1': 0.1, 'x2': -1.0}
-linear score z = -0.93
+inputs = {'alarm_count': 1, 'recovery_delay': 0.1, 'restart_failures': 0}
+linear score z = -0.82
 after activation = 0.0
 ---
 [borderline_warning_signal]
-inputs = {'x1': 0.8, 'x2': -0.4}
-linear score z = 0.1
-after activation = 0.1
+inputs = {'alarm_count': 2, 'recovery_delay': 0.9, 'restart_failures': 0}
+linear score z = 0.42
+after activation = 0.42
 ---
 [strong_warning_signal]
-inputs = {'x1': 1.2, 'x2': 0.3}
-linear score z = 1.01
-after activation = 1.01
+inputs = {'alarm_count': 4, 'recovery_delay': 1.5, 'restart_failures': 2}
+linear score z = 4.1
+after activation = 4.1
 ---
 ```
 
-이 예제에서 중요한 것은 활성화 함수가 단순히 숫자를 복사하는 것이 아니라, 다음 층이 읽게 될 값을 바꾼다는 점입니다. `recovery_dominant_signal`처럼 선형 점수가 음수면 ReLU 뒤에서 0으로 잘리고, `strong_warning_signal`처럼 충분히 큰 신호는 그대로 살아남는다는 차이가 드러납니다.
+이 예제에서 중요한 것은 활성화 함수가 단순히 숫자를 복사하는 것이 아니라, 다음 층이 읽게 될 값을 바꾼다는 점입니다. `brief_alarm_recovered`, `recovery_dominant_signal`처럼 선형 점수가 음수면 ReLU 뒤에서 0으로 잘리고, `borderline_warning_signal`은 약하게만 남고, `strong_warning_signal`은 크게 살아남는다는 차이가 드러납니다.
 
 | 케이스 | z | 활성화 뒤 값 | 다음 층 입장에서 읽히는 상태 | 지금 읽어야 할 핵심 |
 | --- | --- | --- | --- | --- |
-| `stable_with_minor_noise` | `0.15` | `0.15` | 잡음은 있지만 약하게만 남는 신호 | 작은 양수는 살아남더라도 강한 경고와 같은 뜻이 아니다 |
-| `recovery_dominant_signal` | `-0.93` | `0.0` | 거의 전달되지 않는 신호 | 음수 구간은 아예 끊긴다 |
-| `borderline_warning_signal` | `0.1` | `0.1` | 간신히 살아남는 약한 신호 | 경계 바로 위의 약한 양수는 간신히 살아남는다 |
-| `strong_warning_signal` | `1.01` | `1.01` | 다음 층이 계속 활용하기 쉬운 강한 신호 | 충분히 큰 양수는 강한 신호로 그대로 남는다 |
+| `brief_alarm_recovered` | `-0.66` | `0.0` | 잠깐 흔들렸지만 다음 층까지는 거의 안 가는 신호 | 경보가 한 번 있었어도 다른 신호가 약하면 완전히 잘릴 수 있다 |
+| `recovery_dominant_signal` | `-0.82` | `0.0` | 거의 전달되지 않는 신호 | 음수 구간은 아예 끊긴다 |
+| `borderline_warning_signal` | `0.42` | `0.42` | 간신히 살아남는 약한 신호 | 경계 바로 위의 약한 양수는 간신히 살아남는다 |
+| `strong_warning_signal` | `4.1` | `4.1` | 다음 층이 계속 활용하기 쉬운 강한 신호 | 충분히 큰 양수는 강한 신호로 그대로 남는다 |
 
 이 표를 `선형 점수만 볼 때`와 다시 연결하면 차이가 더 분명해집니다.
 
 | 비교 질문 | 선형 점수만 볼 때 남기 쉬운 해석 | 활성화 뒤까지 보면 바뀌는 해석 |
 | --- | --- | --- |
-| 어떤 입력을 다음 층이 사실상 무시하게 되는가 | 음수도 단지 작은 점수라고만 읽기 쉽다 | `recovery_dominant_signal`은 실제로 `0`이 되어 거의 전달되지 않는다 |
-| 어떤 입력이 겨우 경계를 넘은 상태인가 | 0.1도 1.01도 둘 다 양수라고만 읽기 쉽다 | `borderline_warning_signal`은 약하게, `strong_warning_signal`은 강하게 남는다 |
+| 어떤 입력을 다음 층이 사실상 무시하게 되는가 | 음수도 단지 작은 점수라고만 읽기 쉽다 | `brief_alarm_recovered`, `recovery_dominant_signal`은 실제로 `0`이 되어 거의 전달되지 않는다 |
+| 어떤 입력이 겨우 경계를 넘은 상태인가 | 0.42도 4.1도 둘 다 양수라고만 읽기 쉽다 | `borderline_warning_signal`은 약하게, `strong_warning_signal`은 강하게 남는다 |
 | 왜 활성화가 깊이를 의미 있게 만드는가 | 선형 점수 크기 비교만으로 끝나기 쉽다 | 어떤 신호를 끊고 어떤 신호를 살릴지 바꾸므로 다음 층의 입력 구성이 달라진다 |
 
 출력 해석을 실제 운영 판단까지 다시 묶어 보면, `같은 양수면 다 같은 경고`라고 읽는 오해가 왜 위험한지도 보입니다.
 
 | 비교 장면 | 결과만 빨리 보면 하기 쉬운 해석 | 더 나은 해석 | 놓치면 더 위험한 이유 |
 | --- | --- | --- | --- |
-| `stable_with_minor_noise` vs `strong_warning_signal` | 둘 다 양수이니 둘 다 강한 경고라고 읽는다 | 둘 다 살아남지만 하나는 약한 잡음 수준, 다른 하나는 강한 경고 수준으로 구분한다 | 약한 잡음까지 모두 강한 경고로 읽으면 과잉 차단이 누적된다 |
-| `recovery_dominant_signal` vs `borderline_warning_signal` | 둘 다 애매한 신호라고 한 덩어리로 본다 | 하나는 완전히 잘렸고, 다른 하나는 간신히 살아남아 추적 가치가 남았다고 구분한다 | 경계 바로 위 신호까지 0과 같은 뜻으로 읽으면 약한 이상 징후를 놓칠 수 있다 |
+| `borderline_warning_signal` vs `strong_warning_signal` | 둘 다 양수이니 둘 다 강한 경고라고 읽는다 | 둘 다 살아남지만 하나는 약한 추적 신호, 다른 하나는 강한 경고 신호로 구분한다 | 약한 추적 신호까지 모두 강한 경고로 읽으면 과잉 차단이 누적된다 |
+| `brief_alarm_recovered` vs `borderline_warning_signal` | 둘 다 애매한 신호라고 한 덩어리로 본다 | 하나는 완전히 잘렸고, 다른 하나는 간신히 살아남아 추적 가치가 남았다고 구분한다 | 경계 바로 위 신호까지 0과 같은 뜻으로 읽으면 약한 이상 징후를 놓칠 수 있다 |
 
 즉, ReLU는 단순히 `양수면 통과`가 아니라, `어디서 완전히 잘리고 어디서 약하게 살아나며 어디서 강하게 남는가`를 함께 읽게 하는 규칙입니다.
 

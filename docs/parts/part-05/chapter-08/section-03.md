@@ -9,7 +9,7 @@ P5-6장에서는 학습과 모델 실행을 구분했고, P5-7장에서는 옵�
 
 딥러닝 학습 루프는 `forward -> loss -> backward -> optimizer step -> regularization/모드 제어`가 반복되는 구조로 읽는 편이 안전하다.
 
-학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [순전파(forward pass)](../../../reference/concept-glossary.md#forward-pass), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
+학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [학습(training)](../../../reference/concept-glossary.md#training), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
 
 ## 이 절의 범위
 
@@ -107,20 +107,20 @@ training mode와 evaluation mode는 루프 바깥의 부가 설정이 아닙니�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프 안에서 `forward -> loss -> backward -> optimizer step`이 어떻게 한 batch씩 반복되는지 확인하는 것입니다.
+이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프 안에서 `forward -> loss -> backward -> optimizer step`이 어떻게 한 운영 배치(batch)씩 반복되는지 확인하는 것입니다.
 
 입력:
 
-- 1차원 입력을 두 개씩 묶은 batch 2개
-- 각 batch의 목표값
-- 가중치 하나 `w`
+- 경보 수치를 두 개씩 묶은 batch 2개
+- 각 batch의 목표 차단 점수
+- 위험 가중치 하나 `risk_weight`
 
 출력:
 
-- batch별 prediction 목록
+- batch별 예측 차단 점수 목록
 - batch별 평균 loss
 - batch별 평균 gradient
-- step 이후 갱신된 가중치
+- step 이후 갱신된 위험 가중치
 
 문제 상황:
 
@@ -133,32 +133,32 @@ training mode와 evaluation mode는 루프 바깥의 부가 설정이 아닙니�
 
 입력(input):
 
-위에 정리한 batch 묶음, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
+각 batch는 `alarm_count` 두 건과 그에 대응하는 `target_block_score` 두 건을 담고 있다고 가정합니다. 학습 루프는 현재 `risk_weight`로 batch 안 모든 예측 차단 점수를 먼저 계산한 뒤, 평균 손실과 평균 gradient를 모아 한 번만 업데이트합니다.
 
 코드를 보기 전에 먼저 각 batch에서 무엇이 먼저 계산되고, 무엇이 마지막에 한 번만 바뀌는지 예상해 보면 학습 루프의 순서가 더 잘 고정됩니다.
 
 | 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
 | --- | --- | --- |
-| `predictions` | 각 batch 안의 샘플마다 먼저 계산될 가능성이 큼 | forward 단계에서는 현재 `w`로 각 입력의 예측값을 먼저 만듭니다. |
+| `predictions` | 각 batch 안의 샘플마다 먼저 계산될 가능성이 큼 | forward 단계에서는 현재 `risk_weight`로 각 입력의 예측 차단 점수를 먼저 만듭니다. |
 | `batch_loss`, `batch_gradient` | 샘플별 계산 뒤 평균으로 한 번 모일 가능성이 큼 | 손실과 gradient는 batch 안 여러 샘플 결과를 묶어 읽어야 하기 때문입니다. |
-| `updated_w` | batch마다 한 번씩만 바뀔 가능성이 큼 | optimizer step은 샘플별로 즉시 바꾸지 않고 batch 평균 gradient 뒤에 한 번 적용됩니다. |
-| 두 번째 batch의 `predictions` | 첫 번째 batch에서 갱신된 `w` 영향을 받을 가능성이 큼 | 학습 루프는 이전 update 결과를 다음 batch forward가 이어받는 반복 구조이기 때문입니다. |
+| `updated_risk_weight` | batch마다 한 번씩만 바뀔 가능성이 큼 | optimizer step은 샘플별로 즉시 바꾸지 않고 batch 평균 gradient 뒤에 한 번 적용됩니다. |
+| 두 번째 batch의 `predictions` | 첫 번째 batch에서 갱신된 `risk_weight` 영향을 받을 가능성이 큼 | 학습 루프는 이전 update 결과를 다음 batch forward가 이어받는 반복 구조이기 때문입니다. |
 
 이 표의 목적은 정확한 수치를 미리 외우는 데 있지 않습니다. 학습 루프를 읽을 때 `무엇이 샘플별 forward 결과인가`, `무엇이 batch 평균으로 모이는가`, `무엇이 step 끝에서 한 번 바뀌는가`를 코드 전에 붙잡는 데 있습니다.
 
 ```python
 batches = [
     [
-        {"x": 1.0, "target": 2.0},
-        {"x": 2.0, "target": 4.0},
+        {"alarm_count": 1.0, "target_block_score": 2.0},
+        {"alarm_count": 2.0, "target_block_score": 4.0},
     ],
     [
-        {"x": 3.0, "target": 6.0},
-        {"x": 4.0, "target": 8.0},
+        {"alarm_count": 3.0, "target_block_score": 6.0},
+        {"alarm_count": 4.0, "target_block_score": 8.0},
     ],
 ]
 
-w = 0.5
+risk_weight = 0.5
 learning_rate = 0.1
 
 for step, batch in enumerate(batches, start=1):
@@ -167,44 +167,44 @@ for step, batch in enumerate(batches, start=1):
     gradients = []
 
     for sample in batch:
-        x = sample["x"]
-        target = sample["target"]
+        alarm_count = sample["alarm_count"]
+        target_block_score = sample["target_block_score"]
 
-        prediction = w * x
-        loss = (prediction - target) ** 2
-        gradient_w = 2 * (prediction - target) * x
+        prediction = risk_weight * alarm_count
+        loss = (prediction - target_block_score) ** 2
+        gradient_risk_weight = 2 * (prediction - target_block_score) * alarm_count
 
         predictions.append(round(prediction, 3))
         losses.append(loss)
-        gradients.append(gradient_w)
+        gradients.append(gradient_risk_weight)
 
     batch_loss = sum(losses) / len(losses)
     batch_gradient = sum(gradients) / len(gradients)
 
-    w = w - learning_rate * batch_gradient
+    risk_weight = risk_weight - learning_rate * batch_gradient
 
     print(f"[batch {step}]")
     print("predictions =", predictions)
     print("batch_loss =", round(batch_loss, 3))
     print("batch_gradient =", round(batch_gradient, 3))
-    print("updated_w =", round(w, 3))
+    print("updated_risk_weight =", round(risk_weight, 3))
     print("---")
 ```
 
-출력에서는 각 batch마다 predictions가 먼저 계산되고, 그 뒤 평균 loss와 평균 gradient가 모인 다음 updated_w가 한 번 바뀌는 순서를 보면 됩니다.
+출력에서는 각 batch마다 predictions가 먼저 계산되고, 그 뒤 평균 loss와 평균 gradient가 모인 다음 updated_risk_weight가 한 번 바뀌는 순서를 보면 됩니다.
 
 ```text
 [batch 1]
 predictions = [0.5, 1.0]
 batch_loss = 5.625
 batch_gradient = -7.5
-updated_w = 1.25
+updated_risk_weight = 1.25
 ---
 [batch 2]
 predictions = [3.75, 5.0]
 batch_loss = 7.031
 batch_gradient = -18.75
-updated_w = 3.125
+updated_risk_weight = 3.125
 ---
 ```
 

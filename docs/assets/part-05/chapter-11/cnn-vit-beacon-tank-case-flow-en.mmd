@@ -1,0 +1,5 @@
+flowchart TD
+    A[Same equipment image] --> B[CNN: beacon edge and tank outline react first]
+    A --> C[ViT: beacon patch, tank patch, control-box patch align first]
+    B --> D[CNN output becomes a reinspection location cue]
+    C --> E[ViT output becomes an inter-region relation cue]

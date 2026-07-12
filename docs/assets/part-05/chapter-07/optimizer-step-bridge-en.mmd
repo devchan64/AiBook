@@ -1,0 +1,9 @@
+flowchart TD
+    A[Same gradient signal] --> B[Update rule chooses step size]
+    B --> C[Too small step]
+    B --> D[Practical step]
+    B --> E[Overshooting step]
+
+    C --> F[Loss drops too slowly]
+    D --> G[Loss moves closer to target]
+    E --> H[Good direction is passed too far]

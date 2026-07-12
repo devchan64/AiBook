@@ -7,6 +7,8 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
+  - `multilayer-combination-bridge-en.mmd` / `multilayer-combination-bridge-ko.mmd`
+  - `hidden-representation-bridge-en.mmd` / `hidden-representation-bridge-ko.mmd`
   - `production-batch-hidden-flow-en.mmd` / `production-batch-hidden-flow-ko.mmd`
   - `multilayer-network-flow-en.mmd` / `multilayer-network-flow-ko.mmd`
   - `single-vs-multilayer-flow-en.mmd` / `single-vs-multilayer-flow-ko.mmd`

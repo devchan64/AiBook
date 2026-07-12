@@ -30,7 +30,7 @@ Part 5 是正式解释神经网络与深度学习的 Part。Part 1、Part 2、Pa
 
 Part 5 不能被读成 `深度学习预告片`。因此，默认原则是让 CNN、RNN、Attention、Transformer 各自在这个 Part 内先闭合 `为什么在这种数据结构问题上会出现这样的设计`，而与 Part 6 的连接只保留为一个很短的下一步提示。
 
-如果在读这一 Part 时核心术语的基线又开始变模糊，默认参考点是回到 [概念词汇表](../../reference/concept-glossary.md)，把各个词条的 `Core Section` 与 `Appears In` 一起看，沿着那个复习路径重新接回去。
+如果在读这一 Part 时核心术语的基线又开始变模糊，默认参考点是回到[英文概念词汇表](/AiBook/en/reference/concept-glossary/)，把各个词条的 `Core Section` 与 `Appears In` 一起看，沿着那个复习路径重新接回去。
 
 如果把这个标准按当前 Part 5 目录再压成一行，可以得到下面这个表。
 

@@ -225,9 +225,9 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 
 입력:
 
-- 문서 맨 앞의 핵심 규칙 한 줄
+- 문서 맨 앞의 핵심 재기동 금지 규칙 한 줄
 - 길이가 다른 중간 설명 구간
-- 문서 끝의 같은 질문 한 줄
+- 문서 끝의 같은 재기동 질문 한 줄
 
 출력:
 
@@ -254,20 +254,20 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 
 | 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
 | --- | --- | --- |
-| `state_support` | gap이 길어질수록 계속 작아질 가능성이 큼 | `exclude`, `fee` 같은 앞 단서가 decay를 거치며 점점 약해지기 때문입니다. |
-| `state_decision` | 짧은 gap에서는 `keeps exclusion`, 긴 gap에서는 `loses exclusion`으로 바뀔 가능성이 큼 | 핵심 예외 조건이 상태 안에 충분히 남지 않으면 최종 판단이 흔들릴 수 있습니다. |
+| `state_support` | gap이 길어질수록 계속 작아질 가능성이 큼 | `restart`, `blocked`, `pressure` 같은 앞 단서가 decay를 거치며 점점 약해지기 때문입니다. |
+| `state_decision` | 짧은 gap에서는 `keeps block`, 긴 gap에서는 `loses block`으로 바뀔 가능성이 큼 | 핵심 금지 조건이 상태 안에 충분히 남지 않으면 최종 판단이 흔들릴 수 있습니다. |
 | `direct_match_score` | gap이 길어져도 유지될 가능성이 큼 | 직접 참조는 같은 규칙 줄을 다시 집어 올리므로 간격 자체가 점수를 직접 깎지 않습니다. |
-| `direct_decision` | 모든 gap에서 `keeps exclusion`으로 유지될 가능성이 큼 | 질문 시점마다 앞의 규칙 위치를 다시 찾을 수 있다면 예외 조건을 놓칠 이유가 줄어듭니다. |
+| `direct_decision` | 모든 gap에서 `keeps block`으로 유지될 가능성이 큼 | 질문 시점마다 앞의 규칙 위치를 다시 찾을 수 있다면 금지 조건을 놓칠 이유가 줄어듭니다. |
 
 이 표의 목적은 정확한 숫자를 미리 외우는 데 있지 않습니다. 같은 규칙과 같은 질문이어도, 순차 상태는 간격이 길어질수록 흔들리고 직접 참조는 같은 위치를 다시 집어 올릴 수 있다는 차이를 코드 전에 붙잡는 데 있습니다.
 
 ```python
-rule = "Rule: restart stays blocked until vessel pressure is fully vented."
-question = "Question: can the line restart now?"
+restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
+restart_question = "Question: can the line restart now?"
 
-def sequential_state(document, decay=0.72):
+def sequential_state(instruction_document, decay=0.72):
     state = {"restart": 0.0, "blocked": 0.0, "pressure": 0.0}
-    for line in document:
+    for line in instruction_document:
         lowered = line.lower()
         for key in state:
             state[key] *= decay
@@ -281,9 +281,9 @@ def sequential_state(document, decay=0.72):
     decision = "keeps block" if support >= 0.45 else "loses block"
     return {key: round(value, 3) for key, value in state.items()}, support, decision
 
-def direct_reference(document):
+def direct_reference(instruction_document):
     matches = []
-    for idx, line in enumerate(document[:-1], start=1):
+    for idx, line in enumerate(instruction_document[:-1], start=1):
         lowered = line.lower()
         score = 0
         for keyword in ["restart", "blocked", "pressure"]:
@@ -299,11 +299,11 @@ for gap in [1, 3, 6]:
         f"Detail line {i}: general maintenance note only."
         for i in range(1, gap + 1)
     ]
-    document = [rule] + filler + [question]
-    state_snapshot, state_support, state_decision = sequential_state(document)
-    best_match, direct_decision = direct_reference(document)
+    instruction_document = [restart_block_rule] + filler + [restart_question]
+    state_snapshot, state_support, state_decision = sequential_state(instruction_document)
+    best_match, direct_decision = direct_reference(instruction_document)
     print(f"[gap={gap}]")
-    print("document_length =", len(document))
+    print("document_length =", len(instruction_document))
     print("state_snapshot =", state_snapshot)
     print("state_support =", state_support)
     print("state_decision =", state_decision)
@@ -344,7 +344,7 @@ best_direct_match = Rule: restart stays blocked until vessel pressure is fully v
 direct_decision = keeps block
 ```
 
-- 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `blocked`, `pressure` 단서가 빠르게 약해집니다
+- 같은 재기동 금지 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `blocked`, `pressure` 단서가 빠르게 약해집니다
 - `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
 - 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 안전 조건을 잃기 쉬워집니다
 - 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있고, 여기서는 `direct_match_score`가 계속 3으로 유지됩니다

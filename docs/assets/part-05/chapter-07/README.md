@@ -7,5 +7,6 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
+  - `optimizer-step-bridge-en.mmd` / `optimizer-step-bridge-ko.mmd`
   - `optimizer-loop-flow-en.mmd` / `optimizer-loop-flow-ko.mmd`
   - `sgd-vs-adam-flow-en.mmd` / `sgd-vs-adam-flow-ko.mmd`
