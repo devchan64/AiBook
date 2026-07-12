@@ -1,7 +1,7 @@
 # P4-17.2 Cautions When Interpreting Clustering Results
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-17.1, clustering was introduced as an unsupervised learning problem that finds structure in unlabeled data. The more important stage now is interpretation.
 
@@ -323,31 +323,24 @@ This example is a small exercise showing that even if customers are divided into
   - cluster IDs are identifiers, not grades
   - meaning is attached later through human review
 
-```python
-customers = [
-    {"name": "A", "cluster": 0, "visits": 3, "spend": 20},
-    {"name": "B", "cluster": 0, "visits": 2, "spend": 18},
-    {"name": "C", "cluster": 1, "visits": 10, "spend": 95},
-    {"name": "D", "cluster": 1, "visits": 11, "spend": 88},
-]
+First, look at the table below and write down for yourself what can be said only from the cluster numbers.
 
-cluster_0 = [c["name"] for c in customers if c["cluster"] == 0]
-cluster_1 = [c["name"] for c in customers if c["cluster"] == 1]
+| Customer | cluster ID | Visits | Spend |
+| --- | --- | --- | --- |
+| A | 0 | 3 | 20 |
+| B | 0 | 2 | 18 |
+| C | 1 | 10 | 95 |
+| D | 1 | 11 | 88 |
 
-print("cluster 0 members:", cluster_0)
-print("cluster 1 members:", cluster_1)
-print("note: cluster IDs are labels for groups, not ranks.")
-```
+Then compare with the explanation below.
 
-The result is as follows.
+| What can be said immediately | What still cannot be said immediately | Why |
+| --- | --- | --- |
+| A and B were proposed as one group | `cluster 0 is a low grade` | The number itself has no grade meaning |
+| C and D were proposed as another group | `cluster 1 is a premium customer group` | Meaning still needs feature summaries and business review |
+| The two groups seem to differ in visits and spending | This difference directly becomes a policy rule | It is risky to move straight into policy without follow-up checks |
 
-```text
-cluster 0 members: ['A', 'B']
-cluster 1 members: ['C', 'D']
-note: cluster IDs are labels for groups, not ranks.
-```
-
-What should be read from this example is:
+What should be read first from this example is the following.
 
 1. The numbers 0 and 1 are only identifiers that distinguish groups.
 2. Interpretations such as `cluster 1 is better` cannot be made until the actual meaning of the data is reviewed separately.
@@ -357,27 +350,28 @@ What should be read from this example is:
 
 Now keep the same customer groups, but reverse only the cluster numbers.
 
-```python
-customers = [
-    {"name": "A", "cluster": 1, "visits": 3, "spend": 20},
-    {"name": "B", "cluster": 1, "visits": 2, "spend": 18},
-    {"name": "C", "cluster": 0, "visits": 10, "spend": 95},
-    {"name": "D", "cluster": 0, "visits": 11, "spend": 88},
-]
+This time, keep the customer grouping itself the same and reverse only the cluster numbers.
 
-cluster_0 = [c["name"] for c in customers if c["cluster"] == 0]
-cluster_1 = [c["name"] for c in customers if c["cluster"] == 1]
+| Customer | cluster ID | Visits | Spend |
+| --- | --- | --- | --- |
+| A | 1 | 3 | 20 |
+| B | 1 | 2 | 18 |
+| C | 0 | 10 | 95 |
+| D | 0 | 11 | 88 |
 
-print("cluster 0 members:", cluster_0)
-print("cluster 1 members:", cluster_1)
-print("note: the members changed labels, not their behavior.")
-```
+First answer these questions for yourself.
 
-```text
-cluster 0 members: ['C', 'D']
-cluster 1 members: ['A', 'B']
-note: the members changed labels, not their behavior.
-```
+- Does customer meaning change just because the numbers were reversed?
+- What changed here: behavior or the identifier name?
+- If you had to write a policy sentence, would you start with `cluster 0` or with an actual pattern such as `high-visit, high-spend group`?
+
+Then compare with the explanation below.
+
+| What changed | What did not change | Why this distinction matters |
+| --- | --- | --- |
+| The names of cluster IDs 0 and 1 | The actual behavior patterns of A/B and C/D | A cluster number is only an identifier, not the interpretation itself |
+| The surface label notation | Which customers were grouped together | If the members stay the same, the number alone does not create a new meaning |
+| The cluster number written in a document | The need to summarize the features of each group | Policy and explanation must start from pattern summaries, not from numbers |
 
 Even though the numbers were reversed, the customer behavior did not change at all. This comparison lets you feel that when reading clustering results, you must not go directly from `number -> meaning`, but must go in the order `members -> feature summary -> business interpretation`. So even if a clustering result looks plausible, before turning it into a policy rule you should rewrite the actual pattern in words rather than relying on the number.
 

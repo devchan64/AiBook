@@ -1,7 +1,7 @@
 # P4-17.2 解释聚类结果时的注意点
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-17.1 里，我们把聚类看成是在无标签数据里寻找结构的无监督学习问题。现在更重要的一步，是解释。
 
@@ -323,31 +323,24 @@
   - cluster ID 是标识符，不是等级
   - 意义是之后通过人工审查再贴上去的
 
-```python
-customers = [
-    {"name": "A", "cluster": 0, "visits": 3, "spend": 20},
-    {"name": "B", "cluster": 0, "visits": 2, "spend": 18},
-    {"name": "C", "cluster": 1, "visits": 10, "spend": 95},
-    {"name": "D", "cluster": 1, "visits": 11, "spend": 88},
-]
+先看下面这张表，自己先写一下：只看聚类编号，到底能说出什么。
 
-cluster_0 = [c["name"] for c in customers if c["cluster"] == 0]
-cluster_1 = [c["name"] for c in customers if c["cluster"] == 1]
+| 客户 | cluster ID | 访问次数 | 支出 |
+| --- | --- | --- | --- |
+| A | 0 | 3 | 20 |
+| B | 0 | 2 | 18 |
+| C | 1 | 10 | 95 |
+| D | 1 | 11 | 88 |
 
-print("cluster 0 members:", cluster_0)
-print("cluster 1 members:", cluster_1)
-print("note: cluster IDs are labels for groups, not ranks.")
-```
+然后再和下面的解释比较。
 
-执行结果如下。
+| 现在立刻能说的 | 现在还不能立刻说的 | 原因 |
+| --- | --- | --- |
+| A 和 B 被提议为同一组 | `cluster 0 是低等级` | 编号本身不带等级意义 |
+| C 和 D 被提议为另一组 | `cluster 1 是优质客户群` | 真正的意义还需要特征摘要和业务审查 |
+| 两组在访问次数和支出上看起来不同 | 这种差别马上就能变成策略规则 | 没有后续检查就直接进策略会有风险 |
 
-```text
-cluster 0 members: ['A', 'B']
-cluster 1 members: ['C', 'D']
-note: cluster IDs are labels for groups, not ranks.
-```
-
-从这个例子里应该读到的是：
+从这个例子里首先要读到的是下面三点。
 
 1. 数字 0 和 1 只是区分分组的标识符。
 2. 像 `cluster 1 更好` 这样的解释，在没有单独审查真实数据意义前，不能成立。
@@ -357,27 +350,28 @@ note: cluster IDs are labels for groups, not ranks.
 
 现在保持客户分组本身不变，只把聚类编号反过来。
 
-```python
-customers = [
-    {"name": "A", "cluster": 1, "visits": 3, "spend": 20},
-    {"name": "B", "cluster": 1, "visits": 2, "spend": 18},
-    {"name": "C", "cluster": 0, "visits": 10, "spend": 95},
-    {"name": "D", "cluster": 0, "visits": 11, "spend": 88},
-]
+这次保持客户分组本身不变，只把聚类编号反过来。
 
-cluster_0 = [c["name"] for c in customers if c["cluster"] == 0]
-cluster_1 = [c["name"] for c in customers if c["cluster"] == 1]
+| 客户 | cluster ID | 访问次数 | 支出 |
+| --- | --- | --- | --- |
+| A | 1 | 3 | 20 |
+| B | 1 | 2 | 18 |
+| C | 0 | 10 | 95 |
+| D | 0 | 11 | 88 |
 
-print("cluster 0 members:", cluster_0)
-print("cluster 1 members:", cluster_1)
-print("note: the members changed labels, not their behavior.")
-```
+先自己回答下面几个问题。
 
-```text
-cluster 0 members: ['C', 'D']
-cluster 1 members: ['A', 'B']
-note: the members changed labels, not their behavior.
-```
+- 只是编号反过来，客户意义会变吗？
+- 这里变化的是客户行为，还是标识符名字？
+- 如果要写一句策略说明，你会从 `cluster 0` 开始写，还是从 `高访问·高支出分组` 这样的真实模式开始写？
+
+然后再和下面的解释比较。
+
+| 改变了什么 | 没改变什么 | 为什么要这样区分 |
+| --- | --- | --- |
+| cluster ID 0 和 1 的名字 | A/B 与 C/D 的真实行为模式 | 聚类编号只是标识符，不是解释本身 |
+| 表面上的标签写法 | 哪些客户被放在一起 | 只要成员没变，编号本身就不会产生新意义 |
+| 文档里写下的聚类编号 | 仍然需要先总结各组特征 | 策略和解释必须从模式摘要出发，而不是从编号出发 |
 
 虽然编号反过来了，但客户行为一点都没有变。这个比较会让你直接体会到：阅读聚类结果时，不能从 `编号 -> 意义` 直接跳过去，而必须按 `成员 -> 特征摘要 -> 业务解释` 这个顺序来。所以，就算聚类结果看起来很像那么回事，在写成策略规则之前，也应该先把真正的模式重新用句子写出来，而不是依赖编号。
 

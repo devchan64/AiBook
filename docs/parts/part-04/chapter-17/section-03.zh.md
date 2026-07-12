@@ -1,7 +1,7 @@
 # P4-17.3 补充学习：如何第一次区分层次聚类与谱聚类
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 如果在 P4-17.1 里已经看过 k-means 和 DBSCAN，接下来通常会留下这样一个问题。
 
@@ -160,37 +160,25 @@
 
 ## 练习与示例
 
-这个例子是一个很短的练习，用来再次确认：面对同一个数据场景时，`应该先想到哪一种聚类直觉`。
+这一段练习改成了可核对的验证型练习：先自己判断`应该先想到哪一种聚类直觉`，再和下面的说明对照。
 
-- 问题场景：区分圆形分组、不规则分组、合并顺序、连接结构里，哪一个最先重要
-- 输入(input)：问题场景描述
-- 期望输出(output)：最先应该想到的聚类方法
+- 问题场景：按场景区分圆形分组、不规则分组、合并顺序、连接结构里哪一个最先重要
+- 输入(input)：4个简短的问题场景
+- 期望输出(output)：每个场景里最先应该想到的方法和理由
 - 要确认的概念：
   - 在算法名字之前，还有必须先读的问题
   - 即使是同一份数据，起点也会随着`你想看什么结构`而变化
 
-```python
-scenarios = [
-    {"scene": "round groups, quick baseline", "best_first": "k-means"},
-    {"scene": "irregular shape with noise", "best_first": "DBSCAN"},
-    {"scene": "want merge order before fixing k", "best_first": "hierarchical clustering"},
-    {"scene": "curved connected pattern", "best_first": "spectral clustering"},
-]
+先把下面表格里的`最先想到的方法`一列遮住，自己先写出判断，再和表中的答案与理由比较。
 
-for item in scenarios:
-    print(item["scene"], "->", item["best_first"])
-```
+| 场景 | 最先想到的方法 | 为什么先想到它 |
+| --- | --- | --- |
+| 想快速得到一个针对圆形且较均匀分组的基准线 | k-means | 因为这个问题先从中心出发，想快速形成分组 |
+| 想把噪声单独留下，并观察不规则分组 | DBSCAN | 因为这个场景首先关心的是密度与噪声分离 |
+| 在固定聚类数之前，更想先看什么会最先合并 | 层次聚类 | 因为这里真正的解释线索是合并顺序本身 |
+| 想保留弯曲结构，而基于中心的切法看起来很别扭 | 谱聚类 | 因为先读连接结构比先读中心更自然 |
 
-执行结果可以这样理解。
-
-```text
-round groups, quick baseline -> k-means
-irregular shape with noise -> DBSCAN
-want merge order before fixing k -> hierarchical clustering
-curved connected pattern -> spectral clustering
-```
-
-这个例子的重点不是背算法名字，而是先问`我到底想看什么结构`。同样看起来都像聚类问题，但有的场景更重视中心，有的更重视密度，有的更重视合并顺序，还有的更重视连接结构。
+这段练习的重点不是背算法名字，而是先问`我到底想看什么结构`。比起答对名称，更重要的是能说明为什么这个场景会先把这个问题推到前面。
 
 ## 第一次比较时值得记录什么
 
@@ -211,7 +199,7 @@ curved connected pattern -> spectral clustering
 - 谱聚类更接近重新读取`连接结构`，而不是单独重新读取`距离本身`。
 - 各类聚类方法虽然都在解决同一类大问题，但它们是从中心、密度、顺序、连接这些不同把手出发的。
 
-## 简短检查
+## 检查清单
 
 - 这是不是一个比起立刻固定聚类数，更想先看什么先靠近的场景？
 - 这是不是一个必须先看连接结构，而不只是形状不规则的场景？

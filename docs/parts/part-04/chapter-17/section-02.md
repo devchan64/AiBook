@@ -1,7 +1,7 @@
 # P4-17.2 군집 결과를 해석할 때의 주의점
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-17.1에서는 클러스터링(clustering)을 라벨 없는 데이터에서 구조를 찾는 비지도학습(unsupervised learning) 문제로 보았습니다. 이제 더 중요한 단계는 해석입니다.
 
@@ -323,31 +323,24 @@ k-means에서는 `k`를 몇으로 둘지에 따라 결과가 달라집니다. DB
   - cluster ID는 식별자이지 등급이 아니다
   - 의미는 나중에 사람이 검토해서 붙인다
 
-```python
-customers = [
-    {"name": "A", "cluster": 0, "visits": 3, "spend": 20},
-    {"name": "B", "cluster": 0, "visits": 2, "spend": 18},
-    {"name": "C", "cluster": 1, "visits": 10, "spend": 95},
-    {"name": "D", "cluster": 1, "visits": 11, "spend": 88},
-]
+먼저 아래 표를 보고, 군집 번호만으로 어떤 의미를 말할 수 있는지 스스로 적어 봅니다.
 
-cluster_0 = [c["name"] for c in customers if c["cluster"] == 0]
-cluster_1 = [c["name"] for c in customers if c["cluster"] == 1]
+| 고객 | cluster ID | 방문 수 | 지출 |
+| --- | --- | --- | --- |
+| A | 0 | 3 | 20 |
+| B | 0 | 2 | 18 |
+| C | 1 | 10 | 95 |
+| D | 1 | 11 | 88 |
 
-print("cluster 0 members:", cluster_0)
-print("cluster 1 members:", cluster_1)
-print("note: cluster IDs are labels for groups, not ranks.")
-```
+그다음 아래 해설과 비교합니다.
 
-실행 결과는 다음과 같습니다.
+| 지금 바로 말할 수 있는 것 | 아직 바로 말할 수 없는 것 | 이유 |
+| --- | --- | --- |
+| A, B는 같은 묶음으로 제안되었다 | `cluster 0은 낮은 등급이다` | 번호 자체에는 등급 의미가 없기 때문 |
+| C, D도 다른 한 묶음으로 제안되었다 | `cluster 1은 우수 고객군이다` | 의미를 붙이려면 특징 요약과 업무 검토가 더 필요하기 때문 |
+| 두 묶음의 방문 수와 지출 패턴이 다르게 보인다 | 이 차이가 곧 정책 규칙이 된다 | 후속 지표와 재검토 없이 바로 정책으로 넘기면 위험하기 때문 |
 
-```text
-cluster 0 members: ['A', 'B']
-cluster 1 members: ['C', 'D']
-note: cluster IDs are labels for groups, not ranks.
-```
-
-이 예제에서 읽어야 할 것은:
+이 예제에서 먼저 읽어야 할 것은 다음 세 가지입니다.
 
 1. 숫자 0과 1은 단지 묶음을 구분하는 번호입니다.
 2. `cluster 1이 더 우수하다` 같은 해석은 데이터 의미를 따로 검토하기 전에는 할 수 없습니다.
@@ -357,27 +350,28 @@ note: cluster IDs are labels for groups, not ranks.
 
 이번에는 같은 고객 묶음을 유지한 채 cluster 번호만 뒤집어 봅니다.
 
-```python
-customers = [
-    {"name": "A", "cluster": 1, "visits": 3, "spend": 20},
-    {"name": "B", "cluster": 1, "visits": 2, "spend": 18},
-    {"name": "C", "cluster": 0, "visits": 10, "spend": 95},
-    {"name": "D", "cluster": 0, "visits": 11, "spend": 88},
-]
+이번에는 고객 묶음은 그대로 두고 cluster 번호만 뒤집어 봅니다.
 
-cluster_0 = [c["name"] for c in customers if c["cluster"] == 0]
-cluster_1 = [c["name"] for c in customers if c["cluster"] == 1]
+| 고객 | cluster ID | 방문 수 | 지출 |
+| --- | --- | --- | --- |
+| A | 1 | 3 | 20 |
+| B | 1 | 2 | 18 |
+| C | 0 | 10 | 95 |
+| D | 0 | 11 | 88 |
 
-print("cluster 0 members:", cluster_0)
-print("cluster 1 members:", cluster_1)
-print("note: the members changed labels, not their behavior.")
-```
+먼저 스스로 다음 질문에 답해 봅니다.
 
-```text
-cluster 0 members: ['C', 'D']
-cluster 1 members: ['A', 'B']
-note: the members changed labels, not their behavior.
-```
+- 번호가 뒤집혔다는 이유만으로 고객 의미가 바뀌는가?
+- 지금 달라진 것은 고객 행동인가, 아니면 식별자 이름인가?
+- 정책 문장을 써야 한다면 `cluster 0`부터 쓸 것인가, `고방문·고지출 묶음`처럼 실제 패턴부터 쓸 것인가?
+
+그다음 아래 해설과 비교합니다.
+
+| 바뀐 것 | 바뀌지 않은 것 | 왜 구분해야 하는가 |
+| --- | --- | --- |
+| cluster ID 0과 1의 이름 | A/B와 C/D의 실제 행동 패턴 | 군집 번호는 식별자일 뿐 해석 그 자체가 아니기 때문 |
+| 표면적인 라벨 표기 | 어느 고객들이 함께 묶였는가 | 구성원이 유지되면 번호만으로는 새 의미가 생기지 않기 때문 |
+| 문서에 적는 군집 번호 | 군집별 특징을 요약해야 한다는 필요 | 정책이나 설명은 번호가 아니라 패턴 요약에서 출발해야 하기 때문 |
 
 번호를 뒤집었는데 고객 행동은 아무것도 달라지지 않았습니다. 이 비교는 군집 결과를 읽을 때 `번호 -> 의미`로 바로 가면 안 되고, 반드시 `구성원 -> 특징 요약 -> 업무 해석` 순서로 가야 한다는 점을 체감하게 합니다. 따라서 군집 결과가 그럴듯해 보여도 정책 규칙으로 넘기기 전에 번호가 아니라 실제 패턴을 문장으로 다시 써야 합니다.
 

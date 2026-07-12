@@ -1,7 +1,7 @@
 # P4-17.1 聚类(clustering)的直觉
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-16 里，我们一路看到梯度提升(gradient boosting)，跟着理解了在有正确答案标签(label)的问题里，模型怎样提高预测性能。到了这里，如果把视角稍微转一下，下一个问题就会出现。
 
@@ -262,35 +262,26 @@ scikit-learn 的 clustering 概览表把 DBSCAN 描述成适用于 `non-flat geo
   - 聚类从位置关系开始
   - 即使没有标签，也会出现分组感
 
-```python
-points = [
-    (1.0, 1.2),
-    (1.1, 0.9),
-    (0.8, 1.0),
-    (5.0, 5.1),
-    (5.2, 4.9),
-    (4.8, 5.0),
-]
+先看下面这些坐标，自己先写一下这些点看起来像几团。
 
-left_group = [p for p in points if p[0] < 3]
-right_group = [p for p in points if p[0] >= 3]
+| 点 ID | 坐标 |
+| --- | --- |
+| A | (1.0, 1.2) |
+| B | (1.1, 0.9) |
+| C | (0.8, 1.0) |
+| D | (5.0, 5.1) |
+| E | (5.2, 4.9) |
+| F | (4.8, 5.0) |
 
-print("all points :", points)
-print("group A    :", left_group)
-print("group B    :", right_group)
-print("group sizes:", len(left_group), len(right_group))
-```
+在这个场景里，读者通常会先作出下面这样的判断。
 
-执行结果如下。
+| 最先出现的分组假设 | 为什么容易这样读 |
+| --- | --- |
+| A、B、C 看起来像一团 | 它们在左下方彼此靠得很近 |
+| D、E、F 看起来像另一团 | 它们在右上方彼此靠得很近 |
+| 整体上像两团 | 两组点之间的间隔相对较大 |
 
-```text
-all points : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group A    : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0)]
-group B    : [(5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group sizes: 3 3
-```
-
-这段代码并不是真正的聚类算法。但它给出了一种重要感觉。
+这里首先要读到的是下面三点。
 
 1. 即使没有标签，只看点的位置，也会出现团块感。
 2. 聚类最终总会连到一个问题：在某个空间里，哪些点更靠近并聚在一起。
@@ -298,40 +289,105 @@ group sizes: 3 3
 
 ### 改一个值看看：如果中间插进来一个点，该怎么读？
 
-这次我们在两团中间再加一个模糊点。
+这次我们把中间点 G 加进去，再读一遍。
 
-```python
-points = [
-    (1.0, 1.2),
-    (1.1, 0.9),
-    (0.8, 1.0),
-    (3.0, 3.1),
-    (5.0, 5.1),
-    (5.2, 4.9),
-    (4.8, 5.0),
-]
+| 点 ID | 坐标 |
+| --- | --- |
+| A | (1.0, 1.2) |
+| B | (1.1, 0.9) |
+| C | (0.8, 1.0) |
+| G | (3.0, 3.1) |
+| D | (5.0, 5.1) |
+| E | (5.2, 4.9) |
+| F | (4.8, 5.0) |
 
-left_group = [p for p in points if p[0] < 3]
-right_group = [p for p in points if p[0] >= 3]
+先自己回答下面几个问题。
 
-print("all points :", points)
-print("group A    :", left_group)
-print("group B    :", right_group)
-print("group sizes:", len(left_group), len(right_group))
-```
+- 现在还能立刻说它是`两团`吗？
+- G 更像左边那团、右边那团，还是边界案例？
+- 现在更需要的是`正确聚类编号`，还是记下`模糊点到底出现在什么地方`？
 
-```text
-all points : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0), (3.0, 3.1), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group A    : [(1.0, 1.2), (1.1, 0.9), (0.8, 1.0)]
-group B    : [(3.0, 3.1), (5.0, 5.1), (5.2, 4.9), (4.8, 5.0)]
-group sizes: 3 4
-```
+然后再和下面的解释比较。
+
+| 场景里改变了什么 | 最先该重新看的是什么 | 为什么重要 |
+| --- | --- | --- |
+| 中间多了一个边界点 G | 两团之间的边界是否还清楚 | 只要一个边界案例，就可能动摇结构假设 |
+| 原本简单的“左边 3 个、右边 3 个”不再成立 | G 是否会被自动放到某一边 | 这会暴露出聚类不是答案，而是解释候选 |
+| 点数从 3 比 3 变成了 3 比 4 | 现在是不是边界解释比团块大小更重要 | 在实务里，应该先记录模糊点，再记录聚类编号 |
 
 只多了一个点，`两团`这个解释就没有那么清楚了。这里读者应该体会到的是：聚类不是`给出答案的装置`，而是`看在某种相似标准下，结构假设会怎样变化的装置`。同样的数据里，只要对边界附近的点读法不同，分组解释就会变，所以在实务里，应该先记下`哪里是模糊的`，而不是先记聚类编号。
 
+### 把 k-means 和 DBSCAN 放在同一组点上比较
+
+这次把 `k-means` 和 `DBSCAN` 并排用在同一份玩具数据上，直接看看`中心型`和`密度型`视角会产生什么不同输出。
+
+- 问题场景：当数据里有两团稠密点和一个远离的点时，看看 `k-means` 和 `DBSCAN` 会怎样不同地读取这个点
+- 输入(input)：两团稠密点 + 一个远离点
+- 期望输出(output)：确认 `k-means` 仍会把远离点塞进某个聚类，而 `DBSCAN` 可以把它保留成噪声
+- 要确认的概念：
+  - `k-means` 会把每个点都分配进预先决定的聚类数里
+  - `DBSCAN` 可以把低密度点留在聚类外面
+
+```python
+import numpy as np
+from sklearn.cluster import DBSCAN, KMeans
+
+names = ["A", "B", "C", "D", "E", "F", "G"]
+X = np.array([
+    [1.0, 1.1],
+    [1.2, 0.9],
+    [0.9, 1.0],
+    [5.0, 5.1],
+    [5.2, 4.8],
+    [4.9, 5.0],
+    [8.5, 1.0],
+])
+
+kmeans = KMeans(n_clusters=2, random_state=0, n_init=10)
+km_labels = kmeans.fit_predict(X)
+
+left_km = int(np.argmin(kmeans.cluster_centers_[:, 0]))
+right_km = int(np.argmax(kmeans.cluster_centers_[:, 0]))
+km_groups = {
+    "left-centered group": [name for name, label in zip(names, km_labels) if label == left_km],
+    "right-centered group": [name for name, label in zip(names, km_labels) if label == right_km],
+}
+
+dbscan = DBSCAN(eps=0.6, min_samples=2)
+db_labels = dbscan.fit_predict(X)
+
+dense_labels = sorted(label for label in set(db_labels) if label != -1)
+db_groups = {}
+for order, label in enumerate(dense_labels, start=1):
+    db_groups[f"dense group {order}"] = [
+        name for name, current in zip(names, db_labels) if current == label
+    ]
+db_groups["noise"] = [name for name, current in zip(names, db_labels) if current == -1]
+
+print("k-means :", km_groups)
+print("DBSCAN  :", db_groups)
+```
+
+执行结果示例如下。
+
+```text
+k-means : {'left-centered group': ['A', 'B', 'C'], 'right-centered group': ['D', 'E', 'F', 'G']}
+DBSCAN  : {'dense group 1': ['A', 'B', 'C'], 'dense group 2': ['D', 'E', 'F'], 'noise': ['G']}
+```
+
+从这个结果里，首先应该读到下面这些点。
+
+| 比较点 | k-means 里看到的 | DBSCAN 里看到的 | 为什么重要 |
+| --- | --- | --- | --- |
+| 聚类数处理 | 它把所有点都放进了预先决定的两个聚类里 | 它形成了两团稠密分组，并把 G 留成噪声 | 这里直接体现了`是否强行给定聚类数`和`是否允许点留在聚类外`的差别 |
+| 远离点 G | 它被分进了右侧那团 | 它没有被放进任何聚类 | 类似异常点的处理方式差别会直接显现出来 |
+| 解释方式 | 它更像是在说`每个点都必须属于某个聚类` | 它更像是在说`只有稠密区域才算聚类，其余点可以留在外面` | 这样能在输出层面直接确认中心型与密度型直觉的差别 |
+
+也就是说，就算输入相同，`k-means` 更像是在按`预先决定好的聚类数，用中心去分配所有点`来读问题，而 `DBSCAN` 更像是在按`只把稠密区域当作聚类，稀疏点可以留在外面`来读问题。所以，当你希望把异常点一样的点单独留下时，`DBSCAN` 更自然；当你只是想快速先看到`几个分组`的基准线时，`k-means` 更自然。
+
 ### 这个例子还要一起读什么
 
-Part 4 的目标不是罗列模型名字，而是建立“问题该如何定义、结果该如何阅读”的判断标准。这个练习把三件事一起确认了：`没有正确答案标签的结构探索问题`这一问题定义、`中间多一个点就会动摇聚类假设`这一评估视角、以及`应该把分组假设和代表样本一起记录`这一应用原则。也就是说，如果你跑了一个聚类例子却依然感觉不到这一 Part 的目标，通常不是因为跑得不够多，而是因为缺少了`解释结果差异并把它递送到下一个问题`的句子。
+Part 4 的目标不是罗列模型名字，而是建立“问题该如何定义、结果该如何阅读”的判断标准。这个练习把四件事一起确认了：`没有正确答案标签的结构探索问题`这一问题定义、`中间多一个点就会动摇聚类假设`这一评估视角、`k-means 和 DBSCAN 会把同一个点读成不同结果`这一比较视角，以及`应该把分组假设和代表样本一起记录`这一应用原则。也就是说，如果你跑了一个聚类例子却依然感觉不到这一 Part 的目标，通常不是因为跑得不够多，而是因为缺少了`解释结果差异并把它递送到下一个问题`的句子。
 
 | 共通记录语言 | 这个例子里应该立刻留下的内容 |
 | --- | --- |
