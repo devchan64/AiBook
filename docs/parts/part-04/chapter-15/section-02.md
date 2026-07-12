@@ -580,25 +580,14 @@ petal width (cm)        0.430        0.189
 - 숫자가 큰 feature가 정말 독립적으로 중요한가?
 - 숫자가 낮은 feature가 다른 feature에 가려진 것은 아닌가?
 
-## 이 절에서 기억할 관점
-
-- 특징 중요도는 모델이 무엇을 봤는지 요약하는 도구입니다.
-- MDI는 분기 사용과 impurity 감소를 평균낸 내부 요약입니다.
-- permutation importance는 feature를 섞었을 때 성능이 얼마나 떨어지는지 보는 외부 점검입니다.
-- 중요도 숫자는 곧바로 인과관계나 원인 순위를 뜻하지 않습니다.
-- high-cardinality feature와 correlated feature는 해석을 왜곡할 수 있습니다.
-
 ## 체크리스트
 
 - importance를 원인 순위처럼 읽고 있지 않은가?
 - MDI와 permutation importance가 서로 다른 질문에 답한다는 점을 구분하고 있는가?
 - 상관 특성이나 high-cardinality 열이 있는지 먼저 점검하고 있는가?
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-- 중요도 숫자 하나만 보고 원인 순위를 말하고 싶어질 때, importance는 설명 출발점이라는 관점을 먼저 떠올립니다.
-- MDI와 permutation importance 결과가 다를 때, 두 값이 서로 다른 질문에 답한다는 점을 다시 확인합니다.
-- high-cardinality 열이나 상관 특성이 섞여 있을 때, 중요도 해석이 쉽게 왜곡될 수 있다는 경계를 먼저 꺼냅니다.
+- 특징 중요도가 모델이 무엇을 봤는지 요약하는 도구이며, MDI는 내부 요약이고 permutation importance는 외부 점검이라는 점을 설명할 수 있는가
+- 중요도 숫자가 곧바로 인과관계나 원인 순위를 뜻하지 않는다는 점을 설명할 수 있는가
+- high-cardinality feature와 correlated feature가 해석을 왜곡할 수 있다는 점을 설명할 수 있는가
 
 ## 출처와 참고 자료
 
