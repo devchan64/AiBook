@@ -87,7 +87,7 @@ pip install -r requirements.txt
 BUILD_ONLY_LOCALE=ko \
 MKDOCS_ENABLE_GIT_REVISION=false \
 MKDOCS_ENABLE_MINIFY=false \
-./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml --dirty
+./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml
 ```
 
 이 경우 브라우저에서는 `http://127.0.0.1:9000`을 열어 확인합니다.
@@ -98,16 +98,21 @@ MKDOCS_ENABLE_MINIFY=false \
 BUILD_ONLY_LOCALE=en \
 MKDOCS_ENABLE_GIT_REVISION=false \
 MKDOCS_ENABLE_MINIFY=false \
-./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml --dirty
+./.venv/bin/python -m mkdocs serve -f mkdocs.dev.yml
 ```
 
-- `--dirty`는 바뀐 파일 중심으로 다시 빌드해 기본 `serve`보다 체감 속도를 줄이는 데 도움이 됩니다.
-- 이 저장소는 `i18n` 플러그인과 큰 `nav`를 함께 쓰므로, `--dirty`를 써도 완전히 `수정된 파일 하나만` 처리되는 수준은 아닐 수 있습니다.
 - `BUILD_ONLY_LOCALE=ko`처럼 실행하면 개발 중에는 해당 locale만 빌드할 수 있어 다국어 전체 빌드보다 가볍게 확인할 수 있습니다.
 - `BUILD_ONLY_LOCALE`를 지정하지 않으면 기존처럼 `ko`, `en`, `zh` 전체를 빌드합니다.
 - `MKDOCS_ENABLE_GIT_REVISION=false`는 수정일 계산 플러그인을 끄고, `MKDOCS_ENABLE_MINIFY=false`는 HTML minify를 꺼서 개발 중 재빌드 부담을 줄입니다.
 - 검색 인덱스까지 끄고 싶다면 `MKDOCS_ENABLE_SEARCH=false`를 추가할 수 있습니다. 다만 이 경우 로컬 검색 UI 확인은 함께 생략됩니다.
 - `-w docs/parts`는 보통 필요 없습니다. `mkdocs serve`는 기본적으로 `docs/` 아래를 감시하고, `-w`는 추가 감시 경로를 더할 때 사용합니다.
+
+### `--dirty` 사용 메모
+
+- `--dirty`는 변경된 파일 중심으로 다시 빌드해 체감 속도를 줄일 수 있습니다.
+- 다만 이 저장소는 `i18n` 플러그인, 큰 `nav`, `pymdownx.snippets` 기반 외부 Mermaid `.mmd` include를 함께 사용합니다.
+- 그래서 `--dirty`를 써도 완전히 `수정한 파일 하나만` 처리되는 수준은 아니며, 외부 `.mmd` 자산 변경이 포함된 경우에는 감지는 되더라도 해당 본문 페이지가 다시 렌더링되지 않을 수 있습니다.
+- 특히 Mermaid 원본을 `docs/assets/.../*.mmd`에서 수정할 때는 `--dirty` 없이 일반 `serve`로 확인하는 편이 안전합니다.
 
 ## 빌드 검증
 
