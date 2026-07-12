@@ -1,0 +1,11 @@
+flowchart TD
+  A["현재 토큰 표현"]
+  B["self-attention 후: 필요한 문맥이 섞임"]
+  C["feed-forward 후: 현재 역할이 더 선명해짐"]
+  D["residual + layer norm 후: 원래 축을 남기며 안정적으로 정리"]
+  E["다음 블록으로 넘길 표현"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

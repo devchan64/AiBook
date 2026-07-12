@@ -1,0 +1,21 @@
+flowchart TD
+  A["공통 질문: 첫 축은 무엇인가?"]
+
+  subgraph TAB["표 데이터"]
+    B["(batch, feature)"]
+    C["배치 뒤에 feature 축"]
+  end
+
+  subgraph IMG["이미지"]
+    D["(batch, channel, height, width)"]
+    E["배치 뒤에 채널·공간축"]
+  end
+
+  subgraph TXT["문장"]
+    F["(batch, sequence, embedding)"]
+    G["배치 뒤에 토큰·임베딩축"]
+  end
+
+  A --> B --> C
+  A --> D --> E
+  A --> F --> G

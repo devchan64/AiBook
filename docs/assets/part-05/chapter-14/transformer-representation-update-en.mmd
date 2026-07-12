@@ -1,0 +1,11 @@
+flowchart TD
+  A["current token representation"]
+  B["after self-attention: relevant context is mixed in"]
+  C["after feed-forward: the current role is sharpened"]
+  D["after residual + layer norm: keep the original axis and stabilize"]
+  E["representation for the next block"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

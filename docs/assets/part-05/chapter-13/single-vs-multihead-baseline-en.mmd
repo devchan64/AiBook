@@ -1,0 +1,15 @@
+flowchart TD
+  A["same decision sentence"]
+
+  subgraph S["single-head"]
+    B["decision, evidence, and condition are compressed into one context"]
+  end
+
+  subgraph M["multi-head"]
+    C["head 1: decision-evidence relation"]
+    D["head 2: decision-condition relation"]
+  end
+
+  A --> B
+  A --> C
+  A --> D

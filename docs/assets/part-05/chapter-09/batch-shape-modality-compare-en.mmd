@@ -1,0 +1,21 @@
+flowchart TD
+  A["shared question: what is the first axis?"]
+
+  subgraph TAB["tabular data"]
+    B["(batch, feature)"]
+    C["feature axis after batch"]
+  end
+
+  subgraph IMG["image"]
+    D["(batch, channel, height, width)"]
+    E["channel and spatial axes after batch"]
+  end
+
+  subgraph TXT["text"]
+    F["(batch, sequence, embedding)"]
+    G["token and embedding axes after batch"]
+  end
+
+  A --> B --> C
+  A --> D --> E
+  A --> F --> G

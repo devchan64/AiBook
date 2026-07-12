@@ -7,5 +7,6 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
+  - `batch-shape-modality-compare-en.mmd` / `batch-shape-modality-compare-ko.mmd`
   - `batch-tensor-flow-en.mmd` / `batch-tensor-flow-ko.mmd`
   - `cpu-gpu-parallel-flow-en.mmd` / `cpu-gpu-parallel-flow-ko.mmd`

@@ -1,16 +1,23 @@
-flowchart TB
+flowchart LR
   subgraph S["single perceptron"]
+    direction TB
     S1["input features"]
     S2["one linear score"]
     S3["one activation"]
-    S4["final decision"]
+    S4["final decision right away"]
+    SN["hard to form separate intermediate combinations"]
     S1 --> S2 --> S3 --> S4
+    S2 -. everything is compressed into one score .-> SN
   end
 
   subgraph M["multilayer network"]
+    direction TB
     M1["input features"]
-    M2["hidden representation 1"]
-    M3["hidden representation 2"]
+    M2["small combinations<br/>hidden layer 1"]
+    M3["larger combinations<br/>hidden layer 2"]
     M4["final decision"]
+    MN["builds intermediate representations in stages"]
     M1 --> M2 --> M3 --> M4
+    M2 -. groups small signals first .-> MN
+    M3 -. then recombines them into larger patterns .-> MN
   end
