@@ -32,3 +32,10 @@
   - `p4-19-3-mermaid-04-ko.mmd`
   - `p4-19-4-mermaid-01-en.mmd`
   - `p4-19-4-mermaid-01-ko.mmd`
+  - `p4-19-4-mermaid-01-zh.mmd`
+  - `p4-19-5-mermaid-01-en.mmd`
+  - `p4-19-5-mermaid-01-ko.mmd`
+  - `p4-19-5-mermaid-01-zh.mmd`
+  - `p4-19-6-mermaid-01-en.mmd`
+  - `p4-19-6-mermaid-01-ko.mmd`
+  - `p4-19-6-mermaid-01-zh.mmd`
