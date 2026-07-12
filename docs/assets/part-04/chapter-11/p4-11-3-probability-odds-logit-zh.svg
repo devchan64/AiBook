@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">概率、odds 与 log-odds 的对齐刻度</title>
+  <desc id="desc">这张三面板图把 probability、odds 与 log-odds 对齐起来，突出 probability 0.5、odds 1 与 log-odds 0 指向同一个决策中点。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 14px sans-serif; fill: #334155; }
+      .guide { stroke: #94a3b8; stroke-width: 1.4; stroke-dasharray: 4 4; }
+      .mid { stroke: #dc2626; stroke-width: 2.5; stroke-dasharray: 6 5; }
+      .dot { fill: #2563eb; }
+      .mid-dot { fill: #dc2626; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="920" height="430" rx="22" />
+  <text class="title" x="36" y="42">三个刻度，同一个决策中点</text>
+  <text class="subtitle" x="36" y="66">逻辑回归会把同一种状态读成 probability、odds 与 log-odds 三种刻度。</text>
+
+  <g transform="translate(28 98)">
+    <rect class="panel" x="0" y="0" width="270" height="250" rx="16" />
+    <text class="label" x="20" y="30">概率 p</text>
+    <line class="axis" x1="86" y1="52" x2="86" y2="212" />
+    <circle class="dot" cx="86" cy="184" r="6" />
+    <circle class="mid-dot" cx="86" cy="132" r="7" />
+    <circle class="dot" cx="86" cy="80" r="6" />
+    <line class="mid" x1="40" y1="132" x2="230" y2="132" />
+    <text class="tick" x="52" y="188">0.10</text>
+    <text class="tick" x="56" y="136">0.50</text>
+    <text class="tick" x="52" y="84">0.90</text>
+    <text class="note" x="118" y="84">明显偏向 1 类</text>
+    <text class="note" x="118" y="136">决策中点</text>
+    <text class="note" x="118" y="188">明显偏向 0 类</text>
+  </g>
+
+  <g transform="translate(324 98)">
+    <rect class="panel" x="0" y="0" width="270" height="250" rx="16" />
+    <text class="label" x="20" y="30">odds p / (1 - p)</text>
+    <line class="axis" x1="86" y1="52" x2="86" y2="212" />
+    <circle class="dot" cx="86" cy="184" r="6" />
+    <circle class="mid-dot" cx="86" cy="132" r="7" />
+    <circle class="dot" cx="86" cy="80" r="6" />
+    <line class="mid" x1="40" y1="132" x2="230" y2="132" />
+    <text class="tick" x="52" y="188">0.11</text>
+    <text class="tick" x="64" y="136">1</text>
+    <text class="tick" x="60" y="84">9</text>
+    <text class="note" x="118" y="84">1 类的 odds 占优</text>
+    <text class="note" x="118" y="136">odds 相等</text>
+    <text class="note" x="118" y="188">0 类的 odds 占优</text>
+  </g>
+
+  <g transform="translate(620 98)">
+    <rect class="panel" x="0" y="0" width="270" height="250" rx="16" />
+    <text class="label" x="20" y="30">对数几率 log-odds z</text>
+    <line class="axis" x1="40" y1="132" x2="230" y2="132" />
+    <circle class="dot" cx="76" cy="132" r="6" />
+    <circle class="mid-dot" cx="136" cy="132" r="7" />
+    <circle class="dot" cx="196" cy="132" r="6" />
+    <line class="mid" x1="136" y1="52" x2="136" y2="212" />
+    <text class="tick" x="64" y="154">-2.20</text>
+    <text class="tick" x="132" y="154">0</text>
+    <text class="tick" x="184" y="154">2.20</text>
+    <text class="note" x="54" y="92">0 类一侧</text>
+    <text class="note" x="120" y="92">边界</text>
+    <text class="note" x="176" y="92">1 类一侧</text>
+  </g>
+
+  <line class="guide" x1="164" y1="230" x2="460" y2="230" />
+  <line class="guide" x1="460" y1="230" x2="756" y2="230" />
+
+  <rect class="card" x="110" y="374" width="700" height="22" rx="8" />
+  <text class="card-body" x="126" y="389">p = 0.5、odds = 1、log-odds z = 0 说的是同一个类别决策会翻转的位置。</text>
+</svg>

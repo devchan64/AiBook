@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">同一概率刻度上的阈值移动</title>
+  <desc id="desc">这张双面板图比较同一批概率分数在 threshold 0.5 与 0.7 下的读取方式。阈值更严格时，1 类区域会缩小。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .score { fill: #2563eb; }
+      .score-shift { fill: #0f766e; }
+      .threshold { stroke: #dc2626; stroke-width: 2.6; stroke-dasharray: 6 5; }
+      .region0 { fill: #dbeafe; opacity: 0.45; }
+      .region1 { fill: #fee2e2; opacity: 0.45; }
+      .panel-title { font: 700 18px sans-serif; fill: #0f172a; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="920" height="430" rx="22" />
+  <text class="title" x="36" y="42">分数不变，但策略线可以移动</text>
+  <text class="subtitle" x="36" y="66">改变 threshold 并不会重新训练模型，它改变的是 1 类从哪里开始。</text>
+
+  <g transform="translate(30 96)">
+    <rect class="panel" x="0" y="0" width="390" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">阈值 = 0.5</text>
+    <rect class="region0" x="52" y="92" width="143" height="110" rx="10" />
+    <rect class="region1" x="195" y="92" width="145" height="110" rx="10" />
+    <line class="axis" x1="52" y1="222" x2="340" y2="222" />
+    <line class="threshold" x1="195" y1="82" x2="195" y2="232" />
+    <circle class="score" cx="121" cy="222" r="7" />
+    <circle class="score" cx="218" cy="222" r="7" />
+    <circle class="score" cx="281" cy="222" r="7" />
+    <text class="tick" x="108" y="244">0.42</text>
+    <text class="tick" x="205" y="244">0.58</text>
+    <text class="tick" x="268" y="244">0.73</text>
+    <text class="note" x="72" y="118">0 类区域</text>
+    <text class="note" x="228" y="118">1 类区域</text>
+    <text class="note" x="170" y="78">策略线</text>
+    <text class="note" x="70" y="272">0.58 和 0.73 都会被读成 1 类。</text>
+  </g>
+
+  <g transform="translate(470 96)">
+    <rect class="panel" x="0" y="0" width="390" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">阈值 = 0.7</text>
+    <rect class="region0" x="52" y="92" width="202" height="110" rx="10" />
+    <rect class="region1" x="254" y="92" width="86" height="110" rx="10" />
+    <line class="axis" x1="52" y1="222" x2="340" y2="222" />
+    <line class="threshold" x1="254" y1="82" x2="254" y2="232" />
+    <circle class="score-shift" cx="121" cy="222" r="7" />
+    <circle class="score-shift" cx="218" cy="222" r="7" />
+    <circle class="score-shift" cx="281" cy="222" r="7" />
+    <text class="tick" x="108" y="244">0.42</text>
+    <text class="tick" x="205" y="244">0.58</text>
+    <text class="tick" x="268" y="244">0.73</text>
+    <text class="note" x="72" y="118">0 类区域</text>
+    <text class="note" x="268" y="118">1 类区域</text>
+    <text class="note" x="230" y="78">更严格的线</text>
+    <text class="note" x="70" y="272">只有 0.73 还留在 1 类。</text>
+  </g>
+
+  <rect class="card" x="140" y="392" width="640" height="22" rx="8" />
+  <text class="card-body" x="158" y="407">这里的边界移动是同一分数刻度上的策略变化，不是重新拟合了一个新模型。</text>
+</svg>

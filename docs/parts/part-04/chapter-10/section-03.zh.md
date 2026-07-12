@@ -1,7 +1,7 @@
 # P4-10.3 补充学习：第一次该怎样读回归诊断(regression diagnostics)
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 读到 P4-10.2 为止，linear regression 的基本评价已经具备了。但在真实文档或课程里，读者很快还会碰到下面这些表达。
 
@@ -136,6 +136,10 @@ multicollinearity 出现在输入 feature 之间携带了太多重叠信息的�
 一个房地产分析团队正在搭建房价预测回归式。人们先看的问题是 `面积越大是否越贵`、`越靠近车站是否价格越高`、`越新房是否价值越高`。
 
 但即使输入列里没有像 `monthly_spend` 这样明显的重复名，`套内面积`、`供应面积`、`房间数`、`客厅数` 这样的信息仍然会强烈重叠地一起进入。prediction 本身可能看起来不错，但某次实验里面积 coefficient 更大，另一次实验里房间数 coefficient 又更大，甚至 coefficient 的方向也会不稳。在这种场景里，prediction performance 和 coefficient interpretation stability 绝不能当成同一句话。
+
+如果把 regression diagnostics 压成一张图来看，一边应该问 `error spread 会不会在某些区间突然变大`，另一边则该问 `prediction 看起来差不多时，coefficient interpretation 会不会自己摇动`。
+
+![把区间误差扩散放大和重叠特征导致系数解释摇晃一起展示的诊断图](../../../assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
 
 ```mermaid
 --8<-- "assets/part-04/chapter-10/p4-10-3-mermaid-01-zh.mmd"

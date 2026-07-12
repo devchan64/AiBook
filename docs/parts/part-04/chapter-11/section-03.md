@@ -112,7 +112,7 @@ p = \frac{1}{1 + e^{-z}}
 
 이 대응은 표로 외우기보다 `같은 상태를 서로 다른 눈금으로 읽는 것`이라고 붙잡는 편이 더 낫습니다.
 
-![확률 0.5, odds 1, log-odds 0이 같은 결정 중간점을 가리키는 대응 차트](../../../assets/part-04/chapter-11/p4-11-3-probability-odds-logit-en.svg)
+![확률 0.5, odds 1, log-odds 0이 같은 결정 중간점을 가리키는 대응 차트](../../../assets/part-04/chapter-11/p4-11-3-probability-odds-logit-ko.svg)
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-ko.mmd"

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">一维 cutoff 点与二维决策边界</title>
+  <desc id="desc">这张双面板图比较逻辑回归在一维与二维输入中的决策边界。左侧是在单一轴上的 cutoff 点，右侧是在散点图上分开两类的线性边界。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .dot0 { fill: #2563eb; }
+      .dot1 { fill: #dc2626; }
+      .boundary { stroke: #0f766e; stroke-width: 3.2; }
+      .threshold { stroke: #dc2626; stroke-width: 2.2; stroke-dasharray: 6 5; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .panel-title { font: 700 18px sans-serif; fill: #0f172a; }
+      .region0 { fill: #dbeafe; opacity: 0.45; }
+      .region1 { fill: #fee2e2; opacity: 0.45; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="920" height="430" rx="22" />
+  <text class="title" x="36" y="42">同一个模型会因输入维度不同而形成不同边界形状</text>
+  <text class="subtitle" x="36" y="66">只有一个特征时，边界是 cutoff 点；有两个特征时，边界会变成一条线。</text>
+
+  <g transform="translate(30 96)">
+    <rect class="panel" x="0" y="0" width="390" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">1D: 一个 cutoff 点</text>
+    <text class="subtitle" x="20" y="52">例子: 只看学习时间</text>
+
+    <line class="axis" x1="54" y1="180" x2="338" y2="180" />
+    <line class="grid" x1="54" y1="150" x2="338" y2="150" />
+    <line class="grid" x1="54" y1="210" x2="338" y2="210" />
+    <line class="grid" x1="54" y1="118" x2="54" y2="242" />
+    <line class="grid" x1="111" y1="118" x2="111" y2="242" />
+    <line class="grid" x1="168" y1="118" x2="168" y2="242" />
+    <line class="grid" x1="225" y1="118" x2="225" y2="242" />
+    <line class="grid" x1="282" y1="118" x2="282" y2="242" />
+    <line class="grid" x1="338" y1="118" x2="338" y2="242" />
+
+    <line class="threshold" x1="196" y1="118" x2="196" y2="242" />
+
+    <circle class="dot0" cx="88" cy="180" r="7" />
+    <circle class="dot0" cx="128" cy="180" r="7" />
+    <circle class="dot0" cx="166" cy="180" r="7" />
+    <circle class="dot1" cx="228" cy="180" r="7" />
+    <circle class="dot1" cx="268" cy="180" r="7" />
+    <circle class="dot1" cx="308" cy="180" r="7" />
+
+    <text class="tick" x="51" y="260">1</text>
+    <text class="tick" x="108" y="260">2</text>
+    <text class="tick" x="165" y="260">3</text>
+    <text class="tick" x="222" y="260">4</text>
+    <text class="tick" x="279" y="260">5</text>
+    <text class="tick" x="336" y="260">6</text>
+
+    <text class="label" x="240" y="286">学习时间</text>
+    <text class="note" x="70" y="112">0 类一侧</text>
+    <text class="note" x="236" y="112">1 类一侧</text>
+    <text class="note" x="160" y="102">边界</text>
+    <text class="note" x="140" y="226">大约 3.5 到 4 小时</text>
+  </g>
+
+  <g transform="translate(448 96)">
+    <rect class="panel" x="0" y="0" width="442" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">2D: 一条边界线</text>
+    <text class="subtitle" x="20" y="52">例子: 考试 1 和考试 2</text>
+
+    <rect class="region0" x="54" y="76" width="168" height="176" />
+    <polygon class="region1" points="222,76 388,76 388,252 222,252 278,252" />
+
+    <line class="grid" x1="54" y1="76" x2="388" y2="76" />
+    <line class="grid" x1="54" y1="120" x2="388" y2="120" />
+    <line class="grid" x1="54" y1="164" x2="388" y2="164" />
+    <line class="grid" x1="54" y1="208" x2="388" y2="208" />
+    <line class="grid" x1="54" y1="252" x2="388" y2="252" />
+    <line class="grid" x1="54" y1="76" x2="54" y2="252" />
+    <line class="grid" x1="110" y1="76" x2="110" y2="252" />
+    <line class="grid" x1="166" y1="76" x2="166" y2="252" />
+    <line class="grid" x1="222" y1="76" x2="222" y2="252" />
+    <line class="grid" x1="278" y1="76" x2="278" y2="252" />
+    <line class="grid" x1="334" y1="76" x2="334" y2="252" />
+    <line class="grid" x1="388" y1="76" x2="388" y2="252" />
+
+    <line class="axis" x1="54" y1="252" x2="388" y2="252" />
+    <line class="axis" x1="54" y1="252" x2="54" y2="76" />
+    <line class="boundary" x1="154" y1="252" x2="292" y2="76" />
+
+    <circle class="dot0" cx="116" cy="206" r="7" />
+    <circle class="dot0" cx="146" cy="176" r="7" />
+    <circle class="dot0" cx="132" cy="144" r="7" />
+    <circle class="dot0" cx="186" cy="212" r="7" />
+    <circle class="dot1" cx="258" cy="170" r="7" />
+    <circle class="dot1" cx="286" cy="134" r="7" />
+    <circle class="dot1" cx="314" cy="170" r="7" />
+    <circle class="dot1" cx="340" cy="120" r="7" />
+
+    <text class="tick" x="46" y="270">40</text>
+    <text class="tick" x="102" y="270">50</text>
+    <text class="tick" x="158" y="270">60</text>
+    <text class="tick" x="214" y="270">70</text>
+    <text class="tick" x="270" y="270">80</text>
+    <text class="tick" x="326" y="270">90</text>
+
+    <text class="tick" x="24" y="256">40</text>
+    <text class="tick" x="24" y="212">50</text>
+    <text class="tick" x="24" y="168">60</text>
+    <text class="tick" x="24" y="124">70</text>
+    <text class="tick" x="24" y="80">80</text>
+
+    <text class="label" x="322" y="286">考试 1</text>
+    <text class="label" x="18" y="70">考试 2</text>
+    <text class="note" x="74" y="96">0 类区域</text>
+    <text class="note" x="290" y="96">1 类区域</text>
+    <text class="note" x="240" y="244">z = 0 边界</text>
+
+    <rect class="card" x="54" y="302" width="334" height="52" rx="10" />
+    <text class="card-body" x="70" y="324">这条线本身并不是整个模型。</text>
+    <text class="card-body" x="70" y="344">它只是“把 z 与 0 比较”这条规则的可见痕迹。</text>
+  </g>
+</svg>

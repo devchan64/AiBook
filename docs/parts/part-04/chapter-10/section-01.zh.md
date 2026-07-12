@@ -1,7 +1,7 @@
 # P4-10.1 线性回归(linear regression)的直觉
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-9.2 里，我们通过 tuning 和 validation cost 讨论了 `应该怎样比较看起来不错的设置`。现在轮到把这个比较流程真正接到一个具体算法上。
 
@@ -94,7 +94,11 @@ y = wx + b
 
 系数 `w` 表示 `当 x 改变 1 个单位时，y 会改变多少`。截距 `b` 是当输入为 0 时，model 设下的起点。
 
-如果把这个结构画成图，可以读成下面这样。
+放到坐标上看，这个直觉会更清楚。即使数据点没有完美排成一条线，linear regression 也会去找一条最经济地概括这些点整体方向的直线。这里的 slope 读的是 `往右走时会上升多少`，intercept 读的是 `x = 0` 时 model 设下的起点。
+
+![展示散点图上回归线、斜率与截距该如何阅读的图](../../../assets/part-04/chapter-10/p4-10-1-regression-line-intuition-zh.svg)
+
+如果再把这个结构压缩成流程图，可以读成下面这样。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-10/p4-10-1-mermaid-01-zh.mmd"

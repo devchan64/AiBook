@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">회귀 진단 관점 차트</title>
+  <desc id="desc">값 구간에 따라 잔차 퍼짐이 커지는 장면과, 겹치는 특징 때문에 계수 해석이 흔들리는 장면을 두 패널로 비교합니다.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .point { fill: #2563eb; }
+      .point2 { fill: #dc2626; }
+      .region { fill: #eff6ff; opacity: 0.65; }
+      .region2 { fill: #fee2e2; opacity: 0.65; }
+      .panel-title { font: 700 18px sans-serif; fill: #0f172a; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+      .lineA { stroke: #2563eb; stroke-width: 3.2; }
+      .lineB { stroke: #dc2626; stroke-width: 3.2; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="920" height="430" rx="22" />
+  <text class="title" x="36" y="42">진단은 해석이 어디서 흔들리는지를 묻습니다</text>
+  <text class="subtitle" x="36" y="66">구간별 잔차 퍼짐과 겹치는 특징 때문에 계수 읽기가 흔들리는지 확인합니다.</text>
+
+  <g transform="translate(30 96)">
+    <rect class="panel" x="0" y="0" width="392" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">고르지 않은 잔차 퍼짐</text>
+    <text class="subtitle" x="20" y="52">낮은 구간의 오차는 좁지만 높은 구간에서는 퍼집니다.</text>
+    <rect class="region" x="64" y="94" width="124" height="132" rx="10" />
+    <rect class="region2" x="228" y="74" width="124" height="172" rx="10" />
+    <line class="axis" x1="52" y1="246" x2="354" y2="246" />
+    <line class="axis" x1="52" y1="246" x2="52" y2="74" />
+    <circle class="point" cx="104" cy="172" r="5.5" />
+    <circle class="point" cx="126" cy="154" r="5.5" />
+    <circle class="point" cx="148" cy="184" r="5.5" />
+    <circle class="point2" cx="258" cy="204" r="5.5" />
+    <circle class="point2" cx="286" cy="118" r="5.5" />
+    <circle class="point2" cx="318" cy="220" r="5.5" />
+    <text class="note" x="78" y="106">낮은 구간: 좁은 오차</text>
+    <text class="note" x="238" y="86">높은 구간: 넓은 오차</text>
+  </g>
+
+  <g transform="translate(498 96)">
+    <rect class="panel" x="0" y="0" width="392" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">겹치는 특징</text>
+    <text class="subtitle" x="20" y="52">예측은 비슷해도 계수 해석은 달라질 수 있습니다.</text>
+    <line class="lineA" x1="86" y1="214" x2="306" y2="104" />
+    <line class="lineB" x1="86" y1="226" x2="306" y2="116" />
+    <text class="note" x="86" y="84">모델 A</text>
+    <text class="note" x="238" y="84">모델 B</text>
+    <rect class="card" x="46" y="120" width="130" height="88" rx="10" />
+    <text class="label" x="62" y="146">모델 A</text>
+    <text class="card-body" x="62" y="170">월간 지표: 1.66</text>
+    <text class="card-body" x="62" y="190">연간 대리지표: 0.14</text>
+    <text class="card-body" x="62" y="210">예측값: 47.5</text>
+    <rect class="card" x="210" y="120" width="136" height="88" rx="10" />
+    <text class="label" x="226" y="146">모델 B</text>
+    <text class="card-body" x="226" y="170">월간 지표: 2.16</text>
+    <text class="card-body" x="226" y="190">연간 대리지표: 0.10</text>
+    <text class="card-body" x="226" y="210">예측값: 47.5</text>
+    <text class="note" x="62" y="250">예측은 비슷하지만 계수 분담은 다름</text>
+  </g>
+
+  <rect class="card" x="176" y="392" width="566" height="22" rx="8" />
+  <text class="card-body" x="192" y="407">진단은 점수만 보지 않습니다. 구간과 특징 조합이 달라져도 점수와 계수를 같은 방식으로 믿을 수 있는지 묻습니다.</text>
+</svg>

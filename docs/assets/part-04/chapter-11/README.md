@@ -2,31 +2,22 @@
 
 - Canonical Mermaid assets for this chapter live under `docs/assets/part-04/chapter-11/`.
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
-- English translation pages now use the shared `-en.mmd` source assets.
-- Chinese translation pages currently reuse the shared `-en.mmd` assets directly for Chapter 11.
+- English translation pages use the shared `-en.mmd` source assets.
+- Chinese translation pages should include the matching `-zh.mmd` files where they exist.
 - Current language sets:
-  - `p4-11-1-mermaid-01-ko.mmd`
-  - `p4-11-1-mermaid-01-en.mmd`
-  - `p4-11-1-mermaid-02-ko.mmd`
-  - `p4-11-1-mermaid-02-en.mmd`
-  - `p4-11-2-mermaid-01-ko.mmd`
-  - `p4-11-2-mermaid-01-en.mmd`
-  - `p4-11-2-mermaid-02-ko.mmd`
-  - `p4-11-2-mermaid-02-en.mmd`
-  - `p4-11-2-mermaid-03-ko.mmd`
-  - `p4-11-2-mermaid-03-en.mmd`
-  - `p4-11-2-mermaid-04-ko.mmd`
-  - `p4-11-2-mermaid-04-en.mmd`
-  - `p4-11-3-mermaid-01-ko.mmd`
-  - `p4-11-3-mermaid-01-en.mmd`
-  - `p4-11-3-mermaid-02-ko.mmd`
-  - `p4-11-3-mermaid-02-en.mmd`
-  - `p4-11-4-mermaid-01-ko.mmd`
-  - `p4-11-4-mermaid-01-en.mmd`
-  - `p4-11-5-mermaid-01-ko.mmd`
-  - `p4-11-5-mermaid-01-en.mmd`
-- Shared SVG assets added for coordinate-based explanation:
-  - `p4-11-1-sigmoid-score-map-en.svg`
-  - `p4-11-2-cutoff-boundary-en.svg`
-  - `p4-11-2-threshold-shift-en.svg`
-  - `p4-11-3-probability-odds-logit-en.svg`
+  - `p4-11-1-mermaid-01-en.mmd` / `p4-11-1-mermaid-01-ko.mmd` / `p4-11-1-mermaid-01-zh.mmd`
+  - `p4-11-1-mermaid-02-en.mmd` / `p4-11-1-mermaid-02-ko.mmd` / `p4-11-1-mermaid-02-zh.mmd`
+  - `p4-11-2-mermaid-01-en.mmd` / `p4-11-2-mermaid-01-ko.mmd` / `p4-11-2-mermaid-01-zh.mmd`
+  - `p4-11-2-mermaid-02-en.mmd` / `p4-11-2-mermaid-02-ko.mmd` / `p4-11-2-mermaid-02-zh.mmd`
+  - `p4-11-2-mermaid-03-en.mmd` / `p4-11-2-mermaid-03-ko.mmd` / `p4-11-2-mermaid-03-zh.mmd`
+  - `p4-11-2-mermaid-04-en.mmd` / `p4-11-2-mermaid-04-ko.mmd` / `p4-11-2-mermaid-04-zh.mmd`
+  - `p4-11-3-mermaid-01-en.mmd` / `p4-11-3-mermaid-01-ko.mmd` / `p4-11-3-mermaid-01-zh.mmd`
+  - `p4-11-3-mermaid-02-en.mmd` / `p4-11-3-mermaid-02-ko.mmd` / `p4-11-3-mermaid-02-zh.mmd`
+  - `p4-11-4-mermaid-01-en.mmd` / `p4-11-4-mermaid-01-ko.mmd` / `p4-11-4-mermaid-01-zh.mmd`
+  - `p4-11-5-mermaid-01-en.mmd` / `p4-11-5-mermaid-01-ko.mmd` / `p4-11-5-mermaid-01-zh.mmd`
+- SVG assets added for coordinate-based explanation:
+  - `p4-11-1-sigmoid-score-map-en.svg` / `p4-11-1-sigmoid-score-map-ko.svg` / `p4-11-1-sigmoid-score-map-zh.svg`
+  - `p4-11-2-cutoff-boundary-en.svg` / `p4-11-2-cutoff-boundary-ko.svg` / `p4-11-2-cutoff-boundary-zh.svg`
+  - `p4-11-2-threshold-shift-en.svg` / `p4-11-2-threshold-shift-ko.svg` / `p4-11-2-threshold-shift-zh.svg`
+  - `p4-11-3-probability-odds-logit-en.svg` / `p4-11-3-probability-odds-logit-ko.svg` / `p4-11-3-probability-odds-logit-zh.svg`
+- Korean manuscript pages reference the translated `-ko.svg` derivatives, Chinese manuscript pages reference the translated `-zh.svg` derivatives, and English pages keep the `-en.svg` source assets.
