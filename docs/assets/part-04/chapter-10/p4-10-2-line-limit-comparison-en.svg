@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">When one line becomes too simple</title>
+  <desc id="desc">A two-panel comparison shows two common limits of linear regression: a curved relationship that one straight line cannot follow well and an outlier that pulls the fitted line away from the main pattern.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .point { fill: #2563eb; }
+      .outlier { fill: #dc2626; }
+      .line { stroke: #dc2626; stroke-width: 3; fill: none; }
+      .curve { stroke: #0f766e; stroke-width: 3.5; fill: none; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .panel-title { font: 700 18px sans-serif; fill: #0f172a; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="920" height="430" rx="22" />
+  <text class="title" x="36" y="42">Two classic limits of a single straight line</text>
+  <text class="subtitle" x="36" y="66">A line can miss a curved pattern, and a rare extreme point can pull the line away from the main trend.</text>
+
+  <g transform="translate(30 96)">
+    <rect class="panel" x="0" y="0" width="392" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">Curved pattern</text>
+    <text class="subtitle" x="20" y="52">The main relationship bends, but the model still fits one line.</text>
+    <line class="grid" x1="52" y1="80" x2="354" y2="80" />
+    <line class="grid" x1="52" y1="126" x2="354" y2="126" />
+    <line class="grid" x1="52" y1="172" x2="354" y2="172" />
+    <line class="grid" x1="52" y1="218" x2="354" y2="218" />
+    <line class="grid" x1="52" y1="264" x2="354" y2="264" />
+    <line class="grid" x1="52" y1="80" x2="52" y2="264" />
+    <line class="grid" x1="112" y1="80" x2="112" y2="264" />
+    <line class="grid" x1="172" y1="80" x2="172" y2="264" />
+    <line class="grid" x1="232" y1="80" x2="232" y2="264" />
+    <line class="grid" x1="292" y1="80" x2="292" y2="264" />
+    <line class="grid" x1="354" y1="80" x2="354" y2="264" />
+    <line class="axis" x1="52" y1="264" x2="354" y2="264" />
+    <line class="axis" x1="52" y1="264" x2="52" y2="80" />
+    <path class="curve" d="M60 240 C118 200, 152 156, 190 138 C236 118, 284 114, 346 132" />
+    <path class="line" d="M56 220 L350 132" />
+    <circle class="point" cx="84" cy="226" r="5.5" />
+    <circle class="point" cx="126" cy="194" r="5.5" />
+    <circle class="point" cx="166" cy="160" r="5.5" />
+    <circle class="point" cx="210" cy="136" r="5.5" />
+    <circle class="point" cx="258" cy="124" r="5.5" />
+    <circle class="point" cx="316" cy="128" r="5.5" />
+    <text class="note" x="82" y="238">underfit early</text>
+    <text class="note" x="248" y="154">underfit late</text>
+  </g>
+
+  <g transform="translate(498 96)">
+    <rect class="panel" x="0" y="0" width="392" height="286" rx="16" />
+    <text class="panel-title" x="20" y="30">Outlier pull</text>
+    <text class="subtitle" x="20" y="52">One extreme point can drag the fitted line away from the main cluster.</text>
+    <line class="grid" x1="52" y1="80" x2="354" y2="80" />
+    <line class="grid" x1="52" y1="126" x2="354" y2="126" />
+    <line class="grid" x1="52" y1="172" x2="354" y2="172" />
+    <line class="grid" x1="52" y1="218" x2="354" y2="218" />
+    <line class="grid" x1="52" y1="264" x2="354" y2="264" />
+    <line class="grid" x1="52" y1="80" x2="52" y2="264" />
+    <line class="grid" x1="112" y1="80" x2="112" y2="264" />
+    <line class="grid" x1="172" y1="80" x2="172" y2="264" />
+    <line class="grid" x1="232" y1="80" x2="232" y2="264" />
+    <line class="grid" x1="292" y1="80" x2="292" y2="264" />
+    <line class="grid" x1="354" y1="80" x2="354" y2="264" />
+    <line class="axis" x1="52" y1="264" x2="354" y2="264" />
+    <line class="axis" x1="52" y1="264" x2="52" y2="80" />
+    <path class="line" d="M56 236 L350 120" />
+    <circle class="point" cx="86" cy="226" r="5.5" />
+    <circle class="point" cx="128" cy="208" r="5.5" />
+    <circle class="point" cx="166" cy="188" r="5.5" />
+    <circle class="point" cx="208" cy="170" r="5.5" />
+    <circle class="point" cx="250" cy="152" r="5.5" />
+    <circle class="outlier" cx="320" cy="96" r="6.5" />
+    <text class="note" x="274" y="92">outlier</text>
+    <text class="note" x="90" y="246">main pattern</text>
+  </g>
+
+  <rect class="card" x="186" y="392" width="550" height="22" rx="8" />
+  <text class="card-body" x="202" y="407">Poor fit can come from a curved relationship, missing features, or a few extreme points that pull the line.</text>
+</svg>

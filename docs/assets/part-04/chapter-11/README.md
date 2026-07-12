@@ -25,3 +25,8 @@
   - `p4-11-4-mermaid-01-en.mmd`
   - `p4-11-5-mermaid-01-ko.mmd`
   - `p4-11-5-mermaid-01-en.mmd`
+- Shared SVG assets added for coordinate-based explanation:
+  - `p4-11-1-sigmoid-score-map-en.svg`
+  - `p4-11-2-cutoff-boundary-en.svg`
+  - `p4-11-2-threshold-shift-en.svg`
+  - `p4-11-3-probability-odds-logit-en.svg`

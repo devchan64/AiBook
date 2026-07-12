@@ -17,3 +17,8 @@
   - `p4-10-2-mermaid-02-en.mmd` / `p4-10-2-mermaid-02-ko.mmd`
   - `p4-10-2-mermaid-03-en.mmd` / `p4-10-2-mermaid-03-ko.mmd`
   - `p4-10-3-mermaid-01-en.mmd` / `p4-10-3-mermaid-01-ko.mmd`
+- Shared SVG assets added for coordinate-based explanation:
+  - `p4-10-1-regression-line-intuition-en.svg`
+  - `p4-10-2-residual-gap-en.svg`
+  - `p4-10-2-line-limit-comparison-en.svg`
+  - `p4-10-3-diagnostics-view-en.svg`

@@ -1,0 +1,13 @@
+flowchart TB
+  A["candidate feature"]
+  B["why does it look useful?"]
+  C["five checks<br/>signal / noise / timing<br/>redundancy / operations"]
+  D["keep"]
+  E["hold"]
+  F["remove"]
+
+  A --> B
+  B --> C
+  C -->|clear and usable| D
+  C -->|uncertain| E
+  C -->|risky or invalid| F

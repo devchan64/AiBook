@@ -1,7 +1,7 @@
 # P4-11.3 보충학습: log-odds와 MLE를 처음 읽는 법
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 분류 모델`로 보았고, P4-11.2에서는 그 점수가 입력 공간을 어떻게 가르는지 결정 경계(decision boundary) 관점으로 읽었습니다. 여기까지 오면 자연스럽게 다음 질문이 남습니다.
 
@@ -109,6 +109,10 @@ p = \frac{1}{1 + e^{-z}}
 - class 0 쪽으로 더 확신할수록 log-odds는 음수로 작아집니다.
 
 즉, P4-11.2에서 `결정 경계는 선형 점수 \(z = 0\)인 자리`라고 했던 설명도, 결국 `확률 0.5`, `odds 1`, `log-odds 0`이 같은 자리를 가리킨다는 뜻으로 다시 읽을 수 있습니다.
+
+이 대응은 표로 외우기보다 `같은 상태를 서로 다른 눈금으로 읽는 것`이라고 붙잡는 편이 더 낫습니다.
+
+![확률 0.5, odds 1, log-odds 0이 같은 결정 중간점을 가리키는 대응 차트](../../../assets/part-04/chapter-11/p4-11-3-probability-odds-logit-en.svg)
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-ko.mmd"

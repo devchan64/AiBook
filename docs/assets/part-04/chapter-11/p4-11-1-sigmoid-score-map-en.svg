@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Sigmoid score map for logistic regression</title>
+  <desc id="desc">A sigmoid curve chart shows how a linear score z maps to a probability-like output between 0 and 1. The chart highlights that z equals 0 maps to probability 0.5, large negative scores stay near 0, and large positive scores stay near 1.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .curve { fill: none; stroke: #2563eb; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .threshold { stroke: #dc2626; stroke-width: 2.5; stroke-dasharray: 6 5; }
+      .guide { stroke: #10b981; stroke-width: 2; stroke-dasharray: 4 4; }
+      .dot { fill: #dc2626; stroke: #ffffff; stroke-width: 2; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-title { font: 700 14px sans-serif; fill: #0f172a; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="760" height="430" rx="22" />
+  <text class="title" x="38" y="42">Linear score becomes a probability-like output</text>
+  <text class="subtitle" x="38" y="66">Logistic regression keeps the linear score, then reads it through a sigmoid curve.</text>
+
+  <rect class="panel" x="34" y="92" width="470" height="282" rx="16" />
+
+  <line class="grid" x1="92" y1="124" x2="464" y2="124" />
+  <line class="grid" x1="92" y1="174" x2="464" y2="174" />
+  <line class="grid" x1="92" y1="224" x2="464" y2="224" />
+  <line class="grid" x1="92" y1="274" x2="464" y2="274" />
+  <line class="grid" x1="92" y1="324" x2="464" y2="324" />
+  <line class="grid" x1="92" y1="124" x2="92" y2="324" />
+  <line class="grid" x1="154" y1="124" x2="154" y2="324" />
+  <line class="grid" x1="216" y1="124" x2="216" y2="324" />
+  <line class="grid" x1="278" y1="124" x2="278" y2="324" />
+  <line class="grid" x1="340" y1="124" x2="340" y2="324" />
+  <line class="grid" x1="402" y1="124" x2="402" y2="324" />
+  <line class="grid" x1="464" y1="124" x2="464" y2="324" />
+
+  <line class="axis" x1="92" y1="324" x2="464" y2="324" />
+  <line class="axis" x1="92" y1="324" x2="92" y2="124" />
+
+  <text class="tick" x="86" y="342">-6</text>
+  <text class="tick" x="148" y="342">-4</text>
+  <text class="tick" x="210" y="342">-2</text>
+  <text class="tick" x="274" y="342">0</text>
+  <text class="tick" x="336" y="342">2</text>
+  <text class="tick" x="398" y="342">4</text>
+  <text class="tick" x="460" y="342">6</text>
+
+  <text class="tick" x="58" y="328">0</text>
+  <text class="tick" x="44" y="278">0.25</text>
+  <text class="tick" x="50" y="228">0.5</text>
+  <text class="tick" x="44" y="178">0.75</text>
+  <text class="tick" x="58" y="128">1</text>
+
+  <path class="curve" d="M92 320 C122 319, 146 314, 170 302 C194 288, 216 266, 238 240 C250 226, 262 216, 278 224 C294 232, 306 196, 318 176 C340 140, 372 126, 464 128" />
+  <line class="threshold" x1="278" y1="124" x2="278" y2="324" />
+  <line class="guide" x1="92" y1="224" x2="464" y2="224" />
+  <circle class="dot" cx="278" cy="224" r="6" />
+
+  <text class="label" x="454" y="360">linear score z</text>
+  <text class="label" x="40" y="116">p</text>
+  <text class="note" x="240" y="118">decision midpoint</text>
+  <text class="note" x="286" y="218">z = 0, p = 0.5</text>
+  <text class="note" x="108" y="144">large negative score</text>
+  <text class="note" x="340" y="144">large positive score</text>
+  <text class="note" x="102" y="366">class 0 side</text>
+  <text class="note" x="372" y="366">class 1 side</text>
+
+  <rect class="card" x="528" y="108" width="196" height="78" rx="12" />
+  <text class="card-title" x="546" y="134">Before sigmoid</text>
+  <text class="card-body" x="546" y="158">z can be -2.3, 0, 1.7, 5.8</text>
+  <text class="card-body" x="546" y="178">Hard to read as a class score</text>
+
+  <rect class="card" x="528" y="198" width="196" height="78" rx="12" />
+  <text class="card-title" x="546" y="224">After sigmoid</text>
+  <text class="card-body" x="546" y="248">Output stays between 0 and 1</text>
+  <text class="card-body" x="546" y="268">Easy to compare with a threshold</text>
+
+  <rect class="card" x="528" y="288" width="196" height="70" rx="12" />
+  <text class="card-title" x="546" y="314">What to read first</text>
+  <text class="card-body" x="546" y="338">Negative z: closer to class 0</text>
+  <text class="card-body" x="546" y="356">Positive z: closer to class 1</text>
+
+  <rect class="card" x="116" y="388" width="528" height="24" rx="8" />
+  <text class="card-body" x="132" y="405">The model still computes a linear score. The sigmoid only changes how we read that score.</text>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Linear regression line intuition</title>
+  <desc id="desc">A scatter plot with a fitted line shows how linear regression summarizes an overall upward trend with a slope and an intercept. The chart highlights the intercept and the meaning of a positive slope.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .axis { stroke: #64748b; stroke-width: 1.6; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .tick { font: 12px sans-serif; fill: #475569; }
+      .label { font: 700 13px sans-serif; fill: #334155; }
+      .point { fill: #2563eb; }
+      .line { stroke: #dc2626; stroke-width: 3.5; fill: none; }
+      .guide { stroke: #10b981; stroke-width: 2; stroke-dasharray: 5 4; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .card { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; }
+      .card-body { font: 400 13px sans-serif; fill: #334155; }
+    </style>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6.8" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="760" height="430" rx="22" />
+  <text class="title" x="38" y="42">A line summarizes the overall trend, not every point</text>
+  <text class="subtitle" x="38" y="66">Linear regression reads “how much y changes on average when x increases”.</text>
+
+  <rect class="panel" x="34" y="94" width="470" height="286" rx="16" />
+
+  <line class="grid" x1="92" y1="126" x2="454" y2="126" />
+  <line class="grid" x1="92" y1="176" x2="454" y2="176" />
+  <line class="grid" x1="92" y1="226" x2="454" y2="226" />
+  <line class="grid" x1="92" y1="276" x2="454" y2="276" />
+  <line class="grid" x1="92" y1="326" x2="454" y2="326" />
+  <line class="grid" x1="92" y1="126" x2="92" y2="326" />
+  <line class="grid" x1="152" y1="126" x2="152" y2="326" />
+  <line class="grid" x1="212" y1="126" x2="212" y2="326" />
+  <line class="grid" x1="272" y1="126" x2="272" y2="326" />
+  <line class="grid" x1="332" y1="126" x2="332" y2="326" />
+  <line class="grid" x1="392" y1="126" x2="392" y2="326" />
+  <line class="grid" x1="454" y1="126" x2="454" y2="326" />
+
+  <line class="axis" x1="92" y1="326" x2="454" y2="326" />
+  <line class="axis" x1="92" y1="326" x2="92" y2="126" />
+
+  <circle class="point" cx="120" cy="292" r="6" />
+  <circle class="point" cx="164" cy="274" r="6" />
+  <circle class="point" cx="214" cy="242" r="6" />
+  <circle class="point" cx="270" cy="222" r="6" />
+  <circle class="point" cx="326" cy="192" r="6" />
+  <circle class="point" cx="388" cy="162" r="6" />
+
+  <path class="line" d="M92 302 L454 144" />
+  <line class="guide" x1="92" y1="302" x2="92" y2="326" />
+  <path class="guide" d="M214 242 L258 242 L258 222" marker-end="url(#arrow-green)" />
+
+  <text class="tick" x="88" y="344">0</text>
+  <text class="tick" x="148" y="344">1</text>
+  <text class="tick" x="208" y="344">2</text>
+  <text class="tick" x="268" y="344">3</text>
+  <text class="tick" x="328" y="344">4</text>
+  <text class="tick" x="388" y="344">5</text>
+  <text class="tick" x="448" y="344">6</text>
+
+  <text class="tick" x="60" y="330">50</text>
+  <text class="tick" x="60" y="280">56</text>
+  <text class="tick" x="60" y="230">62</text>
+  <text class="tick" x="60" y="180">68</text>
+  <text class="tick" x="60" y="130">74</text>
+
+  <text class="label" x="398" y="364">study hours</text>
+  <text class="label" x="42" y="118">exam score</text>
+  <text class="note" x="102" y="296">intercept</text>
+  <text class="note" x="264" y="234">positive slope</text>
+
+  <rect class="card" x="530" y="110" width="194" height="84" rx="12" />
+  <text class="label" x="548" y="136">Slope</text>
+  <text class="card-body" x="548" y="160">When x increases, the line rises.</text>
+  <text class="card-body" x="548" y="180">Average direction is positive.</text>
+
+  <rect class="card" x="530" y="208" width="194" height="84" rx="12" />
+  <text class="label" x="548" y="234">Intercept</text>
+  <text class="card-body" x="548" y="258">The model’s starting point</text>
+  <text class="card-body" x="548" y="278">when x = 0.</text>
+
+  <rect class="card" x="530" y="306" width="194" height="58" rx="12" />
+  <text class="card-body" x="548" y="332">The line does not memorize every dot.</text>
+  <text class="card-body" x="548" y="352">It summarizes the overall trend.</text>
+</svg>
