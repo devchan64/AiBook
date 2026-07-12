@@ -103,7 +103,7 @@ The sigmoid function does exactly that.
 
 It becomes more intuitive on a coordinate plot. When the linear score \(z\) moves from negative to positive, the sigmoid output moves smoothly from near 0 to near 1, and it meets `p = 0.5` at `z = 0`.
 
-![A chart showing how the linear score z passes through sigmoid and becomes a value between 0 and 1 that can be read like a probability](../../../assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-en.svg)
+![A chart showing how the linear score z passes through sigmoid and becomes a value between 0 and 1 that can be read like a probability](/AiBook/assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-en.svg)
 
 This flow can be drawn simply as follows.
 
@@ -190,7 +190,7 @@ This record keeps statements like `the score improved`, `the threshold changed`,
 
 If the scene `the same score leads to different final behavior depending on where the policy line is drawn` is compressed onto one score axis, it can be read as follows.
 
-![A comparison chart showing that the same probability score is read as different behavior under thresholds 0.5 and 0.7](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
+![A comparison chart showing that the same probability score is read as different behavior under thresholds 0.5 and 0.7](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
 
 ### When Is Logistic Regression A Good First Candidate?
 

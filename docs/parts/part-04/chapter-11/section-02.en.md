@@ -133,7 +133,7 @@ In this case, the boundary can be read as lying `somewhere between 4 and 5 hours
 
 If the cutoff point for one variable and the boundary line for two variables are compared in the same figure, it can be read as follows.
 
-![A comparison chart of a one-dimensional cutoff point and a two-dimensional decision boundary line](../../../assets/part-04/chapter-11/p4-11-2-cutoff-boundary-en.svg)
+![A comparison chart of a one-dimensional cutoff point and a two-dimensional decision boundary line](/AiBook/assets/part-04/chapter-11/p4-11-2-cutoff-boundary-en.svg)
 
 The idea can be drawn simply as follows.
 
@@ -206,7 +206,7 @@ So when the threshold rises, the region classified as class 1 can shrink, and th
 
 If the same score arrangement is kept and only the threshold changes, the cutoff shift on the score axis becomes a smaller class 1 region in the input space. That coordinate-style comparison can be read as follows.
 
-![A comparison chart showing that when the threshold rises from 0.5 to 0.7 on the same score axis, the class 1 region becomes smaller](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
+![A comparison chart showing that when the threshold rises from 0.5 to 0.7 on the same score axis, the class 1 region becomes smaller](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
 
 This movement can be drawn conceptually as follows.
 

@@ -115,7 +115,7 @@ In such a scene, the reader should first inspect `where the explanation breaks d
 
 If regression diagnostics is compressed into one frame, one side asks `does the spread of error change by region?`, while the other asks `does prediction stay similar while only coefficient interpretation shakes?`
 
-![A chart that compares wider residual spread by region with unstable coefficient interpretation caused by overlapping features](../../../assets/part-04/chapter-10/p4-10-3-diagnostics-view-en.svg)
+![A chart that compares wider residual spread by region with unstable coefficient interpretation caused by overlapping features](/AiBook/assets/part-04/chapter-10/p4-10-3-diagnostics-view-en.svg)
 
 ## Why Does Multicollinearity Shake Coefficient Interpretation?
 
