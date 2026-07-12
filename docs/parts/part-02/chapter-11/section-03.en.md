@@ -1,7 +1,7 @@
 # P2-11.3 Broadcasting and Vectorization
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-11.1, we checked the `shape`, `ndim`, and `dtype` of NumPy arrays. In P2-11.2, we used indexing, slicing, and axis to decide which part of an array to read and in which direction to calculate.
 
@@ -343,21 +343,7 @@ For example, if you add an offset `[0.1, 0.2, 0.3]` by feature to every student 
 
 This case ties broadcasting and vectorization back to an actual calculation scene. Repetition was not removed. It was expressed as array calculation, and for that expression to work safely, you must first read what question the smaller array and the larger array correspond to.
 
-## Perspective to Remember in This Section
-
-Broadcasting is the rule that lets a small value or a small array be calculated to fit the shape of a larger array.
-
-A scalar can be applied to each position of an array.
-
-An array of shape `(4, 3)` and an array of shape `(3,)` can be calculated together because the length 3 matches each row.
-
-An array of shape `(4, 3)` and an array of shape `(4,)` may look as if they match the number of rows, but from the viewpoint of the last dimension they do not match, so an error can occur.
-
-Vectorization is a way of expressing repeated calculation through array operations.
-
-When using broadcasting and vectorization, check `shape` before and after the calculation.
-
-## Short Check
+## Checklist
 
 - You can explain scalar-array calculation as broadcasting.
 - You can explain why `(4, 3) + (3,)` is possible.
@@ -366,12 +352,7 @@ When using broadcasting and vectorization, check `shape` before and after the ca
 - You can explain the result shape of `features.mean(axis=0)`.
 - You can explain where broadcasting occurs in the calculation that subtracts the mean by feature.
 - You can explain that broadcasting is not always the best choice and that shape and memory use should be checked.
-
-## When Should This Perspective Come to Mind First?
-
-- When you want to apply the same calculation across a whole array without a loop, or calculate together arrays with different shapes, call up the perspective of broadcasting and vectorization first.
-- When you need to explain why `(4, 3) + (3,)` works but `(4, 3) + (4,)` does not, return to the shape rule of this Section.
-- When you need to use axis-based statistics and automatic expansion together, such as subtracting a mean, normalization, or feature-wise calculation, check this Section again.
+- You can explain that broadcasting is the rule that lets a small value or array participate in calculation by fitting the shape of a larger array.
 
 ## Sources and References
 

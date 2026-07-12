@@ -1,7 +1,7 @@
 # P2-10.1 为什么笔记本(notebook)对学习有用
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 Part 2 Chapter 7 中，我们已经区分了 Python 是在哪里执行的，包括 terminal、shell、interpreter、script、virtual environment。在 Part 2 Chapter 8 和 Chapter 9 中，我们通过小例子重新恢复了 Python 语法和数据结构。
 
@@ -306,21 +306,7 @@ mean_a, mean_b
 
 这种方式在之后的机器学习实践里也会持续出现。不要试图一次把数据准备、模型训练、评估和解释全部完成，而是按 cell 去确认一个个小问题。
 
-## 本节要记住的视角
-
-Notebook 既是执行代码的工具，也是学习记录文档。
-
-Code cell 执行计算。
-
-Markdown cell 保留问题和解释。
-
-Output 让结果可以被立刻确认。
-
-Notebook 对探索和学习很有用，但必须小心执行顺序和隐藏状态。
-
-当反复执行和复用变得重要时，就需要判断是否把代码拆分成 script 或 module。
-
-## 简短检查
+## 检查清单
 
 - 能把 notebook 解释成同时包含代码、解释和输出的计算文档。
 - 能区分 code cell 和 markdown cell。
@@ -328,12 +314,7 @@ Notebook 对探索和学习很有用，但必须小心执行顺序和隐藏状�
 - 能说明 cell 执行顺序会影响结果。
 - 能说明 notebook 不会完全取代 script。
 - 能在学习 notebook 中同时留下问题、代码、输出和解释。
-
-## 什么时候应先想起这个视角？
-
-- 当你想在一个地方同时保留代码和解释、输出和解读来学习时，应先想起 notebook 的视角。
-- 当单个 script 不足以保留学习痕迹和实验上下文时，应回来看本节的记录格式。
-- 当你整理数学、Python 和 AI 实践，而其中 cell 执行顺序与结果解读都同样重要时，再回来确认这里。
+- 能把 notebook 说明成执行工具和学习记录文档两种角色。
 
 ## 来源与参考资料
 

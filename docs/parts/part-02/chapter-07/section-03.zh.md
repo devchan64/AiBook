@@ -1,7 +1,7 @@
 # P2-7.3 Python 解释器(interpreter)与脚本(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 在 P2-7.2 中，我们已经看了终端(terminal)、shell、工作文件夹(working directory)。现在要继续看：在那个终端里，Python 代码到底怎样被执行。
 
@@ -267,16 +267,6 @@ python -m pip install numpy
 
 这里不会把所有错误解决方法都讲完。重要的是一种视角：`只要执行方式不同，收窄错误原因的方法也必须不同。`
 
-## 本节要记住的视角
-
-在运行 Python 时，先看三件事。
-
-1. 我现在输入的位置，是 shell、Python 提示符，还是代码单元？
-2. 我要执行的是一行计算、一个文件，还是一个笔记本单元？
-3. 当前工作文件夹和需要的文件都对吗？
-
-如果把这些问题养成习惯，那么后面在虚拟环境、包安装、读取数据文件时，错误就能被更平静地拆开来看。
-
 ## 用案例来看
 
 ### 案例 1. `print("hello")` 到底该输入在哪里
@@ -289,7 +279,7 @@ python -m pip install numpy
 
 可确认的结果会直接体现在提示符上。如果 `print("hello")` 在 `>>>` 里能运行，但在普通 shell 提示符里不能，那么问题就不是 Python 语法，而是你选错了执行位置。
 
-## 简短检查
+## 检查清单
 
 - 能把 Python 解释器(interpreter)解释成读取并执行 Python 代码的程序。
 - 能说明在交互模式(interactive mode)里，Python 代码是输入在 `>>>` 提示符里的。
@@ -297,12 +287,7 @@ python -m pip install numpy
 - 能区分 `python hello.py` 是终端命令，而 `print("hello")` 是 Python 代码。
 - 能说明 Colab/Jupyter 代码单元会按单元执行 Python 代码。
 - 能说明 `python -m pip ...` 里的 `-m` 是终端传给 Python 解释器的执行选项。
-
-## 什么时候要先想起这个视角
-
-- 当你从 `print("hello")` 到底该输在哪里就开始混乱，需要重新区分 shell 提示符和 Python 执行位置时，先想起这个视角。
-- 当你需要重新抓住：交互执行、脚本执行、笔记本代码单元虽然都在用 Python，但保存和重跑方式不同，先想起这个视角。
-- 当你需要重新区分 `python`、`python file.py`、`python -m ...` 这些终端命令各自的角色时，先想起这个视角。
+- 能说明运行 Python 时，先要区分当前位置是 shell、Python 提示符还是代码单元，以及自己要执行的是一行、一份文件还是一个笔记本单元。
 
 ## 来源与参考资料
 

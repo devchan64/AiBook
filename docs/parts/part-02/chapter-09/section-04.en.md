@@ -1,7 +1,7 @@
 # P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-9.1, we viewed a data structure as the shape that holds data and the way that data is handled. But once you start studying data structures, many unfamiliar names suddenly appear.
 
@@ -640,33 +640,7 @@ Fourth, data structures are not only for performance.
 
 They also reveal the meaning of code. If you use a list, the intent `process in order` becomes visible. If you use a dictionary, the intent `find by key` becomes visible. If you use a graph structure, the intent `follow relationships` becomes visible.
 
-## Perspectives to Remember from This Section
-
-- It is better to read traditional data-structure names first as `a language of questions`, before implementation.
-- Arrays, stacks, and queues connect to linear-structure questions, while trees and graphs connect to relationship-structure questions.
-- If you already learned Python lists and dictionaries, this Section adds the more general intuition behind them.
-- In AI practice too, order, key-based lookup, and relationship tracking keep returning.
-
-For data structures, the question comes before the name.
-
-- If order matters, think of linear structures.
-- If the rule for putting in and taking out matters, think of stacks and queues.
-- If hierarchy matters, think of trees.
-- If relationships matter, think of graphs.
-- If finding by key matters, think of dictionaries and hash tables.
-
-Knowing data structures well does not mean memorizing every implementation. It means seeing together the shape of the data and the operations done often, and choosing the expression that fits that purpose.
-
-This supplement organizes the following standard.
-
-| What to recover here | Main-text question to return to | Where to continue reading |
-| --- | --- | --- |
-| The point that order, key lookup, and relationship tracking are different questions | What structure question does the current data create first? | The big picture of data structures is in P2-9.1, and the intuition of arrays and tables is in Part 2 Chapters 11 and 12 |
-| The minimum intuition that connects names such as array, stack, queue, tree, and graph to problem scenes | Why is the same data read through different structure names in AI practice? | Later explanations of NumPy, Pandas, and search or relation appear in the main text after Part 3 |
-
-In other words, if you can distinguish `Is this an order problem?`, `Is this a key lookup problem?`, and `Is this a relationship-tracking problem?`, then you have captured the core of this supplement.
-
-## Short Check
+## Checklist
 
 - Can you explain arrays, stacks, queues, trees, graphs, and hash tables through representative questions?
 - Can you explain why traditional data-structure names still need to be read again after Python syntax?
@@ -678,12 +652,7 @@ In other words, if you can distinguish `Is this an order problem?`, `Is this a k
 - You can explain that dictionaries and hash tables connect to key-based lookup.
 - You can explain that behind Python's convenient syntax, traditional data-structure intuition is still working.
 - You can run Python examples of arrays, linked lists, stacks, queues, trees, graphs, and dictionaries, and explain the output flow.
-
-## When Should You Recall This Perspective First?
-
-- Return to this supplement when you need to separately organize the traditional data-structure intuition behind Python's convenient syntax.
-- Recall it when you need to distinguish what questions arrays, linked lists, stacks, queues, trees, graphs, and hash-based structures were each created to solve.
-- When you need to quickly recover the role and selection standard of each structure rather than dig deeply into implementation detail, this Section becomes the baseline.
+- Can you first distinguish `is this an order problem`, `a key lookup problem`, or `a relationship-tracking problem`?
 
 ## Sources and References
 

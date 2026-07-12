@@ -1,7 +1,7 @@
 # P2-6.3 The Intuition of Gradient Descent
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-6.1, we looked at optimization as the problem of finding a better value, and in P2-6.2, we looked at how model wrongness is turned into a number called `loss`. Now the question becomes more concrete.
 
@@ -217,17 +217,7 @@ The result is affected by several conditions.
 
 This connects to the point from 6.1 that `optimal does not mean perfect`. Gradient descent is a method that moves in a better direction within given criteria and conditions. It does not automatically solve every real-world condition.
 
-## Perspective to Keep from This Section
-
-Gradient descent is a repeated method that changes parameters little by little in order to reduce loss. It calculates loss, reads the direction through the gradient, moves a little in the direction opposite the gradient, and then calculates loss again.
-
-This flow continues to reappear in Part 4 deep learning as well. But in deep learning, there are many parameters, and calculating gradients becomes complex. That is why `backpropagation` in P4-5.1 and P4-5.2 and `optimizers` in P4-7.1 and P4-7.2 appear.
-
-For now, remember that the loss function decides what to reduce, the gradient tells us in which direction it changes, and gradient descent uses that direction information to change the value little by little.
-
-This is the end of the `language of calculation` axis in Part 2. Beginning immediately with Chapter 7, we move to where the reader actually runs these formulas and calculations and in what environment they are read. In other words, from now on we do not add harder mathematics first, but move to the layer of `in what place do we run and check this calculation?`
-
-## Short Check
+## Checklist
 
 - You can explain gradient descent as a repeated movement method for lowering loss.
 - You can explain that the gradient is connected to the direction in which loss increases at the current position.
@@ -235,12 +225,8 @@ This is the end of the `language of calculation` axis in Part 2. Beginning immed
 - You can explain the learning rate as the size of one movement.
 - You can read the gradient-descent update formula as the structure `move a little from the current value in the direction opposite the gradient`.
 - You can explain that gradient descent is affected by initialization, learning rate, loss-function shape, data, and number of iterations.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when you understand that loss should be reduced but the connection breaks when asking how the parameters are actually changed.
-- Recall it first when you need to explain again why both gradient direction and movement in the opposite direction are necessary.
-- Recall it first when you need to read situations of too-large or too-small learning rate again as the feel of `step size`.
+- You can explain how `reducing loss` is connected to actually changing parameters.
+- You can distinguish the gradient direction from movement in the opposite direction, and explain why both are needed.
 
 ## Sources and References
 

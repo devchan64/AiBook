@@ -1,7 +1,7 @@
 # P2-8.2 Lists: Ordered Groups of Values
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-8.1, we looked at values, variables, and types. Now we look at the first structure for handling several values at once: the list.
 
@@ -532,26 +532,6 @@ for file_name in file_names:
 
 In project practice, there are many cases where several files must be processed in the same way.
 
-## Perspective to Remember in This Section
-
-- A list is an ordered group of values.
-- An index is a position number, and in Python it usually starts from 0.
-- A list is a mutable value.
-- Assigning a list to another variable does not automatically create a copy.
-- When you later meet a NumPy array, you must first recall that `list` and `array` are not the same word.
-
-A list is an ordered group of values. When there are several values and order or position has meaning, consider a list first.
-
-This perspective is the standard for reading a Python list. Later, position and order appear again in arrays, vectors, table rows, and model output lists, but those structures must each be checked separately for their own purpose and computation rules.
-
-When reading a list, use the following questions.
-
-1. What purpose or context of values is inside this list?
-2. Is the order important?
-3. Do I need to take a value out by position?
-4. Is it a structure that starts empty and later gets values added?
-5. Is this a situation where changing the original list is allowed?
-
 ## Case Study
 
 ### Case 1. What Is Needed to Handle Several Prediction Scores at Once?
@@ -564,7 +544,7 @@ The list is exactly the structure suited for this scene. When there are several 
 
 The confirmable result appears immediately through the index. If you can directly check a third value like `probabilities[2]`, and if you can attach a new result at the end with `append()`, then this is a situation where a list fits better than naming separate variables one by one.
 
-## Short Check
+## Checklist
 
 - Can you explain a list as an `ordered group of values`?
 - Can you read `scores[0]` and `scores[-1]`?
@@ -579,12 +559,7 @@ The confirmable result appears immediately through the index. If you can directl
 - You can explain that Python lists do not have a JavaScript-style `splice()` method, and that similar work is expressed through `del`, `insert()`, and slice assignment.
 - You can explain that the same list can be pointed to by several names.
 - You can explain that care is needed when creating a nested list by repeating the same value.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when there are several values of the same purpose, but they are placed in separate variables like `score1`, `score2`, and you need to reread them as an ordered group.
-- Recall it when a position-centered question appears, such as which numbered value it is, whether you want to cut out only part of it, or whether you want to attach a new value at the end.
-- Recall it when you are using list and array or some other structure as if they were the same word, and must distinguish again that the role here is an order-centered general group.
+- Can you first distinguish whether the current question is about order, index, or mutability?
 
 ## Sources and References
 

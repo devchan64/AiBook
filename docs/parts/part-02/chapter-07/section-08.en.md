@@ -1,7 +1,7 @@
 # P2-7.8 Supplemental Learning: Reading Shell Scripts, Pipes, Redirection, and Environment Variables
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-7.2 and P2-7.6, we covered opening a terminal and checking the current location. But once you follow real learning materials, you quickly encounter more unfamiliar expressions.
 
@@ -200,12 +200,6 @@ After finishing this supplement, you do not need to be able to freely write shel
 - You know that shell scripts are bundles of commands
 - You inspect dangerous commands first instead of copying and running them casually
 
-## Perspective to Remember in This Supplement
-
-Just because you encounter unfamiliar symbols in a terminal does not mean you have suddenly entered advanced programming. Most of the time, they are expressions for `connecting commands`, `saving output`, and `passing configuration`.
-
-In other words, shell scripts, pipes, redirection, and environment variables can all be seen as `the language for reading the execution environment`.
-
 ## Case Study
 
 ### Case 1. When a Single Tutorial Command Line Suddenly Looks Dangerous
@@ -218,19 +212,14 @@ The level to aim for here is not the stage where you can freely use `pipes`, `re
 
 The confirmable result is whether you can split and read one command line by function. For example, if you can look at `python train.py > train.log` and explain `it runs training, and instead of screen output it saves the result into a log file`, then you have moved one step beyond the stage of copying and running commands without thinking.
 
-## Short Check
+## Checklist
 
 - Can you explain a shell script as a file bundling multiple commands?
 - Can you explain a pipe as a connection that passes the output of one command as the input of the next?
 - Can you explain redirection as notation that changes the direction of input and output?
 - Can you explain an environment variable as a configuration value outside the code?
 - Do you remember that `sudo`, `rm`, `>`, `|`, and exposure of secret values should be checked first?
-
-## When Should You Recall This Perspective First?
-
-- Recall it when one tutorial command line contains `|`, `>`, environment variables, and secret values together, so you first need to read what kind of action it is.
-- Recall it when shell scripts, pipes, and redirection all look like a new language, but you need to reestablish that they are actually notation for handling the execution environment.
-- Recall it when, before copying and running an unfamiliar command, you must first check whether it involves deletion, privilege escalation, network calls, or exposure of secret values.
+- Can you explain shell scripts, pipes, redirection, and environment variables together as `the language for reading the execution environment`?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P2-11.2 Indexing, Slicing, and Axis
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-11.1, we created NumPy arrays and checked `shape`, `ndim`, and `dtype`. Now we move on to which value to read from an array, which range to cut out, and which direction to calculate along.
 
@@ -442,27 +442,7 @@ Especially before moving on to Part 3, you should be able to say the following s
 
 - `A row usually means a sample, a column usually means a feature, and shape shows the number of samples and features together.`
 
-## Perspective to Remember in This Section
-
-| Handle from the current chapter | What you inspect more in the next chapter | Where it is used again in Part 3 |
-| --- | --- | --- |
-| The standard for reading rows, columns, and axes in arrays | How to move the same question into column selection, filtering, and aggregation in Pandas | When you read feature-matrix columns, sample axes, and summary statistics without mixing them up |
-
-Indexing means choosing one position.
-
-Slicing means leaving a range.
-
-In a two-dimensional array, read it as `data[row, column]`.
-
-`:` means the full range of that dimension.
-
-Axis is the dimension that decides the direction of calculation.
-
-`axis=0` and `axis=1` are not for position selection, but for choosing the direction of summary calculation.
-
-The intuition of reading `shape = (number of samples, number of features)` leads directly to the later distinction among `X`, `y`, samples, and features.
-
-## Short Check
+## Checklist
 
 - You can explain that NumPy indices start from 0.
 - You can read `data[1, 2]` using rows and columns.
@@ -471,12 +451,7 @@ The intuition of reading `shape = (number of samples, number of features)` leads
 - You can explain why the results of `sum(axis=0)` and `sum(axis=1)` are different.
 - You can explain the dataset viewpoint that rows are samples and columns are features.
 - When you see `shape = (4, 3)`, you can read it as something like `4 samples, 3 features`.
-
-## When Should This Perspective Come to Mind First?
-
-- When you need to choose part of an array or explain in which direction rows and columns are being calculated, call up the perspective of indexing, slicing, and axis first.
-- When you get stuck on why expressions such as `data[i, j]`, `data[:, j]`, or `sum(axis=0)` produce those results, return to this Section.
-- When you need to recover the basic intuition of reading a dataset with rows as samples and columns as features, check this Section again.
+- You can explain that indexing chooses a position, slicing leaves a range, and axis decides the direction of calculation.
 
 ## Sources and References
 

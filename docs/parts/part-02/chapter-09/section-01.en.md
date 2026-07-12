@@ -1,7 +1,7 @@
 # P2-9.1 Why Are Data Structures Needed?
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-8, we looked at Python values, lists, dictionaries, loops, functions, and classes. Now we step back and change the question.
 
@@ -368,20 +368,6 @@ This difference is not only about speed. The second code lets the structure itse
 
 A good data structure also reveals the code's intent.
 
-## Perspectives to Remember from This Section
-
-A data structure is not only a container that holds data. It is a way of organizing data so that certain questions become easier to answer.
-
-Lists are useful when order matters.
-
-Dictionaries are useful when you need to find values by key.
-
-Sets are useful when membership and duplicate removal matter.
-
-Trees and graphs become necessary when you need to represent hierarchy and relationships.
-
-In P2-9.2, arrays, tables, trees, and graphs are placed on a broader map and compared. In P2-9.3, graphs are viewed separately from the viewpoint of nodes and edges. In P2-9.4, traditional data-structure names are organized again as supplemental learning.
-
 ## Case Study
 
 ### Case 1. Why should the structure be chosen again for the same student data?
@@ -394,7 +380,7 @@ This is why this Section explains a data structure as `a way of organizing data`
 
 The checkable result is that even from the same source data, the representation changes when the task changes. If a score list for average calculation, a dictionary of scores by name, and a graph of friendships each become easier to read, then the data-structure choice has already affected the way computation proceeds.
 
-## Short Check
+## Checklist
 
 - You can explain a data structure as a way of organizing data.
 - You can explain which questions arrays, linked lists, stacks, queues, trees, graphs, and hash tables represent in a traditional introduction to data structures.
@@ -403,12 +389,7 @@ The checkable result is that even from the same source data, the representation 
 - You can explain that even the same data can be represented differently depending on order, keys, and relationships.
 - You can distinguish an abstract data type and an implementation at an introductory level.
 - You can explain that in AI practice, lists, dictionaries, sets, tables, and graphs are structures for answering different kinds of questions.
-
-## When Should You Recall This Perspective First?
-
-- Recall the data-structure perspective first when you need to explain not just storing data but how it should be organized under some criterion.
-- Look back at the comparisons in this Section when you need to distinguish that even the same data must be handled very differently depending on order, keys, or relationships.
-- Check the connection between data structures and operations first when you move beyond Python syntax and try to decide what structure to choose in actual practice.
+- You can connect data-structure choice to deciding not just where to place data, but what question it should answer.
 
 ## Sources and References
 

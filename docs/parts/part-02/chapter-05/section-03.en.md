@@ -222,13 +222,7 @@ The bigger problem is sampling bias. For example, if the sample includes too man
 
 This case shows that AI datasets should also be read not as `the whole of reality` but as `a collected sample`. Training data and test data are also samples in the end, so model-performance numbers should be interpreted not as complete proof of real-world performance but as estimates calculated from samples.
 
-## Perspective to Keep from This Section
-
-Sample, estimation, and error are "how to speak about the whole from the part." The population is the whole we want to know, the sample is the part actually observed, estimation is the act of guessing the value of the whole from the sample, and error is the gap between the estimate and the true value.
-
-In AI, this perspective is very important. The dataset we have is not the whole of reality but a sample. Model evaluation is not complete proof of real-world performance but estimation through a sample.
-
-## Short Check
+## Checklist
 
 - You can explain `population` as the whole target of interest.
 - You can explain `sample` as the part actually observed from the population.
@@ -238,12 +232,7 @@ In AI, this perspective is very important. The dataset we have is not the whole 
 - You can distinguish `sampling variation` from `sampling bias`.
 - You can explain `training data` and `test data` as samples of the whole real world.
 - You can read model evaluation scores carefully as estimates of real-world performance.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when you are treating a dataset as if it were the whole of reality and need to separate population and sample again.
-- Recall it first when you are interpreting a single evaluation score as absolute performance and need to reattach the perspective of estimation and error.
-- Recall it first when you are treating sampling variation and sampling bias as the same problem and need to inspect skew in the collection process separately.
+- You can explain a dataset again by separating population and sample instead of treating it as the whole of reality.
 
 ## Sources and References
 
