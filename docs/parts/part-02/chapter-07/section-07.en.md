@@ -1,7 +1,7 @@
 # P2-7.7 Supplemental Learning: When Is Python Installation Needed?
 
 > Section ID: `P2-7.7`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-7.6, we looked at how to open a terminal and check the current location on Windows, macOS, and Linux. Now this question remains.
 
@@ -244,53 +244,26 @@ The following situations are especially common.
 
 When reading error messages, you need the habit of separating “Python code error” from “execution-environment error.”
 
-## Perspective to Remember in This Section
-
-Python installation is not the starting point of learning, but preparation for managing the execution environment directly.
-
-You can also start with Colab. But when you need to manage project folders, data files, virtual environments, package versions, and reproducibility directly, local installation becomes necessary.
-
-After installation, first check the following questions.
-
-1. By which command does Python run in my terminal?
-2. Which Python version does that command point to?
-3. Am I ready to create a virtual environment for each project?
-4. Is the environment where packages were installed the same environment where the code is being run?
-
-After reading this supplement, what matters more than whether every installation step is finished is which main-section question you should return to.
-
-| Question solved here | Main-section question to return to | Where to continue reading |
-| --- | --- | --- |
-| Is local Python installation needed now, and what should be checked first after installation? | Why must execution environment, interpreter, virtual environment, and package management be separated? | The big picture of the execution environment is in P2-7.1, the interpreter and scripts are in P2-7.3, and virtual environments and packages are in P2-7.4 |
-
-Here, we organize `is Colab enough for now?`, `is it time for local installation?`, and `which command should be used for checking after installation?` Detailed operating-system-specific installation steps and PATH problems are reconnected later when handling real project environments.
-
-## Case Study
+## Cases And Examples
 
 ### Case 1. Until When Is Colab Enough, and From When Is Local Installation Needed?
 
-Suppose a learner has followed examples only in Colab until now. But now a situation has appeared where they must download a project with several `.py` files and run it in a local folder. At that point, the learner first asks, “Do I really need to install now?” and “Can I not just upload it to Colab?”
+Suppose a learner has followed examples only in Colab so far. But now a situation appears where a project with several `.py` files must be downloaded and run from a local folder. At that point, the learner first asks `do I really need installation now?` and `can't I just upload it to Colab?`
 
-In the early stage, Colab may indeed have been enough. But if the project folder structure must be preserved, data files must be read locally, virtual environments must be separated, and package versions must be managed directly, then local Python installation becomes necessary.
+In the beginning, Colab may have been enough. But if the project-folder structure must be preserved, data files must be read locally, virtual environments must be separated, and package versions must be managed directly, then local Python installation becomes necessary.
 
-The role of this section is not to list installation buttons, but to make the learner judge `the point where installation becomes necessary`. That is, it gives criteria for distinguishing between `is a browser runtime still enough?` and `do I need to manage the execution environment directly on my own computer?`
+The role of this section is not to list installation buttons, but to make the reader judge `the point at which installation is needed`. In other words, it gives a criterion for separating `is a browser runtime still enough?` from `must I now manage the execution environment directly on my own computer?`
 
-The confirmable result can be seen immediately through commands after installation. If one of `python --version`, `python3 --version`, or `py --version` actually runs the local interpreter, and then virtual environments and package installation can follow, then the learner is ready to move from Colab to a local environment.
+A checkable result can be seen immediately with commands after installation. If one of `python --version`, `python3 --version`, or `py --version` actually runs the local interpreter, and virtual-environment and package installation can then continue, the learner is ready to move from Colab to a local environment.
 
-## Short Check
+## Checklist
 
-- You can distinguish between the learning stage where Colab is enough and the stage where local installation is needed.
-- You can explain that Python installation is the act of preparing the Python interpreter on the computer.
-- You can explain the purpose of `python --version`, `python3 --version`, and `py --version`.
-- You can explain that Python installation methods can look different across Windows, macOS, and Linux.
-- You can distinguish Python installation, virtual-environment creation, and package installation.
-- You can explain that when an installation error occurs, you should check the execution environment before the code.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when you cannot judge whether local installation is absolutely needed from the beginning, so you need to separate again the roles of Colab and local installation.
-- Recall it when you do not know what to check first after installation, so you need to reestablish the checking order of commands such as `python --version`, `python3 --version`, and `py --version`.
-- Recall it when you are treating Python installation and virtual-environment creation as the same thing, so you need to distinguish again the preparation stage from the project-separation stage.
+- Can you explain the difference in roles between Colab and local Python installation?
+- Can you judge the point at which local installation becomes necessary?
+- Can you explain that after installation, you should check with `python --version`, `python3 --version`, or `py --version`?
+- Can you explain that Python installation and virtual-environment creation are not the same thing?
+- Can you explain that operating-system-specific installation guidance should be rechecked against official documentation at the time of writing?
+- When installation gets tangled, can you separate `Python code error` from `execution-environment error`?
 
 ## Sources and References
 

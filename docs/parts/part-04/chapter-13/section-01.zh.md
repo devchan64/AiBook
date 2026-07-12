@@ -1,7 +1,7 @@
 # P4-13.1 SVM 的直觉
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 又看过了 `通过附近 neighbors 做判断` 的方式。现在，同一个分类问题要再换一个问题来读。
 
@@ -13,7 +13,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 所以，SVM 不会停在 `找出一条分割线` 上，而是会继续去找 `看起来更稳定的分割线`。
 
-这一节会说明 `SVM`、`margin`、`support vector` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
+这一节会说明 `SVM`、`margin`、`support vector` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把 boundary 的稳定性读出来的基础感觉，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
 
 ## 本节范围
 
@@ -39,7 +39,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 ## 学习背景
 
-P4-11 的 logistic regression 已经 보여줬了 `切开 input space 的 boundary`。但光看到那里，仍然会留下下面这些问题。
+P4-11 的 logistic regression 已经展示了 `切开 input space 的 boundary`。但光看到那里，仍然会留下下面这些问题。
 
 - 只要能分开就够了吗？
 - 如果 boundary 紧贴某一边 class，也算可以吗？
@@ -256,6 +256,25 @@ SVM 不是所有分类问题的默认答案，但当 `boundary 稳定性本身` 
 
 这张表的关键，是把 SVM 放在 `另一个分类器` 之外，更像 `更强地追问什么是好 boundary 的候选`。
 
+这一节会把它和前面模型的差异再抓得更明确一些。
+
+| 模型 | 先抓住的问题 | 这一节更强调的标准 |
+| --- | --- | --- |
+| logistic regression | 用什么 score 和 threshold 来切开 class？ | 像 probability 一样读取的输出与线性 boundary |
+| k-NN | 应该参考周边哪些案例？ | 局部 neighbors 和距离标准 |
+| SVM | 多条 boundary 里，哪一条更稳定？ | margin 与 support vector |
+
+SVM 会把中心问题从 `能不能画出 boundary` 换成 `这条 boundary 到底留了多少余量、看起来有多稳定？` 只有先把这个标准固定住，后面的 soft margin、kernel、`C` 才不会被读成只是另一串选项，而会被读成 `调整好 boundary 标准的装置`。
+
+再补上一点，SVM 这一节也会直接接到前面一直在整理的比较记录结构。把 SVM 放上候选时，不要只留下 `margin 很大` 这一句话，还要一起记下 `哪些案例留在 margin 附近`、`它和 baseline 或别的候选相比哪里更稳定`、`下一步还应该调整什么`。margin 附近案例首先应该被读成提高 review 优先级的信号，而不是直接当成原因已经解释完毕。
+
+| 需要一起留下的记录 | 为什么需要 |
+| --- | --- |
+| baseline 与 SVM 的比较 | 用来看 margin 视角到底比简单标准多改变了什么 |
+| margin 附近案例 | 用来找出应该继续留作 review 对象的模糊案例 |
+| 看起来像 support vector 的点 | 用来再次检查到底哪些点最会摇动 boundary |
+| 下一步实验问题 | 用来决定是去看 `C`、提高 kernel 候选，还是回头再看特征 |
+
 ## 案例与示例
 
 如果这个直觉只停在抽象层面，很容易变模糊，所以还需要把它放回工作场景里再读一次。
@@ -406,9 +425,7 @@ boundary x = 4.95
 - 发生变化的点：例外点再靠近一点以后，原本看起来还可行的 boundary 可能直接失去完美分离，或只剩极小的 margin
 - 首先要留下的判断：即使都能分开，margin `0.2` 和 margin `0.05` 的稳定性也完全不同
 
-### 这个练习怎样回收到 Part 4 的目标
-
-这个练习让 SVM 不再只是 `能把答案分对的分类器`，而重新读成 `比较 boundary 质量的模型`。Part 4 的目标，不是只看一个分类结果，而是读出：哪些案例会把 boundary 挤得更紧，哪些案例会增加 generalization 风险。反复挪动一个例外点，才能让 margin 不只是停留在数值定义上，而会连到真正的 `摇晃感`。
+这个练习让 SVM 不再只是 `能把答案分对的分类器`，而重新读成 `比较 boundary 质量的模型`。重要的不是只看一个分类结果，而是读出：哪些案例会把 boundary 挤得更紧，哪些案例会增加 generalization 风险。反复挪动一个例外点，才能让 margin 不只是停留在数值定义上，而会连到真正的 `摇晃感`。
 
 | 通用记录语言 | 这次练习里应立刻留下的内容 |
 | --- | --- |
@@ -416,17 +433,9 @@ boundary x = 4.95
 | 解释边界 | 在一个 toy example 里 margin 变小，并不能直接证明同一条 boundary 在所有真实数据里都一定不好 |
 | 下一个问题 | 如果引入 soft margin 和 `C`，应该允许多少侵入？和别的分类器比较时，又会先看见什么差别？ |
 
-## 本节要记住的视角
-
-- SVM 是在能分开 class 的 boundary 里，继续去寻找 `margin 更大` 的那条
-- margin 可以被读成 boundary 和最近数据点之间的安全余量宽度
-- support vector 是最靠近 boundary 的核心点
-- 在真实数据里，比起完美分离本身，`余量` 和 `允许错误` 之间的平衡更重要
-- 所以 SVM 会让读者把分类问题重新读成 `boundary 质量` 的问题
-
 这一节的核心，不是背住 SVM 这个名字，而是固定住：好的 boundary 应该按什么标准来读。
 
-把整条 흐름 再重新绑一次，会变成下面这样。
+把整条流程再重新绑一次，会变成下面这样。
 
 ```mermaid
 --8<-- "assets/part-04/chapter-13/p4-13-1-mermaid-06-zh.mmd"
@@ -440,15 +449,13 @@ boundary x = 4.95
 
 ## 检查清单
 
-- 在当前问题里，余量和 boundary 稳定性是不是比单纯分开 class 更重要？
+- 能不能把 SVM 说明成：在能分开 class 的 boundary 里，继续寻找 `margin 更大` 的那条？
+- 能不能把 margin 读成 boundary 和最近数据点之间的安全余量宽度？
 - 能不能指出哪些案例像 support vector 一样，真的在撑住 boundary？
+- 是否理解：在真实数据里，比起完美分离本身，`余量` 和 `允许错误` 之间的平衡更重要？
+- 在当前问题里，余量和 boundary 稳定性是不是比单纯分开 class 更重要？
 - 是否把 near-margin 案例的性质和最终 score 一起看？
-
-## 什么时候要先想起这个视角
-
-- 当比起单纯切开 class，margin 和 boundary 稳定性更重要时，要先想起 margin 视角
-- 当少数边界附近案例似乎在左右整个判断时，要重新想起 support vector 为什么关键
-- 当需要把 SVM 和 logistic regression、k-NN 的问题区分开时，要回到 `哪条 boundary 更好？`
+- 能不能说明：和 logistic regression、k-NN 相比，SVM 的问题是 `哪条 boundary 更好？`
 
 ## 出处与参考资料
 

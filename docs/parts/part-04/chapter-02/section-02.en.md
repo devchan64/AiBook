@@ -1,7 +1,7 @@
 # P4-2.2 Unsupervised Learning
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-2.1 looked at supervised learning, where a model is trained using examples that already have labels. This time we look at unsupervised learning, which looks for structure in data without labels.
 
@@ -162,20 +162,6 @@ In practice, you often need to judge first whether `the current problem should b
 | There are no labels yet, but you need candidate structure for the next analysis | yes | Because clusters, axes, and outlier candidates can become material for the next step |
 | Stable labels already exist and you want to match outputs for new cases | usually no | Because a supervised-learning problem is more direct than structure exploration |
 
-## Perspective To Remember In This Section
-
-- Unsupervised learning is an approach for finding structure candidates in unlabeled data.
-- Clustering groups similar cases, dimensionality reduction compresses many features into fewer axes, and outlier detection finds unusually different cases as review candidates.
-- The result of unsupervised learning still needs human interpretation.
-- Because labels do not exist, it is difficult to evaluate it directly against correct answers the way supervised learning can.
-- Unsupervised learning can be used for data understanding, visualization, review-candidate discovery, and preparation for later supervised learning.
-
-## Short Check
-
-- Can you explain when the goal of unsupervised learning is not `matching the correct answer` but `building structure candidates`?
-- Can you explain why a cluster ID, closeness in a 2D plot, or an outlier candidate is not immediately a correct answer label?
-- Can you explain how the result of unsupervised learning can be connected to the next analysis or supervised-learning preparation?
-
 ## Cases And Examples
 
 ### Case 1. When Customer-Type Names Do Not Exist Yet, But You Want To See Whether Similar Patterns Appear First
@@ -192,11 +178,14 @@ The checkable result can be judged by whether the groupings and axes actually cr
 --8<-- "assets/part-04/chapter-02/p4-2-2-mermaid-03-en.mmd"
 ```
 
-## When This Perspective Should Come To Mind First
+## Checklist
 
-- Recall the unsupervised-learning perspective first when labels do not exist yet and structure candidates must be found before anything else.
-- Return to this Section when checking whether a cluster ID, 2D closeness, or an outlier candidate is being read too quickly as if it were already the answer.
-- This Section becomes the reference point when reorganizing how an unsupervised-learning result will connect to the next analysis or to supervised-learning preparation.
+- Can you explain when the goal of unsupervised learning is not `matching the correct answer` but `building structure candidates`?
+- Can you explain why a cluster ID, closeness in a 2D plot, or an outlier candidate is not immediately a correct answer label?
+- Can you explain how the result of unsupervised learning can be connected to the next analysis or supervised-learning preparation?
+- Can you explain that unsupervised learning is an approach for finding structure candidates in unlabeled data?
+- Can you distinguish what kind of structure candidate clustering, dimensionality reduction, and outlier detection each reveal?
+- Can you explain that people still need to attach interpretation to the result of unsupervised learning, and that it is hard to evaluate it directly against correct answers the way supervised learning can?
 
 ## Sources And References
 

@@ -1,7 +1,7 @@
 # P4-3.1 Why Heuristics Are Needed
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Chapter P4-2, we divided supervised learning, unsupervised learning, and reinforcement learning into broad learning types. That immediately raises a question. When solving a real problem, which data should be looked at first, which model should be tried first, and at what point should the work move to the next stage?
 
@@ -156,26 +156,14 @@ Whether that judgment is right still has to be checked through validation. You c
 --8<-- "assets/part-04/chapter-03/return-risk-heuristic-flow-en.mmd"
 ```
 
-## Perspective To Remember In This Section
-
-- A heuristic is a practical judgment criterion for reducing candidates under limited time and limited information.
-- A heuristic does not guarantee an optimal solution or a final answer.
-- In machine learning, heuristics are needed in feature selection, preprocessing, model selection, tuning, and the choice of evaluation criteria.
-- A heuristic does not replace an algorithm. It is used to decide which candidates and which order should be tried.
-- A good heuristic must be testable.
-- A heuristic should be treated as a working hypothesis rather than as private intuition.
-
-## Short Check
+## Checklist
 
 - Can you explain in what state a heuristic becomes a candidate-reduction device rather than `just guessing`?
 - Can you explain why a heuristic must always be paired with a baseline model or validation data?
 - Can you explain why it is necessary to record what should be prioritized when explainability, cost, and performance conflict?
-
-## When This Perspective Should Come To Mind First
-
-- Recall the heuristic perspective when you encounter a problem where all combinations cannot be calculated and the candidate set must be reduced first.
-- Return to this Section when a heuristic must be treated not as `rough guessing` but as a verifiable working hypothesis.
-- This Section is the reference point when reorganizing what should be recorded first in a situation where performance, explainability, and cost conflict.
+- Can you explain that a heuristic is a practical judgment criterion for reducing candidates under limited time and limited information?
+- Can you explain that a heuristic does not replace an algorithm, but is used to decide which candidates and which order should be tried?
+- Can you explain why a heuristic should be treated not as private intuition, but as a verifiable working hypothesis?
 
 ## Sources And References
 

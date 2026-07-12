@@ -1,7 +1,7 @@
 # P4-1.2 What It Means To Learn Rules From Data
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-1.1 distinguished the positions of AI, machine learning, deep learning, generative AI, and LLM. Now we look at machine learning more closely.
 
@@ -248,26 +248,18 @@ The checkable result appears in evaluation on new inquiries. A rule-based classi
 --8<-- "assets/part-04/chapter-01/inquiry-rule-vs-learning-flow-en.mmd"
 ```
 
-## Perspective To Remember In This Section
-
-- A rule-based approach means people write the judgment criteria directly, while a learning-based approach means a model estimates the relation from data.
-- `Learning rules from data` is safer when read as `estimating relationships from data` or `adjusting criteria from examples`.
-- The table must still be separated into examples, features, labels, identifiers, and operational context before a model can be trained sensibly.
-- Matching the training data well is different from generalizing to unseen data, which is why evaluation is indispensable.
-
 ## Checklist
 
-- Can you explain why `learning rules` does not always mean producing human-readable sentence rules?
-- Can you explain how Part 3's table design connects to `what becomes X` and `what becomes y` in machine learning?
-- Can you explain why prediction alone is not enough and why evaluation on unseen data is still required?
-
-## When This Perspective Should Come To Mind First
-
-- Return to this Section when a discussion treats machine learning as if it were simply a larger version of hand-written rules.
-- Recall it first when deciding whether the current problem should stay rule-based or move to a learning-based approach.
-- Use this Section as the reference point when separating features, targets, identifiers, and operational notes before training begins.
+- Can you explain by what criteria the current problem is still manageable with a rule-based approach or now needs a learning-based approach?
+- Can you explain why `estimate the relation between input and output` is more accurate than `learn rules from data`?
+- Can you explain with a case that model prediction and the service's final decision are different stages?
+- Can you explain that a model does not find complete truth, but learns a useful relation under the given data and target criterion?
+- Can you explain that even in a learning-based approach, the full order `representation -> training -> evaluation on unseen cases` must still be followed?
+- Can you explain with a case that model prediction, service policy, and human review can all be used together in real work?
 
 ## Sources And References
 
-- Google, `Machine Learning Glossary`, entries including `feature`, `label`, `training`, and `prediction`, accessed 2026-07-10. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Tom M. Mitchell, `Machine Learning`, McGraw Hill, 1997, official author page, accessed 2026-06-25. [https://www.cs.cmu.edu/~tom/mlbook.html](https://www.cs.cmu.edu/~tom/mlbook.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, accessed 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, accessed 2026-06-25. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `Getting Started`, scikit-learn documentation, accessed 2026-07-10. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }

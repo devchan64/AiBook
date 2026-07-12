@@ -1,7 +1,7 @@
 # P4-9.1 Hyperparameters
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-8, the discussion chose model candidates and set the starting point of comparison with a baseline. Now it moves to the next question.
 
@@ -390,52 +390,16 @@ So `random_state` has a somewhat different role from other hyperparameters.
 
 This distinction becomes especially important later when organizing experiment comparison.
 
-## Perspective To Remember In This Section
-
-- A hyperparameter is a configuration value that a person fixes before learning.
-- Parameters are learned from data, while hyperparameters are inserted first in experiment design.
-- Even for the same algorithm, complexity, generalization, and computational cost can change depending on hyperparameters.
-- Touching many hyperparameters means increasing both experiment cost and validation cost.
-- `random_state` often appears as a special configuration value related more to reproducibility than to model complexity.
-
-The role of this Section is not to increase the number of setting names, but to build the handles for the next comparison procedure.
-
-| What should first be distinguished in this Section now | What is done immediately in the next Section | How it will be read again in later algorithm Sections |
-| --- | --- | --- |
-| what is a parameter that gets learned and what is a hyperparameter inserted in advance | what candidate range should be compared inside validation procedures | each model's setting values are read not as `names to memorize`, but as `handles to compare` |
-
-## Short Check
-
-- Are you distinguishing whether the value you are looking at is a parameter learned through training, or a hyperparameter fixed first by a person?
-- When you change a setting, are you also looking at complexity, generalization, and computational cost rather than only performance?
-- Are you distinguishing values such as `random_state`, which are for reproducibility rather than directly for performance?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up this Section when you are confused about whether a value being inspected is a parameter learned by the model or a hyperparameter fixed by a person.
-- Return to this Section when you need to explain again what effect a setting has on complexity, generalization, computation cost, and reproducibility.
-- This Section becomes the standard when confirming that a value such as `random_state` is more related to reproducibility management than to direct performance improvement.
+## Checklist
 
 - Is the value being inspected now a learned parameter or a hyperparameter fixed in advance?
 - Do you understand that even for the same algorithm, changing settings can change the result?
 - Can you explain why train score and test score must be viewed together?
 - Have you distinguished that `random_state` is more related to reproducibility than to performance improvement?
 - Can you anticipate why the next Section must look at `search range` and `validation cost` together?
-
-## Connection To The Next Section
-
-This Section is an introductory Section that explains `what` a hyperparameter is. The next Section, P4-9.2, continues with how those values are actually searched, why widening the search range makes computational cost and validation cost grow together, and how improvement after the baseline should be interpreted.
-
-Also, in the algorithm Sections that follow immediately, from P4-10 to P4-16, the representative hyperparameters of each model appear again.
-
-- P4-10 linear regression
-- P4-11 logistic regression
-- P4-12 k-NN
-- P4-13 SVM
-- P4-14 decision tree
-- P4-15 random forest
-
-In other words, this Section is the Section that builds the common language for reading configuration values in the later algorithm chapters.
+- Can you explain that a hyperparameter is a configuration value fixed by a person before learning, while a parameter is learned from data?
+- Can you explain that even the same algorithm can differ in complexity, generalization, and computational cost depending on hyperparameters?
+- Can you explain that touching many hyperparameters also increases experiment cost and validation cost?
 
 ## Sources And References
 

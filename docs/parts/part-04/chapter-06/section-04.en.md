@@ -1,7 +1,7 @@
 # P4-6.4 Supplementary Learning: How To Read ROC, PR, Log Loss, Calibration, And Silhouette For The First Time
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-6.1 and P4-6.2 fixed the role of evaluation metrics and the differences by problem type. But once you start reading actual papers or library documentation, more unfamiliar names appear very quickly.
 
@@ -329,28 +329,14 @@ At that point, ROC and PR make it possible to read what changes when the thresho
 
 The checkable result also differs by question. Precision and recall must be inspected separately when the threshold changes, the match between high-risk score groups and actual fraud ratio must be checked, and the internal similarity of transactions inside a cluster must be examined separately. So these names should be read not as `new terms`, but as tools that answer `more specific questions`.
 
-## Perspective To Remember In This Supplementary Learning
+## Checklist
 
-The reason evaluation metrics increase is not that the model became complicated. It is that the questions we ask became more specific.
-
-- ROC and PR read classification balance when the threshold changes
-- log loss reads even the confidence of probability output
-- calibration reads the match between score and actual frequency
-- silhouette reads cluster structure even without answers
-
-So the statement `there are many metrics` is the same as saying `the meaning of a good result is not just one thing`.
-
-## Short Check
-
-- Can you explain when ROC and PR should be brought out after the main text's accuracy, precision, and recall?
+- Can you explain when ROC and PR should be brought in after the main text's accuracy, precision, and recall?
 - Can you explain why log loss and calibration make people doubt again `a score that looks like a probability`?
 - Can you explain what internal question silhouette answers in clustering?
-
-## When Should This Perspective Come To Mind First
-
-- See this Section when a supplementary metric such as ROC, PR, log loss, calibration, or silhouette must be brought in because accuracy, precision, and recall are not enough.
-- Return to this Section when the confidence of a score that looks like a probability must be doubted again, or when unlabeled cluster structure must be read through an internal criterion.
-- This Section becomes the criterion when questions at different levels should not be mixed under the single name `metric`.
+- Can you explain that evaluation metrics increase not because the model became more complicated, but because the questions we ask became more specific?
+- Can you explain that ROC and PR read classification balance when the threshold changes, log loss reads the confidence of probability output, and calibration reads the match between score and actual frequency?
+- Can you explain that `there are many metrics` connects to the point that `the meaning of a good result is not just one thing`?
 
 ## Sources And References
 

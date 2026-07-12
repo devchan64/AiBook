@@ -1,7 +1,7 @@
 # P1-14.4 MCP and the Standardization of Tool Connections
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P1-14.3 described an `agent` as a workflow that carries `goal`, `state`, `action`, and `observation` forward. When an agent uses outside data or tools, it needs a connection method.
 
@@ -240,23 +240,6 @@ If MCP exists, the following connection surfaces can be standardized.
 
 This example does not mean MCP writes the document for the agent. MCP is only the connection rule that lets the agent discover and use outside data and tools more consistently.
 
-## The View to Keep from This Section
-
-MCP (Model Context Protocol) is a protocol that tries to standardize the connection between AI applications and outside systems.
-
-> the agent continues a goal as a workflow  
-> MCP organizes how that workflow connects to outside tools and data
-
-> the host owns the connection  
-> the client manages a server link  
-> the server provides tools, resources, and prompts  
-> tools execute actions  
-> resources provide context data  
-> prompts provide interaction templates  
-> permission, approval, security, and evaluation are not solved automatically
-
-If this view is fixed, the next section’s `harness` becomes easier to read. A harness leads to the question of how the model, tools, and MCP connections are wrapped, recorded, and evaluated in an actual execution environment.
-
 ## Checklist
 
 - You can explain MCP as a connection protocol rather than as an agent or model.
@@ -264,14 +247,7 @@ If this view is fixed, the next section’s `harness` becomes easier to read. A 
 - You can distinguish tools, resources, and prompts.
 - You can explain that MCP can help with tool connection and context acquisition in an agent workflow.
 - You can explain that MCP does not automatically solve permission, approval, security, or evaluation.
-
-## When to Recall This View First
-
-- when MCP is being mixed at the same level as the model, the agent, or the tool itself
-- when standardization and actual execution responsibility must be distinguished in an outside-system connection
-- when the convenience of tool connection must be separated again from the responsibilities of permission, approval, and validation
-
-At that point, first separate `connection rule`, `capability provider`, and `execution responsibility`. That makes it less likely to misread MCP as the tool itself or the agent itself.
+- You can distinguish MCP from the tool or agent itself by separating `connection rule`, `capability provider`, and `execution responsibility`.
 
 ## Sources and Further Reading
 

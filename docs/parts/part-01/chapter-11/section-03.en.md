@@ -1,7 +1,7 @@
 # P1-11.3 Transformers and Pretrained LLMs
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 11.1 introduced language models and embeddings. Section 11.2 covered the flow of RNNs, Seq2Seq, and Attention for handling order and context.
 
@@ -41,12 +41,7 @@ These terms can all sound like similar names from modern LLM discussions at firs
 | fine-tuning | additional adjustment for a specific task | a major post-pretraining usage pattern |
 | in-context learning | changing behavior through prompt context without weight updates | the key shift in GPT-3 style user experience |
 
-The minimum distinction to keep is:
-
-- Transformers are centered on self-attention
-- BERT is encoder-centered
-- GPT is decoder-centered
-- pretraining comes first, then later use
+The minimum distinction to keep is: Transformers are centered on self-attention, BERT is encoder-centered, GPT is decoder-centered, and pretraining comes first.
 
 This section focuses only on four questions:
 
@@ -57,16 +52,7 @@ This section focuses only on four questions:
 | pretraining | why is the model first trained on large text corpora? |
 | in-context learning | why can examples inside a prompt change the model’s behavior? |
 
-Prompt-writing practice returns in P1-12.1 through P1-12.3. Vector search and RAG return in P1-13.1 through P1-13.4 and P1-14.2. AI service architecture returns in P1-14.1 through P1-14.6. Here, the only goal is to keep the big line clear:
-
-> modern LLMs did not appear suddenly;  
-> they emerged from language modeling, embeddings, sequence modeling, Attention, and pretraining coming together
-
-This section separates only:
-
-- structure
-- training procedure
-- changes in user experience
+Prompt-writing practice returns in P1-12.1 through P1-12.3. Vector search and RAG return in P1-13.1 through P1-13.4 and P1-14.2. AI service architecture returns in P1-14.1 through P1-14.6. Here, the only goal is to keep one big line clear: modern LLMs did not appear suddenly, but grew out of language modeling, embeddings, sequence modeling, Attention, and pretraining. This section separates only `structure`, `training procedure`, and `changes in user experience`.
 
 ## Goal of This Section
 
@@ -227,27 +213,6 @@ The last shortcut matters especially. Today, AI is often immediately equated wit
 > LLMs are one major line that created a large change in language and generative interfaces,  
 > but they are not identical to all of AI
 
-## What to Remember from This Section
-
-A safe summary of modern LLMs looks like this:
-
-> language modeling created the problem of predicting next-token probabilities  
-> embeddings turned tokens into vectors  
-> RNNs, Seq2Seq, and Attention handled order and input-output correspondence  
-> Transformers strengthened Attention-centered structure and parallel learning  
-> pretraining taught general language patterns from large corpora first  
-> GPT-2 and GPT-3 expanded the experience of natural-language prompting and in-context learning
-
-Knowing this keeps LLMs from looking like magic that appeared suddenly. LLMs are the result of language modeling, vector representation, sequence modeling, Attention, Transformers, and large-scale pretraining coming together.
-
-For now, these three lines are enough to keep:
-
-| Remember only this for now | Where to revisit it later |
-| --- | --- |
-| Transformers are self-attention-centered structures where tokens refer directly to one another. | Transformer chapters in Part 5 |
-| pretraining is the stage where general language patterns are learned first from large text | the main GPT/LLM line in Part 6 |
-| BERT and GPT both belong to the Transformer family, but they do not play the same role | later BERT comparison in Part 5 and LLM-development history in Part 6 |
-
 ## Checklist
 
 - I can explain Transformers as self-attention-centered structures.
@@ -259,22 +224,8 @@ For now, these three lines are enough to keep:
 - I can describe ELMo and ULMFiT as important signs before large pretrained Transformers.
 - I can explain in-context learning as behavior change through input context without weight updates.
 - I do not identify LLMs with all of AI.
-
-## When to Recall This View First
-
-This section is useful when Transformers, pretraining, BERT, and GPT start to blur together as one undifferentiated set of modern terms and the structure and training procedure of LLMs need to be separated again.
-
-- when re-explaining why Transformers raised Attention into the central structure
-- when organizing how BERT and GPT should be placed differently inside the same Transformer family
-- when distinguishing what changes in pretraining, fine-tuning, and in-context learning
-
-In those cases, it helps to separate:
-
-> structure  
-> training procedure  
-> change in user experience
-
-That makes modern LLMs easier to explain as a growing family built on self-attention and large-scale pretraining rather than as a single product name.
+- I can explain Transformers, pretraining, BERT, and GPT not as one lump of trendy terms but by separating `structure`, `training procedure`, and `changes in user experience`.
+- I can explain modern LLMs not as a single product name but as a family that grew on top of self-attention structure and large-scale pretraining.
 
 ## Sources and Further Reading
 

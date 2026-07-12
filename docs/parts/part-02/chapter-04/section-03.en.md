@@ -1,7 +1,7 @@
 # P2-4.3 Derivative and Gradient
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-4.2, we looked at rate of change and slope. In a line, the slope is constant, but in a curve, the rate of change can differ by interval or position.
 
@@ -363,15 +363,6 @@ Gradient is the key language for answering these questions. That is why words su
 
 Here, do not remember gradient only as the result of a calculation. Remember it as `a vector that gathers the rates of change of several directions`.
 
-## Perspective to Keep from This Section
-
-1. A derivative is the instantaneous rate of change with respect to one input.
-2. A partial derivative is the rate of change when one of several inputs is changed separately.
-3. A gradient is a vector that gathers several partial derivatives.
-4. In AI learning, a gradient is the information that tells how loss changes along each parameter direction.
-
-If differentiation remains only as a mathematical formula, it is hard to connect it to AI learning. But if it is read as the question `if we change a value a little, how does the result change?`, it naturally continues into the language of gradient and learning.
-
 ## View It Through a Case
 
 ### Case 1. When the Recommendation Score Is Not Made by Only One Knob
@@ -384,7 +375,7 @@ At that point, the language of partial derivative and gradient becomes necessary
 
 A checkable result is to compare the amount of score change when each weight is adjusted a little in the current recommendation score. For example, if the freshness weight is increased by 0.05, how much do the top 20 recommendations change, and if the popularity weight is lowered by 0.05, how much does the click-prediction score fall? Looking at this makes it clearer why a `bundle of rates of change` is needed.
 
-## Short Check
+## Checklist
 
 - You can explain a derivative as the instantaneous rate of change with respect to one input.
 - You can distinguish a derivative coefficient from a derivative function.
@@ -395,12 +386,7 @@ A checkable result is to compare the amount of score change when each weight is 
 - You can explain a gradient in practice as `the information used to see in which direction to change one among several control values`.
 - You can distinguish gradient-style questions in product operations, recommendation systems, and model-learning examples.
 - You can explain the broad flow in which, in AI learning, a gradient is used to find the direction that reduces loss.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when `derivative`, `partial derivative`, and `gradient` appear together in one paragraph and you become confused about what each one points to.
-- Recall it first when only the memory of one-variable differentiation remains, so the explanations of multivariable loss functions and parameter updates suddenly feel distant.
-- Recall it first when you need to reread a gradient not as a simple bundle of numbers, but as a vector of directional rates of change.
+- You can distinguish what `derivative`, `partial derivative`, and `gradient` each point to.
 
 ## Sources and References
 

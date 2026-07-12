@@ -15,7 +15,7 @@
 
 也就是说，logistic regression 不是 `把 linear regression 原样拿去做分类`，而是 `把线性计算的输出改写成可以按分类概率来解释的模型`。
 
-这一节会说明 `logistic regression`、`sigmoid`、`predict_proba`、`threshold` 的基本含义。后面的章节会沿着这个抓手继续当前语境下的判断，而把线性计算先读成分类概率的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
+这一节会说明 `logistic regression`、`sigmoid`、`predict_proba`、`threshold` 的基本含义。后面的章节会沿着这个抓手继续当前语境下的判断，而把线性计算先读成分类概率的基础感觉，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
 
 ## 本节范围
 
@@ -207,6 +207,25 @@ logistic regression 很常作为分类问题的第一个比较模型，但原因
 这张表的核心，是把 logistic regression 既当成 `超过第一个分类 baseline 的比较模型`，也当成 `训练如何分开读取 score 与 policy 的练习模型`。
 
 ## 补充读取点
+
+### 学术背景与历史
+
+读到这里，自然会冒出一个问题：`为什么还需要专门有这样一个模型？` 因为名字的关系，logistic regression 很容易看起来只是 linear regression 的一个小变体，但实际上，它更接近于把 `解释连续值的线性模型` 扩展成 `读取二元结果的方式`。
+
+- linear regression 擅长解释连续值。
+- 但如果把它原样用在成功/失败这种二选一问题上，就会出现小于 0 或大于 1 的值，很难按 probability 去读取。
+- 所以统计学整理出了一种方式：保留线性公式，但把它的输出改造成可以在 0 到 1 范围里解释的形式。
+
+也就是说，logistic regression 的历史意义，更接近于 `把线性计算重新读成分类问题`，而不是 `把直线丢掉`。
+
+从这个角度看，linear regression 和 logistic regression 的先后顺序也会更清楚。
+
+- linear regression：解释连续值的代表性线性模型
+- logistic regression：保留线性思路，但把输出解释成 binary classification 的模型
+
+在现代机器学习语境里，它通常会被介绍成 `用于 classification 的 linear model`。与其把整段历史背下来，不如先抓住下面这句话。
+
+`如果 linear regression 是解释连续值的代表性线性模型，那么 logistic regression 就是把同样的线性思路扩展到二元分类与 probability 解释的一种模型。`
 
 ### 主要讨论点通常从哪里出现
 
@@ -527,9 +546,7 @@ class 1 score at x=4, shifted labels  : 0.579
 - 发生变化的点：只改了一个边界附近标签，`x=4` 的 class 1 score 就从 `0.327` 大幅移动到 `0.579`。
 - 首先要留下的判断：logistic regression 的分数不是从自然里发现的原始概率，而是当前数据边界所形成的解释结果。
 
-### 这个练习怎样回收到 Part 4 的目标
-
-这个练习让 logistic regression 不再只是 `打印 score 的模型`，而重新读成 `对边界附近案例很敏感的分类规则`。Part 4 的目标，不是单独相信某个数字，而是读取某个案例变化会怎样摇动 score 解释和 threshold 判断。把同一个例子反复改一处再看，会更清楚地看到：在 model output 和 service action 之间，始终还隔着一层数据解释。
+这个练习让 logistic regression 不再只是 `打印 score 的模型`，而重新读成 `对边界附近案例很敏感的分类规则`。重要的不是单独相信某个数字，而是读取某个案例变化会怎样摇动 score 解释和 threshold 判断。把同一个例子反复改一处再看，会更清楚地看到：在 model output 和 service action 之间，始终还隔着一层数据解释。
 
 | 通用记录语言 | 这次练习里应立刻留下的内容 |
 | --- | --- |
@@ -537,31 +554,19 @@ class 1 score at x=4, shifted labels  : 0.579
 | 解释边界 | 不能只凭这个 score 变化就断定真实世界概率突然改变，仍要把 sample 与 data boundary 一起看 |
 | 下一个问题 | 如果再收集更多边界附近案例，score 会不会更稳定？加上 threshold policy 后又会怎样变化？ |
 
-## 本节要记住的视角
-
-- logistic regression 是在分类问题里生成可按概率来读的输出的线性模型。
-- 内部计算仍然是 linear combination，但最终解释会通过 sigmoid 变成 0 到 1 的范围。
-- `predict_proba` 是 score 阶段，`predict` 是应用 threshold 之后的 decision 阶段。
-- coefficient 适合读取方向，但不会自动证明原因。
-- threshold 更像是和 service policy 绑在一起的判断标准，而不是模型本身的自然法则。
+| 先看到的信号 | 这个信号意味着什么 | 紧接着要做的动作 |
+| --- | --- | --- |
+| 很多分数都靠近 0.5，而且一改 threshold 判断就经常翻转 | 比起分数本身，运营边界设置正在造成更大的差异 | 先补更多边界附近案例，再按 FP 和 FN 成本重看 threshold |
+| 分数看起来很高，但实际频率和体感风险还是对不上 | 把排序和概率解释当成同一件事可能有风险 | 重新检查是否需要 calibration，或是否只把 score 当作排序信号 |
 
 ## 检查清单
 
 - 现在的问题是不是 binary classification，是否已经先确认？
+- 能不能把 logistic regression 说明成在分类问题里生成可按概率来读的输出的线性模型？
+- 能不能理解内部计算仍然是 linear combination，但最终解释会通过 sigmoid 变成 0 到 1 的范围？
 - 有没有把 `predict_proba` 和最终 `predict` 当成同一件事来读？
 - 能不能把 threshold 变化和模型本身的改进分开说明？
-
-## 什么时候要先想起这个视角
-
-- 当 binary classification 的说明里把 score 和最终 decision 混成一句话时，要先想起 `predict_proba` 与 `predict` 的区分。
-- 当调整 threshold 和重新训练模型被当成同一种修改时，要先把 policy boundary 和 model 本身拆开。
-- 当 coefficient、sigmoid、像 probability 一样的输出一次性缠在一起时，要重新拿出 `线性计算后再加一层解释变换` 这个观点。
-
-## 与下一节的连接
-
-P4-11.1 把 logistic regression 读成 `生成可按 probability 来读的分数的线性模型`。下一节 P4-11.2 会转到：这些分数在 input space 里会形成怎样的 boundary，也就是 decision boundary 的视角。
-
-如果 11.1 是 `输出解释` 的 Section，11.2 就是 `空间与边界解释` 的 Section。
+- 当 coefficient、sigmoid、像 probability 一样的输出缠在一起时，能不能重新说明这是 `线性计算后还要再经过一层解释` 的模型？
 
 ## 出处与参考资料
 

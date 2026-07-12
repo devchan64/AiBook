@@ -1,0 +1,10 @@
+flowchart TD
+    A[Prediction is too low] --> B[Need to raise the score]
+    B --> C[Gradient marks increase direction]
+
+    D[Prediction is too high] --> E[Need to lower the score]
+    E --> F[Gradient marks decrease direction]
+
+    G[Final score is wrong] --> H[Backward responsibility starts]
+    H --> I[Last layer gets a signal]
+    I --> J[Earlier layers also receive responsibility]

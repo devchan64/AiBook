@@ -1,7 +1,7 @@
 # P1-17.2 Reading News, Columns, and Reports
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-17.1 explained that, when writing forecasts, sources and the nature of the material should be checked first. This section turns to the practical question:
 
@@ -108,16 +108,6 @@ AI forecasts should not be judged through one source alone. At a minimum, it hel
 
 Sometimes different sources point in the same direction. Sometimes they conflict strongly. If they differ, the book should not force them into one conclusion.
 
-## The View to Keep from This Section
-
-Reading AI material is not mainly about reaching a quick conclusion. It is about classifying the nature of the material first.
-
-> in news, separate event from interpretation  
-> in reports, check methodology and limits  
-> use columns as viewpoint material  
-> in policy documents, check scope and timing of application  
-> read different sources together in layers
-
 ## Checklist
 
 - You can separate event from interpretation in a news article.
@@ -125,14 +115,7 @@ Reading AI material is not mainly about reaching a quick conclusion. It is about
 - You can use a column as viewpoint material rather than as pure factual evidence.
 - You can distinguish obligation from recommendation in a policy document.
 - You can show differences when sources conflict.
-
-## When to Recall This View First
-
-- When someone is about to draw an industry-wide conclusion from a single news article
-- When a report's number looks persuasive enough to skip checking methodology
-- When the viewpoint of a column needs to be separated again from the actual event
-
-In those cases, separate `event`, `interpretation`, `methodology`, and `viewpoint material` first.
+- You can classify the nature of outside material by separating `event`, `interpretation`, `methodology`, and `viewpoint material`.
 
 ## Sources and Further Reading
 

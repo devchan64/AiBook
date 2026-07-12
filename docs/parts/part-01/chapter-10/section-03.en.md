@@ -1,7 +1,7 @@
 # P1-10.3 The Quality and Risk of Generated Outputs
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 10.1 examined the difference among classification, prediction, and generation. Section 10.2 introduced the intuition that generative AI builds artifacts progressively from conditions.
 
@@ -138,7 +138,7 @@ The following kinds of statements especially require source checking:
 | recent trends | dated news, reports, official announcements |
 | forecasts | who said it, when, and on what basis |
 
-Even when generative AI provides links, the links still need to be checked to confirm that they actually support the claim. `Having a URL` and `having evidence` are not the same thing.
+Even when generative AI provides links, they still need to be checked to confirm that they actually support the claim. `Having a URL` and `having evidence` are not the same thing.
 
 ## Safety Risks Often Appear After Output
 
@@ -221,18 +221,6 @@ The meaning of each step:
 
 This section therefore connects directly to the writing principles of the repository. AI can produce drafts quickly, but the reliability of the book comes from the review process, not from the speed of draft generation.
 
-## What to Remember from This Section
-
-Generated output may be natural. But naturalness does not replace factuality, evidence, safety, or rights review.
-
-> it looks well written  
-> -> check whether it is true  
-> -> check whether it has evidence  
-> -> check whether its use context is risky  
-> -> check whether it is acceptable for public release
-
-The key to using generative AI as a learning tool is not `letting it think instead of us`. The key is subjecting a quickly produced draft to stricter human review.
-
 ## Checklist
 
 - I can distinguish a natural sentence from an accurate sentence.
@@ -241,24 +229,8 @@ The key to using generative AI as a learning tool is not `letting it think inste
 - I can separate the risks of generated output into factuality, information integrity, privacy, security, copyright, and overtrust.
 - I can explain why human review is required before reflecting AI drafts into a public document.
 - I can remember that P1-15 treats copyright, security, and privacy in more detail.
-
-## When to Recall This View First
-
-This section is useful when generated output looks natural enough that factuality, evidence, safety, and rights issues are being pushed aside.
-
-- when re-emphasizing that a well-written sentence still needs separate fact and evidence checking
-- when widening generative-output risk beyond simple error into information integrity, privacy, security, copyright, and overtrust
-- when making the human review procedure explicit before AI drafts are used in public or high-stakes contexts
-
-In those moments, it helps to separate:
-
-> naturalness  
-> accuracy  
-> evidence  
-> context of use  
-> rights and responsibility
-
-That reduces the risk of skipping review simply because the result looks plausible.
+- I can review `naturalness`, `accuracy`, `evidence`, `context of use`, and `rights and responsibility` as separate questions.
+- I can explain that even when generative AI is used as a learning tool, the draft still needs stricter human review.
 
 ## Sources and Further Reading
 

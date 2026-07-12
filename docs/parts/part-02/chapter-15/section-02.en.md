@@ -1,7 +1,7 @@
 # P2-15.2 Final Check Before Moving to Part 3
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Part 2 is the basic recovery zone. It does not mean that all mathematics and Python are finished perfectly. It is the stage where you check whether you now have the minimum reading ability and practice sense needed to move into machine learning.
 
@@ -195,36 +195,19 @@ At that point, the NumPy section and the Pandas section should not stay memorize
 
 So readiness for Part 3 comes not from stopping at `I can read shape`, but from connecting that shape to the roles of `X` and `y`.
 
-## Perspective to Remember from This Section
-
-- The goal of Part 2 is not complete mathematics and programming mastery, but recovery of the minimum base needed to read machine learning.
-- In Part 3, you should look first at data shape, learning flow, and evaluation standards rather than at model names.
-- `X`, `y`, `fit`, and `predict` connect directly to the arrays, tables, and function-execution flow learned in Part 2.
-- If a concept still feels vague, you can return to Part 2 and check it again.
-- Machine learning should be read as a learning flow in which formulas, code, data, and evaluation move together.
-
 ## Checklist
 
+- Can you explain that the goal of Part 2 is not complete mathematics and programming study, but recovery of the minimum base for reading machine learning?
+- Can you explain that in Part 3, you should look first at data shape, learning flow, and evaluation standards rather than at model names?
+- Can you explain that `X`, `y`, `fit`, and `predict` connect to the arrays, tables, and function-execution flow learned in Part 2?
 - Can you write which column is the feature and which column is the label in a small table?
 - If you see `X.shape = (4, 3)`, can you say it means 4 samples and 3 features?
 - If you see `y.shape = (4,)`, can you explain that it is a bundle of answers by sample?
 - Can you distinguish `fit(X_train, y_train)` and `predict(X_test)` as learning versus computing new input?
 - Can you say that loss, error, and evaluation metric have different roles?
+- Can you explain that machine learning should be read as a learning flow in which formulas, code, data, and evaluation move together?
+- Can you remember that if a concept still feels vague, you can return to Part 2 and check it again?
 - When a blocked expression appears, can you choose whether to return to `P2-11.2`, `P2-12.3`, `P2-5/6`, or `P2-3.5`?
-
-## Short Check
-
-- Can you explain the difference between `X` and `y`?
-- Can you explain sample and feature from the viewpoint of rows and columns?
-- Can you distinguish `fit` and `predict` as learning versus model execution?
-- Can you explain that loss, error, and evaluation metric are not all the same thing?
-- Can you say that, when reading Part 3, you will look first at data and evaluation flow rather than model names?
-
-## When Should You Recall This Perspective First?
-
-- Recall this section first when you need to check what you should minimally be able to say again before moving into Part 3.
-- Return to this section when you need to restore the standard that you will first read data, input and output, and the flow of learning and evaluation rather than model names.
-- Check it again when you want to confirm that you can distinguish `X`, `y`, sample, feature, fit, predict, loss, and evaluation metric without confusion.
 
 ## Sources and References
 

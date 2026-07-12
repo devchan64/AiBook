@@ -1,7 +1,7 @@
 # P4-19.2 Policy-Based Reinforcement Learning
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-19.1, we looked at the view of learning `how good each action is in each state` as values through value-based reinforcement learning. If we change the question by one step, the next question becomes this.
 
@@ -435,9 +435,19 @@ new policy: {'left': 0.525, 'right': 0.475}
 
 Under a good reward, the probability of `right` rose, but under a bad reward, the probability of the same action fell. This comparison makes clear that policy-based reinforcement learning is not `a way of reading action scores`, but `a way of pushing and pulling action tendencies`. So when learning the policy-based approach, it is better to read first what feedback changed what action distribution, rather than reading only the size of one score.
 
-### How Does This Exercise Recover The Goal Of Part 4?
+This comparison is important because policy-based reinforcement learning should be read not only as deciding `what to do`, but as directly adjusting `what actions should appear more often`. Evaluation is also read through `how the reward change altered the action distribution in practice`. So to understand the word policy, the reader should compare before and after `the scene where the probability distribution changed`.
 
-This exercise recovers the goal of Part 4 at the level of policy representation. The problem is not only `what should be done`, but also `what actions should be made to appear often`. The evaluation is then read through `how does the reward change alter the action distribution in practice?` If the goal still did not feel concrete after running the example, it is usually not because the word policy is too abstract, but because there was too little chance to compare `the scene where the probability distribution changed` before and after.
+### Judge For Yourself
+
+Choose first which interpretation is safer for the observations below.
+
+| Observation | Hasty conclusion | Safer interpretation |
+| --- | --- | --- |
+| After `right` received a good reward, its probability grew | Now only `right` should keep being chosen | The current policy tilted so that `right` is tried more often |
+| After the same action received a bad reward, its probability fell | The policy-based approach cannot use a scoreboard | It pushed and pulled the action tendency itself according to the reward signal |
+| An action appeared whose probability rose | That action is also safe and best in the real world | Other states and failure costs still need to be read together |
+
+The purpose of this table is to stop the policy-based approach from being memorized only as `changing probability numbers`. It is a device to read together what reward signal produced what action-distribution change, and why that change is not immediately identical to real-world safety.
 
 | Common recording language | What to record immediately from this exercise |
 | --- | --- |
@@ -454,14 +464,6 @@ This Section also should not leave only policy explanation. It must also leave w
 | Failure-cost boundary | What side effects the higher-probability action can create in the real environment | Because policy updates do not immediately imply safety |
 | Next validation question | Can this distribution survive under other states or real constraints? | To hand the policy-based choice over to follow-up review |
 
-## Viewpoints To Remember In This Section
-
-- Policy-based reinforcement learning is an approach that directly adjusts the policy itself in order to raise expected reward.
-- If value-based reinforcement learning is strong at building an action scoreboard, policy-based reinforcement learning is natural at directly handling action probabilities and behavior patterns.
-- Policy gradient modifies the policy parameters in the direction that reinforces action tendencies with good rewards.
-- REINFORCE is a representative introductory algorithm that shows the basic philosophy of policy-based reinforcement learning.
-- Actor-critic is a structure that splits the roles of actor and critic so that policy adjustment and evaluation signals are handled together.
-
 The core of this Section is not memorizing policy-based names, but fixing what it means to change a policy directly.
 
 | What must be read together | The question read first in this Section | Where it connects immediately next |
@@ -471,17 +473,14 @@ The core of this Section is not memorizing policy-based names, but fixing what i
 | Continuous actions and large state spaces | Why is it more natural to handle the policy itself? | P4-19.3 Real-world deployment and control problems |
 | Failure-cost boundary | What side effects can the higher-probability action create in real scenes? | safe RL, sim-to-real, and offline review |
 
-## Short Check
+## Checklist
 
-- Can you explain why it is more natural to treat the policy itself directly in continuous-action problems?
+- Can you explain policy-based reinforcement learning as an approach that directly adjusts the policy itself while raising expected reward?
+- Compared with value-based reinforcement learning, do you understand that the policy-based approach handles action probabilities and action patterns directly?
 - Can you explain that policy gradient adjusts action tendencies rather than a scoreboard?
+- Can you explain REINFORCE as an introductory algorithm that shows the basic philosophy of policy-based reinforcement learning?
 - Can you distinguish that the critic in actor-critic does not choose the policy instead, but gives the evaluation signal?
-
-## When Should This View Come To Mind First?
-
-- When continuous actions or large state spaces make it more natural to handle the action tendency itself than to keep a scoreboard, the policy-based view should come first.
-- When explaining policy gradient leaves behind only vague optimization language, return to the sentence that it directly adjusts the policy so that good actions appear more often.
-- When the roles of actor and critic are mixed, separate again the side that proposes the execution and the side that gives the evaluation signal.
+- Can you explain why it is more natural to treat the policy itself directly in continuous-action problems?
 
 ## Sources And References
 

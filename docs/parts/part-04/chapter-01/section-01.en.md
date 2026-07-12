@@ -1,7 +1,7 @@
 # P4-1.1 The Relationship Among AI, Machine Learning, and Deep Learning
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Part 1 looked at the broad scope of the word AI. Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out machine learning on top of that foundation.
 
@@ -197,24 +197,14 @@ The checkable result appears when the service structure is broken into questions
 --8<-- "assets/part-04/chapter-01/ai-llm-scope-misconception-flow-en.mmd"
 ```
 
-## Perspective To Remember In This Section
-
-- AI is the broadest scope, machine learning is the data-learning approach inside it, and deep learning is one neural-network-centered stream inside machine learning.
-- Generative AI and LLM are important modern experiences, but they should not be treated as the whole of AI.
-- Real services often combine rules, search, machine learning models, LLMs, and human review together.
-- Part 4 starts from machine learning first because the shared questions about data, models, learning, and evaluation keep returning later in deep learning and LLM discussions.
-
 ## Checklist
 
-- Can you explain why `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` should not be used as interchangeable names?
-- Can you explain why the same service may still contain rules, search, models, and human review together even when an LLM is visible on the surface?
-- Can you explain why Part 4 begins with machine learning structure before jumping directly to deep learning or LLM?
-
-## When This Perspective Should Come To Mind First
-
-- Recall this Section first when a discussion jumps too quickly from chatbot experience to `AI = LLM`.
-- Return here when you need to distinguish whether a current discussion is about the whole service, the learned model, or the language-model component.
-- This Section is the reference point when reconnecting the tool language of Part 2 to the machine-learning flow of Part 4.
+- Can you distinguish which term is most accurate among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` in a given context?
+- Can you explain why setting `AI = LLM` or `machine learning = deep learning` immediately weakens the explanation of service structure?
+- Can you explain why Part 4 looks first at the repeated structure of `data, learning, and evaluation` rather than at model names?
+- Can you explain the inclusion relationship among AI, machine learning, deep learning, generative AI, and LLM as different levels?
+- Can you explain how the sense of formulas, Python, arrays, tables, and graphs from Part 2 is used again in the data-learning-evaluation flow of Part 4?
+- Can you explain with an example that models, rules, search, policy, and human review can work together inside one service?
 
 ## Sources And References
 

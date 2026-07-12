@@ -1,7 +1,7 @@
 # P1-12.3 The Limits and Evaluation of Prompts
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 12.1 explained what prompts specify. Section 12.2 separated `instructions`, `context`, and `examples`.
 
@@ -39,12 +39,7 @@ These terms can all sound like similar review categories at first. A quick disti
 | hallucination | plausible but wrong generation | the representative generative-AI error |
 | reproducibility | whether we can later confirm what changed and what result followed | the basis for recording prompt experiments |
 
-The minimum distinction to keep is:
-
-- prompts are not guarantees
-- evaluation is separate work
-- factuality, evidence, and recency are not the same
-- reproducibility requires records
+The minimum distinction to keep is simple: prompts are not guarantees, evaluation is separate work, factuality/evidence/recency are not the same thing, and reproducibility requires records.
 
 This section focuses on three questions:
 
@@ -54,10 +49,7 @@ This section focuses on three questions:
 | why is evaluation needed? | because plausible output can still be wrong |
 | by what criteria should results be reviewed? | purpose fit, evidence, reproducibility, risk, revisability |
 
-This section also does not expand the list of prompt-writing tricks. Its focus is narrower:
-
-> why are prompts not enough by themselves,  
-> and why do later structures such as RAG, tool use, agents, and harnesses become necessary?
+This section also does not expand the list of prompt-writing tricks. Its narrower focus is why prompts are not enough by themselves and why later structures such as RAG, tool use, agents, and harnesses become necessary.
 
 ## Goal of This Section
 
@@ -223,23 +215,6 @@ This is not full quality assurance. But it reduces one of the biggest risks in a
 
 > unsupported explanation hardens into polished prose and starts to look trustworthy
 
-## What to Remember from This Section
-
-Prompts are tools for organizing output conditions. `Evaluation` is separate work that checks whether the result fits its purpose, has support, and does not create unnecessary risk.
-
-> prompts clarify the request  
-> evaluation reviews the result  
-> evidence review checks factual claims  
-> human judgment carries the final responsibility
-
-This also summarizes the whole flow of Chapter 12:
-
-> 12.1 what does a prompt specify?  
-> 12.2 how do instruction, context, and example work differently?  
-> 12.3 what can prompts not guarantee, and what must still be evaluated?
-
-From here, the discussion moves to how LLMs meet external material. That begins with embeddings, vector search, and RAG.
-
 ## Checklist
 
 - I can explain that prompts specify output conditions but do not guarantee factuality.
@@ -249,26 +224,8 @@ From here, the discussion moves to how LLMs meet external material. That begins 
 - I can explain that evaluation criteria depend on the purpose of the task.
 - I can distinguish risks that prompting can reduce from risks it cannot easily solve.
 - I can explain why RAG, tool use, agents, and harnesses become the next topic.
-
-## When to Recall This View First
-
-This section is useful when it starts to feel as if fixing the prompt a little more will solve everything, and evaluation and review need to be re-established as separate work.
-
-- when factuality, evidence, and recency need to be checked separately even if the output looks plausible
-- when prompt revision and model limits are being mixed together
-- when explaining why later structures such as RAG, tool use, agents, and harnesses are needed
-
-In those moments, it helps to separate:
-
-> input conditions  
-> output evaluation  
-> evidence checking  
-> reproducibility records
-
-That makes it easier to say both of the following at once:
-
-- prompt improvement matters
-- prompt improvement alone is not enough
+- I can explain separate prompt improvement and review work by dividing `input conditions`, `output evaluation`, `evidence checking`, and `reproducibility records`.
+- I can explain that factuality, evidence, and recency still need to be checked separately even when a result looks plausible.
 
 ## Sources and Further Reading
 

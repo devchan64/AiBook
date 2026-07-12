@@ -1,7 +1,7 @@
 # P4-6.3 Supplementary Learning: How To Read Metrics In Site Reliability Engineering
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-6.1 and P4-6.2 looked at model evaluation metrics. Now the gaze moves a little outward. A model fitting well and a service operating well do not mean the same thing. To understand that difference, it helps to see how the word `metric` is used in SRE, or site reliability engineering.
 
@@ -514,32 +514,14 @@ The key of this example is that the two cases are not compressed into one score.
 - In `case_B`, model improvement or checking data quality may come before infrastructure work.
 - In the end, AI service operations become clearer only when `is the model weak?` and `is the service weak?` are separated.
 
-## Connection To Later Chapters
-
-- In P4-7.1 on feature selection and P4-7.2 on preprocessing, input design that changes model metrics becomes important again. This Section keeps hold of the point that operational metrics still sit at another level beyond that.
-- In P4-8.1 on model selection, P4-8.2 on baselines, P4-9.1 on hyperparameters, and P4-9.2 on tuning and validation cost, the question becomes how model performance numbers should be compared. Even there, the distinction must remain that latency and availability in service operations are different numbers.
-- While learning algorithms from P4-10 through P4-18, classification, regression, and clustering metrics return again and again. This Section prepares in advance the connection that once those algorithms are deployed into a real service, operational metrics are still needed separately.
-- In P4-19 on reinforcement-learning algorithms, another evaluation perspective opens through reward and cumulative outcome. So this Section also plays the role of preparing more broadly the feeling that `the numbers to be read differ by problem`.
-
-## Perspective To Remember In This Section
-
-- Model metrics read prediction quality, and operational metrics read service state.
-- A good model is not automatically a good service, and a good service is not automatically a good model.
-- SLI is the measured value, SLO is the target value, and SLA is the promise and consequence.
-- In operations, multiple signals such as percentile, error rate, availability, and saturation are read together instead of only one average.
-- AI services must manage model quality and service reliability at the same time.
-
 ## Checklist
 
 - Can you explain why `a good model` and `a good service` are not the same thing?
 - Can you distinguish whether the current problem is a precision/recall problem or a latency/error-rate problem?
 - Can you explain at an introductory level what SLI, SLO, and SLA each ask?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up this Section when you need to check whether model metrics and operational metrics are being read as if they belonged to the same scoreboard.
-- Return to this Section when you need to explain again what layer of question is answered by SLI, SLO, SLA, and by latency/traffic/errors/saturation.
-- This Section becomes the criterion when organizing why AI services need to inspect both model quality and service reliability together.
+- Can you explain that model metrics read prediction quality, while operational metrics read service state?
+- Can you explain that a good model is not automatically a good service, and a good service is not automatically a good model?
+- Can you explain that operations need to read multiple signals together, such as percentile, error rate, availability, and saturation, instead of only one average?
 
 ## Sources And References
 

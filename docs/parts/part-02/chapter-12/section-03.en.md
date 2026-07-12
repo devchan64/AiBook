@@ -1,7 +1,7 @@
 # P2-12.3 The Intuition of Preparing a Learning Dataset
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-12.1, we read a `DataFrame` as a table-shaped data structure. In P2-12.2, we chose the needed columns from that table, filtered rows by condition, and checked summary values. Now the question moves one step further: `what must be prepared to turn this table into a learning dataset that a model can read?`
 
@@ -346,16 +346,7 @@ If we reduce the core of this Section to one sentence, preparing a learning data
 
 Without this perspective, the longer the Pandas code becomes, the easier it is to lose track of why columns are being changed and divided. With this perspective, even before you know every preprocessing technique, you can still ask `is this code choosing the input, choosing the answer, or preventing leakage?`
 
-## Perspective to Keep from This Section
-
-- Dataset preparation is not using the table as it is, but dividing it into `X` and `y` according to the problem definition.
-- One row is usually one sample, and one column is a candidate feature or target.
-- Identifier columns, descriptive columns, and answer columns may play roles different from input features.
-- Categorical columns may need to have their representation changed rather than being used immediately.
-- train / validation / test separation is a device for viewing generalization performance fairly.
-- If you make transformation rules from the full data first, the risk of data leakage grows.
-
-## Short Check
+## Checklist
 
 - Can you say in one sentence what you are trying to predict from the current table?
 - Can you distinguish which column is `y` and which columns are candidates for `X`?
@@ -363,12 +354,7 @@ Without this perspective, the longer the Pandas code becomes, the easier it is t
 - Can you explain why train / validation / test are separated?
 - Can you explain why preprocessing rules should be learned only from train?
 - When you see `X.shape = (4, 3)` and `y.shape = (4,)`, can you say what is the number of samples and what is the number of features?
-
-## When Should You Recall This Perspective First?
-
-- Recall the perspective of learning-dataset preparation when, instead of putting a table directly into a model, you first need to decide what to predict and which columns to use as input.
-- Return to this Section when you need to explain why `X` and `y` must be separated, why identifier and leakage-risk columns must be filtered out, and why train/validation/test must be split.
-- This Section becomes the standard when you need to confirm again that preprocessing rules should be learned from train rather than from the full data.
+- Can you explain that dataset preparation is not using the table as it is, but dividing it into `X` and `y` according to the problem definition?
 
 ## Sources and References
 

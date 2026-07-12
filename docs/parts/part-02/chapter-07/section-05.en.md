@@ -1,7 +1,7 @@
 # P2-7.5 Dependency and Reproducibility
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-7.4, we looked at virtual environments and packages. Now one question remains.
 
@@ -320,16 +320,6 @@ You do not need to create a perfect reproducible environment all at once. But it
 
 If you have this information, it becomes easier to narrow down the cause when an error happens later.
 
-## Perspective to Remember in This Section
-
-When looking at dependency and reproducibility, ask the following questions first.
-
-1. Which external packages does this code rely on?
-2. In which Python environment are those packages installed?
-3. Is there a record that lets me rebuild the same environment later?
-
-Code does not run from text alone. Leaving the environment the code relies on together with it is the starting point of reproducibility.
-
 ## Case Study
 
 ### Case 1. Why Does a Notebook Opened Again One Month Later Suddenly Stop Working?
@@ -342,7 +332,7 @@ The `dependency`, `reproducibility`, `requirements.txt`, and `version pinning` d
 
 The confirmable result can be judged by whether an installation list and version record exist. If packages were left only to memory without `requirements.txt`, reproducibility is weak. By contrast, if the necessary packages and versions are recorded, a starting point exists for rebuilding the same environment.
 
-## Short Check
+## Checklist
 
 - You can explain dependency as the external packages needed for my code to run.
 - You can explain reproducibility as the condition that lets the same code be run again later.
@@ -350,12 +340,7 @@ The confirmable result can be judged by whether an installation list and version
 - You can explain that `python -m pip install -r requirements.txt` is the command that installs packages based on a requirements file.
 - You can explain that `pip freeze` can be used to record the packages and versions installed in the current environment.
 - You can explain that version pinning can improve reproducibility, but does not solve every problem.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when a notebook opened again a month later suddenly stops working, so you first need to restore execution conditions before blaming the code.
-- Recall it when you need to explain why “it works on my computer” is not enough, and therefore need to reestablish the perspective of dependency and reproducibility.
-- Recall it when you need to tie together again why `requirements.txt`, version pinning, and `pip freeze` are necessary from the perspective of rebuilding an environment.
+- You can check which external packages the code relies on, in which Python environment they are installed, and whether there is a record to rebuild that environment later.
 
 ## Sources and References
 

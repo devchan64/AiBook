@@ -1,7 +1,7 @@
 # P2-13.2 Basic Charts and Checking the Shape of Formulas
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-13.1, we treated a plot as a tool for checking the shape of numbers. Now we connect a few basic chart types directly.
 
@@ -262,18 +262,6 @@ You can choose basic charts as follows.
 
 This table is not a formula to memorize. It is a starting point for checking what question you are asking the data.
 
-## Perspective to Remember from This Section
-
-| Handle from This Chapter | What the Next Chapter Looks at More | Where It Is Reused in Part 3 |
-| --- | --- | --- |
-| The standard for choosing a chart depending on whether you want to see change, relationship, or distribution | How to leave this interpretation change and chart choice as a record in Git | When you change the next experiment or explanation after looking at loss curves, variable relationships, or error distributions |
-
-- A line plot is suitable for checking the shape of order or continuous change.
-- A scatter plot is suitable for seeing the relationship between two values and their spread.
-- A histogram is suitable for seeing where values gather.
-- A loss curve is used to check the direction in which learning is moving.
-- Axes, titles, and labels are part of chart interpretation.
-
 ## Case Study
 
 ### Case 1. When You Do Not Know Which Chart to Use and End Up Drawing Any Chart
@@ -286,19 +274,14 @@ This is why the section tells you to look first at `what question am I asking?` 
 
 The checkable result appears when you switch the chart. If you draw loss by epoch as a line plot, the flow appears clearly. If you draw the same data as a histogram, the question becomes blurred. By contrast, score distribution appears more clearly in a histogram.
 
-## Short Check
+## Checklist
 
 - Can you check the shape of \(y = x^2\) with a line plot?
 - Can you explain what one point means in a scatter plot?
 - Can you explain that a histogram shows information different from the mean?
 - Can you create questions about the learning flow by looking at a loss curve?
 - Can you explain why x-axis, y-axis, and title should be added when making a chart?
-
-## When Should You Recall This Perspective First?
-
-- Recall this section first when you need to distinguish what kinds of questions basic charts such as line plots, scatter plots, and histograms each answer.
-- Return to the basic chart examples when you need to check, as actual pictures, the shape of a formula, the meaning of one point, or the shape of a distribution.
-- Check this section again when you want to explain why axis labels and titles are added to a chart, or when you want to read a learning flow such as a loss curve.
+- Can you explain that line plots, scatter plots, histograms, and loss curves should be chosen by the question of change, relationship, distribution, or learning flow, and that axes, titles, and labels are part of interpretation.
 
 ## Sources and References
 

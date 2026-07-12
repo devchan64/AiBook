@@ -1,7 +1,7 @@
 # P4-5.1 过拟合(overfitting)与欠拟合(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-4 章里，我们看过为什么要把数据分成 training、validation、test。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
 
@@ -414,29 +414,19 @@ choose by validation: candidate_B
 
 `这个 model 抓到的是该学的模式，还是把这份数据的形状跟得太多了？`
 
-## 本节要记住的观念
-
-- 欠拟合是 model 还没有把重要模式学够的状态。
-- 过拟合是 model 对 training data 贴得太紧的状态。
-- 只看 training score，很难判断 model。
-- 必须连 validation score 一起看，才能更快发现它在新数据上的弱点。
-- 即使 training score 很高，只要 validation score 变低，就该怀疑过拟合。
-- 如果两边都低，应该先想到欠拟合的可能。
-
 ## 检查清单
 
 - 当 training score 和 validation score 一起看时，能不能说明为什么 `两边都低` 和 `只有 training 特别高` 要用不同方式来读？
 - 在什么场景下，能把问题拆成 `还要多学一些` 和 `要少背一点` 来读？
 - 能不能说明：更复杂的 model 不一定总更好，因为它也可能同时推高过拟合风险？
-
-## 什么时候应该先想起这个观念
-
-- 当你需要先根据 training 与 validation score 的差距，判断 model 是还没学够还是背得太多时，就应该想到这一节。
-- 当你需要把 `training 高、validation 低` 和 `两边都低` 读成两种不同问题时，就该回到这一节。
-- 当候选选择里不能只看单一分数，而要先看 generalization 方向时，这一节会成为标准。
+- 能不能说明欠拟合是 model 还没有充分学到重要模式，而过拟合是 model 对 training data 贴得太紧？
+- 能不能说明只看 training score 很难判断 model，必须和 validation score 一起看，才能更快发现它在新数据上的弱点？
+- 能不能说明即使 training score 很高，只要 validation score 变低就该先怀疑过拟合，而两边都低时应先怀疑欠拟合？
 
 ## 出处与参考资料
 
 - scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
 - Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

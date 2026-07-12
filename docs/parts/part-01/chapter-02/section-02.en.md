@@ -1,7 +1,7 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 2.1 covered symbolic AI and rule-based approaches. This section takes the next question. When writing rules alone is not enough, AI had to search through possible candidates, represent the knowledge it needed, and reason about plausible conclusions under incomplete information.
 
@@ -269,16 +269,6 @@ These three flows are not only background to pre-machine-learning AI. They are s
 - I can explain that knowledge representation can include not only rules but also facts, relations, constraints, and the results of actions.
 - I can explain that probabilistic reasoning is a way of calculating the plausibility of conclusions under incomplete information.
 - I can explain that search, knowledge representation, and probabilistic reasoning begin from different questions but can be used together in real systems.
-
-## When This View Should Come to Mind First
-
-Bring back the frame of this section when search, knowledge representation, and probabilistic reasoning appear mixed together inside one problem and it becomes unclear what should be explained first.
-
-- when, in robot, route, dispatch, or game cases, `finding candidates` and `writing the world down` are not clearly separated
-- when sensor error or incomplete information makes a rule explanation alone feel insufficient
-- when you need to explain what role search, knowledge graphs, and probabilistic prediction still play inside modern AI services
-
-At that point, write down separately `what is being searched for`, `what must be written down`, and `what is uncertain`. Then it becomes visible again that search, knowledge representation, and probabilistic reasoning are not competing concepts, but tools that answer different questions.
 
 ## Sources and Further Reading
 

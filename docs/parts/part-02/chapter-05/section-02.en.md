@@ -1,7 +1,7 @@
 # P2-5.2 Distribution, Mean, and Variance
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-5.1, we looked at probability as the language that expresses uncertainty as numbers. Now we move to the question of what we should look at when many of those numbers are gathered together.
 
@@ -273,21 +273,7 @@ In evaluation, we look together at whether the average accuracy is high, whether
 
 In deep learning, mean and variance also repeatedly appear in normalization, initialization, and optimization. We do not need to know every implementation detail now. But it is worth remembering that mean and variance are not merely terms from a statistics course. They are deeply connected to how a model handles data.
 
-## Perspective to Keep from This Section
-
-- Distribution is the overall shape of values.
-- Mean is the value that compresses the center into one number.
-- Variance reveals the spread around the mean separately.
-- Even if the mean is the same, the character of the data may differ when the variance is different.
-- When `mean`, `distribution`, or `variance` appears in later parts, we should first ask `are we looking at the center now, the spread, or the whole shape?`
-
-Distribution, mean, and variance are the three basic questions for reading a data bundle. Distribution asks what shape the values are arranged in. Mean asks where the center should be placed. Variance asks how widely they are spread around that center.
-
-If we look only at the mean, we may miss differences in the data. We need to look at distribution, mean, and variance together in order to read the character of the data bundle more safely.
-
-This perspective matters even more in AI. Models do not find patterns from one value, but from bundles of data.
-
-## Short Check
+## Checklist
 
 - Can you explain in one sentence each what distribution, mean, and variance are looking at?
 - Can you say why data can differ even when the mean is the same?
@@ -301,12 +287,6 @@ This perspective matters even more in AI. Models do not find patterns from one v
 - You can explain that even if the mean is the same, the character of the data may change when the variance is different.
 - You can explain at an introductory level the relationship between variance and standard deviation.
 - You can say that mean loss, data distribution, and distribution shift reappear later in AI learning.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when one average number is visible but you are missing where the data is concentrated and how widely it is spread.
-- Recall it first when you are reading data distribution and probability distribution as if they were the same thing and need to separate observed values from a mathematical model.
-- Recall it first when expressions such as mean loss, distribution shift, and dataset statistics appear and you need to read them all on the same statistical map.
 
 ## Sources and References
 

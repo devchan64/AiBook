@@ -1,7 +1,7 @@
 # P2-2.3 Limits and the Intuition of Change
 
 > Section ID: `P2-2.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-2.2, we read sigma as compressed notation for repeated addition. Now we move to another unfamiliar-looking notation: the limit.
 
@@ -391,17 +391,7 @@ When recovering limits for the first time, it is better to unpack them in words 
 
 Once you can ask these questions, you are prepared to read derivatives and gradients later.
 
-## Perspective to Remember from This Section
-
-A limit is notation for looking not at `put in exactly that value`, but at `to what does the result get close when a value gets close to something`.
-
-The input gets close to some value, the function value is observed, the change ratio is read, and that sense continues into derivatives and gradients.
-
-In AI learning, you need to know how values change in order to reduce loss. A limit is the entrance into the mathematical language that reads that change.
-
-This viewpoint returns again when derivatives are redefined in P2-4.1 and P2-4.2, when gradients are read in P2-4.5, and when optimization and loss reduction are explained in P2-6.1 and P2-6.3. A limit is not itself an AI learning algorithm, but it remains in the background as `the language for reading the tendency of a small change`.
-
-## Short Check
+## Checklist
 
 - Can you explain a limit as notation that looks at a process of getting closer?
 - Can you distinguish the meanings of \(x \to a\), \(h \to 0\), and \(f(x) \to L\)?
@@ -411,12 +401,7 @@ This viewpoint returns again when derivatives are redefined in P2-4.1 and P2-4.2
 - Can you explain why limits prepare you for reading derivatives, gradients, and optimization?
 - Can you explain why limits return later in derivatives, gradients, optimization, and numerical computation?
 - Can you compute the approached value in a simple limit expression either by direct substitution or by algebraic rearrangement?
-
-## When Should You Recall This Perspective First?
-
-- When you are reading a limit as if it meant the same thing as direct substitution
-- When you lose the connection of why a small change and the tendency of a function value continue into derivatives and optimization
-- When you need to look again at what change happens in the neighborhood of one point rather than only at the value of that point
+- Can you explain limit as a language for reading the tendency of a small change rather than only direct substitution?
 
 ## Sources and References
 

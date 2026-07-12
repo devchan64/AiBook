@@ -1,7 +1,7 @@
 # P4-19.3 Caution In Applying Reinforcement Learning
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-19.1, we saw value-based reinforcement learning, and in P4-19.2, policy-based reinforcement learning. Once readers reach that point, the next question appears.
 
@@ -526,17 +526,7 @@ The purpose of learning reinforcement learning in Part 4 is not to increase the 
 | Interpretation boundary | Reward increase, high exploration reward, or high simulation performance alone do not mean achievement of the real goal or safe deployment |
 | Next question | What side-effect metrics, failure-cost standards, and limited rollout procedures must be bundled together to get closer to the real objective? |
 
-## Viewpoints To Remember In This Section
-
-- Reinforcement learning maximizes reward, but reward may not perfectly stand in for the real objective.
-- Reward hacking is the phenomenon where the model optimizes the reward number well but misses human intent.
-- Exploration creates cost and safety problems in the real world, so it cannot be tried freely the way it is in games.
-- Simulation makes reinforcement learning possible, but because it is not the same as reality, a sim-to-real gap appears.
-- In real-world application, goal definition, safe exploration, and verification of deployment-environment differences come before the algorithm name.
-
 The core of this Section is not to increase the number of names for application risks, but to fix where the gap between reward and the real-world objective should be inspected.
-
-Read together with the earlier Sections, `P4-19.1` holds the value standard, `P4-19.2` holds the feel of policy updates, and `P4-19.3` holds the brake before application. So the purpose of this Section is not to introduce more algorithms, but to fix `when should we stop and look again?`
 
 | What must be read together | The question read first in this Section | Where it connects immediately next |
 | --- | --- | --- |
@@ -545,20 +535,21 @@ Read together with the earlier Sections, `P4-19.1` holds the value standard, `P4
 | Sim-to-real gap | Why does success in simulation not guarantee success in reality? | P4-19.4 follow-up branches and Part 5 alignment issues |
 | Verification order before deployment | What metrics and safety devices should be checked first? | limited rollout, offline evaluation, rollback plan |
 
-## Short Check
+## Checklist
 
+- Did you understand that reinforcement learning maximizes reward, but reward may not perfectly stand in for the real objective?
+- Can you explain reward hacking as the phenomenon where the model optimizes the reward number well but misses human intent?
+- Do you know that exploration can create cost and safety problems in the real world, so it cannot be tried freely the way it is in games?
+- Did you understand that simulation makes reinforcement learning possible, but because it is not the same as reality, a sim-to-real gap appears?
+- Can you explain that in real application, goal definition, safe exploration, and checking deployment-environment differences come before the algorithm name?
 - Can you explain why it is risky to move into deployment by looking only at reward increase in reinforcement learning?
 - Can you say that the sim-to-real gap is not only a performance issue, but can also become a safety issue?
 - Do you understand why exploration limits and stopping devices must be decided before the algorithm?
 
-## When Should This View Come To Mind First?
-
-- When the reward number rises but the service goal or safety metrics become unstable, think first about the gap between reward and the true objective.
-- When simulation performance looks good but real-world deployment feels unstable, inspect the sim-to-real gap and exploration cost immediately.
-- When application-risk questions should come before algorithm choice, pull this Section's checklist back out as the baseline before deployment.
-
 ## Sources And References
 
 - Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, checked on 2026-06-28. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, checked on 2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
+- Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, checked on 2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }
 - Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, checked on 2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
 - Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, checked on 2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }

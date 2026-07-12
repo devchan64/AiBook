@@ -1,7 +1,7 @@
 # P2-8.6 Supplemental Learning: First Meeting Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 
@@ -498,31 +498,6 @@ This perspective matters later in machine learning.
 - `predict()` can be a method that uses state to make a result.
 - `save()` can be a method that stores state into a file.
 
-## Perspective to Keep from This Section
-
-- In Python, many values are handled as objects.
-- A class is the definition used to make such objects.
-- A method is an action called while attached to an object.
-- `function(value)` and `value.method()` may look similar, but the reading direction is different.
-- Later, when `model.fit()`, `model.predict()`, or `dataset.map()` appears, first ask `what state and action does this object hold together?`
-
-It is better not to start classes through difficult syntax. First distinguish the call shapes that appear in Python code.
-
-`function(value)` is the form of putting a value into a function.
-
-`value.method()` is the form of calling an action provided by a value or object.
-
-When we meet expressions like `model.fit()` in AI libraries, we can read them as `the model object calls its training method`. Even this alone helps us not stop when first reading many pieces of code.
-
-This supplemental learning can reconnect safely with the main flow if we recover only the following standard.
-
-| What to recover here | Main-text question to return to | Where to keep reading next |
-| --- | --- | --- |
-| the difference in calling center between `function(value)` and `value.method()` | why different actions are used depending on value and type | values, variables, and types in P2-8.1; lists and dictionaries in P2-8.2 to P2-8.3 |
-| the fact that expressions such as `model.fit()` are object-method calls | how to read the target before the dot (`.`) in library code | functions in P2-8.5; later library examples in the main text of Part 3 |
-
-In other words, if we can read what the target before the dot is, and if we understand that a method is an action attached to an object, then it is safer not to stay too long here and instead return to the main text.
-
 ## Looking Through a Case
 
 ### Case 1. Why Doesn’t `model.fit()` Look Like an Ordinary Function?
@@ -535,7 +510,7 @@ So when first meeting classes and objects, we need to hold the standard that `an
 
 The confirmable result is that if the target before the call changes, the action also changes. `text.lower()` handles a string, `scores.append(91)` changes a list, and `model.predict(test_data)` uses model state. If we can read what the target before the dot is, code interpretation becomes much easier.
 
-## Short Check
+## Checklist
 
 - Can you explain an object as `a target that has both values and actions`?
 - Can you state the difference between a class and an object?
@@ -550,12 +525,6 @@ The confirmable result is that if the target before the call changes, the action
 - Can you explain `self` as the name that refers to the object itself?
 - Can you explain that classes are not always necessary, and that in some cases functions and dictionaries are enough?
 - Can you read AI-library expressions such as `model.fit()` and `model.predict()` from the perspective of object and method?
-
-## When Should You Recall This Perspective First
-
-- Recall it when you need to reread why dot-based calls such as `model.fit()` or `text.lower()` look different from ordinary functions.
-- Recall it when you need to place strings, lists, and model objects into one frame through the perspective that an object has both value and action.
-- Recall it when you need to judge again whether a dictionary or a class-based object feels more natural according to how tightly data and behavior need to be bundled together.
 
 ## Sources and References
 

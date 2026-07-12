@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -161,14 +161,6 @@ Try writing down the `input`, `output`, and `decision style` for the following t
 
 The point of this exercise is not to decide instantly whether something is or is not AI. The point is to distinguish that even within the AI category, there are different ways of working: people can write rules, systems can learn from data, and generative models can be combined with retrieval and rules.
 
-## What to Remember from This Section
-
-- AI is not the name of one product. It is a broad category of systems that receive input and produce judgments or outputs.
-- If AI is defined only from recent generative-AI experience, it becomes easy to lose other layers such as rule-based systems, search, recommendation, and prediction.
-- It is more stable to read AI by first separating input, goal, output, and impact.
-
-The minimum sentence to keep from this section is this: `AI is not one product but a broad category of systems with inputs, goals, and outputs.` When the term `AI` appears again in later sections of Part 1, use this scope as the baseline and use the [Concept Glossary](../../../reference/concept-glossary.md) whenever term checking is needed.
-
 ## Cases and Examples
 
 ### Case 1. Treating a Chatbot as If It Were All of AI
@@ -186,18 +178,8 @@ Suppose a loan-review system uses only a hand-written rule table to make a first
 - You can distinguish dictionary-style meaning from historically expanded usage.
 - You can view an AI system in terms of input, goal, output, and impact.
 - You can distinguish between a generated result sounding natural and a generated result being true.
-
-## When to Recall This View First
-
-Bring this section back first whenever it becomes unclear whether something should be read as AI at all, or why a system is still called AI.
-
-- when a rule-table system feels like “not AI” because it is not machine learning
-- when chatbot experience makes all of AI look like question-answering
-- when recommendation, approval support, prediction, and search systems coexist and you need to know what belongs in one larger category
-
-At that point, return to the baseline that `AI is the widest outer category`, then ask how input, goal, output, and impact are organized.
-
-One practical benefit of keeping this baseline is that later chapters do not collapse into one technology story. Once AI is fixed as the outer category, later discussions of rules, search, machine learning, deep learning, generative AI, and LLMs can be read as different streams on one map rather than as competing definitions of one single thing.
+- You can explain that AI is not one product but a broad category of systems with inputs, goals, and outputs.
+- You can return to `AI is the widest outer category` first when rule-table systems, chatbots, recommendation systems, prediction systems, and search systems need to be placed on one map.
 
 ## Sources and Further Reading
 

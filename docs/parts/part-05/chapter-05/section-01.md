@@ -145,19 +145,67 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 
 ## 사례 및 예시
 
-### 사례 1. 가중치 하나짜리 예측 오차
+### 사례 1. 차단 점수 하나를 맞추려면 어느 쪽으로 움직여야 하나
 
-하나의 입력으로 하나의 출력을 내는 아주 단순한 예측기를 생각해 봅니다. 입력 하나 \(x\), 가중치 하나 \(w\), 출력 \(y = wx\), 손실 \(L = (y - t)^2\)인 구조라고 두면, 사람은 이런 장면에서 먼저 `예측이 너무 큰가, 너무 작은가`를 보고 어느 방향으로 고쳐야 할지 감을 잡으려 합니다.
+가장 단순한 경우부터 보겠습니다. `압력 미복귀 정도` 하나를 받아 `재기동 차단 점수` 하나를 내는 아주 작은 예측기를 생각해 봅니다. 입력을 `pressure_unrecovered`, 가중치를 `risk_weight`, 출력 점수를 `predicted_block_score`라고 두면 다음처럼 쓸 수 있습니다.
 
-이때 손실이 줄어들려면 `w`를 어떻게 바꿔야 하는지 알아야 합니다. 이 예시는 역전파의 수식 전체보다 먼저, `오차를 줄이는 방향 감각`이 어떻게 생기는지 보여 줍니다.
+\[
+predicted\_block\_score = risk\_weight \times pressure\_unrecovered
+\]
 
-직접적인 감각으로 읽으면 예측이 너무 크면 가중치를 줄여야 할 수 있고, 예측이 너무 작으면 가중치를 키워야 할 수 있습니다.
+손실은 목표 차단 점수 `target_block_score`와 얼마나 어긋났는지로 읽으면 충분합니다.
 
-예를 들어 입력이 2이고 목표값이 5인데 현재 예측이 3이라면, 사람은 `출력이 모자라니 가중치를 키워야겠다`는 방향 감각을 잡을 수 있습니다. 이 경우에는 손실 하나를 보고도 `어느 쪽으로 움직여야 하는가`가 비교적 직접적으로 보입니다. 즉, 역전파 이전에도 `오차가 크면 가중치를 어느 방향으로 밀어야 하는가`라는 감각은 가질 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 손실값만 보더라도 가중치를 늘릴지 줄일지의 방향 판단이 실제로 가능하다는 점입니다.
+\[
+L = (predicted\_block\_score - target\_block\_score)^2
+\]
 
-### 사례 2. 다층 신경망의 책임 분해
+이 장면에서는 사람도 먼저 `지금 차단 점수가 목표보다 큰가, 작은가`를 보며 어느 쪽으로 고쳐야 할지 감을 잡을 수 있습니다.
 
-하지만 여기까지는 가중치 하나짜리 아주 단순한 경우라서 가능한 직관입니다. 층이 많아지면 어느 중간 노드가 얼마나 책임이 있는지 사람이 눈으로 따지기 어렵습니다. 특히 최종 오차만 보고 `마지막 가중치만 고치면 되지 않을까`라고 생각하기 쉽지만, 그러면 중간 층이 만든 표현의 책임을 놓치게 됩니다. 역전파는 이런 직관을 `각 연결이 손실에 얼마나 기여했는가`라는 계산 절차로 바꾸어, 모든 층에 대해 반복 가능한 방식으로 책임을 나누어 줍니다. 그래서 이 사례에서 확인해야 할 결과는 마지막 층만이 아니라 앞단 가중치들에도 서로 다른 gradient가 실제로 붙는가입니다.
+이 사례의 핵심은 역전파를 수식 덩어리로 보기 전에, `오차를 줄이려면 가중치를 어느 방향으로 움직여야 하나`를 붙잡는 데 있습니다.
+
+- 차단 점수가 목표보다 작으면 위험 가중치를 키우는 쪽이 자연스럽습니다.
+- 차단 점수가 목표보다 크면 위험 가중치를 줄이는 쪽이 자연스럽습니다.
+
+예를 들어 `pressure_unrecovered`가 2이고 목표 차단 점수가 5인데 현재 예측이 3이라면, 사람은 `차단 점수가 모자라니 risk_weight를 키워야겠다`는 방향 감각을 먼저 가질 수 있습니다. 역전파는 바로 이 감각을 각 가중치별 숫자 신호로 바꾸는 절차입니다. 그래서 이 사례에서 확인해야 할 결과는 손실을 본 뒤 `늘릴지 줄일지` 방향이 먼저 분명해지는가입니다.
+
+| 사람이 먼저 보기 쉬운 기준 | 역전파 관점으로 다시 읽는 기준 |
+| --- | --- |
+| 차단 점수가 목표보다 작으면 위험 가중치를 키워야 할 것 같다 | gradient 부호가 실제로 `키워야 하는가 / 줄여야 하는가`를 계산해 준다 |
+| 차단 점수가 목표보다 크면 위험 가중치를 줄여야 할 것 같다 | gradient 부호가 반대로 바뀌는지 확인해야 한다 |
+| 오차가 크면 더 많이 고쳐야 할 것 같다 | gradient 크기가 실제로 `얼마나 강하게 밀어야 하는가`를 함께 담는다 |
+
+같은 `차단 점수가 작다`는 장면 안에서도 차이는 더 있습니다. 목표가 5인데 예측이 4.6인 경우와 3.0인 경우를 비교하면 둘 다 `risk_weight를 키워야 한다`는 방향은 같지만, 후자는 훨씬 더 크게 모자랍니다. 역전파는 이 차이를 `둘 다 increase가 아니라, 누가 더 강한 increase 신호를 받는가`까지 숫자로 남깁니다.
+
+### 사례 2. 마지막 점수만 고치면 왜 부족한가
+
+하지만 실제 신경망은 점수 하나를 바로 만들지 않고, 여러 입력을 중간 표현으로 먼저 묶은 뒤 최종 출력을 냅니다. 예를 들어 `온도 경고`, `압력 경고`, `진동 경고`를 먼저 섞어 `전체 위험 신호`를 만들고, 그다음 최종 정지 점수를 만든다고 생각해 보겠습니다.
+
+이때 최종 점수가 틀렸다고 해서 마지막 층만 보면 충분할 것처럼 느끼기 쉽습니다. 하지만 그 마지막 점수는 이미 앞단이 만든 `전체 위험 신호`에 기대고 있으므로, 앞단이 어떤 입력을 얼마나 강하게 묶었는지도 함께 고쳐야 할 수 있습니다.
+
+역전파의 직관은 바로 여기서 더 중요해집니다.
+
+- 최종 출력이 틀렸다면 마지막 연결만이 아니라
+- 그 마지막 연결을 만든 앞단 표현에도 책임이 있고
+- 그 앞단 표현을 만든 더 앞 가중치에도 책임이 전달됩니다.
+
+즉, 역전파는 `마지막 점수만 고친다`가 아니라 `출력 오차의 책임을 앞단까지 차례로 나눈다`는 구조입니다. 그래서 이 사례에서 확인해야 할 결과는 마지막 층만이 아니라, 앞단 가중치들에도 서로 다른 크기와 방향의 gradient가 실제로 붙는가입니다.
+
+두 사례를 한 번에 다시 압축하면, 역전파에서 먼저 붙잡아야 할 흐름은 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-05/backprop-direction-and-responsibility-flow-ko.mmd"
+```
+
+이 도식은 사례 1의 `점수가 너무 작다/크다`는 방향 감각과 사례 2의 `책임이 앞단까지 전달된다`는 구조를 한 번에 다시 묶기 위한 것입니다. 사례 내용을 새로 늘리기보다, `손실을 본다 -> 방향이 생긴다 -> 책임이 뒤에서 앞으로 전달된다`는 역전파의 첫 직관만 짧게 다시 읽게 하는 데 목적이 있습니다.
+
+두 사례를 나란히 놓고 보면, 역전파는 `손실이 크다`는 사실만 말하는 절차가 아니라 `누가 얼마나 어떻게 고쳐져야 하는가`를 각 가중치별로 다시 적는 절차입니다.
+
+| 장면 | 사람이 먼저 보기 쉬운 해석 | 역전파가 더 분명하게 남기는 것 | 실제로 다시 배분되는 것 |
+| --- | --- | --- | --- |
+| 점수 하나 보정 | 예측이 작으니 키우고, 크니 줄이면 된다고 느낀다 | 방향뿐 아니라 수정 강도까지 gradient로 남긴다 | 가중치 하나에 대한 방향과 크기 |
+| 여러 입력을 거친 최종 점수 | 마지막 출력만 보고 마지막 층만 고치고 싶어진다 | 중간 층과 앞단 층까지 책임을 나누어 붙인다 | 각 층 가중치별 gradient |
+
+이 표에서 독자가 먼저 붙잡아야 할 결과는, 역전파의 핵심이 `손실을 안다`가 아니라 `손실을 가중치별 책임 신호로 다시 바꾼다`는 점입니다.
 
 ## 누가 얼마나 책임이 있는가를 계산한다는 뜻
 
@@ -174,87 +222,125 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 
 ## 연습 및 예제
 
-이번 예제의 목표는 역전파 전체를 코드로 재구현하는 것이 아니라, 아주 작은 예에서 손실이 가중치에 어떤 방향 신호를 주는지 확인하는 것입니다. 한 사례만 보는 대신 `예측이 작은 경우`와 `예측이 큰 경우`를 같이 돌려, gradient 부호가 어떻게 바뀌는지도 함께 보겠습니다.
+이번 예제의 목표는 역전파 전체를 코드로 재구현하는 것이 아니라, 아주 작은 예에서 `재기동 차단 점수` 손실이 `압력 위험 가중치`에 어떤 방향 신호를 주는지 확인하는 것입니다. 한 사례만 보는 대신 `차단 점수가 작은 경우`와 `차단 점수가 큰 경우`를 같이 돌려, gradient 부호가 어떻게 바뀌는지도 함께 보겠습니다.
 
 입력:
 
-- 입력값 `x`
-- 목표값 `target`
-- 현재 가중치 `w`
+- 압력 미복귀 정도 `pressure_unrecovered`
+- 목표 차단 점수 `target_block_score`
+- 현재 위험 가중치 `risk_weight`
 
 출력:
 
-- 예측값
+- 예측된 차단 점수
 - 손실
-- 가중치에 대한 gradient
+- 위험 가중치에 대한 gradient
 - gradient 부호가 주는 업데이트 방향 해석
+- gradient 크기가 주는 수정 강도 비교
 
 문제 상황:
 
-- gradient는 수식으로만 보면 추상적이므로 예측이 작을 때와 클 때 방향이 어떻게 달라지는지 직접 보는 편이 좋다
+- gradient는 수식으로만 보면 추상적이므로 차단 점수가 작을 때와 클 때 방향이 어떻게 달라지는지 직접 보는 편이 좋다
+- 같은 방향이라도 오차가 더 큰 경우 gradient 절댓값이 더 커지는지 같이 볼 필요가 있다
 
 확인할 개념:
 
-- gradient 부호는 가중치를 어느 방향으로 움직여야 하는지 알려 준다
-- 같은 식이라도 예측이 부족한지 과한지에 따라 업데이트 방향 해석이 달라진다
+- gradient 부호는 위험 가중치를 어느 방향으로 움직여야 하는지 알려 준다
+- 같은 식이라도 차단 점수가 부족한지 과한지에 따라 업데이트 방향 해석이 달라진다
+- gradient 절댓값은 수정 강도의 차이를 읽게 해 준다
 
 입력(input):
 
-위에 정리한 두 사례의 `x`, `target`, `w`를 사용합니다.
+위에 정리한 세 사례의 `pressure_unrecovered`, `target_block_score`, `risk_weight`를 사용합니다.
+
+코드를 보기 전에 먼저 어느 사례가 어떤 신호를 낼지 예상해 보면 좋습니다.
+
+| 사례 | 먼저 예상해 볼 비교 | 예상 이유 |
+| --- | --- | --- |
+| `slightly_under_block_signal` | `increase_risk_weight`, 하지만 강도는 약할 가능성 | 목표보다 조금만 작기 때문에 방향은 키우기지만 수정량은 크지 않을 수 있습니다. |
+| `too_weak_block_signal` | `increase_risk_weight`, 강도는 더 클 가능성 | 같은 방향이라도 목표보다 더 많이 모자라기 때문에 gradient 절댓값이 더 커질 수 있습니다. |
+| `too_strong_block_signal` | `decrease_risk_weight` | 목표보다 크므로 반대 방향 신호가 나와야 합니다. |
+
+이 표의 목적은 공식 암기보다 `방향`과 `강도`를 따로 읽는 연습입니다.
 
 ```python
 cases = [
-    {"name": "prediction_too_small", "x": 2.0, "target": 5.0, "w": 1.5},
-    {"name": "prediction_too_large", "x": 2.0, "target": 5.0, "w": 3.2},
+    {"name": "slightly_under_block_signal", "pressure_unrecovered": 2.0, "target_block_score": 5.0, "risk_weight": 2.3},
+    {"name": "too_weak_block_signal", "pressure_unrecovered": 2.0, "target_block_score": 5.0, "risk_weight": 1.5},
+    {"name": "too_strong_block_signal", "pressure_unrecovered": 2.0, "target_block_score": 5.0, "risk_weight": 3.2},
 ]
 
 for case in cases:
-    x = case["x"]
-    target = case["target"]
-    w = case["w"]
+    pressure_unrecovered = case["pressure_unrecovered"]
+    target_block_score = case["target_block_score"]
+    risk_weight = case["risk_weight"]
 
-    prediction = w * x
-    loss = (prediction - target) ** 2
-    gradient_w = 2 * (prediction - target) * x
-    update_direction = "increase_w" if gradient_w < 0 else "decrease_w"
+    prediction = risk_weight * pressure_unrecovered
+    loss = (prediction - target_block_score) ** 2
+    gradient_w = 2 * (prediction - target_block_score) * pressure_unrecovered
+    update_direction = "increase_risk_weight" if gradient_w < 0 else "decrease_risk_weight"
 
     print(f"[{case['name']}]")
-    print("prediction =", round(prediction, 3))
+    print("predicted_block_score =", round(prediction, 3))
     print("loss =", round(loss, 3))
-    print("gradient_w =", round(gradient_w, 3))
+    print("gradient_risk_weight =", round(gradient_w, 3))
     print("update_direction =", update_direction)
     print("---")
 ```
 
-출력에서는 prediction, loss, gradient_w를 먼저 보고, 그 결과 update_direction이 왜 달라지는지 이어서 보면 됩니다.
+출력에서는 `predicted_block_score`, `loss`, `gradient_risk_weight`를 먼저 보고, 그 결과 `update_direction`이 왜 달라지는지 이어서 보면 됩니다.
 
 ```text
-[prediction_too_small]
-prediction = 3.0
-loss = 4.0
-gradient_w = -8.0
-update_direction = increase_w
+[slightly_under_block_signal]
+predicted_block_score = 4.6
+loss = 0.16
+gradient_risk_weight = -1.6
+update_direction = increase_risk_weight
 ---
-[prediction_too_large]
-prediction = 6.4
+[too_weak_block_signal]
+predicted_block_score = 3.0
+loss = 4.0
+gradient_risk_weight = -8.0
+update_direction = increase_risk_weight
+---
+[too_strong_block_signal]
+predicted_block_score = 6.4
 loss = 1.96
-gradient_w = 5.6
-update_direction = decrease_w
+gradient_risk_weight = 5.6
+update_direction = decrease_risk_weight
 ---
 ```
 
-첫 번째 사례에서는 `-8.0`, 두 번째 사례에서는 `5.6`이 핵심입니다.
+세 사례를 함께 보면 `부호`와 `크기`를 같이 읽어야 합니다.
 
-- 예측이 너무 작으면 gradient가 음수가 되어 `w`를 키우는 방향 신호를 주고
-- 예측이 너무 크면 gradient가 양수가 되어 `w`를 줄이는 방향 신호를 줍니다
+| 사례 | 지금 읽어야 할 핵심 |
+| --- | --- |
+| `slightly_under_block_signal` | 목표보다 조금 모자라므로 `increase_risk_weight`가 맞지만, gradient 절댓값은 작아 미세 조정에 가깝습니다. |
+| `too_weak_block_signal` | 같은 `increase_risk_weight`라도 훨씬 더 많이 모자라므로 gradient 절댓값이 커집니다. |
+| `too_strong_block_signal` | 방향 자체가 반대로 바뀌어 `decrease_risk_weight` 신호가 나옵니다. |
 
-즉, 역전파는 각 파라미터에 대해 `어느 방향으로 바꾸는 것이 손실을 줄이는가`를 알려 줍니다.
+- 차단 점수가 너무 작으면 gradient가 음수가 되어 `risk_weight`를 키우는 방향 신호를 주고
+- 차단 점수가 너무 크면 gradient가 양수가 되어 `risk_weight`를 줄이는 방향 신호를 줍니다
+- 같은 방향 안에서도 오차가 더 크면 gradient 절댓값이 커져 더 강한 수정 신호가 됩니다
+
+즉, 역전파는 각 파라미터에 대해 `어느 방향으로 바꾸는 것이 손실을 줄이는가`를 알려 줍니다. 운영 판단 관점으로 읽으면, `압력 미복귀 신호를 지금보다 더 위험하게 읽어야 하는가, 덜 위험하게 읽어야 하는가`를 숫자로 다시 적는 단계라고 볼 수 있습니다.
 
 이 예제에서 독자가 꼭 읽어야 할 핵심은 다음입니다.
 
 - 손실 숫자 하나만으로는 업데이트를 할 수 없습니다.
 - gradient가 있어야 각 파라미터별 방향 신호가 생깁니다.
+- gradient 절댓값을 같이 봐야 `얼마나 세게` 바꿔야 하는지도 읽을 수 있습니다.
 - 역전파는 바로 그 파라미터별 신호를 만들어 주는 단계입니다.
+
+이 결과를 `손실 숫자`와 `gradient 신호` 기준으로 다시 묶으면 차이가 더 또렷합니다.
+
+| 실행 결과에서 보인 차이 | 손실만 보면 남기 쉬운 해석 | gradient까지 보면 바뀌는 해석 |
+| --- | --- | --- |
+| `slightly_under_block_signal`와 `too_weak_block_signal`는 둘 다 차단 점수가 작다 | 둘 다 그냥 위험 가중치를 키우면 된다고만 읽기 쉽다 | 같은 방향이라도 누가 더 강한 증가 신호를 받는지 읽는다 |
+| `too_weak_block_signal`와 `too_strong_block_signal`는 둘 다 손실이 있다 | 둘 다 오차가 있으니 비슷한 수정이 필요하다고 느끼기 쉽다 | 하나는 `increase_risk_weight`, 다른 하나는 `decrease_risk_weight`로 방향 자체가 갈린다 |
+| 손실 숫자 하나만 먼저 보인다 | 오차 크기만 알면 충분하다고 느끼기 쉽다 | 실제 업데이트에는 가중치별 gradient 신호가 추가로 필요하다고 읽는다 |
+
+이 표까지 읽고 나면, 역전파의 핵심이 `손실을 계산했다`가 아니라 `손실을 가중치별 방향·크기 신호로 다시 풀어 썼다`는 점이 더 분명해집니다.
 
 ## 다층 신경망에서는 무엇이 더 어려워지나
 

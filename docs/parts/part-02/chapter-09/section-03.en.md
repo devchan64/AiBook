@@ -1,7 +1,7 @@
 # P2-9.3 How Does a Graph Represent Relationships?
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-9.2, we compared arrays, tables, trees, and graphs as different views of data. Among them, graphs can feel especially unfamiliar.
 
@@ -387,20 +387,6 @@ The placement of nodes in a graph picture is only a visualization to help explan
 
 In most cases, where a node is placed in the drawing is not the key point. What matters is which nodes are connected by edges.
 
-## Perspectives to Remember from This Section
-
-Graphs are structures for expressing relationships.
-
-Nodes are objects.
-
-Edges are the connections between objects.
-
-An adjacency list is a way of writing which neighbors each node is connected to.
-
-Direction expresses the flow of a relationship, and weight expresses the strength or cost of a relationship.
-
-In AI practice, graphs appear again when understanding knowledge, recommendation, search, document links, and workflows.
-
 ## Case Study
 
 ### Case 1. What is needed when we want to see friends of friends in recommendation?
@@ -413,7 +399,7 @@ Graphs are exactly the structure for reading such scenes. Nodes become users or 
 
 The checkable result is whether you can follow neighbors from one node. For example, if you can distinguish Kim's direct neighbors and two-step neighbors in code, then you are reading the table-stored relationships from the graph viewpoint.
 
-## Short Check
+## Checklist
 
 - You can explain a graph as a structure of nodes and edges.
 - You can explain an adjacency list as the list of neighbors of each node.
@@ -422,12 +408,7 @@ The checkable result is whether you can follow neighbors from one node. For exam
 - You can explain the difference between an undirected graph and a directed graph.
 - You can explain that weight adds numerical information to a relationship.
 - You can express a small graph with Python dictionaries and lists and follow neighbors.
-
-## When Should You Recall This Perspective First?
-
-- Recall the graph viewpoint first when you need to explain that the core of the data lies not in the items themselves but in the connections among items.
-- When you meet problems such as recommendation, path finding, or knowledge links, where you need to follow neighbors and relationships, return to the node-edge explanation in this Section.
-- Check again here when you want to express connection structures that tables do not reveal well or when you want to verify a small example directly in Python.
+- You can recall the graph viewpoint first when the core question is about following connections.
 
 ## Sources and References
 

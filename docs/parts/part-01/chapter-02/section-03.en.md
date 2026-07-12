@@ -1,7 +1,7 @@
 # P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 covered search, knowledge representation, and probabilistic reasoning. This section turns to the next flow. Why did the center of AI explanation move more and more toward models that learn from data?
 
@@ -247,12 +247,6 @@ So the center of explanation moves from `what additional rules should be written
 
 This case ties together the historical flow of 2.3 in one sentence. It is not that rule-based approaches became useless. It is that as complex inputs that are hard to write directly became more common, approaches that learn relations from data moved to the center.
 
-## What to Remember from This Section
-
-Machine learning, deep learning, and generative AI have different names, but they can be read as one connected flow. In problems where people found it too hard to write all rules directly, data-based learning became important. Deep learning expanded that learning from feature design to learning the representation itself. Generative AI strongly shows the direction in which those learned representations are used to create new content.
-
-But this does not mean that the newer approach completely replaced the older ones. Rules, search, knowledge representation, probabilistic reasoning, data mining, machine learning, deep learning, and generative AI mix together inside real systems. It is safer to read AI history not as a history in which one technology erased the earlier one, but as a history in which more layers of tools for solving problems were added.
-
 ## Checklist
 
 - I can explain why problems that are hard to solve through rule-based approaches alone led toward data-based learning.
@@ -262,16 +256,6 @@ But this does not mean that the newer approach completely replaced the older one
 - I can explain that generative AI is a category of models and services that generate new content, and that generated content is not automatically factual.
 - I can treat LLMs as a representative case of generative AI without equating them with generative AI as a whole.
 - I can view a modern AI service not as one model alone, but as a workflow combining rules, search, data, models, and verification.
-
-## When This View Should Come to Mind First
-
-Bring back the flow of this section when rule-based approaches, machine learning, deep learning, and generative AI start to look like simple replacement categories.
-
-- when you need to organize why the center of explanation moved from writing rules toward learning from data while looking at complex input problems
-- when you want to explain in one pass where feature, representation, model, and parameter each become important
-- when you need to place LLMs on top of earlier AI flows instead of presenting them as a completely separate rupture
-
-At that point, reorganize the picture through the cumulative flow `rules -> data learning -> representation learning -> generation`. Then first divide whether the current case is a problem where `people write the standard directly`, `patterns must be learned from data`, or `new content must be generated`. That stabilizes the explanatory center.
 
 ## Sources and Further Reading
 

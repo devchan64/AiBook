@@ -1,7 +1,7 @@
 # P4-6.3 补充学习：在站点可靠性工程里如何读指标(metrics)
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-6.1 和 P4-6.2 里，我们看过 model evaluation metric。现在把视线稍微往外移一点。model 拟合得好，和服务运营得好，并不是同一句话。要理解这个差别，就有必要看一看在 SRE(site reliability engineering) 里，`metric` 这个词到底是怎么被使用的。
 
@@ -514,32 +514,14 @@ case_B
 - 在 `case_B` 里，比起基础设施，更可能要先做 model 改进或数据质量检查。
 - 最终，在 AI service 运营里，只有把 `是 model 弱了` 还是 `是 service 弱了` 分开来读，下一步措施才会更清楚。
 
-## 和后续章节的连接
-
-- 到 P4-7.1 feature selection、P4-7.2 preprocessing 时，会再次遇到能改变 model metric 的输入设计。这一节会先把另一个点固定住：运营 metric 还在另一个层位上。
-- 到 P4-8.1 model selection、P4-8.2 baseline、P4-9.1 hyperparameter、P4-9.2 tuning 与验证成本时，会继续看该怎样比较 model performance 数字。即便如此，也必须保持区分：service 运营里的 latency、availability 是另一类数字。
-- 从 P4-10 到 P4-18 学各种算法时，classification、regression、clustering 的指标会一直回来。这一节会预先接上一个事实：一旦这些算法真的部署成 service，运营 metric 仍然必须另外存在。
-- 到 P4-19 的强化学习算法时，又会打开通过 reward、累计表现来读的另一类评价视角。所以，这一节也承担着更广一点的准备作用：`不同问题，需要读的数字也不同。`
-
-## 本节要记住的观念
-
-- model metric 读 prediction 质量，运营 metric 读 service 状态。
-- 好的 model 不等于好的 service，好的 service 也不等于好的 model。
-- SLI 是测量值，SLO 是目标值，SLA 是承诺及其后果。
-- 在运营里，不会只看一个平均值，而是会一起看 percentile、error rate、availability、saturation 等多个信号。
-- AI service 必须同时管理 model 质量和 service 可靠性。
-
 ## 检查清单
 
 - 能不能说明为什么 `好 model` 和 `好 service` 不是同一句话？
 - 能不能区分当前遇到的问题是 precision/recall 问题，还是 latency/error-rate 问题？
 - 能不能用入门层次说明 SLI、SLO、SLA 各自在问什么？
-
-## 什么时候应该先想起这个观念
-
-- 当你需要检查自己是不是把 model metric 和运营 metric 当成同一块记分牌来读时，就该想到这一节。
-- 当你需要重新说明 SLI、SLO、SLA 和 latency/traffic/errors/saturation 分别回答的是哪一层问题时，就应该回到这一节。
-- 当你需要整理为什么 AI service 必须同时看 model 质量和 service 可靠性时，这一节会成为标准。
+- 能不能说明 model metric 读 prediction 质量，而运营 metric 读 service 状态？
+- 能不能说明好的 model 不等于好的 service，好的 service 也不等于好的 model？
+- 能不能说明在运营里，不能只看一个平均值，而要一起看 percentile、error rate、availability、saturation 等多个信号？
 
 ## 出处与参考资料
 

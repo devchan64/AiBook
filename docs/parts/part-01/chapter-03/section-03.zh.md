@@ -1,15 +1,15 @@
 # P1-3.3 规则式方法(rule-based approach)与表征学习(representation learning)
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 3.1 看过人直接写规则这种方式的优点与限制，3.2 看过从数据中学习模式的基本结构。这一节不再把整个学习流程再讲一遍，而是把焦点缩到一个点上：输入到底是以什么形式被系统处理的？
 
-核心问题很简单。人直接写规则的方式，和模型从数据中学习表征的方式，究竟有什么不同？
+核心问题很简单：人直接写规则的方式，和模型从数据中学习表征的方式，究竟有什么不同？
 
-这里要做的，不是详细解释深度学习内部，而是先固定 `rule`、`feature`、`representation` 和 `parameter` 分别在什么位置，避免把它们混在一起。
+这里不是详细解释深度学习内部，而是先固定 `rule`、`feature`、`representation` 和 `parameter` 分别在什么位置，避免把它们混在一起。
 
-在 Part 1 中，`representation`、`vector`、`activation` 与 `representation learning` 的基准含义固定在这一节。`example`、`label`、`training` 与 `generalization` 的基本结构已经在 3.2 中建立，这里只在解释“输入在模型内部会变成什么形式”以及它与规则式方法的差异时，按需要重新连接。
+在 Part 1 中，`representation`、`vector`、`activation` 与 `representation learning` 的基准含义固定在这一节。`example`、`label`、`training` 与 `generalization` 的基本结构已经在 3.2 中建立，这里只在解释“输入在模型内部会变成什么形式”以及它与规则式方法的差异时按需要重新连接。
 
 ## 这一节的范围
 

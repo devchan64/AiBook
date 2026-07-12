@@ -1,7 +1,7 @@
 # P4-6.2 按问题类型区分的评价标准
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-6.1 里，我们看过评价指标(metric)不只是记分牌，而是会暴露出我们把什么看得更重要的标准。接下来就要进入下一个问题。`为什么问题一变，先看的指标也会跟着变？`
 
@@ -618,44 +618,14 @@ gap = 1.5
 
 例如，如果加入 `6.1`，同时把 `gap = 1.5`，那么 `[4.8, 5.0, 6.1]` 就可能被读成一个 cluster。也就是说，clustering 更接近的不是 `把标准答案算对`，而是 `实验相似性的标准应该放在哪里`。
 
-## 和后续章节的连接
-
-这一节是把评价指标按问题类型拆开的入门整理。到了后面的算法章节，同样的问题会以更具体的方式再出现。
-
-- 在 P4-7.1 feature selection 和 P4-7.2 preprocessing 里，`到底给什么输入` 会重新变重要。即使评价 metric 看起来一样，只要输入特征和预处理变了，performance 的解释也会变化。
-- 在 P4-8.1 model selection 和 P4-8.2 baseline model 里，`先比较哪些 model` 的问题会继续出现。到那时，这一节整理的问题类型评价标准就会成为模型比较的基础线。
-- 在 P4-9.1 hyperparameter 和 P4-9.2 tuning 与验证成本里，重要的是：某种微小性能提升到底是通过什么 metric 改善体现出来的。换句话说，tuning 会再次被看成是沿着评价标准移动，而不是随便改数字。
-
-- 在 P4-10.1 linear regression 的直观和 P4-10.2 linear regression 的评价与局限里，regression 会第一次以具体算法形式出现。那时，为什么需要 MAE、MSE、RMSE、R²，会再次变得非常具体。
-- 在 P4-11.1 logistic regression 的直观和 P4-11.2 decision boundary 里，classification 的代表形态会再出现。accuracy、precision、recall、F1 也会重新回来，而 threshold 与概率解释也会更重要。
-- 在 P4-12.1 k-NN 的直观和 P4-12.2 distance 与 scale 里，会看到：即使同样是 classification，`接近` 的定义也会改变结果。也就是说，即便使用相同的 classification metric，只要距离定义和 scale 处理变了，解释也会变。
-- 在 P4-13.1 SVM 的直观和 P4-13.2 kernel 的入门意义里，会更直接地处理分类边界。因此在读 classification performance 时，也会重新想到：不只看 accuracy，还要看这个边界在制造什么错误。
-- 在 P4-14.1 decision tree、P4-14.2 树的过拟合、P4-15.1 random forest、P4-15.2 feature importance、P4-16.1 gradient boosting、P4-16.2 boosting 的性能与风险里，classification 与 regression 都可能重新出现。也就是说，即使算法名字变了，若想正确选择评价指标，第一步仍然是先确认 `这个问题是 classification 还是 regression`。
-
-- 在 P4-17.1 clustering 的直观和 P4-17.2 解释聚类结果时的注意点里，这一节对 clustering 的说明会被直接接上。特别是 `cluster ID 不是答案名字`、`cluster 结果必须由人重新解释` 这两个视角，会在那里真正变得关键。
-- 在 P4-18.1 dimensionality reduction 和 P4-18.2 visualization 与信息损失里，和 clustering 一样，重要的不只是 `对准标准答案`，而是 `怎样读取并解释结构`。因此，像 clustering 评价那样，小心区分可视结构与解释的感觉会继续延伸。
-
-- 到了 P4-19.1 value-based reinforcement learning、P4-19.2 policy-based reinforcement learning、P4-19.3 强化学习应用的注意点时，又会打开另一套评价视角。强化学习不像 classification、regression、clustering 那样容易只靠一次预测误差来读，它必须把 reward、累计表现、探索成本一起看。所以，这一节也提前准备一种感觉：`不是所有问题都能用一种分数来读。`
-
-## 本节要记住的观念
-
-- 问题类型一变，`好性能` 的含义也会变。
-- 在 classification 里，先读错误的种类。
-- 在 regression 里，先读误差的大小和成本。
-- 在 clustering 里，可能没有标准 label 这件事，会让评价变得更难。
-- 在挑 metric 之前，要先确认 model 的输出和使用场景。
-
 ## 检查清单
 
 - 能不能说明为什么 classification、regression、clustering 对 `好结果` 的定义不可能一样？
-- 能不能说明为什么在 regression 里，比起对错，更该先读 `偏了多少`？
+- 能不能说明为什么在 regression 里，比起对错，更应该先读 `偏了多少`？
 - 能不能说明为什么在 clustering 里，评价必须同时放进可解释性和结构读取，而不只是分数？
-
-## 什么时候应该先想起这个观念
-
-- 当你需要检查自己是不是把 classification、regression、clustering 用同一种评价问题来读时，就该想到这一节。
-- 当你需要重新整理：为什么有些问题里 precision/recall 更重要，有些问题里 MAE/RMSE 更重要，还有些问题里内部结构标准更重要时，就应该回到这一节。
-- 当你需要在挑 metric 之前先检查 model 输出和使用场景时，这一节会成为标准。
+- 能不能说明只要问题类型改变，`好性能` 的含义也会跟着改变？
+- 能不能说明为什么 classification 要先读错误种类，regression 要先读误差大小与成本，clustering 要先读结构解释？
+- 能不能说明在挑 metric 之前，必须先检查 model 的输出和使用场景？
 
 ## 出处与参考资料
 

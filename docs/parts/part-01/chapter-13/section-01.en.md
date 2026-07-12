@@ -1,11 +1,9 @@
 # P1-13.1 What It Means to Represent Text as Vectors
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
-Chapter 12 explained how prompts give task conditions to an LLM and also why prompts alone cannot guarantee `factuality`, `evidence`, or `recency`.
-
-That leads to the next question:
+Chapter 12 explained how prompts give task conditions to an LLM and why prompts alone cannot guarantee `factuality`, `evidence`, or `recency`. That leads to the next question:
 
 > how can an LLM find external material to refer to?
 
@@ -15,7 +13,7 @@ To move toward that question, we first need to understand how text is turned int
 
 The key caution is that an embedding is not `meaning itself`. It is a numeric representation produced from how text was used in data and from the learning objective of the model.
 
-Part 1 introduces the basic distinctions among `embeddings`, `vectors`, `vector space`, `sentence/paragraph/document embeddings`, and `embedding versus prompt` here. Section 11.1 already covered the historical background of embeddings in the line of language modeling. Chapter 12 then organized how prompts specify input conditions. This section connects those two flows from a service perspective and explains:
+Part 1 introduces the basic distinctions among `embeddings`, `vectors`, `vector space`, `sentence/paragraph/document embeddings`, and `embedding versus prompt` here. Section 11.1 already covered the historical background of embeddings in the line of language modeling, and Chapter 12 organized how prompts specify input conditions. This section connects those two flows from a service perspective and explains:
 
 > why do we first turn text into vectors before trying to retrieve external material?
 
@@ -210,26 +208,6 @@ If only the prompt is used, the LLM answers from its training and the current co
 
 That is the flow that leads into P1-13.2 and P1-13.3.
 
-## What to Remember from This Section
-
-Representing text as vectors means turning text into a computable position. Once text is placed that way, different texts can be compared, and document candidates close to a question can be found.
-
-> text is the human-readable expression  
-> vectors are the model’s computable representation  
-> embeddings are the method that turns text into vectors  
-> vector space is the space in which texts can be compared  
-> embeddings are learned representations, not meaning itself
-
-The next section explains how those vectors are compared.
-
-After this section, these three distinctions should remain:
-
-| Key distinction to keep | Why it matters |
-| --- | --- |
-| embeddings are the method that turns text into computable vector representations | This keeps us from forgetting why numeric representation is needed before vector search or RAG. |
-| nearby vectors do not mean `the exact same sentence`, but usually indicate similar usage context | This prevents vector space from being overstated as if it were meaning itself. |
-| prompts give task conditions, while embeddings make search and comparison possible | This separation is essential for understanding the service flow later in Part 1 without confusion. |
-
 ## Checklist
 
 - I can explain embeddings as a way of turning text into vector representations.
@@ -239,22 +217,8 @@ After this section, these three distinctions should remain:
 - I can explain that embeddings are learned representations rather than meaning itself.
 - I can explain the role difference between prompts and embeddings.
 - I can describe the flow that leads into similarity search in P1-13.2.
-
-## When to Recall This View First
-
-This section is useful when RAG or external-document retrieval is being explained but the reason for converting text into vectors first has gone missing.
-
-- when questions and documents need to be compared through computable representations rather than raw strings
-- when prompts and embeddings are being confused with one another
-- when it becomes necessary to explain why sentences, paragraphs, and documents are vectorized at different units
-
-In those moments, it helps to separate:
-
-> turn text into vectors  
-> compare those vectors  
-> keep prompts for task conditions
-
-That makes it easier to explain why representation transformation is needed before retrieval can even begin.
+- I can explain why questions and documents should be compared through computable representations rather than raw strings.
+- I can distinguish `turn text into vectors`, `compare those vectors`, and `keep prompts for task conditions`.
 
 ## Sources and Further Reading
 

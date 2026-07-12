@@ -1,7 +1,7 @@
 # P2-3.5 Python 运行环境：Colab 与本地 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 从 P2-3.1 到 P2-3.4，我们主要是用公式和比较标准来阅读线性代数(linear algebra)。下一节会开始用 NumPy 直接检查向量(vector)、矩阵(matrix)、矩阵乘法(matrix multiplication)。在这之前，必须先分清 Python 代码到底是在哪里运行的。
 
@@ -176,20 +176,13 @@ python -m pip install numpy
 
 - `安装写在代码单元或终端里，import 和计算写在 Python 代码里。`
 
-## 本节要记住的视角
-
-- Colab 是一个直接在浏览器里打开的笔记本运行环境。
-- 本地 PC 指的是使用自己电脑的终端和已经安装好的 Python 环境。
-- `%pip install numpy`、`python -m pip install numpy`、`import numpy as np` 都和 NumPy 有关，但它们写在不同的位置。
-- 如果先背语法、后选环境，就会反复卡住；如果先选执行位置，再看命令形态，事情会清楚得多。
-- 如果后面在 Part 3 或后续练习里卡住，第一步应该重新问：`这句话到底应该输入到哪里？`
-
-## 简短检查
+## 检查清单
 
 - 能用一句话说明 Colab 运行和本地 PC 运行的区别吗？
 - 能说明为什么 `%pip install numpy` 和 `python -m pip install numpy` 不能写在同一个地方吗？
 - 能说明 `import numpy as np` 不是安装命令，而是 Python 代码吗？
 - 能区分眼前这句话究竟是写给代码单元、终端，还是 Python 代码的吗？
+- 能说明为什么在背语法之前，要先区分执行位置吗？
 
 ## 来源与参考资料
 

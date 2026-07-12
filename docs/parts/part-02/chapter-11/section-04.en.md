@@ -1,7 +1,7 @@
 # P2-11.4 Supplemental: How to Read Shape and Shared Origins Together in NumPy
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-11.2, we looked at indexing, slicing, and axis. In P2-11.3, we looked at broadcasting and vectorization. But when reading actual NumPy code, the next questions often remain.
 
@@ -268,13 +268,6 @@ After reading this Section, reconnect it to the following main text.
 | Why does whole-array calculation change according to shape? | P2-11.3 Broadcasting and Vectorization |
 | If the intuition of shared origin itself still feels unfamiliar | P2-8.7 references, shallow copy, deep copy |
 
-## Perspective to Remember in This Supplemental Learning
-
-- In NumPy, whether the original is still shared can differ depending on how you selected.
-- It is safer to first read basic slicing as viewing a range, fancy indexing as gathering positions, and boolean masks as filtering by condition.
-- `np.newaxis` is notation that reveals broadcasting direction by adding an axis of length 1.
-- When reading NumPy code, do not look only at the values; check `shape` and shared-origin status together.
-
 ## Short Return Table
 
 | When you get stuck | Where to return first |
@@ -283,19 +276,14 @@ After reading this Section, reconnect it to the following main text.
 | Why the broadcasting direction changes is still vague | `P2-11.3` |
 | Why the original and the copied result can change together still feels unfamiliar | `P2-8.7` |
 
-## Short Check
+## Checklist
 
 - Can you explain the difference between `x[1:4]` and `x[[1, 3, 4]]`?
 - Can you explain what a boolean mask chooses?
 - Can you explain the difference among `(3,)`, `(3, 1)`, and `(1, 3)`?
 - Can you explain why `np.newaxis` is connected to broadcasting?
 - Do you remember that when preserving the original matters, `.copy()` should be checked first?
-
-## When Should This Perspective Come to Mind First?
-
-- When it is unclear whether a slicing result still shares the original or creates a new array, call up the intuition of shape and shared origin again.
-- When you need to check why shapes such as `(3,)`, `(3, 1)`, and `(1, 3)` produce different calculation results even though they look similar, use this supplemental Section as the standard.
-- When a value edit changes the original unexpectedly or when you need to check the shape prepared before broadcasting, return here.
+- Can you explain that when reading NumPy code, you should check `shape` and shared-origin status together rather than only the values?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P1-9.2 Object Detection and Speech Generation Cases
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 9.1 used image recognition and representation learning to show why deep learning became an important turning point. Image classification asked `what is this image?`
 
@@ -189,16 +189,6 @@ Still, these cases show an important background:
 
 Seen that way, LLMs do not look like a technology that appeared from nowhere. Their direct lineage is different, but the broader credibility of that lineage grew in part because deep learning had already shown repeated success across many domains during the 2010s.
 
-## What to Remember from This Section
-
-The point of 9.2 is not to memorize the full structures of three models. The main thing to keep is `problem reframing`.
-
-> object detection: predict both location and category in an image  
-> speech generation: generate time-ordered audio samples  
-> TTS: a supporting context where speech-generation models meet actual synthesis tasks
-
-These cases show that deep learning expanded beyond image classification into more complex output structures. But they should not be written as the direct ancestors of LLMs. Distinguishing `direct lineage` from `surrounding evidence` is one of the core purposes of this chapter.
-
 ## Checklist
 
 - I can explain how object detection differs from image classification.
@@ -206,22 +196,8 @@ These cases show that deep learning expanded beyond image classification into mo
 - I can describe WaveNet as a case that generated raw audio waveforms probabilistically and sequentially.
 - I can keep TTS as a supporting context rather than the main subject of 9.2.
 - I do not treat YOLO, WaveNet, or TTS systems as the direct lineage of LLMs.
-
-## When to Recall This View First
-
-This section is useful when the spread of deep learning into other domains needs to be explained, but the cases start to look as if they connect directly to the history of LLMs.
-
-- when distinguishing the output structure of image classification from object detection
-- when emphasizing that YOLO reframed multiple detection stages into one prediction problem
-- when keeping WaveNet and TTS inside the broader history of generative AI without calling them direct ancestors of LLMs
-
-In those cases, it helps to separate:
-
-> does the task ask both `what` and `where`?  
-> is the output a time-ordered audio signal?  
-> is this a direct lineage, or only surrounding evidence?
-
-That keeps the domain examples useful without overstating the historical connection.
+- I can explain whether the task asks both `what` and `where`, or whether the output is a time-ordered audio signal.
+- I can read each case as `surrounding evidence` rather than `direct lineage`, without overstating the historical connection.
 
 ## Sources and Further Reading
 

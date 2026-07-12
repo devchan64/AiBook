@@ -1,7 +1,7 @@
 # P2-12.1 What Does a Pandas DataFrame Represent?
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Part 2 Chapter 11 worked with NumPy arrays for vectors, matrices, axes, and broadcasting. That workflow is strong for numeric computation, but the question changes when we start reading a dataset that looks like a table.
 
@@ -480,27 +480,14 @@ This case matters because later selection, filtering, and learning-dataset prepa
 
 So the beginning of DataFrame reading is closer to a shift in perspective than to memorizing syntax. We need to start reading `a table that looks like a spreadsheet` as `a data structure whose rows and columns already carry roles`. That makes later Pandas operations and machine learning preparation feel far more natural.
 
-## Perspective to Keep from This Section
-
-- A DataFrame is a labeled two-dimensional tabular data structure.
-- It is important to build the habit of reading one row as a case and one column as a variable.
-- The index can be a simple numeric counter or a meaningful row label.
-- A DataFrame can naturally hold columns of different types, which fits real data well.
-- NumPy is often more natural for array computation, while a DataFrame is often more natural for inspecting table structure and column meaning.
-
-## Short Check
+## Checklist
 
 - Can you explain a DataFrame as `a table with row and column names`?
 - Can you explain the role of row, column, and index separately?
 - Can you explain that a DataFrame can hold numeric and text-like columns together?
 - Can you explain how one row and one column are often read in a machine learning dataset?
 - Can you explain why `shape`, `columns`, `index`, `dtypes`, and `head()` should be checked first?
-
-## When Should You Recall This Perspective First?
-
-- Recall the DataFrame perspective first when data should be read not as a bare numeric array but as a labeled table.
-- Return to this Section when you need to explain what one row means and what kind of attribute one column holds.
-- Return here when you want to organize why a newly opened dataset should first be checked through `shape`, `columns`, `index`, `dtypes`, and `head()`.
+- Can you explain a DataFrame as a labeled two-dimensional tabular data structure?
 
 ## Sources and References
 

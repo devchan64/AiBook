@@ -1,7 +1,7 @@
 # P1-15.2 Copyright and Training Data
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when AI results affect people and society. The next question is more specific.
 
@@ -79,6 +79,16 @@ Using a short outside quote in book text and using large-scale material as AI `t
 | source visibility | the reader can verify the source | the origin of training data is often opaque |
 | purpose | explanation, criticism, research, educational support | improving model performance, providing a service, possible commercial use |
 | main risk | excessive quotation, replacing the original, missing attribution | unauthorized copying, market substitution, output similarity, lack of transparency |
+
+Article 28 of the Korean Copyright Act permits quotation of published works for reporting, criticism, education, and research when the use stays within a justified range and follows fair practice. That is not the same as a simple rule saying:
+
+> if the source is written, it is acceptable
+
+The user's own writing still has to remain central, the quoted portion has to remain subordinate, and the amount cannot exceed what is needed.
+
+Article 35-5 of the same law addresses fair use in a more general sense. It asks whether the use conflicts with ordinary exploitation of the work or unfairly harms the legitimate interests of the rightsholder, and it considers factors such as purpose, character, amount, and market effect.
+
+Article 37 separately requires source attribution when a work is used under those provisions. Attribution therefore matters, but attribution alone is not a universal permit. Copyright review is not one checkbox. It is a judgment that combines several conditions.
 
 This is why the review question cannot be reduced to:
 
@@ -162,38 +172,19 @@ The fact that a sentence was produced by AI does not remove copyright risk. If t
 
 AI drafts are always subject to review. "The AI wrote it" does not reduce responsibility.
 
-## The View to Keep from This Section
-
-The key to copyright review is not just whether a source was written down. The real question is what material was used, for what purpose, how much, and in what way.
-
-> ideas and expressions must be separated  
-> quotation and training-data use are not the same issue  
-> attribution is necessary but not sufficient  
-> the debate over generative AI training data is still ongoing  
-> AI output must also be reviewed for similarity to existing works  
-> publicly distributed writing needs a stricter standard than a private study note
-
-If copyright is the question of how to handle other people's expression, then the next section turns to a parallel question:
-
-> how should we handle other people's information and permissions?
-
 ## Checklist
 
 - You can explain that copyright mainly protects concrete `expression`, not ideas alone.
 - You can distinguish attribution from permission, licensing, and quotation review.
+- You can explain that quotation under Article 28 of the Korean Copyright Act requires a justified range and fair practice.
+- You can explain that fair use under Article 35-5 is judged by considering purpose, character, amount, and market effect together.
+- You can explain that source attribution under Article 37 matters, but does not by itself authorize every use of copyrighted material.
 - You can explain that quotation in visible text and use as AI training data are different issues.
 - You can distinguish the main arguments of rightsholders and AI developers in the training-data debate.
 - You can explain why lawsuits and reports show disputed cases rather than final legal conclusions.
 - You can explain why paid ebooks, unauthorized PDFs, and closed lecture materials should not be used as AI input in this project.
 - You can explain why AI output also needs review for substantial similarity to existing works.
-
-## When to Recall This View First
-
-- When copyright review is being simplified into "it is fine if we cite the source"
-- When quotation in book text and AI training-data debate are being treated as if they were the same issue
-- When you need to recheck what kinds of material use should be postponed in a publicly distributed manuscript
-
-In those cases, separate `protection of expression`, `quotation review`, `training-data debate`, and `material-use hold rules` first.
+- You can separate `protection of expression`, `quotation review`, `training-data debate`, and `material-use hold rules` when explaining copyright review.
 
 ## Sources and Further Reading
 

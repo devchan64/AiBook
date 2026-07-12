@@ -1,7 +1,7 @@
 # P2-11.3 广播与向量化
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P2-11.1 中，我们检查了 NumPy array 的 `shape`、`ndim`、`dtype`。在 P2-11.2 中，我们用 indexing、slicing、axis 来决定从数组的哪一部分读取，以及沿哪个方向计算。
 
@@ -343,21 +343,7 @@ python docs/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py
 
 这个案例把 broadcasting 和 vectorization 重新绑回真实计算场景。重复并没有被删除，而是改写成了数组计算。要让这种表达安全工作，就必须先读出：较小数组和较大数组各自对应的到底是什么问题。
 
-## 本节要记住的视角
-
-broadcasting 是让较小的值或较小数组按较大数组 shape 参与计算的规则。
-
-scalar 可以应用到数组的每个位置。
-
-形状 `(4, 3)` 的数组和形状 `(3,)` 的数组能够一起计算，因为长度 3 能匹配每一行。
-
-形状 `(4, 3)` 和 `(4,)` 看上去像是对上了行数，但从最后一个维度看并不匹配，所以可能会报错。
-
-vectorization 是用数组运算来表达重复计算的方法。
-
-使用 broadcasting 与 vectorization 时，要在计算前后检查 `shape`。
-
-## 简短检查
+## 检查清单
 
 - 能把 scalar 与 array 的计算解释成 broadcasting。
 - 能说明为什么 `(4, 3) + (3,)` 可行。
@@ -366,12 +352,7 @@ vectorization 是用数组运算来表达重复计算的方法。
 - 能说明 `features.mean(axis=0)` 的结果 shape。
 - 能说明在按 feature 去均值的计算里，broadcasting 发生在什么地方。
 - 能说明 broadcasting 不总是最佳选择，而且需要检查 shape 与内存使用。
-
-## 什么时候应先想起这个视角
-
-- 当你想在不写循环时把同样计算施加到整个数组上，或想一起计算 shape 不同的数组时，先想起 broadcasting 与 vectorization 的视角。
-- 当你需要解释为什么 `(4, 3) + (3,)` 可以，而 `(4, 3) + (4,)` 不行时，就回到本节的 shape 规则。
-- 当你需要把 axis 统计和自动扩展一起用在减均值、normalization、按 feature 计算等场景时，再检查本节。
+- 能说明 broadcasting 是让较小的值或数组按较大数组 shape 参与计算的规则。
 
 ## 来源与参考资料
 

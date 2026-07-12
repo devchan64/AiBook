@@ -1,7 +1,7 @@
 # P4-6.1 The Role Of Evaluation Metrics
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Chapter P4-5, we looked at overfitting and generalization. The next question follows naturally. What do we actually use to check the claim that `the model also holds up on new data`? What appears at that point is the `evaluation metric`.
 
@@ -374,37 +374,14 @@ The important point in this example is not to mechanically choose `which one is 
 
 If you rewrite it very briefly as an operations sentence, it can be said like this: `Model A has many misses, so dangerous cases should be reviewed first. Model B may create more false alarms, so reinspection cost and the threshold should be checked together again.` In other words, once a metric table is read, the next sentence should immediately become `which error increased more` and `what should be checked next because of that error`.
 
-## Perspective To Remember In This Section
-
-| Signal seen first | What that signal means | Immediate next action |
-| --- | --- | --- |
-| an error direction such as many FN or many FP | it means you first need to define again which failure hurts more | go back to the confusion matrix and representative error cases, then inspect the threshold or cost criterion |
-| accuracy is high but either recall or precision is much lower | the total score may look plausible while an important error direction is being hidden | do not conclude from accuracy alone; inspect again where failure is concentrated by class and cost |
-
-- An evaluation metric summarizes model results in numbers while also revealing which errors are treated as more important.
-- Accuracy is a useful starting point, but it is not the representative metric in every situation.
-- Precision asks, `Of the things called positive, how many were correct?`
-- Recall asks, `Of the actual positive cases, how many were not missed?`
-- F1 score is a summary metric that looks at precision and recall together.
-- Even with the same accuracy, model interpretation and model choice can change if precision and recall differ.
-
-This Section is less about memorizing the names of classification metrics and more about fixing the reading order of evaluation.
-
-| What this Section does first | What should be done immediately next | What must be compared again later |
-| --- | --- | --- |
-| inspect the direction of failure through the confusion matrix and error cases | read how precision, recall, and F1 summarize that failure | compare with a baseline to check whether the change is truly an improvement |
-
 ## Checklist
 
 - Can you explain why accuracy alone can miss important error costs?
 - Can you explain by what criterion you would choose to inspect precision first or recall first in the current scene?
 - Can you explain why the confusion matrix and representative error cases should be read before the metrics?
-
-## When Should This Perspective Come To Mind First
-
-- When you feel tempted to choose a model by accuracy alone, bring up the evaluation-metric perspective that first asks which error should matter more.
-- Return to this Section when you need to explain again what failure direction precision, recall, and F1 each summarize.
-- This Section becomes the criterion when metrics must be read not as a scoreboard, but as a selection criterion.
+- Can you explain that evaluation metrics summarize model results in numbers while also revealing which errors are treated as more important?
+- Can you explain that accuracy is a useful starting point but not the representative metric in every situation, and that even with the same accuracy, interpretation and choice can change if precision and recall differ?
+- Can you explain what question precision, recall, and F1 each answer?
 
 ## Sources And References
 

@@ -1,7 +1,7 @@
 # P2-5.5 Supplemental Learning: How to First Read Standard Deviation, Correlation, and Confidence Intervals
 
 > Section ID: `P2-5.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 If you read from P2-5.1 through P2-5.4, you can build the basic feel for probability, mean, variance, sample, estimation, and error. But once you start reading real statistics documents or machine-learning books, more unfamiliar names quickly follow.
 
@@ -212,17 +212,6 @@ This case clearly shows the purpose of the supplemental learning. The goal here 
 
 In other words, this Section provides a map of terms for reading statistical documents without getting stuck. Once you secure what you start to look at beyond mean and variance, the experiment comparisons and evaluation interpretation after Part 3 become much less unfamiliar.
 
-## Perspective to Keep from This Supplement
-
-The reason things do not end with mean and variance is that there are many questions for which `center` and `spread` alone are not enough.
-
-- standard deviation makes spread easier to read
-- covariance and correlation coefficient look at joint movement
-- standard error and confidence interval reveal the wobble in estimation
-- hypothesis testing asks how much we should trust the difference
-
-In other words, all these concepts are statistical tools that stop us from reading numbers too definitively.
-
 ## Questions to Ask Again When You Get Stuck
 
 | Stuck scene | Question to ask again |
@@ -232,7 +221,7 @@ In other words, all these concepts are statistical tools that stop us from readi
 | the confidence interval is wide | Is the range of wobble in estimation large? |
 | it says the difference is significant | Is it saying the difference is hard to see as chance alone? |
 
-## Short Check
+## Checklist
 
 - Can you explain standard deviation by connecting it to variance?
 - Can you explain covariance as the direction of joint movement of two values?
@@ -240,12 +229,8 @@ In other words, all these concepts are statistical tools that stop us from readi
 - Can you explain standard error by connecting it to the wobble of an estimate?
 - Can you explain confidence interval as a way of showing the range of estimation together?
 - Can you explain hypothesis testing as a procedure that makes interpretation of differences more careful?
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when mean and variance alone no longer let you read the remaining terms in an experiment table or statistics document.
-- Recall it first when standard deviation, correlation coefficient, standard error, and confidence interval appear together in one table and you need to separate their roles again.
-- Recall it first when you need to distinguish the impression that there seems to be a difference from the question of how much that difference should be trusted.
+- Can you classify first whether the value you need now is about spread, joint movement, or wobble in estimation when mean and variance are no longer enough?
+- Can you distinguish the impression that there seems to be a difference from the question of how much that difference should be trusted?
 
 ## Sources and References
 

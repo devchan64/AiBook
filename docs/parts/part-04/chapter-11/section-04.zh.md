@@ -1,7 +1,7 @@
 # P4-11.4 补充学习：如何读取多类别(multinomial)逻辑回归
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.3 里介绍的 log-odds 和 MLE，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
 
@@ -171,10 +171,6 @@ multiclass predictions
 - 第一行里，虽然没有一个值超过 0.5，但因为 `refund` 的 probability 最大，所以仍然会被选中。
 - 在 multiclass 里，重要的是 `整张 probability distribution 的相对比较`，而不是 `一个 probability 对一个 threshold`。
 - 所以基本感觉会从 threshold 转向 argmax。
-
-## 与下一节的连接
-
-到这里，logistic regression 的 `多类别扩展` 就闭合了。下一节补充学习会继续看：为什么会遇到 solver、penalty、`C` 这样的设置，以及为什么这些设置不只是实现选项，而是比较条件。
 
 ## 出处与参考资料
 

@@ -1,7 +1,7 @@
 # P2-6.2 Loss Function and Objective Function
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-6.1, we looked at optimization as `placing candidates, comparing them by a criterion, and finding a better value within constraints`. Now we look at what name that criterion takes inside model learning.
 
@@ -222,13 +222,7 @@ What matters here is that `how wrong the model is` is examined not for one order
 
 Also, the criterion the service operations team actually cares about may not end with one mean error. Separate metrics such as VIP-customer delay, overnight-delivery failure, or regional deviation may be more important. This case shows why loss function and metric can be the same or different.
 
-## Perspective to Keep from This Section
-
-The loss function is the device that turns model wrongness into a number. The objective function is the criterion that learning actually tries to reduce or increase, including that number. Written in order, the flow is: the model predicts, compares with the actual value, calculates loss, combines several losses, and then learns in the direction that reduces the objective function.
-
-In the next Section, we look at how the model's values are changed little by little to reduce this objective function. That is where `gradient descent` appears.
-
-## Short Check
+## Checklist
 
 - You can explain the `loss function` as a function that turns prediction wrongness into a number.
 - You can calculate squared error using the difference between actual value \(y\) and prediction \(\hat{y}\).
@@ -236,12 +230,7 @@ In the next Section, we look at how the model's values are changed little by lit
 - You can explain the `objective function` as the criterion training actually tries to optimize.
 - You can explain that loss function and `metric` are not always the same.
 - You can explain that low loss is a good signal but does not automatically guarantee real-world performance.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when it still feels vague how the model's wrongness is turned into a number.
-- Recall it first when individual error, mean loss across several samples, and the objective function of the whole learning process look like one lump.
-- Recall it first when you need to distinguish the fact that loss is low from the judgment that the model is good in actual operation.
+- You can distinguish individual error, mean loss across several samples, and the objective function of the whole learning process.
 
 ## Sources and References
 

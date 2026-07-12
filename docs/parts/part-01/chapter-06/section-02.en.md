@@ -1,7 +1,7 @@
 # P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 6.1 showed why some problems are difficult to handle with explicit rules alone. When information is incomplete, observations are unstable, and several outcomes remain possible, AI has to deal with uncertainty.
 
@@ -213,16 +213,6 @@ Take the support sentence again:
 
 Keeping this distinction helps us read the sentence `AI behaves probabilistically` more carefully. Some part concerns uncertainty, some part concerns numerical probability, and some part concerns the stochastic nature of a process.
 
-## What to Remember from This Section
-
-Uncertainty, probability, and stochastic are connected, but they are not the same thing.
-
-> uncertainty is a state of not knowing  
-> probability is the numerical language that expresses that state  
-> stochastic is the property that a process or result includes probabilistic variation
-
-We need this distinction so that later discussions of heuristics, probabilistic models, machine learning, and LLM generation settings do not collapse into one vague phrase.
-
 ## Checklist
 
 - You can explain `uncertainty` as a state of not knowing rather than as a number.
@@ -231,16 +221,8 @@ We need this distinction so that later discussions of heuristics, probabilistic 
 - You can explain `stochastic` as the property that a process or action includes probabilistic variation.
 - You can explain why `random`, `stochastic`, `nondeterministic`, and `probabilistic` should not be treated as the same word.
 - You can explain why general AI discussion should prefer `uncertainty` over collapsing several different ideas into one vague label.
-
-## When to Recall This View First
-
-Recall this section when words such as `probability`, `uncertainty`, and `stochastic` are starting to blur together.
-
-- When someone sees one model score and immediately mixes it with uncertainty itself
-- When you are unsure whether a changing result should be described as random, nondeterministic, or stochastic
-- When you need to separate not-knowing that may shrink with more evidence from variation that remains in the process itself
-
-In those cases, split the sentence again into `uncertainty as a state`, `probability as a number`, and `stochastic as variation in a process`. Then check whether the statement is talking about a state, a numerical expression, or a property of a process.
+- You can distinguish whether a sentence is talking about a state of not knowing, a numerical expression, or a property of a process.
+- You can distinguish not-knowing that may shrink with more observation from variability that remains in the process itself.
 
 ## Sources and Further Reading
 

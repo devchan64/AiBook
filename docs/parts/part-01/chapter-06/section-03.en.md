@@ -1,7 +1,7 @@
 # P1-6.3 Where Probabilistic Judgment Is Used in AI
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 6.2 distinguished `uncertainty`, `probability`, and `stochastic`. This section turns that distinction into a more practical question: where in actual AI systems is probability used, and how should those numbers be read carefully?
 
@@ -203,16 +203,6 @@ The same view returns later when we read heuristics, search, machine-learning ev
 - Explain that prediction tasks often need not only one value, but also uncertainty around that value.
 - Explain that generation involves choosing among candidates and that `temperature` is tied to output variability.
 - Explain that probabilistic output is not the final decision, but material for decision making.
-
-## When Should This View Come First?
-
-Recall this section when a model’s probability-like number starts to feel like the answer itself or the final action.
-
-- when you want to treat a classification score such as `0.68` as automatically trustworthy probability
-- when you need to explain whether a threshold is merely technical or also part of service cost and responsibility
-- when you need to separate generation settings, probabilistic output, human review, and final decision making
-
-In those moments, split the picture again into `probability numbers compare candidates`, `thresholds branch behavior`, `calibration checks score interpretation`, and `decision making belongs to the service layer`.
 
 ## Sources and Further Reading
 

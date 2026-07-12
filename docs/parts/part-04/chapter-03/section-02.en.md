@@ -1,7 +1,7 @@
 # P4-3.2 Heuristics And Model Selection
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-3.1 treated a heuristic as a judgment criterion for reducing candidates under limited time and limited information. This Section applies that perspective to model selection.
 
@@ -172,26 +172,14 @@ The checkable result is clear as well. By comparing the error types of the basel
 --8<-- "assets/part-04/chapter-03/inquiry-classification-model-selection-flow-en.mmd"
 ```
 
-## Perspective To Remember In This Section
+## Checklist
 
-- Model selection is not about guessing the right model name. It is a process of reducing candidates and validating them.
-- A heuristic is the starting point of model selection, not the conclusion.
-- Problem type is the first criterion for narrowing model candidates.
-- A baseline model is the minimum comparison standard for reading the value of more complex candidates.
-- Performance, interpretability, computation cost, data state, and operability should be viewed together.
-- A model-selection heuristic should be recorded together with its reason, risk, and validation method.
-
-## Short Check
-
-- Can you explain why model selection is `reducing the candidate set` rather than `choosing a famous model`?
+- Can you explain why model selection is not `choosing a famous model` but `reducing the candidate set`?
 - Can you explain in what state the data and labels should be rechecked before making the model more complex?
-- Can you explain why a baseline model becomes the comparison standard for interpreting the value of more complex candidates?
-
-## When This Perspective Should Come To Mind First
-
-- Recall the flow of candidate reduction and validation when checking whether you are reading model selection as if it were merely `choosing a famous model`.
-- Return to this Section when explaining again why a baseline model becomes the comparison standard for interpreting more complex candidates.
-- This Section is the reference point when organizing situations where performance, interpretability, cost, data state, and operability all need to be seen together.
+- Can you explain why a baseline model becomes the comparison standard for interpreting the performance of more complex candidates?
+- Can you explain that model selection is not guessing a model name, but the process of reducing candidates and validating them?
+- Can you explain that problem type is the first criterion for narrowing model candidates, and that a baseline model is the minimum standard for comparing more complex candidates?
+- Can you explain why performance, interpretability, computation cost, data state, and operability all need to be viewed together?
 
 ## Sources And References
 

@@ -1,7 +1,7 @@
 # P4-12.1 Intuition For k-NN
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.2 showed logistic regression as `a model that draws a boundary in the input space and separates classes`. Now the question changes.
 
@@ -221,20 +221,14 @@ This output shows directly that `k` is not just a number. It is the handle that 
 
 In other words, this example closes the point that `one exceptional nearest point` and `a slightly wider local majority` can say different things. The first thing to read here is not the score but `which neighbors were included` and `how the majority changed because of that`.
 
-The same query `(4.0, 4.2)` also connects directly to the next Sections. `P4-12.2` asks what happens when the rule used to compute closeness changes. `P4-12.3` asks what should be rechecked first when this same query begins to shake.
-
-## Perspectives To Remember In This Section
-
-- k-NN judges a new input by comparing it with already known nearby cases.
-- `query`, `neighbor`, `label`, and `k` play different roles inside the judgment.
-- `k` is not just a number. It is the handle that changes the range of the judgment.
-- Training in k-NN is closer to `preparing comparison cases` than to `building a formula`.
-
 ## Checklist
 
-- Can you explain k-NN as `a method that gathers nearby cases and then judges`?
-- Can you explain the difference between `k` that is too small and `k` that is too large?
-- Do you understand that the comparison cost can become large at prediction time in k-NN?
+- Can you explain k-NN as `a method that gathers nearby cases and makes a judgment`?
+- Do you understand that `query`, `neighbor`, `label`, and `k` play different roles inside the judgment?
+- Can you explain that `k` is not just a number, but the handle that controls the range of the judgment?
+- Can you explain the difference between when `k` is too small and when it is too large?
+- Do you understand that training in k-NN is closer to `preparing reference cases for comparison` than to `building a formula`?
+- Do you know that the comparison cost can become large at prediction time in k-NN?
 
 ## Sources And References
 

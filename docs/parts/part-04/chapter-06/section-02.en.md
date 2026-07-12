@@ -1,7 +1,7 @@
 # P4-6.2 Evaluation Criteria By Problem Type
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-6.1 explained that an evaluation metric is not just a scoreboard. It is a criterion that reveals what we choose to treat as important. Now the next question follows. `If the problem changes, why do the metrics we inspect also change?`
 
@@ -618,44 +618,14 @@ Now you can change the values a little and check how the clustering criterion ch
 
 For example, if `6.1` is added and `gap = 1.5`, then `[4.8, 5.0, 6.1]` may be read as one cluster. So clustering is closer not to `a calculation that matches a correct answer`, but to `an experiment that asks where the criterion of similarity should be placed`.
 
-## Connection To Later Chapters
-
-This Section is an introductory organization that separates evaluation metrics by problem type. In later algorithm chapters, the same question appears again more concretely.
-
-- In P4-7.1 on feature selection and P4-7.2 on preprocessing, the question `what should be given as input?` becomes important again. Even if the evaluation metric looks the same, the interpretation of performance can change when input features and preprocessing change.
-- In P4-8.1 on model selection and P4-8.2 on baseline models, the question `which models should be compared first?` continues. At that point, the problem-type-specific evaluation criteria organized in this Section become the basis for model comparison.
-- In P4-9.1 on hyperparameters and P4-9.2 on tuning and validation cost, it becomes important to read through which metric improvement a small performance gain actually appeared. In other words, tuning is seen again not as changing numbers randomly, but as moving along an evaluation criterion.
-
-- In P4-10.1 on the intuition of linear regression and P4-10.2 on the evaluation and limits of linear regression, regression is encountered for the first time as an actual algorithm. At that point, why MAE, MSE, RMSE, and R² are needed becomes concrete again.
-- In P4-11.1 on the intuition of logistic regression and P4-11.2 on decision boundaries, a representative form of classification returns. There, accuracy, precision, recall, and F1 appear again, and threshold and probability interpretation become more important.
-- In P4-12.1 on the intuition of k-NN and P4-12.2 on distance and scale, you will see that even within classification, the definition of `closeness` changes the result. In other words, it becomes possible to anticipate that even with the same classification metric, interpretation can change depending on how distance and scale are handled.
-- In P4-13.1 on the intuition of SVM and P4-13.2 on the introductory meaning of kernels, classification boundaries are handled more directly. So even when reading classification performance, you are led again to think not only about accuracy, but about what kinds of mistakes the boundary is creating.
-- In P4-14.1 on decision trees, P4-14.2 on overfitting in trees, P4-15.1 on random forests, P4-15.2 on feature importance, P4-16.1 on gradient boosting, and P4-16.2 on the performance and risk of boosting, both classification and regression can reappear. In other words, even when the algorithm name changes, the first thing to check remains `is this problem classification or regression?` if the evaluation metric is to be chosen correctly.
-
-- In P4-17.1 on the intuition of clustering and P4-17.2 on caution when interpreting cluster results, the clustering explanation in this Section connects directly. In particular, the perspectives `cluster ID is not an answer name` and `cluster results must be interpreted again by people` become fully important there.
-- In P4-18.1 on dimensionality reduction and P4-18.2 on visualization and information loss, as in clustering, what matters is less `matching a correct answer` and more `how to read and interpret structure`. So the feel of carefully separating visual structure from interpretation continues, much like clustering evaluation.
-
-- Once you reach P4-19.1 on value-based reinforcement learning, P4-19.2 on policy-based reinforcement learning, and P4-19.3 on caution in applying reinforcement learning, yet another evaluation perspective opens. Reinforcement learning is hard to read by one-time prediction error alone in the way classification, regression, and clustering often are. Reward, cumulative outcome, and exploration cost must be read together. So this Section also prepares the feeling in advance that `not every problem can be read through one kind of score`.
-
-## Perspective To Remember In This Section
-
-- When the problem type changes, the meaning of `good performance` changes too.
-- In classification, the first thing to read is the kind of error.
-- In regression, the first thing to read is the size and cost of error.
-- In clustering, the possibility that there may be no answer label makes evaluation harder.
-- Before choosing a metric, the first thing to inspect is the model output and the usage scene.
-
 ## Checklist
 
 - Can you explain why classification, regression, and clustering cannot help but give different meanings to `a good result`?
-- Can you explain why in regression the first question is not right-or-wrong but `how far off was it`?
-- Can you explain why in clustering evaluation must include not only a score but also interpretability and structure reading?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up this Section when you need to check whether classification, regression, and clustering are being read through the same evaluation question by mistake.
-- Return to this Section when you need to organize again why precision/recall matter more in one problem, MAE/RMSE more in another, and internal-structure criteria in still another.
-- This Section becomes the criterion when the model output and the usage scene must be checked first before choosing a metric.
+- Can you explain why in regression the first thing to read is `how far off was it` rather than simply right-or-wrong?
+- Can you explain why clustering evaluation must include interpretability and structure reading together with a score?
+- Can you explain that when the problem type changes, the meaning of `good performance` changes as well?
+- Can you explain why classification should read the kind of error first, regression the size and cost of error first, and clustering structure interpretation first?
+- Can you explain that before choosing a metric, the model output and the usage scene must be checked first?
 
 ## Sources And References
 

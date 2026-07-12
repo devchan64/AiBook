@@ -1,7 +1,7 @@
 # P2-6.1 What Does Optimization Search For?
 
 > Section ID: `P2-6.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In Chapter 5, we summarized data into numbers, estimated the whole from samples, and checked mean and variance through code. Now the question changes.
 
@@ -228,12 +228,6 @@ There is one point to be careful about here. The `parameter` in this Section mea
 
 Even with the same English word, we have to check the context. In the next Section, we organize this `number that shows how bad the prediction is` under the words `loss function` and `objective function`.
 
-## Perspective to Keep from This Section
-
-Optimization is the problem of finding a good value. But a good value is not determined without a criterion. So optimization makes us organize the question before the answer. It is enough to understand it as a flow where there are candidates, a criterion, constraints, and we compare and adjust them to find a better value.
-
-AI learning can be seen as applying this flow to model parameters. The model does not know the good answer from the beginning. It adjusts values using a criterion. This perspective becomes the basis for the later explanation of loss function and gradient descent.
-
 ## View It Through a Case
 
 ### Case 1. How Should We Allocate the Advertising Budget?
@@ -246,7 +240,7 @@ In this scene, optimization is not `knowing the answer`. It is `comparing severa
 
 The confirmable result is to compare expected conversions and costs in a table across several allocation plans. For example, if Plan A gives 1,200 conversions at a cost of 9.8 million won, Plan B gives 1,150 conversions at a cost of 9 million won, and Plan C gives 1,260 conversions but exceeds the policy limit, then it becomes clear not just which number is largest, but which candidate is better while satisfying criteria and constraints together.
 
-## Short Check
+## Checklist
 
 - You can explain optimization not as writing the answer directly, but as the process of finding a better candidate.
 - You can distinguish `candidate`, `criterion`, and `constraint`.
@@ -254,12 +248,7 @@ The confirmable result is to compare expected conversions and costs in a table a
 - You can explain that `optimal` does not always mean the perfectly complete answer in reality.
 - You can explain AI learning as the process of adjusting model parameters to improve a criterion.
 - You can explain the boundary that loss function and gradient descent are treated more concretely in the next Section.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when you need to reread learning not as simple calculation, but as the problem of `finding a better value`.
-- Recall it first when candidate, criterion, and constraint look mixed together and you need to separate what is being compared from what must be respected.
-- Recall it first when you are taking the word optimal as a perfect real-world answer and need to ask again about criteria and conditions.
+- You can reread learning not as simple calculation, but as the problem of `finding a better value`.
 
 ## Sources and References
 

@@ -1,11 +1,9 @@
 # P1-11.2 RNN, Seq2Seq, and Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
-Section 11.1 introduced `language models` and `embeddings`. Language models handle the order of words and tokens probabilistically, and embeddings turn words and tokens into computable `vector representations`.
-
-This section asks how neural networks tried to handle the `order` and `context` of those vectorized tokens.
+Section 11.1 introduced `language models` and `embeddings`. This section asks how neural networks tried to handle the `order` and `context` of those vectorized tokens.
 
 The central question is:
 
@@ -18,7 +16,7 @@ The important flow is:
 > Seq2Seq built a structure that turns an input sequence into an output sequence,  
 > and Attention allowed the model to refer back to relevant input positions at each output step.
 
-Part 1 introduces the basic distinctions among `RNNs`, `hidden states`, `LSTMs`, `GRUs`, `Seq2Seq`, `Encoder-Decoder`, `Attention`, and the `fixed-length vector bottleneck` here. Section 11.1 covered language models and embeddings. This section focuses on the narrower question:
+Part 1 introduces the basic distinctions among `RNNs`, `hidden states`, `LSTMs`, `GRUs`, `Seq2Seq`, `Encoder-Decoder`, `Attention`, and the `fixed-length vector bottleneck` here. This section focuses on the narrower question:
 
 > after tokens become vectors,  
 > how were their sequence and context handled?
@@ -27,9 +25,7 @@ Transformers are not yet handled here. They continue in 11.3.
 
 ## Scope of This Section
 
-This section does not explain Transformers. Transformers are handled in 11.3.
-
-These terms can all sound like similar components of sequence models at first. A quick distinction helps:
+This section does not explain Transformers. These terms can all sound similar at first, so a quick distinction helps:
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
@@ -54,9 +50,9 @@ This section focuses on three pre-Transformer flows:
 | Seq2Seq | how can an input sentence become an output sentence? |
 | Attention | how can the model decide which part of the input matters when producing each output word? |
 
-`LSTMs` and `GRUs` were important RNN-family structures for handling `long-range dependency`. But here the gate equations and inner mechanics are not explained in detail. Only the motivation matters.
+`LSTMs` and `GRUs` were important RNN-family structures for handling `long-range dependency`, but only the motivation matters here.
 
-This section also does not yet explain `pretraining` or the difference between `BERT` and `GPT`. Those are grouped again in 11.3 together with Transformers.
+This section also does not explain `pretraining` or the difference between `BERT` and `GPT`. Those return in 11.3 together with Transformers.
 
 ## Goal of This Section
 
@@ -231,21 +227,6 @@ For now, this is enough to keep:
 
 The concrete structure of Transformers and pretrained LLMs continues in 11.3.
 
-## What to Remember from This Section
-
-RNNs, Seq2Seq, and Attention all belong to the effort to treat language not as a simple list of words, but as data with order and context.
-
-> RNNs accumulate order in internal state  
-> Seq2Seq turns input order into output order  
-> Attention lets the model look back again at relevant parts of the input
-
-Knowing this keeps Transformers and LLMs from looking like structures that appeared out of nowhere. Transformers should be read on top of the earlier problem setting:
-
-- long context
-- input-output correspondence
-- the need to reduce bottlenecks
-- the need for more parallel computation
-
 ## Checklist
 
 - I can explain that an RNN passes the previous hidden state into the next computation.
@@ -257,22 +238,8 @@ Knowing this keeps Transformers and LLMs from looking like structures that appea
 - I can explain Attention as a structure that uses weights over input positions to refer to relevant information.
 - I can avoid exaggerating Attention into human-style conscious focus or complete interpretability.
 - I am ready to continue into why Transformers put Attention at the center in 11.3.
-
-## When to Recall This View First
-
-This section is useful when the sequence-modeling flow before Transformers disappears, making modern LLM structure look as if it suddenly emerged.
-
-- when explaining again why RNNs were built specifically for ordered data
-- when organizing how Seq2Seq and Encoder-Decoder modeled tasks such as translation and summarization
-- when connecting Attention to the problem of reducing the fixed-length-vector bottleneck
-
-In those cases, it helps to separate:
-
-> the structure that accumulates order  
-> the structure that turns an input sequence into an output sequence  
-> the structure that looks back again at relevant input positions while generating output
-
-That keeps Transformers from looking like an isolated invention and instead places them on top of earlier problems and solutions.
+- I can distinguish `the structure that accumulates order`, `the structure that turns an input sequence into an output sequence`, and `the structure that looks back again at relevant input positions while generating output`.
+- I can explain Transformers not as an isolated invention, but on top of earlier sequence-modeling problems and solutions.
 
 ## Sources and Further Reading
 

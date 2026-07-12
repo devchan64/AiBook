@@ -1,7 +1,7 @@
 # P4-11.5 补充学习：第一次如何读 solver 与 regularization
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 一旦通过 library 使用 logistic regression，很快就会遇到 solver、penalty、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
 
@@ -170,10 +170,6 @@ baseline_lr -> LogisticRegression(max_iter=1000)
 sparse_candidate -> LogisticRegression(C=0.5, l1_ratio=0.5, max_iter=1000,
                                        penalty='elasticnet', solver='saga')
 ```
-
-## 与下一节的连接
-
-到这里，Chapter 11 的补充学习轴就闭合了。也就是说，logistic regression 现在可以拆成五个层次来读：`可按 probability 来读的 score`、`boundary`、`log-odds 与 MLE`、`multiclass 扩展`、`训练计算与 regularization 设置`。
 
 ## 出处与参考资料
 

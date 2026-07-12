@@ -1,7 +1,7 @@
 # P1-14.2 Where RAG and Tool Use Sit
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-14.1 described an AI service as a combination of the `model`, `application`, `data`, `tool`, and `orchestration`. This section separates two parts that are easy to confuse.
 
@@ -258,26 +258,6 @@ A possible flow is:
 
 In this flow, RAG is closest to `finding supporting material and strengthening the answer context`, while tool use is the part that actually touches the outside environment through file reading, patching, building, and committing.
 
-## The View to Keep from This Section
-
-RAG and tool use both involve resources outside the model, but they are not the same structure.
-
-> RAG makes the model read outside material  
-> tool use calls the functions of an outside system  
-> RAG strengthens answer evidence  
-> tool use can lead to actions such as lookup, calculation, storage, modification, and sending  
-> both still have to live inside the permission, validation, and execution flow of the application and server
-
-With this distinction in place, the next section's `agent` becomes easier to read safely. An agent may tie together RAG and tool use across multiple steps, but first the roles and responsibilities of each building block need to stay separate.
-
-## When to Recall This View First
-
-- when search and tool calls both look like vague `outside connections` and the difference starts to blur
-- when someone tries to explain RAG and tool use as if they were the same structure
-- when you want to separate the responsibilities of reading and execution before moving on to agents
-
-At that point, first separate: `is this reading material?`, `is this executing an outside function?`, and `does this require prior approval and validation?` That prevents RAG and tool use from being flattened into one vague idea of `using something outside the model`.
-
 ## Checklist
 
 - You can explain RAG as a structure that retrieves outside material and attaches it to input context.
@@ -286,6 +266,7 @@ At that point, first separate: `is this reading material?`, `is this executing a
 - You can explain with an example that RAG and tool use may be used together.
 - You can explain that tool use requires permission, approval, validation, and execution logs.
 - You can explain that the model may propose a tool call, but the actual execution is handled by the application or server.
+- You can keep `reading material`, `executing an outside function`, and `approval before action` separate when comparing RAG and tool use.
 
 ## Sources and Further Reading
 

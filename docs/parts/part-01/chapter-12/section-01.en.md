@@ -1,7 +1,7 @@
 # P1-12.1 What Does a Prompt Specify?
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 11 explained where `LLMs` came from. Language models began from the problem of next-token probability, and Transformers and pretraining became key foundations of modern LLMs.
 
@@ -230,29 +230,6 @@ That kind of prompt can encourage unsupported statements to appear persuasive. I
 
 Prompts can guide output, but they do not replace verification responsibility. In a learning-oriented book, evidence review matters more than prompt wording.
 
-## What to Remember from This Section
-
-A prompt is not `a clever way of talking to the model`. It is a way of arranging task conditions inside model input.
-
-> prompts give instructions  
-> prompts provide context  
-> prompts show patterns through examples  
-> prompts narrow scope through constraints  
-> prompts specify output format  
-> prompts let us observe how outputs change under different input conditions  
-> prompts do not change model weights  
-> prompts do not replace fact checking
-
-This perspective is needed before 12.2 can separate instruction, context, and example more concretely. It also prevents prompts from being overstated when 12.3 discusses limits and evaluation criteria.
-
-After this section, at minimum these three distinctions should remain:
-
-| Key distinction to keep | Why it matters |
-| --- | --- |
-| a prompt is input that provides the current response conditions, not a retraining process | We need this first to keep prompting, in-context learning, and fine-tuning from being mixed together. |
-| prompts can contain instruction, context, example, constraint, and output format | This gives one common frame for understanding later prompt components. |
-| prompts can guide output but cannot replace fact verification | This helps explain naturally why evaluation, evidence checking, and later RAG need to be handled separately. |
-
 ## Checklist
 
 - I can explain a prompt as the current input given to an LLM.
@@ -264,23 +241,8 @@ After this section, at minimum these three distinctions should remain:
 - I can explain the difference between prompting and fine-tuning.
 - I can explain in-context learning as a behavior change inside the current input context without weight updates.
 - I can explain that prompts do not automatically guarantee factuality, evidence, or safety.
-
-## When to Recall This View First
-
-This section is useful when prompts are being understood only as `tips for saying things nicely`, and the difference between input design and learning needs to be clarified again.
-
-- when re-explaining that a prompt is input containing the conditions of the current response
-- when distinguishing prompting, fine-tuning, and in-context learning
-- when placing early emphasis on the fact that prompts can guide outputs but cannot replace factual verification
-
-In those moments, it helps to separate:
-
-> current input  
-> task conditions  
-> no weight update  
-> separate verification responsibility
-
-That makes it easier to explain prompts as part of the real boundary of LLM use rather than as something magical.
+- I can explain prompts not as `tips for saying things nicely` but through the structure of `current input`, `task conditions`, `no weight update`, and `separate verification responsibility`.
+- I can distinguish where prompting, fine-tuning, and in-context learning diverge.
 
 ## Sources and Further Reading
 

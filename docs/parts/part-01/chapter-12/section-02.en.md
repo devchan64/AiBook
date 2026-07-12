@@ -1,7 +1,7 @@
 # P1-12.2 Instructions, Context, and Examples
 
 > Section ID: `P1-12.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 12.1 described a `prompt` as a way of arranging task conditions inside the current input. A prompt does not retrain the model. Instead, it places instructions, context, examples, constraints, and output format inside the input that the model can use during `inference`.
 
@@ -259,16 +259,6 @@ For long learning documents, the following template is often useful:
 
 This template does not fit every situation exactly. But when a long book is written with AI tools, it helps structure the request and leaves clearer points for later human review.
 
-## What to Remember from This Section
-
-Instruction, context, and example are not the same thing.
-
-> the instruction defines the task  
-> context supplies the information to refer to  
-> the example shows the desired pattern
-
-Separating them may make a prompt longer. But the goal is not `to write more`. The goal is to make the task conditions clearer.
-
 ## Checklist
 
 - I can explain that an instruction specifies the task the model should perform.
@@ -277,20 +267,8 @@ Separating them may make a prompt longer. But the goal is not `to write more`. T
 - I can explain that examples do not change model weights the way fine-tuning does.
 - I can read a long prompt by separating task, context, source text, example, and output format.
 - I can explain that prompt structuring does not replace fact verification.
-
-## When to Recall This View First
-
-This section is useful when a long prompt looks like one undifferentiated block of natural language and it is becoming unclear what part is the request and what part is background information.
-
-- when instruction, context, and example are mixed together and their roles need to be separated again
-- when explaining that few-shot prompting shows a pattern in the current input rather than retraining the model
-- when turning a long request into a structure that can actually be reviewed
-
-In those moments, it helps to separate:
-
-> what should be done  
-> what should be referred to  
-> what pattern should be followed
+- I can read a long prompt by separating it into `what to do`, `what to refer to`, and `what pattern to follow`.
+- I can explain that few-shot prompting does not retrain the model, but only presents a pattern inside the current input.
 
 That shifts the problem away from `making the prompt longer` and toward `making its roles readable and checkable`.
 

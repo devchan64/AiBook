@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)与工具连接标准化
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P1-14.3 中，我们把 agent 看成一种把 `目标(goal)`、`状态(state)`、`动作(action)`、`观察(observation)` 持续推进的工作流结构。要让 agent 使用外部资料或工具，就必须有一种连接方式。
 
@@ -240,23 +240,6 @@ MCP 的安全文档也会单独讨论 confused deputy problem、token passthroug
 
 这个例子并不是说 MCP 会替 agent 把文章写出来。MCP 只是连接规则，它让 agent 能更一致地发现并使用外部数据与工具。
 
-## 本节应记住的视角
-
-MCP(Model Context Protocol) 是一种协议，它试图标准化 AI 应用与外部系统之间的连接。
-
-> agent 会把目标继续成工作流。  
-> MCP 会整理这条工作流连接外部工具和数据的方式。
-
-> host 持有连接。  
-> client 管理某条 server 连接。  
-> server 提供 tools、resources、prompts。  
-> tools 执行动作。  
-> resources 提供上下文数据。  
-> prompts 提供交互模板。  
-> 权限、审批、安全与评估不会被自动解决。
-
-只要这个视角固定下来，下一节里的 `harness` 就更容易读懂。harness 会把问题推进到：模型、工具和 MCP 连接，如何在真实执行环境中被包裹、记录并评估。
-
 ## 检查清单
 
 - 能把 MCP 解释成一种连接协议，而不是 agent 或模型。
@@ -264,14 +247,7 @@ MCP(Model Context Protocol) 是一种协议，它试图标准化 AI 应用与外
 - 能区分 tools、resources、prompts。
 - 能说明 MCP 可以帮助 agent 的工具连接与上下文获取。
 - 能说明 MCP 不会自动解决权限、审批、安全与评估。
-
-## 什么时候要先想起这个视角
-
-- 当 MCP 被混成与模型、agent、工具本身同一层概念时
-- 当外部系统连接里需要区分“标准化”与“实际执行责任”时
-- 当必须再次分清工具连接便利性与权限、审批、校验责任是两回事时
-
-这时，就先拆开 `连接规则`、`能力提供者`、`执行责任`。这样就不容易把 MCP 误读成工具本身或 agent 本身。
+- 能把 `连接规则`、`能力提供者`、`执行责任` 分开，从而不把 MCP 误读成工具本身或 agent 本身。
 
 ## 来源与参考资料
 

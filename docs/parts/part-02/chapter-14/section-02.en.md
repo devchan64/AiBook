@@ -1,7 +1,7 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
 
@@ -175,41 +175,30 @@ That is why separating the writing branch from the deployment branch is not just
 
 This case shows why document reproducibility touches both commit boundaries and branch operation. A deployed book is not correct merely because the manuscript is correct. The code, assets, and settings around that manuscript must also fit together before the same result can be shown again.
 
-## Perspective to Remember from This Section
+This section is not about memorizing more Git commands. It is about deciding by what standards the calculations and interpretations built in the previous sections should be left behind.
 
-- A branch is a named history that separates workflows.
-- In a document project, the writing branch and deployment branch can be operated separately.
-- A commit should be a meaningful bundle of changes, not just a bundle of files.
-- Document reproducibility appears only when the manuscript, code, image, research note, and deployment table of contents all fit together.
-- Reflecting to the deployment branch can lead to public deployment, so it requires a separate judgment.
-
-This section is not about memorizing more Git commands. It is about deciding by what standards the calculations and interpretations from the previous sections should be left behind.
-
-| What the Previous Chapters Created | What This Section Handles | What This Section Does Not Yet Do |
+| What the Previous Chapters Built | What This Section Decides | What It Still Does Not Do Here |
 | --- | --- | --- |
-| array calculations, table checking, plot interpretation | decide which changes form one commit unit and on which branch they should stay | complex merge strategies, conflict resolution, advanced collaboration workflows |
+| array calculation, table inspection, graph interpretation | decide which changes belong in one commit unit and on which branch they should remain | complex merge strategies, conflict resolution, advanced collaboration workflows |
 
 ## Short Return Table
 
-| When You Get Stuck | Where to Return First |
+| If You Get Stuck Here | Return First To |
 | --- | --- |
-| Git still feels vague | `P2-14.1` |
-| The connection between reproducibility and dependency feels vague | `P2-7.5`, `P2-10.3` |
-| It is unclear why notebooks, plots, and manuscripts move together | Chapter 10, Chapter 13 |
+| If it becomes blurry why Git is needed | `P2-14.1` |
+| If the connection between reproducibility and dependencies becomes blurry | `P2-7.5`, `P2-10.3` |
+| If it becomes blurry why notebooks, graphs, and manuscript records move together | Chapter 10, Chapter 13 |
 
-## Short Check
+## Checklist
 
+- Can you explain a branch as a named history that separates workflows?
 - Can you explain the role difference between the writing branch and the deployment branch?
-- Can you explain a branch as a device for separating workflows?
-- Can you choose which files belong in one commit by the purpose of the change?
-- Can you explain that document reproducibility is not a problem of the manuscript alone?
-- Can you say why site navigation settings, images, research notes, and the build should all be checked before deployment?
-
-## When Should You Recall This Perspective First?
-
-- Recall the branch and commit-unit perspective first when in-progress changes and deployable changes must be managed separately.
-- Return to this section when judging which files belong in one commit and at what point they should move to the deployment branch.
-- This section becomes the standard again when you need to confirm that document reproducibility includes not only the main text but also the table of contents, assets, and build state.
+- Can you explain that a commit should be a meaningful bundle of change rather than just a bundle of files?
+- Can you choose which files should go into one commit by the purpose of the change?
+- Can you explain that document reproducibility is not only about the manuscript, but requires code, images, research notes, and deployment navigation to fit together?
+- Can you explain that reflecting into the deployment branch may lead to public deployment and therefore requires a separate judgment?
+- When you need to manage in-progress changes separately from publishable changes, can you recall the perspective of branches and commit units first?
+- Can you explain why site navigation settings, images, research notes, and the build should all be checked before deployment?
 
 ## Sources and References
 

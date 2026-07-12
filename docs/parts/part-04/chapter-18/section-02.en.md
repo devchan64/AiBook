@@ -1,7 +1,7 @@
 # P4-18.2 Visualization And Information Loss
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-18.1, we saw that dimensionality reduction reexpresses many features through fewer axes. The next step is to ask how far the resulting picture should be trusted.
 
@@ -34,54 +34,32 @@ This Section focuses at an introductory level on `how far the reduced picture ca
 
 ## Reading Order For This Section
 
-This Section moves quickly because `risks in interpreting the picture`, `what each method preserves`, and `quality metrics` all appear together. On a first read, it helps to hold on to only the following four questions in order.
+This Section moves quickly because visualization interpretation, method comparison, and quality metrics appear together. On a first read, it helps to hold only the following four questions in order.
 
 1. Why is a dimensionality-reduced picture easy to view but not a complete copy?
 2. What do PCA, t-SNE, and UMAP each try to preserve more strongly?
-3. Then how far should we trust `points that look close` and `structures that look like lumps`?
+3. How far should `points that look close` and `lumps that seem separate` be trusted?
 4. In what direction do reconstruction error and trustworthiness recheck those risks?
 
-Once this order is fixed, it becomes less confusing to distinguish what is an interpretation question and what is a checking tool, even when method names, formulas, and visual effects are mixed together.
+Once this order is fixed first, interpretation questions and checking metrics are less likely to get mixed together.
 
 ## Why This Section Is Needed
 
-After learning dimensionality reduction, people often form expectations like these.
+After learning dimensionality reduction, readers often think like this.
 
-- Now the data can be seen in two dimensions
-- The points seem to split into groups
-- So the structure feels clearer
+- Now the data can be seen in 2D.
+- The points look like they split into lumps.
+- So the structure must have become clear.
 
 That expectation is only half correct.
 
 | What is true | What still requires caution |
 | --- | --- |
-| A picture makes structure easier to inspect | The picture does not preserve the original structure completely |
-| It is good for exploring lumps and patterns | Lumps can be exaggerated or compressed |
-| It is useful in explanation and presentation | Visual effect can create too much confidence |
+| The large flow becomes easier to inspect at a glance | The original structure was not copied exactly |
+| It becomes easier to find lump and outlier candidates quickly | Lump and distance interpretations can be exaggerated |
+| It is very useful for explanation and presentation | Visual effect can create excessive confidence |
 
-So P4-18.2 is the Section for learning `how to read a picture`.
-
-### When Should Interpretation Of A Visualization Be Stopped And Rechecked?
-
-The prettier and clearer the dimensionality-reduction plot looks, the faster you should check `am I confusing easy viewing with structure preservation?`
-
-| What appears in the picture | Why you should stop first | What to check together |
-| --- | --- | --- |
-| Two points look extremely close in 2D | Because that does not guarantee the same closeness in the original high-dimensional space | The relation inside the original feature space |
-| A lump looks very clear and you want to read it immediately as a cluster | Because the projection may have exaggerated the grouping | Whether a similar pattern appears under other parameters or methods |
-| You want to remove one distant point immediately as an outlier | Because the compression process may have distorted it | The original data and other validation methods |
-| A presentation plot looks too convincing | Because visual effect can create excessive confidence | Separate exploratory result from finalized conclusion |
-| You want to go straight from a 2D figure to policy judgment | Because visualization is an exploration tool, not a final decision tool | Follow-up labels, outcomes, and original-feature comparison |
-
-The purpose of this table is not to make visualization untrustworthy. It is to stop first at the point `where something easy to see starts changing into excessive confidence`.
-
-If this tension is compressed into a diagram, it looks like this.
-
-```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-01-en.mmd"
-```
-
-This diagram shows the strengths and limits of a dimensionality-reduction plot at once. Reducing dimensions makes the structure much easier for people to see, but that ease always arrives together with some distortion or loss.
+So P4-18.2 is the Section for learning not just `how to make a picture`, but `where to stop when reading one`.
 
 ## Why Does Reducing Dimensions Cause Information Loss?
 
@@ -158,28 +136,16 @@ For example, even if customers A and B look almost attached in a 2D figure, they
 
 In the figure, both may look like `similar active customers`, but in the original features, A may be stronger on purchase size while B may be stronger on recency of activity. So if people are grouped under the same operational policy only because they look close in 2D, information loss has already turned into interpretation error.
 
-## What Is Preserved Relatively Well, And What Can Become Weaker?
+## Why Do Different Methods Try To Preserve Different Things First?
 
-Methods such as PCA try to preserve directions that explain large variance first. That usually creates the following tendency.
-
-| What may be preserved relatively well | What may become weaker |
-| --- | --- |
-| Large global trends | Small detailed differences |
-| Major directions of variation | Local patterns on less important axes |
-| Overall spread structure | Fine relations among exceptional minority samples |
-
-Dimensionality reduction usually helps with `the big picture`, but fine-grained judgment still requires caution.
-
-### Why Do Different Methods Try To Preserve Different Things First?
-
-From here on, the important distinction is `do all dimensionality-reduction methods make the same kind of picture?` Even in the official documentation, PCA is more strongly tied to explained variance, while manifold-learning families are more strongly tied to nonlinear structure and local neighborhoods.
+Not every dimensionality-reduction method tries to make the same kind of picture. Some methods preserve large overall variation first, while others put more weight on nearby-neighbor structure.
 
 | The question asked first | The closer method | What a beginner should read first |
 | --- | --- | --- |
-| Do we want to preserve large global variation as much as possible? | PCA | It builds summary axes while keeping large-variance directions first |
-| Do we want to see nonlinear structure or nearby-neighbor relations more strongly? | t-SNE, UMAP, and other manifold families | They are more sensitive to preserving local structure than to preserving the whole layout |
+| Do we want to preserve large global variation as much as possible? | PCA | It keeps large-variance directions first |
+| Do we want to see nonlinear structure or nearby-neighbor relations more strongly? | t-SNE, UMAP | They are more sensitive to local-neighborhood structure than to the whole layout |
 
-This distinction needs to be fixed first so that reconstruction error and trustworthiness are later read as answers to different questions.
+This distinction should be fixed first so that later quality metrics are not mistaken for answers to the same question.
 
 ## What Do t-SNE And UMAP Try To Preserve More Strongly?
 
@@ -230,9 +196,7 @@ When people want to read information loss numerically, one concept that often ap
 
 Its most basic form is usually written like this.
 
-\[
-\text{Reconstruction Error} = \frac{1}{n}\sum_{i=1}^{n}\lVert x_i - \hat{x}_i \rVert^2
-\]
+\[ \text{Reconstruction Error} = \frac{1}{n}\sum_{i=1}^{n}\lVert x_i - \hat{x}_i \rVert^2 \]
 
 Here:
 
@@ -266,10 +230,7 @@ Among visualization quality metrics, trustworthiness asks, just as its name sugg
 
 The formula is written like this.
 
-\[
-T(k) = 1 - \frac{2}{nk(2n - 3k - 1)}
-\sum_{i=1}^{n}\sum_{j \in U_k(i)}(r(i,j)-k)
-\]
+\[ T(k) = 1 - \frac{2}{nk(2n - 3k - 1)} \sum_{i=1}^{n}\sum_{j \in U_k(i)}(r(i,j)-k) \]
 
 Here:
 
@@ -300,121 +261,24 @@ This metric is not all-powerful either.
 
 So trustworthiness acts as a brake that asks again `how much should we trust proximity in this picture?` The official scikit-learn documentation also describes it as a value that asks how much local structure was retained. After looking at a reduced plot, when people start wanting to group `points that look attached` too quickly into the same type, this is exactly the question that trustworthiness throws back at them.
 
-## If It Looks Like A Cluster, Is It Really A Cluster?
-
-When looking at a reduced plot, several groups of points may appear like separate lumps. But there are two possibilities.
-
-1. The original high-dimensional data really contain some grouping structure
-2. The projection process made it look like a group
-
-A cluster in the picture can be `a hint of real structure`, but it is not sufficient evidence by itself.
-
-If we connect back to the clustering discussion in Chapter 17, a dimensionality-reduced plot can suggest a clustering hypothesis, but it does not finalize that hypothesis.
-
-The visual illusions that often appear here look like the following.
-
-| What is seen first in the picture | What might really be going on | What to do immediately next |
-| --- | --- | --- |
-| Two lumps look clearly separated | The projection may have made the split appear stronger than it is | Check whether the same split appears in original-feature summaries and under other axis counts |
-| One point sticks out far away | It may be a real outlier, or only projection distortion | Look together at the original data, other visualizations, and other outlier criteria |
-| Several points seem tightly compressed into one place | Differences that existed across several axes may have been pressed flat | Recheck the original feature distribution before summarization |
-
-## What Is Visualization Most Useful For?
-
-Dimensionality-reduction plots are usually very useful for the following purposes.
-
-| Use | Why it is useful |
-| --- | --- |
-| Seeing the overall data flow | It reveals large groups, spread, and direction at a glance |
-| Exploring outliers | It makes unusually distant points easy to notice |
-| Building clustering hypotheses | It allows exploratory inspection of how many groups seem to appear |
-| Explanation and communication | It shares complicated high-dimensional data more intuitively |
-
-So visualization is very useful for `exploration and explanation`.
-
-If that usefulness is organized more concretely, it looks like this.
-
-| Scene where visualization helps especially well | Why it helps | Why you should not stop there |
-| --- | --- | --- |
-| First pass over the overall flow of the data | Because large structure can be captured quickly | Because large structure is not automatically a final conclusion |
-| Building a follow-up clustering hypothesis | Because it shows exploratorily what looks like a few lumps | Because visible lumps may still be projection illusions |
-| Choosing representative cases | Because it becomes easy to see what is central, boundary-like, or peripheral | Because case interpretation can be exaggerated if original features are not inspected together |
-| Preparing explanation material | Because complicated high-dimensional structure can be shared more intuitively | Because a presentation figure can create stronger confidence than the evidence supports |
-
-## But What Should It Not Be Used For Immediately?
-
-It is risky to make judgments like the following from one picture alone.
-
-- These two points are almost the same customer
-- This lump must be a separate product family
-- This point is an outlier, so let us remove it immediately
-- This cluster is a risk group, so let us apply a different policy
-
-That is because the picture is a compressed representation of the structure, not a complete judgment of the original relation.
-
-So a dimensionality-reduction plot should be read as `an exploration tool`, not as `a finalization tool`. Even structures that look strong in the picture are better left first as signals that need review, and should not be turned immediately into policy or causal statements before comparison with original features and other methods.
-
-In other words, dimensionality-reduction visualization is strong for finding patterns and for explanation, but one plot alone cannot replace a final conclusion or proof.
-
 ## Safe Reading Order
 
 To reduce visual illusion, dimensionality-reduction results should be read in the following order.
 
 1. First inspect the large flow and lumps.
 2. Check what original features those lumps connect to.
-3. Check whether similar patterns appear under other parameters or other methods.
-4. If necessary, go back to the original high-dimensional data or downstream model performance for confirmation.
+3. Check whether similar patterns appear under other axis counts or other methods.
+4. If needed, recheck through reconstruction error, trustworthiness, and comparison with the original features.
 
-If this is drawn as a flow, it looks like the following.
+If this order is compressed into a flow, it looks like the following.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-03-en.mmd"
 ```
 
-This diagram organizes the safe interpretation order. Even after a pattern is found in the plot, the reader must go back to original features, confirm whether similar behavior appears under other methods, and only then use the pattern at the level of a hypothesis.
+The key sentence of this Section is the last one.
 
-The core of this Section is the last step.
-
-`A dimensionality-reduced plot helps generate a hypothesis, but it cannot prove that hypothesis on its own.`
-
-If the judgment so far is regrouped into one table, the safest way to read it is the following.
-
-| What you are trying to inspect now | The first question to raise | Immediate next check |
-| --- | --- | --- |
-| Large global spread | What direction of major variation remained? | Does it connect to original features? |
-| Nearby-neighbor structure | Did points that look attached also stay close in the original space? | trustworthiness, original-feature comparison |
-| Rebuildability | How much of the original information can be rebuilt from the reduced representation? | reconstruction error, recheck differences by original axes |
-| Hypotheses about lumps or outliers | Does this structure remain without projection illusion? | Other axis counts, other methods, original-data review |
-
-### Memo To Leave Right After Seeing The Plot
-
-After looking at a visualization result, the following kind of short memo helps reduce excessive confidence.
-
-| Item | Example memo |
-| --- | --- |
-| Structure seen first | `A small point group seems to stand separately in the lower-left` |
-| Interpretation boundary | `Do not finalize it as a separate product family only from the 2D separation` |
-| Original-feature recheck | `Recheck through a table of price, core function, and usage frequency` |
-| Comparison with other methods | `Check whether the split remains in PCA 2D and under other axis counts` |
-| Next verification | `Review whether the hypothesis survives through follow-up clustering or original-feature summaries` |
-
-The purpose of this memo is not to stop at `the plot looked neat`, but to separate `what was seen` from `what is still unknown`.
-
-## What Should Be Watched Out For When Used Together With Clustering?
-
-Connecting back to Chapter 17, people often color a dimensionality-reduction plot using cluster results. This can be very useful, but it can also be dangerous.
-
-- If the clusters look beautifully separated, overconfidence grows easily.
-- A colored plot can feel more clearly separated than the evidence actually supports.
-- On the other hand, even if groups look mixed in the plot, they may still be more separable in the original high-dimensional space.
-
-In other words, clustering results and dimensionality-reduction plots help each other, but when they meet, visual illusion can become stronger as well.
-
-If that relation is compressed, it looks like this.
-
-```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-2-mermaid-04-en.mmd"
-```
+`A dimensionality-reduction plot can help generate hypotheses, but it cannot prove those hypotheses by itself.`
 
 ## Cases And Examples
 
@@ -448,43 +312,14 @@ This case shows that a dimensionality-reduction plot is useful for finding outli
 
 ## Practice And Example
 
-This toy exercise shows that if three features are reduced into one summary score, the result becomes easier to read, but some per-feature differences disappear. It also adds one more case where the summary value stays similar while the original pattern differs, so that the reader can see why it is risky to conclude from only a plot or one-dimensional summary.
+This toy exercise directly checks that even when the same one-dimensional summary value appears, the original pattern can still be different.
 
-- Problem situation: inspect what becomes convenient and what disappears when several features are reduced into one axis
+- Problem situation: even if summary values look similar, the original feature pattern can still differ
 - Input: samples expressed through three features
-- Expected output: one summary value
+- Expected output: one summary value and per-axis differences
 - Concepts to check:
-  - Dimensionality reduction simplifies representation
-  - Once simplified, per-axis differences become weaker
-
-```python
-samples = [
-    {"f1": 2.0, "f2": 2.1, "f3": 2.2},
-    {"f1": 4.0, "f2": 4.1, "f3": 3.9},
-    {"f1": 6.0, "f2": 5.8, "f3": 6.2},
-]
-
-reduced = [
-    round((row["f1"] + row["f2"] + row["f3"]) / 3, 2)
-    for row in samples
-]
-
-print("original samples:", samples)
-print("1D summary      :", reduced)
-```
-
-The result is as follows.
-
-```text
-original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3': 3.9}, {'f1': 6.0, 'f2': 5.8, 'f3': 6.2}]
-1D summary      : [2.1, 4.0, 6.0]
-```
-
-What the reader should read from this example is:
-
-1. Once three axes are reduced into one, the overall flow becomes easier to inspect.
-2. But the detailed differences among `f1`, `f2`, and `f3` are pressed into the summary value.
-3. So simplification and information loss arrive together.
+  - visualization or a summary axis is an easier-to-read representation
+  - an easier-to-read representation does not fully replace the original structure
 
 ### Change One Value: The Original Pattern Can Differ Even When The Summary Is The Same
 
@@ -513,41 +348,16 @@ original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3
 
 The summary value of the third sample is still `6.0`, but now the three axes are not uniformly large because `f3` is relatively lower. If you look only at the summary value, this seems like the same conclusion as before, but if you go back to the original features, the sample pattern is not actually the same. That difference is exactly why reduced plots or summary axes must always be read in a back-and-forth movement with the original features.
 
-### How Does This Exercise Recover The Goal Of Part 4?
+## Checklist
 
-Part 4 is not only about how to read one model output. It is also the stage for learning how to judge what becomes visible and what becomes hidden when the representation itself changes. This exercise keeps together `the structure that became easier to see after compression` and `the axis-level differences that disappeared because of compression`, so dimensionality reduction is read as an interpretation tool rather than a simple visualization technique. If the learner does not feel the Part goal here, the missing piece is usually not more PCA formula. It is the practical scene `the summary value can stay the same even while the original pattern differs`.
-
-| Shared recording language | What to record immediately in this exercise |
-| --- | --- |
-| What structure appeared | If only a one-dimensional summary is seen, different samples can look like they occupy the same place |
-| Interpretation boundary | A reduced plot or summary axis does not preserve every difference from the original features |
-| Next question | Does the same separation remain in the original feature space or under another projection method? |
-
-## What To Remember From This Section
-
-- Dimensionality-reduction visualization is a tool for making high-dimensional structure easier to inspect.
-- But compression into fewer axes introduces information loss and distortion.
-- Distance in a 2D figure can differ from distance in the original high-dimensional space.
-- Lumps in the figure can suggest structure hypotheses, but they are not themselves the correct answer or evidence.
-- Dimensionality-reduction results should be read as tools for exploration and explanation, then checked again through original data and follow-up review.
-
-| What should be looked at together | The question read first in this Section | Where it goes immediately next |
-| --- | --- | --- |
-| Visible structure | What split or lump appeared first in the figure? | Organizing cluster and outlier hypotheses |
-| Interpretation boundary | How far should that structure be trusted, and where should reading stop? | Review of original features and comparison with other visualization methods |
-| Next verification question | What additional checking is needed to keep or reject the hypothesis? | Follow-up model evaluation and original-data reinspection |
-
-## Short Check
-
-- Are you reading distance in a 2D picture as if it were the same thing as distance in the original high-dimensional space?
-- Are you sending a structure that looks like a lump directly into cluster or policy judgment without further review?
-- Are you using visualization as an exploration tool and comparing it again with original features and other methods?
-
-## When Should This View Come To Mind First?
-
-- When a 2D figure looks so clear that you want to conclude immediately, recall first the possibility of projection distortion and information loss.
-- When you need to doubt whether points that look close are also close in the original space, separate high-dimensional distance from visual distance again.
-- When clustering results and reduced plots are read together and illusion can grow stronger, bring back the boundary that visualization should remain only a hypothesis-generation tool.
+- Do you understand that a dimensionality-reduction plot is useful for exploring structure and for explanation, but that an easy-to-view figure does not automatically mean preserved structure?
+- Are you reading distance in a 2D figure as if it were the same as distance in the original high-dimensional space?
+- Can you explain that PCA preserves large overall variation first, while t-SNE and UMAP place more weight on nearby-neighbor structure?
+- Are you passing visible lumps or outlier candidates directly into policy judgment without follow-up review?
+- Can you explain that reconstruction error asks `how much can be rebuilt`, while trustworthiness asks `how much can we trust nearby-neighbor relations`?
+- Are you distinguishing whether the current check you need is `rebuildability` or `preservation of nearby relations`?
+- Are you reading a dimensionality-reduction plot as the starting point of follow-up review rather than as a final conclusion?
+- Are you prepared to recheck the visible structure through original features, other methods, or other axis counts?
 
 ## Sources And References
 

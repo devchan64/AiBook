@@ -1,7 +1,7 @@
 # P2-2.1 Rereading Variables, Functions, and Expressions
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-1.2, we established the perspective that formulas, code, and data are different ways of showing the same computation. Now we recover the basic notation that appears first whenever you read a formula.
 
@@ -296,7 +296,7 @@ Variables, functions, and expressions are basic notation in mathematics, but in 
 
 When you read these three, you always return to code and data. That means checking together what value this variable actually is, what the function takes as input and produces as output, what the expression compares or computes, and in what type and shape it appears in code.
 
-## Short Check
+## Checklist
 
 - Can you explain a variable as a name attached to a value or data?
 - Can you explain a function as a relationship that turns input into output?
@@ -304,12 +304,7 @@ When you read these three, you always return to code and data. That means checki
 - Can you read `y = f(x)` as the basic structure of AI model execution?
 - Can you explain that code variables and mathematical variables are similar, but differ in type, shape, and reassignment?
 - Can you explain that you should not trust variable names alone, but also check meaning, type, and shape?
-
-## When Should You Recall This Perspective First?
-
-- When, even after seeing one line of notation, you still cannot separate what is a value and what is a relationship
-- When you keep reading `y = f(x)` only as an old function problem and not as model execution structure
-- When you are about to rely on the variable name alone and skip checking the value's meaning, type, and shape
+- Can you check together the value's meaning, the input/output relation, and the type and shape in code when reading variables, functions, and expressions?
 
 ## Sources and References
 

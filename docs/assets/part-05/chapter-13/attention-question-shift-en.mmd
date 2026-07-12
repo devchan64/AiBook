@@ -1,0 +1,13 @@
+flowchart TD
+  A["same input: restart was delayed. pressure was unstable."]
+
+  subgraph Q1["question 1: why was it delayed?"]
+    B["more weight on pressure and unstable"]
+  end
+
+  subgraph Q2["question 2: what was delayed?"]
+    C["more weight on restart and delayed"]
+  end
+
+  A --> B
+  A --> C

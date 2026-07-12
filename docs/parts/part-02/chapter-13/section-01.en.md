@@ -1,7 +1,7 @@
 # P2-13.1 What Does a Plot Reveal?
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In Part 2 Chapter 11, we checked calculations with NumPy arrays. In Part 2 Chapter 12, we read tabular data with a Pandas `DataFrame`. Now we look at the same numbers as pictures.
 
@@ -330,19 +330,14 @@ That is why this section explains plots not as decoration but as tools for askin
 
 The checkable result becomes clearer when you draw the same data as a line plot. If it becomes easier than with the table to see whether the loss is generally falling, whether it wobbles at a specific epoch, and where the values are concentrated, then the reason to draw the plot becomes clear.
 
-## Short Check
+## Checklist
 
 - Can you explain what kinds of questions tables and plots are each strong at?
 - Can you explain that trend, relationship, distribution, and outliers can be checked with plots?
 - Can you state the difference between `Figure` and `Axes` intuitively?
 - Can you say what questions line plots, scatter plots, bar charts, and histograms are often used for?
 - Can you check axis meaning, point meaning, hidden range, and over-interpretation when reading a plot?
-
-## When Should You Recall This Perspective First?
-
-- Recall the plot perspective first when change, relationship, distribution, or outliers do not appear clearly from a table alone and need visual checking.
-- Return to the comparison standard of this section when you need to explain that some questions are answered more directly by plots than by tables.
-- Check this section again when you need to inspect axis meaning, points, range, and the risk of over-interpretation while reading a plot.
+- Can you remember that a plot is the starting point of judgment and does not automatically prove a cause or conclusion?
 
 ## Sources and References
 

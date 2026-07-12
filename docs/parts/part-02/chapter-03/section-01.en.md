@@ -1,7 +1,7 @@
 # P2-3.1 Scalar, Vector, and Matrix
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 Part 2 Chapter 2 reread mathematical notation. Variables, functions, expressions, sigma, and limits were the basic grammar for reading what a formula is saying. From here, we move to the basic expressions of linear algebra that appear often when AI data is turned into a calculable shape.
 
@@ -371,15 +371,7 @@ X =
 
 What matters in this example is not the calculation but the reading method. One value is a scalar, one student’s bundle of features is a vector, and several students’ bundles of features are a matrix.
 
-## Perspective to Keep from This Section
-
-Scalar, vector, and matrix are terms from linear algebra, but in an introduction to AI they are first understood as the language for reading data shape. A scalar is one number, a vector is an ordered list of numbers, and a matrix is a numeric array with rows and columns.
-
-AI models calculate by turning data into numeric arrays. So learning linear algebra is not only learning mathematical symbols. It is preparation for reading how a model receives and processes data in a particular shape.
-
-If we compress the flow of this section into one sentence, AI takes real-world objects, summarizes them as one number, expresses them through several numbers, gathers several such expressions together, and then calculates the positions and relationships among those expressions.
-
-## Short Check
+## Checklist
 
 - Can you explain a scalar as one number?
 - Can you explain a vector as an ordered list of values?
@@ -390,12 +382,8 @@ If we compress the flow of this section into one sentence, AI takes real-world o
 - Can you explain why scalar, vector, and matrix reappear in embedding, feature, batch, loss, and parameters?
 - Can you explain that vectors and matrices with the same shape can be added position by position, and that scalar multiplication multiplies the same number into each value?
 - Can you explain the flow of thinking that extends from scalar to vector, matrix, and position comparison?
-
-## When Should You Recall This Perspective First
-
-- When one number, a list of values, and a row-and-column structure start to look mixed together as if they were the same kind of data
-- When your sense of shape keeps breaking while reading the shape of `X`, the number of samples, and the number of features
-- When you need to reconnect why embeddings, feature vectors, and batch inputs are all explained in the same linear algebra language
+- Can you explain scalar, vector, and matrix both as linear algebra terms and as the language for reading data shape?
+- When the shape of `X`, the number of samples, and the number of features become mixed up, can you separate them again through shape intuition?
 
 ## Sources and References
 

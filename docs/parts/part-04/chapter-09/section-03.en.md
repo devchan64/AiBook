@@ -1,7 +1,7 @@
 # P4-9.3 Supplementary Learning: Reading The Big Picture Of Advanced Model Selection, Tuning Automation, And Experiment Tracking
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-8 and P4-9 established the basic flow of setting model candidates, placing a baseline, and comparing hyperparameters inside a validation procedure. After that, the following names usually appear.
 
@@ -164,28 +164,16 @@ The confirmable result appears immediately in whether the record items remain. I
 --8<-- "assets/part-04/chapter-09/p4-9-3-mermaid-01-en.mmd"
 ```
 
-## Perspectives To Remember In This Section
-
-- AIC/BIC is the language of statistical model selection.
-- Bayesian optimization and Hyperband are the language of reducing search cost.
-- nested cross-validation is the language of making the separation between selection and evaluation stricter.
-- AutoML, benchmarks, leaderboards, and experiment tracking are the language of operating experiments at a larger scale.
-
-## Quick Check
+## Checklist
 
 - Are AIC/BIC, search techniques, AutoML, and tracking kept from being mixed as if they were solutions at the same level?
 - Are you distinguishing whether what is needed now is wider search, stricter validation separation, or better record-keeping?
 - Are you looking not only at a high leaderboard score, but also at the comparison conditions and the possibility of keeping records?
-
-## When Should This Perspective Be Brought To Mind First?
-
-- Bring this Section to mind when you need to check whether AIC/BIC, search techniques, nested cross-validation, AutoML, leaderboards, and tracking are being mixed as tools at the same level.
-- Return to this Section when you need to distinguish whether the current bottleneck is wider search, stricter separation of selection and evaluation, or a better recording system.
-- This Section becomes the criterion when you need to look at not only high scores, but also the comparison conditions and reproducibility records together.
-
 - Can you avoid mixing AIC/BIC and hyperparameter tuning as problems at the same level?
 - Can you avoid treating benchmark rankings and real generalization performance as immediately identical?
 - Can you explain why experiment tracking is not `a convenience feature`, but part of reproducibility?
+- Can you explain that AIC/BIC is the language of statistical model selection, while Bayesian optimization and Hyperband are the language of reducing search cost?
+- Can you explain that nested cross-validation is the language of making selection and evaluation separation stricter, while AutoML, benchmarks, leaderboards, and experiment tracking are the language of operating experiments at a larger scale?
 
 ## Sources And References
 

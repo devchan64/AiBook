@@ -1,7 +1,7 @@
 # P2-11.1 Building Vectors and Matrices with NumPy Arrays
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Part 2 Chapter 3 introduced scalars, vectors, and matrices through mathematical notation and small code examples. Part 2 Chapter 8 looked at Python lists and dictionaries, Part 2 Chapter 9 distinguished arrays, tables, trees, and graphs as different data-structure viewpoints, and Part 2 Chapter 10 organized notebooks as rerunnable learning records.
 
@@ -406,25 +406,7 @@ This case also shows why `shape` must be checked before values. Even with the sa
 
 In other words, an introduction to NumPy is less about memorizing new syntax than about `practicing how to read real data in computable shapes`. You need this intuition so that feature matrices and weight calculations after Part 3 feel less unfamiliar.
 
-## Perspective to Remember in This Section
-
-NumPy arrays are structures for arranging numbers in a fixed shape and calculating with them.
-
-Python lists and NumPy arrays can look similar, but their meaning in computation can differ.
-
-Vectors can be read as one-dimensional arrays, and matrices can be read as two-dimensional arrays.
-
-`shape` is the grammar of array computation.
-
-In AI practice, inputs, features, weights, and outputs can all appear as array shapes.
-
-After reading this Section, the following flow should continue naturally.
-
-| Handle from the current chapter | What you inspect more in the next chapters | What you leave as a record at the end |
-| --- | --- | --- |
-| Read computable numeric shapes and `shape` | Check and interpret those numeric shapes as tables and plots | Leave a record through Git so that the arrays and interpretations used can be explained again |
-
-## Short Check
+## Checklist
 
 - You can explain the difference in purpose between a Python list and a NumPy array.
 - You can build vectors and matrices with `np.array()`.
@@ -432,12 +414,7 @@ After reading this Section, the following flow should continue naturally.
 - You can distinguish a one-dimensional array from a two-dimensional array.
 - You can read a matrix in the form `(number of samples, number of features)`.
 - You can explain the input and output shapes in a small calculation such as `features @ weights`.
-
-## When Should This Perspective Come to Mind First?
-
-- When Python lists are no longer enough to read the computation structure and you need to handle data in units of vectors and matrices, call up the NumPy-array perspective first.
-- When you need to start reading a dataset by shape such as `(number of samples, number of features)`, return to the array intuition of this Section.
-- When you need to explain how a simple linear-algebra calculation changes depending on the shape of inputs and outputs, check this Section again.
+- You can explain that NumPy arrays arrange numbers in fixed shapes for calculation, and that `shape` works like the grammar of array computation.
 
 ## Sources and References
 

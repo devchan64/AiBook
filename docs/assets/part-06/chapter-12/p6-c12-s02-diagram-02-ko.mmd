@@ -1,10 +1,10 @@
 flowchart LR
-  A["natural language request"]
-  B["structured call<br/>name + arguments"]
-  C["validation<br/>missing fields?"]
-  D["ready to execute"]
-  E["needs clarification or retry"]
+  A["자연어 요청"]
+  B["구조화된 호출<br/>이름 + 인자"]
+  C["검증<br/>누락된 필드가 있는가?"]
+  D["실행 준비 완료"]
+  E["추가 확인 또는 재시도 필요"]
 
   A --> B --> C
-  C -->|valid| D
-  C -->|invalid| E
+  C -->|유효| D
+  C -->|무효| E

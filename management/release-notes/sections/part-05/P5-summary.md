@@ -7,9 +7,9 @@
 
 - 변경 이유: 메타형 연결 예고 표지가 현재 절 이해보다 집필 순서를 먼저 드러내고 있었음.
 - 본문 반영: 집필 순서만 예고하는 `다음 ... 연결` 계열 표지를 제거했다. 본문 메타데이터 버전도 함께 갱신했다.
-- 번역 동기화 메모: 대응 번역본이 생기면 같은 메타 표지 제거와 단일 checklist 구조를 함께 반영해야 한다.
-- 번역 반영 상태: 향후 번역 반영 필요
-- 관련 자산: 없음
+- 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 현재 checklist 구조, Part 5 마무리 페이지의 최신 복습 흐름을 반영했다. 추가로 중국어 공개 본문이 `part5-recap-flow-zh.mmd`를 직접 참조하도록 자산 운영을 현재 차트 가이드라인에 맞췄다. / reflected in English and Simplified Chinese on 2026-07-12, with the Simplified Chinese page now referencing its own `-zh` Mermaid asset
+- 번역 반영 상태: 영어 번역 반영, 중국어 간체 번역 반영
+- 관련 자산: `docs/assets/part-05/part5-recap-flow-en.mmd`, `docs/assets/part-05/part5-recap-flow-ko.mmd`, `docs/assets/part-05/part5-recap-flow-zh.mmd`
 - 원문 기준 버전: `v2026.07.12`
 
 ### v2026.07.07-1
@@ -47,3 +47,19 @@
 - 번역 반영 상태: not-started
 - 관련 자산: `docs/assets/part-05/part5-recap-flow-en.mmd`, `docs/assets/part-05/part5-recap-flow-ko.mmd`
 - 원문 기준 버전: `v2026.07.11-2`
+
+### v2026.07.12-diagram
+- 변경 이유: Part 5 마무리 페이지의 한국어 복습 도식에 `attention`, `Transformer` 영문 라벨이 남아 있어 본문 언어 일치 원칙과 어긋났다.
+- 자산 반영: `part5-recap-flow-ko.mmd`의 구조 분기 문구를 `CNN, RNN, 어텐션, 트랜스포머로 구조가 갈라진다`로 정리했다.
+- 번역 동기화 메모: The Korean recap diagram now localizes the remaining attention/Transformer labels while preserving the same summary flow. Future translations should keep language-specific recap assets synchronized by meaning rather than mixed labels.
+- 번역 반영 상태: 향후 번역 반영 필요
+- 관련 자산: `docs/assets/part-05/part5-recap-flow-ko.mmd`
+- 원문 기준 버전: `v2026.07.12`
+
+### v2026.07.12-zh-link
+- 변경 이유: 중국어 마무리 페이지가 아직 존재하지 않는 중국어 개념사전 상대경로를 가리켜 MkDocs 다국어 빌드 경고를 만들고 있었다.
+- 번역 반영: `summary.zh.md`의 개념사전 복귀 링크를 상대경로 `concept-glossary.md`에서 언어 전환이 명시된 영어 개념사전 절대경로 `/AiBook/en/reference/concept-glossary/`로 바꿨다.
+- 번역 동기화 메모: The Simplified Chinese summary page now uses an explicit language-switch link to the English glossary because a Chinese glossary page is not available yet. If a Chinese glossary is added later, this link should be redirected to the same-language page.
+- 번역 반영 상태: 중국어 간체 번역 반영
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.12`

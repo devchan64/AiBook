@@ -1,7 +1,7 @@
 # P2-8.5 Functions and Small Reuse
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-8.1, we looked at values, variables, and types. From P2-8.2 to P2-8.4, we looked at ways of handling multiple values through lists, dictionaries, and loops.
 
@@ -18,19 +18,6 @@ Rather than memorizing all function syntax, this section builds the sense of how
 In a more general sense, a function is a way to bundle `input, process, and output` into one unit. Python syntax is one way of expressing that unit, and the same perspective continues into mathematical functions, model functions, API functions, and library functions.
 
 Rather than learning advanced function features here, we bundle the loops and data-structure handling from the previous sections into small reusable units. If we previously read lists, dictionaries, and loops separately, here we move to the point where that processing flow is given a name so that it can be used again. If we grab this handle first, then later, when reading library functions or model APIs, it becomes easier to read the `input-process-output contract` before the `syntax`.
-
-## Flow to Hold First in This Section
-
-- If values and bundles of values were processed through repetition, now we give that processing a name and reuse it.
-- A function makes the boundary `input -> process -> output` clearer.
-- `print` shows something, while `return` passes a result into the next calculation.
-- Small functions become the standard for reading library functions and API functions that appear later.
-
-| What to fix in this section now | Question that follows immediately | Where it reappears later |
-| --- | --- | --- |
-| The fact that a function turns repeated handling into a named reusable unit | It leads into how to read input/output contracts in later supplementary learning and library APIs. | It repeats throughout all later Python examples, data preprocessing, and model-calling code. |
-| The fact that a function separates the boundaries of input, process, and output | It makes it clearer why `parameter`, `argument`, and `return` are distinguished separately. | It stays important later in designing model functions, evaluation functions, and utility functions. |
-| The fact that `print` and `return` play different roles | It leads into how to distinguish visible output from a result passed into the next calculation. | It returns later in debugging, writing reusable code, and reading library functions. |
 
 | Term | Meaning to fix first in this section |
 | --- | --- |
@@ -531,26 +518,6 @@ This is exactly the point where a function becomes necessary. If we bundle input
 
 The confirmable result appears in the number of places that need editing. If changing the normalization standard requires editing only one function and all calling results change together, then the reuse structure is better organized than simple copied repetition.
 
-## Perspective to Keep from This Section
-
-Functions are not decorative tools for making code look nicer. They are tools for giving names to repeated handling and making inputs and outputs clear.
-
-Mathematical functions help us understand the relation between input and output. Python functions let us execute and reuse that relation in real code.
-
-In a more general sense, a function is a boundary that breaks a complex task into smaller parts. If the function that handles one piece of data, the code that repeats over many pieces of data, and the function that evaluates the result are separated, later project code becomes easier to read.
-
-If we bundle it again into the flow of the previous sections, we start from handling `values and variables`, gather many values through `lists and dictionaries`, apply the same handling several times through `loops`, and now organize that handling itself into a named unit called a `function`.
-
-The core of this section is the following.
-
-- A function gives a name to a piece of processing.
-- A parameter is the name of a value the function will receive.
-- An argument is the actual value inserted when the function is called.
-- `return` gives back the result that will be used in the next calculation.
-- Because Python functions are objects, they can be stored in variables or passed as arguments to other functions.
-- A method can be read as a function-like form that is called while attached to an object.
-- Small functions make the inputs and outputs of repeated data processing clearer.
-
 ## Practice and Examples
 
 The following small exercises are enough to recheck the core of this section.
@@ -559,7 +526,7 @@ The following small exercises are enough to recheck the core of this section.
 - Make one function that only uses `print()` and another that uses `return`, and compare the difference in results.
 - Separate a function that cleans one string and a function that checks whether it is empty, and then filter several texts.
 
-## Short Check
+## Checklist
 
 - You can read a function definition that starts with `def`.
 - You can distinguish parameter and argument.
@@ -569,12 +536,7 @@ The following small exercises are enough to recheck the core of this section.
 - You can explain that a Python function can be stored in a variable and passed as an argument to another function.
 - You can explain the difference in calling shape between a function and a method.
 - You can explain that a function name should reveal the intention of the code.
-
-## When Should You Recall This Perspective First
-
-- Recall it when the same processing code is repeated across several cells or many lines, and it needs to be separated into a small reusable unit.
-- Recall it when you need to reconnect that mathematical functions, Python functions, and library functions all continue through the same input-process-output contract.
-- Recall it when you are confusing `print` and `return`, and need to separate visible output from the result passed into the next calculation.
+- You can explain why a function turns repeated handling into a named reusable unit.
 
 ## Sources and References
 

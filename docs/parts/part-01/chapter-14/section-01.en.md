@@ -1,7 +1,7 @@
 # P1-14.1 Model, Application, Data, and Tool
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Chapter 13 covered embeddings, similarity search, RAG, and the intuition behind vector search implementation. That flow creates an important shift:
 
@@ -209,35 +209,6 @@ If we simplify an AI service further, we get a structure like this:
 
 This diagram does not show every detail of a real system, but it is enough to connect the roles of the components at a glance.
 
-## The View to Keep from This Section
-
-An AI service is not only a model. The model is important, but the service becomes usable only when application, data, tools, and orchestration are added around it.
-
-> the model handles generation and judgment  
-> the application shapes user experience and flow  
-> data provides evidence and state  
-> tools execute actions outside the model  
-> orchestration connects these parts in order and under conditions
-
-If this view is fixed, the next section can read RAG and tool use more precisely inside the service structure.
-
-After reading this section, the following four distinctions should remain stable:
-
-| Core distinction to keep | Where it returns later |
-| --- | --- |
-| the model is a computation component for generation and judgment | model behavior and evaluation sections in Part 5 |
-| data provides evidence material and state information | RAG and tool-use sections in P1-14.2 and RAG sections in Part 5 |
-| tools are the connection method that really executes systems outside the model | P1-14.2, P1-14.3, and tool-use/agent sections in Part 5 |
-| service quality depends not on the model alone, but on the whole connection structure | P1-14.3 to P1-14.6 and the project-recording section in Part 6 |
-
-## When to Recall This View First
-
-- when it starts to look as if improving model performance alone would make the whole service better
-- when you need the service-component map first before reading RAG, tool use, or agents
-- when responsibilities for the app, data, tools, and flow control look mixed together in one sentence
-
-At that point, first separate `model`, `application`, `data`, `tool`, and `flow control`. That reduces the mistake of treating the chatbot experience as if it were the entire service structure.
-
 ## Checklist
 
 - You can explain an AI service not as one `model`, but as a combination of application, data, tools, and flow.
@@ -246,6 +217,7 @@ At that point, first separate `model`, `application`, `data`, `tool`, and `flow 
 - You can explain a tool as the connection path that executes systems outside the model.
 - You can explain that the model does not directly execute every action, and that the application and server code wrap the execution flow.
 - You can distinguish that RAG is one way of connecting data to the model, while tool use is the way of connecting outside actions.
+- You can separate `model`, `application`, `data`, `tool`, and `flow control` so the chatbot experience is not mistaken for the whole service structure.
 
 ## Sources and Further Reading
 

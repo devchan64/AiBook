@@ -1,7 +1,7 @@
 # P2-10.1 Why Are Notebooks Useful for Learning?
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Part 2 Chapter 7, we separated where Python is executed, including the terminal, shell, interpreter, script, and virtual environment. In Part 2 Chapters 8 and 9, we recovered Python syntax and data structures through small examples.
 
@@ -306,21 +306,7 @@ If you then attach an interpretation such as `The two samples have different val
 
 This method continues later in machine-learning practice too. Rather than trying to complete data preparation, model learning, evaluation, and interpretation all at once, confirm small questions cell by cell.
 
-## Perspectives to Remember from This Section
-
-Notebooks are both code-execution tools and learning-record documents.
-
-Code cells execute computation.
-
-Markdown cells leave questions and interpretation.
-
-Output lets results be checked immediately.
-
-Notebooks are useful for exploration and learning, but execution order and hidden state must be watched carefully.
-
-When repeated execution and reuse become important, a judgment is needed to separate code into scripts or modules.
-
-## Short Check
+## Checklist
 
 - You can explain a notebook as a computational document containing code, explanation, and output together.
 - You can distinguish a code cell and a markdown cell.
@@ -328,12 +314,7 @@ When repeated execution and reuse become important, a judgment is needed to sepa
 - You can explain that cell execution order can affect the result.
 - You can explain that a notebook does not completely replace scripts.
 - You can leave question, code, output, and interpretation together in a learning notebook.
-
-## When Should You Recall This Perspective First?
-
-- Recall the notebook perspective first when you want to learn while leaving code and explanation, output and interpretation together in one place.
-- Return to the recording format of this Section when a single script is not enough to leave the trace of learning and the context of experiments.
-- Check again here when organizing mathematics, Python, and AI practice where cell execution order and result interpretation become important together.
+- You can explain notebooks both as execution tools and as learning-record documents.
 
 ## Sources and References
 

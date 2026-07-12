@@ -136,6 +136,12 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 학습 로그에서 손실이 조금씩 내려가고 있다고 해 보겠습니다. 사람은 보통 `방향은 맞으니 더 오래 돌리면 되겠다`고 판단하기 쉽습니다. 하지만 몇 시간 동안 검증 성능이 거의 움직이지 않는다면, 실제 문제는 gradient의 방향보다 업데이트 보폭이 지나치게 작은 데 있을 수 있습니다. 이때 optimizer는 같은 방향 신호를 받아도 학습률이 너무 작거나 규칙이 너무 보수적이면 파라미터를 거의 못 움직입니다. 즉, `내려가고 있다`는 표면만으로는 충분하지 않고, `실용적인 속도로 실제 위치가 바뀌고 있는가`를 함께 봐야 합니다. 이 차이는 손실 곡선이 완만하게만 내려가고, 같은 시간 대비 검증 성능 개선이 거의 없다는 결과로 드러납니다. 그래서 이 사례에서 확인해야 할 결과는 손실이 줄고 있다는 사실만이 아니라, 같은 학습 시간 안에 검증 성능도 실제로 따라 올라오는가입니다.
 
+| 사람이 먼저 보기 쉬운 기준 | optimizer 관점으로 다시 읽는 기준 |
+| --- | --- |
+| 방향이 맞으니 오래 돌리기만 하면 된다 | 같은 gradient라도 학습률이 너무 작으면 실제 이동이 거의 없을 수 있다 |
+| 손실이 조금씩 줄면 설정도 괜찮다고 느끼기 쉽다 | 업데이트 보폭이 실용적으로 충분한지 따로 봐야 한다 |
+| 느린 학습은 데이터나 모델 문제라고만 생각하기 쉽다 | update rule과 learning rate가 병목일 수 있다 |
+
 ### 사례 2. 손실이 계속 흔들리는 경우
 
 반대로 손실이 내려가다가 다시 튀고, 한 배치에서는 좋아졌다가 다음 배치에서는 다시 나빠지는 경우도 있습니다. 사람은 이 장면을 보면 `모델이 전혀 못 배우는 것 아닌가`라고 느끼기 쉽습니다. 하지만 실제로는 내려가는 방향은 잡았는데 한 번에 너무 크게 움직여 좋은 지점을 계속 지나치는 경우가 많습니다. 이때는 gradient가 쓸모없어서가 아니라 학습률이 너무 크거나 optimizer 설정이 현재 문제에 비해 거칠어서 업데이트가 과격해진 것입니다. 즉, 사람이 보는 표면 현상은 `불안정한 손실`이지만, 구조적으로는 `방향을 알고도 보폭이 커서 흔들리는 상황`일 수 있습니다. 이 차이를 보면 손실 곡선이 들쭉날쭉하고 검증 성능도 안정적으로 쌓이지 않는 결과로 나타납니다. 그래서 이 사례에서 확인해야 할 결과는 학습이 아예 안 되는지보다, 업데이트 보폭이 커서 좋은 지점을 반복해서 지나치고 있는가입니다.
@@ -144,71 +150,122 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 모델이 커지면 사람은 `가중치가 많아졌을 뿐이니 같은 방식으로 업데이트하면 되지 않을까`라고 생각하기 쉽습니다. 하지만 실제 큰 모델에서는 어떤 층은 아주 민감하게 반응하고, 어떤 층은 거의 움직이지 않으며, gradient 스케일도 고르게 맞지 않는 경우가 많습니다. 이 상태에서 단순한 업데이트 규칙만 고수하면 일부 층은 과하게 흔들리고 다른 층은 거의 학습되지 않을 수 있습니다. 그래서 큰 모델에서는 `가중치 수`보다 `파라미터마다 움직임의 성격이 다르다`는 점이 더 중요하고, 더 정교한 optimizer가 실무적으로 자주 선택됩니다. 결과적으로 같은 학습 시간 안에서도 어떤 설정은 안정적으로 수렴하고, 어떤 설정은 일부 층만 불안정하게 흔들리는 차이로 드러납니다. 그래서 이 사례에서 확인해야 할 결과는 모델이 커질수록 모든 층이 비슷하게 배우는지가 아니라, 일부 층만 과하게 흔들리거나 멈추지 않고 전체 업데이트가 더 균형 있게 진행되는가입니다.
 
+세 사례를 같이 놓고 보면 optimizer를 `업데이트 함수`보다 `학습 동역학을 읽는 기준`으로 보는 이유가 더 분명해집니다.
+
+| 장면 | 사람이 먼저 보기 쉬운 결과 | optimizer 관점에서 실제로 구분해야 할 것 | 바로 다음에 확인할 것 |
+| --- | --- | --- | --- |
+| 손실은 줄지만 너무 느린 학습 | 방향은 맞으니 더 오래 돌리면 된다고 보기 쉽습니다. | 같은 gradient라도 보폭이 너무 작아 실제 이동이 거의 없을 수 있습니다. | 같은 시간 대비 검증 성능이 실제로 따라오고 있는지 봅니다. |
+| 손실이 계속 흔들리는 학습 | 모델이 아예 못 배우는 것으로 보기 쉽습니다. | 방향은 있어도 보폭이 너무 커 좋은 지점을 반복해서 지나치고 있을 수 있습니다. | 손실 진동이 `학습 실패`인지 `과한 update`인지 구분해 봅니다. |
+| 큰 모델 학습 | 가중치 수만 많아졌을 뿐 같은 방식으로 업데이트하면 된다고 보기 쉽습니다. | 층별 gradient 스케일과 update 안정성이 다를 수 있어 더 정교한 규칙이 필요할 수 있습니다. | 일부 층만 과하게 흔들리거나 거의 멈추지 않는지 봅니다. |
+
+세 사례를 한 번에 다시 압축하면, optimizer를 읽는 첫 흐름은 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-07/optimizer-step-bridge-ko.mmd"
+```
+
+이 도식은 느린 학습, 흔들리는 학습, 큰 모델 학습을 따로 다시 설명하려는 것이 아니라, 세 사례가 공통으로 보여 준 `같은 gradient라도 update rule과 보폭이 실제 결과를 바꾼다`는 흐름을 한 번에 다시 붙잡기 위한 것입니다.
+
 ## 연습 및 예제
 
 이번 예제의 목표는 gradient 계산과 실제 update를 분리해서 보는 것입니다. 한 번의 업데이트뿐 아니라 여러 learning rate를 같이 비교해, gradient는 같아도 실제 이동 폭이 크게 달라질 수 있음을 눈으로 확인합니다.
 
 입력:
 
-- 현재 가중치 `w`
-- 입력 `x`
-- 목표값 `target`
+- 현재 위험 가중치 `risk_weight`
+- 압력 미복귀 정도 `pressure_unrecovered`
+- 목표 차단 점수 `target_block_score`
 - 학습률 `learning_rate`
 
 출력:
 
-- 예측값
+- 예측된 차단 점수
 - 손실
 - gradient
 - learning rate별 업데이트 후 가중치
+- 업데이트 뒤 목표값에 더 가까워지는 정도 비교
 
 문제 상황:
 
-- learning rate는 gradient 자체를 바꾸지 않지만, 같은 gradient라도 가중치 이동 폭을 크게 바꾼다
+- learning rate는 gradient 자체를 바꾸지 않지만, 같은 gradient라도 위험 가중치 이동 폭을 크게 바꾼다
+- 너무 큰 learning rate는 좋은 방향을 알고도 지나칠 수 있으므로 결과를 함께 비교해야 한다
 
 확인할 개념:
 
 - learning rate는 업데이트 크기를 조절하는 배율이다
 - 같은 gradient라도 학습률 설정에 따라 이동 폭과 학습 안정성이 달라질 수 있다
+- update 뒤 예측이 목표에 얼마나 가까워졌는지를 같이 봐야 한다
 
 입력(input):
 
-위에 정리한 `x`, `target`, 초기 가중치 `w`와 여러 learning rate를 사용합니다.
+위에 정리한 `pressure_unrecovered`, `target_block_score`, 초기 가중치 `risk_weight`와 여러 learning rate를 사용합니다.
+
+코드를 보기 전에 먼저 어느 learning rate가 `한 번의 update 뒤` 목표 차단 점수 6.0에 가장 가까워질지 예상해 보면 좋습니다.
+
+| learning rate | 먼저 예상해 볼 비교 | 예상 이유 |
+| --- | --- | --- |
+| `0.01` | 너무 조금만 움직일 가능성 | gradient 방향은 맞아도 보폭이 작아 목표에 덜 가까워질 수 있습니다. |
+| `0.1` | 비교적 적절할 가능성 | 한 번의 이동으로 의미 있게 가까워지되 지나치지 않을 수 있습니다. |
+| `0.5` | 지나칠 가능성 | 같은 방향이라도 너무 크게 움직여 목표를 넘어설 수 있습니다. |
+
+이 표의 목적은 `같은 gradient`와 `다른 update 결과`를 분리해서 읽는 것입니다.
 
 ```python
-x = 2.0
-target = 6.0
-w = 1.0
-prediction = x * w
-loss = (prediction - target) ** 2
-gradient_w = 2 * (prediction - target) * x
+pressure_unrecovered = 2.0
+target_block_score = 6.0
+risk_weight = 1.0
+prediction = pressure_unrecovered * risk_weight
+loss = (prediction - target_block_score) ** 2
+gradient_risk_weight = 2 * (prediction - target_block_score) * pressure_unrecovered
 
-print("prediction =", round(prediction, 3))
+print("predicted_block_score =", round(prediction, 3))
 print("loss =", round(loss, 3))
-print("gradient_w =", round(gradient_w, 3))
+print("gradient_risk_weight =", round(gradient_risk_weight, 3))
 for lr in [0.01, 0.1, 0.5]:
-    updated_w = w - lr * gradient_w
-    print("lr =", lr, "-> updated_w =", round(updated_w, 3))
+    updated_risk_weight = risk_weight - lr * gradient_risk_weight
+    updated_prediction = pressure_unrecovered * updated_risk_weight
+    updated_loss = (updated_prediction - target_block_score) ** 2
+    print(
+        "lr =", lr,
+        "-> updated_risk_weight =", round(updated_risk_weight, 3),
+        ", updated_block_score =", round(updated_prediction, 3),
+        ", updated_loss =", round(updated_loss, 3),
+    )
 ```
 
-출력에서는 prediction, loss, gradient_w를 먼저 보고, learning rate마다 updated_w가 얼마나 달라지는지 이어서 보면 됩니다.
+출력에서는 `predicted_block_score`, `loss`, `gradient_risk_weight`를 먼저 보고, learning rate마다 `updated_risk_weight`가 얼마나 달라지는지 이어서 보면 됩니다.
 
 ```text
-prediction = 2.0
+predicted_block_score = 2.0
 loss = 16.0
-gradient_w = -16.0
-lr = 0.01 -> updated_w = 1.16
-lr = 0.1 -> updated_w = 2.6
-lr = 0.5 -> updated_w = 9.0
+gradient_risk_weight = -16.0
+lr = 0.01 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
+lr = 0.1 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
+lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
 ```
 
-즉, 같은 gradient라도 optimizer 설정에 따라 실제 이동 폭은 크게 달라집니다.
+즉, 같은 gradient라도 optimizer 설정에 따라 실제 이동 폭은 크게 달라집니다. 운영 판단 관점으로 읽으면, 같은 `압력 미복귀 위험` 신호라도 learning rate에 따라 `조금 더 위험하게 읽는 보정`, `거의 맞는 수준의 보정`, `과하게 차단 쪽으로 튀는 보정`이 갈린다는 뜻입니다.
 
 이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 
-- gradient는 그대로인데 결과는 달라질 수 있습니다.
+- `gradient_risk_weight`는 그대로인데 결과는 달라질 수 있습니다.
 - 달라지는 이유는 학습률과 업데이트 규칙이 다르기 때문입니다.
+- `0.1`은 목표에 가까워졌지만 `0.5`는 방향은 맞아도 너무 크게 움직여 오히려 손실을 키웠습니다.
 - 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아닙니다.
+
+| learning rate | 지금 읽어야 할 핵심 |
+| --- | --- |
+| `0.01` | 방향은 맞지만 이동 폭이 작아 한 번의 update 효과가 제한적입니다. |
+| `0.1` | 같은 gradient를 더 실용적인 보폭으로 적용해 목표 차단 점수에 가까워집니다. |
+| `0.5` | 방향은 맞아도 지나치게 크게 움직여 목표를 넘어서고 손실이 다시 커집니다. |
+
+출력 숫자를 읽을 때도 `gradient 자체`와 `update 결과`를 분리해서 봐야 합니다.
+
+| learning rate | 출력에서 먼저 보이는 것 | gradient만 보면 남기 쉬운 해석 | optimizer까지 보면 바뀌는 해석 |
+| --- | --- | --- | --- |
+| `0.01` | gradient는 `-16.0`이고 손실은 줄지만 13.542로 여전히 큽니다. | 방향만 맞으니 학습은 충분히 잘 시작됐다고 보기 쉽습니다. | 방향은 맞아도 보폭이 너무 작아 실용적인 속도로는 거의 전진하지 못하고 있습니다. |
+| `0.1` | 같은 gradient인데 손실이 0.64까지 크게 줄어듭니다. | gradient가 특별히 더 좋아졌다고 보기 쉽습니다. | gradient는 같고, 달라진 것은 update 보폭이라 실제 이동이 더 적절했던 것입니다. |
+| `0.5` | 같은 gradient인데 손실이 144.0으로 오히려 커집니다. | gradient가 틀렸거나 모델이 못 배운다고 보기 쉽습니다. | 방향은 맞아도 보폭이 너무 커 목표를 지나쳤기 때문에 optimizer 설정이 학습을 망친 경우입니다. |
 
 초기 신경망 학습에서는 가장 단순한 경사하강법(gradient descent)이나 확률적 경사하강법(stochastic gradient descent)이 기본 출발점이었습니다. 하지만 네트워크가 깊어지고 데이터가 커지면서, 학습 속도와 안정성을 개선하려는 다양한 시도가 이어졌습니다.
 

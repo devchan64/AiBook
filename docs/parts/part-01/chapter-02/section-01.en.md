@@ -1,7 +1,7 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P1-1 organized the scope of the word AI and the relationship among the major terms. P1-2 turns to the historical paradigms through which AI tried to solve problems. The center of this section is `symbolic AI` and the `rule-based approach`.
 
@@ -252,16 +252,6 @@ So in this section, the relation between the two only needs to be remembered lik
 
 The more detailed relation among label, data, input, and output is organized again in `P1-4.2`. Here it is enough to keep only the connection that a label can be read as an explicit name tag attached by a person.
 
-## What to Remember from This Section
-
-Symbolic AI is not a failed past. It is an important starting point that shows how AI tried to handle knowledge. This approach carried a strong intuition: intelligence can be explained as a process of manipulating symbols and rules.
-
-Modern AI has expanded greatly through deep learning and generative AI, but the questions raised by symbolic AI still remain. What does an AI know? Why did it reach that conclusion? What rules must it follow? Can a person review it? These questions still matter.
-
-In this section, symbolic AI and rule-based approaches are read like this.
-
-> Symbolic AI is an approach that tries to represent knowledge through human-readable symbols and rules, then perform inference and search over that representation. It is strong in explainability and controllability, but it showed limits in handling real-world ambiguity, exceptions, and large-scale pattern recognition.
-
 ## Checklist
 
 - I can explain that symbolic AI centers on symbols, rules, knowledge representation, and inference.
@@ -270,16 +260,8 @@ In this section, symbolic AI and rule-based approaches are read like this.
 - I can explain the limit that not all knowledge is easy to write as rules.
 - I can explain that data labels can be seen like symbols, but data labeling is not the same thing as symbolic AI.
 - I can explain that rule-based and learning-based approaches should be compared by problem character, not as a simple better-or-worse ranking.
-
-## When This View Should Come to Mind First
-
-Bring back the view of this section when you face a situation like the following and start wondering, `Isn't this outside AI because it is not a learning model?` or `Would it be more natural to handle this with rules?`
-
-- when you need to place document-based standards such as policy, permission, approval, and safety rules inside an AI context
-- when you see a rule-based system and feel that it should sit outside AI because it is not machine learning
-- when you need to explain why explicit filters and policy rules still remain even inside generative AI services
-
-At that point, return first to the symbolic-AI starting point: write knowledge in human-readable symbols and rules, then reason over them. After that, divide the current problem into whether it is closer to an `explicit standard` or closer to `complex pattern learning`. That makes the boundary much clearer.
+- I can explain that symbolic AI tried to represent knowledge through human-readable symbols and rules, then perform inference and search over that representation.
+- I can explain that this approach is strong in explainability and controllability, but showed limits in handling real-world ambiguity, exceptions, and large-scale pattern recognition.
 
 ## Sources and Further Reading
 

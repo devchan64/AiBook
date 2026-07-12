@@ -1,7 +1,7 @@
 # P4-7.2 Preprocessing
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-7.1 examined `what inputs should remain`. Now the discussion moves to the stage where those remaining inputs are not thrown to the model as they are, but are organized into a form the model can read more easily. That stage is preprocessing.
 
@@ -911,33 +911,19 @@ There is no need to memorize every name, but it becomes easier to read examples 
 
 The goal of this Section is not API memorization. It is first to understand `what representation problem each tool appeared to solve`.
 
-## Perspective To Remember In This Section
-
-- Preprocessing is the stage that changes input into a more suitable representation.
-- Missing values, scale, and categorical representations are different problems, so they are not handled in the same way.
-- `fit` should be done only on training data, and only `transform` with the same rules should be applied to test data.
-- Pipelines and column transformers are structures that keep preprocessing rules repeatable.
-- This Section is a common foundation for understanding the later algorithm Sections.
-
 ## Checklist
 
 - Can the input problem you are facing now be classified as missing values, scale, or categorical representation?
 - Are you separating `fit` and `transform` so that test data do not get mixed into learning preprocessing rules?
 - Can you explain preprocessing not as cleaning before the model, but as `reproducible input-representation design`?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up the preprocessing perspective when you need to diagnose whether an input problem should first be handled as missing values, scale, categorical representation, or `fit/transform` rules.
-- Return to this Section when you need to explain again why only the training data should be used for `fit`, so that test data do not get mixed into learning preprocessing rules.
-- This Section becomes the standard when preprocessing should be read not as simple cleaning, but as reproducible input-representation design.
-
-## Connection To The Next Section
-
-Once the discussion moves on to P4-8 model selection and P4-9 hyperparameters, readers more often see that even with the same model, performance and interpretation can change depending on what preprocessing it is bundled with. Also, in the algorithm Sections after P4-10, it becomes more concrete which models are more sensitive to scale and representation.
+- Can you explain that preprocessing is the stage that changes input into a more suitable representation, and that missing values, scale, and categorical representation are different problems?
+- Can you explain why `fit` should be done only on training data, and why test data should receive only `transform` under the same rules?
+- Can you explain that pipelines and column transformers are structures that keep preprocessing rules repeatable?
 
 ## Sources And References
 
 - scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

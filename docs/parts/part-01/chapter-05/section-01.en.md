@@ -1,7 +1,7 @@
 # P1-5.1 What Does Learning Change?
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 4 organized real-world problems in terms of `input`, `output`, `feature`, `representation`, and `parameter` so that a model could handle them. Now we move one step further and ask: when we say a model learns, what inside the model actually changes?
 

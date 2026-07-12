@@ -1,7 +1,7 @@
 # P2-4.1 Rereading How We Learned Differentiation
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In Part 2 Chapter 3, we looked at the shapes of data and model computation through scalars, vectors, and matrices. Now, in Part 2 Chapter 4, we move to differentiation.
 
@@ -148,24 +148,7 @@ Now reread differentiation not as a formula, but through the following questions
 
 Once these questions are understood, terms such as rate of change, slope, derivative, and gradient no longer appear only as completely unfamiliar words.
 
-## Perspective to Keep from This Section
-
-- Before reading differentiation as a procedure for memorizing formulas, read it first as the question `what change leads to what difference in result?`
-- The slope of a tangent line, instantaneous rate of change, and instantaneous speed may look like different phrases, but they are placed around the same question.
-
-## Flow into the Next Section
-
-In P2-4.2, we narrow this question further and look at rate of change and slope.
-
-1. A value changes.
-2. We compare how much it changed.
-3. We look at the output change with respect to the input change.
-4. We read that as slope and rate of change.
-5. When we move to change over a very small interval, it leads to differentiation.
-
-Here, we recovered the memory. In the next Section, we organize that memory into a calculable form.
-
-## View It Through a Case
+## Cases And Examples
 
 ### Case 1. When Delivery Time Grows Longer, What Should We Ask First?
 
@@ -179,19 +162,15 @@ The first step in rereading differentiation is similar. Here, instead of using f
 
 A checkable result can be set in the following way. We can first test `do the changes move together?` by comparing, in a table or simple scatter plot, whether the average delivery time rises on days when order volume is 10% higher, or whether delayed cases increase as the share of orders from a specific time period grows.
 
-## Short Check
+## Checklist
 
-- You can say whether the slope of a tangent line, instantaneous rate of change, or instantaneous speed comes to mind when you hear differentiation.
-- When a formula comes to mind first, you can ask again what meaning of change that formula is dealing with.
-- You can explain the relationship among distance, speed, and acceleration as an example of rate of change.
-- You can explain that the relationship among point, line, area, and volume connects to the intuition of accumulation.
-- You can reread differentiation not as formula memorization, but as the question `what effect does a small change have on the output?`
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when words such as tangent line, derivative coefficient, and instantaneous speed come to mind, but the question that ties them together has become blurred.
-- Recall it first when, before reading explanations of loss or gradient, you need to recover the question itself: `how much is the value changing?`
-- Recall it first when you remember the formula, but your explanation still breaks at why we bring two points closer together or why we look at the slope of the tangent line.
+- Can you say whether the slope of a tangent line, the instantaneous rate of change, or instantaneous speed comes to mind first when you hear differentiation?
+- When a formula comes to mind first, can you ask again what meaning of change that formula is dealing with?
+- Can you explain the relationship among distance, speed, and acceleration as an example of rate of change?
+- Can you explain that the relationship among point, line, area, and volume connects to the intuition of accumulation?
+- Can you reread differentiation not as formula memorization, but as the question `what effect does a small change have on the output?`
+- Can you tie together the words tangent line, derivative coefficient, and instantaneous speed as one question about change?
+- Can you explain why the question `how much is the value changing?` needs to be recovered before reading explanations of loss or gradient?
 
 ## Sources and References
 

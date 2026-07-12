@@ -1,7 +1,7 @@
 # P2-8.4 Loops: Processing Iterables One by One
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
@@ -733,28 +733,7 @@ This code is read like this.
 
 This question can be used later as-is when reading NumPy, Pandas, and machine-learning data-processing code. Even if the tool changes, the structure of `group, value taken out one by one, processing, result` remains.
 
-## Perspective to Remember in This Section
-
-- A loop is a flow that applies the same processing to several values.
-- In Python, it is usually more natural to read `for` as `from what is something taken out one by one?` than as `how many times?`
-- `enumerate()`, `.items()`, and `zip()` are tools that change the reading pattern depending on the shape of the loop target.
-- Loop results often appear as output, making a new group, or making an accumulated value.
-- Later, when functions are seen, this continues through the perspective of `reusing something that wrapped the loop`.
-
-A loop is a way of taking values out one by one from a group and processing them. In Python, if you read it as a structure where `for` receives a repeatable target and consumes the stream of values one by one, several loop patterns become understandable.
-
-Generalizing it, a loop is a procedure that transforms a data group into a result group, an accumulated value, a separated group, or output. Before syntax, first check the input group and the shape of the result.
-
-When reading loop code, use the following questions.
-
-1. What is the iterable?
-2. What value comes out one by one in each loop?
-3. Is the position needed, or only the value?
-4. Is the result a new list, a new dictionary, or an accumulated value?
-5. Is the original being directly changed?
-6. If it is a short rule that makes a new data structure, is it written as comprehension?
-
-## Short Check
+## Checklist
 
 - Can you read `for item in items`?
 - Can you say when `enumerate()`, `.items()`, and `zip()` are used?
@@ -769,12 +748,7 @@ When reading loop code, use the following questions.
 - You can read list comprehension and dictionary comprehension as expressions that make new data structures by looping.
 - You can explain that when comprehension becomes complex, an ordinary `for` statement may be more suitable.
 - You can explain that directly changing the original data during a loop can create problems.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when you have seen lists or dictionaries, but now must move into the actual flow of processing them one by one.
-- Recall it when you need to distinguish again what `for item in items`, `enumerate()`, `.items()`, and `zip()` are each taking out one by one.
-- Recall it when you are confused about whether the loop result is output, a new list, or an accumulated value, and need first to separate the shape of the result.
+- You can explain that before syntax, you should first check the input group and the shape of the result.
 
 ## Sources and References
 

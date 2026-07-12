@@ -1,11 +1,17 @@
 # Part 5 Chapter 3 Mermaid Assets
 
-- Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- Public manuscript pages must include their own language asset through `pymdownx.snippets`.
+- Current deployment references:
+  - Korean pages reference `-ko.mmd`.
+  - English pages reference `-en.mmd`.
+- The matching `-en.mmd` files remain in this directory as canonical English originals.
+- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
   - `stacked-linear-layers-en.mmd` / `stacked-linear-layers-ko.mmd`
   - `linear-activation-linear-en.mmd` / `linear-activation-linear-ko.mmd`
+  - `activation-signal-survival-flow-en.mmd` / `activation-signal-survival-flow-ko.mmd`
+  - `activation-visual-signal-case-flow-en.mmd` / `activation-visual-signal-case-flow-ko.mmd`
+  - `activation-tabular-signal-case-flow-en.mmd` / `activation-tabular-signal-case-flow-ko.mmd`
   - `activation-family-flow-en.mmd` / `activation-family-flow-ko.mmd`
   - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
 - SVG chart assets:

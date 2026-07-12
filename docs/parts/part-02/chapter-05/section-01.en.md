@@ -1,7 +1,7 @@
 # P2-5.1 How Probability Represents Uncertainty as Numbers
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Chapter 4 of Part 2, we used derivatives and gradients to see `how values should be changed so that loss decreases`. Now we need a different kind of mathematical language.
 
@@ -259,13 +259,7 @@ The chart below shows that the model's probability score and the service's opera
 
 ![Flow that separates an AI model's probability score from a service's operating decision rule](/AiBook/assets/part-02/chapter-05/probability-score-decision-threshold-en.svg)
 
-## Perspective to Keep from This Section
-
-Probability helps us understand AI as `computation that makes judgments in an uncertain world`. The world is not always fully observed, data can be limited and biased, and models see reality in a simplified way, so AI often computes possibilities.
-
-Learning probability is not only about solving dice problems. It is about recovering the language needed to read prediction, classification, generation, sampling, confidence, risk, and evaluation, all of which repeatedly appear in AI documents.
-
-## Short Check
+## Checklist
 
 - You can explain uncertainty not as the number itself, but as a state of not knowing.
 - You can explain probability as the numerical language between 0 and 1 that expresses uncertainty.
@@ -276,12 +270,7 @@ Learning probability is not only about solving dice problems. It is about recove
 - Even without calculating Bayes' rule, you can explain it as a flow that updates belief with new evidence.
 - You can explain why probability, uncertainty, and stochastic should not be used as if they were the same word.
 - You can explain that an AI model's output probability and the actual operating decision must be separated.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when you still remember probability only as coin and die calculation, so the connection to AI prediction scores breaks.
-- Recall it first when outcome, event, and sample space look like the same word and you need to separate the basic units again.
-- Recall it first when you begin to read a model's output probability directly as an operating decision, or when you remember Bayes' rule only as a formula.
+- You can connect probability not only to coin and die calculation, but also to AI prediction scores.
 
 ## Sources and References
 

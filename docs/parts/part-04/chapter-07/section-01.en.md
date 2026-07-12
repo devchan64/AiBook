@@ -1,7 +1,7 @@
 # P4-7.1 Feature Selection
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. Feature selection is the starting point of that input design.
 
@@ -534,6 +534,204 @@ The important point in this example is not `include` itself. It is whether the r
 
 ## Practice And Examples
 
+### Slowly Checking The Five Criteria Of A Good Feature
+
+The five groups below are practice for reconnecting the earlier criteria in the order `small scene -> question to ask first -> first judgment -> explanation`. The point is not to memorize one answer, but to check whether you can explain one step at a time `why this feature remains while that feature is postponed or removed`.
+
+At first, it helps not to choose an answer too quickly, but to separate the following two steps on purpose.
+
+1. Why does this feature look attractive on the surface?
+2. Even so, for what reason should it be kept, held, or removed?
+
+If that judgment order is first compressed into a short flow, it looks like this.
+
+```mermaid
+--8<-- "assets/part-04/chapter-07/p4-7-1-mermaid-05-en.mmd"
+```
+
+This diagram is meant to hold on to the order `say first why it looks attractive, then separate keep / hold / remove through the five criteria`, rather than `jump straight to the answer`. The five exercises below slowly unpack that flow one by one.
+
+#### 1. Does It Contain Signal?
+
+Example:
+
+In a churn-prediction problem for an online course, compare the following two feature candidates.
+
+| Feature candidate | Observation |
+| --- | --- |
+| `videos_completed_7d` | churn tends to rise as the number of completed videos in the last 7 days falls |
+| `user_id_suffix` | there is no clear churn difference by the last digit of the user ID |
+
+Question to ask first:
+
+- Which of the two features contains `behavior change`?
+- Which one is easier to explain in words as connected to the problem?
+
+In this scene, `videos_completed_7d` is the better candidate because recent learning behavior seems connected to churn. By contrast, `user_id_suffix` is numeric, but it does not explain a signal related to the problem.
+
+Practice:
+
+Choose which of the following two should remain earlier as a first-pass candidate, and write the judgment in two sentences.
+
+| Candidate | Note |
+| --- | --- |
+| `failed_logins_14d` | count of failed logins in the last 2 weeks |
+| `account_number_last_digit` | last digit of the account number |
+
+Order to write:
+
+1. On the surface, both are numbers, but which one is closer to a real behavior signal?
+2. Why can the other be read as an identifier fragment rather than a generalized pattern?
+
+Explanation:
+
+`failed_logins_14d` should remain first. It can connect to an access problem or usability friction as a behavior signal. `account_number_last_digit` is closer to an identifier fragment, so it is hard to expect a generalized pattern from it.
+
+#### 2. Is The Noise Not Too Large?
+
+Example:
+
+Consider the following two features in a customer-complaint prediction problem.
+
+| Feature candidate | Observation |
+| --- | --- |
+| `complaint_count_30d` | it is automatically aggregated by the system, so the rule is consistent |
+| `agent_feeling_score` | an agent leaves a subjective 1 to 5 score, so the standard differs by person |
+
+Question to ask first:
+
+- Who created this value?
+- Even if the same situation happens again, can it be recorded repeatedly under a similar standard?
+
+Both may still relate to complaints, but `agent_feeling_score` is more likely to have a shaky input standard. Such a feature can pull in more noise than signal.
+
+Practice:
+
+Choose which of the following is more likely to have larger noise, and explain why from the viewpoint of recording style.
+
+| Candidate | Note |
+| --- | --- |
+| `delivery_delay_minutes` | automatically recorded by the delivery system |
+| `customer_mood_text` | a free-text mood memo written by an agent |
+
+Order to write:
+
+1. Which feature has a more consistent recording format?
+2. Which feature is harder to compare because different people may write the same meaning differently?
+
+Explanation:
+
+`customer_mood_text` has the larger noise risk. Even the same situation may be written differently by different people, and the recording format is not stable. Automatically recorded delay time has a more stable standard.
+
+#### 3. Can It Actually Be Used At Prediction Time?
+
+Example:
+
+In a payment-churn prediction problem, there are the following feature candidates.
+
+| Feature candidate | Observation |
+| --- | --- |
+| `failed_payments_30d` | number of failed payments before the prediction point |
+| `refund_confirmed_at` | timestamp created only after a refund is confirmed |
+
+Question to ask first:
+
+- Is this value already known at the moment the prediction button is pressed?
+- Or is it only fixed after the outcome has already happened?
+
+`refund_confirmed_at` may look like a very strong signal in the training table, but at the actual prediction moment it may still be unknown. Such a value is not a good feature, but a feature with leakage risk.
+
+Practice:
+
+Choose which of the following two has higher timing legitimacy, and write also `why the other one is dangerous`.
+
+| Candidate | Note |
+| --- | --- |
+| `next_14d_spend` | spending over the next 14 days |
+| `spend_14d_before_prediction` | spending in the 14 days just before prediction |
+
+Order to write:
+
+1. Does one of the two values look at a `future section`?
+2. Which one can actually be calculated immediately at the service prediction point?
+
+Explanation:
+
+Only `spend_14d_before_prediction` can be used legitimately. `next_14d_spend` is a value that brings in future information beforehand, so it cannot be used as model input.
+
+#### 4. Is Redundancy Too Excessive?
+
+Example:
+
+Suppose the following columns are being inserted all at once into a purchase-churn prediction problem.
+
+| Feature candidate | Observation |
+| --- | --- |
+| `spend_7d` | spending in the last 7 days |
+| `spend_30d` | spending in the last 30 days |
+| `spend_90d` | spending in the last 90 days |
+
+Question to ask first:
+
+- Do these features show different behaviors?
+- Or are they repeating the same behavior while only changing the period?
+
+This does not mean that all three columns are useless. But if they are repeating the same spending scale with only different periods, then information may not really be increasing. The same explanation may simply be inserted several times.
+
+Practice:
+
+Choose which of the following two groups needs redundancy review more urgently, and distinguish whether it is `repetition of the same role` or `a combination of different roles`.
+
+| Group | Note |
+| --- | --- |
+| `spend_7d`, `spend_30d`, `spend_90d` | all are spending-scale aggregates |
+| `spend_30d`, `support_tickets_30d`, `visits_30d` | each represents spending, inquiry, and visits |
+
+Order to write:
+
+1. What do the three values in the first group end up talking about in common?
+2. Why can the second group be read as combining different viewpoints?
+
+Explanation:
+
+The first group should be checked for redundancy first. It repeats features of the same role with only different periods. The second group shows different behavioral aspects, so the roles are more separated.
+
+#### 5. Can It Be Recreated In Operations?
+
+Example:
+
+In a real-time recommendation model, there are the following feature candidates.
+
+| Feature candidate | Observation |
+| --- | --- |
+| `clicks_10m` | the number of clicks in the last 10 minutes can be aggregated from logs immediately |
+| `manual_quality_note` | an operator leaves a quality note by hand later |
+
+Question to ask first:
+
+- Can this feature be recreated again in the same way at each inference point?
+- Is there a risk that it will often be missing or late because of cost, delay, or manual input?
+
+`manual_quality_note` may look plausible in the training table, but it may fail to arrive in time at each actual inference point. Such a feature has low operational reproducibility.
+
+Practice:
+
+Choose which of the following has higher operational reproducibility, and explain it separately from the viewpoints of `collection stability` and `operational cost`.
+
+| Candidate | Note |
+| --- | --- |
+| `api_partner_score` | the external API fails often and call cost is high |
+| `sessions_1h` | it can be calculated stably by hour from internal logs |
+
+Order to write:
+
+1. Which feature shakes more because of failures or external dependence?
+2. Which feature can be recalculated more cheaply and stably at each inference point?
+
+Explanation:
+
+`sessions_1h` is the safer candidate. It can be repeatedly calculated from internal logs. `api_partner_score` may shake at inference time because of cost, delay, and failures.
+
 ### Inspecting Feature Candidates In A First Pass Through A Python Example
 
 The example below imitates a very simple first pass often done in practice. It first catches identifiers, the label column, columns created after the outcome, and constant columns.
@@ -633,7 +831,7 @@ rejected candidates:
 - churn_next_month -> label
 ```
 
-This output does not mean `good features were fully determined`. It shows what should be suspected first when a reader opens a data table for the first time.
+This output does not mean `good features were fully determined`. It only shows what should be suspected first when the reader opens a data table for the first time.
 
 ## Supplement To The Detailed Learning Content
 
@@ -650,34 +848,18 @@ In practice, the following methods appear often.
 
 The goal of this Section is not to memorize those algorithms. It is to first fix `can the reason for selection be explained?` Algorithms are only tools that help in the next stage.
 
-## Perspective To Remember In This Section
-
-- A feature is a representation that turns real-world information into model input.
-- Feature selection is closer to `choosing input that can be used legitimately` than to `putting in more`.
-- The first things to check are leakage, relevance, and operational usability.
-- Feature selection is the job of choosing inputs, while preprocessing is the job of refining the chosen inputs.
-
-## Short Check
+## Checklist
 
 - Are you first checking whether this column actually exists at prediction time?
 - Even if a feature seems to contain signal, are you marking separately features that cannot be collected stably in operations?
 - Can you explain feature selection and preprocessing separately as `what will remain` and `how it will be transformed`?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up the perspective of feature selection first when you need to check whether columns unavailable at prediction time or post-label information have been mixed into the input.
-- Return to this Section when you need to explain again why identifiers, constant columns, and unstable operational signals should be filtered first.
-- This Section becomes the criterion when checking whether feature selection and preprocessing are being spoken of as if they were the same thing.
-
-- Are columns unknown at prediction time being removed?
-- Are the label itself or post-label information not mixed in?
+- Are you removing columns that are unknown at prediction time?
+- Are the label itself or post-label information kept out of the input?
 - Were identifiers and constant columns inspected first?
 - Are only features that can be obtained stably in the real service being kept?
 - Are feature selection and preprocessing not being mixed together as if they were one task?
-
-## Connection To The Next Section
-
-If this Section decided `what should remain`, then the next Section, P4-7.2 on preprocessing, examines `into what form should the remaining features be changed`. Missing values, scale, and categorical encoding are exactly that next-stage problem.
+- Can you explain that a feature is an expression that turns real-world information into model input, and that feature selection is closer to `choosing input that can be used legitimately` than to `putting in more`?
+- Can you explain why leakage, relevance, and operational usability should be checked first?
 
 ## Sources And References
 

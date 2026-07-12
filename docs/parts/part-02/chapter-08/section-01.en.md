@@ -1,7 +1,7 @@
 # P2-8.1 Values, Variables, and Types
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-7, we looked at where code runs. You can run it in Colab, or you can run the Python interpreter on the terminal of a local PC.
 
@@ -379,26 +379,6 @@ When you meet an error like this, instead of seeing it as `Python is strange`, f
 
 In data processing, a type error is an annoying obstacle, but at the same time it is also a signal telling you the state of the data.
 
-## Perspective to Remember in This Section
-
-Rather than memorizing a lot of Python syntax, first distinguish the following three things. This distinction continues to appear again even later when reading NumPy arrays, Pandas tables, and model input data.
-
-- value: the actual thing computation handles
-- variable: a name attached to a value
-- type: information that determines the kind of a value and the possible actions on it
-
-In AI practice, data keeps coming in as values, computation gives names to those values, and the type must fit for models and tools to work properly.
-
-The key point of this section is simple.
-
-Values matter more than variable names, and the habit of checking the type of a value matters.
-
-After reading this section, the following boundary should be clear.
-
-| Handle of the current chapter | What is seen more in the very next chapter | What is not yet done here |
-| --- | --- | --- |
-| Minimum syntax for attaching a name to a value and checking the type | Ways of handling values in bigger structures such as lists, dictionaries, iteration, and functions | Managing notebook execution order, sharing results, recording environment reproducibility |
-
 ## Case Study
 
 ### Case 1. Why Does a Score Read from CSV Not Get Calculated?
@@ -411,7 +391,7 @@ The distinction of `value`, `variable`, and `type` in this section is exactly th
 
 The confirmable result is simple. Even if it looks the same as `82.5` on screen, if `type(score)` is `str`, conversion is needed before numeric computation; if it is `float`, it can be used immediately in numerical calculation.
 
-## Short Check
+## Checklist
 
 - You can distinguish value, variable, and type.
 - You can explain that Python's `=` is syntax for assigning a value to a name.
@@ -419,12 +399,8 @@ The confirmable result is simple. Even if it looks the same as `82.5` on screen,
 - You can distinguish a string that looks like a number from an actual number.
 - You can check the type of a value with `type()`.
 - You can explain that when a type error occurs, the state of the data should be checked first.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when something looks like a number on screen but computation behaves strangely, so you need to separate again value, variable, and type.
-- Recall it when you are reading `=` like a mathematical equal sign and need to regain the sense of naming and reassignment in Python.
-- Recall it when, before reading later examples of lists, dictionaries, and arrays, you first need to check what kind of value and what type the current thing being handled is.
+- You can first distinguish whether the current thing is the value itself, the name attached to it, or its type.
+- You can explain why a value that only looks like a number may still need type checking before calculation.
 
 ## Sources and References
 

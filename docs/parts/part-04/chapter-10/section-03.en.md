@@ -1,7 +1,7 @@
 # P4-10.3 Supplementary Learning: How To First Read Regression Diagnostics
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 By the time the reader finishes P4-10.2, the basic evaluation of linear regression is in place. In actual documents and lectures, however, the reader soon meets expressions such as the following.
 
@@ -112,6 +112,10 @@ A very small comparison table can be read as follows.
 | higher price range | `-15, 12, 18` | the spread of error is much larger in this region |
 
 In such a scene, the reader should first inspect `where the explanation breaks down` rather than stopping at `the average performance looks acceptable`.
+
+If regression diagnostics is compressed into one frame, one side asks `does the spread of error change by region?`, while the other asks `does prediction stay similar while only coefficient interpretation shakes?`
+
+![A chart that compares wider residual spread by region with unstable coefficient interpretation caused by overlapping features](../../../assets/part-04/chapter-10/p4-10-3-diagnostics-view-en.svg)
 
 ## Why Does Multicollinearity Shake Coefficient Interpretation?
 
@@ -242,9 +246,7 @@ shifted prediction    : 47.479
 - What changed: even though only one value of an overlapping feature moved slightly, the way the coefficients were distributed shifted quite a lot.
 - What judgment should be left first: in a scene like this, the reader should first recall the warning from regression diagnostics that `prediction may still be usable, but coefficient interpretation must be handled more carefully`.
 
-### How This Exercise Recovers The Part 4 Goal
-
-This exercise recovers regression diagnostics not as `a list of statistical terms learned later`, but as `a procedure that asks again how far the reader can trust the model result`. The goal of Part 4 is not to accept a score and coefficient table as they are. It is to separate cases in which prediction itself shakes from cases in which only interpretation shakes. Multicollinearity is one representative scene that forces exactly this distinction.
+This exercise recovers regression diagnostics not as `a list of statistical terms learned later`, but as `a procedure that asks again how far the reader can trust the model result`. What matters is not to accept a score and coefficient table as they are, but to separate cases in which prediction itself shakes from cases in which only interpretation shakes. Multicollinearity is one representative scene that forces exactly this distinction.
 
 | Common record language | What should be left immediately in this exercise |
 | --- | --- |
@@ -281,23 +283,14 @@ This does not replace a complex test, but it immediately shows at an introductor
 
 So regression diagnostics is better read not as a chapter for memorizing one test name, but as a chapter for separating which one is wobbling among `error shape`, `error spread`, and `stability of coefficient interpretation`.
 
-## Perspective To Remember In This Section
+## Checklist
 
-- Regression diagnostics is less about raising a score and more about making interpretation more cautious.
-- Significance mainly shakes the signal of relationship interpretation, homoscedasticity shakes the spread of error, and multicollinearity shakes the stability of coefficient interpretation.
-- When reading a linear-regression table, the reader should ask not only `is there a number?` but also `how far can this number be trusted?`
-
-## When To Recall This Perspective First
-
-- Recall the perspective of regression diagnostics when you need to check whether prediction performance and the stability of coefficient interpretation are being treated as the same statement.
-- Return to this Section when you need to explain again what significance, homoscedasticity, and multicollinearity each destabilize.
-- Use this Section as the reference point when the right question is not `is there a number?` but `up to what point can this number be trusted?`
-
-## Understanding Check
-
+- Did you understand that regression diagnostics is less about raising a score and more about making interpretation more cautious?
 - Can you avoid treating significance and practical importance as the same statement?
 - Can you explain that homoscedasticity worries about whether error size changes by region?
 - Can you explain why multicollinearity can shake coefficient interpretation?
+- Are you avoiding treating prediction performance and the stability of coefficient interpretation as the same statement?
+- When reading a linear-regression table, are you asking not only `is there a number?` but also `how far can this number be trusted?`
 
 ## Sources And References
 

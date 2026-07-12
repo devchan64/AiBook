@@ -1,7 +1,7 @@
 # P2-3.4 Dot Product, Norm, Distance, and Similarity
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Once we have read vectors, matrices, and matrix multiplication, the next question remains: `how similar are two vectors`, `how far apart are they`, and `how do we distinguish a large vector from a vector that only points in a similar direction`? Those questions lead directly to dot product, norm, distance, and similarity.
 
@@ -166,21 +166,14 @@ When you face a vector-comparison problem, it is enough to ask the following thr
 
 Once these three questions are sorted out, it becomes much less confusing which of `distance`, `dot product`, and `cosine similarity` should come first.
 
-## Perspective to Keep from This Section
-
-- Dot product is a calculation that compresses two vectors into one number and reads `how much they move together`.
-- Norm looks at vector size, similarity looks at resemblance, and distance looks at separation.
-- `Close` and `similar` are not the same question.
-- `k-NN` is closer to a distance question, while embeddings and vector retrieval are closer to a similarity question.
-- When you face a vector-comparison problem, first ask `does size matter too, or is direction more important?`
-
-## Short Check
+## Checklist
 
 - Can you explain dot product as `multiply matching positions and add`?
 - Can you explain that norm and direction are different information?
 - Can you distinguish distance and similarity in one sentence?
 - Can you explain why `[1, 1]` and `[10, 10]` are read differently by distance and cosine similarity?
 - Can you explain why k-NN and embedding retrieval are not the same comparison question?
+- Can you ask first `does size matter too, or is direction more important?` when you face a vector-comparison problem?
 
 ## Scenes Where This Comparison Standard Reappears
 

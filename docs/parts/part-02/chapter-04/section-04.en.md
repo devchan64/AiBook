@@ -1,7 +1,7 @@
 # P2-4.4 Why Learning Needs Differentiation
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-4.3, we looked at derivative, partial derivative, and gradient as `the language for reading how values change`. Now we connect why that language becomes necessary in AI training.
 
@@ -189,12 +189,6 @@ In practice, we may hear the following expressions more often than the word diff
 
 All of these expressions are treated in more detail later. For now, only remember that practical terms eventually connect to `information about change for reducing loss`.
 
-## Perspective to Keep from This Section
-
-Training is the process of adjusting parameters to reduce loss. Loss is the number that tells us how bad the current model is, and a derivative shows how the loss changes when one parameter is changed a little. A gradient is a vector that gathers change information for many parameters, and backpropagation is the procedure that computes that gradient efficiently in a complex model.
-
-Differentiation is not a mathematical decoration in AI learning. If we want the model to move on its own in a better direction, we must read how loss changes around the current value. The way of reading that is differentiation and gradient.
-
 ## View It Through a Case
 
 ### Case 1. A House-Price Prediction Model Is Not Fixed Just by Knowing It Was Wrong
@@ -211,7 +205,7 @@ A checkable result is to compare whether the loss really decreases when a specif
 --8<-- "assets/part-02/chapter-04/learning-adjustment-flow-en.mmd"
 ```
 
-## Short Check
+## Checklist
 
 - You can explain training as the process of adjusting parameters to reduce loss.
 - You can explain that the loss value alone makes it hard to know what should be changed and in which direction.
@@ -219,12 +213,7 @@ A checkable result is to compare whether the loss really decreases when a specif
 - You can explain that a gradient is a vector that gathers change information for many parameters.
 - You can explain that it is hard to test every possible value, so directional information at the current position matters.
 - You can distinguish backpropagation not as learning itself, but as the procedure that computes gradients efficiently.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when you understand the loss function, but still do not feel why differentiation and gradient immediately attach to the explanation of learning.
-- Recall it first when you need to explain separately `how wrong is it?` and `in which direction should it be changed?`
-- Recall it first when you have been taking backpropagation as if it were the same as the whole learning process and need to separate their roles again.
+- You can separately explain `how wrong is it?` and `in which direction should it be changed?`
 
 ## Sources and References
 

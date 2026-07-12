@@ -1,7 +1,7 @@
 # P4-5.2 泛化(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-5.1 里，我们区分了 `过拟合` 和 `欠拟合`。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 `泛化(generalization)`。
 
@@ -402,31 +402,14 @@ sarcasm and indirect wording increase
 
 而这里的 `撑住` 这个说法非常重要。新数据一进来，总会有一些差别和波动。generalization 问的是：在这些波动里，model 会不会完全崩掉，还是仍然保持在可用范围内。
 
-## 本节要记住的观念
-
-- generalization 是指 model 即使面对还没见过的数据，也能维持可用表现的性质。
-- machine learning 的真正目标不是 training score 本身，而是 generalization。
-- 过拟合和欠拟合都会让 generalization 变弱。
-- validation 和 test 本质上都是为了提前估计 generalization。
-- generalization 指的是在新数据上的稳定站得住，而不是完美一致。
-
 ## 检查清单
 
 - 能不能说明：为什么 generalization 不该解释成 `把 training score 做高`，而该解释成 `对同一问题里的新例子也能撑住`？
 - 能不能区分：哪些情况可以直接放进 generalization 范围里，哪些情况应该视为问题本身已经变了？
 - 能不能说明：validation 和 test 本质上是为了确认 generalization？
-
-读完这一节后，下面这条线应该能继续走下去。
-
-| 这一节先抓住的问题 | 紧接着会更具体化什么 | 后面还会作为比较标准重新看的是什么 |
-| --- | --- | --- |
-| 为什么 model 必须在新数据上也撑住？ | 要用什么 metric 与 error 结构去读这种站得住？ | 比 baseline 到底更能撑多少，以及 tuning 之后还能不能维持 |
-
-## 什么时候应该先想起这个观念
-
-- 当你需要重新说明 machine learning 的目标不是 training score 本身，而是新数据上的站得住时，就应该先想起 generalization 视角。
-- 当你需要重新接回：过拟合与欠拟合最终都会削弱 generalization 时，就应该回到这一节。
-- 当你需要整理为什么 validation 与 test 是提前估计 generalization 的装置时，这一节会成为标准。
+- 能不能说明：generalization 是指 model 即使面对还没见过的数据，也能维持可用表现的性质？
+- 能不能说明：machine learning 的真正目标不是 training score 本身，而且过拟合与欠拟合都会削弱 generalization？
+- 能不能说明：generalization 指的是在新数据上的稳定站得住，而不是完美一致？
 
 ## 出处与参考资料
 

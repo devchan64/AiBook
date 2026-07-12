@@ -1,7 +1,7 @@
 # P4-5.1 Overfitting And Underfitting
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Chapter P4-4, we looked at why data are divided into training, validation, and test sets. The next question follows naturally. After splitting the data and checking the results, why do some models work well on training data but weaken on new data? And why do some models fail to explain even the training data well enough?
 
@@ -414,29 +414,19 @@ And at the center of that stability judgment is ultimately this question.
 
 `Did this model capture the pattern worth learning, or did it follow the shape of this particular dataset too much?`
 
-## Perspective To Remember In This Section
-
-- underfitting is a state where the model still has not learned the important pattern well enough
-- overfitting is a state where the model sticks too tightly to the training data
-- it is difficult to judge a model by training score alone
-- you need to read it with validation score to find weaknesses on new data more quickly
-- even if the training score is very high, a low validation score should make you suspect overfitting
-- if both are low, underfitting can be the first possibility to consider
-
 ## Checklist
 
 - Can you explain why `both low` and `only training very high` should be read differently when training score and validation score are examined together?
 - Can you explain in what scenes the problem should be divided into `must learn more` and `must memorize less`?
 - Can you explain that a more complex model is not always better, because it can also increase the risk of overfitting?
-
-## When Should This Perspective Come To Mind First
-
-- Return to this Section when you need to judge first, from the gap between training and validation scores, whether the model has learned too little or memorized too much.
-- Return to this Section when you need to read `training high, validation low` and `both low` as different problems.
-- This Section becomes the criterion when candidate selection should be read first through the direction of generalization rather than a single score.
+- Can you explain that underfitting is a state where the model still has not learned the important pattern enough, while overfitting is a state where it sticks too tightly to the training data?
+- Can you explain that training score alone is not enough to judge a model, and that reading it with validation score helps you find weaknesses on new data more quickly?
+- Can you explain that even if training score is very high, a low validation score should make you suspect overfitting first, while both low should make you suspect underfitting first?
 
 ## Sources And References
 
 - scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, accessed 2026-06-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
 - Google for Developers, `Machine Learning Glossary`, accessed 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

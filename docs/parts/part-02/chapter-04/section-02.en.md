@@ -1,7 +1,7 @@
 # P2-4.2 Rate of Change and Slope
 
 > Section ID: `P2-4.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-4.1, we brought back memories of learning differentiation. The slope of a tangent line, instantaneous rate of change, distance and speed, and the flow from point to volume all connect to a mathematical way of thinking that tries to understand change and accumulation.
 
@@ -290,7 +290,7 @@ The needed concept here is rate of change. We must look together at `when ad spe
 
 A checkable result is to place weekly ad spend and sign-ups in a table and calculate `increase in sign-ups relative to increase in ad spend`. If this value differs by interval, we read the response as curve-like, and right at that point we distinguish average rate of change from instantaneous rate of change.
 
-## Short Check
+## Checklist
 
 - You can explain rate of change as output change relative to input change.
 - You can explain that \(\Delta x\) and \(\Delta y\) mean input change and output change, respectively.
@@ -300,11 +300,6 @@ A checkable result is to place weekly ad spend and sign-ups in a table and calcu
 - You can explain the flow by which instantaneous rate of change leads to differentiation.
 - You can explain that, in AI learning, rate of change connects to the problem of finding the direction that reduces loss.
 
-## When Should You Recall This Perspective First?
-
-- Recall it first when you can read the size of values from a table or graph, but `when the input changed by how much, how much did the output change?` is not yet separated in your mind.
-- Recall it first when you need to explain at once the difference between the constant slope of a line and the interval-based rate of change of a curve.
-- Recall it first when, before learning differentiation, you need to reconnect why we narrow from average rate of change to instantaneous rate of change.
 
 ## Sources and References
 

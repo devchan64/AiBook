@@ -1,7 +1,7 @@
 # P4-19.1 Value-Based Reinforcement Learning
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-2.3, reinforcement learning was framed as `learning that adjusts a policy through actions and rewards`. If we go one step deeper, the following question appears.
 
@@ -431,9 +431,19 @@ SARSA updated = 1.06
 
 In the first run, the actual next action was `down`, so SARSA updated more conservatively. But once the actual next action is changed to `up`, SARSA produces the same value as Q-learning. In other words, the difference between the two methods is less about memorizing names than about how directly the update reflects `what action the policy actually continues with`.
 
-### How Does This Exercise Recover The Goal Of Part 4?
+This comparison exercise shows that even under the same reward, the learning result can change when the actual next action changes. So the evaluation criterion should include not only average reward, but also exploration cost, failure risk, and the policy's real action flow. The key is not the name of the Q-learning formula, but reading the reason the value changed as a difference in the update standard.
 
-The purpose of reading reinforcement learning in Part 4 is not to memorize formulas, but to understand at the problem-definition level `by what standard does the system update while interacting with the environment?` This comparison exercise shows that even under the same reward, the learning result can change when the actual next action changes. Therefore the evaluation criterion must include not only average reward, but also exploration cost, failure risk, and the real action flow of the policy. If the reader did not feel the goal of the Section, it is often not because the Q-learning formula was hard, but because the step of recovering why the value changed into an operational judgment sentence remained weak.
+### Judge For Yourself
+
+Choose first which interpretation is safer for the observations below.
+
+| Observation | Hasty conclusion | Safer interpretation |
+| --- | --- | --- |
+| The Q-learning value rose more from the same current experience | Q-learning is always the better algorithm | It updated more optimistically because it used the value that looked best in the next state |
+| The SARSA value was updated by a smaller amount | SARSA cannot really learn | It may have reflected the actual next action and exploration flow more directly |
+| When the actual next action changed to `up`, the two values became equal | The difference between the two algorithms is not very important | The difference was not the names, but `where the next value was read from` |
+
+The purpose of this table is not to choose which algorithm is superior. It is to build the habit of reading first `what update standard was operating` even when the same numbers are shown.
 
 | Common recording language | What to record immediately from this exercise |
 | --- | --- |
@@ -450,14 +460,6 @@ This Section also should not leave value explanation alone. It should record tog
 | Failure cost | The loss created by wrong exploration or a detour route | To ask whether a high value is also safe in real operation |
 | Next adjustment question | Whether an optimistic update or a conservative update fits better | To carry the difference between Q-learning and SARSA into the next experiment standard |
 
-## Viewpoints To Remember In This Section
-
-- Value-based reinforcement learning is an approach that learns the long-term goodness of states and actions as values rather than memorizing the policy first.
-- State value and action value are different, and action value is usually the more direct standard when choosing an action.
-- The Q-value is an expected score for `how acceptable the future will be if this action is taken in this state`.
-- Q-learning learns from `the next action that looks best`, while SARSA learns from `the action actually taken next`.
-- That difference connects to how directly an action flow mixed with exploration is reflected.
-
 The core of this Section is not memorizing two algorithm names, but reading with what attitude the value table is updated.
 
 | What must be read together | The question read first in this Section | Where it connects immediately next |
@@ -467,17 +469,14 @@ The core of this Section is not memorizing two algorithm names, but reading with
 | Real-world flow mixed with exploration | How optimistic or conservative is this update rule? | P4-19.3 Deployment risk and exploration cost |
 | Failure cost | Can a high-value action also be borne in the real environment? | Risk review before applying reinforcement learning |
 
-## Short Check
+## Checklist
 
-- Can you explain why the value-based view comes to mind first in problems where action candidates are few and comparable?
+- Can you explain value-based reinforcement learning as an approach that learns the long-term goodness of states and actions as values?
+- Can you distinguish state value and action value, and explain why action value is more direct for choosing an action?
+- Can you explain the Q-value as an expected score for `how acceptable the future will be if this action is taken in this state`?
 - Can you explain why Q-learning and SARSA can produce different values even from the same experience?
+- Can you explain why the value-based view comes to mind first in problems where action candidates are few and comparable?
 - Do you understand that a high Q-value does not immediately mean safety in real-world deployment?
-
-## When Should This View Come To Mind First?
-
-- When the number of action candidates is small and the long-term goodness of each choice can be compared like a scoreboard, the value-based view should come first.
-- When the difference between Q-learning and SARSA becomes blurred, separate them again by `the next action that looks best` and `the next action that was actually taken`.
-- When a high Q-value is about to be mistaken for a safe real-world action, separate value estimation from deployment risk again.
 
 ## Sources And References
 

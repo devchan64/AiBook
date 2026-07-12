@@ -1,7 +1,7 @@
 # P2-7.6 Supplemental Learning: Using Terminals on Windows, macOS, and Linux
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-7.2, we looked at the concepts of a terminal, a shell, and a working directory. Here, we cover how to check those concepts on actual operating systems.
 
@@ -319,13 +319,15 @@ However, you should read a copied command before running it.
 
 First, check the following.
 
-- Which operating system is this command based on?
-- Is it okay to run this command in the current folder?
-- Does the path match my computer?
-- Does it include commands related to file deletion or administrator privileges, such as `sudo`, `Remove-Item`, `rm`, or `del`?
+- Which folder is the command assuming?
+- Is it a command for Windows, or for macOS/Linux?
+- Is it just checking something, or is it a command that changes the system?
+- Does it include parts such as `sudo`, package installation, deletion, or moving paths?
 - Does it include prompt symbols such as `$`, `>`, or `PS>` at the front?
 
-In documentation, a terminal prompt may appear like the following to explain the prompt itself.
+Especially in early practice, it is better to stop at the habit of checking `current location`, `command purpose`, and `operating-system match` before running a copied command.
+
+In documentation, a terminal prompt may appear like the following in order to explain the prompt itself.
 
 ```text
 $ python example.py
@@ -347,75 +349,42 @@ Here too, you do not type the whole `PS C:\Users\someone>`. The actual command i
 
 ## If an Error Appears, Separate Location and Environment First
 
-When you encounter a terminal error, do not immediately conclude “I am bad at Python.” First divide the problem.
+When you encounter a terminal error, do not immediately decide `I am bad at Python`. First divide the problem.
 
 | Error situation | What to check first |
 | --- | --- |
-| Cannot find the file | Current working folder and file list |
-| Cannot find the command | Whether the program is installed and the PATH setting |
-| Cannot find the package | Current Python environment and whether the package is installed |
-| Permission error occurs | Execution location, file permissions, and whether administrator privileges are needed |
-| It works in Colab but not locally | Local Python and package installation state |
+| Cannot find the file | current working folder and file list |
+| Cannot find the command | whether the program is installed and the PATH setting |
+| Cannot find the package | current Python environment and whether the package is installed |
+| A permission error occurs | execution location, file permissions, and whether administrator privileges are needed |
+| It works in Colab but not locally | local Python and package-installation state |
 
 In early practice, the most common problems are not deep code errors. They are problems such as being in the wrong current folder, having the package installed in a different environment, or mistaking Colab and the local PC for the same environment.
 
-## Perspective to Remember in This Section
+## Cases And Examples
 
-A terminal is not a list of commands to memorize, but a tool for checking the execution location.
+### Case 1. When the Same Command Is Copied but Looks Different on Windows and macOS
 
-Before practice, remembering only the following order can reduce many errors.
+Suppose you copied the command `cd /Users/someone/ws/project-name` from a learning resource exactly as written and tried to run it. It looks natural on macOS, but in Windows PowerShell the path format itself looks unfamiliar, and for some learners even the paste shortcut can behave differently and become a blocker.
 
-1. Open the terminal.
-2. Check the current location.
-3. Check the file list.
-4. Move to the practice folder.
-5. Check the location and file list again.
-6. Run the Python command.
+The criterion people often start with is simply `it is a command written in the document, so I should be able to paste it as it is`. But in reality, terminal apps, default shells, path notation, and copy-paste behavior differ a little by operating system.
 
-This supplement is a place to briefly restore operating-system-specific procedures. After checking the following criteria, return to the main flow.
+The difference this section tries to reduce is exactly that operating-system-specific notation difference. The key is not to memorize every command, but to read the common purposes: `check current location`, `check file list`, and `move to the project folder`. On Windows, `Get-Location`, `Set-Location`, and `Get-ChildItem` match those purposes. On macOS/Linux, `pwd`, `cd`, and `ls` match them.
 
-| Question solved here | Main-section question to return to | Where to continue reading |
-| --- | --- | --- |
-| Where do I open the terminal on Windows, macOS, and Linux, and how do I check the current location? | Where is the code actually running, and which folder is it moving around based on? | The big picture of the execution environment is in P2-7.1, and the working folder and the place where commands are entered are in P2-7.2 |
+A checkable result can be seen immediately through the command that shows the current location. Even if the operating system differs, if you can ultimately confirm `which folder am I in now?`, the initial confusion caused by path-notation differences becomes much smaller.
 
-Once you can `open the terminal`, `check the current location`, and `move to the practice folder`, you can continue to the main section. If deciding about Python installation is the next thing blocking you, then move to P2-7.7 at that point.
+## Checklist
 
-Even if the operating system differs, the core questions are the same.
-
-- Which folder am I in now?
-- Which shell is this command based on?
-- Which file or program is this command trying to find?
-- Is this command running on my computer, or in the Colab runtime?
-
-## Case Study
-
-### Case 1. When the Same Copied Command Looks Different on Windows and macOS
-
-Suppose you copied and ran the command `cd /Users/someone/ws/project-name` from a learning resource exactly as written. On macOS it looks natural, but in Windows PowerShell the path format itself feels unfamiliar, and for some people even the paste shortcut can behave differently and become a blocker.
-
-The human default assumption is usually, “It is a command written in the document, so I can just paste it as-is.” But in reality, the terminal app, default shell, path notation, and copy-paste behavior differ slightly by operating system.
-
-The difference we are trying to reduce here is exactly that operating-system-specific notation difference. The key is not to memorize every command, but to read the shared purposes of `check current location`, `check file list`, and `move to the project folder`. On Windows, `Get-Location`, `Set-Location`, and `Get-ChildItem` match those purposes. On macOS/Linux, `pwd`, `cd`, and `ls` match them.
-
-The confirmable result can be seen immediately through a command that shows the current location. Even if the operating system differs, if you can ultimately check `which folder am I in now?`, the initial confusion caused by path-notation differences becomes much smaller.
-
-## Short Check
-
-- You can explain that Windows Terminal is a host app that can run multiple command-line shells.
-- You can explain that on macOS Terminal, you can check your location and move around with `pwd`, `ls`, and `cd`.
-- You can open a terminal on Linux and check the current location and file list.
-- You can explain the purpose of `Get-Location`, `Get-ChildItem`, and `Set-Location` in Windows PowerShell.
-- You can explain the path-notation difference between Windows and macOS/Linux.
-- You can explain that terminal shortcuts can differ by environment, and that you should first check `Tab`, `Ctrl + C`, and copy-paste.
-- You can explain that `Ctrl + C` and `Ctrl + V` in general apps can differ from terminal copy, paste, and interrupt shortcuts.
-- You can distinguish prompt symbols from the actual command to type in a copied command.
-- You can explain that commands such as `sudo`, `rm`, `del`, and `Remove-Item` should not be run before their meaning is understood.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when you copied the same command but it looks different on Windows and macOS, so you first need to separate the operating-system difference.
-- Recall it when you are blocked even before the main practice because you first need to review the minimum operating-system-specific procedure for where to open the terminal and how to check the current location.
-- Recall it when copy-paste or `Ctrl + C` behaves differently from ordinary apps and you need to check terminal shortcuts separately.
+- Can you explain that Windows Terminal is a host app that can run multiple command-line shells?
+- Can you check your location and move around in macOS Terminal with `pwd`, `ls`, and `cd`?
+- Can you open a terminal on Linux and check the current location and the file list?
+- Can you explain the purpose of `Get-Location`, `Get-ChildItem`, and `Set-Location` in Windows PowerShell?
+- Can you explain the path-notation difference between Windows and macOS/Linux?
+- Can you explain that terminal shortcuts can differ by environment, and that you should first check `Tab`, `Ctrl + C`, and copy-paste behavior?
+- Can you explain that `Ctrl + C` and `Ctrl + V` in general apps can differ from terminal copy, paste, and interrupt shortcuts?
+- Can you distinguish prompt symbols from the actual command to type in a copied command?
+- Can you explain that commands such as `sudo`, `rm`, `del`, and `Remove-Item` should not be run before their meaning is understood?
+- Can you explain the order `open the terminal -> check the current location -> check the file list -> move to the practice folder -> check the location and file list again -> run the Python command`?
 
 ## Sources and References
 

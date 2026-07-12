@@ -1,7 +1,7 @@
 # P2-14.1 Git as a Tool for Managing Change History
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In Part 2 Chapter 13, we created plots with Matplotlib and linked the output images into documents. A problem appears immediately at that point. If documents, code, images, and research notes all change together, it becomes hard later to remember "what changed, and why."
 
@@ -204,27 +204,14 @@ This case also shows why `git add` and `git commit` are separated. First you cho
 
 In other words, what matters in Git basics is not memorizing many commands. It is developing the sense of grouping changes into meaningful units of explanation. Only with that sense does the history stay readable in a project where documents, code, and images move together.
 
-## Perspective to Remember from This Section
-
-- Git is not a file-saving tool but a change-history management tool.
-- A commit is a meaningful bundle of changes.
-- `git status` checks the current state, and `git add` chooses the changes that go into this record.
-- `git commit` leaves the chosen changes in history, and `git log` lets you read that history.
-- In a learning-document project, Git lets you track the connection among manuscripts, code, images, and research notes.
-
-## Short Check
+## Checklist
 
 - Can you explain the difference between saving a file and making a Git commit?
 - Can you distinguish the working tree, staging area, and repository?
 - Can you state the roles of `git status`, `git add`, `git commit`, and `git log`?
 - Can you explain why one commit should carry one purpose?
 - Can you explain why Git is needed as a learning-record management tool in a document project?
-
-## When Should You Recall This Perspective First?
-
-- Recall the Git perspective first when you need to explain why saving a file and leaving work history are different.
-- Return to the change-history sense in this section when you need to judge what changed, why it changed, and in what unit it should be grouped into a record.
-- Check this section again when you want to leave a reproducible record in a learning project that handles documents, code, and plots together.
+- Can you explain that Git is a change-history management tool, and that commits let you track the connection among manuscripts, code, images, and research notes.
 
 ## Sources and References
 

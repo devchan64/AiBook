@@ -1,7 +1,7 @@
 # P1-11.3 Transformer 与预训练 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)；在 11.2 中，我们又看了 RNN、Seq2Seq、Attention 如何处理顺序与上下文。
 
@@ -47,16 +47,7 @@
 | 预训练(pretraining) | 为什么模型要先在大规模文本上训练？ |
 | 文脉内学习(in-context learning) | 为什么 prompt 里的例子会改变模型行为？ |
 
-prompt 写法会在 P1-12.1 到 P1-12.3 中再讲；向量检索和 RAG 会在 P1-13.1 到 P1-13.4 以及 P1-14.2 中再讲；AI 服务架构会在 P1-14.1 到 P1-14.6 再讲。这里的目标只是在于抓住大线索：
-
-> 现代 LLM 不是突然出现的，  
-> 而是语言建模、嵌入、sequence modeling、Attention 与预训练结合后的结果。
-
-因此，这里只区分三件事：
-
-- 结构
-- 学习流程
-- 用户体验的变化
+prompt 写法会在 P1-12.1 到 P1-12.3 中再讲；向量检索和 RAG 会在 P1-13.1 到 P1-13.4 以及 P1-14.2 中再讲；AI 服务架构会在 P1-14.1 到 P1-14.6 再讲。这里的目标只是抓住一条大线索：现代 LLM 不是突然出现的，而是语言建模、嵌入、sequence modeling、Attention 与预训练结合后的结果。这里仅区分 `结构`、`学习流程`、`用户体验的变化`。
 
 ## 本节目标
 
@@ -224,27 +215,6 @@ GPT-3 论文也指出了局限。few-shot 性能变好，并不自动证明模�
 > LLM 是在语言与生成接口上造成巨大变化的一条重要支流，  
 > 但它并不等于全部 AI。
 
-## 本节应记住的视角
-
-如果要安全地概括现代 LLM，可以这样总结：
-
-> 语言建模提出了“预测下一个 token 概率”的问题。  
-> 嵌入把 token 变成向量。  
-> RNN、Seq2Seq、Attention 处理顺序与输入输出对应。  
-> Transformer 强化了以 Attention 为中心的结构与并行学习能力。  
-> 预训练让模型先在大规模文本中学到一般语言模式。  
-> GPT-2 与 GPT-3 扩大了自然语言 prompt 与 in-context learning 的使用体验。
-
-知道这条脉络，就不会把 LLM 看成突然出现的魔法技术。LLM 是语言建模、向量表示、sequence modeling、Attention、Transformer 与大规模预训练逐步结合后的结果。
-
-这里先记住下面三行就够了：
-
-| 现在先记住这个 | 之后回来看这里 |
-| --- | --- |
-| Transformer 是一种以 self-attention 为中心、让 token 直接互相参考的结构。 | Part 5 的 Transformer 正文 |
-| 预训练是在大规模文本中先学习一般语言模式的阶段。 | Part 6 中 GPT/LLM 主线说明 |
-| BERT 与 GPT 都属于 Transformer 家族，但它们并不是同一种角色的模型。 | Part 5 中对 BERT 的比较，以及 Part 6 中 LLM 发展史背景 |
-
 ## 检查清单
 
 - 我可以把 Transformer 解释成以 self-attention 为中心的结构。
@@ -256,16 +226,8 @@ GPT-3 论文也指出了局限。few-shot 性能变好，并不自动证明模�
 - 我可以把 ELMo 与 ULMFiT 描述成大型预训练 Transformer 之前的重要前兆。
 - 我可以把 in-context learning 解释成不更新权重、只通过输入上下文改变行为的方式。
 - 我不会把 LLM 等同于全部 AI。
-
-## 什么时候要先想起这个视角
-
-当 Transformer、预训练、BERT、GPT 开始混在一起，看起来像一整团现代术语，导致需要重新拆开现代 LLM 的结构与学习流程时，就可以先想起本节。
-
-- 当需要重新解释为什么 Transformer 把 Attention 提升成中心结构时
-- 当需要整理 BERT 与 GPT 在同一 Transformer 家族里应怎样被不同安放时
-- 当需要区分 pretraining、fine-tuning、in-context learning 分别改变了什么时
-
-此时可以先分开看：`结构`、`学习流程`、`用户体验变化`。这样更容易把现代 LLM 解释成建立在 self-attention 与大规模预训练之上的成长谱系，而不是某个单一产品名称。
+- 我可以把 Transformer、预训练、BERT、GPT 不当作一团最新术语，而是拆成 `结构`、`学习流程`、`用户体验变化` 来解释。
+- 我可以把现代 LLM 解释成建立在 self-attention 结构与大规模预训练之上的成长谱系，而不是某个单一产品名称。
 
 ## 来源与参考资料
 

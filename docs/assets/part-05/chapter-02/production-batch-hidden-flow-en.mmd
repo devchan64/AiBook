@@ -1,0 +1,10 @@
+flowchart TD
+  A["batch signals<br/>temperature drift, pressure swing, rework call"]
+  B["single-rule reading<br/>one metric first"]
+  C["combined hidden pattern<br/>thermal load + unstable run"]
+  D["next check<br/>review intervention priority first"]
+
+  A --> B
+  A --> C
+  B --> D
+  C --> D

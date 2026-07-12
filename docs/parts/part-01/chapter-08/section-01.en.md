@@ -1,7 +1,7 @@
 # P1-8.1 Supervised Learning: Inputs and Labels
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 
@@ -289,14 +289,6 @@ But labels are not guaranteed absolute truth. A label is a target value created 
 - I can explain that classification chooses categories while regression predicts numbers.
 - I can explain that if the label standard is unstable, the supervised-learning data also becomes unstable.
 - I can keep supervised learning, unsupervised learning, reinforcement learning, and deep learning from collapsing into the same category.
-
-## When Should This Perspective Come to Mind First?
-
-- when a problem first needs to be split by whether labels exist or not
-- when classification and regression need to be explained through label shape rather than through algorithm names
-- when the consistency of label standards needs to be checked before model performance is discussed
-
-At that point, ask separately `what do these labels actually mean?`, `can people assign them by the same standard?`, and `can the model predict them from the input alone?` That helps prevent supervised learning from being reduced to the vague phrase `learning with correct answers`.
 
 ## Sources and Further Reading
 

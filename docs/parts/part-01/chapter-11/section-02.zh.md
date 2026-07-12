@@ -1,7 +1,7 @@
 # P1-11.2 RNN、Seq2Seq 与 Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)。语言模型会以概率方式处理单词和 token 的顺序，而嵌入会把单词和 token 变成可计算的向量表示(vector representation)。
 
@@ -219,16 +219,6 @@ Attention 展示了更强的想法：直接去参考输入中相关的位置。T
 
 Transformer 的具体结构以及预训练 LLM(pretrained LLM)会在 11.3 中继续。
 
-## 本节应记住的视角
-
-RNN、Seq2Seq、Attention 都属于同一条努力：它们试图不再把语言看成简单的单词列表，而是看成带有顺序与上下文的数据。
-
-> RNN 会在内部状态里累积顺序。  
-> Seq2Seq 会把输入顺序变成输出顺序。  
-> Attention 会在生成输出时重新查看相关输入部分。
-
-知道这条脉络，就不容易把 Transformer 和 LLM 误看成凭空出现的结构。Transformer 应该放在更早的问题意识之上理解：长上下文、输入输出对应、瓶颈减少，以及更强并行计算的需要。
-
 ## 检查清单
 
 - 我可以说明 RNN(recurrent neural network)会把前一个 hidden state 传给下一次计算。
@@ -240,16 +230,8 @@ RNN、Seq2Seq、Attention 都属于同一条努力：它们试图不再把语言
 - 我可以把 Attention 解释成对输入各位置加权参考相关信息的结构。
 - 我可以避免把 Attention 夸大成有意识注意或完整可解释性。
 - 我已经准备好在 11.3 里继续理解 Transformer 为什么把 Attention 放到中心。
-
-## 什么时候要先想起这个视角
-
-当 Transformer 之前的 sequence modeling 脉络消失了，导致现代 LLM 看起来像突然冒出来的结构时，就可以先想起本节。
-
-- 当需要重新说明 RNN 为什么要为顺序数据单独设计时
-- 当需要整理 Seq2Seq(sequence-to-sequence) 与 Encoder-Decoder 如何建模翻译、摘要等任务时
-- 当需要把 Attention 和 fixed-length vector 瓶颈的缓解联系起来时
-
-此时可以先区分：`累积顺序的结构`、`把输入序列变成输出序列的结构`、`在生成输出时重新回看相关输入位置的结构`。这样就不会把 Transformer 误看成单独的发明，而会把它放在前面一连串问题与解法之上理解。
+- 我可以区分 `累积顺序的结构`、`把输入序列变成输出序列的结构`、`在生成输出时重新回看相关输入位置的结构`。
+- 我可以把 Transformer 解释成建立在更早 sequence modeling 问题与解法之上的结构，而不是单独的发明。
 
 ## 来源与参考资料
 

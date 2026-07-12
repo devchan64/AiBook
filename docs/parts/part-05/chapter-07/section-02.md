@@ -9,7 +9,7 @@ P5-7.1에서는 옵티마이저(optimizer)를 `gradient를 실제 파라미터 �
 
 SGD는 단순한 기본 보폭 규칙에 가깝고, Adam은 좌표별 적응과 누적 정보를 더 많이 활용하는 업데이트 규칙에 가깝다.
 
-대표 옵티마이저의 차이를 다시 짧게 복습해야 할 때는 개념사전의 [확률적 경사 하강법(SGD, stochastic gradient descent)](../../../reference/concept-glossary.md#sgd-stochastic-gradient-descent)과 [Adam](../../../reference/concept-glossary.md#adam) 항목을 함께 다시 봅니다.
+대표 옵티마이저의 차이를 다시 짧게 복습해야 할 때는 개념사전의 [경사하강법(gradient descent)](../../../reference/concept-glossary.md#gradient-descent)과 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
 
 ## 이 절의 범위
 
@@ -128,9 +128,9 @@ SGD에서 계속 확인해야 하는 기준은 복잡한 보정 없이도 gradie
 
 ## 사례 및 예시
 
-### 사례 1. 손실이 천천히 줄어드는 장난감 문제
+### 사례 1. 손실이 천천히 줄어드는 작은 운영 회귀 문제
 
-작은 회귀 실험에서 입력 하나와 오차 하나를 눈으로 따라가며 학습을 보고 싶을 수 있습니다. 사람이 손으로 계산을 따라갈 때는 보통 `지금 오차가 어느 방향으로 났는가`를 보고 바로 조금 되돌리는 식으로 생각합니다. 예를 들어 예측값이 실제값보다 계속 크게 나오면, 현재 가중치를 줄이는 방향으로 한 걸음 움직여 보는 식입니다. 이때 SGD는 현재 gradient를 보고 바로 한 걸음 움직이므로, `이번 step에서 왜 가중치가 이렇게 바뀌었는가`를 비교적 직접 추적할 수 있습니다. 단순한 문제에서는 이런 직선적인 업데이트가 학습 원리를 설명하는 데 특히 유리합니다. 그래서 이 사례에서 확인해야 할 결과는 여러 보정 없이도, 현재 gradient 방향이 다음 가중치 변화에 직접 반영되는가입니다.
+작은 수요 예측이나 온도 보정 회귀 실험에서 입력 하나와 오차 하나를 눈으로 따라가며 학습을 보고 싶을 수 있습니다. 사람이 손으로 계산을 따라갈 때는 보통 `지금 오차가 어느 방향으로 났는가`를 보고 바로 조금 되돌리는 식으로 생각합니다. 예를 들어 예측값이 실제값보다 계속 크게 나오면, 현재 가중치를 줄이는 방향으로 한 걸음 움직여 보는 식입니다. 이때 SGD는 현재 gradient를 보고 바로 한 걸음 움직이므로, `이번 step에서 왜 가중치가 이렇게 바뀌었는가`를 비교적 직접 추적할 수 있습니다. 단순한 문제에서는 이런 직선적인 업데이트가 학습 원리를 설명하는 데 특히 유리합니다. 그래서 이 사례에서 확인해야 할 결과는 여러 보정 없이도, 현재 gradient 방향이 다음 가중치 변화에 직접 반영되는가입니다.
 
 ### 사례 2. 복잡한 딥러닝 모델의 초기 실험
 
@@ -143,24 +143,33 @@ SGD에서 계속 확인해야 하는 기준은 복잡한 보정 없이도 gradie
 
 연구나 실험 기록에서는 같은 모델을 SGD와 Adam으로 모두 돌려 보는 경우가 많습니다. 사람은 로그를 볼 때 `어느 쪽 손실이 더 빨리 내려갔는가`만 먼저 보기 쉽지만, 실제 비교 기준은 수렴 속도, 최종 성능, 진동 정도처럼 여러 축으로 나뉩니다. 예를 들어 Adam은 초반에 빠르게 내려가지만, SGD가 더 오래 학습했을 때 최종 검증 성능이 더 좋아질 수도 있습니다. 이처럼 optimizer는 단순 부수 설정이 아니라 학습 속도와 최종 일반화 성능을 함께 바꾸는 핵심 실험 변수입니다. 그래서 이 사례에서 확인해야 할 결과는 `어느 optimizer가 더 좋다`를 단정하는 것이 아니라, 수렴 속도와 최종 성능을 나누어 비교해야 한다는 점입니다.
 
+| 사람이 먼저 보기 쉬운 기준 | SGD 관점으로 다시 읽는 기준 | Adam 관점으로 다시 읽는 기준 |
+| --- | --- | --- |
+| 오차가 보이면 같은 크기로 바로 되돌리면 된다고 느끼기 쉽다 | 현재 gradient 방향과 learning rate가 이번 step 이동량을 직접 결정한다 | 최근 gradient 흐름과 좌표별 차이를 함께 참고해 보폭을 더 다르게 잡으려 한다 |
+| 초반 손실이 빨리 줄면 무조건 더 좋은 optimizer라고 생각하기 쉽다 | 수렴 속도와 최종 일반화는 따로 비교해야 하고, SGD는 기준선 역할을 잘 보여 준다 | 초반 안정성과 실용성은 좋을 수 있지만 최종 결과 우위를 자동 보장하지는 않는다 |
+| 모델 구조가 같으면 optimizer는 부수 설정일 뿐이라고 보기 쉽다 | 같은 구조라도 update 규칙이 달라지면 파라미터 경로와 진동 양상이 달라진다 | 같은 gradient라도 누적 정보 때문에 더 매끈하거나 덜 급한 이동이 나타날 수 있다 |
+| Adam이 많이 쓰이니 SGD는 이제 덜 중요하다고 느끼기 쉽다 | SGD는 `현재 gradient에 직접 반응하는 기본 보폭` 감각을 가장 분명히 보여 주는 기준점이다 | Adam은 그 기준점 위에 적응형 보정이 무엇을 더하는지 읽게 해 주는 비교 대상이다 |
+
+이 사례들에서 최종적으로 확인해야 할 결과는 분명합니다. SGD와 Adam의 차이는 `어느 이름이 더 최신인가`가 아니라, SGD는 현재 gradient 기준의 직접 업데이트를, Adam은 누적 정보와 좌표별 차이를 더 반영한 적응형 업데이트를 보여 준다는 데 있습니다.
+
 ## 연습 및 예제
 
-이번 예제의 목표는 `같은 gradient라도`, 단순한 SGD식 업데이트와 누적 평균을 반영한 Adam식 업데이트 감각이 다를 수 있다는 점을 직관적으로 보는 것입니다. step별 이동량을 함께 찍어, 두 방식이 왜 다르게 느껴지는지도 같이 보겠습니다.
+이번 예제의 목표는 `같은 위험 가중치 gradient라도`, 단순한 SGD식 업데이트와 누적 평균을 반영한 Adam식 업데이트 감각이 다를 수 있다는 점을 직관적으로 보는 것입니다. step별 이동량을 함께 찍어, 두 방식이 왜 다르게 느껴지는지도 같이 보겠습니다.
 
 입력:
 
-- 현재 가중치 `w`
-- 여러 step에서의 gradient 목록
+- 현재 위험 가중치 `risk_weight`
+- 여러 step에서의 위험 가중치 gradient 목록
 
 출력:
 
-- SGD 방식의 연속 업데이트 결과
+- SGD 방식의 연속 위험 가중치 업데이트 결과
 - Adam 식 누적 평균을 단순화한 직관적 업데이트 결과
-- step별 이동량
+- step별 위험 가중치 이동량
 
 문제 상황:
 
-- optimizer 차이는 수식 이름보다 여러 step에서 가중치가 어떻게 움직이는지로 보는 편이 직관적이다
+- optimizer 차이는 수식 이름보다 여러 step에서 위험 가중치가 어떻게 움직이는지로 보는 편이 직관적이다
 
 확인할 개념:
 
@@ -169,53 +178,68 @@ SGD에서 계속 확인해야 하는 기준은 복잡한 보정 없이도 gradie
 
 입력(input):
 
-위에 정리한 gradient 목록과 optimizer 설정값을 사용합니다.
+압력 미복귀 신호를 읽는 `risk_weight` 하나가 있고, 학습 step마다 `gradient_risk_weight`가 `-4.0`, `-2.0`, `-1.0` 순서로 들어온다고 가정합니다. 같은 gradient 흐름을 보더라도 SGD와 Adam-like가 `risk_weight`를 얼마나 직접적으로, 혹은 얼마나 누적 평균을 섞어 움직이는지 비교합니다.
+
+코드를 보기 전에 먼저 어떤 쪽 이동량이 더 직접적이고 어떤 쪽이 더 매끈할지 예상해 보면, `현재 gradient 반응`과 `누적 평균 반응`의 차이가 더 잘 보입니다.
+
+| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
+| --- | --- | --- |
+| 첫 번째 SGD `delta` | 가장 크게 움직일 가능성이 큼 | 첫 `gradient_risk_weight` `-4.0`이 learning rate와 바로 곱해져 직접 반영되기 때문입니다. |
+| 첫 번째 Adam-like `delta` | SGD보다 훨씬 작을 가능성이 큼 | moving average가 처음에는 전체 gradient를 부분적으로만 반영하기 때문입니다. |
+| step이 지날수록 SGD `delta` | gradient 절대값이 줄어들며 함께 바로 작아질 가능성이 큼 | SGD는 현재 `gradient_risk_weight` 크기에 직접 반응합니다. |
+| step이 지날수록 Adam-like `delta` | 더 천천히 변하거나 상대적으로 매끈하게 이어질 가능성이 큼 | 이전 step들의 gradient가 moving average 안에 남아 있기 때문입니다. |
+
+이 표의 목적은 정확한 숫자를 미리 암기하는 데 있지 않습니다. 같은 `gradient_risk_weight` 흐름이어도 SGD는 `지금 기울기`를 바로 반영하고, Adam-like는 `최근 흐름`을 남기며 더 매끈하게 움직일 수 있다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
-gradients = [-4.0, -2.0, -1.0]
-w_sgd = 1.0
-w_adam_like = 1.0
+gradient_risk_weight_history = [-4.0, -2.0, -1.0]
+risk_weight_sgd = 1.0
+risk_weight_adam_like = 1.0
 learning_rate = 0.1
 moving_avg = 0.0
 beta = 0.9
 
 print("SGD updates")
-for g in gradients:
-    delta = -learning_rate * g
-    w_sgd = w_sgd + delta
-    print(" gradient =", g, "delta =", round(delta, 3), "-> w =", round(w_sgd, 3))
+for gradient_risk_weight in gradient_risk_weight_history:
+    delta = -learning_rate * gradient_risk_weight
+    risk_weight_sgd = risk_weight_sgd + delta
+    print(
+        " gradient_risk_weight =", gradient_risk_weight,
+        "delta =", round(delta, 3),
+        "-> risk_weight =", round(risk_weight_sgd, 3)
+    )
 
 print()
 print("Adam-like updates (simplified intuition)")
-for g in gradients:
-    moving_avg = beta * moving_avg + (1 - beta) * g
+for gradient_risk_weight in gradient_risk_weight_history:
+    moving_avg = beta * moving_avg + (1 - beta) * gradient_risk_weight
     delta = -learning_rate * moving_avg
-    w_adam_like = w_adam_like + delta
+    risk_weight_adam_like = risk_weight_adam_like + delta
     print(
-        " gradient =", g,
+        " gradient_risk_weight =", gradient_risk_weight,
         "moving_avg =", round(moving_avg, 3),
         "delta =", round(delta, 3),
-        "-> w =", round(w_adam_like, 3)
+        "-> risk_weight =", round(risk_weight_adam_like, 3)
     )
 ```
 
-출력에서는 같은 gradient 흐름에서도 SGD와 Adam-like의 delta와 최종 w 이동이 어떻게 달라지는지부터 비교하면 됩니다.
+출력에서는 같은 `gradient_risk_weight` 흐름에서도 SGD와 Adam-like의 delta와 최종 `risk_weight` 이동이 어떻게 달라지는지부터 비교하면 됩니다.
 
 ```text
 SGD updates
- gradient = -4.0 delta = 0.4 -> w = 1.4
- gradient = -2.0 delta = 0.2 -> w = 1.6
- gradient = -1.0 delta = 0.1 -> w = 1.7
+ gradient_risk_weight = -4.0 delta = 0.4 -> risk_weight = 1.4
+ gradient_risk_weight = -2.0 delta = 0.2 -> risk_weight = 1.6
+ gradient_risk_weight = -1.0 delta = 0.1 -> risk_weight = 1.7
 
 Adam-like updates (simplified intuition)
- gradient = -4.0 moving_avg = -0.4 delta = 0.04 -> w = 1.04
- gradient = -2.0 moving_avg = -0.56 delta = 0.056 -> w = 1.096
- gradient = -1.0 moving_avg = -0.604 delta = 0.06 -> w = 1.156
+ gradient_risk_weight = -4.0 moving_avg = -0.4 delta = 0.04 -> risk_weight = 1.04
+ gradient_risk_weight = -2.0 moving_avg = -0.56 delta = 0.056 -> risk_weight = 1.096
+ gradient_risk_weight = -1.0 moving_avg = -0.604 delta = 0.06 -> risk_weight = 1.156
 ```
 
 이 예제는 진짜 Adam 전체 공식을 구현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
 
-- SGD는 현재 gradient를 비교적 직접 반영합니다
+- SGD는 현재 `gradient_risk_weight`를 비교적 직접 반영합니다
 - Adam류의 아이디어는 최근 방향을 누적해 더 매끈하게 움직이려 합니다
 - optimizer는 단순히 `감소시킨다`가 아니라, `어떤 방식으로 감소시킬지`를 정합니다
 
@@ -223,9 +247,9 @@ Adam-like updates (simplified intuition)
 
 | 먼저 바꿔 볼 값 | 무엇을 비교하게 되는가 | 이 절에서 먼저 확인할 결과 |
 | --- | --- | --- |
-| `learning_rate`를 0.1에서 0.3으로 키운다 | 두 방식의 step별 이동량이 얼마나 더 거칠어지는가 | SGD 쪽 이동 폭이 더 직접적으로 커지는가 |
+| `learning_rate`를 0.1에서 0.3으로 키운다 | 두 방식의 step별 이동량이 얼마나 더 거칠어지는가 | SGD 쪽 `risk_weight` 이동 폭이 더 직접적으로 커지는가 |
 | `beta`를 0.9에서 0.5로 낮춘다 | Adam-like가 최근 gradient를 얼마나 빨리 따라가는가 | 누적 평균이 덜 매끈해지고 현재 gradient 반영이 빨라지는가 |
-| `gradients`를 `[-4.0, 3.0, -1.0]`처럼 흔들리게 바꾼다 | 방향이 뒤집힐 때 두 방식이 얼마나 다르게 반응하는가 | Adam-like가 방향 전환을 더 천천히 반영하는가 |
+| `gradient_risk_weight_history`를 `[-4.0, 3.0, -1.0]`처럼 흔들리게 바꾼다 | 방향이 뒤집힐 때 두 방식이 얼마나 다르게 반응하는가 | Adam-like가 방향 전환을 더 천천히 반영하는가 |
 
 즉, 이 절의 실험은 `SGD와 Adam이 다르다`를 보는 데서 멈추지 않고, `어떤 값을 흔들면 그 차이가 더 분명해지는가`까지 확인해야 optimizer 감각이 더 오래 남습니다.
 

@@ -1,7 +1,7 @@
 # P4-8.1 Model Selection
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-7, the discussion examined what inputs should remain and what representation those inputs should be changed into. Now it moves to the next question.
 
@@ -364,8 +364,6 @@ If this scene is drawn as a diagram, it becomes visible at a glance how even the
 --8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-03-en.mmd"
 ```
 
-## Cases And Examples
-
 ### Setting Up Model Candidates Through A Small Example
 
 Consider the following problem.
@@ -390,99 +388,120 @@ By contrast, fixing one very complex model from the beginning can make the compa
 
 ## Practice And Examples
 
-### Organizing A Candidate Family Into A Table Through A Python Example
+### Practice 1. Rewrite A Problem Scene Into A Candidate-Family Memo
 
-The example below does not train models. It is a very simple thought tool that organizes what candidates can be brought to mind first depending on problem conditions.
+Look at the three scenes below and write at least the following five items for each scene.
 
-Problem situation:
+- problem type
+- sample unit
+- first 2 to 4 candidate models
+- baseline to note together
+- error or comparison point to inspect first
 
-- model selection is closer to first narrowing a candidate family by looking at problem conditions than to memorizing algorithm names
+| Scene | Memo the reader should write first |
+| --- | --- |
+| An online store wants to find `orders likely to be returned next week` in advance. The inputs are order amount, whether shipping was delayed, category, and previous return count. The operations team wants some explanation for why an order looks risky. | problem type / sample unit / first candidate family / baseline / error to inspect first |
+| A real-estate team wants to estimate `the expected apartment transaction price`. The inputs are area, number of rooms, year built, and distance to the nearest station. Interpretability matters, but reducing large-money errors matters more. | problem type / sample unit / first candidate family / baseline / error to inspect first |
+| A logistics team wants to inspect `groups of regions with similar delivery patterns` first. The inputs are average delivery time, redelivery rate, and order density. There are no labels yet, and the goal is to inspect structure first. | problem type / sample unit / first candidate family / baseline substitute comparison / comparison point to inspect first |
 
-Input:
+Compare what you wrote with the explanation below and check not only `whether you wrote candidate names`, but also whether you wrote `why those candidates should be compared first` and `what they should be compared against`.
 
-- a dictionary `problem` containing problem conditions
+| Scene | Example explanation |
+| --- | --- |
+| finding risky return orders | classification, sample unit is one order, candidate family is logistic regression, decision tree, random forest, baseline is always predict `no return`, and the first error to inspect is the cell where actual return orders are missed and recall |
+| estimating apartment transaction price | regression, sample unit is one apartment transaction, candidate family is linear regression, tree regression, random-forest regression, baseline is predicting the average transaction price, and the first comparison point is large-money error regions and the MAE/RMSE difference |
+| grouping regions with similar delivery patterns | clustering, sample unit is one region, candidate family is k-means and DBSCAN, instead of a separate baseline compare with simple rule-based splits and interpretation, and inspect density inside clusters and separation between clusters first |
 
-Output:
+The core of this practice is to write once by hand the order `problem type -> sample unit -> candidate family -> baseline -> failure to inspect first`. Without writing this order, it is easy to misunderstand model selection again as `choosing a famous algorithm name`.
 
-- a list of model candidates narrowed according to the conditions
+### Practice 2. Explain In Words Which Candidate Should Be Removed First
 
-Concepts to check:
+Model selection is closer to `removing candidates that fit the current problem less well first` than to `guessing the one best algorithm`. In the scenes below, explain in one or two sentences why some candidates should be raised first and why others should be delayed.
 
-- a candidate family can be organized by beginning with conditions such as task type, need for interpretation, and expectation of nonlinearity
-- if the initial candidate family is organized like a table, later comparison and baseline setting become easier
+| Scene | Question the reader should answer first |
+| --- | --- |
+| It is a tabular-data classification problem, people must review the basis for predictions, and batch inference once per day is enough. | Why can logistic regression or a shallow tree be raised first? |
+| The distance concept between features matters, and similar cases are expected to lead to similar judgments. | Why can k-NN or SVM be kept more actively in the candidate family? |
+| Real-time response is very important and deployment memory is small. | Why should candidates with simpler inference be reviewed before more complex ones? |
 
-```python
-problem = {
-    "task_type": "classification",
-    "need_explanation": True,
-    "real_time": False,
-    "distance_sensitive_features": False,
-    "nonlinear_pattern_expected": True,
-}
+The following short explanations are enough to hold on to.
 
-candidates = []
+- If explanation and review matter, raise candidates that are easier to interpret first so that the difference from the baseline can be read more easily.
+- When the distance concept matters, distance-based candidates deserve more attention because closeness between inputs can itself become a judgment criterion.
+- When operational constraints are large, not only the possibility of a high score but also inference cost and deployment simplicity become criteria for reducing candidates.
 
-if problem["task_type"] == "classification":
-    candidates.append(("logistic_regression", "clear baseline and easier interpretation"))
-    candidates.append(("decision_tree", "simple nonlinear rules"))
+### Example. Compare A Bad Candidate Memo With A Better Candidate Memo
 
-if problem["nonlinear_pattern_expected"]:
-    candidates.append(("random_forest", "stronger nonlinear candidate"))
+The two memos below were written for the same problem scene.
 
-if problem["distance_sensitive_features"]:
-    candidates.append(("knn", "distance-based comparison"))
-    candidates.append(("svm", "margin-based boundary"))
+Problem scene:
 
-print("candidate shortlist:")
-for name, reason in candidates:
-    print("-", name, "->", reason)
-```
+- The task is to classify `whether a card transaction is fraudulent`.
+- The inputs are transaction amount, country, time band, past fraud history, and device information.
+- Missing fraud causes large losses, and the operations team wants to see some basis for the risk judgment as well.
 
-The output is as follows.
+Memo A:
 
-```text
-candidate shortlist:
-- logistic_regression -> clear baseline and easier interpretation
-- decision_tree -> simple nonlinear rules
-- random_forest -> stronger nonlinear candidate
-```
+| Item | Content |
+| --- | --- |
+| candidate | XGBoost only |
+| reason | I heard it performs well |
 
-The purpose of this example is not automatic selection. It is to show `the thinking that reads problem conditions and reduces candidates`.
+Memo B:
 
-The reader should extract the following three points here.
+| Item | Content |
+| --- | --- |
+| problem type | classification |
+| sample unit | one transaction |
+| first candidate family | logistic regression, decision tree, random forest |
+| baseline | always predict `normal transaction` |
+| first error to inspect | the cell where actual fraudulent transactions are missed, change in recall |
+| extra memo | because explanation and operational review matter, include interpretable candidates in the first comparison group |
 
-- a candidate family usually begins with not one model, but at least two or three
-- words such as `interpretability`, `nonlinearity`, and `distance concept` become criteria that reduce candidates
-- model selection is not yet the stage of deciding a winner, but the stage of creating a comparable list of entrants
+Answer the following for yourself first.
 
-## Perspective To Remember In This Section
+- Which memo is closer to model selection?
+- Why does the other memo still remain at `choosing a famous model name` rather than `candidate-family design`?
+- If you wanted to add one more note before later comparison even in Memo B, what would it be?
 
-- Model selection is not the work of guessing one correct algorithm.
-- It looks together at problem type, data condition, interpretability, and operational constraints.
-- The real starting point is a reasonable shortlist rather than one model.
-- The baseline and later algorithm Sections are the stages that compare and narrow this shortlist.
+The explanation can be read as follows.
 
-## Short Check
+- Memo B is better. It connects model selection to `problem type`, `sample unit`, `comparison candidates`, `baseline`, and `the error to inspect first`.
+- Memo A fixes only one candidate and leaves out what it should be compared against and what failure it should reduce, so it does not continue naturally into the baseline comparison of later Sections.
+- Items that can still be added to Memo B are input representation, degree of data imbalance, and the failure types that are operationally hardest to accept.
 
-- Are you fixing the problem type first and then setting up the shortlist?
-- Before tuning one model immediately, are you leaving a shortlist of around 2 to 4 models to compare?
-- Are you noting not only candidate model names but also the baseline and the error scenes to inspect first?
+The purpose of this comparison example is not to find `a good candidate name`, but to let the reader distinguish what `a good candidate memo` is.
 
-## When Should This Perspective Come To Mind First
+### Practice 3. Check Whether The Memo Changes When The First Error To Inspect Changes
 
-- Bring up the model-selection perspective when a reasonable candidate family should be set first instead of immediately grabbing one famous model.
-- Return to this Section when the shortlist has to be narrowed while looking together at problem type, input representation, interpretability, and operational constraints.
-- This Section becomes the standard when reorganizing why the baseline and the error scenes to inspect first must also be noted together.
+The two scenes below are both classification problems, and the first candidate family can start similarly. But if the first error to inspect is different, the model-selection memo should also change.
 
+| Scene | How should the first error to inspect be written? |
+| --- | --- |
+| In hospital intake, `not missing high-risk patients` matters more. | Write which cell especially has to be reduced. |
+| In an ad-recommendation system, `showing too much to uninterested people` is the bigger problem. | Write which false-positive judgment should be reduced. |
+
+After writing your own answer, compare it with the explanation below.
+
+| Scene | Example explanation |
+| --- | --- |
+| high-risk-patient classification | Because false negatives that miss actual high-risk patients should be reduced first, it is appropriate to note that recall and missed cases should be examined first. |
+| ad-recommendation classification | Because false positives that wrongly judge uninterested people as positive should be reduced first, it is appropriate to note that precision-side errors and overexposure cases should be examined first. |
+
+This practice is meant to hold on to the point that `writing the candidate family is not the end`. Even with the same candidate family, the comparison memo changes depending on which failure should be reduced first.
+
+## Checklist
+
+- Are you fixing the problem type first and then building the candidate family?
+- Are you comparing candidates only after writing the sample unit and the input representation?
+- Before tuning only one model immediately, are you leaving a shortlist of about 2 to 4 models to compare?
+- Are you noting not only candidate model names but also the baseline and the error scene to inspect first?
 - Is the current problem classification, regression, or clustering?
 - Have you considered the input representation and the scale of the data?
-- Have you included interpretability and operational constraints as criteria?
-- Are you ready to set up at least two or three candidate models and compare them?
-- Are you still not grabbing only one complex model without a baseline?
-
-## Connection To The Next Section
-
-In the next Section, P4-8.2 baseline, the reader sees why `the simplest starting point for comparison` is needed first among the candidate family built here. Then in P4-9, the reader examines how those candidates should be adjusted and compared, and after P4-10 the reader sees more concretely what character each candidate actually has.
+- Have you included interpretability and operational constraints in the criteria?
+- Are you ready to set up and compare at least two or three candidate families?
+- Are you still holding on to only one complex model without a baseline?
+- Can you explain that model selection is not about naming one correct algorithm, but about setting up a reasonable candidate family while looking together at problem type, data conditions, interpretability, and operational constraints?
 
 ## Sources And References
 

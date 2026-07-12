@@ -1,11 +1,9 @@
 # P1-13.4 The Intuition of Vector Search Implementation
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
-P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds nearby vectors. P1-13.3 introduced RAG, which attaches retrieved candidates into the LLM’s input context.
-
-One practical question remains:
+P1-13.1 introduced embeddings, P1-13.2 introduced similarity search, and P1-13.3 introduced RAG. One practical question remains:
 
 > if there are a huge number of vectors, how do we find nearby candidates quickly?
 
@@ -13,19 +11,13 @@ P1-13.4 handles that question not as deep algorithm study, but as implementation
 
 > vector-search implementation means designing storage structures, indexes, and approximate retrieval methods so that nearby candidates can be found quickly among many vectors
 
-The core point is not `the exact math formula`, but:
+The core point is not `the exact math formula`, but `why comparing everything one by one becomes difficult`.
 
-> why does comparing everything one by one become difficult?
-
-Part 1 introduces the basic distinctions among `vector-search implementation`, `indexes`, `approximate nearest neighbor`, `graph-based search`, `vector databases`, and `brute-force search` here. Sections 13.1 through 13.3 already covered embeddings, similarity search, and RAG. This section asks:
-
-> how does that flow speed up in a real storage and retrieval system?
+Part 1 introduces the basic distinctions among `vector-search implementation`, `indexes`, `approximate nearest neighbor`, `graph-based search`, `vector databases`, and `brute-force search` here. This section asks how that flow speeds up in a real storage and retrieval system.
 
 ## Scope of This Section
 
-This section gives the big picture of vector-search implementation. It does not implement or explain in formula detail specific algorithms such as `HNSW`, `FAISS`, or `product quantization`. Those names return later from a service perspective, but detailed algorithm internals remain outside the current main scope of the book.
-
-Graph structure from Part 2 makes this topic easier later, but prior graph mastery is not required here. For now, it is enough to keep the intuition that graph-based indexes connect nearby vectors so the search path can be shortened.
+This section gives the big picture of vector-search implementation. It does not explain in formula detail specific algorithms such as `HNSW`, `FAISS`, or `product quantization`. Graph structure from Part 2 makes this topic easier later, but prior graph mastery is not required here. For now, it is enough to keep the intuition that graph-based indexes connect nearby vectors so the search path can be shortened.
 
 These terms belong to different layers of implementation. Their roles can first be separated like this:
 
@@ -39,8 +31,7 @@ These terms belong to different layers of implementation. Their roles can first 
 
 The baseline distinction is:
 
-> full comparison is slow,  
-> and indexes plus ANN are devices for reducing candidates quickly
+> full comparison is slow, and indexes plus ANN are devices for reducing candidates quickly
 
 | Topic | Question in this section |
 | --- | --- |
@@ -217,25 +208,6 @@ If retrieval is widened too much, the chance of missing important material may d
 
 So vector-search implementation is usually not about discovering one perfect setting. It is about finding a workable balance for the purpose.
 
-## What to Remember from This Section
-
-Vector-search implementation is the practical structure that makes the mathematical idea of nearby vectors work fast enough in a real service.
-
-> if the number of vectors is small, full comparison may work  
-> if the number grows, indexes become necessary  
-> approximate search is a tradeoff between speed and quality  
-> graph-based search narrows candidates by following nearby connections  
-> vector databases handle storage, search, filtering, metadata, and operation together
-
-With this perspective, RAG later in P1-14 becomes easier to understand not as one isolated feature, but as a system where storage, retrieval, prompt construction, and operational constraints all connect.
-
-This section also does not explain:
-
-- the detailed formulas of FAISS or HNSW
-- product-by-product comparisons of vector-search systems
-
-The goal is only to recover the implementation intuition of storage and retrieval before moving deeper into service architecture and quality evaluation later.
-
 ## Checklist
 
 - I can explain that brute-force search becomes slow as the number of vectors grows.
@@ -245,23 +217,8 @@ The goal is only to recover the implementation intuition of storage and retrieva
 - I can explain HNSW as a representative graph-based ANN approach.
 - I can explain that a vector database handles vector storage, indexes, metadata, filtering, and updates together.
 - I can explain that vector-search implementation requires balancing latency, quality, and cost.
-
-## When to Recall This View First
-
-This section is useful when vector retrieval is being described only as `finding something close`, and the reason for indexes and approximate search in real systems needs to be reintroduced.
-
-- when explaining why brute-force comparison becomes too expensive as data grows
-- when explaining ANN not as `inaccurate search`, but as a speed-quality tradeoff
-- when explaining a vector database as a system that includes storage, filtering, and operation rather than only one retrieval algorithm
-
-In those moments, it helps to separate:
-
-> brute-force comparison  
-> indexes  
-> approximate retrieval  
-> operational tradeoffs
-
-That makes implementation easier to explain as service intuition rather than as a list of product names.
+- I can explain why real services need to separate `brute-force comparison`, `indexes`, `approximate retrieval`, and `operational tradeoffs`.
+- I can explain a vector database not as a single retrieval algorithm but as a system that includes storage, filtering, and operation.
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P1-14.6 The Constraints AI Services Meet in the Real World
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-14.5 described a `harness` as an execution environment that wraps model and tool runs and makes tracing, logging, and evaluation possible. The next question moves in a more practical direction:
 
@@ -13,9 +13,9 @@ P1-14.5 described a `harness` as an execution environment that wraps model and t
 
 An AI service is not completed by good answers alone. If it is too expensive, it cannot be sustained. If it is too slow, users will not wait. If failure cannot be explained or recovered from, it is hard to put the service into real work.
 
-This section looks at that problem through the lens of `service constraints`: `cost`, `latency`, `throughput`, `usage limit`, `rate limit`, `retry`, `batch`, `caching`, and `monitoring`.
+This section looks at that problem through `service constraints`: `cost`, `latency`, `throughput`, `usage limit`, `rate limit`, `retry`, `batch`, `caching`, and `monitoring`.
 
-The focus here is `cost`, `latency`, `throughput`, `rate limit`, `retry`, `batch`, `caching`, and `operations`: how long an execution structure can be sustained as a real service, how often it can run, and at what cost. This extends the execution-harness view from 14.5, while security and privacy move to Chapter 15.
+The focus here is how long an execution structure can be sustained as a real service, how often it can run, and at what cost. This extends the execution-harness view from 14.5, while security and privacy move to Chapter 15.
 
 ## Scope of This Section
 
@@ -47,7 +47,7 @@ The baseline distinction here is:
 | failure response | how should the system retry or stop after failure? |
 | operational observation | what should be watched to know whether the service is running well? |
 
-Security, privacy, and copyright are handled separately in P1-15. Here the focus stays on the service question: can this structure actually keep running in repeated real use?
+Security, privacy, and copyright are handled separately in P1-15. Here the focus stays on the service question: can this structure keep running in repeated real use?
 
 ## Goal of This Section
 

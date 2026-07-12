@@ -1,7 +1,7 @@
 # P1-5.2 What Does Model Execution Run?
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 5.1 distinguished `learning` from `training`. Training is the procedure that uses data to adjust internal model values, while learning is the broader idea that performance on a task improves as a result.
 

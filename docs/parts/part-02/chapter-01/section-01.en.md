@@ -1,7 +1,7 @@
 # P2-1.1 What Math Does in AI Computation
 
 > Section ID: `P2-1.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In Part 1, we viewed AI on a broad map of rules, models, learning, generation, and service structure. Starting in Part 2, we recover the foundations needed to read that map. The first question is how much math you need in order to relearn AI.
 
@@ -218,29 +218,15 @@ In other words, mathematics feels burdensome not only because there are many dif
 
 Here, we first fix the place that mathematics occupies in AI computation, and the detailed formula rules for sigma and limits, or the full computations of vectors and derivatives, are narrowed again in later chapters.
 
-## Perspective to Remember from This Section
+## Checklist
 
-In AI, mathematics mainly does three jobs.
-
-1. It represents: it expresses data in forms such as vectors, matrices, and distributions.
-2. It compares: it computes differences between predictions and references, distances between vectors, and sizes of probabilities.
-3. It adjusts: it finds the direction for changing parameters so that loss decreases.
-
-If you remember these three jobs, the math topics in Part 2 stop looking disconnected from one another. Sigma expresses repeated calculation, vectors and matrices express the shape of data, derivatives find the direction of adjustment, and probability and statistics handle uncertain data.
-
-## Short Check
-
-- Can you explain that in AI, mathematics can be used less as proof and more as a language for reading computational structure?
-- Can you connect formula, data, code, and output together?
-- Can you explain that vectors, matrices, and tensors express the computable shape of data?
-- Can you explain learning as the process of adjusting parameters to reduce loss?
-- Can you explain why Part 2 revisits linear algebra, derivatives, probability and statistics, and optimization?
-
-## When Should You Recall This Perspective First?
-
-- When you are looking at mathematics again only as an exam subject, not as a tool of AI literacy
-- When the connection breaks regarding why loss, probability, vectors, and optimization appear together in one part
-- When not being able to read formulas starts blocking model, data, and learning explanations all at once
+- You can explain that in AI, mathematics is used as a language for reading computational structure rather than mainly as proof.
+- You can connect formula, data, code, and output together.
+- You can explain that vectors, matrices, and tensors express the computable shape of data.
+- You can explain learning as the process of adjusting parameters to reduce loss.
+- You can explain why Part 2 revisits linear algebra, derivatives, probability and statistics, and optimization.
+- You can explain Part 2 through the flow that mathematics in AI does the three jobs of `representation`, `comparison`, and `adjustment`.
+- You can explain why sigma, vectors and matrices, derivatives, and probability and statistics reappear together in one part.
 
 ## Sources and References
 

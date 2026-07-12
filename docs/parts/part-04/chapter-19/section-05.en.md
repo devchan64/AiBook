@@ -1,7 +1,7 @@
 # P4-19.5 Supplementary Learning: How To Read The Bellman Equation, Convergence, And Function Approximation For The First Time
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.12`
 
 Once readers begin studying value-based reinforcement learning in P4-19.1, the following names quickly appear next to it.
 
@@ -127,11 +127,125 @@ So DQN is not `a name that abandons value-based learning`, but `a name that lift
 
 ### Case 1. When A Table Works In A Small Maze But Breaks Down In A Screen-Based Game
 
-In a small maze problem, there are not many combinations of `current cell` and `move direction`, so a Q-table is sufficient. But once the problem shifts to a screen-based game, where the state is the whole visual scene, the table approach hits a wall immediately because almost every scene would need a new cell of its own. At that point, what is needed is not `make one more cell for this scene`, but `use a function that estimates which action value will be large when this scene is given as input`. Value-based reinforcement learning does not end there. It continues by changing form toward function approximation and neural networks.
+In a small maze problem, there are not many combinations of `current cell` and `move direction`, so a Q-table is often enough. The first human-friendly rule is simple: `there are only a few cells, so write one value per state and update the table`.
 
-## What To Remember From This Section
+That rule works well in a small toy problem. In a 5x5 grid, for example, the overall picture still fits in view even if values are written for `current cell -> up/down/left/right` and updated repeatedly. At that stage, the Bellman view also attaches directly as `current reward + value of the next cell`.
 
-- The Bellman equation is a recursive value expression that reads current reward together with future value.
-- Convergence is the question of whether repeated update results gradually stabilize.
-- Function approximation is a change in representation that moves Q-table intuition into larger state spaces.
-- DQN is a representative extension in the value-based reinforcement-learning line.
+But once the problem moves to a game whose state is the whole screen of pixels, the situation changes. Now the rule `add one more cell for this new scene` breaks down quickly. Even scenes that look similar appear in huge numbers, and a tiny visual change can make the state effectively new again. At that point, the main question changes from `should I add one more entry to the table?` to `do I need a shared rule that can estimate values across similar scenes?`
+
+```mermaid
+--8<-- "assets/part-04/chapter-19/p4-19-5-mermaid-01-en.mmd"
+```
+
+| Problem scene | The first human-friendly rule | The limit that appears soon | The interpretation this Section adds |
+| --- | --- | --- | --- |
+| 5x5 maze | Write one value per state cell | The table is still small enough to manage | Good for learning Bellman form and repeated updates through a table |
+| Early screen-based game | Add a new cell when a new scene appears | The number of scenes becomes too large to manage as a table | Value representation has to move toward function approximation |
+| Environment with constantly changing but similar scenes | Record almost every similar scene separately | Generalization fails, and learning becomes slow and unstable | A model that reads shared patterns becomes necessary |
+
+So in this case, function approximation is not an extra device that abandons value-based reinforcement learning. It is `a change in representation that moves the same judgment into a larger state space once the table can no longer carry it`.
+
+The checkable conclusion of this case is the following. In a small maze, `writing each state-action value directly into a table` can still support stable comparison of which action is better. But once the number of states explodes, as in a screen-based game, `adding more cells` no longer preserves that comparison well. The point to confirm is not `the value-based intuition became wrong`, but `the time has come to move that intuition from a table into a function`.
+
+## Practice And Example
+
+This exercise follows Case 1 directly and focuses on checking why the same Bellman reading, `current reward + next value`, splits into `keep a table` versus `move to function approximation` depending on the size of the state space.
+
+Problem situation:
+
+- Bellman equation, convergence, and function approximation may look like separate names, but in practice they continue as one flow
+
+Input:
+
+- current reward `1.0`
+- discount factor `0.9`
+- expected value of the next state
+- a comparison between the number of states in a small maze and a screen-based game
+
+Expected output:
+
+- the current value reading in each scene
+- a judgment about whether `q_table` or `function_approximator` is the more natural representation in each scene
+
+Concepts to check:
+
+- the Bellman form is a recursive structure that reads `current reward + next value`
+- convergence asks whether the amount of change shrinks when this value is updated repeatedly
+- function approximation does not abandon the table intuition, but changes the representation in a large state space
+
+```python
+scenes = [
+    {"name": "small_maze", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 25},
+    {"name": "screen_game", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 1_000_000},
+]
+
+for item in scenes:
+    bellman_view = item["reward"] + item["gamma"] * item["next_value"]
+    representation = "q_table" if item["states"] <= 1_000 else "function_approximator"
+
+    print(item["name"])
+    print("  bellman view =", round(bellman_view, 2))
+    print("  states =", item["states"])
+    print("  representation =", representation)
+```
+
+An example result can be read like this.
+
+```text
+small_maze
+  bellman view = 1.72
+  states = 25
+  representation = q_table
+screen_game
+  bellman view = 1.72
+  states = 1000000
+  representation = function_approximator
+```
+
+What matters in this example is the following.
+
+1. Both the small maze and the screen-based game still read current value through the same Bellman structure: `current reward + next value`.
+2. In other words, a large state space does not erase the value-based intuition itself.
+3. What changes is `where to put that value`, and when the number of states grows, the same intuition has to move into function approximation.
+
+### Change One Value: What Becomes Uncomfortable First As The State Count Grows?
+
+This time, keep reward and discount factor the same, and only increase the number of states so the point where the table-based representation becomes uncomfortable can be seen more clearly.
+
+```python
+reward = 1.0
+gamma = 0.9
+next_value = 0.8
+
+for states in [25, 2_500, 250_000]:
+    bellman_view = reward + gamma * next_value
+    representation = "q_table" if states <= 1_000 else "function_approximator"
+    print("states =", states, "bellman view =", round(bellman_view, 2), "representation =", representation)
+```
+
+```text
+states = 25 bellman view = 1.72 representation = q_table
+states = 2500 bellman view = 1.72 representation = function_approximator
+states = 250000 bellman view = 1.72 representation = function_approximator
+```
+
+What does not change here is the interpretation `current reward + future value`. What breaks first is the representation `write it directly into a table`. So the main point to confirm is not `the Bellman view stopped working`, but `the same judgment now has to move into a different representation`.
+
+### Judge It Directly
+
+Read the observations below and choose which interpretation is safer first.
+
+| Observation | Rushed conclusion | Safer interpretation |
+| --- | --- | --- |
+| The `bellman view` is the same for the small maze and the screen-based game | The Bellman equation is not used in a large state space | The current-value reading stays the same, and only the value representation changes |
+| The representation changed when the number of states went from 25 to 2500 | Value-based reinforcement learning stopped being valid | The table became uncomfortable, and the need to move into function approximation appeared |
+| The amount of change shrinks after repeated updates | The formula is finished and there is nothing more to ask | It continues into the convergence question of whether the value is stabilizing |
+
+The purpose of this table is not to memorize mathematical names. It is to hold one flow together: `why present value connects to the future`, `why a stability question appears`, and `why the form of representation changes`.
+
+## Checklist
+
+- Can you explain that the Bellman equation is a recursive value expression that reads current reward and future value together?
+- Can you explain convergence as the question of whether repeated update results become more stable?
+- Can you explain function approximation as a change in representation that moves Q-table intuition into a larger state space?
+- Can you explain DQN as a representative extension line in value-based reinforcement learning?

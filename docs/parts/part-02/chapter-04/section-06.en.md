@@ -1,7 +1,7 @@
 # P2-4.6 Composite Functions and the Chain Rule
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 After reading derivatives, gradients, and gradient descent, one sentence still remains: `backpropagation uses the chain rule`. If we do not know the chain rule here, backpropagation easily looks like a memorized sentence rather than a calculation structure.
 
@@ -162,20 +162,13 @@ Before moving into later Parts, we can leave the minimum connection in the follo
 
 The key sentence to keep from this section is simple. `A composite function is a structure that bundles several stages of calculation into one line, and the chain rule is the rule that transfers rates of change by following those stages.` Once this sentence is stable, even when reading backpropagation later, the layers no longer look like completely separate calculations.
 
-## Perspective to Keep from This Section
-
-- A composite function is `a calculation pipeline where one output enters as the next input`.
-- The chain rule is the rule for reading `how much the change in an earlier stage reaches the later result`.
-- We must read `x -> y` and `y -> z` separately and then connect them in order to read `x -> z`.
-- Backpropagation is not the chain rule itself, but the procedure that applies that rule across many layers to calculate gradients.
-- When `backpropagation` appears in later Parts, first picture `the change in loss being transferred through several stages`.
-
-## Short Check
+## Checklist
 
 - Can you explain a composite function as `a function whose stages are connected`?
 - In `y = 2x + 1`, `z = y^2`, can you explain why `x -> y` and `y -> z` must be read separately?
 - Can you explain the chain rule as `a rule that reads rates of change by connecting them stage by stage`?
 - Can you explain the difference in role between backpropagation and the chain rule?
+- Can you explain backpropagation as a picture in which the change in loss is transferred through several stages?
 
 ## Sources and References
 

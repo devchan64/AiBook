@@ -1,15 +1,17 @@
 # P4-11.2 Decision Boundary
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
-In P4-11.1, logistic regression was read as `a linear model that creates scores that can be read like probabilities`. Now the question changes by one step.
+In P4-11.1, logistic regression was read as `a linear model that creates scores that can be read like probabilities`.
+Now the question changes by one step.
 
 Why does that score divide some inputs into class 0 and others into class 1?
 
 To answer that, it is not enough to ask only `what is the probability?` The reader also has to see `up to where is it read as class 0, and from where is it read as class 1?` The perspective that reads that criterion inside the input space is the decision boundary.
 
-So the phrase `where does the model draw a line in the input space?` is closer to a result than the deepest idea. The more essential question is the following.
+So the phrase `where does the model draw a line in the input space?` is closer to a result than the deepest idea.
+The more essential question is the following.
 
 By what rule does the model read inputs as two different sides?
 
@@ -17,7 +19,10 @@ If P4-11.1 was the Section of reading the output, P4-11.2 is the Section of look
 
 `A decision boundary is the criterion line or criterion surface that separates class 0 and class 1.`
 
-This Section does not repeat the basic definition of logistic regression at length. The core intuition, `a linear classifier that makes a score that can be read like a probability`, reconnects through P4-11.1 and the [concept glossary](../../../reference/concept-glossary.md). Here the focus stays on how that score divides the input space.
+This Section does not repeat the basic definition of logistic regression at length.
+The core intuition, `a linear classifier that makes a score that can be read like a probability`, reconnects through P4-11.1 and the [concept glossary](../../../reference/concept-glossary.md). Here the focus stays on how that score divides the input space.
+
+After reading the decision boundary, the next questions remain: `why is probability transformed and read in this way`, `why do log-odds and MLE follow in the explanation of learning`, and `how does this intuition widen to multiclass settings and model comparison`. That recovery continues in the supplementary learning of P4-11.3, P4-11.4, and P4-11.5.
 
 ## Scope Of This Section
 
@@ -43,7 +48,7 @@ The hyperplane intuition reconnects again in P4-1.2, and kernel methods and nonl
 - You can explain a decision boundary not as `an output score` but as `a criterion that divides the input space`.
 - You can understand that in one dimension the boundary looks like `one point`, and in two dimensions it usually looks like `one line`.
 - You can explain that the coefficients of logistic regression participate in changing the direction of the boundary.
-- You can explain that when the threshold changes, the boundary interpretation can move too.
+- You can explain that when the threshold changes, the boundary itself can move too.
 - You can connect the probability-output view of 11.1 and the boundary view of 11.2 as two descriptions of the same model.
 
 ## Learning Background
@@ -63,7 +68,7 @@ This is why the decision boundary is needed.
 - to explain why an input became class 0
 - to explain why an input became class 1
 - to say where the criterion that separates the two classes lies
-- to identify near-boundary cases that should be treated as ambiguous
+- to identify near-boundary cases that should be treated separately
 
 So the decision boundary is not merely a visualization device. It is an `interpretation tool for reading why classification happened`.
 
@@ -91,17 +96,19 @@ The same comparison frame should be kept here too. The same baseline, the same s
 | cases that moved after a threshold change | to see which inputs crossed because of a policy change |
 | next review question | to decide whether to add features or adjust the threshold |
 
+If this record is kept, `the boundary moved`, `warnings increased`, and `newly split cases appeared` can be reread inside one comparison frame instead of being read separately.
+
 ## Main Learning Content
 
 ### What Is A Decision Boundary?
 
-A classification model usually computes an internal score and divides classes based on that score. The decision boundary is `the location where that score becomes equal to the criterion value`.
+A classification model usually computes an internal score and divides classes based on that score. The decision boundary is `the place where that score becomes equal to the criterion value`.
+
+If 11.1 was the Section of reading threshold on the output-score axis, here the focus is only on `what kind of boundary that threshold becomes in the input space`.
 
 If logistic regression is simplified at an introductory level, it can be imagined as follows.
 
-\[
-z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b
-\]
+\[ z = w_1x_1 + w_2x_2 + \cdots + w_nx_n + b \]
 
 If this linear score \(z\) is passed through sigmoid, a value between 0 and 1 appears. When threshold 0.5 is used, the place where the sigmoid output becomes 0.5 becomes the class boundary.
 
@@ -124,13 +131,17 @@ Suppose the input is just `study_hours`. The model can separate fail and pass us
 
 In this case, the boundary can be read as lying `somewhere between 4 and 5 hours`. So a one-dimensional decision boundary is close to `one cutoff point`.
 
-The idea can be drawn as follows.
+If the cutoff point for one variable and the boundary line for two variables are compared in the same figure, it can be read as follows.
+
+![A comparison chart of a one-dimensional cutoff point and a two-dimensional decision boundary line](../../../assets/part-04/chapter-11/p4-11-2-cutoff-boundary-en.svg)
+
+The idea can be drawn simply as follows.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-01-en.mmd"
 ```
 
-The key in this diagram is that as the input value increases, the score rises, and around the `score 0.50` boundary point the model splits the axis into the class 0 side and the class 1 side.
+The key in this diagram is that as the input value increases, the score rises, and around the `score 0.50` boundary point the model splits the axis into the class 0 side and the class 1 side. So in one dimension, the boundary is read not as a complicated plane or region, but as `one point on the axis`.
 
 This becomes especially important when threshold is inspected. What looked like a score table in 11.1 starts to reappear in 11.2 as `a boundary point on the input axis`.
 
@@ -148,11 +159,19 @@ In this setting, logistic regression tries to find the criterion line that separ
 --8<-- "assets/part-04/chapter-11/p4-11-2-mermaid-02-en.mmd"
 ```
 
-This diagram shows the decision boundary of logistic regression as the trace left in the input space by a rule that compares the score \(z\) with zero. What matters is not that the line exists first. Rather, because the linear score changes sign across the plane, the class changes too.
+This diagram shows the decision boundary of logistic regression as the trace left in the input space by the rule that compares the score \(z\) with zero. What matters is not drawing the line itself, but reading that the class splits depending on which sign the linear score has.
 
 `When one more input dimension is added, the boundary changes from one point to one line.`
 
 The important point here is not `there is a line first and then the class splits`, but `because the rule compares z with 0, a boundary line appears as a result on the plane`.
+
+The most direct answers to the following three questions in two dimensions are the same.
+
+- Why did one input become class 0? `Because its z is smaller than 0`
+- Why did one input become class 1? `Because its z is larger than 0`
+- Where is the criterion between the two classes? `The set of all points where z = 0`
+
+So the decision boundary should be read not as a simple picture, but as `the trace left on the plane by the classification rule`.
 
 ### How Do Coefficients Relate To The Direction Of The Boundary?
 
@@ -160,9 +179,7 @@ The coefficients of logistic regression are not used only to compute the score. 
 
 If there are two features,
 
-\[
-z = w_1x_1 + w_2x_2 + b
-\]
+\[ z = w_1x_1 + w_2x_2 + b \]
 
 then the relative size and sign of \(w_1\) and \(w_2\) change the slope and direction of the boundary line.
 
@@ -187,6 +204,10 @@ So when the threshold rises, the region classified as class 1 can shrink, and th
 
 `The coefficients of the model create the direction of the boundary, and the threshold can readjust where that boundary is applied.`
 
+If the same score arrangement is kept and only the threshold changes, the cutoff shift on the score axis becomes a smaller class 1 region in the input space. That coordinate-style comparison can be read as follows.
+
+![A comparison chart showing that when the threshold rises from 0.5 to 0.7 on the same score axis, the class 1 region becomes smaller](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
+
 This movement can be drawn conceptually as follows.
 
 ```mermaid
@@ -203,7 +224,7 @@ The following three lines should be kept together in decision-boundary notes.
 
 ### When Is The Decision-Boundary Perspective Especially Important?
 
-The decision boundary is not just a pretty picture. It becomes especially important when the reader must ask `why did this input cross into the other class?`
+The decision boundary is not just a visualization scene. It becomes especially important when the reader must ask `why did this input cross into the other class?`
 
 | What the reader wants to inspect now | Why the decision-boundary perspective is needed | What to check together |
 | --- | --- | --- |
@@ -215,18 +236,30 @@ The decision boundary is not just a pretty picture. It becomes especially import
 
 The point of this table is not to admire the picture of the boundary, but to track `where the classification rule really splits and what it misses`.
 
-## Supplementary Reading Points
+## Detailed Learning Content
 
 ### Historical Background And Flow
 
-The two perspectives below are not different models. They are two ways of reading the same model.
+At first glance, the phrase decision boundary can look like a visualization term. But the core is not the picture. It is the perspective of reading `where a classification judgment flips`.
+
+If the early regression tradition was closer to `how well is the value explained`, classification changes the question to `which class does it go to`. At that point the model starts to be read not only as a function that outputs scores, but also as a device that divides the input space into two sides.
+
+Explanations around Fisher's discriminant tradition, the Bayes classifier, and LDA/QDA also ultimately connect to the language of `where does the class change`. So the decision boundary is more accurate when understood not as `the technique of drawing lines in space`, but as `a way to express the criterion at which a classification judgment flips`.
+
+Logistic regression can be summarized from that perspective as follows.
 
 - 11.1's perspective: logistic regression creates scores that can be read like probabilities
 - 11.2's perspective: logistic regression draws a boundary in the input space and divides classes
 
+These two perspectives are not different models. They are two ways of reading the same model.
+
 The reason the decision-boundary perspective matters in modern machine learning is also clear. Models that appear later, such as SVMs, decision trees, and neural networks, can all be reread through the question `how does the model divide the input space?`
 
+So the historical meaning of the decision boundary can be summarized at the introductory level as follows.
+
 `Classification is a problem of calculating scores, but at the same time it is also a problem of how to divide the input space.`
+
+If this sentence is clear, the reader can understand more directly why other classification algorithms follow logistic regression.
 
 ## Cases And Examples
 
@@ -247,6 +280,8 @@ Before the cases, the common comparison frame of this Section can be organized a
 
 If there is only one score, one cutoff point becomes the boundary. But if there are two subjects, a tradeoff can appear, such as `high math score but low English score`. Then a boundary line that reads two scores together fits better than a criterion on only one subject.
 
+The same scene can be read through a small table as follows.
+
 | Student | Math score | English score | Boundary interpretation |
 | --- | ---: | ---: | --- |
 | A | 92 | 38 | one subject is high, but the student may remain near the boundary because the other is low |
@@ -255,9 +290,13 @@ If there is only one score, one cutoff point becomes the boundary. But if there 
 
 The key in this table is that a single rule such as `is math above 90?` does not explain the difference between A and B well enough. The decision-boundary perspective makes the reader inspect `on which side of the region the combination of the two scores lies`.
 
+This case matters because readers easily keep understanding classification as if it were only `one passing line on one score`. The decision-boundary perspective shows that `when several features work together, the criterion also changes into a combination`.
+
 ### Case 2. Customer Churn Prediction
 
-If the inputs become several variables such as `recent login days`, `payment frequency`, and `customer-service inquiry count`, it becomes hard to explain churn from only one variable. The decision-boundary perspective helps the reader ask `which combinations of several features enter the risky region?`
+When the inputs become several variables such as `recent login days`, `payment frequency`, and `customer-service inquiry count`, it becomes hard to explain churn from only one variable. The decision-boundary perspective helps the reader ask `which combinations of several features enter the risky region?`
+
+For example, compare the following three customers.
 
 | Customer | Login days in the last 30 days | Payments in the last 30 days | Inquiry count | Boundary interpretation |
 | --- | ---: | ---: | ---: | --- |
@@ -267,9 +306,13 @@ If the inputs become several variables such as `recent login days`, `payment fre
 
 B is the important case here. Login days alone are not extremely low, but if payment frequency falls and inquiries rise together, the sample can become a near-boundary case.
 
+For example, even if logins have decreased a little, stable payments can still keep a customer on the retain side. But if lower logins and payment interruption appear together, the customer can cross into the risky region. So the boundary makes the reader inspect not `one value`, but `the pattern of the combination`.
+
 ### Case 3. Medical Risk Classification
 
-One measurement alone may look ambiguous, but if `blood pressure`, `blood sugar`, and `age` are read together, the risky region can become clearer.
+One measurement alone may look ambiguous, but if `blood pressure`, `blood sugar`, and `age` are read together, the risky region can become clearer. The decision boundary helps the reader imagine `which combinations cross into the risk class`.
+
+A small version can be arranged as follows.
 
 | Patient | Blood pressure | Blood sugar | Age | Boundary interpretation |
 | --- | ---: | ---: | ---: | --- |
@@ -277,9 +320,15 @@ One measurement alone may look ambiguous, but if `blood pressure`, `blood sugar`
 | P2 | slightly high | near boundary value | 58 | can require additional review as a near-boundary case |
 | P3 | high | high | 67 | easy to read as having crossed into the risky region |
 
-This case shows why `near-boundary patients` matter especially. In real decisions, a patient whose values overlap ambiguously near the boundary can be harder than a patient with an obviously high score.
+P2 is the key in this scene. One value alone may still look ambiguous, but if several values are all close to the boundary at the same time, a real decision has to be more careful.
+
+In this example, `the patient near the boundary` matters especially. A patient whose score is obviously high can be easier than a patient whose several values overlap ambiguously near the boundary. So the decision boundary helps not only with simple classification, but also with reading `which cases are ambiguous`.
 
 ### Case 4. Loan Review
+
+In loan review, features such as `income`, `debt ratio`, `delinquency record`, and `employment duration` can work together. The decision-boundary perspective is useful for explaining `which applicants are in the approval region and which are in the rejection region`.
+
+A small example can be read as follows.
 
 | Applicant | Income | Debt ratio | Delinquency record | Boundary interpretation |
 | --- | --- | --- | --- | --- |
@@ -287,9 +336,15 @@ This case shows why `near-boundary patients` matter especially. In real decision
 | D2 | medium | high | none | may require extra-document review near the boundary |
 | D3 | low | high | yes | easy to read as having crossed into the rejection side |
 
-The important point is that some applicants cannot be explained with only one criterion. Income can be high while debt ratio is also high, and employment period can be short while delinquency record is absent.
+D2 is difficult to explain with a single rule. Income alone may not look too bad, but a high debt ratio can change where the boundary is read.
+
+The important point is that there are applicants who cannot be explained well by one criterion alone. Income can be high while debt ratio is also high, and employment duration can be short while delinquency record is absent. This kind of combined judgment is hard to explain without the decision-boundary perspective.
 
 ### Case 5. Separating Spam And Normal Mail
+
+In email classification, `word frequency`, `sender pattern`, `number of links`, and `subject expression` can all work together. Then the boundary makes the reader ask `which mails leave the normal-mail region and cross into the spam region?`
+
+A small table can be read as follows.
 
 | Mail | Number of links | Suspicious sender | Subject expression | Boundary interpretation |
 | --- | ---: | --- | --- | --- |
@@ -297,13 +352,23 @@ The important point is that some applicants cannot be explained with only one cr
 | M2 | 2 | no | exaggerated expression present | can require human review as a near-boundary case |
 | M3 | 5 | yes | repeated exaggerated wording | easy to read as having crossed into the spam region |
 
+M2 matters because `there are many links` alone does not close the explanation. Only when it is placed with the other features does it become clearer whether it is a near-boundary case.
+
 This case shows both the strength and the limit of a linear boundary. A simple separation is fast and easy to explain, but real spam mixes many forms, so one straight line may not be enough.
 
 ## Practice And Example
 
 ### Python Example: Reading A Two-Dimensional Decision Boundary
 
-This example uses two exam scores, `exam_1` and `exam_2`, to classify whether a student `passed`.
+This example is a very small binary-classification exercise that classifies whether a student `passed` using two exam scores, `exam_1` and `exam_2`.
+
+- problem situation: the assumption is that passing becomes more likely when both scores are high together
+- input: scores from two subjects
+- label: pass (1) / fail (0)
+- concept to check:
+- logistic regression computes one score using the two features together - two coefficients and one intercept participate in the position and direction of the decision boundary - even in the same input space, classes split on the two sides of the boundary
+
+The inputs can be read as follows.
 
 | Input bundle | Meaning |
 | --- | --- |
@@ -355,6 +420,17 @@ predict_proba   : [[0.984 0.016]
 prediction      : [0 1 1]
 ```
 
+This output can be read as follows.
+
+- Because both coefficients are positive, the score moves toward class 1 when the two subject scores rise together.
+- `[42, 42]` sits on the class 0 side of the boundary.
+- `[50, 50]` is near the boundary, so the probability-like value also appears near 0.5.
+- `[62, 60]` is far enough inside the class 1 side.
+
+The point that `decision score` is close to 0 can be read as meaning that the sample is near the boundary. This connects exactly to the explanation in 11.1 that `predict_proba becomes ambiguous when it is near 0.5`.
+
+The same content becomes clearer if it is reread as a table.
+
 | Sample | Input | Decision score \(z\) | Relation to the boundary \(z = 0\) | Prediction |
 | --- | --- | ---: | --- | --- |
 | A | `[42, 42]` | -4.102 | lower than the boundary | class 0 |
@@ -367,7 +443,33 @@ In actual operation, this way of reading continues directly.
 - Samples very near the boundary are easier to separate as review targets.
 - So the decision boundary is not just a picture. It also connects to an operating criterion for finding ambiguous cases.
 
-### Python Example: Read The Same Scores Under Two Thresholds
+There are also points that become clearer if the values are changed directly.
+
+- If `samples` are changed more densely to `[48, 49]`, `[50, 50]`, and `[52, 51]`, the score shift near the boundary becomes easier to inspect.
+- If one or two points in `X` are moved, the coefficients and intercept change, and the interpretation of the boundary changes together.
+- Even with the same model, if the threshold changes, the final action of near-boundary samples changes too. That point connects directly to the next example.
+
+### Python Example: Confirm Threshold Change With A Small Script
+
+This time, use class 1 scores that have already been calculated and check how the boundary interpretation changes when the threshold changes.
+
+Problem situation:
+
+- even with the same probability score, the final class judgment changes depending on where the threshold is placed
+
+Input:
+
+- class 1 scores of three samples, `proba_class_1`
+
+Expected output:
+
+- classification result under threshold 0.5
+- classification result under threshold 0.7
+
+Concept to check:
+
+- changing the threshold changes the size of the class regions
+- the boundary is connected not only to a formula, but also to an operating rule
 
 ```python
 import numpy as np
@@ -390,7 +492,7 @@ threshold 0.5   : [0 1 1]
 threshold 0.7   : [0 0 1]
 ```
 
-This result shows that a score like `0.62` can already look fairly positive from the model's perspective, but under a stricter threshold it can still remain outside the class 1 region.
+This result shows that a point such as `0.62` can already look fairly positive from the model's perspective, but under a stricter threshold it can still remain outside the class 1 region.
 
 ### Change One More Value: What Stays The Same And What Changes If The Threshold Becomes Even Higher?
 
@@ -423,17 +525,7 @@ threshold 0.9   : [0 0 0]
 - What changed: once the threshold rose again, even `0.81`, which used to look like an automatic candidate, no longer became class 1 automatically.
 - Judgment to leave first: the score itself and the final behavior are not the same stage. Not only near-boundary cases, but even cases that once looked certain can return to the review pool when the operating criterion changes.
 
-### How This Exercise Recovers The Goal Of Part 4
-
-This exercise makes the classification model readable not as `a probability calculator` but as `a device whose operating boundary can be adjusted`. What matters in Part 4 is not merely raising one score. It is reading which cases move from automatic handling to review when the threshold changes, and how error costs move with them. Repeating the same score array while changing only the boundary trains the reader to separate `model output` from `applied judgment`.
-
-| Common record language | What to record immediately from this exercise |
-| --- | --- |
-| structure observed | with the same score array, a higher threshold shrank the class 1 region and returned former automatic cases to review |
-| interpretation boundary | a more conservative threshold does not always mean a better policy; false-negative cost still has to be checked together |
-| next question | is the reduced false-positive risk more important than the increased false-negative and review cost in the current setting? |
-
-## Supplementary Reading Points
+## Supplementary Reading On Detailed Content
 
 ### Where Do The Main Discussion Points Arise?
 
@@ -475,47 +567,17 @@ Not necessarily. A boundary may look clean from the model perspective but still 
 
 This point connects to the threshold of 11.1, the evaluation metrics in the early part of Part 4, and model selection later.
 
-## Perspectives To Remember In This Section
-
-- A decision boundary is the criterion line or surface that divides classes.
-- In one dimension it looks like one point, and in two dimensions it usually looks like one line.
-- The coefficients and intercept of logistic regression participate in the direction and position of the boundary.
-- If the threshold changes, the class regions and the boundary interpretation can change too.
-- The boundary is a way of rereading the model's computation inside the input space.
-
-This is not a Section about learning how to draw lines. It is a Section about reading boundaries inside the evaluation flow.
-
-| What should be read together | First question to read in this Section | Where it reconnects later |
-| --- | --- | --- |
-| threshold position | where does the class split, and how conservative is the boundary | P4-6 classification metrics, P4-15.3 threshold adjustment |
-| problem cells of the confusion matrix | what kind of FP or FN is this boundary creating more often | P4-6 evaluation metrics |
-| representative near-boundary examples and baseline comparison | why did ambiguous inputs cross, and is this really better than a simple rule | P4-8 baseline, later classification-model comparison |
-
 ## Checklist
 
 - Are you looking not only at output scores but also at where the split occurs in the input space?
 - Are you separating cases that crossed because of threshold change from cases that failed because the feature representation was too weak?
 - Are you leaving near-boundary cases not as automatic confirmations but as review-priority signals?
-
-## When To Recall This Perspective First
-
-- When classification scores are visible but the explanation of where the input space splits is blurry, draw the decision boundary first.
-- When you need to interpret which samples crossed to the opposite side after a threshold change, read the boundary position and the change in class regions together.
-- When a linear model feels unsatisfying in a vague way, return to this Section as the starting point for asking whether the limit comes from the straight boundary itself or from weak representation.
-
-## Connection To The Next Sections
-
-P4-11.2 showed where logistic regression `draws the line`. The next questions change again.
-
-- Is a straight boundary enough?
-- What other classification algorithms explain the data better?
-- How do evaluation metrics and model selection compare these boundaries?
-
-So 11.2 is the Section where the reader begins to read a classification model as `a device that divides space`. That perspective continues directly into trees, SVMs, and more complex classifiers.
+- Can you explain that the decision boundary is not a picture decoration, but a way to read where the classification rule flips?
+- Can you explain that coefficients and intercept shape the direction and position of the boundary, while threshold can move the applied criterion?
+- Can you explain that near-boundary cases are important not because they automatically prove a cause, but because they become review-priority signals?
 
 ## Sources And References
 
 - Ronald A. Fisher, `The Use of Multiple Measurements in Taxonomic Problems`, *Annals of Eugenics*, 1936, DOI: [https://doi.org/10.1111/j.1469-1809.1936.tb02137.x](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
 - Benyamin Ghojogh, Mark Crowley, `Linear and Quadratic Discriminant Analysis: Tutorial`, arXiv, 2019, [https://arxiv.org/abs/1906.02590](https://arxiv.org/abs/1906.02590){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
 - scikit-learn, `1.1.11. Logistic regression`, scikit-learn User Guide, checked on 2026-06-26. [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn, `LogisticRegression`, scikit-learn API Reference, checked on 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }

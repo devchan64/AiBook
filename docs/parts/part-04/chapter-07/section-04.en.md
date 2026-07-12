@@ -1,7 +1,7 @@
 # P4-7.4 Supplementary Learning: How To First Distinguish Filter, Wrapper, And Dimensionality Reduction
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 From P4-7.1 to P4-7.3, the discussion chose features, separated input-representation problems, and established the basic judgment for preprocessing. In practice, however, the reader soon meets names such as the following.
 
@@ -122,23 +122,14 @@ The distinction needed here is the following. The filter approach is closer to q
 
 The confirmable results must also be read differently. With filter and RFE, readers can view a list of which original columns remained, but dimensionality reduction changes the data into new axes such as `component_1` and `component_2`, so the interpretation method itself changes. So even when the same phrase `reduce input` is used, readers must first decide whether they want to preserve interpretability or compress into a new representation.
 
-## Perspective To Remember In This Section
-
-- Statistical-test-based feature selection is usually understood as a filter approach.
-- RFE is understood as a wrapper approach that reduces features while repeatedly training a model.
-- Dimensionality reduction looks similar to feature selection, but it is a separate problem that re-expresses the original features into new axes.
-
-## Short Check
+## Checklist
 
 - Have you distinguished whether the current task is choosing original columns or rebuilding them as new axes?
 - Are you speaking of quick first-pass reduction and model-based repeated comparison as if they were the same method?
 - Can you explain why feature selection can be better than dimensionality reduction when interpretability matters?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up this Section first when readers need to distinguish choosing original columns from re-expressing them as new axes.
-- Return to this Section when checking whether filter, wrapper, embedded, and dimensionality reduction are being mixed together as if they were the same kind of solution.
-- This Section becomes the standard when organizing which method should be used first while considering interpretability and computational cost together.
+- Can you understand statistical-test-based feature selection usually as a filter approach, and RFE as a wrapper approach that repeatedly trains a model while reducing features?
+- Can you explain that dimensionality reduction may look similar to feature selection but is a separate problem that re-expresses the original features into new axes?
+- Can you distinguish filter, wrapper, embedded, and dimensionality reduction without mixing them as if they were solutions of the same kind?
 
 ## Sources And References
 

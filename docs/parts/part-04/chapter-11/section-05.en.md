@@ -1,7 +1,7 @@
 # P4-11.5 Supplementary Learning: How To Read Solver And Regularization For The First Time
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Once logistic regression is used through a library, the reader quickly meets arguments such as solver, penalty, and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
 
@@ -170,10 +170,6 @@ baseline_lr -> LogisticRegression(max_iter=1000)
 sparse_candidate -> LogisticRegression(C=0.5, l1_ratio=0.5, max_iter=1000,
                                        penalty='elasticnet', solver='saga')
 ```
-
-## Connection To The Next Section
-
-At this point, the supplementary axis of Chapter 11 closes. Logistic regression can now be read as five layers: `scores that can be read like probabilities`, `boundaries`, `log-odds and MLE`, `multiclass expansion`, and `training computation plus regularization settings`.
 
 ## Sources And References
 

@@ -1,0 +1,19 @@
+flowchart TD
+  A["same equipment image"]
+
+  subgraph CNN["CNN start"]
+    B["scan with a small local window"]
+    C["local responses: valve edge, metal outline"]
+    D["build candidates for where to inspect again"]
+  end
+
+  subgraph VIT["ViT start"]
+    E["split into patch tokens"]
+    F["compare valve patch and tank patch relations"]
+    G["build relations for which regions to read together"]
+  end
+
+  A --> B
+  A --> E
+  B --> C --> D
+  E --> F --> G

@@ -1,7 +1,7 @@
 # P4-11.3 Supplementary Learning: How To Read Log-Odds And MLE For The First Time
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.1 introduced logistic regression as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a decision boundary inside the input space. At that point a natural next question remains.
 
@@ -249,10 +249,6 @@ This output can be read as follows.
 - The two models can have the same accuracy and still have different log loss.
 - So from the learning perspective connected to MLE, `how strongly the correct answer was supported` is distinguished.
 - That is why, in logistic regression, it is important to separate `evaluation metric` and `training objective`.
-
-## Connection To The Next Section
-
-At this point the `probability interpretation` and the `learning objective` of logistic regression are closed. The next supplementary Section shows how this intuition expands from `choosing one of two` to `choosing one of many`, that is, how to read multinomial logistic regression.
 
 ## Sources And References
 

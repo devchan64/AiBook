@@ -1,7 +1,7 @@
 # P4-3.2 启发式与模型选择
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-3.1 里，我们把 heuristic 看成 `在有限时间和有限信息下缩小候选集的判断标准`。这一节要把这个视角应用到 model selection 上。
 
@@ -9,7 +9,7 @@
 
 这里 heuristic 不是最终结论，而是出发点。你会先决定 `这个问题先从这些 model 开始试`，然后再去验证这种选择在真实数据上到底是否合适。
 
-这一节不会再次把 heuristic 本身讲很长。`缩小候选集的判断` 这一基础含义，会通过 P4-3.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来；这里专注的是，这种判断在 model selection 阶段到底怎样发挥作用。
+这一节不会再次把 heuristic 本身讲很长。`缩小候选集的判断` 这一基础含义，会通过 P4-3.1 和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来；这里专注的是，这种判断在 model selection 阶段到底怎样发挥作用。
 
 ## 本节范围
 
@@ -172,26 +172,14 @@ baseline 会在 P4-8.2 里更详细地处理。这里先只把它当成 model-se
 --8<-- "assets/part-04/chapter-03/inquiry-classification-model-selection-flow-zh.mmd"
 ```
 
-## 本节要记住的视角
-
-- model selection 不是猜中 model 名字，而是缩小候选并验证的过程。
-- heuristic 是 model selection 的起点，而不是结论。
-- 问题类型是缩小 model 候选的第一基准。
-- baseline model 是解释复杂候选价值的最小比较基准。
-- performance、interpretability、computational cost、data state、operability 都必须一起看。
-- model-selection heuristic 应该连同理由、风险、验证方法一起记录。
-
-## 检查清单
+## Checklist
 
 - 能不能说明为什么 model selection 不是 `挑一个有名 model`，而是 `先缩小候选集`？
 - 能不能说明在什么状态下，比起继续加复杂度，更应该先重新检查 data 和 label？
-- 能不能说明为什么 baseline model 会成为解释复杂候选价值的比较基准？
-
-## 什么时候要先想到这个视角
-
-- 当你需要检查自己是否把 model selection 读成了 `挑有名 model` 时，要先想到 `缩小候选 + 验证` 这条流程。
-- 当需要再次解释 baseline model 为什么是复杂候选的比较基准时，就回到这一节。
-- 当需要同时整理 performance、interpretability、cost、data state、operability 时，这一节就是基准。
+- 能不能说明为什么 baseline model 会成为解释复杂候选性能的比较基准？
+- 能不能说明，model selection 不是猜 model 名字，而是缩小候选并验证的过程？
+- 能不能说明，问题类型是缩小 model 候选的第一基准，而 baseline model 是比较复杂候选的最小标准？
+- 能不能说明为什么 performance、interpretability、computational cost、data state、operability 必须一起看？
 
 ## 来源与参考资料
 

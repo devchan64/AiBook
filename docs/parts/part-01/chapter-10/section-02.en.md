@@ -1,7 +1,7 @@
 # P1-10.2 The Intuition of Next-Output Generation
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -244,26 +244,6 @@ In this flow, the model output becomes part of the next input:
 
 This also connects directly to how this book is made. A draft produced by an AI tool is not the final manuscript. It is material for the next round of review and revision. Generation can produce an artifact, but a person still has to judge whether it is correct, whether it has evidence, and whether it fits the flow of the manuscript.
 
-## What to Remember from This Section
-
-It is risky to imagine generative AI as `pulling out a finished answer`. The safer analogy is:
-
-> read the condition  
-> compute possible next-output candidates  
-> select or restore one  
-> use that result again as part of the next condition  
-> progressively construct the artifact
-
-But this intuition must not erase model differences. Text generation is well introduced through the next-token story, and audio generation can also be explained through sequential sample generation. Image generation, especially diffusion-based image generation, needs to be understood separately as progressive restoration from noise.
-
-For now, only these three lines need to remain:
-
-| Remember only this for now | Where to revisit it later |
-| --- | --- |
-| Text generation is first understood as the process of continuing the next token. | Part 6 P6-1.1, P6-1.2, P6-5.1 |
-| Even with the same input, the output can differ because of candidate distributions and selection procedures. | Part 5 P5-15.2, Part 6 P6-5.2 |
-| Image generation is not well explained as only `attaching the next piece` like text. | P1-11.3, Part 5 P5-14.1 and P5-14.2, Part 6 P6-3.1. Detailed diffusion treatment is outside the current main scope. |
-
 ## Checklist
 
 - I can explain that generative AI can be understood as an iterative generation process rather than as something that pulls out a finished artifact all at once.
@@ -272,22 +252,8 @@ For now, only these three lines need to remain:
 - I can explain the sequential intuition of audio samples in speech generation.
 - I can explain why image generation, especially diffusion models, should not be reduced to simple next-pixel prediction.
 - I can explain why generated outputs need human review and repeated revision.
-
-## When to Recall This View First
-
-This section is useful when generative AI starts to feel as if it simply retrieves a complete answer and the underlying iterative process needs to be restated.
-
-- when re-establishing why the intuition of the `next token` matters in text generation
-- when separating the shared iterative character of text, speech, and image generation from the fact that their units and methods differ
-- when explaining that even with the same prompt, internal procedures differ depending on the model and generation method
-
-In those cases, it helps to separate three questions:
-
-> what is the next output unit?  
-> by what condition is that unit selected or restored?  
-> how does the previous output become part of the next condition?
-
-That makes generation easier to read as a computational construction process rather than as magical retrieval.
+- I can explain what the next output unit is and by what condition that unit is selected or restored.
+- I can distinguish that text, speech, and image generation are all iterative, but their units and methods differ.
 
 ## Sources and Further Reading
 

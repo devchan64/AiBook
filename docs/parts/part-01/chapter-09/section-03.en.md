@@ -1,7 +1,7 @@
 # P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 9.1 looked at image recognition and representation learning. Section 9.2 looked at object detection and speech generation.
 
@@ -226,24 +226,6 @@ The better explanation is:
 > deep learning spread across many fields by learning representations and predicting or generating outputs  
 > LLMs grew on top of the direct lineage of language modeling and sequence modeling
 
-## What to Remember from This Section
-
-When explaining the history of LLMs, direct lineage and surrounding evidence should be separated. Direct lineage includes language modeling, Seq2Seq, Attention, and Transformers because these are structures for handling language and sequential data. Surrounding evidence includes AlexNet, YOLO, and WaveNet because those cases helped researchers and industry accept large-scale neural-network approaches more strongly across many fields.
-
-This distinction is not meant to discard the earlier intuition. It is meant to turn that intuition into safer explanatory sentences.
-
-> generative AI and LLMs did not appear from nowhere  
-> but their direct lineage should be traced through language modeling and sequence modeling, not through image classification or object detection  
-> image, speech, and detection cases should be read as part of the background spread of the deep-learning paradigm
-
-After this section, at minimum these three distinctions should remain:
-
-| Key distinction to keep | Why it matters |
-| --- | --- |
-| the direct lineage of LLMs lies in language modeling, Seq2Seq, Attention, and Transformers | it keeps later LLM explanations from being mixed too much with image and speech cases |
-| AlexNet, YOLO, and WaveNet are closer to surrounding evidence than to direct ancestors | it separates the broad success of deep learning from the direct history of LLMs without exaggeration |
-| reducing all of AI to LLMs hides other important streams | it preserves the overall map of Part 1 while still preparing the move into the LLM-focused Part 6 |
-
 ## Checklist
 
 - I can distinguish direct lineage from surrounding evidence.
@@ -252,12 +234,8 @@ After this section, at minimum these three distinctions should remain:
 - I can treat Transformers as a major turning point without reducing the whole history of LLMs to Transformers alone.
 - I can explain both the spread of the deep-learning paradigm and the direct development line of LLMs without mixing them together.
 - I do not use `AI` and `LLM` as if they meant the same thing.
-
-## When to Recall This View First
-
-This section is useful when modern AI discussion shrinks immediately into LLM-only discussion, or when every deep-learning case begins to look like the direct history of LLMs.
-
-- when deciding how far to connect cases such as AlexNet, YOLO, and WaveNet
+- I can judge how far cases such as AlexNet, YOLO, and WaveNet should be connected by separating direct lineage from surrounding evidence.
+- I can explain the importance of LLMs without reducing the whole AI map to LLMs alone.
 - when re-establishing the direct flow of LLMs on the side of language modeling, Seq2Seq, Attention, and Transformers
 - when preserving the importance of LLMs without reducing all of AI to LLMs
 

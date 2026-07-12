@@ -1,7 +1,7 @@
 # P4-1.1 AI、机器学习、深度学习之间的关系
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python、数组、表格和图表。现在到了 Part 4，要在这个基础上把 machine learning 单独拎出来看。
 
@@ -197,24 +197,14 @@ Part 4 的核心不是模型目录，而是数据、学习、评估这条流程�
 --8<-- "assets/part-04/chapter-01/ai-llm-scope-misconception-flow-zh.mmd"
 ```
 
-## 本节要记住的视角
-
-- AI 是最大范围，machine learning 是其中从数据中学习的方法，而 deep learning 又是 machine learning 里以神经网络为中心的一条路线。
-- generative AI 和 LLM 是现代 AI 经验里非常重要的部分，但不能把它们当成整个 AI。
-- 真实服务里，规则、搜索、machine learning model、LLM、人工复核往往会一起工作。
-- Part 4 之所以先看 machine learning，是因为数据、模型、学习、评估这些共同问题，在后面的 deep learning 和 LLM 里还会不断回来。
-
 ## 检查清单
 
-- 能不能说明为什么 `AI`、`machine learning`、`deep learning`、`generative AI`、`LLM` 不能当成可互换的名字？
-- 能不能说明为什么就算表面上看见的是 LLM，服务内部仍可能同时包含规则、搜索、model 和人工复核？
-- 能不能说明为什么 Part 4 不是直接跳到 deep learning 或 LLM，而要先看 machine learning 的结构？
-
-## 什么时候要先想到这个视角
-
-- 当讨论太快地从聊天机器人经验跳到 `AI = LLM` 时，要先回到这一节。
-- 当需要区分现在谈的是整个服务、学习出来的 model，还是其中的语言模型组件时，就回到这里。
-- 当要把 Part 2 的工具语言重新接到 Part 4 的 machine learning 流程里时，这一节就是基准。
+- 能不能区分在什么语境下，`AI`、`machine learning`、`deep learning`、`generative AI`、`LLM` 里哪一个词最准确？
+- 能不能说明为什么一旦直接把 `AI = LLM` 或 `machine learning = deep learning` 画成等号，服务结构的说明就会变弱？
+- 能不能说明为什么 Part 4 比起 model 名字，更先看 `数据、学习、评估` 这条重复结构？
+- 能不能把 AI、machine learning、deep learning、generative AI、LLM 的包含关系解释成不同层次？
+- 能不能说明 Part 2 里的公式、Python、数组、表格、图表感受，怎样再次用在 Part 4 的数据·学习·评估流程里？
+- 能不能用例子说明，在一个服务里，model、规则、搜索、policy、人工复核可以一起工作？
 
 ## 来源与参考资料
 

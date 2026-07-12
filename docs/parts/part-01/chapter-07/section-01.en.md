@@ -1,7 +1,7 @@
 # P1-7.1 Search Space and Computational Limits
 
 > Section ID: `P1-7.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 6 dealt with incomplete information and probabilistic judgment. Now we turn to a different kind of difficulty. Some problems are hard because information is missing, but some are hard because there are simply too many possible choices.
 

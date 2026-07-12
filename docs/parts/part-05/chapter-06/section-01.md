@@ -78,7 +78,7 @@ gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면
 예를 들어:
 
 - 사용자가 사진을 올리면 분류 결과를 보여 줍니다
-- 고객 문장을 넣으면 감정 분석 결과를 돌려줍니다
+- 설비 점검 메모를 넣으면 위험 요약 결과를 돌려줍니다
 - 문서 일부를 넣으면 다음 토큰을 생성합니다
 
 이때 모델은 계산을 합니다. 하지만 그 계산이 곧바로 파라미터 업데이트를 뜻하지는 않습니다.
@@ -125,102 +125,160 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 ## 사례 및 예시
 
-### 사례 1. 스팸 분류 모델
+### 사례 1. 경보 분류 모델
 
-운영자가 새 이메일 한 통을 넣어 스팸 점수와 차단 여부를 보는 장면을 떠올려 볼 수 있습니다. 사람은 화면에 판정 결과가 바로 나오면 모델이 그 메일을 보고 곧바로 더 배웠다고 느끼기 쉽습니다. 하지만 그 장면에서 실제로 일어나는 일은 현재 파라미터로 점수를 계산해 차단, 통과, 검토 같은 후속 정책으로 넘기는 inference입니다. 학습은 별도의 데이터셋에서 과거 이메일과 정답 라벨을 비교하고, 손실과 gradient를 계산해 파라미터를 조정하는 절차를 포함해야만 일어납니다. 여기서 바뀌는 점은 `새 메일을 본다`가 아니라 `파라미터를 실제로 수정하느냐`이고, 결과적으로 운영 화면에 보이는 즉시 판정과 모델 재학습은 같은 일이 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 새 메일 판정 직후 출력은 바뀌어도, 모델 파라미터 자체는 그대로 유지되는가입니다.
+운영자가 새 설비 경보 로그 한 건을 넣어 `즉시 정지`, `현장 확인`, `기록만` 같은 분류 결과를 보는 장면을 떠올려 볼 수 있습니다. 사람은 화면에 판정 결과가 바로 나오면 모델이 그 로그를 보고 곧바로 더 배웠다고 느끼기 쉽습니다. 하지만 그 장면에서 실제로 일어나는 일은 현재 파라미터로 점수를 계산해 정지, 확인, 기록 같은 후속 정책으로 넘기는 inference입니다. 학습은 별도의 데이터셋에서 과거 경보 로그와 정답 라벨을 비교하고, 손실과 gradient를 계산해 파라미터를 조정하는 절차를 포함해야만 일어납니다. 여기서 바뀌는 점은 `새 경보를 본다`가 아니라 `파라미터를 실제로 수정하느냐`이고, 결과적으로 운영 화면에 보이는 즉시 판정과 모델 재학습은 같은 일이 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 새 경보 판정 직후 출력은 바뀌어도, 모델 파라미터 자체는 그대로 유지되는가입니다.
 
-### 사례 2. 이미지 분류 데모
+| 사람이 먼저 보기 쉬운 기준 | learning/inference 관점으로 다시 읽는 기준 |
+| --- | --- |
+| 새 입력을 처리했으니 모델도 바로 더 배웠을 것 같다 | 출력 계산만 했고 파라미터 업데이트는 없을 수 있다 |
+| 결과가 달라졌으니 모델 내부 숫자도 바뀌었을 것 같다 | 입력이 달라져 출력이 달라진 것과 파라미터 변경은 별개다 |
+| 많이 쓰면 저절로 학습될 것 같다 | 손실, gradient, update 절차가 실제로 있어야 learning이다 |
 
-이미지 분류 데모에서 사용자가 고양이 사진 한 장을 올렸는데 바로 `cat`이 나온다고 해 보겠습니다. 사람은 결과가 즉시 바뀌는 화면을 보면 방금 올린 이미지를 보고 모델이 새로 적응했다고 생각하기 쉽습니다. 하지만 그 순간에는 현재 파라미터로 한 장의 이미지를 계산해 가장 가능성 높은 클래스를 반환할 뿐입니다. 학습이라면 수천 장 이상의 이미지와 라벨을 기준으로 손실을 계산하고, 그 오차를 바탕으로 gradient와 optimizer가 작동해야 합니다. 즉, 데모 화면에서 확인되는 것은 `이 입력을 지금 어떻게 분류했는가`이지 `이 입력 덕분에 모델이 곧바로 더 좋아졌는가`가 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 이미지 한 장을 넣는 즉시 분류 결과는 얻어도, 그 입력 하나만으로 학습 단계가 자동으로 시작되지는 않는가입니다.
+### 사례 2. 검사 이미지 데모
+
+검사 화면에 패널 사진 한 장을 올렸는데 바로 `scratch_detected`가 나온다고 해 보겠습니다. 사람은 결과가 즉시 바뀌는 화면을 보면 방금 올린 이미지를 보고 모델이 새로 적응했다고 생각하기 쉽습니다. 하지만 그 순간에는 현재 파라미터로 한 장의 이미지를 계산해 가장 가능성 높은 클래스를 반환할 뿐입니다. 학습이라면 수천 장 이상의 검사 이미지와 라벨을 기준으로 손실을 계산하고, 그 오차를 바탕으로 gradient와 optimizer가 작동해야 합니다. 즉, 데모 화면에서 확인되는 것은 `이 입력을 지금 어떻게 분류했는가`이지 `이 입력 덕분에 모델이 곧바로 더 좋아졌는가`가 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 이미지 한 장을 넣는 즉시 분류 결과는 얻어도, 그 입력 하나만으로 학습 단계가 자동으로 시작되지는 않는가입니다.
 
 ### 사례 3. LLM 채팅
 
-채팅 서비스에서 같은 질문을 조금 다르게 쓰면 답변이 달라지는 장면이 자주 보입니다. 사람은 이 변화를 보고 대화 자체가 모델을 실시간으로 다시 학습시키는 것처럼 느끼기 쉽습니다. 하지만 일반적인 서비스 사용에서 일어나는 일은 대화 문맥이 달라져 다음 토큰 계산 경로가 바뀌는 inference입니다. 파라미터 업데이트가 실제로 일어나려면 대화 로그를 모으고, 정답 기준이나 선호 기준을 마련한 뒤, 별도 학습 파이프라인에서 다시 조정해야 합니다. 즉, 채팅창에서 보이는 변화는 `입력이 달라져 출력이 달라진 것`이지 `모델이 그 자리에서 새로 배운 것`이 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 프롬프트 표현이 바뀌어 응답은 달라져도, 그 변화가 곧바로 실시간 파라미터 학습을 뜻하지는 않는가입니다.
+현장 지원 채팅에서 같은 재기동 질문을 조금 다르게 쓰면 안내 문장이 달라지는 장면이 자주 보입니다. 사람은 이 변화를 보고 대화 자체가 모델을 실시간으로 다시 학습시키는 것처럼 느끼기 쉽습니다. 하지만 일반적인 서비스 사용에서 일어나는 일은 대화 문맥이 달라져 다음 토큰 계산 경로가 바뀌는 inference입니다. 파라미터 업데이트가 실제로 일어나려면 대화 로그를 모으고, 정답 기준이나 선호 기준을 마련한 뒤, 별도 학습 파이프라인에서 다시 조정해야 합니다. 즉, 채팅창에서 보이는 변화는 `입력이 달라져 출력이 달라진 것`이지 `모델이 그 자리에서 새로 배운 것`이 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 프롬프트 표현이 바뀌어 응답은 달라져도, 그 변화가 곧바로 실시간 파라미터 학습을 뜻하지는 않는가입니다.
+
+세 사례를 나란히 놓고 보면, learning과 inference의 차이는 `결과가 나왔는가`가 아니라 `그 결과가 파라미터를 실제로 바꾸는 계산으로 이어졌는가`에 있습니다.
+
+| 장면 | 사람이 먼저 보기 쉬운 결과 | learning/inference 관점에서 실제로 구분해야 할 것 | 파라미터가 바뀌는가 |
+| --- | --- | --- | --- |
+| 경보 분류 모델 | 새 경보 결과가 바로 나왔다 | 현재 파라미터로 점수를 계산했는지, 손실-업데이트까지 갔는지 | 보통 inference에서는 바뀌지 않음 |
+| 검사 이미지 데모 | 이미지 한 장을 넣자 분류가 바로 나왔다 | 입력 처리와 학습 파이프라인을 분리해서 봐야 함 | 데모 한 장 처리만으로는 바뀌지 않음 |
+| LLM 채팅 | 질문을 바꾸자 답이 달라졌다 | 문맥 변화에 따른 출력 변화와 실시간 재학습을 구분해야 함 | 일반 서비스 사용에서는 바뀌지 않음 |
+
+이 표에서 독자가 먼저 붙잡아야 할 결과는, learning과 inference를 가르는 핵심이 `출력 변화 유무`가 아니라 `손실과 업데이트가 실제로 붙어 파라미터가 바뀌었는가`라는 점입니다.
+
+세 사례를 한 번에 다시 압축하면, learning과 inference를 읽는 첫 흐름은 다음과 같습니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-06/learning-inference-parameter-bridge-ko.mmd"
+```
+
+이 도식은 경보 로그, 검사 이미지, 현장 지원 채팅 사례를 따로 다시 설명하려는 것이 아니라, 세 사례가 공통으로 보여 준 `새 입력을 처리해 출력이 달라지는 것`과 `손실-업데이트가 붙어 파라미터가 바뀌는 것`을 한 번에 다시 구분하기 위한 것입니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 선형 모델이 `학습 데이터`를 볼 때는 가중치를 바꾸고, `서비스 입력`을 볼 때는 가중치를 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다.
+이번 예제의 목표는 같은 작은 위험 점수 모델이 `학습 배치`를 볼 때는 위험 가중치를 바꾸고, `서비스 입력`을 볼 때는 그 가중치를 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다.
 
 입력:
 
-- 학습 샘플 3개
-- 초기 가중치 `w`
+- 학습용 경보 샘플 3개
+- 초기 위험 가중치 `risk_weight`
 - 학습률 `learning_rate`
 
 출력:
 
-- step별 예측값, 손실, 가중치 변화
+- step별 위험 점수 예측값, 손실, 위험 가중치 변화
 - 학습 완료 뒤 inference 결과
-- inference 전후 가중치 비교
+- inference 전후 위험 가중치 비교
+- 같은 위험 가중치로 여러 서비스 입력을 처리했을 때 출력만 달라지는지 확인
 
 문제 상황:
 
 - 학습과 추론은 같은 수식을 써도 목적이 다르므로, 가중치가 업데이트되는 구간과 고정된 구간을 나눠 볼 필요가 있다
+- 서비스 입력이 여러 번 들어와도 update가 없으면 파라미터는 그대로인지 직접 봐야 한다
 
 확인할 개념:
 
 - 학습 단계에서는 손실을 줄이기 위해 가중치가 계속 바뀐다
 - 추론 단계에서는 학습된 가중치를 고정한 채 결과만 계산한다
+- 입력이 달라져 출력이 달라져도 파라미터가 바뀌었다는 뜻은 아니다
 
 입력(input):
 
-위에 정리한 학습 데이터, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
+학습 배치에서는 `alarm_count`를 받아 `predicted_block_score`를 만들고, 목표값 `target_block_score`와 비교해 `risk_weight`를 갱신한다고 가정합니다. 이후 서비스 구간에서는 새 `alarm_count`가 들어와도 같은 `risk_weight`를 그대로 사용하는지만 확인합니다.
+
+코드를 보기 전에 먼저 어느 구간에서만 `weight`가 바뀔지 예상해 보면 좋습니다.
+
+| 구간 | 먼저 예상해 볼 비교 | 예상 이유 |
+| --- | --- | --- |
+| `train step 1~3` | `risk_weight_before`와 `risk_weight_after`가 달라질 가능성 | 손실과 gradient를 이용해 실제 업데이트를 수행하기 때문입니다. |
+| `service alarm_count=4.0` | 출력은 계산되지만 `risk_weight`는 유지될 가능성 | inference는 현재 파라미터를 사용만 하기 때문입니다. |
+| `service alarm_count=5.0` | 출력은 달라질 수 있어도 `risk_weight`는 여전히 같을 가능성 | 입력 변화와 파라미터 변화는 별개이기 때문입니다. |
+
+이 표의 목적은 `출력 변화`와 `파라미터 변화`를 분리해서 읽는 것입니다.
 
 ```python
-train_data = [
-    (1.0, 3.0),
-    (2.0, 6.0),
-    (3.0, 9.0),
+train_alarm_data = [
+    {"alarm_count": 1.0, "target_block_score": 3.0},
+    {"alarm_count": 2.0, "target_block_score": 6.0},
+    {"alarm_count": 3.0, "target_block_score": 9.0},
 ]
 
-w = 0.5
+risk_weight = 0.5
 learning_rate = 0.1
 
-def predict(x, w):
-    return x * w
+def predict_block_score(alarm_count, risk_weight):
+    return alarm_count * risk_weight
 
-print("initial_weight =", round(w, 3))
+print("initial_risk_weight =", round(risk_weight, 3))
 
-for step, (x, target) in enumerate(train_data, start=1):
-    prediction = predict(x, w)
-    loss = (prediction - target) ** 2
-    gradient_w = 2 * (prediction - target) * x
-    new_w = w - learning_rate * gradient_w
+for step, sample in enumerate(train_alarm_data, start=1):
+    alarm_count = sample["alarm_count"]
+    target_block_score = sample["target_block_score"]
+    prediction = predict_block_score(alarm_count, risk_weight)
+    loss = (prediction - target_block_score) ** 2
+    gradient_risk_weight = 2 * (prediction - target_block_score) * alarm_count
+    new_risk_weight = risk_weight - learning_rate * gradient_risk_weight
     print(
         f"train step {step}: "
-        f"x={x}, target={target}, prediction={prediction:.3f}, "
-        f"loss={loss:.3f}, weight_before={w:.3f}, weight_after={new_w:.3f}"
+        f"alarm_count={alarm_count}, target_block_score={target_block_score}, "
+        f"prediction={prediction:.3f}, loss={loss:.3f}, "
+        f"risk_weight_before={risk_weight:.3f}, risk_weight_after={new_risk_weight:.3f}"
     )
-    w = new_w
+    risk_weight = new_risk_weight
 
-weight_before_inference = w
-service_inputs = [4.0, 5.0]
-service_predictions = [round(predict(x, w), 3) for x in service_inputs]
-
+weight_before_inference = risk_weight
+service_alarm_counts = [4.0, 5.0]
+for alarm_count in service_alarm_counts:
+    print(
+        f"inference: alarm_count={alarm_count}, "
+        f"prediction={predict_block_score(alarm_count, risk_weight):.3f}, "
+        f"risk_weight_used={risk_weight:.3f}"
+    )
 print("weight_before_inference =", round(weight_before_inference, 3))
-print("service_inputs =", service_inputs)
-print("service_predictions =", service_predictions)
-print("weight_after_inference =", round(w, 3))
+print("weight_after_inference =", round(risk_weight, 3))
 ```
 
 출력에서는 학습 단계의 weight_before/after 변화와 inference 단계의 weight 불변을 먼저 비교하면 됩니다.
 
 ```text
-initial_weight = 0.5
-train step 1: x=1.0, target=3.0, prediction=0.500, loss=6.250, weight_before=0.500, weight_after=1.000
-train step 2: x=2.0, target=6.0, prediction=2.000, loss=16.000, weight_before=1.000, weight_after=2.600
-train step 3: x=3.0, target=9.0, prediction=7.800, loss=1.440, weight_before=2.600, weight_after=3.320
+initial_risk_weight = 0.5
+train step 1: alarm_count=1.0, target_block_score=3.0, prediction=0.500, loss=6.250, risk_weight_before=0.500, risk_weight_after=1.000
+train step 2: alarm_count=2.0, target_block_score=6.0, prediction=2.000, loss=16.000, risk_weight_before=1.000, risk_weight_after=2.600
+train step 3: alarm_count=3.0, target_block_score=9.0, prediction=7.800, loss=1.440, risk_weight_before=2.600, risk_weight_after=3.320
 weight_before_inference = 3.32
-service_inputs = [4.0, 5.0]
-service_predictions = [13.28, 16.6]
+inference: alarm_count=4.0, prediction=13.280, risk_weight_used=3.320
+inference: alarm_count=5.0, prediction=16.600, risk_weight_used=3.320
 weight_after_inference = 3.32
 ```
 
-여기서는 학습 step에서 `weight`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 `weight`가 유지된다는 점을 먼저 확인하면 됩니다.
+여기서는 학습 step에서 `risk_weight`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 `risk_weight`가 유지된다는 점을 먼저 확인하면 됩니다.
 
-- 학습 step에서는 `weight_before`와 `weight_after`가 다르므로 파라미터가 실제로 바뀝니다
-- inference에서는 새 입력을 넣어도 `weight_before_inference`와 `weight_after_inference`가 같습니다
+- 학습 step에서는 `risk_weight_before`와 `risk_weight_after`가 다르므로 파라미터가 실제로 바뀝니다
+- inference에서는 서로 다른 입력을 넣어도 `risk_weight_used`가 계속 같고, `weight_before_inference`와 `weight_after_inference`도 같습니다
 - 즉, 서비스 입력을 많이 넣는다고 자동으로 재학습이 일어나는 것은 아닙니다
+
+| 구간 | 지금 읽어야 할 핵심 |
+| --- | --- |
+| `train step 1~3` | 출력과 손실을 본 뒤 실제 update가 붙으므로 `risk_weight`가 계속 달라집니다. |
+| `inference alarm_count=4.0` | 새 입력을 처리해도 현재 `risk_weight`를 그대로 사용합니다. |
+| `inference alarm_count=5.0` | 출력은 달라지지만, 바뀐 것은 입력이지 파라미터가 아닙니다. |
+
+이 결과를 `출력 변화`와 `파라미터 변화` 기준으로 다시 묶으면 차이가 더 또렷합니다.
+
+| 실행 결과에서 보인 차이 | 결과만 보면 남기 쉬운 해석 | learning/inference 관점에서 다시 읽는 해석 |
+| --- | --- | --- |
+| `train step 1~3`에서 prediction이 계속 달라진다 | 그냥 경보 샘플을 여러 번 본 결과라고 느끼기 쉽다 | 손실과 update가 붙어 `risk_weight` 자체가 바뀌었기 때문이라고 읽는다 |
+| `inference alarm_count=4.0`, `alarm_count=5.0`에서 prediction이 달라진다 | 출력이 달라졌으니 모델도 같이 변했다고 느끼기 쉽다 | 입력만 달라졌고 `risk_weight_used`는 그대로라고 읽는다 |
+| `weight_before_inference`와 `weight_after_inference`가 같다 | 출력도 나왔으니 뭔가 학습이 있었을 수 있다고 느끼기 쉽다 | inference는 계산만 했고 파라미터는 고정됐다고 읽는다 |
+
+이 표까지 읽고 나면, learning과 inference의 핵심이 `둘 다 forward를 쓴다`가 아니라 `언제 update가 실제로 붙는가`를 구분하는 일이라는 점이 더 분명해집니다.
 
 전통적인 통계 모델과 머신러닝 교육에서도 `학습용 데이터(training data)`와 `예측 단계(prediction stage)`를 구분하는 관점은 오래전부터 중요했습니다. 딥러닝에서는 여기에 역전파, optimizer, 모드 전환 같은 요소가 더해지면서 이 구분이 더 중요해졌습니다.
 

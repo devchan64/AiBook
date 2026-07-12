@@ -1,7 +1,7 @@
 # P4-1.2 从数据中学习规则这句话是什么意思
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-1.1 中，我们区分了 AI、machine learning、deep learning、generative AI、LLM 的位置。现在要把 machine learning 再拉近一点来看。
 
@@ -248,26 +248,18 @@ scikit-learn 的基本使用流程也和这个结构很像。先创建 model obj
 --8<-- "assets/part-04/chapter-01/inquiry-rule-vs-learning-flow-zh.mmd"
 ```
 
-## 本节要记住的视角
-
-- rule-based approach 是由人直接写判断标准，learning-based approach 则是让 model 从数据里估计关系。
-- `从数据中学习规则` 更安全的理解，是 `从数据中估计关系` 或 `根据案例调整判断标准`。
-- 在训练之前，表仍然必须先分出 example、feature、label、identifier、运营语境这些不同角色。
-- `在训练数据上拟合得好` 和 `能 generalize 到没见过的数据` 不是一回事，所以 evaluation 不可缺少。
-
 ## 检查清单
 
-- 能不能说明为什么 `学习规则` 并不总等于生成可读的句子规则？
-- 能不能说明 Part 3 里的表格设计，是怎样接到 machine learning 里的 `什么成为 X`、`什么成为 y`？
-- 能不能说明为什么只做 prediction 还不够，仍然必须在没见过的数据上做 evaluation？
-
-## 什么时候要先想到这个视角
-
-- 当有人把 machine learning 直接理解成 `更复杂的手写规则` 时，要先回到这一节。
-- 当要判断当前问题应继续留在 rule-based approach，还是该转到 learning-based approach 时，要先想到这里。
-- 当训练开始前，需要重新分开 feature、target、identifier、运营备注时，这一节就是基准。
+- 能不能说明当前问题该用什么标准判断，是 rule-based approach 已经足够，还是需要 learning-based approach？
+- 能不能说明为什么比起 `从数据中学习规则`，`估计输入和输出之间的关系` 更准确？
+- 能不能用案例说明 model prediction 和 service 的最终 decision 不是同一个阶段？
+- 能不能说明 model 不是在寻找完整真理，而是在给定数据和目标标准下学习一个可用关系？
+- 能不能说明即使是 learning-based approach，也必须走完整个 `表示 -> 学习 -> 在没见过案例上评估` 的顺序？
+- 能不能用案例说明在真实业务里，model prediction、service policy、human review 可以一起使用？
 
 ## 来源与参考资料
 
-- Google, `Machine Learning Glossary`, 包含 `feature`、`label`、`training`、`prediction` 等条目，确认日期：2026-07-10. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Tom M. Mitchell, `Machine Learning`, McGraw Hill, 1997, 作者官方页面，确认日期：2026-06-25. [https://www.cs.cmu.edu/~tom/mlbook.html](https://www.cs.cmu.edu/~tom/mlbook.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Supervised learning`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/supervised_learning.html](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-07-10. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }

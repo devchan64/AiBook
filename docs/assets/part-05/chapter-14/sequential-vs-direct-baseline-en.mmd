@@ -1,0 +1,17 @@
+flowchart TD
+  A["same request: can line 3 restart now?"]
+
+  subgraph RNN["sequential state carry"]
+    B["carry the earlier rule in state"]
+    C["the rule can weaken while passing through middle logs"]
+    D["decide from the remaining state at the final request"]
+  end
+
+  subgraph TR["direct re-reference"]
+    E["current request position"]
+    F["look up the earlier rule and pressure-state line again"]
+    G["recombine the needed evidence for the decision"]
+  end
+
+  A --> B --> C --> D
+  A --> E --> F --> G

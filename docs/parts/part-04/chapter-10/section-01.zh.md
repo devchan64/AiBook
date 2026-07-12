@@ -13,7 +13,7 @@
 
 linear regression 对这个问题，首先用一条 `直线(line)` 来回答。
 
-这一节会说明 `回归(regression)`、`线性回归(linear regression)`、`系数(coefficient)`、`截距(intercept)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把连续值预测先读成一条直线的基础感觉，也会通过这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再接回来。
+这一节会说明 `回归(regression)`、`线性回归(linear regression)`、`系数(coefficient)`、`截距(intercept)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而把连续值预测先读成一条直线的基础感觉，也会通过这一节和 [概念词汇表](../../../reference/concept-glossary.md) 再接回来。
 
 ## 本节范围
 
@@ -548,8 +548,6 @@ difference              : 4.348
 - 发生变化的点：只改了一个输入，prediction 就上升了大约 `4.348` 分。也就是说，linear regression 会让读者用 `输入变化量 x coefficient` 的感觉去理解变化。
 - 最先应该留下的判断：这个变化是当前 model 给出的估计变化，并不保证现实里一定按同样幅度上升。单位和数据范围仍然要一起看。
 
-### 这个练习怎样回收 Part 4 的目标
-
 这个练习把 linear regression 从 `记住一条直线的模型`，重新拉回到 `当一个输入改变时，prediction 会朝什么方向、以多大幅度变化` 这个阅读起点上。对 Part 4 来说，重要的不是只知道 coefficient 这个名字，而是能亲自改一个值，然后说明 `什么被固定了，什么被改变了`。只有经过这种反复练习，后面的 baseline 比较、residual 解读、是否增加 feature 的判断，才能继续沿用同一种语言。
 
 | 共通记录语言 | 这次练习里应该立刻留下的内容 |
@@ -571,39 +569,15 @@ difference              : 4.348
 
 关键在于：`读数字是有顺序的`。面对 linear regression，不能只是因为算出了结果就直接相信，而要按这样的解释规则去读。
 
-## 本节要记住的视角
-
-- regression 是预测连续值的问题。
-- linear regression 是先用一条直线近似输入与输出关系的模型。
-- coefficient 展示变化的方向与大小，intercept 展示模型的起点。
-- coefficient 的数字必须连同单位一起读，而且不能把正相关立刻当成原因。
-- linear regression 不是完美解释现实的模型，而是最先用最简单方式开始读取关系的模型。
-- prediction 不是 actual，而是当前 model 给出的 estimate。
-- 在尝试更复杂 model 之前，linear regression 常常会像 baseline 一样先被拿来用。
-
-## 简短检查
-
-- 你是否先确认了当前问题是连续值预测？
-- 你能否从 baseline 的角度说明，为什么 linear regression 会被当成第一个可解释的比较 model？
-- 你是否没有立刻把 coefficient 数字读成重要性或原因，而是把单位和语境一起看？
-
-## 什么时候先想起这个视角
-
-- 当你需要先重新确认当前问题是 regression 而不是 classification 时，先想起 linear regression 的视角。
-- 当你需要再次解释“为什么 linear regression 是第一个 baseline 候选”“coefficient 到底能读到什么程度”时，回到这一节。
-- 当你想整理“即使直线不完美，为什么它仍然是有用起点”时，这一节就是基准。
+## Checklist
 
 - 你有没有清楚地区分：当前问题是 regression，不是 classification？
 - 你有没有理解：linear regression 的输出是连续值，而不是类别？
+- 你能不能把 linear regression 说明成：先用一条直线近似输入与输出关系的第一个可解释 baseline？
 - 你能不能把 coefficient 和 intercept 讲成“意义”，而不是只讲成公式符号？
-- 你能不能说明 linear regression 为什么是一个好的首个 baseline？
-- 你能不能解释：即使直线不完美，它为什么仍然有用？
-
-## 和下一节的连接
-
-这一节先把 linear regression 读成 `用一条直线来读取关系的模型`。下一节 P4-10.2 会继续看：这条直线到底拟合得怎么样、它在哪些情况下容易偏掉、residual 和 error 又该怎样读取。
-
-也就是说，如果说 P4-10.1 看的是 `模型长成什么样`，那么 P4-10.2 看的是 `这个形状到底合不合适`。
+- 你是否没有立刻把 coefficient 数字读成重要性或原因，而是把单位和语境一起看？
+- 你有没有记住：prediction 不是 actual，而是当前 model 给出的 estimate？
+- 你能不能解释：即使直线不完美，它为什么仍然是一个有用的起点？
 
 ## 出处与参考资料
 

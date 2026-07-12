@@ -1,7 +1,7 @@
 # P2-7.3 Python Interpreter and Script
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-7.2, we looked at terminal, shell, and working directory. Now we look at how Python code is actually executed in that terminal.
 
@@ -267,16 +267,6 @@ Even with the same Python code, the things to check change depending on the exec
 
 This Section does not cover every error solution. What matters is the perspective that `if the execution style changes, the cause of the error must also be narrowed differently`.
 
-## Perspective to Keep from This Section
-
-When running Python, first look at three things.
-
-1. Is the place where I am typing now a shell, a Python prompt, or a code cell?
-2. Is what I am trying to execute a one-line calculation, a file, or a notebook cell?
-3. Are the current working directory and the necessary files correct?
-
-If these questions become a habit, then later in virtual environments, package installation, and reading data files, errors can be divided more calmly.
-
 ## View It Through a Case
 
 ### Case 1. Where Should `print("hello")` Be Typed?
@@ -289,7 +279,7 @@ This is why this Section separates `interpreter`, `interactive mode`, `script`, 
 
 The confirmable result appears by looking at the prompt. If `print("hello")` works inside `>>>` but not in the general shell prompt, then the problem is not Python syntax, but choosing the wrong execution place.
 
-## Short Check
+## Checklist
 
 - You can explain the Python interpreter as the program that reads and executes Python code.
 - You can explain that in interactive mode, Python code is entered at the `>>>` prompt.
@@ -297,12 +287,7 @@ The confirmable result appears by looking at the prompt. If `print("hello")` wor
 - You can distinguish that `python hello.py` is a terminal command, while `print("hello")` is Python code.
 - You can explain that Colab/Jupyter code cells execute Python code in cell units.
 - You can explain that in `python -m pip ...`, `-m` is an execution option given from the terminal to the Python interpreter.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when you are confused from the point of not knowing where `print("hello")` should be entered and must separate again the shell prompt from the Python execution place.
-- Recall it when you need to hold again that interactive execution, script execution, and notebook code cells all use Python but differ in saving and rerunning style.
-- Recall it when you need to distinguish again that `python`, `python file.py`, and `python -m ...` are terminal commands with different roles.
+- You can explain that when running Python, you should first check whether the current place is a shell, a Python prompt, or a code cell, and whether you are executing one line, a file, or a notebook cell.
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P2-3.2 Vector Space and the Intuition of Position
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. Now we extend the vector a little beyond a simple list of values. In AI documents, a vector is often explained as if it were `a position inside some space`.
 
@@ -320,15 +320,7 @@ This case shows why we need to see vectors as more than simple lists of numbers.
 
 So the intuition of vector space lies less in `there are many numbers` and more in `the representations are comparable inside the same space`. With that intuition, explanations of embedding, similarity search, recommendation, and RAG are all read on the same map.
 
-## Perspective to Keep from This Section
-
-Here, vector space is understood as `a calculable place where vectors are placed and compared`. We postpone the strict mathematical definition and first look from the perspective of AI data representation.
-
-Objects are represented as vectors, and those vectors are placed in the same space. Nearby vectors become candidates for similarity, but the interpretation still has to be verified according to the problem and the comparison standard.
-
-This perspective returns in the embedding, similarity search, and RAG flow from P1-13.1 to P1-13.4, and continues into clustering in Part 3 P3-17, and into Part 6 `P6-11.1` on vector databases and `P6-11.2` on indexes and retrieval quality.
-
-## Short Check
+## Checklist
 
 - Can you explain a vector as both a list of values and an expression that can be read like coordinates?
 - Can you explain vector space as a calculable place where vectors are placed and compared?
@@ -338,12 +330,7 @@ This perspective returns in the embedding, similarity search, and RAG flow from 
 - Can you explain that embedding is a way of turning objects into representations inside vector space?
 - Can you explain why the intuition of vector space returns in similarity search, RAG, recommendation, and clustering?
 - Can you lightly explain vector addition, scalar multiplication, and linear combination as the basic calculations of vector space?
-
-## When Should You Recall This Perspective First
-
-- When you can read a vector as a list of values but it does not connect to the perspective of position and nearness
-- When your sense of why embedding and similarity search use the language of vector space becomes blurry
-- When you need to confirm again the condition that comparison is possible only within the same space and the same dimension
+- Can you explain that embedding and similarity search require the condition of the same space and the same dimension?
 
 ## Sources and References
 

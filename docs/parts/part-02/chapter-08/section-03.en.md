@@ -1,7 +1,7 @@
 # P2-8.3 Dictionaries: Structures That Find Values by Key
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-8.2, we looked at lists, which are ordered groups of values. But not all data is read only through order.
 
@@ -369,20 +369,6 @@ print(student.get("label", "unknown"))
 
 When handling data files or API responses, problems can appear if you assume every key always exists. Real data can mix in missing values, differently named values, and types different from what was expected.
 
-## Perspective to Remember in This Section
-
-A dictionary is a structure that finds values by key. It is considered first when names matter more than order and when a value has to be found immediately by some criterion.
-
-This perspective does not stay only inside Python dictionaries. JSON objects, configuration files, API responses, and column names of one row of data can all be read as `structures that find values by key`.
-
-When reading a dictionary, use the following questions.
-
-1. What is the key?
-2. What is the value?
-3. Is there a possibility that the key is absent?
-4. Is this structure closer to configuration values, a label map, metadata, or ID lookup?
-5. If order is the important issue, would a list be more suitable?
-
 ## Case Study
 
 ### Case 1. When You Want to Change a Label Number into a Human-Readable Name
@@ -395,7 +381,7 @@ A dictionary is a structure suited to reading and writing this kind of correspon
 
 The confirmable result is whether the name immediately comes out when the numeric prediction label is put in. If the desired string can be obtained through `label_map[prediction]`, then it is more natural to read this problem with a dictionary than with a list.
 
-## Short Check
+## Checklist
 
 - You can explain a dictionary as a group of keys and values.
 - You can explain a dictionary as a mapping structure.
@@ -403,12 +389,7 @@ The confirmable result is whether the name immediately comes out when the numeri
 - You can explain the difference that a list finds values by position while a dictionary finds values by key.
 - You can explain that `get()` is useful in situations where a key may be absent.
 - You can read examples of label maps, configuration values, sample ID lookup, and column descriptions.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when you encounter data where what matters is not which numbered value it is, but by which name or identifier it is found, so you need to first think of a dictionary structure.
-- Recall it when you need to explain again the difference between lists and dictionaries not as syntax, but as the difference between position and key.
-- Recall it when examples appear that read mapping structures such as label maps, configuration values, sample IDs, and column descriptions.
+- You can distinguish how to read lookups when a key may be absent.
 
 ## Sources and References
 

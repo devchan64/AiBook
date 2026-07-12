@@ -1,7 +1,7 @@
 # P2-7.2 Terminal, Shell, and Working Directory
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-7.1, we first looked at the place where code runs. Now we look at the first screen a reader usually meets when entering commands on a local PC.
 
@@ -272,18 +272,6 @@ Even when terminal errors look complicated, they can be divided into a few types
 
 This Section does not solve every error. But it builds the habit of dividing, when reading an error, between `an error in the code itself` and `an error in the location where the command was executed`.
 
-## Perspective to Keep from This Section
-
-When you look at the terminal, check three things first.
-
-When you look at the terminal, check three things first.
-
-1. What shell am I using?
-2. In what folder am I right now?
-3. What file or program is this command trying to find?
-
-These three questions look simple, but they keep repeating later in Python script execution, virtual-environment activation, package installation, and reading data files.
-
 ## View It Through a Case
 
 ### Case 1. Why `python example.py` Fails Even Though the File Exists
@@ -296,7 +284,7 @@ If we distinguish the core words of this Section, `terminal`, `shell`, `working 
 
 The confirmable result appears immediately when the current location is printed. If the result of `pwd` is not the project folder, then the reason the same `python example.py` command fails can be explained not as a code issue but as a location issue.
 
-## Short Check
+## Checklist
 
 - You can explain the terminal as the screen for command input and result checking.
 - You can explain the shell as the program that interprets and executes commands.
@@ -306,12 +294,7 @@ The confirmable result appears immediately when the current location is printed.
 - You can explain why `pwd`, `cd`, and `ls` are needed.
 - You know that in PowerShell, official command names such as `Get-Location`, `Set-Location`, and `Get-ChildItem` exist.
 - You can explain that the `!` command in a Colab code cell is executed in the Colab runtime, not on the local PC.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when a file exists but `python example.py` fails and you need to first divide the issue into a code problem and a location problem.
-- Recall it when terminal and shell look mixed as if they were the same word and you need to distinguish again who interprets the command.
-- Recall it when you need to check again what effect relative path, absolute path, and the current working directory have on command interpretation.
+- You can first check `what shell am I using`, `what folder am I in now`, and `what file or program is this command trying to find`.
 
 ## Sources and References
 

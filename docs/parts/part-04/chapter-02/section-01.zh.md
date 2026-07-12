@@ -1,7 +1,7 @@
 # P4-2.1 监督学习
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-1.2 里，我们把 machine learning 看成 `从数据中估计输入和输出关系的方法`。现在要看其中最先会遇到的一种形式：监督学习。
 
@@ -9,7 +9,7 @@
 
 监督学习可以先读成 `看着同时带有例子和答案的案例，再去猜新案例输出` 的方式。但 model 并不是在理解人写的解释，它是在大量案例中不断调整自己的内部标准，让输入和输出之间的关系尽量匹配。
 
-这一节会说明 `supervised learning`、`输入 X 与目标 y`、`classification` 和 `regression` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于标签的学习到底是什么意思` 这个基础含义，会以本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 为基准再次接回。
+这一节会说明 `supervised learning`、`输入 X 与目标 y`、`classification` 和 `regression` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于标签的学习到底是什么意思` 这个基础含义，会以本节和 [概念词汇表](../../../reference/concept-glossary.md) 为基准再次接回。
 
 ## 本节范围
 
@@ -207,25 +207,14 @@ model 在 training data 上表现好，并不够。我们真正想要的是：�
 --8<-- "assets/part-04/chapter-02/p4-2-1-mermaid-02-zh.mmd"
 ```
 
-## 本节要记住的视角
+## 检查清单
 
-- 监督学习是从同时带有输入 `X` 和 label / target `y` 的案例里学习关系的方法。
-- label 是 model 想匹配的输出，但它不保证就是现实里的完整真理。
-- classification 匹配类别，regression 预测数值。
-- training 是拟合关系的阶段，evaluation 是在没见过的数据上检查的阶段。
-- model 的 prediction 和服务的最终 decision 应该分开读。
-
-## 简短检查
-
-- 能不能说明在什么情况下，因为输入和稳定 label 同时存在，问题就应该先按监督学习来读？
-- 能不能说明为什么单纯存在一列 label，还不足以说明问题已经准备好进入监督学习？
-- 能不能说明为什么 training、evaluation、service decision 不能被压成同一步？
-
-## 什么时候要先想到这个视角
-
-- 当讨论太快地从 `我们有标签` 跳到 `所以问题应该很简单` 时，要先回到这一节。
-- 当需要判断当前目标到底是 classification 还是 regression 时，要先想到这里。
-- 当需要把 model prediction 和业务 policy、服务最终 action 分开时，这一节就是基准。
+- 能不能说明在什么状态下，`有 label` 和 `可以立刻当成监督学习问题来用` 必须分开看？
+- 能不能说明为什么即使是同一份数据，只要 `y` 放的东西不同，classification 和 regression 就会改变？
+- 能不能在监督学习语境里说明，model prediction 和服务最终 decision 是不同阶段？
+- 能不能说明监督学习是从同时带有输入 `X` 和 label 或 target `y` 的案例里学习关系的方法？
+- 能不能说明 label 是 model 想匹配的输出，但并不保证就是现实里的完整真理？
+- 能不能区分 training 是拟合关系的阶段，而 evaluation 是在没见过的数据上确认的阶段？
 
 ## 来源与参考资料
 

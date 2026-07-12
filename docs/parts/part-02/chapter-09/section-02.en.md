@@ -1,7 +1,7 @@
 # P2-9.2 The Intuition of Arrays, Tables, Trees, and Graphs
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-9.1, we viewed a data structure as a question of how data is organized into a shape. Now we compare broadly four shapes that appear often in AI practice.
 
@@ -499,26 +499,7 @@ This Section shows exactly that transition. Arrays, tables, trees, and graphs ar
 
 The checkable result is whether the code changes by question. If different expressions become simpler when pulling out only the score list for an average, grouping names by class, or looking at friendship connections, then the meaning of changing structure becomes clear.
 
-## Perspectives to Remember from This Section
-
-- Arrays, tables, trees, and graphs are structures that answer different questions.
-- Arrays first look at position and axis, tables at rows and columns, trees at hierarchy, and graphs at connection.
-- The same data can be read through different structures depending on what question you ask.
-- When you meet NumPy and Pandas later, recall first `Is this an array question or a table question?` before the tool name.
-
-Arrays, tables, trees, and graphs are data viewpoints for different questions.
-
-Arrays look at position and axis.
-
-Tables look at rows and columns.
-
-Trees look at higher and lower levels.
-
-Graphs look at connection and relation.
-
-In AI practice, these four kinds of intuition keep mixing together. Therefore, instead of memorizing implementations from the beginning, first look at what question the current data demands.
-
-## Short Check
+## Checklist
 
 - Can you distinguish arrays, tables, trees, and graphs in one sentence each?
 - Can you explain why the same data can be read through different structures too?
@@ -529,12 +510,7 @@ In AI practice, these four kinds of intuition keep mixing together. Therefore, i
 - Can you explain a graph through node, edge, and relation?
 - Can you explain that the same data can be viewed as an array, table, tree, or graph depending on the question?
 - Can you explain which structural intuition connects to tokens, embeddings, datasets, document structure, and knowledge graphs in AI practice?
-
-## When Should You Recall This Perspective First?
-
-- Recall this comparison first when you need to choose whether to view data as a numerical array, a row-column table, a hierarchy, or a relationship network.
-- When you need to explain that even for the same object, the appropriate structure changes when the question changes, the four intuitions in this Section become the standard.
-- Check again here when you need to separate tokens, embeddings, datasets, document structure, and knowledge connections into different structural intuitions in AI practice.
+- Can you first distinguish whether the current question is about an array, table, hierarchy, or relationship?
 
 ## Sources and References
 

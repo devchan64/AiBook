@@ -9,7 +9,7 @@ P5-6장에서는 학습과 모델 실행을 구분했고, P5-7장에서는 옵�
 
 딥러닝 학습 루프는 `forward -> loss -> backward -> optimizer step -> regularization/모드 제어`가 반복되는 구조로 읽는 편이 안전하다.
 
-학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [순전파(forward pass)](../../../reference/concept-glossary.md#forward-pass), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
+학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [학습(training)](../../../reference/concept-glossary.md#training), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
 
 ## 이 절의 범위
 
@@ -96,22 +96,31 @@ training mode와 evaluation mode는 루프 바깥의 부가 설정이 아닙니�
 
 학습 손실은 계속 내려가는데 검증 성능이 나빠진다면, 사람은 먼저 `모델 구조가 나쁘다`고 결론내리기 쉽습니다. 하지만 이런 경우에는 구조 자체보다 regularization이나 mode 설정을 다시 봐야 할 수 있습니다. 예를 들어 dropout이 학습에서는 켜지는데 평가에서는 꺼져야 하는데도 mode 전환이 잘못되어 있거나, 가중치가 훈련 데이터에만 과하게 맞춰지고 있을 수 있습니다. 학습 루프를 한 장면으로 묶어 보고 있으면 `구조 문제인가`, `업데이트 문제인가`, `평가 설정 문제인가`를 더 빨리 분리해 볼 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 구조 이름을 바꾸기 전에 regularization, mode, 평가 절차를 먼저 점검하는 순서가 실제 원인 분리에 더 도움이 되는가입니다.
 
+| 사람이 먼저 보기 쉬운 기준 | 학습 루프 관점으로 다시 읽는 기준 |
+| --- | --- |
+| CNN, RNN, Transformer처럼 새 구조 이름이 붙으면 학습 절차도 완전히 바뀐다고 느끼기 쉽다 | 바뀌는 것은 내부 계산 블록이고, `forward -> loss -> backward -> optimizer step`이라는 공통 반복은 그대로 남는다 |
+| 과적합 징후가 보이면 먼저 구조 이름부터 바꿔야 한다고 느끼기 쉽다 | regularization, mode, 평가 절차가 루프 안에서 어떻게 작동했는지 먼저 분리해 봐야 한다 |
+| 이미지 모델과 텍스트 모델은 학습 방식도 완전히 다를 것처럼 느끼기 쉽다 | 입력 표현과 내부 구조는 달라도 batch 단위 forward, loss, backward, update라는 뼈대는 공통으로 유지된다 |
+| mode나 regularization은 부가 설정이라고 보기 쉽다 | 이 요소들도 루프 안에서 손실 해석, 업데이트 경로, 평가 안정성에 직접 영향을 주는 구성 요소다 |
+
+이 사례들에서 최종적으로 확인해야 할 결과는 분명합니다. 학습 루프의 핵심은 `새 구조 이름을 많이 아는가`가 아니라, 어떤 구조가 오더라도 공통 반복은 유지되고, 문제 원인은 그 반복 안의 손실·업데이트·mode·regularization 위치로 다시 분해해 읽어야 한다는 데 있습니다.
+
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프 안에서 `forward -> loss -> backward -> optimizer step`이 어떻게 한 batch씩 반복되는지 확인하는 것입니다.
+이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프 안에서 `forward -> loss -> backward -> optimizer step`이 어떻게 한 운영 배치(batch)씩 반복되는지 확인하는 것입니다.
 
 입력:
 
-- 1차원 입력을 두 개씩 묶은 batch 2개
-- 각 batch의 목표값
-- 가중치 하나 `w`
+- 경보 수치를 두 개씩 묶은 batch 2개
+- 각 batch의 목표 차단 점수
+- 위험 가중치 하나 `risk_weight`
 
 출력:
 
-- batch별 prediction 목록
+- batch별 예측 차단 점수 목록
 - batch별 평균 loss
 - batch별 평균 gradient
-- step 이후 갱신된 가중치
+- step 이후 갱신된 위험 가중치
 
 문제 상황:
 
@@ -124,21 +133,32 @@ training mode와 evaluation mode는 루프 바깥의 부가 설정이 아닙니�
 
 입력(input):
 
-위에 정리한 batch 묶음, 초기 가중치 `w`, 학습률 `learning_rate`를 사용합니다.
+각 batch는 `alarm_count` 두 건과 그에 대응하는 `target_block_score` 두 건을 담고 있다고 가정합니다. 학습 루프는 현재 `risk_weight`로 batch 안 모든 예측 차단 점수를 먼저 계산한 뒤, 평균 손실과 평균 gradient를 모아 한 번만 업데이트합니다.
+
+코드를 보기 전에 먼저 각 batch에서 무엇이 먼저 계산되고, 무엇이 마지막에 한 번만 바뀌는지 예상해 보면 학습 루프의 순서가 더 잘 고정됩니다.
+
+| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
+| --- | --- | --- |
+| `predictions` | 각 batch 안의 샘플마다 먼저 계산될 가능성이 큼 | forward 단계에서는 현재 `risk_weight`로 각 입력의 예측 차단 점수를 먼저 만듭니다. |
+| `batch_loss`, `batch_gradient` | 샘플별 계산 뒤 평균으로 한 번 모일 가능성이 큼 | 손실과 gradient는 batch 안 여러 샘플 결과를 묶어 읽어야 하기 때문입니다. |
+| `updated_risk_weight` | batch마다 한 번씩만 바뀔 가능성이 큼 | optimizer step은 샘플별로 즉시 바꾸지 않고 batch 평균 gradient 뒤에 한 번 적용됩니다. |
+| 두 번째 batch의 `predictions` | 첫 번째 batch에서 갱신된 `risk_weight` 영향을 받을 가능성이 큼 | 학습 루프는 이전 update 결과를 다음 batch forward가 이어받는 반복 구조이기 때문입니다. |
+
+이 표의 목적은 정확한 수치를 미리 외우는 데 있지 않습니다. 학습 루프를 읽을 때 `무엇이 샘플별 forward 결과인가`, `무엇이 batch 평균으로 모이는가`, `무엇이 step 끝에서 한 번 바뀌는가`를 코드 전에 붙잡는 데 있습니다.
 
 ```python
 batches = [
     [
-        {"x": 1.0, "target": 2.0},
-        {"x": 2.0, "target": 4.0},
+        {"alarm_count": 1.0, "target_block_score": 2.0},
+        {"alarm_count": 2.0, "target_block_score": 4.0},
     ],
     [
-        {"x": 3.0, "target": 6.0},
-        {"x": 4.0, "target": 8.0},
+        {"alarm_count": 3.0, "target_block_score": 6.0},
+        {"alarm_count": 4.0, "target_block_score": 8.0},
     ],
 ]
 
-w = 0.5
+risk_weight = 0.5
 learning_rate = 0.1
 
 for step, batch in enumerate(batches, start=1):
@@ -147,44 +167,44 @@ for step, batch in enumerate(batches, start=1):
     gradients = []
 
     for sample in batch:
-        x = sample["x"]
-        target = sample["target"]
+        alarm_count = sample["alarm_count"]
+        target_block_score = sample["target_block_score"]
 
-        prediction = w * x
-        loss = (prediction - target) ** 2
-        gradient_w = 2 * (prediction - target) * x
+        prediction = risk_weight * alarm_count
+        loss = (prediction - target_block_score) ** 2
+        gradient_risk_weight = 2 * (prediction - target_block_score) * alarm_count
 
         predictions.append(round(prediction, 3))
         losses.append(loss)
-        gradients.append(gradient_w)
+        gradients.append(gradient_risk_weight)
 
     batch_loss = sum(losses) / len(losses)
     batch_gradient = sum(gradients) / len(gradients)
 
-    w = w - learning_rate * batch_gradient
+    risk_weight = risk_weight - learning_rate * batch_gradient
 
     print(f"[batch {step}]")
     print("predictions =", predictions)
     print("batch_loss =", round(batch_loss, 3))
     print("batch_gradient =", round(batch_gradient, 3))
-    print("updated_w =", round(w, 3))
+    print("updated_risk_weight =", round(risk_weight, 3))
     print("---")
 ```
 
-출력에서는 각 batch마다 predictions가 먼저 계산되고, 그 뒤 평균 loss와 평균 gradient가 모인 다음 updated_w가 한 번 바뀌는 순서를 보면 됩니다.
+출력에서는 각 batch마다 predictions가 먼저 계산되고, 그 뒤 평균 loss와 평균 gradient가 모인 다음 updated_risk_weight가 한 번 바뀌는 순서를 보면 됩니다.
 
 ```text
 [batch 1]
 predictions = [0.5, 1.0]
 batch_loss = 5.625
 batch_gradient = -7.5
-updated_w = 1.25
+updated_risk_weight = 1.25
 ---
 [batch 2]
 predictions = [3.75, 5.0]
 batch_loss = 7.031
 batch_gradient = -18.75
-updated_w = 3.125
+updated_risk_weight = 3.125
 ---
 ```
 

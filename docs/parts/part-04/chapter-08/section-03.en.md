@@ -1,7 +1,7 @@
 # P4-8.3 Supplementary Learning: How To First Set A Baseline By Problem Type
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 If P4-8.2 showed why a baseline is needed, then the next question immediately appears.
 
@@ -325,29 +325,15 @@ median baseline
 
 This example shows why both the mean baseline and the median baseline should be brought to mind. If the training target values include one very large value, `120`, the mean gets dragged strongly, while the median stays more stable. In a scene like this, it is safer to first check numerically whether `the mean is the default baseline` or `the median is the more natural baseline`.
 
-## Perspective To Remember In This Supplementary Learning
-
-| What to hold now | Why it matters | What it leads to next |
-| --- | --- | --- |
-| representative baseline candidates by problem type | because classification, regression, and time series begin from different standards | it leads to candidate comparison and tuning in P4-9 |
-| compare the baseline and candidate model on the same metric | because the same yardstick is needed to interpret score differences | it distinguishes real improvement from illusion |
-| inspect representative error scenes | because numbers alone cannot fully read the direction of improvement | it leads to the confusion matrix, large-error regions, and failure cases |
-
-- A baseline is not `the model that loses first`, but `the standard that must be compared first`.
-- Representative baseline methods must be set differently depending on problem type.
-- Cases and exercises should come immediately after the baseline explanation so that the reader can follow the actual comparison scene.
-- It is safer to move to tuning only after confirming that a candidate better than the baseline exists.
-
-## Short Check
+## Checklist
 
 - Have you written down at least one representative baseline candidate that fits the current problem type?
 - Are you comparing the baseline and the candidate model with the same metric?
-- Are you looking not only at score difference, but also at representative error scenes together?
+- Are you looking together not only at score difference, but also at representative error scenes?
 - Are you avoiding dragging a candidate that cannot beat the baseline into long tuning?
-
-## Connection To The Next Section
-
-Once the baseline candidates and setting procedure are fixed here, the next Section, P4-9, moves on to how candidates that look better than the baseline should be compared and adjusted. In the later algorithm Sections, the reader sees more concretely why each model can or cannot easily beat a certain baseline.
+- Can you explain that a baseline is not `the model that loses first`, but `the standard that must be compared first`?
+- Can you explain that representative baseline methods must be set differently depending on problem type?
+- Can you explain that it is safer to move to tuning only after confirming that a candidate better than the baseline exists?
 
 ## Sources And References
 

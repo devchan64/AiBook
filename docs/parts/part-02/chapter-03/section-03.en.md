@@ -1,7 +1,7 @@
 # P2-3.3 What Does Matrix Multiplication Reuse?
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. In P2-3.2, we built the intuition of reading a vector like a position inside space and comparing nearness and farness. Now we move to matrix multiplication.
 
@@ -325,16 +325,6 @@ Third, it repeats the same transformation structure across several layers.
 
 Viewed this way, matrix multiplication is not just a formula. It is a basic device through which a model repeatedly changes, compresses, and re-represents data.
 
-## Perspective to Keep from This Section
-
-Matrix multiplication is not element-wise multiplication. Matrix multiplication is a calculation that makes a new vector by reusing the weighted sum of input values and weights several times.
-
-1. There is an input vector.
-2. It passes through a weight matrix.
-3. An output vector is produced.
-
-This structure keeps repeating in AI models. Input data becomes a numeric representation, changes into another representation as it passes through a weight matrix, and moves toward the final output through several stages of transformation.
-
 ## Looking Through a Case
 
 ### Case 1. A Calculation That Makes Two New Scores from Two Features
@@ -347,7 +337,7 @@ This case also shows why matrix multiplication is not simple position-wise multi
 
 So matrix multiplication is read less as a memorized rule and more as `a reusable calculation that changes an input into another representation space`. This intuition continues directly into explanations of neural-network layers, linear transformations, and weight matrices.
 
-## Short Check
+## Checklist
 
 - Can you distinguish matrix multiplication from element-wise multiplication?
 - Can you explain weighted sum as a calculation that multiplies input values by weights and adds them?
@@ -356,12 +346,7 @@ So matrix multiplication is read less as a memorized rule and more as `a reusabl
 - Can you explain the intuition of batch calculation, where several samples are bundled into a matrix and the same weight matrix is applied?
 - Can you explain linear transformation as a calculation that changes an input representation into another output representation?
 - Can you explain why matrix multiplication reappears in neural-network layers, embeddings, and classification?
-
-## When Should You Recall This Perspective First
-
-- When you are reading matrix multiplication as if it were the same as element-wise multiplication
-- When you cannot yet see the structure that reuses weighted sums across several outputs and several samples
-- When you need the intuition for reading input dimension, output dimension, and weight-matrix shape together
+- Can you explain matrix multiplication as the reusable weighted-sum structure of `input -> weight matrix -> output`?
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P2-11.1 用 NumPy 数组构建向量与矩阵
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 在 Part 2 Chapter 3 中，我们用数学符号和小段代码确认了 scalar、vector、matrix。Part 2 Chapter 8 看过 Python 的 list 与 dictionary，Part 2 Chapter 9 从不同数据结构视角区分了 array、table、tree、graph，Part 2 Chapter 10 又说明了如何把 notebook 整理成可重新执行的学习记录。
 
@@ -406,25 +406,7 @@ python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 
 换句话说，NumPy 入门与其说是在背新语法，不如说是在 `练习把现实数据读成可计算形状`。有了这种直觉，Part 3 之后的 feature matrix 与 weight calculation 才不会那么陌生。
 
-## 本节要记住的视角
-
-NumPy array 是把数字放进固定 shape 中再进行计算的结构。
-
-Python list 与 NumPy array 看起来相似，但在计算里的含义可能不同。
-
-vector 可以读成一维数组，matrix 可以读成二维数组。
-
-`shape` 是数组计算的语法。
-
-在 AI 实践里，input、feature、weight、output 都可能以数组形状出现。
-
-读完本节后，下面这条流程应当自然接上。
-
-| 当前章节的把手 | 下一章继续检查什么 | 最后要留下什么记录 |
-| --- | --- | --- |
-| 读懂可计算数字形状与 `shape` | 把这些数字形状作为表和图继续检查与解释 | 通过 Git 留下记录，使所用数组与解释能再次被说明 |
-
-## 简短检查
+## 检查清单
 
 - 能说明 Python list 与 NumPy array 在目的上的差别。
 - 能用 `np.array()` 构建 vector 与 matrix。
@@ -432,12 +414,7 @@ vector 可以读成一维数组，matrix 可以读成二维数组。
 - 能区分一维数组与二维数组。
 - 能读懂 `(样本数, 特征数)` 形式的矩阵。
 - 能说明像 `features @ weights` 这样的小计算里，输入与输出的 shape。
-
-## 什么时候应先想起这个视角
-
-- 当 Python list 已经不足以读出计算结构，而你必须按 vector 与 matrix 单位处理数据时，应先想起 NumPy array 视角。
-- 当你需要开始把数据集读成 `(样本数, 特征数)` 这样的 shape 时，就回到本节的数组直觉。
-- 当你需要解释一个简单线性代数计算会怎样随着输入输出 shape 而变化时，再回来检查本节。
+- 能说明 NumPy array 是把数字放进固定 shape 中进行计算的结构，而 `shape` 就像数组计算的语法。
 
 ## 来源与参考资料
 

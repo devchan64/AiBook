@@ -1,7 +1,7 @@
 # P4-2.1 Supervised Learning
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-1.2 treated machine learning as `an approach that estimates the relation between input and output from data`. Now we look at the first form people usually meet inside it: supervised learning.
 
@@ -207,25 +207,14 @@ The checkable result appears in evaluation on inquiries not used for learning. I
 --8<-- "assets/part-04/chapter-02/p4-2-1-mermaid-02-en.mmd"
 ```
 
-## Perspective To Remember In This Section
+## Checklist
 
-- Supervised learning is a way of learning the relation between examples that contain input `X` and label or target `y`.
-- The label is the output the model tries to match, but it does not guarantee complete truth about reality.
-- Classification matches categories, while regression predicts numeric values.
-- Training is the stage of fitting the relation, and evaluation is the stage of checking it on unseen data.
-- Model prediction and the service's final decision should be read separately.
-
-## Short Check
-
-- Can you explain when a problem should be read as supervised learning because inputs and stable labels exist together?
-- Can you explain why a label column alone does not automatically mean the problem is ready for supervised learning?
-- Can you explain why training, evaluation, and service decision should not be collapsed into one step?
-
-## When This Perspective Should Come To Mind First
-
-- Return to this Section when a discussion jumps too quickly from `we have labels` to `so the problem is easy`.
-- Recall it when you need to decide whether the current target is classification or regression.
-- Use it as the reference point when separating model prediction from business policy or final service action.
+- Can you explain in what situations `a label exists` and `it can be used immediately as a supervised-learning problem` should be distinguished?
+- Can you explain why classification and regression change depending on what is placed into `y`, even with the same data?
+- Can you explain in the supervised-learning context that model prediction and the service's final decision are different stages?
+- Can you explain that supervised learning is a way of learning the relation from cases that contain input `X` and label or target `y`?
+- Can you explain that the label is the output the model tries to match, but does not guarantee complete truth about reality?
+- Can you distinguish that training is the stage of fitting the relation, while evaluation is the stage of checking it on unseen data?
 
 ## Sources And References
 

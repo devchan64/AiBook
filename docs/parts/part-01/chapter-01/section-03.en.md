@@ -1,7 +1,7 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
@@ -201,16 +201,6 @@ Suppose an internal approval system works only through human-written conditions.
 - You can explain that deep learning and generative AI are not the same term.
 - You can explain the relationship between generative AI and LLMs as `representative case, but not the whole`.
 - You can explain that a real AI service can be a combination of several components, not one model alone.
-
-## When to Recall This View First
-
-Bring this section back first when the technology names are familiar but the conceptual level of each term keeps getting mixed.
-
-- when a question such as `which is better, AI or machine learning` already feels unstable
-- when one generative-AI service makes you want to call the whole thing simply an `LLM`
-- when a rule-based system, a prediction model, an image-generation service, and a document-QA chatbot have to be separated on one comparison table
-
-At that point, separate `field and system category`, `learning approach`, `output category`, and `model family`, and first check which box the current case belongs to.
 
 ## Sources and References
 

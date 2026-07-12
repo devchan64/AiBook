@@ -1,7 +1,7 @@
 # P2-10.3 Organizing Notebooks as Re-runnable Records
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. In P2-10.2, we distinguished Jupyter, Colab, and local execution from the viewpoint of execution location and file access.
 
@@ -48,20 +48,6 @@ This Section connects the dependency and reproducibility ideas of Part 2 Chapter
 - You can explain why environment, package, and data-preparation cells should be placed near the front of a notebook.
 - You can explain that in Colab sharing, notebook content and runtime state can be different things.
 - You can explain the point at which code verified in a notebook should be separated into functions and scripts.
-
-## The Standard to Hold First
-
-The first standard to hold in this Section is that `a good notebook is a readable document and also a rerunnable record`.
-
-| What to look at in the notebook now | Question to ask first |
-| --- | --- |
-| cell order | Can it be rerun from top to bottom? |
-| imports and setup | Are the needed packages and settings gathered near the front? |
-| data preparation | Is it clear which files or examples are used? |
-| output and interpretation | Is there an explanation of meaning below the numbers and graphs? |
-| runtime state | Can it be rerun again without depending on hidden variables? |
-
-In other words, notebooks should be read not by `Does it contain code?`, but by `Does the same flow remain if it is rerun again?`
 
 ## Three Criteria
 
@@ -356,27 +342,7 @@ To reduce this problem, purpose, package installation, imports, and data prepara
 
 This case shows the core of notebook organization. Reproducibility is not about making `a pretty document`. It is about reducing hidden state and making it possible to verify again through the same flow on another day.
 
-## Perspectives to Remember from This Section
-
-- A notebook is both a document and an execution record.
-- If cell order and runtime state diverge, it becomes hard to trust the result.
-- If setup, data, calculation, output, and interpretation are kept in order, rerunnability becomes more likely.
-- In both Colab and local environments, what matters is leaving `the same preparation flow`, not just `the same file`.
-- When code to be reused later becomes long, the time to separate it into functions or `.py` files should be considered.
-
-A notebook is a work environment created together by the saved document and the runtime during execution.
-
-Having a notebook file does not mean the execution state is preserved.
-
-A rerunnable notebook should be runnable from top to bottom.
-
-Packages, data files, and randomness should be left near the front of the notebook or in nearby explanation.
-
-What is shared in Colab is mostly notebook content, not the temporary state of the runtime as-is.
-
-Repeated code in a notebook can be separated into functions and scripts.
-
-## Short Check
+## Checklist
 
 - Can you explain a good notebook as `a rerunnable record`?
 - Can you explain why hidden state is a problem?
@@ -391,11 +357,6 @@ Repeated code in a notebook can be separated into functions and scripts.
 - When sharing in Colab, is it checked whether file, package, and permission issues will arise?
 - Is there a need to separate repeated code into functions or `.py` files?
 
-## When Should You Recall This Perspective First?
-
-- Recall this Section first when you want to make not a notebook that ran once, but a record that can be followed again with the same flow on another day.
-- Recheck the rerunnability standard when not only experiment results but also purpose, input data, installation conditions, and interpretation must be organized together.
-- Use this checklist when checking why a shared notebook may break in another environment, or when deciding whether it is time to separate repeated code.
 
 ## Sources and References
 
