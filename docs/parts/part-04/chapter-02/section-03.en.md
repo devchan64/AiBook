@@ -1,7 +1,7 @@
 # P4-2.3 Reinforcement Learning
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-2.1 looked at supervised learning, which learns from data with labels, and P4-2.2 looked at unsupervised learning, which finds data structure without labels. This time we look at reinforcement learning, where a model takes an action, receives a reward from the result, and adjusts the next way of acting.
 
@@ -140,21 +140,6 @@ The question of whether something is reinforcement learning becomes clearer if y
 | Long-term reward matters more than the immediate score | yes | Because the tension between immediate and long-term reward sits at the center of the problem |
 | Inputs and correct labels already exist together, and one-time prediction is the core | usually no | Because the problem is more directly supervised learning |
 
-## Perspective To Remember In This Section
-
-- Reinforcement learning is learning in which an agent improves a policy using rewards while interacting with an environment.
-- State, action, reward, and policy are the basic words for reading reinforcement learning.
-- Reinforcement learning is closer to sequential decision making over time than to one-time answer matching.
-- Reward is not an immediate answer but a numeric signal for evaluating the result of an action.
-- Without balance between exploration and exploitation, it becomes difficult either to find better actions or to gain reward stably.
-- The reinforcement-learning agent and the LLM-service agent should be read with their contexts separated.
-
-## Short Check
-
-- Can you explain in what state a problem should be read as reinforcement learning rather than supervised learning?
-- Can you explain why reward is not a signal that tells the immediate correct answer the way a label does?
-- Can you explain why the reinforcement-learning agent and the LLM-service agent should not be used as if they were the same meaning?
-
 ## Cases And Examples
 
 ### Case 1. When A Coupon Recommendation Must Choose Between Raising Immediate Clicks And Raising Long-Term Purchases
@@ -171,11 +156,14 @@ The checkable result appears when policies are compared. If the policy with the 
 --8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-03-en.mmd"
 ```
 
-## When This Perspective Should Come To Mind First
+## Checklist
 
-- Recall the reinforcement-learning perspective first when a problem must be read through accumulated actions and rewards over time rather than one input and one correct answer.
-- Return to this Section when explaining scenes where immediate and long-term rewards differ, or where the balance between exploration and exploitation must be clarified.
-- This Section is the reference point when separating the meaning of the reinforcement-learning agent from the agent in the LLM-service context.
+- Can you explain in what state a problem should be read as reinforcement learning rather than supervised learning?
+- Can you explain why reward is not a signal that tells the immediate correct answer the way a label does?
+- Can you explain why the reinforcement-learning agent and the LLM-service agent should not be used as if they were the same meaning?
+- Can you explain that reinforcement learning is learning in which an agent improves a policy using rewards while interacting with an environment?
+- Can you explain why state, action, reward, and policy are the basic words for reading reinforcement learning?
+- Can you explain that without balance between exploration and exploitation, it becomes hard both to find better actions and to gain reward stably?
 
 ## Sources And References
 

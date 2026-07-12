@@ -1,7 +1,7 @@
 # P4-4.2 Validation And Test
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-4.1 explained why data are divided into training data and evaluation data. Now the discussion moves one step further. The data used while choosing a model and the data used for the final one-time check do not play the same role.
 
@@ -417,32 +417,14 @@ For example, if there are only 30 customer records, the following problems appea
 
 The important point in this Section is not `what ratio must be correct`, but rather that the smaller the dataset is, the more carefully validation and test must be interpreted.
 
-## Perspective To Remember In This Section
+## Checklist
 
-- Validation data are the data used to compare models and settings.
-- Test data are the data used for the final check after the choice is made.
-- Validation data can be looked at repeatedly in the middle of experiments.
-- The more often test data are opened, the weaker their role as final-confirmation data becomes.
-- If choices are repeatedly changed to fit the test result, the test set also becomes contaminated into a validation-like role.
-- When the dataset is small, it becomes harder to secure both stable validation data and stable test data.
-
-This Section is not about memorizing split names. It is about fixing the boundary between comparison and final confirmation.
-
-| What must be fixed first in this Section | Question that follows immediately | Where it reconnects later |
-| --- | --- | --- |
-| The role distinction that validation is for comparison and test is for final confirmation | Why must this comparison still hold on new data? | Generalization in P4-5, metrics in P4-6, and baseline comparison in P4-8 |
-
-## Short Check
-
-- Can you explain why validation data are `for selection` and test data are `for final confirmation`?
+- Can you explain why validation data are distinguished as `for selection` and test data as `for final confirmation`?
 - Can you explain why repeatedly looking at test scores in the middle contaminates the test set into a validation-like role?
 - Can you distinguish which questions should be asked to validation data and which should be left for test data?
-
-## When This Perspective Should Come To Mind First
-
-- Recall the role distinction between validation and test first when you need to separate the data used for mid-experiment comparison from the data left for the final check.
-- Return to this Section when checking whether you are repeatedly opening test scores in the middle and changing selections because of them.
-- This Section is the reference point when explaining again why it is harder to secure stable validation and test when the dataset is small, and why cross-validation appears.
+- Can you explain that validation data are used to compare models and settings, while test data are used for the last check after the final choice?
+- Can you explain that if selections keep changing to fit test results, the test set is also contaminated into a validation-like role?
+- Can you explain that when the dataset is small, it becomes harder to secure both validation and test stably?
 
 ## Sources And References
 

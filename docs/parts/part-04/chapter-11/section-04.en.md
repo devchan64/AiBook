@@ -1,7 +1,7 @@
 # P4-11.4 Supplementary Learning: How To Read Multinomial Logistic Regression
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.3 explained log-odds and MLE mainly on the basis of `binary classification`, where the model chooses one of two classes. But many real classification problems ask the model to choose one out of three or more classes.
 
@@ -171,10 +171,6 @@ This output can be read as follows.
 - In the first row, even though no value exceeds 0.5, the model still chooses `refund` because it has the largest probability.
 - In multiclass settings, `relative comparison across the whole probability distribution` matters more than `one probability vs one threshold`.
 - So the basic intuition shifts from threshold toward argmax.
-
-## Connection To The Next Section
-
-At this point, the `multiclass expansion` of logistic regression is closed. The next supplementary Section asks why the reader meets settings such as solver, penalty, and `C`, and why these settings are not just implementation options but comparison conditions.
 
 ## Sources And References
 

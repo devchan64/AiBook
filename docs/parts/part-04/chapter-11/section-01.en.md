@@ -1,7 +1,7 @@
 # P4-11.1 Intuition For Logistic Regression
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-10, linear regression showed `how to predict a continuous value with a line`. The next step is to see how that same linear way of thinking changes when the task becomes classification.
 
@@ -101,6 +101,10 @@ The sigmoid function does exactly that.
 
 `Sigmoid is the function that compresses the result of a linear calculation into a 0-1 range that is easier to read for classification.`
 
+It becomes more intuitive on a coordinate plot. When the linear score \(z\) moves from negative to positive, the sigmoid output moves smoothly from near 0 to near 1, and it meets `p = 0.5` at `z = 0`.
+
+![A chart showing how the linear score z passes through sigmoid and becomes a value between 0 and 1 that can be read like a probability](../../../assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-en.svg)
+
 This flow can be drawn simply as follows.
 
 ```mermaid
@@ -184,6 +188,10 @@ When this point is rewritten as project notes, it becomes even clearer. If logis
 
 This record keeps statements like `the score improved`, `the threshold changed`, and `the number of alerts increased` from being mixed together.
 
+If the scene `the same score leads to different final behavior depending on where the policy line is drawn` is compressed onto one score axis, it can be read as follows.
+
+![A comparison chart showing that the same probability score is read as different behavior under thresholds 0.5 and 0.7](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
+
 ### When Is Logistic Regression A Good First Candidate?
 
 Logistic regression is often the first comparison model for a classification problem, but the reason is not that it is simply famous. It is because it is a linear classification model that makes it comparatively easy to separate score and policy.
@@ -199,6 +207,25 @@ Logistic regression is often the first comparison model for a classification pro
 The key point of this table is to use logistic regression as both `a comparison model that goes beyond a first classification baseline` and `a training model for reading score and policy separately`.
 
 ## Supplementary Reading Points
+
+### Academic Background And History
+
+At this point, a natural question appears: `why did a separate model like this need to exist?` Because of the name, logistic regression can look like a simple variation of linear regression, but in practice it is closer to a model that extends `a linear model that explained continuous values` into `a way of reading binary outcomes`.
+
+- Linear regression is strong at explaining continuous values.
+- But if it is used as it is for a problem that chooses one of two outcomes such as success or failure, values below 0 or above 1 can appear, so it is hard to read them like probabilities.
+- So statistics organized a reading method that keeps the linear formula but interprets its output inside the 0-1 range.
+
+In that sense, the historical meaning of logistic regression is closer to `re-reading a linear calculation for classification problems` than to `throwing away the line`.
+
+From this angle, the sequence between linear regression and logistic regression also becomes clearer.
+
+- linear regression: the most basic linear model that explains continuous values
+- logistic regression: a model that keeps the linear way of thinking but interprets the output for binary classification
+
+In modern machine-learning contexts, this model is usually introduced as `a linear model for classification`. It is better not to memorize the full history, but to keep the following one sentence.
+
+`If linear regression was a representative linear model for explaining continuous values, logistic regression was the model that extended that same linear way of thinking toward binary classification and probability interpretation.`
 
 ### Where Do The Main Discussion Points Arise?
 
@@ -531,9 +558,7 @@ class 1 score at x=4, shifted labels  : 0.579
 - What changed: once one near-boundary label changed, the class 1 score at `x=4` moved sharply from `0.327` to `0.579`.
 - Judgment to leave first: the score of logistic regression is not a probability discovered from nature. It is an interpretation produced by the current data boundary.
 
-### How This Exercise Recovers The Goal Of Part 4
-
-This exercise makes logistic regression readable again not merely as `a model that prints scores`, but as `a classification rule that is sensitive to near-boundary examples`. The goal of Part 4 is not to trust one number by itself. It is to read how a change in one example shakes score interpretation and threshold judgment. Repeating the same example with one changed value makes it more visible that there is always one more layer between model output and service action: data interpretation.
+This exercise makes logistic regression readable again not merely as `a model that prints scores`, but as `a classification rule that is sensitive to near-boundary examples`. What matters is not trusting one score by itself, but reading how a change in one example shakes score interpretation and threshold judgment. Repeating the same example with one changed value makes it more visible that there is always one more layer between model output and service action: data interpretation.
 
 | Common record language | What to record immediately from this exercise |
 | --- | --- |
@@ -541,31 +566,19 @@ This exercise makes logistic regression readable again not merely as `a model th
 | interpretation boundary | this score change alone does not prove that the real-world probability suddenly changed; the sample and the data boundary still need to be read together |
 | next question | if more near-boundary cases are collected, does the score become less unstable, and what changes once threshold policy is added? |
 
-## Perspectives To Remember In This Section
-
-- Logistic regression is a linear model that produces outputs that can be read like probabilities in a classification problem.
-- The internal calculation is still a linear combination, but the final interpretation changes into a 0-1 range through sigmoid.
-- `predict_proba` is the score stage, while `predict` is the decision stage after the threshold.
-- Coefficients are useful for reading direction, but they do not automatically prove cause.
-- The threshold is less a law of the model than a judgment criterion tied to service policy.
+| Signal seen first | What that signal means | Immediate next action |
+| --- | --- | --- |
+| Many scores are near 0.5 and the judgment flips often when the threshold changes | The operating boundary is making a bigger difference than the score itself | Collect more near-boundary cases and review the threshold against FP and FN costs |
+| Scores are high, but the observed frequency and felt risk still seem misaligned | Reading ranking and probability as the same thing may be risky | Recheck whether calibration is needed or whether the score should remain only a ranking signal |
 
 ## Checklist
 
 - Did you first confirm that the current task is binary classification?
+- Can you explain logistic regression as a linear model that produces outputs that can be read like probabilities in a classification problem?
+- Do you understand that the internal calculation is still a linear combination, but the final interpretation changes into a 0-1 range through sigmoid?
 - Are you avoiding reading `predict_proba` and final `predict` as the same thing?
 - Can you explain threshold change separately from improvement of the model itself?
-
-## When To Recall This Perspective First
-
-- When a binary classification task is being described as though the score and the final decision were one thing, recall the separation between `predict_proba` and `predict` first.
-- When threshold adjustment and retraining the model are being treated like the same kind of change, separate policy boundary and the model itself.
-- When coefficient interpretation, sigmoid, and probability-like output feel tangled together, return to the perspective that logistic regression is `a linear combination plus one more interpretation layer`.
-
-## Connection To The Next Section
-
-P4-11.1 looked at logistic regression as `a linear model that produces scores that can be read like probabilities`. The next Section, P4-11.2, moves to how those scores can be read as a boundary in the input space, that is, the perspective of a decision boundary.
-
-If 11.1 is the Section of `output interpretation`, 11.2 is the Section of `space and boundary interpretation`.
+- When coefficient interpretation, sigmoid, and probability-like output feel tangled together, can you explain again that logistic regression is a model with one more interpretation layer after the linear combination?
 
 ## Sources And References
 

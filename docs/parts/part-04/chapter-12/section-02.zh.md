@@ -1,7 +1,7 @@
 # P4-12.2 距离(distance)与尺度(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
 
@@ -316,9 +316,7 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 - 发生变化的点：只把 late-payment count 稍微提高一点，第二个 neighbor 就开始从 `safe` 换成 `risky`
 - 首先要留下的判断：standardization 不是一次做完就结束的技术检查，它也是重新观察 `feature 变化会怎样摇动 neighbor 组成与 prediction` 的出发点
 
-### 这个练习怎样回收到 Part 4 的目标
-
-这个练习让 k-NN 不再只是 `找来近邻案例的模型`，而重新读成 `对表示方式和输入变化都很敏感的比较规则`。Part 4 的目标，不是背下 `k` 的数值，而是要能够说明：即使是同一个 query，只要表示方式或某个 feature 数值变化，哪些 neighbor 会进来，哪些会出去。也就是说，这种反复改一处的练习，真正的学习效果不是停在 `prediction 变了`，而是能说出 `比较 기준 的哪一部分重新被打乱了`。
+通过这个比较，k-NN 不再只是 `找来近邻案例的模型`，而会被重新读成 `对表示方式和输入变化都很敏感的比较规则`。重要的不是背下 `k` 的数值，而是能够说明：即使是同一个 query，只要表示方式或 feature 数值稍有变化，哪些 neighbor 会进来，哪些会出去。反复改一处的练习，真正的学习效果也不在于只说 `prediction 变了`，而在于能指出 `改了什么以后，比较 기준 的哪一部分又被重新打乱了`。
 
 | 通用记录语言 | 这次练习里应立刻留下的内容 |
 | --- | --- |
@@ -326,16 +324,12 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 | 解释边界 | 只凭某一个 query 的 neighbor 变化，不能直接断定某个 feature 永远更重要 |
 | 下一个问题 | 如果改变 `k`，neighbor 的替换会不会继续传到最终多数表决？其他 query 上也会不会出现同样的敏感度？ |
 
-## 本节要记住的视角
-
-- distance function 不是模型外的装饰，而是决定 neighbor 顺序的规则
-- distance function 改变时，neighbor 顺序和 prediction 也会改变
-- 如果大轴支配了 distance，小轴上重要的信息就可能被埋掉
-- standardization 是重新对齐比较 기준 的动作
-
 ## 检查清单
 
 - 能不能说明为什么 distance function 是判断规则的一部分？
+- 是否理解了 distance function 改变时，neighbor 顺序和 prediction 也会改变？
+- 是否理解了大轴支配 distance 时，小轴上的重要信息可能会被埋掉？
+- 能不能把 standardization 解释成重新平衡比较 기준？
 - 是否在同一个 query 上，比较了 scale 调整前后哪些 neighbor 进来、哪些出去？
 - 即使 standardization 后出现了差异，是否也没有把它单独当成完整的原因解释？
 

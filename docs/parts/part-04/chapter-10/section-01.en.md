@@ -1,7 +1,7 @@
 # P4-10.1 Intuition For Linear Regression
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-9.2, the discussion used tuning and validation cost to ask `how should promising settings be compared?` Now it is time to connect that comparison procedure to one actual algorithm.
 
@@ -544,11 +544,7 @@ difference              : 4.348
 - What changed: only one input changed, but the predicted value rose by about `4.348` points. In other words, linear regression lets the reader understand a change through the intuition of `amount of input change x coefficient`.
 - Judgment to leave first: this change is an estimated change produced by the current model. It is not a guarantee that reality will rise by the same amount. The units and the data range still need to be checked together.
 
-### How This Practice Recovers The Goals Of Part 4
-
-This practice recovers linear regression not as `a model that memorizes a line`, but as a starting point for reading `in what direction and by what size the prediction moves when one input is changed`.
-In Part 4, what matters is not only knowing the names of coefficients. It is being able to change one value and explain `what stayed fixed and what moved`.
-Only with that kind of repeated practice can later steps such as baseline comparison, residual interpretation, and deciding whether to add more features continue in the same language.
+This practice rereads linear regression not as `a model that memorizes a line`, but as a starting point for reading `in what direction and by what size the prediction moves when one input is changed`. What matters in Part 4 is not only knowing the names of coefficients, but being able to change one value and explain `what stayed fixed and what moved`. Only with that repeated practice can later steps such as baseline comparison, residual interpretation, and deciding whether to add more features continue in the same language.
 
 | Shared record language | What should be left immediately in this practice |
 | --- | --- |
@@ -569,39 +565,15 @@ In an algorithm chapter, it is easy to jump from numbers straight to `performanc
 
 The key point is that there is `an order for reading numbers`. Linear regression should not be trusted immediately just because it produced a calculation result. It should be read according to rules of interpretation like these.
 
-## Perspective To Remember In This Section
+## Checklist
 
-- Regression is a problem of predicting a continuous value.
-- Linear regression is a model that first approximates the relationship between input and output with a line.
-- A coefficient shows the direction and size of change, while the intercept shows the starting point of the model.
-- Coefficient values must be read together with their units, and a positive relationship should not be read immediately as a cause.
-- Linear regression is not a model that explains reality perfectly. It is the first model for starting to read a relationship in the simplest way.
-- A predicted value is not the actual value, but an estimate produced by the current model.
-- Before trying more complex models, linear regression is often used like a baseline.
-
-## Quick Check
-
-- Did you first confirm that the current problem is continuous-value prediction?
-- Can you explain, from the viewpoint of a baseline, why linear regression is treated as the first interpretable comparison model?
-- Are you reading coefficient numbers together with units and context instead of immediately reading them as importance or cause?
-
-## When To Recall This Perspective First
-
-- Recall the perspective of linear regression when you first need to recheck that the current problem is regression rather than classification.
-- Return to this Section when you need to explain why linear regression is a good first baseline candidate and how far the coefficient should be read as meaning.
-- Use this Section as the reference point when organizing why a line can still be a useful starting point even when it is not perfect.
-
-- Did you distinguish clearly that the current problem is regression rather than classification?
+- Did you first confirm that the current problem is regression rather than classification?
 - Did you understand that the output of linear regression is a continuous value rather than a category?
+- Can you explain linear regression as the first interpretable baseline that approximates the relationship between input and output with a line?
 - Can you explain the coefficient and intercept as meaning rather than only as symbols in a formula?
-- Can you explain why linear regression is a good first baseline?
-- Can you explain why a line is still useful even when it is not perfect?
-
-## Connection To The Next Section
-
-This Section first read linear regression as `a model that reads a relationship with a line`. The next Section, P4-10.2, moves on to asking how well that line actually fit, when it becomes easy for it to bend away from the data, and how residual and error should be read.
-
-In other words, if P4-10.1 is the Section that examines `the shape of the model`, P4-10.2 is the Section that examines `how appropriate that shape really was`.
+- Are you reading coefficient numbers together with units and context instead of immediately reading them as importance or cause?
+- Did you remember that a predicted value is not the actual value, but an estimate produced by the current model?
+- Can you explain why a line is still a useful starting point even when it is not perfect?
 
 ## Sources And References
 

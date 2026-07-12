@@ -1,7 +1,7 @@
 # P4-10.2 Evaluation And Limits Of Linear Regression
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-10.1 introduced linear regression as `a model that first reads a relationship with a line`. Now the discussion moves to the next question.
 
@@ -380,8 +380,6 @@ In this scene, regression evaluation does not end with one number. MAE shows how
 
 The confirmable result appears when residuals and metrics are read together. Even if average error looks small, if residuals cluster strongly to one side in a certain region or large failures keep repeating, the reader should treat that as a signal that linear regression is not explaining the structure of that region well enough. Even this difference should first be read as a review-priority signal that says `what region must be inspected next`, not as a sentence that fixes the cause automatically.
 
-## Cases And Examples
-
 ### Empirical Example 1. Delivery-Time Prediction
 
 Suppose a team is predicting delivery time for the same region.
@@ -555,9 +553,13 @@ two-outlier RMSE: 8.91
 - What changed: once large failure spread from one point to two points, MAE also rose much faster. That means the signal `the model is now also missing a lot on average` becomes stronger.
 - Judgment to leave first: the same rise in error leads to very different operational questions depending on whether it is a one-point accident or a repeated failure over several points.
 
-### How This Exercise Recovers The Goals Of Part 4
+### What Stayed The Same And What Changed?
 
-This exercise ties regression evaluation back from `reading numbers` to `reading failure structure`. The real issue is not simply whether error increased, but `where`, `at how many points`, and `in what direction` the failures became larger. Since the goal of Part 4 is not to admire model scores but to pass evaluation results into the next decision, it is more important to train the distinction between `one large failure` and `a repeated failure region` than to memorize only the difference between MAE and RMSE.
+- What stayed the same: in both cases, RMSE still reacts more strongly than MAE. The interpretation `it is more sensitive to large failures` stays valid.
+- What changed: once large failure spread from one point to two points, MAE also rose much faster. That means the signal `the model is now also missing a lot on average` becomes stronger.
+- Judgment to leave first: the same rise in error leads to very different operational questions depending on whether it is a one-point accident or a repeated failure over several points.
+
+The core of this comparison is to shift regression evaluation from `reading numbers` to `reading failure structure`. The real question is not simply whether the error grew, but `where`, `at how many points`, and `in what direction` the failure grew. More important than memorizing the difference between MAE and RMSE is training the distinction between `one large failure` and `a repeated failure region`.
 
 | Common record language | What should be recorded directly from this exercise |
 | --- | --- |
@@ -565,50 +567,27 @@ This exercise ties regression evaluation back from `reading numbers` to `reading
 | interpretation boundary | the fact that RMSE jumped is not enough to fix immediately whether the cause is one outlier or a structural omission |
 | next question | should the reader go back first to inspect whether large error clusters in a specific region or whether a missing feature or nonlinear pattern repeats |
 
-## Perspective To Remember In This Section
+The core of this Section is not memorizing more regression metric names. It is fixing how far regression evaluation should be read together.
 
-- A residual is the difference between the actual value and the prediction.
-- MAE shows how much the model misses on average, while RMSE is an average error that reacts more sensitively to large misses.
-- R² is a summary value that shows how much more the model explains than a simple average prediction.
-- Interpretation can become unstable when only one metric is used, so baseline, average error, large errors, and residual patterns must be checked together.
-- The limits of linear regression usually appear in problems that are too much to summarize with one line.
-
-The core of this Section is not memorizing more metric names. It is fixing how far regression evaluation must be read together.
-
-| What should be checked together | First question in this Section | Where it reconnects later |
+| What should be checked together | First question to read in this Section | Where it reconnects later |
 | --- | --- | --- |
 | baseline error | is the line model actually better than a simple average prediction? | P4-8 baseline comparison |
 | average error and large-failure region | how much does the model miss overall, and where does it miss unusually badly? | P4-6 regression metrics |
 | representative error cases | under what input conditions does the model fail in the same way repeatedly? | P4-18 feature engineering, later regression-model comparison |
 
-## Quick Check
+## Checklist
 
-- Are you drawing a conclusion from one error number before checking whether the model improved beyond the baseline?
-- Are you reading average error separately from large failures?
-- When a large-error region appears, are you avoiding fixing the cause immediately and instead rechecking missing features or nonlinear possibility?
-
-## When To Recall This Perspective First
-
-- Recall this Section when checking whether you are drawing a conclusion from one error number before asking whether the model improved beyond the baseline.
-- Return to this Section when you need to distinguish average error from large failures and read residuals together with representative error cases.
-- Use this Section as the reference point when a good-looking number appears but you still need to recheck missing features or nonlinear possibility before fixing the cause.
-
-## Understanding Check
-
+- Before confirming improvement beyond the baseline, are you drawing a conclusion from only one error number?
+- Can you explain that a residual is the difference between the actual value and the prediction?
 - Can you explain what the sign of a residual means?
 - Can you explain the difference between MAE and RMSE through `sensitivity to large errors`?
-- Did you understand R² not as a simple score, but as explanatory power relative to an average-prediction baseline?
+- Did you understand R² not as a simple score, but as explanatory power relative to the baseline?
+- Are you reading average error separately from large failures?
+- Did you understand that interpretation can become unstable when only one metric is used, so baseline, average error, large error, and residual pattern must be checked together?
+- When a large-error region appears, are you avoiding fixing the cause immediately and instead rechecking missing features or nonlinear possibility?
+- Do you understand that the limits of linear regression usually appear in problems that are too much to summarize with one line?
 - Can you give one or two examples of scenes where the line assumption breaks down?
 - Can you explain why a good-looking number still should not be overtrusted immediately?
-
-## Connection To The Next Section
-
-After linear regression, the reader is ready to move from `a model that predicts continuous values with a line` to `a model that reads a line like a classification boundary`. The next chapter, P4-11 on logistic regression, shows that connection most directly.
-
-- linear regression: continuous-value prediction
-- logistic regression: probabilistic output and boundary interpretation for classification
-
-So Chapter 10 shows `how a line is used in regression`, and Chapter 11 shows `how that linear way of thinking changes in classification`.
 
 ## Sources And References
 

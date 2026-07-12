@@ -1,7 +1,7 @@
 # P4-19.4 Supplementary Learning: Reading DQN, PPO, And RLHF Inside The Larger Reinforcement-Learning Flow
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 After reading P4-19.1 through P4-19.3, readers quickly encounter many more names when they study reinforcement learning further.
 
@@ -190,11 +190,23 @@ So RLHF should be read not as `RL is also used for LLMs`, but as `a branch where
 
 ### Case 1. If DQN, PPO, And RLHF Appear Together, What Should Be Separated First?
 
-When beginners look for reinforcement-learning material, they often encounter DQN in game-performance examples, PPO in policy-stabilization explanations, and RLHF in the context of LLM alignment almost side by side. By name alone, they can all look like the latest reinforcement-learning techniques. But in fact, their problem statements differ: one is a line for extending value into larger state spaces, another for stabilizing policy adjustment, and another for adjusting language models through human preference. If this difference is not separated, the reader ends up memorizing algorithm names while missing why they branched out at all. That is why it is more important to group them first by `what problem were they trying to solve?`
+When beginners look for reinforcement-learning material, they often encounter DQN in game-performance examples, PPO in policy-stabilization explanations, and RLHF in the context of LLM alignment almost side by side.
+A person first tends to group them with criteria such as `reinforcement-learning names that appear often these days` or `stronger recent algorithms`.
+
+But that criterion quickly shows its limit.
+If the names are grouped only by recency, `why DQN appeared`, `why PPO became widely used`, and `why RLHF must be read differently from ordinary control problems` all become blurred.
+In reality, the three names do not appear together because they are all just `improved reinforcement learning`.
+They branched out as answers to different bottlenecks.
 
 ```mermaid
 --8<-- "assets/part-04/chapter-19/p4-19-4-mermaid-01-en.mmd"
 ```
+
+| Name encountered | Criterion a reader first tends to group by | Limit that soon appears | Interpretation this Section switches to |
+| --- | --- | --- | --- |
+| DQN | a famous game-reinforcement-learning algorithm | it hides why it appeared inside the value-based line | read it as the line where Q-tables broke under larger state spaces |
+| PPO | a high-performing recent RL algorithm | it hides that policy stabilization was the core problem | read it as the line that reduces instability in policy updates |
+| RLHF | a name that attached reinforcement learning to LLMs | it erases the problems of human preference and alignment | read it as an alignment branch that connects human feedback like reward |
 
 If this case is compressed like a handoff memo, it can be written as follows.
 
@@ -204,32 +216,58 @@ If this case is compressed like a handoff memo, it can be written as follows.
 | PPO | How were policy updates made less unstable? | actor-critic and policy stabilization |
 | RLHF | How was human feedback connected to something reward-like? | Part 5 alignment and preference optimization |
 
-The more names appear in the same place, the more important it becomes to record first not `what does it compute?`, but `what problem came first?` That is exactly the purpose of this supplementary Section.
+The more names appear in the same place, the more important it becomes to record first not `what does it compute?`, but `what problem came first?`
+The visible result in this case is not `I know DQN, PPO, and RLHF`, but `did the bottleneck question that should come first change for each name?`
+That is exactly the purpose of this supplementary Section.
 
-## Viewpoints To Remember In This Section
+## Practice And Example
 
-- DQN is a line that extends value-based reinforcement learning into larger state spaces.
-- PPO, TRPO, A2C, and A3C are lines that try to reduce the instability of policy-based reinforcement learning.
-- safe RL, offline RL, and domain randomization are branches that appeared because of real-world constraints and deployment risk.
-- RLHF is the point where reinforcement learning meets LLM alignment.
+This practice focuses on rereading later reinforcement-learning names not as `memorizing algorithm names`, but as `bottlenecks and branches`.
 
-| What must be read together | The question read first in this Section | Where it connects immediately next |
+Problem situation:
+
+- when names such as DQN, PPO, offline RL, and RLHF appear together, they can easily look like one bundle called `better reinforcement learning`
+
+Input:
+
+- four bottlenecks that appeared first
+- candidate follow-up branches that respond to each bottleneck
+
+Expected output:
+
+- a matching table for which branch should be looked up first
+
+Concept to check:
+
+- later algorithm names should be read first by `what bottleneck produced them`, not by fame
+- value-based expansion, policy stabilization, real-world constraint reinforcement, and LLM-alignment connection are different branches
+
+| Bottleneck visible first | Name that is easy to attach too quickly | Branch that should be matched first |
 | --- | --- | --- |
-| The problem signal behind the algorithm name | What was this name trying to solve? | Later reinforcement-learning genealogy |
-| Branches created by real-world constraints | What branch grew from failure cost, exploration limits, and sim-to-real problems? | safe RL, offline RL, domain randomization |
-| The LLM connection | Why is RLHF connected to general RL while not being the same thing? | Part 5 alignment pipeline |
+| The state space becomes so large that the Q-table breaks | PPO | DQN family |
+| Policy updates shake too much | DQN | PPO, TRPO, A2C, A3C |
+| It is not possible to do many new exploratory trials in reality | RLHF | safe RL, offline RL |
+| Human preference must be reflected in language-model output | DQN | RLHF, preference optimization |
 
-## Short Check
+### Try Judging Directly
 
-- Can you distinguish DQN and PPO not as one kind of upgrade name, but by the bottleneck from which each appeared?
-- Can you explain that safe RL, offline RL, and domain randomization are all branches tied to real-world constraints?
-- Can you read RLHF as a connection between ordinary control-problem reinforcement learning and the alignment problem of LLMs?
+Look at the observations below and choose first which interpretation is safer.
 
-## When Should This View Come To Mind First?
+| Observation | Hasty conclusion | Safer interpretation |
+| --- | --- | --- |
+| DQN and PPO are both mentioned often | They are both the same kind of performance upgrade | One is a value-based expansion, and the other is a policy-stabilization line |
+| offline RL branched out separately | It is only a name that appeared because data were scarce | It is directly tied to the constraint that reality does not allow many new exploratory trials |
+| RLHF appears in a reinforcement-learning list | Ordinary control-problem RL was transferred to LLMs as it was | It has to be reread as an alignment problem that connects human preference like reward |
 
-- When names like DQN, PPO, and RLHF appear together and the flow mixes, first organize what bottleneck each name came from.
-- When it is necessary to explain why safe RL, offline RL, and domain randomization branched out, regroup them through real-world constraints and exploration limits.
-- When RLHF appears in the LLM-alignment context, recall first that it is connected to general RL but is not identical to it.
+The point of this table is not to memorize names.
+It is to build the habit of classifying immediately `what bottleneck appeared first` and `which branch should be checked first because of it`.
+
+## Checklist
+
+- Can you explain that DQN is a line that extends value-based reinforcement learning into large state spaces, while PPO, TRPO, A2C, and A3C are lines that try to reduce instability in policy-based reinforcement learning?
+- Can you explain that safe RL, offline RL, and domain randomization are branches that appeared because of real-world constraints and deployment risk?
+- Can you explain that RLHF is a point where reinforcement learning meets LLM alignment?
+- When several names appear at once, have you formed the habit of asking first `what bottleneck produced this name?`?
 
 ## Sources And References
 

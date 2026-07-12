@@ -12,7 +12,7 @@
 
 本节的目的，不是去学习这些概念的全部证明，而是整理 `这些词到底在担心什么`，让读者在看到 regression result 表时不要停住。
 
-这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](/AiBook/en/reference/concept-glossary/) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
+这段补充学习不会把 linear regression 的定义再扩展着重讲一遍。基本直觉和评价抓手仍然放在 P4-10.1、P4-10.2 与 [概念词汇表](../../../reference/concept-glossary.md) 里；这里的焦点只有一点：这些 regression diagnostic 术语各自在指向什么类型的风险。
 
 ## 本补充学习的范围
 
@@ -113,6 +113,10 @@ homoscedasticity 在担心的是：误差的 spread 会不会随着输入区间�
 
 在这种场景里，比起停在 `平均性能还可以`，读者更应该先去确认 `到底是哪个区间的解释开始崩掉`。
 
+如果把 regression diagnostics 压成一张图来读，一边是在问 `误差 spread 会不会随区间改变`，另一边是在问 `prediction 还差不多，但 coefficient interpretation 会不会单独摇动`。
+
+![把区间별误差 spread 放大与重叠特征导致 coefficient interpretation 摇动并排展示的比较图](../../../assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
+
 ## 为什么 multicollinearity 会摇动 coefficient 解读
 
 multicollinearity 出现在输入 feature 之间携带了太多重叠信息的时候。
@@ -136,10 +140,6 @@ multicollinearity 出现在输入 feature 之间携带了太多重叠信息的�
 一个房地产分析团队正在搭建房价预测回归式。人们先看的问题是 `面积越大是否越贵`、`越靠近车站是否价格越高`、`越新房是否价值越高`。
 
 但即使输入列里没有像 `monthly_spend` 这样明显的重复名，`套内面积`、`供应面积`、`房间数`、`客厅数` 这样的信息仍然会强烈重叠地一起进入。prediction 本身可能看起来不错，但某次实验里面积 coefficient 更大，另一次实验里房间数 coefficient 又更大，甚至 coefficient 的方向也会不稳。在这种场景里，prediction performance 和 coefficient interpretation stability 绝不能当成同一句话。
-
-如果把 regression diagnostics 压成一张图来看，一边应该问 `error spread 会不会在某些区间突然变大`，另一边则该问 `prediction 看起来差不多时，coefficient interpretation 会不会自己摇动`。
-
-![把区间误差扩散放大和重叠特征导致系数解释摇晃一起展示的诊断图](../../../assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
 
 ```mermaid
 --8<-- "assets/part-04/chapter-10/p4-10-3-mermaid-01-zh.mmd"
@@ -246,9 +246,7 @@ shifted prediction    : 47.479
 - 发生变化的点：只是轻微改动了一个重叠 feature 的值，coefficient 的分配方式却明显改变了。
 - 最先应留下的判断：在这种场景里，应该先想起 regression diagnostics 的提醒：`prediction 也许还能用，但 coefficient interpretation 必须更谨慎。`
 
-### 这个练习怎样回收 Part 4 的目标
-
-这个练习把 regression diagnostics 从 `后面才学到的一串统计术语`，重新拉回到 `模型结果到底能信到哪里` 这个程序上。Part 4 的目标，不是把 score 和 coefficient 表原样收下，而是区分：有些变化会摇动 prediction，本节的这类变化则主要摇动 interpretation。multicollinearity 正是逼迫读者做这种区分的代表场景。
+这个练习把 regression diagnostics 从 `后面才学到的一串统计术语`，重新拉回到 `模型结果到底能信到哪里` 这个程序上。重要的不是把 score 和 coefficient 表原样收下，而是区分：有些变化会摇动 prediction，本节的这类变化则主要摇动 interpretation。multicollinearity 正是逼迫读者做这种区分的代表场景。
 
 | 共通记录语言 | 这次练习里应该立刻留下的内容 |
 | --- | --- |
@@ -285,23 +283,14 @@ high-range spread : 33
 
 也就是说，regression diagnostics 更适合被读成：不是背一个检验名，而是区分 `误差形状`、`误差 spread`、`coefficient interpretation stability` 到底是哪一块在摇。
 
-## 本节要记住的观念
+## 检查清单
 
-- regression diagnostics 与其说是提高分数的技术，不如说是让解释更谨慎的检查。
-- significance 主要摇动关系解释信号，homoscedasticity 摇动误差 spread，multicollinearity 则最明显地摇动 coefficient interpretation stability。
-- 读 linear regression 表时，不只要问 `有没有数字`，还要问 `这个数字到底能信到什么程度`。
-
-## 什么时候先想起这个视角
-
-- 当你需要检查自己是不是把 prediction performance 和 coefficient interpretation stability 看成了同一句话时，先想起 regression diagnostics 的视角。
-- 当你需要重新说明 significance、homoscedasticity、multicollinearity 各自在摇动什么时，回到这一节。
-- 当你真正该问的不是 `有没有一个数字`，而是 `这个数字到底能信到哪里` 时，把这一节当作基准。
-
-## 理解检查
-
+- 能不能理解 regression diagnostics 与其说是提高分数的技术，不如说是让解释更谨慎的检查？
 - 你能避免把 significance 和实际业务重要性当成同一句话吗？
 - 你能说明 homoscedasticity 担心的是：误差大小会不会随区间变化吗？
 - 你能解释为什么 multicollinearity 会摇动 coefficient interpretation 吗？
+- 你有没有把 prediction performance 和 coefficient interpretation stability 当成同一句话来看？
+- 读 linear regression 表时，你问的不只是 `有没有数字`，也包括 `这个数字到底能信到什么程度` 吗？
 
 ## 出处与参考资料
 

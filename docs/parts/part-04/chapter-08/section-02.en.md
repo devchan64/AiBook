@@ -1,7 +1,7 @@
 # P4-8.2 Baseline
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-8.1, the discussion examined what model families should be raised as candidates. Now, instead of immediately grabbing those candidates in order of complexity, it moves to the question of setting the starting point of comparison first.
 
@@ -295,44 +295,15 @@ The confirmable result appears when the baseline and actual model are compared s
 --8<-- "assets/part-04/chapter-08/p4-8-2-mermaid-04-en.mmd"
 ```
 
-## Perspective To Remember In This Section
-
-| Signal seen first | What this signal means | Immediate next action |
-| --- | --- | --- |
-| a score slightly above the baseline, but a similar error structure | it may mean complexity increased but meaningful improvement is still weak | inspect representative error cases and key-metric differences again, then decide whether to tune or change the candidate |
-
-- A baseline is the comparison standard set before a complex model.
-- Even a high score is hard to interpret without comparison to a baseline.
-- Representative baseline types and the actual setup procedure are revisited by problem type in the next Section, P4-8.3.
-- Tuning should begin only after confirming whether there is a candidate better than the baseline.
-
-The core of this Section is that a baseline is not `a Section that looks at one more score`.
-
-| What the baseline does | What must be left together | What continues in the next Section |
-| --- | --- | --- |
-| sets the starting-point score | problematic cells in the confusion matrix, representative error cases, key-metric differences | compare through tuning what setting change is actual improvement on top of that starting point |
-
-## Short Check
-
-- Are you looking not only at the fact that the score is higher than the baseline, but also at what kind of failure was reduced?
-- Are you separating classification, regression, and time series by problem form rather than setting baselines in the same way?
-- When a small score gap appears, are you checking actual improvement through the confusion matrix or representative error cases?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up this Section when the reader must read together the score and error cases to see what a complex model actually reduced compared with the baseline.
-- Return to this Section when explaining again that baselines in classification and regression need to be set differently.
-- This Section becomes the standard when the reader must verify again whether a small score difference is a meaningful improvement.
+## Checklist
 
 - What is the simplest baseline for the current problem?
 - Are the baseline score and the actual model score being compared on the same metric?
 - Are you distinguishing whether the model is better than the baseline, or only more complex?
 - Have you checked easy traps such as class imbalance or mean-only prediction through the baseline?
 - Before tuning, did you first read the difference between the baseline and candidate model?
-
-## Connection To The Next Section
-
-In the next Section, `P4-8.3 supplementary learning: how to first set a baseline by problem type`, the reader examines what representative baselines are chosen in classification, regression, and time series, and with what examples and exercises comparison begins. After that, P4-9 deals with how a candidate better than the baseline should be adjusted and compared.
+- Can you explain that a baseline is the comparison standard set before a complex model, and that even a high score is hard to interpret without comparing it to the baseline?
+- Can you explain that a baseline is not `one more score to inspect`, but a standard that leaves together the starting-point score, representative error cases, and key-metric differences?
 
 ## Sources And References
 

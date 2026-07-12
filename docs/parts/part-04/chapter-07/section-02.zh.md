@@ -1,13 +1,13 @@
 # P4-7.2 预处理(preprocessing)
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-7.1 里，我们看的是 `要保留什么输入`。现在要进入下一步：不是把保留下来的输入原样扔给 model，而是先整理成 model 更容易读取的形式。这个阶段就是预处理(preprocessing)。
 
 这一节的核心不是复杂的库语法，而是不要只把预处理理解成 `数据清扫`，而要把它理解成 `把输入表达改造成 model 能处理的形式`。
 
-这一节会说明 `预处理(preprocessing)`、`缺失值处理(imputation)`、`尺度(scale)调整`、`类别编码(encoding)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而输入表达变换的基本含义，也会以这一节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 为基准再次接回。
+这一节会说明 `预处理(preprocessing)`、`缺失值处理(imputation)`、`尺度(scale)调整`、`类别编码(encoding)` 的基本含义。后面的章节会沿着这个抓手继续当前判断，而输入表达变换的基本含义，也会以这一节和 [概念词汇表](../../../reference/concept-glossary.md) 为基准再次接回。
 
 还有一个重要原因。人们常常先学算法，再把预处理当成后面补上的辅助工作。但实际情况更接近相反。如果输入表达没有先整理好，后面要学的线性回归(linear regression)、逻辑回归(logistic regression)、k-NN、SVM 这些算法的性质也很难真正读清。
 
@@ -911,33 +911,19 @@ scaled distance A-C: 1.0
 
 这一节的目标不是 API 记忆，而是先理解每个工具到底是为了解决 `什么表达问题` 才出现的。
 
-## 本节要记住的观念
-
-- 预处理是把输入改成更合适表达的阶段。
-- 缺失值、尺度、类别表达是不同问题，不能用同一种方式处理。
-- `fit` 只能在训练数据上做，测试数据只能用同样规则做 `transform`。
-- pipeline 和 column transformer 是让预处理规则可重复使用的结构。
-- 这一节是理解后面算法章节的共同基础。
-
 ## 检查清单
 
 - 你现在遇到的输入问题，能不能先分到缺失值、尺度、类别表达中的哪一类？
 - 你有没有把 `fit` 和 `transform` 分开，避免 test data 混进预处理规则学习？
 - 你能不能把预处理解释成不是 model 前的清扫，而是 `可复现的输入表达设计`？
-
-## 什么时候应该先想起这个观念
-
-- 当你需要先诊断输入问题应当归到缺失值、尺度、类别表达还是 `fit/transform` 规则时，要先想起预处理视角。
-- 当你需要重新说明为什么只能在训练数据上 `fit`，避免测试数据混进预处理规则学习时，就该回到这一节。
-- 当你需要把预处理读成不是简单清扫，而是可复现的输入表达设计时，这一节会成为标准。
-
-## 和下一节的连接
-
-接下来进入 P4-8 模型选择(model selection) 和 P4-9 超参数(hyperparameter)之后，你会更常看到：即使是同一个 model，只要和不同预处理绑定在一起，性能和解释就会不同。同时，在 P4-10 之后的算法章节里，也会更具体地看到哪些 model 对尺度和表达更敏感。
+- 你能不能说明预处理是把输入改成更合适表达的阶段，而且缺失值、尺度、类别表达是不同问题？
+- 你能不能说明为什么 `fit` 只能在训练数据上做，而测试数据只能用同样规则做 `transform`？
+- 你能不能说明 pipeline 和 column transformer 是让预处理规则可重复使用的结构？
 
 ## 出处与参考资料
 
 - scikit-learn, `8.3. Preprocessing data`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/preprocessing.html](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `8.4. Imputation of missing values`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/impute.html](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `8.1. Pipelines and composite estimators`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/compose.html](https://scikit-learn.org/stable/modules/compose.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `12. Common pitfalls and recommended practices`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }

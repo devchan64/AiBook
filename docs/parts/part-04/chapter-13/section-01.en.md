@@ -1,7 +1,7 @@
 # P4-13.1 Intuition For SVM
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-11.2 read classification as `drawing a boundary and dividing the space`. P4-12 then showed a method that judges by looking at nearby neighbors. Now the same classification problem is reread through a different question.
 
@@ -258,6 +258,25 @@ SVM is not the default answer to every classification problem, but it is a good 
 
 The key point of this table is to place SVM not as just `one more classifier`, but as `a candidate that asks the criterion of a good boundary more strongly`.
 
+This Section sharpens the difference from the earlier models in the following way.
+
+| Model | Question to grasp first | Criterion emphasized more strongly in this Section |
+| --- | --- | --- |
+| logistic regression | what score and threshold divide the classes? | probability-like output and a linear boundary |
+| k-NN | which nearby cases should be consulted? | local neighbors and the distance criterion |
+| SVM | among several boundaries, which one is more stable? | margin and support vectors |
+
+SVM changes the central question from `can a boundary be drawn?` to `how much room and stability does that boundary have?` Unless that criterion is fixed first, later explanations about soft margin, kernels, or `C` can collapse into just another list of options instead of being read as devices that adjust the standard of a good boundary.
+
+One more point makes the SVM Section connect directly to the comparison-record structure used so far. When SVM is raised as a candidate, do not leave behind only the sentence `the margin is large`. Record together `which cases remain near the margin`, `what looks more stable than the baseline or other candidates`, and `what should be adjusted next`. Near-margin cases should first be read as signals that raise review priority, not as if the reason they remain there has already been fully explained.
+
+| Record to leave together | Why it is needed |
+| --- | --- |
+| comparison between the baseline and SVM | to see what the margin viewpoint changes beyond a simple standard |
+| near-margin cases | to find the ambiguous cases that should remain as review targets |
+| points that read like support vectors | to inspect again which points shake the boundary the most |
+| next experiment question | to decide whether to inspect `C`, raise kernel candidates, or revisit the features |
+
 ## Cases And Examples
 
 The intuition of this Section can become blurry if it stays only abstract, so it helps to reread it through work scenes.
@@ -408,23 +427,13 @@ boundary x = 4.95
 - What changed: once the exceptional point moved closer to the boundary, a boundary that once looked possible could now fail to separate the data, or keep only a very tiny margin
 - Judgment to leave first: even when separation still succeeds, the stability of margin `0.2` and margin `0.05` is not the same at all
 
-### How This Exercise Recovers The Goal Of Part 4
-
-This exercise rereads SVM not as `a classifier that gets answers right`, but as `a model that compares the quality of boundaries`. The goal of Part 4 is not just to inspect one classification result. It is to read which cases make the boundary tighter and increase generalization risk. Repeatedly moving one exceptional point helps the term margin connect not only to a numerical definition but to the actual feeling of instability.
+This exercise rereads SVM not as `a classifier that gets answers right`, but as `a model that compares the quality of boundaries`. What matters is not only one classification result, but reading which cases make the boundary tighter and raise generalization risk. Repeatedly moving one exceptional point helps margin connect not only to a numerical definition, but also to an actual feeling of instability.
 
 | Common record language | What to record immediately from this exercise |
 | --- | --- |
 | structure observed | moving one near-boundary exceptional point even a little changed both separability and margin size sharply |
 | interpretation boundary | one toy example with a smaller margin does not prove that the same boundary is always bad on every real dataset |
 | next question | if soft margin and `C` are used, how much intrusion should be allowed, and what becomes visible first when compared with other classifiers? |
-
-## Perspectives To Remember In This Section
-
-- SVM is a model that looks for a boundary with `a larger margin` among the boundaries that separate classes.
-- The margin can be read as the width of the safety gap between the boundary and the closest data points.
-- Support vectors are the core points closest to the boundary.
-- In real data, the balance between `room` and `allowed error` matters more than perfect separation alone.
-- So SVM makes the reader reread a classification problem as a problem of `boundary quality`.
 
 The core of this Section is not memorizing the name SVM, but fixing what criterion should be used to read a good boundary.
 
@@ -442,15 +451,13 @@ If the whole flow is grouped once more, it becomes the following.
 
 ## Checklist
 
-- In the current problem, do room and boundary stability matter more than simply dividing classes?
+- Can you explain SVM as a model that looks for a boundary with `a larger margin` among the boundaries that separate classes?
+- Can you read the margin as the width of the safety gap between the boundary and the closest data points?
 - Can you identify which cases behave like support vectors and actually hold up the boundary?
+- Do you understand that in real data, the balance between `room` and `allowed error` matters more than perfect separation alone?
+- In the current problem, do room and boundary stability matter more than simply dividing classes?
 - Are you checking the character of near-margin cases together with the final score?
-
-## When To Recall This Perspective First
-
-- When room and boundary stability seem more important than merely dividing classes, recall the margin perspective first.
-- When a few near-boundary cases appear to control the whole judgment, recall why support vectors are central.
-- When the question of SVM needs to be separated from logistic regression and k-NN, return to `what is the better boundary?`
+- Can you explain that, unlike logistic regression or k-NN, the question of SVM is `what is the better boundary?`
 
 ## Sources And References
 

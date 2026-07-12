@@ -1,7 +1,7 @@
 # P4-19.3 应用强化学习时的注意点
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-19.1 里，我们看了价值型强化学习(value-based reinforcement learning)；在 P4-19.2 里，我们看了策略型强化学习(policy-based reinforcement learning)。走到这里，下一个问题会自然出现。
 
@@ -11,7 +11,7 @@
 
 强化学习是通过试行动来学习的，所以必须把 reward 该怎么给、实验能在哪里做、simulation 里学到的东西能不能原样用到现实里，这几件事始终一起检查。
 
-这一节不会再长篇重复价值型与策略型强化学习的基本定义。主要把手仍然放在 P4-19.1、P4-19.2 和[概念词汇表](/AiBook/en/reference/concept-glossary/)里，这里只把焦点放在把这些算法接到现实问题时出现的应用风险上。
+这一节不会再长篇重复价值型与策略型强化学习的基本定义。主要把手仍然放在 P4-19.1、P4-19.2 和 [概念词汇表](../../../reference/concept-glossary.md) 里，这里只把焦点放在把这些算法接到现实问题时出现的应用风险上。
 
 ## 本节范围
 
@@ -526,17 +526,7 @@ Part 4 学强化学习，不是为了增加算法名字，而是为了把`到底
 | 解释边界 | reward 上升、高 exploration reward、simulation 高分，都不单独代表真实目标达成或安全部署 |
 | 下一个问题 | 为了更接近真实目标，还必须把哪些副作用指标、failure cost 标准、限制 rollout 程序一起绑上？ |
 
-## 本节要记住的视角
-
-- 强化学习会最大化 reward，但 reward 不一定能完美代替真实目标。
-- reward hacking 是模型把 reward 数字优化得很好，却错过人类意图的现象。
-- exploration 在现实里会制造成本和安全问题，所以不能像游戏里那样随便试。
-- simulation 让强化学习成为可能，但它和 reality 不同，因此会有 sim-to-real gap。
-- 真实应用里，目标定义、安全 exploration、部署环境差异的验证，要先于算法名字。
-
 这一节的核心，不是增加应用风险名词，而是固定：reward 与真实目标之间的缝隙，到底要在哪里检查。
-
-把这一节和前面两节一起看，`P4-19.1` 固定的是 value 标准，`P4-19.2` 固定的是 policy update 感，`P4-19.3` 固定的是应用前的刹车。所以这一节的目的不是再介绍更多算法，而是固定`什么时候该停下来再看一遍`
 
 | 需要一起看的东西 | 本节先读的问题 | 立刻接到哪里 |
 | --- | --- | --- |
@@ -545,20 +535,21 @@ Part 4 学强化学习，不是为了增加算法名字，而是为了把`到底
 | sim-to-real gap | 为什么 simulation 成功不保证 reality 成功？ | P4-19.4 后续分支与 Part 5 对齐问题 |
 | 部署前验证顺序 | 哪些指标和安全装置要先检查？ | 限制 rollout、offline evaluation、rollback 计划 |
 
-## 简短检查
+## 检查清单
 
+- 能理解强化学习会最大化 reward，但 reward 不一定能完美代替真实目标吗？
+- 能把 reward hacking 解释成模型把 reward 数字优化得很好，却错过人类意图的现象吗？
+- 是否知道 exploration 在现实里会制造成本和安全问题，所以不能像游戏里那样随便试？
+- 是否理解 simulation 让强化学习成为可能，但它和 reality 不同，因此会有 sim-to-real gap？
+- 能说明真实应用里，目标定义、安全 exploration、部署环境差异验证要先于算法名字吗？
 - 能说明为什么只看 reward 上升就推进部署会有风险吗？
 - 能说出 sim-to-real gap 不只是性能问题，也可能直接变成安全问题吗？
 - 理解为什么 exploration 许可幅度与停止装置要先于算法本身来决定吗？
 
-## 什么时候应先想到这个视角？
-
-- 当 reward 数字上升，但服务目标或安全指标开始摇晃时，先想到 reward 和 true objective 的差距。
-- 当 simulation 表现很好，但现实部署不安定时，立刻检查 sim-to-real gap 和 exploration cost。
-- 当应用风险问题应当先于算法选择时，把这一节的检查表重新拿出来当作部署前基线。
-
 ## 来源与参考资料
 
 - Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018, 确认日期：2026-06-28. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, 确认日期：2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
+- Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, 确认日期：2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }
 - Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané, `Concrete Problems in AI Safety`, arXiv, 2016, 确认日期：2026-06-28. [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565){: target="_blank" rel="noopener noreferrer" }
 - Wenshuai Zhao, Jorge Peña Queralta, Tomi Westerlund, `Sim-to-Real Transfer in Deep Reinforcement Learning for Robotics: a Survey`, arXiv, 2020, 确认日期：2026-06-28. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303){: target="_blank" rel="noopener noreferrer" }

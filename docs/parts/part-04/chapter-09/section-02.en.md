@@ -1,7 +1,7 @@
 # P4-9.2 Tuning And Validation Cost
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-9.1, the discussion examined what a hyperparameter is and why it has long been treated as a separate topic. Now it moves to the next question.
 
@@ -421,50 +421,19 @@ This toy example can also be read as a small empirical case.
 
 For example, if the candidate model is 0.910 and after tuning it becomes 0.912, the reader does not immediately conclude deployment. First the reader has to inspect which combinations fit too much only to the same validation split, and whether the 0.002 improvement is worth the increased inference time and operational complexity. In other words, the core of the tuning Section is not memorizing `the highest score`, but checking all the way through whether `a small improvement is still a real improvement in practice`. Here too, the score gap is only a signal that raises review priority, and it does not immediately move into explanation of cause before input representation and error scenes are checked again.
 
-## Perspective To Remember In This Section
-
-- Tuning is the work of comparing hyperparameter candidates through a validation procedure.
-- Computational cost and validation cost are different.
-- Test data must be left for final confirmation only.
-- Grid search can be understood as comparing everything, while random search can be understood as comparing part of the space strategically.
-- Small score gaps after the baseline must be read together with cost.
-
-After reading this Section, the following boundary should be clear.
-
-| What this Section does now | What it does not yet conclude here | What must be viewed together to the end |
-| --- | --- | --- |
-| compare candidate settings inside validation | concluding immediately that it is a good model just from one `best score` | difference from the baseline, problematic cells in the confusion matrix, representative error cases, computational cost |
-
-## Short Check
+## Checklist
 
 - Are you choosing settings through validation and leaving test only for final confirmation?
-- Are you viewing computational cost and validation cost separately rather than mixing them as the same thing?
+- Are you viewing computational cost and validation cost separately rather than mixing them together?
 - When a small score rise appears, are you reviewing representative error cases and operational cost together again?
-
-## When Should This Perspective Come To Mind First
-
-- Bring up the tuning-procedure perspective first when candidate settings must be compared inside validation and test must be kept only for final confirmation.
-- Return to this Section when computational cost and validation cost must be read separately rather than being mixed as if they were the same thing.
-- This Section becomes the standard when a small score rise must be checked again through the baseline and representative error cases to see whether it is real improvement.
-
 - Have you distinguished whether the score you are looking at came from train, validation, or test?
 - Do you understand that the number of hyperparameter candidates is directly connected to computational cost?
 - Can you explain why it is dangerous to choose settings while looking at test?
 - Are you examining whether the improvement over the baseline is actually meaningful?
 - Do you have an intuition for when grid search and random search should be used differently?
-
-## Connection To The Next Section
-
-By the time the reader reaches P4-9, the discussion has now prepared `choosing a model`, `setting a baseline`, and `the procedure for comparing setting values`. From that point on, the perspective of this Section keeps being reused in each algorithm chapter.
-
-- P4-10 linear regression
-- P4-11 logistic regression
-- P4-12 k-NN
-- P4-13 SVM
-- P4-14 decision tree
-- P4-15 random forest
-
-In other words, the setting values that appear in later Sections should now be read not as `things whose names must be memorized`, but as `candidates that should be compared inside a validation procedure`.
+- Can you explain that tuning is the work of comparing hyperparameter candidates through a validation procedure?
+- Can you explain that computational cost and validation cost are different, and that test data must be left only for final confirmation?
+- Can you understand both grid search and random search as `ways of comparing candidates`?
 
 ## Sources And References
 

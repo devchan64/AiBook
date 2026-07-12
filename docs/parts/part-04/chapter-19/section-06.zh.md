@@ -1,7 +1,7 @@
 # P4-19.6 补充学习：如何第一次阅读 policy gradient 和 likelihood ratio trick
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.10`
+> Version: `v2026.07.12`
 
 一旦开始读 P4-19.2 里的策略型强化学习(policy-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
@@ -103,10 +103,89 @@ REINFORCE 的直觉通常可以读成这样一种形式：
 
 ### 案例 1. 当你想让好的广告展示比例更常出现，而差的比例更少出现时
 
-假设一个广告展示策略会概率性地选择某种比例，比如 `折扣横幅 70% / 推荐横幅 30%`。如果在某种状态下，提高推荐横幅比例之后，点击后的长期购买变多了，那么策略就会想把这个方向的概率再微微提高一点。反过来，如果即时点击很多，但退款和流失也上升了，那么那个动作的概率就应该往下降的方向走。policy gradient 正可以被读成这种调整问题：`把好的概率调高，把坏的概率调低。`
+假设一个广告展示策略会概率性地选择某种比例，比如 `折扣横幅 70% / 推荐横幅 30%`。人最容易先采用的规则，通常是`这次效果好的横幅比例，下次就更常用一点`。
 
-## 本节要记住的视角
+这个直觉方向是对的，但一旦公式出现，很快就会变得发虚。`为什么是在直接改概率？`、`为什么会冒出 log-probability？`、`为什么同一个动作会因为奖励正负而往相反方向调整？`这些问题都会马上出现。policy gradient 和 likelihood ratio trick 正是在这里把`把好的概率调高，把坏的概率调低`这一直觉，接到可读的公式解释上。
 
-- policy gradient 是把策略参数沿着提高期望奖励的方向移动的梯度。
-- likelihood ratio trick 是把概率微分改写成 log-probability gradient，从而让它更容易阅读的装置。
-- REINFORCE 和 actor-critic 都可以建立在这种 log-probability gradient 的直觉之上来读。
+```mermaid
+--8<-- "assets/part-04/chapter-19/p4-19-6-mermaid-01-zh.mmd"
+```
+
+| 问题场景 | 人最容易先采用的规则 | 很快出现的限制 | 这一节补上的解释 |
+| --- | --- | --- | --- |
+| 推荐横幅占比提高后，长期购买增加了 | 下次更常用这个比例 | 还说不清概率更新该怎样写进计算 | 读成沿着提高期望奖励方向移动的 policy gradient |
+| 点击升高了，但退款和流失也升高了 | 把这个比例降下来 | 很难用公式解释为什么同一个动作现在收到反向信号 | 通过奖励符号和 log-probability 梯度来读 |
+| 公式里出现 `log pi(a|s)` | 看起来像困难的数学装饰 | 概率微分和基于样本的更新之间还没连上 | 通过 likelihood ratio trick 来读 |
+
+这个案例真正要确认的结果是：`好的比例更常出现，差的比例更少出现`这句话，现在能不能通过 `期望奖励`、`log-probability gradient`、`奖励符号` 这三个把手重新读回来。也就是说，公式不该抹掉策略型直觉，而应该把那种直觉写得更精确。
+
+## 练习与示例
+
+这个练习的重点，是用很小的数字直接看到：`好奖励 -> 强化所选动作概率`、`坏奖励 -> 削弱它`，以及`为什么 log-probability 会一起出现`。
+
+问题场景：
+
+- policy gradient 和 likelihood ratio trick 只看名字会很抽象，但实际是在计算“所选动作的概率该往哪个方向推”
+
+输入(input)：
+
+- 所选动作的概率 `0.7`
+- 对数概率 `log(0.7)`
+- 同一个动作对应的一次正奖励和一次负奖励
+
+期望输出(output)：
+
+- 对数概率值
+- 随奖励符号变化而改变的解释方向
+
+要确认的概念：
+
+- log-probability 是把所选动作概率连到更新计算上的阅读把手
+- 奖励符号一变，同一个动作的调整方向也会跟着变
+
+```python
+import math
+
+chosen_prob = 0.7
+log_prob = math.log(chosen_prob)
+
+positive_reward = 2.0
+negative_reward = -2.0
+
+print("log pi(a|s) =", round(log_prob, 3))
+print("positive signal =", round(positive_reward * log_prob, 3))
+print("negative signal =", round(negative_reward * log_prob, 3))
+```
+
+这个例子的结果可以像下面这样来读。
+
+```text
+log pi(a|s) = -0.357
+positive signal = -0.713
+negative signal = 0.713
+```
+
+这个例子里最重要的，并不是把符号本身背下来。
+
+1. `log pi(a|s)` 是把所选动作概率连到更新计算上的阅读把手。
+2. 即使是同一个动作，奖励是好的时，要读成“让它更常出现”的方向；奖励是坏的时，要读成“让它更少出现”的方向。
+3. likelihood ratio trick 的作用，就是把`概率微分`改写成`log-probability gradient`，让这种连接更容易读出来。
+
+### 直接判断一下
+
+看看下面这些观察，先选哪个解释更安全。
+
+| 观察 | 过快下的结论 | 更安全的解释 |
+| --- | --- | --- |
+| `log pi(a|s)` 是负数 | 策略错了 | 只要概率小于 1，对数就可能是负的，真正重要的是它和奖励相乘后的调整方向 |
+| 给同一个动作分别乘上正奖励和负奖励后，信号符号变了 | 公式不稳定 | 奖励符号改变了“这个动作该更常出现还是更少出现”的方向 |
+| 公式里出现 log-probability | 只是数学装饰 | 它是把期望值内部的概率微分，更容易连接到基于样本更新上的装置 |
+
+这张表的目的，不是证明公式，而是抓住解释：`策略概率到底是怎样被推高或压低的`，以及`为什么这种连接需要 log-probability`。
+
+## 检查清单
+
+- 你能否说明，policy gradient 是把策略参数往提高期望奖励方向移动的梯度？
+- 你能否说明，likelihood ratio trick 是把概率微分改写成 log-probability gradient，从而让它更容易读？
+- 你能否说明，REINFORCE 和 actor-critic 都建立在这种 log-probability gradient 的直觉之上？
+- 你能否说明，正奖励和负奖励会让所选动作的概率往不同方向调整？

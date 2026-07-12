@@ -1,7 +1,7 @@
 # P4-7.3 Supplementary Learning: What Input Problems Do Missing Values, Scale, And Encoding Correspond To?
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-7.2, the broad meaning of preprocessing was established as `the work of changing raw input into a representation the model can calculate with`. But when readers first learn preprocessing, confusion immediately appears. Some columns are empty, some have wildly different numeric magnitudes, and some are strings, so it is not always intuitive why all three are handled under the single word preprocessing.
 
@@ -175,18 +175,15 @@ When reading this table, the preprocessing judgments usually split as follows.
 
 What matters here is not `memorizing four preprocessing techniques`, but the fact that even with the same table, the first question attached differs by column.
 
-## Perspective To Remember In This Section
+## Checklist
 
-- Preprocessing types are separated not by column name, but by `type of input problem`.
-- Even one column can receive several rules in sequence, such as missing-value handling and encoding.
-- The first order of preprocessing is `input problem -> preprocessing type -> inspect model sensitivity`.
-- Even after preprocessing types are divided, rule learning must still happen only on train.
-
-## Short Check
-
+- Are you distinguishing preprocessing types not by column name, but by `type of input problem`?
 - In the column you are looking at now, which is the first problem: `empty value`, `magnitude axis`, or `uncomputable representation`?
-- Are you oversimplifying by thinking only one preprocessing rule can attach to one column?
+- Do you understand that even one column can receive several rules in sequence, such as missing-value handling and encoding?
+- Can you explain the first order of preprocessing as `input problem -> preprocessing type -> inspect model sensitivity`?
+- Are you oversimplifying by assuming only one preprocessing rule can attach to one column?
 - Are you distinguishing `what rule is needed` from `where that rule was learned`?
+- Are you keeping in view that preprocessing rules must be learned only on train?
 
 ## Sources And References
 

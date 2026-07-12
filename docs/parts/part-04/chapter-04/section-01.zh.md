@@ -1,7 +1,7 @@
 # P4-4.1 训练数据与评估数据
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-3 章里，我们看过怎样利用 heuristic 先缩小要尝试的模型候选。接下来就会出现一个重要问题：怎样确认这个选择在现实里到底合不合理？
 
@@ -544,29 +544,19 @@ evaluation churn count: 1
 
 在这个练习里，某一边可能几乎没有 `churn`，甚至完全没有。到了这种状态，model 就会很难学习流失模式，也很难正确评估它们。也正因为这样，下一节才会再次回到 stratified split。
 
-## 本节要记住的视角
-
-- 训练数据(training data)是 model 用来学习的数据。
-- 评估数据(evaluation data)是专门留下来检查 model 学到了什么的数据。
-- 如果用同一份数据同时做学习和评估，就很容易高估性能。
-- 评估数据是为了估计 model 在新数据上的行为而准备的代理场景。
-- training score 和 evaluation score 不是同一个意思。
-- 当数据很少时，连 evaluation score 也会明显波动，所以要更谨慎地读取。
-
 ## 检查清单
 
 - 能不能说明为什么同一份数据同时拿来学习和评估时，性能很容易被高估？
 - 能不能说明为什么在时间顺序数据和稀有 label 数据里，拆分方式应该不同？
 - 能不能区分 training score 和 evaluation score 各自在说明什么？
-
-## 什么时候要先想到这个视角
-
-- 当你开始轻率地认为学习和评估可以共用同一份数据时，要先想到 training data 和 evaluation data 的角色区分。
-- 当需要重新解释 training score 和 evaluation score 的差距意味着什么、以及为什么它不等于新数据表现时，就回到这一节。
-- 当数据很少，或者时间顺序很重要，必须更谨慎地读取 evaluation score 时，这一节就是基准。
+- 能不能说明 training data 是用来学习的，而 evaluation data 是专门留下来检查 model 学到了什么的？
+- 能不能说明 evaluation data 是为了估计 model 在新数据上的行为而准备的代理场景？
+- 能不能说明当数据很少时，连 evaluation score 也会波动，所以必须更谨慎地读取？
 
 ## 来源与参考资料
 
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
 - Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

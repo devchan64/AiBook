@@ -1,24 +1,19 @@
 # P4-14.2 Overfitting In Trees
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
-P4-14.1 read a decision tree as `a model that predicts by splitting with questions`.
-That Section had clear strengths.
+P4-14.1 read a decision tree as `a model that predicts by splitting with questions`. That Section had clear strengths.
 
 - it is easy to read as a question flow
 - it is easy to explain like a chain of conditions
 - it often feels intuitive on tabular data
 
-But the same property also leads directly to risk.
-If the model can keep adding questions, the tree may end up almost memorizing the training data.
-That is exactly where tree overfitting appears.
+But the same property also leads directly to risk. If the model can keep adding questions, the tree may end up almost memorizing the training data. That is exactly where tree overfitting appears.
 
-If P4-14.1 asked `how should a good first question and the next question be read?`, this Section asks `where does that question flow stop describing a pattern and start memorizing exceptions?`
-So here the reader must see not only when making the tree deeper helps, but also when that deeper structure begins to shake the model.
+If P4-14.1 asked `how should a good first question and the next question be read?`, this Section asks `where does that question flow stop describing a pattern and start memorizing exceptions?` So here the reader must see not only when making the tree deeper helps, but also when that deeper structure begins to shake the model.
 
-This Section does not repeat the base definition of a decision tree at length.
-The core intuition `it predicts by splitting with questions` reconnects through P4-14.1 and the [concept glossary](../../../reference/concept-glossary.md), while the general handle for overfitting itself should be recalled again with P4-5.1.
+This Section does not repeat the base definition of a decision tree at length. The core intuition `it predicts by splitting with questions` reconnects through P4-14.1 and the [concept glossary](../../../reference/concept-glossary.md), while the general handle for overfitting itself should be recalled again with P4-5.1.
 
 ## Scope Of This Section
 
@@ -49,20 +44,13 @@ Those topics reconnect in P4-15, P4-16, and the tuning context of P4-9.
 
 ### Why Is Overfitting So Visible In Trees?
 
-A decision tree is fundamentally `a structure that keeps splitting nodes into smaller pieces`.
-That structure is powerful.
-But if no limits are given, it can create smaller and smaller leaves.
+A decision tree is fundamentally `a structure that keeps splitting nodes into smaller pieces`. That structure is powerful. But if no limits are given, it can create smaller and smaller leaves.
 
-The scikit-learn User Guide explains that decision-tree learners can create `over-complex trees`, and that such trees generalize poorly.
-The same guide calls this overfitting and explains why controls such as pruning, `min_samples_leaf`, and `max_depth` are needed.
+The scikit-learn User Guide explains that decision-tree learners can create `over-complex trees`, and that such trees generalize poorly. The same guide calls this overfitting and explains why controls such as pruning, `min_samples_leaf`, and `max_depth` are needed.
 
 `As a tree keeps adding questions, it can begin to follow exceptions in the training data too closely. But there is no guarantee that those exceptions will repeat in new data.`
 
-Here too it helps to keep a fixed record structure.
-This Section is not only saying `depth can become dangerous`.
-It is a Section for recording `what new failure appears as complexity grows`, `which review cases keep remaining`, and `at what point branches should be stopped or reduced`.
-Even when two models show similar average scores, a deeper tree may memorize a new set of cases while still leaving the same failures unresolved.
-That difference must be read separately.
+Here too it helps to keep a fixed record structure. This Section is not only saying `depth can become dangerous`. It is a Section for recording `what new failure appears as complexity grows`, `which review cases keep remaining`, and `at what point branches should be stopped or reduced`. Even when two models show similar average scores, a deeper tree may memorize a new set of cases while still leaving the same failures unresolved. That difference must be read separately.
 
 | Record to keep together | Why it matters |
 | --- | --- |
@@ -73,8 +61,7 @@ That difference must be read separately.
 
 ### When Should Tree Overfitting Be Suspected Early?
 
-To catch overfitting quickly, the reader should not watch only the score.
-It also helps to ask `have the questions become too fine-grained?`
+To catch overfitting quickly, the reader should not watch only the score. It also helps to ask `have the questions become too fine-grained?`
 
 | Visible sign | What to suspect first | Why |
 | --- | --- | --- |
@@ -84,9 +71,7 @@ It also helps to ask `have the questions become too fine-grained?`
 | too many branches appear after the first split | overly fine later-stage splitting | the later branches may be following accidental fluctuations |
 | the explanation became long, but harder to interpret | pruning is needed | the advantage of readability is disappearing |
 
-This table helps the reader go beyond the vague statement `deeper trees are risky`.
-Instead it frames the real question as:
-`At what point do the questions stop talking about a pattern and start talking about exceptions?`
+This table helps the reader go beyond the vague statement `deeper trees are risky`. Instead it frames the real question as: `At what point do the questions stop talking about a pattern and start talking about exceptions?`
 
 ## Main Learning Content
 
@@ -106,9 +91,7 @@ The same point can be compressed into the following diagram.
 --8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-01-en.mmd"
 ```
 
-This diagram shows that tree overfitting is not `the more questions, the better`.
-More splits may fit the training data better.
-But at the last stage, memorization may begin instead of generalization.
+This diagram shows that tree overfitting is not `the more questions, the better`. More splits may fit the training data better. But at the last stage, memorization may begin instead of generalization.
 
 The key is the final arrow.
 
@@ -124,22 +107,18 @@ In project-note style, the same point becomes something like this.
 | needs review? | `depth increased, but failure cases remain` |
 | next question | `should leaves be enlarged or should pruning be used?` |
 
-This table lets the overfitting Section read as `complexity change -> remaining failures -> next pruning question`.
-What matters is not just one cell of numbers.
-It is whether the remaining failure pattern became simpler, or the model only matched the training data more closely.
+This table lets the overfitting Section read as `complexity change -> remaining failures -> next pruning question`. What matters is not just one cell of numbers. It is whether the remaining failure pattern became simpler, or the model only matched the training data more closely.
 
 ### What Happens As The Tree Gets Deeper?
 
-As the tree gets deeper, fewer samples remain inside each leaf.
-Then several things happen.
+As the tree gets deeper, fewer samples remain inside each leaf. Then several things happen.
 
 1. One or two exceptional cases can create an extra branch.
 2. A leaf may begin to predict after seeing only a tiny number of samples.
 3. On the training set, the model may become almost error-free.
 4. On the test set, the prediction may become much easier to shake under a small change.
 
-The scikit-learn documentation notes that each extra level in the tree needs roughly twice as many samples to fill it, and recommends controlling size with `max_depth`.
-It also recommends `min_samples_split` and `min_samples_leaf` so that decisions are based on more than only a handful of samples.
+The scikit-learn documentation notes that each extra level in the tree needs roughly twice as many samples to fill it, and recommends controlling size with `max_depth`. It also recommends `min_samples_split` and `min_samples_leaf` so that decisions are based on more than only a handful of samples.
 
 Compressed into one sentence:
 
@@ -149,9 +128,7 @@ Compressed into one sentence:
 
 Overfitting lasts longer in memory when it is understood as a flow rather than only as a formula.
 
-The early branches often catch meaningful large patterns.
-The problem tends to start later.
-The last few stages may explain not `the real structure`, but `accidental fluctuations that appeared only in the training data`.
+The early branches often catch meaningful large patterns. The problem tends to start later. The last few stages may explain not `the real structure`, but `accidental fluctuations that appeared only in the training data`.
 
 That flow can be read in stages like this.
 
@@ -162,11 +139,9 @@ That flow can be read in stages like this.
 | later branches | separating tiny groups of cases | is it now memorizing accidental fluctuations? |
 | final leaves | becoming almost training-data-only rules | would this leaf survive on new data too? |
 
-For example, an early branch may use a broad criterion such as `is the temperature high and vibration large?` or `do we see both reduced visits and a complaint signal?`
-Later branches may move toward narrow questions such as `did the value fluctuate only at the third time point?` or `did visits drop twice only during a specific week?`
+For example, an early branch may use a broad criterion such as `is the temperature high and vibration large?` or `do we see both reduced visits and a complaint signal?` Later branches may move toward narrow questions such as `did the value fluctuate only at the third time point?` or `did visits drop twice only during a specific week?`
 
-So the real issue is not simply that `there are many questions`.
-It is whether `the nature of the questions changed from describing a major pattern to describing training-data exceptions`.
+So the real issue is not simply that `there are many questions`. It is whether `the nature of the questions changed from describing a major pattern to describing training-data exceptions`.
 
 ### Why Train And Test Performance Must Be Read Together
 
@@ -178,9 +153,7 @@ Tree overfitting becomes especially visible when train and test performance are 
 | both train and test are high | the current balance may look acceptable |
 | only train is very high while test falls | overfitting should be suspected |
 
-This viewpoint appears often in trees, but it is really a shared Part 4 principle.
-Linear regression, logistic regression, SVM, and tree models all eventually face the same question:
-`how well does the model hold up on data it has not seen?`
+This viewpoint appears often in trees, but it is really a shared Part 4 principle. Linear regression, logistic regression, SVM, and tree models all eventually face the same question: `how well does the model hold up on data it has not seen?`
 
 ## Detailed Learning Content
 
@@ -188,8 +161,7 @@ Linear regression, logistic regression, SVM, and tree models all eventually face
 
 If `max_depth` limits the overall height of the tree, `min_samples_leaf` limits how small one leaf is allowed to become.
 
-The API explains `min_samples_leaf` as the minimum number of samples required to be in a leaf node.
-It also notes that in regression it can have a smoothing effect.
+The API explains `min_samples_leaf` as the minimum number of samples required to be in a leaf node. It also notes that in regression it can have a smoothing effect.
 
 `If a leaf is allowed to contain only one or two cases, that leaf becomes more likely to talk about exceptions than about patterns.`
 
@@ -198,8 +170,7 @@ For example:
 - `min_samples_leaf=1`: even a leaf with only one case is allowed
 - `min_samples_leaf=5`: at least five cases are needed before a leaf is accepted
 
-This difference can be reread as:
-`how small an exception group are we willing to trust?`
+This difference can be reread as: `how small an exception group are we willing to trust?`
 
 ### Python Example: Controlling Leaf Size
 
@@ -286,9 +257,7 @@ This example gives one important intuition.
 
 If limiting depth in advance can be read as pre-pruning, then simplifying a tree after it has grown can be read as pruning.
 
-scikit-learn supports `Minimal Cost-Complexity Pruning`.
-The API explains `ccp_alpha` as the complexity parameter for that pruning.
-As the value becomes larger, more nodes can be cut away.
+scikit-learn supports `Minimal Cost-Complexity Pruning`. The API explains `ccp_alpha` as the complexity parameter for that pruning. As the value becomes larger, more nodes can be cut away.
 
 - `max_depth`, `min_samples_leaf`: keep the tree from becoming too complex from the start
 - `ccp_alpha`: give a complexity cost after growth and simplify the tree
@@ -315,16 +284,11 @@ A small scene makes this clearer.
 | train score | may look higher | may drop a little |
 | test stability | may fluctuate | may become more stable |
 
-The key in this table is that pruning should not be read as `damaging the tree`.
-It should be read as `keeping the large structure while removing leftover tiny questions`.
+The key in this table is that pruning should not be read as `damaging the tree`. It should be read as `keeping the large structure while removing leftover tiny questions`.
 
-Suppose a late branch creates one more leaf using a very narrow condition such as:
-`temperature is high`, `vibration is large`, and `only the third time-point pressure was in a narrow range`.
-If that leaf only explains two products in the training data, pruning asks whether that branch is worth keeping.
+Suppose a late branch creates one more leaf using a very narrow condition such as: `temperature is high`, `vibration is large`, and `only the third time-point pressure was in a narrow range`. If that leaf only explains two products in the training data, pruning asks whether that branch is worth keeping.
 
-That is why `ccp_alpha` is not just one more number.
-It is a handle that asks:
-`Is the gain in train score from this small branch really larger than the cost of added complexity?`
+That is why `ccp_alpha` is not just one more number. It is a handle that asks: `Is the gain in train score from this small branch really larger than the cost of added complexity?`
 
 As a direction-only memory aid:
 
@@ -339,20 +303,15 @@ As a direction-only memory aid:
 --8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-02-en.mmd"
 ```
 
-This Section does not calculate pruning formulas.
-Instead, it centers on `which leftover branches should not be kept` and `why someone may give up a little train score to gain more stable test behavior`.
+This Section does not calculate pruning formulas. Instead, it centers on `which leftover branches should not be kept` and `why someone may give up a little train score to gain more stable test behavior`.
 
 ## Cases And Examples
 
 ### Case 1. When A Defect-Detection Tree Starts Memorizing Factory Exceptions
 
-A manufacturing team is building a decision tree that separates defective products from normal ones using sensor values.
-The criteria people looked at first were questions such as `is the temperature above a threshold?`, `is vibration beyond a range?`, and `is the pressure change abrupt?`
+A manufacturing team is building a decision tree that separates defective products from normal ones using sensor values. The criteria people looked at first were questions such as `is the temperature above a threshold?`, `is vibration beyond a range?`, and `is the pressure change abrupt?`
 
-When more and more questions are added, the model can begin to look smarter.
-In fact, a deeper tree may become almost error-free on the training data.
-But when the later branches are inspected, leaves that explain only one or two exceptional products start to appear.
-Those leaves can easily shake when the production process changes even a little.
+When more and more questions are added, the model can begin to look smarter. In fact, a deeper tree may become almost error-free on the training data. But when the later branches are inspected, leaves that explain only one or two exceptional products start to appear. Those leaves can easily shake when the production process changes even a little.
 
 Reduced to a small scene, the situation looks like this.
 
@@ -363,9 +322,7 @@ Reduced to a small scene, the situation looks like this.
 | C | high | medium | slightly large | review candidate |
 | D | slightly high | briefly large | stable | hard to call defective immediately |
 
-The human-first pattern here is a relatively large one such as `temperature rise + vibration/pressure anomaly`.
-An overly deep tree may keep adding tiny questions such as `did the vibration rise only briefly at the third measurement?` or `did the pressure curve bend twice inside a narrow range?`
-Then it starts explaining only a few products that happened to resemble D in the training data.
+The human-first pattern here is a relatively large one such as `temperature rise + vibration/pressure anomaly`. An overly deep tree may keep adding tiny questions such as `did the vibration rise only briefly at the third measurement?` or `did the pressure curve bend twice inside a narrow range?` Then it starts explaining only a few products that happened to resemble D in the training data.
 
 | Human-first criterion | What an overly deep tree easily grabs |
 | --- | --- |
@@ -384,27 +341,15 @@ If the same scene is divided into `a comparatively simple reading` and `an overl
 | comparatively simple tree | temperature is a little high, but pressure is stable, so it stays as a review candidate |
 | overly deep tree | it gets separated into its own leaf using a brief vibration fluctuation and a rare sensor combination |
 
-In this scene, overfitting should be read as `the model increases question detail so much that it memorizes the training data`.
-`max_depth` limits how far the tree may grow.
-`min_samples_leaf` prevents one leaf from becoming a tiny exception set.
-`ccp_alpha` reduces already grown branches again.
-In short, more questions do not always mean a better explanation.
+In this scene, overfitting should be read as `the model increases question detail so much that it memorizes the training data`. `max_depth` limits how far the tree may grow. `min_samples_leaf` prevents one leaf from becoming a tiny exception set. `ccp_alpha` reduces already grown branches again. In short, more questions do not always mean a better explanation.
 
-The observable result appears when train accuracy and test accuracy are read together.
-If the train score keeps rising while the test score stops improving or begins to fall, later branches should be read as memorization rather than generalization.
-The important question is not only `did the model describe sensor anomalies more finely?`
-It is `did it produce a criterion that still repeats on new factory data?`
+The observable result appears when train accuracy and test accuracy are read together. If the train score keeps rising while the test score stops improving or begins to fall, later branches should be read as memorization rather than generalization. The important question is not only `did the model describe sensor anomalies more finely?` It is `did it produce a criterion that still repeats on new factory data?`
 
 ### Case 2. When A Churn Tree Starts Memorizing Exceptional Customers More Than Review Rules
 
-Now imagine a subscription-service team building a decision tree for churn prediction.
-The human-first criteria were broad patterns such as `did visits drop sharply?`, `was there a payment failure?`, and `was there a complaint signal after support contact?`
+Now imagine a subscription-service team building a decision tree for churn prediction. The human-first criteria were broad patterns such as `did visits drop sharply?`, `was there a payment failure?`, and `was there a complaint signal after support contact?`
 
-But if the tree keeps growing deeper, later branches may start stacking combinations such as:
-`were there 2 visits during the last 17 days?`,
-`was last month's payment inside a narrow range?`,
-`was the promotion mail opened once?`
-These combinations may fit a small set of customers in the training data very well, but may not repeat in real operation or may have weak meaning.
+But if the tree keeps growing deeper, later branches may start stacking combinations such as: `were there 2 visits during the last 17 days?`, `was last month's payment inside a narrow range?`, `was the promotion mail opened once?` These combinations may fit a small set of customers in the training data very well, but may not repeat in real operation or may have weak meaning.
 
 Reduced to a small scene, it looks like this.
 
@@ -415,9 +360,7 @@ Reduced to a small scene, it looks like this.
 | C | strongly decreased | no | yes | review candidate |
 | D | almost unchanged | no | no | likely stay |
 
-The human-first pattern is still a large one such as `visit decline + payment/complaint signal`.
-An overly deep tree may instead add tiny questions such as `were there zero visits only in the second week?` or `was the event mail opened on Wednesday morning?`
-Then the model starts building branches that explain only a few customers similar to C in the training data.
+The human-first pattern is still a large one such as `visit decline + payment/complaint signal`. An overly deep tree may instead add tiny questions such as `were there zero visits only in the second week?` or `was the event mail opened on Wednesday morning?` Then the model starts building branches that explain only a few customers similar to C in the training data.
 
 | Human-first criterion | What an overly deep tree easily grabs |
 | --- | --- |
@@ -432,9 +375,7 @@ If the same scene is divided into `a shallow reading` and `an overly deep readin
 | comparatively simple tree | visit decline plus complaint signal makes C a review candidate |
 | overly deep tree | it gets separated into its own leaf using a specific week pattern, amount range, and mail-response detail |
 
-In this scene, overfitting should be read as a state where `questions that look highly descriptive actually make the review criterion less clear and instead memorize accidental combinations from the training data`.
-So when reading a tree, the reader should ask not only `did the explanation become more detailed?`
-The reader should also ask `is that detail likely to repeat on new customers?` and `does it improve review priority in practice?`
+In this scene, overfitting should be read as a state where `questions that look highly descriptive actually make the review criterion less clear and instead memorize accidental combinations from the training data`. So when reading a tree, the reader should ask not only `did the explanation become more detailed?` The reader should also ask `is that detail likely to repeat on new customers?` and `does it improve review priority in practice?`
 
 ```mermaid
 --8<-- "assets/part-04/chapter-14/p4-14-2-mermaid-04-en.mmd"
@@ -448,9 +389,7 @@ The same scene becomes easier to diagnose when reread through leaves rather than
 | nature of the questions that created the leaf | instead of large patterns, tiny week-level or point-level questions increase |
 | practical meaning of the leaf | it looks more like a note about training cases than a stable review rule |
 
-Holding onto this table makes it harder to praise the tree just because `train accuracy went up`.
-For beginners especially, it helps to ask once in a sentence:
-`Does this leaf describe new customers, or is it only memorizing a tiny set of training customers?`
+Holding onto this table makes it harder to praise the tree just because `train accuracy went up`. For beginners especially, it helps to ask once in a sentence: `Does this leaf describe new customers, or is it only memorizing a tiny set of training customers?`
 
 ### Which Handles Should Be Checked In Practice?
 
@@ -479,9 +418,7 @@ This exercise uses the same decision-tree classifier while changing only depth, 
 - input: sepal and petal lengths and widths
 - label: three species
 - concepts to check:
-  - as depth grows, train performance can rise easily
-  - test performance may plateau or fall after a point
-  - tree depth is one of the main complexity handles
+- as depth grows, train performance can rise easily - test performance may plateau or fall after a point - tree depth is one of the main complexity handles
 
 It helps to define what to compare first.
 
@@ -566,13 +503,9 @@ What should be read from this result is the following.
 3. As the `train-test gap` grows, the memorization signal may be getting stronger.
 4. In this example, around `max_depth=3` looks more balanced.
 
-So when tree performance is read, the real question is not only `did the tree get deeper?`
-It is `how did train and test separate once it became deeper?`
+So when tree performance is read, the real question is not only `did the tree get deeper?` It is `how did train and test separate once it became deeper?`
 
-Also, it matters not to watch only the accuracy number.
-The difference between `max_depth=5` and `max_depth=3` is not only a score difference.
-It is also a structural difference:
-the deeper tree created more leaves and started to describe the training data in finer detail.
+Also, it matters not to watch only the accuracy number. The difference between `max_depth=5` and `max_depth=3` is not only a score difference. It is also a structural difference: the deeper tree created more leaves and started to describe the training data in finer detail.
 
 ### Change One More Value And Read `depth` Together With `leaf`
 
@@ -581,9 +514,7 @@ This time, check how the judgment changes when leaf size is read together with d
 - value to change: `min_samples_leaf`
 - reason: to see whether blocking tiny leaves reduces exception memorization even under the same depth limit
 - concepts to check:
-  - `max_depth` and `min_samples_leaf` control the same complexity problem at different points
-  - even when depth looks similar, larger leaves can change the train/test interpretation
-  - overfitting diagnosis is safer when read as `depth + leaf size + gap`, not only one depth value
+- `max_depth` and `min_samples_leaf` control the same complexity problem at different points - even when depth looks similar, larger leaves can change the train/test interpretation - overfitting diagnosis is safer when read as `depth + leaf size + gap`, not only one depth value
 
 ```python
 for leaf_size in [1, 2, 5]:
@@ -631,10 +562,7 @@ min_samples_leaf=5
   train-test gap : 0.038
 ```
 
-The first thing to notice in this comparison is:
-`even when train accuracy drops a little, test accuracy can become more stable.`
-So overfitting relief should not be read as a defeat where score is sacrificed.
-It should be read as an adjustment that `memorizes less and holds up better`.
+The first thing to notice in this comparison is: `even when train accuracy drops a little, test accuracy can become more stable.` So overfitting relief should not be read as a defeat where score is sacrificed. It should be read as an adjustment that `memorizes less and holds up better`.
 
 It is useful to write the following three sentences directly.
 
@@ -649,9 +577,7 @@ Now shake the tree once more by changing how much of an already grown tree shoul
 - value to change: `ccp_alpha`
 - reason: depth and leaf-size tuning prevented growth from the start, but pruning simplifies after the tree has already grown
 - concepts to check:
-  - as `ccp_alpha` grows, small branches are more easily removed
-  - train score may fall a little while the test side becomes more stable
-  - pruning is closer to `reselecting the main structure that should remain` than to `damaging the tree`
+- as `ccp_alpha` grows, small branches are more easily removed - train score may fall a little while the test side becomes more stable - pruning is closer to `reselecting the main structure that should remain` than to `damaging the tree`
 
 ```python
 for alpha in [0.0, 0.005, 0.02]:
@@ -698,11 +624,7 @@ ccp_alpha=0.02
   train-test gap : 0.063
 ```
 
-The first thing to read from this result is:
-`cutting a little helped, but cutting too much made the model simple again in the wrong way.`
-So pruning is not `the more, the better`.
-It is a search for balance:
-remove leftover twigs, but keep the larger pattern.
+The first thing to read from this result is: `cutting a little helped, but cutting too much made the model simple again in the wrong way.` So pruning is not `the more, the better`. It is a search for balance: remove leftover twigs, but keep the larger pattern.
 
 If possible, write the following sentences too.
 
@@ -721,8 +643,7 @@ If the experiments above were run, stop not at seeing the result, but at leaving
 | setting with the largest train-test gap |  |  |
 | next handle to adjust |  |  |
 
-When filling the table, do not write only `the setting with the highest score`.
-It is better to write one sentence explaining why that setting looked balanced.
+When filling the table, do not write only `the setting with the highest score`. It is better to write one sentence explaining why that setting looked balanced.
 
 If possible, add one more line for the pruning experiment too.
 
@@ -738,55 +659,11 @@ For example, a note might read like this.
 - `max_depth=5, min_samples_leaf=1` has perfect train fit but a larger gap, so it looks like a candidate that memorizes more exceptions.
 - Next, I want to see whether the same failures remain after pruning leftover branches with `ccp_alpha`.
 
-### Part 4 Goal Recall
-
-The examples and practices in this Section show the shared Part 4 goals in the following way.
-
-- problem definition: the current issue is `does the tree still hold up on new data?`
-- input representation: even with the same `X` and `y`, very different model structures are created depending on the complexity controls
-- evaluation reading: train accuracy, test accuracy, gap, and leaf count must be read together to separate memorization from generalization
-- next question: the work naturally continues into deciding whether depth limits, leaf size, or pruning should be adjusted first
-
-So the heart of this Section is not memorizing the warning sentence `overfitting is dangerous`.
-It is learning to read in comparison language `which failure is reduced and which failure remains when the complexity handle changes`.
-
-And even after trying depth limits, larger leaves, and pruning inside a single tree, if the structure still shakes, the next question naturally shifts from `should one tree be refined more?` to `should the instability be reduced by the agreement of many trees?`
-That connection leads directly into random forest in P4-15.1.
-
-| Structure shown | Boundary of interpretation | Next question |
-| --- | --- | --- |
-| as depth increases, train fit rises easily | rising train performance alone cannot prove better generalization | from which depth does the gap begin to widen? |
-| larger leaves can reduce exception memorization | if leaves become too large, important patterns can be lost too | how large should `min_samples_leaf` be? |
-| pruning is a handle that removes twigs after growth | cutting small branches is not always the answer | which leaves disappear first when `ccp_alpha` changes? |
-
-## Perspective To Remember In This Section
-
-- Trees are easy to read, but without limits they can follow the training data too closely.
-- As depth grows and leaves become smaller, the risk of overfitting increases.
-- Higher train performance does not guarantee that test performance improves too.
-- `max_depth`, `min_samples_leaf`, and `ccp_alpha` are representative handles for controlling tree complexity.
-- To reduce overfitting usually means `memorize a little less perfectly, and generalize a little more reliably`.
-
-The key in this Section is not only the fact that a tree became deeper.
-It is reading what kind of failure that extra depth created.
-
-| What should be read together | First question in this Section | Where it reconnects later |
-| --- | --- | --- |
-| train-test gap | did the deeper tree really improve generalization too? | P4-5 generalization, P4-9 tuning |
-| complexity handles | how do `max_depth`, `min_samples_leaf`, and `ccp_alpha` each reduce overfitting? | P4-9 hyperparameters |
-| representative failure zone and next model | which branches are memorizing exceptions, and how might bagging or boosting reduce that? | P4-15 random forest, P4-16 gradient boosting |
-
 ## Checklist
 
 - Are you reading a rise in train performance as if it automatically meant a rise in test performance?
 - Have the leaves become so small that they are speaking like rules about exceptional cases?
 - Are you distinguishing clearly between the next adjustment being a depth limit, a leaf-size change, or pruning?
-
-## When To Recall This Perspective First
-
-- When train performance keeps rising but test does not follow, first suspect that the tree may be memorizing exceptions.
-- When it is unclear whether to adjust depth limits, leaf size, or pruning, reread the difference in how each one reduces complexity.
-- Before moving on to random forest or boosting, use this Section as the baseline for organizing the complexity intuition of a single tree.
 
 ## Sources And References
 

@@ -1,7 +1,7 @@
 # P2-10.2 The Difference Among Jupyter, Colab, and Local Execution
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. Now we separate the three execution styles that are encountered most often in practice.
 
@@ -272,40 +272,15 @@ This case helps you read `Jupyter`, `Colab`, and `local execution` not as featur
 
 So when reading practice documents, first check `Where is this code being executed?`, `Where is this file located?`, and `Can another person still see the same file when rerunning it?` Once the environment distinction comes first, the cause of an error can also be narrowed down more quickly.
 
-## Perspectives to Remember from This Section
+## Checklist
 
-Jupyter is a notebook tool and ecosystem.
-
-Colab is a hosted service that makes Jupyter notebooks easy to use in a browser.
-
-Local Jupyter is a way of running notebooks on your own computer or server.
-
-Local scripts are advantageous for repeated execution and reuse.
-
-A notebook file and a runtime are different.
-
-When sharing, not only code and explanation but also the necessary files, packages, and execution order must be left together.
-
-This Section is not for learning every notebook usage feature. It is for drawing the boundary of the recording layer.
-
-| Handle of this Chapter now | What the next Chapter sees more of | What is not done yet here |
-| --- | --- | --- |
-| Even the same code can have different files, packages, and sharing conditions depending on execution location and runtime | What execution records should be left for NumPy, Pandas, Matplotlib, and Git practice | Experiment-tracking tools, large-scale collaboration record systems, and deployment automation documentation |
-
-## Short Check
-
-- You can explain that Jupyter and Colab are not words at exactly the same layer.
-- You can distinguish a notebook file (`.ipynb`) from a runtime.
-- You can explain that code in Colab can run in a remote virtual machine.
-- You can explain that a shared notebook does not necessarily share runtime files and installation state too.
-- You can distinguish the strengths and weaknesses of local Jupyter and local scripts.
-- You can explain that a file-path problem can really be an execution-environment problem.
-
-## When Should You Recall This Perspective First?
-
-- Recall this Section first when you need to explain that even the same `.ipynb` file has different results and constraints depending on where it runs.
-- When trying to decide whether to use Colab, Jupyter, or local scripts, separate files and runtime and read the problem again.
-- When an execution-environment problem is suspected, such as a path error, a difference in installation state, or rerun failure after sharing, this comparison becomes the standard.
+- Can you explain that Jupyter and Colab are not words at exactly the same layer?
+- Can you distinguish a notebook file (`.ipynb`) from a runtime?
+- Can you explain that code in Colab can run in a remote virtual machine?
+- Can you explain that a shared notebook does not necessarily share runtime files and installation state too?
+- Can you distinguish the strengths and weaknesses of local Jupyter and local scripts?
+- Can you explain that a file-path problem can really be an execution-environment problem?
+- Can you explain that even with the same `.ipynb` file, the file, package, and sharing conditions can differ depending on execution location and runtime?
 
 ## Sources and References
 

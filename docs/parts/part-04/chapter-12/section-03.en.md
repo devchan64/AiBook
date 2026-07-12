@@ -1,7 +1,7 @@
 # P4-12.3 What Should Be Checked First When Using k-NN?
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why distance and scale can change the result. The remaining question is the following.
 
@@ -151,15 +151,11 @@ This order helps the reader separate `failure of the model family` from `instabi
 
 So the goal of this Section is not the vague conclusion `k-NN must be used carefully`. More precisely, it is to let the reader explain for themselves `what should be reopened first when the prediction starts to shake`.
 
-## Perspectives To Remember In This Section
-
-- k-NN can be a good first comparison candidate in problems where local similarity matters.
-- When the result shakes, it is usually better to reopen `distance rule`, `k`, and `data representation` before the model name itself.
-- A review query is not evidence that fixes the cause. It is a signal that shows `what must be rechecked`.
-
 ## Checklist
 
-- Can you distinguish problems where k-NN should be a first candidate from problems where it should not?
+- Can you explain that k-NN can be a good first comparison candidate in problems where local similarity matters?
+- Can you distinguish problems where k-NN should be raised first from problems where it should not?
+- Did you understand that when the result shakes, it is usually better to reopen `distance rule`, `k`, and `data representation` before the model name itself?
 - Can you explain in what order to inspect `distance rule`, `k`, and `scale` when the result shakes?
 - Are you reading a review query not as `cause confirmed`, but as `reinspection signal`?
 

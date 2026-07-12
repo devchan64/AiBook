@@ -254,10 +254,6 @@ log loss B        : 0.1446
 - 所以从和 MLE 相连的学习视角看，`给正确答案的支持有多强` 会被区分出来。
 - 因而理解 logistic regression 时，区分 `evaluation metric` 与 `training objective` 很重要。
 
-## 与下一节的连接
-
-到这里，logistic regression 的 `probability 解释` 与 `学习目标` 就闭合了。下一节补充学习会继续看：这个感觉怎样从 `在两个里选一个` 扩展到 `在多个类里选一个`，也就是如何读取 multinomial logistic regression。
-
 ## 出处与参考资料
 
 - C.M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006.

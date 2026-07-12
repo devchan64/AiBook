@@ -1,7 +1,7 @@
 # P4-18.1 Dimensionality Reduction
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 In P4-17, we looked at the viewpoint of finding data structure without labels through clustering. Within the same unsupervised-learning flow, another question appears here.
 
@@ -61,21 +61,7 @@ If we place it beside the clustering from the previous Chapter, the first thing 
 | What is wanted immediately | Cluster structure, outlier candidates | Fewer components, a more readable representation |
 | What is often done next | Interpret cluster meaning, review segments | Visualization, noise reduction, cleanup for downstream model input |
 
-If clustering is closer to `finding groups`, dimensionality reduction is closer to `rebuilding the representation`. That distinction must be visible first so that PCA is read not as just another algorithm name, but as a representative answer to the question `how can high-dimensional representation be changed into easier axes for reading?`
-
-### When Should Dimensionality Reduction Come To Mind First?
-
-Dimensionality reduction is not simply a technique for throwing information away. It is a tool that first asks `has the current representation become too large to see the structure clearly?`
-
-| Current problem state | Why dimensionality reduction comes to mind first | What to check first |
-| --- | --- | --- |
-| There are too many features to imagine the structure clearly | Because the overall flow can be viewed again through fewer axes | What will be preserved and what will be reduced |
-| Many features seem to overlap with one another | Because overlapping variation may be grouped into a few components | Whether there is actually a lot of redundant information |
-| Visualization or a follow-up clustering hypothesis is needed | Because the large structure can be viewed at a 2D or 3D level | Whether the visualization is being read as the answer itself |
-| You want to reduce computation or simplify downstream model input | Because a smaller representation can make later steps easier to handle | Whether the information loss is worth accepting |
-| You want to interpret representative axes such as PCA | Because the direction with large spread can be summarized | Whether the axis with large variance should be treated as meaningful by itself |
-
-The core of this table is to position dimensionality reduction not as `magical simplification`, but as `a tool for building easier axes when representation complexity has become too large`.
+If clustering is closer to `finding groups`, dimensionality reduction is closer to `rebuilding the representation`. That distinction matters first, so that PCA is read not as just another algorithm name, but as a representative answer to the question `how can high-dimensional representation be changed into easier axes for reading?`
 
 ## What Does Dimension Mean?
 
@@ -211,9 +197,7 @@ At an introductory level, the following flow is enough.
 
 The formula is usually written like this.
 
-\[
-\Sigma v = \lambda v
-\]
+\[ \Sigma v = \lambda v \]
 
 Here:
 
@@ -279,45 +263,17 @@ So after seeing a reduced representation, the question should always be:
 
 `Is this simpler representation sufficient for the problem I am trying to inspect?`
 
-In other words, dimensionality reduction is convenient, but it is not free.
+That question matters because dimensionality reduction always changes the expression first, then asks whether the changed expression is still enough for the actual task.
 
-## Where Is It Used Often?
+Sometimes the simplified axes are sufficient for seeing the large flow.
 
-Dimensionality reduction often appears in the following scenes.
+Sometimes an important per-feature distinction becomes weaker during compression.
 
-| Work scene | What dimensionality reduction does there |
-| --- | --- |
-| Preparing visualization | Reduce high-dimensional data into 2D or 3D and inspect the rough structure |
-| Preprocessing | Change downstream model input into a more compressed representation |
-| Trying to reduce noise | Preserve large variation first and place less emphasis on small fluctuations |
-| Summarizing text or images | Reduce very many features into a smaller number of components |
+So dimensionality reduction is convenient, but it is not free.
 
-So dimensionality reduction is often used first not as `the final model` itself, but as `a lens for rereading the data`.
+What matters is not only `did the picture become easier to read?`
 
-Even then, it is not enough to write only that the representation changed. You should also leave together which cases were rearranged in the new axes and how. Structures seen in the new axes should first be read as signals for review and hypothesis candidates. Before looking back at the original features, causes or categories should not be finalized.
-
-| What to record together | What is written in this Section | Why it is needed |
-| --- | --- | --- |
-| Representation change | Into how many components was the original feature space reduced | To make clear what expression was changed |
-| Rearrangement of cases | Where the same customer or document moved in the new axes | To see whether the new representation really made the structure easier to read |
-| Next question | Is this new axis sufficient for clustering, visualization, or downstream model input? | To check whether simplification really helps the next step |
-
-## How Are Clustering And Dimensionality Reduction Connected?
-
-Chapter 17 examined clustering, and Chapter 18 examines dimensionality reduction. These two often appear together.
-
-- People reduce the data into two dimensions and inspect the cluster structure with their eyes.
-- Conversely, they sometimes compress the representation first because they want clusters to become easier to see.
-
-The scikit-learn documentation also explains that PCA can be useful for downstream models such as K-means.
-
-In other words, dimensionality reduction is an independent technique, while also becoming `a preparation stage for later clustering or visualization`.
-
-If this connection is compressed into a diagram, it looks like this.
-
-```mermaid
---8<-- "assets/part-04/chapter-18/p4-18-1-mermaid-04-en.mmd"
-```
+It is also `did any difference important for the current problem disappear while the picture became easier to read?`
 
 ## Cases And Examples
 
@@ -338,100 +294,111 @@ This case can be compressed into a review memo like this.
 
 ## Practice And Example
 
-This small exercise shows how several features can be compressed into one simple summary score. It is intentionally simplified, but it lets the reader feel the difference between `the representation became easier` and `some details were lost`.
+This exercise keeps using the same four samples from above and turns them into a small hands-on check of `what remains and what disappears when 2D data are reduced to 1D with actual PCA`.
 
-- Problem situation: inspect what becomes easier and what disappears when multiple features are compressed into one axis-like value
-- Input: samples expressed through three features
-- Expected output: one summary value
-- Concepts to check:
-  - Dimensionality reduction simplifies representation
-  - In return, some per-axis detail becomes weaker
+- Problem situation: when two features move almost together, check whether the large flow is still preserved even if only one principal component remains
+- Input: two features, visit count and average purchase amount
+- Expected output: 1D principal-component scores, explained variance ratio, restored values
+- Concepts to check: PCA can project the original features onto one new axis, and even if only one component remains, large variation can be preserved while restored values do not have to be exactly the same as the original
 
 ```python
-samples = [
-    {"f1": 2.0, "f2": 2.1, "f3": 2.2},
-    {"f1": 4.0, "f2": 4.1, "f3": 3.9},
-    {"f1": 6.0, "f2": 5.8, "f3": 6.2},
-]
+import numpy as np
+from sklearn.decomposition import PCA
 
-reduced = [
-    round((row["f1"] + row["f2"] + row["f3"]) / 3, 2)
-    for row in samples
-]
+sample_ids = np.array(["A", "B", "C", "D"])
+X = np.array([
+    [2.0, 2.1],
+    [3.0, 3.2],
+    [4.0, 3.9],
+    [5.0, 5.1],
+])
 
-print("original samples:", samples)
-print("1D summary      :", reduced)
+pca = PCA(n_components=1)
+X_reduced = pca.fit_transform(X)
+X_restored = pca.inverse_transform(X_reduced)
+
+print("principal axis:", np.round(pca.components_, 3))
+print("explained variance ratio:", np.round(pca.explained_variance_ratio_, 3))
+
+for idx, reduced, restored in zip(sample_ids, X_reduced, X_restored):
+    print(
+        idx,
+        "reduced =", np.round(reduced, 3),
+        "restored =", np.round(restored, 3),
+    )
 ```
 
-The result is as follows.
+The execution result is as follows.
 
 ```text
-original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3': 3.9}, {'f1': 6.0, 'f2': 5.8, 'f3': 6.2}]
-1D summary      : [2.1, 4.0, 6.0]
+principal axis: [[0.707 0.707]]
+explained variance ratio: [0.996]
+A reduced = [-2.112] restored = [2.007 2.086]
+B reduced = [-0.662] restored = [3.032 3.111]
+C reduced = [0.52] restored = [3.868 3.947]
+D reduced = [2.254] restored = [5.093 5.172]
 ```
 
-What the reader should take from this example is:
+What matters in this result is the following.
 
-1. Once three axes are reduced to one, the overall flow becomes easier to inspect.
-2. But the detailed differences among `f1`, `f2`, and `f3` are compressed into the summary value.
-3. In other words, simplification and information loss come together.
+1. Since `principal axis` is almost `[0.707, 0.707]`, the direction where the two features move together with similar weight is captured as the first principal component.
+2. Since `explained variance ratio` is `0.996`, one component alone preserves most of the total variation.
+3. The `restored` values are very close to the originals but not completely identical, which shows that dimension reduction can preserve the large flow while still losing some fine detail.
 
-### Change One Value: The Summary Can Stay Similar Even When The Original Pattern Changes
+### Change One Value: If They Stop Moving Together, Reconstruction Error Grows
 
-Now change the arrangement of the third sample so that the average remains similar while the shape across axes changes.
+This time, deliberately lower only the second feature of the last sample, so the two features no longer move in the same flow.
 
 ```python
-samples = [
-    {"f1": 2.0, "f2": 2.1, "f3": 2.2},
-    {"f1": 4.0, "f2": 4.1, "f3": 3.9},
-    {"f1": 7.0, "f2": 6.8, "f3": 4.2},
-]
+import numpy as np
+from sklearn.decomposition import PCA
 
-reduced = [
-    round((row["f1"] + row["f2"] + row["f3"]) / 3, 2)
-    for row in samples
-]
+sample_ids = np.array(["A", "B", "C", "D"])
+X = np.array([
+    [2.0, 2.1],
+    [3.0, 3.2],
+    [4.0, 3.9],
+    [5.0, 2.5],
+])
 
-print("original samples:", samples)
-print("1D summary      :", reduced)
+pca = PCA(n_components=1)
+X_reduced = pca.fit_transform(X)
+X_restored = pca.inverse_transform(X_reduced)
+
+row_errors = np.sum((X - X_restored) ** 2, axis=1)
+
+print("principal axis:", np.round(pca.components_, 3))
+print("explained variance ratio:", np.round(pca.explained_variance_ratio_, 3))
+
+for idx, reduced, restored, err in zip(sample_ids, X_reduced, X_restored, row_errors):
+    print(
+        idx,
+        "reduced =", np.round(reduced, 3),
+        "restored =", np.round(restored, 3),
+        "row_error =", round(float(err), 3),
+    )
 ```
 
 ```text
-original samples: [{'f1': 2.0, 'f2': 2.1, 'f3': 2.2}, {'f1': 4.0, 'f2': 4.1, 'f3': 3.9}, {'f1': 7.0, 'f2': 6.8, 'f3': 4.2}]
-1D summary      : [2.1, 4.0, 6.0]
+principal axis: [[0.894 0.449]]
+explained variance ratio: [0.904]
+A reduced = [-1.937] restored = [2.075 1.959] row_error = 0.027
+B reduced = [-0.555] restored = [3.311 2.578] row_error = 0.413
+C reduced = [0.54] restored = [4.29  3.067] row_error = 0.736
+D reduced = [1.952] restored = [5.554 3.698] row_error = 1.727
 ```
 
-The summary value of the third sample is still `6.0`, but now the three axes are not uniformly large because `f3` is relatively lower. If you look only at the summary, it looks like the same conclusion as the previous example, but if you go back to the original features, it is not actually the same sample pattern. That difference is exactly why you must move back and forth between `the visible structure` and `the original features` when reading a dimensionality-reduced visualization or summary axis.
+This time, D has the largest `row_error`. In other words, one principal component alone cannot restore D's crossed pattern well. This scene shows directly through a Python example that `dimensionality reduction can preserve the large flow, but it does not preserve every sample's fine detail equally well`.
 
-### What Should Be Read Together In This Exercise?
+## Checklist
 
-Part 4 is not only about how to view one model output. It is also about learning how to judge what becomes visible and what gets hidden when a representation changes. This exercise forces the reader to keep together `the structure that became easier to inspect after compression` and `the per-axis differences that disappeared because of compression`, so dimensionality reduction is read as an interpretation tool rather than only as a visualization trick. If the learner does not feel the goal here, the missing part is usually not the PCA formula but the practical scene `even with the same summary value, the original pattern can differ`.
-
-| Shared recording language | What to record immediately in this exercise |
-| --- | --- |
-| What structure appeared | In a one-dimensional summary, different samples could appear to sit in the same place |
-| Interpretation boundary | A reduced plot or summary axis does not preserve every difference in the original features |
-| Next question | Does the same separation remain in the original feature space or with other projection methods? |
-
-## What To Remember From This Section
-
-- Dimensionality reduction is unsupervised reexpression of many features through fewer axes.
-- As the number of features grows, interpretation and computation both become harder.
-- PCA can be read first as a method for finding orthogonal axes that explain large variance.
-- Eigenvectors are read as directions of new axes, and eigenvalues as the amount of explained variance on those axes.
-- Dimensionality reduction makes representations easier to handle, but information loss comes with that convenience.
-
-| What should be viewed together | The question read first in this Section | Where it goes next |
-| --- | --- | --- |
-| Reexpression hypothesis | Through what new axes did the structure become more readable? | P4-18.2 visualization and information loss |
-| Representative cases | What business pattern seems to appear through the new components? | Feature interpretation and downstream model review |
-| Next verification question | What was preserved, and what may already have become weaker? | Reconstruction error and visualization caution |
-
-## Short Check
-
-- When there are too many features to read the structure clearly, do you first think of dimensionality reduction as a reexpression tool?
-- Can you explain PCA not only as `rotation`, but also as `finding directions that explain variance strongly`?
-- Can you distinguish PCA, kernel PCA, and Truncated SVD through the handles of linear axes, nonlinear unfolding, and matrix factorization?
+- Can you explain that dimension is connected to the number of axes that describe the data, in other words the number of features?
+- Is what you need right now closer to rebuilding the representation than to finding groups?
+- Can you explain dimensionality reduction as something closer to `rebuilding the representation` than to `deleting features`?
+- Can you explain that the first component captures the large flow and the second component captures the remaining difference?
+- Can you connect eigenvectors to `the direction of a new axis` and eigenvalues to `how much variation that axis explains`?
+- Do you understand that reducing dimensions makes the representation easier to read, but some fine differences can become weaker?
+- Even if the reduced representation looks convenient, are you prepared to go back and check whether important differences disappeared from the original features?
 
 ## Sources And References
 

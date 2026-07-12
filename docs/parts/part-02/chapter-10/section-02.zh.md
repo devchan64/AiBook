@@ -1,7 +1,7 @@
 # P2-10.2 Jupyter、Colab 与本地执行的区别
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 在 P2-10.1 中，我们把 notebook 看成一种同时包含 code、explanation 和 output 的计算文档。现在要区分三种在实践里最常遇到的执行方式。
 
@@ -272,27 +272,7 @@ path = "data/scores.csv"
 
 所以，在阅读练习文档时，先检查 `这段代码是在哪里执行的？`、`这个文件在哪里？`、`如果别人重新运行，能不能看到同一个文件？`。只有先分清环境，错误原因才能更快缩小。
 
-## 本节要记住的视角
-
-Jupyter 是 notebook 工具与生态。
-
-Colab 是让 Jupyter Notebook 能在浏览器里轻松使用的 hosted 服务。
-
-本地 Jupyter 是在你自己的电脑或 server 上运行 notebook 的方式。
-
-本地 script 更适合重复执行和复用。
-
-Notebook 文件和 runtime 是不同的。
-
-共享时，不只要留下 code 和 explanation，也要把所需文件、package 和执行顺序一起留下来。
-
-本节不是为了学完所有 notebook 用法，而是为了划清记录这一层的边界。
-
-| 这一章当前的抓手 | 下一章会进一步看的内容 | 这里还不会做的事 |
-| --- | --- | --- |
-| 即使是同样的 code，只要执行位置和 runtime 不同，文件、package 和共享条件也会不同 | NumPy、Pandas、Matplotlib、Git 练习里应该留下什么执行记录 | 实验跟踪工具、大规模协作记录系统、部署自动化文档 |
-
-## 简短检查
+## 检查清单
 
 - 能说明 Jupyter 和 Colab 并不是完全同一层级的词。
 - 能区分 notebook 文件(`.ipynb`)和 runtime。
@@ -300,12 +280,7 @@ Notebook 文件和 runtime 是不同的。
 - 能说明共享的 notebook 不一定会连同 runtime 文件和安装状态一起共享。
 - 能区分本地 Jupyter 和本地 script 的优缺点。
 - 能说明文件路径问题其实可能是执行环境问题。
-
-## 什么时候应先想起这个视角？
-
-- 当你需要说明即使是同一个 `.ipynb` 文件，只要运行地点不同，结果和约束就会不同，应先想起这一节。
-- 当你要判断应该用 Colab、Jupyter 还是本地 script 时，应把文件和 runtime 分开重新看一遍。
-- 当你怀疑是执行环境问题，例如路径错误、安装状态不同，或共享后重跑失败时，这个比较就会成为基准。
+- 能说明即使是同一个 `.ipynb` 文件，只要执行位置和 runtime 不同，文件、package 和共享条件也会不同。
 
 ## 来源与参考资料
 

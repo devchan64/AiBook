@@ -1,13 +1,13 @@
 # P4-2.3 强化学习
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-2.1 里，我们看的是通过带 label 的数据来学习的监督学习；在 P4-2.2 里，我们看的是在没有 label 的数据里寻找结构的无监督学习。这一次要看的是：model 通过动作、得到 reward，并据此调整下一步行动方式的强化学习。
 
 强化学习不同于 `看着正确 label 来匹配答案` 的学习。它并不会总是立刻告诉你哪个动作最好，而是让系统在执行动作之后，根据返回的 reward 和下一状态，逐渐找到更好的行动方式。所以强化学习处理的不是单次输入输出，而是随着时间连续展开的一串选择。
 
-这一节会说明 `reinforcement learning`、`state`、`action`、`reward`、`policy` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于长期奖励的学习到底是什么意思` 这个基础含义，会通过本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再次接回。
+这一节会说明 `reinforcement learning`、`state`、`action`、`reward`、`policy` 的基本区分。后面的章节会带着这个抓手继续判断当前语境，而 `基于长期奖励的学习到底是什么意思` 这个基础含义，会通过本节和 [概念词汇表](../../../reference/concept-glossary.md) 再次接回。
 
 ## 本节范围
 
@@ -140,21 +140,6 @@ exploration 指的是去尝试还不熟悉的动作；exploitation 指的是优�
 | 比起当前分数，更需要追求长期 reward | 要 | 因为 immediate reward 和 long-term reward 的张力就在问题中心 |
 | 已经有输入和正确 label，而且一次性 prediction 才是核心 | 通常不要 | 因为那更直接是监督学习问题 |
 
-## 本节要记住的视角
-
-- 强化学习是 agent 在 environment 中交互，并根据 reward 改进 policy 的学习。
-- state、action、reward、policy 是阅读强化学习时最基本的词。
-- 强化学习比起一次性答对，更接近随着时间展开的 sequential decision making。
-- reward 不是立刻告诉你答案，而是对动作结果进行评价的数字信号。
-- 如果没有 exploration 和 exploitation 之间的平衡，就很难同时做到 `找到更好动作` 和 `稳定拿到 reward`。
-- 强化学习里的 agent 和 LLM 服务里的 agent，要按不同语境分开读。
-
-## 简短检查
-
-- 能不能说明在什么状态下，问题应该按强化学习而不是监督学习来读？
-- 能不能说明为什么 reward 不像 label 那样立刻告诉你正确答案？
-- 能不能说明为什么不能把强化学习里的 agent 和 LLM 服务里的 agent 当成同一个意思？
-
 ## 案例与示例
 
 ### 案例 1. 当优惠券推荐要在提高即时点击和提高长期购买之间做选择时
@@ -171,11 +156,14 @@ exploration 指的是去尝试还不熟悉的动作；exploitation 指的是优�
 --8<-- "assets/part-04/chapter-02/p4-2-3-mermaid-03-zh.mmd"
 ```
 
-## 什么时候要先想到这个视角
+## 检查清单
 
-- 当问题不是一次性输入和答案，而是要按时间累计动作和 reward 来读时，应该先想到强化学习视角。
-- 当要解释 immediate reward 和 long-term reward 的差别，或 exploration 与 exploitation 的平衡时，就回到这一节。
-- 当需要把强化学习里的 agent 和 LLM 服务语境里的 agent 再分开一次时，这一节就是基准。
+- 能不能说明在什么状态下，问题应该按强化学习而不是监督学习来读？
+- 能不能说明为什么 reward 不像 label 那样立刻告诉你正确答案？
+- 能不能说明为什么不能把强化学习里的 agent 和 LLM 服务里的 agent 当成同一个意思？
+- 能不能说明强化学习是 agent 在 environment 中交互，并根据 reward 改进 policy 的学习？
+- 能不能说明为什么 state、action、reward、policy 是阅读强化学习时最基本的词？
+- 能不能说明如果没有 exploration 和 exploitation 的平衡，就很难同时做到 `找到更好动作` 和 `稳定拿到 reward`？
 
 ## 来源与参考资料
 

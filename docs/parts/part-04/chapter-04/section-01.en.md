@@ -1,7 +1,7 @@
 # P4-4.1 Training Data And Evaluation Data
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Chapter P4-3 showed how heuristics can narrow the model candidates to try first. That immediately raises an important question. How can you check whether that choice is actually acceptable?
 
@@ -544,29 +544,19 @@ evaluation churn count: 1
 
 In this exercise, one side can end up with almost no `churn`, or even none at all. In that state, it becomes very hard for the model to learn churn patterns or to evaluate them properly. That is why the next Section returns to stratified split.
 
-## Perspective To Remember In This Section
-
-- Training data are the data used by the model to learn.
-- Evaluation data are the data kept aside to check what the model learned.
-- If the same data are used for both learning and evaluation, performance can be overestimated.
-- Evaluation data are a proxy scene for estimating behavior on new data.
-- Training score and evaluation score do not mean the same thing.
-- If the dataset is small, even evaluation scores can swing, so they must be read more carefully.
-
 ## Checklist
 
 - Can you explain why using the same data for both learning and evaluation easily overestimates performance?
 - Can you explain why the split method should differ in time-ordered data and rare-label data?
 - Can you distinguish what training score and evaluation score each show?
-
-## When This Perspective Should Come To Mind First
-
-- When you are tempted to think casually that learning and evaluation can share the same data, recall the role distinction between training data and evaluation data first.
-- Return to this Section when you need to explain again what the gap between training score and evaluation score means, and why it is not the same thing as new-data performance.
-- This Section is the reference point when evaluation scores must be read more carefully because the dataset is small or time order matters.
+- Can you explain that training data are used for learning, while evaluation data are left aside to check what the model learned?
+- Can you explain that evaluation data are a proxy scene for estimating behavior on new data?
+- Can you explain that if the dataset is small, even evaluation scores can swing, so they must be read more carefully?
 
 ## Sources And References
 
 - scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
 - Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

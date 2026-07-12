@@ -1,13 +1,13 @@
 # P4-4.2 验证(validation)与测试(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-4.1 里，我们看过为什么要把数据分成 training data 和 evaluation data。现在再往前走一步。`在选模型过程中使用的数据` 和 `最后只检查一次的数据`，它们承担的角色并不一样。
 
 如果不把这个差别分开，人就会在选模型的过程中不断去看 test 结果，而一旦这样做，test data 就不再是 `第一次看到的数据`。因此在实务里，evaluation data 往往还会进一步分成 `validation data` 和 `test data`。
 
-这一节会说明 `validation`、`test`，以及 `中途做模型选择的确认` 和 `最后一次确认` 之间的差别。后面的章节会带着这个抓手继续判断当前语境，而数据拆分之后的评估流程，会通过本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再次接回。
+这一节会说明 `validation`、`test`，以及 `中途做模型选择的确认` 和 `最后一次确认` 之间的差别。后面的章节会带着这个抓手继续判断当前语境，而数据拆分之后的评估流程，会通过本节和 [概念词汇表](../../../reference/concept-glossary.md) 再次接回。
 
 ## 本节范围
 
@@ -417,32 +417,14 @@ problem: test data has started to influence model choice
 
 这一节真正重要的，不是 `比例该是多少才正确`，而是：数据越小，validation 和 test 的解释就越要小心。
 
-## 本节要记住的视角
+## 检查清单
 
-- validation data 是用来比较 model 和 setting 的数据。
-- test data 是在选定之后，用来做最后确认的数据。
-- validation data 可以在实验中途反复查看。
-- test data 看得越频繁，它作为最后确认数据的角色就越弱。
-- 如果不断根据 test 结果来改选择，test set 也会被污染成 validation 一样的角色。
-- 数据越小时，想同时保住稳定的 validation 与稳定的 test 就越困难。
-
-这一节不是记名字的，而是用来固定 `比较` 和 `最后确认` 之间边界的一节。
-
-| 这一节里先要固定的东西 | 紧接着要问的问题 | 后面会在哪里重新接回 |
-| --- | --- | --- |
-| `validation 用来比较，test 用来最后确认` 这一角色区分 | 为什么这种比较在新数据上还应该成立？ | generalization 在 P4-5，metric 在 P4-6，baseline 比较在 P4-8 |
-
-## 简短检查
-
-- 能不能说明为什么 validation data 是 `选用数据`，而 test data 是 `最终确认数据`？
+- 能不能说明为什么 validation data 要被区分成 `选用数据`，而 test data 要被区分成 `最终确认数据`？
 - 能不能说明为什么中途反复看 test score，会让 test set 被污染成 validation 一样的角色？
 - 能不能区分哪些问题应该问给 validation data，哪些问题应该留给 test data？
-
-## 什么时候要先想到这个视角
-
-- 当需要区分 `实验中途比较用的数据` 和 `最后确认才打开的数据` 时，就先想到 validation 和 test 的角色区分。
-- 当要检查自己是不是在中途反复打开 test score 并据此改选择时，就回到这一节。
-- 当需要再次说明为什么数据越小越难同时保住稳定的 validation 和 test，以及为什么会出现 cross-validation 时，这一节就是基准。
+- 能不能说明 validation data 用来比较 model 和 setting，而 test data 用来在最终选择后做最后确认？
+- 能不能说明如果一直按照 test 结果去改选择，test set 也会被污染成 validation 一样的角色？
+- 能不能说明数据越小时，就越难同时稳定地 확보 validation 和 test？
 
 ## 来源与参考资料
 

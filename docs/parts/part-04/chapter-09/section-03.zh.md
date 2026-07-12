@@ -1,7 +1,7 @@
 # P4-9.3 补充学习：从大图景读取高级模型选择、调优自动化与实验追踪
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-8 和 P4-9 里，我们已经建立了这样一条基本流程：先立 model 候选，再放 baseline，然后在 validation 流程内比较 hyperparameter。接下来，通常会出现下面这些名字。
 
@@ -14,7 +14,7 @@
 
 这一节的目标，不是去熟悉它们各自的实现细节，而是整理 `这些名字为什么会出现，以及它们各自在处理哪一层的问题`。
 
-这份补充学习也不会从头再讲一遍 hyperparameter 和 tuning 的基本定义。基础抓手仍然放在 P4-9.1、P4-9.2 和 [概念词汇表](/AiBook/en/reference/concept-glossary/)，这里则只按整体脉络整理那些接在后面的高级名字。
+这份补充学习也不会从头再讲一遍 hyperparameter 和 tuning 的基本定义。基础抓手仍然放在 P4-9.1、P4-9.2 和 [概念词汇表](../../../reference/concept-glossary.md)，这里则只按整体脉络整理那些接在后面的高级名字。
 
 ## 这份补充学习的范围
 
@@ -164,28 +164,16 @@ benchmark 是一种装置，目的是让多个 model 在同一份数据和同一
 --8<-- "assets/part-04/chapter-09/p4-9-3-mermaid-01-zh.mmd"
 ```
 
-## 这一节要记住的视角
-
-- AIC/BIC 是统计模型选择的语言。
-- Bayesian optimization、Hyperband 是降低搜索成本的语言。
-- nested cross-validation 是想把选择与评估分得更严格的语言。
-- AutoML、benchmark、leaderboard、experiment tracking 是想把实验做得更大规模的语言。
-
-## 简短检查
+## Checklist
 
 - 有没有把 AIC/BIC、搜索技术、AutoML、tracking 混成同一层位的解法？
 - 现在需要的到底是更宽的搜索、更严格的验证分离，还是更好的记录体系，你有没有区分开？
 - 你看到的是否不只是 leaderboard 的高分，还包括比较条件和记录可保留性？
-
-## 什么时候要先想到这个视角
-
-- 当你需要检查自己是不是把 AIC/BIC、搜索技术、nested cross-validation、AutoML、leaderboard、tracking 混成同一层位工具时，就想起这一节。
-- 当你需要区分当前瓶颈到底是更宽的搜索、更严格的选择/评估分离，还是更好的记录系统时，就回到这一节。
-- 当你需要把高分、比较条件、可复现性记录一起看时，这一节就是判断标准。
-
 - 你能不能不把 AIC/BIC 和 hyperparameter tuning 混成同一层位的问题？
 - 你能不能不把 benchmark 排名和真实泛化性能立刻视为同一回事？
 - 你能不能解释：为什么 experiment tracking 不是 `便利功能`，而是可复现性的一部分？
+- 你能不能说明，AIC/BIC 是统计模型选择的语言，而 Bayesian optimization 与 Hyperband 是降低搜索成本的语言？
+- 你能不能说明，nested cross-validation 是更严格分开选择与评估的语言，而 AutoML、benchmark、leaderboard、experiment tracking 是把实验做得更大规模的语言？
 
 ## 出处与参考资料
 

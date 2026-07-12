@@ -1,7 +1,7 @@
 # P4-5.2 Generalization
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-5.1 separated `overfitting` from `underfitting`. Now we need to move one step higher. Why do we care so much about that distinction? In the end, the goal of machine learning is not `raising the score on training data`, but `working usefully even on data the model has not seen yet`. The word that organizes that question is `generalization`.
 
@@ -402,31 +402,14 @@ So in social phenomena too, generalization should be read more accurately as `ho
 
 And the phrase `hold up` is important here. When new data enter, some difference and fluctuation always appear. Generalization asks whether the model does not completely collapse amid those fluctuations and still keeps a usable level.
 
-## Perspective To Remember In This Section
-
-- generalization is the property that lets a model work usefully even on data it has not seen yet
-- the real goal of machine learning is not training score itself, but generalization
-- both overfitting and underfitting can weaken generalization
-- validation and test are ultimately tools for estimating generalization in advance
-- generalization means stable robustness on new data more than perfect agreement
-
 ## Checklist
 
 - Can you explain why generalization should be described not as `raising training score` but as `holding up on new examples of the same problem`?
 - Can you distinguish which cases can be put directly into the range of generalization and which cases should be treated as a different problem?
 - Can you explain that validation and test are ultimately devices for checking generalization?
-
-After reading this Section, the following flow should continue.
-
-| Question fixed in this Section | What will be made more concrete immediately next | What will be revisited later as a comparison criterion |
-| --- | --- | --- |
-| Why must a model hold up even on new data? | Through what metrics and error structures should that robustness be read? | How much better it holds up than a baseline, and whether it still holds after tuning |
-
-## When Should This Perspective Come To Mind First
-
-- Bring up the perspective of generalization when you need to explain again that the goal of machine learning is not training score itself, but robustness on new data.
-- Return to this Section when you need to reconnect that both overfitting and underfitting ultimately weaken generalization.
-- This Section becomes the criterion when you need to organize why validation and test are tools for estimating generalization in advance.
+- Can you explain that generalization is the property that lets a model work usefully even on data it has not seen yet?
+- Can you explain that the real goal of machine learning is not training score itself, and that both overfitting and underfitting can weaken generalization?
+- Can you explain that generalization means stable robustness on new data rather than perfect agreement?
 
 ## Sources And References
 

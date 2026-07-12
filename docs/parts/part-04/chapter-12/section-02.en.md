@@ -1,7 +1,7 @@
 # P4-12.2 Distance And Scale
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-12.1 explained k-NN as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
 
@@ -316,9 +316,7 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 - What changed: with only a small increase in late-payment count, the second neighbor starts changing from `safe` to `risky`.
 - Judgment to leave first: standardization is not a one-time technical check. It is also the starting point for seeing `how sensitive the neighbor composition and the prediction become` when one feature changes.
 
-### How This Exercise Recovers The Goal Of Part 4
-
-This exercise makes k-NN readable again not just as `a model that retrieves nearby cases`, but as `a comparison rule that is sensitive to representation and input changes`. The goal of Part 4 is not to memorize the value of `k`. It is to be able to explain which neighbors enter and leave when the representation or one feature value changes even for the same query. In other words, the learning effect of this repeated-change exercise appears when the reader can say not only `the prediction changed`, but `what part of the comparison criterion mixed again when one value changed`.
+This comparison makes k-NN readable not as `a model that simply retrieves nearby cases`, but as `a comparison rule that is sensitive to representation and input changes`. What matters is not memorizing the value of `k`, but being able to explain which neighbors enter and leave when the representation or the feature values shift even for the same query. The learning effect of this repeated-change exercise appears when the reader can say not only `the prediction changed`, but also `what part of the comparison criterion was mixed again when one value changed`.
 
 | Common record language | What to record immediately from this exercise |
 | --- | --- |
@@ -326,16 +324,12 @@ This exercise makes k-NN readable again not just as `a model that retrieves near
 | interpretation boundary | the fact that neighbors changed in one query alone does not prove that one feature is always more important |
 | next question | if `k` changes, does the neighbor switch continue all the way to the final majority vote, and does the same sensitivity repeat for other queries? |
 
-## Perspectives To Remember In This Section
-
-- A distance function is not decoration outside the model. It is the rule that decides the neighbor order.
-- If the distance function changes, the neighbor order and the prediction can change too.
-- When a large axis dominates the distance, important information on a small axis can be buried.
-- Standardization is the act of realigning the comparison criterion.
-
 ## Checklist
 
 - Can you explain why a distance function is part of the judgment rule?
+- Do you understand that if the distance function changes, the neighbor order and the prediction can change too?
+- Do you understand that when a large axis dominates the distance, important information on a small axis can be buried?
+- Can you explain standardization as rebalancing the comparison criterion?
 - Are you comparing which neighbors entered and left before and after scale adjustment using the same query?
 - Even when a difference appears after standardization, are you avoiding treating that alone as a complete causal explanation?
 

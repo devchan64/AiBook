@@ -1,7 +1,7 @@
 # P4-3.1 为什么需要启发式
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P4-2 章里，我们把 supervised learning、unsupervised learning、reinforcement learning 看成几种大的学习类型。接下来就会自然出现一个问题：真正去解决现实问题时，应该先看哪些数据、先试哪些 model、结果到什么程度才进入下一阶段？
 
@@ -9,7 +9,7 @@
 
 heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中，heuristic 不是随机猜测，而是根据经验、问题结构、计算成本和验证结果来缩小候选集的方法。
 
-这一节会说明 `heuristic`、`不用完全穷举而是先缩小候选的判断`、`可验证的工作假设` 这些概念。后面的章节会带着这个抓手继续判断当前语境，而 `把实务判断读成假设与验证结构` 这一层基础含义，会通过本节和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再次接回。
+这一节会说明 `heuristic`、`不用完全穷举而是先缩小候选的判断`、`可验证的工作假设` 这些概念。后面的章节会带着这个抓手继续判断当前语境，而 `把实务判断读成假设与验证结构` 这一层基础含义，会通过本节和 [概念词汇表](../../../reference/concept-glossary.md) 再次接回。
 
 ## 本节范围
 
@@ -156,26 +156,14 @@ heuristic 可能很有用，但它不总是对的。一个好的 heuristic，既
 --8<-- "assets/part-04/chapter-03/return-risk-heuristic-flow-zh.mmd"
 ```
 
-## 本节要记住的视角
-
-- heuristic 是在有限时间和有限信息里缩小候选的实用判断标准。
-- heuristic 不保证最优解或最终答案。
-- 在机器学习里，feature selection、preprocessing、model selection、tuning、评估标准选择都需要 heuristic。
-- heuristic 不会取代 algorithm，而是用来决定先试哪些候选、按什么顺序去试。
-- 好 heuristic 必须是可验证的。
-- heuristic 应该被当成 working hypothesis，而不是个人感觉。
-
 ## 检查清单
 
 - 能不能说明在什么状态下，heuristic 不是 `随便猜`，而是缩小候选集的装置？
 - 能不能说明为什么 heuristic 总要和 baseline model 或 validation data 一起出现？
 - 能不能说明当 explainability、cost、performance 冲突时，为什么必须把优先项记录下来？
-
-## 什么时候要先想到这个视角
-
-- 当你遇到 `无法把所有组合都算完，必须先缩小候选` 的问题时，就先想到 heuristic 视角。
-- 当需要把 heuristic 从 `大概猜一下` 重新整理成 `可验证的 working hypothesis` 时，就回到这一节。
-- 当 performance、explainability、cost 冲突，需要重新整理先保留什么、先记录什么时，这一节就是基准。
+- 能不能说明 heuristic 是在有限时间和有限信息里缩小候选的实用判断标准？
+- 能不能说明 heuristic 不会取代 algorithm，而是用来决定先试哪些候选、按什么顺序去试？
+- 能不能说明为什么 heuristic 应该被当成可验证的 working hypothesis，而不是个人感觉？
 
 ## 来源与参考资料
 
