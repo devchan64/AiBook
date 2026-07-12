@@ -1,8 +1,8 @@
 flowchart TD
-  A["user question"]
-  B{"answer from memory first?"}
+  A["사용자 질문"]
+  B{"기억만으로 먼저 답하는가?"}
 
   A --> B
-  B -->|yes| D["old or generic answer risk"]
-  B -->|no, retrieve first| E["current document attached"]
-  E --> F["grounded answer"]
+  B -->|예| D["오래되거나 일반적인 답 위험"]
+  B -->|아니오, 먼저 검색| E["현재 문서가 붙음"]
+  E --> F["근거 기반 답"]

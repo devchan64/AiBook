@@ -1,16 +1,16 @@
 flowchart TD
-  A["question arrives"]
-  B{"is current input enough?"}
-  C{"is latest document grounding needed?"}
-  D{"is live system state needed?"}
-  E["prompt-centered flow"]
-  F["prompt + retrieval flow"]
-  G["prompt + tool flow"]
+  A["질문이 들어옴"]
+  B{"현재 입력만으로 충분한가?"}
+  C{"최신 문서 grounding이 필요한가?"}
+  D{"실시간 시스템 상태가 필요한가?"}
+  E["프롬프트 중심 흐름"]
+  F["프롬프트 + 검색 흐름"]
+  G["프롬프트 + 도구 흐름"]
 
   A --> B
-  B -->|yes| E
-  B -->|no| C
-  C -->|yes| F
-  C -->|no| D
-  D -->|yes| G
-  D -->|no| E
+  B -->|예| E
+  B -->|아니오| C
+  C -->|예| F
+  C -->|아니오| D
+  D -->|예| G
+  D -->|아니오| E

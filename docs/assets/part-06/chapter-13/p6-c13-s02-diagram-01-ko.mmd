@@ -1,16 +1,16 @@
 flowchart TD
-  A["goal"]
-  B["plan next step"]
-  C["act with tool or search"]
-  D["observe result"]
-  E["decide next move"]
-  F["stop"]
-  G["ask human review"]
+  A["목표"]
+  B["다음 단계 계획"]
+  C["도구 또는 검색으로 행동"]
+  D["결과 관찰"]
+  E["다음 움직임 결정"]
+  F["중단"]
+  G["사람 검토 요청"]
 
   A --> B
   B --> C
   C --> D
   D --> E
-  E -->|continue| B
-  E -->|enough evidence| F
-  E -->|conflict or approval needed| G
+  E -->|계속| B
+  E -->|근거 충분| F
+  E -->|충돌 또는 승인 필요| G

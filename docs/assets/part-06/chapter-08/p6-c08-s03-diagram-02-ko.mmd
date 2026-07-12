@@ -1,15 +1,15 @@
 flowchart TD
-  A["failure observed"]
-  J{"what is missing first?"}
+  A["실패가 관찰됨"]
+  J{"무엇이 먼저 빠졌는가?"}
 
   A --> J
 
-  J --> B["format / instruction fit"]
-  J --> C["current grounding"]
-  J --> D["calculation / action"]
-  J --> E["persistent style"]
+  J --> B["형식 / 지시 적합성"]
+  J --> C["현재 grounding"]
+  J --> D["계산 / 실행"]
+  J --> E["지속적 스타일"]
 
-  B --> F["prompt revision"]
-  C --> G["RAG"]
-  D --> H["tool use"]
-  E --> I["fine-tuning"]
+  B --> F["프롬프트 수정"]
+  C --> G["RAG 연결"]
+  D --> H["도구 사용"]
+  E --> I["파인튜닝"]
