@@ -32,3 +32,15 @@
 - 번역 반영 상태: 향후 반영 필요
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.11`
+
+### v2026.07.12
+
+- 변경 이유: 중국어 독자용 목차 초반 설명에서 영어판 개념사전 절대 경로가 남아 있었고, `这个 Part` 표현도 현재 중국어 목차군의 `这一 Part` 기준과 어긋나 있었다.
+- 본문 반영: 중국어 독자용 목차의 개념사전 링크를 상대 경로 `../reference/concept-glossary.md`로 정리하고, 초반 안내 문단의 `这个 Part`를 `这一 Part`로 통일했다.
+- 추가 반영: 중국어 독자용 목차에 Part 2, Part 3, Part 4에 이어 Part 5, Part 6, Part 7 전체 구간도 새로 번역해 추가했다.
+- 본문 메타데이터 반영: 중국어 독자용 목차 본문의 `Version`을 `v2026.07.12`로 갱신했다.
+- 추가 반영: 영어 독자용 목차에서 누락되어 있던 `P2-2.4`, `P2-4.6`, `P2-7.9`, `P2-11.4`, `P3-7.5`, `P4-8.3`, `P4-11.3~P4-11.5`, `P4-12.3`, `P4-15.4`, `P4-16.3`, `P4-17.3~P4-17.4`, `P4-19.5~P4-19.6`, `P5-6.3`를 같은 위치에 보강하고 `Version`을 `v2026.07.12`로 갱신했다.
+- 번역 동기화 메모: English and Simplified Chinese reader-facing TOCs now reflect the current Korean source structure through Part 7, including the newer supplemental sections added in Parts 2, 3, 4, and 5. / 2026-07-12
+- 번역 반영 상태: 영어판 보강 및 중국어 간체 추가 수정 반영
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.11`

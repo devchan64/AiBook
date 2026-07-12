@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.08`
+> Version: `v2026.07.12`
 
 This table of contents is the currently adopted learning order for the book. Here, `adopted` means that the structure has been chosen as part of the book. It does not mean that every chapter has already been fully written or fully verified.
 
@@ -181,6 +181,7 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-2.1 Reading Variables, Functions, and Expressions Again**: restores basic notation for reading AI documents
 - **P2-2.2 Sigma and Repeated Computation**: reviews how summation appears in grouped data, averages, and loss calculation
 - **P2-2.3 Limit and the Intuition of Change**: rebuilds limits more as intuition for change, approximation, and derivatives than as a formal proof topic
+- **P2-2.4 Why Log and Exp Keep Appearing**: rebuilds logarithms and exponentials as computational language before reading log loss, sigmoid, and softmax
 
 ### Module 2. Core Mathematics for Reading Model Computation
 
@@ -200,6 +201,7 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-4.3 Derivative and Gradient**: reviews the minimum concept needed for finding directions that reduce loss
 - **P2-4.4 Why Learning Needs Derivatives**: keeps only the connections needed before moving into optimization and backpropagation
 - **P2-4.5 Supplementary Learning: From High-School Derivatives to Multivariable Differentiation**: explains why gradients can feel unfamiliar and rebuilds the minimum multivariable intuition needed for AI study
+- **P2-4.6 Composite Functions and the Chain Rule**: restores how rates of change are passed along when functions are connected through multiple steps before reading backpropagation
 
 #### Chapter 5. Why Probability and Statistics Are Needed `Mathematical Foundations`
 
@@ -227,6 +229,7 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-7.6 Supplementary Learning: How to Use Terminals on Windows, macOS, and Linux**: separately organizes how to open terminals, the basic differences in commands, and what to check before exercises
 - **P2-7.7 Supplementary Learning: When Python Installation Becomes Necessary**: explains when local Python installation is needed after beginning with Colab
 - **P2-7.8 Supplementary Learning: How to Read Shell Scripts, Pipes, Redirection, and Environment Variables for the First Time**: supplements shell syntax that appears often during terminal practice
+- **P2-7.9 Supplementary Learning: How to Check Common Local Python Environment Problems**: organizes what to inspect first when installation and execution do not line up
 
 #### Chapter 8. Review of Core Python Syntax `Software Tools`
 
@@ -258,6 +261,7 @@ This Part restores the minimum foundations needed to read AI model computation a
 - **P2-11.1 Building Vectors and Matrices with NumPy Arrays**: reproduces linear-algebra notation in actual array computation
 - **P2-11.2 Indexing, Slicing, and Axis**: builds the basic sense of reading position and direction in arrays
 - **P2-11.3 Broadcasting and Vectorization**: reviews how to compute at the array level instead of with explicit loops
+- **P2-11.4 Supplementary Learning: How to Read Shape and Shared Underlying Objects Together in NumPy**: adds why view/copy, `shape`, and `newaxis` are easily confused together
 
 #### Chapter 12. Handling Data Structure with Pandas `Software Tools`
 
@@ -344,6 +348,7 @@ This Part deals with rebuilding raw data into comparable samples and table struc
 - **P3-7.2 How to Turn a Comparison Table into a Human Review Sentence**: reviews the order for turning recent-window vs baseline comparisons into review language
 - **P3-7.3 Why Baseline Comparison and a Baseline Model Are Different Yet Both Needed**: separates a data comparison reference from a model evaluation reference
 - **P3-7.4 What Window and Conditions Should Be Used to Build a Baseline**: organizes how to choose a baseline with matched sample unit, operating condition, and sample size
+- **P3-7.5 Whether a Baseline Should Stay Fixed or Be Refreshed as a Recent-Normal Baseline**: organizes which questions fit a fixed baseline and which fit a recent-normal baseline better
 
 ### Module 4. Boundaries of Interpretation
 
@@ -429,6 +434,7 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-8.1 Model Selection**: reviews how to narrow model candidates according to problem and data
 - **P4-8.2 Baseline Models**: reviews why comparison standards should be set before complex models
+- **P4-8.3 Supplementary Learning: How to Set Up a Baseline for the First Time by Problem Type**: reviews the procedure and examples for building representative baselines in classification, regression, and time series
 
 #### Chapter 9. Hyperparameter Tuning `Practical Heuristics`
 
@@ -448,11 +454,15 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-11.1 Intuition for Logistic Regression**: reviews outputs that are interpreted like probabilities in classification
 - **P4-11.2 Decision Boundaries**: reviews the perspective that classification models create boundaries
+- **P4-11.3 Supplementary Learning: How to Read Log-Odds and MLE for the First Time**: strengthens why probability interpretation and the learning objective appear together in the same chapter
+- **P4-11.4 Supplementary Learning: How to Read Multiclass Logistic Regression**: reviews how binary-class intuition extends into multiclass probability comparison
+- **P4-11.5 Supplementary Learning: How to Read Solvers and Regularization for the First Time**: reviews why learning computation and regularization settings should be recorded together even within the same logistic-regression family
 
 #### Chapter 12. k-NN `Algorithms`
 
 - **P4-12.1 Intuition for k-NN**: reviews how nearby data influences a judgment
 - **P4-12.2 Distance and Scale**: reviews the problems that arise when defining closeness
+- **P4-12.3 What Should Be Checked First When Using k-NN**: organizes whether to revisit the distance rule, `k`, or the data representation first
 
 #### Chapter 13. SVM `Algorithms`
 
@@ -471,11 +481,13 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 - **P4-15.1 Random Forests**: reviews how combining many trees improves stability
 - **P4-15.2 Feature Importance**: reviews an introductory perspective on model interpretation
 - **P4-15.3 OOB and Random-Forest Inspection**: reviews the basic habit of reading train, OOB, and test together
+- **P4-15.4 Supplementary Learning: How to Compare Extra Trees and Random Forests for the First Time**: compares split randomization, bootstrap defaults, and the conditions under which OOB checks are available within the forest family
 
 #### Chapter 16. Gradient Boosting `Algorithms`
 
 - **P4-16.1 Gradient Boosting**: reviews the flow of strengthening weak models sequentially
 - **P4-16.2 Performance and Risk of Boosting**: reviews strong performance alongside tuning sensitivity
+- **P4-16.3 Supplementary Learning: Seeing Boosting Libraries Together from the First Implementation and Operations View**: reviews how XGBoost, LightGBM, CatBoost, GPUs, and automation are first read together from implementation and operational viewpoints
 
 ### Module 6. Finding Structure
 
@@ -483,6 +495,8 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 
 - **P4-17.1 Intuition for Clustering**: reviews the problem of grouping similar data
 - **P4-17.2 Caution in Interpreting Clusters**: organizes why a cluster is not itself a ground-truth label
+- **P4-17.3 Supplementary Learning: How to Distinguish Hierarchical Clustering and Spectral Clustering for the First Time**: rebinds different clustering intuitions such as center, density, order, and connectivity
+- **P4-17.4 Supplementary Learning: How to Connect Clustering to Semi-Supervised Learning for the First Time**: supplements a standard for reading clusters as label hypotheses and review priority rather than automatic labels
 
 #### Chapter 18. Dimensionality Reduction `Algorithms`
 
@@ -495,6 +509,8 @@ This Part rebuilds what it means to learn rules from data. It fixes data splits,
 - **P4-19.2 Policy-Based Reinforcement Learning**: reviews how policy gradients and actor-critic approaches directly adjust the policy
 - **P4-19.3 Cautions in Applying Reinforcement Learning**: organizes reward design, exploration cost, and the difference between simulation and reality
 - **P4-19.4 Supplementary Learning: Reading DQN, PPO, and RLHF Inside the Large Flow of Reinforcement Learning**: reorganizes representative RL families in one larger flow
+- **P4-19.5 Supplementary Learning: How to Read the Bellman Equation, Convergence, and Function Approximation for the First Time**: connects the recursive value equation of value-based reinforcement learning to the background of scaling into large state spaces
+- **P4-19.6 Supplementary Learning: How to Read Policy Gradients and the Likelihood-Ratio Trick for the First Time**: first connects why policy-based formulas are written in the form of log-probability gradients
 
 ## Part 5. Deep Learning
 
@@ -536,6 +552,7 @@ This Part explains how neural networks represent and learn from data. It follows
 
 - **P5-6.1 Learning and Inference**: separates the stage that changes parameters from the stage that uses them
 - **P5-6.2 Training Mode and Evaluation Mode**: prepares the reader to later understand differences such as dropout and batch normalization
+- **P5-6.3 Supplementary Learning: How to Read Initialization, Numerical Stability, and Batch Normalization Together for the First Time**: organizes in one place why deep networks do not become stable learners just by being stacked deeper
 
 #### Chapter 7. Optimizers `Learning Principles`
 
