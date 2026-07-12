@@ -428,11 +428,15 @@ nav:
   - Part 6. LLM과 생성형 AI:
       - 개요: parts/part-06/index.md
       - Module 1. 입력 단위와 표현:
-          - Chapter P6-1. 토큰화:
-              - "P6-1.1 토큰(token)은 무엇인가": parts/part-06/chapter-01/section-01.md
-              - "P6-1.2 토큰화(tokenization)의 실제 영향": parts/part-06/chapter-01/section-02.md
-              - "P6-1.3 보충학습: 대표 토크나이저 계열은 무엇인가": parts/part-06/chapter-01/section-03.md
-              - "P6-1.4 보충학습: BPE, WordPiece, SentencePiece를 처음 구분하는 법": parts/part-06/chapter-01/section-04.md
+          - Chapter P6-1. 토큰과 토큰화:
+              - "P6-1.1 왜 토큰이 필요한가": parts/part-06/chapter-01/section-01.md
+              - "P6-1.2 토큰(token)은 무엇인가": parts/part-06/chapter-01/section-02.md
+              - "P6-1.3 토큰은 어떻게 사용하나": parts/part-06/chapter-01/section-03.md
+              - "P6-1.4 토큰화(tokenization)는 무엇인가": parts/part-06/chapter-01/section-04.md
+              - "P6-1.5 토큰화는 무엇을 바꾸는가": parts/part-06/chapter-01/section-05.md
+              - "P6-1.6 대표 토크나이저 계열은 무엇인가": parts/part-06/chapter-01/section-06.md
+              - "P6-1.7 토큰화 종류 차이는 언제 드러나는가": parts/part-06/chapter-01/section-07.md
+              - "P6-1.8 토큰 관점은 어디에 활용되는가": parts/part-06/chapter-01/section-08.md
           - Chapter P6-2. 임베딩:
               - "P6-2.1 임베딩(embedding)의 직관": parts/part-06/chapter-02/section-01.md
               - "P6-2.2 의미와 거리": parts/part-06/chapter-02/section-02.md
