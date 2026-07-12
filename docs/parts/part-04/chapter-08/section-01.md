@@ -1,7 +1,7 @@
 # P4-8.1 모델 선택(model selection)
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-7에서는 어떤 입력을 남기고, 그 입력을 어떤 표현으로 바꿀지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -364,8 +364,6 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 --8<-- "assets/part-04/chapter-08/p4-8-1-mermaid-03-ko.mmd"
 ```
 
-## 사례 및 예시
-
 ### 작은 예시로 모델 후보를 세워 보기
 
 다음과 같은 문제를 생각해 보겠습니다.
@@ -390,6 +388,48 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 
 ## 연습 및 예제
 
+### 연습 1. 문제 장면을 후보군 메모로 바꿔 보기
+
+아래 세 장면을 보고, 각 장면마다 최소한 다음 다섯 항목을 직접 적어 보겠습니다.
+
+- 문제 유형
+- 샘플 단위
+- 첫 후보군 2~4개
+- 같이 적어 둘 baseline
+- 먼저 볼 오류 또는 비교 포인트
+
+| 장면 | 독자가 먼저 적어 볼 메모 |
+| --- | --- |
+| 쇼핑몰이 `다음 주에 반품할 가능성이 큰 주문`을 미리 찾고 싶다. 입력은 주문 금액, 배송 지연 여부, 카테고리, 이전 반품 횟수다. 운영팀은 왜 위험 주문으로 보였는지 설명을 어느 정도 원한다. | 문제 유형 / 샘플 단위 / 첫 후보군 / baseline / 먼저 볼 오류 |
+| 부동산 팀이 `아파트 예상 거래가`를 추정하고 싶다. 입력은 면적, 방 수, 준공 연도, 역과의 거리다. 설명 가능성도 중요하지만 큰 금액 오차를 줄이는 것이 더 중요하다. | 문제 유형 / 샘플 단위 / 첫 후보군 / baseline / 먼저 볼 오류 |
+| 물류 팀이 `배송 패턴이 비슷한 지역 묶음`을 먼저 보고 싶다. 입력은 평균 배송 시간, 재배송 비율, 주문 밀도다. 아직 라벨은 없고, 먼저 구조를 보는 것이 목적이다. | 문제 유형 / 샘플 단위 / 첫 후보군 / baseline 대체 비교 / 먼저 볼 비교 포인트 |
+
+바로 아래 해설과 비교하면서, `후보 이름만 적었는가`가 아니라 `왜 그 후보를 먼저 비교하는가`와 `무엇과 비교할 것인가`까지 적었는지 확인합니다.
+
+| 장면 | 해설 예시 |
+| --- | --- |
+| 반품 위험 주문 찾기 | 분류(classification), 샘플 단위는 주문 1건, 후보군은 로지스틱 회귀·결정트리·랜덤포레스트, baseline은 항상 `반품 아님`, 먼저 볼 오류는 실제 반품 주문을 놓치는 칸과 recall |
+| 아파트 예상 거래가 추정 | 회귀(regression), 샘플 단위는 아파트 거래 1건, 후보군은 선형회귀·트리 회귀·랜덤포레스트 회귀, baseline은 평균 거래가 예측, 먼저 볼 비교 포인트는 큰 금액 오차 구간과 MAE/RMSE 차이 |
+| 배송 패턴이 비슷한 지역 묶기 | 군집화(clustering), 샘플 단위는 지역 1개, 후보군은 k-means·DBSCAN, baseline은 따로 두기보다 단순 규칙 분할과 해석 비교, 먼저 볼 비교 포인트는 군집 안 조밀도와 군집 간 분리도 |
+
+이 연습의 핵심은, `문제 유형 -> 샘플 단위 -> 후보군 -> baseline -> 먼저 볼 실패` 순서를 한 번 직접 적어 보는 데 있습니다. 이 순서를 써 보지 않으면, 모델 선택을 다시 `유명한 알고리즘 이름 고르기`로 오해하기 쉽습니다.
+
+### 연습 2. 어떤 후보를 먼저 빼야 하는지 말로 설명해 보기
+
+모델 선택은 `가장 좋은 알고리즘 하나를 맞히기`보다 `지금 문제에 덜 맞는 후보를 먼저 빼 가는 일`에 가깝습니다. 아래 장면에서 왜 어떤 후보를 먼저 올리고, 어떤 후보는 뒤로 미루는지 한두 문장으로 설명해 보겠습니다.
+
+| 장면 | 독자가 먼저 답할 질문 |
+| --- | --- |
+| 표 데이터 분류 문제이고, 사람이 예측 근거를 검토해야 하며, 하루 한 번 배치 추론이면 충분하다. | 왜 로지스틱 회귀나 얕은 트리를 먼저 올릴 수 있는가? |
+| 특징 간 거리 개념이 중요하고, 가까운 사례끼리 비슷한 판단을 기대한다. | 왜 k-NN이나 SVM을 후보군에서 더 의식할 수 있는가? |
+| 실시간 응답이 매우 중요하고 배포 메모리가 작다. | 왜 복잡한 후보보다 추론이 단순한 후보를 먼저 검토해야 하는가? |
+
+짧은 해설은 다음처럼 붙잡으면 충분합니다.
+
+- 설명과 검토가 중요하면, 먼저 해석이 쉬운 후보를 올려 baseline과의 차이를 읽기 쉽도록 합니다.
+- 거리 개념이 중요한 장면에서는, 입력 간 가까움 자체가 판단 기준이 될 수 있어 거리 기반 후보를 더 의식합니다.
+- 운영 제약이 큰 장면에서는, 높은 점수 가능성만이 아니라 추론 비용과 배포 단순성도 후보를 줄이는 기준이 됩니다.
+
 ### Python 예제로 후보군을 표로 정리해 보기
 
 아래 예제는 모델을 학습하는 코드가 아니라, 문제 조건에 따라 어떤 후보를 우선 떠올릴 수 있는지 정리하는 아주 단순한 사고 도구입니다.
@@ -405,11 +445,13 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 출력(output):
 
 - 조건에 따라 추린 모델 후보 목록
+- 함께 메모할 baseline과 먼저 볼 오류 포인트
 
 확인할 개념:
 
 - 후보군은 과제 유형, 해석 필요성, 비선형성 기대 같은 조건에서 출발해 정리할 수 있다
 - 초기 후보군을 표처럼 정리하면 이후 비교와 baseline 설정이 쉬워진다
+- 모델 선택 메모는 후보 이름만이 아니라 baseline과 먼저 볼 오류 장면까지 함께 남겨야 한다
 
 ```python
 problem = {
@@ -421,10 +463,14 @@ problem = {
 }
 
 candidates = []
+baseline = None
+first_error_to_watch = None
 
 if problem["task_type"] == "classification":
     candidates.append(("logistic_regression", "clear baseline and easier interpretation"))
     candidates.append(("decision_tree", "simple nonlinear rules"))
+    baseline = "always predict majority class"
+    first_error_to_watch = "missed positive cases"
 
 if problem["nonlinear_pattern_expected"]:
     candidates.append(("random_forest", "stronger nonlinear candidate"))
@@ -436,6 +482,8 @@ if problem["distance_sensitive_features"]:
 print("candidate shortlist:")
 for name, reason in candidates:
     print("-", name, "->", reason)
+print("baseline:", baseline)
+print("first error to watch:", first_error_to_watch)
 ```
 
 실행 결과는 다음과 같습니다.
@@ -445,6 +493,8 @@ candidate shortlist:
 - logistic_regression -> clear baseline and easier interpretation
 - decision_tree -> simple nonlinear rules
 - random_forest -> stronger nonlinear candidate
+baseline: always predict majority class
+first error to watch: missed positive cases
 ```
 
 이 예제의 목적은 자동 선택이 아닙니다. `문제 조건을 읽고 후보를 줄이는 사고`를 보여 주는 데 있습니다.
@@ -453,7 +503,7 @@ candidate shortlist:
 
 - 후보군은 보통 하나가 아니라 두세 개 이상으로 시작합니다.
 - `설명 가능성`, `비선형성`, `거리 개념` 같은 단어가 후보를 줄이는 기준이 됩니다.
-- 모델 선택은 아직 승자를 정하는 단계가 아니라, 비교 가능한 출전 명단을 만드는 단계입니다.
+- 모델 선택은 아직 승자를 정하는 단계가 아니라, 비교 가능한 출전 명단과 baseline 메모를 함께 만드는 단계입니다.
 
 ## 이 절에서 기억할 관점
 
@@ -462,9 +512,10 @@ candidate shortlist:
 - 실제 출발점은 하나의 모델보다 합리적인 후보군(shortlist)이다.
 - 뒤 절의 기준 모델(baseline)과 알고리즘 절은 이 후보군을 비교하고 좁히는 단계다.
 
-## 짧은 점검
+## 체크리스트
 
 - 문제 유형을 먼저 확정한 뒤 후보군을 세우고 있는가?
+- 샘플 단위와 입력 표현을 적은 뒤 후보군을 비교하고 있는가?
 - 한 모델만 바로 튜닝하기 전에 비교할 shortlist를 2~4개 수준으로 남기고 있는가?
 - 후보 모델 이름만이 아니라 baseline과 먼저 볼 오류 장면까지 함께 메모하고 있는가?
 
