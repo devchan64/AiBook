@@ -1,7 +1,7 @@
 # P2-8.7 Supplemental Learning: How to First Distinguish References, Shallow Copy, and Deep Copy
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-8.2, we saw that assigning a list to another name does not automatically create a new copy. Many readers get confused immediately at this point.
 
@@ -259,33 +259,12 @@ C: [[10, 20], [30, 40]] [[-1, 20], [30, 40]]
 
 The key point here is B. The outer layer was copied, but the inner list changed together, so you can directly see how far shallow copy creates a new target.
 
-## Perspectives to Remember from This Supplement
-
-- Assignment can differ from copying.
-- A shallow copy recreates only the outside, while nested inner values may still be shared.
-- A deep copy recreates the inside as well.
-- If you need to preserve the original in data work, you should first check whether `what I am changing is still the same object`.
-
-This supplement only needs to recover the following level before reconnecting to the main flow.
-
-| What to recover here | Main-text question to return to | Where to continue reading |
-| --- | --- | --- |
-| The fact that `a = b` does not automatically mean copying | Is the value I am changing the same object or a new one? | Lists and assignment in P2-8.2, dictionaries in P2-8.3 |
-| When shallow copy and deep copy separate | What should I check first when preserving the original while preprocessing or making intermediate values? | Later Pandas and data-preprocessing examples in Part 2 Chapter 12 and the main text of Part 3 |
-
-In other words, if you can read whether the value seen through another name changes together when one side changes, it is safer to return to the main flow than to stay here for more implementation detail.
-
-## Short Check
+## Checklist
 
 - Can you explain that two names can point to the same list together?
-- Can you explain the difference between shallow copy and deep copy with a nested-list example?
-- Can you explain why copying should be handled carefully in data preprocessing?
-
-## When Should You Recall This Perspective First?
-
-- Recall it when you thought you preserved the original, but the experimental list changed together and you need to distinguish reference from copy again.
-- Recall it when you need to recheck the difference between shallow copy and deep copy through a nested-list example.
-- Recall it when you need to check first whether the object you are changing in preprocessing is actually separated from the original.
+- Can you explain the difference between a shallow copy and a deep copy through a nested-list example?
+- Can you explain why data preprocessing needs caution about whether copying happened?
+- Can you distinguish assignment, shallow copy, and deep copy by whether the original is still shared?
 
 ## Sources and References
 

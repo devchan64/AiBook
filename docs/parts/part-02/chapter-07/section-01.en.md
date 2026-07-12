@@ -1,7 +1,7 @@
 # P2-7.1 Local Environment and Runtime
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 In P2-3.5, we first separated Colab and a local PC. At that time, the purpose was a preliminary guide so the reader could immediately follow the NumPy practice. Now we step down one layer more basic.
 
@@ -383,25 +383,6 @@ Rather than memorizing a lot of syntax, it is more important to secure distincti
 
 This distinction is not itself a concept of machine learning. But in the process of learning machine learning, it can keep grabbing your ankle. So we organize it first in this Chapter.
 
-## Perspective to Keep from This Section
-
-When beginning practice, look at the execution place before looking at the code.
-
-When beginning practice, first check four things.
-
-1. Where is it being executed?
-2. What is executing it?
-3. What packages are needed?
-4. Where are those packages installed?
-
-If you can answer these questions, panic decreases when you meet an error message. It does not mean you can solve all errors, but at least you can divide them into `is this a code problem, a runtime problem, or a package problem?`
-
-After reading once, you should be able to say again the following boundary.
-
-| Handle of the current Chapter | What we see more in the very next Chapter | What we still do not do here |
-| --- | --- | --- |
-| Where is code executed, and who reads it? | In what sentences do we write values, variables, and data structures? | notebook cell order, result recording, shared document organization |
-
 ## View It Through a Case
 
 ### Case 1. The Same Example File Works in Colab but Not on My Computer
@@ -414,7 +395,7 @@ The words emphasized in this Section, `local environment`, `runtime`, `interpret
 
 The confirmable result is simple. If `import numpy as np` works immediately in Colab but raises `ModuleNotFoundError` on the local PC, then we can conclude that before the code content, the package-preparation state of the local runtime should be checked first.
 
-## Short Check
+## Checklist
 
 - You can explain `local environment` as the conditions under which code runs on my computer.
 - You can explain `runtime` as the place where code actually runs.
@@ -423,12 +404,7 @@ The confirmable result is simple. If `import numpy as np` works immediately in C
 - You can explain a virtual environment to the degree that it is the execution space for each project.
 - You can explain at an introductory level that package installation and `import` are different actions.
 - You can explain that Colab and a local PC are both runtimes, but their management styles differ.
-
-## When Should You Recall This Perspective First?
-
-- Recall it first when a problem works in Colab but not on the local PC and you need to divide it first as an execution-place problem rather than as a code problem.
-- Recall it first when terms such as terminal, interpreter, virtual environment, and package appear all at once and you need to distinguish again what layer of story each belongs to.
-- Recall it first when you need to hold again that after Chapter 7, all the Sections on terminal, interpreter, and virtual environment are subdivisions of the same execution-environment map.
+- You can check whether the blockage is about `where it runs`, `what sentence to write`, or `how to leave the record and rerun it`.
 
 ## Sources and References
 

@@ -1,7 +1,7 @@
 # P2-7.4 Virtual Environments and Packages
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.07`
+> Version: `v2026.07.12`
 
 In P2-7.3, we looked at ways to run Python code. Now we move to a slightly more realistic problem.
 
@@ -236,18 +236,6 @@ In summary, the two spaces are different.
 
 Colab may be enough at the beginning. But if you want to maintain a project for a long time or reproduce the same code with someone else, you need to understand virtual environments and dependency management.
 
-## Perspective to Remember in This Section
-
-When looking at virtual environments and packages, ask the following questions first.
-
-When looking at virtual environments and packages, ask the following questions first.
-
-1. Which Python environment am I using right now?
-2. Are the required packages installed in that environment?
-3. Are the installation command and the execution of the Python code looking at the same environment?
-
-These questions are simple, but important. Many errors begin not with code syntax, but with the problem that "the place where it was installed and the place where it is being run are different."
-
 ## Case Study
 
 ### Case 1. Why `import` Fails Even Though NumPy Was Installed
@@ -260,7 +248,7 @@ The key point of this section is to read `virtual environment`, `package`, `pip 
 
 The confirmable result appears when you check which Python environment is being used in the same terminal. If the installation command succeeded but `import numpy` fails only in the current virtual environment, you can explain that the problem lies in environment separation rather than in the package name.
 
-## Short Check
+## Checklist
 
 - You can explain a virtual environment as a project-specific Python execution space.
 - You can explain that the virtual-environment folder is an execution environment, not the manuscript or code of the project itself.
@@ -269,12 +257,7 @@ The confirmable result appears when you check which Python environment is being 
 - You can distinguish that `python -m pip install numpy` is a terminal command, while `import numpy as np` is Python code.
 - You can explain that packages are installed into a specific Python execution environment.
 - You can explain that the Colab runtime and a local virtual environment are not the same space.
-
-## When Should You Recall This Perspective First?
-
-- Recall it when Python runs but it says a package such as NumPy is missing, so you need to look together at the execution space and the package preparation state.
-- Recall it when `pip install` succeeded but `import` fails, so you need to reestablish that installation and use are different stages.
-- Recall it when you are treating the Colab runtime and a local `.venv` as if they were the same space and need to distinguish again which environment received the installation.
+- You can check `which Python environment am I using now?`, `are the required packages installed in that environment?`, and `are the installation command and the execution of the Python code looking at the same environment?`
 
 ## Sources and References
 

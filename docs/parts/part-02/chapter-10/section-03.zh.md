@@ -1,7 +1,7 @@
 # P2-10.3 把笔记本整理成可重新执行的记录
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 在 P2-10.1 中，我们把 notebook 看成同时包含 code、explanation 和 output 的计算文档。在 P2-10.2 中，我们又从执行位置和文件访问的角度区分了 Jupyter、Colab 和本地执行。
 
@@ -48,20 +48,6 @@
 - 能说明为什么环境、package 和数据准备 cell 应该放在 notebook 前部。
 - 能说明在 Colab 共享中，notebook 内容和 runtime 状态是不同的东西。
 - 能说明在什么时点，notebook 中验证过的代码应该拆分成函数和 script。
-
-## 先要抓住的标准
-
-本节最先要抓住的标准是：`好的 notebook 既是可读文档，也是可重跑记录。`
-
-| 现在看 notebook 时要看什么 | 先问的问题 |
-| --- | --- |
-| cell 顺序 | 它能从上到下重新运行吗？ |
-| import 和 setup | 所需 package 和 setting 是否都集中在前部？ |
-| 数据准备 | 用了哪些文件或例子，是否清楚？ |
-| output 与解释 | 数字和图的下方有没有意义说明？ |
-| runtime 状态 | 有没有依赖隐藏变量，也能重新运行？ |
-
-也就是说，notebook 应该按 `即使重新跑，也能留下同样流程吗？` 来读，而不只是按 `里面有代码吗？` 来读。
 
 ## 三个标准
 
@@ -356,27 +342,7 @@ Colab FAQ 说明，共享 notebook 时，text、code、output、comments 等 not
 
 这个案例展示了整理 notebook 的核心。可复现性不是为了做出 `漂亮文档`，而是为了减少 hidden state，并且让另一天的人仍然能沿着同样流程再次确认。
 
-## 本节要记住的视角
-
-- Notebook 既是文档，也是执行记录。
-- 如果 cell 顺序和 runtime 状态错位，结果就会变得难以信任。
-- 只要把 setup、data、calculation、output、interpretation 按顺序整理好，可重跑性就更高。
-- 无论是 Colab 还是本地环境，重要的都不是 `同一个文件`，而是 `同样的准备流程`。
-- 当以后需要复用的代码越来越长时，就要考虑是否该拆成函数或 `.py` 文件。
-
-Notebook 是由保存下来的文档和执行中的 runtime 一起组成的工作环境。
-
-有 notebook 文件，并不意味着执行状态也被保留。
-
-可重跑的 notebook 应该能从上到下运行。
-
-Package、data file 和 randomness 应该留在 notebook 前部或紧邻的 explanation 中。
-
-Colab 中共享的主要是 notebook 内容，而不是 runtime 的临时状态原样共享。
-
-Notebook 中重复的代码可以拆分成函数和 script。
-
-## 简短检查
+## 检查清单
 
 - 能不能把好的 notebook 解释成 `可重跑的记录`？
 - 能不能说明 hidden state 为什么会成为问题？
@@ -391,11 +357,6 @@ Notebook 中重复的代码可以拆分成函数和 script。
 - 在 Colab 共享时，是否检查了 file、package 和 permission 问题？
 - 是否有必要把重复代码拆成函数或 `.py` 文件？
 
-## 什么时候应先想起这个视角？
-
-- 当你想做的不是“一次跑通的 notebook”，而是“另一天再打开也能沿着同样流程走”的记录时，应先想起本节。
-- 当你不只是想保留实验结果，还要把 purpose、input data、installation condition 和 interpretation 一起整理下来时，应重新检查可重跑性的标准。
-- 当你要检查共享 notebook 为什么可能在别的环境里坏掉，或判断重复代码是否到了该拆分的时候时，就用这份检查表。
 
 ## 来源与参考资料
 
