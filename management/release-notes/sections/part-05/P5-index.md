@@ -7,9 +7,9 @@
 
 - 변경 이유: 메타형 연결 예고 표지가 현재 절 이해보다 집필 순서를 먼저 드러내고 있었음.
 - 본문 반영: 집필 순서만 예고하는 `다음 ... 연결` 계열 표지를 제거했다. 본문 메타데이터 버전도 함께 갱신했다.
-- 번역 동기화 메모: 대응 번역본이 생기면 같은 메타 표지 제거와 단일 checklist 구조를 함께 반영해야 한다.
-- 번역 반영 상태: 향후 번역 반영 필요
-- 관련 자산: 없음
+- 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 현재 checklist 구조, Part 5 시작 페이지의 최신 설명 흐름을 반영했다. 추가로 중국어 공개 본문이 `part5-learning-map-zh.mmd`를 직접 참조하도록 자산 운영을 현재 차트 가이드라인에 맞췄다. / reflected in English and Simplified Chinese on 2026-07-12, with the Simplified Chinese page now referencing its own `-zh` Mermaid asset
+- 번역 반영 상태: 영어 번역 반영, 중국어 간체 번역 반영
+- 관련 자산: `docs/assets/part-05/part5-learning-map-en.mmd`, `docs/assets/part-05/part5-learning-map-ko.mmd`, `docs/assets/part-05/part5-learning-map-zh.mmd`
 - 원문 기준 버전: `v2026.07.12`
 
 ### v2026.07.07-1

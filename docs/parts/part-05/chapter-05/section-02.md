@@ -188,12 +188,25 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 예를 들어 총매출 셀이 수량, 단가, 할인율 셀을 함께 참조한다고 해 봅시다. 최종 결과가 예상보다 작으면, 사람은 보통 마지막 결과 셀만 다시 보면서 `왜 작지?`라고 생각하기 쉽습니다. 하지만 실제 원인을 찾으려면 할인율이 커졌는지, 수량 입력이 잘못 들어갔는지, 단가 계산식이 바뀌었는지를 참조 관계를 따라 다시 봐야 합니다. 계산 그래프도 같은 식으로 `최종 결과만 본다`에서 멈추지 않고, 어떤 중간 계산이 어떤 입력에 기대고 있었는지를 펼쳐 보게 만듭니다. 물론 스프레드시트 자체가 역전파를 하는 것은 아니지만, `의존 관계가 있는 계산망`이라는 감각은 매우 비슷합니다.
 그래서 이 사례에서 확인해야 할 결과는 마지막 결과값만 보는 것이 아니라, 어떤 중간 계산이 어떤 입력을 참조했는지를 실제로 거슬러 올라가 읽을 수 있는가입니다.
 
-### 사례 2. 이미지 분류 네트워크
+| 사람이 먼저 보기 쉬운 기준 | 계산 그래프 관점으로 다시 읽는 기준 |
+| --- | --- |
+| 마지막 결과 셀만 다시 보면 원인을 찾을 수 있을 것 같다 | 어떤 중간 계산이 어느 입력을 참조했는지 연결을 따라가야 한다 |
+| 값이 틀렸으면 마지막 계산만 고치면 될 것 같다 | 앞단 중간값이 어떻게 만들어졌는지까지 봐야 한다 |
+| 계산은 순서대로만 보면 된다 | backward에서는 같은 연결을 거꾸로 따라가며 책임을 나눈다 |
 
-고양이와 강아지 사진을 분류하는 이미지 모델을 떠올려 보겠습니다. 사람은 마지막에 나온 `고양이 0.82` 같은 점수만 보면 충분하다고 느끼기 쉽지만, 실제 계산은 합성곱(convolution), 활성화(activation), 풀링(pooling), 완전연결층(fully connected layer), 손실 계산이 길게 이어진 흐름입니다.
+### 사례 2. 재기동 차단 점수를 만드는 판단 네트워크
 
-이 전체를 한 줄 수식으로만 보면 읽기 어렵고, 중간에 어디서 값이 크게 바뀌었는지도 보이지 않습니다. 사람은 마지막 분류 점수만 보고 `틀렸으니 마지막 층만 고치면 되지 않을까`라고 생각하기 쉽지만, 실제로는 앞쪽 합성곱 층이 어떤 특징을 만들었는지, 중간 활성화가 어디서 크게 잘렸는지, 어느 블록 출력이 뒤 블록 입력으로 이어졌는지를 같이 봐야 합니다. 계산 그래프 관점은 이 긴 계산을 `연산 블록의 연결`로 읽게 해 주고, 어느 블록에서 값이 만들어지고 어디로 전달되는지 추적하기 쉽게 만듭니다. 그 결과 오류를 하나의 점수가 아니라 `연결된 계산 흐름의 문제`로 읽을 수 있게 됩니다.
+압력 미복귀, 잔류 가스 경보, 인터록 해제 상태를 함께 읽어 `재기동 차단 점수 0.82` 같은 출력을 만드는 판단 네트워크를 떠올려 보겠습니다. 사람은 마지막에 나온 `차단 0.82` 같은 점수만 보면 충분하다고 느끼기 쉽지만, 실제 계산은 선형 조합(linear combination), 활성화(activation), 다음 층 전달, 손실 계산이 길게 이어진 흐름입니다.
+
+이 전체를 한 줄 수식으로만 보면 읽기 어렵고, 중간에 어디서 값이 크게 바뀌었는지도 보이지 않습니다. 사람은 마지막 차단 점수만 보고 `틀렸으니 마지막 층만 고치면 되지 않을까`라고 생각하기 쉽지만, 실제로는 앞쪽 선형 조합이 압력과 가스 신호를 어떻게 묶었는지, 중간 활성화가 어디서 잘렸는지, 어느 블록 출력이 뒤 블록 입력으로 이어졌는지를 같이 봐야 합니다. 계산 그래프 관점은 이 긴 계산을 `연산 블록의 연결`로 읽게 해 주고, 어느 블록에서 값이 만들어지고 어디로 전달되는지 추적하기 쉽게 만듭니다. 그 결과 오류를 하나의 점수가 아니라 `연결된 계산 흐름의 문제`로 읽을 수 있게 됩니다.
 그래서 이 사례에서 확인해야 할 결과는 마지막 점수 하나보다, 어느 연산 블록에서 값이 만들어지고 다음 블록으로 어떻게 전달되는지를 실제로 나눠 볼 수 있는가입니다.
+
+두 사례를 같이 놓고 보면 계산 그래프가 필요한 이유가 더 선명해집니다.
+
+| 장면 | 사람이 먼저 보기 쉬운 결과 | 계산 그래프가 더 분명하게 남기는 해석 | 바로 다음에 확인할 것 |
+| --- | --- | --- | --- |
+| 스프레드시트 의존 관계 | 마지막 결과 셀이 이상하면 그 셀 근처만 다시 보면 될 것 같습니다. | 어떤 중간 계산이 어느 입력을 참조했는지 연결을 따라 올라가야 원인을 찾을 수 있습니다. | 값이 틀린 지점이 아니라, 어떤 참조 경로가 결과를 만들었는지 봅니다. |
+| 재기동 차단 판단 네트워크 | 마지막 차단 점수만 높거나 낮으면 마지막 층만 고치면 될 것 같습니다. | 앞단 선형 조합, 활성화, 다음 블록 전달까지 이어지는 계산 경로를 같이 봐야 합니다. | 어느 블록에서 값이 커졌고 어느 블록이 다음 판단에 더 크게 기여했는지 봅니다. |
 
 ## 연습 및 예제
 
@@ -201,93 +214,99 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 
 입력:
 
-- `x`, `w`, `b`, `target`
+- 압력 미복귀 정도 `pressure_signal`
+- 압력 위험 가중치 `risk_weight`
+- 기준 오프셋 `base_block_bias`
+- 목표 차단 점수 `target_block_score`
 
 출력:
 
-- 순전파 중간값 `mul`, `z`, `a`, `loss`
-- 역전파 gradient `d_loss_da`, `d_loss_dz`, `d_loss_dw`, `d_loss_db`
+- 순전파 중간값 `weighted_pressure`, `block_logit`, `block_activation`, `loss`
+- 역전파 gradient `d_loss_d_activation`, `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`
 - 어떤 중간값이 어떤 gradient 계산에 다시 쓰이는지에 대한 연결
+- ReLU 문이 열린 경우와 닫힌 경우의 backward 차이
 
 문제 상황:
 
 - 역전파는 최종 손실에서 출발해 중간값을 거꾸로 따라가므로, 순전파와 역전파 값을 한 번에 보는 것이 이해에 도움이 된다
+- 같은 식이라도 ReLU 앞값 `block_logit`의 부호가 달라지면 gradient 흐름이 끊길 수 있으므로 비교가 필요하다
 
 확인할 개념:
 
 - 역전파 gradient는 순전파 중간값을 다시 사용해 계산된다
 - 각 단계의 중간값과 gradient를 함께 출력하면 계산 연결을 추적하기 쉽다
+- ReLU 같은 노드는 forward의 부호 정보에 따라 backward 전달 여부가 달라진다
 
 입력(input):
 
-위에 정리한 `x`, `w`, `b`, `target`을 사용합니다.
+위에 정리한 두 사례의 `pressure_signal`, `risk_weight`, `base_block_bias`, `target_block_score`를 사용합니다.
+
+코드를 보기 전에 먼저 어느 경우에 gradient가 더 멀리 전달될지 예상해 보면 좋습니다.
+
+| 사례 | 먼저 예상해 볼 비교 | 예상 이유 |
+| --- | --- | --- |
+| `block_gate_open` | `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`가 모두 살아 있을 가능성 | `block_logit > 0`이면 ReLU가 입력을 통과시키므로 backward도 이어질 수 있습니다. |
+| `block_gate_closed` | `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`가 0이 될 가능성 | `block_logit <= 0`이면 ReLU가 출력을 0으로 잘라 backward도 끊길 수 있습니다. |
+
+이 비교가 계산 그래프에서 특히 중요한 이유는, forward에서 보이는 `문이 열렸는가 닫혔는가`가 backward 경로까지 바꾸기 때문입니다.
 
 ```python
 def relu(value):
     return max(0.0, value)
 
-x = 2.0
-w = 1.5
-b = -0.5
-target = 4.0
+cases = [
+    {"name": "block_gate_open", "pressure_signal": 2.0, "risk_weight": 1.5, "base_block_bias": -0.5, "target_block_score": 4.0},
+    {"name": "block_gate_closed", "pressure_signal": 2.0, "risk_weight": 0.1, "base_block_bias": -0.5, "target_block_score": 4.0},
+]
 
-# forward
-mul = w * x
-z = mul + b
-a = relu(z)
-loss = (a - target) ** 2
+for case in cases:
+    pressure_signal = case["pressure_signal"]
+    risk_weight = case["risk_weight"]
+    base_block_bias = case["base_block_bias"]
+    target_block_score = case["target_block_score"]
 
-# backward
-d_loss_da = 2 * (a - target)
-d_a_dz = 1.0 if z > 0 else 0.0
-d_loss_dz = d_loss_da * d_a_dz
-d_z_dw = x
-d_z_db = 1.0
-d_loss_dw = d_loss_dz * d_z_dw
-d_loss_db = d_loss_dz * d_z_db
+    # forward
+    weighted_pressure = risk_weight * pressure_signal
+    block_logit = weighted_pressure + base_block_bias
+    block_activation = relu(block_logit)
+    loss = (block_activation - target_block_score) ** 2
 
-forward_values = {
-    "mul": round(mul, 3),
-    "z": round(z, 3),
-    "a": round(a, 3),
-    "loss": round(loss, 3),
-}
-backward_values = {
-    "d_loss_da": round(d_loss_da, 3),
-    "d_loss_dz": round(d_loss_dz, 3),
-    "d_loss_dw": round(d_loss_dw, 3),
-    "d_loss_db": round(d_loss_db, 3),
-}
+    # backward
+    d_loss_d_activation = 2 * (block_activation - target_block_score)
+    d_activation_d_logit = 1.0 if block_logit > 0 else 0.0
+    d_loss_d_logit = d_loss_d_activation * d_activation_d_logit
+    d_logit_d_weight = pressure_signal
+    d_logit_d_bias = 1.0
+    d_loss_d_weight = d_loss_d_logit * d_logit_d_weight
+    d_loss_d_bias = d_loss_d_logit * d_logit_d_bias
 
-print("[forward]")
-for key, value in forward_values.items():
-    print(key, "=", value)
-
-print("[backward]")
-for key, value in backward_values.items():
-    print(key, "=", value)
-
-print("[connections]")
-print("z influences a, and a influences loss")
-print("x flows into mul, mul flows into z, so gradient returns to w through z")
+    print(f"[{case['name']}]")
+    print("forward:", {
+        "weighted_pressure": round(weighted_pressure, 3),
+        "block_logit": round(block_logit, 3),
+        "block_activation": round(block_activation, 3),
+        "loss": round(loss, 3),
+    })
+    print("backward:", {
+        "d_loss_d_activation": round(d_loss_d_activation, 3),
+        "d_loss_d_logit": round(d_loss_d_logit, 3),
+        "d_loss_d_weight": round(d_loss_d_weight, 3),
+        "d_loss_d_bias": round(d_loss_d_bias, 3),
+    })
+    print("---")
 ```
 
 출력에서는 forward 값들, backward gradient들, 그리고 connections 설명을 순서대로 보면 됩니다.
 
 ```text
-[forward]
-mul = 3.0
-z = 2.5
-a = 2.5
-loss = 2.25
-[backward]
-d_loss_da = -3.0
-d_loss_dz = -3.0
-d_loss_dw = -6.0
-d_loss_db = -3.0
-[connections]
-z influences a, and a influences loss
-x flows into mul, mul flows into z, so gradient returns to w through z
+[block_gate_open]
+forward: {'weighted_pressure': 3.0, 'block_logit': 2.5, 'block_activation': 2.5, 'loss': 2.25}
+backward: {'d_loss_d_activation': -3.0, 'd_loss_d_logit': -3.0, 'd_loss_d_weight': -6.0, 'd_loss_d_bias': -3.0}
+---
+[block_gate_closed]
+forward: {'weighted_pressure': 0.2, 'block_logit': -0.3, 'block_activation': 0.0, 'loss': 16.0}
+backward: {'d_loss_d_activation': -8.0, 'd_loss_d_logit': -0.0, 'd_loss_d_weight': -0.0, 'd_loss_d_bias': -0.0}
+---
 ```
 
 이 예제에서 중요한 것은 다음입니다.
@@ -295,6 +314,22 @@ x flows into mul, mul flows into z, so gradient returns to w through z
 - forward에서는 중간값이 단계별로 만들어집니다
 - backward에서는 마지막 손실에서 시작한 변화량이 앞단 파라미터까지 분해됩니다
 - 각 노드는 자기 앞뒤 관계만 알면 gradient 계산에 참여할 수 있습니다
+
+여기서는 두 사례를 나란히 읽어야 계산 그래프 감각이 더 선명해집니다.
+
+| 사례 | 지금 읽어야 할 핵심 |
+| --- | --- |
+| `block_gate_open` | `block_logit > 0`이라 ReLU 문이 열려 있고, gradient가 `block_activation -> block_logit -> risk_weight, base_block_bias`로 계속 전달됩니다. |
+| `block_gate_closed` | 손실은 더 크지만 `block_logit <= 0`이라 ReLU가 막혀 `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`가 0이 됩니다. |
+
+즉, 계산 그래프는 `손실이 큰가`만 보여 주는 것이 아니라, `어느 노드에서 gradient 흐름이 살아 있고 어디서 끊기는가`까지 읽게 해 줍니다.
+
+출력 숫자를 읽을 때도 `손실 크기`와 `gradient 경로`를 분리해서 봐야 합니다.
+
+| 사례 | 출력에서 먼저 보이는 것 | 손실만 보면 남기 쉬운 해석 | 계산 그래프까지 보면 바뀌는 해석 |
+| --- | --- | --- | --- |
+| `block_gate_open` | 손실이 2.25이고 `d_loss_d_weight`, `d_loss_d_bias`가 모두 0이 아닙니다. | 손실이 아직 남았으니 그냥 조금 더 줄이면 된다고 보기 쉽습니다. | ReLU 문이 열려 있어 gradient가 앞단 파라미터까지 실제로 전달되고 있으므로, 업데이트가 가능한 경로가 살아 있습니다. |
+| `block_gate_closed` | 손실은 16.0으로 더 크지만 `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`가 0입니다. | 손실이 더 크니 더 강하게 업데이트해야 한다고 보기 쉽습니다. | 손실은 더 커도 ReLU 앞에서 경로가 끊겨 앞단 파라미터는 지금 이 경로로는 바뀌지 않습니다. |
 
 즉, 계산 그래프는 큰 문제를 작은 국소 계산으로 쪼개게 합니다.
 

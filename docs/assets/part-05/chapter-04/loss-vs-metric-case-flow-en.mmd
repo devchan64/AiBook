@@ -1,0 +1,13 @@
+flowchart TD
+  A["Results that look equally wrong"]
+  B["Human or metric view"]
+  C["Both are just wrong or low-scoring"]
+  D["Loss view"]
+  E["Separate distance and confidence gaps"]
+  F["Larger loss gets higher update priority"]
+
+  A --> B
+  B --> C
+  A --> D
+  D --> E
+  E --> F

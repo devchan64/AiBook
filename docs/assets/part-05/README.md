@@ -1,8 +1,12 @@
 # Part 5 Shared Mermaid Assets
 
-- Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
-- Current language pairs:
-  - `part5-learning-map-en.mmd` / `part5-learning-map-ko.mmd`
-  - `part5-recap-flow-en.mmd` / `part5-recap-flow-ko.mmd`
+- Public manuscript pages must reference their own language asset directly through `pymdownx.snippets`.
+- Current deployment rule:
+  - Korean pages reference `-ko.mmd`.
+  - English pages reference `-en.mmd`.
+  - Simplified Chinese pages reference `-zh.mmd`.
+- The `-en.mmd` files remain the canonical English originals, but the deployed page still references its own language asset.
+- When updating a shared Mermaid set, revise the English original first and then sync the Korean and Simplified Chinese derivatives so every file keeps the same conceptual flow and the same node relationships.
+- Current language sets:
+  - `part5-learning-map-en.mmd` / `part5-learning-map-ko.mmd` / `part5-learning-map-zh.mmd`
+  - `part5-recap-flow-en.mmd` / `part5-recap-flow-ko.mmd` / `part5-recap-flow-zh.mmd`

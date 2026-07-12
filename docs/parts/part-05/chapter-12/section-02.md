@@ -180,25 +180,33 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 
 ## 사례 및 예시
 
-### 사례 1. 긴 문장 해석
+### 사례 1. 긴 작업 지시 해석
 
-고객센터 문서에 `환불은 가능하지만 배송비는 제외된다`라는 문장이 앞부분에 있고, 뒤쪽 FAQ에서 `최종 환불 금액은?`을 다시 묻는 상황을 생각해 보겠습니다. 사람이 문서를 대충 읽을 때는 보통 질문 바로 근처 문장만 다시 보고 `환불 가능`만 기억한 채 답을 정리하기 쉽습니다. 그런데 실제로는 앞쪽의 `배송비는 제외` 조건이 핵심이라, 그 문장을 놓치면 환불 금액을 과하게 안내하는 오답이 나올 수 있습니다. basic RNN은 긴 문장을 따라가며 이런 앞쪽 조건을 상태 안에 계속 보존해야 하므로, 뒤로 갈수록 중요한 단서가 흐려질 수 있습니다. attention 관점에서는 현재 답을 만들 때 앞부분의 `배송비는 제외` 위치를 더 직접 참고할 수 있어, 오래전 단서를 다시 끌어오기 쉬워집니다.
+정비 절차 문서 앞부분에 `압력을 완전히 해소하기 전에는 재기동을 시작하면 안 된다`라는 문장이 있고, 뒤쪽 작업 질문에서 `지금 라인을 다시 올려도 되는가?`를 다시 묻는 상황을 생각해 보겠습니다. 사람이 문서를 대충 읽을 때는 보통 질문 바로 근처 문장만 다시 보고 `재기동`만 기억한 채 답을 정리하기 쉽습니다. 그런데 실제로는 앞쪽의 `압력을 먼저 해소해야 한다`는 조건이 핵심이라, 그 문장을 놓치면 위험한 재기동 안내를 내릴 수 있습니다. basic RNN은 긴 문장을 따라가며 이런 앞쪽 조건을 상태 안에 계속 보존해야 하므로, 뒤로 갈수록 중요한 단서가 흐려질 수 있습니다. attention 관점에서는 현재 답을 만들 때 앞부분의 `압력을 완전히 해소하기 전에는 재기동을 시작하면 안 된다` 위치를 더 직접 참고할 수 있어, 오래전 단서를 다시 끌어오기 쉬워집니다.
 
-### 사례 2. 번역
+### 사례 2. 다국어 작업 지시 번역
 
-긴 번역 문장에서 주어가 앞에 있고 동사가 한참 뒤에 나오면, 중간에 수식어가 많이 끼어들 수 있습니다. 사람이 손으로 번역할 때도 보통은 `지금 보고 있는 단어 주변`을 먼저 읽다가, 주어와 동사의 연결이 멀어지면 문장 앞을 다시 확인하게 됩니다. 예를 들어 문장 초반의 인물 주어가 뒤쪽 동사의 시제와 수를 결정하는데, 중간 설명이 길어지면 그 연결이 쉽게 흐려질 수 있습니다. 순차 상태에만 의존하면 모델은 이 `앞으로 다시 돌아가 확인하는 행동`을 직접 하기가 어렵고, 앞의 핵심 단서를 뒤 시점까지 안정적으로 유지하지 못할 수 있습니다. attention은 현재 번역 중인 위치가 문장 앞의 중요한 단어를 다시 바라보게 만들어, 멀리 떨어진 대응 관계를 더 직접 다루는 데 도움을 줍니다.
+긴 작업 지시 번역에서 금지 조건이 앞에 있고 실제 조치 표현이 한참 뒤에 나오면, 중간에 수식어와 설명 문장이 많이 끼어들 수 있습니다. 사람이 손으로 번역할 때도 보통은 `지금 보고 있는 단어 주변`을 먼저 읽다가, 금지 조건과 뒤 조치 표현의 연결이 멀어지면 문장 앞을 다시 확인하게 됩니다. 예를 들어 문장 초반의 `압력 해소 전에는 밸브를 열지 않는다`가 뒤쪽 `재기동을 시작한다`의 해석 범위를 결정하는데, 중간 설명이 길어지면 그 연결이 쉽게 흐려질 수 있습니다. 순차 상태에만 의존하면 모델은 이 `앞으로 다시 돌아가 확인하는 행동`을 직접 하기가 어렵고, 앞의 핵심 단서를 뒤 시점까지 안정적으로 유지하지 못할 수 있습니다. attention은 현재 번역 중인 위치가 문장 앞의 중요한 금지 조건을 다시 바라보게 만들어, 멀리 떨어진 대응 관계를 더 직접 다루는 데 도움을 줍니다.
 
 ### 사례 3. 시계열 이상 탐지
 
 설비 센서 데이터에서 평소에는 안정적이던 값이 한참 뒤에 급격히 흔들렸는데, 그 원인이 초반 설정 단계의 작은 이상 신호에 있을 수 있습니다. 사람이 단순 규칙으로 보려 하면 보통 `최근 10초 평균`이나 `현재 임계치 초과 여부`처럼 가까운 구간만 먼저 확인합니다. 하지만 실제 고장은 초반의 작은 흔들림과 뒤쪽의 큰 이상이 이어진 결과일 수 있어, 최근 값만 보면 원인을 놓치기 쉽습니다. 예를 들어 초반의 작은 진동 증가가 한동안 누적되다가 뒤늦게 큰 온도 상승으로 이어졌다면, 마지막 구간만 봐서는 왜 고장이 났는지 설명하기 어렵습니다. 상태가 여러 step을 지나며 희석되면 모델도 초반 신호를 뒤 판단에 약하게 반영할 수 있습니다. 이때 필요한 시점끼리 더 직접 연결해 보는 관점은, 왜 장기 의존성과 attention 문제가 함께 언급되는지를 더 분명하게 보여 줍니다.
 
-세 사례에서 공통으로 확인해야 할 결과는 먼 단서를 끝까지 그대로 들고 가기보다, 필요한 앞 위치를 다시 더 직접 참고할 수 있어야 한다는 점입니다. 긴 문장 해석에서는 예외 조건을 놓치지 않는지, 번역에서는 앞 주어와 시제 단서가 끝까지 유지되는지, 시계열 이상 탐지에서는 초반 이상 신호와 마지막 경보가 실제로 함께 읽히는지를 보면 충분합니다.
+세 사례에서 공통으로 확인해야 할 결과는 먼 단서를 끝까지 그대로 들고 가기보다, 필요한 앞 위치를 다시 더 직접 참고할 수 있어야 한다는 점입니다. 긴 문장 해석에서는 예외 조건을 놓치지 않는지, 작업 지시 번역에서는 앞 금지 조건이 뒤 조치 해석까지 유지되는지, 시계열 이상 탐지에서는 초반 이상 신호와 마지막 경보가 실제로 함께 읽히는지를 보면 충분합니다.
 
 | 사례 | 초반에 꼭 남아 있어야 하는 단서 | 중간 간격이 길어질수록 생기는 문제 | 이 절에서 확인할 결과 |
 | --- | --- | --- | --- |
-| 긴 문장 해석 | `배송비는 제외` 같은 앞 조건 | 뒤 질문 시점에는 핵심 예외 조건이 흐려질 수 있다 | 최종 답변이 앞 조건까지 함께 반영하는가 |
-| 번역 | 문장 앞 주어, 시제, 수 일치 단서 | 중간 수식어가 길어질수록 앞뒤 대응이 약해질 수 있다 | 문장 끝에서도 앞 단서가 유지되는가 |
+| 긴 작업 지시 해석 | `압력을 완전히 해소하기 전에는 재기동 금지` 같은 앞 조건 | 뒤 질문 시점에는 핵심 안전 조건이 흐려질 수 있다 | 최종 안내가 앞 조건까지 함께 반영하는가 |
+| 다국어 작업 지시 번역 | 문장 앞 금지 조건, 예외 조항, 조치 범위 단서 | 중간 수식어가 길어질수록 앞뒤 대응이 약해질 수 있다 | 문장 끝에서도 앞 단서가 유지되는가 |
 | 시계열 이상 탐지 | 초반의 작은 진동 증가나 설정 이상 | 최근 값만 남고 초기 이상 징후가 희미해질 수 있다 | 마지막 경보가 초반 이상 신호까지 반영하는가 |
+
+| 사람이 먼저 보기 쉬운 기준 | 순차 상태 관점으로 다시 읽는 기준 | 직접 참조 관점으로 다시 읽는 기준 |
+| --- | --- | --- |
+| 질문 바로 근처 문장이나 최근 센서값만 보면 충분하다고 느끼기 쉽다 | 가까운 단서는 잘 남아도 먼 앞 단서는 여러 step을 지나며 희미해질 수 있다 | 현재 질문이나 경보 시점이 필요할 때 앞의 핵심 위치를 다시 직접 끌어올 수 있어야 한다 |
+| 앞 단서를 한 번 읽었으면 뒤에서도 계속 유지될 것 같다고 생각하기 쉽다 | 상태를 계속 갱신하는 동안 예외 조건, 주어, 초기 이상 신호가 약해질 수 있다 | 지금 필요한 단서가 무엇인지 정한 뒤 그 위치를 다시 찾아보는 발상이 중요해진다 |
+| 성능이 조금 떨어지는 문제 정도로 느끼기 쉽다 | 앞 단서가 사라지면 현재 판단 자체가 흔들리는 구조 문제가 된다 | `오래 보존`만으로 부족하면 `다시 참조`로 질문 자체를 바꿔야 한다 |
+
+이 사례들에서 최종적으로 확인해야 할 결과는 분명합니다. 장기 의존성의 핵심 차이는 `먼 단서를 잘 기억하느냐`만이 아니라, 순차 상태만으로는 흔들리는 단서를 현재 시점에서 다시 직접 끌어올 필요가 생긴다는 데 있습니다.
 
 ## 이를 아주 단순하게 그리면
 
@@ -239,24 +247,35 @@ attention의 핵심 직관은 다음과 같이 연결할 수 있습니다.
 
 위에 정리한 규칙 문장, 질문 문장, 문서 줄 목록을 사용합니다.
 
+코드를 보기 전에 먼저 gap이 길어질수록 어떤 출력이 흔들리고 어떤 출력은 유지될지 예상해 보면, `상태 보존`과 `직접 참조`의 차이가 더 잘 보입니다.
+
+| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
+| --- | --- | --- |
+| `state_support` | gap이 길어질수록 계속 작아질 가능성이 큼 | `exclude`, `fee` 같은 앞 단서가 decay를 거치며 점점 약해지기 때문입니다. |
+| `state_decision` | 짧은 gap에서는 `keeps exclusion`, 긴 gap에서는 `loses exclusion`으로 바뀔 가능성이 큼 | 핵심 예외 조건이 상태 안에 충분히 남지 않으면 최종 판단이 흔들릴 수 있습니다. |
+| `direct_match_score` | gap이 길어져도 유지될 가능성이 큼 | 직접 참조는 같은 규칙 줄을 다시 집어 올리므로 간격 자체가 점수를 직접 깎지 않습니다. |
+| `direct_decision` | 모든 gap에서 `keeps exclusion`으로 유지될 가능성이 큼 | 질문 시점마다 앞의 규칙 위치를 다시 찾을 수 있다면 예외 조건을 놓칠 이유가 줄어듭니다. |
+
+이 표의 목적은 정확한 숫자를 미리 외우는 데 있지 않습니다. 같은 규칙과 같은 질문이어도, 순차 상태는 간격이 길어질수록 흔들리고 직접 참조는 같은 위치를 다시 집어 올릴 수 있다는 차이를 코드 전에 붙잡는 데 있습니다.
+
 ```python
-rule = "Rule: shipping fee is excluded from refunds."
-question = "Question: what is the final refund amount?"
+rule = "Rule: restart stays blocked until vessel pressure is fully vented."
+question = "Question: can the line restart now?"
 
 def sequential_state(document, decay=0.72):
-    state = {"refund": 0.0, "exclude": 0.0, "fee": 0.0}
+    state = {"restart": 0.0, "blocked": 0.0, "pressure": 0.0}
     for line in document:
         lowered = line.lower()
         for key in state:
             state[key] *= decay
-        if "refund" in lowered:
-            state["refund"] += 1.0
-        if "exclude" in lowered or "excluded" in lowered:
-            state["exclude"] += 1.0
-        if "fee" in lowered:
-            state["fee"] += 1.0
+        if "restart" in lowered:
+            state["restart"] += 1.0
+        if "blocked" in lowered:
+            state["blocked"] += 1.0
+        if "pressure" in lowered or "vented" in lowered:
+            state["pressure"] += 1.0
     support = round(min(state.values()), 3)
-    decision = "keeps exclusion" if support >= 0.45 else "loses exclusion"
+    decision = "keeps block" if support >= 0.45 else "loses block"
     return {key: round(value, 3) for key, value in state.items()}, support, decision
 
 def direct_reference(document):
@@ -264,16 +283,19 @@ def direct_reference(document):
     for idx, line in enumerate(document[:-1], start=1):
         lowered = line.lower()
         score = 0
-        for keyword in ["refund", "excluded", "fee"]:
+        for keyword in ["restart", "blocked", "pressure"]:
             if keyword in lowered:
                 score += 1
         matches.append((score, idx, line))
     best = max(matches)
-    decision = "keeps exclusion" if best[0] == 3 else "loses exclusion"
+    decision = "keeps block" if best[0] == 3 else "loses block"
     return best, decision
 
 for gap in [1, 3, 6]:
-    filler = [f"Detail line {i}: general customer guidance only." for i in range(1, gap + 1)]
+    filler = [
+        f"Detail line {i}: general maintenance note only."
+        for i in range(1, gap + 1)
+    ]
     document = [rule] + filler + [question]
     state_snapshot, state_support, state_decision = sequential_state(document)
     best_match, direct_decision = direct_reference(document)
@@ -293,40 +315,48 @@ for gap in [1, 3, 6]:
 ```text
 [gap=1]
 document_length = 3
-state_snapshot = {'refund': 1.518, 'exclude': 0.518, 'fee': 0.518}
+state_snapshot = {'restart': 1.518, 'blocked': 0.518, 'pressure': 0.518}
 state_support = 0.518
-state_decision = keeps exclusion
+state_decision = keeps block
 direct_match_score = 3
-best_direct_match = Rule: shipping fee is excluded from refunds.
-direct_decision = keeps exclusion
+best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
+direct_decision = keeps block
 
 [gap=3]
 document_length = 5
-state_snapshot = {'refund': 1.269, 'exclude': 0.269, 'fee': 0.269}
+state_snapshot = {'restart': 1.269, 'blocked': 0.269, 'pressure': 0.269}
 state_support = 0.269
-state_decision = loses exclusion
+state_decision = loses block
 direct_match_score = 3
-best_direct_match = Rule: shipping fee is excluded from refunds.
-direct_decision = keeps exclusion
+best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
+direct_decision = keeps block
 
 [gap=6]
 document_length = 8
-state_snapshot = {'refund': 1.1, 'exclude': 0.1, 'fee': 0.1}
+state_snapshot = {'restart': 1.1, 'blocked': 0.1, 'pressure': 0.1}
 state_support = 0.1
-state_decision = loses exclusion
+state_decision = loses block
 direct_match_score = 3
-best_direct_match = Rule: shipping fee is excluded from refunds.
-direct_decision = keeps exclusion
+best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
+direct_decision = keeps block
 ```
 
-- 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `exclude`, `fee` 단서가 빠르게 약해집니다
+- 같은 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `blocked`, `pressure` 단서가 빠르게 약해집니다
 - `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
-- 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 예외 조건을 잃기 쉬워집니다
+- 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 안전 조건을 잃기 쉬워집니다
 - 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있고, 여기서는 `direct_match_score`가 계속 3으로 유지됩니다
+
+출력을 운영 판단으로 다시 읽으면 장기 의존성 문제가 단순 점수 하락이 아니라 안전 조치 해석의 흔들림이라는 점이 더 분명해집니다.
+
+| gap 구간 | state 기반으로 남기 쉬운 해석 | direct reference까지 보면 바뀌는 해석 |
+| --- | --- | --- |
+| `gap=1` | 앞 금지 규칙이 아직 남아 있어 재기동 차단 판단을 유지한다 | 순차 상태만으로도 버티지만, 직접 참조는 같은 근거를 더 명시적으로 다시 집어 온다 |
+| `gap=3` | 중간 설명이 늘자 금지 근거가 흐려져 차단 판단이 흔들리기 시작한다 | 앞 규칙 줄을 다시 찾으면 재기동 금지 판단을 계속 유지할 수 있다 |
+| `gap=6` | 마지막 질문 근처 정보만 보면 금지 근거를 거의 잃어버린다 | 간격이 길어져도 핵심 규칙 위치를 다시 참조하면 안전 조건을 놓치지 않는다 |
 
 ## 이 예제를 attention 직관으로 다시 보면
 
-이 장난감 코드는 attention 자체를 구현한 것은 아닙니다. 하지만 읽어야 할 연결은 분명합니다.
+이 축약 비교 코드는 attention 자체를 구현한 것은 아닙니다. 하지만 읽어야 할 연결은 분명합니다.
 
 - 순차 상태 쪽은 `앞 단서를 상태 안에 계속 남겨 둘 수 있는가`가 핵심입니다.
 - direct reference 쪽은 `현재 질문이 필요할 때 앞 단서를 다시 집어 올 수 있는가`가 핵심입니다.

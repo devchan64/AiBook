@@ -182,9 +182,9 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 
 | 상황 | 먼저 봐야 할 관계 문제 | Transformer 블록이 도와주는 방식 |
 | --- | --- | --- |
-| 번역 | 문장 뒤 조건이 앞 해석을 바꿀 수 있다 | 문장 전체 위치 관계를 함께 반영해 앞뒤 해석을 다시 묶는다 |
-| 문서 요약 | 핵심 근거가 여러 문단에 흩어져 있다 | 떨어진 단서들을 함께 참고하며 표현을 갱신한다 |
-| 코드/LLM | 멀리 떨어진 이름과 제약을 끝까지 맞춰야 한다 | 앞쪽 제약과 현재 위치를 반복적으로 연결한다 |
+| 다국어 작업 지시 번역 | 문장 뒤 안전 조건이 앞쪽 조치 해석을 바꿀 수 있다 | 문장 전체 위치 관계를 함께 반영해 앞뒤 안전 조건을 다시 묶는다 |
+| 장애 보고서 요약 | 핵심 근거가 여러 문단과 로그에 흩어져 있다 | 떨어진 단서들을 함께 참고하며 표현을 갱신한다 |
+| 운영 스크립트/LLM | 멀리 떨어진 변수명, 제약, 예외 조건을 끝까지 맞춰야 한다 | 앞쪽 제약과 현재 위치를 반복적으로 연결한다 |
 
 아래 도식은 같은 Transformer 블록이 서로 다른 과업에서 어떻게 읽히는지를 아주 거칠게 묶어 보여 줍니다.
 
@@ -192,31 +192,45 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 --8<-- "assets/part-05/chapter-14/transformer-task-flow-ko.mmd"
 ```
 
-이 도식에서 봐야 할 점은 과업이 달라도 블록 자체가 바뀌는 것이 아니라, `문맥 관계를 읽고 표현을 다시 가공하는 같은 기본 구조`가 번역, 요약, 코드 생성에 공통으로 쓰인다는 점입니다.
+이 도식에서 봐야 할 점은 과업이 달라도 블록 자체가 바뀌는 것이 아니라, `문맥 관계를 읽고 표현을 다시 가공하는 같은 기본 구조`가 작업 지시 번역, 장애 보고서 요약, 운영 스크립트 생성에 공통으로 쓰인다는 점입니다.
 
-### 사례 1. 번역
+### 사례 1. 다국어 작업 지시 번역
 
-긴 문장을 번역할 때를 생각해 볼 수 있습니다. 사람은 단순히 왼쪽에서 오른쪽으로 읽으며 바로 옮기면 된다고 느끼기 쉽지만, 문장 뒤에 나온 조건절이나 목적어 때문에 앞부분 해석을 다시 바꿔야 하는 경우가 자주 생깁니다. 예전 순차 구조에서는 이런 먼 문맥을 끝까지 안정적으로 끌고 가는 일이 특히 어려웠습니다. 여기서 바뀌는 점은 `앞에서 뒤로 밀어 가며 읽는 방식`에서 `문장 전체 관계를 함께 반영하며 읽는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 각 위치가 문장 전체 다른 위치를 함께 참조하며 표현을 다시 만들 수 있게 해, 앞 단어와 뒤 단어의 관계를 한 번에 더 넓게 반영합니다. 그래서 긴 문장에서 번역 방향을 뒤늦게 수정해야 하던 부담을 줄이는 데 중요한 전환점이 되었습니다.
+긴 작업 지시 문장을 다른 언어로 옮긴다고 해 보겠습니다. 예를 들어 `재기동을 시작하되, 압력 해소가 확인되지 않았으면 밸브를 열지 않는다` 같은 문장은 앞쪽의 `재기동을 시작하되`만 빨리 읽으면 곧바로 작업 허가처럼 느껴질 수 있습니다. 하지만 실제 번역에서는 뒤쪽의 안전 조건 `압력 해소가 확인되지 않았으면`이 앞 조치의 해석 범위를 바꿉니다. 예전 순차 구조에서는 이런 먼 조건을 끝까지 안정적으로 끌고 가는 일이 특히 어려웠습니다. 여기서 바뀌는 점은 `앞에서 뒤로 밀어 가며 읽는 방식`에서 `문장 전체 관계를 함께 반영하며 읽는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 각 위치가 문장 전체 다른 위치를 함께 참조하며 표현을 다시 만들 수 있게 해, 앞 조치와 뒤 안전 조건의 관계를 한 번에 더 넓게 반영합니다. 그래서 긴 작업 지시 번역에서 뒤늦게 금지 조건을 다시 붙여야 하던 부담을 줄이는 데 중요한 전환점이 되었습니다.
 
-### 사례 2. 문서 요약
+### 사례 2. 장애 보고서 요약
 
-긴 회의록을 요약한다고 해 봅시다. 사람이 급하게 요약할 때는 제목, 첫 문단, 마지막 문장 같은 일부 위치에 더 크게 기대기 쉽습니다. 하지만 실제 핵심 결정은 중간 문단의 짧은 발언이나 앞뒤에 흩어진 조건 문장에 숨어 있을 수 있습니다. 예를 들어 결론은 마지막에 적혀 있어도, 그 결론이 유효한 조건은 앞쪽 논의에 들어 있을 수 있습니다. 여기서 바뀌는 점은 `눈에 띄는 위치 몇 군데만 붙잡는 읽기`에서 `흩어진 관련 문장을 반복적으로 묶는 읽기`로 기준이 이동한다는 것입니다. Transformer 블록은 문서 전체 여러 위치를 함께 참고하며 각 위치 표현을 반복적으로 갱신할 수 있어서, 멀리 떨어진 관련 문장을 더 쉽게 같은 요약 판단 안에 묶습니다.
+긴 장애 보고서를 요약한다고 해 봅시다. 사람이 급하게 요약할 때는 제목, 첫 문단, 마지막 결론 같은 일부 위치에 더 크게 기대기 쉽습니다. 하지만 실제 핵심 원인은 중간 로그 발췌나 앞뒤에 흩어진 조건 문장에 숨어 있을 수 있습니다. 예를 들어 마지막 결론이 `배포 롤백 후 복구`라고 적혀 있어도, 그 결론이 유효한 이유는 앞쪽의 `압력 변동이 배포 직후 시작되었다`는 로그와 중간의 `수동 밸브 점검에서는 이상이 없었다`는 문장에 들어 있을 수 있습니다. 여기서 바뀌는 점은 `눈에 띄는 위치 몇 군데만 붙잡는 읽기`에서 `흩어진 관련 문장을 반복적으로 묶는 읽기`로 기준이 이동한다는 것입니다. Transformer 블록은 문서 전체 여러 위치를 함께 참고하며 각 위치 표현을 반복적으로 갱신할 수 있어서, 멀리 떨어진 관련 문장을 더 쉽게 같은 장애 요약 판단 안에 묶습니다.
 
-### 사례 3. 코드 생성과 LLM
+### 사례 3. 운영 스크립트 생성과 LLM
 
-코드 생성에서 함수 시작부의 인자 이름과 아래쪽 반환 로직이 멀리 떨어져 있는 장면을 떠올려 볼 수 있습니다. 사람은 바로 앞 몇 줄만 보며 이어 써도 될 것처럼 느끼기 쉽지만, 그렇게 쓰면 위에서 쓴 변수 이름과 아래에서 참조하는 이름이 어긋나거나, 열어 둔 조건 분기와 닫는 구조가 맞지 않기 쉽습니다. 예를 들어 함수 초반에 `user_id`를 받았는데 뒤쪽에서 갑자기 `account_id`로 바꿔 쓰면, 앞뒤 맥락이 연결되지 않아 코드가 어색해집니다. 긴 자연어 생성도 마찬가지로, 앞에서 세운 제약과 뒤 문장에서 이어질 설명이 멀리 떨어져 연결됩니다. 여기서 바뀌는 점은 `바로 앞 토큰만 따라 쓰는 방식`에서 `먼 앞쪽 제약과 현재 위치를 함께 묶는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 이런 멀리 떨어진 토큰 관계를 반복적으로 반영하며 각 위치의 표현을 갱신합니다.
+운영 스크립트 생성에서 함수 시작부의 `line_id`, `pressure_ok`, `interlock_released` 같은 조건과 아래쪽 재기동 로직이 멀리 떨어져 있는 장면을 떠올려 볼 수 있습니다. 사람은 바로 앞 몇 줄만 보며 이어 써도 될 것처럼 느끼기 쉽지만, 그렇게 쓰면 위에서 쓴 변수 이름과 아래에서 참조하는 이름이 어긋나거나, `pressure_ok`가 `False`일 때는 재기동을 막아야 한다는 앞 제약을 뒤쪽에서 잊기 쉽습니다. 예를 들어 함수 초반에 `interlock_released`를 확인했는데, 뒤쪽 재기동 함수 호출에서는 그 조건을 빼먹으면 스크립트가 현장 규칙과 어긋납니다. 긴 자연어 생성도 마찬가지로, 앞에서 세운 제약과 뒤 문장에서 이어질 설명이 멀리 떨어져 연결됩니다. 여기서 바뀌는 점은 `바로 앞 토큰만 따라 쓰는 방식`에서 `먼 앞쪽 제약과 현재 위치를 함께 묶는 방식`으로 기준이 이동한다는 것입니다. Transformer 블록은 이런 멀리 떨어진 토큰 관계를 반복적으로 반영하며 각 위치의 표현을 갱신합니다.
 
-세 사례에서 공통으로 확인해야 할 결과는 먼 위치의 단서를 현재 표현 안에 함께 반영할 수 있다는 점입니다. 번역에서는 뒤쪽 조건과 목적어가 앞 해석까지 이어지는지, 요약에서는 흩어진 조건 문장이 결론과 함께 묶이는지, 코드와 자연어 생성에서는 변수명과 분기 구조 같은 앞 제약이 끝까지 유지되는지를 보면 충분합니다.
+세 사례에서 공통으로 확인해야 할 결과는 먼 위치의 단서를 현재 표현 안에 함께 반영할 수 있다는 점입니다. 작업 지시 번역에서는 뒤쪽 안전 조건이 앞 조치 해석까지 이어지는지, 장애 보고서 요약에서는 흩어진 로그와 조건 문장이 결론과 함께 묶이는지, 운영 스크립트와 자연어 생성에서는 변수명과 차단 조건 같은 앞 제약이 끝까지 유지되는지를 보면 충분합니다.
+
+| 사람이 먼저 보기 쉬운 기준 | Transformer 블록 관점으로 다시 읽는 기준 |
+| --- | --- |
+| attention만 있으면 Transformer 설명은 끝난다고 느끼기 쉽다 | 관계를 읽은 뒤 표현을 다시 가공하고, 원래 정보와 안정성을 유지하는 부품까지 함께 봐야 블록이 닫힌다 |
+| 문맥을 한 번 섞으면 바로 최종 판단이 나온다고 본다 | `문맥 읽기 -> 위치별 가공 -> residual -> normalization`이 차례로 이어져야 현재 표현 변화가 해석된다 |
+| 과업이 달라도 모델 구조가 크게 달라질 것이라고 느끼기 쉽다 | 작업 지시 번역, 장애 요약, 운영 스크립트 생성이 달라도 같은 블록이 `무엇을 다시 묶는가`만 바꿔 반복된다고 보는 편이 정확하다 |
+
+같은 세 사례를 블록 부품별 책임으로 다시 나눠 보면, 왜 `attention 하나`로 절 설명을 닫으면 부족한지도 더 직접 보입니다.
+
+| 사례 | self-attention이 먼저 맡는 일 | feed-forward가 이어서 맡는 일 | residual + normalization이 지키는 것 |
+| --- | --- | --- | --- |
+| 다국어 작업 지시 번역 | 앞 조치와 뒤 안전 조건을 다시 연결한다 | 현재 위치 표현을 `허가 문장`이 아니라 `조건부 허가 문장`으로 더 분명히 가공한다 | 조건을 다시 반영한 표현이 다음 토큰 생성까지 안정적으로 이어지게 한다 |
+| 장애 보고서 요약 | 앞쪽 로그, 중간 점검, 마지막 결론을 함께 참고한다 | 현재 문장을 `잡음`이 아니라 `원인 근거` 또는 `복구 근거`로 더 선명하게 다듬는다 | 한 번 섞인 근거 표현이 다음 블록에서도 무너지지 않게 유지한다 |
+| 운영 스크립트 생성 | 앞쪽 변수명, 인터록 조건, 금지 제약을 현재 줄과 연결한다 | 현재 위치 표현을 `일반 함수 호출`이 아니라 `조건이 붙은 재기동 로직`으로 가공한다 | 앞 제약을 잊지 않은 표현이 긴 코드 흐름 끝까지 안정적으로 남게 한다 |
 
 ## 연습 및 예제
 
-이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 숫자 변화로 보는 것입니다.
+이번 예제의 목표는 Transformer 블록을 구성하는 두 핵심 단계, 즉 `문맥을 섞는 단계`와 `각 위치 표현을 다시 가공하는 단계`를 실제 운영 문장 장면에 얹어 보는 것입니다.
 
 코드를 읽기 전에 아래 네 값부터 순서대로 보면 이 절의 구조 축이 덜 흩어집니다.
 
 | 먼저 볼 값 | 왜 먼저 보아야 하는가 |
 | --- | --- |
-| `contextual tokens` | self-attention이 다른 토큰 정보를 먼저 어떻게 섞는지 바로 보이기 때문에 |
+| `contextual tokens` | self-attention이 장애 대응 로그의 여러 단서를 먼저 어떻게 섞는지 바로 보이기 때문에 |
 | `feed-forward output` | attention으로 섞인 표현이 각 위치에서 다시 어떻게 가공되는지 이어서 볼 수 있어서 |
 | `after residual` | 새 계산 결과만 쓰지 않고 원래 입력 표현도 함께 남긴다는 점을 확인할 수 있어서 |
 | `after simple layer norm` | 다음 블록으로 넘기기 전에 값 범위를 다시 정리하는 감각을 마지막에 붙잡을 수 있어서 |
@@ -224,7 +238,7 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 입력:
 
 - 세 개 토큰의 초기 표현
-- 토큰별 attention 가중치
+- 두 가지 운영 장면별 attention 가중치
 - feed-forward 가중치
 
 출력:
@@ -233,128 +247,163 @@ Transformer가 큰 전환점처럼 보인 이유는 단순히 새로운 층 하�
 - feed-forward 적용 후 표현
 - residual을 더한 뒤의 표현
 - 간단한 layer normalization 뒤 표현
-- 각 토큰이 어느 방향으로 더 강조되었는지
+- `rollback confirmed` 장면과 `rollback not confirmed` 장면에서 조치 토큰 표현이 어떻게 달라지는지
 
 문제 상황:
 
-- Transformer 블록은 attention 하나로 끝나지 않고 residual, normalization, feed-forward가 묶여 돌아가므로 단계별 변화를 나눠 볼 필요가 있다
+- 장애 대응 운영에서는 `장애 증상`, `배포 단서`, `조치 확인`이 멀리 떨어져 적혀 있어도 함께 읽어야 하므로, Transformer 블록이 이런 장면에서 어떤 식으로 표현을 갱신하는지 단계별로 볼 필요가 있다
 
 확인할 개념:
 
 - Transformer 블록은 attention과 feed-forward가 한 묶음으로 반복된다
 - residual과 normalization까지 봐야 표현이 어떻게 안정적으로 갱신되는지 이해할 수 있다
-- 단계별 표현 변화를 나란히 봐야 블록 내부 역할 분담이 선명해진다
+- 운영 문장 장면에서 `조치 확인 단서가 들어오면 action token 표현이 어떻게 달라지는가`를 보면 블록 내부 역할 분담이 더 선명해진다
+
+코드를 보기 전에, 두 운영 장면에서 어떤 단계가 먼저 달라질지 예상해 보면 좋습니다.
+
+| 비교 포인트 | `rollback confirmed`에서 먼저 예상할 변화 | `rollback not confirmed`에서 먼저 예상할 변화 |
+| --- | --- | --- |
+| `contextual tokens` | action token이 조치 확인 단서를 더 강하게 섞을 것 | action token이 증상/배포 단서 쪽을 더 많이 유지할 것 |
+| `feed-forward output` | 섞인 조치 문맥이 각 위치 표현에 더 반영될 것 | 확인 부족 문맥이 남아 action 표현이 덜 회복 쪽으로 갈 것 |
+| `action token after residual` | recovery 축이 더 크게 남을 것 | 증상/원인 축이 상대적으로 더 남을 것 |
 
 입력(input):
 
-위에 정리한 세 토큰의 초기 표현, attention 가중치, feed-forward 가중치를 사용합니다.
+`symptom`, `deploy clue`, `action status` 세 토큰을 쓰고, `rollback confirmed` 장면과 `rollback not confirmed` 장면을 비교합니다.
 
 ```python
 import numpy as np
 
 tokens = np.array([
-    [1.0, 0.0],   # token 1
-    [0.5, 1.0],   # token 2
-    [0.0, 1.5],   # token 3
+    [1.0, 0.2],   # symptom token: urgency high
+    [0.8, 0.5],   # deploy clue token: cause evidence medium
+    [0.3, 1.0],   # action token: recovery status important
 ])
 
-attention_weights = np.array([
-    [0.7, 0.2, 0.1],  # token 1 mainly reads itself
-    [0.2, 0.5, 0.3],  # token 2 mixes neighbors
-    [0.1, 0.3, 0.6],  # token 3 reads later context more
-])
-
-contextual = attention_weights @ tokens
+attention_cases = {
+    "rollback_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.2, 0.5, 0.3],
+        [0.1, 0.3, 0.6],
+    ]),
+    "rollback_not_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.3, 0.5, 0.2],
+        [0.3, 0.5, 0.2],
+    ]),
+}
 
 ff_weights = np.array([
     [1.1, 0.4],
     [0.2, 1.0],
 ])
 
-ff_output = contextual @ ff_weights
-delta_from_input = ff_output - tokens
-residual_added = ff_output + tokens
-
 def simple_layer_norm(row):
     mean = np.mean(row)
     std = np.std(row)
     return (row - mean) / (std + 1e-6)
 
-normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
+for name, attention_weights in attention_cases.items():
+    contextual = attention_weights @ tokens
+    ff_output = contextual @ ff_weights
+    delta_from_input = ff_output - tokens
+    residual_added = ff_output + tokens
+    normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
 
-print("original tokens =")
-print(np.round(tokens, 3))
-print()
-print("contextual tokens =")
-print(np.round(contextual, 3))
-print()
-print("feed-forward output =")
-print(np.round(ff_output, 3))
-print()
-print("change from input =")
-print(np.round(delta_from_input, 3))
-print()
-print("after residual =")
-print(np.round(residual_added, 3))
-print()
-print("after simple layer norm =")
-print(np.round(normalized, 3))
+    print(f"[{name}]")
+    print("contextual tokens =")
+    print(np.round(contextual, 3))
+    print("feed-forward output =")
+    print(np.round(ff_output, 3))
+    print("change from input =")
+    print(np.round(delta_from_input, 3))
+    print("after residual =")
+    print(np.round(residual_added, 3))
+    print("after simple layer norm =")
+    print(np.round(normalized, 3))
+    print("action token after residual =", np.round(residual_added[2], 3))
+    print("---")
 ```
 
-출력에서는 `original tokens`가 `contextual`, `feed-forward`, `residual`, `norm` 단계를 거치며 어떻게 바뀌는지 순서대로 보면 됩니다.
+출력에서는 두 장면 모두 `action token after residual`을 먼저 비교한 뒤, 그 차이가 `contextual tokens` 단계에서 이미 어떻게 만들어졌는지 거슬러 올라가 보면 됩니다.
 
 ```text
-original tokens =
-[[1.  0. ]
- [0.5 1. ]
- [0.  1.5]]
-
+[rollback_confirmed]
 contextual tokens =
-[[0.8  0.35]
- [0.45 0.95]
- [0.25 1.2 ]]
-
+[[0.87 0.37]
+ [0.69 0.59]
+ [0.52 0.77]]
 feed-forward output =
-[[0.95 0.67]
- [0.685 1.13 ]
- [0.515 1.3  ]]
-
+[[1.031 0.718]
+ [0.877 0.866]
+ [0.726 0.978]]
 change from input =
-[[-0.05   0.67 ]
- [ 0.185  0.13 ]
- [ 0.515 -0.2  ]]
-
+[[ 0.031  0.518]
+ [ 0.077  0.366]
+ [ 0.426 -0.022]]
 after residual =
-[[1.95 0.67 ]
- [1.185 2.13 ]
- [0.515 2.8  ]]
-
+[[2.031 0.918]
+ [1.677 1.366]
+ [1.026 1.978]]
 after simple layer norm =
-[[ 1.    -1.   ]
- [-1.     1.   ]
- [-1.     1.   ]]
+[[ 1. -1.]
+ [ 1. -1.]
+ [-1.  1.]]
+action token after residual = [1.026 1.978]
+---
+[rollback_not_confirmed]
+contextual tokens =
+[[0.87 0.37]
+ [0.76 0.51]
+ [0.76 0.51]]
+feed-forward output =
+[[1.031 0.718]
+ [0.938 0.814]
+ [0.938 0.814]]
+change from input =
+[[ 0.031  0.518]
+ [ 0.138  0.314]
+ [ 0.638 -0.186]]
+after residual =
+[[2.031 0.918]
+ [1.738 1.314]
+ [1.238 1.814]]
+after simple layer norm =
+[[ 1. -1.]
+ [ 1. -1.]
+ [-1.  1.]]
+action token after residual = [1.238 1.814]
+---
 ```
 
-| 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
+| 비교 포인트 | rollback confirmed | rollback not confirmed | 왜 중요한가 |
+| --- | --- | --- | --- |
+| action token이 참고한 문맥 | 조치 확인 토큰이 자기 자신과 원인 단서를 더 강하게 유지한다 | 조치 확인이 약해져 증상/배포 단서 쪽 비중이 상대적으로 커진다 | 같은 블록이어도 운영 장면에 따라 `어느 단서를 더 묶는가`가 달라지기 때문이다 |
+| action token after residual | `[1.026, 1.978]` | `[1.238, 1.814]` | 조치 확정 여부가 현재 위치 표현을 실제로 다른 방향으로 움직인다는 점이 드러나기 때문이다 |
+| 해석 방식 | `조치가 확인되었으니 복구 상태를 더 강하게 반영한다` | `아직 확인이 약하니 경보와 배포 단서를 더 의심한다` | Transformer 블록이 운영 문장을 읽을 때도 단순 순차가 아니라 관계 재반영으로 작동함을 보여 준다 |
+
+| 블록 단계 | 이 단계만 따로 보면 생기기 쉬운 오해 | 블록 전체로 읽을 때 바로잡아야 할 점 |
 | --- | --- | --- |
-| `contextual tokens`가 `original tokens`와 다르다 | self-attention이 각 위치를 그대로 두지 않고 다른 토큰 정보를 먼저 섞는다는 뜻 | attention 가중치를 더 자기 자신 쪽으로 몰면 문맥 섞임이 약해지고, 이웃 쪽으로 넓히면 변화가 커집니다 |
-| `feed-forward output`과 `change from input`이 함께 달라진다 | 문맥을 섞은 뒤에도 각 위치에서 표현을 한 번 더 가공한다는 뜻 | feed-forward 가중치를 바꾸면 어떤 축이 더 강조되는지 직접 바뀝니다 |
-| `after residual`이 `feed-forward output`보다 원래 입력에 더 가깝게 남아 있다 | 새 계산 결과만 덮어쓰지 않고 원래 표현을 함께 보존한다는 뜻 | 입력 토큰 값을 바꾸면 residual이 어떤 정보를 계속 들고 가는지 더 분명해집니다 |
-| `after simple layer norm`이 비슷한 범위로 정리된다 | 다음 블록으로 넘기기 전에 값 규모를 다시 맞추는 안정화 감각을 준다는 뜻 | 특정 토큰 값만 크게 키워 보면 normalization이 범위를 다시 정리하는 효과가 더 눈에 띕니다 |
+| self-attention (`contextual tokens`) | 문맥만 한 번 섞었으니 이미 최종 판단이 끝났다고 느끼기 쉽다 | 이 단계는 `무엇을 다시 참고할까`를 정하는 자리이고, 아직 현재 위치 표현 가공과 안정적 전달은 남아 있다 |
+| feed-forward (`feed-forward output`) | 숫자만 다시 변형했으니 부차적 후처리처럼 느끼기 쉽다 | 실제로는 attention으로 모아 온 문맥을 각 위치 표현 안에서 다시 다듬어, 같은 문맥이라도 위치별 해석을 갈라 준다 |
+| residual (`after residual`) | 그냥 이전 값을 더하는 덧셈처럼 보이기 쉽다 | 새 계산만 믿지 않고 원래 입력 표현을 함께 남겨, 조치 토큰이 원래 갖고 있던 복구 상태 정보가 사라지지 않게 한다 |
+| layer normalization (`after simple layer norm`) | 숫자 크기만 정리하는 부차적 단계로 느끼기 쉽다 | 다음 블록으로 넘길 표현 범위를 다시 맞춰, 블록 반복이 깊어져도 계산이 덜 흔들리게 한다 |
 
 - attention 단계에서는 각 토큰이 다른 토큰 정보를 받아 원래 표현이 바뀝니다.
 - feed-forward 단계에서는 문맥이 섞인 표현을 위치별로 다시 변형합니다.
 - `after residual`은 새 계산 결과만 쓰지 않고 원래 토큰 표현을 함께 남긴다는 점을 보여 줍니다.
 - `after simple layer norm`은 각 위치 표현이 다음 단계로 넘어가기 전에 값 범위가 다시 정리될 수 있음을 보여 줍니다.
-- 마지막 `change from input`은 Transformer 블록이 단순 복사가 아니라 토큰 표현을 계속 재구성한다는 점을 보여 줍니다.
+- 운영 문장 장면에서는 `rollback confirmed` 같은 멀리 있는 단서가 action token 표현에 실제로 반영되는지가 핵심입니다.
 
-이 예제도 숫자를 한 번 읽고 끝내기보다, 어떤 값을 바꾸면 블록 내부 역할 분담이 더 선명해지는지 바로 이어서 확인하는 편이 좋습니다.
+즉, `rollback confirmed`와 `rollback not confirmed`를 갈라 놓는 것은 attention 단계에서 시작되지만, 그 차이를 실제 블록 출력으로 안정적으로 넘겨 주는 것은 feed-forward, residual, normalization까지 포함한 전체 조합입니다. Transformer를 `attention이 센 모델` 정도로만 읽으면 바로 이 조합 책임이 빠집니다.
+
+즉, 이 예제는 같은 장애 대응 로그라도 `rollback confirmed` 문장이 들어오느냐에 따라 현재 조치 표현이 달라질 수 있음을 보여 줍니다. Transformer 블록이 중요한 이유는 단순히 토큰을 섞어서가 아니라, 이런 `운영 판단에 필요한 먼 단서`를 현재 표현 안에 다시 반영하도록 만들기 때문입니다.
 
 | 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
 | --- | --- | --- |
-| `contextual tokens`가 입력과 달라진다 | attention 가중치를 대각선 중심으로 바꾸거나 더 고르게 퍼뜨려 문맥 섞임 정도를 비교한다 | self-attention 하나만으로 Transformer 전체 성질이 다 설명된다고 단정하지 않는다 |
-| `change from input`의 방향이 토큰마다 다르다 | 입력 토큰 값을 바꾸거나 토큰 수를 늘려 어떤 위치가 더 크게 재가공되는지 본다 | 숫자 변화가 크다고 해서 항상 더 좋은 표현 학습이라고 단정하지 않는다 |
-| `after simple layer norm`이 비슷한 범위로 정리된다 | 특정 축 값을 과하게 키워 normalization 전후 차이가 얼마나 커지는지 본다 | 이 장난감 norm 예제로 실제 layer normalization 구현 세부를 모두 대체하지 않는다 |
+| `action token after residual`이 장면마다 달라진다 | 조치 확인 토큰의 attention 비중을 더 키우거나 줄여 보고 운영 판단 표현이 어떻게 달라지는지 비교한다 | attention 수치 하나만으로 실제 운영 우선순위 전체가 결정된다고 단정하지 않는다 |
+| `contextual tokens`가 장면마다 다르게 섞인다 | 증상 토큰과 배포 단서 토큰 비중을 바꿔 어떤 문맥이 action token에 더 크게 들어오는지 본다 | 숫자 변화가 크다고 해서 항상 더 좋은 표현 학습이라고 단정하지 않는다 |
+| `after simple layer norm`이 비슷한 범위로 정리된다 | 특정 축 값을 과하게 키워 normalization 전후 차이가 얼마나 커지는지 본다 | 이 축약 normalization 비교만으로 실제 layer normalization 구현 세부를 모두 대체하지 않는다 |
 
 실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
 

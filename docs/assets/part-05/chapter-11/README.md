@@ -1,7 +1,9 @@
 # Part 5 Chapter 11 Diagram Assets
 
-- Korean public manuscript pages in `docs/parts/part-05/chapter-11/section-01.md` reference the `-ko.svg` files.
-- The chapter currently keeps only the Korean SVG files that are referenced by the public manuscript.
+- Deployed manuscript pages must reference their own language asset directly.
+- The current Korean public manuscript page in `docs/parts/part-05/chapter-11/section-01.md` references the `-ko.svg` files.
+- This chapter currently deploys only the Korean SVG assets, while the Mermaid source set keeps the English originals and Korean derivatives together.
+- When revising a diagram, update the English Mermaid original first and then sync the Korean derivative and any exported Korean SVG asset that the manuscript actually includes.
 - Current language pairs:
   - `cnn-object-detection-flow-en.mmd` / `cnn-object-detection-flow-ko.mmd`
   - `convolution-pooling-flow-en.mmd` / `convolution-pooling-flow-ko.mmd`

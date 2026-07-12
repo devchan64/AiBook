@@ -1,8 +1,9 @@
 # Part 5 Chapter 14 Mermaid Assets
 
-- Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- Deployed manuscript pages must reference their own language asset directly through `pymdownx.snippets`.
+- Current public references in this chapter use `-ko.mmd` for Korean pages and `-en.mmd` for English pages.
+- The `-en.mmd` files remain the canonical English originals for this chapter.
+- When updating a Mermaid asset set, revise the English original first and then sync every deployed language derivative so the conceptual flow stays aligned.
 - Current language pairs:
   - `transformer-block-flow-en.mmd` / `transformer-block-flow-ko.mmd`
   - `transformer-task-flow-en.mmd` / `transformer-task-flow-ko.mmd`

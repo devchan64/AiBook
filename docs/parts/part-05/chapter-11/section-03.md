@@ -97,10 +97,10 @@ ViT는 이미지를 작은 패치 조각들로 나눈 뒤, 각 패치를 토큰�
 
 | 단계 | 입문용 직관 |
 | --- | --- |
-| 원본 이미지 | 자동차가 들어 있는 한 장의 사진 |
+| 원본 이미지 | 탱크와 밸브가 함께 보이는 설비 사진 한 장 |
 | 패치 분할 | 사진을 4개나 16개의 작은 타일로 나눈다 |
 | 패치 토큰 | 각 타일을 숫자 벡터 하나처럼 바꿔 읽기 시작한다 |
-| attention | 바퀴가 있는 타일과 차체가 있는 타일이 함께 중요해지는지 본다 |
+| attention | 밸브가 있는 타일과 탱크 몸체 타일이 함께 중요해지는지 본다 |
 
 즉, ViT는 처음부터 `픽셀 바로 옆의 관계`만 먼저 강하게 가정하기보다, `이 조각과 저 조각이 서로 얼마나 관련 있는가`를 더 직접적으로 묻는 구조입니다.
 
@@ -144,12 +144,12 @@ ViT를 처음 읽을 때 가장 헷갈리는 지점은 `왜 굳이 이미지를 
 
 ## 장면으로 비교해 보면
 
-자동차 이미지를 분류한다고 해 보겠습니다. 사람은 처음에는 바퀴, 창문, 차체 윤곽 같은 부분을 먼저 떠올립니다.
+설비 이미지를 분류한다고 해 보겠습니다. 사람은 처음에는 밸브, 경광등, 탱크 윤곽 같은 부분을 먼저 떠올립니다.
 
-- CNN 관점에서는 바퀴 경계, 창문 모서리, 차체 질감 같은 지역 단서가 먼저 잡히고, 그것이 쌓여 자동차 표현으로 이어집니다.
-- ViT 관점에서는 왼쪽 아래 패치의 둥근 바퀴 단서와 위쪽 패치의 창문 단서, 가운데 패치의 차체 단서가 서로 어떤 관계를 이루는지 더 직접적으로 읽는다고 생각할 수 있습니다.
+- CNN 관점에서는 밸브 윤곽, 경광등 모서리, 탱크 표면 질감 같은 지역 단서가 먼저 잡히고, 그것이 쌓여 설비 표현으로 이어집니다.
+- ViT 관점에서는 왼쪽 아래 패치의 밸브 단서와 위쪽 패치의 경광등 단서, 가운데 패치의 탱크 몸체 단서가 서로 어떤 관계를 이루는지 더 직접적으로 읽는다고 생각할 수 있습니다.
 
-즉, 같은 자동차 장면을 보더라도:
+즉, 같은 설비 장면을 보더라도:
 
 - CNN은 `부분 패턴을 층층이 쌓아 가는 구조`
 - ViT는 `패치들 사이의 관계를 attention으로 읽는 구조`
@@ -158,168 +158,164 @@ ViT를 처음 읽을 때 가장 헷갈리는 지점은 `왜 굳이 이미지를 
 
 즉, 비교의 핵심은 `가까운 지역 단서`와 `패치 사이 관계` 중 무엇을 먼저 세우느냐입니다.
 
-- CNN은 먼저 `바퀴 경계`, `창문 모서리`, `차체 질감` 같은 가까운 단서를 읽습니다.
-- ViT는 `왼쪽 아래 패치`, `가운데 패치`, `위쪽 패치`가 함께 자동차를 이루는지 관계를 더 직접적으로 따집니다.
+- CNN은 먼저 `밸브 윤곽`, `경광등 모서리`, `탱크 표면 질감` 같은 가까운 단서를 읽습니다.
+- ViT는 `왼쪽 아래 패치`, `가운데 패치`, `위쪽 패치`가 함께 설비 장면을 이루는지 관계를 더 직접적으로 따집니다.
 
 같은 말을 더 짧은 장면으로 다시 써 보면 다음과 같습니다.
 
 | 질문 | CNN이 먼저 보는 것 | ViT가 먼저 세우는 것 |
 | --- | --- | --- |
-| 말 사진에서 다리와 몸통을 읽을 때 | 다리 경계, 털 질감, 몸통 윤곽 같은 지역 반응 | 다리가 있는 패치와 몸통이 있는 패치가 함께 말을 이루는지 |
-| 자동차 사진에서 바퀴와 창문을 읽을 때 | 둥근 바퀴 경계, 창문 모서리 같은 부분 반응 | 바퀴 패치와 창문 패치, 차체 패치의 관련성 |
+| 배관 사진에서 밸브와 배관 본체를 읽을 때 | 밸브 경계, 금속 질감, 배관 윤곽 같은 지역 반응 | 밸브가 있는 패치와 배관 본체 패치가 함께 같은 설비를 이루는지 |
+| 설비 사진에서 경광등과 탱크 몸체를 읽을 때 | 경광등 모서리, 탱크 윤곽 같은 부분 반응 | 경광등 패치와 탱크 패치, 제어함 패치의 관련성 |
+
+| 사람이 먼저 보기 쉬운 기준 | CNN 관점으로 다시 읽는 기준 | ViT 관점으로 다시 읽는 기준 |
+| --- | --- | --- |
+| 설비라면 밸브, 경광등, 탱크 몸체 같은 부분이 보이는지 먼저 떠올린다 | 밸브 윤곽이나 경광등 모서리처럼 가까운 지역 반응이 여러 층에서 쌓이며 설비 표현으로 이어지는지 본다 | 밸브가 있는 패치와 경광등이 있는 패치, 탱크 패치가 서로 어떤 관련성으로 함께 중요해지는지 본다 |
+| 부분이 보이면 전체도 읽힐 것 같다고 느낀다 | `어느 위치의 지역 단서가 먼저 강하게 반응하는가`를 따라간다 | `멀리 떨어진 패치들이 함께 설비 판단에 기여하는가`를 더 직접적으로 묻는다 |
+| 둘 다 결국 같은 설비를 맞히면 비슷하다고 생각하기 쉽다 | 출발 계산 단위가 `겹치며 이동하는 지역 창`이라는 점을 먼저 본다 | 출발 계산 단위가 `잘라 둔 patch token`이라는 점을 먼저 본다 |
 
 이 비교에서 중요한 것은 `CNN은 부분을 본다`, `ViT는 전체를 본다`처럼 단순하게 갈라버리는 일이 아닙니다. 둘 다 결국 이미지 전체 판단으로 가지만, 출발 직관이 `지역 패턴 중심`이냐 `패치 관계 중심`이냐에서 차이가 납니다.
 
+이 사례에서 최종적으로 확인해야 할 결과는 분명합니다. CNN과 ViT의 차이는 `둘 다 이미지를 분류한다`에서 생기는 것이 아니라, CNN은 `어느 지역 반응이 먼저 강하게 뜨는가`, ViT는 `어느 patch 관계가 함께 중요해지는가`라는 첫 질문의 차이에서 시작됩니다.
+
+같은 장면을 다시 한 줄로 묶으면, CNN은 `어느 위치를 먼저 다시 봐야 하는가`를 세우는 데 강하고, ViT는 `어느 구역이 다른 구역과 관계상 어긋나는가`를 세우는 데 강한 출발점을 갖는다고 읽는 편이 안전합니다.
+
 ## 연습 및 예제
 
-이번 예제의 목표는 `같은 작은 이미지도 CNN은 겹치는 지역 패치 흐름으로 읽고, ViT는 큰 patch token 흐름으로 읽는다`는 점을 눈으로 확인하는 것입니다. 실제 학습 모델 전체를 구현하지는 않지만, 같은 입력이 두 구조에서 어떤 계산 단위로 바뀌는지는 직접 볼 수 있습니다.
+이번 예제의 목표는 포장 검사 카메라가 한 프레임에서 `국소 결함 후보`와 `멀리 떨어진 구역 관계`를 어떻게 다르게 읽게 되는지, 같은 입력을 CNN 방식과 ViT 방식으로 나눠 보며 확인하는 것입니다. 실제 모델 전체를 구현하지는 않지만, 같은 프레임이 두 구조에서 어떤 계산 단위로 바뀌는지는 직접 볼 수 있습니다.
 
 문제 상황:
 
-- 같은 이미지라도 CNN과 ViT는 입력을 자르는 단위와 관계를 보는 출발점이 다르다
+- 같은 검사 프레임이라도 CNN은 작은 결함 후보를 촘촘히 훑고, ViT는 더 큰 구역 토큰 사이 관계를 비교하는 쪽에서 출발한다
 
 입력:
 
-- 4x4 장난감 이미지
+- 라벨 인쇄 영역, 빈 배경 영역, 실링 영역, 코드 영역이 함께 들어 있는 6x6 검사 프레임
 - CNN이 읽는 2x2 지역 패치
-- ViT가 읽는 2x2 patch token
+- ViT가 읽는 3x3 patch token
 
 출력:
 
-- CNN 방식의 겹치는 지역 패치 목록
-- ViT 방식의 비겹침 patch token 목록
-- 각 patch를 펼친 벡터와 간단한 patch embedding 값
+- CNN 방식으로 뽑은 상위 국소 결함 후보
+- ViT 방식의 구역별 patch token 평균
+- 코드 영역 token과 다른 구역 token 사이 차이
 
 확인할 개념:
 
-- CNN은 겹치는 지역 패치를 따라 부분 구조를 먼저 읽는다
-- ViT는 비겹침 patch token을 만들어 조각 사이 관계를 다루는 쪽에서 출발한다
-- 같은 입력이라도 어떤 계산 단위로 바꾸느냐에 따라 이후 모델 구조 해석이 달라진다
+- CNN은 겹치는 지역 패치를 따라 부분 결함 후보를 먼저 읽는다
+- ViT는 비겹침 patch token을 만들어 떨어진 구역 사이 관계를 비교하는 쪽에서 출발한다
+- 같은 입력이라도 어떤 계산 단위로 바꾸느냐에 따라 `지금 먼저 드러나는 이상 신호`가 달라진다
 
 입력(input):
 
-위에 정리한 4x4 장난감 이미지와 CNN·ViT 방식의 패치 분할 규칙을 사용합니다.
+위에 정리한 6x6 포장 검사 프레임과 CNN·ViT 방식의 분할 규칙을 사용합니다.
+
+코드를 보기 전에 먼저 어떤 출력이 어디서 두드러질지 예상해 보면, `국소 결함 후보`와 `구역 관계 비교`가 정말 다른 질문이라는 점이 더 잘 보입니다.
+
+| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
+| --- | --- | --- |
+| CNN 상위 후보 위치 | `(3, 3)` 주변이 가장 먼저 뜰 가능성이 큼 | 값 `8`이 주변 `3`들과 붙어 있어 2x2 지역 창에서 국소 대비가 가장 크게 생깁니다. |
+| ViT의 가장 높은 patch 평균 | `(0, 0)` 패치가 가장 높을 가능성이 큼 | 좌상단 3x3 영역은 대부분 `4`와 `5`로 채워져 있어 전체 평균이 높습니다. |
+| ViT의 구역 차이 비교 | `blank_code_gap`이 `seal_code_gap`보다 더 클 가능성이 큼 | 코드 영역 평균 `3.56`은 빈 배경 `1.11`과 더 크게 벌어지고, 실링 `2.0`과는 덜 벌어집니다. |
+
+이 표의 목적은 정확한 숫자를 미리 다 계산하는 데 있지 않습니다. 같은 프레임이라도 CNN은 `어디의 국소 대비가 가장 큰가`를 먼저 보게 만들고, ViT는 `어느 구역 token 사이 차이가 더 큰가`를 먼저 보게 만든다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
-import numpy as np
+inspection_frame = [
+    [4, 4, 4, 1, 1, 1],
+    [4, 5, 4, 1, 2, 1],
+    [4, 4, 4, 1, 1, 1],
+    [2, 2, 2, 3, 3, 3],
+    [2, 2, 2, 3, 8, 3],
+    [2, 2, 2, 3, 3, 3],
+]
 
-image = np.array([
-    [0, 1, 1, 0],
-    [0, 1, 1, 0],
-    [2, 2, 0, 0],
-    [2, 2, 0, 0],
-], dtype=float)
 
-
-def cnn_local_patches(image, kernel_size=2, stride=1):
+def cnn_local_scores(image, window=2, stride=1):
     patches = []
-    for i in range(0, image.shape[0] - kernel_size + 1, stride):
-        for j in range(0, image.shape[1] - kernel_size + 1, stride):
-            patch = image[i:i + kernel_size, j:j + kernel_size]
-            patches.append(((i, j), patch.copy()))
-    return patches
+    for i in range(0, len(image) - window + 1, stride):
+        for j in range(0, len(image[0]) - window + 1, stride):
+            values = []
+            for di in range(window):
+                for dj in range(window):
+                    values.append(image[i + di][j + dj])
+            local_score = max(values) - min(values)
+            patches.append(((i, j), local_score, values))
+    return sorted(patches, key=lambda item: (-item[1], item[0]))
 
 
-def vit_patch_tokens(image, patch_size=2):
+def vit_patch_tokens(image, patch_size=3):
     tokens = []
-    for i in range(0, image.shape[0], patch_size):
-        for j in range(0, image.shape[1], patch_size):
-            patch = image[i:i + patch_size, j:j + patch_size]
-            flat = patch.flatten()
-            tokens.append(((i, j), patch.copy(), flat))
+    for i in range(0, len(image), patch_size):
+        for j in range(0, len(image[0]), patch_size):
+            values = []
+            for di in range(patch_size):
+                for dj in range(patch_size):
+                    values.append(image[i + di][j + dj])
+            mean_value = round(sum(values) / len(values), 2)
+            tokens.append(((i, j), mean_value, values))
     return tokens
 
 
-embedding_weight = np.array([0.5, 0.2, 0.7, 0.1])
+cnn_candidates = cnn_local_scores(inspection_frame, window=2, stride=1)[:5]
+vit_tokens = vit_patch_tokens(inspection_frame, patch_size=3)
+token_means = {position: mean for position, mean, _ in vit_tokens}
 
-cnn_patches = cnn_local_patches(image, kernel_size=2, stride=1)
-vit_tokens = vit_patch_tokens(image, patch_size=2)
-
-print("[cnn local patches]")
-for position, patch in cnn_patches:
-    print("position =", position)
-    print(patch)
+print("[cnn top local candidates]")
+for position, score, values in cnn_candidates:
+    print("position =", position, "score =", score, "values =", values)
 
 print("[vit patch tokens]")
-for position, patch, flat in vit_tokens:
-    embedding_value = round(float(flat @ embedding_weight), 2)
-    print("position =", position)
-    print(patch)
-    print("flat_token =", flat.tolist())
-    print("patch_embedding =", embedding_value)
+for position, mean, values in vit_tokens:
+    print("position =", position, "mean =", mean, "values =", values)
+
+print("seal_code_gap =", round(abs(token_means[(3, 0)] - token_means[(3, 3)]), 2))
+print("blank_code_gap =", round(abs(token_means[(0, 3)] - token_means[(3, 3)]), 2))
 ```
 
-출력에서는 CNN의 겹치는 local patch들과 ViT의 patch token 구성이 어떻게 달라지는지부터 보면 됩니다.
+출력에서는 CNN의 상위 국소 결함 후보와 ViT의 구역 토큰 요약이 어떻게 다른 질문을 먼저 던지는지부터 보면 됩니다.
 
 ```text
-[cnn local patches]
-position = (0, 0)
-[[0. 1.]
- [0. 1.]]
-position = (0, 1)
-[[1. 1.]
- [1. 1.]]
-position = (0, 2)
-[[1. 0.]
- [1. 0.]]
-position = (1, 0)
-[[0. 1.]
- [2. 2.]]
-position = (1, 1)
-[[1. 1.]
- [2. 0.]]
-position = (1, 2)
-[[1. 0.]
- [0. 0.]]
-position = (2, 0)
-[[2. 2.]
- [2. 2.]]
-position = (2, 1)
-[[2. 0.]
- [2. 0.]]
-position = (2, 2)
-[[0. 0.]
- [0. 0.]]
+[cnn top local candidates]
+position = (3, 3) score = 5 values = [3, 3, 3, 8]
+position = (3, 4) score = 5 values = [3, 3, 8, 3]
+position = (4, 3) score = 5 values = [3, 8, 3, 3]
+position = (4, 4) score = 5 values = [8, 3, 3, 3]
+position = (0, 2) score = 3 values = [4, 1, 4, 1]
 [vit patch tokens]
-position = (0, 0)
-[[0. 1.]
- [0. 1.]]
-flat_token = [0.0, 1.0, 0.0, 1.0]
-patch_embedding = 0.3
-position = (0, 2)
-[[1. 0.]
- [1. 0.]]
-flat_token = [1.0, 0.0, 1.0, 0.0]
-patch_embedding = 1.2
-position = (2, 0)
-[[2. 2.]
- [2. 2.]]
-flat_token = [2.0, 2.0, 2.0, 2.0]
-patch_embedding = 3.0
-position = (2, 2)
-[[0. 0.]
- [0. 0.]]
-flat_token = [0.0, 0.0, 0.0, 0.0]
-patch_embedding = 0.0
+position = (0, 0) mean = 4.11 values = [4, 4, 4, 4, 5, 4, 4, 4, 4]
+position = (0, 3) mean = 1.11 values = [1, 1, 1, 1, 2, 1, 1, 1, 1]
+position = (3, 0) mean = 2.0 values = [2, 2, 2, 2, 2, 2, 2, 2, 2]
+position = (3, 3) mean = 3.56 values = [3, 3, 3, 3, 8, 3, 3, 3, 3]
+seal_code_gap = 1.56
+blank_code_gap = 2.45
 ```
 
-같은 이미지를 보더라도 어디서부터 표현을 만들기 시작하는지가 다르기 때문에, 뒤에서 attention과 patch embedding을 읽을 때도 `무엇을 토큰처럼 취급하는가`를 함께 봐야 합니다.
+같은 프레임을 보더라도 어디서부터 표현을 만들기 시작하는지가 다르기 때문에, 뒤에서 attention과 patch embedding을 읽을 때도 `무엇을 토큰처럼 취급하는가`를 함께 봐야 합니다.
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| CNN 패치 개수와 ViT patch token 개수 | 같은 입력도 출발 계산 단위가 다르다는 뜻 | `stride`, `patch_size`, 이미지 크기를 바꾸면 단위 수와 겹침 정도가 달라집니다 |
-| CNN의 `(0, 0)`, `(0, 1)` 패치가 서로 겹친다 | CNN은 겹치는 지역 창을 촘촘히 훑으며 인접 위치 차이를 계속 읽는다는 뜻 | `stride`를 2로 바꾸면 겹침이 줄고 지역 반응 개수도 함께 줄어듭니다 |
-| ViT의 `flat_token`과 `patch_embedding`이 patch마다 하나씩 나온다 | ViT는 patch를 잘라 벡터 하나로 바꾼 뒤 그 벡터들을 토큰처럼 다룬다는 뜻 | `patch_size`를 더 작게 하면 token 수가 늘고, 더 크게 하면 token 수가 줄어듭니다 |
+| CNN 상위 후보가 `(3, 3)` 주변에 몰린다 | CNN은 `코드 영역 한가운데의 국소 이상`을 먼저 강하게 드러낸다는 뜻 | `window` 크기나 `stride`를 바꾸면 국소 결함 후보 밀집도가 달라집니다 |
+| ViT의 `(3, 3)` token 평균이 `3.56`으로 높다 | ViT는 코드 영역 전체를 하나의 patch token으로 요약해 다른 구역과 비교할 수 있게 만든다는 뜻 | `patch_size`를 더 작게 하면 더 잘게 쪼개고, 더 크게 하면 구역 요약이 거칠어집니다 |
+| `seal_code_gap`과 `blank_code_gap`이 함께 계산된다 | ViT 쪽에서는 떨어진 구역 토큰 사이 관계를 비교하는 질문이 자연스럽게 나온다는 뜻 | 다른 구역 조합을 비교하면 `어느 관계가 이상한가`를 다른 방식으로 읽을 수 있습니다 |
 
-즉, CNN은 겹치며 이동하는 지역 창에서 출발하고, ViT는 잘라 놓은 patch token에서 출발한 뒤 그 관계를 attention으로 읽는다는 점이 이 비교의 핵심입니다.
+출력 숫자를 읽을 때도 `어느 위치가 먼저 뜨는가`와 `어느 구역 관계가 더 벌어지는가`를 분리해서 봐야 합니다.
 
-이 예제에서는 `image` 크기를 8x8로 늘리거나 `patch_size`, `stride`를 바꿔 볼 수 있습니다. 그러면 독자는 단순히 `CNN은 부분, ViT는 패치`라는 문장을 외우는 대신, 같은 입력이 `몇 개의 겹치는 지역 반응`과 `몇 개의 patch token`으로 바뀌는지 직접 비교해 볼 수 있습니다.
+| 비교 | 출력에서 먼저 보이는 것 | 값만 보면 남기 쉬운 해석 | CNN·ViT 비교까지 보면 바뀌는 해석 |
+| --- | --- | --- | --- |
+| CNN 상위 후보 | `(3, 3)` 주변 2x2 창이 연속으로 상위에 뜹니다. | 그냥 높은 값 `8` 주변이라 당연히 뜬다고 보기 쉽습니다. | CNN은 겹치는 지역 창을 훑으며 `어느 작은 위치가 다시 검사 후보인가`를 먼저 세우는 구조라는 점이 핵심입니다. |
+| ViT patch token | `(3, 3)` 패치는 평균 `3.56`, `(0, 3)` 패치는 평균 `1.11`로 요약됩니다. | patch 평균은 단순 요약값일 뿐이라고 보기 쉽습니다. | ViT는 이미지를 patch token으로 바꾼 뒤, 이 요약된 구역들 사이 차이와 관계를 읽는 출발점을 만든다는 점이 중요합니다. |
+| `seal_code_gap` vs `blank_code_gap` | 코드-실링보다 코드-빈배경 gap이 더 크게 벌어집니다. | 숫자 차이 비교 하나에 불과하다고 보기 쉽습니다. | ViT 쪽에서는 `어느 구역이 다른 구역과 더 어긋나는가` 같은 관계 질문이 자연스럽게 앞으로 나온다는 뜻입니다. |
+
+즉, CNN은 겹치며 이동하는 지역 창에서 출발해 `어디를 다시 봐야 하는가`를 먼저 만들고, ViT는 잘라 놓은 patch token에서 출발해 `어느 구역이 다른 구역과 관계상 어긋나는가`를 비교하는 쪽으로 이어진다는 점이 이 비교의 핵심입니다.
+
+이 예제에서는 `inspection_frame` 크기를 늘리거나 `patch_size`, `stride`를 바꿔 볼 수 있습니다. 그러면 독자는 단순히 `CNN은 부분, ViT는 패치`라는 문장을 외우는 대신, 같은 입력이 `몇 개의 국소 결함 후보`와 `몇 개의 구역 token 관계`로 바뀌는지 직접 비교해 볼 수 있습니다.
 
 | 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
 | --- | --- | --- |
-| CNN은 9개의 겹치는 패치를 만든다 | `stride`를 1과 2로 바꿔 겹침 정도와 패치 수가 어떻게 달라지는지 본다 | 겹치는 패치가 많다고 해서 곧바로 항상 더 좋은 이미지 이해라고 단정하지 않는다 |
-| ViT는 4개의 patch token으로 시작한다 | `patch_size`를 더 작게 하거나 크게 해 token 수가 어떻게 바뀌는지 본다 | token 수가 많다고 해서 곧바로 항상 더 좋은 attention 결과가 나온다고 단정하지 않는다 |
-| patch마다 `patch_embedding`이 하나씩 나온다 | embedding weight나 patch 값을 바꿔 어떤 patch가 더 큰 token 표현을 만드는지 본다 | 장난감 patch embedding 예제 하나로 실제 ViT 전체 성능과 inductive bias 차이를 모두 결론내리지 않는다 |
+| CNN 후보가 코드 영역 주변에서 몰린다 | `inspection_frame`의 이상 값을 다른 위치로 옮겨 어느 국소 후보가 새로 떠오르는지 본다 | 국소 이상을 잘 잡는다고 해서 곧바로 장거리 관계까지 충분히 읽는다고 단정하지 않는다 |
+| ViT는 4개의 큰 patch token으로 시작한다 | `patch_size`를 더 작게 하거나 크게 해 구역 관계 비교가 어떻게 달라지는지 본다 | token 수가 많다고 해서 곧바로 항상 더 좋은 attention 결과가 나온다고 단정하지 않는다 |
+| `seal_code_gap` 같은 구역 차이가 계산된다 | 다른 token 쌍을 비교해 어떤 관계가 품질 문제와 더 연결되는지 본다 | 평균값 차이 예제 하나로 실제 ViT attention 전부를 설명했다고 단정하지 않는다 |
 
 ## self-attention과는 어떻게 연결되나
 

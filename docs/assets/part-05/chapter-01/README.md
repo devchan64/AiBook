@@ -1,8 +1,9 @@
 # Part 5 Chapter 1 Mermaid Assets
 
-- Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
-- The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow.
+- Public manuscript pages should include their own language asset files through `pymdownx.snippets`.
+- Current deployment uses the Korean pages with `-ko.mmd` assets and the English pages with `-en.mmd` assets.
+- The matching `-en.mmd` files remain in this directory as the canonical English originals.
+- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
   - `perceptron-flow-en.mmd` / `perceptron-flow-ko.mmd`
   - `linear-boundary-flow-en.mmd` / `linear-boundary-flow-ko.mmd`
