@@ -1,7 +1,7 @@
 # P4-16.3 보충학습: 부스팅 라이브러리와 운영 감각
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-16.1과 P4-16.2에서 그래디언트 부스팅(gradient boosting)의 순차 보정 구조와 성능·과적합 위험을 보았습니다. 그다음에는 비슷한 부스팅 계열이라도 왜 XGBoost, LightGBM, CatBoost가 서로 다른 이름과 사용 감각으로 읽히는지 궁금해집니다.
 
@@ -293,19 +293,15 @@ L(F + \Delta) \approx L(F) + g\Delta + \frac{1}{2}h\Delta^2
 | 장애 재시작 기준 | `worker 하나가 실패해도 어느 stage부터 다시 돌릴지 정해 둔다` |
 | 다음 조정 | `자동화된 검증과 멈춤 기준을 먼저 붙인다` |
 
-## 이 절에서 기억할 관점
-
-- XGBoost, LightGBM, CatBoost는 같은 부스팅 계열 안에서 `어디를 더 최적화했는가`가 다릅니다.
-- histogram binning은 `조금 덜 세밀하게 보더라도 훨씬 더 빠르게 반복하자`는 절충과 연결됩니다.
-- GPU와 distributed training은 모델 철학보다 `더 큰 데이터와 더 많은 stage를 감당하는 운영 문제`와 연결됩니다.
-- 자동화는 부스팅에서 early stopping과 stage 선택을 반복 가능하게 만드는 장치입니다.
-- gradient와 hessian은 `어느 방향으로 얼마나 민감하게 고칠 것인가`를 구현 수준에서 다시 읽게 합니다.
-
 ## 체크리스트
 
+- XGBoost, LightGBM, CatBoost가 같은 부스팅 계열 안에서 `어디를 더 최적화했는가`가 다르다는 점을 설명할 수 있는가?
 - 지금 비교하는 것은 알고리즘 철학 차이인가, 구현 병목 차이인가?
+- histogram binning을 `조금 덜 세밀하게 보더라도 훨씬 더 빠르게 반복하자`는 절충으로 설명할 수 있는가?
 - 속도 문제를 말할 때 histogram, GPU, 분산 중 무엇이 병목인지 구분하고 있는가?
+- GPU와 distributed training이 모델 철학보다 `더 큰 데이터와 더 많은 stage를 감당하는 운영 문제`와 연결된다는 점을 이해했는가?
 - 자동화를 단순 편의가 아니라 early stopping 반복 문제로 읽고 있는가?
+- gradient와 hessian이 `어느 방향으로 얼마나 민감하게 고칠 것인가`를 구현 수준에서 다시 읽게 한다는 점을 알고 있는가?
 
 ## 출처와 참고 자료
 

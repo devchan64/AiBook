@@ -1,7 +1,7 @@
 # Part 4 Chapter 15 Mermaid Assets
 
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
-- This chapter now operates shared English-source Mermaid assets for P4-15.1 and P4-15.2. Korean pages continue to include `-ko.mmd`, while English and Chinese pages should reference the matching `-en.mmd` files when they are available.
+- This chapter now operates shared English-source Mermaid assets as the canonical originals. Korean pages continue to include `-ko.mmd`, while Chinese pages should include matching `-zh.mmd` files where they are available.
 - Current language sets:
   - `p4-15-1-mermaid-01-ko.mmd`
   - `p4-15-1-mermaid-02-ko.mmd`

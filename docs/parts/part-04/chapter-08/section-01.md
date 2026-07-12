@@ -430,80 +430,65 @@ baseline을 만들기 위해 바로 필요한 준비 지식도 사실 여기와 
 - 거리 개념이 중요한 장면에서는, 입력 간 가까움 자체가 판단 기준이 될 수 있어 거리 기반 후보를 더 의식합니다.
 - 운영 제약이 큰 장면에서는, 높은 점수 가능성만이 아니라 추론 비용과 배포 단순성도 후보를 줄이는 기준이 됩니다.
 
-### Python 예제로 후보군을 표로 정리해 보기
+### 예제. 잘못된 후보 메모와 더 나은 후보 메모 비교하기
 
-아래 예제는 모델을 학습하는 코드가 아니라, 문제 조건에 따라 어떤 후보를 우선 떠올릴 수 있는지 정리하는 아주 단순한 사고 도구입니다.
+아래 두 메모는 같은 문제 장면을 두고 작성한 것입니다.
 
-문제 상황:
+문제 장면:
 
-- 모델 선택은 알고리즘 이름을 외우는 일보다 문제 조건을 보고 후보군을 먼저 좁히는 일에 가깝다
+- 카드 결제 기록으로 `사기 거래 여부`를 분류하려고 한다.
+- 입력은 결제 금액, 국가, 시간대, 과거 사기 이력, 기기 정보다.
+- 사기를 놓치면 손실이 크고, 운영팀은 위험 판단 근거도 어느 정도 보고 싶어 한다.
 
-입력(input):
+메모 A:
 
-- 문제 조건을 담은 딕셔너리 `problem`
+| 항목 | 내용 |
+| --- | --- |
+| 후보 | XGBoost 하나 |
+| 이유 | 성능이 좋다고 들었다 |
 
-출력(output):
+메모 B:
 
-- 조건에 따라 추린 모델 후보 목록
-- 함께 메모할 baseline과 먼저 볼 오류 포인트
+| 항목 | 내용 |
+| --- | --- |
+| 문제 유형 | 분류(classification) |
+| 샘플 단위 | 결제 1건 |
+| 첫 후보군 | 로지스틱 회귀, 결정트리, 랜덤포레스트 |
+| baseline | 항상 `정상 거래` 예측 |
+| 먼저 볼 오류 | 실제 사기 거래를 놓치는 칸, recall 변화 |
+| 추가 메모 | 설명 가능성과 운영 검토 때문에 처음 비교군에는 해석 가능한 후보를 포함 |
 
-확인할 개념:
+먼저 스스로 답해 보겠습니다.
 
-- 후보군은 과제 유형, 해석 필요성, 비선형성 기대 같은 조건에서 출발해 정리할 수 있다
-- 초기 후보군을 표처럼 정리하면 이후 비교와 baseline 설정이 쉬워진다
-- 모델 선택 메모는 후보 이름만이 아니라 baseline과 먼저 볼 오류 장면까지 함께 남겨야 한다
+- 어떤 메모가 모델 선택에 더 가깝습니까?
+- 다른 하나는 왜 아직 `후보군 설계`가 아니라 `유명한 모델 이름 선택`에 머물러 있습니까?
+- 메모 B에서도 이후 비교 전에 더 적고 싶은 항목이 있다면 무엇입니까?
 
-```python
-problem = {
-    "task_type": "classification",
-    "need_explanation": True,
-    "real_time": False,
-    "distance_sensitive_features": False,
-    "nonlinear_pattern_expected": True,
-}
+해설은 다음처럼 읽으면 충분합니다.
 
-candidates = []
-baseline = None
-first_error_to_watch = None
+- 메모 B가 더 낫습니다. 모델 선택을 `문제 유형`, `샘플 단위`, `비교 후보`, `baseline`, `먼저 볼 오류`까지 연결했기 때문입니다.
+- 메모 A는 후보를 하나만 고정했고, 무엇과 비교할지와 어떤 실패를 줄일지가 빠져 있어 뒤 절의 baseline 비교로 자연스럽게 이어지지 않습니다.
+- 메모 B에 더 붙일 수 있는 항목은 입력 표현, 데이터 불균형 정도, 운영상 허용하기 어려운 실패 유형입니다.
 
-if problem["task_type"] == "classification":
-    candidates.append(("logistic_regression", "clear baseline and easier interpretation"))
-    candidates.append(("decision_tree", "simple nonlinear rules"))
-    baseline = "always predict majority class"
-    first_error_to_watch = "missed positive cases"
+이 비교 예제의 목적은 `좋은 후보 이름`을 찾는 것이 아니라 `좋은 후보 메모`가 무엇인지 구분하게 만드는 데 있습니다.
 
-if problem["nonlinear_pattern_expected"]:
-    candidates.append(("random_forest", "stronger nonlinear candidate"))
+### 연습 3. 같은 후보군이어도 먼저 볼 오류가 달라지면 메모가 달라지는지 확인하기
 
-if problem["distance_sensitive_features"]:
-    candidates.append(("knn", "distance-based comparison"))
-    candidates.append(("svm", "margin-based boundary"))
+아래 두 장면은 둘 다 분류 문제이고, 첫 후보군도 비슷하게 시작할 수 있습니다. 하지만 먼저 볼 오류가 다르면 모델 선택 메모도 달라져야 합니다.
 
-print("candidate shortlist:")
-for name, reason in candidates:
-    print("-", name, "->", reason)
-print("baseline:", baseline)
-print("first error to watch:", first_error_to_watch)
-```
+| 장면 | 먼저 볼 오류를 어떻게 적어야 하는가 |
+| --- | --- |
+| 병원 접수 단계에서 `고위험 환자를 놓치지 않는` 것이 더 중요하다. | 어떤 칸을 특히 줄여야 하는지 적어 본다. |
+| 광고 추천 시스템에서 `관심 없는 사람에게 과도하게 노출하는` 것이 더 문제다. | 어떤 잘못된 양성 판단을 줄여야 하는지 적어 본다. |
 
-실행 결과는 다음과 같습니다.
+스스로 적어 본 뒤, 아래 해설과 비교합니다.
 
-```text
-candidate shortlist:
-- logistic_regression -> clear baseline and easier interpretation
-- decision_tree -> simple nonlinear rules
-- random_forest -> stronger nonlinear candidate
-baseline: always predict majority class
-first error to watch: missed positive cases
-```
+| 장면 | 해설 예시 |
+| --- | --- |
+| 고위험 환자 분류 | 실제 위험 환자를 놓치는 false negative를 먼저 줄여야 하므로, recall과 놓친 사례를 먼저 본다고 메모하는 편이 맞다. |
+| 광고 추천 분류 | 관심 없는 사람을 잘못 양성으로 판단하는 false positive를 줄여야 하므로, precision 쪽 오류와 과도 노출 사례를 먼저 본다고 적는 편이 맞다. |
 
-이 예제의 목적은 자동 선택이 아닙니다. `문제 조건을 읽고 후보를 줄이는 사고`를 보여 주는 데 있습니다.
-
-독자가 여기서 읽어야 할 핵심은 다음 세 가지입니다.
-
-- 후보군은 보통 하나가 아니라 두세 개 이상으로 시작합니다.
-- `설명 가능성`, `비선형성`, `거리 개념` 같은 단어가 후보를 줄이는 기준이 됩니다.
-- 모델 선택은 아직 승자를 정하는 단계가 아니라, 비교 가능한 출전 명단과 baseline 메모를 함께 만드는 단계입니다.
+이 연습은 `후보군만 적으면 끝`이 아니라, 같은 후보군이라도 어떤 실패를 줄이려는지에 따라 비교 메모가 달라진다는 점을 붙잡게 합니다.
 
 ## 이 절에서 기억할 관점
 

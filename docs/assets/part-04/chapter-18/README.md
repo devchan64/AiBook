@@ -1,7 +1,7 @@
 # Part 4 Chapter 18 Mermaid Assets
 
 - Korean public manuscript pages include the `-ko.mmd` files through `pymdownx.snippets`.
-- English and Chinese public manuscript pages for `P4-18.1` and `P4-18.2` include shared `-en.mmd` source assets through `pymdownx.snippets`.
+- English public manuscript pages for `P4-18.1` and `P4-18.2` include shared `-en.mmd` source assets through `pymdownx.snippets`, and Chinese pages should include matching `-zh.mmd` files where they are available.
 - The Korean pages now use extra diagram assets for `P4-18.1` and `P4-18.2` to reinforce the common toy-data scene, the PCA axis/eigenpair bridge, and the visualization-quality split.
 - Current language sets:
   - `p4-18-1-mermaid-01-ko.mmd`

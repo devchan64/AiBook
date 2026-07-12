@@ -1,7 +1,7 @@
 # P4-15.2 특징 중요도(feature importance)
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. 그러면 바로 다음 질문이 생깁니다.
 
@@ -498,6 +498,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 model = RandomForestClassifier(n_estimators=200, random_state=42)
 model.fit(X_train, y_train)
 
+baseline_accuracy = model.score(X_test, y_test)
+
 perm = permutation_importance(
     model,
     X_test,
@@ -506,6 +508,7 @@ perm = permutation_importance(
     random_state=42
 )
 
+print("baseline accuracy:", round(baseline_accuracy, 3))
 print("feature".ljust(20), "MDI".rjust(8), "perm_mean".rjust(12))
 for i, name in enumerate(feature_names):
     mdi = model.feature_importances_[i]
@@ -516,6 +519,7 @@ for i, name in enumerate(feature_names):
 실행 결과 예시는 다음과 같습니다.
 
 ```text
+baseline accuracy: 0.911
 feature                   MDI    perm_mean
 sepal length (cm)       0.098        0.011
 sepal width (cm)        0.028        0.000
@@ -528,6 +532,18 @@ petal width (cm)        0.430        0.189
 - 두 방식은 순위가 비슷할 수도 있고 다를 수도 있습니다.
 - 같은 feature라도 `분기에서 많이 쓰였는가`와 `섞었을 때 성능이 얼마나 떨어지는가`는 다른 질문입니다.
 - 따라서 하나의 중요도 숫자만 보고 해석을 끝내면 위험합니다.
+
+### 직접 판단해 보기
+
+아래 관찰을 보고, 어느 해석이 더 안전한지 먼저 스스로 골라 봅니다.
+
+| 관찰 | 성급한 결론 | 더 안전한 해석 |
+| --- | --- | --- |
+| `petal length`의 MDI가 가장 크다 | 가장 강한 원인이다 | 이 모델이 분기에서 가장 많이 활용한 특징이다 |
+| `sepal width`의 permutation 값이 0에 가깝다 | 완전히 쓸모없는 특징이다 | 다른 특징이 비슷한 정보를 대신하고 있는지 더 봐야 한다 |
+| MDI와 permutation 값이 다르다 | 둘 중 하나가 틀렸다 | 두 값이 서로 다른 질문에 답하고 있다 |
+
+이 표의 목적은 정답 맞히기가 아닙니다. 중요도 숫자를 본 뒤 `바로 결론`으로 뛰지 않고, `이 숫자가 어떤 질문의 답인가`를 한 번 더 확인하는 습관을 만드는 데 있습니다.
 
 ### high-cardinality feature를 조심해야 하는 이유
 
@@ -572,7 +588,7 @@ petal width (cm)        0.430        0.189
 - 중요도 숫자는 곧바로 인과관계나 원인 순위를 뜻하지 않습니다.
 - high-cardinality feature와 correlated feature는 해석을 왜곡할 수 있습니다.
 
-## 짧은 점검
+## 체크리스트
 
 - importance를 원인 순위처럼 읽고 있지 않은가?
 - MDI와 permutation importance가 서로 다른 질문에 답한다는 점을 구분하고 있는가?
