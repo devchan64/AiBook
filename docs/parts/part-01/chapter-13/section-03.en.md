@@ -1,32 +1,25 @@
 # P1-13.3 The Flow That Leads into RAG
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
-P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds document vectors close to a query vector.
-
-Now the next question appears:
+P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds nearby document vectors. The next question is:
 
 > how do retrieved document candidates get connected to the LLM’s answer?
 
 `RAG`, or retrieval-augmented generation, is one representative answer.
 
-> RAG is a structure that first retrieves external material,  
-> then places that retrieved material into the generation input so the model can answer with it as context
+> RAG is a structure that first retrieves external material, then places that material into the generation input so the model can answer with it as context.
 
-The important point is that RAG is not an `answer guarantee device`. It is a structure for adding more context that the LLM can refer to. If the retrieved result is wrong or incomplete, the answer can still fail.
+RAG is not an `answer guarantee device`. It adds context the LLM can refer to, but if retrieval is wrong or incomplete, the answer can still fail.
 
-Part 1 introduces the basic distinctions among `RAG`, `retrieval`, `augmentation`, `generation`, `parametric memory`, `non-parametric memory`, and `provenance` here. Section 13.1 explained embeddings. Section 13.2 explained similarity search. This section connects those two steps into:
-
-> adding retrieval results into LLM input context
-
-Implementation details and service architecture return later in P1-13.4 and Chapter 14.
+Part 1 introduces the basic distinctions among `RAG`, `retrieval`, `augmentation`, `generation`, `parametric memory`, `non-parametric memory`, and `provenance` here. This section connects embeddings and similarity search into `adding retrieval results into LLM input context`. Implementation details and service architecture return later in P1-13.4 and Chapter 14.
 
 ## Scope of This Section
 
 This section gives a conceptual view of the full RAG flow. It does not explain vector databases, indexes, ANN methods, or graph-based retrieval structures in detail. Those return in P1-13.4.
 
-These terms refer to different stages and different memory resources. Their roles can first be separated like this:
+These terms refer to different stages and memory resources. Their roles can first be separated like this:
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
@@ -44,13 +37,7 @@ The baseline distinctions are:
 - external documents are evidence outside the model
 - source tracking is a separate review element
 
-Later sections in P1-14 place RAG inside broader service architecture and tool-use flow. This section focuses only on how retrieval results enter the LLM input.
-
-This section also does not describe RAG as `a hallucination removal mechanism`. Its safer role is:
-
-> a structure for attaching candidate evidence into input context
-
-with review responsibility still remaining afterward.
+Later sections in P1-14 place RAG inside broader service architecture and tool-use flow. Here the focus stays on how retrieval results enter the LLM input. This section also does not describe RAG as `a hallucination removal mechanism`. Its safer role is attaching candidate evidence into input context while leaving review responsibility in place.
 
 | Topic | Question in this section |
 | --- | --- |
@@ -125,11 +112,7 @@ At this level, the intuition is:
 
 Internal model knowledge can be fast to use, but it does not automatically know newly added organizational documents, updated policies, or later-written project notes.
 
-External searchable material can be updated:
-
-- documents can be added
-- documents can be edited
-- older versions can be replaced
+External searchable material can be updated later by adding, editing, or replacing documents.
 
 That is why RAG can help with issues such as:
 
@@ -255,18 +238,6 @@ A good answer should preserve points like:
 
 This shows that RAG is not a machine that `discovers the answer`. It is a mechanism that connects candidate evidence into the LLM’s input.
 
-## What to Remember from This Section
-
-RAG is the structure that connects embeddings and similarity search to the generation process of the LLM. Retrieval finds external candidates, augmentation places them into input context, and generation produces an answer from that augmented input.
-
-> embeddings turn text into vectors  
-> similarity search finds nearby candidates  
-> RAG attaches those candidates into the LLM’s input context  
-> the LLM generates an answer from the augmented input  
-> the answer still requires review
-
-With this perspective, RAG becomes easier to understand later in P1-14 not as a single feature, but as a flow connecting data, retrieval, prompts, models, and review.
-
 ## Checklist
 
 - I can explain RAG as a structure that combines retrieval and generation.
@@ -276,23 +247,8 @@ With this perspective, RAG becomes easier to understand later in P1-14 not as a 
 - I can explain that RAG can help with recency, evidence, and provenance.
 - I can explain that RAG does not automatically guarantee fact verification or eliminate hallucinations.
 - I can explain that RAG quality depends on document preparation, chunking, retrieval, prompt construction, and generation.
-
-## When to Recall This View First
-
-This section is useful when RAG is being understood only as `a hallucination removal feature`, and the connection structure between retrieval and generation needs to be re-established.
-
-- when explaining that RAG is not the opposite of prompting, but a way of preparing context
-- when distinguishing model-internal knowledge from outside searchable material
-- when restating that review responsibility still remains even after retrieval is added
-
-In those moments, it helps to separate:
-
-> retrieval  
-> augmentation  
-> generation  
-> review
-
-That makes it easier to explain RAG not as an answer-guarantee mechanism, but as a structure that connects external evidence candidates into the LLM input.
+- I can explain RAG not as a hallucination-removal feature but by separating `retrieval`, `augmentation`, `generation`, and `review`.
+- I can explain that model-internal knowledge and external retrieved material should be read separately, and that review responsibility still remains after retrieval is added.
 
 ## Sources and Further Reading
 

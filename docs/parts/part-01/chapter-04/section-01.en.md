@@ -1,7 +1,7 @@
 # P1-4.1 Becoming Comfortable with the Word Model
 
 > Section ID: `P1-4.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 3 showed the flow from rule-based approaches to learning-based approaches. Chapter 4 turns that flow into a more practical question. What must we do to turn a real-world problem into a form AI can compute?
 
@@ -204,26 +204,6 @@ Look at the cases below and first sort them into `what the model does`, `what th
 
 The core of this exercise is to reduce the mistaken idea that `the model solves everything`. The model usually handles a narrower computational task, while actual service behavior is carried by a system that includes rules, human review, policy, storage, and execution procedures.
 
-## What to Remember from This Section
-
-A model is not the whole of reality. A model is a computational representation reduced for a purpose so that a real-world problem can be handled.
-
-The central generalization of this section can be compressed into one sentence:
-
-> A model is a computational representation that simplifies a target for a purpose, and that simplification makes it both useful and limited.
-
-When you try to understand an AI model, you should first ask the following questions.
-
-> What real-world target was reduced to build this model?  
-> For what purpose was this model built?  
-> What does this model take as input?  
-> What does this model produce as output?  
-> What data was this model trained on?  
-> What did this model leave out?  
-> How is the model's output used inside the real system?
-
-The next section organizes these questions again through `input`, `output`, and `data`.
-
 ## Checklist
 
 - I can explain `model` together with the idea of a `representation`.
@@ -231,16 +211,8 @@ The next section organizes these questions again through `input`, `output`, and 
 - I can check a model together with its target, purpose, simplification, and limits.
 - I can explain that a model's output is not automatically a real-world action or final resolution.
 - I can explain that `a trained model appears` means internal criteria were adjusted to past examples.
-
-## When Should This Perspective Come to Mind First?
-
-This section's perspective should come to mind first when you hear the word `model` and need to separate whether it means the whole of reality or a computational component.
-
-- when model performance starts to feel identical to solving the whole business problem
-- when an LLM or classifier starts to sound like the same thing as a whole service
-- when you need to explain separately what the model does and what policy, review, and execution procedures do inside a system
-
-At those moments, go back first to the baseline that `the model is a purpose-driven computational representation` and `the system is the larger procedure around that model`. Then check what the model takes as input, what it produces as output, and what it does not handle at all. That is how the role boundary becomes clear.
+- I can explain that a model is a computational representation reduced for a purpose, while the system is the larger procedure around that model.
+- I can separate what the model does from what policy, review, storage, and execution procedures do inside a system.
 
 ## Sources and Further Reading
 

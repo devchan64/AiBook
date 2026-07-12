@@ -1,7 +1,7 @@
 # P1-10.1 The Difference Among Classification, Prediction, and Generation
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 9 looked at how deep learning spread across many fields. `Image recognition`, `object detection`, `speech generation`, and `language modeling` all belong to the broader flow in which neural networks learn `representations` from data.
 
@@ -199,21 +199,6 @@ But the difference users feel most strongly appears in the output:
 
 Because of this, generative AI more easily makes users feel that the system is `thinking`. But that feeling does not guarantee understanding or truth. Generative AI can look more powerful because it can create new artifacts, but that also increases the risks that need human review.
 
-## What to Remember from This Section
-
-Classification, prediction, and generation are related because all of them involve model outputs. The difference lies in the character of the output.
-
-> classification chooses a category  
-> prediction estimates a value or state  
-> generation creates a new artifact that fits the condition
-
-The important point is not to treat generative AI as `magic that is completely different from all earlier AI`. The safer view is:
-
-> generative AI is a way of using models to construct new artifacts  
-> based on learned representations and probabilistic judgment from data
-
-The next section uses this baseline to examine the intuition of `next-output generation` in text, image, and speech generation.
-
 ## Checklist
 
 - I can explain classification as the task of choosing a category.
@@ -222,22 +207,8 @@ The next section uses this baseline to examine the intuition of `next-output gen
 - I can explain generation as creating a new artifact that fits a condition.
 - I can explain that the same input data can become a classification task, a prediction task, or a generation task depending on the problem definition.
 - I can explain that the risks of generative AI are tied to the freedom of its output.
-
-## When to Recall This View First
-
-This section is useful when the phrase `AI produces an answer` is being used too broadly, so the difference among classification, prediction, and generation starts to disappear.
-
-- when first separating generative AI from earlier classifiers or regression models
-- when explaining that the same input data can lead to different output types depending on the problem definition
-- when connecting the greater freedom of generated outputs to a greater burden of review
-
-In those cases, it helps to separate three questions:
-
-> does the model choose a category?  
-> does it estimate a value or state?  
-> does it construct a new artifact?
-
-That keeps generative AI from looking like an exaggerated exception while still making the difference in output type clear.
+- I can explain a problem by separating whether the model chooses a category, estimates a value or state, or constructs a new artifact.
+- I can explain generative AI not as magic disconnected from earlier AI, but as a difference in output form and review burden.
 
 ## Sources and Further Reading
 

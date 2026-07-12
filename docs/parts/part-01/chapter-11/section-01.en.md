@@ -1,7 +1,7 @@
 # P1-11.1 Statistical Language Models and Embeddings
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Chapter 10 showed that when generative AI creates outputs, naturalness, factuality, evidence, and risk all need separate review.
 
@@ -260,24 +260,6 @@ The connection to remember is:
 > use large data and neural-network structure  
 > to compute next-token distributions over long context and generate outputs
 
-## What to Remember from This Section
-
-LLMs are not suddenly appearing chatbots. They can be understood on top of the line of `language modeling`, which treated language probabilistically, of `n-grams`, which counted short context, of `embeddings`, which represented words as vectors, and of neural language models, which learned word representations and probability functions together.
-
-The core of this section is:
-
-> a language model handles the next word probabilistically  
-> embeddings turn words and tokens into computable vector representations  
-> LLMs are the result of scaling up both lines with larger neural models and longer-context processing
-
-After this section, at minimum these three distinctions should remain:
-
-| Key distinction to keep | Why it matters |
-| --- | --- |
-| language models are the line that asks `what word comes next?` probabilistically | This keeps later next-token prediction from feeling like a completely sudden new idea. |
-| n-grams began with short-context frequency, but had limits in long context and generalization | This helps explain why stronger neural language models and Transformer-family models became necessary. |
-| embeddings turn words and tokens into computable vector representations | This becomes the one-line handle for later discussion of vector search, RAG, and token representation. |
-
 ## Checklist
 
 - I can explain a language model as a model that handles probabilities of the next word or next token.
@@ -287,22 +269,8 @@ After this section, at minimum these three distinctions should remain:
 - I can distinguish CBOW and Skip-gram at a very simple intuitive level.
 - I can explain that embeddings are learned from data rather than being dictionary definitions.
 - I can distinguish symbols and embeddings as representations at different levels rather than as direct replacements.
-
-## When to Recall This View First
-
-This section is useful when LLMs are being explained only through Transformers or chatbot experience, and the earlier lines of language modeling and vector representation need to be restored.
-
-- when reconnecting `next-token prediction` to its earlier starting point in language models and n-grams
-- when explaining why short-context frequency-based approaches had clear limits
-- when re-establishing that an embedding is a learned vector representation rather than a dictionary definition
-
-In those cases, it helps to separate:
-
-> the problem of estimating the next word  
-> the short-context frequency-based approximation  
-> the representation that places words in vector space
-
-That makes it easier to read LLMs as the accumulation of language modeling and distributed representation rather than as a structure that appeared from nowhere.
+- I can place LLMs in the accumulated line of language modeling and distributed representation rather than treating them as suddenly appearing chatbots.
+- I can explain the flow by separating next-word probability, short-context frequency approximation, and vector representation.
 
 ## Sources and Further Reading
 

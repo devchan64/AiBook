@@ -1,11 +1,11 @@
 # P1-9.1 Image Recognition and Representation Learning
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Chapter 8 distinguished supervised learning, unsupervised learning, and reinforcement learning by the kind of learning signal they use. Now we move into `deep learning`.
 
-This section does not try to explain all of deep learning. Instead, it uses `image recognition` as a concrete case to explain why deep learning is often understood as a shift from `having people design all the features` to `having the model learn useful representations as well`.
+This section does not explain all of deep learning. It uses `image recognition` to explain why deep learning is often understood as a shift from `having people design all the features` to `having the model learn useful representations as well`.
 
 The central question is:
 
@@ -37,7 +37,7 @@ The minimum distinction to keep is:
 
 This section does not explain convolutional neural networks with equations. `Convolution` and `pooling` return in Part 5, especially P5-11.2. `Activation functions` return in P5-3.1 and P5-3.2. `Backpropagation` and `optimizers` return in P5-5.1, P5-5.2, and P5-7.1.
 
-This section also does not present AlexNet as `the beginning of all deep learning`. Neural-network and CNN research had already existed for a long time before that. Here, AlexNet is used more narrowly as a representative turning point that made the 2010s spread of deep learning visible.
+This section also does not present AlexNet as `the beginning of all deep learning`. Neural-network and CNN research had already existed for a long time before that. Here, AlexNet is used more narrowly as a turning point that made the 2010s spread of deep learning visible.
 
 It also does not redefine `representation` from the ground up. The focus here is the contrast:
 
@@ -46,7 +46,7 @@ It also does not redefine `representation` from the ground up. The focus here is
 
 The direct lineage of LLMs is handled separately in the next section and in 9.3.
 
-One more historical distinction matters. Neural networks did not suddenly appear in the 2010s. Around 2006, work on deep belief networks and representation learning helped revive interest in deep learning. So AlexNet in 2012 is more accurately read not as an event that emerged from nothing, but as a case where older neural-network research and the revival around 2006 met large datasets and GPU computation and then became a visible turning point in adoption.
+One more historical distinction matters. Neural networks did not suddenly appear in the 2010s. Around 2006, work on deep belief networks and representation learning helped revive interest in deep learning. So AlexNet in 2012 is better read not as an event that emerged from nothing, but as a case where older neural-network research and that revival met large datasets and GPU computation.
 
 The baseline definition in this section is:
 
@@ -199,19 +199,6 @@ But they do show one important background:
 
 Against that background, the next sections examine object detection and speech generation. The same rule stays in place there as well: cases such as YOLO and WaveNet are not the direct cause of LLMs, but surrounding evidence that the deep-learning paradigm had spread across many kinds of input and output problems.
 
-## What to Remember from This Section
-
-Image recognition looks intuitive to people, but it is difficult to handle reliably with rules and hand-crafted features alone because of lighting changes, pose changes, backgrounds, occlusion, and large variation inside a category.
-
-Deep learning changed the framing:
-
-> people design every feature themselves  
-> -> the model learns useful representations from data as well
-
-AlexNet is the representative case that made this shift widely visible. The point to remember is not `image recognition created LLMs`, but:
-
-> representation learning and large-scale neural networks spread the deep-learning paradigm by showing strong results across many domains
-
 ## Checklist
 
 - I can explain image recognition as the problem of predicting a category from an image.
@@ -219,22 +206,8 @@ AlexNet is the representative case that made this shift widely visible. The poin
 - I can explain that CNNs handle local image patterns hierarchically.
 - I can describe AlexNet as a turning point where large data, deep CNNs, GPUs, and training techniques were combined.
 - I do not treat image-recognition history as the direct lineage of LLMs.
-
-## When to Recall This View First
-
-This section is useful when a discussion describes the deep-learning turning point only as `performance improved` and loses the meaning of representation learning.
-
-- when contrasting a feature-engineering approach with a representation-learning approach
-- when explaining at an intuitive level why CNNs mattered for images
-- when placing AlexNet safely as a turning point in spread rather than as `the absolute first beginning`
-
-In those cases, it helps to separate three questions:
-
-> why was the problem hard to write as rules?  
-> what did people design, and what did the model learn?  
-> why did data, GPUs, and model structure matter together?
-
-That makes it possible to explain the shift in the deep-learning paradigm clearly without overstating the historical case.
+- I can contrast the approach where people design features directly with the approach where the model learns representations as well.
+- I can place image-recognition history not as the direct lineage of LLMs but as background for the spread of the deep-learning paradigm.
 
 ## Sources and Further Reading
 

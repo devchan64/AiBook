@@ -1,7 +1,7 @@
 # P1-15.3 Security and Privacy
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-15.2 examined how to handle other people's expression and copyrighted works. P1-15.3 turns to a parallel question:
 
@@ -120,18 +120,6 @@ P1-14.5 explained that harnesses, logs, and evaluation help review AI execution.
 
 The strategy of storing everything for easier debugging is not safe. Logs need retention limits, masking for sensitive values, or rules for not storing some values at all.
 
-## The View to Keep from This Section
-
-AI security is not only about blocking the model. It is about managing the flow of data, authority, and records.
-
-> AI input is data movement  
-> prompt injection disturbs the boundary between instructions and material  
-> agent permissions should be minimized  
-> logs and traces can themselves become privacy risks  
-> human approval and stop authority belong to service operations
-
-Part 1 Chapter 15 ends here. Chapter 16 then turns to how AI can be applied and verified in this book and in real work.
-
 ## Checklist
 
 - You can explain that AI input may travel into external services and logs.
@@ -139,14 +127,7 @@ Part 1 Chapter 15 ends here. Chapter 16 then turns to how AI can be applied and 
 - You can explain why prompt injection becomes especially dangerous in systems that combine RAG and tool use.
 - You can explain why an agent's execution authority should be restricted by least privilege.
 - You can explain why logs, traces, and evaluation data can create privacy and security risks too.
-
-## When to Recall This View First
-
-- When AI input is being treated like casual conversation rather than data movement
-- When a structure with RAG, tool use, and agent permissions needs its security risk checked again
-- When logs and traces need to be understood as both debugging records and privacy risks
-
-In those cases, separate `input data`, `outside-document instructions`, `execution authority`, and `record retention` first.
+- You can explain security risks inside service structure by separating `input data`, `outside-document instructions`, `execution authority`, and `record retention`.
 
 ## Sources and Further Reading
 

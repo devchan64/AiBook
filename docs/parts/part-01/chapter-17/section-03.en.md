@@ -1,27 +1,23 @@
 # P1-17.3 Distinguishing Prediction from a Working Hypothesis
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
-P1-17.2 discussed how to read news, columns, and reports. The final section of Part 1 turns to a different question:
+P1-17.2 discussed how to read news, columns, and reports. The final section of Part 1 asks how personal ideas can be preserved safely inside a learning document.
 
-> how should personal ideas be preserved safely inside a learning document?
-
-Relearning AI often begins from personal memory and intuition. Thoughts like these can become important starting questions:
+Relearning AI often begins from personal memory and intuition. Thoughts like these can become useful starting questions:
 
 > AI moved from rules toward data-based judgment  
 > prompts are a way to understand LLM behavior  
 > agent-style tools may feel like a new usage flow after CLI and GUI
 
-But `question` and `fact` are not the same thing.
+But `question` and `fact` are not the same thing. This section ties the evidence standards from P1-17.1 and P1-17.2 back to one writing question:
 
-This section ties the evidence standards and reading methods from P1-17.1 and P1-17.2 back to a practical writing question:
-
-> how should personal intuition be left inside the document without being mistaken for verified explanation?
+> how should personal intuition be left in the document without being mistaken for verified explanation?
 
 ## Scope of This Section
 
-This section explains how personal interpretation should be handled inside a learning document. It does not attempt to predict future developments themselves in detail.
+This section explains how personal interpretation should be handled inside a learning document. It does not try to predict future developments themselves in detail.
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
@@ -102,30 +98,13 @@ Part 1 was meant to establish the large map of AI. Detailed mathematics, code, a
 
 Part 2 then moves into rebuilding foundations. Rather than proving mathematics formally, it rebuilds enough foundation to read AI documents and check ideas with small code examples.
 
-## The View to Keep from This Section
-
-Personal intuition can become the starting point of learning, but factual explanation in the book still requires evidence.
-
-> distinguish question from fact  
-> mark a working hypothesis  
-> attach source and context to prediction  
-> do not write AI-generated forecasts as if they were facts  
-> use personal perspective in clearly separated places
-
 ## Checklist
 
 - You can distinguish factual claim, interpretation, prediction, and working hypothesis.
 - You can explain why personal intuition should not be written as verified fact.
 - You can explain why prediction sentences need source, date, and context.
 - You can distinguish the places where personal perspective can be used from the main body of concept explanation.
-
-## When to Recall This View First
-
-- When personal intuition is about to be moved directly into the main body as factual explanation
-- When a predictive sentence is about to be written without source, date, and context
-- When the position of learning motivation and verified concept explanation needs to be separated again
-
-In those cases, separate `factual claim`, `interpretation`, `prediction`, and `working hypothesis` first.
+- You can separate personal intuition from factual explanation by dividing `factual claim`, `interpretation`, `prediction`, and `working hypothesis`.
 
 ## Sources and Further Reading
 

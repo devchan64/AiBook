@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -201,33 +201,14 @@ That is why agent-style services also have to ask:
 
 These questions then lead naturally to the next section on harnesses, logs, and evaluation.
 
-## The View to Keep from This Section
-
-An `agent` is not a model name. It is an execution structure.
-
-> prompts provide instructions and context  
-> RAG strengthens the input with outside material  
-> tool use calls outside system functions  
-> the agent ties goal, state, action, and observation into a multi-step workflow  
-> the application and server manage permissions, approvals, state, and stop conditions
-
-With that view, MCP in the next section is easier to read correctly: it is not the agent itself, but a way to standardize how agents and AI applications connect to tools or data.
-
 ## Checklist
 
-- You can explain an agent through `goal`, `state`, `action`, `observation`, and `stop condition`.
+- You can explain an agent as an execution structure by separating `goal`, `state`, `action`, `observation`, and `stop condition`.
 - You can distinguish prompts, RAG, tool use, and agents instead of mixing them together.
 - You can explain that an agent can continue a multi-step task without implying unlimited autonomy.
 - You can explain that the application and server still manage permissions, approvals, state, and scope.
 - You can describe a coding-agent workflow as a chain of reading, editing, verifying, and reporting.
-
-## When to Recall This View First
-
-- When an agent is being described as just a smarter chatbot or another model name
-- When several steps such as retrieval, tool execution, and reporting have to be explained inside one flow
-- When the model is being treated as if it could safely act without policy, scope, or approval
-
-In those cases, separate the workflow first into `goal`, `state`, `action`, `observation`, and `stop condition`.
+- You can explain how the `goal`, `state`, `action`, `observation`, and `stop condition` frame keeps the agent distinct from a single model ability.
 
 ## Sources and Further Reading
 

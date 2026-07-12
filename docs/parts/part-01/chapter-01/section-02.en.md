@@ -1,7 +1,7 @@
 # P1-1.2 Problems AI Deals With
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
@@ -198,22 +198,6 @@ The scenes below are meant as practice in separating `what goes in`, `what comes
 
 The point of this practice is not memorizing final answers. It is to verify directly that even the same work data becomes a completely different problem depending on whether the goal is to predict a future quantity, choose a priority order, generate a new sentence, or classify a state.
 
-## What to Remember from This Section
-
-- AI problems should first be read through what the input and output are.
-- Even the same data becomes a very different problem when the question changes.
-- Real services often combine several problem types, such as retrieval, ranking, and generation, in one flow.
-
-The minimum sentence to keep at this stage is this: `The same data becomes a different AI problem when the question changes.`
-
-The baseline that should remain from this section can be compressed into three lines.
-
-| Baseline to keep | Why it matters first |
-| --- | --- |
-| AI problems are first read as `input -> output` | because that makes it possible to recover common structure even when technical names differ |
-| The same data can become prediction, recommendation, or generation when the question changes | because at the introductory stage, problem definition comes before all algorithms |
-| Real services can bundle several problems such as search, ranking, and generation into one flow | because later Parts will be less surprising when several structures appear inside one service |
-
 ## Checklist
 
 - You can explain AI problems through the viewpoint of input and output.
@@ -221,16 +205,9 @@ The baseline that should remain from this section can be compressed into three l
 - You can explain that the same data can become a different AI problem depending on the question.
 - You can distinguish problem type from implementation method.
 - You can explain why problem definition should be checked before the model.
-
-## When to Recall This View First
-
-Bring this section back first when the problem type does not become clear at once even though the data or the service looks familiar.
-
-- when one customer dataset has to be explained as prediction, recommendation, clustering, and generation in different ways
-- when a single search box may actually contain search, ranking, and generation together
-- when `what goes in and what comes out` needs to be clarified before model names
-
-At that point, write the problem first in four slots: input, output, goal, and impact. Then read classification, prediction, recommendation, generation, or control on top of that structure.
+- You can explain that AI problems should first be read through what the input and output are.
+- You can explain that the same data can become a completely different problem such as prediction, recommendation, or generation depending on the question.
+- You can explain that real services can contain several problem types such as search, ranking, and generation in one flow.
 
 ## Sources and References
 

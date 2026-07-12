@@ -1,7 +1,7 @@
 # P1-14.5 Harness and the Evaluation Execution Environment
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-14.4 treated MCP as a protocol that standardizes how AI applications connect to outside tools and data. The next question is more operational:
 
@@ -278,20 +278,6 @@ Even if a harness exists, it does not automatically make the service safe or cor
 
 So the harness is not a device that guarantees the right answer. It is a device that makes execution observable and improvable.
 
-## What to Keep from This Section
-
-A `harness` is an execution environment that wraps models and tools.
-
-> it does not create force, but helps force get used safely  
-> the test harness wraps a system under test in controlled conditions  
-> the agent harness wraps multi-step execution so that it can be traced, logged, and evaluated  
-> traces reveal execution flow  
-> logs preserve what can later be explained  
-> evaluation builds repeatable comparison  
-> graders turn criteria into executable form
-
-If this perspective is fixed, then the next section on `the constraints AI services meet in the real world` becomes easier to read more realistically. Traces, logs, and evaluation all raise quality, but they also create cost, latency, and operational burden.
-
 ## Checklist
 
 - I can explain a harness as an environment that wraps execution, not as the model itself.
@@ -302,14 +288,7 @@ If this perspective is fixed, then the next section on `the constraints AI servi
 - I can explain evaluation as the combination of a dataset, criteria, a grader, and an eval run.
 - I can explain why prompt changes, model changes, RAG changes, and tool changes all need regression checks.
 - I can explain that a harness does not guarantee the correct answer, but makes observation and improvement possible.
-
-## When Should This Perspective Come to Mind First?
-
-- when a model producing an answer starts to feel like the whole service has already been validated
-- when you need to explain why logs, traces, and evaluation are handled inside a separate execution environment
-- when the service still lacks a way to check regressions after changes
-
-At that point, separate the problem again into `wrapping execution`, `recording steps`, and `comparing repeatedly`. That prevents accidental success from being confused with repeatable stability.
+- I can explain a harness by the three roles `wrap execution`, `record steps`, and `compare repeatedly`.
 
 ## Sources and Further Reading
 

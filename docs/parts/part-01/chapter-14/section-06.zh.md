@@ -1,7 +1,7 @@
 # P1-14.6 AI 服务在现实中遇到的约束
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 在 P1-14.5 中，我们把 harness 看成一种执行环境：它会包裹模型与工具运行，并使 trace、log、evaluation 成为可能。接下来问题会进一步转向现实：
 

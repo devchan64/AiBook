@@ -1,7 +1,7 @@
 # P1-16.1 Personal Learning and Documentation
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-15 examined where AI connects to social risk, copyright, and security. P1-16 moves into application cases. The first case is an AI relearning documentation project.
 
@@ -98,30 +98,13 @@ The writing flow of this kind of project can be viewed like this:
 
 The important point is not to treat AI as authority. AI can create drafts and comparison candidates, but the evidence for factual claims still has to come from outside sources and human review.
 
-## The View to Keep from This Section
-
-In personal learning, AI is not an answer sheet. It is a tool for building learning structure.
-
-> AI does not replace memory  
-> AI helps organize questions  
-> documentation is an output of understanding  
-> checking sources is part of learning  
-> working hypotheses should be preserved separately from standard concepts
-
 ## Checklist
 
 - You can explain why personal memory should be preserved as a `working hypothesis`.
 - You can distinguish an AI draft from a verified explanation.
 - You can explain why section-based documentation helps narrow the central question.
 - You can explain why educational material needs explanation, activity, evidence, and checking criteria together.
-
-## When to Recall This View First
-
-- When AI is being used like an answer sheet rather than as a structuring tool for personal learning
-- When documentation is being treated only as recordkeeping instead of as a verification device
-- When personal intuition and verified explanation are about to be mixed in the same paragraph
-
-In those cases, separate `question structuring`, `documentation`, `evidence review`, and `working-hypothesis preservation` first.
+- You can explain AI as a learning-structuring tool by separating `question structuring`, `documentation`, `evidence review`, and `working-hypothesis preservation`.
 
 ## Sources and Further Reading
 

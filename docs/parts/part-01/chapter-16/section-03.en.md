@@ -1,7 +1,7 @@
 # P1-16.3 How to Validate with a Project
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-16.2 looked at work automation and search from the viewpoint of workflow. This section organizes how to validate learning and practical use through a small `project`.
 
@@ -89,30 +89,13 @@ Failure records then become requirements for the next improvement cycle.
 > adjust the validation standard  
 > make a small fix and test again
 
-## The View to Keep from This Section
-
-An AI project is not mainly about attaching a large tool. It is about turning one small question into a testable deliverable.
-
-> start from a question rather than from a technology label  
-> write the success criteria first  
-> evaluate not only answer quality but also evidence and operating conditions  
-> failure records become material for the next improvement  
-> small projects verify understanding
-
 ## Checklist
 
 - You can explain why an AI project should start from a central question rather than from a technology name.
 - You can explain why success criteria should be written first.
 - You can include grounding, cost, latency, and security conditions in evaluation.
 - You can explain why failure records become the next requirements.
-
-## When to Recall This View First
-
-- When people say "let's do a project" but no validation question exists yet
-- When results are being judged only by vague feeling instead of success criteria
-- When failure should be turned into the next set of requirements instead of being erased
-
-In those cases, separate `central question`, `success criteria`, `evaluation method`, and `failure record` first.
+- You can explain an AI project as a testable learning unit by separating `central question`, `success criteria`, `evaluation method`, and `failure record`.
 
 ## Sources and Further Reading
 

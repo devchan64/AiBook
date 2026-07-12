@@ -1,7 +1,7 @@
 # P1-4.3 特征(feature)、表征(representation)与参数(parameter)
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 4.2 已经整理了 `input`、`output` 与 `data`，也就是模型要看什么、又想从它那里拿回什么。这一节继续往里走一步，解释这些输入在模型内部会变成怎样的计算材料。
 
@@ -292,16 +292,6 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 - 我可以把 intent analysis 和 model parameter 区分开，并把它读成把输入解释成业务意图或标签的一层。
 - 我可以区分 model parameter 和 LLM generation setting。
 - 我可以区分：4.3 不是模型制作流程，而是用来读懂模型计算的一组基础术语。
-
-## 什么时候应先想起这一节的视角
-
-当你开始感觉原始输入数据和模型内部值被混在同一层理解时，就该把这一节的视角重新拿出来。
-
-- 当原始句子、feature、representation 和 parameter 都开始像同一种“数据”时
-- 当你很想把 `temperature` 这类生成设置直接理解成模型自己学到的 parameter 时
-- 当你需要解释：为什么同样输入只因 representation 不同，就会让模型看见完全不同的差异时
-
-这时，就重新按 `feature/representation 在输入侧`、`parameter 在模型内部` 的位置来切开。然后再看：哪些值是人设计的线索，哪些值是通过学习调整出来的内部标准。这样能很快减少术语混乱。
 
 ## 出处与参考资料
 

@@ -1,7 +1,7 @@
 # P1-5.3 区分与 inference 相关的术语
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 5.2 已经把 `inference` 说明成：把训练好的模型应用到新输入上，并产生输出的执行过程。但在真实 AI 文档里，这一个词常常会和不同翻译、日常表达以及相邻概念在多种语言中重叠。
 
@@ -175,16 +175,6 @@ Google 的 glossary 也会说明：statistics 里的 inference 意义有些不�
 
 这里更重要的习惯，不是把所有英文词都背下来，而是不要只看翻译词就立刻决定意思。只要再多问一次，`现在这句话说的是模型执行、思考过程，还是输出值？`，术语碰撞就会明显减少。
 
-## 这一节要记住的内容
-
-`inference` 可以被翻成某种“推理”类表达，但在本书里，我们先读概念位置，再读翻译词：
-
-> inference = 把训练好的模型应用到新输入上并产生输出的执行
-
-人的逻辑思考过程单独记作 `reasoning`。模型给出的输出单独记作 `prediction` 或生成结果。统计学意义上的推断则单独记作 `statistical inference`。
-
-只要维持住这个区分，后面在解释深度学习、LLM、提示词、智能体和 AI 服务架构时，不必要的混乱就会少很多。
-
 ## Checklist
 
 - 我可以把 `inference` 解释成 `模型执行` 或 `模型应用`。
@@ -193,16 +183,8 @@ Google 的 glossary 也会说明：statistics 里的 inference 意义有些不�
 - 我可以说明 `statistical inference` 和机器学习部署语境里的 inference 不同。
 - 我可以说明 LLM 能生成看起来像 reasoning 的文本，但那段解释仍要单独检查。
 - 我可以说明为什么本书要把英文原词保留下来。
-
-## 什么时候应先想起这个视角？
-
-当一个翻译词让多个英文概念看起来像处在同一层时，就该先把这一节的视角重新拿出来。
-
-- 当你开始把 `inference` 读成和人的 `reasoning` 几乎一样时
-- 当 `prediction`、`generation`、`statistical inference` 看起来像同一个翻译词，语境差别消失时
-- 当 LLM 生成了看起来像 reasoning 的文本，而你开始默认那就等于正确思考过程时
-
-这时先重新分开：`inference 是模型执行`，`prediction 是结果`，`reasoning 是思考过程`，`generation 是生成`，`statistical inference 是统计语境`。然后再确认当前句子到底在说过程、结果、解释还是统计，术语冲突就会少很多。
+- 我可以说明：`inference` 可以翻译，但本书会先读概念位置，再读翻译词。
+- 我可以说明 `inference 是模型执行`、`prediction 是结果`、`reasoning 是思考过程`、`generation 是生成`、`statistical inference 是统计语境` 这一组区分。
 
 ## 出处与参考资料
 

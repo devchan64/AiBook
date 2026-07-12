@@ -1,7 +1,7 @@
 # P1-4.3 Features, Representations, and Parameters
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 4.2 examined the relation among `input`, `output`, and `data`, or what we want to show the model and what we want back from it. This section explains what kind of computational material that input becomes inside the model.
 
@@ -292,16 +292,6 @@ The next section, 4.4, uses these concepts to show why problem definition determ
 - I can distinguish intent analysis from model parameters and read it as a layer that interprets input into a business intention or label.
 - I can distinguish model parameters from LLM generation settings.
 - I can distinguish that Section 4.3 is not a model-building procedure, but a basic vocabulary guide for reading model computation.
-
-## When This View Should Come to Mind First
-
-Bring back the view of this section when it starts to feel like original input data and internal model values are being mixed at the same level.
-
-- when the original sentence, feature, representation, and parameter all start to feel like the same kind of `data`
-- when there is a temptation to read generation settings such as `temperature` as if they were parameters the model learned
-- when you need to explain why the same input can lead the model to see completely different differences depending on the representation
-
-At that point, divide again by the position split `feature/representation is on the input side` and `parameter is on the inside of the model`. Then check which values are human-designed clues and which values are learned internal criteria. That reduces term confusion quickly.
 
 ## Sources and Further Reading
 

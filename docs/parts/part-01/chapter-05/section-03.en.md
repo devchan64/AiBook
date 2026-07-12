@@ -1,7 +1,7 @@
 # P1-5.3 Distinguishing Inference-Related Terms
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 5.2 explained `inference` as the execution that applies a trained model to a new input and produces output. But when we read real AI documents, this one word often overlaps with different translations, everyday expressions, and neighboring concepts across languages.
 
@@ -175,16 +175,6 @@ That is why the early part of this book keeps the English expression alongside t
 
 The important habit here is not memorizing every English word, but refusing to decide the meaning only from the translated term. If we ask once more, `Is this sentence talking about model execution, a thought process, or an output value?`, then terminology collisions become much easier to avoid.
 
-## What to Remember from This Section
-
-It is possible to translate `inference` with a word like `reasoning`, but in this book we read the conceptual position before the translation:
-
-> inference = the execution that applies a trained model to a new input and produces output
-
-A human logical thought process is separated as `reasoning`. A model's output is separated as `prediction` or a generated result. The statistical meaning is kept separately as `statistical inference`.
-
-If we keep that distinction, unnecessary confusion decreases later when we explain deep learning, LLMs, prompts, agents, and AI service architecture.
-
 ## Checklist
 
 - I can explain `inference` as `model execution` or `model application`.
@@ -193,16 +183,8 @@ If we keep that distinction, unnecessary confusion decreases later when we expla
 - I can explain that `statistical inference` is different from inference in the machine-learning deployment context.
 - I can explain that an LLM can generate text that looks like reasoning, but that explanation must still be reviewed separately.
 - I can explain why this book keeps the English term visible.
-
-## When Should This Perspective Come to Mind First?
-
-This section's perspective should come back first when a single translated word makes several English terms look as if they were on the same level.
-
-- when you begin to read `inference` as almost the same thing as human `reasoning`
-- when `prediction`, `generation`, and `statistical inference` all start to look like the same translated word and the context disappears
-- when an LLM generates text that looks like reasoning and you begin to treat it as a correct thought process by default
-
-At that point, separate the terms again as `inference is model execution`, `prediction is result`, `reasoning is thought process`, `generation is generation`, and `statistical inference is statistical context`. Then check whether the current sentence is talking about process, result, explanation, or statistics. That is how terminology collisions are reduced.
+- I can explain that `inference` may be translated locally, but this book reads the conceptual position before the translation.
+- I can explain the distinction that `inference` is model execution, `prediction` is result, `reasoning` is thought process, `generation` is generation, and `statistical inference` is statistical context.
 
 ## Sources and Further Reading
 

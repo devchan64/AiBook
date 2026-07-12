@@ -1,7 +1,7 @@
 # P1-7.4 Supplemental Learning: From Route Finding to Autonomous-Driving Path Planning
 
 > Section ID: `P1-7.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 7.1 abstracted search as the problem of finding a path to a goal. Section 7.2 explained what heuristics reduce when we cannot inspect every candidate. Section 7.3 separated heuristics from probabilistic models.
 

@@ -1,7 +1,7 @@
 # P1-16.2 Work Automation and Search
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 P1-16.1 treated an AI relearning documentation project as a case of personal learning and documentation. This section widens the view toward workplace use.
 
@@ -94,30 +94,13 @@ AI tools can produce first drafts quickly. But faster drafting does not automati
 
 The productivity of AI use should not be judged only by generation speed. It also has to consider `review cost`, `failure cost`, and `operational cost`.
 
-## The View to Keep from This Section
-
-Applying AI at work is not a fantasy of total automation. It is a redesign of workflow boundaries.
-
-> divide the work into smaller stages  
-> distinguish the stages AI can support from the stages people must own  
-> search results are evidence candidates, not final answers  
-> summary does not replace checking the original source  
-> productivity should include review cost
-
 ## Checklist
 
 - You can explain work automation through workflow decomposition rather than total replacement.
 - You can explain why search and RAG results should be treated as evidence candidates.
 - You can explain why summary cannot replace checking the original.
 - You can evaluate AI productivity by looking at both draft speed and review cost.
-
-## When to Recall This View First
-
-- When there is a vague expectation that AI can replace the whole job
-- When search or summary output is about to be adopted directly as the answer
-- When productivity is being judged only by generation speed and not by review cost
-
-In those cases, separate `workflow-stage decomposition`, `evidence-candidate search`, `original-source review`, and `review cost` first.
+- You can explain workplace AI use by separating `workflow-stage decomposition`, `evidence-candidate search`, `original-source review`, and `review cost`.
 
 ## Sources and Further Reading
 

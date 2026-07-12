@@ -1,7 +1,7 @@
 # P1-8.2 Unsupervised Learning: Structure and Representation
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 8.1 explained a `label` as a distinguishing marker attached to data. Supervised learning tries to match the relationship between inputs and outputs using examples where inputs and labels are given together.
 
@@ -222,15 +222,6 @@ Chapter 8 separates three basic learning types. Summarized again:
 
 `Deep learning` is not on the same axis as this table. It can be used inside unsupervised learning, but it is not identical to unsupervised learning itself.
 
-## What to Remember from This Section
-
-Unsupervised learning is a way of finding `structure`, `clusters`, or `representations` inside data without labels attached by people.
-
-> unsupervised learning = learning that looks for structure inside data  
-> without human-provided labels in advance
-
-No labels does not mean no goal. The goal shifts from fitting outputs to labels toward finding hidden groupings, axes, or forms inside the data. That is why unsupervised-learning results should be read as starting points for discovery, not as immediate business truth.
-
 ## Checklist
 
 - Explain unsupervised learning as a way of finding structure in unlabeled data.
@@ -239,16 +230,8 @@ No labels does not mean no goal. The goal shifts from fitting outputs to labels 
 - Explain dimensionality reduction as a way of looking again at complex data through fewer axes.
 - Distinguish a cluster label from a human-attached supervised label.
 - Explain why unsupervised-learning results still require human interpretation and review.
-
-## When Should This View Come First?
-
-Recall this section first when `there are no labels` starts to feel like a complete explanation of unsupervised learning.
-
-- when you need to explain the difference between supervised and unsupervised learning as a difference in question, not just answer availability
-- when you are tempted to read cluster numbers or reduced coordinates directly as business meaning or truth
-- when you need to organize the different roles of clustering, dimensionality reduction, and representation
-
-In those moments, separate `what counts as similar`, `what structure we are trying to find`, and `who interprets the result`. That makes unsupervised learning easier to read as a structure-discovery problem rather than as a vague sorting technique.
+- Explain that `what counts as similar`, `what structure we are trying to find`, and `who interprets the result` should be separated.
+- Explain why cluster numbers or reduced coordinates should not be read directly as business meaning or truth.
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P1-3.3 Rule-Based Approaches and Representation Learning
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly, and Section 3.2 examined the basic structure of learning patterns from data. This section does not explain the whole learning process again. Instead, it narrows the focus to one point: what changes when the system handles input in different forms?
 
@@ -267,14 +267,6 @@ Representation learning treats the problem more broadly than a word list. If dif
 
 This case reveals the key distinction of 3.3. Rules are criteria written outside by people, while representations are internal forms computed inside the model. Real systems often do not choose only one. Instead, they divide the roles so that policies stay fixed as rules while bundles of varied expression are handled by the model.
 
-## What to Remember from This Section
-
-An explicit rule is a judgment standard people can read. It is strong in explanation and control, but as exceptions and variation in expression grow, it becomes harder to manage.
-
-A learned representation is the result of turning input into a computable form inside the model. It is strong at handling complex patterns and similarity, but it is not a human-readable rule list.
-
-This distinction connects directly to the next chapters. Part 1 Chapter 4 handles the process of turning real problems into input, output, data, and features, while Parts 4 and 5 go deeper into how models adjust parameters and representations.
-
 ## Checklist
 
 - I can explain the difference between rule-based approaches and representation learning.
@@ -282,16 +274,6 @@ This distinction connects directly to the next chapters. Part 1 Chapter 4 handle
 - I can distinguish between human-designed features and model-learned representations.
 - I can explain that learned representations are powerful but can be difficult to interpret.
 - I can read rules and models not only as competitors, but as a division of responsibility.
-
-## When This View Should Come to Mind First
-
-Bring back the view of this section when it becomes more important to ask `in what form should the input be handled?` rather than to choose only one between rules and a model.
-
-- when sentences with the same meaning keep appearing in different surface forms and word rules alone begin to fail
-- when feature, representation, vector, activation, and parameter all start sounding like the same kind of internal term
-- when you need to explain why policy should stay fixed as rules while semantic similarity should be handled by the model
-
-At that point, divide again by the criterion that `rules are outside and representations are inside`. First separate whether the issue is a standard that people must directly control, or a part where the system should learn similarity from data. That makes both system design and explanation easier.
 
 ## Sources and Further Reading
 

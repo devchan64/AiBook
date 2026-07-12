@@ -1,7 +1,7 @@
 # P1-13.2 The Intuition of Similarity Search
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section P1-13.1 explained what it means to represent text as `vectors`. Once text is turned into vectors, sentences, paragraphs, and documents can be placed as computable positions.
 
@@ -37,21 +37,9 @@ These terms belong to different comparison criteria and result-selection methods
 | nearest neighbor | the closest candidate | the basic idea for selecting search results |
 | top-k | returning several nearby candidates rather than only one | the method used to choose multiple candidates for later input |
 
-The baseline distinctions are:
+The baseline distinctions are simple: similarity means likeness, distance means closeness or separation, and top-k means multiple candidates.
 
-- similarity means likeness
-- distance means closeness or separation
-- top-k means multiple candidates
-
-This section does not require prior knowledge of graphs. Graphs return later in the implementation section. For now, the focus stays only on:
-
-> compare vectors  
-> choose nearby candidates  
-> remember that candidates are not yet guaranteed answers
-
-This section also does not explain how search results are inserted into prompts. That belongs to the next section on RAG. Here the emphasis is:
-
-> candidate retrieval is different from answer verification
+This section does not require prior knowledge of graphs. Graphs return later in the implementation section. For now, the focus stays on comparing vectors, choosing nearby candidates, and remembering that candidates are not yet guaranteed answers. It also does not explain how search results are inserted into prompts. That belongs to the next section on RAG. The emphasis here is that candidate retrieval is different from answer verification.
 
 | Topic | Question in this section |
 | --- | --- |
@@ -240,33 +228,6 @@ Real systems sometimes combine keyword and similarity search, but this section d
 
 > vector retrieval finds candidates by a different criterion from literal string matching
 
-## What to Remember from This Section
-
-Similarity search means finding nearby candidates in vector space. But a nearby candidate is not automatically the answer.
-
-> embeddings turn text into vectors  
-> similarity measures how similar the vectors are  
-> retrieval chooses nearby candidates  
-> candidates still need review
-
-This perspective prevents RAG in P1-13.3 from being overstated. RAG uses retrieved candidates as input context, but the quality of those candidates and the responsibility for reviewing them still matter.
-
-## When to Recall This View First
-
-This section is useful when retrieval results are being treated like answers directly, or when the difference between similarity search and string matching starts to disappear.
-
-- when explaining what `close` means in comparing a question and a document
-- when explaining why top-k retrieval returns multiple candidates rather than one guaranteed answer
-- when restating that a retrieved document is only a candidate, not a guarantee
-
-In those moments, it helps to separate:
-
-> compare vectors  
-> choose nearby candidates  
-> review those candidates again
-
-That makes the retrieval stage before RAG easier to explain without exaggeration.
-
 ## Checklist
 
 - I can explain similarity search as the process of finding nearby vector candidates.
@@ -276,6 +237,8 @@ That makes the retrieval stage before RAG easier to explain without exaggeration
 - I can explain that nearby vectors do not guarantee answer quality or evidence quality.
 - I can explain that chunk size and metadata can affect retrieval quality.
 - I can explain the difference between keyword search and similarity search.
+- I can explain what it means for a question and a document to be `close` when they are compared.
+- I can explain that a retrieved document is only a relevant candidate and does not guarantee the correct answer.
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P1-4.2 Input, Output, and Data
 
 > Section ID: `P1-4.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 4.1 described a model as a computable representation reduced for a purpose rather than the whole real-world problem. Now we move to the first three elements that should be separated when we describe that model: what we put in, what we want to get out, and what kinds of cases we need to gather.
 
@@ -295,23 +295,6 @@ Look at the cases below and first separate whether the issue is closer to `an in
 
 The key to this exercise is not to treat every model-performance problem as an algorithm problem immediately. In practice, the first trouble often appears in `what was put in`, `what the model was asked to predict`, and `what cases were gathered`.
 
-## What to Remember from This Section
-
-A real-world problem does not become a model problem immediately. To become a model problem, input, output, and data have to be defined.
-
-Input is what the model can observe, and output is the job given to the model. Data is the collection of cases that ties that input to that output. Even for the same real-world problem, different input and output definitions can require different data.
-
-The flow of this section can be reorganized like this.
-
-> real-world problem: we want to handle customer-support messages  
-> input: what information will be shown to the model?  
-> output: what result will the model be asked to produce?  
-> data: do we have past cases of that input and output?
-
-Only after those three are organized can we move to the next step and talk about features, representations, and parameters.
-
-Section 4.3 looks more closely at how this input connects to features, representations, and parameters inside the model.
-
 ## Checklist
 
 - I can distinguish the roles of input, output, and data.
@@ -320,16 +303,8 @@ Section 4.3 looks more closely at how this input connects to features, represent
 - I can explain that data is a collection of input-output examples.
 - I can explain that data becomes the basis for adjusting the model’s internal standards.
 - I can explain that if input and output are defined badly, the problem can begin before data preparation does.
-
-## When This View Should Come to Mind First
-
-Bring back the view of this section when, before looking at model performance, it becomes necessary to ask again `what did we put in, what do we want out, and what kinds of cases did we gather?`
-
-- when different teams imagine different input information or output formats for the same business goal
-- when the model keeps failing, but it looks like input information such as order state or contextual information is actually missing
-- when there is plenty of data, but you still need to explain why it cannot teach the task you want
-
-At that point, separate `input`, `output`, `data`, `example`, and `label` again first. Then divide the current issue into whether it is mainly an input-definition problem, an output-definition problem, or a data-definition problem. That narrows the cause faster.
+- I can explain that a real-world problem becomes a model problem only after input, output, and data are defined.
+- I can explain that even for the same real-world problem, changing the input or output definition changes the data that must be collected.
 
 ## Sources and Further Reading
 

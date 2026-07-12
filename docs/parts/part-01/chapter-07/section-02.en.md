@@ -1,7 +1,7 @@
 # P1-7.2 What Does a Heuristic Reduce?
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 7.1 showed that when the search space grows, methods that inspect every candidate quickly hit computational limits. Now we move to the next question:
 

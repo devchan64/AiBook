@@ -1,7 +1,7 @@
 # P1-4.4 How Problem Definition Determines the Model
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 Section 4.1 treated a model as a computational representation reduced for a purpose. Section 4.2 organized input, output, and data. Section 4.3 showed that input is transformed into features and representations and then computed together with internal parameters.
 
@@ -210,25 +210,6 @@ Even for a small modeling task, confusion decreases if the following items are w
 
 This kind of document is not a large planning document. It is the minimum map that defines the world the model is supposed to handle. Without this map, it becomes hard to judge whether the model improved or whether the data is sufficient. Whether deployment is actually possible still requires later chapters, because security, permissions, review flow, and operational responsibility must also be checked together.
 
-## What to Remember from This Section
-
-Problem definition is not preparation that sits before the model. It is the central stage that determines what the model will see, what it will produce, and how we will judge whether it did well.
-
-If we tie Chapter 4 together again, the flow is this:
-
-1. a real-world problem becomes a model when it is reduced for a purpose
-2. a model receives input and produces output
-3. input is turned into features and representations for computation
-4. problem definition sets the standard for all of those choices
-
-So before choosing a model, we should be able to complete the following sentence:
-
-> We want to use [what input] to produce [what output],  
-> and we want to check whether that output helps [what business goal]  
-> by using [what metrics and review criteria].
-
-If we cannot complete that sentence, then it is probably not yet a model problem. It is closer to a real-world goal that still needs more clarification.
-
 ## Checklist
 
 - I can distinguish a real-world goal from a modeling task.
@@ -236,16 +217,8 @@ If we cannot complete that sentence, then it is probably not yet a model problem
 - I can explain that the output definition changes the data, the model candidates, and the evaluation criteria together.
 - I can explain that model performance and real business performance can differ.
 - I can write the input, output, data, labeling standard, evaluation criteria, cost of mistakes, and excluded scope into a problem-definition note.
-
-## When Should This Perspective Come to Mind First?
-
-This section's perspective should come to mind first when you feel that the problem itself is still not defined enough, even though people have already started discussing which model to use.
-
-- when goals such as `improve customer satisfaction` or `reduce delivery problems` have not yet been narrowed into modeling tasks
-- when team discussion keeps splitting over whether to classify, output a score, or generate a reply
-- when you need to explain why model metrics improved but real business performance did not
-
-At that point, write the problem again in the order `real-world goal -> modeling task -> input/output/data -> evaluation -> business performance`. Then it becomes visible that when the output definition changes, the data and the evaluation also change together, and the discussion finally has a stable baseline for model choice.
+- I can explain that problem definition is the central stage that determines what the model sees, what it produces, and how success is judged.
+- I can restate a problem in the order `real-world goal -> modeling task -> input/output/data -> evaluation -> business performance`.
 
 ## Sources and Further Reading
 

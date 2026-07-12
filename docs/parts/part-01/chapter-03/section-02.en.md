@@ -1,7 +1,7 @@
 # P1-3.2 What It Means to Learn Patterns from Data
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.12`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly. This section moves to the next question. If people find it difficult to write every useful rule, how can a system obtain judgment criteria from data?
 
