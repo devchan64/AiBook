@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 
@@ -215,16 +215,6 @@ Attention은 입력의 관련 위치를 직접 참고하는 강력한 방법을 
 
 Transformer의 구체적 구조와 사전학습 LLM(pretrained LLM)은 11.3에서 다룹니다.
 
-## 이 절에서 기억할 관점
-
-RNN, Seq2Seq, Attention은 모두 언어를 단순한 단어 목록이 아니라 순서와 문맥이 있는 데이터로 다루려는 흐름입니다.
-
-> RNN은 순서를 내부 상태로 누적한다.
-> Seq2Seq는 입력 순서를 출력 순서로 바꾼다.
-> Attention은 출력할 때 입력의 관련 위치를 다시 참고한다.
-
-이 흐름을 알면 Transformer와 LLM을 갑자기 등장한 구조로 보지 않게 됩니다. Transformer는 Attention 이전의 문제의식, 즉 긴 문맥, 입력-출력 대응, 병렬 계산의 필요성 위에서 이해해야 합니다.
-
 ## 체크리스트
 
 - RNN(recurrent neural network)이 이전 hidden state를 다음 계산에 넘기는 구조임을 설명할 수 있다.
@@ -236,16 +226,8 @@ RNN, Seq2Seq, Attention은 모두 언어를 단순한 단어 목록이 아니라
 - Attention을 입력 위치별 가중치로 관련 정보를 참고하는 구조로 설명할 수 있다.
 - Attention을 인간의 의식적 주의나 완전한 설명 가능성으로 과장하지 않을 수 있다.
 - 11.3에서 Transformer가 왜 Attention을 중심에 놓는지 이어서 읽을 준비가 되었다.
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-다음처럼 Transformer 이전의 sequence modeling 흐름이 사라져서 현대 LLM 구조가 갑자기 등장한 것처럼 보일 때 이 절의 관점을 먼저 떠올리면 됩니다.
-
-- RNN이 왜 순서 데이터를 따로 다뤘는지 다시 설명해야 할 때
-- Seq2Seq(sequence-to-sequence)와 Encoder-Decoder가 번역·요약 같은 문제를 어떻게 모델링했는지 정리해야 할 때
-- Attention이 왜 fixed-length vector 병목을 줄이는 핵심 전환이었는지 연결해야 할 때
-
-이때는 먼저 `순서를 누적하는 구조`, `입력 시퀀스를 출력 시퀀스로 바꾸는 구조`, `출력 시점마다 입력을 다시 참고하는 구조`를 나누면 됩니다. 그러면 Transformer를 단독 발명처럼 보지 않고, 앞선 문제의식 위에서 읽을 수 있습니다.
+- `순서를 누적하는 구조`, `입력 시퀀스를 출력 시퀀스로 바꾸는 구조`, `출력 시점마다 입력을 다시 참고하는 구조`를 구분할 수 있다.
+- Transformer를 단독 발명처럼 보지 않고 sequence modeling의 앞선 문제의식 위에서 설명할 수 있다.
 
 ## 출처와 참고 자료
 

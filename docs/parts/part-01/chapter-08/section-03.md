@@ -1,7 +1,7 @@
 # P1-8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.09`
+> Version: `v2026.07.12`
 
 8.1에서는 지도학습(supervised learning)을 입력(input)과 라벨(label)이 함께 있는 예시에서 배우는 방식으로 설명했습니다. 8.2에서는 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조(structure), 군집(cluster), 표현(representation)을 찾는 방식으로 설명했습니다.
 
@@ -218,18 +218,6 @@ Google의 Machine Learning Glossary는 epsilon greedy policy를 설명하면서,
 
 RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것을 대표하지 않습니다. RLHF는 사람의 피드백을 학습 신호로 활용하는 현대 LLM 학습 맥락에서 자주 등장하지만, 강화학습 전체를 설명하는 출발점으로 삼기에는 범위가 좁습니다. 이 주제는 Part 1 Chapter 11부터 Chapter 14, 그리고 Part 6에서 따로 다룹니다.
 
-## 이 절에서 기억할 관점
-
-강화학습(reinforcement learning)은 행동의 결과에서 배우는 문제 설정입니다.
-
-> 강화학습 = 상태에서 행동을 선택하고,
-> 행동 이후 돌아오는 보상을 통해,
-> 장기적으로 더 나은 정책을 찾는 방식
-
-여기서 보상(reward)은 지도학습의 라벨(label)이 아닙니다. 보상은 행동 결과를 평가하는 피드백 신호입니다. 그 신호가 잘 설계되지 않으면 에이전트는 사람이 원하지 않는 방식으로 보상을 높일 수도 있습니다.
-
-따라서 강화학습을 이해할 때는 “정답을 맞힌다”보다 “어떤 행동 방식이 결과적으로 더 나은가”를 먼저 물어야 합니다.
-
 ## 체크리스트
 
 - 강화학습(reinforcement learning)을 상태(state), 행동(action), 보상(reward)의 흐름으로 설명할 수 있다.
@@ -238,16 +226,8 @@ RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것�
 - 지연 보상(delayed reward)이 강화학습을 어렵게 만드는 이유를 설명할 수 있다.
 - 탐험(exploration)과 활용(exploitation)의 차이를 설명할 수 있다.
 - 강화학습과 딥러닝(deep learning), 딥 강화학습(deep reinforcement learning), RLHF를 같은 말로 쓰지 않을 수 있다.
-
-## 언제 이 관점을 먼저 떠올려야 하는가
-
-다음처럼 학습 문제를 `입력과 정답`의 틀로만 보고 있어 행동과 결과의 시간 흐름이 사라질 때 이 절의 관점을 먼저 떠올리면 됩니다.
-
-- 보상(reward)을 라벨(label)처럼 읽고 있어 강화학습과 지도학습의 차이를 다시 설명해야 할 때
-- 어떤 행동이 장기적으로 좋은지 따져야 하는 문제를 예측 문제처럼 단순화하고 있을 때
-- 탐험(exploration), 활용(exploitation), 지연 보상(delayed reward)이 왜 함께 등장하는지 연결해 보여 줘야 할 때
-
-이때는 먼저 `상태에서 행동을 고른다`, `결과가 나중에 돌아올 수 있다`, `정책(policy)은 반복적으로 조정된다`를 나누면 됩니다. 그러면 강화학습을 게임 예시 하나로만 이해하지 않고, 행동과 피드백의 구조로 읽기 쉬워집니다.
+- `입력과 정답` 틀만이 아니라 행동과 결과의 시간 흐름으로 문제를 읽을 수 있다.
+- 보상, 탐험, 활용, 지연 보상이 왜 함께 등장하는지 연결해 설명할 수 있다.
 
 ## 출처와 참고 자료
 
