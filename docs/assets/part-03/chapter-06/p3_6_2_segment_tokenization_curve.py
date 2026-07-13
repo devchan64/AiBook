@@ -23,32 +23,23 @@ TOKENS = ["UP2", "UP1", "FLAT", "DOWN1", "DOWN2"]
 LANG_TEXT = {
     "ko": {
         "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
-        "title": "연속 곡선을 짧은 토큰 시퀀스로 압축한다",
-        "subtitle": "구간별 기울기를 보면 원시 모양을 모두 보지 않아도 방향과 강도를 빠르게 비교할 수 있다.",
         "xlabel": "시간",
         "ylabel": "값",
         "segment_labels": ["큰 상승", "완만한 상승", "거의 평평", "하강", "큰 하강"],
-        "summary": "요약: 세부 곡선을 모두 보존하지는 않지만, 구간 순서와 방향은 더 빠르게 읽힌다.",
         "outfile": "segment-tokenization-curve-ko.png",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
-        "title": "Compress a continuous curve into a short token sequence",
-        "subtitle": "Segment slopes let us compare direction and strength without rereading the whole raw shape.",
         "xlabel": "time",
         "ylabel": "value",
         "segment_labels": ["strong rise", "gentle rise", "almost flat", "decline", "large decline"],
-        "summary": "Summary: the full curve is not preserved, but segment order and direction become faster to read.",
         "outfile": "segment-tokenization-curve-en.png",
     },
     "zh": {
         "font_candidates": ["Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
-        "title": "把连续曲线压缩成短 token 序列",
-        "subtitle": "看区段斜率，就能不重读整条原始形状，也比较方向和强度。",
         "xlabel": "时间",
         "ylabel": "值",
         "segment_labels": ["大幅上升", "缓慢上升", "几乎平", "下降", "大幅下降"],
-        "summary": "总结：不能保留完整曲线细节，但区段顺序和方向会更快被读出来。",
         "outfile": "segment-tokenization-curve-zh.png",
     },
 }
@@ -67,11 +58,11 @@ def save_chart(lang: str, text: dict[str, object]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
     x = np.arange(len(POINTS))
-    fig, ax = plt.subplots(figsize=(7.6, 4.3), dpi=160)
+    fig, ax = plt.subplots(figsize=(7.2, 3.35), dpi=160)
 
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
-    ax.plot(x, POINTS, marker="o", linewidth=3, color="#0969da")
+    ax.plot(x, POINTS, marker="o", markersize=5.5, linewidth=2.0, color="#0969da")
     ax.set_xlim(-0.1, 5.1)
     ax.set_ylim(-0.35, 1.55)
     ax.set_xlabel(text["xlabel"])
@@ -97,21 +88,17 @@ def save_chart(lang: str, text: dict[str, object]) -> None:
             token,
             ha="center",
             va="center",
-            fontsize=10.5,
+            fontsize=9.5,
             fontweight="bold",
             color=color,
-            bbox={"boxstyle": "round,pad=0.42", "facecolor": face, "edgecolor": edge, "linewidth": 1.2},
+            bbox={"boxstyle": "round,pad=0.36", "facecolor": face, "edgecolor": edge, "linewidth": 1.0},
         )
 
     ax.set_xticks(np.arange(6))
     ax.set_xticklabels(["0", "1", "2", "3", "4", "5"])
     ax.set_yticks([-0.25, 0.25, 0.75, 1.25])
 
-    fig.text(0.07, 0.955, text["title"], fontsize=15, fontweight="bold", color="#1f2328", ha="left")
-    fig.text(0.07, 0.91, text["subtitle"], fontsize=9.5, color="#57606a", ha="left")
-    fig.text(0.07, 0.035, text["summary"], fontsize=9.5, color="#24292f", ha="left")
-
-    fig.tight_layout(rect=[0.055, 0.075, 0.99, 0.875])
+    fig.tight_layout(pad=0.8)
     fig.savefig(OUT_DIR / text["outfile"])
     plt.close(fig)
 
