@@ -176,9 +176,11 @@ L = (predicted\_block\_score - target\_block\_score)^2
 
 이 방향과 강도 감각은 손실 곡선 위에서 보면 더 직접적입니다. 현재 가중치가 목표 점수보다 낮은 예측을 만들면 가중치를 키우는 쪽으로, 너무 높은 예측을 만들면 줄이는 쪽으로 신호가 생깁니다.
 
-![손실 곡선 위 gradient 방향](../../../assets/part-05/chapter-05/backprop-gradient-direction-ko.svg)
+![손실 곡선 위 gradient 방향](../../../assets/part-05/chapter-05/backprop-gradient-signal-direction-ko.svg)
 
-이 그래프에서 읽을 점은 역전파가 파라미터를 직접 바꾸는 단계가 아니라는 것입니다. 역전파는 손실 곡선 위 현재 위치에서 `어느 쪽으로 얼마나 강하게 밀어야 하는가`를 gradient로 계산하고, 실제 이동은 뒤의 optimizer가 맡습니다.
+![손실 곡선 위 gradient 강도](../../../assets/part-05/chapter-05/backprop-gradient-signal-strength-ko.svg)
+
+이 두 그래프에서 읽을 점은 역전파가 파라미터를 직접 바꾸는 단계가 아니라는 것입니다. 역전파는 손실 곡선 위 현재 위치에서 `어느 쪽으로 얼마나 강하게 밀어야 하는가`를 gradient로 계산하고, 실제 이동은 뒤의 optimizer가 맡습니다.
 
 같은 `차단 점수가 작다`는 장면 안에서도 차이는 더 있습니다. 목표가 5인데 예측이 4.6인 경우와 3.0인 경우를 비교하면 둘 다 `risk_weight를 키워야 한다`는 방향은 같지만, 후자는 훨씬 더 크게 모자랍니다. 역전파는 이 차이를 `둘 다 increase가 아니라, 누가 더 강한 increase 신호를 받는가`까지 숫자로 남깁니다.
 

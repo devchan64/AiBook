@@ -160,7 +160,9 @@ self-attention이 중요한 이유는 단순히 `더 똑똑해 보여서`가 아
 
 이 차이는 attention 비중을 막대로 놓으면 더 직접 보입니다. 같은 메모라도 현재 토큰이 `그것`일 때와 `씌우지`일 때는 다시 참고하는 단서의 분포가 같지 않습니다.
 
-![현재 토큰별 self-attention 비중](../../../assets/part-05/chapter-13/self-attention-weights-ko.svg)
+![현재 토큰 '그것'의 self-attention 비중](../../../assets/part-05/chapter-13/self-attention-weight-it-ko.svg)
+
+![현재 토큰 '씌우지'의 self-attention 비중](../../../assets/part-05/chapter-13/self-attention-weight-cover-ko.svg)
 
 이 비교 도식에서 먼저 붙잡아야 할 점은 다음과 같습니다.
 

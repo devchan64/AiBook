@@ -12,3 +12,7 @@
   - `xor-limit-flow-en.mmd` / `xor-limit-flow-ko.mmd`
 - SVG chart assets:
   - `linear-boundary-xor-en.svg` / `linear-boundary-xor-ko.svg`
+  - `linear-boundary-points-en.svg` / `linear-boundary-points-ko.svg`
+  - `xor-pattern-en.svg` / `xor-pattern-ko.svg`
+- Python chart source:
+  - `p5_1_2_linear_boundary_xor.py`

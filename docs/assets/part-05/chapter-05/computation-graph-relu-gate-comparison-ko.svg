@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 360" role="img" aria-labelledby="title desc">
+  <title id="title">계산 그래프에서 ReLU 문이 열릴 때와 닫힐 때의 비교</title>
+  <desc id="desc">같은 계산 그래프라도 block_logit의 부호에 따라 ReLU 문이 열리면 gradient가 risk_weight와 base_block_bias까지 전달되고, 닫히면 앞단 gradient가 0으로 끊기는 모습을 두 패널로 비교한 도식.</desc>
+  <rect width="920" height="360" fill="#ffffff"/>
+
+  <rect x="40" y="24" width="400" height="308" rx="22" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="66" y="56" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#166534">case A: block_gate_open</text>
+  <text x="66" y="79" font-family="Arial, sans-serif" font-size="13" fill="#166534">block_logit = 2.5 &gt; 0, ReLU 문이 열려 있음</text>
+
+  <rect x="64" y="112" width="86" height="52" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="82" y="133" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#166534">weighted</text>
+  <text x="86" y="150" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#166534">pressure</text>
+  <text x="95" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">3.0</text>
+
+  <rect x="176" y="112" width="86" height="52" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="199" y="141" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#166534">+ bias</text>
+  <text x="206" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">2.5</text>
+
+  <rect x="288" y="112" width="70" height="52" rx="14" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="309" y="142" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#166534">ReLU</text>
+  <text x="312" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">2.5</text>
+
+  <rect x="382" y="112" width="36" height="52" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <text x="395" y="142" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#166534">L</text>
+  <text x="387" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">2.25</text>
+
+  <line x1="150" y1="138" x2="176" y2="138" stroke="#16a34a" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <line x1="262" y1="138" x2="288" y2="138" stroke="#16a34a" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <line x1="358" y1="138" x2="382" y2="138" stroke="#16a34a" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <text x="64" y="104" font-family="Arial, sans-serif" font-size="12" fill="#166534">forward</text>
+
+  <line x1="400" y1="202" x2="322" y2="202" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <line x1="322" y1="226" x2="220" y2="226" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <line x1="220" y1="250" x2="107" y2="250" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="345" y="194" font-family="Arial, sans-serif" font-size="12" fill="#1d4ed8">dL/da = -3.0</text>
+  <text x="240" y="219" font-family="Arial, sans-serif" font-size="12" fill="#1d4ed8">dL/dz = -3.0</text>
+  <text x="118" y="274" font-family="Arial, sans-serif" font-size="12" fill="#1d4ed8">dL/dw = -6.0, dL/db = -3.0</text>
+  <text x="66" y="266" font-family="Arial, sans-serif" font-size="12" fill="#1d4ed8">backward</text>
+
+  <rect x="480" y="24" width="400" height="308" rx="22" fill="#fef2f2" stroke="#fca5a5" stroke-width="2"/>
+  <text x="506" y="56" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#991b1b">case B: block_gate_closed</text>
+  <text x="506" y="79" font-family="Arial, sans-serif" font-size="13" fill="#991b1b">block_logit = -0.3 ≤ 0, ReLU 문이 닫혀 있음</text>
+
+  <rect x="504" y="112" width="86" height="52" rx="14" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+  <text x="522" y="133" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#991b1b">weighted</text>
+  <text x="526" y="150" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#991b1b">pressure</text>
+  <text x="535" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">0.2</text>
+
+  <rect x="616" y="112" width="86" height="52" rx="14" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+  <text x="639" y="141" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#991b1b">+ bias</text>
+  <text x="644" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">-0.3</text>
+
+  <rect x="728" y="112" width="70" height="52" rx="14" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="749" y="142" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#991b1b">ReLU</text>
+  <text x="755" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">0.0</text>
+
+  <rect x="822" y="112" width="36" height="52" rx="14" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+  <text x="835" y="142" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#991b1b">L</text>
+  <text x="823" y="175" font-family="Arial, sans-serif" font-size="13" fill="#334155">16.0</text>
+
+  <line x1="590" y1="138" x2="616" y2="138" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <line x1="702" y1="138" x2="728" y2="138" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <line x1="798" y1="138" x2="822" y2="138" stroke="#ef4444" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <text x="504" y="104" font-family="Arial, sans-serif" font-size="12" fill="#991b1b">forward</text>
+
+  <line x1="840" y1="202" x2="762" y2="202" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="785" y="194" font-family="Arial, sans-serif" font-size="12" fill="#1d4ed8">dL/da = -8.0</text>
+  <line x1="762" y1="226" x2="660" y2="226" stroke="#94a3b8" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow-gray)"/>
+  <line x1="660" y1="250" x2="547" y2="250" stroke="#94a3b8" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow-gray)"/>
+  <text x="670" y="219" font-family="Arial, sans-serif" font-size="12" fill="#64748b">dL/dz = 0.0</text>
+  <text x="553" y="274" font-family="Arial, sans-serif" font-size="12" fill="#64748b">dL/dw = 0.0, dL/db = 0.0</text>
+  <text x="506" y="266" font-family="Arial, sans-serif" font-size="12" fill="#1d4ed8">backward</text>
+
+  <line x1="763" y1="183" x2="763" y2="248" stroke="#dc2626" stroke-width="2"/>
+  <line x1="751" y1="236" x2="775" y2="260" stroke="#dc2626" stroke-width="3"/>
+  <line x1="775" y1="236" x2="751" y2="260" stroke="#dc2626" stroke-width="3"/>
+  <text x="721" y="292" font-family="Arial, sans-serif" font-size="12" fill="#991b1b">ReLU에서 경로 차단</text>
+
+  <defs>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+</svg>

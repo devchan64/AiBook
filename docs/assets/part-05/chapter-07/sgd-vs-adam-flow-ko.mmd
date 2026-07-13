@@ -1,10 +1,16 @@
 flowchart TD
   subgraph SGD["SGD 직관"]
+    direction TB
     A["현재 gradient"] --> B["하나의 learning rate"]
     B --> C["직접적인 업데이트 한 걸음"]
   end
 
+  GAP["비교 기준: 같은 gradient를 어떻게 step으로 바꾸는가"]
+
   subgraph Adam["Adam 직관"]
+    direction TB
     D["현재 gradient"] --> E["최근 gradient 흐름"]
     E --> F["좌표별로 조절된 한 걸음"]
   end
+
+  SGD --> GAP --> Adam

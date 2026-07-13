@@ -13,4 +13,11 @@
   - `problem-loss-branches-en.mmd` / `problem-loss-branches-ko.mmd`
 - SVG chart assets:
   - `loss-shapes-en.svg` / `loss-shapes-ko.svg`
+  - `squared-error-loss-en.svg` / `squared-error-loss-ko.svg`
+  - `cross-entropy-loss-en.svg` / `cross-entropy-loss-ko.svg`
   - `problem-loss-axes-en.svg` / `problem-loss-axes-ko.svg`
+  - `regression-loss-axis-en.svg` / `regression-loss-axis-ko.svg`
+  - `classification-loss-axis-en.svg` / `classification-loss-axis-ko.svg`
+  - `generation-loss-axis-en.svg` / `generation-loss-axis-ko.svg`
+- Python chart source:
+  - `p5_4_loss_charts.py`

@@ -12,3 +12,5 @@
   - `sgd-vs-adam-flow-en.mmd` / `sgd-vs-adam-flow-ko.mmd`
 - SVG chart assets:
   - `learning-rate-step-size-en.svg` / `learning-rate-step-size-ko.svg`
+- Python chart source:
+  - `p5_7_learning_rate_chart.py`

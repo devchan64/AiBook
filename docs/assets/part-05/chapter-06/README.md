@@ -13,3 +13,5 @@
   - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd`
 - SVG chart assets:
   - `batch-normalization-scale-en.svg` / `batch-normalization-scale-ko.svg`
+- Python chart source:
+  - `p5_6_batch_norm_chart.py`

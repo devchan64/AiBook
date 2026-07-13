@@ -8,3 +8,9 @@
   - `rnn-state-flow-en.mmd` / `rnn-state-flow-ko.mmd`
   - `long-term-dependency-flow-en.mmd` / `long-term-dependency-flow-ko.mmd`
   - `state-vs-direct-reference-flow-en.mmd` / `state-vs-direct-reference-flow-ko.mmd`
+- SVG chart assets:
+  - `rnn-sequence-state-contrast-en.svg` / `rnn-sequence-state-contrast-ko.svg`
+  - `rnn-gradual-rise-state-en.svg` / `rnn-gradual-rise-state-ko.svg`
+  - `rnn-temporary-spike-state-en.svg` / `rnn-temporary-spike-state-ko.svg`
+- Python chart source:
+  - `p5_12_rnn_state_chart.py`

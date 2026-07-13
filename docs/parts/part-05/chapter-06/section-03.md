@@ -189,7 +189,7 @@ P5-6.2에서 본 mode 차이도 여기서 다시 연결됩니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 입력 묶음이라도 가중치 스케일이 다르면 출력 범위가 크게 달라질 수 있고, 간단한 batch normalization으로 그 범위를 다시 정리할 수 있다는 점을 보는 것입니다.
+이번 예제의 목표는 같은 입력 묶음이라도 가중치 스케일이 다르면 출력 범위가 크게 달라질 수 있고, 간단한 batch normalization으로 그 범위를 다시 정리할 수 있다는 점을 보는 것입니다. 여기서 코드는 한 번의 출력 확인보다, `초기화 스케일을 바꾸면 분포가 어떻게 이동하는가`, `batch normalization은 그 분포를 어떻게 다시 정리하는가`를 실험하는 역할을 맡습니다.
 
 입력:
 
@@ -227,6 +227,14 @@ P5-6.2에서 본 mode 차이도 여기서 다시 연결됩니다.
 
 이 표의 목적은 정확한 수치를 미리 암기하는 데 있지 않습니다. 같은 입력이라도 초기화 스케일은 `출력 범위를 얼마나 벌리는가`를 먼저 바꾸고, batch normalization은 이미 벌어진 출력을 `어떻게 다시 정리해 넘길 것인가`를 바꾼다는 점을 코드 전에 붙잡는 데 있습니다.
 
+이 예제는 아래 값들을 바꿔 보며 읽을 때 실험 역할이 더 살아납니다.
+
+| 바꿔 볼 값 | 먼저 관찰할 출력 | 해석할 질문 |
+| --- | --- | --- |
+| `weight_cases`에 더 작은 `tiny_init`, 더 큰 `very_large_init`를 추가한다 | `raw_mean`, `raw_variance`, `raw_outputs` 범위가 어떻게 벌어지는가 | 초기화 스케일이 커질수록 같은 입력에서도 분포 퍼짐이 얼마나 빨라지는가 |
+| `inputs`를 한쪽 값이 큰 배치로 바꾼다 | 같은 가중치에서도 `raw_outputs`와 `normalized_outputs` 모양이 어떻게 달라지는가 | 초기화 효과와 입력 분포 효과를 따로 읽을 수 있는가 |
+| `eps`를 `1e-5`에서 `1e-2`로 올린다 | `normalized_outputs`가 얼마나 덜 날카롭게 정리되는가 | batch normalization이 분포를 정리하는 방식도 계산 기준에 따라 조금 달라지는가 |
+
 ```python
 inputs = [
     [1.0, 2.0],
@@ -234,8 +242,11 @@ inputs = [
     [0.5, 3.0],
 ]
 
-weights_small = [0.2, -0.1]
-weights_large = [3.0, -2.0]
+weight_cases = {
+    "small_init": [0.2, -0.1],
+    "medium_init": [1.0, -0.7],
+    "large_init": [3.0, -2.0],
+}
 
 def linear(batch, weights):
     outputs = []
@@ -249,32 +260,49 @@ def batch_norm(values, eps=1e-5):
     normalized = [(v - mean) / ((variance + eps) ** 0.5) for v in values]
     return mean, variance, normalized
 
-small_outputs = linear(inputs, weights_small)
-large_outputs = linear(inputs, weights_large)
-mean, variance, normalized_large = batch_norm(large_outputs)
-
-print("small_init_outputs =", [round(v, 3) for v in small_outputs])
-print("large_init_outputs =", [round(v, 3) for v in large_outputs])
-print("batch_mean =", round(mean, 3))
-print("batch_variance =", round(variance, 3))
-print("normalized_large_outputs =", [round(v, 3) for v in normalized_large])
+for case_name, weights in weight_cases.items():
+    raw_outputs = linear(inputs, weights)
+    raw_mean, raw_variance, normalized_outputs = batch_norm(raw_outputs)
+    print(f"[{case_name}]")
+    print("weights =", weights)
+    print("raw_outputs =", [round(v, 3) for v in raw_outputs])
+    print("raw_mean =", round(raw_mean, 3))
+    print("raw_variance =", round(raw_variance, 3))
+    print("normalized_outputs =", [round(v, 3) for v in normalized_outputs])
+    print("---")
 ```
 
 출력(output) 예시는 다음처럼 읽으면 됩니다.
 
 ```text
-small_init_outputs = [0.0, 0.3, -0.2]
-large_init_outputs = [-1.0, 4.0, -4.5]
-batch_mean = -0.5
-batch_variance = 12.5
-normalized_large_outputs = [-0.141, 1.273, -1.131]
+[small_init]
+weights = [0.2, -0.1]
+raw_outputs = [0.0, 0.3, -0.2]
+raw_mean = 0.033
+raw_variance = 0.042
+normalized_outputs = [-0.162, 1.298, -1.135]
+---
+[medium_init]
+weights = [1.0, -0.7]
+raw_outputs = [-0.4, 1.3, -1.6]
+raw_mean = -0.233
+raw_variance = 1.416
+normalized_outputs = [-0.14, 1.289, -1.149]
+---
+[large_init]
+weights = [3.0, -2.0]
+raw_outputs = [-1.0, 4.0, -4.5]
+raw_mean = -0.5
+raw_variance = 12.167
+normalized_outputs = [-0.143, 1.29, -1.147]
 ```
 
 이 예제에서 바로 읽어야 할 핵심은 다음입니다.
 
-- 작은 초기화와 큰 초기화는 같은 입력에도 다른 출력 스케일을 만듭니다.
+- 작은 초기화와 큰 초기화는 같은 입력에도 다른 출력 스케일과 분산을 만듭니다.
 - 큰 출력이 바로 `틀렸다`는 뜻은 아니지만, 반복 계산이 많아지면 안정성에 영향을 줄 수 있습니다.
 - batch normalization은 활성값 분포를 다시 정리해 다음 층이 더 다루기 쉬운 범위를 보게 합니다.
+- `medium_init`을 가운데 기준선으로 두고 보면, 초기화 스케일을 조금씩 키울 때 분포 퍼짐이 어떻게 커지는지도 함께 읽을 수 있습니다.
 
 즉, 이 예제는 `초기화가 출발 범위를 바꾸고, batch normalization이 중간 분포를 정리한다`는 점을 보여 주는 축약 안정화 비교입니다.
 
@@ -282,9 +310,9 @@ normalized_large_outputs = [-0.141, 1.273, -1.131]
 
 | 비교 장면 | 출력에서 먼저 보이는 것 | 그대로 두면 남기 쉬운 해석 | 안정화 관점에서 다시 읽는 해석 |
 | --- | --- | --- | --- |
-| `small_init_outputs` vs `large_init_outputs` | 같은 입력인데 출력 범위가 크게 벌어진다 | 큰 값이 나왔으니 무조건 더 좋은 표현이라고 느끼기 쉽다 | 초기화 스케일이 출발 출력 범위를 얼마나 밀어 올리는지 먼저 읽는다 |
-| `large_init_outputs` | `-1.0`, `4.0`, `-4.5`처럼 퍼짐이 크다 | 숫자가 다양하니 정보가 많다고만 느끼기 쉽다 | 깊은 반복 계산에서는 이런 큰 스케일이 다음 층과 gradient를 더 흔들 수 있다고 읽는다 |
-| `normalized_large_outputs` | 평균 0 근처의 더 정리된 범위로 다시 옮겨진다 | batch normalization이 큰 값을 그냥 없애 버렸다고 느끼기 쉽다 | 분포 중심과 퍼짐을 다시 맞춰 다음 층이 더 다루기 쉬운 입력으로 바꿨다고 읽는다 |
+| `small_init` -> `medium_init` -> `large_init` | 같은 입력인데 `raw_variance`가 점점 커진다 | 큰 값이 나왔으니 무조건 더 풍부한 표현이라고 느끼기 쉽다 | 초기화 스케일이 커질수록 출발 출력 분포도 함께 더 크게 퍼질 수 있다고 읽는다 |
+| `large_init raw_outputs` | `-1.0`, `4.0`, `-4.5`처럼 퍼짐이 크다 | 숫자가 다양하니 정보가 많다고만 느끼기 쉽다 | 깊은 반복 계산에서는 이런 큰 스케일이 다음 층과 gradient를 더 흔들 수 있다고 읽는다 |
+| 각 case의 `normalized_outputs` | 서로 다른 원래 스케일도 평균 0 근처의 비슷한 범위로 다시 정리된다 | batch normalization이 큰 값을 그냥 없애 버렸다고 느끼기 쉽다 | 분포 중심과 퍼짐을 다시 맞춰 다음 층이 더 다루기 쉬운 입력으로 바꿨다고 읽는다 |
 
 이 비교까지 같이 보면, 초기화와 batch normalization은 같은 `학습 보조 옵션`이 아니라 서로 다른 위치에서 다른 종류의 흔들림을 줄인다는 점이 더 선명해집니다.
 

@@ -1,7 +1,7 @@
 # P5-13.3 보충학습: 쿼리-키-값(query-key-value, QKV)과 멀티헤드 어텐션(multi-head attention)
 
 Section ID: `P5-13.3`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-13.1과 P5-13.2에서는 어텐션(Attention)과 셀프 어텐션(self-attention)의 직관을 먼저 잡았습니다. 그런데 여기까지 읽으면 자연스럽게 다음 질문이 생깁니다.
 
@@ -211,45 +211,47 @@ P5-13.2에서는 self-attention을 `같은 시퀀스 안 토큰들이 서로를 
 
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 토큰열을 보더라도 head마다 서로 다른 관계를 읽고, 그 결과가 합쳐질 수 있다는 점을 확인하는 것입니다.
+이번 예제의 목표는 같은 토큰열을 보더라도 head마다 서로 다른 관계를 읽고, 그 차이가 head 가중치 변화에 따라 얼마나 커지거나 줄어드는지 직접 실험해 보는 것입니다.
 
 이번에는 추상 토큰 대신 짧은 운전 보고서 조각을 축약 벡터로 놓고 읽어 보겠습니다. `정지 결정`, `압력 이상 근거`, `복귀 조건` 세 조각이 있을 때, single-head는 이 셋을 하나의 절충 문맥으로 접기 쉽고, multi-head는 `결정 쪽`, `조건 쪽` 같은 관점을 나눠 유지할 수 있는지를 보는 것이 핵심입니다.
 
 입력:
 
 - 세 개의 토큰 표현
-- 두 개의 서로 다른 attention 가중치
+- 세 가지 head 가중치 시나리오
+- 비교 기준으로 쓸 single-head 가중치
 
 출력:
 
-- 한 번만 읽은 single-head 문맥
-- head 1이 읽은 문맥
-- head 2가 읽은 문맥
-- 두 head를 합친 최종 표현
+- 각 시나리오의 single-head 문맥
+- 각 시나리오의 head 1, head 2 문맥
+- single-head 대비 head별 차이
+- 두 head가 얼마나 다른 관계를 읽었는지 보여 주는 분리 정도
 
 문제 상황:
 
-- multi-head attention은 말로만 들으면 추상적이므로, 한 번만 읽은 경우와 여러 관점으로 읽은 경우를 직접 비교해 볼 필요가 있다
+- multi-head attention은 말로만 들으면 추상적이므로, `head를 얼마나 다르게 두었을 때 관계 분리가 실제로 커지는가`를 직접 비교해 볼 필요가 있다
 
 확인할 개념:
 
 - 서로 다른 head는 같은 토큰열에서도 다른 관계를 강조할 수 있다
+- head 가중치가 비슷하면 multi-head도 절충에 가까워지고, 멀어지면 관계 분리가 더 커진다
 - 여러 head 결과를 합치면 single-head보다 더 풍부한 표현을 만들 수 있다
 
 입력(input):
 
-위에 정리한 세 개의 보고서 조각 표현과 두 종류의 attention 가중치를 사용합니다.
+위에 정리한 세 개의 보고서 조각 표현과 세 가지 head 가중치 시나리오를 사용합니다.
 
-코드를 보기 전에 먼저 single-head와 두 head가 어디에 더 치우칠지 예상해 보면, `절충된 한 문맥`과 `나뉜 여러 관계`의 차이가 더 잘 보입니다.
+코드를 보기 전에 먼저 각 시나리오가 어떤 관계 분리 정도를 남길지 예상해 보면, `절충된 한 문맥`과 `나뉜 여러 관계`의 차이가 더 잘 보입니다.
 
 | 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
 | --- | --- | --- |
-| `single_head_context` | `head1`과 `head2`의 중간쯤 되는 절충값에 가까울 가능성이 큼 | 가중치가 `[0.4, 0.3, 0.3]`으로 한쪽 관계를 강하게 밀지 않고 평균적으로 섞기 때문입니다. |
-| `head1_context` | `정지 결정` 조각 영향이 더 크게 남을 가능성이 큼 | `head1_weights`가 `[0.7, 0.2, 0.1]`이라 결정 쪽 관계를 더 강조합니다. |
-| `head2_context` | `복귀 조건` 조각 영향이 더 크게 남을 가능성이 큼 | `head2_weights`가 `[0.1, 0.3, 0.6]`이라 조건 쪽 관계를 더 강하게 끌어옵니다. |
-| `difference_from_single` | 한 head 쪽은 음수, 다른 head 쪽은 양수 방향으로 갈릴 가능성이 큼 | single-head에서 평균내며 접힌 차이가 각 head에서 따로 벌어질 수 있기 때문입니다. |
+| `balanced_heads` | `head1_context`와 `head2_context` 차이가 비교적 작을 가능성이 큼 | 두 head 모두 `정지 결정`, `압력 이상 근거`, `복귀 조건`을 비슷한 비율로 섞기 때문입니다. |
+| `decision_vs_condition_split` | `head1_context`와 `head2_context` 차이가 가장 크게 벌어질 가능성이 큼 | 한 head는 결정 쪽을, 다른 head는 조건 쪽을 강하게 밀어 single-head에서 접히는 차이를 크게 다시 벌립니다. |
+| `condition_heavy_both_heads` | 두 head가 모두 뒤쪽으로 기울어 single-head와 큰 차이가 적을 가능성이 큼 | 두 head가 서로 다른 관점이라기보다 같은 조건 쪽 관계를 함께 강조하기 때문입니다. |
+| `head_separation` | `decision_vs_condition_split`이 가장 클 가능성이 큼 | 서로 다른 head가 실제로 다른 종류의 관계를 읽을 때 분리 정도가 커집니다. |
 
-이 표의 목적은 정확한 벡터 값을 미리 계산하는 데 있지 않습니다. multi-head가 단순 반복이 아니라, single-head에서 하나로 접힐 관계를 `앞쪽 관점`, `뒤쪽 관점`처럼 나눠 들고 갈 수 있다는 점을 코드 전에 붙잡는 데 있습니다.
+이 표의 목적은 정확한 벡터 값을 미리 계산하는 데 있지 않습니다. multi-head가 단순 반복이 아니라, head를 어떻게 설계하느냐에 따라 `관계 분리`가 커지기도 하고 다시 절충에 가까워지기도 한다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
 import numpy as np
@@ -260,29 +262,52 @@ tokens = np.array([
     [3.0, 1.0],   # 복귀 조건
 ])
 
-head1_weights = np.array([0.7, 0.2, 0.1])  # 앞쪽 관계를 더 강조
-head2_weights = np.array([0.1, 0.3, 0.6])  # 뒤쪽 관계를 더 강조
-single_head_weights = np.array([0.4, 0.3, 0.3])  # 하나의 절충된 읽기
+single_head_weights = np.array([0.4, 0.3, 0.3])
 
-single_head_context = single_head_weights @ tokens
-head1_context = head1_weights @ tokens
-head2_context = head2_weights @ tokens
-combined = np.concatenate([head1_context, head2_context])
+scenarios = {
+    "balanced_heads": {
+        "head1": np.array([0.45, 0.30, 0.25]),
+        "head2": np.array([0.30, 0.30, 0.40]),
+    },
+    "decision_vs_condition_split": {
+        "head1": np.array([0.70, 0.20, 0.10]),
+        "head2": np.array([0.10, 0.30, 0.60]),
+    },
+    "condition_heavy_both_heads": {
+        "head1": np.array([0.20, 0.25, 0.55]),
+        "head2": np.array([0.15, 0.20, 0.65]),
+    },
+}
+
+
+def summarize_scenario(name, head1_weights, head2_weights):
+    single_head_context = single_head_weights @ tokens
+    head1_context = head1_weights @ tokens
+    head2_context = head2_weights @ tokens
+    combined = np.concatenate([head1_context, head2_context])
+    difference_from_single = combined - np.concatenate(
+        [single_head_context, single_head_context]
+    )
+    head_separation = np.linalg.norm(head1_context - head2_context)
+
+    print(f"[{name}]")
+    print("single_head_context =", np.round(single_head_context, 3).tolist())
+    print("head1_context       =", np.round(head1_context, 3).tolist())
+    print("head2_context       =", np.round(head2_context, 3).tolist())
+    print("difference_from_single =", np.round(difference_from_single, 3).tolist())
+    print("head_separation =", round(float(head_separation), 3))
+    print()
+
 
 print("tokens =")
 print(tokens)
 print()
-print("single_head_context =", np.round(single_head_context, 3).tolist())
-print("head1_context =", np.round(head1_context, 3).tolist())
-print("head2_context =", np.round(head2_context, 3).tolist())
-print("combined =", np.round(combined, 3).tolist())
-print(
-    "difference_from_single =",
-    np.round(combined - np.concatenate([single_head_context, single_head_context]), 3).tolist(),
-)
+
+for scenario_name, heads in scenarios.items():
+    summarize_scenario(scenario_name, heads["head1"], heads["head2"])
 ```
 
-출력에서는 single head 결과와 각 head별 context가 어떻게 갈라지는지부터 보면 됩니다.
+출력에서는 각 시나리오의 `head_separation`과 `difference_from_single`이 어떻게 달라지는지부터 보면 됩니다.
 
 ```text
 tokens =
@@ -290,39 +315,55 @@ tokens =
  [0. 2.]
  [3. 1.]]
 
+[balanced_heads]
 single_head_context = [1.3, 0.9]
-head1_context = [1.0, 0.5]
-head2_context = [1.9, 1.2]
-combined = [1.0, 0.5, 1.9, 1.2]
+head1_context       = [1.2, 0.85]
+head2_context       = [1.5, 1.0]
+difference_from_single = [-0.1, -0.05, 0.2, 0.1]
+head_separation = 0.335
+
+[decision_vs_condition_split]
+single_head_context = [1.3, 0.9]
+head1_context       = [1.0, 0.5]
+head2_context       = [1.9, 1.2]
 difference_from_single = [-0.3, -0.4, 0.6, 0.3]
+head_separation = 1.14
+
+[condition_heavy_both_heads]
+single_head_context = [1.3, 0.9]
+head1_context       = [1.85, 1.05]
+head2_context       = [2.1, 1.05]
+difference_from_single = [0.55, 0.15, 0.8, 0.15]
+head_separation = 0.25
 ```
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| `single_head_context = [1.3, 0.9]`는 하나만 남는다 | 여러 관계를 한 번에 절충하면 문맥이 하나의 평균적 표현으로 접힌다는 뜻 | single-head 가중치를 바꾸면 어떤 관계가 절충 결과를 더 끌어가는지 비교할 수 있습니다 |
-| `head1_context`와 `head2_context`가 서로 다르다 | 서로 다른 head가 같은 토큰 집합에서도 다른 관계 패턴을 읽을 수 있다는 뜻 | head별 attention 비중을 바꾸면 어떤 관점 차이가 더 벌어지거나 줄어드는지 볼 수 있습니다 |
-| `difference_from_single`이 양쪽 방향으로 남는다 | multi-head가 단일 절충 표현 하나로는 잃기 쉬운 차이를 분리해 보존한다는 뜻 | 토큰 값이나 head 가중치를 바꾸면 어떤 차이가 single-head에서 사라지고 multi-head에서 남는지 달라집니다 |
+| `head_separation`이 크다 | 두 head가 실제로 다른 관계를 읽고 있다는 뜻 | head 가중치를 더 비슷하게 만들면 분리 정도가 줄고, 더 다르게 만들면 커집니다 |
+| `difference_from_single`이 양쪽으로 벌어진다 | single-head에서 평균내며 접힌 차이가 multi-head에서 다시 나뉜다는 뜻 | single-head 기준 가중치를 바꾸면 어떤 차이가 `절충 결과`에 이미 흡수되는지 비교할 수 있습니다 |
+| 두 head가 모두 같은 방향으로 커진다 | head 수가 둘이어도 실제로는 같은 관계를 중복해서 보고 있을 수 있다는 뜻 | `condition_heavy_both_heads`처럼 두 head를 같은 쪽으로 몰면 multi-head의 분리 이점이 줄어듭니다 |
 
-| 읽기 기준 | single-head 출력만 보면 쉬운 판단 | multi-head 출력을 읽고 바뀌는 판단 |
+| 읽기 기준 | single-head 출력만 보면 쉬운 판단 | 시나리오 비교까지 보고 바뀌는 판단 |
 | --- | --- | --- |
-| 운전 보고서 요약 | `정지 결정`, `압력 이상`, `복귀 조건`이 한 덩어리 평균으로만 남아, 무엇이 결론이고 무엇이 조건인지 약해질 수 있다 | `head1`은 결정 쪽, `head2`는 조건 쪽으로 기울어 있어 결론과 조건을 나눠 들고 간다고 읽을 수 있다 |
-| 절차 문서 해석 | 하나의 절충 문맥이면 결정 문장과 예외 조건 문장이 비슷한 역할처럼 눌릴 수 있다 | 서로 다른 head가 다른 문장 기능을 살려, `지금 해야 할 조치`와 `아직 충족되지 않은 조건`을 함께 남길 수 있다 |
+| 운전 보고서 요약 | `정지 결정`, `압력 이상`, `복귀 조건`이 한 덩어리 평균으로만 남아, 무엇이 결론이고 무엇이 조건인지 약해질 수 있다 | `decision_vs_condition_split`처럼 head를 갈라 두면 결론과 조건을 다른 문맥으로 오래 들고 갈 수 있다 |
+| 절차 문서 해석 | head가 여러 개면 무조건 관계가 다양해질 것처럼 느끼기 쉽다 | `condition_heavy_both_heads`를 보면 head가 둘이어도 같은 조건만 함께 강조하면 관계 분리는 크지 않을 수 있다 |
+| 실험 설계 | multi-head는 값 하나만 보면 이해했다고 느끼기 쉽다 | `balanced_heads`, `decision_vs_condition_split`, `condition_heavy_both_heads`를 나란히 봐야 `head를 어떻게 다르게 두는가`가 핵심이라는 점이 보인다 |
 
-즉, single-head가 여러 관계를 하나의 절충 표현으로 접는다면, multi-head는 서로 다른 관계 읽기 결과를 나란히 유지해 단일 평균에서 사라질 차이를 더 오래 들고 갑니다.
+즉, single-head가 여러 관계를 하나의 절충 표현으로 접는다면, multi-head는 서로 다른 관계 읽기 결과를 나란히 유지해 단일 평균에서 사라질 차이를 더 오래 들고 갑니다. 다만 그 효과는 `head 수 자체`보다 `head들이 실제로 얼마나 다른 관계를 읽는가`에 더 크게 좌우됩니다.
 
-이 숫자를 운영 보고서 읽기로 바꾸면, single-head 결과는 `정지 결정과 복귀 조건을 한 문맥으로 접은 평균 요약`에 가깝고, multi-head 결과는 `결정 쪽 문맥`과 `조건 쪽 문맥`을 따로 유지한 뒤 함께 전달하는 쪽에 가깝습니다. 중요한 것은 벡터 값 자체보다, 서로 다른 head가 `어떤 종류 판단을 따로 남겨 두는가`입니다.
+이 숫자를 운영 보고서 읽기로 바꾸면, `balanced_heads`는 아직 절충에 가까운 요약이고, `decision_vs_condition_split`은 `결정 쪽 문맥`과 `조건 쪽 문맥`을 분리해 유지하는 읽기에 가깝습니다. 반대로 `condition_heavy_both_heads`는 head가 둘이어도 둘 다 조건 쪽으로 몰려, multi-head의 장점이 줄어든 장면으로 읽을 수 있습니다. 중요한 것은 벡터 값 자체보다, 서로 다른 head가 `어떤 종류 판단을 따로 남겨 두는가`입니다.
 
-실제 multi-head attention은 이후 선형 변환까지 포함해 더 정교하게 결합되지만, 입문 단계에서는 `서로 다른 관계 읽기 결과를 나란히 유지한다`는 감각을 잡으면 충분합니다.
+실제 multi-head attention은 이후 선형 변환까지 포함해 더 정교하게 결합되지만, 입문 단계에서는 `서로 다른 관계 읽기 결과를 나란히 유지한다`는 감각과 `head를 어떻게 나누느냐가 중요하다`는 감각까지 잡으면 충분합니다.
 
-이 예제도 결과를 한 번 읽고 끝내기보다, 어떤 값을 바꿔 보면 `여러 관계 보존` 감각이 더 선명해지는지 바로 이어서 확인하는 편이 좋습니다.
+이 예제는 한 번 실행하고 끝내기보다, 아래 세 가지 조작을 직접 해 보면서 `관계 분리`가 언제 커지고 언제 줄어드는지 확인하는 편이 좋습니다.
 
-| 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
+| 지금 바로 바꿔 볼 값 | 관찰할 출력 | 해석할 질문 |
 | --- | --- | --- |
-| head1과 head2 결과가 다르다 | head별 attention 비중을 바꿔 서로 다른 관계 읽기 결과가 얼마나 벌어지는지 본다 | head 수가 많다고 해서 곧바로 항상 더 좋은 이해가 된다고 단정하지 않는다 |
-| `combined`가 single-head보다 더 많은 축을 들고 간다 | 토큰 수나 head 수를 늘려 어떤 종류의 관계가 추가로 보존되는지 본다 | 차원을 늘렸다는 사실만으로 품질 향상을 바로 결론내리지 않는다 |
-| `difference_from_single`이 한쪽은 음수, 다른 쪽은 양수다 | 토큰 값을 바꿔 single-head에서 상쇄되던 차이가 multi-head에서 어떻게 분리되는지 본다 | 이 축약 멀티헤드 비교 하나로 실제 projection과 output mixing 전체를 대체하지 않는다 |
+| `head1`, `head2` 가중치를 더 비슷하게 바꾸기 | `head_separation` | 서로 다른 head가 사실상 같은 관계를 읽게 되면 multi-head의 장점이 얼마나 줄어드는가 |
+| `single_head_weights`를 `head1` 쪽이나 `head2` 쪽으로 더 기울이기 | `difference_from_single` | single-head가 이미 특정 관계를 강하게 반영하면 multi-head와 차이가 얼마나 줄어드는가 |
+| `tokens`에서 `복귀 조건` 값을 더 크게 또는 더 작게 바꾸기 | `head2_context`, `head_separation` | 토큰 자체의 의미 강도가 바뀌면 어떤 head가 그 변화를 더 민감하게 끌어오는가 |
 
-앞의 숫자는 실제 대규모 multi-head attention 전체를 구현한 것은 아니지만, single-head가 여러 관계를 한 번에 평균내며 하나의 절충된 문맥으로 남기는 반면 multi-head는 서로 다른 관계 읽기 결과를 나란히 유지한 뒤 함께 쓴다는 비교 기준은 충분히 드러납니다. 즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 간다`는 뜻에 더 가깝습니다.
+앞의 숫자는 실제 대규모 multi-head attention 전체를 구현한 것은 아니지만, single-head가 여러 관계를 한 번에 평균내며 하나의 절충된 문맥으로 남기는 반면 multi-head는 서로 다른 관계 읽기 결과를 나란히 유지한 뒤 함께 쓴다는 비교 기준과, head 설계가 그 차이를 키우거나 줄인다는 실험 기준은 충분히 드러납니다. 즉, multi-head attention은 단순히 `attention을 여러 번 반복한다`는 뜻이 아니라, `서로 다른 종류의 관련성 패턴을 동시에 잃지 않게 들고 갈 수 있도록 head를 나누는 구조`에 더 가깝습니다.
 
 이 절에서 독자가 최종적으로 붙잡아야 하는 것도 같습니다. QKV는 `무엇을 찾는가`, `어떤 표지와 맞는가`, `무엇을 실제로 가져오는가`를 나눠 읽게 하는 이름이고, multi-head는 그렇게 찾은 관계를 한 번에 평균내지 않고 `결정`, `근거`, `조건`처럼 다른 관점으로 더 오래 유지하게 하는 구조입니다.
 

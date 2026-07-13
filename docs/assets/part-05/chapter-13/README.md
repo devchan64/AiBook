@@ -17,3 +17,7 @@
   - `multihead-flow-en.mmd` / `multihead-flow-ko.mmd`
 - SVG chart assets:
   - `self-attention-weights-en.svg` / `self-attention-weights-ko.svg`
+  - `self-attention-weight-it-en.svg` / `self-attention-weight-it-ko.svg`
+  - `self-attention-weight-cover-en.svg` / `self-attention-weight-cover-ko.svg`
+- Python chart source:
+  - `p5_13_attention_chart.py`

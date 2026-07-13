@@ -167,7 +167,7 @@ Poole과 Mackworth는 확률(probability)을 믿음의 계산법으로 설명하
 
 아래 그래프처럼 같은 출력값이라도 모델이 낸 숫자 자체와 운영자가 정한 처리 구간은 분리해서 읽어야 합니다. `배송 0.82`는 가장 높은 후보 점수이지만, 0.90 자동 응답 기준에는 닿지 않으므로 이 예시에서는 상담원에게 후보로 제안되는 구간에 놓입니다.
 
-![배송, 결제, 환불 후보 점수와 0.60, 0.90 임계값이 추가 질문, 후보 제안, 자동 응답 구간으로 나뉘는 그래프](/AiBook/assets/part-01/chapter-07/threshold-action-regions-ko.png)
+![배송, 결제, 환불 후보 점수와 0.60, 0.90 임계값이 추가 질문, 후보 제안, 자동 응답 구간으로 나뉘는 그래프](../../../assets/part-01/chapter-07/threshold-action-regions-ko.png)
 
 이 임계값(threshold)은 확률 모델 자체가 아닙니다. 모델 출력을 어떻게 행동으로 바꿀지 정하는 운영 기준입니다. Google의 Machine Learning Glossary도 classification threshold가 사람이 선택하는 값이며, threshold 선택이 false positive와 false negative의 수에 영향을 준다고 설명합니다.
 

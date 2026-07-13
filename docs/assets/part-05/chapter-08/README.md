@@ -13,3 +13,5 @@
   - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`
 - SVG chart assets:
   - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`
+- Python chart source:
+  - `p5_8_overfit_chart.py`

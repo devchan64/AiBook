@@ -1,7 +1,7 @@
 # P5-5.2 계산 그래프(computation graph)
 
 Section ID: `P5-5.2`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-5.1에서는 역전파(backpropagation)를 `손실이 각 가중치에 얼마나 책임이 있는지 뒤에서 앞으로 계산하는 절차`로 설명했습니다. 여기까지 이해하면 다음 질문이 남습니다.
 
@@ -210,7 +210,13 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 자동미분 라이브러리를 쓰지 않고, 아주 작은 식에서 `forward에서 어떤 중간값이 만들어지고`, `backward에서 어떤 gradient가 계산되는지`를 직접 확인하는 것입니다. 한 번의 값만 보는 대신 표 형태로 forward와 backward를 나누어 읽게 하겠습니다.
+이번 예제의 목표는 자동미분 라이브러리를 쓰지 않고, 아주 작은 식에서 `forward에서 어떤 중간값이 만들어지고`, `backward에서 어떤 gradient가 계산되는지`를 직접 확인하는 것입니다. 이 예제의 역할은 `모델을 잘 학습시키는 코드`를 만드는 데 있지 않고, 계산 그래프의 각 노드를 손으로 추적하듯 읽는 기준을 만드는 데 있습니다.
+
+즉, 여기서 코드는 세 가지 역할만 맡습니다.
+
+- 같은 계산 그래프를 따라 forward 값과 backward gradient를 나란히 드러냅니다.
+- `손실이 크다`와 `gradient 경로가 살아 있다`를 같은 말로 읽지 않게 만듭니다.
+- 자동미분 프레임워크가 내부에서 하는 일을 아주 작은 계산망으로 축소해 보여 줍니다.
 
 입력:
 
@@ -237,6 +243,8 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 - 각 단계의 중간값과 gradient를 함께 출력하면 계산 연결을 추적하기 쉽다
 - ReLU 같은 노드는 forward의 부호 정보에 따라 backward 전달 여부가 달라진다
 
+여기서 특히 확인할 점은 `예제의 정답`이 손실 숫자 하나가 아니라는 것입니다. 이 예제의 정답은 각 노드에서 `무슨 값이 만들어졌고`, `어느 지점에서 gradient가 살아 있거나 끊겼는지`를 node-by-node로 읽어 내는 데 있습니다.
+
 입력(input):
 
 위에 정리한 두 사례의 `pressure_signal`, `risk_weight`, `base_block_bias`, `target_block_score`를 사용합니다.
@@ -249,6 +257,10 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 | `block_gate_closed` | `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`가 0이 될 가능성 | `block_logit <= 0`이면 ReLU가 출력을 0으로 잘라 backward도 끊길 수 있습니다. |
 
 이 비교가 계산 그래프에서 특히 중요한 이유는, forward에서 보이는 `문이 열렸는가 닫혔는가`가 backward 경로까지 바꾸기 때문입니다.
+
+![ReLU 문이 열릴 때와 닫힐 때 같은 계산 그래프의 backward 경로가 어떻게 달라지는지 비교한 도식](../../../assets/part-05/chapter-05/computation-graph-relu-gate-comparison-ko.svg)
+
+이 도식은 출력 숫자를 보기 전에 먼저 `손실이 더 큰가`와 `gradient가 실제로 앞단까지 가는가`를 분리해서 읽게 해 줍니다. `block_gate_closed`는 손실이 더 크지만, 계산 그래프에서는 ReLU 앞에서 경로가 끊겨 `risk_weight`와 `base_block_bias`까지 gradient가 전달되지 않습니다.
 
 ```python
 def relu(value):
@@ -280,6 +292,33 @@ for case in cases:
     d_loss_d_weight = d_loss_d_logit * d_logit_d_weight
     d_loss_d_bias = d_loss_d_logit * d_logit_d_bias
 
+    node_trace = [
+        {
+            "node": "weighted_pressure = risk_weight * pressure_signal",
+            "forward_value": round(weighted_pressure, 3),
+            "backward_signal": round(d_loss_d_weight, 3),
+            "read_as": "risk_weight 쪽으로 되돌아가는 gradient",
+        },
+        {
+            "node": "block_logit = weighted_pressure + base_block_bias",
+            "forward_value": round(block_logit, 3),
+            "backward_signal": round(d_loss_d_logit, 3),
+            "read_as": "ReLU 앞단에서 살아 있거나 끊기는 gradient",
+        },
+        {
+            "node": "block_activation = ReLU(block_logit)",
+            "forward_value": round(block_activation, 3),
+            "backward_signal": round(d_loss_d_activation, 3),
+            "read_as": "loss가 직접 바라보는 출력 노드",
+        },
+        {
+            "node": "loss = (block_activation - target_block_score) ** 2",
+            "forward_value": round(loss, 3),
+            "backward_signal": "start",
+            "read_as": "backward가 출발하는 손실 노드",
+        },
+    ]
+
     print(f"[{case['name']}]")
     print("forward:", {
         "weighted_pressure": round(weighted_pressure, 3),
@@ -293,19 +332,32 @@ for case in cases:
         "d_loss_d_weight": round(d_loss_d_weight, 3),
         "d_loss_d_bias": round(d_loss_d_bias, 3),
     })
+    print("node_trace:")
+    for row in node_trace:
+        print(" ", row)
     print("---")
 ```
 
-출력에서는 forward 값들, backward gradient들, 그리고 connections 설명을 순서대로 보면 됩니다.
+출력에서는 `손실 숫자만` 보지 말고, 반드시 `forward 요약 -> backward 요약 -> node_trace` 순서로 읽습니다. 앞의 두 줄은 값 요약이고, `node_trace`가 이 예제의 핵심입니다. 바로 그 줄에서 계산 그래프의 각 노드를 따라 `어디서 값이 생기고`, `어디서 gradient가 살아 있거나 끊기는지`를 다시 읽을 수 있기 때문입니다.
 
 ```text
 [block_gate_open]
 forward: {'weighted_pressure': 3.0, 'block_logit': 2.5, 'block_activation': 2.5, 'loss': 2.25}
 backward: {'d_loss_d_activation': -3.0, 'd_loss_d_logit': -3.0, 'd_loss_d_weight': -6.0, 'd_loss_d_bias': -3.0}
+node_trace:
+  {'node': 'weighted_pressure = risk_weight * pressure_signal', 'forward_value': 3.0, 'backward_signal': -6.0, 'read_as': 'risk_weight 쪽으로 되돌아가는 gradient'}
+  {'node': 'block_logit = weighted_pressure + base_block_bias', 'forward_value': 2.5, 'backward_signal': -3.0, 'read_as': 'ReLU 앞단에서 살아 있거나 끊기는 gradient'}
+  {'node': 'block_activation = ReLU(block_logit)', 'forward_value': 2.5, 'backward_signal': -3.0, 'read_as': 'loss가 직접 바라보는 출력 노드'}
+  {'node': 'loss = (block_activation - target_block_score) ** 2', 'forward_value': 2.25, 'backward_signal': 'start', 'read_as': 'backward가 출발하는 손실 노드'}
 ---
 [block_gate_closed]
 forward: {'weighted_pressure': 0.2, 'block_logit': -0.3, 'block_activation': 0.0, 'loss': 16.0}
 backward: {'d_loss_d_activation': -8.0, 'd_loss_d_logit': -0.0, 'd_loss_d_weight': -0.0, 'd_loss_d_bias': -0.0}
+node_trace:
+  {'node': 'weighted_pressure = risk_weight * pressure_signal', 'forward_value': 0.2, 'backward_signal': -0.0, 'read_as': 'risk_weight 쪽으로 되돌아가는 gradient'}
+  {'node': 'block_logit = weighted_pressure + base_block_bias', 'forward_value': -0.3, 'backward_signal': -0.0, 'read_as': 'ReLU 앞단에서 살아 있거나 끊기는 gradient'}
+  {'node': 'block_activation = ReLU(block_logit)', 'forward_value': 0.0, 'backward_signal': -8.0, 'read_as': 'loss가 직접 바라보는 출력 노드'}
+  {'node': 'loss = (block_activation - target_block_score) ** 2', 'forward_value': 16.0, 'backward_signal': 'start', 'read_as': 'backward가 출발하는 손실 노드'}
 ---
 ```
 
@@ -314,6 +366,9 @@ backward: {'d_loss_d_activation': -8.0, 'd_loss_d_logit': -0.0, 'd_loss_d_weight
 - forward에서는 중간값이 단계별로 만들어집니다
 - backward에서는 마지막 손실에서 시작한 변화량이 앞단 파라미터까지 분해됩니다
 - 각 노드는 자기 앞뒤 관계만 알면 gradient 계산에 참여할 수 있습니다
+- `node_trace`를 따라 읽으면 계산 그래프 예제가 `손실 계산 예제`가 아니라 `노드별 판독 예제`라는 점이 더 분명해집니다
+
+즉, 이 Python 예제의 역할은 `역전파 공식을 또 하나 외우게 하는 것`이 아니라, 계산 그래프 절에서 설명한 `노드`, `중간값`, `국소 규칙`, `경로 차단`을 출력 한 묶음 안에서 다시 붙잡게 하는 것입니다.
 
 여기서는 두 사례를 나란히 읽어야 계산 그래프 감각이 더 선명해집니다.
 

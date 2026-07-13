@@ -41,9 +41,13 @@ P5-3.2부터 P5-3.4까지 sigmoid, tanh, ReLU를 각각 따로 보았습니다. 
 
 함수의 이름보다 곡선 모양을 먼저 보면 차이가 빠르게 잡힙니다.
 
-![sigmoid, tanh, ReLU의 함수 곡선 비교](../../../assets/part-05/chapter-03/activation-function-curves-ko.svg)
+![sigmoid 함수 곡선](../../../assets/part-05/chapter-03/sigmoid-curve-ko.svg)
 
-위 차트에서 sigmoid와 tanh는 양끝에서 포화됩니다. 입력이 더 커져도 출력이 1 근처에서 크게 변하지 않습니다. 반면 ReLU는 음수 구간을 0으로 자르지만, 양수 구간에서는 계속 직선으로 증가합니다.
+![tanh 함수 곡선](../../../assets/part-05/chapter-03/tanh-curve-ko.svg)
+
+![ReLU 함수 곡선](../../../assets/part-05/chapter-03/relu-curve-ko.svg)
+
+이 세 그래프를 나란히 보면 sigmoid와 tanh는 양끝에서 포화됩니다. 입력이 더 커져도 출력이 1 또는 -1 근처에서 크게 변하지 않습니다. 반면 ReLU는 음수 구간을 0으로 자르지만, 양수 구간에서는 계속 직선으로 증가합니다.
 
 ## 같은 점수를 넣어 비교하기
 

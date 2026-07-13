@@ -6,6 +6,10 @@ repo_name: devchan64/AiBook
 repo_url: https://github.com/devchan64/AiBook
 edit_uri: edit/dev/docs/
 
+validation:
+  links:
+    absolute_links: ignore
+
 theme:
   name: material
   language: ko

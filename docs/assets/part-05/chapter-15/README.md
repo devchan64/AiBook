@@ -13,3 +13,7 @@
   - `sampling-task-flow-en.mmd` / `sampling-task-flow-ko.mmd`
 - SVG chart assets:
   - `sampling-distribution-choice-en.svg` / `sampling-distribution-choice-ko.svg`
+  - `sampling-candidate-weights-en.svg` / `sampling-candidate-weights-ko.svg`
+  - `sampling-choice-counts-en.svg` / `sampling-choice-counts-ko.svg`
+- Python chart source:
+  - `p5_15_sampling_chart.py`

@@ -1,10 +1,16 @@
 flowchart TD
   subgraph SGD["SGD intuition"]
+    direction TB
     A["Current gradient"] --> B["One learning rate"]
     B --> C["Direct update step"]
   end
 
+  GAP["Comparison focus: how the same gradient becomes a step"]
+
   subgraph Adam["Adam intuition"]
+    direction TB
     D["Current gradient"] --> E["Recent gradient history"]
     E --> F["Coordinate-wise adjusted step"]
   end
+
+  SGD --> GAP --> Adam

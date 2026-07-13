@@ -1,11 +1,15 @@
 flowchart TD
-  A["forward pass"]
-  B["loss"]
-  C["backpropagation"]
-  D["optimizer update"]
-  E["new parameters"]
+  A["forward pass<br/>predict with current parameters"]
+  B["loss<br/>turn error into a number"]
+  C["backpropagation<br/>compute each parameter gradient"]
+  D["optimizer<br/>apply learning rate and update rule"]
+  E["new parameters<br/>starting point of next step"]
 
   A --> B
   B --> C
   C --> D
   D --> E
+
+  B -. "how wrong is it" .-> C
+  C -. "which direction reduces it" .-> D
+  D -. "how large should the move be" .-> E

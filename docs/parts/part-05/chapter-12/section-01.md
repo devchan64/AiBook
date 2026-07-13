@@ -1,7 +1,7 @@
 # P5-12.1 순환 신경망(RNN), 장단기 메모리(LSTM), 게이트 순환 유닛(GRU)의 필요성
 
 Section ID: `P5-12.1`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-11장에서는 CNN이 이미지처럼 공간 구조가 있는 데이터에서 지역 패턴을 잘 다룬다는 점을 보았습니다. 여기서 데이터 유형을 바꾸면 다음 질문이 생깁니다.
 
@@ -285,6 +285,12 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 입력(input):
 
 위에 정리한 단어 신호, 센서 신호, 초기 상태값을 사용합니다.
+
+![gradual rise 시퀀스 상태](../../../assets/part-05/chapter-12/rnn-gradual-rise-state-ko.svg)
+
+![temporary spike 시퀀스 상태](../../../assets/part-05/chapter-12/rnn-temporary-spike-state-ko.svg)
+
+이 그래프는 코드 실행 전에 먼저 `마지막 값이 같다`와 `누적 상태가 같다`를 분리해서 보게 합니다. `gradual_rise`와 `temporary_spike`는 둘 다 80으로 끝나지만, 순차 상태는 직전 흐름을 함께 남기기 때문에 최종 경보 해석이 달라질 수 있습니다.
 
 ```python
 word_signal = {
