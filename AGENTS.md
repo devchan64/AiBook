@@ -56,6 +56,7 @@
   - 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전에 먼저 본다.
 - 차트·도식 워크플로우: `management/guidelines/chart-guidelines.md`
   - Mermaid, SVG, 시각화 자산 추가·수정 전에 먼저 본다.
+  - 표와 플로우차트 중 무엇이 더 맞는지 같은 형식 선택도 여기서 먼저 판단한다.
 - Section 버전·릴리즈노트 워크플로우: `management/release-notes/sections/README.md`
   - Section 본문 수정, 번역본 동기화, 개정 이력 기록 전에 먼저 본다.
 

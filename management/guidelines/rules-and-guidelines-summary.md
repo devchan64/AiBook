@@ -74,6 +74,7 @@
 
 1. `AGENTS.md`
 2. `management/guidelines/chart-guidelines.md`
+3. 형식 선택이 먼저 필요하면 `표 / 플로우차트 / 좌표 차트 / 구조 다이어그램` 중 무엇이 맞는지 차트 가이드의 형식 선택 기준부터 확인
 
 ### 영어/중국어 번역을 다룰 때
 
