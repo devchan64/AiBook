@@ -17,7 +17,7 @@
 
 아래 그래프처럼 원시 곡선을 구간으로 나누어 보면, 토큰화가 단순히 이름을 붙이는 일이 아니라 `곡선의 방향과 강도를 더 짧은 읽기 단위로 바꾸는 일`이라는 점이 보입니다.
 
-![원시 곡선을 다섯 구간으로 나누고 UP2, UP1, FLAT, DOWN1, DOWN2 토큰으로 바꾸는 그래프](../../../assets/part-03/chapter-06/segment-tokenization-curve-ko.png)
+![원시 곡선을 다섯 구간으로 나누고 UP2, UP1, FLAT, DOWN1, DOWN2 토큰으로 바꾸는 그래프](/AiBook/assets/part-03/chapter-06/segment-tokenization-curve-ko.png)
 
 이렇게 바꾸면 긴 곡선이 `UP, FLAT, DOWN` 같은 짧은 시퀀스로 줄어듭니다. 이 표현은 사람이 읽기 쉽고, 모델도 곡선의 구조를 더 일정한 길이의 입력으로 받아들일 수 있습니다. 즉 세그먼트 표현은 복잡한 시계열을 `사람과 모델이 같이 볼 수 있는 중간 표현`으로 바꾸는 일입니다.
 

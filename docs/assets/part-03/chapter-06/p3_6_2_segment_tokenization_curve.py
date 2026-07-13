@@ -62,7 +62,7 @@ def save_chart(lang: str, text: dict[str, object]) -> None:
 
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
-    ax.plot(x, POINTS, marker="o", markersize=5.5, linewidth=2.0, color="#0969da")
+    ax.plot(x, POINTS, marker="o", markersize=4.8, linewidth=1.6, color="#0969da")
     ax.set_xlim(-0.1, 5.1)
     ax.set_ylim(-0.35, 1.55)
     ax.set_xlabel(text["xlabel"])
@@ -91,7 +91,7 @@ def save_chart(lang: str, text: dict[str, object]) -> None:
             fontsize=9.5,
             fontweight="bold",
             color=color,
-            bbox={"boxstyle": "round,pad=0.36", "facecolor": face, "edgecolor": edge, "linewidth": 1.0},
+            bbox={"boxstyle": "round,pad=0.36", "facecolor": face, "edgecolor": edge, "linewidth": 0.8},
         )
 
     ax.set_xticks(np.arange(6))
