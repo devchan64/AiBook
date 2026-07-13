@@ -51,7 +51,7 @@
 
 像下面这样的坐标图一摆出来，就能马上看到为什么 `a` 和 `b` 会先被读成更接近的候选，而 `c` 会被读成更远的位置。在这一节里，先抓住这种程度的位置直觉就够了。
 
-![向量空间中 a 和 b 更接近而 c 更远的坐标图](../../../assets/part-02/chapter-03/vector-space-near-far-zh.svg)
+![向量空间中 a 和 b 更接近而 c 更远的坐标图](/AiBook/assets/part-02/chapter-03/vector-space-near-far-zh.svg)
 
 | 这一节现在先抓住什么 | 紧接着会连到的问题 | 后面再次出现的位置 |
 | --- | --- | --- |

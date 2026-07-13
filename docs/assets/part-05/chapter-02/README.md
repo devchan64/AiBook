@@ -14,3 +14,6 @@
   - `multilayer-network-flow-en.mmd` / `multilayer-network-flow-ko.mmd`
   - `single-vs-multilayer-flow-en.mmd` / `single-vs-multilayer-flow-ko.mmd`
   - `internal-coordinates-flow-en.mmd` / `internal-coordinates-flow-ko.mmd`
+- Matplotlib chart assets:
+  - `p5_2_1_hidden_pattern_regions.py`
+  - `hidden-pattern-regions-en.png` / `hidden-pattern-regions-ko.png`
