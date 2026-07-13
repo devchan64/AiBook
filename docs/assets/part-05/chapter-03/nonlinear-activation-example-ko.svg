@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">비선형 활성화 변환의 교육용 예시</title>
+  <desc id="desc">선형 통과 직선과 교육용 비선형 활성화 예시를 비교한 차트다. 비선형 예시는 음수 점수를 약하게 만들고, 중간 구간은 비교적 직접 남기며, 높은 점수는 압축한다.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+      .axis { stroke: #475569; stroke-width: 1.8; }
+      .linear { fill: none; stroke: #94a3b8; stroke-width: 3; stroke-dasharray: 8 7; }
+      .curve { fill: none; stroke: #2563eb; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .point { fill: #2563eb; stroke: #ffffff; stroke-width: 2; }
+      .title { font: 700 22px sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 14px sans-serif; fill: #475569; }
+      .label { font: 700 14px sans-serif; fill: #334155; }
+      .tick { font: 12px sans-serif; fill: #64748b; }
+      .note { font: 400 13px sans-serif; fill: #334155; }
+      .formula { font: 600 14px monospace; fill: #0f172a; }
+      .legend-linear { fill: #94a3b8; }
+      .legend-curve { fill: #2563eb; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="960" height="430" rx="24" />
+  <text class="title" x="34" y="42">비선형 활성화 변환</text>
+  <text class="subtitle" x="34" y="66">교육용 예시: z가 같은 만큼 늘어도 a가 항상 같은 만큼 늘지는 않습니다.</text>
+
+  <g transform="translate(28 88)">
+    <rect class="panel" x="0" y="0" width="560" height="310" rx="18" />
+
+    <line class="grid" x1="52" y1="252" x2="532" y2="252" />
+    <line class="grid" x1="52" y1="165" x2="532" y2="165" />
+    <line class="grid" x1="52" y1="78" x2="532" y2="78" />
+    <line class="grid" x1="52" y1="35" x2="532" y2="35" />
+    <line class="grid" x1="52" y1="252" x2="52" y2="35" />
+    <line class="grid" x1="132" y1="252" x2="132" y2="35" />
+    <line class="grid" x1="292" y1="252" x2="292" y2="35" />
+    <line class="grid" x1="412" y1="252" x2="412" y2="35" />
+    <line class="grid" x1="532" y1="252" x2="532" y2="35" />
+
+    <line class="axis" x1="52" y1="208" x2="532" y2="208" />
+    <line class="axis" x1="292" y1="252" x2="292" y2="35" />
+
+    <path class="linear" d="M212 295 L452 35" />
+    <path class="curve" d="M52 260 L292 208 L412 78 L532 46" />
+
+    <circle class="point" cx="52" cy="260" r="5" />
+    <circle class="point" cx="292" cy="208" r="5" />
+    <circle class="point" cx="412" cy="78" r="5" />
+    <circle class="point" cx="532" cy="46" r="5" />
+
+    <text class="tick" x="44" y="277">-3</text>
+    <text class="tick" x="126" y="277">-2</text>
+    <text class="tick" x="288" y="277">0</text>
+    <text class="tick" x="406" y="277">1.5</text>
+    <text class="tick" x="526" y="277">3</text>
+
+    <text class="tick" x="24" y="256">-0.5</text>
+    <text class="tick" x="34" y="212">0</text>
+    <text class="tick" x="34" y="169">1</text>
+    <text class="tick" x="34" y="82">1.5</text>
+    <text class="tick" x="34" y="39">2</text>
+
+    <text class="label" x="515" y="229">z</text>
+    <text class="label" x="302" y="51">a</text>
+
+    <rect class="legend-linear" x="330" y="236" width="24" height="4" />
+    <text class="note" x="362" y="242">선형 통과: a = z</text>
+    <rect class="legend-curve" x="330" y="260" width="24" height="4" />
+    <text class="note" x="362" y="266">비선형 예시: a = f(z)</text>
+  </g>
+
+  <g transform="translate(612 105)">
+    <text class="label" x="0" y="0">예시 규칙</text>
+    <text class="formula" x="0" y="34">z &lt; 0 이면</text>
+    <text class="formula" x="18" y="56">a = 0.2z</text>
+    <text class="formula" x="0" y="90">0 ≤ z ≤ 1.5 이면</text>
+    <text class="formula" x="18" y="112">a = z</text>
+    <text class="formula" x="0" y="146">z &gt; 1.5 이면</text>
+    <text class="formula" x="18" y="168">a = 1.5 + 0.25(z - 1.5)</text>
+  </g>
+
+  <text class="note" x="34" y="414">대표 활성화 함수 목록이 아니라, 점수 z가 값 a로 비선형 변환된다는 뜻만 보여 주는 교육용 그래프입니다.</text>
+</svg>

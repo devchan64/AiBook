@@ -45,3 +45,13 @@
 - 번역 반영 상태: 영어판 보강 및 중국어 간체 추가 수정 반영
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.12`
+
+### v2026.07.13
+
+- 변경 이유: Part 5 Chapter 3에서 대표 활성화 함수 비교가 `sigmoid`, `tanh`, `ReLU`, `수식 비교` 네 Section으로 분리되면서 독자용 목차도 기존 3절 구조와 어긋났다.
+- 본문 반영: 한국어 독자용 목차의 P5-3 항목을 `P5-3.2 sigmoid`, `P5-3.3 tanh`, `P5-3.4 ReLU`, `P5-3.5 대표 활성화 함수 수식 비교`, `P5-3.6 출력층(output layer)과 활성화의 선택`으로 갱신했다.
+- 추가 반영: 영어판과 중국어 간체판 독자용 목차도 같은 Section ID와 순서로 맞추고, 세 파일의 `Version`을 `v2026.07.13`으로 갱신했다.
+- 번역 동기화 메모: Korean, English, and Simplified Chinese reader-facing TOCs now reflect the expanded P5-3 section structure. Future translations should keep P5-3.2 through P5-3.6 aligned.
+- 번역 반영 상태: 영어판 및 중국어 간체 목차 반영
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.13`

@@ -1,7 +1,7 @@
 # P5-4.2 문제 유형별 손실
 
 Section ID: `P5-4.2`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목표와 얼마나 어긋나는지 숫자로 만드는 기준`으로 보았습니다. 이제 자연스럽게 다음 질문이 생깁니다.
 
@@ -33,7 +33,7 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 - 회귀, 분류, 생성 문제의 손실 관점을 구분할 수 있습니다.
 - 회귀에서는 오차 크기, 분류에서는 정답 클래스 확신도, 생성에서는 다음 토큰 확률이 핵심이 된다는 점을 말할 수 있습니다.
 - 손실 함수가 문제의 틀림 방식에 맞게 설계되어야 한다는 점을 이해할 수 있습니다.
-- 작은 예제로 문제 유형별 손실 해석 차이를 설명할 수 있습니다.
+- 문제 유형별로 어떤 예측을 더 먼저 크게 고쳐야 하는지 설명할 수 있습니다.
 
 ## 왜 문제마다 손실이 달라지나
 
@@ -239,7 +239,7 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 회귀와 분류에서 손실을 읽는 관점이 어떻게 다른지 아주 작은 숫자로 확인하는 것입니다. 이번에는 단일 값 하나만 보는 대신, `회귀에서는 오차 거리`, `분류에서는 정답 확률`을 비교 기준으로 먼저 세워 둡니다.
+이번 연습의 목표는 회귀와 분류에서 손실을 읽는 관점이 어떻게 다른지 아주 작은 숫자로 확인하는 것입니다. 이번에는 단일 값 하나만 보는 대신, `회귀에서는 오차 거리`, `분류에서는 정답 확률`을 비교 기준으로 먼저 세워 둡니다.
 
 이번에는 생성까지 함께 넣어, `같은 정답을 1위에 둔 예측` 안에서도 손실이 왜 더 세밀한 차이를 읽는지까지 같이 확인합니다.
 
@@ -271,7 +271,7 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 
 위에 정리한 회귀 예측값·목표값, 분류 정답 확률, 생성 정답 토큰 확률을 사용합니다.
 
-코드를 보기 전에 먼저 무엇이 더 큰 손실이 될지 예상해 보면 좋습니다.
+표를 보기 전에 먼저 무엇이 더 큰 손실이 될지 예상해 보면 좋습니다.
 
 | 비교 장면 | 먼저 예상해 볼 더 큰 손실 | 예상 이유 |
 | --- | --- | --- |
@@ -281,60 +281,13 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 
 이 표의 목적은 회귀, 분류, 생성 손실의 숫자를 서로 직접 비교하는 것이 아니라, `각 문제 안에서 어떤 예측이 더 나쁜가를 먼저 가릴 기준이 서로 다르다`는 점을 붙잡는 데 있습니다.
 
-```python
-import math
+같은 비교를 손실 결과로 정리하면 다음처럼 읽을 수 있습니다.
 
-# regression: batch energy prediction
-target_value = 5.0
-pred_close = 4.7
-pred_far = 3.8
-mse_close = (target_value - pred_close) ** 2
-mse_far = (target_value - pred_far) ** 2
-
-print("regression close loss =", round(mse_close, 3))
-print("regression far loss =", round(mse_far, 3))
-print("regression worse_case =", "pred_far" if mse_far > mse_close else "pred_close")
-
-# classification: scratch detection confidence
-scratch_prob_better = 0.8
-scratch_prob_worse = 0.35
-ce_better = -math.log(scratch_prob_better)
-ce_worse = -math.log(scratch_prob_worse)
-
-print("classification better loss =", round(ce_better, 3))
-print("classification worse loss =", round(ce_worse, 3))
-print(
-    "classification worse_case =",
-    "scratch_prob=0.35" if ce_worse > ce_better else "scratch_prob=0.80"
-)
-
-# generation: next-token confidence in an operating instruction
-confirm_token_prob_better = 0.75
-confirm_token_prob_worse = 0.30
-gen_better = -math.log(confirm_token_prob_better)
-gen_worse = -math.log(confirm_token_prob_worse)
-
-print("generation better loss =", round(gen_better, 3))
-print("generation worse loss =", round(gen_worse, 3))
-print(
-    "generation worse_case =",
-    "confirm_token_prob=0.30" if gen_worse > gen_better else "confirm_token_prob=0.75"
-)
-```
-
-출력에서는 회귀, 분류, 생성의 두 손실 비교를 각각 따로 읽으면 됩니다.
-
-```text
-regression close loss = 0.09
-regression far loss = 1.44
-regression worse_case = pred_far
-classification better loss = 0.223
-classification worse loss = 1.05
-classification worse_case = scratch_prob=0.35
-generation better loss = 0.288
-generation worse loss = 1.204
-generation worse_case = confirm_token_prob=0.30
-```
+| 문제 유형 | 덜 나쁜 예측 | 더 나쁜 예측 | 손실 결과 | 지금 읽어야 할 핵심 |
+| --- | --- | --- | --- | --- |
+| 회귀 | `pred_close=4.7` | `pred_far=3.8` | `0.09` vs `1.44` | 정답 숫자에서 더 멀리 벗어난 쪽이 더 큰 손실을 받습니다. |
+| 분류 | `scratch_prob=0.80` | `scratch_prob=0.35` | `0.223` vs `1.05` | 정답 클래스 확률이 낮은 쪽이 더 큰 손실을 받습니다. |
+| 생성 | `confirm_token_prob=0.75` | `confirm_token_prob=0.30` | `0.288` vs `1.204` | 정답 토큰 확률이 약한 쪽이 더 큰 손실을 받습니다. |
 
 여기서 숫자의 크기를 회귀와 분류 사이에서 직접 비교하는 것이 목적은 아닙니다. 중요한 것은 각 문제 안에서 무엇이 더 나쁜 예측으로 읽히느냐입니다.
 
@@ -364,6 +317,14 @@ generation worse_case = confirm_token_prob=0.30
 | 생성 | `confirm_token_prob=0.30` | 정답 토큰을 1위에 올리더라도 확신이 약해 다음 위치들까지 흔들릴 수 있기 때문입니다. | 앞 문맥이 부족했는지, 경쟁 토큰이 왜 강했는지 먼저 본다 |
 
 이 표까지 읽고 나면, 문제 유형별 손실의 핵심이 `숫자를 계산한다`에서 끝나지 않고 `어떤 예측을 더 먼저 크게 수정해야 하는가`를 다시 가리는 데 있다는 점이 더 분명해집니다.
+
+학습 관점에서 여기서 닫혀야 하는 지점은 `손실 공식 이름`이 아니라 `틀림의 모양`입니다. 회귀에서는 거리, 분류에서는 정답 클래스 확률 부족, 생성에서는 위치별 정답 토큰 확률 부족이 각각 업데이트 우선순위를 만든다고 스스로 말할 수 있어야 합니다. 그래야 뒤에서 역전파와 LLM 학습 손실을 같은 흐름으로 읽을 수 있습니다.
+
+| 바꿔 보며 다시 읽을 축 | 더 선명해지는 손실 차이 | 지금 떠올릴 질문 |
+| --- | --- | --- |
+| 회귀에서 `pred_far`를 정답에 더 가깝게 옮긴다 | 거리 기반 손실이 얼마나 빨리 줄어드는지 | 회귀에서는 무엇이 핵심 오차 구간인가 |
+| 분류에서 `scratch_prob=0.35`를 `0.55`로 올린다 | 정답 클래스 확률 부족이 얼마나 완화되는지 | 경계 근처 확신 부족이 얼마나 학습 신호를 키우는가 |
+| 생성에서 `confirm_token_prob=0.30`을 여러 위치에 반복해서 본다 | 위치별 작은 확률 부족이 시퀀스 전체 손실로 누적되는 구조 | LLM 손실이 왜 문장 전체가 아니라 다음 토큰 누적으로 읽히는가 |
 
 여기서 한 번 더 조심해야 할 점은, 세 숫자의 절대값을 서로 직접 비교하는 것이 목적이 아니라는 점입니다.
 

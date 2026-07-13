@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 This table of contents is the currently adopted learning order for the book. Here, `adopted` means that the structure has been chosen as part of the book. It does not mean that every chapter has already been fully written or fully verified.
 
@@ -533,8 +533,11 @@ This Part explains how neural networks represent and learn from data. It follows
 #### Chapter 3. Activation Functions `Deep-Learning Structures`
 
 - **P5-3.1 Activation Functions**: reviews why nonlinearity is needed
-- **P5-3.2 ReLU, Sigmoid, and Tanh**: compares common activation functions at a shallow level
-- **P5-3.3 Choosing the Output Layer and Activation**: reviews why the interpretation of the last output changes by problem type
+- **P5-3.2 Sigmoid**: reviews the formula and intuition for compressing scores into the 0-to-1 range
+- **P5-3.3 Tanh**: reviews zero-centered representations between -1 and 1
+- **P5-3.4 ReLU**: reviews negative-value cutoff and positive-value pass-through
+- **P5-3.5 Formula Comparison of Representative Activation Functions**: compares sigmoid, tanh, and ReLU formulas and output ranges side by side
+- **P5-3.6 Choosing the Output Layer and Activation**: reviews why the interpretation of the last output changes by problem type
 
 #### Chapter 4. Loss Functions `Learning Principles`
 

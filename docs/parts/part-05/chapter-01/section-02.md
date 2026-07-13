@@ -24,7 +24,7 @@ P5-1.1에서는 퍼셉트론(perceptron)을 `입력(input) -> 가중치(weight) 
 - 역전파(backpropagation)의 계산 절차
 - 보편 근사 정리(universal approximation theorem)
 
-다층 구조와 퍼셉트론 하나의 한계는 P5-2.1, P5-2.2에서 이어서 다루고, sigmoid, tanh, ReLU의 비교는 P5-3.1, P5-3.2에서 다시 봅니다. 역전파(backpropagation)의 계산 절차는 P5-5.1, P5-5.2에서 다시 연결합니다. 보편 근사 정리(universal approximation theorem)의 엄밀한 증명은 이 책의 현재 본편 범위 밖에 둡니다.
+다층 구조와 퍼셉트론 하나의 한계는 P5-2.1, P5-2.2에서 이어서 다루고, sigmoid, tanh, ReLU의 비교는 P5-3.1부터 P5-3.5까지 다시 봅니다. 역전파(backpropagation)의 계산 절차는 P5-5.1, P5-5.2에서 다시 연결합니다. 보편 근사 정리(universal approximation theorem)의 엄밀한 증명은 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

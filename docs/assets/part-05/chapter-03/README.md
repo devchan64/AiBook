@@ -9,10 +9,11 @@
 - Current language pairs:
   - `stacked-linear-layers-en.mmd` / `stacked-linear-layers-ko.mmd`
   - `linear-activation-linear-en.mmd` / `linear-activation-linear-ko.mmd`
+  - `node-activation-flow-en.mmd` / `node-activation-flow-ko.mmd`
   - `activation-signal-survival-flow-en.mmd` / `activation-signal-survival-flow-ko.mmd`
   - `activation-visual-signal-case-flow-en.mmd` / `activation-visual-signal-case-flow-ko.mmd`
   - `activation-tabular-signal-case-flow-en.mmd` / `activation-tabular-signal-case-flow-ko.mmd`
-  - `activation-family-flow-en.mmd` / `activation-family-flow-ko.mmd`
   - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
 - SVG chart assets:
   - `activation-function-curves-en.svg` / `activation-function-curves-ko.svg`
+  - `nonlinear-activation-example-en.svg` / `nonlinear-activation-example-ko.svg`

@@ -1,7 +1,7 @@
 # P5-4.1 손실 함수(loss function)
 
 Section ID: `P5-4.1`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형성(nonlinearity)을 넣어 표현력을 키운다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -39,7 +39,7 @@ P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형
 - 손실 함수를 `현재 예측의 틀림을 숫자로 만드는 기준`으로 설명할 수 있습니다.
 - 손실 함수와 평가 지표를 구분할 수 있습니다.
 - 학습에서 손실을 줄인다는 말이 무엇을 뜻하는지 설명할 수 있습니다.
-- 작은 예제로 예측값과 목표값의 차이가 손실 숫자로 바뀌는 과정을 읽을 수 있습니다.
+- 예측값과 목표값의 차이가 어떤 오답을 먼저 크게 고치게 만드는지 설명할 수 있습니다.
 
 ## 왜 손실 함수가 필요한가
 
@@ -237,7 +237,7 @@ cross-entropy를 자세히 유도하지 않더라도, `정답에 준 확률이 �
 
 ## 연습 및 예제
 
-이번 예제의 목표는 복잡한 딥러닝 라이브러리를 쓰지 않고, 예측값과 목표값의 차이가 손실 숫자로 바뀌는 가장 단순한 과정을 확인하는 것입니다. 평균 손실만 찍는 대신, 샘플별 오차가 어느 항목에서 크게 났는지도 함께 보겠습니다.
+이번 연습의 목표는 예측값과 목표값의 차이가 손실 숫자로 바뀌는 가장 단순한 과정을 읽는 것입니다. 평균 손실만 보는 대신, 샘플별 오차가 어느 항목에서 크게 났는지도 함께 확인합니다.
 
 입력:
 
@@ -263,7 +263,7 @@ cross-entropy를 자세히 유도하지 않더라도, `정답에 준 확률이 �
 
 위에 정리한 샘플별 목표값과 예측값을 사용합니다.
 
-코드를 보기 전에 먼저 어떤 샘플이 평균 손실을 가장 크게 끌어올릴지 예상해 보면 좋습니다.
+표를 보기 전에 먼저 어떤 샘플이 평균 손실을 가장 크게 끌어올릴지 예상해 보면 좋습니다.
 
 | 샘플 | 먼저 예상해 볼 손실 크기 | 예상 이유 |
 | --- | --- | --- |
@@ -273,42 +273,17 @@ cross-entropy를 자세히 유도하지 않더라도, `정답에 준 확률이 �
 
 이 표의 목적은 정확한 제곱 오차를 미리 계산하는 것보다, `평균 손실은 샘플별 오차가 똑같이 생기는 것이 아니라 더 크게 틀린 항목에 더 많이 끌린다`는 점을 먼저 붙잡는 데 있습니다.
 
-```python
-samples = [
-    {"name": "night_shift_batch", "target": 3.0, "prediction": 2.5},
-    {"name": "stabilized_batch", "target": 1.0, "prediction": 1.4},
-    {"name": "restart_delay_batch", "target": 2.0, "prediction": 1.2},
-]
+같은 세 배치를 손실 관점으로 정리하면 다음처럼 읽을 수 있습니다.
 
-squared_errors = []
-for sample in samples:
-    error = (sample["target"] - sample["prediction"]) ** 2
-    squared_errors.append((sample["name"], error))
-    print(
-        sample["name"],
-        "target =", sample["target"],
-        "prediction =", sample["prediction"],
-        "squared_error =", round(error, 3),
-    )
+| 샘플 | target | prediction | squared error | 지금 읽어야 할 결과 |
+| --- | --- | --- | --- | --- |
+| `night_shift_batch` | `3.0` | `2.5` | `0.25` | 경미한 수정이 필요하지만 최우선 worst case는 아닙니다. |
+| `stabilized_batch` | `1.0` | `1.4` | `0.16` | 세 배치 중 가장 덜 틀려 손실 기여가 가장 작습니다. |
+| `restart_delay_batch` | `2.0` | `1.2` | `0.64` | 평균 손실을 가장 크게 끌어올리는 핵심 오답입니다. |
 
-mean_loss = sum(error for _, error in squared_errors) / len(squared_errors)
-worst_sample = max(squared_errors, key=lambda item: item[1])
+이 세 값을 평균으로 모으면 `mean_loss = 0.35`가 되고, 가장 크게 빗나간 배치는 `restart_delay_batch`로 읽힙니다.
 
-print("mean_loss =", round(mean_loss, 3))
-print("worst_sample =", worst_sample[0], "error =", round(worst_sample[1], 3))
-```
-
-출력에서는 sample별 squared_error를 먼저 보고, 그다음 mean_loss와 worst_sample이 어떻게 정리되는지 보면 됩니다.
-
-```text
-night_shift_batch target = 3.0 prediction = 2.5 squared_error = 0.25
-stabilized_batch target = 1.0 prediction = 1.4 squared_error = 0.16
-restart_delay_batch target = 2.0 prediction = 1.2 squared_error = 0.64
-mean_loss = 0.35
-worst_sample = restart_delay_batch error = 0.64
-```
-
-이 예제에서 중요한 것은 `0.35`라는 평균 손실 숫자가 어떻게 만들어졌는가입니다.
+이 연습에서 중요한 것은 `0.35`라는 평균 손실 숫자가 어떻게 만들어졌는가입니다.
 
 - 첫 번째 샘플은 조금 틀렸고
 - 두 번째 샘플도 조금 틀렸고
@@ -331,6 +306,14 @@ worst_sample = restart_delay_batch error = 0.64
 | `night_shift_batch=0.25`, `stabilized_batch=0.16`, `restart_delay_batch=0.64` 비교 | 셋 다 오차가 있지만 크기가 다르다고 본다 | 셋 다 오답이니 비슷한 비중으로 고치면 된다고 본다 | 같은 오답이라도 `restart_delay_batch`처럼 더 크게 틀린 항목이 평균 손실과 다음 업데이트를 더 강하게 끌어간다고 읽는다 |
 
 이 표까지 읽고 나면, 손실 함수가 `평균 숫자 하나를 계산하는 절차`가 아니라 `더 먼저 크게 수정해야 할 오답을 가려내는 기준`이라는 점이 더 분명해집니다.
+
+학습 관점에서는 여기서 한 단계 더 나가야 합니다. 독자가 직접 말할 수 있어야 하는 문장은 `평균 손실이 줄어드는가`만이 아니라 `어느 배치가 계속 worst case로 남는가`, `그 배치가 어떤 입력 구간의 약점을 대표하는가`입니다. 손실 함수는 숫자를 요약하는 규칙이면서 동시에 수정 우선순위를 붙이는 규칙이기 때문입니다.
+
+| 바꿔 보며 다시 읽을 축 | 같이 달라질 손실 해석 | 지금 떠올릴 질문 |
+| --- | --- | --- |
+| `restart_delay_batch`의 prediction을 `1.2`에서 `1.7`로 올린다 | worst case가 완화되며 평균 손실도 함께 내려갑니다. | 현재 모델의 가장 큰 약점이 실제로 줄어들었는가 |
+| `night_shift_batch`와 `stabilized_batch` 오차만 줄인다 | 평균은 조금 내려가도 worst case가 그대로 남을 수 있습니다. | 평균 개선이 핵심 오류 구간 개선까지 뜻하는가 |
+| 샘플 수가 더 많아진다 | 평균 손실 하나만으로는 어떤 입력 구간이 계속 문제인지 더 흐려질 수 있습니다. | 평균과 샘플별 분해를 언제 함께 봐야 하는가 |
 
 같은 출력을 운영 판단으로 바꾸면 더 직접 보입니다.
 

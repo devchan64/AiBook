@@ -1,7 +1,7 @@
 # P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법
 
 Section ID: `P5-6.3`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-6.2에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
 
@@ -28,7 +28,7 @@ P5-6.2에서는 학습 모드(training mode)와 평가 모드(evaluation mode)�
 - batch normalization의 역전파 수식
 - layer normalization, group normalization의 상세 비교
 
-ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.2에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.2에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
+ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.2에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
@@ -114,7 +114,7 @@ ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.2에서 다시 연결�
 
 ## ReLU, 초기화, 수치 안정성은 왜 같이 언급되나
 
-P5-3.2에서 본 것처럼 ReLU 계열은 깊은 네트워크에서 널리 쓰입니다. 하지만 활성화 함수 하나만 바뀌었다고 모든 문제가 자동으로 해결되는 것은 아닙니다.
+P5-3.4에서 본 것처럼 ReLU 계열은 깊은 네트워크에서 널리 쓰입니다. 하지만 활성화 함수 하나만 바뀌었다고 모든 문제가 자동으로 해결되는 것은 아닙니다.
 
 실제로는 다음 요소들이 함께 맞물립니다.
 

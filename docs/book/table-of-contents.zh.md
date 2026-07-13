@@ -1,7 +1,7 @@
 # 目录
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 这份目录是本书当前采用的学习顺序。这里所说的 `采用`，是指这套结构已经被选定为本书的一部分，并不意味着每个 Chapter 都已经完全写完或完全验证。
 
@@ -533,8 +533,11 @@ flowchart LR
 #### Chapter 3. 激活函数 `Deep Learning Structure`
 
 - **P5-3.1 激活函数(activation function)**：观察为什么需要加入非线性。
-- **P5-3.2 ReLU、sigmoid、tanh**：观察常用激活函数之间的差别。
-- **P5-3.3 输出层(output layer)与激活的选择**：观察为什么最后输出的解释会随问题类型而变化。
+- **P5-3.2 sigmoid**：观察把分数压到 0 到 1 之间的函数公式与直觉。
+- **P5-3.3 tanh**：观察 -1 到 1 之间的 0 中心表示。
+- **P5-3.4 ReLU**：观察截断负数、通过正数的规则。
+- **P5-3.5 代表激活函数公式比较**：并排比较 sigmoid、tanh、ReLU 的公式与输出范围。
+- **P5-3.6 输出层(output layer)与激活的选择**：观察为什么最后输出的解释会随问题类型而变化。
 
 #### Chapter 4. 损失函数 `Learning Principles`
 
