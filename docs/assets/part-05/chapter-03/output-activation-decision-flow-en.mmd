@@ -1,0 +1,19 @@
+flowchart TD
+  A["What is the prediction target?"]
+  B["continuous value"]
+  C["one of two choices"]
+  D["one of several classes"]
+  E["keep the number as a value"]
+  F["read a 0-1 score<br/>with a threshold policy"]
+  G["compare class scores<br/>and the margin"]
+  H["connect to the matching loss"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> F
+  D --> G
+  E --> H
+  F --> H
+  G --> H

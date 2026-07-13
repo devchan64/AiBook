@@ -14,6 +14,7 @@
   - `activation-visual-signal-case-flow-en.mmd` / `activation-visual-signal-case-flow-ko.mmd`
   - `activation-tabular-signal-case-flow-en.mmd` / `activation-tabular-signal-case-flow-ko.mmd`
   - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
+  - `output-activation-decision-flow-en.mmd` / `output-activation-decision-flow-ko.mmd`
 - SVG chart assets:
   - `sigmoid-curve-en.svg` / `sigmoid-curve-ko.svg`
   - `tanh-curve-en.svg` / `tanh-curve-ko.svg`
