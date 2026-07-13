@@ -26,6 +26,7 @@
 - `concept-glossary-guidelines.md`
 - `english-translation-guidelines.md`
 - `rules-and-guidelines-summary.md`
+  - 세부 규칙 재서술 문서가 아니라, 어떤 원문을 먼저 열어야 하는지 빠르게 찾는 인덱스 문서로 유지한다.
 - `manuscript-writing-workflow.md`
 - `python-example-guidelines.md`
 
