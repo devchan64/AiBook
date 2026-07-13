@@ -1,7 +1,7 @@
 # P4-11.2 결정 경계(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 P4-11.1에서는 로지스틱 회귀(logistic regression)를 `확률처럼 읽히는 점수를 만드는 선형 모델`로 보았습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -207,7 +207,7 @@ threshold가 0.5일 때의 경계와 0.7일 때의 경계는 같은 자리에 �
 
 같은 점수 배열을 두고 threshold만 바꿨을 때, 점수 축의 cutoff 변화가 입력 공간에서는 class 1 영역 축소로 읽힌다는 점을 좌표형 비교로 보면 다음과 같습니다.
 
-![같은 점수 축에서 threshold를 0.5에서 0.7로 올렸을 때 class 1 영역이 줄어드는 비교 차트](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-ko.svg)
+![같은 점수 축에서 threshold를 0.5에서 0.7로 올렸을 때 class 1 영역이 줄어드는 비교 차트](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-ko.png)
 
 이 움직임을 개념적으로 그리면 다음과 같습니다.
 

@@ -1,7 +1,7 @@
 # P4-11.2 Decision Boundary
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 In P4-11.1, logistic regression was read as `a linear model that creates scores that can be read like probabilities`.
 Now the question changes by one step.
@@ -206,7 +206,7 @@ So when the threshold rises, the region classified as class 1 can shrink, and th
 
 If the same score arrangement is kept and only the threshold changes, the cutoff shift on the score axis becomes a smaller class 1 region in the input space. That coordinate-style comparison can be read as follows.
 
-![A comparison chart showing that when the threshold rises from 0.5 to 0.7 on the same score axis, the class 1 region becomes smaller](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-en.svg)
+![A comparison chart showing that when the threshold rises from 0.5 to 0.7 on the same score axis, the class 1 region becomes smaller](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-en.png)
 
 This movement can be drawn conceptually as follows.
 

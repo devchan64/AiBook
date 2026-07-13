@@ -1,7 +1,7 @@
 # P4-11.2 决策边界(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 在 P4-11.1 里，我们把 logistic regression 看成 `生成可按 probability 来读的 score 的线性模型`。
 现在要把问题再换一步。
@@ -225,7 +225,7 @@ threshold 为 0.5 时的 boundary，与 threshold 为 0.7 时的 boundary，不�
 
 把同一组 score 只改 threshold 时，score 轴上的 cutoff 移动会怎样在输入空间里变成 `class 1 区域缩小`，放到坐标型比较里可以像下面这样看。
 
-![展示同一条分数轴上把 threshold 从 0.5 提高到 0.7 后，class 1 区域缩小的比较图](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.svg)
+![展示同一条分数轴上把 threshold 从 0.5 提高到 0.7 后，class 1 区域缩小的比较图](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-zh.png)
 
 这个移动可以概念化地画成下面这样。
 

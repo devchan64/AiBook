@@ -1,7 +1,7 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
@@ -103,7 +103,7 @@ sigmoid 함수는 바로 이 역할을 합니다.
 
 좌표 위에 놓고 보면 더 직관적입니다. 선형 점수 \(z\)가 음수에서 양수로 넘어갈 때, sigmoid 출력은 0 근처에서 1 근처로 부드럽게 이동하고 `z = 0`에서 `p = 0.5`를 만납니다.
 
-![선형 점수 z가 sigmoid를 거쳐 0과 1 사이 확률처럼 읽히는 값으로 바뀌는 차트](../../../assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-ko.svg)
+![선형 점수 z가 sigmoid를 거쳐 0과 1 사이 확률처럼 읽히는 값으로 바뀌는 차트](/AiBook/assets/part-04/chapter-11/p4-11-1-sigmoid-score-map-ko.png)
 
 이 흐름을 간단히 그리면 다음과 같습니다.
 
@@ -181,7 +181,7 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 
 같은 점수라도 정책 선이 어디에 있느냐에 따라 최종 행동이 달라지는 장면을 점수 축 위에서 압축하면 다음과 같습니다.
 
-![같은 확률 점수를 threshold 0.5와 0.7에서 다르게 읽는 비교 차트](../../../assets/part-04/chapter-11/p4-11-2-threshold-shift-ko.svg)
+![같은 확률 점수를 threshold 0.5와 0.7에서 다르게 읽는 비교 차트](/AiBook/assets/part-04/chapter-11/p4-11-2-threshold-shift-ko.png)
 
 여기서 중요한 것은 `모델이 만든 점수`와 `서비스가 고른 cutoff`를 분리해 읽는 일입니다. 입력 공간에서 이 cutoff가 어떤 경계선으로 보이는지는 다음 절 P4-11.2에서 다시 공간 관점으로 옮겨 읽습니다.
 
