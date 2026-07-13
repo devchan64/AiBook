@@ -15,3 +15,9 @@
   - `convolution-pooling-flow-en.mmd` / `convolution-pooling-flow-ko.mmd`
   - `filter-reading-options-en.mmd` / `filter-reading-options-ko.mmd`
   - `vit-patch-flow-en.mmd` / `vit-patch-flow-ko.mmd`
+- Python chart source:
+  - `p5_11_2_convolution_pooling_trace.py`
+- Matplotlib chart assets:
+  - `convolution-pooling-input-en.png` / `convolution-pooling-input-ko.png`
+  - `convolution-pooling-feature-map-en.png` / `convolution-pooling-feature-map-ko.png`
+  - `convolution-pooling-max-pool-en.png` / `convolution-pooling-max-pool-ko.png`

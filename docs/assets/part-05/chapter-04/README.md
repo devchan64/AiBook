@@ -19,5 +19,9 @@
   - `regression-loss-axis-en.svg` / `regression-loss-axis-ko.svg`
   - `classification-loss-axis-en.svg` / `classification-loss-axis-ko.svg`
   - `generation-loss-axis-en.svg` / `generation-loss-axis-ko.svg`
+  - `loss-example-batch-priority-en.svg` / `loss-example-batch-priority-ko.svg`
+  - `loss-example-regression-experiment-en.svg` / `loss-example-regression-experiment-ko.svg`
+  - `loss-example-classification-experiment-en.svg` / `loss-example-classification-experiment-ko.svg`
+  - `loss-example-generation-experiment-en.svg` / `loss-example-generation-experiment-ko.svg`
 - Python chart source:
   - `p5_4_loss_charts.py`

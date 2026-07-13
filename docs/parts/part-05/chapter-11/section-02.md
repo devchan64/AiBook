@@ -1,7 +1,7 @@
 # P5-11.2 합성곱(convolution)과 풀링(pooling)
 
 Section ID: `P5-11.2`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -157,6 +157,20 @@ max pooling은 작은 창 안에서 가장 큰 값 하나를 고릅니다. 이 �
 | input image | `[[3, 3, 1, 1], [3, 3, 1, 1], [3, 3, 1, 1], [3, 3, 1, 1]]` |
 | convolution result | `[[0, 4, 0], [0, 4, 0], [0, 4, 0]]` |
 | 2x2 max pooling result | `[[4]]` |
+
+같은 변환을 한 단계씩 나누어 보면 다음처럼 읽을 수 있습니다.
+
+![convolution 입력 실링 패치](../../../assets/part-05/chapter-11/convolution-pooling-input-ko.png)
+
+입력 패치는 아직 사람이 보는 작은 열분포 장면에 가깝습니다. 왼쪽의 높은 값과 오른쪽의 낮은 값이 함께 놓여 있지만, 이 단계에서는 `어디가 경계인가`가 점수로 분리되어 있지는 않습니다.
+
+![convolution feature map](../../../assets/part-05/chapter-11/convolution-pooling-feature-map-ko.png)
+
+convolution을 지나면 각 위치가 필터와 얼마나 잘 맞는지에 대한 반응 지도로 바뀝니다. 여기서는 좌우 열 차이가 실제로 생기는 가운데 위치에서만 값 `4`가 반복되어, 입력 장면이 `경계 반응의 위치 지도`로 바뀐 것입니다.
+
+![max pooling 요약 결과](../../../assets/part-05/chapter-11/convolution-pooling-max-pool-ko.png)
+
+max pooling은 이 반응 지도 전체를 그대로 넘기지 않고, 작은 구역 안에서 가장 강한 반응만 남깁니다. 이 단계에서 달라지는 것은 세부 위치보다 `강한 경계 반응이 있었다`는 요약 신호가 다음 층으로 넘어간다는 점입니다.
 
 이 숫자를 읽을 때 핵심은 다음과 같습니다.
 

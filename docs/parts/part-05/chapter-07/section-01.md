@@ -1,7 +1,7 @@
 # P5-7.1 옵티마이저(optimizer)의 역할
 
 Section ID: `P5-7.1`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분했습니다. 여기까지 오면 이제 아주 직접적인 질문이 남습니다.
 
@@ -249,6 +249,20 @@ lr = 0.01 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_l
 lr = 0.1 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
 lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
 ```
+
+이 출력은 같은 gradient가 learning rate를 거치며 서로 다른 업데이트 결과로 바뀌는 장면입니다. 따라서 `gradient가 얼마인가`에서 멈추지 말고, 업데이트된 가중치, 업데이트 후 점수, 업데이트 후 손실을 단계별로 나누어 읽습니다.
+
+![learning rate별 업데이트 후 위험 가중치](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-ko.png)
+
+첫 그래프는 같은 gradient `-16.0`에 learning rate만 다르게 적용했을 때 위험 가중치가 얼마나 바뀌는지 보여 줍니다. `0.01`은 조금만 움직이고, `0.5`는 같은 방향으로 너무 멀리 이동합니다.
+
+![learning rate별 업데이트 후 차단 점수](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-ko.png)
+
+두 번째 그래프는 업데이트된 가중치가 다시 예측 차단 점수로 바뀐 결과입니다. 목표는 `6.0`이고, `0.1`은 목표에 가까워지지만 `0.5`는 목표를 크게 넘어섭니다. 이 단계에서 `방향이 맞다`와 `결과가 적절하다`가 다른 말이라는 점이 보입니다.
+
+![learning rate별 업데이트 후 손실](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-ko.png)
+
+세 번째 그래프는 업데이트 후 손실입니다. `0.1`은 손실을 크게 줄이지만, `0.5`는 같은 gradient 방향을 사용했는데도 보폭이 커서 손실을 더 키웁니다. 즉, 이 예제의 핵심 변화는 `gradient -> learning rate가 적용된 update -> 새 예측 -> 새 손실`입니다.
 
 즉, 같은 gradient라도 optimizer 설정에 따라 실제 이동 폭은 크게 달라집니다. 운영 판단 관점으로 읽으면, 같은 `압력 미복귀 위험` 신호라도 learning rate에 따라 `조금 더 위험하게 읽는 보정`, `거의 맞는 수준의 보정`, `과하게 차단 쪽으로 튀는 보정`이 갈린다는 뜻입니다.
 

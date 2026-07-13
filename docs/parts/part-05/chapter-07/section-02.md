@@ -1,7 +1,7 @@
 # P5-7.2 SGD, Adam의 직관
 
 Section ID: `P5-7.2`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-7.1에서는 옵티마이저(optimizer)를 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라고 설명했습니다. 여기서 다음 질문이 바로 이어집니다.
 
@@ -236,6 +236,20 @@ Adam-like updates (simplified intuition)
  gradient_risk_weight = -2.0 moving_avg = -0.56 delta = 0.056 -> risk_weight = 1.096
  gradient_risk_weight = -1.0 moving_avg = -0.604 delta = 0.06 -> risk_weight = 1.156
 ```
+
+같은 출력도 `입력 gradient -> step별 이동량 -> 누적된 risk_weight`로 나누어 보면 두 optimizer의 차이가 더 분명합니다.
+
+![SGD와 Adam-like 비교에 쓰는 gradient 입력 흐름](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-ko.png)
+
+첫 단계의 입력은 optimizer가 아직 바꾸지 않은 gradient 흐름입니다. 여기서는 step이 지날수록 `gradient_risk_weight`의 절대값이 작아지며, SGD와 Adam-like는 모두 같은 입력을 받습니다.
+
+![SGD와 Adam-like의 step별 delta 비교](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-ko.png)
+
+delta 단계에서 차이가 생깁니다. SGD는 현재 gradient를 바로 learning rate와 곱해 첫 step에서 크게 움직이고, Adam-like는 moving average를 거치기 때문에 같은 입력을 더 작은 이동량으로 바꿉니다.
+
+![SGD와 Adam-like의 risk_weight 이동 경로](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-ko.png)
+
+최종 risk_weight 경로를 보면 이 차이가 누적됩니다. SGD는 빠르게 1.7까지 이동하지만, Adam-like는 최근 흐름을 누적해 더 천천히 1.156까지 움직입니다. 이 단계에서 달라지는 것은 `같은 gradient를 받았다`가 아니라, optimizer 규칙이 실제 파라미터 경로를 다르게 만든다는 점입니다.
 
 이 예제는 진짜 Adam 전체 공식을 구현한 것은 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
 

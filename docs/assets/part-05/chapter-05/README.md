@@ -18,3 +18,7 @@
   - `computation-graph-relu-gate-comparison-en.svg` / `computation-graph-relu-gate-comparison-ko.svg`
 - Python chart source:
   - `p5_5_backprop_chart.py`
+- Matplotlib chart assets:
+  - `backprop-example-prediction-en.png` / `backprop-example-prediction-ko.png`
+  - `backprop-example-loss-en.png` / `backprop-example-loss-ko.png`
+  - `backprop-example-gradient-en.png` / `backprop-example-gradient-ko.png`

@@ -16,3 +16,8 @@
   - `xor-pattern-en.svg` / `xor-pattern-ko.svg`
 - Python chart source:
   - `p5_1_2_linear_boundary_xor.py`
+  - `p5_1_2_linear_activation_trace.py`
+- Matplotlib chart assets:
+  - `linear-activation-input-en.png` / `linear-activation-input-ko.png`
+  - `linear-activation-score-en.png` / `linear-activation-score-ko.png`
+  - `linear-activation-output-en.png` / `linear-activation-output-ko.png`

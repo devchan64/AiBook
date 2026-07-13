@@ -37,6 +37,10 @@ LANG_TEXT = {
         "regression_axis_out": "regression-loss-axis-ko.svg",
         "classification_axis_out": "classification-loss-axis-ko.svg",
         "generation_axis_out": "generation-loss-axis-ko.svg",
+        "batch_priority_out": "loss-example-batch-priority-ko.svg",
+        "regression_experiment_out": "loss-example-regression-experiment-ko.svg",
+        "classification_experiment_out": "loss-example-classification-experiment-ko.svg",
+        "generation_experiment_out": "loss-example-generation-experiment-ko.svg",
         "loss_shapes_title": "제곱오차와 cross-entropy 손실 모양",
         "loss_shapes_desc": "회귀에서는 목표값에서 멀어질수록 손실이 커지고, 분류에서는 정답 클래스 확률이 낮을수록 손실이 커지는 모습을 나란히 보여 주는 좌표 그래프.",
         "squared_loss_title": "제곱오차 손실 모양",
@@ -51,6 +55,14 @@ LANG_TEXT = {
         "classification_axis_desc": "분류 문제에서 손실이 정답 클래스 확률을 중심으로 읽힌다는 점을 보여 주는 좌표 그래프.",
         "generation_axis_title": "생성 손실 읽기 축",
         "generation_axis_desc": "생성 문제에서 손실이 위치별 정답 토큰 확률을 누적해 읽힌다는 점을 보여 주는 막대 그래프.",
+        "batch_priority_title": "배치 보정 후보별 평균 손실과 worst case",
+        "batch_priority_desc": "현재 상태, restart_delay_batch 보정, night_shift_batch 보정에서 평균 손실과 가장 큰 샘플 손실이 어떻게 달라지는지 비교하는 막대 그래프.",
+        "regression_experiment_title": "회귀 예측 보정 전후 손실",
+        "regression_experiment_desc": "에너지 사용량 예측을 정답에 가깝게 옮기면 회귀 손실이 줄어드는 모습을 보여 주는 막대 그래프.",
+        "classification_experiment_title": "분류 정답 확률 보정 전후 손실",
+        "classification_experiment_desc": "정답 클래스 확률을 올리면 분류 손실이 줄어드는 모습을 보여 주는 막대 그래프.",
+        "generation_experiment_title": "생성 정답 토큰 확률 보정 전후 손실",
+        "generation_experiment_desc": "정답 토큰 확률을 올리면 생성 손실이 줄어드는 모습을 보여 주는 막대 그래프.",
         "regression_panel": "회귀: 제곱오차",
         "classification_panel": "분류: cross-entropy 직관",
         "loss_ylabel": "손실",
@@ -66,6 +78,13 @@ LANG_TEXT = {
             ("생성", "위치별 정답 토큰 확률"),
         ],
         "token_labels": ["t1", "t2", "t3", "t4"],
+        "scenario_labels": ["현재", "restart\n보정", "night\n보정"],
+        "current_fix_labels": ["현재", "보정 후"],
+        "mean_loss_label": "평균 손실",
+        "worst_loss_label": "worst 손실",
+        "regression_loss_label": "회귀 손실",
+        "classification_loss_label": "분류 손실",
+        "generation_loss_label": "생성 손실",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -76,6 +95,10 @@ LANG_TEXT = {
         "regression_axis_out": "regression-loss-axis-en.svg",
         "classification_axis_out": "classification-loss-axis-en.svg",
         "generation_axis_out": "generation-loss-axis-en.svg",
+        "batch_priority_out": "loss-example-batch-priority-en.svg",
+        "regression_experiment_out": "loss-example-regression-experiment-en.svg",
+        "classification_experiment_out": "loss-example-classification-experiment-en.svg",
+        "generation_experiment_out": "loss-example-generation-experiment-en.svg",
         "loss_shapes_title": "Squared-error and cross-entropy loss shapes",
         "loss_shapes_desc": "A coordinate chart showing that regression loss grows as predictions move farther from the target, while classification loss grows as the true-class probability gets smaller.",
         "squared_loss_title": "Squared-error loss shape",
@@ -90,6 +113,14 @@ LANG_TEXT = {
         "classification_axis_desc": "A coordinate chart showing that classification loss is read primarily on the probability assigned to the true class.",
         "generation_axis_title": "Generation loss-reading axis",
         "generation_axis_desc": "A bar chart showing that generation loss is read by accumulating true-token probabilities across positions.",
+        "batch_priority_title": "Mean loss and worst case by batch-fix candidate",
+        "batch_priority_desc": "A bar chart comparing how mean loss and the largest sample loss change in the current state, after fixing restart_delay_batch, and after fixing night_shift_batch.",
+        "regression_experiment_title": "Regression loss before and after prediction repair",
+        "regression_experiment_desc": "A bar chart showing that regression loss drops when the energy prediction moves closer to the target.",
+        "classification_experiment_title": "Classification loss before and after true-class probability repair",
+        "classification_experiment_desc": "A bar chart showing that classification loss drops when the probability assigned to the true class increases.",
+        "generation_experiment_title": "Generation loss before and after true-token probability repair",
+        "generation_experiment_desc": "A bar chart showing that generation loss drops when the probability assigned to the true next token increases.",
         "regression_panel": "Regression: squared error",
         "classification_panel": "Classification: cross-entropy intuition",
         "loss_ylabel": "loss",
@@ -105,6 +136,13 @@ LANG_TEXT = {
             ("Generation", "per-position true-token probability"),
         ],
         "token_labels": ["t1", "t2", "t3", "t4"],
+        "scenario_labels": ["current", "fix\nrestart", "fix\nnight"],
+        "current_fix_labels": ["current", "after fix"],
+        "mean_loss_label": "mean loss",
+        "worst_loss_label": "worst loss",
+        "regression_loss_label": "regression loss",
+        "classification_loss_label": "classification loss",
+        "generation_loss_label": "generation loss",
     },
 }
 
@@ -463,6 +501,83 @@ def save_generation_loss_axis(text: dict[str, str]) -> None:
     inject_accessibility(out_path, text["generation_axis_title"], text["generation_axis_desc"])
 
 
+def save_batch_priority_experiment(text: dict[str, str]) -> None:
+    configure_font(text)
+    fig, ax = plt.subplots(figsize=(5.4, 4.2), dpi=160)
+    fig.patch.set_facecolor("white")
+
+    scenarios = np.arange(3)
+    mean_loss = np.array([0.350, 0.167, 0.267])
+    worst_loss = np.array([0.640, 0.250, 0.640])
+    width = 0.34
+
+    ax.set_facecolor("#f8fafc")
+    ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.82)
+    ax.set_axisbelow(True)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.bar(scenarios - width / 2, mean_loss, width=width, color="#2563eb", label=text["mean_loss_label"])
+    ax.bar(scenarios + width / 2, worst_loss, width=width, color="#dc2626", label=text["worst_loss_label"])
+    ax.set_xticks(scenarios)
+    ax.set_xticklabels(text["scenario_labels"])
+    ax.set_ylabel(text["loss_ylabel"])
+    ax.set_ylim(0, 0.78)
+    ax.legend(frameon=False, loc="upper right")
+
+    for xpos, value in zip(scenarios - width / 2, mean_loss):
+        ax.text(xpos, value + 0.025, f"{value:.3f}", ha="center", fontsize=8.0, color="#334155")
+    for xpos, value in zip(scenarios + width / 2, worst_loss):
+        ax.text(xpos, value + 0.025, f"{value:.3f}", ha="center", fontsize=8.0, color="#334155")
+
+    fig.tight_layout(pad=1.0)
+    out_path = OUT_DIR / text["batch_priority_out"]
+    fig.savefig(out_path, format="svg", bbox_inches="tight")
+    plt.close(fig)
+    inject_accessibility(out_path, text["batch_priority_title"], text["batch_priority_desc"])
+
+
+def save_two_bar_experiment(
+    text: dict[str, str],
+    out_key: str,
+    title_key: str,
+    desc_key: str,
+    ylabel_key: str,
+    values: tuple[float, float],
+    color: str,
+) -> None:
+    configure_font(text)
+    fig, ax = plt.subplots(figsize=(4.4, 4.2), dpi=160)
+    fig.patch.set_facecolor("white")
+
+    x = np.arange(2)
+    ax.set_facecolor("#f8fafc")
+    ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.82)
+    ax.set_axisbelow(True)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    bars = ax.bar(x, values, color=["#94a3b8", color], width=0.56)
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["current_fix_labels"])
+    ax.set_ylabel(text[ylabel_key])
+    ax.set_ylim(0, max(values) * 1.28)
+
+    for bar, value in zip(bars, values):
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            value + max(values) * 0.035,
+            f"{value:.3f}",
+            ha="center",
+            fontsize=8.5,
+            color="#334155",
+        )
+
+    fig.tight_layout(pad=1.0)
+    out_path = OUT_DIR / text[out_key]
+    fig.savefig(out_path, format="svg", bbox_inches="tight")
+    plt.close(fig)
+    inject_accessibility(out_path, text[title_key], text[desc_key])
+
+
 def main() -> None:
     for text in LANG_TEXT.values():
         save_loss_shapes(text)
@@ -472,6 +587,34 @@ def main() -> None:
         save_regression_loss_axis(text)
         save_classification_loss_axis(text)
         save_generation_loss_axis(text)
+        save_batch_priority_experiment(text)
+        save_two_bar_experiment(
+            text,
+            "regression_experiment_out",
+            "regression_experiment_title",
+            "regression_experiment_desc",
+            "regression_loss_label",
+            (1.440, 0.090),
+            "#2563eb",
+        )
+        save_two_bar_experiment(
+            text,
+            "classification_experiment_out",
+            "classification_experiment_title",
+            "classification_experiment_desc",
+            "classification_loss_label",
+            (1.050, 0.223),
+            "#dc2626",
+        )
+        save_two_bar_experiment(
+            text,
+            "generation_experiment_out",
+            "generation_experiment_title",
+            "generation_experiment_desc",
+            "generation_loss_label",
+            (1.204, 0.288),
+            "#0f766e",
+        )
 
 
 if __name__ == "__main__":

@@ -14,3 +14,10 @@
   - `learning-rate-step-size-en.svg` / `learning-rate-step-size-ko.svg`
 - Python chart source:
   - `p5_7_learning_rate_chart.py`
+- Matplotlib chart assets:
+  - `optimizer-example-updated-weight-en.png` / `optimizer-example-updated-weight-ko.png`
+  - `optimizer-example-updated-score-en.png` / `optimizer-example-updated-score-ko.png`
+  - `optimizer-example-updated-loss-en.png` / `optimizer-example-updated-loss-ko.png`
+  - `sgd-adam-gradient-history-en.png` / `sgd-adam-gradient-history-ko.png`
+  - `sgd-adam-delta-comparison-en.png` / `sgd-adam-delta-comparison-ko.png`
+  - `sgd-adam-risk-weight-trajectory-en.png` / `sgd-adam-risk-weight-trajectory-ko.png`

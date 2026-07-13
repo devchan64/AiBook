@@ -35,7 +35,6 @@ LANG_TEXT = {
         "sigmoid_out": "sigmoid-curve-ko.svg",
         "tanh_out": "tanh-curve-ko.svg",
         "relu_out": "relu-curve-ko.svg",
-        "compare_out": "activation-function-curves-ko.svg",
         "nonlinear_out": "nonlinear-activation-example-ko.svg",
         "sigmoid_title": "sigmoid 활성화 함수 곡선",
         "sigmoid_desc": "sigmoid 곡선이 큰 음수에서는 0에, z=0에서는 0.5에, 큰 양수에서는 1에 가까워지는 모습을 보여 주는 좌표 그래프.",
@@ -43,13 +42,8 @@ LANG_TEXT = {
         "tanh_desc": "tanh 곡선이 큰 음수에서는 -1에, z=0에서는 0에, 큰 양수에서는 1에 가까워지는 모습을 보여 주는 좌표 그래프.",
         "relu_title": "ReLU 활성화 함수 곡선",
         "relu_desc": "ReLU 곡선이 음수 구간에서는 0으로 유지되고, z가 0 이상이면 직선으로 증가하는 모습을 보여 주는 좌표 그래프.",
-        "compare_title": "sigmoid, tanh, ReLU의 함수 곡선 비교",
-        "compare_desc": "sigmoid, tanh, ReLU의 곡선을 세 패널에 나란히 놓아 출력 범위와 음수 처리 방식의 차이를 비교하는 좌표 그래프.",
         "nonlinear_title": "비선형 활성화 변환의 교육용 예시",
         "nonlinear_desc": "입력 점수 z를 그대로 통과시키는 직선과, 구간에 따라 반응이 달라지는 비선형 활성화 예시를 비교하는 좌표 그래프.",
-        "sigmoid_panel": "0과 1로 압축",
-        "tanh_panel": "-1과 1로 압축",
-        "relu_panel": "음수 차단, 양수 통과",
         "linear_pass": "선형 통과 a = z",
         "nonlinear_pass": "비선형 변환 a = f(z)",
         "negative_band": "음수 구간은 더 약해짐",
@@ -63,7 +57,6 @@ LANG_TEXT = {
         "sigmoid_out": "sigmoid-curve-en.svg",
         "tanh_out": "tanh-curve-en.svg",
         "relu_out": "relu-curve-en.svg",
-        "compare_out": "activation-function-curves-en.svg",
         "nonlinear_out": "nonlinear-activation-example-en.svg",
         "sigmoid_title": "Sigmoid activation curve",
         "sigmoid_desc": "A coordinate chart showing the sigmoid curve approaching 0 for large negative inputs, 0.5 at z equals 0, and 1 for large positive inputs.",
@@ -71,13 +64,8 @@ LANG_TEXT = {
         "tanh_desc": "A coordinate chart showing the tanh curve approaching -1 for large negative inputs, 0 at z equals 0, and 1 for large positive inputs.",
         "relu_title": "ReLU activation curve",
         "relu_desc": "A coordinate chart showing the ReLU curve staying at 0 for negative inputs and increasing linearly once z is 0 or larger.",
-        "compare_title": "Sigmoid, tanh, and ReLU curve comparison",
-        "compare_desc": "A three-panel coordinate chart comparing sigmoid, tanh, and ReLU so their output ranges and negative-input behavior can be read side by side.",
         "nonlinear_title": "Instructional example of nonlinear activation",
         "nonlinear_desc": "A coordinate chart comparing a straight pass-through line with an instructional nonlinear activation that changes its reaction across different input ranges.",
-        "sigmoid_panel": "squash into 0 to 1",
-        "tanh_panel": "squash into -1 to 1",
-        "relu_panel": "cut negatives, pass positives",
         "linear_pass": "linear pass a = z",
         "nonlinear_pass": "nonlinear transform a = f(z)",
         "negative_band": "negative range is weakened",
@@ -189,44 +177,6 @@ def save_relu_chart(text: dict[str, str]) -> None:
     inject_accessibility(out, text["relu_title"], text["relu_desc"])
 
 
-def save_compare_chart(text: dict[str, str]) -> None:
-    configure_font(text)
-    z = np.linspace(-4.2, 4.2, 500)
-    curves = [
-        ("Sigmoid", 1 / (1 + np.exp(-z)), "#2563eb", text["sigmoid_panel"], (0, 1), [0, 0.5, 1]),
-        ("Tanh", np.tanh(z), "#059669", text["tanh_panel"], (-1, 1), [-1, 0, 1]),
-        ("ReLU", np.maximum(0, z), "#dc2626", text["relu_panel"], (-0.2, 4.2), [0, 2, 4]),
-    ]
-
-    fig, axes = plt.subplots(1, 3, figsize=(9.3, 3.5), dpi=160)
-    fig.patch.set_facecolor("white")
-    for ax, (title, values, color, subtitle, ylim, y_ticks) in zip(axes, curves):
-        ax.set_facecolor("white")
-        ax.grid(True, color="#d0d7de", linewidth=0.75, alpha=0.8)
-        ax.set_axisbelow(True)
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.set_xlim(-4.2, 4.2)
-        ax.set_ylim(*ylim)
-        ax.set_xticks([-4, -2, 0, 2, 4])
-        ax.set_yticks(y_ticks)
-        ax.plot(z, values, color=color, linewidth=2.2)
-        ax.axvline(0, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
-        if title != "ReLU":
-            ax.axhline(0 if title == "Tanh" else 0.5, color="#cbd5e1", linewidth=0.9, linestyle=(0, (4, 4)))
-        ax.set_title(title, fontsize=11.5, fontweight="bold", color="#172033", loc="left")
-        ax.text(0.03, 0.92, subtitle, transform=ax.transAxes, fontsize=8.8, color="#475569", va="top")
-        ax.set_xlabel("z")
-        if ax is axes[0]:
-            ax.set_ylabel("a")
-
-    out = OUT_DIR / text["compare_out"]
-    fig.tight_layout(pad=0.9, w_pad=1.1)
-    fig.savefig(out, format="svg")
-    plt.close(fig)
-    inject_accessibility(out, text["compare_title"], text["compare_desc"])
-
-
 def save_nonlinear_example_chart(text: dict[str, str]) -> None:
     configure_font(text)
     z = np.linspace(-3.5, 4.0, 500)
@@ -271,7 +221,6 @@ def main() -> None:
         save_sigmoid_chart(text)
         save_tanh_chart(text)
         save_relu_chart(text)
-        save_compare_chart(text)
         save_nonlinear_example_chart(text)
 
 

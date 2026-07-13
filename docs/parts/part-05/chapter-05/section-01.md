@@ -1,7 +1,7 @@
 # P5-5.1 역전파(backpropagation)의 직관
 
 Section ID: `P5-5.1`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이의 어긋남을 숫자로 만든다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -318,6 +318,20 @@ gradient_risk_weight = 5.6
 update_direction = decrease_risk_weight
 ---
 ```
+
+이 예제도 최종 방향만 바로 보지 말고, 수식이 값을 어떤 순서로 바꾸는지 나누어 읽는 편이 안전합니다. 입력된 `risk_weight`와 `pressure_unrecovered`는 먼저 예측 차단 점수가 되고, 그 예측과 목표의 차이는 손실이 되며, 손실은 다시 위험 가중치에 대한 gradient 신호로 풀립니다.
+
+![사례별 예측 차단 점수](/AiBook/assets/part-05/chapter-05/backprop-example-prediction-ko.png)
+
+첫 그래프는 각 사례의 예측 차단 점수입니다. 목표는 `5.0`인데, 앞의 두 사례는 목표보다 낮고 마지막 사례는 목표보다 높습니다. 이 단계에서는 아직 `얼마나 틀렸는가`와 `어느 방향으로 고쳐야 하는가`가 분리되어 있지 않습니다.
+
+![사례별 손실](/AiBook/assets/part-05/chapter-05/backprop-example-loss-ko.png)
+
+두 번째 그래프는 예측과 목표의 차이가 손실로 바뀐 결과입니다. `too_weak_block_signal`은 목표와 가장 멀어 손실이 가장 크지만, 손실은 항상 0 이상이므로 이 값만으로는 위험 가중치를 키워야 하는지 줄여야 하는지 알 수 없습니다.
+
+![사례별 위험 가중치 gradient](/AiBook/assets/part-05/chapter-05/backprop-example-gradient-ko.png)
+
+세 번째 그래프는 손실이 위험 가중치에 대한 gradient 신호로 다시 풀린 결과입니다. 음수 gradient는 `risk_weight`를 키우라는 방향으로, 양수 gradient는 줄이라는 방향으로 읽습니다. 그래서 이 예제의 핵심 변화는 `예측 점수 -> 손실 크기 -> 가중치별 방향과 강도 신호`입니다.
 
 세 사례를 함께 보면 `부호`와 `크기`를 같이 읽어야 합니다.
 

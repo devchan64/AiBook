@@ -33,11 +33,17 @@ LANG_TEXT = {
         "strength_desc": "손실 곡선에서 목표점에 가까운 오차와 먼 오차를 비교해, 더 멀수록 더 강한 gradient 신호가 생긴다는 점을 보여 주는 그래프.",
         "xlabel": "위험 가중치",
         "ylabel": "손실",
-        "left": "increase",
-        "right": "decrease",
+        "left": "증가 방향",
+        "right": "감소 방향",
         "target": "목표점",
         "near": "가까운 오차",
         "far": "큰 오차",
+        "case_labels": ["조금 부족", "많이 부족", "너무 큼"],
+        "prediction_ylabel": "예측 차단 점수",
+        "loss_ylabel": "손실",
+        "gradient_ylabel": "위험 가중치 gradient",
+        "case_xlabel": "사례",
+        "target_label": "목표",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -57,8 +63,35 @@ LANG_TEXT = {
         "target": "target",
         "near": "small error",
         "far": "large error",
+        "case_labels": ["slightly low", "too low", "too high"],
+        "prediction_ylabel": "predicted block score",
+        "loss_ylabel": "loss",
+        "gradient_ylabel": "risk-weight gradient",
+        "case_xlabel": "case",
+        "target_label": "target",
     },
 }
+
+EXERCISE_CASES = [
+    ("slightly_under_block_signal", 2.0, 5.0, 2.3),
+    ("too_weak_block_signal", 2.0, 5.0, 1.5),
+    ("too_strong_block_signal", 2.0, 5.0, 3.2),
+]
+
+
+def exercise_values() -> tuple[np.ndarray, np.ndarray, np.ndarray, float]:
+    predictions = []
+    losses = []
+    gradients = []
+    target = EXERCISE_CASES[0][2]
+    for _name, pressure_unrecovered, target_block_score, risk_weight in EXERCISE_CASES:
+        prediction = risk_weight * pressure_unrecovered
+        loss = (prediction - target_block_score) ** 2
+        gradient = 2 * (prediction - target_block_score) * pressure_unrecovered
+        predictions.append(prediction)
+        losses.append(loss)
+        gradients.append(gradient)
+    return np.array(predictions), np.array(losses), np.array(gradients), target
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -296,11 +329,86 @@ def save_strength_chart(text: dict[str, str]) -> None:
     inject_accessibility(out_path, text["strength_title"], text["strength_desc"])
 
 
+def style_case_axis(ax) -> None:
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.grid(True, axis="y", linestyle="--", linewidth=0.8, alpha=0.35)
+    ax.set_axisbelow(True)
+
+
+def save_prediction_trace(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    predictions, _losses, _gradients, target = exercise_values()
+    x = np.arange(len(predictions))
+    colors = ["#f59e0b", "#dc2626", "#2563eb"]
+
+    fig, ax = plt.subplots(figsize=(7.2, 3.8), constrained_layout=True)
+    bars = ax.bar(x, predictions, color=colors, width=0.48)
+    for bar, value in zip(bars, predictions):
+        ax.text(bar.get_x() + bar.get_width() / 2, value + 0.13, f"{value:.1f}", ha="center", fontsize=10)
+    ax.axhline(target, color="#0f766e", linewidth=1.4, linestyle=(0, (5, 4)), label=f"{text['target_label']}={target:.1f}")
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["case_labels"])
+    ax.set_xlabel(text["case_xlabel"])
+    ax.set_ylabel(text["prediction_ylabel"])
+    ax.set_ylim(0, 7.4)
+    ax.legend(loc="upper left", frameon=False)
+    style_case_axis(ax)
+    fig.savefig(OUT_DIR / f"backprop-example-prediction-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
+def save_loss_trace(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    _predictions, losses, _gradients, _target = exercise_values()
+    x = np.arange(len(losses))
+    colors = ["#f59e0b", "#dc2626", "#2563eb"]
+
+    fig, ax = plt.subplots(figsize=(7.2, 3.8), constrained_layout=True)
+    bars = ax.bar(x, losses, color=colors, width=0.48)
+    for bar, value in zip(bars, losses):
+        ax.text(bar.get_x() + bar.get_width() / 2, value + 0.18, f"{value:.2f}", ha="center", fontsize=10)
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["case_labels"])
+    ax.set_xlabel(text["case_xlabel"])
+    ax.set_ylabel(text["loss_ylabel"])
+    ax.set_ylim(0, 4.8)
+    style_case_axis(ax)
+    fig.savefig(OUT_DIR / f"backprop-example-loss-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
+def save_gradient_trace(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    _predictions, _losses, gradients, _target = exercise_values()
+    x = np.arange(len(gradients))
+    colors = ["#f59e0b", "#dc2626", "#2563eb"]
+
+    fig, ax = plt.subplots(figsize=(7.2, 3.8), constrained_layout=True)
+    bars = ax.bar(x, gradients, color=colors, width=0.48)
+    for bar, value in zip(bars, gradients):
+        label_y = value - 0.55 if value < 0 else value + 0.3
+        va = "top" if value < 0 else "bottom"
+        ax.text(bar.get_x() + bar.get_width() / 2, label_y, f"{value:.1f}", ha="center", va=va, fontsize=10)
+    ax.axhline(0, color="#334155", linewidth=1.2)
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["case_labels"])
+    ax.set_xlabel(text["case_xlabel"])
+    ax.set_ylabel(text["gradient_ylabel"])
+    ax.set_ylim(-9.5, 6.8)
+    style_case_axis(ax)
+    fig.savefig(OUT_DIR / f"backprop-example-gradient-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
 def main() -> None:
-    for text in LANG_TEXT.values():
+    for locale, text in LANG_TEXT.items():
         save_chart(text)
         save_direction_chart(text)
         save_strength_chart(text)
+        save_prediction_trace(text, locale)
+        save_loss_trace(text, locale)
+        save_gradient_trace(text, locale)
 
 
 if __name__ == "__main__":

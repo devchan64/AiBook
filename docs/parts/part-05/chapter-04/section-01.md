@@ -1,7 +1,7 @@
 # P5-4.1 손실 함수(loss function)
 
 Section ID: `P5-4.1`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형성(nonlinearity)을 넣어 표현력을 키운다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -322,6 +322,86 @@ cross-entropy를 자세히 유도하지 않더라도, `정답에 준 확률이 �
 | `restart_delay_batch`의 prediction을 `1.2`에서 `1.7`로 올린다 | worst case가 완화되며 평균 손실도 함께 내려갑니다. | 현재 모델의 가장 큰 약점이 실제로 줄어들었는가 |
 | `night_shift_batch`와 `stabilized_batch` 오차만 줄인다 | 평균은 조금 내려가도 worst case가 그대로 남을 수 있습니다. | 평균 개선이 핵심 오류 구간 개선까지 뜻하는가 |
 | 샘플 수가 더 많아진다 | 평균 손실 하나만으로는 어떤 입력 구간이 계속 문제인지 더 흐려질 수 있습니다. | 평균과 샘플별 분해를 언제 함께 봐야 하는가 |
+
+같은 상황을 Python으로 짧게 실험하면, `어느 예측을 고칠 때 평균 손실과 worst case가 함께 줄어드는가`를 직접 바꿔 볼 수 있습니다. 아래 예제에서는 `restart_delay_batch`를 크게 보정하는 경우와, 이미 비교적 작은 오차였던 `night_shift_batch`만 보정하는 경우를 나눠 봅니다.
+
+```python
+samples = [
+    {"name": "night_shift_batch", "target": 3.0, "prediction": 2.5},
+    {"name": "stabilized_batch", "target": 1.0, "prediction": 1.4},
+    {"name": "restart_delay_batch", "target": 2.0, "prediction": 1.2},
+]
+
+
+def squared_error(sample):
+    error = sample["prediction"] - sample["target"]
+    return error * error
+
+
+def replace_prediction(samples, name, new_prediction):
+    updated = [sample.copy() for sample in samples]
+    for sample in updated:
+        if sample["name"] == name:
+            sample["prediction"] = new_prediction
+    return updated
+
+
+def summarize(label, samples):
+    rows = [(sample["name"], squared_error(sample)) for sample in samples]
+    mean_loss = sum(loss for _, loss in rows) / len(rows)
+    worst_name, worst_loss = max(rows, key=lambda row: row[1])
+
+    print(f"[{label}]")
+    for name, loss in rows:
+        print(f"{name}: squared_error={loss:.3f}")
+    print(f"mean_loss={mean_loss:.3f}")
+    print(f"worst_sample={worst_name} ({worst_loss:.3f})")
+    print()
+
+
+summarize("current", samples)
+
+summarize(
+    "fix_restart_delay_batch",
+    replace_prediction(samples, "restart_delay_batch", 1.7),
+)
+
+summarize(
+    "fix_night_shift_batch",
+    replace_prediction(samples, "night_shift_batch", 3.0),
+)
+```
+
+실행하면 다음처럼 읽을 수 있습니다.
+
+```text
+[current]
+night_shift_batch: squared_error=0.250
+stabilized_batch: squared_error=0.160
+restart_delay_batch: squared_error=0.640
+mean_loss=0.350
+worst_sample=restart_delay_batch (0.640)
+
+[fix_restart_delay_batch]
+night_shift_batch: squared_error=0.250
+stabilized_batch: squared_error=0.160
+restart_delay_batch: squared_error=0.090
+mean_loss=0.167
+worst_sample=night_shift_batch (0.250)
+
+[fix_night_shift_batch]
+night_shift_batch: squared_error=0.000
+stabilized_batch: squared_error=0.160
+restart_delay_batch: squared_error=0.640
+mean_loss=0.267
+worst_sample=restart_delay_batch (0.640)
+```
+
+여기서 조작할 값은 `replace_prediction(...)`의 마지막 숫자입니다. `restart_delay_batch`를 고치면 평균 손실이 크게 내려가고 worst case도 바뀌지만, `night_shift_batch`만 맞히면 평균은 조금 내려가도 가장 큰 약점은 그대로 남습니다. 따라서 이 코드는 손실이 단순 평균값이 아니라 `무엇을 먼저 크게 고칠지`를 드러내는 신호라는 점을 확인하게 해 줍니다.
+
+![배치 보정 후보별 평균 손실과 worst case](../../../assets/part-05/chapter-04/loss-example-batch-priority-ko.svg)
+
+그래프로 보면 `restart_delay_batch`를 보정한 경우에 평균 손실과 worst 손실이 함께 내려갑니다. 반대로 `night_shift_batch`만 맞히면 평균 손실은 줄지만 빨간 막대, 즉 가장 큰 손실은 그대로 남습니다. 그래서 이 예제에서 그래프가 보강하는 핵심은 `평균이 줄었는가`와 `가장 큰 약점이 줄었는가`를 분리해서 보는 것입니다.
 
 같은 출력을 운영 판단으로 바꾸면 더 직접 보입니다.
 

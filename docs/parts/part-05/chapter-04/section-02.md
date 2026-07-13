@@ -1,7 +1,7 @@
 # P5-4.2 문제 유형별 손실
 
 Section ID: `P5-4.2`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목표와 얼마나 어긋나는지 숫자로 만드는 기준`으로 보았습니다. 이제 자연스럽게 다음 질문이 생깁니다.
 
@@ -335,6 +335,101 @@ P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목�
 | 회귀에서 `pred_far`를 정답에 더 가깝게 옮긴다 | 거리 기반 손실이 얼마나 빨리 줄어드는지 | 회귀에서는 무엇이 핵심 오차 구간인가 |
 | 분류에서 `scratch_prob=0.35`를 `0.55`로 올린다 | 정답 클래스 확률 부족이 얼마나 완화되는지 | 경계 근처 확신 부족이 얼마나 학습 신호를 키우는가 |
 | 생성에서 `confirm_token_prob=0.30`을 여러 위치에 반복해서 본다 | 위치별 작은 확률 부족이 시퀀스 전체 손실로 누적되는 구조 | LLM 손실이 왜 문장 전체가 아니라 다음 토큰 누적으로 읽히는가 |
+
+같은 비교를 Python으로 실험할 때도 핵심은 절대값을 서로 겨루는 것이 아닙니다. 아래 예제는 회귀, 분류, 생성에서 각각 한 가지 약한 예측만 고쳤을 때 어떤 손실이 줄어드는지를 나눠 봅니다.
+
+```python
+import math
+
+
+def regression_loss(prediction, target):
+    error = prediction - target
+    return error * error
+
+
+def probability_loss(true_probability):
+    return -math.log(true_probability)
+
+
+def summarize(label, *, energy_prediction, scratch_probability, token_probability):
+    print(f"[{label}]")
+    print(
+        "regression_loss=",
+        f"{regression_loss(energy_prediction, target=5.0):.3f}",
+    )
+    print(
+        "classification_loss=",
+        f"{probability_loss(scratch_probability):.3f}",
+    )
+    print(
+        "generation_loss=",
+        f"{probability_loss(token_probability):.3f}",
+    )
+    print()
+
+
+summarize(
+    "current",
+    energy_prediction=3.8,
+    scratch_probability=0.35,
+    token_probability=0.30,
+)
+
+summarize(
+    "fix_regression_only",
+    energy_prediction=4.7,
+    scratch_probability=0.35,
+    token_probability=0.30,
+)
+
+summarize(
+    "fix_classification_only",
+    energy_prediction=3.8,
+    scratch_probability=0.80,
+    token_probability=0.30,
+)
+
+summarize(
+    "fix_generation_only",
+    energy_prediction=3.8,
+    scratch_probability=0.35,
+    token_probability=0.75,
+)
+```
+
+실행하면 다음처럼 나옵니다.
+
+```text
+[current]
+regression_loss= 1.440
+classification_loss= 1.050
+generation_loss= 1.204
+
+[fix_regression_only]
+regression_loss= 0.090
+classification_loss= 1.050
+generation_loss= 1.204
+
+[fix_classification_only]
+regression_loss= 1.440
+classification_loss= 0.223
+generation_loss= 1.204
+
+[fix_generation_only]
+regression_loss= 1.440
+classification_loss= 1.050
+generation_loss= 0.288
+```
+
+이 예제에서 조작할 값은 `energy_prediction`, `scratch_probability`, `token_probability`입니다. 회귀 예측을 정답에 가깝게 옮기면 회귀 손실만 줄고, 정답 클래스 확률을 올리면 분류 손실만 줄고, 정답 토큰 확률을 올리면 생성 손실만 줄어듭니다. 따라서 세 숫자를 한 줄에 놓고 어느 문제가 더 나쁘다고 단정하기보다, 같은 문제 안에서 무엇을 바꿨을 때 손실이 줄었는지 먼저 읽어야 합니다.
+
+![회귀 예측 보정 전후 손실](../../../assets/part-05/chapter-04/loss-example-regression-experiment-ko.svg)
+
+![분류 정답 확률 보정 전후 손실](../../../assets/part-05/chapter-04/loss-example-classification-experiment-ko.svg)
+
+![생성 정답 토큰 확률 보정 전후 손실](../../../assets/part-05/chapter-04/loss-example-generation-experiment-ko.svg)
+
+세 그래프는 서로 다른 문제를 한 그림에 억지로 섞지 않고, 각 문제 안에서 `현재 -> 보정 후` 손실이 어떻게 줄어드는지만 보여 줍니다. 회귀는 예측값을 정답에 가깝게 옮길 때, 분류는 정답 클래스 확률을 올릴 때, 생성은 정답 토큰 확률을 올릴 때 각각 자기 손실이 줄어듭니다. 따라서 그래프를 읽을 때도 세 손실의 절대 높이를 서로 비교하기보다, 각 그래프 안에서 보정 전후의 변화만 먼저 봐야 합니다.
 
 여기서 한 번 더 조심해야 할 점은, 세 숫자의 절대값을 서로 직접 비교하는 것이 목적이 아니라는 점입니다.
 
