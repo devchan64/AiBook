@@ -1,0 +1,8 @@
+flowchart TD
+    A["Line stopped, restart pending"] --> B["Check pressure relief / checklist / block alarm"]
+    B --> C["Old reading: decide by overall impression"]
+    B --> D["Perceptron reading: separate weighted signals"]
+    D --> E["Weighted sum + bias"]
+    E --> F{"Above boundary?"}
+    F -- "Yes" --> G["Approve restart"]
+    F -- "No" --> H["Hold restart"]

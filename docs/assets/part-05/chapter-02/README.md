@@ -9,6 +9,7 @@
 - Current language pairs:
   - `multilayer-combination-bridge-en.mmd` / `multilayer-combination-bridge-ko.mmd`
   - `hidden-representation-bridge-en.mmd` / `hidden-representation-bridge-ko.mmd`
+  - `panel-warning-representation-flow-en.mmd` / `panel-warning-representation-flow-ko.mmd`
   - `production-batch-hidden-flow-en.mmd` / `production-batch-hidden-flow-ko.mmd`
   - `multilayer-network-flow-en.mmd` / `multilayer-network-flow-ko.mmd`
   - `single-vs-multilayer-flow-en.mmd` / `single-vs-multilayer-flow-ko.mmd`
