@@ -1,7 +1,7 @@
 # P3-6.2 What Intermediate Representations Can We Add When Features Alone Are Not Enough
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.13`
 
 Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](../../../reference/concept-glossary.md#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
 
@@ -14,6 +14,10 @@ This is where segment expressions and tokenized expressions appear. The core ide
 | Early phase | Average rate of rise is positive | `UP` |
 | Middle phase | Average change is almost zero | `FLAT` |
 | Late phase | Rate of decline is large | `DOWN` |
+
+If we divide the raw curve into segments as in the graph below, tokenization becomes visible not as simply naming things, but as `turning the curve's direction and strength into shorter reading units`.
+
+![Graph that divides a raw curve into five segments and turns them into the tokens UP2, UP1, FLAT, DOWN1, and DOWN2](../../../assets/part-03/chapter-06/segment-tokenization-curve-en.svg)
 
 Once this is done, a long curve shrinks into a short sequence such as `UP, FLAT, DOWN`. This expression is easy for people to read, and it also lets a model receive the structure of the curve as an input with more regular length. In other words, a segment expression is the act of converting a complex time series into `an intermediate representation that people and models can both look at`.
 
