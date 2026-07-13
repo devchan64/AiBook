@@ -15,5 +15,8 @@
   - `activation-tabular-signal-case-flow-en.mmd` / `activation-tabular-signal-case-flow-ko.mmd`
   - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
 - SVG chart assets:
+  - `sigmoid-curve-en.svg` / `sigmoid-curve-ko.svg`
+  - `tanh-curve-en.svg` / `tanh-curve-ko.svg`
+  - `relu-curve-en.svg` / `relu-curve-ko.svg`
   - `activation-function-curves-en.svg` / `activation-function-curves-ko.svg`
   - `nonlinear-activation-example-en.svg` / `nonlinear-activation-example-ko.svg`
