@@ -1,7 +1,7 @@
 # P2-5.2 Distribution, Mean, and Variance
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 In P2-5.1, we looked at probability as the language that expresses uncertainty as numbers. Now we move to the question of what we should look at when many of those numbers are gathered together.
 
@@ -112,7 +112,7 @@ Distribution lets us read a list of values as a `shape`. That is why visualizati
 
 The chart below shows the order for reading distribution, mean, and variance. We first look at the whole shape, and then look at center and spread.
 
-![Chart for reading shape, mean, and variance together](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-en.svg)
+![Chart for reading shape, mean, and variance together](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-en.png)
 
 ## Separate Data Distribution and Probability Distribution
 
@@ -181,7 +181,7 @@ If we look only at the mean, the two data bundles may look similar. But in reali
 
 The chart below shows that even when the mean is the same, the spread can be different.
 
-![Two groups with the same mean but different variance](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-en.svg)
+![Two groups with the same mean but different variance](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-en.png)
 
 If we summarize this scene more briefly:
 

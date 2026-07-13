@@ -1,7 +1,7 @@
 # P2-5.2 分布(distribution)、均值(mean)、方差(variance)
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 在 P2-5.1 中，我们把概率(probability)看成是“把不确定性(uncertainty)表示成数字的语言”。现在问题要再往前走一步：当这些数字不是一个，而是很多个聚在一起时，我们首先该看什么？
 
@@ -112,7 +112,7 @@
 
 下面这张图展示的是：应该按什么顺序去看分布、均值和方差。我们先看整体形状，再看中心和扩散。
 
-![一起读取分布、均值和方差的图](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-zh.svg)
+![一起读取分布、均值和方差的图](/AiBook/assets/part-02/chapter-05/distribution-mean-variance-summary-zh.png)
 
 ## 要区分数据分布和概率分布
 
@@ -181,7 +181,7 @@
 
 下面这张图展示的是：即使均值一样，扩散程度也可能完全不同。
 
-![均值相同但方差不同的两组数据](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-zh.svg)
+![均值相同但方差不同的两组数据](/AiBook/assets/part-02/chapter-05/same-mean-different-variance-zh.png)
 
 如果把这个画面再压缩一点，可以写成：
 
