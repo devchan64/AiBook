@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">대표 손실 모양 두 가지</title>
+  <desc id="desc">오차 거리가 커질수록 제곱오차가 커지고, 정답 클래스에 준 확률이 낮을수록 cross-entropy 손실이 커지는 모습을 나란히 보여 주는 두 패널 그래프.</desc>
+  <rect width="920" height="430" fill="#ffffff"/>
+  <text x="460" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#1f2933">손실은 틀림의 종류에 따라 다른 모양으로 커집니다</text>
+
+  <rect x="44" y="70" width="392" height="300" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="240" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">회귀: 제곱오차</text>
+  <line x1="104" y1="310" x2="372" y2="310" stroke="#52606d" stroke-width="2"/>
+  <line x1="238" y1="310" x2="238" y2="134" stroke="#52606d" stroke-width="2"/>
+  <path d="M110 150 C150 245 188 300 238 310 C288 300 326 245 366 150" fill="none" stroke="#2563eb" stroke-width="4"/>
+  <circle cx="256" cy="304" r="5" fill="#0f766e"/>
+  <circle cx="350" cy="188" r="5" fill="#b91c1c"/>
+  <text x="256" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f766e">작은 오차</text>
+  <text x="350" y="173" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#b91c1c">큰 오차</text>
+  <text x="238" y="337" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">목표값에서 떨어진 거리</text>
+  <text x="74" y="218" transform="rotate(-90 74 218)" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">손실</text>
+  <text x="240" y="356" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#334e68">더 멀리 빗나간 예측이 훨씬 큰 벌점을 받습니다.</text>
+
+  <rect x="484" y="70" width="392" height="300" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="680" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">분류: cross-entropy 직관</text>
+  <line x1="544" y1="310" x2="812" y2="310" stroke="#52606d" stroke-width="2"/>
+  <line x1="544" y1="310" x2="544" y2="134" stroke="#52606d" stroke-width="2"/>
+  <path d="M558 146 C590 205 626 246 670 274 C716 300 760 306 806 308" fill="none" stroke="#dc2626" stroke-width="4"/>
+  <circle cx="574" cy="174" r="5" fill="#b91c1c"/>
+  <circle cx="778" cy="307" r="5" fill="#0f766e"/>
+  <text x="592" y="158" text-anchor="start" font-family="Arial, sans-serif" font-size="13" fill="#b91c1c">정답 확률 낮음</text>
+  <text x="778" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f766e">정답 확률 높음</text>
+  <text x="678" y="337" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">정답 클래스에 준 확률</text>
+  <text x="514" y="218" transform="rotate(-90 514 218)" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">손실</text>
+  <text x="680" y="356" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#334e68">정답에 거의 확률을 주지 않으면 손실이 크게 커집니다.</text>
+</svg>

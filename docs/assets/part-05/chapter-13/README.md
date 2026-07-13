@@ -15,3 +15,5 @@
   - `multihead-decision-condition-case-flow-en.mmd` / `multihead-decision-condition-case-flow-ko.mmd`
   - `qkv-flow-en.mmd` / `qkv-flow-ko.mmd`
   - `multihead-flow-en.mmd` / `multihead-flow-ko.mmd`
+- SVG chart assets:
+  - `self-attention-weights-en.svg` / `self-attention-weights-ko.svg`

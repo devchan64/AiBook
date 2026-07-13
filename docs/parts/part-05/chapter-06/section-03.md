@@ -137,6 +137,12 @@ batch normalization은 한 배치(batch) 안의 평균(mean)과 분산(variance)
 
 batch normalization은 이때 `현재 배치 기준으로 값을 한 번 더 다루기 쉬운 범위로 정리하고 넘기는 장치`처럼 읽을 수 있습니다.
 
+이 차이는 값의 위치로 보면 더 선명합니다. 작은 초기화에서는 출력이 0 근처 좁은 범위에 머물 수 있고, 큰 초기화에서는 같은 입력도 훨씬 넓게 퍼질 수 있습니다. batch normalization은 이렇게 퍼진 활성값을 평균과 분산 기준으로 다시 중심 근처의 다루기 쉬운 범위로 옮깁니다.
+
+![batch normalization 전후 출력 스케일](../../../assets/part-05/chapter-06/batch-normalization-scale-ko.svg)
+
+이 그래프에서 읽을 점은 batch normalization이 큰 값을 없애는 장치가 아니라는 것입니다. 다음 층이 계속 흔들리는 분포를 받지 않도록, 현재 배치의 활성값 분포를 다시 정리해 넘기는 안정화 장치로 보아야 합니다.
+
 P5-6.2에서 본 mode 차이도 여기서 다시 연결됩니다.
 
 - 학습 중에는 현재 배치 통계를 참고하고

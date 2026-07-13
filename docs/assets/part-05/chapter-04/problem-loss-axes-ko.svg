@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-labelledby="title desc">
+  <title id="title">문제 유형별 손실 읽기 축</title>
+  <desc id="desc">회귀, 분류, 생성 손실이 각각 목표값과의 거리, 정답 클래스 확률, 위치별 정답 토큰 확률이라는 서로 다른 가로축을 기준으로 읽힌다는 점을 보여 주는 세 패널 그래프.</desc>
+  <rect width="920" height="500" fill="#ffffff"/>
+  <text x="460" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#1f2933">모든 손실 숫자를 같은 축에서 읽으면 안 됩니다</text>
+
+  <rect x="40" y="78" width="260" height="330" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="170" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">회귀</text>
+  <line x1="84" y1="308" x2="260" y2="308" stroke="#52606d" stroke-width="2"/>
+  <line x1="172" y1="308" x2="172" y2="154" stroke="#52606d" stroke-width="2"/>
+  <path d="M90 172 C116 244 144 296 172 308 C206 292 232 244 256 172" fill="none" stroke="#2563eb" stroke-width="4"/>
+  <text x="172" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">정답 숫자와의 거리</text>
+  <text x="170" y="366" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#334e68">정답에서 더 멀리 벗어날수록 더 나쁩니다.</text>
+
+  <rect x="330" y="78" width="260" height="330" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="460" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">분류</text>
+  <line x1="374" y1="308" x2="550" y2="308" stroke="#52606d" stroke-width="2"/>
+  <line x1="374" y1="308" x2="374" y2="154" stroke="#52606d" stroke-width="2"/>
+  <path d="M384 166 C408 218 438 260 474 286 C502 302 526 306 546 307" fill="none" stroke="#dc2626" stroke-width="4"/>
+  <text x="462" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">정답 클래스 확률</text>
+  <text x="460" y="366" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#334e68">정답 클래스 확신이 낮을수록 더 나쁩니다.</text>
+
+  <rect x="620" y="78" width="260" height="330" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="750" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">생성</text>
+  <line x1="664" y1="308" x2="840" y2="308" stroke="#52606d" stroke-width="2"/>
+  <line x1="664" y1="308" x2="664" y2="154" stroke="#52606d" stroke-width="2"/>
+  <rect x="690" y="184" width="26" height="124" fill="#dc2626" opacity="0.85"/>
+  <rect x="728" y="236" width="26" height="72" fill="#f97316" opacity="0.85"/>
+  <rect x="766" y="204" width="26" height="104" fill="#dc2626" opacity="0.85"/>
+  <rect x="804" y="274" width="26" height="34" fill="#0f766e" opacity="0.85"/>
+  <text x="752" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">위치별 정답 토큰 확률</text>
+  <text x="750" y="366" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#334e68">약한 정답 토큰 확률이 여러 위치에서 누적됩니다.</text>
+
+  <text x="460" y="454" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#334e68">먼저 같은 문제 안에서 예측을 비교해야 합니다. 문제 유형이 다르면 손실 숫자의 단위도 단순히 같지 않습니다.</text>
+</svg>

@@ -11,3 +11,6 @@
   - `loss-role-flow-en.mmd` / `loss-role-flow-ko.mmd`
   - `loss-vs-metric-case-flow-en.mmd` / `loss-vs-metric-case-flow-ko.mmd`
   - `problem-loss-branches-en.mmd` / `problem-loss-branches-ko.mmd`
+- SVG chart assets:
+  - `loss-shapes-en.svg` / `loss-shapes-ko.svg`
+  - `problem-loss-axes-en.svg` / `problem-loss-axes-ko.svg`

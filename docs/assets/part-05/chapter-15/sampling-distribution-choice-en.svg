@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-labelledby="title desc">
+  <title id="title">Candidate distribution and sampled choices</title>
+  <desc id="desc">A two-panel bar chart showing response candidate weights on the left and sampled output counts on the right, emphasizing that sampling usually favors high-weight candidates while still allowing lower-weight candidates to appear.</desc>
+  <rect width="920" height="500" fill="#ffffff"/>
+  <text x="40" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#172033">Sampling reads a distribution, then produces actual choices</text>
+  <text x="40" y="70" font-family="Arial, sans-serif" font-size="15" fill="#475569">Argmax fixes one highest candidate; sampling lets high-probability candidates dominate while preserving some variation.</text>
+
+  <rect x="48" y="104" width="388" height="300" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="72" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">Candidate weights</text>
+  <text x="72" y="157" font-family="Arial, sans-serif" font-size="13" fill="#64748b">model score interpretation before output selection</text>
+
+  <line x1="104" y1="344" x2="392" y2="344" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="104" y1="344" x2="104" y2="184" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="124" y="197" width="44" height="147" fill="#2563eb"/>
+  <rect x="194" y="267" width="44" height="77" fill="#38bdf8"/>
+  <rect x="264" y="286" width="44" height="58" fill="#38bdf8"/>
+  <rect x="334" y="306" width="44" height="38" fill="#38bdf8"/>
+  <text x="125" y="188" font-family="Arial, sans-serif" font-size="13" fill="#1d4ed8">0.46</text>
+  <text x="195" y="258" font-family="Arial, sans-serif" font-size="13" fill="#0369a1">0.24</text>
+  <text x="265" y="277" font-family="Arial, sans-serif" font-size="13" fill="#0369a1">0.18</text>
+  <text x="335" y="297" font-family="Arial, sans-serif" font-size="13" fill="#0369a1">0.12</text>
+  <text x="118" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">recheck</text>
+  <text x="188" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">operator</text>
+  <text x="258" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">remeasure</text>
+  <text x="328" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">normal</text>
+
+  <rect x="484" y="104" width="388" height="300" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="508" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">Sampled choices in 20 runs</text>
+  <text x="508" y="157" font-family="Arial, sans-serif" font-size="13" fill="#64748b">actual outputs after applying a sampling rule</text>
+
+  <line x1="540" y1="344" x2="828" y2="344" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="540" y1="344" x2="540" y2="184" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="560" y="188" width="44" height="156" fill="#2563eb"/>
+  <rect x="630" y="284" width="44" height="60" fill="#38bdf8"/>
+  <rect x="700" y="332" width="44" height="12" fill="#38bdf8"/>
+  <rect x="770" y="332" width="44" height="12" fill="#38bdf8"/>
+  <text x="572" y="179" font-family="Arial, sans-serif" font-size="13" fill="#1d4ed8">13</text>
+  <text x="644" y="275" font-family="Arial, sans-serif" font-size="13" fill="#0369a1">5</text>
+  <text x="714" y="323" font-family="Arial, sans-serif" font-size="13" fill="#0369a1">1</text>
+  <text x="784" y="323" font-family="Arial, sans-serif" font-size="13" fill="#0369a1">1</text>
+  <text x="554" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">recheck</text>
+  <text x="624" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">operator</text>
+  <text x="694" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">remeasure</text>
+  <text x="764" y="366" font-family="Arial, sans-serif" font-size="12" fill="#334155">normal</text>
+
+  <path d="M438 252 C454 252, 466 252, 482 252" fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="422" y="238" font-family="Arial, sans-serif" font-size="13" fill="#475569">sampling</text>
+
+  <rect x="82" y="430" width="756" height="34" rx="17" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="110" y="452" font-family="Arial, sans-serif" font-size="14" fill="#9a3412">Reading point: sampling is not pure randomness; it is weighted choice from a learned candidate distribution.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

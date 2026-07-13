@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">Two common loss shapes</title>
+  <desc id="desc">A two-panel chart showing squared error increasing as error distance grows and cross-entropy increasing as the probability assigned to the true class decreases.</desc>
+  <rect width="920" height="430" fill="#ffffff"/>
+  <text x="460" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#1f2933">Loss grows differently depending on what error means</text>
+
+  <rect x="44" y="70" width="392" height="300" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="240" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">Regression: squared error</text>
+  <line x1="104" y1="310" x2="372" y2="310" stroke="#52606d" stroke-width="2"/>
+  <line x1="238" y1="310" x2="238" y2="134" stroke="#52606d" stroke-width="2"/>
+  <path d="M110 150 C150 245 188 300 238 310 C288 300 326 245 366 150" fill="none" stroke="#2563eb" stroke-width="4"/>
+  <circle cx="256" cy="304" r="5" fill="#0f766e"/>
+  <circle cx="350" cy="188" r="5" fill="#b91c1c"/>
+  <text x="256" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f766e">small error</text>
+  <text x="350" y="173" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#b91c1c">large error</text>
+  <text x="238" y="337" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">error distance from target</text>
+  <text x="74" y="218" transform="rotate(-90 74 218)" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">loss</text>
+  <text x="240" y="356" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#334e68">Farther predictions receive much larger penalties.</text>
+
+  <rect x="484" y="70" width="392" height="300" rx="18" fill="#f7fafc" stroke="#d8e2ec"/>
+  <text x="680" y="103" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#243b53">Classification: cross-entropy intuition</text>
+  <line x1="544" y1="310" x2="812" y2="310" stroke="#52606d" stroke-width="2"/>
+  <line x1="544" y1="310" x2="544" y2="134" stroke="#52606d" stroke-width="2"/>
+  <path d="M558 146 C590 205 626 246 670 274 C716 300 760 306 806 308" fill="none" stroke="#dc2626" stroke-width="4"/>
+  <circle cx="574" cy="174" r="5" fill="#b91c1c"/>
+  <circle cx="778" cy="307" r="5" fill="#0f766e"/>
+  <text x="592" y="158" text-anchor="start" font-family="Arial, sans-serif" font-size="13" fill="#b91c1c">true prob low</text>
+  <text x="778" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#0f766e">true prob high</text>
+  <text x="678" y="337" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">probability assigned to true class</text>
+  <text x="514" y="218" transform="rotate(-90 514 218)" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#52606d">loss</text>
+  <text x="680" y="356" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#334e68">Confidently missing the true class receives a large penalty.</text>
+</svg>

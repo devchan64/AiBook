@@ -10,3 +10,5 @@
   - `linear-boundary-flow-en.mmd` / `linear-boundary-flow-ko.mmd`
   - `activation-threshold-flow-en.mmd` / `activation-threshold-flow-ko.mmd`
   - `xor-limit-flow-en.mmd` / `xor-limit-flow-ko.mmd`
+- SVG chart assets:
+  - `linear-boundary-xor-en.svg` / `linear-boundary-xor-ko.svg`

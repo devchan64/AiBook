@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">훈련 손실과 검증 손실이 갈라지는 과적합 장면</title>
+  <desc id="desc">훈련 손실은 계속 내려가지만 검증 손실은 어느 지점 이후 다시 올라가며, 정규화가 훈련 손실 하나가 아니라 검증 곡선과 간극을 함께 보게 만든다는 점을 보여 주는 좌표 그래프.</desc>
+  <rect width="920" height="430" fill="#ffffff"/>
+  <text x="40" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#172033">regularization은 훈련 손실 하나만 보지 않는다</text>
+  <text x="40" y="70" font-family="Arial, sans-serif" font-size="15" fill="#475569">과적합은 훈련 손실은 계속 좋아지는데 검증 손실이 다시 나빠질 때 자주 드러납니다.</text>
+
+  <line x1="88" y1="342" x2="850" y2="342" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="88" y1="342" x2="88" y2="98" stroke="#94a3b8" stroke-width="2"/>
+  <text x="812" y="374" font-family="Arial, sans-serif" font-size="14" fill="#475569">학습 step</text>
+  <text x="30" y="108" font-family="Arial, sans-serif" font-size="14" fill="#475569" transform="rotate(-90 30 108)">손실</text>
+
+  <path d="M112 118 C190 172, 270 216, 360 252 C480 299, 610 320, 826 332" fill="none" stroke="#2563eb" stroke-width="4"/>
+  <path d="M112 152 C196 210, 282 250, 382 270 C470 288, 560 268, 662 224 C736 192, 790 166, 832 152" fill="none" stroke="#dc2626" stroke-width="4"/>
+
+  <line x1="438" y1="342" x2="438" y2="100" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 6"/>
+  <circle cx="438" cy="280" r="7" fill="#dc2626"/>
+  <text x="456" y="278" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#991b1b">검증 손실 전환</text>
+  <text x="456" y="296" font-family="Arial, sans-serif" font-size="13" fill="#991b1b">과적합 위험 증가</text>
+
+  <rect x="640" y="102" width="214" height="74" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+  <line x1="660" y1="126" x2="705" y2="126" stroke="#2563eb" stroke-width="4"/>
+  <text x="716" y="131" font-family="Arial, sans-serif" font-size="14" fill="#334155">훈련 손실</text>
+  <line x1="660" y1="154" x2="705" y2="154" stroke="#dc2626" stroke-width="4"/>
+  <text x="716" y="159" font-family="Arial, sans-serif" font-size="14" fill="#334155">검증 손실</text>
+
+  <rect x="92" y="386" width="748" height="28" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="118" y="405" font-family="Arial, sans-serif" font-size="14" fill="#334155">읽을 점: 훈련 손실이 낮아져도 새 데이터에서 더 좋아진다는 뜻은 아닐 수 있습니다.</text>
+</svg>

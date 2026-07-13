@@ -10,3 +10,5 @@
   - `optimizer-step-bridge-en.mmd` / `optimizer-step-bridge-ko.mmd`
   - `optimizer-loop-flow-en.mmd` / `optimizer-loop-flow-ko.mmd`
   - `sgd-vs-adam-flow-en.mmd` / `sgd-vs-adam-flow-ko.mmd`
+- SVG chart assets:
+  - `learning-rate-step-size-en.svg` / `learning-rate-step-size-ko.svg`

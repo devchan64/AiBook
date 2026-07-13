@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">Gradient direction on a simple loss curve</title>
+  <desc id="desc">A loss curve over a risk weight showing that when prediction is too low the update should increase the weight, when prediction is too high the update should decrease the weight, and larger error gives a stronger gradient signal.</desc>
+  <rect width="920" height="430" fill="#ffffff"/>
+  <text x="40" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#172033">Backprop turns loss into direction and strength</text>
+  <text x="40" y="70" font-family="Arial, sans-serif" font-size="15" fill="#475569">On a loss curve, the gradient sign tells which way to move; its size reflects how strongly the current weight is pushed.</text>
+
+  <line x1="88" y1="342" x2="850" y2="342" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="88" y1="342" x2="88" y2="96" stroke="#94a3b8" stroke-width="2"/>
+  <text x="780" y="374" font-family="Arial, sans-serif" font-size="14" fill="#475569">risk weight</text>
+  <text x="30" y="108" font-family="Arial, sans-serif" font-size="14" fill="#475569" transform="rotate(-90 30 108)">loss</text>
+
+  <path d="M112 115 C210 192, 312 285, 456 330 C592 288, 712 194, 842 113" fill="none" stroke="#0f766e" stroke-width="4"/>
+  <line x1="456" y1="342" x2="456" y2="96" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <text x="416" y="365" font-family="Arial, sans-serif" font-size="13" fill="#475569">target score matched</text>
+
+  <circle cx="238" cy="218" r="8" fill="#1d4ed8"/>
+  <text x="170" y="202" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#1d4ed8">prediction too low</text>
+  <line x1="238" y1="218" x2="344" y2="292" stroke="#16a34a" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <text x="250" y="250" font-family="Arial, sans-serif" font-size="13" fill="#166534">increase weight</text>
+
+  <circle cx="336" cy="298" r="7" fill="#64748b"/>
+  <text x="226" y="322" font-family="Arial, sans-serif" font-size="13" fill="#64748b">small error: weaker push</text>
+
+  <circle cx="678" cy="215" r="8" fill="#dc2626"/>
+  <text x="638" y="200" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#991b1b">prediction too high</text>
+  <line x1="678" y1="215" x2="562" y2="292" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <text x="584" y="252" font-family="Arial, sans-serif" font-size="13" fill="#991b1b">decrease weight</text>
+
+  <circle cx="132" cy="132" r="7" fill="#f97316"/>
+  <line x1="132" y1="132" x2="300" y2="276" stroke="#f97316" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#arrow-orange)"/>
+  <text x="126" y="112" font-family="Arial, sans-serif" font-size="13" fill="#c2410c">larger error: stronger push</text>
+
+  <rect x="92" y="386" width="746" height="28" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="118" y="405" font-family="Arial, sans-serif" font-size="14" fill="#334155">Reading point: backprop is not the update itself; it computes the signed signal that the optimizer will use.</text>
+
+  <defs>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f97316"/>
+    </marker>
+  </defs>
+</svg>

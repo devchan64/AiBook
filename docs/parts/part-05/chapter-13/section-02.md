@@ -1,7 +1,7 @@
 # P5-13.2 셀프 어텐션(self-attention)으로 이어지는 흐름
 
 Section ID: `P5-13.2`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-13.1에서는 어텐션(Attention)을 `현재 계산에 중요한 위치를 더 크게 참고하는 방식`으로 설명했습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -157,6 +157,10 @@ self-attention이 중요한 이유는 단순히 `더 똑똑해 보여서`가 아
 ```mermaid
 --8<-- "assets/part-05/chapter-13/self-attention-target-shift-ko.mmd"
 ```
+
+이 차이는 attention 비중을 막대로 놓으면 더 직접 보입니다. 같은 메모라도 현재 토큰이 `그것`일 때와 `씌우지`일 때는 다시 참고하는 단서의 분포가 같지 않습니다.
+
+![현재 토큰별 self-attention 비중](../../../assets/part-05/chapter-13/self-attention-weights-ko.svg)
 
 이 비교 도식에서 먼저 붙잡아야 할 점은 다음과 같습니다.
 

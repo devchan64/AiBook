@@ -11,3 +11,5 @@
   - `forward-loss-backward-flow-en.mmd` / `forward-loss-backward-flow-ko.mmd`
   - `computation-graph-flow-en.mmd` / `computation-graph-flow-ko.mmd`
   - `loss-to-gradient-role-en.mmd` / `loss-to-gradient-role-ko.mmd`
+- SVG chart assets:
+  - `backprop-gradient-direction-en.svg` / `backprop-gradient-direction-ko.svg`

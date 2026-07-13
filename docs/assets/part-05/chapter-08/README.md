@@ -11,3 +11,5 @@
   - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-ko.mmd`
   - `training-loop-regularization-flow-en.mmd` / `training-loop-regularization-flow-ko.mmd`
   - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`
+- SVG chart assets:
+  - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`

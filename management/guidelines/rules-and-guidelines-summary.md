@@ -30,7 +30,7 @@
 - 예:
   - 원고 작성: `manuscript-writing-workflow.md`
   - Python 예제: `python-example-guidelines.md`
-  - 차트·도식: `chart-guidelines.md`
+  - 차트·그래프·도식: `chart-guidelines.md`
   - 번역: `english-translation-guidelines.md`, `chinese-translation-guidelines.md`
   - 개념사전: `concept-glossary-guidelines.md`
 
@@ -49,7 +49,7 @@
 다음처럼 `작업 중 놓치기 쉬운 확인 포인트`만 중첩을 허용합니다.
 
 - Section 수정 시 `Version`과 릴리즈노트를 함께 갱신해야 한다는 점
-- Python 예제, 차트, 번역, 개념사전, 목차 변경은 전용 가이드를 먼저 열어야 한다는 점
+- Python 예제, 차트·그래프, 번역, 개념사전, 목차 변경은 전용 가이드를 먼저 열어야 한다는 점
 - `main` 푸시는 배포라는 점
 
 그 외의 세부 규칙은 가능하면 원문 한 곳에서만 관리합니다.
@@ -70,11 +70,11 @@
 3. 현재 예제가 `설명형`, `검증형`, `실험형` 중 무엇인지 먼저 구분
 4. 필요하면 `management/guidelines/manuscript-writing-workflow.md`
 
-### 차트, Mermaid, SVG를 만들 때
+### 차트, 그래프, Mermaid, SVG를 만들 때
 
 1. `AGENTS.md`
 2. `management/guidelines/chart-guidelines.md`
-3. 형식 선택이 먼저 필요하면 `표 / 플로우차트 / 좌표 차트 / 구조 다이어그램` 중 무엇이 맞는지 차트 가이드의 형식 선택 기준부터 확인
+3. 형식 선택이 먼저 필요하면 `표 / 플로우차트 / 좌표 그래프 또는 차트 / 구조 다이어그램` 중 무엇이 맞는지 차트 가이드의 형식 선택 기준부터 확인
 
 ### 영어/중국어 번역을 다룰 때
 
@@ -92,7 +92,7 @@
 - Section 본문을 수정했으면 `Version`과 릴리즈노트를 같은 작업 안에서 함께 갱신합니다.
 - 목차 구조를 바꾸면 `mkdocs.yml`과 독자용 목차 설명 문서를 함께 확인합니다.
 - Python 예제는 세부 판단을 요약 문서가 아니라 Python 가이드 원문에서 확인합니다.
-- 차트·도식은 언어 자산, 파일 위치, 레이아웃 기준을 차트 가이드 원문에서 확인합니다.
+- 차트·그래프·도식은 언어 자산, 파일 위치, 레이아웃 기준을 차트 가이드 원문에서 확인합니다.
 - `main` 푸시는 배포이므로, 명시적 지시가 없으면 기본 브랜치는 `dev`입니다.
 
 ## 빠른 시작 순서

@@ -11,3 +11,5 @@
   - `generative-task-flow-en.mmd` / `generative-task-flow-ko.mmd`
   - `sampling-selection-flow-en.mmd` / `sampling-selection-flow-ko.mmd`
   - `sampling-task-flow-en.mmd` / `sampling-task-flow-ko.mmd`
+- SVG chart assets:
+  - `sampling-distribution-choice-en.svg` / `sampling-distribution-choice-ko.svg`

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">선형 경계와 XOR 한계</title>
+  <desc id="desc">직선 하나로 나눌 수 있는 점 배치와 XOR 점 배치를 나란히 비교해, 퍼셉트론 하나의 직선 경계가 첫 번째 패턴은 나눌 수 있지만 XOR는 깔끔하게 나누기 어렵다는 점을 보여 주는 좌표 그래프.</desc>
+  <rect width="920" height="430" fill="#ffffff"/>
+  <text x="40" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#172033">퍼셉트론 하나는 직선 경계 하나를 만든다</text>
+  <text x="40" y="70" font-family="Arial, sans-serif" font-size="15" fill="#475569">어떤 점 배치는 직선 하나로 나뉘지만, XOR는 직선 하나만으로 깔끔하게 나뉘지 않습니다.</text>
+
+  <rect x="54" y="104" width="382" height="260" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="78" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">선형 분리 가능</text>
+  <line x1="110" y1="314" x2="380" y2="314" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="110" y1="314" x2="110" y2="154" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M132 286 L358 166" stroke="#0f766e" stroke-width="4"/>
+  <text x="270" y="178" font-family="Arial, sans-serif" font-size="13" fill="#0f766e">직선 하나로 가능</text>
+  <circle cx="158" cy="276" r="9" fill="#2563eb"/>
+  <circle cx="198" cy="255" r="9" fill="#2563eb"/>
+  <circle cx="238" cy="238" r="9" fill="#2563eb"/>
+  <circle cx="286" cy="210" r="9" fill="#dc2626"/>
+  <circle cx="324" cy="188" r="9" fill="#dc2626"/>
+  <circle cx="348" cy="230" r="9" fill="#dc2626"/>
+  <text x="150" y="344" font-family="Arial, sans-serif" font-size="13" fill="#334155">분류 0</text>
+  <text x="308" y="344" font-family="Arial, sans-serif" font-size="13" fill="#334155">분류 1</text>
+
+  <rect x="484" y="104" width="382" height="260" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="508" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">XOR 배치</text>
+  <line x1="540" y1="314" x2="810" y2="314" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="540" y1="314" x2="540" y2="154" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M558 286 L794 166" stroke="#64748b" stroke-width="3" stroke-dasharray="7 6"/>
+  <path d="M558 178 L794 298" stroke="#64748b" stroke-width="3" stroke-dasharray="7 6"/>
+  <text x="650" y="166" font-family="Arial, sans-serif" font-size="13" fill="#64748b">직선 하나로 실패</text>
+  <circle cx="580" cy="286" r="10" fill="#2563eb"/>
+  <circle cx="770" cy="170" r="10" fill="#2563eb"/>
+  <circle cx="580" cy="170" r="10" fill="#dc2626"/>
+  <circle cx="770" cy="286" r="10" fill="#dc2626"/>
+  <text x="568" y="342" font-family="Arial, sans-serif" font-size="13" fill="#334155">(0,0)</text>
+  <text x="758" y="342" font-family="Arial, sans-serif" font-size="13" fill="#334155">(1,0)</text>
+  <text x="568" y="152" font-family="Arial, sans-serif" font-size="13" fill="#334155">(0,1)</text>
+  <text x="758" y="152" font-family="Arial, sans-serif" font-size="13" fill="#334155">(1,1)</text>
+
+  <rect x="92" y="386" width="736" height="28" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="118" y="405" font-family="Arial, sans-serif" font-size="14" fill="#334155">읽을 점: XOR는 표의 규칙은 단순해도, 직선 하나로 나누는 문제로는 단순하지 않습니다.</text>
+</svg>

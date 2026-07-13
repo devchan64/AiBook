@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-labelledby="title desc">
+  <title id="title">Self-attention weights by target token</title>
+  <desc id="desc">A two-panel bar chart comparing attention weights when the target token is 'it' and when the target token is 'not applied', showing that the same sentence can produce different reference distributions for different current tokens.</desc>
+  <rect width="920" height="500" fill="#ffffff"/>
+  <text x="40" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#172033">Self-attention gives each target token its own reference pattern</text>
+  <text x="40" y="70" font-family="Arial, sans-serif" font-size="15" fill="#475569">The same memo does not produce one universal context; each current token can weight the other tokens differently.</text>
+  <rect x="52" y="104" width="384" height="300" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="76" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">target token: it</text>
+  <line x1="104" y1="344" x2="392" y2="344" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="104" y1="344" x2="104" y2="176" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="122" y="320" width="34" height="24" fill="#38bdf8"/>
+  <rect x="176" y="308" width="34" height="36" fill="#38bdf8"/>
+  <rect x="230" y="184" width="34" height="160" fill="#2563eb"/>
+  <rect x="284" y="279" width="34" height="65" fill="#38bdf8"/>
+  <rect x="338" y="304" width="34" height="40" fill="#38bdf8"/>
+  <text x="222" y="174" font-family="Arial, sans-serif" font-size="13" fill="#1d4ed8">0.494</text>
+  <text x="112" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">pack</text>
+  <text x="166" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">removed</text>
+  <text x="220" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">cap</text>
+  <text x="274" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">not appl.</text>
+  <text x="332" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">it</text>
+  <text x="224" y="391" font-family="Arial, sans-serif" font-size="13" fill="#475569">risk reference leans to the cap</text>
+
+  <rect x="484" y="104" width="384" height="300" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="508" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">target token: not applied</text>
+  <line x1="536" y1="344" x2="824" y2="344" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="536" y1="344" x2="536" y2="176" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="554" y="318" width="34" height="26" fill="#38bdf8"/>
+  <rect x="608" y="249" width="34" height="95" fill="#38bdf8"/>
+  <rect x="662" y="201" width="34" height="143" fill="#2563eb"/>
+  <rect x="716" y="286" width="34" height="58" fill="#38bdf8"/>
+  <rect x="770" y="315" width="34" height="29" fill="#38bdf8"/>
+  <text x="654" y="191" font-family="Arial, sans-serif" font-size="13" fill="#1d4ed8">0.442</text>
+  <text x="544" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">pack</text>
+  <text x="598" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">removed</text>
+  <text x="652" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">cap</text>
+  <text x="706" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">not appl.</text>
+  <text x="764" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">it</text>
+  <text x="625" y="391" font-family="Arial, sans-serif" font-size="13" fill="#475569">action context also pulls in removed</text>
+
+  <rect x="78" y="430" width="764" height="34" rx="17" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="106" y="452" font-family="Arial, sans-serif" font-size="14" fill="#334155">Reading point: self-attention is token-specific re-reading, not one shared average for the whole sentence.</text>
+</svg>

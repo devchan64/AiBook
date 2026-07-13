@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-labelledby="title desc">
+  <title id="title">현재 토큰별 self-attention 비중</title>
+  <desc id="desc">현재 토큰이 '그것'일 때와 '씌우지'일 때 문장 안 토큰별 attention 비중이 어떻게 달라지는지 두 막대 그래프로 비교해, 같은 문장이라도 현재 토큰마다 다시 참고하는 분포가 달라진다는 점을 보여 준다.</desc>
+  <rect width="920" height="500" fill="#ffffff"/>
+  <text x="40" y="42" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#172033">self-attention은 현재 토큰마다 다른 재참조 분포를 만든다</text>
+  <text x="40" y="70" font-family="Arial, sans-serif" font-size="15" fill="#475569">같은 메모라도 문장 전체의 공통 평균 하나가 아니라, 현재 토큰별로 다시 보는 비중이 달라질 수 있습니다.</text>
+  <rect x="52" y="104" width="384" height="300" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="76" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">현재 토큰: 그것</text>
+  <line x1="104" y1="344" x2="392" y2="344" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="104" y1="344" x2="104" y2="176" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="122" y="320" width="34" height="24" fill="#38bdf8"/>
+  <rect x="176" y="308" width="34" height="36" fill="#38bdf8"/>
+  <rect x="230" y="184" width="34" height="160" fill="#2563eb"/>
+  <rect x="284" y="279" width="34" height="65" fill="#38bdf8"/>
+  <rect x="338" y="304" width="34" height="40" fill="#38bdf8"/>
+  <text x="222" y="174" font-family="Arial, sans-serif" font-size="13" fill="#1d4ed8">0.494</text>
+  <text x="112" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">배터리팩</text>
+  <text x="166" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">분리</text>
+  <text x="220" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">절연캡</text>
+  <text x="274" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">씌우지</text>
+  <text x="332" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">그것</text>
+  <text x="194" y="391" font-family="Arial, sans-serif" font-size="13" fill="#475569">위험 원인 해석이 절연캡 쪽으로 기운다</text>
+
+  <rect x="484" y="104" width="384" height="300" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="508" y="134" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#172033">현재 토큰: 씌우지</text>
+  <line x1="536" y1="344" x2="824" y2="344" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="536" y1="344" x2="536" y2="176" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="554" y="318" width="34" height="26" fill="#38bdf8"/>
+  <rect x="608" y="249" width="34" height="95" fill="#38bdf8"/>
+  <rect x="662" y="201" width="34" height="143" fill="#2563eb"/>
+  <rect x="716" y="286" width="34" height="58" fill="#38bdf8"/>
+  <rect x="770" y="315" width="34" height="29" fill="#38bdf8"/>
+  <text x="654" y="191" font-family="Arial, sans-serif" font-size="13" fill="#1d4ed8">0.442</text>
+  <text x="544" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">배터리팩</text>
+  <text x="598" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">분리</text>
+  <text x="652" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">절연캡</text>
+  <text x="706" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">씌우지</text>
+  <text x="764" y="366" font-family="Arial, sans-serif" font-size="11" fill="#334155">그것</text>
+  <text x="596" y="391" font-family="Arial, sans-serif" font-size="13" fill="#475569">동작 맥락 때문에 분리 단서도 더 커진다</text>
+
+  <rect x="78" y="430" width="764" height="34" rx="17" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="106" y="452" font-family="Arial, sans-serif" font-size="14" fill="#334155">읽을 점: self-attention은 문장 전체의 공통 평균이 아니라 토큰별 재읽기입니다.</text>
+</svg>
