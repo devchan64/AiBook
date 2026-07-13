@@ -1,7 +1,7 @@
 # P2-3.2 Vector Space and the Intuition of Position
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. Now we extend the vector a little beyond a simple list of values. In AI documents, a vector is often explained as if it were `a position inside some space`.
 
@@ -48,6 +48,10 @@ These three vectors form a shared scene that continues into later sections.
 - In `P2-3.6`, the same vectors can be turned into code arrays to check shape and calculation.
 
 So the goal of this section is to stop treating a vector as only `a list of numbers` and to make it readable as `a position compared inside the same space`.
+
+If we place them on a coordinate plot like the one below, it becomes immediately visible why `a` and `b` are read as the first nearby candidates while `c` is read as farther away. At this point in the section, that level of positional intuition is enough.
+
+![Coordinate plot where a and b are close in vector space and c is farther away](../../../assets/part-02/chapter-03/vector-space-near-far-en.svg)
 
 | What to fix in this section now | Question that follows immediately | Where it reappears later |
 | --- | --- | --- |
