@@ -1,7 +1,7 @@
 # P5-5.2 계산 그래프(computation graph)
 
 Section ID: `P5-5.2`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-5.1에서는 역전파(backpropagation)를 `손실이 각 가중치에 얼마나 책임이 있는지 뒤에서 앞으로 계산하는 절차`로 설명했습니다. 여기까지 이해하면 다음 질문이 남습니다.
 
@@ -360,6 +360,16 @@ node_trace:
   {'node': 'loss = (block_activation - target_block_score) ** 2', 'forward_value': 16.0, 'backward_signal': 'start', 'read_as': 'backward가 출발하는 손실 노드'}
 ---
 ```
+
+이 출력은 표처럼 읽어도 되지만, 그래프로 나누어 보면 `forward 값의 크기`와 `backward gradient의 생존 여부`가 더 선명하게 갈라집니다.
+
+![계산 그래프 forward 노드별 값 비교](../../../assets/part-05/chapter-05/computation-graph-forward-trace-ko.png)
+
+forward 그래프에서는 `block_gate_closed`의 손실이 훨씬 크다는 점이 먼저 보입니다. 하지만 이 그래프만 보면 `손실이 크니 앞단도 크게 업데이트되겠지`라고 오해하기 쉽습니다. 그래서 같은 예제를 backward 그래프로 한 번 더 나누어 봐야 합니다.
+
+![계산 그래프 backward 노드별 gradient 비교](../../../assets/part-05/chapter-05/computation-graph-backward-trace-ko.png)
+
+backward 그래프에서는 차이가 반대로 드러납니다. `block_gate_open`은 `dL/d_logit`, `dL/d_weight`, `dL/d_bias`가 모두 살아 있지만, `block_gate_closed`는 `dL/d_activation`은 커도 ReLU 앞단 이후의 gradient가 0으로 끊깁니다. 즉, 계산 그래프를 그래프로 읽을 때는 손실 막대와 gradient 막대를 분리해서 보아야 합니다.
 
 이 예제에서 중요한 것은 다음입니다.
 

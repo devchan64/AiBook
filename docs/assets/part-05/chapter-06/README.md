@@ -1,4 +1,4 @@
-# Part 5 Chapter 6 Mermaid Assets
+# Part 5 Chapter 6 Assets
 
 - Public manuscript pages must include their own language asset through `pymdownx.snippets`.
 - Current deployment references:
@@ -13,5 +13,9 @@
   - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd`
 - SVG chart assets:
   - `batch-normalization-scale-en.svg` / `batch-normalization-scale-ko.svg`
+- PNG chart assets:
+  - `learning-weight-update-trace-en.png` / `learning-weight-update-trace-ko.png`
+  - `inference-fixed-weight-trace-en.png` / `inference-fixed-weight-trace-ko.png`
 - Python chart source:
+  - `p5_6_learning_inference_charts.py`
   - `p5_6_batch_norm_chart.py`

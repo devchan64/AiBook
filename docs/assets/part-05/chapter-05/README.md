@@ -22,3 +22,5 @@
   - `backprop-example-prediction-en.png` / `backprop-example-prediction-ko.png`
   - `backprop-example-loss-en.png` / `backprop-example-loss-ko.png`
   - `backprop-example-gradient-en.png` / `backprop-example-gradient-ko.png`
+  - `computation-graph-forward-trace-en.png` / `computation-graph-forward-trace-ko.png`
+  - `computation-graph-backward-trace-en.png` / `computation-graph-backward-trace-ko.png`

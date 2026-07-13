@@ -44,6 +44,12 @@ LANG_TEXT = {
         "gradient_ylabel": "위험 가중치 gradient",
         "case_xlabel": "사례",
         "target_label": "목표",
+        "open_label": "문 열림",
+        "closed_label": "문 닫힘",
+        "forward_node_labels": ["weighted\npressure", "block\nlogit", "block\nactivation", "loss"],
+        "backward_node_labels": ["dL/d\nactivation", "dL/d\nlogit", "dL/d\nweight", "dL/d\nbias"],
+        "forward_ylabel": "forward 값",
+        "backward_ylabel": "backward gradient",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -69,6 +75,12 @@ LANG_TEXT = {
         "gradient_ylabel": "risk-weight gradient",
         "case_xlabel": "case",
         "target_label": "target",
+        "open_label": "gate open",
+        "closed_label": "gate closed",
+        "forward_node_labels": ["weighted\npressure", "block\nlogit", "block\nactivation", "loss"],
+        "backward_node_labels": ["dL/d\nactivation", "dL/d\nlogit", "dL/d\nweight", "dL/d\nbias"],
+        "forward_ylabel": "forward value",
+        "backward_ylabel": "backward gradient",
     },
 }
 
@@ -401,6 +413,74 @@ def save_gradient_trace(text: dict[str, str], locale: str) -> None:
     plt.close(fig)
 
 
+def computation_graph_example_values() -> tuple[np.ndarray, np.ndarray]:
+    forward_values = np.array(
+        [
+            [3.0, 2.5, 2.5, 2.25],
+            [0.2, -0.3, 0.0, 16.0],
+        ]
+    )
+    backward_values = np.array(
+        [
+            [-3.0, -3.0, -6.0, -3.0],
+            [-8.0, 0.0, 0.0, 0.0],
+        ]
+    )
+    return forward_values, backward_values
+
+
+def save_computation_forward_trace(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    forward_values, _backward_values = computation_graph_example_values()
+    x = np.arange(forward_values.shape[1])
+    width = 0.34
+
+    fig, ax = plt.subplots(figsize=(7.4, 4.0), constrained_layout=True)
+    bars_open = ax.bar(x - width / 2, forward_values[0], width=width, color="#2563eb", label=text["open_label"])
+    bars_closed = ax.bar(x + width / 2, forward_values[1], width=width, color="#dc2626", label=text["closed_label"])
+    for bars in (bars_open, bars_closed):
+        for bar in bars:
+            value = bar.get_height()
+            label_y = value + 0.35 if value >= 0 else value - 0.55
+            va = "bottom" if value >= 0 else "top"
+            ax.text(bar.get_x() + bar.get_width() / 2, label_y, f"{value:.2g}", ha="center", va=va, fontsize=9)
+    ax.axhline(0, color="#334155", linewidth=1.1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["forward_node_labels"])
+    ax.set_ylabel(text["forward_ylabel"])
+    ax.set_ylim(-1.4, 18.0)
+    ax.legend(frameon=False, loc="upper left")
+    style_case_axis(ax)
+    fig.savefig(OUT_DIR / f"computation-graph-forward-trace-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
+def save_computation_backward_trace(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    _forward_values, backward_values = computation_graph_example_values()
+    x = np.arange(backward_values.shape[1])
+    width = 0.34
+
+    fig, ax = plt.subplots(figsize=(7.4, 4.0), constrained_layout=True)
+    bars_open = ax.bar(x - width / 2, backward_values[0], width=width, color="#2563eb", label=text["open_label"])
+    bars_closed = ax.bar(x + width / 2, backward_values[1], width=width, color="#dc2626", label=text["closed_label"])
+    for bars in (bars_open, bars_closed):
+        for bar in bars:
+            value = bar.get_height()
+            label_y = value - 0.35 if value < 0 else value + 0.25
+            va = "top" if value < 0 else "bottom"
+            ax.text(bar.get_x() + bar.get_width() / 2, label_y, f"{value:.1f}", ha="center", va=va, fontsize=9)
+    ax.axhline(0, color="#334155", linewidth=1.1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["backward_node_labels"])
+    ax.set_ylabel(text["backward_ylabel"])
+    ax.set_ylim(-9.5, 1.3)
+    ax.legend(frameon=False, loc="lower left")
+    style_case_axis(ax)
+    fig.savefig(OUT_DIR / f"computation-graph-backward-trace-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
 def main() -> None:
     for locale, text in LANG_TEXT.items():
         save_chart(text)
@@ -409,6 +489,8 @@ def main() -> None:
         save_prediction_trace(text, locale)
         save_loss_trace(text, locale)
         save_gradient_trace(text, locale)
+        save_computation_forward_trace(text, locale)
+        save_computation_backward_trace(text, locale)
 
 
 if __name__ == "__main__":
