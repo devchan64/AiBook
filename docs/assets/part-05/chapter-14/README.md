@@ -13,3 +13,5 @@
   - `long-context-task-flow-en.mmd` / `long-context-task-flow-ko.mmd`
 - Current usage note:
   - `transformer-task-flow-en.mmd` / `transformer-task-flow-ko.mmd` are currently kept as reusable chapter assets but are not directly included by the current Part 5 public manuscript pages.
+- Matplotlib chart assets:
+  - `p5_14_2_sequential_vs_direct_reference.py` regenerates `sequential-vs-direct-reference-ko.png` and `sequential-vs-direct-reference-en.png` for P5-14.2.

@@ -1,7 +1,7 @@
 # P5-14.2 병렬 처리와 긴 문맥
 
 Section ID: `P5-14.2`
-Version: `v2026.07.12`
+Version: `v2026.07.13`
 
 P5-14.1에서는 트랜스포머(Transformer)를 셀프 어텐션(self-attention), feed-forward, residual connection, layer normalization의 조합으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -324,6 +324,10 @@ matched line 1 (score=4): Rule: unstable pressure state must not be restarted.
 matched line 4 (score=2): State: pressure has not fully returned to safe range.
 direct_decision = block_restart
 ```
+
+![순차 상태 약화와 직접 재참조 비교](/AiBook/assets/part-05/chapter-14/sequential-vs-direct-reference-ko.png)
+
+이 그래프는 출력 로그를 다시 그린 것입니다. 위쪽 선 그래프에서는 순차 상태의 `block` 축이 중간 로그를 지나며 마지막 요청 시점에 거의 사라지는 반면, 아래쪽 막대 그래프에서는 직접 재참조 방식이 규칙 줄과 압력 상태 줄을 다시 높은 근거로 끌어옵니다. 따라서 이 예제에서 읽어야 할 변화는 단순히 두 결정 이름이 다르다는 사실이 아니라, 앞 단서가 `상태 안에서 약해지는가`와 `현재 요청에서 다시 호출되는가`의 차이입니다.
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |

@@ -8,3 +8,6 @@
   - `rnn-state-flow-en.mmd` / `rnn-state-flow-ko.mmd`
   - `long-term-dependency-flow-en.mmd` / `long-term-dependency-flow-ko.mmd`
   - `state-vs-direct-reference-flow-en.mmd` / `state-vs-direct-reference-flow-ko.mmd`
+- Matplotlib chart assets:
+  - `p5_12_1_sequence_state_accumulation.py`
+  - `sequence-state-accumulation-en.png` / `sequence-state-accumulation-ko.png`
