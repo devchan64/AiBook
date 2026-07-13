@@ -4,5 +4,6 @@ venv/
 __pycache__/
 .pytest_cache/
 site/
+site-dev/
 .cache/
 .tmp/
