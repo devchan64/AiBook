@@ -17,7 +17,7 @@
 
 像下面的图这样把原始曲线分成区段之后，就能看见 token 化并不是单纯给名字，而是在 `把曲线的方向和强度改写成更短的读取单位`。
 
-![把原始曲线分成五个区段，并转换成 UP2、UP1、FLAT、DOWN1、DOWN2 token 的图](../../../assets/part-03/chapter-06/segment-tokenization-curve-zh.svg)
+![把原始曲线分成五个区段，并转换成 UP2、UP1、FLAT、DOWN1、DOWN2 token 的图](../../../assets/part-03/chapter-06/segment-tokenization-curve-zh.png)
 
 这样一来，一条长曲线就会缩成像 `UP, FLAT, DOWN` 这样的短序列。这种表达对人来说容易阅读，对模型来说也更容易把曲线结构接收成长度更规则的输入。也就是说，区段表示是在把复杂时间序列转换成 `人和模型都能一起看的中间表示`。
 

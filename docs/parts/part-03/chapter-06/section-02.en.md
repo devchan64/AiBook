@@ -17,7 +17,7 @@ This is where segment expressions and tokenized expressions appear. The core ide
 
 If we divide the raw curve into segments as in the graph below, tokenization becomes visible not as simply naming things, but as `turning the curve's direction and strength into shorter reading units`.
 
-![Graph that divides a raw curve into five segments and turns them into the tokens UP2, UP1, FLAT, DOWN1, and DOWN2](../../../assets/part-03/chapter-06/segment-tokenization-curve-en.svg)
+![Graph that divides a raw curve into five segments and turns them into the tokens UP2, UP1, FLAT, DOWN1, and DOWN2](../../../assets/part-03/chapter-06/segment-tokenization-curve-en.png)
 
 Once this is done, a long curve shrinks into a short sequence such as `UP, FLAT, DOWN`. This expression is easy for people to read, and it also lets a model receive the structure of the curve as an input with more regular length. In other words, a segment expression is the act of converting a complex time series into `an intermediate representation that people and models can both look at`.
 
