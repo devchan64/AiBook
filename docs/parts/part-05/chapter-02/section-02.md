@@ -1,7 +1,7 @@
 # P5-2.2 은닉층(hidden layer)과 표현
 
 Section ID: `P5-2.2`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-2.1에서는 다층 신경망(multilayer neural network)이 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아, 입력을 바로 최종 판단으로 보내지 않고 중간 단계를 거치게 만든다는 점을 보았습니다. 이제 질문을 조금 더 구체적으로 바꿔 봅니다.
 
@@ -299,10 +299,28 @@ for name, values in frames:
 
 ```text
 needle_dominant_frame: input=(1.0, 0.2, 0.1), hidden=(0.64, 0.0, 0.0), score=0.184
-beacon_valve_frame: input=(0.5, 0.9, 0.8), hidden=(0.35, 0.93, 0.72), score=1.046
-combined_stop_frame: input=(1.1, 1.0, 0.9), hidden=(0.98, 1.15, 1.12), score=1.951
-borderline_watch_frame: input=(0.7, 0.6, 0.5), hidden=(0.46, 0.4, 0.16), score=0.388
+beacon_valve_frame: input=(0.5, 0.9, 0.8), hidden=(0.35, 0.93, 0.67), score=0.944
+combined_stop_frame: input=(1.1, 1.0, 0.9), hidden=(0.98, 1.15, 1.05), score=1.698
+borderline_watch_frame: input=(0.7, 0.6, 0.5), hidden=(0.46, 0.47, 0.33), score=0.542
 ```
+
+숫자 출력은 계산 결과를 알려 주지만, 원본 입력이 은닉층 안에서 어떤 중간값으로 바뀌고, ReLU 뒤에 무엇이 남아 최종 점수로 이어지는지는 단계별 그래프로 나누어 보면 더 잘 보입니다.
+
+![프레임별 원본 입력값](/AiBook/assets/part-05/chapter-02/hidden-axis-input-ko.png)
+
+첫 그래프는 모델에 들어가는 원본 입력(raw input)입니다. 여기서는 바늘 편차, 경광등 점멸, 밸브 이탈이라는 세 입력값이 아직 그대로 나열되어 있습니다. 이 단계만 보면 각 프레임이 어느 판단으로 이어질지 바로 닫기 어렵습니다.
+
+![프레임별 은닉층 전 선형 결합값](/AiBook/assets/part-05/chapter-02/hidden-axis-preactivation-ko.png)
+
+두 번째 그래프는 은닉층의 각 축이 입력값에 가중치를 곱하고 편향을 더한 뒤의 값입니다. 0보다 작은 값도 보이는데, 이는 해당 은닉축이 아직 활성화되기 전의 계산 흔적입니다. `needle_dominant_frame`은 압력 축은 양수로 남지만 경보 축과 조합 축은 0 아래에 있어 다음 단계에서 사라질 준비가 된 상태입니다.
+
+![프레임별 ReLU 후 은닉 표현](/AiBook/assets/part-05/chapter-02/hidden-axis-activation-ko.png)
+
+세 번째 그래프는 ReLU를 지난 뒤 실제 은닉 표현(hidden representation)으로 남은 값입니다. 0보다 작던 값은 0으로 잘리고, 양수로 남은 축만 다음 층으로 전달됩니다. 이 단계에서 `beacon_valve_frame`은 경보 축과 조합 축이 함께 살아나고, `combined_stop_frame`은 세 축이 모두 크게 살아납니다.
+
+![프레임별 최종 출력 점수](/AiBook/assets/part-05/chapter-02/hidden-axis-score-ko.png)
+
+마지막 그래프는 ReLU 뒤 은닉 표현에 출력층 가중치를 다시 적용한 최종 점수입니다. 원본 입력이 곧바로 점수가 된 것이 아니라, 은닉층 전 값과 ReLU 후 표현을 거쳐 출력으로 바뀐다는 점이 핵심입니다.
 
 이 예제에서 중요한 것은 다음입니다.
 
@@ -315,9 +333,9 @@ borderline_watch_frame: input=(0.7, 0.6, 0.5), hidden=(0.46, 0.4, 0.16), score=0
 | 프레임 | hidden 패턴 | score | 지금 읽어야 할 핵심 |
 | --- | --- | --- | --- |
 | `needle_dominant_frame` | `(0.64, 0.0, 0.0)` | `0.184` | 바늘 편차 축만 살아나 아직 즉시 정지 검토로는 닫히지 않는다 |
-| `beacon_valve_frame` | `(0.35, 0.93, 0.72)` | `1.046` | 경광등과 밸브 조합 축이 주도해 경고 확인보다 더 강한 개입 신호로 읽힌다 |
-| `combined_stop_frame` | `(0.98, 1.15, 1.12)` | `1.951` | 세 축이 모두 크게 살아 즉시 정지 검토에 가까운 내부 표현이 겹친다 |
-| `borderline_watch_frame` | `(0.46, 0.4, 0.16)` | `0.388` | 세 축이 약하게만 남아 아직 경계 감시에 더 가깝다 |
+| `beacon_valve_frame` | `(0.35, 0.93, 0.67)` | `0.944` | 경광등과 밸브 조합 축이 주도해 경고 확인보다 더 강한 개입 신호로 읽힌다 |
+| `combined_stop_frame` | `(0.98, 1.15, 1.05)` | `1.698` | 세 축이 모두 크게 살아 즉시 정지 검토에 가까운 내부 표현이 겹친다 |
+| `borderline_watch_frame` | `(0.46, 0.47, 0.33)` | `0.542` | 세 축이 약하게 겹쳐 아직 경계 감시에 더 가깝다 |
 
 여기서 특히 `needle_dominant_frame`과 `borderline_watch_frame`은 모두 강한 정지 장면은 아니지만, 내부 표현은 꽤 다릅니다. 하나는 압력계 축만 살아 있고, 다른 하나는 세 축이 약하게 겹칩니다. 같은 `약한 이상`처럼 보여도 어떤 은닉축이 먼저 살아났는지에 따라 다음 판단이 달라질 수 있다는 점이 바로 `은닉층이 원래 입력을 다시 적는다`는 말의 실제 계산 감각입니다.
 

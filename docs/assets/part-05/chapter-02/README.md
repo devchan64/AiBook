@@ -17,3 +17,8 @@
 - Matplotlib chart assets:
   - `p5_2_1_hidden_pattern_regions.py`
   - `hidden-pattern-regions-en.png` / `hidden-pattern-regions-ko.png`
+  - `p5_2_2_hidden_axis_chart.py`
+  - `hidden-axis-input-en.png` / `hidden-axis-input-ko.png`
+  - `hidden-axis-preactivation-en.png` / `hidden-axis-preactivation-ko.png`
+  - `hidden-axis-activation-en.png` / `hidden-axis-activation-ko.png`
+  - `hidden-axis-score-en.png` / `hidden-axis-score-ko.png`
