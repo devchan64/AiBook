@@ -1,7 +1,7 @@
 # P1-7.3 启发式与概率模型的差异
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 7.2 把 `heuristic` 看成：当不可能检查所有候选时，用来决定先看哪些候选、减少哪些候选的经验性标准。现在要把另一个看起来相近的概念分开：
 
@@ -161,6 +161,10 @@ Poole 和 Mackworth 把概率说明成一种可随着 `evidence` 更新的信念
 | 最高分 0.90 以上 | 自动回复 |
 | 最高分 0.60 到 0.90 之间 | 给客服显示候选建议 |
 | 最高分低于 0.60 | 追问更多信息 |
+
+如下图所示，同一个输出数值要和运营者设定的处理区间分开读。`配送 0.82` 是最高候选分数，但它没有达到 0.90 的自动回复阈值，所以在这个例子里会落在“显示候选”的区间。
+
+![显示配送、支付、退款候选分数，并用 0.60 和 0.90 阈值划分追问、显示候选、自动回复区间的图](/AiBook/assets/part-01/chapter-07/threshold-action-regions-zh.png)
 
 这个 `threshold` 不一定是概率模型本身的一部分，它也可能只是把模型输出转成业务行动的运营标准。Google 的 Machine Learning Glossary 也说明，classification threshold 是由人选定的，它会影响 false positive 和 false negative 的数量。
 

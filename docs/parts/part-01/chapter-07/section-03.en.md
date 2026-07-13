@@ -1,7 +1,7 @@
 # P1-7.3 The Difference Between Heuristics and Probabilistic Models
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 Section 7.2 treated heuristics as empirical standards for deciding which candidates to inspect first and which to reduce when we cannot inspect all of them. Now we separate another pair of ideas that often look similar:
 
@@ -162,6 +162,10 @@ Suppose a classifier outputs `delivery inquiry 0.82`. A service operator may the
 | highest score 0.90 or above | automatic reply |
 | highest score from 0.60 to under 0.90 | show candidate suggestions to an agent |
 | highest score below 0.60 | ask an additional question |
+
+As the graph below shows, the number produced by the model and the action region chosen by the operator should be read separately. `delivery 0.82` is the highest candidate score, but it does not reach the 0.90 automation threshold, so in this example it belongs to the candidate-suggestion region.
+
+![Graph showing delivery, payment, and refund candidate scores separated by 0.60 and 0.90 thresholds into ask-more, suggest-candidate, and automatic-reply regions](/AiBook/assets/part-01/chapter-07/threshold-action-regions-en.png)
 
 That `threshold` is not necessarily part of the probabilistic model itself. It may simply be the operating rule that decides how output becomes action. Google’s Machine Learning Glossary also explains that a classification threshold is a value selected by humans and that its choice affects false positives and false negatives.
 
