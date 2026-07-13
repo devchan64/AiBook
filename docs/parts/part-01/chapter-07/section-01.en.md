@@ -1,7 +1,7 @@
 # P1-7.1 Search Space and Computational Limits
 
 > Section ID: `P1-7.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.13`
 
 Chapter 6 dealt with incomplete information and probabilistic judgment. Now we turn to a different kind of difficulty. Some problems are hard because information is missing, but some are hard because there are simply too many possible choices.
 
@@ -110,6 +110,10 @@ If there are 3 choices at the first step and 3 more at the next, there are alrea
 | 4 | 81 |
 | 5 | 243 |
 | 10 | 59,049 |
+
+The graph below shows the same numbers as positions. Even when each stage always has only 3 choices, the candidate count does not grow by a small straight-line increase. It bends upward quickly as stages are added.
+
+![Graph showing possible combinations growing quickly as the number of stages increases when each stage has 3 choices](/AiBook/assets/part-01/chapter-07/search-space-growth-en.png)
 
 The important intuition is simple:
 
