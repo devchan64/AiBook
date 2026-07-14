@@ -329,7 +329,6 @@ def save_gradient_history(text: dict[str, str], locale: str) -> None:
     ax.axhline(0, color="#111827", linewidth=1.0)
     for bar, value in zip(bars, GRADIENT_HISTORY):
         ax.text(bar.get_x() + bar.get_width() / 2, value - 0.18, f"{value:.1f}", ha="center", va="top", fontsize=10)
-    ax.set_title(text["gradient_title"])
     ax.set_xticks(x)
     ax.set_xticklabels(text["step_labels"])
     ax.set_xlabel(text["step_xlabel"])
@@ -352,7 +351,6 @@ def save_delta_comparison(text: dict[str, str], locale: str) -> None:
         ax.text(xpos, value + 0.015, f"{value:.3g}", ha="center", fontsize=9)
     for xpos, value in zip(x + width / 2, adam_deltas):
         ax.text(xpos, value + 0.015, f"{value:.3g}", ha="center", fontsize=9)
-    ax.set_title(text["delta_title"])
     ax.set_xticks(x)
     ax.set_xticklabels(text["step_labels"])
     ax.set_xlabel(text["step_xlabel"])
@@ -375,7 +373,6 @@ def save_weight_trajectory(text: dict[str, str], locale: str) -> None:
         ax.text(xpos, value + 0.025, f"{value:.3g}", ha="center", fontsize=9, color="#1d4ed8")
     for xpos, value in zip(x, adam_weights):
         ax.text(xpos, value - 0.055, f"{value:.3g}", ha="center", va="top", fontsize=9, color="#047857")
-    ax.set_title(text["weight_title"])
     ax.set_xticks(x)
     ax.set_xticklabels(text["step_labels"])
     ax.set_xlabel(text["step_xlabel"])

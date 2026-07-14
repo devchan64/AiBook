@@ -90,6 +90,11 @@ EXERCISE_CASES = [
     ("too_strong_block_signal", 2.0, 5.0, 3.2),
 ]
 
+COMPUTATION_GRAPH_CASES = [
+    ("block_gate_open", 2.0, 1.5, -0.5, 4.0),
+    ("block_gate_closed", 2.0, 0.1, -0.5, 4.0),
+]
+
 
 def exercise_values() -> tuple[np.ndarray, np.ndarray, np.ndarray, float]:
     predictions = []
@@ -104,6 +109,29 @@ def exercise_values() -> tuple[np.ndarray, np.ndarray, np.ndarray, float]:
         losses.append(loss)
         gradients.append(gradient)
     return np.array(predictions), np.array(losses), np.array(gradients), target
+
+
+def computation_graph_case_values(
+    pressure_signal: float,
+    risk_weight: float,
+    base_block_bias: float,
+    target_block_score: float,
+) -> tuple[list[float], list[float]]:
+    weighted_pressure = risk_weight * pressure_signal
+    block_logit = weighted_pressure + base_block_bias
+    block_activation = max(0.0, block_logit)
+    loss = (block_activation - target_block_score) ** 2
+
+    d_loss_d_activation = 2 * (block_activation - target_block_score)
+    d_activation_d_logit = 1.0 if block_logit > 0 else 0.0
+    d_loss_d_logit = d_loss_d_activation * d_activation_d_logit
+    d_loss_d_weight = d_loss_d_logit * pressure_signal
+    d_loss_d_bias = d_loss_d_logit
+
+    return (
+        [weighted_pressure, block_logit, block_activation, loss],
+        [d_loss_d_activation, d_loss_d_logit, d_loss_d_weight, d_loss_d_bias],
+    )
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -414,18 +442,17 @@ def save_gradient_trace(text: dict[str, str], locale: str) -> None:
 
 
 def computation_graph_example_values() -> tuple[np.ndarray, np.ndarray]:
-    forward_values = np.array(
-        [
-            [3.0, 2.5, 2.5, 2.25],
-            [0.2, -0.3, 0.0, 16.0],
-        ]
-    )
-    backward_values = np.array(
-        [
-            [-3.0, -3.0, -6.0, -3.0],
-            [-8.0, 0.0, 0.0, 0.0],
-        ]
-    )
+    traces = [
+        computation_graph_case_values(
+            pressure_signal,
+            risk_weight,
+            base_block_bias,
+            target_block_score,
+        )
+        for _name, pressure_signal, risk_weight, base_block_bias, target_block_score in COMPUTATION_GRAPH_CASES
+    ]
+    forward_values = np.array([forward for forward, _backward in traces])
+    backward_values = np.array([backward for _forward, backward in traces])
     return forward_values, backward_values
 
 
