@@ -12,8 +12,11 @@
   - `sampling-selection-flow-en.mmd` / `sampling-selection-flow-ko.mmd`
   - `sampling-task-flow-en.mmd` / `sampling-task-flow-ko.mmd`
 - SVG chart assets:
-  - `sampling-distribution-choice-en.svg` / `sampling-distribution-choice-ko.svg`
   - `sampling-candidate-weights-en.svg` / `sampling-candidate-weights-ko.svg`
   - `sampling-choice-counts-en.svg` / `sampling-choice-counts-ko.svg`
+- PNG chart assets:
+  - `generative-response-distribution-temperature-en.png` / `generative-response-distribution-temperature-ko.png`
+  - `generative-response-distribution-seal-en.png` / `generative-response-distribution-seal-ko.png`
 - Python chart source:
+  - `p5_15_1_generative_distribution_charts.py`
   - `p5_15_sampling_chart.py`

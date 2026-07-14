@@ -1,7 +1,7 @@
 # P5-12.2 장기 의존성(long-term dependency)
 
 Section ID: `P5-12.2`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 위해 등장한 구조라고 설명했습니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -348,6 +348,14 @@ direct_decision = keeps block
 - `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
 - 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 안전 조건을 잃기 쉬워집니다
 - 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있고, 여기서는 `direct_match_score`가 계속 3으로 유지됩니다
+
+이 예제에서 먼저 볼 산출물은 gap이 길어질 때 `state_support`가 기준선 아래로 내려가는 흐름입니다. 같은 규칙과 같은 질문이라도, 중간 설명 줄이 늘어나면 순차 상태 안의 `blocked`, `pressure` 단서가 빠르게 약해집니다.
+
+![장기 의존성 예제의 상태 기반 단서 유지](../../../assets/part-05/chapter-12/long-dependency-state-support-ko.png)
+
+두 번째 산출물은 상태 기반 판정과 직접 참조 판정의 차이입니다. `gap=3`, `gap=6`에서는 상태 기반 판정이 `loses block`으로 바뀌지만, 직접 참조는 앞 규칙 줄을 다시 집어 올 수 있으므로 `keeps block`을 유지합니다.
+
+![장기 의존성 예제의 상태 기반 판정과 직접 참조 판정](../../../assets/part-05/chapter-12/long-dependency-decision-comparison-ko.png)
 
 출력을 운영 판단으로 다시 읽으면 장기 의존성 문제가 단순 점수 하락이 아니라 안전 조치 해석의 흔들림이라는 점이 더 분명해집니다.
 

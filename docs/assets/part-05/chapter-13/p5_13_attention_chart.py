@@ -20,6 +20,24 @@ OUT_DIR = Path(__file__).resolve().parent
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
 
+TOKENS = ["배터리팩", "분리", "절연캡", "씌우지", "그것"]
+RAW_SCORES_BY_TARGET = {
+    "그것": {
+        "배터리팩": 0.2,
+        "분리": 0.6,
+        "절연캡": 2.1,
+        "씌우지": 1.2,
+        "그것": 0.7,
+    },
+    "씌우지": {
+        "배터리팩": 0.1,
+        "분리": 1.4,
+        "절연캡": 1.8,
+        "씌우지": 0.9,
+        "그것": 0.2,
+    },
+}
+
 LANG_TEXT = {
     "ko": {
         "font_candidates": [
@@ -43,7 +61,7 @@ LANG_TEXT = {
         "panel_right": "현재 토큰: 씌우지",
         "xlabel": "다시 참고하는 토큰",
         "ylabel": "attention 비중",
-        "tokens": ["배터리팩", "분리", "절연캡", "씌우지", "문제"],
+        "tokens": ["배터리팩", "분리", "절연캡", "씌우지", "그것"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -60,12 +78,19 @@ LANG_TEXT = {
         "panel_right": "current token: cover",
         "xlabel": "revisited token",
         "ylabel": "attention weight",
-        "tokens": ["battery", "remove", "cap", "cover", "issue"],
+        "tokens": ["battery", "remove", "cap", "cover", "it"],
     },
 }
 
-LEFT_VALUES = np.array([0.074, 0.112, 0.494, 0.181, 0.139])
-RIGHT_VALUES = np.array([0.061, 0.088, 0.146, 0.421, 0.284])
+
+def softmax_weights(score_table: dict[str, float]) -> np.ndarray:
+    raw_scores = np.array([score_table[token] for token in TOKENS])
+    exp_scores = np.exp(raw_scores)
+    return exp_scores / exp_scores.sum()
+
+
+LEFT_VALUES = softmax_weights(RAW_SCORES_BY_TARGET["그것"])
+RIGHT_VALUES = softmax_weights(RAW_SCORES_BY_TARGET["씌우지"])
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -101,10 +126,22 @@ def inject_accessibility(svg_path: Path, title: str, desc: str) -> None:
     tree.write(svg_path, encoding="utf-8", xml_declaration=False)
 
 
-def draw_panel(ax, values: np.ndarray, title: str, tokens: list[str], ylabel: str, xlabel: str) -> None:
-    colors = ["#38bdf8", "#38bdf8", "#2563eb", "#38bdf8", "#38bdf8"]
-    if title.endswith("씌우지") or title.endswith("cover"):
-        colors = ["#38bdf8", "#38bdf8", "#38bdf8", "#2563eb", "#0f766e"]
+def draw_panel(
+    ax,
+    values: np.ndarray,
+    title: str,
+    tokens: list[str],
+    ylabel: str,
+    xlabel: str,
+    current_token: str,
+) -> None:
+    colors = ["#38bdf8"] * len(tokens)
+    top_index = int(np.argmax(values))
+    colors[top_index] = "#2563eb"
+    if current_token in tokens:
+        current_index = tokens.index(current_token)
+        if current_index != top_index:
+            colors[current_index] = "#0f766e"
     positions = np.arange(len(tokens))
     ax.set_facecolor("#f8fafc")
     ax.grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
@@ -127,8 +164,8 @@ def save_chart(text: dict[str, str]) -> None:
     fig, axes = plt.subplots(1, 2, figsize=(7.6, 4.0), dpi=160)
     fig.patch.set_facecolor("white")
 
-    draw_panel(axes[0], LEFT_VALUES, text["panel_left"], text["tokens"], text["ylabel"], text["xlabel"])
-    draw_panel(axes[1], RIGHT_VALUES, text["panel_right"], text["tokens"], text["ylabel"], text["xlabel"])
+    draw_panel(axes[0], LEFT_VALUES, text["panel_left"], text["tokens"], text["ylabel"], text["xlabel"], text["tokens"][-1])
+    draw_panel(axes[1], RIGHT_VALUES, text["panel_right"], text["tokens"], text["ylabel"], text["xlabel"], text["tokens"][3])
 
     fig.tight_layout(pad=0.9, w_pad=1.2)
     out_path = OUT_DIR / text["outfile"]
@@ -148,7 +185,8 @@ def save_single_chart(
     configure_font(text)
     fig, ax = plt.subplots(figsize=(4.1, 4.0), dpi=160)
     fig.patch.set_facecolor("white")
-    draw_panel(ax, values, panel_title, text["tokens"], text["ylabel"], text["xlabel"])
+    current_token = text["tokens"][-1] if values is LEFT_VALUES else text["tokens"][3]
+    draw_panel(ax, values, panel_title, text["tokens"], text["ylabel"], text["xlabel"], current_token)
 
     fig.tight_layout(pad=0.9)
     out_path = OUT_DIR / outfile

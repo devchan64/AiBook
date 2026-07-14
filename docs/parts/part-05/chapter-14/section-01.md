@@ -1,7 +1,7 @@
 # P5-14.1 트랜스포머(Transformer)의 기본 구성
 
 Section ID: `P5-14.1`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 내부 토큰들이 서로를 직접 참고하는 방식이며, 트랜스포머(Transformer)의 핵심 발상으로 이어진다고 설명했습니다. 여기서 다음 질문이 생깁니다.
 
@@ -382,6 +382,14 @@ after simple layer norm =
 action token after residual = [1.238 1.814]
 ---
 ```
+
+이 예제에서 먼저 볼 산출물은 조치 토큰(action token)이 블록 단계별로 어디로 이동하는가입니다. `rollback confirmed`와 `rollback not confirmed`는 같은 입력에서 시작하지만, attention으로 문맥을 섞는 단계부터 다른 경로로 갈라지고 feed-forward와 residual을 거치며 서로 다른 조치 표현으로 남습니다.
+
+![조치 토큰의 단계별 표현 이동](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-ko.png)
+
+두 번째 산출물은 residual 이후의 조치 토큰만 따로 비교한 것입니다. rollback이 확인된 장면은 복구 상태 축이 더 크게 남고, 확인되지 않은 장면은 긴급/원인 축이 상대적으로 더 크게 남습니다. 이 차이를 보면 Transformer 블록을 attention 하나가 아니라 `문맥 섞기 -> 위치별 가공 -> 원래 정보 보존`의 조합으로 읽어야 하는 이유가 더 분명해집니다.
+
+![잔차 이후 조치 토큰 비교](../../../assets/part-05/chapter-14/transformer-block-action-residual-compare-ko.png)
 
 | 비교 포인트 | rollback confirmed | rollback not confirmed | 왜 중요한가 |
 | --- | --- | --- | --- |

@@ -11,16 +11,17 @@
   - `training-vs-inference-flow-en.mmd` / `training-vs-inference-flow-ko.mmd`
   - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-ko.mmd`
   - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd`
-- SVG chart assets:
-  - `batch-normalization-scale-en.svg` / `batch-normalization-scale-ko.svg`
 - PNG chart assets:
   - `learning-weight-update-trace-en.png` / `learning-weight-update-trace-ko.png`
   - `inference-fixed-weight-trace-en.png` / `inference-fixed-weight-trace-ko.png`
   - `hidden-activation-from-sessions-en.png` / `hidden-activation-from-sessions-ko.png`
   - `mode-centered-output-comparison-en.png` / `mode-centered-output-comparison-ko.png`
+  - `initialization-raw-output-scale-en.png` / `initialization-raw-output-scale-ko.png`
+  - `initialization-raw-variance-en.png` / `initialization-raw-variance-ko.png`
+  - `batchnorm-normalized-output-scale-en.png` / `batchnorm-normalized-output-scale-ko.png`
   - `dropout-mode-output-trace-en.png` / `dropout-mode-output-trace-ko.png`
   - `batchnorm-mode-reference-trace-en.png` / `batchnorm-mode-reference-trace-ko.png`
 - Python chart source:
   - `p5_6_2_mode_comparison_charts.py`
-  - `p5_6_learning_inference_charts.py`
-  - `p5_6_batch_norm_chart.py`
+  - `p5_6_3_initialization_bn_charts.py`
+  - `p5_6_learning_inference_charts.py`: generates P5-6.1 learning/inference charts for multi-parameter update and fixed-parameter inference traces.

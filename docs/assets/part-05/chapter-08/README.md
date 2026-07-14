@@ -7,11 +7,22 @@
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
+  - `dropout-case-reading-flow-en.mmd` / `dropout-case-reading-flow-ko.mmd`
   - `dropout-path-flow-en.mmd` / `dropout-path-flow-ko.mmd`
+  - `regularization-case-reading-flow-en.mmd` / `regularization-case-reading-flow-ko.mmd`
   - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-ko.mmd`
   - `training-loop-regularization-flow-en.mmd` / `training-loop-regularization-flow-ko.mmd`
   - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`
 - SVG chart assets:
   - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`
+- PNG chart assets:
+  - `dropout-activation-values-en.png` / `dropout-activation-values-ko.png`
+  - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-ko.png`
+  - `training-loop-predictions-en.png` / `training-loop-predictions-ko.png`
+  - `training-loop-batch-loss-en.png` / `training-loop-batch-loss-ko.png`
+  - `training-loop-batch-gradient-en.png` / `training-loop-batch-gradient-ko.png`
+  - `training-loop-risk-weight-update-en.png` / `training-loop-risk-weight-update-ko.png`
 - Python chart source:
   - `p5_8_overfit_chart.py`
+  - `p5_8_2_dropout_charts.py`
+  - `p5_8_3_training_loop_charts.py`

@@ -1,7 +1,7 @@
 # P5-9.1 GPU와 병렬 처리
 
 Section ID: `P5-9.1`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-8장까지는 딥러닝 모델 내부에서 일어나는 학습 계산과 regularization을 보았습니다. 여기서 시야를 조금 넓히면 다음 질문이 생깁니다.
 
@@ -260,6 +260,14 @@ if batch size doubles, estimated scalar multiplies = 24
 - 계산 내용 자체는 같아도, 실제 딥러닝 프레임워크는 이런 연산을 `배치 전체 행렬 계산`으로 묶어 처리합니다
 - 예제처럼 작은 데이터에서도 같은 곱셈이 12번 반복되며, 모델이 커지면 이 반복 횟수는 바로 커집니다
 - GPU의 강점은 이런 반복 곱셈과 덧셈을 대량으로 병렬 처리하는 데 있습니다
+
+첫 번째 산출물은 라인별 위험 점수입니다. 샘플별 반복 계산과 배치 행렬 계산은 같은 점수를 만들지만, 이 그래프가 보여 주는 핵심은 `결과가 같다`가 아니라 `같은 결과를 다른 계산 조직으로 얻는다`는 점입니다.
+
+![샘플별 반복 계산과 배치 행렬 계산의 위험 점수 비교](../../../assets/part-05/chapter-09/gpu-batch-score-comparison-ko.png)
+
+두 번째 산출물은 scalar multiply count입니다. 현재 예제의 4개 라인, 3개 feature에서는 곱셈이 12번 필요하고, batch 크기만 두 배가 되어도 같은 종류의 반복 계산은 24번으로 늘어납니다.
+
+![batch 크기 증가에 따른 scalar multiply count](../../../assets/part-05/chapter-09/gpu-scalar-multiply-scaling-ko.png)
 
 | 비교 | 지금 읽어야 할 핵심 |
 | --- | --- |

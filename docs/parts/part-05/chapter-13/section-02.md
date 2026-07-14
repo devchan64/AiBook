@@ -1,7 +1,7 @@
 # P5-13.2 셀프 어텐션(self-attention)으로 이어지는 흐름
 
 Section ID: `P5-13.2`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-13.1에서는 어텐션(Attention)을 `현재 계산에 중요한 위치를 더 크게 참고하는 방식`으로 설명했습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -361,16 +361,16 @@ top_token = 절연캡
 cap_plus_not_applied_weight = 0.694
 
 target_token = 씌우지
-배터리팩 weight = 0.081 vector = [0.8, 0.1, 0.0]
-분리 weight = 0.296 vector = [0.9, 0.3, 0.1]
-절연캡 weight = 0.442 vector = [0.1, 0.9, 0.2]
-씌우지 weight = 0.18 vector = [0.0, 0.6, 0.8]
-그것 weight = 0.09 vector = [0.3, 0.3, 0.3]
-weights = [0.081, 0.296, 0.442, 0.18, 0.09]
-new_representation = [0.365, 0.601, 0.257]
-representation_shift = [-0.055, 0.161, -0.023]
+배터리팩 weight = 0.074 vector = [0.8, 0.1, 0.0]
+분리 weight = 0.272 vector = [0.9, 0.3, 0.1]
+절연캡 weight = 0.406 vector = [0.1, 0.9, 0.2]
+씌우지 weight = 0.165 vector = [0.0, 0.6, 0.8]
+그것 weight = 0.082 vector = [0.3, 0.3, 0.3]
+weights = [0.074, 0.272, 0.406, 0.165, 0.082]
+new_representation = [0.37, 0.578, 0.265]
+representation_shift = [-0.05, 0.138, -0.015]
 top_token = 절연캡
-cap_plus_not_applied_weight = 0.622
+cap_plus_not_applied_weight = 0.571
 ```
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |

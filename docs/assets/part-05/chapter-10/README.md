@@ -11,3 +11,11 @@
   - `hierarchical-representation-flow-en.mmd` / `hierarchical-representation-flow-ko.mmd`
   - `manual-vs-learned-coordinates-en.mmd` / `manual-vs-learned-coordinates-ko.mmd`
   - `layered-recomposition-flow-en.mmd` / `layered-recomposition-flow-ko.mmd`
+- PNG chart assets:
+  - `representation-risk-score-en.png` / `representation-risk-score-ko.png`
+  - `representation-coordinate-space-en.png` / `representation-coordinate-space-ko.png`
+  - `hierarchical-representation-distance-trace-en.png` / `hierarchical-representation-distance-trace-ko.png`
+  - `hierarchical-representation-h2-space-en.png` / `hierarchical-representation-h2-space-ko.png`
+- Python chart source:
+  - `p5_10_1_representation_learning_charts.py`: generates P5-10.1 maintenance-line risk score and representation coordinate charts.
+  - `p5_10_2_hierarchical_representation_charts.py`

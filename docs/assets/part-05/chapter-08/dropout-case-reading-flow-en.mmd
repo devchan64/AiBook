@@ -1,0 +1,7 @@
+flowchart TD
+    A["Review classifier"] --> B["Shortcut cue fits training data"]
+    B --> C["Internal path for the cue becomes too trusted"]
+    C --> D["Validation data can wobble"]
+    D --> E["Dropout temporarily turns off paths during training"]
+    E --> F["Other paths must support the decision"]
+    F --> G["Check whether train-validation gap narrows"]

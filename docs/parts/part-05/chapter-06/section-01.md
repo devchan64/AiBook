@@ -144,7 +144,7 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 | 서비스 실행 로그 | `alarm_count -> forward -> predicted_block_score -> 운영 화면 출력` | 없음 |
 | 학습 로그 | `alarm_count -> forward -> target_block_score와 비교 -> loss -> gradient -> update` | 있음 |
 
-서비스 실행 로그에서는 현재 `risk_weight`로 위험 점수를 계산해 운영 화면에 보여 줍니다. 입력이 달라지면 `predicted_block_score`도 달라질 수 있지만, 그 자체가 `risk_weight` 변경을 뜻하지는 않습니다. 반대로 학습 로그에서는 같은 종류의 `alarm_count`라도 정답 역할을 하는 `target_block_score`와 비교하고, 손실과 gradient를 계산한 뒤 update가 붙어야 `risk_weight`가 실제로 바뀝니다. 그래서 이 사례에서 확인해야 할 결과는 결과 화면이 바뀌었는가가 아니라, `loss -> gradient -> update`가 실제로 붙어 파라미터가 바뀌었는가입니다.
+서비스 실행 로그에서는 현재 파라미터들로 위험 점수를 계산해 운영 화면에 보여 줍니다. 입력이 달라지면 `predicted_block_score`도 달라질 수 있지만, 그 자체가 파라미터 변경을 뜻하지는 않습니다. 반대로 학습 로그에서는 같은 종류의 입력이라도 정답 역할을 하는 `target_block_score`와 비교하고, 손실과 gradient를 계산한 뒤 update가 붙어야 파라미터가 실제로 바뀝니다. 그래서 이 사례에서 확인해야 할 결과는 결과 화면이 바뀌었는가가 아니라, `loss -> gradient -> update`가 실제로 붙어 파라미터가 바뀌었는가입니다.
 
 | 사람이 먼저 보기 쉬운 기준 | learning/inference 관점으로 다시 읽는 기준 |
 | --- | --- |
@@ -174,19 +174,19 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 작은 위험 점수 모델이 `학습 배치`를 볼 때는 위험 가중치를 바꾸고, `서비스 입력`을 볼 때는 그 가중치를 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다. 여기서 코드는 단순히 숫자 한 번을 출력하는 역할이 아니라, `같은 입력이라도 update 경로가 붙었는가`에 따라 파라미터가 실제로 달라지는지 실험하는 역할을 맡습니다.
+이번 예제의 목표는 같은 작은 위험 점수 모델이 `학습 배치`를 볼 때는 여러 파라미터를 바꾸고, `서비스 입력`을 볼 때는 그 파라미터들을 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다. 여기서 코드는 단순히 숫자 한 번을 출력하는 역할이 아니라, `같은 종류의 입력이라도 update 경로가 붙었는가`에 따라 파라미터가 실제로 달라지는지 실험하는 역할을 맡습니다.
 
 입력:
 
-- 학습용 경보 샘플 3개
-- 초기 위험 가중치 `risk_weight`
+- 학습용 경보 샘플 4개
+- 초기 파라미터 `alarm_weight`, `delay_weight`, `bias`
 - 학습률 `learning_rate`
 
 출력:
 
-- step별 위험 점수 예측값, 손실, 위험 가중치 변화
+- step별 위험 점수 예측값, 손실, 파라미터 변화
 - 학습 완료 뒤 inference 결과
-- inference 전후 위험 가중치 비교
+- inference 전후 파라미터 비교
 - 같은 위험 가중치로 여러 서비스 입력을 처리했을 때 출력만 달라지는지 확인
 
 문제 상황:
@@ -202,15 +202,15 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 입력(input):
 
-학습 배치에서는 `alarm_count`를 받아 `predicted_block_score`를 만들고, 목표값 `target_block_score`와 비교해 `risk_weight`를 갱신한다고 가정합니다. 이후 서비스 구간에서는 새 `alarm_count`가 들어와도 같은 `risk_weight`를 그대로 사용하는지만 확인합니다.
+학습 배치에서는 `alarm_count`와 `restart_delay_hours`를 받아 `predicted_block_score`를 만들고, 목표값 `target_block_score`와 비교해 `alarm_weight`, `delay_weight`, `bias`를 갱신한다고 가정합니다. 이후 서비스 구간에서는 새 입력이 들어와도 같은 파라미터들을 그대로 사용하는지만 확인합니다.
 
 코드를 보기 전에 먼저 어느 구간에서만 `weight`가 바뀔지 예상해 보면 좋습니다.
 
 | 구간 | 먼저 예상해 볼 비교 | 예상 이유 |
 | --- | --- | --- |
-| `train step 1~3` | `risk_weight_before`와 `risk_weight_after`가 달라질 가능성 | 손실과 gradient를 이용해 실제 업데이트를 수행하기 때문입니다. |
-| `service alarm_count=4.0` | 출력은 계산되지만 `risk_weight`는 유지될 가능성 | inference는 현재 파라미터를 사용만 하기 때문입니다. |
-| `service alarm_count=5.0` | 출력은 달라질 수 있어도 `risk_weight`는 여전히 같을 가능성 | 입력 변화와 파라미터 변화는 별개이기 때문입니다. |
+| `train step 1~4` | `alarm_weight`, `delay_weight`, `bias`가 달라질 가능성 | 손실과 gradient를 이용해 실제 업데이트를 수행하기 때문입니다. |
+| `service input 1` | 출력은 계산되지만 파라미터는 유지될 가능성 | inference는 현재 파라미터를 사용만 하기 때문입니다. |
+| `service input 2` | 출력은 달라질 수 있어도 파라미터는 여전히 같을 가능성 | 입력 변화와 파라미터 변화는 별개이기 때문입니다. |
 
 이 표의 목적은 `출력 변화`와 `파라미터 변화`를 분리해서 읽는 것입니다.
 
@@ -218,121 +218,151 @@ Part 1에서도 보았듯이 한국어 `추론`은 reasoning, inference, predict
 
 | 바꿔 볼 값 | 먼저 관찰할 출력 | 해석할 질문 |
 | --- | --- | --- |
-| `learning_rate`를 0.1에서 0.02, 0.3으로 바꾼다 | `risk_weight_after`가 step마다 얼마나 크게 움직이는가 | 학습은 같은 배치를 보더라도 update 보폭에 따라 파라미터 변화량이 달라지는가 |
-| `service_alarm_counts`에 8.0, 0.5를 추가한다 | prediction은 달라도 `risk_weight_used`가 계속 같은가 | 서비스 입력 변화와 파라미터 변화는 별개라는 점이 유지되는가 |
-| `service_shadow_sample`의 `target_block_score`를 12.0, 16.0으로 바꾼다 | 같은 서비스 입력에 update를 붙였을 때 `shadow_risk_weight_after`가 어떻게 달라지는가 | 입력이 아니라 `손실-업데이트 경로`가 붙을 때만 파라미터가 바뀌는가 |
+| `learning_rate`를 0.03에서 0.01, 0.08로 바꾼다 | 세 파라미터가 step마다 얼마나 크게 움직이는가 | 학습은 같은 배치를 보더라도 update 보폭에 따라 파라미터 변화량이 달라지는가 |
+| `service_inputs`에 새 입력을 추가한다 | prediction은 달라도 `parameters_used`가 계속 같은가 | 서비스 입력 변화와 파라미터 변화는 별개라는 점이 유지되는가 |
+| `service_shadow_sample`의 `target_block_score`를 10.0, 13.0으로 바꾼다 | 같은 서비스 입력에 update를 붙였을 때 `shadow_parameters_after`가 어떻게 달라지는가 | 입력이 아니라 `손실-업데이트 경로`가 붙을 때만 파라미터가 바뀌는가 |
 
 ```python
 train_alarm_data = [
-    {"alarm_count": 1.0, "target_block_score": 3.0},
-    {"alarm_count": 2.0, "target_block_score": 6.0},
-    {"alarm_count": 3.0, "target_block_score": 9.0},
+    {"alarm_count": 1.0, "restart_delay_hours": 2.0, "target_block_score": 4.0},
+    {"alarm_count": 2.0, "restart_delay_hours": 1.0, "target_block_score": 5.0},
+    {"alarm_count": 3.0, "restart_delay_hours": 2.0, "target_block_score": 8.0},
+    {"alarm_count": 4.0, "restart_delay_hours": 3.0, "target_block_score": 11.0},
 ]
 
-risk_weight = 0.5
-learning_rate = 0.1
-service_alarm_counts = [4.0, 5.0]
-service_shadow_sample = {"alarm_count": 4.0, "target_block_score": 12.0}
+parameters = {
+    "alarm_weight": 0.4,
+    "delay_weight": 0.2,
+    "bias": 0.0,
+}
+learning_rate = 0.03
+service_inputs = [
+    {"alarm_count": 4.0, "restart_delay_hours": 1.0},
+    {"alarm_count": 5.0, "restart_delay_hours": 3.0},
+]
+service_shadow_sample = {
+    "alarm_count": 4.0,
+    "restart_delay_hours": 1.0,
+    "target_block_score": 10.0,
+}
 
-def predict_block_score(alarm_count, risk_weight):
-    return alarm_count * risk_weight
+def predict_block_score(alarm_count, restart_delay_hours, parameters):
+    return (
+        alarm_count * parameters["alarm_weight"]
+        + restart_delay_hours * parameters["delay_weight"]
+        + parameters["bias"]
+    )
 
-def run_train_step(alarm_count, target_block_score, risk_weight, learning_rate):
-    prediction = predict_block_score(alarm_count, risk_weight)
+def run_train_step(sample, parameters, learning_rate):
+    prediction = predict_block_score(
+        sample["alarm_count"],
+        sample["restart_delay_hours"],
+        parameters,
+    )
+    target_block_score = sample["target_block_score"]
     loss = (prediction - target_block_score) ** 2
-    gradient_risk_weight = 2 * (prediction - target_block_score) * alarm_count
-    new_risk_weight = risk_weight - learning_rate * gradient_risk_weight
+    error = prediction - target_block_score
+    gradients = {
+        "alarm_weight": 2 * error * sample["alarm_count"],
+        "delay_weight": 2 * error * sample["restart_delay_hours"],
+        "bias": 2 * error,
+    }
+    new_parameters = {
+        name: value - learning_rate * gradients[name]
+        for name, value in parameters.items()
+    }
     return {
         "prediction": prediction,
         "loss": loss,
-        "gradient_risk_weight": gradient_risk_weight,
-        "risk_weight_after": new_risk_weight,
+        "gradients": gradients,
+        "parameters_after": new_parameters,
     }
 
-print("initial_risk_weight =", round(risk_weight, 3))
+print("initial_parameters =", {name: round(value, 3) for name, value in parameters.items()})
 
 for step, sample in enumerate(train_alarm_data, start=1):
-    alarm_count = sample["alarm_count"]
-    target_block_score = sample["target_block_score"]
-    step_result = run_train_step(alarm_count, target_block_score, risk_weight, learning_rate)
+    step_result = run_train_step(sample, parameters, learning_rate)
     print(
         f"train step {step}: "
-        f"alarm_count={alarm_count}, target_block_score={target_block_score}, "
+        f"alarm_count={sample['alarm_count']}, "
+        f"restart_delay_hours={sample['restart_delay_hours']}, "
+        f"target_block_score={sample['target_block_score']}, "
         f"prediction={step_result['prediction']:.3f}, loss={step_result['loss']:.3f}, "
-        f"gradient_risk_weight={step_result['gradient_risk_weight']:.3f}, "
-        f"risk_weight_before={risk_weight:.3f}, risk_weight_after={step_result['risk_weight_after']:.3f}"
+        f"parameters_before={ {name: round(value, 3) for name, value in parameters.items()} }, "
+        f"parameters_after={ {name: round(value, 3) for name, value in step_result['parameters_after'].items()} }"
     )
-    risk_weight = step_result["risk_weight_after"]
+    parameters = step_result["parameters_after"]
 
-weight_before_inference = risk_weight
-for alarm_count in service_alarm_counts:
+parameters_before_inference = parameters.copy()
+for service_input in service_inputs:
     print(
-        f"inference: alarm_count={alarm_count}, "
-        f"prediction={predict_block_score(alarm_count, risk_weight):.3f}, "
-        f"risk_weight_used={risk_weight:.3f}"
+        f"inference: alarm_count={service_input['alarm_count']}, "
+        f"restart_delay_hours={service_input['restart_delay_hours']}, "
+        f"prediction={predict_block_score(service_input['alarm_count'], service_input['restart_delay_hours'], parameters):.3f}, "
+        f"parameters_used={ {name: round(value, 3) for name, value in parameters.items()} }"
     )
-print("weight_before_inference =", round(weight_before_inference, 3))
-print("weight_after_inference =", round(risk_weight, 3))
+print("parameters_before_inference =", {name: round(value, 3) for name, value in parameters_before_inference.items()})
+print("parameters_after_inference =", {name: round(value, 3) for name, value in parameters.items()})
 
 shadow_result = run_train_step(
-    alarm_count=service_shadow_sample["alarm_count"],
-    target_block_score=service_shadow_sample["target_block_score"],
-    risk_weight=risk_weight,
+    sample=service_shadow_sample,
+    parameters=parameters,
     learning_rate=learning_rate,
 )
 print(
     "same_input_with_update: "
     f"alarm_count={service_shadow_sample['alarm_count']}, "
+    f"restart_delay_hours={service_shadow_sample['restart_delay_hours']}, "
     f"target_block_score={service_shadow_sample['target_block_score']}, "
     f"prediction={shadow_result['prediction']:.3f}, loss={shadow_result['loss']:.3f}, "
-    f"gradient_risk_weight={shadow_result['gradient_risk_weight']:.3f}, "
-    f"shadow_risk_weight_after={shadow_result['risk_weight_after']:.3f}"
+    f"shadow_parameters_after={ {name: round(value, 3) for name, value in shadow_result['parameters_after'].items()} }"
 )
 ```
 
-출력에서는 학습 단계의 weight_before/after 변화와 inference 단계의 weight 불변을 먼저 비교하면 됩니다.
+출력에서는 학습 단계의 `parameters_before`/`parameters_after` 변화와 inference 단계의 `parameters_used` 불변을 먼저 비교하면 됩니다.
 
 ```text
-initial_risk_weight = 0.5
-train step 1: alarm_count=1.0, target_block_score=3.0, prediction=0.500, loss=6.250, gradient_risk_weight=-5.000, risk_weight_before=0.500, risk_weight_after=1.000
-train step 2: alarm_count=2.0, target_block_score=6.0, prediction=2.000, loss=16.000, gradient_risk_weight=-16.000, risk_weight_before=1.000, risk_weight_after=2.600
-train step 3: alarm_count=3.0, target_block_score=9.0, prediction=7.800, loss=1.440, gradient_risk_weight=-7.200, risk_weight_before=2.600, risk_weight_after=3.320
-weight_before_inference = 3.32
-inference: alarm_count=4.0, prediction=13.280, risk_weight_used=3.320
-inference: alarm_count=5.0, prediction=16.600, risk_weight_used=3.320
-weight_after_inference = 3.32
-same_input_with_update: alarm_count=4.0, target_block_score=12.0, prediction=13.280, loss=1.638, gradient_risk_weight=10.240, shadow_risk_weight_after=2.296
+initial_parameters = {'alarm_weight': 0.4, 'delay_weight': 0.2, 'bias': 0.0}
+train step 1: alarm_count=1.0, restart_delay_hours=2.0, target_block_score=4.0, prediction=0.800, loss=10.240, parameters_before={'alarm_weight': 0.4, 'delay_weight': 0.2, 'bias': 0.0}, parameters_after={'alarm_weight': 0.592, 'delay_weight': 0.584, 'bias': 0.192}
+train step 2: alarm_count=2.0, restart_delay_hours=1.0, target_block_score=5.0, prediction=1.960, loss=9.242, parameters_before={'alarm_weight': 0.592, 'delay_weight': 0.584, 'bias': 0.192}, parameters_after={'alarm_weight': 0.957, 'delay_weight': 0.766, 'bias': 0.374}
+train step 3: alarm_count=3.0, restart_delay_hours=2.0, target_block_score=8.0, prediction=4.778, loss=10.384, parameters_before={'alarm_weight': 0.957, 'delay_weight': 0.766, 'bias': 0.374}, parameters_after={'alarm_weight': 1.537, 'delay_weight': 1.153, 'bias': 0.568}
+train step 4: alarm_count=4.0, restart_delay_hours=3.0, target_block_score=11.0, prediction=10.174, loss=0.682, parameters_before={'alarm_weight': 1.537, 'delay_weight': 1.153, 'bias': 0.568}, parameters_after={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+inference: alarm_count=4.0, restart_delay_hours=1.0, prediction=8.859, parameters_used={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+inference: alarm_count=5.0, restart_delay_hours=3.0, prediction=13.197, parameters_used={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+parameters_before_inference = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+parameters_after_inference = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_score=10.0, prediction=8.859, loss=1.302, shadow_parameters_after={'alarm_weight': 2.009, 'delay_weight': 1.37, 'bias': 0.686}
 ```
 
-여기서는 학습 step에서 `risk_weight`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 `risk_weight`가 유지된다는 점을 먼저 확인하면 됩니다. 마지막 `same_input_with_update` 줄은 일부러 같은 종류의 입력에도 update를 붙였을 때만 파라미터가 바뀐다는 대비 장면입니다.
+여기서는 학습 step에서 `alarm_weight`, `delay_weight`, `bias`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 파라미터들이 유지된다는 점을 먼저 확인하면 됩니다. 마지막 `same_input_with_update` 줄은 일부러 같은 종류의 입력에도 update를 붙였을 때만 파라미터가 바뀐다는 대비 장면입니다.
 
-- 학습 step에서는 `risk_weight_before`와 `risk_weight_after`가 다르므로 파라미터가 실제로 바뀝니다
-- inference에서는 서로 다른 입력을 넣어도 `risk_weight_used`가 계속 같고, `weight_before_inference`와 `weight_after_inference`도 같습니다
-- `same_input_with_update`에서는 입력 종류가 같아도 손실과 gradient를 붙이면 `shadow_risk_weight_after`가 실제로 달라집니다
+- 학습 step에서는 `parameters_before`와 `parameters_after`가 다르므로 파라미터가 실제로 바뀝니다
+- inference에서는 서로 다른 입력을 넣어도 `parameters_used`가 계속 같고, `parameters_before_inference`와 `parameters_after_inference`도 같습니다
+- `same_input_with_update`에서는 입력 종류가 같아도 손실과 gradient를 붙이면 `shadow_parameters_after`가 실제로 달라집니다
 - 즉, 서비스 입력을 많이 넣는다고 자동으로 재학습이 일어나는 것은 아니고, update 경로가 붙을 때만 파라미터가 바뀝니다
 
-그래프로 다시 읽으면 절차 차이가 더 분명합니다. 학습 절차에서는 각 step마다 update 전후의 `risk_weight`가 갈라지고, update 후 값이 다음 step의 기준이 됩니다.
+그래프로 다시 읽으면 절차 차이가 더 분명합니다. 학습 절차에서는 각 step마다 `alarm_weight`, `delay_weight`, `bias`가 update 뒤에 달라지고, update 후 값이 다음 step의 기준이 됩니다.
 
-![학습 절차에서 update 전후 risk_weight가 step별로 달라지는 그래프](../../../assets/part-05/chapter-06/learning-weight-update-trace-ko.png)
+![학습 절차에서 여러 파라미터가 step별로 달라지는 그래프](../../../assets/part-05/chapter-06/learning-weight-update-trace-ko.png)
 
-모델 실행 절차에서는 `alarm_count`가 4.0에서 5.0으로 바뀌면서 `predicted_block_score`는 달라지지만, 같은 구간의 `risk_weight`는 수평선처럼 고정됩니다. 이 그래프에서 확인할 것은 출력선이 올라간다는 사실보다, 파라미터선이 움직이지 않는다는 사실입니다.
+모델 실행 절차에서는 서비스 입력이 바뀌면서 `predicted_block_score`는 달라지지만, 같은 구간의 파라미터들은 수평선처럼 고정됩니다. 이 그래프에서 확인할 것은 출력선이 달라진다는 사실보다, 파라미터선이 움직이지 않는다는 사실입니다.
 
-![모델 실행 절차에서 prediction은 달라지지만 risk_weight는 고정되는 그래프](../../../assets/part-05/chapter-06/inference-fixed-weight-trace-ko.png)
+![모델 실행 절차에서 prediction은 달라지지만 파라미터는 고정되는 그래프](../../../assets/part-05/chapter-06/inference-fixed-weight-trace-ko.png)
 
 | 구간 | 지금 읽어야 할 핵심 |
 | --- | --- |
-| `train step 1~3` | 출력과 손실을 본 뒤 실제 update가 붙으므로 `risk_weight`가 계속 달라집니다. |
-| `inference alarm_count=4.0` | 새 입력을 처리해도 현재 `risk_weight`를 그대로 사용합니다. |
-| `inference alarm_count=5.0` | 출력은 달라지지만, 바뀐 것은 입력이지 파라미터가 아닙니다. |
+| `train step 1~4` | 출력과 손실을 본 뒤 실제 update가 붙으므로 파라미터들이 계속 달라집니다. |
+| `inference input 1` | 새 입력을 처리해도 현재 파라미터들을 그대로 사용합니다. |
+| `inference input 2` | 출력은 달라지지만, 바뀐 것은 입력이지 파라미터가 아닙니다. |
 
 이 결과를 `출력 변화`와 `파라미터 변화` 기준으로 다시 묶으면 차이가 더 또렷합니다.
 
 | 실행 결과에서 보인 차이 | 결과만 보면 남기 쉬운 해석 | learning/inference 관점에서 다시 읽는 해석 |
 | --- | --- | --- |
-| `train step 1~3`에서 prediction이 계속 달라진다 | 그냥 경보 샘플을 여러 번 본 결과라고 느끼기 쉽다 | 손실과 update가 붙어 `risk_weight` 자체가 바뀌었기 때문이라고 읽는다 |
-| `inference alarm_count=4.0`, `alarm_count=5.0`에서 prediction이 달라진다 | 출력이 달라졌으니 모델도 같이 변했다고 느끼기 쉽다 | 입력만 달라졌고 `risk_weight_used`는 그대로라고 읽는다 |
-| `weight_before_inference`와 `weight_after_inference`가 같다 | 출력도 나왔으니 뭔가 학습이 있었을 수 있다고 느끼기 쉽다 | inference는 계산만 했고 파라미터는 고정됐다고 읽는다 |
-| `same_input_with_update`에서 `shadow_risk_weight_after`가 달라진다 | 같은 입력이면 같은 결과만 나올 일이라고 느끼기 쉽다 | 입력 종류보다 `손실-업데이트 경로가 붙었는가`가 파라미터 변화 여부를 결정한다고 읽는다 |
+| `train step 1~4`에서 prediction이 계속 달라진다 | 그냥 경보 샘플을 여러 번 본 결과라고 느끼기 쉽다 | 손실과 update가 붙어 파라미터 자체가 바뀌었기 때문이라고 읽는다 |
+| 두 inference 입력에서 prediction이 달라진다 | 출력이 달라졌으니 모델도 같이 변했다고 느끼기 쉽다 | 입력만 달라졌고 `parameters_used`는 그대로라고 읽는다 |
+| `parameters_before_inference`와 `parameters_after_inference`가 같다 | 출력도 나왔으니 뭔가 학습이 있었을 수 있다고 느끼기 쉽다 | inference는 계산만 했고 파라미터는 고정됐다고 읽는다 |
+| `same_input_with_update`에서 `shadow_parameters_after`가 달라진다 | 같은 입력이면 같은 결과만 나올 일이라고 느끼기 쉽다 | 입력 종류보다 `손실-업데이트 경로가 붙었는가`가 파라미터 변화 여부를 결정한다고 읽는다 |
 
 이 표까지 읽고 나면, learning과 inference의 핵심이 `둘 다 forward를 쓴다`가 아니라 `언제 update가 실제로 붙는가`를 구분하는 일이라는 점이 더 분명해집니다.
 

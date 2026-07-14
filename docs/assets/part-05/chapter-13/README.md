@@ -19,5 +19,13 @@
   - `self-attention-weights-en.svg` / `self-attention-weights-ko.svg`
   - `self-attention-weight-it-en.svg` / `self-attention-weight-it-ko.svg`
   - `self-attention-weight-cover-en.svg` / `self-attention-weight-cover-ko.svg`
+- PNG chart assets:
+  - `attention-pressure-question-weights-en.png` / `attention-pressure-question-weights-ko.png`
+  - `attention-flow-question-weights-en.png` / `attention-flow-question-weights-ko.png`
+  - `attention-context-comparison-en.png` / `attention-context-comparison-ko.png`
+  - `qkv-head-separation-en.png` / `qkv-head-separation-ko.png`
+  - `qkv-head-context-space-en.png` / `qkv-head-context-space-ko.png`
 - Python chart source:
+  - `p5_13_1_attention_context_charts.py`
   - `p5_13_attention_chart.py`
+  - `p5_13_3_qkv_multihead_charts.py`

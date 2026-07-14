@@ -337,6 +337,14 @@ difference_from_single = [0.55, 0.15, 0.8, 0.15]
 head_separation = 0.25
 ```
 
+이 예제에서 먼저 볼 산출물은 시나리오별 `head_separation`입니다. `decision_vs_condition_split`은 두 head가 결정 쪽과 조건 쪽으로 실제로 갈라지므로 분리 정도가 가장 크고, `condition_heavy_both_heads`는 head가 둘이어도 같은 조건 쪽을 함께 보므로 분리 정도가 작습니다.
+
+![시나리오별 헤드 분리 정도](../../../assets/part-05/chapter-13/qkv-head-separation-ko.png)
+
+두 번째 산출물은 single-head 문맥과 head 1, head 2 문맥이 좌표 위에서 어디로 갈라지는지입니다. 회색 점은 같은 single-head 기준이고, 파란 삼각형과 주황 사각형 사이의 거리가 커질수록 두 head가 서로 다른 관계를 더 분리해서 읽는다고 볼 수 있습니다.
+
+![싱글 헤드와 두 헤드의 문맥 위치](../../../assets/part-05/chapter-13/qkv-head-context-space-ko.png)
+
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
 | `head_separation`이 크다 | 두 head가 실제로 다른 관계를 읽고 있다는 뜻 | head 가중치를 더 비슷하게 만들면 분리 정도가 줄고, 더 다르게 만들면 커집니다 |

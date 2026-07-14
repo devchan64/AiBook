@@ -1,7 +1,7 @@
 # P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법
 
 Section ID: `P5-6.3`
-Version: `v2026.07.13`
+Version: `v2026.07.14`
 
 P5-6.2에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
 
@@ -136,12 +136,6 @@ batch normalization은 한 배치(batch) 안의 평균(mean)과 분산(variance)
 - 그러면 학습 속도와 안정성이 함께 영향을 받을 수 있습니다
 
 batch normalization은 이때 `현재 배치 기준으로 값을 한 번 더 다루기 쉬운 범위로 정리하고 넘기는 장치`처럼 읽을 수 있습니다.
-
-이 차이는 값의 위치로 보면 더 선명합니다. 작은 초기화에서는 출력이 0 근처 좁은 범위에 머물 수 있고, 큰 초기화에서는 같은 입력도 훨씬 넓게 퍼질 수 있습니다. batch normalization은 이렇게 퍼진 활성값을 평균과 분산 기준으로 다시 중심 근처의 다루기 쉬운 범위로 옮깁니다.
-
-![batch normalization 전후 출력 스케일](../../../assets/part-05/chapter-06/batch-normalization-scale-ko.svg)
-
-이 그래프에서 읽을 점은 batch normalization이 큰 값을 없애는 장치가 아니라는 것입니다. 다음 층이 계속 흔들리는 분포를 받지 않도록, 현재 배치의 활성값 분포를 다시 정리해 넘기는 안정화 장치로 보아야 합니다.
 
 P5-6.2에서 본 mode 차이도 여기서 다시 연결됩니다.
 
@@ -305,6 +299,18 @@ normalized_outputs = [-0.143, 1.29, -1.147]
 - `medium_init`을 가운데 기준선으로 두고 보면, 초기화 스케일을 조금씩 키울 때 분포 퍼짐이 어떻게 커지는지도 함께 읽을 수 있습니다.
 
 즉, 이 예제는 `초기화가 출발 범위를 바꾸고, batch normalization이 중간 분포를 정리한다`는 점을 보여 주는 축약 안정화 비교입니다.
+
+그래프로 나누어 보면 출력값을 더 순서 있게 읽을 수 있습니다. 먼저 `raw_outputs`는 같은 입력 샘플이라도 초기화 스케일이 커질수록 출력 범위가 더 크게 벌어질 수 있음을 보여 줍니다.
+
+![초기화 스케일별 raw output 비교 그래프](../../../assets/part-05/chapter-06/initialization-raw-output-scale-ko.png)
+
+다음 그래프는 같은 현상을 분산(variance) 하나로 압축해 보여 줍니다. `small_init -> medium_init -> large_init`으로 갈수록 `raw_variance`가 커지므로, 초기화 스케일이 단지 숫자 크기만 바꾸는 것이 아니라 다음 층이 받는 분포의 퍼짐도 바꾼다는 점을 볼 수 있습니다.
+
+![초기화 스케일별 raw variance 비교 그래프](../../../assets/part-05/chapter-06/initialization-raw-variance-ko.png)
+
+마지막 그래프는 batch normalization 뒤의 출력입니다. 원래 raw output의 범위는 크게 달랐지만, normalization 뒤에는 평균 0 근처의 비슷한 범위로 다시 정리됩니다. 이때 읽을 핵심은 큰 값을 없애는 것이 아니라, 다음 층이 비교적 다루기 쉬운 기준으로 분포를 다시 맞춘다는 점입니다.
+
+![batch normalization 뒤 출력 스케일 비교 그래프](../../../assets/part-05/chapter-06/batchnorm-normalized-output-scale-ko.png)
 
 출력 숫자도 `값이 달라졌다`에서 멈추지 않고, 어떤 종류의 안정화 질문을 보여 주는지 나눠 읽어야 합니다.
 

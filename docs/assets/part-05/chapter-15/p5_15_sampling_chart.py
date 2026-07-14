@@ -30,17 +30,12 @@ LANG_TEXT = {
             "Arial Unicode MS",
             "DejaVu Sans",
         ],
-        "outfile": "sampling-distribution-choice-ko.svg",
-        "title": "후보 분포와 샘플링 선택 결과",
-        "desc": "왼쪽에는 후보 문구별 상대 비중을, 오른쪽에는 20번 샘플링했을 때 실제 선택 빈도를 막대로 보여 주며, 샘플링이 높은 후보를 더 자주 고르되 낮은 후보도 일부 남길 수 있음을 설명하는 그래프.",
         "weight_outfile": "sampling-candidate-weights-ko.svg",
         "weight_title": "후보 문구별 상대 비중",
         "weight_desc": "샘플링 전 후보 문구별 상대 비중을 막대로 보여 주는 그래프.",
         "count_outfile": "sampling-choice-counts-ko.svg",
         "count_title": "20회 샘플링 선택 빈도",
         "count_desc": "20회 샘플링했을 때 각 후보 문구가 실제로 몇 번 선택됐는지 보여 주는 그래프.",
-        "panel_left": "후보 비중",
-        "panel_right": "20회 샘플링 빈도",
         "xlabel": "후보 문구",
         "ylabel_left": "상대 비중",
         "ylabel_right": "선택 횟수",
@@ -48,17 +43,12 @@ LANG_TEXT = {
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
-        "outfile": "sampling-distribution-choice-en.svg",
-        "title": "Candidate distribution and sampled choice results",
-        "desc": "A two-panel bar chart showing candidate weights on the left and the observed choice counts after twenty sampling draws on the right, emphasizing that sampling favors stronger candidates without removing weaker ones completely.",
         "weight_outfile": "sampling-candidate-weights-en.svg",
         "weight_title": "Candidate weights",
         "weight_desc": "A bar chart showing the relative weight assigned to each candidate before sampling.",
         "count_outfile": "sampling-choice-counts-en.svg",
         "count_title": "Choice counts over 20 samples",
         "count_desc": "A bar chart showing how many times each candidate was selected across twenty sampling draws.",
-        "panel_left": "candidate weights",
-        "panel_right": "choice counts over 20 samples",
         "xlabel": "candidate output",
         "ylabel_left": "relative weight",
         "ylabel_right": "number of choices",
@@ -101,50 +91,6 @@ def inject_accessibility(svg_path: Path, title: str, desc: str) -> None:
     root.insert(0, desc_el)
     root.insert(0, title_el)
     tree.write(svg_path, encoding="utf-8", xml_declaration=False)
-
-
-def save_chart(text: dict[str, str]) -> None:
-    configure_font(text)
-    fig, axes = plt.subplots(1, 2, figsize=(7.6, 4.0), dpi=160)
-    fig.patch.set_facecolor("white")
-    colors = ["#2563eb", "#38bdf8", "#38bdf8", "#38bdf8"]
-    positions = np.arange(len(text["labels"]))
-
-    axes[0].set_facecolor("#f8fafc")
-    axes[0].grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
-    axes[0].set_axisbelow(True)
-    axes[0].spines["top"].set_visible(False)
-    axes[0].spines["right"].set_visible(False)
-    axes[0].bar(positions, WEIGHTS, color=colors, width=0.62)
-    axes[0].set_xticks(positions)
-    axes[0].set_xticklabels(text["labels"], fontsize=8.0)
-    axes[0].set_ylim(0, 0.56)
-    axes[0].set_title(text["panel_left"], loc="left", fontsize=11.4, fontweight="bold", color="#172033")
-    axes[0].set_xlabel(text["xlabel"])
-    axes[0].set_ylabel(text["ylabel_left"])
-    for idx, value in enumerate(WEIGHTS):
-        axes[0].text(idx, value + 0.015, f"{value:.2f}", ha="center", fontsize=7.8, color="#334155")
-
-    axes[1].set_facecolor("#f8fafc")
-    axes[1].grid(True, axis="y", color="#d0d7de", linewidth=0.75, alpha=0.85)
-    axes[1].set_axisbelow(True)
-    axes[1].spines["top"].set_visible(False)
-    axes[1].spines["right"].set_visible(False)
-    axes[1].bar(positions, COUNTS, color=colors, width=0.62)
-    axes[1].set_xticks(positions)
-    axes[1].set_xticklabels(text["labels"], fontsize=8.0)
-    axes[1].set_ylim(0, 11)
-    axes[1].set_title(text["panel_right"], loc="left", fontsize=11.4, fontweight="bold", color="#172033")
-    axes[1].set_xlabel(text["xlabel"])
-    axes[1].set_ylabel(text["ylabel_right"])
-    for idx, value in enumerate(COUNTS):
-        axes[1].text(idx, value + 0.2, str(value), ha="center", fontsize=7.8, color="#334155")
-
-    fig.tight_layout(pad=0.9, w_pad=1.2)
-    out_path = OUT_DIR / text["outfile"]
-    fig.savefig(out_path, format="svg", bbox_inches="tight")
-    plt.close(fig)
-    inject_accessibility(out_path, text["title"], text["desc"])
 
 
 def style_axis(axis) -> None:
@@ -201,7 +147,6 @@ def save_single_chart(text: dict[str, str], *, kind: str) -> None:
 
 def main() -> None:
     for text in LANG_TEXT.values():
-        save_chart(text)
         save_single_chart(text, kind="weights")
         save_single_chart(text, kind="counts")
 

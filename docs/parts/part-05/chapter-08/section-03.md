@@ -1,7 +1,7 @@
 # P5-8.3 학습 루프를 한 번에 다시 묶기
 
 Section ID: `P5-8.3`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-6장에서는 학습과 모델 실행을 구분했고, P5-7장에서는 옵티마이저를, P5-8장에서는 정규화와 드롭아웃을 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
 
@@ -213,6 +213,22 @@ updated_risk_weight = 3.125
 - 딥러닝 학습은 한 번의 계산이 아니라 batch마다 반복되는 루프입니다
 - 각 batch에서 forward, loss, backward, optimizer step이 같은 순서로 다시 등장합니다
 - 구조 설명과 학습 설명은 이 루프 안에서 다시 만나야 합니다
+
+이 흐름을 예제 산출물 기준으로 나누어 보면 먼저 forward 결과가 보입니다. 첫 번째 batch는 `risk_weight=0.5`로 예측하므로 목표보다 낮게 나오고, 두 번째 batch는 첫 업데이트 뒤 `risk_weight=1.25`가 반영된 상태에서 다시 예측됩니다.
+
+![학습 루프 batch별 예측과 목표](../../../assets/part-05/chapter-08/training-loop-predictions-ko.png)
+
+다음 산출물은 batch 평균 loss입니다. loss는 각 batch 안의 샘플별 오차를 평균으로 묶은 값이므로, optimizer가 바로 보는 것은 개별 샘플 하나가 아니라 batch가 만든 평균 신호입니다.
+
+![학습 루프 batch별 평균 loss](../../../assets/part-05/chapter-08/training-loop-batch-loss-ko.png)
+
+그다음 산출물은 batch 평균 gradient입니다. 두 값이 모두 음수라는 점은 현재 `risk_weight`가 목표보다 낮은 예측을 만들고 있어서, update가 `risk_weight`를 키우는 방향으로 이어진다는 뜻입니다.
+
+![학습 루프 batch별 평균 gradient](../../../assets/part-05/chapter-08/training-loop-batch-gradient-ko.png)
+
+마지막 산출물은 optimizer step 뒤의 `risk_weight`입니다. 이 그래프는 학습 루프가 출력값을 한 번 계산하고 끝나는 절차가 아니라, batch 평균 gradient를 통해 다음 batch의 forward 조건 자체를 바꾸는 반복 구조라는 점을 보여 줍니다.
+
+![학습 루프 risk_weight 갱신](../../../assets/part-05/chapter-08/training-loop-risk-weight-update-ko.png)
 
 여기서 바로 다음 장으로 넘어가기 전에, `공통 학습 절차`와 `뒤에서 달라질 구조`를 짧게 다시 나누어 두면 읽기 축이 덜 섞입니다.
 

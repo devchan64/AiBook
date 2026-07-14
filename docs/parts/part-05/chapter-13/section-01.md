@@ -1,7 +1,7 @@
 # P5-13.1 어텐션(Attention)의 직관
 
 Section ID: `P5-13.1`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-12.2에서는 장기 의존성(long-term dependency) 때문에 순차 모델이 오래전 정보를 충분히 유지하기 어려울 수 있다는 점을 보았습니다. 여기서 다음 질문이 생깁니다.
 
@@ -312,17 +312,17 @@ pressure_hold_time weight = 0.762 value = 3.0
 coolant_flow_limit weight = 0.154 value = 12.0
 high_temp_exception weight = 0.084 value = 5.0
 weights = [0.762, 0.154, 0.084]
-context = 4.802
-lift_from_baseline = -1.865
+context = 4.553
+lift_from_baseline = -2.114
 
 question = 냉각수 유량 기준은?
 baseline_uniform_context = 6.667
-pressure_hold_time weight = 0.15 value = 3.0
-coolant_flow_limit weight = 0.743 value = 12.0
-high_temp_exception weight = 0.107 value = 5.0
-weights = [0.15, 0.743, 0.107]
-context = 9.904
-lift_from_baseline = 3.237
+pressure_hold_time weight = 0.151 value = 3.0
+coolant_flow_limit weight = 0.748 value = 12.0
+high_temp_exception weight = 0.101 value = 5.0
+weights = [0.151, 0.748, 0.101]
+context = 9.933
+lift_from_baseline = 3.266
 ```
 
 - baseline처럼 모든 후보를 똑같이 평균내면 문맥값은 `6.667`이 되어, 질문과 직접 관련 없는 `coolant_flow_limit`, `high_temp_exception` 값도 같은 비중으로 섞입니다
@@ -332,13 +332,23 @@ lift_from_baseline = 3.237
 - 냉각수 유량 질문으로 바꾸면 같은 후보 집합이어도 `coolant_flow_limit`가 가장 큰 weight를 받으며 context도 유량 기준 쪽으로 올라갑니다
 - 즉, attention은 모든 위치를 똑같이 평균내지 않고, 현재 질문과 더 관련 있는 위치를 더 크게 반영합니다
 
+이 예제에서 먼저 볼 산출물은 질문별 attention 비중입니다. 압력 해소 유지 시간 질문에서는 `pressure_hold_time`의 비중이 가장 크고, 냉각수 유량 기준 질문에서는 `coolant_flow_limit`의 비중이 가장 큽니다.
+
+![압력 해소 유지 시간 질문의 attention 비중](../../../assets/part-05/chapter-13/attention-pressure-question-weights-ko.png)
+
+![냉각수 유량 기준 질문의 attention 비중](../../../assets/part-05/chapter-13/attention-flow-question-weights-ko.png)
+
+두 번째로 볼 산출물은 문맥값입니다. baseline 평균은 두 질문을 구분하지 못해 `6.667`에 머물지만, attention context는 질문에 따라 `4.553`과 `9.933`으로 달라집니다.
+
+![질문별 attention context와 baseline 평균 비교](../../../assets/part-05/chapter-13/attention-context-comparison-ko.png)
+
 출력 숫자를 읽을 때도 `같은 후보 집합`과 `질문에 따라 달라지는 weight`를 분리해서 봐야 합니다.
 
 | 비교 | 출력에서 먼저 보이는 것 | 평균만 보면 남기 쉬운 해석 | attention까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
 | `baseline_uniform_context` | 두 질문 모두 baseline은 `6.667`로 같습니다. | 같은 후보 집합이면 문맥도 거의 같아야 할 것처럼 보입니다. | baseline은 질문을 반영하지 못해, 현재 필요한 위치가 바뀌어도 같은 평균값에 머뭅니다. |
 | `pressure_hold_time` 질문 | `pressure_hold_time` weight가 `0.762`로 가장 큽니다. | 숫자 `3.0`이 작아서 문맥값이 단순히 내려간 것처럼 보일 수 있습니다. | 질문이 유지 시간에 맞춰져 있으므로, attention은 유지 시간 후보를 더 크게 참고하도록 비중을 다시 나눕니다. |
-| `냉각수 유량 기준은?` 질문 | `coolant_flow_limit` weight가 `0.743`로 가장 큽니다. | 같은 후보인데 이번엔 숫자 큰 쪽이 우연히 선택된 것처럼 보일 수 있습니다. | 질문이 바뀌자 같은 후보 집합도 참조 비중이 다시 배분되어, 유량 기준 쪽 문맥이 더 크게 형성됩니다. |
+| `냉각수 유량 기준은?` 질문 | `coolant_flow_limit` weight가 `0.748`로 가장 큽니다. | 같은 후보인데 이번엔 숫자 큰 쪽이 우연히 선택된 것처럼 보일 수 있습니다. | 질문이 바뀌자 같은 후보 집합도 참조 비중이 다시 배분되어, 유량 기준 쪽 문맥이 더 크게 형성됩니다. |
 
 ## 이 예제를 질문-후보 비교 관점으로 다시 보면
 

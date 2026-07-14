@@ -16,8 +16,14 @@
   - `filter-reading-options-en.mmd` / `filter-reading-options-ko.mmd`
   - `vit-patch-flow-en.mmd` / `vit-patch-flow-ko.mmd`
 - Python chart source:
+  - `p5_11_1_local_response_charts.py`
+  - `p5_11_3_cnn_vit_comparison_charts.py`
   - `p5_11_2_convolution_pooling_trace.py`
 - Matplotlib chart assets:
+  - `cnn-local-response-normal-en.png` / `cnn-local-response-normal-ko.png`
+  - `cnn-local-response-scratch-en.png` / `cnn-local-response-scratch-ko.png`
+  - `cnn-vit-cnn-local-score-map-en.png` / `cnn-vit-cnn-local-score-map-ko.png`
+  - `cnn-vit-patch-token-mean-map-en.png` / `cnn-vit-patch-token-mean-map-ko.png`
   - `convolution-pooling-input-en.png` / `convolution-pooling-input-ko.png`
   - `convolution-pooling-feature-map-en.png` / `convolution-pooling-feature-map-ko.png`
   - `convolution-pooling-max-pool-en.png` / `convolution-pooling-max-pool-ko.png`

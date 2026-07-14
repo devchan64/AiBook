@@ -14,4 +14,5 @@
 - Current usage note:
   - `transformer-task-flow-en.mmd` / `transformer-task-flow-ko.mmd` are currently kept as reusable chapter assets but are not directly included by the current Part 5 public manuscript pages.
 - Matplotlib chart assets:
-  - `p5_14_2_sequential_vs_direct_reference.py` regenerates `sequential-vs-direct-reference-ko.png` and `sequential-vs-direct-reference-en.png` for P5-14.2.
+  - `p5_14_1_transformer_block_charts.py` regenerates `transformer-block-action-stage-trace-ko.png`, `transformer-block-action-stage-trace-en.png`, `transformer-block-action-residual-compare-ko.png`, and `transformer-block-action-residual-compare-en.png` for P5-14.1.
+  - `p5_14_2_sequential_vs_direct_reference.py` regenerates `sequential-state-decay-ko.png`, `sequential-state-decay-en.png`, `direct-reference-match-scores-ko.png`, and `direct-reference-match-scores-en.png` for P5-14.2.
