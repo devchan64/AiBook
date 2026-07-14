@@ -1,7 +1,7 @@
 # P1-5.3 Distinguishing Inference-Related Terms
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.14`
 
 Section 5.2 explained `inference` as the execution that applies a trained model to a new input and produces output. But when we read real AI documents, this one word often overlaps with different translations, everyday expressions, and neighboring concepts across languages.
 
@@ -75,7 +75,17 @@ But in machine-learning contexts, `inference` usually has a narrower and more ex
 
 Google's Machine Learning Glossary explains inference in traditional machine learning as the process of applying a trained model to unlabeled examples to make predictions. For LLMs, it explains inference as the process of using a trained model to generate a response to an input prompt. The center of that explanation is not `thinking like a human`, but `applying a trained model`.
 
-So the core issue is not Korean alone. It is a general reading problem that appears when a translated word is read before its conceptual role. Korean is simply a case where that problem becomes very visible.
+So the core issue is not Korean alone. It is a general reading problem that appears when a translated word is read before its conceptual role. In any language, if one local expression covers several standard English terms at once, readers may see the same word and fail to separate `model execution`, `output value`, `thought process`, `statistical procedure`, and `generation act`. Korean is simply a case where that problem becomes very visible.
+
+Therefore, in multilingual writing, we first ask `what role does this sentence describe?` before asking `which local word should translate it?` The local translation may differ by language, but the role distinction should remain stable.
+
+| Expression | First question to ask | How it differs |
+| --- | --- | --- |
+| `inference` | Is a trained model being applied to a new input? | It is a process, close to model execution or model application. |
+| `prediction` | What output value did the model produce? | It is a result, the output produced by inference. |
+| `reasoning` | Is the text describing a thought process that follows grounds toward a conclusion? | It belongs to explanation or logical development, not model execution itself. |
+| `statistical inference` | Is the text using samples to reason about populations, uncertainty, or hypotheses? | It is a statistical context, different from running a deployed model. |
+| `generation` | Is the system producing an artifact such as text, image, or audio? | It focuses on producing a generated result. |
 
 ## Separating the Terms
 
@@ -155,7 +165,7 @@ From this point on, the book follows the policies below.
 | Situation | Notation policy |
 | --- | --- |
 | when the meaning is to run a trained model | at first, write `inference (model execution)` or `inference (model application)` together |
-| when short wording is needed in Korean prose | avoid using only the translated word by itself; prefer `model inference`, `model execution`, or `inference` together |
+| when short wording is needed in local-language prose | avoid using only the local translation by itself; prefer wording that exposes the role, such as `model inference`, `model execution`, or `inference` |
 | when referring to a logical thought process | write `reasoning (logical reasoning)` or equivalent wording together |
 | when referring to the model's result value | distinguish it as `prediction (model output)` |
 | when referring to the statistical meaning | write `statistical inference` together |

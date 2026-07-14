@@ -1,0 +1,63 @@
+flowchart TD
+  subgraph OPEN["case A: block_gate_open<br/>block_logit = 2.5 > 0"]
+    direction TD
+    subgraph OPEN_F["forward values"]
+      direction LR
+      OW["weighted_pressure<br/>3.0"]
+      OZ["+ bias<br/>block_logit 2.5"]
+      OR["ReLU open<br/>activation 2.5"]
+      OL["loss<br/>2.25"]
+
+      OW --> OZ --> OR --> OL
+    end
+
+    subgraph OPEN_B["backward signals"]
+      direction RL
+      OA["dL/da<br/>-3.0"]
+      OZG["dL/dz<br/>-3.0"]
+      OWG["dL/dw = -6.0<br/>dL/db = -3.0"]
+
+      OA --> OZG --> OWG
+    end
+
+    OL --> OA
+  end
+
+  subgraph CLOSED["case B: block_gate_closed<br/>block_logit = -0.3 <= 0"]
+    direction TD
+    subgraph CLOSED_F["forward values"]
+      direction LR
+      CW["weighted_pressure<br/>0.2"]
+      CZ["+ bias<br/>block_logit -0.3"]
+      CR["ReLU closed<br/>activation 0.0"]
+      CL["loss<br/>16.0"]
+
+      CW --> CZ --> CR --> CL
+    end
+
+    subgraph CLOSED_B["backward signals"]
+      direction RL
+      CA["dL/da<br/>-8.0"]
+      CZG["dL/dz<br/>0.0"]
+      CWG["dL/dw = 0.0<br/>dL/db = 0.0"]
+      CSTOP["blocked at ReLU<br/>front parameters are not updated by this path"]
+
+      CA -. "ReLU derivative 0" .-> CZG
+      CZG -.-> CWG
+      CZG -.-> CSTOP
+    end
+
+    CL --> CA
+  end
+
+  OPEN ~~~ CLOSED
+
+  classDef open fill:#f0fdf4,stroke:#16a34a,color:#166534
+  classDef closed fill:#fef2f2,stroke:#ef4444,color:#991b1b
+  classDef loss fill:#fff7ed,stroke:#f97316,color:#9a3412
+  classDef zero fill:#f8fafc,stroke:#94a3b8,color:#475569
+
+  class OW,OZ,OR,OA,OZG,OWG open
+  class CW,CZ,CR closed
+  class OL,CL loss
+  class CA,CZG,CWG,CSTOP zero

@@ -257,7 +257,9 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 
 이 비교가 계산 그래프에서 특히 중요한 이유는, forward에서 보이는 `문이 열렸는가 닫혔는가`가 backward 경로까지 바꾸기 때문입니다.
 
-![ReLU 문이 열릴 때와 닫힐 때 같은 계산 그래프의 backward 경로가 어떻게 달라지는지 비교한 도식](../../../assets/part-05/chapter-05/computation-graph-relu-gate-comparison-ko.svg)
+```mermaid
+--8<-- "assets/part-05/chapter-05/computation-graph-relu-gate-comparison-ko.mmd"
+```
 
 이 도식은 출력 숫자를 보기 전에 먼저 `손실이 더 큰가`와 `gradient가 실제로 앞단까지 가는가`를 분리해서 읽게 해 줍니다. `block_gate_closed`는 손실이 더 크지만, 계산 그래프에서는 ReLU 앞에서 경로가 끊겨 `risk_weight`와 `base_block_bias`까지 gradient가 전달되지 않습니다.
 

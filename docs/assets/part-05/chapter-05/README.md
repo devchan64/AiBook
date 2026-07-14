@@ -11,11 +11,11 @@
   - `forward-loss-backward-flow-en.mmd` / `forward-loss-backward-flow-ko.mmd`
   - `computation-graph-flow-en.mmd` / `computation-graph-flow-ko.mmd`
   - `loss-to-gradient-role-en.mmd` / `loss-to-gradient-role-ko.mmd`
+  - `computation-graph-relu-gate-comparison-en.mmd` / `computation-graph-relu-gate-comparison-ko.mmd`
 - SVG chart assets:
   - `backprop-gradient-direction-en.svg` / `backprop-gradient-direction-ko.svg`
   - `backprop-gradient-signal-direction-en.svg` / `backprop-gradient-signal-direction-ko.svg`
   - `backprop-gradient-signal-strength-en.svg` / `backprop-gradient-signal-strength-ko.svg`
-  - `computation-graph-relu-gate-comparison-en.svg` / `computation-graph-relu-gate-comparison-ko.svg`
 - Python chart source:
   - `p5_5_backprop_chart.py`
 - Matplotlib chart assets:
