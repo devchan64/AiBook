@@ -152,7 +152,7 @@ def draw_panel(
     ax.set_xticks(positions)
     ax.set_xticklabels(tokens, fontsize=8.0)
     ax.set_ylim(0, 0.58)
-    ax.set_title(title, loc="left", fontsize=11.4, fontweight="bold", color="#172033")
+    ax.text(0.03, 0.93, title, transform=ax.transAxes, fontsize=10.3, fontweight="bold", color="#172033")
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     for idx, value in enumerate(values):

@@ -52,9 +52,7 @@ TEXT = {
             "DejaVu Sans",
         ],
         "scenario_labels": ["균형", "결정/조건 분리", "조건 쏠림"],
-        "separation_title": "시나리오별 헤드 분리 정도",
         "separation_ylabel": "head_separation",
-        "context_title": "싱글 헤드와 두 헤드의 문맥 위치",
         "x_label": "결정 축",
         "y_label": "근거/조건 축",
         "single": "싱글 헤드",
@@ -66,9 +64,7 @@ TEXT = {
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "scenario_labels": ["balanced", "decision/condition", "condition heavy"],
-        "separation_title": "Head separation by scenario",
         "separation_ylabel": "head_separation",
-        "context_title": "Context positions: single vs two heads",
         "x_label": "decision axis",
         "y_label": "ground/condition axis",
         "single": "single head",
@@ -117,7 +113,6 @@ def draw_separation_chart(locale: str, data: dict[str, dict[str, np.ndarray | fl
 
     fig, ax = plt.subplots(figsize=(6.2, 3.7))
     bars = ax.bar(range(len(values)), values, color=colors, width=0.58)
-    ax.set_title(text["separation_title"], loc="left", fontsize=13, fontweight="bold", color="#172033")
     ax.set_ylabel(text["separation_ylabel"], fontsize=10)
     ax.set_xticks(range(len(values)))
     ax.set_xticklabels(labels, fontsize=8.5)
@@ -135,7 +130,6 @@ def draw_context_chart(locale: str, data: dict[str, dict[str, np.ndarray | float
     text = TEXT[locale]
     configure_font(text)
     fig, ax = plt.subplots(figsize=(6.4, 4.2))
-    ax.set_title(text["context_title"], loc="left", fontsize=13, fontweight="bold", color="#172033")
     ax.set_xlabel(text["x_label"], fontsize=10)
     ax.set_ylabel(text["y_label"], fontsize=10)
     ax.set_xlim(0.75, 2.25)

@@ -43,9 +43,6 @@ TEXT = {
             "Arial Unicode MS",
             "DejaVu Sans",
         ],
-        "input_title": "입력: 4x4 실링 열분포 패치",
-        "feature_title": "변환: 필터 반응 feature map",
-        "pool_title": "출력: 2x2 max pooling 요약",
         "input_note": "높은 열분포와 낮은 열분포가 만나는 경계",
         "feature_note": "좌우 차이가 큰 위치에서 반응 4",
         "pool_note": "가장 강한 경계 반응만 남김",
@@ -54,9 +51,6 @@ TEXT = {
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
-        "input_title": "Input: 4x4 seal heat patch",
-        "feature_title": "Transform: filter-response feature map",
-        "pool_title": "Output: 2x2 max-pooling summary",
         "input_note": "Boundary between high and low heat columns",
         "feature_note": "Response 4 where left-right contrast is strong",
         "pool_note": "Keep only the strongest boundary response",
@@ -94,11 +88,10 @@ def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def draw_matrix(values: np.ndarray, title: str, note: str, filename: str, locale: str, text: dict[str, str], cmap: str, vmax: float) -> None:
+def draw_matrix(values: np.ndarray, note: str, filename: str, locale: str, text: dict[str, str], cmap: str, vmax: float) -> None:
     configure_font(text)
     fig, ax = plt.subplots(figsize=(4.8, 4.0), constrained_layout=True)
     image = ax.imshow(values, cmap=cmap, vmin=0, vmax=vmax)
-    ax.set_title(title, fontsize=13, pad=12)
     ax.set_xticks(np.arange(values.shape[1]))
     ax.set_yticks(np.arange(values.shape[0]))
     ax.set_xlabel(text["col"])
@@ -139,7 +132,6 @@ def main() -> None:
     for locale, text in TEXT.items():
         draw_matrix(
             INPUT_PATCH,
-            text["input_title"],
             text["input_note"],
             "convolution-pooling-input",
             locale,
@@ -149,7 +141,6 @@ def main() -> None:
         )
         draw_matrix(
             feature_map,
-            text["feature_title"],
             text["feature_note"],
             "convolution-pooling-feature-map",
             locale,
@@ -159,7 +150,6 @@ def main() -> None:
         )
         draw_matrix(
             pooled,
-            text["pool_title"],
             text["pool_note"],
             "convolution-pooling-max-pool",
             locale,

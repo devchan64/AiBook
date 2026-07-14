@@ -33,8 +33,10 @@ LANG_TEXT = {
         "spike_desc": "마지막 값 80으로 끝나는 temporary spike 시퀀스가 중간 급등 뒤 다시 낮아졌다가 끝나, gradual rise와 다른 상태 누적을 남긴다는 점을 보여 주는 그래프.",
         "left": "gradual_rise",
         "right": "temporary_spike",
+        "input": "입력값",
+        "state": "누적 상태",
         "xlabel": "step",
-        "ylabel": "센서 값",
+        "ylabel": "값",
         "threshold": "threshold 63",
     },
     "en": {
@@ -50,14 +52,25 @@ LANG_TEXT = {
         "spike_desc": "A chart showing that a temporary-spike sequence ending at 80 leaves a different accumulated state because it rose sharply and then dropped before the final value.",
         "left": "gradual_rise",
         "right": "temporary_spike",
+        "input": "input value",
+        "state": "accumulated state",
         "xlabel": "step",
-        "ylabel": "sensor value",
+        "ylabel": "value",
         "threshold": "threshold 63",
     },
 }
 
 LEFT_SEQ = np.array([60, 65, 72, 80])
-RIGHT_SEQ = np.array([60, 88, 61, 80])
+RIGHT_SEQ = np.array([80, 60, 60, 80])
+
+
+def accumulated_state(seq: np.ndarray, alpha: float = 0.6) -> np.ndarray:
+    state = 0.0
+    states = []
+    for value in seq:
+        state = alpha * state + (1 - alpha) * value
+        states.append(state)
+    return np.array(states)
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -96,20 +109,23 @@ def save_chart(text: dict[str, str]) -> None:
     x = np.arange(1, 5)
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.9), dpi=160, sharey=True)
     fig.patch.set_facecolor("white")
-    for ax, title, seq, color in zip(axes, [text["left"], text["right"]], [LEFT_SEQ, RIGHT_SEQ], ["#2563eb", "#dc2626"]):
+    for ax, label, seq, color in zip(axes, [text["left"], text["right"]], [LEFT_SEQ, RIGHT_SEQ], ["#2563eb", "#dc2626"]):
+        states = accumulated_state(seq)
         ax.set_facecolor("#f8fafc")
         ax.grid(True, color="#d0d7de", linewidth=0.75, alpha=0.85)
         ax.set_axisbelow(True)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
-        ax.plot(x, seq, color=color, linewidth=2.6, marker="o", markersize=4.8)
+        ax.plot(x, seq, color="#64748b", linewidth=1.7, marker="o", markersize=4.2, label=text["input"])
+        ax.plot(x, states, color=color, linewidth=2.6, marker="o", markersize=4.8, label=text["state"])
         ax.axhline(63, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
         ax.text(1.04, 64.5, text["threshold"], fontsize=8.0, color="#64748b")
-        ax.set_title(title, loc="left", fontsize=11.4, fontweight="bold", color="#172033")
+        ax.text(0.03, 0.93, label, transform=ax.transAxes, fontsize=10.3, fontweight="bold", color="#172033")
         ax.set_xlabel(text["xlabel"])
         ax.set_xticks(x)
+        ax.legend(frameon=False, loc="lower right", fontsize=7.8)
     axes[0].set_ylabel(text["ylabel"])
-    axes[0].set_ylim(56, 92)
+    axes[0].set_ylim(0, 88)
 
     fig.tight_layout(pad=0.9, w_pad=1.4)
     out_path = OUT_DIR / text["outfile"]
@@ -121,6 +137,7 @@ def save_chart(text: dict[str, str]) -> None:
 def save_single_chart(text: dict[str, str], seq: np.ndarray, color: str, title: str, outfile: str, svg_title: str, svg_desc: str) -> None:
     configure_font(text)
     x = np.arange(1, 5)
+    states = accumulated_state(seq)
     fig, ax = plt.subplots(figsize=(4.0, 3.9), dpi=160)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("#f8fafc")
@@ -128,14 +145,15 @@ def save_single_chart(text: dict[str, str], seq: np.ndarray, color: str, title: 
     ax.set_axisbelow(True)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.plot(x, seq, color=color, linewidth=2.6, marker="o", markersize=4.8)
+    ax.plot(x, seq, color="#64748b", linewidth=1.7, marker="o", markersize=4.2, label=text["input"])
+    ax.plot(x, states, color=color, linewidth=2.6, marker="o", markersize=4.8, label=text["state"])
     ax.axhline(63, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
     ax.text(1.04, 64.5, text["threshold"], fontsize=8.0, color="#64748b")
-    ax.set_title(title, loc="left", fontsize=11.4, fontweight="bold", color="#172033")
     ax.set_xlabel(text["xlabel"])
     ax.set_ylabel(text["ylabel"])
     ax.set_xticks(x)
-    ax.set_ylim(56, 92)
+    ax.set_ylim(0, 88)
+    ax.legend(frameon=False, loc="lower right", fontsize=8.0)
 
     fig.tight_layout(pad=0.9)
     out_path = OUT_DIR / outfile

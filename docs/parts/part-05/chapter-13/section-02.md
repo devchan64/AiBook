@@ -403,7 +403,7 @@ cap_plus_not_applied_weight = 0.571
 | --- | --- | --- |
 | `절연캡` 비중이 가장 크다 | `분리`나 `배터리팩` raw score를 높여 위험 원인 해석 중심이 어디로 이동하는지 본다 | attention 가중치가 크다고 해서 곧바로 완전한 의미 이해가 보장된다고 단정하지 않는다 |
 | `cap_plus_not_applied_weight`가 높다 | `씌우지` 점수를 낮추거나 높여 단서 묶음이 얼마나 함께 움직이는지 본다 | 단서 둘이 함께 높다고 해서 항상 정답이 고정된다고 단정하지 않는다 |
-| `representation_shift`가 baseline에서 멀어진다 | token vector의 축 값을 바꿔 어떤 의미 축이 재계산에 더 민감한지 비교한다 | 이 축약 벡터 비교 하나로 실제 multi-head self-attention 전체를 대체하지 않는다 |
+| `representation_shift`가 baseline에서 멀어진다 | token vector의 축 값을 바꿔 어떤 의미 축이 재계산에 더 민감한지 비교한다 | 이 간단한 벡터 비교 하나로 실제 multi-head self-attention 전체를 대체하지 않는다 |
 
 즉, self-attention은 `문맥을 보고 표현을 다시 계산하는 방식`입니다.
 
