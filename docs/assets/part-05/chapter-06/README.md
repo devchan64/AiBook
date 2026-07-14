@@ -16,6 +16,11 @@
 - PNG chart assets:
   - `learning-weight-update-trace-en.png` / `learning-weight-update-trace-ko.png`
   - `inference-fixed-weight-trace-en.png` / `inference-fixed-weight-trace-ko.png`
+  - `hidden-activation-from-sessions-en.png` / `hidden-activation-from-sessions-ko.png`
+  - `mode-centered-output-comparison-en.png` / `mode-centered-output-comparison-ko.png`
+  - `dropout-mode-output-trace-en.png` / `dropout-mode-output-trace-ko.png`
+  - `batchnorm-mode-reference-trace-en.png` / `batchnorm-mode-reference-trace-ko.png`
 - Python chart source:
+  - `p5_6_2_mode_comparison_charts.py`
   - `p5_6_learning_inference_charts.py`
   - `p5_6_batch_norm_chart.py`

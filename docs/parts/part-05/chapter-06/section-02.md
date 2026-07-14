@@ -1,7 +1,7 @@
 # P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)
 
 Section ID: `P5-6.2`
-Version: `v2026.07.12`
+Version: `v2026.07.14`
 
 P5-6.1에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 
@@ -168,112 +168,223 @@ batch normalization은 각 배치의 평균(mean)과 분산(variance)을 이용�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 같은 입력이라도 학습 모드에서는 dropout 때문에 결과가 흔들릴 수 있고, 평가 모드에서는 같은 입력이 더 안정적으로 유지된다는 점을 반복 실행으로 확인하는 것입니다.
+이번 예제의 목표는 같은 입력 배치가 `training mode`와 `evaluation mode`에서 어떤 계산 규칙으로 갈라지는지 단계별로 보는 것입니다. 앞의 버전처럼 숫자 목록을 바로 넣으면 결과가 손으로 만든 값처럼 보일 수 있으므로, 여기서는 작은 사용자 세션 배치에서 은닉층(hidden layer) 활성값을 먼저 계산한 뒤 그 값에 dropout과 batch normalization의 모드 차이를 적용합니다.
 
 입력:
 
-- 활성값 목록
+- 세션별 클릭 수와 머문 시간
+- 은닉층 하나의 단순 가중치와 bias
 - dropout 비율
-- 같은 입력에 대한 두 번의 학습 모드 실행
+- 두 번의 학습 모드 실행을 재현하기 위한 난수 seed
+- evaluation mode에서 사용할 이전 학습 세션 배치들
 
 출력:
 
-- 두 번의 학습 모드 출력
-- 한 번의 평가 모드 출력
-- 모드별 평균 활성값
+- 입력 특성에서 계산된 은닉층 활성값
+- dropout 뒤 활성값
+- normalization에 사용할 기준 평균
+- 기준 평균을 뺀 단순화된 출력
 
 문제 상황:
 
-- 드롭아웃은 학습 모드와 평가 모드에서 동작이 다르므로 같은 입력으로 결과 차이를 직접 보는 편이 좋다
+- 같은 입력이라도 학습 모드는 흔들림을 허용하고, 평가 모드는 안정된 기준으로 계산해야 한다
 
 확인할 개념:
 
 - 학습 모드에서는 일부 활성값이 무작위로 꺼진다
-- 평가 모드에서는 전체 활성값을 유지하며 평균적 효과만 반영한다
+- 학습 모드의 batch normalization은 현재 batch 기준을 쓸 수 있다
+- 평가 모드에서는 dropout을 멈추고 학습 중 쌓아 둔 running statistics를 기준으로 쓴다
 
 입력(input):
 
-위에 정리한 활성값 목록과 드롭아웃 비율 `drop_rate`를 사용합니다.
+위에 정리한 현재 세션 배치와 이전 학습 세션 배치들을 사용합니다. 여기서 은닉층 계산은 `clicks * 가중치 + seconds * 가중치 + bias` 뒤에 음수는 0으로 자르는 ReLU(rectified linear unit)만 적용합니다. batch normalization은 설명을 단순하게 하기 위해 `값 - 기준 평균`만 계산합니다. 실제 batch normalization은 분산, 학습 가능한 scale과 shift까지 함께 쓰지만, 이 예제에서는 `어떤 평균을 기준으로 삼는가`만 봅니다.
 
-코드를 보기 전에 먼저 어떤 실행이 흔들리고 어떤 실행은 고정될지 예상해 보면, `학습용 흔들림`과 `평가용 안정성` 차이가 더 잘 보입니다.
+코드를 보기 전에 먼저 어떤 단계가 데이터에서 계산되고, 어떤 단계가 모드 때문에 흔들리거나 고정될지 예상해 보면 차이가 더 잘 보입니다.
 
 | 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
 | --- | --- | --- |
-| `train_run_1`과 `train_run_2` 비교 | 같은 입력이어도 서로 다른 활성값 패턴이 나올 가능성이 큼 | 학습 모드에서는 dropout이 무작위로 일부 활성값을 끄기 때문입니다. |
-| `eval_run` | 원본 활성값과 같은 고정 출력으로 남을 가능성이 큼 | 평가 모드에서는 무작위 제거를 하지 않고 현재 값을 그대로 읽습니다. |
-| `train_run_1 mean`, `train_run_2 mean` | 서로 차이가 날 가능성이 큼 | 어떤 활성값이 살아남았는지에 따라 평균도 함께 흔들립니다. |
-| `eval_run mean` | 두 학습 모드 평균 사이를 비교하는 고정 기준선 역할을 할 가능성이 큼 | 평가 모드의 목적은 흔들림을 줄여 안정적인 측정 기준을 만드는 데 있기 때문입니다. |
+| `hidden_activation` | 세션마다 다른 은닉층 값이 나옴 | 클릭 수와 머문 시간이 샘플마다 다르기 때문입니다. |
+| `train_run_1`과 `train_run_2`의 dropout 뒤 값 | 같은 은닉층 값이어도 서로 다른 활성값 패턴이 나올 가능성이 큼 | 학습 모드에서는 실행마다 dropout mask가 달라질 수 있기 때문입니다. |
+| `train_run_1 batch_mean`과 `train_run_2 batch_mean` | 서로 차이가 날 가능성이 큼 | 살아남은 활성값이 달라지면 현재 batch 기준도 함께 달라지기 때문입니다. |
+| `eval_run` | 은닉층 활성값을 그대로 유지할 가능성이 큼 | 평가 모드에서는 dropout을 적용하지 않기 때문입니다. |
+| `eval reference_mean` | 이전 학습 세션 배치에서 계산된 고정 기준값으로 남음 | 평가 모드에서는 현재 batch보다 학습 중 쌓아 둔 running mean을 사용하기 때문입니다. |
 
-이 표의 목적은 정확한 난수 결과를 미리 맞히는 데 있지 않습니다. 학습 모드에서는 같은 입력도 두 번 실행하면 흔들릴 수 있고, 평가 모드에서는 그 흔들림을 멈춰 기준선을 만든다는 점을 코드 전에 붙잡는 데 있습니다.
+이 표의 목적은 정확한 숫자를 맞히는 데 있지 않습니다. 학습 모드에서는 같은 입력도 두 번 실행하면 dropout 결과와 batch 기준이 흔들릴 수 있고, 평가 모드에서는 그 흔들림을 멈춰 기준선을 만든다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
-import random
+from random import Random
 
-activations = [0.8, 1.2, 0.5, 1.5, 0.9]
+sessions = [
+    {"id": "A", "clicks": 3, "seconds": 42},
+    {"id": "B", "clicks": 6, "seconds": 55},
+    {"id": "C", "clicks": 2, "seconds": 28},
+    {"id": "D", "clicks": 7, "seconds": 70},
+    {"id": "E", "clicks": 4, "seconds": 36},
+]
+weights = {"clicks": 0.18, "seconds": 0.015}
+bias = -0.35
+
+prior_session_batches = [
+    [
+        {"clicks": 3, "seconds": 42},
+        {"clicks": 6, "seconds": 57},
+        {"clicks": 2, "seconds": 27},
+        {"clicks": 7, "seconds": 67},
+        {"clicks": 4, "seconds": 40},
+    ],
+    [
+        {"clicks": 3, "seconds": 38},
+        {"clicks": 6, "seconds": 51},
+        {"clicks": 2, "seconds": 25},
+        {"clicks": 7, "seconds": 63},
+        {"clicks": 4, "seconds": 45},
+    ],
+    [
+        {"clicks": 3, "seconds": 46},
+        {"clicks": 6, "seconds": 54},
+        {"clicks": 2, "seconds": 29},
+        {"clicks": 7, "seconds": 69},
+        {"clicks": 4, "seconds": 37},
+    ],
+]
 drop_rate = 0.4
 
-def dropout_train(values, drop_rate, seed):
-    random.seed(seed)
-    kept = []
-    for v in values:
-        if random.random() < drop_rate:
-            kept.append(0.0)
+def hidden_activation(row):
+    raw = row["clicks"] * weights["clicks"] + row["seconds"] * weights["seconds"] + bias
+    return round(max(0.0, raw), 3)
+
+def make_dropout_mask(count, seed):
+    rng = Random(seed)
+    return [1 if rng.random() >= drop_rate else 0 for _ in range(count)]
+
+def apply_dropout(values, mask, drop_rate):
+    scale = 1 / (1 - drop_rate)
+    result = []
+    for value, keep in zip(values, mask):
+        if keep == 0:
+            result.append(0.0)
         else:
-            kept.append(v / (1 - drop_rate))  # inverted dropout intuition
-    return kept
-
-def dropout_eval(values):
-    return values[:]
-
-train_run_1 = dropout_train(activations, drop_rate, seed=7)
-train_run_2 = dropout_train(activations, drop_rate, seed=19)
-eval_run = dropout_eval(activations)
+            result.append(round(value * scale, 3))
+    return result
 
 def mean(values):
     return round(sum(values) / len(values), 3)
 
-print("original =", activations)
-print("train_run_1 =", [round(v, 3) for v in train_run_1])
-print("train_run_2 =", [round(v, 3) for v in train_run_2])
-print("eval_run =", eval_run)
-print("train_run_1 mean =", mean(train_run_1))
-print("train_run_2 mean =", mean(train_run_2))
-print("eval_run mean =", mean(eval_run))
+def flatten(rows):
+    return [value for row in rows for value in row]
+
+def hidden_batch(batch):
+    return [hidden_activation(row) for row in batch]
+
+def center_by_mean(values, reference_mean):
+    return [round(value - reference_mean, 3) for value in values]
+
+def run_training_mode(name, seed):
+    mask = make_dropout_mask(len(activations), seed)
+    after_dropout = apply_dropout(activations, mask, drop_rate)
+    batch_mean = mean(after_dropout)
+    centered_output = center_by_mean(after_dropout, batch_mean)
+    return {
+        "mode": name,
+        "mask": mask,
+        "after_dropout": after_dropout,
+        "reference_mean": batch_mean,
+        "centered_output": centered_output,
+    }
+
+def run_evaluation_mode():
+    after_dropout = activations[:]
+    centered_output = center_by_mean(after_dropout, running_mean)
+    return {
+        "mode": "eval_run",
+        "after_dropout": after_dropout,
+        "reference_mean": running_mean,
+        "centered_output": centered_output,
+    }
+
+activations = [hidden_activation(row) for row in sessions]
+prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
+running_mean = mean(flatten(prior_hidden_batches))
+
+train_run_1 = run_training_mode("train_run_1", seed=17)
+train_run_2 = run_training_mode("train_run_2", seed=29)
+eval_run = run_evaluation_mode()
+
+print("sessions =", sessions)
+print("hidden_activations =", activations)
+print("prior_hidden_batches =", prior_hidden_batches)
+print("running_mean_from_prior_batches =", running_mean)
+for result in [train_run_1, train_run_2, eval_run]:
+    print(result["mode"])
+    if "mask" in result:
+        print("dropout_mask =", result["mask"])
+    print("after_dropout =", result["after_dropout"])
+    print("reference_mean =", result["reference_mean"])
+    print("centered_output =", result["centered_output"])
 ```
 
-출력에서는 train_run_1, train_run_2, eval_run이 같은 입력에서도 어떻게 달라지는지부터 비교하면 됩니다.
+출력에서는 먼저 `hidden_activations`가 입력 특성에서 계산된 값이라는 점을 확인하고, 그다음 `dropout_mask`, `after_dropout`, `reference_mean`, `centered_output`을 순서대로 비교하면 됩니다.
 
 ```text
-original = [0.8, 1.2, 0.5, 1.5, 0.9]
-train_run_1 = [0.0, 0.0, 0.833, 0.0, 1.5]
-train_run_2 = [1.333, 1.999, 0.833, 1.5, 0.0]
-eval_run = [0.8, 1.2, 0.5, 1.5, 0.9]
-train_run_1 mean = 0.467
-train_run_2 mean = 1.133
-eval_run mean = 0.98
+sessions = [{'id': 'A', 'clicks': 3, 'seconds': 42}, {'id': 'B', 'clicks': 6, 'seconds': 55}, {'id': 'C', 'clicks': 2, 'seconds': 28}, {'id': 'D', 'clicks': 7, 'seconds': 70}, {'id': 'E', 'clicks': 4, 'seconds': 36}]
+hidden_activations = [0.82, 1.555, 0.43, 1.96, 0.91]
+prior_hidden_batches = [[0.82, 1.585, 0.415, 1.915, 0.97], [0.76, 1.495, 0.385, 1.855, 1.045], [0.88, 1.54, 0.445, 1.945, 0.925]]
+running_mean_from_prior_batches = 1.132
+train_run_1
+dropout_mask = [1, 1, 1, 0, 1]
+after_dropout = [1.367, 2.592, 0.717, 0.0, 1.517]
+reference_mean = 1.239
+centered_output = [0.128, 1.353, -0.522, -1.239, 0.278]
+train_run_2
+dropout_mask = [1, 0, 1, 0, 1]
+after_dropout = [1.367, 0.0, 0.717, 0.0, 1.517]
+reference_mean = 0.72
+centered_output = [0.647, -0.72, -0.003, -0.72, 0.797]
+eval_run
+after_dropout = [0.82, 1.555, 0.43, 1.96, 0.91]
+reference_mean = 1.132
+centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
 ```
 
 이 예제는 실제 프레임워크 전체를 재현한 것은 아니지만, 여기서 읽어야 할 핵심은 분명합니다.
 
-- 학습 모드에서는 같은 입력을 두 번 넣어도 dropout 때문에 출력 구성이 달라질 수 있습니다
-- 평가 모드에서는 같은 무작위 제거를 쓰지 않으므로 출력이 더 안정적으로 유지됩니다
+- 은닉층 활성값은 입력 특성에서 계산된 중간 산출물입니다
+- 학습 모드에서는 같은 은닉층 활성값을 두 번 넣어도 dropout 뒤 활성값 구성이 달라질 수 있습니다
+- dropout 뒤 값이 달라지면 현재 batch에서 계산한 기준 평균도 달라질 수 있습니다
+- 평가 모드에서는 dropout을 멈추고 이전 학습 세션 배치에서 계산해 누적한 running mean 같은 고정 기준을 사용해 더 안정적인 계산 경로를 만듭니다
 - 검증, 테스트, 배포에서 평가 모드가 중요한 이유가 바로 이런 흔들림 제어에 있습니다
 
-여기서도 `출력이 다르다`는 사실만 보는 것과 `mode 때문에 왜 다른가`를 읽는 것은 다릅니다.
+먼저 예제 자체를 그래프로 읽어 봅니다. 첫 그래프는 `sessions`의 클릭 수와 머문 시간이 은닉층 활성값으로 바뀐 결과만 보여 줍니다. 이 단계는 아직 mode 차이가 아니라, 입력 데이터가 모델 안의 중간 표현으로 바뀐 지점입니다.
+
+![세션 입력에서 계산된 은닉층 활성값 그래프](../../../assets/part-05/chapter-06/hidden-activation-from-sessions-ko.png)
+
+다음 그래프는 같은 은닉층 활성값이 mode에 따라 마지막 출력 해석에서 어떻게 달라지는지 보여 줍니다. `train 1`과 `train 2`는 dropout mask가 달라진 두 학습 실행이고, `eval`은 dropout을 끄고 running mean을 기준으로 계산한 실행입니다. 0보다 크면 해당 기준 평균보다 큰 출력이고, 0보다 작으면 기준 평균보다 작은 출력입니다.
+
+![training mode 두 번과 evaluation mode의 기준 평균 제거 후 출력을 비교한 그래프](../../../assets/part-05/chapter-06/mode-centered-output-comparison-ko.png)
+
+위 두 그래프가 예제 코드의 직접 해설이라면, 아래 두 그래프는 같은 현상이 반복 실행에서 어떻게 보이는지 확인하는 요약입니다. `train_run_1`과 `train_run_2` 두 개의 샘플별 선만 그대로 그리면 사람이 고른 mask 두 개를 억지로 비교하는 그림처럼 보일 수 있으므로, 같은 계산 규칙을 조금 더 긴 미니배치에 적용한 뒤 30번 forward pass에서 dropout 뒤 살아남은 비율만 요약합니다. training mode에서는 pass마다 살아남는 비율이 흔들리고, evaluation mode에서는 dropout을 끄므로 생존 비율이 1.0 기준선으로 고정됩니다.
+
+![training mode에서는 dropout 생존 비율이 forward pass마다 흔들리고 evaluation mode는 1.0 기준선으로 고정되는 그래프](../../../assets/part-05/chapter-06/dropout-mode-output-trace-ko.png)
+
+normalization 기준도 같은 방식으로 읽습니다. training mode에서는 pass마다 dropout 뒤 값으로 계산한 현재 batch 평균이 기준이 되므로 기준 평균이 흔들립니다. evaluation mode에서는 현재 pass의 우연한 mask가 아니라 학습 중 쌓아 둔 running mean이 기준선으로 쓰입니다.
+
+![training mode의 batch mean은 forward pass마다 흔들리고 evaluation mode의 running mean은 기준선으로 유지되는 그래프](../../../assets/part-05/chapter-06/batchnorm-mode-reference-trace-ko.png)
+
+여기서도 `출력이 다르다`는 사실만 보는 것과 `mode 때문에 어떤 계산 규칙이 달라졌는가`를 읽는 것은 다릅니다.
 
 | 비교 장면 | 덜 나쁜 오해 | 더 위험한 오해 | 지금 먼저 확인해야 할 것 |
 | --- | --- | --- | --- |
-| `train_run_1`과 `train_run_2`가 다르다 | 학습 중에는 원래 조금 흔들린다고 본다 | 같은 입력인데 결과가 다르니 모델 자체를 못 믿겠다고 단정한다 | 학습 모드의 무작위 dropout이 허용된 상태인지 본다 |
+| `train_run_1`과 `train_run_2`의 `after_dropout`이 다르다 | 학습 중에는 원래 조금 흔들린다고 본다 | 같은 입력인데 결과가 다르니 모델 자체를 못 믿겠다고 단정한다 | 학습 모드의 dropout이 허용된 상태인지 본다 |
+| `reference_mean`이 실행마다 다르다 | 현재 batch 기준이 달라질 수 있다고 본다 | 평균이 다르니 평가 결과가 모두 잘못됐다고 본다 | training mode의 batch 기준인지, eval mode의 running 기준인지 먼저 본다 |
 | `eval_run`이 고정돼 있다 | 평가 모드는 더 안정적이라고 본다 | 평가 출력도 train처럼 일부러 흔들어 보는 것이 더 현실적이라고 본다 | 검증·테스트·배포의 목적이 안정적 기준선인지 본다 |
-| `train_run mean`과 `eval_run mean`이 다르다 | mode 차이 때문에 평균도 달라질 수 있다고 본다 | 평균이 다르니 평가 결과가 모두 잘못됐다고 본다 | 어떤 mode에서 계산된 평균인지와 흔들림 허용 여부를 먼저 본다 |
 
 이 예제는 `차이가 있다`를 확인하는 데서 그치지 않고, 일부러 잘못 읽으면 무엇이 망가지는지도 같이 보는 편이 좋습니다.
 
 | 일부러 만들어 볼 실패 장면 | 무엇이 흔들리는지 보게 되는가 | 이 절에서 먼저 확인할 결과 |
 | --- | --- | --- |
-| 검증 단계에서도 `dropout_train(...)` 같은 학습 모드 출력을 그대로 쓴다 | 같은 입력을 다시 넣을 때 결과가 불필요하게 흔들린다 | 성능 측정이 모델 품질보다 무작위성에 더 민감해지는가 |
+| 검증 단계에서도 `run_training_mode(...)` 같은 학습 모드 출력을 그대로 쓴다 | 같은 입력을 다시 넣을 때 dropout과 batch 기준이 불필요하게 흔들린다 | 성능 측정이 모델 품질보다 무작위성과 batch 구성에 더 민감해지는가 |
 | `drop_rate`를 0.4에서 0.7로 높인다 | 학습 모드 출력이 더 많이 꺼지고 평균 활성값도 더 불안정해질 수 있다 | 과한 dropout이 학습 도움보다 정보 손실로 더 크게 느껴지는가 |
-| 평가 출력도 train_run처럼 여러 번 뽑아 비교하려 한다 | 원래 고정되어야 할 평가 기준선이 흔들린다 | `평가`와 `학습 중 흔들림 허용`이 서로 다른 목적이라는 점이 더 분명해지는가 |
+| 평가 출력도 train run처럼 여러 번 흔들어 비교하려 한다 | 원래 고정되어야 할 평가 기준선이 흔들린다 | `평가`와 `학습 중 흔들림 허용`이 서로 다른 목적이라는 점이 더 분명해지는가 |
 
 즉, 이 절의 실험은 `training/eval mode가 다르다`는 정의를 확인하는 데서 끝나지 않고, `평가에서도 학습 모드처럼 흔들리게 두면 무엇이 해석을 망치는가`를 직접 보게 해야 더 실험적입니다.
 

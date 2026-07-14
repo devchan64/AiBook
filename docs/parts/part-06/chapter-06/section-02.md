@@ -1,7 +1,7 @@
 # P6-6.2 데이터와 스케일
 
-> Section ID: `P6-6.2`
-> Version: `v2026.07.12`
+Section ID: `P6-6.2`
+Version: `v2026.07.14`
 
 P6-6.1에서는 사전학습(pretraining)을 대규모 텍스트에서 일반 언어 패턴과 표현을 먼저 배우는 단계로 설명했습니다. 그러면 다음 질문이 자연스럽게 생깁니다.
 
@@ -153,190 +153,165 @@ LLM 문맥에서 스케일은 보통 하나만 커지는 것을 뜻하지 않습
 
 ## 사례 및 예시
 
-아래 도식은 이 절의 세 사례를 `더 큰 모델이 더 좋은가`보다 `어떤 능력을 얻는 대신 어떤 비용과 운영 부담을 함께 받아들이는가`라는 공통 질문으로 다시 묶은 것입니다.
+아래 도식은 스케일업 결정을 `더 큰 모델이 더 좋은가`라는 한 줄 판단이 아니라 능력, 비용, 데이터 검증 부담을 함께 보는 질문으로 다시 묶은 것입니다.
 
 ```mermaid
 --8<-- "assets/part-06/chapter-06/p6-c06-s02-diagram-02-ko.mmd"
 ```
 
-이 도식에서 확인해야 할 점은 스케일이 `능력 상승`만의 문제가 아니라는 것입니다. 같은 변화라도 어떤 장면에서는 더 넓은 작업 반응으로 보이고, 다른 장면에서는 긴 문맥 유지로 보이며, 운영팀 입장에서는 비용과 지연 부담으로 먼저 보일 수 있습니다.
+이 도식에서 확인해야 할 점은 스케일업이 `성능 개선` 한 줄로 닫히지 않는다는 것입니다. 같은 변화라도 사용자에게는 더 긴 요청 처리로 보이고, 운영팀에게는 비용과 지연 증가로 보이며, 데이터 담당자에게는 검증해야 할 원천 데이터 증가로 보일 수 있습니다.
 
-### 사례 1. 더 큰 모델, 더 넓은 작업 반응
+### 사례. 스케일업 결정 회의
 
-작은 모델에게 문장 요약만 시키면 그럭저럭 동작하지만, 같은 모델에 표 정리, 규칙 변환, 예외 조건 설명까지 한 번에 요구하면 금방 흔들릴 수 있습니다. 사람은 여기서 보통 `내가 시킨 형식을 끝까지 지키는가`를 먼저 기준으로 삼습니다. 예를 들어 같은 매뉴얼을 넣고 `요약`은 되는데 `예외 조항만 표로 뽑기`는 자주 실패하면, 사용자는 기능 차이처럼 느끼지만 내부적으로는 다룰 수 있는 패턴 폭 차이일 수 있습니다. 작은 모델은 핵심은 맞혀도 표 열을 빼먹거나 예외 조건을 본문 속에 섞어 버릴 수 있습니다. 더 큰 모델은 더 넓은 패턴을 다룰 여지가 있어 이런 복합 지시에 더 자주 반응하는 것처럼 보일 수 있습니다. 즉, 바뀌는 점은 `문장을 이어 쓸 수 있는가`보다 `복합 형식 제약을 끝까지 유지할 수 있는가`에 더 가깝습니다. 그래서 이 사례에서 확인해야 할 결과는 복합 지시에서 형식 누락이 줄고, 예외 조건이 요청한 구조 안에 더 자주 남는가입니다.
+고객 지원팀이 현재 쓰는 small 모델을 medium이나 large로 올릴지 회의한다고 해 봅시다. 지금 모델은 짧은 FAQ에는 빠르게 답하지만, 긴 계약서 조항을 요약하거나 코드 오류 로그를 함께 읽는 요청에서는 자주 실패합니다. 회의에서 사람이 먼저 보기 쉬운 기준은 `large로 바꾸면 더 잘하겠지`입니다. 하지만 스케일 관점에서는 먼저 질문을 나누어야 합니다.
 
-이 사례가 중요한 이유는 사용자가 흔히 `조금 더 큰 모델이면 그냥 더 똑똑해진다`고 느끼기 때문입니다. 하지만 실제 체감은 더 추상적이지 않고, `한 번에 요구한 형식을 끝까지 유지하느냐`처럼 구체적인 장면에서 먼저 드러납니다. 요약은 되는데 표 열 하나가 자꾸 비거나, 예외 조항이 본문 설명 속에 섞여 버리면 사용자는 이를 기능 부족처럼 느끼지만, 실제로는 처리할 수 있는 패턴 폭이 좁은 문제일 수 있습니다. 그래서 스케일을 볼 때는 단순 정답률보다 `복합 지시가 얼마나 덜 무너지는가`를 먼저 보는 편이 안전합니다.
+첫째, 능력 축에서는 어떤 요청이 새로 가능해지는지 봅니다. context window가 넓어지고 모델 표현력이 커지면 긴 계약서, 긴 오류 로그, 여러 조건이 섞인 복합 요청을 더 잘 처리할 가능성이 생깁니다. 둘째, 비용 축에서는 그 요청을 처리할 때 지연 시간과 추론 비용이 얼마나 늘어나는지 봅니다. 셋째, 데이터 축에서는 더 많은 데이터로 사전학습하거나 후속 조정을 할수록 중복, 오래된 정보, 저작권, 편향 같은 품질 문제를 더 넓게 검토해야 한다는 점을 봅니다.
 
-같은 입력이라도 모델 크기에 따라 흔들리는 장면은 아래처럼 구체적으로 드러납니다.
+이 사례에서 확인해야 할 결과는 `large가 더 많은 요청을 처리할 수 있는가`만이 아닙니다. 더 많은 요청을 처리할 수 있어도 비용과 지연이 서비스 한도를 넘거나, 데이터 검증 부담을 감당하지 못하면 그 선택은 최선이 아닐 수 있습니다. 반대로 medium이 일부 긴 요청은 포기하더라도 비용과 운영 부담 안에서 충분한 개선을 줄 수 있다면, 현재 서비스에는 더 현실적인 선택일 수 있습니다.
 
-| 같은 작업 장면 | 작은 모델에서 먼저 흔들리기 쉬운 것 | 더 큰 모델에서 기대하는 변화 |
+| 스케일 단계 | 얻는 것 | 함께 감당할 것 |
 | --- | --- | --- |
-| 매뉴얼을 표로 정리하며 예외 조항도 함께 뽑기 | 표 열 누락, 예외 조건이 본문 속에 섞임 | 형식 유지와 예외 조항 분리가 더 안정됨 |
-| 규칙을 일반 설명과 예외 설명으로 나눠 쓰기 | 본문 설명은 맞아도 예외가 빠짐 | 복합 지시를 끝까지 유지할 가능성이 높아짐 |
-| 요약 + 분류 + 표 정리를 한 번에 요구 | 한 단계는 되지만 다른 단계가 무너짐 | 여러 제약을 동시에 들고 갈 여지가 커짐 |
+| `small` 유지 | 짧은 FAQ를 낮은 비용과 빠른 응답으로 처리 | 긴 계약서, 긴 코드 로그, 복합 요청은 계속 실패할 수 있음 |
+| `medium` 전환 | 일부 긴 요청과 복합 요청을 더 처리할 가능성 | 비용과 지연이 늘고, 검증해야 할 데이터 범위도 커짐 |
+| `large` 전환 | 가장 넓은 요청 범위와 긴 문맥 처리 가능성 | 추론 비용, 지연 시간, 데이터 품질 검토 부담이 가장 크게 늘어남 |
 
-이 표에서 초심자가 넘어가야 할 오해는 `더 큰 모델 = 그냥 모든 것이 조금씩 좋아짐`이라는 막연한 감각입니다. 실제로는 형식 유지, 예외 분리, 복합 지시 반응처럼 `한 번에 들고 가는 제약 수`가 먼저 달라지는 장면으로 읽는 편이 훨씬 구체적입니다.
-
-### 사례 2. 더 긴 입력 처리
-
-긴 계약서를 요약하거나 긴 코드 파일을 읽는 장면을 생각해 볼 수 있습니다. 사람은 여기서 보통 `앞쪽 조건과 뒤쪽 예외를 함께 놓치지 않는가`를 먼저 기준으로 봅니다. 작은 모델이나 짧은 문맥 구조에서는 앞부분과 뒷부분 관계가 잘 끊겨, 중요한 조항이나 함수 연결을 놓치기 쉽습니다. 예를 들어 계약서 앞쪽의 해지 조건과 뒤쪽의 예외 조항이 함께 읽혀야 하는데 둘 중 하나가 잘리면, 요약은 그럴듯해 보여도 핵심 판단을 놓칠 수 있습니다. 더 큰 모델과 더 넓은 문맥 구조는 이런 긴 입력을 한 번에 더 많이 담아 앞뒤 연결을 더 잘 유지할 가능성이 있습니다. 하지만 동시에 처리 비용과 지연 시간도 같이 커집니다. 여기서 바뀌는 점은 `긴 입력을 더 많이 담을 수 있는가`만 보는 기준에서 `앞뒤 연결 보존과 비용 증가를 함께 보는가`로 기준이 이동한다는 것입니다. 즉, 좋아지는 점은 긴 문맥 보존이고, 같이 커지는 부담은 비용과 속도입니다. 그래서 이 사례에서 확인해야 할 결과는 요약이나 해석에서 앞 조건과 뒤 예외가 함께 살아남는 대신, 응답 시간과 비용도 함께 늘어나는가입니다.
-
-이 장면도 실무에서 바로 체감됩니다. 긴 입력 처리는 단순히 `더 많이 넣을 수 있다`의 문제가 아니라, 멀리 떨어진 두 조각을 같은 판단 안에 유지할 수 있느냐의 문제입니다. 그런데 초심자는 입력이 한 번에 들어가기만 하면 다 읽힌다고 느끼기 쉽습니다. 실제로는 앞 조항과 뒤 예외를 같이 보존하는 능력이 좋아지는 대신, 비용과 지연이 함께 커집니다. 그래서 긴 문맥 구조를 선택할 때는 `얼마나 담는가`와 `그렇게 담았을 때 운영이 버티는가`를 동시에 봐야 합니다.
-
-같은 긴 입력도 아래처럼 trade-off가 드러납니다.
-
-| 긴 입력 장면 | 더 긴 문맥이 없을 때 생기기 쉬운 문제 | 더 긴 문맥을 쓸 때 같이 커지는 부담 |
-| --- | --- | --- |
-| 계약서 앞 해지 조항 + 뒤 예외 조항 | 둘 중 하나를 놓쳐 요약 판단이 틀어짐 | 비용 증가, 응답 지연 |
-| 긴 코드 파일의 선언부 + 말미 호출부 연결 | 앞 함수 정의와 뒤 사용 위치 연결이 끊김 | 추론 시간 증가, 처리량 감소 |
-| 긴 회의록의 초반 결정 + 후반 액션 아이템 | 앞 결론과 뒤 후속 조치가 분리됨 | 문맥 유지 비용 증가 |
-
-이 사례에서 초심자가 꼭 붙잡아야 할 기준은 `긴 입력을 담을 수 있다`와 `그 긴 입력을 운영 가능한 비용으로 다룰 수 있다`를 따로 보는 일입니다. 스케일은 능력 증가이기도 하지만, 동시에 운영 한도와 맞바꾸는 선택이기도 합니다.
-
-### 사례 3. 운영 관점
-
-운영팀이 더 큰 모델로 바꾸면 답변 품질은 올라갈 수 있다고 기대한다고 해 봅시다. 직관적으로는 모델 교체를 `성능 개선` 한 줄로 생각하기 쉽지만, 운영팀이 실제로 보는 기준은 `이 비용과 지연 시간을 감당할 수 있는가`입니다. 실제 서비스에서는 학습 단계만이 아니라, 매 요청 추론 비용, 캐시 정책, 장애 감시, 안전 점검 범위까지 함께 커집니다. 예를 들어 답변 정확도는 조금 좋아졌는데 응답 시간이 크게 늘면, 고객 지원 시스템에서는 오히려 전체 만족도가 떨어질 수도 있습니다. 심하면 품질 향상보다 비용 폭증이 더 먼저 운영 문제로 보일 수 있습니다. 장애 대응도 더 복잡해져, 같은 시간 안에 처리할 수 있는 요청 수가 줄어들 수 있습니다. 여기서 바뀌는 점은 `정확도가 올랐는가`만 보는 기준에서 `정확도 향상이 실제 운영 비용과 지연을 감당할 만한가`를 함께 보는 기준으로 이동한다는 것입니다. 그래서 이 사례에서 확인해야 할 결과는 품질 지표가 조금 좋아져도 처리량 감소나 비용 증가가 실제 운영 판단을 바꾸는가입니다.
-
-세 사례를 스케일 trade-off 관점으로 다시 묶으면 다음과 같습니다.
-
-| 상황 | 더 커지며 기대하는 것 | 함께 커져 다시 봐야 하는 것 |
-| --- | --- | --- |
-| 더 넓은 작업 반응 | 복합 지시와 형식 유지 능력 | 형식 처리 비용, 실패 시 디버깅 비용 |
-| 더 긴 입력 처리 | 앞뒤 문맥과 예외 조항 보존 | context 비용, 지연 시간 |
-| 운영 관점 | 정확도와 범용성 향상 | 추론 비용, 처리량, 장애 대응 부담 |
+이 표는 뒤의 Python 예제를 읽는 기준이 됩니다. 사례는 `왜 세 축을 함께 비교해야 하는가`를 보여 주고, 예제는 그 세 축이 단계별 숫자로 어떻게 달라지는지 확인하는 역할을 맡습니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 `더 큰 모델을 쓰면 무엇이 좋아지고, 동시에 어떤 운영 부담이 커지는가`를 직접 보는 것입니다. 아주 단순한 서비스 로그를 가정하고, 작은 모델과 큰 모델이 같은 요청 묶음을 처리할 때 `문맥 초과 여부`, `예상 비용`, `예상 지연 시간`, `품질 가능성 점수`가 어떻게 달라지는지 비교하겠습니다.
+이번 예제의 목표는 스케일이 커질 때 `무엇을 더 처리할 수 있게 되는가`와 `무엇을 더 감당해야 하는가`를 단계별로 나누어 보는 것입니다. 작은 모델과 큰 모델을 한 번에 비교해 승패를 고르는 방식이 아니라, `small -> medium -> large`로 커질 때 데이터 양, 파라미터 수, 학습 계산량, 문맥 범위, 추론 비용, 검증 부담이 함께 어떻게 움직이는지 추적하겠습니다.
 
 입력:
 
 - 요청별 입력 길이
-- 모델별 context window, 비용, 속도, 품질 계수
+- 스케일 단계별 데이터 양, 파라미터 수, 학습 계산량
+- 스케일 단계별 context window, 추론 비용, 지연 시간, 데이터 검증 부담
 
 출력:
 
-- 모델별 요청 단위 처리 상태
-- 모델별 문맥 초과 요청 수
-- 총 예상 비용
-- 총 예상 지연 시간
-- 평균 품질 가능성 점수
+- 스케일 단계별 처리 가능한 요청 수
+- 문맥 초과 요청 목록
+- 총 예상 추론 비용과 지연 시간
+- 데이터 검증 대기 묶음 수
 
 문제 상황:
 
-- 모델 선택은 정확도만이 아니라 문맥 한도, 비용, 지연 시간, 품질 가능성을 같이 읽는 문제다
+- 스케일을 키우면 처리 가능한 요청 범위가 넓어질 수 있지만, 비용과 검증 부담도 함께 커진다
 
 입력(input):
 
-위에 정리한 요청 목록과 모델별 제약·비용 정보를 사용합니다.
+아래 요청 목록과 스케일 단계별 가정값을 사용합니다. 여기서 숫자는 실제 모델 가격이나 성능표가 아니라, 스케일을 읽는 축을 분리하기 위한 장난감 값입니다.
 
 확인할 개념:
 
-- 실제 모델 선택은 품질만이 아니라 문맥 한도, 비용, 지연 시간을 함께 비교하는 의사결정이다
+- 스케일은 데이터, 모델, 계산량이 함께 커지는 현상이다
+- context window가 커지면 더 긴 요청을 처리할 수 있지만, 추론 비용과 지연 시간도 커질 수 있다
+- 데이터 양이 커질수록 검증해야 할 데이터 품질 부담도 함께 커진다
 
 ```python
 requests = [
-    {"task": "faq", "input_tokens": 600, "difficulty": 1.0},
-    {"task": "summary", "input_tokens": 2400, "difficulty": 1.4},
-    {"task": "contract_review", "input_tokens": 6200, "difficulty": 1.8},
-    {"task": "code_assistant", "input_tokens": 4100, "difficulty": 1.6},
+    {"task": "faq", "input_tokens": 600},
+    {"task": "summary", "input_tokens": 2400},
+    {"task": "contract_review", "input_tokens": 6200},
+    {"task": "code_assistant", "input_tokens": 4100},
 ]
 
-models = {
-    "small_model": {
+scale_steps = [
+    {
+        "name": "small",
+        "data_tokens_b": 80,
+        "parameters_b": 1.5,
+        "training_compute_units": 120,
         "context_window": 2048,
         "cost_per_1k_tokens": 0.2,
-        "latency_per_1k_tokens": 0.8,
-        "quality_factor": 0.9,
+        "latency_per_1k_tokens": 0.7,
+        "review_batches": 2,
     },
-    "large_model": {
+    {
+        "name": "medium",
+        "data_tokens_b": 400,
+        "parameters_b": 7,
+        "training_compute_units": 900,
+        "context_window": 4096,
+        "cost_per_1k_tokens": 0.55,
+        "latency_per_1k_tokens": 1.1,
+        "review_batches": 7,
+    },
+    {
+        "name": "large",
+        "data_tokens_b": 1800,
+        "parameters_b": 30,
+        "training_compute_units": 7200,
         "context_window": 8192,
-        "cost_per_1k_tokens": 1.1,
-        "latency_per_1k_tokens": 1.6,
-        "quality_factor": 1.3,
+        "cost_per_1k_tokens": 1.2,
+        "latency_per_1k_tokens": 1.8,
+        "review_batches": 22,
     },
-}
+]
 
-def evaluate_model(model_name, profile, requests):
-    over_limit = 0
+def summarize_scale_step(step, requests):
+    supported_tasks = []
+    over_limit_tasks = []
+    total_tokens = 0
     total_cost = 0.0
     total_latency = 0.0
-    quality_scores = []
-    request_reports = []
 
     for request in requests:
         tokens = request["input_tokens"]
-        is_over_limit = tokens > profile["context_window"]
-        if is_over_limit:
-            over_limit += 1
+        total_tokens += tokens
+        total_cost += (tokens / 1000) * step["cost_per_1k_tokens"]
+        total_latency += (tokens / 1000) * step["latency_per_1k_tokens"]
 
-        request_cost = (tokens / 1000) * profile["cost_per_1k_tokens"]
-        request_latency = (tokens / 1000) * profile["latency_per_1k_tokens"]
-        total_cost += request_cost
-        total_latency += request_latency
+        if tokens <= step["context_window"]:
+            supported_tasks.append(request["task"])
+        else:
+            over_limit_tasks.append(request["task"])
 
-        visible_ratio = min(tokens, profile["context_window"]) / tokens
-        quality_score = round(
-            profile["quality_factor"] * visible_ratio / request["difficulty"],
-            3,
-        )
-        quality_scores.append((request["task"], quality_score))
-        request_reports.append(
-            {
-                "task": request["task"],
-                "over_limit": is_over_limit,
-                "visible_ratio": round(visible_ratio, 3),
-                "cost": round(request_cost, 2),
-                "latency": round(request_latency, 2),
-                "quality_score": quality_score,
-            }
-        )
+    return {
+        "scale": step["name"],
+        "data_tokens_b": step["data_tokens_b"],
+        "parameters_b": step["parameters_b"],
+        "training_compute_units": step["training_compute_units"],
+        "context_window": step["context_window"],
+        "supported_requests": len(supported_tasks),
+        "over_limit_tasks": over_limit_tasks,
+        "total_inference_cost": round(total_cost, 2),
+        "total_latency": round(total_latency, 2),
+        "review_batches": step["review_batches"],
+    }
 
-    average_quality = round(
-        sum(score for _, score in quality_scores) / len(quality_scores), 3
-    )
-
-    print(model_name)
-    print("request_reports =", request_reports)
-    print("over_limit_requests =", over_limit)
-    print("total_cost =", round(total_cost, 2))
-    print("total_latency =", round(total_latency, 2))
-    print("quality_scores =", quality_scores)
-    print("average_quality =", average_quality)
-    print()
-
-for model_name, profile in models.items():
-    evaluate_model(model_name, profile, requests)
+for step in scale_steps:
+    print(summarize_scale_step(step, requests))
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-small_model
-request_reports = [{'task': 'faq', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 0.12, 'latency': 0.48, 'quality_score': 0.9}, {'task': 'summary', 'over_limit': True, 'visible_ratio': 0.853, 'cost': 0.48, 'latency': 1.92, 'quality_score': 0.549}, {'task': 'contract_review', 'over_limit': True, 'visible_ratio': 0.33, 'cost': 1.24, 'latency': 4.96, 'quality_score': 0.165}, {'task': 'code_assistant', 'over_limit': True, 'visible_ratio': 0.5, 'cost': 0.82, 'latency': 3.28, 'quality_score': 0.281}]
-over_limit_requests = 3
-total_cost = 2.66
-total_latency = 10.64
-quality_scores = [('faq', 0.9), ('summary', 0.549), ('contract_review', 0.165), ('code_assistant', 0.281)]
-average_quality = 0.474
-
-large_model
-request_reports = [{'task': 'faq', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 0.66, 'latency': 0.96, 'quality_score': 1.3}, {'task': 'summary', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 2.64, 'latency': 3.84, 'quality_score': 0.929}, {'task': 'contract_review', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 6.82, 'latency': 9.92, 'quality_score': 0.722}, {'task': 'code_assistant', 'over_limit': False, 'visible_ratio': 1.0, 'cost': 4.51, 'latency': 6.56, 'quality_score': 0.812}]
-over_limit_requests = 0
-total_cost = 14.63
-total_latency = 21.28
-quality_scores = [('faq', 1.3), ('summary', 0.929), ('contract_review', 0.722), ('code_assistant', 0.812)]
-average_quality = 0.941
+{'scale': 'small', 'data_tokens_b': 80, 'parameters_b': 1.5, 'training_compute_units': 120, 'context_window': 2048, 'supported_requests': 1, 'over_limit_tasks': ['summary', 'contract_review', 'code_assistant'], 'total_inference_cost': 2.66, 'total_latency': 9.31, 'review_batches': 2}
+{'scale': 'medium', 'data_tokens_b': 400, 'parameters_b': 7, 'training_compute_units': 900, 'context_window': 4096, 'supported_requests': 2, 'over_limit_tasks': ['contract_review', 'code_assistant'], 'total_inference_cost': 7.32, 'total_latency': 14.63, 'review_batches': 7}
+{'scale': 'large', 'data_tokens_b': 1800, 'parameters_b': 30, 'training_compute_units': 7200, 'context_window': 8192, 'supported_requests': 4, 'over_limit_tasks': [], 'total_inference_cost': 15.96, 'total_latency': 23.94, 'review_batches': 22}
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- 큰 모델은 더 긴 입력을 문맥 초과 없이 처리해 품질 가능성 점수가 올라갑니다.
-- 동시에 총 비용과 총 지연 시간도 크게 증가합니다.
-- 요청별 `visible_ratio`를 보면 작은 모델은 특히 `contract_review`, `code_assistant`처럼 긴 입력에서 실제로 보지 못한 비율이 커집니다.
-- 즉, 스케일 증가는 `좋아졌다` 한 줄이 아니라 `무엇이 좋아졌고 무엇을 더 지불하게 되었는가`를 함께 비교해야 하는 문제입니다.
+- `small`은 FAQ만 문맥 안에 처리하고, 긴 요약·계약서·코드 요청은 문맥 초과로 남습니다.
+- `medium`은 요약까지 처리할 수 있지만, 계약서와 코드 요청은 여전히 초과됩니다.
+- `large`는 네 요청을 모두 문맥 안에 넣을 수 있지만, 총 추론 비용과 지연 시간도 가장 큽니다.
+- `review_batches`는 데이터 양이 커질수록 검증해야 할 묶음도 함께 커진다는 점을 단순화해 보여 줍니다.
 
-이 예제에서는 `requests`의 토큰 길이, `difficulty`, 각 모델의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 작은 모델의 `over_limit_requests`가 더 커지고, 반대로 짧은 FAQ만 남기면 큰 모델의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
+그래프로 나누어 보면 세 축이 서로 다른 의미로 커진다는 점이 더 분명합니다. 먼저 문맥 범위가 커지면 처리 가능한 요청 수가 늘어납니다.
+
+![스케일 단계별 처리 가능한 요청 수](../../../assets/part-06/chapter-06/scale-context-coverage-ko.png)
+
+하지만 같은 요청 묶음을 처리할 때의 총 추론 비용도 함께 커집니다. 이 그래프에서 확인할 것은 `large`가 더 많은 요청을 처리한다는 사실이 아니라, 그 선택이 비용 증가와 함께 온다는 점입니다.
+
+![스케일 단계별 총 추론 비용](../../../assets/part-06/chapter-06/scale-inference-cost-ko.png)
+
+데이터 양이 커지면 검증해야 할 데이터 품질 부담도 같이 커집니다. 아래 그래프는 실제 위험 측정값이 아니라, 데이터가 많아질수록 검토해야 할 묶음도 늘어난다는 구조를 보여 주기 위한 단순화입니다.
+
+![스케일 단계별 데이터 검증 부담](../../../assets/part-06/chapter-06/scale-data-review-burden-ko.png)
+
+이 예제에서는 `requests`의 토큰 길이, 각 단계의 `context_window`, `cost_per_1k_tokens`, `latency_per_1k_tokens`, `review_batches`를 직접 바꿔 볼 수 있습니다. 예를 들어 긴 계약서 요청을 더 늘리면 `small`과 `medium`의 문맥 초과가 더 두드러지고, 반대로 짧은 FAQ만 남기면 `large`의 추가 비용이 정말 필요한지 다시 생각해 볼 수 있습니다.
 
 ## 이 예제를 규모-비용 균형 관점으로 다시 보면
 
