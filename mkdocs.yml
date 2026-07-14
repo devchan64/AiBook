@@ -396,6 +396,7 @@ nav:
               - "P5-6.1 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-01.md
               - "P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-06/section-02.md
               - "P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법": parts/part-05/chapter-06/section-03.md
+              - "P5-6.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가": parts/part-05/chapter-06/section-04.md
           - Chapter P5-7. 옵티마이저:
               - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
               - "P5-7.2 SGD, Adam의 직관": parts/part-05/chapter-07/section-02.md

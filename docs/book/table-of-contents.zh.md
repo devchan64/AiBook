@@ -1,7 +1,7 @@
 # 目录
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.13`
+> Version: `v2026.07.14`
 
 这份目录是本书当前采用的学习顺序。这里所说的 `采用`，是指这套结构已经被选定为本书的一部分，并不意味着每个 Chapter 都已经完全写完或完全验证。
 
@@ -556,6 +556,7 @@ flowchart LR
 - **P5-6.1 学习(learning)与模型执行(inference)**：区分改变参数的阶段与使用参数的阶段。
 - **P5-6.2 训练模式(training mode)与评估模式(evaluation mode)**：为后面理解 dropout、batch normalization 的差异先做准备。
 - **P5-6.3 补充学习：第一次把初始化(initialization)、数值稳定性(numerical stability)、批量归一化(batch normalization)放在一起读的方法**：在同一位置整理深层网络为什么不是简单堆起来就能稳定学习。
+- **P5-6.4 补充学习：大的初始化尺度如何在深层中放大数值**：通过 Python 示例和分拆图表，确认大的初始化尺度如何实际放大逐层 raw activation 范围与方差。
 
 #### Chapter 7. 优化器 `Learning Principles`
 

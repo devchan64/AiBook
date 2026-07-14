@@ -55,3 +55,12 @@
 - 번역 반영 상태: 영어판 및 중국어 간체 목차 반영
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.13`
+
+### v2026.07.14
+
+- 변경 이유: P5-6.3의 안정화 정리와 실제 큰 스케일 누적 실험을 한 절에 함께 두면 보충학습 Section이 과밀해져, 실제 Python 실험을 별도 Section으로 분리할 필요가 생겼다.
+- 본문 반영: 한국어, 영어, 중국어 간체 독자용 목차에 `P5-6.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가` 항목을 추가하고 세 목차의 `Version`을 `v2026.07.14`로 갱신했다.
+- 번역 동기화 메모: Reader-facing TOCs now include P5-6.4 as the practice section that follows the P5-6.3 stabilization overview. Future translations should keep P5-6.3 as the concept map and P5-6.4 as the concrete deep-scale experiment.
+- 번역 반영 상태: 영어판 및 중국어 간체 목차 반영
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.14`

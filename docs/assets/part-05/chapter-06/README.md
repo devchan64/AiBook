@@ -16,12 +16,12 @@
   - `inference-fixed-weight-trace-en.png` / `inference-fixed-weight-trace-ko.png`
   - `hidden-activation-from-sessions-en.png` / `hidden-activation-from-sessions-ko.png`
   - `mode-centered-output-comparison-en.png` / `mode-centered-output-comparison-ko.png`
-  - `initialization-raw-output-scale-en.png` / `initialization-raw-output-scale-ko.png`
-  - `initialization-raw-variance-en.png` / `initialization-raw-variance-ko.png`
-  - `batchnorm-normalized-output-scale-en.png` / `batchnorm-normalized-output-scale-ko.png`
+  - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-ko.png`
+  - `deep-scale-raw-variance-en.png` / `deep-scale-raw-variance-ko.png`
+  - `deep-scale-bn-range-en.png` / `deep-scale-bn-range-ko.png`
   - `dropout-mode-output-trace-en.png` / `dropout-mode-output-trace-ko.png`
   - `batchnorm-mode-reference-trace-en.png` / `batchnorm-mode-reference-trace-ko.png`
 - Python chart source:
   - `p5_6_2_mode_comparison_charts.py`
-  - `p5_6_3_initialization_bn_charts.py`
+  - `p5_6_4_deep_scale_charts.py`
   - `p5_6_learning_inference_charts.py`: generates P5-6.1 learning/inference charts for multi-parameter update and fixed-parameter inference traces.

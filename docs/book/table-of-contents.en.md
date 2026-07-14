@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.13`
+> Version: `v2026.07.14`
 
 This table of contents is the currently adopted learning order for the book. Here, `adopted` means that the structure has been chosen as part of the book. It does not mean that every chapter has already been fully written or fully verified.
 
@@ -556,6 +556,7 @@ This Part explains how neural networks represent and learn from data. It follows
 - **P5-6.1 Learning and Inference**: separates the stage that changes parameters from the stage that uses them
 - **P5-6.2 Training Mode and Evaluation Mode**: prepares the reader to later understand differences such as dropout and batch normalization
 - **P5-6.3 Supplementary Learning: How to Read Initialization, Numerical Stability, and Batch Normalization Together for the First Time**: organizes in one place why deep networks do not become stable learners just by being stacked deeper
+- **P5-6.4 Supplementary Learning: How a Large Initialization Scale Grows Values Across Deep Layers**: uses a Python example and split charts to show how a large initialization scale actually grows raw activation ranges and variance across layers
 
 #### Chapter 7. Optimizers `Learning Principles`
 
