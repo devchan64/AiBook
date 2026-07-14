@@ -19,9 +19,13 @@
   - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-ko.png`
   - `deep-scale-raw-variance-en.png` / `deep-scale-raw-variance-ko.png`
   - `deep-scale-bn-range-en.png` / `deep-scale-bn-range-ko.png`
+  - `stabilization-neuron-paths-en.png` / `stabilization-neuron-paths-ko.png`
+  - `stabilization-layer-range-en.png` / `stabilization-layer-range-ko.png`
+  - `stabilization-batch-spread-en.png` / `stabilization-batch-spread-ko.png`
   - `dropout-mode-output-trace-en.png` / `dropout-mode-output-trace-ko.png`
   - `batchnorm-mode-reference-trace-en.png` / `batchnorm-mode-reference-trace-ko.png`
 - Python chart source:
   - `p5_6_2_mode_comparison_charts.py`
+  - `p5_6_3_stabilization_case_charts.py`
   - `p5_6_4_deep_scale_charts.py`
   - `p5_6_learning_inference_charts.py`: generates P5-6.1 learning/inference charts for multi-parameter update and fixed-parameter inference traces.
