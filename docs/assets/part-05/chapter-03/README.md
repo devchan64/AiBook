@@ -20,5 +20,9 @@
   - `tanh-curve-en.svg` / `tanh-curve-ko.svg`
   - `relu-curve-en.svg` / `relu-curve-ko.svg`
   - `nonlinear-activation-example-en.svg` / `nonlinear-activation-example-ko.svg`
+  - `output-activation-regression-distance-en.svg` / `output-activation-regression-distance-ko.svg`
+  - `output-activation-binary-threshold-en.svg` / `output-activation-binary-threshold-ko.svg`
+  - `output-activation-multiclass-gap-en.svg` / `output-activation-multiclass-gap-ko.svg`
 - Python chart source:
   - `p5_3_activation_charts.py`
+  - `p5_3_6_output_activation_charts.py`

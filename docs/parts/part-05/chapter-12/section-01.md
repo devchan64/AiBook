@@ -278,8 +278,8 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 | 장면 | 마지막 입력만 보는 baseline 예상 | 상태를 누적해 보는 쪽 예상 | 먼저 붙잡아야 할 이유 |
 | --- | --- | --- | --- |
-| `shutdown_confirmed` | `확인`만 보고 `positive` | 앞의 `차단` 조치가 남아 `positive` | 마지막 단어가 같아도 앞 조치 흐름이 왜 상태 안에 남아야 하는지 본다 |
-| `leak_confirmed` | `확인`만 보고 `positive` | 앞의 `누유` 단서가 남아 `negative` | 같은 마지막 단어라도 앞 상태가 다르면 결론이 갈라질 수 있음을 본다 |
+| `shutdown_confirmed` | `확인`만 보고 `restart_allowed` | 앞의 `차단` 조치가 남아 `hold_required` | 마지막 단어가 같아도 앞 조치 흐름이 왜 상태 안에 남아야 하는지 본다 |
+| `leak_confirmed` | `확인`만 보고 `restart_allowed` | 앞의 `누유` 단서가 남아 `hold_required` | 같은 마지막 단어라도 앞 상태가 다르면 결론이 갈라질 수 있음을 본다 |
 | `gradual_rise` vs `temporary_spike` | 둘 다 마지막 값 `80`만 보고 경보 | 지속 상승만 경보, 일시 튐은 경보 아님 | 같은 마지막 값도 직전 추세에 따라 상태가 다르게 남는다는 점을 본다 |
 
 입력(input):
@@ -294,15 +294,15 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 ```python
 word_signal = {
-    "누유": -1.9,
-    "차단": 0.9,
-    "재가동": 0.6,
-    "확인": 1.1,
+    "누유": -2.2,
+    "차단": -1.5,
+    "재가동": 1.2,
+    "확인": 0.8,
 }
 
 def classify_with_last_word(words):
     last_signal = word_signal.get(words[-1], 0.0)
-    return "positive" if last_signal > 0 else "negative"
+    return "restart_allowed" if last_signal > 0 else "hold_required"
 
 def run_sentence(name, words, alpha=0.7):
     state = 0.0
@@ -312,7 +312,7 @@ def run_sentence(name, words, alpha=0.7):
         signal = word_signal.get(word, 0.0)
         state = alpha * state + signal
         print(f"step {step}: word={word:>6}, signal={signal:>4}, state={state:>5.2f}")
-    label = "positive" if state > 0 else "negative"
+    label = "restart_allowed" if state > 0 else "hold_required"
     print("final_label =", label)
     print()
 
@@ -343,22 +343,22 @@ run_sequence("temporary_spike", temporary_spike)
 
 ```text
 [sentence: shutdown_confirmed]
-baseline_last_word_label = positive
-step 1: word=    차단, signal= 0.9, state= 0.90
-step 2: word=    확인, signal= 1.1, state= 1.73
-final_label = positive
+baseline_last_word_label = restart_allowed
+step 1: word=    차단, signal=-1.5, state=-1.50
+step 2: word=    확인, signal= 0.8, state=-0.25
+final_label = hold_required
 
 [sentence: leak_confirmed]
-baseline_last_word_label = positive
-step 1: word=    누유, signal=-1.9, state=-1.90
-step 2: word=    확인, signal= 1.1, state=-0.23
-final_label = negative
+baseline_last_word_label = restart_allowed
+step 1: word=    누유, signal=-2.2, state=-2.20
+step 2: word=    확인, signal= 0.8, state=-0.74
+final_label = hold_required
 
 [sentence: restart_confirmed]
-baseline_last_word_label = positive
-step 1: word=  재가동, signal= 0.6, state= 0.60
-step 2: word=    확인, signal= 1.1, state= 1.52
-final_label = positive
+baseline_last_word_label = restart_allowed
+step 1: word=   재가동, signal= 1.2, state= 1.20
+step 2: word=    확인, signal= 0.8, state= 1.64
+final_label = restart_allowed
 
 [sensor: gradual_rise]
 baseline_last_value_alert = True
@@ -379,18 +379,18 @@ step 4: input= 80, state= 61.95, alert=False
 
 | 비교 | 출력에서 먼저 보이는 것 | 마지막 입력만 보면 남기 쉬운 해석 | 순차 상태까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
-| `shutdown_confirmed` vs `leak_confirmed` | 둘 다 마지막 단어는 `확인`인데 최종 라벨은 갈립니다. | 같은 마지막 단어면 같은 판단이 나와야 할 것처럼 보입니다. | `누유`처럼 앞에서 누적된 부정 상태가 남아 있으면, 마지막 `확인`이 와도 최종 판단이 달라질 수 있습니다. |
+| `shutdown_confirmed` / `leak_confirmed` / `restart_confirmed` | 모두 마지막 단어는 `확인`인데 최종 라벨은 갈립니다. | 같은 마지막 단어면 같은 판단이 나와야 할 것처럼 보입니다. | `차단`과 `누유`처럼 앞에서 누적된 보류 신호가 남아 있으면, 마지막 `확인`이 와도 최종 판단은 `hold_required`가 될 수 있습니다. |
 | `gradual_rise` vs `temporary_spike` | 둘 다 마지막 값은 `80`인데 마지막 alert는 갈립니다. | 마지막 값이 같으니 둘 다 경보가 떠야 할 것처럼 보입니다. | 지속 상승은 상태를 경보선 위로 밀어 올리지만, 일시 튐 뒤 복귀한 흐름은 같은 마지막 값이어도 상태가 덜 쌓여 경보가 안 뜰 수 있습니다. |
 | 각 step의 `state=` 출력 | 입력 하나하나보다 상태가 점진적으로 바뀝니다. | 중간 출력은 부가 설명일 뿐이라고 보기 쉽습니다. | RNN류 구조의 핵심은 지금 입력보다 `누적 상태를 어떻게 갱신하느냐`에 있다는 점이 드러납니다. |
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| `baseline_last_word_label = positive`인데 `leak_confirmed`의 `final_label = negative`다 | 마지막 단어만 보면 같은 판단이 나와도, 순차 상태는 앞의 위험 단서를 남겨 다른 결론을 만들 수 있다는 뜻 | `누유` 신호 크기나 `alpha`를 바꾸면 앞의 위험 흐름이 얼마나 오래 남는지 달라집니다 |
+| `baseline_last_word_label = restart_allowed`인데 `shutdown_confirmed`와 `leak_confirmed`의 `final_label = hold_required`다 | 마지막 단어만 보면 같은 판단이 나와도, 순차 상태는 앞의 차단·위험 단서를 남겨 다른 결론을 만들 수 있다는 뜻 | `차단`, `누유` 신호 크기나 `alpha`를 바꾸면 앞의 보류 흐름이 얼마나 오래 남는지 달라집니다 |
 | `baseline_last_value_alert = True`인데 `temporary_spike` 마지막 `alert=False`다 | 마지막 값 하나만 보면 같은 경보처럼 보여도, 순차 상태는 직전 흐름을 남겨 다른 결론을 만들 수 있다는 뜻 | 임계값이나 `alpha`를 바꾸면 `지속 상승`과 `일시적 튐`이 얼마나 쉽게 갈라지는지 달라집니다 |
 | `gradual_rise`와 `temporary_spike`의 마지막 입력이 둘 다 `80`인데 state가 다르다 | 현재 판단이 지금 step 하나가 아니라 이전 step들의 누적 흔적까지 함께 본다는 뜻 | 중간 값을 바꾸면 같은 마지막 입력도 상태가 얼마나 크게 달라지는지 더 선명해집니다 |
 | 운영 메모 예제에서 같은 마지막 `확인`인데 `shutdown_confirmed`와 `leak_confirmed`의 state가 다르다 | 같은 확인 문구도 앞 조치 단서가 다르면 상태와 최종 판단이 달라진다는 뜻 | `차단`, `누유` 신호 값을 바꾸면 앞 조치 흐름이 얼마나 강하게 남는지 볼 수 있습니다 |
 
-위 결과는 세 가지를 함께 보여 줍니다. 첫째, 운영 메모 예제에서는 baseline이 마지막 단어 `확인`만 보고 `shutdown_confirmed`, `leak_confirmed`, `restart_confirmed`를 모두 `positive`로 읽지만, 순차 상태 쪽은 앞의 위험 단서가 얼마나 강했는지를 남겨 `leak_confirmed`를 `negative`로 갈라냅니다. 둘째, 센서 예제에서는 baseline이 마지막 값 `80`만 보고 두 시계열 모두 경보라고 판단하지만, 상태를 쓰는 쪽은 `지속 상승`과 `일시적 튐`을 다르게 남길 수 있습니다. 셋째, 마지막 입력이 둘 다 `80`이거나 마지막 단어가 둘 다 `확인`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 하나`로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
+위 결과는 세 가지를 함께 보여 줍니다. 첫째, 운영 메모 예제에서는 baseline이 마지막 단어 `확인`만 보고 `shutdown_confirmed`, `leak_confirmed`, `restart_confirmed`를 모두 `restart_allowed`로 읽지만, 순차 상태 쪽은 앞의 차단·위험 단서가 얼마나 강했는지를 남겨 `shutdown_confirmed`와 `leak_confirmed`를 `hold_required`로 갈라냅니다. 둘째, 센서 예제에서는 baseline이 마지막 값 `80`만 보고 두 시계열 모두 경보라고 판단하지만, 상태를 쓰는 쪽은 `지속 상승`과 `일시적 튐`을 다르게 남길 수 있습니다. 셋째, 마지막 입력이 둘 다 `80`이거나 마지막 단어가 모두 `확인`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 하나`로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
 
 운영 메모 쪽도 같은 기준으로 읽으면 핵심이 더 분명해집니다. baseline은 마지막 단어가 주는 즉시 신호에 쉽게 끌리지만, 순차 상태 쪽은 `차단`, `누유`, `재가동`, `확인`이 차례로 남긴 흔적을 누적해 마지막 결론을 만듭니다. 실제 LSTM과 GRU는 바로 이 상태 관리를 더 오래, 더 안정적으로 하려는 방향으로 이해하면 됩니다.
 

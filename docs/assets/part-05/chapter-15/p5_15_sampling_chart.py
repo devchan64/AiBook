@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import random
 import xml.etree.ElementTree as ET
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -39,7 +40,7 @@ LANG_TEXT = {
         "xlabel": "후보 문구",
         "ylabel_left": "상대 비중",
         "ylabel_right": "선택 횟수",
-        "labels": ["후보 A", "후보 B", "후보 C", "후보 D"],
+        "labels": ["재확인", "담당자 확인", "10분 뒤 재측정", "정상 유지"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -52,12 +53,23 @@ LANG_TEXT = {
         "xlabel": "candidate output",
         "ylabel_left": "relative weight",
         "ylabel_right": "number of choices",
-        "labels": ["cand A", "cand B", "cand C", "cand D"],
+        "labels": ["recheck", "operator confirm", "remeasure", "keep normal"],
     },
 }
 
-WEIGHTS = np.array([0.46, 0.24, 0.18, 0.12])
-COUNTS = np.array([9, 5, 4, 2])
+RESPONSE_CANDIDATES = [
+    "재확인이 필요합니다.",
+    "담당자 확인 후 재개합니다.",
+    "10분 뒤 재측정합니다.",
+    "현재 기준에서는 정상으로 유지합니다.",
+]
+RESPONSE_WEIGHTS = [0.46, 0.24, 0.18, 0.12]
+
+
+def sampling_counts() -> np.ndarray:
+    random.seed(7)
+    sampled_choices = [random.choices(RESPONSE_CANDIDATES, weights=RESPONSE_WEIGHTS, k=1)[0] for _ in range(20)]
+    return np.array([sampled_choices.count(candidate) for candidate in RESPONSE_CANDIDATES])
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -110,7 +122,7 @@ def save_single_chart(text: dict[str, str], *, kind: str) -> None:
     style_axis(axis)
 
     if kind == "weights":
-        values = WEIGHTS
+        values = np.array(RESPONSE_WEIGHTS)
         outfile = text["weight_outfile"]
         title = text["weight_title"]
         desc = text["weight_desc"]
@@ -119,12 +131,12 @@ def save_single_chart(text: dict[str, str], *, kind: str) -> None:
         value_offset = 0.015
         formatter = lambda value: f"{value:.2f}"
     else:
-        values = COUNTS
+        values = sampling_counts()
         outfile = text["count_outfile"]
         title = text["count_title"]
         desc = text["count_desc"]
         ylabel = text["ylabel_right"]
-        ylim = (0, 11)
+        ylim = (0, max(values) + 2)
         value_offset = 0.2
         formatter = lambda value: str(int(value))
 

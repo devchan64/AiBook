@@ -266,7 +266,7 @@ sentences = {
     "coolant_flow_limit": 12.0,
     "high_temp_exception": 5.0,
 }
-scores_for_return = {
+scores_for_pressure = {
     "pressure_hold_time": 2.5,
     "coolant_flow_limit": 0.9,
     "high_temp_exception": 0.3,
@@ -296,10 +296,10 @@ def run_attention(question, score_table):
         print(name, "weight =", round(weight, 3), "value =", sentences[name])
     print("weights =", [round(w, 3) for w in weights])
     print("context =", round(context, 3))
-    print("lift_from_baseline =", round(context - baseline_context, 3))
+    print("shift_from_baseline =", round(context - baseline_context, 3))
     print()
 
-run_attention(question, scores_for_return)
+run_attention(question, scores_for_pressure)
 run_attention(flow_question, scores_for_flow)
 ```
 
@@ -313,7 +313,7 @@ coolant_flow_limit weight = 0.154 value = 12.0
 high_temp_exception weight = 0.084 value = 5.0
 weights = [0.762, 0.154, 0.084]
 context = 4.553
-lift_from_baseline = -2.114
+shift_from_baseline = -2.114
 
 question = 냉각수 유량 기준은?
 baseline_uniform_context = 6.667
@@ -322,13 +322,13 @@ coolant_flow_limit weight = 0.748 value = 12.0
 high_temp_exception weight = 0.101 value = 5.0
 weights = [0.151, 0.748, 0.101]
 context = 9.933
-lift_from_baseline = 3.266
+shift_from_baseline = 3.266
 ```
 
 - baseline처럼 모든 후보를 똑같이 평균내면 문맥값은 `6.667`이 되어, 질문과 직접 관련 없는 `coolant_flow_limit`, `high_temp_exception` 값도 같은 비중으로 섞입니다
 - `pressure_hold_time` 문장이 가장 큰 weight를 받습니다
 - 그래서 최종 context는 압력 해소 유지 시간 문장의 영향을 가장 크게 받습니다
-- `lift_from_baseline`이 음수라는 점은 질문과 직접 관련된 후보에 더 큰 비중이 실리면서, 문맥 표현이 `압력 해소 유지 시간` 쪽으로 더 끌려갔다는 뜻입니다
+- `shift_from_baseline`이 음수라는 점은 질문과 직접 관련된 후보에 더 큰 비중이 실리면서, 문맥 표현이 `압력 해소 유지 시간` 쪽으로 더 끌려갔다는 뜻입니다
 - 냉각수 유량 질문으로 바꾸면 같은 후보 집합이어도 `coolant_flow_limit`가 가장 큰 weight를 받으며 context도 유량 기준 쪽으로 올라갑니다
 - 즉, attention은 모든 위치를 똑같이 평균내지 않고, 현재 질문과 더 관련 있는 위치를 더 크게 반영합니다
 

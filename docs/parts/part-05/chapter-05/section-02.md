@@ -178,35 +178,34 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 
 ## 사례 및 예시
 
-### 사례 1. 스프레드시트와 비슷한 감각
+### 사례 1. 마지막 차단 점수만 보면 계산 경로가 사라진다
 
-계산 그래프는 스프레드시트(spreadsheet)와 비슷한 면이 있습니다.
+압력 미복귀 정도를 읽어 `재기동 차단 점수`를 만드는 아주 작은 계산을 생각해 봅니다. 운영자는 마지막에 나온 차단 점수만 보고 `높다`, `낮다`, `목표와 다르다`를 먼저 판단하기 쉽습니다. 하지만 계산 그래프 관점에서는 마지막 점수보다 먼저, 그 점수가 어떤 중간 계산을 거쳐 만들어졌는지를 펼쳐 봅니다.
 
-- 어떤 셀은 다른 셀 값을 참조해 계산됩니다
-- 뒤쪽 셀의 값이 바뀌면 앞단 입력 관계를 따라 영향을 추적할 수 있습니다
+예를 들어 입력 신호 `pressure_signal`에 위험 가중치 `risk_weight`를 곱해 `weighted_pressure`를 만들고, 여기에 기준 오프셋 `base_block_bias`를 더해 `block_logit`을 만든 뒤, ReLU를 통과시켜 `block_activation`을 얻는다고 해 봅니다. 마지막 손실(loss)은 이 출력이 목표 차단 점수 `target_block_score`에서 얼마나 떨어졌는지를 계산합니다. 이 흐름을 한 줄 수식으로만 보면 `결국 손실을 계산했다`로 읽히지만, 계산 그래프로 보면 각 노드가 따로 보입니다.
 
-예를 들어 총매출 셀이 수량, 단가, 할인율 셀을 함께 참조한다고 해 봅시다. 최종 결과가 예상보다 작으면, 사람은 보통 마지막 결과 셀만 다시 보면서 `왜 작지?`라고 생각하기 쉽습니다. 하지만 실제 원인을 찾으려면 할인율이 커졌는지, 수량 입력이 잘못 들어갔는지, 단가 계산식이 바뀌었는지를 참조 관계를 따라 다시 봐야 합니다. 계산 그래프도 같은 식으로 `최종 결과만 본다`에서 멈추지 않고, 어떤 중간 계산이 어떤 입력에 기대고 있었는지를 펼쳐 보게 만듭니다. 물론 스프레드시트 자체가 역전파를 하는 것은 아니지만, `의존 관계가 있는 계산망`이라는 감각은 매우 비슷합니다.
-그래서 이 사례에서 확인해야 할 결과는 마지막 결과값만 보는 것이 아니라, 어떤 중간 계산이 어떤 입력을 참조했는지를 실제로 거슬러 올라가 읽을 수 있는가입니다.
+그래서 이 사례에서 확인해야 할 결과는 마지막 차단 점수가 아니라, `weighted_pressure -> block_logit -> block_activation -> loss`로 이어지는 중간 산출물이 실제로 나뉘어 보이는가입니다. 계산 그래프는 이 구분을 만들어야 뒤에서 gradient가 어느 노드까지 되돌아가는지도 읽을 수 있습니다.
 
 | 사람이 먼저 보기 쉬운 기준 | 계산 그래프 관점으로 다시 읽는 기준 |
 | --- | --- |
-| 마지막 결과 셀만 다시 보면 원인을 찾을 수 있을 것 같다 | 어떤 중간 계산이 어느 입력을 참조했는지 연결을 따라가야 한다 |
-| 값이 틀렸으면 마지막 계산만 고치면 될 것 같다 | 앞단 중간값이 어떻게 만들어졌는지까지 봐야 한다 |
-| 계산은 순서대로만 보면 된다 | backward에서는 같은 연결을 거꾸로 따라가며 책임을 나눈다 |
+| 마지막 차단 점수만 보면 판단할 수 있을 것 같다 | 점수가 어떤 중간값을 거쳐 만들어졌는지 먼저 나누어 읽어야 한다 |
+| 손실이 크면 앞단 가중치도 크게 바뀔 것 같다 | 손실 크기와 gradient 전달 경로는 따로 확인해야 한다 |
+| ReLU 출력만 보면 충분할 것 같다 | ReLU에 들어가기 전 `block_logit`의 부호가 backward 경로를 바꾼다 |
 
-### 사례 2. 재기동 차단 점수를 만드는 판단 네트워크
+### 사례 2. 손실은 큰데 gradient가 앞단으로 가지 않는 경우
 
-압력 미복귀, 잔류 가스 경보, 인터록 해제 상태를 함께 읽어 `재기동 차단 점수 0.82` 같은 출력을 만드는 판단 네트워크를 떠올려 보겠습니다. 사람은 마지막에 나온 `차단 0.82` 같은 점수만 보면 충분하다고 느끼기 쉽지만, 실제 계산은 선형 조합(linear combination), 활성화(activation), 다음 층 전달, 손실 계산이 길게 이어진 흐름입니다.
+같은 계산망에서도 `block_logit`이 양수인지 음수인지에 따라 역전파 해석이 달라집니다. `block_logit > 0`이면 ReLU가 값을 통과시키므로 손실에서 출발한 gradient가 `block_activation -> block_logit -> risk_weight, base_block_bias` 쪽으로 이어질 수 있습니다. 반대로 `block_logit <= 0`이면 forward 출력은 0으로 잘리고, backward에서는 ReLU 앞단으로 gradient가 전달되지 않습니다.
 
-이 전체를 한 줄 수식으로만 보면 읽기 어렵고, 중간에 어디서 값이 크게 바뀌었는지도 보이지 않습니다. 사람은 마지막 차단 점수만 보고 `틀렸으니 마지막 층만 고치면 되지 않을까`라고 생각하기 쉽지만, 실제로는 앞쪽 선형 조합이 압력과 가스 신호를 어떻게 묶었는지, 중간 활성화가 어디서 잘렸는지, 어느 블록 출력이 뒤 블록 입력으로 이어졌는지를 같이 봐야 합니다. 계산 그래프 관점은 이 긴 계산을 `연산 블록의 연결`로 읽게 해 주고, 어느 블록에서 값이 만들어지고 어디로 전달되는지 추적하기 쉽게 만듭니다. 그 결과 오류를 하나의 점수가 아니라 `연결된 계산 흐름의 문제`로 읽을 수 있게 됩니다.
-그래서 이 사례에서 확인해야 할 결과는 마지막 점수 하나보다, 어느 연산 블록에서 값이 만들어지고 다음 블록으로 어떻게 전달되는지를 실제로 나눠 볼 수 있는가입니다.
+이 장면에서 사람은 손실 숫자만 보고 `손실이 더 큰 쪽이 더 강하게 고쳐지겠지`라고 생각하기 쉽습니다. 하지만 계산 그래프는 그렇게 읽지 않습니다. 손실이 커도 경로가 끊겨 있으면 앞단 파라미터가 그 경로로는 업데이트되지 않습니다. 따라서 계산 그래프 관점은 `얼마나 틀렸는가`와 `어디까지 책임이 되돌아가는가`를 분리하게 해 줍니다.
+
+그래서 이 사례에서 확인해야 할 결과는 두 가지입니다. 첫째, forward에서는 어떤 노드에서 값이 만들어졌는가를 봅니다. 둘째, backward에서는 손실에서 출발한 gradient가 ReLU 앞단과 파라미터까지 살아서 도착하는가를 봅니다. 이 두 질문을 분리해야 계산 그래프가 단순한 계산 순서 그림이 아니라, 역전파를 읽는 도구가 됩니다.
 
 두 사례를 같이 놓고 보면 계산 그래프가 필요한 이유가 더 선명해집니다.
 
 | 장면 | 사람이 먼저 보기 쉬운 결과 | 계산 그래프가 더 분명하게 남기는 해석 | 바로 다음에 확인할 것 |
 | --- | --- | --- | --- |
-| 스프레드시트 의존 관계 | 마지막 결과 셀이 이상하면 그 셀 근처만 다시 보면 될 것 같습니다. | 어떤 중간 계산이 어느 입력을 참조했는지 연결을 따라 올라가야 원인을 찾을 수 있습니다. | 값이 틀린 지점이 아니라, 어떤 참조 경로가 결과를 만들었는지 봅니다. |
-| 재기동 차단 판단 네트워크 | 마지막 차단 점수만 높거나 낮으면 마지막 층만 고치면 될 것 같습니다. | 앞단 선형 조합, 활성화, 다음 블록 전달까지 이어지는 계산 경로를 같이 봐야 합니다. | 어느 블록에서 값이 커졌고 어느 블록이 다음 판단에 더 크게 기여했는지 봅니다. |
+| 재기동 차단 점수 계산 | 마지막 출력 점수와 손실만 보면 될 것 같습니다. | 중간값이 어떤 노드에서 만들어졌는지 나누어야 backward가 읽힙니다. | `weighted_pressure`, `block_logit`, `block_activation`, `loss`를 따로 봅니다. |
+| ReLU 문이 닫힌 계산 경로 | 손실이 크면 앞단 가중치도 크게 바뀔 것 같습니다. | 손실이 커도 ReLU 앞단에서 gradient가 0으로 끊길 수 있습니다. | `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`가 실제로 살아 있는지 봅니다. |
 
 ## 연습 및 예제
 
@@ -228,7 +227,7 @@ P5-5.1에서 연쇄 법칙은 `단계별 영향도를 이어 붙이는 규칙`�
 출력:
 
 - 순전파 중간값 `weighted_pressure`, `block_logit`, `block_activation`, `loss`
-- 역전파 gradient `d_loss_d_activation`, `d_loss_d_logit`, `d_loss_d_weight`, `d_loss_d_bias`
+- 역전파 gradient `d_loss_d_activation`, `d_loss_d_logit`, `d_loss_d_weighted_pressure`, `d_loss_d_weight`, `d_loss_d_bias`
 - 어떤 중간값이 어떤 gradient 계산에 다시 쓰이는지에 대한 연결
 - ReLU 문이 열린 경우와 닫힌 경우의 backward 차이
 
@@ -287,6 +286,8 @@ for case in cases:
     d_loss_d_activation = 2 * (block_activation - target_block_score)
     d_activation_d_logit = 1.0 if block_logit > 0 else 0.0
     d_loss_d_logit = d_loss_d_activation * d_activation_d_logit
+    d_logit_d_weighted_pressure = 1.0
+    d_loss_d_weighted_pressure = d_loss_d_logit * d_logit_d_weighted_pressure
     d_logit_d_weight = pressure_signal
     d_logit_d_bias = 1.0
     d_loss_d_weight = d_loss_d_logit * d_logit_d_weight
@@ -296,8 +297,8 @@ for case in cases:
         {
             "node": "weighted_pressure = risk_weight * pressure_signal",
             "forward_value": round(weighted_pressure, 3),
-            "backward_signal": round(d_loss_d_weight, 3),
-            "read_as": "risk_weight 쪽으로 되돌아가는 gradient",
+            "backward_signal": round(d_loss_d_weighted_pressure, 3),
+            "read_as": "weighted_pressure 출력으로 되돌아온 gradient",
         },
         {
             "node": "block_logit = weighted_pressure + base_block_bias",
@@ -329,6 +330,7 @@ for case in cases:
     print("backward:", {
         "d_loss_d_activation": round(d_loss_d_activation, 3),
         "d_loss_d_logit": round(d_loss_d_logit, 3),
+        "d_loss_d_weighted_pressure": round(d_loss_d_weighted_pressure, 3),
         "d_loss_d_weight": round(d_loss_d_weight, 3),
         "d_loss_d_bias": round(d_loss_d_bias, 3),
     })
@@ -343,18 +345,18 @@ for case in cases:
 ```text
 [block_gate_open]
 forward: {'weighted_pressure': 3.0, 'block_logit': 2.5, 'block_activation': 2.5, 'loss': 2.25}
-backward: {'d_loss_d_activation': -3.0, 'd_loss_d_logit': -3.0, 'd_loss_d_weight': -6.0, 'd_loss_d_bias': -3.0}
+backward: {'d_loss_d_activation': -3.0, 'd_loss_d_logit': -3.0, 'd_loss_d_weighted_pressure': -3.0, 'd_loss_d_weight': -6.0, 'd_loss_d_bias': -3.0}
 node_trace:
-  {'node': 'weighted_pressure = risk_weight * pressure_signal', 'forward_value': 3.0, 'backward_signal': -6.0, 'read_as': 'risk_weight 쪽으로 되돌아가는 gradient'}
+  {'node': 'weighted_pressure = risk_weight * pressure_signal', 'forward_value': 3.0, 'backward_signal': -3.0, 'read_as': 'weighted_pressure 출력으로 되돌아온 gradient'}
   {'node': 'block_logit = weighted_pressure + base_block_bias', 'forward_value': 2.5, 'backward_signal': -3.0, 'read_as': 'ReLU 앞단에서 살아 있거나 끊기는 gradient'}
   {'node': 'block_activation = ReLU(block_logit)', 'forward_value': 2.5, 'backward_signal': -3.0, 'read_as': 'loss가 직접 바라보는 출력 노드'}
   {'node': 'loss = (block_activation - target_block_score) ** 2', 'forward_value': 2.25, 'backward_signal': 'start', 'read_as': 'backward가 출발하는 손실 노드'}
 ---
 [block_gate_closed]
 forward: {'weighted_pressure': 0.2, 'block_logit': -0.3, 'block_activation': 0.0, 'loss': 16.0}
-backward: {'d_loss_d_activation': -8.0, 'd_loss_d_logit': -0.0, 'd_loss_d_weight': -0.0, 'd_loss_d_bias': -0.0}
+backward: {'d_loss_d_activation': -8.0, 'd_loss_d_logit': -0.0, 'd_loss_d_weighted_pressure': -0.0, 'd_loss_d_weight': -0.0, 'd_loss_d_bias': -0.0}
 node_trace:
-  {'node': 'weighted_pressure = risk_weight * pressure_signal', 'forward_value': 0.2, 'backward_signal': -0.0, 'read_as': 'risk_weight 쪽으로 되돌아가는 gradient'}
+  {'node': 'weighted_pressure = risk_weight * pressure_signal', 'forward_value': 0.2, 'backward_signal': -0.0, 'read_as': 'weighted_pressure 출력으로 되돌아온 gradient'}
   {'node': 'block_logit = weighted_pressure + base_block_bias', 'forward_value': -0.3, 'backward_signal': -0.0, 'read_as': 'ReLU 앞단에서 살아 있거나 끊기는 gradient'}
   {'node': 'block_activation = ReLU(block_logit)', 'forward_value': 0.0, 'backward_signal': -8.0, 'read_as': 'loss가 직접 바라보는 출력 노드'}
   {'node': 'loss = (block_activation - target_block_score) ** 2', 'forward_value': 16.0, 'backward_signal': 'start', 'read_as': 'backward가 출발하는 손실 노드'}

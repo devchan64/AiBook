@@ -47,7 +47,7 @@ LANG_TEXT = {
         "open_label": "문 열림",
         "closed_label": "문 닫힘",
         "forward_node_labels": ["weighted\npressure", "block\nlogit", "block\nactivation", "loss"],
-        "backward_node_labels": ["dL/d\nactivation", "dL/d\nlogit", "dL/d\nweight", "dL/d\nbias"],
+        "backward_node_labels": ["dL/d\nactivation", "dL/d\nlogit", "dL/d\nweighted", "dL/d\nweight", "dL/d\nbias"],
         "forward_ylabel": "forward 값",
         "backward_ylabel": "backward gradient",
     },
@@ -78,7 +78,7 @@ LANG_TEXT = {
         "open_label": "gate open",
         "closed_label": "gate closed",
         "forward_node_labels": ["weighted\npressure", "block\nlogit", "block\nactivation", "loss"],
-        "backward_node_labels": ["dL/d\nactivation", "dL/d\nlogit", "dL/d\nweight", "dL/d\nbias"],
+        "backward_node_labels": ["dL/d\nactivation", "dL/d\nlogit", "dL/d\nweighted", "dL/d\nweight", "dL/d\nbias"],
         "forward_ylabel": "forward value",
         "backward_ylabel": "backward gradient",
     },
@@ -125,12 +125,13 @@ def computation_graph_case_values(
     d_loss_d_activation = 2 * (block_activation - target_block_score)
     d_activation_d_logit = 1.0 if block_logit > 0 else 0.0
     d_loss_d_logit = d_loss_d_activation * d_activation_d_logit
+    d_loss_d_weighted_pressure = d_loss_d_logit
     d_loss_d_weight = d_loss_d_logit * pressure_signal
     d_loss_d_bias = d_loss_d_logit
 
     return (
         [weighted_pressure, block_logit, block_activation, loss],
-        [d_loss_d_activation, d_loss_d_logit, d_loss_d_weight, d_loss_d_bias],
+        [d_loss_d_activation, d_loss_d_logit, d_loss_d_weighted_pressure, d_loss_d_weight, d_loss_d_bias],
     )
 
 
@@ -470,7 +471,7 @@ def save_computation_forward_trace(text: dict[str, str], locale: str) -> None:
             value = bar.get_height()
             label_y = value + 0.35 if value >= 0 else value - 0.55
             va = "bottom" if value >= 0 else "top"
-            ax.text(bar.get_x() + bar.get_width() / 2, label_y, f"{value:.2g}", ha="center", va=va, fontsize=9)
+            ax.text(bar.get_x() + bar.get_width() / 2, label_y, f"{value:.3g}", ha="center", va=va, fontsize=9)
     ax.axhline(0, color="#334155", linewidth=1.1)
     ax.set_xticks(x)
     ax.set_xticklabels(text["forward_node_labels"])

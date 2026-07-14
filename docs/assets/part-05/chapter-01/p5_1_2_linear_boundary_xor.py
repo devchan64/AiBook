@@ -94,7 +94,7 @@ def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def style_axes(ax, text: dict[str, str], title: str) -> None:
+def style_axes(ax, text: dict[str, str]) -> None:
     ax.set_facecolor("#f8fafc")
     ax.set_xlim(-0.05, 1.05)
     ax.set_ylim(-0.05, 1.05)
@@ -104,13 +104,12 @@ def style_axes(ax, text: dict[str, str], title: str) -> None:
     ax.set_axisbelow(True)
     ax.set_xlabel(text["xlabel"])
     ax.set_ylabel(text["ylabel"])
-    ax.set_title(title, loc="left", fontsize=12, fontweight="bold", color="#172033")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
 
 def draw_linear_panel(ax, text: dict[str, str]) -> None:
-    style_axes(ax, text, text["panel_left"])
+    style_axes(ax, text)
 
     class_0 = LINEAR_POINTS["class_0"]
     class_1 = LINEAR_POINTS["class_1"]
@@ -126,7 +125,7 @@ def draw_linear_panel(ax, text: dict[str, str]) -> None:
 
 
 def draw_xor_panel(ax, text: dict[str, str]) -> None:
-    style_axes(ax, text, text["panel_right"])
+    style_axes(ax, text)
 
     class_0 = XOR_POINTS["class_0"]
     class_1 = XOR_POINTS["class_1"]

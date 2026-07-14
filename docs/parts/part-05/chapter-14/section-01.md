@@ -418,7 +418,7 @@ action token after residual = [1.238 1.814]
 | --- | --- | --- |
 | `action token after residual`이 장면마다 달라진다 | 조치 확인 토큰의 attention 비중을 더 키우거나 줄여 보고 운영 판단 표현이 어떻게 달라지는지 비교한다 | attention 수치 하나만으로 실제 운영 우선순위 전체가 결정된다고 단정하지 않는다 |
 | `contextual tokens`가 장면마다 다르게 섞인다 | 증상 토큰과 배포 단서 토큰 비중을 바꿔 어떤 문맥이 action token에 더 크게 들어오는지 본다 | 숫자 변화가 크다고 해서 항상 더 좋은 표현 학습이라고 단정하지 않는다 |
-| `after simple layer norm`이 비슷한 범위로 정리된다 | 특정 축 값을 과하게 키워 normalization 전후 차이가 얼마나 커지는지 본다 | 이 축약 normalization 비교만으로 실제 layer normalization 구현 세부를 모두 대체하지 않는다 |
+| `after simple layer norm`이 비슷한 범위로 정리된다 | 특정 축 값을 과하게 키워 normalization 전후 차이가 얼마나 커지는지 본다 | 이 간단한 normalization 비교만으로 실제 layer normalization 구현 세부를 모두 대체하지 않는다 |
 
 실제 Transformer는 잔차 연결(residual connection), layer normalization, multi-head attention을 함께 쓰지만, 큰 흐름은 이런 블록 반복으로 읽는 것이 좋습니다.
 

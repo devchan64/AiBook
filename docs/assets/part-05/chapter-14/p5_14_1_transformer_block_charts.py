@@ -54,8 +54,6 @@ TEXT = {
         ],
         "confirmed": "롤백 확인",
         "not_confirmed": "롤백 미확인",
-        "stage_title": "조치 토큰의 단계별 표현 이동",
-        "residual_title": "잔차 이후 조치 토큰 비교",
         "x_label": "긴급/원인 축",
         "y_label": "복구 상태 축",
         "axis_labels": ["긴급/원인 축", "복구 상태 축"],
@@ -67,8 +65,6 @@ TEXT = {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
         "confirmed": "rollback confirmed",
         "not_confirmed": "rollback not confirmed",
-        "stage_title": "Action token movement through block stages",
-        "residual_title": "Action token after residual",
         "x_label": "urgency/cause axis",
         "y_label": "recovery-status axis",
         "axis_labels": ["urgency/cause", "recovery status"],
@@ -120,7 +116,6 @@ def draw_stage_trace(locale: str, data: dict[str, dict[str, np.ndarray]]) -> Non
     text = TEXT[locale]
     configure_font(text)
     fig, ax = plt.subplots(figsize=(6.5, 4.5))
-    ax.set_title(text["stage_title"], loc="left", fontsize=13, fontweight="bold", color="#172033")
     ax.set_xlabel(text["x_label"], fontsize=10)
     ax.set_ylabel(text["y_label"], fontsize=10)
     ax.set_xlim(0.2, 1.4)
@@ -158,7 +153,6 @@ def draw_residual_compare(locale: str, data: dict[str, dict[str, np.ndarray]]) -
     width = 0.34
 
     fig, ax = plt.subplots(figsize=(6.3, 3.8))
-    ax.set_title(text["residual_title"], loc="left", fontsize=13, fontweight="bold", color="#172033")
     bars_a = ax.bar(x - width / 2, confirmed, width, label=text["confirmed"], color="#2563eb")
     bars_b = ax.bar(x + width / 2, not_confirmed, width, label=text["not_confirmed"], color="#f97316")
     ax.set_xticks(x)

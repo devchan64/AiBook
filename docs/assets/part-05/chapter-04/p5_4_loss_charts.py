@@ -194,7 +194,6 @@ def save_loss_shapes(text: dict[str, str]) -> None:
     axes[0].spines["right"].set_visible(False)
     axes[0].plot(distance, squared_error, color="#2563eb", linewidth=2.4)
     axes[0].axvline(0, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
-    axes[0].set_title(text["regression_panel"], loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     axes[0].set_xlabel(text["regression_xlabel"])
     axes[0].set_ylabel(text["loss_ylabel"])
     axes[0].set_xlim(-3.3, 3.3)
@@ -227,7 +226,6 @@ def save_loss_shapes(text: dict[str, str]) -> None:
     axes[1].spines["top"].set_visible(False)
     axes[1].spines["right"].set_visible(False)
     axes[1].plot(true_prob, cross_entropy, color="#dc2626", linewidth=2.4)
-    axes[1].set_title(text["classification_panel"], loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     axes[1].set_xlabel(text["classification_xlabel"])
     axes[1].set_ylabel(text["loss_ylabel"])
     axes[1].set_xlim(0.0, 1.02)
@@ -273,7 +271,6 @@ def save_squared_error_loss(text: dict[str, str]) -> None:
     ax.spines["right"].set_visible(False)
     ax.plot(distance, squared_error, color="#2563eb", linewidth=2.4)
     ax.axvline(0, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
-    ax.set_title(text["regression_panel"], loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     ax.set_xlabel(text["regression_xlabel"])
     ax.set_ylabel(text["loss_ylabel"])
     ax.set_xlim(-3.3, 3.3)
@@ -318,7 +315,6 @@ def save_cross_entropy_loss(text: dict[str, str]) -> None:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.plot(true_prob, cross_entropy, color="#dc2626", linewidth=2.4)
-    ax.set_title(text["classification_panel"], loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     ax.set_xlabel(text["classification_xlabel"])
     ax.set_ylabel(text["loss_ylabel"])
     ax.set_xlim(0.0, 1.02)
@@ -374,19 +370,16 @@ def save_problem_axes(text: dict[str, str]) -> None:
     title, xlabel = text["problem_panels"][0]
     axes[0].plot(z, regression_curve, color="#2563eb", linewidth=2.4)
     axes[0].axvline(0, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
-    axes[0].set_title(title, loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     axes[0].set_xlabel(xlabel)
     axes[0].set_ylim(0, 10.2)
 
     title, xlabel = text["problem_panels"][1]
     axes[1].plot(classification_prob, classification_curve, color="#dc2626", linewidth=2.4)
-    axes[1].set_title(title, loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     axes[1].set_xlabel(xlabel)
     axes[1].set_ylim(0, 4.8)
 
     title, xlabel = text["problem_panels"][2]
     axes[2].bar(token_positions, token_loss, color=["#dc2626", "#f97316", "#dc2626", "#0f766e"], width=0.56)
-    axes[2].set_title(title, loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     axes[2].set_xlabel(xlabel)
     axes[2].set_xticks(token_positions)
     axes[2].set_xticklabels(text["token_labels"])
@@ -425,7 +418,6 @@ def save_regression_loss_axis(text: dict[str, str]) -> None:
     ax.set_ylabel(text["loss_ylabel"])
     ax.plot(z, regression_curve, color="#2563eb", linewidth=2.4)
     ax.axvline(0, color="#94a3b8", linewidth=1.0, linestyle=(0, (4, 4)))
-    ax.set_title(title, loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     ax.set_xlabel(xlabel)
     ax.set_ylim(0, 10.2)
 
@@ -451,7 +443,6 @@ def save_classification_loss_axis(text: dict[str, str]) -> None:
     ax.spines["right"].set_visible(False)
     ax.set_ylabel(text["loss_ylabel"])
     ax.plot(classification_prob, classification_curve, color="#dc2626", linewidth=2.4)
-    ax.set_title(title, loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     ax.set_xlabel(xlabel)
     ax.set_ylim(0, 4.8)
 
@@ -478,7 +469,6 @@ def save_generation_loss_axis(text: dict[str, str]) -> None:
     ax.spines["right"].set_visible(False)
     ax.set_ylabel(text["loss_ylabel"])
     ax.bar(token_positions, token_loss, color=["#dc2626", "#f97316", "#dc2626", "#0f766e"], width=0.56)
-    ax.set_title(title, loc="left", fontsize=11.5, fontweight="bold", color="#172033")
     ax.set_xlabel(xlabel)
     ax.set_xticks(token_positions)
     ax.set_xticklabels(text["token_labels"])
