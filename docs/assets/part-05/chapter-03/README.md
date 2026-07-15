@@ -11,8 +11,6 @@
   - `linear-activation-linear-en.mmd` / `linear-activation-linear-ko.mmd`
   - `node-activation-flow-en.mmd` / `node-activation-flow-ko.mmd`
   - `activation-signal-survival-flow-en.mmd` / `activation-signal-survival-flow-ko.mmd`
-  - `activation-visual-signal-case-flow-en.mmd` / `activation-visual-signal-case-flow-ko.mmd`
-  - `activation-tabular-signal-case-flow-en.mmd` / `activation-tabular-signal-case-flow-ko.mmd`
   - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
   - `output-activation-decision-flow-en.mmd` / `output-activation-decision-flow-ko.mmd`
 - SVG chart assets:
