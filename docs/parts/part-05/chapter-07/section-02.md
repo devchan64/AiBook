@@ -169,6 +169,7 @@ Adam은 이런 차이를 완전히 해결하는 마법 같은 방법은 아니�
 - 단순 직접 업데이트 방식의 연속 위험 가중치 업데이트 결과
 - Adam-like 누적 평균을 단순화한 직관적 업데이트 결과
 - step별 `sgd_delta`와 `adam_like_delta`
+- 두 파라미터의 gradient 크기가 다를 때 좌표별 보폭 조절이 어떻게 나타나는지
 
 문제 상황:
 
@@ -178,6 +179,7 @@ Adam은 이런 차이를 완전히 해결하는 마법 같은 방법은 아니�
 
 - 단순 직접 업데이트는 현재 gradient에 바로 반응한다
 - Adam류 방식은 최근 gradient 정보를 누적해 이동량을 조절한다
+- Adam류 방식은 좌표별 gradient 크기 차이도 update 크기에 반영하려 한다
 
 입력(input):
 
@@ -260,6 +262,66 @@ delta 단계에서 차이가 생깁니다. 단순 직접 업데이트는 현재 
 - Adam류의 아이디어는 최근 방향을 누적해 step별 update를 다르게 만듭니다
 - optimizer는 단순히 `감소시킨다`가 아니라, 같은 gradient를 `어떤 update 경로로 바꿀지`를 정합니다
 
+### 좌표별 조절 미니 실험
+
+위 예제는 Adam류 optimizer가 `최근 gradient 흐름`을 남기는 감각을 보여 줍니다. 하지만 Adam을 이해하려면 한 가지를 더 봐야 합니다. 큰 모델에서는 파라미터가 하나가 아니라 많고, 각 파라미터의 gradient 크기도 서로 다릅니다. 이때 Adam류 optimizer는 `모든 좌표를 같은 기준 보폭으로 밀기`보다, 좌표별 gradient 크기를 참고해 update를 조절하려고 합니다.
+
+다음 미니 실험은 진짜 Adam 전체 구현이 아니라, Adam의 좌표별 조절 직관 중 `두 번째 모멘트(second moment)로 gradient 크기 차이를 보정한다`는 부분만 단순화한 것입니다. 여기서는 두 파라미터를 비교합니다.
+
+| 파라미터 | 들어오는 gradient 흐름 | 단순 직접 업데이트에서 먼저 예상할 일 | Adam-like 좌표별 조절에서 먼저 예상할 일 |
+| --- | --- | --- | --- |
+| `risk_weight` | `[-8.0, -4.0]` | gradient가 커서 update도 매우 커진다 | 큰 gradient 좌표는 보폭이 상대적으로 눌린다 |
+| `recovery_weight` | `[-0.5, -0.25]` | gradient가 작아서 update도 매우 작아진다 | 작은 gradient 좌표도 완전히 묻히지 않게 조절된다 |
+
+```python
+gradient_by_parameter = {
+    "risk_weight": [-8.0, -4.0],
+    "recovery_weight": [-0.5, -0.25],
+}
+
+learning_rate = 0.1
+beta2 = 0.9
+second_moment = {
+    "risk_weight": 0.0,
+    "recovery_weight": 0.0,
+}
+
+for step in range(2):
+    print("step", step + 1)
+    for parameter_name, gradient_history in gradient_by_parameter.items():
+        gradient = gradient_history[step]
+        direct_delta = -learning_rate * gradient
+
+        second_moment[parameter_name] = (
+            beta2 * second_moment[parameter_name]
+            + (1 - beta2) * gradient * gradient
+        )
+        adam_like_delta = -learning_rate * gradient / (second_moment[parameter_name] ** 0.5)
+
+        print(
+            parameter_name,
+            "gradient =", gradient,
+            "direct_delta =", round(direct_delta, 3),
+            "second_moment =", round(second_moment[parameter_name], 3),
+            "adam_like_delta =", round(adam_like_delta, 3),
+        )
+```
+
+출력은 다음처럼 읽습니다.
+
+```text
+step 1
+risk_weight gradient = -8.0 direct_delta = 0.8 second_moment = 6.4 adam_like_delta = 0.316
+recovery_weight gradient = -0.5 direct_delta = 0.05 second_moment = 0.025 adam_like_delta = 0.316
+step 2
+risk_weight gradient = -4.0 direct_delta = 0.4 second_moment = 7.36 adam_like_delta = 0.147
+recovery_weight gradient = -0.25 direct_delta = 0.025 second_moment = 0.029 adam_like_delta = 0.147
+```
+
+단순 직접 업데이트에서는 `risk_weight`의 첫 update가 `0.8`이고 `recovery_weight`는 `0.05`입니다. gradient 크기 차이가 update 크기 차이로 거의 그대로 옮겨갑니다. 반면 Adam-like 좌표별 조절에서는 각 좌표가 자기 gradient 크기 이력을 `second_moment`에 따로 쌓고, 그 값으로 update를 나눕니다. 그래서 큰 gradient 좌표는 상대적으로 눌리고, 작은 gradient 좌표는 완전히 묻히지 않습니다.
+
+이 숫자를 Adam 전체 공식으로 외울 필요는 없습니다. 여기서 붙잡아야 할 학습 포인트는 하나입니다. Adam의 `적응형(adaptive)`이라는 말은 단순히 최근 흐름을 기억한다는 뜻만이 아니라, 파라미터 좌표마다 gradient 크기 이력을 따로 보고 update 보폭을 조절하려 한다는 뜻입니다.
+
 이 예제는 여기서 끝내기보다, 값을 조금 바꿔 보며 `어떤 변화가 어느 방식에 더 민감하게 반영되는가`를 같이 보는 편이 더 좋습니다.
 
 | 먼저 바꿔 볼 값 | 무엇을 비교하게 되는가 | 이 절에서 먼저 확인할 결과 |
@@ -267,6 +329,7 @@ delta 단계에서 차이가 생깁니다. 단순 직접 업데이트는 현재 
 | `learning_rate`를 0.1에서 0.3으로 키운다 | 두 방식의 step별 이동량이 얼마나 더 거칠어지는가 | SGD 쪽 `risk_weight` 이동 폭이 더 직접적으로 커지는가 |
 | `beta`를 0.9에서 0.5로 낮춘다 | Adam-like가 최근 gradient를 얼마나 빨리 따라가는가 | 누적 평균이 덜 매끈해지고 현재 gradient 반영이 빨라지는가 |
 | `gradient_risk_weight_history`를 `[-4.0, 3.0, -1.0]`처럼 흔들리게 바꾼다 | 방향이 뒤집힐 때 두 방식이 얼마나 다르게 반응하는가 | Adam-like가 방향 전환을 더 천천히 반영하는가 |
+| `recovery_weight`의 gradient를 `[-0.5, -0.25]`에서 `[-2.0, -1.0]`으로 키운다 | 좌표별 보정 뒤 두 파라미터의 update 차이가 어떻게 바뀌는가 | Adam-like가 좌표마다 따로 쌓은 크기 이력을 사용한다는 점이 보이는가 |
 
 즉, 이 절의 실험은 `Adam이 다르다`를 보는 데서 멈추지 않고, `어떤 값을 흔들면 Adam-like 보완이 더 분명해지는가`까지 확인해야 optimizer 감각이 더 오래 남습니다.
 
