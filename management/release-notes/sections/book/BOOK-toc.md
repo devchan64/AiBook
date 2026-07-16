@@ -64,3 +64,12 @@
 - 번역 반영 상태: 영어판 및 중국어 간체 목차 반영
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.14`
+
+### v2026.07.16
+
+- 변경 이유: P5-7.1에서 본편 범위 밖으로만 남아 있던 `adaptive optimization의 이론적 수렴 분석`을 보충학습으로 회수하면서 독자용 목차도 새 Section을 노출해야 했다.
+- 본문 반영: 한국어 독자용 목차의 Part 5 Chapter 7에 `P5-7.3 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법`을 추가하고 `Version`을 `v2026.07.16`으로 갱신했다.
+- 번역 동기화 메모: Korean reader-facing TOC now includes P5-7.3 as a supplemental section for adaptive optimization convergence analysis. Future English and Simplified Chinese TOCs should add the same Section ID when translated.
+- 번역 반영 상태: 향후 번역 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.16`

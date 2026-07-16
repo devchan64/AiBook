@@ -1,7 +1,7 @@
 # P5-7.1 옵티마이저(optimizer)의 역할
 
 Section ID: `P5-7.1`
-Version: `v2026.07.14`
+Version: `v2026.07.16`
 
 P5-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분했습니다. 여기까지 오면 이제 아주 직접적인 질문이 남습니다.
 
@@ -24,7 +24,7 @@ P5-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 
 - 옵티마이저는 학습 절차에서 어떤 자리에 있는가?
 - 손실 함수, 역전파, 학습률(learning rate)과 어떤 관계가 있는가?
 - 왜 `좋은 gradient`만으로는 충분하지 않고 `업데이트 규칙`이 따로 필요한가?
-- optimizer를 단순한 구현 함수가 아니라 학습 전략으로 읽으려면 무엇을 보아야 하는가?
+- optimizer를 단순한 구현 함수가 아니라 파라미터를 실제로 바꾸는 역할로 읽으려면 무엇을 보아야 하는가?
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
@@ -32,13 +32,13 @@ P5-6장에서는 학습(learning)과 모델 실행(inference), 그리고 학습 
 - adaptive optimization의 이론적 수렴 분석
 - optimizer state의 메모리 최적화
 
-대표 옵티마이저 비교는 P5-7.2에서 이어서 다루고, regularization과의 역할 차이는 P5-8.1에서 다시 연결합니다. optimizer state의 메모리 최적화와 adaptive optimization의 이론적 수렴 분석은 이 책의 현재 본편 범위 밖에 둡니다.
+대표 옵티마이저 비교는 P5-7.2에서 이어서 다루고, adaptive optimization의 이론적 수렴 분석은 P5-7.3 보충학습에서 논문을 처음 읽는 기준만 따로 정리합니다. regularization과의 역할 차이는 P5-8.1에서 다시 연결합니다. optimizer state의 메모리 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
 - 옵티마이저를 `gradient를 실제 업데이트로 바꾸는 규칙`으로 설명할 수 있습니다.
 - 손실 함수, 역전파, 옵티마이저의 역할을 구분할 수 있습니다.
-- 학습률이 왜 중요한 설정값인지 말할 수 있습니다.
+- 학습률이 optimizer의 update 보폭에 붙는 설정값이라는 점을 말할 수 있습니다.
 - 실행 가능한 Python 예제로 gradient와 update의 차이를 확인할 수 있습니다.
 
 ## 옵티마이저는 학습 절차의 어디에 있는가
@@ -88,9 +88,9 @@ gradient는 방향(direction)에 대한 정보입니다. 보통은 `어느 쪽�
 - optimizer는 `얼마나 움직일까`, `한 번에 얼마나 바꿀까`를 정합니다.
 - 그래서 같은 gradient라도 optimizer와 learning rate가 다르면 실제 학습 모습이 달라질 수 있습니다.
 
-## 학습률(learning rate)은 왜 중요한가
+## optimizer가 update를 만들 때 learning rate는 어디에 붙는가
 
-옵티마이저 설명에서 빠질 수 없는 값이 학습률(learning rate)입니다. 학습률은 한 번의 업데이트에서 얼마나 크게 움직일지를 정합니다.
+옵티마이저의 역할을 설명할 때 학습률(learning rate)이 함께 나오는 이유는, optimizer가 gradient를 실제 update로 바꾸는 순간에 학습률이 보폭으로 붙기 때문입니다. 학습률 자체가 가중치를 바꾸는 것은 아니지만, optimizer가 `얼마나 크게 바꿀지`를 정할 때 핵심 배율로 쓰입니다.
 
 너무 작으면:
 
@@ -102,7 +102,7 @@ gradient는 방향(direction)에 대한 정보입니다. 보통은 `어느 쪽�
 - 좋은 방향을 알고도 지나쳐 버릴 수 있고
 - 손실이 불안정하게 흔들릴 수 있습니다
 
-즉, 학습률은 단순한 숫자가 아니라 `업데이트의 보폭(step size)`입니다.
+즉, 학습률은 optimizer가 update를 만들 때 사용하는 `업데이트의 보폭(step size)`입니다.
 
 Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은 학습으로 자동 생성되는 파라미터가 아니라 사람이 정하거나 탐색하는 설정값입니다.
 
@@ -118,7 +118,7 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 ![learning rate와 손실 곡선 위 보폭](../../../assets/part-05/chapter-07/learning-rate-step-size-ko.svg)
 
-이 그래프에서 중요한 것은 `gradient 방향이 맞다`와 `업데이트가 적절하다`가 같은 말이 아니라는 점입니다. optimizer를 읽을 때는 방향 신호뿐 아니라 그 신호가 실제로 어느 위치까지 파라미터를 움직였는지를 함께 봐야 합니다.
+이 그래프에서 중요한 것은 `gradient 방향이 맞다`와 `optimizer가 만든 update가 적절하다`가 같은 말이 아니라는 점입니다. optimizer의 역할을 읽을 때는 방향 신호뿐 아니라 그 신호가 실제로 어느 위치까지 파라미터를 움직였는지를 함께 봐야 합니다.
 
 ## 옵티마이저는 왜 하나만 있지 않은가
 
@@ -134,47 +134,57 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 독자용으로 더 줄이면 다음처럼 기억할 수 있습니다.
 
-`옵티마이저는 가중치를 바꾸는 함수가 아니라, 학습이 얼마나 빠르고 안정적으로 움직일지를 정하는 전략이다.`
+`옵티마이저는 gradient를 받아 파라미터를 실제로 어디까지 움직일지 정하는 update 규칙이다.`
 
 ## 사례 및 예시
 
-### 사례 1. 손실은 줄고 있지만 너무 느린 경우
+이 절의 사례는 optimizer를 고르는 사례가 아니라, `gradient가 계산된 뒤 실제 파라미터 update가 어떻게 만들어졌는가`를 읽는 사례입니다. 따라서 사례를 볼 때는 항상 다음 순서로 확인합니다.
 
-학습 로그에서 손실이 조금씩 내려가고 있다고 해 보겠습니다. 사람은 보통 `방향은 맞으니 더 오래 돌리면 되겠다`고 판단하기 쉽습니다. 하지만 몇 시간 동안 검증 성능이 거의 움직이지 않는다면, 실제 문제는 gradient의 방향보다 업데이트 보폭이 지나치게 작은 데 있을 수 있습니다. 이때 optimizer는 같은 방향 신호를 받아도 학습률이 너무 작거나 규칙이 너무 보수적이면 파라미터를 거의 못 움직입니다. 즉, `내려가고 있다`는 표면만으로는 충분하지 않고, `실용적인 속도로 실제 위치가 바뀌고 있는가`를 함께 봐야 합니다. 이 차이는 손실 곡선이 완만하게만 내려가고, 같은 시간 대비 검증 성능 개선이 거의 없다는 결과로 드러납니다. 그래서 이 사례에서 확인해야 할 결과는 손실이 줄고 있다는 사실만이 아니라, 같은 학습 시간 안에 검증 성능도 실제로 따라 올라오는가입니다.
+1. gradient가 계산됐는가
+2. optimizer가 그 gradient를 어느 크기의 update로 바꿨는가
+3. update 뒤 파라미터와 손실이 실제로 어떻게 달라졌는가
+
+### 사례 1. gradient는 계산됐지만 파라미터가 거의 움직이지 않는 경우
+
+학습 로그에서 손실이 조금씩 내려가고 있다고 해 보겠습니다. 사람은 보통 `방향은 맞으니 더 오래 돌리면 되겠다`고 판단하기 쉽습니다. 하지만 몇 시간 동안 검증 성능이 거의 움직이지 않는다면, 실제 문제는 gradient의 방향보다 업데이트 보폭이 지나치게 작은 데 있을 수 있습니다.
+
+이 장면에서 optimizer 관점은 질문을 바꿉니다. `gradient가 계산됐는가`에서 멈추지 않고, `optimizer가 그 gradient를 실제 파라미터 변화로 충분히 바꿨는가`를 봅니다. 학습률이 너무 작거나 update rule이 지나치게 보수적이면 방향 신호는 맞아도 한 step의 이동량이 작아, 손실 곡선은 내려가지만 실용적인 속도로는 거의 전진하지 못합니다.
+
+그래서 이 사례에서 확인해야 할 결과는 손실이 줄고 있다는 사실만이 아닙니다. 같은 학습 시간 안에 검증 성능이 실제로 따라 올라오는지, update 뒤 파라미터 변화량이 너무 작게 묶여 있지는 않은지를 함께 봐야 합니다.
 
 | 사람이 먼저 보기 쉬운 기준 | optimizer 관점으로 다시 읽는 기준 |
 | --- | --- |
-| 방향이 맞으니 오래 돌리기만 하면 된다 | 같은 gradient라도 학습률이 너무 작으면 실제 이동이 거의 없을 수 있다 |
-| 손실이 조금씩 줄면 설정도 괜찮다고 느끼기 쉽다 | 업데이트 보폭이 실용적으로 충분한지 따로 봐야 한다 |
+| gradient가 있으니 오래 돌리기만 하면 된다 | 같은 gradient라도 optimizer가 만든 실제 update가 너무 작을 수 있다 |
+| 손실이 조금씩 줄면 설정도 괜찮다고 느끼기 쉽다 | 파라미터가 실용적인 폭으로 바뀌고 있는지 따로 봐야 한다 |
 | 느린 학습은 데이터나 모델 문제라고만 생각하기 쉽다 | update rule과 learning rate가 병목일 수 있다 |
+| 확인할 로그를 손실 하나로 좁히기 쉽다 | 같은 시간 대비 검증 성능, 파라미터 이동량, update 후 손실 변화를 같이 봐야 한다 |
 
-### 사례 2. 손실이 계속 흔들리는 경우
+### 사례 2. gradient 방향은 맞지만 optimizer update가 너무 큰 경우
 
-반대로 손실이 내려가다가 다시 튀고, 한 배치에서는 좋아졌다가 다음 배치에서는 다시 나빠지는 경우도 있습니다. 사람은 이 장면을 보면 `모델이 전혀 못 배우는 것 아닌가`라고 느끼기 쉽습니다. 하지만 실제로는 내려가는 방향은 잡았는데 한 번에 너무 크게 움직여 좋은 지점을 계속 지나치는 경우가 많습니다. 이때는 gradient가 쓸모없어서가 아니라 학습률이 너무 크거나 optimizer 설정이 현재 문제에 비해 거칠어서 업데이트가 과격해진 것입니다. 즉, 사람이 보는 표면 현상은 `불안정한 손실`이지만, 구조적으로는 `방향을 알고도 보폭이 커서 흔들리는 상황`일 수 있습니다. 이 차이를 보면 손실 곡선이 들쭉날쭉하고 검증 성능도 안정적으로 쌓이지 않는 결과로 나타납니다. 그래서 이 사례에서 확인해야 할 결과는 학습이 아예 안 되는지보다, 업데이트 보폭이 커서 좋은 지점을 반복해서 지나치고 있는가입니다.
+반대로 손실이 내려가다가 다시 튀고, 한 배치에서는 좋아졌다가 다음 배치에서는 다시 나빠지는 경우도 있습니다. 사람은 이 장면을 보면 `모델이 전혀 못 배우는 것 아닌가`라고 느끼기 쉽습니다. 하지만 실제로는 내려가는 방향은 잡았는데 한 번에 너무 크게 움직여 좋은 지점을 계속 지나치는 경우가 많습니다.
 
-### 사례 3. 큰 모델 학습
+이때는 gradient가 쓸모없어서가 아니라, 학습률이 너무 크거나 optimizer 설정이 현재 문제에 비해 거칠어서 update가 과격해진 것일 수 있습니다. 표면 현상은 `불안정한 손실`이지만, 구조적으로는 `optimizer가 방향 신호를 너무 큰 파라미터 이동으로 바꾼 상황`입니다. 이 경우에는 손실이 들쭉날쭉한지뿐 아니라, update 뒤 예측값이 목표를 반복해서 넘어서는지까지 같이 봐야 합니다.
 
-모델이 커지면 사람은 `가중치가 많아졌을 뿐이니 같은 방식으로 업데이트하면 되지 않을까`라고 생각하기 쉽습니다. 하지만 실제 큰 모델에서는 어떤 층은 아주 민감하게 반응하고, 어떤 층은 거의 움직이지 않으며, gradient 스케일도 고르게 맞지 않는 경우가 많습니다. 이 상태에서 단순한 업데이트 규칙만 고수하면 일부 층은 과하게 흔들리고 다른 층은 거의 학습되지 않을 수 있습니다. 그래서 큰 모델에서는 `가중치 수`보다 `파라미터마다 움직임의 성격이 다르다`는 점이 더 중요하고, 더 정교한 optimizer가 실무적으로 자주 선택됩니다. 결과적으로 같은 학습 시간 안에서도 어떤 설정은 안정적으로 수렴하고, 어떤 설정은 일부 층만 불안정하게 흔들리는 차이로 드러납니다. 그래서 이 사례에서 확인해야 할 결과는 모델이 커질수록 모든 층이 비슷하게 배우는지가 아니라, 일부 층만 과하게 흔들리거나 멈추지 않고 전체 업데이트가 더 균형 있게 진행되는가입니다.
+그래서 이 사례에서 확인해야 할 결과는 학습이 아예 안 되는지보다, update 보폭이 커서 좋은 지점을 반복해서 지나치고 있는가입니다. P5-7.2에서는 이 문제를 더 확장해, SGD와 Adam처럼 서로 다른 optimizer가 같은 gradient 흐름을 어떤 방식으로 다르게 움직이는지 비교합니다.
 
-세 사례를 같이 놓고 보면 optimizer를 `업데이트 함수`보다 `학습 동역학을 읽는 기준`으로 보는 이유가 더 분명해집니다.
+두 사례를 같이 놓고 보면 optimizer를 `업데이트 함수`보다 `학습 동역학을 읽는 기준`으로 보는 이유가 더 분명해집니다.
 
 | 장면 | 사람이 먼저 보기 쉬운 결과 | optimizer 관점에서 실제로 구분해야 할 것 | 바로 다음에 확인할 것 |
 | --- | --- | --- | --- |
-| 손실은 줄지만 너무 느린 학습 | 방향은 맞으니 더 오래 돌리면 된다고 보기 쉽습니다. | 같은 gradient라도 보폭이 너무 작아 실제 이동이 거의 없을 수 있습니다. | 같은 시간 대비 검증 성능이 실제로 따라오고 있는지 봅니다. |
-| 손실이 계속 흔들리는 학습 | 모델이 아예 못 배우는 것으로 보기 쉽습니다. | 방향은 있어도 보폭이 너무 커 좋은 지점을 반복해서 지나치고 있을 수 있습니다. | 손실 진동이 `학습 실패`인지 `과한 update`인지 구분해 봅니다. |
-| 큰 모델 학습 | 가중치 수만 많아졌을 뿐 같은 방식으로 업데이트하면 된다고 보기 쉽습니다. | 층별 gradient 스케일과 update 안정성이 다를 수 있어 더 정교한 규칙이 필요할 수 있습니다. | 일부 층만 과하게 흔들리거나 거의 멈추지 않는지 봅니다. |
+| 파라미터가 거의 움직이지 않는 학습 | gradient만 있으면 더 오래 돌리면 된다고 보기 쉽습니다. | optimizer가 gradient를 너무 작은 update로 바꾸고 있을 수 있습니다. | update 뒤 파라미터 변화량과 검증 성능 변화를 같이 봅니다. |
+| update 뒤 손실이 계속 흔들리는 학습 | 모델이 아예 못 배우는 것으로 보기 쉽습니다. | optimizer가 방향 신호를 너무 큰 update로 바꾸고 있을 수 있습니다. | 손실 진동이 `gradient 실패`인지 `과한 update`인지 구분해 봅니다. |
 
-세 사례를 한 번에 다시 압축하면, optimizer를 읽는 첫 흐름은 다음과 같습니다.
+두 사례를 한 번에 다시 압축하면, optimizer의 역할을 읽는 첫 흐름은 다음과 같습니다.
 
 ```mermaid
 --8<-- "assets/part-05/chapter-07/optimizer-step-bridge-ko.mmd"
 ```
 
-이 도식은 느린 학습, 흔들리는 학습, 큰 모델 학습을 따로 다시 설명하려는 것이 아니라, 세 사례가 공통으로 보여 준 `같은 gradient라도 update rule과 보폭이 실제 결과를 바꾼다`는 흐름을 한 번에 다시 붙잡기 위한 것입니다.
+이 도식은 느린 학습과 흔들리는 학습을 따로 다시 설명하려는 것이 아니라, 두 사례가 공통으로 보여 준 `optimizer가 gradient를 실제 update로 바꾸는 방식이 결과를 바꾼다`는 흐름을 한 번에 다시 붙잡기 위한 것입니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 gradient 계산과 실제 update를 분리해서 보는 것입니다. 한 번의 업데이트뿐 아니라 여러 learning rate를 같이 비교해, gradient는 같아도 실제 이동 폭이 크게 달라질 수 있음을 눈으로 확인합니다.
+이번 예제의 목표는 gradient 계산과 optimizer가 만든 실제 update를 분리해서 보는 것입니다. 여기서 learning rate는 독립 주제가 아니라, optimizer가 `optimizer_delta = -learning_rate * gradient`라는 update를 만들 때 쓰는 배율입니다. 따라서 출력도 learning rate 자체보다 `optimizer_delta`가 얼마나 달라지는지를 중심으로 읽습니다.
 
 입력:
 
@@ -188,19 +198,20 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - 예측된 차단 점수
 - 손실
 - gradient
+- optimizer가 만든 update 값
 - learning rate별 업데이트 후 가중치
 - 업데이트 뒤 목표값에 더 가까워지는 정도 비교
 
 문제 상황:
 
-- learning rate는 gradient 자체를 바꾸지 않지만, 같은 gradient라도 위험 가중치 이동 폭을 크게 바꾼다
+- learning rate는 gradient 자체를 바꾸지 않지만, optimizer가 만드는 위험 가중치 update 폭을 크게 바꾼다
 - 너무 큰 learning rate는 좋은 방향을 알고도 지나칠 수 있으므로 결과를 함께 비교해야 한다
 
 확인할 개념:
 
-- learning rate는 업데이트 크기를 조절하는 배율이다
-- 같은 gradient라도 학습률 설정에 따라 이동 폭과 학습 안정성이 달라질 수 있다
-- update 뒤 예측이 목표에 얼마나 가까워졌는지를 같이 봐야 한다
+- optimizer는 gradient를 실제 update 값으로 바꾼다
+- 같은 gradient라도 optimizer가 만든 update 값에 따라 이동 폭과 학습 안정성이 달라질 수 있다
+- optimizer update 뒤 예측이 목표에 얼마나 가까워졌는지를 같이 봐야 한다
 
 입력(input):
 
@@ -208,13 +219,13 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 코드를 보기 전에 먼저 어느 learning rate가 `한 번의 update 뒤` 목표 차단 점수 6.0에 가장 가까워질지 예상해 보면 좋습니다.
 
-| learning rate | 먼저 예상해 볼 비교 | 예상 이유 |
+| learning rate | 먼저 예상해 볼 optimizer update | 예상 이유 |
 | --- | --- | --- |
 | `0.01` | 너무 조금만 움직일 가능성 | gradient 방향은 맞아도 보폭이 작아 목표에 덜 가까워질 수 있습니다. |
 | `0.1` | 비교적 적절할 가능성 | 한 번의 이동으로 의미 있게 가까워지되 지나치지 않을 수 있습니다. |
 | `0.5` | 지나칠 가능성 | 같은 방향이라도 너무 크게 움직여 목표를 넘어설 수 있습니다. |
 
-이 표의 목적은 `같은 gradient`와 `다른 update 결과`를 분리해서 읽는 것입니다.
+이 표의 목적은 `같은 gradient`와 `optimizer가 만든 다른 update 결과`를 분리해서 읽는 것입니다.
 
 ```python
 pressure_unrecovered = 2.0
@@ -228,33 +239,35 @@ print("predicted_block_score =", round(prediction, 3))
 print("loss =", round(loss, 3))
 print("gradient_risk_weight =", round(gradient_risk_weight, 3))
 for lr in [0.01, 0.1, 0.5]:
-    updated_risk_weight = risk_weight - lr * gradient_risk_weight
+    optimizer_delta = -lr * gradient_risk_weight
+    updated_risk_weight = risk_weight + optimizer_delta
     updated_prediction = pressure_unrecovered * updated_risk_weight
     updated_loss = (updated_prediction - target_block_score) ** 2
     print(
         "lr =", lr,
+        "-> optimizer_delta =", round(optimizer_delta, 3),
         "-> updated_risk_weight =", round(updated_risk_weight, 3),
         ", updated_block_score =", round(updated_prediction, 3),
         ", updated_loss =", round(updated_loss, 3),
     )
 ```
 
-출력에서는 `predicted_block_score`, `loss`, `gradient_risk_weight`를 먼저 보고, learning rate마다 `updated_risk_weight`가 얼마나 달라지는지 이어서 보면 됩니다.
+출력에서는 `predicted_block_score`, `loss`, `gradient_risk_weight`를 먼저 보고, learning rate마다 optimizer가 만든 `optimizer_delta`가 얼마나 달라지는지 이어서 보면 됩니다.
 
 ```text
 predicted_block_score = 2.0
 loss = 16.0
 gradient_risk_weight = -16.0
-lr = 0.01 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
-lr = 0.1 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
-lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
+lr = 0.01 -> optimizer_delta = 0.16 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
+lr = 0.1 -> optimizer_delta = 1.6 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
+lr = 0.5 -> optimizer_delta = 8.0 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
 ```
 
-이 출력은 같은 gradient가 learning rate를 거치며 서로 다른 업데이트 결과로 바뀌는 장면입니다. 따라서 `gradient가 얼마인가`에서 멈추지 말고, 업데이트된 가중치, 업데이트 후 점수, 업데이트 후 손실을 단계별로 나누어 읽습니다.
+이 출력은 같은 gradient가 optimizer의 update 규칙을 거치며 서로 다른 `optimizer_delta`로 바뀌는 장면입니다. 따라서 `gradient가 얼마인가`에서 멈추지 말고, optimizer가 만든 update 값, 업데이트된 가중치, 업데이트 후 점수, 업데이트 후 손실을 단계별로 나누어 읽습니다.
 
 ![learning rate별 업데이트 후 위험 가중치](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-ko.png)
 
-첫 그래프는 같은 gradient `-16.0`에 learning rate만 다르게 적용했을 때 위험 가중치가 얼마나 바뀌는지 보여 줍니다. `0.01`은 조금만 움직이고, `0.5`는 같은 방향으로 너무 멀리 이동합니다.
+첫 그래프는 같은 gradient `-16.0`을 optimizer가 update로 바꾼 뒤 위험 가중치가 얼마나 달라지는지 보여 줍니다. 보이지 않는 중간값은 `optimizer_delta`입니다. `0.01`은 `0.16`만 움직이고, `0.5`는 `8.0`만큼 같은 방향으로 너무 멀리 이동합니다.
 
 ![learning rate별 업데이트 후 차단 점수](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-ko.png)
 
@@ -262,30 +275,24 @@ lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_los
 
 ![learning rate별 업데이트 후 손실](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-ko.png)
 
-세 번째 그래프는 업데이트 후 손실입니다. `0.1`은 손실을 크게 줄이지만, `0.5`는 같은 gradient 방향을 사용했는데도 보폭이 커서 손실을 더 키웁니다. 즉, 이 예제의 핵심 변화는 `gradient -> learning rate가 적용된 update -> 새 예측 -> 새 손실`입니다.
+세 번째 그래프는 업데이트 후 손실입니다. `0.1`은 손실을 크게 줄이지만, `0.5`는 같은 gradient 방향을 사용했는데도 optimizer가 만든 `optimizer_delta`가 너무 커서 손실을 더 키웁니다. 즉, 이 예제의 핵심 변화는 `gradient -> optimizer_delta -> 새 가중치 -> 새 예측 -> 새 손실`입니다.
 
 즉, 같은 gradient라도 optimizer 설정에 따라 실제 이동 폭은 크게 달라집니다. 운영 판단 관점으로 읽으면, 같은 `압력 미복귀 위험` 신호라도 learning rate에 따라 `조금 더 위험하게 읽는 보정`, `거의 맞는 수준의 보정`, `과하게 차단 쪽으로 튀는 보정`이 갈린다는 뜻입니다.
 
 이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 
 - `gradient_risk_weight`는 그대로인데 결과는 달라질 수 있습니다.
-- 달라지는 이유는 학습률과 업데이트 규칙이 다르기 때문입니다.
+- 달라지는 이유는 optimizer가 만든 `optimizer_delta`가 다르기 때문입니다.
 - `0.1`은 목표에 가까워졌지만 `0.5`는 방향은 맞아도 너무 크게 움직여 오히려 손실을 키웠습니다.
 - 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아닙니다.
 
-| learning rate | 지금 읽어야 할 핵심 |
-| --- | --- |
-| `0.01` | 방향은 맞지만 이동 폭이 작아 한 번의 update 효과가 제한적입니다. |
-| `0.1` | 같은 gradient를 더 실용적인 보폭으로 적용해 목표 차단 점수에 가까워집니다. |
-| `0.5` | 방향은 맞아도 지나치게 크게 움직여 목표를 넘어서고 손실이 다시 커집니다. |
+출력 숫자를 읽을 때는 `gradient 자체`와 `update 결과`를 분리해서 봐야 합니다.
 
-출력 숫자를 읽을 때도 `gradient 자체`와 `update 결과`를 분리해서 봐야 합니다.
-
-| learning rate | 출력에서 먼저 보이는 것 | gradient만 보면 남기 쉬운 해석 | optimizer까지 보면 바뀌는 해석 |
+| learning rate | optimizer가 만든 update | gradient만 보면 남기 쉬운 해석 | optimizer까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
-| `0.01` | gradient는 `-16.0`이고 손실은 줄지만 13.542로 여전히 큽니다. | 방향만 맞으니 학습은 충분히 잘 시작됐다고 보기 쉽습니다. | 방향은 맞아도 보폭이 너무 작아 실용적인 속도로는 거의 전진하지 못하고 있습니다. |
-| `0.1` | 같은 gradient인데 손실이 0.64까지 크게 줄어듭니다. | gradient가 특별히 더 좋아졌다고 보기 쉽습니다. | gradient는 같고, 달라진 것은 update 보폭이라 실제 이동이 더 적절했던 것입니다. |
-| `0.5` | 같은 gradient인데 손실이 144.0으로 오히려 커집니다. | gradient가 틀렸거나 모델이 못 배운다고 보기 쉽습니다. | 방향은 맞아도 보폭이 너무 커 목표를 지나쳤기 때문에 optimizer 설정이 학습을 망친 경우입니다. |
+| `0.01` | `optimizer_delta = 0.16` | 방향만 맞으니 학습은 충분히 잘 시작됐다고 보기 쉽습니다. | update가 너무 작아 실용적인 속도로는 거의 전진하지 못하고 있습니다. |
+| `0.1` | `optimizer_delta = 1.6` | gradient가 특별히 더 좋아졌다고 보기 쉽습니다. | gradient는 같고, 달라진 것은 optimizer update라 실제 이동이 더 적절했던 것입니다. |
+| `0.5` | `optimizer_delta = 8.0` | gradient가 틀렸거나 모델이 못 배운다고 보기 쉽습니다. | 방향은 맞아도 update가 너무 커 목표를 지나쳤기 때문에 설정이 학습을 망친 경우입니다. |
 
 초기 신경망 학습에서는 가장 단순한 경사하강법(gradient descent)이나 확률적 경사하강법(stochastic gradient descent)이 기본 출발점이었습니다. 하지만 네트워크가 깊어지고 데이터가 커지면서, 학습 속도와 안정성을 개선하려는 다양한 시도가 이어졌습니다.
 
@@ -314,9 +321,8 @@ lr = 0.5 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_los
 
 - 옵티마이저(optimizer)가 역전파 결과를 실제 파라미터 업데이트로 바꾼다는 점을 설명할 수 있는가?
 - 손실, 역전파, 학습률, 옵티마이저의 관계를 말할 수 있는가?
-- optimizer는 gradient를 실제 파라미터 업데이트로 바꾸는 규칙이라는 점을 설명할 수 있는가?
 - 손실 함수, 역전파, optimizer는 각각 역할이 다르다는 점을 구분할 수 있는가?
-- learning rate는 업데이트 보폭을 정하는 핵심 하이퍼파라미터라는 점을 설명할 수 있는가?
+- learning rate가 optimizer update 보폭에 붙는 하이퍼파라미터라는 점을 설명할 수 있는가?
 - 왜 gradient를 계산했다고 해서 학습 전략 설명이 끝난 것이 아니라, update 규칙이 따로 더 필요하다고 말할 수 있는가?
 - gradient는 이해했는데 실제 파라미터가 어떻게 움직이는지 설명이 비어 있을 때, optimizer 관점을 먼저 떠올릴 수 있는가?
 - 이 절 다음에는 SGD와 Adam 같은 대표 update 규칙 비교로 넘어간다는 흐름을 알고 있는가?

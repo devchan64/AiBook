@@ -1,9 +1,12 @@
 flowchart TD
-    A[Same gradient signal] --> B[Update rule chooses step size]
-    B --> C[Too small step]
-    B --> D[Practical step]
-    B --> E[Overshooting step]
+    A[Gradient computed by backprop] --> B[Optimizer applies update rule]
+    B --> C[Parameters actually move]
+    C --> D[Next forward and loss change]
 
-    C --> F[Loss drops too slowly]
-    D --> G[Loss moves closer to target]
-    E --> H[Good direction is passed too far]
+    B --> E[Update too small]
+    B --> F[Update practical]
+    B --> G[Update too large]
+
+    E --> H[Almost no movement]
+    F --> I[Closer to target]
+    G --> J[Overshoots target]
