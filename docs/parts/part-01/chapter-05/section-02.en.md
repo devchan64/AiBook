@@ -1,19 +1,19 @@
 # P1-5.2 What Does Model Execution Run?
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.16`
 
 Section 5.1 distinguished `learning` from `training`. Training is the procedure that uses data to adjust internal model values, while learning is the broader idea that performance on a task improves as a result.
 
 This section moves to the next question: once training is over, what exactly is being executed when we use the model?
 
-In AI documents, this process is usually called `inference`. In Korean it is often translated as `churon`, but here we keep the English word with it, because the Korean term can also cover `reasoning`, `prediction`, and even `statistical inference`. That collision of meanings is organized separately in 5.3.
+In AI documents, this process is usually called `inference`. In local-language prose it is often translated with a term that can also suggest `reasoning`, `prediction`, or even `statistical inference`, so this book keeps the English word visible here. That collision of meanings is organized separately in 5.3.
 
 Here, `inference` is treated as `the execution step that produces output for a new input by using learned values`, and it is kept separate from the full service workflow around it.
 
-## How to Read It in Korean
+## How to Read It in This Section
 
-Although `inference` is often translated as `churon`, Section 5.2 reads it more narrowly like this:
+Although `inference` can sound like a thought process when read only through translation, Section 5.2 reads it more narrowly like this:
 
 > inference = the execution that applies a trained model to a new input and produces output
 
@@ -49,7 +49,7 @@ The smaller question here is enough:
 
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
-| inference is the execution that applies a trained model to new input | This reduces the oversized meaning often suggested by the Korean translation. | Understand it as the stage of putting in new input and receiving output. |
+| inference is the execution that applies a trained model to new input | This reduces the oversized meaning often suggested by local-language translations. | Understand it as the stage of putting in new input and receiving output. |
 | training and inference are different stages | This prevents us from mixing model-building time with model-usage time. | Training changes internal values; inference usually does not. |
 | inference output is not the same as the full service process | This helps separate model output from business decision. | See that scores or text may be followed by policy rules and human review. |
 

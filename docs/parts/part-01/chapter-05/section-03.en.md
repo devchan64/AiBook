@@ -1,11 +1,11 @@
 # P1-5.3 Distinguishing Inference-Related Terms
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.14`
+> Version: `v2026.07.16`
 
 Section 5.2 explained `inference` as the execution that applies a trained model to a new input and produces output. But when we read real AI documents, this one word often overlaps with different translations, everyday expressions, and neighboring concepts across languages.
 
-In Korean, that overlap becomes especially visible because the usual translation strongly suggests the word `reasoning`. But if we explain the issue only as a special feature of Korean, the central standard becomes weaker in English and in other language editions. So this section focuses first on how to separate different conceptual roles, before any one translation habit.
+This confusion is not a special problem of one language. In any language, if one translated term covers several English conceptual roles at once, readers can see the same expression and fail to separate model execution, thought process, output value, statistical procedure, and generation. So this section focuses first on how to separate different conceptual roles, before any one translation habit.
 
 The five expressions we want to separate here are:
 
@@ -60,14 +60,14 @@ Here we keep the positional rule that `inference is execution`, `prediction is r
 
 ## Why Does Confusion Happen?
 
-The core reason for confusion is that a single translated word can easily cover several conceptual positions at once. In Korean, `추론` is the most visible example. The word usually suggests drawing a conclusion from clues or evidence.
+The core reason for confusion is that a single translated word can easily cover several conceptual positions at once. When an everyday expression strongly suggests drawing a conclusion from clues or evidence, using it for `inference` can make readers interpret AI `inference` as something close to a human thought process.
 
 For example, a person may say the following:
 
 > The sky is dark and the wind is strong.  
 > So I inferred that it would rain soon.
 
-This sentence contains clues, background knowledge, judgment, and conclusion together. So if readers begin with the translation first, they can easily read AI `inference` as something close to a human thought process.
+This sentence contains clues, background knowledge, judgment, and conclusion together. So if readers begin with the translated word first, they can easily read AI `inference` as something close to a human thought process.
 
 But in machine-learning contexts, `inference` usually has a narrower and more execution-centered meaning.
 
@@ -75,7 +75,7 @@ But in machine-learning contexts, `inference` usually has a narrower and more ex
 
 Google's Machine Learning Glossary explains inference in traditional machine learning as the process of applying a trained model to unlabeled examples to make predictions. For LLMs, it explains inference as the process of using a trained model to generate a response to an input prompt. The center of that explanation is not `thinking like a human`, but `applying a trained model`.
 
-So the core issue is not Korean alone. It is a general reading problem that appears when a translated word is read before its conceptual role. In any language, if one local expression covers several standard English terms at once, readers may see the same word and fail to separate `model execution`, `output value`, `thought process`, `statistical procedure`, and `generation act`. Korean is simply a case where that problem becomes very visible.
+So the core issue is not any particular language alone. It is a general reading problem that appears when a translated word is read before its conceptual role. In any language, if one local expression covers several standard English terms at once, readers may see the same word and fail to separate `model execution`, `output value`, `thought process`, `statistical procedure`, and `generation act`. A local term that evokes several meanings at once is only an example; the standard itself is the conceptual role.
 
 Therefore, in multilingual writing, we first ask `what role does this sentence describe?` before asking `which local word should translate it?` The local translation may differ by language, but the role distinction should remain stable.
 
@@ -173,7 +173,7 @@ From this point on, the book follows the policies below.
 
 The point is not to erase local translation. Even when a translation exists, we should first make clear which conceptual position the word points to.
 
-In Korean, if we use only the word for `inference`, the following meanings can easily blur together:
+In any language edition, if we use only the local translation for `inference`, the following meanings can easily blur together:
 
 > Is it model execution?  
 > Is it logical reasoning?  
