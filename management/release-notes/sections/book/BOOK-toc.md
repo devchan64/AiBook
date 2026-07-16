@@ -73,3 +73,21 @@
 - 번역 반영 상태: 향후 번역 반영 필요
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.16`
+
+### v2026.07.16-2
+
+- 변경 이유: Part 5 큰 폭 개편에서 초중반 목차 축을 `출력, 손실, 역전파` 중심에서 `출력과 gradient 신호`, `손실에서 gradient로`, `계산 그래프와 자동미분` 중심으로 재정렬할 필요가 있었다.
+- 본문 반영: 한국어 독자용 목차의 Part 5 Module 2, Chapter P5-5, P5-5.1, P5-5.2, Chapter P5-8 표기를 새 구성에 맞춰 갱신했다.
+- 번역 동기화 메모: Korean reader-facing TOC now reflects the Part 5 restructuring around loss-to-gradient conversion and computation graph plus automatic differentiation. Future English and Simplified Chinese TOCs should mirror this structure when translated.
+- 번역 반영 상태: 향후 번역 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.16`
+
+### v2026.07.16-3
+
+- 변경 이유: 큰폭 개편안의 모듈 경계가 아직 공개 목차에 충분히 반영되지 않아, 활성화 함수가 출력/손실 축에 섞이고 GPU/배치와 표현 학습이 같은 모듈에 묶이는 문제가 남아 있었다.
+- 본문 반영: 한국어 독자용 목차의 Part 5를 `신경망의 기본 계산 구조`, `출력과 손실 신호`, `학습 루프와 안정화`, `계산 확장`, `표현 학습과 구조 분기`, `생성 모델과 샘플링`의 6개 모듈 축으로 재정렬했다.
+- 번역 동기화 메모: Korean reader-facing TOC now uses the six-module Part 5 restructuring. Future English and Simplified Chinese TOCs should mirror this module boundary when translated.
+- 번역 반영 상태: 향후 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.16`

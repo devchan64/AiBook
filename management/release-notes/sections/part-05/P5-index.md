@@ -29,3 +29,19 @@
 
 ### v2026.07.12-zh-link
 - 번역 반영: `index.zh.md`의 개념사전 복귀 링크를 상대경로 `concept-glossary.md`에서 언어 전환이 명시된 영어 개념사전 절대경로 `/AiBook/en/reference/concept-glossary/`로 바꿨다.
+
+### v2026.07.16
+- 변경 이유: Part 5 목차 개편에서 초중반 흐름을 `출력/손실/역전파`가 아니라 `출력과 손실 -> 손실에서 gradient로 -> 학습 루프와 안정화 -> 계산 확장 -> 표현 학습과 구조 분기`로 다시 잡을 필요가 생겼다.
+- 본문 반영: Part 5 개요의 학습 순서, 학습 절차 설명, 완료 기준을 `손실에서 gradient로`, `역전파와 자동미분`, `계산 확장`, `표현 학습과 구조 분기` 중심으로 갱신했다.
+- 번역 동기화 메모: Future translations should update the Part 5 overview around the new loss-to-gradient and computation-scaling sequence. English and Simplified Chinese overview pages are not yet updated.
+- 번역 반영 상태: 향후 번역 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.16`
+
+### v2026.07.16-2
+- 변경 이유: Part 5 공개 목차가 6개 모듈 축으로 재정렬되면서 Part 시작 페이지의 학습 순서도 같은 구조를 보여 주어야 했다.
+- 본문 반영: Part 5 개요의 초반 학습 순서를 `신경망의 기본 계산 구조 -> 출력과 손실 신호 -> 학습 루프와 안정화 -> 계산 확장 -> 표현 학습과 구조 분기 -> 생성 모델과 샘플링` 흐름으로 압축했다.
+- 번역 동기화 메모: Future translations should align the Part 5 overview with the six-module restructuring. English and Simplified Chinese overview pages are not yet updated.
+- 번역 반영 상태: 향후 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.16`

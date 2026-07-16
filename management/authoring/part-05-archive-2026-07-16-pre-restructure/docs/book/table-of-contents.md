@@ -518,9 +518,9 @@ flowchart LR
 
 ## Part 5. 딥러닝
 
-신경망이 데이터를 어떻게 표현하고 학습하는지 이해합니다. 기본 계산 구조에서 시작해 출력과 손실, gradient 계산, 학습 루프, 계산 확장, 표현 학습과 구조 분기, 생성 모델로 이어지는 흐름을 따라갑니다.
+신경망이 데이터를 어떻게 표현하고 학습하는지 이해합니다. 퍼셉트론에서 시작해 역전파, 최적화, 표현 학습, CNN, RNN, Transformer, 생성 모델로 이어지는 흐름을 따라갑니다.
 
-### Module 1. 신경망의 기본 계산 구조
+### Module 1. 신경망의 출발점
 
 #### Chapter 1. 퍼셉트론 `딥러닝 구조`
 
@@ -532,6 +532,8 @@ flowchart LR
 - **P5-2.1 다층 신경망(multilayer neural network)**: 여러 층을 쌓는 이유를 봅니다.
 - **P5-2.2 은닉층(hidden layer)과 표현**: 중간 표현이 생기는 직관을 잡습니다.
 
+### Module 2. 출력, 손실, 역전파
+
 #### Chapter 3. 활성화 함수 `딥러닝 구조`
 
 - **P5-3.1 활성화 함수(activation function)**: 비선형성을 넣는 이유를 봅니다.
@@ -541,17 +543,15 @@ flowchart LR
 - **P5-3.5 대표 활성화 함수 수식 비교**: sigmoid, tanh, ReLU의 수식과 출력 범위를 나란히 비교합니다.
 - **P5-3.6 출력층(output layer)과 활성화의 선택**: 문제 유형에 따라 마지막 출력의 해석이 왜 달라지는지 봅니다.
 
-### Module 2. 출력과 손실 신호
-
 #### Chapter 4. 손실 함수 `학습 원리`
 
 - **P5-4.1 손실 함수(loss function)**: 모델의 틀림을 숫자로 표현하는 기준을 봅니다.
 - **P5-4.2 문제 유형별 손실**: 회귀, 분류, 생성에서 손실이 달라지는 이유를 봅니다.
 
-#### Chapter 5. 손실에서 gradient로 `학습 원리`
+#### Chapter 5. 역전파 `딥러닝 구조`
 
-- **P5-5.1 손실은 어떻게 gradient 신호가 되는가**: 손실 숫자가 왜 바로 업데이트가 아니며, 파라미터별 gradient가 왜 필요한지 봅니다.
-- **P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)**: 복잡한 계산에서 gradient 계산을 어떻게 기록하고 자동화하는지 봅니다.
+- **P5-5.1 역전파(backpropagation)의 직관**: 오차가 앞쪽 가중치로 전달되는 흐름을 봅니다.
+- **P5-5.2 계산 그래프(computation graph)**: 복잡한 미분을 계산 흐름으로 이해합니다.
 
 ### Module 3. 학습 루프와 안정화
 
@@ -568,25 +568,25 @@ flowchart LR
 - **P5-7.2 Adam의 직관: 적응형 업데이트**: Adam이 기본 update에 무엇을 더 보완하는지 봅니다.
 - **P5-7.3 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법**: adaptive optimizer 논문에서 수렴 보장을 읽을 때 필요한 조건과 한계를 처음 구분합니다.
 
-#### Chapter 8. 학습 안정화와 일반화 제약 `학습 원리`
+#### Chapter 8. 정규화와 드롭아웃 `학습 원리`
 
 - **P5-8.1 정규화(regularization)**: 과적합을 줄이기 위한 제약을 봅니다.
 - **P5-8.2 드롭아웃(dropout)**: 일부 연결을 끊어 학습하는 직관을 봅니다.
 - **P5-8.3 학습 루프를 한 번에 다시 묶기**: forward, loss, backward, optimizer step이 하나의 반복으로 묶이는 흐름을 정리합니다.
 
-### Module 4. 계산 확장
+### Module 4. 계산 환경과 표현 학습
 
 #### Chapter 9. GPU와 병렬 처리 `역사와 패러다임`
 
 - **P5-9.1 GPU와 병렬 처리**: 딥러닝 확산에서 계산 자원이 한 역할을 봅니다.
 - **P5-9.2 배치(batch)와 텐서(tensor) 계산**: 많은 데이터를 동시에 계산하는 흐름을 봅니다.
 
-### Module 5. 표현 학습과 구조 분기
-
 #### Chapter 10. 표현 학습 `딥러닝 구조`
 
 - **P5-10.1 표현 학습(representation learning)**: 사람이 특징을 쓰는 방식과 모델이 표현을 배우는 방식을 비교합니다.
 - **P5-10.2 깊은 층의 표현**: 낮은 수준 특징에서 높은 수준 표현으로 이어지는 직관을 봅니다.
+
+### Module 5. 공간 구조와 CNN
 
 #### Chapter 11. CNN `알고리즘`
 
@@ -594,10 +594,14 @@ flowchart LR
 - **P5-11.2 합성곱(convolution)과 풀링(pooling)**: CNN의 핵심 연산을 간단히 봅니다.
 - **P5-11.3 보충학습: CNN과 Vision Transformer(ViT) 비교**: CNN 이후 비전 구조를 어떤 관점으로 비교하면 되는지 짧게 정리합니다.
 
+### Module 6. 순차 구조와 RNN 계열
+
 #### Chapter 12. RNN, LSTM, GRU `알고리즘`
 
 - **P5-12.1 RNN, LSTM, GRU의 필요성**: 순차 데이터를 다루기 위한 구조를 봅니다.
 - **P5-12.2 장기 의존성(long-term dependency)**: 오래전 정보가 사라지는 문제를 봅니다.
+
+### Module 7. Attention에서 Transformer로
 
 #### Chapter 13. Attention `딥러닝 구조`
 
@@ -610,7 +614,7 @@ flowchart LR
 - **P5-14.1 Transformer의 기본 구성**: attention, feed-forward, layer norm의 위치를 봅니다.
 - **P5-14.2 병렬 처리와 긴 문맥**: Transformer가 RNN과 달랐던 지점을 봅니다.
 
-### Module 6. 생성 모델과 샘플링
+### Module 8. 생성 모델과 샘플링
 
 #### Chapter 15. 생성 모델의 직관 `딥러닝 구조`
 

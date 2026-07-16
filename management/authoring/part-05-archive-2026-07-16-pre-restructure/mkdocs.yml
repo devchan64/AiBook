@@ -370,13 +370,14 @@ nav:
       - Part 4 마무리: parts/part-04/summary.md
   - Part 5. 딥러닝:
       - 개요: parts/part-05/index.md
-      - Module 1. 신경망의 기본 계산 구조:
+      - Module 1. 신경망의 출발점:
           - Chapter P5-1. 퍼셉트론:
               - "P5-1.1 퍼셉트론(perceptron)의 직관": parts/part-05/chapter-01/section-01.md
               - "P5-1.2 선형 결합과 활성화": parts/part-05/chapter-01/section-02.md
           - Chapter P5-2. 다층 신경망:
               - "P5-2.1 다층 신경망(multilayer neural network)": parts/part-05/chapter-02/section-01.md
               - "P5-2.2 은닉층(hidden layer)과 표현": parts/part-05/chapter-02/section-02.md
+      - Module 2. 출력, 손실, 역전파:
           - Chapter P5-3. 활성화 함수:
               - "P5-3.1 활성화 함수(activation function)": parts/part-05/chapter-03/section-01.md
               - "P5-3.2 sigmoid": parts/part-05/chapter-03/section-02.md
@@ -384,13 +385,12 @@ nav:
               - "P5-3.4 ReLU": parts/part-05/chapter-03/section-04.md
               - "P5-3.5 대표 활성화 함수 수식 비교": parts/part-05/chapter-03/section-05.md
               - "P5-3.6 출력층(output layer)과 활성화의 선택": parts/part-05/chapter-03/section-06.md
-      - Module 2. 출력과 손실 신호:
           - Chapter P5-4. 손실 함수:
               - "P5-4.1 손실 함수(loss function)": parts/part-05/chapter-04/section-01.md
               - "P5-4.2 문제 유형별 손실": parts/part-05/chapter-04/section-02.md
-          - Chapter P5-5. 손실에서 gradient로:
-              - "P5-5.1 손실은 어떻게 gradient 신호가 되는가": parts/part-05/chapter-05/section-01.md
-              - "P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)": parts/part-05/chapter-05/section-02.md
+          - Chapter P5-5. 역전파:
+              - "P5-5.1 역전파(backpropagation)의 직관": parts/part-05/chapter-05/section-01.md
+              - "P5-5.2 계산 그래프(computation graph)": parts/part-05/chapter-05/section-02.md
       - Module 3. 학습 루프와 안정화:
           - "Chapter P5-6. 학습(learning)과 모델 실행(inference)의 분리":
               - "P5-6.1 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-01.md
@@ -401,25 +401,27 @@ nav:
               - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
               - "P5-7.2 Adam의 직관: 적응형 업데이트": parts/part-05/chapter-07/section-02.md
               - "P5-7.3 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법": parts/part-05/chapter-07/section-03.md
-          - Chapter P5-8. 학습 안정화와 일반화 제약:
+          - Chapter P5-8. 정규화와 드롭아웃:
               - "P5-8.1 정규화(regularization)": parts/part-05/chapter-08/section-01.md
               - "P5-8.2 드롭아웃(dropout)": parts/part-05/chapter-08/section-02.md
               - "P5-8.3 학습 루프를 한 번에 다시 묶기": parts/part-05/chapter-08/section-03.md
-      - Module 4. 계산 확장:
+      - Module 4. 계산 환경과 표현 학습:
           - Chapter P5-9. GPU와 병렬 처리:
               - "P5-9.1 GPU와 병렬 처리": parts/part-05/chapter-09/section-01.md
               - "P5-9.2 배치(batch)와 텐서(tensor) 계산": parts/part-05/chapter-09/section-02.md
-      - Module 5. 표현 학습과 구조 분기:
           - Chapter P5-10. 표현 학습:
               - "P5-10.1 표현 학습(representation learning)": parts/part-05/chapter-10/section-01.md
               - "P5-10.2 깊은 층의 표현": parts/part-05/chapter-10/section-02.md
+      - Module 5. 공간 구조와 CNN:
           - Chapter P5-11. CNN:
               - "P5-11.1 CNN의 직관": parts/part-05/chapter-11/section-01.md
               - "P5-11.2 합성곱(convolution)과 풀링(pooling)": parts/part-05/chapter-11/section-02.md
               - "P5-11.3 보충학습: CNN과 Vision Transformer(ViT) 비교": parts/part-05/chapter-11/section-03.md
+      - Module 6. 순차 구조와 RNN 계열:
           - "Chapter P5-12. RNN, LSTM, GRU":
               - "P5-12.1 RNN, LSTM, GRU의 필요성": parts/part-05/chapter-12/section-01.md
               - "P5-12.2 장기 의존성(long-term dependency)": parts/part-05/chapter-12/section-02.md
+      - Module 7. Attention에서 Transformer로:
           - Chapter P5-13. Attention:
               - "P5-13.1 Attention의 직관": parts/part-05/chapter-13/section-01.md
               - "P5-13.2 self-attention으로 이어지는 흐름": parts/part-05/chapter-13/section-02.md
@@ -427,7 +429,7 @@ nav:
           - Chapter P5-14. Transformer:
               - "P5-14.1 Transformer의 기본 구성": parts/part-05/chapter-14/section-01.md
               - "P5-14.2 병렬 처리와 긴 문맥": parts/part-05/chapter-14/section-02.md
-      - Module 6. 생성 모델과 샘플링:
+      - Module 8. 생성 모델과 샘플링:
           - "Chapter P5-15. 생성 모델의 직관":
               - "P5-15.1 생성 모델(generative model)은 무엇을 배우는가": parts/part-05/chapter-15/section-01.md
               - "P5-15.2 생성과 샘플링(sampling)": parts/part-05/chapter-15/section-02.md
