@@ -24,8 +24,6 @@ step은 한 번의 업데이트 단위이고, batch는 그 step에서 함께 처
 
 대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. `그 반복이 파라미터를 실제로 바꾸는 학습인가, 아니면 현재 파라미터를 쓰는 실행인가`는 다음 Section인 P5-6.3에서 이어서 설명합니다. 같은 파라미터를 쓰는 구간 안에서도 왜 training mode와 evaluation mode가 갈리는지는 P5-6.4에서 다시 설명합니다.
 
-gradient accumulation, distributed training step 정의 차이, online learning 같은 특수 운영 패턴은 현재 절의 직접 범위를 넘어가므로 이 책의 현재 본편 범위 밖에 둡니다.
-
 ## 이 절의 목표
 
 - step, batch, epoch를 서로 다른 반복 단위로 설명할 수 있습니다.
