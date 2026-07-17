@@ -1,7 +1,7 @@
 # P5-6.3 학습 모드(training mode)와 평가 모드(evaluation mode)
 
 Section ID: `P5-6.3`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
 P5-6.2에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 
@@ -20,13 +20,11 @@ mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 
 - dropout과 batch normalization은 왜 모드에 따라 다르게 동작하는가?
 - 검증(validation)과 테스트(test)에서 왜 평가 모드가 중요한가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
+이 절에서는 같은 모델이라도 어떤 계산 규칙은 학습 중에, 어떤 계산 규칙은 평가 중에 더 적합한지 구분하는 데 집중합니다. 즉, 여기서는 `learning과 inference를 나눈 뒤`, 그 안에서 다시 `training mode와 evaluation mode가 왜 필요한가`를 닫습니다.
 
-- batch normalization 수식 유도
-- dropout 확률 설계의 세부 튜닝
-- 분산 학습(distributed training)에서의 모드 관리
+대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. dropout과 regularization 자체의 큰 의미는 P5-8.1, P5-8.2에서 다시 자세히 다루고, optimizer가 이 학습 흐름 안에서 어디에 들어오는지는 P5-7.1, P5-7.2에서 다시 연결합니다.
 
-dropout과 regularization 자체의 큰 의미는 P5-8.1, P5-8.2에서 다시 자세히 다루고, optimizer가 이 학습 흐름 안에서 어디에 들어오는지는 P5-7.1, P5-7.2에서 다시 연결합니다. 분산 학습(distributed training)에서의 모드 관리 세부는 이 책의 현재 본편 범위 밖에 둡니다.
+batch normalization 수식 유도, dropout 확률 설계의 세부 튜닝, 분산 학습(distributed training)에서의 모드 관리 세부는 현재 절의 직접 범위를 넘어가므로 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 

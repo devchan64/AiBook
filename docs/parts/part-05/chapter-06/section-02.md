@@ -1,7 +1,7 @@
 # P5-6.2 학습(learning)과 모델 실행(inference)
 
 Section ID: `P5-6.2`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
 P5-6.1에서는 `forward -> loss -> backward -> optimizer step`으로 이어지는 가장 작은 학습 루프를 먼저 묶었습니다. 여기까지 오면 다음 질문이 생깁니다.
 
@@ -20,13 +20,11 @@ gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면
 - 모델 실행 단계에서는 무엇이 달라지는가?
 - 같은 모델이라도 학습 중과 사용 중에 읽는 관점이 왜 다른가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
+이 절에서는 `파라미터를 실제로 바꾸는 시간`과 `바꾸지 않고 현재 모델을 쓰는 시간`을 구분하는 데 집중합니다. 즉, 여기서는 learning과 inference를 `업데이트 경로가 붙는가`를 기준으로 먼저 닫습니다.
 
-- dropout과 batch normalization의 내부 수식
-- 배포 인프라(inference serving) 세부 구조
-- mixed precision, quantization 같은 시스템 최적화
+대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. 같은 모델이라도 학습 중과 평가 중에 계산 규칙이 왜 달라질 수 있는지는 다음 Section인 P5-6.3에서 이어서 설명합니다. dropout과 regularization의 큰 의미는 P5-8.1, P5-8.2에서 다시 연결합니다.
 
-학습 모드와 평가 모드의 구체적 차이는 P5-6.3에서 이어서 다루고, dropout과 regularization의 큰 의미는 P5-8.1, P5-8.2에서 다시 연결합니다. mixed precision, quantization, 배포 인프라 세부 구조는 이 책의 현재 본편 범위 밖에 둡니다.
+mixed precision, quantization, 배포 인프라(inference serving) 세부 구조는 현재 절의 직접 범위를 넘어가므로 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
