@@ -1,0 +1,8 @@
+flowchart TD
+    score["final block score"]
+    score --> question["score alone is not enough"]
+    question --> path["reopen the path:<br/>pressure_signal -> weighted_pressure<br/>-> block_logit -> block_activation"]
+    path --> read1["which node made the score larger?"]
+    path --> read2["which node will receive gradient later?"]
+    read1 --> result["read the score together with its computational path"]
+    read2 --> result

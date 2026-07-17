@@ -97,6 +97,7 @@
 
 - 최상위 원칙은 `AGENTS.md`를 기준으로 다시 확인합니다. 이 문서는 원칙 원문을 재서술하지 않습니다.
 - Section 경계, 권장 구조, 초심자 보강, 사례 작성, `보충학습` 분리 판단은 `manuscript-writing-workflow.md`를 기준으로 봅니다.
+- `이 절의 범위` 같은 범위 안내는 `무엇을 안 다룬다`는 공지보다 `이번 절에서 닫을 질문`과 `다음 절에서 이어질 질문`의 연결로 쓰는지를 `manuscript-writing-workflow.md`에서 먼저 확인합니다.
 - 개념사전 항목 구조, `중심 Section`·`등장 Section`, 표제어 분리 기준은 `concept-glossary-guidelines.md`를 기준으로 봅니다.
 - Python 예제 세부 규칙은 `python-example-guidelines.md`, 차트·도식 세부 규칙은 `chart-guidelines.md`를 기준으로 봅니다.
 - 본문 Section를 실제로 수정했다면 `Version`과 릴리즈노트 갱신을 같은 작업 안에서 함께 확인합니다.

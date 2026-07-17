@@ -1,0 +1,9 @@
+flowchart TD
+    loss["loss is large"]
+    loss --> gate["check block_logit at the ReLU gate"]
+    gate --> open["block_logit > 0"]
+    gate --> closed["block_logit <= 0"]
+    open --> live["backward path stays alive"]
+    live --> update["risk_weight and bias can be updated"]
+    closed --> stop["gradient becomes 0 at ReLU"]
+    stop --> noupdate["front parameters do not update through this path"]

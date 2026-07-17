@@ -1,0 +1,9 @@
+flowchart TD
+    loss["손실이 크다"]
+    loss --> gate["ReLU 문 앞의 block_logit을 본다"]
+    gate --> open["block_logit > 0"]
+    gate --> closed["block_logit <= 0"]
+    open --> live["backward 경로가 살아 있다"]
+    live --> update["risk_weight와 bias까지 갱신 가능"]
+    closed --> stop["ReLU에서 gradient가 0이 된다"]
+    stop --> noupdate["앞단 파라미터는 이 경로로 갱신되지 않는다"]

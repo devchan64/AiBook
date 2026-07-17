@@ -1,0 +1,8 @@
+flowchart TD
+    score["마지막 차단 점수"]
+    score --> question["점수 하나만으로는 부족하다"]
+    question --> path["경로를 다시 편다:<br/>pressure_signal -> weighted_pressure<br/>-> block_logit -> block_activation"]
+    path --> read1["어느 노드가 점수를 키웠는가?"]
+    path --> read2["어느 노드까지 gradient가 되돌아갈 것인가?"]
+    read1 --> result["점수와 계산 경로를 함께 읽는다"]
+    read2 --> result
