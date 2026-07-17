@@ -24,3 +24,6 @@
   - `sgd-adam-gradient-history-en.png` / `sgd-adam-gradient-history-ko.png`
   - `sgd-adam-delta-comparison-en.png` / `sgd-adam-delta-comparison-ko.png`
   - `sgd-adam-risk-weight-trajectory-en.png` / `sgd-adam-risk-weight-trajectory-ko.png`
+  - `state-update-comparison-en.png` / `state-update-comparison-ko.png`
+  - `clipping-spike-comparison-en.png` / `clipping-spike-comparison-ko.png`
+  - `convergence-claim-boundary-en.png` / `convergence-claim-boundary-ko.png`

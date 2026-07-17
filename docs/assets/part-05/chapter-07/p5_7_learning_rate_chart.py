@@ -64,6 +64,21 @@ LANG_TEXT = {
         "before_after_score_ylabel": "predicted_block_score",
         "before_after_loss_title": "update 적용 전후 손실",
         "before_after_loss_ylabel": "loss",
+        "state_chart_title_left": "현재 gradient는 같음",
+        "state_chart_title_right": "state 때문에 update는 다름",
+        "state_same_gradient_label": "현재 gradient",
+        "state_update_label": "결과 update",
+        "state_case_large": "큰 기록이 이미 있음",
+        "state_case_quiet": "거의 조용했던 좌표",
+        "clip_title": "clipping이 spike를 누르는 장면",
+        "clip_raw_label": "clipping 없음",
+        "clip_clipped_label": "clipping 적용",
+        "clip_ylabel": "update 크기",
+        "claim_curve_title": "관찰된 loss 곡선과 수렴 보장 주장은 다르다",
+        "claim_curve_ylabel": "training loss",
+        "claim_curve_fast": "관찰 A: 빠른 하강",
+        "claim_curve_slow": "관찰 B: 느린 하강",
+        "claim_curve_osc": "관찰 C: 흔들림",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -100,6 +115,21 @@ LANG_TEXT = {
         "before_after_score_ylabel": "predicted_block_score",
         "before_after_loss_title": "Loss before and after the update",
         "before_after_loss_ylabel": "loss",
+        "state_chart_title_left": "Same current gradient",
+        "state_chart_title_right": "Different updates because of state",
+        "state_same_gradient_label": "current gradient",
+        "state_update_label": "resulting update",
+        "state_case_large": "already large history",
+        "state_case_quiet": "mostly quiet coordinate",
+        "clip_title": "How clipping suppresses a spike",
+        "clip_raw_label": "without clipping",
+        "clip_clipped_label": "with clipping",
+        "clip_ylabel": "update magnitude",
+        "claim_curve_title": "An observed loss curve is not a convergence guarantee",
+        "claim_curve_ylabel": "training loss",
+        "claim_curve_fast": "Observation A: fast drop",
+        "claim_curve_slow": "Observation B: slower drop",
+        "claim_curve_osc": "Observation C: oscillation",
     },
 }
 
@@ -110,6 +140,14 @@ LEARNING_RATES = np.array([0.01, 0.1, 0.5])
 GRADIENT_HISTORY = np.array([-4.0, -2.0, -1.0])
 TRACE_LEARNING_RATE = 0.1
 TRACE_BETA = 0.9
+STATE_CASE_LABELS = ("state_large", "state_quiet")
+STATE_CURRENT_GRADIENT = np.array([-1.0, -1.0])
+STATE_RESULT_UPDATES = np.array([0.04, 0.12])
+RAW_SPIKE_UPDATES = np.array([0.2, 0.3, 1.2, 0.4, 0.3])
+CLIPPED_SPIKE_UPDATES = np.array([0.2, 0.3, 0.5, 0.4, 0.3])
+CLAIM_CURVE_FAST = np.array([2.4, 1.95, 1.55, 1.22, 1.0, 0.87, 0.78, 0.72])
+CLAIM_CURVE_SLOW = np.array([2.4, 2.15, 1.92, 1.7, 1.52, 1.38, 1.27, 1.18])
+CLAIM_CURVE_OSC = np.array([2.4, 2.28, 2.02, 2.18, 1.94, 2.12, 1.97, 2.05])
 
 
 def exercise_values() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -434,7 +472,7 @@ def save_gradient_history(text: dict[str, str], locale: str) -> None:
     ax.set_ylabel(text["gradient_ylabel"])
     ax.set_ylim(-4.8, 0.8)
     style_trace_axis(ax)
-    fig.savefig(OUT_DIR / f"direct-adam-gradient-history-{locale}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"sgd-adam-gradient-history-{locale}.png", dpi=160)
     plt.close(fig)
 
 
@@ -457,7 +495,7 @@ def save_delta_comparison(text: dict[str, str], locale: str) -> None:
     ax.set_ylim(0, 0.46)
     ax.legend(frameon=False, loc="upper right")
     style_trace_axis(ax)
-    fig.savefig(OUT_DIR / f"direct-adam-delta-comparison-{locale}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"sgd-adam-delta-comparison-{locale}.png", dpi=160)
     plt.close(fig)
 
 
@@ -479,7 +517,7 @@ def save_weight_trajectory(text: dict[str, str], locale: str) -> None:
     ax.set_ylim(0.95, 1.78)
     ax.legend(frameon=False, loc="upper left")
     style_trace_axis(ax)
-    fig.savefig(OUT_DIR / f"direct-adam-risk-weight-trajectory-{locale}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"sgd-adam-risk-weight-trajectory-{locale}.png", dpi=160)
     plt.close(fig)
 
 
@@ -489,11 +527,88 @@ def save_optimizer_comparison_traces(text: dict[str, str], locale: str) -> None:
     save_weight_trajectory(text, locale)
 
 
+def save_state_update_comparison(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    labels = [text["state_case_large"], text["state_case_quiet"]]
+    x = np.arange(len(labels))
+
+    fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.8), constrained_layout=True)
+    left_ax, right_ax = axes
+
+    left_bars = left_ax.bar(x, STATE_CURRENT_GRADIENT, color="#64748b", width=0.5)
+    left_ax.axhline(0, color="#111827", linewidth=1.0)
+    left_ax.set_xticks(x)
+    left_ax.set_xticklabels(labels)
+    left_ax.set_ylabel(text["state_same_gradient_label"])
+    left_ax.set_title(text["state_chart_title_left"], fontsize=11)
+    left_ax.set_ylim(-1.3, 0.3)
+    style_trace_axis(left_ax)
+    for bar, value in zip(left_bars, STATE_CURRENT_GRADIENT):
+        left_ax.text(bar.get_x() + bar.get_width() / 2, value - 0.08, f"{value:.1f}", ha="center", va="top", fontsize=9)
+
+    right_bars = right_ax.bar(x, STATE_RESULT_UPDATES, color=["#2563eb", "#059669"], width=0.5)
+    right_ax.set_xticks(x)
+    right_ax.set_xticklabels(labels)
+    right_ax.set_ylabel(text["state_update_label"])
+    right_ax.set_title(text["state_chart_title_right"], fontsize=11)
+    right_ax.set_ylim(0, 0.16)
+    style_trace_axis(right_ax)
+    for bar, value in zip(right_bars, STATE_RESULT_UPDATES):
+        right_ax.text(bar.get_x() + bar.get_width() / 2, value + 0.006, f"{value:.2f}", ha="center", fontsize=9)
+
+    fig.savefig(OUT_DIR / f"state-update-comparison-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
+def save_clipping_spike_comparison(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    x = np.arange(1, len(RAW_SPIKE_UPDATES) + 1)
+    fig, ax = plt.subplots(figsize=(7.4, 3.8), constrained_layout=True)
+    ax.plot(x, RAW_SPIKE_UPDATES, marker="o", linewidth=2.2, color="#dc2626", label=text["clip_raw_label"])
+    ax.plot(x, CLIPPED_SPIKE_UPDATES, marker="o", linewidth=2.2, color="#059669", label=text["clip_clipped_label"])
+    ax.set_xticks(x)
+    ax.set_xticklabels([f"{step}" for step in x])
+    ax.set_xlabel(text["step_xlabel"])
+    ax.set_ylabel(text["clip_ylabel"])
+    ax.set_ylim(0, 1.35)
+    ax.legend(frameon=False, loc="upper right")
+    style_trace_axis(ax)
+    for xpos, value in zip(x, RAW_SPIKE_UPDATES):
+        ax.text(xpos, value + 0.05, f"{value:.1f}", ha="center", fontsize=8.8, color="#b91c1c")
+    for xpos, value in zip(x, CLIPPED_SPIKE_UPDATES):
+        ax.text(xpos, value - 0.08, f"{value:.1f}", ha="center", va="top", fontsize=8.8, color="#047857")
+    ax.set_title(text["clip_title"], fontsize=11)
+    fig.savefig(OUT_DIR / f"clipping-spike-comparison-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
+def save_claim_curve_comparison(text: dict[str, str], locale: str) -> None:
+    configure_font(text)
+    x = np.arange(1, len(CLAIM_CURVE_FAST) + 1)
+    fig, ax = plt.subplots(figsize=(7.4, 3.8), constrained_layout=True)
+    ax.plot(x, CLAIM_CURVE_FAST, marker="o", linewidth=2.2, color="#2563eb", label=text["claim_curve_fast"])
+    ax.plot(x, CLAIM_CURVE_SLOW, marker="o", linewidth=2.2, color="#059669", label=text["claim_curve_slow"])
+    ax.plot(x, CLAIM_CURVE_OSC, marker="o", linewidth=2.2, color="#dc2626", label=text["claim_curve_osc"])
+    ax.set_xticks(x)
+    ax.set_xticklabels([f"{step}" for step in x])
+    ax.set_xlabel(text["step_xlabel"])
+    ax.set_ylabel(text["claim_curve_ylabel"])
+    ax.set_ylim(0.5, 2.55)
+    ax.legend(frameon=False, loc="upper right")
+    style_trace_axis(ax)
+    ax.set_title(text["claim_curve_title"], fontsize=11)
+    fig.savefig(OUT_DIR / f"convergence-claim-boundary-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
 def main() -> None:
     for locale, text in LANG_TEXT.items():
         save_chart(text)
         save_exercise_traces(text, locale)
         save_optimizer_comparison_traces(text, locale)
+        save_state_update_comparison(text, locale)
+        save_clipping_spike_comparison(text, locale)
+        save_claim_curve_comparison(text, locale)
 
 
 if __name__ == "__main__":

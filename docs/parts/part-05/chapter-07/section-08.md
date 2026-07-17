@@ -120,6 +120,12 @@ optimizer는 gradient를 받아 update 규칙을 적용합니다. clipping은 �
 
 즉, 지금 절의 중심은 clipping이 정확히 어떤 수식으로 작동하는가보다, `불안정한 update`를 볼 때 독자가 무엇을 의심해야 하는가입니다. update가 너무 크게 튄다고 해서 언제나 optimizer가 틀린 것은 아니고, learning rate만이 유일한 원인도 아닙니다. clipping은 바로 이 중간 자리에 있는 진단 도구이자 안전장치입니다.
 
+그래프로 보면 clipping이 왜 `한 번의 spike를 눌러 주는 장치`라고 불리는지 더 직접 보입니다.
+
+![clipping이 spike를 누르는 update 크기 비교](../../../assets/part-05/chapter-07/clipping-spike-comparison-ko.png)
+
+이 그래프에서는 3번째 step에서만 입력이 과격해져 clipping이 없으면 update 크기가 `1.2`까지 튀고, clipping을 적용하면 `0.5` 근처에서 눌리는 장면을 보여 줍니다. 중요한 점은 모든 step을 똑같이 작게 만드는 것이 아니라, 튀는 순간만 과격함을 줄인다는 것입니다. 그래서 clipping은 `학습 전체를 느리게 만드는 장치`라기보다 `특정 spike가 학습을 흔들지 않게 막는 안전장치`로 읽는 편이 더 정확합니다.
+
 ## 사례 및 예시
 
 ### 사례. loss가 가끔만 크게 튈 때 무엇을 먼저 구분할 것인가

@@ -163,6 +163,12 @@ parameter-wise update는 모든 파라미터를 하나의 공통 숫자로만 �
 
 즉, 현재 입력 숫자가 같아도 `이 숫자가 어떤 문맥 뒤에 붙어 있는가`까지 함께 읽어야 adaptive optimizer의 update를 덜 오해하게 됩니다.
 
+이 차이를 그래프로 다시 보면 더 직접적입니다.
+
+![같은 current gradient와 다른 resulting update 비교](../../../assets/part-05/chapter-07/state-update-comparison-ko.png)
+
+왼쪽 패널은 두 좌표가 모두 같은 현재 gradient `-1.0`을 받는 장면을 보여 줍니다. 오른쪽 패널은 그럼에도 update가 `0.04`와 `0.12`로 갈라질 수 있음을 보여 줍니다. 여기서 바뀐 것은 현재 gradient가 아니라, 그 앞에 붙어 있던 state입니다. 이 그래프는 `같은 입력이라도 문맥이 다르면 출력이 달라질 수 있다`는 점을 눈으로 다시 확인하게 해 줍니다.
+
 ## 연습 및 예제
 
 다음 문장을 읽고 어떤 구분이 빠져 있는지 적어 봅니다.
