@@ -1,0 +1,5 @@
+flowchart TD
+    start["Compute the predicted score"] --> compare["Compare it with the target score"]
+    compare --> loss["Loss: how far off is it?"]
+    compare --> grad["Gradient: increase or decrease, and how sensitive?"]
+    grad --> update["Use it to decide the next parameter adjustment"]

@@ -1,0 +1,5 @@
+flowchart TD
+    start["예측 점수를 계산한다"] --> compare["목표 점수와 비교한다"]
+    compare --> loss["손실: 얼마나 어긋났는가"]
+    compare --> grad["gradient: 키울지 줄일지, 얼마나 민감한가"]
+    grad --> update["다음 단계에서 파라미터 조정 방향을 정한다"]

@@ -1,7 +1,7 @@
 # P5-5.1 손실은 어떻게 gradient 신호가 되는가
 
 Section ID: `P5-5.1`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
 P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이의 어긋남을 숫자로 만든다는 점을 보았습니다. 하지만 손실 숫자만으로는 아직 파라미터(parameter)를 바꿀 수 없습니다.
 
@@ -86,17 +86,13 @@ gradient는 이 차이를 부호와 크기로 남깁니다.
 
 신경망은 여러 계산이 이어진 구조입니다.
 
-\[
-input \rightarrow hidden \rightarrow output \rightarrow loss
-\]
+```mermaid
+--8<-- "assets/part-05/chapter-05/forward-loss-backward-flow-ko.mmd"
+```
 
 순전파(forward pass)는 입력에서 출발해 출력과 손실을 계산합니다. 역전파(backpropagation)는 반대로 손실에서 출발해 앞쪽 계산으로 거슬러 올라가며 gradient를 계산합니다.
 
-```mermaid
---8<-- "assets/part-05/chapter-05/loss-to-gradient-role-ko.mmd"
-```
-
-이 도식에서 먼저 확인할 결과는, 역전파가 손실을 바로 업데이트로 바꾸는 단계가 아니라 `손실 -> 파라미터별 gradient`를 계산해 다음 optimizer 단계로 넘기는 절차라는 점입니다.
+이 흐름도에서 먼저 확인할 결과는, 순전파와 역전파가 서로 다른 질문을 맡는다는 점입니다. 출력과 손실을 계산하는 흐름이 먼저 있고, 그다음 손실에서 출발한 gradient 계산이 앞쪽 파라미터로 되돌아갑니다.
 
 ## 왜 뒤에서 앞으로 계산하나
 
@@ -131,9 +127,9 @@ input \rightarrow hidden \rightarrow output \rightarrow loss
 
 예를 들어 아주 단순하게 쓰면 다음과 같습니다.
 
-\[
-x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
-\]
+```mermaid
+--8<-- "assets/part-05/chapter-05/chain-rule-dependency-flow-ko.mmd"
+```
 
 손실은 처음 입력이나 앞쪽 파라미터에 직접 달려 있는 것이 아니라, 여러 중간 값을 거쳐 간접적으로 연결됩니다. 이런 구조에서는 한 단계 변화가 다음 단계에 어떤 영향을 주는지를 이어 붙여야 합니다. 이때 등장하는 것이 연쇄 법칙(chain rule)입니다.
 
@@ -173,13 +169,28 @@ x \rightarrow z \rightarrow a \rightarrow y \rightarrow loss
 
 사람은 먼저 손실이 큰지 작은지를 보려고 합니다. 하지만 학습 단계에서는 손실 크기만 보는 것으로 충분하지 않습니다. 예측이 목표보다 낮아서 `risk_weight`를 키워야 하는 경우와, 예측이 목표보다 높아서 `risk_weight`를 줄여야 하는 경우를 구분해야 합니다.
 
+예를 들어 `pressure_unrecovered = 2.0`, `target_block_score = 5.0`이라고 해 보겠습니다. 이때 `risk_weight = 1.5`이면 예측 점수는 `3.0`이고, `risk_weight = 3.2`이면 예측 점수는 `6.4`입니다. 두 경우 모두 손실은 생기지만, 학습이 해야 할 일은 서로 반대입니다. 첫 경우는 점수가 모자라므로 `risk_weight`를 키워야 하고, 두 번째 경우는 점수가 지나치므로 `risk_weight`를 줄여야 합니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-05/case1-loss-to-gradient-reading-ko.mmd"
+```
+
+이 작은 장면에서 먼저 붙잡아야 할 결과는 하나입니다. 손실은 `틀렸다`는 사실만 남기고, gradient는 `어느 방향으로 얼마나 고쳐야 하는가`를 남깁니다.
+
 | 사례 | 예측과 목표의 관계 | 손실만 보면 | gradient까지 보면 |
 | --- | --- | --- | --- |
 | 조금 낮게 예측 | 목표보다 조금 작다 | 오차가 작다 | `risk_weight`를 약하게 키우는 신호 |
 | 많이 낮게 예측 | 목표보다 많이 작다 | 오차가 크다 | `risk_weight`를 강하게 키우는 신호 |
 | 높게 예측 | 목표보다 크다 | 오차가 있다 | `risk_weight`를 줄이는 신호 |
 
-이 사례에서 확인해야 할 결과는 하나입니다. 손실은 오차 크기를 알려 주지만, gradient는 파라미터별 방향과 강도를 알려 줍니다.
+같은 표를 `손실이 답하는 질문`과 `gradient가 답하는 질문`으로 나누어 읽으면 차이가 더 분명합니다.
+
+| 지금 보는 값 | 바로 답하는 질문 | 아직 남는 빈칸 |
+| --- | --- | --- |
+| 손실(loss) | 얼마나 어긋났는가 | 누구를 어느 방향으로 움직일 것인가 |
+| gradient | 어떤 파라미터를 키우거나 줄여야 하는가 | optimizer가 실제로 얼마나 이동할 것인가 |
+
+이 사례에서 확인해야 할 결과는, 손실이 오차 크기를 알려 주는 단계라면 gradient는 그 오차를 파라미터별 방향과 강도로 다시 적는 단계라는 점입니다.
 
 ### 사례 2. 마지막 점수만 고치면 왜 부족한가
 

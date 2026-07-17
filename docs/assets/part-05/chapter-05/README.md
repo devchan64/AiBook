@@ -8,6 +8,8 @@
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
   - `backprop-direction-and-responsibility-flow-en.mmd` / `backprop-direction-and-responsibility-flow-ko.mmd`
+  - `case1-loss-to-gradient-reading-en.mmd` / `case1-loss-to-gradient-reading-ko.mmd`
+  - `chain-rule-dependency-flow-en.mmd` / `chain-rule-dependency-flow-ko.mmd`
   - `forward-loss-backward-flow-en.mmd` / `forward-loss-backward-flow-ko.mmd`
   - `computation-graph-flow-en.mmd` / `computation-graph-flow-ko.mmd`
   - `loss-to-gradient-role-en.mmd` / `loss-to-gradient-role-ko.mmd`
