@@ -26,7 +26,7 @@ P5-8.1에서는 정규화(regularization)를 `과적합을 줄이기 위한 제�
 - dropout 비율(rate) 튜닝 전략의 세밀한 경험칙
 - variational dropout, Monte Carlo dropout 같은 확장 기법
 
-inverted dropout 공식과 dropout 비율 조정 경험칙은 여기서 공식을 전개하지 않고 넘깁니다. 대신 학습 모드와 평가 모드의 차이는 P5-6.3에서 다시 연결하고, regularization의 큰 관점은 P5-8.1에서 이미 묶은 흐름 위에서 읽습니다. variational dropout, Monte Carlo dropout 같은 확장 기법은 이 책의 현재 본편 범위 밖에 둡니다.
+inverted dropout 공식과 dropout 비율 조정 경험칙은 여기서 공식을 전개하지 않고 넘깁니다. 대신 학습 모드와 평가 모드의 차이는 P5-6.4에서 다시 연결하고, regularization의 큰 관점은 P5-8.1에서 이미 묶은 흐름 위에서 읽습니다. variational dropout, Monte Carlo dropout 같은 확장 기법은 이 책의 현재 본편 범위 밖에 둡니다.
 
 여기서는 공식을 암기하기보다 `왜 무작위 제거가 일반화를 돕는가`를 먼저 설명합니다.
 
@@ -102,7 +102,7 @@ inverted dropout 공식과 dropout 비율 조정 경험칙은 여기서 공식�
 
 ## 왜 평가 모드에서는 드롭아웃을 끄나
 
-P5-6.3에서 이미 본 것처럼, 드롭아웃은 학습 모드(training mode)와 평가 모드(evaluation mode)에서 다르게 동작합니다. 이유는 간단합니다.
+P5-6.4에서 이미 본 것처럼, 드롭아웃은 학습 모드(training mode)와 평가 모드(evaluation mode)에서 다르게 동작합니다. 이유는 간단합니다.
 
 평가나 배포에서는:
 
@@ -255,7 +255,7 @@ eval_sum = 4.4
 
 - 바로 앞의 P5-8.1 정규화를 `벌점 공식`으로만 이해하는 것을 막아 주고
 - 학습 중 잡음을 일부러 넣어 일반화를 돕는 사고를 소개하며
-- 앞서 P5-6.3에서 본 학습 모드와 평가 모드의 차이가 왜 실질적으로 필요한지 다시 확인시켜 주기 때문입니다
+- 앞서 P5-6.4에서 본 학습 모드와 평가 모드의 차이가 왜 실질적으로 필요한지 다시 확인시켜 주기 때문입니다
 
 ## 언제 dropout을 먼저 떠올리는가
 

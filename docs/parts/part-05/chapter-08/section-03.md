@@ -3,7 +3,7 @@
 Section ID: `P5-8.3`
 Version: `v2026.07.16`
 
-P5-6.3에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. P5-8.1과 P5-8.2에서는 정규화와 드롭아웃을 일반화 제약 관점에서 다시 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
+P5-6.4에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. P5-8.1과 P5-8.2에서는 정규화와 드롭아웃을 일반화 제약 관점에서 다시 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
 
 층을 더 깊게 쌓았다고 해서 왜 바로 잘 학습되지 않는가?
 
@@ -28,7 +28,7 @@ P5-6.3에서는 학습 모드(training mode)와 평가 모드(evaluation mode)�
 - batch normalization의 역전파 수식
 - layer normalization, group normalization의 상세 비교
 
-ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.3에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
+ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.4에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
@@ -137,7 +137,7 @@ batch normalization은 한 배치(batch) 안의 평균(mean)과 분산(variance)
 
 batch normalization은 이때 `현재 배치 기준으로 값을 한 번 더 다루기 쉬운 범위로 정리하고 넘기는 장치`처럼 읽을 수 있습니다.
 
-P5-6.3에서 본 mode 차이도 여기서 다시 연결됩니다.
+P5-6.4에서 본 mode 차이도 여기서 다시 연결됩니다.
 
 - 학습 중에는 현재 배치 통계를 참고하고
 - 평가 중에는 학습 동안 쌓인 기준을 더 많이 참고합니다

@@ -1,386 +1,421 @@
-# P5-6.3 학습 모드(training mode)와 평가 모드(evaluation mode)
+# P5-6.3 학습(learning)과 모델 실행(inference)
 
 Section ID: `P5-6.3`
 Version: `v2026.07.17`
 
-P5-6.2에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
+P5-6.2에서는 학습 루프가 step, batch, epoch 단위로 어떻게 반복되는지 먼저 묶었습니다. 여기까지 오면 다음 질문이 생깁니다.
 
-같은 모델이라도 학습 중일 때와 평가할 때 계산 방식이 완전히 같아야 하는가?
+gradient까지 계산했다면, 지금 이 모델은 학습 중인가, 아니면 그냥 사용 중인가?
 
-답은 항상 그렇지는 않다는 것입니다. 일부 층(layer)은 학습 중과 평가 중에 다르게 동작합니다. 이 차이를 분명히 이해해야 dropout, batch normalization, 검증(validation), 테스트(test), 배포(inference serving)를 헷갈리지 않게 됩니다.
+이 질문은 매우 중요합니다. 독자는 모델이 언제나 같은 방식으로 작동한다고 생각하기 쉽지만, 여기서 먼저 갈라야 할 경계는 계산 규칙의 세부 차이가 아니라 `파라미터를 바꾸는 절차인가`와 `이미 배운 파라미터를 쓰는 절차인가`입니다.
 
-학습 모드(training mode)는 파라미터 업데이트를 준비하는 계산 환경이고, 평가 모드(evaluation mode)는 현재 모델을 안정적으로 측정하거나 사용하는 계산 환경이다.
+학습(learning)은 모델 파라미터를 바꾸는 단계이고, 모델 실행(inference)은 바꾸지 않고 현재 파라미터로 결과를 계산하는 단계이다.
 
-mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode)와 [평가 모드(evaluation mode)](../../../reference/concept-glossary.md#evaluation-mode) 항목으로 돌아갑니다.
+학습과 모델 실행의 구분이 뒤 절에서 다시 흐려지면 개념사전의 [학습(training)](../../../reference/concept-glossary.md#training)과 [추론(inference)](../../../reference/concept-glossary.md#inference) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 이 절의 범위
 
-- 학습 모드와 평가 모드는 왜 나뉘는가?
-- 모든 층이 아니라 어떤 층들이 모드 차이에 민감한가?
-- dropout과 batch normalization은 왜 모드에 따라 다르게 동작하는가?
-- 검증(validation)과 테스트(test)에서 왜 평가 모드가 중요한가?
+- 학습과 모델 실행은 왜 구분해야 하는가?
+- 딥러닝 문맥에서 학습 단계는 무엇을 포함하는가?
+- 모델 실행 단계에서는 무엇이 달라지는가?
+- 같은 모델이라도 학습 중과 사용 중에 읽는 관점이 왜 다른가?
 
-이 절에서는 같은 모델이라도 어떤 계산 규칙은 학습 중에, 어떤 계산 규칙은 평가 중에 더 적합한지 구분하는 데 집중합니다. 즉, 여기서는 `learning과 inference를 나눈 뒤`, 그 안에서 다시 `training mode와 evaluation mode가 왜 필요한가`를 닫습니다.
+이 절에서는 `파라미터를 실제로 바꾸는 시간`과 `바꾸지 않고 현재 모델을 쓰는 시간`을 구분하는 데 집중합니다. 즉, 여기서는 learning과 inference를 `업데이트 경로가 붙는가`를 기준으로 먼저 닫습니다.
 
-대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. dropout과 regularization 자체의 큰 의미는 P5-8.1, P5-8.2에서 다시 자세히 다루고, optimizer가 이 학습 흐름 안에서 어디에 들어오는지는 P5-7.1, P5-7.2에서 다시 연결합니다.
+대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. `현재 파라미터를 쓰는 구간 안에서 계산 규칙을 어떻게 둘 것인가`는 아직 다음 질문입니다. 같은 모델이라도 학습 중과 평가 중에 계산 규칙이 왜 달라질 수 있는지는 다음 Section인 P5-6.4에서 이어서 설명합니다. dropout과 regularization의 큰 의미는 P5-8.1, P5-8.2에서 다시 연결합니다.
 
-batch normalization 수식 유도, dropout 확률 설계의 세부 튜닝, 분산 학습(distributed training)에서의 모드 관리 세부는 현재 절의 직접 범위를 넘어가므로 이 책의 현재 본편 범위 밖에 둡니다.
+mixed precision, quantization, 배포 인프라(inference serving) 세부 구조는 현재 절의 직접 범위를 넘어가므로 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
-- 학습 모드와 평가 모드를 `계산 규칙이 달라지는 두 상태`로 설명할 수 있습니다.
-- dropout과 batch normalization이 왜 모드 차이에 민감한지 말할 수 있습니다.
-- 검증과 배포에서는 왜 평가 모드가 필요할 수 있는지 설명할 수 있습니다.
-- 실행 가능한 Python 예제로 모드 차이를 직관적으로 확인할 수 있습니다.
+- 학습과 모델 실행을 `파라미터 변경 여부`로 구분할 수 있습니다.
+- 학습이 순전파만이 아니라 손실 계산, 역전파, 업데이트까지 포함한다는 점을 설명할 수 있습니다.
+- 모델 실행은 결과를 계산하지만 파라미터를 바꾸지 않는 단계라는 점을 말할 수 있습니다.
+- 실행 가능한 Python 예제로 두 단계의 차이를 확인할 수 있습니다.
 
-## 왜 같은 모델인데 모드가 필요한가
+## 왜 이 구분이 중요한가
 
-독자는 모델을 하나의 고정된 함수처럼 상상하기 쉽습니다. 입력이 같으면 언제나 같은 계산을 하고 같은 결과를 낼 것이라고 기대하는 것입니다.
+딥러닝 입문에서 흔한 오해는 다음과 같습니다.
 
-하지만 딥러닝에서는 일부 층이 학습을 더 잘 되게 하기 위해 `의도적으로 흔들리거나`, `배치(batch) 통계에 의존`하기도 합니다. 이런 층들은 학습 중에는 도움이 되지만, 평가나 서비스 실행에서는 오히려 불안정성을 만들 수 있습니다.
+- 데이터를 넣고 결과가 나오면 그게 곧 학습이다
+- 모델이 한 번 결과를 냈으니 이미 배웠다
+- 예측을 여러 번 하면 모델이 점점 더 좋아진다
 
-즉, 모드 분리는 단순한 라이브러리 문법이 아니라 다음 목적을 가집니다.
+하지만 실제로는 그렇지 않습니다.
 
-- 학습 중에는 일반화(generalization)를 돕는 계산을 허용하고
-- 평가 중에는 결과를 안정적으로 비교하고 재현하게 만드는 것
+모델이 좋아지려면 다음 단계가 필요합니다.
 
-## 학습 모드(training mode)는 무엇을 뜻하나
+1. 현재 파라미터로 예측을 만듭니다
+2. 정답과 비교해 손실을 계산합니다
+3. gradient를 계산합니다
+4. optimizer가 파라미터를 업데이트합니다
 
-학습 모드는 보통 다음과 같이 읽으면 충분합니다.
+즉, 단순히 `결과를 낸다`는 사실만으로는 학습이 일어나지 않습니다.
 
-- 손실을 줄이기 위한 학습 절차 안에 있다
-- 순전파 후 손실 계산과 역전파가 이어질 수 있다
-- 일부 층은 학습을 돕기 위해 특별한 방식으로 동작한다
+`결과 계산은 inference에서도 할 수 있지만, learning은 그 결과를 이용해 모델 내부 숫자를 실제로 바꾸는 과정까지 포함한다.`
 
-즉, training mode는 단순히 `optimizer.step()`을 호출하는 시점만이 아니라, `모델이 학습용 계산 규칙을 쓰고 있는 상태`를 뜻합니다.
+여기서 먼저 고정할 질문은 하나입니다.
 
-## 평가 모드(evaluation mode)는 무엇을 뜻하나
+`지금 보고 있는 절차가 파라미터 업데이트까지 이어지는가, 아니면 현재 파라미터로 출력만 계산하는가?`
 
-평가 모드는 보통 다음 상황에서 필요합니다.
+이 질문에 답하면 learning과 inference의 1차 경계는 잡힙니다. 아직 같은 파라미터 사용 구간 안에서 dropout이나 batch normalization이 어떻게 달라지는지는 묻지 않습니다. 그 질문은 `파라미터를 바꾸는가`가 아니라 `같은 파라미터를 어떤 계산 규칙으로 사용할 것인가`에 관한 다음 단계 질문이기 때문입니다.
 
-- 검증 데이터(validation set)로 성능을 측정할 때
-- 테스트 데이터(test set)로 최종 성능을 확인할 때
-- 배포된 서비스에서 실제 사용자 입력을 처리할 때
+## 딥러닝에서 학습(learning)은 무엇을 포함하나
 
-이때는 모델이 `현재 상태를 얼마나 잘하는지`를 흔들림 적게 드러내는 것이 핵심입니다. 따라서 학습 중의 확률적 흔들림이나 배치 의존성을 줄이고, 보다 고정된 방식으로 계산해야 합니다.
+여기서는 딥러닝 문맥의 학습을 다음 네 단계 묶음으로 이해하면 충분합니다.
 
-다음처럼 이해하면 충분합니다.
+| 단계 | 역할 |
+| --- | --- |
+| 순전파(forward pass) | 현재 파라미터로 예측을 계산 |
+| 손실 계산(loss computation) | 예측과 정답의 차이를 숫자로 계산 |
+| 역전파(backpropagation) | 각 파라미터에 대한 gradient를 계산 |
+| 업데이트(update) | optimizer가 파라미터를 실제로 바꿈 |
 
-`평가 모드는 지금 모델이 얼마나 잘하는지 재는 시간이고, 학습 모드는 더 잘하게 바꾸는 시간이다.`
+이 네 단계가 모두 있어야 `학습이 한 번 일어났다`고 말할 수 있습니다.
 
-이 차이를 계산 규칙만 남겨 압축하면 다음과 같습니다.
+즉, 딥러닝에서 learning은 단순히 데이터를 많이 보는 일이 아니라, `손실을 기준으로 파라미터를 반복적으로 조정하는 일`입니다.
+
+## 모델 실행(inference)은 무엇을 하는가
+
+모델 실행(inference)은 현재 파라미터를 고정한 채 입력에 대한 결과를 계산하는 단계입니다.
+
+예를 들어:
+
+- 사용자가 사진을 올리면 분류 결과를 보여 줍니다
+- 설비 점검 메모를 넣으면 위험 요약 결과를 돌려줍니다
+- 문서 일부를 넣으면 다음 토큰을 생성합니다
+
+이때 모델은 계산을 합니다. 하지만 그 계산이 곧바로 파라미터 업데이트를 뜻하지는 않습니다.
+
+즉, inference는 `현재 알고 있는 것을 사용해 답을 만드는 단계`입니다.
+
+`learning은 모델을 바꾸는 시간이고, inference는 바꾸지 않고 쓰는 시간이다.`
+
+## 같은 순전파라도 의미가 다르다
+
+여기서 중요한 점이 하나 더 있습니다. 학습과 실행 모두 순전파(forward pass)를 사용합니다. 그래서 독자는 둘이 비슷해 보일 수 있습니다.
+
+하지만 목적이 다릅니다.
+
+- 학습 중의 순전파: 손실 계산과 업데이트를 위한 중간 단계
+- 실행 중의 순전파: 최종 결과를 내기 위한 계산
+
+즉, `같은 계산처럼 보여도 왜 계산하는가`가 다릅니다. 이 절에서 묻는 것은 forward의 세부 설정이 아니라, 그 forward가 `loss -> gradient -> update`로 이어지는가입니다.
+
+이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-05/chapter-06/training-eval-mode-flow-ko.mmd"
+--8<-- "assets/part-05/chapter-06/training-vs-inference-flow-ko.mmd"
 ```
 
-이 도식에서 먼저 확인할 결과는, 같은 모델 입력이라도 학습 모드는 `업데이트 준비를 위한 흔들림 허용` 쪽으로, 평가 모드는 `안정적인 측정과 서비스 출력` 쪽으로 계산 규칙이 갈라진다는 점입니다.
+이 도식에서 확인해야 할 결과는 같은 예측값이라도 학습 단계에서는 손실 계산과 업데이트로 이어지고, 실행 단계에서는 바로 사용자 결과로 이어진다는 점입니다.
 
-## 어떤 층이 모드 차이에 민감한가
+- 학습에서는 예측 뒤에 `얼마나 틀렸는지`를 계산하고 파라미터를 바꾸는 단계가 붙습니다.
+- 실행에서는 예측이 곧바로 사용자에게 보여 줄 결과나 다음 시스템 단계 입력이 됩니다.
 
-모든 층이 모드 차이에 민감한 것은 아닙니다. 예를 들어 일반적인 선형층(linear layer)이나 합성곱층(convolution layer)은 같은 입력과 같은 파라미터라면 큰 틀에서 같은 계산을 합니다.
+## 왜 inference를 번역어 하나로만 옮기면 혼동이 생기나
 
-하지만 다음 층들은 학습 중 동작과 평가 중 동작을 먼저 구분해서 읽어야 합니다.
+Part 1에서도 보았듯이 문제의 핵심은 특정 언어의 번역어 하나가 여러 개념 자리를 한꺼번에 덮는 데 있습니다. 한국어에서는 `추론`이 reasoning, inference, prediction을 한데 섞어 들리게 만들 수 있고, 다른 언어에서도 지역어 표현 하나가 여러 표준 용어를 동시에 덮으면 같은 문제가 생깁니다. 그래서 이 절에서는 `어떤 사고를 하는가`, `학습된 모델을 실행하는가`, `무엇을 출력했는가`를 번역어 하나로 눌러 부르지 않는 편이 안전합니다.
 
-| 층 또는 기법 | 학습 모드에서의 특징 | 평가 모드에서의 특징 |
+딥러닝 문맥에서 inference는 보통 `학습된 모델을 실행해 현재 파라미터로 출력값을 계산하는 단계`를 가리킵니다. 즉, 이 절에서 inference는 `깊은 사고`, `논리 전개`, `미래 결과 예측`과 바로 같은 말이 아니라, 모델 실행 절차에 더 가깝습니다.
+
+| 표현 | 먼저 물을 질문 | P5-6.1에서 다른 점 | 이 절에서 안전한 표현 |
+| --- | --- | --- | --- |
+| `reasoning` | 근거를 따라 결론에 이르는 사고 과정을 말하는가? | 모델 파라미터를 사용하는 실행 단계 자체가 아니라 설명·논리 전개 쪽입니다. | `reasoning`, `논리적 추론`, `사고 과정` |
+| `inference` | 학습된 모델을 새 입력에 적용하는가? | 현재 파라미터로 forward를 수행해 출력을 계산하지만 update는 붙지 않습니다. | `모델 실행(inference)`, `모델 적용` |
+| `prediction` | 모델이 낸 출력값은 무엇인가? | inference로 만들어진 결과값입니다. 과정이 아니라 출력 쪽 표현입니다. | `prediction`, `예측`, `모델 출력` |
+| `generation` | 텍스트나 토큰 같은 산출물을 만들어 내는가? | LLM 실행에서는 inference 결과가 생성 텍스트처럼 보일 수 있지만, 생성 행위와 모델 실행 단계를 같은 말로 묶지는 않습니다. | `generation`, `생성` |
+
+이 절에서 말하는 inference의 기본 뜻은 다음 세 단계입니다.
+
+- 입력을 넣고
+- 현재 파라미터로 계산하고
+- 출력을 만든다
+
+즉, 여기서 핵심은 `얼마나 깊게 생각했는가`가 아니라 `현재 모델을 실행해 출력이 계산되었는가`입니다.
+
+따라서 이 절에서는 지역어 번역만 단독으로 쓰기보다 `모델 실행(inference)`이라는 병기를 유지해 두는 편이 더 안전합니다. 이후 다른 언어판에서도 같은 자리에 `reasoning`, `inference`, `prediction`, `generation`을 다시 섞지 않고, `학습된 모델 실행 단계`라는 역할을 중심으로 옮겨야 합니다.
+
+## 6.3과 6.4의 경계 먼저 잡기
+
+P5-6.3과 다음 절 P5-6.4는 모두 `학습 중`과 `사용 중`이라는 말을 다루기 때문에 처음 읽으면 붙어 보일 수 있습니다. 그래서 여기서는 질문을 두 층으로 분리해 두는 편이 안전합니다.
+
+| 먼저 답할 질문 | 이 절에서의 답 | 다음 절에서의 답 |
 | --- | --- | --- |
-| dropout | 일부 활성값을 무작위로 끔 | 무작위 제거 없이 안정적으로 사용 |
-| batch normalization | 현재 배치 통계를 사용 | 학습 중 누적한 통계를 사용 |
+| 지금 이 절차가 모델 파라미터를 바꾸는가? | learning이면 바꾸고, inference면 바꾸지 않습니다. | 이 질문은 이미 끝난 전제입니다. |
+| 파라미터를 안 바꾸는 구간에서도 계산 규칙이 항상 같아야 하는가? | 여기서는 아직 다루지 않습니다. | training mode와 evaluation mode가 왜 갈리는지 다룹니다. |
 
-즉, 모드 차이는 `학습을 돕기 위해 일부러 다르게 동작하는 층` 때문에 필요합니다.
+즉, P5-6.3은 `업데이트 경로 유무`를 가르는 절이고, P5-6.4는 그다음에 `같은 모델 실행이라도 어떤 계산 상태로 써야 하는가`를 가르는 절입니다.
 
-## dropout은 왜 학습 중과 평가 중이 다른가
+## 사례 및 예시
 
-dropout은 학습 중 일부 노드 출력을 무작위로 끊어, 특정 경로에 과하게 의존하지 않도록 돕는 기법입니다.
+### 사례. 같은 경보를 두 실행 로그로 나누어 보기
 
-다음처럼 이해하면 충분합니다.
+운영자가 새 설비 경보 로그 한 건을 넣어 `즉시 정지`, `현장 확인`, `기록만` 같은 분류 결과를 보는 장면을 떠올려 볼 수 있습니다. 사람은 화면에 판정 결과가 바로 나오면 모델이 그 로그를 보고 곧바로 더 배웠다고 느끼기 쉽습니다. 하지만 이 장면을 learning과 inference로 구분하려면 `새 입력을 보았는가`보다 `update 경로가 붙었는가`를 먼저 봐야 합니다.
 
-`학습 중에는 일부 연결을 일부러 쉬게 만들어, 모델이 한두 신호에만 의존하지 않게 한다.`
+같은 경보 입력도 두 실행 로그로 나누면 차이가 분명해집니다.
 
-하지만 평가 중에도 매번 무작위로 노드를 끊어 버리면 결과가 들쭉날쭉해집니다. 그러면 현재 모델이 실제로 얼마나 잘하는지 안정적으로 재기 어렵습니다.
+| 실행 로그 | 실제로 이어지는 단계 | 파라미터 변화 |
+| --- | --- | --- |
+| 서비스 실행 로그 | `alarm_count -> forward -> predicted_block_score -> 운영 화면 출력` | 없음 |
+| 학습 로그 | `alarm_count -> forward -> target_block_score와 비교 -> loss -> gradient -> update` | 있음 |
 
-따라서 평가 모드에서는 dropout의 무작위 제거를 멈추고, 학습된 네트워크를 고정된 형태로 사용합니다.
+서비스 실행 로그에서는 현재 파라미터들로 위험 점수를 계산해 운영 화면에 보여 줍니다. 입력이 달라지면 `predicted_block_score`도 달라질 수 있지만, 그 자체가 파라미터 변경을 뜻하지는 않습니다. 반대로 학습 로그에서는 같은 종류의 입력이라도 정답 역할을 하는 `target_block_score`와 비교하고, 손실과 gradient를 계산한 뒤 update가 붙어야 파라미터가 실제로 바뀝니다. 그래서 이 사례에서 확인해야 할 결과는 결과 화면이 바뀌었는가가 아니라, `loss -> gradient -> update`가 실제로 붙어 파라미터가 바뀌었는가입니다.
 
-## batch normalization은 왜 모드 차이가 필요한가
+| 사람이 먼저 보기 쉬운 기준 | learning/inference 관점으로 다시 읽는 기준 |
+| --- | --- |
+| 새 입력을 처리했으니 모델도 바로 더 배웠을 것 같다 | 출력 계산만 했고 파라미터 업데이트는 없을 수 있다 |
+| 결과가 달라졌으니 모델 내부 숫자도 바뀌었을 것 같다 | 입력이 달라져 출력이 달라진 것과 파라미터 변경은 별개다 |
+| 많이 쓰면 저절로 학습될 것 같다 | 손실, gradient, update 절차가 실제로 있어야 learning이다 |
 
-batch normalization은 각 배치의 평균(mean)과 분산(variance)을 이용해 활성값 분포를 조정하는 층입니다. 학습 중에는 현재 배치 통계를 쓰는 것이 자연스럽지만, 평가 중에는 상황이 달라집니다.
+이 장면은 검사 이미지 데모나 LLM 채팅에도 그대로 옮겨 갈 수 있습니다. 검사 화면에 이미지를 올리거나, 채팅창에 질문을 다시 쓰거나, 경보 로그를 새로 넣는 일은 모두 inference일 수 있습니다. 출력이 매번 달라져도 update 경로가 붙지 않으면 파라미터는 그대로입니다.
 
-평가 데이터는:
+이 사례를 learning과 inference로 다시 묶으면 차이는 `결과가 나왔는가`가 아니라 `그 결과가 파라미터를 실제로 바꾸는 계산으로 이어졌는가`에 있습니다.
 
-- 배치 크기가 작을 수 있고
-- 한 개 샘플만 들어올 수도 있고
-- 측정할 때마다 배치 구성이 달라질 수 있습니다
+| 장면 | 사람이 먼저 보기 쉬운 결과 | learning/inference 관점에서 실제로 구분해야 할 것 | 파라미터가 바뀌는가 |
+| --- | --- | --- | --- |
+| 서비스 실행 로그 | 새 경보 결과가 바로 나왔다 | 현재 파라미터로 forward만 했는지 본다 | 바뀌지 않음 |
+| 학습 로그 | 경보 샘플과 목표값을 비교했다 | loss, gradient, update가 실제로 이어졌는지 본다 | 바뀜 |
+| 검사 이미지·LLM 채팅 같은 서비스 입력 | 입력을 바꾸자 출력도 달라졌다 | 입력 변화에 따른 출력 변화와 실시간 재학습을 구분한다 | 일반 서비스 사용에서는 바뀌지 않음 |
 
-이 경우 매번 현재 배치 통계만 쓰면 결과가 불안정해질 수 있습니다. 그래서 평가 모드에서는 보통 학습 중 누적한 running statistics를 사용합니다.
+이 표에서 독자가 먼저 붙잡아야 할 결과는, learning과 inference를 가르는 핵심이 `출력 변화 유무`가 아니라 `손실과 업데이트가 실제로 붙어 파라미터가 바뀌었는가`라는 점입니다.
 
-다음처럼 기억하면 충분합니다.
+이 사례를 한 번 더 압축하면, learning과 inference를 읽는 첫 흐름은 다음과 같습니다.
 
-`batch normalization은 학습 중에는 현재 배치를 참고하고, 평가 중에는 학습 동안 쌓아 둔 평균적 기준을 더 많이 참고한다.`
+```mermaid
+--8<-- "assets/part-05/chapter-06/learning-inference-parameter-bridge-ko.mmd"
+```
 
-## 검증(validation)과 테스트(test)는 왜 평가 모드여야 하나
-
-검증 데이터와 테스트 데이터는 `현재 모델이 얼마나 잘 일반화되는지`를 보기 위한 데이터입니다. 여기서 학습 모드가 켜져 있으면 dropout이 무작위로 흔들리고, batch normalization도 배치 구성에 민감하게 반응할 수 있습니다.
-
-그 결과:
-
-- 같은 모델인데도 측정값이 덜 안정적이거나
-- 배치 구성에 따라 점수가 달라지거나
-- 서비스 배포 시 체감 성능과 비교가 어려워질 수 있습니다
-
-즉, 검증과 테스트는 `현재 모델을 공정하게 재는 시간`이므로 평가 모드가 중요합니다.
+이 도식은 서비스 실행 로그와 학습 로그를 다시 설명하려는 것이 아니라, `새 입력을 처리해 출력이 달라지는 것`과 `손실-업데이트가 붙어 파라미터가 바뀌는 것`을 한 번에 다시 구분하기 위한 것입니다.
 
 ## 연습 및 예제
 
-mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결과 해석을 흔들 수 있는 순간에 먼저 확인합니다. 같은 입력 배치도 `training mode`와 `evaluation mode`에서 서로 다른 계산 규칙으로 갈라질 수 있으므로, 아래 예제는 그 차이를 단계별 산출물로 확인합니다. 앞의 버전처럼 숫자 목록을 바로 넣으면 결과가 손으로 만든 값처럼 보일 수 있으므로, 여기서는 작은 사용자 세션 배치에서 은닉층(hidden layer) 활성값을 먼저 계산한 뒤 그 값에 dropout과 batch normalization의 모드 차이를 적용합니다.
+이번 예제의 목표는 같은 작은 위험 점수 모델이 `학습 배치`를 볼 때는 여러 파라미터를 바꾸고, `서비스 입력`을 볼 때는 그 파라미터들을 바꾸지 않는다는 점을 여러 step으로 확인하는 것입니다. 여기서 코드는 단순히 숫자 한 번을 출력하는 역할이 아니라, `같은 종류의 입력이라도 update 경로가 붙었는가`에 따라 파라미터가 실제로 달라지는지 실험하는 역할을 맡습니다.
 
 입력:
 
-- 세션별 클릭 수와 머문 시간
-- 은닉층 하나의 단순 가중치와 bias
-- dropout 비율
-- 두 번의 학습 모드 실행을 재현하기 위한 난수 seed
-- evaluation mode에서 사용할 이전 학습 세션 배치들
+- 학습용 경보 샘플 4개
+- 초기 파라미터 `alarm_weight`, `delay_weight`, `bias`
+- 학습률 `learning_rate`
 
 출력:
 
-- 입력 특성에서 계산된 은닉층 활성값
-- dropout 뒤 활성값
-- normalization에 사용할 기준 평균
-- 기준 평균을 뺀 단순화된 출력
+- step별 위험 점수 예측값, 손실, 파라미터 변화
+- 학습 완료 뒤 inference 결과
+- inference 전후 파라미터 비교
+- 같은 위험 가중치로 여러 서비스 입력을 처리했을 때 출력만 달라지는지 확인
 
 문제 상황:
 
-- 같은 입력이라도 학습 모드는 흔들림을 허용하고, 평가 모드는 안정된 기준으로 계산해야 한다
+- 학습과 추론은 같은 수식을 써도 목적이 다르므로, 가중치가 업데이트되는 구간과 고정된 구간을 나눠 볼 필요가 있다
+- 서비스 입력이 여러 번 들어와도 update가 없으면 파라미터는 그대로인지 직접 봐야 한다
 
 확인할 개념:
 
-- 학습 모드에서는 일부 활성값이 무작위로 꺼진다
-- 학습 모드의 batch normalization은 현재 batch 기준을 쓸 수 있다
-- 평가 모드에서는 dropout을 멈추고 학습 중 쌓아 둔 running statistics를 기준으로 쓴다
+- 학습 단계에서는 손실을 줄이기 위해 가중치가 계속 바뀐다
+- 추론 단계에서는 학습된 가중치를 고정한 채 결과만 계산한다
+- 입력이 달라져 출력이 달라져도 파라미터가 바뀌었다는 뜻은 아니다
 
 입력(input):
 
-위에 정리한 현재 세션 배치와 이전 학습 세션 배치들을 사용합니다. 여기서 은닉층 계산은 `clicks * 가중치 + seconds * 가중치 + bias` 뒤에 음수는 0으로 자르는 ReLU(rectified linear unit)만 적용합니다. batch normalization은 설명을 단순하게 하기 위해 `값 - 기준 평균`만 계산합니다. 실제 batch normalization은 분산, 학습 가능한 scale과 shift까지 함께 쓰지만, 이 예제에서는 `어떤 평균을 기준으로 삼는가`만 봅니다.
+학습 배치에서는 `alarm_count`와 `restart_delay_hours`를 받아 `predicted_block_score`를 만들고, 목표값 `target_block_score`와 비교해 `alarm_weight`, `delay_weight`, `bias`를 갱신한다고 가정합니다. 이후 서비스 구간에서는 새 입력이 들어와도 같은 파라미터들을 그대로 사용하는지만 확인합니다.
 
-코드를 보기 전에 먼저 어떤 단계가 데이터에서 계산되고, 어떤 단계가 모드 때문에 흔들리거나 고정될지 예상해 보면 차이가 더 잘 보입니다.
+코드를 보기 전에 먼저 어느 구간에서만 `weight`가 바뀔지 예상해 보면 좋습니다.
 
-| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
+| 구간 | 먼저 예상해 볼 비교 | 예상 이유 |
 | --- | --- | --- |
-| `hidden_activation` | 세션마다 다른 은닉층 값이 나옴 | 클릭 수와 머문 시간이 샘플마다 다르기 때문입니다. |
-| `train_run_1`과 `train_run_2`의 dropout 뒤 값 | 같은 은닉층 값이어도 서로 다른 활성값 패턴이 나올 가능성이 큼 | 학습 모드에서는 실행마다 dropout mask가 달라질 수 있기 때문입니다. |
-| `train_run_1 batch_mean`과 `train_run_2 batch_mean` | 서로 차이가 날 가능성이 큼 | 살아남은 활성값이 달라지면 현재 batch 기준도 함께 달라지기 때문입니다. |
-| `eval_run` | 은닉층 활성값을 그대로 유지할 가능성이 큼 | 평가 모드에서는 dropout을 적용하지 않기 때문입니다. |
-| `eval reference_mean` | 이전 학습 세션 배치에서 계산된 고정 기준값으로 남음 | 평가 모드에서는 현재 batch보다 학습 중 쌓아 둔 running mean을 사용하기 때문입니다. |
+| `train step 1~4` | `alarm_weight`, `delay_weight`, `bias`가 달라질 가능성 | 손실과 gradient를 이용해 실제 업데이트를 수행하기 때문입니다. |
+| `service input 1` | 출력은 계산되지만 파라미터는 유지될 가능성 | inference는 현재 파라미터를 사용만 하기 때문입니다. |
+| `service input 2` | 출력은 달라질 수 있어도 파라미터는 여전히 같을 가능성 | 입력 변화와 파라미터 변화는 별개이기 때문입니다. |
 
-이 표의 목적은 정확한 숫자를 맞히는 데 있지 않습니다. 학습 모드에서는 같은 입력도 두 번 실행하면 dropout 결과와 batch 기준이 흔들릴 수 있고, 평가 모드에서는 그 흔들림을 멈춰 기준선을 만든다는 점을 코드 전에 붙잡는 데 있습니다.
+이 표의 목적은 `출력 변화`와 `파라미터 변화`를 분리해서 읽는 것입니다.
+
+이 예제는 아래 세 값을 직접 바꿔 보며 읽어야 실험 역할이 더 분명해집니다.
+
+| 바꿔 볼 값 | 먼저 관찰할 출력 | 해석할 질문 |
+| --- | --- | --- |
+| `learning_rate`를 0.03에서 0.01, 0.08로 바꾼다 | 세 파라미터가 step마다 얼마나 크게 움직이는가 | 학습은 같은 배치를 보더라도 update 보폭에 따라 파라미터 변화량이 달라지는가 |
+| `service_inputs`에 새 입력을 추가한다 | prediction은 달라도 `parameters_used`가 계속 같은가 | 서비스 입력 변화와 파라미터 변화는 별개라는 점이 유지되는가 |
+| `service_shadow_sample`의 `target_block_score`를 10.0, 13.0으로 바꾼다 | 같은 서비스 입력에 update를 붙였을 때 `shadow_parameters_after`가 어떻게 달라지는가 | 입력이 아니라 `손실-업데이트 경로`가 붙을 때만 파라미터가 바뀌는가 |
 
 ```python
-from random import Random
-
-sessions = [
-    {"id": "A", "clicks": 3, "seconds": 42},
-    {"id": "B", "clicks": 6, "seconds": 55},
-    {"id": "C", "clicks": 2, "seconds": 28},
-    {"id": "D", "clicks": 7, "seconds": 70},
-    {"id": "E", "clicks": 4, "seconds": 36},
+train_alarm_data = [
+    {"alarm_count": 1.0, "restart_delay_hours": 2.0, "target_block_score": 4.0},
+    {"alarm_count": 2.0, "restart_delay_hours": 1.0, "target_block_score": 5.0},
+    {"alarm_count": 3.0, "restart_delay_hours": 2.0, "target_block_score": 8.0},
+    {"alarm_count": 4.0, "restart_delay_hours": 3.0, "target_block_score": 11.0},
 ]
-weights = {"clicks": 0.18, "seconds": 0.015}
-bias = -0.35
 
-prior_session_batches = [
-    [
-        {"clicks": 3, "seconds": 42},
-        {"clicks": 6, "seconds": 57},
-        {"clicks": 2, "seconds": 27},
-        {"clicks": 7, "seconds": 67},
-        {"clicks": 4, "seconds": 40},
-    ],
-    [
-        {"clicks": 3, "seconds": 38},
-        {"clicks": 6, "seconds": 51},
-        {"clicks": 2, "seconds": 25},
-        {"clicks": 7, "seconds": 63},
-        {"clicks": 4, "seconds": 45},
-    ],
-    [
-        {"clicks": 3, "seconds": 46},
-        {"clicks": 6, "seconds": 54},
-        {"clicks": 2, "seconds": 29},
-        {"clicks": 7, "seconds": 69},
-        {"clicks": 4, "seconds": 37},
-    ],
+parameters = {
+    "alarm_weight": 0.4,
+    "delay_weight": 0.2,
+    "bias": 0.0,
+}
+learning_rate = 0.03
+service_inputs = [
+    {"alarm_count": 4.0, "restart_delay_hours": 1.0},
+    {"alarm_count": 5.0, "restart_delay_hours": 3.0},
 ]
-drop_rate = 0.4
+service_shadow_sample = {
+    "alarm_count": 4.0,
+    "restart_delay_hours": 1.0,
+    "target_block_score": 10.0,
+}
 
-def hidden_activation(row):
-    raw = row["clicks"] * weights["clicks"] + row["seconds"] * weights["seconds"] + bias
-    return round(max(0.0, raw), 3)
+def predict_block_score(alarm_count, restart_delay_hours, parameters):
+    return (
+        alarm_count * parameters["alarm_weight"]
+        + restart_delay_hours * parameters["delay_weight"]
+        + parameters["bias"]
+    )
 
-def make_dropout_mask(count, seed):
-    rng = Random(seed)
-    return [1 if rng.random() >= drop_rate else 0 for _ in range(count)]
-
-def apply_dropout(values, mask, drop_rate):
-    scale = 1 / (1 - drop_rate)
-    result = []
-    for value, keep in zip(values, mask):
-        if keep == 0:
-            result.append(0.0)
-        else:
-            result.append(round(value * scale, 3))
-    return result
-
-def mean(values):
-    return round(sum(values) / len(values), 3)
-
-def flatten(rows):
-    return [value for row in rows for value in row]
-
-def hidden_batch(batch):
-    return [hidden_activation(row) for row in batch]
-
-def center_by_mean(values, reference_mean):
-    return [round(value - reference_mean, 3) for value in values]
-
-def run_training_mode(name, seed):
-    mask = make_dropout_mask(len(activations), seed)
-    after_dropout = apply_dropout(activations, mask, drop_rate)
-    batch_mean = mean(after_dropout)
-    centered_output = center_by_mean(after_dropout, batch_mean)
+def run_train_step(sample, parameters, learning_rate):
+    prediction = predict_block_score(
+        sample["alarm_count"],
+        sample["restart_delay_hours"],
+        parameters,
+    )
+    target_block_score = sample["target_block_score"]
+    loss = (prediction - target_block_score) ** 2
+    error = prediction - target_block_score
+    gradients = {
+        "alarm_weight": 2 * error * sample["alarm_count"],
+        "delay_weight": 2 * error * sample["restart_delay_hours"],
+        "bias": 2 * error,
+    }
+    new_parameters = {
+        name: value - learning_rate * gradients[name]
+        for name, value in parameters.items()
+    }
     return {
-        "mode": name,
-        "mask": mask,
-        "after_dropout": after_dropout,
-        "reference_mean": batch_mean,
-        "centered_output": centered_output,
+        "prediction": prediction,
+        "loss": loss,
+        "gradients": gradients,
+        "parameters_after": new_parameters,
     }
 
-def run_evaluation_mode():
-    after_dropout = activations[:]
-    centered_output = center_by_mean(after_dropout, running_mean)
-    return {
-        "mode": "eval_run",
-        "after_dropout": after_dropout,
-        "reference_mean": running_mean,
-        "centered_output": centered_output,
-    }
+print("initial_parameters =", {name: round(value, 3) for name, value in parameters.items()})
 
-activations = [hidden_activation(row) for row in sessions]
-prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
-running_mean = mean(flatten(prior_hidden_batches))
+for step, sample in enumerate(train_alarm_data, start=1):
+    step_result = run_train_step(sample, parameters, learning_rate)
+    print(
+        f"train step {step}: "
+        f"alarm_count={sample['alarm_count']}, "
+        f"restart_delay_hours={sample['restart_delay_hours']}, "
+        f"target_block_score={sample['target_block_score']}, "
+        f"prediction={step_result['prediction']:.3f}, loss={step_result['loss']:.3f}, "
+        f"parameters_before={ {name: round(value, 3) for name, value in parameters.items()} }, "
+        f"parameters_after={ {name: round(value, 3) for name, value in step_result['parameters_after'].items()} }"
+    )
+    parameters = step_result["parameters_after"]
 
-train_run_1 = run_training_mode("train_run_1", seed=17)
-train_run_2 = run_training_mode("train_run_2", seed=29)
-eval_run = run_evaluation_mode()
+parameters_before_inference = parameters.copy()
+for service_input in service_inputs:
+    print(
+        f"inference: alarm_count={service_input['alarm_count']}, "
+        f"restart_delay_hours={service_input['restart_delay_hours']}, "
+        f"prediction={predict_block_score(service_input['alarm_count'], service_input['restart_delay_hours'], parameters):.3f}, "
+        f"parameters_used={ {name: round(value, 3) for name, value in parameters.items()} }"
+    )
+print("parameters_before_inference =", {name: round(value, 3) for name, value in parameters_before_inference.items()})
+print("parameters_after_inference =", {name: round(value, 3) for name, value in parameters.items()})
 
-print("sessions =", sessions)
-print("hidden_activations =", activations)
-print("prior_hidden_batches =", prior_hidden_batches)
-print("running_mean_from_prior_batches =", running_mean)
-for result in [train_run_1, train_run_2, eval_run]:
-    print(result["mode"])
-    if "mask" in result:
-        print("dropout_mask =", result["mask"])
-    print("after_dropout =", result["after_dropout"])
-    print("reference_mean =", result["reference_mean"])
-    print("centered_output =", result["centered_output"])
+shadow_result = run_train_step(
+    sample=service_shadow_sample,
+    parameters=parameters,
+    learning_rate=learning_rate,
+)
+print(
+    "same_input_with_update: "
+    f"alarm_count={service_shadow_sample['alarm_count']}, "
+    f"restart_delay_hours={service_shadow_sample['restart_delay_hours']}, "
+    f"target_block_score={service_shadow_sample['target_block_score']}, "
+    f"prediction={shadow_result['prediction']:.3f}, loss={shadow_result['loss']:.3f}, "
+    f"shadow_parameters_after={ {name: round(value, 3) for name, value in shadow_result['parameters_after'].items()} }"
+)
 ```
 
-출력에서는 먼저 `hidden_activations`가 입력 특성에서 계산된 값이라는 점을 확인하고, 그다음 `dropout_mask`, `after_dropout`, `reference_mean`, `centered_output`을 순서대로 비교하면 됩니다.
+출력에서는 학습 단계의 `parameters_before`/`parameters_after` 변화와 inference 단계의 `parameters_used` 불변을 먼저 비교하면 됩니다.
 
 ```text
-sessions = [{'id': 'A', 'clicks': 3, 'seconds': 42}, {'id': 'B', 'clicks': 6, 'seconds': 55}, {'id': 'C', 'clicks': 2, 'seconds': 28}, {'id': 'D', 'clicks': 7, 'seconds': 70}, {'id': 'E', 'clicks': 4, 'seconds': 36}]
-hidden_activations = [0.82, 1.555, 0.43, 1.96, 0.91]
-prior_hidden_batches = [[0.82, 1.585, 0.415, 1.915, 0.97], [0.76, 1.495, 0.385, 1.855, 1.045], [0.88, 1.54, 0.445, 1.945, 0.925]]
-running_mean_from_prior_batches = 1.132
-train_run_1
-dropout_mask = [1, 1, 1, 0, 1]
-after_dropout = [1.367, 2.592, 0.717, 0.0, 1.517]
-reference_mean = 1.239
-centered_output = [0.128, 1.353, -0.522, -1.239, 0.278]
-train_run_2
-dropout_mask = [1, 0, 1, 0, 1]
-after_dropout = [1.367, 0.0, 0.717, 0.0, 1.517]
-reference_mean = 0.72
-centered_output = [0.647, -0.72, -0.003, -0.72, 0.797]
-eval_run
-after_dropout = [0.82, 1.555, 0.43, 1.96, 0.91]
-reference_mean = 1.132
-centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
+initial_parameters = {'alarm_weight': 0.4, 'delay_weight': 0.2, 'bias': 0.0}
+train step 1: alarm_count=1.0, restart_delay_hours=2.0, target_block_score=4.0, prediction=0.800, loss=10.240, parameters_before={'alarm_weight': 0.4, 'delay_weight': 0.2, 'bias': 0.0}, parameters_after={'alarm_weight': 0.592, 'delay_weight': 0.584, 'bias': 0.192}
+train step 2: alarm_count=2.0, restart_delay_hours=1.0, target_block_score=5.0, prediction=1.960, loss=9.242, parameters_before={'alarm_weight': 0.592, 'delay_weight': 0.584, 'bias': 0.192}, parameters_after={'alarm_weight': 0.957, 'delay_weight': 0.766, 'bias': 0.374}
+train step 3: alarm_count=3.0, restart_delay_hours=2.0, target_block_score=8.0, prediction=4.778, loss=10.384, parameters_before={'alarm_weight': 0.957, 'delay_weight': 0.766, 'bias': 0.374}, parameters_after={'alarm_weight': 1.537, 'delay_weight': 1.153, 'bias': 0.568}
+train step 4: alarm_count=4.0, restart_delay_hours=3.0, target_block_score=11.0, prediction=10.174, loss=0.682, parameters_before={'alarm_weight': 1.537, 'delay_weight': 1.153, 'bias': 0.568}, parameters_after={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+inference: alarm_count=4.0, restart_delay_hours=1.0, prediction=8.859, parameters_used={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+inference: alarm_count=5.0, restart_delay_hours=3.0, prediction=13.197, parameters_used={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+parameters_before_inference = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+parameters_after_inference = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_score=10.0, prediction=8.859, loss=1.302, shadow_parameters_after={'alarm_weight': 2.009, 'delay_weight': 1.37, 'bias': 0.686}
 ```
 
-이 예제는 실제 프레임워크 전체를 재현한 것은 아니지만, 여기서 읽어야 할 핵심은 분명합니다.
+여기서는 학습 step에서 `alarm_weight`, `delay_weight`, `bias`가 실제로 바뀌고, inference에서는 새 입력이 들어와도 같은 파라미터들이 유지된다는 점을 먼저 확인하면 됩니다. 마지막 `same_input_with_update` 줄은 일부러 같은 종류의 입력에도 update를 붙였을 때만 파라미터가 바뀐다는 대비 장면입니다.
 
-- 은닉층 활성값은 입력 특성에서 계산된 중간 산출물입니다
-- 학습 모드에서는 같은 은닉층 활성값을 두 번 넣어도 dropout 뒤 활성값 구성이 달라질 수 있습니다
-- dropout 뒤 값이 달라지면 현재 batch에서 계산한 기준 평균도 달라질 수 있습니다
-- 평가 모드에서는 dropout을 멈추고 이전 학습 세션 배치에서 계산해 누적한 running mean 같은 고정 기준을 사용해 더 안정적인 계산 경로를 만듭니다
-- 검증, 테스트, 배포에서 평가 모드가 중요한 이유가 바로 이런 흔들림 제어에 있습니다
+- 학습 step에서는 `parameters_before`와 `parameters_after`가 다르므로 파라미터가 실제로 바뀝니다
+- inference에서는 서로 다른 입력을 넣어도 `parameters_used`가 계속 같고, `parameters_before_inference`와 `parameters_after_inference`도 같습니다
+- `same_input_with_update`에서는 입력 종류가 같아도 손실과 gradient를 붙이면 `shadow_parameters_after`가 실제로 달라집니다
+- 즉, 서비스 입력을 많이 넣는다고 자동으로 재학습이 일어나는 것은 아니고, update 경로가 붙을 때만 파라미터가 바뀝니다
 
-먼저 예제 자체를 그래프로 읽어 봅니다. 첫 그래프는 `sessions`의 클릭 수와 머문 시간이 은닉층 활성값으로 바뀐 결과만 보여 줍니다. 이 단계는 아직 mode 차이가 아니라, 입력 데이터가 모델 안의 중간 표현으로 바뀐 지점입니다.
+그래프로 다시 읽으면 절차 차이가 더 분명합니다. 학습 절차에서는 각 step마다 `alarm_weight`, `delay_weight`, `bias`가 update 뒤에 달라지고, update 후 값이 다음 step의 기준이 됩니다.
 
-![세션 입력에서 계산된 은닉층 활성값 그래프](../../../assets/part-05/chapter-06/hidden-activation-from-sessions-ko.png)
+![학습 절차에서 여러 파라미터가 step별로 달라지는 그래프](../../../assets/part-05/chapter-06/learning-weight-update-trace-ko.png)
 
-다음 그래프는 같은 은닉층 활성값이 mode에 따라 마지막 출력 해석에서 어떻게 달라지는지 보여 줍니다. `train 1`과 `train 2`는 dropout mask가 달라진 두 학습 실행이고, `eval`은 dropout을 끄고 running mean을 기준으로 계산한 실행입니다. 0보다 크면 해당 기준 평균보다 큰 출력이고, 0보다 작으면 기준 평균보다 작은 출력입니다.
+모델 실행 절차에서는 서비스 입력이 바뀌면서 `predicted_block_score`는 달라지지만, 같은 구간의 파라미터들은 수평선처럼 고정됩니다. 이 그래프에서 확인할 것은 출력선이 달라진다는 사실보다, 파라미터선이 움직이지 않는다는 사실입니다.
 
-![training mode 두 번과 evaluation mode의 기준 평균 제거 후 출력을 비교한 그래프](../../../assets/part-05/chapter-06/mode-centered-output-comparison-ko.png)
+![모델 실행 절차에서 prediction은 달라지지만 파라미터는 고정되는 그래프](../../../assets/part-05/chapter-06/inference-fixed-weight-trace-ko.png)
 
-위 두 그래프가 예제 코드의 직접 해설이라면, 아래 두 그래프는 같은 현상이 반복 실행에서 어떻게 보이는지 확인하는 요약입니다. `train_run_1`과 `train_run_2` 두 개의 샘플별 선만 그대로 그리면 사람이 고른 mask 두 개를 억지로 비교하는 그림처럼 보일 수 있으므로, 같은 계산 규칙을 조금 더 긴 미니배치에 적용한 뒤 30번 forward pass에서 dropout 뒤 살아남은 비율만 요약합니다. training mode에서는 pass마다 살아남는 비율이 흔들리고, evaluation mode에서는 dropout을 끄므로 생존 비율이 1.0 기준선으로 고정됩니다.
+| 구간 | 지금 읽어야 할 핵심 |
+| --- | --- |
+| `train step 1~4` | 출력과 손실을 본 뒤 실제 update가 붙으므로 파라미터들이 계속 달라집니다. |
+| `inference input 1` | 새 입력을 처리해도 현재 파라미터들을 그대로 사용합니다. |
+| `inference input 2` | 출력은 달라지지만, 바뀐 것은 입력이지 파라미터가 아닙니다. |
 
-![training mode에서는 dropout 생존 비율이 forward pass마다 흔들리고 evaluation mode는 1.0 기준선으로 고정되는 그래프](../../../assets/part-05/chapter-06/dropout-mode-output-trace-ko.png)
+이 결과를 `출력 변화`와 `파라미터 변화` 기준으로 다시 묶으면 차이가 더 또렷합니다.
 
-normalization 기준도 같은 방식으로 읽습니다. training mode에서는 pass마다 dropout 뒤 값으로 계산한 현재 batch 평균이 기준이 되므로 기준 평균이 흔들립니다. evaluation mode에서는 현재 pass의 우연한 mask가 아니라 학습 중 쌓아 둔 running mean이 기준선으로 쓰입니다.
-
-![training mode의 batch mean은 forward pass마다 흔들리고 evaluation mode의 running mean은 기준선으로 유지되는 그래프](../../../assets/part-05/chapter-06/batchnorm-mode-reference-trace-ko.png)
-
-여기서도 `출력이 다르다`는 사실만 보는 것과 `mode 때문에 어떤 계산 규칙이 달라졌는가`를 읽는 것은 다릅니다.
-
-| 비교 장면 | 덜 나쁜 오해 | 더 위험한 오해 | 지금 먼저 확인해야 할 것 |
-| --- | --- | --- | --- |
-| `train_run_1`과 `train_run_2`의 `after_dropout`이 다르다 | 학습 중에는 원래 조금 흔들린다고 본다 | 같은 입력인데 결과가 다르니 모델 자체를 못 믿겠다고 단정한다 | 학습 모드의 dropout이 허용된 상태인지 본다 |
-| `reference_mean`이 실행마다 다르다 | 현재 batch 기준이 달라질 수 있다고 본다 | 평균이 다르니 평가 결과가 모두 잘못됐다고 본다 | training mode의 batch 기준인지, eval mode의 running 기준인지 먼저 본다 |
-| `eval_run`이 고정돼 있다 | 평가 모드는 더 안정적이라고 본다 | 평가 출력도 train처럼 일부러 흔들어 보는 것이 더 현실적이라고 본다 | 검증·테스트·배포의 목적이 안정적 기준선인지 본다 |
-
-이 예제의 다음 확인 지점은 `차이가 있다`가 아니라, 잘못된 mode 해석이 무엇을 흔드는가입니다.
-
-| 일부러 만들어 볼 실패 장면 | 무엇이 흔들리는지 보게 되는가 | 이 절에서 먼저 확인할 결과 |
+| 실행 결과에서 보인 차이 | 결과만 보면 남기 쉬운 해석 | learning/inference 관점에서 다시 읽는 해석 |
 | --- | --- | --- |
-| 검증 단계에서도 `run_training_mode(...)` 같은 학습 모드 출력을 그대로 쓴다 | 같은 입력을 다시 넣을 때 dropout과 batch 기준이 불필요하게 흔들린다 | 성능 측정이 모델 품질보다 무작위성과 batch 구성에 더 민감해지는가 |
-| `drop_rate`를 0.4에서 0.7로 높인다 | 학습 모드 출력이 더 많이 꺼지고 평균 활성값도 더 불안정해질 수 있다 | 과한 dropout이 학습 도움보다 정보 손실로 더 크게 느껴지는가 |
-| 평가 출력도 train run처럼 여러 번 흔들어 비교하려 한다 | 원래 고정되어야 할 평가 기준선이 흔들린다 | `평가`와 `학습 중 흔들림 허용`이 서로 다른 목적이라는 점이 더 분명해지는가 |
+| `train step 1~4`에서 prediction이 계속 달라진다 | 그냥 경보 샘플을 여러 번 본 결과라고 느끼기 쉽다 | 손실과 update가 붙어 파라미터 자체가 바뀌었기 때문이라고 읽는다 |
+| 두 inference 입력에서 prediction이 달라진다 | 출력이 달라졌으니 모델도 같이 변했다고 느끼기 쉽다 | 입력만 달라졌고 `parameters_used`는 그대로라고 읽는다 |
+| `parameters_before_inference`와 `parameters_after_inference`가 같다 | 출력도 나왔으니 뭔가 학습이 있었을 수 있다고 느끼기 쉽다 | inference는 계산만 했고 파라미터는 고정됐다고 읽는다 |
+| `same_input_with_update`에서 `shadow_parameters_after`가 달라진다 | 같은 입력이면 같은 결과만 나올 일이라고 느끼기 쉽다 | 입력 종류보다 `손실-업데이트 경로가 붙었는가`가 파라미터 변화 여부를 결정한다고 읽는다 |
 
-즉, 이 절의 실험은 `training/eval mode가 다르다`는 정의 확인에서 끝나지 않습니다. `평가에서도 학습 모드처럼 흔들리게 두면 무엇이 해석을 망치는가`까지 확인해야 mode 구분의 필요성이 분명해집니다.
+이 표까지 읽고 나면, learning과 inference의 핵심이 `둘 다 forward를 쓴다`가 아니라 `언제 update가 실제로 붙는가`를 구분하는 일이라는 점이 더 분명해집니다.
 
-딥러닝이 깊어지고 모델 규모가 커지면서, 단순히 `가중치를 학습한다`는 설명만으로는 실제 학습 시스템을 설명하기 어려워졌습니다. regularization, normalization, batch-based training이 널리 쓰이면서, 학습 중과 평가 중의 동작 차이를 커리큘럼에 명시할 필요가 커졌습니다.
+전통적인 통계 모델과 머신러닝 교육에서도 `학습용 데이터(training data)`와 `예측 단계(prediction stage)`를 구분하는 관점은 오래전부터 중요했습니다. 딥러닝에서는 여기에 역전파, optimizer, 모드 전환 같은 요소가 더해지면서 이 구분이 더 중요해졌습니다.
 
-특히 dropout은 과적합(overfitting)을 줄이기 위한 실용적 기법으로 널리 알려졌고, batch normalization도 깊은 네트워크 학습 안정성과 속도 논의에서 자주 등장했습니다. 이런 흐름 때문에 modern deep learning 교육에서는 `training/eval mode`를 별도 개념으로 소개하는 것이 자연스러워졌습니다.
+커리큘럼 관점에서 이 절이 필요한 이유도 분명합니다. 바로 앞의 P5-5.1, P5-5.2에서 gradient가 어떻게 계산되는지 보았다면, 이제 `계산이 되었을 때 언제 실제 업데이트가 일어나고 언제 단순 실행만 하는가`를 구분해야 합니다.
 
-즉, 이 절은 단순한 라이브러리 팁이 아니라, `딥러닝이 왜 단순 함수보다 운영 상태를 가진 시스템처럼 보이는가`를 설명하는 절입니다.
+- 역전파를 배운 직후에는 모든 계산이 곧 학습처럼 느껴질 수 있고
+- 모델 실행은 단지 `forward만 하는 단순한 단계`처럼 과소평가되기 쉽고
+- 뒤에서 나올 dropout, batch normalization, evaluation mode를 이해하려면 먼저 `언제 업데이트가 일어나고 언제 안 일어나는가`를 분명히 알아야 합니다
 
-## 언제 training/eval mode 차이를 따로 읽는가
+즉, 이 절은 딥러닝 학습 절차를 운영 관점으로 읽기 시작하는 첫 절입니다.
 
-learning과 inference를 구분한 뒤에는 `같은 모델이라도 계산 규칙이 일부 달라질 수 있는가`를 따로 확인해야 합니다. 그 경계가 바로 training/eval mode입니다.
+## 언제 learning과 inference를 먼저 분리해서 읽는가
 
-| 먼저 보이는 문제 장면 | mode 차이를 따로 읽어야 하는 이유 | 바로 다음에 이어질 곳 |
+이 절을 꺼내야 하는 시점은 `모델이 결과를 낸다`는 설명만으로는 파라미터가 실제로 언제 바뀌는지, 언제 고정되는지가 흐려질 때입니다.
+
+| 먼저 보이는 문제 장면 | learning/inference 구분이 먼저 유용한 이유 | 바로 다음에 넘길 질문 |
 | --- | --- | --- |
-| 같은 입력인데 학습 중과 검증 중 결과 느낌이 다르다 | dropout과 batch normalization이 모드에 따라 다르게 동작할 수 있기 때문입니다. | optimizer가 어떤 상태에서 업데이트를 하는지 뒤 장에서 봅니다. |
-| 검증 점수가 들쭉날쭉해 보인다 | 평가 모드가 공정하고 안정적인 측정을 위해 필요하다는 점을 분명히 할 수 있습니다. | regularization과 normalization 의미를 뒤 절에서 더 봅니다. |
-| 배포 서비스에서 출력 흔들림이 커 보인다 | 학습용 확률적 동작을 서비스 실행에 그대로 두면 불안정해질 수 있기 때문입니다. | inference serving과 optimizer 분리를 이어서 읽습니다. |
-| dropout, batch normalization이 왜 특별 취급되는지 감이 없다 | 모드 차이에 민감한 층을 따로 구분해 읽을 수 있습니다. | 정규화·옵티마이저 장과 연결됩니다. |
+| 결과가 나오면 곧바로 학습이 일어났다고 느껴진다 | 파라미터 변경 여부를 기준으로 학습과 실행을 분명히 가를 수 있습니다. | 같은 모델인데도 모드가 왜 달라지는지 봐야 합니다. |
+| 순전파만 보이고 손실·역전파·업데이트가 하나로 섞여 있다 | learning이 update까지 포함하는 절차라는 점을 닫을 수 있습니다. | training/eval mode에서 계산 규칙이 어떻게 달라지는지 이어서 봐야 합니다. |
+| 채팅, 분류 데모, 서비스 응답이 실시간 재학습처럼 보인다 | inference는 현재 파라미터를 사용하는 단계라는 점을 분명히 할 수 있습니다. | optimizer가 실제 업데이트를 언제 맡는지 뒤 장에서 봐야 합니다. |
+| 학습 데이터 처리와 사용자 요청 처리가 같은 것으로 보인다 | 학습용 계산과 서비스 실행 계산의 목적 차이를 분리할 수 있습니다. | 모드 차이에 민감한 층을 다음 절에서 봐야 합니다. |
 
 ## 체크리스트
 
-- 학습 모드(training mode)와 평가 모드(evaluation mode)가 왜 다른 계산 규칙을 가질 수 있는지 설명할 수 있는가?
-- dropout이나 batch normalization에서 mode 구분이 왜 중요한지 말할 수 있는가?
-- 학습 모드와 평가 모드는 같은 모델의 서로 다른 계산 상태라는 점을 설명할 수 있는가?
-- dropout과 batch normalization이 모드 차이에 특히 민감한 대표 예라는 점을 말할 수 있는가?
-- 검증, 테스트, 배포에서는 같은 입력을 넣었을 때 흔들림이 줄어든 안정적 출력이 나오는지 확인하기 위해 평가 모드가 중요하다는 점을 설명할 수 있는가?
-- 같은 입력인데 학습 중과 검증 중 결과 느낌이 다를 때, training/evaluation mode 차이를 먼저 떠올릴 수 있는가?
-- 검증과 배포에서 출력 흔들림을 줄여야 할 때, 평가 모드가 안정적 기준을 제공한다는 관점을 꺼낼 수 있는가?
-- 이 절 다음에는 gradient를 실제 업데이트 규칙으로 바꾸는 optimizer 장으로 넘어간다는 흐름을 이해했는가?
+- 학습(learning)과 모델 실행(inference)이 무엇을 기준으로 나뉘는지 설명할 수 있는가?
+- 파라미터를 바꾸는 단계와 고정된 파라미터를 쓰는 단계를 구분할 수 있는가?
+- learning은 파라미터를 바꾸는 단계이고, inference는 바꾸지 않고 사용하는 단계라는 점을 설명할 수 있는가?
+- 딥러닝 학습은 순전파, 손실 계산, 역전파, 업데이트를 포함한다는 점을 말할 수 있는가?
+- inference에서도 forward는 수행되지만 목적과 후속 단계가 다르다는 점을 설명할 수 있는가?
+- 결과가 나왔다는 사실만으로 학습이 일어난 것은 아니라는 점을 말할 수 있는가?
+- 같은 모델 실행이라도 학습과 서비스 처리를 같은 것으로 말하고 있을 때, learning/inference 구분을 먼저 떠올릴 수 있는가?
+- 이 절 다음에는 학습 모드와 평가 모드의 계산 차이를 따로 봐야 한다는 흐름을 알고 있는가?
 
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 확인 날짜: 2026-06-29.
-- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-06-29.

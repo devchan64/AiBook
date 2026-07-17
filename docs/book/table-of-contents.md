@@ -558,8 +558,9 @@ flowchart LR
 #### Chapter 6. 학습 루프와 모델 실행 `학습 원리`
 
 - **P5-6.1 학습 루프: forward, loss, backward, optimizer step**: 손실과 gradient가 실제 update 반복으로 이어지는 순서를 봅니다.
-- **P5-6.2 학습(learning)과 모델 실행(inference)**: 파라미터를 바꾸는 단계와 사용하는 단계를 구분합니다.
-- **P5-6.3 학습 모드(training mode)와 평가 모드(evaluation mode)**: dropout, batch norm 같은 차이를 나중에 이해할 준비를 합니다.
+- **P5-6.2 학습 step, batch, epoch**: 학습 루프가 어떤 묶음과 반복 단위로 진행되는지 구분합니다.
+- **P5-6.3 학습(learning)과 모델 실행(inference)**: 파라미터를 바꾸는 단계와 사용하는 단계를 구분합니다.
+- **P5-6.4 학습 모드(training mode)와 평가 모드(evaluation mode)**: dropout, batch norm 같은 차이를 나중에 이해할 준비를 합니다.
 
 #### Chapter 7. 옵티마이저 `학습 원리`
 

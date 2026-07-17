@@ -554,9 +554,9 @@ This Part explains how neural networks represent and learn from data. It follows
 #### Chapter 6. Separating Learning and Inference `Learning Principles`
 
 - **P5-6.1 Learning and Inference**: separates the stage that changes parameters from the stage that uses them
-- **P5-6.2 Training Mode and Evaluation Mode**: prepares the reader to later understand differences such as dropout and batch normalization
-- **P5-6.3 Supplementary Learning: How to Read Initialization, Numerical Stability, and Batch Normalization Together for the First Time**: organizes in one place why deep networks do not become stable learners just by being stacked deeper
-- **P5-6.4 Supplementary Learning: How a Large Initialization Scale Grows Values Across Deep Layers**: uses a Python example and split charts to show how a large initialization scale actually grows raw activation ranges and variance across layers
+- **P5-6.2 Learning Steps, Batches, and Epochs**: separates the repetition units that make the training loop run on real data
+- **P5-6.3 Learning and Inference**: separates the stage that changes parameters from the stage that uses them
+- **P5-6.4 Training Mode and Evaluation Mode**: prepares the reader to later understand differences such as dropout and batch normalization
 
 #### Chapter 7. Optimizers `Learning Principles`
 
