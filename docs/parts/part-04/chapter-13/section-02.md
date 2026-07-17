@@ -1,7 +1,7 @@
 # P4-13.2 커널(kernel)의 입문적 의미
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-13.1에서는 SVM(support vector machine)을 `margin이 큰 경계를 찾는 분류기`로 보았습니다. 그런데 거기서 다음 질문이 생깁니다.
 
@@ -25,14 +25,7 @@ P4-13.1에서는 SVM(support vector machine)을 `margin이 큰 경계를 찾는 
 - 다항식(polynomial), RBF 같은 커널 이름은 무엇을 암시하는가?
 - 커널 기반 SVM을 언제 후보로 떠올릴 수 있는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- 커널 함수의 엄밀한 양의 정부호(positive semidefinite) 조건
-- RKHS(reproducing kernel Hilbert space)의 수학
-- 듀얼 최적화에서 커널이 들어가는 식의 전개
-- `gamma`, `degree`, `coef0`의 세부 튜닝 전략
-
-`gamma`, `degree`, `coef0` 같은 설정값을 읽는 기준과 검증 비용은 P4-9.1, P4-9.2에서 다시 연결합니다. 양의 정부호 조건, RKHS, 듀얼 최적화의 수학 전개는 이 책의 현재 본편 범위 밖에 두고, 필요하면 더 심화된 수학 문서에서 따로 보는 편이 맞습니다.
+`gamma`, `degree`, `coef0` 같은 설정값을 읽는 기준과 검증 비용은 P4-9.1, P4-9.2에서 다시 연결합니다. 즉, 이번 절은 `표현 공간을 바꾸면 선형 경계의 의미도 달라진다`는 발상을 먼저 붙잡는 데 집중합니다.
 
 ## 이 절의 목표
 

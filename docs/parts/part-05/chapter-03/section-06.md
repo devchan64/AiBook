@@ -1,7 +1,7 @@
 # P5-3.6 출력층(output layer)과 활성화의 선택
 
 Section ID: `P5-3.6`
-Version: `v2026.07.14`
+Version: `v2026.07.17`
 
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았고, P5-3.2부터 P5-3.5까지는 sigmoid, tanh, ReLU와 대표 함수 수식 비교를 따로 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 생깁니다.
 
@@ -20,14 +20,7 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 - 출력층 활성화와 손실 함수는 왜 함께 생각해야 하는가?
 - `확률처럼 보이는 출력`과 `점수(score)`를 어떻게 구분해야 하는가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- softmax의 미분 유도
-- cross-entropy의 상세 수식 전개
-- calibration과 uncertainty estimation의 심화 논의
-- 다중 라벨 분류(multi-label classification)의 세부 구현
-
-손실 함수 자체의 설계는 P5-4.1과 P5-4.2에서 이어서 다루고, calibration의 기초 읽기와 확률 출력 해석은 P4-6.4에서 다시 연결합니다. uncertainty estimation의 심화 논의와 다중 라벨 분류의 세부 구현은 이 책의 현재 본편 범위 밖에 둡니다.
+손실 함수 자체의 설계는 P5-4.1과 P5-4.2에서 이어서 다루고, calibration의 기초 읽기와 확률 출력 해석은 P4-6.4에서 다시 연결합니다. 즉, 이번 절은 출력층 활성화가 `마지막 숫자를 어떤 단위로 읽게 만드는가`를 먼저 닫는 자리입니다.
 
 ## 이 절의 목표
 

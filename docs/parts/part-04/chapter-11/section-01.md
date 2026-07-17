@@ -1,7 +1,7 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
@@ -27,14 +27,9 @@ P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값
 - `predict_proba` 같은 출력은 무엇을 의미하는가?
 - threshold(임계값)는 왜 필요한가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
+이 절은 로지스틱 회귀를 `선형 계산의 출력을 분류용 확률처럼 읽는 모델`로 먼저 닫고, 점수와 threshold가 어떻게 분류 판단으로 이어지는지를 붙잡는 데 집중합니다.
 
-- log-odds의 엄밀한 유도
-- 최대우도추정(maximum likelihood estimation)의 수식 전개
-- 다중 클래스(multinomial) 로지스틱 회귀의 세부 수식
-- solver별 차이와 정규화 설정
-
-결정 경계(decision boundary)와 threshold의 공간적 해석은 P4-11.2에서 바로 이어서 다룹니다. `왜 log-odds를 보게 되는가`, `왜 최대우도추정(maximum likelihood estimation, MLE)을 쓰는가`는 P4-11.3에서, `이진 분류에서 다중 클래스(multinomial)로 어떻게 확장되는가`는 P4-11.4에서, `solver와 regularization을 왜 구현 설정으로 만나게 되는가`는 P4-11.5에서 나누어 회수합니다. 정규화(regularization)의 더 넓은 일반 원리와 하이퍼파라미터 읽기는 P4-9.1, P4-9.2, P5-8.1에서 다시 연결합니다.
+대신 이번 절에서 바로 더 넓혀 볼 질문도 분명합니다. 결정 경계(decision boundary)와 threshold의 공간적 해석은 P4-11.2에서 바로 이어서 다룹니다. `왜 log-odds를 보게 되는가`, `왜 최대우도추정(maximum likelihood estimation, MLE)을 쓰는가`는 P4-11.3에서, `이진 분류에서 다중 클래스(multinomial)로 어떻게 확장되는가`는 P4-11.4에서, `solver와 regularization을 왜 구현 설정으로 만나게 되는가`는 P4-11.5에서 나누어 회수합니다. 정규화(regularization)의 더 넓은 일반 원리와 하이퍼파라미터 읽기는 P4-9.1, P4-9.2, P5-8.1에서 다시 연결합니다.
 
 ## 이 절의 목표
 

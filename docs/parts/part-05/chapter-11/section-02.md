@@ -1,7 +1,7 @@
 # P5-11.2 합성곱(convolution)과 풀링(pooling)
 
 Section ID: `P5-11.2`
-Version: `v2026.07.14`
+Version: `v2026.07.17`
 
 P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -18,15 +18,9 @@ P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신�
 - pooling은 왜 쓰이며, 무엇을 줄이는가?
 - 두 연산이 함께 있을 때 CNN의 표현 흐름은 어떻게 읽히는가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
+이 절에서는 convolution 수식을 엄밀히 증명하기보다, `CNN이 지역 패턴을 점수화하고 그 반응을 요약하는 흐름`을 먼저 닫는 데 집중합니다.
 
-- padding/stride/dilation의 상세 공식
-- 다양한 pooling 변형과 최신 대체 구조
-- FFT convolution 같은 고급 구현
-
-padding, stride, dilation은 이 절에서 `필터가 입력을 읽는 방식`을 이해하는 데 필요한 만큼만 다룹니다. 다양한 pooling 변형은 이 절의 범위 밖에 두고, CNN 이후의 vision 구조 비교는 보충학습 P5-11.3에서 `CNN과 Vision Transformer(ViT)` 중심으로 회수합니다. FFT convolution 같은 고급 구현은 이 책의 현재 본편 범위 밖에 둡니다.
-
-즉, 이 절에서는 convolution 수식을 엄밀히 증명하기보다, `CNN이 지역 패턴을 점수화하고 그 반응을 요약하는 흐름`을 읽는 데 집중합니다.
+대신 이번 절에서 바로 더 넓히지 않을 질문도 분명합니다. CNN 이후의 vision 구조 비교는 보충학습 P5-11.3에서 `CNN과 Vision Transformer(ViT)` 중심으로 다시 회수합니다. padding, stride, dilation은 이 절에서 `필터가 입력을 읽는 방식`을 이해하는 데 필요한 만큼만 다룹니다.
 
 ## 이 절의 목표
 

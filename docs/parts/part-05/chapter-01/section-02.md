@@ -1,7 +1,7 @@
 # P5-1.2 선형 결합과 활성화
 
 Section ID: `P5-1.2`
-Version: `v2026.07.14`
+Version: `v2026.07.17`
 
 P5-1.1에서는 퍼셉트론(perceptron)을 `입력(input) -> 가중치(weight) -> 합(sum) -> 출력(output)` 흐름으로 보았습니다. 이제는 입력들을 가중합으로 묶는다는 것이 정확히 무엇을 뜻하는지, 그리고 왜 그 합만으로는 딥러닝이 되지 않는지를 바로 이어서 봅니다. 퍼셉트론은 먼저 입력들의 선형 결합(linear combination)을 만들고, 그 결과를 활성화(activation) 규칙에 통과시켜 판단을 만듭니다.
 
@@ -17,14 +17,7 @@ P5-1.1에서는 퍼셉트론(perceptron)을 `입력(input) -> 가중치(weight) 
 - 퍼셉트론 하나의 표현 한계는 어디에서 나타나는가?
 - 왜 다음 장에서 다층 신경망(multilayer neural network)이 필요해지는가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- 활성화 함수들의 수학적 미분
-- sigmoid, tanh, ReLU의 상세 비교
-- 역전파(backpropagation)의 계산 절차
-- 보편 근사 정리(universal approximation theorem)
-
-다층 구조와 퍼셉트론 하나의 한계는 P5-2.1, P5-2.2에서 이어서 다루고, sigmoid, tanh, ReLU의 비교는 P5-3.1부터 P5-3.5까지 다시 봅니다. 역전파(backpropagation)의 계산 절차는 P5-5.1, P5-5.2에서 다시 연결합니다. 보편 근사 정리(universal approximation theorem)의 엄밀한 증명은 이 책의 현재 본편 범위 밖에 둡니다.
+다층 구조와 퍼셉트론 하나의 한계는 P5-2.1, P5-2.2에서 이어서 다루고, sigmoid, tanh, ReLU의 비교는 P5-3.1부터 P5-3.5까지 다시 봅니다. 역전파(backpropagation)의 계산 절차는 P5-5.1, P5-5.2에서 다시 연결합니다. 즉, 이번 절은 선형 결합과 활성화가 왜 `퍼셉트론 하나의 경계`를 만들고, 왜 다음 장의 다층 구조 질문으로 이어지는지 먼저 닫습니다.
 
 ## 이 절의 목표
 

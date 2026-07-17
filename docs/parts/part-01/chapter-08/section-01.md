@@ -77,7 +77,7 @@ Part 1에서 `지도학습(supervised learning)`, `라벨(label)`, `라벨링(la
 
 Google의 Machine Learning Glossary는 지도학습(supervised machine learning)을 입력 특징(features)과 그에 대응하는 라벨(labels)에서 모델을 훈련하는 방식으로 설명합니다. 또한 라벨이 있는 예시(labeled example)는 하나 이상의 특징과 하나의 라벨로 구성되며, 이런 예시가 훈련(training)에 사용된다고 설명합니다.
 
-여기서는 특징(feature)을 아직 깊게 다루지 않습니다. 먼저 다음 구조가 핵심입니다.
+여기서는 먼저 `입력(input)과 라벨(label)이 짝을 이룬 예시가 학습의 출발점이 된다`는 구조를 붙잡습니다. 특징(feature)이 실제로 어떤 값이며 어떻게 표현되는지는 이어지는 절에서 다시 연결합니다.
 
 > 입력(input) + 라벨(label) = 라벨이 있는 예시(labeled example)
 

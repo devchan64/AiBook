@@ -1,7 +1,7 @@
 # P4-9.2 튜닝(tuning)과 검증 비용
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오래전부터 별도 문제로 다뤄졌는지 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -25,13 +25,7 @@ P4-9.1에서는 하이퍼파라미터(hyperparameter)가 무엇인지, 왜 오�
 - test 데이터를 마지막에만 써야 하는 이유는 무엇인가?
 - grid search와 random search를 입문 수준에서 어떻게 이해하면 좋은가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- Bayesian optimization, Hyperband 같은 고급 탐색 기법
-- nested cross-validation의 세부 절차
-- 분산 튜닝 인프라와 실험 추적 시스템
-
-Bayesian optimization, Hyperband, nested cross-validation, 실험 추적과 분산 튜닝의 큰 그림은 P4-9.3 보충학습에서 다시 정리합니다.
+이 절은 먼저 `설정값 후보를 어떤 검증 절차 안에서 비교할 것인가`를 닫습니다. Bayesian optimization, Hyperband, nested cross-validation, 실험 추적과 분산 튜닝의 큰 그림은 P4-9.3 보충학습에서 다시 정리합니다.
 
 ## 이 절의 목표
 

@@ -106,7 +106,7 @@ Python 파일 실행은 P2-7.3에서, 가상환경과 패키지 설치는 P2-7.4
 | Windows | Windows Terminal, PowerShell, VS Code Terminal | PowerShell, Command Prompt, WSL shell |
 | Linux | GNOME Terminal, Konsole, VS Code Terminal | bash, zsh |
 
-여기서는 운영체제별 셸 차이를 깊게 다루지 않습니다. 다만 명령 예제가 어디 기준인지 표시하려고 노력합니다.
+여기서는 터미널 앱과 셸이 같은 말이 아니라는 점, 그리고 명령 예제가 어느 환경 기준인지 구분해 읽는 기준까지를 먼저 붙잡습니다.
 
 ## 명령은 문장이 아니라 실행 요청이다
 

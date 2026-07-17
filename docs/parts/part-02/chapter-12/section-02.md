@@ -1,7 +1,7 @@
 # P2-12.2 선택, 필터링, 집계
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)가 있는 표 형식 데이터 구조로 봤습니다. 이제 질문이 하나 더 생깁니다.
 
@@ -19,7 +19,9 @@ Pandas에서 선택(select), 필터링(filtering), 집계(aggregation)는 바로
 
 ## 이 절의 범위
 
-이 절은 DataFrame을 본격적으로 정제(cleaning)하거나 결측치(missing value)를 처리하는 단계까지 들어가지 않습니다. 데이터셋(dataset) 준비 맥락의 전처리와 누수(data leakage) 문제는 다음 P2-12.3에서 다시 연결합니다. 다만 `merge`, `join`, `pivot`, 시계열(time series), 다중 인덱스(MultiIndex)는 현재 본편 범위 밖에 두고, 여기서는 선택(select), 필터링(filtering), 집계(aggregation) 흐름에 집중합니다.
+이 절은 선택(select), 필터링(filtering), 집계(aggregation)로 표에서 무엇을 읽고 무엇을 남기고 무엇을 요약할지 구분하는 절입니다. 이번 절은 `한 열과 여러 열 선택`, `행 필터`, `집계`, `groupby`가 서로 다른 동작이라는 점까지를 먼저 닫습니다.
+
+데이터셋(dataset) 준비 맥락의 전처리와 누수(data leakage) 문제는 바로 다음 P2-12.3에서 다시 연결합니다. 여기서는 선택, 필터링, 집계 흐름에 집중합니다.
 
 여기서 먼저 해결할 질문은 이것입니다. `표를 받았을 때 무엇을 읽고, 무엇을 남기고, 무엇을 요약할지 왜 서로 다른 동작으로 나눠서 봐야 하는가`입니다.
 

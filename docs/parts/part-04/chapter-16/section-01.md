@@ -1,7 +1,7 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
@@ -21,13 +21,6 @@ P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적
 - `weak learner`, `residual`, `additive model`은 어떤 뜻으로 쓰이는가?
 - 랜덤포레스트와 그래디언트 부스팅의 사고방식은 어떻게 다른가?
 - `n_estimators`와 `learning_rate`는 왜 함께 읽어야 하는가?
-
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- 미분식의 엄밀한 전개
-- 분류 손실(loss) 함수의 세부 수학
-- XGBoost, LightGBM, CatBoost 같은 구현 차이
-- early stopping과 정규화(regularization)의 세부 전략
 
 이 절은 입문적으로 `부스팅이 무엇을 하려는 방식인가`를 이해하는 데 초점을 둡니다. 성능과 위험, early stopping과 shrinkage의 역할은 P4-16.2에서 이어서 다루고, 하이퍼파라미터와 검증 비용의 더 넓은 관점은 P4-9.1, P4-9.2에서 다시 연결합니다. XGBoost, LightGBM, CatBoost 같은 구현 차이도 P4-16.2에서 `무엇을 더 빠르게 하고 무엇을 더 안전하게 다루려는가` 수준으로 이어서 읽고, 더 넓은 구현 비교가 필요해지면 이 장의 보충학습으로 분리해 회수합니다.
 

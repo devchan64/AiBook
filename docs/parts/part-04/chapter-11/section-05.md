@@ -1,7 +1,7 @@
 # P4-11.5 보충학습: solver와 regularization을 처음 읽는 법
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 로지스틱 회귀를 라이브러리로 써 보면 곧 solver, penalty, `C` 같은 인자를 만나게 됩니다. 초심자는 이 지점에서 `갑자기 구현 세부로 넘어갔다`고 느끼기 쉽습니다. 하지만 이 설정들은 이론과 완전히 분리된 잡음이 아닙니다.
 
@@ -17,13 +17,7 @@
 - regularization은 무엇을 조절하는가?
 - penalty와 `C`는 어떤 방향으로 읽으면 되는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- 각 solver의 내부 최적화 알고리즘 증명
-- convex optimization 일반론
-- regularization의 엄밀한 통계적 해석
-
-각 solver의 내부 최적화 알고리즘 증명, convex optimization 일반론, regularization의 엄밀한 통계적 해석은 이 책의 현재 범위 밖에 둡니다.
+이 절은 solver와 regularization을 `같은 모델명 안에서도 결과 해석을 바꾸는 비교 조건`으로 먼저 닫고, 라이브러리 옵션 암기보다 계산 절차와 규제 방향을 읽는 데 집중합니다.
 
 ## 이 절의 목표
 

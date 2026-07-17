@@ -45,3 +45,8 @@
 - 번역 반영 상태: 향후 반영 필요
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.16`
+
+### v2026.07.17
+- 본문 반영: Part 5 시작 페이지의 `설명하는 범위와 설명하지 않을 범위`에서 생략 항목 목록을 걷어내고, 이 Part가 실제로 회수하는 `구조 -> 손실과 gradient -> 학습 안정화 -> 계산 확장 -> 구조 분기 -> 생성과 샘플링` 축이 먼저 보이도록 다시 정리했다.
+- 추가 반영: 시작 페이지 범위 안내가 개별 장과 같은 handoff 원칙을 따르도록, Section들에서 실제로 닫히는 학습 흐름 중심 문장으로 바꿨다.
+- 번역 동기화 메모: Future translations should preserve the Part 5 overview as a map of the actual recovery axes rather than a list of omitted advanced topics.

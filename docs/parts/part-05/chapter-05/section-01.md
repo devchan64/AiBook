@@ -25,12 +25,6 @@ P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이�
 - 자동미분(automatic differentiation)은 이 계산을 코드에서 어떻게 가능하게 하는가?
 - gradient 계산과 optimizer update는 어떻게 다른가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- 행렬 미분의 엄밀한 전개
-- 다층 네트워크 전체의 상세 기호 유도
-- 자동미분 엔진의 내부 구현과 reverse-mode automatic differentiation의 엄밀한 일반 이론
-
 복잡한 계산 관계를 노드와 연결로 펼쳐 보는 관점은 P5-5.2에서 이어서 다루고, gradient를 실제 파라미터 이동으로 바꾸는 optimizer의 역할은 P5-7.1, P5-7.2에서 다시 연결합니다. 여기서는 `손실 숫자`가 `파라미터별 gradient 신호`로 바뀌어야 학습이 이어진다는 점을 먼저 닫습니다.
 
 ## 이 절의 목표

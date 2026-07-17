@@ -1,7 +1,7 @@
 # P4-19.1 가치 기반 강화학습(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보상(reward)을 통해 정책(policy)을 조정하는 학습`으로 잡았습니다. 여기서 한 단계 더 들어가면 다음 질문이 나옵니다.
 
@@ -25,14 +25,7 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 - Q-learning과 SARSA는 어떤 점에서 닮았고, 어떤 점에서 다른가?
 - 가치 기반 강화학습은 어떤 문제에 잘 맞고, 어디서 한계를 보이기 시작하는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- 벨만 방정식(Bellman equation)의 엄밀한 유도
-- 수렴(convergence) 증명
-- 함수 근사(function approximation)와 딥 Q-네트워크(DQN)
-- policy gradient, actor-critic의 업데이트 절차
-
-이 절은 가치 기반 강화학습의 기본 구조와 Q-learning, SARSA의 해석 차이를 붙잡는 데 집중합니다. 정책 기반 강화학습(policy-based reinforcement learning)은 P4-19.2에서 이어서 다루고, 보상 설계, 탐험 비용, 현실 적용의 주의점은 P4-19.3에서 다시 정리합니다. DQN과 정책 계열의 큰 흐름은 P4-19.4 보충학습에서 다시 연결하고, 벨만 방정식, 수렴, 함수 근사의 최소 연결은 P4-19.5 보충학습에서 다시 묶습니다.
+이 절은 먼저 `가치(value)를 붙여 행동의 장기적 좋음을 배우는 강화학습이 어떤 구조를 가지는가`를 닫습니다. 정책 기반 강화학습(policy-based reinforcement learning)은 P4-19.2에서, 보상 설계와 현실 적용의 주의점은 P4-19.3에서, DQN과 정책 계열의 큰 흐름은 P4-19.4 보충학습에서, 벨만 방정식과 함수 근사의 최소 연결은 P4-19.5 보충학습에서 이어집니다.
 
 ## 이 절의 목표
 

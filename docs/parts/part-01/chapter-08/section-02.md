@@ -30,7 +30,7 @@
 
 여기서는 비지도학습 알고리즘을 계산하지 않습니다. K-평균(k-means), 계층적 군집화(hierarchical clustering), 주성분 분석(PCA, principal component analysis), t-SNE, 오토인코더(autoencoder)는 이름과 역할만 지나갑니다.
 
-또한 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표, 매니폴드 학습(manifold learning)은 자세히 다루지 않습니다. 이 주제들은 Part 4의 클러스터링과 차원 축소 장에서 다시 다루고, 매니폴드 학습의 세부 수학은 현재 본편 범위 밖에 둡니다.
+또한 이 절은 먼저 `라벨이 없을 때 모델이 데이터 안에서 무엇을 찾으려 하는가`를 닫습니다. 거리 함수(distance function), 차원의 저주(curse of dimensionality), 클러스터 평가 지표는 Part 4의 클러스터링과 차원 축소 장에서 다시 다루고, 매니폴드 학습(manifold learning)의 세부 수학은 여기서 먼저 꺼내지 않습니다.
 
 또한 `라벨(label)` 자체를 다시 길게 정의하지는 않습니다. 그 기본 구분은 8.1에서 먼저 다뤘고, 여기서는 `라벨이 없을 때 무엇이 학습의 기준이 되는가`에 집중합니다. `표현(representation)`도 이 절에서 처음 도입하는 새 말이라기보다, 비지도학습이 구조를 드러내기 위해 표현을 바꿀 수 있다는 연결 정도만 잡습니다.
 

@@ -27,13 +27,7 @@ Transformer 직전의 핵심 메커니즘을 다시 짧게 확인해야 할 때�
 | 같은 시퀀스 안 토큰들이 서로를 다시 참고해 표현을 갱신하는 방식 | 그 계산이 Transformer 블록 안에서 어떤 부품들과 묶이는가 |
 | 순차 상태 전달과 self-attention의 계산 감각 차이 | 병렬 처리와 긴 문맥 규모에서 구조가 무엇을 바꾸는가 |
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- query, key, value의 공식 유도
-- multi-head attention의 구현 세부
-- positional encoding의 수식 상세
-
-Transformer 전체 구성은 P5-14.1, P5-14.2에서 이어서 다루고, query, key, value와 multi-head attention의 입문적 설명은 보충학습 P5-13.3에서 회수합니다. 더 깊은 공식 유도와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
+Transformer 전체 구성은 P5-14.1, P5-14.2에서 이어서 다루고, query, key, value와 multi-head attention의 입문적 설명은 보충학습 P5-13.3에서 회수합니다.
 
 여기서 끝내야 하는 설명은 하나입니다. `토큰이 순차 상태를 전달받는가`보다 `토큰들이 서로를 다시 참고해 자기 표현을 갱신하는가`라는 계산 감각 전환을 현재 절 안에서 이해해야 합니다.
 

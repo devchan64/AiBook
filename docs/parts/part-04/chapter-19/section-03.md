@@ -1,7 +1,7 @@
 # P4-19.3 강화학습 적용의 주의점
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을, P4-19.2에서는 정책 기반 강화학습(policy-based reinforcement learning)을 보았습니다. 여기까지 오면 다음 질문이 나옵니다.
 
@@ -22,14 +22,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 - 시뮬레이션(simulation)에서 잘한 정책이 현실(real world)에서 왜 실패할 수 있는가?
 - 강화학습을 실제 업무나 서비스에 연결할 때 어떤 점검 질문이 필요한가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- 안전한 강화학습(safe reinforcement learning)의 세부 알고리즘
-- offline reinforcement learning의 수학적 정의
-- domain randomization 같은 sim-to-real 보강 전략의 구현 절차
-- RLHF, preference optimization의 세부 설계
-
-이 절은 `강화학습 알고리즘을 알게 된 뒤 바로 생기는 과도한 기대`를 조정하는 데 초점을 둡니다. safe RL, offline RL, sim-to-real 보강 전략, RLHF와 preference optimization의 큰 그림은 P4-19.4 보충학습에서 다시 회수하고, LLM 정렬 맥락의 RLHF는 Part 5의 P5-6, P5-8, P5-10에서 다시 연결합니다.
+이 절은 먼저 `강화학습을 실제 문제에 연결할 때 어떤 적용 위험을 함께 점검해야 하는가`를 닫습니다. safe RL, offline RL, sim-to-real 보강 전략, RLHF와 preference optimization의 큰 그림은 P4-19.4 보충학습에서 다시 회수하고, LLM 정렬 맥락의 RLHF는 Part 5의 P5-6, P5-8, P5-10에서 다시 연결합니다.
 
 ## 이 절의 목표
 

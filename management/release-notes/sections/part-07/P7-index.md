@@ -15,3 +15,8 @@
 - 추가 반영: 집필 순서만 예고하는 메타형 연결 표지를 제거했다.
 - 본문 반영: 말미 점검 블록을 `체크리스트`로 정리해 공개 본문 전체의 자기 확인 표지를 같은 이름으로 맞췄다.
 - 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 단일 checklist 구조, 현재 Part 7 시작 페이지의 프로젝트 기록 흐름을 반영했다. / reflected in English and Simplified Chinese on 2026-07-12
+
+### v2026.07.17
+- 본문 반영: Part 7 시작 페이지의 범위 안내에서 대규모 인프라·MLOps·장기 비용 최적화 같은 생략 목록을 걷어내고, 이 Part가 실제로 회수하는 `질문 설정 -> 기준점과 비교 -> 오류 사례와 검토 -> RAG/에이전트 실행 기록 -> 배포와 실패 회고` 축이 먼저 보이도록 다시 정리했다.
+- 추가 반영: 권한, 운영, 실패 대응의 큰 그림이 본문 뒤 장에서 실제로 회수된다는 점을 시작 페이지 범위 문장에 더 직접 드러냈다.
+- 번역 동기화 메모: Future translations should preserve the Part 7 overview as a map of reusable project-record structures rather than a list of omitted large-scale operations topics.

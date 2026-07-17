@@ -1,7 +1,7 @@
 # P5-8.2 드롭아웃(dropout)
 
 Section ID: `P5-8.2`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
 P5-8.1에서는 정규화(regularization)를 `과적합을 줄이기 위한 제약과 설계 철학`으로 설명했습니다. 여기서 다음 질문이 자연스럽게 이어집니다.
 
@@ -20,13 +20,7 @@ P5-8.1에서는 정규화(regularization)를 `과적합을 줄이기 위한 제�
 - 왜 학습 모드와 평가 모드에서 동작이 달라지는가?
 - 드롭아웃은 어떤 상황에서 직관적으로 도움이 되나?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- inverted dropout의 정확한 scaling 공식
-- dropout 비율(rate) 튜닝 전략의 세밀한 경험칙
-- variational dropout, Monte Carlo dropout 같은 확장 기법
-
-inverted dropout 공식과 dropout 비율 조정 경험칙은 여기서 공식을 전개하지 않고 넘깁니다. 대신 학습 모드와 평가 모드의 차이는 P5-6.4에서 다시 연결하고, regularization의 큰 관점은 P5-8.1에서 이미 묶은 흐름 위에서 읽습니다. variational dropout, Monte Carlo dropout 같은 확장 기법은 이 책의 현재 본편 범위 밖에 둡니다.
+학습 모드와 평가 모드의 차이는 P5-6.4에서 다시 연결하고, regularization의 큰 관점은 P5-8.1에서 이미 묶은 흐름 위에서 읽습니다.
 
 여기서는 공식을 암기하기보다 `왜 무작위 제거가 일반화를 돕는가`를 먼저 설명합니다.
 

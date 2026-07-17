@@ -1,7 +1,7 @@
 # P6-5.2 생성 과정의 직관
 
 > Section ID: `P6-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P6-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token prediction)이라는 점을 보았습니다. 하지만 사용자 경험은 단지 `다음 한 조각 예측`이라는 말보다 훨씬 복잡해 보입니다.
 
@@ -21,17 +21,11 @@ P6-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token p
 - 왜 같은 입력에서도 결과가 조금씩 달라질 수 있는가?
 - temperature, sampling, greedy 선택은 어떤 차이를 만드는가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- beam search 수식
-- nucleus sampling(top-p) 세부 공식
-- 디코더 내부 attention 계산 과정
-
-이 절은 생성 선택의 감각까지만 다룹니다. 디코더 내부 attention 계산 과정은 이미 P6-3.1 Transformer 구조 복습과 P6-3.2 attention과 context window에서 다시 읽을 수 있습니다. beam search 수식과 nucleus sampling(top-p) 세부 공식은 현재 판의 입문 본편 범위 밖으로 두고, 여기서는 `후보를 어떻게 고르느냐에 따라 결과가 왜 달라지는가`라는 관점만 남깁니다.
+이 절은 생성 선택의 감각까지만 다룹니다. 디코더 내부 attention 계산 과정은 이미 P6-3.1 Transformer 구조 복습과 P6-3.2 attention과 context window에서 다시 읽을 수 있습니다. 여기서는 `후보를 어떻게 고르느냐에 따라 결과가 왜 달라지는가`라는 관점만 남깁니다.
 
 이 절은 `실제 생성 선택 축`으로 읽으면 됩니다.
 
-| 지금 이 절에서 읽는 것 | 뒤 장이나 범위 밖으로 넘기는 것 |
+| 지금 이 절에서 읽는 것 | 뒤 장에서 더 읽는 것 |
 | --- | --- |
 | 확률 분포를 계산한 뒤 실제로 어떤 토큰을 고를지 정하는 과정 | beam search, top-p 같은 세부 디코딩 공식을 어떻게 비교할지 |
 | greedy, sampling, temperature가 결과 안정성과 다양성을 어떻게 바꾸는가 | 정렬, 정책 제약, 외부 도구 연결이 생성 경로를 어떻게 더 바꾸는가 |

@@ -1,7 +1,7 @@
 # P5-8.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법
 
 Section ID: `P5-8.3`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
 P5-6.4에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. P5-8.1과 P5-8.2에서는 정규화와 드롭아웃을 일반화 제약 관점에서 다시 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
 
@@ -21,14 +21,7 @@ P5-6.4에서는 학습 모드(training mode)와 평가 모드(evaluation mode)�
 - batch normalization은 왜 학습 안정화 도구로 자주 함께 언급되는가?
 - 이 세 개념은 optimizer, regularization과 어떻게 다른 질문에 답하는가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- Xavier 초기화와 He 초기화의 엄밀한 수식 유도
-- softmax/log-sum-exp의 상세 수치 안정화 구현
-- batch normalization의 역전파 수식
-- layer normalization, group normalization의 상세 비교
-
-ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.4에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
+ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.4에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다.
 
 ## 이 절의 목표
 

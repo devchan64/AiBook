@@ -3,16 +3,16 @@
 Section ID: `P5-7.4`
 Version: `v2026.07.17`
 
-P5-7.3에서는 SGD와 Adam을 `업데이트 철학의 차이`로 비교했습니다. 여기서 더 깊게 들어가면 다음 질문이 남습니다.
+P5-7.3에서는 적응형 업데이트가 기본 update에 무엇을 더 보완하려 하는지 보고, Adam을 그 대표 예로 읽었습니다. 여기서 더 깊게 들어가면 다음 질문이 남습니다.
 
-Adam 같은 adaptive optimizer는 실무에서 자주 쓰이는데, 이론적으로도 항상 잘 수렴한다고 말할 수 있는가?
+Adam 같은 adaptive optimizer는 실무에서 자주 쓰이는데, 그 update 규칙을 이론적으로도 항상 잘 수렴한다고 말할 수 있는가?
 
 수렴 분석(convergence analysis)은 optimizer가 실제 실험에서 빠르게 보인다는 인상과 별개로, 어떤 가정 아래에서 반복 update가 목표 조건에 가까워진다고 말할 수 있는지를 따지는 검증 언어입니다. 이 절은 증명을 따라가는 절이 아니라, adaptive optimization 논문을 처음 읽을 때 `무엇을 확인해야 하는가`를 정리하는 보충학습입니다.
 
 ## 이 절의 범위
 
 - adaptive optimization에서 수렴 분석이 무엇을 확인하는지 봅니다.
-- Adam이 실무에서 잘 쓰여도 수렴 보장 논의가 따로 필요한 이유를 봅니다.
+- 적응형 업데이트의 직관과 수렴 보장 논의가 왜 다른 질문인지 봅니다.
 - 논문에서 `convex`, `non-convex`, `regret`, `step size`, `bounded gradient` 같은 조건을 처음 읽는 기준을 잡습니다.
 - AMSGrad 같은 변형이 어떤 문제의식을 보완하려 했는지 입문 수준에서 구분합니다.
 
@@ -122,10 +122,9 @@ Adam 수렴 문제를 다룬 논문을 보면 `Adam이 특정 상황에서 수�
 
 | 읽은 문장 | 주장 유형 | 반드시 찾을 조건 | 넘어가면 안 되는 결론 |
 | --- | --- | --- | --- |
-| Adam은 이 문장 분류 실험에서 SGD보다 초반 loss를 빨리 줄였다. | 실험 성능 주장 | 데이터, 모델, seed, learning rate, 학습 길이 | Adam이 모든 조건에서 이론적으로 수렴한다 |
+| Adam은 이 문장 분류 실험에서 기본 직접 update 기준보다 초반 loss를 빨리 줄였다. | 실험 성능 주장 | 데이터, 모델, seed, learning rate, 학습 길이 | Adam이 모든 조건에서 이론적으로 수렴한다 |
 | bounded gradient와 convex objective 조건에서 regret bound를 제시한다. | 수렴 분석 주장 | convex 여부, gradient bound, step size 조건, 비교 기준 | 실제 non-convex 딥러닝 학습 전체가 같은 보장을 받는다 |
 | AMSGrad는 Adam류 방법의 일부 수렴 문제를 보완하려는 변형이다. | 알고리즘 보완 주장 | 어떤 second-moment 누적 방식을 바꾸는가 | Adam 전체가 실무적으로 무효가 된다 |
-| AdamW는 weight decay를 Adam update와 분리해 일반화 성능 문제를 다룬다. | regularization·일반화 관련 주장 | weight decay가 update와 어떻게 분리되는가 | 이 문장이 Adam의 수렴 증명을 대신한다 |
 
 이 연습에서 중요한 것은 논문 제목이나 optimizer 이름을 많이 외우는 것이 아닙니다. `무엇을 보장하는가`, `어떤 조건에서 말하는가`, `그 결론을 어디까지 확장해도 되는가`를 확인하는 습관입니다. 한 문장으로 닫으면, adaptive optimization 수렴 분석을 처음 읽을 때의 중심축은 다음입니다.
 

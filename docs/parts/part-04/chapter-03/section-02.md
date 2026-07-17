@@ -1,7 +1,7 @@
 # P4-3.2 휴리스틱과 모델 선택
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 후보를 줄이는 판단 기준으로 봤습니다. 이번 절에서는 그 관점을 모델 선택(model selection)에 적용합니다.
 
@@ -13,11 +13,7 @@ P4-3.1에서는 휴리스틱(heuristic)을 제한된 시간과 정보 안에서 
 
 ## 이 절의 범위
 
-이 절은 모델 선택에서 휴리스틱을 어떻게 쓰는지 설명합니다. 각 모델의 수식, 구현, 성능 비교는 여기서 깊게 다루지 않습니다.
-
-데이터 분리와 검증은 P4-4, 과적합(overfitting)과 일반화(generalization)는 P4-5, 평가 지표(metric)는 P4-6, 전처리(preprocessing)와 특징(feature)은 P4-7, 모델 선택 절차는 P4-8, 하이퍼파라미터 튜닝(hyperparameter tuning)은 P4-9에서 다시 다룹니다.
-
-구체적인 모델은 뒤에서 따로 만납니다. 선형 회귀(linear regression)는 P4-10, 로지스틱 회귀(logistic regression)는 P4-11, k-최근접 이웃(k-nearest neighbors)은 P4-12, 서포트 벡터 머신(support vector machine)은 P4-13, 결정트리(decision tree)는 P4-14, 랜덤포레스트(random forest)는 P4-15, 그래디언트 부스팅(gradient boosting)은 P4-16에서 다룹니다. 군집화(clustering)와 차원 축소(dimensionality reduction)는 P4-17과 P4-18에서 다룹니다.
+이 절은 먼저 `모델 선택에서 휴리스틱이 무엇을 줄이고 어떤 비교 출발점을 만드는가`를 닫습니다. 데이터 분리와 검증은 P4-4, 과적합(overfitting)과 일반화(generalization)는 P4-5, 평가 지표(metric)는 P4-6, 전처리(preprocessing)와 특징(feature)은 P4-7, 모델 선택 절차는 P4-8, 하이퍼파라미터 튜닝(hyperparameter tuning)은 P4-9에서 이어집니다. 구체적인 모델은 P4-10부터 P4-19까지 문제별로 다시 만납니다.
 
 이 절은 다음 질문에 답합니다.
 

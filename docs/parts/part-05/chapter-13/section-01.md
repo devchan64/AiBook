@@ -22,13 +22,7 @@ attention의 기본 문제의식을 다시 짧게 잡아야 할 때는 개념사
 
 이 절에서 먼저 닫아야 하는 핵심은 `오래 기억하려고만 애쓰기보다, 지금 필요한 위치를 다시 찾아보는 방식이 필요했다`는 점입니다.
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- query, key, value 공식 전개
-- multi-head attention 세부 구현
-- Transformer block 내부 전체 구조
-
-self-attention과 Transformer 연결은 다음 절과 다음 장에서 이어서 다룹니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P5-13.3에서 회수하고, 더 깊은 수식 전개와 구현 최적화는 이 책의 현재 본편 범위 밖에 둡니다.
+self-attention과 Transformer 연결은 다음 절과 다음 장에서 이어서 다룹니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P5-13.3에서 회수합니다.
 
 지금 읽는 층위는 `직접 참조 구조 층위`입니다. 앞 절의 장기 의존성이 `오래전 정보를 왜 끝까지 들고 가기 어려웠는가`를 다뤘다면, 여기서는 그 문제를 `지금 필요한 위치를 다시 찾아보는 방식`으로 어떻게 풀기 시작했는지 읽습니다. 바로 다음의 self-attention과 Transformer 절에서는 이 직접 참조 발상이 문장 전체 토큰 관계 계산으로 어떻게 확장되는지 질문이 더 커집니다.
 

@@ -1,7 +1,7 @@
 # P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
 
@@ -23,14 +23,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 - actor-critic은 왜 등장했는가?
 - 정책 기반 강화학습은 어떤 문제에서 더 자연스럽게 읽히는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- policy gradient 정리의 엄밀한 유도
-- likelihood ratio trick의 수학적 증명
-- PPO, TRPO, A2C, A3C 세부 구현
-- 연속 제어(continuous control)의 심화 수식
-
-이 절은 정책 기반 강화학습이 왜 등장했고, `행동 점수표`를 거치지 않고 `행동 방식 자체`를 직접 조정한다는 말이 무엇인지 이해하는 데 초점을 둡니다. 보상 설계, 탐험 비용, 시뮬레이션과 현실 차이 같은 적용상의 제약은 P4-19.3에서 이어서 다루고, PPO, TRPO, A2C, A3C와 연속 제어의 확장 흐름은 P4-19.4에서 정리합니다. policy gradient 정리와 likelihood ratio trick의 최소 수학 감각은 P4-19.6 보충학습에서 다시 묶습니다.
+이 절은 먼저 `정책(policy) 자체를 직접 조정하는 강화학습이 왜 등장하는가`를 닫습니다. 보상 설계와 현실 적용의 제약은 P4-19.3에서, PPO, TRPO, A2C, A3C와 연속 제어의 확장 흐름은 P4-19.4에서, policy gradient 정리와 likelihood ratio trick의 최소 수학 감각은 P4-19.6 보충학습에서 이어집니다.
 
 ## 이 절의 목표
 

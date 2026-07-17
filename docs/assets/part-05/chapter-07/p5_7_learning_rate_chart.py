@@ -55,7 +55,7 @@ LANG_TEXT = {
         "weight_title": "출력 risk_weight 이동 경로",
         "weight_ylabel_trace": "risk_weight",
         "step_xlabel": "학습 step",
-        "sgd_label": "SGD",
+        "direct_label": "기본 직접 업데이트",
         "adam_label": "Adam-like",
         "before_after_stage_labels": ["업데이트 전", "업데이트 후"],
         "before_after_weight_title": "update 적용 전후 위험 가중치",
@@ -91,7 +91,7 @@ LANG_TEXT = {
         "weight_title": "Output risk_weight trajectory",
         "weight_ylabel_trace": "risk_weight",
         "step_xlabel": "training step",
-        "sgd_label": "SGD",
+        "direct_label": "Direct update",
         "adam_label": "Adam-like",
         "before_after_stage_labels": ["before update", "after update"],
         "before_after_weight_title": "Risk weight before and after the update",
@@ -393,29 +393,29 @@ def save_exercise_traces(text: dict[str, str], locale: str) -> None:
 
 
 def optimizer_trace_values() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    sgd_weight = 1.0
+    direct_weight = 1.0
     adam_weight = 1.0
     moving_avg = 0.0
-    sgd_deltas = []
+    direct_deltas = []
     adam_deltas = []
-    sgd_weights = []
+    direct_weights = []
     adam_weights = []
 
     for gradient in GRADIENT_HISTORY:
-        sgd_delta = -TRACE_LEARNING_RATE * gradient
-        sgd_weight += sgd_delta
+        direct_delta = -TRACE_LEARNING_RATE * gradient
+        direct_weight += direct_delta
         moving_avg = TRACE_BETA * moving_avg + (1 - TRACE_BETA) * gradient
         adam_delta = -TRACE_LEARNING_RATE * moving_avg
         adam_weight += adam_delta
-        sgd_deltas.append(sgd_delta)
+        direct_deltas.append(direct_delta)
         adam_deltas.append(adam_delta)
-        sgd_weights.append(sgd_weight)
+        direct_weights.append(direct_weight)
         adam_weights.append(adam_weight)
 
     return (
-        np.array(sgd_deltas),
+        np.array(direct_deltas),
         np.array(adam_deltas),
-        np.array(sgd_weights),
+        np.array(direct_weights),
         np.array(adam_weights),
     )
 
@@ -434,19 +434,19 @@ def save_gradient_history(text: dict[str, str], locale: str) -> None:
     ax.set_ylabel(text["gradient_ylabel"])
     ax.set_ylim(-4.8, 0.8)
     style_trace_axis(ax)
-    fig.savefig(OUT_DIR / f"sgd-adam-gradient-history-{locale}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"direct-adam-gradient-history-{locale}.png", dpi=160)
     plt.close(fig)
 
 
 def save_delta_comparison(text: dict[str, str], locale: str) -> None:
     configure_font(text)
-    sgd_deltas, adam_deltas, _sgd_weights, _adam_weights = optimizer_trace_values()
+    direct_deltas, adam_deltas, _direct_weights, _adam_weights = optimizer_trace_values()
     x = np.arange(len(GRADIENT_HISTORY))
     width = 0.34
     fig, ax = plt.subplots(figsize=(7.2, 3.8), constrained_layout=True)
-    ax.bar(x - width / 2, sgd_deltas, width=width, color="#2563eb", label=text["sgd_label"])
+    ax.bar(x - width / 2, direct_deltas, width=width, color="#2563eb", label=text["direct_label"])
     ax.bar(x + width / 2, adam_deltas, width=width, color="#059669", label=text["adam_label"])
-    for xpos, value in zip(x - width / 2, sgd_deltas):
+    for xpos, value in zip(x - width / 2, direct_deltas):
         ax.text(xpos, value + 0.015, f"{value:.3g}", ha="center", fontsize=9)
     for xpos, value in zip(x + width / 2, adam_deltas):
         ax.text(xpos, value + 0.015, f"{value:.3g}", ha="center", fontsize=9)
@@ -457,18 +457,18 @@ def save_delta_comparison(text: dict[str, str], locale: str) -> None:
     ax.set_ylim(0, 0.46)
     ax.legend(frameon=False, loc="upper right")
     style_trace_axis(ax)
-    fig.savefig(OUT_DIR / f"sgd-adam-delta-comparison-{locale}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"direct-adam-delta-comparison-{locale}.png", dpi=160)
     plt.close(fig)
 
 
 def save_weight_trajectory(text: dict[str, str], locale: str) -> None:
     configure_font(text)
-    _sgd_deltas, _adam_deltas, sgd_weights, adam_weights = optimizer_trace_values()
+    _direct_deltas, _adam_deltas, direct_weights, adam_weights = optimizer_trace_values()
     x = np.arange(1, len(GRADIENT_HISTORY) + 1)
     fig, ax = plt.subplots(figsize=(7.2, 3.8), constrained_layout=True)
-    ax.plot(x, sgd_weights, marker="o", linewidth=2.3, color="#2563eb", label=text["sgd_label"])
+    ax.plot(x, direct_weights, marker="o", linewidth=2.3, color="#2563eb", label=text["direct_label"])
     ax.plot(x, adam_weights, marker="o", linewidth=2.3, color="#059669", label=text["adam_label"])
-    for xpos, value in zip(x, sgd_weights):
+    for xpos, value in zip(x, direct_weights):
         ax.text(xpos, value + 0.025, f"{value:.3g}", ha="center", fontsize=9, color="#1d4ed8")
     for xpos, value in zip(x, adam_weights):
         ax.text(xpos, value - 0.055, f"{value:.3g}", ha="center", va="top", fontsize=9, color="#047857")
@@ -479,7 +479,7 @@ def save_weight_trajectory(text: dict[str, str], locale: str) -> None:
     ax.set_ylim(0.95, 1.78)
     ax.legend(frameon=False, loc="upper left")
     style_trace_axis(ax)
-    fig.savefig(OUT_DIR / f"sgd-adam-risk-weight-trajectory-{locale}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"direct-adam-risk-weight-trajectory-{locale}.png", dpi=160)
     plt.close(fig)
 
 
