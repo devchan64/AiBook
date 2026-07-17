@@ -15,6 +15,9 @@
 - Python chart source:
   - `p5_7_learning_rate_chart.py`
 - Matplotlib chart assets:
+  - `optimizer-step-before-after-weight-en.png` / `optimizer-step-before-after-weight-ko.png`
+  - `optimizer-step-before-after-score-en.png` / `optimizer-step-before-after-score-ko.png`
+  - `optimizer-step-before-after-loss-en.png` / `optimizer-step-before-after-loss-ko.png`
   - `optimizer-example-updated-weight-en.png` / `optimizer-example-updated-weight-ko.png`
   - `optimizer-example-updated-score-en.png` / `optimizer-example-updated-score-ko.png`
   - `optimizer-example-updated-loss-en.png` / `optimizer-example-updated-loss-ko.png`

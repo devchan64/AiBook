@@ -57,6 +57,13 @@ LANG_TEXT = {
         "step_xlabel": "학습 step",
         "sgd_label": "SGD",
         "adam_label": "Adam-like",
+        "before_after_stage_labels": ["업데이트 전", "업데이트 후"],
+        "before_after_weight_title": "update 적용 전후 위험 가중치",
+        "before_after_weight_ylabel": "risk_weight",
+        "before_after_score_title": "update 적용 전후 차단 점수",
+        "before_after_score_ylabel": "predicted_block_score",
+        "before_after_loss_title": "update 적용 전후 손실",
+        "before_after_loss_ylabel": "loss",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -86,6 +93,13 @@ LANG_TEXT = {
         "step_xlabel": "training step",
         "sgd_label": "SGD",
         "adam_label": "Adam-like",
+        "before_after_stage_labels": ["before update", "after update"],
+        "before_after_weight_title": "Risk weight before and after the update",
+        "before_after_weight_ylabel": "risk_weight",
+        "before_after_score_title": "Block score before and after the update",
+        "before_after_score_ylabel": "predicted_block_score",
+        "before_after_loss_title": "Loss before and after the update",
+        "before_after_loss_ylabel": "loss",
     },
 }
 
@@ -105,6 +119,21 @@ def exercise_values() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     updated_scores = PRESSURE_UNRECOVERED * updated_weights
     updated_losses = (updated_scores - TARGET_BLOCK_SCORE) ** 2
     return updated_weights, updated_scores, updated_losses
+
+
+def single_step_values() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    prediction_before = PRESSURE_UNRECOVERED * RISK_WEIGHT
+    loss_before = (prediction_before - TARGET_BLOCK_SCORE) ** 2
+    gradient_risk_weight = 2 * (prediction_before - TARGET_BLOCK_SCORE) * PRESSURE_UNRECOVERED
+    optimizer_delta = -TRACE_LEARNING_RATE * gradient_risk_weight
+    risk_weight_after = RISK_WEIGHT + optimizer_delta
+    prediction_after = PRESSURE_UNRECOVERED * risk_weight_after
+    loss_after = (prediction_after - TARGET_BLOCK_SCORE) ** 2
+    return (
+        np.array([RISK_WEIGHT, risk_weight_after]),
+        np.array([prediction_before, prediction_after]),
+        np.array([loss_before, loss_after]),
+    )
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -264,8 +293,50 @@ def save_bar_trace(values: np.ndarray, ylabel: str, filename: str, text: dict[st
     plt.close(fig)
 
 
+def save_before_after_trace(
+    values: np.ndarray,
+    ylabel: str,
+    title: str,
+    filename: str,
+    text: dict[str, str],
+    locale: str,
+    ylim: tuple[float, float],
+    target: Optional[float] = None,
+) -> None:
+    configure_font(text)
+    x = np.arange(len(values))
+    colors = ["#94a3b8", "#0f766e"]
+
+    fig, ax = plt.subplots(figsize=(6.8, 3.7), constrained_layout=True)
+    bars = ax.bar(x, values, color=colors, width=0.5)
+    ax.set_xticks(x)
+    ax.set_xticklabels(text["before_after_stage_labels"])
+    ax.set_ylabel(ylabel)
+    ax.set_ylim(*ylim)
+    style_trace_axis(ax)
+
+    if target is not None:
+        ax.axhline(target, color="#2563eb", linewidth=1.4, linestyle=(0, (5, 4)), label=f"{text['target_label']}={target:.1f}")
+        ax.legend(frameon=False, loc="upper left")
+
+    for bar, value in zip(bars, values):
+        offset = (ylim[1] - ylim[0]) * 0.03
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            value + offset,
+            f"{value:.3g}",
+            ha="center",
+            fontsize=10,
+        )
+
+    ax.set_title(title, fontsize=11.2)
+    fig.savefig(OUT_DIR / f"{filename}-{locale}.png", dpi=160)
+    plt.close(fig)
+
+
 def save_exercise_traces(text: dict[str, str], locale: str) -> None:
     updated_weights, updated_scores, updated_losses = exercise_values()
+    before_after_weights, before_after_scores, before_after_losses = single_step_values()
     save_bar_trace(
         updated_weights,
         text["weight_ylabel"],
@@ -290,6 +361,34 @@ def save_exercise_traces(text: dict[str, str], locale: str) -> None:
         text,
         locale,
         (0, 154),
+    )
+    save_before_after_trace(
+        before_after_weights,
+        text["before_after_weight_ylabel"],
+        text["before_after_weight_title"],
+        "optimizer-step-before-after-weight",
+        text,
+        locale,
+        (0, 3.1),
+    )
+    save_before_after_trace(
+        before_after_scores,
+        text["before_after_score_ylabel"],
+        text["before_after_score_title"],
+        "optimizer-step-before-after-score",
+        text,
+        locale,
+        (0, 6.7),
+        target=TARGET_BLOCK_SCORE,
+    )
+    save_before_after_trace(
+        before_after_losses,
+        text["before_after_loss_ylabel"],
+        text["before_after_loss_title"],
+        "optimizer-step-before-after-loss",
+        text,
+        locale,
+        (0, 17.5),
     )
 
 
