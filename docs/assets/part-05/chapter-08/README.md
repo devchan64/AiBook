@@ -8,6 +8,7 @@
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
   - `dropout-case-reading-flow-en.mmd` / `dropout-case-reading-flow-ko.mmd`
+  - `dropout-mode-reading-flow-en.mmd` / `dropout-mode-reading-flow-ko.mmd`
   - `dropout-path-flow-en.mmd` / `dropout-path-flow-ko.mmd`
   - `regularization-case-reading-flow-en.mmd` / `regularization-case-reading-flow-ko.mmd`
   - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-ko.mmd`

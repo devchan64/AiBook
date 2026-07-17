@@ -1,0 +1,8 @@
+flowchart TD
+    A["Same input"] --> B["Training mode"]
+    A --> C["Evaluation mode"]
+    B --> D["Temporarily drop some paths"]
+    D --> E["Break shortcut-path dependence"]
+    C --> F["Keep full path for stable measurement"]
+    E --> G["Check whether other paths still support the prediction"]
+    F --> G
