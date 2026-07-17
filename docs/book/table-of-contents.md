@@ -555,12 +555,11 @@ flowchart LR
 
 ### Module 3. 학습 루프와 안정화
 
-#### Chapter 6. 학습(learning)과 모델 실행(inference)의 분리 `학습 원리`
+#### Chapter 6. 학습 루프와 모델 실행 `학습 원리`
 
-- **P5-6.1 학습(learning)과 모델 실행(inference)**: 파라미터를 바꾸는 단계와 사용하는 단계를 구분합니다.
-- **P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)**: dropout, batch norm 같은 차이를 나중에 이해할 준비를 합니다.
-- **P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법**: 깊은 네트워크가 왜 그냥 쌓는다고 바로 잘 학습되지 않는지, 학습 안정화 축을 한 자리에서 정리합니다.
-- **P5-6.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가**: 큰 초기화 스케일이 깊은 층을 지나며 raw activation 범위와 분산을 실제로 키우는 장면을 Python 예제와 분할 그래프로 확인합니다.
+- **P5-6.1 학습 루프: forward, loss, backward, optimizer step**: 손실과 gradient가 실제 update 반복으로 이어지는 순서를 봅니다.
+- **P5-6.2 학습(learning)과 모델 실행(inference)**: 파라미터를 바꾸는 단계와 사용하는 단계를 구분합니다.
+- **P5-6.3 학습 모드(training mode)와 평가 모드(evaluation mode)**: dropout, batch norm 같은 차이를 나중에 이해할 준비를 합니다.
 
 #### Chapter 7. 옵티마이저 `학습 원리`
 
@@ -572,7 +571,8 @@ flowchart LR
 
 - **P5-8.1 정규화(regularization)**: 과적합을 줄이기 위한 제약을 봅니다.
 - **P5-8.2 드롭아웃(dropout)**: 일부 연결을 끊어 학습하는 직관을 봅니다.
-- **P5-8.3 학습 루프를 한 번에 다시 묶기**: forward, loss, backward, optimizer step이 하나의 반복으로 묶이는 흐름을 정리합니다.
+- **P5-8.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법**: 깊은 네트워크가 왜 그냥 쌓는다고 바로 잘 학습되지 않는지, 학습 안정화 축을 한 자리에서 정리합니다.
+- **P5-8.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가**: 큰 초기화 스케일이 깊은 층을 지나며 raw activation 범위와 분산을 실제로 키우는 장면을 Python 예제와 분할 그래프로 확인합니다.
 
 ### Module 4. 계산 확장
 

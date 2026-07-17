@@ -1,7 +1,7 @@
 # P5-8.1 정규화(regularization)
 
 Section ID: `P5-8.1`
-Version: `v2026.07.14`
+Version: `v2026.07.16`
 
 P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규칙이라는 점을 보았습니다. 하지만 optimizer가 잘 작동한다고 해서 항상 좋은 모델이 되는 것은 아닙니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -26,7 +26,7 @@ P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 - weight decay의 프레임워크 구현 차이
 - data augmentation, early stopping의 세부 튜닝
 
-드롭아웃(dropout)은 P5-8.2에서 별도 절로 이어서 다루고, 학습 모드와 평가 모드의 계산 차이는 P5-6.2에서 다시 연결합니다. weight decay의 프레임워크 구현 차이와 data augmentation, early stopping의 세부 튜닝은 이 책의 현재 본편 범위 밖에 둡니다.
+드롭아웃(dropout)은 P5-8.2에서 별도 절로 이어서 다루고, 학습 모드와 평가 모드의 계산 차이는 P5-6.3에서 다시 연결합니다. weight decay의 프레임워크 구현 차이와 data augmentation, early stopping의 세부 튜닝은 이 책의 현재 본편 범위 밖에 둡니다.
 
 이 절은 `optimizer 다음에 붙는 또 하나의 설정`으로만 보지 말고, `업데이트 규칙`과 `선호하는 해의 성질`을 갈라 읽는 절로 보는 편이 더 안전합니다.
 

@@ -392,11 +392,10 @@ nav:
               - "P5-5.1 손실은 어떻게 gradient 신호가 되는가": parts/part-05/chapter-05/section-01.md
               - "P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)": parts/part-05/chapter-05/section-02.md
       - Module 3. 학습 루프와 안정화:
-          - "Chapter P5-6. 학습(learning)과 모델 실행(inference)의 분리":
-              - "P5-6.1 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-01.md
-              - "P5-6.2 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-06/section-02.md
-              - "P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법": parts/part-05/chapter-06/section-03.md
-              - "P5-6.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가": parts/part-05/chapter-06/section-04.md
+          - "Chapter P5-6. 학습 루프와 모델 실행":
+              - "P5-6.1 학습 루프: forward, loss, backward, optimizer step": parts/part-05/chapter-06/section-01.md
+              - "P5-6.2 학습(learning)과 모델 실행(inference)": parts/part-05/chapter-06/section-02.md
+              - "P5-6.3 학습 모드(training mode)와 평가 모드(evaluation mode)": parts/part-05/chapter-06/section-03.md
           - Chapter P5-7. 옵티마이저:
               - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
               - "P5-7.2 Adam의 직관: 적응형 업데이트": parts/part-05/chapter-07/section-02.md
@@ -404,7 +403,8 @@ nav:
           - Chapter P5-8. 학습 안정화와 일반화 제약:
               - "P5-8.1 정규화(regularization)": parts/part-05/chapter-08/section-01.md
               - "P5-8.2 드롭아웃(dropout)": parts/part-05/chapter-08/section-02.md
-              - "P5-8.3 학습 루프를 한 번에 다시 묶기": parts/part-05/chapter-08/section-03.md
+              - "P5-8.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법": parts/part-05/chapter-08/section-03.md
+              - "P5-8.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가": parts/part-05/chapter-08/section-04.md
       - Module 4. 계산 확장:
           - Chapter P5-9. GPU와 병렬 처리:
               - "P5-9.1 GPU와 병렬 처리": parts/part-05/chapter-09/section-01.md

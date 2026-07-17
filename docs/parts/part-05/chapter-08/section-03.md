@@ -1,266 +1,246 @@
-# P5-8.3 학습 루프를 한 번에 다시 묶기
+# P5-8.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법
 
 Section ID: `P5-8.3`
-Version: `v2026.07.14`
+Version: `v2026.07.16`
 
-P5-6장에서는 학습과 모델 실행을 구분했고, P5-7장에서는 옵티마이저를, P5-8장에서는 정규화와 드롭아웃을 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
+P5-6.3에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. P5-8.1과 P5-8.2에서는 정규화와 드롭아웃을 일반화 제약 관점에서 다시 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
 
-이 요소들은 실제 학습 과정 안에서 어떤 순서와 역할로 함께 움직이는가?
+층을 더 깊게 쌓았다고 해서 왜 바로 잘 학습되지 않는가?
 
-딥러닝 학습 루프는 `forward -> loss -> backward -> optimizer step -> regularization/모드 제어`가 반복되는 구조로 읽는 편이 안전하다.
+이 질문에 답하려면 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 따로따로 외우기보다, `깊은 네트워크가 실제로 덜 흔들리게 된 이유`라는 하나의 축으로 함께 읽는 편이 좋습니다.
 
-학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [학습(training)](../../../reference/concept-glossary.md#training), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
+초기화는 학습이 시작될 출발점을 정하고, 수치 안정성은 값과 gradient가 계산 중에 너무 커지거나 작아지지 않게 보는 기준이며, batch normalization은 학습 중 활성값 분포를 더 다루기 쉬운 범위로 정리해 주는 장치다.
+
+이 축이 다시 흐려질 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode), [배치 정규화(batch normalization)](../../../reference/concept-glossary.md#batch-normalization), [초기화(initialization)](../../../reference/concept-glossary.md#initialization), [수치 안정성(numerical stability)](../../../reference/concept-glossary.md#numerical-stability) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 이 절의 범위
 
-- 지금까지 본 손실, 역전파, 옵티마이저, 정규화는 하나의 학습 루프에서 어떻게 이어지는가?
-- training mode와 evaluation mode는 왜 이 루프 안에서 같이 읽어야 하는가?
-- 이 구분이 뒤의 CNN, RNN, Transformer 설명에 왜 중요한가?
+- 왜 깊은 네트워크는 층만 늘린다고 바로 잘 학습되지 않는가?
+- 초기화(initialization)는 무엇을 정하는가?
+- 수치 안정성(numerical stability)은 무엇을 걱정하는 개념인가?
+- batch normalization은 왜 학습 안정화 도구로 자주 함께 언급되는가?
+- 이 세 개념은 optimizer, regularization과 어떻게 다른 질문에 답하는가?
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- 분산 학습 루프 전체 구현
-- mixed precision, gradient accumulation 세부 기법
-- 프레임워크 내부 autograd 엔진 구현
+- Xavier 초기화와 He 초기화의 엄밀한 수식 유도
+- softmax/log-sum-exp의 상세 수치 안정화 구현
+- batch normalization의 역전파 수식
+- layer normalization, group normalization의 상세 비교
 
-분산 학습 루프, mixed precision, gradient accumulation은 이 책의 현재 본편 범위 밖으로 두고, 여기서는 단일 학습 루프의 공통 골격만 먼저 잡습니다. autograd 엔진의 내부 구현도 범위 밖으로 두되, gradient가 optimizer update로 이어지는 관점 자체는 앞선 P5-5.1, P5-5.2와 P5-7.1, P5-7.2에서 이미 회수한 흐름 위에서 다시 묶습니다. 여기서는 새 알고리즘을 더 추가하기보다, 이미 본 개념들을 `한 장면의 학습 흐름`으로 다시 묶습니다.
+ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.3에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
-- 딥러닝 학습 루프를 한 번에 설명할 수 있습니다.
-- forward, loss, backward, optimizer step의 순서를 말할 수 있습니다.
-- regularization과 mode 전환이 왜 학습 루프와 함께 읽혀야 하는지 설명할 수 있습니다.
-- 뒤 장의 구조 설명을 `학습 가능한 구조` 관점에서 읽을 수 있습니다.
+- 초기화를 `학습 시작점의 값 배치`로 설명할 수 있습니다.
+- 수치 안정성을 `값과 gradient가 계산 중에 감당 가능한 범위를 유지하는 문제`로 설명할 수 있습니다.
+- batch normalization을 `활성값 분포를 정리해 학습을 덜 흔들리게 하는 장치`로 설명할 수 있습니다.
+- optimizer, regularization, batch normalization이 서로 다른 질문에 답한다는 점을 구분할 수 있습니다.
+- 실행 가능한 Python 예제로 출력 스케일과 batch normalization의 직관을 확인할 수 있습니다.
 
-## 가장 작은 학습 루프
+## 왜 이 셋을 한 번에 묶어 읽어야 하나
 
-딥러닝 모델을 학습시킬 때는 보통 다음 순서가 반복됩니다.
+깊은 네트워크를 처음 배우면 다음 오해가 자주 생깁니다.
 
-1. 입력을 넣고 출력값을 계산한다.
-2. 출력과 정답 차이를 손실로 계산한다.
-3. 손실이 각 가중치에 미친 영향을 뒤로 전달한다.
-4. 옵티마이저가 그 영향을 바탕으로 가중치를 갱신한다.
-5. 이 과정을 여러 배치(batch)에 대해 반복한다.
+- 층을 더 쌓으면 자동으로 더 잘 배울 것이다
+- optimizer만 Adam으로 바꾸면 대부분 해결될 것이다
+- batch normalization은 그냥 라이브러리 옵션 하나일 뿐이다
 
-이 다섯 단계가 Part 5 초반부에서 따로 보았던 내용을 실제로 연결하는 가장 작은 골격입니다.
+하지만 실제로는 학습이 시작되는 출발점, 중간 계산에서 값이 어떻게 커지거나 줄어드는지, 각 층이 다음 층으로 어떤 범위의 값을 넘기는지가 함께 맞물립니다.
 
-## 왜 모드 전환이 여기에 붙는가
-
-training mode와 evaluation mode는 루프 바깥의 부가 설정이 아닙니다.
-
-- training mode에서는 dropout이 켜질 수 있고
-- batch normalization은 현재 배치 통계를 사용할 수 있으며
-- optimizer step이 실제 업데이트를 일으킵니다
-
-반대로 evaluation mode에서는:
-
-- dropout은 꺼지고
-- 평가용 동작이 고정되며
-- 가중치 업데이트는 일어나지 않습니다
-
-즉, `학습 루프가 언제 실제로 모델을 바꾸는가`를 읽으려면 모드 전환을 함께 봐야 합니다.
-
-## 정규화는 어디에 들어가나
-
-정규화(regularization)는 학습 루프 밖의 별도 철학이 아니라, 루프 안에서 `과하게 외우는 방향`을 제어하는 장치입니다.
-
-예를 들어:
-
-- 가중치 크기에 패널티를 주거나
-- 일부 뉴런을 임시로 끄거나
-- 데이터나 배치 통계를 다르게 읽게 하는 방식은
-
-모두 `업데이트가 너무 특정 데이터에만 맞춰지는 것`을 줄이기 위한 장치입니다.
-
-따라서 정규화는 손실과 optimizer 사이의 별도 주석이 아니라, 학습 루프 전체의 성격을 바꾸는 요소로 읽어야 합니다.
-
-## 아주 단순하게 그리면
+이 흐름을 아주 짧게 그리면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-05/chapter-08/training-loop-regularization-flow-ko.mmd"
+--8<-- "assets/part-05/chapter-08/stabilization-bridge-flow-ko.mmd"
 ```
 
-이 도식의 핵심은 지금까지 따로 본 개념들이 실제로는 한 반복 안에 묶여 있다는 점입니다.
+핵심은 `학습이 잘 안 된다`는 현상이 항상 한 가지 원인으로만 생기지 않는다는 점입니다.
+
+- 시작값이 너무 비슷하거나 극단적일 수 있고
+- 층을 지나며 값이 너무 커지거나 거의 사라질 수 있고
+- 활성값 분포가 다음 계산을 계속 흔들 수 있습니다
+
+그래서 이 절에서는 이 셋을 `깊은 학습이 실제로 가능해지는 조건`으로 묶어 봅니다.
+
+## 초기화(initialization)는 무엇을 정하나
+
+초기화는 학습을 시작하기 전 파라미터(parameter)에 어떤 숫자를 배치할지 정하는 일입니다.
+
+겉으로 보면 단순히 출발점만 정하는 것처럼 보이지만, 실제로는 다음 두 질문과 직접 연결됩니다.
+
+1. 서로 다른 뉴런이 서로 다른 역할을 배우기 시작할 수 있는가?
+2. 첫 몇 번의 forward와 backward에서 값이 지나치게 커지거나 작아지지 않는가?
+
+예를 들어 모든 가중치를 완전히 같은 값, 특히 0으로 시작하면 여러 뉴런이 같은 입력에 같은 반응을 보이고 같은 gradient를 받을 수 있습니다. 그러면 층을 여러 개 둬도 서로 다른 특징을 나눠 배우기 어렵습니다.
+
+즉, 초기화의 첫 책임은 `아무렇게나 시작하지 않는 것`보다 `모든 뉴런이 똑같이 시작하지 않게 하는 것`에 가깝습니다.
+
+## 왜 출발점이 같으면 안 되나
+
+퍼셉트론 하나만 있을 때는 시작값이 약간 엉성해도 큰 문제가 없어 보일 수 있습니다. 하지만 다층 구조에서는 같은 층 안 여러 뉴런이 서로 다른 조합을 배워야 합니다.
+
+만약 출발점이 완전히 같다면:
+
+- 같은 입력을 보고
+- 같은 출력을 만들고
+- 같은 gradient를 받고
+- 같은 방향으로 업데이트됩니다
+
+그 결과 여러 뉴런을 둔 이점이 줄어듭니다.
+
+이 점을 초심자 기준으로 한 줄로 묶으면 다음과 같습니다.
+
+`초기화는 단지 첫 숫자를 찍는 일이 아니라, 여러 뉴런이 서로 다른 역할로 갈라질 가능성을 열어 두는 일이다.`
+
+## 수치 안정성(numerical stability)은 무엇을 걱정하나
+
+수치 안정성은 계산 과정에서 값이나 gradient가 너무 커지거나 너무 작아져 학습이 흔들리지 않는지 보는 기준입니다.
+
+여기서는 다음 두 장면만 먼저 떠올리면 충분합니다.
+
+- 층을 지날수록 값이 계속 커져 폭발하는 경우
+- 층을 지날수록 값이나 gradient가 너무 작아져 사실상 사라지는 경우
+
+딥러닝은 같은 종류의 계산을 층마다 반복합니다. 그래서 한 번의 작은 불안정이 깊은 층을 지나며 더 커질 수 있습니다.
+
+| 문제 장면 | 초심자용 직관 | 학습에서 생기는 결과 |
+| --- | --- | --- |
+| 값이 너무 커짐 | 다음 층이 지나치게 큰 숫자를 계속 받는다 | 출력과 gradient가 흔들리기 쉽습니다 |
+| 값이 너무 작아짐 | 다음 층이 거의 비슷한 작은 값만 본다 | gradient가 약해져 학습이 더뎌질 수 있습니다 |
+
+이 절에서는 수학 증명을 하지 않지만, 중요한 직관은 분명합니다.
+
+`깊은 학습은 층을 많이 쌓는 문제이기도 하지만, 그 많은 계산을 숫자 범위 안에서 버티게 하는 문제이기도 하다.`
+
+## ReLU, 초기화, 수치 안정성은 왜 같이 언급되나
+
+P5-3.4에서 본 것처럼 ReLU 계열은 깊은 네트워크에서 널리 쓰입니다. 하지만 활성화 함수 하나만 바뀌었다고 모든 문제가 자동으로 해결되는 것은 아닙니다.
+
+실제로는 다음 요소들이 함께 맞물립니다.
+
+- ReLU처럼 양수 구간을 더 직접 통과시키는 함수
+- 너무 작거나 큰 값으로 시작하지 않게 하는 초기화
+- optimizer와 학습률 설정
+- batch normalization 같은 분포 안정화 장치
+
+즉, `깊은 학습이 실용화되었다`는 말은 보통 한 발명만 뜻하지 않고, 여러 안정화 장치가 함께 맞물렸다는 뜻에 더 가깝습니다.
+
+## batch normalization은 왜 중요한가
+
+batch normalization은 한 배치(batch) 안의 평균(mean)과 분산(variance)을 참고해 활성값 분포를 다시 정리하는 방식입니다.
+
+초심자 기준에서는 다음처럼 이해하면 충분합니다.
+
+- 앞 층 출력이 너무 들쭉날쭉하면
+- 다음 층이 계속 흔들리는 분포를 받아 학습해야 하고
+- 그러면 학습 속도와 안정성이 함께 영향을 받을 수 있습니다
+
+batch normalization은 이때 `현재 배치 기준으로 값을 한 번 더 다루기 쉬운 범위로 정리하고 넘기는 장치`처럼 읽을 수 있습니다.
+
+P5-6.3에서 본 mode 차이도 여기서 다시 연결됩니다.
+
+- 학습 중에는 현재 배치 통계를 참고하고
+- 평가 중에는 학습 동안 쌓인 기준을 더 많이 참고합니다
+
+즉, batch normalization은 단순히 `정규화 이름 하나`가 아니라, 학습 안정화와 mode 전환을 함께 읽게 만드는 대표 사례입니다.
+
+## regularization과는 무엇이 다른가
+
+초심자는 batch normalization, dropout, weight decay를 모두 `학습을 돕는 옵션`처럼 한 덩어리로 볼 수 있습니다. 하지만 질문이 다릅니다.
+
+| 항목 | 먼저 답하는 질문 |
+| --- | --- |
+| initialization | 학습을 어떤 출발점에서 시작할 것인가? |
+| numerical stability | 반복 계산 중 값과 gradient가 감당 가능한 범위를 유지하는가? |
+| batch normalization | 활성값 분포를 더 다루기 쉬운 범위로 정리할 것인가? |
+| optimizer | gradient를 실제로 어떤 보폭과 규칙으로 업데이트할 것인가? |
+| regularization | 모델이 너무 복잡한 해법으로 가지 않게 어떤 제약을 둘 것인가? |
+
+이 표를 먼저 고정해 두면, 뒤에서 새로운 기법 이름을 만나도 `출발점`, `계산 안정성`, `업데이트`, `일반화` 중 어디에 가까운지 분리해 읽기 쉬워집니다.
 
 ## 사례 및 예시
 
-### 사례 1. 이미지 분류 학습
+앞에서 말한 `깊은 네트워크가 실제로 덜 흔들리게 된 이유`를 사례로 읽으려면, 세 용어를 따로따로 외우는 대신 `하나의 깊은 계산 장면이 어디에서 흔들리고, 무엇이 그 흔들림을 줄이는가`를 함께 보는 편이 좋습니다. 아래 두 사례는 같은 깊은 네트워크를 두고 `불안정하게 시작한 장면`과 `덜 흔들리게 정리한 장면`을 나눠 보여 줍니다.
 
-이미지를 넣고 분류 점수를 계산한 뒤 손실을 구하고, 역전파와 optimizer step으로 가중치를 갱신하는 흐름은 CNN에서도 그대로 유지됩니다. 사람은 CNN처럼 구조가 바뀌면 학습 방식도 완전히 새로 바뀐다고 느끼기 쉽습니다. 하지만 실제로 사람이 먼저 보던 기준이 `새 구조 이름이 붙었는가`였다면, 더 중요한 기준은 `그 구조가 forward 안에 어떤 계산 블록으로 들어가고 backward와 update는 그대로 이어지는가`입니다. 즉, 바뀌는 것은 합성곱 같은 내부 계산 블록이지 `forward -> loss -> backward -> update`라는 뼈대 자체는 아닙니다. 그래서 이 사례에서 확인해야 할 결과는 CNN이라는 이름을 외우는 것보다, 합성곱이 들어가도 학습 루프의 공통 골격은 유지된다는 점을 설명할 수 있는가입니다.
+### 사례 1. 깊은 네트워크가 처음부터 흔들리는 장면
 
-### 사례 2. 문장 분류 학습
+입력이 `x = 2`인 작은 깊은 네트워크를 떠올려 보겠습니다. 첫 층에 뉴런 두 개가 있는데 가중치를 모두 `0`으로 시작했다고 해 보겠습니다. 그러면 두 뉴런은 처음에 같은 출력을 만들고, 역전파에서도 같은 gradient를 받아 `0 -> 0.3 -> 0.6`처럼 함께 움직이기 쉽습니다. 이 첫 장면에서는 이미 `초기화가 출발점을 잘못 잡으면 여러 뉴런이 서로 다른 역할로 갈라지지 못한다`는 문제가 생깁니다.
 
-입력을 텍스트로 바꾸고 구조를 RNN이나 Transformer로 바꿔도, 손실 계산과 backward, optimizer step이라는 루프는 그대로 남습니다. 사람은 텍스트 모델이 되면 완전히 다른 절차를 쓸 것처럼 느끼기 쉽습니다. 하지만 사람이 하던 단순 구분이 `이미지 모델`과 `텍스트 모델`처럼 입력 종류만 나누는 수준에 머물면, 토큰 길이, 임베딩, attention이 붙어도 공통으로 남는 학습 골격을 놓치기 쉽습니다. 실제로 바뀌는 것은 입력 구조와 내부 계산이고, 한 배치를 forward로 통과시키고 손실을 계산한 뒤 gradient를 되돌려 업데이트한다는 흐름은 같습니다. 그래서 이 사례에서 확인해야 할 결과는 모델 종류가 달라져도 `어디가 입력 표현 변화이고 어디가 공통 학습 단계인가`를 나눠 읽을 수 있는가입니다.
+여기에 더해 뒤 층의 시작 가중치 스케일까지 크다고 해 보겠습니다. 앞 층에서 비슷하게 나온 값이 다음 층으로 넘어가고, 큰 가중치가 반복되면 값 범위는 `0.6 -> 1.8 -> 5.4`처럼 더 빠르게 커질 수 있습니다. 이때 흔들리는 것은 단지 출력 숫자만이 아닙니다. 활성화 함수 반응이 치우치고 gradient 경로도 함께 불안정해질 수 있습니다. 여기서 수치 안정성은 `깊은 계산이 이 숫자 범위를 버틸 수 있는가`를 묻는 기준으로 등장합니다.
 
-### 사례 3. 과적합 징후
+마지막으로 어떤 배치에서는 중간 활성값이 `0.5, 0.8, 1.0` 근처에 모이고, 다른 배치에서는 `15, 20, 24`처럼 훨씬 큰 범위로 넘어온다고 해 보겠습니다. 그러면 다음 층은 매번 다른 규모의 입력을 받게 되고 학습은 더 흔들리기 쉽습니다. 이 지점에서 batch normalization은 `이미 층 사이에 생긴 활성값 분포를 다음 층이 다루기 쉬운 범위로 다시 정리하는 장치`로 필요해집니다.
 
-학습 손실은 계속 내려가는데 검증 성능이 나빠진다면, 사람은 먼저 `모델 구조가 나쁘다`고 결론내리기 쉽습니다. 하지만 이런 경우에는 구조 자체보다 regularization이나 mode 설정을 다시 봐야 할 수 있습니다. 예를 들어 dropout이 학습에서는 켜지는데 평가에서는 꺼져야 하는데도 mode 전환이 잘못되어 있거나, 가중치가 훈련 데이터에만 과하게 맞춰지고 있을 수 있습니다. 학습 루프를 한 장면으로 묶어 보고 있으면 `구조 문제인가`, `업데이트 문제인가`, `평가 설정 문제인가`를 더 빨리 분리해 볼 수 있습니다. 그래서 이 사례에서 확인해야 할 결과는 구조 이름을 바꾸기 전에 regularization, mode, 평가 절차를 먼저 점검하는 순서가 실제 원인 분리에 더 도움이 되는가입니다.
+즉, 이 사례는 세 문제를 따로 보여 주는 것이 아닙니다. `같은 출발점에 묶인 뉴런`, `깊이를 지나며 커지는 값 범위`, `배치마다 흔들리는 중간 분포`가 한 장면 안에서 이어지며, 그래서 깊은 네트워크는 `출발점`, `반복 계산 범위`, `층 사이 분포`를 함께 붙잡아야 덜 흔들린다는 점을 보여 줍니다.
 
-| 사람이 먼저 보기 쉬운 기준 | 학습 루프 관점으로 다시 읽는 기준 |
+### 사례 2. 깊은 네트워크를 덜 흔들리게 만드는 장면
+
+이제 같은 구조를 다시 보되 시작 조건을 바꿔 보겠습니다. 첫 층 뉴런 둘의 가중치를 모두 같게 두지 않고, 하나는 조금 작게 다른 하나는 조금 다르게 시작한다고 해 보겠습니다. 그러면 두 뉴런은 처음부터 완전히 같은 반응을 반복하지 않고, 서로 다른 입력 조합에 조금씩 다른 경로로 반응할 가능성을 얻습니다. 여기서 초기화의 역할은 `좋은 숫자 찾기`보다 먼저 `같은 통로 복제를 피하게 하는 출발점 마련`입니다.
+
+다음으로 각 층 가중치 스케일을 지나치게 크게 두지 않으면, 값 범위가 `0.6 -> 0.9 -> 1.1`처럼 더 완만하게 움직을 수 있습니다. 물론 실제 모델은 이보다 복잡하지만, 초심자 기준에서는 이 장면만으로도 충분합니다. 깊은 네트워크가 덜 흔들리려면 층이 많아도 계산이 한 번에 폭발하거나 사라지지 않게 버텨야 합니다. 여기서 수치 안정성은 `어떤 출발 스케일과 계산 흐름이 깊은 반복을 버티게 하는가`를 읽는 기준이 됩니다.
+
+마지막으로 층 사이에 넘어온 활성값 분포가 배치마다 달라져도 batch normalization을 끼우면, 다음 층은 `완전히 제각각인 규모` 대신 `비교 가능한 범위로 다시 정리된 입력`을 받게 됩니다. 그래서 batch normalization의 첫 역할은 이름을 외우는 것이 아니라, 이미 흔들리기 시작한 중간 분포를 다음 층이 계속 버틸 수 있게 정리하는 데 있습니다.
+
+즉, 이 사례에서 확인해야 할 결과는 분명합니다. 깊은 네트워크가 덜 흔들리게 된 이유는 기법 이름이 많아져서가 아니라, 초기화가 출발점을 갈라 주고, 수치 안정성이 반복 계산 범위를 버티게 하고, batch normalization이 층 사이 분포를 다시 정리해 주기 때문입니다.
+
+![흔들림 장면과 안정화 장면의 뉴런 경로 비교](/AiBook/assets/part-05/chapter-08/stabilization-neuron-paths-ko.png)
+
+이 그래프는 흔들림 장면의 뉴런 둘이 거의 겹쳐 움직이고, 안정화 장면의 뉴런 둘은 완전히 같은 경로를 반복하지 않는다는 점을 함께 보여 줍니다.
+
+![흔들림 장면과 안정화 장면의 층별 활성값 범위 비교](/AiBook/assets/part-05/chapter-08/stabilization-layer-range-ko.png)
+
+이 그래프는 깊은 층으로 갈수록 흔들림 장면의 범위가 더 빠르게 커지고, 안정화 장면의 범위는 더 완만하게 움직인다는 점을 보여 줍니다.
+
+![흔들림 장면과 안정화 장면의 배치별 중간 활성값 범위 비교](/AiBook/assets/part-05/chapter-08/stabilization-batch-spread-ko.png)
+
+이 그래프는 흔들림 장면에서는 배치별 중간 분포 차이가 크고, 안정화 장면에서는 다음 층이 비교 가능한 규모를 더 쉽게 받는다는 점을 보여 줍니다.
+
+두 사례를 한 흐름으로 다시 접으면, 이 절에서 묶어 읽으려는 안정화 축은 다음처럼 정리됩니다.
+
+| 단계 | 먼저 흔들리는 것 | 먼저 붙잡아야 할 장치 |
+| --- | --- | --- |
+| 학습 시작 전 | 뉴런들이 같은 출발점에 묶이는가 | initialization |
+| 층을 반복하며 계산할 때 | 값과 gradient 범위가 커지거나 작아지는가 | numerical stability 관점 |
+| 층과 층 사이를 넘길 때 | 중간 활성값 분포가 다음 층을 계속 흔드는가 | batch normalization |
+
+즉, 두 사례는 `문제 사례 하나`와 `해결 사례 하나`처럼 보이더라도, 실제로는 `출발점`, `반복 계산 범위`, `층 사이 분포`를 각각 붙잡아 깊은 학습을 덜 흔들리게 만드는 하나의 안정화 축으로 읽어야 합니다.
+
+| 장면 | 사람이 먼저 놓치기 쉬운 판단 | 이 절에서 다시 남겨야 할 판단 |
+| --- | --- | --- |
+| 흔들리는 시작 장면 | 층이나 뉴런 수만 늘리면 표현력이 저절로 살아난다고 보기 쉽다 | 같은 초기화, 큰 스케일, 흔들리는 분포가 겹치면 깊은 계산 전체가 함께 불안정해질 수 있다 |
+| 덜 흔들리게 만든 장면 | 기법 하나만 추가하면 깊은 학습이 자동으로 안정된다고 보기 쉽다 | 초기화, 수치 안정성, batch normalization은 각각 다른 위치의 흔들림을 나눠 맡는다 |
+
+| 사람이 먼저 보기 쉬운 기준 | 초기화·수치 안정성·batch normalization 관점으로 다시 읽는 기준 |
 | --- | --- |
-| CNN, RNN, Transformer처럼 새 구조 이름이 붙으면 학습 절차도 완전히 바뀐다고 느끼기 쉽다 | 바뀌는 것은 내부 계산 블록이고, `forward -> loss -> backward -> optimizer step`이라는 공통 반복은 그대로 남는다 |
-| 과적합 징후가 보이면 먼저 구조 이름부터 바꿔야 한다고 느끼기 쉽다 | regularization, mode, 평가 절차가 루프 안에서 어떻게 작동했는지 먼저 분리해 봐야 한다 |
-| 이미지 모델과 텍스트 모델은 학습 방식도 완전히 다를 것처럼 느끼기 쉽다 | 입력 표현과 내부 구조는 달라도 batch 단위 forward, loss, backward, update라는 뼈대는 공통으로 유지된다 |
-| mode나 regularization은 부가 설정이라고 보기 쉽다 | 이 요소들도 루프 안에서 손실 해석, 업데이트 경로, 평가 안정성에 직접 영향을 주는 구성 요소다 |
+| 층만 더 쌓으면 표현력이 늘어 자동으로 더 잘 배울 것 같다고 느끼기 쉽다 | 층을 깊게 쌓을수록 출발점, 값 범위, 활성 분포가 함께 흔들릴 수 있어 안정화 조건을 같이 봐야 한다 |
+| optimizer만 Adam으로 바꾸면 대부분 해결될 것 같다고 느끼기 쉽다 | optimizer는 업데이트 규칙이고, 초기화·수치 안정성·batch normalization은 그 이전에 계산이 버틸 조건을 다룬다 |
+| batch normalization은 라이브러리 옵션 하나라고 생각하기 쉽다 | batch normalization은 학습 중 활성 분포를 정리하고 mode 차이까지 함께 읽게 만드는 안정화 장치다 |
+| 뉴런 수나 층 수만 늘리면 서로 다른 특징을 자동으로 배울 것 같다고 느끼기 쉽다 | 초기화가 같으면 여러 뉴런이 같은 경로로 움직일 수 있고, 큰 값은 반복 계산 중 불안정을 키울 수 있다 |
 
-이 사례들에서 최종적으로 확인해야 할 결과는 분명합니다. 학습 루프의 핵심은 `새 구조 이름을 많이 아는가`가 아니라, 어떤 구조가 오더라도 공통 반복은 유지되고, 문제 원인은 그 반복 안의 손실·업데이트·mode·regularization 위치로 다시 분해해 읽어야 한다는 데 있습니다.
+이 사례들에서 최종적으로 확인해야 할 결과는 분명합니다. 깊은 네트워크 안정화의 핵심은 `기법 이름을 많이 외우는가`가 아니라, 초기화는 출발점을, 수치 안정성은 반복 계산 범위를, batch normalization은 중간 분포를 다루며 셋이 함께 학습을 덜 흔들리게 만든다는 점입니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 딥러닝 프레임워크를 다루는 것이 아니라, 학습 루프 안에서 `forward -> loss -> backward -> optimizer step`이 어떻게 한 운영 배치(batch)씩 반복되는지 확인하는 것입니다.
+다음 질문에 답할 수 있으면 이 절의 역할은 충분히 닫힙니다.
 
-입력:
+| 질문 | 확인할 관점 |
+| --- | --- |
+| 초기화는 무엇을 정하는가? | 여러 뉴런이 서로 다른 출발점에서 역할을 나눌 가능성을 엽니다. |
+| 수치 안정성은 무엇을 걱정하는가? | 깊은 반복 계산에서 값과 gradient가 감당 가능한 범위에 남는지 봅니다. |
+| batch normalization은 어디에 개입하는가? | 중간 활성값 분포를 다음 층이 다루기 쉬운 기준으로 다시 정리합니다. |
 
-- 경보 수치를 두 개씩 묶은 batch 2개
-- 각 batch의 목표 차단 점수
-- 위험 가중치 하나 `risk_weight`
-
-출력:
-
-- batch별 예측 차단 점수 목록
-- batch별 평균 loss
-- batch별 평균 gradient
-- step 이후 갱신된 위험 가중치
-
-문제 상황:
-
-- 배치 학습은 샘플 하나가 아니라 묶음 단위로 gradient를 계산하므로, batch별 평균 손실과 평균 gradient를 같이 보는 것이 중요하다
-
-확인할 개념:
-
-- 배치 단위 gradient는 여러 샘플의 오차를 모아 계산한 결과다
-- 샘플별 계산을 평균한 뒤 한 번 업데이트하는 구조가 학습 루프의 기본 형태다
-
-입력(input):
-
-각 batch는 `alarm_count` 두 건과 그에 대응하는 `target_block_score` 두 건을 담고 있다고 가정합니다. 학습 루프는 현재 `risk_weight`로 batch 안 모든 예측 차단 점수를 먼저 계산한 뒤, 평균 손실과 평균 gradient를 모아 한 번만 업데이트합니다.
-
-코드를 보기 전에 먼저 각 batch에서 무엇이 먼저 계산되고, 무엇이 마지막에 한 번만 바뀌는지 예상해 보면 학습 루프의 순서가 더 잘 고정됩니다.
-
-| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
-| --- | --- | --- |
-| `predictions` | 각 batch 안의 샘플마다 먼저 계산될 가능성이 큼 | forward 단계에서는 현재 `risk_weight`로 각 입력의 예측 차단 점수를 먼저 만듭니다. |
-| `batch_loss`, `batch_gradient` | 샘플별 계산 뒤 평균으로 한 번 모일 가능성이 큼 | 손실과 gradient는 batch 안 여러 샘플 결과를 묶어 읽어야 하기 때문입니다. |
-| `updated_risk_weight` | batch마다 한 번씩만 바뀔 가능성이 큼 | optimizer step은 샘플별로 즉시 바꾸지 않고 batch 평균 gradient 뒤에 한 번 적용됩니다. |
-| 두 번째 batch의 `predictions` | 첫 번째 batch에서 갱신된 `risk_weight` 영향을 받을 가능성이 큼 | 학습 루프는 이전 update 결과를 다음 batch forward가 이어받는 반복 구조이기 때문입니다. |
-
-이 표의 목적은 정확한 수치를 미리 외우는 데 있지 않습니다. 학습 루프를 읽을 때 `무엇이 샘플별 forward 결과인가`, `무엇이 batch 평균으로 모이는가`, `무엇이 step 끝에서 한 번 바뀌는가`를 코드 전에 붙잡는 데 있습니다.
-
-```python
-batches = [
-    [
-        {"alarm_count": 1.0, "target_block_score": 2.0},
-        {"alarm_count": 2.0, "target_block_score": 4.0},
-    ],
-    [
-        {"alarm_count": 3.0, "target_block_score": 6.0},
-        {"alarm_count": 4.0, "target_block_score": 8.0},
-    ],
-]
-
-risk_weight = 0.5
-learning_rate = 0.1
-
-for step, batch in enumerate(batches, start=1):
-    predictions = []
-    losses = []
-    gradients = []
-
-    for sample in batch:
-        alarm_count = sample["alarm_count"]
-        target_block_score = sample["target_block_score"]
-
-        prediction = risk_weight * alarm_count
-        loss = (prediction - target_block_score) ** 2
-        gradient_risk_weight = 2 * (prediction - target_block_score) * alarm_count
-
-        predictions.append(round(prediction, 3))
-        losses.append(loss)
-        gradients.append(gradient_risk_weight)
-
-    batch_loss = sum(losses) / len(losses)
-    batch_gradient = sum(gradients) / len(gradients)
-
-    risk_weight = risk_weight - learning_rate * batch_gradient
-
-    print(f"[batch {step}]")
-    print("predictions =", predictions)
-    print("batch_loss =", round(batch_loss, 3))
-    print("batch_gradient =", round(batch_gradient, 3))
-    print("updated_risk_weight =", round(risk_weight, 3))
-    print("---")
-```
-
-출력에서는 각 batch마다 predictions가 먼저 계산되고, 그 뒤 평균 loss와 평균 gradient가 모인 다음 updated_risk_weight가 한 번 바뀌는 순서를 보면 됩니다.
-
-```text
-[batch 1]
-predictions = [0.5, 1.0]
-batch_loss = 5.625
-batch_gradient = -7.5
-updated_risk_weight = 1.25
----
-[batch 2]
-predictions = [3.75, 5.0]
-batch_loss = 7.031
-batch_gradient = -18.75
-updated_risk_weight = 3.125
----
-```
-
-이 예제에서 핵심은 다음입니다.
-
-- 딥러닝 학습은 한 번의 계산이 아니라 batch마다 반복되는 루프입니다
-- 각 batch에서 forward, loss, backward, optimizer step이 같은 순서로 다시 등장합니다
-- 구조 설명과 학습 설명은 이 루프 안에서 다시 만나야 합니다
-
-이 흐름을 예제 산출물 기준으로 나누어 보면 먼저 forward 결과가 보입니다. 첫 번째 batch는 `risk_weight=0.5`로 예측하므로 목표보다 낮게 나오고, 두 번째 batch는 첫 업데이트 뒤 `risk_weight=1.25`가 반영된 상태에서 다시 예측됩니다.
-
-![학습 루프 batch별 예측과 목표](../../../assets/part-05/chapter-08/training-loop-predictions-ko.png)
-
-다음 산출물은 batch 평균 loss입니다. loss는 각 batch 안의 샘플별 오차를 평균으로 묶은 값이므로, optimizer가 바로 보는 것은 개별 샘플 하나가 아니라 batch가 만든 평균 신호입니다.
-
-![학습 루프 batch별 평균 loss](../../../assets/part-05/chapter-08/training-loop-batch-loss-ko.png)
-
-그다음 산출물은 batch 평균 gradient입니다. 두 값이 모두 음수라는 점은 현재 `risk_weight`가 목표보다 낮은 예측을 만들고 있어서, update가 `risk_weight`를 키우는 방향으로 이어진다는 뜻입니다.
-
-![학습 루프 batch별 평균 gradient](../../../assets/part-05/chapter-08/training-loop-batch-gradient-ko.png)
-
-마지막 산출물은 optimizer step 뒤의 `risk_weight`입니다. 이 그래프는 학습 루프가 출력값을 한 번 계산하고 끝나는 절차가 아니라, batch 평균 gradient를 통해 다음 batch의 forward 조건 자체를 바꾸는 반복 구조라는 점을 보여 줍니다.
-
-![학습 루프 risk_weight 갱신](../../../assets/part-05/chapter-08/training-loop-risk-weight-update-ko.png)
-
-여기서 바로 다음 장으로 넘어가기 전에, `공통 학습 절차`와 `뒤에서 달라질 구조`를 짧게 다시 나누어 두면 읽기 축이 덜 섞입니다.
-
-| 지금 절에서 고정할 것 | 뒤 구조 장에서 달라질 것 | 왜 지금 나눠 두는가 |
-| --- | --- | --- |
-| `forward -> loss -> backward -> optimizer step`이라는 공통 루프 | CNN의 지역 패턴 읽기, RNN의 순차 상태, attention의 선택적 참조, Transformer의 병렬 블록 | 뒤 장에서 새 이름이 나와도 `학습 절차가 바뀌는가`와 `내부 계산 구조가 바뀌는가`를 분리해 읽기 위해 |
-| training/evaluation mode와 regularization이 업데이트에 어떤 영향을 주는가 | 각 구조가 어떤 데이터 문제를 더 자연스럽게 다루는가 | 과적합이나 평가 오류를 구조 탓으로만 오해하지 않기 위해 |
-
-## 언제 학습 루프를 다시 한 번에 묶어 읽는가
-
-이 절을 꺼내야 하는 시점은 손실, 역전파, optimizer, mode, regularization을 각각 따로는 이해했지만 하나의 반복 구조로는 아직 잘 안 보일 때입니다.
-
-| 먼저 보이는 문제 장면 | 학습 루프 요약이 먼저 유용한 이유 | 바로 다음에 이어질 곳 |
-| --- | --- | --- |
-| 개념은 알겠는데 순서가 자꾸 섞인다 | forward, loss, backward, update의 공통 골격을 다시 고정할 수 있습니다. | GPU, 배치, 병렬 처리 같은 실행 효율 논의로 넘어갑니다. |
-| 구조 장으로 넘어가기 전에 공통 학습 뼈대를 다시 확인하고 싶다 | CNN, RNN, Transformer도 결국 같은 루프 안에서 학습된다는 점을 정리할 수 있습니다. | P5-9 이후 계산 자원과 구조 장으로 이어집니다. |
-| mode나 regularization이 부가 설정처럼 느껴진다 | 이 요소들이 루프 안에서 어떻게 작동하는지 다시 묶어 읽게 합니다. | 일반화와 실행 효율 문제를 더 잘 분리해 볼 수 있습니다. |
-| 문제 원인을 구조 탓으로만 돌리기 시작한다 | 학습 절차 문제와 내부 구조 문제를 분리하는 기준선을 다시 세울 수 있습니다. | 뒤 장의 구조 비교와 디버깅 읽기로 이어집니다. |
+이 표는 개념 배치를 정리하기 위한 것입니다. 실제로 큰 초기화 스케일이 깊은 층을 지나며 값을 어떻게 키우는지, 그리고 batch normalization을 끼우면 무엇이 달라지는지는 [P5-8.4](section-04.md)에서 코드와 분할 그래프로 따로 확인합니다.
 
 ## 체크리스트
 
-- `forward -> loss -> backward -> optimizer step` 학습 루프를 한 번에 설명할 수 있는가?
-- 정규화와 모드 제어가 이 루프 안에서 어디에 놓이는지 말할 수 있는가?
-- 딥러닝 학습 루프는 forward, loss, backward, optimizer step의 반복이라는 점을 설명할 수 있는가?
-- 손실, 역전파, optimizer, mode, regularization을 하나의 학습 루프로 다시 설명할 수 있는가?
-- training/evaluation mode는 이 루프와 분리된 장식이 아니라는 점을 말할 수 있는가?
-- regularization은 루프 전체의 일반화 성격을 바꾸는 장치라는 점을 설명할 수 있는가?
-- 개념은 알겠는데 순서가 자꾸 섞일 때, forward -> loss -> backward -> update의 공통 학습 루프를 먼저 떠올릴 수 있는가?
-- 뒤 장의 CNN, RNN, Transformer를 볼 때 `공통 학습 절차`와 `달라지는 내부 구조`를 분리해 읽어야 한다는 점을 말할 수 있는가?
-- 이 절 다음에는 계산 자원과 병렬 처리 같은 실행 효율 논의로 넘어간다는 흐름을 알고 있는가?
+- 깊은 네트워크는 구조를 쌓는 문제이면서 동시에 계산을 버티게 하는 문제라는 점을 설명할 수 있는가?
+- 초기화(initialization)를 `출발 가중치 배치`라는 관점으로 설명할 수 있는가?
+- 수치 안정성(numerical stability)을 `깊은 반복 계산이 숫자 범위를 어떻게 흔드는가`라는 관점으로 설명할 수 있는가?
+- batch normalization이 왜 학습 안정화와 mode 차이 설명에 함께 등장하는지 말할 수 있는가?
+- batch normalization은 활성값 분포를 더 다루기 쉬운 범위로 정리하는 학습 안정화 장치라는 점을 설명할 수 있는가?
+- optimizer, regularization, batch normalization이 서로 다른 질문에 답한다는 점을 구분할 수 있는가?
 
 ## 출처와 참고 자료
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-06-29.
+- Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola, `Dive into Deep Learning`, `5.4 Numerical Stability and Initialization`, `8.5 Batch Normalization`, `12 Optimization Algorithms`, 확인 날짜: 2026-07-11. [https://d2l.ai/](https://d2l.ai/){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, Part II `Modern Practical Deep Networks`, 확인 날짜: 2026-07-11. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Stanford `CS231n: Deep Learning for Computer Vision`, Schedule and course notes on `Regularization and Optimization`, `Neural Networks and Backpropagation`, `CNN Architectures`, 확인 날짜: 2026-07-11. [https://cs231n.stanford.edu/](https://cs231n.stanford.edu/){: target="_blank" rel="noopener noreferrer" }

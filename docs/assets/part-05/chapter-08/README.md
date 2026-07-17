@@ -11,18 +11,21 @@
   - `dropout-path-flow-en.mmd` / `dropout-path-flow-ko.mmd`
   - `regularization-case-reading-flow-en.mmd` / `regularization-case-reading-flow-ko.mmd`
   - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-ko.mmd`
-  - `training-loop-regularization-flow-en.mmd` / `training-loop-regularization-flow-ko.mmd`
   - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`
+  - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-ko.mmd`
 - SVG chart assets:
   - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`
 - PNG chart assets:
   - `dropout-activation-values-en.png` / `dropout-activation-values-ko.png`
   - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-ko.png`
-  - `training-loop-predictions-en.png` / `training-loop-predictions-ko.png`
-  - `training-loop-batch-loss-en.png` / `training-loop-batch-loss-ko.png`
-  - `training-loop-batch-gradient-en.png` / `training-loop-batch-gradient-ko.png`
-  - `training-loop-risk-weight-update-en.png` / `training-loop-risk-weight-update-ko.png`
+  - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-ko.png`
+  - `deep-scale-raw-variance-en.png` / `deep-scale-raw-variance-ko.png`
+  - `deep-scale-bn-range-en.png` / `deep-scale-bn-range-ko.png`
+  - `stabilization-neuron-paths-en.png` / `stabilization-neuron-paths-ko.png`
+  - `stabilization-layer-range-en.png` / `stabilization-layer-range-ko.png`
+  - `stabilization-batch-spread-en.png` / `stabilization-batch-spread-ko.png`
 - Python chart source:
   - `p5_8_overfit_chart.py`
   - `p5_8_2_dropout_charts.py`
-  - `p5_8_3_training_loop_charts.py`
+  - `p5_8_3_stabilization_case_charts.py`
+  - `p5_8_4_deep_scale_charts.py`

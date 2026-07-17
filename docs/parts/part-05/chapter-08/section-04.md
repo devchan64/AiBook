@@ -1,9 +1,9 @@
-# P5-6.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가
+# P5-8.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가
 
-Section ID: `P5-6.4`
-Version: `v2026.07.15`
+Section ID: `P5-8.4`
+Version: `v2026.07.16`
 
-P5-6.3에서는 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 `깊은 네트워크를 덜 흔들리게 하는 조건`으로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
+P5-8.3에서는 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 `깊은 네트워크를 덜 흔들리게 하는 조건`으로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
 
 핵심 질문은 단순합니다.
 
@@ -17,7 +17,7 @@ P5-6.3에서는 초기화(initialization), 수치 안정성(numerical stability)
 - batch normalization을 각 층 뒤에 적용하면 같은 계산 흐름이 어떻게 달라지는가?
 - 이 예제가 실제 신경망 전체를 대신하지는 않지만, 수치 안정성 직관을 어떻게 붙잡아 주는가?
 
-이 절에서는 optimizer update, loss 감소, 실제 데이터셋 학습 성능을 다루지 않습니다. 그 주제는 P5-7.1, P5-7.2, P5-8.3의 학습 루프 설명으로 넘깁니다.
+이 절에서는 optimizer update, loss 감소, 실제 데이터셋 학습 성능을 다루지 않습니다. 그 주제는 P5-6.1의 학습 루프 설명과 P5-7.1, P5-7.2의 optimizer 설명으로 넘깁니다.
 
 ## 예제의 읽기 기준
 
@@ -128,15 +128,15 @@ layer 3: raw_range=(364.500, 1458.000), raw_variance=206671.500, after_bn_range=
 
 첫 그래프는 층별 raw activation 범위를 보여 줍니다. `large_init`와 `very_large_init`는 층이 깊어질수록 같은 샘플 사이의 값 범위가 크게 벌어집니다.
 
-![초기화 스케일별 층별 raw activation 범위](../../../assets/part-05/chapter-06/deep-scale-raw-range-ko.png)
+![초기화 스케일별 층별 raw activation 범위](../../../assets/part-05/chapter-08/deep-scale-raw-range-ko.png)
 
 둘째 그래프는 같은 현상을 분산(variance)으로 압축합니다. 분산은 값의 퍼짐을 하나의 숫자로 보여 주기 때문에, 깊은 층에서 큰 스케일이 얼마나 빠르게 불안정한 범위를 만들 수 있는지 읽기 쉽습니다.
 
-![초기화 스케일별 층별 raw variance](../../../assets/part-05/chapter-06/deep-scale-raw-variance-ko.png)
+![초기화 스케일별 층별 raw variance](../../../assets/part-05/chapter-08/deep-scale-raw-variance-ko.png)
 
 셋째 그래프는 각 층 뒤에 batch normalization을 적용한 뒤의 출력 범위입니다. raw activation은 케이스마다 크게 달라지지만, normalization 뒤의 범위는 `다음 층이 다루기 쉬운 비슷한 규모`로 다시 정리됩니다. 여기서 중요한 점은 `항상 똑같은 숫자로 고정된다`가 아니라, `입력 분포가 크게 달라도 중심과 퍼짐이 다시 비교 가능한 범위로 맞춰진다`는 쪽입니다. 이 장난감 예제에서 케이스별 범위가 거의 같게 보이는 이유는 세 샘플의 상대적 모양은 유지한 채 스케일만 바꾸고 있기 때문입니다.
 
-![batch normalization 뒤 층별 activation 범위](../../../assets/part-05/chapter-06/deep-scale-bn-range-ko.png)
+![batch normalization 뒤 층별 activation 범위](../../../assets/part-05/chapter-08/deep-scale-bn-range-ko.png)
 
 ## 읽어야 할 결론
 

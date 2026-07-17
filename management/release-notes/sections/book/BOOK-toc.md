@@ -91,3 +91,12 @@
 - 번역 반영 상태: 향후 반영 필요
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.16`
+
+### v2026.07.16-4
+
+- 변경 이유: Part 5 개편을 파일 경로와 Section ID까지 반영하면서 P5-6/P5-8의 공개 목차 순서를 다시 맞춰야 했다.
+- 본문 반영: 한국어 독자용 목차에서 Chapter P5-6을 `학습 루프와 모델 실행`으로 바꾸고, `P5-6.1 학습 루프`, `P5-6.2 learning/inference`, `P5-6.3 training/evaluation mode` 순서로 정리했다. 기존 안정화 보충학습은 `P5-8.3`, 큰 초기화 스케일 실험은 `P5-8.4`로 Chapter P5-8 아래에 배치했다.
+- 번역 동기화 메모: Korean reader-facing TOC now reflects the path-level P5-6/P5-8 restructuring. Future English and Simplified Chinese TOCs should follow the new Section IDs.
+- 번역 반영 상태: 향후 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.16`

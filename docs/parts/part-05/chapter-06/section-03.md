@@ -1,246 +1,388 @@
-# P5-6.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법
+# P5-6.3 학습 모드(training mode)와 평가 모드(evaluation mode)
 
 Section ID: `P5-6.3`
 Version: `v2026.07.16`
 
-P5-6.2에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 특별히 모드 차이에 민감한지 보았습니다. 여기서 초심자에게 자주 남는 질문이 하나 더 있습니다.
+P5-6.2에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 
-층을 더 깊게 쌓았다고 해서 왜 바로 잘 학습되지 않는가?
+같은 모델이라도 학습 중일 때와 평가할 때 계산 방식이 완전히 같아야 하는가?
 
-이 질문에 답하려면 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 따로따로 외우기보다, `깊은 네트워크가 실제로 덜 흔들리게 된 이유`라는 하나의 축으로 함께 읽는 편이 좋습니다.
+답은 항상 그렇지는 않다는 것입니다. 일부 층(layer)은 학습 중과 평가 중에 다르게 동작합니다. 이 차이를 분명히 이해해야 dropout, batch normalization, 검증(validation), 테스트(test), 배포(inference serving)를 헷갈리지 않게 됩니다.
 
-초기화는 학습이 시작될 출발점을 정하고, 수치 안정성은 값과 gradient가 계산 중에 너무 커지거나 작아지지 않게 보는 기준이며, batch normalization은 학습 중 활성값 분포를 더 다루기 쉬운 범위로 정리해 주는 장치다.
+학습 모드(training mode)는 파라미터 업데이트를 준비하는 계산 환경이고, 평가 모드(evaluation mode)는 현재 모델을 안정적으로 측정하거나 사용하는 계산 환경이다.
 
-이 축이 다시 흐려질 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode), [배치 정규화(batch normalization)](../../../reference/concept-glossary.md#batch-normalization), [초기화(initialization)](../../../reference/concept-glossary.md#initialization), [수치 안정성(numerical stability)](../../../reference/concept-glossary.md#numerical-stability) 항목을 함께 다시 보는 편이 좋습니다.
+mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode)와 [평가 모드(evaluation mode)](../../../reference/concept-glossary.md#evaluation-mode) 항목으로 돌아갑니다.
 
 ## 이 절의 범위
 
-- 왜 깊은 네트워크는 층만 늘린다고 바로 잘 학습되지 않는가?
-- 초기화(initialization)는 무엇을 정하는가?
-- 수치 안정성(numerical stability)은 무엇을 걱정하는 개념인가?
-- batch normalization은 왜 학습 안정화 도구로 자주 함께 언급되는가?
-- 이 세 개념은 optimizer, regularization과 어떻게 다른 질문에 답하는가?
+- 학습 모드와 평가 모드는 왜 나뉘는가?
+- 모든 층이 아니라 어떤 층들이 모드 차이에 민감한가?
+- dropout과 batch normalization은 왜 모드에 따라 다르게 동작하는가?
+- 검증(validation)과 테스트(test)에서 왜 평가 모드가 중요한가?
 
 이 절에서는 다음 내용을 깊게 다루지 않습니다.
 
-- Xavier 초기화와 He 초기화의 엄밀한 수식 유도
-- softmax/log-sum-exp의 상세 수치 안정화 구현
-- batch normalization의 역전파 수식
-- layer normalization, group normalization의 상세 비교
+- batch normalization 수식 유도
+- dropout 확률 설계의 세부 튜닝
+- 분산 학습(distributed training)에서의 모드 관리
 
-ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결하고, batch normalization이 학습/평가 모드 차이에 왜 민감한지는 P5-6.2에서 이미 본 기준 위에서 다시 읽습니다. regularization과 normalization을 구분하는 넓은 관점은 P5-8.1에서 이어지고, optimizer update 자체는 P5-7.1, P5-7.2에서 다시 붙입니다. normalization 계열의 세부 분화 비교는 이 책의 현재 본편 범위 밖에 둡니다.
+dropout과 regularization 자체의 큰 의미는 P5-8.1, P5-8.2에서 다시 자세히 다루고, optimizer가 이 학습 흐름 안에서 어디에 들어오는지는 P5-7.1, P5-7.2에서 다시 연결합니다. 분산 학습(distributed training)에서의 모드 관리 세부는 이 책의 현재 본편 범위 밖에 둡니다.
 
 ## 이 절의 목표
 
-- 초기화를 `학습 시작점의 값 배치`로 설명할 수 있습니다.
-- 수치 안정성을 `값과 gradient가 계산 중에 감당 가능한 범위를 유지하는 문제`로 설명할 수 있습니다.
-- batch normalization을 `활성값 분포를 정리해 학습을 덜 흔들리게 하는 장치`로 설명할 수 있습니다.
-- optimizer, regularization, batch normalization이 서로 다른 질문에 답한다는 점을 구분할 수 있습니다.
-- 실행 가능한 Python 예제로 출력 스케일과 batch normalization의 직관을 확인할 수 있습니다.
+- 학습 모드와 평가 모드를 `계산 규칙이 달라지는 두 상태`로 설명할 수 있습니다.
+- dropout과 batch normalization이 왜 모드 차이에 민감한지 말할 수 있습니다.
+- 검증과 배포에서는 왜 평가 모드가 필요할 수 있는지 설명할 수 있습니다.
+- 실행 가능한 Python 예제로 모드 차이를 직관적으로 확인할 수 있습니다.
 
-## 왜 이 셋을 한 번에 묶어 읽어야 하나
+## 왜 같은 모델인데 모드가 필요한가
 
-깊은 네트워크를 처음 배우면 다음 오해가 자주 생깁니다.
+독자는 모델을 하나의 고정된 함수처럼 상상하기 쉽습니다. 입력이 같으면 언제나 같은 계산을 하고 같은 결과를 낼 것이라고 기대하는 것입니다.
 
-- 층을 더 쌓으면 자동으로 더 잘 배울 것이다
-- optimizer만 Adam으로 바꾸면 대부분 해결될 것이다
-- batch normalization은 그냥 라이브러리 옵션 하나일 뿐이다
+하지만 딥러닝에서는 일부 층이 학습을 더 잘 되게 하기 위해 `의도적으로 흔들리거나`, `배치(batch) 통계에 의존`하기도 합니다. 이런 층들은 학습 중에는 도움이 되지만, 평가나 서비스 실행에서는 오히려 불안정성을 만들 수 있습니다.
 
-하지만 실제로는 학습이 시작되는 출발점, 중간 계산에서 값이 어떻게 커지거나 줄어드는지, 각 층이 다음 층으로 어떤 범위의 값을 넘기는지가 함께 맞물립니다.
+즉, 모드 분리는 단순한 라이브러리 문법이 아니라 다음 목적을 가집니다.
 
-이 흐름을 아주 짧게 그리면 다음과 같습니다.
+- 학습 중에는 일반화(generalization)를 돕는 계산을 허용하고
+- 평가 중에는 결과를 안정적으로 비교하고 재현하게 만드는 것
+
+## 학습 모드(training mode)는 무엇을 뜻하나
+
+학습 모드는 보통 다음과 같이 읽으면 충분합니다.
+
+- 손실을 줄이기 위한 학습 절차 안에 있다
+- 순전파 후 손실 계산과 역전파가 이어질 수 있다
+- 일부 층은 학습을 돕기 위해 특별한 방식으로 동작한다
+
+즉, training mode는 단순히 `optimizer.step()`을 호출하는 시점만이 아니라, `모델이 학습용 계산 규칙을 쓰고 있는 상태`를 뜻합니다.
+
+## 평가 모드(evaluation mode)는 무엇을 뜻하나
+
+평가 모드는 보통 다음 상황에서 필요합니다.
+
+- 검증 데이터(validation set)로 성능을 측정할 때
+- 테스트 데이터(test set)로 최종 성능을 확인할 때
+- 배포된 서비스에서 실제 사용자 입력을 처리할 때
+
+이때는 모델이 `현재 상태를 얼마나 잘하는지`를 흔들림 적게 드러내는 것이 핵심입니다. 따라서 학습 중의 확률적 흔들림이나 배치 의존성을 줄이고, 보다 고정된 방식으로 계산해야 합니다.
+
+다음처럼 이해하면 충분합니다.
+
+`평가 모드는 지금 모델이 얼마나 잘하는지 재는 시간이고, 학습 모드는 더 잘하게 바꾸는 시간이다.`
+
+이 차이를 계산 규칙만 남겨 압축하면 다음과 같습니다.
 
 ```mermaid
---8<-- "assets/part-05/chapter-06/stabilization-bridge-flow-ko.mmd"
+--8<-- "assets/part-05/chapter-06/training-eval-mode-flow-ko.mmd"
 ```
 
-핵심은 `학습이 잘 안 된다`는 현상이 항상 한 가지 원인으로만 생기지 않는다는 점입니다.
+이 도식에서 먼저 확인할 결과는, 같은 모델 입력이라도 학습 모드는 `업데이트 준비를 위한 흔들림 허용` 쪽으로, 평가 모드는 `안정적인 측정과 서비스 출력` 쪽으로 계산 규칙이 갈라진다는 점입니다.
 
-- 시작값이 너무 비슷하거나 극단적일 수 있고
-- 층을 지나며 값이 너무 커지거나 거의 사라질 수 있고
-- 활성값 분포가 다음 계산을 계속 흔들 수 있습니다
+## 어떤 층이 모드 차이에 민감한가
 
-그래서 이 절에서는 이 셋을 `깊은 학습이 실제로 가능해지는 조건`으로 묶어 봅니다.
+모든 층이 모드 차이에 민감한 것은 아닙니다. 예를 들어 일반적인 선형층(linear layer)이나 합성곱층(convolution layer)은 같은 입력과 같은 파라미터라면 큰 틀에서 같은 계산을 합니다.
 
-## 초기화(initialization)는 무엇을 정하나
+하지만 다음 층들은 학습 중 동작과 평가 중 동작을 먼저 구분해서 읽어야 합니다.
 
-초기화는 학습을 시작하기 전 파라미터(parameter)에 어떤 숫자를 배치할지 정하는 일입니다.
-
-겉으로 보면 단순히 출발점만 정하는 것처럼 보이지만, 실제로는 다음 두 질문과 직접 연결됩니다.
-
-1. 서로 다른 뉴런이 서로 다른 역할을 배우기 시작할 수 있는가?
-2. 첫 몇 번의 forward와 backward에서 값이 지나치게 커지거나 작아지지 않는가?
-
-예를 들어 모든 가중치를 완전히 같은 값, 특히 0으로 시작하면 여러 뉴런이 같은 입력에 같은 반응을 보이고 같은 gradient를 받을 수 있습니다. 그러면 층을 여러 개 둬도 서로 다른 특징을 나눠 배우기 어렵습니다.
-
-즉, 초기화의 첫 책임은 `아무렇게나 시작하지 않는 것`보다 `모든 뉴런이 똑같이 시작하지 않게 하는 것`에 가깝습니다.
-
-## 왜 출발점이 같으면 안 되나
-
-퍼셉트론 하나만 있을 때는 시작값이 약간 엉성해도 큰 문제가 없어 보일 수 있습니다. 하지만 다층 구조에서는 같은 층 안 여러 뉴런이 서로 다른 조합을 배워야 합니다.
-
-만약 출발점이 완전히 같다면:
-
-- 같은 입력을 보고
-- 같은 출력을 만들고
-- 같은 gradient를 받고
-- 같은 방향으로 업데이트됩니다
-
-그 결과 여러 뉴런을 둔 이점이 줄어듭니다.
-
-이 점을 초심자 기준으로 한 줄로 묶으면 다음과 같습니다.
-
-`초기화는 단지 첫 숫자를 찍는 일이 아니라, 여러 뉴런이 서로 다른 역할로 갈라질 가능성을 열어 두는 일이다.`
-
-## 수치 안정성(numerical stability)은 무엇을 걱정하나
-
-수치 안정성은 계산 과정에서 값이나 gradient가 너무 커지거나 너무 작아져 학습이 흔들리지 않는지 보는 기준입니다.
-
-여기서는 다음 두 장면만 먼저 떠올리면 충분합니다.
-
-- 층을 지날수록 값이 계속 커져 폭발하는 경우
-- 층을 지날수록 값이나 gradient가 너무 작아져 사실상 사라지는 경우
-
-딥러닝은 같은 종류의 계산을 층마다 반복합니다. 그래서 한 번의 작은 불안정이 깊은 층을 지나며 더 커질 수 있습니다.
-
-| 문제 장면 | 초심자용 직관 | 학습에서 생기는 결과 |
+| 층 또는 기법 | 학습 모드에서의 특징 | 평가 모드에서의 특징 |
 | --- | --- | --- |
-| 값이 너무 커짐 | 다음 층이 지나치게 큰 숫자를 계속 받는다 | 출력과 gradient가 흔들리기 쉽습니다 |
-| 값이 너무 작아짐 | 다음 층이 거의 비슷한 작은 값만 본다 | gradient가 약해져 학습이 더뎌질 수 있습니다 |
+| dropout | 일부 활성값을 무작위로 끔 | 무작위 제거 없이 안정적으로 사용 |
+| batch normalization | 현재 배치 통계를 사용 | 학습 중 누적한 통계를 사용 |
 
-이 절에서는 수학 증명을 하지 않지만, 중요한 직관은 분명합니다.
+즉, 모드 차이는 `학습을 돕기 위해 일부러 다르게 동작하는 층` 때문에 필요합니다.
 
-`깊은 학습은 층을 많이 쌓는 문제이기도 하지만, 그 많은 계산을 숫자 범위 안에서 버티게 하는 문제이기도 하다.`
+## dropout은 왜 학습 중과 평가 중이 다른가
 
-## ReLU, 초기화, 수치 안정성은 왜 같이 언급되나
+dropout은 학습 중 일부 노드 출력을 무작위로 끊어, 특정 경로에 과하게 의존하지 않도록 돕는 기법입니다.
 
-P5-3.4에서 본 것처럼 ReLU 계열은 깊은 네트워크에서 널리 쓰입니다. 하지만 활성화 함수 하나만 바뀌었다고 모든 문제가 자동으로 해결되는 것은 아닙니다.
+다음처럼 이해하면 충분합니다.
 
-실제로는 다음 요소들이 함께 맞물립니다.
+`학습 중에는 일부 연결을 일부러 쉬게 만들어, 모델이 한두 신호에만 의존하지 않게 한다.`
 
-- ReLU처럼 양수 구간을 더 직접 통과시키는 함수
-- 너무 작거나 큰 값으로 시작하지 않게 하는 초기화
-- optimizer와 학습률 설정
-- batch normalization 같은 분포 안정화 장치
+하지만 평가 중에도 매번 무작위로 노드를 끊어 버리면 결과가 들쭉날쭉해집니다. 그러면 현재 모델이 실제로 얼마나 잘하는지 안정적으로 재기 어렵습니다.
 
-즉, `깊은 학습이 실용화되었다`는 말은 보통 한 발명만 뜻하지 않고, 여러 안정화 장치가 함께 맞물렸다는 뜻에 더 가깝습니다.
+따라서 평가 모드에서는 dropout의 무작위 제거를 멈추고, 학습된 네트워크를 고정된 형태로 사용합니다.
 
-## batch normalization은 왜 중요한가
+## batch normalization은 왜 모드 차이가 필요한가
 
-batch normalization은 한 배치(batch) 안의 평균(mean)과 분산(variance)을 참고해 활성값 분포를 다시 정리하는 방식입니다.
+batch normalization은 각 배치의 평균(mean)과 분산(variance)을 이용해 활성값 분포를 조정하는 층입니다. 학습 중에는 현재 배치 통계를 쓰는 것이 자연스럽지만, 평가 중에는 상황이 달라집니다.
 
-초심자 기준에서는 다음처럼 이해하면 충분합니다.
+평가 데이터는:
 
-- 앞 층 출력이 너무 들쭉날쭉하면
-- 다음 층이 계속 흔들리는 분포를 받아 학습해야 하고
-- 그러면 학습 속도와 안정성이 함께 영향을 받을 수 있습니다
+- 배치 크기가 작을 수 있고
+- 한 개 샘플만 들어올 수도 있고
+- 측정할 때마다 배치 구성이 달라질 수 있습니다
 
-batch normalization은 이때 `현재 배치 기준으로 값을 한 번 더 다루기 쉬운 범위로 정리하고 넘기는 장치`처럼 읽을 수 있습니다.
+이 경우 매번 현재 배치 통계만 쓰면 결과가 불안정해질 수 있습니다. 그래서 평가 모드에서는 보통 학습 중 누적한 running statistics를 사용합니다.
 
-P5-6.2에서 본 mode 차이도 여기서 다시 연결됩니다.
+다음처럼 기억하면 충분합니다.
 
-- 학습 중에는 현재 배치 통계를 참고하고
-- 평가 중에는 학습 동안 쌓인 기준을 더 많이 참고합니다
+`batch normalization은 학습 중에는 현재 배치를 참고하고, 평가 중에는 학습 동안 쌓아 둔 평균적 기준을 더 많이 참고한다.`
 
-즉, batch normalization은 단순히 `정규화 이름 하나`가 아니라, 학습 안정화와 mode 전환을 함께 읽게 만드는 대표 사례입니다.
+## 검증(validation)과 테스트(test)는 왜 평가 모드여야 하나
 
-## regularization과는 무엇이 다른가
+검증 데이터와 테스트 데이터는 `현재 모델이 얼마나 잘 일반화되는지`를 보기 위한 데이터입니다. 여기서 학습 모드가 켜져 있으면 dropout이 무작위로 흔들리고, batch normalization도 배치 구성에 민감하게 반응할 수 있습니다.
 
-초심자는 batch normalization, dropout, weight decay를 모두 `학습을 돕는 옵션`처럼 한 덩어리로 볼 수 있습니다. 하지만 질문이 다릅니다.
+그 결과:
 
-| 항목 | 먼저 답하는 질문 |
-| --- | --- |
-| initialization | 학습을 어떤 출발점에서 시작할 것인가? |
-| numerical stability | 반복 계산 중 값과 gradient가 감당 가능한 범위를 유지하는가? |
-| batch normalization | 활성값 분포를 더 다루기 쉬운 범위로 정리할 것인가? |
-| optimizer | gradient를 실제로 어떤 보폭과 규칙으로 업데이트할 것인가? |
-| regularization | 모델이 너무 복잡한 해법으로 가지 않게 어떤 제약을 둘 것인가? |
+- 같은 모델인데도 측정값이 덜 안정적이거나
+- 배치 구성에 따라 점수가 달라지거나
+- 서비스 배포 시 체감 성능과 비교가 어려워질 수 있습니다
 
-이 표를 먼저 고정해 두면, 뒤에서 새로운 기법 이름을 만나도 `출발점`, `계산 안정성`, `업데이트`, `일반화` 중 어디에 가까운지 분리해 읽기 쉬워집니다.
-
-## 사례 및 예시
-
-앞에서 말한 `깊은 네트워크가 실제로 덜 흔들리게 된 이유`를 사례로 읽으려면, 세 용어를 따로따로 외우는 대신 `하나의 깊은 계산 장면이 어디에서 흔들리고, 무엇이 그 흔들림을 줄이는가`를 함께 보는 편이 좋습니다. 아래 두 사례는 같은 깊은 네트워크를 두고 `불안정하게 시작한 장면`과 `덜 흔들리게 정리한 장면`을 나눠 보여 줍니다.
-
-### 사례 1. 깊은 네트워크가 처음부터 흔들리는 장면
-
-입력이 `x = 2`인 작은 깊은 네트워크를 떠올려 보겠습니다. 첫 층에 뉴런 두 개가 있는데 가중치를 모두 `0`으로 시작했다고 해 보겠습니다. 그러면 두 뉴런은 처음에 같은 출력을 만들고, 역전파에서도 같은 gradient를 받아 `0 -> 0.3 -> 0.6`처럼 함께 움직이기 쉽습니다. 이 첫 장면에서는 이미 `초기화가 출발점을 잘못 잡으면 여러 뉴런이 서로 다른 역할로 갈라지지 못한다`는 문제가 생깁니다.
-
-여기에 더해 뒤 층의 시작 가중치 스케일까지 크다고 해 보겠습니다. 앞 층에서 비슷하게 나온 값이 다음 층으로 넘어가고, 큰 가중치가 반복되면 값 범위는 `0.6 -> 1.8 -> 5.4`처럼 더 빠르게 커질 수 있습니다. 이때 흔들리는 것은 단지 출력 숫자만이 아닙니다. 활성화 함수 반응이 치우치고 gradient 경로도 함께 불안정해질 수 있습니다. 여기서 수치 안정성은 `깊은 계산이 이 숫자 범위를 버틸 수 있는가`를 묻는 기준으로 등장합니다.
-
-마지막으로 어떤 배치에서는 중간 활성값이 `0.5, 0.8, 1.0` 근처에 모이고, 다른 배치에서는 `15, 20, 24`처럼 훨씬 큰 범위로 넘어온다고 해 보겠습니다. 그러면 다음 층은 매번 다른 규모의 입력을 받게 되고 학습은 더 흔들리기 쉽습니다. 이 지점에서 batch normalization은 `이미 층 사이에 생긴 활성값 분포를 다음 층이 다루기 쉬운 범위로 다시 정리하는 장치`로 필요해집니다.
-
-즉, 이 사례는 세 문제를 따로 보여 주는 것이 아닙니다. `같은 출발점에 묶인 뉴런`, `깊이를 지나며 커지는 값 범위`, `배치마다 흔들리는 중간 분포`가 한 장면 안에서 이어지며, 그래서 깊은 네트워크는 `출발점`, `반복 계산 범위`, `층 사이 분포`를 함께 붙잡아야 덜 흔들린다는 점을 보여 줍니다.
-
-### 사례 2. 깊은 네트워크를 덜 흔들리게 만드는 장면
-
-이제 같은 구조를 다시 보되 시작 조건을 바꿔 보겠습니다. 첫 층 뉴런 둘의 가중치를 모두 같게 두지 않고, 하나는 조금 작게 다른 하나는 조금 다르게 시작한다고 해 보겠습니다. 그러면 두 뉴런은 처음부터 완전히 같은 반응을 반복하지 않고, 서로 다른 입력 조합에 조금씩 다른 경로로 반응할 가능성을 얻습니다. 여기서 초기화의 역할은 `좋은 숫자 찾기`보다 먼저 `같은 통로 복제를 피하게 하는 출발점 마련`입니다.
-
-다음으로 각 층 가중치 스케일을 지나치게 크게 두지 않으면, 값 범위가 `0.6 -> 0.9 -> 1.1`처럼 더 완만하게 움직을 수 있습니다. 물론 실제 모델은 이보다 복잡하지만, 초심자 기준에서는 이 장면만으로도 충분합니다. 깊은 네트워크가 덜 흔들리려면 층이 많아도 계산이 한 번에 폭발하거나 사라지지 않게 버텨야 합니다. 여기서 수치 안정성은 `어떤 출발 스케일과 계산 흐름이 깊은 반복을 버티게 하는가`를 읽는 기준이 됩니다.
-
-마지막으로 층 사이에 넘어온 활성값 분포가 배치마다 달라져도 batch normalization을 끼우면, 다음 층은 `완전히 제각각인 규모` 대신 `비교 가능한 범위로 다시 정리된 입력`을 받게 됩니다. 그래서 batch normalization의 첫 역할은 이름을 외우는 것이 아니라, 이미 흔들리기 시작한 중간 분포를 다음 층이 계속 버틸 수 있게 정리하는 데 있습니다.
-
-즉, 이 사례에서 확인해야 할 결과는 분명합니다. 깊은 네트워크가 덜 흔들리게 된 이유는 기법 이름이 많아져서가 아니라, 초기화가 출발점을 갈라 주고, 수치 안정성이 반복 계산 범위를 버티게 하고, batch normalization이 층 사이 분포를 다시 정리해 주기 때문입니다.
-
-![흔들림 장면과 안정화 장면의 뉴런 경로 비교](/AiBook/assets/part-05/chapter-06/stabilization-neuron-paths-ko.png)
-
-이 그래프는 흔들림 장면의 뉴런 둘이 거의 겹쳐 움직이고, 안정화 장면의 뉴런 둘은 완전히 같은 경로를 반복하지 않는다는 점을 함께 보여 줍니다.
-
-![흔들림 장면과 안정화 장면의 층별 활성값 범위 비교](/AiBook/assets/part-05/chapter-06/stabilization-layer-range-ko.png)
-
-이 그래프는 깊은 층으로 갈수록 흔들림 장면의 범위가 더 빠르게 커지고, 안정화 장면의 범위는 더 완만하게 움직인다는 점을 보여 줍니다.
-
-![흔들림 장면과 안정화 장면의 배치별 중간 활성값 범위 비교](/AiBook/assets/part-05/chapter-06/stabilization-batch-spread-ko.png)
-
-이 그래프는 흔들림 장면에서는 배치별 중간 분포 차이가 크고, 안정화 장면에서는 다음 층이 비교 가능한 규모를 더 쉽게 받는다는 점을 보여 줍니다.
-
-두 사례를 한 흐름으로 다시 접으면, 이 절에서 묶어 읽으려는 안정화 축은 다음처럼 정리됩니다.
-
-| 단계 | 먼저 흔들리는 것 | 먼저 붙잡아야 할 장치 |
-| --- | --- | --- |
-| 학습 시작 전 | 뉴런들이 같은 출발점에 묶이는가 | initialization |
-| 층을 반복하며 계산할 때 | 값과 gradient 범위가 커지거나 작아지는가 | numerical stability 관점 |
-| 층과 층 사이를 넘길 때 | 중간 활성값 분포가 다음 층을 계속 흔드는가 | batch normalization |
-
-즉, 두 사례는 `문제 사례 하나`와 `해결 사례 하나`처럼 보이더라도, 실제로는 `출발점`, `반복 계산 범위`, `층 사이 분포`를 각각 붙잡아 깊은 학습을 덜 흔들리게 만드는 하나의 안정화 축으로 읽어야 합니다.
-
-| 장면 | 사람이 먼저 놓치기 쉬운 판단 | 이 절에서 다시 남겨야 할 판단 |
-| --- | --- | --- |
-| 흔들리는 시작 장면 | 층이나 뉴런 수만 늘리면 표현력이 저절로 살아난다고 보기 쉽다 | 같은 초기화, 큰 스케일, 흔들리는 분포가 겹치면 깊은 계산 전체가 함께 불안정해질 수 있다 |
-| 덜 흔들리게 만든 장면 | 기법 하나만 추가하면 깊은 학습이 자동으로 안정된다고 보기 쉽다 | 초기화, 수치 안정성, batch normalization은 각각 다른 위치의 흔들림을 나눠 맡는다 |
-
-| 사람이 먼저 보기 쉬운 기준 | 초기화·수치 안정성·batch normalization 관점으로 다시 읽는 기준 |
-| --- | --- |
-| 층만 더 쌓으면 표현력이 늘어 자동으로 더 잘 배울 것 같다고 느끼기 쉽다 | 층을 깊게 쌓을수록 출발점, 값 범위, 활성 분포가 함께 흔들릴 수 있어 안정화 조건을 같이 봐야 한다 |
-| optimizer만 Adam으로 바꾸면 대부분 해결될 것 같다고 느끼기 쉽다 | optimizer는 업데이트 규칙이고, 초기화·수치 안정성·batch normalization은 그 이전에 계산이 버틸 조건을 다룬다 |
-| batch normalization은 라이브러리 옵션 하나라고 생각하기 쉽다 | batch normalization은 학습 중 활성 분포를 정리하고 mode 차이까지 함께 읽게 만드는 안정화 장치다 |
-| 뉴런 수나 층 수만 늘리면 서로 다른 특징을 자동으로 배울 것 같다고 느끼기 쉽다 | 초기화가 같으면 여러 뉴런이 같은 경로로 움직일 수 있고, 큰 값은 반복 계산 중 불안정을 키울 수 있다 |
-
-이 사례들에서 최종적으로 확인해야 할 결과는 분명합니다. 깊은 네트워크 안정화의 핵심은 `기법 이름을 많이 외우는가`가 아니라, 초기화는 출발점을, 수치 안정성은 반복 계산 범위를, batch normalization은 중간 분포를 다루며 셋이 함께 학습을 덜 흔들리게 만든다는 점입니다.
+즉, 검증과 테스트는 `현재 모델을 공정하게 재는 시간`이므로 평가 모드가 중요합니다.
 
 ## 연습 및 예제
 
-다음 질문에 답할 수 있으면 이 절의 역할은 충분히 닫힙니다.
+mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결과 해석을 흔들 수 있는 순간에 먼저 확인합니다. 같은 입력 배치도 `training mode`와 `evaluation mode`에서 서로 다른 계산 규칙으로 갈라질 수 있으므로, 아래 예제는 그 차이를 단계별 산출물로 확인합니다. 앞의 버전처럼 숫자 목록을 바로 넣으면 결과가 손으로 만든 값처럼 보일 수 있으므로, 여기서는 작은 사용자 세션 배치에서 은닉층(hidden layer) 활성값을 먼저 계산한 뒤 그 값에 dropout과 batch normalization의 모드 차이를 적용합니다.
 
-| 질문 | 확인할 관점 |
-| --- | --- |
-| 초기화는 무엇을 정하는가? | 여러 뉴런이 서로 다른 출발점에서 역할을 나눌 가능성을 엽니다. |
-| 수치 안정성은 무엇을 걱정하는가? | 깊은 반복 계산에서 값과 gradient가 감당 가능한 범위에 남는지 봅니다. |
-| batch normalization은 어디에 개입하는가? | 중간 활성값 분포를 다음 층이 다루기 쉬운 기준으로 다시 정리합니다. |
+입력:
 
-이 표는 개념 배치를 정리하기 위한 것입니다. 실제로 큰 초기화 스케일이 깊은 층을 지나며 값을 어떻게 키우는지, 그리고 batch normalization을 끼우면 무엇이 달라지는지는 [P5-6.4](section-04.md)에서 코드와 분할 그래프로 따로 확인합니다.
+- 세션별 클릭 수와 머문 시간
+- 은닉층 하나의 단순 가중치와 bias
+- dropout 비율
+- 두 번의 학습 모드 실행을 재현하기 위한 난수 seed
+- evaluation mode에서 사용할 이전 학습 세션 배치들
+
+출력:
+
+- 입력 특성에서 계산된 은닉층 활성값
+- dropout 뒤 활성값
+- normalization에 사용할 기준 평균
+- 기준 평균을 뺀 단순화된 출력
+
+문제 상황:
+
+- 같은 입력이라도 학습 모드는 흔들림을 허용하고, 평가 모드는 안정된 기준으로 계산해야 한다
+
+확인할 개념:
+
+- 학습 모드에서는 일부 활성값이 무작위로 꺼진다
+- 학습 모드의 batch normalization은 현재 batch 기준을 쓸 수 있다
+- 평가 모드에서는 dropout을 멈추고 학습 중 쌓아 둔 running statistics를 기준으로 쓴다
+
+입력(input):
+
+위에 정리한 현재 세션 배치와 이전 학습 세션 배치들을 사용합니다. 여기서 은닉층 계산은 `clicks * 가중치 + seconds * 가중치 + bias` 뒤에 음수는 0으로 자르는 ReLU(rectified linear unit)만 적용합니다. batch normalization은 설명을 단순하게 하기 위해 `값 - 기준 평균`만 계산합니다. 실제 batch normalization은 분산, 학습 가능한 scale과 shift까지 함께 쓰지만, 이 예제에서는 `어떤 평균을 기준으로 삼는가`만 봅니다.
+
+코드를 보기 전에 먼저 어떤 단계가 데이터에서 계산되고, 어떤 단계가 모드 때문에 흔들리거나 고정될지 예상해 보면 차이가 더 잘 보입니다.
+
+| 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
+| --- | --- | --- |
+| `hidden_activation` | 세션마다 다른 은닉층 값이 나옴 | 클릭 수와 머문 시간이 샘플마다 다르기 때문입니다. |
+| `train_run_1`과 `train_run_2`의 dropout 뒤 값 | 같은 은닉층 값이어도 서로 다른 활성값 패턴이 나올 가능성이 큼 | 학습 모드에서는 실행마다 dropout mask가 달라질 수 있기 때문입니다. |
+| `train_run_1 batch_mean`과 `train_run_2 batch_mean` | 서로 차이가 날 가능성이 큼 | 살아남은 활성값이 달라지면 현재 batch 기준도 함께 달라지기 때문입니다. |
+| `eval_run` | 은닉층 활성값을 그대로 유지할 가능성이 큼 | 평가 모드에서는 dropout을 적용하지 않기 때문입니다. |
+| `eval reference_mean` | 이전 학습 세션 배치에서 계산된 고정 기준값으로 남음 | 평가 모드에서는 현재 batch보다 학습 중 쌓아 둔 running mean을 사용하기 때문입니다. |
+
+이 표의 목적은 정확한 숫자를 맞히는 데 있지 않습니다. 학습 모드에서는 같은 입력도 두 번 실행하면 dropout 결과와 batch 기준이 흔들릴 수 있고, 평가 모드에서는 그 흔들림을 멈춰 기준선을 만든다는 점을 코드 전에 붙잡는 데 있습니다.
+
+```python
+from random import Random
+
+sessions = [
+    {"id": "A", "clicks": 3, "seconds": 42},
+    {"id": "B", "clicks": 6, "seconds": 55},
+    {"id": "C", "clicks": 2, "seconds": 28},
+    {"id": "D", "clicks": 7, "seconds": 70},
+    {"id": "E", "clicks": 4, "seconds": 36},
+]
+weights = {"clicks": 0.18, "seconds": 0.015}
+bias = -0.35
+
+prior_session_batches = [
+    [
+        {"clicks": 3, "seconds": 42},
+        {"clicks": 6, "seconds": 57},
+        {"clicks": 2, "seconds": 27},
+        {"clicks": 7, "seconds": 67},
+        {"clicks": 4, "seconds": 40},
+    ],
+    [
+        {"clicks": 3, "seconds": 38},
+        {"clicks": 6, "seconds": 51},
+        {"clicks": 2, "seconds": 25},
+        {"clicks": 7, "seconds": 63},
+        {"clicks": 4, "seconds": 45},
+    ],
+    [
+        {"clicks": 3, "seconds": 46},
+        {"clicks": 6, "seconds": 54},
+        {"clicks": 2, "seconds": 29},
+        {"clicks": 7, "seconds": 69},
+        {"clicks": 4, "seconds": 37},
+    ],
+]
+drop_rate = 0.4
+
+def hidden_activation(row):
+    raw = row["clicks"] * weights["clicks"] + row["seconds"] * weights["seconds"] + bias
+    return round(max(0.0, raw), 3)
+
+def make_dropout_mask(count, seed):
+    rng = Random(seed)
+    return [1 if rng.random() >= drop_rate else 0 for _ in range(count)]
+
+def apply_dropout(values, mask, drop_rate):
+    scale = 1 / (1 - drop_rate)
+    result = []
+    for value, keep in zip(values, mask):
+        if keep == 0:
+            result.append(0.0)
+        else:
+            result.append(round(value * scale, 3))
+    return result
+
+def mean(values):
+    return round(sum(values) / len(values), 3)
+
+def flatten(rows):
+    return [value for row in rows for value in row]
+
+def hidden_batch(batch):
+    return [hidden_activation(row) for row in batch]
+
+def center_by_mean(values, reference_mean):
+    return [round(value - reference_mean, 3) for value in values]
+
+def run_training_mode(name, seed):
+    mask = make_dropout_mask(len(activations), seed)
+    after_dropout = apply_dropout(activations, mask, drop_rate)
+    batch_mean = mean(after_dropout)
+    centered_output = center_by_mean(after_dropout, batch_mean)
+    return {
+        "mode": name,
+        "mask": mask,
+        "after_dropout": after_dropout,
+        "reference_mean": batch_mean,
+        "centered_output": centered_output,
+    }
+
+def run_evaluation_mode():
+    after_dropout = activations[:]
+    centered_output = center_by_mean(after_dropout, running_mean)
+    return {
+        "mode": "eval_run",
+        "after_dropout": after_dropout,
+        "reference_mean": running_mean,
+        "centered_output": centered_output,
+    }
+
+activations = [hidden_activation(row) for row in sessions]
+prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
+running_mean = mean(flatten(prior_hidden_batches))
+
+train_run_1 = run_training_mode("train_run_1", seed=17)
+train_run_2 = run_training_mode("train_run_2", seed=29)
+eval_run = run_evaluation_mode()
+
+print("sessions =", sessions)
+print("hidden_activations =", activations)
+print("prior_hidden_batches =", prior_hidden_batches)
+print("running_mean_from_prior_batches =", running_mean)
+for result in [train_run_1, train_run_2, eval_run]:
+    print(result["mode"])
+    if "mask" in result:
+        print("dropout_mask =", result["mask"])
+    print("after_dropout =", result["after_dropout"])
+    print("reference_mean =", result["reference_mean"])
+    print("centered_output =", result["centered_output"])
+```
+
+출력에서는 먼저 `hidden_activations`가 입력 특성에서 계산된 값이라는 점을 확인하고, 그다음 `dropout_mask`, `after_dropout`, `reference_mean`, `centered_output`을 순서대로 비교하면 됩니다.
+
+```text
+sessions = [{'id': 'A', 'clicks': 3, 'seconds': 42}, {'id': 'B', 'clicks': 6, 'seconds': 55}, {'id': 'C', 'clicks': 2, 'seconds': 28}, {'id': 'D', 'clicks': 7, 'seconds': 70}, {'id': 'E', 'clicks': 4, 'seconds': 36}]
+hidden_activations = [0.82, 1.555, 0.43, 1.96, 0.91]
+prior_hidden_batches = [[0.82, 1.585, 0.415, 1.915, 0.97], [0.76, 1.495, 0.385, 1.855, 1.045], [0.88, 1.54, 0.445, 1.945, 0.925]]
+running_mean_from_prior_batches = 1.132
+train_run_1
+dropout_mask = [1, 1, 1, 0, 1]
+after_dropout = [1.367, 2.592, 0.717, 0.0, 1.517]
+reference_mean = 1.239
+centered_output = [0.128, 1.353, -0.522, -1.239, 0.278]
+train_run_2
+dropout_mask = [1, 0, 1, 0, 1]
+after_dropout = [1.367, 0.0, 0.717, 0.0, 1.517]
+reference_mean = 0.72
+centered_output = [0.647, -0.72, -0.003, -0.72, 0.797]
+eval_run
+after_dropout = [0.82, 1.555, 0.43, 1.96, 0.91]
+reference_mean = 1.132
+centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
+```
+
+이 예제는 실제 프레임워크 전체를 재현한 것은 아니지만, 여기서 읽어야 할 핵심은 분명합니다.
+
+- 은닉층 활성값은 입력 특성에서 계산된 중간 산출물입니다
+- 학습 모드에서는 같은 은닉층 활성값을 두 번 넣어도 dropout 뒤 활성값 구성이 달라질 수 있습니다
+- dropout 뒤 값이 달라지면 현재 batch에서 계산한 기준 평균도 달라질 수 있습니다
+- 평가 모드에서는 dropout을 멈추고 이전 학습 세션 배치에서 계산해 누적한 running mean 같은 고정 기준을 사용해 더 안정적인 계산 경로를 만듭니다
+- 검증, 테스트, 배포에서 평가 모드가 중요한 이유가 바로 이런 흔들림 제어에 있습니다
+
+먼저 예제 자체를 그래프로 읽어 봅니다. 첫 그래프는 `sessions`의 클릭 수와 머문 시간이 은닉층 활성값으로 바뀐 결과만 보여 줍니다. 이 단계는 아직 mode 차이가 아니라, 입력 데이터가 모델 안의 중간 표현으로 바뀐 지점입니다.
+
+![세션 입력에서 계산된 은닉층 활성값 그래프](../../../assets/part-05/chapter-06/hidden-activation-from-sessions-ko.png)
+
+다음 그래프는 같은 은닉층 활성값이 mode에 따라 마지막 출력 해석에서 어떻게 달라지는지 보여 줍니다. `train 1`과 `train 2`는 dropout mask가 달라진 두 학습 실행이고, `eval`은 dropout을 끄고 running mean을 기준으로 계산한 실행입니다. 0보다 크면 해당 기준 평균보다 큰 출력이고, 0보다 작으면 기준 평균보다 작은 출력입니다.
+
+![training mode 두 번과 evaluation mode의 기준 평균 제거 후 출력을 비교한 그래프](../../../assets/part-05/chapter-06/mode-centered-output-comparison-ko.png)
+
+위 두 그래프가 예제 코드의 직접 해설이라면, 아래 두 그래프는 같은 현상이 반복 실행에서 어떻게 보이는지 확인하는 요약입니다. `train_run_1`과 `train_run_2` 두 개의 샘플별 선만 그대로 그리면 사람이 고른 mask 두 개를 억지로 비교하는 그림처럼 보일 수 있으므로, 같은 계산 규칙을 조금 더 긴 미니배치에 적용한 뒤 30번 forward pass에서 dropout 뒤 살아남은 비율만 요약합니다. training mode에서는 pass마다 살아남는 비율이 흔들리고, evaluation mode에서는 dropout을 끄므로 생존 비율이 1.0 기준선으로 고정됩니다.
+
+![training mode에서는 dropout 생존 비율이 forward pass마다 흔들리고 evaluation mode는 1.0 기준선으로 고정되는 그래프](../../../assets/part-05/chapter-06/dropout-mode-output-trace-ko.png)
+
+normalization 기준도 같은 방식으로 읽습니다. training mode에서는 pass마다 dropout 뒤 값으로 계산한 현재 batch 평균이 기준이 되므로 기준 평균이 흔들립니다. evaluation mode에서는 현재 pass의 우연한 mask가 아니라 학습 중 쌓아 둔 running mean이 기준선으로 쓰입니다.
+
+![training mode의 batch mean은 forward pass마다 흔들리고 evaluation mode의 running mean은 기준선으로 유지되는 그래프](../../../assets/part-05/chapter-06/batchnorm-mode-reference-trace-ko.png)
+
+여기서도 `출력이 다르다`는 사실만 보는 것과 `mode 때문에 어떤 계산 규칙이 달라졌는가`를 읽는 것은 다릅니다.
+
+| 비교 장면 | 덜 나쁜 오해 | 더 위험한 오해 | 지금 먼저 확인해야 할 것 |
+| --- | --- | --- | --- |
+| `train_run_1`과 `train_run_2`의 `after_dropout`이 다르다 | 학습 중에는 원래 조금 흔들린다고 본다 | 같은 입력인데 결과가 다르니 모델 자체를 못 믿겠다고 단정한다 | 학습 모드의 dropout이 허용된 상태인지 본다 |
+| `reference_mean`이 실행마다 다르다 | 현재 batch 기준이 달라질 수 있다고 본다 | 평균이 다르니 평가 결과가 모두 잘못됐다고 본다 | training mode의 batch 기준인지, eval mode의 running 기준인지 먼저 본다 |
+| `eval_run`이 고정돼 있다 | 평가 모드는 더 안정적이라고 본다 | 평가 출력도 train처럼 일부러 흔들어 보는 것이 더 현실적이라고 본다 | 검증·테스트·배포의 목적이 안정적 기준선인지 본다 |
+
+이 예제의 다음 확인 지점은 `차이가 있다`가 아니라, 잘못된 mode 해석이 무엇을 흔드는가입니다.
+
+| 일부러 만들어 볼 실패 장면 | 무엇이 흔들리는지 보게 되는가 | 이 절에서 먼저 확인할 결과 |
+| --- | --- | --- |
+| 검증 단계에서도 `run_training_mode(...)` 같은 학습 모드 출력을 그대로 쓴다 | 같은 입력을 다시 넣을 때 dropout과 batch 기준이 불필요하게 흔들린다 | 성능 측정이 모델 품질보다 무작위성과 batch 구성에 더 민감해지는가 |
+| `drop_rate`를 0.4에서 0.7로 높인다 | 학습 모드 출력이 더 많이 꺼지고 평균 활성값도 더 불안정해질 수 있다 | 과한 dropout이 학습 도움보다 정보 손실로 더 크게 느껴지는가 |
+| 평가 출력도 train run처럼 여러 번 흔들어 비교하려 한다 | 원래 고정되어야 할 평가 기준선이 흔들린다 | `평가`와 `학습 중 흔들림 허용`이 서로 다른 목적이라는 점이 더 분명해지는가 |
+
+즉, 이 절의 실험은 `training/eval mode가 다르다`는 정의 확인에서 끝나지 않습니다. `평가에서도 학습 모드처럼 흔들리게 두면 무엇이 해석을 망치는가`까지 확인해야 mode 구분의 필요성이 분명해집니다.
+
+딥러닝이 깊어지고 모델 규모가 커지면서, 단순히 `가중치를 학습한다`는 설명만으로는 실제 학습 시스템을 설명하기 어려워졌습니다. regularization, normalization, batch-based training이 널리 쓰이면서, 학습 중과 평가 중의 동작 차이를 커리큘럼에 명시할 필요가 커졌습니다.
+
+특히 dropout은 과적합(overfitting)을 줄이기 위한 실용적 기법으로 널리 알려졌고, batch normalization도 깊은 네트워크 학습 안정성과 속도 논의에서 자주 등장했습니다. 이런 흐름 때문에 modern deep learning 교육에서는 `training/eval mode`를 별도 개념으로 소개하는 것이 자연스러워졌습니다.
+
+즉, 이 절은 단순한 라이브러리 팁이 아니라, `딥러닝이 왜 단순 함수보다 운영 상태를 가진 시스템처럼 보이는가`를 설명하는 절입니다.
+
+## 언제 training/eval mode 차이를 따로 읽는가
+
+learning과 inference를 구분한 뒤에는 `같은 모델이라도 계산 규칙이 일부 달라질 수 있는가`를 따로 확인해야 합니다. 그 경계가 바로 training/eval mode입니다.
+
+| 먼저 보이는 문제 장면 | mode 차이를 따로 읽어야 하는 이유 | 바로 다음에 이어질 곳 |
+| --- | --- | --- |
+| 같은 입력인데 학습 중과 검증 중 결과 느낌이 다르다 | dropout과 batch normalization이 모드에 따라 다르게 동작할 수 있기 때문입니다. | optimizer가 어떤 상태에서 업데이트를 하는지 뒤 장에서 봅니다. |
+| 검증 점수가 들쭉날쭉해 보인다 | 평가 모드가 공정하고 안정적인 측정을 위해 필요하다는 점을 분명히 할 수 있습니다. | regularization과 normalization 의미를 뒤 절에서 더 봅니다. |
+| 배포 서비스에서 출력 흔들림이 커 보인다 | 학습용 확률적 동작을 서비스 실행에 그대로 두면 불안정해질 수 있기 때문입니다. | inference serving과 optimizer 분리를 이어서 읽습니다. |
+| dropout, batch normalization이 왜 특별 취급되는지 감이 없다 | 모드 차이에 민감한 층을 따로 구분해 읽을 수 있습니다. | 정규화·옵티마이저 장과 연결됩니다. |
 
 ## 체크리스트
 
-- 깊은 네트워크는 구조를 쌓는 문제이면서 동시에 계산을 버티게 하는 문제라는 점을 설명할 수 있는가?
-- 초기화(initialization)를 `출발 가중치 배치`라는 관점으로 설명할 수 있는가?
-- 수치 안정성(numerical stability)을 `깊은 반복 계산이 숫자 범위를 어떻게 흔드는가`라는 관점으로 설명할 수 있는가?
-- batch normalization이 왜 학습 안정화와 mode 차이 설명에 함께 등장하는지 말할 수 있는가?
-- batch normalization은 활성값 분포를 더 다루기 쉬운 범위로 정리하는 학습 안정화 장치라는 점을 설명할 수 있는가?
-- optimizer, regularization, batch normalization이 서로 다른 질문에 답한다는 점을 구분할 수 있는가?
+- 학습 모드(training mode)와 평가 모드(evaluation mode)가 왜 다른 계산 규칙을 가질 수 있는지 설명할 수 있는가?
+- dropout이나 batch normalization에서 mode 구분이 왜 중요한지 말할 수 있는가?
+- 학습 모드와 평가 모드는 같은 모델의 서로 다른 계산 상태라는 점을 설명할 수 있는가?
+- dropout과 batch normalization이 모드 차이에 특히 민감한 대표 예라는 점을 말할 수 있는가?
+- 검증, 테스트, 배포에서는 같은 입력을 넣었을 때 흔들림이 줄어든 안정적 출력이 나오는지 확인하기 위해 평가 모드가 중요하다는 점을 설명할 수 있는가?
+- 같은 입력인데 학습 중과 검증 중 결과 느낌이 다를 때, training/evaluation mode 차이를 먼저 떠올릴 수 있는가?
+- 검증과 배포에서 출력 흔들림을 줄여야 할 때, 평가 모드가 안정적 기준을 제공한다는 관점을 꺼낼 수 있는가?
+- 이 절 다음에는 gradient를 실제 업데이트 규칙으로 바꾸는 optimizer 장으로 넘어간다는 흐름을 이해했는가?
 
 ## 출처와 참고 자료
 
-- Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola, `Dive into Deep Learning`, `5.4 Numerical Stability and Initialization`, `8.5 Batch Normalization`, `12 Optimization Algorithms`, 확인 날짜: 2026-07-11. [https://d2l.ai/](https://d2l.ai/){: target="_blank" rel="noopener noreferrer" }
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, Part II `Modern Practical Deep Networks`, 확인 날짜: 2026-07-11. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Stanford `CS231n: Deep Learning for Computer Vision`, Schedule and course notes on `Regularization and Optimization`, `Neural Networks and Backpropagation`, `CNN Architectures`, 확인 날짜: 2026-07-11. [https://cs231n.stanford.edu/](https://cs231n.stanford.edu/){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 확인 날짜: 2026-06-29.
+- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, 확인 날짜: 2026-06-29.
