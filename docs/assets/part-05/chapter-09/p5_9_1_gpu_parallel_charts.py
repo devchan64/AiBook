@@ -26,6 +26,8 @@ BATCH = np.array(
     ]
 )
 WEIGHTS = np.array([0.4, 0.8, -0.3])
+PROBE_BATCH_SIZES = np.array([4, 8, 16, 32])
+PROBE_FEATURE_SIZES = np.array([3, 6])
 
 LANG_TEXT = {
     "ko": {
@@ -45,8 +47,11 @@ LANG_TEXT = {
         "batch": "배치 행렬 계산",
         "multiply_count": "scalar multiply count",
         "batch_size": "batch 크기",
+        "feature_count": "feature 수",
         "current_batch": "현재 batch",
         "double_batch": "batch 두 배",
+        "feature_three": "feature 3개",
+        "feature_six": "feature 6개",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -58,8 +63,11 @@ LANG_TEXT = {
         "batch": "batch matrix calculation",
         "multiply_count": "scalar multiply count",
         "batch_size": "batch size",
+        "feature_count": "feature count",
         "current_batch": "current batch",
         "double_batch": "double batch",
+        "feature_three": "3 features",
+        "feature_six": "6 features",
     },
 }
 
@@ -104,13 +112,26 @@ def save_score_chart(text: dict[str, str]) -> None:
     fig.patch.set_facecolor("white")
     style_axis(ax)
 
-    ax.bar(x - width / 2, scores_one_by_one, width, label=text["one_by_one"], color="#94a3b8")
-    ax.bar(x + width / 2, scores_batch, width, label=text["batch"], color="#2563eb")
+    left_bars = ax.bar(x - width / 2, scores_one_by_one, width, label=text["one_by_one"], color="#94a3b8")
+    right_bars = ax.bar(x + width / 2, scores_batch, width, label=text["batch"], color="#2563eb")
     ax.set_xticks(x)
     ax.set_xticklabels([f"{text['line']} {i + 1}" for i in x], fontsize=8.5)
     ax.set_ylabel(text["score"])
     ax.set_ylim(0, 1.55)
     ax.legend(frameon=False, loc="upper left", fontsize=8.2)
+
+    for bars in (left_bars, right_bars):
+        for bar in bars:
+            value = bar.get_height()
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                value + 0.03,
+                f"{value:.2f}",
+                ha="center",
+                va="bottom",
+                fontsize=7.8,
+                color="#1f2937",
+            )
 
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["score_outfile"], format="png", bbox_inches="tight")
@@ -119,29 +140,40 @@ def save_score_chart(text: dict[str, str]) -> None:
 
 def save_multiply_chart(text: dict[str, str]) -> None:
     configure_font(text)
-    current_count = BATCH.shape[0] * BATCH.shape[1]
-    labels = [text["current_batch"], text["double_batch"]]
-    counts = [current_count, current_count * 2]
+    counts_three = PROBE_BATCH_SIZES * PROBE_FEATURE_SIZES[0]
+    counts_six = PROBE_BATCH_SIZES * PROBE_FEATURE_SIZES[1]
 
-    fig, ax = plt.subplots(figsize=(5.4, 3.4), dpi=170)
+    fig, ax = plt.subplots(figsize=(6.2, 3.7), dpi=170)
     fig.patch.set_facecolor("white")
     style_axis(ax)
 
-    bars = ax.bar(labels, counts, color=["#2563eb", "#dc2626"], width=0.58)
-    for bar, value in zip(bars, counts):
-        ax.text(
-            bar.get_x() + bar.get_width() / 2,
-            value + 0.7,
-            str(value),
-            ha="center",
-            va="bottom",
-            fontsize=9,
-            color="#111827",
-        )
+    ax.plot(
+        PROBE_BATCH_SIZES,
+        counts_three,
+        marker="o",
+        linewidth=2.0,
+        color="#2563eb",
+        label=text["feature_three"],
+    )
+    ax.plot(
+        PROBE_BATCH_SIZES,
+        counts_six,
+        marker="o",
+        linewidth=2.0,
+        color="#dc2626",
+        label=text["feature_six"],
+    )
+
+    for x, value in zip(PROBE_BATCH_SIZES, counts_three):
+        ax.text(x, value + 3, str(int(value)), ha="center", va="bottom", fontsize=8.3, color="#1f2937")
+    for x, value in zip(PROBE_BATCH_SIZES, counts_six):
+        ax.text(x, value + 3, str(int(value)), ha="center", va="bottom", fontsize=8.3, color="#1f2937")
 
     ax.set_ylabel(text["multiply_count"])
     ax.set_xlabel(text["batch_size"])
-    ax.set_ylim(0, 28)
+    ax.set_xticks(PROBE_BATCH_SIZES)
+    ax.set_ylim(0, 210)
+    ax.legend(frameon=False, loc="upper left", fontsize=8.2)
 
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["multiply_outfile"], format="png", bbox_inches="tight")
