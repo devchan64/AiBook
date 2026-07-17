@@ -560,8 +560,10 @@ flowchart LR
 
 #### Chapter 7. 优化器 `Learning Principles`
 
-- **P5-7.1 优化器(optimizer)的作用**：观察减少损失的更新规则。
-- **P5-7.2 SGD、Adam 的直觉**：浅层比较几个代表性优化器。
+- **P5-7.1 优化器(optimizer)的作用**：观察 gradient 在哪里变成实际参数 update。
+- **P5-7.2 学习率(learning rate)与 update 步幅**：观察同一个 gradient 为什么会得到过小或过大的 update。
+- **P5-7.3 Adam 的直觉：自适应 update**：说明 Adam 如何在简单 update 基准上加入自适应调节。
+- **P5-7.4 补充学习：第一次如何阅读 adaptive optimization 的收敛分析**：区分收敛保证与实务表现主张。
 
 #### Chapter 8. 正则化与 dropout `Learning Principles`
 

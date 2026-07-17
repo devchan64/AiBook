@@ -1,383 +1,202 @@
-# P5-7.2 Adam의 직관: 적응형 업데이트
+# P5-7.2 학습률(learning rate)과 update 보폭
 
 Section ID: `P5-7.2`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
-P5-7.1에서는 옵티마이저(optimizer)를 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라고 설명했습니다. 여기서 다음 질문이 바로 이어집니다.
+P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라는 점을 보았습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 
-그렇다면 Adam은 기본적인 update 규칙에 무엇을 더 보완하려는 optimizer인가?
+그렇다면 같은 gradient라도, 한 번의 update는 왜 너무 작거나 너무 커질 수 있는가?
 
-Adam은 단순히 `더 유명한 optimizer`가 아니라, 최근 gradient 흐름과 좌표별 변화 크기를 더 참고해 update를 적응적으로 조절하려는 optimizer다.
+이 질문에 답할 때 가장 먼저 등장하는 설정이 학습률(learning rate)입니다.
 
-대표 옵티마이저의 차이를 다시 짧게 복습해야 할 때는 개념사전의 [경사하강법(gradient descent)](../../../reference/concept-glossary.md#gradient-descent)과 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
+학습률은 optimizer가 gradient를 실제 update로 바꿀 때, 한 번에 얼마나 크게 움직일지를 정하는 보폭이다.
+
+학습률, gradient, update의 관계가 다시 섞이면 개념사전의 [학습률(learning rate)](../../../reference/concept-glossary.md#learning-rate)와 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 보는 편이 좋습니다.
 
 ## 이 절의 범위
 
-- Adam은 기본적인 gradient update에 무엇을 더 보완하려는가?
-- 최근 gradient 흐름과 좌표별 조절이라는 Adam의 핵심 직관은 무엇인가?
-- Adam을 설명할 때 왜 단순 update 기준과 함께 비교해야 하는가?
-- Adam이 실무에서 많이 언급되지만 왜 절대 우열로 외우면 안 되는가?
+- 학습률은 optimizer update에 어디에 붙는가?
+- 같은 gradient라도 학습률이 다르면 왜 실제 update 결과가 달라지는가?
+- 학습률이 너무 작거나 너무 클 때 어떤 일이 생기는가?
+- 왜 gradient 방향이 맞다는 사실과 update 결과가 적절하다는 사실은 다른가?
 
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
+이 절에서는 `같은 gradient를 실제로 얼마만큼 움직일 것인가`를 닫는 데 집중합니다. 즉, 여기서는 optimizer의 역할을 이미 안다는 전제 위에서, learning rate가 update 보폭을 어떻게 바꾸는지 먼저 설명합니다.
 
-- momentum, RMSProp, AdamW의 세부 수식 비교
-- 일반화 성능에 대한 이론적 논쟁의 세밀한 정리
-- 학습률 스케줄러(scheduler)의 상세 구현
-
-이 절에서는 optimizer 논문을 깊게 비교하기보다, Adam이 어떤 문제의식에서 적응형 update를 추가하는지 설명합니다. momentum, RMSProp, AdamW의 세부 수식 비교와 일반화 논쟁의 세밀한 정리는 여기서 길게 다루지 않고, regularization과 일반화의 관점은 P5-8.1, P5-8.2에서 다시 연결합니다. 학습률 스케줄러와 AdamW 같은 후속 최적화 실무는 이 책의 현재 본편 범위 밖에 둡니다. 여기서는 `새 모델 구조`보다 이미 계산된 gradient를 Adam이 `어떤 규칙으로 실제 update로 바꾸려 하는가`를 읽습니다.
-
-| 지금 절에서 구분할 것 | 왜 중요한가 |
-| --- | --- |
-| 모델 구조 | CNN, RNN, Transformer처럼 입력 구조를 어떻게 표현할지 정하는 문제이기 때문입니다. |
-| optimizer 절차 | 같은 구조라도 파라미터를 어떤 보폭과 어떤 누적 규칙으로 움직일지 정하는 문제이기 때문입니다. |
-| regularization과의 차이 | optimizer는 `어떻게 움직일까`, regularization은 `어떤 해를 덜 선호할까`를 다루기 때문입니다. |
+대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. 최근 gradient 흐름과 좌표별 차이를 함께 반영하는 적응형 update는 다음 Section인 P5-7.3에서 이어서 설명합니다. adaptive optimization의 수렴 분석은 P5-7.4 보충학습으로 분리합니다.
 
 ## 이 절의 목표
 
-- Adam을 `최근 gradient 흐름과 좌표별 조절을 반영하는 적응형 optimizer`로 설명할 수 있습니다.
-- 단순한 기본 업데이트와 Adam식 적응형 업데이트의 차이를 이해할 수 있습니다.
-- Adam이 학습 속도와 안정성에 어떤 기대를 주는지 말할 수 있습니다.
-- 실행 가능한 Python 예제로 업데이트 감각 차이를 확인할 수 있습니다.
+- 학습률을 `optimizer update의 보폭`으로 설명할 수 있습니다.
+- 같은 gradient라도 learning rate에 따라 실제 update 결과가 달라진다는 점을 말할 수 있습니다.
+- 너무 작은 보폭과 너무 큰 보폭이 왜 서로 다른 문제를 만드는지 설명할 수 있습니다.
+- 실행 가능한 Python 예제로 gradient와 update 보폭의 차이를 확인할 수 있습니다.
 
-## Adam을 이해할 때 필요한 단순 update 기준
+## optimizer가 update를 만들 때 learning rate는 어디에 붙는가
 
-Adam을 바로 공식으로 시작하면 초심자는 `무엇이 추가된 것인지`를 놓치기 쉽습니다. 그래서 먼저 가장 단순한 update 기준을 하나 둡니다. SGD(stochastic gradient descent)는 gradient를 이용해 조금씩 파라미터를 움직이는 기본 사고를 잘 보여 주는 기준선입니다.
+옵티마이저의 역할을 설명할 때 학습률이 함께 나오는 이유는, optimizer가 gradient를 실제 update로 바꾸는 순간에 학습률이 보폭으로 붙기 때문입니다. 학습률 자체가 가중치를 바꾸는 것은 아니지만, optimizer가 `얼마나 크게 바꿀지`를 정할 때 핵심 배율로 쓰입니다.
+
+너무 작으면:
+
+- 학습이 매우 느려질 수 있고
+- 손실이 줄어드는 데 오래 걸릴 수 있습니다
+
+너무 크면:
+
+- 좋은 방향을 알고도 지나쳐 버릴 수 있고
+- 손실이 불안정하게 흔들릴 수 있습니다
+
+즉, 학습률은 optimizer가 update를 만들 때 사용하는 `업데이트의 보폭(step size)`입니다.
+
+Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은 학습으로 자동 생성되는 파라미터가 아니라 사람이 정하거나 탐색하는 설정값입니다.
+
+여기서는 다음 구분을 함께 잡는 편이 안전합니다.
+
+| 값 | 역할 |
+| --- | --- |
+| gradient | 현재 위치에서 어느 방향이 내려가는지 알려 주는 신호 |
+| learning rate | 그 방향으로 한 번에 얼마나 움직일지 정하는 보폭 |
+| optimizer | 그 보폭과 규칙을 적용해 실제 이동을 만드는 절차 |
+
+## 왜 같은 gradient라도 결과가 달라지는가
+
+같은 위치에서 내려갈 방향을 알아도, 보폭이 너무 작으면 거의 움직이지 못하고, 적절하면 낮은 손실 근처로 가며, 너무 크면 좋은 지점을 지나쳐 손실이 다시 커질 수 있습니다.
+
+![learning rate와 손실 곡선 위 보폭](../../../assets/part-05/chapter-07/learning-rate-step-size-ko.svg)
+
+이 그래프에서 중요한 것은 `gradient 방향이 맞다`와 `optimizer가 만든 update가 적절하다`가 같은 말이 아니라는 점입니다. optimizer의 역할을 읽을 때는 방향 신호뿐 아니라 그 신호가 실제로 어느 위치까지 파라미터를 움직였는지를 함께 봐야 합니다.
 
 다음처럼 이해하면 충분합니다.
 
-`SGD는 현재 gradient가 가리키는 방향으로, 정해 둔 learning rate만큼 한 걸음 움직이는 방식이다.`
-
-여기서 SGD를 길게 다루는 목적은 SGD 자체를 중심 주제로 바꾸기 위해서가 아닙니다. Adam이 무엇을 더 보완하는지 보려면, 먼저 `현재 gradient와 learning rate만으로 움직이는 단순 기준`이 보여야 하기 때문입니다.
-
-- 직관이 분명합니다
-- gradient descent의 핵심 아이디어가 드러납니다
-- 업데이트 규칙을 가장 직접적으로 볼 수 있습니다
-
-즉, 이 절에서 SGD는 Adam을 설명하기 위한 비교 기준입니다.
-
-## Adam은 단순 update에 무엇을 더 보완하는가
-
-Adam은 단순한 현재 gradient 기준 update보다 더 많은 정보를 사용합니다. 다음 정도로 이해하면 충분합니다.
-
-- 최근 gradient의 방향을 누적해서 보고
-- 좌표마다 변화 크기를 다르게 조절하려고 하며
-- 초기 학습을 더 빠르고 안정적으로 만들려는 실용적 목적이 있습니다
-
-즉, Adam은 `모든 파라미터를 같은 기준 보폭으로 움직이는 것`보다 더 정교한 업데이트를 시도합니다.
-
-독자용 한 문장으로 줄이면 다음과 같습니다.
-
-`Adam은 gradient의 최근 흐름과 좌표별 크기 차이를 함께 참고해, 파라미터마다 더 적응적으로 움직이려는 optimizer이다.`
-
-조금 더 직관적으로 바꾸면 다음처럼 읽을 수 있습니다.
-
-- 단순 update 기준: `지금 보이는 경사 방향으로 같은 기준 보폭을 내딛는다`
-- Adam: `최근 몇 걸음의 흔들림을 같이 보고, 좌표마다 보폭을 다르게 조절한다`
-
-예를 들어 어떤 파라미터는 gradient가 계속 크게 흔들리고, 다른 파라미터는 아주 작고 안정적으로 움직인다고 해 보겠습니다. 단순 update 기준은 둘을 같은 learning rate 기준으로 함께 밀지만, Adam은 `지금 이 좌표는 너무 크게 흔들리고 있지 않은가`, `이 좌표는 너무 느리게 움직이고 있지 않은가`를 조금 더 반영하려고 합니다. 그래서 Adam은 `같은 한 걸음`보다 `좌표마다 다른 한 걸음`에 가깝게 느껴집니다.
-
-## Adam의 보완점을 어떻게 읽으면 좋은가
-
-입문 단계에서는 복잡한 수식보다 다음 표가 더 중요합니다.
-
-| 항목 | 단순 update 기준 | Adam |
-| --- | --- | --- |
-| 기본 감각 | 단순한 한 걸음 업데이트 | 더 많은 누적 정보를 반영한 적응형 업데이트 |
-| 장점 | 직관이 단순하고 기준점이 분명함 | 초반 학습이 빠르고 실무에서 다루기 편한 경우가 많음 |
-| 주의점 | 학습률 설정에 민감할 수 있음 | 설정이 편해 보여도 항상 최종 일반화가 더 좋다고 단정할 수는 없음 |
-
-이 표에서 핵심은 `어느 것이 절대적으로 우월한가`가 아닙니다. 오히려 다음처럼 이해하는 편이 안전합니다.
-
-`Adam은 단순한 gradient update 기준에 최근 흐름과 좌표별 조절을 더해, 더 적응적인 update를 만들려는 시도다.`
-
-## 왜 Adam이 실무에서 많이 쓰이나
-
-실무에서는 Adam이 자주 언급됩니다. 이유는 대체로 다음과 같습니다.
-
-- 초기 설정으로도 비교적 잘 동작하는 경우가 많고
-- 학습 초반 손실이 빠르게 줄어드는 경험을 주기 쉽고
-- 큰 모델이나 복잡한 데이터에서 입문 장벽이 낮게 느껴질 수 있습니다
-
-하지만 여기서 중요한 주의점이 있습니다.
-
-`Adam이 자주 쓰인다고 해서, 모든 문제에서 무조건 더 좋은 최종 결과를 보장하는 것은 아니다.`
-
-즉, Adam의 인기는 실용성과 편의성에서 오는 부분이 크며, 문제에 따라 다른 판단이 필요합니다.
-
-## 왜 단순 update 기준도 함께 남기는가
-
-Adam을 설명하는 절에서도 단순 update 기준은 필요합니다. 기준선이 없으면 Adam의 장점도 `그냥 더 좋은 optimizer`처럼 외우기 쉽기 때문입니다.
-
-SGD에서 확인할 수 있는 기준은 복잡한 보정 없이도 gradient 방향을 따라 파라미터가 어떻게 움직이는지를 가장 직접적으로 읽을 수 있다는 점입니다.
-
-- gradient descent의 핵심 아이디어를 가장 직접적으로 읽게 해 줍니다
-- optimizer 비교의 기준점 역할을 합니다
-- 일부 문제에서는 여전히 강한 기준선(baseline)이 됩니다
-
-또한 연구와 교육에서는 `Adam 같은 optimizer가 무엇을 추가로 보정하는지`를 이해하려면, 먼저 기본 형태가 어떻게 움직이는지 구분해 볼 필요가 있습니다.
-
-즉, 이 절에서 SGD는 Adam의 반대편 주인공이 아니라, Adam의 보완 지점을 보이게 하는 기준 언어에 가깝습니다.
-
-이 차이를 업데이트 규칙만 남겨 압축하면 다음과 같습니다.
-
-```mermaid
---8<-- "assets/part-05/chapter-07/sgd-vs-adam-flow-ko.mmd"
-```
-
-이 도식에서 먼저 확인할 결과는, SGD가 `현재 gradient에 같은 기준 보폭으로 반응`하는 감각에 가깝다면, Adam은 `최근 흐름과 좌표별 차이를 더 반영해 보폭을 조절`하는 감각에 가깝다는 점입니다.
+- gradient는 `어느 쪽으로 가야 하는가`를 알려 줍니다.
+- learning rate는 `얼마나 크게 갈 것인가`를 정합니다.
+- 그래서 같은 gradient라도 learning rate가 다르면 결과가 달라질 수 있습니다.
 
 ## 사례 및 예시
 
-이 절의 사례는 `어느 optimizer가 더 좋은가`를 고르는 사례가 아닙니다. Adam이 단순 update 기준에 무엇을 더 반영하는지 읽는 사례입니다. 사례 수를 늘리기보다, Adam이 필요한 장면 하나를 분명히 보고 그 해석을 잘못 확장하지 않는 데 집중합니다.
+이 절의 사례는 optimizer를 고르는 사례가 아니라, `같은 gradient가 서로 다른 update 보폭으로 바뀌는 장면`을 읽는 사례입니다. 따라서 사례를 볼 때는 항상 다음 순서로 확인합니다.
 
-1. 지금 들어온 gradient가 현재 step 하나를 주로 설명하는가, 여러 step의 흐름까지 함께 보아야 하는가
-2. 단순 update 기준에서는 현재 gradient가 이번 update에 얼마나 직접 반영되는가
-3. Adam류에서는 최근 gradient 흐름과 좌표별 차이가 update에 어떻게 섞이는가
-4. 빠른 초반 감소를 최종 우열이나 일반화 성능으로 바로 바꿔 말하지 않는가
+1. gradient 방향은 맞는가
+2. learning rate가 optimizer update를 얼마나 크게 만들었는가
+3. update 뒤 파라미터와 손실이 실제로 어떻게 달라졌는가
 
-### 중심 사례. 복잡한 딥러닝 모델과 큰 모델의 초기 실험
+### 사례 1. gradient는 계산됐지만 파라미터가 거의 움직이지 않는 경우
 
-새 이미지 분류 모델이나 문장 분류 모델을 처음 붙여 보는데, 어떤 learning rate가 맞는지 아직 감이 없을 수 있습니다. 사람이 이 단계에서 먼저 바라는 것은 대개 `수식이 가장 순수한가`보다 `초반 학습이 너무 흔들리지 않고 시작되는가`입니다. 이때 Adam은 최근 gradient 경향을 함께 반영해 초반 학습을 비교적 안정적으로 시작하게 해 주는 경우가 많아서, `일단 돌아가게 만들기` 단계에서 편하게 느껴질 수 있습니다. 즉, 사용자는 복잡한 튜닝 전에 먼저 손실이 줄기 시작하는 경험을 얻기 쉽습니다.
+학습 로그에서 손실이 조금씩 내려가고 있다고 해 보겠습니다. 사람은 보통 `방향은 맞으니 더 오래 돌리면 되겠다`고 판단하기 쉽습니다. 하지만 몇 시간 동안 검증 성능이 거의 움직이지 않는다면, 실제 문제는 gradient의 방향보다 업데이트 보폭이 지나치게 작은 데 있을 수 있습니다.
 
-모델이 커지면 사람은 `가중치가 많아졌을 뿐이니 같은 방식으로 업데이트하면 되지 않을까`라고 생각하기 쉽습니다. 단순 update 기준에서는 현재 gradient와 learning rate가 이번 이동량을 직접 정하므로, 이 감각 자체는 이해하기 쉽습니다. 하지만 실제 큰 모델에서는 어떤 층은 아주 민감하게 반응하고, 어떤 층은 거의 움직이지 않으며, gradient 스케일도 고르게 맞지 않는 경우가 많습니다. 같은 learning rate를 모든 파라미터에 단순히 적용하면 일부 층은 과하게 흔들리고, 다른 층은 거의 학습되지 않을 수 있습니다.
+이 장면에서 learning rate 관점은 질문을 바꿉니다. `gradient가 계산됐는가`에서 멈추지 않고, `optimizer가 그 gradient를 실제 파라미터 변화로 충분히 바꿨는가`를 봅니다. 학습률이 너무 작으면 방향 신호는 맞아도 한 step의 이동량이 작아, 손실 곡선은 내려가지만 실용적인 속도로는 거의 전진하지 못합니다.
 
-Adam은 이런 차이를 완전히 해결하는 마법 같은 방법은 아니지만, 최근 gradient 흐름과 좌표별 변화 크기를 함께 읽어 초반 update를 조금 더 균형 있게 만들려 합니다. 그래서 `왜 Adam이 초반 실험에서 덜 답답하게 느껴지는가`를 이해할 때는 `더 똑똑한 공식`보다 `파라미터마다 보폭을 조금 다르게 잡으려는 태도`를 떠올리는 편이 더 정확합니다. 그래서 이 사례에서 확인해야 할 결과는 같은 learning rate를 두어도, 좌표별 gradient 크기 차이와 층별 흔들림이 초반 업데이트에 다르게 반영되는가입니다.
+그래서 이 사례에서 확인해야 할 결과는 손실이 줄고 있다는 사실만이 아닙니다. 같은 학습 시간 안에 검증 성능이 실제로 따라 올라오는지, update 뒤 파라미터 변화량이 너무 작게 묶여 있지는 않은지를 함께 봐야 합니다.
 
-### 주의 사례. 초반 속도만 보고 Adam의 우열을 단정하는 경우
+### 사례 2. gradient 방향은 맞지만 update가 너무 큰 경우
 
-연구나 실험 기록에서는 같은 모델을 단순 기준과 Adam으로 모두 돌려 보는 경우가 많습니다. 사람은 로그를 볼 때 `어느 쪽 손실이 더 빨리 내려갔는가`만 먼저 보기 쉽지만, 실제 비교 기준은 수렴 속도, 최종 성능, 진동 정도처럼 여러 축으로 나뉩니다. 예를 들어 Adam은 초반에 빠르게 내려가지만, 단순 기준이 더 오래 학습했을 때 최종 검증 성능이 더 좋아질 수도 있습니다. 따라서 이 주의 사례에서 확인해야 할 결과는 Adam의 적응형 update가 초반 안정성과 편의성을 줄 수 있어도, 그것을 최종 우열이나 일반화 성능 보장으로 바꾸어 말하면 안 된다는 점입니다.
+반대로 손실이 내려가다가 다시 튀고, 한 배치에서는 좋아졌다가 다음 배치에서는 다시 나빠지는 경우도 있습니다. 사람은 이 장면을 보면 `모델이 전혀 못 배우는 것 아닌가`라고 느끼기 쉽습니다. 하지만 실제로는 내려가는 방향은 잡았는데 한 번에 너무 크게 움직여 좋은 지점을 계속 지나치는 경우가 많습니다.
 
-| 사람이 먼저 보기 쉬운 기준 | 단순 update 기준으로 다시 읽는 기준 | Adam 관점으로 다시 읽는 기준 |
-| --- | --- | --- |
-| 큰 모델도 가중치가 많을 뿐 같은 보폭으로 밀면 된다고 느끼기 쉽다 | 모든 좌표를 같은 기준으로 움직이면 민감한 층과 둔한 층의 차이를 놓칠 수 있다 | 좌표별 gradient 크기와 최근 흐름을 반영해 update 균형을 맞추려 한다 |
-| 초반 손실이 빨리 줄면 무조건 더 좋은 optimizer라고 생각하기 쉽다 | 수렴 속도와 최종 일반화는 따로 비교해야 하고, 단순 기준은 기준선 역할을 잘 보여 준다 | 초반 안정성과 실용성은 좋을 수 있지만 최종 결과 우위를 자동 보장하지는 않는다 |
-| Adam이 많이 쓰이니 단순 기준은 이제 덜 중요하다고 느끼기 쉽다 | 단순 기준은 `현재 gradient에 직접 반응하는 기본 보폭` 감각을 가장 분명히 보여 주는 기준점이다 | Adam은 그 기준점 위에 적응형 보정이 무엇을 더하는지 읽게 해 준다 |
+이때는 gradient가 쓸모없어서가 아니라, 학습률이 너무 커서 update가 과격해진 것일 수 있습니다. 표면 현상은 `불안정한 손실`이지만, 구조적으로는 `optimizer가 방향 신호를 너무 큰 파라미터 이동으로 바꾼 상황`입니다.
 
-이 사례 구간에서 최종적으로 확인해야 할 결과는 분명합니다. Adam의 차이는 `더 최신 optimizer인가`가 아니라, 현재 gradient 기준의 직접 업데이트 위에 누적 정보와 좌표별 차이를 더 반영한 적응형 업데이트를 만든다는 데 있습니다.
+그래서 이 사례에서 확인해야 할 결과는 학습이 아예 안 되는지보다, update 보폭이 커서 좋은 지점을 반복해서 지나치고 있는가입니다.
+
+| 사람이 먼저 보기 쉬운 기준 | learning rate 관점으로 다시 읽는 기준 |
+| --- | --- |
+| gradient가 있으니 오래 돌리기만 하면 된다고 보기 쉽다 | 같은 gradient라도 update 보폭이 너무 작을 수 있다 |
+| 손실이 흔들리면 gradient가 틀렸다고 보기 쉽다 | 방향은 맞아도 update 보폭이 너무 클 수 있다 |
+| 손실 하나만 보면 충분하다고 느끼기 쉽다 | update 뒤 파라미터 변화량과 손실 변화를 같이 봐야 한다 |
+
+두 사례를 같이 놓고 보면 학습률을 `숫자 하나`보다 `update 보폭을 조절하는 기준`으로 읽는 이유가 더 분명해집니다.
 
 ## 연습 및 예제
 
-이번 예제의 목표는 `같은 위험 가중치 gradient 흐름이라도`, 단순 직접 업데이트와 Adam-like 누적 업데이트가 서로 다른 step별 update를 만든다는 점을 직관적으로 보는 것입니다. 여기서는 진짜 Adam 전체 공식을 구현하지 않고, Adam류 optimizer가 최근 gradient 흐름을 누적해 update에 반영한다는 감각만 단순화해 확인합니다.
+이번 예제의 목표는 같은 gradient 계산 결과가 learning rate에 따라 서로 다른 update로 바뀌는 장면을 보는 것입니다. 따라서 출력도 learning rate 자체보다 `optimizer_delta`가 얼마나 달라지는지를 중심으로 읽습니다.
 
 입력:
 
 - 현재 위험 가중치 `risk_weight`
-- 여러 step에서의 위험 가중치 gradient 목록
+- 압력 미복귀 정도 `pressure_unrecovered`
+- 목표 차단 점수 `target_block_score`
+- 학습률 `learning_rate`
 
 출력:
 
-- 단순 직접 업데이트 방식의 연속 위험 가중치 업데이트 결과
-- Adam-like 누적 평균을 단순화한 직관적 업데이트 결과
-- step별 `sgd_delta`와 `adam_like_delta`
-- 두 파라미터의 gradient 크기가 다를 때 좌표별 보폭 조절이 어떻게 나타나는지
+- 예측된 차단 점수
+- 손실
+- gradient
+- optimizer가 만든 update 값
+- learning rate별 업데이트 후 가중치
+- 업데이트 뒤 목표값에 더 가까워지는 정도 비교
 
 문제 상황:
 
-- optimizer 차이는 수식 이름보다 같은 gradient 흐름이 어떤 step별 update로 바뀌는지로 보는 편이 직관적이다
+- learning rate는 gradient 자체를 바꾸지 않지만, optimizer가 만드는 위험 가중치 update 폭을 크게 바꾼다
+- 너무 큰 learning rate는 좋은 방향을 알고도 지나칠 수 있으므로 결과를 함께 비교해야 한다
 
 확인할 개념:
 
-- 단순 직접 업데이트는 현재 gradient에 바로 반응한다
-- Adam류 방식은 최근 gradient 정보를 누적해 이동량을 조절한다
-- Adam류 방식은 좌표별 gradient 크기 차이도 update 크기에 반영하려 한다
-
-입력(input):
-
-압력 미복귀 신호를 읽는 `risk_weight` 하나가 있고, 학습 step마다 `gradient_risk_weight`가 `-4.0`, `-2.0`, `-1.0` 순서로 들어온다고 가정합니다. 같은 gradient 흐름을 보더라도 단순 직접 업데이트와 Adam-like가 `risk_weight`를 얼마나 직접적으로, 혹은 얼마나 누적 평균을 섞어 움직이는지 비교합니다.
-
-코드를 보기 전에 먼저 어떤 쪽 이동량이 더 직접적이고 어떤 쪽이 더 매끈할지 예상해 보면, `현재 gradient 반응`과 `누적 평균 반응`의 차이가 더 잘 보입니다.
-
-| 비교 항목 | 먼저 예상해 볼 update | 예상 이유 |
-| --- | --- | --- |
-| 첫 번째 `sgd_delta` | 가장 크게 움직일 가능성이 큼 | 첫 `gradient_risk_weight` `-4.0`이 learning rate와 바로 곱해져 직접 반영되기 때문입니다. |
-| 첫 번째 `adam_like_delta` | `sgd_delta`보다 훨씬 작을 가능성이 큼 | moving average가 처음에는 전체 gradient를 부분적으로만 반영하기 때문입니다. |
-| step이 지날수록 `sgd_delta` | gradient 절대값이 줄어들며 함께 바로 작아질 가능성이 큼 | 단순 직접 업데이트는 현재 `gradient_risk_weight` 크기에 직접 반응합니다. |
-| step이 지날수록 `adam_like_delta` | 더 천천히 변하거나 상대적으로 매끈하게 이어질 가능성이 큼 | 이전 step들의 gradient가 moving average 안에 남아 있기 때문입니다. |
-
-이 표의 목적은 정확한 숫자를 미리 암기하는 데 있지 않습니다. 같은 `gradient_risk_weight` 흐름이어도 단순 직접 업데이트는 `지금 기울기`를 바로 반영하고, Adam-like는 `최근 흐름`을 남기며 더 매끈하게 움직일 수 있다는 점을 코드 전에 붙잡는 데 있습니다.
+- 같은 gradient라도 update 보폭은 달라질 수 있다
+- update 보폭이 달라지면 새 가중치, 새 예측, 새 손실이 달라진다
+- 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아니다
 
 ```python
-gradient_risk_weight_history = [-4.0, -2.0, -1.0]
-risk_weight_sgd = 1.0
-risk_weight_adam_like = 1.0
-learning_rate = 0.1
-moving_avg = 0.0
-beta = 0.9
+pressure_unrecovered = 2.0
+target_block_score = 6.0
+risk_weight = 1.0
+prediction = pressure_unrecovered * risk_weight
+loss = (prediction - target_block_score) ** 2
+gradient_risk_weight = 2 * (prediction - target_block_score) * pressure_unrecovered
 
-print("Direct updates")
-for gradient_risk_weight in gradient_risk_weight_history:
-    sgd_delta = -learning_rate * gradient_risk_weight
-    risk_weight_sgd = risk_weight_sgd + sgd_delta
+print("predicted_block_score =", round(prediction, 3))
+print("loss =", round(loss, 3))
+print("gradient_risk_weight =", round(gradient_risk_weight, 3))
+for lr in [0.01, 0.1, 0.5]:
+    optimizer_delta = -lr * gradient_risk_weight
+    updated_risk_weight = risk_weight + optimizer_delta
+    updated_prediction = pressure_unrecovered * updated_risk_weight
+    updated_loss = (updated_prediction - target_block_score) ** 2
     print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "sgd_delta =", round(sgd_delta, 3),
-        "-> risk_weight =", round(risk_weight_sgd, 3)
-    )
-
-print()
-print("Adam-like updates (simplified intuition)")
-for gradient_risk_weight in gradient_risk_weight_history:
-    moving_avg = beta * moving_avg + (1 - beta) * gradient_risk_weight
-    adam_like_delta = -learning_rate * moving_avg
-    risk_weight_adam_like = risk_weight_adam_like + adam_like_delta
-    print(
-        " gradient_risk_weight =", gradient_risk_weight,
-        "moving_avg =", round(moving_avg, 3),
-        "adam_like_delta =", round(adam_like_delta, 3),
-        "-> risk_weight =", round(risk_weight_adam_like, 3)
+        "lr =", lr,
+        "-> optimizer_delta =", round(optimizer_delta, 3),
+        "-> updated_risk_weight =", round(updated_risk_weight, 3),
+        ", updated_block_score =", round(updated_prediction, 3),
+        ", updated_loss =", round(updated_loss, 3),
     )
 ```
 
-출력에서는 같은 `gradient_risk_weight` 흐름에서도 단순 직접 업데이트와 Adam-like의 step별 update가 어떻게 달라지는지부터 비교하면 됩니다.
-
 ```text
-Direct updates
- gradient_risk_weight = -4.0 sgd_delta = 0.4 -> risk_weight = 1.4
- gradient_risk_weight = -2.0 sgd_delta = 0.2 -> risk_weight = 1.6
- gradient_risk_weight = -1.0 sgd_delta = 0.1 -> risk_weight = 1.7
-
-Adam-like updates (simplified intuition)
- gradient_risk_weight = -4.0 moving_avg = -0.4 adam_like_delta = 0.04 -> risk_weight = 1.04
- gradient_risk_weight = -2.0 moving_avg = -0.56 adam_like_delta = 0.056 -> risk_weight = 1.096
- gradient_risk_weight = -1.0 moving_avg = -0.604 adam_like_delta = 0.06 -> risk_weight = 1.156
+predicted_block_score = 2.0
+loss = 16.0
+gradient_risk_weight = -16.0
+lr = 0.01 -> optimizer_delta = 0.16 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
+lr = 0.1 -> optimizer_delta = 1.6 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
+lr = 0.5 -> optimizer_delta = 8.0 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
 ```
 
-같은 출력도 `입력 gradient -> step별 update -> 누적된 risk_weight`로 나누어 보면 Adam-like가 무엇을 더 보완하려는지 더 분명합니다.
+이 출력은 같은 gradient가 optimizer의 update 규칙을 거치며 서로 다른 `optimizer_delta`로 바뀌는 장면입니다. 따라서 `gradient가 얼마인가`에서 멈추지 말고, optimizer가 만든 update 값, 업데이트된 가중치, 업데이트 후 점수, 업데이트 후 손실을 단계별로 나누어 읽습니다.
 
-![단순 직접 업데이트와 Adam-like 비교에 쓰는 gradient 입력 흐름](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-ko.png)
+![learning rate별 업데이트 후 위험 가중치](../../../assets/part-05/chapter-07/optimizer-example-updated-weight-ko.png)
 
-첫 단계의 입력은 optimizer가 아직 바꾸지 않은 gradient 흐름입니다. 여기서는 step이 지날수록 `gradient_risk_weight`의 절대값이 작아지며, 단순 직접 업데이트와 Adam-like는 모두 같은 입력을 받습니다.
+![learning rate별 업데이트 후 차단 점수](../../../assets/part-05/chapter-07/optimizer-example-updated-score-ko.png)
 
-![단순 직접 업데이트와 Adam-like의 step별 delta 비교](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-ko.png)
+![learning rate별 업데이트 후 손실](../../../assets/part-05/chapter-07/optimizer-example-updated-loss-ko.png)
 
-delta 단계에서 차이가 생깁니다. 단순 직접 업데이트는 현재 gradient를 바로 learning rate와 곱해 첫 step에서 크게 움직이고, Adam-like는 moving average를 거치기 때문에 같은 입력을 더 작은 이동량으로 바꿉니다.
+이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 
-![단순 직접 업데이트와 Adam-like의 risk_weight 이동 경로](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-ko.png)
+- `gradient_risk_weight`는 그대로인데 결과는 달라질 수 있습니다.
+- 달라지는 이유는 learning rate가 만든 `optimizer_delta`가 다르기 때문입니다.
+- `0.1`은 목표에 가까워졌지만 `0.5`는 방향은 맞아도 너무 크게 움직여 오히려 손실을 키웠습니다.
+- 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아닙니다.
 
-최종 risk_weight 경로를 보면 이 차이가 누적됩니다. 단순 직접 업데이트는 빠르게 1.7까지 이동하지만, Adam-like는 최근 흐름을 누적해 더 천천히 1.156까지 움직입니다. 이 단계에서 달라지는 것은 `같은 gradient를 받았다`가 아니라, optimizer 규칙이 실제 파라미터 경로를 다르게 만든다는 점입니다.
+## 언제 learning rate 관점으로 먼저 읽는가
 
-이 예제는 진짜 Adam 전체 공식을 구현한 것도 아니고, 단순 직접 업데이트와 Adam의 성능 우열을 판정하는 실험도 아닙니다. 여기서 읽어야 할 핵심은 다음입니다.
+이 절을 꺼내야 하는 시점은 `gradient는 알겠는데 왜 실제 이동 속도가 너무 느리거나 너무 거친지`가 안 보일 때입니다.
 
-- 단순 직접 업데이트는 현재 `gradient_risk_weight`를 비교적 직접 반영합니다
-- Adam류의 아이디어는 최근 방향을 누적해 step별 update를 다르게 만듭니다
-- optimizer는 단순히 `감소시킨다`가 아니라, 같은 gradient를 `어떤 update 경로로 바꿀지`를 정합니다
-
-### 좌표별 조절 미니 실험
-
-위 예제는 Adam류 optimizer가 `최근 gradient 흐름`을 남기는 감각을 보여 줍니다. 하지만 Adam을 이해하려면 한 가지를 더 봐야 합니다. 큰 모델에서는 파라미터가 하나가 아니라 많고, 각 파라미터의 gradient 크기도 서로 다릅니다. 이때 Adam류 optimizer는 `모든 좌표를 같은 기준 보폭으로 밀기`보다, 좌표별 gradient 크기를 참고해 update를 조절하려고 합니다.
-
-다음 미니 실험은 진짜 Adam 전체 구현이 아니라, Adam의 좌표별 조절 직관 중 `두 번째 모멘트(second moment)로 gradient 크기 차이를 보정한다`는 부분만 단순화한 것입니다. 여기서는 두 파라미터를 비교합니다.
-
-| 파라미터 | 들어오는 gradient 흐름 | 단순 직접 업데이트에서 먼저 예상할 일 | Adam-like 좌표별 조절에서 먼저 예상할 일 |
-| --- | --- | --- | --- |
-| `risk_weight` | `[-8.0, -4.0]` | gradient가 커서 update도 매우 커진다 | 큰 gradient 좌표는 보폭이 상대적으로 눌린다 |
-| `recovery_weight` | `[-0.5, -0.25]` | gradient가 작아서 update도 매우 작아진다 | 작은 gradient 좌표도 완전히 묻히지 않게 조절된다 |
-
-```python
-gradient_by_parameter = {
-    "risk_weight": [-8.0, -4.0],
-    "recovery_weight": [-0.5, -0.25],
-}
-
-learning_rate = 0.1
-beta2 = 0.9
-second_moment = {
-    "risk_weight": 0.0,
-    "recovery_weight": 0.0,
-}
-
-for step in range(2):
-    print("step", step + 1)
-    for parameter_name, gradient_history in gradient_by_parameter.items():
-        gradient = gradient_history[step]
-        direct_delta = -learning_rate * gradient
-
-        second_moment[parameter_name] = (
-            beta2 * second_moment[parameter_name]
-            + (1 - beta2) * gradient * gradient
-        )
-        adam_like_delta = -learning_rate * gradient / (second_moment[parameter_name] ** 0.5)
-
-        print(
-            parameter_name,
-            "gradient =", gradient,
-            "direct_delta =", round(direct_delta, 3),
-            "second_moment =", round(second_moment[parameter_name], 3),
-            "adam_like_delta =", round(adam_like_delta, 3),
-        )
-```
-
-출력은 다음처럼 읽습니다.
-
-```text
-step 1
-risk_weight gradient = -8.0 direct_delta = 0.8 second_moment = 6.4 adam_like_delta = 0.316
-recovery_weight gradient = -0.5 direct_delta = 0.05 second_moment = 0.025 adam_like_delta = 0.316
-step 2
-risk_weight gradient = -4.0 direct_delta = 0.4 second_moment = 7.36 adam_like_delta = 0.147
-recovery_weight gradient = -0.25 direct_delta = 0.025 second_moment = 0.029 adam_like_delta = 0.147
-```
-
-단순 직접 업데이트에서는 `risk_weight`의 첫 update가 `0.8`이고 `recovery_weight`는 `0.05`입니다. gradient 크기 차이가 update 크기 차이로 거의 그대로 옮겨갑니다. 반면 Adam-like 좌표별 조절에서는 각 좌표가 자기 gradient 크기 이력을 `second_moment`에 따로 쌓고, 그 값으로 update를 나눕니다. 그래서 큰 gradient 좌표는 상대적으로 눌리고, 작은 gradient 좌표는 완전히 묻히지 않습니다.
-
-이 숫자를 Adam 전체 공식으로 외울 필요는 없습니다. 여기서 붙잡아야 할 학습 포인트는 하나입니다. Adam의 `적응형(adaptive)`이라는 말은 단순히 최근 흐름을 기억한다는 뜻만이 아니라, 파라미터 좌표마다 gradient 크기 이력을 따로 보고 update 보폭을 조절하려 한다는 뜻입니다.
-
-다만 이 미니 실험을 `Adam은 서로 다른 파라미터의 update를 항상 같게 만든다`로 읽으면 안 됩니다. 위 숫자에서 두 `adam_like_delta`가 같아 보이는 이유는 두 gradient 흐름의 비율이 같은 단순 예제를 썼기 때문입니다. 실제 Adam에는 첫 번째 모멘트, 두 번째 모멘트, bias correction, 작은 안정화 상수 같은 요소가 함께 들어갑니다. 여기서는 전체 공식을 재현하려는 것이 아니라, `큰 gradient는 자기 크기 이력으로 나뉘고, 작은 gradient도 자기 크기 이력으로 나뉜다`는 좌표별 조절 감각만 분리해 보는 것입니다.
-
-두 예제를 함께 읽으면 Adam의 보완점이 두 축으로 나뉩니다.
-
-| 예제 | 보는 축 | 직접 확인할 변화 | 이 절에서 남길 문장 |
-| --- | --- | --- | --- |
-| `risk_weight` 한 개의 여러 step | 시간축 | 최근 gradient가 moving average에 남아 step별 update가 매끈해진다 | Adam류는 현재 gradient만 보지 않고 최근 흐름을 함께 본다 |
-| `risk_weight`와 `recovery_weight` 비교 | 좌표축 | 파라미터마다 자기 gradient 크기 이력을 따로 쌓아 보폭을 조절한다 | Adam류는 모든 파라미터를 같은 기준 보폭으로만 밀지 않는다 |
-
-이 표까지 읽고 나면 Adam의 핵심을 `빠른 optimizer`가 아니라 `시간축 누적과 좌표축 조절을 update 규칙에 넣는 optimizer`로 말할 수 있어야 합니다.
-
-이 예제는 여기서 끝내기보다, 값을 조금 바꿔 보며 `어떤 변화가 어느 방식에 더 민감하게 반영되는가`를 같이 보는 편이 더 좋습니다.
-
-| 먼저 바꿔 볼 값 | 무엇을 비교하게 되는가 | 이 절에서 먼저 확인할 결과 |
+| 먼저 보이는 문제 장면 | learning rate 관점이 먼저 유용한 이유 | 바로 다음에 넘길 질문 |
 | --- | --- | --- |
-| `learning_rate`를 0.1에서 0.3으로 키운다 | 두 방식의 step별 이동량이 얼마나 더 거칠어지는가 | SGD 쪽 `risk_weight` 이동 폭이 더 직접적으로 커지는가 |
-| `beta`를 0.9에서 0.5로 낮춘다 | Adam-like가 최근 gradient를 얼마나 빨리 따라가는가 | 누적 평균이 덜 매끈해지고 현재 gradient 반영이 빨라지는가 |
-| `gradient_risk_weight_history`를 `[-4.0, 3.0, -1.0]`처럼 흔들리게 바꾼다 | 방향이 뒤집힐 때 두 방식이 얼마나 다르게 반응하는가 | Adam-like가 방향 전환을 더 천천히 반영하는가 |
-| `recovery_weight`의 gradient를 `[-0.5, -0.25]`에서 `[-2.0, -1.0]`으로 키운다 | 좌표별 보정 뒤 두 파라미터의 update 차이가 어떻게 바뀌는가 | Adam-like가 좌표마다 따로 쌓은 크기 이력을 사용한다는 점이 보이는가 |
-
-즉, 이 절의 실험은 `Adam이 다르다`를 보는 데서 멈추지 않고, `어떤 값을 흔들면 Adam-like 보완이 더 분명해지는가`까지 확인해야 optimizer 감각이 더 오래 남습니다.
-
-SGD는 오랫동안 대규모 머신러닝과 신경망 학습의 기본 출발점으로 다뤄져 왔습니다. 이후 momentum, RMSProp, Adam 같은 알고리즘은 더 빠르고 안정적인 학습을 얻기 위한 실용적 요구 속에서 발전했습니다.
-
-딥러닝 커리큘럼에서 Adam을 설명할 때 단순 update 기준을 함께 두는 이유는 분명합니다.
-
-- 바로 앞의 P5-7.1 옵티마이저 역할에서 본 `gradient를 실제 update로 바꾸는 기본 구조`를 기준점으로 잡아야 하고
-- 단순 기준만 보면 기본 원리는 이해되지만 현대 실무 감각이 부족해지고
-- Adam만 보면 왜 그런 설계를 갖게 되었는지 기준점이 사라지기 때문입니다
-
-즉, 이 절은 `기본 원리`와 `현대 실무 감각`을 함께 붙이는 자리입니다.
-
-## 언제 Adam 관점을 먼저 꺼내는가
-
-optimizer의 일반 역할을 이해한 뒤에는 `지금 기본 업데이트 감각만으로 충분한가, 아니면 Adam식 적응형 업데이트 감각이 필요한가`를 나누어 읽는 편이 좋습니다.
-
-| 먼저 보이는 문제 장면 | 먼저 떠올릴 optimizer 관점 | 이유 |
-| --- | --- | --- |
-| gradient 방향과 보폭의 가장 기본 구조를 설명해야 한다 | 단순 update 기준 | 현재 gradient에 직접 반응하는 기본 업데이트 감각을 가장 분명히 보여 줍니다. |
-| 초반 학습이 너무 거칠거나 좌표별 스케일 차이가 크다 | Adam | 누적 정보와 좌표별 적응을 반영하는 업데이트 감각이 더 중요해집니다. |
-| 실무에서 왜 Adam이 자주 쓰이는지 설명해야 한다 | Adam을 먼저 언급하되 SGD와 함께 비교한다 | 편의성과 실용성은 크지만 기준점 없이 설명하면 감각이 흐려지기 때문입니다. |
-| optimizer를 절대 우열로 외우려는 경향이 보인다 | 단순 기준과 Adam을 나란히 둔다 | 속도, 안정성, 일반화를 분리해 읽어야 하기 때문입니다. |
+| gradient는 맞는 것 같은데 파라미터가 거의 안 움직인다 | update 보폭이 너무 작은지 확인하게 해 줍니다. | Adam 같은 적응형 update가 무엇을 더 보완하는지 봐야 합니다. |
+| 손실이 계속 튀고 흔들린다 | 방향보다 update 보폭이 과한지 확인하게 해 줍니다. | 최근 흐름과 좌표별 조절을 더 보는 optimizer를 봐야 합니다. |
+| 같은 gradient인데 결과가 왜 다른지 직관이 없다 | learning rate가 update 보폭을 바꾼다는 점을 고정할 수 있습니다. | P5-7.3에서 적응형 update 차이까지 봐야 합니다. |
 
 ## 체크리스트
 
-- Adam이 기본 update에 무엇을 더 보완하려는지 설명할 수 있는가?
-- 왜 Adam이 널리 쓰이면서도 절대적으로 더 좋은 optimizer라고 단정하면 안 되는지 말할 수 있는가?
-- 단순 update 기준을 Adam의 보완 지점을 보이게 하는 기준점으로 설명할 수 있는가?
-- Adam은 누적 정보와 좌표별 조절을 더 반영하는 적응형 optimizer라는 점을 설명할 수 있는가?
-- 단순 update 기준과 Adam을 `기본 보폭 업데이트`와 `적응형 업데이트`의 차이로 설명할 수 있는가?
-- optimizer 비교는 속도, 안정성, 일반화까지 함께 보아야 한다는 점을 말할 수 있는가?
-- optimizer를 무조건 우열 순위처럼 외우려 할 때, Adam을 기준점과 적응형 업데이트 차이로 다시 떠올릴 수 있는가?
-- 이 절 다음에는 optimizer 자체가 아니라 일반화 제약과 regularization 장으로 넘어간다는 흐름을 이해했는가?
-
-## 출처와 참고 자료
-
-- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 확인 날짜: 2026-06-29.
-- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, 확인 날짜: 2026-06-29.
-- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 확인 날짜: 2026-06-29.
+- 학습률(learning rate)을 `optimizer update의 보폭`으로 설명할 수 있는가?
+- 같은 gradient라도 learning rate에 따라 실제 update 결과가 달라질 수 있다는 점을 말할 수 있는가?
+- 너무 작은 learning rate와 너무 큰 learning rate가 어떤 다른 문제를 만드는지 설명할 수 있는가?
+- `gradient 방향이 맞다`와 `update 결과가 적절하다`를 구분할 수 있는가?
+- 다음 절 P5-7.3에서 Adam류가 최근 흐름과 좌표별 차이를 더 반영한다는 식으로 연결된다는 점을 알고 있는가?

@@ -1751,7 +1751,7 @@
 - 왜 중요한가: 손실과 gradient만 알아서는 학습이 끝나지 않고, 실제 이동 보폭과 업데이트 방식이 학습 속도와 안정성을 크게 바꾸기 때문입니다.
 - 함께 볼 개념: `그래디언트(gradient)`, `학습률(learning rate)`, `손실 함수(loss function)`
 - 중심 Section: `P5-7.1`
-- 등장 Section: `P5-7.2`
+- 등장 Section: `P5-7.2`, `P5-7.3`
 
 ### 연산(operation)
 
@@ -3330,7 +3330,7 @@
 - 왜 중요한가: 같은 방향 정보라도 너무 크게 움직이면 불안정해지고, 너무 작게 움직이면 지나치게 느려질 수 있기 때문입니다.
 - 함께 볼 개념: `경사하강법(gradient descent)`, `그래디언트(gradient)`, `최적화(optimization)`
 - 중심 Section: `P2-6.3`
-- 등장 Section: `P5-7.1`, `P5-7.2`
+- 등장 Section: `P5-7.1`, `P5-7.2`, `P5-7.3`
 
 ### 학습된 표현(learned representation)
 

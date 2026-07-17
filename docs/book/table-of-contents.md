@@ -564,9 +564,10 @@ flowchart LR
 
 #### Chapter 7. 옵티마이저 `학습 원리`
 
-- **P5-7.1 옵티마이저(optimizer)의 역할**: 손실을 줄이는 업데이트 규칙을 봅니다.
-- **P5-7.2 Adam의 직관: 적응형 업데이트**: Adam이 기본 update에 무엇을 더 보완하는지 봅니다.
-- **P5-7.3 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법**: adaptive optimizer 논문에서 수렴 보장을 읽을 때 필요한 조건과 한계를 처음 구분합니다.
+- **P5-7.1 옵티마이저(optimizer)의 역할**: gradient가 실제 파라미터 update로 바뀌는 자리를 봅니다.
+- **P5-7.2 학습률(learning rate)과 update 보폭**: 같은 gradient라도 한 번의 update가 왜 너무 작거나 너무 커질 수 있는지 봅니다.
+- **P5-7.3 Adam의 직관: 적응형 업데이트**: Adam이 기본 update에 무엇을 더 보완하는지 봅니다.
+- **P5-7.4 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법**: adaptive optimizer 논문에서 수렴 보장을 읽을 때 필요한 조건과 한계를 처음 구분합니다.
 
 #### Chapter 8. 학습 안정화와 일반화 제약 `학습 원리`
 

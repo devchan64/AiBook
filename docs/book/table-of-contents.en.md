@@ -560,8 +560,10 @@ This Part explains how neural networks represent and learn from data. It follows
 
 #### Chapter 7. Optimizers `Learning Principles`
 
-- **P5-7.1 The Role of the Optimizer**: reviews update rules that reduce loss
-- **P5-7.2 Intuition for SGD and Adam**: compares representative optimizers without going too deep
+- **P5-7.1 The Role of the Optimizer**: explains where gradients become actual parameter updates
+- **P5-7.2 Learning Rate and Update Step Size**: explains why the same gradient can lead to updates that are too small or too large
+- **P5-7.3 Intuition for Adam: Adaptive Updates**: explains how Adam adds adaptive update behavior on top of a simple update baseline
+- **P5-7.4 Supplementary Learning: How to Read Convergence Analysis of Adaptive Optimization for the First Time**: separates convergence guarantees from practical performance claims
 
 #### Chapter 8. Regularization and Dropout `Learning Principles`
 
