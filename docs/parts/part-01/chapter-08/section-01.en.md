@@ -1,7 +1,7 @@
 # P1-8.1 Supervised Learning: Inputs and Labels
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 
@@ -35,11 +35,7 @@ The minimum distinction to keep is this: `supervised learning is learning with l
 
 ## Scope of This Section
 
-This section does not calculate supervised-learning algorithms. Linear regression, logistic regression, decision trees, support vector machines, and neural networks only pass by as names.
-
-It also does not explain loss functions, gradient descent, validation data, or overfitting in detail. Those return later in Part 4 in the sections on data splitting, validation, overfitting, generalization, and optimization.
-
-Likewise, this section does not redefine `input` and `output` at length. Their basic distinction was already fixed in 4.2, and the difference between training and inference was handled in Chapter 5. Here we add one layer on top: how examples with labels become a training signal.
+The basic distinction between `input` and `output` was already fixed in 4.2, and the difference between training and inference was handled in Chapter 5. Here we add one layer on top: how examples with labels become a training signal.
 
 The working definition here is:
 
@@ -177,8 +173,6 @@ Typical classification outputs are category labels:
 | support-message classification | support sentence | delivery, refund, exchange, other |
 | image classification | image | cat, dog, car |
 | risk detection | transaction information | normal, suspicious |
-
-This section does not go deeply into probability estimates or thresholds. Their place was already introduced in P1-6.3 and P1-7.3, and they return again in Part 4 together with evaluation.
 
 ## Regression Predicts Numeric Labels
 

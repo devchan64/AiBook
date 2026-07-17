@@ -1,7 +1,7 @@
 # P4-15.3 OOB(out-of-bag)与随机森林检查
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-15.1 里，我们看过随机森林(random forest)为什么能通过聚合很多棵树来得到更稳定的预测。 在 P4-15.2 里，我们又看过怎样更小心地阅读这片森林把什么看得重要，也就是特征重要度(feature importance)。
 
@@ -27,13 +27,7 @@ OOB 是一种内部验证式方法： 它利用没有被抽进 bootstrap 样本�
 - OOB 分数与 train accuracy、validation score、test score 有什么不同？
 - OOB 应该信到什么程度，又该在什么地方停下来？
 
-本节不深入展开以下内容。
-
-- 交叉验证(cross-validation)的全部变体
-- 概率校准(calibration)与 threshold 调整
-- 梯度提升(gradient boosting)里 OOB 的不同解读方式
-
-上面三项会被提到， 只是为了划清 OOB 的外围边界。 在当前本篇里， 它们只回收到下面这个程度。
+OOB 的外围边界先固定到下面这个程度就够了。
 
 | 项目 | 在当前正文里的回收状态 |
 | --- | --- |

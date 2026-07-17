@@ -1,7 +1,7 @@
 # P2-7.2 Terminal, Shell, and Working Directory
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P2-7.1, we first looked at the place where code runs. Now we look at the first screen a reader usually meets when entering commands on a local PC.
 
@@ -34,10 +34,6 @@ Rather than learning every terminal feature by operating system, this Section fo
 | command | the execution sentence asking the shell to do something now |
 
 ## Scope of This Section
-
-Here we do not teach all terminal usage. How to open terminals by operating system, screen layout, basic shortcuts, and differences between Windows and macOS/Linux commands are deferred to the supplementary learning of P2-7.6. Shell scripts, pipes, redirection, permissions, and environment variables are recovered separately in the supplementary learning of P2-7.8. Also, Python code execution itself is revisited in P2-7.3, and virtual-environment activation and package installation are revisited in P2-7.4.
-
-Here we answer only the following questions.
 
 Here we answer the following questions.
 

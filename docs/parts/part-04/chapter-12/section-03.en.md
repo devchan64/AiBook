@@ -1,7 +1,7 @@
 # P4-12.3 What Should Be Checked First When Using k-NN?
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why distance and scale can change the result. The remaining question is the following.
 
@@ -17,12 +17,6 @@ This Section answers the following questions.
 - What signals suggest that distance or scale should be suspected first?
 - Among `distance rule`, `k`, and `data representation`, what should be rechecked first?
 - How should a query that needs review be read?
-
-This Section does not treat the following topics deeply.
-
-- the full system of preprocessing
-- the full general theory of model selection
-- advanced optimization or approximate nearest-neighbor implementation
 
 ## Goals Of This Section
 

@@ -1,7 +1,7 @@
 # P2-4.4 Why Learning Needs Differentiation
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P2-4.3, we looked at derivative, partial derivative, and gradient as `the language for reading how values change`. Now we connect why that language becomes necessary in AI training.
 
@@ -19,14 +19,6 @@ Here, rather than unfolding optimization formulas in detail, the focus is on con
 ## Scope of This Section
 
 This Section explains why differentiation connects to learning.
-
-The following topics are not treated in depth.
-
-- the repeated update formula of gradient descent
-- the types of optimizers
-- the calculation procedure of backpropagation
-- layer-by-layer differentiation in neural networks
-- automatic differentiation in real deep-learning frameworks
 
 The first question to solve here is this: `even if loss scores the current state, why does learning not proceed from that alone?`
 

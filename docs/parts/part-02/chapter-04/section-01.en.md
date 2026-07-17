@@ -1,7 +1,7 @@
 # P2-4.1 Rereading How We Learned Differentiation
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In Part 2 Chapter 3, we looked at the shapes of data and model computation through scalars, vectors, and matrices. Now, in Part 2 Chapter 4, we move to differentiation.
 
@@ -34,7 +34,7 @@ Seen from this table, Chapter 4 is not a chapter for memorizing formulas. It is 
 
 ## Scope of This Section
 
-This Section does not cover differentiation formulas or derivative calculation methods. It recalls what kinds of explanations we heard when we first learned differentiation and organizes what questions those explanations lead to.
+This Section recalls what kinds of explanations we heard when we first learned differentiation and organizes what questions those explanations lead to.
 
 Detailed rate of change, slope, and average rate of change are covered in P2-4.2.
 

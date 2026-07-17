@@ -1,7 +1,7 @@
 # P1-4.3 特征(feature)、表征(representation)与参数(parameter)
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 4.2 已经整理了 `input`、`output` 与 `data`，也就是模型要看什么、又想从它那里拿回什么。这一节继续往里走一步，解释这些输入在模型内部会变成怎样的计算材料。
 
@@ -12,8 +12,6 @@
 在 Part 1 中，这一节会固定从“模型计算”视角阅读 `feature`、`representation` 与 `parameter` 的基本标准。`representation learning` 与 `rule-based approach` 的对照已经在 3.3 先整理过，`input`、`output`、`data`、`example` 和 `label` 的基本结构已经在 4.2 固定过。这里更窄的焦点是：`输入在模型内部会变成什么计算材料`。
 
 ## 这一节的范围
-
-4.3 不是教人直接搭建模型的章节。该选什么算法、模型结构如何设计、学习流程如何组织，会在 Part 4 的机器学习章节和 Part 5 的深度学习章节里再回来。
 
 这里需要的问题更小：当我们看一个已经定义好的模型时，输入会变成什么值，模型内部又有哪些值会被用来计算输出？
 
@@ -223,7 +221,7 @@ Google 的 glossary 把 `temperature` 说明为控制模型输出随机程度的
 
 > 用户句子 -> 特征/表征 -> intent label -> 后续业务处理
 
-Google 的 glossary 把自然语言理解（NLU, Natural Language Understanding）解释成自然语言处理的一个子领域，用来判断用户说了什么或输入了什么，以及它的意图是什么。不过 4.3 不会深入讲 intent analysis。这里唯一需要划清的是：intent 不是模型 parameter，它更接近使用输入表征后得到的一种业务解释或输出。
+Google 的 glossary 把自然语言理解（NLU, Natural Language Understanding）解释成自然语言处理的一个子领域，用来判断用户说了什么或输入了什么，以及它的意图是什么。这里唯一需要划清的是：intent 不是模型 parameter，它更接近使用输入表征后得到的一种业务解释或输出。
 
 ## 把三个术语放在一起看
 
@@ -245,17 +243,7 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 
 这个图最重要的作用，是让人先看见 `feature/representation` 和 `parameter` 虽然都重要，但它们位置不同。先把位置分清：`feature/representation` 在输入一侧，`parameter` 在模型内部。
 
-## 这一节不做什么
-
-4.3 不会深入处理下面这些内容。
-
-| 这里不展开的内容 | 后续位置 |
-| --- | --- |
-| 如何选择模型结构 | Part 4 和 Part 5 |
-| 学习算法如何调整参数 | Part 4 和 Part 5 |
-| loss function、backpropagation 与 optimization 是什么 | Part 5 |
-| 性能评价和模型选择如何进行 | P1-4.4 与 Part 4 |
-| intent routing 与 tool calling 如何组织 | Part 6 |
+## 这一节先抓什么
 
 在理解这些内容之前，这一节只先固定必要的基础位置，也就是 feature、representation 与 parameter 的基本位置。
 

@@ -1,7 +1,7 @@
 # P2-4.3 Derivative and Gradient
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P2-4.2, we looked at rate of change and slope. In a line, the slope is constant, but in a curve, the rate of change can differ by interval or position.
 
@@ -17,14 +17,6 @@ Here, instead of solving many differentiation exercises, the focus is on reading
 ## Scope of This Section
 
 This Section connects the derivative of a single-variable function, the partial derivative of a multivariable function, and the gradient at an introductory level.
-
-The following topics are not treated in depth.
-
-- systematic memorization of derivative formulas
-- detailed calculation of the chain rule
-- Jacobian and Hessian
-- the update formula of gradient descent
-- backpropagation
 
 The first question to resolve here is this: `when the memory of one-variable slope remains, how does it expand into the gradient of several variables?`
 

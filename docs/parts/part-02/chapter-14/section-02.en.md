@@ -1,7 +1,7 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
 
@@ -18,8 +18,6 @@ This section focuses on separating workflows and setting deployment criteria. If
 | deployment criteria | When is it ready to move into publicly visible explanation? |
 
 ## Scope of This Section
-
-This section does not cover the internal implementation of branches, complex merge strategies, conflict resolution, or rebasing. It also does not cover GitHub Pages settings in depth.
 
 This section answers the following questions.
 

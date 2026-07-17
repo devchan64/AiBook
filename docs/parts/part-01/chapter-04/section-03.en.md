@@ -1,7 +1,7 @@
 # P1-4.3 Features, Representations, and Parameters
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Section 4.2 examined the relation among `input`, `output`, and `data`, or what we want to show the model and what we want back from it. This section explains what kind of computational material that input becomes inside the model.
 
@@ -12,8 +12,6 @@ This section organizes `feature`, `representation`, and `parameter` at an introd
 In Part 1, this section sets the basic standard for reading `feature`, `representation`, and `parameter` from the viewpoint of model computation. The contrast between `representation learning` and `rule-based approaches` was fixed earlier in 3.3, and the basic structure of `input`, `output`, `data`, `example`, and `label` was fixed in 4.2. Here the narrower focus is on how `input turns into computational material inside the model`.
 
 ## Scope of This Section
-
-Section 4.3 is not about how to build a model directly. Which algorithm to choose, how to structure the model, and what learning procedure to use are revisited later in the machine-learning chapters of Part 4 and the deep-learning chapters of Part 5.
 
 The question needed here is smaller. When we look at a model that is already defined, what values does the input turn into, and what internal values are used to compute the output?
 
@@ -223,7 +221,7 @@ For example, intent analysis can be viewed like this.
 
 > user sentence -> feature/representation -> intent label -> next business handling
 
-Google’s glossary describes natural language understanding (NLU) as a subfield of natural language processing that determines the user’s intent from what the user says or enters. But Section 4.3 does not go deeply into intent analysis. The only boundary needed here is that an intent is not a model parameter; it is closer to a business interpretation or output obtained by using the input representation.
+Google’s glossary describes natural language understanding (NLU) as a subfield of natural language processing that determines the user’s intent from what the user says or enters. The only boundary needed here is that an intent is not a model parameter; it is closer to a business interpretation or output obtained by using the input representation.
 
 ## Seeing the Three Terms Together
 
@@ -245,17 +243,7 @@ This figure is a simplification. In real models, the boundary between features a
 
 The key point of the diagram is to show that `feature/representation` and `parameter` are both important, but they occupy different positions. Keep the position split clear first: `feature/representation is on the input side`, while `parameter is on the inside of the model`.
 
-## What This Section Does Not Do
-
-Section 4.3 does not go deeply into the following.
-
-| Topic not handled here | Later location |
-| --- | --- |
-| how to choose the model structure | Part 4 and Part 5 |
-| how learning algorithms adjust parameters | Part 4 and Part 5 |
-| what loss functions, backpropagation, and optimization are | Part 5 |
-| how performance evaluation and model selection work | P1-4.4 and Part 4 |
-| how intent routing and tool calling are structured | Part 6 |
+## What to Hold in This Section
 
 Before understanding those topics, this section only fixes the basic positions of the necessary terms: feature, representation, and parameter.
 

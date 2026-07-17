@@ -1,7 +1,7 @@
 # P2-4.1 重新看我们是怎样学微分的
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 Part 2 Chapter 3 中，我们通过标量(scalar)、向量(vector)、矩阵(matrix)看到了数据与模型计算的形状。现在，在 Part 2 Chapter 4 里，我们转向微分(differentiation)。
 
@@ -34,7 +34,7 @@
 
 ## 本节范围
 
-本节不处理微分公式或导数(derivative)的计算方法。这里做的是：回想第一次学微分时听过什么解释，并整理这些解释会把我们带向什么问题。
+这里做的是：回想第一次学微分时听过什么解释，并整理这些解释会把我们带向什么问题。
 
 更具体的变化率(rate of change)、斜率(slope)、平均变化率(average rate of change)会在 P2-4.2 处理。
 

@@ -1,7 +1,7 @@
 # P2-4.4 학습에서 미분이 필요한 이유
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언트(gradient)를 “값이 어떻게 변하는지 읽는 언어”로 봤습니다. 이제 그 언어가 AI 학습(training)에서 왜 필요한지 연결합니다.
 
@@ -19,14 +19,6 @@ P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언�
 ## 이 절의 범위
 
 여기서는 미분이 학습과 연결되는 이유를 설명합니다.
-
-다음 내용은 깊게 다루지 않습니다.
-
-- 경사하강법(gradient descent)의 반복 업데이트 공식
-- 옵티마이저(optimizer)의 종류
-- 역전파(backpropagation)의 계산 절차
-- 신경망의 계층별 미분 계산
-- 실제 딥러닝 프레임워크의 자동 미분(automatic differentiation)
 
 여기서 먼저 해결할 질문은 이것입니다. `손실이 현재 상태를 점수화해 준다 해도, 왜 그것만으로는 학습이 진행되지 않는가`입니다.
 

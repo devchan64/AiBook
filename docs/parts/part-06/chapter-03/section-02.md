@@ -1,7 +1,7 @@
 # P6-3.2 attention과 context window
 
 > Section ID: `P6-3.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P6-3.1에서는 Transformer를 LLM 기준으로 다시 읽으며, 토큰이 임베딩을 거쳐 Transformer 블록을 통과한 뒤 다음 토큰 점수로 이어지는 흐름을 보았습니다. 이제 바로 다음 제약을 봐야 합니다.
 
@@ -20,12 +20,6 @@ context window는 모델이 한 번의 계산 안에서 참고할 수 있는 토
 - attention과 context window는 어떤 관계인가?
 - 왜 `모든 이전 토큰을 본다`는 말에도 실제 한계가 붙는가?
 - context window는 왜 비용, 품질, 서비스 구조에 영향을 주는가?
-
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- RoPE, ALiBi 같은 위치 표현 세부 비교
-- KV cache 최적화
-- 장문맥 전용 아키텍처의 세부 구현
 
 이 절은 `입력 범위 제약 축`으로 읽어야 합니다.
 

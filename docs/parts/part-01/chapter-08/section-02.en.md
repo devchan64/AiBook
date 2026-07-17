@@ -1,7 +1,7 @@
 # P1-8.2 Unsupervised Learning: Structure and Representation
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Section 8.1 explained a `label` as a distinguishing marker attached to data. Supervised learning tries to match the relationship between inputs and outputs using examples where inputs and labels are given together.
 
@@ -187,7 +187,7 @@ In unsupervised learning, the model may be used not to fit labels, but to find o
 | customer behavior logs | behavioral-pattern vectors |
 | document collections | lower-dimensional topic-related representations |
 
-This section does not go deeply into representation learning yet. Later chapters connect that more directly to deep learning and embeddings. Here it is enough to keep the connection that unsupervised learning can be tied to making structure visible through changed representations.
+Unsupervised learning can also connect to making structure visible by changing the representation without labels. Later chapters connect that more directly to deep learning and embeddings.
 
 ## Unsupervised-Learning Results Need Interpretation
 

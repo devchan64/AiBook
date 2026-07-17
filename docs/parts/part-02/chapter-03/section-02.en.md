@@ -1,7 +1,7 @@
 # P2-3.2 Vector Space and the Intuition of Position
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. Now we extend the vector a little beyond a simple list of values. In AI documents, a vector is often explained as if it were `a position inside some space`.
 
@@ -61,7 +61,7 @@ If we place them on a coordinate plot like the one below, it becomes immediately
 
 ## Scope of This Section
 
-Here, vector space is handled at the level of beginner intuition. We do not go deeply into the axioms of vector space, the formal definition of basis and dimension, or the calculation of inner product and cosine similarity. We already saw the big picture of similarity search in Part 1, and in Part 2 we only deal with the minimum intuition needed to read the mathematical expression.
+Here, vector space is handled at the level of beginner intuition. We already saw the big picture of similarity search in Part 1, and in Part 2 we only deal with the minimum intuition needed to read the mathematical expression.
 
 Here we focus on the following questions.
 

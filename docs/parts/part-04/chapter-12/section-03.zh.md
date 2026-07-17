@@ -1,7 +1,7 @@
 # P4-12.3 使用 k-NN 时，应该先检查什么？
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 distance 和 scale 会改变结果。现在剩下的问题是：
 
@@ -17,12 +17,6 @@ P4-12.1 看过了 k-NN 的直觉，P4-12.2 看过了为什么 distance 和 scale
 - 什么信号出现时，应该先怀疑 distance 或 scale？
 - 在 `distance rule`、`k`、`data representation` 之间，应该先重新看哪个？
 - 对需要 review 的 query，应该怎么读？
-
-这一节不会深入讲下面这些内容。
-
-- preprocessing 的完整体系
-- model selection 的一般理论全貌
-- 高级优化或 approximate nearest-neighbor 的实现
 
 ## 本节目标
 

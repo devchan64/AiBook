@@ -1,7 +1,7 @@
 # P2-4.3 微分(derivative)与梯度(gradient)
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P2-4.2 中，我们看了变化率(rate of change)与斜率(slope)。在直线里，斜率是固定的；但在曲线里，变化率会随着区间或位置不同而改变。
 
@@ -17,14 +17,6 @@
 ## 本节范围
 
 本节以入门层级，把单变量函数的微分(derivative)、多变量函数的偏微分(partial derivative)、梯度(gradient)连起来。
-
-下面这些内容不会深入处理。
-
-- 系统记忆微分公式
-- 链式法则(chain rule)的详细计算
-- 雅可比矩阵(Jacobian)、海森矩阵(Hessian)
-- 梯度下降(gradient descent)的更新公式
-- 反向传播(backpropagation)
 
 这里首先要解决的问题是：`当脑中还留着单变量斜率的记忆时，它是怎样扩展成多个变量的梯度的？`
 

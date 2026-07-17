@@ -1,7 +1,7 @@
 # P2-4.1 미분을 어떻게 배웠는지 다시 보기
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 통해 데이터와 모델 계산의 모양을 봤습니다. 이제 Part 2 Chapter 4에서는 미분(differentiation)으로 넘어갑니다.
 
@@ -34,7 +34,7 @@ Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 �
 
 ## 이 절의 범위
 
-여기서는 미분 공식이나 도함수(derivative) 계산법을 다루지 않습니다. 미분을 처음 배울 때 어떤 설명을 들었는지 떠올리고, 그 설명이 어떤 질문으로 이어지는지 정리합니다.
+여기서는 미분을 처음 배울 때 어떤 설명을 들었는지 떠올리고, 그 설명이 어떤 질문으로 이어지는지 정리합니다.
 
 자세한 변화율(rate of change), 기울기(slope), 평균 변화율(average rate of change)은 P2-4.2에서 다룹니다.
 

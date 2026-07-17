@@ -1,7 +1,7 @@
 # P2-7.4 Virtual Environments and Packages
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P2-7.3, we looked at ways to run Python code. Now we move to a slightly more realistic problem.
 
@@ -32,10 +32,6 @@ Rather than learning the entire world of Python distribution and packaging, this
 | `.venv` | A representative local virtual-environment directory name placed inside a project folder. |
 
 ## Scope of This Section
-
-This section explains the concepts of virtual environments and packages. It does not go deeply into operating-system-specific activation commands, Python installation methods, PATH settings, or permission issues. Those environment-checking steps are gathered again in the P2-7.9 supplementary section. A detailed explanation of saving dependency lists and recording versions is covered again in P2-7.5.
-
-Here, we answer the following questions.
 
 Here, we answer the following questions.
 

@@ -1,7 +1,7 @@
 # P4-15.3 OOB(out-of-bag)와 랜덤포레스트 점검
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-15.1에서는 랜덤포레스트(random forest)가 왜 여러 트리를 모아 더 안정적인 예측을 만들 수 있는지 보았습니다. P4-15.2에서는 그 숲이 무엇을 중요하게 보았는지, 즉 특징 중요도(feature importance)를 조심해서 읽는 법을 보았습니다.
 
@@ -27,13 +27,7 @@ OOB는 bootstrap에 뽑히지 않은 샘플을 이용해, 랜덤포레스트가 
 - OOB 점수는 train accuracy, validation score, test score와 어떻게 다른가?
 - OOB를 어디까지 믿고, 어디서 멈춰야 하는가?
 
-이 절은 다음 내용은 깊게 다루지 않습니다.
-
-- 교차검증(cross-validation)의 모든 변형
-- 확률 보정(calibration)과 threshold 조정
-- 그래디언트 부스팅의 OOB 성격 차이
-
-위 세 항목은 OOB의 바깥 경계를 분명히 하기 위해 이름만 남기며, 현재 본편에서는 다음 정도까지만 다시 회수됩니다.
+OOB의 바깥 경계는 아래 정도만 잡아 두면 충분합니다.
 
 | 항목 | 현재 본편에서의 회수 상태 |
 | --- | --- |

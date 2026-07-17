@@ -1,7 +1,7 @@
 # P4-15.2 Feature Importance
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-15.1, we saw why random forest can create more stable predictions by gathering many trees. That immediately raises the next question.
 
@@ -26,12 +26,6 @@ This Section answers the following questions.
 - What different interpretation questions do PDP(partial dependence plot) and SHAP ask compared with importance?
 - Why should importance interpretation not be jumped directly into causal inference?
 - What conservative interpretation strategy is needed when real data have very strong correlated features?
-
-This Section does not go deeply into the following topics.
-
-- every implementation option of PDP and SHAP libraries
-- the full set of identification assumptions and estimation procedures in causal inference
-- full pipeline design for resolving large-scale correlated structure
 
 This Section does not stop after drawing only the outer boundary of importance interpretation. It also recovers the following inside the current Section: `what should be inspected when a number summary is not enough`, `why cause interpretation must be separated`, and `how to read more conservatively when correlation is strong`.
 

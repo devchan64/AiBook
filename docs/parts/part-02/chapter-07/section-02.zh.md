@@ -1,7 +1,7 @@
 # P2-7.2 终端(terminal)、shell 与工作文件夹(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P2-7.1 中，我们先看了代码运行的位置。现在来看：在本地 PC 上输入命令时，最先遇到的那个画面到底是什么。
 
@@ -34,10 +34,6 @@
 | 命令(command) | 向 shell 发出的“现在请执行这件事”的语句。 |
 
 ## 本节范围
-
-这里不会教终端的全部用法。按操作系统分类的终端打开方式、界面构成、基础快捷键，以及 Windows 与 macOS/Linux 命令差异，会交给 P2-7.6 补充学习。shell script、pipe、redirection、permission、environment variable 会在 P2-7.8 补充学习中另行回收。另外，Python 代码执行方式本身会在 P2-7.3 再讲，虚拟环境激活与包安装则会在 P2-7.4 再讲。
-
-这里先只回答下面这些问题。
 
 这里回答下面这些问题。
 

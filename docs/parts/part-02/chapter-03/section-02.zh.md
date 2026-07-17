@@ -1,7 +1,7 @@
 # P2-3.2 向量空间(vector space)与位置的直觉
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 在 P2-3.1 里，我们从数据形状(shape)的角度看了标量(scalar)、向量(vector)、矩阵(matrix)。现在再把向量从“值的列表”向前推进一步。在 AI 文档里，向量经常会被解释成 `某个空间里的位置`。
 
@@ -61,7 +61,7 @@
 
 ## 本节范围
 
-这里用入门直觉来处理 vector space。向量空间的公理、basis 和 dimension 的严格定义、inner product 和 cosine similarity 的计算都不会深入展开。我们已经在 Part 1 里看过 similarity search 的大图景，而在 Part 2 这里只处理读懂数学表达所需的最小直觉。
+这里用入门直觉来处理 vector space。我们已经在 Part 1 里看过 similarity search 的大图景，而在 Part 2 这里只处理读懂数学表达所需的最小直觉。
 
 这里集中看下面这些问题。
 

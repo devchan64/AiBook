@@ -1,7 +1,7 @@
 # P5-7.3 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법
 
 Section ID: `P5-7.3`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
 P5-7.2에서는 SGD와 Adam을 `업데이트 철학의 차이`로 비교했습니다. 여기서 더 깊게 들어가면 다음 질문이 남습니다.
 
@@ -15,13 +15,6 @@ Adam 같은 adaptive optimizer는 실무에서 자주 쓰이는데, 이론적으
 - Adam이 실무에서 잘 쓰여도 수렴 보장 논의가 따로 필요한 이유를 봅니다.
 - 논문에서 `convex`, `non-convex`, `regret`, `step size`, `bounded gradient` 같은 조건을 처음 읽는 기준을 잡습니다.
 - AMSGrad 같은 변형이 어떤 문제의식을 보완하려 했는지 입문 수준에서 구분합니다.
-
-이 절에서는 다음 내용을 깊게 다루지 않습니다.
-
-- Adam, AdaGrad, AMSGrad의 수렴 증명 전개
-- regret bound의 엄밀한 유도
-- non-convex stochastic optimization 최신 이론 비교
-- optimizer state의 메모리 최적화
 
 여기서는 `증명을 할 수 있는가`보다 `논문이 어떤 조건에서 어떤 종류의 보장을 말하는지 구분할 수 있는가`를 목표로 둡니다.
 

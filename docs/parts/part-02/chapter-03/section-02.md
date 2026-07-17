@@ -1,7 +1,7 @@
 # P2-3.2 벡터 공간(vector space)과 위치의 직관
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 모양(shape)의 관점에서 봤습니다. 이제 벡터를 단순한 값의 목록에서 조금 더 확장해 봅니다. AI 문서에서 벡터는 종종 “어떤 공간 안의 위치”처럼 설명됩니다.
 
@@ -61,7 +61,7 @@ Chapter 3에서는 작은 벡터 세 개를 반복해서 사용합니다.
 
 ## 이 절의 범위
 
-여기서는 벡터 공간(vector space)을 입문 수준의 직관으로 다룹니다. 벡터 공간의 공리, 기저(basis), 차원(dimension)의 엄밀한 정의, 내적(inner product), 코사인 유사도(cosine similarity)의 계산은 깊게 다루지 않습니다. 유사도 검색(similarity search)은 Part 1에서 이미 큰 그림을 봤고, Part 2에서는 수학 표현을 읽기 위한 최소 직관만 다룹니다.
+여기서는 벡터 공간(vector space)을 입문 수준의 직관으로 다룹니다. 유사도 검색(similarity search)은 Part 1에서 이미 큰 그림을 봤고, Part 2에서는 수학 표현을 읽기 위한 최소 직관만 다룹니다.
 
 여기서는 다음 질문에 집중합니다.
 

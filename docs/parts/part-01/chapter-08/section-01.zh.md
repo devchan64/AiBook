@@ -1,7 +1,7 @@
 # P1-8.1 监督学习：输入与标签
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 第 7 章处理了 `search space`、`computational limit` 和 `heuristic`。现在要转入学习类型。第一个基准点是 `supervised learning`。
 
@@ -36,11 +36,7 @@
 
 ## 本节范围
 
-这一节不会计算监督学习算法。linear regression、logistic regression、decision tree、support vector machine 和 neural network 只会以名称的形式略过。
-
-这里也不会详细处理 loss function、gradient descent、validation data 或 overfitting。这些内容会在 Part 4 里围绕数据划分、验证、过拟合、泛化与优化重新回来。
-
-同样，本节也不会重新长篇定义 `input` 和 `output`。它们的基本区分已经在 4.2 固定，training 与 inference 的差别也已经在第 5 章处理。这里是在这些基础上再加一层：带标签的例子是怎样变成训练信号的。
+`input` 与 `output` 的基本区分已经在 4.2 固定，training 与 inference 的差别也已经在第 5 章处理。这里是在这些基础上再加一层：带标签的例子是怎样变成训练信号的。
 
 这里先采用一个工作定义：
 
@@ -179,8 +175,6 @@ Google 的 Machine Learning Glossary 把 supervised learning 解释成：从输�
 | 客服消息分类 | 客服句子 | 配送、退款、换货、其他 |
 | 图像分类 | 图片 | 猫、狗、汽车 |
 | 风险检测 | 交易信息 | 正常、可疑 |
-
-这一节不会深入概率输出或阈值。它们在 P1-6.3 和 P1-7.3 已经有位置，后面在 Part 4 还会再回来。
 
 ## regression 预测数值型标签
 

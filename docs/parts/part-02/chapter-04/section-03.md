@@ -1,7 +1,7 @@
 # P2-4.3 미분(derivative)과 그래디언트(gradient)
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P2-4.2에서는 변화율(rate of change)과 기울기(slope)를 봤습니다. 직선에서는 기울기가 일정하지만, 곡선에서는 구간이나 위치에 따라 변화율이 달라질 수 있었습니다.
 
@@ -17,14 +17,6 @@ P2-4.2에서는 변화율(rate of change)과 기울기(slope)를 봤습니다. �
 ## 이 절의 범위
 
 여기서는 단일 변수 함수의 미분(derivative), 여러 변수 함수의 편미분(partial derivative), 그래디언트(gradient)를 입문 수준으로 연결합니다.
-
-다음 내용은 깊게 다루지 않습니다.
-
-- 미분 공식의 체계적 암기
-- 연쇄 법칙(chain rule)의 상세 계산
-- 야코비안(Jacobian), 헤시안(Hessian)
-- 경사하강법(gradient descent)의 업데이트 공식
-- 역전파(backpropagation)
 
 여기서 먼저 해결할 질문은 이것입니다. `한 변수 기울기 기억이 남아 있을 때, 그것이 여러 변수의 그래디언트로 어떻게 확장되는가`입니다.
 

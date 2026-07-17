@@ -1,7 +1,7 @@
 # P4-15.3 OOB(Out-Of-Bag) And Checking Random Forest
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-15.1, we saw why random forest can create more stable predictions by gathering many trees. In P4-15.2, we saw how to read carefully what that forest considered important, namely feature importance.
 
@@ -27,13 +27,7 @@ This Section answers the following questions.
 - How is an OOB score different from train accuracy, validation score, and test score?
 - How far should OOB be trusted, and where should we stop?
 
-This Section does not go deeply into the following topics.
-
-- every variant of cross-validation
-- calibration and threshold adjustment
-- the difference in how OOB should be read in gradient boosting
-
-Those three items are mentioned only to clarify the outer boundary of OOB, and inside the current main text they are recovered only to the following extent.
+The outer boundary of OOB only needs to be fixed to about the following.
 
 | Item | Recovery state in the current main text |
 | --- | --- |

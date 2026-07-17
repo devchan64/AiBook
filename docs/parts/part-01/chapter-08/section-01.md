@@ -1,7 +1,7 @@
 # P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 첫 번째 기준점은 지도학습(supervised learning)입니다.
 
@@ -32,11 +32,7 @@ Part 1에서 `지도학습(supervised learning)`, `라벨(label)`, `라벨링(la
 
 ## 이 절의 범위
 
-여기서는 지도학습 알고리즘을 계산하지 않습니다. 선형 회귀(linear regression), 로지스틱 회귀(logistic regression), 결정트리(decision tree), 서포트 벡터 머신(support vector machine), 신경망(neural network)은 이름만 지나갑니다.
-
-또한 손실 함수(loss function), 경사하강법(gradient descent), 검증 데이터(validation data), 과적합(overfitting)은 자세히 다루지 않습니다. 이 주제들은 Part 4의 데이터 분리와 검증, 과적합과 일반화, 최적화와 학습 장에서 다시 다룹니다.
-
-또한 `입력(input)`과 `출력(output)`의 기본 정의를 다시 길게 반복하지는 않습니다. 그 구분은 4.2에서 먼저 잡았고, `훈련(training)`과 `inference`의 차이도 5장에서 정리했습니다. 여기서는 그 위에 `라벨이 있는 예시가 어떻게 학습 신호가 되는가`를 얹습니다.
+`입력(input)`과 `출력(output)`의 기본 구분은 4.2에서, `훈련(training)`과 `inference`의 차이는 5장에서 먼저 정리했습니다. 여기서는 그 위에 `라벨이 있는 예시가 어떻게 학습 신호가 되는가`를 얹습니다.
 
 여기서는 다음 정의를 기준선으로 둡니다.
 
@@ -175,8 +171,6 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 | 문의 유형 분류 | 고객 문의 문장 | 배송, 환불, 교환, 기타 |
 | 이미지 분류 | 이미지 | 고양이, 강아지, 자동차 |
 | 위험 탐지 | 거래 정보 | 정상, 의심 |
-
-여기서는 분류 모델의 확률 출력(probability estimate)이나 임계값(threshold)을 자세히 다루지 않습니다. 그 내용은 P1-6.3과 P1-7.3에서 이미 위치를 잡았고, Part 4에서 평가와 함께 다시 다룹니다.
 
 ## 회귀(regression)는 숫자 라벨을 예측한다
 

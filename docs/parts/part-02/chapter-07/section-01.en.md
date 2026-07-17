@@ -1,7 +1,7 @@
 # P2-7.1 Local Environment and Runtime
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P2-3.5, we first separated Colab and a local PC. At that time, the purpose was a preliminary guide so the reader could immediately follow the NumPy practice. Now we step down one layer more basic.
 
@@ -119,8 +119,6 @@ If we connect this transition to the surrounding Chapters at once, it can be org
 So the core of this Chapter is that the handle changes from `what shall we calculate?` to `where shall we execute that calculation?`
 
 ## Scope of This Section
-
-Here we do not guide Python installation step by step. Python installation is deferred to the supplementary learning of P2-7.7. We also do not go deeply into OS-specific installation screens, permission settings, IDE settings, or resolving package conflicts. Detailed explanations of terminal-command syntax, interpreter execution style, virtual-environment creation procedure, and dependency recording are each recovered again in P2-7.2, P2-7.3, P2-7.4, and P2-7.5.
 
 Here we cover only the following degree.
 
