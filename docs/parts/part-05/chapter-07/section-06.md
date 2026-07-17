@@ -57,6 +57,12 @@ P5-7.2에서는 learning rate를 `한 번의 update 보폭`으로 읽었습니�
 
 이 표가 보여 주는 핵심은 간단합니다. 고정 learning rate는 매 step을 같은 보폭으로 읽습니다. 반면 warmup + decay는 `처음에는 조심스럽게`, `중간에는 충분히`, `끝에는 다시 조심스럽게` 읽습니다. 초심자는 이 감각만 붙잡아도 scheduler 이름이 훨씬 덜 추상적으로 느껴집니다.
 
+그래프로 보면 차이가 더 직접 보입니다.
+
+![고정 learning rate와 warmup plus decay의 보폭 차이](../../../assets/part-05/chapter-07/learning-rate-step-size-ko.svg)
+
+같은 손실 곡선 위에서도 보폭이 너무 작으면 거의 움직이지 않고, 적절하면 낮은 손실 쪽으로 가며, 너무 크면 지나칠 수 있습니다. scheduler는 이 보폭을 `학습 시간축 전체에서 어떻게 운영할까`의 문제로 넓히는 장치입니다.
+
 ## warmup은 왜 필요한가
 
 warmup은 learning rate를 처음부터 크게 두지 않고, 작은 값에서 시작해 몇 step 또는 몇 epoch 동안 천천히 올리는 방식입니다.

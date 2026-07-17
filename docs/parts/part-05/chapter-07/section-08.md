@@ -62,6 +62,19 @@ gradient clipping은 이름 그대로 gradient가 너무 커졌을 때 그 크�
 
 이 세 질문이 먼저 잡히면, clipping 절은 `기술 이름 소개`가 아니라 `진단 순서 정리`로 읽히게 됩니다.
 
+이 진단 순서를 도식으로 다시 압축하면 다음과 같습니다.
+
+```mermaid
+flowchart TD
+    A["update가 불안정해 보임"] --> B{"계속 흔들리는가?"}
+    B -->|대체로 계속| C["기본 learning rate와<br/>보폭 정책 먼저 점검"]
+    B -->|일부 step만| D["순간 gradient scale과<br/>특정 batch를 먼저 점검"]
+    D --> E{"입력이 너무 큰가?"}
+    E -->|그렇다| F["gradient clipping 검토"]
+    E -->|아니다| G["optimizer state나 다른 원인 점검"]
+    C --> H["warmup / decay / 기본 lr 재검토"]
+```
+
 ## norm clipping과 value clipping은 어떻게 다른가
 
 입문 단계에서는 두 방식의 직관만 구분하면 충분합니다.

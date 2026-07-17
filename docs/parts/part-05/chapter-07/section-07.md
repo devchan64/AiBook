@@ -55,6 +55,14 @@ P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표
 
 이 표를 먼저 두면 `gradient가 계산됐다`와 `parameter가 바뀌었다` 사이에 optimizer와 update가 끼어 있다는 사실이 더 선명해집니다.
 
+도식으로 압축하면, 같은 학습 루프 안에서도 네 항목은 다음처럼 서로 다른 자리를 차지합니다.
+
+```mermaid
+--8<-- "assets/part-05/chapter-07/optimizer-loop-flow-ko.mmd"
+```
+
+이 도식에서 현재 절에 특히 중요한 구간은 `gradient 계산 -> optimizer -> 파라미터 반영`입니다. optimizer state는 바로 이 가운데에서 `이번 신호를 어떤 이동량으로 바꿀까`를 돕는 내부 기억으로 읽으면 됩니다.
+
 ## optimizer state는 왜 따로 필요한가
 
 기본 직접 update라면 현재 gradient와 learning rate만으로도 update를 만들 수 있습니다. 하지만 momentum, RMSProp, Adam처럼 최근 흐름이나 좌표별 크기를 반영하려면, 이전 step의 정보를 어딘가에 남겨 두어야 합니다. 그 역할을 하는 것이 optimizer state입니다.

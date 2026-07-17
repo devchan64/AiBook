@@ -55,6 +55,17 @@ optimizer 이름이 많아 보이는 이유는, 모두 `gradient를 실제 updat
 
 이 네 줄이 머릿속에 들어오면, 뒤의 긴 문단은 전혀 새로운 내용을 추가한다기보다 각 한 줄을 더 풀어 설명하는 것으로 읽히게 됩니다.
 
+위 구조를 `기준선에서 무엇이 추가되는가`의 흐름으로 다시 그리면 다음과 같습니다.
+
+```mermaid
+flowchart TD
+    A["기본 직접 update<br/>현재 gradient + 공통 learning rate"] --> B["momentum<br/>방향 기억 추가"]
+    A --> C["AdaGrad<br/>좌표별 누적 크기 추가"]
+    C --> D["RMSProp<br/>최근 평균 중심으로 조절"]
+    B --> E["Adam<br/>방향 기억 + 좌표별 조절"]
+    D --> E
+```
+
 ## momentum은 왜 따로 불리는가
 
 momentum은 가장 단순한 직접 update 위에 `이전 이동 방향`을 조금 남기려는 생각을 더한 것입니다. 지금 gradient만 보고 한 걸음 내딛는 대신, 최근 step에서 어느 방향으로 계속 움직이고 있었는지도 일부 반영합니다.
@@ -136,6 +147,20 @@ Adam은 optimizer 계열 비교에서 자주 마지막에 등장합니다. 이�
 즉, Adam을 이해하려면 Adam만 따로 떼어 외우기보다 `momentum에서 본 것`, `RMSProp/AdaGrad에서 본 것`이 어떻게 한 자리에서 만나는지를 보는 편이 더 낫습니다. 이 연결이 보이면 Adam은 외워야 할 새 브랜드가 아니라, 앞에서 쌓아 온 질문들이 만나는 지점으로 읽힙니다.
 
 이 문장을 실제 구분 순서로 바꾸면 더 쉽습니다. Adam을 만났을 때 바로 `유명한 optimizer다`로 정리하지 말고, 먼저 `방향 기억이 들어가 있는가`, 그다음 `좌표별 조절이 들어가 있는가`를 차례로 확인합니다. 두 질문에 모두 `그렇다`가 붙으면, Adam은 완전히 새로운 이름이라기보다 앞에서 본 두 줄기의 아이디어가 함께 들어간 예로 보입니다.
+
+아래 그래프들을 함께 보면, `같은 gradient 흐름`이 있어도 직접 update와 Adam-like update가 왜 다른 이동량과 다른 경로를 만드는지 더 직접 보입니다.
+
+![step마다 들어온 gradient 흐름](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-ko.png)
+
+이 첫 그래프는 세 step 동안 들어온 gradient 입력 자체를 보여 줍니다. 핵심은 입력 신호가 `-4.0 -> -2.0 -> -1.0`처럼 점점 작아진다는 점입니다. 즉, 두 방법의 차이는 입력이 달라서가 아니라, 이 입력을 해석하는 update 규칙이 다르기 때문에 생깁니다.
+
+![기본 직접 업데이트와 Adam-like의 step별 이동량 비교](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-ko.png)
+
+이 두 번째 그래프에서는 같은 입력 gradient를 받아도 직접 update는 learning rate를 곧바로 곱한 큰 이동량을 만들고, Adam-like는 최근 흐름과 좌표별 조절을 반영해 더 작은 이동량을 만들기 시작하는 장면이 보입니다. 초심자는 이 그래프를 `입력은 같아도 step 크기는 같지 않을 수 있다`는 확인 장치로 읽으면 충분합니다.
+
+![기본 직접 업데이트와 Adam-like의 risk_weight 이동 경로](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-ko.png)
+
+세 번째 그래프는 그 차이가 실제 파라미터 경로에서 어떻게 누적되는지 보여 줍니다. 직접 update는 `1.4 -> 1.6 -> 1.7`로 더 빠르게 움직이고, Adam-like는 `1.04 -> 1.10 -> 1.16`처럼 더 완만하게 이동합니다. 여기서 독자가 붙잡아야 할 핵심은 `어느 쪽이 절대적으로 더 좋다`가 아니라, optimizer 규칙이 같은 gradient history를 서로 다른 parameter path로 바꾼다는 점입니다.
 
 ## optimizer 계열을 구분하는 기준표
 
