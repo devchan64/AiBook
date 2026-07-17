@@ -1,9 +1,9 @@
-# P5-8.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가
+# P5-8.4 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
 
 Section ID: `P5-8.4`
-Version: `v2026.07.16`
+Version: `v2026.07.17`
 
-P5-8.3에서는 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 `깊은 네트워크를 덜 흔들리게 하는 조건`으로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
+P5-8.3에서는 깊은 계산이 실제로 덜 흔들리게 되는 조건을 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)로 묶어 읽었습니다. 이제 그 말을 실제 숫자로 확인합니다.
 
 핵심 질문은 단순합니다.
 
@@ -15,9 +15,9 @@ P5-8.3에서는 초기화(initialization), 수치 안정성(numerical stability)
 
 - 큰 초기화 스케일이 깊은 반복 계산에서 raw activation 범위와 분산을 어떻게 키우는가?
 - batch normalization을 각 층 뒤에 적용하면 같은 계산 흐름이 어떻게 달라지는가?
-- 이 예제가 실제 신경망 전체를 대신하지는 않지만, 수치 안정성 직관을 어떻게 붙잡아 주는가?
+- 이 예제가 실제 신경망 전체를 대신하지는 않지만, 계산 안정화 직관을 어떻게 붙잡아 주는가?
 
-이 절에서는 optimizer update, loss 감소, 실제 데이터셋 학습 성능을 다루지 않습니다. 그 주제는 P5-6.1의 학습 루프 설명과 P5-7.1, P5-7.2의 optimizer 설명으로 넘깁니다.
+이 절은 챕터 8의 마지막 단계로서, 앞 절에서 묶은 `계산 안정화 장치`를 숫자로 다시 확인하는 자리입니다. optimizer update, loss 감소, 실제 데이터셋 학습 성능을 다루지 않는 이유도 여기에 있습니다. 그 주제는 P5-6.1의 학습 루프 설명과 P5-7.1, P5-7.2의 optimizer 설명으로 넘깁니다.
 
 ## 예제의 읽기 기준
 
@@ -48,6 +48,8 @@ P5-8.3에서는 초기화(initialization), 수치 안정성(numerical stability)
 | `layer` 반복 횟수 | 각 층의 `raw_range`, `raw_variance` 변화 | 같은 스케일도 층 수가 늘면 불안정성이 얼마나 누적되는가 |
 | 입력 활성값 표 | `raw_range`, `after_bn_range` | 입력 분포가 달라지면 batch normalization 뒤 범위도 어떻게 함께 바뀌는가 |
 | `eps` | `after_bn_range`의 미세 변화 | batch normalization이 평균과 분산을 기준으로 분포를 정리한다는 점이 어떻게 드러나는가 |
+
+여기서도 한 가지를 먼저 고정해 둡니다. 아래 batch normalization 결과는 `초기화가 아무렇게나 커도 문제없다`는 뜻이 아닙니다. 이 장난감 실험은 `같은 샘플 모양에 스케일만 바꾸면 분포 재정렬이 어떤 식으로 보이는가`를 분리해서 보여 주는 예제입니다. 따라서 batch normalization은 `이미 생긴 분포를 다시 다루기 쉽게 정리하는 장치`로 읽고, 초기화가 맡는 출발점 문제를 대신 해결한다고 읽지 않는 편이 안전합니다.
 
 ## Python 예제
 
@@ -134,7 +136,7 @@ layer 3: raw_range=(364.500, 1458.000), raw_variance=206671.500, after_bn_range=
 
 ![초기화 스케일별 층별 raw variance](../../../assets/part-05/chapter-08/deep-scale-raw-variance-ko.png)
 
-셋째 그래프는 각 층 뒤에 batch normalization을 적용한 뒤의 출력 범위입니다. raw activation은 케이스마다 크게 달라지지만, normalization 뒤의 범위는 `다음 층이 다루기 쉬운 비슷한 규모`로 다시 정리됩니다. 여기서 중요한 점은 `항상 똑같은 숫자로 고정된다`가 아니라, `입력 분포가 크게 달라도 중심과 퍼짐이 다시 비교 가능한 범위로 맞춰진다`는 쪽입니다. 이 장난감 예제에서 케이스별 범위가 거의 같게 보이는 이유는 세 샘플의 상대적 모양은 유지한 채 스케일만 바꾸고 있기 때문입니다.
+셋째 그래프는 각 층 뒤에 batch normalization을 적용한 뒤의 출력 범위입니다. raw activation은 케이스마다 크게 달라지지만, normalization 뒤의 범위는 `다음 층이 다루기 쉬운 비슷한 규모`로 다시 정리됩니다. 여기서 중요한 점은 `항상 똑같은 숫자로 고정된다`가 아니라, `입력 분포가 크게 달라도 중심과 퍼짐이 다시 비교 가능한 범위로 맞춰진다`는 쪽입니다. 이 장난감 예제에서 케이스별 범위가 거의 같게 보이는 이유는 세 샘플의 상대적 모양은 유지한 채 스케일만 바꾸고 있기 때문이며, 그래서 이 그림 하나만 보고 `batch normalization이 초기화 문제를 거의 지워 준다`고 읽으면 과합니다.
 
 ![batch normalization 뒤 층별 activation 범위](../../../assets/part-05/chapter-08/deep-scale-bn-range-ko.png)
 

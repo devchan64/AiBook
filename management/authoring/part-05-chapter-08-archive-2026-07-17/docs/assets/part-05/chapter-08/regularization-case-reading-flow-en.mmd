@@ -1,0 +1,15 @@
+flowchart TD
+  A["Similar training fit"]
+  B["Old reading: lower training loss is enough"]
+  C["Check weight size"]
+  D["Check prediction sensitivity"]
+  E["Regularization view"]
+  F["Prefer the less aggressive solution"]
+  G["Verify validation loss and input-change stability"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F
+  F --> G

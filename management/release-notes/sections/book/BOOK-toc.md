@@ -100,3 +100,17 @@
 - 번역 반영 상태: 향후 반영 필요
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.16`
+
+### v2026.07.17
+
+- 변경 이유: Part 5 Chapter 7을 `본편 3절 + 보충학습 5절` 구조로 확장하면서, 독자용 목차도 새 보충학습 재방문 경로를 바로 보여 줄 필요가 생겼다.
+- 본문 반영: 한국어 독자용 목차의 Part 5 Chapter 7에 `P5-7.5 momentum, AdaGrad, RMSProp, Adam`, `P5-7.6 learning rate scheduler, warmup, decay`, `P5-7.7 optimizer state와 parameter-wise update`, `P5-7.8 gradient clipping과 불안정한 update`를 추가하고 `Version`을 `v2026.07.17`로 갱신했다.
+- 본문 반영: P5-7.4의 표제를 `adaptive optimization의 수렴 보장과 주장 구분`으로 갱신해, 독자용 목차와 배포 내비게이션에서도 이 절이 `읽는 법` 안내가 아니라 주장 구분 기준을 주는 보충학습으로 보이게 정리했다.
+- 변경 이유: Part 5 Module 3의 중심이 `학습 루프와 안정화`인데, 기존 Chapter 8 제목 `학습 안정화와 일반화 제약`은 regularization과 stabilization을 병렬 축처럼 읽히게 만들어 흐름이 갈렸다.
+- 본문 반영: 한국어 독자용 목차의 Part 5 Chapter 8 제목을 `학습 루프를 안정적으로 만드는 제어 장치`로 바꾸고, P5-8.1~P5-8.4 설명도 `목적 함수 제어 -> 구조 수준 제어 -> 계산 안정화 -> 숫자 확인` 흐름이 보이도록 다시 정리했다.
+- 본문 반영: Chapter 8 각 Section 제목도 `기법 이름`과 `질문형 보충학습`이 섞이지 않도록, 모두 `무엇을 제어하는가`가 먼저 보이는 역할형 제목으로 다시 맞췄다.
+- 번역 동기화 메모: Korean reader-facing TOC now reflects the expanded Chapter 7 supplementary-learning structure. Future English and Simplified Chinese TOCs should preserve the same Section IDs and order when translated.
+- 번역 동기화 메모: Future English and Simplified Chinese TOCs should also replace the old Chapter 8 framing with the new learning-loop-control wording when those translations are updated.
+- 번역 반영 상태: 향후 반영 필요
+- 관련 자산: 없음
+- 원문 기준 버전: `v2026.07.17`

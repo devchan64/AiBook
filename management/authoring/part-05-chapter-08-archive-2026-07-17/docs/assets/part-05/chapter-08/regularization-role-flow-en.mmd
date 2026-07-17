@@ -1,0 +1,13 @@
+flowchart TD
+  A["Model prediction"]
+  B["Data loss"]
+  C["Regularization term"]
+  D["Total objective"]
+  E["Less extreme parameter preference"]
+  F["Better generalization direction"]
+
+  A --> B
+  B --> D
+  C --> D
+  D --> E
+  E --> F

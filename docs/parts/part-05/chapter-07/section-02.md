@@ -22,7 +22,7 @@ P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 �
 
 이 절에서는 `같은 gradient를 실제로 얼마만큼 움직일 것인가`를 닫는 데 집중합니다. 즉, 여기서는 optimizer의 역할을 이미 안다는 전제 위에서, learning rate가 update 보폭을 어떻게 바꾸는지 먼저 설명합니다. 이 구분이 선명해야 뒤에서 Adam 같은 적응형 optimizer를 볼 때도 `무엇을 더 조절하는가`가 흐려지지 않습니다.
 
-대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. 최근 gradient 흐름과 좌표별 차이를 함께 반영하는 적응형 update는 다음 Section인 P5-7.3에서 이어서 설명합니다. adaptive optimization의 수렴 분석은 P5-7.4 보충학습으로 분리합니다.
+대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. 최근 gradient 흐름과 좌표별 차이를 함께 반영하는 적응형 update는 다음 Section인 P5-7.3에서 이어서 설명합니다. learning rate를 학습 내내 같은 값으로 두지 않고 warmup이나 decay로 운영하는 방식은 P5-7.6 보충학습에서 다시 설명합니다. adaptive optimization의 수렴 분석은 P5-7.4 보충학습으로 분리합니다.
 
 ## 이 절의 목표
 

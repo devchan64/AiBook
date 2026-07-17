@@ -1,0 +1,13 @@
+flowchart TD
+  A["모델 예측"]
+  B["데이터 손실(data loss)"]
+  C["정규화 항(regularization term)"]
+  D["전체 목적 함수"]
+  E["덜 과격한 파라미터 선호"]
+  F["일반화 쪽으로 유도"]
+
+  A --> B
+  B --> D
+  C --> D
+  D --> E
+  E --> F

@@ -18,7 +18,7 @@ P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보�
 - Adam은 그 적응형 update 감각을 설명할 때 어떤 대표 예가 되는가?
 - Adam이 실무에서 많이 언급되지만 왜 절대 우열로 외우면 안 되는가?
 
-이 절에서는 optimizer 이름을 더 많이 늘어놓기보다, 적응형 update가 어떤 문제의식에서 나오는지 설명합니다. 여기서 읽어야 할 것은 `이미 계산된 gradient를 어떤 규칙으로 실제 update로 바꾸는가`, 그리고 왜 그 규칙에 최근 흐름과 좌표별 차이가 들어가는가입니다. Adam은 이 직관을 붙잡는 대표 예로 사용합니다. regularization과 일반화의 관점은 P5-8.1, P5-8.2에서 다시 연결하고, adaptive optimization의 수렴 분석은 P5-7.4 보충학습으로 이어집니다.
+이 절에서는 optimizer 이름을 더 많이 늘어놓기보다, 적응형 update가 어떤 문제의식에서 나오는지 설명합니다. 여기서 읽어야 할 것은 `이미 계산된 gradient를 어떤 규칙으로 실제 update로 바꾸는가`, 그리고 왜 그 규칙에 최근 흐름과 좌표별 차이가 들어가는가입니다. Adam은 이 직관을 붙잡는 대표 예로 사용합니다. optimizer 계열 이름을 처음 구분하는 비교는 P5-7.5 보충학습에서, optimizer state와 parameter-wise update는 P5-7.7 보충학습에서 다시 이어집니다. regularization과 일반화의 관점은 P5-8.1, P5-8.2에서 다시 연결하고, adaptive optimization의 수렴 분석은 P5-7.4 보충학습으로 이어집니다.
 
 | 지금 절에서 구분할 것 | 왜 중요한가 |
 | --- | --- |

@@ -1,7 +1,7 @@
 # 목차
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.16`
+> Version: `v2026.07.17`
 
 이 목차는 현재 기준 목차로 확정한 학습 순서입니다. `확정`은 책의 구조로 채택했다는 뜻이며, 각 장의 내용이 모두 작성되었거나 검증되었다는 뜻은 아닙니다.
 
@@ -567,14 +567,18 @@ flowchart LR
 - **P5-7.1 옵티마이저(optimizer)의 역할**: gradient가 실제 파라미터 update로 바뀌는 자리를 봅니다.
 - **P5-7.2 학습률(learning rate)과 update 보폭**: 같은 gradient라도 한 번의 update가 왜 너무 작거나 너무 커질 수 있는지 봅니다.
 - **P5-7.3 적응형 업데이트의 직관: Adam을 예로**: 적응형 업데이트가 기본 update에 무엇을 더 보완하려 하는지, Adam을 대표 예로 보며 읽습니다.
-- **P5-7.4 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법**: adaptive optimizer 논문에서 수렴 보장을 읽을 때 필요한 조건과 한계를 처음 구분합니다.
+- **P5-7.4 보충학습: adaptive optimization의 수렴 보장과 주장 구분**: adaptive optimizer를 설명할 때 실험 성능, 수렴 보장, 일반화 성능을 어떻게 구분해야 하는지 보충합니다.
+- **P5-7.5 보충학습: momentum, AdaGrad, RMSProp, Adam**: optimizer 계열 차이를 `무엇을 더 기억하고 무엇을 더 조절하는가`의 기준으로 설명합니다.
+- **P5-7.6 보충학습: learning rate scheduler, warmup, decay**: learning rate를 고정값이 아니라 시간에 따라 운영하는 보폭 정책으로 설명합니다.
+- **P5-7.7 보충학습: optimizer state와 parameter-wise update**: parameter, gradient, update, optimizer state를 분리하고 adaptive optimizer의 내부 기억을 설명합니다.
+- **P5-7.8 보충학습: gradient clipping과 불안정한 update**: learning rate 문제, gradient 폭주, clipping 안전장치를 구분해 설명합니다.
 
-#### Chapter 8. 학습 안정화와 일반화 제약 `학습 원리`
+#### Chapter 8. 학습 루프를 안정적으로 만드는 제어 장치 `학습 원리`
 
-- **P5-8.1 정규화(regularization)**: 과적합을 줄이기 위한 제약을 봅니다.
-- **P5-8.2 드롭아웃(dropout)**: 일부 연결을 끊어 학습하는 직관을 봅니다.
-- **P5-8.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법**: 깊은 네트워크가 왜 그냥 쌓는다고 바로 잘 학습되지 않는지, 학습 안정화 축을 한 자리에서 정리합니다.
-- **P5-8.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가**: 큰 초기화 스케일이 깊은 층을 지나며 raw activation 범위와 분산을 실제로 키우는 장면을 Python 예제와 분할 그래프로 확인합니다.
+- **P5-8.1 목적 함수에 제약을 두는 방법: 정규화(regularization)**: 목적 함수 옆에 어떤 제약을 두어 새 데이터까지 버티는 해를 더 선호하게 만드는지 봅니다.
+- **P5-8.2 경로 의존을 줄이는 방법: 드롭아웃(dropout)**: forward 계산 중 일부 경로를 임시로 쉬게 하며 특정 지름길 의존을 줄이는 직관을 봅니다.
+- **P5-8.3 보충학습: 깊은 계산이 흔들리지 않게 하는 조건 - 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)**: 깊은 계산이 왜 자주 흔들리는지, 그리고 어떤 조건이 forward와 backward를 덜 흔들리게 만드는지 한 자리에서 정리합니다.
+- **P5-8.4 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가**: 큰 초기화 스케일과 batch normalization이 깊은 계산 범위를 어떻게 바꾸는지 Python 예제와 분할 그래프로 확인합니다.
 
 ### Module 4. 계산 확장
 

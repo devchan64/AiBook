@@ -401,12 +401,16 @@ nav:
               - "P5-7.1 옵티마이저(optimizer)의 역할": parts/part-05/chapter-07/section-01.md
               - "P5-7.2 학습률(learning rate)과 update 보폭": parts/part-05/chapter-07/section-02.md
               - "P5-7.3 적응형 업데이트의 직관: Adam을 예로": parts/part-05/chapter-07/section-03.md
-              - "P5-7.4 보충학습: adaptive optimization의 수렴 분석을 처음 읽는 법": parts/part-05/chapter-07/section-04.md
-          - Chapter P5-8. 학습 안정화와 일반화 제약:
-              - "P5-8.1 정규화(regularization)": parts/part-05/chapter-08/section-01.md
-              - "P5-8.2 드롭아웃(dropout)": parts/part-05/chapter-08/section-02.md
-              - "P5-8.3 보충학습: 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)를 처음 묶어 읽는 법": parts/part-05/chapter-08/section-03.md
-              - "P5-8.4 보충학습: 큰 초기화 스케일이 깊은 층에서 값을 어떻게 키우는가": parts/part-05/chapter-08/section-04.md
+              - "P5-7.4 보충학습: adaptive optimization의 수렴 보장과 주장 구분": parts/part-05/chapter-07/section-04.md
+              - "P5-7.5 보충학습: momentum, AdaGrad, RMSProp, Adam": parts/part-05/chapter-07/section-05.md
+              - "P5-7.6 보충학습: learning rate scheduler, warmup, decay": parts/part-05/chapter-07/section-06.md
+              - "P5-7.7 보충학습: optimizer state와 parameter-wise update": parts/part-05/chapter-07/section-07.md
+              - "P5-7.8 보충학습: gradient clipping과 불안정한 update": parts/part-05/chapter-07/section-08.md
+          - Chapter P5-8. 학습 루프를 안정적으로 만드는 제어 장치:
+              - "P5-8.1 목적 함수에 제약을 두는 방법: 정규화(regularization)": parts/part-05/chapter-08/section-01.md
+              - "P5-8.2 경로 의존을 줄이는 방법: 드롭아웃(dropout)": parts/part-05/chapter-08/section-02.md
+              - "P5-8.3 보충학습: 깊은 계산이 흔들리지 않게 하는 조건 - 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)": parts/part-05/chapter-08/section-03.md
+              - "P5-8.4 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가": parts/part-05/chapter-08/section-04.md
       - Module 4. 계산 확장:
           - Chapter P5-9. GPU와 병렬 처리:
               - "P5-9.1 GPU와 병렬 처리": parts/part-05/chapter-09/section-01.md
