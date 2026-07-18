@@ -1,0 +1,7 @@
+signal_id,signal_type,gap,event_count,repeatability_score,recency_weight,reader_impact,reproducible,expected_grade,first_check,next_action_hint
+grade-01,baseline_drift,0.30,4,0.75,0.80,중간,예,review,최근 구간과 기준선 구간의 샘플 수 대조,다음 구간에서도 같은 방향 변화가 반복되는지 확인한다
+grade-02,false_alarm,0.42,4,0.25,0.30,낮음,아니오,watch,해당 동작의 원시 로그와 센서 결측 여부 확인,단발성 튐인지 추가 동작에서 다시 본다
+grade-03,repeatability_low,0.34,2,0.50,0.70,중간,아니오,watch,최근 구간 동작 수와 누락 여부 확인,최소 샘플 수를 채운 뒤 다시 비교한다
+grade-04,stable_change,0.18,5,0.80,0.90,중간,예,review,구간 평균과 패턴 라벨의 반복 여부 확인,다음 반복에서 기준선 갱신 후보로 남긴다
+grade-05,public_example_mismatch,0.00,1,1.00,1.00,높음,예,action,본문 표와 CSV 원본 대조,잘못된 설명 또는 값을 바로 고친다
+grade-06,recent_repeat,0.26,6,0.83,1.00,높음,예,action,최근 반복 신호와 독자 영향 범위 대조,운영 카드의 우선순위를 즉시 조정한다

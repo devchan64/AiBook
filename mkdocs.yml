@@ -506,7 +506,7 @@ nav:
               - "P6-15.1 LLM 평가(evaluation)": parts/part-06/chapter-15/section-01.md
               - "P6-15.2 자동 평가와 사람 평가": parts/part-06/chapter-15/section-02.md
           - Chapter P6-16. AI 서비스가 현실에서 만나는 제약:
-              - "P6-16.1 AI 서비스가 현실에서 만나는 제약": parts/part-06/chapter-16/section-01.md
+              - "P6-16.1 서비스 운영 제약": parts/part-06/chapter-16/section-01.md
               - "P6-16.2 운영 중 실패 대응": parts/part-06/chapter-16/section-02.md
           - Chapter P6-17. 작은 생성형 AI 기능을 한 흐름으로 묶기:
               - "P6-17.1 작은 생성형 AI 기능을 한 흐름으로 묶기": parts/part-06/chapter-17/section-01.md
@@ -553,6 +553,7 @@ nav:
               - "P7-7.1 배포 확인과 상태 점검": parts/part-07/chapter-07/section-01.md
               - "P7-7.2 장애 기록과 다음 반복 계획": parts/part-07/chapter-07/section-02.md
               - "P7-7.3 운영 점검 시뮬레이션": parts/part-07/chapter-07/section-03.md
+              - "P7-7.4 경고 등급 설계 연습": parts/part-07/chapter-07/section-04.md
       - Part 7 마무리: parts/part-07/summary.md
 
 markdown_extensions:

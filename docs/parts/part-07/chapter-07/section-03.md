@@ -180,70 +180,6 @@ for row in records:
 
 > `영문 목차에서 새 절 제목은 보이지만 대상 링크가 다른 절로 연결됨`은 독자 영향이 크고 재현도 분명하므로 `즉시 수정`으로 두는 편이 맞다. 첫 확인 위치는 영문 목차 링크와 대상 파일 경로 대조이며, 가능한 원인은 언어별 목차 갱신 중 대상 경로를 잘못 연결했기 때문이다. 따라서 다음 조치는 링크 경로를 바로잡고, 같은 작업 안에서 다른 언어 목차 링크도 함께 다시 점검하는 것이다.
 
-## 동작 단위 센서 운영 점검 카드
-
-동작 단위 합성 데이터의 운영 신호도 같은 세 칸으로 나눌 수 있습니다. 여기서 중요한 것은 `센서 값이 이상하다`로 뭉뚱그리지 않고, 반복성, 기준선 차이, 공개 예제 품질 영향을 함께 보는 것입니다.
-
-- 입력 파일: [`p7-action-unit-ops-signals.csv`](../../../assets/part-07/chapter-07/p7-action-unit-ops-signals.csv)
-
-| 신호 유형 | 먼저 볼 질문 | 행동 구간 |
-| --- | --- | --- |
-| false alarm | 한 번 튄 값인가, 반복되는가 | 재현 확인 |
-| repeatability low | 표본 수가 판단할 만큼 충분한가 | 재현 확인 |
-| baseline drift | 같은 방향 변화가 여러 번 반복되는가 | 재현 확인 또는 다음 반복 개선 |
-| public example mismatch | 공개 예제 설명과 값이 충돌하는가 | 즉시 수정 |
-
-```python
-import csv
-from pathlib import Path
-
-signals_path = Path("docs/assets/part-07/chapter-07/p7-action-unit-ops-signals.csv")
-rows = list(csv.DictReader(signals_path.open(encoding="utf-8")))
-
-def classify(row):
-    if row["reader_impact"] == "높음" and row["reproducible"] == "예":
-        return "즉시 수정"
-    if row["signal_type"] in {"false_alarm", "repeatability_low"}:
-        return "재현 확인"
-    if row["signal_type"] in {"baseline_drift", "stable_change"} and int(row["repeat_count"]) >= 4:
-        return "다음 반복 개선"
-    return "재현 확인"
-
-records = []
-for row in rows:
-    bucket = classify(row)
-    records.append({
-        "signal_id": row["signal_id"],
-        "signal_type": row["signal_type"],
-        "predicted_bucket": bucket,
-        "expected_bucket": row["recommended_bucket"],
-        "first_check": row["first_check"],
-    })
-
-summary = {
-    "즉시 수정": sum(row["predicted_bucket"] == "즉시 수정" for row in records),
-    "재현 확인": sum(row["predicted_bucket"] == "재현 확인" for row in records),
-    "다음 반복 개선": sum(row["predicted_bucket"] == "다음 반복 개선" for row in records),
-}
-
-print("동작 단위 운영 점검 요약 =", summary)
-for row in records:
-    print(row)
-```
-
-실행 결과는 다음처럼 읽을 수 있습니다.
-
-```text
-동작 단위 운영 점검 요약 = {'즉시 수정': 1, '재현 확인': 3, '다음 반복 개선': 1}
-{'signal_id': 'action-ops-01', 'signal_type': 'baseline_drift', 'predicted_bucket': '재현 확인', 'expected_bucket': '재현 확인', 'first_check': '최근 구간과 기준선 구간의 샘플 수 대조'}
-{'signal_id': 'action-ops-02', 'signal_type': 'false_alarm', 'predicted_bucket': '재현 확인', 'expected_bucket': '재현 확인', 'first_check': '해당 동작의 원시 로그와 센서 결측 여부 확인'}
-{'signal_id': 'action-ops-03', 'signal_type': 'repeatability_low', 'predicted_bucket': '재현 확인', 'expected_bucket': '재현 확인', 'first_check': '최근 구간 동작 수와 누락 여부 확인'}
-{'signal_id': 'action-ops-04', 'signal_type': 'stable_change', 'predicted_bucket': '다음 반복 개선', 'expected_bucket': '다음 반복 개선', 'first_check': '구간 평균과 패턴 라벨의 반복 여부 확인'}
-{'signal_id': 'action-ops-05', 'signal_type': 'immediate_quality', 'predicted_bucket': '즉시 수정', 'expected_bucket': '즉시 수정', 'first_check': '본문 표와 CSV 원본 대조'}
-```
-
-이 표에서 `action-ops-05`는 공개 예제 설명과 값이 충돌하므로 즉시 수정 대상입니다. 반면 `action-ops-02`와 `action-ops-03`은 값이 이상해 보여도 재현과 표본 수 확인이 먼저입니다. 운영 회고에서는 `이상 신호 발견`보다 `어떤 근거가 생기면 행동 구간이 바뀌는가`를 남겨야 다음 반복이 흔들리지 않습니다.
-
 ## 직접 바꿔 보며 확인할 것
 
 1. `ops-03`의 `reader_impact`를 `높음`으로 바꿔 봅니다.
@@ -265,5 +201,4 @@ for row in records:
 ## 출처와 참고 자료
 
 - 운영 시나리오 파일: [`p7-7-ops-scenarios.csv`](../../../assets/part-07/chapter-07/p7-7-ops-scenarios.csv)
-- 동작 단위 운영 신호 파일: [`p7-action-unit-ops-signals.csv`](../../../assets/part-07/chapter-07/p7-action-unit-ops-signals.csv)
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

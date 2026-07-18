@@ -1,6 +1,0 @@
-signal_id,signal_type,observation,event_count,repeat_count,baseline_gap,reader_impact,reproducible,recommended_bucket,first_check,next_action_hint
-action-ops-01,baseline_drift,최근 4회 중 3회에서 중반 유량 평균이 기준선보다 낮고 후반 하강도 반복됨,4,3,-0.30,중간,예,재현 확인,최근 구간과 기준선 구간의 샘플 수 대조,같은 방향 변화가 다음 구간에서도 반복되는지 확인한다
-action-ops-02,false_alarm,한 번의 동작에서 tracking_error가 크게 튀었지만 앞뒤 동작에서는 반복되지 않음,4,1,0.14,낮음,아니오,재현 확인,해당 동작의 원시 로그와 센서 결측 여부 확인,단발성 튐인지 추가 동작에서 다시 본다
-action-ops-03,repeatability_low,최근 구간 샘플이 2회뿐이라 기준선 차이는 크지만 판단 근거가 약함,2,2,-0.34,중간,아니오,재현 확인,최근 구간 동작 수와 누락 여부 확인,최소 샘플 수를 채운 뒤 다시 비교한다
-action-ops-04,stable_change,최근 5회에서 late_drop_rate가 완만하게 증가하고 review_needed가 반복됨,5,4,0.09,중간,예,다음 반복 개선,구간 평균과 패턴 라벨의 반복 여부 확인,다음 반복에서 기준선 갱신 후보로 남긴다
-action-ops-05,immediate_quality,공개 예제 출력 표에서 review_needed 설명과 CSV 값이 서로 맞지 않음,1,1,0.00,높음,예,즉시 수정,본문 표와 CSV 원본 대조,잘못된 설명 또는 값을 바로 고친다
