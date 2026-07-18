@@ -67,6 +67,29 @@ LANG_TEXT = {
         "blank_token": "blank patch",
         "seal_token": "seal patch",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "cnn_outfile": "cnn-vit-cnn-local-score-map-zh.png",
+        "vit_outfile": "cnn-vit-patch-token-mean-map-zh.png",
+        "cnn_x_label": "2x2 局部窗口列位置",
+        "cnn_y_label": "2x2 局部窗口行位置",
+        "vit_x_label": "3x3 patch 列位置",
+        "vit_y_label": "3x3 patch 行位置",
+        "cnn_colorbar": "局部对比分数",
+        "vit_colorbar": "patch 平均值",
+        "top_candidate": "高优先候选",
+        "code_token": "代码 patch",
+        "blank_token": "空白背景 patch",
+        "seal_token": "封口 patch",
+    },
 }
 
 

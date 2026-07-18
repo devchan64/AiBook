@@ -1,0 +1,11 @@
+flowchart TD
+  A["输入图像"]
+  B["convolution<br/>检测局部模式"]
+  C["feature map"]
+  D["pooling<br/>汇总响应"]
+  E["更小的特征图"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

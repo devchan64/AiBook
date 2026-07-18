@@ -3,9 +3,10 @@
 - Public manuscript pages must reference their own language asset directly.
 - Current deployment references:
   - Korean public manuscript pages reference `-ko.svg` or `-ko.mmd` directly, depending on asset type.
-  - English pages should reference `-en.mmd` when the translated manuscript page is opened later.
-- This chapter currently deploys Korean SVG assets for early CNN sections and Korean Mermaid assets for the CNN-ViT comparison section.
-- When revising a diagram, update the English Mermaid original first and then sync the Korean derivative and any exported Korean SVG asset that the manuscript actually includes.
+  - English public manuscript pages reference `-en` assets directly.
+  - Chinese public manuscript pages should reference `-zh` assets directly.
+- This chapter deploys language-specific SVG, Mermaid, and PNG assets for the public manuscript pages that already exist.
+- When revising a diagram, update the English-origin source first and then sync the Korean and Chinese derivatives, plus any exported language-specific SVG or PNG asset that the manuscript actually includes.
 - Current language pairs:
   - `cnn-local-window-baseline-en.mmd` / `cnn-local-window-baseline-ko.mmd`
   - `cnn-object-detection-flow-en.mmd` / `cnn-object-detection-flow-ko.mmd`
@@ -15,15 +16,29 @@
   - `convolution-pooling-flow-en.mmd` / `convolution-pooling-flow-ko.mmd`
   - `filter-reading-options-en.mmd` / `filter-reading-options-ko.mmd`
   - `vit-patch-flow-en.mmd` / `vit-patch-flow-ko.mmd`
+  - `cnn-object-detection-flow-en.mmd` / `cnn-object-detection-flow-ko.mmd` / `cnn-object-detection-flow-zh.mmd`
+  - `convolution-pooling-flow-en.mmd` / `convolution-pooling-flow-ko.mmd` / `convolution-pooling-flow-zh.mmd`
+  - `cnn-local-window-baseline-en.mmd` / `cnn-local-window-baseline-ko.mmd` / `cnn-local-window-baseline-zh.mmd`
+  - `filter-reading-options-en.mmd` / `filter-reading-options-ko.mmd` / `filter-reading-options-zh.mmd`
+  - `vit-patch-flow-en.mmd` / `vit-patch-flow-ko.mmd` / `vit-patch-flow-zh.mmd`
+  - `cnn-vit-common-input-compare-en.mmd` / `cnn-vit-common-input-compare-ko.mmd` / `cnn-vit-common-input-compare-zh.mmd`
+  - `cnn-vit-valve-body-case-flow-en.mmd` / `cnn-vit-valve-body-case-flow-ko.mmd` / `cnn-vit-valve-body-case-flow-zh.mmd`
+  - `cnn-vit-beacon-tank-case-flow-en.mmd` / `cnn-vit-beacon-tank-case-flow-ko.mmd` / `cnn-vit-beacon-tank-case-flow-zh.mmd`
 - Python chart source:
   - `p5_11_1_local_response_charts.py`
   - `p5_11_3_cnn_vit_comparison_charts.py`
   - `p5_11_2_convolution_pooling_trace.py`
 - Matplotlib chart assets:
-  - `cnn-local-response-normal-en.png` / `cnn-local-response-normal-ko.png`
-  - `cnn-local-response-scratch-en.png` / `cnn-local-response-scratch-ko.png`
+  - `cnn-local-response-normal-en.png` / `cnn-local-response-normal-ko.png` / `cnn-local-response-normal-zh.png`
+  - `cnn-local-response-scratch-en.png` / `cnn-local-response-scratch-ko.png` / `cnn-local-response-scratch-zh.png`
   - `cnn-vit-cnn-local-score-map-en.png` / `cnn-vit-cnn-local-score-map-ko.png`
-  - `cnn-vit-patch-token-mean-map-en.png` / `cnn-vit-patch-token-mean-map-ko.png`
+  - `cnn-vit-cnn-local-score-map-en.png` / `cnn-vit-cnn-local-score-map-ko.png` / `cnn-vit-cnn-local-score-map-zh.png`
+  - `cnn-vit-patch-token-mean-map-en.png` / `cnn-vit-patch-token-mean-map-ko.png` / `cnn-vit-patch-token-mean-map-zh.png`
   - `convolution-pooling-input-en.png` / `convolution-pooling-input-ko.png`
-  - `convolution-pooling-feature-map-en.png` / `convolution-pooling-feature-map-ko.png`
-  - `convolution-pooling-max-pool-en.png` / `convolution-pooling-max-pool-ko.png`
+  - `convolution-pooling-input-en.png` / `convolution-pooling-input-ko.png` / `convolution-pooling-input-zh.png`
+  - `convolution-pooling-feature-map-en.png` / `convolution-pooling-feature-map-ko.png` / `convolution-pooling-feature-map-zh.png`
+  - `convolution-pooling-max-pool-en.png` / `convolution-pooling-max-pool-ko.png` / `convolution-pooling-max-pool-zh.png`
+- SVG assets used directly by P5-11.1:
+  - `cnn-channel-feature-map-en.svg` / `cnn-channel-feature-map-ko.svg` / `cnn-channel-feature-map-zh.svg`
+  - `cnn-hierarchical-vision-flow-en.svg` / `cnn-hierarchical-vision-flow-ko.svg` / `cnn-hierarchical-vision-flow-zh.svg`
+  - `cnn-feature-map-hierarchy-en.svg` / `cnn-feature-map-hierarchy-ko.svg` / `cnn-feature-map-hierarchy-zh.svg`

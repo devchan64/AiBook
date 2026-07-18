@@ -57,6 +57,22 @@ TEXT = {
         "row": "row",
         "col": "col",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "input_note": "高列分布与低列分布相遇的边界",
+        "feature_note": "左右差异明显的位置出现响应 4",
+        "pool_note": "只保留最强的边界响应",
+        "row": "行",
+        "col": "列",
+    },
 }
 
 

@@ -78,7 +78,7 @@ Version: `v2026.07.17`
 - 第二阶段把这些线索重新合成更有意义的中间判断材料
 - 最后阶段再用这些中间材料，做出更接近真实任务的结论
 
-神经网络每一层的工作方式当然不会完全等同，但在入门阶段，可以先把它读成类似的`线索 -> 中间结构 -> 靠近任务的表征` 흐름。
+神经网络每一层的工作方式当然不会完全等同，但在入门阶段，可以先把它读成类似的`线索 -> 中间结构 -> 靠近任务的表征`流程。
 
 这里真正重要的是：后面的层不是把原始输入原封不动地再看一遍，而是在重组前面已经整理出的表征。
 
@@ -138,7 +138,7 @@ Version: `v2026.07.17`
 - 不同领域、不同结构里，表征的长相会不一样
 - 在现代模型里，也会出现比单线层级更复杂的交互
 
-也就是说，这一节的解释不是严格普适定律，而更像是一张`帮助读学习 흐름的安全基础地图`。
+也就是说，这一节的解释不是严格普适定律，而更像是一张`帮助理解学习流程的安全基础地图`。
 
 尤其下面这些误解，更适合主动避开。
 
@@ -232,3 +232,136 @@ Version: `v2026.07.17`
 
 这张表的目的，是先固定住：不是`层变深时一切都同样移动`，而是`表征空间会重新排列各 batch 之间的关系。`
 
+```python
+import numpy as np
+
+signals = np.array([
+    [1.0, 2.0],
+    [2.0, 1.0],
+    [0.5, 3.0],
+    [3.0, 0.5],
+])
+
+w1 = np.array([
+    [0.8, 0.3, 0.4],
+    [0.1, 0.65, 0.45],
+])
+
+w2 = np.array([
+    [0.6, 0.2],
+    [0.4, 0.8],
+    [0.3, 0.1],
+])
+
+def relu(x):
+    return np.maximum(0.0, x)
+
+def pair_distance(a, b):
+    return round(float(np.linalg.norm(a - b)), 3)
+
+h1 = relu(signals @ w1)
+h2 = relu(h1 @ w2)
+
+print("signals =")
+print(np.round(signals, 3))
+print()
+print("h1 =")
+print(np.round(h1, 3))
+print()
+print("h2 =")
+print(np.round(h2, 3))
+print()
+print("distance(batch_1, batch_2) in signals =", pair_distance(signals[0], signals[1]))
+print("distance(batch_1, batch_2) in h1 =", pair_distance(h1[0], h1[1]))
+print("distance(batch_1, batch_2) in h2 =", pair_distance(h2[0], h2[1]))
+print("distance(batch_1, batch_4) in signals =", pair_distance(signals[0], signals[3]))
+print("distance(batch_1, batch_4) in h1 =", pair_distance(h1[0], h1[3]))
+print("distance(batch_1, batch_4) in h2 =", pair_distance(h2[0], h2[3]))
+```
+
+输出时，依次看 `signals`、`h1`、`h2`，再接着看 `batch_1` 和 `batch_2` 的距离如何随着层数变化即可。
+
+```text
+signals =
+[[1.  2. ]
+ [2.  1. ]
+ [0.5 3. ]
+ [3.  0.5]]
+
+h1 =
+[[1.   1.6  1.3 ]
+ [1.7  1.1  1.4 ]
+ [0.7  2.2  1.45]
+ [2.45 0.95 1.7 ]]
+
+h2 =
+[[1.6   1.87 ]
+ [1.91  1.64 ]
+ [1.66  2.335]
+ [2.435 1.76 ]]
+
+distance(batch_1, batch_2) in signals = 1.414
+distance(batch_1, batch_2) in h1 = 0.866
+distance(batch_1, batch_2) in h2 = 0.386
+distance(batch_1, batch_4) in signals = 2.5
+distance(batch_1, batch_4) in h1 = 1.639
+distance(batch_1, batch_4) in h2 = 0.842
+```
+
+- 输入 batch 信号不会原样直达答案，而是经过中间表征 `h1`、`h2` 后重新排列。
+- 同一对 batch 在穿过层之后，彼此可能变得更近，也可能相对仍然更远。
+- 深层表征不该被读成`只是数值变多了`，而更适合读成：层级变换会改变 batch 之间的关系。
+- 在真正学得出的模型里，还要继续确认这种关系变化是否真的朝着降低损失、改善任务判断的方向被调整。
+
+把距离变化分开画出来后，更容易看清：即使两组 batch 对都变近，它们靠近的速度和程度也不相同。`batch_1` 和 `batch_2` 在 `h2` 里留下了更近的邻居关系，而 `batch_1` 和 `batch_4` 虽然也靠近，但相对仍更远。
+
+![层级表征中 batch 对距离的阶段性变化](../../../assets/part-05/chapter-10/hierarchical-representation-distance-trace-zh.png)
+
+只看最终 `h2` 表征空间时，也能看到：深层表征并不是简单地把值缩小，而是在重新安排各 batch 之间的位置关系。
+
+![在 h2 表征空间中重新排开的生产 batch](../../../assets/part-05/chapter-10/hierarchical-representation-h2-space-zh.png)
+
+因此解读输出时，不该只看`某个距离是否变小`，而要同时看`batch 之间的关系被怎样重新整理`。
+
+| 比较 | 现在应该抓住的重点 |
+| --- | --- |
+| `batch_1` vs `batch_2` | 它们在输入空间里不同，但随着层数加深，会被压缩成更近的表征。 |
+| `batch_1` vs `batch_4` | 这组也会靠近，但仍比 `batch_1` vs `batch_2` 更远，说明深层会重新排列关系的先后顺序。 |
+| 整体解读 | 深度不是把 batch 全都挤到一起，而是在学得出的模型里，允许`哪些 batch 更像、哪些 batch 没那么像`在新的坐标系里被重新整理。这个示例只把坐标变化和关系重排单独拿出来看。 |
+
+读输出数字时，也要把`距离是否变小`和`哪一对 batch 会被留下为更重要的近邻`分开来看。
+
+| 比较 | 输出里先看到的事实 | 只看距离时容易留下的解读 | 结合层级表征后会改变的解读 |
+| --- | --- | --- | --- |
+| `batch_1` vs `batch_2` | 距离从 `1.414 -> 0.866 -> 0.386`，明显变近。 | 可能会误以为层变深时所有东西只是一起变得相似。 | 在这个固定变换里，这对 batch 被重新排成更近的邻居。真正的模型还要继续确认这种重排是否有利于任务。 |
+| `batch_1` vs `batch_4` | 距离从 `2.5 -> 1.639 -> 0.842`，也在变近。 | 容易得出`反正所有 batch 最后都会差不多`的印象。 | 即使也变近，它仍比 `batch_1` vs `batch_2` 更远，说明深层在重新排序关系，而不是简单压缩所有差异。 |
+| 整体解读 | 表面看上去像所有距离都在缩小。 | 会把深度读成单纯压缩数值的过程。 | 更重要的是：哪些关系会被保留成更近、哪些关系不会，都会随着坐标系改变而被重新定义。这是否正确，要靠学习与评估去确认。 |
+
+深层表征这条主线，是解释深度学习为何不同于 shallow model 的关键。重点不只是层数变多，而是`会形成层级化的内部表征`。只有这样，CNN、RNN、Transformer 才不会被误读成只是更大的函数。
+
+这个视角也会把上一节 P5-10.1 的表征学习，继续展开成`随着层数增加，内部表征会继续变化`。接下来的 P5-11.1、P5-11.2 会在 CNN 里继续展开，P5-12.1、P5-12.2 会在序列模型里继续展开，P5-13.1、P5-13.2 会在 attention 里继续展开。因此，这一节也承担着把 Part 5 后续结构章节连接起来的概念桥梁作用。
+
+这里也可以先停一下，把`什么时候应该先从层级表征视角读，而不是只盯着层数`短暂固定下来。这样进入下一章 CNN 时，关于深度的说明就能自然过渡到结构说明。
+
+| 先想到的问题 | 为什么要先用层级表征视角 | 下一节会继续接到哪里 |
+| --- | --- | --- |
+| 为什么继续加层，不只是为了增加参数？ | 因为前面的表征可以被重新组合，变成更接近任务的表征。 | CNN 如何逐层放大局部 pattern |
+| 为什么要区分低层特征和高层表征？ | 因为在谈结构之前，先要看清`什么东西正在逐步抽象化`。 | 图像、序列、attention 中的表征差异 |
+| 为什么说深层模型和 shallow model 不一样？ | 因为更安全的理解方式，是把深度读成内部表征持续重排的过程，而不只是函数变大。 | 后续各结构如何进行表征学习 |
+
+## 检查清单
+
+- 能解释随着层数加深，表征通常会朝更抽象、也更靠近任务的模式移动这一直觉吗？
+- 能同时说明这不是绝对法则，而是一种常见倾向吗？
+- 能解释堆更多层的意义，不只在于参数增加，也在于表征层级发生变化吗？
+- 能把深度解释成`中间表征被继续重组的阶段增加了`，而不是只说`层数变多了`吗？
+- 能说明图像、语音、文本里都常会出现层级表征直觉吗？
+- 能说明 low-level、mid-level、high-level 的区分更像教学用基础地图，而不是严格定律吗？
+- 当有人只用参数数量解释深度时，能先想到层级表征视角吗？
+- 当准备进入下一章 CNN 时，能先想到`局部 pattern 会怎样层层长成更大的结构`吗？
+
+## 来源与参考资料
+
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013，确认日期：2026-06-29。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010，确认日期：2026-06-29。

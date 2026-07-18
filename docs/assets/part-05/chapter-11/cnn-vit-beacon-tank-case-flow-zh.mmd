@@ -1,0 +1,5 @@
+flowchart TD
+    A[同一张设备图像] --> B[CNN：先对警示灯边缘与储罐轮廓起反应]
+    A --> C[ViT：先对警示灯 patch、储罐 patch、控制箱 patch 的关系起作用]
+    B --> D[CNN 输出会更像复检位置线索]
+    C --> E[ViT 输出会更像跨区域关系线索]

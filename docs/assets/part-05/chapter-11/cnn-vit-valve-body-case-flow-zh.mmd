@@ -1,0 +1,19 @@
+flowchart TD
+  A["同一张设备图像"]
+
+  subgraph CNN["CNN 起点"]
+    B["用小的局部窗口扫描"]
+    C["局部响应：阀门边界、金属轮廓"]
+    D["形成哪些位置需要复检的候选"]
+  end
+
+  subgraph VIT["ViT 起点"]
+    E["切成 patch tokens"]
+    F["比较阀门 patch 与储罐 patch 的关系"]
+    G["形成哪些区域要一起读取的关系"]
+  end
+
+  A --> B
+  A --> E
+  B --> C --> D
+  E --> F --> G

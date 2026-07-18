@@ -144,7 +144,7 @@ representation learning 的转折点就在于：这些 feature 组合中的很�
 
 | 后面要接上的结构 | 首先面对的数据问题 | representation learning 在这里的表现方式 |
 | --- | --- | --- |
-| CNN | 像图像这样邻近位置一起形成意义的问题 | 从局部 pattern 往更大的视觉结构 올라 |
+| CNN | 像图像这样邻近位置一起形成意义的问题 | 从局部 pattern 逐步走向更大的视觉结构 |
 | RNN/LSTM/GRU | 像句子、语音、时序这样顺序会改变意义的问题 | 通过承接前一状态形成顺序语境 |
 | Attention/Transformer | 需要直接比较远距离位置关系的问题 | 通过权重去读哪些位置彼此更重要 |
 
@@ -172,11 +172,11 @@ representation learning 的转折点就在于：这些 feature 组合中的很�
 
 ### 代表案例. 维修优先级推荐
 
-假设设备维护团队要决定先检查哪条产线。人一开始很容易觉得，只要做出`最近 7 天报警数`、`返工呼叫次数`、`平均停机时间`这样的统计列，就已经足够。这种方式很快，也容易说明。但真实里，真正重要的可能是`温度报警反复出现，随后压力不稳定跟上，再接着返工呼叫增加`这样的 흐름组合，而这种组合并不容易被一个单独数字直接暴露出来。
+假设设备维护团队要决定先检查哪条产线。人一开始很容易觉得，只要做出`最近 7 天报警数`、`返工呼叫次数`、`平均停机时间`这样的统计列，就已经足够。这种方式很快，也容易说明。但真实里，真正重要的可能是`温度报警反复出现，随后压力不稳定跟上，再接着返工呼叫增加`这样的流程组合，而这种组合并不容易被一个单独数字直接暴露出来。
 
 representation learning 模型可以把每条产线的报警历史和处理信息一起读进去，再压缩出故障簇和风险转移模式之类的内部表征。于是它就不只是在沿用简单的报警计数规则，而是更容易抓住：`眼下这条产线到底哪种后续检查更紧急。` 结果上，维护优先级不再只是简单按频率排序，而会更贴合上下文地变化。
 
-这个案例里要确认的结果，是不是不是把最近报警数相近的产线排得更像，而是把真正风险转移 흐름更接近的产线，推荐到更相似的后续检查项。
+这个案例里要确认的结果，并不是把最近报警数相近的产线排得更像，而是把真正风险转移流程更接近的产线，推荐到更相似的后续检查项。
 
 | 人最容易先看的标准 | 用 representation learning 视角重读的标准 |
 | --- | --- |
@@ -238,3 +238,116 @@ representation learning 模型可以把每条产线的报警历史和处理信�
 
 这张表的目的，是先把`单行分数`和`多轴表征`分开来读。
 
+```python
+import numpy as np
+
+lines = ["line_A", "line_B", "line_C", "line_D"]
+data = np.array([
+    [6.0, 5.0, 1.0],
+    [2.0, 3.0, 5.0],
+    [1.0, 1.0, 1.0],
+    [5.0, 4.0, 5.0],
+])
+
+# hand-crafted feature: one risk score chosen by a person
+risk_score = data[:, 0] * 3 + data[:, 1] * 4 + data[:, 2] * 5
+
+# data-driven representation: compute two auxiliary axes from the input data
+mean = data.mean(axis=0)
+std = data.std(axis=0)
+standardized = (data - mean) / std
+
+_, _, components = np.linalg.svd(standardized, full_matrices=False)
+axes = components[:2].copy()
+if axes[0, 0] < 0:
+    axes[0] *= -1
+if axes[1, 2] < 0:
+    axes[1] *= -1
+representation = standardized @ axes.T
+
+for line, raw, score, rep in zip(lines, data, risk_score, representation):
+    print(
+        f"{line}: raw={raw.tolist()}, "
+        f"risk_score={score:.2f}, "
+        f"representation={np.round(rep, 2).tolist()}"
+    )
+
+score_gap = round(float(risk_score[0] - risk_score[1]), 2)
+rep_gap = round(float(np.linalg.norm(representation[0] - representation[1])), 2)
+print("score_gap(line_A, line_B) =", score_gap)
+print("representation_gap(line_A, line_B) =", rep_gap)
+```
+
+输出时，先比较单一分数 `risk_score` 和 `representation` 同时保留了哪些轴信息即可。
+
+```text
+line_A: raw=[6.0, 5.0, 1.0], risk_score=43.00, representation=[1.56, -1.2]
+line_B: raw=[2.0, 3.0, 5.0], risk_score=43.00, representation=[-0.5, 1.11]
+line_C: raw=[1.0, 1.0, 1.0], risk_score=12.00, representation=[-2.04, -0.77]
+line_D: raw=[5.0, 4.0, 5.0], risk_score=56.00, representation=[0.99, 0.86]
+score_gap(line_A, line_B) = 0.0
+representation_gap(line_A, line_B) = 3.09
+```
+
+- `risk_score` 是人用单一标准压缩出来的单维分数。
+- `representation` 则把同一输入重新展开到从数据中算出的两个辅助轴上，因此通常能把`温度与压力方向的差异`和`返工呼叫方向的差异`分开读。
+- 真正的深度学习表征学习不会停在这种手工解释轴或简单分解上，而会在学习过程中形成更多中间表征，并同时调整哪些表征更有利于任务。
+
+第一项结果，是人手工写出的单行风险分数。`line_A` 和 `line_B` 的分数都为 `43.00`，因此在这一视角下它们看起来像是同样风险。
+
+![表征学习示例中的 hand-crafted risk score](../../../assets/part-05/chapter-10/representation-risk-score-zh.png)
+
+第二项结果，是把同一输入放到两个辅助表征轴上的坐标。在单行分数里相同的 `line_A` 和 `line_B`，在表征坐标里却被拉开，因此原本被单一分数盖住的维护模式差异可以被重新读出来。
+
+![表征学习示例中的二维 representation 坐标](../../../assets/part-05/chapter-10/representation-coordinate-space-zh.png)
+
+再把这两种结果并排比较一次，表征学习带来的差异会更清楚。
+
+| 比较 | 现在应该抓住的重点 |
+| --- | --- |
+| `risk_score` | 设备产线只会被排成一条单维风险线。 |
+| `representation` | 同一条产线也可能在两个轴上暴露出不同类型的风险。 |
+| `line_A` vs `line_B` | 只看分数会像是相同风险，但在 representation 里，它们仍是`温度-压力迁移型产线`和`返工扩散型产线`这两种相距较远的模式。 |
+
+读输出数字时，也要把`分数差`和`表征坐标差`分开看。
+
+| 比较 | 输出里先看到的事实 | 只看分数时容易留下的解读 | 结合表征学习后会改变的解读 |
+| --- | --- | --- | --- |
+| `risk_score` | `line_A` 和 `line_B` 的分数差是 `0.0`。 | 很容易把两条产线读成同一风险状态。 | 单行分数会把温度报警、压力波动、返工呼叫的不同组合压扁，从而隐藏不同维护模式。 |
+| `representation` | 同样两条产线的坐标距离是 `3.09`，并不小。 | 会误以为分数一样时，表征坐标的差异被夸大了。 | 新坐标系会分别保留温度与压力方向的差异，以及返工呼叫方向的差异，因此总分相同背后的模式差异会重新显现。 |
+| `line_A` vs `line_B` | 两者都有风险信号，但突出的轴不同。 | 因为风险分数相同，就容易觉得同一套后续措施就够了。 | 表征坐标不同，意味着后续点检顺序和需要的处理动作也可能不同。 |
+
+如果把 `line_B` 的 `rework_calls` 降到 `1.0` 后再执行一次，`line_B` 的分数和表征坐标都会变化。这时真正要抓住的问题不是`哪个分数更大`，而是`当输入组合改变时，人写的一行风险分数和从数据得到的表征坐标，会不会以相同方式移动`。
+
+表征学习（representation learning）之所以是深度学习教学里的核心概念，是因为只有抓住它，下面这些问题才能放在同一条线上理解。
+
+- 为什么深度学习并不只是一个更大的线性回归
+- 为什么 CNN、RNN、Transformer 会表现得强
+- 为什么 embedding 和 LLM 的内部表示如此重要
+
+从历史脉络看，更该确认的转折是：思考重心从 feature engineering，转到了 data-driven internal representation 的学习。只用 GPU 或规模去解释深度学习的扩散，只解释到了其中一半；还要把表征学习一起放进去，整体脉络才算完整。
+
+这里可以先停一下，把`什么时候应该先提表征学习视角，而不是先报结构名字`短暂固定下来。这样后面读 CNN、RNN、Transformer 时，共同的理解主轴会更稳。
+
+| 先想到的问题 | 为什么要先用表征学习视角 | 后面会继续接到哪里 |
+| --- | --- | --- |
+| 为什么同一输入需要更会区分的内部坐标？ | 因为比原始数值更适合预测的中间表征，往往决定了性能差异。 | 深层中表征会怎样继续变化 |
+| 为什么传统 feature engineering 会有明显边界？ | 因为人预先写下的规则，很难完全覆盖复杂组合和潜在模式。 | 不同领域结构更擅长学出哪些表征 |
+| 为什么 CNN、embedding、LLM 能放在同一条线上解释？ | 因为不同结构都在追求让内部表征变得更有用这一共同目标。 | 图像、序列、长上下文中的表征学习 |
+
+## 检查清单
+
+- 能解释表征学习（representation learning）和手工特征设计有什么不同吗？
+- 能用内部表征的视角回答`深度学习到底学到了什么`吗？
+- 能说明表征学习是模型自己形成有用内部特征的过程吗？
+- 能指出传统特征工程和深度学习的差异，关键就在于`由谁来形成特征`吗？
+- 能用一个实际场景说明，人写的单一分数与模型形成的多维表征有何不同吗？
+- 能把深度学习的转折解释成不仅是计算资源扩大，也包括表征学习能力扩大吗？
+- 当结构名词很多、共同理解主轴变模糊时，能先想到表征学习视角吗？
+- 当需要把 CNN、embedding、LLM 放到同一条线上时，能重新指出它们都在追求更有用的内部表征吗？
+
+## 来源与参考资料
+
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013，确认日期：2026-06-29。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-06-29。

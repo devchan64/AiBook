@@ -1,0 +1,24 @@
+flowchart TD
+  A["同一张输入图像"]
+
+  subgraph P["Padding"]
+    P1["在边缘添加留白"]
+    P2["让边缘信息保留得更久"]
+  end
+
+  subgraph S["Stride"]
+    S1["让滤波器用更大的步幅移动"]
+    S2["更快缩小输出尺寸"]
+  end
+
+  subgraph D["Dilation"]
+    D1["拉开滤波器单元之间的间距"]
+    D2["不增大 kernel 也能看更宽的范围"]
+  end
+
+  A --> P1
+  P1 --> P2
+  A --> S1
+  S1 --> S2
+  A --> D1
+  D1 --> D2

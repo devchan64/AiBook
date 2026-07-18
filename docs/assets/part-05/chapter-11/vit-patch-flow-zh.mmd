@@ -1,0 +1,11 @@
+flowchart TD
+  A["输入图像"]
+  B["切成 patches"]
+  C["patch embeddings"]
+  D["patch 之间的 self-attention"]
+  E["图像表征"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

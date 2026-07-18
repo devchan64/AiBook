@@ -64,6 +64,23 @@ LANG_TEXT = {
         "best_label": "best response",
         "colorbar": "local response score",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "normal_outfile": "cnn-local-response-normal-zh.png",
+        "scratch_outfile": "cnn-local-response-scratch-zh.png",
+        "x_label": "2x2 补丁列位置",
+        "y_label": "2x2 补丁行位置",
+        "best_label": "最高响应",
+        "colorbar": "局部响应分数",
+    },
 }
 
 

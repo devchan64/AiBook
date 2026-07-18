@@ -1,0 +1,5 @@
+flowchart TD
+    A[同一张管道图像] --> B[CNN：先对局部阀门边界与管道纹理起反应]
+    A --> C[ViT：先形成阀门 patch 与管道主体 patch 的关系]
+    B --> D[CNN 会先问哪里出现了强局部证据]
+    C --> E[ViT 会先问哪些 patches 一起变得重要]

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">CNN 特征图会把局部响应组合成更大的模式</title>
+  <desc id="desc">早期特征图会对局部边界和纹理作出反应。更深的部件图会把相邻响应组合成更大的部件模式，后面的对象图会把多个部件线索汇聚成对象级响应。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .card-title { font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2937; }
+      .label { font: 600 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .note { font: 600 16px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="920" height="430" fill="#ffffff"/>
+
+  <rect x="40" y="44" width="240" height="240" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="card-title" x="62" y="74">1. 早期特征图</text>
+  <text class="label" x="62" y="96">边界或纹理响应</text>
+  <rect x="86" y="128" width="48" height="48" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="134" y="128" width="48" height="48" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="182" y="128" width="48" height="48" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="86" y="176" width="48" height="48" fill="#93c5fd" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="134" y="176" width="48" height="48" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="182" y="176" width="48" height="48" fill="#60a5fa" stroke="#2563eb" stroke-width="1.2"/>
+  <rect x="76" y="244" width="168" height="24" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+  <text class="label" x="160" y="260" text-anchor="middle" fill="#2563eb">局部补丁先发生反应</text>
+
+  <line x1="286" y1="164" x2="334" y2="164" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <text class="label" x="310" y="142" text-anchor="middle">组合</text>
+
+  <rect x="340" y="44" width="240" height="240" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="card-title" x="362" y="74">2. 更深的部件图</text>
+  <text class="label" x="362" y="96">部件模式响应</text>
+  <rect x="386" y="128" width="48" height="48" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <rect x="434" y="128" width="48" height="48" fill="#86efac" stroke="#16a34a" stroke-width="1.2"/>
+  <rect x="482" y="128" width="48" height="48" fill="#4ade80" stroke="#16a34a" stroke-width="1.2"/>
+  <rect x="386" y="176" width="48" height="48" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
+  <rect x="434" y="176" width="48" height="48" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.2"/>
+  <rect x="482" y="176" width="48" height="48" fill="#86efac" stroke="#16a34a" stroke-width="1.2"/>
+  <rect x="376" y="244" width="168" height="24" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.6"/>
+  <text class="label" x="460" y="260" text-anchor="middle" fill="#16a34a">更大的部件模式出现</text>
+
+  <line x1="586" y1="164" x2="634" y2="164" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <text class="label" x="610" y="142" text-anchor="middle">汇聚</text>
+
+  <rect x="640" y="44" width="240" height="240" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>
+  <text class="card-title" x="662" y="74">3. 后期对象图</text>
+  <text class="label" x="662" y="96">对象级响应</text>
+  <rect x="700" y="128" width="64" height="64" fill="#fed7aa" stroke="#ea580c" stroke-width="1.2"/>
+  <rect x="764" y="128" width="64" height="64" fill="#fb923c" stroke="#ea580c" stroke-width="1.2"/>
+  <rect x="732" y="192" width="64" height="32" fill="#fdba74" stroke="#ea580c" stroke-width="1.2"/>
+  <rect x="676" y="244" width="168" height="24" rx="8" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+  <text class="label" x="760" y="260" text-anchor="middle" fill="#ea580c">多个部件线索汇聚成对象响应</text>
+
+  <rect x="180" y="310" width="560" height="24" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text class="note" x="460" y="327" text-anchor="middle">局部响应会堆叠成更大的部件模式，再继续形成对象响应。</text>
+</svg>
