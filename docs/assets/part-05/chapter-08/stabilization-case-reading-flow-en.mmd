@@ -1,0 +1,7 @@
+flowchart TD
+    A["Case 1: neurons start in the same pattern"] --> B["Check whether initialization splits the starting point"]
+    B --> C["Case 1: values grow while passing deeper layers"]
+    C --> D["Check whether repeated computation keeps values in a manageable range"]
+    D --> E["Case 1: batch-to-batch middle activations swing widely"]
+    E --> F["Check whether batch normalization reorganizes the intermediate distribution"]
+    F --> G["Case 2: the deep network becomes less shaky"]

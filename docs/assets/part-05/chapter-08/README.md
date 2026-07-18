@@ -14,6 +14,7 @@
   - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-ko.mmd`
   - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`
   - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-ko.mmd`
+  - `stabilization-case-reading-flow-en.mmd` / `stabilization-case-reading-flow-ko.mmd`
 - SVG chart assets:
   - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`
 - PNG chart assets:
