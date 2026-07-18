@@ -52,6 +52,22 @@ LANG_TEXT = {
         "arrow_2": "raise batch_1 x2",
         "outfile": "hidden-pattern-regions-en.png",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "xlabel": "输入 x1",
+        "ylabel": "输入 x2",
+        "h1": "h1 激活边界",
+        "h2": "h2 激活边界",
+        "region": "h1 与 h2 同时激活的区域",
+        "arrow_1": "提高 batch_2 的 x1",
+        "arrow_2": "提高 batch_1 的 x2",
+        "outfile": "hidden-pattern-regions-zh.png",
+    },
 }
 
 

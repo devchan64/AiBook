@@ -78,6 +78,31 @@ LANG_TEXT = {
         "line_ok": "one line works",
         "line_fail": "one line fails",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "linear-boundary-xor-zh.svg",
+        "linear_outfile": "linear-boundary-points-zh.svg",
+        "xor_outfile": "xor-pattern-zh.svg",
+        "title": "线性边界与 XOR 局限",
+        "desc": "左侧面板显示可被一条直线分开的点分布，右侧面板显示 XOR 点分布。单一线性边界可以分开前者，但无法干净地分开 XOR。",
+        "linear_title": "可被一条直线分开的点分布",
+        "linear_desc": "展示一条直线可以把两类点干净分开的坐标图。",
+        "xor_title": "难以用一条直线分开的 XOR 点分布",
+        "xor_desc": "展示同类点位于对角位置、难以用一条直线干净分开的 XOR 坐标图。",
+        "panel_left": "线性可分",
+        "panel_right": "XOR 分布",
+        "xlabel": "输入 x1",
+        "ylabel": "输入 x2",
+        "class_0": "类别 0",
+        "class_1": "类别 1",
+        "line_ok": "一条直线可分",
+        "line_fail": "一条直线失效",
+    },
 }
 
 

@@ -1,23 +1,23 @@
 # Part 5 Chapter 1 Mermaid Assets
 
 - Public manuscript pages should include their own language asset files through `pymdownx.snippets`.
-- Current deployment uses the Korean pages with `-ko.mmd` assets and the English pages with `-en.mmd` assets.
+- Current deployment uses language-specific Chapter 1 assets for Korean (`-ko`), English (`-en`), and Simplified Chinese (`-zh`) pages.
 - The matching `-en.mmd` files remain in this directory as the canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `perceptron-flow-en.mmd` / `perceptron-flow-ko.mmd`
-  - `restart-approval-case-flow-en.mmd` / `restart-approval-case-flow-ko.mmd`
-  - `linear-boundary-flow-en.mmd` / `linear-boundary-flow-ko.mmd`
-  - `activation-threshold-flow-en.mmd` / `activation-threshold-flow-ko.mmd`
-  - `xor-limit-flow-en.mmd` / `xor-limit-flow-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all language files keep the same conceptual flow and node relationships.
+- Current Mermaid language sets:
+  - `perceptron-flow-en.mmd` / `perceptron-flow-ko.mmd` / `perceptron-flow-zh.mmd`
+  - `restart-approval-case-flow-en.mmd` / `restart-approval-case-flow-ko.mmd` / `restart-approval-case-flow-zh.mmd`
+  - `linear-boundary-flow-en.mmd` / `linear-boundary-flow-ko.mmd` / `linear-boundary-flow-zh.mmd`
+  - `activation-threshold-flow-en.mmd` / `activation-threshold-flow-ko.mmd` / `activation-threshold-flow-zh.mmd`
+  - `xor-limit-flow-en.mmd` / `xor-limit-flow-ko.mmd` / `xor-limit-flow-zh.mmd`
 - SVG chart assets:
-  - `linear-boundary-xor-en.svg` / `linear-boundary-xor-ko.svg`
-  - `linear-boundary-points-en.svg` / `linear-boundary-points-ko.svg`
-  - `xor-pattern-en.svg` / `xor-pattern-ko.svg`
+  - `linear-boundary-xor-en.svg` / `linear-boundary-xor-ko.svg` / `linear-boundary-xor-zh.svg`
+  - `linear-boundary-points-en.svg` / `linear-boundary-points-ko.svg` / `linear-boundary-points-zh.svg`
+  - `xor-pattern-en.svg` / `xor-pattern-ko.svg` / `xor-pattern-zh.svg`
 - Python chart source:
   - `p5_1_2_linear_boundary_xor.py`
   - `p5_1_2_linear_activation_trace.py`
 - Matplotlib chart assets:
-  - `linear-activation-input-en.png` / `linear-activation-input-ko.png`
-  - `linear-activation-score-en.png` / `linear-activation-score-ko.png`
-  - `linear-activation-output-en.png` / `linear-activation-output-ko.png`
+  - `linear-activation-input-en.png` / `linear-activation-input-ko.png` / `linear-activation-input-zh.png`
+  - `linear-activation-score-en.png` / `linear-activation-score-ko.png` / `linear-activation-score-zh.png`
+  - `linear-activation-output-en.png` / `linear-activation-output-ko.png` / `linear-activation-output-zh.png`

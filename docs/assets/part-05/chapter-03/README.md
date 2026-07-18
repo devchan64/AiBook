@@ -1,28 +1,26 @@
 # Part 5 Chapter 3 Mermaid Assets
 
 - Public manuscript pages must include their own language asset through `pymdownx.snippets`.
-- Current deployment references:
-  - Korean pages reference `-ko.mmd`.
-  - English pages reference `-en.mmd`.
+- Current deployment references language-specific Chapter 3 assets for Korean (`-ko`), English (`-en`), and Simplified Chinese (`-zh`) pages.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `stacked-linear-layers-en.mmd` / `stacked-linear-layers-ko.mmd`
-  - `linear-activation-linear-en.mmd` / `linear-activation-linear-ko.mmd`
-  - `node-activation-flow-en.mmd` / `node-activation-flow-ko.mmd`
-  - `activation-signal-survival-flow-en.mmd` / `activation-signal-survival-flow-ko.mmd`
-  - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd`
-  - `output-activation-decision-flow-en.mmd` / `output-activation-decision-flow-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all language files keep the same conceptual flow and node relationships.
+- Current Mermaid language sets:
+  - `stacked-linear-layers-en.mmd` / `stacked-linear-layers-ko.mmd` / `stacked-linear-layers-zh.mmd`
+  - `linear-activation-linear-en.mmd` / `linear-activation-linear-ko.mmd` / `linear-activation-linear-zh.mmd`
+  - `node-activation-flow-en.mmd` / `node-activation-flow-ko.mmd` / `node-activation-flow-zh.mmd`
+  - `activation-signal-survival-flow-en.mmd` / `activation-signal-survival-flow-ko.mmd` / `activation-signal-survival-flow-zh.mmd`
+  - `softmax-output-flow-en.mmd` / `softmax-output-flow-ko.mmd` / `softmax-output-flow-zh.mmd`
+  - `output-activation-decision-flow-en.mmd` / `output-activation-decision-flow-ko.mmd` / `output-activation-decision-flow-zh.mmd`
 - SVG chart assets:
-  - `sigmoid-curve-en.svg` / `sigmoid-curve-ko.svg`
-  - `tanh-curve-en.svg` / `tanh-curve-ko.svg`
-  - `relu-curve-en.svg` / `relu-curve-ko.svg`
-  - `nonlinear-activation-example-en.svg` / `nonlinear-activation-example-ko.svg`
-  - `activation-case-before-after-en.svg` / `activation-case-before-after-ko.svg`
-  - `activation-experiment-shift-en.svg` / `activation-experiment-shift-ko.svg`
-  - `output-activation-regression-distance-en.svg` / `output-activation-regression-distance-ko.svg`
-  - `output-activation-binary-threshold-en.svg` / `output-activation-binary-threshold-ko.svg`
-  - `output-activation-multiclass-gap-en.svg` / `output-activation-multiclass-gap-ko.svg`
+  - `sigmoid-curve-en.svg` / `sigmoid-curve-ko.svg` / `sigmoid-curve-zh.svg`
+  - `tanh-curve-en.svg` / `tanh-curve-ko.svg` / `tanh-curve-zh.svg`
+  - `relu-curve-en.svg` / `relu-curve-ko.svg` / `relu-curve-zh.svg`
+  - `nonlinear-activation-example-en.svg` / `nonlinear-activation-example-ko.svg` / `nonlinear-activation-example-zh.svg`
+  - `activation-case-before-after-en.svg` / `activation-case-before-after-ko.svg` / `activation-case-before-after-zh.svg`
+  - `activation-experiment-shift-en.svg` / `activation-experiment-shift-ko.svg` / `activation-experiment-shift-zh.svg`
+  - `output-activation-regression-distance-en.svg` / `output-activation-regression-distance-ko.svg` / `output-activation-regression-distance-zh.svg`
+  - `output-activation-binary-threshold-en.svg` / `output-activation-binary-threshold-ko.svg` / `output-activation-binary-threshold-zh.svg`
+  - `output-activation-multiclass-gap-en.svg` / `output-activation-multiclass-gap-ko.svg` / `output-activation-multiclass-gap-zh.svg`
 - Python chart source:
   - `p5_3_activation_charts.py`
   - `p5_3_6_output_activation_charts.py`

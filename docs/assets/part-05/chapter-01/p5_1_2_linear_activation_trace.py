@@ -73,6 +73,25 @@ TEXT = {
         "pass_label": "pass",
         "hold_label": "hold",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "risk_label": "报警风险",
+        "input_ylabel": "输入值",
+        "score_ylabel": "线性组合分数 z",
+        "output_label": "最终输出",
+        "x_label": "alarm_risk",
+        "bias_label": "偏置",
+        "threshold_label": "阈值",
+        "bias_short": "b",
+        "threshold_short": "阈",
+        "pass_label": "通过",
+        "hold_label": "保留",
+    },
 }
 
 
@@ -167,7 +186,7 @@ def draw_output(locale: str) -> None:
 
 
 def main() -> None:
-    for locale in ("ko", "en"):
+    for locale in ("ko", "en", "zh"):
         draw_input(locale)
         draw_score(locale)
         draw_output(locale)

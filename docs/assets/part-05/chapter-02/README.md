@@ -1,24 +1,22 @@
 # Part 5 Chapter 2 Mermaid Assets
 
 - Public manuscript pages must include their own language asset through `pymdownx.snippets`.
-- Current deployment references:
-  - Korean pages reference `-ko.mmd`.
-  - English pages reference `-en.mmd`.
+- Current deployment references language-specific Chapter 2 assets for Korean (`-ko`), English (`-en`), and Simplified Chinese (`-zh`) pages.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `multilayer-combination-bridge-en.mmd` / `multilayer-combination-bridge-ko.mmd`
-  - `hidden-representation-bridge-en.mmd` / `hidden-representation-bridge-ko.mmd`
-  - `panel-warning-representation-flow-en.mmd` / `panel-warning-representation-flow-ko.mmd`
-  - `production-batch-hidden-flow-en.mmd` / `production-batch-hidden-flow-ko.mmd`
-  - `multilayer-network-flow-en.mmd` / `multilayer-network-flow-ko.mmd`
-  - `single-vs-multilayer-flow-en.mmd` / `single-vs-multilayer-flow-ko.mmd`
-  - `internal-coordinates-flow-en.mmd` / `internal-coordinates-flow-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all language files keep the same conceptual flow and node relationships.
+- Current Mermaid language sets:
+  - `multilayer-combination-bridge-en.mmd` / `multilayer-combination-bridge-ko.mmd` / `multilayer-combination-bridge-zh.mmd`
+  - `hidden-representation-bridge-en.mmd` / `hidden-representation-bridge-ko.mmd` / `hidden-representation-bridge-zh.mmd`
+  - `panel-warning-representation-flow-en.mmd` / `panel-warning-representation-flow-ko.mmd` / `panel-warning-representation-flow-zh.mmd`
+  - `production-batch-hidden-flow-en.mmd` / `production-batch-hidden-flow-ko.mmd` / `production-batch-hidden-flow-zh.mmd`
+  - `multilayer-network-flow-en.mmd` / `multilayer-network-flow-ko.mmd` / `multilayer-network-flow-zh.mmd`
+  - `single-vs-multilayer-flow-en.mmd` / `single-vs-multilayer-flow-ko.mmd` / `single-vs-multilayer-flow-zh.mmd`
+  - `internal-coordinates-flow-en.mmd` / `internal-coordinates-flow-ko.mmd` / `internal-coordinates-flow-zh.mmd`
 - Matplotlib chart assets:
   - `p5_2_1_hidden_pattern_regions.py`
-  - `hidden-pattern-regions-en.png` / `hidden-pattern-regions-ko.png`
+  - `hidden-pattern-regions-en.png` / `hidden-pattern-regions-ko.png` / `hidden-pattern-regions-zh.png`
   - `p5_2_2_hidden_axis_chart.py`
-  - `hidden-axis-input-en.png` / `hidden-axis-input-ko.png`
-  - `hidden-axis-preactivation-en.png` / `hidden-axis-preactivation-ko.png`
-  - `hidden-axis-activation-en.png` / `hidden-axis-activation-ko.png`
-  - `hidden-axis-score-en.png` / `hidden-axis-score-ko.png`
+  - `hidden-axis-input-en.png` / `hidden-axis-input-ko.png` / `hidden-axis-input-zh.png`
+  - `hidden-axis-preactivation-en.png` / `hidden-axis-preactivation-ko.png` / `hidden-axis-preactivation-zh.png`
+  - `hidden-axis-activation-en.png` / `hidden-axis-activation-ko.png` / `hidden-axis-activation-zh.png`
+  - `hidden-axis-score-en.png` / `hidden-axis-score-ko.png` / `hidden-axis-score-zh.png`

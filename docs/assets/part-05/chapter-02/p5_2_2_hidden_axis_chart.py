@@ -44,6 +44,7 @@ COLORS = ["#2563eb", "#d97706", "#16a34a"]
 def configure_fonts():
     candidates = [
         "AppleGothic",
+        "Noto Sans CJK SC",
         "Noto Sans CJK KR",
         "Noto Sans KR",
         "Malgun Gothic",
@@ -59,27 +60,40 @@ def configure_fonts():
 
 def locale_text(locale: str):
     is_ko = locale == "ko"
+    is_zh = locale == "zh"
     return {
         "frame_labels": (
             ["바늘 중심", "경광등+밸브", "복합 정지", "경계 감시"]
             if is_ko
-            else ["Needle", "Beacon+valve", "Combined stop", "Borderline"]
+            else (
+                ["指针主导", "警示灯+阀门", "复合停机", "边界监视"]
+                if is_zh
+                else ["Needle", "Beacon+valve", "Combined stop", "Borderline"]
+            )
         ),
         "input_labels": (
             ["바늘 편차", "경광등 점멸", "밸브 이탈"]
             if is_ko
-            else ["Needle deviation", "Beacon blink", "Valve offset"]
+            else (
+                ["指针偏差", "警示灯闪烁", "阀门偏移"]
+                if is_zh
+                else ["Needle deviation", "Beacon blink", "Valve offset"]
+            )
         ),
         "hidden_labels": (
             ["압력 축", "경보 축", "조합 축"]
             if is_ko
-            else ["Pressure axis", "Warning axis", "Coordination axis"]
+            else (
+                ["压力轴", "警告轴", "组合轴"]
+                if is_zh
+                else ["Pressure axis", "Warning axis", "Coordination axis"]
+            )
         ),
-        "input_ylabel": "원본 입력값" if is_ko else "Raw input value",
-        "pre_ylabel": "은닉층 전 값" if is_ko else "Pre-activation value",
-        "hidden_ylabel": "ReLU 후 활성값" if is_ko else "Post-ReLU activation",
-        "score_ylabel": "최종 점수" if is_ko else "Final score",
-        "frame_xlabel": "프레임" if is_ko else "Frame",
+        "input_ylabel": "原始输入值" if is_zh else ("원본 입력값" if is_ko else "Raw input value"),
+        "pre_ylabel": "隐藏层前的值" if is_zh else ("은닉층 전 값" if is_ko else "Pre-activation value"),
+        "hidden_ylabel": "ReLU 后激活值" if is_zh else ("ReLU 후 활성값" if is_ko else "Post-ReLU activation"),
+        "score_ylabel": "最终分数" if is_zh else ("최종 점수" if is_ko else "Final score"),
+        "frame_xlabel": "帧" if is_zh else ("프레임" if is_ko else "Frame"),
     }
 
 
@@ -191,3 +205,4 @@ if __name__ == "__main__":
     configure_fonts()
     draw("ko")
     draw("en")
+    draw("zh")
