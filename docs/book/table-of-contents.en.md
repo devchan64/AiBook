@@ -768,6 +768,7 @@ Part 7 is where the data modeling, machine learning, deep learning, and LLM stru
 
 - **P7-4.1 Reading Loss, Metrics, and Error Cases Together**: checks that only by reading learning curves, evaluation metrics, and error samples together can one properly judge `what actually improved` even when training itself succeeded.
 - **P7-4.2 Breaking Down a Failed Result Again**: when a result is worse than expected, separates it into a structural problem, a data problem, or a baseline-setting problem instead of leaving it as a vague failure, then sets the next experiment direction and revision priority.
+- **P7-4.3 Expression Normalization Practice**: reruns the same support messages before and after normalization to compare how synonym replacement changes coverage, prediction, and revision priority.
 
 ### Module 3. LLM Service Projects
 

@@ -535,6 +535,7 @@ nav:
           - Project 4. 텍스트 분류 모델:
               - "P7-4.1 텍스트 분류 모델 목표": parts/part-07/chapter-04/section-01.md
               - "P7-4.2 토큰화와 평가": parts/part-07/chapter-04/section-02.md
+              - "P7-4.3 표현 정규화 연습": parts/part-07/chapter-04/section-03.md
       - Module 3. LLM 서비스 프로젝트:
           - Project 5. 문서 기반 RAG 챗봇:
               - "P7-5.1 문서 기반 RAG 챗봇 목표": parts/part-07/chapter-05/section-01.md
