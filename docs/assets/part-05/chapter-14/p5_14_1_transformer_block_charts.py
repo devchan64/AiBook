@@ -72,6 +72,24 @@ TEXT = {
         "stage_outfile": "transformer-block-action-stage-trace-en.png",
         "residual_outfile": "transformer-block-action-residual-compare-en.png",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "confirmed": "已确认回滚",
+        "not_confirmed": "未确认回滚",
+        "x_label": "紧急/原因轴",
+        "y_label": "恢复状态轴",
+        "axis_labels": ["紧急/原因轴", "恢复状态轴"],
+        "stage_labels": ["输入", "上下文混合", "前馈网络", "残差之后"],
+        "stage_outfile": "transformer-block-action-stage-trace-zh.png",
+        "residual_outfile": "transformer-block-action-residual-compare-zh.png",
+    },
 }
 
 
@@ -172,7 +190,7 @@ def draw_residual_compare(locale: str, data: dict[str, dict[str, np.ndarray]]) -
 
 def main() -> None:
     data = block_outputs()
-    for locale in ["en", "ko"]:
+    for locale in ["en", "ko", "zh"]:
         draw_stage_trace(locale, data)
         draw_residual_compare(locale, data)
 

@@ -1,0 +1,10 @@
+flowchart TD
+  A["更前面的 token"]
+  B["顺序路径"]
+  C["更后面的 token"]
+  D["直接引用"]
+
+  A --> B
+  B --> C
+  A -.-> D
+  D -.-> C

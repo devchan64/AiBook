@@ -19,6 +19,7 @@ OUT_DIR = Path(__file__).resolve().parent
 CONTEXT = {
     "ko": ["규칙", "보정 로그", "자재 로그", "압력 상태", "일정 로그", "요청"],
     "en": ["Rule", "Calibration", "Restock", "Pressure state", "Schedule", "Request"],
+    "zh": ["规则", "校准日志", "补货日志", "压力状态", "排班日志", "请求"],
 }
 
 CONTEXT_LINES = [
@@ -49,11 +50,20 @@ DIRECT_LABELS = {
         "pressure_state": "Pressure state",
         "other": "Other logs",
     },
+    "zh": {
+        "rule": "规则行",
+        "pressure_state": "压力状态行",
+        "other": "其他日志",
+    },
 }
 
 
 def configure_fonts():
     candidates = [
+        "Noto Sans CJK SC",
+        "Noto Sans CJK JP",
+        "Microsoft YaHei",
+        "PingFang SC",
         "AppleGothic",
         "Noto Sans CJK KR",
         "Noto Sans KR",
@@ -112,10 +122,41 @@ def localized_direct_matches(locale: str) -> dict[str, int]:
 
 
 def draw_state_decay(locale: str):
-    is_ko = locale == "ko"
-    x_label = "문맥 진행 위치" if is_ko else "Context position"
-    y_label = "상태 강도" if is_ko else "State strength"
-    final_note = "마지막 요청에서 금지 근거는 0.05만 남음" if is_ko else "At the final request, block clue remains only 0.05"
+    locale_text = {
+        "ko": {
+            "x_label": "문맥 진행 위치",
+            "y_label": "상태 강도",
+            "final_note": "마지막 요청에서 금지 근거는 0.05만 남음",
+            "labels": {
+                "pressure_risk": "압력 위험",
+                "restart": "재기동 요청",
+                "block": "금지 근거",
+            },
+            "suffix": "ko",
+        },
+        "en": {
+            "x_label": "Context position",
+            "y_label": "State strength",
+            "final_note": "At the final request, block clue remains only 0.05",
+            "labels": {
+                "pressure_risk": "pressure risk",
+                "restart": "restart",
+                "block": "block clue",
+            },
+            "suffix": "en",
+        },
+        "zh": {
+            "x_label": "上下文推进位置",
+            "y_label": "状态强度",
+            "final_note": "到最后请求时，阻断线索只剩 0.05",
+            "labels": {
+                "pressure_risk": "压力风险",
+                "restart": "重启请求",
+                "block": "阻断线索",
+            },
+            "suffix": "zh",
+        },
+    }[locale]
 
     context_labels = CONTEXT[locale]
     x = list(range(1, len(context_labels) + 1))
@@ -128,9 +169,9 @@ def draw_state_decay(locale: str):
         "block": "#dc2626",
     }
     labels = {
-        "pressure_risk": "압력 위험" if is_ko else "pressure risk",
-        "restart": "재기동 요청" if is_ko else "restart",
-        "block": "금지 근거" if is_ko else "block clue",
+        "pressure_risk": locale_text["labels"]["pressure_risk"],
+        "restart": locale_text["labels"]["restart"],
+        "block": locale_text["labels"]["block"],
     }
     for key, values in state_history.items():
         ax.plot(
@@ -143,7 +184,7 @@ def draw_state_decay(locale: str):
         )
     ax.axvline(6, color="#111827", linestyle="--", linewidth=1.1, alpha=0.55)
     ax.annotate(
-        final_note,
+        locale_text["final_note"],
         xy=(6, state_history["block"][-1]),
         xytext=(3.55, 1.2),
         arrowprops={"arrowstyle": "->", "color": "#111827", "lw": 1.2},
@@ -152,22 +193,24 @@ def draw_state_decay(locale: str):
     )
     ax.set_xticks(x)
     ax.set_xticklabels(context_labels, rotation=18, ha="right")
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
+    ax.set_xlabel(locale_text["x_label"])
+    ax.set_ylabel(locale_text["y_label"])
     ax.set_ylim(0, 1.35)
     ax.grid(True, axis="y", linestyle="--", alpha=0.35)
     ax.legend(loc="upper right", frameon=False, fontsize=8.8)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    suffix = "ko" if is_ko else "en"
     fig.tight_layout()
-    fig.savefig(OUT_DIR / f"sequential-state-decay-{suffix}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"sequential-state-decay-{locale_text['suffix']}.png", dpi=160)
     plt.close(fig)
 
 
 def draw_direct_reference(locale: str):
-    is_ko = locale == "ko"
-    bar_label = "키워드 일치 점수" if is_ko else "Keyword match score"
+    bar_label = {
+        "ko": "키워드 일치 점수",
+        "en": "Keyword match score",
+        "zh": "关键词匹配分数",
+    }[locale]
     direct_matches = localized_direct_matches(locale)
     fig, ax = plt.subplots(figsize=(7.2, 3.8))
     bar_names = list(direct_matches.keys())
@@ -181,14 +224,13 @@ def draw_direct_reference(locale: str):
         ax.text(idx, value + 0.12, str(value), ha="center", va="bottom", fontsize=10)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    suffix = "ko" if is_ko else "en"
     fig.tight_layout()
-    fig.savefig(OUT_DIR / f"direct-reference-match-scores-{suffix}.png", dpi=160)
+    fig.savefig(OUT_DIR / f"direct-reference-match-scores-{locale}.png", dpi=160)
     plt.close(fig)
 
 
 if __name__ == "__main__":
     configure_fonts()
-    for locale in ["ko", "en"]:
+    for locale in ["ko", "en", "zh"]:
         draw_state_decay(locale)
         draw_direct_reference(locale)

@@ -55,6 +55,26 @@ LANG_TEXT = {
         "ylabel_right": "number of choices",
         "labels": ["recheck", "operator confirm", "remeasure", "keep normal"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "weight_outfile": "sampling-candidate-weights-zh.svg",
+        "weight_title": "候选短语相对权重",
+        "weight_desc": "展示 sampling 前每个候选短语相对权重的柱状图。",
+        "count_outfile": "sampling-choice-counts-zh.svg",
+        "count_title": "20 次 sampling 的选择频率",
+        "count_desc": "展示进行二十次 sampling 时，各候选短语实际被选中了多少次的柱状图。",
+        "xlabel": "候选输出",
+        "ylabel_left": "相对权重",
+        "ylabel_right": "选择次数",
+        "labels": ["重新确认", "主管确认", "重新测量", "保持正常"],
+    },
 }
 
 RESPONSE_CANDIDATES = [

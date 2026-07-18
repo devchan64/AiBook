@@ -36,6 +36,13 @@ multi-head attention 与 query、key、value 的入门说明，会在补充学�
 - 以后即使去看别的模型家族，也能重新想起 Transformer 的基本 block。
 - 能通过可运行的 Python 例子，直观确认 token 表示如何经过多个阶段而发生变化。
 
+## 本节的阅读顺序
+
+1. 先确认在 P5-13.2 看到的 self-attention 在 Transformer 里处于什么位置。
+2. 然后分开阅读 self-attention、feed-forward、residual、layer normalization 各自的角色。
+3. 接着看这些部件为什么会被绑成一个可重复的 block。
+4. 最后整理：为什么这种 block 结构后来会成为生成模型的基本单位。
+
 ## 从很大的图景看 Transformer
 
 先牢牢抓住下面四个元素，就已经够用了。
@@ -79,7 +86,7 @@ multi-head attention 与 query、key、value 的入门说明，会在补充学�
 | 防止新计算把原始输入流覆盖得太厉害 | residual connection | 把之前的表示也一并保留，让信息流继续往下走 |
 | 在把结果送去下一个计算之前整理数值范围 | layer normalization | 整理表示的大小与分布，让后续计算不那么摇晃 |
 
-如果说 P5-13.2 是在讲`token 彼此参考的计算`，那么这一节就是要 보여 주는：在真实模型里，这个计算是如何和周围的支撑组件一起组成一个 block 的。
+如果说 P5-13.2 是在讲`token 彼此参考的计算`，那么这一节就是要说明：在真实模型里，这个计算是如何和周围的支撑组件一起组成一个 block 的。
 
 这里读者尤其要抓住的一点，是这并不是`各个组件彼此分散地摆在那里`。通常最容易理解 Transformer 的方式，是按下面这串问题顺序去读一个 block。
 
@@ -189,7 +196,7 @@ Transformer 看起来像一个大转折点，并不是因为它只是多加了�
 
 想一想这样一句工作许可句：`在压力尚未释放时，重启应被暂缓。` 人匆忙读这句话时，很容易把`重启`和`暂缓`分开看，或者先只抓住动作词 `重启`。但实际上，为了安全，当前动作表达不应该被读成`批准`，而应该被读成`带条件的暂缓`。这里 self-attention 会先把 `压力未释放`、`重启`、`暂缓` 在同一句子里的关系连起来。接着 feed-forward 会在这些关系已经被聚合的基础上，把当前动作表达进一步加工得更清楚：不再是`一般作业指令`，而更像是`带条件的阻断指令`。residual connection 会把原来动作表达本来带着的基本意义继续留住，不让它完全丢失；layer normalization 则会在把改变后的表示送去下一个 block 时，整理好数值分布，避免过度摇晃。
 
-所以，这个案例里要确认的结果是：当前动作表达是否没有只跟着 `重启` 这个词走，而是被读成了一个同时反映 `压力未释放` 和 `暂缓` 的条件性阻断表达。
+所以，这个案例里要确认的结果是：当前动作表达是否没有只跟着`重启`这个词走，而是被读成了一个同时反映`压力未释放`和`暂缓`的条件性阻断表达。
 
 同样的视角也会直接延伸到故障摘要句的打磨和运行备忘录的改写里。不过，本节真正要抓住的不是领域名称，而是`当前这个位置的表示，会怎样在一个 block 里被重新加工成更清楚的意义，并被稳定保留下来`。
 
@@ -203,9 +210,9 @@ Transformer 看起来像一个大转折点，并不是因为它只是多加了�
 
 | 案例 | self-attention 先负责什么 | feed-forward 接着负责什么 | residual + normalization 保住什么 |
 | --- | --- | --- | --- |
-| 工作许可句 | 把 `压力未释放`、`重启`、`暂缓` 和当前动作表达连接起来 | 把当前表示加工成更明确的`条件性阻断指令`，而不是`一般指令` | 在不丢掉原始动作意义的同时，让阻断条件稳定地延续到下一个 block |
-| 故障摘要句 | 把 `刚部署后`、`压力波动`、`无异常` 这些线索连到当前摘要位置上 | 把当前句子加工成`带原因依据的摘要`，而不是`模糊异常` | 让整体情势感和具体依据之间的平衡在 block 重复中不至于塌掉 |
-| 一行运行备忘录 | 把 `interlock`、`未解除`、`重启`、`暂缓` 连到当前备忘录表达上 | 把当前位置加工成`带阻断条件的暂缓句`，而不是`关于重启的一般句子` | 让重启动作这一原始轴线保留，同时阻断意义也稳定存在 |
+| 工作许可句 | 把`压力未释放`、`重启`、`暂缓`和当前动作表达连接起来 | 把当前表示加工成更明确的`条件性阻断指令`，而不是`一般指令` | 在不丢掉原始动作意义的同时，让阻断条件稳定地延续到下一个 block |
+| 故障摘要句 | 把`刚部署后`、`压力波动`、`无异常`这些线索连到当前摘要位置上 | 把当前句子加工成`带原因依据的摘要`，而不是`模糊异常` | 让整体情势感和具体依据之间的平衡在 block 重复中不至于塌掉 |
+| 一行运行备忘录 | 把`interlock`、`未解除`、`重启`、`暂缓`连到当前备忘录表达上 | 把当前位置加工成`带阻断条件的暂缓句`，而不是`关于重启的一般句子` | 让重启动作这一原始轴线保留，同时阻断意义也稳定存在 |
 
 ## 练习与例子
 
@@ -236,7 +243,7 @@ Transformer 看起来像一个大转折点，并不是因为它只是多加了�
 
 问题场景：
 
-- 在故障响应运维里，即使 `事故征兆`、`部署线索`、`动作确认` 写得相隔较远，也还是需要一起被读出来，所以我们要一步一步看：在这种场景里，Transformer block 怎样更新表示
+- 在故障响应运维里，即使`事故征兆`、`部署线索`、`动作确认`写得相隔较远，也还是需要一起被读出来，所以我们要一步一步看：在这种场景里，Transformer block 怎样更新表示
 
 要确认的概念：
 
@@ -309,3 +316,123 @@ for name, attention_weights in attention_cases.items():
     print("action token after residual =", np.round(residual_added[2], 3))
     print("---")
 ```
+
+在输出里，两种场景都先比较 `action token after residual`，然后再往回追：这个差异其实在 `contextual tokens` 阶段是怎样形成的。
+
+```text
+[rollback_confirmed]
+contextual tokens =
+[[0.87 0.37]
+ [0.69 0.59]
+ [0.52 0.77]]
+feed-forward output =
+[[1.031 0.718]
+ [0.877 0.866]
+ [0.726 0.978]]
+change from input =
+[[ 0.031  0.518]
+ [ 0.077  0.366]
+ [ 0.426 -0.022]]
+after residual =
+[[2.031 0.918]
+ [1.677 1.366]
+ [1.026 1.978]]
+after simple layer norm =
+[[ 1. -1.]
+ [ 1. -1.]
+ [-1.  1.]]
+action token after residual = [1.026 1.978]
+---
+[rollback_not_confirmed]
+contextual tokens =
+[[0.87 0.37]
+ [0.76 0.51]
+ [0.76 0.51]]
+feed-forward output =
+[[1.031 0.718]
+ [0.938 0.814]
+ [0.938 0.814]]
+change from input =
+[[ 0.031  0.518]
+ [ 0.138  0.314]
+ [ 0.638 -0.186]]
+after residual =
+[[2.031 0.918]
+ [1.738 1.314]
+ [1.238 1.814]]
+after simple layer norm =
+[[ 1. -1.]
+ [ 1. -1.]
+ [-1.  1.]]
+action token after residual = [1.238 1.814]
+---
+```
+
+这个例子里，首先要看的结果，是 action token 在 block 各阶段是往哪里移动的。`rollback confirmed` 和 `rollback not confirmed` 从同一组输入出发，但从 attention 混合上下文的阶段开始就已经分成不同路径，经过 feed-forward 和 residual 之后，最终留下的 action 表示也不一样。
+
+![action token 的阶段性表示移动](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-zh.png)
+
+第二个结果，是把 residual 之后的 action token 单独拿出来比较。rollback 已确认的场景里，恢复状态轴保留得更强；未确认的场景里，紧急 / 原因轴相对保留得更多。看到这个差异，就更容易明白：为什么 Transformer block 不能只读成 attention，而要读成`上下文混合 -> 按位置加工 -> 保留原始信息`的组合。
+
+![residual 之后的 action token 对比](../../../assets/part-05/chapter-14/transformer-block-action-residual-compare-zh.png)
+
+| 比较点 | rollback confirmed | rollback not confirmed | 为什么重要 |
+| --- | --- | --- | --- |
+| action token 参考到的上下文 | 动作确认 token 更强地保留了自己和原因线索 | 动作确认变弱后，事故征兆 / 部署线索一侧相对更大 | 因为即使是同一个 block，`更强地绑定哪些线索`也会随运维场景而变化 |
+| action token after residual | `[1.026, 1.978]` | `[1.238, 1.814]` | 因为它显示：动作是否被确认，确实会把当前位置表示推向不同方向 |
+| 解读方式 | `因为动作已确认，所以更强地反映恢复状态一侧` | `因为确认仍然不足，所以更怀疑警报与部署线索一侧` | 因为它说明：Transformer block 读取运维句子时，依靠的是关系重映射，而不是简单顺序 |
+
+| block 阶段 | 如果只单独看这一阶段，容易出现的误解 | 从整个 block 来读时，需要纠正的点 |
+| --- | --- | --- |
+| self-attention (`contextual tokens`) | 容易觉得上下文混过一次以后，最终判断就已经完成了 | 这一阶段只是决定`要重新参考什么`，当前位置表示的再加工和稳定传递还没有结束 |
+| feed-forward (`feed-forward output`) | 因为只是把数字再变换一次，所以容易被当成次要后处理 | 实际上它会把 attention 聚合来的上下文重新压进各位置表示里，因此即使是同一上下文，也会分出不同的位置解读 |
+| residual (`after residual`) | 容易看成只是把前一个值简单加回来 | 它不会只相信新计算，而是把原始输入表示一起留下，因此 action token 原本持有的恢复状态信息不会直接消失 |
+| layer normalization (`after simple layer norm`) | 容易被看成只是整理数值大小的次要步骤 | 它会重新对齐送往下一个 block 的表示范围，让 block 叠深以后计算也不那么摇晃 |
+
+- 在 attention 阶段，每个 token 都会接收其他 token 的信息，因此原始表示会发生变化。
+- 在 feed-forward 阶段，已经混入上下文的表示会按位置再次被变换。
+- `after residual` 说明：模型不是只用新计算结果，而是会把原始 token 表示一起保留下来。
+- `after simple layer norm` 说明：每个位置表示在进入下一阶段前，数值范围还会再被整理一次。
+- 在运维句子场景里，关键问题是像 `rollback confirmed` 这样的远处线索，是否真的反映到了 action token 表示上。
+
+也就是说，`rollback confirmed` 和 `rollback not confirmed` 的分叉虽然从 attention 阶段开始，但真正把这个差异稳定地送进 block 输出的，是包含 feed-forward、residual、normalization 在内的整套组合。如果只把 Transformer 读成`attention 很强的模型`，这一层分工就会消失。
+
+这个例子说明：即使是同一份故障响应日志，只要出现 `rollback confirmed` 这句话，当前动作表示就可能发生变化。Transformer block 重要，不是因为它只是把 token 混在一起，而是因为它能把`运维判断所需的远处线索`重新反映进当前表示里。
+
+| 先看到的输出信号 | 现在马上可以尝试的变化 | 不应只凭这个例子就仓促下结论的事 |
+| --- | --- | --- |
+| `action token after residual` 会随场景变化 | 提高或降低动作确认 token 的 attention 比重，比较运维判断表示会怎样变化 | 不要断言只靠一个 attention 数值就能完全决定真实运维优先级 |
+| `contextual tokens` 会因场景而混得不同 | 改动事故征兆 token 与部署线索 token 的权重，观察哪类上下文会更强地进入 action token | 不要断言数字变化更大就一定代表表示学习更好 |
+| `after simple layer norm` 被整理到相近范围 | 故意放大某个轴值，比较 normalization 前后差异会扩大多少 | 不要用这个简单 normalization 对比，替代真实 layer normalization 的全部实现细节 |
+
+真实的 Transformer 会把 residual connection、layer normalization、multi-head attention 一起使用，但从大方向上看，最容易理解的还是这种 block 的重复。
+
+## 如果从 block 组合视角重新读这个例子
+
+上面的数字并没有实现整个 Transformer，但各组件之间的角色差异已经很清楚。
+
+- `contextual tokens` 是 self-attention 先把其他位置的信息混进来的阶段。
+- `feed-forward output` 是对已经混合的表示，再按位置加工一次后的结果。
+- `after residual` 展示的是一种安全装置角色：它不会只信任新的计算，而会把原始表示也一起带着走。
+- `after simple layer norm` 给出的是一种感觉：在送去下一个 block 之前，数值范围还会再被整理一次。
+
+也就是说，Transformer block 不是`只有 attention`，而是一种把`上下文混合 + 按位置加工 + 保留原始信息 + 稳定化`作为一个整体反复使用的结构。只有这个感觉先固定住，到了下一节 P5-14.2 讨论并行处理与长上下文时，才会更自然地理解：为什么这种 block 容易被大规模重复。
+
+Transformer 是 attention 从辅助装置被提升为核心 block 的代表性案例。这个 block 设计后来也被许多大规模语言模型和多模态模型反复复用，像是一种共同的基本单位。
+
+## 检查清单
+
+- 能否用 self-attention、feed-forward、residual connection、layer normalization 来解释 Transformer block？
+- 能否说明 Transformer 不是一个单独想法，而是一种组件打包结构？
+- 在理解 Transformer 时，能否把它区分成这样一个 block 组合：self-attention 收集上下文关系，feed-forward 加工表示，residual 与 normalization 稳定深层计算？
+- 能否不把 Transformer 只说成`带 attention 的模型`，而是解释成`重复关系读取、按位置加工、稳定传递的 block 结构`？
+- 能否把 self-attention 与 feed-forward 的角色差异，分别说成`读取与外部的关系`和`加工当前位置表示`？
+- 能否解释 residual 与 normalization 会稳定深层学习？
+- 当只讲 attention 仍不足以解释 Transformer 时，能否先想起 block 组成的视角？
+- 在读下一节并行处理说明时，是否已经准备好先问`如果这个 block 被重复很多次，计算流为什么会改变`？
+
+## 出处与参考资料
+
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017，确认日期：2026-06-29。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Jay Alammar, `The Illustrated Transformer`，确认日期：2026-06-29。[https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }

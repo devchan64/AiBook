@@ -1,0 +1,11 @@
+flowchart TD
+  A["当前 token 表示"]
+  B["经过 self-attention：混入相关上下文"]
+  C["经过 feed-forward：当前角色更清晰"]
+  D["经过 residual + layer norm：保留原始轴线并稳定"]
+  E["送往下一个 block 的表示"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E

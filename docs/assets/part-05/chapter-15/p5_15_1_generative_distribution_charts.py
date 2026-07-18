@@ -68,6 +68,28 @@ LANG_TEXT = {
             },
         },
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "ylabel": "概率",
+        "xlabel": "后续候选",
+        "cases": {
+            "temperature_alert": {
+                "outfile": "generative-response-distribution-temperature-zh.png",
+                "labels": ["冷却水流量", "风扇状态", "传感器校准"],
+            },
+            "seal_edge_alert": {
+                "outfile": "generative-response-distribution-seal-zh.png",
+                "labels": ["封边压力", "膜张力", "刀刃磨损"],
+            },
+        },
+    },
 }
 
 

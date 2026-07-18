@@ -4,19 +4,20 @@
 - Current deployment references:
   - Korean pages reference `-ko.mmd`.
   - English pages reference `-en.mmd`.
+  - Simplified Chinese pages reference `-zh.mmd`.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
+- When updating a Mermaid diagram set, revise the English structure first, then sync each deployed language derivative so every file keeps the same conceptual flow and node relationships.
 - Current language pairs:
-  - `generative-model-flow-en.mmd` / `generative-model-flow-ko.mmd`
-  - `generative-task-flow-en.mmd` / `generative-task-flow-ko.mmd`
-  - `sampling-selection-flow-en.mmd` / `sampling-selection-flow-ko.mmd`
-  - `sampling-task-flow-en.mmd` / `sampling-task-flow-ko.mmd`
+  - `generative-model-flow-en.mmd` / `generative-model-flow-ko.mmd` / `generative-model-flow-zh.mmd`
+  - `generative-task-flow-en.mmd` / `generative-task-flow-ko.mmd` / `generative-task-flow-zh.mmd`
+  - `sampling-selection-flow-en.mmd` / `sampling-selection-flow-ko.mmd` / `sampling-selection-flow-zh.mmd`
+  - `sampling-task-flow-en.mmd` / `sampling-task-flow-ko.mmd` / `sampling-task-flow-zh.mmd`
 - SVG chart assets:
-  - `sampling-candidate-weights-en.svg` / `sampling-candidate-weights-ko.svg`
-  - `sampling-choice-counts-en.svg` / `sampling-choice-counts-ko.svg`
+  - `sampling-candidate-weights-en.svg` / `sampling-candidate-weights-ko.svg` / `sampling-candidate-weights-zh.svg`
+  - `sampling-choice-counts-en.svg` / `sampling-choice-counts-ko.svg` / `sampling-choice-counts-zh.svg`
 - PNG chart assets:
-  - `generative-response-distribution-temperature-en.png` / `generative-response-distribution-temperature-ko.png`
-  - `generative-response-distribution-seal-en.png` / `generative-response-distribution-seal-ko.png`
+  - `generative-response-distribution-temperature-en.png` / `generative-response-distribution-temperature-ko.png` / `generative-response-distribution-temperature-zh.png`
+  - `generative-response-distribution-seal-en.png` / `generative-response-distribution-seal-ko.png` / `generative-response-distribution-seal-zh.png`
 - Python chart source:
   - `p5_15_1_generative_distribution_charts.py`
   - `p5_15_sampling_chart.py`
