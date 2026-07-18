@@ -743,56 +743,56 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 ## Part 7. Projects
 
-Part 7 is where the data modeling, machine learning, deep learning, and LLM structures from earlier Parts are run again as actual projects. Instead of adding a long stretch of new theory, this Part checks directly through code, logs, comparison tables, and diagrams how to close a problem with a concrete question, how to define input and output units, and how to choose a baseline and a structure. Each chapter follows the flow `problem definition -> execution -> comparison -> interpretation -> next iteration` and does not stop at quickly passing toy examples; it also includes results worth reviewing, failures, constraints, and operating records.
+Part 7 is not a separate Part for new theory. It is the practice space for material introduced earlier. The front half covers questions, input units, baselines, and comparison experiments. The middle covers input structure, learning curves, and error cases. The back half covers RAG, agents, and deployment or operational judgment through logs and failure records.
 
-### Module 1. Project Definition and Baselines
+### Module 1. Part 4 Practice: Questions, Baselines, Comparison Experiments
 
-#### Chapter 1. Project Questions and Baselines `Project Practice`
+#### Chapter 1. Starting Analysis and Designing Baselines `Project Practice`
 
-- **P7-1.1 Project Questions and Input Definition**: checks that even with the same data, a completely different project emerges depending on what is being predicted or separated and where one input sample is defined to begin and end, and that this difference changes actual data preparation and experiment design.
-- **P7-1.2 Baselines and the First Comparison**: runs the simplest baseline first and checks, with real comparison tables and failure cases, why model performance should be read first through `what it improved over` rather than `how good it looks`.
-- **P7-1.3 Practicing Baseline Redesign**: directly compares how the first retrospective sentence changes when the same operating log is regrouped with different baseline cutoffs and comparison units, and practices why whole-service totals and channel-day units can lead to different conclusions.
+- **P7-1.1 Project Questions and Input Definition**: shows that even with the same data, changing the prediction target or sample unit creates a different project and changes data preparation and experiment design.
+- **P7-1.2 Baselines and the First Comparison**: uses comparison tables and failure cases to show that model performance must be read through `what it improved over` before `how good it looks`.
+- **P7-1.3 Practicing Baseline Redesign**: compares how the opening line of a retrospective changes when the baseline cutoff and comparison unit change.
 
-#### Chapter 2. Result Interpretation and Retrospective `Project Practice`
+#### Chapter 2. Comparing and Improving Traditional Machine Learning `Project Practice`
 
-- **P7-2.1 Reading Comparison Tables and Error Cases**: reads prediction comparison tables and representative error cases together instead of looking at only one score, so that where a model is correct and where it fails can be interpreted concretely.
-- **P7-2.2 Building the Next Question from a Retrospective**: practices how to organize one experiment result into `facts`, `interpretation`, and `next question`, then pass it into a better next iteration and a better experiment design.
-- **P7-2.3 Practicing Comparison Experiments**: places a baseline, raw 1-NN, partial rescaling, and normalization on the same evaluation set, then directly separates failures that preprocessing fixes from failures that remain because more boundary cases or features are still needed.
+- **P7-2.1 Reading Comparison Tables and Error Cases**: reads prediction comparison tables and representative error cases together instead of relying on one score.
+- **P7-2.2 Building a Retrospective and the Next Question**: organizes one experiment into `facts`, `interpretation`, and `next question`, then carries it into the next iteration.
+- **P7-2.3 Practicing Comparison Experiments**: places a baseline, raw 1-NN, partial rescaling, and normalization on the same evaluation set and separates failures fixed by preprocessing from failures that still need more boundary cases or features.
 
-### Module 2. Model Projects That Expose Structural Choice
+### Module 2. Part 5 Practice: Input Structure, Learning Curves, Error Interpretation
 
-#### Chapter 3. Choosing Input Structure and Model Structure `Project Practice`
+#### Chapter 3. Input Structure and Model Structure Selection `Project Practice`
 
-- **P7-3.1 How Input Structure Changes the Project**: compares side by side how tabular data, images, and sequence inputs change data-preparation code, sample inspection, and model input-output definitions.
-- **P7-3.2 Comparing CNNs, Sequential Models, and Attention-Based Families**: organizes why different computational structures should be chosen when the same goal has different input structures and different relationships to reference, including explainable selection criteria and actual implementation burden.
+- **P7-3.1 How Input Structure Changes the Project**: compares how tabular data, image inputs, and sequence inputs change preparation code, sample inspection, and model input-output definitions.
+- **P7-3.2 Comparing CNNs, Sequential Models, and Attention Families**: explains why different computational structures are chosen when input structure and reference relationships differ.
 
-#### Chapter 4. Reviewing Training Results `Project Practice`
+#### Chapter 4. Reviewing Learning Results and Representations `Project Practice`
 
-- **P7-4.1 Reading Loss, Metrics, and Error Cases Together**: checks that only by reading learning curves, evaluation metrics, and error samples together can one properly judge `what actually improved` even when training itself succeeded.
-- **P7-4.2 Breaking Down a Failed Result Again**: when a result is worse than expected, separates it into a structural problem, a data problem, or a baseline-setting problem instead of leaving it as a vague failure, then sets the next experiment direction and revision priority.
-- **P7-4.3 Expression Normalization Practice**: reruns the same support messages before and after normalization to compare how synonym replacement changes coverage, prediction, and revision priority.
+- **P7-4.1 Reading Loss, Metrics, and Error Cases Together**: judges `what actually improved` by reading learning curves, evaluation metrics, and error samples together.
+- **P7-4.2 Breaking Down Failed Results Again**: separates weaker-than-expected results into structural problems, data problems, and baseline-setting problems, then sets the next experiment direction and revision priority.
+- **P7-4.3 Practicing Representation Normalization**: compares normalized and unnormalized requests and observes how synonym replacement changes coverage, prediction, and retrospective priority.
 
-### Module 3. LLM Service Projects
+### Module 3. Part 6 Practice: RAG, Agents, Execution Records
 
-#### Chapter 5. Verifying a RAG Project `Project Practice`
+#### Chapter 5. Verifying RAG Evidence `Project Practice`
 
-- **P7-5.1 Practicing the Retrieval, Evidence, and Answer Flow**: directly checks, as one pipeline, how retrieval candidates gather, how evidence is chosen, and how answers are produced on top of that evidence.
-- **P7-5.2 Recording Retrieval Failures and Missing Evidence**: when an answer is inaccurate, records whether it came from retrieval failure, missing evidence, or answer-construction problems instead of collapsing everything into `the LLM was wrong`, and also organizes the logging perspective needed for service-quality review.
-- **P7-5.3 Practicing the Question-Evidence Boundary**: rewrites questions on top of the same document set and directly compares how `grounded answer`, `insufficient evidence`, and `overreach risk` states diverge.
+- **P7-5.1 Practicing the Retrieval, Evidence, and Answer Flow**: follows how retrieval candidates, selected evidence, and final answers connect within one pipeline.
+- **P7-5.2 Recording Retrieval Failures and Missing Evidence**: records inaccurate answers as retrieval failure, insufficient evidence, or answer-construction problems instead of collapsing them into `the LLM was wrong`.
+- **P7-5.3 Practicing the Question-Evidence Boundary**: changes question wording on the same document set and compares how `insufficient evidence`, `overreach risk`, and `grounded answer` states diverge.
 
-#### Chapter 6. Reviewing Agent Execution Records `Project Practice`
+#### Chapter 6. Agent Execution and Approval Policies `Project Practice`
 
-- **P7-6.1 Practicing the Flow of Plans, Tool Calls, and Approvals**: reads the execution path of what plan an agent makes, which tools it calls in what order, and where approvals and constraints appear.
-- **P7-6.2 Reviewing Permissions, Logs, and Blocked States**: reorganizes execution logs around permissions, blocked states, and next actions, and checks why execution records and failure-handling rules become as important as the result itself in an agent project.
-- **P7-6.3 Practicing Approval Policies**: redivides which steps can run automatically and which must be held on the same incident scenario, then directly rewrites the safer next action.
+- **P7-6.1 Practicing Plans, Tool Calls, and Approval Flow**: follows an execution path through agent plans, tool-call order, approvals, and constraints.
+- **P7-6.2 Reviewing Permissions, Logs, and Blocked States**: organizes execution logs around permissions, blocked states, and next actions, then examines the role of execution records and failure-handling rules.
+- **P7-6.3 Practicing Approval Policies**: divides the same operating scenario into auto-runnable steps and immediate holds, then rewrites the safer next action.
 
-### Module 4. Deployment and Operational Retrospectives
+### Module 4. Integrated Operations Practice: Deployment, Checks, Retrospectives
 
-#### Chapter 7. Deployment Checks and Operational Retrospectives `Project Practice`
+#### Chapter 7. Deployment and Operational Retrospectives `Project Practice`
 
-- **P7-7.1 Verifying Deployment and Checking Runtime State**: goes beyond seeing only whether the build succeeded and reviews, through small checking code and a flow diagram, whether the public state and basic behavior actually hold after deployment.
-- **P7-7.2 Recording Incidents and Planning the Next Iteration**: organizes how to keep failures not as simple incident notes but as operational retrospectives that include cause hypotheses, priorities, next actions, and recurrence-prevention viewpoints.
-- **P7-7.3 Simulating Operational Checks**: directly classifies observed operating signals into `fix immediately`, `confirm reproduction`, and `improve in the next iteration`, and practices deciding what to repair first versus what should be rechecked.
+- **P7-7.1 Checking Deployment and Runtime State**: goes beyond build success and checks public state and basic behavior after deployment.
+- **P7-7.2 Recording Incidents and Planning the Next Iteration**: records failures as operational retrospectives with cause hypotheses, priorities, next actions, and recurrence-prevention viewpoints.
+- **P7-7.3 Simulating Operational Checks**: classifies operating signals into `fix immediately`, `confirm reproduction`, and `improve in the next iteration`, then decides response order.
 
 ## Sources and References
 
