@@ -4,26 +4,27 @@
 - Current deployment references:
   - Korean pages reference `-ko.mmd`.
   - English pages reference `-en.mmd`.
+  - Chinese pages reference `-zh.mmd`.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `optimizer-step-bridge-en.mmd` / `optimizer-step-bridge-ko.mmd`
-  - `optimizer-loop-flow-en.mmd` / `optimizer-loop-flow-ko.mmd`
-  - `sgd-vs-adam-flow-en.mmd` / `sgd-vs-adam-flow-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all files keep the same conceptual flow and node relationships.
+- Current language sets:
+  - `optimizer-step-bridge-en.mmd` / `optimizer-step-bridge-ko.mmd` / `optimizer-step-bridge-zh.mmd`
+  - `optimizer-loop-flow-en.mmd` / `optimizer-loop-flow-ko.mmd` / `optimizer-loop-flow-zh.mmd`
+  - `sgd-vs-adam-flow-en.mmd` / `sgd-vs-adam-flow-ko.mmd` / `sgd-vs-adam-flow-zh.mmd`
 - SVG chart assets:
-  - `learning-rate-step-size-en.svg` / `learning-rate-step-size-ko.svg`
+  - `learning-rate-step-size-en.svg` / `learning-rate-step-size-ko.svg` / `learning-rate-step-size-zh.svg`
 - Python chart source:
   - `p5_7_learning_rate_chart.py`
 - Matplotlib chart assets:
-  - `optimizer-step-before-after-weight-en.png` / `optimizer-step-before-after-weight-ko.png`
-  - `optimizer-step-before-after-score-en.png` / `optimizer-step-before-after-score-ko.png`
-  - `optimizer-step-before-after-loss-en.png` / `optimizer-step-before-after-loss-ko.png`
-  - `optimizer-example-updated-weight-en.png` / `optimizer-example-updated-weight-ko.png`
-  - `optimizer-example-updated-score-en.png` / `optimizer-example-updated-score-ko.png`
-  - `optimizer-example-updated-loss-en.png` / `optimizer-example-updated-loss-ko.png`
-  - `sgd-adam-gradient-history-en.png` / `sgd-adam-gradient-history-ko.png`
-  - `sgd-adam-delta-comparison-en.png` / `sgd-adam-delta-comparison-ko.png`
-  - `sgd-adam-risk-weight-trajectory-en.png` / `sgd-adam-risk-weight-trajectory-ko.png`
-  - `state-update-comparison-en.png` / `state-update-comparison-ko.png`
-  - `clipping-spike-comparison-en.png` / `clipping-spike-comparison-ko.png`
-  - `convergence-claim-boundary-en.png` / `convergence-claim-boundary-ko.png`
+  - `optimizer-step-before-after-weight-en.png` / `optimizer-step-before-after-weight-ko.png` / `optimizer-step-before-after-weight-zh.png`
+  - `optimizer-step-before-after-score-en.png` / `optimizer-step-before-after-score-ko.png` / `optimizer-step-before-after-score-zh.png`
+  - `optimizer-step-before-after-loss-en.png` / `optimizer-step-before-after-loss-ko.png` / `optimizer-step-before-after-loss-zh.png`
+  - `optimizer-example-updated-weight-en.png` / `optimizer-example-updated-weight-ko.png` / `optimizer-example-updated-weight-zh.png`
+  - `optimizer-example-updated-score-en.png` / `optimizer-example-updated-score-ko.png` / `optimizer-example-updated-score-zh.png`
+  - `optimizer-example-updated-loss-en.png` / `optimizer-example-updated-loss-ko.png` / `optimizer-example-updated-loss-zh.png`
+  - `sgd-adam-gradient-history-en.png` / `sgd-adam-gradient-history-ko.png` / `sgd-adam-gradient-history-zh.png`
+  - `sgd-adam-delta-comparison-en.png` / `sgd-adam-delta-comparison-ko.png` / `sgd-adam-delta-comparison-zh.png`
+  - `sgd-adam-risk-weight-trajectory-en.png` / `sgd-adam-risk-weight-trajectory-ko.png` / `sgd-adam-risk-weight-trajectory-zh.png`
+  - `state-update-comparison-en.png` / `state-update-comparison-ko.png` / `state-update-comparison-zh.png`
+  - `clipping-spike-comparison-en.png` / `clipping-spike-comparison-ko.png` / `clipping-spike-comparison-zh.png`
+  - `convergence-claim-boundary-en.png` / `convergence-claim-boundary-ko.png` / `convergence-claim-boundary-zh.png`

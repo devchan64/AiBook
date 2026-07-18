@@ -1,0 +1,16 @@
+flowchart TD
+  subgraph SGD["直接 update 的直觉"]
+    direction TB
+    A["当前 gradient"] --> B["一个 learning rate"]
+    B --> C["直接得到 update step"]
+  end
+
+  GAP["比较重点：同一个 gradient 如何变成 step"]
+
+  subgraph Adam["Adam 的直觉"]
+    direction TB
+    D["当前 gradient"] --> E["最近 gradient 历史"]
+    E --> F["按坐标调节后的 step"]
+  end
+
+  SGD --> GAP --> Adam

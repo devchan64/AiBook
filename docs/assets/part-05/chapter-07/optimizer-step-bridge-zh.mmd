@@ -1,0 +1,12 @@
+flowchart TD
+    A[反向传播算出 gradient] --> B[optimizer 应用 update 规则]
+    B --> C[参数真正移动]
+    C --> D[下一次 forward 与 loss 改变]
+
+    B --> E[update 太小]
+    B --> F[update 比较合适]
+    B --> G[update 太大]
+
+    E --> H[几乎没有移动]
+    F --> I[更接近目标]
+    G --> J[越过目标]

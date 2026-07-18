@@ -1,0 +1,15 @@
+flowchart TD
+  A["forward pass<br/>用当前参数做预测"]
+  B["loss<br/>把误差变成数字"]
+  C["backpropagation<br/>计算梯度"]
+  D["optimizer<br/>把梯度变成 update"]
+  E["参数更新被应用<br/>权重真正发生变化"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+
+  B -. "哪里出错了" .-> C
+  C -. "该朝哪个方向改" .-> D
+  D -. "把算出来的结果作为真实移动应用" .-> E
