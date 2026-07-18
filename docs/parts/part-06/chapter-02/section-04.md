@@ -138,42 +138,79 @@ ANN 설정을 더 공격적으로 조정해 속도는 빨라졌는데, 정작 �
 
 ## 연습 및 예제
 
-이번 예제의 목표는 `전수 비교`와 `빠른 후보 축소`를 나란히 놓고, 왜 ANN이 실무에서 필요한지 직접 보는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, 모든 후보를 다 보는 방식과 일부 후보만 먼저 좁혀 보는 방식을 비교하면 핵심 감각은 잡을 수 있습니다.
+이 절은 직관 구분만으로 닫기보다, `coarse_window` 값을 바꿨을 때 비교 후보 수와 후보 누락이 실제로 달라지는지를 봐야 합니다. 그래서 먼저 짧은 연습으로 `무엇을 예상해야 하는가`를 잡고, Python 예제로 `전수 비교`와 `빠른 후보 축소`의 출력 차이를 확인한 뒤, 다시 연습에서 이 결과를 운영 판단으로 옮겨 봅니다.
 
-여기서 직접 바꿔 볼 값은 `coarse_window`입니다. 이 값이 넓으면 더 많은 후보를 비교하므로 후보 누락 위험이 줄고, 좁으면 비교 후보 수가 줄어드는 대신 가까운 후보 일부를 놓칠 수 있습니다.
+### 연습 1. 실행 전에 비교 기준 예상하기
+
+예제를 실행하기 전에 먼저 아래 질문에 답해 봅니다.
+
+- 전수 비교는 후보 누락 위험과 비교 비용 중 무엇을 더 줄이는 방식인가?
+- 빠른 후보 축소는 비교 비용과 후보 누락 위험 중 무엇을 먼저 줄이려는 방식인가?
+- `coarse_window`를 너무 좁히면 어떤 문제가 생길 수 있는가?
+
+해설: 전수 비교는 모든 후보를 다 보므로 후보 누락 위험을 줄이지만, 후보 수가 커질수록 비교 비용이 그대로 늘어납니다. 빠른 후보 축소는 비교 비용을 먼저 줄이려는 방식이지만, 조건이 너무 좁으면 가까운 후보 일부를 놓칠 수 있습니다. 따라서 예제를 실행할 때는 `무엇이 더 빠른가`만 보지 말고, `무엇을 놓쳤는가`까지 함께 봐야 합니다. 이것이 P6-2.4의 중심축인 속도 이득과 후보 누락 관리입니다.
+
+### 예제. `coarse_window`로 후보 축소 실험하기
+
+이번 예제의 목표는 `전수 비교`와 `빠른 후보 축소`를 나란히 놓고, 왜 ANN이 실무에서 필요한지 직접 보는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, 후보를 3,000개 이상으로 늘린 뒤 모든 후보를 다 보는 방식과 1차 조건으로 일부 후보만 남기는 방식을 비교하면 핵심 감각은 더 분명해집니다.
+
+이 예제는 Python 사용법을 배우기 위한 설명형 예제가 아니라, 값을 바꾸며 결과 차이를 보는 실험형 예제입니다. 여기서 직접 바꿔 볼 값은 `coarse_window`입니다. 이 값이 넓으면 더 많은 후보를 비교하므로 후보 누락 위험이 줄고, 좁으면 비교 후보 수가 줄어드는 대신 가까운 후보 일부를 놓칠 수 있습니다.
+
+먼저 아래 세 가지를 보고 실행 결과를 읽습니다.
+
+| 확인할 것 | 예제에서 보는 값 | 왜 보는가 |
+| --- | --- | --- |
+| 전수 비교의 기준 결과 | `full_top5` | 모든 후보를 다 봤을 때의 기준 상위 후보를 세우기 위해서입니다. |
+| 빠른 후보 축소의 비교 비용 | `candidates` | 후보를 몇 개만 실제로 비교했는지 보기 위해서입니다. |
+| 공격적 축소의 손실 | `recall@5`, `missed` | 속도를 얻는 대신 가까운 후보를 얼마나 놓쳤는지 확인하기 위해서입니다. |
 
 입력:
 
 - 하나의 질의 벡터
-- 다섯 개의 FAQ 후보 벡터
+- 수작업으로 넣은 근접 FAQ 후보 몇 개
+- 무작위로 만든 배경 FAQ 후보 3,000개
 
 출력:
 
 - 전수 비교 결과
 - `coarse_window`를 바꿨을 때의 빠른 후보 축소 결과
-- 각 방식이 실제로 비교한 후보 수와 놓친 상위 후보
+- 각 설정이 실제로 비교한 후보 수, `recall@5`, 놓친 상위 후보
 
 문제 상황:
 
-- 모든 후보를 다 보는 방식은 안전하지만, 후보 수가 커질수록 느려질 수 있고, 빠른 후보 축소는 설정을 너무 공격적으로 잡으면 중요한 후보를 놓칠 수 있다
+- 모든 후보를 다 보는 방식은 안전하지만 후보 수가 커질수록 느려질 수 있고, 빠른 후보 축소는 설정을 너무 공격적으로 잡으면 중요한 후보를 놓칠 수 있다
 
 ```python
+import random
+
+random.seed(24)
+
 def squared_distance(a, b):
     return sum((x - y) ** 2 for x, y in zip(a, b))
 
 query = [0.90, 0.80]
 docs = {
     "refund_policy": [0.88, 0.82],
-    "cancel_payment": [0.84, 0.79],
+    "cancel_payment": [0.845, 0.79],
+    "refund_exception": [0.83, 0.86],
+    "billing_deadline": [0.94, 0.76],
+    "payment_receipt": [0.96, 0.83],
     "change_address": [0.30, 0.20],
     "shipping_delay": [0.40, 0.35],
-    "coupon_event": [0.15, 0.75],
 }
+
+categories = ["login", "shipping", "coupon", "profile", "notice"]
+for i in range(3000):
+    docs[f"{random.choice(categories)}_{i:04d}"] = [
+        random.random(),
+        random.random() * 0.45,
+    ]
 
 full_scan = sorted(
     ((name, squared_distance(query, vec)) for name, vec in docs.items()),
     key=lambda x: x[1],
 )
+full_top5 = [name for name, _ in full_scan[:5]]
 
 def fast_scan_with_window(coarse_window):
     coarse_candidates = {
@@ -185,47 +222,69 @@ def fast_scan_with_window(coarse_window):
     )
     return ranked, len(coarse_candidates)
 
-balanced_scan, balanced_ops = fast_scan_with_window(coarse_window=0.20)
-aggressive_scan, aggressive_ops = fast_scan_with_window(coarse_window=0.03)
+settings = {
+    "wide": 0.20,
+    "balanced": 0.08,
+    "aggressive": 0.04,
+}
 
-full_top2 = {name for name, _ in full_scan[:2]}
-aggressive_top = {name for name, _ in aggressive_scan}
-missed_from_top2 = sorted(full_top2 - aggressive_top)
+fast_results = {
+    label: fast_scan_with_window(coarse_window=window)
+    for label, window in settings.items()
+}
 
-print("full_scan =", [(name, round(distance, 3)) for name, distance in full_scan])
-print("balanced_scan =", [(name, round(distance, 3)) for name, distance in balanced_scan])
-print("aggressive_scan =", [(name, round(distance, 3)) for name, distance in aggressive_scan])
-print("ops =", {"full": len(docs), "balanced": balanced_ops, "aggressive": aggressive_ops})
-print("missed_from_full_top2 =", missed_from_top2)
+print("doc_count =", len(docs))
+print("full_top5 =", [(name, round(distance, 4)) for name, distance in full_scan[:5]])
+for label, (ranked, candidate_count) in fast_results.items():
+    top5 = [name for name, _ in ranked[:5]]
+    recall = len(set(full_top5) & set(top5)) / len(full_top5)
+    missed = [name for name in full_top5 if name not in top5]
+    print(
+        label,
+        "window =", settings[label],
+        "candidates =", candidate_count,
+        "recall@5 =", recall,
+    )
+    print("top5 =", top5)
+    print("missed =", missed)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-full_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004), ('shipping_delay', 0.453), ('coupon_event', 0.565), ('change_address', 0.72)]
-balanced_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004)]
-aggressive_scan = [('refund_policy', 0.001)]
-ops = {'full': 5, 'balanced': 2, 'aggressive': 1}
-missed_from_full_top2 = ['cancel_payment']
+doc_count = 3007
+full_top5 = [('refund_policy', 0.0008), ('cancel_payment', 0.0031), ('billing_deadline', 0.0032), ('payment_receipt', 0.0045), ('refund_exception', 0.0085)]
+wide window = 0.2 candidates = 900 recall@5 = 1.0
+top5 = ['refund_policy', 'cancel_payment', 'billing_deadline', 'payment_receipt', 'refund_exception']
+missed = []
+balanced window = 0.08 candidates = 486 recall@5 = 1.0
+top5 = ['refund_policy', 'cancel_payment', 'billing_deadline', 'payment_receipt', 'refund_exception']
+missed = []
+aggressive window = 0.04 candidates = 224 recall@5 = 0.4
+top5 = ['refund_policy', 'billing_deadline', 'login_1003', 'shipping_1019', 'notice_1369']
+missed = ['cancel_payment', 'payment_receipt', 'refund_exception']
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
-- 전수 비교는 모든 후보를 다 보므로 가장 안전하지만 후보 수가 커질수록 느려집니다.
-- `coarse_window=0.20`인 완만한 후보 축소는 비교 후보 수를 2개로 줄이면서도 전수 비교의 상위 2개를 유지합니다.
-- `coarse_window=0.03`인 공격적인 후보 축소는 비교 후보 수를 1개로 더 줄이지만, 전수 비교 상위 2개 안에 있던 `cancel_payment`를 놓칩니다.
+- 전수 비교는 `3,007`개 후보를 모두 보므로 기준선으로는 안전하지만 후보 수가 커질수록 느려집니다.
+- `coarse_window=0.20`은 비교 후보를 `900`개로 줄이고도 전수 비교의 상위 5개를 모두 유지합니다.
+- `coarse_window=0.08`은 비교 후보를 `486`개로 더 줄이면서도 이 예시에서는 `recall@5 = 1.0`을 유지합니다.
+- `coarse_window=0.04`는 비교 후보를 `224`개로 더 줄이지만 `recall@5 = 0.4`로 떨어지고, `cancel_payment`, `payment_receipt`, `refund_exception`을 놓칩니다.
 - ANN의 실무 감각도 이와 비슷하게 `완벽한 전수 비교`보다 `충분히 좋은 근접 후보를 빨리 찾되, 후보 누락을 함께 관리하는 구조`에 가깝습니다.
+
+### 연습 2. 출력에서 기준선과 손실 읽기
 
 예제를 읽은 뒤에는 아래 질문에 먼저 답해 봅니다.
 
-| 질문 | 해설 |
-| --- | --- |
-| 전수 비교는 몇 개 후보를 비교했는가 | `ops`에서 `full`이 `5`이므로 모든 후보 5개를 비교했습니다. 후보 누락 위험은 작지만 후보 수가 커지면 비교 비용이 그대로 늘어납니다. |
-| 완만한 후보 축소는 몇 개 후보만 비교했는가 | `ops`에서 `balanced`가 `2`이므로 1차 조건을 통과한 2개만 비교했습니다. 전수 비교보다 적게 보면서도 이 예시에서는 상위 후보를 유지했습니다. |
-| 공격적인 후보 축소에서는 무엇을 놓쳤는가 | `missed_from_full_top2 = ['cancel_payment']`이므로 전수 비교 상위 2개 중 `cancel_payment`를 놓쳤습니다. 후보 축소 조건이 너무 좁으면 속도는 좋아져도 recall 손실이 생길 수 있습니다. |
-| 이 예제에서 ANN의 핵심 감각은 무엇인가 | 모든 벡터를 끝까지 비교하지 않고, 가까울 가능성이 높은 후보를 먼저 좁혀 실무 속도를 얻되, 설정이 후보 누락을 만들 수 있음을 함께 보는 절충입니다. |
+- 전수 비교는 몇 개 후보를 비교했는가?
+- `balanced` 설정은 몇 개 후보만 비교했고, `recall@5`는 얼마인가?
+- `aggressive` 설정은 무엇을 놓쳤는가?
+- 이 예제에서 ANN의 핵심 감각은 무엇인가?
 
-### 연습 1. 전수 비교와 빠른 후보 축소 구분하기
+해설: 전수 비교는 `doc_count = 3007`이므로 모든 후보 3,007개를 비교했습니다. `balanced` 설정은 후보를 486개만 비교했고, 이 예시에서는 `recall@5 = 1.0`으로 전수 비교의 상위 5개를 모두 유지했습니다. 반면 `aggressive` 설정은 후보를 224개로 더 줄였지만 `cancel_payment`, `payment_receipt`, `refund_exception`을 놓쳤습니다. 따라서 이 예제에서 ANN의 핵심 감각은 모든 벡터를 끝까지 비교하지 않고 실무 속도를 얻되, 설정이 후보 누락을 만들 수 있음을 함께 보는 절충입니다.
+
+### 연습 3. 전수 비교와 빠른 후보 축소 구분하기
 
 관찰값:
 
@@ -242,7 +301,7 @@ missed_from_full_top2 = ['cancel_payment']
 
 해설: B는 후보 품질은 좋지만 응답 시간이 느리므로 빠른 후보 탐색을 먼저 검토할 장면입니다. A는 후보 수가 작고 응답도 빠르므로 전수 비교도 충분할 수 있습니다. C는 응답은 빠른데 상위 후보 품질이 나쁘므로 ANN 속도보다 표현 품질이나 후보 누락 설정을 먼저 봐야 합니다. 이 구분이 P6-2.4의 중심인 `탐색 속도 문제와 품질 문제를 분리하기`입니다.
 
-### 연습 2. 속도 이득과 후보 누락 같이 보기
+### 연습 4. 속도 이득과 후보 누락 같이 보기
 
 관찰값:
 
@@ -258,6 +317,23 @@ missed_from_full_top2 = ['cancel_payment']
 - 운영 판단에서는 무엇을 함께 봐야 하는가?
 
 해설: 무조건 가장 좋은 설정은 없습니다. 전수 비교는 안전하지만 느리고, ANN 공격 설정은 빠르지만 중요한 문서 누락이 잦습니다. 운영 판단에서는 응답 시간과 후보 누락을 함께 봐야 합니다. ANN은 속도만 높이는 장치가 아니라, 속도 이득과 recall 손실을 같이 관리하는 근사 탐색 방식입니다.
+
+### 연습 5. `coarse_window` 값을 바꿔 해석하기
+
+관찰값:
+
+| 설정 | `coarse_window` | 비교 후보 수 | 전수 비교 상위 5개 중 누락 |
+| --- | ---: | ---: | --- |
+| 공격 설정 | `0.04` | 224개 | `cancel_payment`, `payment_receipt`, `refund_exception` |
+| 균형 설정 | `0.08` | 486개 | 없음 |
+
+먼저 스스로 답해 봅니다.
+
+- `coarse_window`를 `0.04`에서 `0.08`로 키우면 무엇이 좋아지는가?
+- 대신 무엇이 늘어나는가?
+- 이 변화는 표현 품질 문제인가, 탐색 설정 문제인가?
+
+해설: `0.08`로 키우면 전수 비교 상위 후보였던 `cancel_payment`, `payment_receipt`, `refund_exception`이 다시 후보에 포함되므로 `recall@5`가 `0.4`에서 `1.0`으로 올라갑니다. 대신 실제로 비교해야 하는 후보 수가 224개에서 486개로 늘어납니다. 이 변화는 문장 벡터 자체를 다시 학습한 것이 아니라 후보를 얼마나 넓게 남길지 조정한 것이므로, 표현 품질 문제가 아니라 탐색 설정 문제입니다. 이 연습의 경계는 `속도를 더 얻을수록 후보 누락을 함께 봐야 한다`는 점입니다.
 
 같은 내용을 마지막으로 한 번 더 줄이면, 이 절에서 초심자가 바로 답할 수 있어야 하는 질문은 다음 정도입니다.
 
