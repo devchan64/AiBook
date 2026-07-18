@@ -626,9 +626,14 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 #### Chapter 1. Tokenization `LLM Core`
 
-- **P6-1.1 What a Token Is**: reviews how text is split into model input units
-- **P6-1.2 The Practical Impact of Tokenization**: reviews cost, length, and language-specific differences
-- **P6-1.3 Supplementary Learning: How to Distinguish BPE, WordPiece, and SentencePiece for the First Time**: separates tokenization families in one large picture without going too deep
+- **P6-1.1 Why Tokens Are Needed**: reviews why length limits, cost, truncation, and input splitting need to be read in a unit different from characters or sentences
+- **P6-1.2 What a Token Is**: fixes the basic computational unit that a model uses to count inputs and outputs
+- **P6-1.3 How Tokens Are Used**: reviews how to read length, cost, context windows, and document splitting in token terms
+- **P6-1.4 What Tokenization Is**: reviews how a string is turned into a token sequence for model computation
+- **P6-1.5 What Tokenization Changes**: reviews how the same sentence can shift token count and boundaries, changing cost, chunking, and output length
+- **P6-1.6 What the Major Tokenizer Families Are**: introduces what BPE, WordPiece, and SentencePiece are names of
+- **P6-1.7 When Differences Between Tokenization Families Show Up**: reviews when those family differences first appear in cost, chunk boundaries, and mixed-script length intuition
+- **P6-1.8 Where the Token View Is Used**: reviews how token thinking is used in prompt length, RAG chunk design, cost budgeting, long-document input, and output-format design
 
 #### Chapter 2. Embeddings `LLM Core`
 
@@ -643,9 +648,9 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 - **P6-3.1 Reading the Transformer Again from the LLM Perspective**: rereads the Transformer from Part 5 as a generative language-model structure
 - **P6-3.2 Attention and the Context Window**: reviews the structural conditions for handling context
-- **P6-3.3 Supplementary Learning: How to Read Positional Representation and Multi-Head Attention for the First Time**: first separates the pieces that strengthen how context is read
-- **P6-3.4 Supplementary Learning: How to Read KV Cache for the First Time**: supplements why repeated generation tries not to recalculate the same work
-- **P6-3.5 Supplementary Learning: How to Read Sparse Attention and Long Context for the First Time**: supplements long-context computation and long-context retention without breaking the main line
+- **P6-3.3 Supplementary Learning: What Positional Representation and Multi-Head Attention Add to Context Reading**: separates what each one adds to relation reading and to sequence information
+- **P6-3.4 Supplementary Learning: What KV Cache Stops Recomputing During Repeated Generation**: separates why long chats and long generation try to avoid recalculating earlier prefixes
+- **P6-3.5 Supplementary Learning: What Differs Between Sparse Attention and Long Context in Long-Context Handling**: separates connection-density control from the broader problem of long-context retention
 
 #### Chapter 4. The GPT Family `LLM Core`
 
@@ -668,13 +673,13 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 - **P6-7.1 Fine-Tuning**: reviews how a model is adjusted for a more specific purpose
 - **P6-7.2 LoRA and Efficient Adaptation**: introduces adaptation methods that do not change the entire model
-- **P6-7.3 Supplementary Learning: How to Distinguish LoRA, Adapters, and QLoRA for the First Time**: supplements the relationship among efficient adaptation methods
 
 #### Chapter 8. Instruction Tuning and Alignment `LLM Core`
 
 - **P6-8.1 Instruction Tuning**: reviews the flow of training models to follow user instructions
 - **P6-8.2 The Basic Problem of Alignment**: reviews the problem of matching usefulness and safety together
 - **P6-8.3 When to Choose Prompts, Fine-Tuning, RAG, or Tool Use**: gathers the selection criteria for adaptation methods in one place
+- **P6-8.4 Supplementary Learning: What Constraints Separate Adapters, LoRA, and QLoRA**: revisits efficient adaptation names after choosing the fine-tuning path, this time through cost, structure, and memory constraints
 
 ### Module 4. Prompts and Grounding
 
@@ -682,7 +687,7 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 - **P6-9.1 Prompt Engineering**: reviews how inputs are designed to observe and adjust model behavior
 - **P6-9.2 Limits of Prompts**: reviews what prompts cannot guarantee
-- **P6-9.3 Supplementary Learning: How to Read Chain-of-Thought, Self-Consistency, and Automatic Prompt Optimization for the First Time**: separates prompt-extension techniques in one larger picture
+- **P6-9.3 Supplementary Learning: What Chain-of-Thought, Self-Consistency, and Automatic Prompt Optimization Add Inside the Prompt Layer**: separates what these prompt strategies change in reasoning paths, candidate comparison, and iterative improvement, and what they still do not guarantee
 
 #### Chapter 10. RAG `Service Structure`
 
@@ -746,7 +751,7 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 Part 7 is not a separate Part for new theory. It is the practice space for material introduced earlier. The front half covers questions, input units, baselines, and comparison experiments. The middle covers input structure, learning curves, and error cases. The back half covers RAG, agents, and deployment or operational judgment through logs and failure records.
 
-### Module 1. Part 4 Practice: Questions, Baselines, Comparison Experiments
+### Module 1. Questions and Baselines
 
 #### Chapter 1. Starting Analysis and Designing Baselines `Project Practice`
 
@@ -760,7 +765,7 @@ Part 7 is not a separate Part for new theory. It is the practice space for mater
 - **P7-2.2 Building a Retrospective and the Next Question**: organizes one experiment into `facts`, `interpretation`, and `next question`, then carries it into the next iteration.
 - **P7-2.3 Practicing Comparison Experiments**: places a baseline, raw 1-NN, partial rescaling, and normalization on the same evaluation set and separates failures fixed by preprocessing from failures that still need more boundary cases or features.
 
-### Module 2. Part 5 Practice: Input Structure, Learning Curves, Error Interpretation
+### Module 2. Comparison and Structural Interpretation
 
 #### Chapter 3. Input Structure and Model Structure Selection `Project Practice`
 
@@ -773,7 +778,7 @@ Part 7 is not a separate Part for new theory. It is the practice space for mater
 - **P7-4.2 Breaking Down Failed Results Again**: separates weaker-than-expected results into structural problems, data problems, and baseline-setting problems, then sets the next experiment direction and revision priority.
 - **P7-4.3 Practicing Representation Normalization**: compares normalized and unnormalized requests and observes how synonym replacement changes coverage, prediction, and retrospective priority.
 
-### Module 3. Part 6 Practice: RAG, Agents, Execution Records
+### Module 3. Evidence and Execution Records
 
 #### Chapter 5. Verifying RAG Evidence `Project Practice`
 
@@ -787,7 +792,7 @@ Part 7 is not a separate Part for new theory. It is the practice space for mater
 - **P7-6.2 Reviewing Permissions, Logs, and Blocked States**: organizes execution logs around permissions, blocked states, and next actions, then examines the role of execution records and failure-handling rules.
 - **P7-6.3 Practicing Approval Policies**: divides the same operating scenario into auto-runnable steps and immediate holds, then rewrites the safer next action.
 
-### Module 4. Integrated Operations Practice: Deployment, Checks, Retrospectives
+### Module 4. Operations and Iterative Improvement
 
 #### Chapter 7. Deployment and Operational Retrospectives `Project Practice`
 

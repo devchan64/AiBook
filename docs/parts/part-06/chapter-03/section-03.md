@@ -1,4 +1,4 @@
-# P6-3.3 보충학습: 위치 표현과 multi-head attention을 처음 읽는 법
+# P6-3.3 보충학습: 위치 표현과 multi-head attention은 문맥 읽기에 무엇을 더하는가
 
 Section ID: `P6-3.3`
 Version: `v2026.07.18`

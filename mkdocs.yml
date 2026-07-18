@@ -459,9 +459,9 @@ nav:
           - Chapter P6-3. Transformer 구조 복습:
               - "P6-3.1 Transformer를 LLM 관점에서 다시 읽기": parts/part-06/chapter-03/section-01.md
               - "P6-3.2 attention과 context window": parts/part-06/chapter-03/section-02.md
-              - "P6-3.3 보충학습: 위치 표현과 multi-head attention을 처음 읽는 법": parts/part-06/chapter-03/section-03.md
-              - "P6-3.4 보충학습: KV cache를 처음 읽는 법": parts/part-06/chapter-03/section-04.md
-              - "P6-3.5 보충학습: sparse attention과 long-context를 처음 읽는 법": parts/part-06/chapter-03/section-05.md
+              - "P6-3.3 보충학습: 위치 표현과 multi-head attention은 문맥 읽기에 무엇을 더하는가": parts/part-06/chapter-03/section-03.md
+              - "P6-3.4 보충학습: KV cache는 반복 생성에서 무엇을 다시 계산하지 않는가": parts/part-06/chapter-03/section-04.md
+              - "P6-3.5 보충학습: sparse attention과 long-context는 장문맥에서 무엇이 다른가": parts/part-06/chapter-03/section-05.md
           - Chapter P6-4. GPT 계열:
               - "P6-4.1 GPT 계열의 위치": parts/part-06/chapter-04/section-01.md
               - "P6-4.2 대화형 LLM으로의 전환": parts/part-06/chapter-04/section-02.md
@@ -475,16 +475,16 @@ nav:
           - Chapter P6-7. 파인튜닝:
               - "P6-7.1 파인튜닝(fine-tuning)": parts/part-06/chapter-07/section-01.md
               - "P6-7.2 LoRA와 효율적 조정": parts/part-06/chapter-07/section-02.md
-              - "P6-7.3 보충학습: LoRA, adapter, QLoRA를 처음 구분하는 법": parts/part-06/chapter-07/section-03.md
           - Chapter P6-8. 지시 튜닝과 정렬:
               - "P6-8.1 지시 튜닝(instruction tuning)": parts/part-06/chapter-08/section-01.md
               - "P6-8.2 정렬(alignment)의 기본 문제": parts/part-06/chapter-08/section-02.md
               - "P6-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까": parts/part-06/chapter-08/section-03.md
+              - "P6-8.4 보충학습: adapter, LoRA, QLoRA는 어떤 제약에서 갈리는가": parts/part-06/chapter-08/section-04.md
       - Module 4. 프롬프트와 근거 연결:
           - Chapter P6-9. 프롬프트 엔지니어링:
               - "P6-9.1 프롬프트 엔지니어링(prompt engineering)": parts/part-06/chapter-09/section-01.md
               - "P6-9.2 프롬프트의 한계": parts/part-06/chapter-09/section-02.md
-              - "P6-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization을 처음 읽는 법": parts/part-06/chapter-09/section-03.md
+              - "P6-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization은 프롬프트 층에서 무엇을 더하는가": parts/part-06/chapter-09/section-03.md
           - Chapter P6-10. RAG:
               - "P6-10.1 RAG의 필요성": parts/part-06/chapter-10/section-01.md
               - "P6-10.2 검색 결과와 생성의 결합": parts/part-06/chapter-10/section-02.md
@@ -522,7 +522,7 @@ nav:
       - Part 6 마무리: parts/part-06/summary.md
   - Part 7. 프로젝트:
       - 개요: parts/part-07/index.md
-      - "Module 1. Part 4 실습: 질문, baseline, 비교 실험":
+      - "Module 1. 질문과 기준선":
           - "Project 1. 분석 시작과 기준선 설계":
               - "P7-1.1 프로젝트 질문과 입력 정의": parts/part-07/chapter-01/section-01.md
               - "P7-1.2 baseline과 첫 비교": parts/part-07/chapter-01/section-02.md
@@ -531,7 +531,7 @@ nav:
               - "P7-2.1 비교표와 오류 사례 읽기": parts/part-07/chapter-02/section-01.md
               - "P7-2.2 회고와 다음 질문 만들기": parts/part-07/chapter-02/section-02.md
               - "P7-2.3 비교 실험 연습": parts/part-07/chapter-02/section-03.md
-      - "Module 2. Part 5 실습: 입력 구조, 학습 곡선, 오류 해석":
+      - "Module 2. 비교와 구조 해석":
           - "Project 3. 입력 구조와 모델 구조 선택":
               - "P7-3.1 입력 구조는 프로젝트를 어떻게 바꾸는가": parts/part-07/chapter-03/section-01.md
               - "P7-3.2 CNN, 순차 모델, attention 계열 비교": parts/part-07/chapter-03/section-02.md
@@ -539,7 +539,7 @@ nav:
               - "P7-4.1 loss, metric, 오류 사례 함께 읽기": parts/part-07/chapter-04/section-01.md
               - "P7-4.2 실패한 결과를 다시 분해하기": parts/part-07/chapter-04/section-02.md
               - "P7-4.3 표현 정규화 연습": parts/part-07/chapter-04/section-03.md
-      - "Module 3. Part 6 실습: RAG, agent, 실행 기록":
+      - "Module 3. 근거와 실행 기록":
           - "Project 5. RAG 근거 검증":
               - "P7-5.1 검색, 근거, 답변 흐름 실습": parts/part-07/chapter-05/section-01.md
               - "P7-5.2 검색 실패와 근거 누락 기록": parts/part-07/chapter-05/section-02.md
@@ -548,7 +548,7 @@ nav:
               - "P7-6.1 계획, 도구 호출, 승인 흐름 실습": parts/part-07/chapter-06/section-01.md
               - "P7-6.2 권한, 로그, blocked 상태 검토": parts/part-07/chapter-06/section-02.md
               - "P7-6.3 승인 정책 연습": parts/part-07/chapter-06/section-03.md
-      - "Module 4. 통합 운영 실습: 배포, 점검, 회고":
+      - "Module 4. 운영과 반복 개선":
           - "Project 7. 배포와 운영 회고":
               - "P7-7.1 배포 확인과 상태 점검": parts/part-07/chapter-07/section-01.md
               - "P7-7.2 장애 기록과 다음 반복 계획": parts/part-07/chapter-07/section-02.md

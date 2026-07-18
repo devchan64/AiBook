@@ -5,6 +5,8 @@
 
 ### v2026.07.18
 
+- 추가 반영: Part 6 Chapter 7의 기존 `P6-7.3` 주제를 Chapter 8 뒤쪽 `P6-8.4`로 재배치하고, 독자용 목차도 `Chapter 7은 파인튜닝과 LoRA에서 닫고`, `adapter·LoRA·QLoRA 구분은 P6-8.3 선택 지도 뒤 보충절에서 읽는 구조`로 다시 맞췄다.
+- 추가 반영: 영어판과 중국어 간체 독자용 목차의 Part 6 Chapter 1이 오래된 3절 구조에 머물러 있던 문제를 바로잡고, `P6-1.1`부터 `P6-1.8`까지 현재 한국어 원문과 같은 8절 구조 및 설명으로 다시 맞췄다.
 - 추가 반영: 한국어·영어·중국어 간체 독자용 목차 본문의 제목 아래 `Section ID`, `Version` 표기를 저장소 공통 형식에 맞춰 blockquote 대신 일반 메타데이터 줄로 정리했다.
 - 추가 반영: Part 7의 모듈 이름을 `프로젝트 문제 정의와 기준선`, `구조 선택이 드러나는 모델 프로젝트`, `LLM 서비스 프로젝트`, `배포와 운영 회고`에서 `Part 4 실습`, `Part 5 실습`, `Part 6 실습`, `통합 운영 실습` 축으로 다시 바꿔, 이 Part가 어떤 앞 Part의 실습 공간인지 목차만 읽어도 드러나게 정리했다.
 - 본문 반영: Part 7 Chapter 이름도 `분석 시작과 기준선 설계`, `전통 머신러닝 비교와 개선`, `RAG 근거 검증`, `agent 실행과 승인 정책`, `배포와 운영 회고`처럼 실습 목적과 회수 대상 Part가 더 직접 보이도록 조정했다.
@@ -21,10 +23,13 @@
 - 추가 반영: Part 7 각 Section 설명에서 `직접`, `다시`, `확인`, `실행`이 반복되던 문장을 압축해, 같은 의미를 유지하면서도 목차 설명이 더 짧고 덜 중복되게 정리했다.
 - 추가 반영: `이 Part의 중심축은 ...`처럼 목차 구조를 다시 설명하는 메타 문장을 제거하고, Module 배열 자체가 구조를 드러내도록 정리했다.
 - 추가 반영: 영어판과 중국어 간체판 독자용 목차의 Part 7 소개 문단과 Module/Chapter 제목도 한국어 최신 구조에 맞춰 다시 번역해, `Part 4 practice -> Part 5 practice -> Part 6 practice -> integrated operations practice` 축과 압축된 Section 설명을 동기화했다.
+- 추가 반영: Part 7이 특정 앞 Part를 다시 구분해 회수하는 훈련처럼 읽히지 않도록, Module 제목의 `Part 4/5/6 실습` 표기를 걷어내고 `질문, baseline, 비교 실험`, `입력 구조, 학습 곡선, 오류 해석`, `RAG, agent, 실행 기록`, `배포, 점검, 회고`처럼 통합 실습 축만 남기도록 다시 정리했다.
+- 추가 반영: 한국어·영어·중국어 시작/마무리 페이지와 함께 읽히는 독자용 목차도 `앞 Part 재실행`보다 `통합 실행 흐름`이 먼저 보이도록 문장을 다시 다듬었다.
+- 추가 반영: Part 7이 `순차적으로 하나씩 실험해 보는 구조`처럼 읽히지 않도록, 독자용 목차 소개 문단과 Module 제목을 `질문과 기준선`, `비교와 구조 해석`, `근거와 실행 기록`, `운영과 반복 개선`처럼 같은 프로젝트를 여러 판단 축으로 읽는 구조에 맞춰 다시 정리했고, 영어판·중국어 간체판 Module 1도 같은 축으로 맞췄다.
 - 추가 보강: Part 6 Chapter 3의 과밀한 보충학습을 `P6-3.3 위치 표현과 multi-head attention`, `P6-3.4 KV cache, sparse attention, long-context`의 두 Section으로 나누고, 공개 목차 설명도 각각의 학습 역할이 드러나도록 다시 썼다.
 - 추가 보강: 같은 날짜 재수정에서 `P6-3.4`도 다시 `KV cache`, `P6-3.5 sparse attention과 long-context`로 분리해, 공개 목차만 읽어도 `반복 생성 재사용`과 `장문맥 계산/유지`가 다른 질문이라는 점이 보이도록 정리했다.
 - 본문 메타데이터 반영: 한국어 독자용 목차 본문의 `Version`을 `v2026.07.18`로 갱신했다.
-- 번역 동기화 메모: Korean, English, and Simplified Chinese reader-facing TOCs now align on the updated Part 7 practice framing and the compressed Part 7 section descriptions.
+- 번역 동기화 메모: Korean, English, and Simplified Chinese reader-facing TOCs now align on the updated Part 7 practice framing, the compressed Part 7 section descriptions, the current eight-section structure of Part 6 Chapter 1, and the relocated Part 6 fine-tuning supplement now shown as `P6-8.4`.
 - 번역 반영 상태: 영어판 및 중국어 간체 목차 반영
 - 관련 자산: 없음
 - 원문 기준 버전: `v2026.07.18`

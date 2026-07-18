@@ -626,9 +626,14 @@ flowchart LR
 
 #### Chapter 1. 分词 `LLM Core`
 
-- **P6-1.1 token 是什么**：观察文本如何被切成模型输入单位。
-- **P6-1.2 分词(tokenization)的实际影响**：观察成本、长度与不同语言之间的差异。
-- **P6-1.3 补充学习：第一次区分 BPE、WordPiece、SentencePiece 的方法**：不深挖实现，先从大图景区分几类分词系谱。
+- **P6-1.1 为什么需要 token**：观察为什么长度限制、成本、截断与输入切分问题，要用不同于字符或句子的计算单位来理解。
+- **P6-1.2 token 是什么**：先抓住模型计算输入与输出时使用的基本计数单位。
+- **P6-1.3 token 是如何使用的**：观察怎样用 token 视角阅读长度、成本、context window 与文档切分。
+- **P6-1.4 分词(tokenization)是什么**：观察字符串怎样变成供模型计算的 token 序列。
+- **P6-1.5 分词会改变什么**：观察同一句话为什么会出现不同的 token 数与边界，以及这怎样影响成本、chunk 与输出长度。
+- **P6-1.6 代表性的 tokenizer 系谱是什么**：介绍 BPE、WordPiece、SentencePiece 分别是在给什么东西命名。
+- **P6-1.7 分词种类差异会在什么时候显现**：观察这些系谱差异何时会开始出现在成本、chunk 边界与混合书写长度直觉上。
+- **P6-1.8 token 视角会用在哪里**：观察 token 视角如何进入 prompt 长度、RAG chunk 设计、成本预算、长文档输入与输出格式设计。
 
 #### Chapter 2. 嵌入 `LLM Core`
 
@@ -643,9 +648,9 @@ flowchart LR
 
 - **P6-3.1 从 LLM 视角重新阅读 Transformer**：把 Part 5 中的 Transformer 再接回生成式语言模型视角。
 - **P6-3.2 attention 与 context window**：观察处理上下文时的结构条件。
-- **P6-3.3 补充学习：第一次阅读位置表示与 multi-head attention 的方法**：先把补强上下文读取方式的部件分开看清。
-- **P6-3.4 补充学习：第一次阅读 KV cache 的方法**：补上在重复生成中为什么要尽量避免重复计算相同部分。
-- **P6-3.5 补充学习：第一次阅读 sparse attention 与 long-context 的方法**：在不打断主线的范围内补上长上下文计算与长上下文保持问题。
+- **P6-3.3 补充学习：位置表示与 multi-head attention 会为上下文读取多加什么**：区分关系读取与顺序信息供给分别在补强什么。
+- **P6-3.4 补充学习：KV cache 会在重复生成时省掉什么重算**：区分长对话与长生成里为什么要尽量不重算前面的部分。
+- **P6-3.5 补充学习：sparse attention 与 long-context 在长上下文里到底差在哪里**：区分连接数控制与长上下文保持不是同一个问题。
 
 #### Chapter 4. GPT 系列 `LLM Core`
 
@@ -668,13 +673,13 @@ flowchart LR
 
 - **P6-7.1 微调(fine-tuning)**：观察如何按特定目标调整模型。
 - **P6-7.2 LoRA 与高效调节**：介绍不必改动整个模型的调节路径。
-- **P6-7.3 补充学习：第一次区分 LoRA、adapter、QLoRA 的方法**：补足高效调节技术之间的关系图。
 
 #### Chapter 8. 指令微调与对齐 `LLM Core`
 
 - **P6-8.1 指令微调(instruction tuning)**：观察让模型更好遵循用户指令的学习流程。
 - **P6-8.2 对齐(alignment)的基本问题**：观察如何同时兼顾有用性与安全性。
 - **P6-8.3 什么时候该选 prompt、微调、RAG、工具使用**：把几类调节手段的选择标准放到同一位置比较。
+- **P6-8.4 补充学习：adapter、LoRA、QLoRA 会在什么约束下分开**：在先确定要走微调路线之后，再按成本、结构与内存约束重读几种高效调节名字。
 
 ### Module 4. prompt 与证据连接
 
@@ -682,7 +687,7 @@ flowchart LR
 
 - **P6-9.1 prompt engineering**：观察如何通过设计输入来观察并调节模型行为。
 - **P6-9.2 prompt 的局限**：观察 prompt 不能保证的部分。
-- **P6-9.3 补充学习：第一次阅读 Chain-of-thought、self-consistency、automatic prompt optimization 的方法**：从大图景区分 prompt 扩展技术。
+- **P6-9.3 补充学习：Chain-of-thought、self-consistency、automatic prompt optimization 会在 prompt 层多改变什么**：区分这些 prompt 策略会怎样改变推理路径、候选比较与重复改写，以及它们仍然不能保证什么。
 
 #### Chapter 10. RAG `Service Structure`
 
@@ -746,7 +751,7 @@ flowchart LR
 
 Part 7 不是独立的新理论 Part，而是把前面介绍过的内容拿来实作的空间。前段处理问题、输入单位、baseline 和比较实验；中段解释输入结构、学习曲线和错误案例；后段则通过日志与失败记录来检查 RAG、agent 以及部署和运营判断。
 
-### Module 1. Part 4 实作：问题、baseline、比较实验
+### Module 1. 问题与基准线
 
 #### Chapter 1. 分析起点与基准线设计 `Project Practice`
 
@@ -760,7 +765,7 @@ Part 7 不是独立的新理论 Part，而是把前面介绍过的内容拿来�
 - **P7-2.2 回顾与下一个问题**：把一次实验整理成 `事实`、`解释`、`下一个问题`，再把它交给下一轮。
 - **P7-2.3 练习比较实验**：把 baseline、raw 1-NN、部分缩放和标准化放在同一评估集上，区分哪些失败能靠预处理解决，哪些仍需要更多边界样本或特征。
 
-### Module 2. Part 5 实作：输入结构、学习曲线、错误解释
+### Module 2. 比较与结构解释
 
 #### Chapter 3. 输入结构与模型结构选择 `Project Practice`
 
@@ -773,7 +778,7 @@ Part 7 不是独立的新理论 Part，而是把前面介绍过的内容拿来�
 - **P7-4.2 重新拆开失败结果**：把低于预期的结果拆成结构问题、数据问题和 baseline 设定问题，再决定下一轮方向与修改优先级。
 - **P7-4.3 表示规范化练习**：比较规范化前后的请求，观察同义表达替换如何改变 coverage、预测和回顾优先级。
 
-### Module 3. Part 6 实作：RAG、agent、执行记录
+### Module 3. 依据与执行记录
 
 #### Chapter 5. 验证 RAG 依据 `Project Practice`
 
@@ -787,7 +792,7 @@ Part 7 不是独立的新理论 Part，而是把前面介绍过的内容拿来�
 - **P7-6.2 检查权限、日志与 blocked 状态**：按 permission、blocked、next action 整理执行日志，并查看执行记录和失败处理规则的作用。
 - **P7-6.3 练习审批策略**：在同一运维场景中划分哪些步骤可以自动执行、哪些需要立即保留，再重写更安全的下一步动作。
 
-### Module 4. 综合运营实作：部署、检查、回顾
+### Module 4. 运营与迭代改进
 
 #### Chapter 7. 部署与运营回顾 `Project Practice`
 

@@ -1,4 +1,4 @@
-# P6-3.5 보충학습: sparse attention과 long-context를 처음 읽는 법
+# P6-3.5 보충학습: sparse attention과 long-context는 장문맥에서 무엇이 다른가
 
 Section ID: `P6-3.5`
 Version: `v2026.07.18`
