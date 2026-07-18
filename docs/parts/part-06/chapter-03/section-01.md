@@ -7,15 +7,11 @@ Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 
 
 Part 6에서 `Transformer를 LLM 관점에서 다시 읽는 기준`, `토큰 -> 임베딩 -> attention 블록 -> 다음 토큰 점수 흐름`, `LLM의 기본 계산 엔진으로서의 Transformer`에 대한 첫 상세 설명은 이 절에서 잡습니다. Part 5가 블록 구조 자체를 설명했다면, 이 절은 그 구조가 LLM 생성 흐름 안에서 어디에 놓이는지를 다시 연결하는 Part 6의 대표 절입니다. 뒤 절에서는 현재 맥락에 필요한 최소 설명만 남기고, Transformer의 기본 뜻은 개념사전과 앞 Part의 중심 Section을 기준으로 다시 연결합니다.
 
-LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가?
-
-이 절은 그 질문에 답합니다.
-
-LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention으로 서로의 관계를 읽고, feed-forward와 반복 블록으로 표현을 정제하며, 최종적으로 다음 토큰을 예측하는 기본 구조다.
+LLM 관점에서 Transformer를 다시 보면, 무엇이 정말 핵심인가? LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention으로 서로의 관계를 읽고, feed-forward와 반복 블록으로 표현을 정제하며, 최종적으로 다음 토큰을 예측하는 기본 구조입니다.
 
 ## 이 절의 범위
 
-이 절은 다음 질문에 답합니다.
+이 절에서는 다음 질문을 다룹니다.
 
 - 이미 본 Transformer를 LLM 관점으로 다시 보면 무엇이 달라지는가?
 - 토큰, 임베딩, self-attention, 다음 토큰 예측은 어떻게 이어지는가?
@@ -23,9 +19,7 @@ LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention�
 
 Transformer 블록의 큰 구조는 여기서 잡고, multi-head attention과 위치 표현은 같은 장의 P6-3.3 보충학습에서, KV cache는 P6-3.4에서, sparse attention과 long-context 주변 구현 감각은 P6-3.5에서 다시 읽습니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P6-16.1 서비스 운영 제약에서 연결합니다.
 
-이 절에서는 Transformer 공식을 다시 전개하기보다, Part 6에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡습니다.
-
-이 절은 `LLM 구조 지도 축`으로 읽어야 합니다.
+이 절에서는 Transformer 공식을 다시 전개하기보다, Part 6에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡습니다. 따라서 여기서 먼저 붙잡아야 할 것은 세부 블록 이름보다 `입력 토큰이 어떤 계산 흐름을 거쳐 다음 토큰 점수로 이어지는가`입니다.
 
 | 지금 이 절에서 읽는 것 | 바로 다음 절이나 뒤 장으로 넘기는 것 |
 | --- | --- |
