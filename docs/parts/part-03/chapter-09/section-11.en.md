@@ -1,7 +1,7 @@
 # P3-9.11 If There Are Multiple Target Candidates or the Criteria Change, What Should Be Fixed First
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.11`
+> Version: `v2026.07.17`
 
 In real data, only one target candidate may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a target with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the representative one and what the current definition version is.
 
@@ -32,6 +32,14 @@ For example, if `review_needed` is taken as the representative target, the quest
 | C | 0 | normal | stable | low |
 
 In this table, `A` and `B` both have `review_needed = 1`, but their `final_status` and `status_type` values differ. If the representative target is `review_needed`, then `A` and `B` are grouped as the same result. If the representative target is `final_status`, then `pending` and `normal` become different results. That means the same event can become either the same answer or a different answer depending on which column is fixed as the representative target.
+
+## A Small Diagram
+
+When several candidates coexist, the table alone can make it feel like `we can choose one later`. The actual order is to stabilize the representative target first.
+
+```mermaid
+--8<-- "assets/part-03/chapter-09/p3-9-11-mermaid-01-en.mmd"
+```
 
 What this scene shows is that `choosing the representative target` is not an administrative note added later. It is the act of defining the central question of the current problem, and the definition version is what fixes the criteria by which that question is being read.
 

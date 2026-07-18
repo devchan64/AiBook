@@ -1,7 +1,7 @@
 # P3-5.6 Why Can the Number of Samples Look Larger than Reality When Many Input Windows Overlap
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 Once the input window has been fixed, we can create several windows from the same source time series. At that point, one problem is often missed. It becomes easy to read `there are more windows, so there must also be more samples`. But when many windows overlap, this often means `we are cutting the same event several times`, not that the number of independent events has increased by the same amount.
 
@@ -97,6 +97,12 @@ Expected output:
 ```
 
 The purpose of this example is less to calculate the number of windows than to check `how much larger the window count can make the real number of events look`. So in stage 1, we look at how many windows one event expands into. In stage 2, we count `source_event` and `window` separately. In stage 3, we check again the degree of expansion for each event. The important point here is that `overlapping input windows can be the result of cutting the same event several times, so the number of windows should not immediately be read like the number of events`.
+
+## A Small Diagram
+
+The core of this section is to separate `the window count grew` from `the number of source events increased`. If many overlapping windows are created from the same two events, the number of input pieces grows, but the event count itself stays the same.
+
+--8<-- "assets/part-03/chapter-05/p3-5-6-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P3-9.12 Even Under the Same Target Name, Why Must You First Write Which Error Hurts More
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.11`
+> Version: `v2026.07.17`
 
 Even under the same target name, which mistake hurts more can vary from problem to problem. Even in a problem that predicts `review_needed`, it depends on the operating context whether missing a risky case is more dangerous or whether unnecessarily sending a case to review is more burdensome. Even with the same target, the cost of a missed case and the cost of an unnecessary catch can differ, so this difference should be written down first in order to make clear which judgment you are trying harder to reduce.
 
@@ -29,6 +29,14 @@ Suppose the model scores look like this.
 | C | 0.41 | Keep as a secondary review candidate | Exclude |
 
 If the cost of missing a case is high, then including `B` in the review queue is more natural. If the cost of over-detection is high, then it may be more natural to hold `B` and look only at `A`. So even under the same score and the same target name, a different error-cost structure changes both review-queue priority and threshold interpretation.
+
+## A Small Diagram
+
+Even with the same score, the review-queue flow changes depending on which kind of error you are trying harder to reduce.
+
+```mermaid
+--8<-- "assets/part-03/chapter-09/p3-9-12-mermaid-01-en.mmd"
+```
 
 This section is therefore not only a section that defines `false negative` and `false positive`. It is a section that makes you reread the current problem as `what kind of mistake are we trying harder to reduce`. Once the target name has been fixed, the next thing to write is which kind of error hurts more under that target, so that scores, thresholds, and review-queue priority are all read in the same direction.
 

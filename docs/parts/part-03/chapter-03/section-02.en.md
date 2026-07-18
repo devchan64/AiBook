@@ -1,7 +1,7 @@
 # P3-3.2 How Should a Dataset Be Redesigned to Match the Question
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 To redesign a dataset means not using an existing file as it is, but reselecting the sample unit and column structure required by the question. In other words, it means deciding again `what should count as one row`, `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a comparison report, and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
 
@@ -67,6 +67,14 @@ Even with the same source time series, once the question changes, the draft tabl
 | Can later learning candidates be created? | one action per `event_id` | `flow_mean`, `flow_max`, `target_candidate` | a table where input columns and result candidates are separated |
 
 The key point is not that the source data changes three times, but that depending on which question is used to read the same records, `what one row means`, `which columns remain`, and `what output is needed immediately` all change. To compare one action, we first need a table grouped by `event_id`. To compare recent segments, a structure that places the `recent bundle` and the `baseline bundle` side by side is needed earlier than an action-level table. By contrast, once later learning candidates are being considered, a table that separates input columns from result candidates matters more than a comparison-report sentence.
+
+## A Small Diagram
+
+The fact that a changed question also changes the first table to build can be compressed into the redesign flow below.
+
+```mermaid
+--8<-- "assets/part-03/chapter-03/p3-3-2-mermaid-01-en.mmd"
+```
 
 So saying `we rebuild the table several times` does not mean repeating the same work. It means separating the structures required when the question changes. The action-level feature table is the result of summarizing time-point logs so that one action can be compared as one sample. The comparison-report table adds comparison columns so that the recent state and the baseline difference can be read directly. The candidate prediction-problem table goes one step further by separating input columns from candidate target labels.
 

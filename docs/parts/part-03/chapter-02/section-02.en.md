@@ -1,7 +1,7 @@
 # P3-2.2 What Structures Go Inside a Dataset Candidate
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 As the previous section showed, stored records may not yet be a dataset. The next question therefore follows immediately: if we rebuild a dataset candidate, what structure should go inside it? To answer that question, Part 3 looks at [sample](../../../reference/concept-glossary.md#glossary-sample), [feature](../../../reference/concept-glossary.md#glossary-feature), [baseline](../../../reference/concept-glossary.md#glossary-baseline), and [output structure](../../../reference/concept-glossary.md#glossary-output-structure) together. These terms are more accurate when read not as a list to memorize separately, but as one dataset-design structure. We have to decide what counts as one sample before features can be made; features are needed before we can decide what should be compared with a baseline; and only after that comparison is in place can we decide what output structure to make.
 
@@ -41,6 +41,14 @@ The table below shows more concretely how the four elements connect inside one r
 The order for reading this table proceeds naturally from left to right. `sample_id` fixes what was counted as one sample. `mean_flow` and `late_drop_rate` are features that describe that sample. `baseline_mean_flow` and `baseline_late_drop_rate` are the usual baseline. `baseline_gap` records the comparison result, showing how much more the late-stage drop rate of the current sample fell relative to the baseline. And if that comparison result is large enough, the `output` column creates an operational judgment such as `needs review`.
 
 In other words, an output such as `needs review` is not a phrase that gets attached suddenly at the far end of the table. The earlier columns must already have organized `what is being compared` and `what differs from the usual state`, or the final output column cannot be explained either. For that reason, sample, feature, baseline, and output structure are not independent lists even when they live in the same table. They are one design flow that runs from front to back.
+
+## A Small Diagram
+
+The four structures inside a dataset candidate can be read in one pass when they are compressed into the sequence `sample -> feature -> baseline comparison -> output structure`.
+
+```mermaid
+--8<-- "assets/part-03/chapter-02/p3-2-2-mermaid-01-en.mmd"
+```
 
 Problem situation: check, in one table, the flow in which one action is treated as one sample, features are written down, the result is compared with the usual baseline, and a final operational output is produced.
 

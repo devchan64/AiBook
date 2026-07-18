@@ -7,5 +7,9 @@
 - When updating a Mermaid diagram set, revise the English original first. Sync the Korean derivative, and add or refresh a Simplified Chinese derivative only when the diagram itself needs localized labels.
 - Current language sets:
   - `p3-5-1-mermaid-01-en.mmd` / `p3-5-1-mermaid-01-ko.mmd`
+  - `p3-5-2-mermaid-01-en.mmd` / `p3-5-2-mermaid-01-ko.mmd` / `p3-5-2-mermaid-01-zh.mmd`
+  - `p3-5-3-mermaid-01-en.mmd` / `p3-5-3-mermaid-01-ko.mmd` / `p3-5-3-mermaid-01-zh.mmd`
   - `p3-5-4-mermaid-01-en.mmd` / `p3-5-4-mermaid-01-ko.mmd`
   - `p3-5-5-mermaid-01-en.mmd` / `p3-5-5-mermaid-01-ko.mmd`
+  - `p3-5-6-mermaid-01-en.mmd` / `p3-5-6-mermaid-01-ko.mmd` / `p3-5-6-mermaid-01-zh.mmd`
+  - `p3-5-7-mermaid-01-en.mmd` / `p3-5-7-mermaid-01-ko.mmd` / `p3-5-7-mermaid-01-zh.mmd`

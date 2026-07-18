@@ -1,7 +1,7 @@
 # P3-6.5 How Should We Read and Keep Features Together When Their Units and Scales Differ
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 Once we build a few features, another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the baseline before looking at the size of the numbers.
 
@@ -175,6 +175,12 @@ Because the numbers in a feature table do not all describe the same kind of magn
 
 
 So a feature table should be understood not as a competition chart of raw magnitudes, but as a structure where different measurement axes are placed side by side and read according to their roles.
+
+## A Small Diagram
+
+The sequence in this section is that even when different units and scales sit in one table, we should read them by column role and compare each one against its own baseline. Before raw magnitude, the first question is `what does this column measure?`
+
+--8<-- "assets/part-03/chapter-06/p3-6-5-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

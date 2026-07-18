@@ -1,7 +1,7 @@
 # P3-6.3 How Should We Distinguish Human-Made Features from Representations Learned by the Model
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 Once we place features together with [intermediate representation](../../../reference/concept-glossary.md#glossary-intermediate-representation), it becomes important to read clearly where `the human act of deciding the input structure` separates from `the model's act of learning a representation inside that input`. If this distinction becomes blurred, Part 3's feature design can look like outdated preprocessing, or the opposite misunderstanding can arise that the model will decide the structure of the problem for us. The key point is that the two are not in competition. The features and intermediate representations that people make in Part 3 are the act of first deciding `in what input structure the problem will be read`. The representation learned by the model is the act of learning `what patterns inside that input structure better separate useful cases`.
 
@@ -76,6 +76,12 @@ Suppose we have the raw log for one full action.
 5. After that, the model can learn longer dependencies or more complex combinations inside that input.
 
 Looking at this order makes it clear that feature design is not an outdated preparation step from before deep learning. It is the input-definition stage that is needed first no matter what learning method is used. So the conclusion of this section is not the opposition of `human-made features vs deep learning`, but the question of where `input specification` and `representation learning` separate. Feature design should be read not as obsolete manual labor but as the act of first specifying the input structure on which the later learning stage depends.
+
+## A Small Diagram
+
+The boundary in this section is simple. Humans first design the `input` through features and intermediate representations, and only after receiving that input does the model learn internal representations. They are not competing choices, but consecutive stages.
+
+--8<-- "assets/part-03/chapter-06/p3-6-3-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

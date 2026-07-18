@@ -1,7 +1,7 @@
 # P3-2.2 数据集候选里要放进哪些结构
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 正如前一节所看到的，已存的记录还不一定就是数据集。那么下一个问题就会立刻接上来：如果要重新做出一个数据集候选，里面到底应该放进哪些结构？为了回答这个问题，Part 3 会把 [sample](/AiBook/en/reference/concept-glossary/#glossary-sample)、[feature](/AiBook/en/reference/concept-glossary/#glossary-feature)、[baseline](/AiBook/en/reference/concept-glossary/#glossary-baseline)、[output structure](/AiBook/en/reference/concept-glossary/#glossary-output-structure) 放在一起看。与其把这些词当成彼此分开的记忆清单，不如把它们读成一个数据集设计结构。只有先决定什么算一条样本，才能做出特征；只有有了特征，才能决定该拿什么和基准线比较；只有这层比较先成立，才能决定最后要做成什么输出结构。
 
@@ -41,6 +41,14 @@
 读这张表的顺序，会自然地从左往右走。`sample_id` 固定了什么被算成一条样本。`mean_flow` 和 `late_drop_rate` 是描述这条样本的特征。`baseline_mean_flow` 和 `baseline_late_drop_rate` 是平常状态的基准线。`baseline_gap` 写下比较结果，说明当前样本的后段下降率比基准线多下降了多少。只要这个比较结果足够大，`output` 列里就会形成像 `需要复核` 这样的运营判断。
 
 换句话说，`需要复核` 这样的输出，并不是在表最末尾突然贴上的一句话。只有前面的列已经把 `比较什么` 和 `什么地方偏离平常` 整理清楚，最后那一列输出才能被解释。所以，样本、特征、基准线、输出结构即使都放在同一张表里，也不是彼此独立的清单，而是一条从前往后串起来的设计流。
+
+## 用一个小图来看
+
+如果把数据集候选里的四种结构压成 `样本 -> 特征 -> 基准线比较 -> 输出结构` 这条顺序，就能一眼看清它们是怎样咬合的。
+
+```mermaid
+--8<-- "assets/part-03/chapter-02/p3-2-2-mermaid-01-zh.mmd"
+```
 
 问题情境：确认一条样本行是如何按“先把一次动作当样本，再写入特征，再和平常基准线比较，最后形成运营输出”的顺序扩展开来的。
 

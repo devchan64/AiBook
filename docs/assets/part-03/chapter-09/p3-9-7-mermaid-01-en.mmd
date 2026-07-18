@@ -1,0 +1,9 @@
+flowchart TD
+    A[Choose feature columns and target candidate] --> B{Are all feature values available at prediction time?}
+    B -- No --> C[Remove future-only columns]
+    B -- Yes --> D[Check whether the same inputs can be rebuilt in operations]
+    C --> D
+    D --> E{Are cutoff and horizon written explicitly?}
+    E -- No --> F[Fix the time boundary before training]
+    E -- Yes --> G[Close the prediction-time input/result contract]
+    F --> G

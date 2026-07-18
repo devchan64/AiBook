@@ -1,7 +1,7 @@
 # P3-5.7 How Should We Fold Multiple Follow-Up Events After the Same Sample into a Table Structure
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 Even after the sample unit and the input window are fixed, one more point often blocks the table structure. It is the case where several follow-up events attach after the same sample. For example, after one action, we may record `review`, `warning`, `failure`, and `revisit` in sequence. If we do not decide how to fold them into one result column, the same sample can easily change meaning from table to table.
 
@@ -90,6 +90,12 @@ Expected output:
 ```
 
 The key point in this example is that even while looking at the same source event, different result columns can be created at the same time: for example, `first_event` becomes `review`, `worst_event` becomes `failure`, and `event_count` becomes 2. So if the folding rule is not written down, the same sample `A` can be read with a different meaning from one table to another. If several follow-up events exist after the same sample, we should first write down by what rule they were folded into one result column, so the meaning of the table structure does not shake.
+
+## A Small Diagram
+
+This section compresses one point: `several follow-up events` do not automatically become one result column. The same event list turns into different representative result columns depending on whether it is folded by `any`, `first`, `worst`, or `count`.
+
+--8<-- "assets/part-03/chapter-05/p3-5-7-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

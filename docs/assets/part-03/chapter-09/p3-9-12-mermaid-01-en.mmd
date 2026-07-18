@@ -1,0 +1,6 @@
+flowchart TD
+    A[Model score is produced for the same target] --> B{Which error hurts more?}
+    B -- False negative hurts more --> C[Include borderline cases in the review queue]
+    B -- False positive hurts more --> D[Hold borderline cases out of the queue]
+    C --> E[Interpret the threshold to reduce misses]
+    D --> F[Interpret the threshold to reduce over-detection]

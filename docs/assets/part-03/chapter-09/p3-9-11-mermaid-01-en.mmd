@@ -1,0 +1,7 @@
+flowchart TD
+    A[One dataset exposes several target candidates] --> B{Has the representative target been fixed?}
+    B -- No --> C[The problem statement keeps wobbling]
+    B -- Yes --> D[Fix the representative question]
+    D --> E[Write the definition version and change date]
+    E --> F[Keep other targets as auxiliary candidates]
+    F --> G[Evaluate with one stable target]

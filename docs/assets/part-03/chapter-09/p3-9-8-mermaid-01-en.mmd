@@ -1,0 +1,7 @@
+flowchart TD
+    A[The model outputs one score or rank] --> B[Interpret the output type]
+    B --> C[Apply the policy rule]
+    C --> D{What action follows?}
+    D --> E[Register in review queue]
+    D --> F[Hold or defer]
+    D --> G[Trigger automatic action]

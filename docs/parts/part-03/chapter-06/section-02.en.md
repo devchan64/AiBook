@@ -1,7 +1,7 @@
 # P3-6.2 What Intermediate Representations Can We Add When Features Alone Are Not Enough
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 Features such as averages, slopes, and variability are good starting points. But in some cases, a few numbers alone are not enough to describe the segment-level structure fully. Suppose there is a pattern that rises slowly in the early phase, stays flat in the middle phase, and then drops quickly in the late phase. If that structure is left as only two or three numbers, it can feel insufficient both when a person reads it again and when a model compares it. So in Part 3, [intermediate representation](../../../reference/concept-glossary.md#glossary-intermediate-representation) is read together as a human-led input re-expression that remains between raw logs and summary features so the structure can stay more visible.
 
@@ -107,6 +107,12 @@ The same judgment can be summarized more briefly like this.
 So numerical features and intermediate representations are not in competition. They are tools separated according to what we want to make more visible.
 
 This section can be read not as an introduction to one particular token rule, but as the problem of `what intermediate representation should be placed between raw structure and summarized features`.
+
+## A Small Diagram
+
+The core of this section is that we do not immediately discard the raw curve or close it too quickly into a few numbers. Once the curve is segmented and turned through numerical summaries into a token sequence, one more layer appears: the `intermediate representation`.
+
+--8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-en.mmd"
 
 
 So tokenization is more accurately read not as an isolated technique, but as a choice about `at what resolution the structure should remain` between leaving the raw log as it is and summarizing it too strongly.

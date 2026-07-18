@@ -1,7 +1,7 @@
 # P3-9.13 Why Must Time Boundaries, Entity Boundaries, Information Boundaries, and Output Format Be Closed Together Right Now
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.11`
+> Version: `v2026.07.17`
 
 If the structure has been organized enough to sort out the current problem type, there is one final set of boundaries that still must be closed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real output closer to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
 
@@ -20,6 +20,14 @@ At the stage of sorting out the current problem type, it is enough if boundaries
 - Should the same entity be prevented from appearing on both sides?
 - Has information from after the result leaked into the input?
 - Is the actual target closer to ranking or a continuous value than to 0/1 classification?
+
+## A Small Diagram
+
+For this last check, the more important thing is not memorizing the item names, but closing the current problem structure in a sensible order.
+
+```mermaid
+--8<-- "assets/part-03/chapter-09/p3-9-13-mermaid-01-en.mmd"
+```
 
 In this section, what matters more than memorizing all the names is checking whether the current data structure has properly closed the time boundary, entity boundary, information boundary, and output format. At the present stage, what is needed is not to unfold detailed procedures at length, but to make the current structure able to state without contradiction what it predicts and what it still should not predict. This section should therefore be read not as a list of names, but as the final checklist for whether `split design`, `information-boundary inspection`, and `output-format selection` are closed without contradiction inside the current problem structure at the stage of sorting out the current problem type.
 

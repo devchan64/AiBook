@@ -1,0 +1,13 @@
+flowchart TD
+    A[The current problem structure is mostly organized] --> B{Does time order matter?}
+    B -- Yes --> C[Use a time-aware split first]
+    B -- No --> D[Check whether entity mixing still breaks the setup]
+    C --> D
+    D --> E{Can the same entity appear on both sides?}
+    E -- No --> F[Separate by group or entity]
+    E -- Yes --> G[Check information boundaries next]
+    F --> G
+    G --> H{Has post-prediction information leaked in?}
+    H -- No --> I[Confirm whether the output is classification, ranking, or regression]
+    H -- Yes --> J[Remove leakage before evaluation]
+    J --> I

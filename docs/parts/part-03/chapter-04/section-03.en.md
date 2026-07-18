@@ -1,7 +1,7 @@
 # P3-4.3 How Are One Row, One Sample, and One Recent Segment Different
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 `One row`, `one sample`, and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a source-data table, the row is seen first. In the comparison of one full action, the sample becomes central. In baseline comparison, the recent segment appears as yet another comparison unit.
 
@@ -179,6 +179,12 @@ In practice, confusion is already reduced a great deal if the following three qu
 These three questions each play the role of separating `row`, `sample`, and `segment` again.
 
 This section is not a terminology table, but something that can be reread as the problem of reading `levels of representation` at the same time.
+
+## A Small Diagram
+
+Reduced to the shortest form, the earlier explanation says that `one row -> one sample -> one segment` is a shift across levels where the same data is reread into larger comparison units. Each level answers a different question, so they should not be mixed as if they were the same unit.
+
+--8<-- "assets/part-03/chapter-04/p3-4-3-mermaid-01-en.mmd"
 
 So `one row`, `one sample`, and `one recent segment` should not be read as three similarly named objects. They should be read as the result of reexpressing the same source data at different levels in order to answer different questions.
 

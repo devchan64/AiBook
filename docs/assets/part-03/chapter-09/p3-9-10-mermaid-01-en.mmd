@@ -1,0 +1,6 @@
+flowchart TD
+    A[New event enters the target horizon] --> B{Was the result confirmed?}
+    B -- Yes --> C[Record the confirmed label]
+    B -- No --> D{Was the full follow-up window observed?}
+    D -- Yes --> E[Attach closed negative 0]
+    D -- No --> F[Keep pending or observation-incomplete state]

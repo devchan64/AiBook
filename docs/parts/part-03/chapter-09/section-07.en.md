@@ -1,7 +1,7 @@
 # P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.11`
+> Version: `v2026.07.17`
 
 Once you decide to raise the problem into a prediction problem, you now need to close whether its structure satisfies actual prediction conditions. What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
 
@@ -24,6 +24,14 @@ Even with the same event table, the structure breaks immediately if `columns kno
 | B | -0.06 | low | skipped | normal |
 
 Here, `recent_diff` and `repeatability` are columns that can be built before prediction. By contrast, `review_result` appears only after a person has already completed the review. If that column is placed together with the inputs, the table may still look normal in shape, but in reality it becomes a structure in which `the inputs were built after looking at the answer`. In that case, even if the score is high during training, the model is effectively using information that does not exist at the real prediction time, so it is no longer the same problem.
+
+## A Small Diagram
+
+The input/result contract does not end with `separate the columns`. It must also close in the order below so that only values available at prediction time remain.
+
+```mermaid
+--8<-- "assets/part-03/chapter-09/p3-9-7-mermaid-01-en.mmd"
+```
 
 So closing the input/result contract is not only a matter of `splitting column names`. You must also write down `when each column is created`. For one sample input row to be valid, all values in that row must be values that can actually be produced at the same prediction time.
 

@@ -1,0 +1,8 @@
+flowchart TD
+    A[State the question first] --> B{What does the question compare?}
+    B -- One action --> C[Build an action-level table]
+    B -- Recent segment change --> D[Build a recent-segment comparison table]
+    B -- Later learning candidate --> E[Build a candidate prediction-problem table]
+    C --> F[Redesign sample unit and columns]
+    D --> F
+    E --> F

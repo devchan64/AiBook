@@ -1,7 +1,7 @@
 # P3-5.3 Why Can We Not Immediately Call Raw Time Series a Learning Input
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say `a ready-to-use learning input has been prepared`.
 
@@ -76,6 +76,12 @@ Suppose an action contains 300 time-point records.
 4. Only after that can we choose whether to view that one full action as one input, as several segment sequences, or as a recent-range aggregate.
 
 So the correct order is not `a raw time series exists -> it is immediately a learning input`, but `a raw time series exists -> decide what input structure to convert it into`.
+
+## A Small Diagram
+
+The core sequence in this section is that the story does not end at `a raw time series exists`. Only after sample boundaries, segment/length rules, and target labels are fixed can we finally choose an `input structure`.
+
+--8<-- "assets/part-03/chapter-05/p3-5-3-mermaid-01-en.mmd"
 
 What this section should hold onto is not the model type, but the order that says before calling a raw time series an input, we should first decide sample boundaries, segment criteria, and target structure. So saying that the raw time series is not yet a learning input means less `the data is insufficient` and more `the boundaries and purpose of the input structure have not yet been specified`.
 

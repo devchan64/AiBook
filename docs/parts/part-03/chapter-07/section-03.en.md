@@ -1,7 +1,7 @@
 # P3-7.3 What Is a Baseline the Reference For
 
 > Section ID: `P3-7.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 A baseline is the reference that decides `what should the current state be compared against`. The reason a baseline is needed in Part 3 is that the state of a recent range, a particular action, or a particular entity should not be read only as an absolute value. It has to be read side by side with the usual structure.
 
@@ -35,6 +35,12 @@ Second, some people think absolute values are enough and pass lightly over the b
 | Looking only at absolute values is enough for judging change | To see what differs from usual, we first need a comparison reference |
 
 This section is more accurate when read not through the dictionary definition of baseline, but as the problem of `what reference measurement should be placed in order to read change`. So a baseline should be read as `a reference measurement for state comparison`, separated from model-evaluation terminology.
+
+## A Small Diagram
+
+The core point of this section is that `the usual structure` and `the current state` should not be viewed in isolation. Once a `baseline` connects them, the difference becomes readable. A baseline does not replace the absolute value; it acts as the reference line for reading state change.
+
+--8<-- "assets/part-03/chapter-07/p3-7-3-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P3-9.8 一次预测到底决定什么，为什么分数和策略不是同一件事
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进复核队列，也可能表示调整整个最近区间的告警强度。此外，模型输出的分数，和把这个分数转成真实行动的策略，也不是同一回事。
 
@@ -22,9 +22,16 @@
 
 即使分数一样，只要策略不同，行动也可能不同。而且有些问题只把分数拿来`做排序`，有些问题则希望把这个数字`近似当成概率来读`。这种差别也要先写清楚。因此，一次预测的意义并不只是`吐出一个数字`，而是这个数字会经过什么规则，再导向什么行动的整套决策结构。从更大的角度看，这一节是在把`模型输出`、`判定规则`、`真实行动`拆成不同层级，让一次预测值被放进运营决策结构里来读。
 
+## 用一个小图来看
+
+一次预测并不会停在分数上，而要继续看这个分数经过什么策略规则，最终变成什么行动。
+
+```mermaid
+--8<-- "assets/part-03/chapter-09/p3-9-8-mermaid-01-zh.mmd"
+```
+
 ## 来源与参考资料
 
 - Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, thresholds, score-to-action decisions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Crash Course: ROC and AUC*, ranking behavior and threshold-independent comparison. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Glossary*, `classification threshold`, `AUC`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-

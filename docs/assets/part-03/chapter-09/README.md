@@ -13,3 +13,10 @@
   - `p3-9-4-mermaid-01-en.mmd` / `p3-9-4-mermaid-01-ko.mmd`
   - `p3-9-5-mermaid-01-en.mmd` / `p3-9-5-mermaid-01-ko.mmd`
   - `p3-9-6-mermaid-01-en.mmd` / `p3-9-6-mermaid-01-ko.mmd`
+  - `p3-9-10-mermaid-01-en.mmd` / `p3-9-10-mermaid-01-ko.mmd` / `p3-9-10-mermaid-01-zh.mmd`
+  - `p3-9-11-mermaid-01-en.mmd` / `p3-9-11-mermaid-01-ko.mmd` / `p3-9-11-mermaid-01-zh.mmd`
+  - `p3-9-12-mermaid-01-en.mmd` / `p3-9-12-mermaid-01-ko.mmd` / `p3-9-12-mermaid-01-zh.mmd`
+  - `p3-9-13-mermaid-01-en.mmd` / `p3-9-13-mermaid-01-ko.mmd` / `p3-9-13-mermaid-01-zh.mmd`
+  - `p3-9-7-mermaid-01-en.mmd` / `p3-9-7-mermaid-01-ko.mmd` / `p3-9-7-mermaid-01-zh.mmd`
+  - `p3-9-8-mermaid-01-en.mmd` / `p3-9-8-mermaid-01-ko.mmd` / `p3-9-8-mermaid-01-zh.mmd`
+  - `p3-9-9-mermaid-01-en.mmd` / `p3-9-9-mermaid-01-ko.mmd` / `p3-9-9-mermaid-01-zh.mmd`

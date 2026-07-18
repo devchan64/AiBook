@@ -1,7 +1,7 @@
 # P3-2.3 What Should Be Written Down First When a New Table Arrives
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 When a new table first arrives, it is easy in many cases to think first of averages, distributions, or model candidates. But what should be written down before that is `what does one row of this table mean?`, `what can be grouped together?`, and `what is still missing?` Only after these three are organized can we distinguish whether what is in hand is already a sample table that can be compared directly, or still raw records that must be regrouped. Rather than deciding immediately whether a new table is `a training dataset`, it helps interpretation more to write down these three points first. Once they are written down, later sample design and dataset redesign also become much less abstract.
 
@@ -50,6 +50,14 @@ The order in which the five items are read also matters. `Row meaning`, `identif
 | Attach meaning immediately to one strange value | That one line may not represent the whole sample | Write down the raw evidence and candidate summary structure together |
 
 So the first stage is closer to `identity checking` than to `calculation`.
+
+## A Small Diagram
+
+When a new table is read for the first time, it is safer to close it in the order `row meaning -> grouping criterion -> format/quality checks -> regrouping decision`.
+
+```mermaid
+--8<-- "assets/part-03/chapter-02/p3-2-3-mermaid-01-en.mmd"
+```
 
 ## A very short table-reading memo
 

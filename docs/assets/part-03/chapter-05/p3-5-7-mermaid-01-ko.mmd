@@ -1,0 +1,20 @@
+```mermaid
+flowchart TD
+    F[여러 후속 사건]
+    R{어떤 접기 규칙인가?}
+    A[Any]
+    B[First]
+    C[Worst]
+    D[Count]
+    O[대표 결과 열]
+
+    F --> R
+    R --> A
+    R --> B
+    R --> C
+    R --> D
+    A --> O
+    B --> O
+    C --> O
+    D --> O
+```

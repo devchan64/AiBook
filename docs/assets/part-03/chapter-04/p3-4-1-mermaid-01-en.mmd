@@ -1,0 +1,15 @@
+```mermaid
+flowchart TD
+    Q[Question to answer]
+    U{Which unit matches it?}
+    T[Time point<br/>instant comparison]
+    A[One full action<br/>comparable sample]
+    W[Recent segment<br/>bundle comparison]
+    F[Features and labels<br/>attach naturally]
+
+    Q --> U
+    U -->|When did it change?| T
+    U -->|Was this action unusual?| A
+    U -->|Has the recent state shifted?| W
+    A --> F
+```

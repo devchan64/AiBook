@@ -8,4 +8,6 @@
 - Current language sets:
   - `p3-7-1-mermaid-01-en.mmd` / `p3-7-1-mermaid-01-ko.mmd`
   - `p3-7-2-mermaid-01-en.mmd` / `p3-7-2-mermaid-01-ko.mmd`
+  - `p3-7-3-mermaid-01-en.mmd` / `p3-7-3-mermaid-01-ko.mmd` / `p3-7-3-mermaid-01-zh.mmd`
   - `p3-7-4-mermaid-01-en.mmd` / `p3-7-4-mermaid-01-ko.mmd`
+  - `p3-7-5-mermaid-01-en.mmd` / `p3-7-5-mermaid-01-ko.mmd` / `p3-7-5-mermaid-01-zh.mmd`

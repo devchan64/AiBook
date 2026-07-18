@@ -1,7 +1,7 @@
 # P3-6.1 What Features Should We Keep to Represent a Structure for Comparison
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 When people first learn about features, they often take them to mean `wouldn't more columns always be better?` But a feature is not just the act of inserting many values. A feature is a value that rewrites the structure of a sample so it can be used for comparison and prediction. So a good feature is less about being numerous and more about making `what it is trying to show` clear. If the raw log was turned into a summary table in the previous chapter, we now have to decide what structure should remain inside that summary table.
 
@@ -132,6 +132,12 @@ One more place where people get stuck is that even the sentence `look at the str
 So a feature is not chosen from `a list of column candidates`. It is the act of translating `what are we asking right now?` into numerical form. If the question is about the `overall level`, level features should come first. If the question is about `shape change`, change features such as segment differences and slopes should come first. Only when this connection is fixed can we later explain again in baseline comparison `why did we keep this feature in particular?`
 
 This section can be read not as an introduction to a list of features, but as the problem of what question should guide `the numeric representation of structure`.
+
+## A Small Diagram
+
+The flow of this section is to decide `the structure to compare` first, convert that structure into expressions such as average, difference, slope, and variability, and then choose which features should actually remain. A feature is not the act of growing columns, but the process of rewriting structure into numerical form.
+
+--8<-- "assets/part-03/chapter-06/p3-6-1-mermaid-01-en.mmd"
 
 
 So a feature is not `adding more columns`, but translating the structure we want to compare into numerical forms such as level, change, and stability.

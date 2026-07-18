@@ -1,7 +1,7 @@
 # P3-7.5 Should a Baseline Stay Fixed, or Should It Be Updated as a Recent-Usual Reference
 
 > Section ID: `P3-7.5`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 After baseline candidates are chosen, another question still remains. `Should this reference stay fixed for a while, or should it move together with the recent-usual range?` Even when ranges under the same conditions were selected, the meaning of the comparison sentence changes according to how the baseline is maintained.
 
@@ -36,6 +36,12 @@ The following statements are not asserted in this section.
 - A fixed baseline is always more trustworthy than a recent-usual baseline
 
 If the baseline-maintenance method is chosen poorly, the meaning of both the comparison report and the current comparison sentence shakes together. Even for the same change, if the reference itself changes, the weight of the current judgment such as `needs review`, `caution`, or `normal/abnormal candidate` also changes. If this section is reread not as a matter of taste between fixed baselines and recent-usual baselines, but as the problem of `reference maintenance strategy`, then it becomes clearer that baseline maintenance is not a contest with one right answer. It is a choice of what reference-maintenance method fits the comparison question.
+
+## A Small Diagram
+
+The key point in this section is not the baseline form by itself, but which maintenance method is made more natural by the `comparison question`. Fixed baselines and recent-usual baselines support different questions better, and the meaning of the comparison sentence changes with that choice.
+
+--8<-- "assets/part-03/chapter-07/p3-7-5-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

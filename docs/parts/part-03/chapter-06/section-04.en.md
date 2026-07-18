@@ -1,7 +1,7 @@
 # P3-6.4 Why Not Every Column in a Summary Table Is a Feature
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 The fact that a column appears in a summary table and the judgment that it is a feature are not the same statement. A summary table can contain features that describe sample structure, but it can also contain columns for comparison, candidate result columns, and columns for identification and context. So the distinction to hold first in this section is that `a column in the summary table` and `a feature to be read as model input` do not automatically match.
 
@@ -206,6 +206,12 @@ This section can be read not only as the question `which numerical column is a f
 
 
 So instead of the misunderstanding `if it is a numerical column, it must be a feature`, we should first ask whether each column describes the sample, holds a comparison reference, records a result, or merely keeps context.
+
+## A Small Diagram
+
+The core point of this section is that not every column in a working table should be read as the same kind. Even inside one table, columns split into feature, comparison, target-candidate, and context columns, and that role separation has to come first.
+
+--8<-- "assets/part-03/chapter-06/p3-6-4-mermaid-01-en.mmd"
 
 ## Sources and Further Reading
 

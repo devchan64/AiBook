@@ -1,0 +1,8 @@
+flowchart TD
+    A[Read the new table for the first time] --> B[Write what one row means]
+    B --> C[Find the key and time/order columns]
+    C --> D[Check format consistency]
+    D --> E[Run the first quality check]
+    E --> F{Can it already be compared directly?}
+    F -- No --> G[Regroup into a sample-level table]
+    F -- Yes --> H[Keep it as a directly comparable table]

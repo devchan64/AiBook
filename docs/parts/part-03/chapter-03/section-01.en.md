@@ -1,7 +1,7 @@
 # P3-3.1 Why Source Data Should Not Be Read as a Learning Problem Right Away
 
 > Section ID: `P3-3.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely `recorded source data`, or at best a `dataset candidate`.
 
@@ -42,6 +42,14 @@ For example, even after seeing only part of the source data below, the learning-
 | A | 2 | 2.4 | 1.6 |
 
 Looking only at this table, it is easy to think of words such as `classification problem`, `prediction problem`, or `time-series learning problem`. But we still have not decided whether this table is `a time-point record` or `a one-action table`. So if we choose a learning-problem frame here right away, the format of the problem gets ahead of the problem itself.
+
+## A Small Diagram
+
+It becomes clearer which questions stay empty when source data is escalated too early into a learning problem if the flow is reread as `source records -> empty questions -> sample/label candidate cleanup`.
+
+```mermaid
+--8<-- "assets/part-03/chapter-03/p3-3-1-mermaid-01-en.mmd"
+```
 
 Problem situation: when a time-point log table arrives, check which core questions remain empty if we read it immediately as a learning problem.
 

@@ -1,7 +1,7 @@
 # P3-9.11 当 target 候选有多个，或标准在变化时，应该先固定什么
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.11`
+> Version: `v2026.07.17`
 
 在现实数据里，target 候选未必只会出现一个。像 `review_needed`、`final_status`、`status_type`、`priority_bucket` 这样的多个候选可能会一起出现；即使名字相同的 target，在不同时间里判定标准也可能不同。如果不先固定：哪一个是代表问题，以及当前使用的是哪个定义版本，那么问题本身就会变得摇晃。也就是说，当 target 候选有多个，或者标准在变化时，必须先写清楚：哪一个是代表 target，当前定义版本又是什么。
 
@@ -32,6 +32,14 @@
 | C | 0 | normal | stable | low |
 
 看这张表，`A` 和 `B` 虽然都有 `review_needed = 1`，但它们的 `final_status` 和 `status_type` 并不一样。如果当前把 `review_needed` 固定为代表 target，那么 `A` 和 `B` 会被并成同一个结果。反过来，如果把 `final_status` 固定为代表 target，那么 `pending` 与 `normal` 就会变成不同结果。也就是说，同一个事件会因为你把哪一列固定成代表 target，而变成相同答案，也可能变成不同答案。
+
+## 用一个小图来看
+
+当多个候选同时出现时，只看表格很容易觉得`以后再选一个也行`。实际顺序是先把代表 target 固定下来。
+
+```mermaid
+--8<-- "assets/part-03/chapter-09/p3-9-11-mermaid-01-zh.mmd"
+```
 
 这个场景说明，`选择代表 target` 并不是事后附加的管理备注。它本身就是在定义当前问题的中心提问，而定义版本则是在固定：你究竟按照什么标准来读取这个提问。
 

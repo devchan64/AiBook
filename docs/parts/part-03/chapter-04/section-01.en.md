@@ -1,7 +1,7 @@
 # P3-4.1 How Do We Decide One Comparable Sample
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 The first thing to confirm when reading data is not the size of the values, but `what does one row mean?` If this question is not settled first, then the criteria drift later when features are built, when labels are attached, and even when evaluation results are read. In the end, this question leads to `what should count as one comparable sample?`
 
@@ -65,6 +65,12 @@ So in practice, `which unit should be chosen first as the sample?` can be decide
 | Can we build an input table that will later predict `needs review`? | one full action | Because the result is usually attached at the action level, and features are also computed stably there |
 
 So what should count as one sample is not decided from the shape of the table alone. It has to be decided first according to whether the current question is `time-point comparison`, `action comparison`, or `segment comparison`. In the example of this section, the question is `comparing the pattern of the whole action`, so one full action becomes the most natural sample unit.
+
+## A Small Diagram
+
+Compressed into one line, the earlier judgment says that we must choose `the question to answer now` first and then choose the unit that matches that question as the sample. In this section, the question is `was this action unusual?`, so `one full action` leads most naturally to the comparable sample.
+
+--8<-- "assets/part-03/chapter-04/p3-4-1-mermaid-01-en.mmd"
 
 Problem situation: confirm that even with the same source log, the comparable table changes depending on whether `one time point`, `one full action`, or `one recent segment` is read as one sample.
 

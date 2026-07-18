@@ -1,7 +1,7 @@
 # P3-8.7 Why Interpretation Must Change If Current Review Rules and Actions Alter Later Data Itself
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 The last point to watch at the interpretation boundary is the current operational intervention. If a person quickly acted on cases where `review_needed=1`, the data left afterward may differ from the original natural progression. If you hide that, it becomes too easy to write a sentence such as `the later data looks safer`.
 
@@ -30,6 +30,12 @@ On the surface, `review_needed=1` may look safer. In practice, however, A and B 
 | Are you trying to see the pre-intervention signal, or the post-intervention operational result? | To avoid mixing meanings inside the same result column |
 
 The important point is that `if current operational rules are already changing future data, the difference that appears later may contain both an original pattern difference and an intervention effect`. This section can be read not as a special case from one team, but as the problem of whether `the observation target can already be changed by policy and intervention`, which is feedback from intervention. Later data should therefore be read with the possibility that it is not simply an extension of natural progression, but a result already shaped by current rules and actions.
+
+## A Small Diagram
+
+The key point in this section is that current rules and actions may not leave later data untouched. If the review rule triggers intervention and the intervention changes later data, the later difference has to be read by separating `the original pattern` from `the intervention effect`.
+
+--8<-- "assets/part-03/chapter-08/p3-8-7-mermaid-01-en.mmd"
 
 ## Sources and References
 

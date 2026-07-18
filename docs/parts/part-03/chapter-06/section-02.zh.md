@@ -1,7 +1,7 @@
 # P3-6.2 当特征本身还不够时，还可以加入什么中间表示
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/en/reference/concept-glossary/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
@@ -107,6 +107,12 @@ print("2) tokens after tokenization:", tokens)
 也就是说，数值特征和中间表示不是竞争关系，而是按“想把什么看得更明显”来分工使用的工具。
 
 这一节与其说是在介绍某一种 token 规则，不如说更接近于：在 `原始结构和汇总特征之间，应该放入什么中间表示(intermediate representation between raw structure and summarized features)`。
+
+## 用一个小图来看
+
+这一节的核心，是既不把原始曲线立刻丢掉，也不太快把它压成几个数字。把曲线切成区段，再经过数值摘要改写成 token 序列之后，就会多出一层 `中间表示`。
+
+--8<-- "assets/part-03/chapter-06/p3-6-2-mermaid-01-zh.mmd"
 
 
 因此，token 化与其被看成独立技巧，不如更准确地读成一种选择：在保留原始日志和过度强压缩之间，`究竟要把结构保留到什么分辨率`。

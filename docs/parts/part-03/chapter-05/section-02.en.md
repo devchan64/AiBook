@@ -1,7 +1,7 @@
 # P3-5.2 How Does a Summary Table Preserve Patterns Beyond the Average
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 Two actions with the same average do not always have the same structure. An average is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a summary table, we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
 
@@ -143,6 +143,12 @@ This example should also be read in the same order.
 For example, A can be summarized as `an action that is high in the middle and drops a little later`, while B can be summarized as `an action that stays at almost the same level from beginning to end`. Only when this one-sentence summary is possible does the numeric table reach actual structure interpretation. The point here is not that we should discard the average, but that structure interpretation stops if only the average remains. That is why values such as segment averages, segment-wise slopes, time of the maximum value, and time decline starts should remain together even when the averages are the same.
 
 This difference becomes just as important later in baseline comparison. Even if the recent segment average looks the same as usual, the state may already have begun to change if the late-phase decline pattern has become stronger. So the ability to read `same average, different pattern` is not just a trick for looking at one extra feature. It is a preparation step for later reading `has the recent structure changed from the usual one?`
+
+## A Small Diagram
+
+The reading order in this section is simple. First confirm `is the overall average the same?` Then follow `segment means` and `slope/timing`, and what remains at the end is `pattern interpretation`. The average is only the starting point; structure interpretation closes at the next level.
+
+--8<-- "assets/part-03/chapter-05/p3-5-2-mermaid-01-en.mmd"
 
 If we lump two actions into the same category just because the average is the same, we may miss cases that actually have a much steeper late decline. That is why the summary table should reveal `even when the average is the same, the structure can differ`. This idea naturally continues into later feature design, segment representation, and baseline comparison.
 

@@ -1,7 +1,7 @@
 # P3-4.2 What Else Starts to Drift When the Sample Unit Drifts
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 The sample unit is the reference point for almost every concept that appears later. So if measurements and samples are confused, the problem does not end with using one term incorrectly. The meaning of a feature drifts, the meaning of a label drifts, and even what evaluation is evaluating drifts along with them. If the previous section decided what should count as one sample, then this section must show what that decision fixes together and what starts to drift together.
 
@@ -47,6 +47,12 @@ Here the mismatch of the sample unit becomes clearer if we divide the `misattach
 | Can this row be used as one training case? | Nearby rows from the same action can be mixed into training and evaluation | Is the split target a time-point row, or an action-level sample? |
 
 So the sample unit is not a decision needed only in one section of Part 3. It is the floor structure on which feature engineering, baseline comparison, the review queue, and even the interpretation of the prediction input structure all depend.
+
+## A Small Diagram
+
+The core point of the previous discussion is simple. When the sample unit drifts, feature, label, split, evaluation, and operational interpretation do not drift separately. They all lose the same reference point together.
+
+--8<-- "assets/part-03/chapter-04/p3-4-2-mermaid-01-en.mmd"
 
 The example below shows how feature, label, and split interpretation change when the same source data is read as a `time-point table` and as an `action-level table`.
 

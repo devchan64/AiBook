@@ -1,0 +1,20 @@
+```mermaid
+flowchart TD
+    F[多个后续事件]
+    R{按什么折叠规则?}
+    A[Any]
+    B[First]
+    C[Worst]
+    D[Count]
+    O[代表结果列]
+
+    F --> R
+    R --> A
+    R --> B
+    R --> C
+    R --> D
+    A --> O
+    B --> O
+    C --> O
+    D --> O
+```

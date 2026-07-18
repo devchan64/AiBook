@@ -1,0 +1,6 @@
+flowchart TD
+    A[Stored records accumulate by time point] --> B{What does one row mean now?}
+    B --> C[One row is only one recorded moment]
+    C --> D[Regroup records by the question's sample unit]
+    D --> E[Derive comparison-ready columns]
+    E --> F[Now it becomes a dataset candidate]

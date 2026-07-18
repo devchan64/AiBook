@@ -11,3 +11,5 @@
   - `p3-8-3-mermaid-01-en.mmd` / `p3-8-3-mermaid-01-ko.mmd`
   - `p3-8-4-mermaid-01-en.mmd` / `p3-8-4-mermaid-01-ko.mmd`
   - `p3-8-5-mermaid-01-en.mmd` / `p3-8-5-mermaid-01-ko.mmd`
+  - `p3-8-6-mermaid-01-en.mmd` / `p3-8-6-mermaid-01-ko.mmd` / `p3-8-6-mermaid-01-zh.mmd`
+  - `p3-8-7-mermaid-01-en.mmd` / `p3-8-7-mermaid-01-ko.mmd` / `p3-8-7-mermaid-01-zh.mmd`

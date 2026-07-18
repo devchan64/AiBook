@@ -1,7 +1,7 @@
 # P3-2.1 Why Are Stored Records Not Yet a Dataset
 
 > Section ID: `P3-2.1`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 When people first hear data modeling, many immediately think of database-table design. In practice, the term is often used in the context of organizing storage structure. Behind that usage also sits the longer flow of data-driven systems such as `DSS/BI/DW/OLAP`, where data was collected and connected to decision making. In other words, data modeling was not originally a word only for AI. It also grew inside the broader flow of regrouping stored data, comparing it again, and connecting it to judgment. But the data modeling needed for AI and data analysis goes one step further. Here, `where should the data be stored?` matters less than `how should the stored records be reread as dataset candidates that answer a specific question?`
 
@@ -47,6 +47,14 @@ The small table below immediately shows how the same source data is read differe
 | --- | --- | --- |
 | Storage structure | `timestamp`, `sensor_name`, `value` | one time-point record |
 | Problem-representation structure | `event_id`, `mid_flow_mean`, `late_drop_rate` | a summary of one action |
+
+## A Small Diagram
+
+It becomes clearer that stored records do not immediately become a dataset when the split between `record preservation` and `regrouping for a question` is reread as the flow below.
+
+```mermaid
+--8<-- "assets/part-03/chapter-02/p3-2-1-mermaid-01-en.mmd"
+```
 
 Problem situation: confirm that the same source record remains as time-point rows in storage structure, but is regrouped into an action-level summary table in the dataset candidate.
 

@@ -1,7 +1,7 @@
 # P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.10`
+> Version: `v2026.07.17`
 
 If the sample unit is chosen incorrectly, the problem usually reappears later in strange forms. That is why the question `how can I notice that I am currently using the wrong sample unit?` matters. In many cases, people keep building features, labels, and comparison tables on top of the wrong sample unit, and only much later realize that the whole structure has become unstable. So this section gathers in one place the representative warning signs that should make us suspect a wrong decision about the sample unit.
 
@@ -161,6 +161,12 @@ In practice, the direction becomes much clearer simply by writing down the follo
 4. Does the training/evaluation split divide the rows of the current table, or divide the sample unit?
 
 If two or three of these four questions already fail to align, it is usually better to recheck the sample unit before adding more features.
+
+## A Small Diagram
+
+The warning signs in this section are not independent checklist items. Repeated labels, features that cannot be explained on one row, awkward comparison sentences, and bad splits all converge on the same direction: recheck the sample unit.
+
+--8<-- "assets/part-03/chapter-04/p3-4-4-mermaid-01-en.mmd"
 
 When these diagnostic signals are collected first, it becomes easier to distinguish earlier between cases where the sample unit must be regrouped and cases where it can safely stay as it is. In other words, what matters here is not previewing the next stage, but noticing the mistaken sample-unit judgment early through repeated labels, unexplained features, and awkward comparison sentences that are already visible in the current table.
 

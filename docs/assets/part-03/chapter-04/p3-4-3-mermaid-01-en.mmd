@@ -1,0 +1,14 @@
+```mermaid
+flowchart TD
+    R[One row<br/>time-point record]
+    S[One sample<br/>one full action]
+    W[One segment<br/>several samples regrouped]
+    Q1[What happened now?]
+    Q2[Was this action unusual?]
+    Q3[Has the recent state shifted?]
+
+    R --> S --> W
+    R -.answers.-> Q1
+    S -.answers.-> Q2
+    W -.answers.-> Q3
+```
