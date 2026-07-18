@@ -1,7 +1,7 @@
 # Table of Contents
 
 > Section ID: `BOOK-toc`
-> Version: `v2026.07.14`
+> Version: `v2026.07.18`
 
 This table of contents is the currently adopted learning order for the book. Here, `adopted` means that the structure has been chosen as part of the book. It does not mean that every chapter has already been fully written or fully verified.
 
@@ -642,7 +642,9 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 - **P6-3.1 Reading the Transformer Again from the LLM Perspective**: rereads the Transformer from Part 5 as a generative language-model structure
 - **P6-3.2 Attention and the Context Window**: reviews the structural conditions for handling context
-- **P6-3.3 Supplementary Learning: How to Read Positional Representation, Multi-Head Attention, KV Cache, Sparse Attention, and Long Context for the First Time**: supplements implementation details without breaking the main line
+- **P6-3.3 Supplementary Learning: How to Read Positional Representation and Multi-Head Attention for the First Time**: first separates the pieces that strengthen how context is read
+- **P6-3.4 Supplementary Learning: How to Read KV Cache for the First Time**: supplements why repeated generation tries not to recalculate the same work
+- **P6-3.5 Supplementary Learning: How to Read Sparse Attention and Long Context for the First Time**: supplements long-context computation and long-context retention without breaking the main line
 
 #### Chapter 4. The GPT Family `LLM Core`
 
@@ -741,50 +743,50 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 ## Part 7. Projects
 
-This Part verifies learning through small outputs. Project documents are expected to keep not only successful results but also failures, limits, and improvement points.
+Part 7 is where the data modeling, machine learning, deep learning, and LLM structures from earlier Parts are run again as actual projects. Instead of adding a long stretch of new theory, this Part checks directly through code, logs, comparison tables, and diagrams how to close a problem with a concrete question, how to define input and output units, and how to choose a baseline and a structure. Each chapter follows the flow `problem definition -> execution -> comparison -> interpretation -> next iteration` and does not stop at quickly passing toy examples; it also includes results worth reviewing, failures, constraints, and operating records.
 
-### Module 1. Data and Classical Machine Learning
+### Module 1. Project Definition and Baselines
 
-#### Project 1. Mini Data-Analysis Project `Project Practice`
+#### Chapter 1. Project Questions and Baselines `Project Practice`
 
-- **P7-1.1 Goal of the Mini Data-Analysis Project**: performs questioning, exploration, and summarization on a small dataset
-- **P7-1.2 Results and Retrospective**: records results, limits, and next questions
+- **P7-1.1 Project Questions and Input Definition**: checks that even with the same data, a completely different project emerges depending on what is being predicted or separated and where one input sample is defined to begin and end, and that this difference changes actual data preparation and experiment design.
+- **P7-1.2 Baselines and the First Comparison**: runs the simplest baseline first and checks, with real comparison tables and failure cases, why model performance should be read first through `what it improved over` rather than `how good it looks`.
 
-#### Project 2. Classical Machine-Learning Prediction Model `Project Practice`
+#### Chapter 2. Result Interpretation and Retrospective `Project Practice`
 
-- **P7-2.1 Goal of the Classical Prediction Model**: checks data split, training, and evaluation flow through one model
-- **P7-2.2 Baseline and Improvement**: compares a baseline model with an improved model
+- **P7-2.1 Reading Comparison Tables and Error Cases**: reads prediction comparison tables and representative error cases together instead of looking at only one score, so that where a model is correct and where it fails can be interpreted concretely.
+- **P7-2.2 Building the Next Question from a Retrospective**: practices how to organize one experiment result into `facts`, `interpretation`, and `next question`, then pass it into a better next iteration and a better experiment design.
 
-### Module 2. Deep Learning and Text
+### Module 2. Model Projects That Expose Structural Choice
 
-#### Project 3. Image Classification Model `Project Practice`
+#### Chapter 3. Choosing Input Structure and Model Structure `Project Practice`
 
-- **P7-3.1 Goal of the Image Classification Model**: checks the deep-learning training flow through simple image classification
-- **P7-3.2 Error-Case Analysis**: records limits by reviewing misclassified cases
+- **P7-3.1 How Input Structure Changes the Project**: compares side by side how tabular data, images, and sequence inputs change data-preparation code, sample inspection, and model input-output definitions.
+- **P7-3.2 Comparing CNNs, Sequential Models, and Attention-Based Families**: organizes why different computational structures should be chosen when the same goal has different input structures and different relationships to reference, including explainable selection criteria and actual implementation burden.
 
-#### Project 4. Text Classification Model `Project Practice`
+#### Chapter 4. Reviewing Training Results `Project Practice`
 
-- **P7-4.1 Goal of the Text Classification Model**: checks the flow of mapping sentences to labels
-- **P7-4.2 Tokenization and Evaluation**: reviews text preprocessing and evaluation metrics together
+- **P7-4.1 Reading Loss, Metrics, and Error Cases Together**: checks that only by reading learning curves, evaluation metrics, and error samples together can one properly judge `what actually improved` even when training itself succeeded.
+- **P7-4.2 Breaking Down a Failed Result Again**: when a result is worse than expected, separates it into a structural problem, a data problem, or a baseline-setting problem instead of leaving it as a vague failure, then sets the next experiment direction and revision priority.
 
 ### Module 3. LLM Service Projects
 
-#### Project 5. Document-Based RAG Chatbot `Project Practice`
+#### Chapter 5. Verifying a RAG Project `Project Practice`
 
-- **P7-5.1 Goal of the Document-Based RAG Chatbot**: implements a flow that retrieves the book documents and produces grounded answers
-- **P7-5.2 Retrieval Quality and Answer Verification**: records retrieval failures, missing evidence, and hallucination
+- **P7-5.1 Practicing the Retrieval, Evidence, and Answer Flow**: directly checks, as one pipeline, how retrieval candidates gather, how evidence is chosen, and how answers are produced on top of that evidence.
+- **P7-5.2 Recording Retrieval Failures and Missing Evidence**: when an answer is inaccurate, records whether it came from retrieval failure, missing evidence, or answer-construction problems instead of collapsing everything into `the LLM was wrong`, and also organizes the logging perspective needed for service-quality review.
 
-#### Project 6. Tool-Using Agents `Project Practice`
+#### Chapter 6. Reviewing Agent Execution Records `Project Practice`
 
-- **P7-6.1 Goal of the Tool-Using Agent**: checks a limited tool flow such as file reading, patching, and building
-- **P7-6.2 Permission and Log Review**: inspects permission, approval, and record-keeping in agent execution
+- **P7-6.1 Practicing the Flow of Plans, Tool Calls, and Approvals**: reads the execution path of what plan an agent makes, which tools it calls in what order, and where approvals and constraints appear.
+- **P7-6.2 Reviewing Permissions, Logs, and Blocked States**: reorganizes execution logs around permissions, blocked states, and next actions, and checks why execution records and failure-handling rules become as important as the result itself in an agent project.
 
-### Module 4. Deployment and Operations
+### Module 4. Deployment and Operational Retrospectives
 
-#### Project 7. Deployment and Monitoring `Service Structure`
+#### Chapter 7. Deployment Checks and Operational Retrospectives `Project Practice`
 
-- **P7-7.1 Goal of Deployment and Monitoring**: fixes the flow of static-document deployment and basic health checking
-- **P7-7.2 Failure Records and Improvement Plans**: keeps outages, cost, and quality issues as retrospective documents
+- **P7-7.1 Verifying Deployment and Checking Runtime State**: goes beyond seeing only whether the build succeeded and reviews, through small checking code and a flow diagram, whether the public state and basic behavior actually hold after deployment.
+- **P7-7.2 Recording Incidents and Planning the Next Iteration**: organizes how to keep failures not as simple incident notes but as operational retrospectives that include cause hypotheses, priorities, next actions, and recurrence-prevention viewpoints.
 
 ## Sources and References
 
