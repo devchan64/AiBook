@@ -1,0 +1,13 @@
+flowchart TD
+  A["输入 batch"]
+  B["前向传播"]
+  C["损失"]
+  D["反向传播"]
+  E["optimizer step"]
+  F["在下一批次中重复，并配合正则化与模式控制"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F

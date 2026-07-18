@@ -57,6 +57,25 @@ LANG_TEXT = {
         "prediction": "prediction",
         "fixed_parameter": "fixed parameter",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "training_outfile": "learning-weight-update-trace-zh.png",
+        "inference_outfile": "inference-fixed-weight-trace-zh.png",
+        "step_xlabel": "训练 step",
+        "input_xlabel": "服务输入顺序",
+        "weight_ylabel": "parameter value",
+        "prediction_ylabel": "predicted_block_score",
+        "alarm_weight": "alarm_weight",
+        "delay_weight": "delay_weight",
+        "bias": "bias",
+        "prediction": "prediction",
+        "fixed_parameter": "固定 parameter",
+    },
 }
 
 

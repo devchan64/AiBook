@@ -1,0 +1,22 @@
+flowchart TD
+  I["同一个模型输入"]
+
+  subgraph T["训练模式"]
+    T1["Dropout 保持随机性"]
+    T2["使用当前 batch 统计量"]
+    T3["继续损失与参数更新"]
+  end
+
+  subgraph E["评估模式"]
+    E1["关闭 Dropout"]
+    E2["使用运行统计量"]
+    E3["稳定测量或服务输出"]
+  end
+
+  I --> T1
+  T1 --> T2
+  T2 --> T3
+
+  I --> E1
+  E1 --> E2
+  E2 --> E3

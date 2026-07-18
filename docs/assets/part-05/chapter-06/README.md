@@ -4,24 +4,25 @@
 - Current deployment references:
   - Korean pages reference `-ko.mmd`.
   - English pages reference `-en.mmd`.
+  - Chinese pages reference `-zh.mmd`.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `learning-inference-parameter-bridge-en.mmd` / `learning-inference-parameter-bridge-ko.mmd`
-  - `training-vs-inference-flow-en.mmd` / `training-vs-inference-flow-ko.mmd`
-  - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd`
-  - `training-loop-regularization-flow-en.mmd` / `training-loop-regularization-flow-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all files keep the same conceptual flow and node relationships.
+- Current language sets:
+  - `learning-inference-parameter-bridge-en.mmd` / `learning-inference-parameter-bridge-ko.mmd` / `learning-inference-parameter-bridge-zh.mmd`
+  - `training-vs-inference-flow-en.mmd` / `training-vs-inference-flow-ko.mmd` / `training-vs-inference-flow-zh.mmd`
+  - `training-eval-mode-flow-en.mmd` / `training-eval-mode-flow-ko.mmd` / `training-eval-mode-flow-zh.mmd`
+  - `training-loop-regularization-flow-en.mmd` / `training-loop-regularization-flow-ko.mmd` / `training-loop-regularization-flow-zh.mmd`
 - PNG chart assets:
-  - `learning-weight-update-trace-en.png` / `learning-weight-update-trace-ko.png`
-  - `inference-fixed-weight-trace-en.png` / `inference-fixed-weight-trace-ko.png`
-  - `hidden-activation-from-sessions-en.png` / `hidden-activation-from-sessions-ko.png`
-  - `mode-centered-output-comparison-en.png` / `mode-centered-output-comparison-ko.png`
-  - `dropout-mode-output-trace-en.png` / `dropout-mode-output-trace-ko.png`
-  - `batchnorm-mode-reference-trace-en.png` / `batchnorm-mode-reference-trace-ko.png`
-  - `training-loop-predictions-en.png` / `training-loop-predictions-ko.png`
-  - `training-loop-batch-loss-en.png` / `training-loop-batch-loss-ko.png`
-  - `training-loop-batch-gradient-en.png` / `training-loop-batch-gradient-ko.png`
-  - `training-loop-risk-weight-update-en.png` / `training-loop-risk-weight-update-ko.png`
+  - `learning-weight-update-trace-en.png` / `learning-weight-update-trace-ko.png` / `learning-weight-update-trace-zh.png`
+  - `inference-fixed-weight-trace-en.png` / `inference-fixed-weight-trace-ko.png` / `inference-fixed-weight-trace-zh.png`
+  - `hidden-activation-from-sessions-en.png` / `hidden-activation-from-sessions-ko.png` / `hidden-activation-from-sessions-zh.png`
+  - `mode-centered-output-comparison-en.png` / `mode-centered-output-comparison-ko.png` / `mode-centered-output-comparison-zh.png`
+  - `dropout-mode-output-trace-en.png` / `dropout-mode-output-trace-ko.png` / `dropout-mode-output-trace-zh.png`
+  - `batchnorm-mode-reference-trace-en.png` / `batchnorm-mode-reference-trace-ko.png` / `batchnorm-mode-reference-trace-zh.png`
+  - `training-loop-predictions-en.png` / `training-loop-predictions-ko.png` / `training-loop-predictions-zh.png`
+  - `training-loop-batch-loss-en.png` / `training-loop-batch-loss-ko.png` / `training-loop-batch-loss-zh.png`
+  - `training-loop-batch-gradient-en.png` / `training-loop-batch-gradient-ko.png` / `training-loop-batch-gradient-zh.png`
+  - `training-loop-risk-weight-update-en.png` / `training-loop-risk-weight-update-ko.png` / `training-loop-risk-weight-update-zh.png`
 - Python chart source:
   - `p5_6_1_training_loop_charts.py`
   - `p5_6_2_learning_inference_charts.py`: generates P5-6.2 learning/inference charts for multi-parameter update and fixed-parameter inference traces.

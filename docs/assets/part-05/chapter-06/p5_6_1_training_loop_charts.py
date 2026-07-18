@@ -71,6 +71,27 @@ LANG_TEXT = {
         "start": "start",
         "after_batch": "after batch",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "prediction_outfile": "training-loop-predictions-zh.png",
+        "loss_outfile": "training-loop-batch-loss-zh.png",
+        "gradient_outfile": "training-loop-batch-gradient-zh.png",
+        "weight_outfile": "training-loop-risk-weight-update-zh.png",
+        "batch": "batch",
+        "sample": "样本",
+        "prediction": "预测阻断分数",
+        "target": "目标阻断分数",
+        "loss": "平均 loss",
+        "gradient": "平均 gradient",
+        "risk_weight": "risk_weight",
+        "start": "起点",
+        "after_batch": "batch 后",
+    },
 }
 
 

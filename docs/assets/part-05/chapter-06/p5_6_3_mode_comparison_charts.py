@@ -85,6 +85,29 @@ LANG_TEXT = {
         "train": "training mode",
         "eval": "evaluation mode",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK KR",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "hidden_outfile": "hidden-activation-from-sessions-zh.png",
+        "centered_outfile": "mode-centered-output-comparison-zh.png",
+        "dropout_outfile": "dropout-mode-output-trace-zh.png",
+        "batchnorm_outfile": "batchnorm-mode-reference-trace-zh.png",
+        "session_label": "会话样本",
+        "hidden_ylabel": "隐藏层激活值",
+        "centered_ylabel": "减去参考均值后的输出",
+        "x_label": "forward pass",
+        "dropout_ylabel": "dropout 保留比例",
+        "reference_ylabel": "normalization 参考均值",
+        "hidden": "隐藏层",
+        "train_run_1": "train 1",
+        "train_run_2": "train 2",
+        "train": "训练模式",
+        "eval": "评估模式",
+    },
 }
 
 
