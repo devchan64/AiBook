@@ -1,0 +1,16 @@
+flowchart TD
+  A["相同判断句"]
+
+  subgraph S["single-head"]
+    B["决定、依据、条件被压进一个上下文"]
+  end
+
+  subgraph M["multi-head"]
+    C["head 1：决定-依据关系"]
+    D["head 2：决定-条件关系"]
+  end
+
+  A --> B
+  A --> C
+  A --> D
+

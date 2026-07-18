@@ -1,0 +1,16 @@
+flowchart TD
+  A["相同输入 token"]
+  B["head 1<br/>一种关系模式"]
+  C["head 2<br/>另一种关系模式"]
+  D["head 3<br/>不同的关系模式"]
+  E["合并各个 head"]
+  F["更丰富的 token 表示"]
+
+  A --> B
+  A --> C
+  A --> D
+  B --> E
+  C --> E
+  D --> E
+  E --> F
+

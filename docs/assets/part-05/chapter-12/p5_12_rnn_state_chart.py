@@ -58,6 +58,33 @@ LANG_TEXT = {
         "ylabel": "value",
         "threshold": "threshold 63",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "rnn-sequence-state-contrast-zh.svg",
+        "gradual_outfile": "rnn-gradual-rise-state-zh.svg",
+        "spike_outfile": "rnn-temporary-spike-state-zh.svg",
+        "title": "即使最终值相同，序列状态也可能不同",
+        "desc": "比较图显示 gradual rise 与 temporary spike 虽然都以最终值 80 结束，但最近趋势和累积状态不同，因此基于状态的警报判定也可能不同。",
+        "gradual_title": "gradual rise 序列状态",
+        "gradual_desc": "该图显示：以 80 结束的 gradual rise 序列，会把持续上升的流向保留进累积状态里。",
+        "spike_title": "temporary spike 序列状态",
+        "spike_desc": "该图显示：以 80 结束的 temporary spike 序列，因为中间先急升后回落，所以留下了与 gradual rise 不同的累积状态。",
+        "left": "gradual_rise",
+        "right": "temporary_spike",
+        "input": "输入值",
+        "state": "累积状态",
+        "xlabel": "step",
+        "ylabel": "数值",
+        "threshold": "阈值 63",
+    },
 }
 
 LEFT_SEQ = np.array([60, 65, 72, 80])

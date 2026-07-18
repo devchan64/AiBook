@@ -73,6 +73,26 @@ TEXT = {
         "separation_outfile": "qkv-head-separation-en.png",
         "context_outfile": "qkv-head-context-space-en.png",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "scenario_labels": ["平衡", "决定/条件分离", "条件偏重"],
+        "separation_ylabel": "head_separation",
+        "x_label": "决定轴",
+        "y_label": "依据/条件轴",
+        "single": "single head",
+        "head1": "head 1",
+        "head2": "head 2",
+        "separation_outfile": "qkv-head-separation-zh.png",
+        "context_outfile": "qkv-head-context-space-zh.png",
+    },
 }
 
 
@@ -170,7 +190,7 @@ def draw_context_chart(locale: str, data: dict[str, dict[str, np.ndarray | float
 
 def main() -> None:
     data = contexts()
-    for locale in ["en", "ko"]:
+    for locale in ["en", "ko", "zh"]:
         draw_separation_chart(locale, data)
         draw_context_chart(locale, data)
 

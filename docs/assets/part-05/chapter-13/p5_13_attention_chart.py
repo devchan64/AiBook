@@ -80,6 +80,31 @@ LANG_TEXT = {
         "ylabel": "attention weight",
         "tokens": ["battery", "remove", "cap", "cover", "it"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "self-attention-weights-zh.svg",
+        "it_outfile": "self-attention-weight-it-zh.svg",
+        "cover_outfile": "self-attention-weight-cover-zh.svg",
+        "title": "按当前 token 区分的 self-attention 权重",
+        "desc": "两栏柱状图比较当前 token 为“它”和“套上”时，token 级 attention 分布会怎样变化，用来展示同一句子也会因为当前 token 不同而被重新阅读。",
+        "it_title": "当前 token“它”的 self-attention 权重",
+        "it_desc": "展示当前 token 为“它”时，句子里哪些 token 会被更强地重新参考的柱状图。",
+        "cover_title": "当前 token“套上”的 self-attention 权重",
+        "cover_desc": "展示当前 token 为“套上”时，句子里哪些 token 会被更强地重新参考的柱状图。",
+        "panel_left": "当前 token：它",
+        "panel_right": "当前 token：套上",
+        "xlabel": "重新参考的 token",
+        "ylabel": "attention 权重",
+        "tokens": ["电池包", "拆下", "绝缘帽", "套上", "它"],
+    },
 }
 
 

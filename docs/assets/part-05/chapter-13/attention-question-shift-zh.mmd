@@ -1,0 +1,13 @@
+flowchart TD
+  A["相同输入：restart was delayed. pressure was unstable."]
+
+  subgraph Q1["问题 1：为什么被延后？"]
+    B["更高权重放在 pressure 和 unstable"]
+  end
+
+  subgraph Q2["问题 2：什么被延后了？"]
+    C["更高权重放在 restart 和 delayed"]
+  end
+
+  A --> B
+  A --> C

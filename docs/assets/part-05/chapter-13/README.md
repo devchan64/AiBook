@@ -2,29 +2,30 @@
 
 - Public manuscript pages should include their own language asset files through `pymdownx.snippets`.
 - Current deployment uses the Korean pages with `-ko.mmd` assets and the English pages with `-en.mmd` assets.
+- Chinese manuscript pages should reference matching `-zh` Mermaid/SVG/PNG assets directly.
 - The matching `-en.mmd` files remain in this directory as the canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all files keep the same conceptual flow and node relationships.
 - Current language pairs:
-  - `attention-direct-reference-bridge-en.mmd` / `attention-direct-reference-bridge-ko.mmd`
-  - `attention-focus-flow-en.mmd` / `attention-focus-flow-ko.mmd`
-  - `attention-question-shift-en.mmd` / `attention-question-shift-ko.mmd`
-  - `attention-to-self-attention-bridge-en.mmd` / `attention-to-self-attention-bridge-ko.mmd`
-  - `self-attention-target-shift-en.mmd` / `self-attention-target-shift-ko.mmd`
-  - `self-attention-token-graph-en.mmd` / `self-attention-token-graph-ko.mmd`
-  - `single-vs-multihead-baseline-en.mmd` / `single-vs-multihead-baseline-ko.mmd`
-  - `multihead-decision-condition-case-flow-en.mmd` / `multihead-decision-condition-case-flow-ko.mmd`
-  - `qkv-flow-en.mmd` / `qkv-flow-ko.mmd`
-  - `multihead-flow-en.mmd` / `multihead-flow-ko.mmd`
+  - `attention-direct-reference-bridge-en.mmd` / `attention-direct-reference-bridge-ko.mmd` / `attention-direct-reference-bridge-zh.mmd`
+  - `attention-focus-flow-en.mmd` / `attention-focus-flow-ko.mmd` / `attention-focus-flow-zh.mmd`
+  - `attention-question-shift-en.mmd` / `attention-question-shift-ko.mmd` / `attention-question-shift-zh.mmd`
+  - `attention-to-self-attention-bridge-en.mmd` / `attention-to-self-attention-bridge-ko.mmd` / `attention-to-self-attention-bridge-zh.mmd`
+  - `self-attention-target-shift-en.mmd` / `self-attention-target-shift-ko.mmd` / `self-attention-target-shift-zh.mmd`
+  - `self-attention-token-graph-en.mmd` / `self-attention-token-graph-ko.mmd` / `self-attention-token-graph-zh.mmd`
+  - `single-vs-multihead-baseline-en.mmd` / `single-vs-multihead-baseline-ko.mmd` / `single-vs-multihead-baseline-zh.mmd`
+  - `multihead-decision-condition-case-flow-en.mmd` / `multihead-decision-condition-case-flow-ko.mmd` / `multihead-decision-condition-case-flow-zh.mmd`
+  - `qkv-flow-en.mmd` / `qkv-flow-ko.mmd` / `qkv-flow-zh.mmd`
+  - `multihead-flow-en.mmd` / `multihead-flow-ko.mmd` / `multihead-flow-zh.mmd`
 - SVG chart assets:
-  - `self-attention-weights-en.svg` / `self-attention-weights-ko.svg`
-  - `self-attention-weight-it-en.svg` / `self-attention-weight-it-ko.svg`
-  - `self-attention-weight-cover-en.svg` / `self-attention-weight-cover-ko.svg`
+  - `self-attention-weights-en.svg` / `self-attention-weights-ko.svg` / `self-attention-weights-zh.svg`
+  - `self-attention-weight-it-en.svg` / `self-attention-weight-it-ko.svg` / `self-attention-weight-it-zh.svg`
+  - `self-attention-weight-cover-en.svg` / `self-attention-weight-cover-ko.svg` / `self-attention-weight-cover-zh.svg`
 - PNG chart assets:
-  - `attention-pressure-question-weights-en.png` / `attention-pressure-question-weights-ko.png`
-  - `attention-flow-question-weights-en.png` / `attention-flow-question-weights-ko.png`
-  - `attention-context-comparison-en.png` / `attention-context-comparison-ko.png`
-  - `qkv-head-separation-en.png` / `qkv-head-separation-ko.png`
-  - `qkv-head-context-space-en.png` / `qkv-head-context-space-ko.png`
+  - `attention-pressure-question-weights-en.png` / `attention-pressure-question-weights-ko.png` / `attention-pressure-question-weights-zh.png`
+  - `attention-flow-question-weights-en.png` / `attention-flow-question-weights-ko.png` / `attention-flow-question-weights-zh.png`
+  - `attention-context-comparison-en.png` / `attention-context-comparison-ko.png` / `attention-context-comparison-zh.png`
+  - `qkv-head-separation-en.png` / `qkv-head-separation-ko.png` / `qkv-head-separation-zh.png`
+  - `qkv-head-context-space-en.png` / `qkv-head-context-space-ko.png` / `qkv-head-context-space-zh.png`
 - Python chart source:
   - `p5_13_1_attention_context_charts.py`
   - `p5_13_attention_chart.py`

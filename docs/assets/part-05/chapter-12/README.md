@@ -2,19 +2,20 @@
 
 - Public manuscript pages should include their own language asset files through `pymdownx.snippets`.
 - Current deployment uses the Korean pages with `-ko.mmd` assets and the English pages with `-en.mmd` assets.
+- Chinese manuscript pages should reference matching `-zh` Mermaid/SVG/PNG assets directly.
 - The matching `-en.mmd` files remain in this directory as the canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all files keep the same conceptual flow and node relationships.
 - Current language pairs:
-  - `rnn-state-flow-en.mmd` / `rnn-state-flow-ko.mmd`
-  - `long-term-dependency-flow-en.mmd` / `long-term-dependency-flow-ko.mmd`
+  - `rnn-state-flow-en.mmd` / `rnn-state-flow-ko.mmd` / `rnn-state-flow-zh.mmd`
+  - `long-term-dependency-flow-en.mmd` / `long-term-dependency-flow-ko.mmd` / `long-term-dependency-flow-zh.mmd`
   - `state-vs-direct-reference-flow-en.mmd` / `state-vs-direct-reference-flow-ko.mmd`
 - SVG chart assets:
-  - `rnn-sequence-state-contrast-en.svg` / `rnn-sequence-state-contrast-ko.svg`
-  - `rnn-gradual-rise-state-en.svg` / `rnn-gradual-rise-state-ko.svg`
-  - `rnn-temporary-spike-state-en.svg` / `rnn-temporary-spike-state-ko.svg`
+  - `rnn-sequence-state-contrast-en.svg` / `rnn-sequence-state-contrast-ko.svg` / `rnn-sequence-state-contrast-zh.svg`
+  - `rnn-gradual-rise-state-en.svg` / `rnn-gradual-rise-state-ko.svg` / `rnn-gradual-rise-state-zh.svg`
+  - `rnn-temporary-spike-state-en.svg` / `rnn-temporary-spike-state-ko.svg` / `rnn-temporary-spike-state-zh.svg`
 - PNG chart assets:
-  - `long-dependency-state-support-en.png` / `long-dependency-state-support-ko.png`
-  - `long-dependency-decision-comparison-en.png` / `long-dependency-decision-comparison-ko.png`
+  - `long-dependency-state-support-en.png` / `long-dependency-state-support-ko.png` / `long-dependency-state-support-zh.png`
+  - `long-dependency-decision-comparison-en.png` / `long-dependency-decision-comparison-ko.png` / `long-dependency-decision-comparison-zh.png`
 - Python chart source:
   - `p5_12_rnn_state_chart.py`
   - `p5_12_2_long_dependency_charts.py`

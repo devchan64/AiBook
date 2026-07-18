@@ -88,6 +88,29 @@ LANG_TEXT = {
         "flow_context": "flow question context",
         "names": ["pressure hold", "coolant flow", "high-temp exception"],
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "return_weight_outfile": "attention-pressure-question-weights-zh.png",
+        "flow_weight_outfile": "attention-flow-question-weights-zh.png",
+        "context_outfile": "attention-context-comparison-zh.png",
+        "return_question": "压力释放保持时间问题",
+        "flow_question": "冷却水流量标准问题",
+        "weight_label": "attention 权重",
+        "candidate_label": "句子候选",
+        "context_label": "上下文值",
+        "baseline": "baseline 平均",
+        "pressure_context": "压力问题 context",
+        "flow_context": "流量问题 context",
+        "names": ["压力保持时间", "冷却水流量", "高温例外"],
+    },
 }
 
 

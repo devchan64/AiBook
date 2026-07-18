@@ -107,6 +107,27 @@ LANG_TEXT = {
         "keeps": "keeps block",
         "loses": "loses block",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Source Han Sans SC",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "support_outfile": "long-dependency-state-support-zh.png",
+        "decision_outfile": "long-dependency-decision-comparison-zh.png",
+        "gap_label": "中间说明行数（gap）",
+        "support_label": "状态型核心线索最小值",
+        "direct_label": "直接匹配分数",
+        "threshold_label": "维持阻断阈值",
+        "state": "状态型",
+        "direct": "直接引用",
+        "keeps": "维持阻断",
+        "loses": "失去阻断",
+    },
 }
 
 

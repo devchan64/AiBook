@@ -1,0 +1,12 @@
+flowchart TD
+  A["当前 token 的 query"]
+  B["和所有 key 比较"]
+  C["给更匹配的位置更高权重"]
+  D["混合这些 value"]
+  E["新的 token 表示"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+
