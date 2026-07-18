@@ -540,9 +540,11 @@ nav:
           - Project 5. 문서 기반 RAG 챗봇:
               - "P7-5.1 문서 기반 RAG 챗봇 목표": parts/part-07/chapter-05/section-01.md
               - "P7-5.2 검색 품질과 답변 검증": parts/part-07/chapter-05/section-02.md
+              - "P7-5.3 질문-근거 경계 연습": parts/part-07/chapter-05/section-03.md
           - "Project 6. 도구를 사용하는 에이전트(agent)":
               - "P7-6.1 도구를 사용하는 에이전트 목표": parts/part-07/chapter-06/section-01.md
               - "P7-6.2 권한과 로그 검토": parts/part-07/chapter-06/section-02.md
+              - "P7-6.3 승인 정책 연습": parts/part-07/chapter-06/section-03.md
       - Module 4. 배포와 운영:
           - Project 7. 배포와 모니터링:
               - "P7-7.1 배포와 모니터링 목표": parts/part-07/chapter-07/section-01.md

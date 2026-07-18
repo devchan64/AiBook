@@ -776,11 +776,13 @@ Part 7 is where the data modeling, machine learning, deep learning, and LLM stru
 
 - **P7-5.1 Practicing the Retrieval, Evidence, and Answer Flow**: directly checks, as one pipeline, how retrieval candidates gather, how evidence is chosen, and how answers are produced on top of that evidence.
 - **P7-5.2 Recording Retrieval Failures and Missing Evidence**: when an answer is inaccurate, records whether it came from retrieval failure, missing evidence, or answer-construction problems instead of collapsing everything into `the LLM was wrong`, and also organizes the logging perspective needed for service-quality review.
+- **P7-5.3 Practicing the Question-Evidence Boundary**: rewrites questions on top of the same document set and directly compares how `grounded answer`, `insufficient evidence`, and `overreach risk` states diverge.
 
 #### Chapter 6. Reviewing Agent Execution Records `Project Practice`
 
 - **P7-6.1 Practicing the Flow of Plans, Tool Calls, and Approvals**: reads the execution path of what plan an agent makes, which tools it calls in what order, and where approvals and constraints appear.
 - **P7-6.2 Reviewing Permissions, Logs, and Blocked States**: reorganizes execution logs around permissions, blocked states, and next actions, and checks why execution records and failure-handling rules become as important as the result itself in an agent project.
+- **P7-6.3 Practicing Approval Policies**: redivides which steps can run automatically and which must be held on the same incident scenario, then directly rewrites the safer next action.
 
 ### Module 4. Deployment and Operational Retrospectives
 
