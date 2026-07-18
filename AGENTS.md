@@ -37,8 +37,6 @@
 - 집필 기준, 조사 자료, 근거 분석, 작성 원칙은 `management/` 아래에 둡니다.
 - `management/README.md`는 관리 문서의 역할 분담과 위치를 설명하는 인덱스로 사용합니다.
 - 릴리즈노트는 `management/release-notes/` 아래에 모아 둡니다.
-- Section ID와 Version 같은 본문 메타데이터 기준은 `management/guidelines/section-metadata-guidelines.md`에서 관리합니다.
-- Section별 릴리즈노트 파일은 `management/release-notes/sections/` 아래에 둡니다.
 - `mkdocs.yml`의 `nav`에는 배포할 책 본문만 연결하고, 관리자료는 연결하지 않습니다.
 - `.tmp/`는 외부 자료 원문 확인을 위한 임시 작업공간이며 커밋하지 않습니다.
 - `site/`는 빌드 산출물이며 명시적 지시 없이 커밋하지 않습니다.
@@ -76,7 +74,6 @@
 - 같은 규칙을 여러 문서에 반복해서 자세히 적지 않습니다.
 - 원고 표현, Python 예제, 차트·도식, 번역, 개념사전처럼 세부 판단이 필요한 항목은 `AGENTS.md`에서 다시 풀어 쓰기보다, 해당 가이드 문서 위치를 먼저 안내하는 인덱스 방식으로 운영합니다.
 - 다만 다음처럼 작업 중 빠뜨리기 쉬운 확인 포인트는 `AGENTS.md`에도 중첩해 둘 수 있습니다.
-  - Section 수정 시 릴리즈노트와 `Version`을 함께 갱신해야 한다는 점
   - Python 예제, 차트·그래프, 번역, 목차 변경처럼 전용 가이드를 먼저 봐야 하는 작업이라는 점
   - `main` 푸시가 곧 배포라는 점
 
@@ -84,7 +81,7 @@
 
 - 작업 전에는 현재 브랜치와 변경 범위를 확인합니다.
 - Section 본문 작업은 `Section ID`를 기준으로 추적합니다.
-- Section을 새로 만들거나 수정할 때는 제목 앞 인덱스, `Section ID`, `Version`, 릴리즈노트가 서로 같은 단위를 가리키는지 확인합니다.
+- Section 본문을 수정했다면 본문 메타데이터와 릴리즈노트 연결을 함께 확인합니다.
 - 원고 수정, 예제 추가, 도식 추가, 번역, 목차 변경처럼 전용 가이드가 있는 작업은 해당 가이드를 먼저 확인합니다.
 - 작업 중에는 관련 없는 기존 변경을 되돌리거나 함께 커밋하지 않습니다.
 - 작업 완료 전에는 변경 파일, 본문 구조, 링크, 메타데이터, 릴리즈노트 정합성을 확인합니다.
@@ -135,12 +132,6 @@
 - 현재 Section의 논의가 이어질 때는 그 Section의 범위 안에서만 본문을 확장합니다.
 - 다른 Section의 핵심 설명, 예시, 결론, 체크리스트를 미리 작성하지 않습니다.
 - Section 경계, 생략 회수, 새 Section 후보 판단의 세부 절차는 `management/guidelines/manuscript-writing-workflow.md`를 따릅니다.
-
-## Section 메타데이터와 릴리즈노트
-
-- Section 본문을 수정했다면 `Section ID`, `Version`, 대응 릴리즈노트 연결을 함께 확인합니다.
-- 본문 메타데이터 기준은 `management/guidelines/section-metadata-guidelines.md`를 따릅니다.
-- 릴리즈노트 파일 위치와 항목 형식은 `management/release-notes/sections/README.md`를 따릅니다.
 
 ## 용어 원칙
 
