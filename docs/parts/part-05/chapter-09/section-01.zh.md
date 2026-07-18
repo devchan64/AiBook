@@ -266,11 +266,11 @@ if batch size doubles, estimated scalar multiplies = 24
 
 先看的第一份产物，是逐条生产线的风险分数比较图。它再次确认：按样本循环和按 batch 的矩阵计算，可以得到同样分数。
 
-![逐条循环与 batch 矩阵计算的风险分数比较](../../../assets/part-05/chapter-09/gpu-batch-score-comparison-zh.png)
+![逐条循环与 batch 矩阵计算的风险分数比较](/AiBook/assets/part-05/chapter-09/gpu-batch-score-comparison-zh.png)
 
 第二份产物，是随着 batch 大小和 feature 数增长，scalar multiply count 会怎样增长的图。这里最重要的点不是某个具体数字本身，而是：一旦 batch 和 feature 同时增长，重复计算的规模会快速拉高。
 
-![batch 与 feature 增长时的 scalar multiply count 比较](../../../assets/part-05/chapter-09/gpu-scalar-multiply-scaling-zh.png)
+![batch 与 feature 增长时的 scalar multiply count 比较](/AiBook/assets/part-05/chapter-09/gpu-scalar-multiply-scaling-zh.png)
 
 | 比较 | 现在要读的核心 |
 | --- | --- |

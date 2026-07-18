@@ -43,7 +43,7 @@ Unlike the sigmoid, which keeps values only between 0 and 1, tanh expresses both
 
 Tanh is called zero-centered because when \(z=0\), the output is also 0, negative inputs remain negative outputs, and positive inputs remain positive outputs.
 
-![Tanh activation-function curve](../../../assets/part-05/chapter-03/tanh-curve-en.svg)
+![Tanh activation-function curve](/AiBook/assets/part-05/chapter-03/tanh-curve-en.svg)
 
 | Input range | Feel of the output | What the reader should read first |
 | --- | --- | --- |

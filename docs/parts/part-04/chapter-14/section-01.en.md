@@ -9,7 +9,7 @@ If P4-13.2 held onto the idea that the same data can be reread in a different fe
 
 Instead of drawing one line at once, imagine splitting cases step by step with questions. That makes the starting point of a decision tree easier to see. A decision tree does not try to explain the data all at once. It repeats yes/no questions, groups more similar cases together, and then predicts. So a decision tree is closer to `a question flow` than to `a single boundary line`.
 
-This Section explains the basic meanings of `decision tree`, `split`, `node`, and `leaf`. Later Sections continue the current line of judgment from those handles, and the basic sense of predicting by chaining questions reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `decision tree`, `split`, `node`, and `leaf`. Later Sections continue the current line of judgment from those handles, and the basic sense of predicting by chaining questions reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

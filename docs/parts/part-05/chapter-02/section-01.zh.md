@@ -290,7 +290,7 @@ step_3: loosen only output rule: input=(0.3, 1.0), output_bias=-0.5, hidden=(0, 
 
 如果把输入变化放到输入平面上看，会更直接地看出隐藏层模式到底怎么变。
 
-![隐藏层两个节点同时激活的输入区域与后续实验移动](../../../assets/part-05/chapter-02/hidden-pattern-regions-zh.png)
+![隐藏层两个节点同时激活的输入区域与后续实验移动](/AiBook/assets/part-05/chapter-02/hidden-pattern-regions-zh.png)
 
 这张图里，绿色区域表示在默认输出层偏置 `-0.9` 下，`h1` 与 `h2` 同时亮起并最终得到输出 `1` 的输入区域。`batch_2` 一开始停在 `(0, 1)` 模式，但只要提高 `x1`，它就会进入绿色区域；`batch_1` 也是一样，只要把 `x2` 提高，就会移动到同样的 `(1, 1)` 组合。相反，第三步那种只改输出层偏置的实验并不会让输入坐标移动，因此更适合在图下用文字单独解释。
 

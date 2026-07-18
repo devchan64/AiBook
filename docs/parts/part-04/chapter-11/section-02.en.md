@@ -20,7 +20,7 @@ If P4-11.1 was the Section of reading the output, P4-11.2 is the Section of look
 `A decision boundary is the criterion line or criterion surface that separates class 0 and class 1.`
 
 This Section does not repeat the basic definition of logistic regression at length.
-The core intuition, `a linear classifier that makes a score that can be read like a probability`, reconnects through P4-11.1 and the [concept glossary](../../../reference/concept-glossary.md). Here the focus stays on how that score divides the input space.
+The core intuition, `a linear classifier that makes a score that can be read like a probability`, reconnects through P4-11.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus stays on how that score divides the input space.
 
 After reading the decision boundary, the next questions remain: `why is probability transformed and read in this way`, `why do log-odds and MLE follow in the explanation of learning`, and `how does this intuition widen to multiclass settings and model comparison`. That recovery continues in the supplementary learning of P4-11.3, P4-11.4, and P4-11.5.
 

@@ -13,7 +13,7 @@ Tuning is often understood as `trying many different values`. In practice, it is
 
 That means tuning is indeed `finding better values`, but at the same time it is also `experiment design that does not break the comparison`.
 
-This Section does not repeat at length the definition of the hyperparameter itself. The basic distinction between `learned values` and `values fixed in advance` reconnects through P4-9.1 and the [concept glossary](../../../reference/concept-glossary.md), while this Section concentrates only on how those setting values should be compared and managed.
+This Section does not repeat at length the definition of the hyperparameter itself. The basic distinction between `learned values` and `values fixed in advance` reconnects through P4-9.1 and the [concept glossary](/AiBook/reference/concept-glossary/), while this Section concentrates only on how those setting values should be compared and managed.
 
 ## Scope Of This Section
 

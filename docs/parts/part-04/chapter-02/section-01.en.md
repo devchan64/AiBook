@@ -9,7 +9,7 @@ Supervised learning is a way of training a model on examples that already have a
 
 Supervised learning can be read as `a way of looking at examples that contain both an example and its answer, then trying to match the output of a new case`. But the model does not understand an explanation. It adjusts internal criteria so that the relation between input and output is matched across many examples.
 
-This Section explains the basic distinction among `supervised learning`, `input X and target y`, `classification`, and `regression`. Later Sections continue the current context using this handle, and the base meaning of label-based learning is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic distinction among `supervised learning`, `input X and target y`, `classification`, and `regression`. Later Sections continue the current context using this handle, and the base meaning of label-based learning is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

@@ -13,7 +13,7 @@ That question is exactly why the kernel must now be introduced.
 
 So the core of 13.2 is not `a new magic function`, but the perspective that `if the representation changes, even a linear boundary can take on a different meaning`.
 
-This Section does not repeat the basic definition of SVM at length. The core intuition, `finding a large-margin boundary`, reconnects through P4-13.1 and the [concept glossary](../../../reference/concept-glossary.md). Here the focus stays only on why the idea of changing the representation space is needed.
+This Section does not repeat the basic definition of SVM at length. The core intuition, `finding a large-margin boundary`, reconnects through P4-13.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus stays only on why the idea of changing the representation space is needed.
 
 ## Scope Of This Section
 

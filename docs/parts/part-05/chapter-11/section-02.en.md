@@ -9,7 +9,7 @@ What is the core operation that actually computes those local patterns, and why 
 
 Convolution is the operation that computes local-pattern scores with a small filter, and pooling is the operation that organizes those results into a smaller, more summarized form.
 
-When the operation names become mixed up again, it is useful to reread together the glossary entries on [convolution](../../../reference/concept-glossary.md#convolution) and [pooling](../../../reference/concept-glossary.md#pooling).
+When the operation names become mixed up again, it is useful to reread together the glossary entries on [convolution](/AiBook/reference/concept-glossary/#convolution) and [pooling](/AiBook/reference/concept-glossary/#pooling).
 
 ## Scope Of This Section
 
@@ -154,15 +154,15 @@ If we move the filter one step at a time and compute, the following feature map 
 
 If we divide the same transform into one step at a time, it can be read as follows.
 
-![Convolution input sealing patch](../../../assets/part-05/chapter-11/convolution-pooling-input-en.png)
+![Convolution input sealing patch](/AiBook/assets/part-05/chapter-11/convolution-pooling-input-en.png)
 
 The input patch is still closer to the small heat-distribution scene seen by a person. High values on the left and low values on the right are placed together, but at this stage `where is the boundary` has not yet been separated into a score.
 
-![Convolution feature map](../../../assets/part-05/chapter-11/convolution-pooling-feature-map-en.png)
+![Convolution feature map](/AiBook/assets/part-05/chapter-11/convolution-pooling-feature-map-en.png)
 
 After convolution, it becomes a response map showing how well each position matches the filter. Here, the value `4` repeats only at the middle position where the left-right column difference actually appears, meaning the input scene has turned into `a position map of boundary responses`.
 
-![Max-pooling summary result](../../../assets/part-05/chapter-11/convolution-pooling-max-pool-en.png)
+![Max-pooling summary result](/AiBook/assets/part-05/chapter-11/convolution-pooling-max-pool-en.png)
 
 Max pooling does not pass that whole response map onward 그대로. Instead, it keeps only the strongest response inside the small region. What changes at this stage is that rather than the detailed position, the summary signal `there was a strong sealing-boundary change in this region` is passed to the next layer.
 

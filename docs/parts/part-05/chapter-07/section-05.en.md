@@ -150,15 +150,15 @@ If we turn this into an actual order of distinction, it becomes easier. When you
 
 If we look at the graphs below together, it becomes more direct why, even with `the same gradient flow`, direct update and Adam-like update create different movement amounts and different paths.
 
-![Gradient flow entering at each step](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-en.png)
+![Gradient flow entering at each step](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-en.png)
 
 This first graph shows the gradient input itself across three steps. The key point is that the input signal gradually shrinks as `-4.0 -> -2.0 -> -1.0`. In other words, the difference between the two methods does not come from different input, but from different update rules that interpret the same input.
 
-![Step-by-step movement amount comparison between the basic direct update and the Adam-like method](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-en.png)
+![Step-by-step movement amount comparison between the basic direct update and the Adam-like method](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-en.png)
 
 In this second graph, even when receiving the same input gradient, the direct update creates a large movement amount by immediately multiplying by the learning rate, while the Adam-like method begins to create a smaller movement amount by reflecting recent flow and coordinate-wise adjustment. For a beginner, it is enough to read this graph as a device for confirming that `even when the input is the same, the step size does not have to be the same`.
 
-![Risk-weight trajectory of the basic direct update and the Adam-like method](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-en.png)
+![Risk-weight trajectory of the basic direct update and the Adam-like method](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-en.png)
 
 The third graph shows how that difference accumulates in the actual parameter path. The direct update moves more quickly as `1.4 -> 1.6 -> 1.7`, while the Adam-like method moves more gently as `1.04 -> 1.10 -> 1.16`. What the reader has to hold here is not `which one is absolutely better`, but that the optimizer rule turns the same gradient history into different parameter paths.
 

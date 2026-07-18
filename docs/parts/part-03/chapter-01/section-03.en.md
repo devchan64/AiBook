@@ -3,7 +3,7 @@
 > Section ID: `P3-1.3`
 > Version: `v2026.07.11`
 
-A good data question should first reveal `what will count as one case`, `what will be compared with what`, and `what we ultimately want to know`. Only when this question structure is in place before model names or technology names do the later sample unit, table structure, features, baselines, and output structure also settle into place together. In particular, the question that selects what a person should inspect first should visibly lead to a [review queue](../../../reference/concept-glossary.md#glossary-review-queue), while the question that defines what should later be predicted should lead to a [target candidate](../../../reference/concept-glossary.md#glossary-target-candidate). A bad question, by contrast, has a model name but leaves the sample unit and comparison reference empty.
+A good data question should first reveal `what will count as one case`, `what will be compared with what`, and `what we ultimately want to know`. Only when this question structure is in place before model names or technology names do the later sample unit, table structure, features, baselines, and output structure also settle into place together. In particular, the question that selects what a person should inspect first should visibly lead to a [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue), while the question that defines what should later be predicted should lead to a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate). A bad question, by contrast, has a model name but leaves the sample unit and comparison reference empty.
 
 | Still too early a phrasing | A better data question |
 | --- | --- |

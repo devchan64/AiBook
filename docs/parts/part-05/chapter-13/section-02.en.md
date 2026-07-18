@@ -11,7 +11,7 @@ The core answer to this question is self-attention.
 
 Self-attention is a method in which each token inside a sequence refers to other tokens in the same sequence and recalculates its current representation.
 
-When you need to briefly confirm again the core mechanism right before the Transformer, return to the glossary entry on [self-attention](../../../reference/concept-glossary.md#self-attention).
+When you need to briefly confirm again the core mechanism right before the Transformer, return to the glossary entry on [self-attention](/AiBook/reference/concept-glossary/#self-attention).
 
 ## Scope Of This Section
 
@@ -142,9 +142,9 @@ If we fix once more, very briefly, that even inside the same input sentence the 
 
 This difference becomes more direct if the attention weights are shown as bars. Even in the same memo, when the current token is `it` and when the current token is `cover`, the distributions of reread cues are not the same.
 
-![Self-attention weights of the current token `it`](../../../assets/part-05/chapter-13/self-attention-weight-it-en.svg)
+![Self-attention weights of the current token `it`](/AiBook/assets/part-05/chapter-13/self-attention-weight-it-en.svg)
 
-![Self-attention weights of the current token `cover`](../../../assets/part-05/chapter-13/self-attention-weight-cover-en.svg)
+![Self-attention weights of the current token `cover`](/AiBook/assets/part-05/chapter-13/self-attention-weight-cover-en.svg)
 
 The first points to hold from this comparison are the following.
 

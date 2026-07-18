@@ -295,11 +295,11 @@ representation_gap(line_A, line_B) = 3.09
 
 第一项结果，是人手工写出的单行风险分数。`line_A` 和 `line_B` 的分数都为 `43.00`，因此在这一视角下它们看起来像是同样风险。
 
-![表征学习示例中的 hand-crafted risk score](../../../assets/part-05/chapter-10/representation-risk-score-zh.png)
+![表征学习示例中的 hand-crafted risk score](/AiBook/assets/part-05/chapter-10/representation-risk-score-zh.png)
 
 第二项结果，是把同一输入放到两个辅助表征轴上的坐标。在单行分数里相同的 `line_A` 和 `line_B`，在表征坐标里却被拉开，因此原本被单一分数盖住的维护模式差异可以被重新读出来。
 
-![表征学习示例中的二维 representation 坐标](../../../assets/part-05/chapter-10/representation-coordinate-space-zh.png)
+![表征学习示例中的二维 representation 坐标](/AiBook/assets/part-05/chapter-10/representation-coordinate-space-zh.png)
 
 再把这两种结果并排比较一次，表征学习带来的差异会更清楚。
 

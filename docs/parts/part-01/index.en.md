@@ -5,7 +5,7 @@
 
 Part 1 is the section where we rebuild the overall landscape before studying AI again in depth. It does not begin by implementing one specific algorithm in detail. Instead, it first clarifies how later work on mathematical recovery, machine learning, deep learning, LLMs, generative AI, service architecture, and project practice fits into one connected map.
 
-Within the same Part, detailed explanation of a major concept should stay in one main section whenever possible. Later sections only reconnect what is needed for the current question. If a term becomes unstable again while reading, return to the [Concept Glossary](../../reference/concept-glossary.md), check the `Core Section` first, and then trace the `Appears In` list to see where the concept returns in later context.
+Within the same Part, detailed explanation of a major concept should stay in one main section whenever possible. Later sections only reconnect what is needed for the current question. If a term becomes unstable again while reading, return to the [Concept Glossary](/AiBook/reference/concept-glossary/), check the `Core Section` first, and then trace the `Appears In` list to see where the concept returns in later context.
 
 The central purpose of this Part is to rebuild what should come to mind when someone says “AI.” AI is not just the name of one technology. It is a broad field that includes rule-based approaches, search, probabilistic judgment, data-driven learning, deep learning, generative models, agent-style tools, and social responsibility. If that range is treated as one undifferentiated mass from the beginning, the learning flow breaks quickly.
 

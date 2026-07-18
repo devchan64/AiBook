@@ -7,7 +7,7 @@ In P5-13.1 and P5-13.2, we first fixed the intuition of attention and self-atten
 
 Then why, in the actual computation, is attention explained through query, key, and value, and why does multi-head attention get its own name?
 
-When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](../../../reference/concept-glossary.md#-query-key-value-qkv) and [multi-head attention](../../../reference/concept-glossary.md#multi-head-attention).
+When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](/AiBook/reference/concept-glossary/#-query-key-value-qkv) and [multi-head attention](/AiBook/reference/concept-glossary/#multi-head-attention).
 
 ## Scope Of This Supplementary Reading
 
@@ -306,11 +306,11 @@ head_separation = 0.25
 
 The first result to look at in this example is `head_separation` by scenario. In `decision_vs_condition_split`, the two heads truly split toward the decision side and the condition side, so the separation is the largest. In `condition_heavy_both_heads`, even though there are two heads, they both look toward the same condition side, so the degree of separation is small.
 
-![Head separation by scenario](../../../assets/part-05/chapter-13/qkv-head-separation-en.png)
+![Head separation by scenario](/AiBook/assets/part-05/chapter-13/qkv-head-separation-en.png)
 
 The second result is where the single-head context and the head 1 and head 2 contexts separate on the coordinate space. The gray point is the same single-head baseline, and the greater the distance between the blue triangle and the orange square, the more we can see that the two heads are reading different relationships.
 
-![Context positions of the single head and the two heads](../../../assets/part-05/chapter-13/qkv-head-context-space-en.png)
+![Context positions of the single head and the two heads](/AiBook/assets/part-05/chapter-13/qkv-head-context-space-en.png)
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |

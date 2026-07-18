@@ -41,11 +41,11 @@ Version: `v2026.07.14`
 
 先看曲线形状，而不是先记名字，差异会更快出现。
 
-![sigmoid 函数曲线](../../../assets/part-05/chapter-03/sigmoid-curve-zh.svg)
+![sigmoid 函数曲线](/AiBook/assets/part-05/chapter-03/sigmoid-curve-zh.svg)
 
-![tanh 函数曲线](../../../assets/part-05/chapter-03/tanh-curve-zh.svg)
+![tanh 函数曲线](/AiBook/assets/part-05/chapter-03/tanh-curve-zh.svg)
 
-![ReLU 函数曲线](../../../assets/part-05/chapter-03/relu-curve-zh.svg)
+![ReLU 函数曲线](/AiBook/assets/part-05/chapter-03/relu-curve-zh.svg)
 
 把这三张图放在一起看时，会发现 sigmoid 与 tanh 都会在两端饱和。也就是说，输入继续变大或变小，输出却会在 1 或 -1 附近越来越不明显地变化。相反，ReLU 会把负值切成 0，但在正值区间仍然沿直线继续增大。
 

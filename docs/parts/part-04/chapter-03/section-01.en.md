@@ -9,7 +9,7 @@ The word that appears here is `heuristic`. A heuristic is not a rule that guaran
 
 A heuristic is easy to misunderstand as `just taking a rough guess`. But in machine learning practice, a heuristic is not random guessing. It is a way to reduce candidates by using experience, problem structure, computational cost, and validation results.
 
-This Section explains the meaning of `heuristic`, `judging by reducing candidates instead of exhaustive search`, and `a verifiable working hypothesis`. Later Sections continue the current context through this handle, and the basic meaning of reading practical judgment as a structure of hypothesis and verification is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the meaning of `heuristic`, `judging by reducing candidates instead of exhaustive search`, and `a verifiable working hypothesis`. Later Sections continue the current context through this handle, and the basic meaning of reading practical judgment as a structure of hypothesis and verification is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

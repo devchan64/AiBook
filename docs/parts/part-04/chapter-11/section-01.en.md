@@ -15,7 +15,7 @@ The name often causes confusion. If it is called `regression`, why is it used fo
 
 In other words, logistic regression is not `linear regression used directly for classification`. It is `a model that changes the output of a linear calculation so it can be interpreted like a classification probability`.
 
-This Section explains the basic meanings of `logistic regression`, `sigmoid`, `predict_proba`, and `threshold`. The next Section continues the judgment of the current context from that handle, and the basic sense of reading a linear calculation as a classification probability reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `logistic regression`, `sigmoid`, `predict_proba`, and `threshold`. The next Section continues the judgment of the current context from that handle, and the basic sense of reading a linear calculation as a classification probability reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

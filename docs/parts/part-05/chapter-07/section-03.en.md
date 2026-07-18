@@ -9,7 +9,7 @@ Adaptive update appears exactly at this point. If the basic direct update is `a 
 
 In this section, we use Adam (Adaptive Moment Estimation) as a representative example to read that intuition. The center is not the name Adam itself, but `why do recent flow and coordinate-wise adjustment enter the update rule?`
 
-If the difference between basic updates and adaptive updates starts to blur together again, return together to the [gradient descent](../../../reference/concept-glossary.md#gradient-descent) and [optimizer](../../../reference/concept-glossary.md#optimizer) entries in the concept glossary.
+If the difference between basic updates and adaptive updates starts to blur together again, return together to the [gradient descent](/AiBook/reference/concept-glossary/#gradient-descent) and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
 
 ## Scope Of This Section
 
@@ -199,15 +199,15 @@ Adam-like updates (simplified intuition)
 
 If we separate even the same output into `input gradient -> step-by-step update -> accumulated risk_weight`, it becomes clearer what the Adam-like method is trying to compensate further.
 
-![Gradient input flow used to compare the simple direct update and the Adam-like update](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-en.png)
+![Gradient input flow used to compare the simple direct update and the Adam-like update](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-en.png)
 
 The input of the first stage is the gradient flow before the optimizer changes anything. Here, as steps pass, the magnitude of `gradient_risk_weight` becomes smaller, and both the simple direct update and the Adam-like method receive the same input.
 
-![Step-by-step delta comparison between the simple direct update and the Adam-like method](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-en.png)
+![Step-by-step delta comparison between the simple direct update and the Adam-like method](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-en.png)
 
 The difference appears at the delta stage. The simple direct update moves greatly in the first step because it immediately multiplies the current gradient by the learning rate, while the Adam-like method converts the same input into a smaller movement amount because it passes through the moving average.
 
-![Risk-weight trajectory of the simple direct update and the Adam-like method](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-en.png)
+![Risk-weight trajectory of the simple direct update and the Adam-like method](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-en.png)
 
 If we look at the final risk-weight path, this difference accumulates. The simple direct update quickly moves to 1.7, while the Adam-like method accumulates recent flow and moves more slowly to 1.156. What changes at this stage is not `they received the same gradient`, but that the optimizer rule creates a different actual parameter path.
 

@@ -11,7 +11,7 @@ The representative answer to this question is dropout. In other words, this sect
 
 Dropout is a regularization technique that randomly turns off some node outputs or connections during training so that the model does not depend too heavily on particular paths.
 
-When you need to check again the intuition that dropout is an example of regularization that shakes the structure, reread the glossary entry on [dropout](../../../reference/concept-glossary.md#dropout).
+When you need to check again the intuition that dropout is an example of regularization that shakes the structure, reread the glossary entry on [dropout](/AiBook/reference/concept-glossary/#dropout).
 
 ## Scope Of This Section
 
@@ -224,11 +224,11 @@ eval_sum = 4.4
 
 The first artifact to look at in this example is the activation value of each node. Only the fourth node, where `train_mask` is `0`, is turned off in training mode, while evaluation mode keeps the original activation.
 
-![Node-wise activation values before and after dropout](../../../assets/part-05/chapter-08/dropout-activation-values-en.png)
+![Node-wise activation values before and after dropout](/AiBook/assets/part-05/chapter-08/dropout-activation-values-en.png)
 
 The second artifact is the sum of activations in this toy example. Here the sum decreases from `4.4 -> 3.3` in training mode because some paths are missing, but it is safer to read this number not as a general law of dropout, but as an auxiliary observation showing `which path was missing in the current step`.
 
-![Total activation value before and after dropout](../../../assets/part-05/chapter-08/dropout-sum-comparison-en.png)
+![Total activation value before and after dropout](/AiBook/assets/part-05/chapter-08/dropout-sum-comparison-en.png)
 
 | Comparison | The key to read now |
 | --- | --- |

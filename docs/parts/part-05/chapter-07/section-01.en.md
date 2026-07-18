@@ -11,7 +11,7 @@ The component that takes on that role is the optimizer.
 
 An optimizer is the rule that receives the gradient computed by backpropagation and actually updates parameters in the direction that reduces the loss. In other words, it takes the computed result `if we change it this way, the loss may decrease` and passes it into the actual adjustment `so in this step, let us change the weights like this`.
 
-If the roles of loss, gradient, and update start to blur together again, go back to the [optimizer](../../../reference/concept-glossary.md#optimizer) entry in the concept glossary and separate the roles again from there.
+If the roles of loss, gradient, and update start to blur together again, go back to the [optimizer](/AiBook/reference/concept-glossary/#optimizer) entry in the concept glossary and separate the roles again from there.
 
 If we describe one learning step very roughly, the model first makes a prediction, then computes how wrong that prediction is, then computes which weights that wrongness is connected to, and finally changes the actual weight values. The optimizer is what takes charge of that last stage.
 
@@ -229,15 +229,15 @@ Then `optimizer_delta` appears for the first time. This value is the actual move
 
 So in this output, it is important to develop the habit of reading `loss_before`, `gradient_risk_weight`, `optimizer_delta`, and `risk_weight_after` as one connected line. What this order shows is `computing wrongness -> computing the direction signal -> generating the actual movement amount -> reflecting it in the parameter`.
 
-![Risk weight before and after applying the update](../../../assets/part-05/chapter-07/optimizer-step-before-after-weight-en.png)
+![Risk weight before and after applying the update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-weight-en.png)
 
 This chart shows that the value starting from `risk_weight_before = 1.0` actually changed to `risk_weight_after = 2.6` after reflecting the movement amount made by the optimizer. The important point here is not only the fact that `the gradient was computed`, but that the computed result continued into a change in the weight number.
 
-![Block score before and after applying the update](../../../assets/part-05/chapter-07/optimizer-step-before-after-score-en.png)
+![Block score before and after applying the update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-score-en.png)
 
 This chart shows that the same update immediately affects the prediction value too. Before the update, the block score is `2.0`, but after the update it changes to `5.2`, which is closer to the target `6.0`. In other words, the optimizer does not merely change the internal weights. It changes the very starting point from which the next prediction will be made.
 
-![Loss before and after applying the update](../../../assets/part-05/chapter-07/optimizer-step-before-after-loss-en.png)
+![Loss before and after applying the update](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-loss-en.png)
 
 In the last chart, we can confirm that as a result, the loss also decreases from `16.0` to `0.64`. If we reread this order with our eyes, it becomes clearer that there is definitely a middle stage between `gradient computation` and `loss reduction`: `applying the actual update made by the optimizer`.
 

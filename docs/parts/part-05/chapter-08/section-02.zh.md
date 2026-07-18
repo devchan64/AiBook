@@ -224,11 +224,11 @@ eval_sum = 4.4
 
 这个例子里，首先要看的产物是各节点的 activation value。`train_mask` 为 `0` 的第四个节点，只在 training mode 里被关掉，而 evaluation mode 会保留原始 activation。
 
-![dropout 前后各节点的 activation value](../../../assets/part-05/chapter-08/dropout-activation-values-zh.png)
+![dropout 前后各节点的 activation value](/AiBook/assets/part-05/chapter-08/dropout-activation-values-zh.png)
 
 第二个产物，是这个玩具实验里的 activation 总和。在这里，因为 training mode 中有部分路径缺席，总和从 `4.4 -> 3.3` 下降了。但更安全的读法不是把这个数字当成 dropout 的一般规律，而是把它看成一个辅助观察值，用来说明`当前这个 step 究竟缺了哪条路径`。
 
-![dropout 前后的 activation 总和](../../../assets/part-05/chapter-08/dropout-sum-comparison-zh.png)
+![dropout 前后的 activation 总和](/AiBook/assets/part-05/chapter-08/dropout-sum-comparison-zh.png)
 
 | 比较 | 现在要读的核心 |
 | --- | --- |

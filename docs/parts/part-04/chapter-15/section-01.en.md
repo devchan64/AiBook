@@ -13,7 +13,7 @@ Random forest is a model that gathers predictions from many decision trees train
 
 In other words, random forest is not `a model that throws trees away`, but `a model that gathers many trees and reduces their weaknesses`.
 
-This Section explains the basic meanings of `random forest`, `ensemble`, `bootstrap`, and `random feature selection`. The later Sections continue the judgment handles built here, and the basic sense of reducing instability through agreement among many trees reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `random forest`, `ensemble`, `bootstrap`, and `random feature selection`. The later Sections continue the judgment handles built here, and the basic sense of reducing instability through agreement among many trees reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

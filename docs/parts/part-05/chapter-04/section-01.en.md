@@ -13,7 +13,7 @@ A loss function is the rule that turns how far the model's current output differ
 
 However, textbooks and framework documents sometimes separate `loss` from `objective` or `cost` a little more carefully. Often, `loss` refers to the per-sample discrepancy or its average, while the full target that is actually minimized is explained as an `objective/cost` that includes the batch average together with regularization. In this section, for beginner flow, everything is first explained under the single name `loss`, but when gradients and the optimizer are connected in later sections, we return to the question `what is actually being minimized?`
 
-When the role of loss needs to be checked again briefly in later sections, return to the [loss function](../../../reference/concept-glossary.md#loss-function) entry in the concept glossary.
+When the role of loss needs to be checked again briefly in later sections, return to the [loss function](/AiBook/reference/concept-glossary/#loss-function) entry in the concept glossary.
 
 Here it is enough to fix the following three sentences first.
 
@@ -185,9 +185,9 @@ Even without deriving cross-entropy in detail, the example `the lower the probab
 
 If these two cases are turned back into graph shapes, regression loss grows as it moves farther away from the target value, while classification loss grows as the probability assigned to the correct class becomes smaller.
 
-![Shape of squared-error loss](../../../assets/part-05/chapter-04/squared-error-loss-en.svg)
+![Shape of squared-error loss](/AiBook/assets/part-05/chapter-04/squared-error-loss-en.svg)
 
-![Shape of cross-entropy loss](../../../assets/part-05/chapter-04/cross-entropy-loss-en.svg)
+![Shape of cross-entropy loss](/AiBook/assets/part-05/chapter-04/cross-entropy-loss-en.svg)
 
 The purpose of these two graphs is not to memorize the formulas. It is to see `along which axis does the loss grow larger?` In regression, the key axis is the distance from the target value. In classification, it is the probability assigned to the correct class.
 
@@ -393,7 +393,7 @@ worst_sample=restart_delay_batch (0.640)
 
 The value to manipulate here is the last number in `replace_prediction(...)`. If `restart_delay_batch` is corrected, the average loss falls a lot and the worst case also changes, but if only `night_shift_batch` is corrected, the average falls a little while the largest weakness remains unchanged. So this code confirms that loss is not merely an average value, but a signal that reveals `what should be corrected more strongly first`.
 
-![Mean loss and worst case by batch-correction candidate](../../../assets/part-05/chapter-04/loss-example-batch-priority-en.svg)
+![Mean loss and worst case by batch-correction candidate](/AiBook/assets/part-05/chapter-04/loss-example-batch-priority-en.svg)
 
 In the graph, when `restart_delay_batch` is corrected, both the average loss and the worst loss fall together. By contrast, when only `night_shift_batch` is corrected, the average loss falls but the red bar, that is, the largest loss, remains unchanged. So the core point reinforced by this graph is that `did the average decrease?` and `did the largest weakness decrease?` must be read separately.
 

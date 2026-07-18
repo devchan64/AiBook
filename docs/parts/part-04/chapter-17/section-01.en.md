@@ -13,7 +13,7 @@ Clustering is an unsupervised learning problem that tries to find what groups of
 
 In other words, clustering is closer to `discovering structure` than to `solving a problem by getting the answer right`.
 
-This Section explains `clustering`, `cluster`, and `the difference between answer labels and clusters`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains `clustering`, `cluster`, and `the difference between answer labels and clusters`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reading grouping proposals as structure exploration is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

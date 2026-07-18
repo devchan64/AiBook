@@ -319,19 +319,19 @@ centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
 
 先把例子本身重新用图来读。第一张图只展示：`sessions` 的点击数和停留时间怎样被变成隐藏层激活值。这里看到的还不是 mode 差异，而只是输入数据被映射成模型内部中间表示的那一步。
 
-![会话输入对应的隐藏层激活值图](../../../assets/part-05/chapter-06/hidden-activation-from-sessions-zh.png)
+![会话输入对应的隐藏层激活值图](/AiBook/assets/part-05/chapter-06/hidden-activation-from-sessions-zh.png)
 
 第二张图展示的是：同样的隐藏层激活，到了最后一层输出解释时，会因为 mode 不同而怎样变化。`train 1` 和 `train 2` 表示两次具有不同 dropout mask 的训练模式执行，`eval` 则表示关闭 dropout、并用 running mean 作为参考的评估执行。值大于 0 表示输出高于该参考均值，值小于 0 则表示输出低于该参考均值。
 
-![两次 training mode 与一次 evaluation mode 的中心化输出比较图](../../../assets/part-05/chapter-06/mode-centered-output-comparison-zh.png)
+![两次 training mode 与一次 evaluation mode 的中心化输出比较图](/AiBook/assets/part-05/chapter-06/mode-centered-output-comparison-zh.png)
 
 前两张图是例子代码本身的直接说明，下面两张图则是把同一种现象拉长到多次执行以后做的摘要。若只是把 `train_run_1` 和 `train_run_2` 两条样本线画出来，很容易看起来像是在硬比较人为挑的两个 mask；因此，这里把同样的计算规则应用到更长一点的小 batch 上，并把 30 次 forward pass 里 dropout 后保留下来的比例做成摘要。training mode 下，这个保留比例会跟着 pass 摇摆；evaluation mode 则因为关闭了 dropout，保留比例固定在 1.0 这条基准线上。
 
-![training mode 下 dropout 保留比例会摇摆，而 evaluation mode 固定在 1.0 的图](../../../assets/part-05/chapter-06/dropout-mode-output-trace-zh.png)
+![training mode 下 dropout 保留比例会摇摆，而 evaluation mode 固定在 1.0 的图](/AiBook/assets/part-05/chapter-06/dropout-mode-output-trace-zh.png)
 
 normalization 的参考均值也要用同样方式来读。training mode 下，每一次 forward pass 都会用 dropout 之后当前 batch 的数值重新算一个平均值，因此参考均值会波动；evaluation mode 下，基准线则来自学习期间累计好的 running mean，而不是来自这一次 pass 的偶然 mask。
 
-![training mode 的 batch mean 会摇摆，而 evaluation mode 的 running mean 保持成基准线的图](../../../assets/part-05/chapter-06/batchnorm-mode-reference-trace-zh.png)
+![training mode 的 batch mean 会摇摆，而 evaluation mode 的 running mean 保持成基准线的图](/AiBook/assets/part-05/chapter-06/batchnorm-mode-reference-trace-zh.png)
 
 这里再次要强调的是：只看到`输出不同`，和真正读懂`mode 改变了什么计算规则`并不是同一回事。
 

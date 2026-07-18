@@ -80,7 +80,7 @@ Here we focus on the following questions.
 
 The code in this section can run in any Python environment where NumPy is installed.
 
-First check the execution environment according to P2-3.5 [First Separate the Runtime Environment](section-05.md#_2). If Python is not installed yet, you can run the examples in a Google Colab code cell. If you use a local PC, you can run them from your own terminal.
+First check the execution environment according to P2-3.5 [First Separate the Runtime Environment](section-05.md#first-separate-the-runtime-environment). If Python is not installed yet, you can run the examples in a Google Colab code cell. If you use a local PC, you can run them from your own terminal.
 
 In a Colab code cell, NumPy can be prepared like this.
 

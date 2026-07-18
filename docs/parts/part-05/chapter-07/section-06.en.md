@@ -59,7 +59,7 @@ The core shown by this table is simple. A fixed learning rate reads every step w
 
 The difference becomes more direct if we look at it through a graph.
 
-![Difference in stride between a fixed learning rate and warmup plus decay](../../../assets/part-05/chapter-07/learning-rate-step-size-en.svg)
+![Difference in stride between a fixed learning rate and warmup plus decay](/AiBook/assets/part-05/chapter-07/learning-rate-step-size-en.svg)
 
 Even on the same loss curve, if the stride is too small, it barely moves; if it is appropriate, it goes toward lower loss; if it is too large, it can overshoot. A scheduler is the device that widens this stride question into `how should we operate the stride over the whole time axis of learning?`
 

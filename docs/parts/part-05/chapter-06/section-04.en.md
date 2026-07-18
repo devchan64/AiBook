@@ -11,7 +11,7 @@ The answer is not always. Some layers can behave differently in the training-tim
 
 Training mode is the computational environment that prepares parameter updates, and evaluation mode is the computational environment that stably measures or uses the current model.
 
-When the distinction between modes starts to blur again with the explanation of dropout or batch normalization, return to the [training mode](../../../reference/concept-glossary.md#training-mode) and [evaluation mode](../../../reference/concept-glossary.md#evaluation-mode) entries in the concept glossary.
+When the distinction between modes starts to blur again with the explanation of dropout or batch normalization, return to the [training mode](/AiBook/reference/concept-glossary/#training-mode) and [evaluation mode](/AiBook/reference/concept-glossary/#evaluation-mode) entries in the concept glossary.
 
 ## Scope Of This Section
 
@@ -317,19 +317,19 @@ This example does not reproduce the whole framework exactly, but the core points
 
 First, read the example itself as a graph. The first graph shows only the result of click count and dwell time from `sessions` turning into hidden-layer activations. This stage is not yet the mode difference itself. It is the point where the input data turns into an intermediate representation inside the model.
 
-![Graph of hidden-layer activations computed from session inputs](../../../assets/part-05/chapter-06/hidden-activation-from-sessions-en.png)
+![Graph of hidden-layer activations computed from session inputs](/AiBook/assets/part-05/chapter-06/hidden-activation-from-sessions-en.png)
 
 The next graph shows how the same hidden-layer activations lead to different final output interpretations depending on the mode. `train 1` and `train 2` are two learning executions with different dropout masks, while `eval` is the execution computed with dropout off and using the running mean as the reference. If a value is above 0, it means the output is above that reference mean. If it is below 0, it means the output is below that reference mean.
 
-![Graph comparing outputs after subtracting the reference mean in two training-mode runs and one evaluation-mode run](../../../assets/part-05/chapter-06/mode-centered-output-comparison-en.png)
+![Graph comparing outputs after subtracting the reference mean in two training-mode runs and one evaluation-mode run](/AiBook/assets/part-05/chapter-06/mode-centered-output-comparison-en.png)
 
 If the two graphs above are the direct explanation of the example code, then the two graphs below are summaries showing how the same phenomenon appears across repeated execution. If we simply draw the two sample-wise lines `train_run_1` and `train_run_2`, it can look like a forced comparison of two hand-picked masks, so instead we apply the same computational rule to a slightly longer mini-batch and summarize only the survival ratio after dropout across 30 forward passes. In training mode, the survival ratio fluctuates by pass, and in evaluation mode dropout is turned off, so the survival ratio stays fixed on the 1.0 baseline.
 
-![Graph showing that in training mode the dropout survival ratio fluctuates across forward passes, while evaluation mode stays fixed on the 1.0 baseline](../../../assets/part-05/chapter-06/dropout-mode-output-trace-en.png)
+![Graph showing that in training mode the dropout survival ratio fluctuates across forward passes, while evaluation mode stays fixed on the 1.0 baseline](/AiBook/assets/part-05/chapter-06/dropout-mode-output-trace-en.png)
 
 We read the normalization reference the same way. In training mode, the current batch mean computed from the post-dropout values becomes the reference, so the reference mean fluctuates by pass. In evaluation mode, the reference line is not a random mask from the current pass, but the running mean accumulated during learning.
 
-![Graph showing that the batch mean in training mode fluctuates across forward passes, while the running mean in evaluation mode stays as the reference line](../../../assets/part-05/chapter-06/batchnorm-mode-reference-trace-en.png)
+![Graph showing that the batch mean in training mode fluctuates across forward passes, while the running mean in evaluation mode stays as the reference line](/AiBook/assets/part-05/chapter-06/batchnorm-mode-reference-trace-en.png)
 
 Here too, merely seeing that `the output is different` is different from reading `what computational rule changed because of the mode`.
 

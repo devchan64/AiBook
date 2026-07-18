@@ -165,7 +165,7 @@ parameter-wise update 的意思，并不是所有 parameter 都永远只按一�
 
 再用图看一次，差别会更直接。
 
-![相同 current gradient 与不同 resulting update 的比较](../../../assets/part-05/chapter-07/state-update-comparison-zh.png)
+![相同 current gradient 与不同 resulting update 的比较](/AiBook/assets/part-05/chapter-07/state-update-comparison-zh.png)
 
 左侧面板显示的是：两个坐标都收到相同 current gradient `-1.0` 的场景。右侧面板则说明：即使这样，update 仍然可能分成 `0.04` 与 `0.12`。这里真正变的，不是当前 gradient，而是挂在它前面的 state。这张图再次用可视方式确认：`即使输入一样，只要语境不同，输出也会不同。`
 

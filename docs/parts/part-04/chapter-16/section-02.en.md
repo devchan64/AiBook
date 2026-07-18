@@ -13,7 +13,7 @@ Boosting can create strong performance by stacking many small corrections, but t
 
 So the advantage of boosting is `precise correction`, while the risk is `correction that becomes too precise`.
 
-This Section does not repeat the base definition of gradient boosting at length. The core intuition `it corrects error sequentially` reconnects through P4-16.1 and the [concept glossary](../../../reference/concept-glossary.md). Here we focus only on why that structure creates both strength and risk.
+This Section does not repeat the base definition of gradient boosting at length. The core intuition `it corrects error sequentially` reconnects through P4-16.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here we focus only on why that structure creates both strength and risk.
 
 ## Scope Of This Section
 

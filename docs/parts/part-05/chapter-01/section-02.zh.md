@@ -91,9 +91,9 @@ z = w_1 x_1 + w_2 x_2 + w_3 x_3 + b
 
 从点的分布来看，这个局限会更直接。能被一条直线分开的模式，用一个感知机通常比较容易表达；但像 XOR 这种相同输出落在对角位置的模式，就很难只靠一条直线干净分开。
 
-![可被一条直线分开的点分布](../../../assets/part-05/chapter-01/linear-boundary-points-zh.svg)
+![可被一条直线分开的点分布](/AiBook/assets/part-05/chapter-01/linear-boundary-points-zh.svg)
 
-![难以用一条直线分开的 XOR 点分布](../../../assets/part-05/chapter-01/xor-pattern-zh.svg)
+![难以用一条直线分开的 XOR 点分布](/AiBook/assets/part-05/chapter-01/xor-pattern-zh.svg)
 
 这两张图并不是要在这里完整解释 XOR，而是为了把`一条线性边界`这句话在真实输入空间里的意思先固定下来。第一张图展示一条直线如何真正把两类点分开；第二张图则单独展示：即使规则说明很短，只要点分布不能被一条直线干净切开，单个感知机就会变得吃力。
 

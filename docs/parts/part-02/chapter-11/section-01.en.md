@@ -7,7 +7,7 @@ Part 2 Chapter 3 introduced scalars, vectors, and matrices through mathematical 
 
 Now we return to NumPy. NumPy comes from "Numerical Python." It is a widely used open-source library for creating numeric arrays in Python and carrying out vector and matrix calculations with fast, consistent syntax.
 
-This Section explains the basic distinctions among `NumPy`, `shape`, `ndim`, and `dtype`. The point of this chapter is not to memorize a large amount of NumPy syntax. It is to learn how vectors, matrices, and bundles of data appear in code in AI practice. When you meet arrays, axes, and broadcasting again later, the [Concept Glossary](../../../reference/concept-glossary.md) is also a useful anchor.
+This Section explains the basic distinctions among `NumPy`, `shape`, `ndim`, and `dtype`. The point of this chapter is not to memorize a large amount of NumPy syntax. It is to learn how vectors, matrices, and bundles of data appear in code in AI practice. When you meet arrays, axes, and broadcasting again later, the [Concept Glossary](/AiBook/reference/concept-glossary/) is also a useful anchor.
 
 When you study AI, data quickly turns into numeric arrays. Sentences become arrays of token IDs, images become arrays of pixels, tabular data becomes feature matrices, and embeddings become vectors. You can handle those bundles of numbers with Python lists alone, but NumPy arrays are much more natural when you need to add, multiply, average, or multiply matrices across many values in the same way.
 

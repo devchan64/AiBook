@@ -9,7 +9,7 @@ When studying machine learning, the question `which model should be used?` often
 
 Here the heuristic is not the final conclusion but the starting point. You decide something like `for this problem, let's try these models first`, then validate whether that choice is acceptable on real data.
 
-This Section does not define heuristics again at length. The basic meaning of judgment for reducing candidates is connected again through P4-3.1 and the [concept glossary](../../../reference/concept-glossary.md). Here the focus is only on how that judgment operates in the stage of model selection.
+This Section does not define heuristics again at length. The basic meaning of judgment for reducing candidates is connected again through P4-3.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus is only on how that judgment operates in the stage of model selection.
 
 ## Scope Of This Section
 

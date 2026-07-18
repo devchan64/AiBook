@@ -7,7 +7,7 @@ P1-1 organized the scope of the word AI and the relationship among the major ter
 
 Symbolic AI is an approach that tries to represent human knowledge through symbols, rules, logic, and explicit representation, then manipulate that representation to obtain a conclusion or action. In simpler words, it begins from the idea that we can write human knowledge in a form a computer can handle, then make the computer reason over that form.
 
-In Part 1, the baseline meaning of `symbolic AI`, `rule-based approach`, and `knowledge representation` is fixed here. Even when these terms appear again in later sections, only the amount needed for the local question should be reconnected. When the fuller definition needs to be checked again, return to this section and the shared [Concept Glossary](../../../reference/concept-glossary.md).
+In Part 1, the baseline meaning of `symbolic AI`, `rule-based approach`, and `knowledge representation` is fixed here. Even when these terms appear again in later sections, only the amount needed for the local question should be reconnected. When the fuller definition needs to be checked again, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 
@@ -38,11 +38,11 @@ This section is the representative place where the baseline for the core Chapter
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [symbolic AI](../../../reference/concept-glossary.md#aisymbolic-ai) | an AI approach centered on symbols, rules, and explicit knowledge representation | to establish the starting point that later learning-based approaches are contrasted against |
-| [rule-based system](../../../reference/concept-glossary.md#rule-based-system) | a system that compares current facts with rules to decide a conclusion or action | to see a concrete implementation shape of symbolic AI |
-| [knowledge representation](../../../reference/concept-glossary.md#knowledge-representation) | a format for writing facts, relations, and rules | to define what it means for a system to be treated as knowing something |
-| [fact](../../../reference/concept-glossary.md#fact) | information treated as true in the current state | to separate the input material to which rules are applied |
-| [inference engine](../../../reference/concept-glossary.md#inference-engine) | a mechanism that finds and applies rules matching the current facts | to see the execution structure between rules and conclusions |
+| [symbolic AI](/AiBook/reference/concept-glossary/#aisymbolic-ai) | an AI approach centered on symbols, rules, and explicit knowledge representation | to establish the starting point that later learning-based approaches are contrasted against |
+| [rule-based system](/AiBook/reference/concept-glossary/#rule-based-system) | a system that compares current facts with rules to decide a conclusion or action | to see a concrete implementation shape of symbolic AI |
+| [knowledge representation](/AiBook/reference/concept-glossary/#knowledge-representation) | a format for writing facts, relations, and rules | to define what it means for a system to be treated as knowing something |
+| [fact](/AiBook/reference/concept-glossary/#fact) | information treated as true in the current state | to separate the input material to which rules are applied |
+| [inference engine](/AiBook/reference/concept-glossary/#inference-engine) | a mechanism that finds and applies rules matching the current facts | to see the execution structure between rules and conclusions |
 
 ## Main Learning Points
 

@@ -307,11 +307,11 @@ head_separation = 0.25
 
 这个例子里第一眼最该看的，是不同场景下的 `head_separation`。在 `decision_vs_condition_split` 里，两头真的分别朝决定侧和条件侧分开，所以 separation 最大；而在 `condition_heavy_both_heads` 里，虽然也有两个 head，但它们都看向同一边的条件侧，所以分离程度就小。
 
-![不同场景下的 head separation](../../../assets/part-05/chapter-13/qkv-head-separation-zh.png)
+![不同场景下的 head separation](/AiBook/assets/part-05/chapter-13/qkv-head-separation-zh.png)
 
 第二个要看的，是 single-head 上下文和 head1 / head2 上下文在坐标空间里会分开到什么程度。灰点是同一个 single-head 基线，蓝三角和橙方块之间越远，就越能看见两个 head 正在读取不同关系。
 
-![single head 与两个 head 的上下文位置](../../../assets/part-05/chapter-13/qkv-head-context-space-zh.png)
+![single head 与两个 head 的上下文位置](/AiBook/assets/part-05/chapter-13/qkv-head-context-space-zh.png)
 
 | 先看的输出 | 这个输出意味着什么 | 如果改动它，会跟着改变什么 |
 | --- | --- | --- |

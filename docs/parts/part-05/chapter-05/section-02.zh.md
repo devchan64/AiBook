@@ -390,11 +390,11 @@ node_trace:
 
 如果把这组输出像表一样读当然也可以，但如果进一步拆成图，就会更容易把`forward 值的大小`和`backward 梯度是否活着`区分开。
 
-![计算图中各 forward 节点的值对比](../../../assets/part-05/chapter-05/computation-graph-forward-trace-zh.png)
+![计算图中各 forward 节点的值对比](/AiBook/assets/part-05/chapter-05/computation-graph-forward-trace-zh.png)
 
 在 forward 图里，最先会看到的是：`block_gate_closed` 的损失要大得多。但如果只看这张图，很容易误读成“损失越大，前面的参数更新就一定越大”。所以必须再把同一个例子的 backward 图分开看一次。
 
-![计算图中各 backward 节点的梯度对比](../../../assets/part-05/chapter-05/computation-graph-backward-trace-zh.png)
+![计算图中各 backward 节点的梯度对比](/AiBook/assets/part-05/chapter-05/computation-graph-backward-trace-zh.png)
 
 在 backward 图里，差别会反过来显露出来。`block_gate_open` 时，`dL/d_logit`、`dL/d_weight`、`dL/d_bias` 都还活着；而 `block_gate_closed` 时，虽然 `dL/d_activation` 很大，但 ReLU 前面的梯度已经被截成 0。也就是说，读计算图时，必须把损失柱状图和梯度柱状图分开来解读。
 

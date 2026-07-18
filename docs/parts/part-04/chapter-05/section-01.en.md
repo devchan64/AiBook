@@ -7,7 +7,7 @@ In Chapter P4-4, we looked at why data are divided into training, validation, an
 
 This Section separates those two states. `Overfitting` means a state that is too tightly matched to the training data, while `underfitting` means a state that still has not learned the important patterns well enough. In machine learning, you need to distinguish these two states before you can make the next choice.
 
-This Section explains the basic distinction between `overfitting` and `underfitting`. The next Section continues the current context through this handle, and the basic distinction of whether a model holds up on new data is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic distinction between `overfitting` and `underfitting`. The next Section continues the current context through this handle, and the basic distinction of whether a model holds up on new data is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

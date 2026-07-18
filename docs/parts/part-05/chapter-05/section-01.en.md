@@ -9,7 +9,7 @@ Loss tells us `how wrong it is`, but `which parameter should move in which direc
 
 The signal needed here is the gradient. A gradient is the value that shows how sensitively the loss responds to a specific parameter. Backpropagation is the procedure that starts from the loss and computes that gradient from the later calculations back toward the earlier ones.
 
-When this starts to blur together again with the computation graph or the optimizer in later sections, return to the [backpropagation](../../../reference/concept-glossary.md#backpropagation) entry in the concept glossary and separate the computational roles first.
+When this starts to blur together again with the computation graph or the optimizer in later sections, return to the [backpropagation](/AiBook/reference/concept-glossary/#backpropagation) entry in the concept glossary and separate the computational roles first.
 
 Fix these three sentences first in this section.
 
@@ -331,15 +331,15 @@ direction_from_gradient = decrease_risk_weight
 
 This output has to be read by separating it into `predicted score -> loss -> gradient`.
 
-![Predicted block score by case](../../../assets/part-05/chapter-05/backprop-example-prediction-en.png)
+![Predicted block score by case](/AiBook/assets/part-05/chapter-05/backprop-example-prediction-en.png)
 
 The first graph shows the predicted block score for each case. The target is `5.0`. The first two cases are below the target, and the last case is above it.
 
-![Loss by case](../../../assets/part-05/chapter-05/backprop-example-loss-en.png)
+![Loss by case](/AiBook/assets/part-05/chapter-05/backprop-example-loss-en.png)
 
 The second graph is the loss. Loss shows the size of the error, but it does not directly show the direction. For example, the mere fact that there is a loss does not tell us whether `risk_weight` should increase or decrease.
 
-![Risk-weight gradient by case](../../../assets/part-05/chapter-05/backprop-example-gradient-en.png)
+![Risk-weight gradient by case](/AiBook/assets/part-05/chapter-05/backprop-example-gradient-en.png)
 
 The direction appears in the third graph. A negative gradient is read as the direction to increase `risk_weight`, and a positive gradient is read as the direction to decrease it. So the key change in this example is not `the loss number`, but `the per-parameter gradient signal`.
 

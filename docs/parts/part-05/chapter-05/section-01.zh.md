@@ -331,15 +331,15 @@ direction_from_gradient = decrease_risk_weight
 
 读这组输出时，必须按 `预测分数 -> 损失 -> 梯度` 这个顺序拆开来看。
 
-![各案例的预测阻断分数](../../../assets/part-05/chapter-05/backprop-example-prediction-zh.png)
+![各案例的预测阻断分数](/AiBook/assets/part-05/chapter-05/backprop-example-prediction-zh.png)
 
 第一张图展示的是各案例的预测阻断分数。目标值是 `5.0`。前两个案例都低于目标，最后一个案例则高于目标。
 
-![各案例的损失](../../../assets/part-05/chapter-05/backprop-example-loss-zh.png)
+![各案例的损失](/AiBook/assets/part-05/chapter-05/backprop-example-loss-zh.png)
 
 第二张图展示的是损失。损失会告诉我们误差有多大，但不会直接告诉我们方向。比如，仅凭“有损失”这个事实，还无法判断该把 `risk_weight` 调大还是调小。
 
-![各案例的风险权重梯度](../../../assets/part-05/chapter-05/backprop-example-gradient-zh.png)
+![各案例的风险权重梯度](/AiBook/assets/part-05/chapter-05/backprop-example-gradient-zh.png)
 
 到了第三张图，方向才真正出现。负梯度意味着应该沿着增大 `risk_weight` 的方向去读，正梯度则意味着应该沿着减小 `risk_weight` 的方向去读。所以，这个例子里最关键的变化，并不是“得到了一个损失数字”，而是“得到了按参数拆开的梯度信号”。
 

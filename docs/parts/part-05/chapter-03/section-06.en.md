@@ -11,7 +11,7 @@ This question connects directly to the loss function. So this section is both th
 
 The activation in the output layer changes depending on what the model is trying to predict, and it is chosen to match what meaning the output value should have.
 
-If the criteria for output interpretation and activation choice become blurry again, reread together the [output](../../../reference/concept-glossary.md#output) and [activation function](../../../reference/concept-glossary.md#activation-function) entries in the concept glossary.
+If the criteria for output interpretation and activation choice become blurry again, reread together the [output](/AiBook/reference/concept-glossary/#output) and [activation function](/AiBook/reference/concept-glossary/#activation-function) entries in the concept glossary.
 
 ## Scope Of This Section
 
@@ -192,15 +192,15 @@ If the three cases are placed side by side, the choice of output layer becomes a
 
 If the numbers from the cases are fixed again through graphs, the difference becomes clearer. In regression, the first thing seen is how far the prediction is from the actual value.
 
-![Graph showing that regression output is read through the distance from the correct answer](../../../assets/part-05/chapter-03/output-activation-regression-distance-en.svg)
+![Graph showing that regression output is read through the distance from the correct answer](/AiBook/assets/part-05/chapter-03/output-activation-regression-distance-en.svg)
 
 In binary classification, it becomes visible that a score such as `0.91` is not the policy itself, but a model output that lies inside a threshold band.
 
-![Graph showing that binary-classification output is read through threshold bands](../../../assets/part-05/chapter-03/output-activation-binary-threshold-en.svg)
+![Graph showing that binary-classification output is read through threshold bands](/AiBook/assets/part-05/chapter-03/output-activation-binary-threshold-en.svg)
 
 In multiclass classification, instead of looking only at the name of the top candidate, the gap between the first and second candidates must also be examined.
 
-![Graph showing that multiclass output is read through score gaps among candidates](../../../assets/part-05/chapter-03/output-activation-multiclass-gap-en.svg)
+![Graph showing that multiclass output is read through score gaps among candidates](/AiBook/assets/part-05/chapter-03/output-activation-multiclass-gap-en.svg)
 
 So what should be read first in these graphs is not the decoration of the curves or bars, but the interpretation units: `distance` for regression, `threshold position` for binary classification, and `gap among candidates` for multiclass classification.
 

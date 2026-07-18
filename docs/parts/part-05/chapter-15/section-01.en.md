@@ -9,7 +9,7 @@ Then how is a generative model different from a classification model, and what d
 
 A generative model is a model that tries to learn not only which class an input belongs to, but also what patterns the data appears in and what is likely to continue next.
 
-When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](../../../reference/concept-glossary.md#generative-model).
+When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](/AiBook/reference/concept-glossary/#generative-model).
 
 ## Scope Of This Section
 
@@ -279,11 +279,11 @@ most_likely = ('Readjust the sealing pressure.', 0.52)
 
 The first result is the candidate distribution in the temperature-alert context. `Check the coolant flow` is the highest, but `check the fan state` and `review sensor calibration again` also remain inside the candidate space.
 
-![Candidate distribution of follow-up actions after a temperature alert](../../../assets/part-05/chapter-15/generative-response-distribution-temperature-en.png)
+![Candidate distribution of follow-up actions after a temperature alert](/AiBook/assets/part-05/chapter-15/generative-response-distribution-temperature-en.png)
 
 The second result is the candidate distribution in the seal-edge-alert context. What we need to see is that, when the context changes, not only the highest candidate but the remaining candidate set itself changes.
 
-![Candidate distribution of follow-up actions after a seal-edge alert](../../../assets/part-05/chapter-15/generative-response-distribution-seal-en.png)
+![Candidate distribution of follow-up actions after a seal-edge alert](/AiBook/assets/part-05/chapter-15/generative-response-distribution-seal-en.png)
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |

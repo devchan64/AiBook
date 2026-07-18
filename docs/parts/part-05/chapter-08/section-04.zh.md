@@ -138,15 +138,15 @@ layer 3: raw_range=(364.500, 1458.000), raw_variance=206671.500, after_bn_range=
 
 第一张图展示的是每一层的 raw activation range。`large_init` 和 `very_large_init` 都会随着层数加深，把同一批样本之间的数值范围迅速拉开。
 
-![按 initialization scale 比较逐层 raw activation range](../../../assets/part-05/chapter-08/deep-scale-raw-range-zh.png)
+![按 initialization scale 比较逐层 raw activation range](/AiBook/assets/part-05/chapter-08/deep-scale-raw-range-zh.png)
 
 第二张图把同样现象压成 variance 来看。因为 variance 会把数值扩散压成一个单独数字，所以会更容易读出：在深层里，较大的尺度会多快制造出不稳定范围。
 
-![按 initialization scale 比较逐层 raw variance](../../../assets/part-05/chapter-08/deep-scale-raw-variance-zh.png)
+![按 initialization scale 比较逐层 raw variance](/AiBook/assets/part-05/chapter-08/deep-scale-raw-variance-zh.png)
 
 第三张图展示的是：每一层后面都加上 batch normalization 之后，输出范围会变成什么样。raw activation 在不同 case 之间差异很大，但 normalization 之后，范围会被重新整理到`下一层更容易处理的相近规模`。这里最重要的点不是`数值永远都被固定成一模一样`，而是：`即使输入 distribution 差很多，中心和扩散也会被重新拉回可比较的范围。` 在这个玩具实验里，几种 case 的范围看起来几乎一样，是因为三个样本之间的相对形状保持不变，我们只改了整体尺度。所以不能光看这一张图，就下结论说`batch normalization 几乎把 initialization 问题抹掉了。`
 
-![batch normalization 之后的逐层 activation range](../../../assets/part-05/chapter-08/deep-scale-bn-range-zh.png)
+![batch normalization 之后的逐层 activation range](/AiBook/assets/part-05/chapter-08/deep-scale-bn-range-zh.png)
 
 ## 这里该读出的结论
 

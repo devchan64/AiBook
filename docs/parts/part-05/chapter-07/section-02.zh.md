@@ -83,7 +83,7 @@ $$
 
 即使知道同一个位置上的下降方向，如果步幅太小，你几乎前进不了；如果比较合适，就可能靠近更低损失的位置；如果太大，就可能直接越过更好的点，让损失重新变大。这里最重要的是：`知道方向`和`成功走到更好的下一位置`并不是同一件事。
 
-![不同 learning rate 在损失曲线上的步幅](../../../assets/part-05/chapter-07/learning-rate-step-size-zh.svg)
+![不同 learning rate 在损失曲线上的步幅](/AiBook/assets/part-05/chapter-07/learning-rate-step-size-zh.svg)
 
 这张图最重要的信息，是：`gradient 方向正确`与`optimizer 做出的 update 合适`不是同一句话。读 optimizer 时，不要只看方向信号，还要继续看：这个信号最后把参数推到了哪里。即使沿着同一支箭头走，步子太短时几乎没进展，步子太长时则可能越过更好的位置。learning rate 决定的，正是这`一步的长度。`
 
@@ -209,11 +209,11 @@ optimizer_delta = 8.0 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 
 
 而且这里特别重要的一点是：这三组结果不是来自三个不同 gradient，而是来自`同一个 shared state`。上面的 `[shared state]` 区域明确写出了：预测、损失、gradient 都是共享的；下面 `[lr=0.01]`、`[lr=0.1]`、`[lr=0.5]` 才是在比较：如果只改 learning rate，会发生什么。
 
-![不同 learning rate 下更新后的风险权重](../../../assets/part-05/chapter-07/optimizer-example-updated-weight-zh.png)
+![不同 learning rate 下更新后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-zh.png)
 
-![不同 learning rate 下更新后的阻断分数](../../../assets/part-05/chapter-07/optimizer-example-updated-score-zh.png)
+![不同 learning rate 下更新后的阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-zh.png)
 
-![不同 learning rate 下更新后的损失](../../../assets/part-05/chapter-07/optimizer-example-updated-loss-zh.png)
+![不同 learning rate 下更新后的损失](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-zh.png)
 
 一起读这三张图时，更安全的顺序是下面这样。先看 `optimizer-example-updated-weight`，确认 learning rate 如何让真实移动量变得很小、合适或过大；再看 `optimizer-example-updated-score`，确认这种差别如何把预测值带到不同位置；最后看 `optimizer-example-updated-loss`，确认它最终让损失变慢、变好，还是直接越过目标。
 

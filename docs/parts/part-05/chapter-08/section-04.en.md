@@ -138,15 +138,15 @@ For beginners, it is better not to leave the example output as a block of number
 
 The first graph shows the raw activation range at each layer. `large_init` and `very_large_init` spread the value range widely between the same samples as the network becomes deeper.
 
-![Layer-wise raw activation range by initialization scale](../../../assets/part-05/chapter-08/deep-scale-raw-range-en.png)
+![Layer-wise raw activation range by initialization scale](/AiBook/assets/part-05/chapter-08/deep-scale-raw-range-en.png)
 
 The second graph compresses the same phenomenon into the variance. Because variance shows the spread of values as a single number, it becomes easier to read how quickly a large scale can create an unstable range in deep layers.
 
-![Layer-wise raw variance by initialization scale](../../../assets/part-05/chapter-08/deep-scale-raw-variance-en.png)
+![Layer-wise raw variance by initialization scale](/AiBook/assets/part-05/chapter-08/deep-scale-raw-variance-en.png)
 
 The third graph shows the output range after applying batch normalization behind each layer. Raw activations differ greatly by case, but after normalization the range is reorganized into `a similar scale that is easier for the next layer to handle`. The important point here is not `the numbers are always fixed to exactly the same values`, but rather `even if the input distribution differs greatly, the center and spread are brought back into a comparable range`. In this toy example, the ranges across cases look almost identical because the relative shape of the three samples is preserved while only the scale is changed, so it would be too strong to read this figure alone as saying `batch normalization almost erases the initialization problem`.
 
-![Layer-wise activation range after batch normalization](../../../assets/part-05/chapter-08/deep-scale-bn-range-en.png)
+![Layer-wise activation range after batch normalization](/AiBook/assets/part-05/chapter-08/deep-scale-bn-range-en.png)
 
 ## The Conclusion We Should Read
 

@@ -82,11 +82,11 @@ sampling 的核心，是一种选择步骤：它优先更高的候选，但也�
 
 如果把候选分布和实际被选中的频率并排看，这种差异会更清楚。先看模型给每个候选分配了多少权重时，会发现最高候选很明确，但其他候选并不全是 0。
 
-![候选短语相对权重](../../../assets/part-05/chapter-15/sampling-candidate-weights-zh.svg)
+![候选短语相对权重](/AiBook/assets/part-05/chapter-15/sampling-candidate-weights-zh.svg)
 
 再看实际进行 20 次 sampling 后的选择频率时，就会发现：最高候选虽然出现最多，但较低候选也不会完全消失，而是能实际留在部分结果里。
 
-![20 次 sampling 的选择频率](../../../assets/part-05/chapter-15/sampling-choice-counts-zh.svg)
+![20 次 sampling 的选择频率](/AiBook/assets/part-05/chapter-15/sampling-choice-counts-zh.svg)
 
 这张图里最关键的一点是：sampling 不是`随便乱抽`。它应该被读成一种选择步骤：基于模型给各候选分配的权重去采样实际输出，但不像 argmax 那样把结果固定成唯一一个候选。
 

@@ -9,7 +9,7 @@ What exactly is being created in that intermediate stage?
 
 The viewpoint that answers this question is representation. A hidden layer is not the place that simply copies the input values as they are. It is a layer that internally creates intermediate representations that are more favorable for later judgment.
 
-When the idea of representation needs to be reviewed briefly again in later chapters, return to the [representation](../../../reference/concept-glossary.md#representation) entry in the concept glossary as the baseline.
+When the idea of representation needs to be reviewed briefly again in later chapters, return to the [representation](/AiBook/reference/concept-glossary/#representation) entry in the concept glossary as the baseline.
 
 ## Scope Of This Section
 

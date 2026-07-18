@@ -279,11 +279,11 @@ most_likely = ('重新调整封边压力。', 0.52)
 
 第一个结果，是温度警报语境里的候选分布。`先检查冷却水流量` 最高，但 `检查风扇状态` 与 `重新查看传感器校准` 也仍然留在候选空间里。
 
-![温度警报后的后续动作候选分布](../../../assets/part-05/chapter-15/generative-response-distribution-temperature-zh.png)
+![温度警报后的后续动作候选分布](/AiBook/assets/part-05/chapter-15/generative-response-distribution-temperature-zh.png)
 
 第二个结果，是封边警报语境里的候选分布。这里真正要看的，是语境一变，不只是最高候选会变，留下来的候选集合本身也会一起变化。
 
-![封边警报后的后续动作候选分布](../../../assets/part-05/chapter-15/generative-response-distribution-seal-zh.png)
+![封边警报后的后续动作候选分布](/AiBook/assets/part-05/chapter-15/generative-response-distribution-seal-zh.png)
 
 | 先看的输出 | 这个输出表示什么 | 改动它时会看到什么变化 |
 | --- | --- | --- |

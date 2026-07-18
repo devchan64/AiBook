@@ -13,7 +13,7 @@ But the same property also leads directly to risk. If the model can keep adding 
 
 If P4-14.1 asked `how should a good first question and the next question be read?`, this Section asks `where does that question flow stop describing a pattern and start memorizing exceptions?` So here the reader must see not only when making the tree deeper helps, but also when that deeper structure begins to shake the model.
 
-This Section does not repeat the base definition of a decision tree at length. The core intuition `it predicts by splitting with questions` reconnects through P4-14.1 and the [concept glossary](../../../reference/concept-glossary.md), while the general handle for overfitting itself should be recalled again with P4-5.1.
+This Section does not repeat the base definition of a decision tree at length. The core intuition `it predicts by splitting with questions` reconnects through P4-14.1 and the [concept glossary](/AiBook/reference/concept-glossary/), while the general handle for overfitting itself should be recalled again with P4-5.1.
 
 ## Scope Of This Section
 

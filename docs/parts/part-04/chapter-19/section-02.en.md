@@ -11,7 +11,7 @@ That question is the starting point of policy-based reinforcement learning.
 
 Policy-based reinforcement learning is an approach that learns to gain larger rewards by directly adjusting the probabilities and style of action choice instead of first building a scoreboard for actions.
 
-This Section explains the basic meaning of `policy-based reinforcement learning`, `policy gradient`, and `actor-critic`. Later Sections continue the judgment in the current context from this handle, and the basic meaning of reinforcement learning that directly adjusts behavior reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meaning of `policy-based reinforcement learning`, `policy gradient`, and `actor-critic`. Later Sections continue the judgment in the current context from this handle, and the basic meaning of reinforcement learning that directly adjusts behavior reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

@@ -19,7 +19,7 @@ That core can be regrouped into the following three lines.
 
 At this point, an important principle is not to end Part 5 as a `preview for the next Part`. CNNs, RNNs, Attention, and Transformers all connect to the later explanation of LLMs, but that connection must follow the order `close the current structure first, then expand it into a different problem in the next Part`, not `we will look at it later`.
 
-When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](../../reference/concept-glossary.md) together with its `Core Section`.
+When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](/AiBook/reference/concept-glossary/) together with its `Core Section`.
 
 ## The Order For Reading This Wrap-up
 

@@ -13,7 +13,7 @@ The baseline is often understood as `a temporary model with low performance`. In
 
 In both academic and practical contexts, a baseline is closer not to `a good model`, but to `the minimum standard that makes comparison possible`. In other words, without a baseline, even if a performance number looks high, it becomes hard to tell whether that is because the problem is easy, because the data are biased, or because the modeling actually helped.
 
-This Section explains the meaning and role of the `baseline`. Later Sections continue the current context through this handle, and the criterion for what the improvement of a complex model should be compared against reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the meaning and role of the `baseline`. Later Sections continue the current context through this handle, and the criterion for what the improvement of a complex model should be compared against reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 The perspective that must be fixed here is the following one sentence.
 

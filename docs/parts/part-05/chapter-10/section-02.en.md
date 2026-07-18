@@ -9,7 +9,7 @@ Then in a deep neural network, how do we say the representations change as the l
 
 As layers get deeper, representations usually move from more local and simple patterns toward more abstract patterns that are closer to the task.
 
-When you need to confirm again how to read the claim that representations change as layers get deeper, return to the glossary entry on [representation](../../../reference/concept-glossary.md#representation).
+When you need to confirm again how to read the claim that representations change as layers get deeper, return to the glossary entry on [representation](/AiBook/reference/concept-glossary/#representation).
 
 ## Scope Of This Section
 
@@ -315,11 +315,11 @@ distance(batch_1, batch_4) in h2 = 0.842
 
 If we separate the distance changes into a graph, it becomes clearer that even when both batch pairs become closer, they do not become closer at the same speed or to the same degree. `batch_1` and `batch_2` remain closer neighbors in `h2`, while `batch_1` and `batch_4` also move closer but remain relatively farther apart.
 
-![Distance changes between batch pairs across hierarchical representation stages](../../../assets/part-05/chapter-10/hierarchical-representation-distance-trace-en.png)
+![Distance changes between batch pairs across hierarchical representation stages](/AiBook/assets/part-05/chapter-10/hierarchical-representation-distance-trace-en.png)
 
 If we look only at the final `h2` representation space, we can see that the deep-layer representation did not simply shrink the values, but rearranged the positional relations between batches.
 
-![Production batches rearranged again in the h2 representation space](../../../assets/part-05/chapter-10/hierarchical-representation-h2-space-en.png)
+![Production batches rearranged again in the h2 representation space](/AiBook/assets/part-05/chapter-10/hierarchical-representation-h2-space-en.png)
 
 The output should be read not by looking at `one distance` alone, but by reading together `how the relations between batches are reorganized`.
 

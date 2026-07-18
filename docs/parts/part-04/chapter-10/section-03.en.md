@@ -12,7 +12,7 @@ By the time the reader finishes P4-10.2, the basic evaluation of linear regressi
 
 The purpose of this Section is not to learn proofs of every one of these concepts. Its purpose is to organize `what kind of worry these words point to` so that the reader does not stop when reading a regression-results table.
 
-This supplementary learning does not re-explain the definition of linear regression by extending it. The basic intuition and the evaluation handles remain in P4-10.1, P4-10.2, and the [concept glossary](../../../reference/concept-glossary.md). Here the focus is only on what kinds of risk regression-diagnostic terms point to.
+This supplementary learning does not re-explain the definition of linear regression by extending it. The basic intuition and the evaluation handles remain in P4-10.1, P4-10.2, and the [concept glossary](/AiBook/reference/concept-glossary/). Here the focus is only on what kinds of risk regression-diagnostic terms point to.
 
 ## Scope Of This Supplementary Learning
 

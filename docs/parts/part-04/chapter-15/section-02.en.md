@@ -13,7 +13,7 @@ Feature importance is a number that summarizes which features the model used mor
 
 Feature importance is a useful summary, but it is also a tool that comes with interpretation traps.
 
-This Section does not repeat the basic definition of random forest at length. The core intuition `reduce instability through the agreement of many trees` reconnects through P4-15.1 and the [concept glossary](../../../reference/concept-glossary.md). Here we focus only on the problem of interpreting what the forest treated as important.
+This Section does not repeat the basic definition of random forest at length. The core intuition `reduce instability through the agreement of many trees` reconnects through P4-15.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here we focus only on the problem of interpreting what the forest treated as important.
 
 ## Scope Of This Section
 

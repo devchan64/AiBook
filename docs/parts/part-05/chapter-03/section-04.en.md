@@ -47,7 +47,7 @@ That is, if \(z\) is negative, the output is 0, and if \(z\) is 0 or greater, th
 
 The ReLU graph sticks to the floor when the value is below 0, and after 0 it rises as a straight line.
 
-![ReLU activation-function curve](../../../assets/part-05/chapter-03/relu-curve-en.svg)
+![ReLU activation-function curve](/AiBook/assets/part-05/chapter-03/relu-curve-en.svg)
 
 | Input range | Feel of the output | What the reader should read first |
 | --- | --- | --- |

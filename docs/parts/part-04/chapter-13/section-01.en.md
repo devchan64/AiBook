@@ -13,7 +13,7 @@ That question is the starting point of the SVM (support vector machine).
 
 So SVM does not stop at `finding one separating line`. It tries to find `the separator that looks most stable`.
 
-This Section explains the basic meanings of `SVM`, `margin`, and `support vector`. Later Sections continue the current judgment from that handle, and the basic sense of reading the stability of a boundary reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `SVM`, `margin`, and `support vector`. Later Sections continue the current judgment from that handle, and the basic sense of reading the stability of a boundary reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

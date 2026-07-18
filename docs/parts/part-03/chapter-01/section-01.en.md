@@ -3,7 +3,7 @@
 > Section ID: `P3-1.1`
 > Version: `v2026.07.11`
 
-As soon as the reader enters Part 3, they meet words such as [sample](../../../reference/concept-glossary.md#glossary-sample), [feature](../../../reference/concept-glossary.md#glossary-feature), [baseline](../../../reference/concept-glossary.md#glossary-baseline), [output structure](../../../reference/concept-glossary.md#glossary-output-structure), and [target](../../../reference/concept-glossary.md#glossary-target). These terms do not stand alone. The outer judgment that decides what counts as one case, which values remain, what gets compared, and in what result format the process closes is [data modeling](../../../reference/concept-glossary.md#glossary-data-modeling).
+As soon as the reader enters Part 3, they meet words such as [sample](/AiBook/reference/concept-glossary/#glossary-sample), [feature](/AiBook/reference/concept-glossary/#glossary-feature), [baseline](/AiBook/reference/concept-glossary/#glossary-baseline), [output structure](/AiBook/reference/concept-glossary/#glossary-output-structure), and [target](/AiBook/reference/concept-glossary/#glossary-target). These terms do not stand alone. The outer judgment that decides what counts as one case, which values remain, what gets compared, and in what result format the process closes is [data modeling](/AiBook/reference/concept-glossary/#glossary-data-modeling).
 
 If data modeling is understood only as organizing storage structure, it is easy to think of it as little more than making an already existing table look cleaner. But in AI and data analysis, data modeling is an earlier judgment than that. Data modeling is the work of deciding `what question can this source data be turned into an answerable structure for?`
 

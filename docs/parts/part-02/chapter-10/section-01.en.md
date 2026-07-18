@@ -9,7 +9,7 @@ Now we look separately at notebook environments such as Jupyter Notebook and Goo
 
 Notebooks appear especially often in AI learning. That is because formulas can be turned into code and checked, data tables can be printed, charts can be drawn, and interpretation can be written right beside them.
 
-This Section explains the basic distinctions among `notebook`, `code cell`, `markdown cell`, and `output`. If Chapter 7 dealt with where execution happens, and Chapters 8 through 9 dealt with what is written in what kind of sentences, here the topic is how that execution and computation are left and reread together inside one document. A notebook is more accurately read not as a new execution-environment name, but as a format that bundles already executed code and output into a learning record. When these concepts appear again in later Sections, use the [Concept Glossary](../../../reference/concept-glossary.md) as a reference point too.
+This Section explains the basic distinctions among `notebook`, `code cell`, `markdown cell`, and `output`. If Chapter 7 dealt with where execution happens, and Chapters 8 through 9 dealt with what is written in what kind of sentences, here the topic is how that execution and computation are left and reread together inside one document. A notebook is more accurately read not as a new execution-environment name, but as a format that bundles already executed code and output into a learning record. When these concepts appear again in later Sections, use the [Concept Glossary](/AiBook/reference/concept-glossary/) as a reference point too.
 
 When reading this Chapter in the flow of Part 2, first hold the following minimum line.
 

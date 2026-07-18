@@ -9,7 +9,7 @@ Then is the Transformer a structure that contains only self-attention, or are th
 
 The Transformer can be understood as a structure that reads contextual relationships through self-attention, refines each position's representation again through a feed-forward network, and keeps that computational block from collapsing through residual connections and layer normalization.
 
-When the names of block components become mixed up again, it helps to reread together the glossary entries on [Transformer](../../../reference/concept-glossary.md#transformer), [feed-forward network](../../../reference/concept-glossary.md#feed-forward-network), [residual connection](../../../reference/concept-glossary.md#residual-connection), and [layer normalization](../../../reference/concept-glossary.md#layer-normalization).
+When the names of block components become mixed up again, it helps to reread together the glossary entries on [Transformer](/AiBook/reference/concept-glossary/#transformer), [feed-forward network](/AiBook/reference/concept-glossary/#feed-forward-network), [residual connection](/AiBook/reference/concept-glossary/#residual-connection), and [layer normalization](/AiBook/reference/concept-glossary/#layer-normalization).
 
 ## Scope Of This Section
 
@@ -362,11 +362,11 @@ action token after residual = [1.238 1.814]
 
 The first result to look at in this example is where the action token moves across the stages of the block. `rollback confirmed` and `rollback not confirmed` start from the same input, but from the stage of mixing context through attention they already separate into different paths, and after feed-forward and residual they remain as different action representations.
 
-![Stage-by-stage movement of the action token](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-en.png)
+![Stage-by-stage movement of the action token](/AiBook/assets/part-05/chapter-14/transformer-block-action-stage-trace-en.png)
 
 The second result is a comparison that isolates only the action token after the residual path. In the rollback-confirmed scene, the recovery-status axis remains more strongly, while in the not-confirmed scene the urgency/cause axis remains relatively more strongly. This makes clearer why the Transformer block should be read not as attention alone, but as a combination of `context mixing -> position-wise processing -> preservation of original information`.
 
-![Comparison of the action token after the residual path](../../../assets/part-05/chapter-14/transformer-block-action-residual-compare-en.png)
+![Comparison of the action token after the residual path](/AiBook/assets/part-05/chapter-14/transformer-block-action-residual-compare-en.png)
 
 | Comparison point | rollback confirmed | rollback not confirmed | Why it matters |
 | --- | --- | --- | --- |

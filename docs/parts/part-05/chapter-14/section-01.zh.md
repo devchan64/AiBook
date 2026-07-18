@@ -370,11 +370,11 @@ action token after residual = [1.238 1.814]
 
 这个例子里，首先要看的结果，是 action token 在 block 各阶段是往哪里移动的。`rollback confirmed` 和 `rollback not confirmed` 从同一组输入出发，但从 attention 混合上下文的阶段开始就已经分成不同路径，经过 feed-forward 和 residual 之后，最终留下的 action 表示也不一样。
 
-![action token 的阶段性表示移动](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-zh.png)
+![action token 的阶段性表示移动](/AiBook/assets/part-05/chapter-14/transformer-block-action-stage-trace-zh.png)
 
 第二个结果，是把 residual 之后的 action token 单独拿出来比较。rollback 已确认的场景里，恢复状态轴保留得更强；未确认的场景里，紧急 / 原因轴相对保留得更多。看到这个差异，就更容易明白：为什么 Transformer block 不能只读成 attention，而要读成`上下文混合 -> 按位置加工 -> 保留原始信息`的组合。
 
-![residual 之后的 action token 对比](../../../assets/part-05/chapter-14/transformer-block-action-residual-compare-zh.png)
+![residual 之后的 action token 对比](/AiBook/assets/part-05/chapter-14/transformer-block-action-residual-compare-zh.png)
 
 | 比较点 | rollback confirmed | rollback not confirmed | 为什么重要 |
 | --- | --- | --- | --- |

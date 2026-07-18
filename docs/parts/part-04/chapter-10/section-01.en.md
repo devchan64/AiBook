@@ -13,7 +13,7 @@ How can a model express the relationship that output tends to increase or decrea
 
 Linear regression answers this question first with a `line`.
 
-This Section explains the basic meanings of `regression`, `linear regression`, `coefficient`, and `intercept`. Later Sections continue the surrounding judgment from this handle, and the basic sense of reading a continuous prediction with a line reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `regression`, `linear regression`, `coefficient`, and `intercept`. Later Sections continue the surrounding judgment from this handle, and the basic sense of reading a continuous prediction with a line reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

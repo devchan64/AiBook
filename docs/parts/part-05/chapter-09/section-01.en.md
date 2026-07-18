@@ -11,7 +11,7 @@ When answering this question, it is hard to leave out the GPU (graphics processi
 
 The spread of deep learning did not happen through algorithmic ideas alone. It is strongly connected to the development of computational resources that can process very large amounts of the same operation at the same time.
 
-When the story of computational resources starts to feel abstract again, reread together the glossary entries on [GPU (graphics processing unit)](../../../reference/concept-glossary.md#gpugraphics-processing-unit) and [parallel processing](../../../reference/concept-glossary.md#parallel-processing).
+When the story of computational resources starts to feel abstract again, reread together the glossary entries on [GPU (graphics processing unit)](/AiBook/reference/concept-glossary/#gpugraphics-processing-unit) and [parallel processing](/AiBook/reference/concept-glossary/#parallel-processing).
 
 ## Scope Of This Section
 
@@ -268,11 +268,11 @@ estimated scalar multiplies when feature count = 6 = [24, 48, 96, 192]
 
 The first artifact is the line-by-line risk score. Sample-by-sample repeated computation and batch matrix computation produce the same score, but the key shown by this graph is not only `the result is the same`. It is `the same result is obtained through different computational organization`.
 
-![Comparison of risk scores from sample-by-sample repetition and batch matrix computation](../../../assets/part-05/chapter-09/gpu-batch-score-comparison-en.png)
+![Comparison of risk scores from sample-by-sample repetition and batch matrix computation](/AiBook/assets/part-05/chapter-09/gpu-batch-score-comparison-en.png)
 
 The second artifact is the rising curve of scalar multiply count. In the current example with 4 lines and 3 features, 12 multiplications are needed, but when we grow batch size and feature count together, we can read more directly how quickly repeated computations of the same kind grow.
 
-![Scalar multiply count as batch size increases](../../../assets/part-05/chapter-09/gpu-scalar-multiply-scaling-en.png)
+![Scalar multiply count as batch size increases](/AiBook/assets/part-05/chapter-09/gpu-scalar-multiply-scaling-en.png)
 
 | Comparison | The key to read now |
 | --- | --- |

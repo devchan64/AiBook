@@ -192,15 +192,15 @@ Version: `v2026.07.17`
 
 如果把这些案例里的数字重新固定成图，差异会更明显。回归里，最先看到的是预测值离真实值有多远。
 
-![显示回归输出应按与正确答案的距离来读的图](../../../assets/part-05/chapter-03/output-activation-regression-distance-zh.svg)
+![显示回归输出应按与正确答案的距离来读的图](/AiBook/assets/part-05/chapter-03/output-activation-regression-distance-zh.svg)
 
 二元分类里，则能更清楚地看出：像 `0.91` 这样的分数并不是策略本身，而是落在某个阈值区间里的模型输出。
 
-![显示二元分类输出应按阈值区间来读的图](../../../assets/part-05/chapter-03/output-activation-binary-threshold-zh.svg)
+![显示二元分类输出应按阈值区间来读的图](/AiBook/assets/part-05/chapter-03/output-activation-binary-threshold-zh.svg)
 
 多分类里，不能只盯着第一名的类别名字，还必须一起看第一名与第二名之间的差距到底大不大。
 
-![显示多分类输出应按候选分数差距来读的图](../../../assets/part-05/chapter-03/output-activation-multiclass-gap-zh.svg)
+![显示多分类输出应按候选分数差距来读的图](/AiBook/assets/part-05/chapter-03/output-activation-multiclass-gap-zh.svg)
 
 因此，在这些图里首先该看的不是曲线或柱子的样子，而是三种不同的解读单位：`回归看距离`、`二元分类看阈值位置`、`多分类看候选差距`。
 

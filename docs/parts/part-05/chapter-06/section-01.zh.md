@@ -240,19 +240,19 @@ updated_risk_weight = 3.125
 
 如果把这个流程按例子里的可视化结果再拆开看，首先会看到 forward 结果。第一个 batch 用 `risk_weight=0.5` 做预测，所以明显低于目标；第二个 batch 则在第一次更新之后，带着 `risk_weight=1.25` 重新预测。
 
-![学习循环里各 batch 的预测与目标](../../../assets/part-05/chapter-06/training-loop-predictions-zh.png)
+![学习循环里各 batch 的预测与目标](/AiBook/assets/part-05/chapter-06/training-loop-predictions-zh.png)
 
 接着看到的是每个 batch 的平均 loss。loss 是把 batch 内样本级误差先做平均后的值，所以 optimizer 真正读到的，不是某一个单独样本，而是 batch 汇总之后的平均信号。
 
-![学习循环里各 batch 的平均 loss](../../../assets/part-05/chapter-06/training-loop-batch-loss-zh.png)
+![学习循环里各 batch 的平均 loss](/AiBook/assets/part-05/chapter-06/training-loop-batch-loss-zh.png)
 
 再下一张图是每个 batch 的平均 gradient。两个值都为负，表示当前 `risk_weight` 做出来的预测都偏低，因此 update 会朝着把 `risk_weight` 提高的方向继续。
 
-![学习循环里各 batch 的平均 gradient](../../../assets/part-05/chapter-06/training-loop-batch-gradient-zh.png)
+![学习循环里各 batch 的平均 gradient](/AiBook/assets/part-05/chapter-06/training-loop-batch-gradient-zh.png)
 
 最后一张图展示的是 optimizer step 之后的 `risk_weight`。这张图说明：学习循环不是算完一次输出就结束，而是通过 batch 平均 gradient 改变下一个 batch forward 的前提条件。
 
-![学习循环里 risk_weight 的更新](../../../assets/part-05/chapter-06/training-loop-risk-weight-update-zh.png)
+![学习循环里 risk_weight 的更新](/AiBook/assets/part-05/chapter-06/training-loop-risk-weight-update-zh.png)
 
 如果再把这个例子简短地折叠一次，就能把 batch 内与 batch 外的职责分成下面三段。
 

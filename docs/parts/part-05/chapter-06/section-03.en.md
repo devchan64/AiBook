@@ -11,7 +11,7 @@ This question is very important. Readers often think the model always works in t
 
 Learning is the stage that changes model parameters, and model execution (inference) is the stage that computes results with the current parameters without changing them.
 
-If the distinction between learning and model execution starts to blur again in later sections, it helps to return together to the [training](../../../reference/concept-glossary.md#training) and [inference](../../../reference/concept-glossary.md#inference) entries in the concept glossary.
+If the distinction between learning and model execution starts to blur again in later sections, it helps to return together to the [training](/AiBook/reference/concept-glossary/#training) and [inference](/AiBook/reference/concept-glossary/#inference) entries in the concept glossary.
 
 ## Scope Of This Section
 
@@ -357,11 +357,11 @@ Here, first confirm that `alarm_weight`, `delay_weight`, and `bias` actually cha
 
 If we reread it as graphs, the procedural difference becomes clearer. In the learning procedure, `alarm_weight`, `delay_weight`, and `bias` change after the update at each step, and the value after update becomes the reference for the next step.
 
-![Graph showing several parameters changing by step in the learning procedure](../../../assets/part-05/chapter-06/learning-weight-update-trace-en.png)
+![Graph showing several parameters changing by step in the learning procedure](/AiBook/assets/part-05/chapter-06/learning-weight-update-trace-en.png)
 
 In the model-execution procedure, `predicted_block_score` changes as the service inputs change, but the parameters in that same interval stay fixed like horizontal lines. What to confirm in this graph is not first the fact that the output line changes, but the fact that the parameter lines do not move.
 
-![Graph showing that predictions change in the model-execution procedure but parameters stay fixed](../../../assets/part-05/chapter-06/inference-fixed-weight-trace-en.png)
+![Graph showing that predictions change in the model-execution procedure but parameters stay fixed](/AiBook/assets/part-05/chapter-06/inference-fixed-weight-trace-en.png)
 
 | Interval | Core point to read now |
 | --- | --- |

@@ -25,7 +25,7 @@ If only this positional relationship is drawn separately, it becomes the followi
 
 Once this transformation rule makes the relationship depart from a simple proportional line, nonlinearity appears, and the neural network can express more complex patterns.
 
-When the baseline of activation and nonlinearity needs to be fixed briefly again, return to the [activation function](../../../reference/concept-glossary.md#activation-function) entry in the concept glossary.
+When the baseline of activation and nonlinearity needs to be fixed briefly again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
 
 ## Scope Of This Section
 
@@ -131,7 +131,7 @@ z & 0 \le z \le 1.5 \\
 
 This equation is not here so that you memorize the name of a representative activation function. It is only an example showing that even for the same score \(z\), the degree to which it turns into \(a\) can differ across ranges. In the negative range, the signal weakens. In the middle range, it is passed relatively directly. In the high range, the increase is pressed down again. So the whole graph no longer remains one straight line, but bends in the middle.
 
-![Educational example of a nonlinear activation transform](../../../assets/part-05/chapter-03/nonlinear-activation-example-en.svg)
+![Educational example of a nonlinear activation transform](/AiBook/assets/part-05/chapter-03/nonlinear-activation-example-en.svg)
 
 In this graph, the gray dashed line is a linear pass-through such as `a = z`, where the score is passed unchanged. The blue line is a nonlinear transformation whose response differs by range. To say that the activation function gives a nonlinear transformation means that the value \(a\) received by the next layer is not simply a copy of \(z\), but can become a value whose meaning changes by range in this way.
 
@@ -216,7 +216,7 @@ This diagram is not intended to redraw separately the visual signals of case 1 a
 
 If this flow is moved into the numerical values used in the exercise, the difference between the pre-activation score \(z\) and the post-activation value \(a\) appears as follows.
 
-![Comparison of operational signals before and after activation](../../../assets/part-05/chapter-03/activation-case-before-after-en.svg)
+![Comparison of operational signals before and after activation](/AiBook/assets/part-05/chapter-03/activation-case-before-after-en.svg)
 
 In this graph, the two states that were negative become close to `0` after activation, the signal just above the boundary remains small, and the strong warning signal remains large. Even for the same operational signals, the value actually received by the next layer changes before and after activation.
 
@@ -328,7 +328,7 @@ Finally, change the values directly once more. The table below is a small experi
 
 If only the post-activation value is examined, these three manipulations look as follows.
 
-![Pre- and post-activation changes under input adjustments](../../../assets/part-05/chapter-03/activation-experiment-shift-en.svg)
+![Pre- and post-activation changes under input adjustments](/AiBook/assets/part-05/chapter-03/activation-experiment-shift-en.svg)
 
 Lowering the bias or reducing the recovery-delay score drops the boundary signal to `0`, while increasing the failure weight leaves an already strong signal even larger.
 

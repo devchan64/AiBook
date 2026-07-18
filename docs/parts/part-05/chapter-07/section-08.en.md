@@ -122,7 +122,7 @@ In other words, the center of this section is not the exact formula by which cli
 
 If we look at it through a graph, it becomes more direct why clipping is called `the device that presses down one spike`.
 
-![Comparison of update spikes with and without clipping](../../../assets/part-05/chapter-07/clipping-spike-comparison-en.png)
+![Comparison of update spikes with and without clipping](/AiBook/assets/part-05/chapter-07/clipping-spike-comparison-en.png)
 
 In this graph, only the 3rd step receives an aggressive input, so without clipping the update size jumps up to `1.2`, whereas once clipping is applied it is pressed near `0.5`. The important point is not that every step is made equally small, but that only the spiking moment is made less aggressive. So it is more accurate to read clipping not as `a device that slows down the whole learning process`, but as `the safety device that stops a particular spike from shaking learning`.
 

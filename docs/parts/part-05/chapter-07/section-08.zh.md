@@ -122,7 +122,7 @@ optimizer 会接收 gradient，并应用自己的 update 规则。clipping 则�
 
 如果用图再看一次，就会更直接理解为什么 clipping 会被叫成`把单次 spike 压住的装置。`
 
-![有无 clipping 时对 update spike 的比较](../../../assets/part-05/chapter-07/clipping-spike-comparison-zh.png)
+![有无 clipping 时对 update spike 的比较](/AiBook/assets/part-05/chapter-07/clipping-spike-comparison-zh.png)
 
 这张图里，只有第 3 个 step 的输入特别猛，因此在没有 clipping 时，update 会一下跳到 `1.2`；加上 clipping 后，则会被压到接近 `0.5`。关键点不是让每一步都同样变小，而是只在那种突然爆冲的瞬间减少过激性。所以更准确的读法不是`让整个训练都变慢的装置`，而是`防止某个 spike 把学习过程打乱的安全装置。`
 

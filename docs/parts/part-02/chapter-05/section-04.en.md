@@ -74,7 +74,7 @@ The next flow after this Section is also simple.
 
 The code in this Section uses NumPy.
 
-Check the execution environment based on P2-3.5, [Distinguish the execution environment first](../chapter-03/section-05.md#_2). Here we do not explain Python installation again, and instead focus on checking statistical concepts through small code examples.
+Check the execution environment based on P2-3.5, [Distinguish the execution environment first](../chapter-03/section-05.md#first-separate-the-runtime-environment). Here we do not explain Python installation again, and instead focus on checking statistical concepts through small code examples.
 
 If you use Google Colab, you can prepare NumPy in a code cell like this.
 

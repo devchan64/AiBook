@@ -11,7 +11,7 @@ That is why P4-19.3 is needed.
 
 Because reinforcement learning learns by trying actions, the design of reward, the place where experiments can be run, and whether what was learned in simulation still works in reality must always be checked together.
 
-This Section does not repeat the basic definitions of value-based and policy-based reinforcement learning at length. The main handles remain in P4-19.1, P4-19.2, and the [concept glossary](../../../reference/concept-glossary.md). Here, the focus stays only on the application risks that arise when those algorithms are attached to real problems.
+This Section does not repeat the basic definitions of value-based and policy-based reinforcement learning at length. The main handles remain in P4-19.1, P4-19.2, and the [concept glossary](/AiBook/reference/concept-glossary/). Here, the focus stays only on the application risks that arise when those algorithms are attached to real problems.
 
 ## Scope Of This Section
 

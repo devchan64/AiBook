@@ -197,15 +197,15 @@ Adam-like updates (simplified intuition)
 
 如果再把这些输出拆成`输入 gradient -> 每步 update -> 累积后的 risk_weight`三层来读，自适应 update 试图补什么会更清楚。
 
-![逐 step 的 gradient 输入流](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-zh.png)
+![逐 step 的 gradient 输入流](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-zh.png)
 
 第一张图只是输入，还不是 optimizer 改过之后的东西。这里能看到：随着 step 变化，`gradient_risk_weight` 的绝对值越来越小。也就是说，直接 update 与 Adam-like 的差别，并不是因为输入不同，而是因为它们对同样输入采用了不同更新规则。
 
-![直接 update 与 Adam-like 的逐 step delta 对比](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-zh.png)
+![直接 update 与 Adam-like 的逐 step delta 对比](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-zh.png)
 
 第二张图开始出现差异。直接 update 会立刻把当前 gradient 与 learning rate 相乘，因此第一步就走得比较大；Adam-like 则会先通过 moving average，因此即使面对同样输入，也会做出更小、更平滑的移动量。
 
-![直接 update 与 Adam-like 的 risk_weight 移动轨迹](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-zh.png)
+![直接 update 与 Adam-like 的 risk_weight 移动轨迹](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-zh.png)
 
 第三张图显示，这种差异最终会积累成不同参数路径。直接 update 会比较快地走到 `1.7`，而 Adam-like 则会更缓慢地到达 `1.156`。这里最重要的，并不是判断哪一边绝对更好，而是确认：optimizer 规则会把同一条 gradient history 变成不同的 parameter path。
 

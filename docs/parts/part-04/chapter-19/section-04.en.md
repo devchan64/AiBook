@@ -14,7 +14,7 @@ After reading P4-19.1 through P4-19.3, readers quickly encounter many more names
 
 These names came from different periods and different bottlenecks, but they often rush in all at once. This Section focuses not on learning each implementation, but on organizing the larger flow of `why did these names branch out?`
 
-This supplementary learning Section does not explain the basic definition of reinforcement learning from the beginning again. The handle for value-based reinforcement learning remains in P4-19.1, the handle for policy-based reinforcement learning remains in P4-19.2, and the handle for application risk remains in P4-19.3 and the [concept glossary](../../../reference/concept-glossary.md). Here, only the later names are arranged as a genealogy.
+This supplementary learning Section does not explain the basic definition of reinforcement learning from the beginning again. The handle for value-based reinforcement learning remains in P4-19.1, the handle for policy-based reinforcement learning remains in P4-19.2, and the handle for application risk remains in P4-19.3 and the [concept glossary](/AiBook/reference/concept-glossary/). Here, only the later names are arranged as a genealogy.
 
 ## Scope Of This Supplementary Section
 

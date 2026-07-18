@@ -15,7 +15,7 @@ The scikit-learn documentation explains hyperparameters as `parameters that are 
 
 A hyperparameter is not the rule that the model itself learns, but a value that fixes in advance what shape and strength the model will learn with.
 
-This Section explains `hyperparameters`, `the distinction between learned values and values fixed in advance`, and `the effect of configuration values on comparison experiments`. Later Sections continue the current context through this handle, and the basic meaning of configuration values fixed first from outside the model reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains `hyperparameters`, `the distinction between learned values and values fixed in advance`, and `the effect of configuration values on comparison experiments`. Later Sections continue the current context through this handle, and the basic meaning of configuration values fixed first from outside the model reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 The first criterion that must be distinguished is the following.
 

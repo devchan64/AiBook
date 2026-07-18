@@ -154,15 +154,15 @@ max pooling 会在一个小窗口里选出最大的那个值。这会给读者�
 
 如果把这同一组变换拆成一步一步来看，可以按下面这样读取。
 
-![convolution 输入封口 patch](../../../assets/part-05/chapter-11/convolution-pooling-input-zh.png)
+![convolution 输入封口 patch](/AiBook/assets/part-05/chapter-11/convolution-pooling-input-zh.png)
 
 输入 patch 仍然更接近人眼看到的那个小列分布场景。左边是高值，右边是低值，它们被放在一起，但在这个阶段，`边界在哪里`还没有被单独分成分数。
 
-![convolution feature map](../../../assets/part-05/chapter-11/convolution-pooling-feature-map-zh.png)
+![convolution feature map](/AiBook/assets/part-05/chapter-11/convolution-pooling-feature-map-zh.png)
 
 经过 convolution 之后，它会变成一张响应图，表示各个位置和 filter 的匹配程度有多高。这里，只有在左右列差异真正出现的中间位置上，数值 `4` 才会重复出现，这意味着输入场景已经被改写成了`边界响应的位置图`。
 
-![max pooling 汇总结果](../../../assets/part-05/chapter-11/convolution-pooling-max-pool-zh.png)
+![max pooling 汇总结果](/AiBook/assets/part-05/chapter-11/convolution-pooling-max-pool-zh.png)
 
 max pooling 不会把整张响应图原样传下去，而只会在这个小区域里保留最强的响应。这个阶段真正发生的变化是：和细节位置相比，`这个区域里存在很强的封口边界变化`这样一个摘要信号，会被传给下一层。
 

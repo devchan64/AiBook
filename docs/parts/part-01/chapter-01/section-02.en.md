@@ -7,7 +7,7 @@ Section 1.1 organized the scope of the word AI. This section looks at what kinds
 
 If AI is read only as the name of a technology, rule-based AI, machine learning, deep learning, and generative AI can look like separate worlds. But if the focus shifts to problem form, common structure starts to appear. Most AI systems receive some input, produce output aligned with an objective, and affect human judgment or the environment.
 
-In Part 1, the baseline distinction among problem types such as classification, prediction, recommendation, and generation is fixed in this section. Even when the same words appear again later, only the amount needed for the current question is carried forward there. When the problem types themselves need to be separated again, return to this section and to the [Concept Glossary](../../../reference/concept-glossary.md).
+In Part 1, the baseline distinction among problem types such as classification, prediction, recommendation, and generation is fixed in this section. Even when the same words appear again later, only the amount needed for the current question is carried forward there. When the problem types themselves need to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 
@@ -37,14 +37,14 @@ This section is also the main representative location where recurring terms for 
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [recognition](../../../reference/concept-glossary.md#recognition) | a problem of reading an object or state from input | to distinguish a broader reading problem before narrowing to classification |
-| [classification](../../../reference/concept-glossary.md#classification) | a problem of choosing one predefined category | to fix a representative problem where `what is being predicted` is clear |
-| [prediction](../../../reference/concept-glossary.md#prediction) | a problem of estimating a future value or result from current information | to separate problems that produce values or likelihoods from classification |
-| [recommendation](../../../reference/concept-glossary.md#recommendation) | a problem of choosing what is worth showing next among many candidates | to show that AI is not only answer generation |
-| [generation](../../../reference/concept-glossary.md#generation) | a problem of producing new text, images, audio, or code | to fix why the character of the output differs |
-| [input](../../../reference/concept-glossary.md#input) | the information received by the system | to read problem definition from `what is put in` |
-| [output](../../../reference/concept-glossary.md#output) | the result produced by the system | to separate problem types by `what comes out` |
-| [goal](../../../reference/concept-glossary.md#goal) | the standard that determines what counts as a good output | to see why the same data becomes a different problem when the question changes |
+| [recognition](/AiBook/reference/concept-glossary/#recognition) | a problem of reading an object or state from input | to distinguish a broader reading problem before narrowing to classification |
+| [classification](/AiBook/reference/concept-glossary/#classification) | a problem of choosing one predefined category | to fix a representative problem where `what is being predicted` is clear |
+| [prediction](/AiBook/reference/concept-glossary/#prediction) | a problem of estimating a future value or result from current information | to separate problems that produce values or likelihoods from classification |
+| [recommendation](/AiBook/reference/concept-glossary/#recommendation) | a problem of choosing what is worth showing next among many candidates | to show that AI is not only answer generation |
+| [generation](/AiBook/reference/concept-glossary/#generation) | a problem of producing new text, images, audio, or code | to fix why the character of the output differs |
+| [input](/AiBook/reference/concept-glossary/#input) | the information received by the system | to read problem definition from `what is put in` |
+| [output](/AiBook/reference/concept-glossary/#output) | the result produced by the system | to separate problem types by `what comes out` |
+| [goal](/AiBook/reference/concept-glossary/#goal) | the standard that determines what counts as a good output | to see why the same data becomes a different problem when the question changes |
 
 ## Main Learning Points
 
@@ -56,7 +56,7 @@ This section looks at the shape of the problem before it looks at algorithm name
 | The same data becomes a different problem when the `question` changes | That reveals why classification, prediction, recommendation, and generation branch apart. | You should distinguish that one customer dataset can support several different problems. |
 | Results have `impact` on people or services | This makes AI readable not as abstract calculation but as an actual judgment structure. | Connect the output to where it is used in one sentence. |
 
-`Input`, `output`, `goal`, and `impact` already appeared in the previous section as the basic language for reading an AI system. Here those same four terms are reconnected to problem types. Input is the information received by the system. Output is the result it produces. Goal is the standard that determines what counts as a good output. `Impact` indicates where that result reaches real human judgment or environmental change. If the terms themselves become unstable again, return to the previous section and the representative entries in the [Concept Glossary](../../../reference/concept-glossary.md). In this section, they are used to read problem types as structures of `what goes in and what comes out`.
+`Input`, `output`, `goal`, and `impact` already appeared in the previous section as the basic language for reading an AI system. Here those same four terms are reconnected to problem types. Input is the information received by the system. Output is the result it produces. Goal is the standard that determines what counts as a good output. `Impact` indicates where that result reaches real human judgment or environmental change. If the terms themselves become unstable again, return to the previous section and the representative entries in the [Concept Glossary](/AiBook/reference/concept-glossary/). In this section, they are used to read problem types as structures of `what goes in and what comes out`.
 
 ## Detailed Learning
 

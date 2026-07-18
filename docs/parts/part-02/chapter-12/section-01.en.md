@@ -15,7 +15,7 @@ Real data often arrives in a shape like this.
 
 When we look at this table, we usually read `who`, `which column`, and `which value` before we read position. A Pandas DataFrame is the central structure for exactly this kind of tabular data.
 
-This Section introduces the basic distinction among `DataFrame`, `row`, `column`, and `index`. If the previous NumPy chapter focused on how values appear as vectors and matrices for actual computation, this chapter asks how the same bundle of values should be read as a table of cases and variables. The next chapter will move from this table to plots that reveal patterns not immediately visible in the table. As we continue into selection, aggregation, and dataset preparation, the [concept glossary](../../../reference/concept-glossary.md) remains a useful anchor.
+This Section introduces the basic distinction among `DataFrame`, `row`, `column`, and `index`. If the previous NumPy chapter focused on how values appear as vectors and matrices for actual computation, this chapter asks how the same bundle of values should be read as a table of cases and variables. The next chapter will move from this table to plots that reveal patterns not immediately visible in the table. As we continue into selection, aggregation, and dataset preparation, the [concept glossary](/AiBook/reference/concept-glossary/) remains a useful anchor.
 
 ## Scope of This Section
 

@@ -11,7 +11,7 @@ A two-dimensional or three-dimensional plot built through dimensionality reducti
 
 Visualization is a very strong tool, but it can also create very strong illusions.
 
-This Section does not repeat the basic definition of dimensionality reduction at length. The core intuition `many features are reexpressed through fewer axes` reconnects through P4-18.1 and the [concept glossary](../../../reference/concept-glossary.md), and here the focus is only on what kinds of information loss and interpretation risk that picture creates.
+This Section does not repeat the basic definition of dimensionality reduction at length. The core intuition `many features are reexpressed through fewer axes` reconnects through P4-18.1 and the [concept glossary](/AiBook/reference/concept-glossary/), and here the focus is only on what kinds of information loss and interpretation risk that picture creates.
 
 ## Scope Of This Section
 

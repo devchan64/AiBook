@@ -11,7 +11,7 @@ The viewpoint that answers this question is the computation graph and automatic 
 
 A computation graph is a representation that unfolds a model's computation into nodes and edges so that we can see where values are created in the forward pass and along what path automatic differentiation sends gradients back during backward.
 
-When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](../../../reference/concept-glossary.md#computation-graph) entry in the concept glossary as the anchor.
+When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](/AiBook/reference/concept-glossary/#computation-graph) entry in the concept glossary as the anchor.
 
 ## Scope Of This Section
 
@@ -390,11 +390,11 @@ node_trace:
 
 You can read this output like a table, but if we separate it into graphs, the difference between `the size of the forward values` and `whether the backward gradient survives` splits more clearly.
 
-![Forward-node value comparison on the computation graph](../../../assets/part-05/chapter-05/computation-graph-forward-trace-en.png)
+![Forward-node value comparison on the computation graph](/AiBook/assets/part-05/chapter-05/computation-graph-forward-trace-en.png)
 
 On the forward graph, what appears first is that the loss of `block_gate_closed` is much larger. But if we look only at this graph, it is easy to misread it as `the loss is larger, so the earlier part will also be updated more strongly`. That is why we need to split the same example again into a backward graph.
 
-![Backward-node gradient comparison on the computation graph](../../../assets/part-05/chapter-05/computation-graph-backward-trace-en.png)
+![Backward-node gradient comparison on the computation graph](/AiBook/assets/part-05/chapter-05/computation-graph-backward-trace-en.png)
 
 On the backward graph, the contrast appears the other way. In `block_gate_open`, `dL/d_logit`, `dL/d_weight`, and `dL/d_bias` are all alive. In `block_gate_closed`, even though `dL/d_activation` is large, the gradients after the earlier side of ReLU are cut to 0. In other words, when reading a computation graph as a graph, we have to separate the loss bars and the gradient bars.
 

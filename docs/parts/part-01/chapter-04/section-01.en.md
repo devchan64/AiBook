@@ -39,10 +39,10 @@ This section is the main place in Part 1 where the basic distinction between `mo
 
 | Concept | Meaning fixed here first | Why it matters now |
 | --- | --- | --- |
-| [model](../../../reference/concept-glossary.md#model) | the core computational component that takes input and computes output | to distinguish the AI meaning of `model` from the whole of reality |
-| [system](../../../reference/concept-glossary.md#system) | the overall structure that includes the model, rules, and human review | to avoid mistaking a whole service for a single model |
-| [input](../../../reference/concept-glossary.md#input) | the information the system receives | to see what the model takes as computational material |
-| [output](../../../reference/concept-glossary.md#output) | the result the system produces | to see what the model computes |
+| [model](/AiBook/reference/concept-glossary/#model) | the core computational component that takes input and computes output | to distinguish the AI meaning of `model` from the whole of reality |
+| [system](/AiBook/reference/concept-glossary/#system) | the overall structure that includes the model, rules, and human review | to avoid mistaking a whole service for a single model |
+| [input](/AiBook/reference/concept-glossary/#input) | the information the system receives | to see what the model takes as computational material |
+| [output](/AiBook/reference/concept-glossary/#output) | the result the system produces | to see what the model computes |
 
 ## Three Standards
 

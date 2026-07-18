@@ -11,7 +11,7 @@ The setting that appears first when answering this question is the learning rate
 
 The learning rate is the stride length that decides how far the optimizer moves at one time when it turns a gradient into an actual update. In other words, if the gradient tells us `in which direction should we change it`, then the learning rate decides `how far should we move in that direction in this step`.
 
-If the relationship among learning rate, gradient, and update starts to blur again, it helps to return together to the [learning rate](../../../reference/concept-glossary.md#learning-rate) and [optimizer](../../../reference/concept-glossary.md#optimizer) entries in the concept glossary.
+If the relationship among learning rate, gradient, and update starts to blur again, it helps to return together to the [learning rate](/AiBook/reference/concept-glossary/#learning-rate) and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
 
 ## Scope Of This Section
 
@@ -85,7 +85,7 @@ If we bundle this table back into one sentence, it becomes `gradient is the dire
 
 Even if we know from the same position which direction goes downward, if the stride is too small we can barely move, if it is appropriate we can approach the low-loss region, and if it is too large we can overshoot a good point and make the loss large again. The important point here is that `knowing the direction` and `arriving at a good next position` are not the same thing.
 
-![Learning-rate step size on the loss curve](../../../assets/part-05/chapter-07/learning-rate-step-size-en.svg)
+![Learning-rate step size on the loss curve](/AiBook/assets/part-05/chapter-07/learning-rate-step-size-en.svg)
 
 What matters in this graph is that `the gradient direction is correct` and `the update made by the optimizer is appropriate` are not the same statement. When reading the role of the optimizer, we have to look not only at the direction signal but also at how far that signal actually moved the parameter. Even when following the same arrow, if one step is too short there is almost no progress, and if it is too long it can overshoot a good point. The learning rate is exactly the value that decides `the length of that one step`.
 
@@ -209,11 +209,11 @@ This output is the scene where the same gradient passes through the optimizer's 
 
 The output format itself now also shows that comparison structure directly. The `[shared state]` section shows the current state and gradient shared by all three cases. The lines `[lr=0.01]`, `[lr=0.1]`, and `[lr=0.5]` then show side by side how the result differs when only the learning rate is changed for that same starting point. So what the reader has to compare in this example is not `three different gradients`, but `how one same gradient is turned into different updates by the learning rate`.
 
-![Updated risk weight by learning rate](../../../assets/part-05/chapter-07/optimizer-example-updated-weight-en.png)
+![Updated risk weight by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-en.png)
 
-![Updated block score by learning rate](../../../assets/part-05/chapter-07/optimizer-example-updated-score-en.png)
+![Updated block score by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-en.png)
 
-![Updated loss by learning rate](../../../assets/part-05/chapter-07/optimizer-example-updated-loss-en.png)
+![Updated loss by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-en.png)
 
 When reading these three charts together, the safest order is the following. First, in `optimizer-example-updated-weight`, look at how differently the actual movement amount changes the weight number by learning rate. Then, in `optimizer-example-updated-score`, check where that difference moved the prediction value. Finally, in `optimizer-example-updated-loss`, see whether the result of that movement reduced the loss, barely moved, or overshot.
 

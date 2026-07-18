@@ -7,7 +7,7 @@ Section 2.1 covered symbolic AI and rule-based approaches. This section takes th
 
 The task here is not to study algorithms in detail. The task is to fix why `search`, `knowledge representation`, and `probabilistic reasoning` keep returning in introductory AI, and how this flow becomes part of the background for later explanations of machine learning and deep learning.
 
-In Part 1, the baseline distinction between `search` and `probabilistic reasoning` is fixed here. `Knowledge representation` was introduced in 2.1, and is reconnected here only as much as needed to compare its role between search and probabilistic reasoning. If the term boundaries become blurry again later, return to this section and the shared [Concept Glossary](../../../reference/concept-glossary.md).
+In Part 1, the baseline distinction between `search` and `probabilistic reasoning` is fixed here. `Knowledge representation` was introduced in 2.1, and is reconnected here only as much as needed to compare its role between search and probabilistic reasoning. If the term boundaries become blurry again later, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 
@@ -32,10 +32,10 @@ This section is the representative place in Chapter 2 where the role difference 
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [search](../../../reference/concept-glossary.md#search) | an approach that follows possible states and actions to find a goal | to see why candidate order becomes a problem when there are too many options |
-| [knowledge representation](../../../reference/concept-glossary.md#knowledge-representation) | a format for writing facts, relations, and constraints | to separate the question of what the system should count as knowledge |
-| [probabilistic reasoning](../../../reference/concept-glossary.md#probabilistic-reasoning) | a way to handle plausibility under incomplete information | to read judgments that do not close into simple true or false form |
-| [goal](../../../reference/concept-glossary.md#goal) | the condition to be reached | to see what tells search where to stop |
+| [search](/AiBook/reference/concept-glossary/#search) | an approach that follows possible states and actions to find a goal | to see why candidate order becomes a problem when there are too many options |
+| [knowledge representation](/AiBook/reference/concept-glossary/#knowledge-representation) | a format for writing facts, relations, and constraints | to separate the question of what the system should count as knowledge |
+| [probabilistic reasoning](/AiBook/reference/concept-glossary/#probabilistic-reasoning) | a way to handle plausibility under incomplete information | to read judgments that do not close into simple true or false form |
+| [goal](/AiBook/reference/concept-glossary/#goal) | the condition to be reached | to see what tells search where to stop |
 
 ## Main Learning Points
 

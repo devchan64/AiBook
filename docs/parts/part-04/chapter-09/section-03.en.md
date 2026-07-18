@@ -14,7 +14,7 @@ P4-8 and P4-9 established the basic flow of setting model candidates, placing a 
 
 The goal of this Section is not to learn the implementation details of each of them, but to organize `why these names appeared and what level of problem each of them handles`.
 
-This supplementary learning also does not re-explain from the beginning the basic definitions of hyperparameters and tuning. The basic handles remain in P4-9.1, P4-9.2, and the [concept glossary](../../../reference/concept-glossary.md), while this Section only organizes the advanced names that come after them in a broad flow.
+This supplementary learning also does not re-explain from the beginning the basic definitions of hyperparameters and tuning. The basic handles remain in P4-9.1, P4-9.2, and the [concept glossary](/AiBook/reference/concept-glossary/), while this Section only organizes the advanced names that come after them in a broad flow.
 
 ## Scope Of This Supplementary Learning
 

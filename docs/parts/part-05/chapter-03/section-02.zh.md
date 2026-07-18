@@ -45,7 +45,7 @@ sigmoid 通常写成下面这个公式。
 
 sigmoid 的曲线是一个 S 形。这里重要的不是形状名字，而是它在不同区间里如何反应。
 
-![sigmoid 激活函数曲线](../../../assets/part-05/chapter-03/sigmoid-curve-zh.svg)
+![sigmoid 激活函数曲线](/AiBook/assets/part-05/chapter-03/sigmoid-curve-zh.svg)
 
 | 输入区间 | 输出直觉 | 读者首先该看的点 |
 | --- | --- | --- |

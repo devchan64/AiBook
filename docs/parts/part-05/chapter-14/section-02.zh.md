@@ -312,11 +312,11 @@ direct_decision = block_restart
 
 第一个结果，是顺序状态在穿过上下文时怎样逐渐减弱。`block` 这一轴在规则行时很强，但到了最后请求位置时，只剩下 `0.05`。
 
-![顺序状态衰减](../../../assets/part-05/chapter-14/sequential-state-decay-zh.png)
+![顺序状态衰减](/AiBook/assets/part-05/chapter-14/sequential-state-decay-zh.png)
 
 第二个结果，是直接重参考方法在最后请求点到底把哪些行重新拉了回来。因为规则行和压力状态行重新升成高依据，所以这个例子真正要读出的变化，不只是两个决策名字不同，而是前面的线索到底是`在状态里变弱了`，还是`在当前请求点被重新调用回来了`。
 
-![直接重参考匹配分数](../../../assets/part-05/chapter-14/direct-reference-match-scores-zh.png)
+![直接重参考匹配分数](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-zh.png)
 
 | 先看的输出 | 这个输出表示什么 | 如果改动它，会看到什么变化 |
 | --- | --- | --- |

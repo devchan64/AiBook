@@ -7,7 +7,7 @@ P4-2.1 looked at supervised learning, where a model is trained using examples th
 
 Unsupervised learning does not mean `it learns freely without answers` in some vague way. It means an approach that looks for similarity, grouping, axes, density, or unusual points inside data without labels attached beforehand by people. In many cases, the model is not trying to match an answer. It is building structure candidates so that people can understand the data better or prepare the next task.
 
-This Section explains the broad distinction among `unsupervised learning`, `reading structure without labels`, `clustering`, and `dimensionality reduction`. Later Sections continue the current context with this handle, and the basic meaning of structure exploration is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the broad distinction among `unsupervised learning`, `reading structure without labels`, `clustering`, and `dimensionality reduction`. Later Sections continue the current context with this handle, and the basic meaning of structure exploration is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

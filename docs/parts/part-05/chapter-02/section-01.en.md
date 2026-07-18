@@ -5,7 +5,7 @@ Version: `v2026.07.17`
 
 In P5-1.2, we saw that a single perceptron makes a decision through a linear combination of inputs and activation. At the same time, we also saw that one perceptron can create only one linear boundary at a time, so there is a limit to the patterns it can express. The next question naturally becomes `if one perceptron is not enough, what changes if several such computation units are stacked?` That question leads into the multilayer neural network. A multilayer neural network is a structure that stacks several computation units like perceptrons across multiple layers, turns simple input combinations into intermediate representations, and then connects those representations to more complex decisions.
 
-When the distinction between multilayer structure and intermediate layers needs to be fixed again, it helps to reread the [multilayer neural network](../../../reference/concept-glossary.md#multilayer-neural-network) and [hidden layer](../../../reference/concept-glossary.md#hidden-layer) entries together in the concept glossary.
+When the distinction between multilayer structure and intermediate layers needs to be fixed again, it helps to reread the [multilayer neural network](/AiBook/reference/concept-glossary/#multilayer-neural-network) and [hidden layer](/AiBook/reference/concept-glossary/#hidden-layer) entries together in the concept glossary.
 
 ## Scope Of This Section
 
@@ -290,7 +290,7 @@ step_3: loosen only output rule: input=(0.3, 1.0), output_bias=-0.5, hidden=(0, 
 
 How the input change alters the hidden-layer pattern appears more directly when placed on the input plane.
 
-![Input regions where both hidden nodes turn on together, with follow-up experiment moves](../../../assets/part-05/chapter-02/hidden-pattern-regions-en.png)
+![Input regions where both hidden nodes turn on together, with follow-up experiment moves](/AiBook/assets/part-05/chapter-02/hidden-pattern-regions-en.png)
 
 In this graph, the green region is the input area where both `h1` and `h2` turn on together and lead to final output `1` under the default output-layer bias `-0.9`. At first, `batch_2` stays in the `(0, 1)` pattern, but when `x1` is raised it enters the green region, and `batch_1` also moves into the same `(1, 1)` combination when `x2` is raised. By contrast, the step-3 experiment changes only the output-layer bias, so the input coordinates do not move. That case is better read separately through the explanation below than through the graph.
 

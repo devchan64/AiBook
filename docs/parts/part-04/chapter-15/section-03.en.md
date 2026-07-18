@@ -15,7 +15,7 @@ OOB is an internal validation-like method in which random forest uses samples th
 
 So OOB is not `a new model`. It is a way to read and inspect a random forest.
 
-This Section also does not repeat the basic structure of random forest at length. The core intuition reconnects through P4-15.1 and the [concept glossary](../../../reference/concept-glossary.md), and here we focus only on how bootstrap and OOB connect as an inspection device.
+This Section also does not repeat the basic structure of random forest at length. The core intuition reconnects through P4-15.1 and the [concept glossary](/AiBook/reference/concept-glossary/), and here we focus only on how bootstrap and OOB connect as an inspection device.
 
 ## Scope Of This Section
 

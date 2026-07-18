@@ -13,7 +13,7 @@ Dimensionality reduction is a method that changes many features into a smaller n
 
 Dimensionality reduction is both `removing some information` and `making structure easier to see`.
 
-This Section explains the basic meaning of `dimensionality reduction`, `dimension`, and `PCA (principal component analysis)`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reexpressing many features through fewer axes reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meaning of `dimensionality reduction`, `dimension`, and `PCA (principal component analysis)`. In the next Section, we continue the current line of judgment from this handle, and the basic sense of reexpressing many features through fewer axes reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

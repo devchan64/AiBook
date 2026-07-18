@@ -47,7 +47,7 @@ z & z \ge 0
 
 ReLU 的图像在 0 以下会贴着底线走，而在 0 之后会沿着直线不断上升。
 
-![ReLU 激活函数曲线](../../../assets/part-05/chapter-03/relu-curve-zh.svg)
+![ReLU 激活函数曲线](/AiBook/assets/part-05/chapter-03/relu-curve-zh.svg)
 
 | 输入区间 | 输出直觉 | 读者首先该看的点 |
 | --- | --- | --- |

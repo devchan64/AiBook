@@ -3,7 +3,7 @@
 > Section ID: `P3-8.4`
 > Version: `v2026.07.11`
 
-After reading a comparison table, you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into `structured operational output` such as a [review queue](../../../reference/concept-glossary.md#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
+After reading a comparison table, you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into `structured operational output` such as a [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
 
 | Level | Main form | Role |
 | --- | --- | --- |

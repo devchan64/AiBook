@@ -11,7 +11,7 @@ The answer is no.
 
 The loss function changes by problem type, because regression, classification, and generation each have a different shape of wrongness.
 
-When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](../../../reference/concept-glossary.md#loss-function) entry in the concept glossary.
+When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](/AiBook/reference/concept-glossary/#loss-function) entry in the concept glossary.
 
 ## Scope Of This Section
 
@@ -138,11 +138,11 @@ In other words, choosing a loss function is, before anything else, the act of de
 
 This becomes easier if you think that even the horizontal axis of the graph changes. Regression first looks at distance from the correct number, classification at the probability assigned to the correct class, and generation at the probability assigned to the correct token across many positions.
 
-![Axis for reading regression loss](../../../assets/part-05/chapter-04/regression-loss-axis-en.svg)
+![Axis for reading regression loss](/AiBook/assets/part-05/chapter-04/regression-loss-axis-en.svg)
 
-![Axis for reading classification loss](../../../assets/part-05/chapter-04/classification-loss-axis-en.svg)
+![Axis for reading classification loss](/AiBook/assets/part-05/chapter-04/classification-loss-axis-en.svg)
 
-![Axis for reading generation loss](../../../assets/part-05/chapter-04/generation-loss-axis-en.svg)
+![Axis for reading generation loss](/AiBook/assets/part-05/chapter-04/generation-loss-axis-en.svg)
 
 So rather than immediately comparing the sizes of loss numbers across types, you first have to read which prediction is worse inside the same problem type. As these three graphs show, when the problem type changes, the axis that the loss reads changes with it.
 
@@ -397,11 +397,11 @@ generation_loss= 0.288
 
 The values to manipulate in this example are `energy_prediction`, `scratch_probability`, and `token_probability`. If the regression prediction is moved closer to the correct answer, only the regression loss decreases. If the correct-class probability is raised, only the classification loss decreases. If the correct-token probability is raised, only the generation loss decreases. So rather than deciding which problem is worse by placing the three numbers on one line, you must first read what changed inside the same problem when the loss decreased.
 
-![Regression loss before and after adjusting the prediction](../../../assets/part-05/chapter-04/loss-example-regression-experiment-en.svg)
+![Regression loss before and after adjusting the prediction](/AiBook/assets/part-05/chapter-04/loss-example-regression-experiment-en.svg)
 
-![Classification loss before and after adjusting the correct-class probability](../../../assets/part-05/chapter-04/loss-example-classification-experiment-en.svg)
+![Classification loss before and after adjusting the correct-class probability](/AiBook/assets/part-05/chapter-04/loss-example-classification-experiment-en.svg)
 
-![Generation loss before and after adjusting the correct-token probability](../../../assets/part-05/chapter-04/loss-example-generation-experiment-en.svg)
+![Generation loss before and after adjusting the correct-token probability](/AiBook/assets/part-05/chapter-04/loss-example-generation-experiment-en.svg)
 
 The three graphs do not try to force different problems into one picture. They show only how loss decreases from `current -> after adjustment` inside each problem. In regression, loss decreases when the prediction is moved closer to the correct answer. In classification, it decreases when the probability of the correct class rises. In generation, it decreases when the probability of the correct token rises. So when reading the graphs, you should first look not at the absolute heights of the three losses against one another, but only at the before-and-after change inside each graph.
 

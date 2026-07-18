@@ -11,7 +11,7 @@ The key expression for answering this question is representation learning.
 
 Representation learning means the process in which, instead of a person designing each feature one by one, the model learns useful internal representations from the data by itself.
 
-When the distinction between representation and representation learning becomes blurry again in later structure chapters, reread together the glossary entries on [representation](../../../reference/concept-glossary.md#representation) and [representation learning](../../../reference/concept-glossary.md#representation-learning).
+When the distinction between representation and representation learning becomes blurry again in later structure chapters, reread together the glossary entries on [representation](/AiBook/reference/concept-glossary/#representation) and [representation learning](/AiBook/reference/concept-glossary/#representation-learning).
 
 ## Scope Of This Section
 
@@ -298,11 +298,11 @@ representation_gap(line_A, line_B) = 3.09
 
 The first artifact is the one-line risk score made by a person. `line_A` and `line_B` both have the score `43.00`, so they look like the same level of risk.
 
-![Hand-crafted risk score in the representation-learning example](../../../assets/part-05/chapter-10/representation-risk-score-en.png)
+![Hand-crafted risk score in the representation-learning example](/AiBook/assets/part-05/chapter-10/representation-risk-score-en.png)
 
 The second artifact is the coordinate after moving the same input into two auxiliary representation axes. `line_A` and `line_B`, which looked the same in the one-line score, become far apart in the representation coordinates, so the difference in maintenance pattern hidden behind the single score can be read separately.
 
-![2D representation coordinates in the representation-learning example](../../../assets/part-05/chapter-10/representation-coordinate-space-en.png)
+![2D representation coordinates in the representation-learning example](/AiBook/assets/part-05/chapter-10/representation-coordinate-space-en.png)
 
 If we compare once more here, the difference made by representation learning becomes even clearer.
 

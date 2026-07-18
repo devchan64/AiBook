@@ -248,11 +248,11 @@ direct_decision = keeps block
 
 在这个例子里，第一眼最该看的产物，就是当 gap 变长时，`state_support` 会一路掉到阈值以下的这条趋势。即使规则和问题相同，只要中间说明行变多，状态里的 `blocked` 和 `pressure` 线索就会很快变弱。
 
-![长期依赖例子里的状态型线索保留](../../../assets/part-05/chapter-12/long-dependency-state-support-zh.png)
+![长期依赖例子里的状态型线索保留](/AiBook/assets/part-05/chapter-12/long-dependency-state-support-zh.png)
 
 第二个要看的产物，是状态型判定和 direct reference 判定之间的差异。在 `gap=3` 和 `gap=6` 里，状态型判定已经变成 `loses block`，但 direct reference 因为能再次把前面的规则行拿起来，所以仍然保持 `keeps block`。
 
-![长期依赖例子里的状态型判定与 direct reference 判定比较](../../../assets/part-05/chapter-12/long-dependency-decision-comparison-zh.png)
+![长期依赖例子里的状态型判定与 direct reference 判定比较](/AiBook/assets/part-05/chapter-12/long-dependency-decision-comparison-zh.png)
 
 如果把这些输出重新读成运维判断，就会更清楚地看到：长期依赖问题不只是分数下降，而是对安全措施的解释会真正摇晃。
 

@@ -39,11 +39,11 @@ This section is the representative place where a rule-based system is read as an
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [rule-based system](../../../reference/concept-glossary.md#rule-based-system) | a system that compares current facts against rules to determine a conclusion or action | to make the evaluation target itself explicit |
-| [fact](../../../reference/concept-glossary.md#fact) | state information treated as true in the current situation | to see what the rules are applied to |
-| [knowledge base](../../../reference/concept-glossary.md#knowledge-base) | the structure that collects facts, rules, and domain knowledge | to see where the rule set is stored |
-| [inference engine](../../../reference/concept-glossary.md#inference-engine) | the mechanism that finds and applies rules matching the current facts | to see how a conclusion is actually produced |
-| [explanation facility](../../../reference/concept-glossary.md#explanation-facility) | the function that shows which rules caused the result | to fix explainability, one of the main strengths of rule-based systems |
+| [rule-based system](/AiBook/reference/concept-glossary/#rule-based-system) | a system that compares current facts against rules to determine a conclusion or action | to make the evaluation target itself explicit |
+| [fact](/AiBook/reference/concept-glossary/#fact) | state information treated as true in the current situation | to see what the rules are applied to |
+| [knowledge base](/AiBook/reference/concept-glossary/#knowledge-base) | the structure that collects facts, rules, and domain knowledge | to see where the rule set is stored |
+| [inference engine](/AiBook/reference/concept-glossary/#inference-engine) | the mechanism that finds and applies rules matching the current facts | to see how a conclusion is actually produced |
+| [explanation facility](/AiBook/reference/concept-glossary/#explanation-facility) | the function that shows which rules caused the result | to fix explainability, one of the main strengths of rule-based systems |
 
 ## Three Standards
 

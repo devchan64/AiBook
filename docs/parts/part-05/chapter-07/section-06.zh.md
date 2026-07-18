@@ -59,7 +59,7 @@ Version: `v2026.07.17`
 
 如果再用图来看，差别会更直接。
 
-![固定 learning rate 与 warmup plus decay 的步幅差异](../../../assets/part-05/chapter-07/learning-rate-step-size-zh.svg)
+![固定 learning rate 与 warmup plus decay 的步幅差异](/AiBook/assets/part-05/chapter-07/learning-rate-step-size-zh.svg)
 
 即使在同一条损失曲线上，步幅太小会几乎走不动，比较合适时能靠近更低损失区域，太大时则可能直接越过去。scheduler 做的，正是把这条步幅问题扩展成：`在整个学习时间轴上，步幅应该怎么运营？`
 

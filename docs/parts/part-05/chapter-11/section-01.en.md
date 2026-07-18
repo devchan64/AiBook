@@ -11,7 +11,7 @@ The structure that answers this question is the convolutional neural network.
 
 A convolutional neural network is a neural network that does not look at the whole image in one identical way at once, but instead repeatedly inspects small local patterns and learns larger visual structures from them.
 
-When you need to reset the basic definition for reading image structure, return to the glossary entry on [CNN (convolutional neural network)](../../../reference/concept-glossary.md#cnn-convolutional-neural-network).
+When you need to reset the basic definition for reading image structure, return to the glossary entry on [CNN (convolutional neural network)](/AiBook/reference/concept-glossary/#cnn-convolutional-neural-network).
 
 ## Scope Of This Section
 
@@ -118,7 +118,7 @@ The three diagrams below show, step by step, how channel combination and hierarc
 
 ### Figure 1. One Filter Reads The Channels Together
 
-![CNN channel and feature-map intuition](../../../assets/part-05/chapter-11/cnn-channel-feature-map-en.svg)
+![CNN channel and feature-map intuition](/AiBook/assets/part-05/chapter-11/cnn-channel-feature-map-en.svg)
 
 The first thing to see in this figure is not `if there are three channels, the CNN processes the image as three completely separate things`, but rather `one filter reads same-position patches across the channels together and combines those responses into one feature map`. Color information is also read together inside the local pattern, and in the end it is organized into a response map that asks `what pattern appeared strongly at this position`.
 
@@ -132,7 +132,7 @@ That is, the core of this figure is not `the final maps remain separate for each
 
 ### Figure 2. Deeper Layers See More Broadly
 
-![CNN hierarchical vision flow](../../../assets/part-05/chapter-11/cnn-hierarchical-vision-flow-en.svg)
+![CNN hierarchical vision flow](/AiBook/assets/part-05/chapter-11/cnn-hierarchical-vision-flow-en.svg)
 
 The second figure reuses the same equipment photo three times and isolates only the point that `the input photo stays the same, but the receptive field widens as the layer gets deeper`. The left panel is the situation where early convolution reads local clues such as metal texture and valve boundaries in a small local patch. The middle panel is the situation where a wider area is read together so that grouped partial structures such as pipe junctions and the upper part of the tank can be read. The right panel is the situation where many part clues are gathered together so that clues at the level of the overall equipment body can be read.
 
@@ -140,7 +140,7 @@ What is especially important in this figure is that the photo itself does not ch
 
 ### Figure 3. Reaction Maps Also Combine Into Larger Clues
 
-![CNN feature-map hierarchy](../../../assets/part-05/chapter-11/cnn-feature-map-hierarchy-en.svg)
+![CNN feature-map hierarchy](/AiBook/assets/part-05/chapter-11/cnn-feature-map-hierarchy-en.svg)
 
 The third figure now shifts attention from the photo to the response maps. In the early feature map, responses to edges or textures at specific positions become strong first. In a deeper part map, a larger part pattern appears more stably when nearby responses line up together. In a later object map, object-level activation becomes possible when multiple part clues align together.
 
@@ -345,11 +345,11 @@ The core points to confirm in this example are the following.
 
 If we view the local response as a 4x4 map, the normal panel has several weak responses, but overall there is no large difference.
 
-![2x2 local-response map of the normal panel](../../../assets/part-05/chapter-11/cnn-local-response-normal-en.png)
+![2x2 local-response map of the normal panel](/AiBook/assets/part-05/chapter-11/cnn-local-response-normal-en.png)
 
 In the scratched panel, the response at a specific position jumps much larger, so `the candidate position that should be looked at again` becomes clearer. This difference is why a CNN should be understood as a structure that repeatedly reads local patterns rather than the overall image impression.
 
-![2x2 local-response map of the scratched panel](../../../assets/part-05/chapter-11/cnn-local-response-scratch-en.png)
+![2x2 local-response map of the scratched panel](/AiBook/assets/part-05/chapter-11/cnn-local-response-scratch-en.png)
 
 | Comparison | The key to read now |
 | --- | --- |

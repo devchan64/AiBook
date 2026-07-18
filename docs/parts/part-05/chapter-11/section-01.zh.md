@@ -118,7 +118,7 @@ CNN 不是一次性看完整张图像，而是移动一个小窗口（window）�
 
 ### 图 1. 一个滤波器会一起读取各个通道
 
-![CNN channel and feature map intuition](../../../assets/part-05/chapter-11/cnn-channel-feature-map-zh.svg)
+![CNN channel and feature map intuition](/AiBook/assets/part-05/chapter-11/cnn-channel-feature-map-zh.svg)
 
 读这张图时，首先要确认的不是`如果有三个通道，CNN 就把图像完全拆成三个互不相干的部分处理`，而是`一个滤波器会一起读取同一位置上的多通道补丁，并把这些响应合成一张 feature map`。颜色信息也会在局部模式内部一起被读取，最后整理成`这个位置出现了什么强模式`的响应图。
 
@@ -132,7 +132,7 @@ CNN 不是一次性看完整张图像，而是移动一个小窗口（window）�
 
 ### 图 2. 层越深，看到的范围越大
 
-![CNN hierarchical vision flow](../../../assets/part-05/chapter-11/cnn-hierarchical-vision-flow-zh.svg)
+![CNN hierarchical vision flow](/AiBook/assets/part-05/chapter-11/cnn-hierarchical-vision-flow-zh.svg)
 
 第二张图把同一张设备照片重复用了三次，只单独突出一个点：`输入照片本身不变，但随着 layer 变深，receptive field 会扩大。` 左边面板是早期 convolution 在小局部补丁里读取金属纹理、阀门边界这类局部线索的情形；中间面板是把更宽的范围一起看进去，从而读取管道连接部和储罐上半部这类被捆成一组的局部结构；右边面板则是把多个局部线索进一步汇在一起，从而读取到设备主体整体级别的线索。
 
@@ -140,7 +140,7 @@ CNN 不是一次性看完整张图像，而是移动一个小窗口（window）�
 
 ### 图 3. 响应图也会合成更大的线索
 
-![CNN feature map hierarchy](../../../assets/part-05/chapter-11/cnn-feature-map-hierarchy-zh.svg)
+![CNN feature map hierarchy](/AiBook/assets/part-05/chapter-11/cnn-feature-map-hierarchy-zh.svg)
 
 第三张图把视线从照片本身移到了响应图上。早期 feature map 里，某些位置的 edge 或 texture 响应会先变强；更深的 part map 里，相邻响应一旦同时对齐，就会比较稳定地形成更大的局部模式；再往后的 object map 里，多个局部线索共同对齐时，就可能形成对象级别的 activation。
 
@@ -345,11 +345,11 @@ inspection_priority = scratch panel
 
 如果把局部响应画成一张 4x4 的图，正常面板也会在多个位置出现较弱响应，但整体上不会出现特别大的差异。
 
-![正常面板的 2x2 局部响应图](../../../assets/part-05/chapter-11/cnn-local-response-normal-zh.png)
+![正常面板的 2x2 局部响应图](/AiBook/assets/part-05/chapter-11/cnn-local-response-normal-zh.png)
 
 而在带划痕的面板里，某个位置的响应会明显跳得更高，于是`需要重新查看的候选位置`就会更清楚地浮现出来。这正是为什么 CNN 应该被理解成一种反复读取局部模式、而不是只看整张图像整体印象的结构。
 
-![划痕面板的 2x2 局部响应图](../../../assets/part-05/chapter-11/cnn-local-response-scratch-zh.png)
+![划痕面板的 2x2 局部响应图](/AiBook/assets/part-05/chapter-11/cnn-local-response-scratch-zh.png)
 
 | 比较 | 现在要抓住的重点 |
 | --- | --- |

@@ -199,9 +199,9 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 
 这里使用上面整理好的词信号、传感器信号和初始状态值。
 
-![gradual rise 序列状态](../../../assets/part-05/chapter-12/rnn-gradual-rise-state-zh.svg)
+![gradual rise 序列状态](/AiBook/assets/part-05/chapter-12/rnn-gradual-rise-state-zh.svg)
 
-![temporary spike 序列状态](../../../assets/part-05/chapter-12/rnn-temporary-spike-state-zh.svg)
+![temporary spike 序列状态](/AiBook/assets/part-05/chapter-12/rnn-temporary-spike-state-zh.svg)
 
 这两张图会在运行代码前，先把`最后值相同`和`累积状态相同`分开来看。`gradual_rise` 和 `temporary_spike` 都以 80 结束，但因为序列状态也会保留前一段流向，所以最终警报解释可能不同。
 

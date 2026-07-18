@@ -11,7 +11,7 @@ Gradient boosting is an ensemble method that stacks small trees so that the next
 
 If random forest is closer to `gathering many opinions in parallel`, gradient boosting is closer to `having the next stage fix the previous stage's error`.
 
-This Section explains the basic meanings of `gradient boosting`, `residual`, `weak learner`, and `additive model`. The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `gradient boosting`, `residual`, `weak learner`, and `additive model`. The later Sections continue the current line of judgment from those handles, and the basic sense of sequentially correcting error reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

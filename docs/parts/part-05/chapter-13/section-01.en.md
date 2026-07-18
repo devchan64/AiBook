@@ -11,7 +11,7 @@ The representative answer to this question is attention.
 
 Attention is a method that places greater weight on the positions or tokens that are truly important for the current computation, so the needed information can be referred to more directly.
 
-When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](../../../reference/concept-glossary.md#attention).
+When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](/AiBook/reference/concept-glossary/#attention).
 
 ## Scope Of This Section
 
@@ -284,13 +284,13 @@ shift_from_baseline = 3.266
 
 The first result to look at in this example is the attention weight by question. In the pressure-release holding-time question, the weight of `pressure_hold_time` is the largest, while in the coolant-flow criterion question, the weight of `coolant_flow_limit` is the largest.
 
-![Attention weights for the pressure-release holding-time question](../../../assets/part-05/chapter-13/attention-pressure-question-weights-en.png)
+![Attention weights for the pressure-release holding-time question](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-en.png)
 
-![Attention weights for the coolant-flow criterion question](../../../assets/part-05/chapter-13/attention-flow-question-weights-en.png)
+![Attention weights for the coolant-flow criterion question](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-en.png)
 
 The second result to look at is the context value. The baseline average stays at `6.667` because it cannot distinguish the two questions, but the attention context changes to `4.553` and `9.933` depending on the question.
 
-![Comparison of question-specific attention context and the baseline average](../../../assets/part-05/chapter-13/attention-context-comparison-en.png)
+![Comparison of question-specific attention context and the baseline average](/AiBook/assets/part-05/chapter-13/attention-context-comparison-en.png)
 
 Even when reading the output numbers, we need to separate `the same candidate set` from `the weight that changes according to the question`.
 

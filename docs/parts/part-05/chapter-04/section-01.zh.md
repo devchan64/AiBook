@@ -185,9 +185,9 @@ Version: `v2026.07.17`
 
 把这两个案例再画成图形来读，会更容易看出：回归损失会随着离目标值越来越远而变大，而分类损失会随着给正确类别的概率越来越低而变大。
 
-![平方误差损失形状](../../../assets/part-05/chapter-04/squared-error-loss-zh.svg)
+![平方误差损失形状](/AiBook/assets/part-05/chapter-04/squared-error-loss-zh.svg)
 
-![交叉熵损失形状](../../../assets/part-05/chapter-04/cross-entropy-loss-zh.svg)
+![交叉熵损失形状](/AiBook/assets/part-05/chapter-04/cross-entropy-loss-zh.svg)
 
 这两张图的目的并不是让读者背公式，而是看清：`损失是沿着哪条轴变大的？` 对回归来说，关键轴是与目标值之间的距离；对分类来说，关键轴是给正确类别的概率。
 
@@ -393,7 +393,7 @@ worst_sample=restart_delay_batch (0.640)
 
 这里真正被操作的值，是 `replace_prediction(...)` 里的最后一个数字。修正 `restart_delay_batch` 时，平均损失会明显下降，worst case 也会改变；而只修 `night_shift_batch` 时，平均值虽然也会下降一些，但最大的弱点依然没变。因此，这段代码帮助读者确认：损失不是一个单纯的平均数，而是会把`哪一类错误该优先被大幅修正`显露出来的信号。
 
-![按批次修正候选比较平均损失与最坏情况](../../../assets/part-05/chapter-04/loss-example-batch-priority-zh.svg)
+![按批次修正候选比较平均损失与最坏情况](/AiBook/assets/part-05/chapter-04/loss-example-batch-priority-zh.svg)
 
 从图里看，会更容易发现：修正 `restart_delay_batch` 时，平均损失和 worst 损失会一起下降。相反，只修正 `night_shift_batch` 时，平均损失会减少，但红色柱子，也就是最大的损失，仍然留在原地。所以，这个图额外强化的重点是：要把`平均有没有下降`与`最大的弱点有没有缩小`分开来看。
 

@@ -150,15 +150,15 @@ Adam 经常出现在 optimizer 家族比较的最后。原因并不只是它更�
 
 下面几张图会更直接地展示：为什么即使是`同一条 gradient 流`，direct update 与 Adam-like 也会做出不同移动量、不同参数路径。
 
-![逐 step 输入的 gradient 流](../../../assets/part-05/chapter-07/sgd-adam-gradient-history-zh.png)
+![逐 step 输入的 gradient 流](/AiBook/assets/part-05/chapter-07/sgd-adam-gradient-history-zh.png)
 
 第一张图展示的，还只是输入本身。关键在于，这条信号会随着 step 推进变成 `-4.0 -> -2.0 -> -1.0`，绝对值越来越小。也就是说，两个方法的差别并不是来自输入不同，而是来自：它们用不同的 update 规则去解释同样的输入。
 
-![基本 direct update 与 Adam-like 的逐 step 移动量比较](../../../assets/part-05/chapter-07/sgd-adam-delta-comparison-zh.png)
+![基本 direct update 与 Adam-like 的逐 step 移动量比较](/AiBook/assets/part-05/chapter-07/sgd-adam-delta-comparison-zh.png)
 
 第二张图里差别开始显现。direct update 会立刻把当前 gradient 与 learning rate 相乘，所以第一步就移动得比较大；Adam-like 则会把最近流向与按坐标调节都考虑进去，因此同样的输入会被翻译成更小、更平滑的移动量。对初学者来说，这张图最大的作用，就是确认：`输入相同，step 大小也不一定相同。`
 
-![基本 direct update 与 Adam-like 的 risk_weight 移动路径](../../../assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-zh.png)
+![基本 direct update 与 Adam-like 的 risk_weight 移动路径](/AiBook/assets/part-05/chapter-07/sgd-adam-risk-weight-trajectory-zh.png)
 
 第三张图说明：这种差异最终会累积成不同参数路径。direct update 会更快地移动到 `1.7`，而 Adam-like 则会更缓地到达 `1.156`。这里真正要固定的，不是`哪边绝对更好`，而是：optimizer 规则会把同一条 gradient history 改写成不同 parameter path。
 

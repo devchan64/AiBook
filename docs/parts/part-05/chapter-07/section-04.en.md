@@ -72,7 +72,7 @@ flowchart TD
 
 If we reread it through a graph, it becomes more direct why one well-decreasing loss curve and a convergence-guarantee claim are different.
 
-![Boundary between an observed loss curve and a convergence-guarantee claim](../../../assets/part-05/chapter-07/convergence-claim-boundary-en.png)
+![Boundary between an observed loss curve and a convergence-guarantee claim](/AiBook/assets/part-05/chapter-07/convergence-claim-boundary-en.png)
 
 This graph compresses the point that, even within the same optimizer family, the observed loss curve can look very different depending on initialization, step size, and noise conditions. A one-time experiment like the blue curve that went down quickly is certainly evidence that `it went down well in this experiment`. But that alone does not guarantee stability under every condition represented by the green or red curves. So the loss curve should first be read as an `experimental-performance observation`, and the convergence guarantee should be checked separately through `under what conditions can such a conclusion be stated`.
 

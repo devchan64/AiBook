@@ -43,7 +43,7 @@ tanh 的公式写成下面这样。
 
 tanh 之所以被叫作 0 中心，是因为当 \(z=0\) 时输出也是 0，负输入会保留成负输出，正输入会保留成正输出。
 
-![tanh 激活函数曲线](../../../assets/part-05/chapter-03/tanh-curve-zh.svg)
+![tanh 激活函数曲线](/AiBook/assets/part-05/chapter-03/tanh-curve-zh.svg)
 
 | 输入区间 | 输出直觉 | 读者首先该看的点 |
 | --- | --- | --- |

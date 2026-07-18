@@ -5,7 +5,7 @@ Version: `v2026.07.14`
 
 From P5-3.2 through P5-3.4, we looked separately at the sigmoid, tanh, and ReLU. Now the three functions are compared in one place. The purpose here is not to memorize names, but to check how the same score \(z\) changes according to different formulas and output ranges.
 
-If the comparison among representative activation functions becomes blurry again, return to the [activation function](../../../reference/concept-glossary.md#activation-function) entry in the concept glossary as the baseline.
+If the comparison among representative activation functions becomes blurry again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary as the baseline.
 
 ## Scope Of This Section
 
@@ -41,11 +41,11 @@ The first axes to read in this table are the following three.
 
 If you look at the curve shapes before the names, the difference becomes clear more quickly.
 
-![Sigmoid function curve](../../../assets/part-05/chapter-03/sigmoid-curve-en.svg)
+![Sigmoid function curve](/AiBook/assets/part-05/chapter-03/sigmoid-curve-en.svg)
 
-![Tanh function curve](../../../assets/part-05/chapter-03/tanh-curve-en.svg)
+![Tanh function curve](/AiBook/assets/part-05/chapter-03/tanh-curve-en.svg)
 
-![ReLU function curve](../../../assets/part-05/chapter-03/relu-curve-en.svg)
+![ReLU function curve](/AiBook/assets/part-05/chapter-03/relu-curve-en.svg)
 
 If these three graphs are placed side by side, the sigmoid and tanh saturate at both ends. Even if the input grows further, the output no longer changes much near 1 or -1. By contrast, ReLU cuts the negative range to 0, but keeps increasing linearly in the positive range.
 

@@ -7,7 +7,7 @@ In P5-11.1 and P5-11.2, we first saw why convolutional neural networks (CNNs) fi
 
 What is different about the Vision Transformer (ViT), which is often mentioned after CNNs, and why is it useful to know this difference before trying to understand later generative AI and multimodal models?
 
-When you need to briefly confirm again the different starting unit of a Vision Transformer, return to the glossary entry on [ViT (Vision Transformer)](../../../reference/concept-glossary.md#vit-vision-transformer).
+When you need to briefly confirm again the different starting unit of a Vision Transformer, return to the glossary entry on [ViT (Vision Transformer)](/AiBook/reference/concept-glossary/#vit-vision-transformer).
 
 ## Scope Of This Supplementary Reading
 
@@ -291,11 +291,11 @@ Because the same frame begins making representations from different starting poi
 
 If we view the CNN-style 2x2 local scores as a map, overlapping windows around the code region continuously become the top candidates. The first question that appears here is `which small position should be inspected again?`
 
-![CNN-style 2x2 local-candidate score map](../../../assets/part-05/chapter-11/cnn-vit-cnn-local-score-map-en.png)
+![CNN-style 2x2 local-candidate score map](/AiBook/assets/part-05/chapter-11/cnn-vit-cnn-local-score-map-en.png)
 
 If we imitate the ViT-style starting unit by looking separately at 3x3 patch means, the same frame is summarized into four large regions. These mean values are not real ViT attention values. They are auxiliary values that show what region-comparison question appears first when we start from patch tokens.
 
-![ViT-style 3x3 patch-token mean map](../../../assets/part-05/chapter-11/cnn-vit-patch-token-mean-map-en.png)
+![ViT-style 3x3 patch-token mean map](/AiBook/assets/part-05/chapter-11/cnn-vit-patch-token-mean-map-en.png)
 
 | Output to look at first | What this output means | What changes when we vary it |
 | --- | --- | --- |

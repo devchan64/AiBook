@@ -7,7 +7,7 @@ In Chapter P4-5, we looked at overfitting and generalization. The next question 
 
 An evaluation metric is a tool that shows with numbers how well a model fits. But the more important point is that a metric is not just a scoreboard. It is also `a promise about what we are choosing to treat as important`. Even with the same model, it may look good or risky depending on which metric is examined.
 
-This Section explains the basic roles of `evaluation metrics`, `accuracy`, `precision`, `recall`, and `F1`. The next Section continues the current context through this handle, and the criterion for deciding what kind of error should be treated as important is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic roles of `evaluation metrics`, `accuracy`, `precision`, `recall`, and `F1`. The next Section continues the current context through this handle, and the criterion for deciding what kind of error should be treated as important is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

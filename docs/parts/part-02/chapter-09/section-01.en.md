@@ -9,7 +9,7 @@ What shape should we use to hold data?
 
 That question is the starting point of the data structure. A data structure is not just the name of syntax. Depending on how data is organized and which operations you do frequently, the shape of code and the way computation proceeds both change.
 
-This Section explains the basic distinctions among `data structure`, `abstract data type`, `linear structure`, and `non-linear structure`. Even when later Sections separate arrays, tables, trees, and graphs again, the reason we should first read data structure as a question reconnects to the standard here. When those structure names repeat later, also check the [Concept Glossary](../../../reference/concept-glossary.md).
+This Section explains the basic distinctions among `data structure`, `abstract data type`, `linear structure`, and `non-linear structure`. Even when later Sections separate arrays, tables, trees, and graphs again, the reason we should first read data structure as a question reconnects to the standard here. When those structure names repeat later, also check the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 Instead of adding new Python syntax, this Section re-bundles the syntax learned earlier from the viewpoint of data organization. If Chapter 8 was a stage for learning executable statements such as values, groups, repetition, and functions, this Section looks again at what data shapes those statements had been assuming. Read this way, it becomes easier to connect lists and dictionaries not as syntax items but as different data-structure choices.
 

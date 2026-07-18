@@ -7,7 +7,7 @@ P4-6 looked at `what criterion should be used for evaluation`. Now the question 
 
 This Section deals with `how should good features be chosen?` Rather than explaining complex selection algorithms in depth, the goal is to fix the judgment criteria that should be checked first in actual work.
 
-This Section explains the meanings of `feature selection` and `feature space`. The next Section continues the current context through this handle, and the basic criterion for deciding what should fill the input slots is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the meanings of `feature selection` and `feature space`. The next Section continues the current context through this handle, and the basic criterion for deciding what should fill the input slots is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

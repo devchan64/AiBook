@@ -5,7 +5,7 @@
 
 After reconnecting limits, one more kind of notation still tends to block later machine learning and deep learning explanations: expressions such as `log`, `exp`, and `e^x`. These are not separate pieces of advanced mathematical decoration. They keep appearing when we explain `how fast a value grows or shrinks`, `how a multiplicative relationship can be reread as an additive one`, and `how to handle a score that behaves like a probability`.
 
-Here we reconnect logarithms and exponentials as the minimum calculation language needed to read `logistic regression`, `log loss`, and `softmax`. When you want to recheck the terms quickly, also refer to the [concept glossary](../../../reference/concept-glossary.md).
+Here we reconnect logarithms and exponentials as the minimum calculation language needed to read `logistic regression`, `log loss`, and `softmax`. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 

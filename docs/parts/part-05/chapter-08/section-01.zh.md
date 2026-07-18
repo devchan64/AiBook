@@ -71,7 +71,7 @@ regularization 正是在这里出现。它给模型加上一句约束：`可以�
 
 如果把这个场景画成曲线会更容易读。训练损失持续下降，而验证损失从某个点开始重新上升时，模型可能正在越来越偏向于把训练数据的细节模式背得更牢。
 
-![训练损失与验证损失分叉的过拟合场景](../../../assets/part-05/chapter-08/train-validation-overfit-zh.svg)
+![训练损失与验证损失分叉的过拟合场景](/AiBook/assets/part-05/chapter-08/train-validation-overfit-zh.svg)
 
 在这张图里，regularization 并不是只盯着训练损失的最低点。真正要一起看的，是新数据上的损失是否也在改善，还是训练数据与新数据之间的差距正在进一步扩大。
 

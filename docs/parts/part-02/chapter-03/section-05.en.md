@@ -14,7 +14,7 @@ So here, rather than studying Colab itself deeply or covering the local installa
 
 Here we reorganize `Colab`, `local PC`, `code cell`, `terminal`, and the difference between `import` and installation commands. If 3.1 through 3.4 were about reading formulas and linear-algebra structure, now we first organize the execution place that will carry those structures into real code.
 
-How to install Python on your own PC and manage virtual environments returns in `P2-7.1`, `P2-7.6`, `P2-7.7`, and `P2-7.8`. Here we first fix the difference in execution location between Colab and a local PC. When you want to recheck the terms quickly, also refer to the [concept glossary](../../../reference/concept-glossary.md).
+How to install Python on your own PC and manage virtual environments returns in `P2-7.1`, `P2-7.6`, `P2-7.7`, and `P2-7.8`. Here we first fix the difference in execution location between Colab and a local PC. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
 This document was written based on the official Google Colab guide and FAQ checked on June 24, 2026. Colab is an external service, so its UI, usage conditions, free tier, runtime policy, or even service availability may change later. If, when you read this section, Colab is unavailable or looks different from this guide, you should separately check the current Google Colab documentation and service status.
 

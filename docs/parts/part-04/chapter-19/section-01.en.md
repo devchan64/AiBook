@@ -13,7 +13,7 @@ When readers first meet reinforcement-learning algorithms, questions immediately
 
 Value-based reinforcement learning is an approach that learns by attaching values to how good each action is in the long run from each state.
 
-This Section explains the basic meaning of `value-based reinforcement learning`, `state value`, `action value`, and `Q-value`. Later Sections continue the judgment in the current context from this handle, and the basic sense of reading the long-term goodness of actions as a score reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meaning of `value-based reinforcement learning`, `state value`, `action value`, and `Q-value`. Later Sections continue the judgment in the current context from this handle, and the basic sense of reading the long-term goodness of actions as a score reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

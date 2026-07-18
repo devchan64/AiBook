@@ -9,7 +9,7 @@ If the gradient has been computed, then in what order does the model actually ch
 
 The core four stages of a deep-learning training loop are `forward -> loss -> backward -> optimizer step`. It is safer to hold onto these four stages first as one shared repetition.
 
-If the places of loss, backpropagation, update, and mode switching start to blur together again inside the training loop, go back together to the [training](../../../reference/concept-glossary.md#training), [backpropagation](../../../reference/concept-glossary.md#backpropagation), and [optimizer](../../../reference/concept-glossary.md#optimizer) entries in the concept glossary.
+If the places of loss, backpropagation, update, and mode switching start to blur together again inside the training loop, go back together to the [training](/AiBook/reference/concept-glossary/#training), [backpropagation](/AiBook/reference/concept-glossary/#backpropagation), and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
 
 ## Scope Of This Section
 
@@ -236,19 +236,19 @@ The key points in this example are the following.
 
 If we separate this flow again by the example outputs, the forward result appears first. The first batch makes predictions with `risk_weight=0.5`, so the predictions come out lower than the target. The second batch predicts again with `risk_weight=1.25` after the first update.
 
-![Predictions and targets by batch in the training loop](../../../assets/part-05/chapter-06/training-loop-predictions-en.png)
+![Predictions and targets by batch in the training loop](/AiBook/assets/part-05/chapter-06/training-loop-predictions-en.png)
 
 The next output is the average batch loss. Because loss is the value that bundles the sample-level errors inside each batch into an average, what the optimizer sees immediately is not one individual sample but the average signal made by the batch.
 
-![Average batch loss in the training loop](../../../assets/part-05/chapter-06/training-loop-batch-loss-en.png)
+![Average batch loss in the training loop](/AiBook/assets/part-05/chapter-06/training-loop-batch-loss-en.png)
 
 The next output is the average batch gradient. The fact that both values are negative means that the current `risk_weight` is producing predictions below the target, so the update continues in the direction of increasing `risk_weight`.
 
-![Average batch gradient in the training loop](../../../assets/part-05/chapter-06/training-loop-batch-gradient-en.png)
+![Average batch gradient in the training loop](/AiBook/assets/part-05/chapter-06/training-loop-batch-gradient-en.png)
 
 The last output is `risk_weight` after the optimizer step. This graph shows that the training loop is not a procedure that computes outputs once and ends. It is a repetition structure that changes the forward condition of the next batch itself through the average batch gradient.
 
-![Risk-weight update in the training loop](../../../assets/part-05/chapter-06/training-loop-risk-weight-update-en.png)
+![Risk-weight update in the training loop](/AiBook/assets/part-05/chapter-06/training-loop-risk-weight-update-en.png)
 
 If we fold this example once more briefly, then the roles inside the batch and outside the batch can be separated as follows.
 

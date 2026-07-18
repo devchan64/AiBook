@@ -7,7 +7,7 @@ In P2-13.1, we treated a plot as a tool for checking the shape of numbers. Now w
 
 The core of this section is not "memorizing Matplotlib function names." It is building the sense of setting the question first and then choosing the chart that fits that question.
 
-This section explains the basic distinctions among the `line plot`, `scatter plot`, `histogram`, and `loss curve`. The representative explanation of the role of a `plot` itself and of `Figure` and `Axes` stays in P2-13.1 and the [Concept Glossary](../../../reference/concept-glossary.md). Here, we focus on which basic chart to choose first for which question.
+This section explains the basic distinctions among the `line plot`, `scatter plot`, `histogram`, and `loss curve`. The representative explanation of the role of a `plot` itself and of `Figure` and `Axes` stays in P2-13.1 and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here, we focus on which basic chart to choose first for which question.
 
 ## Reading the Same Learning Scene with Different Questions
 

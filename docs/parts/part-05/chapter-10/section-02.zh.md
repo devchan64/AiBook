@@ -315,11 +315,11 @@ distance(batch_1, batch_4) in h2 = 0.842
 
 把距离变化分开画出来后，更容易看清：即使两组 batch 对都变近，它们靠近的速度和程度也不相同。`batch_1` 和 `batch_2` 在 `h2` 里留下了更近的邻居关系，而 `batch_1` 和 `batch_4` 虽然也靠近，但相对仍更远。
 
-![层级表征中 batch 对距离的阶段性变化](../../../assets/part-05/chapter-10/hierarchical-representation-distance-trace-zh.png)
+![层级表征中 batch 对距离的阶段性变化](/AiBook/assets/part-05/chapter-10/hierarchical-representation-distance-trace-zh.png)
 
 只看最终 `h2` 表征空间时，也能看到：深层表征并不是简单地把值缩小，而是在重新安排各 batch 之间的位置关系。
 
-![在 h2 表征空间中重新排开的生产 batch](../../../assets/part-05/chapter-10/hierarchical-representation-h2-space-zh.png)
+![在 h2 表征空间中重新排开的生产 batch](/AiBook/assets/part-05/chapter-10/hierarchical-representation-h2-space-zh.png)
 
 因此解读输出时，不该只看`某个距离是否变小`，而要同时看`batch 之间的关系被怎样重新整理`。
 

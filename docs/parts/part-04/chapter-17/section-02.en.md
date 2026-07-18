@@ -11,7 +11,7 @@ A clustering result is a proposal about data structure, not an automatically fin
 
 The risk of clustering usually arises less from the calculation itself than from `humans overinterpreting the result`.
 
-This Section does not repeat the basic definition of clustering at length. The core intuition `exploring structure without labels` reconnects through P4-17.1 and the [concept glossary](../../../reference/concept-glossary.md), and here the focus is only on how to read the result without overtrusting it.
+This Section does not repeat the basic definition of clustering at length. The core intuition `exploring structure without labels` reconnects through P4-17.1 and the [concept glossary](/AiBook/reference/concept-glossary/), and here the focus is only on how to read the result without overtrusting it.
 
 ## Scope Of This Section
 

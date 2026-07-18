@@ -165,7 +165,7 @@ In other words, even if the current input number is the same, to avoid misunders
 
 If we look at this difference through a graph again, it becomes more direct.
 
-![Comparison of the same current gradient and different resulting updates](../../../assets/part-05/chapter-07/state-update-comparison-en.png)
+![Comparison of the same current gradient and different resulting updates](/AiBook/assets/part-05/chapter-07/state-update-comparison-en.png)
 
 The left panel shows the scene where both coordinates receive the same current gradient `-1.0`. The right panel shows that even then, the updates can split into `0.04` and `0.12`. What changed here is not the current gradient, but the state that had already been attached before it. This graph lets us visually confirm once more that `even with the same input, if the context differs, the output can differ`.
 

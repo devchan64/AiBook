@@ -7,7 +7,7 @@ In P5-3.1, we saw that an activation function changes the weighted-sum score \(z
 
 The sigmoid is an activation function that compresses the input score \(z\) into a value between 0 and 1. Large negative values move close to 0, large positive values move close to 1, and values near 0 change relatively quickly.
 
-If the baseline for representative activation functions is needed again, return to the [activation function](../../../reference/concept-glossary.md#activation-function) entry in the concept glossary.
+If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
 
 ## Scope Of This Section
 
@@ -45,7 +45,7 @@ In other words, the sigmoid places every input between 0 and 1.
 
 The sigmoid graph has an S-shape. What matters is not the name of the shape, but how it reacts by range.
 
-![Sigmoid activation-function curve](../../../assets/part-05/chapter-03/sigmoid-curve-en.svg)
+![Sigmoid activation-function curve](/AiBook/assets/part-05/chapter-03/sigmoid-curve-en.svg)
 
 | Input range | Feel of the output | What the reader should read first |
 | --- | --- | --- |

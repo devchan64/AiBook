@@ -30,7 +30,7 @@ In other words, Part 5 is the first Part that actually explains the core deep le
 
 Part 5 must not be read as a `deep learning trailer`. Therefore, the default principle is that CNNs, RNNs, Attention, and Transformers each close `why this design appeared for this kind of data-structure problem` inside this Part first, while the bridge to Part 6 remains only as a short pointer to the next layer.
 
-If the baseline for a core term becomes blurry again while reading this Part, the default reference point is to review through the [Concept Glossary](../../reference/concept-glossary.md) by checking each entry's `Core Section` and `Appears In` list together.
+If the baseline for a core term becomes blurry again while reading this Part, the default reference point is to review through the [Concept Glossary](/AiBook/reference/concept-glossary/) by checking each entry's `Core Section` and `Appears In` list together.
 
 If this standard is reassembled into one line for the current Part 5 table of contents, it becomes the following.
 

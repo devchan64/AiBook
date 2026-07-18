@@ -357,11 +357,11 @@ same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_s
 
 如果再用图来看，流程差异会更明显。在学习流程里，每个 step 之后 `alarm_weight`、`delay_weight`、`bias` 都会发生变化，而 update 后的值会继续成为下一个 step 的起点。
 
-![学习流程里多个参数随 step 变化的图](../../../assets/part-05/chapter-06/learning-weight-update-trace-zh.png)
+![学习流程里多个参数随 step 变化的图](/AiBook/assets/part-05/chapter-06/learning-weight-update-trace-zh.png)
 
 在模型执行流程里，虽然服务输入变化会让 `predicted_block_score` 跟着变化，但同一段时间里的参数线会像水平线一样保持不动。这里真正要看的，不是输出线发生了变化，而是参数线没有动。
 
-![模型执行流程里 prediction 变化但参数固定的图](../../../assets/part-05/chapter-06/inference-fixed-weight-trace-zh.png)
+![模型执行流程里 prediction 变化但参数固定的图](/AiBook/assets/part-05/chapter-06/inference-fixed-weight-trace-zh.png)
 
 | 区间 | 现在要读出的核心 |
 | --- | --- |

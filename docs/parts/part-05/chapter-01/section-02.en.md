@@ -5,7 +5,7 @@ Version: `v2026.07.17`
 
 In P5-1.1, the perceptron was read through the flow `input -> weight -> sum -> output`. Now we continue directly to see what it exactly means to gather inputs into a weighted sum, and why that sum alone is not yet deep learning. The perceptron first creates a linear combination of the inputs, and then passes that result through an activation rule to make a decision.
 
-If the basic meaning of activation becomes blurry again in later sections, first return to the [activation function](../../../reference/concept-glossary.md#activation-function) entry in the concept glossary.
+If the basic meaning of activation becomes blurry again in later sections, first return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
 
 ## Scope Of This Section
 
@@ -91,9 +91,9 @@ The key point of this diagram is that the perceptron does not create a complex c
 
 This limit appears more directly when looking at point layouts. A pattern that can be divided by one straight line is relatively easy to express with one perceptron, but a pattern like XOR, where the same output lies on the diagonal, is difficult to separate cleanly with only one line.
 
-![Point layout that can be separated by one line](../../../assets/part-05/chapter-01/linear-boundary-points-en.svg)
+![Point layout that can be separated by one line](/AiBook/assets/part-05/chapter-01/linear-boundary-points-en.svg)
 
-![XOR point layout that is hard to separate with one line](../../../assets/part-05/chapter-01/xor-pattern-en.svg)
+![XOR point layout that is hard to separate with one line](/AiBook/assets/part-05/chapter-01/xor-pattern-en.svg)
 
 These two graphics are not meant to explain XOR in full yet. They are here to fix what the phrase `one linear boundary` means in the actual input space. The first figure shows how one line really separates two classes. The second shows separately that even when the rule can be described in a short sentence, one perceptron struggles if the point layout does not split cleanly with one line.
 

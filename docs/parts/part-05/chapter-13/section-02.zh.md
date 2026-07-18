@@ -142,9 +142,9 @@ self-attention 重要，并不只是因为它`看起来更聪明`。更重要的
 
 如果把 attention 权重画成柱状图，这个差异会更直接。同样一份备忘录里，当当前 token 是 `它` 和当前 token 是 `套上` 时，重新参考的线索分布并不相同。
 
-![当前 token `它` 的 self-attention 权重](../../../assets/part-05/chapter-13/self-attention-weight-it-zh.svg)
+![当前 token `它` 的 self-attention 权重](/AiBook/assets/part-05/chapter-13/self-attention-weight-it-zh.svg)
 
-![当前 token `套上` 的 self-attention 权重](../../../assets/part-05/chapter-13/self-attention-weight-cover-zh.svg)
+![当前 token `套上` 的 self-attention 权重](/AiBook/assets/part-05/chapter-13/self-attention-weight-cover-zh.svg)
 
 从这组比较里，首先要抓住的是下面几点。
 

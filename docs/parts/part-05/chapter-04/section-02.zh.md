@@ -138,11 +138,11 @@ Version: `v2026.07.17`
 
 如果再从图的横轴来理解，就更容易抓住差异。回归先看与正确数字的距离，分类先看给正确类别的概率，生成则先看多个位置上给正确 token 的概率。
 
-![回归损失阅读轴](../../../assets/part-05/chapter-04/regression-loss-axis-zh.svg)
+![回归损失阅读轴](/AiBook/assets/part-05/chapter-04/regression-loss-axis-zh.svg)
 
-![分类损失阅读轴](../../../assets/part-05/chapter-04/classification-loss-axis-zh.svg)
+![分类损失阅读轴](/AiBook/assets/part-05/chapter-04/classification-loss-axis-zh.svg)
 
-![生成损失阅读轴](../../../assets/part-05/chapter-04/generation-loss-axis-zh.svg)
+![生成损失阅读轴](/AiBook/assets/part-05/chapter-04/generation-loss-axis-zh.svg)
 
 因此，与其一上来就把不同问题类型的损失数字互相比大小，不如先在同一问题类型内部看清：到底哪一个预测更糟。这三张图所展示的核心就是：问题类型一变，损失所阅读的坐标轴也会跟着变。
 
@@ -415,11 +415,11 @@ generation_loss= 0.288
 
 这个例子里真正被操作的值，是 `energy_prediction`、`scratch_probability`、`token_probability`。把回归预测移近正确答案时，只有回归损失会下降；提高正确类别概率时，只有分类损失会下降；提高正确 token 概率时，只有生成损失会下降。因此，与其把这三个数字摆成一排后硬要判断“谁更糟”，不如先在同一种问题内部确认：`改了什么值，哪一种损失才真的下降了。`
 
-![回归预测修正前后的损失](../../../assets/part-05/chapter-04/loss-example-regression-experiment-zh.svg)
+![回归预测修正前后的损失](/AiBook/assets/part-05/chapter-04/loss-example-regression-experiment-zh.svg)
 
-![分类正确类别概率修正前后的损失](../../../assets/part-05/chapter-04/loss-example-classification-experiment-zh.svg)
+![分类正确类别概率修正前后的损失](/AiBook/assets/part-05/chapter-04/loss-example-classification-experiment-zh.svg)
 
-![生成正确 token 概率修正前后的损失](../../../assets/part-05/chapter-04/loss-example-generation-experiment-zh.svg)
+![生成正确 token 概率修正前后的损失](/AiBook/assets/part-05/chapter-04/loss-example-generation-experiment-zh.svg)
 
 这三张图不会把不同问题类型硬塞进同一张图里，而是分别展示：在各自的问题内部，从`当前 -> 修正后`，损失怎样下降。回归是在把预测值挪近正确答案时下降，分类是在提高正确类别概率时下降，生成是在提高正确 token 概率时下降。因此，读图时也不应该先比较三张图柱子的绝对高度，而应该先看每一张图内部修正前后的变化。
 

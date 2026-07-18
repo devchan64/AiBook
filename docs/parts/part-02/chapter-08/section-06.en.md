@@ -5,7 +5,7 @@
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 
-Here we provide a basic supplemental explanation for reading `class`, `object`, and `method`. This supplemental learning organizes the standard for reading call shapes such as `value.method()` and `model.fit()`. The representative explanations of `value`, `type`, and `dictionary` remain in P2-8.1, P2-8.3, and the [concept glossary](../../../reference/concept-glossary.md), and here we read class and object on top of that.
+Here we provide a basic supplemental explanation for reading `class`, `object`, and `method`. This supplemental learning organizes the standard for reading call shapes such as `value.method()` and `model.fit()`. The representative explanations of `value`, `type`, and `dictionary` remain in P2-8.1, P2-8.3, and the [concept glossary](/AiBook/reference/concept-glossary/), and here we read class and object on top of that.
 
 Problem situation: We want to see, through the smallest example, how a dot-based call differs from an ordinary function call.
 Input: The string `text = " AI is Useful "`.

@@ -9,7 +9,7 @@ Why did the Transformer look more suited to parallel processing than RNNs, and w
 
 The Transformer is closer to a structure that calculates the relationships among tokens all at once rather than only passing state token by token in sequence, so it showed major advantages in parallel processing and long-context reference.
 
-When you need to fix again the baseline of this computational feel in a short form, it helps to reread together the glossary entries on [Transformer](../../../reference/concept-glossary.md#transformer), [self-attention](../../../reference/concept-glossary.md#self-attention), and [parallel processing](../../../reference/concept-glossary.md#parallel-processing).
+When you need to fix again the baseline of this computational feel in a short form, it helps to reread together the glossary entries on [Transformer](/AiBook/reference/concept-glossary/#transformer), [self-attention](/AiBook/reference/concept-glossary/#self-attention), and [parallel processing](/AiBook/reference/concept-glossary/#parallel-processing).
 
 ## Scope Of This Section
 
@@ -311,11 +311,11 @@ direct_decision = block_restart
 
 The first result is how the sequential state weakens while passing through the context. The `block` axis starts strong at the rule line, but by the time of the final request only `0.05` remains.
 
-![Sequential state decay](../../../assets/part-05/chapter-14/sequential-state-decay-en.png)
+![Sequential state decay](/AiBook/assets/part-05/chapter-14/sequential-state-decay-en.png)
 
 The second result is which lines the direct-reference method pulls back again at the final request point. Because the rule line and the pressure-state line rise again as high evidence, the change that needs to be read in this example is not only that the two decision names differ, but the difference between whether the earlier cue `weakens inside the state` and whether it is `called back again at the current request`.
 
-![Direct-reference match scores](../../../assets/part-05/chapter-14/direct-reference-match-scores-en.png)
+![Direct-reference match scores](/AiBook/assets/part-05/chapter-14/direct-reference-match-scores-en.png)
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |

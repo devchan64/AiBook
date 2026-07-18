@@ -7,7 +7,7 @@ Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the ki
 
 What matters here is not memorizing perfect inclusion relations. What matters is fixing a baseline so that terms from different conceptual levels are not mixed as if they meant the same thing.
 
-In Part 1, the baseline relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` is fixed in this section. Even when the terms reappear later, only the minimum connection needed for the current question is carried forward there. When the relationship among the terms themselves needs to be reorganized again, return to this section and to the [Concept Glossary](../../../reference/concept-glossary.md).
+In Part 1, the baseline relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` is fixed in this section. Even when the terms reappear later, only the minimum connection needed for the current question is carried forward there. When the relationship among the terms themselves needs to be reorganized again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 
@@ -37,11 +37,11 @@ This section is the baseline for the term relationship that Part 1 will keep reu
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [AI](../../../reference/concept-glossary.md#ai-artificial-intelligence) | the broadest field and system category | to see where all other terms sit |
-| [machine learning](../../../reference/concept-glossary.md#machine-learning) | a learning approach that improves performance from data | to separate rule-based and learning-based approaches |
-| [deep learning](../../../reference/concept-glossary.md#deep-learning) | an approach that strongly uses neural networks and representation learning | to fix a major expansion path inside machine learning |
-| [generative AI](../../../reference/concept-glossary.md#aigenerative-ai) | an output category that produces new content | to keep learning method and output character from collapsing into one |
-| [LLM](../../../reference/concept-glossary.md#llm) | a family of large language models | to avoid reading generative AI and AI as a whole too narrowly as the same thing |
+| [AI](/AiBook/reference/concept-glossary/#ai-artificial-intelligence) | the broadest field and system category | to see where all other terms sit |
+| [machine learning](/AiBook/reference/concept-glossary/#machine-learning) | a learning approach that improves performance from data | to separate rule-based and learning-based approaches |
+| [deep learning](/AiBook/reference/concept-glossary/#deep-learning) | an approach that strongly uses neural networks and representation learning | to fix a major expansion path inside machine learning |
+| [generative AI](/AiBook/reference/concept-glossary/#aigenerative-ai) | an output category that produces new content | to keep learning method and output character from collapsing into one |
+| [LLM](/AiBook/reference/concept-glossary/#llm) | a family of large language models | to avoid reading generative AI and AI as a whole too narrowly as the same thing |
 
 ## Main Learning Points
 

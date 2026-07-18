@@ -7,7 +7,7 @@ Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 cover
 
 The task here is not to explain machine learning, deep learning, and generative AI in full detail. The task is to place, from a historical point of view, why the center of explanation moved from `a way in which people write all the rules directly` toward `a way in which models are trained from data and experience`. Part 3 first organizes data modeling, and Parts 4, 5, and 6 later handle each structure in depth.
 
-In Part 1, the historical flow in which the center moved from rule-based approaches toward learning-based approaches, and the basic connection among `data`, `feature`, `representation`, and `parameter`, is fixed here. The broad relation among `AI / machine learning / deep learning / generative AI / LLM` was already fixed in 1.3, and is reconnected here only as much as needed to see how those terms join into one flow. If the distinction becomes unstable again later, return to this section and the shared [Concept Glossary](../../../reference/concept-glossary.md).
+In Part 1, the historical flow in which the center moved from rule-based approaches toward learning-based approaches, and the basic connection among `data`, `feature`, `representation`, and `parameter`, is fixed here. The broad relation among `AI / machine learning / deep learning / generative AI / LLM` was already fixed in 1.3, and is reconnected here only as much as needed to see how those terms join into one flow. If the distinction becomes unstable again later, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 
@@ -38,13 +38,13 @@ This section is the representative place where the shift of the explanatory cent
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [data](../../../reference/concept-glossary.md#data) | the material for learning and judgment | to see what the model learns criteria from instead of hand-written rules |
-| [feature](../../../reference/concept-glossary.md#feature) | a clue that people organize or select first | to understand what kind of input representation early machine learning depends on |
-| [representation](../../../reference/concept-glossary.md#representation) | the internal form handled inside the model | to see why deep learning is explained as representation learning |
-| [parameter](../../../reference/concept-glossary.md#parameter) | an internal value adjusted through learning | to fix what learning actually changes |
-| [machine learning](../../../reference/concept-glossary.md#machine-learning) | a learning approach that improves performance from data | to understand why the center moved from writing rules to training models |
-| [deep learning](../../../reference/concept-glossary.md#deep-learning) | a neural-network-based approach that strongly uses representation learning | to understand the move from feature design toward representation learning |
-| [generative AI](../../../reference/concept-glossary.md#aigenerative-ai) | a category of models and services that produce new content | to see how far the recent flow extends |
+| [data](/AiBook/reference/concept-glossary/#data) | the material for learning and judgment | to see what the model learns criteria from instead of hand-written rules |
+| [feature](/AiBook/reference/concept-glossary/#feature) | a clue that people organize or select first | to understand what kind of input representation early machine learning depends on |
+| [representation](/AiBook/reference/concept-glossary/#representation) | the internal form handled inside the model | to see why deep learning is explained as representation learning |
+| [parameter](/AiBook/reference/concept-glossary/#parameter) | an internal value adjusted through learning | to fix what learning actually changes |
+| [machine learning](/AiBook/reference/concept-glossary/#machine-learning) | a learning approach that improves performance from data | to understand why the center moved from writing rules to training models |
+| [deep learning](/AiBook/reference/concept-glossary/#deep-learning) | a neural-network-based approach that strongly uses representation learning | to understand the move from feature design toward representation learning |
+| [generative AI](/AiBook/reference/concept-glossary/#aigenerative-ai) | a category of models and services that produce new content | to see how far the recent flow extends |
 
 ## Main Learning Points
 

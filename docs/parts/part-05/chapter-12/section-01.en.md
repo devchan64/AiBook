@@ -11,7 +11,7 @@ The structures that try to answer this question are recurrent neural networks (R
 
 The recurrent-network family tries to process sequence data by not looking only at the current input, but also by carrying forward some of the information seen earlier.
 
-When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](../../../reference/concept-glossary.md#rnn-recurrent-neural-network), [LSTM (long short-term memory)](../../../reference/concept-glossary.md#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](../../../reference/concept-glossary.md#gru-gated-recurrent-unit).
+When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](/AiBook/reference/concept-glossary/#rnn-recurrent-neural-network), [LSTM (long short-term memory)](/AiBook/reference/concept-glossary/#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](/AiBook/reference/concept-glossary/#gru-gated-recurrent-unit).
 
 ## Scope Of This Section
 
@@ -198,9 +198,9 @@ Input:
 
 We use the word signals, sensor signals, and initial state values summarized above.
 
-![gradual rise sequence state](../../../assets/part-05/chapter-12/rnn-gradual-rise-state-en.svg)
+![gradual rise sequence state](/AiBook/assets/part-05/chapter-12/rnn-gradual-rise-state-en.svg)
 
-![temporary spike sequence state](../../../assets/part-05/chapter-12/rnn-temporary-spike-state-en.svg)
+![temporary spike sequence state](/AiBook/assets/part-05/chapter-12/rnn-temporary-spike-state-en.svg)
 
 These graphs make us separate first `the final value is the same` from `the accumulated state is the same` before running the code. `gradual_rise` and `temporary_spike` both end at 80, but because sequential state also keeps the immediately preceding flow, the final alert interpretation can differ.
 

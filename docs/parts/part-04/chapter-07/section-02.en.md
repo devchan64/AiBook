@@ -7,7 +7,7 @@ P4-7.1 examined `what inputs should remain`. Now the discussion moves to the sta
 
 The core point of this Section is not complex library syntax. It is understanding preprocessing not as something like `data cleaning` alone, but as `the work of changing input representations into a form the model can handle`.
 
-This Section explains the basic meanings of `preprocessing`, `imputation`, `scale adjustment`, and `categorical encoding`. Later Sections continue the current judgment through this handle, and the basic meaning of input-representation transformation reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains the basic meanings of `preprocessing`, `imputation`, `scale adjustment`, and `categorical encoding`. Later Sections continue the current judgment through this handle, and the basic meaning of input-representation transformation reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 There is one more important reason. People often learn algorithms first and think preprocessing is an auxiliary step added later. In practice, it is closer to the opposite. If input representations are not organized, it is hard to read the character of algorithms such as linear regression, logistic regression, k-NN, and SVM that appear later.
 

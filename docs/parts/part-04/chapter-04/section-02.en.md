@@ -7,7 +7,7 @@ P4-4.1 explained why data are divided into training data and evaluation data. No
 
 If this difference is not separated, people start looking at test results repeatedly while choosing the model, and at that moment the test data can no longer play the role of `data seen for the first time`. That is why in practice evaluation data are often split again into `validation data` and `test data`.
 
-This Section explains `validation`, `test`, and `the difference between mid-process model-choice checks and the final check`. Later Sections continue the current context through this handle, and the evaluation procedure after data splitting is connected again through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains `validation`, `test`, and `the difference between mid-process model-choice checks and the final check`. Later Sections continue the current context through this handle, and the evaluation procedure after data splitting is connected again through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope Of This Section
 

@@ -7,7 +7,7 @@ When studying AI again, the first difficulty is often not the technology itself 
 
 The purpose of this section is not to produce one perfect sentence that defines AI once and for all. The purpose is to organize the range of the term so that later sections on rule-based systems, machine learning, deep learning, generative AI, and LLMs can be read on the same map.
 
-In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the [Concept Glossary](../../../reference/concept-glossary.md).
+In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 ## Scope of This Section
 
@@ -37,18 +37,18 @@ This section is also the entry point where several core terms are introduced tog
 
 | Concept | Meaning to fix first here | Why it is needed now |
 | --- | --- | --- |
-| [AI](../../../reference/concept-glossary.md#ai-artificial-intelligence) | the broadest outer category | to place the many approaches that follow on one map |
-| [machine learning](../../../reference/concept-glossary.md#machine-learning) | an approach that learns patterns from data | to separate rule-based and learning-based approaches |
-| [deep learning](../../../reference/concept-glossary.md#deep-learning) | a stream that learns complex representations with neural networks | to fix a major expansion path inside machine learning |
-| [generative AI](../../../reference/concept-glossary.md#aigenerative-ai) | a stream that produces outputs such as text, images, and audio | to avoid reducing recent AI experience too narrowly |
-| [LLM](../../../reference/concept-glossary.md#llm) | a large language model centered on language data | to separate generative AI from AI as a whole |
-| [system](../../../reference/concept-glossary.md#system) | the real implemented structure that receives input and produces results | to distinguish a field from an implementation |
-| [input](../../../reference/concept-glossary.md#input) | the information a system receives | to read what the system uses as grounds for judgment |
-| [output](../../../reference/concept-glossary.md#output) | the result produced by the system | to read differences among classification, recommendation, and generation |
-| [goal](../../../reference/concept-glossary.md#goal) | the purpose that defines why a certain output should be produced | to see that the same output can serve different purposes |
-| [prediction](../../../reference/concept-glossary.md#prediction) | estimating a result from current information | to keep it from collapsing into generation, recommendation, or classification |
-| [recommendation](../../../reference/concept-glossary.md#recommendation) | choosing what is worth showing next among many candidates | to see that AI is not only about generating answers |
-| [rule-based system](../../../reference/concept-glossary.md#rule-based-system) | a system in which people write rules that lead to conclusions | to avoid narrowing AI only to recent learned models |
+| [AI](/AiBook/reference/concept-glossary/#ai-artificial-intelligence) | the broadest outer category | to place the many approaches that follow on one map |
+| [machine learning](/AiBook/reference/concept-glossary/#machine-learning) | an approach that learns patterns from data | to separate rule-based and learning-based approaches |
+| [deep learning](/AiBook/reference/concept-glossary/#deep-learning) | a stream that learns complex representations with neural networks | to fix a major expansion path inside machine learning |
+| [generative AI](/AiBook/reference/concept-glossary/#aigenerative-ai) | a stream that produces outputs such as text, images, and audio | to avoid reducing recent AI experience too narrowly |
+| [LLM](/AiBook/reference/concept-glossary/#llm) | a large language model centered on language data | to separate generative AI from AI as a whole |
+| [system](/AiBook/reference/concept-glossary/#system) | the real implemented structure that receives input and produces results | to distinguish a field from an implementation |
+| [input](/AiBook/reference/concept-glossary/#input) | the information a system receives | to read what the system uses as grounds for judgment |
+| [output](/AiBook/reference/concept-glossary/#output) | the result produced by the system | to read differences among classification, recommendation, and generation |
+| [goal](/AiBook/reference/concept-glossary/#goal) | the purpose that defines why a certain output should be produced | to see that the same output can serve different purposes |
+| [prediction](/AiBook/reference/concept-glossary/#prediction) | estimating a result from current information | to keep it from collapsing into generation, recommendation, or classification |
+| [recommendation](/AiBook/reference/concept-glossary/#recommendation) | choosing what is worth showing next among many candidates | to see that AI is not only about generating answers |
+| [rule-based system](/AiBook/reference/concept-glossary/#rule-based-system) | a system in which people write rules that lead to conclusions | to avoid narrowing AI only to recent learned models |
 
 ## Main Learning Points
 
@@ -71,7 +71,7 @@ Many terms appear in this section, but the structure becomes much clearer once t
 | goal | the purpose that defines why such an output is desirable | approval support, recommendation, search, answer generation |
 | impact | the effect the output has on human judgment or the environment | approval decisions, ranking changes, workflow changes |
 
-The first baseline that should remain from this section is that `AI is a broad field` and that `an AI system is a structure with inputs, goals, and outputs`. `Impact` is included because the same output can play very different roles depending on how it affects real people and real environments. If the terms become unstable again, return to the relevant entries in the [Concept Glossary](../../../reference/concept-glossary.md).
+The first baseline that should remain from this section is that `AI is a broad field` and that `an AI system is a structure with inputs, goals, and outputs`. `Impact` is included because the same output can play very different roles depending on how it affects real people and real environments. If the terms become unstable again, return to the relevant entries in the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
 For example, consider an online store product recommendation. AI is the broad field that includes such recommendation problems. A `recommendation system` is the actually implemented system. The inputs are click records and purchase records. The output is a ranked list of products. The goal is to choose what the user is likely to look at next. The `impact` is that some products are shown more often and the user’s decision flow changes. Even when later sections introduce different cases, dividing them first into these six slots is often more helpful than trying to memorize the terms directly.
 

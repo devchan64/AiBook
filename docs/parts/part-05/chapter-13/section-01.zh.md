@@ -284,13 +284,13 @@ shift_from_baseline = 3.266
 
 如果把权重分布直接画出来，会更容易看见：问题一旦改变，高权重候选也会跟着移动。
 
-![压力释放保持时间问题的 attention 权重](../../../assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
+![压力释放保持时间问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
 
-![冷却水流量标准问题的 attention 权重](../../../assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
+![冷却水流量标准问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
 
 把 baseline 上下文与两个问题的 attention 上下文并排放在一起，就会更直观地看见：attention 并不是把固定平均值再轻微修一下，而是会随着当前问题重新拉动上下文。
 
-![baseline 与不同问题 attention 上下文比较](../../../assets/part-05/chapter-13/attention-context-comparison-zh.png)
+![baseline 与不同问题 attention 上下文比较](/AiBook/assets/part-05/chapter-13/attention-context-comparison-zh.png)
 
 | 先看的输出 | 这个输出意味着什么 | 如果改动设定，会跟着改变什么 |
 | --- | --- | --- |

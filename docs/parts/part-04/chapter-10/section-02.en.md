@@ -13,7 +13,7 @@ After learning linear regression, readers often stop at statements such as `the 
 
 So this Section does not stop at `a line was drawn`. It reads `how much that line explains the data`.
 
-This Section does not repeat the basic definition of linear regression at length. The core intuition of `a model that reads a relationship with a line` reconnects through P4-10.1 and the [concept glossary](../../../reference/concept-glossary.md), while this Section focuses only on evaluation and limits.
+This Section does not repeat the basic definition of linear regression at length. The core intuition of `a model that reads a relationship with a line` reconnects through P4-10.1 and the [concept glossary](/AiBook/reference/concept-glossary/), while this Section focuses only on evaluation and limits.
 
 ## Scope Of This Section
 

@@ -29,7 +29,7 @@ The output is as follows.
 
 There is no `for` in the code. But from the result, we can see that 10 was added to every value. To understand this kind of calculation, we need to look at broadcasting and vectorization together.
 
-This Section explains the basic distinction between `broadcasting` and `vectorization`. The representative explanations of `NumPy`, `shape`, and `axis` remain in P2-11.1, P2-11.2, and the [Concept Glossary](../../../reference/concept-glossary.md). Here the focus is on how calculation spreads across the whole array.
+This Section explains the basic distinction between `broadcasting` and `vectorization`. The representative explanations of `NumPy`, `shape`, and `axis` remain in P2-11.1, P2-11.2, and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on how calculation spreads across the whole array.
 
 ## Scope of This Section
 

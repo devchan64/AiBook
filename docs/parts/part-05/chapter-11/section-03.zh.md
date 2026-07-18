@@ -291,11 +291,11 @@ blank_code_gap = 2.45
 
 如果把 CNN 风格的 2x2 局部分数画成地图，代码区域周围那些彼此重叠的窗口，会连续地成为最高优先候选。这里最先浮出的提问是：`到底哪一个小位置需要被重新检查？`
 
-![CNN 风格的 2x2 局部候选分数地图](../../../assets/part-05/chapter-11/cnn-vit-cnn-local-score-map-zh.png)
+![CNN 风格的 2x2 局部候选分数地图](/AiBook/assets/part-05/chapter-11/cnn-vit-cnn-local-score-map-zh.png)
 
 如果模仿 ViT 风格的起始单位，单独去看 3x3 patch 的平均值，那么同一张帧就会被压缩成四个较大的区域。这些平均值不是实际 ViT 的 attention 数值，而只是辅助值，用来展示：一旦从 patch token 出发，会先出现什么样的区域比较问题。
 
-![ViT 风格的 3x3 patch token 平均值地图](../../../assets/part-05/chapter-11/cnn-vit-patch-token-mean-map-zh.png)
+![ViT 风格的 3x3 patch token 平均值地图](/AiBook/assets/part-05/chapter-11/cnn-vit-patch-token-mean-map-zh.png)
 
 | 先看的输出 | 这个输出意味着什么 | 如果改动设定，会跟着改变什么 |
 | --- | --- | --- |

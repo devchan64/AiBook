@@ -10,6 +10,11 @@ validation:
   links:
     absolute_links: ignore
 
+not_in_nav: |
+  assets/**/README.md
+  *.en.md
+  *.zh.md
+
 theme:
   name: material
   language: ko

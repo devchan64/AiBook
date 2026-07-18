@@ -15,7 +15,7 @@ In academic contexts as well, model selection is not a peripheral choice. In sta
 
 Model selection is the work of setting up a candidate family of models to test for solving a problem and then narrowing that family into a comparable form.
 
-This Section explains `model selection`, `model candidates`, and `the judgment that narrows candidates by problem form and constraints`. Later Sections continue the current context through this handle, and the criterion for deciding which model drawer should be opened first reconnects through this Section and the [concept glossary](../../../reference/concept-glossary.md).
+This Section explains `model selection`, `model candidates`, and `the judgment that narrows candidates by problem form and constraints`. Later Sections continue the current context through this handle, and the criterion for deciding which model drawer should be opened first reconnects through this Section and the [concept glossary](/AiBook/reference/concept-glossary/).
 
 The quickest starting point is the following table.
 

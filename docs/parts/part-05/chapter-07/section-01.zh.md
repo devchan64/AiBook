@@ -229,15 +229,15 @@ loss_after = 0.64
 
 因此，这个输出里真正重要的阅读习惯，是把 `loss_before`、`gradient_risk_weight`、`optimizer_delta`、`risk_weight_after` 连成一条线去读。它们对应的顺序正是：`计算错误 -> 计算方向信号 -> 生成真实移动量 -> 反映到参数上。`
 
-![update 应用前后的风险权重](../../../assets/part-05/chapter-07/optimizer-step-before-after-weight-zh.png)
+![update 应用前后的风险权重](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-weight-zh.png)
 
 这张图展示的是：原本 `risk_weight_before = 1.0`，在 optimizer 做出的移动量被应用之后，真实变成了 `risk_weight_after = 2.6`。这里重要的，不只是`算出 gradient 了`，而是这个结果最终变成了权重数字变化。
 
-![update 应用前后的阻断分数](../../../assets/part-05/chapter-07/optimizer-step-before-after-score-zh.png)
+![update 应用前后的阻断分数](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-score-zh.png)
 
 这张图则说明：同一个 update 也会马上影响预测值。update 前的阻断分数是 `2.0`，但 update 之后变成 `5.2`，更接近目标值 `6.0`。也就是说，optimizer 不只是改内部权重，它还改变了下一次预测的出发点。
 
-![update 应用前后的损失](../../../assets/part-05/chapter-07/optimizer-step-before-after-loss-zh.png)
+![update 应用前后的损失](/AiBook/assets/part-05/chapter-07/optimizer-step-before-after-loss-zh.png)
 
 最后一张图确认：损失也从 `16.0` 降到了 `0.64`。把这条顺序用眼睛再读一遍，会更清楚地看到：在`gradient 计算`和`loss 降低`之间，确实存在`optimizer 做出真实 update 并应用`这个中间步骤。
 

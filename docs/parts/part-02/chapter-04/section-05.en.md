@@ -5,7 +5,7 @@
 
 In P2-4.3, we connected derivative, partial derivative, and gradient, and in P2-4.4, we looked at why differentiation is needed in learning.
 
-Here, we provide supplementary learning to reduce the unfamiliarity that appears when moving from school-level differentiation memory to the gradient. The representative explanation of `gradient` stays in P2-4.3, and the representative explanation of `gradient descent` stays in P2-6.3. This Section more slowly organizes only the background needed to fill the gap between them. When you want to check terms quickly again, you can also look at the [concept glossary](../../../reference/concept-glossary.md).
+Here, we provide supplementary learning to reduce the unfamiliarity that appears when moving from school-level differentiation memory to the gradient. The representative explanation of `gradient` stays in P2-4.3, and the representative explanation of `gradient descent` stays in P2-6.3. This Section more slowly organizes only the background needed to fill the gap between them. When you want to check terms quickly again, you can also look at the [concept glossary](/AiBook/reference/concept-glossary/).
 
 This Section reads mainly background concepts that passed quickly in the main text, such as supplementary learning, directional derivative, and vector calculus. Instead of pushing `gradient`, `gradient descent`, and `backpropagation` as formulas from the beginning, the goal is to recover what kind of concepts they are trying to look at.
 The purpose is to make the jump from one remembered slope to many-direction change feel readable again.
