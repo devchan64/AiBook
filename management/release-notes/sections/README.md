@@ -2,7 +2,7 @@
 
 작성일: 2026-07-05
 
-이 디렉터리는 `management/release-notes/` 아래에서 책 본문 문서의 릴리즈노트 파일만 관리한다. 여기서 책 본문 문서는 Section 본문, Part 시작/마무리 페이지, 그리고 `docs/index.md`, `docs/book/table-of-contents.md` 같은 공개 진입 문서를 뜻한다.
+이 디렉터리는 `management/release-notes/` 아래에서 책 본문 문서의 릴리즈노트 파일만 관리한다. 여기서 책 본문 문서는 Section 본문, Part 시작/마무리 페이지, 그리고 `docs/index.md`, `docs/book/table-of-contents.md` 같은 공개 진입 문서를 뜻한다. `docs/reference/concept-glossary.md`는 공개 참조 문서이지만, 전용 가이드에 따라 이 디렉터리의 Section 릴리즈노트 대상으로 운영하지 않는다.
 
 본문의 `Section ID`, 제목 앞 인덱스, `Version` 같은 메타데이터 관리 규칙은 `../../guidelines/section-metadata-guidelines.md`를 따른다. 이 디렉터리의 파일은 책 본문 문서용 `Section Release Note`로만 관리하며, 별도의 체인지로그를 따로 두지 않는다.
 
@@ -56,12 +56,14 @@
 - 새 Part에서 처음 Section 릴리즈노트를 만들 때는 해당 Part 폴더를 먼저 만든다.
 - Part 시작 페이지와 Part 마무리 페이지도 현재 기본 릴리즈노트 대상에 포함한다.
 - Part 시작/마무리 페이지의 본문 메타데이터 식별자는 `../../guidelines/section-metadata-guidelines.md`를 따른다.
+- 개념사전은 이 디렉터리의 기본 릴리즈노트 대상에 포함하지 않는다.
 
 ## 공개 진입 문서 운영
 
 - `docs/index.md`와 `docs/book/table-of-contents.md` 같은 공개 진입 문서도 릴리즈노트 대상에 포함한다.
 - 대응 릴리즈노트 파일은 `management/release-notes/sections/book/` 아래에 둔다.
 - 공개 진입 문서의 본문 메타데이터 식별자는 `../../guidelines/section-metadata-guidelines.md`를 따른다.
+- `docs/reference/concept-glossary.md`는 공개 진입 문서와 달리 대응 릴리즈노트 파일을 만들지 않는다.
 
 ## 번역 동기화 메모 기록 기준
 
