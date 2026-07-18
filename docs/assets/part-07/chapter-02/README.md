@@ -6,6 +6,9 @@
 - Current Mermaid assets:
   - `p7-2-1-project-compare-flow-ko.mmd`
   - `p7-2-1-baseline-review-flow-ko.mmd`
+  - `p7-2-2-raw-distance-risk-flow-ko.mmd`
+  - `p7-2-3-preprocessing-case-flow-ko.mmd`
+  - `p7-2-3-experiment-compare-flow-ko.mmd`
 - Data assets used by this chapter:
   - `p7-2-churn-dataset.csv`
   - `p7-2-stress-test.csv`

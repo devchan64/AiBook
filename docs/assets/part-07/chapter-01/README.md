@@ -6,6 +6,9 @@
 - Current Mermaid assets:
   - `p7-1-1-case-reading-flow-ko.mmd`
   - `p7-1-1-project-start-flow-ko.mmd`
+  - `p7-1-2-channel-anomaly-flow-ko.mmd`
+  - `p7-1-3-baseline-case-flow-ko.mmd`
+  - `p7-1-3-baseline-review-flow-ko.mmd`
 - Data assets used by this chapter:
   - `p7-1-traffic-log.csv`
   - `p7-action-unit-sensor-log.csv`
