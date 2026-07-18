@@ -22,6 +22,8 @@
 - 번역 동기화 메모: Future translations should preserve the Part 7 overview as a map of reusable project-record structures rather than a list of omitted large-scale operations topics.
 
 ### v2026.07.18
+- 추가 반영: Part 7의 전체 안내 축을 `Part 4 실습 -> Part 5 실습 -> Part 6 실습 -> 통합 운영 실습` 순서로 다시 정리해, 시작 페이지만 읽어도 이 Part가 어느 앞 Part의 실습 공간인지 바로 드러나게 했다.
+- 본문 반영: `Part 4, 5, 6을 어디서 다시 경험하는가` 표도 `실습 축 / 앞 Part 감각 / 대표 위치` 구조로 바꾸고, 운영 회고는 별도 `통합 운영 실습` 축으로 분리했다.
 - 변경 이유: 현재 Part 7의 실제 초안은 `작은 프로젝트 문서`, `작은 결과물`, `기록 구조` 중심으로 읽혀, 사용자가 요구한 `초심자가 실제로 동작시켜 보며 AI 동작을 이해하는 실습 파트`라는 목표를 충분히 받치지 못했다.
 - 본문 반영: 시작 페이지 도입과 목적 설명을 `작은 프로젝트 문서` 중심에서 `실제 입력, 코드 실행, 출력 비교, 오류 해석` 중심으로 다시 썼다.
 - 본문 반영: Part 7 전체의 핵심 질문도 `무엇을 기록할 것인가`보다 `무엇을 직접 돌려 보고 무엇을 다시 읽을 것인가`가 먼저 보이도록 재정렬했다.
@@ -30,4 +32,9 @@
 - 추가 반영: 목적 문장에 남아 있던 `장난감 예제` 표현도 걷어내고, 형식적 따라 하기와 실행 중심 실습의 대비가 먼저 읽히도록 다듬었다.
 - 추가 반영: `이 파트를 실제로 시작하는 순서`, `Part 7에서 실제로 손을 움직일 때의 최소 절차`를 추가해, 초심자가 Part 7을 어디서부터 어떤 리듬으로 실행해야 하는지 시작 페이지에서 바로 잡을 수 있게 했다.
 - 추가 반영: 새로 추가된 `P7-1.3`, `P7-2.3`, `P7-4.3`, `P7-5.3`, `P7-6.3`, `P7-7.3` 연습 절을 시작 순서에 반영하고, Part 4·5·6의 핵심 판단 기준이 Part 7 어디에서 다시 실행되는지 대응표로 명시했다.
-- 번역 동기화 메모: Future translations should present Part 7 as a hands-on execution-and-interpretation part, not primarily as a project-record template part.
+- 추가 반영: `읽는 편이 더 맞습니다`, `다시 회수합니다` 같은 흐름 메타 표현을 줄이고, Part 7의 중심축과 본편 범위가 더 직접 보이도록 문장을 다듬었다.
+- 추가 반영: 도입 문장과 절 표제를 `다시 확인`, `다시 읽기` 중심 표현에서 `실행`, `해석`, `점검` 중심 표현으로 다시 정리해, 시작 페이지가 설명 메타보다 수행 동작을 먼저 보여 주도록 맞췄다.
+- 추가 반영: 첫 도입 문장을 `앞서 소개한 내용을 실제 입력, 코드 실행, 출력 비교, 오류 해석으로 실습하는 구간`으로 다시 써, Part 7의 역할이 본편 복습보다 실습 실행에 있다는 점을 더 직접 드러냈다.
+- 추가 반영: `Part 7의 목차는 ... 순서가 중심입니다`처럼 구조를 설명하는 메타 문장을 제거하고, 대응표와 실제 Module 배열만으로 구조가 드러나게 정리했다.
+- 추가 반영: 영어판과 중국어 간체판 시작 페이지의 도입, 목적, 독자 설명도 현재 한국어 구조에 맞춰 다시 써, `small project documents` 중심의 예전 설명보다 `execution and interpretation practice`가 먼저 보이도록 동기화했다.
+- 번역 동기화 메모: English and Simplified Chinese index pages were synced on 2026-07-18 to preserve Part 7 as a hands-on execution-and-interpretation part.

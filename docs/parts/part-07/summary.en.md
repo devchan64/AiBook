@@ -1,26 +1,32 @@
 # Part 7 Wrap-up. Project Review
 
 > Section ID: `P7-summary`
-> Version: `v2026.07.12`
+> Version: `v2026.07.18`
 
-Part 7 is the section where the concepts restored and organized through the earlier six Parts are checked again as `small artifacts`. The core of this Part is not completing a large service, but directly walking once through the shared flow of problem definition, data preparation, implementation, evaluation, and review.
+Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but executing what Parts 4, 5, and 6 covered and explaining why the results happened.
 
 This project Part makes two things be checked together in particular.
 
 - Can you explain the concept?
-- Can you confirm the concept again through small code and results?
+- Can you confirm the concept through real inputs and output changes?
 
 In other words, this Part changes the feeling of `I know it` into the state of `I tried it and left a record`.
 
 ## The Purpose Of This Part
 
-The purpose of Part 7 is to regroup the concepts learned across the whole book into small project documents and execution results, so that the next stage of learning becomes repeatable by the learner alone.
+The purpose of Part 7 is to regroup the concepts learned across the whole book into project execution and review results, so that the next stage of learning becomes repeatable by the learner alone.
 
-When reopening Part 7, the quickest route is to grab the representative Sections as handles. The start of analysis is `P7-1.1`, the review structure of `fact -> interpretation -> next question` is `P7-1.2`, baseline comparison is `P7-2.2`, text-evaluation records are `P7-4.2`, RAG verification is `P7-5.2`, agent permissions and logs are `P7-6.2`, and deployment-failure review is `P7-7.2`.
+When reopening Part 7, it is usually fastest to grab the representative Sections as handles. Analysis starts at `P7-1.1`, baseline redesign practice is `P7-1.3`, baseline comparison is `P7-2.2`, comparison-experiment practice is `P7-2.3`, text evaluation records are `P7-4.2`, RAG boundary practice is `P7-5.3`, agent approval policy is `P7-6.3`, and operational-check simulation is `P7-7.3`.
+
+The structure of those representative sections is as follows.
+
+- Part 4 practice runs question setting, baselines, preprocessing, and comparison experiments through `P7-1` and `P7-2`.
+- Part 5 practice checks input structure, learning-result interpretation, and error reading through `P7-3` and `P7-4`.
+- Part 6 practice handles RAG, agents, and deployment or operational judgment through `P7-5`, `P7-6`, and `P7-7`.
 
 ## The Goals Of This Part
 
-After finishing this Part, you should be able to explain the flow of leaving behind a problem definition, a baseline, a result, a failure record, and the next improvement plan as small artifacts.
+After finishing this Part, you should be able to explain the flow of leaving behind a problem definition, a baseline, a result, a failure record, and the next improvement plan as actual execution-and-comparison records.
 
 ## The Core Flow Covered In This Part
 

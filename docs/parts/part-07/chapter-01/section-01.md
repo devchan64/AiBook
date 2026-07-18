@@ -1,9 +1,9 @@
-# P7-1.1 데이터 분석 미니 프로젝트 목표
+# P7-1.1 프로젝트 질문과 입력 정의
 
 > Section ID: `P7-1.1`
 > Version: `v2026.07.18`
 
-Part 6까지 오면서 모델, 검색, 에이전트(agent), 운영까지 큰 구조를 보았습니다. 하지만 프로젝트 파트의 첫 출발은 더 직접적이어야 합니다. `표를 읽고, 질문을 세우고, 요약 결과를 남기는 일`부터 다시 시작해야 합니다. 이 절은 바로 그 첫 단계입니다. 이 프로젝트의 목적은 모델을 쓰는 것이 아니라, 표에서 질문을 만들고 요약 결과를 프로젝트 기록으로 남기는 습관을 만드는 데 있습니다.
+Part 6까지 오면서 모델, 검색, 에이전트(agent), 운영까지 큰 구조를 보았습니다. 하지만 프로젝트 파트의 첫 출발은 더 직접적이어야 합니다. `표를 읽고, 질문을 세우고, 입력 단위를 정하는 일`부터 다시 시작해야 합니다. 이 절은 바로 그 첫 단계입니다. 이 절의 목적은 모델을 쓰는 것이 아니라, 표에서 질문을 만들고 어떤 행을 한 건의 입력으로 볼지 정한 뒤 요약 결과를 프로젝트 기록으로 남기는 습관을 만드는 데 있습니다.
 
 ## 이 절의 범위
 
@@ -158,14 +158,14 @@ flowchart TD
 | --- | --- | --- |
 | 전체 요약 | 서비스 전체가 정말 나빠졌는지 먼저 보기 위해 | 기준선 대비 전체 흐름을 확인하는 첫 비교 기준이 된다 |
 | 채널별 비교표 | 어느 채널이 실제 변화의 원인인지 분해해 보기 위해 | 뒤 절의 회고와 다음 액션 우선순위로 바로 이어진다 |
-| 프로젝트 메모 | 요약값, 관찰, 다음 질문을 한 묶음으로 보존하기 위해 | P7-1.2에서 회고 문장으로 넘길 때 시작점이 된다 |
+| 결과 해석 표 | 요약값, 관찰, 다음 질문을 본문 표로 분리해 읽기 위해 | P7-1.2에서 회고 문장으로 넘길 때 시작점이 된다 |
 
 - 문제 상황: 최근 7일 동안 가입 전환율(conversion rate)이 떨어졌다는 제보가 들어왔다.
 - 입력: `date`, `channel`, `visitors`, `signups`, `errors`
 - 기대 출력:
   - 기준선 7일과 최근 7일의 전체 전환율 비교
   - 채널별 전환율 변화와 오류율 변화 비교
-  - 어떤 단위에서 이상 신호가 실제로 드러나는지 설명하는 프로젝트 메모
+  - 어떤 단위에서 이상 신호가 실제로 드러나는지 설명하는 결과 해석 표
 - 확인할 개념:
   - `한 행이 무엇인가`를 먼저 잡아야 비교 기준이 흔들리지 않는다
   - 전체 합계만 보면 놓치는 문제가 채널 단위 비교에서 드러날 수 있다
@@ -243,34 +243,17 @@ for channel, grouped in by_channel.items():
 
 channel_summary.sort(key=lambda row: row["conversion_delta"])
 
-프로젝트_메모 = {
-    "질문": "전환율 하락은 서비스 전체 문제인가, 특정 유입 채널 문제인가?",
-    "샘플 단위": "한 행은 하루 전체가 아니라 특정 날짜의 특정 채널이다.",
-    "전체 요약": {
-        "기준선 7일 전환율": overall_baseline["conversion_rate"],
-        "최근 7일 전환율": overall_recent["conversion_rate"],
-        "전환율 차이": round(overall_recent["conversion_rate"] - overall_baseline["conversion_rate"], 4),
-    },
-    "채널별 비교": channel_summary,
-    "관찰": [
-        "전체 전환율은 10.51%에서 9.43%로 내려갔지만, 채널별로 나누면 ads 채널 하락폭이 가장 크다.",
-        "organic과 search는 거의 유지됐지만 ads는 전환율이 9.78%에서 6.17%로 크게 떨어졌다.",
-        "ads 채널은 오류율도 0.71%에서 1.85%로 올라가, 단순 유입량 변화보다 운영 이상 신호 가능성이 더 크다.",
-    ],
-    "다음 질문": [
-        "ads 채널 landing page나 추적 스크립트가 2026-06-08 전후로 바뀌었는가?",
-        "ads 채널 오류 증가는 특정 브라우저나 캠페인에 더 집중되는가?",
-    ],
-}
+overall_delta = round(
+    overall_recent["conversion_rate"] - overall_baseline["conversion_rate"], 4
+)
 
 print("전체 기준선 요약 =", overall_baseline)
 print("전체 최근 요약 =", overall_recent)
+print("전체 전환율 차이 =", overall_delta)
 print("읽은 파일 =", str(data_path))
 print("채널별 비교 =")
 for row in channel_summary:
     print(row)
-print("[프로젝트 메모]")
-print(프로젝트_메모)
 ```
 
 실행 결과 예시는 다음과 같습니다.
@@ -278,13 +261,12 @@ print(프로젝트_메모)
 ```text
 전체 기준선 요약 = {'visitors': 8950, 'signups': 941, 'conversion_rate': 0.1051, 'error_rate': 0.0034}
 전체 최근 요약 = {'visitors': 9759, 'signups': 920, 'conversion_rate': 0.0943, 'error_rate': 0.0066}
+전체 전환율 차이 = -0.0108
 읽은 파일 = docs/assets/part-07/chapter-01/p7-1-traffic-log.csv
 채널별 비교 =
 {'channel': 'ads', 'baseline_conversion': 0.0978, 'recent_conversion': 0.0617, 'conversion_delta': -0.0361, 'baseline_error_rate': 0.0071, 'recent_error_rate': 0.0185, 'error_delta': 0.0114}
 {'channel': 'organic', 'baseline_conversion': 0.1217, 'recent_conversion': 0.1207, 'conversion_delta': -0.001, 'baseline_error_rate': 0.0019, 'recent_error_rate': 0.0018, 'error_delta': -0.0001}
 {'channel': 'search', 'baseline_conversion': 0.0894, 'recent_conversion': 0.0886, 'conversion_delta': -0.0008, 'baseline_error_rate': 0.0024, 'recent_error_rate': 0.0023, 'error_delta': -0.0001}
-[프로젝트 메모]
-{'질문': '전환율 하락은 서비스 전체 문제인가, 특정 유입 채널 문제인가?', '샘플 단위': '한 행은 하루 전체가 아니라 특정 날짜의 특정 채널이다.', '전체 요약': {'기준선 7일 전환율': 0.1051, '최근 7일 전환율': 0.0943, '전환율 차이': -0.0108}, '채널별 비교': [{'channel': 'ads', 'baseline_conversion': 0.0978, 'recent_conversion': 0.0617, 'conversion_delta': -0.0361, 'baseline_error_rate': 0.0071, 'recent_error_rate': 0.0185, 'error_delta': 0.0114}, {'channel': 'organic', 'baseline_conversion': 0.1217, 'recent_conversion': 0.1207, 'conversion_delta': -0.001, 'baseline_error_rate': 0.0019, 'recent_error_rate': 0.0018, 'error_delta': -0.0001}, {'channel': 'search', 'baseline_conversion': 0.0894, 'recent_conversion': 0.0886, 'conversion_delta': -0.0008, 'baseline_error_rate': 0.0024, 'recent_error_rate': 0.0023, 'error_delta': -0.0001}], '관찰': ['전체 전환율은 10.51%에서 9.43%로 내려갔지만, 채널별로 나누면 ads 채널 하락폭이 가장 크다.', 'organic과 search는 거의 유지됐지만 ads는 전환율이 9.78%에서 6.17%로 크게 떨어졌다.', 'ads 채널은 오류율도 0.71%에서 1.85%로 올라가, 단순 유입량 변화보다 운영 이상 신호 가능성이 더 크다.'], '다음 질문': ['ads 채널 landing page나 추적 스크립트가 2026-06-08 전후로 바뀌었는가?', 'ads 채널 오류 증가는 특정 브라우저나 캠페인에 더 집중되는가?']}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -311,7 +293,7 @@ print(프로젝트_메모)
 
 즉, 데이터 분석 프로젝트의 첫 성공은 `원인을 단정했다`가 아니라 `다음 검토 우선순위를 더 좁혔다`는 데 있습니다.
 
-이번 예제에서 확인해야 할 결과는 숫자 출력이 한 번 끝나고 사라지는 것이 아니라, 질문과 샘플 단위와 비교표와 다음 질문이 프로젝트 메모 하나로 다시 묶이는가입니다. 그래야 다음 절에서 같은 구조로 회고 문서를 쓰기가 쉬워집니다.
+이번 예제에서 확인해야 할 결과는 코드가 해석 문장까지 대신 쓰는가가 아닙니다. 코드 출력에서 `전체 요약`, `전환율 차이`, `채널별 비교`를 분리해 얻고, 그 위에 본문 표와 회고 문장을 사람이 다시 얹을 수 있는가가 더 중요합니다. 그래야 다음 절에서 같은 출력으로 회고 문서를 쓰기가 쉬워집니다.
 
 ## 직접 바꿔 보며 확인할 것
 
@@ -323,7 +305,7 @@ print(프로젝트_메모)
 2. CSV에서 ads 채널의 `errors` 값을 며칠만 낮춰 봅니다.
    관찰할 점: 전환율 하락은 그대로인데 오류율 상승 신호가 약해지면, 다음 질문이 `서비스 오류`보다 `유입 품질 변화` 쪽으로 이동하는가?
 
-즉, 이 절에서 직접 확인해야 하는 것은 `숫자를 맞게 계산했는가`보다 `비교 구간과 열 하나를 바꾸면 프로젝트 메모의 해석이 어떻게 달라지는가`입니다.
+즉, 이 절에서 직접 확인해야 하는 것은 `숫자를 맞게 계산했는가`보다 `비교 구간과 열 하나를 바꾸면 본문에서 정리할 해석과 다음 질문이 어떻게 달라지는가`입니다.
 
 ## 실무에서의 의미
 

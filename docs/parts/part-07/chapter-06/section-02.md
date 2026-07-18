@@ -1,4 +1,4 @@
-# P7-6.2 권한, blocked, failure 로그 읽기
+# P7-6.2 권한, 로그, blocked 상태 검토
 
 > Section ID: `P7-6.2`
 > Version: `v2026.07.18`

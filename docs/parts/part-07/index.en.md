@@ -1,28 +1,28 @@
 # Part 7. Projects
 
 > Section ID: `P7-index`
-> Version: `v2026.07.12`
+> Version: `v2026.07.18`
 
-Part 7 is the section where the concepts organized earlier are checked again as `small project documents`. Here, rather than stretching out more new theory, the point is to confirm how concepts already learned reappear inside actual project organization.
+Part 7 is where material introduced earlier is practiced through real inputs, code execution, output comparison, and error interpretation. Instead of adding a long stretch of new theory, this Part executes and interprets what Parts 4, 5, and 6 covered.
 
 This Part matters especially for the following readers.
 
-- Readers who can read AI explanations but have not yet left behind even a small result of their own
-- Readers who followed example code but still find it unclear `why a project should be organized in this order`
-- Readers who have heard about LLMs, RAG, and agents but want to organize what must actually be recorded and verified
+- Readers who can follow AI explanations but have had few chances to change inputs and compare outputs themselves
+- Readers who followed example code but still find it unclear `why this output appeared` or `what should be checked first`
+- Readers who know about LLMs, RAG, and agents but want a clearer frame for reading execution logs and quality reviews
 
 ## The Purpose Of This Part
 
-The purpose of Part 7 is not to complete a massive service. Instead, it makes the following smaller goals explicit.
+The purpose of Part 7 is not to complete a massive service. It is also not a Part that stops at formal step-by-step imitation. Instead, it makes the following practice goals explicit.
 
-- Write the question in one sentence
-- State the data or input clearly
-- Set a baseline
-- Leave behind code and output results
-- Organize failure and limits into a review document
-- If needed, also organize execution records, evaluation notes, and operational logs
+- Close the question in one sentence and define the input unit clearly
+- Run a baseline first so there is a floor for comparison
+- Execute the code and read output tables, predictions, and error cases together
+- Interpret results instead of leaving them at `correct` or `incorrect`
+- Turn failures and limits into concrete revision items for the next run
+- Review execution records, evaluation notes, and operating logs when they matter
 
-In other words, the core of Part 7 is `leaving what you understood behind again in executable form`.
+In other words, the core of Part 7 is `turning what was understood into executable and reviewable practice`.
 
 What matters here is not to let the phrase `I did a project` be replaced by a single code file. In Part 7, the following kinds of records should be organized together inside the actual project document whenever possible.
 
