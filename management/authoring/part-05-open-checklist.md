@@ -6,112 +6,112 @@
 
 이 블록은 `docs/book/table-of-contents.md`를 기준으로 Part 5의 시작/마무리 페이지, Chapter, Section을 같은 순서로 대조하기 위한 인덱스입니다. 아래의 `품질 상태 메모`, `현재 부실 판정 구간`, `순차 점검 기록`, `현재 결정`은 이 인덱스를 따라 읽은 뒤 남기는 근거 메모로 사용합니다.
 
-- [ ] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
+- [x] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
 
 ### Module 1. 신경망의 기본 계산 구조
 
 #### Chapter 1. 퍼셉트론 `딥러닝 구조`
 
-- [ ] `P5-1.1` 퍼셉트론(perceptron)의 직관
-- [ ] `P5-1.2` 선형 결합과 활성화
+- [x] `P5-1.1` 퍼셉트론(perceptron)의 직관
+- [x] `P5-1.2` 선형 결합과 활성화
 
 #### Chapter 2. 다층 신경망 `딥러닝 구조`
 
-- [ ] `P5-2.1` 다층 신경망(multilayer neural network)
-- [ ] `P5-2.2` 은닉층(hidden layer)과 표현
+- [x] `P5-2.1` 다층 신경망(multilayer neural network)
+- [x] `P5-2.2` 은닉층(hidden layer)과 표현
 
 #### Chapter 3. 활성화 함수 `딥러닝 구조`
 
-- [ ] `P5-3.1` 활성화 함수(activation function)
-- [ ] `P5-3.2` sigmoid
-- [ ] `P5-3.3` tanh
-- [ ] `P5-3.4` ReLU
-- [ ] `P5-3.5` 대표 활성화 함수 수식 비교
-- [ ] `P5-3.6` 출력층(output layer)과 활성화의 선택
+- [x] `P5-3.1` 활성화 함수(activation function)
+- [x] `P5-3.2` sigmoid
+- [x] `P5-3.3` tanh
+- [x] `P5-3.4` ReLU
+- [x] `P5-3.5` 대표 활성화 함수 수식 비교
+- [x] `P5-3.6` 출력층(output layer)과 활성화의 선택
 
 ### Module 2. 출력과 손실 신호
 
 #### Chapter 4. 손실 함수 `학습 원리`
 
-- [ ] `P5-4.1` 손실 함수(loss function)
-- [ ] `P5-4.2` 문제 유형별 손실
+- [x] `P5-4.1` 손실 함수(loss function)
+- [x] `P5-4.2` 문제 유형별 손실
 
 #### Chapter 5. 손실에서 gradient로 `학습 원리`
 
-- [ ] `P5-5.1` 손실은 어떻게 gradient 신호가 되는가
-- [ ] `P5-5.2` 계산 그래프(computation graph)와 자동미분(automatic differentiation)
+- [x] `P5-5.1` 손실은 어떻게 gradient 신호가 되는가
+- [x] `P5-5.2` 계산 그래프(computation graph)와 자동미분(automatic differentiation)
 
 ### Module 3. 학습 루프와 안정화
 
 #### Chapter 6. 학습 루프와 모델 실행 `학습 원리`
 
-- [ ] `P5-6.1` 학습 루프: forward, loss, backward, optimizer step
-- [ ] `P5-6.2` 학습 step, batch, epoch
-- [ ] `P5-6.3` 학습(learning)과 모델 실행(inference)
-- [ ] `P5-6.4` 학습 모드(training mode)와 평가 모드(evaluation mode)
+- [x] `P5-6.1` 학습 루프: forward, loss, backward, optimizer step
+- [x] `P5-6.2` 학습 step, batch, epoch
+- [x] `P5-6.3` 학습(learning)과 모델 실행(inference)
+- [x] `P5-6.4` 학습 모드(training mode)와 평가 모드(evaluation mode)
 
 #### Chapter 7. 옵티마이저 `학습 원리`
 
-- [ ] `P5-7.1` 옵티마이저(optimizer)의 역할
-- [ ] `P5-7.2` 학습률(learning rate)과 update 보폭
-- [ ] `P5-7.3` 적응형 업데이트의 직관: Adam을 예로
-- [ ] `P5-7.4` 보충학습: adaptive optimization의 수렴 보장과 주장 구분
-- [ ] `P5-7.5` 보충학습: momentum, AdaGrad, RMSProp, Adam
-- [ ] `P5-7.6` 보충학습: learning rate scheduler, warmup, decay
-- [ ] `P5-7.7` 보충학습: optimizer state와 parameter-wise update
-- [ ] `P5-7.8` 보충학습: gradient clipping과 불안정한 update
+- [x] `P5-7.1` 옵티마이저(optimizer)의 역할
+- [x] `P5-7.2` 학습률(learning rate)과 update 보폭
+- [x] `P5-7.3` 적응형 업데이트의 직관: Adam을 예로
+- [x] `P5-7.4` 보충학습: adaptive optimization의 수렴 보장과 주장 구분
+- [x] `P5-7.5` 보충학습: momentum, AdaGrad, RMSProp, Adam
+- [x] `P5-7.6` 보충학습: learning rate scheduler, warmup, decay
+- [x] `P5-7.7` 보충학습: optimizer state와 parameter-wise update
+- [x] `P5-7.8` 보충학습: gradient clipping과 불안정한 update
 
 #### Chapter 8. 학습 루프를 안정적으로 만드는 제어 장치 `학습 원리`
 
-- [ ] `P5-8.1` 목적 함수에 제약을 두는 방법: 정규화(regularization)
-- [ ] `P5-8.2` 경로 의존을 줄이는 방법: 드롭아웃(dropout)
-- [ ] `P5-8.3` 보충학습: 깊은 계산이 흔들리지 않게 하는 조건 - 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)
-- [ ] `P5-8.4` 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
+- [x] `P5-8.1` 목적 함수에 제약을 두는 방법: 정규화(regularization)
+- [x] `P5-8.2` 경로 의존을 줄이는 방법: 드롭아웃(dropout)
+- [x] `P5-8.3` 보충학습: 깊은 계산이 흔들리지 않게 하는 조건 - 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)
+- [x] `P5-8.4` 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
 
 ### Module 4. 계산 확장
 
 #### Chapter 9. GPU와 병렬 처리 `역사와 패러다임`
 
-- [ ] `P5-9.1` GPU와 병렬 처리
-- [ ] `P5-9.2` 배치(batch)와 텐서(tensor) 계산
+- [x] `P5-9.1` GPU와 병렬 처리
+- [x] `P5-9.2` 배치(batch)와 텐서(tensor) 계산
 
 ### Module 5. 표현 학습과 구조 분기
 
 #### Chapter 10. 표현 학습 `딥러닝 구조`
 
-- [ ] `P5-10.1` 표현 학습(representation learning)
-- [ ] `P5-10.2` 깊은 층의 표현
+- [x] `P5-10.1` 표현 학습(representation learning)
+- [x] `P5-10.2` 깊은 층의 표현
 
 #### Chapter 11. CNN `알고리즘`
 
-- [ ] `P5-11.1` CNN의 직관
-- [ ] `P5-11.2` 합성곱(convolution)과 풀링(pooling)
-- [ ] `P5-11.3` 보충학습: CNN과 Vision Transformer(ViT) 비교
+- [x] `P5-11.1` CNN의 직관
+- [x] `P5-11.2` 합성곱(convolution)과 풀링(pooling)
+- [x] `P5-11.3` 보충학습: CNN과 Vision Transformer(ViT) 비교
 
 #### Chapter 12. RNN, LSTM, GRU `알고리즘`
 
-- [ ] `P5-12.1` RNN, LSTM, GRU의 필요성
-- [ ] `P5-12.2` 장기 의존성(long-term dependency)
+- [x] `P5-12.1` RNN, LSTM, GRU의 필요성
+- [x] `P5-12.2` 장기 의존성(long-term dependency)
 
 #### Chapter 13. Attention `딥러닝 구조`
 
-- [ ] `P5-13.1` Attention의 직관
-- [ ] `P5-13.2` self-attention으로 이어지는 흐름
-- [ ] `P5-13.3` 보충학습: query, key, value와 multi-head attention
+- [x] `P5-13.1` Attention의 직관
+- [x] `P5-13.2` self-attention으로 이어지는 흐름
+- [x] `P5-13.3` 보충학습: query, key, value와 multi-head attention
 
 #### Chapter 14. Transformer `딥러닝 구조`
 
-- [ ] `P5-14.1` Transformer의 기본 구성
-- [ ] `P5-14.2` 병렬 처리와 긴 문맥
+- [x] `P5-14.1` Transformer의 기본 구성
+- [x] `P5-14.2` 병렬 처리와 긴 문맥
 
 ### Module 6. 생성 모델과 샘플링
 
 #### Chapter 15. 생성 모델의 직관 `딥러닝 구조`
 
-- [ ] `P5-15.1` 생성 모델(generative model)은 무엇을 배우는가
-- [ ] `P5-15.2` 생성과 샘플링(sampling)
+- [x] `P5-15.1` 생성 모델(generative model)은 무엇을 배우는가
+- [x] `P5-15.2` 생성과 샘플링(sampling)
 
-- [ ] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
+- [x] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
 
 ## 품질 상태 메모
 
@@ -204,6 +204,40 @@
   - 후반부 잔여 절 없음. `P5-11.* ~ P5-15.*` 재독 후보는 현재 기준으로 모두 1차 보강 완료했고, `P5-14.2` 예제의 잔여 물류 변수명도 정리했습니다.
 
 ## 순차 점검 기록
+
+- `2026-07-18`: `chapter-11/section-01.md`부터 `chapter-11/section-03.md`, `chapter-12/section-01.md`부터 `chapter-12/section-02.md`, `chapter-13/section-01.md`부터 `chapter-13/section-03.md`, `chapter-14/section-01.md`부터 `chapter-14/section-02.md`, `chapter-15/section-01.md`부터 `chapter-15/section-02.md`, `summary.md`를 현재 상태 기준으로 다시 확인했습니다.
+- Chapter 11은 CNN을 `이미지 전체 인상`보다 `지역 패턴 -> 부분 구조 -> 더 큰 시각 단서`의 흐름으로 닫고 있었고, `P5-11.3`의 ViT 비교도 계보 나열보다 `이미지를 어떤 계산 단위로 읽기 시작하는가`와 `패치-토큰 관계`를 미리 준비시키는 역할 안에 머물러 있었습니다.
+- Chapter 12는 RNN/LSTM/GRU를 `순차 상태를 왜 따로 들고 가야 하는가`와 `왜 오래전 단서가 희미해지는가`라는 두 질문으로 비교적 선명하게 정리하고 있었고, 장기 의존성이 attention으로 넘어가는 이유도 자연스럽게 이어지고 있었습니다.
+- Chapter 13과 Chapter 14는 `오래 들고 가기`에서 `필요한 위치를 다시 보기`로, 다시 `그 참조 계산을 블록 구조로 반복하기`로 손잡이가 분명히 바뀌고 있었습니다. self-attention, QKV, multi-head, Transformer 블록, 병렬 처리, 긴 문맥이 모두 같은 전환축 위에서 정리되고 있어 구조 이름 나열로 무너지지 않았습니다.
+- Chapter 15와 `summary.md`도 `생성 모델은 무엇을 배우는가`와 `학습된 후보 중 실제 출력을 어떻게 고르는가`를 분리하고 있었고, Part 마무리 페이지 역시 Part 5 전체를 `표현 학습 -> 구조 분기 -> 생성 후보 선택` 흐름으로 다시 묶고 있어 목차 기준과 현재 본문 설명이 어긋나지 않았습니다.
+- 현재 범위에서도 중심축 이탈이나 독자 기준 전개 위반으로 즉시 수정해야 할 강한 문제는 보이지 않았습니다. 보충학습을 포함한 후반부도 현재 상태에서는 본선 설명을 해치기보다 구조 전환을 보강하는 쪽이 더 강했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: Part 5 목차 기준 순차 점검을 현재 범위까지 마쳤습니다.
+
+- `2026-07-18`: `chapter-09/section-01.md`, `chapter-09/section-02.md`, `chapter-10/section-01.md`, `chapter-10/section-02.md`를 현재 상태 기준으로 다시 확인했습니다.
+- `P5-9.1`과 `P5-9.2`는 GPU, 병렬 처리, 배치, 텐서를 `왜 딥러닝이 실용적 규모로 확장되었는가`와 `그 계산이 실제로 어떤 데이터 shape로 주어지는가`라는 두 질문으로 비교적 선명하게 나누고 있었습니다. CPU/GPU 차이도 하드웨어 세부보다 `같은 연산을 많이 동시에 처리하는가`라는 독자 친화적 기준으로 유지되고 있었습니다.
+- `P5-10.1`과 `P5-10.2`는 표현 학습을 사람의 특징 공학과 구분하고, 깊은 층의 표현을 `원시 단서 -> 중간 구조 -> 과업 가까운 표현`의 직관으로 이어 가며 뒤의 CNN/RNN/Attention 장으로 자연스럽게 넘기고 있었습니다. 모델 이름 나열보다 `무엇을 배우는가`와 `표현 수준이 왜 달라지는가`를 먼저 고정하는 흐름도 안정적이었습니다.
+- 현재 범위에서도 중심축 이탈이나 독자 기준 전개 위반으로 즉시 수정해야 할 강한 문제는 보이지 않았습니다. 본문 수정 없이 유지합니다.
+- 판단: 다음 순차 점검 대상은 Chapter 11 `P5-11.1`부터 `P5-11.3`, Chapter 12 `P5-12.1`부터 `P5-12.2`, Chapter 13 `P5-13.1`부터 `P5-13.3`, Chapter 14 `P5-14.1`부터 `P5-14.2`, Chapter 15 `P5-15.1`부터 `P5-15.2`, 그리고 `summary.md`입니다.
+
+- `2026-07-18`: `chapter-05/section-01.md`, `chapter-05/section-02.md`, `chapter-06/section-01.md`부터 `chapter-06/section-04.md`, `chapter-07/section-01.md`부터 `chapter-07/section-08.md`, `chapter-08/section-01.md`부터 `chapter-08/section-04.md`를 현재 상태 기준으로 다시 확인했습니다.
+- Chapter 5는 손실 숫자를 gradient 신호로 다시 푸는 절차를 `손실 -> gradient -> update`로 분명히 나누고 있었고, 계산 그래프와 자동미분도 새로운 구조 소개보다 `왜 backward가 가능해지는가`를 설명하는 역할 안에 머물러 있었습니다.
+- Chapter 6은 `forward -> loss -> backward -> optimizer step`이라는 학습 루프 중심축을 유지한 채 step/batch/epoch, learning/inference, training/evaluation mode를 각각 다른 질문으로 분리하고 있어, 초심자가 반복 단위와 파라미터 변경 여부를 섞지 않게 하는 흐름이 비교적 안정적이었습니다.
+- Chapter 7은 optimizer를 `gradient를 실제 update로 바꾸는 규칙`으로 붙잡는 본선 설명이 선명했고, learning rate, Adam, scheduler, state, clipping 같은 보충학습도 본선의 `무엇을 더 기억하고 무엇을 더 조절하는가`라는 기준을 크게 벗어나지 않았습니다. 다만 보충 절들은 길이가 긴 편이므로 이후 재독에서는 예제와 표가 같은 판단을 과도하게 반복하지 않는지만 계속 보면 충분하다고 판단했습니다.
+- Chapter 8도 regularization, dropout, initialization, numerical stability, batch normalization을 모두 `학습 루프를 안정적으로 만들기 위한 서로 다른 제어 위치`로 구분하고 있어 중심축이 비교적 선명했습니다. 특히 `optimizer는 어떻게 움직일까`, `regularization은 어떤 해를 덜 선호할까`, `normalization과 batch normalization은 값과 분포를 어떻게 다룰까`를 분리하는 흐름이 초심자 기준에서 유효했습니다.
+- 현재 범위에서는 중심축 이탈이나 독자 기준 전개 위반으로 바로 수정해야 할 강한 문제는 보이지 않았습니다. 일부 보충 절이 길지만 현재 상태에서는 챕터 본선 설명을 무너뜨리기보다 판단 기준을 보강하는 쪽이 더 강했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: 다음 순차 점검 대상은 Chapter 9 `P5-9.1`부터 Chapter 10 `P5-10.2`까지입니다.
+
+- `2026-07-18`: `index.md`, `chapter-01/section-01.md`, `chapter-01/section-02.md`, `chapter-02/section-01.md`, `chapter-02/section-02.md`, `chapter-03/section-01.md`부터 `chapter-03/section-06.md`, `chapter-04/section-01.md`, `chapter-04/section-02.md`를 현재 상태 기준으로 다시 확인했습니다.
+- `P5-index`는 Part 5를 `기본 계산 구조 -> 출력과 손실 -> 학습 루프 -> 계산 확장 -> 구조 분기 -> 생성`으로 분명히 잡고 있었고, Part 6 예고보다 현재 Part 안에서 구조와 학습 절차를 닫아야 한다는 기준도 비교적 선명하게 유지하고 있었습니다.
+- `P5-1.1`과 `P5-1.2`는 퍼셉트론을 단순 정의보다 `입력, 가중치, 경계, 활성화`의 최소 계산 구조로 붙잡게 하고 있었고, 초반부에서 사람이 먼저 쓰는 기준과 모델 계산 기준의 차이도 비교적 직접적으로 드러나 있었습니다.
+- `P5-2.1`과 `P5-2.2`는 다층 구조와 은닉 표현을 장난감 수준 비유에서 멈추지 않고 실제 판단 축 분리와 중간 표현 차이로 이어지게 해, `표현이 왜 깊어지는가`를 초심자 기준에서도 따라가기 쉽게 만들고 있었습니다.
+- Chapter 3은 활성화 함수들을 공식 목록보다 `비선형성`, `출력 범위`, `0 중심 여부`, `문제 유형에 따른 출력층 선택`의 차이로 묶고 있어 구조적 중심축이 안정적이었습니다. 각 절의 사례, 비교표, 예제가 같은 함수를 반복 소개하기보다 `어떤 입력 신호를 남기고 어떤 신호를 잘라내는가`의 차이를 보여 주는 역할을 하고 있었습니다.
+- `P5-4.1`과 `P5-4.2`도 손실을 수식 이름보다 `무엇을 더 크게 고쳐야 하는가`, `문제 유형마다 틀림의 모양이 왜 다른가`라는 판단 기준으로 묶고 있었고, 회귀/분류/생성 손실을 한 숫자 크기로 직접 비교하지 않게 하는 설명도 현재 톤에서 적절했습니다.
+- 현재 범위에서는 중심축 이탈이나 독자 기준 전개 위반으로 볼 만한 강한 문제는 보이지 않았습니다. 일부 절은 길고 표가 많지만, 현재 상태에서는 오버뷰 반복보다 실제 판단 차이를 붙잡는 보강이 더 많이 반영되어 있어 본문 수정 없이 유지하는 편이 적절하다고 판단했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: 다음 순차 점검 대상은 Chapter 5 `P5-5.1`부터 Chapter 8 `P5-8.4`까지입니다.
 
 - `2026-07-12`: Part 5 전체를 다시 읽는 기준 자체를 조정했습니다.
 - 이전 메모는 `큰 구조는 이미 닫혔다`는 쪽으로 기울어 있었지만, 실제 재검토를 진행해 보니 Part 5는 구조 적합성과 별개로 `학습 밀도`와 `레포 원칙` 준수 상태가 절마다 들쭉날쭉했습니다.
