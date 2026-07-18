@@ -22,6 +22,8 @@
 - 번역 동기화 메모: Future translations should preserve the Part 7 overview as a map of reusable project-record structures rather than a list of omitted large-scale operations topics.
 
 ### v2026.07.18
+- 번역 동기화 메모: English and Simplified Chinese index pages were tuned again on 2026-07-18 so phrases like `next section to reopen` no longer dominate the overview, and the integrated project-record structure remains in the foreground.
+- 추가 반영: 통합 훈련 구조 설명에서 `앞 절을 끝내고 다음 절로 넘어가는 계단` 같은 대비 문장도 걷어내고, 각 절이 같은 프로젝트 문서의 서로 다른 판단 축이라는 설명만 남겨 더 직접 정리했다.
 - 추가 반영: 시작 페이지의 통합 훈련 구조 설명에서 각 절을 `계단식 순차 실습`이 아니라 `같은 프로젝트 문서에 함께 남아야 하는 판단 축`으로 더 분명히 적어, Part 7의 중심축이 통합 훈련이라는 점을 앞단에서 바로 보이게 다듬었다.
 - 추가 반영: 개요 페이지의 `보충학습으로 따로 빼지 않는다` 식 편집 메타를 줄이고, 예시들이 각 축의 실행 장면 안에 그대로 남아 있어야 한다는 본문 역할 설명으로 다시 정리했다.
 - 추가 반영: `실제로 따라 할 때는`, `어디부터 순서대로 갈까` 같은 독자 지시형 안내를 더 줄이고, Part 7 시작 페이지가 읽는 법보다 `비어 있으면 바로 흔들리는 판단 축`과 `실습 기록의 공통 리듬` 자체를 먼저 보여 주도록 정리했다.

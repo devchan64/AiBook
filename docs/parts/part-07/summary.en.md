@@ -16,9 +16,9 @@ In other words, this Part changes the feeling of `I know it` into the state of `
 
 The purpose of Part 7 is to bind the concepts learned across the whole book into actual project execution and review results so that the next stage of learning becomes repeatable by the learner alone.
 
-- Question setup, baselines, preprocessing, and comparison experiments are grouped first in `P7-1` and `P7-2`.
-- Input structure, learning-result interpretation, and error reading are extended in `P7-3` and `P7-4`.
-- RAG, agent, and deployment or operational judgment are integrated in `P7-5`, `P7-6`, and `P7-7`, including evidence, logs, policy, and retrospective.
+- Question setup, baselines, comparison tables, and error cases should remain together inside one document.
+- Input structure, learning-result interpretation, evidence checking, and execution logs should connect as one chain of judgment.
+- Deployment and operational judgment should also remain as project records rather than being treated as an appendix at the end.
 
 ## The Goals Of This Part
 
@@ -135,7 +135,7 @@ These questions were already previewed in small form inside Part 7 itself.
 - Did you leave behind failure cases and an improvement plan?
 - If it is an LLM project, did you also inspect retrieval, tool calls, permissions, logs, and failure handling?
 
-When reopening the project documents in practice, the following artifact checks should also be confirmed.
+When the project documents are checked again in practice, the following artifact checks should also be confirmed.
 
 - Is there an execution summary or a review summary?
 - Do sample-level records remain, such as comparison tables, test records, and evaluation records?
@@ -170,15 +170,14 @@ Linked back to representative places in Part 7, the same procedure can be read a
 | Execution stage | Representative Section |
 | --- | --- |
 | Fix the question and input unit | `P7-1.1` |
-| Move into the retrospective structure | `P7-1.2` |
-| Compare the baseline and the improvement | `P7-2.2` |
-| Turn error cases into retrospective | `P7-3.2` |
-| Read failure points through evaluation records | `P7-4.2`, `P7-5.2` |
-| Leave execution logs, permissions, and failure retrospective | `P7-6.2`, `P7-7.2` |
+| Read the baseline and comparison table together | `P7-1.2`, `P7-2.2` |
+| Interpret structure and failure causes together | `P7-3.2`, `P7-4.2` |
+| Leave evidence and execution logs together | `P7-5.2`, `P7-6.2` |
+| Return operational failure to the next experiment | `P7-7.2` |
 
 In other words, the current blocked stage can be compared directly with the representative section that plays the same role. If the practice sections are included as well, it becomes possible to return not only to rereading explanations, but to changing values and rewriting results.
 
-## Closing Part 7
+## Closing Thoughts
 
 The purpose of the project Part is not to produce a massive artifact. Instead, it is to reveal through actual execution and comparison `what I understood and what is still unstable`.
 

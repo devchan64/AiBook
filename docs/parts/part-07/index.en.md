@@ -66,7 +66,7 @@ Once this structure is fixed first, Part 7 is organized less as `a Part with man
 | RAG and agent practice | Evidence, permissions, execution records | `P7-5.1` to `P7-6.3` |
 | Deployment and operational checks | Deployment checks, incident records, next-action priority | `P7-7.1` to `P7-7.3` |
 
-This mapping matters because Part 7 is not a Part that adds a long separate block of new theory. It is a Part that binds `question setup -> comparison -> structure interpretation -> execution records -> operational retrospective` into one flow. If the current problem is first separated into a comparison-design issue, a structure or learning-interpretation issue, or an evidence, tool, or operational issue, the next section to reopen also becomes much easier to narrow down.
+This mapping matters because Part 7 is not a Part that adds a long separate block of new theory. It is a Part that binds `question setup -> comparison -> structure interpretation -> execution records -> operational retrospective` into one flow. If the current problem is separated into a comparison-design issue, a structure or learning-interpretation issue, or an evidence, tool, or operational issue, the project record itself becomes much easier to narrow down.
 
 ## The Shared Rhythm Of Practice Records
 

@@ -17,6 +17,9 @@
 - 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 단일 checklist 구조, 현재 Part 7 마무리 페이지의 회고 중심 흐름을 반영했다. / reflected in English and Simplified Chinese on 2026-07-12
 
 ### v2026.07.18
+- 번역 동기화 메모: English and Simplified Chinese summary pages were resynced again on 2026-07-18 so section-group walkthrough phrasing like `P7-1 and P7-2 first` or `reopen the project documents` is reduced, and the summary keeps the integrated record structure in the foreground.
+- 추가 반영: 요약 페이지의 구조 설명에서도 `어느 절을 먼저 끝내고` 같은 순차 대비 문장을 덜어내고, 같은 프로젝트 기록을 여러 판단 축에서 점검하는 설명만 남겨 더 직접 정리했다.
+- 추가 반영: 요약 페이지의 `독립된 소과제`, `차례대로 소비` 같은 표현을 더 줄이고, 각 절이 같은 프로젝트 기록을 다른 판단 축에서 다시 점검하는 구조라는 설명을 더 자연스럽게 정리했다.
 - 추가 반영: 마무리 페이지에서 각 절을 `차례대로 소비하는 소과제`처럼 읽지 않도록, 같은 프로젝트 기록을 여러 판단 축에서 다시 점검하는 구조라는 설명을 더 직접 보강했다.
 - 추가 반영: 요약 페이지의 `보충학습`과 `한 절 끝내고 다음 절로 간다` 식 구조 메타를 더 줄이고, 각 축이 이미 Part 7 안에서 충분히 펼쳐져 있다는 본문 설명과 통합 판단 구조가 먼저 보이도록 다듬었다.
 - 추가 반영: `다음 질문을 독자의 이후 프로젝트로 넘깁니다`, `다시 펼쳤을 때`, `다시 시작할 때` 같은 메타형 독자 안내를 더 줄이고, 요약 페이지가 `직접 끝내지 않는 확장 과제`, `프로젝트 문서에 남는 최소 절차`, `재점검 기준` 자체를 먼저 보여 주도록 정리했다.
