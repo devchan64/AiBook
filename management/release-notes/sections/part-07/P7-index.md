@@ -22,6 +22,7 @@
 - 번역 동기화 메모: Future translations should preserve the Part 7 overview as a map of reusable project-record structures rather than a list of omitted large-scale operations topics.
 
 ### v2026.07.18
+- 추가 반영: `이 파트를 실제로 시작하는 순서`, `프로젝트 문서의 공통 형식`, `언제 Part 7을 다시 펼쳐야 하는가` 같은 메타 표제를 `Part 7의 실습 흐름`, `프로젝트 기록의 공통 기준`, `이 파트에서 남아야 하는 판단 기준`으로 바꿔, 시작 페이지가 읽는 법 안내보다 실제 실행 축과 기록 기준을 먼저 보여 주도록 정리했다.
 - 추가 반영: Part 7의 전체 안내 축을 `Part 4 실습 -> Part 5 실습 -> Part 6 실습 -> 통합 운영 실습` 순서로 다시 정리해, 시작 페이지만 읽어도 이 Part가 어느 앞 Part의 실습 공간인지 바로 드러나게 했다.
 - 본문 반영: `Part 4, 5, 6을 어디서 다시 경험하는가` 표도 `실습 축 / 앞 Part 감각 / 대표 위치` 구조로 바꾸고, 운영 회고는 별도 `통합 운영 실습` 축으로 분리했다.
 - 변경 이유: 현재 Part 7의 실제 초안은 `작은 프로젝트 문서`, `작은 결과물`, `기록 구조` 중심으로 읽혀, 사용자가 요구한 `초심자가 실제로 동작시켜 보며 AI 동작을 이해하는 실습 파트`라는 목표를 충분히 받치지 못했다.
