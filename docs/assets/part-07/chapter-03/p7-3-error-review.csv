@@ -1,0 +1,4 @@
+sample,pattern_name,true_label,pred_label,class_0_prob,class_1_prob,confidence_margin,review_needed
+평가-정상-안정,정상 표면,0,0,0.994,0.006,0.988,아니오
+평가-결함-명확,스크래치 경고,1,1,0.003,0.997,0.994,아니오
+평가-결함-약함,약한 스크래치,1,0,0.730,0.270,0.459,예

@@ -37,7 +37,7 @@ P7-4.2까지 읽고 나면 `낮은 coverage 샘플은 다시 봐야 한다`는 �
 
 ## 입력 파일
 
-- 파일 경로: `docs/assets/part-07/chapter-04/p7-4-support-routing-dataset.csv`
+- 파일 경로: [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv)
 - 한 행의 의미: `한 건의 고객 문의와 라우팅 정답`
 - 이번 연습에서 특히 볼 평가 행: `평가-05`, `평가-07`
 

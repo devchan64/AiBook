@@ -1,0 +1,9 @@
+run_id,check_order,check_name,status,observed_value,expected_signal,recheck_required
+배포-001,1,브랜치 확인,성공,main,main,아니오
+배포-001,2,로컬 빌드,성공,.venv/bin/python -m mkdocs build 성공,치명적 빌드 오류 없음,아니오
+배포-001,3,Pages workflow,성공,build/deploy job 완료,GitHub Actions Pages workflow 완료,아니오
+배포-001,4,공개 URL 확인,성공,수정한 Section 제목과 Version 노출,최신 원고 반영 확인,아니오
+배포-002,1,브랜치 확인,성공,main,main,아니오
+배포-002,2,로컬 빌드,성공,.venv/bin/python -m mkdocs build 성공,치명적 빌드 오류 없음,아니오
+배포-002,3,Pages workflow,성공,build job 완료 후 deploy 대기,GitHub Actions Pages workflow 완료,예
+배포-002,4,공개 URL 확인,보류,공개 주소에서 이전 Version이 아직 보임,최신 원고 반영 확인,예
