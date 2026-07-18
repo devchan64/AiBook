@@ -6,137 +6,137 @@
 
 이 블록은 `docs/book/table-of-contents.md`를 기준으로 Part 4의 시작/마무리 페이지, Chapter, Section을 같은 순서로 대조하기 위한 인덱스입니다. 아래의 `품질 상태 메모`, `순차 점검 기록`, `현재 결정`은 이 인덱스를 따라 읽은 뒤 남기는 근거 메모로 사용합니다.
 
-- [ ] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
+- [x] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
 
 ### Module 1. 머신러닝의 위치
 
 #### Chapter 1. AI, 머신러닝, 딥러닝의 구분 `개념 정의`
 
-- [ ] `P4-1.1` AI, 머신러닝, 딥러닝의 관계
-- [ ] `P4-1.2` 데이터에서 규칙을 배운다는 말
+- [x] `P4-1.1` AI, 머신러닝, 딥러닝의 관계
+- [x] `P4-1.2` 데이터에서 규칙을 배운다는 말
 
 #### Chapter 2. 지도학습, 비지도학습, 강화학습 `학습 원리`
 
-- [ ] `P4-2.1` 지도학습(supervised learning)
-- [ ] `P4-2.2` 비지도학습(unsupervised learning)
-- [ ] `P4-2.3` 강화학습(reinforcement learning)
+- [x] `P4-2.1` 지도학습(supervised learning)
+- [x] `P4-2.2` 비지도학습(unsupervised learning)
+- [x] `P4-2.3` 강화학습(reinforcement learning)
 
 #### Chapter 3. 휴리스틱이 필요한 이유 `실무 휴리스틱`
 
-- [ ] `P4-3.1` 휴리스틱(heuristic)이 필요한 이유
-- [ ] `P4-3.2` 휴리스틱과 모델 선택
+- [x] `P4-3.1` 휴리스틱(heuristic)이 필요한 이유
+- [x] `P4-3.2` 휴리스틱과 모델 선택
 
 ### Module 2. 데이터와 평가
 
 #### Chapter 4. 데이터 분리와 검증 `학습 원리`
 
-- [ ] `P4-4.1` 학습 데이터와 평가 데이터
-- [ ] `P4-4.2` 검증(validation)과 테스트(test)
+- [x] `P4-4.1` 학습 데이터와 평가 데이터
+- [x] `P4-4.2` 검증(validation)과 테스트(test)
 
 #### Chapter 5. 과적합과 일반화 `학습 원리`
 
-- [ ] `P4-5.1` 과적합(overfitting)과 과소적합(underfitting)
-- [ ] `P4-5.2` 일반화(generalization)
+- [x] `P4-5.1` 과적합(overfitting)과 과소적합(underfitting)
+- [x] `P4-5.2` 일반화(generalization)
 
 #### Chapter 6. 평가 지표 `학습 원리`
 
-- [ ] `P4-6.1` 평가 지표(metric)의 역할
-- [ ] `P4-6.2` 문제 유형별 평가 기준
-- [ ] `P4-6.3` 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법
-- [ ] `P4-6.4` 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
+- [x] `P4-6.1` 평가 지표(metric)의 역할
+- [x] `P4-6.2` 문제 유형별 평가 기준
+- [x] `P4-6.3` 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법
+- [x] `P4-6.4` 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
 
 ### Module 3. 실무 휴리스틱
 
 #### Chapter 7. 특징 선택과 전처리 휴리스틱 `실무 휴리스틱`
 
-- [ ] `P4-7.1` 특징 선택(feature selection)
-- [ ] `P4-7.2` 전처리(preprocessing)
-- [ ] `P4-7.3` 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가
-- [ ] `P4-7.4` 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법
+- [x] `P4-7.1` 특징 선택(feature selection)
+- [x] `P4-7.2` 전처리(preprocessing)
+- [x] `P4-7.3` 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가
+- [x] `P4-7.4` 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법
 
 #### Chapter 8. 모델 선택 휴리스틱 `실무 휴리스틱`
 
-- [ ] `P4-8.1` 모델 선택(model selection)
-- [ ] `P4-8.2` 기준 모델(baseline)
-- [ ] `P4-8.3` 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법
+- [x] `P4-8.1` 모델 선택(model selection)
+- [x] `P4-8.2` 기준 모델(baseline)
+- [x] `P4-8.3` 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법
 
 #### Chapter 9. 하이퍼파라미터 튜닝 `실무 휴리스틱`
 
-- [ ] `P4-9.1` 하이퍼파라미터(hyperparameter)
-- [ ] `P4-9.2` 튜닝(tuning)과 검증 비용
-- [ ] `P4-9.3` 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기
+- [x] `P4-9.1` 하이퍼파라미터(hyperparameter)
+- [x] `P4-9.2` 튜닝(tuning)과 검증 비용
+- [x] `P4-9.3` 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기
 
 ### Module 4. 기본 알고리즘
 
 #### Chapter 10. 선형회귀 `알고리즘`
 
-- [ ] `P4-10.1` 선형회귀(linear regression)의 직관
-- [ ] `P4-10.2` 선형회귀의 평가와 한계
-- [ ] `P4-10.3` 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법
+- [x] `P4-10.1` 선형회귀(linear regression)의 직관
+- [x] `P4-10.2` 선형회귀의 평가와 한계
+- [x] `P4-10.3` 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법
 
 #### Chapter 11. 로지스틱 회귀 `알고리즘`
 
-- [ ] `P4-11.1` 로지스틱 회귀(logistic regression)의 직관
-- [ ] `P4-11.2` 결정 경계(decision boundary)
-- [ ] `P4-11.3` 보충학습: log-odds와 MLE를 처음 읽는 법
-- [ ] `P4-11.4` 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
-- [ ] `P4-11.5` 보충학습: solver와 regularization을 처음 읽는 법
+- [x] `P4-11.1` 로지스틱 회귀(logistic regression)의 직관
+- [x] `P4-11.2` 결정 경계(decision boundary)
+- [x] `P4-11.3` 보충학습: log-odds와 MLE를 처음 읽는 법
+- [x] `P4-11.4` 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
+- [x] `P4-11.5` 보충학습: solver와 regularization을 처음 읽는 법
 
 #### Chapter 12. k-NN `알고리즘`
 
-- [ ] `P4-12.1` k-NN의 직관
-- [ ] `P4-12.2` 거리(distance)와 스케일(scale)
-- [ ] `P4-12.3` k-NN을 사용할 때 무엇을 먼저 점검할까
+- [x] `P4-12.1` k-NN의 직관
+- [x] `P4-12.2` 거리(distance)와 스케일(scale)
+- [x] `P4-12.3` k-NN을 사용할 때 무엇을 먼저 점검할까
 
 #### Chapter 13. SVM `알고리즘`
 
-- [ ] `P4-13.1` SVM의 직관
-- [ ] `P4-13.2` 커널(kernel)의 입문적 의미
+- [x] `P4-13.1` SVM의 직관
+- [x] `P4-13.2` 커널(kernel)의 입문적 의미
 
 ### Module 5. 트리와 앙상블
 
 #### Chapter 14. 결정트리 `알고리즘`
 
-- [ ] `P4-14.1` 결정트리(decision tree)
-- [ ] `P4-14.2` 트리의 과적합
+- [x] `P4-14.1` 결정트리(decision tree)
+- [x] `P4-14.2` 트리의 과적합
 
 #### Chapter 15. 랜덤포레스트 `알고리즘`
 
-- [ ] `P4-15.1` 랜덤포레스트(random forest)
-- [ ] `P4-15.2` 특징 중요도(feature importance)
-- [ ] `P4-15.3` OOB(out-of-bag)와 랜덤포레스트 점검
-- [ ] `P4-15.4` 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
+- [x] `P4-15.1` 랜덤포레스트(random forest)
+- [x] `P4-15.2` 특징 중요도(feature importance)
+- [x] `P4-15.3` OOB(out-of-bag)와 랜덤포레스트 점검
+- [x] `P4-15.4` 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
 
 #### Chapter 16. 그래디언트 부스팅 `알고리즘`
 
-- [ ] `P4-16.1` 그래디언트 부스팅(gradient boosting)
-- [ ] `P4-16.2` 부스팅의 성능과 위험
-- [ ] `P4-16.3` 보충학습: 부스팅 라이브러리와 운영 감각
+- [x] `P4-16.1` 그래디언트 부스팅(gradient boosting)
+- [x] `P4-16.2` 부스팅의 성능과 위험
+- [x] `P4-16.3` 보충학습: 부스팅 라이브러리와 운영 감각
 
 ### Module 6. 구조 찾기
 
 #### Chapter 17. 클러스터링 `알고리즘`
 
-- [ ] `P4-17.1` 클러스터링(clustering)의 직관
-- [ ] `P4-17.2` 군집 결과를 해석할 때의 주의점
-- [ ] `P4-17.3` 보충학습: 계층적 군집화와 스펙트럴 클러스터링을 처음 구분하는 법
-- [ ] `P4-17.4` 보충학습: 군집과 반지도학습을 처음 연결하는 법
+- [x] `P4-17.1` 클러스터링(clustering)의 직관
+- [x] `P4-17.2` 군집 결과를 해석할 때의 주의점
+- [x] `P4-17.3` 보충학습: 계층적 군집화와 스펙트럴 클러스터링을 처음 구분하는 법
+- [x] `P4-17.4` 보충학습: 군집과 반지도학습을 처음 연결하는 법
 
 #### Chapter 18. 차원 축소 `알고리즘`
 
-- [ ] `P4-18.1` 차원 축소(dimensionality reduction)
-- [ ] `P4-18.2` 시각화와 정보 손실
+- [x] `P4-18.1` 차원 축소(dimensionality reduction)
+- [x] `P4-18.2` 시각화와 정보 손실
 
 #### Chapter 19. 강화학습 알고리즘 `알고리즘`
 
-- [ ] `P4-19.1` 가치 기반 강화학습(value-based reinforcement learning)
-- [ ] `P4-19.2` 정책 기반 강화학습(policy-based reinforcement learning)
-- [ ] `P4-19.3` 강화학습 적용의 주의점
-- [ ] `P4-19.4` 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기
-- [ ] `P4-19.5` 보충학습: 벨만 방정식, 수렴, 함수 근사를 처음 읽는 법
-- [ ] `P4-19.6` 보충학습: policy gradient와 likelihood ratio trick을 처음 읽는 법
+- [x] `P4-19.1` 가치 기반 강화학습(value-based reinforcement learning)
+- [x] `P4-19.2` 정책 기반 강화학습(policy-based reinforcement learning)
+- [x] `P4-19.3` 강화학습 적용의 주의점
+- [x] `P4-19.4` 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기
+- [x] `P4-19.5` 보충학습: 벨만 방정식, 수렴, 함수 근사를 처음 읽는 법
+- [x] `P4-19.6` 보충학습: policy gradient와 likelihood ratio trick을 처음 읽는 법
 
-- [ ] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
+- [x] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
 
 ## 품질 상태 메모
 
@@ -148,6 +148,43 @@
 - `P4-12.1`, `P4-12.2`는 주제 자체의 밀도보다 오버뷰성 브리지 문단이 앞서는 구간이 있어, 상세 항목 보강 계획을 별도 문서로 분리해 관리합니다.
 
 ## 순차 점검 기록
+
+- `2026-07-18`: `index.md`, `chapter-01/section-01.md`, `chapter-01/section-02.md`, `chapter-02/section-01.md`, `chapter-02/section-02.md`, `chapter-02/section-03.md`, `chapter-03/section-01.md`, `chapter-03/section-02.md`, `chapter-04/section-01.md`, `chapter-04/section-02.md`를 현재 상태 기준으로 다시 확인했습니다.
+- `P4-index`는 목차와 같은 순서로 `학습 유형 -> 데이터 분리/평가 -> 실무 휴리스틱 -> 대표 알고리즘 -> 구조 찾기 -> Part 5 연결`을 정리하고 있었고, Part 4를 알고리즘 카탈로그보다 `문제-데이터-학습-평가-적용` 흐름으로 읽게 하는 중심축도 비교적 선명했습니다.
+- `P4-1.1`과 `P4-1.2`는 AI/머신러닝/딥러닝/LLM의 층위를 다시 나누면서도 곧바로 `X`, `y`, feature, label, evaluation 구조로 내려와 Part 4의 진입축을 안정적으로 세우고 있었습니다. 특히 Part 3에서 넘긴 `특징 열 / 목표값 후보 / 식별·운영 열` 구분이 다시 호출되어 초반 연결도 자연스러웠습니다.
+- `P4-2.1`부터 `P4-2.3`은 지도학습, 비지도학습, 강화학습을 각각 `라벨`, `구조 후보`, `행동-보상`이라는 서로 다른 학습 신호로 분명히 갈라 두고 있어, 중심 개념이 서로 섞이지 않았습니다. 강화학습의 agent와 LLM agent를 구분해 둔 점도 현재 책의 전체 흐름과 잘 맞았습니다.
+- `P4-3.1`과 `P4-3.2`는 휴리스틱을 막연한 요령이 아니라 `후보를 줄이는 검증 가능한 작업 가설`로 설명하고 있었고, 모델 선택을 성능 단독 경쟁이 아니라 baseline, 설명 가능성, 계산 비용, 데이터 상태를 함께 보는 판단으로 묶고 있었습니다.
+- `P4-4.1`과 `P4-4.2`도 학습/평가 분리, 검증/테스트 분리를 충분히 천천히 풀고 있었으며, `처음 보는 데이터에서의 동작`, `테스트 오염`, `시간 순 분리`, `라벨 비율 점검` 같은 실무 판단 기준이 초심자에게도 직접적으로 읽히는 편이었습니다.
+- 현재 범위에서는 중심축 이탈이나 독자 기준 전개 위반으로 볼 만한 강한 문제는 보이지 않았습니다. 개요와 초반 본문이 다소 길게 전개되는 부분은 있으나, 같은 자리에서 비교표와 사례가 함께 붙어 있어 지금 차수에서는 본문 수정 없이 유지하는 편이 적절하다고 판단했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: 다음 순차 점검 대상은 Chapter 5 `P4-5.1`부터 Chapter 8 `P4-8.3`까지입니다.
+
+- `2026-07-18`: `chapter-05/section-01.md`, `chapter-05/section-02.md`, `chapter-06/section-01.md`부터 `chapter-06/section-04.md`, `chapter-07/section-01.md`부터 `chapter-07/section-04.md`, `chapter-08/section-01.md`부터 `chapter-08/section-03.md`를 현재 상태 기준으로 다시 확인했습니다.
+- Chapter 5는 과적합/과소적합과 일반화를 단순 용어 정의보다 `학습 점수와 검증 점수를 함께 읽는 진단 언어`로 설명하고 있어, Part 4의 중심축인 `점수보다 먼저 문제-평가 구조를 읽는다`는 방향과 잘 맞았습니다.
+- Chapter 6도 평가 지표를 숫자 목록이 아니라 `혼동 행렬 -> 오류 사례 -> baseline 비교 -> 지표 해석` 흐름 안에 두고 있었고, ROC/PR/log loss/calibration/silhouette 보충학습도 본편을 대체하기보다 낯선 지표를 큰 그림에서 분리해 읽게 하는 역할로 유지되고 있었습니다.
+- Chapter 7은 특징 선택과 전처리를 기술 카탈로그가 아니라 `입력 문제를 어떤 기준으로 다시 정리할 것인가`의 판단으로 묶고 있었고, 결측치/스케일/인코딩, filter/wrapper/차원 축소 구분도 문제 정의와 연결된 입력 해석으로 읽히는 편이었습니다.
+- Chapter 8은 모델 선택과 baseline을 `유명한 모델 고르기`가 아니라 `후보군 축소 -> 단순 기준선 설정 -> 같은 지표로 비교 -> 오류 장면 확인 -> 다음 질문`의 순서로 정리하고 있어, 후반 알고리즘 장으로 넘어가기 전 공통 평가 프레임을 비교적 안정적으로 고정하고 있었습니다.
+- 현재 범위에서도 중심축 이탈이나 초심자 전개 위반으로 볼 만한 강한 문제는 보이지 않았습니다. 일부 보충학습은 분량이 길지만, 본편 개념을 분산시키기보다 낯선 용어 묶음을 따로 받아 주는 역할이 커서 지금 차수에서는 본문 수정 없이 유지하는 편이 적절하다고 판단했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: 다음 순차 점검 대상은 Chapter 9 `P4-9.1`부터 Chapter 13 `P4-13.2`까지입니다.
+
+- `2026-07-18`: `chapter-09/section-01.md`부터 `chapter-09/section-03.md`, `chapter-10/section-01.md`부터 `chapter-10/section-03.md`, `chapter-11/section-01.md`부터 `chapter-11/section-05.md`, `chapter-12/section-01.md`부터 `chapter-12/section-03.md`, `chapter-13/section-01.md`, `chapter-13/section-02.md`를 현재 상태 기준으로 다시 확인했습니다.
+- Chapter 9는 하이퍼파라미터와 튜닝을 `옵션 나열`이 아니라 `같은 모델 이름 안에서 무엇을 얼마나 바꿀 것인가`, `그 비교를 어떤 검증 절차로 공정하게 읽을 것인가`의 문제로 유지하고 있어, Part 4의 공통 구조를 잘 이어받고 있었습니다.
+- Chapter 10과 Chapter 11은 선형회귀와 로지스틱 회귀를 각각 `연속값 예측`, `분류와 경계`의 첫 기준 모델로 세우면서 baseline, 잔차·오류, 결정 경계, regularization, solver 같은 후속 판단 손잡이를 안정적으로 붙이고 있었습니다.
+- Chapter 12는 k-NN을 단순 직관 설명에 그치지 않고 `거리 규칙`, `스케일 왜곡`, `k 값`, `후보로 올릴 조건`을 따로 닫아 초심자가 실제 점검 순서를 따라가게 했고, 알고리즘 이름보다 입력 표현과 비교 규칙이 먼저 보이게 유지하고 있었습니다.
+- Chapter 13도 SVM과 kernel을 수식 중심으로 밀어 올리기보다 `margin이 큰 경계`, `support vector`, `같은 공간 안의 더 좋은 직선`과 `표현 공간 자체를 바꾸는 질문`으로 나누어 읽게 하고 있어, 카탈로그식 설명보다 판단 기준 중심 전개가 유지되고 있었습니다.
+- 현재 범위에서도 즉시 수정이 필요한 중심축 이탈은 보이지 않았습니다. 일부 보충학습과 알고리즘 절은 분량이 길지만, baseline, 오류 사례, 검증 질문, 다음 후보 판단이 계속 붙어 있어 독자 기준 전개는 현재 수준을 유지해도 적절하다고 판단했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: 다음 순차 점검 대상은 Chapter 14 `P4-14.1`부터 `summary.md`까지입니다.
+
+- `2026-07-18`: `chapter-14/section-01.md`, `chapter-14/section-02.md`, `chapter-15/section-01.md`부터 `chapter-15/section-04.md`, `chapter-16/section-01.md`부터 `chapter-16/section-03.md`, `chapter-17/section-01.md`부터 `chapter-17/section-04.md`, `chapter-18/section-01.md`, `chapter-18/section-02.md`, `chapter-19/section-01.md`부터 `chapter-19/section-06.md`, `summary.md`를 현재 상태 기준으로 다시 확인했습니다.
+- Chapter 14~16은 단일 트리의 질문 흐름, 과적합 제어, 랜덤포레스트의 안정화, OOB 점검, 부스팅의 순차 보정이라는 차이를 비교 실험과 기록 언어까지 포함해 설명하고 있어, `모델 이름보다 비교 기준과 다음 질문이 먼저`라는 Part 4 중심축을 끝까지 유지하고 있었습니다.
+- Chapter 17~18도 군집화와 차원 축소를 `정답 없는 구조 읽기`와 `시각화의 편의와 정보 손실의 긴장`으로 분명히 구분하고 있었고, 구조 후보를 곧바로 확정 라벨처럼 읽지 않게 하는 해석 경계도 안정적으로 유지되고 있었습니다.
+- Chapter 19는 가치 기반, 정책 기반, 적용 주의점, DQN/PPO/RLHF, 벨만 방정식, policy gradient까지 범위가 넓지만, 각 절이 `행동-보상-정책`, `장기 보상`, `탐험 비용`, `시뮬레이션과 현실 차이`라는 공통 질문에 다시 묶여 있어 강화학습을 별도 신비한 영역보다 Part 4 공통 구조의 확장으로 읽게 하고 있었습니다.
+- `P4-summary`도 Part 4를 알고리즘 목록이 아니라 `문제 정의 -> 데이터 분리 -> 일반화 -> 지표 -> baseline -> 알고리즘 비교 -> 다음 Part 연결`로 다시 묶고 있어 현재 목차 설명과 잘 맞았습니다.
+- 현재 범위에서도 중심축 이탈이나 독자 전개 위반으로 볼 만한 강한 문제는 보이지 않았습니다. 후반 보충학습 일부는 분량이 길지만, 현재 수준에서는 개념 확장을 떠받치는 역할이 더 크며 Part 5로 넘어가기 전 기준점을 정리하는 기능도 충분하다고 판단했습니다.
+- 조치: 본문 수정 없이 유지합니다.
+- 판단: Part 4 전 범위 순차 점검을 현재 차수 기준으로 마칩니다.
 
 - `2026-07-05`: `chapter-03/section-01.md`, `chapter-03/section-02.md`, `chapter-04/section-01.md`, `chapter-04/section-02.md`, `chapter-05/section-01.md`, `chapter-05/section-02.md`, `chapter-06/section-01.md`, `chapter-06/section-02.md`, `chapter-06/section-03.md`, `chapter-06/section-04.md`를 현재 상태 기준으로 다시 확인했습니다.
 - Chapter 3-6은 `휴리스틱 -> 데이터 분리 -> 과적합/일반화 -> 평가 지표` 흐름이 안정적이었고, Part 3에서 넘긴 사례·특징·목표값·기준선 감각도 평가와 검증 장면까지 비교적 자연스럽게 이어졌습니다.
