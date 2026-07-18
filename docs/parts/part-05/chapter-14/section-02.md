@@ -1,7 +1,7 @@
 # P5-14.2 병렬 처리와 긴 문맥
 
 Section ID: `P5-14.2`
-Version: `v2026.07.17`
+Version: `v2026.07.18`
 
 P5-14.1에서는 트랜스포머(Transformer)를 셀프 어텐션(self-attention), feed-forward, residual connection, layer normalization의 조합으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -20,7 +20,7 @@ P5-14.1에서는 트랜스포머(Transformer)를 셀프 어텐션(self-attention
 
 이 절에서 먼저 닫아야 하는 핵심은 `Transformer는 더 좋은 이름의 모델이 아니라, 순차 전달을 관계 계산으로 바꿔 GPU 병렬 처리와 긴 문맥 재참조를 동시에 밀어 올린 구조`라는 점입니다.
 
-KV cache, sparse attention, long-context를 처음 읽는 법은 P6-3.3 보충학습에서 다시 설명합니다. 즉, 여기서는 `순차 상태 전달`보다 `토큰 관계를 한꺼번에 계산하는 구조`가 왜 병렬 처리와 먼 문맥 재참조에 유리했는가를 먼저 닫습니다.
+KV cache는 P6-3.4에서, sparse attention과 long-context는 P6-3.5에서 다시 설명합니다. 즉, 여기서는 `순차 상태 전달`보다 `토큰 관계를 한꺼번에 계산하는 구조`가 왜 병렬 처리와 먼 문맥 재참조에 유리했는가를 먼저 닫습니다.
 
 여기서 끝내야 하는 설명도 하나입니다. `Transformer가 빠르다`는 인상만 남기는 것이 아니라, 왜 `순차 상태 전달`보다 `토큰 관계를 한꺼번에 계산하는 구조`가 병렬 처리와 먼 문맥 재참조에 유리했는지를 현재 절 안에서 이해해야 합니다. residual, normalization 같은 블록 내부 부품 설명은 앞 절 범위로 두고, 여기서는 계산 감각 차이에 집중합니다.
 
