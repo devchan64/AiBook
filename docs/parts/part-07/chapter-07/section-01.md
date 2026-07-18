@@ -51,16 +51,7 @@ Part 7에서 `배포(deployment)`와 `정적 배포(static deployment)`를 같�
 예를 들어 GitHub Actions 화면이 초록색으로 끝난 것만 먼저 보면, 빠르게는 `배포가 다 끝났고 독자도 최신 내용을 본다`고 적고 싶어질 수 있습니다. 하지만 이 절에서 더 안전한 다음 판단은 그렇게 workflow 결과만으로 닫는 것이 아니라, `로컬 빌드가 어떤 커밋 기준으로 성공했는가`, `main 반영과 Pages deploy가 실제로 끝났는가`, `공개 URL에서 최신 Version과 링크가 보이는가`를 나눠 적는 것입니다. 그래야 `CI 성공`, `배포 완료`, `공개 확인 완료`를 같은 상태처럼 섞지 않게 됩니다.
 
 ```mermaid
-flowchart TD
-  A["문제 장면<br/>Actions가 초록색으로 끝남"]
-  B["빠른 판단<br/>독자에게 최신 내용이 공개됐다"]
-  C["빌드 기준 확인<br/>어느 커밋이 빌드됐는가"]
-  D["배포 단계 확인<br/>Pages deploy가 끝났는가"]
-  E["공개 URL 확인<br/>최신 Version과 링크가 보이는가"]
-  F["더 안전한 판단<br/>CI 성공, 배포 완료, 공개 확인을 분리"]
-
-  A --> B
-  A --> C --> D --> E --> F
+--8<-- "assets/part-07/chapter-07/p7-7-1-status-reading-flow-ko.mmd"
 ```
 
 여기에 한 가지를 더 붙이면 운영 시작 절이 뒤의 실패 기록 절과 더 자연스럽게 이어집니다. 배포 목표 절에서도 단순 확인 항목만 적는 것이 아니라, `어떤 상태를 계속 볼 것인가`, `무엇이 검토 대상인가`, `어떤 경우 다음 점검을 다시 해야 하는가`를 같이 남겨 두는 편이 좋습니다.
@@ -75,16 +66,7 @@ flowchart TD
 ## 이 저장소의 실제 배포 경로
 
 ```mermaid
-flowchart TD
-  A["dev 브랜치에서 원고 수정"]
-  B["로컬 빌드<br/>.venv/bin/python -m mkdocs build"]
-  C["main 반영"]
-  D["GitHub Actions build<br/>mkdocs build --strict"]
-  E["Pages artifact 업로드"]
-  F["GitHub Pages 배포"]
-  G["공개 URL 확인<br/>https://devchan64.github.io/AiBook/"]
-
-  A --> B --> C --> D --> E --> F --> G
+--8<-- "assets/part-07/chapter-07/p7-7-1-deployment-path-flow-ko.mmd"
 ```
 
 이 도식은 배포를 `파일 올리기 한 번`이 아니라 `작성, 로컬 확인, 배포 트리거, CI 빌드, 공개 확인`으로 나누어 보게 해 줍니다. 특히 마지막 공개 URL 확인 단계가 있어야 `Actions에서 초록색이 떴다`와 `독자가 최신 원고를 읽는다`가 같은 말이 아니라는 점을 프로젝트 문서에 분명히 남길 수 있습니다.

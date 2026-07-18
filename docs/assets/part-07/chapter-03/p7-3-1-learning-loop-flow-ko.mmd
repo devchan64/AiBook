@@ -1,0 +1,11 @@
+flowchart TD
+  A["학습 배치 준비<br/>X_train, y_train 전체"]
+  B["forward 계산<br/>logits, probs"]
+  C["오차 신호 계산<br/>grad_W, grad_b"]
+  D["update 적용<br/>W, b 이동"]
+  E["같은 배치로 반복<br/>700 step"]
+  F["평가 단계<br/>X_test -> test_pred"]
+
+  A --> B --> C --> D --> E
+  E --> B
+  E --> F

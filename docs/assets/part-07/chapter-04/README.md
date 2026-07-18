@@ -1,0 +1,17 @@
+# Part 7 Chapter 4 Mermaid Assets
+
+- Korean public manuscript pages currently include the `-ko.mmd` files through `pymdownx.snippets`.
+- This chapter does not yet ship English or Simplified Chinese manuscript pages, so the current Mermaid set is maintained in Korean only.
+- When translation pages are opened later, add matching `-en.mmd` and `-zh.mmd` files while preserving the same node relations and reading order.
+- Current Mermaid assets:
+  - `p7-4-1-training-read-flow-ko.mmd`
+  - `p7-4-1-text-project-flow-ko.mmd`
+  - `p7-4-2-coverage-case-flow-ko.mmd`
+  - `p7-4-2-failure-split-flow-ko.mmd`
+  - `p7-4-3-normalization-case-flow-ko.mmd`
+  - `p7-4-3-normalization-workflow-ko.mmd`
+- Data assets used by this chapter:
+  - `p7-4-support-routing-dataset.csv`
+  - `p7-4-training-log.csv`
+  - `p7-4-learning-curves-ko.svg`
+  - `p7_4_training_curves.py`

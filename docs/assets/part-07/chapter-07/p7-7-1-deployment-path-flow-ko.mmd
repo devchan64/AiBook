@@ -1,0 +1,10 @@
+flowchart TD
+  A["dev 브랜치에서 원고 수정"]
+  B["로컬 빌드<br/>.venv/bin/python -m mkdocs build"]
+  C["main 반영"]
+  D["GitHub Actions build<br/>mkdocs build --strict"]
+  E["Pages artifact 업로드"]
+  F["GitHub Pages 배포"]
+  G["공개 URL 확인<br/>https://devchan64.github.io/AiBook/"]
+
+  A --> B --> C --> D --> E --> F --> G

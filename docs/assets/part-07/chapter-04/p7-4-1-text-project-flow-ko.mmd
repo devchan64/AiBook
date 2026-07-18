@@ -1,0 +1,9 @@
+flowchart TD
+  A["문의 문장"]
+  B["토큰화<br/>공백 기준 분리"]
+  C["벡터화<br/>학습 어휘 기준 단어 수 세기"]
+  D["softmax 분류기 학습<br/>epoch마다 loss와 accuracy 기록"]
+  E["평가 셋 예측"]
+  F["오류 샘플과 다음 질문 기록"]
+
+  A --> B --> C --> D --> E --> F
