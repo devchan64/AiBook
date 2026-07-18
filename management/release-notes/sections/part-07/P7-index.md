@@ -22,6 +22,12 @@
 - 번역 동기화 메모: Future translations should preserve the Part 7 overview as a map of reusable project-record structures rather than a list of omitted large-scale operations topics.
 
 ### v2026.07.18
+- 추가 반영: 시작 페이지의 통합 훈련 구조 설명에서 각 절을 `계단식 순차 실습`이 아니라 `같은 프로젝트 문서에 함께 남아야 하는 판단 축`으로 더 분명히 적어, Part 7의 중심축이 통합 훈련이라는 점을 앞단에서 바로 보이게 다듬었다.
+- 추가 반영: 개요 페이지의 `보충학습으로 따로 빼지 않는다` 식 편집 메타를 줄이고, 예시들이 각 축의 실행 장면 안에 그대로 남아 있어야 한다는 본문 역할 설명으로 다시 정리했다.
+- 추가 반영: `실제로 따라 할 때는`, `어디부터 순서대로 갈까` 같은 독자 지시형 안내를 더 줄이고, Part 7 시작 페이지가 읽는 법보다 `비어 있으면 바로 흔들리는 판단 축`과 `실습 기록의 공통 리듬` 자체를 먼저 보여 주도록 정리했다.
+- 추가 반영: `이 파트에서 끝내지 않는 질문` 표제를 `이 파트가 직접 끝내지 않는 확장 과제`로 바꿔, 메타형 독자 안내보다 본문 범위 설명으로 읽히게 다듬었다.
+- 번역 동기화 메모: English and Simplified Chinese index pages were refined again on 2026-07-18 to remove remaining editorial phrasing like `supplementary study` and keep the focus on execution scenes and record interpretation.
+- 번역 동기화 메모: English and Simplified Chinese index pages were resynced on 2026-07-18 so the latest Korean reduction of meta reading guidance is reflected in the translated Part 7 overview as well.
 - 추가 반영: `이 파트를 실제로 시작하는 순서`, `프로젝트 문서의 공통 형식`, `언제 Part 7을 다시 펼쳐야 하는가` 같은 메타 표제를 `Part 7의 실습 흐름`, `프로젝트 기록의 공통 기준`, `이 파트에서 남아야 하는 판단 기준`으로 바꿔, 시작 페이지가 읽는 법 안내보다 실제 실행 축과 기록 기준을 먼저 보여 주도록 정리했다.
 - 추가 반영: Part 7의 전체 안내 축을 `Part 4 실습 -> Part 5 실습 -> Part 6 실습 -> 통합 운영 실습` 순서로 다시 정리해, 시작 페이지만 읽어도 이 Part가 어느 앞 Part의 실습 공간인지 바로 드러나게 했다.
 - 본문 반영: `Part 4, 5, 6을 어디서 다시 경험하는가` 표도 `실습 축 / 앞 Part 감각 / 대표 위치` 구조로 바꾸고, 운영 회고는 별도 `통합 운영 실습` 축으로 분리했다.
@@ -39,4 +45,7 @@
 - 추가 반영: `Part 7의 목차는 ... 순서가 중심입니다`처럼 구조를 설명하는 메타 문장을 제거하고, 대응표와 실제 Module 배열만으로 구조가 드러나게 정리했다.
 - 추가 반영: 영어판과 중국어 간체판 시작 페이지의 도입, 목적, 독자 설명도 현재 한국어 구조에 맞춰 다시 써, `small project documents` 중심의 예전 설명보다 `execution and interpretation practice`가 먼저 보이도록 동기화했다.
 - 추가 반영: 영어판과 중국어 간체판 시작 페이지에서 예전 `project documents`·`supplementary study` 중심 문장을 걷어내고, 한국어판과 같은 `실행 -> 비교 -> 실패 해석 -> 운영 회고` 흐름이 바로 보이도록 재정렬했다.
+- 추가 반영: `Part 4, 5, 6을 어디서 실행하는가` 같은 제목과 `Part 4 실습`, `Part 5 실습`, `Part 6 실습` 표기를 걷어내고, 시작 페이지가 특정 타겟 Part 회수보다 `질문과 비교`, `구조와 학습 해석`, `RAG와 agent`, `배포와 운영 점검`의 통합 실습 축으로 읽히게 다시 맞췄다.
+- 추가 반영: `Part 7의 실습 흐름`과 `먼저`, `그다음` 중심 설명도 줄이고, 같은 프로젝트를 `질문`, `비교`, `구조`, `근거`, `운영` 판단 축으로 다시 읽는 통합 훈련 구조가 앞에 오도록 재배치했다.
+- 추가 반영: 시작 안내의 `앞 절부터 시작`, `먼저 실행` 식 권장 순서도 줄이고, 독자가 현재 비어 있는 판단 축부터 점검하도록 `질문/입력`, `baseline/비교표`, `실행/실패 기록` 기준으로 다시 정리했다.
 - 번역 동기화 메모: English and Simplified Chinese index pages were synced on 2026-07-18 to preserve Part 7 as a hands-on execution-and-interpretation part.

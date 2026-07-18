@@ -3,7 +3,7 @@
 > Section ID: `P7-summary`
 > Version: `v2026.07.18`
 
-Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but executing what Parts 4, 5, and 6 covered and becoming able to explain `why this result appeared`.
+Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but tying question setting, comparison, structure interpretation, execution records, and operational judgment together inside one project and becoming able to explain `why this result appeared`.
 
 This project Part especially makes two things be checked together.
 
@@ -16,22 +16,24 @@ In other words, this Part changes the feeling of `I know it` into the state of `
 
 The purpose of Part 7 is to bind the concepts learned across the whole book into actual project execution and review results so that the next stage of learning becomes repeatable by the learner alone.
 
-- The question setup, baseline, preprocessing, and comparison experiments covered in Part 4 are run again in `P7-1` and `P7-2`.
-- The input structure, learning-result interpretation, and error reading covered in Part 5 are checked in `P7-3` and `P7-4`.
-- The RAG, agent, and deployment or operational judgment covered in Part 6 are treated in `P7-5`, `P7-6`, and `P7-7`, including evidence, logs, policy, and retrospective.
+- Question setup, baselines, preprocessing, and comparison experiments are grouped first in `P7-1` and `P7-2`.
+- Input structure, learning-result interpretation, and error reading are extended in `P7-3` and `P7-4`.
+- RAG, agent, and deployment or operational judgment are integrated in `P7-5`, `P7-6`, and `P7-7`, including evidence, logs, policy, and retrospective.
 
 ## The Goals Of This Part
 
 After finishing this Part, you should be able to explain the flow of leaving a problem definition, a baseline, a result, a failure record, and the next improvement plan behind as actual execution and comparison results.
 
-## The Core Flow Covered In This Part
+## The Core Structure Covered In This Part
 
-The overall flow of Part 7 can be organized as follows.
+The overall structure of Part 7 is organized around `which judgment elements must remain together inside one project`.
 
-1. In Part 4 practice, run the question, sample unit, baseline, and comparison experiments.
-2. In Part 5 practice, read input structures, learning curves, and error cases.
-3. In Part 6 practice, inspect RAG and agents through retrieval evidence, execution logs, and approval-policy standards.
-4. In integrated operational practice, organize deployment, logs, failure response, and retrospective documents into one flow.
+| Structure to read together | Why it should stay one bundle |
+| --- | --- |
+| Question, sample unit, baseline, and comparison experiments | Because what was compared and why it counts as improvement must close in one place. |
+| Input structure, learning curves, and error cases | Because the reason for a structural choice and the reason for failure belong to the same interpretation bundle. |
+| Retrieval evidence, execution logs, and approval policy | Because RAG and agent quality appears only when the answer, evidence, and execution path are read together. |
+| Deployment, logs, failure response, and retrospective documents | Because operational records are not an appendix outside the project interpretation but part of its judgment standard. |
 
 If this flow is regrouped by the standard of `execution and review`, it becomes the following.
 
@@ -87,7 +89,7 @@ If this perspective is turned one step more practical, there are many times when
 - In an agent project, not only `success` or `failure` but also permissions, approval state, and next actions must remain. You must know what approvals and blocks existed to redesign the execution path.
 - In a deployment project, not only `deployment completed` but also incident records, priority, and next actions must remain. In operational records, the next-action order matters more than the declaration of completion.
 
-These example axes are already sufficiently recovered in distributed form within Part 7, so the current edition does not need extra project `supplementary study` sections. Instead, it is more important that the main-text examples of each section directly show the flow `question -> execution -> comparison -> interpretation -> retrospective`.
+These example axes are already sufficiently recovered across Part 7 itself. What matters more is that the main-text examples of each section directly show the flow `question -> execution -> comparison -> interpretation -> retrospective`.
 
 ## Points That Are Easy To Misunderstand
 
@@ -106,15 +108,15 @@ In other words, a project should not be a document that proves only `it worked o
 
 Part 7 focused on explaining the entry-level structure of projects. Therefore, it covers goal setting, implementation, evaluation, retrospective, and operational records, but it does not finish the entire structure of large-scale infrastructure and long-term operation here.
 
-## Questions This Part Does Not Close
+## Expansion Tasks This Part Does Not Close Directly
 
-Part 7 passes the following questions to the reader's later real projects.
+Part 7 does not close the following tasks directly.
 
 - What topic should be expanded into the next actual project?
 - How should evaluation and failure records grow into team-level documents?
 - To what point should operations and deployment be automated, and where should human review remain?
 
-In other words, Part 7 is less the destination of the book than the starting point of later self-directed projects.
+In other words, Part 7 corresponds less to the destination of the book than to the starting point of later self-directed projects.
 
 These questions were already previewed in small form inside Part 7 itself.
 
@@ -150,9 +152,9 @@ Read more briefly again, this check becomes the following.
 | Do evidence and execution path remain? | To verify RAG and agent results again |
 | Does the next action remain? | To prevent the retrospective from ending as a memo |
 
-## The Minimum Procedure That Carries Into The Next Execution
+## The Minimum Procedure That Remains In Project Documents
 
-Before closing the Part 7 summary, it is better to fix once more the minimum execution procedure that can be reused directly in the next real project.
+The practice repeated in Part 7 tends to reappear in nearly the same minimum procedure in the next real project as well.
 
 1. Write the question in one sentence.
 2. Fix the input file or the input unit first.
@@ -174,7 +176,7 @@ Linked back to representative places in Part 7, the same procedure can be read a
 | Read failure points through evaluation records | `P7-4.2`, `P7-5.2` |
 | Leave execution logs, permissions, and failure retrospective | `P7-6.2`, `P7-7.2` |
 
-In other words, when restarting a real project, compare it directly with the representative section of the same blocked stage. If you include the practice sections as well, you can return not only to reading explanations, but directly to changing values and rewriting results.
+In other words, the current blocked stage can be compared directly with the representative section that plays the same role. If the practice sections are included as well, it becomes possible to return not only to rereading explanations, but to changing values and rewriting results.
 
 ## Closing Part 7
 
@@ -194,7 +196,7 @@ At the shortest level, the conclusion of Part 7 can be grouped into the followin
 
 `A good project document leaves behind comparison and records that make it possible to reread why the result happened before it leaves behind code that merely ran once.`
 
-## The Standards To Recheck In This Summary
+## The Recheck Standards That Remain In This Summary
 
 When one project has finished and you start to lose track of what should have remained, it is enough to look again at whether the following standards remain as actual records.
 
@@ -204,7 +206,7 @@ When one project has finished and you start to lose track of what should have re
 
 At that point, before scattering again into detailed sections, first confirm `what was being solved`, `what was recorded`, and `what will be changed next`.
 
-When reopening this summary page, even checking the following three lines first is enough.
+Reduced to three lines, the first standards to confirm in this summary are the following.
 
 - Does my current project still have a one-sentence question and input unit?
 - Do the baseline and the comparison result remain on the same input?

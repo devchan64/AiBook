@@ -17,6 +17,11 @@
 - 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 단일 checklist 구조, 현재 Part 7 마무리 페이지의 회고 중심 흐름을 반영했다. / reflected in English and Simplified Chinese on 2026-07-12
 
 ### v2026.07.18
+- 추가 반영: 마무리 페이지에서 각 절을 `차례대로 소비하는 소과제`처럼 읽지 않도록, 같은 프로젝트 기록을 여러 판단 축에서 다시 점검하는 구조라는 설명을 더 직접 보강했다.
+- 추가 반영: 요약 페이지의 `보충학습`과 `한 절 끝내고 다음 절로 간다` 식 구조 메타를 더 줄이고, 각 축이 이미 Part 7 안에서 충분히 펼쳐져 있다는 본문 설명과 통합 판단 구조가 먼저 보이도록 다듬었다.
+- 추가 반영: `다음 질문을 독자의 이후 프로젝트로 넘깁니다`, `다시 펼쳤을 때`, `다시 시작할 때` 같은 메타형 독자 안내를 더 줄이고, 요약 페이지가 `직접 끝내지 않는 확장 과제`, `프로젝트 문서에 남는 최소 절차`, `재점검 기준` 자체를 먼저 보여 주도록 정리했다.
+- 번역 동기화 메모: English and Simplified Chinese summary pages were refined again on 2026-07-18 to remove remaining editorial phrasing like `supplementary study` and keep the focus on what records and flows remain inside Part 7 itself.
+- 번역 동기화 메모: English and Simplified Chinese summary pages were resynced on 2026-07-18 so the latest Korean reduction of meta reading guidance is reflected in the translated Part 7 wrap-up as well.
 - 추가 반영: `다음 실제 실행으로 옮길 때의 최소 절차`, `언제 Part 7 요약을 다시 펼쳐야 하는가` 같은 메타 표제를 `다음 실행으로 이어지는 최소 절차`, `이 요약에서 다시 확인할 기준`으로 바꿔, 마무리 페이지가 읽는 법보다 남아야 할 실행 기준을 먼저 보여 주도록 정리했다.
 - 추가 반영: Part 7 요약의 핵심 흐름도 `Part 4 실습 -> Part 5 실습 -> Part 6 실습 -> 통합 운영 실습` 순서로 다시 정리해, Part 7을 어떤 앞 Part의 실습 공간으로 다시 써야 하는지가 마무리 페이지에서도 직접 보이게 맞췄다.
 - 본문 반영: 전체 흐름 1~4단계와 대표 Section 안내에서도 `앞 Part별 재실행` 구조가 먼저 읽히도록 문장을 다시 정리했다.
@@ -32,4 +37,7 @@
 - 추가 반영: 첫 문장을 `앞서 소개한 내용을 실제 프로젝트 실행과 해석으로 실습하는 구간`으로 다시 써, Part 7 마무리도 새 이론 요약보다 실습 결과 정리 파트로 읽히게 맞췄다.
 - 추가 반영: 영어판과 중국어 간체판 마무리 페이지의 도입, 목적, 대표 Section 안내도 현재 한국어 구조에 맞춰 다시 정리해, `small artifacts` 중심의 예전 설명보다 `execution and interpretation recap`이 먼저 보이도록 동기화했다.
 - 추가 반영: 영어판과 중국어 간체판 마무리 페이지에서도 예전 `When reopening Part 7`, `Closing Part 7` 같은 메타 표제를 걷어내고, 한국어판과 같은 실행 기준·재진입 기준이 먼저 보이도록 다시 맞췄다.
+- 추가 반영: 마무리 페이지의 핵심 흐름 설명에서도 `Part 4 실습`, `Part 5 실습`, `Part 6 실습` 표기를 줄이고, 질문 설정, 비교, 구조 해석, 실행 기록, 운영 판단이 한 흐름으로 묶이는 통합 실습 성격이 먼저 보이도록 다시 정리했다.
+- 추가 반영: 요약의 `전체 흐름`도 순차 실험 목록처럼 읽히지 않도록 `같은 프로젝트 안에서 함께 남아야 하는 판단 요소` 중심으로 다시 정리하고, 대표 Section 표도 통합 점검 축에 맞춰 고쳤다.
+- 추가 반영: 마무리 페이지의 핵심 구조도 번호 순서보다 `함께 남아야 하는 판단 묶음` 표로 바꿔, Part 7을 순차 복습보다 통합 훈련으로 읽게 맞췄다.
 - 번역 동기화 메모: English and Simplified Chinese summary pages were synced on 2026-07-18 to preserve the Part 7 recap as a hands-on execution-and-interpretation guide.

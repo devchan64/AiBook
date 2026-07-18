@@ -3,7 +3,7 @@
 > Section ID: `P7-index`
 > Version: `v2026.07.18`
 
-Part 7 is the part where earlier material is practiced through real inputs, code execution, output comparison, and error interpretation. Instead of adding a long stretch of new theory, this Part executes and interprets what Parts 4, 5, and 6 already introduced.
+Part 7 is the part where earlier material is practiced through real inputs, code execution, output comparison, and error interpretation. Instead of adding a long stretch of new theory, this Part executes and interprets already learned judgment standards around question setting, comparison, structure choice, and execution records inside one project.
 
 This Part matters especially for the following readers.
 
@@ -37,41 +37,40 @@ What matters here is not replacing `I did a project` with a single code file or 
 
 In other words, Part 7 asks more strictly not `did you build a model`, but `what did you actually run, what did you verify, and what should be revised next`.
 
-## The Practice Flow Of Part 7
+## The Integrated Practice Structure Of Part 7
 
-Part 7 follows the flow `question and input definition -> baseline comparison -> structure and failure interpretation -> RAG and agent execution records -> deployment and operational review`. The sections are not scattered examples. They are a connected practice set showing how the same recording standard expands as the input type and the operational stage change.
+Part 7 rereads one project through several judgment axes: `question`, `baseline`, `comparison`, `structure`, `evidence`, `execution records`, and `operational review`. The sections reveal, from different angles, what must remain together inside the same project document.
 
-1. In `P7-1.1`, check the input unit and the first baseline comparison.
-2. In `P7-1.2`, which reuses the same input file, add the retrospective structure `fact -> interpretation -> next question`.
-3. In `P7-1.3`, change the baseline cutoff and comparison unit to see directly how the first line of the retrospective changes even with the same logs.
-4. In `P7-2.1` and `P7-2.2`, check how the baseline, comparison table, and revision record connect.
-5. In `P7-2.3`, place several comparison experiments together and separate failures solved by preprocessing from failures that remain because the data boundary is still empty.
-6. From `P7-3` to `P7-7`, follow how the same recording structure expands across images, text, RAG, agents, and deployment or operations. In practice sections such as `P7-4.3`, `P7-5.3`, `P7-6.3`, and `P7-7.3`, the repetition continues up to changing values directly and rewriting retrospective sentences.
-
-Once this flow is fixed first, Part 7 reads less like `a Part with many scattered examples` and more like `a Part showing how the same recording principle expands as the input type changes`.
-
-When actually starting, it helps to hold the following three lines together.
-
-| What to do first | Why this order works |
+| Integrated practice axis | What should be read together here |
 | --- | --- |
-| Start from the opening sections that reuse the same input file | Because you first see a scene where the input stays fixed while the question and interpretation change. |
-| Run a section with a baseline comparison first | Because it gives the minimum intuition needed to read the claim that something improved. |
-| In the later sections, read execution records and failure records together | Because it prevents LLM, agent, and deployment practice from ending as answer examples only. |
+| Question and input definition | What counts as one unit, how the baseline is set, and where the first line of the retrospective changes |
+| Comparison and error interpretation | How comparison tables, error cases, and the next question remain as one bundle |
+| Structure and learning interpretation | How input structure, learning curves, and failure decomposition connect |
+| Evidence and execution records | How retrieval evidence, tool calls, approval state, and blocked state are read together |
+| Operations and iterative improvement | How deployment checks, incident records, and next actions return to the next experiment |
 
-## Where Parts 4, 5, And 6 Are Practiced
+Once this structure is fixed first, Part 7 is organized less as `a Part with many scattered examples` and more as `a Part that rereads the same project through several judgment axes`.
 
-| Practice axis | The intuition to recover from the earlier Part | Representative place to run it directly in Part 7 |
+| Axes that destabilize the project if missing | Why they matter |
+| --- | --- |
+| Question and input unit | Because later comparisons also drift if what counts as one unit is unstable. |
+| Baseline and comparison table | Because claims of improvement can be interpreted only on top of an explicit comparison. |
+| Execution records and failure records | Because it prevents LLM, agent, and deployment practice from ending with answer examples or success screens alone. |
+
+## Practice Axes And Representative Sections
+
+| Practice axis | The intuition to recover here | Representative place to run it directly in Part 7 |
 | --- | --- | --- |
-| Part 4 practice | Question setup, baseline, preprocessing, comparison experiments | `P7-1.1` to `P7-2.3` |
-| Part 5 practice | Input-structure choice, learning-result interpretation, error reading | `P7-3.1` to `P7-4.3` |
-| Part 6 practice | RAG, agent, permissions, execution records | `P7-5.1` to `P7-6.3` |
-| Integrated operational practice | Deployment checks, incident records, next-action priority | `P7-7.1` to `P7-7.3` |
+| Question and comparison practice | Question setup, baseline, preprocessing, comparison experiments | `P7-1.1` to `P7-2.3` |
+| Structure and learning interpretation | Input-structure choice, learning-result interpretation, error reading | `P7-3.1` to `P7-4.3` |
+| RAG and agent practice | Evidence, permissions, execution records | `P7-5.1` to `P7-6.3` |
+| Deployment and operational checks | Deployment checks, incident records, next-action priority | `P7-7.1` to `P7-7.3` |
 
-This mapping matters because Part 7 is not a Part that adds a long separate block of new theory. It is a Part that places the judgment standards learned earlier back into real execution scenes. If the current problem is first separated into a Part 4 style baseline issue, a Part 5 style structure or learning-interpretation issue, or a Part 6 style evidence, tool, or operational issue, the next section to reopen also becomes much easier to narrow down.
+This mapping matters because Part 7 is not a Part that adds a long separate block of new theory. It is a Part that binds `question setup -> comparison -> structure interpretation -> execution records -> operational retrospective` into one flow. If the current problem is first separated into a comparison-design issue, a structure or learning-interpretation issue, or an evidence, tool, or operational issue, the next section to reopen also becomes much easier to narrow down.
 
-## The Minimum Procedure For Practice Records
+## The Shared Rhythm Of Practice Records
 
-Even if the code blocks differ by section, it is better to read the execution procedure in roughly the same rhythm whenever possible.
+Even if the code blocks differ by section, the execution records in Part 7 tend to remain in roughly the same rhythm.
 
 ```text
 1. Read the section question in one sentence.
@@ -160,11 +159,11 @@ This distinction is not only a genre label. It is also the standard for deciding
 - In an agent project, `approval state` and `next actions` come before success or failure.
 - In a deployment project, `incident records` and `next actions` come before deployment completion.
 
-Part 7 does not pull these examples back out again as separate `supplementary study`. Instead, what matters is that `how to read the actual execution result` remains directly inside the main text of each axis. Practice where the input changes and the output and interpretation change together matters more than examples that end at copying commands.
+Part 7 keeps these examples inside the main text of each axis instead of separating them away from execution scenes. What matters is that `how to read the actual execution result` remains visible where the record is produced. Practice where the input changes and the output and interpretation change together matters more than examples that end at copying commands.
 
-## Questions This Part Does Not Close
+## Expansion Tasks This Part Does Not Close Directly
 
-Because Part 7 treats the entry-level flow of projects, the following questions are passed to later real projects.
+Because Part 7 focuses on project entry and integrated practice, it does not close the following tasks directly.
 
 - How should team-level collaboration documents and experiment-tracking systems be designed?
 - By what standards should larger datasets and longer operational logs be managed?
