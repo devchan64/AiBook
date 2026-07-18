@@ -1,7 +1,7 @@
 # Part 6. LLM 与生成式 AI
 
-> Section ID: `P6-index`
-> Version: `v2026.07.12`
+Section ID: `P6-index`
+Version: `v2026.07.12`
 
 Part 6 是 `从这里开始真正解释` LLM 与生成式 AI 的 Part。如果说 Part 1 到 Part 5 负责先确定位置、准备基础，那么到了 Part 6，就不再把解释往后推。从这里开始，正文必须真正说明 `LLM 是在什么结构上运作的`、`为什么 next-token prediction 也能导出长回答与指令执行`、`为什么会接上检索、工具、agent`。
 

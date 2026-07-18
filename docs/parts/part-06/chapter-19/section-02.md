@@ -1,7 +1,7 @@
 # P6-19.2 이해 중심 태스크
 
-> Section ID: `P6-19.2`
-> Version: `v2026.07.18`
+Section ID: `P6-19.2`
+Version: `v2026.07.18`
 
 P6-19.1에서는 BERT 계열을 Transformer 인코더 기반의 표현 모델로 설명했습니다. 그러면 다음 질문이 이어집니다.
 

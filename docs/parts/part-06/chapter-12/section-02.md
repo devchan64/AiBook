@@ -1,7 +1,7 @@
 # P6-12.2 함수 호출(function calling)
 
-> Section ID: `P6-12.2`
-> Version: `v2026.07.18`
+Section ID: `P6-12.2`
+Version: `v2026.07.18`
 
 P6-12.1에서는 도구 사용(tool use)이 모델과 외부 기능을 연결하는 구조라는 점을 보았습니다. 그러면 이제 더 구체적인 질문이 나옵니다.
 

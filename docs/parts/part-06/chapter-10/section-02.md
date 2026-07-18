@@ -1,7 +1,7 @@
 # P6-10.2 검색 결과와 생성의 결합
 
-> Section ID: `P6-10.2`
-> Version: `v2026.07.18`
+Section ID: `P6-10.2`
+Version: `v2026.07.18`
 
 P6-10.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제는 문서를 붙인다는 말이 실제 입력 흐름에서 무엇을 뜻하는지 더 구체적으로 봐야 합니다.
 

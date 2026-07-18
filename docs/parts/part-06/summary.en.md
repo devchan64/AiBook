@@ -1,7 +1,7 @@
 # Part 6 Wrap-up. LLM And Generative AI Review
 
-> Section ID: `P6-summary`
-> Version: `v2026.07.12`
+Section ID: `P6-summary`
+Version: `v2026.07.12`
 
 Part 6 was the section that moved one step beyond consuming generative AI as `an impressive answer machine` and regrouped, through real explanation, what input units an LLM reads, what structure it is trained on, and inside what service structure it actually works.
 

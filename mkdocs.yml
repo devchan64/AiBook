@@ -453,7 +453,8 @@ nav:
           - Chapter P6-2. 임베딩:
               - "P6-2.1 임베딩(embedding)의 직관": parts/part-06/chapter-02/section-01.md
               - "P6-2.2 의미와 거리": parts/part-06/chapter-02/section-02.md
-              - "P6-2.3 보충학습: 임베딩 학습과 ANN 검색을 큰 그림으로 읽기": parts/part-06/chapter-02/section-03.md
+              - "P6-2.3 보충학습: 임베딩 학습을 큰 그림으로 읽기": parts/part-06/chapter-02/section-03.md
+              - "P6-2.4 보충학습: ANN 검색을 큰 그림으로 읽기": parts/part-06/chapter-02/section-04.md
       - Module 2. LLM 핵심 구조:
           - Chapter P6-3. Transformer 구조 복습:
               - "P6-3.1 Transformer를 LLM 관점에서 다시 읽기": parts/part-06/chapter-03/section-01.md

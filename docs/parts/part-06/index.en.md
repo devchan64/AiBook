@@ -1,7 +1,7 @@
 # Part 6. LLMs And Generative AI
 
-> Section ID: `P6-index`
-> Version: `v2026.07.12`
+Section ID: `P6-index`
+Version: `v2026.07.12`
 
 Part 6 is the Part where LLMs and generative AI are `actually explained from here on`. If Part 1 through Part 5 established position and prepared the foundation, Part 6 no longer postpones the explanation. From here, the main text must explain `what structure an LLM operates on`, `why next-token prediction can still produce long answers and instruction following`, and `why retrieval, tools, and agents get attached`.
 

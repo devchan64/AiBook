@@ -634,7 +634,8 @@ This Part explains the flow after the Transformer and connects LLMs to real serv
 
 - **P6-2.1 Intuition for Embeddings**: reviews why tokens and sentences are represented as vectors
 - **P6-2.2 Meaning and Distance**: reviews the intuition that similar expressions become close, together with its limits
-- **P6-2.3 Supplementary Learning: Reading Embedding Learning and ANN Search in One Large Picture**: previews where embeddings and retrieval infrastructure meet again
+- **P6-2.3 Supplementary Learning: Reading Embedding Learning in One Large Picture**: first fixes what should be learned to stay close and what should be pushed apart
+- **P6-2.4 Supplementary Learning: Reading ANN Search in One Large Picture**: reviews why close candidates must often be narrowed faster, even approximately
 
 ### Module 2. Core Structure of LLMs
 

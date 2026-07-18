@@ -1,7 +1,7 @@
 # Part 6 收尾：LLM 与生成式 AI 整理
 
-> Section ID: `P6-summary`
-> Version: `v2026.07.12`
+Section ID: `P6-summary`
+Version: `v2026.07.12`
 
 Part 6 是这样一个区段：它让读者从把生成式 AI 当作 `很会回答的机器` 来消费，再往前走一步，通过真正的解释把 LLM（large language model）会读取什么输入单位、在什么结构上学习、又在什么服务结构里实际运作重新绑在一起。
 

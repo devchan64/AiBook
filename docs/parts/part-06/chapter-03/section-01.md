@@ -1,7 +1,7 @@
 # P6-3.1 Transformer를 LLM 관점에서 다시 읽기
 
-> Section ID: `P6-3.1`
-> Version: `v2026.07.18`
+Section ID: `P6-3.1`
+Version: `v2026.07.18`
 
 Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 

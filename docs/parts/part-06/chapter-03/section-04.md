@@ -1,7 +1,7 @@
 # P6-3.4 보충학습: KV cache를 처음 읽는 법
 
-> Section ID: `P6-3.4`
-> Version: `v2026.07.18`
+Section ID: `P6-3.4`
+Version: `v2026.07.18`
 
 P6-3.2에서는 attention과 context window가 입력 범위 제한과 연결된다는 점을 보았고, P6-3.3에서는 multi-head attention과 위치 표현이 문맥 읽기 방식에 어떤 보강을 하는지 정리했습니다. 이제 초심자가 다음으로 자주 막히는 이름은 `KV cache`입니다.
 

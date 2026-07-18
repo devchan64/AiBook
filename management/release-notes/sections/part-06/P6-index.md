@@ -14,7 +14,9 @@
 - 번역 동기화 메모: Future translations should preserve the Part 6 overview as a map of actual LLM/service recovery axes rather than omitted-product-detail notes.
 
 ### v2026.07.18
+- 추가 반영: 한국어 시작 페이지와 영어·중국어 번역본 모두 제목 아래 메타데이터를 저장소 공통 형식인 `Section ID`, `Version` 평문 두 줄로 바로잡아 공개 진입 문서의 형식 기준을 맞췄다.
 - 본문 반영: 시작 페이지에서 `목적`, `범위`, `회수 책임`, `필요성`을 여러 번 반복하던 구간을 압축해, 본류와 배경 축, 그리고 이 Part가 실제로 닫아야 할 질문이 먼저 보이게 정리했다.
 - 추가 반영: 같은 구조 설명을 다시 늘어놓던 `무엇을 설명하는가`, `이 파트를 마치면 생기는 이해` 계열 문단을 걷어내고, `이 Part가 왜 필요한가`를 모델 내부 원리와 서비스 연결을 구분하는 문제로 더 직접 묶었다.
 - 추가 반영: `지금 읽는 층위는`처럼 층위 안내를 메타 문장으로 먼저 세우기보다, 바로 아래 표를 읽기 기준으로 삼도록 도입 문장을 더 직접적으로 다듬었다.
-- 번역 동기화 메모: 대응 번역본이 생기면 반복 범위 안내보다 본류와 회수 책임이 먼저 보이는 압축 구조를 유지해야 한다.
+- 추가 반영: 같은 날짜 재검토에서 Part 6 시작 페이지가 마무리 페이지보다 후반 본류를 더 느슨하게 요약하고 있던 차이를 줄이기 위해, `evaluation/operations` 설명과 요청 본류 흐름 표, `Part 6에서 함께 점검해야 하는 대표 판단 기준` 표에 `답변 상태`, `사람 검토 필요 여부`, `요청 기록` 관점을 더 직접적으로 반영했다.
+- 번역 동기화 메모: 영어판과 중국어 간체판에도 같은 메타데이터 형식 정리와 공개 진입 문서 기준을 반영했다. / reflected metadata-format normalization and public-entry conventions in English and Simplified Chinese.

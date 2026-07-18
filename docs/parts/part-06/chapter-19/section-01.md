@@ -1,7 +1,7 @@
 # P6-19.1 BERT 계열의 위치
 
-> Section ID: `P6-19.1`
-> Version: `v2026.07.18`
+Section ID: `P6-19.1`
+Version: `v2026.07.18`
 
 P6-3.2에서는 attention과 context window를 구분하며, Transformer가 실제로는 입력 길이 제한 안에서 문맥을 읽는 구조라는 점을 보았습니다. 이제 같은 Transformer 계열 안에서도 방향이 갈라집니다.
 
