@@ -1,0 +1,5 @@
+sample_id,unresolved_tickets,days_since_login,usage_minutes_30d,label,focus
+stress-01,6,21,4050,1,raw 거리에서는 retained 고객과 가까워 보이지만 전처리 후에는 churn 신호가 살아나는 사례
+stress-02,4,12,3300,1,현재 학습 데이터 경계가 비어 있어 전처리만으로는 해결되지 않는 경계 사례
+stress-03,4,15,3000,0,질문 수와 미접속 일수는 높지만 실제로는 유지 고객인 애매한 retained 사례
+stress-04,7,26,2600,1,대부분의 비교 실험에서 일관되게 churn으로 잡혀야 하는 명확한 사례

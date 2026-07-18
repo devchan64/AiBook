@@ -751,11 +751,13 @@ Part 7 is where the data modeling, machine learning, deep learning, and LLM stru
 
 - **P7-1.1 Project Questions and Input Definition**: checks that even with the same data, a completely different project emerges depending on what is being predicted or separated and where one input sample is defined to begin and end, and that this difference changes actual data preparation and experiment design.
 - **P7-1.2 Baselines and the First Comparison**: runs the simplest baseline first and checks, with real comparison tables and failure cases, why model performance should be read first through `what it improved over` rather than `how good it looks`.
+- **P7-1.3 Practicing Baseline Redesign**: directly compares how the first retrospective sentence changes when the same operating log is regrouped with different baseline cutoffs and comparison units, and practices why whole-service totals and channel-day units can lead to different conclusions.
 
 #### Chapter 2. Result Interpretation and Retrospective `Project Practice`
 
 - **P7-2.1 Reading Comparison Tables and Error Cases**: reads prediction comparison tables and representative error cases together instead of looking at only one score, so that where a model is correct and where it fails can be interpreted concretely.
 - **P7-2.2 Building the Next Question from a Retrospective**: practices how to organize one experiment result into `facts`, `interpretation`, and `next question`, then pass it into a better next iteration and a better experiment design.
+- **P7-2.3 Practicing Comparison Experiments**: places a baseline, raw 1-NN, partial rescaling, and normalization on the same evaluation set, then directly separates failures that preprocessing fixes from failures that remain because more boundary cases or features are still needed.
 
 ### Module 2. Model Projects That Expose Structural Choice
 
@@ -790,6 +792,7 @@ Part 7 is where the data modeling, machine learning, deep learning, and LLM stru
 
 - **P7-7.1 Verifying Deployment and Checking Runtime State**: goes beyond seeing only whether the build succeeded and reviews, through small checking code and a flow diagram, whether the public state and basic behavior actually hold after deployment.
 - **P7-7.2 Recording Incidents and Planning the Next Iteration**: organizes how to keep failures not as simple incident notes but as operational retrospectives that include cause hypotheses, priorities, next actions, and recurrence-prevention viewpoints.
+- **P7-7.3 Simulating Operational Checks**: directly classifies observed operating signals into `fix immediately`, `confirm reproduction`, and `improve in the next iteration`, and practices deciding what to repair first versus what should be rechecked.
 
 ## Sources and References
 

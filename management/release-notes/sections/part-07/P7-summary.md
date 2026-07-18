@@ -23,4 +23,5 @@
 - 추가 반영: 오해하기 쉬운 지점, 완료 기준, 체크리스트 문구에서 장난감 예제 통과만으로 이해를 끝낸 듯 읽히는 표현을 줄이고, 실제 비교와 해석 기준이 남도록 조정했다.
 - 추가 반영: 남아 있던 `작은 데이터를 읽고`, `장난감 예제를 한 번 돌렸다` 같은 표현을 줄여, 마무리 페이지도 축소판 예제 통과가 아니라 실제 실행과 해석 반복을 강조하도록 맞췄다.
 - 추가 반영: `다음 실제 실행으로 옮길 때의 최소 절차`와 대표 Section 재진입 표를 추가해, Part 7을 덮은 뒤에도 독자가 바로 다음 프로젝트 실행 순서를 다시 꺼내 쓸 수 있게 했다.
+- 추가 반영: 새로 추가된 `P7-1.3`, `P7-2.3`, `P7-7.3` 연습 절을 대표 Section 안내에 반영하고, Part 4·5·6의 핵심 감각이 Part 7 어디에서 다시 회수되는지 직접 적어 구조 대응을 더 분명히 했다.
 - 번역 동기화 메모: Future translations should present the Part 7 summary as a hands-on execution-and-interpretation recap, not primarily as a small-artifact or template-oriented recap.
