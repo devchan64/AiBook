@@ -268,10 +268,6 @@ Chain-of-thought와 self-consistency 관련 대표 논문들도 주로 `복잡�
 - self-consistency는 여러 후보 reasoning의 합의를 보려는 전략이라는 점을 설명할 수 있는가?
 - automatic prompt optimization은 프롬프트 개선 루프를 더 자동화하려는 접근이라는 점을 설명할 수 있는가?
 - 세 전략 모두 프롬프트 층의 개선이지, 최신성·근거·도구 실행의 구조 보장은 아니라는 점을 설명할 수 있는가?
-- CoT, self-consistency, automatic prompt optimization을 각각 다른 프롬프트 전략으로 구분할 수 있는가?
-- 이 전략들이 최신성·근거·실행 보장을 대신하지 않는다고 설명할 수 있는가?
-- 어떤 장면에서 프롬프트 전략보다 RAG, tool use, 실행 로그 같은 시스템 구조를 먼저 떠올려야 하는지 구분할 수 있는가?
-- 다음 장들을 읽을 때 프롬프트 전략 보강과 시스템 구조 보강을 섞지 않을 준비가 되어 있는가?
 
 ## 출처와 참고 자료
 
