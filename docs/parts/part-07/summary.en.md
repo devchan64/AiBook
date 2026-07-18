@@ -3,64 +3,59 @@
 > Section ID: `P7-summary`
 > Version: `v2026.07.18`
 
-Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but executing what Parts 4, 5, and 6 covered and explaining why the results happened.
+Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but executing what Parts 4, 5, and 6 covered and becoming able to explain `why this result appeared`.
 
-This project Part makes two things be checked together in particular.
+This project Part especially makes two things be checked together.
 
 - Can you explain the concept?
-- Can you confirm the concept through real inputs and output changes?
+- Can you confirm the concept through real input and output changes?
 
-In other words, this Part changes the feeling of `I know it` into the state of `I tried it and left a record`.
+In other words, this Part changes the feeling of `I know it` into the state of `I ran it myself, compared it, and also read the failures`.
 
 ## The Purpose Of This Part
 
-The purpose of Part 7 is to regroup the concepts learned across the whole book into project execution and review results, so that the next stage of learning becomes repeatable by the learner alone.
+The purpose of Part 7 is to bind the concepts learned across the whole book into actual project execution and review results so that the next stage of learning becomes repeatable by the learner alone.
 
-When reopening Part 7, it is usually fastest to grab the representative Sections as handles. Analysis starts at `P7-1.1`, baseline redesign practice is `P7-1.3`, baseline comparison is `P7-2.2`, comparison-experiment practice is `P7-2.3`, text evaluation records are `P7-4.2`, RAG boundary practice is `P7-5.3`, agent approval policy is `P7-6.3`, and operational-check simulation is `P7-7.3`.
-
-The structure of those representative sections is as follows.
-
-- Part 4 practice runs question setting, baselines, preprocessing, and comparison experiments through `P7-1` and `P7-2`.
-- Part 5 practice checks input structure, learning-result interpretation, and error reading through `P7-3` and `P7-4`.
-- Part 6 practice handles RAG, agents, and deployment or operational judgment through `P7-5`, `P7-6`, and `P7-7`.
+- The question setup, baseline, preprocessing, and comparison experiments covered in Part 4 are run again in `P7-1` and `P7-2`.
+- The input structure, learning-result interpretation, and error reading covered in Part 5 are checked in `P7-3` and `P7-4`.
+- The RAG, agent, and deployment or operational judgment covered in Part 6 are treated in `P7-5`, `P7-6`, and `P7-7`, including evidence, logs, policy, and retrospective.
 
 ## The Goals Of This Part
 
-After finishing this Part, you should be able to explain the flow of leaving behind a problem definition, a baseline, a result, a failure record, and the next improvement plan as actual execution-and-comparison records.
+After finishing this Part, you should be able to explain the flow of leaving a problem definition, a baseline, a result, a failure record, and the next improvement plan behind as actual execution and comparison results.
 
 ## The Core Flow Covered In This Part
 
 The overall flow of Part 7 can be organized as follows.
 
-1. Read small data and summarize the question and the exploration result.
-2. Compare a baseline model and an improved model.
-3. Compress deep-learning and text-classification flows into small examples.
-4. Connect RAG and agent structures into small service projects.
-5. Leave behind deployment, logs, failure response, and review documents.
+1. In Part 4 practice, run the question, sample unit, baseline, and comparison experiments.
+2. In Part 5 practice, read input structures, learning curves, and error cases.
+3. In Part 6 practice, inspect RAG and agents through retrieval evidence, execution logs, and approval-policy standards.
+4. In integrated operational practice, organize deployment, logs, failure response, and retrospective documents into one flow.
 
-If this flow is regrouped from the standpoint of `artifacts`, it becomes the following.
+If this flow is regrouped by the standard of `execution and review`, it becomes the following.
 
-| Project axis | The core record that must remain | Why this record is needed |
+| Project axis | Core execution and review element that must remain | Why this element is needed |
 | --- | --- | --- |
-| Analysis start | Project notes, review notes | The next exploration continues only when what was being examined and what will be checked again are both left behind. |
-| Baseline comparison | Execution summaries, sample-by-sample comparison tables, lists of wrong cases | Improvement can be interpreted only when execution results and wrong cases are left together. |
-| Image/text classification | Test records, evaluation records, error-sample IDs | It is necessary to reread sample-level judgment grounds, not only a score table. |
-| RAG | Retrieval records, selection grounds, evidence-answer records | Retrieval grounds and connection method must be checked before the answer itself. |
-| Agent | Plan lists, execution records, review summaries | Blocked points can be traced only when the plan and the actual execution path are seen separately. |
-| Deployment and operations | Failure records, improvement plans | Operational review accumulates only when failures are left behind and next actions are separated. |
+| Analysis start | Input-unit definition, summary table, comparison table | The next exploration continues only when what counted as one unit and what difference was read are both left behind. |
+| Baseline comparison | Execution summary, sample-by-sample comparison table, list of wrong cases | Improvement can be interpreted only when execution results and wrong cases remain together. |
+| Structure choice and learning review | Learning curves, evaluation records, error samples | Because you must reread why this structure shook, not only read a score table. |
+| RAG | Retrieval records, selection grounds, evidence-answer records | Because retrieval evidence and the connection method must be checked before the answer itself. |
+| Agent | Plan list, execution records, approval state, blocked state | Because blocked points can be traced only when the plan and the real execution path are separated. |
+| Deployment and operations | Incident records, status checks, improvement plans | Because operational review accumulates only when failures remain and the next action is separated. |
 
-If this table is reduced again to the smallest level, the records that must not disappear first on each axis are the following.
+If this table is reduced again to the smallest level, the records that must not disappear first in each axis are the following.
 
-| Project axis | The record that must not disappear first |
+| Project axis | Execution evidence that must not disappear first |
 | --- | --- |
-| Analysis start | One question sentence and observation notes |
+| Analysis start | One question sentence and input-unit definition |
 | Baseline comparison | The simplest baseline result |
-| Image/text classification | Representative error samples and evaluation records |
+| Structure choice and learning review | Representative error samples and learning or evaluation records |
 | RAG | Evidence documents and answer state |
 | Agent | Tool order and approval state |
 | Deployment and operations | Failure category and next action |
 
-Even though each project has a different theme, the questions that must remain are the same.
+Even if project themes differ, the questions that must remain are the same.
 
 1. What is being solved?
 2. What are the inputs and outputs?
@@ -78,117 +73,149 @@ The perspectives that must be carried out of Part 7 are the following.
 | --- | --- |
 | Problem definition | A project should make the question explicit before implementation. |
 | Baseline | Without a baseline, even the claim that something improved becomes weak. |
-| Data | Even with toy data, the input, output, and split standard must be explicit. |
+| Data | Comparison and interpretation require a clear input, output, and split standard. |
 | Evaluation | Project results should be read through both numbers and cases. |
-| Review | Leaving behind failure, omission, and ambiguity is core to project documents. |
+| Retrospective | Leaving behind failure, omission, and ambiguity is core to project documents. |
 | Reproducibility | Input, code, and output records are needed so the project can be run again. |
 | Service perspective | In LLM projects, not only answer quality but also retrieval failure, permissions, latency, and logs must be examined together. |
 
-If this perspective is turned one step more practical, there are many times when `what records were left behind` matters more than `the final result number`.
+If this perspective is turned one step more practical, there are many times when `what input was used, what comparison was made, and where the failure happened` matters more than `the final score number`.
 
-- In a baseline-comparison project, not only `accuracy` but also `what samples were wrong` must remain. That is, records such as a list of wrong cases are needed so that the next comparison stays alive.
-- In a text project, not only `right/wrong` but also token lists, token coverage, and out-of-vocabulary tokens must remain. You must see what input was split and what words were missed to find preprocessing problems again.
-- In a RAG project, not only the `answer` but also retrieval candidates, answer state, and selected evidence documents must remain. The quality review begins from the evidence-selection process, not from the answer itself.
-- In an agent project, not only `success/failure` but also permissions, approval status, and next actions must remain. You must know what approvals and blocks existed to redesign the execution path.
-- In a deployment project, not only `deployment completed` but also failure records, priorities, and next actions must remain. In operations, the order of the next action matters more than the declaration of completion.
+- In a baseline-comparison project, not only `accuracy` but also `what samples were wrong` must remain. That is, records such as a wrong-case list are needed so that the next comparison stays alive.
+- In a text project, not only `correct` or `incorrect` but also token lists, token coverage, and out-of-vocabulary tokens must remain. You must see what input was split and what word was missed to find preprocessing problems again.
+- In a RAG project, not only the `answer` but also retrieval candidates, answer state, and selected evidence documents must remain. The starting point of quality review is not the answer itself but the evidence-selection process.
+- In an agent project, not only `success` or `failure` but also permissions, approval state, and next actions must remain. You must know what approvals and blocks existed to redesign the execution path.
+- In a deployment project, not only `deployment completed` but also incident records, priority, and next actions must remain. In operational records, the next-action order matters more than the declaration of completion.
 
-Because these example axes are already sufficiently recovered in distributed form within Part 7, the current edition does not need additional project `supplementary study` sections. Instead, it is more important that the main-text examples of each section directly show the flow of `question -> record -> review`.
+These example axes are already sufficiently recovered in distributed form within Part 7, so the current edition does not need extra project `supplementary study` sections. Instead, it is more important that the main-text examples of each section directly show the flow `question -> execution -> comparison -> interpretation -> retrospective`.
 
 ## Points That Are Easy To Misunderstand
 
 The misunderstandings that need special caution in this Part are the following.
 
 - It is easy to think a project only needs to leave behind `successful cases`.
-- It is easy to misunderstand that one high number means the project ended well.
-- Building a small example does not mean you immediately understood a production-style service structure.
+- It is easy to misunderstand that one high result number means the project ended well.
+- Running an example once does not mean the real structure has already been understood.
 - Code having executed and the problem definition being sound are not the same thing.
 - In an LLM project, a few good-looking answers do not mean evaluation is finished.
 - If operational failures are not recorded, the next improvement becomes difficult.
 
-In other words, a project document should not prove only `it worked once`, but `the next iteration is possible`.
+In other words, a project should not be a document that proves only `it worked once`, but a document that proves `the next iteration is possible`.
 
 ## What This Part Explains And Does Not Explain
 
-Part 7 focused on explaining the entry-level structure of projects. Therefore, it covers small goal-setting, implementation, evaluation, review, and operational records, but it does not finish the entire structure of large-scale infrastructure and long-term operation here.
+Part 7 focused on explaining the entry-level structure of projects. Therefore, it covers goal setting, implementation, evaluation, retrospective, and operational records, but it does not finish the entire structure of large-scale infrastructure and long-term operation here.
 
 ## Questions This Part Does Not Close
 
 Part 7 passes the following questions to the reader's later real projects.
 
-- What topic will be expanded into the next actual project?
-- How will evaluation and failure records be grown into team-level documents?
-- To what point will operations and deployment be automated, and where will human review remain?
+- What topic should be expanded into the next actual project?
+- How should evaluation and failure records grow into team-level documents?
+- To what point should operations and deployment be automated, and where should human review remain?
 
 In other words, Part 7 is less the destination of the book than the starting point of later self-directed projects.
 
 These questions were already previewed in small form inside Part 7 itself.
 
 - Baseline comparison can grow into a larger experiment-tracking system.
-- Token coverage and OOV records can lead into more precise tokenizer experiments.
+- Token-coverage and OOV records can lead into more precise tokenizer experiments.
 - The recording of evidence-shortage states in RAG can grow into a stricter evaluation pipeline.
-- Agent records about operational deferral and approval-required tools can expand into actual operational policy documents.
-- Deployment failure records become the seeds of team-level incident review documents.
+- Agent records about operational deferral and approval-required tools can expand into real operational policy documents.
+- Deployment failure records become the seeds of team-level incident-retrospective documents.
 
 ## Questions To Check Before Moving To The Next Stage Of Learning
 
-- Can you explain the problem definition and output standard of each project in one sentence?
+- Can you explain the problem definition and the output standard of each project in one sentence?
 - Did you separate and record the baseline and the improvement?
-- Can the data preparation and splitting process be executed again?
-- Did you read the result through both numbers and cases?
+- Can the data-preparation and split process be executed again?
+- Did you read the result through numbers, comparison tables, and cases together?
 - Did you leave behind failure cases and an improvement plan?
-- If it is an LLM project, did you also check retrieval, tool calls, permissions, logs, and failure handling?
+- If it is an LLM project, did you also inspect retrieval, tool calls, permissions, logs, and failure handling?
 
-When actually opening the project documents again, the following artifact checks should also be confirmed.
+When reopening the project documents in practice, the following artifact checks should also be confirmed.
 
 - Is there an execution summary or a review summary?
-- Are there sample-level records such as comparison tables, test logs, or evaluation records?
-- Are there evidence records such as selection grounds or retrieval candidates?
-- Is there an operational flow such as execution records and failure records?
+- Do sample-level records remain, such as comparison tables, test records, and evaluation records?
+- Do evidence records remain, such as selection grounds and retrieval candidates?
+- Do operational-flow records remain, such as execution records and incident records?
 
-If this check is reduced more briefly again, it becomes the following.
+Read more briefly again, this check becomes the following.
 
 | What to check first | Why it is important |
 | --- | --- |
 | Does the question remain? | To recover what the project was trying to verify |
 | Does the baseline remain? | To recover the floor line for interpreting improvement |
-| Do error or failure remain? | To create the starting point of the next iteration |
-| Do evidence and execution path remain? | To verify RAG/agent results again |
-| Does the next action remain? | To prevent the review from ending as a memo |
+| Do errors or failures remain? | To create the starting point of the next iteration |
+| Do evidence and execution path remain? | To verify RAG and agent results again |
+| Does the next action remain? | To prevent the retrospective from ending as a memo |
+
+## The Minimum Procedure That Carries Into The Next Execution
+
+Before closing the Part 7 summary, it is better to fix once more the minimum execution procedure that can be reused directly in the next real project.
+
+1. Write the question in one sentence.
+2. Fix the input file or the input unit first.
+3. Run the baseline first.
+4. Compare the improvement or the follow-up structure on the same input.
+5. Check what remains among the execution summary, comparison table, error cases, and failure records.
+6. Leave a retrospective in the form `fact -> interpretation -> next question` or `failure category -> next action`.
+
+Even these six lines recover most of the core of Part 7.
+
+Linked back to representative places in Part 7, the same procedure can be read as follows.
+
+| Execution stage | Representative Section |
+| --- | --- |
+| Fix the question and input unit | `P7-1.1` |
+| Move into the retrospective structure | `P7-1.2` |
+| Compare the baseline and the improvement | `P7-2.2` |
+| Turn error cases into retrospective | `P7-3.2` |
+| Read failure points through evaluation records | `P7-4.2`, `P7-5.2` |
+| Leave execution logs, permissions, and failure retrospective | `P7-6.2`, `P7-7.2` |
+
+In other words, when restarting a real project, compare it directly with the representative section of the same blocked stage. If you include the practice sections as well, you can return not only to reading explanations, but directly to changing values and rewriting results.
 
 ## Closing Part 7
 
-The purpose of the project Part is not to produce a massive artifact. Rather, it is to reveal through a small artifact `what I understood and what is still unstable`.
+The purpose of the project Part is not to produce a massive artifact. Instead, it is to reveal through actual execution and comparison `what I understood and what is still unstable`.
 
-After this Part, the reader should be able to design the next steps independently.
+After this Part, the reader should be able to design the next step independently.
 
 - Expand to a larger dataset
 - Attach more appropriate evaluation metrics
 - Run comparison experiments on RAG quality
 - Refine agent permissions and log policies more precisely
-- Separate operating cost and failure response into independent documents
+- Separate operational cost and failure response into independent documents
 
 In other words, Part 7 is not the end, but the starting point of `now building projects yourself and learning again through them`.
 
-At the shortest level, the conclusion of Part 7 can be grouped into the following one sentence.
+At the shortest level, the conclusion of Part 7 can be grouped into the following sentence.
 
-`A good project document leaves behind records that can be reread and rerun before it leaves behind the model or the code itself.`
+`A good project document leaves behind comparison and records that make it possible to reread why the result happened before it leaves behind code that merely ran once.`
 
-## When To Open The Part 7 Summary Again
+## The Standards To Recheck In This Summary
 
-It is useful to open this summary page again when one project has been finished, but you want to compress once more what should have remained, such as:
+When one project has finished and you start to lose track of what should have remained, it is enough to look again at whether the following standards remain as actual records.
 
-- when implementation happened, but you are not sure whether the question, baseline, and failure records remained together
-- when you want to regroup again what the shared record elements were across RAG, agent, and deployment projects
-- when you want to organize what kind of review sentence should remain before moving to the next real project
+- Implementation happened, but you are no longer sure whether the question, baseline, and failure records remained together
+- You want to regroup again the shared record elements across RAG, agent, and deployment projects
+- Before moving to the next real project, you want to organize what kind of retrospective sentence should remain
 
-At that point, before scattering again into the detailed sections, it is better to come back to this summary page and first confirm `what was being solved`, `what was recorded`, and `what will be changed next`.
+At that point, before scattering again into detailed sections, first confirm `what was being solved`, `what was recorded`, and `what will be changed next`.
+
+When reopening this summary page, even checking the following three lines first is enough.
+
+- Does my current project still have a one-sentence question and input unit?
+- Do the baseline and the comparison result remain on the same input?
+- Do error cases or failure records remain together with the next action?
 
 ## Checklist
 
-- Can you rewrite once more in one line the records that must remain first on each project axis?
-- Can you explain why baselines and failure records are the shared standards of all Part 7 work?
+- Can you rewrite in one line the records that should remain first in each project axis?
+- Can you explain why the baseline, comparison table, and failure record are shared standards across all of Part 7?
 - Can you say again why operational-perspective records are needed in RAG, agent, and deployment work?
-- Can you organize the review format that will be carried immediately into the next actual project?
+- Can you organize the retrospective format that will be carried directly into the next real project?
 
 ## Sources And References
 

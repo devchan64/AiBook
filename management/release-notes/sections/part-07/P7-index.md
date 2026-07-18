@@ -38,4 +38,5 @@
 - 추가 반영: 첫 도입 문장을 `앞서 소개한 내용을 실제 입력, 코드 실행, 출력 비교, 오류 해석으로 실습하는 구간`으로 다시 써, Part 7의 역할이 본편 복습보다 실습 실행에 있다는 점을 더 직접 드러냈다.
 - 추가 반영: `Part 7의 목차는 ... 순서가 중심입니다`처럼 구조를 설명하는 메타 문장을 제거하고, 대응표와 실제 Module 배열만으로 구조가 드러나게 정리했다.
 - 추가 반영: 영어판과 중국어 간체판 시작 페이지의 도입, 목적, 독자 설명도 현재 한국어 구조에 맞춰 다시 써, `small project documents` 중심의 예전 설명보다 `execution and interpretation practice`가 먼저 보이도록 동기화했다.
+- 추가 반영: 영어판과 중국어 간체판 시작 페이지에서 예전 `project documents`·`supplementary study` 중심 문장을 걷어내고, 한국어판과 같은 `실행 -> 비교 -> 실패 해석 -> 운영 회고` 흐름이 바로 보이도록 재정렬했다.
 - 번역 동기화 메모: English and Simplified Chinese index pages were synced on 2026-07-18 to preserve Part 7 as a hands-on execution-and-interpretation part.

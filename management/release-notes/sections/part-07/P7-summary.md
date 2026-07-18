@@ -31,4 +31,5 @@
 - 추가 반영: 도입과 목적 문장의 `다시 읽는 프로젝트`, `다시 설명`, `다시 확인` 같은 표현을 줄이고, 실제 실행·해석·정리 동작이 앞에 오도록 문장을 다시 다듬었다.
 - 추가 반영: 첫 문장을 `앞서 소개한 내용을 실제 프로젝트 실행과 해석으로 실습하는 구간`으로 다시 써, Part 7 마무리도 새 이론 요약보다 실습 결과 정리 파트로 읽히게 맞췄다.
 - 추가 반영: 영어판과 중국어 간체판 마무리 페이지의 도입, 목적, 대표 Section 안내도 현재 한국어 구조에 맞춰 다시 정리해, `small artifacts` 중심의 예전 설명보다 `execution and interpretation recap`이 먼저 보이도록 동기화했다.
+- 추가 반영: 영어판과 중국어 간체판 마무리 페이지에서도 예전 `When reopening Part 7`, `Closing Part 7` 같은 메타 표제를 걷어내고, 한국어판과 같은 실행 기준·재진입 기준이 먼저 보이도록 다시 맞췄다.
 - 번역 동기화 메모: English and Simplified Chinese summary pages were synced on 2026-07-18 to preserve the Part 7 recap as a hands-on execution-and-interpretation guide.
