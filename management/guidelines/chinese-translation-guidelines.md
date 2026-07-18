@@ -171,6 +171,7 @@
 - `../README.md`
 - `rules-and-guidelines-summary.md`
 - `manuscript-writing-workflow.md`
+- `section-metadata-guidelines.md`
 - `python-example-guidelines.md`
 - `concept-glossary-guidelines.md`
 - `../release-notes/sections/README.md`

@@ -2,19 +2,19 @@
 
 작성일: 2026-07-01
 
-이 문서는 저장소의 집필 규칙을 빠르게 다시 잡기 위한 운영용 요약입니다. 기준 원문은 `AGENTS.md`와 `management/guidelines/` 아래 문서이며, 실제 수정 전에는 필요한 원문을 다시 확인하는 것을 원칙으로 합니다.
+이 문서는 저장소 작업을 시작할 때 어떤 기준 문서를 먼저 열어야 하는지 빠르게 찾기 위한 참조 인덱스입니다. 원칙 원문은 `AGENTS.md`, 세부 실행 기준은 `management/guidelines/` 아래 개별 문서입니다. 이 문서는 원칙과 세부 규칙을 다시 서술하지 않습니다.
 
 ## 기준 문서 맵
 
-이 저장소의 문서는 성격이 다릅니다. 먼저 `규칙 원문`, 그다음 `작업형 가이드`, 마지막으로 `분석 메모`를 구분해서 읽는 것이 가장 효율적입니다.
+이 저장소의 문서는 성격이 다릅니다. 먼저 `전역 원칙`, 그다음 `작업형 가이드`, 마지막으로 `분석 메모`를 구분해서 읽는 것이 가장 효율적입니다.
 
-### 1. 규칙 원문
+### 1. 전역 원칙
 
-이 문서들은 판단이 충돌할 때 우선권을 가집니다.
+이 문서는 판단이 충돌할 때 우선 확인하는 최상위 기준입니다.
 
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
-| `AGENTS.md` | 저장소 전체 규칙의 기준 원문 | 모든 작업 시작 전 |
+| `AGENTS.md` | 저장소 핵심 원칙과 가이드라인 인덱스 | 모든 작업 시작 전 |
 
 ### 2. 작업형 가이드
 
@@ -23,60 +23,53 @@
 | 문서 | 역할 | 먼저 볼 때 |
 | --- | --- | --- |
 | `management/guidelines/manuscript-writing-workflow.md` | 원고 작성 세부 절차 | Part/Section 초안 작성, 초심자 보강, 사례 작성 전 |
+| `management/guidelines/concept-glossary-guidelines.md` | 개념사전 작성 기준 | 개념사전 항목 추가·수정, 중심 Section과 등장 Section 정리 전 |
+| `management/guidelines/section-metadata-guidelines.md` | Section 메타데이터 관리 기준 | Section ID, 제목 앞 인덱스, Version, 릴리즈노트 연결 확인 전 |
 | `management/guidelines/python-example-guidelines.md` | Python 예제 작성 기준 | Python 예제 추가·수정, 코드 블록 유지 여부 판단 전 |
-| `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/guidelines/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
-| `management/release-notes/sections/README.md` | Section 버전 코드와 릴리즈노트 관리 기준 | Section 수정, 번역본 동기화, 개정 이력 기록 전 |
+| `management/guidelines/english-translation-guidelines.md` | 영어 번역 운영 기준 | 영어판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
+| `management/guidelines/chinese-translation-guidelines.md` | 중국어 간체 번역 운영 기준 | 중국어 간체판 Section 작성, 다국어 링크 정리, 공통 릴리즈노트 반영 전 |
+| `management/release-notes/sections/README.md` | 릴리즈노트 파일 관리 기준 | 릴리즈노트 파일 위치와 항목 형식 확인 전 |
 | `management/authoring/part-XX-open-checklist.md` | Part별 체크포인트 노트 | 목차 기준 중심 주제 정리, Part 흐름 점검 전 |
 
 ### 3. 보조 메모와 분석 문서
 
-이 문서들은 규칙 원문이라기보다, 기존 원고를 정리하거나 후속 판단을 돕는 참고 자료입니다.
+이 문서들은 전역 원칙이나 작업형 가이드라기보다, 기존 원고를 정리하거나 후속 판단을 돕는 참고 자료입니다.
 
 | 문서 | 역할 | 주로 볼 때 |
 | --- | --- | --- |
 | `management/authoring/author-notes.md` | 저자 관점 문장을 다듬기 위한 메모 | 머리말, 도입부, 관점 문장 정리 시 |
 | `management/authoring/section-...-evidence-analysis.md` | 특정 Section의 근거 검토 메모 | 기존 절 수정, 근거 확인, 후속 설명 위치 판단 시 |
 
-## 문서별 역할 분담
+## 문서별 경계
 
-- `AGENTS.md`: 프로젝트 목적, 독자 기준, 문서 위치, Section 경계, Python 예제 원칙, 용어, 출처, 저작권, 배포, 빌드 검증까지 포함하는 최상위 규칙 문서입니다.
-- `AGENTS.md`: 초심자가 막히는 지점을 현재 Section 안에서 풀지, `보충학습`으로 분리할지 판단하는 기준이 포함되어 있습니다.
-- `management/guidelines/manuscript-writing-workflow.md`: Part/Section 작성, 초심자 보강, 사례 작성, Section 경계 같은 원고 작성 절차를 다루는 상세 문서입니다.
-- `management/guidelines/python-example-guidelines.md`: Python 예제의 입력·출력 제시 방식, 금지 패턴, 초심자 점검 기준을 다루는 상세 문서입니다.
-- `management/guidelines/chart-guidelines.md`: 차트의 표현 방식, Mermaid 우선 원칙, SVG 예외 조건, 레이아웃, 겹침 방지, 검증 기준까지 다루는 상세 문서입니다.
-- `management/release-notes/sections/README.md`: Section 버전 코드, 수정일 기준 버전 갱신, 제목 앞 인덱스와 `Section ID`의 동일 규칙, Section별 릴리즈노트 파일 관리 방식을 다루는 운영 문서입니다.
-- `management/release-notes/sections/README.md`: 앞으로 번역본이 생겼을 때도 `Section ID` 기준으로 대응 버전을 추적하는 운영 문서입니다.
-- `management/guidelines/english-translation-guidelines.md`: 영어 번역 시 한국어 원문 대조, 공통 릴리즈노트 기록, `빈 줄 제외 라인 수 5% 미만` 검수 기준을 포함한 번역 운영 문서입니다.
-- `management/guidelines/chinese-translation-guidelines.md`: 중국어 간체 번역 시 한국어 원문 대조, 공통 릴리즈노트 기록, `빈 줄 제외 라인 수 5% 미만` 검수 기준을 포함한 번역 운영 문서입니다.
+- `AGENTS.md`: 저장소 핵심 원칙, 문서 위치, 브랜치·배포 기준, 작업 전 확인할 가이드라인 인덱스를 맡습니다.
+- `management/guidelines/README.md`: 가이드라인 폴더에 둘 문서와 두지 않을 문서의 경계를 맡습니다.
+- `management/guidelines/rules-and-guidelines-summary.md`: 작업 유형별 참조 순서를 빠르게 찾는 역할만 맡습니다.
+- 개별 가이드라인 문서: 원고 작성, Section 메타데이터, Python 예제, 차트·도식, 번역, 개념사전처럼 특정 작업의 세부 절차와 예외 기준을 맡습니다.
+- `management/release-notes/sections/README.md`: 릴리즈노트 파일 위치와 항목 형식을 맡습니다.
+- `management/authoring/`: 저자 관점 메모, Part 체크포인트, Section별 근거 분석처럼 특정 집필 판단을 돕는 보조 자료를 맡습니다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신합니다.
-- `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
-- `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
-- `part-XX-open-checklist.md`: 순차 점검 기록을 쌓는 문서가 아니라, 각 Part의 Section이 담아야 할 중심 주제를 목차 순서대로 개괄한 체크포인트 노트입니다.
 
 ## 작업 유형별 참조 순서
 
 ### Section 본문을 새로 쓰거나 크게 고칠 때
 
-1. `AGENTS.md`
-2. `management/guidelines/manuscript-writing-workflow.md`
-3. 필요하면 해당 `section-...-evidence-analysis.md`
-4. 문단 재구성이 크면 `management/guidelines/manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 본다.
-5. Part 수준 흐름과 중심 주제를 다시 잡아야 하면 해당 `part-XX-open-checklist.md`
-6. 실제로 수정한 Section이라면 `management/release-notes/sections/README.md`를 따라 버전 코드와 릴리즈노트도 함께 갱신한다.
-7. 번역본이 아직 없더라도 릴리즈노트에 번역 반영 필요 여부를 남긴다.
+1. `AGENTS.md`로 전역 원칙과 적용 범위를 확인한다.
+2. `management/guidelines/section-metadata-guidelines.md`로 `Section ID`, 제목 앞 인덱스, `Version`, 대응 릴리즈노트 파일을 먼저 확인한다.
+3. 실제 작업 순서는 `management/guidelines/manuscript-writing-workflow.md`의 `원고 작성·수정 작업 순서`를 따른다.
+4. 릴리즈노트 파일 위치와 항목 형식은 `management/release-notes/sections/README.md`를 따른다.
 
 ### Python 예제를 넣거나 고칠 때
 
-1. `AGENTS.md`의 Python 예제 원칙
-2. `management/guidelines/python-example-guidelines.md`
+1. `management/guidelines/python-example-guidelines.md`
+2. 필요하면 `management/guidelines/manuscript-writing-workflow.md`의 예제 연결 규칙
 3. 현재 Section의 중심 질문과 출력값 점검
-4. 필요하면 `AGENTS.md`의 초심자 보강 기준으로 예제 보강 수준 판단
 
 ### 차트, Mermaid, SVG를 만들 때
 
-1. `AGENTS.md`의 도식 원칙
-2. `chart-guidelines.md`
+1. `management/guidelines/chart-guidelines.md`
+2. 필요하면 `management/guidelines/manuscript-writing-workflow.md`의 시각 형식 연결 규칙
 3. 다국어 본문이면 Mermaid include 경로와 일반 SVG/파일 링크 경로를 구분해 다시 본다.
 
 ### 관점 문장, 머리말, 도입 문장을 다듬을 때
@@ -97,15 +90,16 @@
 
 - 최상위 원칙은 `AGENTS.md`를 기준으로 다시 확인합니다. 이 문서는 원칙 원문을 재서술하지 않습니다.
 - Section 경계, 권장 구조, 초심자 보강, 사례 작성, `보충학습` 분리 판단은 `manuscript-writing-workflow.md`를 기준으로 봅니다.
+- Section ID, 제목 앞 인덱스, Version, 본문 메타데이터 관리는 `section-metadata-guidelines.md`를 기준으로 봅니다.
 - `이 절의 범위` 같은 범위 안내는 `무엇을 안 다룬다`는 공지보다 `이번 절에서 닫을 질문`과 `다음 절에서 이어질 질문`의 연결로 쓰는지를 `manuscript-writing-workflow.md`에서 먼저 확인합니다.
 - 개념사전 항목 구조, `중심 Section`·`등장 Section`, 표제어 분리 기준은 `concept-glossary-guidelines.md`를 기준으로 봅니다.
 - Python 예제 세부 규칙은 `python-example-guidelines.md`, 차트·도식 세부 규칙은 `chart-guidelines.md`를 기준으로 봅니다.
-- 본문 Section를 실제로 수정했다면 `Version`과 릴리즈노트 갱신을 같은 작업 안에서 함께 확인합니다.
+- 본문 Section을 실제로 수정했다면 `section-metadata-guidelines.md`를 따라 `Version`과 릴리즈노트 연결을 같은 작업 안에서 함께 확인합니다.
 
 ## 빠른 점검표
 
 1. 이 작업의 기준 원문이 `AGENTS.md`인지, 작업형 가이드인지 먼저 구분했는가?
-2. Section 본문 수정이라면 `manuscript-writing-workflow.md`와 릴리즈노트 가이드를 함께 열었는가?
+2. Section 본문 수정이라면 `manuscript-writing-workflow.md`와 `section-metadata-guidelines.md`를 함께 열었는가?
 3. 개념 위치, 대표 설명 위치, 개념사전 링크 판단이라면 `concept-glossary-guidelines.md`를 다시 확인했는가?
 4. 예제, 차트, 번역처럼 전용 가이드가 있는 작업을 요약 문서만 보고 처리하고 있지는 않은가?
 5. 끝난 판단을 메모 문서에 계속 누적하지 않고 체크리스트나 본문에 흡수했는가?
@@ -114,6 +108,7 @@
 
 - `AGENTS.md`
 - `management/guidelines/manuscript-writing-workflow.md`
+- `management/guidelines/section-metadata-guidelines.md`
 - `management/guidelines/concept-glossary-guidelines.md`
 - `management/guidelines/python-example-guidelines.md`
 - `management/guidelines/chart-guidelines.md`

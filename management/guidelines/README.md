@@ -1,8 +1,8 @@
-# 가이드라인 폴더 메모
+# 가이드라인 폴더 인덱스
 
-이 디렉터리는 `management` 아래에 흩어져 있는 책 원고 세부 작성 규칙과 작업 가이드를 정리해 모으기 위한 준비 공간이다.
+이 디렉터리는 `AGENTS.md`의 전역 원칙을 실제 작업으로 옮길 때 다시 여는 세부 가이드라인을 모아 둔다.
 
-이 폴더에는 저장소 전체 운영 규칙이 아니라, 책 원고 세부 작성 전에 반복해서 확인하는 가이드라인만 둔다.
+이 폴더에는 저장소 전체 운영 규칙이 아니라, 책 원고 작성·수정·번역·도식화처럼 반복되는 작업의 실행 기준만 둔다. 전역 원칙은 `../../AGENTS.md`에 남기고, 이 폴더는 작업별 판단 절차와 예외 기준을 담당한다.
 
 다음 성격의 문서는 여기로 모은다.
 
@@ -27,20 +27,24 @@
 - `english-translation-guidelines.md`
 - `rules-and-guidelines-summary.md`
   - 세부 규칙 재서술 문서가 아니라, 어떤 원문을 먼저 열어야 하는지 빠르게 찾는 인덱스 문서로 유지한다.
+- `section-metadata-guidelines.md`
+  - Section ID, 제목 앞 인덱스, Version, 릴리즈노트 연결 같은 본문 메타데이터 관리 기준을 다룬다.
 - `manuscript-writing-workflow.md`
 - `python-example-guidelines.md`
 
 함께 봐야 하지만 이 폴더 밖에서 관리하는 문서는 다음과 같다.
 
 - `../release-notes/sections/README.md`
-  - Section 버전 코드, 수정일 기준 버전 관리, 제목 앞 인덱스와 `Section ID` 일치 규칙, 번역본 동기화 메모, Section별 릴리즈노트 형식을 다룬다.
-  - Section 본문을 실제로 수정했다면 이 문서를 따라 메타데이터와 릴리즈노트를 함께 갱신한다.
+  - 릴리즈노트 파일 위치, 파일명, 항목 형식만 다룬다.
+  - Section ID, Version, 본문 메타데이터 관리는 `section-metadata-guidelines.md`를 따른다.
 
-운영 원칙은 다음과 같다.
+문서 경계는 다음과 같이 잡는다.
 
-- `AGENTS.md`는 저장소 전체 규칙과 주요 업무 흐름의 인덱스를 맡는다.
+- `../../AGENTS.md`는 저장소의 핵심 원칙, 문서 위치, 브랜치·배포 기준, 작업 전 확인할 가이드라인 인덱스를 맡는다.
 - `management/README.md`는 `authoring/`, `guidelines/`, `release-notes/`의 역할 분담을 빠르게 찾는 인덱스를 맡는다.
-- `management/guidelines/`는 특정 워크플로우를 실제로 수행할 때 다시 여는 세부 규칙 문서를 맡는다.
-- `management/release-notes/sections/`는 Section 단위 변경 이력과 다국어 동기화 기준점을 맡는다.
+- `management/guidelines/README.md`는 이 폴더에 둘 문서와 두지 않을 문서의 경계를 맡는다.
+- `management/guidelines/rules-and-guidelines-summary.md`는 작업 유형별 참조 순서를 빠르게 찾는 문서이며, 원칙 원문이나 세부 규칙을 반복하지 않는다.
+- 개별 가이드라인 문서는 특정 워크플로우를 실제로 수행할 때 필요한 세부 절차, 예외, 검증 기준을 맡는다.
+- `management/release-notes/sections/`는 Section 단위 릴리즈노트 파일과 그 안의 변경 이력·다국어 동기화 메모를 맡는다.
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신한다.
 - 새 워크플로우 문서는 가능하면 `목적 -> 언제 보는가 -> 작업 전 확인 -> 작업 순서 -> 예외 -> 작업 후 검증 -> 함께 볼 문서` 순서를 따른다.
