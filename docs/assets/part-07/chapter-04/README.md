@@ -15,3 +15,5 @@
   - `p7-4-training-log.csv`
   - `p7-4-learning-curves-ko.svg`
   - `p7_4_training_curves.py`
+- Reused data assets:
+  - `../chapter-01/p7-action-unit-summary.csv`

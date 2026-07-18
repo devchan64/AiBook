@@ -8,3 +8,5 @@
   - `p7-1-1-project-start-flow-ko.mmd`
 - Data assets used by this chapter:
   - `p7-1-traffic-log.csv`
+  - `p7-action-unit-sensor-log.csv`
+  - `p7-action-unit-summary.csv`

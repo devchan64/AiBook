@@ -10,3 +10,4 @@
   - `p7-7-deployment-checks.csv`
   - `p7-7-deployment-incidents.csv`
   - `p7-7-ops-scenarios.csv`
+  - `p7-action-unit-ops-signals.csv`

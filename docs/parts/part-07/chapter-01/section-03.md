@@ -244,6 +244,69 @@ for row in retrospective:
 
 > 전체 합계 기준선에서는 전환율 하락이 약하게 보여 서비스 전체 문제처럼 읽힐 수 있었지만, 같은 로그를 `채널-일자` 단위로 다시 묶자 `ads` 채널의 전환율 하락과 오류율 상승이 훨씬 강하게 드러났다. 특히 기준선을 더 최근 구간으로 당기면 이 하락폭이 더 커져 긴급 검토 대상으로는 유용하지만, 표본 수가 줄어 해석은 더 보수적으로 해야 한다. 따라서 지금 단계의 회고 앞줄은 `서비스 전체 하락`보다 `ads 채널 우선 검토`가 더 적합하다.
 
+## 동작 단위 센서 기준선 확장 연습
+
+같은 기준선 재설계 연습은 공개형 합성 센서 데이터에도 적용할 수 있습니다. 여기서는 실제 장비 로그가 아니라, 동작 단위 센서 흐름을 흉내 낸 합성 요약표를 사용합니다.
+
+- 원시 로그: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv)
+- 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
+
+이 확장 연습에서 바꾸는 것은 모델이 아니라 비교 기준입니다.
+
+| 비교 설계 | 읽을 질문 |
+| --- | --- |
+| 최근 4회 vs 이전 8회 | 최근 구간에서 중반 평균과 후반 하강이 함께 달라졌는가 |
+| 최근 3회 vs 이전 9회 | 더 짧은 최근 구간으로 보면 신호가 더 민감해지는가 |
+| `review_needed=yes` 비율 | 값 차이가 실제 검토 우선순위로 이어질 만큼 반복되는가 |
+
+```python
+import csv
+from pathlib import Path
+
+summary_path = Path("docs/assets/part-07/chapter-01/p7-action-unit-summary.csv")
+rows = list(csv.DictReader(summary_path.open(encoding="utf-8")))
+
+for row in rows:
+    row["event_order"] = int(row["event_order"])
+    row["mid_flow_mean"] = float(row["mid_flow_mean"])
+    row["late_drop_rate"] = float(row["late_drop_rate"])
+
+def summarize(group_rows):
+    return {
+        "count": len(group_rows),
+        "mid_flow_mean": round(sum(row["mid_flow_mean"] for row in group_rows) / len(group_rows), 3),
+        "late_drop_rate": round(sum(row["late_drop_rate"] for row in group_rows) / len(group_rows), 3),
+        "review_ratio": round(
+            sum(row["review_needed"] == "yes" for row in group_rows) / len(group_rows),
+            3,
+        ),
+    }
+
+for cutoff_order in [9, 10]:
+    baseline = [row for row in rows if row["event_order"] < cutoff_order]
+    recent = [row for row in rows if row["event_order"] >= cutoff_order]
+    baseline_summary = summarize(baseline)
+    recent_summary = summarize(recent)
+    result = {
+        "recent_start_order": cutoff_order,
+        "baseline_count": baseline_summary["count"],
+        "recent_count": recent_summary["count"],
+        "mid_flow_gap": round(recent_summary["mid_flow_mean"] - baseline_summary["mid_flow_mean"], 3),
+        "late_drop_gap": round(recent_summary["late_drop_rate"] - baseline_summary["late_drop_rate"], 3),
+        "recent_review_ratio": recent_summary["review_ratio"],
+    }
+    print(result)
+```
+
+실행 결과는 다음처럼 읽을 수 있습니다.
+
+```text
+{'recent_start_order': 9, 'baseline_count': 8, 'recent_count': 4, 'mid_flow_gap': -0.219, 'late_drop_gap': 0.063, 'recent_review_ratio': 0.75}
+{'recent_start_order': 10, 'baseline_count': 9, 'recent_count': 3, 'mid_flow_gap': -0.172, 'late_drop_gap': 0.051, 'recent_review_ratio': 0.667}
+```
+
+첫 비교에서는 최근 4회 중 3회가 검토 대상으로 남습니다. 두 번째 비교는 최근 구간이 더 짧아져 민감한 운영 신호를 볼 수 있지만, 표본 수가 3회뿐이므로 결론은 더 조심스럽게 써야 합니다. 회고 앞줄은 `센서가 나빠졌다`가 아니라 `최근 구간에서 중반 유량 평균 하락과 후반 하강 증가가 함께 반복되지만, 짧은 구간 비교는 표본 수를 함께 확인해야 한다`처럼 써야 합니다.
+
 ## 직접 바꿔 보며 확인할 것
 
 1. `cutoff`를 `2026-06-10`으로 바꿔 봅니다.
@@ -265,4 +328,6 @@ for row in retrospective:
 ## 출처와 참고 자료
 
 - 실습 로그 파일: [`p7-1-traffic-log.csv`](../../../assets/part-07/chapter-01/p7-1-traffic-log.csv)
+- 동작 단위 합성 원시 로그: [`p7-action-unit-sensor-log.csv`](../../../assets/part-07/chapter-01/p7-action-unit-sensor-log.csv)
+- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

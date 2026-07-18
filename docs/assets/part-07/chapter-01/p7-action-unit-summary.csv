@@ -1,0 +1,13 @@
+event_id,event_order,period,process_type,total_duration_seconds,mid_flow_mean,late_drop_rate,tracking_error_mean,stable_segment_mean,shape_token,density_feature,review_needed
+E001,1,baseline,standard,28.4,2.32,0.08,0.04,0.94,stable_decline,normal,no
+E002,2,baseline,standard,28.9,2.29,0.09,0.05,0.92,stable_decline,normal,no
+E003,3,baseline,standard,27.8,2.35,0.07,0.04,0.95,stable_decline,normal,no
+E004,4,baseline,standard,29.1,2.31,0.10,0.05,0.91,stable_decline,normal,no
+E005,5,baseline,standard,28.2,2.34,0.08,0.04,0.94,stable_decline,normal,no
+E006,6,baseline,standard,28.7,2.28,0.09,0.06,0.90,stable_decline,normal,no
+E007,7,baseline,standard,27.9,2.36,0.07,0.04,0.95,stable_decline,normal,no
+E008,8,baseline,standard,28.6,2.30,0.09,0.05,0.92,stable_decline,normal,no
+E009,9,recent,standard,29.4,2.05,0.16,0.07,0.82,late_drop,repeated_drop,yes
+E010,10,recent,standard,27.6,2.40,0.05,0.19,0.88,temporary_spike,single_spike,check
+E011,11,recent,standard,29.8,2.00,0.18,0.08,0.80,late_drop,repeated_drop,yes
+E012,12,recent,standard,30.2,1.95,0.20,0.09,0.78,late_drop,repeated_drop,yes

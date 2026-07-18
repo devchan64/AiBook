@@ -259,6 +259,75 @@ for row in comparison_rows:
 
 > `stress-01`은 raw 거리에서는 retained 쪽으로 잘못 붙었지만, 사용 시간 스케일을 줄이거나 z-score 정규화를 적용하자 churn으로 바로잡혔다. 반면 `stress-02`는 모든 비교 실험에서 retained로 남아, 지금 문제는 전처리보다도 `4건 안팎의 문의 수와 10일대 미접속 구간`에 해당하는 churn 사례가 학습 데이터에 거의 없다는 점에 더 가깝다. 따라서 다음 반복에서는 전처리 튜닝만 더 하는 대신 경계 구간 고객 사례를 추가 수집하고, 필요하면 결제 실패 횟수 같은 새 특징도 검토하는 편이 적절하다.
 
+## 동작 단위 센서 비교 실험 확장
+
+동작 단위 합성 데이터에서는 같은 동작 요약을 세 가지 방식으로 비교해 볼 수 있습니다.
+
+| 비교 설정 | 판단 방식 | 실패 해석 |
+| --- | --- | --- |
+| 원시 tracking 오류만 보기 | `tracking_error_mean`이 큰 동작만 잡음 | 단발 튐에는 민감하지만 반복 drift를 놓칠 수 있음 |
+| 구간 특징 보기 | 중반 평균 하락 또는 후반 하강 증가를 함께 봄 | 반복되는 패턴 변화를 더 잘 잡음 |
+| 기준선 차이 보기 | 기준선 평균과의 차이를 함께 계산 | 현재 신호가 평소 수준에서 얼마나 벗어났는지 설명하기 좋음 |
+
+```python
+import csv
+from pathlib import Path
+
+summary_path = Path("docs/assets/part-07/chapter-01/p7-action-unit-summary.csv")
+rows = list(csv.DictReader(summary_path.open(encoding="utf-8")))
+
+for row in rows:
+    row["event_order"] = int(row["event_order"])
+    row["mid_flow_mean"] = float(row["mid_flow_mean"])
+    row["late_drop_rate"] = float(row["late_drop_rate"])
+    row["tracking_error_mean"] = float(row["tracking_error_mean"])
+
+baseline_rows = [row for row in rows if row["period"] == "baseline"]
+recent_rows = [row for row in rows if row["period"] == "recent"]
+baseline_mid = sum(row["mid_flow_mean"] for row in baseline_rows) / len(baseline_rows)
+baseline_late = sum(row["late_drop_rate"] for row in baseline_rows) / len(baseline_rows)
+
+comparison = []
+for row in recent_rows:
+    raw_flag = row["tracking_error_mean"] > 0.12
+    segment_flag = row["mid_flow_mean"] < 2.10 or row["late_drop_rate"] > 0.15
+    baseline_gap_flag = (
+        row["mid_flow_mean"] - baseline_mid < -0.20
+        or row["late_drop_rate"] - baseline_late > 0.05
+    )
+
+    if segment_flag and not raw_flag:
+        diagnosis = "원시 오류만 보면 놓치지만 구간 특징으로 잡힘"
+    elif raw_flag and not segment_flag:
+        diagnosis = "단발 튐 가능성이 있어 재현 확인 필요"
+    elif segment_flag and baseline_gap_flag:
+        diagnosis = "반복 drift 후보"
+    else:
+        diagnosis = "현재 비교에서는 낮은 우선순위"
+
+    comparison.append({
+        "event_id": row["event_id"],
+        "raw_tracking_flag": raw_flag,
+        "segment_feature_flag": segment_flag,
+        "baseline_gap_flag": baseline_gap_flag,
+        "diagnosis": diagnosis,
+    })
+
+for row in comparison:
+    print(row)
+```
+
+실행 결과는 다음처럼 읽을 수 있습니다.
+
+```text
+{'event_id': 'E009', 'raw_tracking_flag': False, 'segment_feature_flag': True, 'baseline_gap_flag': True, 'diagnosis': '원시 오류만 보면 놓치지만 구간 특징으로 잡힘'}
+{'event_id': 'E010', 'raw_tracking_flag': True, 'segment_feature_flag': False, 'baseline_gap_flag': False, 'diagnosis': '단발 튐 가능성이 있어 재현 확인 필요'}
+{'event_id': 'E011', 'raw_tracking_flag': False, 'segment_feature_flag': True, 'baseline_gap_flag': True, 'diagnosis': '원시 오류만 보면 놓치지만 구간 특징으로 잡힘'}
+{'event_id': 'E012', 'raw_tracking_flag': False, 'segment_feature_flag': True, 'baseline_gap_flag': True, 'diagnosis': '원시 오류만 보면 놓치지만 구간 특징으로 잡힘'}
+```
+
+이 비교에서는 `E010`처럼 한 번 튄 동작과 `E009`, `E011`, `E012`처럼 구간 구조가 반복해서 달라진 동작이 갈립니다. 따라서 다음 반복의 우선순위는 원시 오류 임계값을 더 세게 만드는 것이 아니라, 구간 특징과 기준선 차이를 함께 기록하는 쪽에 가깝습니다.
+
 ## 직접 바꿔 보며 확인할 것
 
 1. `stress-02`와 비슷한 churn 사례를 학습 파일에 두 건 더 추가했다고 가정하고 직접 넣어 봅니다.
@@ -281,4 +350,5 @@ for row in comparison_rows:
 
 - 학습 데이터: [`p7-2-churn-dataset.csv`](../../../assets/part-07/chapter-02/p7-2-churn-dataset.csv)
 - 스트레스 평가 데이터: [`p7-2-stress-test.csv`](../../../assets/part-07/chapter-02/p7-2-stress-test.csv)
+- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

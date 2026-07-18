@@ -9,3 +9,5 @@
 - Data assets used by this chapter:
   - `p7-2-churn-dataset.csv`
   - `p7-2-stress-test.csv`
+- Reused data assets:
+  - `../chapter-01/p7-action-unit-summary.csv`
