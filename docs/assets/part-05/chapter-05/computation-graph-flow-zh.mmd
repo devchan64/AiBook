@@ -1,0 +1,17 @@
+flowchart TD
+  X["x"]
+  W["w"]
+  M["乘法<br/>wx"]
+  B["b"]
+  Z["加法<br/>z = wx + b"]
+  A["ReLU<br/>a"]
+  T["目标 t"]
+  L["损失 L"]
+
+  X --> M
+  W --> M
+  M --> Z
+  B --> Z
+  Z --> A
+  A --> L
+  T --> L

@@ -1,27 +1,25 @@
 # Part 5 Chapter 4 Mermaid Assets
 
 - Public manuscript pages must include their own language asset through `pymdownx.snippets`.
-- Current deployment references:
-  - Korean pages reference `-ko.mmd`.
-  - English pages reference `-en.mmd`.
+- Current deployment references language-specific Chapter 4 assets for Korean (`-ko`), English (`-en`), and Simplified Chinese (`-zh`) pages.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `loss-selection-flow-en.mmd` / `loss-selection-flow-ko.mmd`
-  - `loss-role-flow-en.mmd` / `loss-role-flow-ko.mmd`
-  - `loss-vs-metric-case-flow-en.mmd` / `loss-vs-metric-case-flow-ko.mmd`
-  - `problem-loss-branches-en.mmd` / `problem-loss-branches-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all language files keep the same conceptual flow and node relationships.
+- Current Mermaid language sets:
+  - `loss-selection-flow-en.mmd` / `loss-selection-flow-ko.mmd` / `loss-selection-flow-zh.mmd`
+  - `loss-role-flow-en.mmd` / `loss-role-flow-ko.mmd` / `loss-role-flow-zh.mmd`
+  - `loss-vs-metric-case-flow-en.mmd` / `loss-vs-metric-case-flow-ko.mmd` / `loss-vs-metric-case-flow-zh.mmd`
+  - `problem-loss-branches-en.mmd` / `problem-loss-branches-ko.mmd` / `problem-loss-branches-zh.mmd`
 - SVG chart assets:
-  - `loss-shapes-en.svg` / `loss-shapes-ko.svg`
-  - `squared-error-loss-en.svg` / `squared-error-loss-ko.svg`
-  - `cross-entropy-loss-en.svg` / `cross-entropy-loss-ko.svg`
-  - `problem-loss-axes-en.svg` / `problem-loss-axes-ko.svg`
-  - `regression-loss-axis-en.svg` / `regression-loss-axis-ko.svg`
-  - `classification-loss-axis-en.svg` / `classification-loss-axis-ko.svg`
-  - `generation-loss-axis-en.svg` / `generation-loss-axis-ko.svg`
-  - `loss-example-batch-priority-en.svg` / `loss-example-batch-priority-ko.svg`
-  - `loss-example-regression-experiment-en.svg` / `loss-example-regression-experiment-ko.svg`
-  - `loss-example-classification-experiment-en.svg` / `loss-example-classification-experiment-ko.svg`
-  - `loss-example-generation-experiment-en.svg` / `loss-example-generation-experiment-ko.svg`
+  - `loss-shapes-en.svg` / `loss-shapes-ko.svg` / `loss-shapes-zh.svg`
+  - `squared-error-loss-en.svg` / `squared-error-loss-ko.svg` / `squared-error-loss-zh.svg`
+  - `cross-entropy-loss-en.svg` / `cross-entropy-loss-ko.svg` / `cross-entropy-loss-zh.svg`
+  - `problem-loss-axes-en.svg` / `problem-loss-axes-ko.svg` / `problem-loss-axes-zh.svg`
+  - `regression-loss-axis-en.svg` / `regression-loss-axis-ko.svg` / `regression-loss-axis-zh.svg`
+  - `classification-loss-axis-en.svg` / `classification-loss-axis-ko.svg` / `classification-loss-axis-zh.svg`
+  - `generation-loss-axis-en.svg` / `generation-loss-axis-ko.svg` / `generation-loss-axis-zh.svg`
+  - `loss-example-batch-priority-en.svg` / `loss-example-batch-priority-ko.svg` / `loss-example-batch-priority-zh.svg`
+  - `loss-example-regression-experiment-en.svg` / `loss-example-regression-experiment-ko.svg` / `loss-example-regression-experiment-zh.svg`
+  - `loss-example-classification-experiment-en.svg` / `loss-example-classification-experiment-ko.svg` / `loss-example-classification-experiment-zh.svg`
+  - `loss-example-generation-experiment-en.svg` / `loss-example-generation-experiment-ko.svg` / `loss-example-generation-experiment-zh.svg`
 - Python chart source:
   - `p5_4_loss_charts.py`

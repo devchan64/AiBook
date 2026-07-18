@@ -1,0 +1,9 @@
+flowchart TD
+    loss["损失很大"]
+    loss --> gate["检查 ReLU 门前的 block_logit"]
+    gate --> open["block_logit > 0"]
+    gate --> closed["block_logit <= 0"]
+    open --> live["backward 路径仍然活着"]
+    live --> update["risk_weight 与 bias 可以被更新"]
+    closed --> stop["梯度在 ReLU 处变成 0"]
+    stop --> noupdate["更前面的参数不会沿这条路径更新"]

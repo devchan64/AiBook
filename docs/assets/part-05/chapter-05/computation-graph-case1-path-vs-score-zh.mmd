@@ -1,0 +1,8 @@
+flowchart TD
+    score["最终阻断分数"]
+    score --> question["光看分数还不够"]
+    question --> path["重新展开路径：<br/>pressure_signal -> weighted_pressure<br/>-> block_logit -> block_activation"]
+    path --> read1["哪个节点把分数推高了？"]
+    path --> read2["后面哪个节点会收到梯度？"]
+    read1 --> result["把分数和它经过的计算路径一起读"]
+    read2 --> result

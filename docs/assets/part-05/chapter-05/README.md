@@ -1,30 +1,28 @@
 # Part 5 Chapter 5 Mermaid Assets
 
 - Public manuscript pages must include their own language asset through `pymdownx.snippets`.
-- Current deployment references:
-  - Korean pages reference `-ko.mmd`.
-  - English pages reference `-en.mmd`.
+- Current deployment references language-specific Chapter 5 assets for Korean (`-ko`), English (`-en`), and Simplified Chinese (`-zh`) pages.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
-- When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
-- Current language pairs:
-  - `backprop-direction-and-responsibility-flow-en.mmd` / `backprop-direction-and-responsibility-flow-ko.mmd`
-  - `case1-loss-to-gradient-reading-en.mmd` / `case1-loss-to-gradient-reading-ko.mmd`
-  - `chain-rule-dependency-flow-en.mmd` / `chain-rule-dependency-flow-ko.mmd`
-  - `computation-graph-case1-path-vs-score-en.mmd` / `computation-graph-case1-path-vs-score-ko.mmd`
-  - `computation-graph-case2-loss-vs-gradient-en.mmd` / `computation-graph-case2-loss-vs-gradient-ko.mmd`
-  - `forward-loss-backward-flow-en.mmd` / `forward-loss-backward-flow-ko.mmd`
-  - `computation-graph-flow-en.mmd` / `computation-graph-flow-ko.mmd`
-  - `loss-to-gradient-role-en.mmd` / `loss-to-gradient-role-ko.mmd`
-  - `computation-graph-relu-gate-comparison-en.mmd` / `computation-graph-relu-gate-comparison-ko.mmd`
+- When updating a Mermaid diagram set, revise the English structure first, then sync the Korean and Chinese derivatives so all language files keep the same conceptual flow and node relationships.
+- Current Mermaid language sets:
+  - `backprop-direction-and-responsibility-flow-en.mmd` / `backprop-direction-and-responsibility-flow-ko.mmd` / `backprop-direction-and-responsibility-flow-zh.mmd`
+  - `case1-loss-to-gradient-reading-en.mmd` / `case1-loss-to-gradient-reading-ko.mmd` / `case1-loss-to-gradient-reading-zh.mmd`
+  - `chain-rule-dependency-flow-en.mmd` / `chain-rule-dependency-flow-ko.mmd` / `chain-rule-dependency-flow-zh.mmd`
+  - `computation-graph-case1-path-vs-score-en.mmd` / `computation-graph-case1-path-vs-score-ko.mmd` / `computation-graph-case1-path-vs-score-zh.mmd`
+  - `computation-graph-case2-loss-vs-gradient-en.mmd` / `computation-graph-case2-loss-vs-gradient-ko.mmd` / `computation-graph-case2-loss-vs-gradient-zh.mmd`
+  - `forward-loss-backward-flow-en.mmd` / `forward-loss-backward-flow-ko.mmd` / `forward-loss-backward-flow-zh.mmd`
+  - `computation-graph-flow-en.mmd` / `computation-graph-flow-ko.mmd` / `computation-graph-flow-zh.mmd`
+  - `loss-to-gradient-role-en.mmd` / `loss-to-gradient-role-ko.mmd` / `loss-to-gradient-role-zh.mmd`
+  - `computation-graph-relu-gate-comparison-en.mmd` / `computation-graph-relu-gate-comparison-ko.mmd` / `computation-graph-relu-gate-comparison-zh.mmd`
 - SVG chart assets:
-  - `backprop-gradient-direction-en.svg` / `backprop-gradient-direction-ko.svg`
-  - `backprop-gradient-signal-direction-en.svg` / `backprop-gradient-signal-direction-ko.svg`
-  - `backprop-gradient-signal-strength-en.svg` / `backprop-gradient-signal-strength-ko.svg`
+  - `backprop-gradient-direction-en.svg` / `backprop-gradient-direction-ko.svg` / `backprop-gradient-direction-zh.svg`
+  - `backprop-gradient-signal-direction-en.svg` / `backprop-gradient-signal-direction-ko.svg` / `backprop-gradient-signal-direction-zh.svg`
+  - `backprop-gradient-signal-strength-en.svg` / `backprop-gradient-signal-strength-ko.svg` / `backprop-gradient-signal-strength-zh.svg`
 - Python chart source:
   - `p5_5_backprop_chart.py`
 - Matplotlib chart assets:
-  - `backprop-example-prediction-en.png` / `backprop-example-prediction-ko.png`
-  - `backprop-example-loss-en.png` / `backprop-example-loss-ko.png`
-  - `backprop-example-gradient-en.png` / `backprop-example-gradient-ko.png`
-  - `computation-graph-forward-trace-en.png` / `computation-graph-forward-trace-ko.png`
-  - `computation-graph-backward-trace-en.png` / `computation-graph-backward-trace-ko.png`
+  - `backprop-example-prediction-en.png` / `backprop-example-prediction-ko.png` / `backprop-example-prediction-zh.png`
+  - `backprop-example-loss-en.png` / `backprop-example-loss-ko.png` / `backprop-example-loss-zh.png`
+  - `backprop-example-gradient-en.png` / `backprop-example-gradient-ko.png` / `backprop-example-gradient-zh.png`
+  - `computation-graph-forward-trace-en.png` / `computation-graph-forward-trace-ko.png` / `computation-graph-forward-trace-zh.png`
+  - `computation-graph-backward-trace-en.png` / `computation-graph-backward-trace-ko.png` / `computation-graph-backward-trace-zh.png`

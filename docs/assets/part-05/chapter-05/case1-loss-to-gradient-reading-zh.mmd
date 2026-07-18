@@ -1,0 +1,5 @@
+flowchart TD
+    start["先算出预测分数"] --> compare["与目标分数比较"]
+    compare --> loss["损失：偏了多少？"]
+    compare --> grad["梯度：该增大还是减小，以及有多敏感？"]
+    grad --> update["据此决定下一次参数调整"]
