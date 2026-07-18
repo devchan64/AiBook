@@ -232,60 +232,6 @@ for row in comparison_rows:
 
 > `캔슬 후 송장 번호 남아 있어요`는 원문에서는 배송팀으로 잘못 분류됐지만, `캔슬`을 `취소`로 정규화하자 coverage가 0.333에서 0.5로 오르고 예측도 환불팀으로 바뀌었다. 반면 `하자 제품 환불 스케줄 알고 싶어요`는 정답은 유지됐지만 coverage가 0.333에서 0.667로 올라, 지금은 맞더라도 표현 정규화 가치가 있는 샘플임을 확인했다. 따라서 다음 반복에서는 실제 오답을 만든 동의어부터 우선 사전에 추가하고, 그 뒤에 low-coverage 정답 샘플을 정리하는 편이 적절하다.
 
-## 동작 단위 센서 표현 선택 확장
-
-센서 데이터에서도 `무엇을 토큰처럼 자를 것인가`를 정할 수 있습니다. 다만 여기서의 토큰은 텍스트 토큰과 같은 개념이 아니라, 사람이 해석하기 위해 연속 값을 이산 표현으로 바꾼 작업용 표현입니다.
-
-| 표현 | 만드는 방식 | 읽을 수 있는 것 |
-| --- | --- | --- |
-| exact token | 임계값을 넘었는지 그대로 표시 | 특정 조건 충족 여부 |
-| shape token | 흐름 모양을 라벨로 표시 | 초반 상승, 중반 안정, 후반 하강 같은 패턴 |
-| density feature | 최근 구간에서 같은 라벨이 얼마나 반복됐는지 계산 | 단발 신호와 반복 신호의 차이 |
-
-```python
-import csv
-from pathlib import Path
-
-summary_path = Path("docs/assets/part-07/chapter-01/p7-action-unit-summary.csv")
-rows = list(csv.DictReader(summary_path.open(encoding="utf-8")))
-
-for row in rows:
-    row["event_order"] = int(row["event_order"])
-    row["mid_flow_mean"] = float(row["mid_flow_mean"])
-    row["late_drop_rate"] = float(row["late_drop_rate"])
-
-recent_rows = [row for row in rows if row["period"] == "recent"]
-recent_count = len(recent_rows)
-repeated_drop_count = sum(row["density_feature"] == "repeated_drop" for row in recent_rows)
-
-feature_rows = []
-for row in recent_rows:
-    exact_token = "mid_flow_low" if row["mid_flow_mean"] < 2.10 else "mid_flow_ok"
-    shape_token = row["shape_token"]
-    density_feature = round(repeated_drop_count / recent_count, 3)
-    feature_rows.append({
-        "event_id": row["event_id"],
-        "exact_token": exact_token,
-        "shape_token": shape_token,
-        "density_feature": density_feature,
-        "review_needed": row["review_needed"],
-    })
-
-for row in feature_rows:
-    print(row)
-```
-
-실행 결과는 다음처럼 읽을 수 있습니다.
-
-```text
-{'event_id': 'E009', 'exact_token': 'mid_flow_low', 'shape_token': 'late_drop', 'density_feature': 0.75, 'review_needed': 'yes'}
-{'event_id': 'E010', 'exact_token': 'mid_flow_ok', 'shape_token': 'temporary_spike', 'density_feature': 0.75, 'review_needed': 'check'}
-{'event_id': 'E011', 'exact_token': 'mid_flow_low', 'shape_token': 'late_drop', 'density_feature': 0.75, 'review_needed': 'yes'}
-{'event_id': 'E012', 'exact_token': 'mid_flow_low', 'shape_token': 'late_drop', 'density_feature': 0.75, 'review_needed': 'yes'}
-```
-
-`exact token`만 보면 `E009`, `E011`, `E012`가 바로 올라옵니다. `shape token`을 함께 보면 이 셋은 후반 하강 패턴까지 공유하지만, `E010`은 단발 튐에 가깝습니다. `density feature`는 최근 구간에서 같은 패턴이 0.75 비율로 반복된다는 사실을 보여 주므로, 회고 우선순위를 `한 번 튄 값`보다 `반복되는 구간 구조 변화` 쪽으로 돌리게 합니다.
-
 ## 직접 바꿔 보며 확인할 것
 
 1. `평가-05`에서 `송장 번호`를 제거한 문장도 따로 시험해 봅니다.
@@ -307,5 +253,4 @@ for row in feature_rows:
 ## 출처와 참고 자료
 
 - 문의 데이터: [`p7-4-support-routing-dataset.csv`](../../../assets/part-07/chapter-04/p7-4-support-routing-dataset.csv)
-- 동작 단위 합성 동작 요약: [`p7-action-unit-summary.csv`](../../../assets/part-07/chapter-01/p7-action-unit-summary.csv)
 - 이 문서는 자체 실습 예시를 사용했습니다. 외부 자료를 직접 인용하지 않았습니다.

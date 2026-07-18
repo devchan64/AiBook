@@ -1,0 +1,7 @@
+event_id,pair_id,segment_1,segment_2,segment_3,segment_4,expected_shape,review_note
+PAT-01,A,1.8,2.2,2.7,3.3,rising,평균은 같지만 후반으로 갈수록 값이 높아지는 패턴
+PAT-02,A,2.5,2.5,2.5,2.5,flat,평균은 같지만 전체 구간이 거의 평평한 패턴
+PAT-03,B,3.2,2.8,2.2,1.8,falling,평균은 같지만 후반으로 갈수록 값이 낮아지는 패턴
+PAT-04,B,2.1,2.9,2.9,2.1,middle_high,평균은 같지만 중간 구간만 높은 패턴
+PAT-05,C,1.7,3.3,3.3,1.7,middle_high,평균은 같지만 중간 집중이 더 강한 패턴
+PAT-06,C,3.3,1.7,1.7,3.3,edge_high,평균은 같지만 양끝 구간이 높은 패턴
