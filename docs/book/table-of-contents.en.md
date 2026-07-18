@@ -1,7 +1,7 @@
 # Table of Contents
 
-> Section ID: `BOOK-toc`
-> Version: `v2026.07.18`
+Section ID: `BOOK-toc`
+Version: `v2026.07.18`
 
 This table of contents is the currently adopted learning order for the book. Here, `adopted` means that the structure has been chosen as part of the book. It does not mean that every chapter has already been fully written or fully verified.
 

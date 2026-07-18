@@ -1,7 +1,7 @@
 # 目录
 
-> Section ID: `BOOK-toc`
-> Version: `v2026.07.18`
+Section ID: `BOOK-toc`
+Version: `v2026.07.18`
 
 这份目录是本书当前采用的学习顺序。这里所说的 `采用`，是指这套结构已经被选定为本书的一部分，并不意味着每个 Chapter 都已经完全写完或完全验证。
 
