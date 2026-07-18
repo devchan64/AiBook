@@ -2,6 +2,142 @@
 
 이 문서는 Part 4를 순차 점검하면서 남은 후속 항목을 모은 체크리스트입니다.
 
+## 목차 기준 체크리스트
+
+이 블록은 `docs/book/table-of-contents.md`를 기준으로 Part 4의 시작/마무리 페이지, Chapter, Section을 같은 순서로 대조하기 위한 인덱스입니다. 아래의 `품질 상태 메모`, `순차 점검 기록`, `현재 결정`은 이 인덱스를 따라 읽은 뒤 남기는 근거 메모로 사용합니다.
+
+- [ ] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
+
+### Module 1. 머신러닝의 위치
+
+#### Chapter 1. AI, 머신러닝, 딥러닝의 구분 `개념 정의`
+
+- [ ] `P4-1.1` AI, 머신러닝, 딥러닝의 관계
+- [ ] `P4-1.2` 데이터에서 규칙을 배운다는 말
+
+#### Chapter 2. 지도학습, 비지도학습, 강화학습 `학습 원리`
+
+- [ ] `P4-2.1` 지도학습(supervised learning)
+- [ ] `P4-2.2` 비지도학습(unsupervised learning)
+- [ ] `P4-2.3` 강화학습(reinforcement learning)
+
+#### Chapter 3. 휴리스틱이 필요한 이유 `실무 휴리스틱`
+
+- [ ] `P4-3.1` 휴리스틱(heuristic)이 필요한 이유
+- [ ] `P4-3.2` 휴리스틱과 모델 선택
+
+### Module 2. 데이터와 평가
+
+#### Chapter 4. 데이터 분리와 검증 `학습 원리`
+
+- [ ] `P4-4.1` 학습 데이터와 평가 데이터
+- [ ] `P4-4.2` 검증(validation)과 테스트(test)
+
+#### Chapter 5. 과적합과 일반화 `학습 원리`
+
+- [ ] `P4-5.1` 과적합(overfitting)과 과소적합(underfitting)
+- [ ] `P4-5.2` 일반화(generalization)
+
+#### Chapter 6. 평가 지표 `학습 원리`
+
+- [ ] `P4-6.1` 평가 지표(metric)의 역할
+- [ ] `P4-6.2` 문제 유형별 평가 기준
+- [ ] `P4-6.3` 보충학습: 사이트 신뢰성 엔지니어링에서 매트릭스(metrics)를 읽는 법
+- [ ] `P4-6.4` 보충학습: ROC, PR, 로그 손실(log loss), 캘리브레이션(calibration), 실루엣(silhouette)을 처음 읽는 법
+
+### Module 3. 실무 휴리스틱
+
+#### Chapter 7. 특징 선택과 전처리 휴리스틱 `실무 휴리스틱`
+
+- [ ] `P4-7.1` 특징 선택(feature selection)
+- [ ] `P4-7.2` 전처리(preprocessing)
+- [ ] `P4-7.3` 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가
+- [ ] `P4-7.4` 보충학습: 필터(filter), 래퍼(wrapper), 차원 축소(dimensionality reduction)를 처음 구분하는 법
+
+#### Chapter 8. 모델 선택 휴리스틱 `실무 휴리스틱`
+
+- [ ] `P4-8.1` 모델 선택(model selection)
+- [ ] `P4-8.2` 기준 모델(baseline)
+- [ ] `P4-8.3` 보충학습: 문제 유형에 따라 baseline을 처음 세우는 법
+
+#### Chapter 9. 하이퍼파라미터 튜닝 `실무 휴리스틱`
+
+- [ ] `P4-9.1` 하이퍼파라미터(hyperparameter)
+- [ ] `P4-9.2` 튜닝(tuning)과 검증 비용
+- [ ] `P4-9.3` 보충학습: 고급 모델 선택, 튜닝 자동화, 실험 추적을 큰 그림으로 읽기
+
+### Module 4. 기본 알고리즘
+
+#### Chapter 10. 선형회귀 `알고리즘`
+
+- [ ] `P4-10.1` 선형회귀(linear regression)의 직관
+- [ ] `P4-10.2` 선형회귀의 평가와 한계
+- [ ] `P4-10.3` 보충학습: 회귀 진단(regression diagnostics)을 처음 읽는 법
+
+#### Chapter 11. 로지스틱 회귀 `알고리즘`
+
+- [ ] `P4-11.1` 로지스틱 회귀(logistic regression)의 직관
+- [ ] `P4-11.2` 결정 경계(decision boundary)
+- [ ] `P4-11.3` 보충학습: log-odds와 MLE를 처음 읽는 법
+- [ ] `P4-11.4` 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
+- [ ] `P4-11.5` 보충학습: solver와 regularization을 처음 읽는 법
+
+#### Chapter 12. k-NN `알고리즘`
+
+- [ ] `P4-12.1` k-NN의 직관
+- [ ] `P4-12.2` 거리(distance)와 스케일(scale)
+- [ ] `P4-12.3` k-NN을 사용할 때 무엇을 먼저 점검할까
+
+#### Chapter 13. SVM `알고리즘`
+
+- [ ] `P4-13.1` SVM의 직관
+- [ ] `P4-13.2` 커널(kernel)의 입문적 의미
+
+### Module 5. 트리와 앙상블
+
+#### Chapter 14. 결정트리 `알고리즘`
+
+- [ ] `P4-14.1` 결정트리(decision tree)
+- [ ] `P4-14.2` 트리의 과적합
+
+#### Chapter 15. 랜덤포레스트 `알고리즘`
+
+- [ ] `P4-15.1` 랜덤포레스트(random forest)
+- [ ] `P4-15.2` 특징 중요도(feature importance)
+- [ ] `P4-15.3` OOB(out-of-bag)와 랜덤포레스트 점검
+- [ ] `P4-15.4` 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
+
+#### Chapter 16. 그래디언트 부스팅 `알고리즘`
+
+- [ ] `P4-16.1` 그래디언트 부스팅(gradient boosting)
+- [ ] `P4-16.2` 부스팅의 성능과 위험
+- [ ] `P4-16.3` 보충학습: 부스팅 라이브러리와 운영 감각
+
+### Module 6. 구조 찾기
+
+#### Chapter 17. 클러스터링 `알고리즘`
+
+- [ ] `P4-17.1` 클러스터링(clustering)의 직관
+- [ ] `P4-17.2` 군집 결과를 해석할 때의 주의점
+- [ ] `P4-17.3` 보충학습: 계층적 군집화와 스펙트럴 클러스터링을 처음 구분하는 법
+- [ ] `P4-17.4` 보충학습: 군집과 반지도학습을 처음 연결하는 법
+
+#### Chapter 18. 차원 축소 `알고리즘`
+
+- [ ] `P4-18.1` 차원 축소(dimensionality reduction)
+- [ ] `P4-18.2` 시각화와 정보 손실
+
+#### Chapter 19. 강화학습 알고리즘 `알고리즘`
+
+- [ ] `P4-19.1` 가치 기반 강화학습(value-based reinforcement learning)
+- [ ] `P4-19.2` 정책 기반 강화학습(policy-based reinforcement learning)
+- [ ] `P4-19.3` 강화학습 적용의 주의점
+- [ ] `P4-19.4` 보충학습: DQN, PPO, RLHF를 강화학습 큰 흐름 안에서 읽기
+- [ ] `P4-19.5` 보충학습: 벨만 방정식, 수렴, 함수 근사를 처음 읽는 법
+- [ ] `P4-19.6` 보충학습: policy gradient와 likelihood ratio trick을 처음 읽는 법
+
+- [ ] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
+
 ## 품질 상태 메모
 
 - Part 4는 머신러닝을 알고리즘 목록이 아니라 공통 구조로 묶는 힘이 강한 Part입니다.

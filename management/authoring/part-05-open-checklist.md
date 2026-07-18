@@ -2,6 +2,117 @@
 
 이 문서는 Part 5 관련 재검토 메모에서 아직 남아 있는 작업만 관리합니다.
 
+## 목차 기준 체크리스트
+
+이 블록은 `docs/book/table-of-contents.md`를 기준으로 Part 5의 시작/마무리 페이지, Chapter, Section을 같은 순서로 대조하기 위한 인덱스입니다. 아래의 `품질 상태 메모`, `현재 부실 판정 구간`, `순차 점검 기록`, `현재 결정`은 이 인덱스를 따라 읽은 뒤 남기는 근거 메모로 사용합니다.
+
+- [ ] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
+
+### Module 1. 신경망의 기본 계산 구조
+
+#### Chapter 1. 퍼셉트론 `딥러닝 구조`
+
+- [ ] `P5-1.1` 퍼셉트론(perceptron)의 직관
+- [ ] `P5-1.2` 선형 결합과 활성화
+
+#### Chapter 2. 다층 신경망 `딥러닝 구조`
+
+- [ ] `P5-2.1` 다층 신경망(multilayer neural network)
+- [ ] `P5-2.2` 은닉층(hidden layer)과 표현
+
+#### Chapter 3. 활성화 함수 `딥러닝 구조`
+
+- [ ] `P5-3.1` 활성화 함수(activation function)
+- [ ] `P5-3.2` sigmoid
+- [ ] `P5-3.3` tanh
+- [ ] `P5-3.4` ReLU
+- [ ] `P5-3.5` 대표 활성화 함수 수식 비교
+- [ ] `P5-3.6` 출력층(output layer)과 활성화의 선택
+
+### Module 2. 출력과 손실 신호
+
+#### Chapter 4. 손실 함수 `학습 원리`
+
+- [ ] `P5-4.1` 손실 함수(loss function)
+- [ ] `P5-4.2` 문제 유형별 손실
+
+#### Chapter 5. 손실에서 gradient로 `학습 원리`
+
+- [ ] `P5-5.1` 손실은 어떻게 gradient 신호가 되는가
+- [ ] `P5-5.2` 계산 그래프(computation graph)와 자동미분(automatic differentiation)
+
+### Module 3. 학습 루프와 안정화
+
+#### Chapter 6. 학습 루프와 모델 실행 `학습 원리`
+
+- [ ] `P5-6.1` 학습 루프: forward, loss, backward, optimizer step
+- [ ] `P5-6.2` 학습 step, batch, epoch
+- [ ] `P5-6.3` 학습(learning)과 모델 실행(inference)
+- [ ] `P5-6.4` 학습 모드(training mode)와 평가 모드(evaluation mode)
+
+#### Chapter 7. 옵티마이저 `학습 원리`
+
+- [ ] `P5-7.1` 옵티마이저(optimizer)의 역할
+- [ ] `P5-7.2` 학습률(learning rate)과 update 보폭
+- [ ] `P5-7.3` 적응형 업데이트의 직관: Adam을 예로
+- [ ] `P5-7.4` 보충학습: adaptive optimization의 수렴 보장과 주장 구분
+- [ ] `P5-7.5` 보충학습: momentum, AdaGrad, RMSProp, Adam
+- [ ] `P5-7.6` 보충학습: learning rate scheduler, warmup, decay
+- [ ] `P5-7.7` 보충학습: optimizer state와 parameter-wise update
+- [ ] `P5-7.8` 보충학습: gradient clipping과 불안정한 update
+
+#### Chapter 8. 학습 루프를 안정적으로 만드는 제어 장치 `학습 원리`
+
+- [ ] `P5-8.1` 목적 함수에 제약을 두는 방법: 정규화(regularization)
+- [ ] `P5-8.2` 경로 의존을 줄이는 방법: 드롭아웃(dropout)
+- [ ] `P5-8.3` 보충학습: 깊은 계산이 흔들리지 않게 하는 조건 - 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)
+- [ ] `P5-8.4` 보충학습: 큰 초기화 스케일이 계산 범위를 어떻게 흔드는가
+
+### Module 4. 계산 확장
+
+#### Chapter 9. GPU와 병렬 처리 `역사와 패러다임`
+
+- [ ] `P5-9.1` GPU와 병렬 처리
+- [ ] `P5-9.2` 배치(batch)와 텐서(tensor) 계산
+
+### Module 5. 표현 학습과 구조 분기
+
+#### Chapter 10. 표현 학습 `딥러닝 구조`
+
+- [ ] `P5-10.1` 표현 학습(representation learning)
+- [ ] `P5-10.2` 깊은 층의 표현
+
+#### Chapter 11. CNN `알고리즘`
+
+- [ ] `P5-11.1` CNN의 직관
+- [ ] `P5-11.2` 합성곱(convolution)과 풀링(pooling)
+- [ ] `P5-11.3` 보충학습: CNN과 Vision Transformer(ViT) 비교
+
+#### Chapter 12. RNN, LSTM, GRU `알고리즘`
+
+- [ ] `P5-12.1` RNN, LSTM, GRU의 필요성
+- [ ] `P5-12.2` 장기 의존성(long-term dependency)
+
+#### Chapter 13. Attention `딥러닝 구조`
+
+- [ ] `P5-13.1` Attention의 직관
+- [ ] `P5-13.2` self-attention으로 이어지는 흐름
+- [ ] `P5-13.3` 보충학습: query, key, value와 multi-head attention
+
+#### Chapter 14. Transformer `딥러닝 구조`
+
+- [ ] `P5-14.1` Transformer의 기본 구성
+- [ ] `P5-14.2` 병렬 처리와 긴 문맥
+
+### Module 6. 생성 모델과 샘플링
+
+#### Chapter 15. 생성 모델의 직관 `딥러닝 구조`
+
+- [ ] `P5-15.1` 생성 모델(generative model)은 무엇을 배우는가
+- [ ] `P5-15.2` 생성과 샘플링(sampling)
+
+- [ ] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
+
 ## 품질 상태 메모
 
 - 2026-07-12 재평가 기준으로 보면, Part 5의 큰 구조 방향은 맞지만 `학습 밀도`와 `레포 원칙 준수` 품질은 아직 고르지 않습니다.

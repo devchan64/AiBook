@@ -3,6 +3,134 @@
 이 문서는 Part 1 관련 섹션 메모에 남아 있던 `추가 보강 필요`, `남은 검토 사항`만 모아 둔 작업 체크리스트입니다.
 이미 본문에 반영된 설명과 집필 판단은 개별 섹션 메모에서 계속 반복하지 않고, 실제 후속 작업만 여기서 관리합니다.
 
+## 목차 기준 체크리스트
+
+이 블록은 `docs/book/table-of-contents.md`를 기준으로 Part 1의 시작/마무리 페이지, Chapter, Section을 같은 순서로 대조하기 위한 인덱스입니다. 아래의 `품질 상태 메모`, `순차 검토 기록`, `현재 결정`은 이 인덱스를 따라 읽은 뒤 남기는 근거 메모로 사용합니다.
+
+- [ ] `index.md` Part 시작 페이지와 현재 목차 설명이 일치하는지 확인한다.
+
+### Module 1. AI의 범위와 역사
+
+#### Chapter 1. AI란 무엇인가 `개념 정의`
+
+- [ ] `P1-1.1` AI라는 말의 범위
+- [ ] `P1-1.2` AI가 다루는 문제
+- [ ] `P1-1.3` AI, 머신러닝, 딥러닝, 생성형 AI의 관계
+
+#### Chapter 2. AI의 역사와 패러다임 변화 `역사와 패러다임`
+
+- [ ] `P1-2.1` 기호 기반 AI와 규칙 기반 접근
+- [ ] `P1-2.2` 탐색, 지식 표현, 확률 추론
+- [ ] `P1-2.3` 머신러닝, 딥러닝, 생성형 AI로의 흐름
+
+### Module 2. 규칙, 모델, 학습
+
+#### Chapter 3. 규칙에서 학습으로 `역사와 패러다임`
+
+- [ ] `P1-3.1` 규칙 기반 시스템의 강점과 한계
+- [ ] `P1-3.2` 데이터에서 패턴을 배운다는 것
+- [ ] `P1-3.3` 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning)
+
+#### Chapter 4. 문제를 모델로 바꾼다는 것 `모델링 관점`
+
+- [ ] `P1-4.1` 모델(model, 모형)이라는 말에 익숙해지기
+- [ ] `P1-4.2` 입력(input), 출력(output), 데이터(data)
+- [ ] `P1-4.3` 특징(feature), 표현(representation), 파라미터(parameter)
+- [ ] `P1-4.4` 문제 정의가 모델을 결정하는 방식
+
+#### Chapter 5. 학습(learning)과 모델 실행(inference) `학습 원리`
+
+- [ ] `P1-5.1` 학습(learning)은 무엇을 바꾸는가
+- [ ] `P1-5.2` 모델 실행(inference)은 무엇을 실행하는가
+- [ ] `P1-5.3` 한국어 `추론` 표현의 혼동
+
+### Module 3. 불확실성과 문제 해결
+
+#### Chapter 6. 불확실성과 확률적 판단 `수학 기초`
+
+- [ ] `P1-6.1` 불완전한 정보와 예외가 많은 문제
+- [ ] `P1-6.2` 확률(probability), 불확실성(uncertainty), 확률적 과정(stochastic) 구분
+- [ ] `P1-6.3` AI에서 확률적 판단이 쓰이는 곳
+
+#### Chapter 7. 탐색과 휴리스틱 `실무 휴리스틱`
+
+- [ ] `P1-7.1` 탐색 공간(search space)과 계산 한계(computational limit)
+- [ ] `P1-7.2` 휴리스틱(heuristic)은 무엇을 줄이는가
+- [ ] `P1-7.3` 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이
+- [ ] `P1-7.4` 보충학습: 길찾기에서 자율주행 경로 계획으로 이어지는 흐름
+
+#### Chapter 8. 학습 유형의 기본 구분 `학습 원리`
+
+- [ ] `P1-8.1` 지도학습(supervised learning): 입력(input)과 라벨(label)
+- [ ] `P1-8.2` 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
+- [ ] `P1-8.3` 강화학습(reinforcement learning): 행동(action)과 보상(reward)
+
+### Module 4. 딥러닝과 생성형 AI로의 전환
+
+#### Chapter 9. 딥러닝 패러다임의 확산 `역사와 패러다임`
+
+- [ ] `P1-9.1` 이미지 인식(image recognition)과 표현 학습(representation learning)
+- [ ] `P1-9.2` 객체 검출(object detection)과 음성 생성(speech generation) 사례
+- [ ] `P1-9.3` LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
+
+#### Chapter 10. 생성형 AI 개론 `개념 정의`
+
+- [ ] `P1-10.1` 분류(classification), 예측(prediction), 생성(generation)의 차이
+- [ ] `P1-10.2` 다음 출력 생성(next-output generation)의 직관
+- [ ] `P1-10.3` 생성 결과(output)의 품질(quality)과 위험(risk)
+
+#### Chapter 11. LLM은 어디에서 왔는가 `역사와 패러다임`
+
+- [ ] `P1-11.1` 통계적 언어 모델(statistical language model)과 임베딩(embedding)
+- [ ] `P1-11.2` RNN, Seq2Seq, Attention
+- [ ] `P1-11.3` Transformer와 사전학습 LLM(pretrained LLM)
+
+### Module 5. LLM 사용 경험의 핵심 요소
+
+#### Chapter 12. 프롬프트 입문과 LLM 사용 감각 `LLM 핵심`
+
+- [ ] `P1-12.1` 프롬프트(prompt)는 무엇을 지정하는가
+- [ ] `P1-12.2` 지시(instruction), 맥락(context), 예시(example)
+- [ ] `P1-12.3` 프롬프트(prompt)의 한계(limit)와 첫 검증 기준
+
+#### Chapter 13. 임베딩과 벡터 검색 `LLM 핵심`
+
+- [ ] `P1-13.1` 텍스트(text)를 벡터(vector)로 표현한다는 것
+- [ ] `P1-13.2` 유사도 검색(similarity search)의 직관
+- [ ] `P1-13.3` RAG(retrieval-augmented generation)로 이어지는 문제의식
+- [ ] `P1-13.4` 벡터 검색(vector search) 구현의 직관
+
+#### Chapter 14. AI 서비스 아키텍처와 실행 환경 `서비스 구조`
+
+- [ ] `P1-14.1` 모델(model), 앱(application), 데이터(data), 도구(tool)
+- [ ] `P1-14.2` RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치
+- [ ] `P1-14.3` 에이전트(agent)라는 말의 위치
+- [ ] `P1-14.4` MCP(Model Context Protocol)의 개념적 위치
+- [ ] `P1-14.5` 하네스(harness)와 평가 실행 환경
+- [ ] `P1-14.6` AI 서비스 제약의 개요
+
+### Module 6. 사회적 쟁점과 적용
+
+#### Chapter 15. AI 윤리, 저작권, 보안 `법과 정책`
+
+- [ ] `P1-15.1` 편향(bias), 안전성(safety), 책임(accountability)
+- [ ] `P1-15.2` 저작권(copyright)과 학습 데이터(training data)
+- [ ] `P1-15.3` 보안(security)과 개인정보(privacy)
+
+#### Chapter 16. 실무 적용 사례 `프로젝트 실습`
+
+- [ ] `P1-16.1` 개인 학습(personal learning)과 문서화(documentation)
+- [ ] `P1-16.2` 업무 자동화(work automation)와 검색(search)
+- [ ] `P1-16.3` 프로젝트(project)로 검증하는 방법
+
+#### Chapter 17. 앞으로의 AI `전망`
+
+- [ ] `P1-17.1` 전망(forecast)은 어떤 근거로 다룰 것인가
+- [ ] `P1-17.2` 언론(news), 칼럼(column), 보고서(report) 읽기
+- [ ] `P1-17.3` 예측(prediction)과 작업 가설(working hypothesis) 구분
+
+- [ ] `summary.md` Part 마무리 페이지와 현재 목차 설명이 일치하는지 확인한다.
+
 ## 품질 상태 메모
 
 - `2026-07-05` Part 1 시작/마무리 페이지 재점검에서는 내부 메모 누수나 특정 도메인 침범보다, 이미 정리된 회수 위치와 용어 경계를 안정적으로 유지하는 쪽이 더 중요하다는 판단을 다시 확인했습니다.
