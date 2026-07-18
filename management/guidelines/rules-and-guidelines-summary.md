@@ -27,7 +27,7 @@
 | `AGENTS.md` | 초심자 설명·예시 보강 기준 | 새 Section 초안, 예시 보강, 보충학습 분리 판단 전 |
 | `management/guidelines/chart-guidelines.md` | 차트·도식 작성과 검증 기준 | Mermaid, SVG, 차트 추가·수정 전 |
 | `management/release-notes/sections/README.md` | Section 버전 코드와 릴리즈노트 관리 기준 | Section 수정, 번역본 동기화, 개정 이력 기록 전 |
-| `management/authoring/part-XX-open-checklist.md` | Part별 미반영 작업 체크리스트 | 기존 메모 정리, 후속 작업 우선순위 점검 전 |
+| `management/authoring/part-XX-open-checklist.md` | Part별 체크포인트 노트 | 목차 기준 중심 주제 정리, Part 흐름 점검 전 |
 
 ### 3. 보조 메모와 분석 문서
 
@@ -52,7 +52,7 @@
 - 원칙 문서와 가이드라인 문서는 별도 리비전노트를 두지 않고 문서 자체를 직접 갱신합니다.
 - `author-notes.md`: 본문 규칙 문서가 아니라, 저자 관점 문장을 안전하게 일반화하기 위한 메모입니다. 사실 주장 근거 문서로 사용하지 않습니다.
 - `section-...-evidence-analysis.md`: 개별 Section의 근거, 용어, 출처 충돌, 회수 위치를 기록하는 문서입니다. 전역 규칙은 아니지만, 해당 절 수정 시에는 실질적으로 가장 가까운 작업 메모입니다.
-- `part-XX-open-checklist.md`: 이미 반영된 설명을 반복 저장하지 않고, 각 Part에서 아직 남은 작업만 추린 체크리스트입니다.
+- `part-XX-open-checklist.md`: 순차 점검 기록을 쌓는 문서가 아니라, 각 Part의 Section이 담아야 할 중심 주제를 목차 순서대로 개괄한 체크포인트 노트입니다.
 
 ## 작업 유형별 참조 순서
 
@@ -62,7 +62,7 @@
 2. `management/guidelines/manuscript-writing-workflow.md`
 3. 필요하면 해당 `section-...-evidence-analysis.md`
 4. 문단 재구성이 크면 `management/guidelines/manuscript-writing-workflow.md`의 문단 구조 점검 메모를 같이 본다.
-5. Part 수준 후속 작업이 있으면 해당 `part-XX-open-checklist.md`
+5. Part 수준 흐름과 중심 주제를 다시 잡아야 하면 해당 `part-XX-open-checklist.md`
 6. 실제로 수정한 Section이라면 `management/release-notes/sections/README.md`를 따라 버전 코드와 릴리즈노트도 함께 갱신한다.
 7. 번역본이 아직 없더라도 릴리즈노트에 번역 반영 필요 여부를 남긴다.
 
@@ -89,8 +89,8 @@
 
 - `section-...-evidence-analysis.md`에는 근거와 용어 판단, 현재 본문에서 아직 중요한 경계만 남깁니다.
 - 이미 본문에 반영된 집필 메모나 끝난 작업 목록은 Section 메모에 계속 누적하지 않습니다.
-- 후속 작업은 가능한 한 `part-XX-open-checklist.md`로 옮겨 Part 단위로 관리합니다.
-- `review`, `plan`, `curriculum-review` 문서의 남은 항목을 Part 체크리스트로 옮겼다면 원본 문서는 삭제해도 됩니다.
+- Part 수준 메모는 가능한 한 `part-XX-open-checklist.md`에서 목차 기준 중심 주제만 유지하고, 순차 점검 기록은 별도 운영 문서로 누적하지 않습니다.
+- `review`, `plan`, `curriculum-review` 문서의 남은 항목을 정리할 때도 Part 체크포인트 노트에는 작업 로그 대신 중심 주제와 구조 판단만 남깁니다.
 - evidence 메모를 폐기할 때는 대응 원고 본문과 참고문헌 반영을 먼저 대조하고, 구조가 어긋나는 메모는 자동 폐기하지 않습니다.
 
 ## 핵심 리마인더
