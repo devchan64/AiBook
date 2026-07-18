@@ -140,6 +140,8 @@ ANN 설정을 더 공격적으로 조정해 속도는 빨라졌는데, 정작 �
 
 이번 예제의 목표는 `전수 비교`와 `빠른 후보 축소`를 나란히 놓고, 왜 ANN이 실무에서 필요한지 직접 보는 것입니다. 실제 ANN 인덱스를 구현하지는 않지만, 모든 후보를 다 보는 방식과 일부 후보만 먼저 좁혀 보는 방식을 비교하면 핵심 감각은 잡을 수 있습니다.
 
+여기서 직접 바꿔 볼 값은 `coarse_window`입니다. 이 값이 넓으면 더 많은 후보를 비교하므로 후보 누락 위험이 줄고, 좁으면 비교 후보 수가 줄어드는 대신 가까운 후보 일부를 놓칠 수 있습니다.
+
 입력:
 
 - 하나의 질의 벡터
@@ -148,12 +150,12 @@ ANN 설정을 더 공격적으로 조정해 속도는 빨라졌는데, 정작 �
 출력:
 
 - 전수 비교 결과
-- 빠른 후보 축소 결과
-- 각 방식이 실제로 비교한 후보 수
+- `coarse_window`를 바꿨을 때의 빠른 후보 축소 결과
+- 각 방식이 실제로 비교한 후보 수와 놓친 상위 후보
 
 문제 상황:
 
-- 모든 후보를 다 보는 방식은 안전하지만, 후보 수가 커질수록 느려질 수 있다
+- 모든 후보를 다 보는 방식은 안전하지만, 후보 수가 커질수록 느려질 수 있고, 빠른 후보 축소는 설정을 너무 공격적으로 잡으면 중요한 후보를 놓칠 수 있다
 
 ```python
 def squared_distance(a, b):
@@ -172,45 +174,56 @@ full_scan = sorted(
     ((name, squared_distance(query, vec)) for name, vec in docs.items()),
     key=lambda x: x[1],
 )
-full_scan_ops = len(docs)
 
-coarse_candidates = {
-    name: vec for name, vec in docs.items() if abs(vec[0] - query[0]) <= 0.2
-}
-fast_scan = sorted(
-    ((name, squared_distance(query, vec)) for name, vec in coarse_candidates.items()),
-    key=lambda x: x[1],
-)
-fast_scan_ops = len(coarse_candidates)
+def fast_scan_with_window(coarse_window):
+    coarse_candidates = {
+        name: vec for name, vec in docs.items() if abs(vec[0] - query[0]) <= coarse_window
+    }
+    ranked = sorted(
+        ((name, squared_distance(query, vec)) for name, vec in coarse_candidates.items()),
+        key=lambda x: x[1],
+    )
+    return ranked, len(coarse_candidates)
+
+balanced_scan, balanced_ops = fast_scan_with_window(coarse_window=0.20)
+aggressive_scan, aggressive_ops = fast_scan_with_window(coarse_window=0.03)
+
+full_top2 = {name for name, _ in full_scan[:2]}
+aggressive_top = {name for name, _ in aggressive_scan}
+missed_from_top2 = sorted(full_top2 - aggressive_top)
 
 print("full_scan =", [(name, round(distance, 3)) for name, distance in full_scan])
-print("fast_scan =", [(name, round(distance, 3)) for name, distance in fast_scan])
-print("full_scan_ops =", full_scan_ops)
-print("fast_scan_ops =", fast_scan_ops)
+print("balanced_scan =", [(name, round(distance, 3)) for name, distance in balanced_scan])
+print("aggressive_scan =", [(name, round(distance, 3)) for name, distance in aggressive_scan])
+print("ops =", {"full": len(docs), "balanced": balanced_ops, "aggressive": aggressive_ops})
+print("missed_from_full_top2 =", missed_from_top2)
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
 full_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004), ('shipping_delay', 0.453), ('coupon_event', 0.565), ('change_address', 0.72)]
-fast_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004)]
-full_scan_ops = 5
-fast_scan_ops = 2
+balanced_scan = [('refund_policy', 0.001), ('cancel_payment', 0.004)]
+aggressive_scan = [('refund_policy', 0.001)]
+ops = {'full': 5, 'balanced': 2, 'aggressive': 1}
+missed_from_full_top2 = ['cancel_payment']
 ```
 
 이 예제에서 읽어야 할 핵심은 다음입니다.
 
 - 전수 비교는 모든 후보를 다 보므로 가장 안전하지만 후보 수가 커질수록 느려집니다.
-- 빠른 후보 축소는 일부 후보를 먼저 제외하는 대신, 실제로 가까울 가능성이 높은 항목을 훨씬 빨리 좁힙니다.
-- ANN의 실무 감각도 이와 비슷하게 `완벽한 전수 비교`보다 `충분히 좋은 근접 후보를 빨리 찾는 구조`에 가깝습니다.
+- `coarse_window=0.20`인 완만한 후보 축소는 비교 후보 수를 2개로 줄이면서도 전수 비교의 상위 2개를 유지합니다.
+- `coarse_window=0.03`인 공격적인 후보 축소는 비교 후보 수를 1개로 더 줄이지만, 전수 비교 상위 2개 안에 있던 `cancel_payment`를 놓칩니다.
+- ANN의 실무 감각도 이와 비슷하게 `완벽한 전수 비교`보다 `충분히 좋은 근접 후보를 빨리 찾되, 후보 누락을 함께 관리하는 구조`에 가깝습니다.
 
 예제를 읽은 뒤에는 아래 질문에 먼저 답해 봅니다.
 
 | 질문 | 해설 |
 | --- | --- |
-| 전수 비교는 몇 개 후보를 비교했는가 | `full_scan_ops = 5`이므로 모든 후보 5개를 비교했습니다. 후보 누락 위험은 작지만 후보 수가 커지면 비교 비용이 그대로 늘어납니다. |
-| 빠른 후보 축소는 몇 개 후보만 비교했는가 | `fast_scan_ops = 2`이므로 1차 조건을 통과한 2개만 비교했습니다. 속도는 좋아지지만 조건 밖의 후보를 놓칠 수 있습니다. |
-| 이 예제에서 ANN의 핵심 감각은 무엇인가 | 모든 벡터를 끝까지 비교하지 않고, 가까울 가능성이 높은 후보를 먼저 좁혀 실무 속도를 얻는 절충입니다. |
+| 전수 비교는 몇 개 후보를 비교했는가 | `ops`에서 `full`이 `5`이므로 모든 후보 5개를 비교했습니다. 후보 누락 위험은 작지만 후보 수가 커지면 비교 비용이 그대로 늘어납니다. |
+| 완만한 후보 축소는 몇 개 후보만 비교했는가 | `ops`에서 `balanced`가 `2`이므로 1차 조건을 통과한 2개만 비교했습니다. 전수 비교보다 적게 보면서도 이 예시에서는 상위 후보를 유지했습니다. |
+| 공격적인 후보 축소에서는 무엇을 놓쳤는가 | `missed_from_full_top2 = ['cancel_payment']`이므로 전수 비교 상위 2개 중 `cancel_payment`를 놓쳤습니다. 후보 축소 조건이 너무 좁으면 속도는 좋아져도 recall 손실이 생길 수 있습니다. |
+| 이 예제에서 ANN의 핵심 감각은 무엇인가 | 모든 벡터를 끝까지 비교하지 않고, 가까울 가능성이 높은 후보를 먼저 좁혀 실무 속도를 얻되, 설정이 후보 누락을 만들 수 있음을 함께 보는 절충입니다. |
 
 ### 연습 1. 전수 비교와 빠른 후보 축소 구분하기
 
