@@ -458,7 +458,9 @@ nav:
           - Chapter P6-3. Transformer 구조 복습:
               - "P6-3.1 Transformer를 LLM 관점에서 다시 읽기": parts/part-06/chapter-03/section-01.md
               - "P6-3.2 attention과 context window": parts/part-06/chapter-03/section-02.md
-              - "P6-3.3 보충학습: 위치 표현, multi-head attention, KV cache, sparse attention, long-context를 처음 읽는 법": parts/part-06/chapter-03/section-03.md
+              - "P6-3.3 보충학습: 위치 표현과 multi-head attention을 처음 읽는 법": parts/part-06/chapter-03/section-03.md
+              - "P6-3.4 보충학습: KV cache를 처음 읽는 법": parts/part-06/chapter-03/section-04.md
+              - "P6-3.5 보충학습: sparse attention과 long-context를 처음 읽는 법": parts/part-06/chapter-03/section-05.md
           - Chapter P6-4. GPT 계열:
               - "P6-4.1 GPT 계열의 위치": parts/part-06/chapter-04/section-01.md
               - "P6-4.2 대화형 LLM으로의 전환": parts/part-06/chapter-04/section-02.md

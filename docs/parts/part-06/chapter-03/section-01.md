@@ -1,7 +1,7 @@
 # P6-3.1 Transformer를 LLM 관점에서 다시 읽기
 
 > Section ID: `P6-3.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.18`
 
 Part 5에서 본 Transformer 구조를 이제 Part 6의 생성형 언어 모델 본류 안으로 다시 가져와야 합니다.
 
@@ -21,7 +21,7 @@ LLM에서 Transformer는 토큰들을 임베딩으로 바꾸고, self-attention�
 - 토큰, 임베딩, self-attention, 다음 토큰 예측은 어떻게 이어지는가?
 - 왜 Transformer는 생성형 언어 모델의 기본 구조가 되었는가?
 
-Transformer 블록의 큰 구조는 여기서 잡고, multi-head attention, 위치 표현, KV cache처럼 구현 감각이 더 필요한 이름은 같은 장의 P6-3.3 보충학습에서 다시 읽습니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P6-16.1 서비스 운영 제약에서 연결합니다.
+Transformer 블록의 큰 구조는 여기서 잡고, multi-head attention과 위치 표현은 같은 장의 P6-3.3 보충학습에서, KV cache는 P6-3.4에서, sparse attention과 long-context 주변 구현 감각은 P6-3.5에서 다시 읽습니다. 서비스 운영 관점의 지연 시간과 비용 제약은 뒤의 P6-16.1 서비스 운영 제약에서 연결합니다.
 
 이 절에서는 Transformer 공식을 다시 전개하기보다, Part 6에서 다룰 GPT, pretraining, next-token prediction, RAG, agent 설명을 모두 떠받치는 `LLM 기준의 구조 지도`를 다시 잡습니다.
 

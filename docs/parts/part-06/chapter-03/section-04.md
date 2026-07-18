@@ -1,0 +1,289 @@
+# P6-3.4 보충학습: KV cache를 처음 읽는 법
+
+> Section ID: `P6-3.4`
+> Version: `v2026.07.18`
+
+P6-3.2에서는 attention과 context window가 입력 범위 제한과 연결된다는 점을 보았고, P6-3.3에서는 multi-head attention과 위치 표현이 문맥 읽기 방식에 어떤 보강을 하는지 정리했습니다. 이제 초심자가 다음으로 자주 막히는 이름은 `KV cache`입니다.
+
+왜 긴 대화나 긴 생성에서는 같은 구조라도 점점 느려지는가?
+
+이 질문을 풀기 위해 먼저 붙잡아야 하는 것이 `이전 계산 일부를 다시 쓰는가`라는 관점입니다. 여기서는 KV cache를 그 재사용 장치로 읽습니다.
+
+## 이 보충학습의 범위
+
+- KV cache는 왜 대화형 생성 속도와 연결되는가?
+- KV cache는 모델의 뜻을 바꾸는 장치인가, 반복 계산을 줄이는 장치인가?
+- context window가 길어질수록 KV cache가 왜 더 중요해지는가?
+
+이 절에서는 `반복 생성 재사용 문제`를 먼저 닫습니다.
+
+| 지금 이 보충학습에서 읽는 것 | 뒤 장이나 뒤 Part로 넘기는 것 |
+| --- | --- |
+| 이전 계산 일부를 저장해 다음 step에서 다시 쓰는 KV cache의 기본 뜻 | 실제 서빙 엔진별 캐시 관리 방식 |
+| 같은 결과를 유지하면서 projection 부담을 줄인다는 감각 | 운영 지연 시간과 비용 최적화 판단 |
+
+context window 제약 자체는 본류인 P6-3.2에서 이미 설명했고, KV cache가 운영 지연 시간과 비용에 미치는 영향은 P6-16.1에서 다시 회수합니다. 긴 문맥 자체를 더 잘 유지하는 문제와 sparse attention은 다음 P6-3.5에서 이어집니다.
+
+## 이 보충학습의 목표
+
+- KV cache를 `이전 계산 일부를 재사용해 반복 생성 부담을 줄이는 장치`로 설명할 수 있습니다.
+- KV cache가 모델의 마지막 attention 결과를 바꾸기보다 같은 결과를 더 적은 재계산으로 만들려는 장치라는 점을 말할 수 있습니다.
+- 긴 대화나 긴 코드 생성에서 왜 KV cache가 체감 속도와 연결되는지 설명할 수 있습니다.
+
+## KV cache는 왜 중요한가
+
+대화형 생성에서는 한 토큰을 만들고, 다시 다음 토큰을 만듭니다. 이때 이전 계산을 매번 처음부터 다시 하면 매우 비효율적입니다.
+
+KV cache는 앞에서 계산한 일부 attention 관련 값을 재사용해, 다음 토큰 생성 때 속도를 높이는 장치로 이해하면 됩니다.
+
+이 기준을 한 줄로 줄이면 다음과 같습니다.
+
+`같은 결과를 유지하면서 무엇을 다시 계산하지 않을 것인가?`
+
+context window가 길수록 반복 생성 부담도 커지기 때문에, KV cache는 특히 긴 대화나 긴 코드 생성에서 체감 속도와 연결되기 쉽습니다.
+
+## 무엇이 바뀌고 무엇은 안 바뀌나
+
+KV cache를 처음 읽을 때 가장 중요한 구분은 `모델이 더 똑똑해지는가`와 `같은 계산을 덜 반복하는가`를 나누는 일입니다.
+
+| 질문 | KV cache 관점에서 먼저 남길 답 |
+| --- | --- |
+| 답의 뜻이 달라지나? | 핵심 목적은 뜻 변경보다 재계산 감소에 가깝다 |
+| 왜 긴 대화일수록 중요해지나? | 이전 토큰 수가 늘수록 다시 투영해야 할 양도 커지기 때문이다 |
+| 어떤 감각으로 읽으면 되나? | `같은 결과를 더 적은 반복 계산으로 만든다`는 감각 |
+
+## 사례 및 예시
+
+### 사례 1. 채팅형 코딩 도우미가 점점 느려지는 경우
+
+같은 코드 파일을 두고 여러 턴을 이어 가는 코딩 도우미를 생각해 보겠습니다. 사람은 같은 파일을 계속 보고 있으니 다음 답도 비슷한 속도로 이어지길 기대합니다. 하지만 이전 토큰 관계를 매번 처음부터 다시 계산하면, 턴이 길어질수록 응답 지연이 눈에 띄게 커질 수 있습니다. 여기서 바뀌는 점은 앞에서 이미 계산한 일부 관계를 다시 처음부터 풀지 않는다는 것입니다. KV cache는 앞에서 계산한 일부 attention 관련 값을 재사용해 이 반복 부담을 줄입니다. 이 사례에서 확인해야 할 결과는 `대화가 길어질수록 캐시 재사용 여부가 체감 지연 시간 차이로 드러나는가`입니다.
+
+### 사례 2. 긴 문서를 바탕으로 초안 생성이 이어질 때
+
+긴 정책 문서를 넣고 요약 초안을 만들고, 다시 그 초안을 다듬고, 이어서 예외 조항만 다시 설명하게 하는 장면을 떠올려 보겠습니다. 초심자는 같은 문서를 보고 계속 답하니 속도도 대체로 비슷할 것이라고 기대하기 쉽습니다. 하지만 앞에서 본 토큰을 매번 다시 처음부터 계산하면, 문맥이 길수록 다음 step의 부담도 같이 커집니다. 이 사례에서 확인해야 할 결과는 `같은 문맥을 계속 이어 쓸수록 재사용 장치가 왜 더 중요해지는가`입니다.
+
+## 연습 및 예제
+
+이번 예제의 목표는 `KV cache가 실제로 무엇을 저장하고, 턴이 길어질수록 얼마나 많은 재계산을 막는가`를 보이는 것입니다. 이번에는 토큰 ID를 작은 임베딩과 query/key/value 투영에 실제로 통과시켜, 마지막 토큰의 attention 결과가 캐시 유무와 상관없이 같게 나오면서도 재투영량은 어떻게 줄어드는지 함께 확인합니다.
+
+핵심 비교는 다음입니다.
+
+- 캐시가 없으면 새 토큰을 만들 때마다 지금까지의 모든 토큰을 다시 K/V로 바꿉니다.
+- 캐시가 있으면 이전 토큰의 K/V는 저장해 두고, 새 토큰의 K/V만 추가합니다.
+- 두 방식의 마지막 attention 출력은 같아야 합니다. 달라지는 것은 `얼마나 다시 계산했는가`입니다.
+
+입력:
+
+- 이미 본 prefix 토큰
+- 새로 이어서 생성할 토큰
+
+출력:
+
+- 캐시 없이 각 step에서 다시 계산한 K/V 행렬 shape와 마지막 토큰 attention 결과
+- 캐시를 쓸 때 유지되는 K/V cache shape와 마지막 토큰 attention 결과
+- 두 방식의 step별 projection 대상 토큰 수
+- 두 방식의 총 projection 대상 토큰 수와 절감 비율
+
+문제 상황:
+
+- KV cache는 이전 토큰 계산을 재사용해 생성 비용을 줄인다는 점을 step별로 직접 비교해 보는 편이 이해에 도움이 된다
+
+입력(input):
+
+위에 정리한 토큰 사전과 입력 시퀀스를 사용합니다.
+
+확인할 개념:
+
+- KV cache는 이전 토큰의 계산 결과를 재사용해 이후 step의 projection 부담을 줄인다
+
+```python
+import numpy as np
+
+token_to_id = {
+    "사용자": 0,
+    "로그인": 1,
+    "오류": 2,
+    "재현": 3,
+    "완료": 4,
+}
+
+embedding_table = np.array(
+    [
+        [1.0, 0.2, 0.0],
+        [0.5, 1.0, 0.1],
+        [1.2, 0.8, 0.4],
+        [0.3, 1.1, 0.9],
+        [0.7, 0.4, 1.3],
+    ]
+)
+
+W_k = np.array(
+    [
+        [0.8, 0.1],
+        [0.2, 0.7],
+        [0.5, 0.6],
+    ]
+)
+
+W_v = np.array(
+    [
+        [0.3, 0.9],
+        [0.6, 0.2],
+        [0.4, 0.8],
+    ]
+)
+
+W_q = np.array(
+    [
+        [0.7, 0.2],
+        [0.1, 0.8],
+        [0.6, 0.5],
+    ]
+)
+
+prefix_token_ids = [token_to_id["사용자"], token_to_id["로그인"], token_to_id["오류"]]
+generated_token_ids = [token_to_id["재현"], token_to_id["완료"]]
+
+def project_to_kv(token_ids):
+    embeddings = embedding_table[token_ids]
+    keys = embeddings @ W_k
+    values = embeddings @ W_v
+    return keys, values
+
+def project_query(token_id):
+    embedding = embedding_table[[token_id]]
+    return embedding @ W_q
+
+def attention_for_last_token(query, keys, values):
+    scores = (query @ keys.T) / np.sqrt(keys.shape[1])
+    shifted = scores - np.max(scores)
+    weights = np.exp(shifted) / np.sum(np.exp(shifted))
+    context = weights @ values
+    return weights, context
+
+def decode_without_cache(prefix_ids, new_ids):
+    seen_ids = prefix_ids[:]
+    projected_token_count = 0
+    step_logs = []
+
+    for new_id in new_ids:
+        seen_ids.append(new_id)
+        keys, values = project_to_kv(seen_ids)
+        query = project_query(new_id)
+        weights, context = attention_for_last_token(query, keys, values)
+        projected_token_count += len(seen_ids)
+        step_logs.append((new_id, len(seen_ids), keys, values, weights, context))
+
+    return step_logs, projected_token_count
+
+def decode_with_cache(prefix_ids, new_ids):
+    cached_keys, cached_values = project_to_kv(prefix_ids)
+    projected_token_count = len(prefix_ids)
+    step_logs = [("prefix_loaded", len(prefix_ids), cached_keys.copy(), cached_values.copy())]
+
+    for new_id in new_ids:
+        new_keys, new_values = project_to_kv([new_id])
+        cached_keys = np.vstack([cached_keys, new_keys])
+        cached_values = np.vstack([cached_values, new_values])
+        query = project_query(new_id)
+        weights, context = attention_for_last_token(query, cached_keys, cached_values)
+        projected_token_count += 1
+        step_logs.append((new_id, 1, cached_keys.copy(), cached_values.copy(), weights, context))
+
+    return step_logs, projected_token_count
+
+no_cache_logs, no_cache_count = decode_without_cache(prefix_token_ids, generated_token_ids)
+with_cache_logs, with_cache_count = decode_with_cache(prefix_token_ids, generated_token_ids)
+saved_ratio = round(1 - (with_cache_count / no_cache_count), 3)
+
+print("[without cache]")
+for token_id, projected_now, keys, values, weights, context in no_cache_logs:
+    print("new_token_id =", token_id)
+    print("projected_now =", projected_now)
+    print("keys_shape =", keys.shape, "values_shape =", values.shape)
+    print("attention_weights =", np.round(weights, 3))
+    print("context =", np.round(context, 3))
+    print("last_key_row =", np.round(keys[-1], 2))
+    print("last_value_row =", np.round(values[-1], 2))
+
+print("[with cache]")
+for token_id, projected_now, keys, values, weights, context in with_cache_logs:
+    print("step =", token_id)
+    print("projected_now =", projected_now)
+    print("keys_shape =", keys.shape, "values_shape =", values.shape)
+    if token_id != "prefix_loaded":
+        print("attention_weights =", np.round(weights, 3))
+        print("context =", np.round(context, 3))
+        print("last_key_row =", np.round(keys[-1], 2))
+        print("last_value_row =", np.round(values[-1], 2))
+
+print("step_output_match_1 =", np.allclose(no_cache_logs[0][5], with_cache_logs[1][5]))
+print("step_output_match_2 =", np.allclose(no_cache_logs[1][5], with_cache_logs[2][5]))
+
+print("no_cache_projected_token_count =", no_cache_count)
+print("with_cache_projected_token_count =", with_cache_count)
+print("saved_ratio =", saved_ratio)
+```
+
+실행 결과 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[without cache]
+new_token_id = 3
+projected_now = 4
+keys_shape = (4, 2) values_shape = (4, 2)
+attention_weights = [[0.121 0.189 0.317 0.373]]
+context = [[0.931 1.197]]
+last_key_row = [0.91 1.34]
+last_value_row = [1.11 1.21]
+new_token_id = 4
+projected_now = 5
+keys_shape = (5, 2) values_shape = (5, 2)
+attention_weights = [[0.095 0.124 0.252 0.24  0.289]]
+context = [[0.937 1.369]]
+last_key_row = [1.29 1.13]
+last_value_row = [0.97 1.75]
+[with cache]
+step = prefix_loaded
+projected_now = 3
+keys_shape = (3, 2) values_shape = (3, 2)
+step = 3
+projected_now = 1
+keys_shape = (4, 2) values_shape = (4, 2)
+attention_weights = [[0.121 0.189 0.317 0.373]]
+context = [[0.931 1.197]]
+last_key_row = [0.91 1.34]
+last_value_row = [1.11 1.21]
+step = 4
+projected_now = 1
+keys_shape = (5, 2) values_shape = (5, 2)
+attention_weights = [[0.095 0.124 0.252 0.24  0.289]]
+context = [[0.937 1.369]]
+last_key_row = [1.29 1.13]
+last_value_row = [0.97 1.75]
+step_output_match_1 = True
+step_output_match_2 = True
+no_cache_projected_token_count = 9
+with_cache_projected_token_count = 5
+saved_ratio = 0.444
+```
+
+이 예제에서 읽어야 할 핵심은 다음입니다.
+
+- 두 방식 모두 같은 step의 `attention_weights`와 `context`가 일치합니다.
+- 즉, KV cache는 마지막 attention 결과를 바꾸려는 장치가 아니라 `같은 결과를 더 적은 재계산으로 만들려는 장치`입니다.
+- 차이는 `앞에서 본 prefix 토큰의 K/V를 다시 투영했는가`에 있습니다.
+- 캐시가 없으면 첫 새 토큰에서는 4개, 다음 토큰에서는 5개를 다시 투영하지만, 캐시가 있으면 새 토큰마다 1개만 추가 투영합니다.
+- 그래서 prefix가 길어질수록 `projected_token_count` 차이가 빠르게 커집니다.
+
+## 체크리스트
+
+- KV cache는 긴 생성에서 반복 계산 비용을 줄이기 위한 실용 장치입니다.
+- KV cache는 모델 뜻을 바꾸기보다 같은 결과를 더 적은 재계산으로 만드는 장치입니다.
+- 긴 대화와 긴 코드 생성처럼 문맥이 누적될수록 KV cache의 체감 가치가 커집니다.
+- 다음 P6-3.5에서는 `모든 연결을 다 유지해야 하는가`, `긴 입력을 실제로 유지할 수 있는가`라는 장문맥 설계 문제를 따로 읽습니다.
+
+## 출처와 참고 자료
+
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS, 2017, 확인 날짜: 2026-06-29.
+- Hugging Face, KV cache와 generation 관련 문서, 확인 날짜: 2026-06-29.
