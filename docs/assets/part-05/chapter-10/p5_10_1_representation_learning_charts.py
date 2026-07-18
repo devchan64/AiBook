@@ -71,6 +71,24 @@ LANG_TEXT = {
         "close_score": "same score",
         "far_rep": "farther in representation",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "risk_outfile": "representation-risk-score-zh.png",
+        "coordinate_outfile": "representation-coordinate-space-zh.png",
+        "line": "line",
+        "risk_score": "hand-crafted risk score",
+        "axis_1": "数据驱动表征轴 1",
+        "axis_2": "数据驱动表征轴 2",
+        "close_score": "分数相同",
+        "far_rep": "表征坐标更远",
+    },
 }
 
 

@@ -1,0 +1,21 @@
+flowchart TD
+  A["共同问题：第一轴是什么？"]
+
+  subgraph TAB["表格数据"]
+    B["(batch, feature)"]
+    C["batch 后面剩下 feature 轴"]
+  end
+
+  subgraph IMG["图片"]
+    D["(batch, channel, height, width)"]
+    E["batch 后面剩下 channel 与空间轴"]
+  end
+
+  subgraph TXT["文本"]
+    F["(batch, sequence, embedding)"]
+    G["batch 后面剩下 token 与 embedding 轴"]
+  end
+
+  A --> B --> C
+  A --> D --> E
+  A --> F --> G

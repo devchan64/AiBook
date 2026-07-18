@@ -1,0 +1,13 @@
+flowchart TD
+  A["样本 1"]
+  B["样本 2"]
+  C["样本 3"]
+  D["batch tensor"]
+  E["同一个模型计算"]
+  F["batch 输出"]
+
+  A --> D
+  B --> D
+  C --> D
+  D --> E
+  E --> F

@@ -58,6 +58,27 @@ LANG_TEXT = {
         "large_init": "large init",
         "very_large_init": "very large init",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "raw_range_outfile": "deep-scale-raw-range-zh.png",
+        "raw_variance_outfile": "deep-scale-raw-variance-zh.png",
+        "bn_range_outfile": "deep-scale-bn-range-zh.png",
+        "layer_label": "层",
+        "raw_range_ylabel": "raw activation range 宽度",
+        "raw_variance_ylabel": "raw variance",
+        "bn_range_ylabel": "BN 后 activation range 宽度",
+        "small_init": "小初始化",
+        "medium_init": "中等初始化",
+        "large_init": "大初始化",
+        "very_large_init": "很大的初始化",
+    },
 }
 
 

@@ -1,0 +1,7 @@
+flowchart TD
+    A["案例 1：neuron 从同样模式开始"] --> B["检查 initialization 是否让起点分开"]
+    B --> C["案例 1：数值在更深层里继续变大"]
+    C --> D["检查重复计算是否还能把数值留在可处理范围"]
+    D --> E["案例 1：不同 batch 的中间 activation 摇晃很大"]
+    E --> F["检查 batch normalization 是否重新整理中间 distribution"]
+    F --> G["案例 2：深层网络变得没那么容易摇晃"]

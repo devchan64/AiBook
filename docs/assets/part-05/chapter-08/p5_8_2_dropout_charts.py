@@ -54,6 +54,25 @@ LANG_TEXT = {
         "eval": "evaluation mode",
         "dropped": "dropped unit",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "activation_outfile": "dropout-activation-values-zh.png",
+        "sum_outfile": "dropout-sum-comparison-zh.png",
+        "node_label": "隐藏单元",
+        "value_label": "激活值",
+        "sum_label": "激活值总和",
+        "before": "dropout 前",
+        "train": "训练模式",
+        "eval": "评估模式",
+        "dropped": "被关闭的节点",
+    },
 }
 
 

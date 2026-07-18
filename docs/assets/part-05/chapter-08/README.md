@@ -4,28 +4,46 @@
 - Current deployment references:
   - Korean pages reference `-ko.mmd`.
   - English pages reference `-en.mmd`.
+  - Chinese pages should reference `-zh.mmd`.
 - The matching `-en.mmd` files remain in this directory as canonical English originals.
 - When updating a Mermaid diagram pair, revise the English structure first, then sync the Korean derivative so both files keep the same conceptual flow and node relationships.
 - Current language pairs:
   - `dropout-case-reading-flow-en.mmd` / `dropout-case-reading-flow-ko.mmd`
+  - `dropout-case-reading-flow-en.mmd` / `dropout-case-reading-flow-zh.mmd`
   - `dropout-mode-reading-flow-en.mmd` / `dropout-mode-reading-flow-ko.mmd`
+  - `dropout-mode-reading-flow-en.mmd` / `dropout-mode-reading-flow-zh.mmd`
   - `dropout-path-flow-en.mmd` / `dropout-path-flow-ko.mmd`
+  - `dropout-path-flow-en.mmd` / `dropout-path-flow-zh.mmd`
   - `regularization-case-reading-flow-en.mmd` / `regularization-case-reading-flow-ko.mmd`
+  - `regularization-case-reading-flow-en.mmd` / `regularization-case-reading-flow-zh.mmd`
   - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-ko.mmd`
+  - `regularization-fit-complexity-compare-en.mmd` / `regularization-fit-complexity-compare-zh.mmd`
   - `regularization-role-flow-en.mmd` / `regularization-role-flow-ko.mmd`
+  - `regularization-role-flow-en.mmd` / `regularization-role-flow-zh.mmd`
   - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-ko.mmd`
+  - `stabilization-bridge-flow-en.mmd` / `stabilization-bridge-flow-zh.mmd`
   - `stabilization-case-reading-flow-en.mmd` / `stabilization-case-reading-flow-ko.mmd`
+  - `stabilization-case-reading-flow-en.mmd` / `stabilization-case-reading-flow-zh.mmd`
 - SVG chart assets:
   - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`
+  - `train-validation-overfit-en.svg` / `train-validation-overfit-zh.svg`
 - PNG chart assets:
   - `dropout-activation-values-en.png` / `dropout-activation-values-ko.png`
+  - `dropout-activation-values-en.png` / `dropout-activation-values-zh.png`
   - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-ko.png`
+  - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-zh.png`
   - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-ko.png`
+  - `deep-scale-raw-range-en.png` / `deep-scale-raw-range-zh.png`
   - `deep-scale-raw-variance-en.png` / `deep-scale-raw-variance-ko.png`
+  - `deep-scale-raw-variance-en.png` / `deep-scale-raw-variance-zh.png`
   - `deep-scale-bn-range-en.png` / `deep-scale-bn-range-ko.png`
+  - `deep-scale-bn-range-en.png` / `deep-scale-bn-range-zh.png`
   - `stabilization-neuron-paths-en.png` / `stabilization-neuron-paths-ko.png`
+  - `stabilization-neuron-paths-en.png` / `stabilization-neuron-paths-zh.png`
   - `stabilization-layer-range-en.png` / `stabilization-layer-range-ko.png`
+  - `stabilization-layer-range-en.png` / `stabilization-layer-range-zh.png`
   - `stabilization-batch-spread-en.png` / `stabilization-batch-spread-ko.png`
+  - `stabilization-batch-spread-en.png` / `stabilization-batch-spread-zh.png`
 - Python chart source:
   - `p5_8_overfit_chart.py`
   - `p5_8_2_dropout_charts.py`

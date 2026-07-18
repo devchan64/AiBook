@@ -86,6 +86,27 @@ LANG_TEXT = {
         "closer_pair": "closer neighbor",
         "farther_pair": "farther pair",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "distance_outfile": "hierarchical-representation-distance-trace-zh.png",
+        "space_outfile": "hierarchical-representation-h2-space-zh.png",
+        "distance_ylabel": "batch 对距离",
+        "stage_xlabel": "表征阶段",
+        "pair_12": "batch_1 - batch_2",
+        "pair_14": "batch_1 - batch_4",
+        "axis_1": "h2 轴 1",
+        "axis_2": "h2 轴 2",
+        "batch": "batch",
+        "closer_pair": "更近的邻居",
+        "farther_pair": "仍较远的 pair",
+    },
 }
 
 

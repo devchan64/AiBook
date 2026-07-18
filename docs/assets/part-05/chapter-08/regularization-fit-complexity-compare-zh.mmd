@@ -1,0 +1,19 @@
+flowchart TD
+  A["训练数据拟合程度相同"]
+
+  subgraph HIGH["更激进的解"]
+    B["更大的权重"]
+    C["对输入变化更敏感"]
+  end
+
+  subgraph LOW["较不激进的解"]
+    D["较小的权重"]
+    E["对输入变化较不敏感"]
+  end
+
+  A --> B
+  A --> D
+  B --> C
+  D --> E
+  C --> F["较不受 regularization 偏好"]
+  E --> G["更受 regularization 偏好"]

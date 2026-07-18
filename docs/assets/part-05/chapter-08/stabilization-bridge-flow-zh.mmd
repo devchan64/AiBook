@@ -1,0 +1,9 @@
+flowchart TD
+  A["初始化<br/>起始数值"]
+  B["forward / backward<br/>数值与 gradient 흐름"]
+  C["数值稳定性<br/>避免爆炸或消失"]
+  D["batch normalization<br/>让 activation 更容易处理"]
+
+  A --> B
+  B --> C
+  C --> D

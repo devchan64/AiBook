@@ -69,6 +69,29 @@ LANG_TEXT = {
         "feature_three": "3 features",
         "feature_six": "6 features",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "score_outfile": "gpu-batch-score-comparison-zh.png",
+        "multiply_outfile": "gpu-scalar-multiply-scaling-zh.png",
+        "line": "产线",
+        "score": "风险分数",
+        "one_by_one": "逐样本循环",
+        "batch": "batch 矩阵计算",
+        "multiply_count": "scalar multiply count",
+        "batch_size": "batch 大小",
+        "feature_count": "feature 数",
+        "current_batch": "当前 batch",
+        "double_batch": "batch 翻倍",
+        "feature_three": "3 个 feature",
+        "feature_six": "6 个 feature",
+    },
 }
 
 

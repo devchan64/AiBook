@@ -1,0 +1,26 @@
+flowchart TD
+  subgraph CPU["CPU 式顺序路径"]
+    direction TB
+    A1["样本 1"] --> B1["计算"]
+    B1 --> C1["样本 2"]
+    C1 --> D1["再次计算"]
+    D1 --> E1["接着轮到样本 3"]
+  end
+
+  GAP["比较重点：同样工作是如何被组织的"]
+
+  subgraph GPU["GPU 式并行路径"]
+    direction TB
+    subgraph INPUTS["样本一次性分组"]
+      direction LR
+      A2["样本 1"] --> A3["样本 2"]
+      A4["样本 3"] --> A5["样本 4"]
+    end
+    A2 --> P["同一矩阵运算"]
+    A3 --> P
+    A4 --> P
+    A5 --> P
+    P --> O["输出一起得到"]
+  end
+
+  CPU --> GAP --> GPU

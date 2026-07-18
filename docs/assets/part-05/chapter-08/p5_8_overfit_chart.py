@@ -50,6 +50,24 @@ LANG_TEXT = {
         "validation": "validation loss",
         "turn": "validation turn",
     },
+    "zh": {
+        "font_candidates": [
+            "Noto Sans CJK SC",
+            "Noto Sans CJK JP",
+            "Microsoft YaHei",
+            "PingFang SC",
+            "Arial Unicode MS",
+            "DejaVu Sans",
+        ],
+        "outfile": "train-validation-overfit-zh.svg",
+        "title": "训练损失与验证损失分叉的过拟合场景",
+        "desc": "一张坐标图，显示训练损失持续下降，而验证损失在某个时点之后重新上升，用来强调正则化关注的不只是训练最小值，还包括验证间隙。",
+        "xlabel": "训练 step",
+        "ylabel": "损失",
+        "train": "训练损失",
+        "validation": "验证损失",
+        "turn": "验证损失转折点",
+    },
 }
 
 
