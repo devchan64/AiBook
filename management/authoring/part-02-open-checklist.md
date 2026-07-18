@@ -20,6 +20,9 @@
 ## 목차 기준 체크포인트
 
 - `index.md`: Part 2가 수학, Python, 데이터 도구, Git을 따로 외우는 Part가 아니라 공통 계산 언어를 복구하는 Part라는 점을 분명히 해야 합니다.
+- Part 흐름: Module 1과 Module 2는 뒤 Part에서 다시 쓰일 계산 언어 복구로 이어져야 합니다.
+- Part 흐름: Module 3부터 Module 5까지는 실행 환경, Python, 데이터 도구, Git이 재현 가능한 작업 기반으로 묶여야 합니다.
+- `summary.md`: Part 2를 개별 도구 학습이 아니라 Part 3 이전의 공통 계산 기반으로 닫아야 합니다.
 
 ### Module 1. 수학을 계산 언어로 다시 읽기
 
