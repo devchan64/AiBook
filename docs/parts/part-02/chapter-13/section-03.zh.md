@@ -1,25 +1,13 @@
 # P2-13.3 比较多个图表并保存
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-13.2，我们看过折线图（line plot）、散点图（scatter plot）、直方图（histogram）这些基础图表分别适合回答什么问题。现在再往前走一步，整理“把多个图表放在一起看，并把结果保存成文件”的流程。
 
 在 AI 学习里，往往不会只看一张图就结束。你可能要同时看损失（loss）和准确率（accuracy），或者把训练数据（train data）和验证数据（validation data）的走势并排比较。这时最好更有意识地理解 Matplotlib 的 `Figure` 与 `Axes` 结构。
 
 本节说明比较与保存流程中的基本区分，包括 `savefig`、图例（legend）、准确率（accuracy）。`plot`、`Figure`、`Axes` 的代表性说明放在 P2-13.1，基础图表选择标准放在 P2-13.2 和[概念词汇表](/AiBook/en/reference/concept-glossary/)；这里重点讲“怎样把多个图表一起比较，并把结果留成文件”。
-
-## 本节范围
-
-本节只处理用 Matplotlib 排布和保存多个图表的入门流程。不讨论复杂仪表板、交互式可视化、论文级样式打磨或配色方案设计。
-
-本节回答以下问题。
-
-- 为什么要把多个图表放在同一画面里？
-- `plt.subplots()` 是怎样创建多个 `Axes` 的？
-- 比较学习曲线时要注意什么？
-- 用 `savefig()` 保存图表是什么意思？
-- 当你把图表文件作为学习记录留下时，还应附带哪些信息？
 
 ## 本节目标
 
@@ -236,6 +224,6 @@ fig.savefig("train-validation-loss-diverge.png")
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认一个 `Figure` 可以包含多个 `Axes`，以及 `plt.subplots()` 示例的资料。
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } 这是把 `Axes` 说明为数据坐标、标签、标题和图例设置中心对象的依据。
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 确认日期：2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } 这是说明 `Figure.savefig()` 会把图保存为图像或矢量图文件的直接参考资料。
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认一个 `Figure` 可以包含多个 `Axes`，以及 `plt.subplots()` 示例的资料。
+- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } 这是把 `Axes` 说明为数据坐标、标签、标题和图例设置中心对象的依据。
+- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 确认日期：2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } 这是说明 `Figure.savefig()` 会把图保存为图像或矢量图文件的直接参考资料。

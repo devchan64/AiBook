@@ -1,25 +1,13 @@
 # P2-13.3 여러 그래프를 비교하고 저장하기
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-13.2에서는 선 그래프(line plot), 산점도(scatter plot), 히스토그램(histogram)처럼 기본 차트를 어떤 질문에 쓰는지 봤습니다. 이제 한 걸음 더 나아가 여러 그래프를 함께 보고, 그 결과를 파일로 남기는 흐름을 정리합니다.
 
 AI 학습에서는 그래프 하나만 보고 끝나는 일이 많지 않습니다. 손실(loss)과 정확도(accuracy)를 함께 보거나, 학습 데이터(train data)와 검증 데이터(validation data)의 흐름을 나란히 비교해야 합니다. 이때 Matplotlib의 `Figure`와 `Axes` 구조를 조금 더 의식하면 좋습니다.
 
 여기서는 `savefig`, `범례(legend)`, `정확도(accuracy)`를 포함한 비교·저장 흐름의 기본 구분을 설명합니다. `그래프(plot)`, `Figure`, `Axes`의 대표 설명은 P2-13.1에, 기본 차트 선택 기준은 P2-13.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 여러 그래프를 함께 비교하고 결과를 파일로 남기는 방법을 설명합니다.
-
-## 이 절의 범위
-
-이 절은 Matplotlib으로 여러 그래프를 배치하고 저장하는 입문 흐름만 다룹니다. 복잡한 대시보드, 인터랙티브 시각화, 논문용 스타일링, 색상 팔레트 설계는 다루지 않습니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 여러 그래프를 한 화면에 놓는 이유는 무엇인가?
-- `plt.subplots()`는 여러 `Axes`를 어떻게 만드는가?
-- 학습 곡선을 비교할 때 무엇을 조심해야 하는가?
-- `savefig()`로 그래프를 저장한다는 것은 어떤 의미인가?
-- 그래프 파일을 학습 기록으로 남길 때 어떤 정보를 함께 남겨야 하는가?
 
 ## 이 절의 목표
 
@@ -238,6 +226,6 @@ fig.savefig("train-validation-loss-diverge.png")
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 하나의 `Figure` 안에 여러 `Axes`를 둘 수 있다는 설명과 `plt.subplots()` 예제를 확인했습니다.
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } `Axes`가 데이터 좌표계와 라벨·제목·범례 설정의 중심 객체라는 설명의 근거입니다.
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } `Figure.savefig()`가 이미지나 벡터 그래픽 파일로 저장한다는 설명의 직접 참고 자료입니다.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 하나의 `Figure` 안에 여러 `Axes`를 둘 수 있다는 설명과 `plt.subplots()` 예제를 확인했습니다.
+- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } `Axes`가 데이터 좌표계와 라벨·제목·범례 설정의 중심 객체라는 설명의 근거입니다.
+- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } `Figure.savefig()`가 이미지나 벡터 그래픽 파일로 저장한다는 설명의 직접 참고 자료입니다.
