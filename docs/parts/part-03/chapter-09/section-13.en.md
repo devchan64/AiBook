@@ -1,7 +1,7 @@
 # P3-9.13 Why Must Time Boundaries, Entity Boundaries, Information Boundaries, and Output Format Be Closed Together Right Now
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 If the structure has been organized enough to sort out the current problem type, there is one final set of boundaries that still must be closed together. Is time order important? Should the same entity be prevented from mixing across both sides? Has information from after prediction time leaked into the inputs? Is the real output closer to ranking or a continuous value than to simple 0/1 classification? What matters here is not expanding the list of terms, but checking whether the current problem structure stands without contradiction in front of these boundaries.
 
@@ -33,6 +33,8 @@ In this section, what matters more than memorizing all the names is checking whe
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label leakage`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: ROC and AUC*, ranking interpretation. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned setup overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label leakage`. Used to check the information-boundary basis that information from after prediction time can become a label proxy inside the features. Accessed: 2026-07-20. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Classification: ROC and AUC*. Used to check the ranking/evaluation-design view that AUC and ROC relate to ranking positive examples above negative examples and are distinct from the chosen threshold. Accessed: 2026-07-20. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for recording processing steps, reproducibility, versioning, and derivation relationships. Accessed: 2026-07-20. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Hyndman, Athanasopoulos, *Forecasting: Principles and Practice (3rd ed.)*, Section 5.10 Time series cross-validation. Used as time-split evidence that, in time-ordered problems, each training set should contain only observations before the test observation and no future observations should be used to construct the forecast. Accessed: 2026-07-20. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, *Cross-validation: evaluating estimator performance*, cross-validation iterators for grouped data. Used as group-split evidence that samples from the same group should not appear in both the paired training and validation/test sides when group dependence matters. Accessed: 2026-07-20. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" }

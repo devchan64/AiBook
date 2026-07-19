@@ -1,7 +1,7 @@
 # P3-9.13 为什么现在要把时间边界、个体边界、信息边界和产物形式一起关上
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 如果结构已经整理到足以梳理当前问题类型，那么最后还需要一起关上的，是一组边界。时间顺序是不是重要？同一个个体能不能混到两边？预测时点之后的信息有没有渗进输入？真实产物更像排序或连续值，而不是简单的 0/1 分类？这里重要的不是把术语名称越列越多，而是确认当前问题结构在这些边界面前是否能不自相矛盾地站住。
 
@@ -33,6 +33,8 @@
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `label leakage`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: ROC and AUC*, ranking interpretation. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned setup overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label leakage`。用于确认信息边界依据：预测时点之后的信息如果混入特征，就可能成为标签代理。确认日: 2026-07-20. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Classification: ROC and AUC*。用于确认 ranking/evaluation design 依据：AUC 和 ROC 关注把正例排在负例之前的能力，并且不同于具体 threshold 的选择。确认日: 2026-07-20. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*。用于确认 provenance 视角下记录处理步骤、可复现性、版本管理和派生关系的依据。确认日: 2026-07-20. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Hyndman, Athanasopoulos, *Forecasting: Principles and Practice (3rd ed.)*, Section 5.10 Time series cross-validation. 用于确认 time split 依据：在有时间顺序的问题里，训练集只应包含早于测试观测值的观测值，不能用未来观测值构造 forecast。确认日: 2026-07-20. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, *Cross-validation: evaluating estimator performance*, cross-validation iterators for grouped data. 用于确认 group split 依据：当组内依赖重要时，同一 group 的样本不应同时出现在配对的训练侧和验证/测试侧。确认日: 2026-07-20. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" }
