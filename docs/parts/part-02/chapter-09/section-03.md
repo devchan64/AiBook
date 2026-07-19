@@ -37,7 +37,7 @@ P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서
 - 그래프는 왜 관계를 표현하기 좋은가?
 - 무방향 그래프(undirected graph)와 방향 그래프(directed graph)는 어떻게 다른가?
 - 가중치(weight)는 관계에 어떤 정보를 더하는가?
-- Python에서는 그래프를 어떻게 간단히 표현해 볼 수 있는가?
+- 작은 그래프를 인접 리스트 관점으로 어떻게 읽을 수 있는가?
 - AI와 검색, 추천, RAG에서는 그래프 감각이 어디에서 다시 등장하는가?
 
 이번 절은 노드(node), 엣지(edge), 방향(direction), 가중치(weight)로 관계 데이터를 읽는 기준까지를 먼저 닫습니다. 자료구조 이름과 읽는 기준은 P2-9.4 보충학습에서 다시 정리하고, 그래프 감각이 검색 구조로 다시 등장하는 장면은 P1-13.4에서 이어집니다.
@@ -48,7 +48,8 @@ P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서
 - 그래프가 표나 트리로는 표현하기 어려운 연결 관계를 다룰 수 있음을 설명할 수 있습니다.
 - 무방향 그래프와 방향 그래프의 차이를 입문 수준에서 설명할 수 있습니다.
 - 가중치(weight)가 관계의 강도, 거리, 비용 같은 정보를 표현할 수 있음을 설명할 수 있습니다.
-- 인접 리스트(adjacency list) 방식으로 작은 그래프를 Python에서 표현할 수 있습니다.
+- 인접 리스트(adjacency list)를 노드별 이웃 목록으로 설명할 수 있습니다.
+- Python 그래프 도구가 노드, 엣지, 이웃, 방향, 가중치를 어떤 API로 다루는지 읽을 수 있습니다.
 
 ## 세 가지 기준
 
@@ -74,23 +75,14 @@ NIST Dictionary of Algorithms and Data Structures는 그래프를 엣지(edge)�
 
 `Kim -- Lee`처럼 두 노드를 잇는 선은 엣지입니다.
 
-Python 딕셔너리로는 각 노드가 어떤 이웃(neighbor)을 갖는지 표현할 수 있습니다.
+같은 관계는 노드별 이웃 목록으로도 적을 수 있습니다.
 
-문제 상황: 사람 관계를 그래프의 인접 리스트로 표현할 때 한 사람과 직접 연결된 이웃을 꺼내 보고 싶습니다.
-입력(input): 사람 이름을 키로 하고 이웃 목록을 값으로 갖는 딕셔너리입니다.
-기대 출력(output): `Kim`과 직접 연결된 이웃 목록이 출력됩니다.
-확인할 개념: 그래프를 노드별 이웃 목록으로 저장하는 인접 리스트 감각을 확인합니다.
-
-```python
-friends = {
-    "Kim": ["Lee", "Park"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Kim", "Lee", "Choi"],
-    "Choi": ["Park"],
-}
-
-print(friends["Kim"])
-```
+| 노드 | 이웃 목록 |
+| --- | --- |
+| Kim | Lee, Park |
+| Lee | Kim, Park |
+| Park | Kim, Lee, Choi |
+| Choi | Park |
 
 이 표현을 인접 리스트(adjacency list)라고 볼 수 있습니다. 핵심은 노드마다 연결된 이웃 목록을 갖는다는 점입니다.
 
@@ -111,31 +103,16 @@ print(friends["Kim"])
 
 ![The same relationship records can be read as a table or a graph](../../../assets/part-02/chapter-09/table-to-graph-reading-ko.svg)
 
-표 데이터를 Python에서 그래프처럼 다루려면 먼저 관계 목록을 인접 리스트로 바꾸어 볼 수 있습니다.
+표 데이터를 그래프 관점으로 읽으려면 관계 행을 노드별 이웃 목록으로 다시 묶어 보면 됩니다.
 
-문제 상황: 표의 각 행처럼 적힌 친구 관계 목록을 그래프 구조로 바꾸어 `Kim`의 이웃을 읽고 싶습니다.
-입력(input): `(사람, 친구)` 쌍의 목록입니다.
-기대 출력(output): 관계 목록이 인접 리스트로 변환된 뒤 `Kim`의 이웃 목록이 출력됩니다.
-확인할 개념: 같은 데이터를 관계 행 목록에서 그래프 인접 리스트로 변환하는 흐름을 확인합니다.
+| 관계 행 목록 | 인접 리스트로 다시 읽기 |
+| --- | --- |
+| Kim - Lee | Kim: Lee, Park |
+| Kim - Park | Lee: Kim, Park |
+| Lee - Park | Park: Kim, Lee, Choi |
+| Park - Choi | Choi: Park |
 
-```python
-friend_pairs = [
-    ("Kim", "Lee"),
-    ("Kim", "Park"),
-    ("Lee", "Park"),
-    ("Park", "Choi"),
-]
-
-friends = {}
-
-for person, friend in friend_pairs:
-    friends.setdefault(person, []).append(friend)
-    friends.setdefault(friend, []).append(person)
-
-print(friends["Kim"])
-```
-
-여기서 `friend_pairs`는 표의 행에 가깝고, `friends`는 그래프의 인접 리스트에 가깝습니다. 같은 데이터라도 어떤 질문을 하느냐에 따라 읽기 좋은 구조가 달라집니다.
+여기서 왼쪽은 표의 행에 가깝고, 오른쪽은 그래프의 인접 리스트에 가깝습니다. 같은 데이터라도 어떤 질문을 하느냐에 따라 읽기 좋은 구조가 달라집니다.
 
 표와 그래프의 차이는 다음처럼 볼 수 있습니다.
 
@@ -145,6 +122,70 @@ print(friends["Kim"])
 | 그래프(graph) | 무엇과 무엇이 연결되는가? | Kim의 이웃, Park를 거치는 경로 |
 
 표가 나쁘고 그래프가 좋은 것이 아닙니다. 관계를 목록으로 저장할 때는 표가 좋고, 관계를 따라 이동하거나 연결 구조를 보려면 그래프가 좋습니다.
+
+## Python 그래프 도구로 관계를 다뤄 보기
+
+Python에서 그래프 관계를 다룰 때는 딕셔너리와 반복문으로 직접 구조를 만드는 방법도 있지만, 실제 분석이나 실습에서는 그래프 전용 도구를 쓰는 편이 자연스럽습니다. 대표적인 Python 그래프 라이브러리로 NetworkX가 있습니다.
+
+아래 예제의 목적은 그래프 알고리즘을 깊게 구현하는 것이 아닙니다. 같은 관계 데이터를 NetworkX의 `Graph`와 `DiGraph` 객체에 넣었을 때 노드(node), 엣지(edge), 이웃(neighbor), 두 단계 이웃(two-hop neighbor), 방향(direction), 가중치(weight)를 어떻게 확인하는지 보는 설명형 예제입니다.
+
+문제 상황: 친구 관계와 페이지 링크 관계를 각각 무방향 그래프와 방향 그래프로 만들고, 관계를 따라 읽는 기본 API를 확인합니다.
+
+입력(input): 친구 관계 엣지 목록과 페이지 링크 엣지 목록입니다.
+
+기대 출력(output): 노드 목록, 엣지 목록, Kim의 직접 이웃, Kim의 두 단계 이웃, Kim-Park 관계의 가중치, `page_b`의 다음 링크, `page_c`가 `page_b`로 되돌아가는 링크 여부를 확인합니다.
+
+확인할 개념: 그래프 도구에서는 관계 데이터를 단순 출력값이 아니라 노드와 엣지를 가진 객체로 만든 뒤, 이웃·방향·가중치 같은 그래프 질문을 API로 물을 수 있습니다.
+
+```python
+import networkx as nx
+
+friend_relationships = [
+    ("Kim", "Lee", {"weight": 1.0}),
+    ("Kim", "Park", {"weight": 0.9}),
+    ("Lee", "Park", {"weight": 0.8}),
+    ("Park", "Choi", {"weight": 0.7}),
+]
+
+friend_graph = nx.Graph()
+friend_graph.add_edges_from(friend_relationships)
+
+friend_edges = sorted(tuple(sorted(edge)) for edge in friend_graph.edges())
+distances = nx.single_source_shortest_path_length(friend_graph, "Kim", cutoff=2)
+two_hop_neighbors = sorted(
+    node for node, distance in distances.items() if distance == 2
+)
+
+print("friend nodes:", sorted(friend_graph.nodes()))
+print("friend edges:", friend_edges)
+print("Kim neighbors:", sorted(friend_graph.neighbors("Kim")))
+print("Kim two-hop neighbors:", two_hop_neighbors)
+print("Kim-Park weight:", friend_graph["Kim"]["Park"]["weight"])
+
+page_graph = nx.DiGraph()
+page_graph.add_edge("page_a", "page_b")
+page_graph.add_edge("page_a", "page_c")
+page_graph.add_edge("page_b", "page_c")
+
+print("page_b links to:", list(page_graph.successors("page_b")))
+print("page_c links back to page_b:", page_graph.has_edge("page_c", "page_b"))
+```
+
+예상 출력은 다음과 같습니다.
+
+```text
+friend nodes: ['Choi', 'Kim', 'Lee', 'Park']
+friend edges: [('Choi', 'Park'), ('Kim', 'Lee'), ('Kim', 'Park'), ('Lee', 'Park')]
+Kim neighbors: ['Lee', 'Park']
+Kim two-hop neighbors: ['Choi']
+Kim-Park weight: 0.9
+page_b links to: ['page_c']
+page_c links back to page_b: False
+```
+
+이 예제에서 중요한 것은 출력 모양이 아닙니다. `nx.Graph()`는 친구 관계처럼 양쪽으로 읽는 연결을 만들고, `nx.DiGraph()`는 웹 링크처럼 한쪽 방향으로만 읽는 연결을 만듭니다. `neighbors()`는 한 노드의 직접 이웃을 찾고, `single_source_shortest_path_length()`는 시작 노드에서 몇 단계 떨어져 있는지 계산합니다. 엣지에 붙인 `weight`는 관계의 강도나 비용 같은 숫자로 다시 읽을 수 있습니다.
+
+따라서 이 Python 예제는 “정답을 미리 만들어 놓고 출력만 바꾸는 코드”가 아니라, 그래프 관계를 다루는 도구의 사용법을 확인하는 예제입니다.
 
 ## 트리와 그래프는 어떻게 다른가
 
@@ -184,34 +225,24 @@ Park -- Choi
 
 친구 관계를 단순하게 볼 때는 `Kim -- Lee`라고 표현할 수 있습니다. Kim이 Lee와 친구라면 Lee도 Kim과 친구라고 보는 방식입니다.
 
-문제 상황: 서로 대칭인 친구 관계를 무방향 그래프처럼 표현하려고 합니다.
-입력(input): `Kim`과 `Lee`가 서로 연결된 짧은 인접 리스트입니다.
-기대 출력(output): 출력은 없지만 양쪽 노드에 서로의 이름이 들어간 구조를 확인합니다.
-확인할 개념: 무방향 그래프에서는 관계를 양쪽 노드에 함께 적는다는 점을 봅니다.
+무방향 그래프에서는 같은 연결을 양쪽 노드에서 모두 읽을 수 있어야 합니다.
 
-```python
-friends = {
-    "Kim": ["Lee"],
-    "Lee": ["Kim"],
-}
-```
+| 노드 | 이웃 |
+| --- | --- |
+| Kim | Lee |
+| Lee | Kim |
 
 방향 그래프(directed graph)는 관계의 방향이 중요한 경우에 사용합니다.
 
 예를 들어 웹 링크는 방향이 있습니다. A 문서가 B 문서로 링크한다고 해서 B 문서가 A 문서로 링크하는 것은 아닙니다.
 
-문제 상황: 웹 문서 링크처럼 방향이 있는 관계를 그래프로 적고 싶습니다.
-입력(input): 각 페이지가 어디로 링크하는지 나타내는 딕셔너리입니다.
-기대 출력(output): 출력은 없지만 관계가 향하는 쪽만 저장된 구조를 확인합니다.
-확인할 개념: 방향 그래프에서는 연결이 양방향이라고 가정하지 않는다는 점을 봅니다.
+방향 그래프에서는 연결이 향하는 쪽만 적습니다.
 
-```python
-links = {
-    "page_a": ["page_b", "page_c"],
-    "page_b": ["page_c"],
-    "page_c": [],
-}
-```
+| 출발 노드 | 향하는 노드 |
+| --- | --- |
+| page_a | page_b, page_c |
+| page_b | page_c |
+| page_c | 없음 |
 
 AI와 검색 문맥에서는 방향이 중요할 때가 많습니다. 문서가 다른 문서를 인용하거나, 작업 흐름이 다음 단계로 넘어가거나, 사용자가 항목을 클릭하는 흐름은 방향 그래프로 볼 수 있습니다.
 
@@ -219,22 +250,12 @@ AI와 검색 문맥에서는 방향이 중요할 때가 많습니다. 문서가 
 
 ![Direction and weight change what a graph edge means](../../../assets/part-02/chapter-09/directed-weighted-graph-ko.svg)
 
-방향 그래프를 코드로 표현할 때는 양쪽에 모두 관계를 넣지 않습니다. 관계가 실제로 향하는 쪽만 적습니다.
+방향 그래프를 읽을 때는 양쪽에 모두 관계가 있다고 가정하지 않습니다. 관계가 실제로 향하는 쪽만 읽습니다.
 
-문제 상황: 방향 그래프에서 특정 페이지가 실제로 어디로 향하는지만 확인하고 싶습니다.
-입력(input): 페이지별 outgoing link 목록을 담은 딕셔너리입니다.
-기대 출력(output): `page_b`가 가리키는 다음 페이지 목록이 출력됩니다.
-확인할 개념: 방향 그래프는 출발 노드 기준의 연결을 읽는다는 점을 확인합니다.
-
-```python
-page_links = {
-    "page_a": ["page_b", "page_c"],
-    "page_b": ["page_c"],
-    "page_c": [],
-}
-
-print(page_links["page_b"])
-```
+| 질문 | 답 |
+| --- | --- |
+| `page_b`가 가리키는 다음 페이지는 무엇인가 | `page_c` |
+| `page_c`가 다시 `page_b`를 가리키는가 | 이 표만으로는 아니오 |
 
 이 예제에서 `page_b`는 `page_c`로 링크하지만, `page_c`가 다시 `page_b`로 링크한다고 말할 수는 없습니다.
 
@@ -246,20 +267,13 @@ print(page_links["page_b"])
 
 예를 들어 도시 사이의 거리를 그래프로 표현할 수 있습니다.
 
-문제 상황: 도시 사이의 연결에 거리 숫자를 붙여 두 도시 사이 비용을 읽고 싶습니다.
-입력(input): 도시 이름을 키로 하고, 이웃 도시와 거리 값을 중첩 딕셔너리로 담은 구조입니다.
-기대 출력(output): `Seoul`에서 `Busan`으로 가는 거리 값이 출력됩니다.
-확인할 개념: 그래프의 엣지에 가중치를 붙이면 연결 강도나 비용을 숫자로 읽을 수 있음을 봅니다.
+도시 사이의 거리도 노드와 엣지로 읽을 수 있습니다.
 
-```python
-distances = {
-    "Seoul": {"Daejeon": 160, "Busan": 325},
-    "Daejeon": {"Seoul": 160, "Busan": 200},
-    "Busan": {"Seoul": 325, "Daejeon": 200},
-}
-
-print(distances["Seoul"]["Busan"])
-```
+| 출발 노드 | 도착 노드 | 가중치 |
+| --- | --- | ---: |
+| Seoul | Daejeon | 160 |
+| Seoul | Busan | 325 |
+| Daejeon | Busan | 200 |
 
 여기서 `325`는 Seoul과 Busan 사이의 관계에 붙은 숫자입니다. 추천 시스템에서는 이 숫자가 유사도(similarity)일 수도 있고, 검색에서는 점수(score)일 수도 있고, 네트워크에서는 비용(cost)일 수도 있습니다.
 
@@ -267,7 +281,7 @@ print(distances["Seoul"]["Busan"])
 
 가중치가 붙으면 “연결되어 있는가”에서 끝나지 않고 “얼마나 가까운가”, “얼마나 비용이 드는가”, “얼마나 강하게 관련되는가”를 물을 수 있습니다.
 
-검색 후보나 추천 후보 사이의 관계 점수를 읽을 때도 같은 관점을 적용할 수 있습니다. 다만 아래 장면은 Python 실험이라기보다, 이미 계산된 관계 점수를 기준선과 비교해 해석하는 예시입니다.
+검색 후보나 추천 후보 사이의 관계 점수를 읽을 때도 같은 관점을 적용할 수 있습니다. 아래 장면은 이미 계산된 관계 점수를 기준선과 비교해 해석하는 예시입니다.
 
 | 후보 문서 | 질의와의 관계 점수 | 기준 `0.7`과 비교 | 해석 |
 | --- | ---: | --- | --- |
@@ -277,49 +291,16 @@ print(distances["Seoul"]["Busan"])
 
 이 표는 검색 시스템을 구현한 것이 아닙니다. 다만 AI 검색이나 추천에서 관계에 숫자를 붙여 후보를 비교할 수 있고, 기준선에 따라 먼저 볼 연결과 뒤로 미룰 연결이 갈릴 수 있다는 감각을 보여 줍니다.
 
-## 그래프를 Python으로 작게 따라가 보기
+## 연결을 한 단계씩 따라가기
 
-다음 예제는 그래프 탐색 알고리즘을 본격적으로 구현하는 코드가 아닙니다. 그래프가 “연결된 이웃을 따라간다”는 감각을 확인하기 위한 작은 예제입니다.
+그래프 탐색 알고리즘을 구현하지 않아도, 그래프가 “연결된 이웃을 따라간다”는 감각은 표로 확인할 수 있습니다. 시작 노드를 `Kim`으로 두면 직접 연결과 한 단계를 거친 연결은 다음처럼 달라집니다.
 
-문제 상황: 한 사람에서 시작해 직접 연결된 이웃을 한 단계만 따라가 보고 싶습니다.
-입력(input): 사람 관계를 인접 리스트로 적은 딕셔너리와 시작 노드 `Kim`입니다.
-기대 출력(output): `Kim`의 직접 이웃 이름들이 순서대로 출력됩니다.
-확인할 개념: 그래프에서는 시작 노드에서 이웃 목록을 꺼내 한 단계 이동할 수 있음을 봅니다.
+| 기준 | 포함되는 노드 | 읽는 방법 |
+| --- | --- | --- |
+| 직접 이웃 | Lee, Park | Kim과 바로 연결된 노드 |
+| 두 단계 후보 | Choi | Kim의 이웃을 한 번 더 따라갔을 때 새로 만나는 노드 |
 
-```python
-friends = {
-    "Kim": ["Lee", "Park"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Kim", "Lee", "Choi"],
-    "Choi": ["Park"],
-}
-
-start = "Kim"
-
-print("Neighbors of Kim:")
-for neighbor in friends[start]:
-    print("-", neighbor)
-```
-
-한 단계 더 나아가면, Kim의 친구들의 친구도 볼 수 있습니다.
-
-문제 상황: 직접 친구가 아니라 친구의 친구까지 확장해 연결 대상을 모으고 싶습니다.
-입력(input): 앞의 친구 관계 딕셔너리와 시작 노드 `Kim`입니다.
-기대 출력(output): `Kim`을 제외한 친구의 친구 집합이 출력됩니다.
-확인할 개념: 한 노드의 이웃을 다시 따라가면 두 단계 연결을 모을 수 있음을 확인합니다.
-
-```python
-friends_of_friends = set()
-
-for neighbor in friends["Kim"]:
-    for next_neighbor in friends[neighbor]:
-        if next_neighbor != "Kim":
-            friends_of_friends.add(next_neighbor)
-
-print(friends_of_friends)
-```
-
-이 예제에서 중요한 것은 반복문 자체가 아닙니다. 그래프에서는 한 노드에서 연결된 이웃으로 이동하고, 다시 그 이웃의 이웃으로 이동할 수 있다는 점입니다.
+여기서 중요한 것은 반복문 자체가 아닙니다. 그래프에서는 한 노드에서 연결된 이웃으로 이동하고, 다시 그 이웃의 이웃으로 이동할 수 있다는 점입니다.
 
 관계를 따라가면 “직접 연결”과 “한 단계를 거친 연결”을 구분할 수 있습니다.
 
@@ -327,26 +308,7 @@ print(friends_of_friends)
 
 ![A graph distinguishes direct neighbors and two-hop neighbors](../../../assets/part-02/chapter-09/graph-neighbor-hop-ko.svg)
 
-문제 상황: 직접 연결과 두 단계 연결을 분리해서 비교하고 싶습니다.
-입력(input): 친구 관계 딕셔너리에서 `Kim`의 직접 이웃과 그 이웃들의 이웃입니다.
-기대 출력(output): 직접 이웃 집합과 두 단계 이웃 집합이 따로 출력됩니다.
-확인할 개념: 그래프에서는 연결 거리 한 단계 차이가 다른 집합으로 나뉜다는 점을 확인합니다.
-
-```python
-direct_neighbors = set(friends["Kim"])
-two_hop_neighbors = set()
-
-for neighbor in direct_neighbors:
-    two_hop_neighbors.update(friends[neighbor])
-
-two_hop_neighbors.discard("Kim")
-two_hop_neighbors = two_hop_neighbors - direct_neighbors
-
-print("direct:", direct_neighbors)
-print("two hop:", two_hop_neighbors)
-```
-
-여기서 `direct_neighbors`는 Kim과 바로 연결된 노드이고, `two_hop_neighbors`는 친구의 친구처럼 한 단계를 더 따라간 노드입니다. 그래프를 배우는 이유는 이런 연결 질문을 데이터로 다룰 수 있게 하기 위해서입니다.
+여기서 직접 이웃은 Kim과 바로 연결된 노드이고, 두 단계 이웃은 친구의 친구처럼 한 단계를 더 따라간 노드입니다. 그래프를 배우는 이유는 이런 연결 질문을 데이터로 다룰 수 있게 하기 위해서입니다.
 
 ## AI 실습에서 그래프 감각이 다시 등장하는 곳
 
@@ -370,7 +332,7 @@ print("two hop:", two_hop_neighbors)
 
 그래프는 항상 복잡한 알고리즘을 의미하지 않습니다.
 
-작은 그래프는 Python 딕셔너리와 리스트만으로도 표현해 볼 수 있습니다.
+작은 그래프는 노드별 이웃 목록만으로도 표현해 볼 수 있습니다.
 
 그래프는 트리보다 무조건 좋은 구조가 아닙니다.
 
@@ -390,7 +352,7 @@ print("two hop:", two_hop_neighbors)
 
 그래프는 바로 이런 장면을 읽기 위한 구조입니다. 노드는 사용자나 문서가 되고, 엣지는 클릭, 친구 관계, 링크, 유사도처럼 연결을 나타냅니다. 그래서 `직접 연결`, `한 단계를 거친 연결`, `가중치가 높은 연결` 같은 질문을 더 자연스럽게 표현할 수 있습니다.
 
-확인 가능한 결과는 한 노드에서 이웃을 따라갈 수 있는지입니다. 예를 들어 Kim의 직접 이웃과 두 단계 이웃을 코드로 구분할 수 있다면, 표에 저장된 관계를 그래프 관점으로 읽고 있는 것입니다.
+확인 가능한 결과는 한 노드에서 이웃을 따라갈 수 있는지입니다. 예를 들어 Kim의 직접 이웃과 두 단계 이웃을 구분할 수 있다면, 표에 저장된 관계를 그래프 관점으로 읽고 있는 것입니다.
 
 ## 체크리스트
 
@@ -400,10 +362,12 @@ print("two hop:", two_hop_neighbors)
 - 트리(tree)를 그래프의 특수한 형태로 입문 수준에서 설명할 수 있다.
 - 무방향 그래프와 방향 그래프의 차이를 설명할 수 있다.
 - 가중치(weight)가 관계에 숫자 정보를 붙인다는 점을 설명할 수 있다.
-- Python 딕셔너리와 리스트로 작은 그래프를 표현하고 이웃을 따라가 볼 수 있다.
+- 작은 그래프를 노드별 이웃 목록으로 표현하고 이웃을 따라가 볼 수 있다.
+- NetworkX 같은 Python 그래프 도구가 노드, 엣지, 이웃, 방향, 가중치를 어떻게 다루는지 읽을 수 있다.
 - 연결이 핵심인 데이터를 만났을 때 그래프 관점을 먼저 떠올릴 수 있다.
 
 ## 출처와 참고 자료
 
 - Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 그래프를 vertices/nodes와 edges/arcs로 구성된 구조로 설명하는 근거로 사용했다.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6 documentation, 확인 날짜: 2026-07-19. 작은 무방향 그래프, 노드, 엣지, 인접 관계를 Python 코드 관점으로 확인하는 근거로 사용했다.
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-19. 작은 무방향 그래프, 노드, 엣지, 인접 관계를 확인하는 근거로 사용했다.
+- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-19. 방향 그래프와 successor 관계를 확인하는 근거로 사용했다.

@@ -37,7 +37,7 @@ This Section answers the following questions.
 - Why are graphs good for expressing relationships?
 - How are undirected graphs and directed graphs different?
 - What information does weight add to a relationship?
-- How can a graph be expressed simply in Python?
+- How can a small graph be read through an adjacency-list viewpoint?
 - Where does graph intuition appear again in AI, search, recommendation, and RAG?
 
 This Section focuses on reading nodes, edges, direction, and weights as the basic criteria for relationship data. Data-structure names and reading standards are organized again in the P2-9.4 supplement. The scene where graph intuition appears again as search structure continues in P1-13.4. The implementation of graph neural networks and graph databases stays outside the current scope of the main text.
@@ -48,7 +48,8 @@ This Section focuses on reading nodes, edges, direction, and weights as the basi
 - You can explain that a graph can handle connection relationships that are hard to express through tables or trees alone.
 - You can explain the difference between an undirected graph and a directed graph at an introductory level.
 - You can explain that weight can represent information such as the strength, distance, or cost of a relationship.
-- You can express a small graph in Python through the adjacency-list style.
+- You can explain an adjacency list as a list of neighbors for each node.
+- You can read how a Python graph tool handles nodes, edges, neighbors, direction, and weight through its API.
 
 ## Three Criteria
 
@@ -74,23 +75,14 @@ In the picture, `Kim`, `Lee`, `Park`, and `Choi` are nodes.
 
 A line connecting two nodes, such as `Kim -- Lee`, is an edge.
 
-In a Python dictionary, we can express which neighbors each node has.
+The same relationship can also be written as a neighbor list for each node.
 
-Problem situation: When representing human relations as a graph adjacency list, you want to pull out the neighbors directly connected to one person.
-Input: A dictionary whose keys are person names and whose values are lists of neighbors.
-Expected output: The list of neighbors directly connected to `Kim` is printed.
-Concept to check: Confirm the adjacency-list intuition of storing a graph as a neighbor list for each node.
-
-```python
-friends = {
-    "Kim": ["Lee", "Park"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Kim", "Lee", "Choi"],
-    "Choi": ["Park"],
-}
-
-print(friends["Kim"])
-```
+| Node | Neighbor List |
+| --- | --- |
+| Kim | Lee, Park |
+| Lee | Kim, Park |
+| Park | Kim, Lee, Choi |
+| Choi | Park |
 
 This representation can be seen as an adjacency list. The core point is that each node holds a list of connected neighbors.
 
@@ -111,31 +103,16 @@ The diagram below shows how the question changes when the same relational data i
 
 ![The same relationship records can be read as a table or a graph](/AiBook/assets/part-02/chapter-09/table-to-graph-reading-en.svg)
 
-To handle table data as a graph in Python, you can first convert the relationship list into an adjacency list.
+To read table data through a graph viewpoint, you can regroup relationship rows into a neighbor list for each node.
 
-Problem situation: You want to convert a friendship list written like the rows of a table into a graph structure and then read the neighbors of `Kim`.
-Input: A list of `(person, friend)` pairs.
-Expected output: After the relationship list is converted into an adjacency list, the list of neighbors of `Kim` is printed.
-Concept to check: Confirm the flow of converting the same data from a relationship-row list into a graph adjacency list.
+| Relationship Rows | Read Again as an Adjacency List |
+| --- | --- |
+| Kim - Lee | Kim: Lee, Park |
+| Kim - Park | Lee: Kim, Park |
+| Lee - Park | Park: Kim, Lee, Choi |
+| Park - Choi | Choi: Park |
 
-```python
-friend_pairs = [
-    ("Kim", "Lee"),
-    ("Kim", "Park"),
-    ("Lee", "Park"),
-    ("Park", "Choi"),
-]
-
-friends = {}
-
-for person, friend in friend_pairs:
-    friends.setdefault(person, []).append(friend)
-    friends.setdefault(friend, []).append(person)
-
-print(friends["Kim"])
-```
-
-Here, `friend_pairs` is closer to table rows, while `friends` is closer to a graph adjacency list. Even with the same data, the structure that is easier to read changes depending on what question you ask.
+Here, the left side is closer to table rows, while the right side is closer to a graph adjacency list. Even with the same data, the structure that is easier to read changes depending on what question you ask.
 
 The difference between a table and a graph can be viewed as follows.
 
@@ -145,6 +122,70 @@ The difference between a table and a graph can be viewed as follows.
 | graph | What is connected to what? | Kim's neighbors, a path through Park |
 
 It is not that the table is bad and the graph is good. Tables are good for storing relationships as lists, while graphs are good when you need to move through relationships or inspect the connection structure.
+
+## Trying Relationships with a Python Graph Tool
+
+When handling graph relationships in Python, you can build the structure directly with dictionaries and loops, but in real analysis or practice it is often more natural to use a graph-specific tool. A representative Python graph library is NetworkX.
+
+The purpose of the example below is not to implement graph algorithms in depth. It is an explanatory example that shows how to check nodes, edges, neighbors, two-hop neighbors, direction, and weight after placing the same relationship data into NetworkX `Graph` and `DiGraph` objects.
+
+Problem situation: Build friendship relationships and page-link relationships as an undirected graph and a directed graph, then check the basic APIs used to read the relationships.
+
+Input: a friendship edge list and a page-link edge list.
+
+Expected output: confirm the node list, edge list, Kim's direct neighbors, Kim's two-hop neighbors, the weight of the Kim-Park relationship, the next link from `page_b`, and whether `page_c` links back to `page_b`.
+
+Concept to check: a graph tool lets you turn relationship data into an object with nodes and edges, then ask graph questions through APIs for neighbors, direction, and weight.
+
+```python
+import networkx as nx
+
+friend_relationships = [
+    ("Kim", "Lee", {"weight": 1.0}),
+    ("Kim", "Park", {"weight": 0.9}),
+    ("Lee", "Park", {"weight": 0.8}),
+    ("Park", "Choi", {"weight": 0.7}),
+]
+
+friend_graph = nx.Graph()
+friend_graph.add_edges_from(friend_relationships)
+
+friend_edges = sorted(tuple(sorted(edge)) for edge in friend_graph.edges())
+distances = nx.single_source_shortest_path_length(friend_graph, "Kim", cutoff=2)
+two_hop_neighbors = sorted(
+    node for node, distance in distances.items() if distance == 2
+)
+
+print("friend nodes:", sorted(friend_graph.nodes()))
+print("friend edges:", friend_edges)
+print("Kim neighbors:", sorted(friend_graph.neighbors("Kim")))
+print("Kim two-hop neighbors:", two_hop_neighbors)
+print("Kim-Park weight:", friend_graph["Kim"]["Park"]["weight"])
+
+page_graph = nx.DiGraph()
+page_graph.add_edge("page_a", "page_b")
+page_graph.add_edge("page_a", "page_c")
+page_graph.add_edge("page_b", "page_c")
+
+print("page_b links to:", list(page_graph.successors("page_b")))
+print("page_c links back to page_b:", page_graph.has_edge("page_c", "page_b"))
+```
+
+The expected output is as follows.
+
+```text
+friend nodes: ['Choi', 'Kim', 'Lee', 'Park']
+friend edges: [('Choi', 'Park'), ('Kim', 'Lee'), ('Kim', 'Park'), ('Lee', 'Park')]
+Kim neighbors: ['Lee', 'Park']
+Kim two-hop neighbors: ['Choi']
+Kim-Park weight: 0.9
+page_b links to: ['page_c']
+page_c links back to page_b: False
+```
+
+What matters in this example is not the output format. `nx.Graph()` creates a connection that can be read both ways, such as a friendship relationship, while `nx.DiGraph()` creates a connection that is read in one direction, such as a web link. `neighbors()` finds the direct neighbors of one node, and `single_source_shortest_path_length()` calculates how many steps away each node is from the start node. The `weight` attached to an edge can be read again as a number such as relationship strength or cost.
+
+So this Python example is not code that prepares the answer in advance and merely changes the printed output. It is an example for checking how to use a tool that handles graph relationships.
 
 ## How Are Trees and Graphs Different?
 
@@ -184,34 +225,24 @@ An undirected graph is used when the relationship has the same meaning in both d
 
 When we view friendship simply, we can write `Kim -- Lee`. If Kim is a friend of Lee, then Lee is also treated as a friend of Kim.
 
-Problem situation: You want to express a symmetric friendship relation like an undirected graph.
-Input: A short adjacency list where `Kim` and `Lee` are connected to each other.
-Expected output: There is no printed output, but you confirm the structure where both nodes contain each other's names.
-Concept to check: In an undirected graph, the relationship is written on both nodes.
+In an undirected graph, the same connection should be readable from both nodes.
 
-```python
-friends = {
-    "Kim": ["Lee"],
-    "Lee": ["Kim"],
-}
-```
+| Node | Neighbor |
+| --- | --- |
+| Kim | Lee |
+| Lee | Kim |
 
 A directed graph is used when the direction of the relationship matters.
 
 For example, a web link has direction. If document A links to document B, that does not mean document B links back to document A.
 
-Problem situation: You want to write a directed relationship such as web-document links as a graph.
-Input: A dictionary showing where each page links.
-Expected output: There is no printed output, but you confirm the structure where only the outgoing side of the relationship is stored.
-Concept to check: In a directed graph, the connection is not assumed to be bidirectional.
+In a directed graph, you write only the side toward which the connection points.
 
-```python
-links = {
-    "page_a": ["page_b", "page_c"],
-    "page_b": ["page_c"],
-    "page_c": [],
-}
-```
+| Source Node | Points To |
+| --- | --- |
+| page_a | page_b, page_c |
+| page_b | page_c |
+| page_c | none |
 
 In AI and search contexts, direction is often important. Cases such as a document citing another document, a workflow moving to the next step, or a user clicking an item can all be viewed as directed graphs.
 
@@ -219,22 +250,12 @@ The diagram below shows how direction and weight change the meaning of an edge.
 
 ![Direction and weight change what a graph edge means](/AiBook/assets/part-02/chapter-09/directed-weighted-graph-en.svg)
 
-When expressing a directed graph in code, we do not put the relationship on both sides. We record only the side toward which the relationship actually points.
+When reading a directed graph, we do not assume that the relationship exists on both sides. We read only the side toward which the relationship actually points.
 
-Problem situation: In a directed graph, you want to check only where a specific page actually points.
-Input: A dictionary containing outgoing-link lists by page.
-Expected output: The list of next pages pointed to by `page_b` is printed.
-Concept to check: Confirm that a directed graph reads connections from the viewpoint of the source node.
-
-```python
-page_links = {
-    "page_a": ["page_b", "page_c"],
-    "page_b": ["page_c"],
-    "page_c": [],
-}
-
-print(page_links["page_b"])
-```
+| Question | Answer |
+| --- | --- |
+| What next page does `page_b` point to? | `page_c` |
+| Does `page_c` point back to `page_b`? | Not from this table |
 
 In this example, `page_b` links to `page_c`, but we cannot say that `page_c` links back to `page_b`.
 
@@ -246,20 +267,13 @@ At that point, a number can be attached to the edge. That number is called a wei
 
 For example, distances between cities can be expressed as a graph.
 
-Problem situation: You want to read the cost between two cities by attaching distance numbers to the connections between cities.
-Input: A nested-dictionary structure that uses city names as keys and stores neighboring cities together with distance values.
-Expected output: The distance value from `Seoul` to `Busan` is printed.
-Concept to check: See that by attaching weights to graph edges, the strength or cost of the connection can be read numerically.
+Distances between cities can also be read as nodes and edges.
 
-```python
-distances = {
-    "Seoul": {"Daejeon": 160, "Busan": 325},
-    "Daejeon": {"Seoul": 160, "Busan": 200},
-    "Busan": {"Seoul": 325, "Daejeon": 200},
-}
-
-print(distances["Seoul"]["Busan"])
-```
+| Source Node | Target Node | Weight |
+| --- | --- | ---: |
+| Seoul | Daejeon | 160 |
+| Seoul | Busan | 325 |
+| Daejeon | Busan | 200 |
 
 Here, `325` is the number attached to the relationship between Seoul and Busan. In a recommendation system, that number may be similarity. In search, it may be a score. In a network, it may be a cost.
 
@@ -267,64 +281,24 @@ What matters is that weight is not the answer itself. It is a number used to int
 
 Once weight is attached, the question no longer ends with `Are they connected?` It can extend to `How close are they?`, `How much does it cost?`, or `How strongly are they related?`
 
-Problem situation: You want to select only relationships above a threshold from relation scores between a query and recommendation or search candidates.
-Input: A dictionary containing similarity scores between a query and documents.
-Expected output: Only documents with scores of `0.7` or higher, together with their scores, are printed.
-Concept to check: Confirm that in a weighted graph, connections can be interpreted by a score threshold.
+The same viewpoint can be used when reading relationship scores among search or recommendation candidates.
 
-```python
-similarity = {
-    "query": {"doc_a": 0.91, "doc_b": 0.72, "doc_c": 0.18},
-}
+| Candidate Document | Relationship Score to Query | Compared with `0.7` | Interpretation |
+| --- | ---: | --- | --- |
+| `doc_a` | 0.91 | Above threshold | Strong candidate to inspect first |
+| `doc_b` | 0.72 | Above threshold | Candidate to inspect together |
+| `doc_c` | 0.18 | Below threshold | Candidate to defer under the current threshold |
 
-for document, score in similarity["query"].items():
-    if score >= 0.7:
-        print(document, score)
-```
+This table does not implement a search system. It only shows the intuition used in AI search or recommendation, where numbers are attached to relationships and candidates are compared against a baseline.
 
-This code does not implement a search system. It only shows in a small form the intuition used in AI search or recommendation, where numbers are attached to relationships and candidates are compared.
+## Following Connections One Step at a Time
 
-## Following a Graph in Small Python Steps
+Even without implementing a graph-search algorithm, the sense that a graph means `following connected neighbors` can be checked in a table. If the start node is `Kim`, direct connections and one-step-further connections differ like this.
 
-The following example is not code that fully implements a graph-search algorithm. It is only a small example for confirming the sense that a graph means `following connected neighbors`.
-
-Problem situation: You want to follow only one step from one person and inspect the directly connected neighbors.
-Input: A dictionary writing human relations as an adjacency list, and the start node `Kim`.
-Expected output: The names of Kim's direct neighbors are printed in order.
-Concept to check: See that in a graph, you can take out the neighbor list from a start node and move one step.
-
-```python
-friends = {
-    "Kim": ["Lee", "Park"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Kim", "Lee", "Choi"],
-    "Choi": ["Park"],
-}
-
-start = "Kim"
-
-print("Neighbors of Kim:")
-for neighbor in friends[start]:
-    print("-", neighbor)
-```
-
-If you go one step further, you can also see the friends of Kim's friends.
-
-Problem situation: You want to gather not direct friends but also friends of friends by extending one more step.
-Input: The friendship dictionary above and the start node `Kim`.
-Expected output: The set of friends of friends except `Kim` is printed.
-Concept to check: Confirm that by following the neighbors of a node again, you can collect two-step connections.
-
-```python
-friends_of_friends = set()
-
-for neighbor in friends["Kim"]:
-    for next_neighbor in friends[neighbor]:
-        if next_neighbor != "Kim":
-            friends_of_friends.add(next_neighbor)
-
-print(friends_of_friends)
-```
+| Criterion | Included Nodes | How to Read It |
+| --- | --- | --- |
+| Direct neighbors | Lee, Park | Nodes directly connected to Kim |
+| Two-hop candidates | Choi | New node reached by following Kim's neighbors one more step |
 
 What matters in this example is not the loop itself. It is the fact that in a graph, you can move from one node to its connected neighbors, and then move again to those neighbors' neighbors.
 
@@ -334,26 +308,7 @@ The diagram below shows the distinction between direct neighbors and two-hop nei
 
 ![A graph distinguishes direct neighbors and two-hop neighbors](/AiBook/assets/part-02/chapter-09/graph-neighbor-hop-en.svg)
 
-Problem situation: You want to compare direct connections and two-step connections separately.
-Input: The direct neighbors of `Kim` and the neighbors of those neighbors in the friendship dictionary.
-Expected output: A direct-neighbor set and a two-hop-neighbor set are printed separately.
-Concept to check: Confirm that in a graph, a one-step difference in connection distance divides the result into different sets.
-
-```python
-direct_neighbors = set(friends["Kim"])
-two_hop_neighbors = set()
-
-for neighbor in direct_neighbors:
-    two_hop_neighbors.update(friends[neighbor])
-
-two_hop_neighbors.discard("Kim")
-two_hop_neighbors = two_hop_neighbors - direct_neighbors
-
-print("direct:", direct_neighbors)
-print("two hop:", two_hop_neighbors)
-```
-
-Here, `direct_neighbors` are the nodes directly connected to Kim, while `two_hop_neighbors` are the nodes reached one step further, such as friends of friends. The reason for learning graphs is to be able to handle these connection questions as data.
+Here, direct neighbors are the nodes directly connected to Kim, while two-hop neighbors are nodes reached one step further, such as friends of friends. The reason for learning graphs is to be able to handle these connection questions as data.
 
 ## Where Graph Intuition Appears Again in AI Practice
 
@@ -377,7 +332,7 @@ In the data-structure context, a graph is a structure that expresses relationshi
 
 Graph does not always mean complicated algorithms.
 
-A small graph can be expressed even with only Python dictionaries and lists.
+A small graph can be expressed as neighbor lists for each node.
 
 Graph is not unconditionally better than a tree.
 
@@ -397,7 +352,7 @@ But questions like these require following connections rather than merely listin
 
 Graphs are exactly the structure for reading such scenes. Nodes become users or documents, and edges become connections such as clicks, friendships, links, or similarity. That is why questions such as `direct connection`, `connection through one step`, and `high-weight connection` can be expressed more naturally.
 
-The checkable result is whether you can follow neighbors from one node. For example, if you can distinguish Kim's direct neighbors and two-step neighbors in code, then you are reading the table-stored relationships from the graph viewpoint.
+The checkable result is whether you can follow neighbors from one node. For example, if you can distinguish Kim's direct neighbors and two-step neighbors, then you are reading the table-stored relationships from the graph viewpoint.
 
 ## Checklist
 
@@ -407,10 +362,12 @@ The checkable result is whether you can follow neighbors from one node. For exam
 - You can explain at an introductory level that a tree is a special form of graph.
 - You can explain the difference between an undirected graph and a directed graph.
 - You can explain that weight adds numerical information to a relationship.
-- You can express a small graph with Python dictionaries and lists and follow neighbors.
+- You can express a small graph as neighbor lists and follow neighbors.
+- You can read how a Python graph tool such as NetworkX handles nodes, edges, neighbors, direction, and weight.
 - You can recall the graph viewpoint first when the core question is about following connections.
 
 ## Sources and References
 
 - Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used as the basis for explaining a graph as a structure made of vertices/nodes and edges/arcs.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6 documentation, checked on 2026-07-19. Used to confirm small undirected graphs, nodes, edges, and adjacency relations from a Python-code perspective.
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, checked on 2026-07-19. Used to confirm small undirected graphs, nodes, edges, and adjacency relations.
+- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, checked on 2026-07-19. Used to confirm directed graphs and successor relationships.

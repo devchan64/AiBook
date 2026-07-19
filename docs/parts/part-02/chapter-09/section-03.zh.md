@@ -37,7 +37,8 @@
 - 为什么图适合表达关系？
 - 无向图和有向图有什么不同？
 - weight 会给关系增加什么信息？
-- 在 Python 中如何简单表达一个图？
+- 如何从邻接表视角阅读一个小图？
+- Python 图工具如何把节点、边、邻居、方向和权重作为 API 来处理？
 - 在 AI、搜索、推荐和 RAG 中，图的直觉会在哪些地方再次出现？
 
 本节集中把 node、edge、direction、weight 读成关系数据的基本判断标准。数据结构名称和阅读标准会在 P2-9.4 补充学习中再次整理。图的直觉如何再次以搜索结构形式出现，会在 P1-13.4 继续。图神经网络和图数据库的实现则放在当前正文范围之外。
@@ -48,7 +49,8 @@
 - 能说明图可以处理那些只靠表或树难以表达的连接关系。
 - 能在入门层面解释无向图和有向图的区别。
 - 能说明 weight 可以表达关系的强度、距离或代价等信息。
-- 能用邻接表(adjacency list)风格在 Python 中表达一个小图。
+- 能把邻接表(adjacency list)解释成每个节点的邻居列表。
+- 能读懂 Python 图工具如何通过 API 处理节点、边、邻居、方向和权重。
 
 ## 三个标准
 
@@ -74,25 +76,16 @@ NIST 的 Dictionary of Algorithms and Data Structures 把图解释成“由边�
 
 像 `Kim -- Lee` 这样连接两个节点的线，就是边。
 
-在 Python 字典中，我们可以表示每个节点有哪些邻居。
+同样的关系也可以写成每个节点的邻居列表。
 
-问题场景：当你把人际关系表示成图的邻接表时，想取出某个人直接连接的邻居。
-输入(input)：一个字典，键是人名，值是邻居列表。
-期望输出(output)：打印与 `Kim` 直接连接的邻居列表。
-要确认的概念：确认把图按“每个节点对应一个邻居列表”来存储的邻接表直觉。
+| 节点 | 邻居列表 |
+| --- | --- |
+| Kim | Lee, Park |
+| Lee | Kim, Park |
+| Park | Kim, Lee, Choi |
+| Choi | Park |
 
-```python
-friends = {
-    "Kim": ["Lee", "Park"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Kim", "Lee", "Choi"],
-    "Choi": ["Park"],
-}
-
-print(friends["Kim"])
-```
-
-这种表示方式可以看成邻接表。核心点在于：每个节点都持有自己连接到的邻居列表。
+这种表示方式可以看成邻接表(adjacency list)。核心点在于：每个节点都持有自己连接到的邻居列表。
 
 ## 表和图问的是不同的问题
 
@@ -111,31 +104,16 @@ print(friends["Kim"])
 
 ![The same relationship records can be read as a table or a graph](/AiBook/assets/part-02/chapter-09/table-to-graph-reading-zh.svg)
 
-如果想在 Python 中把表数据当成图来处理，可以先把关系列表转换成邻接表。
+如果想从图视角阅读表数据，可以把关系行重新整理成每个节点的邻居列表。
 
-问题场景：你想把像表格行那样写下来的朋友关系列表，转换成图结构，再读取 `Kim` 的邻居。
-输入(input)：一个 `(person, friend)` 二元组列表。
-期望输出(output)：关系列表被转换成邻接表后，打印 `Kim` 的邻居列表。
-要确认的概念：确认把同样的数据从“关系行列表”转换成“图邻接表”的流程。
+| 关系行列表 | 重新读成邻接表 |
+| --- | --- |
+| Kim - Lee | Kim: Lee, Park |
+| Kim - Park | Lee: Kim, Park |
+| Lee - Park | Park: Kim, Lee, Choi |
+| Park - Choi | Choi: Park |
 
-```python
-friend_pairs = [
-    ("Kim", "Lee"),
-    ("Kim", "Park"),
-    ("Lee", "Park"),
-    ("Park", "Choi"),
-]
-
-friends = {}
-
-for person, friend in friend_pairs:
-    friends.setdefault(person, []).append(friend)
-    friends.setdefault(friend, []).append(person)
-
-print(friends["Kim"])
-```
-
-这里的 `friend_pairs` 更接近表的行，而 `friends` 更接近图的邻接表。即使是同样的数据，只要你提出的问题不同，更容易阅读的结构也会变化。
+这里左边更接近表的行，右边更接近图的邻接表。即使是同样的数据，只要你提出的问题不同，更容易阅读的结构也会变化。
 
 表和图的区别可以这样看。
 
@@ -145,6 +123,70 @@ print(friends["Kim"])
 | 图(graph) | 什么和什么相连？ | Kim 的邻居、经过 Park 的路径 |
 
 并不是表不好、图才好。把关系存成列表时，表很好；当你需要沿着关系移动或观察连接结构时，图就更好。
+
+## 用 Python 图工具处理关系
+
+在 Python 中处理图关系时，也可以用字典和循环直接构造结构。但在实际分析或练习中，使用图专用工具通常更自然。NetworkX 是一个有代表性的 Python 图库。
+
+下面这个例子的目的不是深入实现图算法，而是说明：把同一份关系数据放进 NetworkX 的 `Graph` 和 `DiGraph` 对象后，如何确认 node、edge、neighbor、two-hop neighbor、direction 和 weight。
+
+问题场景：把朋友关系和页面链接关系分别做成无向图和有向图，再确认读取关系的基本 API。
+
+输入(input)：朋友关系的 edge 列表，以及页面链接的 edge 列表。
+
+期望输出(output)：确认节点列表、边列表、Kim 的直接邻居、Kim 的两跳邻居、Kim-Park 关系的权重、`page_b` 的下一条链接，以及 `page_c` 是否链接回 `page_b`。
+
+要确认的概念：图工具会先把关系数据变成拥有节点和边的对象，然后通过 API 来询问邻居、方向、权重等图问题。
+
+```python
+import networkx as nx
+
+friend_relationships = [
+    ("Kim", "Lee", {"weight": 1.0}),
+    ("Kim", "Park", {"weight": 0.9}),
+    ("Lee", "Park", {"weight": 0.8}),
+    ("Park", "Choi", {"weight": 0.7}),
+]
+
+friend_graph = nx.Graph()
+friend_graph.add_edges_from(friend_relationships)
+
+friend_edges = sorted(tuple(sorted(edge)) for edge in friend_graph.edges())
+distances = nx.single_source_shortest_path_length(friend_graph, "Kim", cutoff=2)
+two_hop_neighbors = sorted(
+    node for node, distance in distances.items() if distance == 2
+)
+
+print("friend nodes:", sorted(friend_graph.nodes()))
+print("friend edges:", friend_edges)
+print("Kim neighbors:", sorted(friend_graph.neighbors("Kim")))
+print("Kim two-hop neighbors:", two_hop_neighbors)
+print("Kim-Park weight:", friend_graph["Kim"]["Park"]["weight"])
+
+page_graph = nx.DiGraph()
+page_graph.add_edge("page_a", "page_b")
+page_graph.add_edge("page_a", "page_c")
+page_graph.add_edge("page_b", "page_c")
+
+print("page_b links to:", list(page_graph.successors("page_b")))
+print("page_c links back to page_b:", page_graph.has_edge("page_c", "page_b"))
+```
+
+预期输出如下。
+
+```text
+friend nodes: ['Choi', 'Kim', 'Lee', 'Park']
+friend edges: [('Choi', 'Park'), ('Kim', 'Lee'), ('Kim', 'Park'), ('Lee', 'Park')]
+Kim neighbors: ['Lee', 'Park']
+Kim two-hop neighbors: ['Choi']
+Kim-Park weight: 0.9
+page_b links to: ['page_c']
+page_c links back to page_b: False
+```
+
+这个例子里，重要的不是输出格式。`nx.Graph()` 会创建像朋友关系那样可以双向阅读的连接，`nx.DiGraph()` 会创建像网页链接那样只能按一个方向阅读的连接。`neighbors()` 找出一个节点的直接邻居，`single_source_shortest_path_length()` 计算从起点到其他节点相隔几步。附在 edge 上的 `weight` 可以再次读成关系强度或代价等数字。
+
+因此，这个 Python 例子不是“先把答案做好，只改变输出”的代码，而是用来确认图关系工具使用方式的例子。
 
 ## 树和图有什么不同
 
@@ -184,34 +226,24 @@ Park -- Choi
 
 当我们简单地看朋友关系时，可以写成 `Kim -- Lee`。如果 Kim 是 Lee 的朋友，那么也把 Lee 看成 Kim 的朋友。
 
-问题场景：你想把一个对称的朋友关系表达成无向图。
-输入(input)：一个很短的邻接表，其中 `Kim` 和 `Lee` 彼此相连。
-期望输出(output)：虽然没有打印输出，但你确认了两个节点里都写着对方名字的结构。
-要确认的概念：在无向图里，这种关系会同时写在两边节点上。
+在无向图里，同一个连接应该能从两个节点都读到。
 
-```python
-friends = {
-    "Kim": ["Lee"],
-    "Lee": ["Kim"],
-}
-```
+| 节点 | 邻居 |
+| --- | --- |
+| Kim | Lee |
+| Lee | Kim |
 
 有向图在关系方向重要时使用。
 
 例如网页链接就有方向。A 文档链接到 B 文档，不意味着 B 文档也会链接回 A 文档。
 
-问题场景：你想把网页文档链接这种有方向的关系写成图。
-输入(input)：一个字典，表示每个页面会链接到哪里。
-期望输出(output)：虽然没有打印输出，但你确认了结构里只保存关系真正发出的那一侧。
-要确认的概念：在有向图里，连接不会被假定成双向的。
+在有向图里，只写连接真正指向的一侧。
 
-```python
-links = {
-    "page_a": ["page_b", "page_c"],
-    "page_b": ["page_c"],
-    "page_c": [],
-}
-```
+| 出发节点 | 指向节点 |
+| --- | --- |
+| page_a | page_b, page_c |
+| page_b | page_c |
+| page_c | 无 |
 
 在 AI 和搜索语境里，方向往往非常重要。比如文档引用另一篇文档、工作流流向下一步，或用户点击一个项目，这些都可以看作有向图。
 
@@ -219,22 +251,12 @@ links = {
 
 ![Direction and weight change what a graph edge means](/AiBook/assets/part-02/chapter-09/directed-weighted-graph-zh.svg)
 
-在代码里表达有向图时，不会把关系同时写在两边。只写关系真正指向的那一边。
+阅读有向图时，不要假定关系在两边都存在。只读取关系真实指向的那一侧。
 
-问题场景：在有向图里，你只想确认某个页面真正指向了哪些位置。
-输入(input)：一个按页面保存 outgoing link 列表的字典。
-期望输出(output)：打印 `page_b` 指向的下一页列表。
-要确认的概念：确认有向图是从出发节点的角度来读取连接。
-
-```python
-page_links = {
-    "page_a": ["page_b", "page_c"],
-    "page_b": ["page_c"],
-    "page_c": [],
-}
-
-print(page_links["page_b"])
-```
+| 问题 | 回答 |
+| --- | --- |
+| `page_b` 指向的下一页是什么 | `page_c` |
+| `page_c` 是否再次指向 `page_b` | 只看这张表，答案是否定的 |
 
 在这个例子里，`page_b` 会链接到 `page_c`，但我们不能因此说 `page_c` 也会链接回 `page_b`。
 
@@ -246,20 +268,13 @@ print(page_links["page_b"])
 
 例如，城市之间的距离可以用图来表达。
 
-问题场景：你想在城市之间的连接上附加距离数字，从而读取两座城市之间的代价。
-输入(input)：一个嵌套字典结构，以城市名为键，并保存邻近城市与距离值。
-期望输出(output)：打印 `Seoul` 到 `Busan` 的距离值。
-要确认的概念：看到给图的边加上权重后，可以用数字读出连接的强弱或代价。
+城市之间的距离也可以读成节点和边。
 
-```python
-distances = {
-    "Seoul": {"Daejeon": 160, "Busan": 325},
-    "Daejeon": {"Seoul": 160, "Busan": 200},
-    "Busan": {"Seoul": 325, "Daejeon": 200},
-}
-
-print(distances["Seoul"]["Busan"])
-```
+| 出发节点 | 到达节点 | 权重 |
+| --- | --- | ---: |
+| Seoul | Daejeon | 160 |
+| Seoul | Busan | 325 |
+| Daejeon | Busan | 200 |
 
 这里的 `325` 就是附着在 Seoul 与 Busan 关系上的数字。在推荐系统里，这个数字可能是相似度；在搜索里，可能是分数；在网络里，可能是代价。
 
@@ -267,91 +282,32 @@ print(distances["Seoul"]["Busan"])
 
 一旦附上 weight，问题就不会停在 `它们有没有连接？`，还会继续变成 `有多近？`、`成本有多大？`、`相关性有多强？`
 
-问题场景：你想在搜索候选或推荐候选之间的关系分数里，只选出高于阈值的关系。
-输入(input)：一个字典，保存 query 和文档之间的相似度分数。
-期望输出(output)：只打印分数 `0.7` 以上的文档及其分数。
-要确认的概念：确认在带权图中，可以用分数阈值来解释连接。
+在阅读搜索候选或推荐候选之间的关系分数时，也可以使用同样的视角。下面的场景只是把已经计算好的关系分数与基准线进行比较。
 
-```python
-similarity = {
-    "query": {"doc_a": 0.91, "doc_b": 0.72, "doc_c": 0.18},
-}
+| 候选文档 | 与 query 的关系分数 | 与基准 `0.7` 比较 | 解释 |
+| --- | ---: | --- | --- |
+| `doc_a` | 0.91 | 高于基准 | 优先查看的强候选 |
+| `doc_b` | 0.72 | 高于基准 | 可以一起查看的候选 |
+| `doc_c` | 0.18 | 低于基准 | 在当前基准下可以后移的候选 |
 
-for document, score in similarity["query"].items():
-    if score >= 0.7:
-        print(document, score)
-```
+这张表并没有实现搜索系统。它只是用一个很小的例子展示：在 AI 搜索或推荐里，会给关系附上数字，再按这些数字比较候选对象。
 
-这段代码并没有实现搜索系统。它只是用一个很小的例子展示：在 AI 搜索或推荐里，会给关系附上数字，再按这些数字比较候选对象。
+## 一步一步沿着连接前进
 
-## 用 Python 小范围跟着图走一遍
+即使不实现图搜索算法，也可以通过表格确认图的直觉是 `沿着已连接的邻居往前走`。如果起点节点是 `Kim`，直接连接和再往外一步的连接会这样不同。
 
-下面这个例子并不是在完整实现图搜索算法。它只是一个小例子，用来确认图的感觉就是 `沿着已连接的邻居往前走`。
+| 标准 | 包含的节点 | 阅读方式 |
+| --- | --- | --- |
+| 直接邻居 | Lee, Park | 与 Kim 直接相连的节点 |
+| 两跳候选 | Choi | 沿着 Kim 的邻居再走一步时新遇到的节点 |
 
-问题场景：你想从一个人开始，只往前走一步，看看直接相连的邻居。
-输入(input)：一个把人际关系写成邻接表的字典，以及起点节点 `Kim`。
-期望输出(output)：按顺序打印 Kim 的直接邻居姓名。
-要确认的概念：看到在图里，可以从起始节点取出邻居列表，并往前移动一步。
-
-```python
-friends = {
-    "Kim": ["Lee", "Park"],
-    "Lee": ["Kim", "Park"],
-    "Park": ["Kim", "Lee", "Choi"],
-    "Choi": ["Park"],
-}
-
-start = "Kim"
-
-print("Neighbors of Kim:")
-for neighbor in friends[start]:
-    print("-", neighbor)
-```
-
-如果再往前走一步，你还可以看到 Kim 的朋友的朋友。
-
-问题场景：你想收集的不是直接朋友，而是再向外扩展一步的朋友的朋友。
-输入(input)：前面的朋友关系字典和起始节点 `Kim`。
-期望输出(output)：打印除 `Kim` 之外的朋友的朋友集合。
-要确认的概念：确认再次沿着一个节点的邻居往前走，就可以收集两步连接。
-
-```python
-friends_of_friends = set()
-
-for neighbor in friends["Kim"]:
-    for next_neighbor in friends[neighbor]:
-        if next_neighbor != "Kim":
-            friends_of_friends.add(next_neighbor)
-
-print(friends_of_friends)
-```
-
-这个例子里，重要的不是循环本身，而是在图里，你可以从一个节点走向它连接的邻居，再从那些邻居走向它们的邻居。
+这里重要的不是循环本身，而是在图里，你可以从一个节点走向它连接的邻居，再从那些邻居走向它们的邻居。
 
 沿着关系前进之后，就能分出 `直接连接` 和 `经过一步的连接`。
 
 下面这张图展示了如何以 Kim 为中心区分直接邻居和两跳邻居。
 
 ![A graph distinguishes direct neighbors and two-hop neighbors](/AiBook/assets/part-02/chapter-09/graph-neighbor-hop-zh.svg)
-
-问题场景：你想把直接连接和两步连接分开比较。
-输入(input)：朋友关系字典中 `Kim` 的直接邻居，以及这些邻居的邻居。
-期望输出(output)：分别打印直接邻居集合和两跳邻居集合。
-要确认的概念：确认在图中，只差一步连接距离，就会分成不同的集合。
-
-```python
-direct_neighbors = set(friends["Kim"])
-two_hop_neighbors = set()
-
-for neighbor in direct_neighbors:
-    two_hop_neighbors.update(friends[neighbor])
-
-two_hop_neighbors.discard("Kim")
-two_hop_neighbors = two_hop_neighbors - direct_neighbors
-
-print("direct:", direct_neighbors)
-print("two hop:", two_hop_neighbors)
-```
 
 这里的 `direct_neighbors` 是与 Kim 直接相连的节点，`two_hop_neighbors` 则是再往外走一步得到的节点，例如朋友的朋友。学习图，正是为了把这类连接问题当成数据来处理。
 
@@ -377,7 +333,7 @@ print("two hop:", two_hop_neighbors)
 
 图并不总是意味着复杂算法。
 
-一个小图只用 Python 字典和列表也能表达。
+一个小图只用每个节点的邻居列表也能表达。
 
 图并不一定比树更好。
 
@@ -407,10 +363,12 @@ print("two hop:", two_hop_neighbors)
 - 能在入门层面说明树是图的一种特殊形式。
 - 能说明无向图和有向图的区别。
 - 能说明 weight 会给关系加上数值信息。
-- 能用 Python 字典和列表表示一个小图并沿着邻居前进。
+- 能用节点邻居列表表示一个小图，并区分直接邻居和两跳邻居。
+- 能读懂 NetworkX 这样的 Python 图工具如何处理 node、edge、neighbor、direction 和 weight。
 - 当核心问题变成“沿着连接往前走”时，能先想起图的视角。
 
 ## 来源与参考资料
 
 - Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 graph 说明为由 vertices/nodes 与 edges/arcs 构成的结构的依据。
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6 documentation，确认日期：2026-07-19。用于从 Python 代码视角确认小型无向图、nodes、edges 和 adjacency relations。
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation，确认日期：2026-07-19。用于从 Python 代码视角确认小型无向图、nodes、edges 和 adjacency relations。
+- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation，确认日期：2026-07-19。用于确认 directed graphs 和 successor relationships。
