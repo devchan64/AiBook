@@ -1,7 +1,7 @@
 # P2-7.3 Python 解释器(interpreter)与脚本(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.2 中，我们已经看了终端(terminal)、shell、工作文件夹(working directory)。现在要继续看：在那个终端里，Python 代码到底怎样被执行。
 
@@ -32,19 +32,6 @@ print("hello")
 | 脚本(script) | 把多行代码保存到文件里，再一次执行的方式。 |
 | 提示符(prompt) | 显示“现在可以在这里输入”的标记。 |
 | `python -m ...` | 请求 Python 去执行某个特定模块的方式。 |
-
-## 本节范围
-
-这里不会正式讲解 Python 语法。变量(variable)、类型(type)、列表(list)、函数(function)会在 Part 2 Chapter 8 中处理。
-
-另外，Python 安装、虚拟环境创建、包安装也不是这一节的中心。Python 安装会在 P2-7.7 里讲，虚拟环境与包会在 P2-7.4 里讲。基于笔记本的记录和单元执行习惯，会在 Part 2 Chapter 10 里再回收。
-
-这里回答下面这些问题。
-
-- 什么是 Python 解释器？
-- 什么是交互执行？
-- 什么是脚本执行？
-- 代码单元执行又有什么不同？
 
 ## 本节目标
 
@@ -285,6 +272,6 @@ python -m pip install numpy
 
 ## 来源与参考资料
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于支撑 Python 是解释型、交互式编程语言这一说明，并确认 Guido van Rossum 的早期开发背景。
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认解释器调用、交互模式与脚本文件执行之间的区别。
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认 `python script.py`、`python -c`、`python -m module-name` 等命令行执行方式。
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于支撑 Python 是解释型、交互式编程语言这一说明，并确认 Guido van Rossum 的早期开发背景。
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认解释器调用、交互模式与脚本文件执行之间的区别。
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认 `python script.py`、`python -c`、`python -m module-name` 等命令行执行方式。

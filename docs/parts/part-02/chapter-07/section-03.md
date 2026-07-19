@@ -1,7 +1,7 @@
 # P2-7.3 Python 인터프리터(interpreter)와 스크립트(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory)를 봤습니다. 이제 그 터미널에서 Python 코드를 어떻게 실행하는지 봅니다.
 
@@ -33,19 +33,6 @@ print("hello")
 | 프롬프트(prompt) | 지금 입력할 자리를 보여 주는 표시입니다. |
 | `python -m ...` | Python에게 특정 모듈을 실행하라고 요청하는 방식입니다. |
 
-## 이 절의 범위
-
-여기서는 Python 문법을 본격적으로 설명하지 않습니다. 변수(variable), 타입(type), 리스트(list), 함수(function)는 Part 2 Chapter 8에서 다룹니다.
-
-또한 Python 설치, 가상환경 생성, 패키지 설치도 이 절의 중심이 아닙니다. Python 설치는 P2-7.7, 가상환경과 패키지는 P2-7.4에서 다룹니다. 노트북 기반 기록과 셀 실행 습관은 Part 2 Chapter 10에서 다시 회수합니다.
-
-여기서는 다음 질문에 답합니다.
-
-- Python 인터프리터는 무엇인가?
-- 대화형 실행은 무엇인가?
-- 스크립트 실행은 무엇인가?
-- 코드 셀 실행은 무엇이 다른가?
-
 ## 이 절의 목표
 
 - Python 인터프리터(Python interpreter)를 Python 코드를 읽고 실행하는 프로그램으로 설명할 수 있습니다.
@@ -71,8 +58,6 @@ Python은 처음부터 “파일로 저장한 프로그램만 실행하는 언�
 - 셸 스크립트: 운영체제 명령을 이어 붙여 자동화하기 좋습니다.
 - C 같은 컴파일 언어: 빠르고 강력하지만 작은 자동화와 실험에는 무거울 수 있습니다.
 - Python: 읽기 쉬운 고수준 문법과 대화형 실행, 스크립트 실행을 함께 제공합니다.
-
-그래서 Python에서는 두 사용 방식이 자연스럽게 함께 보입니다.
 
 그래서 Python에서는 두 사용 방식이 자연스럽게 함께 보입니다.
 
@@ -287,6 +272,6 @@ python -m pip install numpy
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python을 해석형·대화형 프로그래밍 언어로 설명하고, Guido van Rossum의 초기 개발 배경을 확인하는 근거로 사용했다.
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 인터프리터 호출, 대화형 모드, 스크립트 파일 실행의 차이를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `python script.py`, `python -c`, `python -m module-name` 같은 명령줄 실행 방식 확인에 사용했다.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python을 해석형·대화형 프로그래밍 언어로 설명하고, Guido van Rossum의 초기 개발 배경을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 인터프리터 호출, 대화형 모드, 스크립트 파일 실행의 차이를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `python script.py`, `python -c`, `python -m module-name` 같은 명령줄 실행 방식 확인에 사용했다.
