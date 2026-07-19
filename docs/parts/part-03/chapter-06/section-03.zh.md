@@ -1,7 +1,7 @@
 # P3-6.3 人工设计的特征，与模型学习到的表示，应该怎样区分
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 当我们把特征(feature)和 [中间表示(intermediate representation)](/AiBook/en/reference/concept-glossary/#glossary-intermediate-representation) 放在一起看时，就会出现一个重要问题：`人来决定输入结构`，和 `模型在这个输入里学习表示`，到底应该在哪里分开来读。如果这个区别变得模糊，Part 3 的特征设计就容易看起来像过时的预处理；反过来，也容易误以为模型会替我们把问题结构也一起决定掉。关键在于，它们并不是竞争关系。Part 3 里人设计出来的特征和中间表示，是先决定 `应该把问题读成什么输入结构`；而模型学到的表示，则是在这个输入结构里进一步学习 `哪些模式更能把有用差异区分出来`。
 
@@ -85,6 +85,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此为“人先决定什么要作为输入变量留下来”和“后面的学习阶段”之间的区分提供了基础。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为把原始数据变成更适合学习的形式，因此强化了这样一点：Part 3 中的特征设计和中间表示设计，本质上属于输入定义阶段。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- TensorFlow, `Subword tokenizers`. 它展示了 token 化序列在变成 token IDs 之后被当作模型输入的预处理阶段，因此支持这样一种解释：Part 3 里做出的区段序列，是 `进入模型之前的输入重构`，而不是 `已经学到的内部表示`。这种连接，是把官方预处理说明推广到时间序列例子中的一种解释。 [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此为“人先决定什么要作为输入变量留下来”和“后面的学习阶段”之间的区分提供了基础。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为把原始数据变成更适合学习的形式，因此强化了这样一点：Part 3 中的特征设计和中间表示设计，本质上属于输入定义阶段。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- TensorFlow, `Subword tokenizers`. 它展示了 token 化序列在变成 token IDs 之后被当作模型输入的预处理阶段，因此支持这样一种解释：Part 3 里做出的区段序列，是 `进入模型之前的输入重构`，而不是 `已经学到的内部表示`。这种连接，是把官方预处理说明推广到时间序列例子中的一种解释。 [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-6.3 사람이 만든 특징과 모델이 학습하는 표현은 어떻게 구분되는가
 
 > Section ID: `P3-6.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 특징(feature)과 [중간 표현(intermediate representation)](../../../reference/concept-glossary.md#glossary-intermediate-representation)을 함께 두면, `사람이 입력 구조를 정하는 일`과 `모델이 그 입력 안에서 표현을 학습하는 일`을 어디서 갈라 읽어야 하는지가 중요해집니다. 이 차이가 흐려지면 Part 3의 특징 설계가 낡은 전처리처럼 보이거나, 반대로 모델이 문제 구조를 대신 정해 줄 것처럼 오해하기 쉽습니다. 핵심은 둘이 경쟁 관계가 아니라는 점입니다. Part 3에서 사람이 만드는 특징과 중간 표현은 `문제를 어떤 입력 구조로 읽을 것인가`를 먼저 정하는 일이고, 모델이 학습하는 표현은 `그 입력 구조 안에서 어떤 패턴을 더 잘 구분할 것인가`를 배우는 일입니다.
 
@@ -85,6 +85,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 prediction에 쓰는 input variable로 설명하므로, 사람이 먼저 무엇을 입력 변수로 남길지 정하는 단계와 뒤의 학습 단계를 구분하는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 원시 데이터를 학습에 더 유용한 형태로 바꾸는 과정으로 설명하므로, Part 3의 특징 설계와 중간 표현 설계가 입력 정의 단계라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- TensorFlow, `Subword tokenizers`. 토큰화된 시퀀스를 token IDs 형태의 모델 입력으로 쓰는 전처리 과정을 보여 주므로, Part 3에서 만든 세그먼트 시퀀스가 `학습된 내부 표현`이 아니라 `모델에 들어가기 전 입력 재표현`이라는 설명을 뒷받침합니다. 이 연결은 공식 전처리 설명을 시계열 예시로 일반화한 해석입니다. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 prediction에 쓰는 input variable로 설명하므로, 사람이 먼저 무엇을 입력 변수로 남길지 정하는 단계와 뒤의 학습 단계를 구분하는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 원시 데이터를 학습에 더 유용한 형태로 바꾸는 과정으로 설명하므로, Part 3의 특징 설계와 중간 표현 설계가 입력 정의 단계라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- TensorFlow, `Subword tokenizers`. 토큰화된 시퀀스를 token IDs 형태의 모델 입력으로 쓰는 전처리 과정을 보여 주므로, Part 3에서 만든 세그먼트 시퀀스가 `학습된 내부 표현`이 아니라 `모델에 들어가기 전 입력 재표현`이라는 설명을 뒷받침합니다. 이 연결은 공식 전처리 설명을 시계열 예시로 일반화한 해석입니다. [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
