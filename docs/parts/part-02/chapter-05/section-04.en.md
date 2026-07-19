@@ -1,7 +1,7 @@
 # P2-5.4 Checking Probability and Statistics with Small Data
 
 > Section ID: `P2-5.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-5.1, we looked at probability as a numeric language for dealing with uncertainty. In P2-5.2, we looked at distribution, mean, and variance as tools for reading the shape of a data bundle. In P2-5.3, we looked at sample, estimation, and error as "speaking about the whole from the part."
 
@@ -14,34 +14,6 @@ Here we reorganize `small data`, `mean`, `median`, `variance`, and `sample mean`
 Rather than broadly learning how to use a statistics library, this Section focuses on rechecking the basic concepts of probability and statistics with small data and code. If you visually confirm mean, variance, and changes in the sample mean here, later statistics about datasets or evaluation numbers connect naturally to the concepts instead of floating apart from them.
 
 ![Flow for checking raw data, center, spread, and sample estimation separately on small data](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-en.svg)
-
-## Scope of This Section
-
-This Section checks `mean`, `variance`, `sample mean`, and `sampling variation` with small numeric data. This Section directly checks how the concepts from the previous Sections appear in actual numbers and code output, and how the mean changes when the sample changes.
-
-Tools for reading fluctuation more carefully, such as standard deviation, standard error, and confidence intervals, return in P2-5.5 supplementary learning. Here we directly check only mean, variance, and changes in the sample mean through code.
-
-The first question to solve here is this: `how do the concepts of mean, variance, and sample from the previous Sections appear in actual numbers and code output?`
-
-So in this Section we first fix only the following four questions.
-
-- How are mean and median calculated in code?
-- How is variance related to the mean?
-- Can the mean also change when the sample changes?
-- How should numbers calculated by code be interpreted?
-
-| Term | Very short meaning | Role in this Section |
-| --- | --- | --- |
-| small data | a bundle of numbers you can follow directly with your eyes | practice material for checking concepts |
-| mean | a value that summarizes the center into one number | the first summary value to check |
-| median | the middle value after sorting | a comparison target for center that is less shaken by outliers |
-| variance | a value that shows the spread around the mean | information beyond the center |
-| sample mean | the mean calculated from a sample | an estimate that can change when the sample changes |
-
-The next flow after this Section is also simple.
-
-- In `P2-5.5`, we attach fluctuation-interpretation tools such as standard error and confidence interval outside the numbers checked here.
-- In Part 3 and Part 6, the same sense for reading output reappears when interpreting mean loss, checking data distributions, and reading evaluation scores.
 
 ## Goals of This Section
 
@@ -324,12 +296,6 @@ Also, if you draw a few different samples and calculate the mean again, you can 
 
 This case shows why small-data practice is needed. Statistical concepts remain far less abstract when you directly change a few numbers and watch how the output changes than when you only read formulas.
 
-## Perspective to Keep from This Section
-
-Small-data practice is the process of touching statistical concepts by hand. The mean summarizes the center, the median shows the middle position after sorting, the variance summarizes the spread around the center, the sample mean can change depending on the sample, and code output is not the end of judgment but the beginning of interpretation.
-
-NumPy performs the calculation quickly. But it does not decide the meaning of mean, median, variance, sample, estimation, or error for you.
-
 ## Checklist
 
 - You can make a small data list as a NumPy `array`.
@@ -345,9 +311,9 @@ NumPy performs the calculation quickly. But it does not decide the meaning of me
 
 ## Sources and References
 
-- NumPy Developers, [numpy.array](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-19. Used to confirm the example that creates a NumPy array from a small numeric list.
-- NumPy Developers, [numpy.ndarray.size](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.size.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-19. Used to confirm the `data.size` example for reading the number of array elements.
-- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-19. Used to confirm arithmetic mean and array-mean calculations.
-- NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-19. Used to confirm that the median is the middle value of a sorted copy, or the average of the two middle values for an even number of values.
-- NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-19. Used to confirm variance, `ddof`, and the difference between population-variance and sample-variance calculation settings.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm the statistical background that samples should represent the population and that sampling methods can introduce variation.
+- NumPy Developers, [numpy.array](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm the example that creates a NumPy array from a small numeric list.
+- NumPy Developers, [numpy.ndarray.size](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.size.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm the `data.size` example for reading the number of array elements.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm arithmetic mean and array-mean calculations.
+- NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm that the median is the middle value of a sorted copy, or the average of the two middle values for an even number of values.
+- NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, checked 2026-07-20. Used to confirm variance, `ddof`, and the difference between population-variance and sample-variance calculation settings.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-20. Used to confirm the statistical background that samples should represent the population and that sampling methods can introduce variation.

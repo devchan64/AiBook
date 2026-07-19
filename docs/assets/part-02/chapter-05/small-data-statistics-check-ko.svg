@@ -53,10 +53,10 @@
 
     <rect x="58" y="454" width="804" height="86" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
     <text x="88" y="490" font-size="18" font-weight="700" fill="#334155">4. 표본 추정</text>
-    <text x="88" y="516" font-size="14" fill="#64748b">Three samples from similar values produce three sample 평균s.</text>
+    <text x="88" y="516" font-size="14" fill="#64748b">비슷한 값에서 고른 세 표본은 서로 다른 표본 평균을 만든다.</text>
     <line x1="560" y1="504" x2="806" y2="504" stroke="#94a3b8" stroke-width="2"/>
     <line x1="684" y1="476" x2="684" y2="530" stroke="#10b981" stroke-width="4"/>
-    <text x="650" y="474" font-size="13" fill="#047857">overall 평균</text>
+    <text x="650" y="474" font-size="13" fill="#047857">전체 평균</text>
     <circle cx="622" cy="504" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
     <circle cx="698" cy="504" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
     <circle cx="724" cy="504" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>

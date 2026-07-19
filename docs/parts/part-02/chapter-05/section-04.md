@@ -1,7 +1,7 @@
 # P2-5.4 확률과 통계를 작은 데이터로 확인하기
 
 > Section ID: `P2-5.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-5.1에서는 확률(probability)을 불확실성을 다루는 숫자 언어로 봤습니다. P2-5.2에서는 분포(distribution), 평균(mean), 분산(variance)을 데이터 묶음의 모양을 읽는 도구로 봤습니다. P2-5.3에서는 표본(sample), 추정(estimation), 오차(error)를 “일부로 전체를 말하는 일”로 봤습니다.
 
@@ -14,34 +14,6 @@ P2-5.1에서는 확률(probability)을 불확실성을 다루는 숫자 언어�
 여기서는 통계 라이브러리 사용법을 넓게 익히기보다, 확률과 통계의 기본 개념을 작은 데이터와 코드로 다시 확인하는 데 집중합니다. 여기서 평균, 분산, 표본 평균의 변화를 눈으로 확인해 두면, 뒤에서 데이터셋 통계나 평가 숫자를 볼 때 개념과 출력이 따로 놀지 않고 연결됩니다.
 
 ![작은 데이터에서 원자료, 중심, 퍼짐, 표본 추정을 구분해 확인하는 흐름](../../../assets/part-02/chapter-05/small-data-statistics-check-ko.svg)
-
-## 이 절의 범위
-
-여기서는 작은 숫자 데이터로 평균(mean), 분산(variance), 표본 평균(sample mean), 표본추출 변동(sampling variation)을 확인합니다. 이번 절은 `앞 절의 개념이 실제 숫자와 코드 출력에서 어떻게 보이는가`, `표본을 바꾸면 평균이 어떻게 흔들리는가`까지를 직접 확인하는 데 집중합니다.
-
-표준편차, 표준오차, 신뢰구간처럼 흔들림을 더 정교하게 읽는 도구는 P2-5.5 보충학습에서 다시 다룹니다. 여기서는 코드로 평균, 분산, 표본 평균의 변화만 직접 확인합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `앞 절에서 배운 평균, 분산, 표본 개념이 실제 숫자와 코드 출력에서 어떻게 보이는가`입니다.
-
-그래서 이 절에서는 다음 네 질문만 먼저 고정합니다.
-
-- 평균과 중위값은 코드에서 어떻게 계산되는가?
-- 분산은 평균과 어떤 관계가 있는가?
-- 표본을 바꾸면 평균도 달라질 수 있는가?
-- 코드로 계산한 숫자를 어떻게 해석해야 하는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 작은 데이터 | 직접 눈으로 따라갈 수 있는 숫자 묶음 | 개념을 확인하는 실습 재료 |
-| 평균 | 중심을 하나의 숫자로 요약한 값 | 가장 먼저 확인할 요약값 |
-| 중위값 | 정렬했을 때 가운데 값 | 극단값에 덜 흔들리는 중심 비교 대상 |
-| 분산 | 평균 주변의 퍼짐을 나타내는 값 | 평균 바깥의 정보 |
-| 표본 평균 | 표본에서 계산한 평균 | 표본을 바꾸면 달라질 수 있는 추정값 |
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-5.5`에서는 이렇게 확인한 숫자 바깥에 표준오차, 신뢰구간 같은 흔들림 해석 도구를 붙입니다.
-- Part 3과 Part 6에서는 평균 손실, 데이터 분포 점검, 평가 점수를 해석할 때 같은 출력 읽기 감각이 다시 등장합니다.
 
 ## 이 절의 목표
 
@@ -339,9 +311,9 @@ AI 데이터에서도 같은 태도가 필요합니다. 훈련 데이터의 평�
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [numpy.array](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-19. 작은 숫자 목록을 NumPy 배열로 만드는 예제 확인에 사용했다.
-- NumPy Developers, [numpy.ndarray.size](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.size.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-19. 배열 원소 개수를 확인하는 `data.size` 예제 확인에 사용했다.
-- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-19. 산술평균과 배열 평균 계산 예제 확인에 사용했다.
-- NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-19. 정렬된 값의 가운데 또는 가운데 두 값의 평균으로 중위값을 계산한다는 설명 확인에 사용했다.
-- NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-19. 분산, `ddof`, 모집단 분산과 표본 분산 계산 설정 차이 확인에 사용했다.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표본이 모집단을 대표해야 하며 표본추출 방식에 따라 변동이 생긴다는 통계적 배경 확인에 사용했다.
+- NumPy Developers, [numpy.array](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 작은 숫자 목록을 NumPy 배열로 만드는 예제 확인에 사용했다.
+- NumPy Developers, [numpy.ndarray.size](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.size.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 배열 원소 개수를 확인하는 `data.size` 예제 확인에 사용했다.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 산술평균과 배열 평균 계산 예제 확인에 사용했다.
+- NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 정렬된 값의 가운데 또는 가운데 두 값의 평균으로 중위값을 계산한다는 설명 확인에 사용했다.
+- NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 확인 날짜: 2026-07-20. 분산, `ddof`, 모집단 분산과 표본 분산 계산 설정 차이 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 표본이 모집단을 대표해야 하며 표본추출 방식에 따라 변동이 생긴다는 통계적 배경 확인에 사용했다.

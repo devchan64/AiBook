@@ -1,7 +1,7 @@
 # P2-5.4 用小数据确认概率与统计
 
 > Section ID: `P2-5.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-5.1 中，我们把概率(probability)看作处理不确定性的数字语言。在 P2-5.2 中，我们把分布(distribution)、均值(mean)、方差(variance)看作读取一组数据形状的工具。在 P2-5.3 中，我们把样本(sample)、估计(estimation)、误差(error)看作“用部分去谈整体”。
 
@@ -14,34 +14,6 @@
 这里并不想广泛学习统计库的用法，而是把重点放在：用小数据和代码重新确认概率与统计的基本概念。如果先把均值、方差、样本均值变化用眼睛看一遍，后面再看数据集统计或评估数字时，概念和输出就不会各走各的路。
 
 ![在小数据上区分原始数据、中心、扩散与样本估计的流程](/AiBook/assets/part-02/chapter-05/small-data-statistics-check-zh.svg)
-
-## 本节范围
-
-这里用小型数字数据来确认 `均值(mean)`、`方差(variance)`、`样本均值(sample mean)`、`抽样波动(sampling variation)`。本节会直接确认前几节的概念在实际数字和代码输出中怎样出现，以及样本改变时均值怎样波动。
-
-标准差、标准误、置信区间这类更细地读取波动的工具，会在 P2-5.5 补充学习中再次处理。这里直接通过代码确认的，只是均值、方差和样本均值的变化。
-
-这里首先要解决的问题是：`前几节学过的均值、方差、样本概念，在实际数字和代码输出里会怎样出现？`
-
-所以这一节先只固定下面四个问题。
-
-- 均值和中位数在代码里是怎样计算的？
-- 方差和均值之间是什么关系？
-- 样本变了，均值也会跟着变吗？
-- 代码算出来的数字应该怎样解释？
-
-| 术语 | 很短的意思 | 在本节中的作用 |
-| --- | --- | --- |
-| 小数据 | 可以直接用眼睛跟下去的一组数字 | 用来确认概念的练习材料 |
-| 均值 | 把中心总结成一个数字的值 | 最先确认的摘要值 |
-| 中位数 | 排序后位于中间的值 | 在极端值面前更不容易被拉动的中心比较对象 |
-| 方差 | 表示均值周围扩散程度的值 | 中心之外的信息 |
-| 样本均值 | 从样本中算出来的均值 | 样本一变就可能跟着变的估计值 |
-
-这一节之后的流向也很简单。
-
-- 在 `P2-5.5` 中，会把这里确认过的数字，继续接到标准误、置信区间这类解释波动的工具上。
-- 到 Part 3 和 Part 6 时，解读平均损失、检查数据分布、读取评估分数时，同样的输出阅读感会再次出现。
 
 ## 本节目标
 
@@ -324,12 +296,6 @@ AI 数据也需要同样的态度。训练数据的均值，是在训练数据�
 
 这个案例说明了为什么需要小数据练习。统计概念如果只读公式，往往显得抽象；但如果亲手改几个数字，再看输出怎样变化，它就会具体得多。
 
-## 本节要记住的视角
-
-小数据练习，是把统计概念拿在手里摸一遍的过程。均值总结中心，中位数显示排序后的中间位置，方差总结中心周围的扩散，样本均值会随着样本变化而变化，而代码输出不是判断的终点，而是解释的起点。
-
-NumPy 会很快完成计算。但它不会替你判断均值、中位数、方差、样本、估计、误差分别意味着什么。
-
 ## 检查清单
 
 - 能把一组小数据做成 NumPy `array`。
@@ -345,9 +311,9 @@ NumPy 会很快完成计算。但它不会替你判断均值、中位数、方�
 
 ## 来源与参考资料
 
-- NumPy Developers, [numpy.array](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-19。用于确认把小型数字列表创建成 NumPy 数组的示例。
-- NumPy Developers, [numpy.ndarray.size](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.size.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-19。用于确认通过 `data.size` 读取数组元素个数的示例。
-- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-19。用于确认算术均值和数组均值计算。
-- NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-19。用于确认中位数是排序副本的中间值，或在偶数个值时取中间两个值的平均。
-- NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-19。用于确认方差、`ddof`、总体方差与样本方差计算设置的差异。
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认样本应代表总体，以及抽样方式可能带来波动这一统计背景。
+- NumPy Developers, [numpy.array](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认把小型数字列表创建成 NumPy 数组的示例。
+- NumPy Developers, [numpy.ndarray.size](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.size.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认通过 `data.size` 读取数组元素个数的示例。
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认算术均值和数组均值计算。
+- NumPy Developers, [numpy.median](https://numpy.org/doc/stable/reference/generated/numpy.median.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认中位数是排序副本的中间值，或在偶数个值时取中间两个值的平均。
+- NumPy Developers, [numpy.var](https://numpy.org/doc/stable/reference/generated/numpy.var.html){: target="_blank" rel="noopener noreferrer" }, NumPy Reference, 确认日期: 2026-07-20。用于确认方差、`ddof`、总体方差与样本方差计算设置的差异。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认样本应代表总体，以及抽样方式可能带来波动这一统计背景。
