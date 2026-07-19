@@ -1,7 +1,7 @@
 # P5-4.1 손실 함수(loss function)
 
-Section ID: `P5-4.1`
-Version: `v2026.07.17`
+> Section ID: `P5-4.1`
+> Version: `v2026.07.19`
 
 P5-3장에서는 활성화 함수(activation function)가 신경망에 비선형성(nonlinearity)을 넣어 표현력을 키운다는 점을 보았습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -445,4 +445,4 @@ worst_sample=restart_delay_batch (0.640)
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

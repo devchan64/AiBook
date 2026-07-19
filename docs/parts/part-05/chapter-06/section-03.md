@@ -1,7 +1,7 @@
 # P5-6.3 학습(learning)과 모델 실행(inference)
 
-Section ID: `P5-6.3`
-Version: `v2026.07.17`
+> Section ID: `P5-6.3`
+> Version: `v2026.07.19`
 
 P5-6.2에서는 학습 루프가 step, batch, epoch 단위로 어떻게 반복되는지 먼저 묶었습니다. 여기까지 오면 다음 질문이 생깁니다.
 
@@ -415,5 +415,5 @@ same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_s
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-11.2 합성곱(convolution)과 풀링(pooling)
 
-Section ID: `P5-11.2`
-Version: `v2026.07.17`
+> Section ID: `P5-11.2`
+> Version: `v2026.07.19`
 
 P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -696,6 +696,6 @@ CNN 교육에서 convolution과 pooling은 거의 항상 함께 소개됩니다.
 
 ## 출처와 참고 자료
 
-- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, 확인 날짜: 2026-06-29.
+- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, 확인 날짜: 2026-07-19. [https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-06-29.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }

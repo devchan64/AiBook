@@ -1,7 +1,7 @@
 # P5-8.1 목적 함수에 제약을 두는 방법: 정규화(regularization)
 
-Section ID: `P5-8.1`
-Version: `v2026.07.17`
+> Section ID: `P5-8.1`
+> Version: `v2026.07.19`
 
 P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규칙이라는 점을 보았습니다. 하지만 학습 루프가 잘 돈다고 해서 곧바로 새 데이터까지 잘 버티는 모델이 되는 것은 아닙니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -368,6 +368,6 @@ sensitivity_with_reg = 0.673
 
 ## 출처와 참고 자료
 
-- Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, 확인 날짜: 2026-06-29.
+- Trevor Hastie, Robert Tibshirani, Jerome Friedman, `The Elements of Statistical Learning`, 2nd ed., Springer, 2009, 확인 날짜: 2026-07-19. [https://hastie.su.domains/ElemStatLearn/](https://hastie.su.domains/ElemStatLearn/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-13.3 보충학습: 쿼리-키-값(query-key-value, QKV)과 멀티헤드 어텐션(multi-head attention)
 
-Section ID: `P5-13.3`
-Version: `v2026.07.18`
+> Section ID: `P5-13.3`
+> Version: `v2026.07.19`
 
 P5-13.1과 P5-13.2에서는 어텐션(Attention)과 셀프 어텐션(self-attention)의 직관을 먼저 잡았습니다. 그런데 여기까지 읽으면 자연스럽게 다음 질문이 생깁니다.
 
@@ -359,6 +359,6 @@ head_separation = 0.25
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-30.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Jay Alammar, `The Illustrated Transformer`, 확인 날짜: 2026-06-30. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-30. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

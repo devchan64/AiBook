@@ -361,6 +361,6 @@ distance(batch_1, batch_4) in h2 = 0.842
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, 확인 날짜: 2026-06-29.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010, 확인 날짜: 2026-06-29.
+- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010, 확인 날짜: 2026-07-19. [https://jmlr.org/papers/v11/erhan10a.html](https://jmlr.org/papers/v11/erhan10a.html){: target="_blank" rel="noopener noreferrer" }

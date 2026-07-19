@@ -1,7 +1,7 @@
 # P5-5.2 계산 그래프(computation graph)와 자동미분(automatic differentiation)
 
-Section ID: `P5-5.2`
-Version: `v2026.07.17`
+> Section ID: `P5-5.2`
+> Version: `v2026.07.19`
 
 P5-5.1에서는 손실(loss)이 바로 업데이트가 아니라, 파라미터별 그래디언트(gradient) 신호로 다시 풀려야 한다고 설명했습니다. 여기까지 이해하면 다음 질문이 남습니다.
 
@@ -464,5 +464,5 @@ backward 그래프에서는 차이가 반대로 드러납니다. `block_gate_ope
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - Andrej Karpathy, `micrograd`, GitHub, 확인 날짜: 2026-06-29. [https://github.com/karpathy/micrograd](https://github.com/karpathy/micrograd){: target="_blank" rel="noopener noreferrer" }

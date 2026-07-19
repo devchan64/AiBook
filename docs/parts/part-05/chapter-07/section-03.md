@@ -1,7 +1,7 @@
 # P5-7.3 적응형 업데이트의 직관: Adam을 예로
 
-Section ID: `P5-7.3`
-Version: `v2026.07.17`
+> Section ID: `P5-7.3`
+> Version: `v2026.07.19`
 
 P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보폭이 어떻게 달라지는지 보았습니다. 여기서 바로 다음 질문이 생깁니다. 그 보폭을 모든 파라미터에 언제나 같은 방식으로 적용해도 충분한가?
 
@@ -309,6 +309,6 @@ optimizer의 일반 역할을 이해한 뒤에는 `지금 기본 업데이트 �
 
 ## 출처와 참고 자료
 
-- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 확인 날짜: 2026-06-29.
-- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, 확인 날짜: 2026-06-29.
-- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 확인 날짜: 2026-06-29.
+- Léon Bottou, `Large-Scale Machine Learning with Stochastic Gradient Descent`, COMPSTAT, 2010, 확인 날짜: 2026-07-19. [https://doi.org/10.1007/978-3-7908-2604-3_16](https://doi.org/10.1007/978-3-7908-2604-3_16){: target="_blank" rel="noopener noreferrer" }
+- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }

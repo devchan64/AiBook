@@ -1,7 +1,7 @@
 # P5-15.2 생성과 샘플링(sampling)
 
-Section ID: `P5-15.2`
-Version: `v2026.07.17`
+> Section ID: `P5-15.2`
+> Version: `v2026.07.19`
 
 P5-15.1에서는 생성 모델(generative model)이 분류 모델과 달리 데이터 패턴을 학습해 새로운 출력 자체를 만들려는 모델이라는 점을 보았습니다. 그러면 다음 질문이 자연스럽게 따라옵니다.
 
@@ -310,5 +310,5 @@ average_sampled_length = 21.6
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, 확인 날짜: 2026-06-29.
-- Jurafsky and Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, 확인 날짜: 2026-07-19. [https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-07-19. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }

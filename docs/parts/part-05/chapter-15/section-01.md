@@ -336,5 +336,5 @@ most_likely = ('실링 압력을 다시 맞춘다.', 0.52)
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Diederik P. Kingma, Max Welling, `Auto-Encoding Variational Bayes`, ICLR 2014, 확인 날짜: 2026-06-29.
-- Ian J. Goodfellow et al., `Generative Adversarial Nets`, NeurIPS 2014, 확인 날짜: 2026-06-29.
+- Diederik P. Kingma, Max Welling, `Auto-Encoding Variational Bayes`, ICLR 2014, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1312.6114](https://arxiv.org/abs/1312.6114){: target="_blank" rel="noopener noreferrer" }
+- Ian J. Goodfellow et al., `Generative Adversarial Nets`, NeurIPS 2014, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html](https://papers.nips.cc/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html){: target="_blank" rel="noopener noreferrer" }

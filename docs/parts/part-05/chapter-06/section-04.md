@@ -1,7 +1,7 @@
 # P5-6.4 학습 모드(training mode)와 평가 모드(evaluation mode)
 
-Section ID: `P5-6.4`
-Version: `v2026.07.17`
+> Section ID: `P5-6.4`
+> Version: `v2026.07.19`
 
 P5-6.3에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 
@@ -380,5 +380,5 @@ learning과 inference를 구분한 뒤에는 `같은 모델이라도 계산 규�
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 확인 날짜: 2026-06-29.
-- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, 확인 날짜: 2026-06-29.
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 확인 날짜: 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
+- Sergey Ioffe, Christian Szegedy, `Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift`, ICML, 2015, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1502.03167](https://arxiv.org/abs/1502.03167){: target="_blank" rel="noopener noreferrer" }

@@ -184,4 +184,4 @@ normalized values = [-0.557, 1.3, -1.3, 0.557]
 ## 출처와 참고 자료
 
 - Jimmy Lei Ba, Jamie Ryan Kiros, Geoffrey E. Hinton, `Layer Normalization`, arXiv, 2016, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1607.06450](https://arxiv.org/abs/1607.06450){: target="_blank" rel="noopener noreferrer" }
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }

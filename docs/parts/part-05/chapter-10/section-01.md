@@ -1,7 +1,7 @@
 # P5-10.1 표현 학습(representation learning)
 
-Section ID: `P5-10.1`
-Version: `v2026.07.17`
+> Section ID: `P5-10.1`
+> Version: `v2026.07.19`
 
 P5-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복하며, GPU와 병렬 처리 덕분에 실용적인 규모로 확산되었다는 점을 보았습니다. 이제 다시 질문을 모델 안쪽으로 돌리면 다음 물음이 생깁니다.
 
@@ -361,6 +361,6 @@ representation_gap(line_A, line_B) = 3.09
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, 확인 날짜: 2026-06-29.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-06-29.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }

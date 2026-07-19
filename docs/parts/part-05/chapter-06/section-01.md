@@ -1,7 +1,7 @@
 # P5-6.1 학습 루프: forward, loss, backward, optimizer step
 
-Section ID: `P5-6.1`
-Version: `v2026.07.17`
+> Section ID: `P5-6.1`
+> Version: `v2026.07.19`
 
 P5-5장에서는 손실(loss), 역전파(backpropagation), 계산 그래프(computation graph)를 통해 딥러닝 모델이 어떻게 gradient를 계산하는지 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
 
@@ -286,4 +286,4 @@ updated_risk_weight = 3.125
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-06-29.
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

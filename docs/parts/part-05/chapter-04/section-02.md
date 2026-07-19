@@ -1,7 +1,7 @@
 # P5-4.2 문제 유형별 손실
 
-Section ID: `P5-4.2`
-Version: `v2026.07.17`
+> Section ID: `P5-4.2`
+> Version: `v2026.07.19`
 
 P5-4.1에서는 손실 함수(loss function)를 `모델의 현재 출력이 목표와 얼마나 어긋나는지 숫자로 만드는 기준`으로 보았습니다. 이제 자연스럽게 다음 질문이 생깁니다.
 
@@ -466,4 +466,4 @@ generation_loss= 0.288
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

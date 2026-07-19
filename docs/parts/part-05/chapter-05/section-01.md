@@ -1,7 +1,7 @@
 # P5-5.1 손실은 어떻게 gradient 신호가 되는가
 
-Section ID: `P5-5.1`
-Version: `v2026.07.17`
+> Section ID: `P5-5.1`
+> Version: `v2026.07.19`
 
 P5-4장에서는 손실 함수(loss function)가 현재 출력과 목표 사이의 어긋남을 숫자로 만든다는 점을 보았습니다. 하지만 손실 숫자만으로는 아직 파라미터(parameter)를 바꿀 수 없습니다.
 
@@ -419,6 +419,6 @@ direction_from_gradient = decrease_risk_weight
 
 ## 출처와 참고 자료
 
-- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, 확인 날짜: 2026-06-29.
-- Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, 확인 날짜: 2026-06-29.
+- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, 확인 날짜: 2026-07-19. [https://doi.org/10.1038/323533a0](https://doi.org/10.1038/323533a0){: target="_blank" rel="noopener noreferrer" }
+- Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, 확인 날짜: 2026-07-19. [https://cir.nii.ac.jp/crid/1572261550254843264?lang=en](https://cir.nii.ac.jp/crid/1572261550254843264?lang=en){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

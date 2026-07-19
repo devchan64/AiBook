@@ -1,7 +1,7 @@
 # P5-8.2 경로 의존을 줄이는 방법: 드롭아웃(dropout)
 
-Section ID: `P5-8.2`
-Version: `v2026.07.17`
+> Section ID: `P5-8.2`
+> Version: `v2026.07.19`
 
 P5-8.1에서는 목적 함수 옆에 regularization 항을 두어 학습 루프의 목표 자체를 조정하는 방법을 보았습니다. 이제 같은 챕터 흐름을 한 단계 더 옮겨, 손실 옆의 벌점이 아니라 신경망 내부 경로를 흔드는 방식으로도 제어가 가능한지 봅니다. 여기서 다음 질문이 자연스럽게 이어집니다.
 
@@ -276,6 +276,6 @@ eval_sum = 4.4
 
 ## 출처와 참고 자료
 
-- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 확인 날짜: 2026-06-29.
+- Nitish Srivastava et al., `Dropout: A Simple Way to Prevent Neural Networks from Overfitting`, JMLR, 2014, 확인 날짜: 2026-07-19. [https://jmlr.org/papers/v15/srivastava14a.html](https://jmlr.org/papers/v15/srivastava14a.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-06-29.
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 확인 날짜: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

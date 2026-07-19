@@ -1,7 +1,7 @@
 # P5-11.1 합성곱 신경망(CNN)의 직관
 
-Section ID: `P5-11.1`
-Version: `v2026.07.17`
+> Section ID: `P5-11.1`
+> Version: `v2026.07.19`
 
 P5-10장에서는 깊은 신경망이 층을 거치며 더 유용한 표현(representation)을 학습할 수 있다는 점을 보았습니다. 이제 이 관점을 이미지 쪽으로 좁히면 다음 질문이 생깁니다.
 
@@ -395,6 +395,6 @@ CNN은 딥러닝 입문 커리큘럼에서 거의 항상 중요한 전환점으�
 
 ## 출처와 참고 자료
 
-- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, 확인 날짜: 2026-06-29.
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-06-29.
+- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, 확인 날짜: 2026-07-19. [https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
