@@ -9,8 +9,6 @@ It is easy to feel that AI has been understood. But whether it has actually been
 
 This section summarizes how to turn the earlier flows of learning documentation and work automation into a `small, testable project` through `project`, `success criteria`, `evaluation`, `record`, and `failure type`.
 
-## Scope of This Section
-
 This section focuses on how to design and validate a small project after finishing Part 1. Specific algorithm implementation and large-scale service development are left to later parts.
 
 | Topic | Question in this section |

@@ -17,8 +17,6 @@ Part 1 establishes the basic distinctions among `personal learning`, `documentat
 
 > how can one person use AI safely as a learning tool?
 
-## Scope of This Section
-
 This section focuses on how AI can be used in personal learning. Work automation and search are covered in P1-16.2. Project-scale validation is covered in P1-16.3.
 
 | Topic | Question in this section |

@@ -11,8 +11,6 @@ When AI is applied in real work, one of the first things people imagine is `work
 
 This section organizes where AI can be used as a support tool inside work flow through `work automation`, `search`, `summary`, `review`, and `productivity`.
 
-## Scope of This Section
-
 This section focuses on how AI can be used as a support tool in repetitive work and document search. Project-based validation is covered in P1-16.3.
 
 | Topic | Question in this section |
