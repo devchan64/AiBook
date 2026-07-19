@@ -1,7 +1,7 @@
 # P2-7.9 补充学习：如何检查常见的本地 Python 环境问题
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.4 中，我们看过虚拟环境（virtual environment）与包（package）；在 P2-7.5 中，我们看过依赖（dependency）与可复现性（reproducibility）。在 P2-7.7 和 P2-7.8 中，我们又分别整理了 Python 安装与环境变量（environment variable）。
 
@@ -23,27 +23,6 @@
 | PATH | 终端决定去哪里寻找可执行命令的列表。 |
 | `pip install` 与 `import` 的差异 | 安装成功与代码使用成功并不是同一回事。 |
 | 检查顺序（troubleshooting order） | 在重装之前，先检查当前 Python、虚拟环境和包位置的步骤。 |
-
-## 本补充学习的范围
-
-这里处理的是：当本地 PC 上的 Python 环境变得混乱时，最常遇到的问题应该怎样以入门标准去检查。是否需要安装，会在 P2-7.7 中处理；shell 符号与环境变量会在 P2-7.8 中处理；虚拟环境和依赖的概念说明，则会再次连接回 P2-7.4 与 P2-7.5。
-
-这里首先要解决的问题是：`当问题出现时，不先从重装开始，而是怎样先确认自己现在到底在看哪个 Python 环境？`
-
-所以，这个补充学习回答下面这些问题。
-
-- `python`、`python3`、`py` 之中先检查哪一个？
-- 是否打开了虚拟环境，与包安装位置之间是怎样联系的？
-- 当 `pip install` 成功但 `import` 失败时，应该怀疑什么？
-- PATH、权限、不同操作系统的差异，大概要读到什么程度？
-- 当问题出现时，在重新安装之前应该先检查什么？
-
-这里先收束一个最小检查顺序：确认 `我现在看到的是哪个环境？`，并集中在重新安装之前如何检查当前 Python、虚拟环境和包位置。
-
-这节之后的流向也很简单。
-
-- 当你回到 P2-7.4 和 P2-7.5 时，就会把虚拟环境、依赖和可复现性与 `我现在看到的是哪个 Python？` 这个问题一起阅读。
-- 之后在 Python 示例章节与项目运行章节里再次遇到环境问题时，也会重复使用同一套检查顺序。
 
 ## 本补充学习的目标
 
@@ -280,7 +259,7 @@ import numpy as np
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认按平台设置 Python 与调用解释器的文档结构，作为本地环境检查顺序的背景依据。
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Windows 中 Python 执行命令和安装方式有单独的官方说明。
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Unix/Linux 中 Python 执行命令和安装路径可能因环境而异。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于支撑需要把虚拟环境是否激活与包安装位置一起检查这一说明。
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认按平台设置 Python 与调用解释器的文档结构，作为本地环境检查顺序的背景依据。
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 执行命令和安装方式有单独的官方说明。
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Unix/Linux 中 Python 执行命令和安装路径可能因环境而异。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于支撑需要把虚拟环境是否激活与包安装位置一起检查这一说明。

@@ -1,7 +1,7 @@
 # P2-7.9 보충학습: 자주 막히는 로컬 Python 환경 문제를 점검하는 법
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤고, P2-7.5에서는 의존성(dependency)과 재현성(reproducibility)을 봤습니다. P2-7.7과 P2-7.8에서는 Python 설치와 환경 변수(environment variable)를 따로 정리했습니다.
 
@@ -23,27 +23,6 @@ P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤�
 | PATH | 터미널이 실행할 명령을 어디서 찾을지 정하는 목록입니다. |
 | `pip install`과 `import` 차이 | 설치 성공과 코드 사용 성공이 같은 일이 아니라는 점입니다. |
 | 점검 순서(troubleshooting order) | 재설치 전에 현재 Python, 가상환경, 패키지 위치를 먼저 확인하는 절차입니다. |
-
-## 이 보충학습의 범위
-
-여기서는 로컬 PC에서 Python 환경이 꼬였을 때 자주 만나는 문제를 점검하는 입문 기준을 다룹니다. 설치 필요성 판단은 P2-7.7에서, 셸 기호와 환경 변수는 P2-7.8에서, 가상환경과 의존성의 개념 설명은 P2-7.4와 P2-7.5에서 다시 연결합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `문제가 생겼을 때 재설치부터 하지 않고, 지금 어느 Python 환경을 보고 있는지 어떻게 먼저 확인할 것인가`입니다.
-
-그래서 이 보충학습은 다음 질문에 답합니다.
-
-- `python`, `python3`, `py` 중 무엇을 먼저 확인해야 하는가?
-- 가상환경을 켰는지와 패키지를 설치한 위치는 어떻게 연결되는가?
-- `pip install`은 됐는데 `import`가 실패할 때 무엇을 의심해야 하는가?
-- PATH, 권한, 운영체제별 차이는 어느 수준까지 읽으면 되는가?
-- 문제가 생겼을 때 설치를 다시 하기 전에 무엇을 먼저 점검해야 하는가?
-
-여기서는 `지금 어느 환경을 보고 있는가`를 확인하는 최소 점검 순서를 먼저 닫고, 재설치 전에 현재 Python, 가상환경, 패키지 위치를 어떻게 확인할지 붙잡는 데 집중합니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- 다시 P2-7.4, P2-7.5로 돌아가면 가상환경, 의존성, 재현성을 `현재 어떤 Python을 보고 있는가`라는 질문과 함께 읽게 됩니다.
-- 이후 Python 예제 절과 프로젝트 실행 절에서 환경 문제를 만났을 때 같은 점검 순서를 재사용합니다.
 
 ## 이 보충학습의 목표
 
@@ -280,7 +259,7 @@ Windows 학습자가 `python --version`을 입력했는데 명령을 찾지 못�
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 플랫폼별 Python 설정과 인터프리터 호출 문서 구조를 로컬 환경 점검 순서의 배경으로 사용했다.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Windows에서 Python 실행 명령과 설치 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Unix/Linux 계열에서 Python 실행 명령과 설치 경로가 환경별로 달라질 수 있음을 확인하는 근거로 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 가상환경 활성화 여부와 패키지 설치 위치를 함께 점검해야 한다는 설명의 근거로 사용했다.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 플랫폼별 Python 설정과 인터프리터 호출 문서 구조를 로컬 환경 점검 순서의 배경으로 사용했다.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Windows에서 Python 실행 명령과 설치 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Unix/Linux 계열에서 Python 실행 명령과 설치 경로가 환경별로 달라질 수 있음을 확인하는 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 가상환경 활성화 여부와 패키지 설치 위치를 함께 점검해야 한다는 설명의 근거로 사용했다.
