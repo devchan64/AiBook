@@ -1,7 +1,7 @@
 # P3-5.6 겹치는 입력 창이 많을 때 왜 샘플 수가 실제보다 커 보일 수 있는가
 
 > Section ID: `P3-5.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 입력 창(window)을 정하고 나면 같은 원천 시계열에서 여러 창을 만들 수 있습니다. 이때 자주 놓치는 문제가 있습니다. `창이 많아졌으니 샘플도 그만큼 늘었다`고 읽기 쉽다는 점입니다. 하지만 겹치는 창이 많아졌다는 것은 종종 `같은 사건을 여러 번 잘라 본다`는 뜻이지, 독립된 사건 수가 그만큼 늘었다는 뜻은 아닙니다.
 
@@ -41,61 +41,87 @@
 
 문제 상황: 겹치는 입력 창이 많아졌을 때 창 수와 원천 사건 수를 같은 숫자로 읽으면 어떤 착시가 생기는지 확인합니다.
 
-입력(input): 원천 사건 표 [p3_5_6_source_events.csv](../../../assets/part-03/chapter-05/p3_5_6_source_events.csv)와 실험할 이동 간격 `stride_to_try`. 이 표의 한 행은 하나의 원천 사건이며, 사건 길이(`length`)와 창 길이(`window`)가 함께 들어 있습니다.
+입력(input): 원천 사건 표 [p3_5_6_source_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_6_source_events.csv)와 실험할 이동 간격 `stride_to_try`. 이 표의 한 행은 하나의 원천 사건이며, 사건 길이(`length`)와 창 길이(`window`)가 함께 들어 있습니다.
 
 기대 출력(output): 각 사건이 몇 개 창으로 늘어나는지와 `source_event` 대비 `window` 수가 얼마나 커지는지 보여 주는 출력. `stride_to_try`를 바꾸면 창 수와 확장 비율이 달라진다.
 
 확인할 개념: 입력 창 수는 파생 조각 수일 뿐이며 원천 사건 수와 같은 단위로 읽으면 안 된다
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
 stride_to_try = 10
 preview_event_count = 8
+source_events_path = Path("docs/assets/part-03/chapter-05/p3_5_6_source_events.csv")
 
-source_events_path = "docs/assets/part-03/chapter-05/p3_5_6_source_events.csv"
-events = pd.read_csv(source_events_path)
-events["stride"] = stride_to_try
+with source_events_path.open(newline="", encoding="utf-8") as file:
+    events = []
+    for row in csv.DictReader(file):
+        length = int(row["length"])
+        window = int(row["window"])
+        window_count = ((length - window) // stride_to_try) + 1
+        events.append(
+            {
+                "event_id": row["event_id"],
+                "line_id": row["line_id"],
+                "mode": row["mode"],
+                "length": length,
+                "window": window,
+                "stride": stride_to_try,
+                "window_count": window_count,
+                "source_event_weight": 1,
+            }
+        )
 
-events["window_count"] = ((events["length"] - events["window"]) // events["stride"]) + 1
-events["source_event_weight"] = 1
+
+def print_event_preview(rows):
+    print("event_id line_id     mode  length  window  stride  window_count")
+    for row in rows:
+        print(
+            f"{row['event_id']:>8} {row['line_id']:>7} {row['mode']:>8} "
+            f"{row['length']:>7} {row['window']:>7} {row['stride']:>7} "
+            f"{row['window_count']:>13}"
+        )
+
+
+def print_expansion_preview(rows):
+    print("event_id  window_count")
+    for row in rows:
+        print(f"{row['event_id']:>8} {row['window_count']:>13}")
 
 print("1) how many windows each source event creates")
-print(
-    events[["event_id", "line_id", "mode", "length", "window", "stride", "window_count"]]
-    .head(preview_event_count)
-    .to_string(index=False)
-)
+print_event_preview(events[:preview_event_count])
 print(f"... {len(events) - preview_event_count} more source events")
 print()
 print("2) source-event count vs window count")
-print(
-    pd.DataFrame(
-        [
-            {"unit": "source_event", "count": events["source_event_weight"].sum()},
-            {"unit": "window", "count": events["window_count"].sum()},
-        ]
-    )
-)
+print("          unit  count")
+print(f"0  {'source_event':<12} {sum(row['source_event_weight'] for row in events):>5}")
+print(f"1  {'window':>12} {sum(row['window_count'] for row in events):>5}")
 print()
 print("3) expansion per source event")
-print(events[["event_id", "window_count"]].head(preview_event_count).to_string(index=False))
+print_expansion_preview(events[:preview_event_count])
 print(f"... {len(events) - preview_event_count} more source events")
 print()
 print("4) expansion summary by line and mode")
-print(
-    events.groupby(["line_id", "mode"], as_index=False)
-    .agg(
-        source_event_count=("event_id", "count"),
-        window_count=("window_count", "sum"),
-        mean_windows_per_event=("window_count", "mean"),
+groups = defaultdict(lambda: {"source_event_count": 0, "window_count": 0})
+for row in events:
+    group = groups[(row["line_id"], row["mode"])]
+    group["source_event_count"] += row["source_event_weight"]
+    group["window_count"] += row["window_count"]
+
+print("line_id     mode  source_event_count  window_count  mean_windows_per_event")
+for line_id, mode in sorted(groups):
+    group = groups[(line_id, mode)]
+    mean_windows = group["window_count"] / group["source_event_count"]
+    print(
+        f"{line_id:>7} {mode:>8} {group['source_event_count']:>19} "
+        f"{group['window_count']:>13} {mean_windows:>23.2f}"
     )
-    .round(2)
-    .to_string(index=False)
-)
 print()
 print("5) expansion ratio")
-print(round(events["window_count"].sum() / len(events), 2))
+print(round(sum(row["window_count"] for row in events) / len(events), 2))
 ```
 
 예상 출력:
@@ -115,8 +141,8 @@ event_id line_id     mode  length  window  stride  window_count
 
 2) source-event count vs window count
           unit  count
-0  source_event     36
-1        window    237
+0  source_event    36
+1        window   237
 
 3) expansion per source event
 event_id  window_count
@@ -153,7 +179,7 @@ line_id     mode  source_event_count  window_count  mean_windows_per_event
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 단위를 전제로 하므로, 여러 입력 창이 생겼다고 해서 원천 사건 수 자체가 자동으로 늘어났다고 읽으면 안 된다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework가 어떤 entity가 어떤 derivation을 거쳐 생성되었는지 추적해야 한다고 정리하므로, 각 입력 창이 어떤 원천 사건에서 파생되었는지 분리해 남겨야 창 수와 사건 수를 혼동하지 않는다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Datasets: Dividing the original dataset`. 학습용 표본이 어떤 원천 데이터에서 어떤 규칙으로 만들어졌는지 구분해야 한다는 일반 관점을 제공하므로, 겹치는 창이 많을 때도 원천 사건 단위와 입력 조각 단위를 따로 적어야 한다는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`. 같은 원천 과정에서 나온 의존 샘플은 독립동일분포 가정이 깨질 수 있고, grouped data에서는 같은 그룹의 샘플이 훈련 fold와 검증 fold에 함께 나타나지 않게 해야 한다고 설명하므로, 겹치는 입력 창이 실제 사건 수를 늘린 것이 아니라 같은 사건에서 파생된 의존 조각일 수 있다는 이 절의 주의를 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 단위를 전제로 하므로, 여러 입력 창이 생겼다고 해서 원천 사건 수 자체가 자동으로 늘어났다고 읽으면 안 된다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework가 어떤 entity가 어떤 derivation을 거쳐 생성되었는지 추적해야 한다고 정리하므로, 각 입력 창이 어떤 원천 사건에서 파생되었는지 분리해 남겨야 창 수와 사건 수를 혼동하지 않는다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Datasets: Dividing the original dataset`. 학습용 표본이 어떤 원천 데이터에서 어떤 규칙으로 만들어졌는지 구분해야 한다는 일반 관점을 제공하므로, 겹치는 창이 많을 때도 원천 사건 단위와 입력 조각 단위를 따로 적어야 한다는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`. 같은 원천 과정에서 나온 의존 샘플은 독립동일분포 가정이 깨질 수 있고, grouped data에서는 같은 그룹의 샘플이 훈련 fold와 검증 fold에 함께 나타나지 않게 해야 한다고 설명하므로, 겹치는 입력 창이 실제 사건 수를 늘린 것이 아니라 같은 사건에서 파생된 의존 조각일 수 있다는 이 절의 주의를 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
