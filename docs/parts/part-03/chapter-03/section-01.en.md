@@ -1,7 +1,7 @@
 # P3-3.1 Why Source Data Should Not Be Read as a Learning Problem Right Away
 
 > Section ID: `P3-3.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 When source data first arrives, many people almost reflexively think, `what can we predict with this?` first. Because there is a table, many values, and records measured over time, it feels as if the data could be turned immediately into some learning problem. But that reaction is usually too fast. The table in front of us is more likely not yet `a training dataset`, but merely `recorded source data`, or at best a `dataset candidate`.
 
@@ -53,82 +53,128 @@ It becomes clearer which questions stay empty when source data is escalated too 
 
 Problem situation: when a time-point log table arrives, check which core questions remain empty if we read it immediately as a learning problem.
 
-Input: a raw log table where multiple time-point measurements are mixed under each `event_id`
+Input: the raw log table [p3_3_1_source_operation_log.csv](../../../assets/part-03/chapter-03/p3_3_1_source_operation_log.csv), where multiple time-point measurements are mixed under each `event_id`, and `label_column_to_try`, the column name to inspect as a label candidate
 
-Expected output: it becomes visible that `read it as a classification problem right now` and `fill in the missing questions first` produce different results
+One row in the input file is a sensor record measured at a specific second (`second`) inside one action (`event_id`). The table also contains `batch_id`, `recipe`, `pressure`, `flow`, `vibration`, and `temperature`, but at this point we have not yet decided which column is the sample identifier and which column is the label.
 
-Concept to check: before source data is read as a learning problem, we first have to decide what `one sample`, `a label candidate`, and `a comparison table` are
+Expected output: it becomes visible that `read it as a classification problem right now` and `fill in the missing questions first` produce different results. Changing `label_column_to_try` also shows that column existence and label-candidate usability are not the same thing.
+
+Concept to check: before source data is read as a learning problem, we first have to decide what `one sample`, `a label candidate`, and `a comparison table` are. Learning-problem judgment is not a fixed sentence; it has to be checked against the current table's columns and grouping criteria.
 
 ```python
 import pandas as pd
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "pressure": 1.0, "flow": 0.0},
-        {"event_id": "A", "second": 1, "pressure": 2.0, "flow": 1.4},
-        {"event_id": "A", "second": 2, "pressure": 2.4, "flow": 1.6},
-        {"event_id": "B", "second": 0, "pressure": 1.1, "flow": 0.1},
-        {"event_id": "B", "second": 1, "pressure": 1.7, "flow": 1.0},
-        {"event_id": "B", "second": 2, "pressure": 1.9, "flow": 1.1},
-    ]
-)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 160)
 
-print("1) raw log")
-print(raw)
+raw_log_path = "docs/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv"
+label_column_to_try = "review_label"
+
+column_unit = {
+    "batch_id": "operation_context",
+    "recipe": "operation_context",
+    "pressure": "time_point_sensor_value",
+    "flow": "time_point_sensor_value",
+    "vibration": "time_point_sensor_value",
+    "temperature": "time_point_sensor_value",
+    "review_label": "event_label",
+}
+
+raw = pd.read_csv(raw_log_path)
+
+print("1) raw input shape and first rows")
+print("shape:", raw.shape)
+print(raw.head())
 print()
 
 print("2) too-early reading")
 print("- maybe this is a classification problem")
-print("- label column: not found yet")
+print("- label column:", "found" if label_column_to_try in raw.columns else "not found yet")
 print("- one training sample: not decided yet")
+print()
+
+column_exists = label_column_to_try in raw.columns
+candidate_unit = column_unit.get(label_column_to_try, "unknown")
+same_unit_as_sample = column_exists and candidate_unit == "event_label"
+stable_label_meaning_known = same_unit_as_sample
+usable_label_candidate = column_exists and same_unit_as_sample and stable_label_meaning_known
+
+print("3) label candidate check")
+print("- column to try:", label_column_to_try)
+print("- column exists:", column_exists)
+print("- candidate unit:", candidate_unit)
+print("- same unit as one event:", same_unit_as_sample)
+print("- stable label meaning known:", stable_label_meaning_known)
+print("- usable label candidate:", usable_label_candidate)
 print()
 
 event_summary = (
     raw.groupby("event_id", as_index=False)
     .agg(
+        batch_id=("batch_id", "first"),
+        recipe=("recipe", "first"),
+        row_count=("second", "count"),
+        duration_seconds=("second", "max"),
         max_pressure=("pressure", "max"),
         mean_flow=("flow", "mean"),
+        max_vibration=("vibration", "max"),
+        end_temperature=("temperature", "last"),
     )
 )
-print("3) questions that must be settled first")
+print("4) questions that must be settled first")
 print("- one sample: one event")
 print("- candidate comparison table: one row per event")
-print("- label candidate: still not decided")
+print("- label candidate:", "usable" if usable_label_candidate else "still not decided")
 print()
 
-print("4) event-level table after defining the sample")
-print(event_summary)
+print("5) event-level table after defining the sample")
+print(event_summary.round(2))
 ```
 
 Expected output:
 
 ```text
-1) raw log
-  event_id  second  pressure  flow
-0        A       0       1.0   0.0
-1        A       1       2.0   1.4
-2        A       2       2.4   1.6
-3        B       0       1.1   0.1
-4        B       1       1.7   1.0
-5        B       2       1.9   1.1
+1) raw input shape and first rows
+shape: (36, 8)
+  event_id batch_id    recipe  second  pressure  flow  vibration  temperature
+0        A     B-17  standard       0       1.0   0.0       0.02         24.1
+1        A     B-17  standard       1       2.0   1.4       0.04         24.4
+2        A     B-17  standard       2       2.4   1.6       0.07         24.8
+3        A     B-17  standard       3       2.2   1.2       0.08         25.0
+4        B     B-17  standard       0       1.1   0.1       0.03         24.0
 
 2) too-early reading
 - maybe this is a classification problem
 - label column: not found yet
 - one training sample: not decided yet
 
-3) questions that must be settled first
+3) label candidate check
+- column to try: review_label
+- column exists: False
+- candidate unit: event_label
+- same unit as one event: False
+- stable label meaning known: False
+- usable label candidate: False
+
+4) questions that must be settled first
 - one sample: one event
 - candidate comparison table: one row per event
 - label candidate: still not decided
 
-4) event-level table after defining the sample
-  event_id  max_pressure  mean_flow
-0        A           2.4   1.000000
-1        B           1.9   0.733333
+5) event-level table after defining the sample
+  event_id batch_id     recipe  row_count  duration_seconds  max_pressure  mean_flow  max_vibration  end_temperature
+0        A     B-17   standard          4                 3           2.4       1.05           0.08             25.0
+1        B     B-17   standard          4                 3           1.9       0.78           0.06             24.7
+2        C     B-18       fast          4                 3           2.8       1.05           0.22             26.8
+3        D     B-18       fast          4                 3           2.6       1.02           0.16             26.2
+4        E     B-19   standard          4                 3           2.1       0.90           0.07             24.8
+5        F     B-19   standard          4                 3           2.5       1.12           0.09             25.3
+6        G     B-20  high-load          4                 3           3.1       1.35           0.28             27.5
+7        H     B-20  high-load          4                 3           2.9       1.30           0.24             27.0
+8        I     B-21   standard          4                 3           2.3       0.98           0.08             25.1
 ```
 
-The core of this example is the difference between steps 2 and 3. In step 2, only the sentence `maybe this is a classification problem` appears first, but in reality there is neither a label column nor even one decided training sample. By contrast, step 3 first fixes the structure `one sample is one action` and `the comparison table is one row per action`. Only after that does a comparable table appear, as in step 4. In other words, if source data is read too quickly as a learning problem, the format of the problem gets fixed first while the still-empty questions remain covered over.
+The core of this example is the difference between steps 2 and 3. In step 2, only the sentence `maybe this is a classification problem` appears first, but in reality the `review_label` column specified by `label_column_to_try` does not exist, and even one sample has not yet been decided. The value to manipulate here is `label_column_to_try`. If it is changed to `"flow"`, `column exists` becomes `True`, but `candidate unit` is `time_point_sensor_value` and `usable label candidate` remains `False`. That is because `flow` is not a stable label attached to one action; it is a time-point sensor value. By contrast, step 4 first fixes the structure `one sample is one action` and `the comparison table is one row per action`. Only after that does an event-level comparison table with `row_count`, `duration_seconds`, `max_pressure`, `mean_flow`, `max_vibration`, and `end_temperature` appear, as in step 5. In other words, if source data is read too quickly as a learning problem, the problem format is fixed first while the still-empty questions remain covered over.
 
 If we place side by side the empty questions left behind when the learning-problem frame jumps out first, the issue becomes clearer.
 
@@ -144,6 +190,6 @@ So the most common mistake when source data first arrives is to mistake `record 
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because it explains that a labeled example consists of features and a label, it supports the claim that source data where neither one sample nor a label has yet been fixed should not be read immediately as a learning problem. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it strengthens the warning that choosing the problem frame first risks reading not-yet-organized source columns into a bad learning structure. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because the provenance framework explains that it should support identifying an object and representing derivation, it strengthens the higher-level frame that we must first decide what counts as one object and through what transformation a dataset candidate was made. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because it explains that a labeled example consists of features and a label, it supports the claim that source data where neither one sample nor a label has yet been fixed should not be read immediately as a learning problem. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it strengthens the warning that choosing the problem frame first risks reading not-yet-organized source columns into a bad learning structure. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because the provenance framework explains that it should support identifying an object and representing derivation, it strengthens the higher-level frame that we must first decide what counts as one object and through what transformation a dataset candidate was made. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

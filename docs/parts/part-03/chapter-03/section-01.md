@@ -1,7 +1,7 @@
 # P3-3.1 원천데이터를 왜 곧바로 학습 문제로 읽으면 안 되는가
 
 > Section ID: `P3-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 원천데이터를 처음 받으면 많은 사람이 거의 반사적으로 `이걸로 무엇을 예측할까`부터 떠올립니다. 표가 있고 값이 많고 시간이 흐르며 측정된 기록도 보이니, 곧바로 어떤 학습 문제로 바꿀 수 있을 것처럼 느껴지기 때문입니다. 하지만 이 반응은 대개 너무 빠릅니다. 눈앞의 표는 아직 `학습용 데이터셋`이 아니라 `기록된 원천데이터`이거나, 많아야 `데이터셋 후보`일 가능성이 더 크기 때문입니다.
 
@@ -162,16 +162,16 @@ shape: (36, 8)
 - label candidate: still not decided
 
 5) event-level table after defining the sample
-  event_id batch_id    recipe  row_count  duration_seconds  max_pressure  mean_flow  max_vibration  end_temperature
-0        A     B-17  standard          4                 3           2.4       1.05           0.08             25.0
-1        B     B-17  standard          4                 3           1.9       0.78           0.06             24.7
-2        C     B-18      fast          4                 3           2.8       1.05           0.22             26.8
-3        D     B-18      fast          4                 3           2.6       1.02           0.16             26.2
-4        E     B-19  standard          4                 3           2.1       0.90           0.07             24.8
-5        F     B-19  standard          4                 3           2.5       1.12           0.09             25.3
-6        G     B-20 high-load          4                 3           3.1       1.35           0.28             27.5
-7        H     B-20 high-load          4                 3           2.9       1.30           0.24             27.0
-8        I     B-21  standard          4                 3           2.3       0.98           0.08             25.1
+  event_id batch_id     recipe  row_count  duration_seconds  max_pressure  mean_flow  max_vibration  end_temperature
+0        A     B-17   standard          4                 3           2.4       1.05           0.08             25.0
+1        B     B-17   standard          4                 3           1.9       0.78           0.06             24.7
+2        C     B-18       fast          4                 3           2.8       1.05           0.22             26.8
+3        D     B-18       fast          4                 3           2.6       1.02           0.16             26.2
+4        E     B-19   standard          4                 3           2.1       0.90           0.07             24.8
+5        F     B-19   standard          4                 3           2.5       1.12           0.09             25.3
+6        G     B-20  high-load          4                 3           3.1       1.35           0.28             27.5
+7        H     B-20  high-load          4                 3           2.9       1.30           0.24             27.0
+8        I     B-21   standard          4                 3           2.3       0.98           0.08             25.1
 ```
 
 이 예제의 핵심은 2단계와 3단계의 차이입니다. 2단계에서는 `분류 문제일지도 모른다`는 말만 먼저 나오지만, 실제로는 `label_column_to_try`로 지정한 `review_label` 열도 없고 샘플 1건도 아직 정해지지 않았습니다. 여기서 조작할 값은 `label_column_to_try`입니다. 값을 `"flow"`로 바꾸면 `column exists`는 `True`가 되지만, `candidate unit`은 `time_point_sensor_value`이고 `usable label candidate`는 여전히 `False`입니다. `flow`는 동작 1회에 붙은 안정 라벨이 아니라 시점별 센서값이기 때문입니다. 반대로 4단계에서는 먼저 `한 샘플은 동작 1회`, `비교 표는 동작별 1행`이라는 구조를 정합니다. 그 뒤에야 5단계처럼 `row_count`, `duration_seconds`, `max_pressure`, `mean_flow`, `max_vibration`, `end_temperature`를 가진 동작 단위 비교 표가 생깁니다. 즉 원천데이터를 너무 빨리 학습 문제로 읽으면, 아직 비어 있는 질문을 덮어 둔 채 문제 형식만 먼저 정하게 됩니다.
@@ -190,6 +190,6 @@ shape: (36, 8)
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example은 features와 label로 구성된다고 설명하므로, 아직 샘플 1건과 label이 정해지지 않은 원천데이터를 곧바로 학습 문제로 읽으면 안 된다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 문제 틀을 먼저 고르면 아직 정리되지 않은 원천 열을 잘못된 학습 구조로 읽을 위험이 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 무엇을 한 대상(example)로 보고 어떤 변환을 거쳐 데이터셋 후보를 만들었는지 먼저 정리해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example은 features와 label로 구성된다고 설명하므로, 아직 샘플 1건과 label이 정해지지 않은 원천데이터를 곧바로 학습 문제로 읽으면 안 된다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 문제 틀을 먼저 고르면 아직 정리되지 않은 원천 열을 잘못된 학습 구조로 읽을 위험이 있다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 무엇을 한 대상(example)로 보고 어떤 변환을 거쳐 데이터셋 후보를 만들었는지 먼저 정리해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
