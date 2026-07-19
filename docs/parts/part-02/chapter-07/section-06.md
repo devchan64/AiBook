@@ -1,7 +1,7 @@
 # P2-7.6 보충학습: Windows, macOS, Linux 터미널 사용법
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory)의 개념을 봤습니다. 여기서는 그 개념을 실제 운영체제에서 어떻게 확인하는지 다룹니다.
 
@@ -18,21 +18,6 @@ P2-7.2에서는 터미널(terminal), 셸(shell), 작업 폴더(working directory
 | `pwd`, `ls`, `cd` | 현재 위치 확인, 목록 확인, 폴더 이동을 위한 기본 명령입니다. |
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | PowerShell에서 같은 목적을 수행하는 명령입니다. |
 | 경로(path) 차이 | Windows의 `C:\\...`와 macOS/Linux의 `/...`처럼 운영체제별 위치 표기 차이입니다. |
-
-## 이 보충학습의 범위
-
-이 보충학습은 Windows, macOS, Linux에서 터미널을 처음 열고 실습 전에 확인할 최소 절차를 다룹니다. 터미널과 셸의 개념 정의는 P2-7.2에서, Python 설치 판단은 P2-7.7에서, 셸 기호와 환경 변수는 P2-7.8에서, 로컬 환경 점검 순서는 P2-7.9에서 다시 다룹니다.
-
-여기서는 다음 질문에 답합니다.
-
-- Windows에서는 어떤 터미널을 열 수 있는가?
-- macOS에서는 Terminal을 어떻게 이해하면 되는가?
-- Linux에서는 왜 터미널 사용이 자주 등장하는가?
-- 현재 위치와 파일 목록은 어떻게 확인하는가?
-- Windows 명령과 macOS/Linux 명령은 왜 조금 다른가?
-- 복사해서 붙여넣는 명령을 실행할 때 무엇을 조심해야 하는가?
-
-이번 보충학습은 운영체제가 달라도 `먼저 현재 위치를 확인하고`, `파일 목록을 보고`, `실습 폴더로 이동한다`는 공통 점검 순서까지를 먼저 닫습니다. 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 관리자 권한, 환경 변수(environment variable)는 P2-7.8 보충학습에서 다시 회수합니다.
 
 ## 이 보충학습의 목표
 
@@ -386,10 +371,10 @@ PS C:\Users\someone> python example.py
 
 ## 출처와 참고 자료
 
-- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn, 확인 날짜: 2026-07-19. Windows Terminal이 Command Prompt, PowerShell, WSL bash 같은 여러 명령줄 셸을 실행하는 호스트 앱이라는 설명 확인에 사용했다.
-- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, 확인 날짜: 2026-07-19. macOS Terminal에서 새 창/탭, 복사·붙여넣기, `Tab`, `Ctrl-C` 계열 단축키를 확인하는 근거로 사용했다.
-- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, 확인 날짜: 2026-07-19. macOS Terminal의 역할과 명령 실행·파일/폴더 지정 안내 확인에 사용했다.
-- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki, 확인 날짜: 2026-07-19. Ubuntu/Linux에서 터미널을 열고 명령줄 작업을 수행하는 입문 맥락 확인에 사용했다.
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-19. PowerShell에서 현재 작업 위치를 확인하는 명령과 `pwd` 별칭 확인에 사용했다.
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-19. PowerShell에서 현재 작업 위치를 바꾸는 명령과 `cd` 별칭 확인에 사용했다.
-- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-19. PowerShell에서 파일과 폴더 목록을 확인하는 명령과 `ls` 별칭 확인에 사용했다.
+- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn, 확인 날짜: 2026-07-20. Windows Terminal이 Command Prompt, PowerShell, WSL bash 같은 여러 명령줄 셸을 실행하는 호스트 앱이라는 설명 확인에 사용했다.
+- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, 확인 날짜: 2026-07-20. macOS Terminal에서 새 창/탭, 복사·붙여넣기, `Tab`, `Ctrl-C` 계열 단축키를 확인하는 근거로 사용했다.
+- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, 확인 날짜: 2026-07-20. macOS Terminal의 역할과 명령 실행·파일/폴더 지정 안내 확인에 사용했다.
+- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki, 확인 날짜: 2026-07-20. Ubuntu/Linux에서 터미널을 열고 명령줄 작업을 수행하는 입문 맥락 확인에 사용했다.
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 현재 작업 위치를 확인하는 명령과 `pwd` 별칭 확인에 사용했다.
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 현재 작업 위치를 바꾸는 명령과 `cd` 별칭 확인에 사용했다.
+- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-20. PowerShell에서 파일과 폴더 목록을 확인하는 명령과 `ls` 별칭 확인에 사용했다.

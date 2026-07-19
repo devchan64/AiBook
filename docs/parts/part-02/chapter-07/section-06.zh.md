@@ -1,7 +1,7 @@
 # P2-7.6 补充学习：Windows、macOS、Linux 终端使用方法
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.2 中，我们看过终端（terminal）、shell、工作文件夹（working directory）的概念。这里要处理的是，如何在实际操作系统中确认这些概念。
 
@@ -18,21 +18,6 @@
 | `pwd`, `ls`, `cd` | 用来确认当前位置、查看列表、移动文件夹的基本命令。 |
 | `Get-Location`, `Get-ChildItem`, `Set-Location` | 在 PowerShell 中完成相同目的的命令。 |
 | 路径（path）差异 | 像 Windows 的 `C:\\...` 与 macOS/Linux 的 `/...` 这样的操作系统路径表示差异。 |
-
-## 本补充学习的范围
-
-这个补充学习处理的是：在 Windows、macOS、Linux 中第一次打开终端，并在实践前完成最低限度确认的步骤。终端与 shell 的概念定义会在 P2-7.2 再次出现，判断是否需要安装 Python 会在 P2-7.7 再次处理，shell 符号与环境变量会在 P2-7.8 再次处理，本地环境检查顺序会在 P2-7.9 再次整理。
-
-这里回答下面这些问题。
-
-- 在 Windows 中可以打开什么终端？
-- 在 macOS 中应该怎样理解 Terminal？
-- 为什么在 Linux 中终端使用会经常出现？
-- 如何确认当前位置和文件列表？
-- 为什么 Windows 命令与 macOS/Linux 命令会有些不同？
-- 在执行复制粘贴的命令时要注意什么？
-
-这个补充学习先收束即使操作系统不同也共通的检查顺序：`先确认当前位置`、`查看文件列表`、`移动到实践文件夹`。shell script、pipe、redirection、管理员权限、环境变量（environment variable）会在 P2-7.8 补充学习中再次回收。
 
 ## 本补充学习的目标
 
@@ -388,10 +373,10 @@ PS C:\Users\someone> python example.py
 
 ## 来源与参考资料
 
-- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn，确认日期：2026-07-19。用于确认 Windows Terminal 是运行 Command Prompt、PowerShell、WSL bash 等命令行 shell 的宿主应用。
-- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-07-19。用于确认 macOS Terminal 中新建窗口/标签页、复制粘贴、`Tab`、`Ctrl-C` 类行为的快捷键。
-- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-07-19。用于确认 macOS Terminal 的角色，以及执行命令、指定文件和文件夹的说明。
-- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki，确认日期：2026-07-19。用于确认在 Ubuntu/Linux 中打开终端并执行命令行工作的入门语境。
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-19。用于确认 PowerShell 中查看当前工作位置的命令及其 `pwd` 别名。
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-19。用于确认 PowerShell 中改变当前工作位置的命令及其 `cd` 别名。
-- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-19。用于确认 PowerShell 中列出文件和文件夹的命令及其 `ls` 别名。
+- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn，确认日期：2026-07-20。用于确认 Windows Terminal 是运行 Command Prompt、PowerShell、WSL bash 等命令行 shell 的宿主应用。
+- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-07-20。用于确认 macOS Terminal 中新建窗口/标签页、复制粘贴、`Tab`、`Ctrl-C` 类行为的快捷键。
+- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-07-20。用于确认 macOS Terminal 的角色，以及执行命令、指定文件和文件夹的说明。
+- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki，确认日期：2026-07-20。用于确认在 Ubuntu/Linux 中打开终端并执行命令行工作的入门语境。
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-20。用于确认 PowerShell 中查看当前工作位置的命令及其 `pwd` 别名。
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-20。用于确认 PowerShell 中改变当前工作位置的命令及其 `cd` 别名。
+- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-20。用于确认 PowerShell 中列出文件和文件夹的命令及其 `ls` 别名。
