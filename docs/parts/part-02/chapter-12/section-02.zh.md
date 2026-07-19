@@ -1,7 +1,7 @@
 # P2-12.2 选择、过滤与聚合
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-12.1 中，我们把 Pandas `DataFrame` 看作带有行(row)、列(column)与索引(index)的表格型数据结构。接下来会自然出现另一个问题。
 
@@ -16,20 +16,6 @@
 在 Pandas 中，选择(selection)、过滤(filtering)、聚合(aggregation)处理的就是这条流程。
 
 本节说明 `Series`、过滤(filtering)、聚合(aggregation)、`groupby`、`loc`、`iloc` 的基本区分。`DataFrame` 本身的代表性说明放在 P2-12.1 与[概念词汇表](/AiBook/en/reference/concept-glossary/)中，这里关注的是：从那张表里读什么、留下什么、概括什么。
-
-## 本节范围
-
-本节先收束 column selection、row filtering、aggregation、`groupby` 之间的区别。数据集(dataset)准备场景中的 preprocessing 与 data leakage 问题，会在下一节 P2-12.3 再接上；这里集中处理怎样按照问题缩小并总结一张表。
-
-这里首先要解决的问题是：当我们拿到一张表时，为什么要把`读什么、留什么、概括什么`拆成不同动作来看？
-
-所以本节回答以下问题。
-
-- 选择一列(column)与选择多列(columns)有什么不同？
-- `loc` 与 `iloc` 分别按什么标准选择行和列？
-- 条件过滤会留下哪些行？
-- 平均值(mean)、数量(count)、总和(sum)之类的聚合在概括什么？
-- 为什么 `groupby` 这么常出现？
 
 ## 本节目标
 
@@ -548,6 +534,6 @@ print(summary)
 
 ## 来源与参考资料
 
-- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。用于确认 column selection、`loc`/`iloc`、boolean indexing 和 row filtering。
-- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。作为用 split-apply-combine flow 说明 `groupby` 的依据。
-- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。用于确认 DataFrame creation、selection、summary statistics 和基本 table manipulation 示例。
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-20。用于确认 column selection、`loc`/`iloc`、boolean indexing 和 row filtering。
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-20。作为用 split-apply-combine flow 说明 `groupby` 的依据。
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-20。用于确认 DataFrame creation、selection、summary statistics 和基本 table manipulation 示例。

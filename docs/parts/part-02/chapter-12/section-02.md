@@ -1,7 +1,7 @@
 # P2-12.2 선택, 필터링, 집계
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)가 있는 표 형식 데이터 구조로 봤습니다. 이제 질문이 하나 더 생깁니다.
 
@@ -16,22 +16,6 @@ P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)�
 Pandas에서 선택(select), 필터링(filtering), 집계(aggregation)는 바로 이 흐름을 다룹니다.
 
 여기서는 `Series`, `필터링(filtering)`, `집계(aggregation)`, `groupby`, `loc`, `iloc`의 기본 구분을 설명합니다. `DataFrame` 자체의 대표 설명은 P2-12.1과 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 표에서 무엇을 읽고 무엇을 남기고 무엇을 요약할지 설명합니다.
-
-## 이 절의 범위
-
-이 절은 선택(select), 필터링(filtering), 집계(aggregation)로 표에서 무엇을 읽고 무엇을 남기고 무엇을 요약할지 구분하는 절입니다. 이번 절은 `한 열과 여러 열 선택`, `행 필터`, `집계`, `groupby`가 서로 다른 동작이라는 점까지를 먼저 닫습니다.
-
-데이터셋(dataset) 준비 맥락의 전처리와 누수(data leakage) 문제는 바로 다음 P2-12.3에서 다시 연결합니다. 여기서는 선택, 필터링, 집계 흐름에 집중합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `표를 받았을 때 무엇을 읽고, 무엇을 남기고, 무엇을 요약할지 왜 서로 다른 동작으로 나눠서 봐야 하는가`입니다.
-
-그래서 이 절에서는 다음 질문에 답합니다.
-
-- 한 열(column)과 여러 열(columns)을 고른다는 것은 무엇이 다른가?
-- `loc`와 `iloc`는 각각 어떤 기준으로 행과 열을 고르는가?
-- 조건 필터는 어떤 행만 남기는가?
-- 평균(mean), 개수(count), 합(sum) 같은 집계는 무엇을 요약하는가?
-- `groupby`는 왜 자주 등장하는가?
 
 ## 이 절의 목표
 
@@ -550,6 +534,6 @@ print(summary)
 
 ## 출처와 참고 자료
 
-- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. 열 선택, `loc`/`iloc`, 불리언 인덱싱과 행 필터링 설명 확인에 사용했다.
-- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. `groupby`를 split-apply-combine 흐름으로 설명하는 근거로 사용했다.
-- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. DataFrame 생성, 선택, 요약 통계, 기본 표 조작 예시 확인에 사용했다.
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. 열 선택, `loc`/`iloc`, 불리언 인덱싱과 행 필터링 설명 확인에 사용했다.
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. `groupby`를 split-apply-combine 흐름으로 설명하는 근거로 사용했다.
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. DataFrame 생성, 선택, 요약 통계, 기본 표 조작 예시 확인에 사용했다.

@@ -1,7 +1,7 @@
 # P2-12.2 Selection, Filtering, and Aggregation
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-12.1, we treated a Pandas `DataFrame` as a table-shaped data structure with rows, columns, and an index. That immediately raises one more question.
 
@@ -16,20 +16,6 @@ Receiving a table does not mean the needed information is already visible. In pr
 In Pandas, selection, filtering, and aggregation describe exactly that flow.
 
 This Section explains the basic distinction among `Series`, filtering, aggregation, `groupby`, `loc`, and `iloc`. The representative explanation of the `DataFrame` itself stays in P2-12.1 and the [concept glossary](/AiBook/reference/concept-glossary/). Here, the focus is on what to read from that table, what to keep, and what to summarize.
-
-## Scope of This Section
-
-This Section first closes the distinctions among column selection, row filtering, aggregation, and `groupby`. Dataset-preparation preprocessing and data leakage reconnect in P2-12.3, and here we focus on reducing and summarizing a table according to a question.
-
-The first question to resolve here is this: why should we separate `what to read, what to keep, and what to summarize` into different actions when we receive a table?
-
-So this Section answers the following questions.
-
-- What is different between choosing one column and choosing multiple columns?
-- By what standard do `loc` and `iloc` choose rows and columns?
-- Which rows does a condition filter keep?
-- What do aggregations such as mean, count, and sum summarize?
-- Why does `groupby` appear so often?
 
 ## Goals of This Section
 
@@ -548,6 +534,6 @@ That is why even short Pandas code should be read together with the structure of
 
 ## Sources and References
 
-- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used to confirm column selection, `loc`/`iloc`, boolean indexing, and row filtering.
-- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used as the basis for explaining `groupby` through the split-apply-combine flow.
-- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used to confirm DataFrame creation, selection, summary statistics, and basic table-manipulation examples.
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used to confirm column selection, `loc`/`iloc`, boolean indexing, and row filtering.
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used as the basis for explaining `groupby` through the split-apply-combine flow.
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used to confirm DataFrame creation, selection, summary statistics, and basic table-manipulation examples.
