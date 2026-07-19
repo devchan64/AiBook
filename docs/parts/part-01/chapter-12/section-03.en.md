@@ -23,8 +23,6 @@ Part 1 introduces the basic distinctions among `prompt limits`, `evaluation`, `f
 
 So when dealing with prompts, it is necessary to learn not only `how to ask better`, but also `what must be reviewed afterward`.
 
-## Scope of This Section
-
 This section deals with the limits of prompts and the criteria for reviewing outputs. It does not explain `RAG`, `vector search`, `tool use`, `agents`, or `harnesses` in detail. Those structures return in the next chapter and later sections such as P1-13.3, P1-13.4, and P1-14.2 through P1-14.5.
 
 These terms can all sound like similar review categories at first. A quick distinction helps:

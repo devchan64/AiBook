@@ -20,8 +20,6 @@ Once these three are distinguished, a prompt becomes easier to read not as `a po
 
 Part 1 introduces the basic intuition of `instructions`, `context`, `examples`, `few-shot prompting`, and `structured prompting` here. Section 12.1 first explained what prompts specify. This section separates the three most central elements. Evaluation criteria and limits are handled separately in 12.3.
 
-## Scope of This Section
-
 This section does not cover advanced prompt-engineering techniques in detail. Techniques such as `Chain-of-thought`, `self-consistency`, and `automatic prompt optimization` are not explained deeply here. They return later in the practical context of Part 5 P5-9.3.
 
 These terms can all sound like decorative ways of making a prompt longer. A quick distinction helps:

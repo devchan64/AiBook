@@ -20,8 +20,6 @@
 
 在 Part 1 中，本节先建立 `指示(instruction)`、`上下文(context)`、`示例(example)`、`few-shot prompting` 的基本直觉，以及 `提示词结构化` 的基本区分。12.1 已经先说明了提示词能指定什么；这里则继续把其中最核心的三项拆开。评估标准与限制会在 12.3 中单独讨论。
 
-## 本节范围
-
 这里不会详细讲高级 prompt engineering 技术。Chain-of-thought(CoT)、self-consistency、automatic prompt optimization 等技巧不会在这里深讲，而会在 Part 5 的 P5-9.3 补充学习中以更实战的情境重新出现。
 
 `指示`、`上下文`、`示例`、`few-shot` 在开始时都可能听起来像把提示词写长一点的装饰。先简短区分一下它们的作用：

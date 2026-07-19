@@ -22,8 +22,6 @@ Part 1 introduces the basic distinctions among `prompts`, `instructions`, `conte
 
 Prompts do not reveal the internal mechanics of an LLM directly. But they do make it possible to observe how output changes when the same model receives different input conditions. So a prompt is not proof of the model’s inner structure. It is better treated as an external entry point for observing inference behavior.
 
-## Scope of This Section
-
 This section does not cover a catalog of prompt-engineering techniques. `Chain-of-thought`, `few-shot example design`, and `role prompting` return in P1-12.2. Evaluation prompts and limit analysis return in P1-12.3.
 
 These terms can all sound like similar input ingredients at first. A quick distinction helps:

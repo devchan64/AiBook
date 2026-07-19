@@ -20,8 +20,6 @@
 
 Part 1에서 `지시(instruction)`, `맥락(context)`, `예시(example)`, `few-shot prompting`의 기본 직관, `프롬프트 구조화`의 기본 구분은 이 절에서 잡습니다. 12.1에서는 프롬프트가 무엇을 지정하는지 먼저 봤고, 여기서는 그중 가장 핵심적인 세 요소를 분리합니다. 평가 기준과 한계는 12.3에서 따로 다룹니다.
 
-## 이 절의 범위
-
 여기서는 프롬프트 엔지니어링(prompt engineering)의 고급 기법을 다루지 않습니다. Chain-of-thought(CoT), self-consistency, automatic prompt optimization 같은 기법은 여기서 자세히 설명하지 않고, Part 5의 P5-9.3 보충학습에서 실전 문맥으로 다시 다룹니다.
 
 `지시`, `맥락`, `예시`, `few-shot`은 초반에 모두 프롬프트를 길게 만드는 장식처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.
