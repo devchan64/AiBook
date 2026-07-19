@@ -1,7 +1,7 @@
 # P3-9.6 같은 사건도 사람이나 시기에 따라 다른 라벨이 붙으면 어떻게 해야 하는가
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 라벨 후보 열이 생겼다고 해서 곧바로 안정된 학습 문제라고 말할 수는 없습니다. 현실 데이터에서는 같은 사건을 두 검토자가 다르게 적을 수 있고, 지난달에는 `주의`로 보던 상태를 이번 달에는 `정상`으로 기록할 수도 있기 때문입니다. 그래서 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate)를 읽을 때는 `열이 있는가`뿐 아니라 `같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는가`도 함께 봐야 합니다.
 
@@ -217,5 +217,5 @@ review_month  normal  review_needed
 
 ## 출처와 참고 자료
 
-- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`. 사람이 예제에 라벨을 제공하는 rater 역할과, 여러 rater의 판단 일치 여부를 보는 inter-rater agreement 관점을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview. 라벨 후보가 어떤 검토자와 시기, 활동 맥락에서 생겼는지 추적해야 한다는 provenance 관점을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

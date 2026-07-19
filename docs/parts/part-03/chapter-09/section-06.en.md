@@ -1,7 +1,7 @@
 # P3-9.6 What Should Be Done If the Same Event Receives Different Labels by Person or Time
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Just because a label-candidate column exists does not mean you can immediately call it a stable learning problem. In real data, two reviewers can describe the same event differently, and something treated as `caution` last month can be recorded as `normal` this month. So when reading a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate), you need to check not only `does a column exist`, but also `does the same meaning repeat for the same event and similar conditions`.
 
@@ -80,67 +80,142 @@ Leaving these notes makes it possible to check not only `is there a column`, but
 
 ## A Small Python Example
 
-Problem situation: when two reviewers label the same event differently, having a label-candidate column still does not immediately make it easy to read as a stable target label.
+Problem situation: when different reviewers label the same event differently, having a label-candidate column still does not immediately make it easy to read as a stable target label.
 
-Input: a repeated-review table made of `event_id`, `reviewer`, and `review_label`
+Input: repeated review records [p3_9_6_label_reviews.csv](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv). One row in this table is a label record left by a particular reviewer for a particular event in a particular month. The key columns are `event_id`, `review_month`, `reviewer`, and `review_label`.
 
-Expected output: a side-by-side display of the review count by event, the number of label types, and the actual list of disagreement events
+Expected output: output that shows the review count by event, the number of label types, the actual disagreement-event list, and the monthly label distribution side by side
 
 Concept to check: what matters more than the existence of a candidate column is whether the same meaning repeats for the same event and similar conditions
 
 ```python
 import pandas as pd
 
-reviews = pd.DataFrame(
-    [
-        {"event_id": "A", "reviewer": "kim", "review_label": "review_needed"},
-        {"event_id": "A", "reviewer": "lee", "review_label": "normal"},
-        {"event_id": "B", "reviewer": "kim", "review_label": "normal"},
-        {"event_id": "B", "reviewer": "lee", "review_label": "normal"},
-        {"event_id": "C", "reviewer": "kim", "review_label": "review_needed"},
-        {"event_id": "C", "reviewer": "lee", "review_label": "review_needed"},
-    ]
-)
+label_variety_threshold = 1
+preview_row_count = 8
+
+reviews_path = "docs/assets/part-03/chapter-09/p3_9_6_label_reviews.csv"
+reviews = pd.read_csv(reviews_path)
 
 label_variety = reviews.groupby("event_id")["review_label"].nunique()
-disagreed_events = label_variety[label_variety > 1]
+disagreed_events = label_variety[label_variety > label_variety_threshold]
 
-review_counts = reviews.groupby("event_id").size()
+review_summary = pd.DataFrame(
+    {
+        "review_count": reviews.groupby("event_id").size(),
+        "label_variety": label_variety,
+    }
+)
 
-print("1) reviews per event:")
-print(review_counts)
+monthly_labels = (
+    reviews.groupby(["review_month", "review_label"])
+    .size()
+    .unstack(fill_value=0)
+    .reset_index()
+)
+
+disagreement_detail = (
+    reviews[reviews["event_id"].isin(disagreed_events.index)]
+    .sort_values(["event_id", "review_month", "reviewer"])
+    [["event_id", "review_month", "reviewer", "review_label"]]
+)
+
+print("1) review record preview:")
+print(reviews.head(preview_row_count).to_string(index=False))
+print(f"... {len(reviews) - preview_row_count} more review records")
 print()
-print("2) label variety by event:")
+print("2) reviews per event:")
+print(review_summary)
+print()
+print("3) label variety by event:")
 print(label_variety)
 print()
-print("3) events with disagreement:")
+print("4) events with disagreement:")
 print(disagreed_events.index.tolist())
+print()
+print("5) disagreement detail:")
+print(disagreement_detail.head(12).to_string(index=False))
+print(f"... {len(disagreement_detail) - 12} more disagreement records")
+print()
+print("6) labels by review month:")
+print(monthly_labels.to_string(index=False))
 ```
 
 Expected output:
 
 ```text
-1) reviews per event:
-event_id
-A    2
-B    2
-C    2
-dtype: int64
+1) review record preview:
+event_id review_month reviewer  diff repeatability  review_label
+       A      2026-04      kim -0.34          high review_needed
+       A      2026-04      lee -0.34          high        normal
+       A      2026-05     park -0.34          high review_needed
+       B      2026-04      kim -0.08           low        normal
+       B      2026-04      lee -0.08           low        normal
+       B      2026-05     park -0.08           low        normal
+       C      2026-04      kim -0.29        medium review_needed
+       C      2026-04      lee -0.29        medium review_needed
+... 28 more review records
 
-2) label variety by event:
+2) reviews per event:
+          review_count  label_variety
+event_id
+A                    3              2
+B                    3              1
+C                    3              1
+D                    3              2
+E                    3              1
+F                    3              2
+G                    3              2
+H                    3              1
+I                    3              2
+J                    3              1
+K                    3              1
+L                    3              2
+
+3) label variety by event:
 event_id
 A    2
 B    1
 C    1
+D    2
+E    1
+F    2
+G    2
+H    1
+I    2
+J    1
+K    1
+L    2
 Name: review_label, dtype: int64
 
-3) events with disagreement:
-['A']
+4) events with disagreement:
+['A', 'D', 'F', 'G', 'I', 'L']
+
+5) disagreement detail:
+event_id review_month reviewer  review_label
+       A      2026-04      kim review_needed
+       A      2026-04      lee        normal
+       A      2026-05     park review_needed
+       D      2026-04      kim        normal
+       D      2026-04      lee        normal
+       D      2026-05     park review_needed
+       F      2026-04      kim        normal
+       F      2026-04      lee review_needed
+       F      2026-05     park        normal
+       G      2026-04      kim review_needed
+       G      2026-04      lee        normal
+       G      2026-05     park        normal
+... 6 more disagreement records
+
+6) labels by review month:
+review_month  normal  review_needed
+     2026-04      12             12
+     2026-05       6              6
 ```
 
-The purpose of this example is not to build model inputs, but to check first `how many reviews were performed for the same event, and where did the labels diverge`. When you first look at the review count by event, then count the number of label types, and finally extract only the events with actual disagreement, it becomes clearer why this section asks you to look at `does label meaning repeat` before `is there a label column`. What matters here is not one team's memo habit, but checking `label meaning stability`. When reading a target candidate, you need to ask together whether the current label candidate repeats with relatively the same meaning, whether a point of rule change can be noted, and whether unstable labels are being kept from being used directly as the result column. Only with that check does a target-candidate table become more than a list of columns. It becomes a structure that includes `the stability of label meaning`.
+The purpose of this example is not to build model inputs, but to check first `how many reviews were performed for the same event, and where did the labels diverge`. When you first look at the review count by event, then count the number of label types, and finally check the actual disagreement-event list and detailed records, it becomes clearer why this section asks you to look at `does label meaning repeat` before `is there a label column`. In the output, events such as `A`, `D`, `F`, `G`, `I`, and `L` appear separately because their label variety is 2 among the 12 events. Looking at the monthly label distribution together also lets you note the possibility of rule changes by period. What matters here is not one team's memo habit, but checking `label meaning stability`. When reading a target candidate, you need to ask together whether the current label candidate repeats with relatively the same meaning, whether a point of rule change can be noted, and whether unstable labels are being kept from being used directly as the result column. Only with that check does a target-candidate table become more than a list of columns. It becomes a structure that includes `the stability of label meaning`.
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`. Used to check the role of a rater who provides labels for examples and the inter-rater agreement view for whether multiple raters agree. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview. Used to check the provenance view that a label candidate should remain traceable to reviewer, time, and activity context. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

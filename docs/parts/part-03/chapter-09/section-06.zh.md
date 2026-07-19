@@ -1,7 +1,7 @@
 # P3-9.6 如果同一个事件会因人或时期不同而被贴上不同标签，该怎么办
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 即使已经出现了标签候选列，也不能立刻说这就是一个稳定的学习问题。在现实数据里，同一个事件可能会被两个复核者写成不同结果，上个月还被看作`注意`的状态，这个月也可能被记成`正常`。所以，在读取[目标标签候选（target candidate）](/AiBook/en/reference/concept-glossary/#glossary-target-candidate)时，不能只看`有没有列`，还要一起看`在同一个事件和相似条件下，是否会重复出现相同含义的判断`。
 
@@ -80,67 +80,142 @@
 
 ## 一个小 Python 例子
 
-问题场景：当两个复核者对同一个事件给出不同标签时，即使已经有标签候选列，也不意味着它可以立刻被读成稳定目标标签。
+问题场景：当不同复核者对同一个事件给出不同标签时，即使已经有标签候选列，也不意味着它可以立刻被读成稳定目标标签。
 
-输入：由 `event_id`、`reviewer`、`review_label` 组成的重复复核记录表
+输入：重复复核记录 [p3_9_6_label_reviews.csv](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv)。这张表的一行表示某个复核者在某个月对某个事件留下的一条标签记录。核心列是 `event_id`、`review_month`、`reviewer`、`review_label`。
 
-预期输出：并排展示每个事件的复核次数、标签种类数，以及真正发生不一致的事件列表
+预期输出：并排展示每个事件的复核次数、标签种类数、真正发生不一致的事件列表，以及按月份统计的标签分布
 
 要确认的概念：比起是否存在候选列，更重要的是相同事件和相似条件下，相同含义的判断是否在重复
 
 ```python
 import pandas as pd
 
-reviews = pd.DataFrame(
-    [
-        {"event_id": "A", "reviewer": "kim", "review_label": "review_needed"},
-        {"event_id": "A", "reviewer": "lee", "review_label": "normal"},
-        {"event_id": "B", "reviewer": "kim", "review_label": "normal"},
-        {"event_id": "B", "reviewer": "lee", "review_label": "normal"},
-        {"event_id": "C", "reviewer": "kim", "review_label": "review_needed"},
-        {"event_id": "C", "reviewer": "lee", "review_label": "review_needed"},
-    ]
-)
+label_variety_threshold = 1
+preview_row_count = 8
+
+reviews_path = "docs/assets/part-03/chapter-09/p3_9_6_label_reviews.csv"
+reviews = pd.read_csv(reviews_path)
 
 label_variety = reviews.groupby("event_id")["review_label"].nunique()
-disagreed_events = label_variety[label_variety > 1]
+disagreed_events = label_variety[label_variety > label_variety_threshold]
 
-review_counts = reviews.groupby("event_id").size()
+review_summary = pd.DataFrame(
+    {
+        "review_count": reviews.groupby("event_id").size(),
+        "label_variety": label_variety,
+    }
+)
 
-print("1) reviews per event:")
-print(review_counts)
+monthly_labels = (
+    reviews.groupby(["review_month", "review_label"])
+    .size()
+    .unstack(fill_value=0)
+    .reset_index()
+)
+
+disagreement_detail = (
+    reviews[reviews["event_id"].isin(disagreed_events.index)]
+    .sort_values(["event_id", "review_month", "reviewer"])
+    [["event_id", "review_month", "reviewer", "review_label"]]
+)
+
+print("1) review record preview:")
+print(reviews.head(preview_row_count).to_string(index=False))
+print(f"... {len(reviews) - preview_row_count} more review records")
 print()
-print("2) label variety by event:")
+print("2) reviews per event:")
+print(review_summary)
+print()
+print("3) label variety by event:")
 print(label_variety)
 print()
-print("3) events with disagreement:")
+print("4) events with disagreement:")
 print(disagreed_events.index.tolist())
+print()
+print("5) disagreement detail:")
+print(disagreement_detail.head(12).to_string(index=False))
+print(f"... {len(disagreement_detail) - 12} more disagreement records")
+print()
+print("6) labels by review month:")
+print(monthly_labels.to_string(index=False))
 ```
 
 预期输出：
 
 ```text
-1) reviews per event:
-event_id
-A    2
-B    2
-C    2
-dtype: int64
+1) review record preview:
+event_id review_month reviewer  diff repeatability  review_label
+       A      2026-04      kim -0.34          high review_needed
+       A      2026-04      lee -0.34          high        normal
+       A      2026-05     park -0.34          high review_needed
+       B      2026-04      kim -0.08           low        normal
+       B      2026-04      lee -0.08           low        normal
+       B      2026-05     park -0.08           low        normal
+       C      2026-04      kim -0.29        medium review_needed
+       C      2026-04      lee -0.29        medium review_needed
+... 28 more review records
 
-2) label variety by event:
+2) reviews per event:
+          review_count  label_variety
+event_id
+A                    3              2
+B                    3              1
+C                    3              1
+D                    3              2
+E                    3              1
+F                    3              2
+G                    3              2
+H                    3              1
+I                    3              2
+J                    3              1
+K                    3              1
+L                    3              2
+
+3) label variety by event:
 event_id
 A    2
 B    1
 C    1
+D    2
+E    1
+F    2
+G    2
+H    1
+I    2
+J    1
+K    1
+L    2
 Name: review_label, dtype: int64
 
-3) events with disagreement:
-['A']
+4) events with disagreement:
+['A', 'D', 'F', 'G', 'I', 'L']
+
+5) disagreement detail:
+event_id review_month reviewer  review_label
+       A      2026-04      kim review_needed
+       A      2026-04      lee        normal
+       A      2026-05     park review_needed
+       D      2026-04      kim        normal
+       D      2026-04      lee        normal
+       D      2026-05     park review_needed
+       F      2026-04      kim        normal
+       F      2026-04      lee review_needed
+       F      2026-05     park        normal
+       G      2026-04      kim review_needed
+       G      2026-04      lee        normal
+       G      2026-05     park        normal
+... 6 more disagreement records
+
+6) labels by review month:
+review_month  normal  review_needed
+     2026-04      12             12
+     2026-05       6              6
 ```
 
-这个例子的目的不是制作模型输入，而是先确认：`同一个事件被复核了多少次，其中哪些地方发生了标签分裂。` 当你先看每个事件的复核次数，再数标签种类数，最后只抽出真正不一致的事件列表时，就会更清楚为什么这一节要求先看`标签含义是否在重复`，而不是先看`有没有标签列`。这里重要的，不是某个团队的备注习惯，而是确认`标签含义稳定性（label meaning stability）`。在阅读目标标签候选时，要一起确认：当前标签候选是否以相对相同的含义重复出现、能否记录标准改变的时点，以及是否避免把不稳定标签直接作为结果列。只有这样，目标标签候选表才不只是一个列清单，而会变成把`标签含义稳定性`也包含进来的结构。
+这个例子的目的不是制作模型输入，而是先确认：`同一个事件被复核了多少次，其中哪些地方发生了标签分裂。` 当你先看每个事件的复核次数，再数标签种类数，最后查看真正不一致的事件列表和详细记录时，就会更清楚为什么这一节要求先看`标签含义是否在重复`，而不是先看`有没有标签列`。输出中，12 个事件里 `A`、`D`、`F`、`G`、`I`、`L` 这类标签种类数为 2 的事件会被单独显示出来。再一起看月度标签分布，也可以记录按时期发生规则变化的可能性。这里重要的，不是某个团队的备注习惯，而是确认`标签含义稳定性（label meaning stability）`。在阅读目标标签候选时，要一起确认：当前标签候选是否以相对相同的含义重复出现、能否记录标准改变的时点，以及是否避免把不稳定标签直接作为结果列。只有这样，目标标签候选表才不只是一个列清单，而会变成把`标签含义稳定性`也包含进来的结构。
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `rater`, `inter-rater agreement`, `label`。用于确认 rater 为样本提供标签的角色，以及 inter-rater agreement 用来观察多个 rater 判断是否一致这一视角。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and activity context overview。用于确认 provenance 视角：标签候选应能追溯到复核者、时间和活动语境。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
