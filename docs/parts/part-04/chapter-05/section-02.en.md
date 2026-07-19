@@ -1,7 +1,7 @@
 # P4-5.2 Generalization
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-5.1 separated `overfitting` from `underfitting`. Now we need to move one step higher. Why do we care so much about that distinction? In the end, the goal of machine learning is not `raising the score on training data`, but `working usefully even on data the model has not seen yet`. The word that organizes that question is `generalization`.
 
@@ -269,67 +269,23 @@ It also helps to note that the changes on the side of social phenomena are not j
 
 ## Practice And Examples
 
-### Reading The Generalization Question Through A Python Example
+### Reading The Generalization Question Through A Table
 
-The following code shows how to read scores from the perspective of generalization.
+The following record shows how to read scores from the perspective of generalization. Because this is a scene for interpreting score combinations that have already been produced, it is more appropriate to see training score, validation score, and the gap in one table than to use Python code.
 
-Problem situation:
+| Model | Training score | Validation score | `generalization gap` | Interpretation |
+| --- | ---: | ---: | ---: | --- |
+| `model_A` | 0.81 | 0.79 | 0.02 | Training and validation are relatively similar |
+| `model_B` | 0.99 | 0.74 | 0.25 | Training is very high, but validation is much lower |
+| `model_C` | 0.63 | 0.61 | 0.02 | The gap is small, but both are low |
 
-- Generalization can sound abstract, but in practice it can start from reading the difference between training score and validation score
-
-Input:
-
-- each model's `train_score`
-- each model's `validation_score`
-
-Output:
-
-- each model's training score, validation score, and `generalization gap`
-
-Concept to check:
-
-- generalization is a perspective that asks about robustness on new data
-- even if the gap is small, if both scores are low, it is not immediately good generalization
-
-```python
-results = [
-    {"name": "model_A", "train_score": 0.81, "validation_score": 0.79},
-    {"name": "model_B", "train_score": 0.99, "validation_score": 0.74},
-    {"name": "model_C", "train_score": 0.63, "validation_score": 0.61},
-]
-
-for item in results:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"])
-    print("  train:", item["train_score"])
-    print("  validation:", item["validation_score"])
-    print("  generalization gap:", gap)
-```
-
-The example output can be read like this.
-
-```text
-model_A
-  train: 0.81
-  validation: 0.79
-  generalization gap: 0.02
-model_B
-  train: 0.99
-  validation: 0.74
-  generalization gap: 0.25
-model_C
-  train: 0.63
-  validation: 0.61
-  generalization gap: 0.02
-```
-
-In this example, `generalization gap` is not a formal theoretical explanation. It is only a supporting expression that helps readers interpret the difference between training score and validation score.
+In this table, `generalization gap` is not a formal theoretical explanation. It is only a supporting expression that helps readers interpret the difference between training score and validation score. The judgment should not end with `gap` alone; the absolute levels of training score and validation score must be read together.
 
 - `model_A` is relatively similar between training and validation.
 - `model_B` is very high on training but much lower on validation.
 - `model_C` has a small gap, but both scores are low.
 
-So when reading generalization, looking only at `the gap` is not enough, and looking only at `the level` is not enough either. Both need to be read together.
+So when reading generalization, looking only at `the gap` is not enough, and looking only at `the level` is not enough either. If the gap is small but both are low, as with `model_C`, it is hard to call it a model with good generalization. If only training is high and validation is much lower, as with `model_B`, overfitting should be suspected first.
 
 The important interpretation here is the following.
 
@@ -338,61 +294,17 @@ The important interpretation here is the following.
 
 Generalization is closer mainly to the second question.
 
-### Reading Generalization On Social Phenomena Through A Python Example
+### Reading Generalization On Social Phenomena Through A Table
 
 The next example simplifies the idea that a post-classification model can be strong on `familiar expressions` but become unstable when `new expressions` enter.
 
-Problem situation:
+| Situation | Familiar-expression score | New-expression score | `generalization gap` | Interpretation |
+| --- | ---: | ---: | ---: | --- |
+| posts from last month | 0.93 | 0.90 | 0.03 | The difference between familiar and new expressions is small |
+| new slang appears | 0.93 | 0.68 | 0.25 | The score can drop sharply when expression changes even a little |
+| sarcasm and indirect wording increase | 0.93 | 0.61 | 0.32 | When the surface sentence changes, the model may become much more unstable |
 
-- Even on the same task, it is useful to check numerically how much the model's generalization shakes when the expression style changes
-
-Input:
-
-- score on familiar expressions: `train_like_score`
-- score on new expressions: `new_expression_score`
-
-Output:
-
-- the two scores for each case and the `generalization gap`
-
-Concept to check:
-
-- generalization is tied not only to adapting to past data but also to holding up under condition changes
-- expression change is a good example of how generalization is tested even inside the same problem
-
-```python
-scenarios = [
-    {"case": "posts from last month", "train_like_score": 0.93, "new_expression_score": 0.90},
-    {"case": "new slang appears", "train_like_score": 0.93, "new_expression_score": 0.68},
-    {"case": "sarcasm and indirect wording increase", "train_like_score": 0.93, "new_expression_score": 0.61},
-]
-
-for item in scenarios:
-    gap = round(item["train_like_score"] - item["new_expression_score"], 2)
-    print(item["case"])
-    print("  familiar expression score:", item["train_like_score"])
-    print("  new expression score:", item["new_expression_score"])
-    print("  generalization gap:", gap)
-```
-
-The output can be read like this.
-
-```text
-posts from last month
-  familiar expression score: 0.93
-  new expression score: 0.9
-  generalization gap: 0.03
-new slang appears
-  familiar expression score: 0.93
-  new expression score: 0.68
-  generalization gap: 0.25
-sarcasm and indirect wording increase
-  familiar expression score: 0.93
-  new expression score: 0.61
-  generalization gap: 0.32
-```
-
-This is not actual training code. It is a reading exercise for interpreting generalization.
+This table is not actual model-training code. It is a reading exercise for interpreting generalization. The key is that when the `new-expression score` falls, the model has not necessarily moved to a completely different task; even inside the same problem, robustness can weaken because expression changes.
 
 - `posts from last month` has only a small difference between familiar and new expressions.
 - `new slang appears` shows that the score can drop sharply when the expression changes even a little.
@@ -413,7 +325,7 @@ And the phrase `hold up` is important here. When new data enter, some difference
 
 ## Sources And References
 
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, accessed 2026-06-26. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, accessed 2026-07-19. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }

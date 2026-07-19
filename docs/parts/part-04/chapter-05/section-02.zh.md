@@ -1,7 +1,7 @@
 # P4-5.2 泛化(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-5.1 里，我们区分了 `过拟合` 和 `欠拟合`。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 `泛化(generalization)`。
 
@@ -269,67 +269,23 @@ generalization 不是只有企业服务里才需要。用 model 去读社会现�
 
 ## 练习与示例
 
-### 用 Python 读 generalization 问题
+### 用表读 generalization 问题
 
-下面这段代码展示的是：从 generalization 角度，应该怎样去读分数。
+下面这份记录展示的是：从 generalization 角度，应该怎样去读分数。因为这是解释已经得到的分数组合，所以比起 Python 代码，更适合在一张表里同时看 training score、validation score 和差距。
 
-问题场景：
+| model | training score | validation score | `generalization gap` | 解读 |
+| --- | ---: | ---: | ---: | --- |
+| `model_A` | 0.81 | 0.79 | 0.02 | training 和 validation 比较接近 |
+| `model_B` | 0.99 | 0.74 | 0.25 | training 很高，但 validation 明显较低 |
+| `model_C` | 0.63 | 0.61 | 0.02 | 差距小，但两边都低 |
 
-- generalization 听起来像抽象词，但实际上可以从 training score 与 validation score 的差距开始读起
-
-输入(input)：
-
-- 各 model 的 `train_score`
-- 各 model 的 `validation_score`
-
-输出(output)：
-
-- 各 model 的 training score、validation score、`generalization gap`
-
-确认概念：
-
-- generalization 是一种询问新数据上站得住程度的视角
-- 就算差距小，如果两边都低，也不能马上说这是好的 generalization
-
-```python
-results = [
-    {"name": "model_A", "train_score": 0.81, "validation_score": 0.79},
-    {"name": "model_B", "train_score": 0.99, "validation_score": 0.74},
-    {"name": "model_C", "train_score": 0.63, "validation_score": 0.61},
-]
-
-for item in results:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"])
-    print("  train:", item["train_score"])
-    print("  validation:", item["validation_score"])
-    print("  generalization gap:", gap)
-```
-
-执行结果示例可以这样读。
-
-```text
-model_A
-  train: 0.81
-  validation: 0.79
-  generalization gap: 0.02
-model_B
-  train: 0.99
-  validation: 0.74
-  generalization gap: 0.25
-model_C
-  train: 0.63
-  validation: 0.61
-  generalization gap: 0.02
-```
-
-在这个例子里，`generalization gap` 不是正式理论定义，只是帮助读者解释 training score 与 validation score 差距的辅助表达。
+在这张表里，`generalization gap` 不是正式理论定义，只是帮助读者解释 training score 与 validation score 差距的辅助表达。判断不能停在 `gap` 一个值上，还必须同时看 training score 和 validation score 的绝对水平。
 
 - `model_A` 的 training 与 validation 相对接近。
 - `model_B` 的 training 很高，但 validation 掉得明显。
 - `model_C` 虽然差距小，但两边都低。
 
-所以，读 generalization 时，只看 `差距` 不够，只看 `高低水平` 也不够，必须两者一起看。
+所以，读 generalization 时，只看 `差距` 不够，只看 `高低水平` 也不够。如果像 `model_C` 那样差距小但两边都低，就很难说它是 generalization 好的 model；如果像 `model_B` 那样只有 training 高而 validation 明显低，就要先怀疑过拟合。
 
 这里最重要的解释是下面这两个问题。
 
@@ -338,61 +294,17 @@ model_C
 
 generalization 主要更贴近第二个问题。
 
-### 用 Python 读社会现象一侧的 generalization
+### 用表读社会现象一侧的 generalization
 
 下面这个例子把一种情况简化了：帖子分类 model 对 `熟悉表达` 很强，但只要出现 `新表达` 就会摇晃。
 
-问题场景：
+| 情况 | 熟悉表达分数 | 新表达分数 | `generalization gap` | 解读 |
+| --- | ---: | ---: | ---: | --- |
+| 上个月的帖子 | 0.93 | 0.90 | 0.03 | 熟悉表达和新表达的差距小 |
+| 新流行语出现 | 0.93 | 0.68 | 0.25 | 表达只要稍微变化，分数就可能明显下降 |
+| 讽刺和绕弯表达增加 | 0.93 | 0.61 | 0.32 | 表面句子一变，model 可能更明显地摇晃 |
 
-- 即便是同一个任务，只要表达方式变化，也值得用数字确认 model 的 generalization 会被摇动多少
-
-输入(input)：
-
-- 熟悉表达下的分数 `train_like_score`
-- 新表达下的分数 `new_expression_score`
-
-输出(output)：
-
-- 各情境里的两类分数与 `generalization gap`
-
-确认概念：
-
-- generalization 不只和适应过去数据有关，也和条件变化下能不能撑住有关
-- 表达变化，是同一问题里测试 generalization 的好例子
-
-```python
-scenarios = [
-    {"case": "posts from last month", "train_like_score": 0.93, "new_expression_score": 0.90},
-    {"case": "new slang appears", "train_like_score": 0.93, "new_expression_score": 0.68},
-    {"case": "sarcasm and indirect wording increase", "train_like_score": 0.93, "new_expression_score": 0.61},
-]
-
-for item in scenarios:
-    gap = round(item["train_like_score"] - item["new_expression_score"], 2)
-    print(item["case"])
-    print("  familiar expression score:", item["train_like_score"])
-    print("  new expression score:", item["new_expression_score"])
-    print("  generalization gap:", gap)
-```
-
-输出结果可以像下面这样读。
-
-```text
-posts from last month
-  familiar expression score: 0.93
-  new expression score: 0.9
-  generalization gap: 0.03
-new slang appears
-  familiar expression score: 0.93
-  new expression score: 0.68
-  generalization gap: 0.25
-sarcasm and indirect wording increase
-  familiar expression score: 0.93
-  new expression score: 0.61
-  generalization gap: 0.32
-```
-
-这不是实际训练代码，而是为了练习读 generalization 而准备的阅读例子。
+这张表不是实际 model 训练代码，而是为了练习读 generalization 而准备的阅读例子。核心是：当 `新表达分数` 下降时，并不一定是 model 去了完全不同的任务；即使在同一个问题里，也可能因为表达变化而削弱站得住的程度。
 
 - `posts from last month` 里，熟悉表达和新表达之间差距很小。
 - `new slang appears` 说明只要表达稍有变化，分数就可能明显下降。
@@ -413,7 +325,7 @@ sarcasm and indirect wording increase
 
 ## 出处与参考资料
 
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 确认日期: 2026-06-26. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 确认日期: 2026-07-19. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
