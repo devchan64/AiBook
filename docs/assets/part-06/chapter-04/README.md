@@ -9,6 +9,8 @@
   - `p6-c04-s02-diagram-01-en.mmd` / `p6-c04-s02-diagram-01-ko.mmd`
   - `p6-c04-s02-diagram-02-en.mmd` / `p6-c04-s02-diagram-02-ko.mmd`
 - PNG chart assets:
+  - `autoregressive-path-split-en.png` / `autoregressive-path-split-ko.png`
   - `conversation-experience-criteria-en.png` / `conversation-experience-criteria-ko.png`
 - Python chart source:
+  - `p6_4_1_autoregressive_path_chart.py`
   - `p6_4_2_conversation_experience_chart.py`

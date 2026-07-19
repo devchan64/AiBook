@@ -9,6 +9,8 @@
   - `p6-c05-s02-diagram-01-en.mmd` / `p6-c05-s02-diagram-01-ko.mmd`
   - `p6-c05-s02-diagram-02-en.mmd` / `p6-c05-s02-diagram-02-ko.mmd`
 - PNG chart assets:
+  - `next-token-first-branch-en.png` / `next-token-first-branch-ko.png`
   - `temperature-unique-reply-count-en.png` / `temperature-unique-reply-count-ko.png`
 - Python chart source:
+  - `p6_5_1_next_token_branch_chart.py`
   - `p6_5_2_temperature_diversity_chart.py`

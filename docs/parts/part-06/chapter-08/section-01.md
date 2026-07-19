@@ -1,7 +1,7 @@
 # P6-8.1 지시 튜닝(instruction tuning)
 
-Section ID: `P6-8.1`
-Version: `v2026.07.19`
+> Section ID: `P6-8.1`
+> Version: `v2026.07.19`
 
 P6-7.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요한지 보았습니다. 그런데 모델을 조금 더 싸게 조정할 수 있다고 해서, 곧바로 사람 지시를 잘 따르는 답변이 만들어지는 것은 아닙니다.
 
@@ -356,6 +356,8 @@ print("base_meets_request_count =", base_success)
 print("tuned_meets_request_count =", tuned_success)
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -447,6 +449,6 @@ tuned_meets_request_count = 4
 
 ## 출처와 참고 자료
 
-- Long Ouyang et al., `Training language models to follow instructions with human feedback`, arXiv, 2022, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- OpenAI, 공식 문서와 연구 소개 자료, 확인 날짜: 2026-06-29.
+- Long Ouyang et al., `Training language models to follow instructions with human feedback`, arXiv, 2022, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2203.02155](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }
+- Victor Sanh et al., `Multitask Prompted Training Enables Zero-Shot Task Generalization`, arXiv, 2021, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2110.08207](https://arxiv.org/abs/2110.08207){: target="_blank" rel="noopener noreferrer" }
+- OpenAI, `Aligning language models to follow instructions`, 2022, 확인 날짜: 2026-07-19. [https://openai.com/index/instruction-following/](https://openai.com/index/instruction-following/){: target="_blank" rel="noopener noreferrer" }

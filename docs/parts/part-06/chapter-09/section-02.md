@@ -1,7 +1,7 @@
 # P6-9.2 프롬프트의 한계
 
-Section ID: `P6-9.2`
-Version: `v2026.07.19`
+> Section ID: `P6-9.2`
+> Version: `v2026.07.19`
 
 P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설계를 통해 모델 행동을 관찰하고 조정하는 첫 번째 실무 도구라는 점을 보았습니다. 이제는 프롬프트를 잘 써도 여전히 남는 문제가 무엇인지 더 직접 봐야 합니다.
 
@@ -420,6 +420,8 @@ for batch in [prompt_only_batch, structured_batch]:
     print()
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -477,7 +479,7 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 
 이 예제는 프롬프트가 강해질수록 모든 문제가 해결된다는 오해를 막아 줍니다. 실제 서비스에서는 최신 정보 접근, 계산 검증, 도구 호출과 실행 로그 같은 바깥 구조가 따로 필요하므로, 프롬프트는 시스템 전체 중 하나의 층으로만 읽어야 합니다.
 
-차트로 보면 강한 프롬프트만으로는 검증 항목이 하나도 통과하지 못하고, 구조 보강이 붙었을 때 모든 작업과 검사 항목이 통과합니다. 이 수치는 장난감 예제의 값이지만, 프롬프트 한계를 `말투 문제`가 아니라 `근거·계산·실행 구조 부재`로 읽어야 한다는 점을 보여 줍니다.
+차트로 보면 강한 프롬프트만으로는 검증 항목이 하나도 통과하지 못하고, 구조 보강이 붙었을 때 모든 작업과 검사 항목이 통과합니다. 이 수치는 운영 판단 연습용 예시 값이지만, 프롬프트 한계를 `말투 문제`가 아니라 `근거·계산·실행 구조 부재`로 읽어야 한다는 점을 보여 줍니다.
 
 ![강한 프롬프트만 쓴 경우와 구조 보강을 붙인 경우의 검사 통과 수](../../../assets/part-06/chapter-09/prompt-limit-checks-ko.png)
 
@@ -507,6 +509,6 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-05.
-- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-05.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.
+- OpenAI Academy, [Prompting fundamentals](https://openai.com/academy/prompting/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.

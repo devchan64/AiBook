@@ -1,7 +1,7 @@
 # P6-6.1 사전학습(pretraining)
 
-Section ID: `P6-6.1`
-Version: `v2026.07.19`
+> Section ID: `P6-6.1`
+> Version: `v2026.07.19`
 
 P6-5까지에서는 Transformer와 다음 토큰 예측이 왜 생성으로 이어지는지를 보았습니다. 하지만 거기까지로는 아직 한 가지가 남습니다. `왜 같은 생성 구조라도 어떤 모델은 더 넓은 장면에서 그럴듯하게 반응하고, 어떤 모델은 금방 한계가 드러나는가`입니다.
 
@@ -308,14 +308,6 @@ P6-4.2에서는 대화형 LLM이 단순 자동완성 모델 위에 지시 따르
 - 도메인 문장을 추가한 뒤 다음 단어 후보
 - 여러 시작 토큰에서 후보 점수가 어떻게 이동하는지
 
-문제 상황:
-
-- 도메인 적응은 모델 구조를 바꾸지 않아도 학습 코퍼스에 특정 업무 문장을 더 넣어 후보 분포를 이동시키는 방식으로도 설명할 수 있다
-
-입력(input):
-
-위에 정리한 일반 코퍼스, 도메인 코퍼스, 시작 맥락을 사용합니다.
-
 확인할 개념:
 
 - 사전학습 데이터가 달라지면 모델 구조를 바꾸지 않아도 다음 토큰 후보 분포가 이동할 수 있다
@@ -360,6 +352,8 @@ for token in focus_tokens:
     print("general_next_tokens =", top_next_tokens(general_counts, token))
     print("adapted_next_tokens =", top_next_tokens(adapted_counts, token))
 ```
+
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
@@ -413,7 +407,7 @@ adapted_next_tokens = [('확인', 6), ('정리', 1), ('설명', 1)]
 
 ## 출처와 참고 자료
 
-- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
-- Jeremy Howard, Sebastian Ruder, `Universal Language Model Fine-tuning for Text Classification`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-07-19. [https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }
+- Jeremy Howard, Sebastian Ruder, `Universal Language Model Fine-tuning for Text Classification`, arXiv, 2018, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1801.06146](https://arxiv.org/abs/1801.06146){: target="_blank" rel="noopener noreferrer" }
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-07-19. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }

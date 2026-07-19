@@ -1,7 +1,7 @@
 # P6-8.4 보충학습: adapter, LoRA, QLoRA는 어떤 제약에서 갈리는가
 
-Section ID: `P6-8.4`
-Version: `v2026.07.19`
+> Section ID: `P6-8.4`
+> Version: `v2026.07.19`
 
 P6-8.3까지 오면 `지금 실패를 프롬프트, 파인튜닝, RAG, 도구 사용 중 어디서 먼저 고쳐야 하는가`라는 큰 선택 지도는 잡힙니다. 그런데 여기서 `파인튜닝 쪽을 더 보겠다`고 방향을 정하면 곧바로 다음 벽에 부딪히기 쉽습니다. 문서와 강의마다 adapter, LoRA, QLoRA 같은 이름이 한꺼번에 나오기 시작하기 때문입니다. 이 이름들은 `파인튜닝 축을 먼저 고른 뒤` 다시 갈라지는 효율적 조정 선택지입니다.
 
@@ -240,6 +240,8 @@ for rank in ranks:
     )
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -295,6 +297,6 @@ rank=32: lora_update_params=262144, ratio=0.0156
 
 ## 출처와 참고 자료
 
-- Neil Houlsby et al., [Parameter-Efficient Transfer Learning for NLP](https://proceedings.mlr.press/v97/houlsby19a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2019, 확인 날짜: 2026-06-29.
-- Edward J. Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, 확인 날짜: 2026-06-29.
-- Tim Dettmers et al., [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-06-29.
+- Neil Houlsby et al., [Parameter-Efficient Transfer Learning for NLP](https://proceedings.mlr.press/v97/houlsby19a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2019, 확인 날짜: 2026-07-19.
+- Edward J. Hu et al., [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }, arXiv, 2021, 확인 날짜: 2026-07-19.
+- Tim Dettmers et al., [QLoRA: Efficient Finetuning of Quantized LLMs](https://arxiv.org/abs/2305.14314){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-19.

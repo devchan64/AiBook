@@ -1,7 +1,7 @@
 # P6-6.2 데이터와 스케일
 
-Section ID: `P6-6.2`
-Version: `v2026.07.19`
+> Section ID: `P6-6.2`
+> Version: `v2026.07.19`
 
 P6-6.1에서는 사전학습(pretraining)을 `먼저 넓은 언어 기반을 만드는 단계`로 설명했습니다. 그러면 곧바로 다음 질문이 나옵니다. `왜 그 기반을 만들 때는 늘 큰 데이터셋, 큰 모델, 큰 계산량이 함께 따라오는가?`
 
@@ -219,13 +219,9 @@ LLM 문맥에서 스케일은 보통 하나만 커지는 것을 뜻하지 않습
 - 총 예상 추론 비용과 지연 시간
 - 데이터 검증 대기 묶음 수
 
-문제 상황:
-
-- 스케일을 키우면 처리 가능한 요청 범위가 넓어질 수 있지만, 비용과 검증 부담도 함께 커진다
-
 입력(input):
 
-아래 요청 목록과 스케일 단계별 가정값을 사용합니다. 여기서 숫자는 실제 모델 가격이나 성능표가 아니라, 스케일을 읽는 축을 분리하기 위한 장난감 값입니다.
+아래 요청 목록과 스케일 단계별 가정값을 사용합니다. 여기서 숫자는 특정 상용 모델의 실제 가격표나 성능표가 아니라, 스케일을 읽는 축을 분리하기 위한 운영 판단 연습용 가정값입니다.
 
 확인할 개념:
 
@@ -309,6 +305,8 @@ for step in scale_steps:
     print(summarize_scale_step(step, requests))
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -359,6 +357,7 @@ LLM 시대를 이해할 때 스케일은 빠질 수 없는 주제입니다. GPT-
 
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- Jared Kaplan et al., `Scaling Laws for Neural Language Models`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, 모델 비용과 입력 길이 관련 문서, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }
+- Jared Kaplan et al., `Scaling Laws for Neural Language Models`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2001.08361](https://arxiv.org/abs/2001.08361){: target="_blank" rel="noopener noreferrer" }
+- Jordan Hoffmann et al., `Training Compute-Optimal Large Language Models`, arXiv, 2022, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2203.15556](https://arxiv.org/abs/2203.15556){: target="_blank" rel="noopener noreferrer" }
+- OpenAI Docs, `Models`, 모델별 가격·context window 예시, 확인 날짜: 2026-07-19. [https://developers.openai.com/api/docs/models](https://developers.openai.com/api/docs/models){: target="_blank" rel="noopener noreferrer" }

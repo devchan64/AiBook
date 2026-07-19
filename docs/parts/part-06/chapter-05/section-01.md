@@ -1,7 +1,7 @@
 # P6-5.1 다음 토큰 예측(next-token prediction)
 
-Section ID: `P6-5.1`
-Version: `v2026.07.19`
+> Section ID: `P6-5.1`
+> Version: `v2026.07.19`
 
 P6-4.2에서는 GPT 기반 생성 구조가 어떻게 대화형 LLM 경험으로 이어졌는지 보았습니다. 이제 질문을 더 좁힐 차례입니다.
 
@@ -233,14 +233,6 @@ LLM은 보통 글자를 그대로 다루지 않고 토큰(token) 단위로 다�
 - 첫 분기에서 어떤 후보 경쟁이 있었는지
 - 누적 생성된 최종 시퀀스
 
-문제 상황:
-
-- 다음 토큰 분포는 학습 코퍼스에서 본 연결 패턴이 누적되며 만들어진다는 점을 직접 작은 문장 집합으로 볼 수 있다
-
-입력(input):
-
-위에 정리한 학습 문장 목록과 시작 문맥을 사용합니다.
-
 확인할 개념:
 
 - 다음 토큰 분포는 학습 문장들에서 반복된 연결 패턴이 누적된 결과로 만들어진다
@@ -330,6 +322,8 @@ for prompt in prompts:
     print("generated =", generated)
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -396,6 +390,8 @@ generated = ['배포', '오류', '확인', '결과', '설정', '파일', '경로
 - 하나를 고르면 그 토큰이 다시 다음 단계 문맥에 붙는다
 - 초반 선택이 뒤 생성 흐름 전체를 밀고 간다
 
+![프롬프트별 첫 다음 토큰 후보 분포](../../../assets/part-06/chapter-05/next-token-first-branch-ko.png)
+
 ## 이 예제를 순차 생성 관점으로 다시 보면
 
 이 예제는 생성 결과를 한 번에 꺼내는 상자로 보기보다, `현재까지 만든 맥락`이 다음 선택 조건으로 계속 되돌아오는 순환 구조로 읽어야 한다는 점을 보여 줍니다. `회의 결과` 뒤에서는 `배포`, `우선` 같은 후보가 생기고, `고객 문의 확인 결과` 뒤에서는 `환불`, `배송`이, `배포 오류 확인 결과` 뒤에서는 `설정`, `로그`가 후보로 달라집니다. 그리고 한 번 `환불`을 고르면 그다음에는 `절차를`, `안내드립니다`처럼 그 흐름에 맞는 토큰이 다시 이어지고, `설정`을 고르면 `파일`, `경로가`, `잘못되었습니다`처럼 전혀 다른 경로가 이어집니다. 그래서 뒤에서 sampling, prompting, alignment를 볼 때도 모두 `다음 토큰 선택이 누적되며 응답 전체가 만들어진다`는 관점을 유지하는 것이 중요합니다.
@@ -417,7 +413,7 @@ generated = ['배포', '오류', '확인', '결과', '설정', '파일', '경로
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio et al., `A Neural Probabilistic Language Model`, JMLR, 2003, 확인 날짜: 2026-06-29.
-- Tomas Mikolov et al., `Recurrent Neural Network Based Language Model`, Interspeech, 2010, 확인 날짜: 2026-06-29.
-- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- Yoshua Bengio et al., `A Neural Probabilistic Language Model`, JMLR, 2003, 확인 날짜: 2026-07-19. [https://jmlr.csail.mit.edu/papers/v3/bengio03a](https://jmlr.csail.mit.edu/papers/v3/bengio03a){: target="_blank" rel="noopener noreferrer" }
+- Tomas Mikolov et al., `Recurrent Neural Network Based Language Model`, Interspeech, 2010, 확인 날짜: 2026-07-19. [https://www.isca-archive.org/interspeech_2010/mikolov10_interspeech.html](https://www.isca-archive.org/interspeech_2010/mikolov10_interspeech.html){: target="_blank" rel="noopener noreferrer" }
+- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-07-19. [https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P6-8.2 정렬(alignment)의 기본 문제
 
-Section ID: `P6-8.2`
-Version: `v2026.07.19`
+> Section ID: `P6-8.2`
+> Version: `v2026.07.19`
 
 P6-8.1에서는 지시 튜닝(instruction tuning)이 모델을 더 `대화형 조수 같은 반응`으로 만드는 조정 단계라는 점을 보았습니다. 하지만 말을 잘 따르는 답이 곧바로 안전하고 바람직한 답이라는 보장은 없습니다.
 
@@ -370,6 +370,8 @@ for task_name, task in tasks.items():
     )
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -491,6 +493,6 @@ alignment는 `잘 말하는 모델`을 만드는 문제가 아니라, 여러 업
 
 ## 출처와 참고 자료
 
-- Long Ouyang et al., `Training language models to follow instructions with human feedback`, arXiv, 2022, 확인 날짜: 2026-06-29.
-- Anthropic, 헌법적 AI 및 안전성 관련 공개 자료, 확인 날짜: 2026-06-29.
-- OpenAI, 모델 행동과 안전성 관련 공식 문서, 확인 날짜: 2026-06-29.
+- Long Ouyang et al., `Training language models to follow instructions with human feedback`, arXiv, 2022, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2203.02155](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }
+- Yuntao Bai et al., `Constitutional AI: Harmlessness from AI Feedback`, arXiv, 2022, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2212.08073](https://arxiv.org/abs/2212.08073){: target="_blank" rel="noopener noreferrer" }
+- OpenAI, `Model Spec`, 모델 행동 기준 문서, 확인 날짜: 2026-07-19. [https://model-spec.openai.com/2025-09-12.html](https://model-spec.openai.com/2025-09-12.html){: target="_blank" rel="noopener noreferrer" }

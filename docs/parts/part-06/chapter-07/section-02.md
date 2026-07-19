@@ -1,7 +1,7 @@
 # P6-7.2 LoRA와 효율적 조정
 
-Section ID: `P6-7.2`
-Version: `v2026.07.19`
+> Section ID: `P6-7.2`
+> Version: `v2026.07.19`
 
 P6-7.1에서는 파인튜닝(fine-tuning)이 사전학습된 모델을 특정 목적에 더 잘 맞게 추가 조정하는 과정이라는 점을 보았습니다. 하지만 여기서 바로 현실적인 다음 질문이 생깁니다.
 
@@ -301,6 +301,8 @@ print("full_extra_storage_gb =", full_extra_storage_gb)
 print("lora_extra_storage_gb =", lora_extra_storage_gb)
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -339,6 +341,6 @@ LoRA는 갑자기 튀어나온 단발 기술이라기보다, 큰 사전학습 �
 
 ## 출처와 참고 자료
 
-- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-06-29.
-- Edward J. Hu et al., `LoRA: Low-Rank Adaptation of Large Language Models`, arXiv, 2021, 확인 날짜: 2026-06-29.
-- Sebastian Raschka, 효율적 파인튜닝 교육 자료, 확인 날짜: 2026-06-29.
+- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-07-19. [https://proceedings.mlr.press/v97/houlsby19a.html](https://proceedings.mlr.press/v97/houlsby19a.html){: target="_blank" rel="noopener noreferrer" }
+- Edward J. Hu et al., `LoRA: Low-Rank Adaptation of Large Language Models`, arXiv, 2021, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2106.09685](https://arxiv.org/abs/2106.09685){: target="_blank" rel="noopener noreferrer" }
+- Hugging Face, `PEFT` documentation, 확인 날짜: 2026-07-19. [https://huggingface.co/docs/peft/index](https://huggingface.co/docs/peft/index){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P6-5.2 생성 과정의 직관
 
-Section ID: `P6-5.2`
-Version: `v2026.07.19`
+> Section ID: `P6-5.2`
+> Version: `v2026.07.19`
 
 P6-5.1에서는 LLM의 기본 학습 목표가 다음 토큰 예측(next-token prediction)이라는 점을 보았습니다. 하지만 사용자 경험은 단지 `다음 한 조각 예측`이라는 말보다 훨씬 복잡해 보입니다.
 
@@ -221,14 +221,6 @@ greedy는 더 예측 가능하고, sampling은 더 다양합니다.
 - sampling으로 만든 여러 답변 미리보기
 - 샘플링 답변의 표현 조합 수
 
-문제 상황:
-
-- temperature는 후보 분포를 얼마나 평평하게 만들지 조절해 생성 다양성을 바꾼다
-
-입력(input):
-
-위에 정리한 응답 슬롯별 후보와 기본 확률, 여러 temperature 값을 사용합니다.
-
 확인할 개념:
 
 - temperature 조절은 후보 분포의 평탄도를 바꿔 일관성과 다양성의 균형을 달라지게 만든다
@@ -299,6 +291,8 @@ for temperature in [0.5, 1.0, 1.5]:
     print("unique_reply_count =", unique_count)
     print()
 ```
+
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
@@ -377,6 +371,6 @@ unique_reply_count = 8
 
 ## 출처와 참고 자료
 
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, 생성 설정 관련 문서, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
-- Anthropic Docs, sampling과 temperature 설명 자료, 확인 날짜: 2026-06-29. [https://docs.anthropic.com](https://docs.anthropic.com){: target="_blank" rel="noopener noreferrer" }
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }
+- Ari Holtzman et al., `The Curious Case of Neural Text Degeneration`, ICLR, 2020, 확인 날짜: 2026-07-19. [https://iclr.cc/virtual_2020/poster_rygGQyrFvH.html](https://iclr.cc/virtual_2020/poster_rygGQyrFvH.html){: target="_blank" rel="noopener noreferrer" }
+- OpenAI API Reference, `Create a model response`, 생성 설정 예시, 확인 날짜: 2026-07-19. [https://developers.openai.com/api/reference/resources/responses/methods/create](https://developers.openai.com/api/reference/resources/responses/methods/create){: target="_blank" rel="noopener noreferrer" }

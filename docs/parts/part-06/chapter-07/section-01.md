@@ -1,7 +1,7 @@
 # P6-7.1 파인튜닝(fine-tuning)
 
-Section ID: `P6-7.1`
-Version: `v2026.07.19`
+> Section ID: `P6-7.1`
+> Version: `v2026.07.19`
 
 P6-6.1에서는 넓은 언어 기반을 먼저 만드는 사전학습을 보았습니다. 하지만 사전학습만으로는 아직 `우리 업무 기준에 맞는 반응`이 자동으로 생기지 않습니다. 이 절은 생성 구조 위에 올라간 학습 축이 이제 `범용 기반 만들기`에서 `목적 맞춤 조정`으로 어떻게 좁혀지는지 설명합니다.
 
@@ -413,6 +413,8 @@ print("base_format_ok_count =", base_format_ok)
 print("tuned_format_ok_count =", tuned_format_ok)
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -492,6 +494,6 @@ tuned_format_ok_count = 4
 
 ## 출처와 참고 자료
 
-- Jeremy Howard, Sebastian Ruder, `Universal Language Model Fine-tuning for Text Classification`, arXiv, 2018, 확인 날짜: 2026-06-29.
-- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
+- Jeremy Howard, Sebastian Ruder, `Universal Language Model Fine-tuning for Text Classification`, arXiv, 2018, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1801.06146](https://arxiv.org/abs/1801.06146){: target="_blank" rel="noopener noreferrer" }
+- Neil Houlsby et al., `Parameter-Efficient Transfer Learning for NLP`, ICML, 2019, 확인 날짜: 2026-07-19. [https://proceedings.mlr.press/v97/houlsby19a.html](https://proceedings.mlr.press/v97/houlsby19a.html){: target="_blank" rel="noopener noreferrer" }
+- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }

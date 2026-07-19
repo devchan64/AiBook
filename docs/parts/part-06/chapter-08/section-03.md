@@ -1,7 +1,7 @@
 # P6-8.3 프롬프트, 파인튜닝, RAG, 도구 사용을 언제 고를까
 
-Section ID: `P6-8.3`
-Version: `v2026.07.19`
+> Section ID: `P6-8.3`
+> Version: `v2026.07.19`
 
 P6-8.2까지 오면 `어떤 답이 더 assistant처럼 보이는가`, `어떤 답이 더 허용 가능하고 안전한가`까지는 읽게 됩니다. 그런데 실제 기능 개선 단계로 가면 질문이 한 번 더 바뀝니다. 이제는 `좋은 답의 기준을 안다`에서 멈추지 않고, `지금 실패를 실제로 어디서 고쳐야 하는가`를 골라야 하기 때문입니다.
 
@@ -313,6 +313,8 @@ for case in cases:
 print("[action summary]", action_counter)
 ```
 
+이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -371,6 +373,6 @@ not_first = tool use 0
 
 ## 출처와 참고 자료
 
-- OpenAI, `Prompt engineering`, OpenAI Docs, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs/guides/prompt-engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }
-- Patrick Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`, NeurIPS, 2020, 확인 날짜: 2026-06-29.
-- Jason Wei et al., `Finetuned Language Models Are Zero-Shot Learners`, arXiv, 2021, 확인 날짜: 2026-06-29.
+- OpenAI Academy, `Prompting fundamentals`, 확인 날짜: 2026-07-19. [https://openai.com/academy/prompting/](https://openai.com/academy/prompting/){: target="_blank" rel="noopener noreferrer" }
+- Patrick Lewis et al., `Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks`, NeurIPS, 2020, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2005.11401](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }
+- Jason Wei et al., `Finetuned Language Models Are Zero-Shot Learners`, arXiv, 2021, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/2109.01652](https://arxiv.org/abs/2109.01652){: target="_blank" rel="noopener noreferrer" }
