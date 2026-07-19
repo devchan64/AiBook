@@ -1,7 +1,7 @@
 # P3-2.2 What Structures Go Inside a Dataset Candidate
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 As the previous section showed, stored records may not yet be a dataset. The next question therefore follows immediately: if we rebuild a dataset candidate, what structure should go inside it? To answer that question, Part 3 looks at [sample](/AiBook/reference/concept-glossary/#glossary-sample), [feature](/AiBook/reference/concept-glossary/#glossary-feature), [baseline](/AiBook/reference/concept-glossary/#glossary-baseline), and [output structure](/AiBook/reference/concept-glossary/#glossary-output-structure) together. These terms are more accurate when read not as a list to memorize separately, but as one dataset-design structure. We have to decide what counts as one sample before features can be made; features are needed before we can decide what should be compared with a baseline; and only after that comparison is in place can we decide what output structure to make.
 
@@ -50,94 +50,159 @@ The four structures inside a dataset candidate can be read in one pass when they
 --8<-- "assets/part-03/chapter-02/p3-2-2-mermaid-01-en.mmd"
 ```
 
-Problem situation: check, in one table, the flow in which one action is treated as one sample, features are written down, the result is compared with the usual baseline, and a final operational output is produced.
+Problem situation: check the flow in which one action is treated as one sample, features are written down, the result is compared with the usual baseline, and a final operational output is produced.
 
-Input: feature values by sample and the corresponding baseline values
+Input: the time-step flow log [p3_2_2_event_flow_log.csv](../../../assets/part-03/chapter-02/p3_2_2_event_flow_log.csv), which contains both `baseline` and `recent` periods, and candidate review thresholds `review_gap_thresholds`
 
-Expected output: a process in which the same sample row expands in the order `feature -> baseline comparison -> operational output`
+One input-file row is the measured flow (`flow`) at a specific second (`second`) of one sample. `sample_id` points to one action, and `period` separates whether that sample belongs to the `baseline` period used to build the usual reference or the `recent` period to be compared.
 
-Concept to check: output structure is created as a result of the earlier sample, feature, and baseline comparison
+Expected output: the raw log becomes `sample rows -> feature table -> baseline creation -> recent-sample comparison table -> operational output`, and the number of review candidates changes when different `review_gap_thresholds` are applied
+
+Concept to check: output structure and baseline are not result columns written in advance. They are generated after raw logs are grouped by sample unit, features are calculated, and period roles are separated. Comparing several output criteria reveals how sensitive the operational judgment is to the threshold.
 
 ```python
 import pandas as pd
 
-samples = pd.DataFrame(
-    [
-        {
-            "sample_id": "A",
-            "mean_flow": 0.74,
-            "late_drop_rate": -0.32,
-            "baseline_mean_flow": 0.92,
-            "baseline_late_drop_rate": -0.05,
-        },
-        {
-            "sample_id": "B",
-            "mean_flow": 0.89,
-            "late_drop_rate": -0.08,
-            "baseline_mean_flow": 0.92,
-            "baseline_late_drop_rate": -0.05,
-        },
-    ]
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 160)
+
+event_log_path = "docs/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv"
+selected_review_gap_threshold = -0.20
+review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
+
+event_log = pd.read_csv(event_log_path)
+
+print("1) raw input shape and first rows")
+print("shape:", event_log.shape)
+print(event_log.head())
+print()
+
+sample_rows = event_log[["sample_id", "period"]].drop_duplicates().reset_index(drop=True)
+print("2) sample rows")
+print(sample_rows)
+print()
+
+feature_table = (
+    event_log.sort_values(["sample_id", "second"])
+    .groupby(["sample_id", "period"], as_index=False)
+    .agg(
+        mean_flow=("flow", "mean"),
+        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
+    )
 )
-
-print("1) sample rows")
-print(samples[["sample_id"]])
+print("3) add features")
+print(feature_table.round(2))
 print()
 
-feature_table = samples[["sample_id", "mean_flow", "late_drop_rate"]].copy()
-print("2) add features")
-print(feature_table)
+baseline = (
+    pd.DataFrame(
+        [
+            {
+                "baseline_mean_flow": feature_table.loc[
+                    feature_table["period"] == "baseline", "mean_flow"
+                ].mean(),
+                "baseline_late_drop_rate": feature_table.loc[
+                    feature_table["period"] == "baseline", "late_drop_rate"
+                ].mean(),
+            }
+        ]
+    )
+)
+print("4) build baseline from baseline samples")
+print(baseline.round(2))
 print()
 
-comparison_table = samples[
-    [
-        "sample_id",
-        "mean_flow",
-        "late_drop_rate",
-        "baseline_mean_flow",
-        "baseline_late_drop_rate",
-    ]
-].copy()
+comparison_table = feature_table[feature_table["period"] == "recent"].copy()
+comparison_table["baseline_mean_flow"] = baseline.loc[0, "baseline_mean_flow"]
+comparison_table["baseline_late_drop_rate"] = baseline.loc[0, "baseline_late_drop_rate"]
 comparison_table["baseline_gap"] = (
     comparison_table["late_drop_rate"] - comparison_table["baseline_late_drop_rate"]
 )
-print("3) compare with baseline")
-print(comparison_table)
+print("5) compare recent samples with baseline")
+print(comparison_table.round(2))
 print()
 
-output_table = comparison_table.copy()
-output_table["output"] = output_table["baseline_gap"].apply(
-    lambda gap: "needs review" if gap <= -0.20 else "normal range"
-)
-print("4) final output structure")
-print(output_table)
+selected_output_table = None
+threshold_results = []
+for threshold in review_gap_thresholds:
+    output_table = comparison_table.copy()
+    output_table["output"] = output_table["baseline_gap"].apply(
+        lambda gap: "needs review" if gap <= threshold else "normal range"
+    )
+    if threshold == selected_review_gap_threshold:
+        selected_output_table = output_table.copy()
+    threshold_results.append(
+        {
+            "review_gap_threshold": threshold,
+            "review_count": int((output_table["output"] == "needs review").sum()),
+            "review_samples": ",".join(
+                output_table.loc[output_table["output"] == "needs review", "sample_id"]
+            )
+            or "none",
+        }
+    )
+
+print("6) final output structure when review_gap_threshold = -0.20")
+print(selected_output_table.round(2))
+print()
+print("7) threshold sensitivity")
+print(pd.DataFrame(threshold_results))
 ```
 
 Expected output:
 
 ```text
-1) sample rows
-  sample_id
-0         A
-1         B
+1) raw input shape and first rows
+shape: (36, 4)
+  sample_id    period  second  flow
+0        B1  baseline       0  0.80
+1        B1  baseline       1  0.92
+2        B1  baseline       2  1.02
+3        B1  baseline       3  1.04
+4        B1  baseline       4  1.00
 
-2) add features
-  sample_id  mean_flow  late_drop_rate
-0         A       0.74           -0.32
-1         B       0.89           -0.08
+2) sample rows
+  sample_id    period
+0        B1  baseline
+1        B2  baseline
+2        B3  baseline
+3        R1    recent
+4        R2    recent
+5        R3    recent
 
-3) compare with baseline
-  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
-0         A       0.74           -0.32                0.92                    -0.05         -0.27
-1         B       0.89           -0.08                0.92                    -0.05         -0.03
+3) add features
+  sample_id    period  mean_flow  late_drop_rate
+0        B1  baseline       0.96           -0.04
+1        B2  baseline       0.94           -0.06
+2        B3  baseline       0.92           -0.04
+3        R1    recent       0.83           -0.32
+4        R2    recent       0.90           -0.08
+5        R3    recent       0.94           -0.40
 
-4) final output structure
-  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap        output
-0         A       0.74           -0.32                0.92                    -0.05         -0.27  needs review
-1         B       0.89           -0.08                0.92                    -0.05         -0.03   normal range
+4) build baseline from baseline samples
+   baseline_mean_flow  baseline_late_drop_rate
+0                0.94                    -0.05
+
+5) compare recent samples with baseline
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35
+
+6) final output structure when review_gap_threshold = -0.20
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap        output
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27  needs review
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  normal range
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35  needs review
+
+7) threshold sensitivity
+   review_gap_threshold  review_count review_samples
+0                 -0.36             0           none
+1                 -0.20             2          R1,R3
+2                  0.00             3       R1,R2,R3
 ```
 
-This example shows the same row expanding across four passes. At first, there is only the sample identifier. Next, feature columns are attached. Then the difference from the baseline is calculated. Finally, an operational output column is added. So the output column does not exist by itself. It is built by inheriting the result of the earlier stages, `sample definition -> feature calculation -> baseline comparison -> operational judgment`.
+This example shows how the same raw-log rows gradually become a dataset-candidate structure. First, `event_log` uses `sample_id` and `period` to establish sample rows, and then calculates `mean_flow` and `late_drop_rate` from time-step flow values. Next, only the `baseline` period samples are used to build the baseline, and `recent` period samples are compared against it. The final operational output is not a column that was already present. It is generated from `baseline_gap` and `review_gap_thresholds`. If the threshold is `-0.36`, there are no review candidates. If it is `-0.20`, R1 and R3 become review candidates. If it is `0.0`, all three recent samples become review candidates. In other words, the output column is created by inheriting the preceding stages: `sample definition -> feature calculation -> baseline creation -> baseline comparison -> operational judgment criterion`.
 
 If we dissect the same table a little further, it becomes clearer which of the four structures sits in which cells.
 
@@ -171,6 +236,6 @@ These four stages unfold later into different Chapters, but in practice they are
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `example`, `labeled example`, `feature`, `label`. Because it explains separately the roles that features and labels play inside an example, it supports this section's framing of sample, feature, baseline, and output structure as divided roles inside one table. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general concept of a reference period for comparison, it strengthens this section's explanation that the current sample's values gain meaning only when compared with a baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because it explains that derivation and activity context should remain visible together, it strengthens this section's higher-level frame that output structure is the result of earlier sample definition, feature calculation, and baseline comparison. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `example`, `labeled example`, `feature`, `label`. Because it explains separately the roles that features and labels play inside an example, it supports this section's framing of sample, feature, baseline, and output structure as divided roles inside one table. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general concept of a reference period for comparison, it strengthens this section's explanation that the current sample's values gain meaning only when compared with a baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because it explains that derivation and activity context should remain visible together, it strengthens this section's higher-level frame that output structure is the result of earlier sample definition, feature calculation, and baseline comparison. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

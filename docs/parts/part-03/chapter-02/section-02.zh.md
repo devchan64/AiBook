@@ -1,7 +1,7 @@
 # P3-2.2 数据集候选里要放进哪些结构
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 正如前一节所看到的，已存的记录还不一定就是数据集。那么下一个问题就会立刻接上来：如果要重新做出一个数据集候选，里面到底应该放进哪些结构？为了回答这个问题，Part 3 会把 [sample](/AiBook/en/reference/concept-glossary/#glossary-sample)、[feature](/AiBook/en/reference/concept-glossary/#glossary-feature)、[baseline](/AiBook/en/reference/concept-glossary/#glossary-baseline)、[output structure](/AiBook/en/reference/concept-glossary/#glossary-output-structure) 放在一起看。与其把这些词当成彼此分开的记忆清单，不如把它们读成一个数据集设计结构。只有先决定什么算一条样本，才能做出特征；只有有了特征，才能决定该拿什么和基准线比较；只有这层比较先成立，才能决定最后要做成什么输出结构。
 
@@ -50,94 +50,159 @@
 --8<-- "assets/part-03/chapter-02/p3-2-2-mermaid-01-zh.mmd"
 ```
 
-问题情境：确认一条样本行是如何按“先把一次动作当样本，再写入特征，再和平常基准线比较，最后形成运营输出”的顺序扩展开来的。
+问题情境：确认把一次动作当作一条样本之后，如何写入特征、和平常基准线比较，并最终生成运营输出。
 
-输入(input)：按样本整理的特征值与对应的基准线值
+输入(input)：同时包含 `baseline` 区段和 `recent` 区段的逐时刻流量日志 [p3_2_2_event_flow_log.csv](../../../assets/part-03/chapter-02/p3_2_2_event_flow_log.csv)，以及决定是否送去复核的候选阈值 `review_gap_thresholds`
 
-期望输出(output)：同一条样本行按照 `特征 -> 基准线比较 -> 运营输出` 的顺序逐步扩展
+输入文件的一行表示某个样本在特定秒(`second`)测得的流量(`flow`)。`sample_id` 指向一次动作，`period` 区分这个样本属于用来建立平常参考的 `baseline` 区段，还是属于要被比较的 `recent` 区段。
 
-要确认的概念：输出结构是前面的样本、特征、基准线比较之后才生成的结果
+期望输出(output)：原始日志会依次生成 `样本行 -> 特征表 -> 基准线生成 -> recent 样本比较表 -> 运营输出`，并且当 `review_gap_thresholds` 取不同值时，复核候选数量会改变。
+
+要确认的概念：输出结构和基准线不是事先写好的结果列，而是在原始日志按样本单位重组、计算特征、区分 period 角色之后生成的。用多个输出标准比较，才能看出运营判断对阈值有多敏感。
 
 ```python
 import pandas as pd
 
-samples = pd.DataFrame(
-    [
-        {
-            "sample_id": "A",
-            "mean_flow": 0.74,
-            "late_drop_rate": -0.32,
-            "baseline_mean_flow": 0.92,
-            "baseline_late_drop_rate": -0.05,
-        },
-        {
-            "sample_id": "B",
-            "mean_flow": 0.89,
-            "late_drop_rate": -0.08,
-            "baseline_mean_flow": 0.92,
-            "baseline_late_drop_rate": -0.05,
-        },
-    ]
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 160)
+
+event_log_path = "docs/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv"
+selected_review_gap_threshold = -0.20
+review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
+
+event_log = pd.read_csv(event_log_path)
+
+print("1) raw input shape and first rows")
+print("shape:", event_log.shape)
+print(event_log.head())
+print()
+
+sample_rows = event_log[["sample_id", "period"]].drop_duplicates().reset_index(drop=True)
+print("2) sample rows")
+print(sample_rows)
+print()
+
+feature_table = (
+    event_log.sort_values(["sample_id", "second"])
+    .groupby(["sample_id", "period"], as_index=False)
+    .agg(
+        mean_flow=("flow", "mean"),
+        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
+    )
 )
-
-print("1) sample rows")
-print(samples[["sample_id"]])
+print("3) add features")
+print(feature_table.round(2))
 print()
 
-feature_table = samples[["sample_id", "mean_flow", "late_drop_rate"]].copy()
-print("2) add features")
-print(feature_table)
+baseline = (
+    pd.DataFrame(
+        [
+            {
+                "baseline_mean_flow": feature_table.loc[
+                    feature_table["period"] == "baseline", "mean_flow"
+                ].mean(),
+                "baseline_late_drop_rate": feature_table.loc[
+                    feature_table["period"] == "baseline", "late_drop_rate"
+                ].mean(),
+            }
+        ]
+    )
+)
+print("4) build baseline from baseline samples")
+print(baseline.round(2))
 print()
 
-comparison_table = samples[
-    [
-        "sample_id",
-        "mean_flow",
-        "late_drop_rate",
-        "baseline_mean_flow",
-        "baseline_late_drop_rate",
-    ]
-].copy()
+comparison_table = feature_table[feature_table["period"] == "recent"].copy()
+comparison_table["baseline_mean_flow"] = baseline.loc[0, "baseline_mean_flow"]
+comparison_table["baseline_late_drop_rate"] = baseline.loc[0, "baseline_late_drop_rate"]
 comparison_table["baseline_gap"] = (
     comparison_table["late_drop_rate"] - comparison_table["baseline_late_drop_rate"]
 )
-print("3) compare with baseline")
-print(comparison_table)
+print("5) compare recent samples with baseline")
+print(comparison_table.round(2))
 print()
 
-output_table = comparison_table.copy()
-output_table["output"] = output_table["baseline_gap"].apply(
-    lambda gap: "needs review" if gap <= -0.20 else "normal range"
-)
-print("4) final output structure")
-print(output_table)
+selected_output_table = None
+threshold_results = []
+for threshold in review_gap_thresholds:
+    output_table = comparison_table.copy()
+    output_table["output"] = output_table["baseline_gap"].apply(
+        lambda gap: "needs review" if gap <= threshold else "normal range"
+    )
+    if threshold == selected_review_gap_threshold:
+        selected_output_table = output_table.copy()
+    threshold_results.append(
+        {
+            "review_gap_threshold": threshold,
+            "review_count": int((output_table["output"] == "needs review").sum()),
+            "review_samples": ",".join(
+                output_table.loc[output_table["output"] == "needs review", "sample_id"]
+            )
+            or "none",
+        }
+    )
+
+print("6) final output structure when review_gap_threshold = -0.20")
+print(selected_output_table.round(2))
+print()
+print("7) threshold sensitivity")
+print(pd.DataFrame(threshold_results))
 ```
 
 期望输出：
 
 ```text
-1) sample rows
-  sample_id
-0         A
-1         B
+1) raw input shape and first rows
+shape: (36, 4)
+  sample_id    period  second  flow
+0        B1  baseline       0  0.80
+1        B1  baseline       1  0.92
+2        B1  baseline       2  1.02
+3        B1  baseline       3  1.04
+4        B1  baseline       4  1.00
 
-2) add features
-  sample_id  mean_flow  late_drop_rate
-0         A       0.74           -0.32
-1         B       0.89           -0.08
+2) sample rows
+  sample_id    period
+0        B1  baseline
+1        B2  baseline
+2        B3  baseline
+3        R1    recent
+4        R2    recent
+5        R3    recent
 
-3) compare with baseline
-  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
-0         A       0.74           -0.32                0.92                    -0.05         -0.27
-1         B       0.89           -0.08                0.92                    -0.05         -0.03
+3) add features
+  sample_id    period  mean_flow  late_drop_rate
+0        B1  baseline       0.96           -0.04
+1        B2  baseline       0.94           -0.06
+2        B3  baseline       0.92           -0.04
+3        R1    recent       0.83           -0.32
+4        R2    recent       0.90           -0.08
+5        R3    recent       0.94           -0.40
 
-4) final output structure
-  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
-0         A       0.74           -0.32                0.92                    -0.05         -0.27  needs review
-1         B       0.89           -0.08                0.92                    -0.05         -0.03  normal range
+4) build baseline from baseline samples
+   baseline_mean_flow  baseline_late_drop_rate
+0                0.94                    -0.05
+
+5) compare recent samples with baseline
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35
+
+6) final output structure when review_gap_threshold = -0.20
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap        output
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27  needs review
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  normal range
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35  needs review
+
+7) threshold sensitivity
+   review_gap_threshold  review_count review_samples
+0                 -0.36             0           none
+1                 -0.20             2          R1,R3
+2                  0.00             3       R1,R2,R3
 ```
 
-这个例子展示的是：同一行会经过四次扩展。最开始只有样本标识，然后加上特征列，再计算和基准线之间的差值，最后加上一列运营输出。也就是说，输出列并不是单独存在的，它是承接前面 `样本设定 -> 特征计算 -> 基准线比较 -> 运营判断` 这些阶段结果之后才生成的。
+这个例子展示的是：原始日志里的同一批行如何逐步变成数据集候选结构。最开始，`event_log` 先用 `sample_id` 和 `period` 抓出样本行，然后从逐时刻流量中计算 `mean_flow` 和 `late_drop_rate`。接着，只用 `baseline` 区段的样本生成基准线，再把 `recent` 区段的样本拿来和它比较。最后的运营输出不是原本就存在的列，而是从 `baseline_gap` 和 `review_gap_thresholds` 生成的。阈值设为 `-0.36` 时，没有复核候选；设为 `-0.20` 时，R1 和 R3 会成为复核候选；设为 `0.0` 时，三个 recent 样本都会成为复核候选。也就是说，输出列不是单独存在的，而是承接 `样本设定 -> 特征计算 -> 基准线生成 -> 基准线比较 -> 运营判断标准` 这些阶段的结果之后才生成的。
 
 如果再把同一张表拆解得更细一些，就能更清楚地看到：四种结构分别落在表里的哪些格子上。
 
@@ -171,6 +236,6 @@ print(output_table)
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `example`、`labeled example`、`feature`、`label`。它分开说明 feature 和 label 在一个 example 里的角色，因此支持本节把样本、特征、基准线、输出结构读成同一张表里的分工结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“比较用参考区段”的一般概念，因此强化了本节的说明：当前样本的值只有在和基准线比较之后，才真正产生意义。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它说明 derivation 和 activity context 应当一起保留，因此强化了本节的上位框架：输出结构是前面的样本设定、特征计算、基准线比较之后才生成的结果。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `example`、`labeled example`、`feature`、`label`。它分开说明 feature 和 label 在一个 example 里的角色，因此支持本节把样本、特征、基准线、输出结构读成同一张表里的分工结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“比较用参考区段”的一般概念，因此强化了本节的说明：当前样本的值只有在和基准线比较之后，才真正产生意义。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它说明 derivation 和 activity context 应当一起保留，因此强化了本节的上位框架：输出结构是前面的样本设定、特征计算、基准线比较之后才生成的结果。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
