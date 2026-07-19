@@ -1,7 +1,7 @@
 # P2-10.3 노트북을 재실행 가능한 기록으로 정리하기
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-10.1에서는 노트북(notebook)을 코드, 설명, 출력이 함께 있는 계산 문서로 봤습니다. P2-10.2에서는 Jupyter, Colab, 로컬 실행의 차이를 실행 위치와 파일 접근 관점에서 구분했습니다.
 
@@ -26,20 +26,6 @@ Part 2 흐름에서 보면 Chapter 7은 `어디서 실행하나`, Chapter 8~9는
 | 숨은 상태(hidden state) | 문서에는 드러나지 않지만 런타임 안에 남아 있는 변수, import, 임시 결과입니다. |
 | 런타임 상태(runtime state) | 현재 세션에만 살아 있는 변수, 패키지, 메모리 상태입니다. |
 | setup 셀 | 패키지 import, 옵션, 데이터 준비를 앞부분에 모아 둔 셀입니다. |
-
-## 이 절의 범위
-
-이 절은 노트북을 멋지게 꾸미는 방법보다 재실행 가능한 기록 기준에 집중합니다. 이번 절은 `같은 노트북을 나중에도 다시 믿을 수 있게 남기려면 무엇을 적어야 하는가`, `셀 순서와 숨은 상태를 어떻게 통제해야 하는가`까지를 먼저 닫습니다. 더 큰 실험 추적 체계는 P3-9.3 보충학습과 Part 6의 프로젝트 기록에서 다시 이어집니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 노트북을 왜 위에서 아래로 다시 실행해 봐야 하는가?
-- 코드 셀(code cell), 마크다운 셀(markdown cell), 출력(output)을 어떤 순서로 배치하면 좋은가?
-- 패키지(package), 데이터 파일(data file), 랜덤성(randomness)은 어디에 적어야 하는가?
-- Colab과 로컬 실행에서 재현성(reproducibility)을 어떻게 다르게 조심해야 하는가?
-- 노트북에서 시작한 코드를 언제 `.py` 파일로 분리하면 좋은가?
-
-이 절은 Part 2 Chapter 7 Section 5의 의존성(dependency)과 재현성(reproducibility), P2-10.1의 노트북 장단점, P2-10.2의 실행 환경 차이를 실습 기록 습관으로 연결합니다.
 
 ## 이 절의 목표
 
@@ -374,6 +360,6 @@ Part 2의 다음 장으로 넘어가기 전에는 세 가지만 점검합니다.
 
 ## 출처와 참고 자료
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. 노트북 문서가 코드, 출력, markdown notes를 함께 저장한다는 설명 확인에 사용했다.
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation, 확인 날짜: 2026-07-19. `.ipynb` 파일이 셀 목록과 메타데이터, 셀 입력·출력을 담는 JSON 기반 형식이라는 설명 확인에 사용했다.
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-19. Colab 공유에서 노트북 내용과 런타임 상태가 분리된다는 주의점을 확인하는 근거로 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. 노트북 문서가 코드, 출력, markdown notes를 함께 저장한다는 설명 확인에 사용했다.
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation, 확인 날짜: 2026-07-20. `.ipynb` 파일이 셀 목록과 메타데이터, 셀 입력·출력을 담는 JSON 기반 형식이라는 설명 확인에 사용했다.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-20. Colab 공유에서 노트북 내용과 런타임 상태가 분리된다는 주의점을 확인하는 근거로 사용했다.
