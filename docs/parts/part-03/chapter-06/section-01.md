@@ -1,7 +1,7 @@
 # P3-6.1 비교할 구조는 어떤 특징으로 남기는가
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 특징을 처음 배울 때는 `열이 많을수록 좋은 것 아닐까`라고 받아들이곤 합니다. 하지만 특징(feature)은 단순히 많은 값을 넣는 일이 아닙니다. 특징은 샘플이 가진 구조를 비교와 예측에 쓸 수 있도록 다시 표현한 값입니다. 그래서 좋은 특징은 많기보다, `무엇을 보여 주려는가`가 분명해야 합니다. 앞 절에서 원시 로그를 요약 표로 바꿨다면, 이제 그 요약 표 안에 어떤 구조를 남길지 정해야 합니다.
 
@@ -147,3 +147,5 @@ print(
 - Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 input variable used to make predictions라고 설명하므로, 어떤 구조를 보여 줄지를 먼저 정한 뒤 그 구조를 입력 변수로 옮겨야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformation을 결정하는 과정으로 설명하므로, 특징 설계는 원시 값을 그대로 두는 일이 아니라 구조를 비교 가능한 숫자 표현으로 바꾸는 일이라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
 - U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 수준/변화/안정성 특징도 결국 기준선 비교에서 읽히기 쉬운 구조를 남기는 방향으로 선택해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 평균, 중앙값, 최빈값을 대표적인 위치 척도로 설명하고, 치우친 분포나 꼬리가 두꺼운 분포에서는 평균과 중앙값이 서로 다른 정보를 줄 수 있음을 보이므로, 전체 수준을 하나의 숫자로 남길 때도 어떤 구조를 보려는지 먼저 정해야 한다는 설명을 보강합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. 변동성(variability)이나 퍼짐(spread)을 설명하는 여러 수치 척도가 있고, 어떤 척도를 고를지는 중심 주변의 퍼짐과 꼬리의 퍼짐 중 무엇을 강조할지에 따라 달라진다고 정리하므로, 안정성 특징을 평균과 별도 구조로 남겨야 한다는 이 절의 설명을 뒷받침합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19

@@ -1,7 +1,7 @@
 # P3-7.5 기준선은 고정해야 하는가, 최근 평소 기준으로 갱신해야 하는가
 
 > Section ID: `P3-7.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 기준선 후보를 고른 뒤에는 또 다른 질문이 남습니다. `이 기준을 한동안 고정해 둘 것인가, 아니면 최근 평소 구간에 맞춰 함께 움직일 것인가?` 같은 조건의 구간을 골랐더라도, 기준을 유지하는 방식이 달라지면 비교 문장의 뜻도 달라집니다.
 
@@ -46,4 +46,6 @@
 ## 출처와 참고 자료
 
 - U.S. Bureau of Labor Statistics, `Base period`. 특정 시점이나 기간을 comparison reference로 두는 일반 원리를 제공하므로, 고정 기준선의 역할을 설명하는 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- National Cancer Institute, `baseline`. baseline을 초기 측정값을 정한 뒤 시간에 따른 변화를 비교하는 기준으로 설명하므로, 기준선이 먼저 비교용 참조 측정이라는 이 절의 전제를 보강합니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. control chart가 현재 공정 특성을 과거 성능과 비교하며, control limit은 타당하고 강한 이유가 있을 때만 바꾸라고 설명하므로, 기준선을 고정할지 갱신할지는 질문과 운영 변화 근거에 맞춰 정해야 한다는 이 절의 설명을 직접 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
 - Hyndman, Athanasopoulos et al., `Forecasting: Principles and Practice (3rd ed)`, `Time series cross-validation`. rolling forecasting origin처럼 기준이 시간이 흐르며 앞으로 이동하는 구조를 설명하므로, 최근 평소 기준선처럼 참조 구간이 함께 이동하는 운영 방식이 가능하다는 유사 개념의 근거가 됩니다. 다만 이 자료는 예측 평가 문맥이므로, 현재 절에서는 `이동하는 참조 기준`이라는 상위 개념만 비유적으로 가져옵니다. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

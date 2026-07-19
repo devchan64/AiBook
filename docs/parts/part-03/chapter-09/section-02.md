@@ -1,7 +1,7 @@
 # P3-9.2 어떤 문제는 왜 끝까지 비교 리포트로 남겨야 하는가
 
 > Section ID: `P3-9.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.19`
 
 모든 현실 문제를 예측 문제로 밀어 넣는 것은 좋은 데이터 모델링이 아닙니다. 어떤 경우에는 비교 리포트가 더 정직하며 현재 데이터 상태에도 더 잘 맞습니다. 특히 원인 라벨이 약하거나, 판단자가 실제로 보고 싶은 것이 `정답 분류`보다 `지금 먼저 볼 대상을 고르는 일`일 때 그렇습니다. 이 절에서는 어떤 문제를 위로 올리지 않고 끝까지 비교 리포트로 남겨 두는 편이 더 올바를 수 있다는 점을 문제 유형 선택 관점에서 정리합니다.
 
@@ -64,3 +64,4 @@
 - U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
 - National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Glossary*, `proxy labels`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Lakkaraju, Kleinberg, Leskovec, Ludwig, Mullainathan, *The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables*, KDD 2017. 관측된 결과가 사람의 선행 의사결정에 의해 선택되는 경우 평가와 문제 설정이 왜 왜곡될 수 있는지 확인할 때 참고했다. 확인일 2026-07-19. [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" }

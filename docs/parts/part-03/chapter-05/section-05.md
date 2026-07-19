@@ -1,7 +1,7 @@
 # P3-5.5 값이 빠지거나 구간이 비어 있는 샘플은 어떻게 다루는가
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.19`
 
 원시 로그를 요약 표로 바꾸는 단계까지 오면, `동작은 있었는데 일부 센서값이 비어 있으면 어떻게 해야 하는가?` `중간 구간 기록이 빠졌는데 이 샘플을 버려야 하는가, 일부만 써야 하는가?` 같은 질문이 바로 생깁니다. 이때 먼저 봐야 할 것은 값을 어떻게 채울지보다, 빠진 값이 샘플 경계와 특징 의미를 얼마나 흔드는가입니다.
 
@@ -143,3 +143,4 @@ print(summary[["event_id", "keep_sample", "avoid_features"]])
 - Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 같은 단위를 전제로 하므로, 결측이 샘플 경계를 흔들 때는 값을 채우기 전에 그 샘플이 아직 같은 비교 단위인지 먼저 확인해야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering은 원시 데이터를 학습과 비교에 더 유용한 형태로 바꾸는 과정이므로, 구간 누락 때문에 뜻이 깨진 특징은 만들지 말아야 한다는 이 절의 판단을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
 - W3C, `PROV-Overview`. provenance framework가 derivation과 activity context를 설명 가능하게 남겨야 한다고 정리하므로, 누락 위치와 샘플 구조 붕괴 여부를 별도 정보로 남겨야 나중에 품질과 재현성을 다시 판단할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- scikit-learn developers, `Imputation of missing values`. 결측값이 있는 행이나 열을 버릴 수 있지만 가치 있는 데이터 손실이 생길 수 있고, `MissingIndicator`로 결측 여부를 이진 행렬로 표시할 수 있으며 결측이 있었던 정보를 보존하는 일이 유용할 수 있다고 설명하므로, 빠짐 자체를 표시 열로 남길지 먼저 판단해야 한다는 이 절의 설명을 보강합니다. [https://scikit-learn.org/1.1/modules/impute.html#marking-imputed-values](https://scikit-learn.org/1.1/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19

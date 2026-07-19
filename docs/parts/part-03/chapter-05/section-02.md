@@ -1,7 +1,7 @@
 # P3-5.2 요약 표는 평균 밖의 패턴을 어떻게 남기는가
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 같은 평균을 가진 두 동작이 항상 같은 구조를 뜻하지는 않습니다. 평균은 전체 수준을 한눈에 요약하는 데는 유용하지만, 시간에 따라 어떻게 움직였는지까지 모두 보여 주지는 못합니다. 그래서 원시 로그를 요약 표로 바꾸는 단계에서는 `평균이 같다`는 사실만으로 안심하지 않고, 평균 밖의 패턴 차이를 어떻게 남길지 함께 고민해야 합니다.
 
@@ -155,5 +155,6 @@ print(summary[["event_id", "pattern_note"]])
 ## 출처와 참고 자료
 
 - NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 시간 흐름 안에서 신호와 패턴을 읽는 관점을 제공하므로, 평균 하나만으로는 구조 변화를 다 설명할 수 없고 구간별 변화와 모양 차이를 함께 남겨야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 치우친 분포에서는 평균과 중간값이 같지 않을 수 있고, 극단값이 평균을 왜곡할 수 있다고 설명하므로, 평균만 남기면 이상치와 분포 치우침을 놓칠 수 있어 중간값, 분위수, 최소·최대값 같은 값을 함께 봐야 한다는 이 절의 설명을 직접 보강합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
 - Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 원시 데이터를 더 유용한 입력 표현으로 바꾸는 과정으로 설명하므로, 요약 표가 평균만 남기는 표가 아니라 구간 평균, 기울기, 시점 같은 구조 정보를 함께 남겨야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
 - W3C, `PROV-Overview`. provenance framework가 derivation과 processing steps를 설명 가능하게 남겨야 한다고 정리하므로, 전체 평균 외에 어떤 구간 요약과 파생값을 남겼는지 재구성 가능해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08

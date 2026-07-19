@@ -1,7 +1,7 @@
 # P3-9.13 시간 경계, 개체 경계, 정보 경계, 산출물 형식은 왜 지금 함께 닫아야 하는가
 
 > Section ID: `P3-9.13`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 학습 문제를 세울 수 있을 만큼 구조를 정리했다면, 마지막으로 함께 닫아야 하는 경계가 있습니다. 시간 순서가 중요한 문제인지, 같은 개체가 양쪽에 섞이면 안 되는지, 예측 시점 뒤 정보가 입력에 스며들지 않았는지, 실제 산출물이 0/1 분류보다 순서나 연속값에 더 가까운지 같은 경계입니다. 여기서 중요한 일은 항목 이름을 많이 늘리는 것이 아니라, 현재 문제 구조가 이 경계들 앞에서 서로 모순 없이 서 있는지 확인하는 것입니다.
 
@@ -36,3 +36,5 @@
 - Google, *Machine Learning Glossary*, `label leakage`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
 - Google, *Machine Learning Crash Course: ROC and AUC*, ranking interpretation. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
 - W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned setup overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Hyndman, Athanasopoulos, *Forecasting: Principles and Practice (3rd ed.)*, Section 5.10 Time series cross-validation. 시간 순서가 있는 문제에서는 test 관측값보다 앞선 관측값만 training set에 넣어야 한다는 설명을 time split 근거로 참고했다. 확인일 2026-07-19. [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, *Cross-validation: evaluating estimator performance*, cross-validation iterators for grouped data. 같은 개체나 그룹의 dependent samples가 train/test 양쪽에 섞이지 않도록 해야 한다는 설명을 group split 근거로 참고했다. 확인일 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" }
