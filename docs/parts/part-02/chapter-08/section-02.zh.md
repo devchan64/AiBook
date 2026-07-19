@@ -1,7 +1,7 @@
 # P2-8.2 列表（list）：有顺序的值集合
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8.1 中，我们看过了值（value）、变量（variable）、类型（type）。现在来看第一个可以一次处理多个值的结构：列表（list）。
 
@@ -24,20 +24,6 @@
 | 项（item） | 列表中的单个值。 |
 | mutable value | 可以添加或修改项的值结构。 |
 | 嵌套列表（nested list） | 列表里面再次放入列表的结构。 |
-
-## 本节范围
-
-这里处理的是列表的基本结构与初始状态。中心问题是：`当按顺序处理多个值时，应该以什么标准去集合、取出和修改它们？`
-
-这里回答下面这些问题。
-
-- 列表适合哪一种数据集合？
-- 列表一开始可以用什么形状来创建？
-- 列表中的位置要怎样读取？
-- 为什么因为列表是 mutable value，所以必须小心？
-- 在 AI 实践里，列表会以什么形式出现？
-
-字典（dictionary）会在 P2-8.3 中单独处理，通过迭代（loop）去收集或修改值的模式会在 P2-8.4 中单独处理。引用与复制的区分会在补充学习 P2-8.7 中再次回收。
 
 ## 本节目标
 
@@ -563,7 +549,7 @@ for file_name in file_names:
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认列表方法、把列表当作 stack 使用的例子、列表推导式与嵌套列表示例。
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认序列类型、mutable sequence 操作、索引与切片行为。
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认标准库 `array` 会高效存储相同基本类型的值。
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 NumPy 数组不同于普通 Python 列表，是高效处理大量数值数据的核心结构。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认列表方法、把列表当作 stack 使用的例子、列表推导式与嵌套列表示例。
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认序列类型、mutable sequence 操作、索引与切片行为。
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认标准库 `array` 会高效存储相同基本类型的值。
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 NumPy 数组不同于普通 Python 列表，是高效处理大量数值数据的核心结构。

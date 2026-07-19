@@ -1,7 +1,7 @@
 # P2-8.2 Lists: Ordered Groups of Values
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-8.1, we looked at values, variables, and types. Now we look at the first structure for handling several values at once: the list.
 
@@ -24,20 +24,6 @@ If the previous section dealt with `how a single value exists with a name and a 
 | item | An individual value inside the list. |
 | mutable value | A value structure in which items can be added or changed. |
 | nested list | A structure where a list contains another list inside it. |
-
-## Scope of This Section
-
-Here, we cover the basic structure and initial state of lists. The central question is: `When handling several values in order, by what criteria should they be grouped, taken out, and changed?`
-
-Here, we answer the following questions.
-
-- For what kind of data group is a list suitable?
-- In what shapes can a list first be created?
-- How is the position of a list read?
-- Why must we be careful because a list is a mutable value?
-- In what forms do we meet lists in AI practice?
-
-Dictionaries are handled separately in P2-8.3, and the pattern of collecting or changing values with iteration is handled separately in P2-8.4. The distinction between reference and copy is recovered again in the supplementary section P2-8.7.
 
 ## Goal of This Section
 
@@ -563,7 +549,7 @@ The confirmable result appears immediately through the index. If you can directl
 
 ## Sources and References
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm list methods, examples of using lists as stacks, list comprehensions, and nested list examples.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm sequence types, mutable sequence operations, indexing, and slicing behavior.
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm that the standard-library `array` stores values of the same basic type efficiently.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm that NumPy arrays are the core structure for handling large numeric data efficiently, unlike ordinary Python lists.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm list methods, examples of using lists as stacks, list comprehensions, and nested list examples.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm sequence types, mutable sequence operations, indexing, and slicing behavior.
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm that the standard-library `array` stores values of the same basic type efficiently.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm that NumPy arrays are the core structure for handling large numeric data efficiently, unlike ordinary Python lists.

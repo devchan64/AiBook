@@ -1,7 +1,7 @@
 # P2-8.2 리스트(list): 순서가 있는 값 묶음
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. 이제 여러 값을 한 번에 다루기 위한 첫 번째 구조로 리스트(list)를 봅니다.
 
@@ -24,20 +24,6 @@ P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. 이�
 | 항목(item) | 리스트 안에 들어 있는 개별 값입니다. |
 | mutable value | 항목을 추가하거나 바꿀 수 있는 값 구조입니다. |
 | 중첩 리스트(nested list) | 리스트 안에 다시 리스트가 들어 있는 구조입니다. |
-
-## 이 절의 범위
-
-여기서는 리스트의 기본 구조와 초기 상태를 다룹니다. 중심 질문은 “여러 값을 순서로 다룰 때 어떤 기준으로 묶고, 꺼내고, 바꿀 것인가”입니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 리스트(list)는 어떤 데이터 묶음에 어울리는가?
-- 리스트를 어떤 모양으로 처음 만들 수 있는가?
-- 리스트의 위치(index)는 어떻게 읽는가?
-- 리스트는 왜 바뀔 수 있는 값(mutable value)으로 조심해야 하는가?
-- AI 실습에서 리스트를 어떤 형태로 만나는가?
-
-딕셔너리(dictionary)는 P2-8.3에서, 반복(loop)으로 값을 모으거나 바꾸는 패턴은 P2-8.4에서 분리해 다룹니다. 참조와 복사 구분은 P2-8.7 보충학습에서 다시 회수합니다.
 
 ## 이 절의 목표
 
@@ -562,7 +548,7 @@ for file_name in file_names:
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 리스트 메서드, 리스트를 스택처럼 쓰는 예, 리스트 컴프리헨션과 중첩 리스트 예시 확인에 사용했다.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 시퀀스 타입과 mutable sequence 연산, 인덱싱·슬라이싱 동작 확인에 사용했다.
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 표준 라이브러리의 `array`가 같은 기본 타입의 값을 효율적으로 저장하는 구조라는 설명 확인에 사용했다.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. NumPy 배열이 Python 리스트와 다르게 빠르고 많은 숫자 데이터를 다루는 핵심 구조라는 설명 확인에 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 리스트 메서드, 리스트를 스택처럼 쓰는 예, 리스트 컴프리헨션과 중첩 리스트 예시 확인에 사용했다.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 시퀀스 타입과 mutable sequence 연산, 인덱싱·슬라이싱 동작 확인에 사용했다.
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 표준 라이브러리의 `array`가 같은 기본 타입의 값을 효율적으로 저장하는 구조라는 설명 확인에 사용했다.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. NumPy 배열이 Python 리스트와 다르게 빠르고 많은 숫자 데이터를 다루는 핵심 구조라는 설명 확인에 사용했다.
