@@ -1,7 +1,7 @@
 # P3-9.9 실제 목표와 대리 target은 어떻게 구분하는가
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 현실 데이터에서는 정말 맞히고 싶은 결과를 바로 볼 수 없는 경우가 많습니다. 그래서 중간 판단이나 대체 열을 임시 target으로 쓰고 싶어집니다. 이때 필요한 구분이 `실제 목표(actual target)`와 `대리 target(proxy target)`입니다. 지금 쓰는 target이 실제로 알고 싶은 결과 자체인지, 아니면 대신 쓰는 대리 열인지 먼저 적어야 합니다.
 
@@ -54,4 +54,4 @@ proxy target을 쓰는 순간에는 `지금 관측 가능한 것`과 `정말 알
 
 ## 출처와 참고 자료
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `derived label`, `proxy labels`. 지도학습의 라벨이 예시의 답 또는 결과 부분이며, 실제 라벨이 없을 때 proxy label을 신중하게 골라야 한다는 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-9.9 How Should the Actual Target and a Proxy Target Be Distinguished
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In real data, the result you truly want to predict is often not directly visible. So it becomes tempting to use an intermediate operational judgment or a substitute column as a temporary target. The distinction needed here is between `actual target` and `proxy target`. You should first write whether the target currently in use is the result you truly want to know, or a substitute column used in its place.
 
@@ -54,4 +54,4 @@ A proxy target is therefore not a temporary convenient name, but a device that e
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `derived label`, `proxy labels`. Used to check the term basis that a supervised-learning label is the answer or result part of an example, and that proxy labels should be chosen carefully when an actual label is absent. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

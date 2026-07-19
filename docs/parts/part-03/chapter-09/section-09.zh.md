@@ -1,7 +1,7 @@
 # P3-9.9 实际目标与代理 target 应该如何区分
 
 > Section ID: `P3-9.9`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在现实数据里，真正想预测的结果往往无法被直接看见。所以就会很想拿一个运营中间判断，或者一个替代列，先当成临时 target 来用。这里需要区分的是`实际目标（actual target）`和`代理 target（proxy target）`。必须先写清楚：当前使用的 target，到底就是你真正想知道的结果，还是用来替代它的一列。
 
@@ -54,4 +54,4 @@ actual target 和 proxy target 的差别，并不只是名称不同。只要你�
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `derived label`, `proxy labels`。用于确认术语依据：在监督学习中，标签是一个样本的答案或结果部分；当实际标签不存在时，应谨慎选择代理标签。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
