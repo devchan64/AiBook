@@ -1,7 +1,7 @@
 # Part 7 Wrap-up. Project Review
 
 > Section ID: `P7-summary`
-> Version: `v2026.07.18`
+> Version: `v2026.07.19`
 
 Part 7 is where earlier material is practiced through actual project execution and interpretation. The core of this Part is not completing a large service, but tying question setting, comparison, structure interpretation, execution records, and operational judgment together inside one project and becoming able to explain `why this result appeared`.
 
@@ -20,7 +20,7 @@ The purpose of Part 7 is to bind the concepts learned across the whole book into
 - Input structure, learning-result interpretation, evidence checking, and execution logs should connect as one chain of judgment.
 - Deployment and operational judgment should also remain as project records rather than being treated as an appendix at the end.
 
-## The Goals Of This Part
+## The Explanation Ability That Should Remain
 
 After finishing this Part, you should be able to explain the flow of leaving a problem definition, a baseline, a result, a failure record, and the next improvement plan behind as actual execution and comparison results.
 

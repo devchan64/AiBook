@@ -1,7 +1,7 @@
 # Part 7. Projects
 
 > Section ID: `P7-index`
-> Version: `v2026.07.18`
+> Version: `v2026.07.19`
 
 Part 7 is the part where earlier material is practiced through real inputs, code execution, output comparison, and error interpretation. Instead of adding a long stretch of new theory, this Part executes and interprets already learned judgment standards around question setting, comparison, structure choice, and execution records inside one project.
 
@@ -68,18 +68,18 @@ Once this structure is fixed first, Part 7 is organized less as `a Part with man
 
 This mapping matters because Part 7 is not a Part that adds a long separate block of new theory. It is a Part that binds `question setup -> comparison -> structure interpretation -> execution records -> operational retrospective` into one flow. If the current problem is separated into a comparison-design issue, a structure or learning-interpretation issue, or an evidence, tool, or operational issue, the project record itself becomes much easier to narrow down.
 
-## The Shared Rhythm Of Practice Records
+## The Shared Elements Of Practice Records
 
-Even if the code blocks differ by section, the execution records in Part 7 tend to remain in roughly the same rhythm.
+Even if the code blocks differ by section, the execution records in Part 7 tend to preserve the same elements.
 
-```text
-1. Read the section question in one sentence.
-2. Confirm what input file is being read first.
-3. Run the Python example.
-4. Check which of the following appeared: execution summary, comparison table, error case, failure record.
-5. In the section right below, `How To Read The Result`, confirm the interpretation standard for that output.
-6. In the final checklist, confirm what this section actually taught.
-```
+| Record element | What should remain |
+| --- | --- |
+| Question | Fix what the run is checking in one sentence. |
+| Input | Leave which CSV, document, log, or tool state was read. |
+| Execution | Leave what was actually run, such as a Python example, comparison table, retrieval step, or tool call. |
+| Output | Leave the object to interpret, such as an execution summary, prediction result, error case, or failure record. |
+| Interpretation | Explain what judgment the output supports. |
+| Recheck | Leave the next value to change, sample to revisit, or pending/failure state to track. |
 
 The key is not to stop at `the code ran`. Part 7 cares more about `where to read the result and what to recheck next` than execution by itself.
 
@@ -91,7 +91,7 @@ Reduced to the repository level, the start can be as short as the following.
 
 The CSV files and record files used by the code blocks in each section are grouped under `docs/assets/part-07/`, so even checking which file is being read first makes the practice context much clearer.
 
-## The Goals Of This Part
+## Questions That Open The Project
 
 - Where should a project start?
 - How should a real input be cut into one sample unit?
@@ -100,7 +100,7 @@ The CSV files and record files used by the code blocks in each section are group
 - What should count as a quality standard in RAG and agent projects?
 - What kinds of failure records are needed in deployment and operations?
 
-Moved into the standard of actual project documents, these goals become the following.
+Moved into the standard of actual project documents, these questions become the following.
 
 | Project stage | Minimum document element |
 | --- | --- |
