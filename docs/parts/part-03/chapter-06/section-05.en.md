@@ -1,7 +1,7 @@
 # P3-6.5 How Should We Read and Keep Features Together When Their Units and Scales Differ
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Once we build a few features, another confusion easily returns. `Is the column with the larger value more important?` `Can seconds and pressure units stay in the same table?` `Can a column with an average of 200 and another with 0.2 simply be compared side by side?` What is needed first here is the sense to distinguish unit, range, size of variation, and change relative to the baseline before looking at the size of the numbers.
 
@@ -81,89 +81,33 @@ For example, it can be written like this.
 
 If we have this table, then `what kind of number this is` and `how it should be read` become fixed together.
 
-## Small Code Example
+## Small Check Table
 
-Problem situation: check that when features with different units and ranges appear in the same table, they should be read not by absolute magnitude but by same-role differences from the baseline.
+In this section, it is more appropriate to fix how to read numerical columns in a table than to print two fixed rows with Python. For example, consider the working table below.
 
-Input: a feature table containing `duration_seconds`, `pressure_mean`, `flow_std`, and `late_drop_rate`, together with baseline values
+| event_id | `duration_seconds` | `pressure_mean` | `flow_std` | `late_drop_rate` |
+| --- | ---: | ---: | ---: | ---: |
+| A | 48 | 101.2 | 0.18 | -0.42 |
+| B | 44 | 100.9 | 0.05 | -0.10 |
+| baseline | 45 | 101.0 | 0.03 | -0.12 |
 
-Expected output: output that shows the original feature table, then `delta from baseline` for matching roles, and then a table of column roles
+If we look only at absolute values, `pressure_mean` appears largest. But when we read the values as changes from the baseline, a different picture appears.
 
-Concept to check: even if numbers sit together in one table, if their units and roles differ, they should not be read by the same magnitude standard but compared within the same role
+| event_id | `duration_delta` | `pressure_delta` | `flow_std_delta` | `late_drop_delta` |
+| --- | ---: | ---: | ---: | ---: |
+| A | 3 | 0.2 | 0.15 | -0.30 |
+| B | -1 | -0.1 | 0.02 | 0.02 |
 
-```python
-import pandas as pd
+What matters in this table is not the absolute size of the numbers, but the role of each column and the change inside the same column. If we look only at the first table, `101.2` may look large and `0.18` may look small. But once we read them as changes from the baseline, `flow_std_delta=0.15` may actually mean a large increase in fluctuation, while `pressure_delta=0.2` may mean only a small level difference.
 
-feature_table = pd.DataFrame(
-    [
-        {"event_id": "A", "duration_seconds": 48, "pressure_mean": 101.2, "flow_std": 0.18, "late_drop_rate": -0.42},
-        {"event_id": "B", "duration_seconds": 44, "pressure_mean": 100.9, "flow_std": 0.05, "late_drop_rate": -0.10},
-    ]
-)
+| Column name | Role | How to compare first |
+| --- | --- | --- |
+| `duration_seconds` | duration | difference from baseline |
+| `pressure_mean` | level | difference from baseline |
+| `flow_std` | variability | difference from baseline |
+| `late_drop_rate` | change | difference from baseline |
 
-baseline = {
-    "duration_seconds": 45,
-    "pressure_mean": 101.0,
-    "flow_std": 0.03,
-    "late_drop_rate": -0.12,
-}
-
-feature_table["duration_delta"] = feature_table["duration_seconds"] - baseline["duration_seconds"]
-feature_table["pressure_delta"] = feature_table["pressure_mean"] - baseline["pressure_mean"]
-feature_table["flow_std_delta"] = feature_table["flow_std"] - baseline["flow_std"]
-feature_table["late_drop_delta"] = feature_table["late_drop_rate"] - baseline["late_drop_rate"]
-
-role_table = pd.DataFrame(
-    [
-        {"column_name": "duration_seconds", "role": "duration", "compare_as": "delta from baseline"},
-        {"column_name": "pressure_mean", "role": "level", "compare_as": "delta from baseline"},
-        {"column_name": "flow_std", "role": "variability", "compare_as": "delta from baseline"},
-        {"column_name": "late_drop_rate", "role": "change", "compare_as": "delta from baseline"},
-    ]
-)
-
-print("1) feature table")
-print(feature_table[["event_id", "duration_seconds", "pressure_mean", "flow_std", "late_drop_rate"]])
-print()
-print("2) same-role comparisons against baseline")
-print(
-    feature_table[
-        [
-            "event_id",
-            "duration_delta",
-            "pressure_delta",
-            "flow_std_delta",
-            "late_drop_delta",
-        ]
-    ]
-)
-print()
-print("3) reading roles")
-print(role_table)
-```
-
-Expected output:
-
-```text
-1) feature table
-  event_id  duration_seconds  pressure_mean  flow_std  late_drop_rate
-0        A                48          101.2      0.18           -0.42
-1        B                44          100.9      0.05           -0.10
-
-2) same-role comparisons against baseline
-  event_id  duration_delta  pressure_delta  flow_std_delta  late_drop_delta
-0        A               3             0.2            0.15            -0.30
-1        B              -1            -0.1            0.02             0.02
-
-3) reading roles
-        column_name         role            compare_as
-0  duration_seconds     duration  delta from baseline
-1     pressure_mean        level  delta from baseline
-2          flow_std  variability  delta from baseline
-3    late_drop_rate       change  delta from baseline
-```
-
-What matters in this example is not the absolute size of the numbers, but the role of each column and the change inside the same column. If we look only at stage 1, `101.2` may look large and `0.18` may look small. But once we look at stage 2 as a change from the baseline, `flow_std_delta=0.15` may actually mean a large increase in fluctuation, while `pressure_delta=0.2` may mean only a small level difference. So the important reading is not `larger number`, but `how do we compare the same column playing the same role?`
+So the first thing to read is not `larger number`, but `how do we compare the same column playing the same role?`
 
 So Part 3's responsibility reaches this far.
 
@@ -184,6 +128,6 @@ The sequence in this section is that even when different units and scales sit in
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `feature`. Because it explains a feature as an input variable used for prediction, it supports the point that what a number measures as an input variable matters before the size of the number itself. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains the process of turning raw data into a more useful form for learning, it reinforces this section's explanation that features with different roles such as duration, level, variability, and rate of change should be read separately. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general idea that comparison works by placing the same item next to a reference point, it can support the explanation that instead of directly comparing different features with one another, we should read each column through its change from the baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `feature`. Because it explains a feature as an input variable used for prediction, it supports the point that what a number measures as an input variable matters before the size of the number itself. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains the process of turning raw data into a more useful form for learning, it reinforces this section's explanation that features with different roles such as duration, level, variability, and rate of change should be read separately. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general idea that comparison works by placing the same item next to a reference point, it can support the explanation that instead of directly comparing different features with one another, we should read each column through its change from the baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

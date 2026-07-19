@@ -1,7 +1,7 @@
 # P3-6.5 当特征的单位和尺度不同的时候，应该怎样一起读取和保留
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 做出几个特征之后，很容易又重新陷入一种混乱。`值大的那一列是不是更重要？` `秒和压力单位，可以放在同一张表里吗？` `平均值 200 的列和 0.2 的列，能不能就这样并排比较？` 这里首先需要的，不是去看数字大小，而是先建立一种感觉：要区分单位(unit)、范围(range)、变化幅度、以及相对基准线的变化。
 
@@ -81,89 +81,33 @@
 
 有了这张表，`这是什么数字` 和 `该怎样读它` 就能同时被固定下来。
 
-## 小型代码示例
+## 小型检查表
 
-问题情境：确认当单位和范围不同的特征出现在同一张表里时，应该读取的是“同角色相对基准线的变化”，而不是绝对数值大小。
+这一节与其用 Python 输出固定的两行，不如先用表固定“应该沿着什么轴读取数值列”。例如，先看下面这张工作表。
 
-输入(input)：包含 `duration_seconds`、`pressure_mean`、`flow_std`、`late_drop_rate` 的特征表，以及基准线值
+| event_id | `duration_seconds` | `pressure_mean` | `flow_std` | `late_drop_rate` |
+| --- | ---: | ---: | ---: | ---: |
+| A | 48 | 101.2 | 0.18 | -0.42 |
+| B | 44 | 100.9 | 0.05 | -0.10 |
+| 基准线 | 45 | 101.0 | 0.03 | -0.12 |
 
-期望输出(output)：同时展示原始特征表、同角色的 `delta from baseline`、以及列角色表的输出
+只看绝对值时，`pressure_mean` 会显得最大。但如果按相对基准线的变化来读，就会出现另一幅图。
 
-要确认的概念：即使数字一起出现在一张表里，只要单位和角色不同，就不能用同一个大小标准去读，而应该在同一角色里比较
+| event_id | `duration_delta` | `pressure_delta` | `flow_std_delta` | `late_drop_delta` |
+| --- | ---: | ---: | ---: | ---: |
+| A | 3 | 0.2 | 0.15 | -0.30 |
+| B | -1 | -0.1 | 0.02 | 0.02 |
 
-```python
-import pandas as pd
+这张表里重要的，不是数字绝对值大小，而是每一列承担的角色，以及同一列内部相对基准线的变化。只看第一张表时，`101.2` 可能显得很大，而 `0.18` 可能显得很小；但一旦按相对基准线的变化来读，`flow_std_delta=0.15` 反而可能表示波动大幅增加，而 `pressure_delta=0.2` 可能只是一个很小的水平差异。
 
-feature_table = pd.DataFrame(
-    [
-        {"event_id": "A", "duration_seconds": 48, "pressure_mean": 101.2, "flow_std": 0.18, "late_drop_rate": -0.42},
-        {"event_id": "B", "duration_seconds": 44, "pressure_mean": 100.9, "flow_std": 0.05, "late_drop_rate": -0.10},
-    ]
-)
+| 列名 | 角色 | 先比较的方式 |
+| --- | --- | --- |
+| `duration_seconds` | 持续时间(duration) | 相对基准线的差异 |
+| `pressure_mean` | 水平(level) | 相对基准线的差异 |
+| `flow_std` | 波动性(variability) | 相对基准线的差异 |
+| `late_drop_rate` | 变化(change) | 相对基准线的差异 |
 
-baseline = {
-    "duration_seconds": 45,
-    "pressure_mean": 101.0,
-    "flow_std": 0.03,
-    "late_drop_rate": -0.12,
-}
-
-feature_table["duration_delta"] = feature_table["duration_seconds"] - baseline["duration_seconds"]
-feature_table["pressure_delta"] = feature_table["pressure_mean"] - baseline["pressure_mean"]
-feature_table["flow_std_delta"] = feature_table["flow_std"] - baseline["flow_std"]
-feature_table["late_drop_delta"] = feature_table["late_drop_rate"] - baseline["late_drop_rate"]
-
-role_table = pd.DataFrame(
-    [
-        {"column_name": "duration_seconds", "role": "duration", "compare_as": "delta from baseline"},
-        {"column_name": "pressure_mean", "role": "level", "compare_as": "delta from baseline"},
-        {"column_name": "flow_std", "role": "variability", "compare_as": "delta from baseline"},
-        {"column_name": "late_drop_rate", "role": "change", "compare_as": "delta from baseline"},
-    ]
-)
-
-print("1) feature table")
-print(feature_table[["event_id", "duration_seconds", "pressure_mean", "flow_std", "late_drop_rate"]])
-print()
-print("2) same-role comparisons against baseline")
-print(
-    feature_table[
-        [
-            "event_id",
-            "duration_delta",
-            "pressure_delta",
-            "flow_std_delta",
-            "late_drop_delta",
-        ]
-    ]
-)
-print()
-print("3) reading roles")
-print(role_table)
-```
-
-期望输出：
-
-```text
-1) feature table
-  event_id  duration_seconds  pressure_mean  flow_std  late_drop_rate
-0        A                48          101.2      0.18           -0.42
-1        B                44          100.9      0.05           -0.10
-
-2) same-role comparisons against baseline
-  event_id  duration_delta  pressure_delta  flow_std_delta  late_drop_delta
-0        A               3             0.2            0.15            -0.30
-1        B              -1            -0.1            0.02             0.02
-
-3) reading roles
-        column_name         role            compare_as
-0  duration_seconds     duration  delta from baseline
-1     pressure_mean        level  delta from baseline
-2          flow_std  variability  delta from baseline
-3    late_drop_rate       change  delta from baseline
-```
-
-这个例子里重要的，不是数字绝对值大小，而是每一列承担的角色，以及同一列内部相对基准线的变化。只看第 1 步时，`101.2` 可能显得很大，而 `0.18` 可能显得很小；但一旦进入第 2 步、把它们改成相对基准线的差值来读，`flow_std_delta=0.15` 反而可能表示波动大幅增加，而 `pressure_delta=0.2` 可能只是一个很小的水平差异。所以，真正重要的不是 `谁的数字更大`，而是 `怎样在同一角色内部去比较同一列。`
+所以，真正应该先读的不是 `谁的数字更大`，而是 `怎样比较承担同一角色的同一列。`
 
 所以 Part 3 的责任，至少要做到下面这三点。
 
@@ -184,6 +128,6 @@ print(role_table)
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：比起数字本身大不大，更重要的是它作为输入变量到底在测什么。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它解释了把原始数据改造成更适合学习的形式，因此强化了这一节的说明：持续时间、水平、波动性、变化率这样承担不同角色的特征，应当分开读取。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了一个一般概念：比较之所以成立，是因为把同一个项目与参考点并排放在一起。因此，它可以支持这里的说明：与其直接把不同特征互相比大小，不如把每一列读成相对基准线的变化。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：比起数字本身大不大，更重要的是它作为输入变量到底在测什么。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它解释了把原始数据改造成更适合学习的形式，因此强化了这一节的说明：持续时间、水平、波动性、变化率这样承担不同角色的特征，应当分开读取。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了一个一般概念：比较之所以成立，是因为把同一个项目与参考点并排放在一起。因此，它可以支持这里的说明：与其直接把不同特征互相比大小，不如把每一列读成相对基准线的变化。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
