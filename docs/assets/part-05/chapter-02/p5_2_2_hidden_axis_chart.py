@@ -1,4 +1,11 @@
 from pathlib import Path
+import os
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
+MPL_CACHE = REPO_ROOT / ".tmp" / "matplotlib-cache"
+MPL_CACHE.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", str(MPL_CACHE))
+os.environ.setdefault("XDG_CACHE_HOME", str(MPL_CACHE))
 
 import matplotlib
 
@@ -8,8 +15,7 @@ from matplotlib import font_manager
 import numpy as np
 
 
-ROOT = Path(__file__).resolve().parents[4]
-OUT_DIR = ROOT / "docs" / "assets" / "part-05" / "chapter-02"
+OUT_DIR = REPO_ROOT / "docs" / "assets" / "part-05" / "chapter-02"
 
 FRAMES = [
     ("needle_dominant_frame", [1.0, 0.2, 0.1]),

@@ -31,7 +31,7 @@ FOLLOW_UPS = {
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
         "xlabel": "입력 x1",
         "ylabel": "입력 x2",
         "h1": "h1 켜짐 경계",
