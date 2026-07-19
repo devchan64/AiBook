@@ -1,7 +1,7 @@
 # P3-6.6 即使列名相同，只要测量方式或单位变了，为什么也可能不是同一个特征
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 在设计特征(feature)时，还有一个很容易被忽略的陷阱。那就是一想到 `列名一样，那应该就是同一个特征吧`。但在真实数据里，即使都叫 `flow_mean`，也可能是传感器版本变了、单位变了，或者计算规则变了。只要发生这种变化，数字虽然还在那里，也很难再说它还是同一个特征。
 
@@ -83,14 +83,25 @@
 
 问题情境：确认即使都使用 `flow_mean` 这个列名，只要单位、传感器版本、区间规则、运行定义不同，它们也可能不是同一个特征。
 
-输入(input)：一张特征目录表，其中同时写有 `feature_name`、`unit`、`sensor_version`、`segment_rule`、`ops_definition`
+输入(input)：一张特征目录表，其中同时写有 `feature_name`、`unit`、`sensor_version`、`segment_rule`、`ops_definition`，以及判断同一定义时要使用的字段组合 `definition_fields_to_check`
 
-期望输出(output)：即使在同一个列名下，`same_definition_group` 也会分裂开的输出
+期望输出(output)：只看列名时看起来像一个组，但把单位、传感器版本、区间规则、运行定义放进 `definition_fields_to_check` 后，`same_definition_group` 会分裂成多个组的输出
 
-要确认的概念：特征的同一性，不应只在列名层面判断，而应在包含测量单位和生成规则的定义层面判断
+要确认的概念：特征的同一性，不应只在列名层面判断，而应在包含测量单位和生成规则的定义层面判断。哪些行可以放进同一条基准线，也会随着定义字段的选择而改变。
 
 ```python
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 180)
+
+definition_fields_to_check = [
+    "feature_name",
+    "unit",
+    "sensor_version",
+    "segment_rule",
+    "ops_definition",
+]
 
 feature_catalog = pd.DataFrame(
     [
@@ -129,24 +140,33 @@ feature_catalog = pd.DataFrame(
     ]
 )
 
-feature_catalog["same_definition_group"] = (
-    feature_catalog["feature_name"]
-    + "|"
-    + feature_catalog["unit"]
-    + "|"
-    + feature_catalog["sensor_version"]
-    + "|"
-    + feature_catalog["segment_rule"]
-    + "|"
-    + feature_catalog["ops_definition"]
-)
-
-definition_groups = (
-    feature_catalog.groupby("same_definition_group", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        event_ids=("event_id", lambda values: ",".join(values)),
+def summarize_groups(fields):
+    grouped = (
+        feature_catalog.groupby(fields, as_index=False)
+        .agg(
+            event_count=("event_id", "count"),
+            event_ids=("event_id", lambda values: ",".join(values)),
+        )
+        .copy()
     )
+    grouped["same_definition_group"] = grouped[fields].astype(str).agg("|".join, axis=1)
+    return grouped[["same_definition_group", "event_count", "event_ids"]]
+
+name_only_groups = summarize_groups(["feature_name"])
+definition_groups = summarize_groups(definition_fields_to_check)
+group_comparison = pd.DataFrame(
+    [
+        {
+            "grouping_rule": "feature_name only",
+            "group_count": len(name_only_groups),
+            "grouped_event_ids": " / ".join(name_only_groups["event_ids"]),
+        },
+        {
+            "grouping_rule": "selected definition fields",
+            "group_count": len(definition_groups),
+            "grouped_event_ids": " / ".join(definition_groups["event_ids"]),
+        },
+    ]
 )
 
 print("1) same column name, different definition notes")
@@ -163,7 +183,10 @@ print(
     ]
 )
 print()
-print("2) rows that can be treated as the same definition group")
+print("2) grouping changes when definition fields are included")
+print(group_comparison)
+print()
+print("3) rows that can be treated as the same definition group")
 print(definition_groups)
 ```
 
@@ -177,14 +200,19 @@ print(definition_groups)
 2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
 3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
 
-2) rows that can be treated as the same definition group
-                                same_definition_group  event_count event_ids
+2) grouping changes when definition fields are included
+                grouping_rule  group_count grouped_event_ids
+0           feature_name only            1           A,B,C,D
+1  selected definition fields            3       A,B / C / D
+
+3) rows that can be treated as the same definition group
+                              same_definition_group  event_count event_ids
 0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
 1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
 2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
 ```
 
-这个例子的目的，不是再去计算一个新特征，而是先确认：`即使列名一样，究竟哪些行还能被归到同一个定义组里？` 第 1 步里，我们看到四行都叫 `flow_mean`，但定义备注已经不同；第 2 步里，我们看到真正还能被归为同一定义的，只有 `A,B`，而 `C`、`D` 都必须各自单独留下。也就是说，这一节重要的并不是内部拼出来的 key 字符串本身，而是先把哪些行还能放进同一条基准线、同一张比较表里分开。
+这个例子的目的，不是再去计算一个新特征，而是先确认：`即使列名一样，究竟哪些行还能被归到同一个定义组里？` 这里可以操作的值是 `definition_fields_to_check`。第 1 步里，我们看到四行都叫 `flow_mean`，但定义备注已经不同；第 2 步里，我们看到只看 `feature_name` 时，`A,B,C,D` 都像同一组，但把单位、传感器版本、区间规则、运行定义也算进去之后，就会分成 `A,B`、`C`、`D` 三组。第 3 步则显示，真正还能被归为同一定义组的只有 `A,B`，而 `C`、`D` 都必须各自单独留下。也就是说，这一节重要的并不是内部拼出来的 key 字符串本身，而是先把哪些行还能放进同一条基准线、同一张比较表里分开。
 
 这里最后要检查的三件事是：单位和计算规则有没有被写下来；版本变化或传感器变化有没有被区分出来；那些不能混进同一条基准线和同一分组里的定义差异，有没有被标记出来。只有这三点一起成立，特征表才不再只是数字集合，而会变成一张带着“可比较定义”的结构。检查当前特征表是不是只在比较“真正意义相同的列”，正是这一节的中心。
 
@@ -195,5 +223,5 @@ print(definition_groups)
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. 它提供了一个一般框架：通过 provenance information 追踪数据是经过什么过程、什么版本生成的，因此强化了这一点：为了保持可比性，特征除了名称，还应保留生成规则和版本。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它说明特征不是未经处理的原始值，而是经过选择性变换的结果，因此支持这一节的核心：只要单位或计算规则变了，即使列名一样，也很难再说它还是同一个特征定义。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- W3C, `PROV-Overview`. 它提供了一个一般框架：通过 provenance information 追踪数据是经过什么过程、什么版本生成的，因此强化了这一点：为了保持可比性，特征除了名称，还应保留生成规则和版本。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它说明特征不是未经处理的原始值，而是经过选择性变换的结果，因此支持这一节的核心：只要单位或计算规则变了，即使列名一样，也很难再说它还是同一个特征定义。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

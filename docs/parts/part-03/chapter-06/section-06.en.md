@@ -1,7 +1,7 @@
 # P3-6.6 Why the Same Column Name May Still Not Mean the Same Feature When the Measurement Rule or Unit Changes
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 There is one more trap that is easy to miss while designing features. It appears the moment we think `if the column name is the same, it must be the same feature`. But in real data, even under the same name `flow_mean`, the sensor version may have changed, the unit may have changed, or the calculation rule may have changed. Once such changes happen, the numbers may still exist, yet it becomes difficult to say that it is still the same feature.
 
@@ -83,14 +83,25 @@ So a baseline is not only a same-group comparison. It should also be a `same fea
 
 Problem situation: check that even when the same column name `flow_mean` is used, it may not be the same feature if unit, sensor version, segment rule, and operational definition differ.
 
-Input: a feature-catalog table where `feature_name`, `unit`, `sensor_version`, `segment_rule`, and `ops_definition` are written together
+Input: a feature-catalog table where `feature_name`, `unit`, `sensor_version`, `segment_rule`, and `ops_definition` are written together, plus the field bundle `definition_fields_to_check` to use when deciding whether rows share the same definition
 
-Expected output: output where `same_definition_group` splits even under the same column name
+Expected output: output where the rows look like one group if we look only at the column name, but split into several `same_definition_group` values when `definition_fields_to_check` includes unit, sensor version, segment rule, and operational definition
 
-Concept to check: feature identity should be judged not at the column-name level alone, but at the definition level that includes measurement unit and generation rule
+Concept to check: feature identity should be judged not at the column-name level alone, but at the definition level that includes measurement unit and generation rule. Which rows can be placed on the same baseline also changes depending on which fields are included in the definition.
 
 ```python
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 180)
+
+definition_fields_to_check = [
+    "feature_name",
+    "unit",
+    "sensor_version",
+    "segment_rule",
+    "ops_definition",
+]
 
 feature_catalog = pd.DataFrame(
     [
@@ -129,24 +140,33 @@ feature_catalog = pd.DataFrame(
     ]
 )
 
-feature_catalog["same_definition_group"] = (
-    feature_catalog["feature_name"]
-    + "|"
-    + feature_catalog["unit"]
-    + "|"
-    + feature_catalog["sensor_version"]
-    + "|"
-    + feature_catalog["segment_rule"]
-    + "|"
-    + feature_catalog["ops_definition"]
-)
-
-definition_groups = (
-    feature_catalog.groupby("same_definition_group", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        event_ids=("event_id", lambda values: ",".join(values)),
+def summarize_groups(fields):
+    grouped = (
+        feature_catalog.groupby(fields, as_index=False)
+        .agg(
+            event_count=("event_id", "count"),
+            event_ids=("event_id", lambda values: ",".join(values)),
+        )
+        .copy()
     )
+    grouped["same_definition_group"] = grouped[fields].astype(str).agg("|".join, axis=1)
+    return grouped[["same_definition_group", "event_count", "event_ids"]]
+
+name_only_groups = summarize_groups(["feature_name"])
+definition_groups = summarize_groups(definition_fields_to_check)
+group_comparison = pd.DataFrame(
+    [
+        {
+            "grouping_rule": "feature_name only",
+            "group_count": len(name_only_groups),
+            "grouped_event_ids": " / ".join(name_only_groups["event_ids"]),
+        },
+        {
+            "grouping_rule": "selected definition fields",
+            "group_count": len(definition_groups),
+            "grouped_event_ids": " / ".join(definition_groups["event_ids"]),
+        },
+    ]
 )
 
 print("1) same column name, different definition notes")
@@ -163,7 +183,10 @@ print(
     ]
 )
 print()
-print("2) rows that can be treated as the same definition group")
+print("2) grouping changes when definition fields are included")
+print(group_comparison)
+print()
+print("3) rows that can be treated as the same definition group")
 print(definition_groups)
 ```
 
@@ -177,14 +200,19 @@ Expected output:
 2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
 3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
 
-2) rows that can be treated as the same definition group
-                                same_definition_group  event_count event_ids
+2) grouping changes when definition fields are included
+                grouping_rule  group_count grouped_event_ids
+0           feature_name only            1           A,B,C,D
+1  selected definition fields            3       A,B / C / D
+
+3) rows that can be treated as the same definition group
+                              same_definition_group  event_count event_ids
 0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
 1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
 2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
 ```
 
-The purpose of this example is not to calculate a new feature. It is to check first `up to what point can rows really be grouped under the same definition even when the column name is the same?` In stage 1, we see that all four rows use `flow_mean` but that the definition notes differ. In stage 2, we see that only `A,B` remain grouped under the same definition, while `C` and `D` each stay separate. So what matters in this section is not the internal key string itself, but first separating which rows are allowed onto the same baseline and into the same comparison table.
+The purpose of this example is not to calculate a new feature. It is to check first `up to what point can rows really be grouped under the same definition even when the column name is the same?` The value to manipulate here is `definition_fields_to_check`. In stage 1, we see that all four rows use `flow_mean` but that the definition notes differ. In stage 2, we see that if we look only at `feature_name`, `A,B,C,D` all look like one group, but if we include unit, sensor version, segment rule, and operational definition, they split into three groups: `A,B`, `C`, and `D`. Stage 3 shows that only `A,B` actually remain in the same definition group, while `C` and `D` each stay separate. So what matters in this section is not the internal key string itself, but first separating which rows are allowed onto the same baseline and into the same comparison table.
 
 The last three things to check here are the following. Are the unit and calculation rule written down? Did we distinguish version changes or sensor changes? Did we mark definition differences that must not be mixed into the same baseline and partition? Only when these three conditions stand together does a feature table remain not as a simple bundle of numbers, but as a structure with comparable definitions attached. Checking whether the current feature table compares only columns that still mean the same thing is exactly the center of this section.
 
@@ -195,5 +223,5 @@ So feature identity should be read not as one line of column name, but as a defi
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because it provides a general framework for tracing through provenance information what process and version generated the data, it reinforces the explanation that to preserve comparability, a feature should keep not only its name but also its generation rule and version. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains that a feature is not a raw value left untouched but the result of a chosen transformation, it supports the core point of this section that once the unit or calculation rule changes, the same column name is no longer easily the same feature definition. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. Because it provides a general framework for tracing through provenance information what process and version generated the data, it reinforces the explanation that to preserve comparability, a feature should keep not only its name but also its generation rule and version. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains that a feature is not a raw value left untouched but the result of a chosen transformation, it supports the core point of this section that once the unit or calculation rule changes, the same column name is no longer easily the same feature definition. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

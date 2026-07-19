@@ -1,7 +1,7 @@
 # P3-6.6 같은 열 이름이라도 측정 방식이나 단위가 바뀌면 왜 같은 특징이 아닐 수 있는가
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 특징(feature)을 설계하다 보면 놓치기 쉬운 함정이 하나 더 있습니다. `열 이름이 같으니 같은 특징이겠지`라고 생각하는 순간입니다. 하지만 현실 데이터에서는 같은 `flow_mean`이라는 이름 아래에서도 센서 버전이 바뀌었거나, 단위가 바뀌었거나, 계산 규칙이 달라졌을 수 있습니다. 이런 변화가 있으면 숫자는 있어도 더 이상 같은 특징이라고 보기 어렵습니다.
 
@@ -223,5 +223,5 @@ print(definition_groups)
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance information을 통해 데이터가 어떤 과정과 버전을 거쳐 생성되었는지 추적하는 일반 틀을 제공하므로, 특징도 이름만이 아니라 생성 규칙과 버전까지 함께 남겨야 비교 가능성이 유지된다는 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature가 원시 값을 그대로 쓰는 것이 아니라 선택된 변환의 결과라는 점을 설명하므로, 단위나 계산 규칙이 달라지면 같은 열 이름이어도 같은 특징 정의라고 보기 어렵다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance information을 통해 데이터가 어떤 과정과 버전을 거쳐 생성되었는지 추적하는 일반 틀을 제공하므로, 특징도 이름만이 아니라 생성 규칙과 버전까지 함께 남겨야 비교 가능성이 유지된다는 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature가 원시 값을 그대로 쓰는 것이 아니라 선택된 변환의 결과라는 점을 설명하므로, 단위나 계산 규칙이 달라지면 같은 열 이름이어도 같은 특징 정의라고 보기 어렵다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
