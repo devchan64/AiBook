@@ -1,7 +1,7 @@
 # P2-8.6 Supplemental Learning: First Meeting Classes and Objects
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-8.5, we looked at functions as small units of reuse. Functions receive input, process it, and return a result. But when reading Python code, we often meet expressions that look similar to function calls but are slightly different.
 
@@ -34,27 +34,6 @@ Because this is supplemental learning, the explanation is slightly more detailed
 | method | a function-like action called while attached to an object |
 | attribute | a value or name tag that an object has |
 | `value.method()` | the shape of calling an action provided by a specific value or object |
-
-## Scope of This Supplemental Learning
-
-Here we cover only the entry-level intuition of Python objects and classes. The basic explanations of value, type, and function reconnect through P2-8.1 and P2-8.5, while effects created by object sharing, such as reference and copy, are recovered separately in P2-8.7.
-
-The first question to solve here is this: `by what standard should we read an expression that looks like a function call but has a dot in front of it?`
-
-So this supplement answers the following questions.
-
-- What is an object?
-- What is a class?
-- How is a method different from a function?
-- How are value, type, and class connected in Python?
-- Why do we see expressions like `model.fit()` so often in library code?
-
-It does not cover the detailed rules of inheritance, encapsulation, polymorphism, magic methods, class variables, or instance variables.
-
-The flow after this section is also simple.
-
-- In `P2-8.7`, we look again at effects created by object sharing and reference.
-- Later, when reading AI libraries, the same standard repeats in expressions such as `model.fit()`, `dataset.map()`, and `tokenizer.encode()`.
 
 ## Goals of This Supplemental Learning
 
@@ -528,6 +507,6 @@ The confirmable result is that if the target before the call changes, the action
 
 ## Sources and References
 
-- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as the official basis for the introductory explanation of class objects, instance objects, attribute references, and method objects.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as background for the explanation that objects have identity, type, and value, and that behavior differs by type.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm the explanation of reading `value.method()` calls as function-like behavior attached to an object.
+- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the official basis for the introductory explanation of class objects, instance objects, attribute references, and method objects.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as background for the explanation that objects have identity, type, and value, and that behavior differs by type.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm the explanation of reading `value.method()` calls as function-like behavior attached to an object.

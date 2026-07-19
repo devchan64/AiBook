@@ -1,7 +1,7 @@
 # P2-8.6 补充学习：第一次遇到类(class)与对象(object)
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8.5 里，我们把函数(function)看成小型复用单元。函数接收输入、进行处理、返回结果。但在阅读 Python 代码时，我们经常会遇到一种看起来和函数调用相似、却又稍微不同的表达。
 
@@ -34,27 +34,6 @@ print(text.lower())
 | 方法(method) | 附着在对象上被调用的函数形式动作 |
 | 属性(attribute) | 对象拥有的值或名称标签 |
 | `value.method()` | 调用某个特定值或对象所提供动作的形状 |
-
-## 本补充学习的范围
-
-这里仅处理 Python 对象和类的入门直觉。值、类型、函数的基础说明会通过 P2-8.1 和 P2-8.5 重新接回，而引用与复制这类由对象共享引起的效果，则会在 P2-8.7 中单独回收。
-
-这里首先要解决的问题是：`对于一个看起来像函数调用、但前面多了一个点的表达，应该用什么标准去读它？`
-
-所以这个补充学习回答下面这些问题。
-
-- 什么是对象(object)？
-- 什么是类(class)？
-- 方法(method)和函数(function)有什么不同？
-- 在 Python 里，值(value)、类型(type)、类(class)是怎样连起来的？
-- 为什么在库代码里经常会看到 `model.fit()` 这样的表达？
-
-这里不讨论 inheritance、encapsulation、polymorphism、magic method、class variable、instance variable 的详细规则。
-
-这一节之后的流程也很简单。
-
-- 在 `P2-8.7` 里，我们会再次看由对象共享与引用造成的效果。
-- 以后在 AI 库里读到 `model.fit()`、`dataset.map()`、`tokenizer.encode()` 这样的表达时，会重复用到同一套标准。
 
 ## 本补充学习的目标
 
@@ -528,6 +507,6 @@ predictions = model.predict(test_data)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为 class objects、instance objects、attribute references 和 method objects 入门说明的官方依据。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为说明对象具有 identity、type、value，以及不同行为会随类型而变化的背景依据。
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认把 `value.method()` 调用读成附着在对象上的函数形式这一说明。
+- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为 class objects、instance objects、attribute references 和 method objects 入门说明的官方依据。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为说明对象具有 identity、type、value，以及不同行为会随类型而变化的背景依据。
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认把 `value.method()` 调用读成附着在对象上的函数形式这一说明。

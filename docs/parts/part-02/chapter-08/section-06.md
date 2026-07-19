@@ -1,7 +1,7 @@
 # P2-8.6 보충학습: 클래스(class)와 객체(object)를 처음 만날 때
 
 > Section ID: `P2-8.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8.5에서는 함수(function)를 작은 재사용 단위로 봤습니다. 함수는 입력을 받고, 처리하고, 결과를 돌려줍니다. 그런데 Python 코드를 읽다 보면 함수 호출과 비슷하지만 조금 다른 표현을 자주 만납니다.
 
@@ -34,27 +34,6 @@ print(text.lower())
 | 메서드(method) | 객체에 붙어 호출되는 함수 형태의 동작입니다. |
 | 속성(attribute) | 객체가 가지고 있는 값이나 이름표입니다. |
 | `value.method()` | 특정 값이나 객체가 제공하는 동작을 호출하는 모양입니다. |
-
-## 이 보충학습의 범위
-
-여기서는 Python 객체와 클래스의 입문용 감각만 다룹니다. 값·타입·함수의 기본 설명은 P2-8.1과 P2-8.5를 기준으로 다시 연결하고, 참조와 복사처럼 객체 공유가 만드는 효과는 P2-8.7에서 따로 회수합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `함수 호출처럼 보이지만 앞에 점(.)이 붙은 표현을 어떤 기준으로 읽어야 하는가`입니다.
-
-그래서 이 보충학습은 다음 질문에 답합니다.
-
-- 객체(object)는 무엇인가?
-- 클래스(class)는 무엇인가?
-- 메서드(method)는 함수(function)와 어떻게 다른가?
-- Python에서 값(value), 타입(type), 클래스(class)는 어떻게 연결되는가?
-- 왜 라이브러리 코드에서 `model.fit()` 같은 표현이 자주 보이는가?
-
-여기서는 상속(inheritance), 캡슐화(encapsulation), 다형성(polymorphism), 매직 메서드(magic method), 클래스 변수(class variable), 인스턴스 변수(instance variable)의 상세 규칙을 다루지 않습니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-8.7`에서는 객체 공유와 참조가 만드는 효과를 다시 보게 됩니다.
-- 이후 AI 라이브러리에서 `model.fit()`, `dataset.map()`, `tokenizer.encode()` 같은 표현을 읽을 때 같은 기준이 반복됩니다.
 
 ## 이 보충학습의 목표
 
@@ -528,6 +507,6 @@ predictions = model.predict(test_data)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 클래스 객체, 인스턴스 객체, 속성 참조, 메서드 객체 설명을 클래스·객체·메서드 입문 설명의 공식 근거로 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 객체가 identity, type, value를 가진다는 설명과 타입별 동작 차이의 배경 근거로 사용했다.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `value.method()` 호출을 객체에 붙은 함수 형태로 읽는 설명 확인에 사용했다.
+- Python Software Foundation, [Classes](https://docs.python.org/3/tutorial/classes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 클래스 객체, 인스턴스 객체, 속성 참조, 메서드 객체 설명을 클래스·객체·메서드 입문 설명의 공식 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 객체가 identity, type, value를 가진다는 설명과 타입별 동작 차이의 배경 근거로 사용했다.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `value.method()` 호출을 객체에 붙은 함수 형태로 읽는 설명 확인에 사용했다.
