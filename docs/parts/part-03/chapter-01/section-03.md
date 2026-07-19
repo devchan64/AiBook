@@ -1,7 +1,7 @@
 # P3-1.3 데이터 질문은 어떻게 써야 모델보다 먼저 문제 구조가 보이는가
 
 > Section ID: `P3-1.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 좋은 데이터 질문은 `무엇을 한 건으로 볼지`, `무엇을 무엇과 비교할지`, `최종적으로 무엇을 알고 싶은지`가 먼저 드러나야 합니다. 모델 이름이나 기술 이름보다 이런 질문 구조가 먼저 서 있어야, 뒤의 샘플 단위, 표 구조, 특징, 기준선, 출력 구조도 함께 정해집니다. 특히 사람이 먼저 볼 대상을 고르는 질문은 [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), 나중에 맞힐 결과를 세우는 질문은 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate)로 이어진다는 점이 함께 보여야 합니다. 반대로 나쁜 질문은 모델 이름은 있는데 샘플 단위와 비교 기준이 비어 있습니다.
 
@@ -79,6 +79,6 @@ Part 3 앞단에서는 데이터 질문을 아주 복잡하게 쓸 필요가 없
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label`, `label leakage`. example와 label의 결합 단위를 먼저 정해야 한다고 설명하므로, 데이터 질문 안에 샘플 단위와 결과 구조가 함께 드러나야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 기준 기간(reference period)이라는 일반 개념을 제공하므로, 좋은 데이터 질문이 `무엇을 무엇과 비교할 것인가`를 함께 드러내야 한다는 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 문제 정의와 데이터 준비를 분리하지 않는 더 넓은 지식 발견 흐름을 설명하므로, 데이터 질문이 바로 뒤의 표 구조와 비교 구조를 여는 출발점이라는 일반 배경이 됩니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label`, `label leakage`. example와 label의 결합 단위를 먼저 정해야 한다고 설명하므로, 데이터 질문 안에 샘플 단위와 결과 구조가 함께 드러나야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 기준 기간(reference period)이라는 일반 개념을 제공하므로, 좋은 데이터 질문이 `무엇을 무엇과 비교할 것인가`를 함께 드러내야 한다는 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 문제 정의와 데이터 준비를 분리하지 않는 더 넓은 지식 발견 흐름을 설명하므로, 데이터 질문이 바로 뒤의 표 구조와 비교 구조를 여는 출발점이라는 일반 배경이 됩니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-1.3 数据问题要怎么写，问题结构才会先于模型显现出来
 
 > Section ID: `P3-1.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一个好的数据问题，首先应该让人看见 `什么算一条案例`、`什么和什么比较`、`最终想知道什么`。只有在模型名或技术名之前，先把这种问题结构立起来，后面的样本单位、表结构、特征、基准线、输出结构才会一起跟着定下来。尤其是，先挑出人要优先看的对象的问题，应该能自然通向 [review queue](/AiBook/en/reference/concept-glossary/#glossary-review-queue)；而先定义以后要预测什么结果的问题，则应该通向 [target candidate](/AiBook/en/reference/concept-glossary/#glossary-target-candidate)。相反，不好的问题往往只有模型名字，却把样本单位和比较基准留空了。
 
@@ -79,6 +79,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`label`、`label leakage`。它说明 example 和 label 的结合单位必须先定下来，因此支持本节的判断：数据问题里应当同时露出样本单位和结果结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考区段”这一一般概念，因此强化了这样的说明：好的数据问题也应该一起显露 `什么和什么在比较`。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 它说明了问题定义与数据准备并不分离的更大知识发现流程，因此成为这个判断的一般背景：数据问题就是打开后续表结构和比较结构的起点。 [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`label`、`label leakage`。它说明 example 和 label 的结合单位必须先定下来，因此支持本节的判断：数据问题里应当同时露出样本单位和结果结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考区段”这一一般概念，因此强化了这样的说明：好的数据问题也应该一起显露 `什么和什么在比较`。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 它说明了问题定义与数据准备并不分离的更大知识发现流程，因此成为这个判断的一般背景：数据问题就是打开后续表结构和比较结构的起点。 [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
