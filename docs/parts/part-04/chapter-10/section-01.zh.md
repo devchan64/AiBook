@@ -1,7 +1,7 @@
 # P4-10.1 线性回归(linear regression)的直觉
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-9.2 里，我们通过 tuning 和 validation cost 讨论了 `应该怎样比较看起来不错的设置`。现在轮到把这个比较流程真正接到一个具体算法上。
 
@@ -24,14 +24,11 @@ linear regression 对这个问题，首先用一条 `直线(line)` 来回答。
 - 应该怎样读取输入 feature 和输出 target 之间的方向与大小？
 - 为什么 linear regression 会作为 Part 4 的第一个算法出现？
 
-这一节不会深入讲下面这些内容。
+这一节先把 linear regression 收束为 `先用直线说明输入和输出关系的最基础 regression model`，并集中抓住读取系数和截距的基本抓手。
 
-- residual 的统计性质
-- ordinary least squares 的严格推导
-- multicollinearity、regularization、假设检验
-- R²、MAE、RMSE 等评价指标的详细比较
+不过，这一节不会立刻扩展的问题也很明确。评价指标和 residual 解读会在下一节 P4-10.2 立刻接着讲；multicollinearity、假设检验和 regression diagnostics 的基础阅读，会在 P4-10.3 补充学习里再整理。regularization 以及相关 hyperparameter 的更大视角，也会在 P4-9.1 和 P4-9.2 再接回来。
 
-评价指标和 residual 解读会在下一节 P4-10.2 立刻接着讲；multicollinearity、统计检验和 regression diagnostics 的基础阅读，会在 P4-10.3 补充学习里再整理。regularization 以及相关 hyperparameter 的更大视角，也会在 P4-9.1 和 P4-9.2 再接回来。
+residual 的统计性质、ordinary least squares 的严格推导、R²、MAE、RMSE 等评价指标的详细比较，超出了当前这一节的直接范围，所以这里不会详细处理。
 
 ## 本节目标
 

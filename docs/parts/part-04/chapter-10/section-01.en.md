@@ -1,7 +1,7 @@
 # P4-10.1 Intuition For Linear Regression
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-9.2, the discussion used tuning and validation cost to ask `how should promising settings be compared?` Now it is time to connect that comparison procedure to one actual algorithm.
 
@@ -24,14 +24,11 @@ This Section answers the following questions.
 - How can direction and size between an input feature and an output target be read?
 - Why is linear regression the first algorithm studied in Part 4?
 
-This Section does not treat the following topics deeply.
+This Section first closes linear regression as `the most basic regression model that first explains the relationship between input and output with a line`, and focuses on holding the basic handle for reading coefficients and intercepts.
 
-- statistical properties of residuals
-- a rigorous derivation of ordinary least squares
-- multicollinearity, regularization, and hypothesis testing
-- detailed comparison among evaluation metrics such as R², MAE, and RMSE
+The questions that will not be widened immediately in this Section are also clear. Evaluation metrics and residual interpretation continue immediately in the next Section, P4-10.2. Basic reading of multicollinearity, hypothesis testing, and regression diagnostics is reorganized again in the supplementary learning of P4-10.3. The broader perspective on regularization and related hyperparameters reconnects again through P4-9.1 and P4-9.2.
 
-Evaluation metrics and residual interpretation continue immediately in the next Section, P4-10.2. Basic reading of multicollinearity, statistical tests, and regression diagnostics is reorganized again in the supplementary learning of P4-10.3. The broader perspective on regularization and related hyperparameters reconnects again through P4-9.1 and P4-9.2.
+The statistical properties of residuals, a rigorous derivation of ordinary least squares, and detailed comparison among evaluation metrics such as R², MAE, and RMSE go beyond the direct scope of this Section, so they are not treated in detail here.
 
 ## Goals Of This Section
 
@@ -93,6 +90,10 @@ y = wx + b
 - `b`: intercept
 
 The coefficient `w` means `how much y changes when x changes by 1`. The intercept `b` is the starting point that the model places when the input is 0.
+
+Seen on coordinates, this intuition becomes clearer. Even when data points do not line up perfectly on one line, linear regression finds a line that summarizes the overall direction of those points most economically. Here, the coefficient means `how much it rises as it moves to the right`, and the intercept means the starting point the model places when `x = 0`.
+
+![Chart showing how to read the regression line, coefficient, and intercept on a scatter plot](/AiBook/assets/part-04/chapter-10/p4-10-1-regression-line-intuition-en.svg)
 
 If that structure is read like a diagram, it becomes the following.
 
