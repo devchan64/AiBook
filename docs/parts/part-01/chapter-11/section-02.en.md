@@ -23,8 +23,6 @@ Part 1 introduces the basic distinctions among `RNNs`, `hidden states`, `LSTMs`,
 
 Transformers are not yet handled here. They continue in 11.3.
 
-## Scope of This Section
-
 This section does not explain Transformers. These terms can all sound similar at first, so a quick distinction helps:
 
 | Term | Very short meaning | Role in this section |

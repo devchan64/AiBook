@@ -15,8 +15,6 @@
 
 Part 1에서 `RNN(recurrent neural network)`, `hidden state`, `LSTM`, `GRU`, `Seq2Seq(sequence-to-sequence)`, `Encoder-Decoder`, `Attention`, `fixed-length vector` 병목의 기본 구분은 여기서 잡습니다. 11.1에서는 언어 모델과 임베딩을 봤고, 여기서는 `벡터로 바꾼 토큰의 순서와 문맥을 어떻게 다루었는가`를 다룹니다. Transformer는 아직 다루지 않고 11.3에서 이어집니다.
 
-## 이 절의 범위
-
 여기서는 Transformer를 설명하지 않습니다. Transformer는 11.3에서 다룹니다.
 
 `RNN`, `hidden state`, `LSTM`, `Seq2Seq`, `Attention`은 초반에 모두 순차 모델의 비슷한 부품처럼 들릴 수 있습니다. 우선 각 용어의 역할을 짧게 구분하면 다음과 같습니다.

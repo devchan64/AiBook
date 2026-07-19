@@ -1,7 +1,7 @@
 # P1-11.3 Transformers and Pretrained LLMs
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 11.1 introduced language models and embeddings. Section 11.2 covered the flow of RNNs, Seq2Seq, and Attention for handling order and context.
 
@@ -23,8 +23,6 @@ The important flow is:
 Part 1 introduces the basic distinctions among `Transformers`, `self-attention`, `positional encoding`, `Encoders`, `Decoders`, `pretraining`, `fine-tuning`, `BERT`, `GPT`, and `in-context learning` here. Section 11.2 first explained why RNNs, Seq2Seq, and Attention emerged. This section continues on top of that flow and organizes the question:
 
 > on what structure and training procedure did modern LLMs grow?
-
-## Scope of This Section
 
 This section does not explain Transformer equations, the inner computation of multi-head attention, or large-scale training infrastructure in detail. Transformer blocks and self-attention structure return in Part 5, and modern LLM service structure returns later in P1-14.1 through P1-14.6.
 

@@ -1,7 +1,7 @@
 # P1-11.3 Transformer와 사전학습 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤고, 11.2에서는 RNN, Seq2Seq, Attention이 순서와 문맥을 다루는 흐름을 봤습니다.
 
@@ -17,8 +17,6 @@
 > Transformer는 self-attention을 중심에 놓아 시퀀스 안의 토큰들이 서로를 직접 참고하게 했고, 사전학습 LLM은 대규모 텍스트에서 언어 패턴을 먼저 학습한 뒤 fine-tuning이나 prompt, in-context learning 방식으로 여러 과업에 연결되었다.
 
 Part 1에서 `Transformer`, `self-attention`, `positional encoding`, `Encoder`, `Decoder`, `사전학습(pretraining)`, `fine-tuning`, `BERT`, `GPT`, `in-context learning`의 기본 구분은 여기서 잡습니다. 11.2에서는 RNN, Seq2Seq, Attention이 왜 등장했는지를 먼저 봤고, 여기서는 그 흐름 위에서 `현대 LLM이 어떤 구조와 학습 절차 위에 올라왔는가`를 정리합니다.
-
-## 이 절의 범위
 
 여기서는 Transformer의 수식, multi-head attention의 내부 계산, 대규모 학습 인프라를 자세히 설명하지 않습니다. Transformer 블록과 self-attention의 구조는 Part 5에서 다시 보고, 현대 LLM 서비스 구조는 P1-14.1부터 P1-14.6까지에서 다시 연결합니다.
 

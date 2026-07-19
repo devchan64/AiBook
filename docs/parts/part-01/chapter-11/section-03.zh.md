@@ -1,7 +1,7 @@
 # P1-11.3 Transformer 与预训练 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)；在 11.2 中，我们又看了 RNN、Seq2Seq、Attention 如何处理顺序与上下文。
 
@@ -18,8 +18,6 @@
 > 预训练 LLM 则先在大规模文本中学习语言模式，再通过 fine-tuning、prompt 或 in-context learning 连接到多种任务。
 
 在 Part 1 中，本节先建立 `Transformer`、`self-attention`、`positional encoding`、`Encoder`、`Decoder`、`预训练(pretraining)`、`fine-tuning`、`BERT`、`GPT`、`in-context learning` 的基本区分。11.2 先解释了 RNN、Seq2Seq、Attention 为什么会出现，这里则在那条脉络之上整理：`现代 LLM 是建立在什么结构与学习流程上的？`
-
-## 本节范围
 
 这里不会详细解释 Transformer 的公式、multi-head attention 的内部计算，也不会详细讨论大规模训练基础设施。Transformer block 和 self-attention 的结构会在 Part 5 重新出现，现代 LLM 服务结构则会在 P1-14.1 到 P1-14.6 再连回来。
 

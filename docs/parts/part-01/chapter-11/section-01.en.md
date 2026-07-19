@@ -1,7 +1,7 @@
 # P1-11.1 Statistical Language Models and Embeddings
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter 10 showed that when generative AI creates outputs, naturalness, factuality, evidence, and risk all need separate review.
 
@@ -20,8 +20,6 @@ When these two lines come together, the following view appears:
 > and embeddings turn words and tokens into computable vector representations
 
 Part 1 introduces the basic distinctions among `language models`, `statistical language models`, `n-grams`, `sparsity`, `distributed representations`, `embeddings`, and `word2vec` here. The larger map of `direct lineage` and `language modeling` was introduced in 9.3, and the intuition of `next-output generation` already appeared in 10.2. This section restarts that flow at the level of `pre-LLM language models` and `vector representations`.
-
-## Scope of This Section
 
 This section does not explain the whole history of LLMs. `RNNs`, `LSTMs`, `Seq2Seq`, `Attention`, and `Transformers` are handled in 11.2 and 11.3.
 

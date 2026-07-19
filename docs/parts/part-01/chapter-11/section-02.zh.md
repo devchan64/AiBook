@@ -17,8 +17,6 @@
 
 在 Part 1 中，本节先建立 `RNN(recurrent neural network)`、`hidden state`、`LSTM`、`GRU`、`Seq2Seq(sequence-to-sequence)`、`Encoder-Decoder`、`Attention`、`fixed-length vector` 瓶颈之间的基本区分。11.1 讨论的是语言模型与嵌入，这里则处理更窄的问题：`变成向量后的 token 顺序和上下文，是如何被处理的`。Transformer 还不会在这里展开，而会在 11.3 继续。
 
-## 本节范围
-
 这里不会解释 Transformer。Transformer 会在 11.3 里讨论。
 
 `RNN`、`hidden state`、`LSTM`、`Seq2Seq`、`Attention` 在开始时都可能听起来像顺序模型里的相似部件。先简短区分一下它们的作用：

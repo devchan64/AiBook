@@ -1,7 +1,7 @@
 # P1-11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 10장에서는 생성형 AI(generative AI)가 산출물을 만들 때 자연스러움, 사실성, 근거, 위험을 따로 검토해야 한다는 점을 봤습니다.
 
@@ -19,8 +19,6 @@
 > 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현으로 바꾼다.
 
 Part 1에서 `언어 모델(language model)`, `통계적 언어 모델(statistical language model)`, `n-gram`, `데이터 희소성(sparsity)`, `분산 표현(distributed representation)`, `임베딩(embedding)`, `word2vec`의 기본 구분은 이 절에서 잡습니다. `직접 계보(direct lineage)`와 `언어 모델링(language modeling)`의 큰 지도는 9.3에서 먼저 잡았고, `다음 출력 생성`의 직관은 10.2에서 이미 봤습니다. 여기서는 그 흐름을 `LLM 이전의 언어 모델`과 `벡터 표현` 수준에서 다시 시작합니다.
-
-## 이 절의 범위
 
 여기서는 LLM의 전체 역사를 설명하지 않습니다. RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer는 11.2와 11.3에서 다룹니다.
 

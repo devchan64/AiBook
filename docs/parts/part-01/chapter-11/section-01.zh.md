@@ -1,7 +1,7 @@
 # P1-11.1 统计语言模型(statistical language model)与嵌入(embedding)
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在第 10 章中，我们看到生成式 AI(generative AI)在产出内容时，必须把自然度、事实性、依据与风险分开审查。
 
@@ -20,8 +20,6 @@
 > 嵌入则把单词和 token 变成可计算的向量表示。
 
 在 Part 1 中，本节先建立 `语言模型(language model)`、`统计语言模型(statistical language model)`、`n-gram`、`数据稀疏性(sparsity)`、`分布式表示(distributed representation)`、`嵌入(embedding)`、`word2vec` 之间的基本区分。`直接谱系(direct lineage)` 与 `语言建模(language modeling)` 的整体地图已经在 9.3 中先铺过，`生成下一个输出` 的直觉也已在 10.2 中看过。这里会从 `LLM 之前的语言模型` 与 `向量表示` 的层面重新开始。
-
-## 本节范围
 
 这里不会讲完整的 LLM 历史。RNN(recurrent neural network)、LSTM(long short-term memory)、Seq2Seq(sequence-to-sequence)、Attention、Transformer 会在 11.2 与 11.3 中继续讨论。
 
