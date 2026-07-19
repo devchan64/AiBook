@@ -1,7 +1,7 @@
 # P1-12.1 프롬프트(prompt)는 무엇을 지정하는가
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 11장에서는 LLM(large language model)이 어디에서 왔는지 봤습니다. 언어 모델(language model)은 다음 토큰의 확률을 다루는 문제에서 출발했고, Transformer와 사전학습(pretraining)은 현대 LLM의 중요한 기반이 되었습니다.
 
@@ -239,4 +239,4 @@ Brown 등의 GPT-3 논문은 zero-shot, one-shot, few-shot setting을 비교하�
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
 - Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-06-23.
 - Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-07-19.

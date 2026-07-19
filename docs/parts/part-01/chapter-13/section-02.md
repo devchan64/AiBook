@@ -1,7 +1,7 @@
 # P1-13.2 유사도 검색(similarity search)의 직관
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현한다는 뜻을 봤습니다. 텍스트를 벡터로 바꾸면 문장, 문단, 문서를 계산 가능한 위치로 놓을 수 있습니다.
 
@@ -233,5 +233,6 @@ Mikolov 등의 word2vec 연구에서도 벡터 공간에서 가까운 단어를 
 ## 출처와 참고 자료
 
 - Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
+- Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, [Introduction to Information Retrieval, Chapter 6: Dot products](https://nlp.stanford.edu/IR-book/html/htmledition/dot-products-1.html){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2008, 확인 날짜: 2026-07-19.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
 - Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.

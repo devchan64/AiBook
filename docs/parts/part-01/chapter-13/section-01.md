@@ -1,7 +1,7 @@
 # P1-13.1 텍스트(text)를 벡터(vector)로 표현한다는 것
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 12장에서는 프롬프트(prompt)를 통해 LLM에 작업 조건을 주는 방법과 그 한계를 봤습니다. 프롬프트만으로는 사실성(factuality), 근거성(evidence), 최신성(recency)을 보장하기 어렵습니다.
 
@@ -215,3 +215,4 @@ P1-11.1에서는 주로 단어 임베딩(word embedding)을 봤습니다. 하지
 - Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-23.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
 - Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-23.
+- Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084){: target="_blank" rel="noopener noreferrer" }, arXiv, 2019, 확인 날짜: 2026-07-19.

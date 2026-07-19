@@ -1,7 +1,7 @@
 # P1-16.3 프로젝트(project)로 검증하는 방법
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-16.2에서는 업무 자동화와 검색을 업무 흐름 관점에서 봤습니다. 이제 학습과 실무 적용을 작은 프로젝트(project)로 검증하는 방법을 정리합니다.
 
@@ -101,6 +101,6 @@ AI 프로젝트에서는 실패가 자주 발생합니다. 중요한 것은 실�
 
 ## 출처와 참고 자료
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- OWASP, [2025 Top 10 Risk & Mitigations for LLMs and Gen AI Apps](https://genai.owasp.org/llm-top-10/){: target="_blank" rel="noopener noreferrer" }, OWASP GenAI Security Project, 확인 날짜: 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-07-19.

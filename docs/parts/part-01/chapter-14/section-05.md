@@ -1,7 +1,7 @@
 # P1-14.5 하네스(harness)와 평가 실행 환경
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P1-14.4에서는 MCP(Model Context Protocol)를 AI 앱과 외부 도구, 데이터가 연결되는 방식을 표준화하는 프로토콜(protocol)로 봤습니다. 이제 질문은 한 단계 더 실무적으로 바뀝니다.
 
@@ -288,7 +288,7 @@ OpenAI의 에이전트 평가 문서는 개별 trace를 살펴본 뒤, 반복성
 
 - Merriam-Webster, [Harness](https://www.merriam-webster.com/dictionary/harness){: target="_blank" rel="noopener noreferrer" }, Merriam-Webster Dictionary, 확인 날짜: 2026-06-23.
 - Online Etymology Dictionary, [Harness](https://www.etymonline.com/word/harness){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106){: target="_blank" rel="noopener noreferrer" }, arXiv preprint, 2026, 확인 날짜: 2026-06-23.
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
+- Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106){: target="_blank" rel="noopener noreferrer" }, arXiv preprint, 2026, 확인 날짜: 2026-07-19.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

@@ -1,7 +1,7 @@
 # P1-15.1 편향(bias), 안전성(safety), 책임(accountability)
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14에서는 AI 서비스를 모델, 데이터, 도구, 에이전트(agent), 하네스(harness), 서비스 제약(service constraints)의 흐름으로 봤습니다. 이제 질문은 기술 구조에서 사회적 영향으로 넘어갑니다.
 
@@ -192,9 +192,9 @@ AI 윤리 쟁점은 뉴스, 칼럼, 탐사보도에서 먼저 눈에 띄는 경�
 
 ## 출처와 참고 자료
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, 확인 날짜: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, 확인 날짜: 2026-06-23.
-- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, 확인 날짜: 2026-06-23.
-- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, UNESCO, 확인 날짜: 2026-06-23.
-- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, 확인 날짜: 2026-06-23.
-- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, 확인 날짜: 2026-07-19.
+- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, 확인 날짜: 2026-07-19.
+- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, 확인 날짜: 2026-07-19.
+- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, UNESCO, 확인 날짜: 2026-07-19.
+- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, 확인 날짜: 2026-07-19.
+- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, 확인 날짜: 2026-07-19.

@@ -1,7 +1,7 @@
 # P1-16.2 업무 자동화(work automation)와 검색(search)
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-16.1에서는 AI 재학습 문서화 프로젝트를 개인 학습과 문서화의 사례로 봤습니다. 이제 업무 적용으로 시야를 넓혀 봅니다.
 
@@ -104,6 +104,6 @@ AI 적용의 생산성(productivity)은 생성 속도만으로 판단하면 안 
 
 ## 출처와 참고 자료
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-07-19.

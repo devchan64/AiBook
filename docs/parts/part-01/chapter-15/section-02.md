@@ -1,7 +1,7 @@
 # P1-15.2 저작권(copyright)과 학습 데이터(training data)
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-15.1에서는 AI 결과가 사람과 사회에 영향을 줄 때 편향(bias), 안전성(safety), 책임(accountability)을 어떻게 봐야 하는지 살펴봤습니다. 이제 질문은 조금 더 구체적입니다.
 
@@ -183,9 +183,9 @@ AI 초안은 항상 검토 대상입니다. “AI가 써 줬다”는 말은 책
 
 ## 출처와 참고 자료
 
-- 국가법령정보센터, [저작권법](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, 시행 2026-05-11, 확인 날짜: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, Pre-publication version, 2025-05-09, 확인 날짜: 2026-06-23.
-- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, 확인 날짜: 2026-06-23.
-- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-06-23.
-- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.
+- 국가법령정보센터, [저작권법](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, 시행 2026-05-11, 확인 날짜: 2026-07-19.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, Pre-publication version, 2025-05-09, 확인 날짜: 2026-07-19.
+- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, 확인 날짜: 2026-07-19.
+- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-19.
+- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-07-19.

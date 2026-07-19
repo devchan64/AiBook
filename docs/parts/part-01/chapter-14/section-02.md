@@ -1,7 +1,7 @@
 # P1-14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.1에서는 AI 서비스를 모델(model), 앱(application), 데이터(data), 도구(tool), 흐름(orchestration)의 조합으로 봤습니다. 이제 그중 헷갈리기 쉬운 두 가지를 구분합니다.
 
@@ -268,6 +268,6 @@ RAG가 잘못된 문서를 가져오면 답변 품질이 나빠질 수 있습니
 
 ## 출처와 참고 자료
 
-- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

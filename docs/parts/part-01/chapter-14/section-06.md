@@ -1,7 +1,7 @@
 # P1-14.6 AI 서비스가 현실에서 만나는 제약
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P1-14.5에서는 하네스(harness)를 모델과 도구의 실행을 감싸고, 추적(trace), 로그(log), 평가(evaluation)를 가능하게 하는 실행 환경으로 봤습니다. 이제 질문은 조금 더 현실적인 방향으로 바뀝니다.
 
@@ -268,10 +268,10 @@ Chapter 14에서 본 요소들은 실제 요청 하나 안에서 함께 엮입�
 
 ## 출처와 참고 자료
 
-- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Batch API](https://developers.openai.com/api/docs/guides/batch){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Rate limits](https://developers.openai.com/api/docs/guides/rate-limits){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
+- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Batch API](https://developers.openai.com/api/docs/guides/batch){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Rate limits](https://developers.openai.com/api/docs/guides/rate-limits){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

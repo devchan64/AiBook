@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.3에서는 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation)을 이어 가는 작업 흐름(workflow)으로 봤습니다. 이때 에이전트가 외부 자료나 도구를 쓰려면 연결 방식이 필요합니다.
 
@@ -251,6 +251,6 @@ MCP 보안 문서도 혼동된 대리인 문제(confused deputy problem), 토큰
 
 ## 출처와 참고 자료
 
-- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- Model Context Protocol, [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
-- Model Context Protocol, [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- Model Context Protocol, [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- Model Context Protocol, [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.

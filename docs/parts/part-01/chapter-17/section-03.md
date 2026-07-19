@@ -1,7 +1,7 @@
 # P1-17.3 예측(prediction)과 작업 가설(working hypothesis) 구분
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-17.2에서는 언론, 칼럼, 보고서를 읽는 방법을 봤습니다. Part 1의 마지막 절에서는 개인적 생각을 어떻게 안전하게 남길지 정리합니다.
 
@@ -104,5 +104,5 @@ Part 1은 AI의 큰 지도를 잡는 목적이었습니다. 세부 수학, 코�
 
 ## 출처와 참고 자료
 
-- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, 2026, 확인 날짜: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-06-23.
+- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, arXiv v3, 2026-06-29, 확인 날짜: 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-07-19.

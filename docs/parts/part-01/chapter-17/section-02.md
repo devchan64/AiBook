@@ -1,7 +1,7 @@
 # P1-17.2 언론(news), 칼럼(column), 보고서(report) 읽기
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-17.1에서는 전망을 쓸 때 출처와 자료 성격을 먼저 확인해야 한다고 했습니다. 이제 언론, 칼럼, 보고서를 실제로 어떻게 읽을지 정리합니다.
 
@@ -117,5 +117,5 @@ AI 전망은 하나의 자료로 판단하지 않습니다. 최소한 다음처�
 
 ## 출처와 참고 자료
 
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-07-19.

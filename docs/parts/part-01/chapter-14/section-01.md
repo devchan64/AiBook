@@ -1,7 +1,7 @@
 # P1-14.1 모델(model), 앱(application), 데이터(data), 도구(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 13장에서는 임베딩(embedding), 유사도 검색(similarity search), RAG(retrieval-augmented generation), 벡터 검색 구현의 직관을 봤습니다. 이 흐름은 중요한 전환을 만듭니다.
 
@@ -229,6 +229,6 @@ AI 서비스를 단순화하면 다음 구조로 볼 수 있습니다.
 
 ## 출처와 참고 자료
 
-- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
+- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-07-19.

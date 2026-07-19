@@ -1,7 +1,7 @@
 # P1-14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.2에서는 RAG(retrieval-augmented generation)와 도구 사용(tool use)을 구분했습니다.
 
@@ -216,6 +216,6 @@ Codex 같은 코딩 에이전트형 도구는 에이전트 구조를 이해하�
 
 ## 출처와 참고 자료
 
-- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-06-23.
-- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-06-23.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-19.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

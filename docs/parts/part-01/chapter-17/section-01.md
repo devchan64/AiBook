@@ -1,7 +1,7 @@
 # P1-17.1 전망은 어떤 근거로 다룰 것인가
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 1 Chapter 16에서는 AI를 개인 학습, 업무 자동화, 작은 프로젝트에 적용하는 방법을 봤습니다. 마지막 17장에서는 “앞으로의 AI”를 다룹니다.
 
@@ -95,5 +95,5 @@ Stanford HAI의 AI Index Report는 AI 연구, 성능, 투자, 정책, 산업 적
 
 ## 출처와 참고 자료
 
-- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, 2026, 확인 날짜: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-06-23.
+- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, arXiv v3, 2026-06-29, 확인 날짜: 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 확인 날짜: 2026-07-19.

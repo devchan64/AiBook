@@ -1,7 +1,7 @@
 # P1-16.1 개인 학습(personal learning)과 문서화(documentation)
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-15에서는 AI가 사회적 위험, 저작권, 보안과 연결되는 지점을 봤습니다. P1-16에서는 적용 사례로 넘어갑니다. 첫 사례는 AI 재학습 문서화 프로젝트입니다.
 
@@ -103,5 +103,5 @@ AI가 제공하는 설명은 학습 활동의 출발점이 될 수 있습니다.
 
 ## 출처와 참고 자료
 
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
-- UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-06-23.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-07-19.
+- UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research){: target="_blank" rel="noopener noreferrer" }, 2023, 확인 날짜: 2026-07-19.

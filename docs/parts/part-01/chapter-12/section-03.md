@@ -1,7 +1,7 @@
 # P1-12.3 프롬프트(prompt)의 한계(limit)와 평가(evaluation)
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.18`
+> Version: `v2026.07.19`
 
 12.1에서는 프롬프트(prompt)가 무엇을 지정하는지 봤습니다. 12.2에서는 지시(instruction), 맥락(context), 예시(example)를 나눠 봤습니다.
 
@@ -222,4 +222,4 @@ Ouyang 등의 InstructGPT 논문은 모델 출력을 평가할 때 단순 자동
 - Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-06-23.
 - Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, 확인 날짜: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-07-19.

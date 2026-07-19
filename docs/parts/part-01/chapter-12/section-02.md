@@ -1,7 +1,7 @@
 # P1-12.2 지시(instruction), 맥락(context), 예시(example)
 
 > Section ID: `P1-12.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 12.1에서는 프롬프트(prompt)를 “현재 입력 안에 작업 조건을 배치하는 방법”으로 봤습니다. 프롬프트는 모델을 다시 학습시키지 않습니다. 대신 모델 실행(inference) 때 참고할 지시, 맥락, 예시, 제약, 출력 형식을 입력 안에 둡니다.
 
@@ -268,4 +268,4 @@ Part 1에서 `지시(instruction)`, `맥락(context)`, `예시(example)`, `few-s
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-06-23.
 - Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-06-23.
 - Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 확인 날짜: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 확인 날짜: 2026-07-19.
