@@ -15,8 +15,6 @@ But `question` and `fact` are not the same thing. This section ties the evidence
 
 > how should personal intuition be left in the document without being mistaken for verified explanation?
 
-## Scope of This Section
-
 This section explains how personal interpretation should be handled inside a learning document. It does not try to predict future developments themselves in detail.
 
 | Term | Very short meaning | Role in this section |

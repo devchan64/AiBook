@@ -13,8 +13,6 @@ This boundary connects directly to the `accountability` discussed in Chapter 15.
 > what evidence was used?  
 > what part is interpretation, and what part is being stated like fact?
 
-## Scope of This Section
-
 This section explains what kinds of evidence should be required when writing about AI forecasts. How to read actual articles and reports is covered in P1-17.2. How to separate predictions from working hypotheses is covered in P1-17.3.
 
 | Topic | Question in this section |

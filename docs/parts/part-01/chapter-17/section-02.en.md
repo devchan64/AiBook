@@ -11,8 +11,6 @@ AI-related writing moves quickly. The same event may be framed through technolog
 
 This section turns the evidence standards from P1-17.1 into a practical method for reading outside material by distinguishing `news`, `column`, `report`, `policy document`, `fact event`, and `interpretation`.
 
-## Scope of This Section
-
 This section explains what questions to ask when reading external material about AI. How to separate personal working hypotheses from prediction is covered in P1-17.3.
 
 | Term | Very short meaning | Role in this section |
