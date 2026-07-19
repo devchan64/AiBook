@@ -1,7 +1,7 @@
 # P5-3.3 Tanh
 
-Section ID: `P5-3.3`
-Version: `v2026.07.14`
+> Section ID: `P5-3.3`
+> Version: `v2026.07.19`
 
 In P5-3.2, we saw how the sigmoid compresses scores into the range between 0 and 1. Tanh also makes an S-shaped compression, but differs in that its output range is from \(-1\) to \(1\).
 
@@ -104,4 +104,4 @@ The direction of the answer is clear. Near 0, tanh still leaves even small chang
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

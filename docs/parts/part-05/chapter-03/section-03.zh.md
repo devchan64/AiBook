@@ -1,7 +1,7 @@
 # P5-3.3 tanh
 
-Section ID: `P5-3.3`
-Version: `v2026.07.14`
+> Section ID: `P5-3.3`
+> Version: `v2026.07.19`
 
 在 P5-3.2 里，我们已经看到 sigmoid 会把分数压到 0 与 1 之间。tanh 也会做类似的 S 形压缩，但它和 sigmoid 的关键差别在于：输出范围是 \(-1\) 到 \(1\)。
 
@@ -104,4 +104,4 @@ tanh 之所以被叫作 0 中心，是因为当 \(z=0\) 时输出也是 0，负�
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
