@@ -22,7 +22,7 @@ TOKENS = ["UP2", "UP1", "FLAT", "DOWN1", "DOWN2"]
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
         "xlabel": "시간",
         "ylabel": "값",
         "segment_labels": ["큰 상승", "완만한 상승", "거의 평평", "하강", "큰 하강"],
@@ -36,7 +36,7 @@ LANG_TEXT = {
         "outfile": "segment-tokenization-curve-en.png",
     },
     "zh": {
-        "font_candidates": ["Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK SC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
         "xlabel": "时间",
         "ylabel": "值",
         "segment_labels": ["大幅上升", "缓慢上升", "几乎平", "下降", "大幅下降"],
