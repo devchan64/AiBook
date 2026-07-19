@@ -1,7 +1,7 @@
 # P4-3.1 为什么需要启发式
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-2 章里，我们把 supervised learning、unsupervised learning、reinforcement learning 看成几种大的学习类型。接下来就会自然出现一个问题：真正去解决现实问题时，应该先看哪些数据、先试哪些 model、结果到什么程度才进入下一阶段？
 
@@ -169,4 +169,4 @@ heuristic 可能很有用，但它不总是对的。一个好的 heuristic，既
 
 - Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, 确认日期：2026-06-25. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
 - Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 第 4 版，Pearson，2020，确认日期：2026-06-25. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
-- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984.
+- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984，确认日期：2026-07-19. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }

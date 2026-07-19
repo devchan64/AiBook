@@ -1,7 +1,7 @@
 # P4-3.1 Why Heuristics Are Needed
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Chapter P4-2, we divided supervised learning, unsupervised learning, and reinforcement learning into broad learning types. That immediately raises a question. When solving a real problem, which data should be looked at first, which model should be tried first, and at what point should the work move to the next stage?
 
@@ -169,4 +169,4 @@ Whether that judgment is right still has to be checked through validation. You c
 
 - Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, accessed 2026-06-25. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
 - Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 4th ed., Pearson, 2020, accessed 2026-06-25. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
-- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984.
+- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984, accessed 2026-07-19. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }
