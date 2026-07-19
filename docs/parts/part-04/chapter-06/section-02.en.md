@@ -1,7 +1,7 @@
 # P4-6.2 Evaluation Criteria By Problem Type
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-6.1 explained that an evaluation metric is not just a scoreboard. It is a criterion that reveals what we choose to treat as important. Now the next question follows. `If the problem changes, why do the metrics we inspect also change?`
 
@@ -334,26 +334,9 @@ This table shows that `the problem sentence must be rewritten before the algorit
 
 In classification, precision and recall can change even with a small shift in threshold. The following example shows that even with the same score, the result changes depending on `from what score onward should the case be treated as positive`.
 
-Problem situation:
+The example below uses the true labels `y_true`, predicted scores `scores`, and several `threshold` values. In the result, inspect the prediction result by threshold, TP/TN/FP/FN, accuracy, precision, and recall together.
 
-- Even with the same classification score, the final prediction and the metrics change depending on where the threshold is placed
-
-Input:
-
-- true labels `y_true`
-- predicted scores `scores`
-- several threshold values
-
-Expected output:
-
-- prediction result by threshold
-- TP, TN, FP, FN
-- accuracy, precision, recall
-
-Concept to check:
-
-- classification evaluation should be read not only through model scores but through the final decision after thresholding
-- the balance between precision and recall can change with the threshold
+The key to check is that classification evaluation must be read as a final judgment after the threshold, not only as model scores. The balance between precision and recall can change depending on the threshold.
 
 ```python
 y_true = [1, 1, 1, 0, 0, 0, 1, 0]
@@ -428,25 +411,9 @@ So in classification, it is important to read through the flow `model score -> t
 
 In regression, it is important to develop a feel for reading how large the error is in numbers. In particular, you need to see directly how much `one large error` shakes the metric.
 
-Problem situation:
+The example below uses actual values `y_true` and predicted values `y_pred` to print `absolute_errors`, `squared_errors`, MAE, MSE, and RMSE.
 
-- In regression, error size should be read before right-or-wrong, so it is useful to print absolute error and squared error directly
-
-Input:
-
-- actual values `y_true`
-- predicted values `y_pred`
-
-Expected output:
-
-- `absolute_errors`
-- `squared_errors`
-- MAE, MSE, RMSE
-
-Concept to check:
-
-- regression metrics are criteria for reading how far the numbers were off
-- MAE and MSE/RMSE look at the same error with different emphasis
+The key to check is that regression metrics are criteria for reading how far numbers were off. MAE and MSE/RMSE read the same errors with different emphasis.
 
 ```python
 y_true = [10, 12, 9, 15]
@@ -486,24 +453,9 @@ So in regression, `how much was it wrong` sits at the center of the metric.
 
 Now insert one large error.
 
-Problem situation:
+The example below compares a small-error prediction `y_pred_small_error` with a prediction that includes a large error, `y_pred_big_error`. In the result, inspect how absolute error, squared error, MAE, MSE, and RMSE change in the two cases.
 
-- It is useful to compare which regression metric shakes more strongly when one large error enters
-
-Input:
-
-- small-error prediction `y_pred_small_error`
-- prediction including a large error `y_pred_big_error`
-
-Expected output:
-
-- absolute error and squared error in the two cases
-- comparison of MAE, MSE, RMSE
-
-Concept to check:
-
-- if you want to punish a large failure more strongly, MSE and RMSE react more sensitively
-- even on the same regression problem, you still choose which type of error to weigh more heavily
+The key to check is that MSE and RMSE react more sensitively when you want to penalize large failures more strongly. Even in the same regression problem, you need to choose which type of error to weigh more heavily.
 
 ```python
 y_true = [10, 12, 9, 15]
@@ -562,23 +514,9 @@ So regression metrics are tools that choose not only `how wrong was the number` 
 
 Clustering becomes easier to understand when readers try it by hand. The following example is a very simple experiment that groups one-dimensional values by a distance criterion.
 
-Problem situation:
+The example below uses a list of one-dimensional values `points` and several `gap` values to check how the grouping result changes according to the distance criterion.
 
-- Clustering is closer to experimenting with where the standard of similarity should be placed than to matching a correct answer
-
-Input:
-
-- a list of one-dimensional values `points`
-- several `gap` values
-
-Expected output:
-
-- grouping results that change according to the `gap`
-
-Concept to check:
-
-- the number of clusters and the composition of clusters change depending on the distance criterion
-- clustering evaluation must be read together with the later step where people interpret the result again
+The key to check is that the number of clusters and the composition of clusters change depending on the distance criterion. Clustering evaluation must be read together with the later step where people interpret the result again.
 
 ```python
 points = [1.0, 1.2, 1.4, 4.8, 5.0, 8.5]
@@ -629,5 +567,5 @@ For example, if `6.1` is added and `gap = 1.5`, then `[4.8, 5.0, 6.1]` may be re
 
 ## Sources And References
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }

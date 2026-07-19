@@ -1,7 +1,7 @@
 # P4-6.2 按问题类型区分的评价标准
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-6.1 里，我们看过评价指标(metric)不只是记分牌，而是会暴露出我们把什么看得更重要的标准。接下来就要进入下一个问题。`为什么问题一变，先看的指标也会跟着变？`
 
@@ -334,26 +334,9 @@ clustering 比起 `答对既有答案`，更接近 `找出隐藏结构`。因此
 
 在 classification 里，只要 threshold 稍微变化一点，precision 和 recall 就可能变化。下面这个例子说明：即使是同一组 score，只要 `从几分开始算正类` 变了，结果就会变。
 
-问题场景：
+下面的例子使用实际标签 `y_true`、预测分数 `scores` 和多个 `threshold` 值。结果里同时确认各 threshold 下的预测结果、TP/TN/FP/FN、accuracy、precision、recall。
 
-- 即使是同一组分类分数，threshold 放在哪里，最终预测和指标也会改变
-
-输入(input)：
-
-- 实际标签 `y_true`
-- 预测分数 `scores`
-- 多个 `threshold` 值
-
-期望输出(output)：
-
-- 各 threshold 下的预测结果
-- TP、TN、FP、FN
-- accuracy、precision、recall
-
-确认概念：
-
-- classification 评价不仅要读 model score，还要读经过 threshold 之后的最终判断
-- precision 和 recall 的平衡会随着 threshold 改变
+要确认的核心是，classification 评价不能只读 model score，还要读经过 threshold 之后的最终判断。precision 和 recall 的平衡会随着 threshold 改变。
 
 ```python
 y_true = [1, 1, 1, 0, 0, 0, 1, 0]
@@ -428,25 +411,9 @@ threshold = 0.8
 
 在 regression 里，最重要的是培养一种感觉：数字到底偏了多大。特别是要亲眼看到 `一个大误差` 会把指标摇成什么样。
 
-问题场景：
+下面的例子使用真实值 `y_true` 和预测值 `y_pred`，输出 `absolute_errors`、`squared_errors`、MAE、MSE、RMSE。
 
-- 在 regression 里，比起对错，更应该先读误差大小，所以最好直接把绝对误差和平方误差打印出来看
-
-输入(input)：
-
-- 真实值 `y_true`
-- 预测值 `y_pred`
-
-期望输出(output)：
-
-- `absolute_errors`
-- `squared_errors`
-- MAE、MSE、RMSE
-
-确认概念：
-
-- regression metrics 是读取数字偏离程度的标准
-- MAE 与 MSE/RMSE 会用不同强调方式去看同一组误差
+要确认的核心是，regression metrics 是读取数字偏离程度的标准。MAE 与 MSE/RMSE 会用不同强调方式去看同一组误差。
 
 ```python
 y_true = [10, 12, 9, 15]
@@ -486,24 +453,9 @@ rmse           : 1.94
 
 这一次，再塞进一个大误差。
 
-问题场景：
+下面的例子比较小误差预测 `y_pred_small_error` 和包含大误差的预测 `y_pred_big_error`。结果里看两种情况下的绝对误差、平方误差、MAE、MSE、RMSE 会怎样变化。
 
-- 当一个大误差出现时，有必要比较看看：哪种 regression metric 会被摇得更厉害
-
-输入(input)：
-
-- 小误差预测 `y_pred_small_error`
-- 包含大误差的预测 `y_pred_big_error`
-
-期望输出(output)：
-
-- 两种情况下的绝对误差与平方误差
-- MAE、MSE、RMSE 对比
-
-确认概念：
-
-- 如果想对大失败惩罚得更重，MSE 和 RMSE 会反应得更敏感
-- 即使是同一个 regression 问题，也仍然需要选择：到底哪一种误差更该被重看
+要确认的核心是，如果想对大失败惩罚得更重，MSE 和 RMSE 会反应得更敏感。即使是同一个 regression 问题，也仍然需要选择到底哪一种误差更该被重看。
 
 ```python
 y_true = [10, 12, 9, 15]
@@ -562,23 +514,9 @@ big_error_case
 
 clustering 最好是读者亲手做一遍，会更快理解。下面这个例子，是一个非常简单的实验：用距离标准把一维数值分组。
 
-问题场景：
+下面的例子使用一维数值列表 `points` 和多个 `gap` 值，确认 clustering 结果会怎样随着距离标准而变化。
 
-- clustering 比起对准标准答案，更像是在实验：相似性的标准到底该放在哪里
-
-输入(input)：
-
-- 一维数值列表 `points`
-- 多个 `gap` 值
-
-期望输出(output)：
-
-- 随着 `gap` 改变而变化的 clustering 结果
-
-确认概念：
-
-- cluster 数量和 cluster 组成会随着距离标准改变
-- clustering 评价必须和后面由人重新解释结果的步骤一起读
+要确认的核心是，cluster 数量和 cluster 组成会随着距离标准改变。clustering 评价必须和后面由人重新解释结果的步骤一起读。
 
 ```python
 points = [1.0, 1.2, 1.4, 4.8, 5.0, 8.5]
@@ -629,5 +567,5 @@ gap = 1.5
 
 ## 出处与参考资料
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
