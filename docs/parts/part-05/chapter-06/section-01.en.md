@@ -1,7 +1,7 @@
 # P5-6.1 Training Loop: Forward, Loss, Backward, Optimizer Step
 
-Section ID: `P5-6.1`
-Version: `v2026.07.17`
+> Section ID: `P5-6.1`
+> Version: `v2026.07.19`
 
 In Chapter P5-5, we saw how deep-learning models compute gradients through loss, backpropagation, and the computation graph. Once we reach this point, the next question remains naturally.
 
@@ -287,4 +287,4 @@ The time to bring out this section is when loss, backpropagation, optimizer, mod
 ## Sources And Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, accessed 2026-06-29.
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, accessed 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

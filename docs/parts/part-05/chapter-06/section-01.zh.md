@@ -1,7 +1,7 @@
 # P5-6.1 学习循环：forward、loss、backward、optimizer step
 
-Section ID: `P5-6.1`
-Version: `v2026.07.17`
+> Section ID: `P5-6.1`
+> Version: `v2026.07.19`
 
 在 P5-5 章里，我们已经看到：深度学习模型会通过损失（loss）、反向传播（backpropagation）和计算图（computation graph）来计算梯度（gradient）。走到这里以后，下一个问题会自然留下来。
 
@@ -264,15 +264,31 @@ updated_risk_weight = 3.125
 
 也就是说，forward 和 loss 先在样本级展开，backward 的结果再汇成 batch 平均信号，最后在 optimizer step 里模型数值才真正改变一次。抓住这个顺序以后，再看学习循环时，就能把`发生了很多次计算的区间`和`模型真的被改动的区间`区分开来。
 
-如果把这一节再压成一句话，就是：学习循环并不是`结果算出来了`就结束，而是`先做出结果，再把误差读出来，再把责任送回去，最后把模型往下一步推一次`。
+在直接进入下一节之前，最好再把`共同训练过程`和`后面会变化的结构`简短分开一次。这样阅读轴就不容易混在一起。
 
-只要这条骨架先固定住，后面即使看到 CNN、RNN、Transformer、dropout、mode 切换这些名字，也不容易误以为每出现一个新名字，学习流程就要从头再学一遍。
+| 本节要先固定的东西 | 后面结构章节会变化的东西 | 为什么现在先分开 |
+| --- | --- | --- |
+| `forward -> loss -> backward -> optimizer step` 这条共同循环 | CNN 的局部模式读取、RNN 的顺序状态、attention 的选择性参照、Transformer 的并行块 | 后面出现新名字时，能把`学习过程变了吗`和`内部计算结构变了吗`分开阅读 |
+
+## 什么时候要把学习循环重新合在一起读
+
+需要拿出这一节的时机，是当 loss、backpropagation、optimizer、mode、regularization 各自好像都理解了，但还不能把它们看成一个重复结构的时候。
+
+| 先出现的问题场景 | 为什么先用学习循环摘要有帮助 | 紧接着会连到哪里 |
+| --- | --- | --- |
+| 概念都知道，但顺序总是混在一起 | 可以重新固定 forward、loss、backward、update 的共同骨架 | P5-6.2 的 step、batch、epoch 区分 |
+| 进入结构章节前，想重新确认共同训练骨架 | 可以整理出 CNN、RNN、Transformer 也都是在同一个循环里被训练的 | P5-6.2、P5-6.3、P5-6.4，以及后面的结构章节 |
+| 开始把问题原因全都归到结构本身 | 可以重新建立区分学习过程问题和内部结构问题的基准线 | 后面结构比较和调试阅读 |
 
 ## 检查清单
 
-- 能区分 forward、loss、backward、optimizer step 这四个阶段各自的角色吗？
-- 能把学习循环解释成`预测 -> 误差 -> gradient -> update`的反复吗？
-- 能说明 batch 为什么必须和核心四阶段一起读吗？
-- 能指出模型实际数值是在 `optimizer step` 里才改变吗？
-- 能区分样本级计算、batch 平均信号和 step 结尾的一次更新吗？
-- 能把本节的学习循环骨架和下一节要讲的 step/batch/epoch 重复单位分开来看吗？
+- 能一次性说明 `forward -> loss -> backward -> optimizer step` 学习循环吗？
+- 能说明深度学习的学习循环就是 forward、loss、backward、optimizer step 的重复吗？
+- 当概念都知道但顺序总是混在一起时，能先想起 forward -> loss -> backward -> update 这条共同训练循环吗？
+- 后面阅读 CNN、RNN、Transformer 章节时，能说明`共同训练过程`和`会变化的内部结构`应该分开读吗？
+- 能理解这一节之后，会在后续小节重新阅读 learning/inference 区分与 mode 差异吗？
+
+## 出处与参考资料
+
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 确认日期: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
