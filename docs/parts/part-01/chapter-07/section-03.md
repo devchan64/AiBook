@@ -1,7 +1,7 @@
 # P1-7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.13`
+> Version: `v2026.07.19`
 
 7.2에서는 휴리스틱(heuristic)을 가능한 후보를 모두 볼 수 없을 때, 먼저 볼 후보와 줄일 후보를 정하는 경험적 기준으로 봤습니다. 이제 비슷하게 보이지만 다른 개념을 분리합니다.
 
@@ -27,8 +27,6 @@ Part 1에서 `휴리스틱 점수(heuristic score)`, `확률 모델(probabilisti
 | 보정 | 출력 숫자가 실제 빈도와 맞는지 확인하는 절차 | 점수와 확률을 혼동하지 않게 하는 검증 |
 
 여기서는 `휴리스틱은 탐색 축소`, `확률 모델은 불확실성 표현`, `임계값은 운영 기준`, `보정은 숫자 해석 검증`이라는 자리 구분을 유지합니다.
-
-## 이 절의 범위
 
 여기서는 베이즈 규칙(Bayes' rule), 확률 분포(probability distribution), 조건부 확률(conditional probability)을 계산하지 않습니다. 수식은 Part 2와 Part 4에서 다시 다룹니다.
 

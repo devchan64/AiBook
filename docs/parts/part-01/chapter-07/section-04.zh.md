@@ -1,7 +1,7 @@
 # P1-7.4 补充学习：从路径寻找走向自动驾驶路径规划
 
 > Section ID: `P1-7.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 7.1 把 `search` 抽象成寻找通向目标的路径问题。7.2 解释了当候选看不完时，`heuristic` 减少的是什么；7.3 又把启发式和概率模型分开。
 
@@ -16,17 +16,15 @@
 
 这一节也不是首次定义这些核心术语的位置。`search`、`search space` 和 `computational limit` 已在 7.1 介绍，`heuristic` 在 7.2 介绍，启发式和概率模型的边界在 7.3 介绍。这里做的是：把这些概念接到一个“真实系统是分层工作的”案例上。
 
-## 本节范围
+这里不展开自动驾驶技术整体，而是聚焦于找路问题在真实系统里怎样被拆成 `决定整体路线的层级` 和 `决定此刻短时轨迹的层级`。Reinforcement learning 本身会在 `P1-8.3` 和 Part 4 Chapter 19 再回来；这里先抓住 path 和 trajectory 分开阅读的标准。
 
-这里不会深入讨论 sensor、perception、map making、control 或 vehicle dynamics。也不会在这里系统比较以 reinforcement learning 为中心的自动驾驶路线。那些内容会在后面的部分另行出现。
-
-这里先固定一个更窄的基线：
+这里先只处理下面这件事：
 
 > “找到整体路线”这个问题，  
 > 和“决定此刻接下来几秒该怎么动”这个问题，  
 > 通常不适合放在同一层里处理。
 
-也正因为如此，真实系统里经常会出现 `global` 和 `local`，或者 `path` 和 `trajectory` 的区分。
+然后再看这个差异为什么会继续引出 `global` 和 `local`，或者 `path` 和 `trajectory` 的区分。
 
 ## 本节目标
 

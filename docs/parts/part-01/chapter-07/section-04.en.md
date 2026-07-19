@@ -1,7 +1,7 @@
 # P1-7.4 Supplemental Learning: From Route Finding to Autonomous-Driving Path Planning
 
 > Section ID: `P1-7.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 7.1 abstracted search as the problem of finding a path to a goal. Section 7.2 explained what heuristics reduce when we cannot inspect every candidate. Section 7.3 separated heuristics from probabilistic models.
 
@@ -15,17 +15,15 @@ The goal is not to explain autonomous-driving technology as a whole. The goal is
 
 This supplemental section is not the place where the core terms are defined for the first time. `Search`, `search space`, and `computational limit` were introduced in 7.1. `Heuristic` was introduced in 7.2. The boundary between heuristics and probabilistic models was introduced in 7.3. Here we only connect those concepts to a layered real-system example.
 
-## Scope of This Supplemental Section
+Rather than unfolding autonomous-driving technology as a whole, this section focuses on how the route-finding problem splits into `the layer that decides a large route` and `the layer that decides the short trajectory to move right now`. Reinforcement learning itself returns in `P1-8.3` and Part 4 Chapter 19. Here we keep the standard for reading path and trajectory separately.
 
-This section does not go deeply into sensors, perception, map making, control, or vehicle dynamics. It also does not compare reinforcement-learning-centered autonomous-driving approaches in detail. Reinforcement learning itself returns later, but that comparison is outside the main scope here.
-
-The focus is narrower:
+This section covers only the following:
 
 > the problem of finding a large route  
 > and the problem of choosing a short movement to execute right now  
 > are usually too different to handle well at the same layer
 
-That is why practical systems often distinguish `global` and `local`, or `path` and `trajectory`.
+Then we look at why this difference leads to distinctions such as `global` and `local`, or `path` and `trajectory`.
 
 ## Goal of This Supplemental Section
 
@@ -210,16 +208,6 @@ If we rewrite the case in the vocabulary of Chapter 7:
 
 The important point is not that autonomous driving is a completely different species of problem. It is that route planning there can still be understood as a large real-world search problem that becomes manageable only after being broken into better representations and layers.
 
-## What to Remember from This Section
-
-Classical route finding can be represented as path search on a graph. In real systems such as autonomous driving, additional constraints such as lanes, speed, obstacles, and control requirements usually make it useful to separate the problem of finding the larger route from the problem of deciding the short trajectory to execute now.
-
-Waypoints help by expressing the larger route through reference points. But the vehicle does not merely replay those waypoints directly. It uses them as guidance while choosing a short trajectory suited to the current situation.
-
-The one-sentence summary is:
-
-> autonomous-driving path planning is a case where route finding is divided into finer representations and multiple planning layers
-
 ## Checklist
 
 - You can explain the relation between classical route finding and autonomous-driving path planning as an extension of graph search.
@@ -227,16 +215,8 @@ The one-sentence summary is:
 - You can explain the role difference between a `global planner` and a `local planner`.
 - You can explain why `path` and `trajectory` should not be used as if they were the same.
 - You can reread autonomous-driving planning through `search space`, `cost`, `heuristic`, and `layering`.
-
-## When to Recall This View First
-
-Recall this section first when you need to connect an abstract search idea to the structure of a real system.
-
-- When you need one case that shows where route finding, `path`, `trajectory`, and control begin to separate
-- When autonomous driving needs to be read not as one giant model but as several planning layers
-- When you want to show how the search, heuristics, and operating criteria from 7.1 to 7.3 are decomposed inside a real system
-
-In those situations, first separate `deciding the large route`, `choosing the short trajectory to execute now`, and `turning that plan into real steering and acceleration commands`. That keeps the focus on planning layers and concept mapping rather than on autonomous driving as a whole.
+- You can separate deciding the large route, choosing the short trajectory, and turning that plan into actual control.
+- You can read the autonomous-driving example as a case of planning layers and concept mapping rather than as a section about autonomous driving itself.
 
 ## Sources and Further Reading
 

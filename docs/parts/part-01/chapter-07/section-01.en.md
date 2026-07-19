@@ -1,7 +1,7 @@
 # P1-7.1 Search Space and Computational Limits
 
 > Section ID: `P1-7.1`
-> Version: `v2026.07.13`
+> Version: `v2026.07.19`
 
 Chapter 6 dealt with incomplete information and probabilistic judgment. Now we turn to a different kind of difficulty. Some problems are hard because information is missing, but some are hard because there are simply too many possible choices.
 
@@ -24,8 +24,6 @@ The contrast between Chapters 6 and 7 can appear side by side even inside the sa
 The key is to separate `problems that are hard because we do not know what is true` from `problems that are hard because there are too many candidates to inspect`.
 
 > once the number of candidates explodes, the problem is no longer only defining the right answer, but finding a path to it
-
-## Scope of This Section
 
 This section does not implement specific search algorithms. We do not calculate breadth-first search, depth-first search, or A* here.
 
@@ -228,19 +226,6 @@ So the next section treats heuristics as:
 > an empirical standard that does not guarantee the exact answer,  
 > but reduces the amount of search
 
-## What to Remember from This Section
-
-Search is a problem-solving method that looks through possible candidates to find a path to the goal. As the search space grows, methods that try every candidate quickly hit computational limits.
-
-So AI ends up asking:
-
-> if we cannot inspect every candidate,  
-> what should we inspect first,  
-> what should we reduce,  
-> and where should we stop?
-
-That question leads directly into the heuristic discussion in 7.2.
-
 ## Checklist
 
 - Explain search as the process of looking through possible candidates to find a solution.
@@ -249,14 +234,8 @@ That question leads directly into the heuristic discussion in 7.2.
 - Explain why exhaustive search may work for small problems but hit computational limits for large ones.
 - Distinguish the difficulties of uncertainty, search space, and learning.
 - Explain why heuristics become necessary once the search space grows too large.
-
-## When to Recall This View First
-
-Recall this section when a problem feels difficult not because truth is unclear, but because the number of possible candidates has become too large to inspect comfortably.
-
-- when you need to explain why route choice, scheduling, game play, or outline design turns into a search problem
-- when you need to separate `not knowing what is true` from `having too many candidates`
-- when you need to prepare the intuition for why heuristics and pruning come next
+- Explain a current problem as a search problem by identifying its `state`, `action`, `goal`, and `cost`.
+- Distinguish whether the current difficulty is uncertainty, lack of learning, or search-space explosion.
 
 ## Sources and Further Reading
 

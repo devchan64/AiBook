@@ -1,7 +1,7 @@
 # P1-7.2 휴리스틱(heuristic)은 무엇을 줄이는가
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 7.1에서는 탐색 공간(search space)이 커질 때 모든 후보를 살펴보는 방식이 계산 한계(computational limit)에 부딪힌다는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -46,8 +46,6 @@ Simon의 관점도 이 흐름과 연결됩니다. Nobel Prize 자료는 Simon이
 
 > 완전 탐색이 현실적으로 어렵다면,
 > 컴퓨터가 어떤 기준으로 사람처럼 후보를 줄이며 문제를 풀게 할 것인가?
-
-## 이 절의 범위
 
 여기서는 A* 탐색(A* search), greedy best-first search, admissible heuristic, consistent heuristic 같은 알고리즘 세부 조건을 계산하지 않습니다.
 

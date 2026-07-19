@@ -1,7 +1,7 @@
 # P1-7.2 启发式到底减少了什么
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 7.1 已经说明：当搜索空间变大时，试图检查所有候选的方法会碰到计算极限。现在问题往前走一步：
 
@@ -42,8 +42,6 @@ Simon 的工作也连到这条线。Nobel Prize 和 ACM 的资料都指出，他
 
 > 如果完全搜索不现实，  
 > 计算机应凭什么标准像人在受限条件下那样减少候选？
-
-## 本节范围
 
 这里不会去计算 A*、greedy best-first search、admissible heuristic 或 consistent heuristic 的技术条件。
 

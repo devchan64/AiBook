@@ -1,7 +1,7 @@
 # P1-7.3 The Difference Between Heuristics and Probabilistic Models
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.13`
+> Version: `v2026.07.19`
 
 Section 7.2 treated heuristics as empirical standards for deciding which candidates to inspect first and which to reduce when we cannot inspect all of them. Now we separate another pair of ideas that often look similar:
 
@@ -15,8 +15,6 @@ The answer in this section is no.
 > probabilistic models are structures that express and update uncertainty numerically
 
 In Part 1, this section fixes the basic distinction among `heuristic score`, `probabilistic model`, `probability estimate`, `threshold`, and `calibration`. Section 7.2 focused on how heuristics reduce search burden. Sections 6.2 and 6.3 explained how to read uncertainty and probability-like numbers. Here the focus is the boundary that keeps `score`, `probability`, and `operational rule` from collapsing into one word.
-
-## Scope of This Section
 
 This section does not calculate Bayes’ rule, conditional probability, or full probability distributions. Those return later in Part 2 and Part 4.
 
@@ -227,16 +225,6 @@ At first encounter, it is tempting to interpret heuristics as `an attempt to ref
 
 This preserves the useful beginner intuition without collapsing the standard boundary between the two ideas.
 
-## What to Remember from This Section
-
-Heuristics and probabilistic models can both appear in incomplete-information and high-complexity settings, but they are not the same.
-
-> heuristics reduce search  
-> probabilistic models express uncertainty numerically  
-> operating rules turn output into action
-
-Keeping that distinction makes AI systems easier to read calmly, because it lets us separate experiential rules, probabilistic modeling, and responsibility or policy layers.
-
 ## Checklist
 
 - Explain why `heuristic` and `probabilistic model` should not be used as if they were the same thing.
@@ -244,14 +232,8 @@ Keeping that distinction makes AI systems easier to read calmly, because it lets
 - Explain why a classification threshold may be an operating standard rather than the model itself.
 - Explain why heuristics do not calculate uncertainty so much as make judgment possible under uncertain conditions.
 - Explain how heuristics, probabilistic models, calibration, and operating rules can coexist inside one system.
-
-## When Should This View Come First?
-
-Recall this section first when scores, probabilities, thresholds, and operating rules begin to look like one blended idea.
-
-- when you want to read one model score immediately as probability or final judgment
-- when you need to explain whether a `threshold` belongs to the model itself or to service operation
-- when you need to describe how heuristics, probabilistic models, calibration, and policy standards play different roles inside one system
+- Explain how scores, probabilities, thresholds, and operating standards play different roles inside one system.
+- Distinguish which part is the model's job and which part is system design.
 
 ## Sources and Further Reading
 

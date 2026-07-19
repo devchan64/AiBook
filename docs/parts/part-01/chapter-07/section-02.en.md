@@ -1,7 +1,7 @@
 # P1-7.2 What Does a Heuristic Reduce?
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 7.1 showed that when the search space grows, methods that inspect every candidate quickly hit computational limits. Now we move to the next question:
 
@@ -42,8 +42,6 @@ So heuristic should not be understood merely as `guessing` or `a handy shortcut`
 
 > if exhaustive search is unrealistic,  
 > by what standard should a computer reduce candidates the way people do in constrained problem solving?
-
-## Scope of This Section
 
 This section does not calculate the technical conditions of A*, greedy best-first search, admissible heuristics, or consistent heuristics.
 
@@ -224,15 +222,6 @@ Heuristics are easily mixed with neighboring ideas. Here is the working separati
 
 This separation leads directly into 7.3, especially the boundary between heuristics and probabilistic models.
 
-## What to Remember from This Section
-
-A heuristic is an empirical standard that decides which candidates to inspect first and which to reduce when we cannot inspect them all. It can reduce candidate count, time, memory, and evaluation burden, but it does not guarantee the optimal solution.
-
-So the section can be summarized in one sentence:
-
-> a heuristic is a standard that reduces search,  
-> and verification is the process that checks what that standard may have missed
-
 ## Checklist
 
 - Explain a heuristic as an empirical standard for reducing candidates and deciding priority.
@@ -241,14 +230,8 @@ So the section can be summarized in one sentence:
 - Distinguish a good-enough solution from an optimal solution.
 - Explain why heuristics are not the same thing as the answer, a probabilistic model, or a learned model.
 - Explain why the more we rely on heuristics, the more explicit verification standards matter.
-
-## When Should This View Come First?
-
-Recall this section when you cannot inspect every candidate, but still need to explain how some standard should reduce the search first.
-
-- when prioritization and pruning become more important than exhaustive search
-- when you need to explain both why fast judgment is necessary and why it still is not the final answer
-- when you need to separate heuristic filtering from later verification, probability, or learning
+- Explain both what a heuristic reduces and what it does not guarantee.
+- Explain where heuristic functions, good-enough solutions, and verification standards connect.
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P1-7.3 启发式与概率模型的差异
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.13`
+> Version: `v2026.07.19`
 
 7.2 把 `heuristic` 看成：当不可能检查所有候选时，用来决定先看哪些候选、减少哪些候选的经验性标准。现在要把另一个看起来相近的概念分开：
 
@@ -15,8 +15,6 @@
 > 概率模型则是把不确定性写成数字并进行更新的结构。
 
 在 Part 1 里，`heuristic score`、`probabilistic model`、`probability estimate`、`threshold` 和 `calibration` 的基本区分先在这里固定。7.2 先看了启发式怎样减少搜索负担，6.2 和 6.3 则先说明了不确定性和概率数字该怎样读。这里的重点是：不要把 `score`、`probability` 和 `operation rule` 压成同一个词。
-
-## 本节范围
 
 这一节不会计算 Bayes' rule、条件概率或完整概率分布。这些内容会在 Part 2 和 Part 4 回来。
 
