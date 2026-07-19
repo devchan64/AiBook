@@ -1,7 +1,7 @@
 # P4-7.1 Feature Selection
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. Feature selection is the starting point of that input design.
 
@@ -18,13 +18,7 @@ This Section answers the following questions.
 - What feature-selection criteria should a reader inspect first?
 - How is feature selection different from preprocessing?
 
-This Section does not treat the following topics deeply.
-
-- formulas of statistical-test-based feature-selection algorithms
-- the detailed procedure of recursive feature elimination
-- the internal calculation of dimensionality-reduction algorithms
-
-The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3. The comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture and internal calculations of dimensionality reduction reconnect in P4-18.1 and P4-18.2.
+This Section first closes `how to choose good features` and `why feature selection is an input-design problem`. The sense of separating preprocessing types by input problem is revisited in the supplementary P4-7.3, and the comparison perspective between statistical-test-based selection and recursive feature elimination is organized again in supplementary P4-7.4. The big picture of dimensionality reduction continues in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
