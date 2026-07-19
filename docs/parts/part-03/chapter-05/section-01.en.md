@@ -1,7 +1,7 @@
 # P3-5.1 How Do We Turn Raw Logs into Comparable Tables
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 At first glance, raw logs look very rich. They contain many values in time order, often from several sensors, sometimes together with control parameters. But that richness does not automatically mean we already have a comparable dataset. After the [sample](/AiBook/reference/concept-glossary/#glossary-sample) unit has been fixed, we still need a procedure that turns raw logs into a summary table and an aggregate table. Raw logs, summary tables, and aggregate tables play different roles, and one row means something different in each of them.
 
@@ -48,105 +48,118 @@ At this point, the first thing to check is `which of the three tables is the sta
 
 The aggregate table changes role one more time. Here the focus is not the shape of one action, but grouped flows such as `average of the most recent 20 cases`, `variability of the most recent 20 cases`, `difference from the baseline`, or `the number of repeated changes in the same direction`. If the summary table is closer to `reading cases`, the aggregate table is closer to `reading state`.
 
-The next example shows how a raw log leads first to an action-level summary table and then all the way to a recent/baseline aggregate table. Here we assume that the action is divided into three progress segments to build segment averages.
+The next example shows how a raw log leads first to an action-level summary table and then all the way to a recent/baseline aggregate table. Here we assume that the action is divided into three progress segments, and that 3 `baseline` events and 3 `recent` events are compared.
 
 Problem situation: check in one view how a raw log becomes an `action-level summary table` and then a `recent/baseline aggregate table`.
 
-Input: a raw log table made of `event_id`, `progress_bin`, and `flow`
+Input: the [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } file. One row is a `flow` record measured in one progress segment of one action, and `window` marks whether the event belongs to the baseline or recent range.
 
 Expected output: an output in which the three tables `raw`, `summary`, and `aggregate` have different row meanings and different comparison roles
 
 Concept to check: turning raw logs into comparable tables means rewriting the same records step by step into a summary table and an aggregate table
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "progress_bin": "early", "flow": 0.8},
-        {"event_id": "A", "progress_bin": "early", "flow": 1.0},
-        {"event_id": "A", "progress_bin": "mid", "flow": 2.4},
-        {"event_id": "A", "progress_bin": "mid", "flow": 2.5},
-        {"event_id": "A", "progress_bin": "late", "flow": 1.9},
-        {"event_id": "A", "progress_bin": "late", "flow": 1.6},
-        {"event_id": "B", "progress_bin": "early", "flow": 0.7},
-        {"event_id": "B", "progress_bin": "early", "flow": 0.9},
-        {"event_id": "B", "progress_bin": "mid", "flow": 2.1},
-        {"event_id": "B", "progress_bin": "mid", "flow": 2.0},
-        {"event_id": "B", "progress_bin": "late", "flow": 1.8},
-        {"event_id": "B", "progress_bin": "late", "flow": 1.7},
-        {"event_id": "C", "progress_bin": "early", "flow": 0.9},
-        {"event_id": "C", "progress_bin": "early", "flow": 1.1},
-        {"event_id": "C", "progress_bin": "mid", "flow": 2.6},
-        {"event_id": "C", "progress_bin": "mid", "flow": 2.7},
-        {"event_id": "C", "progress_bin": "late", "flow": 2.0},
-        {"event_id": "C", "progress_bin": "late", "flow": 1.8},
+data_path = Path("docs/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv")
+
+with data_path.open(newline="", encoding="utf-8") as file:
+    raw = [
+        {**row, "flow": float(row["flow"])}
+        for row in csv.DictReader(file)
     ]
-)
 
-summary = (
-    raw.pivot_table(
-        index="event_id",
-        columns="progress_bin",
-        values="flow",
-        aggfunc="mean",
-    )
-    .rename(
-        columns={
-            "early": "early_flow_mean",
-            "mid": "mid_flow_mean",
-            "late": "late_flow_mean",
+event_segments = defaultdict(lambda: {"window": None, "segments": defaultdict(list)})
+for row in raw:
+    event = event_segments[row["event_id"]]
+    event["window"] = row["window"]
+    event["segments"][row["progress_bin"]].append(row["flow"])
+
+summary = []
+for event_id in sorted(event_segments):
+    event = event_segments[event_id]
+    summary.append(
+        {
+            "event_id": event_id,
+            "window": event["window"],
+            "early_flow_mean": sum(event["segments"]["early"]) / len(event["segments"]["early"]),
+            "mid_flow_mean": sum(event["segments"]["mid"]) / len(event["segments"]["mid"]),
+            "late_flow_mean": sum(event["segments"]["late"]) / len(event["segments"]["late"]),
         }
     )
-    .reset_index()
-    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
-)
 
-aggregate = (
-    summary.groupby("window", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        early_flow_mean=("early_flow_mean", "mean"),
-        mid_flow_mean=("mid_flow_mean", "mean"),
-        late_flow_mean=("late_flow_mean", "mean"),
+window_groups = defaultdict(list)
+for row in summary:
+    window_groups[row["window"]].append(row)
+
+aggregate = []
+for window in sorted(window_groups):
+    rows = window_groups[window]
+    aggregate.append(
+        {
+            "window": window,
+            "event_count": len(rows),
+            "early_flow_mean": sum(row["early_flow_mean"] for row in rows) / len(rows),
+            "mid_flow_mean": sum(row["mid_flow_mean"] for row in rows) / len(rows),
+            "late_flow_mean": sum(row["late_flow_mean"] for row in rows) / len(rows),
+        }
     )
-)
 
 print("1) raw log rows before comparison")
-print(raw.head(6))
+for row in raw[:6]:
+    print(
+        f'{row["event_id"]} {row["window"]:<8} '
+        f'{row["progress_bin"]:<5} flow={row["flow"]:.2f}'
+    )
+print(f"... {len(raw) - 6} more raw log rows")
 print()
 print("2) per-event summary table for direct comparison")
-print(summary)
+for row in summary:
+    print(
+        f'{row["event_id"]} {row["window"]:<8} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
 print()
 print("3) recent-vs-baseline aggregate table built from event summaries")
-print(aggregate)
+for row in aggregate:
+    print(
+        f'{row["window"]:<8} events={row["event_count"]} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
 ```
 
 Expected output:
 
 ```text
 1) raw log rows before comparison
-  event_id progress_bin  flow
-0        A        early   0.8
-1        A        early   1.0
-2        A          mid   2.4
-3        A          mid   2.5
-4        A         late   1.9
-5        A         late   1.6
+A baseline early flow=0.70
+A baseline early flow=0.90
+A baseline mid   flow=2.00
+A baseline mid   flow=2.10
+A baseline late  flow=1.70
+A baseline late  flow=1.80
+... 30 more raw log rows
 
 2) per-event summary table for direct comparison
-  event_id  early_flow_mean  late_flow_mean  mid_flow_mean    window
-0        A              0.9            1.75           2.45    recent
-1        B              0.8            1.75           2.05  baseline
-2        C              1.0            1.90           2.65    recent
+A baseline early=0.80 mid=2.05 late=1.75
+B baseline early=0.80 mid=2.15 late=1.65
+C baseline early=0.80 mid=2.00 late=1.85
+D recent   early=0.95 mid=2.45 late=1.85
+E recent   early=1.05 mid=2.65 late=1.95
+F recent   early=1.00 mid=2.55 late=1.75
 
 3) recent-vs-baseline aggregate table built from event summaries
-     window  event_count  early_flow_mean  mid_flow_mean  late_flow_mean
-0  baseline            1             0.80           2.05           1.750
-1    recent            2             0.95           2.55           1.825
+baseline events=3 early=0.80 mid=2.07 late=1.75
+recent   events=3 early=1.00 mid=2.55 late=1.85
 ```
 
-In this output, the raw log is a record of time points. Only at stage 2 does one full action become one row. At stage 3, several such samples are grouped again into recent/baseline aggregates. What matters is not only that the number of rows decreased, but that comparison units such as `early`, `mid`, and `late` entered the column structure of the summary table, and that this summary table then became the material for a recent-state comparison table.
+In this output, the raw log contains 36 time-point records. Only at stage 2 do the 6 full actions become one row each. At stage 3, those samples are grouped again into `baseline` and `recent` aggregates. What matters is not only that the number of rows decreased, but that comparison units such as `early`, `mid`, and `late` entered the column structure of the summary table, and that this summary table then became the material for a recent-state comparison table. If the values in the CSV are changed, both the per-event summaries and recent/baseline aggregates change, so the reader can check directly at which representation level the judgment changes.
 
 After seeing this example, the following questions help check whether what just happened was simple shrinking or a change of representation.
 
@@ -172,6 +185,6 @@ So `raw log -> summary table -> aggregate table` is not a simple order of shrink
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because the provenance framework explains that processing steps, derivation, and versioning should be representable, it provides a general basis for keeping separate records of how raw logs were transformed into summary tables and aggregate tables. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example assumes a sample-level structure where features and labels attach, it reinforces the need to distinguish raw rows from event-summary rows and build a sample-level table. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a reference period as the basis for comparing other periods, it offers a general basis for needing a separate representation level such as an aggregate table when comparing recent state against baseline state. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. Because the provenance framework explains that processing steps, reproducibility, versioning, and derivation should be representable, it provides a general basis for keeping separate records of how raw logs were transformed into summary tables and aggregate tables. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `example` and `labeled example`. Because an example assumes a sample-level structure where features and labels attach, it reinforces the need to distinguish raw rows from event-summary rows and build a sample-level table. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a reference period as the basis for comparing other periods, it offers a general basis for needing a separate representation level such as an aggregate table when comparing recent state against baseline state. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

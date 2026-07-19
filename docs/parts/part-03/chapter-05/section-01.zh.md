@@ -1,7 +1,7 @@
 # P3-5.1 如何把原始日志转换成可比较的表
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 第一次看到原始日志时，数据往往显得非常丰富。因为按时间顺序积累了很多数值，可能还有多个传感器，也可能同时包含控制参数。但这种丰富，并不自动意味着我们已经拥有了可比较的数据集。在样本 [sample](/AiBook/en/reference/concept-glossary/#glossary-sample) 单位定下来之后，仍然需要一个把原始日志转换成汇总表和聚合表的过程。原始日志、汇总表、聚合表各自承担不同角色，而且每一行所代表的对象也不同。
 
@@ -48,105 +48,118 @@
 
 聚合表的角色还会再变一次。这里的重点不再是单个动作的形状，而是 `最近 20 次的平均值`、`最近 20 次的波动性`、`相对基准线的差异`、`同方向变化重复了多少次` 这样的组合走势。也就是说，如果汇总表更接近 `读案例`，那么聚合表就更接近 `读状态`。
 
-下面的例子展示原始日志如何先变成动作级汇总表，再进一步变成近期/基准线聚合表。这里假设我们把动作按三个进度区间切开，计算区间平均值。
+下面的例子展示原始日志如何先变成动作级汇总表，再进一步变成近期/基准线聚合表。这里假设我们把动作按三个进度区间切开，计算区间平均值，并比较 3 个 `baseline` 动作和 3 个 `recent` 动作。
 
 问题情境：一次性查看原始日志如何先变成 `动作级汇总表`，再变成 `近期/基准线聚合表`。
 
-输入(input)：由 `event_id`、`progress_bin`、`flow` 组成的原始日志表
+输入(input)：[`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } 文件。一行表示一次动作中一个进度区间里的 `flow` 测量记录，`window` 表示该动作属于基准线区间还是近期区间。
 
 期望输出(output)：`raw`、`summary`、`aggregate` 三张表分别具有不同的行含义与比较角色
 
 要确认的概念：把原始日志变成可比较的表，意味着把同一份记录逐步改写成汇总表与聚合表
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "progress_bin": "early", "flow": 0.8},
-        {"event_id": "A", "progress_bin": "early", "flow": 1.0},
-        {"event_id": "A", "progress_bin": "mid", "flow": 2.4},
-        {"event_id": "A", "progress_bin": "mid", "flow": 2.5},
-        {"event_id": "A", "progress_bin": "late", "flow": 1.9},
-        {"event_id": "A", "progress_bin": "late", "flow": 1.6},
-        {"event_id": "B", "progress_bin": "early", "flow": 0.7},
-        {"event_id": "B", "progress_bin": "early", "flow": 0.9},
-        {"event_id": "B", "progress_bin": "mid", "flow": 2.1},
-        {"event_id": "B", "progress_bin": "mid", "flow": 2.0},
-        {"event_id": "B", "progress_bin": "late", "flow": 1.8},
-        {"event_id": "B", "progress_bin": "late", "flow": 1.7},
-        {"event_id": "C", "progress_bin": "early", "flow": 0.9},
-        {"event_id": "C", "progress_bin": "early", "flow": 1.1},
-        {"event_id": "C", "progress_bin": "mid", "flow": 2.6},
-        {"event_id": "C", "progress_bin": "mid", "flow": 2.7},
-        {"event_id": "C", "progress_bin": "late", "flow": 2.0},
-        {"event_id": "C", "progress_bin": "late", "flow": 1.8},
+data_path = Path("docs/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv")
+
+with data_path.open(newline="", encoding="utf-8") as file:
+    raw = [
+        {**row, "flow": float(row["flow"])}
+        for row in csv.DictReader(file)
     ]
-)
 
-summary = (
-    raw.pivot_table(
-        index="event_id",
-        columns="progress_bin",
-        values="flow",
-        aggfunc="mean",
-    )
-    .rename(
-        columns={
-            "early": "early_flow_mean",
-            "mid": "mid_flow_mean",
-            "late": "late_flow_mean",
+event_segments = defaultdict(lambda: {"window": None, "segments": defaultdict(list)})
+for row in raw:
+    event = event_segments[row["event_id"]]
+    event["window"] = row["window"]
+    event["segments"][row["progress_bin"]].append(row["flow"])
+
+summary = []
+for event_id in sorted(event_segments):
+    event = event_segments[event_id]
+    summary.append(
+        {
+            "event_id": event_id,
+            "window": event["window"],
+            "early_flow_mean": sum(event["segments"]["early"]) / len(event["segments"]["early"]),
+            "mid_flow_mean": sum(event["segments"]["mid"]) / len(event["segments"]["mid"]),
+            "late_flow_mean": sum(event["segments"]["late"]) / len(event["segments"]["late"]),
         }
     )
-    .reset_index()
-    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
-)
 
-aggregate = (
-    summary.groupby("window", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        early_flow_mean=("early_flow_mean", "mean"),
-        mid_flow_mean=("mid_flow_mean", "mean"),
-        late_flow_mean=("late_flow_mean", "mean"),
+window_groups = defaultdict(list)
+for row in summary:
+    window_groups[row["window"]].append(row)
+
+aggregate = []
+for window in sorted(window_groups):
+    rows = window_groups[window]
+    aggregate.append(
+        {
+            "window": window,
+            "event_count": len(rows),
+            "early_flow_mean": sum(row["early_flow_mean"] for row in rows) / len(rows),
+            "mid_flow_mean": sum(row["mid_flow_mean"] for row in rows) / len(rows),
+            "late_flow_mean": sum(row["late_flow_mean"] for row in rows) / len(rows),
+        }
     )
-)
 
 print("1) raw log rows before comparison")
-print(raw.head(6))
+for row in raw[:6]:
+    print(
+        f'{row["event_id"]} {row["window"]:<8} '
+        f'{row["progress_bin"]:<5} flow={row["flow"]:.2f}'
+    )
+print(f"... {len(raw) - 6} more raw log rows")
 print()
 print("2) per-event summary table for direct comparison")
-print(summary)
+for row in summary:
+    print(
+        f'{row["event_id"]} {row["window"]:<8} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
 print()
 print("3) recent-vs-baseline aggregate table built from event summaries")
-print(aggregate)
+for row in aggregate:
+    print(
+        f'{row["window"]:<8} events={row["event_count"]} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
 ```
 
 期望输出：
 
 ```text
 1) raw log rows before comparison
-  event_id progress_bin  flow
-0        A        early   0.8
-1        A        early   1.0
-2        A          mid   2.4
-3        A          mid   2.5
-4        A         late   1.9
-5        A         late   1.6
+A baseline early flow=0.70
+A baseline early flow=0.90
+A baseline mid   flow=2.00
+A baseline mid   flow=2.10
+A baseline late  flow=1.70
+A baseline late  flow=1.80
+... 30 more raw log rows
 
 2) per-event summary table for direct comparison
-  event_id  early_flow_mean  late_flow_mean  mid_flow_mean    window
-0        A              0.9            1.75           2.45    recent
-1        B              0.8            1.75           2.05  baseline
-2        C              1.0            1.90           2.65    recent
+A baseline early=0.80 mid=2.05 late=1.75
+B baseline early=0.80 mid=2.15 late=1.65
+C baseline early=0.80 mid=2.00 late=1.85
+D recent   early=0.95 mid=2.45 late=1.85
+E recent   early=1.05 mid=2.65 late=1.95
+F recent   early=1.00 mid=2.55 late=1.75
 
 3) recent-vs-baseline aggregate table built from event summaries
-     window  event_count  early_flow_mean  mid_flow_mean  late_flow_mean
-0  baseline            1             0.80           2.05           1.750
-1    recent            2             0.95           2.55           1.825
+baseline events=3 early=0.80 mid=2.07 late=1.75
+recent   events=3 early=1.00 mid=2.55 late=1.85
 ```
 
-从这个输出可以看到，原始日志只是时点记录；到了第 2 步，完整动作才终于变成一行；第 3 步则把这些样本再次汇总成近期/基准线聚合结果。这里重要的，不只是行数减少了，而是 `前段`、`中段`、`后段` 这样的比较单位进入了汇总表的列结构，并且这张汇总表又成了后续近期状态比较表的原料。
+从这个输出可以看到，原始日志包含 36 条时点记录；到了第 2 步，6 次完整动作才分别变成一行；第 3 步则把这些样本再次汇总成 `baseline` 和 `recent` 聚合结果。这里重要的，不只是行数减少了，而是 `前段`、`中段`、`后段` 这样的比较单位进入了汇总表的列结构，并且这张汇总表又成了后续近期状态比较表的原料。如果改动 CSV 里的数值，动作级汇总值和近期/基准线聚合值都会一起变化，因此读者可以直接确认判断究竟在哪个表示层发生变化。
 
 看完这个例子之后，可以用下面几个问题来检查，刚才发生的到底只是压缩，还是表示层的转换。
 
@@ -172,6 +185,6 @@ print(aggregate)
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明处理步骤、派生关系和版本都应可表示，因此它为“原始日志是如何经过处理变成汇总表和聚合表”的分层记录提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是特征和标签附着在样本层结构上，所以它强化了区分原始行与动作汇总行，并构建样本层表结构的必要性。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段说明为比较其他时段的参考，因此为“比较近期状态和基准线状态时，需要像聚合表这样的独立表示层”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework 说明处理步骤、可复现性、版本和派生关系都应可表示，因此它为“原始日志是如何经过处理变成汇总表和聚合表”的分层记录提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `example` 和 `labeled example`。因为 example 预设的是特征和标签附着在样本层结构上，所以它强化了区分原始行与动作汇总行，并构建样本层表结构的必要性。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段说明为比较其他时段的参考，因此为“比较近期状态和基准线状态时，需要像聚合表这样的独立表示层”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

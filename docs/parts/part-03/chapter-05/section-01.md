@@ -1,7 +1,7 @@
 # P3-5.1 원시 로그를 비교 가능한 표로 어떻게 바꾸는가
 
 > Section ID: `P3-5.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 원시 로그를 처음 보면 데이터가 매우 풍부해 보입니다. 시간 순서대로 값이 많이 쌓여 있고, 센서도 여럿이고, 제어 파라미터도 함께 보일 수 있기 때문입니다. 하지만 이런 풍부함이 곧바로 비교 가능한 데이터셋을 뜻하지는 않습니다. [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample) 단위를 정한 뒤에는 원시 로그를 요약 표와 집계 표로 바꾸는 절차가 필요합니다. 원시 로그와 요약 표, 집계 표는 서로 다른 역할을 맡고 있으며, 한 행이 뜻하는 대상도 다릅니다.
 
@@ -48,105 +48,118 @@
 
 집계 표는 한 번 더 역할이 달라집니다. 여기서는 개별 동작의 모양보다 `최근 20건의 평균`, `최근 20건의 변동성`, `기준선 대비 차이`, `같은 방향 변화가 반복된 횟수`처럼 여러 동작을 묶은 흐름이 중심이 됩니다. 즉 요약 표가 `사례 읽기`에 가깝다면, 집계 표는 `상태 읽기`에 더 가깝습니다.
 
-다음 예시는 원시 로그가 어떻게 동작 단위 요약 표를 거쳐 최근/기준선 집계 표로까지 이어지는지 보여 줍니다. 여기서는 세 개의 진행도 구간으로 나눠 구간 평균을 만든다고 가정하겠습니다.
+다음 예시는 원시 로그가 어떻게 동작 단위 요약 표를 거쳐 최근/기준선 집계 표로까지 이어지는지 보여 줍니다. 여기서는 세 개의 진행도 구간으로 나눠 구간 평균을 만들고, `baseline` 3건과 `recent` 3건을 비교한다고 가정하겠습니다.
 
 문제 상황: 원시 로그가 `동작 1회 요약 표`를 거쳐 `최근/기준선 집계 표`로 바뀌는 과정을 한 번에 확인합니다.
 
-입력(input): `event_id`, `progress_bin`, `flow`로 이루어진 원시 로그 표
+입력(input): [`p3_5_1_raw_log_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv){: target="_blank" rel="noopener noreferrer" } 파일. 한 행은 한 동작의 한 진행 구간에서 측정된 `flow` 기록이고, `window`는 기준선 또는 최근 구간을 뜻합니다.
 
 기대 출력(output): `raw`, `summary`, `aggregate` 세 표가 서로 다른 행 의미와 비교 역할을 갖는 출력
 
 확인할 개념: 원시 로그를 비교 가능한 표로 바꾼다는 말은 같은 기록을 요약 표와 집계 표로 단계적으로 다시 표현한다는 뜻이다
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "progress_bin": "early", "flow": 0.8},
-        {"event_id": "A", "progress_bin": "early", "flow": 1.0},
-        {"event_id": "A", "progress_bin": "mid", "flow": 2.4},
-        {"event_id": "A", "progress_bin": "mid", "flow": 2.5},
-        {"event_id": "A", "progress_bin": "late", "flow": 1.9},
-        {"event_id": "A", "progress_bin": "late", "flow": 1.6},
-        {"event_id": "B", "progress_bin": "early", "flow": 0.7},
-        {"event_id": "B", "progress_bin": "early", "flow": 0.9},
-        {"event_id": "B", "progress_bin": "mid", "flow": 2.1},
-        {"event_id": "B", "progress_bin": "mid", "flow": 2.0},
-        {"event_id": "B", "progress_bin": "late", "flow": 1.8},
-        {"event_id": "B", "progress_bin": "late", "flow": 1.7},
-        {"event_id": "C", "progress_bin": "early", "flow": 0.9},
-        {"event_id": "C", "progress_bin": "early", "flow": 1.1},
-        {"event_id": "C", "progress_bin": "mid", "flow": 2.6},
-        {"event_id": "C", "progress_bin": "mid", "flow": 2.7},
-        {"event_id": "C", "progress_bin": "late", "flow": 2.0},
-        {"event_id": "C", "progress_bin": "late", "flow": 1.8},
+data_path = Path("docs/assets/part-03/chapter-05/p3_5_1_raw_log_segments.csv")
+
+with data_path.open(newline="", encoding="utf-8") as file:
+    raw = [
+        {**row, "flow": float(row["flow"])}
+        for row in csv.DictReader(file)
     ]
-)
 
-summary = (
-    raw.pivot_table(
-        index="event_id",
-        columns="progress_bin",
-        values="flow",
-        aggfunc="mean",
-    )
-    .rename(
-        columns={
-            "early": "early_flow_mean",
-            "mid": "mid_flow_mean",
-            "late": "late_flow_mean",
+event_segments = defaultdict(lambda: {"window": None, "segments": defaultdict(list)})
+for row in raw:
+    event = event_segments[row["event_id"]]
+    event["window"] = row["window"]
+    event["segments"][row["progress_bin"]].append(row["flow"])
+
+summary = []
+for event_id in sorted(event_segments):
+    event = event_segments[event_id]
+    summary.append(
+        {
+            "event_id": event_id,
+            "window": event["window"],
+            "early_flow_mean": sum(event["segments"]["early"]) / len(event["segments"]["early"]),
+            "mid_flow_mean": sum(event["segments"]["mid"]) / len(event["segments"]["mid"]),
+            "late_flow_mean": sum(event["segments"]["late"]) / len(event["segments"]["late"]),
         }
     )
-    .reset_index()
-    .assign(window=lambda df: df["event_id"].map({"A": "recent", "B": "baseline", "C": "recent"}))
-)
 
-aggregate = (
-    summary.groupby("window", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        early_flow_mean=("early_flow_mean", "mean"),
-        mid_flow_mean=("mid_flow_mean", "mean"),
-        late_flow_mean=("late_flow_mean", "mean"),
+window_groups = defaultdict(list)
+for row in summary:
+    window_groups[row["window"]].append(row)
+
+aggregate = []
+for window in sorted(window_groups):
+    rows = window_groups[window]
+    aggregate.append(
+        {
+            "window": window,
+            "event_count": len(rows),
+            "early_flow_mean": sum(row["early_flow_mean"] for row in rows) / len(rows),
+            "mid_flow_mean": sum(row["mid_flow_mean"] for row in rows) / len(rows),
+            "late_flow_mean": sum(row["late_flow_mean"] for row in rows) / len(rows),
+        }
     )
-)
 
 print("1) raw log rows before comparison")
-print(raw.head(6))
+for row in raw[:6]:
+    print(
+        f'{row["event_id"]} {row["window"]:<8} '
+        f'{row["progress_bin"]:<5} flow={row["flow"]:.2f}'
+    )
+print(f"... {len(raw) - 6} more raw log rows")
 print()
 print("2) per-event summary table for direct comparison")
-print(summary)
+for row in summary:
+    print(
+        f'{row["event_id"]} {row["window"]:<8} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
 print()
 print("3) recent-vs-baseline aggregate table built from event summaries")
-print(aggregate)
+for row in aggregate:
+    print(
+        f'{row["window"]:<8} events={row["event_count"]} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
 ```
 
 예상 출력:
 
 ```text
 1) raw log rows before comparison
-  event_id progress_bin  flow
-0        A        early   0.8
-1        A        early   1.0
-2        A          mid   2.4
-3        A          mid   2.5
-4        A         late   1.9
-5        A         late   1.6
+A baseline early flow=0.70
+A baseline early flow=0.90
+A baseline mid   flow=2.00
+A baseline mid   flow=2.10
+A baseline late  flow=1.70
+A baseline late  flow=1.80
+... 30 more raw log rows
 
 2) per-event summary table for direct comparison
-  event_id  early_flow_mean  late_flow_mean  mid_flow_mean    window
-0        A              0.9            1.75           2.45    recent
-1        B              0.8            1.75           2.05  baseline
-2        C              1.0            1.90           2.65    recent
+A baseline early=0.80 mid=2.05 late=1.75
+B baseline early=0.80 mid=2.15 late=1.65
+C baseline early=0.80 mid=2.00 late=1.85
+D recent   early=0.95 mid=2.45 late=1.85
+E recent   early=1.05 mid=2.65 late=1.95
+F recent   early=1.00 mid=2.55 late=1.75
 
 3) recent-vs-baseline aggregate table built from event summaries
-     window  event_count  early_flow_mean  mid_flow_mean  late_flow_mean
-0  baseline            1             0.80           2.05           1.750
-1    recent            2             0.95           2.55           1.825
+baseline events=3 early=0.80 mid=2.07 late=1.75
+recent   events=3 early=1.00 mid=2.55 late=1.85
 ```
 
-위 출력에서 원시 로그는 시점 기록이고, 2단계에서야 동작 1회가 한 줄이 되며, 3단계에서는 그 샘플 여러 건이 다시 최근/기준선 집계로 올라갑니다. 이때 중요한 것은 단순히 줄 수가 줄었다는 사실이 아니라, `초반`, `중반`, `후반`이라는 비교 단위가 요약 표의 열 구조 안으로 들어오고, 그 요약 표가 다시 최근 상태 비교 표의 재료가 된다는 점입니다.
+위 출력에서 원시 로그는 36개의 시점 기록이고, 2단계에서야 6개의 동작이 각각 한 줄이 되며, 3단계에서는 그 샘플들이 다시 `baseline`과 `recent` 집계로 올라갑니다. 이때 중요한 것은 단순히 줄 수가 줄었다는 사실이 아니라, `초반`, `중반`, `후반`이라는 비교 단위가 요약 표의 열 구조 안으로 들어오고, 그 요약 표가 다시 최근 상태 비교 표의 재료가 된다는 점입니다. 예제에서 CSV의 값을 바꾸면 동작별 요약값과 최근/기준선 집계값이 함께 바뀌므로, 독자는 어느 표현 수준에서 판단이 달라지는지 직접 확인할 수 있습니다.
 
 이 예제를 본 뒤에는 아래 질문으로 지금 일어난 변화가 단순 축약인지 표현 전환인지 확인할 수 있습니다.
 
@@ -172,6 +185,6 @@ print(aggregate)
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 representing processing steps, derivation, versioning을 지원해야 한다고 정리하므로, 원시 로그가 어떤 처리 단계를 거쳐 요약 표와 집계 표로 바뀌었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 붙는 샘플 수준 구조를 전제로 하므로, raw row 수준과 event summary 수준을 구분해 sample-level table을 만들어야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, aggregate table처럼 최근 상태와 기준선 상태를 비교하는 별도 표현 수준이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 처리 단계, 재현 가능성, 버전, 파생 관계를 표현할 수 있어야 한다고 정리하므로, 원시 로그가 어떤 처리 단계를 거쳐 요약 표와 집계 표로 바뀌었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `example`과 `labeled example`. example는 features와 label이 붙는 샘플 수준 구조를 전제로 하므로, raw row 수준과 event summary 수준을 구분해 sample-level table을 만들어야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, aggregate table처럼 최근 상태와 기준선 상태를 비교하는 별도 표현 수준이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
