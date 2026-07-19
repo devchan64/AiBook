@@ -1,7 +1,7 @@
 # P3-9.4 复核结果如何从复核备注变成目标标签候选
 
 > Section ID: `P3-9.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 即使[复核候选队列（review queue）](/AiBook/en/reference/concept-glossary/#glossary-review-queue)和[比较报告（comparison report）](/AiBook/en/reference/concept-glossary/#glossary-comparison-report)先出现，[目标标签候选（target candidate）](/AiBook/en/reference/concept-glossary/#glossary-target-candidate)通常也不会被立即给出。最开始留下来的，往往不是整洁的`正确标签`，而是各种各样的复核结果和复核备注。因此，把目标标签候选读成`一开始就给定的答案`并不准确，更准确的读法是：它是把复核过程中反复留下来的判断，转成更稳定列之后得到的结果。
 
@@ -95,5 +95,5 @@
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `labeled example`。用于确认在监督学习里，标签和已标注样本如何把输入特征与结果列分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview。用于确认 provenance 视角：从复核备注到共同意义、再到目标候选列的路径应保持可追踪。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

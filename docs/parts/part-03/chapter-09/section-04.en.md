@@ -1,7 +1,7 @@
 # P3-9.4 How Do Review Results Turn from Review Notes into Target Candidates
 
 > Section ID: `P3-9.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Even when the [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue) and [comparison report](/AiBook/reference/concept-glossary/#glossary-comparison-report) appear first, a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate) is usually not given immediately. What remains at the beginning is often not a neat `correct label`, but varied review results and review notes. A target candidate should therefore be read more accurately not as `an answer given from the start`, but as `the result of turning judgments that repeatedly remained in the review process into more stable columns`.
 
@@ -95,5 +95,5 @@ This diagram shows that a free-form note does not become a target directly. A mi
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `labeled example`. Used to check how labels and labeled examples separate input features from result columns in supervised learning. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance, entity, derivation overview. Used to check the provenance view that the path from review notes to shared meanings and target-candidate columns should remain traceable. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
