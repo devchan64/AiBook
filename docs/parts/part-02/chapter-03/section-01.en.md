@@ -21,26 +21,6 @@ The emphasis here is not the whole mathematical theory, but the basic shapes of 
 | The intuition that shape changes the calculation rule | In P2-3.3, we examine matrix multiplication and dimension matching. | It returns in Part 3 when checking the shapes of input matrix `X`, target `y`, and train/test split results. |
 | The view that table data is a numeric array | In P2-3.6, it leads into NumPy array calculation. | It returns in Part 3 when reading the flow that turns a dataframe into an array for model input. |
 
-## Scope of This Section
-
-This section covers the basic meaning of scalar, vector, matrix, and data shape. The intuition of vector space and of position and direction returns in P2-3.2, matrix multiplication returns in P2-3.3, and NumPy array calculation returns in P2-3.6.
-
-This section focuses on five questions.
-
-1. Why is a scalar a single number?
-2. Why is a vector a list of values?
-3. Why is a matrix a table with rows and columns?
-4. Why does AI data become these shapes?
-5. Why does shape need to be checked carefully?
-
-| Term | Very short meaning | Role in this section |
-| --- | --- | --- |
-| scalar | one number | the standard for reading a single value such as loss, probability, or learning rate |
-| vector | ordered list of values | the basic unit for representing one object through several features |
-| matrix | numeric array with rows and columns | a structure for handling several samples or several vectors together |
-| shape | data shape information | the standard for deciding which calculations are possible |
-| array | a structure that stores numbers in order | the basic data shape where formulas and code meet |
-
 ## Goals of This Section
 
 - You can explain a scalar as a single number.
@@ -387,8 +367,8 @@ What matters in this example is not the calculation but the reading method. One 
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-07-19.
 - NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference supports reading `shape` as array dimension information and checking it in code.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked on 2026-07-19. This is a reference for the convention of reading `X` as an input data matrix and `y` as the target.

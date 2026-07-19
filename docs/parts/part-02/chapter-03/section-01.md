@@ -21,26 +21,6 @@ Part 2 Chapter 2에서는 수식 표기를 다시 읽었습니다. 변수(variab
 | shape이 계산 규칙을 바꾼다는 감각 | P2-3.3에서 행렬 곱과 차원 맞춤을 봅니다. | Part 3에서 입력 행렬 `X`, 타깃 `y`, train/test 분할 결과의 모양을 확인할 때 다시 씁니다. |
 | 표 데이터를 숫자 배열로 보는 시선 | P2-3.6에서 NumPy 배열 계산으로 이어집니다. | Part 3에서 데이터프레임을 모델 입력용 배열로 바꾸는 흐름을 읽을 때 다시 씁니다. |
 
-## 이 절의 범위
-
-여기서는 스칼라(scalar), 벡터(vector), 행렬(matrix)의 기본 의미와 데이터 모양(shape)을 다룹니다. 벡터 공간(vector space), 위치와 방향의 직관은 P2-3.2에서, 행렬 곱(matrix multiplication)은 P2-3.3에서, NumPy 배열 계산은 P2-3.6에서 다시 다룹니다.
-
-여기서는 다음 다섯 질문에 집중합니다.
-
-1. 스칼라는 왜 숫자 하나인가?
-2. 벡터는 왜 값의 목록인가?
-3. 행렬은 왜 행과 열을 가진 표인가?
-4. AI 데이터는 왜 이런 모양으로 바뀌는가?
-5. shape은 왜 중요하게 확인해야 하는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 스칼라 | 숫자 하나 | 손실, 확률, 학습률 같은 단일 값을 읽는 기준 |
-| 벡터 | 순서 있는 값의 목록 | 한 대상을 여러 특징으로 표현하는 기본 단위 |
-| 행렬 | 행과 열을 가진 숫자 배열 | 여러 샘플이나 여러 벡터를 함께 다루는 구조 |
-| shape | 데이터 모양 정보 | 어떤 계산이 가능한지 판단하는 기준 |
-| 배열 | 숫자를 순서 있게 담는 구조 | 수식과 코드가 만나는 기본 자료 모양 |
-
 ## 이 절의 목표
 
 - 스칼라(scalar)를 숫자 하나로 설명할 수 있습니다.
@@ -387,8 +367,8 @@ X =
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
 - NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. `shape`를 배열 차원 정보로 읽는 설명과 코드 예제를 확인하는 공식 참고 자료입니다.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19. `X`를 입력 데이터 행렬, `y`를 target으로 읽는 관례를 확인하는 참고 자료입니다.

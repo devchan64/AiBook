@@ -21,26 +21,6 @@
 | `shape` 会改变计算规则的直觉 | 在 P2-3.3 里会看矩阵乘法和维度匹配。 | 在 Part 3 里检查输入矩阵 `X`、目标 `y`、train/test 切分结果的形状时会再用到。 |
 | 把表格数据看成数值数组的视角 | 在 P2-3.6 里会连到 NumPy 数组计算。 | 在 Part 3 里读 dataframe 如何转成模型输入数组的流程时会再用到。 |
 
-## 本节范围
-
-本节处理标量、向量、矩阵的基本含义，以及数据形状(shape)。向量空间(vector space)、位置与方向的直觉会在 P2-3.2 再出现，矩阵乘法(matrix multiplication)会在 P2-3.3 再出现，NumPy 数组计算会在 P2-3.6 再出现。
-
-这里集中回答五个问题。
-
-1. 为什么标量是一个数字？
-2. 为什么向量是一个值的列表？
-3. 为什么矩阵是一张有行和列的表？
-4. 为什么 AI 数据会变成这些形状？
-5. 为什么必须认真检查 shape？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| 标量 | 一个数字 | 读取损失、概率、学习率这类单个值的标准 |
-| 向量 | 有顺序的值列表 | 用多个特征表示一个对象的基本单位 |
-| 矩阵 | 带行和列的数字数组 | 同时处理多个样本或多个向量的结构 |
-| shape | 数据形状信息 | 判断哪些计算可以做的标准 |
-| 数组 | 按顺序装数字的结构 | 公式与代码相接的基础数据形状 |
-
 ## 本节目标
 
 - 能把标量(scalar)解释成一个数字。
@@ -387,8 +367,8 @@ X =
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-07-19.
 - NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持把 `shape` 读成数组维度信息，并在代码中检查它。
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期：2026-07-19. 这是确认把 `X` 读作输入数据矩阵、把 `y` 读作 target 这一惯例的参考资料。
