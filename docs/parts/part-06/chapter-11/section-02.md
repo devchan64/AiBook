@@ -184,25 +184,9 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 
 이번 예제의 목표는 실제 ANN 인덱스 엔진을 구현하는 것이 아니라, `후보를 빨리 줄이는 설정`과 `정답 후보를 놓치지 않는 설정`이 충돌할 수 있다는 점을 작은 실험으로 확인하는 것입니다. 실제 ANN 라이브러리를 붙이는 실습은 프로젝트를 다루는 Part 7 쪽이 더 적절합니다. 여기서는 CSV에 둔 문서 벡터와 질문 벡터를 읽고, `candidate_budget`과 `version_filter`를 바꿨을 때 top-k 포함률, top-1 정합률, 버전 정합성, 지연 시간 대체값이 어떻게 달라지는지만 봅니다.
 
-문제 상황:
+개발 문서 검색에서는 현재 버전 문서가 꼭 top-k 안에 들어와야 합니다. 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있고, 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있습니다.
 
-- 개발 문서 검색에서 현재 버전 문서가 꼭 top-k 안에 들어와야 함
-- 빠른 설정은 지연 시간은 줄이지만 후보 일부를 놓칠 수 있음
-- 느린 설정은 더 오래 걸리지만 중요한 후보를 더 잘 회수할 수 있음
-
-입력:
-
-- 여러 개의 질문
-- CSV로 분리한 문서 벡터와 질문 벡터
-- 후보 압축 설정인 `candidate_budget`
-- 버전 필터 설정인 `version_filter`
-
-출력:
-
-- 질문별 지연 시간
-- 질문별 top-k 후보
-- 현재 버전 문서가 실제로 포함되었는지 여부
-- 설정별 top-k 포함률과 top-1 정합률
+아래 예제는 여러 질문, CSV로 분리한 문서 벡터와 질문 벡터, 후보 압축 설정인 `candidate_budget`, 버전 필터 설정인 `version_filter`를 사용합니다. 출력에서는 질문별 지연 시간, 질문별 top-k 후보, 현재 버전 문서가 실제로 포함되었는지 여부, 설정별 top-k 포함률과 top-1 정합률을 확인합니다.
 
 먼저 이 예제에서 함께 볼 점검 항목은 다음과 같습니다.
 
@@ -212,8 +196,6 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 | `rank_of_target` | 정답이 너무 아래에 있어 생성이 놓치지 않는지 확인 |
 | `top1_is_target` | 가장 먼저 붙는 문서가 맞는지 확인 |
 | `top1_version_ok` | 비슷한 이름의 구버전 문서가 앞서 오지 않는지 확인 |
-
-입력(input):
 
 문서 벡터와 질문 벡터는 본문 코드 안에 길게 넣지 않고, 별도 CSV 자산으로 분리합니다.
 
@@ -233,9 +215,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 | 2.x 버전에서 request timeout 옵션은 어디에 넣나요? | sdk_v2_request_timeout | 0.91 | 0.20 | 0.10 |
 | 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요? | sdk_v2_retry_and_backoff | 0.36 | 0.92 | 0.09 |
 
-확인할 개념:
-
-- 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다
+코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다.
 
 ```python
 import csv
@@ -420,6 +400,6 @@ question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
 
 ## 출처와 참고 자료
 
-- Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-05.
-- Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-05.
-- OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-19.
+- Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-19.
+- OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

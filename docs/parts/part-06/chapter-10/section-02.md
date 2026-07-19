@@ -197,25 +197,9 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 
 이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 같은 문서 집합에서 `retrieval_terms`와 `generation_style`을 바꿔, 검색 오염과 생성 과장이 서로 다른 단계의 실패로 드러나는지 확인하겠습니다.
 
-문제 상황:
+사용자가 `벡터 검색이 왜 필요한가요?`라고 묻는다고 해 봅시다. 검색 단계는 관련 문서를 골라야 하고, 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 합니다. 검색이 맞아도 생성이 과장되면 최종 답은 다시 틀어질 수 있습니다.
 
-- 사용자는 `벡터 검색이 왜 필요한가요?`라고 묻고 있음
-- 검색 단계는 관련 문서를 골라야 하고
-- 생성 단계는 그 문서를 바탕으로 독자용 설명을 다시 써야 함
-- 검색이 맞아도 생성이 과장되면 최종 답은 다시 틀어질 수 있음
-
-입력:
-
-- 질문
-- 검색 가능한 문서 목록 CSV: [p6-10-rag-documents.csv](../../../assets/part-06/chapter-10/p6-10-rag-documents.csv)
-- 검색 조건과 생성 조건 CSV: [p6-10-rag-experiments.csv](../../../assets/part-06/chapter-10/p6-10-rag-experiments.csv)
-
-출력:
-
-- 검색 조건에 따라 어떤 문서가 선택되었는지
-- 그 문서를 바탕으로 만든 최종 설명
-- 검색 실패와 생성 실패를 나누어 볼 수 있는 점검값
-- 무관 문서 혼입과 과장 표현 여부
+아래 예제는 질문, 검색 가능한 문서 목록 CSV [p6-10-rag-documents.csv](../../../assets/part-06/chapter-10/p6-10-rag-documents.csv), 검색 조건과 생성 조건 CSV [p6-10-rag-experiments.csv](../../../assets/part-06/chapter-10/p6-10-rag-experiments.csv)를 사용합니다. 출력에서는 검색 조건에 따라 선택된 문서, 그 문서를 바탕으로 만든 최종 설명, 검색 실패와 생성 실패를 나누어 보는 점검값, 무관 문서 혼입과 과장 표현 여부를 확인합니다.
 
 먼저 이 예제에서 직접 바꿔 볼 설정은 다음과 같습니다.
 
@@ -225,13 +209,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 | `noisy_retrieval` | 무관한 검색어가 섞인 검색 조건 | 검색 실패가 생성으로 전염 |
 | `clean_but_overclaim` | 검색은 정상, 생성 조건만 과장형 | 생성 실패 |
 
-입력(input):
-
-위에 정리한 질문과 두 입력 파일을 사용합니다. 문서 파일은 `title`, `text`, `category` 열을 갖고, 실험 파일은 `name`, `retrieval_terms`, `generation_style` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록입니다.
-
-확인할 개념:
-
-- RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다
+코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 문서 파일은 `title`, `text`, `category` 열을 갖고, 실험 파일은 `name`, `retrieval_terms`, `generation_style` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록입니다.
 
 ```python
 import csv
@@ -413,6 +391,6 @@ RAG의 실제 결합 흐름은 `문서를 먼저 붙이고 그 위에서 답한�
 
 ## 출처와 참고 자료
 
-- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-05.
-- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

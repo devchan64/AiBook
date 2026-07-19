@@ -34,7 +34,7 @@ LANG_TEXT = {
         ],
         "outfile": "vector-db-payload-check-ko.png",
         "ylabel": "통과한 질문 수",
-        "labels": ["top-1\n범주 일치", "원문 포함", "메타데이터\n포함"],
+        "labels": ["1위 후보\n범주 일치", "원문 포함", "메타데이터\n포함"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],

@@ -279,7 +279,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 ## 바로 적용해 보면
 
-에이전트를 처음 읽을 때 초심자가 가장 자주 놓치는 것은 `도구를 여러 개 쓴다`는 사실만 보고도 곧바로 agent라고 부르는 점입니다. 하지만 핵심은 도구 개수가 아니라 `중간 결과를 보고 다음 행동이 실제로 바뀌는가`에 있습니다.
+에이전트를 처음 읽을 때 가장 자주 놓치는 것은 `도구를 여러 개 쓴다`는 사실만 보고도 곧바로 agent라고 부르는 점입니다. 하지만 핵심은 도구 개수가 아니라 `중간 결과를 보고 다음 행동이 실제로 바뀌는가`에 있습니다.
 
 | 이런 장면이 보이면 | 먼저 확인할 것 | 왜 그것이 agent 판단의 핵심인가 |
 | --- | --- | --- |
@@ -309,23 +309,9 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 
 이번 예제의 목표는 실제 에이전트 프레임워크 전체를 구현하는 것이 아니라, 하나의 목표가 들어왔을 때 `검색`, `읽기`, `요약`, `출처 부착` 같은 여러 작업 단계와 상태로 풀리고, 그 상태에 따라 다음 계획이 실제로 다시 짜이는 장면을 눈으로 확인하는 것입니다.
 
-문제 상황:
+사용자는 최신 환불 정책을 요약하고 출처까지 붙인 답을 원합니다. 이 목표는 한 문장 생성만으로 끝나지 않고 여러 단계를 거쳐야 하며, 각 단계가 끝날 때마다 상태가 누적되어 다음 단계 선택에 쓰여야 합니다. 따라서 한 번의 계획으로 끝나는 것이 아니라 `계획 -> 실행 -> 관찰 -> 재계획`이 반복되어야 합니다.
 
-- 사용자는 최신 환불 정책을 요약하고 출처까지 붙인 답을 원함
-- 이 목표는 한 문장 생성만으로 끝나지 않고 여러 단계를 거쳐야 함
-- 각 단계가 끝날 때마다 상태가 누적되어 다음 단계 선택에 쓰여야 함
-- 따라서 한 번의 계획으로 끝나는 것이 아니라 `계획 -> 실행 -> 관찰 -> 재계획`이 반복되어야 함
-
-입력:
-
-- 하나의 목표
-- 현재 상태 객체
-
-출력:
-
-- 단계별 실행 계획
-- 단계가 끝날 때마다 갱신되는 상태
-- 각 라운드 뒤 다음 계획이 어떻게 바뀌는지 보여 주는 점검값
+아래 예제는 하나의 목표와 현재 상태 객체를 사용합니다. 출력에서는 단계별 실행 계획, 단계가 끝날 때마다 갱신되는 상태, 각 라운드 뒤 다음 계획이 어떻게 바뀌는지 보여 주는 점검값을 확인합니다.
 
 먼저 이 예제에서 같이 볼 항목은 다음과 같습니다.
 
@@ -336,13 +322,7 @@ Chapter 12~14의 최소 차이는 아래 표처럼 다시 고정할 수 있습�
 | `summary_ready` | 읽기 이후 요약 단계로 넘어갈 수 있는지 확인 |
 | `sources_attached` | 최종 답까지 도달했는지 확인 |
 
-입력(input):
-
-위에 정리한 목표 `goal`과 상태 딕셔너리 `state`를 사용합니다.
-
-확인할 개념:
-
-- 에이전트 실행은 정답 생성뿐 아니라 현재 상태가 다음 단계로 넘어갈 준비가 되었는지 계속 점검하는 과정이다
+코드에서 확인할 핵심은 에이전트 실행은 정답 생성뿐 아니라 현재 상태가 다음 단계로 넘어갈 준비가 되었는지 계속 점검하는 과정이라는 점입니다.
 
 ```python
 goal = "최신 환불 정책을 찾아 요약하고 출처를 붙여 답변한다."
@@ -515,6 +495,6 @@ print(inspection)
 
 ## 출처와 참고 자료
 
-- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.
-- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Using tools](https://developers.openai.com/api/docs/guides/tools){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-19.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Using tools](https://developers.openai.com/api/docs/guides/tools){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

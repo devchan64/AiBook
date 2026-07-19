@@ -46,7 +46,7 @@ LANG_TEXT = {
         "latency_ylabel": "평균 지연 시간(ms)",
         "fast_label": "빠른 설정",
         "strict_label": "엄격한 설정",
-        "quality_labels": ["top-k 포함", "top-1 정합", "버전 정합"],
+        "quality_labels": ["상위 k 후보\n포함", "1위 정합", "버전 정합"],
         "latency_label": "평균 지연",
     },
     "en": {

@@ -293,24 +293,9 @@ RAG를 처음 읽을 때 가장 자주 헷갈리는 지점은 `답이 틀렸다`
 
 이번 예제의 목표는 실제 벡터 검색 시스템 전체를 구현하는 것이 아니라, `질문 -> 관련 문서 찾기 -> 그 문서를 근거로 답 만들기`라는 역할 분리가 여러 작업에서 어떻게 반복되는지 점검하는 것입니다. 이번에는 환불 정책, 제품 매뉴얼, SDK 문서 질문을 한 번에 돌려, 검색 없이 답할 때와 검색 문서를 붙인 뒤 답할 때 어떤 검증 항목이 달라지는지 배치 보고 형태로 보겠습니다.
 
-문제 상황:
+사용자는 최신 정책, 현재 버전 제품 화면, 현재 SDK 사용법을 물을 수 있습니다. 모델 내부 기억에는 예전 기준이나 일반 상식이 남아 있을 수 있고, 관련 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있습니다.
 
-- 사용자는 최신 정책, 현재 버전 제품 화면, 현재 SDK 사용법을 물을 수 있음
-- 모델 내부 기억에는 예전 기준이나 일반 상식이 남아 있을 수 있음
-- 관련 문서를 먼저 찾지 않으면 자연스러운 오답이 나올 수 있음
-
-입력:
-
-- 사용자 질문 여러 개
-- 내부 기억 역할의 오래된 답
-- 검색 가능한 최신 문서 목록
-
-출력:
-
-- 검색 없이 바로 답한 결과
-- 관련 문서를 먼저 고른 뒤 답한 결과
-- 어떤 문서가 실제 근거로 붙었는지에 대한 점검값
-- 최신 정보가 실제 답변에 반영되었는지 여부
+아래 예제는 여러 사용자 질문에 대해 내부 기억 역할의 오래된 답과 검색 가능한 최신 문서 목록을 함께 둡니다. 그런 다음 검색 없이 바로 답한 결과와, 관련 문서를 먼저 고른 뒤 답한 결과를 비교해 어떤 문서가 실제 근거로 붙었는지와 최신 정보가 답변에 반영되었는지를 점검합니다.
 
 이 절의 예제를 읽을 때는 먼저 무엇을 점검할지 표로 잡고 가는 편이 좋습니다.
 
@@ -321,13 +306,7 @@ RAG를 처음 읽을 때 가장 자주 헷갈리는 지점은 `답이 틀렸다`
 | RAG 답이 최신 신호를 담는가 | 문서가 답에 실제 반영됐는지 확인 |
 | 근거 문서 수가 충분한가 | 한 문서만 보고 섣불리 답하지 않는지 점검 |
 
-입력(input):
-
-위에 정리한 작업별 질문, memory 답, 검색 문서 묶음을 사용합니다.
-
-확인할 개념:
-
-- RAG의 품질은 검색된 문서와 최종 답변을 함께 비교해야만 제대로 판단할 수 있다
+코드에서 확인할 핵심은 RAG의 품질은 검색된 문서와 최종 답변을 함께 비교해야만 제대로 판단할 수 있다는 점입니다.
 
 ```python
 tasks = [
@@ -582,6 +561,6 @@ RAG의 핵심은 모델이 더 많이 기억하게 만드는 것이 아니라, �
 
 ## 출처와 참고 자료
 
-- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-05.
-- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [File search](https://developers.openai.com/api/docs/guides/tools-file-search){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

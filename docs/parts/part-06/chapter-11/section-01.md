@@ -203,26 +203,9 @@ RAG는 `질문 -> 관련 문서 검색 -> 생성` 구조입니다. 여기서 검
 
 이번 예제의 목표는 실제 벡터 데이터베이스 엔진 전체를 구현하는 것이 아니라, `벡터`, `원문`, `메타데이터`가 함께 저장되고, 질문 벡터와의 유사도로 다시 꺼내 쓰인다는 점을 눈으로 확인하는 것입니다. 이번에는 환불 정책, 설정 메뉴, SDK 제한 처리처럼 다른 질문 벡터를 한 번에 돌려, 같은 저장 구조가 질문에 따라 다른 조각과 메타데이터를 다시 꺼내고, 그 결과가 생성 단계로 넘길 검색 결과 묶음으로 어떻게 이어지는지까지 보겠습니다.
 
-문제 상황:
+문서 조각들은 숫자 벡터만이 아니라 원문과 출처 정보를 함께 가져야 합니다. 질문이 들어오면 질문 벡터와 가까운 조각을 다시 찾고, 검색 후에는 원문 텍스트와 메타데이터를 함께 생성 단계에 넘겨야 합니다. 따라서 `무엇이 1위 후보인가`뿐 아니라 `어떤 출처와 범주가 같이 따라오는가`도 중요합니다.
 
-- 문서 조각들은 숫자 벡터만이 아니라 원문과 출처 정보를 함께 가져야 함
-- 질문이 들어오면 질문 벡터와 가까운 조각을 다시 찾아야 함
-- 검색 후에는 원문 텍스트와 메타데이터를 함께 생성 단계에 넘겨야 함
-- 따라서 `무엇이 top-1인가`뿐 아니라 `어떤 출처와 범주가 같이 따라오는가`도 중요함
-
-입력:
-
-- 세 개의 문서 조각
-- 각 조각의 임베딩 벡터
-- 질문 벡터 여러 개
-
-출력:
-
-- 질문별 유사도 점수
-- 질문별 상위 후보 문서 조각
-- 검색 후 다시 꺼내 쓰는 원문과 메타데이터
-- 질문별 1위 후보의 출처와 범주
-- 생성 단계로 넘길 검색 결과 묶음
+아래 예제는 세 개의 문서 조각, 각 조각의 임베딩 벡터, 여러 질문 벡터를 사용합니다. 출력에서는 질문별 유사도 점수, 상위 후보 문서 조각, 검색 후 다시 꺼내 쓰는 원문과 메타데이터, 질문별 1위 후보의 출처와 범주, 생성 단계로 넘길 검색 결과 묶음을 확인합니다.
 
 먼저 이 절에서 확인할 점을 표로 잡으면 다음과 같습니다.
 
@@ -233,13 +216,7 @@ RAG는 `질문 -> 관련 문서 검색 -> 생성` 구조입니다. 여기서 검
 | 반환 결과에 메타데이터가 포함되는가 | 출처 표기, 날짜 필터, 버전 필터에 필요해서 |
 | 질문마다 반환 묶음이 달라지는가 | 같은 저장 구조가 질문별 근거 반환 계층으로 동작하는지 확인 |
 
-입력(input):
-
-위에 정리한 문서 레코드, 임베딩, 질문 벡터를 사용합니다.
-
-확인할 개념:
-
-- 벡터 데이터베이스는 유사한 문장뿐 아니라 원문과 메타데이터를 함께 반환해야 RAG 근거 저장소로 쓸 수 있다
+코드에서 확인할 핵심은 벡터 데이터베이스는 유사한 문장뿐 아니라 원문과 메타데이터를 함께 반환해야 RAG 근거 저장소로 쓸 수 있다는 점입니다.
 
 ```python
 import math
@@ -444,7 +421,7 @@ api_limit_question [0.19, 0.16, 0.96]
 
 앞의 예제는 벡터 데이터베이스를 구현하는 코드가 아니라, `비슷한 벡터를 찾는다`는 말 뒤에 실제로는 원문과 메타데이터까지 함께 저장하고 다시 꺼내는 계층이 있다는 점을 보여 주는 최소 장면입니다. 여기서 읽어야 할 핵심은 임베딩 숫자만으로 끝나지 않고, 검색 이후 답변 단계에 다시 쓸 정보를 함께 보존해야 한다는 점입니다. 그리고 같은 저장 구조가 질문마다 다른 출처와 범주를 다시 돌려준다는 점도 함께 중요합니다.
 
-요약 통계를 차트로 보면 세 질문 모두 top-1 범주가 맞고, 반환 payload에도 원문과 메타데이터가 모두 들어 있습니다. 그래서 이 예제는 `가까운 벡터를 찾았다`에서 멈추지 않고, 생성 단계가 실제로 다시 쓸 문장과 출처 정보가 함께 돌아오는지를 점검해야 한다는 뜻으로 읽어야 합니다.
+요약 통계를 차트로 보면 세 질문 모두 1위 후보 범주가 맞고, 반환 묶음에도 원문과 메타데이터가 모두 들어 있습니다. 그래서 이 예제는 `가까운 벡터를 찾았다`에서 멈추지 않고, 생성 단계가 실제로 다시 쓸 문장과 출처 정보가 함께 돌아오는지를 점검해야 한다는 뜻으로 읽어야 합니다.
 
 ![벡터 데이터베이스 예제의 범주·원문·메타데이터 점검 통과 수](../../../assets/part-06/chapter-11/vector-db-payload-check-ko.png)
 
@@ -473,6 +450,6 @@ api_limit_question [0.19, 0.16, 0.96]
 
 ## 출처와 참고 자료
 
-- OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-05.
-- Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-05.
+- OpenAI, [Vector embeddings](https://developers.openai.com/api/docs/guides/embeddings){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- Jeff Johnson, Matthijs Douze, Herve Jegou, [Billion-scale similarity search with GPUs](https://arxiv.org/abs/1702.08734){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-07-19.
+- Yu A. Malkov, D. A. Yashunin, [Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-19.

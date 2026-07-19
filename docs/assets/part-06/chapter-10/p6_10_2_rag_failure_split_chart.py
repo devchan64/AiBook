@@ -34,7 +34,7 @@ LANG_TEXT = {
             "DejaVu Sans",
         ],
         "outfile": "rag-failure-split-ko.png",
-        "ylabel": "감지된 payload 수",
+        "ylabel": "감지된 실험 수",
         "labels": ["검색 실패", "생성 실패", "무관 내용\n누출", "과장 표현"],
     },
     "en": {
