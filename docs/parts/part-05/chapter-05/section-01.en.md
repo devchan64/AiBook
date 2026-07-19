@@ -1,7 +1,7 @@
 # P5-5.1 How Does Loss Become A Gradient Signal
 
-Section ID: `P5-5.1`
-Version: `v2026.07.17`
+> Section ID: `P5-5.1`
+> Version: `v2026.07.19`
 
 In Chapter P5-4, we saw that the loss function turns the mismatch between the current output and the target into a number. But the loss number alone still cannot change the parameters.
 
@@ -419,6 +419,6 @@ In the next section, P5-5.2, we unfold this execution record as a computation gr
 
 ## Sources And Further Reading
 
-- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, accessed 2026-06-29.
-- Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, accessed 2026-06-29.
+- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, accessed 2026-07-19. [https://doi.org/10.1038/323533a0](https://doi.org/10.1038/323533a0){: target="_blank" rel="noopener noreferrer" }
+- Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, accessed 2026-07-19. [https://cir.nii.ac.jp/crid/1572261550254843264?lang=en](https://cir.nii.ac.jp/crid/1572261550254843264?lang=en){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

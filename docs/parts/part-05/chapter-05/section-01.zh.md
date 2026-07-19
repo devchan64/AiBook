@@ -1,7 +1,7 @@
 # P5-5.1 损失如何变成梯度（gradient）信号
 
-Section ID: `P5-5.1`
-Version: `v2026.07.17`
+> Section ID: `P5-5.1`
+> Version: `v2026.07.19`
 
 在 P5-4 章里，我们已经看到：损失函数（loss function）会把当前输出与目标之间的偏差变成一个数字。但只有损失数字本身，还不能直接去修改参数（parameter）。
 
@@ -419,6 +419,6 @@ direction_from_gradient = decrease_risk_weight
 
 ## 出处与参考资料
 
-- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, 确认日期：2026-06-29.
-- Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, 确认日期：2026-06-29.
+- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, 确认日期: 2026-07-19. [https://doi.org/10.1038/323533a0](https://doi.org/10.1038/323533a0){: target="_blank" rel="noopener noreferrer" }
+- Paul J. Werbos, `Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences`, Harvard University doctoral thesis, 1974, 确认日期: 2026-07-19. [https://cir.nii.ac.jp/crid/1572261550254843264?lang=en](https://cir.nii.ac.jp/crid/1572261550254843264?lang=en){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
