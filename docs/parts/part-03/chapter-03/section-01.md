@@ -135,7 +135,7 @@ print(event_summary.round(2))
 
 ```text
 1) raw input shape and first rows
-shape: (11, 8)
+shape: (36, 8)
   event_id batch_id    recipe  second  pressure  flow  vibration  temperature
 0        A     B-17  standard       0       1.0   0.0       0.02         24.1
 1        A     B-17  standard       1       2.0   1.4       0.04         24.4
@@ -164,8 +164,14 @@ shape: (11, 8)
 5) event-level table after defining the sample
   event_id batch_id    recipe  row_count  duration_seconds  max_pressure  mean_flow  max_vibration  end_temperature
 0        A     B-17  standard          4                 3           2.4       1.05           0.08             25.0
-1        B     B-17  standard          3                 2           1.9       0.73           0.06             24.6
+1        B     B-17  standard          4                 3           1.9       0.78           0.06             24.7
 2        C     B-18      fast          4                 3           2.8       1.05           0.22             26.8
+3        D     B-18      fast          4                 3           2.6       1.02           0.16             26.2
+4        E     B-19  standard          4                 3           2.1       0.90           0.07             24.8
+5        F     B-19  standard          4                 3           2.5       1.12           0.09             25.3
+6        G     B-20 high-load          4                 3           3.1       1.35           0.28             27.5
+7        H     B-20 high-load          4                 3           2.9       1.30           0.24             27.0
+8        I     B-21  standard          4                 3           2.3       0.98           0.08             25.1
 ```
 
 이 예제의 핵심은 2단계와 3단계의 차이입니다. 2단계에서는 `분류 문제일지도 모른다`는 말만 먼저 나오지만, 실제로는 `label_column_to_try`로 지정한 `review_label` 열도 없고 샘플 1건도 아직 정해지지 않았습니다. 여기서 조작할 값은 `label_column_to_try`입니다. 값을 `"flow"`로 바꾸면 `column exists`는 `True`가 되지만, `candidate unit`은 `time_point_sensor_value`이고 `usable label candidate`는 여전히 `False`입니다. `flow`는 동작 1회에 붙은 안정 라벨이 아니라 시점별 센서값이기 때문입니다. 반대로 4단계에서는 먼저 `한 샘플은 동작 1회`, `비교 표는 동작별 1행`이라는 구조를 정합니다. 그 뒤에야 5단계처럼 `row_count`, `duration_seconds`, `max_pressure`, `mean_flow`, `max_vibration`, `end_temperature`를 가진 동작 단위 비교 표가 생깁니다. 즉 원천데이터를 너무 빨리 학습 문제로 읽으면, 아직 비어 있는 질문을 덮어 둔 채 문제 형식만 먼저 정하게 됩니다.
