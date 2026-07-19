@@ -1,7 +1,7 @@
 # P2-4.5 Gradient Supplement: From School Differentiation to Multivariable Differentiation
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-4.3, we connected derivative, partial derivative, and gradient, and in P2-4.4, we looked at why differentiation is needed in learning.
 
@@ -39,36 +39,6 @@ In this supplementary learning, we first place working distinctions for reading 
 | backpropagation | the procedure that efficiently computes the gradient of each parameter in a deep-learning model |
 
 Said briefly, a derivative is the rate of change in one direction, and a partial derivative is the value obtained by looking at several directions one by one. A directional derivative is the way of reading change in a direction that I choose, and a gradient is a vector that gathers such rates of change into one bundle. Gradient descent is the method of moving by referring to that vector, and backpropagation is the procedure that computes that vector efficiently inside a deep-learning model.
-
-## Scope of This Supplementary Learning
-
-Here, the role is to act as a bridge from school-level differentiation memory to the gradient.
-
-The following topics are too large to treat deeply here.
-
-- the strict calculation of partial derivatives
-- the formula of the directional derivative
-- the full system of vector calculus
-- the update formula of gradient descent
-- the calculation procedure of backpropagation
-
-But that does not mean we leave those concepts behind with only their names. Here, we provide definitions, analogies, learning order, and charts that can be understood at the high-school level. It means we are not going deep into calculation, not that we avoid explaining the concepts.
-
-Here, we focus on the following questions.
-
-- Why does the gradient feel unfamiliar?
-- What is different between one-variable differentiation and multivariable differentiation?
-- What do partial derivatives and directional derivatives see differently?
-- How are gradient and gradient descent connected?
-- Why does backpropagation appear later?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| supplementary learning | an additional explanatory section that fills the gap between main sections | the formal role of this Section |
-| directional derivative | the rate of change viewed in the direction I choose | the expanded concept that must be distinguished from partial derivatives |
-| gradient descent | a method that repeatedly moves toward lower loss | the connection point that recalls the representative explanation in P2-6.3 |
-| backpropagation | the procedure that computes the gradient efficiently | the connection point that leads into deep learning |
-| vector calculus | the mathematical frame that deals with vectors and rates of change on spaces | the perspective that sees the background of the gradient more broadly |
 
 ## How Should We Study It?
 
@@ -379,6 +349,6 @@ A checkable result is to record how the final sound-quality score changes when e
 
 ## Sources and References
 
-- Ministry of Education, `[Ministry of Education Notice No. 2022-33] General and Subject-Specific Elementary and Secondary School Curriculum Notice`. It provides the official notice and appendix-material location for the 2022 revised Korean high school curriculum. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, directional derivatives, gradient vectors, and the relation between the gradient and direction of maximum increase. Checked: 2026-07-19.
-- KOCW, `Calculus 2 - Hanyang University`. It confirms that this open course covers multivariable functions, partial derivatives, vector functions, and related calculus topics. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- Ministry of Education, `[Ministry of Education Notice No. 2022-33] General and Subject-Specific Elementary and Secondary School Curriculum Notice`. It provides the official notice and appendix-material location for the 2022 revised Korean high school curriculum. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, directional derivatives, gradient vectors, and the relation between the gradient and direction of maximum increase. Checked: 2026-07-20.
+- KOCW, `Calculus 2 - Hanyang University`. It confirms that this open course covers multivariable functions, partial derivatives, vector functions, and related calculus topics. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-20

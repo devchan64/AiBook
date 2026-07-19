@@ -1,7 +1,7 @@
 # P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언트(gradient)를 연결했고, P2-4.4에서는 미분이 학습(training)에서 왜 필요한지 봤습니다.
 
@@ -38,36 +38,6 @@ P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언�
 | 역전파(backpropagation) | 딥러닝 모델에서 각 파라미터의 그래디언트를 효율적으로 계산하는 절차 |
 
 짧게 말하면, 미분은 한 방향의 변화율이고 편미분은 여러 방향을 하나씩 따로 본 값입니다. 방향도함수는 내가 고른 방향으로 변화를 읽는 방식이고, 그래디언트는 그런 변화율들을 한 묶음으로 모은 벡터입니다. 경사하강법은 그 벡터를 참고해 이동하는 방법이고, 역전파는 그 벡터를 딥러닝 모델 안에서 효율적으로 계산하는 절차입니다.
-
-## 이 보충학습의 범위
-
-여기서는 고등학교 미분 기억에서 그래디언트로 넘어가는 다리 역할을 합니다.
-
-다음 내용은 분량이 커서 여기서 깊게 다루기 어렵습니다.
-
-- 편미분(partial derivative)의 엄밀한 계산
-- 방향도함수(directional derivative)의 공식
-- 벡터해석(vector calculus)의 전체 체계
-- 경사하강법(gradient descent)의 업데이트 공식
-- 역전파(backpropagation)의 계산 절차
-
-다만 위 개념을 이름만 남기고 넘기지는 않습니다. 여기서는 고등학생 수준에서 이해할 수 있는 정의, 비유, 학습 순서, 차트를 제공합니다. 계산을 깊게 하지 않는다는 뜻이지, 개념을 설명하지 않는다는 뜻은 아닙니다.
-
-여기서는 다음 질문에 집중합니다.
-
-- 왜 그래디언트가 낯설게 느껴지는가?
-- 한 변수 미분과 다변수 미분은 무엇이 다른가?
-- 편미분과 방향도함수는 무엇을 다르게 보는가?
-- 그래디언트와 경사하강법은 어떻게 연결되는가?
-- 역전파는 왜 나중에 등장하는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 보충학습 | 본문 사이의 간격을 메우는 추가 설명 절 | 이 절의 형식적 역할 |
-| 방향도함수 | 내가 정한 방향으로 본 변화율 | 편미분과 구분해야 할 확장 개념 |
-| 경사하강법 | 손실을 줄이는 쪽으로 반복 이동하는 방법 | P2-6.3에서 잡은 대표 설명을 다시 떠올리게 하는 연결점 |
-| 역전파 | 그래디언트를 효율적으로 계산하는 절차 | 딥러닝으로 넘어가는 연결점 |
-| 벡터해석 | 벡터와 변화율을 공간 위에서 다루는 수학 틀 | 그래디언트 배경을 넓게 보는 관점 |
 
 ## 어떻게 공부하면 좋을까
 
@@ -378,6 +348,6 @@ w_{\text{next}} = w - \eta \nabla L
 
 ## 출처와 참고 자료
 
-- 교육부, `[교육부 고시 제2022-33호] 초중등학교 교육과정 총론 및 각론 고시`. 2022 개정 고등학교 교육과정의 공식 고시와 별책 자료 위치를 확인할 수 있습니다. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 편미분, 방향도함수, 그래디언트 벡터와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
-- KOCW, `미분적분학2 - 한양대학교`. 미분적분학2 강의가 다변수 함수, 편미분, 벡터함수 등을 다루는 공개 강의임을 확인할 수 있습니다. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- 교육부, `[교육부 고시 제2022-33호] 초중등학교 교육과정 총론 및 각론 고시`. 2022 개정 고등학교 교육과정의 공식 고시와 별책 자료 위치를 확인할 수 있습니다. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 편미분, 방향도함수, 그래디언트 벡터와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-20.
+- KOCW, `미분적분학2 - 한양대학교`. 미분적분학2 강의가 다변수 함수, 편미분, 벡터함수 등을 다루는 공개 강의임을 확인할 수 있습니다. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P2-4.5 梯度补充学习：从高中微分到多变量微分
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)连了起来；在 P2-4.4 中，我们又看了为什么学习(training)里需要微分。
 
@@ -39,36 +39,6 @@
 | 反向传播(backpropagation) | 在深度学习模型里高效计算每个参数梯度的过程 |
 
 简短地说，微分是一条方向上的变化率，偏微分是在多个方向里一个一个分开看的值。方向导数是按我自己选的方向读变化的方式，梯度则是把这些变化率收成一组的向量。梯度下降是参考这个向量来移动的方法，反向传播是在深度学习模型里高效算出这个向量的过程。
-
-## 这节补充学习的范围
-
-这里的角色，是搭起一座从高中微分记忆通往梯度的桥。
-
-下面这些内容都太大，不会在这里深入处理。
-
-- 偏微分(partial derivative)的严格计算
-- 方向导数(directional derivative)的公式
-- 向量分析(vector calculus)的完整体系
-- 梯度下降(gradient descent)的更新公式
-- 反向传播(backpropagation)的计算过程
-
-但这并不意味着这些概念只留下名字就跳过去。这里会提供适合高中水平读者理解的定义、比喻、学习顺序和图示。意思不是不解释概念，而是不在这里深入做大量计算。
-
-这里专注于下面这些问题。
-
-- 为什么梯度会让人觉得陌生？
-- 单变量微分和多变量微分到底差在哪里？
-- 偏微分与方向导数各自是在看什么？
-- 梯度和梯度下降是怎样连起来的？
-- 为什么反向传播要在后面出现？
-
-| 术语 | 很短的含义 | 本节中的作用 |
-| --- | --- | --- |
-| 补充学习 | 用来填正文之间间隔的附加说明节 | 本节的形式角色 |
-| 方向导数 | 沿我选定方向看的变化率 | 必须与偏微分区分开的扩展概念 |
-| 梯度下降 | 重复向损失更低方向移动的方法 | 唤起 P2-6.3 代表说明的连接点 |
-| 反向传播 | 高效计算梯度的过程 | 通向深度学习的连接点 |
-| 向量分析 | 在空间里一起处理向量与变化率的数学框架 | 更宽地看梯度背景的视角 |
 
 ## 应该怎么学比较好
 
@@ -379,6 +349,6 @@ w_{\text{next}} = w - \eta \nabla L
 
 ## 来源与参考资料
 
-- 教育部, `[教育部告示第2022-33号] 中小学课程总论及各科课程告示`。可以确认 2022 修订韩国高中课程的官方告示与附册资料位置。 [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认偏导数、方向导数、梯度向量，以及梯度与最大增加方向之间的关系。确认日期: 2026-07-19.
-- KOCW, `微积分学2 - 汉阳大学`。可以确认这门公开课程包含多变量函数、偏导数、向量函数等微积分主题。 [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- 教育部, `[教育部告示第2022-33号] 中小学课程总论及各科课程告示`。可以确认 2022 修订韩国高中课程的官方告示与附册资料位置。 [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认偏导数、方向导数、梯度向量，以及梯度与最大增加方向之间的关系。确认日期: 2026-07-20.
+- KOCW, `微积分学2 - 汉阳大学`。可以确认这门公开课程包含多变量函数、偏导数、向量函数等微积分主题。 [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
