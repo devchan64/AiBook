@@ -1,7 +1,7 @@
 # P1-10.2 다음 출력 생성(next-output generation)의 직관
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)을 구분했습니다. 분류는 범주를 고르고, 예측은 값이나 상태를 추정하고, 생성은 조건에 맞는 새 산출물을 만듭니다.
 
@@ -16,8 +16,6 @@
 Part 1에서 `다음 출력 생성(next-output generation)`, `다음 토큰 예측(next-token prediction)`의 입문 직관, `오디오 샘플(audio sample)` 순차 생성, `diffusion model`의 점진적 복원 직관을 구분하는 기본 기준은 여기서 잡습니다. 10.1에서는 `분류/예측/생성`의 출력 차이를 먼저 구분했고, 여기서는 그중 `생성`이 어떻게 이어지는지의 계산 직관만 잡습니다. 세부 구조와 수식은 뒤 Part에서 다시 다룹니다.
 
 다만 이 문장은 모든 모델이 같은 방식으로 동작한다는 뜻이 아닙니다. 텍스트 생성(text generation), 음성 생성(audio generation), 이미지 생성(image generation)은 모두 반복적 생성이라는 공통 직관을 공유할 수 있지만, 실제 생성 단위와 알고리즘은 다릅니다.
-
-## 이 절의 범위
 
 여기서는 먼저 `생성이 완성본을 한 번에 꺼내는가, 아니면 작은 출력 조각을 이어 가며 만드는가`를 닫습니다. 토큰화(tokenization)는 Part 6의 P6-1.1과 P6-1.2에서, 다음 토큰 예측(next-token prediction)은 P6-5.1에서, sampling과 temperature는 Part 5의 P5-15.2와 Part 6의 P6-5.2에서, Transformer 구조는 P1-11.3과 Part 5, Part 6에서, 프롬프트(prompt)와 평가는 P1-12.1부터 P1-12.3에서 다시 다룹니다. diffusion model의 자세한 구조는 여기서 먼저 꺼내지 않습니다.
 

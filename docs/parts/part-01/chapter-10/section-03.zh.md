@@ -1,7 +1,7 @@
 # P1-10.3 生成结果(output)的质量(quality)与风险(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.18`
+> Version: `v2026.07.19`
 
 在 10.1 中，我们看了分类(classification)、预测(prediction)、生成(generation)之间的区别。在 10.2 中，我们又看了生成式 AI(generative AI)会基于条件(condition)逐步构造产出物的直觉。
 
@@ -15,8 +15,6 @@
 > 事实性、依据、安全性、版权、隐私、使用场景都需要分开审查。
 
 在 Part 1 中，本节先建立 `质量(quality)`、`依据(evidence)`、`幻觉(hallucination)`、`confabulation`、`安全(safety)`、`权利与责任(rights and responsibility)` 的入门区分。10.1 讨论的是 `输出什么`，10.2 讨论的是 `如何生成`，这里则把第三个问题单独拆开：`应该如何阅读并验证生成结果`。版权、安全、隐私的更详细讨论会在 P1-15 中继续展开。
-
-## 本节范围
 
 这里不会覆盖生成式 AI 的所有风险。法律判断、安全架构、隐私保护、版权争议、AI 治理(governance)等内容，会在 P1-15 中更详细讨论。
 

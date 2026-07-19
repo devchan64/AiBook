@@ -1,7 +1,7 @@
 # P1-10.2 生成下一个输出(next-output generation)的直觉
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 10.1 中，我们区分了分类(classification)、预测(prediction)和生成(generation)。分类是选择类别，预测是估计值或状态，生成是创建符合条件的新内容。
 
@@ -17,8 +17,6 @@
 在 Part 1 中，本节先建立 `生成下一个输出(next-output generation)`、`下一 token 预测(next-token prediction)` 的入门直觉，以及 `音频样本(audio sample)` 的顺序生成和 `diffusion model` 渐进恢复直觉之间的基本区分。10.1 先区分了 `分类/预测/生成` 的输出差异，这里只抓住其中 `生成` 是如何延续下去的计算直觉。更细的结构和公式会在后面的 Part 再讨论。
 
 但这并不意味着所有模型都用同一种方式工作。文本生成(text generation)、语音生成(audio generation)、图像生成(image generation)都可以共享“重复生成”的大直觉，但实际的生成单位和算法并不相同。
-
-## 本节范围
 
 这里先固定 `生成到底是一次拿出完成品，还是把小输出片段接续起来` 这个问题。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.2 与 Part 6 的 P6-5.2 讨论；Transformer 结构会在 P1-11.3、Part 5、Part 6 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。diffusion model 的详细结构不会在这里先展开。
 

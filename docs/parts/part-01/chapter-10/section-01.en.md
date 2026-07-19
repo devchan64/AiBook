@@ -1,7 +1,7 @@
 # P1-10.1 The Difference Among Classification, Prediction, and Generation
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter 9 looked at how deep learning spread across many fields. `Image recognition`, `object detection`, `speech generation`, and `language modeling` all belong to the broader flow in which neural networks learn `representations` from data.
 
@@ -13,8 +13,6 @@ The central question is:
 > what makes generative AI different from earlier kinds of models?
 
 Part 1 introduces the basic distinction among `classification`, `prediction`, `regression`, `generation`, and `generative AI` in this section. Basic examples of classification and regression were introduced in 8.1, and cases such as image recognition, object detection, and language modeling were developed in Chapter 9. Here, those cases are gathered again so we can first separate them by `the character of the output`.
-
-## Scope of This Section
 
 This section does not explain the full structure of generative AI. Topics such as `next-token prediction`, `image generation`, `diffusion models`, `Transformers`, `prompts`, and `sampling` return in later sections and later chapters.
 

@@ -1,7 +1,7 @@
 # P1-10.1 分类(classification)、预测(prediction)与生成(generation)的区别
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在第 9 章中，我们看到了深度学习(deep learning)如何扩散到多个领域。图像识别(image recognition)、目标检测(object detection)、语音生成(speech generation)、语言建模(language modeling)都属于神经网络从数据中学习表征(representation)这一更大脉络的一部分。
 
@@ -10,8 +10,6 @@
 这里的核心问题是：如果分类、预测和生成都会产出模型输出(output)，那么生成式 AI 与以往的模型究竟有什么不同？
 
 在 Part 1 中，本节先建立 `分类(classification)`、`预测(prediction)`、`回归(regression)`、`生成(generation)`、`生成式 AI(generative AI)` 之间的基本区分。分类与回归的基本例子已经在 8.1 中介绍过，图像识别、目标检测、语言建模等案例则在第 9 章继续展开。这里会重新把这些案例放在一起，先区分 `输出的性质有什么不同`。
-
-## 本节范围
 
 本节不会解释生成式 AI 的完整结构。`下一 token 预测(next-token prediction)`、图像生成(image generation)、diffusion model、Transformer、prompt、sampling 等内容会在后续小节和后续章节再讨论。
 

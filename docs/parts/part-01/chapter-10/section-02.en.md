@@ -1,7 +1,7 @@
 # P1-10.2 The Intuition of Next-Output Generation
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -19,8 +19,6 @@ The introductory baseline is:
 Part 1 introduces the basic distinctions among `next-output generation`, the intuition of `next-token prediction`, sequential generation of `audio samples`, and the intuition of `diffusion` as gradual restoration. Section 10.1 first separated the output types of classification, prediction, and generation. This section focuses only on the computational intuition of how `generation` continues. The detailed structures and equations return in later parts.
 
 This does not mean every model works in exactly the same way. `Text generation`, `audio generation`, and `image generation` can share the broad intuition of iterative generation, but their actual units and algorithms are different.
-
-## Scope of This Section
 
 Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one by continuing small output pieces`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.2 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
 

@@ -1,7 +1,7 @@
 # P1-10.3 The Quality and Risk of Generated Outputs
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.18`
+> Version: `v2026.07.19`
 
 Section 10.1 examined the difference among classification, prediction, and generation. Section 10.2 introduced the intuition that generative AI builds artifacts progressively from conditions.
 
@@ -21,8 +21,6 @@ Part 1 introduces the basic distinctions among `quality`, `evidence`, `hallucina
 > how should we read and verify the result?
 
 Detailed discussion of copyright, security, and privacy returns in P1-15.
-
-## Scope of This Section
 
 This section does not cover every generative-AI risk. Legal interpretation, security architecture, privacy protection, copyright disputes, and AI governance are treated in greater detail in P1-15.
 
