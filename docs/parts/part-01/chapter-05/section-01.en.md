@@ -1,7 +1,7 @@
 # P1-5.1 What Does Learning Change?
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter 4 organized real-world problems in terms of `input`, `output`, `feature`, `representation`, and `parameter` so that a model could handle them. Now we move one step further and ask: when we say a model learns, what inside the model actually changes?
 
@@ -80,6 +80,18 @@ In that sense, `learning` is the broader result and `training` is a representati
 > learning: what got better?  
 > training: by what procedure were the values changed?
 
+It is safer to read this distinction as a flow rather than as a rigid classification table. Read `learning` broadly, read `training` as a representative procedure inside it, and place `inference` as the next stage that uses the result.
+
+The same scene can be worded differently depending on which level is being discussed. Saying `the model learned support-message classification` usually points to the result side: performance on new messages improved. Saying `the model was trained on support data` points more to the procedure: labeled examples were used to adjust internal values.
+
+For example, `the model learned customer-inquiry classification` is a broad statement. More precisely, it can be separated like this.
+
+> training: past inquiries and labels were used to adjust model parameters
+> learning: as a result, classification performance on new inquiries improved
+> inference: the adjusted model predicted the type of a new inquiry
+
+So the `learning` in the title of this section is a broad introductory expression. When the body discusses internal value adjustment, it uses `training` or `learning procedure` more precisely.
+
 ## Experience and Signals Differ by Learning Type
 
 The support-message example so far is closest to `supervised learning`: the input sentence and desired output label are given together, and the model is trained to reduce the difference between prediction and label. But not all AI learning has that shape.
@@ -92,12 +104,14 @@ The support-message example so far is closest to `supervised learning`: the inpu
 
 So the explanation `training reduces the difference between prediction and label` is a simplified entry point for supervised learning only.
 
+In reinforcement learning, the center shifts from correct labels to actions and rewards. In unsupervised learning, the center shifts to the structure or representation in the data rather than a human-provided answer.
+
 `Deep learning` is a different axis. It is not a learning type in the same sense. It is an approach that uses multilayer neural networks to learn representations, and it can be combined with supervised learning, unsupervised learning, self-supervised learning, or reinforcement learning.
 
 > learning type: by what experience and signal does performance improve?  
 > deep learning: by what structure are representations and parameters learned?
 
-## Scope of This Section
+Here, the supervised-learning example is used first to build the intuition that internal values are adjusted. The finer differences among reinforcement learning and deep learning return in P1-8, P1-9, Part 4, and Part 5.
 
 Section 5.1 explains the intuition behind learning and training. It does not go into the formulas or implementations of `loss function`, `gradient descent`, `backpropagation`, or `optimizer`. Those return later in Part 4 and Part 5.
 
@@ -245,6 +259,10 @@ In a simplified support-message example:
 
 So in deep learning, learning may change not only the final output criteria, but also the internal values that create intermediate representations.
 
+That is why deep learning often makes the question `does a person design the features directly?` less central than `can the model learn useful representations?`
+
+Here, first keep the view that `intermediate representations can also change`. The way this connects to hidden representations, embeddings, and the role of deeper layers returns in `P1-3.3` and Part 5.
+
 ## Fitting Also Appears as a Practical Term
 
 When you use machine-learning tools, you often see `fitting` together with `training`. scikit-learn describes `fit` as the operation that matches an estimator’s state to data, and a fitted estimator as one that holds the information needed for prediction in internal attributes.
@@ -257,7 +275,7 @@ In this section, we separate the terms like this.
 | fitting | the execution of matching model state to data in a specific tool or statistical workflow |
 | fitted or trained model | a model whose internal values have been adjusted and is ready to handle new inputs |
 
-In practical code, training is often triggered through APIs like `model.fit(X, y)`.
+In practical code, training is often triggered through APIs like `model.fit(X, y)`. In this book's conceptual explanations, `learning` is used as the broader term, while `training` is used for the procedure that adjusts internal values.
 
 ## The Word Parameter Still Has Multiple Levels
 
@@ -272,7 +290,7 @@ To reduce confusion, this book separates them like this.
 | values that control output choice during generation | temperature, top-p, max tokens | generation settings |
 | library constructor arguments | `max_depth=3`, `random_state=42` | API parameters or configuration arguments |
 
-So when this section says `learning changes parameters`, it means the first sense: model parameters.
+So when this section says `learning changes parameters`, it means the first sense: model parameters. Generation settings such as an LLM's `temperature` are not internal parameters obtained by learning.
 
 ## Learning and Inference Are Different
 
@@ -289,6 +307,8 @@ Real systems can include online learning, continual learning, caches, retrieval,
 
 > training changes values  
 > inference uses the changed values
+
+Section 5.2 looks separately at what inference actually executes.
 
 ## A Small Example Again
 
@@ -319,36 +339,18 @@ But that alone is not enough. We still need to check whether it works on new sen
 
 > The item I received yesterday was broken, and I want it resent.
 
-If the model can handle that as exchange or reshipment, then it has captured at least some more general relation rather than only exact memorization.
-
-## What to Remember from This Section
-
-Learning is not a process of inserting knowledge into a model the way knowledge is inserted into a person. More conservatively, it is the process of adjusting the internal values that turn input representations into outputs according to data and goals.
-
-> data provides examples  
-> loss quantifies the gap in current prediction  
-> the training procedure changes internal values in the direction that reduces that loss  
-> as a result, the trained model becomes ready to produce outputs for new inputs
-
-This perspective helps us read the sentence `the AI learned` more carefully. Before asking what it learned, we should ask from what data, for what output goal, under what loss criterion, and with what internal values adjusted.
+If the model can handle that as exchange or reshipment, then it has captured at least some more general relation rather than only exact memorization. This judgment must be checked with validation data and evaluation criteria.
 
 ## Checklist
 
-- Explain training as the process of adjusting internal model values.
-- Distinguish learning from training.
-- Avoid mixing supervised learning, unsupervised learning, reinforcement learning, and deep learning as if they were the same category.
-- Explain how parameters, weights, and biases connect to learning.
-- Explain loss as the signal that guides the direction of learning.
-- Explain why learning is not the same thing as storing all training data as-is.
-- Prepare the boundary among training, fitting, and inference.
-
-## When Should This View Come First?
-
-Recall this section when the word `learning` starts to sound as if it automatically means human-like understanding, or when `learning`, `training`, `fitting`, and `inference` start collapsing into one vague process.
-
-- when you need to separate the broad result of improvement from the concrete procedure that changes values
-- when you need to explain what actually changes inside the model during training
-- when you need to connect loss, parameters, fitting, and later inference without mixing their roles
+- I can explain training as the process of adjusting internal model values.
+- I can explain how parameters, weights, and biases connect to learning.
+- I can explain that loss is the signal that guides the direction of learning.
+- I can explain that learning is not the same as memorizing the training data as-is.
+- I can state the basic difference between training and inference.
+- I can distinguish that the word `parameter` can refer to model-internal values, hyperparameters, or API settings.
+- I can explain that learning is not a process of injecting knowledge into a model like a human mind, but a process of adjusting internal values that turn input representations into outputs according to data and goals.
+- I can explain that before asking what a model learned, we should ask from what data, toward what output goal, through what loss criterion, and with which internal values adjusted.
 
 ## Sources and Further Reading
 

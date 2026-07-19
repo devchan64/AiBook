@@ -1,7 +1,7 @@
 # P1-5.3 Distinguishing Inference-Related Terms
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.16`
+> Version: `v2026.07.19`
 
 Section 5.2 explained `inference` as the execution that applies a trained model to a new input and produces output. But when we read real AI documents, this one word often overlaps with different translations, everyday expressions, and neighboring concepts across languages.
 
@@ -16,8 +16,6 @@ The five expressions we want to separate here are:
 > generation
 
 The goal of this section is not to define these terms completely in a philosophical sense. The goal is to build a reading standard that lets us ask first, `Is this sentence talking about model execution, a thought process, or an output value?`
-
-## Scope of This Section
 
 This section does not cover all of `inference` in logic, statistics, or cognitive science. It is also not the section that judges whether an LLM really thinks like a human.
 
@@ -200,3 +198,5 @@ The important habit here is not memorizing every English word, but refusing to d
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- Stanford Encyclopedia of Philosophy, James Hawthorne, [Inductive Logic](https://plato.stanford.edu/entries/logic-inductive/){: target="_blank" rel="noopener noreferrer" }, substantive revision 2025-02-24, accessed 2026-07-19.
+- OpenStax, Barbara Illowsky and Susan Dean, [Introductory Statistics, Chapter 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 2013-09-19, accessed 2026-07-19.

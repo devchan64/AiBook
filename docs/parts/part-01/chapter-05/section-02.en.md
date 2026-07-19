@@ -1,7 +1,7 @@
 # P1-5.2 What Does Model Execution Run?
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.16`
+> Version: `v2026.07.19`
 
 Section 5.1 distinguished `learning` from `training`. Training is the procedure that uses data to adjust internal model values, while learning is the broader idea that performance on a task improves as a result.
 
@@ -24,8 +24,6 @@ In practical terms, it is closer to `running the model`, `applying the model`, o
 > post-processing: connects model output to a result people actually use
 
 These three lines help separate `the step where the model computes a result` from `the larger service step that uses that result`.
-
-## Scope of This Section
 
 This section is not a mathematical explanation of inference. Matrix multiplication and activation functions return later in Part 5. Attention and decoding algorithms return from P1-11 through P1-14 and in Part 6.
 
@@ -239,43 +237,16 @@ Inference applies the trained model to that input.
 
 The model is not retrained immediately on this new sentence. In ordinary inference, it uses learned values to produce output.
 
-## What to Remember from This Section
-
-Inference is the process of running a trained model so that it produces output for a new input.
-
-> training changes internal values  
-> inference uses the changed values
-
-In traditional machine learning, inference may look like the process that creates a prediction. In an LLM, it may look like the process that generates a response. But both share the same larger structure: a trained model is applied to new input.
-
-When reading an AI system, it helps to separate these three moments:
-
-> when the model is trained  
-> when the model is run through inference  
-> when model output is used in a larger service decision
-
-Keeping those moments separate reduces confusion such as `Is the AI learning while it answers?`, `Is the model output already the business decision?`, or `Is inference the same as reasoning?`
-
-The same distinction also makes later chapters easier to read. When we reach search, probability-like scores, and LLM generation settings, we still need to ask the same question first: are we looking at the model’s output stage itself, or at a larger service step that interprets and uses that output?
-
 ## Checklist
 
-- Explain inference as the execution process that uses a trained model.
-- Read inference as `running the model`, `applying the model`, or `executing output creation`.
-- Distinguish training from inference.
-- Explain that inference usually does not change model parameters.
-- Connect traditional machine-learning prediction with LLM response generation in one larger structure.
-- Explain why inference output is not the same thing as the whole business-handling process.
-
-## When Should This View Come First?
-
-Recall this section when the word `inference` starts to feel larger than `running a trained model on new input`.
-
-- when you need to separate `training`, `inference`, and `post-processing`
-- when you are tempted to think the model keeps relearning immediately while it answers a user
-- when you need to explain why model output, service routing, policy checking, and human review are not all the same stage
-
-In those moments, return first to the smallest safe definition: inference is the stage where a trained model is run on new input to produce output.
+- I can explain inference as the process of applying a trained model to new input and producing output.
+- I can explain the difference between training and inference.
+- I can explain that model parameters usually do not change during inference.
+- I can understand traditional machine-learning prediction and LLM response generation within the same larger structure.
+- I can distinguish model output from the final decision of a business system.
+- I can explain why inference and reasoning should not be treated as the same term; that difference is organized separately in 5.3.
+- I can explain that inference runs a trained model to produce output for a new input, and that `training changes internal values while inference uses those changed values`.
+- I can distinguish the moment when a model is trained, the moment when it is run through inference, and the moment when model output is connected to a service decision.
 
 ## Sources and Further Reading
 

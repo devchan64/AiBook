@@ -1,7 +1,7 @@
 # P1-5.1 학습(learning)은 무엇을 바꾸는가
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 4장에서는 현실 문제를 모델이 다룰 수 있는 입력(input), 출력(output), 특징(feature), 표현(representation), 파라미터(parameter)의 관계로 정리했습니다.
 
@@ -114,8 +114,6 @@ Deep Learning Book은 Tom Mitchell의 정의를 소개하며, 어떤 프로그�
 > 딥러닝: 어떤 구조로 표현과 파라미터를 학습하는가?
 
 여기서는 지도학습 예시로 내부 값 조정의 직관을 잡습니다. 강화학습과 딥러닝의 세부 차이는 P1-8과 P1-9, 그리고 Part 4와 Part 5에서 다시 다룹니다.
-
-## 이 절의 범위
 
 5.1은 학습(learning)과 훈련(training)의 직관을 설명하는 절입니다. 손실 함수(loss function), 경사하강법(gradient descent), 역전파(backpropagation), 옵티마이저(optimizer)의 수식과 구현은 Part 4와 Part 5에서 다룹니다.
 

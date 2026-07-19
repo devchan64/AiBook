@@ -1,7 +1,7 @@
 # P1-5.1 学习(learning)会改变什么
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 第 4 章已经把现实问题整理成模型可处理的 `input`、`output`、`feature`、`representation` 与 `parameter` 关系。
 
@@ -114,8 +114,6 @@
 > deep learning：表征和参数是通过什么结构学出来的？
 
 这里仍然先以监督学习例子建立“内部值被调整”的直觉。强化学习和深度学习的更细差别，会在 P1-8、P1-9，以及 Part 4、Part 5 再回来。
-
-## 本节范围
 
 5.1 讲的是 `learning` 与 `training` 的直觉，不会深入 `loss function`、`gradient descent`、`backpropagation`、`optimizer` 的公式和实现。那些内容会在 Part 4 和 Part 5 再展开。
 
@@ -265,7 +263,7 @@ Google 词汇表会把 `gradient descent` 解释成：通过反复调整权重�
 
 所以在深度学习里，学习不只是改变最后一步的输出标准，也可能改变中间表征的生成方式。正因如此，深度学习里比起“人是不是手工设计了 feature”，更常关注“模型能不能自己学出有用的 representation”。
 
-不过，这里不会深入讲 representation learning 的内部结构。P1-3.3 与 Part 5 会再回到这件事。
+这里先抓住 `中间表征也会一起改变` 这个视角。它怎样继续连到隐藏表征(hidden representation)、embedding，以及深层结构的作用，会在 `P1-3.3` 和 Part 5 再回来。
 
 ## 拟合(fitting)这个词也会一起出现
 
@@ -309,8 +307,8 @@ Google 词汇表会把 `gradient descent` 解释成：通过反复调整权重�
 
 当然，真实系统里可能还会出现在线学习、持续学习、缓存、检索或工具调用等更复杂的结构。但这条基础区分依然有用：
 
-> 使用阶段产生输出 = inference  
-> 收集数据后重新调整模型 = training 或 retraining
+> training 改变值
+> inference 使用已经改变的值
 
 5.2 会把 inference 单独展开来看。
 

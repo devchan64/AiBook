@@ -1,7 +1,7 @@
 # P1-5.3 区分与 inference 相关的术语
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.16`
+> Version: `v2026.07.19`
 
 5.2 已经把 `inference` 说明成：把训练好的模型应用到新输入上，并产生输出的执行过程。但在真实 AI 文档里，这一个词常常会和不同翻译、日常表达以及相邻概念在多种语言中重叠。
 
@@ -16,8 +16,6 @@
 > generation
 
 这一节的目标，不是给这些词下一个完备的哲学定义，而是建立一种阅读标准：当你读 AI 文档时，先问 `现在这句话说的是模型执行、思考过程，还是输出结果？`
-
-## 这一节的范围
 
 这里不会覆盖逻辑学、统计学或认知科学里全部的 `inference`。这里也不是判断 LLM 是否真的像人一样思考的地方。
 
@@ -200,3 +198,5 @@ Google 的 glossary 也会说明：statistics 里的 inference 意义有些不�
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
+- Stanford Encyclopedia of Philosophy, James Hawthorne, [Inductive Logic](https://plato.stanford.edu/entries/logic-inductive/){: target="_blank" rel="noopener noreferrer" }, substantive revision 2025-02-24, 确认日期: 2026-07-19.
+- OpenStax, Barbara Illowsky and Susan Dean, [Introductory Statistics, Chapter 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 2013-09-19, 确认日期: 2026-07-19.
