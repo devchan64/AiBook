@@ -1,7 +1,7 @@
 # P3-9.10 延迟确认的标签和未闭合的负标签应该如何区分
 
 > Section ID: `P3-9.10`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在选择[目标标签候选（target candidate）](/AiBook/en/reference/concept-glossary/#glossary-target-candidate)时，必须区分`结果什么时候才算确认`，以及`是否已经观察得足够久，以至于可以贴 0 标签`。如果把这两件事混在一起，最近事件就会过早地看起来像 0，或者还处于临时状态的值会被误读成确认标签。标签确认延迟和观察尚未完成的负例，是两种不同问题，所以必须先分开。
 
@@ -33,5 +33,6 @@
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 确认日 2026-07-08。本节对`观察未完成的负例`的解释，是把 glossary 中对 proxy label 的说明扩展到运营观察完结性的语境里来使用。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned state overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`。用于确认术语依据：标签是一个样本的答案或结果部分，而 proxy label 是在数据集中无法直接取得标签时用来近似实际标签的数据。本节对`观察未完成的负例`的解释，是把 proxy label 的说明扩展到运营观察完结性的语境里来使用。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*。用于确认 provenance 视角下应保留处理步骤、可复现性、版本管理和派生关系。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023。用于区分`已闭合的 0`和`尚未观察到的状态`：如果预测时点之后缺少足够的追踪记录，部分样本的 class label 可能仍然无法被观察到。 [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

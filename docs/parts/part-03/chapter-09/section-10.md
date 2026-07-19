@@ -1,7 +1,7 @@
 # P3-9.10 늦게 확정되는 라벨과 닫히지 않은 음성 라벨은 어떻게 구분하는가
 
 > Section ID: `P3-9.10`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate)를 정할 때는 `언제 결과가 확정되는가`와 `0 라벨을 붙일 만큼 충분히 관측했는가`를 구분해야 합니다. 이 둘을 섞으면 최근 사건이 과하게 0으로 보이거나, 아직 임시 상태인 값을 확정 라벨처럼 읽기 쉽습니다. 라벨 확정 지연과 관측 미완료 음성은 다른 문제이므로, 이 둘을 먼저 분리해 두어야 합니다.
 
@@ -33,6 +33,6 @@
 
 ## 출처와 참고 자료
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 확인일 2026-07-08. 이 절의 `관측 미완료 음성` 해석은 glossary의 proxy label 설명을 운영 관측 완결성 문맥으로 확장해 적용한 것입니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned state overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
-- Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023. 예측 시점 뒤 충분한 추적 기록이 없으면 일부 예시의 class label이 관측되지 않을 수 있다는 설명을, `닫힌 0`과 `아직 관측되지 않은 상태`를 구분하는 근거로 참고했다. 확인일 2026-07-19. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`. 라벨이 예시의 답 또는 결과 부분이며, 직접 라벨을 볼 수 없을 때 proxy label이 실제 라벨을 근사하는 데이터라는 용어 기준을 확인하는 데 참고했습니다. 이 절의 `관측 미완료 음성` 해석은 proxy label 설명을 운영 관측 완결성 문맥으로 확장해 적용한 것입니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. 처리 단계, 재현 가능성, 버전 관리, 파생 관계를 provenance 관점에서 남기는 기준을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023. 예측 시점 뒤 충분한 추적 기록이 없으면 일부 예시의 class label이 관측되지 않을 수 있다는 설명을, `닫힌 0`과 `아직 관측되지 않은 상태`를 구분하는 근거로 참고했습니다. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

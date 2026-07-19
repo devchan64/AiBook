@@ -1,7 +1,7 @@
 # P3-9.10 How Should Delayed Labels and Not-Yet-Closed Negative Labels Be Distinguished
 
 > Section ID: `P3-9.10`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 When choosing a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate), you need to distinguish `when a result becomes confirmed` from `whether it has been observed enough to attach a 0 label`. If these are mixed, recent events can look too easily like zeros, or values still in a temporary state can be read like confirmed labels. Delayed label confirmation and incompletely observed negatives are different problems, so they need to be separated first.
 
@@ -33,5 +33,6 @@ So what matters here is not `a technique for splitting 0 and 1 more finely`, but
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, accessed 2026-07-08. In this section, the interpretation of `incompletely observed negatives` extends the glossary's proxy-label idea into an operational observation-completeness context. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned state overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`. Used to check the term basis that a label is the answer or result part of an example and that a proxy label approximates labels not directly available in a dataset. In this section, the interpretation of `incompletely observed negatives` extends the proxy-label idea into an operational observation-completeness context. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for preserving processing steps, reproducibility, versioning, and derivation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Corbin, Baiocchi, Chen, *Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection*, 2023. Used as evidence for distinguishing `closed 0` from `not yet observed`, because class labels may remain unobserved when enough follow-up records after prediction time are missing. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
