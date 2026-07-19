@@ -1,7 +1,7 @@
 # P3-9.2 为什么有些问题应该一直保留为比较报告
 
 > Section ID: `P3-9.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 把所有现实问题都硬塞进预测问题里，并不是好的数据建模。有些情况下，比较报告更诚实，也更符合当前数据状态。尤其是在原因标签很弱，或者判断者真正想看的不是`正确分类`，而是`现在先把该看的对象挑出来`时，更是如此。这里也要一起整理这样一种可能：有些问题不往上提升，反而一直保留成比较报告会更正确。
 
@@ -61,6 +61,7 @@
 
 ## 来源与参考资料
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `proxy labels`, `label`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period。用于确认基准时期或时间点可以作为比较参照这一用法。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline。用于确认初始测量值可以作为后续变化的比较基准这一说明。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google, *Machine Learning Glossary*, `proxy labels`, `label`。用于确认标签和代理标签的含义，以及为什么要谨慎处理代理标签。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Lakkaraju, Kleinberg, Leskovec, Ludwig, Mullainathan, *The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables*, KDD 2017。用于确认当观测结果受到先前人工决策选择时，评估和问题设定为什么可能被扭曲。 [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
