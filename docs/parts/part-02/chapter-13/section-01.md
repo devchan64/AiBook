@@ -1,7 +1,7 @@
 # P2-13.1 그래프(plot)는 무엇을 드러내는가
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 계산을 확인했고, Part 2 Chapter 12에서는 Pandas `DataFrame`으로 표 형식 데이터를 읽었습니다. 이제 같은 숫자를 그림으로 확인합니다.
 
@@ -16,20 +16,6 @@ Part 2 Chapter 11에서는 NumPy 배열(array)로 계산을 확인했고, Part 2
 그래프(plot)는 숫자를 예쁘게 꾸미는 장식이 아니라, 표에서 바로 보이지 않는 모양(shape), 변화(trend), 관계(relationship), 분포(distribution)를 확인하는 도구입니다. 지금 이 도구를 먼저 잡아 두어야 Part 3에서 학습 곡선, 오류 분포, 변수 관계를 `숫자 목록`이 아니라 `해석 가능한 모양`으로 읽을 수 있습니다.
 
 여기서는 `그래프(plot)`, `Figure`, `Axes`, `분포(distribution)`, `이상값(outlier)`의 기본 구분을 설명합니다. 앞 장의 Pandas가 그 숫자 묶음이 어떤 사례와 변수의 표로 읽혀야 하는가를 다뤘다면, 여기서는 그 표에서 바로 안 보이는 변화와 관계를 어떤 모양으로 확인할지 읽습니다. 그래프는 결과를 꾸미는 단계가 아니라, loss의 변화, 분포의 쏠림, 변수 사이 관계처럼 표에서 놓치기 쉬운 패턴을 먼저 확인하는 단계입니다. 다음 Chapter 14에서는 이 그래프를 보고 무엇을 바꾸었는지, 무엇이 예상과 달랐는지 기록으로 남깁니다. 이후 차트 선택과 저장으로 이어질 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 확인합니다.
-
-## 이 절의 범위
-
-여기서는 다음 질문에 답합니다.
-
-- 왜 숫자 표를 그래프로 바꾸는가?
-- 그래프는 어떤 종류의 정보를 드러내는가?
-- Matplotlib에서 `Figure`와 `Axes`는 대략 무엇인가?
-- 어떤 질문에 어떤 형태의 그래프가 어울리는가?
-- 그래프를 볼 때 무엇을 조심해야 하는가?
-
-이 절에서는 그래프를 `표에서 바로 안 보이는 변화, 관계, 분포를 읽는 도구`로 먼저 닫고, 그래프 이름 암기보다 어떤 질문을 그림으로 확인할지를 붙잡는 데 집중합니다.
-
-대신 이번 절에서 바로 더 구체화할 질문도 분명합니다. 기본 차트 선택은 다음 P2-13.2에서, 여러 그래프 배치와 저장은 P2-13.3에서 다시 다룹니다.
 
 ## 이 절의 목표
 
@@ -337,6 +323,6 @@ P2-13.2에서는 이런 기본 그래프를 조금 더 구체적으로 다룹니
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Figure`, `Axes`, `plt.subplots()`를 구분해 설명하는 기준으로 확인했습니다.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 막대 그래프, 히스토그램을 질문별 기본 차트로 분류하는 부분의 참고 자료입니다.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 기반 예제가 Matplotlib 입문 코드에서 어떻게 쓰이는지 확인하는 참고 자료입니다.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Figure`, `Axes`, `plt.subplots()`를 구분해 설명하는 기준으로 확인했습니다.
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 막대 그래프, 히스토그램을 질문별 기본 차트로 분류하는 부분의 참고 자료입니다.
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 기반 예제가 Matplotlib 입문 코드에서 어떻게 쓰이는지 확인하는 참고 자료입니다.

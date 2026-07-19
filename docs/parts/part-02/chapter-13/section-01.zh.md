@@ -1,7 +1,7 @@
 # P2-13.1 图表（plot）会揭示什么
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2 Chapter 11，我们用 NumPy 数组确认计算；在 Part 2 Chapter 12，我们用 Pandas `DataFrame` 读取表格数据。现在，我们把同样的数字改成图形来观察。
 
@@ -16,18 +16,6 @@
 图表不是把数字装饰得更好看的工具。它是用来检查表格里不容易立刻看出的形状（shape）、变化（trend）、关系（relationship）和分布（distribution）的工具。先抓住这个工具，到了 Part 3，你才能把学习曲线、误差分布、变量关系读成`可解释的形状`，而不只是`一串数字`。
 
 本节说明 `plot`、`Figure`、`Axes`、分布（distribution）、异常值（outlier）的基本区分。上一章 Pandas 讨论的是，一组数字应该怎样读成“案例与变量的表”；这一节讨论的是，对于表里不直接显现的变化和关系，要用什么样的形状去确认。作图不是结果美化阶段，而是先检查那些在表格中容易漏掉的模式，例如 loss 的变化、分布是否偏斜、变量之间是否有关联。Chapter 14 会继续讨论：看完这些图之后，怎样把“改了什么”“哪里和预期不同”记录下来。继续到图表选择和保存时，也请一起参考[概念词汇表](/AiBook/en/reference/concept-glossary/)。
-
-## 本节范围
-
-本节不解释 Matplotlib 的全部功能。基本图表的选择会在 P2-13.2 继续讨论，多图排版与保存会在 P2-13.3 再处理。颜色、风格、出版级布局、高级可视化设计等内容则不放进当前正文范围。
-
-本节回答以下问题。
-
-- 为什么要把数字表变成图表？
-- 图表会揭示什么类型的信息？
-- 在 Matplotlib 中，`Figure` 和 `Axes` 大致是什么？
-- 什么问题适合什么形态的图表？
-- 看图时应当注意什么？
 
 ## 本节目标
 
@@ -304,14 +292,6 @@ plt.show()
 
 P2-13.2 会更具体地处理这些基础图表。本节先把图表接受为“检查数字形状的工具”。
 
-## 本节记住的视角
-
-- 图表会揭示那些在数字表里不容易立刻看出的形状、变化、关系与分布。
-- 表格擅长精确值，图表擅长检查模式。
-- 在 Matplotlib 中，`Figure` 是整张图，`Axes` 是绘制数据的坐标区域。
-- 不要先背图表类型，而要先决定想向数据提出什么问题。
-- 图表是判断的起点，不会自动证明原因或结论。
-
 如果把本节的角色压缩成一句话，就是下面这样。
 
 | 前面刚带来的东西 | 这一节在做什么 | 下一章会继续什么 |
@@ -341,6 +321,6 @@ P2-13.2 会更具体地处理这些基础图表。本节先把图表接受为“
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是区分 `Figure`、`Axes` 与 `plt.subplots()` 的依据。
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图、柱状图和直方图对应到常见数据问题的参考资料。
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } 这是确认入门示例中 `pyplot` 风格代码用法的参考资料。
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是区分 `Figure`、`Axes` 与 `plt.subplots()` 的依据。
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图、柱状图和直方图对应到常见数据问题的参考资料。
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } 这是确认入门示例中 `pyplot` 风格代码用法的参考资料。

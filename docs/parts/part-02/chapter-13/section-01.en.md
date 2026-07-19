@@ -1,7 +1,7 @@
 # P2-13.1 What Does a Plot Reveal?
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Part 2 Chapter 11, we checked calculations with NumPy arrays. In Part 2 Chapter 12, we read tabular data with a Pandas `DataFrame`. Now we look at the same numbers as pictures.
 
@@ -16,18 +16,6 @@ Tables are good for exact values. But once the number of values grows, it become
 A plot is not decoration that makes numbers look pretty. It is a tool for checking shape, trend, relationship, and distribution that do not appear immediately in a table. You need this tool first so that, in Part 3, you can read learning curves, error distributions, and relationships between variables not as a `list of numbers` but as `interpretable shapes`.
 
 This section explains the basic distinctions among `plot`, `Figure`, `Axes`, `distribution`, and `outlier`. If the previous chapter asked how a bundle of numbers should be read as a table of cases and variables, this section asks what kind of shapes should be used to inspect changes and relationships that do not stand out directly in the table. Plotting is not the stage where you decorate results. It is the stage where you first check patterns that are easy to miss in a table, such as loss changes, skewed distributions, and relationships between variables. In Chapter 14, we will look at how to leave a record of what changed and what differed from expectation after seeing these plots. When you continue to chart choice and saving results, also check the [Concept Glossary](/AiBook/reference/concept-glossary/).
-
-## Scope of This Section
-
-This section does not explain every Matplotlib feature. Basic chart selection returns in P2-13.2, and arranging multiple plots and saving them returns in P2-13.3. Advanced topics such as color, style, publication layout, and high-end visualization design stay outside the current main text.
-
-This section answers the following questions.
-
-- Why turn a table of numbers into a plot?
-- What kinds of information does a plot reveal?
-- In Matplotlib, what are `Figure` and `Axes` at a rough level?
-- What kinds of plots fit what kinds of questions?
-- What should you watch out for when reading plots?
 
 ## Goals of This Section
 
@@ -304,14 +292,6 @@ This code does not calculate the average score. Instead, it checks where the sco
 
 P2-13.2 handles these basic plots a bit more concretely. In this section, first accept plots as `tools for checking the shape of numbers`.
 
-## Perspective to Remember from This Section
-
-- A plot reveals shapes, changes, relationships, and distributions that do not stand out immediately in a table of numbers.
-- Tables are strong at exact values, and plots are strong at checking patterns.
-- In Matplotlib, `Figure` is the whole picture, and `Axes` is the coordinate area where data are drawn.
-- Rather than memorizing chart types first, decide first what question you want to ask the data.
-- A plot is the starting point of judgment and does not automatically prove a cause or conclusion.
-
 If you compress the role of this section into one line, it becomes the following.
 
 | What Came Right Before | What This Section Does | What the Next Chapter Continues |
@@ -341,6 +321,6 @@ The checkable result becomes clearer when you draw the same data as a line plot.
 
 ## Sources and References
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for distinguishing `Figure`, `Axes`, and `plt.subplots()`.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } Used for mapping line, scatter, bar, and histogram plots to common data questions.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } Used to verify the introductory `pyplot`-style examples.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for distinguishing `Figure`, `Axes`, and `plt.subplots()`.
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } Used for mapping line, scatter, bar, and histogram plots to common data questions.
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-07-20. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } Used to verify the introductory `pyplot`-style examples.
