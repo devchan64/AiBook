@@ -1,7 +1,7 @@
 # P1-16.2 工作自动化(work automation)与搜索(search)
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-16.1 中，我们把 AI 再学习文档化项目当作个人学习与文档化的案例。现在把视野扩大到工作场景。
 
@@ -105,6 +105,6 @@ AI 工具可以很快生成初稿。但初稿快，并不自动意味着整份�
 
 ## 来源与参考资料
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-07-19.

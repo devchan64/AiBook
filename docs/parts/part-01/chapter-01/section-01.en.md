@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -17,13 +17,7 @@ This section organizes the following questions.
 - Inside what larger map do rule-based AI, machine learning, deep learning, and generative AI sit?
 - Why does confusion arise when recent LLM experience is treated as if it meant all of AI?
 
-This section does not go deeply into the following.
-
-- detailed structures of machine-learning algorithms
-- internal implementation of deep-learning training
-- product comparison and up-to-date lineage of generative AI models
-
-Those technical flows are recovered in Part 1 Chapter 2, Part 1 Chapter 3, and from Part 4 onward. Here the focus is on fixing one baseline first: `AI is the widest outer category`.
+This section first closes the point that `AI is the widest outer category`. The detailed technical flows continue in Part 1 Chapter 2, Part 1 Chapter 3, and from Part 4 onward. Here the focus is on placing terms on that large map.
 
 ## Goal of This Section
 
@@ -117,6 +111,8 @@ For that reason, this book does not read AI only as “machines acting like huma
 
 This separation is a safety device that prevents dictionary-style definition from being mixed with historical change. In dictionary terms, AI is a computer system or field that performs functions associated with human intelligence. Historically, the implementation of those functions expanded through rules, search, probability, data learning, and deep learning.
 
+The reason `DSS/BI/DW/OLAP` appears here is to show early that data modeling does not suddenly appear later as a separate technique. It grows on top of an older flow that collected data and connected it to decision-making. Memorizing every abbreviation is not the goal. For the present context, it is enough to read `DSS (decision support system)` as a system that supports decisions, `BI (business intelligence)` as a structure for reading data and using it in business judgment, `DW (data warehouse)` as a storage structure that collects data, and `OLAP (online analytical processing)` as a way to analyze collected data by several criteria.
+
 ### The Scope of AI Changes by Context
 
 The word AI is used differently depending on context.
@@ -179,7 +175,7 @@ Suppose a loan-review system uses only a hand-written rule table to make a first
 - You can view an AI system in terms of input, goal, output, and impact.
 - You can distinguish between a generated result sounding natural and a generated result being true.
 - You can explain that AI is not one product but a broad category of systems with inputs, goals, and outputs.
-- You can return to `AI is the widest outer category` first when rule-table systems, chatbots, recommendation systems, prediction systems, and search systems need to be placed on one map.
+- You can explain that if AI is defined only through recent generative-AI experience, it becomes easy to miss other layers such as rule-based systems, search, recommendation, and prediction.
 
 ## Sources and Further Reading
 
@@ -188,6 +184,8 @@ Suppose a loan-review system uses only a hand-written rule table to make a first
 - Merriam-Webster, [Artificial intelligence Definition & Meaning](https://www.merriam-webster.com/dictionary/artificial%20intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
 - Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
 - Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- 汉典, [人工智能](https://www.zdic.net/hans/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- A. M. Turing, [Computing Machinery and Intelligence](https://academic.oup.com/mind/article/LIX/236/433/986238){: target="_blank" rel="noopener noreferrer" }, Mind, Volume LIX, Issue 236, 1950-10-01, accessed 2026-07-19.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, accessed 2026-06-22.
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, accessed 2026-06-22.

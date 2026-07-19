@@ -1,7 +1,7 @@
 # P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 covered search, knowledge representation, and probabilistic reasoning. This section turns to the next flow. Why did the center of AI explanation move more and more toward models that learn from data?
 
@@ -17,13 +17,7 @@ This section organizes the following questions.
 - Through what historical flow are machine learning, deep learning, and generative AI connected?
 - Why did data, features, representations, models, and parameters become more and more important?
 
-This section does not go deeply into the following.
-
-- detailed procedures of supervised and unsupervised learning algorithms
-- neural-network structures and the formulas of backpropagation
-- product-level implementation differences among LLM services
-
-The detailed learning structure returns in Parts 3, 4, 5, and 6. Here the focus is first on the large historical question: `why did the center of explanation move toward learning?`
+This section first closes `why the center of explanation moved toward data and learning`. Detailed learning structures continue in Part 3, Part 4, Part 5, and Part 6. Here the focus is on organizing that move as one large historical flow.
 
 ## Goal of This Section
 
@@ -256,6 +250,8 @@ This case ties together the historical flow of 2.3 in one sentence. It is not th
 - I can explain that generative AI is a category of models and services that generate new content, and that generated content is not automatically factual.
 - I can treat LLMs as a representative case of generative AI without equating them with generative AI as a whole.
 - I can view a modern AI service not as one model alone, but as a workflow combining rules, search, data, models, and verification.
+- I can explain that machine learning, deep learning, and generative AI are different names, but can be read as one flow of `rules -> data learning -> representation learning -> generation`.
+- I can explain that newer approaches did not completely replace earlier ones, and that rules, search, knowledge representation, probabilistic reasoning, data mining, machine learning, deep learning, and generative AI can be mixed inside real systems.
 
 ## Sources and Further Reading
 

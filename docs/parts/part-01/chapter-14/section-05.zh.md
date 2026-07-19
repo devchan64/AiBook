@@ -1,7 +1,7 @@
 # P1-14.5 harness 与评估执行环境
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-14.4 中，我们把 MCP 看成标准化 AI 应用连接外部工具与数据的协议。接下来问题会更偏向实务：
 
@@ -28,7 +28,7 @@
 
 ## 本节范围
 
-这里说明 `harness`、`trace`、`log`、`evaluation`、`grader` 的基本作用。会涉及这个词从原始直觉到软件 test harness，再到 AI 执行 harness 的延伸，但不会深入讨论 `agent harness` 的严格学术定义争论。具体 SDK 代码、仪表盘用法、评估 API 实现与大规模运维成本不在当前范围内；成本、延迟、运维会在 P1-14.6 再接着讨论。
+这里说明 `harness`、`trace`、`log`、`evaluation`、`grader` 的基本作用。成本(cost)、延迟(latency)、运维(operation)约束会在 P1-14.6 再讨论。这里先集中处理 `怎样让 agent 执行变得可观察、可比较` 这个问题。
 
 `harness`、`trace`、`log`、`evaluation`、`grader`、`reproducibility` 是不同的执行验证要素。它们的角色可以先分成下面这样：
 
@@ -296,6 +296,6 @@ harness 与 evaluation 有助于把这些变化看清楚。
 - Merriam-Webster, [Harness](https://www.merriam-webster.com/dictionary/harness){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
 - Online Etymology Dictionary, [Harness](https://www.etymonline.com/word/harness){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
 - Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106){: target="_blank" rel="noopener noreferrer" }, arXiv preprint, 2026, 确认日期: 2026-06-23.
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.

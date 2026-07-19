@@ -1,7 +1,7 @@
 # P1-15.2 版权(copyright)与训练数据(training data)
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-15.1 中，我们看过当 AI 结果影响人和社会时，应如何理解偏见(bias)、安全性(safety)、责任(accountability)。接下来问题会更具体：
 
@@ -185,9 +185,9 @@ AI 草稿始终需要人工审查。“是 AI 写的”并不会减少责任。
 
 ## 来源与参考资料
 
-- 国家法令信息中心, [著作权法](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, 生效日期 2026-05-11, 确认日期: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, pre-publication version, 2025-05-09, 确认日期: 2026-06-23.
-- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, 确认日期: 2026-06-23.
-- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 确认日期: 2026-06-23.
-- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 确认日期: 2026-06-23.
+- 国家法令信息中心, [著作权法](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, 生效日期 2026-05-11, 确认日期: 2026-07-19.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, pre-publication version, 2025-05-09, 确认日期: 2026-07-19.
+- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, 确认日期: 2026-07-19.
+- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 确认日期: 2026-07-19.
+- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 确认日期: 2026-07-19.

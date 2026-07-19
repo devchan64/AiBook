@@ -1,7 +1,7 @@
 # P1-14.3 agent：把目标(goal)连接成工作流(workflow)的结构
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-14.2 中，我们已经区分了 RAG 与工具使用(tool use)。
 
@@ -209,6 +209,6 @@ agent 很强，但失败方式也更复杂。
 
 ## 来源与参考资料
 
-- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 确认日期: 2026-06-23.
-- OpenAI, [Building agents](https://developers.openai.com/tracks/building-agents/){: target="_blank" rel="noopener noreferrer" }, OpenAI Docs, 确认日期: 2026-06-23.
-- OpenAI, [Orchestrating multiple agents](https://openai.github.io/openai-agents-python/multi_agent/){: target="_blank" rel="noopener noreferrer" }, OpenAI Agents SDK Docs, 确认日期: 2026-06-23.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 确认日期: 2026-07-19.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.

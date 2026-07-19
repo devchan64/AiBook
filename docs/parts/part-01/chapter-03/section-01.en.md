@@ -1,7 +1,7 @@
 # P1-3.1 Strengths and Limits of Rule-Based Systems
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 2.1 located symbolic AI and rule-based approaches historically. Section 2.3 showed that even inside the same workflow, there is a split between `parts that are easy to write as explicit policy conditions` and `parts that need to learn relations from data, such as intent classification`. This section narrows the question one step further and organizes what practical strengths rule-based systems had and where they began to show their limits.
 
@@ -9,21 +9,13 @@ The task here is not to declare rule-based AI a failed method of the past. The t
 
 In Part 1, the baseline for the strengths, limits, and modern operational role of the `rule-based system` is fixed in this section. The basic meanings of `symbolic AI`, `rule-based approach`, and `knowledge representation` were first fixed in 2.1, and are reconnected here only as much as needed to evaluate why real systems are useful in some places and difficult in others.
 
-## Scope of This Section
-
 This section organizes the following questions.
 
 - What components make up a rule-based system?
 - Where do the strengths and limits of this approach appear?
 - Why are rules still necessary in modern systems?
 
-This section does not go deeply into the following.
-
-- detailed framework structure of expert-system implementation
-- quantitative performance comparisons with machine learning
-- complete design of large policy engines
-
-The move beyond rules into learning patterns from data is recovered again in `P1-3.2`, and the difference from representation learning continues more concretely in `P1-3.3`. Operational structures in which rules and models are used together reconnect again in Parts 6 and 7.
+This section first closes `where rule-based systems are strong and where they become difficult`. The flow of learning patterns from data continues in `P1-3.2`, the difference from representation learning continues in `P1-3.3`, and operational structures where rules and models are used together continue in Parts 6 and 7.
 
 ## Goal of This Section
 
@@ -223,16 +215,13 @@ Early on, approaches that explicitly represented knowledge and performed inferen
 
 This flow is better understood as a process in which the center of research and practice moved and the roles of each approach changed. Rule-based systems did not simply disappear and get replaced by neural networks. Rather, the kinds of problems and the engineering conditions changed, and so the approaches that were used more strongly changed. Rule-based systems remain strong in explicit policy, permissions, procedure, and verification, while machine learning and deep learning became more central in many cases because they learn patterns and representations from data that are too difficult for people to write directly.
 
-Physical performance changes also mattered a great deal here. Rule-based systems could create useful systems with relatively small data and computation. Deep learning, by contrast, requires a great deal of data, large matrix operations, repeated training, and parallel processing ability. As storage became cheaper, more data accumulated, CPUs and GPUs advanced, distributed processing environments improved, and open-source training tools matured, neural-network approaches that once looked closer to research ideas became strong engineering choices that delivered practical performance.
-
-For example, the AlexNet paper jointly describes 1.2 million training images from ImageNet, a deep convolutional neural network with 60 million parameters, efficient GPU implementation, and training that used two GTX 580 GPUs. This example shows that the rise of deep learning is connected not only to a change in ideas, but also to an engineering change in which data scale and computational performance came together. The details of GPUs and deep-learning architecture return in P1-9 and Part 5.
+Physical performance changes also mattered a great deal here. Rule-based systems could create useful systems with relatively small data and computational resources. Deep learning, by contrast, needs a great deal of data, repeated training, and parallel processing ability. As storage became cheaper, more data accumulated, CPUs and GPUs advanced, distributed processing environments and open-source training tools improved, neural-network approaches that once looked closer to research ideas became stronger engineering choices that delivered practical performance. In this section, it is enough to hold the point that `the strengths of rule-based systems remain, but the center of complex pattern recognition gradually moved toward learning-based approaches`.
 
 | Change | Effect on AI approaches |
 | --- | --- |
 | more stored data and lower storage cost | more material became available for learning patterns that are difficult to write directly as rules |
-| progress in CPU, GPU, and parallel processing | the computational conditions for repeatedly training and comparing large neural networks improved |
-| distributed processing and cloud environments | it became easier to operate large-scale preprocessing, training, and evaluation pipelines |
-| open-source frameworks and benchmarks | the speed of reproducing, comparing, and improving research results increased |
+| progress in parallel processing and computational resources | the conditions for repeatedly training and comparing large learning models improved |
+| broader tool and evaluation ecosystems | the speed of reproducing, comparing, and improving research results increased |
 
 This relation can be summarized like this.
 
@@ -411,14 +400,6 @@ So to understand modern AI, it is not enough to place rule-based systems and mac
 
 > Rules take explicit procedures and constraints that must be controlled, while machine-learning models take pattern recognition, prediction, and generation problems that are too difficult for people to write fully as rules. Real AI services are built by combining the two.
 
-## What to Remember from This Section
-
-Rule-based systems are methods in which people write knowledge explicitly and the system applies those rules to produce a conclusion or action. They are strong in explainability, controllability, and reproducibility. That is why they remain important in places where clear standards matter, such as policy, permissions, business procedure, and safety constraints.
-
-But not every real-world problem can be written as rules. It is hard to pull expert tacit knowledge out into rules, rules become more complex as exceptions increase, and complex patterns in image, speech, and language are difficult for people to explain fully through rules.
-
-So the limits of rule-based systems become one important reason for the move toward machine learning. The next section takes over that transition and examines what it means to `learn patterns from data`.
-
 ## Checklist
 
 - I can explain a rule-based system by dividing it into facts, rules, the knowledge base, the inference engine, and the explanation facility.
@@ -429,16 +410,8 @@ So the limits of rule-based systems become one important reason for the move tow
 - I can distinguish rule-based systems and machine-learning systems not by superiority, but by role difference.
 - I can explain the shift of research center and role change together with data scale, computational performance, parallel processing, and tool-ecosystem change.
 - I can give examples of areas where explicit rules are still necessary even in modern systems.
-
-## When This View Should Come to Mind First
-
-Bring back the view of this section when, looking at a rule-based system, you need to judge again `is it still needed now?` or `how far can rules take responsibility here?`
-
-- when reviewing whether procedures that must always be followed, such as permissions, approvals, and safety filters, can really be handed to a model
-- when explaining problems where rules keep increasing and exception and conflict management become difficult
-- when organizing why explicit policy rules still remain together with generative AI services
-
-At that point, first divide whether `explainability and controllability` are more important, or whether `ambiguous input and complex pattern recognition` are more important. Then separate which part should be handled by rules and which part should be handled by models. That makes the role boundary much clearer.
+- I can explain that a rule-based system is a method where people write knowledge explicitly and the system applies those rules to produce a conclusion or action, and that it is strong in explainability, controllability, and reproducibility.
+- I can explain that expert tacit knowledge is hard to extract as rules, rule management becomes complex as exceptions increase, and complex patterns such as image, speech, and language have limits under rule-only handling.
 
 ## Sources and Further Reading
 

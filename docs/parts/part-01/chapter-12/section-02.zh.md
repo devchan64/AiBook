@@ -1,7 +1,7 @@
 # P1-12.2 指示(instruction)、上下文(context)、示例(example)
 
 > Section ID: `P1-12.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 12.1 中，我们把提示词(prompt)看成了“把任务条件放进当前输入中的方法”。提示词不会让模型重新学习；它只是把模型在执行(inference)时要参考的指示、上下文、示例、约束与输出格式放进输入里。
 
@@ -269,5 +269,5 @@
 ## 来源与参考资料
 
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 确认日期: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 确认日期: 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 确认日期: 2026-07-19.
 - Anthropic, [Prompt engineering overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview){: target="_blank" rel="noopener noreferrer" }, Anthropic documentation, 确认日期: 2026-06-23.

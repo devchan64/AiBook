@@ -1,7 +1,7 @@
 # P1-3.3 Rule-Based Approaches and Representation Learning
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly, and Section 3.2 examined the basic structure of learning patterns from data. This section does not explain the whole learning process again. Instead, it narrows the focus to one point: what changes when the system handles input in different forms?
 
@@ -11,21 +11,13 @@ The task here is not to explain the internal details of deep learning. It is to 
 
 In Part 1, the baseline meanings of `representation`, `vector`, `activation`, and `representation learning` are fixed in this section. The earlier structure of `example`, `label`, `training`, and `generalization` was already fixed in 3.2, and is reconnected here only as much as needed to explain what internal form the input turns into inside the model, and how that differs from rule-based approaches.
 
-## Scope of This Section
-
 This section organizes the following questions.
 
 - What is different between rule-based approaches and representation learning in the way input is handled?
 - What is the safest way to read the relation between features and representations?
 - What does it mean to say that learned representations are powerful but can be hard to interpret?
 
-This section does not go deeply into the following.
-
-- detailed formulas of internal layers and parameter learning in deep learning
-- the dimensionality of representation vectors and optimization procedures
-- full implementation of model-interpretation techniques
-
-The focus here is on organizing the distinction that `rules are outside, and representations are inside`. The more systematic organization of input, output, data, features, and parameters returns immediately in Part 1 Chapter 4.
+This section first closes the positional difference between rules and representations. The more systematic organization of input, output, data, features, and parameters continues immediately in Part 1 Chapter 4.
 
 ## Goal of This Section
 
@@ -274,6 +266,8 @@ This case reveals the key distinction of 3.3. Rules are criteria written outside
 - I can distinguish between human-designed features and model-learned representations.
 - I can explain that learned representations are powerful but can be difficult to interpret.
 - I can read rules and models not only as competitors, but as a division of responsibility.
+- I can explain that explicit rules are human-readable criteria and strong for explanation and control, but become harder to maintain as exceptions and expression diversity grow.
+- I can explain that learned representations are computable internal forms created by the model, strong for handling complex patterns and similarity, but not a rule list people can read directly.
 
 ## Sources and Further Reading
 

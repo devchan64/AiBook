@@ -1,7 +1,7 @@
 # P1-13.4 The Intuition of Vector Search Implementation
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P1-13.1 introduced embeddings, P1-13.2 introduced similarity search, and P1-13.3 introduced RAG. One practical question remains:
 
@@ -17,7 +17,9 @@ Part 1 introduces the basic distinctions among `vector-search implementation`, `
 
 ## Scope of This Section
 
-This section gives the big picture of vector-search implementation. It does not explain in formula detail specific algorithms such as `HNSW`, `FAISS`, or `product quantization`. Graph structure from Part 2 makes this topic easier later, but prior graph mastery is not required here. For now, it is enough to keep the intuition that graph-based indexes connect nearby vectors so the search path can be shortened.
+Here, this section first closes the question of `how to find nearby candidates quickly when the number of vectors becomes very large`. Names such as `HNSW`, `FAISS`, and `product quantization` return in Part 5 P5-13.1 and P5-13.2 as search storage and index-quality topics from a service perspective. Here, we keep only the implementation intuition of reducing full comparison.
+
+When Part 2 returns to the `graph` data structure, the graph-based index explanation in this section will connect more naturally. For now, it is enough to keep the intuition that nearby vectors can be connected as nodes and edges to shorten the search path.
 
 These terms belong to different layers of implementation. Their roles can first be separated like this:
 

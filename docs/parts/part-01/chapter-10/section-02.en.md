@@ -1,7 +1,7 @@
 # P1-10.2 The Intuition of Next-Output Generation
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -22,7 +22,7 @@ This does not mean every model works in exactly the same way. `Text generation`,
 
 ## Scope of This Section
 
-This section does not explain the detailed algorithms of generative AI. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2. `Next-token prediction` returns in P6-5.1. `Sampling` and `temperature` return in Part 5 P5-15.2 and Part 6 P6-5.2. The detailed structure of diffusion models is outside the current main scope of this book. Transformer structure returns in P1-11.3, Part 5 P5-14.1 and P5-14.2, and Part 6 P6-3.1. Prompts and evaluation return in P1-12.1 through P1-12.3.
+Here, this section first closes the question of whether `generation pulls out a finished artifact all at once, or builds one by continuing small output pieces`. `Tokenization` returns in Part 6 P6-1.1 and P6-1.2, `next-token prediction` in P6-5.1, `sampling` and `temperature` in Part 5 P5-15.2 and Part 6 P6-5.2, Transformer structure in P1-11.3 and Parts 5 and 6, and prompts and evaluation in P1-12.1 through P1-12.3. The detailed structure of diffusion models is not introduced here first.
 
 These terms can all sound like one common generation algorithm at first. A quick distinction helps:
 

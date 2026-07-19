@@ -1,7 +1,7 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.18`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
@@ -17,13 +17,7 @@ This section organizes the following questions.
 - What part can be explained through inclusion relation, and what part becomes mixed differently inside real services?
 - Why does confusion arise when the terms are narrowed into something like `AI = LLM`?
 
-This section does not go deeply into the following.
-
-- detailed learning algorithms of machine learning and deep learning
-- internal structure of LLMs and token-level computation
-- feature comparison among commercial generative-AI products
-
-The internal structures at each level are recovered in Part 4 for machine learning, Part 5 for deep learning, and Part 6 for LLMs and generative AI. Here the focus is on distinguishing the `place` of each term first.
+This section first closes the point that `AI, machine learning, deep learning, generative AI, and LLM are terms from different levels`. The internal structure of each level continues in Part 4, Part 5, and Part 6. Here the focus is first on distinguishing the `place` of each term.
 
 ## Goal of This Section
 
@@ -45,7 +39,7 @@ This section is the baseline for the term relationship that Part 1 will keep reu
 
 ## Main Learning Points
 
-The important task in this scene is not memorizing inclusion relation but separating conceptual levels stably. The three standards below form the overall map.
+What should remain first from this section is that the five terms are not all the same kind of name. The three standards below form the overall map.
 
 | Standard | Why it matters | Level of understanding needed here |
 | --- | --- | --- |
@@ -53,7 +47,7 @@ The important task in this scene is not memorizing inclusion relation but separa
 | Generative AI is a term about `what is produced` | It prevents deep learning, LLMs, and service experience from being collapsed into one block. | Distinguish generative AI as an output category that produces text or images. |
 | LLMs are representative examples of generative AI, but not the whole of AI | It prevents recent usage experience from shrinking the whole field too much. | Distinguish clearly that `AI` is not the same thing as `LLM`. |
 
-The first distinction that should remain from this section is that these five terms are not all the same kind of name. `AI` is the broadest field and system category. `Machine learning` is a learning approach that improves performance through data. `Deep learning` is a method inside that approach that strongly uses neural networks and representation learning. `Generative AI` is an output category that produces new content. `LLM` is a representative language-model family inside that space. In other words, read them as `AI as outer category`, `machine learning and deep learning as learning approaches`, `generative AI as output category`, and `LLM as a language-model family`.
+`AI` is the broadest field and system category. `Machine learning` is a learning approach that improves performance through data. `Deep learning` is a method inside that approach that strongly uses neural networks and representation learning. `Generative AI` is an output category that produces new content. `LLM` is a representative language-model family inside that space. In other words, read them as `AI as outer category`, `machine learning and deep learning as learning approaches`, `generative AI as output category`, and `LLM as a language-model family`.
 
 ## Detailed Learning
 
@@ -176,14 +170,6 @@ The cases below are meant as a practice in dividing whether something is `AI`, `
 
 The point of this exercise is not memorizing inclusion relations. The point is to separate whether the thing in front of you is being named as a field, a learning approach, a model family, or an output category. The same service can still be described at several levels at once: as a generative-AI service, as a system containing an LLM, and as an application where retrieval and rules are attached together.
 
-## What to Remember from This Section
-
-- `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` are not terms from the same conceptual level.
-- Generative AI is a broader category than LLMs, and LLMs are a representative language-model family inside it.
-- Real services do not end with one model. They should be read together with components such as retrieval, permissions, logs, and safety filters.
-
-The minimum sentence to keep at this stage is this: `AI is the widest category, generative AI is an output category, and LLM is a language-model family inside it.`
-
 ## Cases and Examples
 
 ### Case 1. Why an Image-Generation Service Is Not Fully Explained as an LLM
@@ -201,6 +187,9 @@ Suppose an internal approval system works only through human-written conditions.
 - You can explain that deep learning and generative AI are not the same term.
 - You can explain the relationship between generative AI and LLMs as `representative case, but not the whole`.
 - You can explain that a real AI service can be a combination of several components, not one model alone.
+- You can explain that `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` are not terms from the same level.
+- You can explain that generative AI is a broader category than LLMs, and that LLMs are a representative language-model family inside it.
+- You can explain that real services do not end with one model and should be read together with components such as retrieval, permissions, logs, and safety filters.
 
 ## Sources and References
 
@@ -208,4 +197,4 @@ Suppose an internal approval system works only through human-written conditions.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, checked 2026-06-22.
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-22.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, checked 2026-06-22.
-- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-22.
+- Wayne Xin Zhao et al., [A Survey of Large Language Models](https://arxiv.org/abs/2303.18223){: target="_blank" rel="noopener noreferrer" }, arXiv:2303.18223, checked 2026-06-22.

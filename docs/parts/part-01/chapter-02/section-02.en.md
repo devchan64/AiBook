@@ -1,15 +1,13 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Section 2.1 covered symbolic AI and rule-based approaches. This section takes the next question. When writing rules alone is not enough, AI had to search through possible candidates, represent the knowledge it needed, and reason about plausible conclusions under incomplete information.
 
 The task here is not to study algorithms in detail. The task is to fix why `search`, `knowledge representation`, and `probabilistic reasoning` keep returning in introductory AI, and how this flow becomes part of the background for later explanations of machine learning and deep learning.
 
 In Part 1, the baseline distinction between `search` and `probabilistic reasoning` is fixed here. `Knowledge representation` was introduced in 2.1, and is reconnected here only as much as needed to compare its role between search and probabilistic reasoning. If the term boundaries become blurry again later, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
-
-## Scope of This Section
 
 This section organizes the following questions.
 
@@ -155,7 +153,7 @@ The core of knowledge representation is the question, `what should be represente
 | `a` is a parcel | `type(a, parcel)` or `is_a(a, parcel)` | expresses what category an entity belongs to |
 | Alex gave Chris a book | `agent(event, alex)`, `recipient(event, chris)`, `patient(event, book)` | creates an event as an entity and expresses participant relations |
 
-When Poole and Mackworth explain a knowledge graph, they discuss triple representation composed of subject, verb, and object. In that style, a fact such as “Christine Sinclair is a citizen of Canada” can be represented as a `subject-relation-object` connection. The important point is that representation is not just a storage format. It is a structure that makes certain questions easier to ask.
+When Poole and Mackworth explain a knowledge graph, they discuss triple representation composed of subject, verb, and object. Borrowing only that structure, you can read a fact such as `item A is in warehouse B` as a `subject-relation-object` connection. The important point is that representation is not just a storage format. It is a structure that makes certain questions easier to ask.
 
 The Stanford Encyclopedia of Philosophy entry on logic-based AI explains that early expert systems relied on large procedural rule sets, but later the need for a separate knowledge-representation component to express background knowledge became larger. In other words, AI did not only think about executing rules. It also thought about how to structure rules, facts, relations, and background knowledge.
 
@@ -174,12 +172,12 @@ The following questions are difficult to handle through simple true/false rules 
 | detect an obstacle from sensor data | sensor values may contain noise or missing signals |
 | predict customer churn | past behavior does not fully determine future behavior |
 
-In probabilistic reasoning, uncertain targets can be represented as random variables. Poole and Mackworth give examples such as `Coughs`, which can take true/false values, and `Distance_to_wall`, which can take continuous values. These examples show that AI does not simply collapse the uncertain world into one number. It chooses observable variables and the range of possible values they can take.
+In probabilistic reasoning, uncertain targets can be represented as random variables. For example, a variable such as `Has_cough` can take true/false values, and a variable such as `Sensor_distance` can take continuous values. These examples show that AI does not simply collapse the uncertain world into one number. It chooses observable variables and the range of possible values they can take.
 
 | Uncertain target | Example random variable | Possible values |
 | --- | --- | --- |
-| whether a patient is coughing | `Coughs` | `true`, `false` |
-| the distance between a robot and a wall | `Distance_to_wall` | distance values greater than or equal to 0 |
+| whether a patient is coughing | `Has_cough` | `true`, `false` |
+| obstacle distance read by a sensor | `Sensor_distance` | distance values greater than or equal to 0 |
 | the shape of an object | `Shape` | `circle`, `triangle`, `star` |
 | whether a shape is filled | `Filled` | `true`, `false` |
 
@@ -187,7 +185,7 @@ Probabilistic reasoning uses probability to handle the plausibility of such conc
 
 The important point here is that probabilistic reasoning does not mean `answering at random`. Probability is a language for organizing uncertainty. If the observed evidence changes, the plausibility of the conclusion can also change.
 
-This section does not calculate Bayes' rule or Bayesian networks. The difference among probability, uncertainty, and stochastic behavior returns in Part 1 Chapter 6. Here it is enough to remember probabilistic reasoning as `a way to calculate the plausibility of possible conclusions under incomplete information`.
+Bayes' rule and Bayesian networks return later, and the difference among probability, uncertainty, and stochastic behavior returns in Part 1 Chapter 6. Here it is enough to remember probabilistic reasoning as `a way to calculate the plausibility of possible conclusions under incomplete information`.
 
 ### How the Three Flows Connect
 
@@ -246,16 +244,6 @@ Search chooses an order among multiple route candidates that reaches the goal. K
 
 The key point to read from this case is that `finding candidates`, `writing the world down`, and `judging ambiguous information` appear at the same time inside a real system.
 
-## What to Remember from This Section
-
-Symbolic AI and rule-based approaches were important starting points of AI, but problem solving needed more tools. When there are many possible candidates, search is needed. When judgment standards are complex, knowledge representation is needed. When information is incomplete, probabilistic reasoning is needed.
-
-Section 2.2 is read like this.
-
-> Search is a way of finding a path to the goal among possible candidates. Knowledge representation is a way of organizing the facts and relations needed for solving the problem so that a computer can handle them. Probabilistic reasoning is a way of calculating the plausibility of possible conclusions under incomplete information.
-
-These three flows are not only background to pre-machine-learning AI. They are still useful when understanding modern AI services. Search, recommendation, planning, policy verification, knowledge graphs, and probabilistic prediction still remain in systems today in many forms.
-
 ## Checklist
 
 - I can explain that search is a way of finding a goal by following possible states and actions.
@@ -263,6 +251,8 @@ These three flows are not only background to pre-machine-learning AI. They are s
 - I can explain that knowledge representation can include not only rules but also facts, relations, constraints, and the results of actions.
 - I can explain that probabilistic reasoning is a way of calculating the plausibility of conclusions under incomplete information.
 - I can explain that search, knowledge representation, and probabilistic reasoning begin from different questions but can be used together in real systems.
+- I can explain that search is a way to find a path to the goal among possible candidates, knowledge representation is a way to organize the facts and relations needed for solving the problem in a computer-readable form, and probabilistic reasoning is a way to calculate the plausibility of possible conclusions under incomplete information.
+- I can explain that these three flows are not only background to pre-machine-learning AI, but also remain in modern AI services in forms such as search, recommendation, planning, policy verification, knowledge graphs, and probabilistic prediction.
 
 ## Sources and Further Reading
 

@@ -1,7 +1,7 @@
 # P1-16.1 Personal Learning and Documentation
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-15 examined where AI connects to social risk, copyright, and security. P1-16 moves into application cases. The first case is an AI relearning documentation project.
 
@@ -108,5 +108,5 @@ The important point is not to treat AI as authority. AI can create drafts and co
 
 ## Sources and Further Reading
 
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, accessed 2026-06-23.
-- UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research){: target="_blank" rel="noopener noreferrer" }, 2023, accessed 2026-06-23.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, accessed 2026-07-19.
+- UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research){: target="_blank" rel="noopener noreferrer" }, 2023, accessed 2026-07-19.

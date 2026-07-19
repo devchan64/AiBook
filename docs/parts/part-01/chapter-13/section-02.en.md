@@ -1,7 +1,7 @@
 # P1-13.2 The Intuition of Similarity Search
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section P1-13.1 explained what it means to represent text as `vectors`. Once text is turned into vectors, sentences, paragraphs, and documents can be placed as computable positions.
 
@@ -243,5 +243,6 @@ Real systems sometimes combine keyword and similarity search, but this section d
 ## Sources and Further Reading
 
 - Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, accessed 2026-06-23.
+- Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, [Introduction to Information Retrieval, Chapter 6: Dot products](https://nlp.stanford.edu/IR-book/html/htmledition/dot-products-1.html){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2008, accessed 2026-07-19.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, accessed 2026-06-23.
 - Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, accessed 2026-06-23.

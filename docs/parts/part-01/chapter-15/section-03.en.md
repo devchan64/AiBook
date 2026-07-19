@@ -1,7 +1,7 @@
 # P1-15.3 Security and Privacy
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-15.2 examined how to handle other people's expression and copyrighted works. P1-15.3 turns to a parallel question:
 
@@ -131,6 +131,6 @@ The strategy of storing everything for easier debugging is not safe. Logs need r
 
 ## Sources and Further Reading
 
-- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, accessed 2026-06-23.
+- OWASP, [2025 Top 10 Risk & Mitigations for LLMs and Gen AI Apps](https://genai.owasp.org/llm-top-10/){: target="_blank" rel="noopener noreferrer" }, OWASP GenAI Security Project, accessed 2026-07-19.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, accessed 2026-07-19.

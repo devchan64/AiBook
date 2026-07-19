@@ -1,7 +1,7 @@
 # P1-14.6 AI 服务在现实中遇到的约束
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-14.5 中，我们把 harness 看成一种执行环境：它会包裹模型与工具运行，并使 trace、log、evaluation 成为可能。接下来问题会进一步转向现实：
 
@@ -17,7 +17,7 @@ AI 服务并不会因为“回答得不错”就自动成立。如果太贵，�
 
 ## 本节范围
 
-这里从导论层面说明：当 AI 服务真正被使用时，需要面对哪些约束。不深入讨论具体供应商价格表、特定模型推荐、部署基础设施设计或云成本细算。安全与隐私问题会在 Part 1 Chapter 15 再分别处理。
+这里从导论层面说明：当 AI 服务真正被使用时，需要面对哪些约束。安全政策与隐私处理会在 P1-15.1、P1-15.2、P1-15.3 再讨论。这里先集中处理 `为什么好的回答并不立刻等于可以运营成服务` 这个问题。
 
 | 术语 | 极简含义 | 本节中的作用 |
 | --- | --- | --- |
@@ -277,10 +277,10 @@ AI 服务并不是靠模型质量单独维持的。
 
 ## 来源与参考资料
 
-- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Batch API](https://developers.openai.com/api/docs/guides/batch){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Rate limits](https://developers.openai.com/api/docs/guides/rate-limits){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
-- OpenAI, [Deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-06-23.
+- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Batch API](https://developers.openai.com/api/docs/guides/batch){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Rate limits](https://developers.openai.com/api/docs/guides/rate-limits){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.
+- OpenAI, [Deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期: 2026-07-19.

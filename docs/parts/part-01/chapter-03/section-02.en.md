@@ -1,7 +1,7 @@
 # P1-3.2 What It Means to Learn Patterns from Data
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly. This section moves to the next question. If people find it difficult to write every useful rule, how can a system obtain judgment criteria from data?
 
@@ -9,21 +9,13 @@ The task here is not to explain machine-learning algorithms in detail. The task 
 
 This section organizes the basic structure of pattern learning around `example`, `feature`, `label`, `model`, `training`, and `generalization`. The internal structure of `representation` and the contrast with rule-based approaches continue in 3.3.
 
-## Scope of This Section
-
 This section organizes the following questions.
 
 - What structure is meant by the phrase “learning patterns from data”?
 - What roles do examples, features, labels, and models each play?
 - Why should pattern learning be read differently from simple memorization?
 
-This section does not go deeply into the following.
-
-- detailed calculations for algorithms such as linear regression, decision trees, and neural networks
-- mathematical comparison of overfitting-prevention techniques
-- experimental design for large-scale datasets
-
-The focus here is the basic way of thinking in machine learning. The difference between rule-based approaches and representation learning continues in P1-3.3, while concrete algorithms return in Parts 4 and 5.
+This section first closes `what structure is meant by learning patterns from data`. The difference between rule-based approaches and representation learning continues in P1-3.3, and concrete algorithms continue in Part 4 and Part 5.
 
 ## Goal of This Section
 
@@ -329,14 +321,6 @@ A learning-based approach turns this from `writing more word rules` into `findin
 
 This case shows why 3.2 comes after 3.1. It is not because rule-based classification was wrong. It is because patterns that are difficult for people to write directly increased, and a way of learning relations from data became necessary.
 
-## What to Remember from This Section
-
-Learning patterns from data does not mean storing past cases exactly as they were. In the supervised-learning example of this section, it is better understood as trying to find relations between input and output in example data, then applying those relations to new data.
-
-This shift begins from the limit of rule-based systems. In problems where people find it hard to write every exception and complex pattern directly, it becomes useful to find relations from data. But models learned from data are not perfect either. Their judgment can change depending on data quality, labels, features, evaluation, and the actual usage environment.
-
-So when understanding learning-based AI, it is not enough to look only at the model. You must also look together at how the data was created, by what criteria it was labeled and trained, and how it is validated on new data. The next section takes over this flow and organizes how rule-based approaches and representation learning occupy different positions.
-
 ## Checklist
 
 - I can explain `learning patterns from data` as the process of finding relations that can also be applied to new data.
@@ -346,16 +330,8 @@ So when understanding learning-based AI, it is not enough to look only at the mo
 - I can explain that data size, diversity, and label quality affect model performance.
 - I can explain that the way input is represented connects to the next section on representation learning.
 - I can explain that model output can be a score or probability, and that real systems often need rules and review procedures together.
-
-## When This View Should Come to Mind First
-
-Bring back the view of this section when the phrase `learning patterns from data` needs to be explained again not as a buzzword, but as a learning structure.
-
-- when you need to distinguish whether a model memorized rules or learned a relation that still works on new input
-- when you need to organize where example, feature, label, model, training, and generalization sit
-- when operational performance starts to shake and you need to judge whether data diversity, label quality, or overfitting should be suspected first
-
-At that point, return first to the flow `example -> features and label -> training -> model -> prediction for new input`. On top of that, divide whether the current problem is closer to `memorization`, `generalization`, or `a data problem`. That stabilizes the explanation.
+- I can explain that learning patterns from data is not memorizing past cases as they are, but trying to find relations between inputs and outputs and apply them to new data.
+- I can explain that when understanding learning-based AI, the model alone is not enough; how the data was created, by what criteria it was trained, and how it is validated on new data must be examined together.
 
 ## Sources and Further Reading
 

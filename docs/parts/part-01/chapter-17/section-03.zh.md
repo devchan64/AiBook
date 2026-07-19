@@ -1,7 +1,7 @@
 # P1-17.3 区分预测(prediction)与工作假设(working hypothesis)
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-17.2 讨论了如何阅读新闻、专栏与报告。Part 1 的最后一节则要整理：个人想法应当如何被安全地保留下来。
 
@@ -107,5 +107,5 @@ Part 1 的目标，是先建立 AI 的大地图。更细的数学、代码与模
 
 ## 来源与参考资料
 
-- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, 2026, 确认日期: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-06-23.
+- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, arXiv v3, 2026-06-29, 确认日期: 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-07-19.

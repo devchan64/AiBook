@@ -1,7 +1,7 @@
 # P1-16.1 个人学习(personal learning)与文档化(documentation)
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-15 中，我们已经看过 AI 如何连接到社会风险、版权与安全问题。P1-16 则转向应用案例。第一个案例，是一个用 AI 帮助自己重新学习 AI 的文档化项目。
 
@@ -108,5 +108,5 @@ AI 给出的解释，可以成为学习活动的起点。但学习者自己仍�
 
 ## 来源与参考资料
 
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-06-23.
-- UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-06-23.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-07-19.
+- UNESCO, [Guidance for generative AI in education and research](https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-07-19.

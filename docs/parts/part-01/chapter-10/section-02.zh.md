@@ -1,7 +1,7 @@
 # P1-10.2 生成下一个输出(next-output generation)的直觉
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 10.1 中，我们区分了分类(classification)、预测(prediction)和生成(generation)。分类是选择类别，预测是估计值或状态，生成是创建符合条件的新内容。
 
@@ -20,7 +20,7 @@
 
 ## 本节范围
 
-这里不会解释生成式 AI 的具体算法。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.2 与 Part 6 的 P6-5.2 讨论；diffusion model 的详细结构超出本书当前正文范围；Transformer 结构会在 P1-11.3、Part 5 的 P5-14.1 和 P5-14.2、Part 6 的 P6-3.1 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。
+这里先固定 `生成到底是一次拿出完成品，还是把小输出片段接续起来` 这个问题。tokenization 会在 Part 6 的 P6-1.1 和 P6-1.2 重新讨论；下一 token 预测(next-token prediction) 会在 P6-5.1 讨论；sampling 和 temperature 会在 Part 5 的 P5-15.2 与 Part 6 的 P6-5.2 讨论；Transformer 结构会在 P1-11.3、Part 5、Part 6 再出现；prompt 与评估会在 P1-12.1 到 P1-12.3 中继续讨论。diffusion model 的详细结构不会在这里先展开。
 
 `生成下一个输出`、`下一 token`、`音频样本`、`diffusion` 在开始时都可能听起来像同一种生成算法。先用一句很短的话把它们区分开：
 

@@ -1,7 +1,7 @@
 # P1-17.1 What Evidence Should Forecasts Rely On?
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 1 Chapter 16 covered how AI can be applied to personal learning, work automation, and small projects. Chapter 17 turns to `the future of AI`.
 
@@ -97,5 +97,5 @@ When writing forecasts, indicators and interpretation should stay separate.
 
 ## Sources and Further Reading
 
-- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, 2026, accessed 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, accessed 2026-06-23.
+- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, arXiv v3, 2026-06-29, accessed 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, accessed 2026-07-19.

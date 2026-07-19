@@ -1,7 +1,7 @@
 # P1-15.3 安全(security)与隐私(privacy)
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-15.2 中，我们看的是应如何处理别人的表达与版权作品。P1-15.3 则转向一个平行问题：
 
@@ -131,6 +131,6 @@ P1-14.5 已经解释过 harness、log、evaluation 为什么对审查 AI 执行�
 
 ## 来源与参考资料
 
-- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, 确认日期: 2026-06-23.
+- OWASP, [2025 Top 10 Risk & Mitigations for LLMs and Gen AI Apps](https://genai.owasp.org/llm-top-10/){: target="_blank" rel="noopener noreferrer" }, OWASP GenAI Security Project, 确认日期: 2026-07-19.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
+- NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, 确认日期: 2026-07-19.

@@ -1,7 +1,7 @@
 # P1-14.2 Where RAG and Tool Use Sit
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.1 described an AI service as a combination of the `model`, `application`, `data`, `tool`, and `orchestration`. This section separates two parts that are easy to confuse.
 
@@ -271,5 +271,5 @@ In this flow, RAG is closest to `finding supporting material and strengthening t
 ## Sources and Further Reading
 
 - Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, accessed 2026-06-23.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.

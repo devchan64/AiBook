@@ -1,7 +1,7 @@
 # P1-16.3 如何通过项目(project)来验证
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-16.2 中，我们已经从工作流角度看过工作自动化与搜索。现在要整理的是：如何通过一个小型 `项目(project)` 来验证学习与实际应用。
 
@@ -99,6 +99,6 @@ AI 项目里，失败并不少见。重要的不是把失败藏起来，而是�
 
 ## 来源与参考资料
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
-- OWASP, [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
+- OWASP, [2025 Top 10 Risk & Mitigations for LLMs and Gen AI Apps](https://genai.owasp.org/llm-top-10/){: target="_blank" rel="noopener noreferrer" }, OWASP GenAI Security Project, 确认日期: 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-07-19.

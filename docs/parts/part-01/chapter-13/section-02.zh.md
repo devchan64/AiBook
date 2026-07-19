@@ -1,7 +1,7 @@
 # P1-13.2 相似度搜索(similarity search)的直觉
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-13.1 中，我们已经看过把文本(text)表示成向量(vector)意味着什么。文本一旦变成向量，句子、段落、文档就可以被放到可计算的位置上。
 
@@ -235,5 +235,6 @@ Mikolov 等人的 word2vec 研究中，也会用余弦距离(cosine distance)来
 ## 来源与参考资料
 
 - Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 确认日期: 2026-06-23.
+- Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, [Introduction to Information Retrieval, Chapter 6: Dot products](https://nlp.stanford.edu/IR-book/html/htmledition/dot-products-1.html){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2008, 确认日期: 2026-07-19.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-06-23.
 - Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-06-23.

@@ -1,7 +1,7 @@
 # P1-11.2 RNN、Seq2Seq 与 Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)。语言模型会以概率方式处理单词和 token 的顺序，而嵌入会把单词和 token 变成可计算的向量表示(vector representation)。
 
@@ -235,7 +235,9 @@ Transformer 的具体结构以及预训练 LLM(pretrained LLM)会在 11.3 中继
 
 ## 来源与参考资料
 
+- Sepp Hochreiter, Jürgen Schmidhuber, [Long Short-Term Memory](https://pubmed.ncbi.nlm.nih.gov/9377276/){: target="_blank" rel="noopener noreferrer" }, Neural Computation 9(8), 1735-1780, 1997, 确认日期: 2026-07-19.
 - Kyunghyun Cho et al., [Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 确认日期: 2026-06-23.
 - Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 确认日期: 2026-06-23.
 - Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 确认日期: 2026-06-23.
 - Graham Neubig, [Neural Machine Translation and Sequence-to-sequence Models: A Tutorial](https://arxiv.org/abs/1703.01619){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 确认日期: 2026-06-23.
+- Sarthak Jain, Byron C. Wallace, [Attention is not Explanation](https://aclanthology.org/N19-1357/){: target="_blank" rel="noopener noreferrer" }, NAACL-HLT 2019, 确认日期: 2026-07-19.

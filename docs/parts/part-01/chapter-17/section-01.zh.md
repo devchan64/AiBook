@@ -1,7 +1,7 @@
 # P1-17.1 应该依据什么来讨论预测
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 1 Chapter 16 中，我们已经看过如何把 AI 用于个人学习、工作自动化与小项目。最后的 Chapter 17 则讨论“AI 的未来”。
 
@@ -100,5 +100,5 @@ Stanford HAI 的 AI Index Report 会长期追踪 AI 研究、性能、投资、�
 
 ## 来源与参考资料
 
-- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, 2026, 确认日期: 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-06-23.
+- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, arXiv v3, 2026-06-29, 确认日期: 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-07-19.

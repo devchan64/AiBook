@@ -1,7 +1,7 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P1-1 organized the scope of the word AI and the relationship among the major terms. P1-2 turns to the historical paradigms through which AI tried to solve problems. The center of this section is `symbolic AI` and the `rule-based approach`.
 
@@ -17,13 +17,7 @@ This section organizes the following questions.
 - In what larger flow are rules, knowledge representation, inference, and search connected?
 - Why is this approach still valid in some systems today?
 
-This section does not go deeply into the following.
-
-- formal derivations for individual logical systems
-- implementation details of expert systems
-- quantitative performance comparison with machine-learning models
-
-The detailed flow of search, knowledge representation, and probabilistic inference is recovered in `P1-2.2` right after this section. A more concrete evaluation of the strengths and limits of rule-based systems continues in Part 1 Chapter 3.
+This section first closes `how symbolic AI tried to write and handle knowledge and rules`. The detailed flow of search, knowledge representation, and probabilistic inference continues in the next section, `P1-2.2`, and a more concrete evaluation of the strengths and limits of rule-based systems continues in Part 1 Chapter 3.
 
 ## Goal of This Section
 
@@ -153,7 +147,7 @@ These examples are too simple to be used directly as medical, business, or secur
 
 This diagram helps you read a rule-based system as four parts: `current facts`, `explicit rules`, `application procedure`, and `conclusion`. The key point is structural: facts alone are not enough, rules alone are not enough, and a separate procedure is needed to match them and produce a conclusion.
 
-An expert system is a representative case in which this rule-based approach developed into an applied system. It tried to organize expert judgment as rules and knowledge in order to support diagnosis, classification, recommendation, or decision-making in a specific domain. But this section does not go deeply into expert systems. Here the goal is to organize the basic way of thinking behind symbolic AI and rule-based approaches. Their strengths and limits are revisited in `P1-3.1`.
+An expert system is a representative case in which this rule-based approach developed into an applied system. It tried to organize expert judgment as rules and knowledge in order to support diagnosis, classification, recommendation, or decision-making in a specific domain. This section first holds onto the basic way of thinking behind symbolic AI and rule-based approaches, and the strengths and limits that appear when they become real applications are revisited in `P1-3.1`.
 
 A tiny example makes the structure clearer. Imagine that an online store return screen receives the following facts.
 
@@ -258,6 +252,8 @@ The more detailed relation among label, data, input, and output is organized aga
 - I can explain that a rule-based approach uses explicit rules that determine a conclusion or action according to condition, situation, or pattern.
 - I can explain that rule-based approaches are strong in explainability and controllability.
 - I can explain the limit that not all knowledge is easy to write as rules.
+- I can explain that data labels can be read like symbols, but that data labeling and symbolic AI should not be treated as the same thing.
+- I can read rule-based approaches and learning-based approaches not as a simple ranking of better and worse, but as a difference in problem characteristics.
 - I can explain that data labels can be seen like symbols, but data labeling is not the same thing as symbolic AI.
 - I can explain that rule-based and learning-based approaches should be compared by problem character, not as a simple better-or-worse ranking.
 - I can explain that symbolic AI tried to represent knowledge through human-readable symbols and rules, then perform inference and search over that representation.

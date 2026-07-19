@@ -1,7 +1,7 @@
 # P1-2.2 탐색, 지식 표현, 확률 추론
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 2.1에서는 기호 기반 AI와 규칙 기반 접근을 봤습니다. 이번 절에서는 그 다음 질문을 다룹니다. 규칙을 적는 것만으로는 충분하지 않을 때, AI는 가능한 후보를 탐색(search)하고, 필요한 지식을 표현(knowledge representation)하며, 불확실한 정보에서 그럴듯한 결론을 추론(probabilistic reasoning)하려 했습니다.
 
@@ -9,9 +9,7 @@
 
 Part 1에서 `탐색(search)`과 `확률 추론(probabilistic reasoning)`의 기본 구분은 이 절에서 잡습니다. `지식 표현(knowledge representation)`은 2.1에서 기본 뜻을 먼저 소개했고, 여기서는 탐색과 확률 추론 사이에서 어떤 역할을 하는지 비교하는 데 필요한 만큼만 다시 연결합니다. 뒤 절에서 용어 구분이 다시 헷갈리면 이 절과 [개념사전](../../../reference/concept-glossary.md)으로 돌아오면 됩니다.
 
-## 이 절의 범위
-
-여기서는 다음 질문을 정리합니다.
+이 절에서는 다음 질문을 정리합니다.
 
 - 탐색(search)은 왜 초기 AI의 핵심 문제 해결 방식이었는가?
 - 지식 표현은 규칙 기반 접근과 어떻게 연결되는가?
@@ -155,7 +153,7 @@ Poole과 Mackworth의 공개 교재도 경로 찾기, 배송 로봇, 격자 게�
 | `a`는 소포이다 | `type(a, parcel)` 또는 `is_a(a, parcel)` | 개체가 어떤 분류에 속하는지 표현함 |
 | Alex가 Chris에게 책을 주었다 | `agent(사건, alex)`, `recipient(사건, chris)`, `patient(사건, book)` | 하나의 사건을 개체로 만들고 참여자 관계를 표현함 |
 
-Poole과 Mackworth는 지식 그래프(knowledge graph)를 설명하면서 subject, verb, object로 이루어진 triple representation을 다룹니다. 이 방식에서는 “Christine Sinclair는 Canada의 시민이다” 같은 사실을 `주어-관계-목적어` 형태의 연결로 표현할 수 있습니다. 중요한 점은 표현이 단순한 저장 형식이 아니라, 어떤 질문을 쉽게 할 수 있게 만드는 구조라는 점입니다.
+Poole과 Mackworth는 지식 그래프(knowledge graph)를 설명하면서 subject, verb, object로 이루어진 triple representation을 다룹니다. 여기서는 그 구조만 빌려, `물건 A는 창고 B에 있다` 같은 사실을 `주어-관계-목적어` 형태의 연결로 표현할 수 있다고 읽으면 충분합니다. 중요한 점은 표현이 단순한 저장 형식이 아니라, 어떤 질문을 쉽게 할 수 있게 만드는 구조라는 점입니다.
 
 Stanford Encyclopedia of Philosophy의 논리 기반 AI 항목은 초기 전문가 시스템이 큰 절차적 규칙 집합에 기반했지만, 이후에는 배경 지식을 따로 표현하는 지식 표현 구성요소의 필요성이 커졌다고 설명합니다. 즉 AI는 규칙을 실행하는 것만이 아니라, 규칙과 사실, 관계, 배경 지식을 어떻게 구조화할지도 고민해 왔습니다.
 
@@ -174,12 +172,12 @@ Stanford Encyclopedia of Philosophy의 논리 기반 AI 항목은 초기 전문�
 | 센서로 장애물을 감지함 | 센서 값에 잡음이나 누락이 있을 수 있음 |
 | 고객 이탈을 예측함 | 과거 행동이 미래 행동을 완전히 결정하지 않음 |
 
-확률 추론에서는 불확실한 대상을 확률 변수(random variable)로 표현할 수 있습니다. Poole과 Mackworth는 `Coughs`처럼 참·거짓 값을 가질 수 있는 변수와 `Distance_to_wall`처럼 연속적인 값을 가질 수 있는 변수를 예로 듭니다. 이 예시는 AI가 불확실한 세계를 숫자 하나로 단순화하는 것이 아니라, 관측 가능한 변수와 가능한 값의 범위를 정해 다룬다는 점을 보여줍니다.
+확률 추론에서는 불확실한 대상을 확률 변수(random variable)로 표현할 수 있습니다. 예를 들어 `Has_cough`처럼 참·거짓 값을 가질 수 있는 변수와 `Sensor_distance`처럼 연속적인 값을 가질 수 있는 변수를 둘 수 있습니다. 이런 예시는 AI가 불확실한 세계를 숫자 하나로 단순화하는 것이 아니라, 관측 가능한 변수와 가능한 값의 범위를 정해 다룬다는 점을 보여줍니다.
 
 | 불확실한 대상 | 확률 변수의 예 | 가능한 값 |
 | --- | --- | --- |
-| 환자가 기침하는가 | `Coughs` | `true`, `false` |
-| 로봇과 벽 사이의 거리 | `Distance_to_wall` | 0 이상의 거리 값 |
+| 환자가 기침하는가 | `Has_cough` | `true`, `false` |
+| 센서가 읽은 장애물 거리 | `Sensor_distance` | 0 이상의 거리 값 |
 | 도형의 모양 | `Shape` | `circle`, `triangle`, `star` |
 | 도형이 채워져 있는가 | `Filled` | `true`, `false` |
 

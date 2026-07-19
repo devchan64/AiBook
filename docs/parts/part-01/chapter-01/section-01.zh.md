@@ -1,7 +1,7 @@
 # P1-1.1 AI 这个词的范围
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 重新学习 AI 时，第一个困难往往不是技术本身，而是这个词的范围。同一个 `AI`，在某些语境里指规则式程序，在另一些语境里指机器学习模型，最近又常被几乎等同于生成式 AI 或 LLM。
 
@@ -17,13 +17,7 @@
 - 规则式 AI、机器学习、深度学习、生成式 AI 分别坐落在怎样的一张大地图里？
 - 为什么把最近的 LLM 使用经验当成整个 AI，会带来混乱？
 
-这一节不会深入展开以下内容：
-
-- 机器学习算法的细部结构
-- 深度学习训练过程的内部实现
-- 生成式 AI 产品的比较，以及最新模型谱系
-
-这些更细的技术脉络，会在 Part 1 Chapter 2、Chapter 3，以及 Part 4 之后重新展开。这里先固定一条基准线：`AI 是最外层、最宽的类别`。
+这一节先把 `AI 是最外层、最宽的类别` 这一点固定下来。更细的技术脉络会在 Part 1 Chapter 2、Part 1 Chapter 3，以及 Part 4 之后继续展开；这里则集中把术语放到那张大地图上。
 
 ## 这一节的目标
 
@@ -33,7 +27,7 @@
 
 ## 先连起来的概念
 
-这一节也是几个核心术语第一次被同时引入的入口。下面这些概念先只固定最短含义；如果之后需要更完整的定义，再回到对应词条。
+这一节也是几个核心术语第一次被同时引入的入口。下面这些概念先只固定最短含义；如果之后需要更完整的定义，可以点击对应链接直接回到词条重新确认。即使是同一个韩语词，也可能按英语概念分成不同含义，所以概念词汇表的词条需要同时看韩语和英语。
 
 | 概念 | 这里先固定的意思 | 为什么现在需要 |
 | --- | --- | --- |
@@ -117,6 +111,8 @@ AI 这个词之所以显得很宽，是因为它并不只指某一个算法，�
 
 这样的区分，是为了避免把词典式定义和历史演化混成一团。词典意义上的 AI，是执行与人类智能相关功能的系统或领域；历史演化上，完成这些功能的实现方式，则经历了规则、搜索、概率、数据学习和深度学习的扩展。
 
+这里把 `DSS/BI/DW/OLAP` 一起写出来，是为了先说明：数据建模并不是后面突然出现的独立技术，而是在收集数据并把数据连接到决策的脉络上发展出来的。目标不是背下所有缩写。在当前语境中，只要把 `DSS(decision support system)` 理解为决策支持系统，`BI(business intelligence)` 理解为阅读数据并用于业务判断的体系，`DW(data warehouse)` 理解为集中保存数据的存储结构，`OLAP(online analytical processing)` 理解为按多个标准分析已收集数据的方法，就足以跟上这里的讨论。
+
 ### AI 的范围会随语境变化
 
 AI 这个词会因语境不同而有不同用法。
@@ -189,6 +185,7 @@ AI 这个词会因语境不同而有不同用法。
 - Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
 - Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
 - 汉典, [人工智能](https://www.zdic.net/hans/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
+- A. M. Turing, [Computing Machinery and Intelligence](https://academic.oup.com/mind/article/LIX/236/433/986238){: target="_blank" rel="noopener noreferrer" }, Mind, Volume LIX, Issue 236, 1950-10-01, 确认日期: 2026-07-19.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 确认日期: 2026-06-22.
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, 确认日期: 2026-06-22.

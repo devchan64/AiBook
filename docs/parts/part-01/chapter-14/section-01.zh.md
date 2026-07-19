@@ -1,7 +1,7 @@
 # P1-14.1 模型(model)、应用(application)、数据(data)、工具(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 第 13 章已经看过嵌入(embedding)、相似度搜索(similarity search)、RAG(retrieval-augmented generation)，以及向量搜索实现的直觉。这条脉络会带来一个重要转向：
 
@@ -221,6 +221,6 @@ Part 1 会在这里先建立 `模型(model)`、`应用(application)`、`数据(d
 
 ## 出处与参考资料
 
-- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-06-23.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-06-23.
+- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-07-19.
 - NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期：2026-06-23.

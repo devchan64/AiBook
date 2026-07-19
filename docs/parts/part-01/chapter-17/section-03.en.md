@@ -1,7 +1,7 @@
 # P1-17.3 Distinguishing Prediction from a Working Hypothesis
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-17.2 discussed how to read news, columns, and reports. The final section of Part 1 asks how personal ideas can be preserved safely inside a learning document.
 
@@ -108,5 +108,5 @@ Part 2 then moves into rebuilding foundations. Rather than proving mathematics f
 
 ## Sources and Further Reading
 
-- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, 2026, accessed 2026-06-23.
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, accessed 2026-06-23.
+- Stanford HAI, [AI Index Report 2026](https://arxiv.org/abs/2606.15708){: target="_blank" rel="noopener noreferrer" }, arXiv v3, 2026-06-29, accessed 2026-07-19.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, accessed 2026-07-19.

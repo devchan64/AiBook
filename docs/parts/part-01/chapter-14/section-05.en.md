@@ -1,7 +1,7 @@
 # P1-14.5 Harness and the Evaluation Execution Environment
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.4 treated MCP as a protocol that standardizes how AI applications connect to outside tools and data. The next question is more operational:
 
@@ -27,7 +27,7 @@ This section organizes how execution becomes observable and comparable around th
 
 ## Scope of This Section
 
-This section explains the basic roles of the `harness`, `trace`, `log`, `evaluation`, and `grader`. It touches the intuitive flow from the word's origin through the software `test harness` into the AI execution harness, but it does not attempt a full academic debate over the exact formal definition of an `agent harness`. Specific SDK code, dashboard usage, evaluation API implementation, and large-scale operational cost are outside the current scope. Cost, latency, and operations return in P1-14.6.
+This section explains the basic roles of the `harness`, `trace`, `log`, `evaluation`, and `grader`. Cost, latency, and operational constraints return in P1-14.6. Here, the focus is first to close the question of `how agent execution can be made observable and comparable`.
 
 `harness`, `trace`, `log`, `evaluation`, `grader`, and `reproducibility` are different execution-verification elements. Their roles can be separated like this:
 
@@ -295,6 +295,6 @@ So the harness is not a device that guarantees the right answer. It is a device 
 - Merriam-Webster, [Harness](https://www.merriam-webster.com/dictionary/harness){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
 - Online Etymology Dictionary, [Harness](https://www.etymonline.com/word/harness){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
 - Sanderson Oliveira de Macedo, [What makes a harness a harness: necessary and sufficient conditions for an agent harness](https://arxiv.org/abs/2606.10106){: target="_blank" rel="noopener noreferrer" }, arXiv preprint, 2026, accessed 2026-06-23.
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.

@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, and Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 11.1 introduced `language models` and `embeddings`. This section asks how neural networks tried to handle the `order` and `context` of those vectorized tokens.
 
@@ -243,7 +243,9 @@ The concrete structure of Transformers and pretrained LLMs continues in 11.3.
 
 ## Sources and Further Reading
 
+- Sepp Hochreiter, Jürgen Schmidhuber, [Long Short-Term Memory](https://pubmed.ncbi.nlm.nih.gov/9377276/){: target="_blank" rel="noopener noreferrer" }, Neural Computation 9(8), 1735-1780, 1997, accessed 2026-07-19.
 - Kyunghyun Cho et al., [Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, accessed 2026-06-23.
 - Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, accessed 2026-06-23.
 - Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, accessed 2026-06-23.
 - Graham Neubig, [Neural Machine Translation and Sequence-to-sequence Models: A Tutorial](https://arxiv.org/abs/1703.01619){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, accessed 2026-06-23.
+- Sarthak Jain, Byron C. Wallace, [Attention is not Explanation](https://aclanthology.org/N19-1357/){: target="_blank" rel="noopener noreferrer" }, NAACL-HLT 2019, accessed 2026-07-19.

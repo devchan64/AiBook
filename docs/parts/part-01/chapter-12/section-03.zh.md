@@ -1,7 +1,7 @@
 # P1-12.3 提示词(prompt)的限制(limit)与评估(evaluation)
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 12.1 中，我们看了提示词(prompt)指定了什么；在 12.2 中，我们又把指示(instruction)、上下文(context)、示例(example)拆开来看。现在剩下的问题是：
 
@@ -196,9 +196,9 @@ Ouyang 等人的 InstructGPT 论文在评估模型输出时，不只使用自动
 
 这只是一种预告。12.3 的重点不是把这些结构讲透，而是先说明：为什么它们会变得必要。
 
-## 这本书的最低审查流程
+## 审查提示词结果时的最低流程
 
-当使用 AI 工具来撰写学习型书稿时，至少应该采用下面的流程：
+当提示词结果需要再次用于学习文档或公开文章时，至少经过下面的流程会更安全：
 
 > 1. 先确认 Section 的中心问题。  
 > 2. 检查草稿是否真的回答了这个问题。  
@@ -230,4 +230,4 @@ Ouyang 等人的 InstructGPT 论文在评估模型输出时，不只使用自动
 - Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 确认日期: 2026-06-23.
 - Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, 确认日期: 2026-06-23.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, 确认日期: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 确认日期: 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 确认日期: 2026-07-19.

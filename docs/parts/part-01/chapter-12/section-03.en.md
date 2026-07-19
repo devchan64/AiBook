@@ -1,7 +1,7 @@
 # P1-12.3 The Limits and Evaluation of Prompts
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 12.1 explained what prompts specify. Section 12.2 separated `instructions`, `context`, and `examples`.
 
@@ -199,9 +199,9 @@ Those problems require the next layer of structure:
 
 This is only a preview. The core of 12.3 is not to explain those structures in detail, but to clarify why they become necessary.
 
-## The Minimum Review Procedure for This Book
+## Minimum Procedure for Reviewing Prompt Results
 
-When writing a learning-oriented manuscript with AI tools, the minimum procedure should look like this:
+When prompt results need to be reused in a learning document or public writing, it is safer to pass through at least the following procedure:
 
 > 1. confirm the central question of the section  
 > 2. check whether the draft actually answers that question  
@@ -232,4 +232,4 @@ This is not full quality assurance. But it reduces one of the biggest risks in a
 - Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, accessed 2026-06-23.
 - Pranab Sahoo et al., [A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications](https://arxiv.org/abs/2402.07927){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, accessed 2026-06-23.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024, accessed 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, accessed 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, accessed 2026-07-19.

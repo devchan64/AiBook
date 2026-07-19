@@ -1,7 +1,7 @@
 # P1-17.2 阅读新闻(news)、专栏(column)、报告(report)
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-17.1 说明了：在写预测内容时，首先要确认来源与资料性质。接下来要整理的是：新闻、专栏与报告，实际应当怎样阅读。
 
@@ -117,5 +117,5 @@ P1-17.1 说明了：在写预测内容时，首先要确认来源与资料性质
 
 ## 来源与参考资料
 
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-06-23.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, 确认日期: 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, 确认日期: 2026-07-19.

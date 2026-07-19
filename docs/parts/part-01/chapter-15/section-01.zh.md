@@ -1,7 +1,7 @@
 # P1-15.1 偏见(bias)、安全性(safety)、责任(accountability)
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-14 中，我们已经沿着模型、数据、工具、agent、harness、服务约束(service constraints)的脉络看过 AI 服务结构。现在问题会从技术结构转向社会影响。
 
@@ -163,19 +163,11 @@ AI 伦理问题常常最先通过报道、评论、调查性新闻被看见，�
 | 政策建议 | 有哪些制度变化或规则建议？ |
 | 可泛化性 | 这个案例能否直接推广到别的 AI 系统？ |
 
-在这本书里，案例用于展示现实问题，官方文件与研究则用于整理概念与标准。正文会连接这两者，但不会从单一案例过度推广出一般法则。
+因此，本书会把新闻与评论作为重要依据使用，但采用下面的方式处理：
 
-## 本节应记住的视角
-
-AI 伦理并不是技术外面的装饰。一旦 AI 影响到真实的人与组织，`偏见`、`安全性`、`责任` 就会成为服务设计的一部分。
-
-> 偏见可能来自数据、指标与使用情境。  
-> 当 AI 结果连接到真实行动时，安全性会更关键。  
-> 责任不能交给 AI。  
-> 透明性意味着帮助用户理解 AI 的角色与局限。  
-> 人类监督必须真的能够介入、停止并重新判断。
-
-这条视角会直接通往 P1-15.2 的版权与训练数据，以及 P1-15.3 的安全与隐私。
+> 案例展示现实问题。
+> 官方文件与研究整理概念和标准。
+> 正文连接两者，但不从单一案例过度推广。
 
 ## 检查清单
 
@@ -187,20 +179,13 @@ AI 伦理并不是技术外面的装饰。一旦 AI 影响到真实的人与组�
 - 能把透明性解释为 AI 使用告知、用途、局限、依据与可申诉性。
 - 能说明如果人类监督只停留在形式批准，就会很危险。
 - 能说明在阅读新闻与评论时，应区分事实、解释、反驳与政策建议。
-
-## 什么时候要先想起这个视角
-
-- 当 AI 伦理只被当成技术外部的抽象宣言时
-- 当偏见、安全性、责任被压成一个模糊的道德问题时
-- 当一个真实服务需要同时检查潜在伤害与人类监督条件时
-
-这时，先拆开 `偏见`、`安全性`、`责任`、`透明性`、`人类监督`，会更容易把伦理问题重新读成服务设计条件。
+- 能把 `偏见`、`安全性`、`责任`、`透明性`、`人类监督` 分开，从而把伦理讨论解释成服务设计条件。
 
 ## 来源与参考资料
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, 确认日期: 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, 确认日期: 2026-06-23.
-- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, 确认日期: 2026-06-23.
-- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, UNESCO, 确认日期: 2026-06-23.
-- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, 确认日期: 2026-06-23.
-- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, 确认日期: 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, 确认日期: 2026-07-19.
+- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, 确认日期: 2026-07-19.
+- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, 确认日期: 2026-07-19.
+- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, UNESCO, 确认日期: 2026-07-19.
+- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, 确认日期: 2026-07-19.
+- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, 确认日期: 2026-07-19.

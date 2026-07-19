@@ -1,7 +1,7 @@
 # P1-15.1 Bias, Safety, and Accountability
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14 followed the flow of the AI service through the model, data, tools, agent, harness, and service constraints. The next question moves from technical structure to social impact.
 
@@ -166,19 +166,11 @@ Ethical issues in AI often become visible first through reporting, commentary, o
 | policy proposal | what rule or institutional change was proposed? |
 | generalizability | does this case apply directly to other AI systems too? |
 
-In this book, cases help show the real problem, while official documents and research help organize concepts and standards. The text connects both, but avoids overgeneralizing from one case.
+In this book, news and opinion pieces are used as important evidence, but they are handled in the following way:
 
-## The View to Keep from This Section
-
-AI ethics is not an external decoration around technology. Once AI affects real people and organizations, `bias`, `safety`, and `accountability` become part of service design.
-
-> bias can arise from data, metrics, and context of use  
-> safety matters more once AI results connect to real action  
-> accountability cannot be handed to the AI  
-> transparency means helping users understand the AI's role and limits  
-> human oversight must be able to intervene, stop, and judge again
-
-This view leads directly into P1-15.2 on copyright and training data, and P1-15.3 on security and privacy.
+> cases show real problems
+> official documents and research organize concepts and standards
+> the text connects the two, but does not overgeneralize from one case
 
 ## Checklist
 
@@ -190,20 +182,13 @@ This view leads directly into P1-15.2 on copyright and training data, and P1-15.
 - You can explain transparency through AI use disclosure, purpose, limits, basis, and contestability.
 - You can explain why human oversight becomes risky if it ends as formal approval only.
 - You can explain why facts, interpretation, counterargument, and policy proposal should be separated when reading news or opinion pieces.
-
-## When to Recall This View First
-
-- When AI ethics is being treated only as an abstract declaration outside technology
-- When bias, safety, and accountability are being collapsed into one vague moral issue
-- When a real service needs its possible harms and conditions for human oversight checked together
-
-In those situations, separate `bias`, `safety`, `accountability`, `transparency`, and `human oversight` first.
+- You can separate `bias`, `safety`, `accountability`, `transparency`, and `human oversight` and explain ethics discussion as a service-design condition.
 
 ## Sources and Further Reading
 
-- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, accessed 2026-06-23.
-- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, accessed 2026-06-23.
-- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, accessed 2026-06-23.
-- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, accessed 2026-06-23.
-- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, accessed 2026-06-23.
+- NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework){: target="_blank" rel="noopener noreferrer" }, National Institute of Standards and Technology, accessed 2026-07-19.
+- NIST, [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf){: target="_blank" rel="noopener noreferrer" }, NIST AI 100-1, 2023, accessed 2026-07-19.
+- OECD.AI, [OECD AI Principles overview](https://oecd.ai/en/ai-principles){: target="_blank" rel="noopener noreferrer" }, OECD AI Policy Observatory, accessed 2026-07-19.
+- UNESCO, [Recommendation on the Ethics of Artificial Intelligence](https://www.unesco.org/en/artificial-intelligence/recommendation-ethics){: target="_blank" rel="noopener noreferrer" }, UNESCO, accessed 2026-07-19.
+- Julia Angwin, Jeff Larson, Surya Mattu, Lauren Kirchner, [Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing){: target="_blank" rel="noopener noreferrer" }, ProPublica, 2016-05-23, accessed 2026-07-19.
+- Ed White, [Judge dismisses lawsuit against Detroit police in wrongful arrest case](https://apnews.com/article/detroit-facial-recognition-arrest-821d260e932a4582a6a912dd61fde157){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2025-09-17, accessed 2026-07-19.

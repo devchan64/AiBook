@@ -1,7 +1,7 @@
 # P1-13.4 向量搜索(vector search)实现的直觉
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P1-13.1 中，我们看了如何通过嵌入(embedding)把文本(text)表示成向量(vector)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到接近的向量。在 P1-13.3 中，我们又看了怎样把这些检索候选接进 LLM 的输入上下文(context)中，形成 RAG(retrieval-augmented generation)。
 
@@ -15,7 +15,7 @@ Part 1 会在这里建立 `向量搜索(vector search)实现`、`索引(index)`�
 
 ## 本节范围
 
-这里关注的是向量搜索实现的整体图景。HNSW(hierarchical navigable small world)、FAISS、product quantization 等具体算法名称不会在这里展开实现或公式说明。这些名字会在 Part 5 的 P5-13.1、P5-13.2 重新回到服务视角下的搜索存储与索引质量，但本书当前正文不进入每个算法的内部公式。
+这里先固定 `当向量非常多时怎样快速找到接近候选` 这个问题。HNSW(hierarchical navigable small world)、FAISS、product quantization 等名称会在 Part 5 的 P5-13.1、P5-13.2 中，以服务视角下的搜索存储与索引质量继续出现；这里先只抓住减少全量比较的实现直觉。
 
 等到 Part 2 重新看图(graph)这种数据结构时，本节关于图索引(index)的说明会更自然地接上去。现在先保留一个直觉：把接近的向量用节点(node)与边(edge)连接起来，可以缩短搜索路径。
 

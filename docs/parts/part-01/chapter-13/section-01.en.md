@@ -1,7 +1,7 @@
 # P1-13.1 What It Means to Represent Text as Vectors
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter 12 explained how prompts give task conditions to an LLM and why prompts alone cannot guarantee `factuality`, `evidence`, or `recency`. That leads to the next question:
 
@@ -226,3 +226,4 @@ That is the flow that leads into P1-13.2 and P1-13.3.
 - Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, accessed 2026-06-23.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, accessed 2026-06-23.
 - Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, accessed 2026-06-23.
+- Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084){: target="_blank" rel="noopener noreferrer" }, arXiv, 2019, accessed 2026-07-19.

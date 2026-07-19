@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)与工具连接标准化
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-14.3 中，我们把 agent 看成一种把 `目标(goal)`、`状态(state)`、`动作(action)`、`观察(observation)` 持续推进的工作流结构。要让 agent 使用外部资料或工具，就必须有一种连接方式。
 
@@ -251,6 +251,6 @@ MCP 的安全文档也会单独讨论 confused deputy problem、token passthroug
 
 ## 来源与参考资料
 
-- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
-- Model Context Protocol, [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
-- Model Context Protocol, [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-07-19.
+- Model Context Protocol, [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-07-19.
+- Model Context Protocol, [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-07-19.

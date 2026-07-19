@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -212,6 +212,6 @@ These questions then lead naturally to the next section on harnesses, logs, and 
 
 ## Sources and Further Reading
 
-- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv preprint, 2022, accessed 2026-06-23.
-- OpenAI, [Building agents](https://developers.openai.com/tracks/building-agents/){: target="_blank" rel="noopener noreferrer" }, OpenAI Docs, accessed 2026-06-23.
-- OpenAI, [Orchestrating multiple agents](https://openai.github.io/openai-agents-python/multi_agent/){: target="_blank" rel="noopener noreferrer" }, OpenAI Agents SDK Docs, accessed 2026-06-23.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, accessed 2026-07-19.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.

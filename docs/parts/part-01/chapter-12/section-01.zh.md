@@ -1,7 +1,7 @@
 # P1-12.1 提示词(prompt)指定了什么
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在第 11 章中，我们看了 LLM(large language model) 是从哪里来的。语言模型(language model)起始于“下一个 token 的概率”这个问题，而 Transformer 与预训练(pretraining)成为现代 LLM 的关键基础。
 
@@ -239,5 +239,5 @@ Brown 等人的 GPT-3 论文在比较 zero-shot、one-shot、few-shot 设置时�
 ## 来源与参考资料
 
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 确认日期: 2026-06-23.
-- OpenAI, [Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 确认日期: 2026-06-23.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API documentation, 确认日期: 2026-07-19.
 - Anthropic, [Prompt engineering overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview){: target="_blank" rel="noopener noreferrer" }, Anthropic documentation, 确认日期: 2026-06-23.

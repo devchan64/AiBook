@@ -1,7 +1,7 @@
 # P1-1.2 Problems AI Deals With
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
@@ -17,13 +17,7 @@ This section organizes the following questions.
 - What common structure appears when problems are read through inputs and outputs?
 - Why can the same data become a different AI problem when the question changes?
 
-This section does not go deeply into the following.
-
-- detailed implementations of algorithms used for each problem type
-- mathematical optimization techniques by problem type
-- complex design of real service pipelines
-
-The algorithms and learning structures associated with each problem type are recovered in Part 4 on machine-learning problems, Part 5 on deep-learning structures, and Part 6 on LLMs and generative AI. Here the focus is on fixing one standard first: `what goes in and what comes out`.
+This section first closes `how to divide AI problems from the viewpoint of inputs and outputs`. Algorithms and learning structures by problem type continue in Part 4, Part 5, and Part 6. Here the focus is on setting the problem-definition standard of `what goes in and what comes out`.
 
 ## Goal of This Section
 

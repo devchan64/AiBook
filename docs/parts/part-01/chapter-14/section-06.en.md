@@ -1,7 +1,7 @@
 # P1-14.6 The Constraints AI Services Meet in the Real World
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-14.5 described a `harness` as an execution environment that wraps model and tool runs and makes tracing, logging, and evaluation possible. The next question moves in a more practical direction:
 
@@ -19,7 +19,7 @@ The focus here is how long an execution structure can be sustained as a real ser
 
 ## Scope of This Section
 
-This section explains, at an introductory level, the constraints that matter when an AI service is actually used. It does not go deeply into a particular provider's pricing table, specific model recommendations, deployment infrastructure design, or cloud cost calculation. Security and privacy return in Part 1 Chapter 15.
+This section explains, at an introductory level, the constraints that matter when an AI service is actually used. Security policies and privacy handling return in P1-15.1, P1-15.2, and P1-15.3. Here, the focus is first to close the question of `why a good answer does not immediately mean the structure is ready for service operation`.
 
 | Term | Very short meaning | Role in this section |
 | --- | --- | --- |
@@ -282,10 +282,10 @@ In those cases, separate `quality`, `cost`, and `latency and reliability` first.
 
 ## Sources and Further Reading
 
-- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Batch API](https://developers.openai.com/api/docs/guides/batch){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Rate limits](https://developers.openai.com/api/docs/guides/rate-limits){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
-- OpenAI, [Deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-06-23.
+- OpenAI, [Latency optimization](https://developers.openai.com/api/docs/guides/latency-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Cost optimization](https://developers.openai.com/api/docs/guides/cost-optimization){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Batch API](https://developers.openai.com/api/docs/guides/batch){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Rate limits](https://developers.openai.com/api/docs/guides/rate-limits){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.
+- OpenAI, [Deployment checklist](https://developers.openai.com/api/docs/guides/deployment-checklist){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, accessed 2026-07-19.

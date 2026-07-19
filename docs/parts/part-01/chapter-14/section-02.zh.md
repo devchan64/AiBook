@@ -1,7 +1,7 @@
 # P1-14.2 RAG(retrieval-augmented generation)与工具使用(tool use)的位置
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-14.1 中，我们把 AI 服务看成 `模型(model)`、`应用(application)`、`数据(data)`、`工具(tool)`、`编排(orchestration)` 的组合。接下来要区分其中两个最容易混淆的部分。
 
@@ -272,5 +272,5 @@ RAG 可以先在文档集合里找出相关片段。
 ## 出处与参考资料
 
 - Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 确认日期：2026-06-23.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-06-23.
-- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-06-23.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-07-19.
+- OpenAI, [Text generation](https://developers.openai.com/api/docs/guides/text){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 确认日期：2026-07-19.

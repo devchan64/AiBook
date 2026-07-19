@@ -1,15 +1,13 @@
 # P1-2.2 搜索、知识表示与概率推理
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 2.1 已经看过符号主义 AI 与规则式方法。这一节继续回答下一个问题：当“只把规则写下来”还不够时，AI 还必须搜索可能的候选、表示所需知识，并在不完整信息下推理出更可信的结论。
 
 这里需要做的，不是详细学习算法，而是先固定：为什么 `search`、`knowledge representation` 与 `probabilistic reasoning` 会在 AI 导论里反复出现，以及这条脉络如何构成后面解释机器学习与深度学习的背景。
 
 在 Part 1 中，`search` 与 `probabilistic reasoning` 的基本区分固定在这一节。`Knowledge representation` 已在 2.1 做过初步介绍，这里只在比较它与搜索和概率推理之间的角色时重新连接；如果这些边界之后又变模糊，就回到这一节与共享的 [Concept Glossary (English)](/AiBook/en/reference/concept-glossary/)。
-
-## 这一节的范围
 
 这一节整理以下问题：
 
@@ -155,7 +153,7 @@ Poole 与 Mackworth 的公开教材也用路径查找、配送机器人与网格
 | `a` 是一个包裹 | `type(a, parcel)` 或 `is_a(a, parcel)` | 表示某个实体属于哪一类 |
 | Alex 把一本书给了 Chris | `agent(event, alex)`, `recipient(event, chris)`, `patient(event, book)` | 把事件当成一个实体，并表达参与者关系 |
 
-Poole 与 Mackworth 在解释知识图谱(knowledge graph)时，会讨论由 subject、verb 与 object 组成的 triple representation。在这种方式中，像 “Christine Sinclair is a citizen of Canada” 这样的事实，可以表示成 `subject-relation-object` 的连接。重要的点在于：表示不仅是存储格式，它还是一种让系统更容易提出某些问题的结构。
+Poole 与 Mackworth 在解释知识图谱(knowledge graph)时，会讨论由 subject、verb 与 object 组成的 triple representation。这里只借用这种结构来读：像 `物品 A 位于仓库 B` 这样的事实，也可以表示成 `subject-relation-object` 的连接。重要的点在于：表示不仅是存储格式，它还是一种让系统更容易提出某些问题的结构。
 
 Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目指出，早期专家系统依赖大规模过程性规则集合，但后来越来越需要单独的知识表示组件来表达背景知识。换句话说，AI 不仅关心如何执行规则，也关心如何组织规则、事实、关系与背景知识。
 
@@ -174,12 +172,12 @@ Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目指出，早期专�
 | 根据传感器数据检测障碍物 | 传感器值可能带噪声或缺失 |
 | 预测客户流失 | 过去行为无法完全决定未来行为 |
 
-在概率推理中，这类不确定对象可以表示为随机变量(random variable)。Poole 与 Mackworth 举过像 `Coughs` 这类只能取 true/false 的变量，也举过像 `Distance_to_wall` 这种取连续值的变量。这样的例子说明：AI 不是把不确定世界简单压成一个数字，而是先规定可观测变量与其可能取值范围。
+在概率推理中，这类不确定对象可以表示为随机变量(random variable)。例如，`Has_cough` 这样的变量可以取 true/false 值，`Sensor_distance` 这样的变量可以取连续值。这样的例子说明：AI 不是把不确定世界简单压成一个数字，而是先规定可观测变量与其可能取值范围。
 
 | 不确定对象 | 随机变量示例 | 可能取值 |
 | --- | --- | --- |
-| 病人是否咳嗽 | `Coughs` | `true`, `false` |
-| 机器人与墙之间的距离 | `Distance_to_wall` | 大于等于 0 的距离值 |
+| 病人是否咳嗽 | `Has_cough` | `true`, `false` |
+| 传感器读到的障碍物距离 | `Sensor_distance` | 大于等于 0 的距离值 |
 | 图形的形状 | `Shape` | `circle`, `triangle`, `star` |
 | 图形是否被填充 | `Filled` | `true`, `false` |
 
@@ -187,7 +185,7 @@ Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目指出，早期专�
 
 这里的重要点是：概率推理并不意味着 `随便随机回答`。概率是一种整理不确定性的语言。随着观测到的证据变化，结论的可信度也会跟着变化。
 
-这一节不会计算 Bayes 规则或贝叶斯网络。概率、不确定性与 stochastic 之间的差异会在 Part 1 Chapter 6 再次处理。这里先把概率推理记成：`在不完整信息下计算可能结论有多可信的方法`。
+Bayes 规则与贝叶斯网络会在后面再出现，概率、不确定性与 stochastic 之间的差异会在 Part 1 Chapter 6 再次处理。这里先把概率推理记成：`在不完整信息下计算可能结论有多可信的方法`。
 
 ### 三条脉络如何连接
 
@@ -246,16 +244,6 @@ Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目指出，早期专�
 
 这个案例要读出的核心是：`找候选`、`写世界` 与 `判断模糊信息` 这三件事，会在真实系统中同时出现。
 
-## 这一节要记住的视角
-
-符号主义 AI 与规则式方法是 AI 的重要起点，但真正解决问题还需要更多工具。候选太多时需要搜索；判断标准复杂时需要知识表示；信息不完整时需要概率推理。
-
-这一节可以这样来读。
-
-> Search 是一种在可能候选中寻找通向目标路径的方法；knowledge representation 是一种把解题所需的事实与关系整理成计算机能处理形式的方法；probabilistic reasoning 则是在不完整信息下计算可能结论有多可信的方法。
-
-这三条脉络不仅是机器学习出现之前 AI 的背景，在理解现代 AI 服务时也依然有用。搜索、推荐、计划、政策校验、知识图谱与概率预测，今天仍以多种形式留在系统中。
-
 ## 检查清单
 
 - 我可以解释 search 是一种沿着可能状态与行动寻找目标的方法。
@@ -263,6 +251,8 @@ Stanford Encyclopedia of Philosophy 的逻辑基础 AI 条目指出，早期专�
 - 我可以解释 knowledge representation 不只包括规则，也可以包括事实、关系、约束与行动结果。
 - 我可以解释 probabilistic reasoning 是一种在不完整信息下计算结论可信度的方法。
 - 我可以解释 search、knowledge representation 与 probabilistic reasoning 虽然从不同问题出发，但在真实系统中可以一起使用。
+- 我可以解释 search 是在可能候选中寻找通向目标路径的方法，knowledge representation 是把解题所需事实与关系整理成计算机可处理形式的方法，probabilistic reasoning 是在不完整信息下计算可能结论可信度的方法。
+- 我可以解释这三条脉络不仅是机器学习出现之前的 AI 背景，也仍以搜索、推荐、计划、政策校验、知识图谱与概率预测等形式留在现代 AI 服务中。
 
 ## 出处与参考资料
 

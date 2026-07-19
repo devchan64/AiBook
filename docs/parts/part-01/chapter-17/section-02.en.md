@@ -1,7 +1,7 @@
 # P1-17.2 Reading News, Columns, and Reports
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-17.1 explained that, when writing forecasts, sources and the nature of the material should be checked first. This section turns to the practical question:
 
@@ -119,5 +119,5 @@ Sometimes different sources point in the same direction. Sometimes they conflict
 
 ## Sources and Further Reading
 
-- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, accessed 2026-06-23.
-- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, accessed 2026-06-23.
+- World Economic Forum, [The Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/){: target="_blank" rel="noopener noreferrer" }, 2025-01-07, accessed 2026-07-19.
+- U.S. Department of Education, [Artificial Intelligence and the Future of Teaching and Learning](https://www.ed.gov/sites/ed/files/documents/ai-report/ai-report.pdf){: target="_blank" rel="noopener noreferrer" }, 2023, accessed 2026-07-19.

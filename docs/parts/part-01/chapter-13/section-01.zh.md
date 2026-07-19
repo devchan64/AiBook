@@ -1,7 +1,7 @@
 # P1-13.1 把文本(text)表示为向量(vector)意味着什么
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在第 12 章中，我们已经看过如何通过提示词(prompt)向 LLM 给出任务条件，也看到了仅靠提示词难以保证事实性(factuality)、依据性(evidence)与最新性(recency)。
 
@@ -212,3 +212,9 @@ P1-11.1 主要看的是单词嵌入(word embedding)。但在实际服务里，�
 - 能区分 `把文本变成向量`、`比较这些向量`、`提示词负责给任务条件`。
 
 ## 来源与参考资料
+
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, Chapter 6: Neural Networks and Neural Language Models](https://web.stanford.edu/~jurafsky/slp3/6.pdf){: target="_blank" rel="noopener noreferrer" }, draft of 2026-01-06, 确认日期: 2026-06-23.
+- Yoshua Bengio, Rejean Ducharme, Pascal Vincent, Christian Jauvin, [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 确认日期: 2026-06-23.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-06-23.
+- Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-06-23.
+- Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084){: target="_blank" rel="noopener noreferrer" }, arXiv, 2019, 确认日期: 2026-07-19.

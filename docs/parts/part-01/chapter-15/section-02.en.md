@@ -1,7 +1,7 @@
 # P1-15.2 Copyright and Training Data
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when AI results affect people and society. The next question is more specific.
 
@@ -188,9 +188,9 @@ AI drafts are always subject to review. "The AI wrote it" does not reduce respon
 
 ## Sources and Further Reading
 
-- Korean Law Information Center, [Copyright Act](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, effective 2026-05-11, accessed 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, pre-publication version, 2025-05-09, accessed 2026-06-23.
-- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, accessed 2026-06-23.
-- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, accessed 2026-06-23.
-- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, accessed 2026-06-23.
+- Korean Law Information Center, [Copyright Act](https://www.law.go.kr/법령/저작권법){: target="_blank" rel="noopener noreferrer" }, effective 2026-05-11, accessed 2026-07-19.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence](https://www.copyright.gov/ai/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19.
+- U.S. Copyright Office, [Copyright and Artificial Intelligence, Part 3: Generative AI Training](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-3-Generative-AI-Training-Report-Pre-Publication-Version.pdf){: target="_blank" rel="noopener noreferrer" }, pre-publication version, 2025-05-09, accessed 2026-07-19.
+- Haleluya Hadero, David Bauder, [The New York Times sues OpenAI and Microsoft for using its stories to train chatbots](https://apnews.com/article/6ea53a8ad3efa06ee4643b697df0ba57){: target="_blank" rel="noopener noreferrer" }, Associated Press, 2023-12-27, accessed 2026-07-19.
+- Katherine Lee, A. Feder Cooper, James Grimmelmann, [Talkin' 'Bout AI Generation: Copyright and the Generative-AI Supply Chain](https://arxiv.org/abs/2309.08133){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, accessed 2026-07-19.
+- Daniel M. German, [Copyright related risks in the creation and use of ML/AI systems](https://arxiv.org/abs/2405.01560){: target="_blank" rel="noopener noreferrer" }, arXiv, 2024, accessed 2026-07-19.

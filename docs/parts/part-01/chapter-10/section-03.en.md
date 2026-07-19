@@ -1,7 +1,7 @@
 # P1-10.3 The Quality and Risk of Generated Outputs
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.18`
 
 Section 10.1 examined the difference among classification, prediction, and generation. Section 10.2 introduced the intuition that generative AI builds artifacts progressively from conditions.
 
@@ -197,9 +197,9 @@ The main standard to keep in 10.3 is:
 > even if AI generated the image or code,  
 > review license, originality, similarity, and scope of use
 
-## The Review Procedure Used in This Book
+## Basic Review Procedure for Generated Outputs
 
-This book is made with AI tools. So generated output is not trusted as-is. It is handled through a review procedure like this:
+When generated outputs are reused outside the model, such as in learning documents, work documents, or public writing, it is safer not to trust drafts as-is and to handle them through a procedure like this:
 
 > AI draft generation  
 > -> separate claims  
@@ -219,7 +219,7 @@ The meaning of each step:
 | check domain boundaries | avoid invading the scope of other sections |
 | human review | correct errors, risky phrasing, and missing evidence |
 
-This section therefore connects directly to the writing principles of the repository. AI can produce drafts quickly, but the reliability of the book comes from the review process, not from the speed of draft generation.
+The core point is the same. AI can produce drafts quickly, but the reliability of a document comes from the review process, not from the speed of draft generation.
 
 ## Checklist
 
