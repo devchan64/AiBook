@@ -1,7 +1,7 @@
 # Part 3. 数据建模
 
 > Section ID: `P3-index`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 在 Part 2 里，我们重新恢复了阅读数学、Python、数组、表格和图形的基础。但能够重新读懂计算工具，并不等于立刻就能把 AI 问题建好。真正面对源数据时，首先撞上的问题，往往不是 `该用什么模型`，而是 `什么才算一条数据样本`。在这本书的整体结构里，Part 2 和 Part 3 一起构成基础能力恢复区段，而 Part 3 负责的是 `数据科学问题结构的恢复`。
 
@@ -89,6 +89,8 @@ Part 3 处理的是样本单位、原始日志与摘要表、特征与中间表�
 
 ## 来源与参考资料
 
-- National Academies of Sciences, Engineering, and Medicine, *Data Science for Undergraduates: Opportunities and Options*, 2018. 它把数据收集、清洗、表达、建模和解释视为一条完整数据科学流程，因此支持本页把 Part 3 放在 `问题结构恢复` 位置上的课程视角。 [https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`. 它提供 sample、feature、label、label leakage 等核心术语的角色区分，因此支持 Part 3 必须先固定样本结构和输入/结果边界，而不是先讨论模型名字。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它把 provenance 和 derivation 一起处理，因此支持 Part 3 的共同前提：当源数据被重做成问题表达结构时，派生表是按什么规则生成的也必须可追踪。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- National Academies of Sciences, Engineering, and Medicine, *Data Science for Undergraduates: Opportunities and Options*, 2018. 它把数据收集、清洗、表达、建模和解释视为一条完整数据科学流程，因此支持本页把 Part 3 放在 `问题结构恢复` 位置上的课程视角。 [https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`. 它提供 sample、feature、label、label leakage 等核心术语的角色区分，因此支持 Part 3 必须先固定样本结构和输入/结果边界，而不是先讨论模型名字。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它把 provenance 和 derivation 一起处理，因此支持 Part 3 的共同前提：当源数据被重做成问题表达结构时，派生表是按什么规则生成的也必须可追踪。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Usama Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `Knowledge Discovery and Data Mining: Towards a Unifying Framework`, Microsoft Research publication page, 1996. 这一 KDD 经典参考支持把源数据重组视为数据准备与发现流程中的独立轴。 [https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/](https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Consumer Price Index: Concepts`, Handbook of Methods. 其中对 CPI index values 和 base periods 的说明，用来参考“先固定基准期间，再比较当前值”的观念。 [https://www.bls.gov/opub/hom/cpi/concepts.htm](https://www.bls.gov/opub/hom/cpi/concepts.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

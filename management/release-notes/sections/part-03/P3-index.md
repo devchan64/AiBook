@@ -3,6 +3,16 @@
 - Section ID: `P3-index`
 - Source File: `docs/parts/part-03/index.md`
 
+### v2026.07.20
+- 변경 이유: 순차 저작권 검토 과정에서 Part 3 시작 페이지의 표준 개념 근거 축과 말미 참고문헌의 대응을 다시 확인했다.
+- 본문 반영 내용: 한국어, 영어, 중국어 간체판 본문 `Version`을 `v2026.07.20`으로 갱신하고 기존 출처 확인일을 2026-07-20으로 갱신했다. 본문 표에서 근거 축으로 언급한 Fayyad/KDD와 BLS base period 자료를 세 언어 참고문헌에 추가했다.
+- 저작권 검토: Part 3 대표 사례, 원천 로그에서 운영 산출물로 이어지는 표, 데이터 모델링 spine 표는 내부 커리큘럼 흐름에 맞춘 자체 구성 요약이며, 외부 자료의 목차·표·문장을 대체할 정도의 복제는 확인되지 않았다.
+- 출처 확인: NASEM 자료에서 데이터과학 학부 교육의 핵심 원칙과 커리큘럼 관점을 확인했다. Google ML Glossary에서 sample, feature, label, label leakage 용어 기준을 확인했다. W3C PROV-Overview에서 provenance, reproducibility, versioning, derivation 축을 확인했다. Fayyad/Piatetsky-Shapiro/Smyth KDD 자료와 BLS CPI base period 설명은 본문 표의 근거 축 누락을 메우는 참고문헌으로 보강했다.
+- 번역 동기화 메모: 영어판과 중국어 간체판도 같은 출처 보강과 확인일 갱신을 반영했다.
+- 번역 반영 상태: 한국어, 영어, 중국어 간체판 반영 완료.
+- 관련 자산: 변경 없음.
+- 원문 기준 버전: `v2026.07.20`
+
 ### v2026.07.12
 - 본문 반영: 집필 순서만 예고하는 `다음 ... 연결` 계열 표지를 제거했다. 본문 메타데이터 버전도 함께 갱신했다.
 - 번역 동기화 메모: 영어판과 중국어 간체판에 최신 Part 3 시작 페이지 구조와 메타형 연결 예고 제거를 반영했다. 중국어 간체판 `index.zh.md`에서는 같은 날 표 머리글의 `这个 Part` 표현도 `这一 Part`로 통일했다. / reflected in English and Simplified Chinese on 2026-07-12

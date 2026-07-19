@@ -1,7 +1,7 @@
 # Part 3. 데이터 모델링
 
 > Section ID: `P3-index`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 Part 2에서 우리는 수학, Python, 배열, 표, 그래프를 다시 읽는 기초를 복구했습니다. 그러나 계산 도구를 다시 읽을 수 있게 되었다고 해서 곧바로 AI 문제를 제대로 만들 수 있는 것은 아닙니다. 실제 원천데이터를 만나면 먼저 부딪히는 질문은 `어떤 모델을 쓸까`보다 `무엇을 한 건의 데이터로 볼까`에 가깝습니다. 이 책의 전체 구조에서는 Part 2와 Part 3이 함께 기본기 점검 구간을 이루며, Part 3은 그중 `데이터과학 문제 구조 복구`를 맡습니다.
 
@@ -89,6 +89,8 @@ Part 3에서는 샘플 단위, 원시 로그와 요약 표, 특징과 중간 표
 
 ## 출처와 참고 자료
 
-- National Academies of Sciences, Engineering, and Medicine, *Data Science for Undergraduates: Opportunities and Options*, 2018. 데이터 수집, 정리, 표현, 모델링, 해석을 하나의 데이터과학 흐름으로 묶어 설명하므로, Part 3을 `문제 구조 복구` 구간으로 두는 이 페이지의 커리큘럼 관점을 뒷받침합니다. [https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`. sample, feature, label, label leakage 같은 핵심 용어의 역할 구분을 제공하므로, Part 3이 모델 이름보다 먼저 샘플 구조와 입력/결과 경계를 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance와 derivation을 함께 다루므로, 원천데이터를 문제 표현 구조로 다시 만들 때 어떤 규칙으로 파생 표가 생겼는지 추적 가능해야 한다는 Part 3의 공통 전제를 뒷받침합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- National Academies of Sciences, Engineering, and Medicine, *Data Science for Undergraduates: Opportunities and Options*, 2018. 데이터 수집, 정리, 표현, 모델링, 해석을 하나의 데이터과학 흐름으로 묶어 설명하므로, Part 3을 `문제 구조 복구` 구간으로 두는 이 페이지의 커리큘럼 관점을 뒷받침합니다. [https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options](https://nap.nationalacademies.org/catalog/25104/data-science-for-undergraduates-opportunities-and-options){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`. sample, feature, label, label leakage 같은 핵심 용어의 역할 구분을 제공하므로, Part 3이 모델 이름보다 먼저 샘플 구조와 입력/결과 경계를 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance와 derivation을 함께 다루므로, 원천데이터를 문제 표현 구조로 다시 만들 때 어떤 규칙으로 파생 표가 생겼는지 추적 가능해야 한다는 Part 3의 공통 전제를 뒷받침합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Usama Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `Knowledge Discovery and Data Mining: Towards a Unifying Framework`, Microsoft Research publication page, 1996. KDD 과정을 데이터 준비와 발견 흐름으로 설명하는 고전적 근거이므로, 원천데이터를 다시 묶는 구간을 별도 축으로 둔 근거입니다. [https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/](https://www.microsoft.com/en-us/research/publication/knowledge-discovery-and-data-mining-towards-a-unifying-framework/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Consumer Price Index: Concepts`, Handbook of Methods. CPI index values and base periods 설명을 통해 기준 기간을 정해 현재 값을 비교하는 관점을 확인하는 참고 자료입니다. [https://www.bls.gov/opub/hom/cpi/concepts.htm](https://www.bls.gov/opub/hom/cpi/concepts.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
