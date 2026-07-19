@@ -3,6 +3,13 @@
 - Section ID: `P5-index`
 - Source File: `docs/parts/part-05/index.md`
 
+### v2026.07.20
+- 저작권 검토: Part 5 index 순차 검토 범위에서 Part 5 학습 경로, 주요 구조 축, 범위 안내, 후반부 구조 전환 표, 완료 기준, 체크리스트, 출처와 참고 자료 문단을 확인했다. 본문은 Part 5 내부 내용을 안내하는 자체 개요로 판단했다.
+- 출처 사용 점검: 본문에 외부 URL, 외부 도표·표·코드·데이터 재사용, 직접 인용은 확인하지 않았다. 하단 출처 문단도 외부 자료 직접 인용이 없다고 명시되어 있어 저작권 검토 결과와 일치한다.
+- 관련 자산: `docs/assets/part-05/part5-learning-map-ko.mmd`는 Part 5 학습 순서를 요약한 한국어 자체 Mermaid 도식으로 판단했다.
+- 본문 반영: 한국어 원문 `Version`을 `v2026.07.20`으로 갱신했다.
+- 번역 동기화 메모: 이번 변경은 한국어 원문 검토 이력과 버전 갱신에 한정된다. 대응 영어판·중국어 간체판은 본문 문장 수정 대상이 아니며, 향후 번역 동기화 시 언어별 Mermaid 자산도 함께 확인해야 한다.
+
 ### v2026.07.12
 - 본문 반영: 집필 순서만 예고하는 `다음 ... 연결` 계열 표지를 제거했다. 본문 메타데이터 버전도 함께 갱신했다.
 - 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 현재 checklist 구조, Part 5 시작 페이지의 최신 설명 흐름을 반영했다. 추가로 중국어 공개 본문이 `part5-learning-map-zh.mmd`를 직접 참조하도록 자산 운영을 현재 차트 가이드라인에 맞췄다. / reflected in English and Simplified Chinese on 2026-07-12, with the Simplified Chinese page now referencing its own `-zh` Mermaid asset
