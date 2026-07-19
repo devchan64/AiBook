@@ -1,21 +1,11 @@
 # P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 미분(derivative), 그래디언트(gradient), 경사하강법(gradient descent)까지 읽고 나면 `역전파(backpropagation)는 chain rule을 사용한다`는 문장이 남습니다. 여기서 `연쇄 법칙(chain rule)`을 모르면 역전파는 계산 구조가 아니라 암기 문장처럼 보이기 쉽습니다.
 
 핵심은 `함수가 여러 단계를 거쳐 이어질 때 앞 단계의 변화가 뒤 단계를 거쳐 최종 결과까지 전달된다`는 감각입니다. 이 감각이 있어야 손실(loss)이 각 층과 파라미터에 어떻게 연결되는지 읽을 수 있습니다. 용어를 다시 빠르게 확인할 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 봅니다.
-
-## 이 절의 범위
-
-여기서는 합성함수와 연쇄 법칙의 직관만 다룹니다. 다변수 체인 룰의 전체 행렬 표기, 역전파의 층별 유도, Jacobian 표기법은 다루지 않습니다.
-
-여기서는 다음 질문에 집중합니다.
-
-- 합성함수는 왜 `단계가 이어진 함수`라고 읽는가?
-- 앞 단계의 작은 변화가 뒤 단계를 지나며 왜 최종 결과에 영향을 주는가?
-- 연쇄 법칙은 왜 역전파의 최소 배경이 되는가?
 
 ## 이 절의 목표
 
@@ -172,6 +162,6 @@ y = 2x + 1,\quad z = y^2
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }, 합성함수의 미분과 연쇄 법칙, 두 단계 이상 합성의 연쇄 법칙 적용을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
-- Google for Developers, `Machine Learning Glossary`. `backpropagation`, `gradient` 같은 용어를 함께 확인할 수 있으므로, 연쇄 법칙이 왜 역전파 설명과 붙는지 읽는 최소 참고점이 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }, 합성함수의 미분과 연쇄 법칙, 두 단계 이상 합성의 연쇄 법칙 적용을 확인할 수 있습니다. 확인 날짜: 2026-07-20.
+- Google for Developers, `Machine Learning Glossary`. `backpropagation`, `gradient` 같은 용어를 함께 확인할 수 있으므로, 연쇄 법칙이 왜 역전파 설명과 붙는지 읽는 최소 참고점이 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
 - 같은 Part 내부 연결: [P2-4.3 미분(derivative)과 그래디언트(gradient)](section-03.md), [P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로](section-05.md). 이 절은 두 Section 사이의 `합성함수 -> chain rule -> backpropagation` 연결을 보강합니다.

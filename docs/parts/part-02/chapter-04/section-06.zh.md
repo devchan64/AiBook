@@ -1,21 +1,11 @@
 # P2-4.6 复合函数(composite function)与链式法则(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 读完导数(derivative)、梯度(gradient)、梯度下降(gradient descent)之后，还会留下这样一句话：`backpropagation uses the chain rule`。如果这里不知道链式法则(chain rule)，反向传播就很容易看起来像一句需要背下来的话，而不是一种计算结构。
 
 核心直觉是：`当一个函数由多个阶段连接起来时，前面阶段的变化会穿过后面的阶段，一直传到最终结果。` 只有先抓住这个直觉，才能读懂损失(loss)是怎样和每一层、每一个参数连接起来的。需要快速回看术语时，也可以一起查看[概念词汇表](/AiBook/en/reference/concept-glossary/)。
-
-## 本节范围
-
-这里仅处理复合函数与链式法则的直觉。不处理多变量链式法则的完整矩阵写法、不处理反向传播的逐层推导，也不处理 Jacobian 记号。
-
-这里集中看下面这些问题。
-
-- 为什么复合函数会被读成 `阶段相连的函数`？
-- 为什么前面阶段的一点点变化，会穿过后面的阶段并影响最终结果？
-- 为什么链式法则会成为反向传播的最小背景？
 
 ## 本节目标
 
@@ -172,6 +162,6 @@ y = 2x + 1,\quad z = y^2
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }。可以确认复合函数的求导、链式法则，以及两层以上复合函数中的链式法则应用。确认日期: 2026-07-19.
-- Google for Developers, `Machine Learning Glossary`. 因为它可以一起确认 `backpropagation`、`gradient` 等词，所以它可以作为阅读“为什么链式法则会和反向传播说明绑定在一起”的最小参考点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }。可以确认复合函数的求导、链式法则，以及两层以上复合函数中的链式法则应用。确认日期: 2026-07-20.
+- Google for Developers, `Machine Learning Glossary`. 因为它可以一起确认 `backpropagation`、`gradient` 等词，所以它可以作为阅读“为什么链式法则会和反向传播说明绑定在一起”的最小参考点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
 - 同一 Part 内部连接：[P2-4.3 微分(derivative)与梯度(gradient)](section-03.md)、[P2-4.5 梯度补充学习：从高中微分到多变量微分](section-05.md)。这一节补强的是这两节之间的 `复合函数 -> chain rule -> backpropagation` 连接。
