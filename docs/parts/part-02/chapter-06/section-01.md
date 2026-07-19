@@ -1,7 +1,7 @@
 # P2-6.1 최적화(optimization)는 무엇을 찾는가
 
 > Section ID: `P2-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-5장에서는 데이터를 숫자로 요약하고, 표본으로 전체를 추정하며, 코드로 평균과 분산을 확인했습니다. 이제 질문이 바뀝니다.
 
@@ -46,27 +46,6 @@ Chapter 6에서는 작은 예시 하나를 세 절에서 계속 재사용합니�
 아직 정확한 수식이나 알고리즘을 몰라도 됩니다. 여기서는 정답을 바로 쓰는 것이 아니라, 후보를 놓고, 기준으로 비교하고, 조금 더 나은 쪽으로 움직인다는 감각을 만드는 것이 목적입니다.
 
 ![후보값을 평가 기준과 제약에 따라 비교하며 더 나은 후보를 찾는 최적화 흐름](../../../assets/part-02/chapter-06/optimization-search-loop-ko.svg)
-
-## 이 절의 범위
-
-여기서는 최적화(optimization)를 AI 학습으로 들어가기 전 필요한 사고방식으로 소개합니다. 이번 절은 `무엇을 좋은 값이라고 부를 것인가`, `후보·기준·제약을 어떻게 나눠 읽을 것인가`까지를 먼저 닫습니다.
-
-손실 함수와 목적 함수는 바로 다음 P2-6.2에서 이어서 보고, 손실이 줄어드는 쪽으로 후보를 어떻게 움직이는지는 P2-6.3에서 다시 봅니다. 문제 유형별 손실은 P4-4.1과 P4-4.2에서, 역전파와 옵티마이저는 P4-5.1, P4-7.1, P4-7.2에서 다시 연결합니다. 여기서는 최적화라는 말을 들었을 때 떠올릴 핵심 장면을 정리합니다.
-
-여기서는 다음 질문에 집중합니다.
-
-- 최적화는 왜 필요해지는가?
-- 후보, 기준, 제약은 무엇인가?
-- 최적이라는 말은 완벽하다는 뜻인가?
-- AI 학습에서 최적화는 왜 필요한가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 최적화 | 더 나은 값을 찾아가는 문제 | 이 장 전체의 출발점 |
-| 후보 | 아직 확정되지 않은 시도 가능한 값 | 비교 대상 |
-| 기준 | 좋고 나쁨을 계산하는 척도 | 후보를 평가하는 잣대 |
-| 제약 | 지켜야 하는 조건 | 현실의 한계를 반영하는 장치 |
-| 최소화/최대화 | 줄이거나 키우려는 방향 | 최적화의 기본 목표 |
 
 ## 이 절의 목표
 
@@ -244,7 +223,7 @@ AI 학습에서는 사람이 규칙을 하나하나 직접 쓰지 않는 경우�
 
 ## 출처와 참고 자료
 
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-19. 목적 함수와 제약 조건 아래에서 값을 최소화하는 최적화 문제 형식 확인에 사용했다.
-- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 확인 날짜: 2026-07-19. 목적 함수를 최소화하거나 최대화하고, 제약을 포함할 수 있는 최적화 도구의 실제 API 맥락 확인에 사용했다.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 딥러닝 학습에서 비용 함수(cost function)를 줄이는 방향으로 파라미터를 조정한다는 설명 확인에 사용했다.
-- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 확인 날짜: 2026-07-19. George Dantzig와 simplex method가 물류·일정·네트워크 최적화 같은 실제 문제와 연결되어 설명되는 역사적 맥락 확인에 사용했다.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-20. 목적 함수와 제약 조건 아래에서 값을 최소화하는 최적화 문제 형식 확인에 사용했다.
+- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 확인 날짜: 2026-07-20. 목적 함수를 최소화하거나 최대화하고, 제약을 포함할 수 있는 최적화 도구의 실제 API 맥락 확인에 사용했다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-20. 딥러닝 학습에서 비용 함수(cost function)를 줄이는 방향으로 파라미터를 조정한다는 설명 확인에 사용했다.
+- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 확인 날짜: 2026-07-20. George Dantzig와 simplex method가 물류·일정·네트워크 최적화 같은 실제 문제와 연결되어 설명되는 역사적 맥락 확인에 사용했다.

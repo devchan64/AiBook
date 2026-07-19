@@ -68,6 +68,6 @@
     <text x="463" y="450" font-size="15" font-weight="700" fill="#1d4ed8" text-anchor="middle">변수를 조정한 뒤 다시 평가</text>
 
     <rect x="96" y="474" width="730" height="44" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
-    <text x="134" y="502" font-size="15" fill="#334155">Good means: better by the chosen objective, among allowed 후보s, under stated 제약.</text>
+    <text x="134" y="502" font-size="15" fill="#334155">좋다는 말은 정한 목적, 허용된 후보, 명시한 제약 안에서 더 낫다는 뜻이다.</text>
   </g>
 </svg>
