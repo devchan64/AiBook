@@ -1,7 +1,7 @@
 # P4-19.6 Supplementary Learning: How To Read Policy Gradient And The Likelihood Ratio Trick For The First Time
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Once readers study policy-based reinforcement learning in P4-19.2, the following names quickly appear.
 
@@ -189,3 +189,9 @@ The purpose of this table is not to prove the formula. It is to hold on to inter
 - Can you explain that the likelihood ratio trick makes probability differentiation easier to read by turning it into a log-probability gradient?
 - Can you explain that both REINFORCE and actor-critic can be read on top of this same log-probability gradient intuition?
 - Can you explain that positive reward and negative reward make the probability of the chosen action move in different directions?
+
+## Sources And References
+
+- Ronald J. Williams, `Simple statistical gradient-following algorithms for connectionist reinforcement learning`, Machine Learning, 1992. Consulted for the REINFORCE family of algorithms and the gradient-following view of expected reinforcement. Accessed 2026-07-19. [https://doi.org/10.1007/BF00992696](https://doi.org/10.1007/BF00992696){: target="_blank" rel="noopener noreferrer" }
+- Richard S. Sutton, David McAllester, Satinder Singh, Yishay Mansour, `Policy Gradient Methods for Reinforcement Learning with Function Approximation`, NeurIPS 1999. Consulted for the policy gradient theorem and the connection between approximate value/advantage functions and experience-based estimation. Accessed 2026-07-19. [https://papers.nips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html](https://papers.nips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Vijay R. Konda, John N. Tsitsiklis, `On Actor-Critic Algorithms`, SIAM Journal on Control and Optimization, 2003. Consulted for connecting actor-critic to stabilization of evaluation signals in policy-gradient methods. Accessed 2026-07-19. [https://doi.org/10.1137/S0363012901385691](https://doi.org/10.1137/S0363012901385691){: target="_blank" rel="noopener noreferrer" }

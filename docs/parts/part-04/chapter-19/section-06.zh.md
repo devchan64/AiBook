@@ -1,7 +1,7 @@
 # P4-19.6 补充学习：如何第一次阅读 policy gradient 和 likelihood ratio trick
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 一旦开始读 P4-19.2 里的策略型强化学习(policy-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
@@ -189,3 +189,9 @@ negative signal = 0.713
 - 你能否说明，likelihood ratio trick 是把概率微分改写成 log-probability gradient，从而让它更容易读？
 - 你能否说明，REINFORCE 和 actor-critic 都建立在这种 log-probability gradient 的直觉之上？
 - 你能否说明，正奖励和负奖励会让所选动作的概率往不同方向调整？
+
+## 来源与参考资料
+
+- Ronald J. Williams, `Simple statistical gradient-following algorithms for connectionist reinforcement learning`, Machine Learning, 1992. 用于确认 REINFORCE 系列算法和 expected reinforcement 的 gradient-following 视角。确认日期: 2026-07-19. [https://doi.org/10.1007/BF00992696](https://doi.org/10.1007/BF00992696){: target="_blank" rel="noopener noreferrer" }
+- Richard S. Sutton, David McAllester, Satinder Singh, Yishay Mansour, `Policy Gradient Methods for Reinforcement Learning with Function Approximation`, NeurIPS 1999. 用于确认 policy gradient theorem、近似 value/advantage function 与经验估计之间的连接。确认日期: 2026-07-19. [https://papers.nips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html](https://papers.nips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Vijay R. Konda, John N. Tsitsiklis, `On Actor-Critic Algorithms`, SIAM Journal on Control and Optimization, 2003. 用于确认把 actor-critic 连接到 policy-gradient 方法中评价信号稳定化的视角。确认日期: 2026-07-19. [https://doi.org/10.1137/S0363012901385691](https://doi.org/10.1137/S0363012901385691){: target="_blank" rel="noopener noreferrer" }
