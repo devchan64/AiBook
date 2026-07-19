@@ -23,37 +23,6 @@ Here, the focus is on building the habit of reading what the symbols inside a fo
 
 Here, we reorganize again `variable`, `function`, `expression`, `input`, and `output`. If 1.2 gave you the sense that formula, code, and data are different faces of the same computation, this section organizes the minimum symbolic grammar needed to read that computation.
 
-## Scope of This Section
-
-This section treats variables, functions, and expressions at the level needed to read AI documents. Repeated computation using sigma is handled in P2-2.2, and the intuition of limits and change is handled in P2-2.3.
-
-The question to solve first here is this: `When you look at one line of notation, how do you distinguish what is a value, what is a relationship, and what is a computation?`
-
-So in this section, we first fix only the following four places.
-
-- What kind of name is a variable?
-- What kind of relationship turns something into something else as a function?
-- What kind of computation does an expression represent?
-- In what ways are variables in code similar to and different from variables in mathematical notation?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| variable | a name that points to a value | the smallest unit in formulas and code |
-| function | a relationship that turns input into output | the basic frame for reading models and rules |
-| expression | an expression that writes down a calculation or relationship | the minimum form for formulas of loss, prediction, and error |
-| input | the value that enters a function or model | the starting point for reading `x`, `input`, and `feature` |
-| output | the value that comes out after a computation | the starting point for reading `y`, `prediction`, and `result` |
-
-If the formula-code-data connection from the previous section gave the sense that `the same computation looks different in different expressions`, here we reread the smallest and most frequent symbols inside that expression: variables, functions, and expressions. In the following sections on sigma, vectors, derivatives, and loss, this symbol reading expands into more concrete notation for repeated computation, data shape, and learning direction.
-
-This section sets the minimum grammar for reading one line of mathematical notation in Part 2. The details of particular math concepts are recovered in later sections.
-
-The flow after this section is also simple.
-
-- In the very next section, `P2-2.2`, we continue by looking at how these symbols appear inside repeated computation and aggregation.
-- In Chapter 3 and Chapter 11, we look at how this symbol reading changes when one value becomes vectors, arrays, and table computation.
-- In Part 3 and Part 4, expressions such as `input`, `prediction`, `target`, and `loss` are read again inside actual model formulas and code.
-
 ## Goals of This Section
 
 - You can read a variable as a name attached to a value or data.
@@ -290,12 +259,6 @@ This case shows why variables and functions are not merely simple math words. Yo
 
 In the end, what matters is not the symbol itself but the role. Once you can read what goes in and what comes out of this expression, you can interpret later additions such as loss and parameters on top of the same structure.
 
-## Perspective to Remember from This Section
-
-Variables, functions, and expressions are basic notation in mathematics, but in AI documents they are the starting point for reading model computation. A variable is a name attached to a value or data, a function is a relationship that turns input into output, and an expression is something that represents a computation by using values and relationships.
-
-When you read these three, you always return to code and data. That means checking together what value this variable actually is, what the function takes as input and produces as output, what the expression compares or computes, and in what type and shape it appears in code.
-
 ## Checklist
 
 - Can you explain a variable as a name attached to a value or data?
@@ -308,8 +271,8 @@ When you read these three, you always return to code and data. That means checki
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-07-19.
 - Python Software Foundation, [Assignment statements](https://docs.python.org/3/reference/simple_stmts.html#assignment-statements){: target="_blank" rel="noopener noreferrer" }, Python Language Reference, checked on 2026-07-19. This is the direct reference for code variables and reassignment.
 - NumPy Developers, [numpy.ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference supports the examples that check an array variable's `shape` and `dtype`.

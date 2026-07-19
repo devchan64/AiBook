@@ -23,37 +23,6 @@ y = f(x)
 
 여기서는 `변수(variable)`, `함수(function)`, `식(expression)`, `입력(input)`, `출력(output)`을 다시 정리합니다. 1.2에서 수식, 코드, 데이터가 같은 계산의 다른 얼굴이라는 감각을 잡았다면, 그 계산을 읽는 최소 기호 문법을 정리합니다.
 
-## 이 절의 범위
-
-여기서는 변수(variable), 함수(function), 식(expression)을 AI 문서 독해에 필요한 수준으로 다룹니다. 시그마(sigma)를 사용한 반복 계산은 P2-2.2에서, 극한(limit)과 변화의 직관은 P2-2.3에서 다룹니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `수식 한 줄을 봤을 때 무엇이 값이고, 무엇이 관계이며, 무엇이 계산인지 어떻게 구분할 것인가`입니다.
-
-그래서 이 절에서는 다음 네 자리만 먼저 고정합니다.
-
-- 변수는 무엇을 담는 이름인가?
-- 함수는 무엇을 무엇으로 바꾸는 관계인가?
-- 식은 어떤 계산을 표현하는가?
-- 코드의 변수와 수학의 변수는 어떻게 닮고 다른가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 변수 | 값을 가리키는 이름 | 수식과 코드의 가장 작은 단위 |
-| 함수 | 입력을 출력으로 바꾸는 관계 | 모델과 규칙을 읽는 기본 틀 |
-| 식 | 계산이나 관계를 적은 표현 | 손실, 예측, 오차 수식의 최소 형식 |
-| 입력 | 함수나 모델에 들어가는 값 | `x`, `input`, `feature`를 읽는 출발점 |
-| 출력 | 계산 뒤 나오는 값 | `y`, `prediction`, `result`를 읽는 출발점 |
-
-앞 절의 수식-코드-데이터 연결이 `같은 계산이 서로 다른 표현으로 보인다`는 감각을 잡았다면, 여기서는 그 표현 안에서 가장 자주 나오는 최소 기호인 변수, 함수, 식을 다시 읽습니다. 바로 뒤의 시그마, 벡터, 미분, 손실 절에서는 이 기호 읽기가 반복 계산, 데이터 모양, 학습 방향을 읽는 더 구체적인 표기로 확장됩니다.
-
-여기서는 Part 2에서 수식 한 줄을 읽는 최소 문법을 세웁니다. 개별 수학 개념 세부는 뒤 절에서 회수됩니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- 바로 다음 절 `P2-2.2`에서는 이 기호들이 반복 계산과 집계 안에서 어떻게 보이는지 이어 봅니다.
-- Chapter 3과 Chapter 11에서는 값 하나가 벡터, 배열, 표 계산으로 바뀔 때 같은 기호 읽기가 어떻게 달라지는지 봅니다.
-- Part 3과 Part 4에서는 `input`, `prediction`, `target`, `loss` 같은 표현을 실제 모델 수식과 코드에서 다시 읽게 됩니다.
-
 ## 이 절의 목표
 
 - 변수(variable)를 값이나 데이터에 붙인 이름으로 읽을 수 있습니다.
@@ -303,8 +272,8 @@ AI에서 오류는 수식보다 데이터와 코드의 연결 지점에서 자�
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
 - Python Software Foundation, [Assignment statements](https://docs.python.org/3/reference/simple_stmts.html#assignment-statements){: target="_blank" rel="noopener noreferrer" }, Python Language Reference, 확인 날짜: 2026-07-19. 코드 변수와 재할당 설명을 확인하는 직접 참고 자료입니다.
 - NumPy Developers, [numpy.ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 배열 변수의 `shape`와 `dtype` 확인 예제를 뒷받침하는 공식 참고 자료입니다.

@@ -23,37 +23,6 @@ y = f(x)
 
 这里会重新整理 `变量`、`函数`、`表达式`、`输入`、`输出`。如果 1.2 给你的是“公式、代码、数据是同一计算的不同面孔”这种感觉，那么这一节整理的就是：读懂这个计算所需的最小符号语法。
 
-## 本节范围
-
-本节把变量、函数、表达式处理到能够阅读 AI 文档所需的程度。使用 sigma 的重复计算会在 P2-2.2 处理，极限和变化直觉会在 P2-2.3 处理。
-
-这里首先要解决的问题是：`当你看到一行公式时，怎样分辨什么是值，什么是关系，什么是计算？`
-
-因此，本节先只固定下面四个位置。
-
-- 变量到底是什么样的名字？
-- 函数到底是什么样的“把一个东西变成另一个东西”的关系？
-- 表达式在表示什么样的计算？
-- 代码里的变量和数学记号里的变量，像在哪里，不同又在哪里？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| 变量 | 指向某个值的名字 | 公式和代码里的最小单位 |
-| 函数 | 把输入变成输出的关系 | 阅读模型和规则的基本框架 |
-| 表达式 | 写下某种计算或关系的表达 | 损失、预测、误差公式的最小形式 |
-| 输入 | 进入函数或模型的值 | 读取 `x`、`input`、`feature` 的起点 |
-| 输出 | 计算之后出来的值 | 读取 `y`、`prediction`、`result` 的起点 |
-
-如果前一节中的“公式-代码-数据连接”给你的是“同一个计算会有不同外观”的感觉，那么这里就是重新阅读这些外观里最常见、最小的符号：变量、函数、表达式。接下来的 sigma、向量、导数、损失等章节，会把这种符号阅读继续扩展成更具体的重复计算、数据形状和学习方向记号。
-
-本节是在 Part 2 中建立“读一行数学记号”的最小语法。具体数学概念的细节会在后面的小节里回收。
-
-本节之后的流向也很简单。
-
-- 紧接着的 `P2-2.2` 会继续看这些符号怎样出现在重复计算和聚合里。
-- 在 Chapter 3 和 Chapter 11，会看当一个值变成向量、数组和表格计算时，这种符号阅读会怎样变化。
-- 在 Part 3 和 Part 4 中，`input`、`prediction`、`target`、`loss` 这类表达会在真正的模型公式和代码里再次被读到。
-
 ## 本节目标
 
 - 能把变量（variable）读成贴在数值或数据上的名字。
@@ -290,12 +259,6 @@ target = [0, 1, 0, 0]
 
 归根到底，重要的不是符号本身，而是角色。只要你能读出这个表达“放进去什么，又拿出来什么”，那么以后再加上损失和参数，也仍然可以在同一结构上解释。
 
-## 本节记住的视角
-
-变量、函数、表达式是数学里的基础记号，但在 AI 文档中，它们是阅读模型计算的起点。变量（variable）是贴在值或数据上的名字，函数（function）是把输入变成输出的关系，而表达式（expression）则是利用值和关系来表示计算的东西。
-
-当你读这三者时，总是要回到代码和数据。也就是说，要一起检查：这个变量实际是什么值，这个函数接收什么输入又输出什么，这个表达式比较或计算了什么，以及它在代码里是以什么 type 和 shape 出现的。
-
 ## 检查清单
 
 - 你能把变量解释成贴在值或数据上的名字吗？
@@ -308,8 +271,8 @@ target = [0, 1, 0, 0]
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-07-19.
 - Python Software Foundation, [Assignment statements](https://docs.python.org/3/reference/simple_stmts.html#assignment-statements){: target="_blank" rel="noopener noreferrer" }, Python Language Reference, 确认日期：2026-07-19. 这是确认代码变量与重新赋值说明的直接参考资料。
 - NumPy Developers, [numpy.ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持检查数组变量 `shape` 和 `dtype` 的示例。
