@@ -1,7 +1,7 @@
 # P4-6.4 Supplementary Learning: How To Read ROC, PR, Log Loss, Calibration, And Silhouette For The First Time
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-6.1 and P4-6.2 fixed the role of evaluation metrics and the differences by problem type. But once you start reading actual papers or library documentation, more unfamiliar names appear very quickly.
 
@@ -22,7 +22,7 @@ This Section is a first supplementary reading of ROC, PR, log loss, calibration,
 - Why does calibration make people doubt again `a score that looks like a probability`?
 - Why does silhouette make people read structure even without answer labels in clustering?
 
-This Section does not go deeply into AUC derivations, log-loss formula expansion, calibration-algorithm implementation, or a full comparison among many clustering metrics. Those detailed calculations are left outside the current scope of this book, and only the reading criterion is collected here.
+This Section first closes the question of why names such as ROC, PR, log loss, calibration, and silhouette appear separately while reading evaluation metrics. ROC/PR and calibration return in P4-15.3, and the connection between reading cluster structure and silhouette continues in P4-17.1 and P4-17.2.
 
 ## Goals Of This Supplementary Learning
 
