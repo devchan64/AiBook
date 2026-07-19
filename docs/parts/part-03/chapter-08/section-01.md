@@ -1,7 +1,7 @@
 # P3-8.1 해석 강도는 무엇으로 조절하는가
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.19`
 
 비교표가 있다고 해서 모든 차이를 같은 강도로 읽을 수 있는 것은 아닙니다. 특히 운영 데이터에서는 표본 수가 적고, 같은 변화가 반복되는지 여부가 불분명할 수 있습니다. 그래서 해석 단계에서는 `무엇이 달라졌는가`만이 아니라 `그 차이를 얼마나 믿을 수 있는가`도 함께 봐야 합니다.
 
@@ -35,53 +35,17 @@
 
 여기서 중요한 점은 `판단을 멈추는가`보다 `판단의 강도를 어떻게 조절하는가`입니다. 이 관점이 있어야 뒤에서 경고 임계값, 검토 큐(review queue), 평가(evaluation)를 설명할 때도 독자가 왜 둔감함이 필요한지 이해할 수 있습니다.
 
-짧은 Python 예시로 보면, 같은 차이값이라도 왜 다른 해석 강도로 가는지 더 직접 확인할 수 있습니다.
+같은 차이값이라도 왜 다른 해석 강도로 가는지는 작은 판단표로 바로 확인할 수 있습니다.
 
-문제 상황: 최근 평균과 기준선 평균의 차이는 모두 `-0.3`인데, 표본 수와 반복성은 서로 다른 세 구간이 있습니다.
+문제 상황은 최근 평균과 기준선 평균의 차이가 모두 `-0.3`인데, 표본 수와 반복성은 서로 다른 세 구간입니다.
 
-입력(input): 구간별 `event_count`, `diff`, `same_direction_count`
+| window_id | diff | event_count | same_direction_count | repeat_ratio | 더 자연스러운 해석 강도 |
+| --- | ---: | ---: | ---: | ---: | --- |
+| few-and-weak | -0.3 | 2 | 1 | 0.50 | 기록 수준(record only) |
+| few-but-repeated | -0.3 | 4 | 4 | 1.00 | 검토 후보(review candidate) |
+| enough-and-repeated | -0.3 | 20 | 17 | 0.85 | 더 강한 경고(stronger warning) |
 
-기대 출력(output): 같은 `diff`라도 `record_only`, `review_candidate`, `stronger_warning`처럼 다른 해석 강도로 갈리는 표
-
-확인할 개념: 해석 강도는 차이값 하나가 아니라 표본 수와 반복성을 함께 보고 정한다
-
-```python
-import pandas as pd
-
-cases = pd.DataFrame(
-    [
-        {"window_id": "few-and-weak", "event_count": 2, "diff": -0.3, "same_direction_count": 1},
-        {"window_id": "few-but-repeated", "event_count": 4, "diff": -0.3, "same_direction_count": 4},
-        {"window_id": "enough-and-repeated", "event_count": 20, "diff": -0.3, "same_direction_count": 17},
-    ]
-)
-
-cases["repeat_ratio"] = cases["same_direction_count"] / cases["event_count"]
-
-
-def interpretation_level(row):
-    if row["event_count"] < 3 and row["repeat_ratio"] < 0.5:
-        return "record_only"
-    if row["event_count"] < 10 or row["repeat_ratio"] < 0.7:
-        return "review_candidate"
-    return "stronger_warning"
-
-
-cases["interpretation_level"] = cases.apply(interpretation_level, axis=1)
-
-print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation_level"]])
-```
-
-예상 출력:
-
-```text
-             window_id  diff  event_count  repeat_ratio interpretation_level
-0         few-and-weak  -0.3            2          0.50          record_only
-1     few-but-repeated  -0.3            4          1.00     review_candidate
-2  enough-and-repeated  -0.3           20          0.85      stronger_warning
-```
-
-이 예제에서 중요한 점은 세 구간의 `diff`가 모두 같다는 사실입니다. 달라지는 것은 `event_count`와 `repeat_ratio`, 그리고 그 둘이 합쳐 만든 해석 강도입니다. 첫 번째는 차이는 보여도 표본 수가 너무 적어 기록 수준에 가깝고, 두 번째는 표본 수는 아직 적지만 반복성이 뚜렷해 검토 후보로 올릴 만합니다. 세 번째는 표본 수와 반복성이 함께 충분하므로 더 강한 변화 신호로 읽을 수 있습니다.
+이 표에서 중요한 점은 세 구간의 `diff`가 모두 같다는 사실입니다. 달라지는 것은 `event_count`와 `repeat_ratio`, 그리고 그 둘이 합쳐 만든 해석 강도입니다. 첫 번째는 차이는 보여도 표본 수가 너무 적어 기록 수준에 가깝고, 두 번째는 표본 수는 아직 적지만 반복성이 뚜렷해 검토 후보로 올릴 만합니다. 세 번째는 표본 수와 반복성이 함께 충분하므로 더 강한 변화 신호로 읽을 수 있습니다.
 
 이렇게 해석 강도를 조절하면 무엇을 얻는지도 분명합니다. 첫째, 표본 수가 약한 신호를 곧바로 강한 경고로 올리지 않아 과잉 경보를 줄일 수 있습니다. 둘째, 반복성이 있는 약한 신호는 그냥 버리지 않고 `검토 후보`로 남겨 사람의 확인 자원을 더 아껴 쓸 수 있습니다. 셋째, 표본 수와 반복성이 함께 충분한 경우에만 더 강한 경고를 붙이므로, 같은 `diff`라도 `기록`, `검토`, `강한 경고`가 왜 갈리는지 나중에 다시 설명하기 쉬워집니다.
 

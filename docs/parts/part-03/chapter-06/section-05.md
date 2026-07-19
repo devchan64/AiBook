@@ -1,7 +1,7 @@
 # P3-6.5 서로 단위와 크기가 다른 특징은 어떻게 함께 읽고 남기는가
 
 > Section ID: `P3-6.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 특징을 몇 개 만들고 나면 다시 이런 혼동을 겪기 쉽습니다. `값이 큰 열이 더 중요한가?`, `초 단위와 압력 단위를 같은 표에 둬도 되는가?`, `평균이 200인 열과 0.2인 열을 그냥 나란히 비교해도 되는가?` 여기서 먼저 필요한 것은 숫자 크기보다 단위, 범위, 변동 폭, 기준선 대비 변화를 구분해 읽는 감각입니다.
 
@@ -81,89 +81,33 @@ Part 3 단계에서는 각 특징 열 옆에 아래 세 가지를 짧게 적어 
 
 이 표가 있으면 `무슨 숫자인지`와 `어떻게 읽을지`가 함께 고정됩니다.
 
-## 작은 코드 예시
+## 작은 점검 표
 
-문제 상황: 서로 단위와 범위가 다른 특징을 같은 표에 둘 때, 절대 크기 비교가 아니라 같은 역할의 기준선 대비 차이로 읽어야 한다는 점을 확인합니다.
+이 절에서는 Python으로 고정된 두 행을 출력하기보다, 숫자 열을 어떤 축으로 읽을지 표로 고정해 두는 편이 더 적합합니다. 예를 들어 아래 작업 표를 보겠습니다.
 
-입력(input): `duration_seconds`, `pressure_mean`, `flow_std`, `late_drop_rate`를 가진 특징 표와 기준선 값
+| event_id | `duration_seconds` | `pressure_mean` | `flow_std` | `late_drop_rate` |
+| --- | ---: | ---: | ---: | ---: |
+| A | 48 | 101.2 | 0.18 | -0.42 |
+| B | 44 | 100.9 | 0.05 | -0.10 |
+| 기준선 | 45 | 101.0 | 0.03 | -0.12 |
 
-기대 출력(output): 원래 특징 표와, 같은 역할끼리의 `delta from baseline`, 그리고 열 역할 표를 함께 보여 주는 출력
+절대값만 보면 `pressure_mean`이 가장 커 보입니다. 하지만 기준선 대비 변화로 읽으면 다른 그림이 나옵니다.
 
-확인할 개념: 한 표에 함께 있는 숫자라도 단위와 역할이 다르면 같은 크기 기준으로 읽지 않고 같은 역할끼리 비교해야 한다
+| event_id | `duration_delta` | `pressure_delta` | `flow_std_delta` | `late_drop_delta` |
+| --- | ---: | ---: | ---: | ---: |
+| A | 3 | 0.2 | 0.15 | -0.30 |
+| B | -1 | -0.1 | 0.02 | 0.02 |
 
-```python
-import pandas as pd
+이 표에서 중요한 것은 숫자의 절대 크기가 아니라, 각 열이 맡는 역할과 같은 열 안에서의 변화입니다. 처음 표만 보면 `101.2`가 커 보이고 `0.18`은 작아 보일 수 있지만, 기준선 대비 변화를 보면 `flow_std_delta=0.15`는 오히려 큰 흔들림 증가일 수 있고, `pressure_delta=0.2`는 작은 수준 차이일 수 있습니다.
 
-feature_table = pd.DataFrame(
-    [
-        {"event_id": "A", "duration_seconds": 48, "pressure_mean": 101.2, "flow_std": 0.18, "late_drop_rate": -0.42},
-        {"event_id": "B", "duration_seconds": 44, "pressure_mean": 100.9, "flow_std": 0.05, "late_drop_rate": -0.10},
-    ]
-)
+| 열 이름 | 역할 | 먼저 비교하는 방식 |
+| --- | --- | --- |
+| `duration_seconds` | 지속 시간(duration) | 기준선 대비 차이 |
+| `pressure_mean` | 수준(level) | 기준선 대비 차이 |
+| `flow_std` | 변동성(variability) | 기준선 대비 차이 |
+| `late_drop_rate` | 변화(change) | 기준선 대비 차이 |
 
-baseline = {
-    "duration_seconds": 45,
-    "pressure_mean": 101.0,
-    "flow_std": 0.03,
-    "late_drop_rate": -0.12,
-}
-
-feature_table["duration_delta"] = feature_table["duration_seconds"] - baseline["duration_seconds"]
-feature_table["pressure_delta"] = feature_table["pressure_mean"] - baseline["pressure_mean"]
-feature_table["flow_std_delta"] = feature_table["flow_std"] - baseline["flow_std"]
-feature_table["late_drop_delta"] = feature_table["late_drop_rate"] - baseline["late_drop_rate"]
-
-role_table = pd.DataFrame(
-    [
-        {"column_name": "duration_seconds", "role": "duration", "compare_as": "delta from baseline"},
-        {"column_name": "pressure_mean", "role": "level", "compare_as": "delta from baseline"},
-        {"column_name": "flow_std", "role": "variability", "compare_as": "delta from baseline"},
-        {"column_name": "late_drop_rate", "role": "change", "compare_as": "delta from baseline"},
-    ]
-)
-
-print("1) feature table")
-print(feature_table[["event_id", "duration_seconds", "pressure_mean", "flow_std", "late_drop_rate"]])
-print()
-print("2) same-role comparisons against baseline")
-print(
-    feature_table[
-        [
-            "event_id",
-            "duration_delta",
-            "pressure_delta",
-            "flow_std_delta",
-            "late_drop_delta",
-        ]
-    ]
-)
-print()
-print("3) reading roles")
-print(role_table)
-```
-
-예상 출력:
-
-```text
-1) feature table
-  event_id  duration_seconds  pressure_mean  flow_std  late_drop_rate
-0        A                48          101.2      0.18           -0.42
-1        B                44          100.9      0.05           -0.10
-
-2) same-role comparisons against baseline
-  event_id  duration_delta  pressure_delta  flow_std_delta  late_drop_delta
-0        A               3             0.2            0.15            -0.30
-1        B              -1            -0.1            0.02             0.02
-
-3) reading roles
-        column_name         role            compare_as
-0  duration_seconds     duration  delta from baseline
-1     pressure_mean        level  delta from baseline
-2          flow_std  variability  delta from baseline
-3    late_drop_rate       change  delta from baseline
-```
-
-이 예시에서 중요한 것은 숫자의 절대 크기가 아니라, 각 열이 맡는 역할과 같은 열 안에서의 변화입니다. 1단계만 보면 `101.2`가 커 보이고 `0.18`은 작아 보일 수 있지만, 2단계에서 기준선 대비 변화를 보면 `flow_std_delta=0.15`는 오히려 큰 흔들림 증가일 수 있고, `pressure_delta=0.2`는 작은 수준 차이일 수 있습니다. 그래서 `큰 숫자`보다 `같은 역할의 같은 열을 어떻게 비교하는가`를 먼저 읽는 데 있습니다.
+그래서 `큰 숫자`보다 `같은 역할의 같은 열을 어떻게 비교하는가`를 먼저 읽어야 합니다.
 
 즉 Part 3의 책임은 다음까지입니다.
 
