@@ -1,7 +1,7 @@
 # P5-4.2 Loss By Problem Type
 
-Section ID: `P5-4.2`
-Version: `v2026.07.17`
+> Section ID: `P5-4.2`
+> Version: `v2026.07.19`
 
 In P5-4.1, we looked at the loss function as `the standard that turns how far the model's current output differs from the target into a number`. The next question then appears naturally.
 
@@ -218,6 +218,24 @@ In other words, generation loss is tightly connected to `how much probability wa
 | `confirm 0.85, remeasure 0.10, hold 0.05` | Read it as a better prediction | Conclude that the quality of the whole sentence is already fully guaranteed | Read that the loss at one position is small, but sentence quality becomes stable only when this kind of judgment accumulates across many positions |
 
 When the three cases are placed side by side, the difference among loss functions by problem type does not stop at `the formula names are different`.
+
+| Problem type | Judgment people are likely to make first | What the loss reveals more finely | Prediction that should be corrected more strongly first |
+| --- | --- | --- | --- |
+| Regression | The prediction farther from the actual value is worse | It spreads how much larger the error distance is into a clearer loss number | the `3.5kWh` prediction |
+| Classification | If both are correct, they can look similar | It further separates how much confidence was placed on the correct class | the `fine scratch 0.55` prediction |
+| Generation | If both place the correct token first, they can look similar | It shows how the probability gap for the correct token accumulates into loss across positions | the `confirm 0.40` prediction |
+
+The result readers should first hold from this table is that regression filters again through `distance`, classification through `confidence in the correct class`, and generation through `the probability of the correct token at each position`.
+
+The reason machine learning and deep learning curricula explain loss by problem type separately is that understanding only the model structure is not enough to understand learning.
+
+Even with the same neural network:
+
+- if the final output is a continuous value, it has to be read through regression loss,
+- if the final output is class probability, it has to be read through classification loss,
+- if the final output is a token distribution, it has to be read through generation loss.
+
+In other words, the internal structure of a neural network and the loss function are not separate topics. The meaning of the final output directly determines how the loss should be understood with it.
 
 This flow becomes especially important later when looking at LLMs. You need to understand that the learning loss of an LLM does not directly measure `whole sentence quality`, but is built by accumulating next-token prediction loss across many positions. This explanation also connects immediately to expressions frequently seen in outside literature, such as `next-token cross-entropy`, `token-level NLL`, and `sequence loss`.
 
@@ -446,4 +464,4 @@ After understanding the general role of the loss function, the loss has to be se
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

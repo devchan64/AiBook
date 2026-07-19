@@ -1,7 +1,7 @@
 # P5-4.2 按问题类型区分的损失
 
-Section ID: `P5-4.2`
-Version: `v2026.07.17`
+> Section ID: `P5-4.2`
+> Version: `v2026.07.19`
 
 在 P5-4.1 里，我们已经把损失函数（loss function）理解成：`把模型当前输出与目标之间偏离了多少变成数字的标准`。接下来就会自然冒出下一个问题：
 
@@ -466,4 +466,4 @@ generation_loss= 0.288
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
