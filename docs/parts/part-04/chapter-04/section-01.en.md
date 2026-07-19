@@ -1,7 +1,7 @@
 # P4-4.1 Training Data And Evaluation Data
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter P4-3 showed how heuristics can narrow the model candidates to try first. That immediately raises an important question. How can you check whether that choice is actually acceptable?
 
@@ -79,26 +79,9 @@ The same idea becomes more intuitive in a very small table.
 
 In this example, the rule is learned from C01, C02, and C03, then checked on C04 and C05. If C04 and C05 are also used for training, the model has already seen them, so the meaning of evaluation becomes weak.
 
-The same idea looks like the following when moved into code.
+The same idea can be moved into code as follows. The example below splits the customer feature list `X` and churn labels `y` together using the same criterion, then checks which samples and labels enter the training and evaluation sides. In the result, inspect the training inputs/labels, evaluation inputs/labels, sample counts, and `churn` ratios for each bundle.
 
-Problem situation:
-
-- Once the whole dataset is split into a learning part and an evaluation part, it is helpful to check directly which samples and labels enter each side.
-
-Input:
-
-- customer feature list `X`
-- churn label list `y`
-
-Expected output:
-
-- training inputs and labels, and evaluation inputs and labels
-- sample count and churn ratio for each side
-
-Concept to check:
-
-- `train_test_split` splits inputs and labels together using the same criterion
-- after splitting, it is important to first check the counts and the label ratio
+The key point is that `train_test_split` splits the inputs and labels together under the same criterion. After the split, it is important to build the habit of checking counts and label ratios before performance scores.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -151,33 +134,26 @@ The values printed together here are not model-performance metrics yet. They are
 
 Even these outputs alone help you understand more concretely `what kind of environment the model is about to learn in`.
 
-In a more practical style, people often split inputs and targets from a DataFrame first, then split the data.
+In a more practical style, people usually split input columns and the answer column from a `DataFrame` first, then split the data. The example below uses the feature-column list `feature_columns`, the answer column `target_column`, and a tabular dataset `df` to check the `shape` of `X_train` and `X_eval` and the label ratios on the training and evaluation sides.
 
-Problem situation:
-
-- In practical work, it is common to split a DataFrame into input columns and a target column first, then divide them into learning and evaluation parts.
-
-Input:
-
-- feature-column list `feature_columns`
-- target column `target_column`
-- tabular dataset `df`
-
-Expected output:
-
-- the shape of `X_train` and `X_eval`
-- the label ratio for the training and evaluation sides
-
-Concept to check:
-
-- a practical split should be read in the order `first separate input bundle X and target y`
-- shape and label ratio are the basic outputs for checking a split result
+The key point is that a practical split should be read in the order of first separating the input-column bundle `X` and the answer column `y`. `shape` and label ratios are the basic outputs for checking a split result.
 
 ```python
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
 feature_columns = ["recent_purchases", "support_tickets", "days_since_login"]
 target_column = "churned"
+
+df = pd.DataFrame(
+    [
+        {"recent_purchases": 8, "support_tickets": 0, "days_since_login": 2, "churned": "stay"},
+        {"recent_purchases": 4, "support_tickets": 1, "days_since_login": 5, "churned": "stay"},
+        {"recent_purchases": 6, "support_tickets": 1, "days_since_login": 4, "churned": "stay"},
+        {"recent_purchases": 1, "support_tickets": 4, "days_since_login": 21, "churned": "churn"},
+        {"recent_purchases": 7, "support_tickets": 0, "days_since_login": 3, "churned": "stay"},
+    ]
+)
 
 X = df[feature_columns]
 y = df[target_column]
@@ -197,18 +173,20 @@ print("evaluation label ratio:")
 print(y_eval.value_counts(normalize=True))
 ```
 
-The output usually looks like the following.
+An example output looks like the following.
 
 ```text
 X_train shape: (4, 3)
 X_eval shape: (1, 3)
 training label ratio:
+churned
 stay     0.75
 churn    0.25
-Name: churned, dtype: float64
+Name: proportion, dtype: float64
 evaluation label ratio:
+churned
 stay    1.0
-Name: churned, dtype: float64
+Name: proportion, dtype: float64
 ```
 
 Here what matters is not the syntax itself, but the separation of roles. As long as you can read the order `first separate X as input and y as answer, then separate them again into training and evaluation parts`, that is enough. The shape and label-ratio outputs are the fastest checks for whether the split result became too skewed.
@@ -348,27 +326,9 @@ This Section does not yet need to train a model. The goal is to learn by hand wh
 
 ### Exercise 1. Change `test_size`
 
-The code below splits the same data using two different ratios.
+The code below splits the same data using two different ratios. Using the customer feature list `X`, churn labels `y`, and two `test_size` values, it checks the training/evaluation sample counts and `churn` ratios under each ratio.
 
-Problem situation:
-
-- You need to check directly how the sample counts for the training and evaluation sides change when the evaluation-data ratio changes.
-
-Input:
-
-- customer feature list `X`
-- churn label list `y`
-- two different `test_size` values
-
-Expected output:
-
-- training and evaluation sample counts for each `test_size`
-- churn ratio on the training side and the evaluation side
-
-Concept to check:
-
-- as `test_size` grows, the evaluation side grows and the training side shrinks
-- the change in sample count and the change in label ratio must be viewed together
+The key point is that as `test_size` grows, the evaluation data grow and the training data shrink. Changes in sample count and changes in label ratio should be read together.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -407,14 +367,14 @@ An example output can look like the following.
 test_size = 0.25
 training sample count: 6
 evaluation sample count: 2
-training churn ratio: 0.5
-evaluation churn ratio: 0.5
+training churn ratio: 0.3333333333333333
+evaluation churn ratio: 1.0
 ------------------------------
 test_size = 0.5
 training sample count: 4
 evaluation sample count: 4
-training churn ratio: 0.5
-evaluation churn ratio: 0.5
+training churn ratio: 0.25
+evaluation churn ratio: 0.75
 ------------------------------
 ```
 
@@ -422,26 +382,9 @@ In this exercise, what matters is the split result, not a score. As `test_size` 
 
 ### Exercise 2. Change `random_state`
 
-Even with the same data, the split result can change if the shuffle criterion changes.
+Even with the same data, the split result can change if the shuffle criterion changes. The example below uses the same `X`, `y`, and different `random_state` values to compare the evaluation-label list and evaluation `churn` ratio under each seed.
 
-Problem situation:
-
-- Even with the same data and same split ratio, the label composition on the evaluation side can change if the shuffle criterion changes.
-
-Input:
-
-- the same `X` and `y`
-- different `random_state` values
-
-Expected output:
-
-- the list of evaluation labels for each `random_state`
-- the churn ratio in the evaluation data
-
-Concept to check:
-
-- `random_state` is the reference value used to reproduce a split result
-- with small data, the evaluation composition can swing a lot even when only the seed changes
+The key point is that `random_state` is a reference value for reproducing a split result. With small data, even changing only the seed can make the evaluation composition swing substantially.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -480,7 +423,7 @@ evaluation labels: ['stay', 'stay']
 evaluation churn ratio: 0.0
 ------------------------------
 random_state = 7
-evaluation labels: ['churn', 'stay']
+evaluation labels: ['stay', 'churn']
 evaluation churn ratio: 0.5
 ------------------------------
 random_state = 42
@@ -493,26 +436,9 @@ This exercise shows why `random_state` should be written down. If you want to re
 
 ### Exercise 3. See What Problem Appears When The Data Are Skewed
 
-The next example shows how easily the split result can swing when churn cases are few.
+The next example shows how easily the split result can swing when `churn` cases are few. It splits `X` and `y` with a sparse `churn` label and checks the training-label list, evaluation-label list, and the `churn` count in each bundle.
 
-Problem situation:
-
-- In data where positive labels are very rare, even a single split can skew the evaluation composition heavily
-
-Input:
-
-- `X` and `y` with a sparse `churn` label
-
-Expected output:
-
-- the list of training labels
-- the list of evaluation labels
-- the churn ratio in each bundle
-
-Concept to check:
-
-- in class-imbalanced data, label distribution can shake easily even with an ordinary random split
-- this is why label composition should be printed right after the split
+The key point is that in class-imbalanced data, label distribution can shift easily even with an ordinary random split. This is why label composition should be printed immediately after the split.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -536,10 +462,10 @@ print("evaluation churn count:", y_eval.count("churn"))
 An example output can be read like this.
 
 ```text
-training labels: ['stay', 'stay', 'stay', 'stay', 'stay', 'stay', 'stay']
-evaluation labels: ['stay', 'stay', 'churn']
-training churn count: 0
-evaluation churn count: 1
+training labels: ['stay', 'stay', 'stay', 'churn', 'stay', 'stay', 'stay']
+evaluation labels: ['stay', 'stay', 'stay']
+training churn count: 1
+evaluation churn count: 0
 ```
 
 In this exercise, one side can end up with almost no `churn`, or even none at all. In that state, it becomes very hard for the model to learn churn patterns or to evaluate them properly. That is why the next Section returns to stratified split.
@@ -555,8 +481,6 @@ In this exercise, one side can end up with almost no `churn`, or even none at al
 
 ## Sources And References
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

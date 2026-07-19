@@ -1,7 +1,7 @@
 # P4-4.1 训练数据与评估数据
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-3 章里，我们看过怎样利用 heuristic 先缩小要尝试的模型候选。接下来就会出现一个重要问题：怎样确认这个选择在现实里到底合不合理？
 
@@ -79,26 +79,9 @@ overfitting 和 generalization 会在 P4-5 详细处理。accuracy、precision�
 
 在这个例子里，先用 C01、C02、C03 学出规则，再用 C04、C05 检查规则是否还能成立。如果连 C04、C05 也一起拿去训练，model 就已经见过这些案例，评估的意义会变弱。
 
-把同样的想法换成代码，大致会是下面这样。
+把同样的想法换成代码，可以像下面这样看。下面的例子会把客户 feature 列表 `X` 和流失 label `y` 按同一个基准一起拆开，并确认哪些样本和 label 进入 training 侧、哪些进入 evaluation 侧。结果中会一起查看 training 输入/label、evaluation 输入/label、两边的样本数和 `churn` 比例。
 
-问题场景：
-
-- 当整份数据被分成训练部分和评估部分后，最好能直接检查哪些样本和 label 落到了哪一边
-
-输入：
-
-- 客户 feature 列表 `X`
-- 流失 label 列表 `y`
-
-期望输出：
-
-- training 侧和 evaluation 侧的输入与 label
-- 两边的样本数与 churn 比例
-
-要确认的概念：
-
-- `train_test_split` 会按同一个基准同时拆分输入和 label
-- 拆分后首先要检查数量和 label 比例
+要确认的核心是，`train_test_split` 会按同一个基准同时拆分输入和 label。拆分之后，比起先看性能分数，更重要的是养成先检查数量和 label 比例的习惯。
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -151,33 +134,26 @@ evaluation churn ratio: 0.5
 
 光看这些输出，也能更具体地理解 `model 即将开始学习的环境到底是什么样子`。
 
-如果换成更接近实务的写法，通常会先从 `DataFrame` 里分出输入列和目标列，然后再拆分。
+如果换成更接近实务的写法，通常会先从 `DataFrame` 里分出输入列和目标列，然后再拆分。下面的例子使用 feature 列列表 `feature_columns`、目标列 `target_column` 和表格数据 `df`，来确认 `X_train`、`X_eval` 的 `shape` 以及 training/evaluation 两侧的 label 比例。
 
-问题场景：
-
-- 在实务里，经常会先从 `DataFrame` 中分出输入列与目标列，再拆成学习和评估部分
-
-输入：
-
-- feature 列列表 `feature_columns`
-- 目标列 `target_column`
-- 表格数据 `df`
-
-期望输出：
-
-- `X_train` 和 `X_eval` 的 `shape`
-- training 与 evaluation 两侧的 label 比例
-
-要确认的概念：
-
-- 实务中的拆分应该按 `先分出输入 X 和目标 y` 这个顺序来读
-- `shape` 和 label 比例是检查拆分结果的基本输出
+要确认的核心是，实务型拆分应按 `先分出输入列集合 X 和答案列 y` 的顺序来读。`shape` 和 label 比例是检查拆分结果的基本输出。
 
 ```python
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
 feature_columns = ["recent_purchases", "support_tickets", "days_since_login"]
 target_column = "churned"
+
+df = pd.DataFrame(
+    [
+        {"recent_purchases": 8, "support_tickets": 0, "days_since_login": 2, "churned": "stay"},
+        {"recent_purchases": 4, "support_tickets": 1, "days_since_login": 5, "churned": "stay"},
+        {"recent_purchases": 6, "support_tickets": 1, "days_since_login": 4, "churned": "stay"},
+        {"recent_purchases": 1, "support_tickets": 4, "days_since_login": 21, "churned": "churn"},
+        {"recent_purchases": 7, "support_tickets": 0, "days_since_login": 3, "churned": "stay"},
+    ]
+)
 
 X = df[feature_columns]
 y = df[target_column]
@@ -197,18 +173,20 @@ print("evaluation label ratio:")
 print(y_eval.value_counts(normalize=True))
 ```
 
-输出通常会像下面这样。
+一个示例输出会像下面这样。
 
 ```text
 X_train shape: (4, 3)
 X_eval shape: (1, 3)
 training label ratio:
+churned
 stay     0.75
 churn    0.25
-Name: churned, dtype: float64
+Name: proportion, dtype: float64
 evaluation label ratio:
+churned
 stay    1.0
-Name: churned, dtype: float64
+Name: proportion, dtype: float64
 ```
 
 这里真正重要的不是语法本身，而是角色拆分。只要能读出 `先把输入 X 和答案 y 分开，再把它们拆成 training 和 evaluation` 这个顺序，就已经够用了。`shape` 和 label 比例的输出，则是最快判断拆分是否过于偏斜的基本检查。
@@ -348,27 +326,9 @@ evaluation data 是一种 `模拟尚未见过数据` 的装置。但它并不保
 
 ### 练习 1. 改变 `test_size`
 
-下面的代码会用两种比例来拆分同一份数据。
+下面的代码会用两种比例来拆分同一份数据。它使用客户 feature 列表 `X`、流失 label `y` 和两个 `test_size` 值，确认每种比例下的 training/evaluation 样本数和 `churn` 比例。
 
-问题场景：
-
-- 需要直接确认：当 evaluation 比例改变时，training 样本数和 evaluation 样本数会怎样变化
-
-输入：
-
-- 客户 feature 列表 `X`
-- 流失 label 列表 `y`
-- 两个不同的 `test_size`
-
-期望输出：
-
-- 每个 `test_size` 下的 training / evaluation 样本数
-- training 与 evaluation 两边的 churn 比例
-
-要确认的概念：
-
-- `test_size` 越大，evaluation 侧越大，而 training 侧越小
-- 样本数变化和 label 比例变化必须一起看
+要确认的核心是，`test_size` 越大，evaluation data 越多，而 training data 越少。样本数变化和 label 比例变化必须一起看。
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -407,14 +367,14 @@ for ratio in [0.25, 0.5]:
 test_size = 0.25
 training sample count: 6
 evaluation sample count: 2
-training churn ratio: 0.5
-evaluation churn ratio: 0.5
+training churn ratio: 0.3333333333333333
+evaluation churn ratio: 1.0
 ------------------------------
 test_size = 0.5
 training sample count: 4
 evaluation sample count: 4
-training churn ratio: 0.5
-evaluation churn ratio: 0.5
+training churn ratio: 0.25
+evaluation churn ratio: 0.75
 ------------------------------
 ```
 
@@ -422,26 +382,9 @@ evaluation churn ratio: 0.5
 
 ### 练习 2. 改变 `random_state`
 
-即使数据相同，只要打乱基准不同，拆分结果也可能不同。
+即使数据相同，只要打乱基准不同，拆分结果也可能不同。下面的例子使用相同的 `X`、`y` 和不同的 `random_state` 值，比较每个 seed 下的 evaluation label 列表和 evaluation data 的 `churn` 比例。
 
-问题场景：
-
-- 就算数据相同、拆分比例也相同，只要打乱基准变化，evaluation 侧的 label 组成就可能改变
-
-输入：
-
-- 相同的 `X`、`y`
-- 不同的 `random_state`
-
-期望输出：
-
-- 每个 `random_state` 下的 evaluation label 列表
-- evaluation data 中的 churn 比例
-
-要确认的概念：
-
-- `random_state` 是为了复现拆分结果而设置的参考值
-- 在小数据里，就算只改 seed，evaluation 组成也可能大幅波动
+要确认的核心是，`random_state` 是为了复现拆分结果而设置的参考值。在小数据里，就算只改 seed，evaluation 组成也可能大幅波动。
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -480,7 +423,7 @@ evaluation labels: ['stay', 'stay']
 evaluation churn ratio: 0.0
 ------------------------------
 random_state = 7
-evaluation labels: ['churn', 'stay']
+evaluation labels: ['stay', 'churn']
 evaluation churn ratio: 0.5
 ------------------------------
 random_state = 42
@@ -493,26 +436,9 @@ evaluation churn ratio: 1.0
 
 ### 练习 3. 看看当数据偏斜时会出现什么问题
 
-下面这个例子展示的是：当 churn 样本本来就很少时，拆分结果会多么容易波动。
+下面这个例子展示的是：当 `churn` 样本本来就很少时，拆分结果会多么容易波动。它会拆分带有稀疏 `churn` label 的 `X`、`y`，并确认 training label 列表、evaluation label 列表以及每一侧的 `churn` 个数。
 
-问题场景：
-
-- 在正类 label 非常少的数据里，只做一次拆分也可能让评估侧的组成严重偏斜
-
-输入：
-
-- 带有稀疏 `churn` label 的 `X`、`y`
-
-期望输出：
-
-- training 侧的 label 列表
-- evaluation 侧的 label 列表
-- 每一侧的 `churn` 比例
-
-要确认的概念：
-
-- 在类别不平衡的数据里，就算只是普通随机拆分，label 分布也很容易波动
-- 这也就是为什么拆分之后要立刻把 label 组成打印出来
+要确认的核心是，在类别不平衡的数据里，就算只是普通随机拆分，label 分布也很容易波动。这也就是为什么拆分之后要立刻把 label 组成打印出来。
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -536,10 +462,10 @@ print("evaluation churn count:", y_eval.count("churn"))
 一个示例输出可以这样读。
 
 ```text
-training labels: ['stay', 'stay', 'stay', 'stay', 'stay', 'stay', 'stay']
-evaluation labels: ['stay', 'stay', 'churn']
-training churn count: 0
-evaluation churn count: 1
+training labels: ['stay', 'stay', 'stay', 'churn', 'stay', 'stay', 'stay']
+evaluation labels: ['stay', 'stay', 'stay']
+training churn count: 1
+evaluation churn count: 0
 ```
 
 在这个练习里，某一边可能几乎没有 `churn`，甚至完全没有。到了这种状态，model 就会很难学习流失模式，也很难正确评估它们。也正因为这样，下一节才会再次回到 stratified split。
@@ -555,8 +481,6 @@ evaluation churn count: 1
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
