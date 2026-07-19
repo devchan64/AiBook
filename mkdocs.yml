@@ -439,10 +439,11 @@ nav:
               - "P5-14.2 Transformer 블록의 네 부품은 각각 무엇을 맡는가": parts/part-05/chapter-14/section-02.md
               - "P5-14.3 토큰 표현은 Transformer 블록 안에서 어떻게 이동하는가": parts/part-05/chapter-14/section-03.md
               - "P5-14.4 residual과 normalization은 깊은 반복을 어떻게 안정화하는가": parts/part-05/chapter-14/section-04.md
-              - "P5-14.5 RNN의 상태 전달과 Transformer의 관계 계산은 어떻게 다른가": parts/part-05/chapter-14/section-05.md
-              - "P5-14.6 관계 계산은 왜 GPU 병렬 처리와 잘 맞는가": parts/part-05/chapter-14/section-06.md
-              - "P5-14.7 긴 문맥은 왜 기억력보다 단서 재참조 문제인가": parts/part-05/chapter-14/section-07.md
-              - "P5-14.8 작은 실험에서 순차 상태와 직접 재참조는 어떻게 갈라지는가": parts/part-05/chapter-14/section-08.md
+              - "P5-14.5 RNN의 상태 전달과 Transformer의 관계 계산은 병렬 처리에서 어떻게 갈라지는가": parts/part-05/chapter-14/section-05.md
+              - "P5-14.6 긴 문맥에서 순차 상태와 직접 재참조는 어떻게 갈라지는가": parts/part-05/chapter-14/section-06.md
+              - "P5-14.7 보충학습: feed-forward network는 왜 위치별 표현 가공을 맡는가": parts/part-05/chapter-14/section-07.md
+              - "P5-14.8 보충학습: residual connection은 왜 원래 표현의 길을 남기는가": parts/part-05/chapter-14/section-08.md
+              - "P5-14.9 보충학습: layer normalization은 왜 값의 기준선을 맞추는가": parts/part-05/chapter-14/section-09.md
       - "Module 6. 생성 모델과 샘플링":
           - "Chapter 15. 생성 모델의 직관":
               - "P5-15.1 생성 모델(generative model)은 무엇을 배우는가": parts/part-05/chapter-15/section-01.md

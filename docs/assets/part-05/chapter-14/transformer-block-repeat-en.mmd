@@ -1,0 +1,14 @@
+flowchart TD
+  A["current token representation"]
+  subgraph BLOCK["repeatable Transformer block"]
+    B["self-attention<br/>read relationships"]
+    C["feed-forward<br/>process the current position"]
+    D["residual + normalization<br/>keep information and stability"]
+  end
+  E["representation for the next block"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E -. "repeat the same bundle" .-> B

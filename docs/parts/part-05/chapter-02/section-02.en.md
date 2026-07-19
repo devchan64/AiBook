@@ -1,7 +1,7 @@
 # P5-2.2 Hidden Layers And Representation
 
 Section ID: `P5-2.2`
-Version: `v2026.07.17`
+Version: `v2026.07.19`
 
 In P5-2.1, we saw that a multilayer neural network stacks several computation units like perceptrons across multiple layers, so that the input does not go directly to the final judgment but passes through intermediate stages. Now let us make the question a little more concrete.
 
@@ -21,7 +21,7 @@ This section organizes the following questions.
 - Is it safe to interpret the hidden layer immediately with easy human-readable names?
 - Why is deep learning explained together with representation learning?
 
-The larger flow called representation learning is expanded again in P5-10.1 and P5-10.2. Filters and spatial representations in CNNs return in P5-11.1 and P5-11.2, and attention-based representations reconnect in P5-13.1, P5-13.2, P5-14.1, and P5-14.2. In other words, this section focuses on first holding onto the hidden layer as `an internal representation layer that rewrites the input`.
+The larger flow called representation learning is expanded again in P5-10.1 and P5-10.2. Filters and spatial representations in CNNs return in P5-11.1 and P5-11.2, and attention-based representations reconnect in P5-13.1, P5-13.2, and the Transformer main sections from P5-14.1 through P5-14.6. In other words, this section focuses on first holding onto the hidden layer as `an internal representation layer that rewrites the input`.
 
 ## Goals Of This Section
 

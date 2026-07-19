@@ -1,0 +1,10 @@
+flowchart TD
+  A["输入表示<br/>原始 token 含义"]
+  B["新计算<br/>attention 或 feed-forward 输出"]
+  C["相加<br/>原始表示 + 新计算"]
+  D["下一阶段表示<br/>新含义与原始轴线一起保留"]
+
+  A --> B
+  B --> C
+  A -. "跳连路径" .-> C
+  C --> D

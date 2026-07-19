@@ -1,0 +1,14 @@
+flowchart TD
+  A["현재 토큰 표현"]
+  subgraph BLOCK["반복 가능한 Transformer 블록"]
+    B["self-attention<br/>관계 읽기"]
+    C["feed-forward<br/>현재 위치 표현 가공"]
+    D["residual + normalization<br/>정보와 안정성 유지"]
+  end
+  E["다음 블록으로 넘길 표현"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E -. "같은 묶음을 다시 반복" .-> B

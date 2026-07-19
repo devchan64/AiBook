@@ -1,0 +1,10 @@
+flowchart TD
+  A["input representation<br/>original token meaning"]
+  B["new calculation<br/>attention or feed-forward output"]
+  C["add<br/>original representation + new calculation"]
+  D["next-stage representation<br/>new meaning and original axis remain together"]
+
+  A --> B
+  B --> C
+  A -. "skip path" .-> C
+  C --> D

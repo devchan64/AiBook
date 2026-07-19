@@ -1,0 +1,14 @@
+flowchart TD
+  A["当前 token 表示"]
+  subgraph BLOCK["可重复的 Transformer block"]
+    B["self-attention<br/>读取关系"]
+    C["feed-forward<br/>加工当前位置表示"]
+    D["residual + normalization<br/>保留信息与稳定性"]
+  end
+  E["送往下一个 block 的表示"]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E -. "再次重复同一组结构" .-> B

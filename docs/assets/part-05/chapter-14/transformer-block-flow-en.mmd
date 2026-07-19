@@ -1,10 +1,10 @@
 flowchart TD
-  A["input tokens"]
-  B["self-attention"]
-  C["add + norm"]
-  D["feed-forward"]
-  E["add + norm"]
-  F["contextual token representations"]
+  A["input token representation"]
+  B["self-attention<br/>read relationships with other positions"]
+  C["residual + normalization<br/>add the original representation and organize scale"]
+  D["feed-forward network<br/>process the current-position representation"]
+  E["residual + normalization<br/>pass the processed result stably"]
+  F["updated representation for the next block"]
 
   A --> B
   B --> C

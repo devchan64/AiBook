@@ -1,10 +1,10 @@
 flowchart TD
-  A["입력 토큰"]
-  B["셀프 어텐션"]
-  C["더하기 + 정규화"]
-  D["피드포워드"]
-  E["더하기 + 정규화"]
-  F["문맥이 반영된 토큰 표현"]
+  A["입력 토큰 표현"]
+  B["self-attention<br/>다른 위치와의 관계 읽기"]
+  C["residual + normalization<br/>원래 표현을 더하고 값 범위 정리"]
+  D["feed-forward network<br/>현재 위치 표현 가공"]
+  E["residual + normalization<br/>가공 결과를 안정적으로 전달"]
+  F["다음 블록으로 넘길 갱신 표현"]
 
   A --> B
   B --> C

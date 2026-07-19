@@ -1,0 +1,7 @@
+flowchart LR
+  A1["position 1<br/>context-mixed representation"] --> B1["same FFN<br/>within-position transform"] --> C1["position 1<br/>updated representation"]
+  A2["position 2<br/>context-mixed representation"] --> B2["same FFN<br/>within-position transform"] --> C2["position 2<br/>updated representation"]
+  A3["position 3<br/>context-mixed representation"] --> B3["same FFN<br/>within-position transform"] --> C3["position 3<br/>updated representation"]
+
+  B1 -. "shared weights" .- B2
+  B2 -. "shared weights" .- B3

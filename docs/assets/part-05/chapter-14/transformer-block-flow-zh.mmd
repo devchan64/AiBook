@@ -1,10 +1,10 @@
 flowchart TD
-  A["输入 token"]
-  B["self-attention"]
-  C["add + norm"]
-  D["feed-forward"]
-  E["add + norm"]
-  F["带上下文的 token 表示"]
+  A["输入 token 表示"]
+  B["self-attention<br/>读取与其他位置的关系"]
+  C["residual + normalization<br/>加回原始表示并整理数值范围"]
+  D["feed-forward network<br/>加工当前位置表示"]
+  E["residual + normalization<br/>稳定传递加工结果"]
+  F["送往下一个 block 的更新表示"]
 
   A --> B
   B --> C

@@ -1,7 +1,7 @@
 # 목차
 
-Section ID: `BOOK-toc`
-Version: `v2026.07.18`
+> Section ID: `BOOK-toc`
+> Version: `v2026.07.19`
 
 이 목차는 현재 기준 목차로 확정한 학습 순서입니다. `확정`은 책의 구조로 채택했다는 뜻이며, 각 장의 내용이 모두 작성되었거나 검증되었다는 뜻은 아닙니다.
 
@@ -611,8 +611,15 @@ flowchart LR
 
 #### Chapter 14. Transformer `딥러닝 구조`
 
-- **P5-14.1 Transformer의 기본 구성**: attention, feed-forward, layer norm의 위치를 봅니다.
-- **P5-14.2 병렬 처리와 긴 문맥**: Transformer가 RNN과 달랐던 지점을 봅니다.
+- **P5-14.1 Transformer는 왜 attention 하나로 설명되지 않는가**: Transformer를 attention 하나가 아니라 반복 가능한 블록 구조로 읽는 기준을 잡습니다.
+- **P5-14.2 Transformer 블록의 네 부품은 각각 무엇을 맡는가**: self-attention, feed-forward, residual, normalization의 역할을 구분합니다.
+- **P5-14.3 토큰 표현은 Transformer 블록 안에서 어떻게 이동하는가**: 현재 토큰 표현이 블록 안에서 단계별로 어떻게 이동하는지 봅니다.
+- **P5-14.4 residual과 normalization은 깊은 반복을 어떻게 안정화하는가**: 깊은 블록 반복에서 정보 흐름과 값 범위를 안정화하는 장치를 봅니다.
+- **P5-14.5 RNN의 상태 전달과 Transformer의 관계 계산은 병렬 처리에서 어떻게 갈라지는가**: 순차 상태 전달과 토큰 관계 계산의 차이가 GPU 병렬 처리와 대규모 학습으로 이어지는 방식을 봅니다.
+- **P5-14.6 긴 문맥에서 순차 상태와 직접 재참조는 어떻게 갈라지는가**: 긴 문맥에서 필요한 앞 위치를 다시 참고하는 감각을 작은 실험과 함께 확인합니다.
+- **P5-14.7 보충학습: feed-forward network는 왜 위치별 표현 가공을 맡는가**: attention으로 문맥이 섞인 표현을 각 위치 안에서 다시 가공하는 역할을 따로 정리합니다.
+- **P5-14.8 보충학습: residual connection은 왜 원래 표현의 길을 남기는가**: 새 계산 결과와 원래 입력 표현이 함께 다음 단계로 넘어가는 이유를 따로 정리합니다.
+- **P5-14.9 보충학습: layer normalization은 왜 값의 기준선을 맞추는가**: 한 위치 표현 안의 값 범위를 다음 계산이 다루기 쉬운 기준선으로 맞추는 이유를 따로 정리합니다.
 
 ### Module 6. 생성 모델과 샘플링
 

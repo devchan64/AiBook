@@ -1,10 +1,12 @@
 flowchart TD
-  A["earlier token"]
-  B["sequential path"]
-  C["later token"]
-  D["direct reference"]
+  A["earlier clue<br/>rule / definition / first log"]
+  B["sequential state carry<br/>compressed through middle text"]
+  C["current question<br/>final decision point"]
+  D["direct re-reference<br/>compare the needed clue again"]
+  E["evidence-backed decision"]
 
   A --> B
   B --> C
-  A -.-> D
-  D -.-> C
+  A -. "needed clue" .-> D
+  C --> D
+  D --> E

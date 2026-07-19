@@ -1,7 +1,7 @@
 # P5-9.1 GPU 与并行处理（parallel processing）
 
 Section ID: `P5-9.1`
-Version: `v2026.07.17`
+Version: `v2026.07.19`
 
 到 P5-8 章为止，我们主要看的是深度学习模型内部发生的学习计算和 regularization。把视野再稍微放宽一点，接下来就会冒出一个问题。
 
@@ -22,7 +22,7 @@ Version: `v2026.07.17`
 
 这一节先关住的是：为什么深度学习更像`海量重复相同数值运算的问题`，以及为什么这种重复计算会和 GPU、并行处理特别契合。也就是说，这里先专注于抓住`计算资源的大图景`。
 
-同时，这一节也明确把接下来会继续具体化的问题交出去。GPU 擅长处理的深度学习计算，真实会以什么样的数据分组和 shape 被交给模型，会在下一节 P5-9.2 里继续通过 batch 和 tensor 计算说明。Transformer 为什么又会和 GPU 式并行处理特别契合，则会在后面的 P5-14.1、P5-14.2 再重新接回。
+同时，这一节也明确把接下来会继续具体化的问题交出去。GPU 擅长处理的深度学习计算，真实会以什么样的数据分组和 shape 被交给模型，会在下一节 P5-9.2 里继续通过 batch 和 tensor 计算说明。Transformer 为什么又会和 GPU 式并行处理特别契合，则会在后面的 P5-14.5 再重新接回。
 
 ## 本节目标
 
@@ -238,61 +238,71 @@ scaling_table = {
 }
 
 print("batch shape =", batch.shape)
+print("weights shape =", weights.shape)
 print("scores_one_by_one =", scores_one_by_one)
 print("scores_batch =", np.round(scores_batch, 3).tolist())
-print("same result =", np.allclose(scores_one_by_one, scores_batch))
 print("scalar multiply count =", scalar_multiply_total)
-for feature_count, counts in scaling_table.items():
-    print(f"estimated scalar multiplies (feature={feature_count}) =", counts)
-print("if batch size doubles, estimated scalar multiplies =", scalar_multiply_count(batch.shape[0] * 2, batch.shape[1]))
+print("same result =", np.allclose(scores_one_by_one, np.round(scores_batch, 3)))
+print("probe batch sizes =", probe_batch_sizes)
+print("estimated scalar multiplies when feature count = 3 =", scaling_table[3])
+print("estimated scalar multiplies when feature count = 6 =", scaling_table[6])
 ```
 
 读输出时，先看 `scores_one_by_one` 和 `scores_batch` 是否一致，再看 `scalar multiply count` 和 `estimated scalar multiplies` 是怎样继续增长的。
 
 ```text
 batch shape = (4, 3)
+weights shape = (3,)
 scores_one_by_one = [0.2, 1.19, 0.35, 1.3]
 scores_batch = [0.2, 1.19, 0.35, 1.3]
-same result = True
 scalar multiply count = 12
-estimated scalar multiplies (feature=3) = [12, 24, 48, 96]
-estimated scalar multiplies (feature=6) = [24, 48, 96, 192]
-if batch size doubles, estimated scalar multiplies = 24
+same result = True
+probe batch sizes = [4, 8, 16, 32]
+estimated scalar multiplies when feature count = 3 = [12, 24, 48, 96]
+estimated scalar multiplies when feature count = 6 = [24, 48, 96, 192]
 ```
 
-- 分数本身是一样的
-- 但 batch 越大，feature 越多，重复乘法次数就会立刻膨胀
-- 也就是说，GPU 的意义不是改变答案，而是改变你能用多大规模、以多快速度继续实验
+- 即使计算内容本身相同，真实的深度学习框架也会把这类运算组织成`整个 batch 的矩阵计算`
+- 即使在这个小数据里，同一种乘法也重复了 12 次；batch 或 feature 一变大，这个重复次数就会马上增加
+- GPU 的强项，就在于把这类重复乘法和加法大规模并行处理
 
-先看的第一份产物，是逐条生产线的风险分数比较图。它再次确认：按样本循环和按 batch 的矩阵计算，可以得到同样分数。
+第一份产物是逐条生产线的风险分数。按样本重复计算和按 batch 的矩阵计算会得到同样分数，但这张图真正要显示的重点不只是`结果相同`，而是`同一个结果可以通过不同的计算组织方式得到`。
 
 ![逐条循环与 batch 矩阵计算的风险分数比较](/AiBook/assets/part-05/chapter-09/gpu-batch-score-comparison-zh.png)
 
-第二份产物，是随着 batch 大小和 feature 数增长，scalar multiply count 会怎样增长的图。这里最重要的点不是某个具体数字本身，而是：一旦 batch 和 feature 同时增长，重复计算的规模会快速拉高。
+第二份产物是 scalar multiply count 的增长曲线。当前例子里 4 条生产线、3 个 feature 需要 12 次乘法，但如果把 batch 大小和 feature 数一起放大，就能更直接地读出同类重复计算会多快膨胀。
 
 ![batch 与 feature 增长时的 scalar multiply count 比较](/AiBook/assets/part-05/chapter-09/gpu-scalar-multiply-scaling-zh.png)
 
 | 比较 | 现在要读的核心 |
 | --- | --- |
-| `same result` | 逐样本循环和 batch 矩阵计算可以给出同样答案。 |
-| `scalar multiply count` | 即使只是小例子，只要 batch 与 feature 增长，重复计算规模就会立刻变大。 |
-| `estimated scalar multiplies` | 这不是在炫耀大数字，而是在说明：计算资源会直接决定你还能不能继续扩大实验。 |
+| `scores_one_by_one` vs `scores_batch` | 结果相同，但计算组织方式不同。 |
+| `12 -> 24 -> 48 -> 96` 的增长 | batch 和 feature 越大，同类乘法负担就越快膨胀。 |
+| CPU vs GPU 的感觉 | GPU 的价值不只是更快完成同一个计算，还在于让更大的 batch 和更多次实验真正变得可行。 |
 
-即使在读这些输出时，也要把`答案是否相同`和`实验是否还能负担得起`分开来读。
+读输出数字时，也要把`是否得到同样结果`和`为了得到这个结果需要承担多大计算规模`分开来看。从初学者角度，可以像下面这样逐行重读输出。
+
+| 输出行 | 马上要读出的含义 | 接着会连到的问题 |
+| --- | --- | --- |
+| `same result = True` | 按样本重复计算和 batch 计算在数学上做的是同一件事。 | 那么真正差异是不是在于计算如何被组织起来？ |
+| `scalar multiply count = 12` | 即使只是小 batch，同一种乘法也已经重复了多次。 | 样本数、feature 数、layer 数继续变大时，重复负担会涨到哪里？ |
+| `estimated scalar multiplies when feature count = 3/6` | 不只是 batch，feature 数也会一起推高重复计算的增长速度。 | 到什么输入大小和模型宽度为止，实验才仍然是现实可行的？ |
 
 | 比较 | 输出里首先看到的 | 只看结果时容易留下的解读 | 把 GPU 视角一起算进去之后会改变的解读 |
 | --- | --- | --- | --- |
-| `same result` | `scores_one_by_one` 和 `scores_batch` 完全一致 | 容易觉得既然答案一样，就没有本质差别 | 结果一样并不代表计算组织方式一样，而后者会直接改变实验规模 |
-| `scalar multiply count` | 在 `(4, 3)` 的小例子里只是 `12` 次乘法 | 容易觉得这个负担很小，没什么可区分 | 小例子只是为了让膨胀趋势可见，真正关键是它会跟 batch 与 feature 一起快速增长 |
-| `estimated scalar multiplies` | feature 从 3 变 6、batch 持续翻倍时，次数马上跳到 `192` | 容易把它只看成机械的次数增加 | 它其实是在提示：CPU 式顺序实验会多快碰到瓶颈，而 GPU 式批量处理为什么能把实验范围继续往外推 |
+| `scores_one_by_one` vs `scores_batch` | 分数完全相同。 | 容易认为计算方式差异并不重要。 | 即使数学运算相同，怎样打包和处理它，也会改变实际速度和处理规模。 |
+| `12 -> 24 -> 48 -> 96` 的增长 | batch 和 feature 变大时，重复计算估计值会快速增加。 | 在小例子里数字很简单，容易觉得真实负担也只是简单增加。 | 真实模型里 batch、feature、layer 会一起变大，重复计算很快会变成实验瓶颈。 |
+| CPU vs GPU 的感觉 | 小例子用 CPU 也完全能跑完。 | 容易把 GPU 看成方便一点的加速器。 | 计算资源不只是速度差异，而是把更大 batch 和更多尝试变成可达工作范围的条件。 |
 
-也就是说，这个例子里，读者真正该抓住的不是`GPU 会不会改变数学答案`，而是`同样答案背后的计算组织方式，会不会改变你能做到多大规模、能试多少次实验。`
-
-GPU 和并行处理之所以在深度学习历史里这么关键，也正是因为它们改变的不是模型定义本身，而是实验真正可执行的边界。
+| 实验运行标准 | 只按 CPU 式读法时容易做出的判断 | 加上 GPU 视角后会改变的判断 |
+| --- | --- | --- |
+| batch 大小调整 | 只要分数一样，就容易觉得没有太大理由改变 batch | 一旦知道 batch 变大时重复计算负担会如何增加，就会先估计实验能跑到什么范围 |
+| hyperparameter search | 多次改变 learning rate 或模型宽度，看起来只是多花一点时间的问题 | 同类运算一旦快速膨胀，就会先看到可尝试的设置数量本身会随计算资源改变 |
+| 模型规模扩大 | 容易觉得增加 feature 或 layer 只会提高准确率 | 实际上重复计算和 memory 负担会一起增加，所以在期待性能之前，必须先问`能不能实际跑起来` |
 
 把这个结果再翻回真实实验运转，CPU 式读法很容易流向`只要分数一样，计算方式差异就是次要的`，而 GPU 式读法会更早先问：`什么 batch、什么设置，才是真正还能持续重复实验的。` 这一节真正要读出的转折点，不只是速度更快，而是这种`实验设计可行范围`的差异。
 
-Part 5 里 GPU 这一节之所以重要，也不只是为了补一段硬件知识。如果把深度学习只看成纯数学理论，就会解释不出：为什么某个时期之后，它会突然引发产业级扩散。
+Part 5 里 GPU 这一节之所以重要，不只是为了补一段硬件知识。如果把深度学习只看成纯数学理论，就会解释不出：为什么某个时期之后，它会突然引发产业级扩散。
 
 这一节正在把下面这些东西连起来。
 
@@ -302,7 +312,7 @@ Part 5 里 GPU 这一节之所以重要，也不只是为了补一段硬件知�
 
 也就是说，GPU 这一节其实是那条历史桥梁，用来说明`为什么深度学习会变成大规模计算产业。`
 
-先在这里停一下，把`什么时候该比模型结构更早想到计算资源视角`这条判断 기준固定住，后面的章节会更不容易摇晃。
+先在这里停一下，把`什么时候该比模型结构更早想到计算资源视角`这条判断基准固定住，后面的章节会更不容易摇晃。
 
 | 先冒出的提问 | 为什么此时更需要 GPU / parallel processing 视角 | 这一节还不会继续深挖的东西 |
 | --- | --- | --- |
@@ -310,25 +320,16 @@ Part 5 里 GPU 这一节之所以重要，也不只是为了补一段硬件知�
 | 为什么实验需要反复跑很多次，却总是太耗时？ | 因为计算资源不只是速度问题，而是实验回转本身能不能成立的条件 | TPU、NPU、分布式训练基础设施细节 |
 | 为什么模型一旦变大，连能不能训练都不一样了？ | 因为 parameter 数和输入规模增大时，会一起推高 memory 和运算上限 | memory bandwidth、硬件架构细节 |
 
-## 在学习 흐름里应该把 GPU 放在哪里读
-
-这一节最适合被拿出来的时刻，是当读者开始觉得：深度学习好像不只是模型问题，而也开始像计算资源问题的时候。GPU 不是某个模型里的附属零件，而应该被读成：让深度学习从`想法成立`走到`真实规模可重复实验`的关键条件之一。
-
-| 首先出现的问题场景 | 为什么此时 GPU 视角更有用 | 接着会连到哪里 |
-| --- | --- | --- |
-| 模型和数据一变大，实验就显得越来越难跑 | 它能解释：为什么深度学习不是只靠算法，还强烈依赖计算组织方式 | 会继续连到 P5-9.2 里的 batch 与 tensor shape 阅读 |
-| 看不出 CPU 和 GPU 为什么都要被单独提起 | 它能把`结果一样`与`任务如何被打包`分开来读 | 后面会继续连到更大的矩阵计算与 Transformer 并行结构 |
-| 历史里 AlexNet 为什么总被当作转折点 | 它能说明：真正变的并不是概念突然诞生，而是大规模计算终于变得可行 | 会再连回模型规模、数据规模和实验速度的组合关系 |
-| 感觉深度学习只是更复杂的数学 | 它能把重点重新拉回：大量重复同类运算才是 GPU 合拍的原因 | 会进一步连到 batch、tensor、shape 的计算语言 |
-
 ## 检查清单
 
-- 能说明深度学习为什么特别依赖计算资源吗？
-- 能把 CPU 和 GPU 的差别解释成`少量灵活工作者`与`大量同时处理相似工作的工作者`吗？
-- 能说明 parallel processing 为什么会和深度学习这种重复数值运算结构特别契合吗？
-- 能说明 GPU 改变的不是数学答案本身，而是实验规模和实验回转速度吗？
-- 能从 GPU 视角重新理解 AlexNet 为什么像一个历史转折点吗？
-- 能理解这一节先关住的是 GPU/并行处理的大图景，而 batch/tensor 问题会继续交给下一节吗？
+- 能说明 GPU（graphics processing unit）和并行处理（parallel processing）为什么与深度学习扩散紧密相连吗？
+- 能说明计算资源的发展怎样和模型结构的发展相互咬合吗？
+- 能说明深度学习是一类反复执行大规模数值运算的计算问题吗？
+- 能说出 GPU 擅长同时处理大量相似计算吗？
+- 能不只把 GPU 说成`让深度学习跑得更快的零件`，而是说成`把大规模重复计算抬到实际实验规模的条件`吗？
+- 能说明同一个分数既可以通过按样本重复计算得到，也可以通过 batch 矩阵计算得到，但计算组织方式会改变实验可行范围吗？
+- 当执行速度和实验回转比模型结构更像瓶颈时，能先想到计算资源视角吗？
+- 知道 AlexNet 常常被读作数据、模型、GPU、训练技术结合在一起的转折点吗？
 
 ## 出处与参考资料
 

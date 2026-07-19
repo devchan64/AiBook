@@ -1,9 +1,9 @@
 flowchart TD
-  A["当前 token 表示"]
-  B["经过 self-attention：混入相关上下文"]
-  C["经过 feed-forward：当前角色更清晰"]
-  D["经过 residual + layer norm：保留原始轴线并稳定"]
-  E["送往下一个 block 的表示"]
+  A["输入表示<br/>当前 token 的起点"]
+  B["经过 self-attention<br/>混入所需上下文"]
+  C["经过 feed-forward<br/>进行逐位置加工"]
+  D["经过 residual<br/>新计算与原始表示一起保留"]
+  E["经过 normalization<br/>整理后送往下一个 block"]
 
   A --> B
   B --> C
