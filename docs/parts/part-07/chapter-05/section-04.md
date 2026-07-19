@@ -1,7 +1,7 @@
 # P7-5.4 ANN 검색 설정 실습
 
-> Section ID: `P7-5.4`
-> Version: `v2026.07.19`
+Section ID: `P7-5.4`
+Version: `v2026.07.20`
 
 TBD.
 
