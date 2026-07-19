@@ -1,7 +1,7 @@
 # P2-7.8 补充学习：阅读 shell script、pipe、redirection、environment variable
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.2 和 P2-7.6 中，我们只处理到了打开终端并确认当前位置的程度。但一旦跟着实际学习资料继续走，很快就会遇到更陌生的表达。
 
@@ -33,27 +33,6 @@ export OPENAI_API_KEY=...
 | redirection | 改变屏幕或文件输入输出方向的记号。 |
 | environment variable | 程序从外部执行环境里读取的设置值。 |
 | 危险信号 | 像删除、权限提升、网络调用、暴露密钥这类需要先检查的因素。 |
-
-## 本补充学习的范围
-
-这里整理的是：第一次阅读 shell script、pipe、redirection、environment variable 时所需要的标准。这个补充学习集中收束一个判断标准：看到教程里的一行命令时，先区分 `连接`、`方向`、`设置值`、`危险信号`。本地 Python 环境检查顺序会在 P2-7.9 中再次处理。
-
-这里首先要解决的问题是：`当我看到教程里的一行命令时，即使并不懂所有细节语法，怎样先区分它属于哪一类动作？`
-
-所以，这个补充学习回答下面这些问题。
-
-- shell script 把什么东西捆在一起？
-- 为什么 pipe 会被说成是在连接命令？
-- 为什么 redirection 会被解释成把内容发送到文件而不是屏幕？
-- 为什么 environment variable 看起来像设置值？
-- 哪些命令应该先带着警惕去读？
-
-这里不是要写复杂脚本，而是回收 `如何先阅读终端里经常出现的陌生符号`。
-
-这节后面的流向也很简单。
-
-- 在 `P2-7.9` 中，会把这里看到的符号和环境变量感觉，再次整合成实际的本地 Python 环境检查顺序。
-- 之后到了 Part 6 的项目部分，日志保存、环境变量、执行脚本这类表达还会再次出现。
 
 ## 本补充学习的目标
 
@@ -223,7 +202,7 @@ AI 学习文档和项目示例经常会处理文件、日志、数据、密钥�
 
 ## 来源与参考资料
 
-- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual，确认日期：2026-07-19。用于确认 Bash 的 shell 角色、pipeline、redirection、变量与环境变量语法。
-- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation，确认日期：2026-07-19。用于确认 PowerShell 中 `|` 是把一个命令结果发送给下一个命令的 pipeline operator。
-- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation，确认日期：2026-07-19。用于确认 PowerShell 中 `>`、`>>`、`n>` 等 redirection operator 会把输出流发送或追加到文件。
-- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation，确认日期：2026-07-19。用于确认环境变量是操作系统和程序使用的字符串设置值，并可被子进程继承。
+- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual，确认日期：2026-07-20。用于确认 Bash 的 shell 角色、pipeline、redirection、变量与环境变量语法。
+- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation，确认日期：2026-07-20。用于确认 PowerShell 中 `|` 是把一个命令结果发送给下一个命令的 pipeline operator。
+- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation，确认日期：2026-07-20。用于确认 PowerShell 中 `>`、`>>`、`n>` 等 redirection operator 会把输出流发送或追加到文件。
+- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation，确认日期：2026-07-20。用于确认环境变量是操作系统和程序使用的字符串设置值，并可被子进程继承。

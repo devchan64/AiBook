@@ -1,7 +1,7 @@
 # P2-7.8 보충학습: 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 환경 변수(environment variable) 읽기
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7.2와 P2-7.6에서는 터미널을 열고 현재 위치를 확인하는 수준까지 다뤘습니다. 그런데 실제 학습 자료를 따라가다 보면 금방 더 낯선 표현을 만납니다.
 
@@ -33,27 +33,6 @@ export OPENAI_API_KEY=...
 | 리다이렉션(redirection) | 화면이나 파일의 입출력 방향을 바꾸는 표기입니다. |
 | 환경 변수(environment variable) | 프로그램이 바깥 실행 환경에서 읽는 설정값입니다. |
 | 위험 신호 | 삭제, 권한 상승, 네트워크 호출, 비밀값 노출처럼 먼저 확인할 요소입니다. |
-
-## 이 보충학습의 범위
-
-여기서는 셸 스크립트, 파이프, 리다이렉션, 환경 변수를 처음 읽을 때 필요한 기준을 정리합니다. 이번 보충학습은 튜토리얼 명령 한 줄을 봤을 때 `연결`, `방향`, `설정값`, `위험 신호`를 먼저 구분하는 기준까지를 닫는 데 집중합니다. 로컬 Python 환경 점검 순서는 P2-7.9에서 다시 다룹니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `튜토리얼 명령 한 줄을 봤을 때, 세부 문법을 다 몰라도 무슨 종류의 동작인지 어떻게 먼저 구분할 것인가`입니다.
-
-그래서 이 보충학습은 다음 질문에 답합니다.
-
-- 셸 스크립트는 무엇을 묶는가?
-- 파이프는 왜 명령을 연결한다고 말하는가?
-- 리다이렉션은 왜 화면 대신 파일로 보낸다고 설명하는가?
-- 환경 변수는 왜 설정값처럼 보이는가?
-- 어떤 명령부터 조심해서 읽어야 하는가?
-
-여기서는 복잡한 스크립트 작성보다 `터미널에서 자주 보이는 낯선 기호를 어떻게 먼저 읽을 것인가`를 회수합니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-7.9`에서는 지금 본 기호와 환경 변수 감각을 실제 로컬 Python 환경 점검 순서로 다시 묶습니다.
-- 이후 Part 6 프로젝트 구간에서는 로그 저장, 환경 변수, 실행 스크립트 같은 표현이 다시 등장합니다.
 
 ## 이 보충학습의 목표
 
@@ -223,7 +202,7 @@ AI 학습 문서와 프로젝트 예제는 파일, 로그, 데이터, 비밀값,
 
 ## 출처와 참고 자료
 
-- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-07-19. Bash의 셸 역할, 파이프라인, 리다이렉션, 변수·환경 변수 문법을 확인하는 근거로 사용했다.
-- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-19. PowerShell에서 `|`가 앞 명령 결과를 다음 명령으로 보내는 파이프라인 연산자라는 설명 확인에 사용했다.
-- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-19. PowerShell에서 `>`, `>>`, `n>` 같은 리다이렉션 연산자가 출력 스트림을 파일로 보내거나 추가한다는 설명 확인에 사용했다.
-- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-19. 환경 변수가 운영체제와 프로그램이 사용하는 문자열 설정값이며 자식 프로세스에 전달될 수 있다는 설명 확인에 사용했다.
+- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-07-20. Bash의 셸 역할, 파이프라인, 리다이렉션, 변수·환경 변수 문법을 확인하는 근거로 사용했다.
+- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-20. PowerShell에서 `|`가 앞 명령 결과를 다음 명령으로 보내는 파이프라인 연산자라는 설명 확인에 사용했다.
+- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-20. PowerShell에서 `>`, `>>`, `n>` 같은 리다이렉션 연산자가 출력 스트림을 파일로 보내거나 추가한다는 설명 확인에 사용했다.
+- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-20. 환경 변수가 운영체제와 프로그램이 사용하는 문자열 설정값이며 자식 프로세스에 전달될 수 있다는 설명 확인에 사용했다.
