@@ -1,7 +1,7 @@
 # P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 9.1 looked at image recognition and representation learning. Section 9.2 looked at object detection and speech generation.
 
@@ -34,8 +34,6 @@ The minimum distinction to keep is:
 - Transformers are central, but not the whole story
 
 One more intention also matters here. Today people often hear `AI` and immediately think of LLMs or chatbots. This section is deliberately cautious about that shortcut. LLMs are extremely important for understanding modern AI, but if all of AI is reduced to LLMs, other lines such as rule-based AI, search, probabilistic models, computer vision, speech, reinforcement learning, recommendation, and robotics disappear from view.
-
-## Scope of This Section
 
 This section does not write the full detailed history of LLMs. Statistical language models, word embeddings, RNNs, LSTMs, Seq2Seq, Attention, Transformers, pretraining, instruction tuning, and RLHF are only positioned here at a map level. Their detailed explanation starts in Part 1 Chapter 11 through Chapter 14, continues into Part 5 for the structural basis of Transformers, and then into Part 6 for the main line of LLM pretraining and generation.
 

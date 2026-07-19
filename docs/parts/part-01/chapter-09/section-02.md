@@ -1,7 +1,7 @@
 # P1-9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 통해 딥러닝(deep learning)이 왜 중요한 전환점으로 읽히는지 봤습니다. 이미지 분류는 “이 이미지가 무엇인가”를 묻는 문제였습니다.
 
@@ -25,8 +25,6 @@
 | TTS | 텍스트를 음성으로 바꾸는 응용 맥락 | 9.2에서는 보조 사례로만 둘 대상 |
 
 여기서 유지해야 할 최소 구분은 `검출은 위치+범주`, `YOLO는 한 번에 예측`, `WaveNet은 오디오 순차 생성`, `TTS는 보조 맥락`입니다.
-
-## 이 절의 범위
 
 여기서는 YOLO와 WaveNet의 알고리즘을 구현하지 않습니다. 바운딩 박스(bounding box), mAP(mean average precision), dilated convolution, autoregressive model, vocoder 같은 세부 개념은 이름과 역할만 지나갑니다. Deep Voice 같은 TTS 시스템은 주요 소재가 아니라 보조 사례로만 둡니다.
 

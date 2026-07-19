@@ -1,7 +1,7 @@
 # P1-9.2 目标检测与语音生成案例
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 9.1 已经借图像识别和表征学习说明了，为什么深度学习会被看成一个重要转折点。图像分类问的是：“这张图像是什么？”
 
@@ -35,8 +35,6 @@
 - YOLO 会一起预测这两者
 - WaveNet 属于音频序列生成
 - TTS 在这里不是中心主题
-
-## 本节范围
 
 这一节不会实现 YOLO 或 WaveNet。`mAP`、`dilated convolution`、`autoregressive model`、`vocoder` 等术语只会以名称与角色略过。像 Deep Voice 这样的系统也只是辅助例子，而不是主角。
 

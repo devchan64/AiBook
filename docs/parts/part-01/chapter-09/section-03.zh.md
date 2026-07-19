@@ -1,7 +1,7 @@
 # P1-9.3 区分 LLM 的直接谱系与周边证据
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 9.1 看的是图像识别与表征学习，9.2 看的是目标检测与语音生成。
 
@@ -37,8 +37,6 @@
 - Transformer 很核心，但它也不是全部历史
 
 这里还有一个额外意图也很重要。现在很多人一听到“AI”，会立刻想到 LLM 或聊天机器人。这一节会刻意对这种缩写保持警惕。LLM 当然是理解现代 AI 的极重要技术，但如果把整个人工智能都缩成 LLM，那么规则式 AI、搜索、概率模型、计算机视觉、语音、强化学习、推荐系统和机器人等其他大线索就会从视野里消失。
-
-## 本节范围
 
 这一节不会完整书写 LLM 的全部细史。statistical language model、word embedding、RNN、LSTM、Seq2Seq、Attention、Transformer、pretraining、instruction tuning 和 RLHF，在这里只会被放在地图上的位置。更细的说明会从 Part 1 Chapter 11 到 Chapter 14，再到 Part 5 和 Part 6 展开。
 

@@ -25,8 +25,6 @@
 
 여기서 유지해야 할 최소 구분은 `수작업 특징 vs 학습된 표현`, `CNN은 이미지용 구조`, `AlexNet은 확산의 전환점`입니다.
 
-## 이 절의 범위
-
 여기서는 합성곱 신경망(CNN, convolutional neural network)을 수식으로 설명하지 않습니다. 합성곱(convolution)과 풀링(pooling)은 Part 5의 P5-11.2에서, 활성화 함수(activation function)는 P5-3.1과 P5-3.2에서, 역전파(backpropagation)와 옵티마이저(optimizer)는 P5-5.1, P5-5.2, P5-7.1에서 다시 다룹니다.
 
 또한 AlexNet을 “모든 딥러닝의 시작”으로 쓰지 않습니다. 신경망과 CNN 연구는 그 이전에도 오래 이어졌습니다. 여기서는 AlexNet을 2010년대 딥러닝 확산을 보여 주는 대표적 전환점으로만 다룹니다.

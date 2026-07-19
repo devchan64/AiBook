@@ -1,7 +1,7 @@
 # P1-9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 봤습니다. 9.2에서는 객체 검출(object detection)과 음성 생성(speech generation)을 봤습니다.
 
@@ -27,8 +27,6 @@
 여기서 유지해야 할 최소 구분은 `LLM 직접 계보는 언어 모델링 쪽`, `AlexNet/YOLO/WaveNet은 주변 근거`, `Transformer는 핵심이지만 전부는 아님`입니다.
 
 이 절에는 한 가지 더 중요한 의도가 있습니다. 최근에는 AI라는 말을 곧바로 LLM이나 챗봇으로 이해하는 분위기가 강합니다. 여기서는 그 시각을 조심합니다. LLM은 현대 AI를 이해하는 데 매우 중요한 기술이지만, AI 전체를 LLM으로 환원하면 규칙 기반 AI, 탐색, 확률 모델, 컴퓨터 비전, 음성, 강화학습, 추천, 로보틱스 같은 다른 흐름이 가려집니다.
-
-## 이 절의 범위
 
 여기서는 LLM의 전체 역사를 자세히 쓰지 않습니다. 통계적 언어 모델(statistical language model), 단어 임베딩(word embedding), RNN(recurrent neural network), LSTM(long short-term memory), Seq2Seq(sequence-to-sequence), Attention, Transformer, 사전학습(pretraining), 지시 튜닝(instruction tuning), RLHF(reinforcement learning from human feedback)는 Part 1 Chapter 11부터 Chapter 14에서 먼저 개요를 잡고, Transformer의 구조적 기반은 Part 5에서, LLM 본류의 사전학습과 생성 흐름은 Part 6에서 더 자세히 다룹니다.
 

@@ -33,8 +33,6 @@ The minimum distinction to keep is:
 - CNN as an image-oriented structure
 - AlexNet as a turning point in spread, not the absolute beginning
 
-## Scope of This Section
-
 This section does not explain convolutional neural networks with equations. `Convolution` and `pooling` return in Part 5, especially P5-11.2. `Activation functions` return in P5-3.1 and P5-3.2. `Backpropagation` and `optimizers` return in P5-5.1, P5-5.2, and P5-7.1.
 
 This section also does not present AlexNet as `the beginning of all deep learning`. Neural-network and CNN research had already existed for a long time before that. Here, AlexNet is used more narrowly as a turning point that made the 2010s spread of deep learning visible.

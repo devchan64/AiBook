@@ -1,7 +1,7 @@
 # P1-9.2 Object Detection and Speech Generation Cases
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 9.1 used image recognition and representation learning to show why deep learning became an important turning point. Image classification asked `what is this image?`
 
@@ -33,8 +33,6 @@ The minimum distinction to keep is:
 - YOLO predicts them together
 - WaveNet is sequence generation for audio
 - TTS is only a supporting context here
-
-## Scope of This Section
 
 This section does not implement YOLO or WaveNet. Terms such as `mAP`, `dilated convolution`, `autoregressive model`, and `vocoder` appear only by name and role. Systems such as Deep Voice remain supporting examples rather than the main subject.
 

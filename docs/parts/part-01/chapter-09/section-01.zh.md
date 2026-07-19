@@ -30,8 +30,6 @@
 
 最少要保留的区分是：`hand-crafted features` 和 `learned representation` 不是一回事，CNN 是面向图像的重要结构，AlexNet 是扩散转折点，而不是绝对起点。
 
-## 本节范围
-
 这一节不会用公式解释 convolutional neural network。`convolution`、`pooling`、`activation function`、`backpropagation` 和 `optimizer` 都会在 Part 5 再展开。
 
 这里也不会把 AlexNet 写成“所有深度学习的起点”。神经网络和 CNN 的研究在它之前已经持续了很久。这里更安全的定位是：AlexNet 是 2010 年代深度学习扩散中的代表性转折点。
