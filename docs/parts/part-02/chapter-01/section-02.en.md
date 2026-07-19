@@ -34,37 +34,6 @@ This table can be used as the smallest scene in Chapter 1 where formulas, code, 
 
 What the reader easily misses here is that `table`, `formula`, and `code` can look like different study topics. But in practice, they are only different surfaces for reading the same scene. The purpose of this section is to fix that correspondence.
 
-## Scope of This Section
-
-This section does not explain the entire notation system of formulas. Variables, functions, sigma, and limits return in Part 2 Chapter 2. Vectors, matrices, and arrays are examined in more detail in Part 2 Chapter 3 and Part 2 Chapter 11.
-
-The question to solve right now is this: `When a formula from a document comes down into a code cell and real data, what remains the same and what changes only in form?`
-
-So this section first fixes only the following four places.
-
-- What is the formula saying?
-- How does code execute that formula?
-- In what shape does data enter the formula and code?
-- How should the result be interpreted again afterward?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| formula | a compressed expression of computational structure | the blueprint inside the document |
-| code | a procedure that actually executes the computation | the unfolded execution surface of the formula |
-| data | the values and shape that go into the computation | the material and the object to verify |
-| output | the result obtained after computation | the observation point that still needs interpretation |
-| shape | information about an array's dimensions and lengths | the basic clue for reading computable form |
-
-If the previous section asked `why mathematics should be reread as a computational language`, here we read how that computational language points to the same computation inside documents, code, and data. In later sections on sigma, vectors, arrays, and loss, this connection splits more concretely into particular notations and code patterns.
-
-This section sets the standard for why Part 2 looks at formulas and Python together. The details of individual symbols and array computation are recovered in later sections.
-
-The flow after this section is also simple.
-
-- In Chapter 2, we read more directly the variables, functions, and sigma inside formulas.
-- In Chapter 3 and Chapter 11, we look at how data shape continues into vector, array, and table computation.
-- In Part 3 and Part 4, this sense of connection is used to read model inputs, prediction, loss, and metrics.
-
 ## Goals of This Section
 
 - You can read a formula as a compressed expression of computation.
@@ -338,8 +307,8 @@ So the mean example is not just a simple arithmetic exercise. It is a reduced ve
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-07-19.
 - NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This is the direct reference for explaining `shape` as array dimension and length information.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked on 2026-07-19. This is a reference for the convention of reading `X` as input data and `y` as the target.

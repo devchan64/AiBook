@@ -34,37 +34,6 @@ P2-1.1에서는 수학을 AI 계산을 읽는 언어로 봤습니다. 이제 그
 
 독자가 여기서 놓치기 쉬운 점은 `표`, `수식`, `코드`가 각자 다른 공부 주제처럼 보인다는 것입니다. 하지만 실제로는 같은 장면을 다른 표면에서 읽고 있을 뿐입니다. 이 절은 그 대응 관계를 고정하는 데 목적이 있습니다.
 
-## 이 절의 범위
-
-여기서는 수식 표기법 전체를 설명하지 않습니다. 변수(variable), 함수(function), 시그마(sigma), 극한(limit)은 Part 2 Chapter 2에서 다시 다룹니다. 벡터(vector), 행렬(matrix), 배열(array)은 Part 2 Chapter 3과 Part 2 Chapter 11에서 더 자세히 봅니다.
-
-여기서 바로 해결할 질문은 이것입니다. `문서에 있는 수식이 코드 셀과 실제 데이터로 내려오면 무엇이 그대로 남고 무엇이 모양만 바뀌는가`입니다.
-
-그래서 이 절에서는 다음 네 자리만 먼저 고정합니다.
-
-- 수식은 무엇을 말하는가?
-- 코드는 그 수식을 어떻게 실행하는가?
-- 데이터는 수식과 코드 안에서 어떤 모양으로 들어가는가?
-- 결과는 다시 어떻게 해석되는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 수식 | 계산 구조를 압축해 적은 표현 | 문서 안의 설계도 |
-| 코드 | 계산을 실제로 실행하는 절차 | 수식을 펼친 실행면 |
-| 데이터 | 계산에 들어가는 값과 모양 | 재료와 검증 대상 |
-| 출력 | 계산 뒤 얻은 결과 값 | 해석해야 할 관찰 지점 |
-| shape | 데이터 배열의 차원과 길이 정보 | 계산 가능한 모양을 읽는 기본 단서 |
-
-앞 절이 `왜 수학을 계산 언어로 다시 읽어야 하는가`를 다뤘다면, 여기서는 그 계산 언어가 실제로 문서, 코드, 데이터 안에서 어떻게 같은 계산을 가리키는지 읽습니다. 바로 뒤의 시그마, 벡터, 배열, 손실 관련 절에서는 이 연결이 각각 어떤 표기와 어떤 코드 패턴으로 나타나는지 더 구체적으로 나뉩니다.
-
-여기서는 Part 2에서 수식과 Python을 왜 함께 봐야 하는지 기준을 세웁니다. 개별 기호와 배열 계산 세부는 뒤 절에서 회수됩니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- Chapter 2에서는 수식 안의 변수, 함수, 시그마를 더 직접 읽습니다.
-- Chapter 3과 Chapter 11에서는 데이터 모양이 벡터, 배열, 표 계산으로 어떻게 이어지는지 봅니다.
-- Part 3과 Part 4에서는 이 연결 감각으로 모델 입력, 예측, 손실, metric을 읽게 됩니다.
-
 ## 이 절의 목표
 
 - 수식(formula)을 계산의 압축 표현으로 읽을 수 있습니다.
@@ -338,8 +307,8 @@ Part 2에서 수학과 Python을 함께 다루는 이유가 여기에 있습니�
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
 - NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. `shape`를 배열 차원과 길이 정보로 설명하는 부분의 직접 참고 자료입니다.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19. `X`를 입력 데이터, `y`를 target으로 읽는 관례를 확인하는 참고 자료입니다.

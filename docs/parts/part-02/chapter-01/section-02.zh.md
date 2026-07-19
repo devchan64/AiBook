@@ -34,37 +34,6 @@
 
 读者在这里最容易忽略的一点是：`表`、`公式`、`代码` 会看起来像是不同的学习主题。但实际上，它们只是从不同表面去读同一个场景。本节的目的就是把这种对应关系固定下来。
 
-## 本节范围
-
-这里不会解释整个公式记法系统。变量、函数、sigma、极限会在 Part 2 Chapter 2 再次出现。向量、矩阵、数组会在 Part 2 Chapter 3 和 Part 2 Chapter 11 更详细地再看。
-
-这里现在要解决的问题是：`当文档里的公式落到代码单元和真实数据上时，什么保持不变，什么只是外形改变了？`
-
-所以本节先只固定下面四个位置。
-
-- 公式到底在说什么？
-- 代码如何执行那个公式？
-- 数据以什么形状进入公式和代码？
-- 结果之后又该怎样重新解释？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| 公式 | 压缩表达计算结构的形式 | 文档中的蓝图 |
-| 代码 | 真正执行计算的步骤 | 把公式展开后的执行面 |
-| 数据 | 进入计算的数值与形状 | 材料与验证对象 |
-| 输出 | 计算之后得到的结果 | 仍需解释的观察点 |
-| shape | 数组维度与长度的信息 | 读取可计算形状的基础线索 |
-
-如果前一节在回答 `为什么应该把数学重新读成计算语言`，这里就在回答：这种计算语言是如何在文档、代码和数据里指向同一个计算。后面关于 sigma、向量、数组、损失的章节，会把这种连接再更具体地拆成不同记法和代码模式。
-
-本节建立的是：为什么在 Part 2 中要把公式和 Python 放在一起看。个别符号和数组计算的细节会在后面的章节里回收。
-
-本节之后的流向也很简单。
-
-- 在 Chapter 2，我们会更直接地读公式中的变量、函数和 sigma。
-- 在 Chapter 3 和 Chapter 11，会看数据形状如何继续连接到向量、数组和表格计算。
-- 在 Part 3 和 Part 4 中，这种连接感觉会被用来阅读模型输入、预测、损失和 metric。
-
 ## 本节目标
 
 - 能把公式读成一种压缩表达计算的方式。
@@ -338,8 +307,8 @@ AI 学习里也会发生同样的事。论文或教材里的损失函数（loss 
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-07-19.
 - NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这是把 `shape` 解释为数组维度和长度信息的直接参考资料。
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期：2026-07-19. 这是确认把 `X` 读作输入数据、把 `y` 读作 target 这一惯例的参考资料。
