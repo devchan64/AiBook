@@ -1,7 +1,7 @@
 # P4-15.1 随机森林(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-14 里，我们看过决策树(decision tree)为什么既直观， 又容易掉进过拟合(overfitting)。 尤其是我们确认过： 即使调整 `max_depth`、`min_samples_leaf`、`ccp_alpha`， 单棵树的结构摇摆也不一定会完全消失。 于是下一个问题自然出现。
 
@@ -25,14 +25,7 @@
 - 在分类与回归里，随机森林是怎样合并输出的？
 - `n_estimators`、`max_features`、`bootstrap`、`oob_score` 各自是什么意思？
 
-本节不深入展开以下内容。
-
-- 特征重要度(feature importance)的解释
-- OOB(out-of-bag)分数的严格评价解读
-- 与 Extra Trees 的细致比较
-- 与梯度提升(gradient boosting)的深入比较
-
-特征重要度会在 P4-15.2 继续。 OOB 分数的评价解读会在 P4-15.3 继续。 与梯度提升的比较会在 P4-16.1、P4-16.2 中， 通过 `并行平均集成` 与 `顺序误差修正集成` 的对比继续展开。 与 Extra Trees 的细致比较会在补充学习 P4-15.4 中继续。
+这一节会先收束 `为什么把多棵树聚合起来，会试图做出比单棵树更稳定的判断` 这个问题。 特征重要度会在 P4-15.2 继续，OOB(out-of-bag) 分数的评价解读会在 P4-15.3 继续，Extra Trees 比较会在补充学习 P4-15.4 继续，与梯度提升(gradient boosting)的对比会在 P4-16.1、P4-16.2 继续。
 
 ## 本节目标
 
@@ -486,4 +479,4 @@ forest avg              : 0.944
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001.
+- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001, 确认日期: 2026-07-19. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }

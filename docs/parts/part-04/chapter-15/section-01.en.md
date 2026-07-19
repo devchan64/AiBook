@@ -1,7 +1,7 @@
 # P4-15.1 Random Forest
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P4-14, we saw why a decision tree can feel intuitive while also falling into overfitting rather easily. In particular, we confirmed that even after changing `max_depth`, `min_samples_leaf`, and `ccp_alpha`, the structural instability of a single tree may not disappear completely. That leads to the next question.
 
@@ -25,14 +25,7 @@ This Section answers the following questions.
 - How does random forest combine predictions in classification and regression?
 - What do `n_estimators`, `max_features`, `bootstrap`, and `oob_score` mean?
 
-This Section does not go deeply into the following topics.
-
-- interpreting feature importance
-- a strict evaluation reading of the OOB(out-of-bag) score
-- a detailed comparison with Extra Trees
-- an advanced comparison with gradient boosting
-
-Feature importance continues in P4-15.2. The evaluation reading of the OOB score continues in P4-15.3. The comparison with gradient boosting continues in P4-16.1 and P4-16.2 through the contrast between `a parallel averaging ensemble` and `a sequential error-correction ensemble`. The detailed comparison with Extra Trees continues in the supplementary Section P4-15.4.
+This Section first closes the question `why gathering many trees tries to make a more stable judgment than one tree`. Feature importance continues in P4-15.2, the evaluation reading of the OOB(out-of-bag) score continues in P4-15.3, the Extra Trees comparison continues in the supplementary Section P4-15.4, and the contrast with gradient boosting continues in P4-16.1 and P4-16.2.
 
 ## Goals Of This Section
 
@@ -471,26 +464,18 @@ What this example shows is the following.
 3. The value of random forest comes not from `a completely new structure`,
 but from `averaging unstable trees`.
 
-## Viewpoint To Remember In This Section
-
-- Random forest is `an aggregation model of many randomized decision trees`.
-- Bootstrap and random feature selection are devices that make trees resemble one another less.
-- By gathering predictions from many trees, it tries to reduce the variance of a single tree.
-- Its strength often appears more in `less unstable stability`
-than in `the single best performance`.
-- Its interpretability can become lower than that of a single tree.
-
 ## Checklist
 
+- Can you explain random forest as `an aggregation model of many randomized decision trees`?
 - Are you checking whether instability truly decreased compared with a single tree, using the same error cases as a reference?
-- Are you reading the advantage of random forest through average stability rather than only the highest score?
+- Do you understand that bootstrap and random feature selection are devices for making trees resemble one another less?
+- Can you explain that random forest tries to reduce the variance of a single tree by gathering predictions from many trees?
+- Are you reading the strength of random forest through average stability rather than the highest score?
+- Do you know that interpretability can become lower than that of a single tree?
 - Can you distinguish which of `n_estimators`, `max_features`, and `bootstrap` is the more important handle in the current situation?
-- When a single tree changes too easily with seeds or sample changes, do you first recall the viewpoint of lowering variance through aggregation across many trees?
-- When you need to explain why bootstrap and `max_features` are needed together, do you revisit the idea that they are devices that make trees resemble one another less?
-- In a comparison where average stability matters more than the single best score, do you raise random forest again as a stability candidate?
 
 ## Sources And References
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001.
+- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001, accessed 2026-07-19. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }
