@@ -1,7 +1,7 @@
 # Part 1 Summary. Reviewing AI Introduction and the Landscape
 
 > Section ID: `P1-summary`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 1 was the section for fixing the overall landscape before studying AI again. Rather than implementing detailed algorithms or proving formulas in depth, it first organized the terms and perspectives that keep returning in later learning.
 
