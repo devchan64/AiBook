@@ -22,7 +22,7 @@ HIGH_VARIANCE = [0, 2, 6, 10, 12]
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
         "value_label": "값",
         "count_label": "개수",
         "mean_label": "평균",
@@ -50,7 +50,7 @@ LANG_TEXT = {
         "variance_outfile": "same-mean-different-variance-en.png",
     },
     "zh": {
-        "font_candidates": ["Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK SC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
         "value_label": "值",
         "count_label": "个数",
         "mean_label": "均值",
