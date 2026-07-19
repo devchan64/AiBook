@@ -1,7 +1,7 @@
 # P3-9.3 How Are Comparison Reports, Review-Candidate Queues, and Target-Candidate Tables Different
 
 > Section ID: `P3-9.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Even the same event list changes into a [comparison report](/AiBook/reference/concept-glossary/#glossary-comparison-report), a [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue), or a [target candidate](/AiBook/reference/concept-glossary/#glossary-target-candidate) table depending on the purpose. Some tables foreground comparison sentences and difference values, others foreground review priority, and others foreground the split between input columns and result-candidate columns. Here, a target candidate should be read as a preparatory result column inside a problem structure that separates input columns from result columns, even if it has not yet hardened into a confirmed answer.
 
@@ -97,7 +97,7 @@ The key is that these three outputs are not `wasteful duplication of the same da
 
 ## Sources and References
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, entity/activity provenance overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period. Used to check the idea that a base period or point in time can serve as a reference for comparison. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. Used to check the idea that an initial measurement can serve as a comparison point for later change. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google, *Machine Learning Glossary*, `label`, `labeled example`. Used to check how labels and labeled examples separate input features from result columns in supervised learning. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, entity/activity provenance overview. Used to check the provenance view that different outputs from the same event list should preserve their creation context and processing steps. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

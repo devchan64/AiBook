@@ -1,7 +1,7 @@
 # P3-9.3 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표는 어떻게 다른가
 
 > Section ID: `P3-9.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 같은 사건 목록도 목적에 따라 [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표로 달라집니다. 어떤 표는 비교 문장과 차이값을 앞세우고, 어떤 표는 검토 우선순위를 앞세우며, 어떤 표는 입력 열과 결과 후보 열 구분을 앞세웁니다. 여기서 목표 라벨 후보는 아직 확정 정답으로 굳지 않았더라도, 입력 열과 결과 열을 가르는 문제 구조 안에서 결과 후보로 세워 보는 열로 읽습니다.
 
@@ -97,7 +97,7 @@
 
 ## 출처와 참고 자료
 
-- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
-- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, entity/activity provenance overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, base period. 기준 시점이나 기간을 비교의 참조점으로 쓰는 관점을 확인하는 데 참고했습니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. 초기 측정값을 이후 변화와 비교하는 기준으로 쓰는 설명을 확인하는 데 참고했습니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Machine Learning Glossary*, `label`, `labeled example`. 지도학습에서 라벨과 라벨이 있는 예제가 입력 특징과 결과 열을 어떻게 나누는지 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, entity/activity provenance overview. 같은 사건 목록에서 산출물별 생성 맥락과 처리 단계를 구분해야 한다는 provenance 관점을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
