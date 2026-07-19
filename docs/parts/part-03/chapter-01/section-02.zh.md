@@ -1,7 +1,7 @@
 # P3-1.2 数据建模按什么顺序推进
 
 > Section ID: `P3-1.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一旦理解了数据建模到底想达成什么，接下来的问题就会立刻出现：实际工作应该按什么顺序推进？在样本单位还没定下来之前，特征没法先做；如果没有比较基准，连 [output structure](/AiBook/en/reference/concept-glossary/#glossary-output-structure) 也会跟着晃动。所以，数据建模最好被读成一种前段顺序：把后面会用到的结构，从前往后逐步固定下来。
 
@@ -78,6 +78,6 @@ Part 3 之所以先把这个顺序立起来，是因为后面的说明经常默�
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`feature engineering`、`label`、`label leakage`。它说明 example、feature、label 的角色必须分别定住，因此支持本节的核心判断：问题、样本、表、特征、输出结构应该按顺序咬合来读。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它说明 identifying an object 和保留 derivation 都应可追溯，因此强化了这个上位框架：样本单位、派生表和结果结构应该能够按顺序解释清楚。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 它解释了数据选择、预处理、转换、解释连续相连的更大流程，因此为 Part 3 的定位提供一般背景：这里聚焦的是 `在学习之前按顺序固定问题结构的前段`。 [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`feature engineering`、`label`、`label leakage`。它说明 example、feature、label 的角色必须分别定住，因此支持本节的核心判断：问题、样本、表、特征、输出结构应该按顺序咬合来读。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它说明 identifying an object 和保留 derivation 都应可追溯，因此强化了这个上位框架：样本单位、派生表和结果结构应该能够按顺序解释清楚。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 它解释了数据选择、预处理、转换、解释连续相连的更大流程，因此为 Part 3 的定位提供一般背景：这里聚焦的是 `在学习之前按顺序固定问题结构的前段`。 [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

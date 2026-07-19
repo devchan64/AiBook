@@ -1,7 +1,7 @@
 # P3-1.2 데이터 모델링은 어떤 순서로 진행하는가
 
 > Section ID: `P3-1.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 데이터 모델링이 무엇을 달성하려는지 이해했다면, 다음 질문은 곧바로 이어집니다. 실제로는 어떤 순서로 진행해야 하는가 하는 질문입니다. 샘플 단위가 정해지기 전에 특징을 만들 수 없고, 비교 기준이 없으면 [출력 구조(output structure)](../../../reference/concept-glossary.md#glossary-output-structure)도 흔들리기 때문입니다. 그래서 데이터 모델링은 뒤에서 필요한 구조를 앞단에서 차례로 고정하는 순서로 읽어야 합니다.
 
@@ -78,6 +78,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `feature engineering`, `label`, `label leakage`. example, feature, label의 역할이 따로 정해져야 한다고 설명하므로, 질문-샘플-표-특징-출력 구조를 순서 있게 맞물려 읽어야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. identifying an object와 derivation을 함께 남겨야 한다고 정리하므로, 샘플 단위와 파생 표, 결과 구조가 어떤 단계로 만들어졌는지 순서 있게 설명 가능해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 데이터 선택, 전처리, 변환, 해석이 함께 이어지는 더 넓은 흐름을 설명하므로, Part 3이 그중 `학습 전 문제 구조`를 순서 있게 고정하는 구간이라는 일반 배경을 제공합니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `feature engineering`, `label`, `label leakage`. example, feature, label의 역할이 따로 정해져야 한다고 설명하므로, 질문-샘플-표-특징-출력 구조를 순서 있게 맞물려 읽어야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. identifying an object와 derivation을 함께 남겨야 한다고 정리하므로, 샘플 단위와 파생 표, 결과 구조가 어떤 단계로 만들어졌는지 순서 있게 설명 가능해야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 데이터 선택, 전처리, 변환, 해석이 함께 이어지는 더 넓은 흐름을 설명하므로, Part 3이 그중 `학습 전 문제 구조`를 순서 있게 고정하는 구간이라는 일반 배경을 제공합니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
