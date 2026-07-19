@@ -185,31 +185,11 @@ P6-18.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 
 이번 예제의 목표는 항목 이름을 외우는 것이 아니라, `어떤 기준으로 direct lineage와 surrounding evidence를 나누는가`를 실제 규칙으로 확인하는 것입니다.
 
-문제 상황:
+아래 예제는 LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉬운 상황을 작은 규칙으로 확인합니다. 입력으로는 대표 연구 흐름 CSV([p6-18-lineage-items.csv](../../../assets/part-06/chapter-18/p6-18-lineage-items.csv))와 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도를 사용합니다. 출력에서는 자동 분류 결과, 분류 기준 통과 여부, 분류 이유를 함께 봅니다.
 
-- LLM 계보를 설명할 때 직접 구조 계보와 주변 배경 조건을 섞어 말하기 쉽다
+확인할 핵심은 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도가 다를 수 있다는 점입니다. direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않고, 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있습니다. 또한 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있습니다.
 
-입력:
-
-- 대표 연구 흐름 CSV: [p6-18-lineage-items.csv](../../../assets/part-06/chapter-18/p6-18-lineage-items.csv)
-- 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도
-
-출력:
-
-- 자동 분류 결과
-- 분류 기준 통과 여부
-- 분류 이유
-
-확인할 개념:
-
-- 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도는 다를 수 있다
-- direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않는다
-- 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있다
-- 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있다
-
-입력(input):
-
-위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 가지며, 마지막 열은 `true` 또는 `false`로 적습니다.
+아래 코드는 위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 가지며, 마지막 열은 `true` 또는 `false`로 적습니다.
 
 ```python
 import csv
@@ -347,9 +327,9 @@ surrounding_evidence = ['YOLO', 'Deep Voice', 'GPU scaling']
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-05.
-- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-07-05.
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-07-05.
-- Joseph Redmon et al., [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640){: target="_blank" rel="noopener noreferrer" }, CVPR, 2016, 확인 날짜: 2026-07-05.
-- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://proceedings.mlr.press/v70/arik17a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2017, 확인 날짜: 2026-07-05.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-19.
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI, 2018, 확인 날짜: 2026-07-19.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-07-19.
+- Joseph Redmon et al., [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/abs/1506.02640){: target="_blank" rel="noopener noreferrer" }, CVPR, 2016, 확인 날짜: 2026-07-19.
+- Sercan O. Arik et al., [Deep Voice: Real-time Neural Text-to-Speech](https://proceedings.mlr.press/v70/arik17a.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2017, 확인 날짜: 2026-07-19.
