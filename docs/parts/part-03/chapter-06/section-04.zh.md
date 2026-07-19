@@ -1,7 +1,7 @@
 # P3-6.4 为什么汇总表里的所有列都不一定是特征
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 “汇总表里有一列”这件事，和“它就是特征(feature)”这个判断，并不是同一句话。汇总表里当然会有用来描述样本结构的特征，但也可能同时包含用于比较的列、结果候选列，以及用于识别和保留上下文的列。所以，这一节最先要抓住的区分是：`汇总表中的列` 和 `应该被当成模型输入来读取的特征`，并不会自动重合。
 
@@ -65,140 +65,22 @@
 
 所以，比起 `是不是数值列`，更优先的问题是 `为什么会做出这一列。`
 
-## 小型代码示例
+## 小型检查表
 
-问题情境：当特征列、比较列、结果候选列和识别列一起出现在同一张汇总表里时，确认哪些应该立刻读作 feature，哪些应该继续分开保留。
+这一节的例子，比起计算实验，更重视列角色分离。我们可以不按 `值的格式`，而按 `为什么做出这一列`，重新读取工作表中的列。
 
-输入(input)：一张同时包含动作汇总值、基准线值和候选结果的工作表
+| 列名 | 示例值 | 先读作什么角色 | 是否直接作为模型输入 | 判断理由 |
+| --- | ---: | --- | --- | --- |
+| `event_id` | A | context | 否 | 它识别样本。 |
+| `mid_flow_mean` | 2.40 | feature | 是 | 它描述样本自身的中段平均值。 |
+| `late_minus_early` | -0.80 | feature | 是 | 它描述样本内部从前段到后段的变化结构。 |
+| `baseline_mid_flow_mean` | 3.05 | comparison | 视情况而定 | 它保存基准线本身。 |
+| `delta_from_baseline` | -0.65 | comparison | 视情况而定 | 它表达相对于基准线的差距。 |
+| `review_score` | 87 | target candidate | 否 | 它可能是后面想预测的结果分数。 |
+| `review_needed` | 1 | target candidate | 否 | 它是“是否需要复查”这一结果候选。 |
+| `captured_at` | 2026-07-08 09:10 | context | 否 | 它记录样本被捕捉的时间。 |
 
-期望输出(output)：在工作表里增加比较列之后，再把每一列为什么被读作 feature、comparison、target_candidate、context 整理出来的输出
-
-要确认的概念：并不是因为它是数值列，就全都会成为 feature；列的生成目的会先把角色分开
-
-```python
-import pandas as pd
-
-working_table = pd.DataFrame(
-    [
-        {
-            "event_id": "A",
-            "mid_flow_mean": 2.40,
-            "late_minus_early": -0.80,
-            "baseline_mid_flow_mean": 3.05,
-            "review_score": 87,
-            "review_needed": 1,
-            "captured_at": "2026-07-08T09:10:00",
-        },
-        {
-            "event_id": "B",
-            "mid_flow_mean": 2.55,
-            "late_minus_early": -0.10,
-            "baseline_mid_flow_mean": 2.60,
-            "review_score": 32,
-            "review_needed": 0,
-            "captured_at": "2026-07-08T09:18:00",
-        }
-    ]
-)
-
-working_table["delta_from_baseline"] = (
-    working_table["mid_flow_mean"] - working_table["baseline_mid_flow_mean"]
-)
-
-column_check = pd.DataFrame(
-    [
-        {
-            "column_name": "event_id",
-            "role": "context",
-            "why_read_it_this_way": "identifies the sample",
-            "use_as_model_input_now": "no",
-        },
-        {
-            "column_name": "mid_flow_mean",
-            "role": "feature",
-            "why_read_it_this_way": "describes the sample itself",
-            "use_as_model_input_now": "yes",
-        },
-        {
-            "column_name": "late_minus_early",
-            "role": "feature",
-            "why_read_it_this_way": "describes within-sample change",
-            "use_as_model_input_now": "yes",
-        },
-        {
-            "column_name": "baseline_mid_flow_mean",
-            "role": "comparison",
-            "why_read_it_this_way": "stores the baseline itself",
-            "use_as_model_input_now": "depends",
-        },
-        {
-            "column_name": "delta_from_baseline",
-            "role": "comparison",
-            "why_read_it_this_way": "expresses gap versus baseline",
-            "use_as_model_input_now": "depends",
-        },
-        {
-            "column_name": "review_score",
-            "role": "target_candidate",
-            "why_read_it_this_way": "records an outcome-like score",
-            "use_as_model_input_now": "no",
-        },
-        {
-            "column_name": "review_needed",
-            "role": "target_candidate",
-            "why_read_it_this_way": "marks the result we may want to predict",
-            "use_as_model_input_now": "no",
-        },
-        {
-            "column_name": "captured_at",
-            "role": "context",
-            "why_read_it_this_way": "keeps time context for the sample",
-            "use_as_model_input_now": "no",
-        },
-    ]
-)
-
-print("1) mixed working table")
-print(
-    working_table[
-        [
-            "event_id",
-            "mid_flow_mean",
-            "late_minus_early",
-            "baseline_mid_flow_mean",
-            "delta_from_baseline",
-            "review_score",
-            "review_needed",
-            "captured_at",
-        ]
-    ]
-)
-print()
-print("2) why each column is read differently")
-print(column_check)
-```
-
-期望输出：
-
-```text
-1) mixed working table
-  event_id  mid_flow_mean  late_minus_early  baseline_mid_flow_mean  delta_from_baseline  review_score  review_needed          captured_at
-0        A           2.40              -0.8                    3.05                -0.65            87              1  2026-07-08T09:10:00
-1        B           2.55              -0.1                    2.60                -0.05            32              0  2026-07-08T09:18:00
-
-2) why each column is read differently
-             column_name              role                    why_read_it_this_way use_as_model_input_now
-0               event_id           context                 identifies the sample                     no
-1          mid_flow_mean           feature            describes the sample itself                    yes
-2       late_minus_early           feature         describes within-sample change                    yes
-3  baseline_mid_flow_mean        comparison               stores the baseline itself               depends
-4    delta_from_baseline        comparison            expresses gap versus baseline               depends
-5           review_score  target_candidate           records an outcome-like score                 no
-6          review_needed  target_candidate  marks the result we may want to predict                 no
-7            captured_at           context        keeps time context for the sample                 no
-```
-
-这个例子展示的，并不是什么惊人的分类规则。核心在于：像第 1 步那样，同一张工作表里可以暂时并排放着多种角色的列；而像第 2 步那样，我们又必须按角色和理由重新去读这些列。尤其是，`baseline_mid_flow_mean` 和 `delta_from_baseline` 虽然是数值列，但首先应读作比较列；`review_score` 和 `review_needed` 虽然也是数值列，但首先应读作候选结果。这里 `depends` 的原因也会一起显露出来。因为基准线本身或相对基准线的差值，本来就是为了解释比较结构而做出的列，所以它是否应被直接送去当作输入特征，还要根据后面要建立什么预测问题来再次判断。
+这张表展示的，并不是什么惊人的分类规则。核心在于：同一张工作表里可以暂时并排放着多种角色的列，而我们又必须按角色和理由重新去读这些列。尤其是，`baseline_mid_flow_mean` 和 `delta_from_baseline` 虽然是数值列，但首先应读作比较列；`review_score` 和 `review_needed` 虽然也是数值列，但首先应读作候选结果。这里 `depends` 的原因也会一起显露出来。因为基准线本身或相对基准线的差值，本来就是为了解释比较结构而做出的列，所以它是否应被直接送去当作输入特征，还要根据后面要建立什么预测问题来再次判断。
 
 如果在特征设计之后，先把这个区分碰一遍，`反正不都是 feature 吗？` 这种错觉就会弱很多。汇总表并不是一个只存放 feature 的表，而是一张工作表：feature 候选、比较列、结果候选、识别/上下文列，都可能暂时一起放在里面。这样读过之后，后面再次碰到基准线比较列和 target 候选列时，它们的角色也不会显得那么突兀地“突然变了”。
 
@@ -215,6 +97,6 @@ print(column_check)
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。它把 labeled example 解释为特征与标签的组合，因此提供了一个基础框架：输入说明列与候选结果列应当被区分开来。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它解释了“特征变成标签代理”这种设计缺陷，因此为“不应把 `review_needed`、`review_score` 这样的候选结果列随手混进 feature”提供了依据。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它提供了一个关于 provenance information 应该被单独记录和追踪的标准语境，因此也可以作为一般依据：像 `event_id`、`captured_at` 这样的识别/上下文列，应保留为一种和“描述样本本身的 feature”不同角色的信息。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。它把 labeled example 解释为特征与标签的组合，因此提供了一个基础框架：输入说明列与候选结果列应当被区分开来。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它解释了“特征变成标签代理”这种设计缺陷，因此为“不应把 `review_needed`、`review_score` 这样的候选结果列随手混进 feature”提供了依据。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它提供了一个关于 provenance information 应该被单独记录和追踪的标准语境，因此也可以作为一般依据：像 `event_id`、`captured_at` 这样的识别/上下文列，应保留为一种和“描述样本本身的 feature”不同角色的信息。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

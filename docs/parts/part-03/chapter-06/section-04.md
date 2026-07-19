@@ -1,7 +1,7 @@
 # P3-6.4 요약 표의 모든 열이 왜 특징은 아닌가
 
 > Section ID: `P3-6.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 요약 표에 열이 들어 있다는 사실과 그것이 특징(feature)이라는 판단은 같은 말이 아닙니다. 요약 표에는 샘플 구조를 설명하는 특징도 들어가지만, 비교를 위한 열, 결과 후보 열, 식별과 문맥을 위한 열도 함께 들어갈 수 있습니다. 그래서 이 절에서 먼저 붙잡아야 할 구분은 `요약 표의 열`과 `모델 입력으로 읽을 특징`이 자동으로 일치하지는 않는다는 점입니다.
 
@@ -99,6 +99,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example을 features와 label의 결합으로 설명하므로, 입력 설명 열과 결과 열 후보를 구분해야 한다는 기본 틀을 제공합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, `review_needed`나 `review_score` 같은 결과 후보 열을 무심코 feature로 섞지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance information을 별도로 기록하고 추적하는 표준 문맥을 제공하므로, `event_id`, `captured_at` 같은 식별·문맥 열은 샘플을 설명하는 feature와 다른 역할의 정보로 남길 수 있다는 일반 근거로 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. labeled example을 features와 label의 결합으로 설명하므로, 입력 설명 열과 결과 열 후보를 구분해야 한다는 기본 틀을 제공합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, `review_needed`나 `review_score` 같은 결과 후보 열을 무심코 feature로 섞지 말아야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance information을 별도로 기록하고 추적하는 표준 문맥을 제공하므로, `event_id`, `captured_at` 같은 식별·문맥 열은 샘플을 설명하는 feature와 다른 역할의 정보로 남길 수 있다는 일반 근거로 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
