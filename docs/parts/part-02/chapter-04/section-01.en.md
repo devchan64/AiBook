@@ -1,7 +1,7 @@
 # P2-4.1 Rereading How We Learned Differentiation
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Part 2 Chapter 3, we looked at the shapes of data and model computation through scalars, vectors, and matrices. Now, in Part 2 Chapter 4, we move to differentiation.
 
@@ -31,20 +31,6 @@ If we compress why we are holding the entrance to differentiation right now into
 | the learning connection | How should parameters change to reduce loss? | backpropagation and optimizers in Part 4 |
 
 Seen from this table, Chapter 4 is not a chapter for memorizing formulas. It is a chapter that prepares `why learning must read the direction of change`.
-
-## Scope of This Section
-
-This Section recalls what kinds of explanations we heard when we first learned differentiation and organizes what questions those explanations lead to.
-
-Detailed rate of change, slope, and average rate of change are covered in P2-4.2.
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| differentiation | a method for reading how values change | the starting point of this whole chapter |
-| change comparison | a question that looks at input change and output change together | the core perspective for rereading differentiation |
-| instantaneous rate of change | the speed of change near one point | the standard that leads to the rate-of-change explanation in `P2-4.2` |
-| tangent line | a line that shows the slope at one point on a graph | a representative image that calls old memories back |
-| memory recovery | the process of rebuilding a forgotten concept in question form | the practical purpose of this Section |
 
 ## Goals of This Section
 
@@ -174,4 +160,4 @@ A checkable result can be set in the following way. We can first test `do the ch
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-19. Used as the standard reference for tangent lines, secant lines, derivatives, velocity, and instantaneous rates of change at the entrance to differentiation.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-20. Used as the standard reference for tangent lines, secant lines, derivatives, velocity, and instantaneous rates of change at the entrance to differentiation.

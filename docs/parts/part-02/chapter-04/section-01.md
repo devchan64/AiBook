@@ -1,7 +1,7 @@
 # P2-4.1 미분을 어떻게 배웠는지 다시 보기
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 통해 데이터와 모델 계산의 모양을 봤습니다. 이제 Part 2 Chapter 4에서는 미분(differentiation)으로 넘어갑니다.
 
@@ -31,20 +31,6 @@ Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 �
 | 학습 연결 | 손실을 줄이려면 파라미터를 어떻게 바꿔야 하는가? | Part 4의 역전파와 optimizer |
 
 이 표를 기준으로 보면, Chapter 4는 공식을 외우는 장이 아니라 `학습이 왜 변화 방향을 읽어야 하는가`를 준비하는 장입니다.
-
-## 이 절의 범위
-
-여기서는 미분을 처음 배울 때 어떤 설명을 들었는지 떠올리고, 그 설명이 어떤 질문으로 이어지는지 정리합니다.
-
-자세한 변화율(rate of change), 기울기(slope), 평균 변화율(average rate of change)은 P2-4.2에서 다룹니다.
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 미분 | 값이 어떻게 변하는지 읽는 방법 | 이 장 전체의 출발점 |
-| 변화 비교 | 입력 변화와 출력 변화를 함께 보는 질문 | 미분을 다시 읽는 핵심 관점 |
-| 순간 변화율 | 한 점 근처에서의 변화 속도 | `P2-4.2`의 변화율 설명으로 가는 기준 |
-| 접선 | 그래프 한 점에서의 기울기를 보여 주는 선 | 예전 기억을 불러오는 대표 이미지 |
-| 기억 복구 | 잊었던 개념을 질문 형태로 다시 세우는 과정 | 이 절의 실제 목적 |
 
 ## 이 절의 목표
 
@@ -174,4 +160,4 @@ AI 학습에서도 비슷한 사고가 필요합니다. 손실(loss)이 어떻�
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 접선, 할선, 도함수, 속도와 순간 변화율을 미분 입구의 표준 설명으로 확인하는 근거입니다.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-20. 접선, 할선, 도함수, 속도와 순간 변화율을 미분 입구의 표준 설명으로 확인하는 근거입니다.

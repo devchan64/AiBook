@@ -1,7 +1,7 @@
 # P2-4.1 重新看我们是怎样学微分的
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2 Chapter 3 中，我们通过标量(scalar)、向量(vector)、矩阵(matrix)看到了数据与模型计算的形状。现在，在 Part 2 Chapter 4 里，我们转向微分(differentiation)。
 
@@ -31,20 +31,6 @@
 | 连接到学习 | 想减小损失时，参数该怎么改？ | Part 4 的反向传播与 optimizer |
 
 从这张表看，Chapter 4 不是一个背公式的章节，而是一个为`学习为什么必须读取变化方向`做准备的章节。
-
-## 本节范围
-
-这里做的是：回想第一次学微分时听过什么解释，并整理这些解释会把我们带向什么问题。
-
-更具体的变化率(rate of change)、斜率(slope)、平均变化率(average rate of change)会在 P2-4.2 处理。
-
-| 术语 | 很短的含义 | 在本节中的作用 |
-| --- | --- | --- |
-| 微分 | 读取数值如何变化的方法 | 整个章节的起点 |
-| 变化比较 | 把输入变化与输出变化放在一起看的问题 | 重新读微分时的核心视角 |
-| 瞬时变化率 | 某一点附近的变化速度 | 通往 `P2-4.2` 变化率说明的基准 |
-| 切线 | 显示图像某一点斜率的线 | 唤起旧记忆的代表性图像 |
-| 记忆恢复 | 把忘掉的概念重新建立成问题的过程 | 本节的实际目的 |
 
 ## 本节目标
 
@@ -174,4 +160,4 @@ AI 学习也需要类似的想法。因为只有读出损失(loss)是怎样变�
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19. 这是把切线、割线、导数、速度和瞬时变化率作为微分入口标准说明来确认的依据。
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-20. 这是把切线、割线、导数、速度和瞬时变化率作为微分入口标准说明来确认的依据。
