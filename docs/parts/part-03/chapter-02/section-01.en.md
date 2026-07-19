@@ -1,7 +1,7 @@
 # P3-2.1 Why Are Stored Records Not Yet a Dataset
 
 > Section ID: `P3-2.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 When people first hear data modeling, many immediately think of database-table design. In practice, the term is often used in the context of organizing storage structure. Behind that usage also sits the longer flow of data-driven systems such as `DSS/BI/DW/OLAP`, where data was collected and connected to decision making. In other words, data modeling was not originally a word only for AI. It also grew inside the broader flow of regrouping stored data, comparing it again, and connecting it to judgment. But the data modeling needed for AI and data analysis goes one step further. Here, `where should the data be stored?` matters less than `how should the stored records be reread as dataset candidates that answer a specific question?`
 
@@ -58,14 +58,19 @@ It becomes clearer that stored records do not immediately become a dataset when 
 
 Problem situation: confirm that the same source record remains as time-point rows in storage structure, but is regrouped into an action-level summary table in the dataset candidate.
 
-Input: a flow-log table stored as time-point records under each `event_id`
+Input: a flow-log table stored as time-point records under each `event_id` and the minimum number of time points required to treat an action as one event, `min_points_per_event`
 
-Expected output: a display in which the same records are separated into two different table roles, `stored time-step records` and `event-level dataset candidate`
+Expected output: a display in which the same records are separated into two different table roles, `stored time-step records` and `event-level dataset candidate`, and events that do not meet the criterion are excluded from comparison candidates
 
-Concept to check: the fact that stored records exist is not the same as the fact that a dataset candidate able to answer a question has been prepared
+Concept to check: the fact that stored records exist is not the same as the fact that a dataset candidate able to answer a question has been prepared. If `min_points_per_event` changes, which records are accepted as one action sample also changes.
 
 ```python
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 120)
+
+min_points_per_event = 3
 
 storage_table = pd.DataFrame(
     [
@@ -75,24 +80,34 @@ storage_table = pd.DataFrame(
         {"event_id": "B", "second": 0, "flow": 0.7},
         {"event_id": "B", "second": 1, "flow": 1.1},
         {"event_id": "B", "second": 2, "flow": 0.6},
+        {"event_id": "C", "second": 0, "flow": 0.9},
+        {"event_id": "C", "second": 1, "flow": 1.0},
     ]
 )
 
 dataset_candidate = (
     storage_table.groupby("event_id")
     .agg(
+        point_count=("second", "count"),
         duration_seconds=("second", "max"),
         mean_flow=("flow", "mean"),
         late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
     )
     .reset_index()
 )
+dataset_candidate["usable_as_event_sample"] = (
+    dataset_candidate["point_count"] >= min_points_per_event
+)
+usable_candidate = dataset_candidate[dataset_candidate["usable_as_event_sample"]]
 
 print("1) stored time-step records")
 print(storage_table)
 print()
-print("2) event-level dataset candidate for comparison")
+print(f"2) event-level dataset candidate when min_points_per_event = {min_points_per_event}")
 print(dataset_candidate.round(2))
+print()
+print("3) usable event-level rows for comparison")
+print(usable_candidate.round(2))
 ```
 
 Expected output:
@@ -106,14 +121,22 @@ Expected output:
 3        B       0   0.7
 4        B       1   1.1
 5        B       2   0.6
+6        C       0   0.9
+7        C       1   1.0
 
-2) event-level dataset candidate for comparison
-  event_id  duration_seconds  mean_flow  late_drop_rate
-0        A                 2       1.13            -0.2
-1        B                 2       0.80            -0.5
+2) event-level dataset candidate when min_points_per_event = 3
+  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
+0        A            3                 2       1.13            -0.2                    True
+1        B            3                 2       0.80            -0.5                    True
+2        C            2                 1       0.95             0.1                   False
+
+3) usable event-level rows for comparison
+  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
+0        A            3                 2       1.13            -0.2                    True
+1        B            3                 2       0.80            -0.5                    True
 ```
 
-What must be seen first in this output is the difference between `the table that shows the same records as they are` and `the table remade to match the question`. In the first table, one row is one time-point record, so `the average flow of this action` or `the late-stage drop rate` is not yet visible. Only after regrouping into the second table does one action become one row, and only then do columns appear that can be used directly for comparison. The fact that stored records exist is not the same statement as the fact that a dataset candidate able to answer a question has been prepared.
+What must be seen first in this output is the difference between `the table that shows the same records as they are` and `the table remade to match the question`. In the first table, one row is one time-point record, so `the average flow of this action` or `the late-stage drop rate` is not yet visible. Only after regrouping into the second table does one action become one row, and only then do columns appear that can be used directly for comparison. The value to manipulate here is `min_points_per_event`. If the value is `3`, C has stored records but is excluded from the comparable one-action samples. If the value is lowered to `2`, C also becomes a candidate, but we must ask again whether its late-stage drop rate can be compared with the same meaning. The fact that stored records exist is not the same statement as the fact that a dataset candidate able to answer a question has been prepared.
 
 It is also useful to check briefly where we get stuck if we keep the same data in storage structure without changing it.
 
@@ -143,6 +166,7 @@ So when we say that stored records are not yet a dataset, it means less `the for
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `example`, `labeled example`, `feature`. Because it explains the example unit and the role of features separately, it supports the core point of this section that a stored row and a comparable sample row may differ. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because it treats provenance, derivation, and traceability together, it strengthens the higher-level frame that storage structure preserves raw evidence while problem-representation structure creates derived representations for different questions. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it organizes the relationship among variables, observations, and table structure, it provides the general principle behind the explanation that one row in storage structure and one row in an analysis table may not mean the same thing. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `example`, `labeled example`, `feature`. Because it explains the example unit and the role of features separately, it supports the core point of this section that a stored row and a comparable sample row may differ. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Oracle, `Introduction to Data Warehousing Concepts`. Because it explains that a data warehouse is designed for business intelligence activities, query and analysis, maintaining historical records, and data analysis, it supports the opening context that `DSS/BI/DW/OLAP` connects stored data to decision making and analysis. [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because it treats provenance, derivation, and traceability together, it strengthens the higher-level frame that storage structure preserves raw evidence while problem-representation structure creates derived representations for different questions. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it organizes the relationship among variables, observations, and table structure, it provides the general principle behind the explanation that one row in storage structure and one row in an analysis table may not mean the same thing. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

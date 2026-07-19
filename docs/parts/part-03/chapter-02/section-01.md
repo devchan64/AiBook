@@ -1,7 +1,7 @@
 # P3-2.1 저장된 기록은 왜 곧바로 데이터셋이 아닌가
 
 > Section ID: `P3-2.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 데이터 모델링을 처음 들으면 많은 사람이 데이터베이스 테이블 설계부터 떠올립니다. 실제로 데이터 모델링이라는 말은 저장 구조를 정리하는 맥락에서도 자주 쓰입니다. 이 배경에는 `DSS/BI/DW/OLAP`처럼 데이터를 모아 의사결정에 연결하던 데이터 기반 시스템 흐름도 함께 놓여 있습니다. 즉 데이터 모델링은 처음부터 AI만의 언어였다기보다, 저장된 데이터를 다시 묶고 비교해 판단에 연결하려는 흐름 속에서 자라난 표현이기도 합니다. 하지만 AI와 데이터 분석에서 필요한 데이터 모델링은 거기서 한 걸음 더 나아갑니다. 여기서는 `데이터를 어디에 저장할 것인가`보다 `저장된 기록을 어떤 질문에 답하는 데이터셋 후보로 다시 볼 것인가`가 더 중요합니다.
 
@@ -66,6 +66,9 @@
 
 ```python
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 120)
 
 min_points_per_event = 3
 
@@ -164,7 +167,7 @@ print(usable_candidate.round(2))
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `example`, `labeled example`, `feature`. example 단위와 feature 역할을 분리해 설명하므로, 저장된 행과 비교 가능한 샘플 행이 다를 수 있다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Oracle, `Introduction to Data Warehousing Concepts`. 데이터웨어하우스가 비즈니스 인텔리전스 활동, 질의와 분석, 기록 유지, 데이터 분석을 위해 설계된 구조라고 설명하므로, `DSS/BI/DW/OLAP`가 저장된 데이터를 의사결정과 분석에 연결해 온 배경 맥락이라는 도입부 설명을 보강합니다. [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
-- W3C, `PROV-Overview`. provenance, derivation, traceability를 함께 다루므로, 저장 구조는 원시 근거를 남기고 문제 표현 구조는 다른 질문에 맞는 파생 표현을 만든다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조의 관계를 정리하므로, 저장 구조의 한 행과 분석용 표의 한 행이 같은 뜻이 아닐 수 있다는 설명의 일반 원리를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `example`, `labeled example`, `feature`. example 단위와 feature 역할을 분리해 설명하므로, 저장된 행과 비교 가능한 샘플 행이 다를 수 있다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Oracle, `Introduction to Data Warehousing Concepts`. 데이터웨어하우스가 비즈니스 인텔리전스 활동, 질의와 분석, 기록 유지, 데이터 분석을 위해 설계된 구조라고 설명하므로, `DSS/BI/DW/OLAP`가 저장된 데이터를 의사결정과 분석에 연결해 온 배경 맥락이라는 도입부 설명을 보강합니다. [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance, derivation, traceability를 함께 다루므로, 저장 구조는 원시 근거를 남기고 문제 표현 구조는 다른 질문에 맞는 파생 표현을 만든다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조의 관계를 정리하므로, 저장 구조의 한 행과 분석용 표의 한 행이 같은 뜻이 아닐 수 있다는 설명의 일반 원리를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

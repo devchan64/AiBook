@@ -1,7 +1,7 @@
 # P3-2.1 为什么已存的记录还不能直接算作数据集
 
 > Section ID: `P3-2.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 很多人一听到数据建模，先想到的是数据库表设计。实际上，`data modeling` 这个词也经常出现在整理存储结构的语境里。它背后还连着 `DSS/BI/DW/OLAP` 这类把数据汇总起来再接到决策上的数据系统脉络。换句话说，数据建模从一开始并不只是 AI 的语言，它也生长在“把已存的数据重新组织、重新比较，再连接到判断”这一更宽的流程里。但 AI 和数据分析需要的数据建模，会再往前走一步。这里比起 `数据存在哪里`，更重要的是 `应该把已存的记录重新看成什么样的数据集候选，才能回答某个问题`
 
@@ -58,14 +58,19 @@
 
 问题情境：确认同一份源记录，在存储结构里是按时间点逐行保存，在数据集候选里则被重新组织成按动作汇总的摘要表。
 
-输入(input)：按 `event_id` 保存逐时刻记录的流量日志表
+输入(input)：按 `event_id` 保存逐时刻记录的流量日志表，以及把一次动作承认为一个事件所需的最少时点数 `min_points_per_event`
 
-期望输出(output)：同一份记录被区分成 `stored time-step records` 和 `event-level dataset candidate` 这两种不同表角色
+期望输出(output)：同一份记录被区分成 `stored time-step records` 和 `event-level dataset candidate` 这两种不同表角色，并且没有达到标准的事件会从比较候选中排除
 
-要确认的概念：已经存在存储记录，并不等于已经准备好了能回答问题的数据集候选
+要确认的概念：已经存在存储记录，并不等于已经准备好了能回答问题的数据集候选。`min_points_per_event` 一变，哪些记录能被承认为一次动作样本也会跟着变。
 
 ```python
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 120)
+
+min_points_per_event = 3
 
 storage_table = pd.DataFrame(
     [
@@ -75,24 +80,34 @@ storage_table = pd.DataFrame(
         {"event_id": "B", "second": 0, "flow": 0.7},
         {"event_id": "B", "second": 1, "flow": 1.1},
         {"event_id": "B", "second": 2, "flow": 0.6},
+        {"event_id": "C", "second": 0, "flow": 0.9},
+        {"event_id": "C", "second": 1, "flow": 1.0},
     ]
 )
 
 dataset_candidate = (
     storage_table.groupby("event_id")
     .agg(
+        point_count=("second", "count"),
         duration_seconds=("second", "max"),
         mean_flow=("flow", "mean"),
         late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
     )
     .reset_index()
 )
+dataset_candidate["usable_as_event_sample"] = (
+    dataset_candidate["point_count"] >= min_points_per_event
+)
+usable_candidate = dataset_candidate[dataset_candidate["usable_as_event_sample"]]
 
 print("1) stored time-step records")
 print(storage_table)
 print()
-print("2) event-level dataset candidate for comparison")
+print(f"2) event-level dataset candidate when min_points_per_event = {min_points_per_event}")
 print(dataset_candidate.round(2))
+print()
+print("3) usable event-level rows for comparison")
+print(usable_candidate.round(2))
 ```
 
 期望输出：
@@ -106,14 +121,22 @@ print(dataset_candidate.round(2))
 3        B       0   0.7
 4        B       1   1.1
 5        B       2   0.6
+6        C       0   0.9
+7        C       1   1.0
 
-2) event-level dataset candidate for comparison
-  event_id  duration_seconds  mean_flow  late_drop_rate
-0        A                 2       1.13            -0.2
-1        B                 2       0.80            -0.5
+2) event-level dataset candidate when min_points_per_event = 3
+  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
+0        A            3                 2       1.13            -0.2                    True
+1        B            3                 2       0.80            -0.5                    True
+2        C            2                 1       0.95             0.1                   False
+
+3) usable event-level rows for comparison
+  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
+0        A            3                 2       1.13            -0.2                    True
+1        B            3                 2       0.80            -0.5                    True
 ```
 
-这段输出里首先要看的，是 `按原样展示同一份记录的表` 和 `为了回答问题而重新做出来的表` 之间的差别。第一张表里，一行只是一个时间点记录，因此 `这次动作的平均流量` 或 `后段下降率` 还看不出来。只有重新组织成第二张表后，一次动作才真正变成一行，也只有这时，才能出现可以直接拿来比较的列。已经存在存储记录，并不等于已经准备好了能回答问题的数据集候选。
+这段输出里首先要看的，是 `按原样展示同一份记录的表` 和 `为了回答问题而重新做出来的表` 之间的差别。第一张表里，一行只是一个时间点记录，因此 `这次动作的平均流量` 或 `后段下降率` 还看不出来。只有重新组织成第二张表后，一次动作才真正变成一行，也只有这时，才能出现可以直接拿来比较的列。这里可以改动的值是 `min_points_per_event`。如果设为 `3`，C 即使有已存记录，也会从可比较的一次动作样本中排除。若降到 `2`，C 也会成为候选，但后段下降率能不能按同一个含义来比较，还需要重新追问。已经存在存储记录，并不等于已经准备好了能回答问题的数据集候选。
 
 如果把同一份数据继续保持成存储结构不改，也可以很短地看出实际会卡在哪里。
 
@@ -143,6 +166,7 @@ print(dataset_candidate.round(2))
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `example`、`labeled example`、`feature`。它把 example 单位和 feature 角色分开说明，因此支持本节的核心判断：存储表中的一行，和可比较样本表中的一行，可能不是同一个意思。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它同时处理 provenance、derivation、traceability，因此强化了这个上位框架：存储结构保留原始证据，问题表达结构则为不同问题构造派生表达。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它整理了变量、观测值、表结构之间的关系，因此提供了一般原理，说明为什么存储结构中的一行和分析表中的一行不一定表示同一件事。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `example`、`labeled example`、`feature`。它把 example 单位和 feature 角色分开说明，因此支持本节的核心判断：存储表中的一行，和可比较样本表中的一行，可能不是同一个意思。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Oracle, `Introduction to Data Warehousing Concepts`. 它说明 data warehouse 是为了 business intelligence activities、query and analysis、维护历史记录和数据分析而设计的结构，因此支持开头的背景说明：`DSS/BI/DW/OLAP` 会把已存数据连接到决策和分析。 [https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html](https://docs.oracle.com/en/database/oracle/oracle-database/26/dwhsg/introduction-data-warehouse-concepts.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它同时处理 provenance、derivation、traceability，因此强化了这个上位框架：存储结构保留原始证据，问题表达结构则为不同问题构造派生表达。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它整理了变量、观测值、表结构之间的关系，因此提供了一般原理，说明为什么存储结构中的一行和分析表中的一行不一定表示同一件事。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
