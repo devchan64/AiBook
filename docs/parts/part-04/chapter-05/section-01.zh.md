@@ -1,7 +1,7 @@
 # P4-5.1 过拟合(overfitting)与欠拟合(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-4 章里，我们看过为什么要把数据分成 training、validation、test。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
 
@@ -257,9 +257,7 @@ scikit-learn 的官方例子也说明了这一点。它指出：过于简单的�
 --8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-03-zh.mmd"
 ```
 
-## 案例与示例
-
-### 再用实务场景读一次
+### 示例 1. 再用实务场景读一次
 
 如果拿客户流失预测项目举例，团队通常会看到下面两种场景中的一种。
 
@@ -282,67 +280,23 @@ scikit-learn 的官方例子也说明了这一点。它指出：过于简单的�
 
 ## 练习与示例
 
-### 用 Python 读欠拟合和过拟合
+### 用表读欠拟合和过拟合
 
-下面这段代码，不需要真的训练 model，也能展示怎样去读分数组合。
+下面这份记录不是实际训练 model 的例子，而是阅读已经得到的 training score 和 validation score 组合的场景。因此，与其用 Python 再把分数打印出来，不如在一张表里直接比较分数水平和间隔。
 
-问题场景：
+| model | training score | validation score | 差距 `gap` | 解读 |
+| --- | ---: | ---: | ---: | --- |
+| `simple_rule` | 0.62 | 0.60 | 0.02 | 差距小，但两边都低，更接近欠拟合 |
+| `balanced_model` | 0.84 | 0.82 | 0.02 | 两边都高，差距也小，比较稳定 |
+| `very_complex_model` | 0.99 | 0.78 | 0.21 | 只有 training score 高，validation 上下降，应怀疑过拟合 |
 
-- 与其只读定义，不如直接看 training score 和 validation score 的组合，会更快抓住欠拟合和过拟合
-
-输入(input)：
-
-- 各 model 的 `train_score`
-- 各 model 的 `validation_score`
-
-输出(output)：
-
-- 各 model 的 training score、validation score、差距 `gap`
-
-确认概念：
-
-- 必须把两边分数的水平和差距一起看，才能解释状态
-- `gap` 只是辅助信号，分数高低也要一起读
-
-```python
-models = [
-    {"name": "simple_rule", "train_score": 0.62, "validation_score": 0.60},
-    {"name": "balanced_model", "train_score": 0.84, "validation_score": 0.82},
-    {"name": "very_complex_model", "train_score": 0.99, "validation_score": 0.78},
-]
-
-for item in models:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"])
-    print("  train score:", item["train_score"])
-    print("  validation score:", item["validation_score"])
-    print("  gap:", gap)
-```
-
-执行结果示例可以这样读。
-
-```text
-simple_rule
-  train score: 0.62
-  validation score: 0.6
-  gap: 0.02
-balanced_model
-  train score: 0.84
-  validation score: 0.82
-  gap: 0.02
-very_complex_model
-  train score: 0.99
-  validation score: 0.78
-  gap: 0.21
-```
-
-从这个输出里要看的，不只是 `gap`。
+这张表里要看的，不只是 `gap`。
 
 - `simple_rule` 差距小，但两边都低，更接近欠拟合。
 - `balanced_model` 两边都高，差距也小，可以读成相对稳定。
 - `very_complex_model` training 很高，但和 validation 的差距大，这是更该怀疑过拟合的场景。
 
-所以，差距小不一定总是好，training score 高也不一定总是好。
+所以，差距小不一定总是好，training score 高也不一定总是好。在这张表里，应先看两边分数的水平，再看它们之间的差距。
 
 更准确地换句话说，就是下面这样。
 
@@ -358,51 +312,17 @@ balanced_model -> 目前候选里最稳定
 very_complex_model -> 可能对 training data 贴得太紧
 ```
 
-### 用 Python 再接上工作问题
+### 用表再接上工作问题
 
 这一次，把同样的数字接到工作判断上。
 
-问题场景：
+| 候选 | training score | validation score | 差距 `gap` | 选择判断 |
+| --- | ---: | ---: | ---: | --- |
+| `candidate_A` | 0.65 | 0.61 | 0.04 | 两边都低，作为基准候选偏弱 |
+| `candidate_B` | 0.88 | 0.85 | 0.03 | 按 validation 标准最稳定 |
+| `candidate_C` | 0.98 | 0.76 | 0.22 | training score 最高，但应怀疑过拟合 |
 
-- 要把内部评分表变成真正的候选选择判断，就必须明确读出：按照 validation 标准，应该选哪一个 model
-
-输入(input)：
-
-- 各候选的 training score 与 validation score
-
-输出(output)：
-
-- 各候选的分数摘要
-- 依据 validation 标准选出的最终候选
-
-确认概念：
-
-- training score 最高的候选，不一定就是按照 validation 标准最稳定的候选
-- model selection 应该主要按 validation score 来读
-
-```python
-cases = [
-    {"name": "candidate_A", "train_score": 0.65, "validation_score": 0.61},
-    {"name": "candidate_B", "train_score": 0.88, "validation_score": 0.85},
-    {"name": "candidate_C", "train_score": 0.98, "validation_score": 0.76},
-]
-
-for item in cases:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"], "-> train:", item["train_score"], "validation:", item["validation_score"], "gap:", gap)
-
-best = max(cases, key=lambda item: item["validation_score"])
-print("choose by validation:", best["name"])
-```
-
-执行结果示例可以像下面这样。
-
-```text
-candidate_A -> train: 0.65 validation: 0.61 gap: 0.04
-candidate_B -> train: 0.88 validation: 0.85 gap: 0.03
-candidate_C -> train: 0.98 validation: 0.76 gap: 0.22
-choose by validation: candidate_B
-```
+如果按 validation 标准选择，结果会是 `candidate_B`。
 
 在这个例子里，如果只看 training score，`candidate_C` 最像最好。但真正的选择会按 validation score 变成 `candidate_B`。这就是防止过拟合时最基本的读法。
 
@@ -425,8 +345,6 @@ choose by validation: candidate_B
 
 ## 出处与参考资料
 
-- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

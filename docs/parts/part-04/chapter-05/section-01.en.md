@@ -1,7 +1,7 @@
 # P4-5.1 Overfitting And Underfitting
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Chapter P4-4, we looked at why data are divided into training, validation, and test sets. The next question follows naturally. After splitting the data and checking the results, why do some models work well on training data but weaken on new data? And why do some models fail to explain even the training data well enough?
 
@@ -257,9 +257,7 @@ The checkable result appears when training score and validation score are placed
 --8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-03-en.mmd"
 ```
 
-## Cases And Examples
-
-### Reading It Again Through A Practical Scene
+### Example 1. Reading It Again Through A Practical Scene
 
 If you use a customer-churn prediction project as an example, the team usually sees one of the following two scenes.
 
@@ -282,67 +280,23 @@ So what matters in practice is not simply `complex model versus simple model`. M
 
 ## Practice And Examples
 
-### Reading Underfitting And Overfitting Through A Python Example
+### Reading Underfitting And Overfitting Through A Table
 
-The following code shows how to read a combination of scores without actually training a model.
+The following record is not an example that actually trains a model. It is a scene for reading combinations of training score and validation score that have already been produced. So rather than printing the scores again with Python, it is more direct to compare the score levels and gaps in one table.
 
-Problem situation:
+| Model | Training score | Validation score | Gap `gap` | Interpretation |
+| --- | ---: | ---: | ---: | --- |
+| `simple_rule` | 0.62 | 0.60 | 0.02 | The gap is small, but both are low, so this is closer to underfitting |
+| `balanced_model` | 0.84 | 0.82 | 0.02 | Both are high and the gap is small, so it is relatively stable |
+| `very_complex_model` | 0.99 | 0.78 | 0.21 | Only the training score is high and validation drops, so overfitting should be suspected |
 
-- It is faster to grasp underfitting and overfitting by directly looking at combinations of training score and validation score than by reading definitions alone
-
-Input:
-
-- each model's `train_score`
-- each model's `validation_score`
-
-Output:
-
-- each model's training score, validation score, and gap
-
-Concept to check:
-
-- you need to read both the level of the two scores and the gap between them together
-- `gap` is only a supporting signal, and the score levels must also be read with it
-
-```python
-models = [
-    {"name": "simple_rule", "train_score": 0.62, "validation_score": 0.60},
-    {"name": "balanced_model", "train_score": 0.84, "validation_score": 0.82},
-    {"name": "very_complex_model", "train_score": 0.99, "validation_score": 0.78},
-]
-
-for item in models:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"])
-    print("  train score:", item["train_score"])
-    print("  validation score:", item["validation_score"])
-    print("  gap:", gap)
-```
-
-The example output can be read like this.
-
-```text
-simple_rule
-  train score: 0.62
-  validation score: 0.6
-  gap: 0.02
-balanced_model
-  train score: 0.84
-  validation score: 0.82
-  gap: 0.02
-very_complex_model
-  train score: 0.99
-  validation score: 0.78
-  gap: 0.21
-```
-
-What you should read from this output is not only the `gap`.
+What you should read from this table is not only the `gap`.
 
 - `simple_rule` has a small gap, but both scores are low. This is closer to an underfitting interpretation.
 - `balanced_model` has both scores high and the gap small. It can be read as a relatively stable state.
 - `very_complex_model` has a very high training score, but a large gap from validation. This is a scene where overfitting should be suspected.
 
-So a small gap is not always good, and a high training score is not always good either.
+So a small gap is not always good, and a high training score is not always good either. In this table, you should read the levels of the two scores first, and then look at the gap between them.
 
 The same point can be restated more precisely like this.
 
@@ -358,51 +312,17 @@ balanced_model -> the most stable among the current candidates
 very_complex_model -> may have fit the training data too strongly
 ```
 
-### Adding A Work Question Through A Python Example
+### Adding A Work Question Through A Table
 
 This time, attach a work question to the same numbers.
 
-Problem situation:
+| Candidate | Training score | Validation score | Gap `gap` | Selection judgment |
+| --- | ---: | ---: | ---: | --- |
+| `candidate_A` | 0.65 | 0.61 | 0.04 | Both are low, so it is weak as a baseline candidate |
+| `candidate_B` | 0.88 | 0.85 | 0.03 | Most stable by the validation criterion |
+| `candidate_C` | 0.98 | 0.76 | 0.22 | Training score is highest, but overfitting should be suspected |
 
-- To turn an internal score table into an actual candidate-choice judgment, you need to read explicitly which model should be chosen by the validation criterion
-
-Input:
-
-- each candidate's training score and validation score
-
-Output:
-
-- a summary of each candidate's scores
-- the final candidate chosen by the validation criterion
-
-Concept to check:
-
-- the candidate with the highest training score and the candidate that is most stable by validation may be different
-- model selection should be read mainly through validation score
-
-```python
-cases = [
-    {"name": "candidate_A", "train_score": 0.65, "validation_score": 0.61},
-    {"name": "candidate_B", "train_score": 0.88, "validation_score": 0.85},
-    {"name": "candidate_C", "train_score": 0.98, "validation_score": 0.76},
-]
-
-for item in cases:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"], "-> train:", item["train_score"], "validation:", item["validation_score"], "gap:", gap)
-
-best = max(cases, key=lambda item: item["validation_score"])
-print("choose by validation:", best["name"])
-```
-
-The example output may look like this.
-
-```text
-candidate_A -> train: 0.65 validation: 0.61 gap: 0.04
-candidate_B -> train: 0.88 validation: 0.85 gap: 0.03
-candidate_C -> train: 0.98 validation: 0.76 gap: 0.22
-choose by validation: candidate_B
-```
+If you choose by the validation criterion, the choice is `candidate_B`.
 
 In this example, `candidate_C` looks best if you look only at training score. But the actual choice becomes `candidate_B` when you use validation score as the criterion. This is the most basic reading habit for guarding against overfitting.
 
@@ -425,8 +345,6 @@ And at the center of that stability judgment is ultimately this question.
 
 ## Sources And References
 
-- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, accessed 2026-06-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, accessed 2026-07-19. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
