@@ -1,7 +1,7 @@
 # P4-8.3 Supplementary Learning: How To First Set A Baseline By Problem Type
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 If P4-8.2 showed why a baseline is needed, then the next question immediately appears.
 
@@ -18,7 +18,7 @@ This Section handles how to first set representative baselines in classification
 - After setting a baseline, with what cases and exercises should comparison begin?
 - After seeing the baseline score, what should be checked next?
 
-This Section does not treat in depth the derivation of cross-validation formulas, statistical tests, complex benchmark operation, or optimization methods for individual algorithms. Those topics reconnect again after P4-9.
+This Section first closes `how to set the simplest baseline that still carries comparison meaning by problem type`. Cross-validation, model-comparison procedures, and more complex tuning methods continue after P4-9.
 
 ## Goals Of This Supplementary Learning
 
