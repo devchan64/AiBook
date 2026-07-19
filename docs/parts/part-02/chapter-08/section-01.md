@@ -1,7 +1,7 @@
 # P2-8.1 값(value), 변수(variable), 타입(type)
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7에서는 코드가 어디에서 실행되는지 봤습니다. Colab에서 실행할 수도 있고, 로컬 PC(local PC)의 터미널에서 Python 인터프리터(Python interpreter)를 실행할 수도 있습니다.
 
@@ -34,28 +34,6 @@ P2-7에서는 코드가 어디에서 실행되는지 봤습니다. Colab에서 �
 | 타입(type) | 그 값으로 무엇을 할 수 있는지 구분하는 종류 정보입니다. |
 | 할당(assign) | Python에서 이름에 값을 연결하는 동작입니다. |
 | 기본 타입(basic type) | `int`, `float`, `str`, `bool`처럼 처음부터 자주 만나는 값 종류입니다. |
-
-## 이 절의 범위
-
-여기서는 Python에서 값에 이름을 붙이고, 그 값의 종류를 확인하는 최소 문법을 다룹니다. 동시에 프로그래밍 일반에서 “데이터를 값으로 보고, 이름으로 참조하고, 타입으로 가능한 동작을 제한한다”는 관점을 잡습니다.
-
-여기서는 다음 질문에 답합니다.
-
-- Python에서 값(value)이란 무엇인가?
-- 변수(variable)는 값을 담는 상자인가, 값에 붙인 이름인가?
-- 타입(type)은 왜 필요한가?
-- 숫자, 문자열, 불리언(boolean)은 어떻게 다르게 동작하는가?
-- AI 실습에서 타입을 왜 확인해야 하는가?
-
-이번 절은 `지금 보는 대상이 값인가`, `어떤 이름으로 다시 가리키는가`, `어떤 타입이라 가능한 연산이 무엇인가`까지를 먼저 닫습니다. 리스트(list), 딕셔너리(dictionary), 반복(loop), 함수(function)는 P2-8.2부터 P2-8.5까지 이어서 보고, 메서드 호출 모양과 참조/복사 문제는 각각 P2-8.6, P2-8.7 보충학습에서 다시 회수합니다.
-
-`value.method()` 같은 호출 모양은 P2-8.6 보충학습에서, 리스트를 복사했는데 원본까지 같이 바뀌는 이유는 P2-8.7 보충학습에서 따로 다룹니다.
-
-| 지금 이런 증상이라면 | 먼저 갈 곳 | 아니면 지금 이 절에서 붙잡을 것 |
-| --- | --- | --- |
-| `value.method()` 같은 호출 모양이 전혀 감이 안 잡힌다 | P2-8.6 보충학습 | 값, 변수, 타입이 무엇인지 먼저 잡고 다음 본편으로 간다 |
-| 리스트를 복사했는데 왜 원본까지 같이 바뀌는지 바로 막힌다 | P2-8.7 보충학습 | 지금은 `=`이 이름 붙이기라는 점과 타입 차이만 잡고 뒤 절로 간다 |
-| 숫자와 문자열이 왜 섞여 오류가 나는지 정도만 헷갈린다 | 이 절 계속 읽기 | `type()`과 값의 종류에 따라 연산이 달라진다는 점을 먼저 확인한다 |
 
 ## 이 절의 목표
 
@@ -403,7 +381,7 @@ print(score >= threshold)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-07-19. Python의 동적 의미론(dynamic semantics), 동적 타이핑(dynamic typing), 고수준 내장 자료구조 설명 확인에 사용했다.
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 대화형 예제에서 프롬프트, 숫자, 문자열, 리스트가 어떻게 소개되는지 확인하는 근거로 사용했다.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `int`, `float`, `str`, `bool` 등 기본 타입과 타입별 연산 차이를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python에서 객체가 정체성(identity), 타입(type), 값(value)을 가진다는 설명 확인에 사용했다.
+- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-07-20. Python의 동적 의미론(dynamic semantics), 동적 타이핑(dynamic typing), 고수준 내장 자료구조 설명 확인에 사용했다.
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 대화형 예제에서 프롬프트, 숫자, 문자열, 리스트가 어떻게 소개되는지 확인하는 근거로 사용했다.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `int`, `float`, `str`, `bool` 등 기본 타입과 타입별 연산 차이를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python에서 객체가 정체성(identity), 타입(type), 값(value)을 가진다는 설명 확인에 사용했다.
