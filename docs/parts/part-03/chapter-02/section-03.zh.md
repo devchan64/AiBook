@@ -1,7 +1,7 @@
 # P3-2.3 第一次拿到新表时，应该先写下什么
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 第一次拿到一张新表时，很多人很容易立刻想到均值、分布、模型候选。但在这之前更应该先写下来的，是 `这张表的一行表示什么`、`什么能被归到一起`、`还有什么仍然缺着`。只有把这三点先整理出来，才能分清：现在手上的，到底已经是可以直接比较的样本表，还是仍然需要重新归组的原始记录。与其一看到新表就先决定它是不是 `训练数据集`，不如先把这三点写下来，这对解释会更有帮助。这样一来，后面的样本设计和数据集重设计也会少很多抽象感。
 
@@ -88,99 +88,98 @@
 
 问题情境：第一次拿到一张新日志表时，检查它能不能直接被读成样本比较表。
 
-输入(input)：每个 `event_id` 下混着多个时间点记录的原始日志表
+输入(input)：保存在 [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv) 里的原始日志表，以及把事件看作可比较候选所需的最少行数 `minimum_rows_per_event`
 
-期望输出(output)：即使是同一张表，只要先检查 `行的含义`、`归组标准`、`时间/顺序列`，就会显露出它还不是能直接比较的表
+期望输出(output)：即使是同一张表，只要先检查 `行的含义`、`归组标准`、`时间/顺序列`，就会显露出它还不是能直接比较的表。改变 `minimum_rows_per_event` 后，哪些事件拥有足够记录、能作为候选也会跟着改变。
 
-要确认的概念：第一次读表时，在计算之前，必须先确认 `这一行是一整条样本`，还是 `只是样本记录的一部分`
+要确认的概念：第一次读表时，在计算之前，必须先确认 `这一行是一整条样本`，还是 `只是样本记录的一部分`。同时设置重复行数阈值后，结构检查就不只是输出信息，而会连到可比较性判断。
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-table = pd.DataFrame(
-    [
-        {"event_id": "A", "elapsed_seconds": 0, "flow": 0.8, "pressure": 1.0},
-        {"event_id": "A", "elapsed_seconds": 1, "flow": 1.5, "pressure": 2.0},
-        {"event_id": "A", "elapsed_seconds": 2, "flow": 0.9, "pressure": 1.4},
-        {"event_id": "B", "elapsed_seconds": 0, "flow": 0.7, "pressure": 1.1},
-        {"event_id": "B", "elapsed_seconds": 1, "flow": 0.8, "pressure": 1.2},
-    ]
-)
+minimum_rows_per_event = 12
+preview_row_count = 8
 
-print("1) raw table")
-print(table)
+input_path = Path("docs/assets/part-03/chapter-02/p3_2_3_first_table_log.csv")
+
+with input_path.open(newline="", encoding="utf-8") as file:
+    rows = list(csv.DictReader(file))
+
+for row in rows:
+    row["elapsed_seconds"] = int(row["elapsed_seconds"])
+    row["flow"] = float(row["flow"])
+    row["pressure"] = float(row["pressure"])
+
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+print("1) quick structural check")
+print(f"row_count: {len(rows)}")
+print(f"event_id_count: {len(events)}")
+print("has_time_order: yes")
 print()
 
-row_check = pd.DataFrame(
-    [
-        {"check_item": "row_count", "value": len(table)},
-        {"check_item": "event_id_count", "value": table["event_id"].nunique()},
-        {"check_item": "has_time_order", "value": "yes"},
-    ]
-)
-print("2) quick structural check")
-print(row_check)
+print("2) repeated rows per event")
+for event_id, event_rows in sorted(events.items()):
+    enough_rows = len(event_rows) >= minimum_rows_per_event
+    print(f"{event_id}: row_count={len(event_rows)}, enough_rows={enough_rows}")
 print()
 
-rows_per_event = table.groupby("event_id", as_index=False).size().rename(columns={"size": "row_count"})
-print("3) repeated rows per event")
-print(rows_per_event)
-print()
-
-wrong_reading = table[["event_id", "elapsed_seconds", "flow"]]
-print("4) if we compare rows as if each row were a sample")
-print(wrong_reading)
-print()
-
-event_summary = (
-    table.groupby("event_id", as_index=False)
-    .agg(
-        duration_seconds=("elapsed_seconds", "max"),
-        mean_flow=("flow", "mean"),
-        peak_pressure=("pressure", "max"),
+print("3) if we compare rows as if each row were a sample")
+for row in rows[:preview_row_count]:
+    print(
+        f"{row['event_id']} at {row['elapsed_seconds']}s: "
+        f"flow={row['flow']:.1f}"
     )
-)
-print("5) after regrouping into one row per event")
-print(event_summary)
+print(f"... {len(rows) - preview_row_count} more time-point rows")
+print()
+
+print("4) after regrouping into one row per event")
+for event_id, event_rows in sorted(events.items()):
+    duration = max(row["elapsed_seconds"] for row in event_rows)
+    mean_flow = sum(row["flow"] for row in event_rows) / len(event_rows)
+    peak_pressure = max(row["pressure"] for row in event_rows)
+    enough_rows = len(event_rows) >= minimum_rows_per_event
+    print(
+        f"{event_id}: duration={duration}s, mean_flow={mean_flow:.2f}, "
+        f"peak_pressure={peak_pressure:.1f}, enough_rows={enough_rows}"
+    )
 ```
 
 期望输出：
 
 ```text
-1) raw table
-  event_id  elapsed_seconds  flow  pressure
-0        A                0   0.8       1.0
-1        A                1   1.5       2.0
-2        A                2   0.9       1.4
-3        B                0   0.7       1.1
-4        B                1   0.8       1.2
+1) quick structural check
+row_count: 36
+event_id_count: 3
+has_time_order: yes
 
-2) quick structural check
-      check_item  value
-0      row_count      5
-1  event_id_count      2
-2  has_time_order    yes
+2) repeated rows per event
+A: row_count=18, enough_rows=True
+B: row_count=12, enough_rows=True
+C: row_count=6, enough_rows=False
 
-3) repeated rows per event
-  event_id  row_count
-0        A          3
-1        B          2
+3) if we compare rows as if each row were a sample
+A at 0s: flow=0.8
+A at 1s: flow=0.9
+A at 2s: flow=1.1
+A at 3s: flow=1.2
+A at 4s: flow=1.3
+A at 5s: flow=1.4
+A at 6s: flow=1.5
+A at 7s: flow=1.6
+... 28 more time-point rows
 
-4) if we compare rows as if each row were a sample
-  event_id  elapsed_seconds  flow
-0        A                0   0.8
-1        A                1   1.5
-2        A                2   0.9
-3        B                0   0.7
-4        B                1   0.8
-
-5) after regrouping into one row per event
-  event_id  duration_seconds  mean_flow  peak_pressure
-0        A                 2   1.066667            2.0
-1        B                 1   0.750000            1.2
+4) after regrouping into one row per event
+A: duration=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
+B: duration=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
+C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
 ```
 
-这个例子真正展示的，并不只是找到了 `event_id` 和 `elapsed_seconds` 这两个列名。第 2 步和第 3 步里首先要读出来的是：`总行数 5` 大于 `event_id 数 2`，而且同一个 `event_id` 会在多行里重复出现。只有读到这个信号，我们才能走到这样的解释：`当前这一行不是一整条样本，而只是样本记录的一部分`。所以，如果像第 4 步那样立刻把每一行拿来比较，我们仍然得不到一张真正比较 `A 整个动作` 和 `B 整个动作` 的表。反过来，只有像第 5 步那样按 `event_id` 重新归组之后，一次动作才会变成一行，也只有这时，像平均流量、峰值压力这样可比较的列才会出现在其上。
+这个例子真正展示的，并不只是找到了 `event_id` 和 `elapsed_seconds` 这两个列名。第 1 步和第 2 步里首先要读出来的是：`总行数 36` 大于 `event_id 数 3`，而且同一个 `event_id` 会在多行里重复出现。这里可以操作的值是 `minimum_rows_per_event`。如果把它设为 `12`，A 和 B 会成为拥有足够记录的候选，但 C 仍然是记录不足的候选。如果把它降到 `6`，C 也会成为候选；不过，用更短记录算出来的均值能不能用同样权重参与比较，还需要重新检查。只有读到这个信号，我们才能走到这样的解释：`当前这一行不是一整条样本，而只是样本记录的一部分`。所以，如果像第 3 步那样立刻把每一行拿来比较，我们仍然得不到一张真正比较 `A 整个动作`、`B 整个动作` 和 `C 整个动作` 的表。反过来，只有像第 4 步那样按 `event_id` 重新归组之后，一次动作才会变成一行，也只有这时，像平均流量、峰值压力这样可比较的列才会出现在其上。
 
 如果再从格式与质量的视角重读同样结果，会更清楚。`event_id` 会重复，说明从格式一致性角度看，`确实存在一个可以把一条样本归组起来的键`。而 `rows per event` 彼此不同，则说明从第一次质量检查角度看，`不同样本的记录长度并不一样`。这种差别必须在早期就写下来，这样以后比较均值时，我们才能同时读到 `为什么有些样本是建立在更少证据之上的`。
 
@@ -188,6 +187,6 @@ print(event_summary)
 
 ## 来源与参考资料
 
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它区分了变量、观测值和表结构，因此支持本节的出发点：应该先写下 `一行表示什么`。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- E. Wang, D. L. Cook, R. J. Hyndman, and R. Wickham, `A Grammar of Spatiotemporal Data Transformation`, *Journal of Computational and Graphical Statistics* 27(2), 2018. 它提供了通过区分 key 和 index 来阅读时间数据的原则，因此强化了这样的判断：`什么能归组`、`有没有时间/顺序列` 应该最先检查。 [https://doi.org/10.1080/10618600.2017.1371377](https://doi.org/10.1080/10618600.2017.1371377){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它同时处理 provenance 和 traceability，因此支持本节最后那一项检查：一旦出现奇怪案例，回头要看的原始证据应该在一开始就写下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它区分了变量、观测值和表结构，因此支持本节的出发点：应该先写下 `一行表示什么`。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Earo Wang, Dianne Cook, Rob J. Hyndman, `A New Tidy Data Structure to Support Exploration and Modeling of Temporal Data`, *Journal of Computational and Graphical Statistics* 29(3), 2020. 它提供了通过区分 key 和 index 来阅读时间数据的原则，因此强化了这样的判断：`什么能归组`、`有没有时间/顺序列` 应该最先检查。 [https://robjhyndman.com/publications/tsibble/](https://robjhyndman.com/publications/tsibble/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它同时处理 provenance 和 traceability，因此支持本节最后那一项检查：一旦出现奇怪案例，回头要看的原始证据应该在一开始就写下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-2.3 새 표를 처음 받으면 무엇부터 적어야 하는가
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 새 표를 처음 받으면 많은 경우 바로 평균, 분포, 모델 후보부터 떠올리기 쉽습니다. 하지만 그보다 먼저 적어야 하는 것은 `이 표의 한 행은 무엇인가`, `무엇을 묶을 수 있는가`, `무엇이 아직 빠져 있는가`입니다. 이 세 가지가 정리되어야 지금 손에 있는 것이 바로 비교할 샘플 표인지, 아니면 다시 묶어야 할 원시 기록인지 구분할 수 있습니다. 새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하기보다, 이 세 가지를 메모해 두는 편이 해석에 도움이 됩니다. 이렇게 적어 두면 뒤의 샘플 설계와 데이터셋 재설계도 훨씬 덜 추상적으로 바뀝니다.
 
@@ -187,6 +187,6 @@ C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
 
 ## 출처와 참고 자료
 
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조를 구분해 설명하므로, `한 행은 무엇인가`를 먼저 적어 두어야 한다는 이 절의 출발점을 뒷받침합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- E. Wang, D. L. Cook, R. J. Hyndman, and R. Wickham, `A Grammar of Spatiotemporal Data Transformation`, *Journal of Computational and Graphical Statistics* 27(2), 2018. key와 index를 분리해 시간 데이터를 읽는 원리를 제공하므로, `무엇을 묶을 수 있는가`, `시간/순서 열이 있는가`를 먼저 점검해야 한다는 판단을 보강합니다. [https://doi.org/10.1080/10618600.2017.1371377](https://doi.org/10.1080/10618600.2017.1371377){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance와 traceability를 함께 다루므로, 이상 사례가 보일 때 다시 돌아갈 원시 근거를 초기에 적어 두어야 한다는 이 절의 마지막 점검 항목을 지지합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조를 구분해 설명하므로, `한 행은 무엇인가`를 먼저 적어 두어야 한다는 이 절의 출발점을 뒷받침합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Earo Wang, Dianne Cook, Rob J. Hyndman, `A New Tidy Data Structure to Support Exploration and Modeling of Temporal Data`, *Journal of Computational and Graphical Statistics* 29(3), 2020. key와 index를 분리해 시간 데이터를 읽는 원리를 제공하므로, `무엇을 묶을 수 있는가`, `시간/순서 열이 있는가`를 먼저 점검해야 한다는 판단을 보강합니다. [https://robjhyndman.com/publications/tsibble/](https://robjhyndman.com/publications/tsibble/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance와 traceability를 함께 다루므로, 이상 사례가 보일 때 다시 돌아갈 원시 근거를 초기에 적어 두어야 한다는 이 절의 마지막 점검 항목을 지지합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

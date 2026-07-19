@@ -1,7 +1,7 @@
 # P3-2.3 What Should Be Written Down First When a New Table Arrives
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 When a new table first arrives, it is easy in many cases to think first of averages, distributions, or model candidates. But what should be written down before that is `what does one row of this table mean?`, `what can be grouped together?`, and `what is still missing?` Only after these three are organized can we distinguish whether what is in hand is already a sample table that can be compared directly, or still raw records that must be regrouped. Rather than deciding immediately whether a new table is `a training dataset`, it helps interpretation more to write down these three points first. Once they are written down, later sample design and dataset redesign also become much less abstract.
 
@@ -88,99 +88,98 @@ Going just one step further, format consistency and the first quality check can 
 
 Problem situation: when a new log table arrives, check whether it can already be read directly as a sample-comparison table.
 
-Input: a raw log table in which multiple time-point records are mixed under each `event_id`
+Input: the raw log table stored in [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv), and `minimum_rows_per_event`, the minimum number of rows required to treat an event as a comparable candidate
 
-Expected output: even for the same table, checking `row meaning`, `grouping criterion`, and `time/order column` first reveals that it is not yet a table that can be compared directly
+Expected output: even for the same table, checking `row meaning`, `grouping criterion`, and `time/order column` first reveals that it is not yet a table that can be compared directly. Changing `minimum_rows_per_event` also changes which events have enough records to be considered candidates.
 
-Concept to check: when reading a table for the first time, before calculation we must check whether `this row is one full sample` or `only part of a sample record`
+Concept to check: when reading a table for the first time, before calculation we must check whether `this row is one full sample` or `only part of a sample record`. Adding a repeated-row threshold turns structural checking into a judgment about comparability.
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-table = pd.DataFrame(
-    [
-        {"event_id": "A", "elapsed_seconds": 0, "flow": 0.8, "pressure": 1.0},
-        {"event_id": "A", "elapsed_seconds": 1, "flow": 1.5, "pressure": 2.0},
-        {"event_id": "A", "elapsed_seconds": 2, "flow": 0.9, "pressure": 1.4},
-        {"event_id": "B", "elapsed_seconds": 0, "flow": 0.7, "pressure": 1.1},
-        {"event_id": "B", "elapsed_seconds": 1, "flow": 0.8, "pressure": 1.2},
-    ]
-)
+minimum_rows_per_event = 12
+preview_row_count = 8
 
-print("1) raw table")
-print(table)
+input_path = Path("docs/assets/part-03/chapter-02/p3_2_3_first_table_log.csv")
+
+with input_path.open(newline="", encoding="utf-8") as file:
+    rows = list(csv.DictReader(file))
+
+for row in rows:
+    row["elapsed_seconds"] = int(row["elapsed_seconds"])
+    row["flow"] = float(row["flow"])
+    row["pressure"] = float(row["pressure"])
+
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+print("1) quick structural check")
+print(f"row_count: {len(rows)}")
+print(f"event_id_count: {len(events)}")
+print("has_time_order: yes")
 print()
 
-row_check = pd.DataFrame(
-    [
-        {"check_item": "row_count", "value": len(table)},
-        {"check_item": "event_id_count", "value": table["event_id"].nunique()},
-        {"check_item": "has_time_order", "value": "yes"},
-    ]
-)
-print("2) quick structural check")
-print(row_check)
+print("2) repeated rows per event")
+for event_id, event_rows in sorted(events.items()):
+    enough_rows = len(event_rows) >= minimum_rows_per_event
+    print(f"{event_id}: row_count={len(event_rows)}, enough_rows={enough_rows}")
 print()
 
-rows_per_event = table.groupby("event_id", as_index=False).size().rename(columns={"size": "row_count"})
-print("3) repeated rows per event")
-print(rows_per_event)
-print()
-
-wrong_reading = table[["event_id", "elapsed_seconds", "flow"]]
-print("4) if we compare rows as if each row were a sample")
-print(wrong_reading)
-print()
-
-event_summary = (
-    table.groupby("event_id", as_index=False)
-    .agg(
-        duration_seconds=("elapsed_seconds", "max"),
-        mean_flow=("flow", "mean"),
-        peak_pressure=("pressure", "max"),
+print("3) if we compare rows as if each row were a sample")
+for row in rows[:preview_row_count]:
+    print(
+        f"{row['event_id']} at {row['elapsed_seconds']}s: "
+        f"flow={row['flow']:.1f}"
     )
-)
-print("5) after regrouping into one row per event")
-print(event_summary)
+print(f"... {len(rows) - preview_row_count} more time-point rows")
+print()
+
+print("4) after regrouping into one row per event")
+for event_id, event_rows in sorted(events.items()):
+    duration = max(row["elapsed_seconds"] for row in event_rows)
+    mean_flow = sum(row["flow"] for row in event_rows) / len(event_rows)
+    peak_pressure = max(row["pressure"] for row in event_rows)
+    enough_rows = len(event_rows) >= minimum_rows_per_event
+    print(
+        f"{event_id}: duration={duration}s, mean_flow={mean_flow:.2f}, "
+        f"peak_pressure={peak_pressure:.1f}, enough_rows={enough_rows}"
+    )
 ```
 
 Expected output:
 
 ```text
-1) raw table
-  event_id  elapsed_seconds  flow  pressure
-0        A                0   0.8       1.0
-1        A                1   1.5       2.0
-2        A                2   0.9       1.4
-3        B                0   0.7       1.1
-4        B                1   0.8       1.2
+1) quick structural check
+row_count: 36
+event_id_count: 3
+has_time_order: yes
 
-2) quick structural check
-      check_item  value
-0      row_count      5
-1  event_id_count      2
-2  has_time_order    yes
+2) repeated rows per event
+A: row_count=18, enough_rows=True
+B: row_count=12, enough_rows=True
+C: row_count=6, enough_rows=False
 
-3) repeated rows per event
-  event_id  row_count
-0        A          3
-1        B          2
+3) if we compare rows as if each row were a sample
+A at 0s: flow=0.8
+A at 1s: flow=0.9
+A at 2s: flow=1.1
+A at 3s: flow=1.2
+A at 4s: flow=1.3
+A at 5s: flow=1.4
+A at 6s: flow=1.5
+A at 7s: flow=1.6
+... 28 more time-point rows
 
-4) if we compare rows as if each row were a sample
-  event_id  elapsed_seconds  flow
-0        A                0   0.8
-1        A                1   1.5
-2        A                2   0.9
-3        B                0   0.7
-4        B                1   0.8
-
-5) after regrouping into one row per event
-  event_id  duration_seconds  mean_flow  peak_pressure
-0        A                 2   1.066667            2.0
-1        B                 1   0.750000            1.2
+4) after regrouping into one row per event
+A: duration=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
+B: duration=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
+C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
 ```
 
-What this example shows is not simply that the columns are named `event_id` and `elapsed_seconds`. In steps 2 and 3, what must be seen first is that `the number of rows, 5` is larger than `the number of event_id values, 2`, and that the same `event_id` repeats across multiple lines. Only after reading that signal can we reach the interpretation that `the current row is not one full sample, but only part of a sample record`. So if we compare each row immediately as in step 4, we still do not have a table that compares `the full A action` and `the full B action`. By contrast, only after regrouping by `event_id` as in step 5 does one action become one row, and only then can comparable columns such as mean flow or peak pressure be created on top of it.
+What this example shows is not simply that the columns are named `event_id` and `elapsed_seconds`. In steps 1 and 2, what must be seen first is that `the number of rows, 36` is larger than `the number of event_id values, 3`, and that the same `event_id` repeats across multiple lines. The value to manipulate here is `minimum_rows_per_event`. If it is set to `12`, A and B become candidates with enough records, but C remains a candidate with too few records. If it is lowered to `6`, C also becomes a candidate, but whether an average made from a shorter record should be compared with the same weight must be reviewed again. Only after reading this signal can we reach the interpretation that `the current row is not one full sample, but only part of a sample record`. So if we compare each row immediately as in step 3, we still do not have a table that compares `the full A action`, `the full B action`, and `the full C action`. By contrast, only after regrouping by `event_id` as in step 4 does one action become one row, and only then can comparable columns such as mean flow or peak pressure be created on top of it.
 
 The same result becomes clearer when read again from the perspectives of format and quality. The repetition of `event_id` means, in terms of format consistency, that `a key exists that can group one sample`. The fact that `rows per event` differ means, in terms of the first quality check, that `the record length differs by sample`. This distinction has to be written down early so that when averages are compared later, we can also read `why some samples stand on less evidence than others`.
 
@@ -188,6 +187,6 @@ Format consistency and the first quality check are written down first so that, i
 
 ## Sources and Further Reading
 
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it distinguishes variables, observations, and table structure, it supports this section's starting point that `what one row means` should be written down first. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- E. Wang, D. L. Cook, R. J. Hyndman, and R. Wickham, `A Grammar of Spatiotemporal Data Transformation`, *Journal of Computational and Graphical Statistics* 27(2), 2018. Because it provides the principle for reading time data by separating key and index, it strengthens the judgment that `what can be grouped` and `is there a time/order column` should be checked first. [https://doi.org/10.1080/10618600.2017.1371377](https://doi.org/10.1080/10618600.2017.1371377){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because it treats provenance and traceability together, it supports the last check item in this section: when a strange case appears, the raw evidence to return to should have been written down early. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it distinguishes variables, observations, and table structure, it supports this section's starting point that `what one row means` should be written down first. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Earo Wang, Dianne Cook, Rob J. Hyndman, `A New Tidy Data Structure to Support Exploration and Modeling of Temporal Data`, *Journal of Computational and Graphical Statistics* 29(3), 2020. Because it provides the principle for reading temporal data by separating key and index, it strengthens the judgment that `what can be grouped` and `is there a time/order column` should be checked first. [https://robjhyndman.com/publications/tsibble/](https://robjhyndman.com/publications/tsibble/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because it treats provenance and traceability together, it supports the last check item in this section: when a strange case appears, the raw evidence to return to should have been written down early. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
