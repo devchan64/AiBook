@@ -1,7 +1,7 @@
 # P2-4.3 微分(derivative)与梯度(gradient)
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-4.2 中，我们看了变化率(rate of change)与斜率(slope)。在直线里，斜率是固定的；但在曲线里，变化率会随着区间或位置不同而改变。
 
@@ -13,35 +13,6 @@
 
 1. 相对于一个输入的变化率，读成微分(derivative)。
 2. 相对于多个输入各自的变化率集合，读成梯度(gradient)。
-
-## 本节范围
-
-本节以入门层级，把单变量函数的微分(derivative)、多变量函数的偏微分(partial derivative)、梯度(gradient)连起来。
-
-这里首先要解决的问题是：`当脑中还留着单变量斜率的记忆时，它是怎样扩展成多个变量的梯度的？`
-
-所以本节先固定下面四个位置。
-
-1. 微分会用数字告诉我们什么？
-2. 偏微分是在单独看什么？
-3. 为什么梯度是向量(vector)？
-4. 为什么在 AI 学习里，梯度这个词会反复出现？
-
-| 术语 | 很短的含义 | 本节中的作用 |
-| --- | --- | --- |
-| 微分 | 一个输入的瞬时变化率 | 作为出发点的基本概念 |
-| 导函数 | 告诉每个点微分值的函数 | 需要与微分系数区分开的对象 |
-| 偏微分 | 在多个输入中只改变一个时的变化率 | 多变量函数的基本读法 |
-| 梯度 | 把多个偏微分收集起来的向量 | 连接 AI 学习的核心概念 |
-| nabla | 写梯度时使用的符号 | 让公式记号不那么陌生的基准 |
-
-如果从高中微分记忆跳到梯度让你觉得跨度很大，可以先读 P2-4.5 的补充学习。这里先抓住核心概念，而 P2-4.5 会更慢地恢复 `单变量微分 -> 多变量微分 -> 梯度 -> 梯度下降` 这条流程。
-
-本节之后的流程也很简单。
-
-- 在 `P2-4.4` 中，我们会读为什么梯度在实际学习过程里是必要的。
-- 在 `P2-4.5` 与 `P2-6.3` 中，说明会更慢地接到梯度下降与更新方向。
-- 在 Part 4 中，同样的记号会反复出现在反向传播与优化器说明里。
 
 ## 本节目标
 
@@ -382,5 +353,5 @@ AI 模型可能有很多参数(parameter)。在深度学习模型里，这个数
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认导数与瞬时变化率之间的关系。确认日期: 2026-07-19.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认偏导数、梯度向量、nabla 记号，以及梯度与最大增加方向之间的关系。确认日期: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认导数与瞬时变化率之间的关系。确认日期: 2026-07-20.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认偏导数、梯度向量、nabla 记号，以及梯度与最大增加方向之间的关系。确认日期: 2026-07-20.

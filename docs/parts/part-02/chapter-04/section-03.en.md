@@ -1,7 +1,7 @@
 # P2-4.3 Derivative and Gradient
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-4.2, we looked at rate of change and slope. In a line, the slope is constant, but in a curve, the rate of change can differ by interval or position.
 
@@ -13,35 +13,6 @@ Here, instead of solving many differentiation exercises, the focus is on reading
 
 1. The rate of change with respect to one input is read as a derivative.
 2. The bundle of rates of change with respect to multiple inputs is read as a gradient.
-
-## Scope of This Section
-
-This Section connects the derivative of a single-variable function, the partial derivative of a multivariable function, and the gradient at an introductory level.
-
-The first question to resolve here is this: `when the memory of one-variable slope remains, how does it expand into the gradient of several variables?`
-
-So this Section first fixes only the following four places.
-
-1. What does a derivative tell us as a number?
-2. What does a partial derivative look at separately?
-3. Why is a gradient a vector?
-4. Why does the word gradient appear so often in AI learning?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| derivative | the instantaneous rate of change of one input | the basic concept that becomes the starting point |
-| derivative function | a function that tells the derivative value at each point | the object that must be separated from the derivative coefficient |
-| partial derivative | the rate of change when one of several inputs is changed | the basic reading of a multivariable function |
-| gradient | a vector that gathers several partial derivatives | the central concept for the connection to AI learning |
-| nabla | the symbol used when writing a gradient | the standard that makes formula notation less unfamiliar |
-
-If the jump from high-school differentiation memory to gradient feels large, you may read the supplementary learning in P2-4.5 first. Here, we first fix the core concepts, and P2-4.5 more slowly rebuilds the flow `one-variable differentiation -> multivariable differentiation -> gradient -> gradient descent`.
-
-The flow after this Section is also simple.
-
-- In `P2-4.4`, we read why a gradient is actually needed in real learning procedures.
-- In `P2-4.5` and `P2-6.3`, the explanation continues more slowly into gradient descent and update direction.
-- In Part 4, the same notation repeats inside explanations of backpropagation and optimizers.
 
 ## Goals of This Section
 
@@ -382,5 +353,5 @@ A checkable result is to compare the amount of score change when each weight is 
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-07-19.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, the gradient vector, nabla notation, and the relation between the gradient and the direction of maximum increase. Checked: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-07-20.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, the gradient vector, nabla notation, and the relation between the gradient and the direction of maximum increase. Checked: 2026-07-20.

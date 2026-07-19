@@ -1,7 +1,7 @@
 # P2-4.3 미분(derivative)과 그래디언트(gradient)
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-4.2에서는 변화율(rate of change)과 기울기(slope)를 봤습니다. 직선에서는 기울기가 일정하지만, 곡선에서는 구간이나 위치에 따라 변화율이 달라질 수 있었습니다.
 
@@ -13,35 +13,6 @@ P2-4.2에서는 변화율(rate of change)과 기울기(slope)를 봤습니다. �
 
 1. 한 입력에 대한 변화율은 미분(derivative)으로 읽습니다.
 2. 여러 입력 각각에 대한 변화율 묶음은 그래디언트(gradient)로 읽습니다.
-
-## 이 절의 범위
-
-여기서는 단일 변수 함수의 미분(derivative), 여러 변수 함수의 편미분(partial derivative), 그래디언트(gradient)를 입문 수준으로 연결합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `한 변수 기울기 기억이 남아 있을 때, 그것이 여러 변수의 그래디언트로 어떻게 확장되는가`입니다.
-
-그래서 이 절에서는 다음 네 자리만 먼저 고정합니다.
-
-1. 미분은 무엇을 숫자로 말해 주는가?
-2. 편미분은 무엇을 따로 보는가?
-3. 그래디언트는 왜 벡터인가?
-4. AI 학습에서 그래디언트라는 말이 왜 자주 나오는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 미분 | 한 입력의 순간 변화율 | 출발점이 되는 기본 개념 |
-| 도함수 | 지점마다 미분값을 알려 주는 함수 | 미분계수와 구분해야 할 대상 |
-| 편미분 | 여러 입력 중 하나를 바꿨을 때의 변화율 | 다변수 함수의 기본 읽기 |
-| 그래디언트 | 여러 편미분을 모은 벡터 | AI 학습 연결의 중심 개념 |
-| 나블라 | 그래디언트를 적을 때 쓰는 기호 | 수식 표기를 덜 낯설게 하는 기준 |
-
-고등학교 미분 기억에서 그래디언트로 넘어가는 간격이 크게 느껴진다면 P2-4.5 보충학습을 먼저 읽어도 됩니다. 여기서는 핵심 개념을 먼저 잡고, P2-4.5는 `한 변수 미분 -> 여러 변수 미분 -> 그래디언트 -> 경사하강법` 흐름을 더 천천히 복구합니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-4.4`에서는 그래디언트가 왜 실제 학습 절차에 필요한지 읽습니다.
-- `P2-4.5`와 `P2-6.3`에서는 경사하강법과 업데이트 방향으로 더 천천히 이어집니다.
-- Part 4에서는 같은 표기가 역전파와 옵티마이저 설명 안에서 반복됩니다.
 
 ## 이 절의 목표
 
@@ -383,5 +354,5 @@ AI 모델은 많은 파라미터(parameter)를 가질 수 있습니다. 딥러�
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 도함수와 순간 변화율의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 편미분, 그래디언트 벡터, 나블라 표기, 그래디언트와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 도함수와 순간 변화율의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-20.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 편미분, 그래디언트 벡터, 나블라 표기, 그래디언트와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-20.
