@@ -1,7 +1,7 @@
 # P6-2.3 보충학습: 임베딩 학습을 큰 그림으로 읽기
 
-Section ID: `P6-2.3`
-Version: `v2026.07.19`
+> Section ID: `P6-2.3`
+> Version: `v2026.07.19`
 
 P6-2.1에서는 임베딩(embedding)이 토큰과 문장을 벡터(vector)로 바꾸는 표현 방식이라는 점을 잡았고, P6-2.2에서는 그 벡터를 거리(distance)와 유사도(similarity)로 읽는 기준을 붙잡았습니다. 여기서는 한 걸음 더 나아가, 그 벡터 공간이 애초에 어떻게 만들어지는지를 큰 그림에서 정리합니다.
 
@@ -253,6 +253,7 @@ ANN을 더 공격적으로 걸어 속도는 좋아졌는데, 정작 상위 후�
 
 ## 출처와 참고 자료
 
-- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, 2013, 확인 날짜: 2026-07-18.
-- Jeffrey Pennington, Richard Socher, Christopher D. Manning, [GloVe: Global Vectors for Word Representation](https://aclanthology.org/D14-1162/){: target="_blank" rel="noopener noreferrer" }, EMNLP, 2014, 확인 날짜: 2026-07-18.
-- Ting Chen et al., [A Simple Framework for Contrastive Learning of Visual Representations](https://proceedings.mlr.press/v119/chen20j.html){: target="_blank" rel="noopener noreferrer" }, ICML, 2020, 확인 날짜: 2026-07-18.
+- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19. word2vec 계열의 단어 표현 학습 배경 근거로 사용했다.
+- Jeffrey Pennington, Richard Socher, Christopher D. Manning, [GloVe: Global Vectors for Word Representation](https://aclanthology.org/D14-1162/){: target="_blank" rel="noopener noreferrer" }, EMNLP 2014, 확인 날짜: 2026-07-19. 전역 단어-단어 동시출현 통계를 반영한 단어 벡터 학습 설명의 근거로 사용했다.
+- Ting Chen et al., [A Simple Framework for Contrastive Learning of Visual Representations](https://proceedings.mlr.press/v119/chen20j.html){: target="_blank" rel="noopener noreferrer" }, ICML 2020, 확인 날짜: 2026-07-19. contrastive learning을 positive/negative 쌍의 표현 배치 감각으로 설명하는 배경 근거로 사용했다.
+- Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084){: target="_blank" rel="noopener noreferrer" }, arXiv, 2019, 확인 날짜: 2026-07-19. 문장 임베딩을 siamese/triplet 구조와 유사도 비교에 맞춰 학습하는 배경 근거로 사용했다.

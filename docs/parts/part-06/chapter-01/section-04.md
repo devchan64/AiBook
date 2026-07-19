@@ -1,7 +1,7 @@
 # P6-1.4 토큰화(tokenization)는 무엇인가
 
-Section ID: `P6-1.4`
-Version: `v2026.07.19`
+> Section ID: `P6-1.4`
+> Version: `v2026.07.19`
 
 토큰이 계산 단위라는 점을 알았다면, 이제 문자열이 실제로 그 계산 단위로 어떻게 바뀌는지를 봐야 합니다. 토큰화(tokenization)는 원문 텍스트를 모델이 읽는 토큰 시퀀스로 바꾸는 절차입니다.
 
@@ -250,5 +250,6 @@ Version: `v2026.07.19`
 
 ## 출처와 참고 자료
 
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, 토큰 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. OpenAI 모델용 BPE tokenizer가 텍스트를 토큰 번호열로 인코딩하고 다시 디코딩하는 흐름 확인에 사용했다.
+- OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 토큰이 문자·단어 일부·공백·구두점 등으로 나뉠 수 있다는 설명 확인에 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. `Words and Tokens` 장을 토큰화 절차와 단어 경계 설명의 일반 NLP 배경 근거로 사용했다.

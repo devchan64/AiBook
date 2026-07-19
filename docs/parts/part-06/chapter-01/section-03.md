@@ -1,7 +1,7 @@
 # P6-1.3 토큰은 모델 입력에서 어떻게 쓰이나
 
-Section ID: `P6-1.3`
-Version: `v2026.07.19`
+> Section ID: `P6-1.3`
+> Version: `v2026.07.19`
 
 P6-1.2에서는 토큰을 `토큰 문자열`, `토큰 수`, `토큰 ID`로 나누어 읽었습니다. 이제 그 값들이 모델 입력에서 어떻게 쓰이는지 봐야 합니다.
 
@@ -206,5 +206,6 @@ P6-1.2가 tokenizer 출력의 `조각`, `개수`, `번호`를 읽는 절이었�
 
 ## 출처와 참고 자료
 
-- OpenAI API Docs, 토큰 및 context 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. API 요청 텍스트가 토큰으로 나뉘고 응답이 토큰 시퀀스로 생성된 뒤 텍스트로 변환된다는 설명 확인에 사용했다.
+- OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 언어 모델이 텍스트를 사람이 읽는 방식이 아니라 토큰 번호의 시퀀스로 본다는 설명 확인에 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. `Words and Tokens`, `Large Language Models` 장을 토큰 순서열과 언어 모델 입력 설명의 배경 근거로 사용했다.

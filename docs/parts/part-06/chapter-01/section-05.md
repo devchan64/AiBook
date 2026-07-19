@@ -1,7 +1,7 @@
 # P6-1.5 토큰화는 무엇을 바꾸는가
 
-Section ID: `P6-1.5`
-Version: `v2026.07.19`
+> Section ID: `P6-1.5`
+> Version: `v2026.07.19`
 
 토큰화가 무엇인지 알았다면, 이제 그 결과가 실제로 무엇을 흔드는지 봐야 합니다. 핵심은 단순합니다.
 
@@ -219,6 +219,8 @@ Version: `v2026.07.19`
 
 ## 출처와 참고 자료
 
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
-- Rico Sennrich, Barry Haddow, Alexandra Birch, `Neural Machine Translation of Rare Words with Subword Units`, ACL 2016, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, 토큰 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 입력·출력 토큰 수가 사용량과 비용, 요청 길이 판단에 연결된다는 설명 확인에 사용했다.
+- OpenAI Help Center, [Controlling the length of OpenAI model responses](https://help.openai.com/en/articles/5072518-controlling-the-length-of-openai-model-responses){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 응답 길이를 `max_output_tokens` 또는 `max_completion_tokens` 같은 출력 토큰 제한으로 제어한다는 설명 확인에 사용했다.
+- OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 같은 텍스트라도 tokenizer 인코딩 결과가 서비스 판단의 관찰값이 된다는 배경 근거로 사용했다.
+- Rico Sennrich, Barry Haddow, Alexandra Birch, [Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/){: target="_blank" rel="noopener noreferrer" }, ACL 2016, 확인 날짜: 2026-07-19. 부분 단어 단위가 희귀어와 미등록어 처리에 쓰인다는 배경 근거로 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. `Words and Tokens` 장을 토큰화와 단어 경계 설명의 일반 NLP 배경 근거로 사용했다.

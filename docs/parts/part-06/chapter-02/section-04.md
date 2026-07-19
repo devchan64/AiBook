@@ -1,7 +1,7 @@
 # P6-2.4 보충학습: ANN 검색을 큰 그림으로 읽기
 
-Section ID: `P6-2.4`
-Version: `v2026.07.19`
+> Section ID: `P6-2.4`
+> Version: `v2026.07.19`
 
 P6-2.2에서는 `가까운 후보를 찾는다`는 비교 기준을 붙잡았고, P6-2.3에서는 그 비교가 성립하도록 표현 공간을 어떻게 배울지를 봤습니다. 이제 남는 질문은 하나입니다.
 
@@ -249,7 +249,7 @@ for label, (ranked, candidate_count) in fast_results.items():
     print("missed =", missed)
 ```
 
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
+실행 결과 예시는 다음처럼 읽을 수 있습니다. 아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
 
 ```text
 doc_count = 3007
@@ -350,5 +350,5 @@ missed = ['cancel_payment', 'payment_receipt', 'refund_exception']
 
 ## 출처와 참고 자료
 
-- Arya et al., [An Optimal Algorithm for Approximate Nearest Neighbor Searching Fixed Dimensions](https://dl.acm.org/doi/10.1145/276698.276876){: target="_blank" rel="noopener noreferrer" }, JACM, 1998, 확인 날짜: 2026-07-18.
-- Yu A. Malkov, D. A. Yashunin, [Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, 2016, 확인 날짜: 2026-07-18.
+- Arya et al., [An Optimal Algorithm for Approximate Nearest Neighbor Searching Fixed Dimensions](https://dl.acm.org/doi/10.1145/276698.276876){: target="_blank" rel="noopener noreferrer" }, Journal of the ACM, 1998, 확인 날짜: 2026-07-19. ANN을 정확한 최근접 탐색과 구분하는 고전적 근사 탐색 배경 근거로 사용했다.
+- Yu A. Malkov, D. A. Yashunin, [Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs](https://arxiv.org/abs/1603.09320){: target="_blank" rel="noopener noreferrer" }, arXiv, 2016, 확인 날짜: 2026-07-19. HNSW 기반 ANN 검색이 속도와 후보 품질의 절충으로 쓰인다는 배경 근거로 사용했다.

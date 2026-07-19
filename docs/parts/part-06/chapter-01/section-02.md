@@ -1,7 +1,7 @@
 # P6-1.2 토큰(token)은 무엇인가
 
-Section ID: `P6-1.2`
-Version: `v2026.07.19`
+> Section ID: `P6-1.2`
+> Version: `v2026.07.19`
 
 P6-1.1에서는 왜 LLM이 글자 수나 문장 수만으로는 다루기 어려운 문제를 만나고, 왜 다른 계산 단위가 필요한지 보았습니다. 이제 그 단위가 실제로 무엇인지 잡아야 합니다. 토큰(token)은 모델이 입력을 읽고 출력을 고를 때 세는 기본 계산 단위입니다.
 
@@ -283,6 +283,7 @@ Part 1에서 보았던 상징(symbol)은 사람이 정한 의미나 규칙의 �
 
 ## 출처와 참고 자료
 
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
-- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, 토큰 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 토큰이 문자 하나만큼 짧거나 단어 하나만큼 길 수 있고, 공백·구두점·부분 단어가 토큰 수에 기여한다는 설명 확인에 사용했다.
+- OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. OpenAI 모델용 BPE tokenizer, 텍스트와 토큰 번호열 변환, 일반적인 부분 단어 분할 설명 확인에 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. `Words and Tokens` 장을 토큰화와 단어 경계 설명의 일반 NLP 배경 근거로 사용했다.
+- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999. 통계적 자연어 처리에서 텍스트 단위와 어휘 항목을 구분하는 배경 문헌으로 참고했다.

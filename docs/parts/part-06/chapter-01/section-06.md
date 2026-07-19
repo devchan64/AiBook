@@ -1,7 +1,7 @@
 # P6-1.6 대표 토크나이저 계열은 무엇인가
 
-Section ID: `P6-1.6`
-Version: `v2026.07.19`
+> Section ID: `P6-1.6`
+> Version: `v2026.07.19`
 
 토큰화가 비용과 청크를 바꾼다면, 다음 질문은 `왜 모델마다 문자열이 잘리는 감각이 조금씩 다른가`입니다. 이 차이를 읽을 때 가장 자주 만나는 이름이 `BPE`, `WordPiece`, `SentencePiece`입니다.
 
@@ -277,7 +277,7 @@ for name, tokenizer in tokenizers.items():
 
 ## 사용 결과를 읽으면
 
-위 예시 코드를 실행하면 다음과 같은 형태의 차이를 관찰할 수 있습니다. 라이브러리와 tokenizer 버전에 따라 세부 조각은 달라질 수 있으므로, 아래 표에서는 `정확한 고정 정답`보다 `계열별 차이를 읽는 법`을 봅니다.
+위 예시 코드를 실행하면 다음과 같은 형태의 차이를 관찰할 수 있습니다. 아래 수치는 로컬 검산 환경의 `transformers 5.13.1`에서 확인한 예시입니다. 라이브러리와 tokenizer 버전에 따라 세부 조각은 달라질 수 있으므로, 아래 표에서는 `정확한 고정 정답`보다 `계열별 차이를 읽는 법`을 봅니다.
 
 | 입력 | BPE `gpt2` | WordPiece `bert-base-uncased` | SentencePiece `google/mt5-small` |
 | --- | --- | --- | --- |
@@ -328,6 +328,7 @@ for name, tokenizer in tokenizers.items():
 
 ## 출처와 참고 자료
 
-- Rico Sennrich, Barry Haddow, Alexandra Birch, [Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/){: target="_blank" rel="noopener noreferrer" }, ACL, 2016, 확인 날짜: 2026-06-29.
-- Taku Kudo, John Richardson, [SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing](https://aclanthology.org/D18-2012/){: target="_blank" rel="noopener noreferrer" }, EMNLP, 2018, 확인 날짜: 2026-06-29.
-- Hugging Face, [WordPiece tokenization](https://huggingface.co/learn/llm-course/chapter6/6){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-11.
+- Rico Sennrich, Barry Haddow, Alexandra Birch, [Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/){: target="_blank" rel="noopener noreferrer" }, ACL 2016, 확인 날짜: 2026-07-19. BPE와 부분 단어 단위가 희귀어 처리에 쓰이는 배경 근거로 사용했다.
+- Taku Kudo, John Richardson, [SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing](https://aclanthology.org/D18-2012/){: target="_blank" rel="noopener noreferrer" }, EMNLP 2018, 확인 날짜: 2026-07-19. SentencePiece가 raw sentence를 직접 다루고 공백을 일반 symbol처럼 처리한다는 설명의 근거로 사용했다.
+- Hugging Face, [Summary of the tokenizers](https://huggingface.co/docs/transformers/v4.38.1/en/tokenizer_summary){: target="_blank" rel="noopener noreferrer" }, Transformers documentation, 확인 날짜: 2026-07-19. BPE, WordPiece, SentencePiece의 대표 계열 비교와 GPT-2, BERT, T5 계열 tokenizer 예시 확인에 사용했다.
+- Hugging Face, [AutoTokenizer](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoTokenizer){: target="_blank" rel="noopener noreferrer" }, Transformers documentation, 확인 날짜: 2026-07-19. 예제 코드의 `AutoTokenizer.from_pretrained`, `tokenize`, `convert_tokens_to_ids` 사용 흐름 확인에 사용했다.

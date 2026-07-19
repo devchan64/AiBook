@@ -15,7 +15,11 @@
   - `p6-c03-s05-diagram-01-en.mmd` / `p6-c03-s05-diagram-01-ko.mmd`
 - PNG chart assets:
   - `context-candidate-distribution-en.png` / `context-candidate-distribution-ko.png`
+  - `context-selection-budget-en.png` / `context-selection-budget-ko.png`
+  - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png`
   - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png`
 - Python chart source:
   - `p6_3_1_context_candidate_distribution_chart.py`
+  - `p6_3_2_context_selection_chart.py`
+  - `p6_3_3_attention_position_role_chart.py`
   - `p6_3_4_kv_cache_projection_chart.py`

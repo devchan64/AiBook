@@ -1,7 +1,7 @@
 # P6-1.8 토큰 관점은 어디에 활용되는가
 
-Section ID: `P6-1.8`
-Version: `v2026.07.19`
+> Section ID: `P6-1.8`
+> Version: `v2026.07.19`
 
 토큰과 토큰화 차이를 이해했다면, 이제 남는 질문은 하나입니다. 실제 장애나 운영 불편을 봤을 때 `토큰 관점을 어디에 다시 적용해야 하는가`를 바로 고를 수 있는가입니다.
 
@@ -198,5 +198,8 @@ Version: `v2026.07.19`
 
 ## 출처와 참고 자료
 
-- OpenAI API Docs, 토큰 및 context 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 입력·출력 토큰 수가 사용량, 비용, 길이 판단에 연결된다는 설명 확인에 사용했다.
+- OpenAI Help Center, [Controlling the length of OpenAI model responses](https://help.openai.com/en/articles/5072518-controlling-the-length-of-openai-model-responses){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 출력 길이를 토큰 제한으로 제어한다는 설명 확인에 사용했다.
+- OpenAI API Reference, [Vector store files](https://platform.openai.com/docs/api-reference/vector-stores-files){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. file search용 vector store 파일의 `chunking_strategy`, `max_chunk_size_tokens`, `chunk_overlap_tokens` 항목 확인에 사용했다.
+- OpenAI API Reference, [Evals](https://platform.openai.com/docs/api-reference/evals){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 평가 실행과 로그 기반 데이터 소스가 별도 운영 관찰값으로 관리된다는 배경 근거로 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. 토큰화와 언어 모델 입력 설명의 일반 NLP 배경 근거로 사용했다.

@@ -1,7 +1,7 @@
 # P6-1.1 왜 토큰이 필요한가
 
-Section ID: `P6-1.1`
-Version: `v2026.07.19`
+> Section ID: `P6-1.1`
+> Version: `v2026.07.19`
 
 LLM(large language model)을 실제로 쓰기 시작하면 곧바로 다른 질문이 생깁니다. 왜 어떤 입력은 예상보다 비싸고, 왜 긴 문서는 중간에 잘리며, 왜 같은 한 줄 문장도 표기 방식에 따라 길이 감각이 달라지는가 하는 질문입니다.
 
@@ -195,5 +195,6 @@ RAG용 문서를 자를 때 사람은 `문단 둘이면 적당하다`고 느끼�
 
 ## 출처와 참고 자료
 
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, 토큰 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- OpenAI Help Center, [What are tokens and how to count them?](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 토큰이 모델이 처리하는 텍스트 조각이며 입력·출력 토큰 수가 사용량과 한도 판단에 연결된다는 설명 확인에 사용했다.
+- OpenAI, [tiktoken README](https://github.com/openai/tiktoken/blob/main/README.md){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. OpenAI 모델용 BPE tokenizer와 텍스트를 토큰 번호열로 바꾸는 흐름 확인에 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. `Words and Tokens` 장을 토큰·단어 경계 설명의 일반 NLP 배경 근거로 사용했다.

@@ -1,7 +1,7 @@
 # P6-2.2 의미와 거리
 
-Section ID: `P6-2.2`
-Version: `v2026.07.19`
+> Section ID: `P6-2.2`
+> Version: `v2026.07.19`
 
 P6-2.1에서는 임베딩(embedding)을 토큰이나 문장을 벡터(vector)로 바꾸는 표현 방식이라고 설명했습니다. 이제 벡터를 만들었다면, 그다음에는 이 벡터를 어떻게 읽을지가 문제입니다.
 
@@ -304,6 +304,7 @@ LLM 시대에는 이 관점이 더 중요해졌습니다.
 
 ## 출처와 참고 자료
 
-- Tomas Mikolov et al., `Efficient Estimation of Word Representations in Vector Space`, arXiv, 2013, 확인 날짜: 2026-06-29.
-- Tomas Mikolov et al., `Distributed Representations of Words and Phrases and their Compositionality`, arXiv, 2013, 확인 날짜: 2026-06-29.
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19. dense word vector와 유사 문맥 표현의 배경 근거로 사용했다.
+- Tomas Mikolov et al., [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/abs/1310.4546){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19. 단어와 구를 벡터 공간에서 비교 가능한 표현으로 다루는 배경 근거로 사용했다.
+- Nils Reimers, Iryna Gurevych, [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084){: target="_blank" rel="noopener noreferrer" }, arXiv, 2019, 확인 날짜: 2026-07-19. 문장 임베딩을 cosine similarity로 비교해 semantic similarity search에 사용하는 설명의 근거로 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. 임베딩과 유사도 비교 설명의 일반 NLP 배경 근거로 사용했다.

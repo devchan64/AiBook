@@ -1,7 +1,7 @@
 # P6-2.1 임베딩(embedding)의 직관
 
-Section ID: `P6-2.1`
-Version: `v2026.07.19`
+> Section ID: `P6-2.1`
+> Version: `v2026.07.19`
 
 P6-1장에서는 LLM이 텍스트를 토큰(token) 단위로 읽고, 그 토큰 길이가 비용과 문맥 길이에 직접 연결된다는 점을 보았습니다. 그런데 토큰 번호만으로는 모델이 의미를 계산할 수 없으므로, 토큰은 곧 다른 수치 표현으로 바뀌어야 합니다.
 
@@ -331,6 +331,6 @@ LLM 시대에는 이 개념이 더 넓어졌습니다.
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio et al., `A Neural Probabilistic Language Model`, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-06-29.
-- Tomas Mikolov et al., `Efficient Estimation of Word Representations in Vector Space`, arXiv, 2013, 확인 날짜: 2026-06-29.
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- Yoshua Bengio et al., [A Neural Probabilistic Language Model](https://jmlr.csail.mit.edu/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-07-19. 단어의 distributed representation을 학습해 언어 모델 일반화에 쓰는 배경 근거로 사용했다.
+- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19. word2vec 계열의 dense word vector와 문맥 기반 표현 학습 배경 근거로 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. 임베딩, 벡터 표현, 언어 모델 입력 설명의 일반 NLP 배경 근거로 사용했다.

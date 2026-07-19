@@ -1,7 +1,7 @@
 # P6-1.7 토큰화 종류 차이는 언제 드러나는가
 
-Section ID: `P6-1.7`
-Version: `v2026.07.19`
+> Section ID: `P6-1.7`
+> Version: `v2026.07.19`
 
 토크나이저 계열 이름을 안다고 해서 바로 충분하지는 않습니다. 실제로 중요한 것은 `그 차이가 언제 보이기 시작하는가`입니다.
 
@@ -200,6 +200,6 @@ Version: `v2026.07.19`
 
 ## 출처와 참고 자료
 
-- Rico Sennrich, Barry Haddow, Alexandra Birch, [Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/){: target="_blank" rel="noopener noreferrer" }, ACL, 2016, 확인 날짜: 2026-06-29.
-- Taku Kudo, John Richardson, [SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing](https://aclanthology.org/D18-2012/){: target="_blank" rel="noopener noreferrer" }, EMNLP, 2018, 확인 날짜: 2026-06-29.
-- Hugging Face, [WordPiece tokenization](https://huggingface.co/learn/llm-course/chapter6/6){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-11.
+- Rico Sennrich, Barry Haddow, Alexandra Birch, [Neural Machine Translation of Rare Words with Subword Units](https://aclanthology.org/P16-1162/){: target="_blank" rel="noopener noreferrer" }, ACL 2016, 확인 날짜: 2026-07-19. BPE와 부분 단어 단위가 희귀어와 미등록어 처리에 쓰이는 배경 근거로 사용했다.
+- Taku Kudo, John Richardson, [SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing](https://aclanthology.org/D18-2012/){: target="_blank" rel="noopener noreferrer" }, EMNLP 2018, 확인 날짜: 2026-07-19. SentencePiece의 언어 독립적 raw sentence 처리와 공백 처리 설명 근거로 사용했다.
+- Hugging Face, [Summary of the tokenizers](https://huggingface.co/docs/transformers/v4.38.1/en/tokenizer_summary){: target="_blank" rel="noopener noreferrer" }, Transformers documentation, 확인 날짜: 2026-07-19. BPE, WordPiece, SentencePiece 차이가 실제 tokenizer별 조각 경계와 토큰 수 차이로 드러난다는 설명 확인에 사용했다.
