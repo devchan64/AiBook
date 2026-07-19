@@ -59,26 +59,6 @@
 | 只有在同一空间里才能比较的直觉 | 在 P2-3.6 里会用代码检查 shape 和计算规则。 | 在 Part 3 里读 feature space、clustering、基于距离的直觉时会再次出现。 |
 | “接近”是“相似”的候选解释 | 它会在后续小节里通过 NumPy 和数据例子继续展开。 | 在 Part 6 `P6-11.1` 向量数据库和 `P6-11.2` 索引与检索质量说明里会再次出现。 |
 
-## 本节范围
-
-这里用入门直觉来处理 vector space。我们已经在 Part 1 里看过 similarity search 的大图景，而在 Part 2 这里只处理读懂数学表达所需的最小直觉。
-
-这里集中看下面这些问题。
-
-- 为什么向量可以被看成位置？
-- dimension 到底表示什么？
-- 彼此接近或相距很远的向量，可能意味着什么？
-- 为什么 embedding 会和 vector space 这句话一起出现？
-- 这个视角以后还会在哪里再出现？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| 向量空间 | 按同样规则摆放并比较向量的地方 | 本节的核心背景 |
-| 维度 | 坐标轴数量或值的个数 | 读取向量形状的标准 |
-| 位置 | 一个向量放在空间里的地方 | 把向量读成坐标的直觉 |
-| 距离 | 测量两个向量相隔多远的值 | 解释远近的标准 |
-| 相似度 | 比较两个对象有多像的标准 | 连接搜索与 embedding 解读的桥梁 |
-
 ## 本节目标
 
 - 能把向量解释成“值的列表”与“像坐标一样可读的表达”。
@@ -338,10 +318,10 @@ Mikolov、Chen、Corrado、Dean 的 word2vec 论文在大规模文本数据中�
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, 确认日期: 2026-06-24.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-07-19.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, 确认日期: 2026-07-19.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-07-19.
 - Google for Developers, [Embeddings: Embedding space and static embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/embedding-space){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 确认日期：2026-07-19. 这个官方教育资料把 embedding 解释为向量表示和 embedding 空间中的邻近位置。
 - Google for Developers, [Measuring similarity from embeddings](https://developers.google.com/machine-learning/clustering/dnn-clustering/supervised-similarity){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 确认日期：2026-07-19. 这个参考资料支持用距离、余弦或点积来度量 embedding 向量相似度的连接。

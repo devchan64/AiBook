@@ -59,26 +59,6 @@ If we place them on a coordinate plot like the one below, it becomes immediately
 | The intuition that comparison works only inside the same space | In P2-3.6, we check shape and calculation rules in code. | It returns when reading feature space, clustering, and distance-based intuition in Part 3. |
 | The interpretation that nearness is a candidate for similarity | It continues into later sections through NumPy and data examples. | It reappears in Part 6 `P6-11.1` on vector databases and `P6-11.2` on indexes and retrieval quality. |
 
-## Scope of This Section
-
-Here, vector space is handled at the level of beginner intuition. We already saw the big picture of similarity search in Part 1, and in Part 2 we only deal with the minimum intuition needed to read the mathematical expression.
-
-Here we focus on the following questions.
-
-- Why can a vector be seen like a position?
-- What does dimension mean?
-- What can nearby and faraway vectors mean?
-- Why does embedding appear together with the phrase vector space?
-- Where does this perspective return later?
-
-| Term | Very short meaning | Role in this section |
-| --- | --- | --- |
-| vector space | a place where vectors are placed and compared under the same rules | the central background of this section |
-| dimension | the number of coordinate axes or the number of values | the standard for reading vector shape |
-| position | the place where one vector sits inside the space | the intuition for reading a vector like coordinates |
-| distance | a value that measures how far two vectors are apart | the standard for explaining nearness and farness |
-| similarity | a comparison standard for how alike two things are | the link between search and embedding interpretation |
-
 ## Goals of This Section
 
 - You can explain a vector as both a list of values and an expression that can be read like coordinates.
@@ -338,10 +318,10 @@ So the intuition of vector space lies less in `there are many numbers` and more 
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, checked 2026-06-24.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, checked 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-07-19.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, checked 2026-07-19.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, checked 2026-07-19.
 - Google for Developers, [Embeddings: Embedding space and static embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/embedding-space){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, checked on 2026-07-19. This official educational reference explains embeddings as vector representations and nearby positions in embedding space.
 - Google for Developers, [Measuring similarity from embeddings](https://developers.google.com/machine-learning/clustering/dnn-clustering/supervised-similarity){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, checked on 2026-07-19. This reference supports the connection between embedding-vector similarity and distance, cosine, or dot-product measures.

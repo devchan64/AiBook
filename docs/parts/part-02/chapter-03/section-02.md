@@ -59,26 +59,6 @@ Chapter 3에서는 작은 벡터 세 개를 반복해서 사용합니다.
 | 같은 공간에서만 비교할 수 있다는 감각 | P2-3.6에서 배열의 shape와 계산 규칙을 코드로 확인합니다. | Part 3의 특징 공간, 클러스터링, 거리 기반 직관을 읽을 때 다시 씁니다. |
 | 가까움이 비슷함의 후보라는 해석 | 뒤 절에서 NumPy와 데이터 예제로 이어집니다. | Part 6의 `P6-11.1` 벡터 데이터베이스와 `P6-11.2` 인덱스와 검색 품질 설명에서 다시 등장합니다. |
 
-## 이 절의 범위
-
-여기서는 벡터 공간(vector space)을 입문 수준의 직관으로 다룹니다. 유사도 검색(similarity search)은 Part 1에서 이미 큰 그림을 봤고, Part 2에서는 수학 표현을 읽기 위한 최소 직관만 다룹니다.
-
-여기서는 다음 질문에 집중합니다.
-
-- 벡터를 왜 위치처럼 볼 수 있는가?
-- 차원(dimension)은 무엇을 뜻하는가?
-- 가까운 벡터와 먼 벡터는 무엇을 의미할 수 있는가?
-- 임베딩은 왜 벡터 공간이라는 말과 함께 등장하는가?
-- 이 관점은 이후 어디에서 다시 쓰이는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 벡터 공간 | 벡터를 같은 규칙으로 놓고 비교하는 자리 | 이 절의 중심 배경 |
-| 차원 | 좌표 축 수 또는 값의 개수 | 벡터 모양을 읽는 기준 |
-| 위치 | 벡터 하나가 공간 안에 놓인 자리 | 벡터를 좌표처럼 읽는 감각 |
-| 거리 | 두 벡터가 얼마나 떨어졌는지 보는 값 | 가까움과 멂을 설명하는 기준 |
-| 유사도 | 얼마나 비슷한지 보는 비교 기준 | 검색과 임베딩 해석의 연결점 |
-
 ## 이 절의 목표
 
 - 벡터(vector)를 값의 목록이자 좌표처럼 읽을 수 있는 표현으로 설명할 수 있습니다.
@@ -339,10 +319,10 @@ Mikolov, Chen, Corrado, Dean의 word2vec 논문은 큰 텍스트 데이터에서
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, 확인 날짜: 2026-06-24.
-- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, 확인 날짜: 2026-07-19.
+- Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19.
 - Google for Developers, [Embeddings: Embedding space and static embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/embedding-space){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-07-19. 임베딩을 벡터 표현과 임베딩 공간의 가까움으로 설명하는 공식 교육 자료입니다.
 - Google for Developers, [Measuring similarity from embeddings](https://developers.google.com/machine-learning/clustering/dnn-clustering/supervised-similarity){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-07-19. 임베딩 벡터의 유사도를 거리, 코사인, 내적 등으로 측정한다는 연결을 확인하는 참고 자료입니다.
