@@ -1,7 +1,7 @@
 # P2-15.1 A Small Procedure for Translating Formulas into Code
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Part 2, we looked at formulas, Python, NumPy, Pandas, and Matplotlib separately. Now we bind that flow into one procedure. The goal is not to prove difficult formulas, but to have a procedure for translating a simple formula into code and checking the result.
 
@@ -20,18 +20,6 @@ This section is the place where concepts learned separately in Part 2 are tied t
 | Python workflow | Read and check code in the order of input, computation, output, and verification. |
 
 So the core of this section is not `memorizing a new formula`, but `connecting tools you already saw to one problem through a procedure`.
-
-## Scope of This Section
-
-This section handles a small procedure for translating formulas into code. It does not cover complex proofs, implementing optimization algorithms, or training scikit-learn models.
-
-This section answers the following questions.
-
-- What should you check first when turning a formula into code?
-- How do you distinguish variables, data bundles, and repeated computation?
-- Into what kind of repetition does sigma turn in code?
-- When is a NumPy array helpful?
-- Why should the result be checked with a table or a plot?
 
 ## Goals of This Section
 
@@ -281,6 +269,6 @@ This case continues directly into formula reading after Part 3. What matters fir
 
 ## Sources and References
 
-- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, checked on 2026-07-19. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for the numeric, list, and basic calculation expressions in the formula-to-code example.
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for array creation, array operations, and vectorized calculation with `np.mean`.
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for checking calculation results with `Figure`, `Axes`, `plot`, labels, and legends.
+- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, checked on 2026-07-20. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for the numeric, list, and basic calculation expressions in the formula-to-code example.
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-07-20. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for array creation, array operations, and vectorized calculation with `np.mean`.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for checking calculation results with `Figure`, `Axes`, `plot`, labels, and legends.

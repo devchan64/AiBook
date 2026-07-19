@@ -1,7 +1,7 @@
 # P2-15.1 把公式翻译成代码的小步骤
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2，我们分别看过公式、Python、NumPy、Pandas、Matplotlib。现在把这条流程重新绑成一个整体。目标不是证明复杂公式，而是拥有一套把简单公式翻译成代码并检查结果的步骤。
 
@@ -20,18 +20,6 @@
 | Python 工作流 | 按输入、计算、输出、检查的顺序阅读并验证代码。 |
 
 因此，本节的核心不是`背一个新公式`，而是`把已经见过的工具按步骤连接到同一个问题上`。
-
-## 本节范围
-
-本节处理把公式翻译成代码的小步骤。不讨论复杂证明、优化算法实现，也不讨论 scikit-learn 模型训练。
-
-本节回答以下问题。
-
-- 把公式翻译成代码时，首先要检查什么？
-- 如何区分变量、数据组合和重复计算？
-- sigma 在代码里会变成什么样的重复？
-- NumPy 数组什么时候有帮助？
-- 为什么还要用表格或图表来检查结果？
 
 ## 本节目标
 
@@ -281,6 +269,6 @@ plt.show()
 
 ## 来源与参考资料
 
-- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, 确认日期：2026-07-19. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } 这是公式转代码示例中数字、列表和基础计算表达的依据。
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 这是数组创建、数组运算和用 `np.mean` 进行向量化计算说明的依据。
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是用 `Figure`、`Axes`、`plot`、标签和图例检查计算结果图形的依据。
+- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, 确认日期：2026-07-20. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } 这是公式转代码示例中数字、列表和基础计算表达的依据。
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-07-20. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 这是数组创建、数组运算和用 `np.mean` 进行向量化计算说明的依据。
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是用 `Figure`、`Axes`、`plot`、标签和图例检查计算结果图形的依据。
