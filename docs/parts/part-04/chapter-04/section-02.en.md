@@ -1,7 +1,7 @@
 # P4-4.2 Validation And Test
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-4.1 explained why data are divided into training data and evaluation data. Now the discussion moves one step further. The data used while choosing a model and the data used for the final one-time check do not play the same role.
 
@@ -205,26 +205,9 @@ Even with the same customer-churn table, once the question changes, the role of 
 
 ### Looking At The Split Structure Through Python
 
-The following code shows the simplest structure for splitting at once into `training`, `validation`, and `test`.
+Keeping validation and test separate usually appears in code as a two-stage split. First split the whole data into `training data` and `temporary evaluation data`, then split that temporary evaluation data again into `validation data` and `test data`.
 
-Problem situation:
-
-- It can be hard to picture immediately how `keeping validation and test separate` appears as an actual two-stage split in code.
-
-Input:
-
-- sample list `X`
-- label list `y`
-
-Expected output:
-
-- sample count for training, validation, and test
-- label composition for validation and test
-
-Concept to check:
-
-- a three-part split is usually implemented by first separating `train` from temporary evaluation data, then splitting that temporary data again
-- validation and test play different roles, so their results should also be checked separately
+What to check in the example below is not model performance, but whether `the roles of the three bundles remain separated even in code`. In the output, inspect training, validation, and test sample counts, and validation/test label composition separately.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -259,120 +242,42 @@ An example output can be read like the following.
 train size: 7
 validation size: 2
 test size: 3
-validation labels: ['stay', 'churn']
-test labels: ['stay', 'stay', 'churn']
+validation labels: ['churn', 'stay']
+test labels: ['stay', 'stay', 'stay']
 ```
 
 This code does not split the data into three blocks at once directly. Instead, it first separates `training` and `temporary evaluation data`, then splits that temporary data again into `validation` and `test`. This two-step split is often easier to read.
 
-### Separating `Selection` And `Final Check` Through A Python Example
+### Separating "Selection" And "Final Check" In A Table
 
-This time, read a very small experiment log through code output. The following code shows in what order validation score and test score should be read, even without actually training a model.
+This time, read a very small experiment log as a table. Because this is a scene for interpreting already recorded scores without actually training a model, a table that separates the roles of validation score and test score is more appropriate than Python code.
 
-Problem situation:
+| Stage | Value inspected | Judgment |
+| --- | --- | --- |
+| Candidate comparison | Model A validation score 0.78 | Can be kept as the baseline candidate |
+| Candidate comparison | Model B validation score 0.74 | Lower than A, so hold it back |
+| Candidate comparison | Model C validation score 0.81 | Currently best by the validation criterion |
+| Check after selection | Final test score 0.76 | Check the selected model once at the end |
 
-- Validation score and test score both look like performance numbers, but their reading order and roles are different.
-
-Input:
-
-- candidate-specific `validation_score`
-- final `test_score`
-
-Output:
-
-- validation score for each candidate
-- the result selected by validation
-- the final test score
-
-Concept to check:
-
-- model selection is done first by validation score
-- test score should be read as a number checked once after selection
-
-```python
-candidates = [
-    {"name": "model_A", "validation_score": 0.78},
-    {"name": "model_B", "validation_score": 0.74},
-    {"name": "model_C", "validation_score": 0.81},
-]
-
-best = max(candidates, key=lambda item: item["validation_score"])
-
-print("candidate scores on validation:")
-for item in candidates:
-    print(item["name"], "->", item["validation_score"])
-
-print("chosen by validation:", best["name"])
-
-test_score = 0.76
-print("final test score:", test_score)
-```
-
-An example output is read like this.
-
-```text
-candidate scores on validation:
-model_A -> 0.78
-model_B -> 0.74
-model_C -> 0.81
-chosen by validation: model_C
-final test score: 0.76
-```
-
-The key in this output is the order.
+The key in this table is the order.
 
 1. Compare the candidates by validation score.
 2. Then choose one.
 3. Finally, check the test score.
 
-What you need to hold here is the order. `Validation is used for choosing, while test is used for checking after the choice` appears directly even in Python output.
+What you need to hold here is the order. Even in the same score table, `validation is used for choosing` and `test is used for checking after the choice` split into different roles.
 
-### Looking At A Bad Flow Through Python As Well
+### Looking At A Bad Flow In A Table Too
 
-The following example is a record meant to show what the problem is. It is not a good experiment procedure. It is an example for reading `why you should not look at the test set repeatedly`.
+The next example is a record meant to show what the problem is. It is not a good experiment procedure, but an example that reveals `why you should not look at the test set repeatedly`.
 
-Problem situation:
+| Bad flow | Recorded value | Why it is a problem |
+| --- | --- | --- |
+| Look at the test score too early | Model A test score 0.74 | A number meant for final confirmation starts entering candidate comparison |
+| Look at the test score too early | Model B test score 0.77 | You start wanting to change the choice by the test criterion |
+| Change the decision after seeing test | Change selection to Model B | Test data influence model selection, so their role as final confirmation weakens |
 
-- If the test score is opened too early, that number can start contaminating model selection.
-
-Input:
-
-- candidate-specific test scores checked too early
-
-Output:
-
-- a record that the selection changed after test scores were seen
-
-Concept to check:
-
-- the moment test data begin to be used like comparison-oriented validation data, their meaning becomes weaker
-- this example is not a good procedure, but a flow that should be avoided
-
-```python
-test_scores_seen_too_early = {
-    "model_A": 0.74,
-    "model_B": 0.77,
-}
-
-print("looked at test too early:")
-for name, score in test_scores_seen_too_early.items():
-    print(name, "->", score)
-
-print("decision changed after seeing test scores")
-print("problem: test data has started to influence model choice")
-```
-
-An example output is read like the following.
-
-```text
-looked at test too early:
-model_A -> 0.74
-model_B -> 0.77
-decision changed after seeing test scores
-problem: test data has started to influence model choice
-```
-
-This code shows interpretation more than calculation. The moment `you look at the test score first and then change the choice because of it`, the test data have already started to leave their role as data for final confirmation only.
+This table shows interpretation more than calculation. The moment `you look at the test score first and then change the choice because of it`, the test data begin to leave their role as data for final confirmation only.
 
 ### How Validation And Test Should Be Read
 
@@ -428,6 +333,6 @@ The important point in this Section is not `what ratio must be correct`, but rat
 
 ## Sources And References
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, official website accessed 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

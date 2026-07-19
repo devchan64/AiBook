@@ -1,7 +1,7 @@
 # P4-4.2 验证(validation)与测试(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-4.1 里，我们看过为什么要把数据分成 training data 和 evaluation data。现在再往前走一步。`在选模型过程中使用的数据` 和 `最后只检查一次的数据`，它们承担的角色并不一样。
 
@@ -205,26 +205,9 @@ validation data 和 test data 的区分，只要先问 `现在这个问题是为
 
 ### 用 Python 看拆分结构
 
-下面这段代码展示的是：怎样把数据最简单地拆成 `training`、`validation`、`test` 三部分。
+把 validation 和 test 分开，在代码里通常表现为两次拆分。先把整体数据分成 `training data` 和 `临时评估用数据`，再把这份临时评估用数据拆成 `validation data` 和 `test data`。
 
-问题场景：
-
-- `validation 和 test 要分开` 这句话，在代码里具体呈现成怎样的两步拆分，往往一开始不容易马上形成感觉
-
-输入：
-
-- 样本列表 `X`
-- label 列表 `y`
-
-期望输出：
-
-- training、validation、test 的样本数
-- validation 与 test 的 label 构成
-
-要确认的概念：
-
-- 三块拆分通常不是一次性完成，而是先把 `train` 和临时评估数据拆开，再把后者二次拆分
-- validation 和 test 的角色不同，所以也要分别检查
+下面这个例子要确认的不是 model 性能，而是 `三块数据的角色在代码里是否也被分开维持`。输出里分别看 training、validation、test 的样本数，以及 validation/test 的 label 构成。
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -259,120 +242,42 @@ print("test labels:", y_test)
 train size: 7
 validation size: 2
 test size: 3
-validation labels: ['stay', 'churn']
-test labels: ['stay', 'stay', 'churn']
+validation labels: ['churn', 'stay']
+test labels: ['stay', 'stay', 'stay']
 ```
 
 这段代码并不是直接一次切成三块，而是先拆成 `training` 和 `临时评估数据`，然后再把这部分临时评估数据拆成 `validation` 和 `test`。这种两步拆分往往反而更容易读。
 
-### 用 Python 把 `选择` 和 `最终确认` 分开看
+### 用表把 `选择` 和 `最终确认` 分开看
 
-这次再用一个很小的实验记录，通过代码输出去读 validation score 和 test score 应该以什么顺序来看。即使不真正训练 model，也能看出结构。
+这次读一个很小的实验记录表。因为这是解释已经记录好的分数、而不是实际训练 model 的场景，所以用表把 validation score 和 test score 的角色分开，比写 Python 代码更合适。
 
-问题场景：
+| 阶段 | 查看什么值 | 判断 |
+| --- | --- | --- |
+| 候选比较 | Model A validation score 0.78 | 可以作为基准候选保留 |
+| 候选比较 | Model B validation score 0.74 | 比 A 低，先搁置 |
+| 候选比较 | Model C validation score 0.81 | 按 validation 标准看，目前最好 |
+| 选完之后确认 | 最终 test score 0.76 | 对选出的 model 最后确认一次 |
 
-- validation score 和 test score 都看起来像性能数字，但它们的阅读顺序和角色不同
-
-输入：
-
-- 各候选 model 的 `validation_score`
-- 最终 `test_score`
-
-输出：
-
-- 每个候选的 validation 分数
-- 按 validation 选出的结果
-- 最后的 test 分数
-
-要确认的概念：
-
-- model selection 会先根据 validation score 完成
-- test score 应该被读成选完之后才查看的一次性数字
-
-```python
-candidates = [
-    {"name": "model_A", "validation_score": 0.78},
-    {"name": "model_B", "validation_score": 0.74},
-    {"name": "model_C", "validation_score": 0.81},
-]
-
-best = max(candidates, key=lambda item: item["validation_score"])
-
-print("candidate scores on validation:")
-for item in candidates:
-    print(item["name"], "->", item["validation_score"])
-
-print("chosen by validation:", best["name"])
-
-test_score = 0.76
-print("final test score:", test_score)
-```
-
-一个示例输出可以这样读。
-
-```text
-candidate scores on validation:
-model_A -> 0.78
-model_B -> 0.74
-model_C -> 0.81
-chosen by validation: model_C
-final test score: 0.76
-```
-
-这里最重要的是顺序。
+这张表里最重要的是顺序。
 
 1. 先用 validation score 比较候选。
 2. 然后选出一个。
 3. 最后才看 test score。
 
-这里真正要抓住的是顺序。`validation 用来做选择，test 用来在选完之后确认` 这层结构，在 Python 输出里也会直接出现。
+这里真正要抓住的是顺序。即使在同一张分数表里，`validation 用来做选择`、`test 用来在选完之后确认` 也会分成不同角色。
 
-### 再用 Python 看一条错误流程
+### 再用表看一条错误流程
 
-下面这个例子是为了展示问题所在。它不是好的实验流程，而是一个用来说明 `为什么不能过早反复看 test` 的例子。
+下面这个例子是为了展示问题所在。它不是好的实验流程，而是一个用来说明 `为什么不能过早反复看 test` 的记录。
 
-问题场景：
+| 错误流程 | 记录下来的值 | 为什么有问题 |
+| --- | --- | --- |
+| 太早看 test score | Model A test score 0.74 | 最终确认用的数字开始进入候选比较 |
+| 太早看 test score | Model B test score 0.77 | 会想按 test 标准改变选择 |
+| 看完 test 后改变决定 | 改选 Model B | test data 影响了 model selection，最终确认的角色变弱 |
 
-- 如果太早打开 test score，这个数字就会开始污染 model selection
-
-输入：
-
-- 被过早查看的候选 test 分数
-
-输出：
-
-- 因为看了 test 分数而改变了选择的记录
-
-要确认的概念：
-
-- 一旦 test data 被当成比较候选的 validation data 使用，它的意义就开始变弱
-- 这个例子不是好流程，而是应该避免的流程
-
-```python
-test_scores_seen_too_early = {
-    "model_A": 0.74,
-    "model_B": 0.77,
-}
-
-print("looked at test too early:")
-for name, score in test_scores_seen_too_early.items():
-    print(name, "->", score)
-
-print("decision changed after seeing test scores")
-print("problem: test data has started to influence model choice")
-```
-
-一个示例输出可以这样读。
-
-```text
-looked at test too early:
-model_A -> 0.74
-model_B -> 0.77
-decision changed after seeing test scores
-problem: test data has started to influence model choice
-```
-
-这段代码展示的，与其说是计算，不如说是解释。`先看了 test score，然后又根据它去改选择` 的那一刻起，test data 就已经开始离开 `只用于最终确认` 的角色了。
+这张表展示的，与其说是计算，不如说是解释。`先看了 test score，然后又根据它去改选择` 的那一刻起，test data 就已经开始离开 `只用于最终确认` 的角色了。
 
 ### validation 和 test 到底该怎么读
 
@@ -424,10 +329,10 @@ problem: test data has started to influence model choice
 - 能不能区分哪些问题应该问给 validation data，哪些问题应该留给 test data？
 - 能不能说明 validation data 用来比较 model 和 setting，而 test data 用来在最终选择后做最后确认？
 - 能不能说明如果一直按照 test 结果去改选择，test set 也会被污染成 validation 一样的角色？
-- 能不能说明数据越小时，就越难同时稳定地 확보 validation 和 test？
+- 能不能说明数据越小时，就越难同时稳定地留出 validation 和 test？
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-06-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 确认日期：2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 官方网站确认日期：2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
