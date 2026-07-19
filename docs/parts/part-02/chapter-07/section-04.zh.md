@@ -1,7 +1,7 @@
 # P2-7.4 虚拟环境（virtual environment）与包（package）
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.3 中，我们看过了运行 Python 代码的方式。现在再看一个更接近实际的问题。
 
@@ -30,23 +30,6 @@
 | `pip` | 安装包的工具。 |
 | `import` | 在 Python 代码里载入已经准备好的包的语句。 |
 | `.venv` | 放在项目文件夹中的典型本地虚拟环境目录名。 |
-
-## 本节范围
-
-这里回答下面这些问题。
-
-- 为什么需要虚拟环境？
-- 什么是包？
-- `pip` 做什么？
-- 为什么安装和 `import` 不一样？
-
-如何保存依赖列表，以及如何在另一台电脑上恢复相同环境，会在 P2-7.5 中讨论。
-
-| 如果你现在的症状是这样 | 先去哪里看 | 否则在本节先抓住什么 |
-| --- | --- | --- |
-| 连本地 PC 现在是否该先安装 Python 都判断不清 | P2-7.7 补充学习 | 先理解虚拟环境是在安装之后用来区分项目执行空间的装置 |
-| 明明执行了 `pip install`，但 `import` 还是失败 | P2-7.9 补充学习 | 现在先留下一个标准：安装和执行可能正在看不同环境 |
-| 你只是想知道为什么像 NumPy 这样的包会在不同项目里分别需要 | 继续读本节 | 先确认虚拟环境为什么能减少包冲突 |
 
 ## 本节目标
 
@@ -257,7 +240,7 @@ Colab 是在浏览器中运行的笔记本环境。在前期学习中，即使�
 
 ## 来源与参考资料
 
-- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals，确认日期：2026-07-19。作为虚拟环境拥有自己的包集合和 Python 可执行文件，并可与系统 site-packages 隔离这一设计说明的依据。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认用 `venv` 创建和激活虚拟环境，以及环境内部 Python 与包状态相互分离的说明。
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-19。用于确认按项目创建虚拟环境，并通过 `python -m pip install` 安装包的流程。
-- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 `pip`、`venv`、PyPI、`python -m pip install` 的基本角色，以及优先考虑虚拟环境而不是系统级安装的语境。
+- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals，确认日期：2026-07-20。作为虚拟环境拥有自己的包集合和 Python 可执行文件，并可与系统 site-packages 隔离这一设计说明的依据。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认用 `venv` 创建和激活虚拟环境，以及环境内部 Python 与包状态相互分离的说明。
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-20。用于确认按项目创建虚拟环境，并通过 `python -m pip install` 安装包的流程。
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 `pip`、`venv`、PyPI、`python -m pip install` 的基本角色，以及优先考虑虚拟环境而不是系统级安装的语境。

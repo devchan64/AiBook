@@ -1,7 +1,7 @@
 # P2-7.4 가상환경(virtual environment)과 패키지(package)
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7.3에서는 Python 코드를 실행하는 방식을 봤습니다. 이제 한 단계 더 현실적인 문제를 봅니다.
 
@@ -30,23 +30,6 @@ P2-7.3에서는 Python 코드를 실행하는 방식을 봤습니다. 이제 한
 | `pip` | 패키지를 설치하는 도구입니다. |
 | `import` | 이미 준비된 패키지를 Python 코드 안에서 불러오는 문장입니다. |
 | `.venv` | 프로젝트 폴더 안에 두는 대표적인 로컬 가상환경 디렉터리 이름입니다. |
-
-## 이 절의 범위
-
-여기서는 다음 질문에 답합니다.
-
-- 가상환경은 왜 필요한가?
-- 패키지는 무엇인가?
-- `pip`는 무엇을 하는가?
-- 설치와 `import`는 왜 다른가?
-
-의존성 목록을 저장하고 다른 컴퓨터에서 같은 환경을 되살리는 문제는 P2-7.5에서 다룹니다.
-
-| 지금 이런 증상이라면 | 먼저 갈 곳 | 아니면 지금 이 절에서 붙잡을 것 |
-| --- | --- | --- |
-| 로컬 PC에 Python을 지금 설치해야 하는지부터 판단이 안 선다 | P2-7.7 보충학습 | 가상환경은 설치 이후에 프로젝트별 실행 공간을 나누는 장치라는 점부터 잡는다 |
-| `pip install`은 했는데 `import`가 계속 실패한다 | P2-7.9 보충학습 | 지금은 설치와 실행이 서로 다른 환경을 볼 수 있다는 기준만 먼저 남긴다 |
-| NumPy 같은 패키지가 왜 프로젝트마다 따로 필요해지는지만 궁금하다 | 이 절 계속 읽기 | 가상환경이 패키지 충돌을 줄이는 이유를 먼저 확인한다 |
 
 ## 이 절의 목표
 
@@ -257,7 +240,7 @@ Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학�
 
 ## 출처와 참고 자료
 
-- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 확인 날짜: 2026-07-19. 가상환경이 독립된 패키지 집합과 자체 Python 실행 파일을 갖고 시스템 site-packages와 격리될 수 있다는 설계 근거로 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `venv`로 가상환경을 만들고 활성화하며, 환경 안에 Python과 패키지 상태가 분리된다는 설명 확인에 사용했다.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-19. 프로젝트별 가상환경 생성과 `python -m pip install`을 통한 패키지 설치 흐름 확인에 사용했다.
-- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `pip`, `venv`, PyPI, `python -m pip install`의 기본 역할과 시스템 설치 대신 가상환경을 우선 고려해야 하는 맥락 확인에 사용했다.
+- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 확인 날짜: 2026-07-20. 가상환경이 독립된 패키지 집합과 자체 Python 실행 파일을 갖고 시스템 site-packages와 격리될 수 있다는 설계 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `venv`로 가상환경을 만들고 활성화하며, 환경 안에 Python과 패키지 상태가 분리된다는 설명 확인에 사용했다.
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트별 가상환경 생성과 `python -m pip install`을 통한 패키지 설치 흐름 확인에 사용했다.
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `pip`, `venv`, PyPI, `python -m pip install`의 기본 역할과 시스템 설치 대신 가상환경을 우선 고려해야 하는 맥락 확인에 사용했다.

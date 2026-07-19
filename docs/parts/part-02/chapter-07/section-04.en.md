@@ -1,7 +1,7 @@
 # P2-7.4 Virtual Environments and Packages
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-7.3, we looked at ways to run Python code. Now we move to a slightly more realistic problem.
 
@@ -30,23 +30,6 @@ Rather than learning the entire world of Python distribution and packaging, this
 | `pip` | A tool that installs packages. |
 | `import` | A statement that loads an already prepared package into Python code. |
 | `.venv` | A representative local virtual-environment directory name placed inside a project folder. |
-
-## Scope of This Section
-
-Here, we answer the following questions.
-
-- Why is a virtual environment necessary?
-- What is a package?
-- What does `pip` do?
-- Why are installation and `import` different?
-
-The problem of saving dependency lists and restoring the same environment on another computer is covered in P2-7.5.
-
-| If this is your current symptom | Where to go first | Otherwise, what to hold onto in this section |
-| --- | --- | --- |
-| You are not even sure whether you first need to install Python on your local PC | P2-7.7 supplementary section | First understand that a virtual environment is a device that separates project-specific execution spaces after installation |
-| You ran `pip install`, but `import` still fails | P2-7.9 supplementary section | For now, first keep the criterion that installation and execution may be looking at different environments |
-| You only want to know why a package like NumPy ends up being needed separately for each project | Keep reading this section | First check why virtual environments reduce package conflicts |
 
 ## Goal of This Section
 
@@ -257,7 +240,7 @@ The confirmable result appears when you check which Python environment is being 
 
 ## Sources and References
 
-- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, checked 2026-07-19. Used as design support for virtual environments having their own package set and Python executable while being isolated from system site-packages.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm creating and activating virtual environments with `venv`, and the separation of Python and package state inside an environment.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-19. Used to confirm the project-level flow of creating a virtual environment and installing packages with `python -m pip install`.
-- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm the basic roles of `pip`, `venv`, PyPI, and `python -m pip install`, and the context for preferring virtual environments over system-wide installation.
+- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, checked 2026-07-20. Used as design support for virtual environments having their own package set and Python executable while being isolated from system site-packages.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm creating and activating virtual environments with `venv`, and the separation of Python and package state inside an environment.
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the project-level flow of creating a virtual environment and installing packages with `python -m pip install`.
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the basic roles of `pip`, `venv`, PyPI, and `python -m pip install`, and the context for preferring virtual environments over system-wide installation.
