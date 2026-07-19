@@ -1,7 +1,7 @@
 # P4-15.4 Supplementary Learning: How To Compare Extra Trees And Random Forest For The First Time
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Once readers learn random forest in P4-15.1, they soon encounter a similarly named model, Extra Trees(Extremely Randomized Trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
 
@@ -19,13 +19,7 @@ This Section answers the following questions.
 - Why is Extra Trees described as more random?
 - How should OOB(out-of-bag) be read differently in random forest and Extra Trees?
 
-This Section does not go deeply into the following topics.
-
-- the formula development and theoretical proof in Geurts(2006)
-- large benchmarks that compare which model wins on which dataset
-- a direct comparison between Extra Trees and gradient boosting
-
-The philosophical contrast between Extra Trees and gradient boosting reconnects in P4-16.1 and P4-16.2.
+This Section first closes the question `where should random forest and Extra Trees be read as the same, and where should they be read differently?` The philosophical contrast between Extra Trees and gradient boosting reconnects in P4-16.1 and P4-16.2.
 
 ## Goals Of This Section
 
@@ -226,7 +220,9 @@ This example trains `RandomForestClassifier` and `ExtraTreesClassifier` side by 
 - input: 30 continuous features from the breast-cancer classification dataset
 - label: malignant / benign class
 - concepts to check:
-- the default random-forest flow matches `bootstrap=True` - the default Extra Trees flow has `bootstrap=False`, so OOB does not follow automatically - the two models should be compared not only by test score but also by the train/test gap and computation time
+  - the default random-forest flow matches `bootstrap=True`
+  - the default Extra Trees flow has `bootstrap=False`, so OOB does not follow automatically
+  - the two models should be compared not only by test score but also by the train/test gap and computation time
 
 ```python
 from sklearn.datasets import load_breast_cancer
@@ -305,4 +301,4 @@ So the core of this example is not `who is always better`. It is confirming thro
 - scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" } (accessed 2026-07-09)
 - scikit-learn, "ExtraTreesClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" } (accessed 2026-07-09)
 - scikit-learn, "RandomForestClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" } (accessed 2026-07-09)
-- Geurts, P., Ernst, D., Wehenkel, L., "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006.
+- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006, accessed 2026-07-19. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }
