@@ -1,7 +1,7 @@
 # P4-6.1 评价指标(metric)的作用
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-5 章里，我们看过过拟合和泛化。接下来会自然冒出一个问题：`在新数据上也站得住`，到底要靠什么来确认？这时出现的就是 `评价指标(metric)`。
 
@@ -172,9 +172,7 @@ Google glossary 用下面这个问题来解释 recall。
 
 真正可检查的结果，会在把 confusion matrix、precision、recall 放在一起看时出现。只要分别数出 `有多少正常产品被白白说成不良`，以及 `有多少真正的不良被漏掉`，就能解释：为什么一个 accuracy 很高的 model，在真实运营里仍然会出问题。
 
-## 案例与示例
-
-### 工作目标会改变 metric
+### 示例 1. 工作目标会改变 metric
 
 即使是同一个 classification 问题，只要工作目标不同，最先看的 metric 也会不同。
 
@@ -265,27 +263,9 @@ Google glossary 把 F1 score 解释成：把 precision 和 recall 一起使用�
 
 ### 用 Python 读 metric 的作用
 
-下面这段代码不是实际训练，而是从 confusion matrix 数值出发，练习怎样读指标。
+下面这段代码不是实际训练，而是从 confusion matrix 数值出发，直接计算指标的例子。可以操作的值是 `tp`、`tn`、`fp`、`fn`。尤其要确认的是：在 `tn` 非常大的不平衡场景里，即使 accuracy 看起来几乎完美，precision 和 recall 也可能给出完全不同的信号。
 
-问题场景：
-
-- 只看 accuracy 时显得不错的 model，按 confusion matrix 重新计算之后，可能会显出完全不同的样子
-
-输入(input)：
-
-- `tp`, `tn`, `fp`, `fn`
-
-输出(output)：
-
-- accuracy
-- precision
-- recall
-- f1
-
-确认概念：
-
-- 即使面对同一张 confusion matrix，因为读的 metric 不同，对 model 的评价也会变化
-- 在不平衡数据里，accuracy 可能显得过度乐观
+输出里把 accuracy、precision、recall、F1 并排看，并思考哪个数字隐藏了当前的错误成本。
 
 ```python
 tp = 30
@@ -310,7 +290,7 @@ print("f1:", round(f1, 4))
 accuracy: 0.9998
 precision: 0.0306
 recall: 0.6
-f1: 0.0582
+f1: 0.0583
 ```
 
 这组数字会带来一个很重要的感觉。
@@ -321,54 +301,14 @@ f1: 0.0582
 
 也就是说，`只看 accuracy 会觉得不错，但实际上问题很多的 model` 是真的可能存在的。
 
-### 用 Python 看同样 accuracy、不同解释
+### 用表看同样 accuracy、不同解释
 
-这一次，再用一个简单记录来看：即使 accuracy 一样，precision 和 recall 也可能完全不同。
+这一次，用一个简单记录来看：即使 accuracy 一样，precision 和 recall 也可能完全不同。
 
-问题场景：
-
-- 即使 accuracy 一样，两个 model 在真实运营里的含义也可能完全不同
-
-输入(input)：
-
-- 各 model 的 accuracy
-- 各 model 的 precision
-- 各 model 的 recall
-
-输出(output)：
-
-- 各 model 的三个指标对比
-
-确认概念：
-
-- accuracy 一样，并不等于两个 model 质量一样
-- precision 和 recall 的解释，会随着更痛的是哪一种错误而改变
-
-```python
-models = [
-    {"name": "model_A", "accuracy": 0.95, "precision": 0.91, "recall": 0.42},
-    {"name": "model_B", "accuracy": 0.95, "precision": 0.63, "recall": 0.88},
-]
-
-for item in models:
-    print(item["name"])
-    print("  accuracy :", item["accuracy"])
-    print("  precision:", item["precision"])
-    print("  recall   :", item["recall"])
-```
-
-执行结果可以这样读。
-
-```text
-model_A
-  accuracy : 0.95
-  precision: 0.91
-  recall   : 0.42
-model_B
-  accuracy : 0.95
-  precision: 0.63
-  recall   : 0.88
-```
+| model | accuracy | precision | recall | 先读出的解释 |
+| --- | ---: | ---: | ---: | --- |
+| `model_A` | 0.95 | 0.91 | 0.42 | 没必要的警报较少，但漏掉的情况可能很多 |
+| `model_B` | 0.95 | 0.63 | 0.88 | 抓到的正类更多，但没必要的警报可能增加 |
 
 这个例子里，重要的不是机械地选出 `谁更好`。更重要的是理解：`只要更重要的东西变了，解释就会跟着变。`
 
@@ -385,5 +325,6 @@ model_B
 
 ## 出处与参考资料
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-06-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 确认日期: 2026-07-19. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 参考该文确认 information retrieval evaluation 中围绕 precision 和 recall 构成 effectiveness measure 的历史背景。确认日期: 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P4-6.1 The Role Of Evaluation Metrics
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Chapter P4-5, we looked at overfitting and generalization. The next question follows naturally. What do we actually use to check the claim that `the model also holds up on new data`? What appears at that point is the `evaluation metric`.
 
@@ -172,9 +172,7 @@ Here the evaluation metric becomes the criterion that reveals `which kind of pai
 
 The checkable result appears when the confusion matrix, precision, and recall are inspected together. Once `how many normal products were called defective for no good reason` and `how many real defects were missed` are counted separately, you can explain why a model with high accuracy still becomes problematic in actual operation.
 
-## Cases And Examples
-
-### Work Goals Change The Metric
+### Example 1. Work Goals Change The Metric
 
 Even in the same classification problem, the first metric people look at changes when the work goal changes.
 
@@ -265,27 +263,9 @@ This Section sees it as more accurate to read classification evaluation through 
 
 ### Reading The Role Of Metrics Through A Python Example
 
-The following code is not actual training. It is an example that reads metrics from confusion-matrix counts.
+The following code is not actual training. It is an example that directly calculates metrics from confusion-matrix counts. The values to manipulate are `tp`, `tn`, `fp`, and `fn`. In particular, it checks that even when accuracy looks almost perfect in an imbalanced scene where `tn` is very large, precision and recall can send completely different signals.
 
-Problem situation:
-
-- A model that looks good when only accuracy is checked can look very different when the confusion matrix is used to recalculate the metrics
-
-Input:
-
-- `tp`, `tn`, `fp`, `fn`
-
-Output:
-
-- accuracy
-- precision
-- recall
-- f1
-
-Concept to check:
-
-- even with the same confusion matrix, model evaluation can change depending on which metric is read
-- in imbalanced data, accuracy can look too optimistic
+In the output, read accuracy, precision, recall, and F1 side by side, and ask which number hides the current error cost.
 
 ```python
 tp = 30
@@ -310,7 +290,7 @@ The output can be read like this.
 accuracy: 0.9998
 precision: 0.0306
 recall: 0.6
-f1: 0.0582
+f1: 0.0583
 ```
 
 These numbers give an important sense.
@@ -321,54 +301,14 @@ These numbers give an important sense.
 
 In other words, `a model that looks good through accuracy alone but still has serious problems in practice` can really exist.
 
-### Looking At Same Accuracy, Different Interpretation Through A Python Example
+### Looking At Same Accuracy, Different Interpretation Through A Table
 
-This time, read the point that accuracy can be the same while precision and recall differ.
+This time, read a simple record showing that accuracy can be the same while precision and recall differ.
 
-Problem situation:
-
-- there can be two models whose operational meaning is completely different even though they have the same accuracy
-
-Input:
-
-- each model's accuracy
-- each model's precision
-- each model's recall
-
-Output:
-
-- comparison of the three metrics for each model
-
-Concept to check:
-
-- the same accuracy does not mean the two models have the same quality
-- precision and recall are interpreted differently depending on which kind of pain matters more
-
-```python
-models = [
-    {"name": "model_A", "accuracy": 0.95, "precision": 0.91, "recall": 0.42},
-    {"name": "model_B", "accuracy": 0.95, "precision": 0.63, "recall": 0.88},
-]
-
-for item in models:
-    print(item["name"])
-    print("  accuracy :", item["accuracy"])
-    print("  precision:", item["precision"])
-    print("  recall   :", item["recall"])
-```
-
-The output can be read like this.
-
-```text
-model_A
-  accuracy : 0.95
-  precision: 0.91
-  recall   : 0.42
-model_B
-  accuracy : 0.95
-  precision: 0.63
-  recall   : 0.88
-```
+| Model | accuracy | precision | recall | First interpretation to read |
+| --- | ---: | ---: | ---: | --- |
+| `model_A` | 0.95 | 0.91 | 0.42 | There may be fewer false alarms, but many misses |
+| `model_B` | 0.95 | 0.63 | 0.88 | It catches more positives, but false alarms may increase |
 
 The important point in this example is not to mechanically choose `which one is better`. The important point is that `the interpretation changes depending on what is treated as more important`.
 
@@ -385,5 +325,6 @@ If you rewrite it very briefly as an operations sentence, it can be said like th
 
 ## Sources And References
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, accessed 2026-06-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, accessed 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. Referenced for the historical background in which effectiveness measures centered on precision and recall in information retrieval evaluation. Accessed 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }
