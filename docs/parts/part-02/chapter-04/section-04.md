@@ -1,7 +1,7 @@
 # P2-4.4 학습에서 미분이 필요한 이유
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언트(gradient)를 “값이 어떻게 변하는지 읽는 언어”로 봤습니다. 이제 그 언어가 AI 학습(training)에서 왜 필요한지 연결합니다.
 
@@ -15,30 +15,6 @@ P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언�
 여기서는 `학습(training)`, `손실(loss)`, `파라미터(parameter)`, `조정 방향(update direction)`, `역전파(backpropagation)`를 다시 정리합니다. 4.3에서 그래디언트를 읽었다면, 이제 그 변화 정보가 왜 실제 학습 절차에 필요해지는지 정리합니다.
 
 여기서는 최적화 공식을 자세히 전개하기보다 왜 학습에서 미분과 그래디언트가 필요한지 연결하는 데 집중합니다. 손실, 파라미터, 조정 방향의 관계를 잡아 두면, 뒤에서 경사하강법(gradient descent), 역전파(backpropagation), 옵티마이저(optimizer)를 볼 때 계산 절차보다 목적이 먼저 읽힙니다.
-
-## 이 절의 범위
-
-여기서는 미분이 학습과 연결되는 이유를 설명합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `손실이 현재 상태를 점수화해 준다 해도, 왜 그것만으로는 학습이 진행되지 않는가`입니다.
-
-그래서 이 절에서는 학습이 무엇을 조정하는지, 손실이 무엇을 말해 주는지, 미분이 손실을 줄이는 데 어떤 정보를 주는지, 역전파가 왜 나중에 등장하는지를 중심으로 읽습니다.
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 학습 | 파라미터를 바꿔 성능을 개선하는 과정 | 이 절의 전체 배경 |
-| 손실 | 현재 결과가 얼마나 틀렸는지 보여 주는 값 | 줄이고 싶은 대상 |
-| 파라미터 | 모델 안에서 조정되는 숫자 | 실제로 바뀌는 대상 |
-| 조정 방향 | 어느 쪽으로 바꾸면 손실이 줄어드는가에 대한 정보 | 미분이 주는 핵심 단서 |
-| 역전파 | 그래디언트를 효율적으로 계산하는 절차 | 뒤에서 다시 다룰 예고 개념 |
-
-`도함수 부호는 알겠는데 그래디언트와 경사하강법이 왜 같이 나오는지`가 아직 낯설다면 바로 뒤의 P2-4.5 보충학습이 그 간격을 메웁니다. 그 절은 고등학교 미분 감각에서 다변수 미분과 그래디언트로 넘어가는 연결을 더 천천히 복구합니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-4.5`에서는 도함수 부호와 그래디언트 방향 감각을 더 천천히 복구합니다.
-- `P2-6.3`에서는 그 방향 정보를 실제 경사하강법 업데이트로 다시 읽습니다.
-- Part 4에서는 역전파와 옵티마이저가 이 방향 정보를 어떻게 실제 계산 절차로 쓰는지 이어 봅니다.
 
 ## 이 절의 목표
 
@@ -210,6 +186,6 @@ L'(w) = 2(w - 3)
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 도함수와 순간 변화율의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 그래디언트와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, 딥러닝 학습을 비용 함수와 파라미터 최적화 문제로 다루고, 학습에서 그래디언트 기반 최적화가 쓰이는 맥락을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 도함수와 순간 변화율의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-20.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 그래디언트와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-20.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, 딥러닝 학습을 비용 함수와 파라미터 최적화 문제로 다루고, 학습에서 그래디언트 기반 최적화가 쓰이는 맥락을 확인할 수 있습니다. 확인 날짜: 2026-07-20.

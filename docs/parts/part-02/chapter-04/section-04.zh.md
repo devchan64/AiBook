@@ -1,7 +1,7 @@
 # P2-4.4 为什么学习里需要微分
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)看成是“读取数值如何变化的语言”。现在，我们要把这门语言接到 AI 学习(training)里，说明为什么它在这里是必要的。
 
@@ -15,30 +15,6 @@
 本节重新整理 `学习(training)`、`损失(loss)`、`参数(parameter)`、`调整方向(update direction)`、`反向传播(backpropagation)`。如果说 4.3 已经读到了梯度，那么这里要整理的是：为什么这种变化信息会在真实学习流程里变得必要。
 
 这里不会详细展开优化公式，而是把重点放在：为什么学习里需要微分与梯度。只要抓住损失、参数、调整方向之间的关系，后面再看梯度下降(gradient descent)、反向传播(backpropagation)、优化器(optimizer)时，就会先读到目的，而不是先被计算步骤挡住。
-
-## 本节范围
-
-本节说明微分为什么会接到学习。
-
-这里首先要解决的问题是：`即使损失已经把当前状态打成分数，为什么光靠这个分数还不能让学习继续下去？`
-
-所以本节围绕下面几个点来读：学习到底在调整什么，损失到底告诉了我们什么，微分为减少损失提供了什么信息，以及为什么反向传播会在后面出现。
-
-| 术语 | 很短的含义 | 本节中的作用 |
-| --- | --- | --- |
-| 学习 | 通过改变参数来改善性能的过程 | 本节整体背景 |
-| 损失 | 显示当前结果错了多少的数值 | 想要减小的对象 |
-| 参数 | 模型内部会被调整的数字 | 真正发生变化的对象 |
-| 调整方向 | 朝哪边改会让损失下降的信息 | 微分给出的关键线索 |
-| 反向传播 | 高效计算梯度的过程 | 后面还会回来的预告概念 |
-
-如果你会想：`我大概懂导函数符号了，但为什么梯度和梯度下降总是一起出现？`，那么紧接着的 P2-4.5 补充学习就是在补这个间隔。那一节会更慢地把高中微分直觉接到多变量微分与梯度上。
-
-本节之后的流程也很简单。
-
-- 在 `P2-4.5` 中，我们会更慢地恢复导函数符号与梯度方向感。
-- 在 `P2-6.3` 中，我们会把这种方向信息重新读成真正的梯度下降更新。
-- 在 Part 4 中，我们会继续看反向传播与优化器如何把这种方向信息变成实际计算过程。
 
 ## 本节目标
 
@@ -209,6 +185,6 @@ L'(w) = 2(w - 3)
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认导数与瞬时变化率之间的关系。确认日期: 2026-07-19.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认梯度与最大增加方向之间的关系。确认日期: 2026-07-19.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }。可以确认深度学习训练被处理成代价函数与参数优化问题，以及训练中使用基于梯度的优化的语境。确认日期: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认导数与瞬时变化率之间的关系。确认日期: 2026-07-20.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认梯度与最大增加方向之间的关系。确认日期: 2026-07-20.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }。可以确认深度学习训练被处理成代价函数与参数优化问题，以及训练中使用基于梯度的优化的语境。确认日期: 2026-07-20.

@@ -1,7 +1,7 @@
 # P2-4.4 Why Learning Needs Differentiation
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-4.3, we looked at derivative, partial derivative, and gradient as `the language for reading how values change`. Now we connect why that language becomes necessary in AI training.
 
@@ -15,30 +15,6 @@ What matters in learning is not writing the correct answer all at once. It is se
 This Section reorganizes training, loss, parameter, update direction, and backpropagation. If P2-4.3 read the gradient, now we organize why that information about change becomes necessary for an actual learning procedure.
 
 Here, rather than unfolding optimization formulas in detail, the focus is on connecting why differentiation and gradients are needed in learning. If we hold onto the relationship among loss, parameters, and update direction, then later, when reading gradient descent, backpropagation, and optimizer, we read the purpose before the calculation procedure.
-
-## Scope of This Section
-
-This Section explains why differentiation connects to learning.
-
-The first question to solve here is this: `even if loss scores the current state, why does learning not proceed from that alone?`
-
-So this Section reads around the following points: what learning adjusts, what loss tells us, what information differentiation gives for reducing loss, and why backpropagation appears later.
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| training | the process of improving performance by changing parameters | the background of the whole Section |
-| loss | a value that shows how wrong the current result is | the thing we want to reduce |
-| parameter | a number adjusted inside the model | the thing that actually changes |
-| update direction | information about which side reduces loss | the key clue given by differentiation |
-| backpropagation | a procedure that computes gradients efficiently | a preview concept that will return later |
-
-If `I understand the sign of the derivative, but why do gradient and gradient descent appear together?` still feels unfamiliar, the supplementary learning in P2-4.5 fills that gap. That Section more slowly rebuilds the connection from high-school differentiation intuition into multivariable differentiation and gradient.
-
-The flow after this Section is also simple.
-
-- In `P2-4.5`, we more slowly recover the intuition of derivative sign and gradient direction.
-- In `P2-6.3`, we read that directional information again as an actual gradient-descent update.
-- In Part 4, we continue into how backpropagation and optimizers use that directional information in real calculation procedures.
 
 ## Goals of This Section
 
@@ -209,6 +185,6 @@ A checkable result is to compare whether the loss really decreases when a specif
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-07-19.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports the relation between the gradient and the direction of maximum increase. Checked: 2026-07-19.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }. It treats deep learning training as cost-function and parameter optimization, and gives the context for gradient-based optimization in training. Checked: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports the relation between derivative and instantaneous rate of change. Checked: 2026-07-20.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports the relation between the gradient and the direction of maximum increase. Checked: 2026-07-20.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }. It treats deep learning training as cost-function and parameter optimization, and gives the context for gradient-based optimization in training. Checked: 2026-07-20.
