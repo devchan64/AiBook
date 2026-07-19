@@ -1,7 +1,7 @@
 # P3-7.3 What Is a Baseline the Reference For
 
 > Section ID: `P3-7.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 A baseline is the reference that decides `what should the current state be compared against`. The reason a baseline is needed in Part 3 is that the state of a recent range, a particular action, or a particular entity should not be read only as an absolute value. It has to be read side by side with the usual structure.
 
@@ -44,5 +44,5 @@ The core point of this section is that `the usual structure` and `the current st
 
 ## Sources and Further Reading
 
-- National Cancer Institute, `baseline`. Because it explains baseline as the standard against which later change is compared after an initial measurement is set, it provides a general basis for reading baseline in this section as `a state-comparison reference`. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the definition of a reference period used to compare other times, it reinforces the explanation in this section that the current range and the usual range should be placed side by side so the direction of change can be read. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- National Cancer Institute, `baseline`. Because it explains baseline as the standard against which later change is compared after an initial measurement is set, it provides a general basis for reading baseline in this section as `a state-comparison reference`. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the definition of a reference period used to compare other times, it reinforces the explanation in this section that the current range and the usual range should be placed side by side so the direction of change can be read. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

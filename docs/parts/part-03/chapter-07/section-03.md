@@ -1,7 +1,7 @@
 # P3-7.3 기준선은 무엇과 비교하는 기준인가
 
 > Section ID: `P3-7.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 기준선(baseline)은 `지금 상태를 무엇과 비교할 것인가`를 정하는 기준입니다. Part 3에서 기준선이 필요한 이유는 최근 구간, 특정 동작, 특정 개체의 상태를 그냥 절대값으로 읽지 않고, 평소 구조와 나란히 놓고 읽어야 하기 때문입니다.
 
@@ -44,5 +44,5 @@ Part 3에서는 아직 모델을 평가하지 않습니다. 여기서 먼저 필
 
 ## 출처와 참고 자료
 
-- National Cancer Institute, `baseline`. baseline을 초기 측정값을 두고 이후 변화를 비교하는 기준으로 설명하므로, 이 절에서 기준선을 `상태 비교 기준`으로 읽는 일반 근거가 됩니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 다른 시점과 비교하기 위한 reference period라는 정의를 제공하므로, 현재 구간과 평소 구간을 나란히 놓아 변화 방향을 읽는 이 절의 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- National Cancer Institute, `baseline`. baseline을 초기 측정값을 두고 이후 변화를 비교하는 기준으로 설명하므로, 이 절에서 기준선을 `상태 비교 기준`으로 읽는 일반 근거가 됩니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 다른 시점과 비교하기 위한 reference period라는 정의를 제공하므로, 현재 구간과 평소 구간을 나란히 놓아 변화 방향을 읽는 이 절의 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

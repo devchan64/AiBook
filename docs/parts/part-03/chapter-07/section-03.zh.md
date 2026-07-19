@@ -1,7 +1,7 @@
 # P3-7.3 基准线到底是拿来和什么比较的标准
 
 > Section ID: `P3-7.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 基准线(baseline)，是决定 `当前状态应该拿去和什么比较` 的参考标准。Part 3 里之所以需要基准线，是因为最近区间、特定动作、特定对象的状态，不能只被读成一个绝对值，而应该和“平时结构”并排放在一起去读。
 
@@ -44,5 +44,5 @@ Part 3 还没有进入模型评估阶段。这里首先需要做的是：用同�
 
 ## 来源与参考资料
 
-- National Cancer Institute, `baseline`. 它把 baseline 解释为：在设定初始测量之后，用来和后续变化比较的标准，因此为本节把基准线读成 `状态比较参考` 提供了一般依据。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“拿来和其他时段进行比较的参考时段”这一一般定义，因此强化了本节的说明：要读出变化方向，应该把当前区间和平时区间并排放在一起。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- National Cancer Institute, `baseline`. 它把 baseline 解释为：在设定初始测量之后，用来和后续变化比较的标准，因此为本节把基准线读成 `状态比较参考` 提供了一般依据。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“拿来和其他时段进行比较的参考时段”这一一般定义，因此强化了本节的说明：要读出变化方向，应该把当前区间和平时区间并排放在一起。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
