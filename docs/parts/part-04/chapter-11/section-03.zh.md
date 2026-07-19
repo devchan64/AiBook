@@ -1,7 +1,7 @@
 # P4-11.3 补充学习：第一次如何读 log-odds 与 MLE
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11.1 把 logistic regression 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 decision boundary。走到这里，就会自然留下一个问题。
 
@@ -17,14 +17,9 @@ P4-11.1 把 logistic regression 介绍成 `生成可按 probability 来读的 sc
 - 为什么说 logistic regression 是用 MLE 学习的？
 - log loss 和 MLE 是怎样连起来的？
 
-这一节不会深入讲下面这些内容。
+这一节先把 log-odds 和 MLE 收束为连接 `probability 解释` 与 `学习目标` 的标准，并专注抓住为什么同一个 model 要用这样的数学语言重新读取。
 
-- multinomial logistic regression 的细节公式
-- softmax 的完整展开和 one-vs-rest 比较
-- solver 差异与 regularization 设置
-- negative log-likelihood 的求导展开和一般优化理论
-
-multinomial 的扩展会在 P4-11.4 继续，solver 与 regularization 会在 P4-11.5 继续。negative log-likelihood 的求导展开和一般优化理论，先放在本书当前范围之外。
+同时，后面还要继续扩展的问题也很清楚。multinomial 扩展会在 P4-11.4 继续，solver 与 regularization 会在 P4-11.5 继续。
 
 ## 本节目标
 
@@ -256,5 +251,6 @@ log loss B        : 0.1446
 
 ## 出处与参考资料
 
-- C.M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006.
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09

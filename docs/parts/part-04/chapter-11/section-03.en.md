@@ -1,7 +1,7 @@
 # P4-11.3 Supplementary Learning: How To Read Log-Odds And MLE For The First Time
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11.1 introduced logistic regression as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a decision boundary inside the input space. At that point a natural next question remains.
 
@@ -17,14 +17,9 @@ This Section answers the following questions.
 - Why is logistic regression said to learn by maximum likelihood estimation (MLE)?
 - How does log loss connect to MLE?
 
-This Section does not treat the following topics deeply.
+This Section first closes log-odds and MLE as the criteria that connect `probability interpretation` and `learning objective`, and focuses on holding onto why the same model is reread in this mathematical language.
 
-- detailed equations of multinomial logistic regression
-- full softmax expansion and one-vs-rest comparison
-- solver differences and regularization settings
-- derivative expansion of the negative log-likelihood and general optimization theory
-
-Multinomial expansion continues in P4-11.4, and solver and regularization continue in P4-11.5. The derivative expansion of the negative log-likelihood and general optimization theory stay outside the current scope of this book.
+At the same time, the broader questions that should be revisited later are also clear. Multinomial expansion continues in P4-11.4, and solver and regularization continue in P4-11.5.
 
 ## Goals Of This Section
 
@@ -109,6 +104,10 @@ This table says the following.
 - stronger confidence toward class 0 makes log-odds grow negative
 
 That means the explanation in P4-11.2, `the decision boundary is where the linear score \(z = 0\)`, can be reread again as saying that `probability 0.5`, `odds 1`, and `log-odds 0` all point to the same place.
+
+This correspondence is better held not as a table to memorize, but as `reading the same state on different scales`.
+
+![A correspondence chart showing that probability 0.5, odds 1, and log-odds 0 point to the same decision midpoint](/AiBook/assets/part-04/chapter-11/p4-11-3-probability-odds-logit-en.svg)
 
 ```mermaid
 --8<-- "assets/part-04/chapter-11/p4-11-3-mermaid-01-en.mmd"
@@ -252,5 +251,6 @@ This output can be read as follows.
 
 ## Sources And References
 
-- C.M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006.
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. Checked on 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, `log_loss` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
+- scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
