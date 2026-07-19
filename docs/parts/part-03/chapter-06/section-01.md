@@ -1,7 +1,7 @@
 # P3-6.1 비교할 구조는 어떤 특징으로 남기는가
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 특징을 처음 배울 때는 `열이 많을수록 좋은 것 아닐까`라고 받아들이곤 합니다. 하지만 특징(feature)은 단순히 많은 값을 넣는 일이 아닙니다. 특징은 샘플이 가진 구조를 비교와 예측에 쓸 수 있도록 다시 표현한 값입니다. 그래서 좋은 특징은 많기보다, `무엇을 보여 주려는가`가 분명해야 합니다. 앞 절에서 원시 로그를 요약 표로 바꿨다면, 이제 그 요약 표 안에 어떤 구조를 남길지 정해야 합니다.
 
@@ -38,60 +38,73 @@
 확인할 개념: 특징은 이미 있던 열을 그대로 나열하는 것이 아니라, 비교하고 싶은 구조를 계산해 붙인 표현이다. 특징 선택은 질문 초점에 따라 달라진다.
 
 ```python
-import pandas as pd
-
-pd.set_option("display.max_columns", None)
-pd.set_option("display.width", 160)
+from statistics import mean, stdev
 
 feature_focus = "change"
 
-segment_summary = pd.DataFrame(
-    [
-        {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
-        {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
-    ]
-)
+segment_summary = [
+    {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
+    {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
+]
 
-feature_table = segment_summary.copy()
-feature_table["overall_mean"] = feature_table[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].mean(axis=1)
-feature_table["late_minus_early"] = (
-    feature_table["late_flow_mean"] - feature_table["early_flow_mean"]
-)
-feature_table["early_to_late_slope"] = feature_table["late_minus_early"] / 2
-feature_table["segment_variability"] = feature_table[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].std(axis=1)
-focus_columns = {
-    "level": ["overall_mean"],
-    "change": ["late_minus_early", "early_to_late_slope"],
-    "stability": ["segment_variability"],
-}[feature_focus]
+feature_table = []
+for row in segment_summary:
+    segment_values = [row["early_flow_mean"], row["mid_flow_mean"], row["late_flow_mean"]]
+    late_minus_early = row["late_flow_mean"] - row["early_flow_mean"]
+    feature_table.append(
+        {
+            **row,
+            "overall_mean": mean(segment_values),
+            "late_minus_early": late_minus_early,
+            "early_to_late_slope": late_minus_early / 2,
+            "segment_variability": stdev(segment_values),
+        }
+    )
+
 focus_map = {
     "level": ["overall_mean"],
     "change": ["late_minus_early", "early_to_late_slope"],
     "stability": ["segment_variability"],
 }
+focus_columns = focus_map[feature_focus]
 
 print("1) segment means before feature design")
-print(segment_summary)
+print("  event_id  early_flow_mean  mid_flow_mean  late_flow_mean")
+for index, row in enumerate(segment_summary):
+    print(
+        f"{index}        {row['event_id']}              {row['early_flow_mean']:.1f}"
+        f"            {row['mid_flow_mean']:.1f}             {row['late_flow_mean']:.1f}"
+    )
 print()
 print("2) designed features for comparison")
 print(
-    feature_table[
-        [
-            "event_id",
-            "overall_mean",
-            "late_minus_early",
-            "early_to_late_slope",
-            "segment_variability",
-        ]
-    ].round(2)
+    "  event_id  overall_mean  late_minus_early  early_to_late_slope"
+    "  segment_variability"
 )
+for index, row in enumerate(feature_table):
+    print(
+        f"{index}        {row['event_id']}           {row['overall_mean']:.1f}"
+        f"               {row['late_minus_early']:.1f}"
+        f"                  {row['early_to_late_slope']:.1f}"
+        f"                  {row['segment_variability']:.1f}"
+    )
 print()
 print(f"3) selected features when feature_focus = {feature_focus}")
-print(feature_table[["event_id", *focus_columns]].round(2))
+if focus_columns == ["overall_mean"]:
+    print("  event_id  overall_mean")
+    for index, row in enumerate(feature_table):
+        print(f"{index}        {row['event_id']}           {row['overall_mean']:.1f}")
+elif focus_columns == ["late_minus_early", "early_to_late_slope"]:
+    print("  event_id  late_minus_early  early_to_late_slope")
+    for index, row in enumerate(feature_table):
+        print(
+            f"{index}        {row['event_id']}               {row['late_minus_early']:.1f}"
+            f"                  {row['early_to_late_slope']:.1f}"
+        )
+else:
+    print("  event_id  segment_variability")
+    for index, row in enumerate(feature_table):
+        print(f"{index}        {row['event_id']}                  {row['segment_variability']:.1f}")
 print()
 print("4) feature_focus comparison")
 for focus_name, columns in focus_map.items():
@@ -176,8 +189,8 @@ for focus_name, columns in focus_map.items():
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 input variable used to make predictions라고 설명하므로, 어떤 구조를 보여 줄지를 먼저 정한 뒤 그 구조를 입력 변수로 옮겨야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformation을 결정하는 과정으로 설명하므로, 특징 설계는 원시 값을 그대로 두는 일이 아니라 구조를 비교 가능한 숫자 표현으로 바꾸는 일이라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 수준/변화/안정성 특징도 결국 기준선 비교에서 읽히기 쉬운 구조를 남기는 방향으로 선택해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 평균, 중앙값, 최빈값을 대표적인 위치 척도로 설명하고, 치우친 분포나 꼬리가 두꺼운 분포에서는 평균과 중앙값이 서로 다른 정보를 줄 수 있음을 보이므로, 전체 수준을 하나의 숫자로 남길 때도 어떤 구조를 보려는지 먼저 정해야 한다는 설명을 보강합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
-- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. 변동성(variability)이나 퍼짐(spread)을 설명하는 여러 수치 척도가 있고, 어떤 척도를 고를지는 중심 주변의 퍼짐과 꼬리의 퍼짐 중 무엇을 강조할지에 따라 달라진다고 정리하므로, 안정성 특징을 평균과 별도 구조로 남겨야 한다는 이 절의 설명을 뒷받침합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- Google for Developers, `Machine Learning Glossary`의 `feature`. feature를 input variable used to make predictions라고 설명하므로, 어떤 구조를 보여 줄지를 먼저 정한 뒤 그 구조를 입력 변수로 옮겨야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `feature engineering`. feature engineering을 model training에 helpful한 transformation을 결정하는 과정으로 설명하므로, 특징 설계는 원시 값을 그대로 두는 일이 아니라 구조를 비교 가능한 숫자 표현으로 바꾸는 일이라는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 수준/변화/안정성 특징도 결국 기준선 비교에서 읽히기 쉬운 구조를 남기는 방향으로 선택해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 평균, 중앙값, 최빈값을 대표적인 위치 척도로 설명하고, 치우친 분포나 꼬리가 두꺼운 분포에서는 평균과 중앙값이 서로 다른 정보를 줄 수 있음을 보이므로, 전체 수준을 하나의 숫자로 남길 때도 어떤 구조를 보려는지 먼저 정해야 한다는 설명을 보강합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. 변동성(variability)이나 퍼짐(spread)을 설명하는 여러 수치 척도가 있고, 어떤 척도를 고를지는 중심 주변의 퍼짐과 꼬리의 퍼짐 중 무엇을 강조할지에 따라 달라진다고 정리하므로, 안정성 특징을 평균과 별도 구조로 남겨야 한다는 이 절의 설명을 뒷받침합니다. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

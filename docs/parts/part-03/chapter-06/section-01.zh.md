@@ -1,7 +1,7 @@
 # P3-6.1 应该用什么特征把可比较的结构留下来
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 第一次学习特征时，人们常常会把它理解成 `列越多越好吗？` 但特征(feature)并不是简单地往里塞更多数值。特征是把样本所具有的结构，重新表达成可以用于比较和预测的值。所以，好的特征与其说是“更多”，不如说应该先让 `它到底想展示什么` 变得清楚。如果前一节已经把原始日志变成了汇总表，那么现在就要决定：这张汇总表里到底该留下什么结构。
 
@@ -31,49 +31,84 @@
 
 问题情境：当两次动作的整体水平相近，但上升幅度和波动程度不同时，确认应该留下哪些特征。
 
-输入(input)：只保留了分段平均值的动作汇总表
+输入(input)：只保留了分段平均值的动作汇总表，以及想先看的结构 `feature_focus`
 
-期望输出(output)：从同一张汇总表中分别计算出水平、区间差值、斜率、波动性的特征表
+期望输出(output)：从同一张汇总表中分别计算出水平、区间差值、斜率、波动性的特征表。改变 `feature_focus` 时，优先留下的特征也会改变。
 
-要确认的概念：特征不是把已有列直接罗列出来，而是把想比较的结构计算后再附着上去的表达
+要确认的概念：特征不是把已有列直接罗列出来，而是把想比较的结构计算后再附着上去的表达。特征选择会随着问题焦点改变。
 
 ```python
-import pandas as pd
+from statistics import mean, stdev
 
-segment_summary = pd.DataFrame(
-    [
-        {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
-        {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
-    ]
-)
+feature_focus = "change"
 
-feature_table = segment_summary.copy()
-feature_table["overall_mean"] = feature_table[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].mean(axis=1)
-feature_table["late_minus_early"] = (
-    feature_table["late_flow_mean"] - feature_table["early_flow_mean"]
-)
-feature_table["early_to_late_slope"] = feature_table["late_minus_early"] / 2
-feature_table["segment_variability"] = feature_table[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].std(axis=1)
+segment_summary = [
+    {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
+    {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
+]
+
+feature_table = []
+for row in segment_summary:
+    segment_values = [row["early_flow_mean"], row["mid_flow_mean"], row["late_flow_mean"]]
+    late_minus_early = row["late_flow_mean"] - row["early_flow_mean"]
+    feature_table.append(
+        {
+            **row,
+            "overall_mean": mean(segment_values),
+            "late_minus_early": late_minus_early,
+            "early_to_late_slope": late_minus_early / 2,
+            "segment_variability": stdev(segment_values),
+        }
+    )
+
+focus_map = {
+    "level": ["overall_mean"],
+    "change": ["late_minus_early", "early_to_late_slope"],
+    "stability": ["segment_variability"],
+}
+focus_columns = focus_map[feature_focus]
 
 print("1) segment means before feature design")
-print(segment_summary)
+print("  event_id  early_flow_mean  mid_flow_mean  late_flow_mean")
+for index, row in enumerate(segment_summary):
+    print(
+        f"{index}        {row['event_id']}              {row['early_flow_mean']:.1f}"
+        f"            {row['mid_flow_mean']:.1f}             {row['late_flow_mean']:.1f}"
+    )
 print()
 print("2) designed features for comparison")
 print(
-    feature_table[
-        [
-            "event_id",
-            "overall_mean",
-            "late_minus_early",
-            "early_to_late_slope",
-            "segment_variability",
-        ]
-    ].round(2)
+    "  event_id  overall_mean  late_minus_early  early_to_late_slope"
+    "  segment_variability"
 )
+for index, row in enumerate(feature_table):
+    print(
+        f"{index}        {row['event_id']}           {row['overall_mean']:.1f}"
+        f"               {row['late_minus_early']:.1f}"
+        f"                  {row['early_to_late_slope']:.1f}"
+        f"                  {row['segment_variability']:.1f}"
+    )
+print()
+print(f"3) selected features when feature_focus = {feature_focus}")
+if focus_columns == ["overall_mean"]:
+    print("  event_id  overall_mean")
+    for index, row in enumerate(feature_table):
+        print(f"{index}        {row['event_id']}           {row['overall_mean']:.1f}")
+elif focus_columns == ["late_minus_early", "early_to_late_slope"]:
+    print("  event_id  late_minus_early  early_to_late_slope")
+    for index, row in enumerate(feature_table):
+        print(
+            f"{index}        {row['event_id']}               {row['late_minus_early']:.1f}"
+            f"                  {row['early_to_late_slope']:.1f}"
+        )
+else:
+    print("  event_id  segment_variability")
+    for index, row in enumerate(feature_table):
+        print(f"{index}        {row['event_id']}                  {row['segment_variability']:.1f}")
+print()
+print("4) feature_focus comparison")
+for focus_name, columns in focus_map.items():
+    print(f"- {focus_name}: {columns}")
 ```
 
 期望输出：
@@ -86,11 +121,21 @@ print(
 
 2) designed features for comparison
   event_id  overall_mean  late_minus_early  early_to_late_slope  segment_variability
-0        A           2.2               0.8                  0.4                  0.40
-1        B           2.2               0.2                  0.1                  0.10
+0        A           2.2               0.8                  0.4                  0.4
+1        B           2.2               0.2                  0.1                  0.1
+
+3) selected features when feature_focus = change
+  event_id  late_minus_early  early_to_late_slope
+0        A               0.8                  0.4
+1        B               0.2                  0.1
+
+4) feature_focus comparison
+- level: ['overall_mean']
+- change: ['late_minus_early', 'early_to_late_slope']
+- stability: ['segment_variability']
 ```
 
-输出的第 1 步，还只是带有区间平均值的汇总表。到了第 2 步，`overall_mean`、`late_minus_early`、`early_to_late_slope`、`segment_variability` 才被新加上去。`overall_mean` 展示整体水平，`late_minus_early` 展示前后段差异，`early_to_late_slope` 把这种差异除以区间距离后，变成一个简单斜率表达，`segment_variability` 则展示各区间之间的波动程度。也就是说，特征不是把原本写着的值再展示一遍，而是从同一张汇总表中，计算并附着上想比较的结构。
+输出的第 1 步，还只是带有区间平均值的汇总表。到了第 2 步，`overall_mean`、`late_minus_early`、`early_to_late_slope`、`segment_variability` 才被新加上去。`overall_mean` 展示整体水平，`late_minus_early` 展示前后段差异，`early_to_late_slope` 把这种差异除以区间距离后，变成一个简单斜率表达，`segment_variability` 则展示各区间之间的波动程度。这里可以操作的值是 `feature_focus`。设为 `"change"` 时，会优先留下变化特征；改成 `"level"` 时，会优先留下整体水平特征；改成 `"stability"` 时，会优先留下波动性特征。第 4 步说明，即使是同一张特征表，只要问题焦点改变，真正留下的列组合也会改变。也就是说，特征不是把原本写着的值再展示一遍，而是从同一张汇总表中，计算并附着上想比较的结构，再按当前问题选择的结果。
 
 如果把这些特征按更小的层次来读，每个值承担的角色会更清楚。
 
@@ -144,6 +189,8 @@ print(
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：应该先决定想展示什么结构，再把这个结构转成输入变量。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此强化了这一点：特征设计不是保留原始值不动，而是把结构转换成可比较的数字表达。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段解释为比较其他时段的参考，因此提供了一般依据：水平/变化/稳定性特征也应被选成便于在基准线比较中读取的结构。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `feature`。它把 feature 解释为用于预测的输入变量，因此支持这样一点：应该先决定想展示什么结构，再把这个结构转成输入变量。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此强化了这一点：特征设计不是保留原始值不动，而是把结构转换成可比较的数字表达。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它把基准时段解释为比较其他时段的参考，因此提供了一般依据：水平/变化/稳定性特征也应被选成便于在基准线比较中读取的结构。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 该资料把平均值、中位数、众数作为代表性位置尺度来说明，并展示在偏斜分布或厚尾分布中平均值和中位数可能提供不同信息。因此，它强化了这一节的说明：即使要把整体水平留下成一个数字，也应先决定想看的结构。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. 该资料说明了多种用于描述变动性(variability)或分散程度(spread)的数值尺度，并指出选择哪种尺度估计量取决于想强调哪一部分分散。因此，它支持这一节的说明：稳定性特征应作为不同于平均值的结构被保留下来。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

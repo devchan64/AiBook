@@ -1,7 +1,7 @@
 # P3-6.1 What Features Should We Keep to Represent a Structure for Comparison
 
 > Section ID: `P3-6.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 When people first learn about features, they often take them to mean `wouldn't more columns always be better?` But a feature is not just the act of inserting many values. A feature is a value that rewrites the structure of a sample so it can be used for comparison and prediction. So a good feature is less about being numerous and more about making `what it is trying to show` clear. If the raw log was turned into a summary table in the previous chapter, we now have to decide what structure should remain inside that summary table.
 
@@ -31,49 +31,84 @@ So a good feature is closer to `an appropriate question` than to `many values`. 
 
 Problem situation: check what features should remain when the overall level of two actions is similar but the size of their rise and the degree of their fluctuation differ.
 
-Input: an action-summary table where only segment averages remain
+Input: an action-summary table where only segment averages remain, and the structure to inspect first, `feature_focus`
 
-Expected output: a feature table that calculates level, segment difference, slope, and variability from the same summary table
+Expected output: a feature table that calculates level, segment difference, slope, and variability from the same summary table. If `feature_focus` changes, the features selected first also change.
 
-Concept to check: a feature is not a simple listing of existing columns, but an added expression that computes the structure we want to compare
+Concept to check: a feature is not a simple listing of existing columns, but an added expression that computes the structure we want to compare. Feature selection changes with the question focus.
 
 ```python
-import pandas as pd
+from statistics import mean, stdev
 
-segment_summary = pd.DataFrame(
-    [
-        {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
-        {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
-    ]
-)
+feature_focus = "change"
 
-feature_table = segment_summary.copy()
-feature_table["overall_mean"] = feature_table[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].mean(axis=1)
-feature_table["late_minus_early"] = (
-    feature_table["late_flow_mean"] - feature_table["early_flow_mean"]
-)
-feature_table["early_to_late_slope"] = feature_table["late_minus_early"] / 2
-feature_table["segment_variability"] = feature_table[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].std(axis=1)
+segment_summary = [
+    {"event_id": "A", "early_flow_mean": 1.8, "mid_flow_mean": 2.2, "late_flow_mean": 2.6},
+    {"event_id": "B", "early_flow_mean": 2.1, "mid_flow_mean": 2.2, "late_flow_mean": 2.3},
+]
+
+feature_table = []
+for row in segment_summary:
+    segment_values = [row["early_flow_mean"], row["mid_flow_mean"], row["late_flow_mean"]]
+    late_minus_early = row["late_flow_mean"] - row["early_flow_mean"]
+    feature_table.append(
+        {
+            **row,
+            "overall_mean": mean(segment_values),
+            "late_minus_early": late_minus_early,
+            "early_to_late_slope": late_minus_early / 2,
+            "segment_variability": stdev(segment_values),
+        }
+    )
+
+focus_map = {
+    "level": ["overall_mean"],
+    "change": ["late_minus_early", "early_to_late_slope"],
+    "stability": ["segment_variability"],
+}
+focus_columns = focus_map[feature_focus]
 
 print("1) segment means before feature design")
-print(segment_summary)
+print("  event_id  early_flow_mean  mid_flow_mean  late_flow_mean")
+for index, row in enumerate(segment_summary):
+    print(
+        f"{index}        {row['event_id']}              {row['early_flow_mean']:.1f}"
+        f"            {row['mid_flow_mean']:.1f}             {row['late_flow_mean']:.1f}"
+    )
 print()
 print("2) designed features for comparison")
 print(
-    feature_table[
-        [
-            "event_id",
-            "overall_mean",
-            "late_minus_early",
-            "early_to_late_slope",
-            "segment_variability",
-        ]
-    ].round(2)
+    "  event_id  overall_mean  late_minus_early  early_to_late_slope"
+    "  segment_variability"
 )
+for index, row in enumerate(feature_table):
+    print(
+        f"{index}        {row['event_id']}           {row['overall_mean']:.1f}"
+        f"               {row['late_minus_early']:.1f}"
+        f"                  {row['early_to_late_slope']:.1f}"
+        f"                  {row['segment_variability']:.1f}"
+    )
+print()
+print(f"3) selected features when feature_focus = {feature_focus}")
+if focus_columns == ["overall_mean"]:
+    print("  event_id  overall_mean")
+    for index, row in enumerate(feature_table):
+        print(f"{index}        {row['event_id']}           {row['overall_mean']:.1f}")
+elif focus_columns == ["late_minus_early", "early_to_late_slope"]:
+    print("  event_id  late_minus_early  early_to_late_slope")
+    for index, row in enumerate(feature_table):
+        print(
+            f"{index}        {row['event_id']}               {row['late_minus_early']:.1f}"
+            f"                  {row['early_to_late_slope']:.1f}"
+        )
+else:
+    print("  event_id  segment_variability")
+    for index, row in enumerate(feature_table):
+        print(f"{index}        {row['event_id']}                  {row['segment_variability']:.1f}")
+print()
+print("4) feature_focus comparison")
+for focus_name, columns in focus_map.items():
+    print(f"- {focus_name}: {columns}")
 ```
 
 Expected output:
@@ -86,11 +121,21 @@ Expected output:
 
 2) designed features for comparison
   event_id  overall_mean  late_minus_early  early_to_late_slope  segment_variability
-0        A           2.2               0.8                  0.4                  0.40
-1        B           2.2               0.2                  0.1                  0.10
+0        A           2.2               0.8                  0.4                  0.4
+1        B           2.2               0.2                  0.1                  0.1
+
+3) selected features when feature_focus = change
+  event_id  late_minus_early  early_to_late_slope
+0        A               0.8                  0.4
+1        B               0.2                  0.1
+
+4) feature_focus comparison
+- level: ['overall_mean']
+- change: ['late_minus_early', 'early_to_late_slope']
+- stability: ['segment_variability']
 ```
 
-Stage 1 of the output is still only a summary table with segment averages. Only in stage 2 do `overall_mean`, `late_minus_early`, `early_to_late_slope`, and `segment_variability` get added. `overall_mean` shows the overall level, `late_minus_early` shows the late-versus-early difference, `early_to_late_slope` shows a simple slope expression that divides that difference by segment distance, and `segment_variability` shows the degree of fluctuation across segments. So a feature is not something that merely re-shows what was already written down. It is the result of computing and attaching the structure we want to compare from the same summary table.
+Stage 1 of the output is still only a summary table with segment averages. Only in stage 2 do `overall_mean`, `late_minus_early`, `early_to_late_slope`, and `segment_variability` get added. `overall_mean` shows the overall level, `late_minus_early` shows the late-versus-early difference, `early_to_late_slope` shows a simple slope expression that divides that difference by segment distance, and `segment_variability` shows the degree of fluctuation across segments. The value to manipulate here is `feature_focus`. If it is set to `"change"`, change features are kept first. If it is changed to `"level"`, the overall-level feature is kept first. If it is changed to `"stability"`, the variability feature is kept first. Stage 4 shows that even with the same feature table, the actual group of columns kept changes when the question focus changes. In other words, a feature is not something that merely re-shows what was already written down. It is the result of computing and attaching the structure we want to compare from the same summary table and choosing it for the current question.
 
 If these features are read in smaller layers, the role of each value becomes clearer.
 
@@ -144,6 +189,8 @@ So a feature is not `adding more columns`, but translating the structure we want
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `feature`. Because it explains a feature as an input variable used to make predictions, it supports the point that we should first decide what structure we want to show and then turn that structure into input variables. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as the process of deciding transformations that are helpful for model training, it reinforces the point that feature design is not leaving raw values untouched but converting structure into comparable numerical expressions. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a reference period as the basis for comparison with other periods, it offers a general basis for choosing level/change/stability features in a way that leaves behind structures that are easy to read in baseline comparison. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `feature`. Because it explains a feature as an input variable used to make predictions, it supports the point that we should first decide what structure we want to show and then turn that structure into input variables. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as the process of deciding transformations that are helpful for model training, it reinforces the point that feature design is not leaving raw values untouched but converting structure into comparable numerical expressions. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a reference period as the basis for comparison with other periods, it offers a general basis for choosing level/change/stability features in a way that leaves behind structures that are easy to read in baseline comparison. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. Because it describes the mean, median, and mode as representative measures of location and shows that skewed or heavy-tailed distributions can make the mean and median carry different information, it reinforces this section's point that even an overall-level feature should be chosen according to the structure we want to inspect. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Scale`. Because it explains several numerical measures of variability or spread and says the choice of a scale estimator depends on which part of spread we want to emphasize, it supports this section's point that stability features should remain as a structure separate from the average. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
