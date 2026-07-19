@@ -1,7 +1,7 @@
 # P3-5.4 입력 창(window)은 어디서 자르고 길이는 어떻게 맞추는가
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 원시 시계열이 바로 학습 입력이 아니라면, 곧 더 구체적인 질문이 남습니다. `그렇다면 실제 입력은 어디서 시작하고 끝나야 하는가?`, `길이가 제각각인 동작은 어떻게 같은 입력처럼 다룰 수 있는가?` 입력 창(window)은 바로 이 질문에 답하는 데이터 모델링 결정입니다.
 
@@ -104,6 +104,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의되는 단위이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 입력의 시작점, 끝점, 길이 기준을 먼저 닫아야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework가 identifying an object, derivation, reproducibility를 지원해야 한다고 정리하므로, 입력 창과 정렬 기준이 어떤 규칙으로 만들어졌는지 재현 가능하게 남겨야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 reference period라는 일반 개념을 제공하므로, 절대 시간 기준과 진행률 기준 가운데 무엇을 비교 기준으로 삼을지 질문이 먼저 결정한다는 이 절의 판단을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 함께 정의되는 단위이므로, 원시 시계열을 곧바로 입력이라고 부르기 전에 한 입력의 시작점, 끝점, 길이 기준을 먼저 닫아야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework가 identifying an object, derivation, reproducibility를 지원해야 한다고 정리하므로, 입력 창과 정렬 기준이 어떤 규칙으로 만들어졌는지 재현 가능하게 남겨야 한다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 비교를 위한 reference period라는 일반 개념을 제공하므로, 절대 시간 기준과 진행률 기준 가운데 무엇을 비교 기준으로 삼을지 질문이 먼저 결정한다는 이 절의 판단을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

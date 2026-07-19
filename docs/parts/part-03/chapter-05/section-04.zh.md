@@ -1,7 +1,7 @@
 # P3-5.4 输入窗口(window)应该从哪里切，长度又该如何对齐
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 如果原始时间序列本身还不是学习输入，那么立刻就会留下一个更具体的问题。`那真正的输入到底应该从哪里开始、到哪里结束？` `长度各不相同的动作，又该怎样像同一种输入那样对待？` 输入窗口(window)正是回答这些问题的数据建模决定。
 
@@ -104,6 +104,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是特征和标签一起定义的单位，所以它支持这一节的核心：在把原始时间序列叫做输入之前，应该先固定一条输入的起点、终点和长度标准。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个更高层的框架：输入窗口和对齐标准背后的规则，也应当被可复现地记录下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考时段”这一一般概念，因此支持这一节的判断：究竟由绝对时间还是由进度来充当比较标准，应该先由问题来决定。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是特征和标签一起定义的单位，所以它支持这一节的核心：在把原始时间序列叫做输入之前，应该先固定一条输入的起点、终点和长度标准。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个更高层的框架：输入窗口和对齐标准背后的规则，也应当被可复现地记录下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考时段”这一一般概念，因此支持这一节的判断：究竟由绝对时间还是由进度来充当比较标准，应该先由问题来决定。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

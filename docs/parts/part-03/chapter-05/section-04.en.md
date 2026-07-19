@@ -1,7 +1,7 @@
 # P3-5.4 Where Do We Cut the Input Window and How Do We Align Its Length
 
 > Section ID: `P3-5.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 If a raw time series is not yet a learning input by itself, one more concrete question immediately remains. `Then where should the real input begin and end?` `If actions have different lengths, how can we treat them like the same kind of input?` The input window is the data-modeling decision that answers exactly these questions.
 
@@ -104,6 +104,6 @@ The input window is not a format created because the model demanded it. It is th
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example is the unit where features and labels are defined together, it supports the central point of this section that before calling a raw time series an input, we should first fix the start point, end point, and length criterion of one input. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because the provenance framework says identifying an object, derivation, and reproducibility should be supported, it reinforces the higher-level frame that the rules behind the input window and the alignment criterion should remain reproducible. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general idea of a reference period for comparison, it supports the judgment in this section that the question must first decide whether absolute time or progress will serve as the comparison criterion. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example is the unit where features and labels are defined together, it supports the central point of this section that before calling a raw time series an input, we should first fix the start point, end point, and length criterion of one input. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because the provenance framework says identifying an object, derivation, and reproducibility should be supported, it reinforces the higher-level frame that the rules behind the input window and the alignment criterion should remain reproducible. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general idea of a reference period for comparison, it supports the judgment in this section that the question must first decide whether absolute time or progress will serve as the comparison criterion. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
