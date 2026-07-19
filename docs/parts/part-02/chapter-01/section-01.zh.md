@@ -1,7 +1,7 @@
 # P2-1.1 数学在 AI 计算中扮演什么角色
 
 > Section ID: `P2-1.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 1，我们是从规则、模型、学习、生成、服务结构这张大地图上看 AI 的。从 Part 2 开始，我们要恢复阅读这张地图所需的基础。第一个问题就是：如果要重新学习 AI，到底需要懂多少数学。
 
@@ -234,3 +234,4 @@ Part 2 并不是按“深度证明数学”的顺序来安排，而是按“恢�
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
 - Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期：2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这是用代码确认平均值示例的直接参考资料。

@@ -1,7 +1,7 @@
 # P2-1.1 AI 계산에서 수학이 하는 일
 
 > Section ID: `P2-1.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 1에서는 AI를 규칙, 모델, 학습, 생성, 서비스 구조의 큰 지도 위에서 봤습니다. Part 2부터는 그 지도를 읽기 위한 기초를 복구합니다. 첫 질문은 AI를 다시 공부하려면 수학을 얼마나 알아야 하는가입니다.
 
@@ -234,3 +234,4 @@ Part 2는 수학을 깊이 증명하는 순서가 아니라, AI 계산을 읽기
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 평균 예제를 코드로 확인하는 부분의 직접 참고 자료입니다.

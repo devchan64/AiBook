@@ -1,7 +1,7 @@
 # P1-1.1 AI라는 말의 범위
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 AI를 다시 공부할 때 첫 번째 어려움은 기술 자체보다 말의 범위입니다. 같은 `AI`라는 표현이 어떤 문맥에서는 규칙 기반 프로그램을 가리키고, 어떤 문맥에서는 머신러닝 모델을 가리키며, 최근에는 생성형 AI나 LLM을 거의 같은 뜻처럼 부르기도 합니다.
 
@@ -187,6 +187,7 @@ AI라는 말은 문맥에 따라 다르게 쓰입니다.
 - Cambridge Dictionary, [Meaning of artificial intelligence in English](https://dictionary.cambridge.org/dictionary/english/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
 - Britannica Dictionary, [Artificial intelligence Definition & Meaning](https://www.britannica.com/dictionary/artificial-intelligence){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
 - 汉典, [人工智能](https://www.zdic.net/hans/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- A. M. Turing, [Computing Machinery and Intelligence](https://academic.oup.com/mind/article/LIX/236/433/986238){: target="_blank" rel="noopener noreferrer" }, Mind, Volume LIX, Issue 236, 1950-10-01, 확인 날짜: 2026-07-19.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 확인 날짜: 2026-06-22.
 - Stuart Russell, Peter Norvig, [Artificial Intelligence: A Modern Approach, 4th US ed.](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
 - NIST, [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1){: target="_blank" rel="noopener noreferrer" }, NIST AI 600-1, 2024-07, 확인 날짜: 2026-06-22.

@@ -1,7 +1,7 @@
 # P2-1.2 公式、代码与数据相遇的位置
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-1.1，我们把数学看成阅读 AI 计算的语言。现在继续看，这种语言在真实学习中到底放在哪里。学习 AI 时，公式（formula）、代码（code）、数据（data）并不是彼此分开的东西。它们更像是在用三张不同的脸展示同一个计算。
 
@@ -341,3 +341,5 @@ AI 学习里也会发生同样的事。论文或教材里的损失函数（loss 
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这是把 `shape` 解释为数组维度和长度信息的直接参考资料。
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期：2026-07-19. 这是确认把 `X` 读作输入数据、把 `y` 读作 target 这一惯例的参考资料。

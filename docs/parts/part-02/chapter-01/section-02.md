@@ -1,7 +1,7 @@
 # P2-1.2 수식, 코드, 데이터가 만나는 자리
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-1.1에서는 수학을 AI 계산을 읽는 언어로 봤습니다. 이제 그 언어가 실제 학습에서 어디에 놓이는지 봅니다. AI를 공부할 때 수식(formula), 코드(code), 데이터(data)는 따로 떨어진 것이 아닙니다. 같은 계산을 서로 다른 방식으로 보여 주는 세 얼굴에 가깝습니다.
 
@@ -341,3 +341,5 @@ Part 2에서 수학과 Python을 함께 다루는 이유가 여기에 있습니�
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. `shape`를 배열 차원과 길이 정보로 설명하는 부분의 직접 참고 자료입니다.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19. `X`를 입력 데이터, `y`를 target으로 읽는 관례를 확인하는 참고 자료입니다.

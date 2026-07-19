@@ -1,7 +1,7 @@
 # P2-1.2 Where Formulas, Code, and Data Meet
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-1.1, we treated mathematics as the language for reading AI computation. Now we look at where that language actually sits in real learning. When studying AI, formulas, code, and data are not separate things. They are closer to three faces that show the same computation in different ways.
 
@@ -341,3 +341,5 @@ So the mean example is not just a simple arithmetic exercise. It is a reduced ve
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-06-24.
+- NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This is the direct reference for explaining `shape` as array dimension and length information.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked on 2026-07-19. This is a reference for the convention of reading `X` as input data and `y` as the target.
