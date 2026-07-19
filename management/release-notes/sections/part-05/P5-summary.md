@@ -3,6 +3,13 @@
 - Section ID: `P5-summary`
 - Source File: `docs/parts/part-05/summary.md`
 
+### v2026.07.20
+- 저작권 검토: Part 5 Module 6 순차 검토 범위에서 Part 5 마무리 페이지의 핵심 흐름 요약, 오해하기 쉬운 지점, 다음 Part 연결 질문, recap Mermaid 사용을 확인했다. 본문 요약·표·체크리스트는 Part 5 내부 원고를 재구성한 자체 작성 자료로 판단했다.
+- 출처 사용 점검: 마무리 페이지는 외부 자료를 새로 인용하지 않고 Part 5 내부 학습 흐름을 요약한다. 외부 원문 표·도식·문단 재사용 정황은 찾지 못했다.
+- 관련 자산: `part5-recap-flow-ko.mmd`는 Part 5 내부 흐름을 요약한 자체 Mermaid 자산으로 판단했다.
+- 본문 반영: 없음. 기존 원문 버전 `v2026.07.16` 유지.
+- 번역 동기화 메모: 번역본 영향 없음.
+
 ### v2026.07.12
 - 본문 반영: 집필 순서만 예고하는 `다음 ... 연결` 계열 표지를 제거했다. 본문 메타데이터 버전도 함께 갱신했다.
 - 번역 동기화 메모: 영어판과 중국어 간체판에 같은 메타 표지 제거, 현재 checklist 구조, Part 5 마무리 페이지의 최신 복습 흐름을 반영했다. 추가로 중국어 공개 본문이 `part5-recap-flow-zh.mmd`를 직접 참조하도록 자산 운영을 현재 차트 가이드라인에 맞췄다. / reflected in English and Simplified Chinese on 2026-07-12, with the Simplified Chinese page now referencing its own `-zh` Mermaid asset
