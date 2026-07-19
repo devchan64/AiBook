@@ -15,8 +15,6 @@ This section does not force a final legal conclusion. Instead, from the standpoi
 
 The focus here is on `copyright`, `quotation`, `training data`, `expression`, `attribution`, and `license`: how to handle other people's expression and source material in public-facing writing. It extends the social-risk discussion from 15.1, while security and privacy move to 15.3.
 
-## Scope of This Section
-
 This section reviews the main checkpoints in copyright and training-data debates. Security, privacy, and leakage of confidential information are covered in P1-15.3.
 
 | Topic | Question in this section |

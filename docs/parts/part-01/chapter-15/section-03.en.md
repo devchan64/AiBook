@@ -15,8 +15,6 @@ The guiding questions are immediate:
 
 `Security` and `privacy` are not side appendices to an AI service. They attach to the entire operating flow: prompts, retrieved documents, logs, tool calls, and agent execution.
 
-## Scope of This Section
-
 This section covers how to be careful about inputs, outputs, tool permissions, logs, and personal information when using an AI service.
 
 | Topic | Question in this section |

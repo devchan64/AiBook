@@ -17,8 +17,6 @@ AI 伦理(AI ethics)并不只是抽象地谈“善意使用技术”。它真正
 
 这里先把这个宽泛问题收缩到三个词：`偏见(bias)`、`安全性(safety)`、`责任(accountability)`。
 
-## 本节范围
-
 这里讨论 AI 结果为什么会引发社会层面的问题。关于版权(copyright)与训练数据(training data)的争论放到 P1-15.2；安全(security)与隐私(privacy)则放到 P1-15.3。
 
 | 主题 | 本节要看的问题 |

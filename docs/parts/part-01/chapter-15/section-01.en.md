@@ -18,8 +18,6 @@ This section narrows that broad topic into three words: `bias`, `safety`, and `a
 
 The section also keeps `transparency` and `human oversight` in view as the conditions that connect technical structure to real people and institutions. It extends the service-structure discussion from Chapter 14, then passes copyright and training data to 15.2 and security and privacy to 15.3.
 
-## Scope of This Section
-
 This section covers the basic reasons AI results can create social problems. Copyright and training-data debates are covered in P1-15.2. Security and privacy are covered separately in P1-15.3.
 
 | Topic | Question in this section |
