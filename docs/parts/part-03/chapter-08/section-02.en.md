@@ -1,7 +1,7 @@
 # P3-8.2 How Far Should You Describe a Change Signal, and Where Should You Stop on Cause
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Once you have a baseline, you can read the difference between a recent window and the usual state. But it is still very risky to think, `if a difference appears, the cause must be obvious too`. A visible change signal and a confirmed cause are completely different stages. After adjusting interpretation strength, you next need to define more clearly `how far you can speak` and `where you should stop`.
 
@@ -78,5 +78,5 @@ The key point of this table is not to mix the level directly supported by the co
 
 ## Sources and References
 
-- W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the procedure and evidence through which that result was produced, which helps generalize this section's claim that comparison tables directly support change observation and review candidates, but not cause confirmation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains signal structures that compare current performance with past performance and distinguishes control limits from specification limits, which reinforces this section's boundary that change signals and cause confirmation or functional judgment should not be treated as the same level. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the procedure and evidence through which that result was produced, which helps generalize this section's claim that comparison tables directly support change observation and review candidates, but not cause confirmation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains signal structures that compare current performance with past performance and distinguishes control limits from specification limits, which reinforces this section's boundary that change signals and cause confirmation or functional judgment should not be treated as the same level. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

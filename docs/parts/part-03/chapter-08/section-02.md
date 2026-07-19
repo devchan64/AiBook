@@ -1,7 +1,7 @@
 # P3-8.2 변화 신호를 어디까지 말하고 원인은 어디서 멈추는가
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 기준선이 생기면 최근 구간과 평소 상태의 차이를 읽을 수 있습니다. 하지만 여기서도 `차이가 보였으니 원인도 바로 알 수 있겠지`라는 식의 해석은 매우 위험합니다. 변화 신호가 보인다는 것과, 그 원인이 무엇인지 확정하는 것은 전혀 다른 단계이기 때문입니다. 해석 강도를 조절한 뒤에는, 이제 `어디까지 말하고 어디서 멈출 것인가`를 더 분명히 정해야 합니다.
 
@@ -78,5 +78,5 @@
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. 관찰 결과와 그 결과가 어떤 절차와 근거를 거쳐 나왔는지 구분해 남기는 provenance 관점을 제공하므로, 비교표가 뒷받침하는 것은 변화 관찰과 검토 후보 수준이지 원인 확정까지는 아니라는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 신호 구조와, control limits와 specification limits를 구분하는 설명을 제공하므로, 변화 신호와 원인 확정 또는 기능 판정을 같은 층위로 섞지 말아야 한다는 이 절의 판단 경계를 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. 관찰 결과와 그 결과가 어떤 절차와 근거를 거쳐 나왔는지 구분해 남기는 provenance 관점을 제공하므로, 비교표가 뒷받침하는 것은 변화 관찰과 검토 후보 수준이지 원인 확정까지는 아니라는 이 절의 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 신호 구조와, control limits와 specification limits를 구분하는 설명을 제공하므로, 변화 신호와 원인 확정 또는 기능 판정을 같은 층위로 섞지 말아야 한다는 이 절의 판단 경계를 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

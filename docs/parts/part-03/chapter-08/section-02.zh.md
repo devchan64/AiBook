@@ -1,7 +1,7 @@
 # P3-8.2 变化信号能说到哪里，原因又该停在哪里
 
 > Section ID: `P3-8.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一旦有了基线，就可以读取最近区间和平时状态之间的差异。但即便如此，若把它理解成`既然看到了差异，原因也应该马上知道`，仍然非常危险。变化信号可见，和原因被确认，是完全不同的两个阶段。调节了解读强度之后，接下来还必须更明确地规定`可以说到哪里`，以及`应该停在哪里`。
 
@@ -78,5 +78,5 @@
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`。它提供了 provenance 的视角，把观测结果与生成该结果所经历的过程和证据区分开来，因此可以帮助一般化本节的主张：比较表直接支撑的是变化观测和复核候选，而不是原因确认。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它说明了把当前表现和过去表现做比较的信号结构，也区分了 control limits 与 specification limits，因此可以补强本节的判断边界：不要把变化信号与原因确认或功能判定放在同一层。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
+- W3C, `PROV-Overview`。它提供了 provenance 的视角，把观测结果与生成该结果所经历的过程和证据区分开来，因此可以帮助一般化本节的主张：比较表直接支撑的是变化观测和复核候选，而不是原因确认。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它说明了把当前表现和过去表现做比较的信号结构，也区分了 control limits 与 specification limits，因此可以补强本节的判断边界：不要把变化信号与原因确认或功能判定放在同一层。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
