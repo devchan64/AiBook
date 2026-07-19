@@ -1,7 +1,7 @@
 # P3-5.7 같은 샘플 뒤의 여러 후속 사건은 표 구조에서 어떻게 접어야 하는가
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 샘플 단위와 입력 창을 정한 뒤에도 표 구조에서 한 번 더 막히는 지점이 있습니다. 같은 샘플 뒤에 후속 사건이 여러 개 붙는 경우입니다. 예를 들어 동작 1회 뒤에 `재점검`, `경고`, `실패`, `재방문`이 차례로 남을 수 있습니다. 이때 이를 하나의 결과 열로 어떻게 접을지 정하지 않으면, 같은 샘플이 표마다 다른 뜻으로 바뀌기 쉽습니다.
 
@@ -55,90 +55,114 @@
 확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 규칙과 기준으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-sample_roster_path = "docs/assets/part-03/chapter-05/p3_5_7_sample_roster.csv"
-follow_up_events_path = "docs/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv"
-event_severity_path = "docs/assets/part-03/chapter-05/p3_5_7_event_severity.csv"
+sample_roster_path = Path("docs/assets/part-03/chapter-05/p3_5_7_sample_roster.csv")
+follow_up_events_path = Path("docs/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv")
+event_severity_path = Path("docs/assets/part-03/chapter-05/p3_5_7_event_severity.csv")
 
 selected_failure_severity_cutoff = 4
 failure_severity_cutoffs = [4, 3, 2]
 preview_row_count = 12
 
-sample_roster = pd.read_csv(sample_roster_path)
-follow_ups = pd.read_csv(follow_up_events_path)
-severity_table = pd.read_csv(event_severity_path)
 
-follow_ups_with_severity = follow_ups.merge(severity_table, on="event_type", how="left")
-ordered_events = follow_ups_with_severity.sort_values(["sample_id", "days_after_sample"])
+def read_csv(path):
+    with path.open(newline="", encoding="utf-8") as file:
+        return list(csv.DictReader(file))
 
-first_events = (
-    ordered_events.groupby("sample_id", as_index=False)
-    .first()[["sample_id", "event_type"]]
-    .rename(columns={"event_type": "first_event"})
-)
-worst_events = (
-    ordered_events.sort_values(
-        ["sample_id", "severity", "days_after_sample"],
-        ascending=[True, False, True],
+
+sample_roster = read_csv(sample_roster_path)
+follow_ups = read_csv(follow_up_events_path)
+severity_table = read_csv(event_severity_path)
+severity_by_type = {row["event_type"]: int(row["severity"]) for row in severity_table}
+
+for row in follow_ups:
+    row["days_after_sample"] = int(row["days_after_sample"])
+    row["severity"] = severity_by_type[row["event_type"]]
+
+ordered_events = sorted(follow_ups, key=lambda row: (row["sample_id"], row["days_after_sample"]))
+events_by_sample = defaultdict(list)
+for row in ordered_events:
+    events_by_sample[row["sample_id"]].append(row)
+
+folded = []
+for sample in sample_roster:
+    sample_id = sample["sample_id"]
+    events = events_by_sample.get(sample_id, [])
+    if events:
+        first_event = events[0]["event_type"]
+        worst = sorted(events, key=lambda row: (-row["severity"], row["days_after_sample"]))[0]
+        worst_event = worst["event_type"]
+        worst_severity = worst["severity"]
+        event_sequence = " > ".join(row["event_type"] for row in events)
+    else:
+        first_event = "none"
+        worst_event = "none"
+        worst_severity = 0
+        event_sequence = "none"
+    folded.append(
+        {
+            "sample_id": sample_id,
+            "first_event": first_event,
+            "worst_event": worst_event,
+            "worst_severity": worst_severity,
+            "event_count": len(events),
+            "event_sequence": event_sequence,
+            "any_failure": int(worst_severity >= selected_failure_severity_cutoff),
+        }
     )
-    .groupby("sample_id", as_index=False)
-    .first()[["sample_id", "event_type", "severity"]]
-    .rename(columns={"event_type": "worst_event", "severity": "worst_severity"})
-)
-event_counts = (
-    ordered_events.groupby("sample_id", as_index=False)
-    .size()
-    .rename(columns={"size": "event_count"})
-)
-event_sequences = (
-    ordered_events.groupby("sample_id")["event_type"]
-    .agg(lambda events: " > ".join(events))
-    .reset_index(name="event_sequence")
-)
-
-folded = (
-    sample_roster[["sample_id"]]
-    .merge(first_events, on="sample_id", how="left")
-    .merge(worst_events, on="sample_id", how="left")
-    .merge(event_counts, on="sample_id", how="left")
-    .merge(event_sequences, on="sample_id", how="left")
-)
-folded[["first_event", "worst_event", "event_sequence"]] = folded[
-    ["first_event", "worst_event", "event_sequence"]
-].fillna("none")
-folded[["event_count", "worst_severity"]] = folded[
-    ["event_count", "worst_severity"]
-].fillna(0).astype(int)
-folded["any_failure"] = (
-    folded["worst_severity"] >= selected_failure_severity_cutoff
-).astype(int)
 
 cutoff_results = []
 for cutoff in failure_severity_cutoffs:
-    failed = folded[folded["worst_severity"] >= cutoff]
+    failed = [row for row in folded if row["worst_severity"] >= cutoff]
     cutoff_results.append(
         {
             "failure_severity_cutoff": cutoff,
             "failure_sample_count": len(failed),
-            "failure_samples": ",".join(failed["sample_id"]) or "none",
+            "failure_samples": ",".join(row["sample_id"] for row in failed) or "none",
         }
     )
 
 print("1) raw follow-up events")
-print(follow_ups.head(preview_row_count).to_string(index=False))
+print("sample_id  days_after_sample       event_type source_system")
+for row in follow_ups[:preview_row_count]:
+    print(
+        f"{row['sample_id']:>9} {row['days_after_sample']:>18} "
+        f"{row['event_type']:>16} {row['source_system']:>13}"
+    )
 print(f"... {len(follow_ups) - preview_row_count} more follow-up events")
 print()
 print("2) severity rule table")
-print(severity_table.head(preview_row_count).to_string(index=False))
+print("      event_type  severity")
+for row in severity_table[:preview_row_count]:
+    print(f"{row['event_type']:>16} {int(row['severity']):>9}")
 print(f"... {len(severity_table) - preview_row_count} more severity rules")
 print()
 print("3) folded result when failure_severity_cutoff = 4")
-print(folded.head(preview_row_count).to_string(index=False))
+print(
+    "sample_id      first_event      worst_event  worst_severity  event_count"
+    "             event_sequence  any_failure"
+)
+for row in folded[:preview_row_count]:
+    print(
+        f"{row['sample_id']:>9} {row['first_event']:>16} {row['worst_event']:>16} "
+        f"{row['worst_severity']:>15} {row['event_count']:>12} "
+        f"{row['event_sequence']:>26} {row['any_failure']:>12}"
+    )
 print(f"... {len(folded) - preview_row_count} more folded samples")
 print()
 print("4) sensitivity by failure_severity_cutoff")
-print(pd.DataFrame(cutoff_results).to_string(index=False))
+print(
+    " failure_severity_cutoff  failure_sample_count"
+    "                                                                     failure_samples"
+)
+for row in cutoff_results:
+    print(
+        f"{row['failure_severity_cutoff']:>24} {row['failure_sample_count']:>21} "
+        f"{row['failure_samples']:>83}"
+    )
 ```
 
 예상 출력:
@@ -209,6 +233,6 @@ sample_id      first_event      worst_event  worst_severity  event_count        
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `label`과 `labeled example`. result information이 어떤 example에 붙는지 먼저 정해져야 하므로, 후속 사건 여러 개를 하나의 결과 열로 접을 때도 `any`, `first`, `worst`, `count` 가운데 어떤 규칙을 썼는지 먼저 명세해야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `label leakage`. 결과 열이 어떤 규칙으로 만들어졌는지 불분명하면 보고용 결과와 예측 후보용 결과를 섞어 읽기 쉬우므로, 접기 규칙을 먼저 적어 표 구조의 뜻을 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework가 derivation과 activity context를 설명 가능하게 남겨야 한다고 정리하므로, 여러 후속 사건이 어떤 규칙을 거쳐 대표 결과 열로 접혔는지 추적 가능해야 한다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `label`과 `labeled example`. result information이 어떤 example에 붙는지 먼저 정해져야 하므로, 후속 사건 여러 개를 하나의 결과 열로 접을 때도 `any`, `first`, `worst`, `count` 가운데 어떤 규칙을 썼는지 먼저 명세해야 한다는 이 절의 판단을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. 결과 열이 어떤 규칙으로 만들어졌는지 불분명하면 보고용 결과와 예측 후보용 결과를 섞어 읽기 쉬우므로, 접기 규칙을 먼저 적어 표 구조의 뜻을 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework가 derivation과 activity context를 설명 가능하게 남겨야 한다고 정리하므로, 여러 후속 사건이 어떤 규칙을 거쳐 대표 결과 열로 접혔는지 추적 가능해야 한다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
