@@ -1,7 +1,7 @@
 # P4-17.4 补充学习：如何第一次把聚类和半监督学习连接起来
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 读到 P4-17.2 之后，很自然会剩下这样一个问题。
 
@@ -192,3 +192,8 @@
 - 你能说明为什么同一个聚类内部的边界案例仍然需要单独复查吗？
 - 你能说明更安全的流程是 `聚类 -> 审查代表/边界样本 -> 有限反映 -> 后续验证` 吗？
 - 你能把半监督学习解释成一个连接少量标签、大量无标签、人工审查和后续验证的设定吗？
+
+## 出处与参考资料
+
+- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. 用于确认同时使用少量有标签数据与大量无标签数据的问题设定，以及 label propagation/self-training 的基本前提。确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 用于确认聚类是在无标签数据中探索结构这一基本背景。确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }

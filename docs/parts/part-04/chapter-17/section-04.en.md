@@ -1,7 +1,7 @@
 # P4-17.4 Supplementary Learning: How To Connect Clustering And Semi-Supervised Learning For The First Time
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 After reading through P4-17.2, this question naturally remains.
 
@@ -184,14 +184,16 @@ First cover the `What is needed first` column, decide your own answer for each s
 
 The point of this practice is not whether clustering replaces labels, but how far clustering can support review order. More important than getting the category name right is being able to explain why review and limited adoption must come before automatic propagation.
 
-## What To Remember From This Section
-
-- Semi-supervised learning is a problem setting that uses a small amount of labeled data together with a large amount of unlabeled data.
-- Clustering can suggest label hypotheses and review priority, but it cannot automatically replace true labels.
-- The safer flow is `cluster -> review representative and boundary samples -> limited adoption -> follow-up validation`.
-
 ## Checklist
 
+- Can you explain semi-supervised learning as a problem setting that uses a small amount of labeled data together with a large amount of unlabeled data?
 - Can you explain that clustering suggests review priority and label hypotheses, not final labels?
+- Do you understand that clustering can suggest label hypotheses and review priority, but cannot automatically replace true labels?
 - Can you explain why boundary cases inside the same cluster still need separate review?
+- Can you explain that the safer flow is `cluster -> review representative and boundary samples -> limited adoption -> follow-up validation`?
 - Can you describe semi-supervised learning as a setting that connects few labels, many unlabeled examples, review, and follow-up validation?
+
+## Sources And References
+
+- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. Consulted for the problem setting that uses a small amount of labeled data together with a large amount of unlabeled data, and for the basic assumptions of label propagation and self-training. Accessed 2026-07-19. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. Consulted for the basic background that clustering explores structure in unlabeled data. Accessed 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
