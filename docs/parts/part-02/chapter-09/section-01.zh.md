@@ -1,7 +1,7 @@
 # P2-9.1 为什么需要数据结构
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8 中，我们已经看过 Python 的值、列表、字典、循环、函数和类。现在我们后退一步，把问题换掉。
 
@@ -56,27 +56,6 @@ score_by_name = {
 这种结构适合按姓名查找分数。
 
 即使是同样的数据，适合的结构也会因为“按顺序看”“按姓名查找”“沿着关系追踪”而不同。
-
-## 本节的范围
-
-本节在入门层面讨论数据结构的定义与必要性。中心问题是：`为什么保存数据的形状会影响计算方式？`
-
-本节回答以下问题。
-
-- 什么是数据结构？
-- 传统的数据结构导论通常会先介绍哪些结构？
-- 为什么不能只停留在列表和字典？
-- 抽象数据类型与具体数据结构有什么不同？
-- 为什么同一份数据也会因目的不同而装进不同结构？
-- 为什么 AI 与数据处理中需要数据结构直觉？
-
-本节先把数据结构读成 `数据该用什么形状来装？` 这个问题。数组、表、树、图的比较会在 P2-9.2 继续，图的关系表示会在 P2-9.3 继续，传统数据结构名称会在 P2-9.4 补充学习中再整理一次。这里先把重点放在结构选择问题上，而不是实现细节。
-
-| 现在尤其需要先问的问题 | 先去这里 | 或者现在在本节先抓住什么 |
-| --- | --- | --- |
-| 数组、表、树、图这些名称一下子都出现了，想先按传统名称慢慢看 | P2-9.4 补充学习 | 先抓住“数据结构从 `数据该用什么形状来装？` 这个问题开始”，再进入后面的正文 |
-| 关系表示仍然最陌生，想先看 node 和 edge | P2-9.3 | 现在先只保留“顺序、标签、层级、关系”这几个大区分 |
-| 只是想知道为什么列表和字典之后还需要更多结构 | 继续读本节 | 先确认结构会随着常做操作不同而变化这一条标准 |
 
 ## 本节的目标
 
@@ -393,6 +372,6 @@ print(student_by_name["Kim"]["score"])
 
 ## 来源与参考资料
 
-- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。用于确认把 data structure 说明为组织数据方式的定义。
-- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 abstract data type 区分为偏向行为而非实现的框架依据。
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于把 Python list 与 dictionary 示例连接到数据结构选择说明。
+- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。用于确认把 data structure 说明为组织数据方式的定义。
+- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。作为把 abstract data type 区分为偏向行为而非实现的框架依据。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于把 Python list 与 dictionary 示例连接到数据结构选择说明。

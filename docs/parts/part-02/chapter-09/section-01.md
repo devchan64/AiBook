@@ -1,7 +1,7 @@
 # P2-9.1 자료구조(data structure)는 왜 필요한가
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8에서는 Python의 값(value), 리스트(list), 딕셔너리(dictionary), 반복(loop), 함수(function), 클래스(class)를 봤습니다. 이제 한 걸음 물러서서 질문을 바꿉니다.
 
@@ -56,27 +56,6 @@ score_by_name = {
 이 구조는 이름으로 점수를 찾기 좋습니다.
 
 같은 데이터라도 “순서대로 볼 것인가”, “이름으로 찾을 것인가”, “관계를 따라갈 것인가”에 따라 적합한 구조가 달라집니다.
-
-## 이 절의 범위
-
-이 절은 자료구조의 정의와 필요성을 입문 수준에서 다룹니다. 중심 질문은 “데이터를 어떤 모양으로 담느냐가 왜 계산 방식에 영향을 주는가”입니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 자료구조(data structure)는 무엇인가?
-- 전통적인 자료구조 개론에서는 어떤 구조들을 먼저 소개하는가?
-- 왜 리스트와 딕셔너리만으로 끝나지 않는가?
-- 추상 자료형(abstract data type)과 구체적인 자료구조는 어떻게 다른가?
-- 같은 데이터도 목적에 따라 왜 다른 구조로 담는가?
-- AI와 데이터 처리에서 자료구조 감각이 왜 필요한가?
-
-이번 절은 자료구조를 `데이터를 어떤 모양으로 담을 것인가`라는 질문으로 먼저 읽는 자리입니다. 배열·표·트리·그래프 비교는 P2-9.2에서, 관계 표현이 특히 중요한 그래프는 P2-9.3에서, 전통적인 자료구조 이름은 P2-9.4 보충학습에서 다시 정리합니다. 여기서는 구현 세부보다 구조 선택 질문을 먼저 잡는 데 집중합니다.
-
-| 지금 특히 먼저 필요한 질문 | 먼저 갈 곳 | 아니면 지금 이 절에서 붙잡을 것 |
-| --- | --- | --- |
-| 배열, 표, 트리, 그래프 이름이 한꺼번에 나와서 전통적인 이름부터 차근히 보고 싶다 | P2-9.4 보충학습 | 자료구조는 `데이터를 어떤 모양으로 담을 것인가`라는 질문부터 붙잡고 다음 본편으로 간다 |
-| 관계 표현이 특히 낯설고 노드(node), 엣지(edge) 쪽이 먼저 필요하다 | P2-9.3 | 지금은 순서, 이름표, 계층, 관계라는 큰 구분만 먼저 남긴다 |
-| 리스트와 딕셔너리 다음에 왜 더 많은 구조가 필요한지만 궁금하다 | 이 절 계속 읽기 | 자주 하는 연산에 따라 구조가 달라진다는 기준만 먼저 확인한다 |
 
 ## 이 절의 목표
 
@@ -393,6 +372,6 @@ print(student_by_name["Kim"]["score"])
 
 ## 출처와 참고 자료
 
-- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 자료구조를 데이터를 조직하는 방식으로 설명하는 정의 확인에 사용했다.
-- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 추상 자료형을 구현보다 동작 관점의 틀로 구분하는 근거로 사용했다.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 리스트와 딕셔너리 예시를 자료구조 선택 설명에 연결하는 근거로 사용했다.
+- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 자료구조를 데이터를 조직하는 방식으로 설명하는 정의 확인에 사용했다.
+- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 추상 자료형을 구현보다 동작 관점의 틀로 구분하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 리스트와 딕셔너리 예시를 자료구조 선택 설명에 연결하는 근거로 사용했다.
