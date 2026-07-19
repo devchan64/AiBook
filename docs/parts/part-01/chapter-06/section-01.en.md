@@ -1,7 +1,7 @@
 # P1-6.1 Problems with Incomplete Information and Many Exceptions
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter 5 distinguished `learning` from `inference`. Now we turn to the next question: why did AI end up using rules, search, probability, and learning together?
 
@@ -12,8 +12,6 @@ Rules remain important. Permissions, policies, forbidden conditions, work proced
 This section uses examples to show where rule-only approaches begin to shake.
 
 In this section, we look at why rule sets do not close neatly when there is `incomplete information`, `partial observability`, `noise`, `exceptions`, or an `explosion of candidates`. The distinction among `probability`, `uncertainty`, and `stochastic` continues in 6.2, and the structure of `search` and `heuristics` continues in P1-7.
-
-## Scope of This Section
 
 P1-6.1 is the introduction to P1-6. Detailed probability calculation, conditional probability, random variables, and the meaning of stochastic are handled in P1-6.2. Search algorithms and heuristics are handled in P1-7.
 

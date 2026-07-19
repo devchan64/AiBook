@@ -1,7 +1,7 @@
 # P1-6.1 信息不完整且例外很多的问题
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 第 5 章区分了 `learning` 和 `inference`。现在要继续回答下一个问题：为什么 AI 最终会把规则、搜索、概率和学习一起使用？
 
@@ -12,8 +12,6 @@
 这一节用几个例子说明：在什么地方，单靠规则的方法会开始变得不稳。
 
 这一节会先看到，为什么在存在 `incomplete information`、`partial observability`、`noise`、`exceptions` 和候选项爆炸时，规则集往往无法自然闭合。`probability`、`uncertainty` 和 `stochastic` 的区分会在 6.2 继续，`search` 和 `heuristics` 的结构会在 P1-7 继续。
-
-## 本节范围
 
 P1-6.1 是 P1-6 的导入。更细的概率计算、条件概率、随机变量和 stochastic 的定义会在 P1-6.2 处理。搜索算法和启发式会在 P1-7 处理。
 

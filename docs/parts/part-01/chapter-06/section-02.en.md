@@ -1,7 +1,7 @@
 # P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 6.1 showed why some problems are difficult to handle with explicit rules alone. When information is incomplete, observations are unstable, and several outcomes remain possible, AI has to deal with uncertainty.
 
@@ -34,13 +34,7 @@ The three baseline questions are:
 > is this a kind of variation that remains even when we repeat?  
 > do the model’s numbers match real-world frequencies well?
 
-## Scope of This Section
-
-This section does not go deeply into probability formulas. Conditional probability, Bayes’ rule, and probability-distribution calculations return in Part 2 and Part 4.
-
-It also does not explain LLM generation in detail. Sampling, temperature, top-p, and next-token prediction return later in Part 6.
-
-Here we set only the vocabulary baseline needed to read AI documents.
+Section 6.2 first closes how `uncertainty`, `probability`, and `stochastic process` differ. Conditional probability, Bayes’ rule, and probability-distribution calculations return in the statistics basics of Part 2 and the evaluation and prediction chapters of Part 4. LLM sampling and next-token prediction continue in P6-5.1 and P6-5.2 of Part 6. Here we set only the vocabulary baseline needed to read AI documents.
 
 ## Goal of This Section
 

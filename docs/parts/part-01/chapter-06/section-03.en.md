@@ -1,15 +1,13 @@
 # P1-6.3 Where Probabilistic Judgment Is Used in AI
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 6.2 distinguished `uncertainty`, `probability`, and `stochastic`. This section turns that distinction into a more practical question: where in actual AI systems is probability used, and how should those numbers be read carefully?
 
 Saying that AI uses probability does not mean it answers arbitrarily. It is closer to saying that when information is incomplete or several candidates remain possible, the system compares how plausible different outcomes are by using numbers.
 
 In Part 1, this section fixes the baseline for how probability-like numbers are used in actual AI systems. Section 6.2 first fixed the vocabulary. Here the focus is on what role those numbers play in classification, prediction, generation, and decision making, and why they must not be read directly as the final answer or as the responsible decision itself.
-
-## Scope of This Section
 
 This section does not explain the mathematics of probability itself. Conditional probability, Bayes’ rule, and probability distributions return later in Part 2.
 
@@ -182,27 +180,16 @@ So when we see a probabilistic number, the first question should always be:
 
 Probability numbers do not carry meaning by themselves. They have to be read inside a task, data source, model, calibration condition, threshold, and responsibility structure.
 
-## What to Remember from This Section
-
-Probabilistic judgment in AI is used widely across classification, prediction, generation, and decision making. But the probabilistic output is not the final answer. It is material for judgment.
-
-> uncertain input arrives  
-> the model expresses the plausibility of several candidates numerically  
-> the system decides action by combining those numbers with policy  
-> when needed, the case moves to human review
-
-Those four lines form the baseline that prevents us from reading `probability number -> direct truth`.
-
-The same view returns later when we read heuristics, search, machine-learning evaluation, and LLM generation settings. The point is to keep seeing the division of labor: the model produces numbers, the system interprets them, and people may still make the final judgment.
-
 ## Checklist
 
-- Explain that in classification, a `probability estimate` expresses how plausible candidate labels look.
-- Explain that a `threshold` is both a technical setting and a question of cost and responsibility.
-- Explain that `calibration` checks whether a model’s probability output can be read like a confidence level.
-- Explain that prediction tasks often need not only one value, but also uncertainty around that value.
-- Explain that generation involves choosing among candidates and that `temperature` is tied to output variability.
-- Explain that probabilistic output is not the final decision, but material for decision making.
+- I can explain that in classification, a `probability estimate` expresses how plausible candidate labels look.
+- I can explain that a `threshold` is both a technical setting and a question of cost and responsibility.
+- I can explain that `calibration` checks whether a model’s probability output can be read like a confidence level.
+- I can explain that prediction tasks often need not only one value, but also uncertainty around that value.
+- I can explain that generation involves choosing among candidates and that `temperature` is tied to output variability.
+- I can explain that probabilistic output is not the final decision, but material for decision making.
+- I can explain where model scores, thresholds, human review, and final decisions separate from each other.
+- I can interpret probability numbers in service context instead of reading `probability number -> direct truth`.
 
 ## Sources and Further Reading
 
