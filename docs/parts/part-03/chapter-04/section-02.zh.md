@@ -1,7 +1,7 @@
 # P3-4.2 一旦样本单位摇摆，哪些东西会一起摇摆
 
 > Section ID: `P3-4.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 样本单位，是后面几乎所有概念的基准点。所以，如果把测量值和样本混在一起，问题不会只是“某个术语用错了”这么简单。特征的含义会一起摇摆，标签的含义会一起摇摆，甚至连评估到底在评估什么，也会跟着一起摇摆。如果前一节已经定下了什么算一条样本，那么这一节要看的，就是那个决定还会一起固定什么、一起摇晃什么。
 
@@ -184,6 +184,7 @@ event-level samples: 3
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 要求 features 和 label 对齐在同一个单位上，所以它为这个判断提供依据：样本单位一旦摇摆，feature 和 label 的含义也会一起摇摆。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 成为 label proxy 的设计缺陷，因此强化了这个警告：如果在错误单位上混用行级 feature 和动作级 label，就会产生结构性错误。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework 说明它应支持 reproducibility 和 derivation，因此强化了这个上位框架：只有可复现地记录“特征和标签是在什么单位上做出来的”，split 和 evaluation 才可能维持同一套标准。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 要求 features 和 label 对齐在同一个单位上，所以它为这个判断提供依据：样本单位一旦摇摆，feature 和 label 的含义也会一起摇摆。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 成为 label proxy 的设计缺陷，因此强化了这个警告：如果在错误单位上混用行级 feature 和动作级 label，就会产生结构性错误。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`。它说明在 grouped data 中，同一组里的相互依赖样本不应同时出现在训练 fold 和验证 fold，因此直接强化了本节关于分割/评估的警告：如果把时点行当作样本，同一动作中的相邻行可能会混进训练和评估。 [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework 说明它应支持 reproducibility 和 derivation，因此强化了这个上位框架：只有可复现地记录“特征和标签是在什么单位上做出来的”，split 和 evaluation 才可能维持同一套标准。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
