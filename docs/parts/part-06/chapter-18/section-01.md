@@ -3,9 +3,7 @@
 Section ID: `P6-18.1`
 Version: `v2026.07.19`
 
-오늘의 LLM(large language model)은 하나의 갑작스러운 발명이 아니라, 어떤 한계를 줄이려는 여러 구조 전환이 겹치며 만들어졌습니다.
-
-LLM은 갑자기 등장한 하나의 기술이 아니라, 언어 모델(language model), 임베딩, 순차 모델(sequence model), Attention, Transformer, 대규모 사전학습(pretraining)이 겹치며 만들어진 흐름이다.
+오늘의 LLM(large language model)은 하나의 갑작스러운 발명이 아니라, 언어 모델(language model), 임베딩, 순차 모델(sequence model), Attention, Transformer, 대규모 사전학습(pretraining)이 겹치며 만들어진 흐름입니다.
 
 오늘의 LLM을 이해할 때 자주 생기는 오해는 `갑자기 등장한 거대한 모델`로만 보는 것입니다. 하지만 실제로는 `다음 단어 확률`, `벡터 표현`, `긴 순서 처리`, `관련 위치를 다시 보는 구조`, `Transformer`, `사전학습`이 차례로 겹치며 지금의 생성 경험을 만들었습니다.
 
@@ -228,28 +226,9 @@ GPT 계열이 커지면서 사용자 경험도 달라졌습니다.
 
 이번 예제의 목표는 발전사에서 왜 `빈도`, `표현`, `순서`, `집중 위치`가 차례로 중요해졌는지를 한 스크립트 안에서 확인하는 것입니다.
 
-문제 상황:
+아래 예제는 언어 모델 발전사를 사건 이름 나열이 아니라 계산 관점의 변화로 읽기 위한 작은 실습입니다. 짧은 문장 말뭉치, 표현이 다른 사용자 질문, 긴 문장 안의 핵심 정보 위치를 사용해 bigram 기반 다음 단어 빈도, 동의어 정규화 전후 검색 결과, 순서에 따라 달라지는 간단한 판정, 질문과 문서 사이의 attention-like 점수를 함께 확인합니다.
 
-- 언어 모델 발전사를 사건 이름 나열이 아니라 계산 관점의 변화로 읽어야 한다
-
-입력:
-
-- 짧은 문장 말뭉치
-- 표현이 다른 사용자 질문
-- 긴 문장 안의 핵심 정보 위치
-
-출력:
-
-- bigram 기반 다음 단어 빈도
-- 동의어 정규화 전후 검색 결과
-- 순서에 따라 달라지는 간단한 판정
-- 질문과 문서 사이의 attention-like 점수
-
-확인할 개념:
-
-- 빈도 기반 예측, 표현 정규화, 순서 해석, attention-like 비교가 서로 다른 문제를 다룬다
-- 언어 모델 발전사는 필요한 계산 범위를 넓혀 온 흐름으로 읽을 수 있다
-- 같은 입력이라도 어떤 계산을 하느냐에 따라 출력 관찰 포인트가 달라진다
+확인할 핵심은 빈도 기반 예측, 표현 정규화, 순서 해석, attention-like 비교가 서로 다른 문제를 다룬다는 점입니다. 언어 모델 발전사는 필요한 계산 범위를 넓혀 온 흐름으로 읽을 수 있고, 같은 입력이라도 어떤 계산을 하느냐에 따라 출력 관찰 포인트가 달라집니다.
 
 예제를 읽기 전에 먼저 다음을 예상해 보면 발전사 흐름이 더 잘 보입니다.
 
@@ -259,9 +238,7 @@ GPT 계열이 커지면서 사용자 경험도 달라졌습니다.
 | `승인합니다`와 `승인하지 않습니다` 비교 | 비슷한 단어가 있어도 순서와 부정 표현 때문에 결과가 갈린다 | 순차 모델이 왜 필요했는지 바로 읽을 수 있기 때문입니다. |
 | attention-like focus 출력 | 질문과 겹치는 토큰 위치가 먼저 떠오른다 | 관련 위치를 다시 보는 계산이 왜 전환점이었는지 감각적으로 잡기 위해서입니다. |
 
-입력(input):
-
-위에 정리한 문장 목록과 질문-문서 비교 예시를 사용합니다.
+아래 코드는 위에 정리한 문장 목록과 질문-문서 비교 예시를 사용합니다.
 
 ```python
 from collections import Counter
@@ -448,9 +425,9 @@ position= 5 token= 방법 score= 0
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio et al., [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-07-05.
-- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-05.
-- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-05.
-- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-05.
-- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-05.
-- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-05.
+- Yoshua Bengio et al., [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/v3/bengio03a.html){: target="_blank" rel="noopener noreferrer" }, Journal of Machine Learning Research, 2003, 확인 날짜: 2026-07-19.
+- Tomas Mikolov et al., [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-07-19.
+- Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-19.
+- Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-07-19.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper/7181-attention-is-all-you-need){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2017, 확인 날짜: 2026-07-19.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.
