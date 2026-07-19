@@ -1,15 +1,15 @@
 # P5-6.2 Training Step, Batch, Epoch
 
-Section ID: `P5-6.2`
-Version: `v2026.07.17`
+> Section ID: `P5-6.2`
+> Version: `v2026.07.20`
 
 In P5-6.1, we first grouped together the smallest training loop that continues as `forward -> loss -> backward -> optimizer step`. Once we reach that point, the next question appears immediately.
 
 How many times is this one loop repeated in actual training, and what should we call each unit of that repetition?
 
-If we do not sort out this question first, step, batch, and epoch can easily blur together as if they all just mean `run it many times`. But the three terms point to the same repetition from different levels.
+If we do not sort out this question first, step, batch, and epoch can easily blur together as if they all just mean `run it many times`. But the three terms are names for dividing the same training process by different standards.
 
-A step is one unit of update, a batch is the group of samples processed together in that step, and an epoch is one full pass through the entire training dataset.
+A step is the unit where one update happens. A batch is the group of samples processed together in that step, and an epoch is one full pass through the entire training dataset.
 
 This one sentence may still not feel solid yet. Readers usually understand the phrase `the model runs many times`, but get stuck at the point that `what counts as one time` is being measured by different standards. In one sentence, step becomes the standard. In some logs, batch appears first. In other reports, only the number of epochs is written.
 
@@ -281,6 +281,8 @@ for batch_size in [1, 2, 4]:
 
 In this output, first see that a smaller batch size increases the number of steps inside one epoch. When batch size is raised to 4, the 6 samples split as `[4, 2]`, so the final batch can be smaller. The meaning of epoch still does not change. Once the whole dataset has been seen once, one epoch ends; each processed batch increases step by 1.
 
+From here, you can try changing one value yourself. If you set `batch_size` to 3, each epoch will show only 2 steps; if you set `batch_size` to 1, each epoch will show 6 steps. In every case, however, the epoch still ends only after all 6 samples have been seen. Once this intuition is fixed, step, batch, and epoch no longer read as the same kind of number.
+
 The last core point to hold here is simple. Batch is `the grouping unit`, step is `the update unit`, and epoch is `the full-repeat unit`. All three terms explain repetition in training, but they are not different words for the same number. This distinction has to be firm so that in the next section, when we divide learning and inference, we can also read separately `what ran many times` and `what was actually updated`.
 
 ## Checklist
@@ -290,3 +292,8 @@ The last core point to hold here is simple. Batch is `the grouping unit`, step i
 - Can you explain epoch as `one repetition that saw the whole dataset once`?
 - Can you say that the one training loop from P5-6.1 is repeated as many steps in actual training, one for each batch?
 - Can you distinguish that the learning/inference section in P5-6.3 asks not about `units of repetition`, but about `whether parameters change`?
+
+## Sources And Further Reading
+
+- PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. Used to check the structure in which training repeatedly continues through prediction, loss computation, gradient computation, and parameter optimization, and the training-loop terminology. Accessed 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `Training with PyTorch`, PyTorch Tutorials. Used to check the training-loop structure that takes batches from a DataLoader and repeats through one epoch. Accessed 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html](https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html){: target="_blank" rel="noopener noreferrer" }

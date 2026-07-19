@@ -1,15 +1,15 @@
 # P5-6.2 学习 step、batch、epoch
 
-Section ID: `P5-6.2`
-Version: `v2026.07.17`
+> Section ID: `P5-6.2`
+> Version: `v2026.07.20`
 
 在 P5-6.1 里，我们先把 `forward -> loss -> backward -> optimizer step` 这一条最小学习循环绑在一起。走到这里以后，下一个问题会马上出现。
 
 这一次循环在真实训练里会重复多少次，而这些重复单位到底应该分别叫什么？
 
-如果不先理清这个问题，step、batch、epoch 很容易全都混成`只是多跑几次`。但这三个词其实是在用不同层位指向同一个训练过程里的不同重复单位。
+如果不先理清这个问题，step、batch、epoch 很容易全都混成`只是多跑几次`。但这三个词其实是按不同标准切分同一个训练过程的名称。
 
-step 是一次更新单位，batch 是这个 step 里一起处理的样本束，epoch 则是把整份训练数据完整看过一遍的重复。
+step 是一次 update 发生的单位。batch 是这个 step 里一起处理的样本束，epoch 则是把整份训练数据完整看过一遍的重复。
 
 光靠这一句话，读者往往还是抓不牢。很多人能理解`模型会反复运行`，但会卡在：这里其实是用不同标准去数`哪一次算一次`。因为有的句子以 step 为标准，有的日志先把 batch 摆出来，有的实验报告又只写 epoch 数。
 
@@ -281,6 +281,8 @@ for batch_size in [1, 2, 4]:
 
 在这段输出里，首先要看到的是：batch size 越小，一个 epoch 里的 step 数就越多。反过来，如果把 batch size 提高到 4，6 条样本会被切成 `[4, 2]`，所以最后一个 batch 可能更小。但 epoch 的含义不会改变。把整份数据完整看过一次，epoch 才结束；每处理一个 batch，step 就增加 1。
 
+现在也可以自己改一个值试试看。把 `batch_size` 改成 3 时，每个 epoch 只会看到 2 个 step；把 `batch_size` 改成 1 时，每个 epoch 会看到 6 个 step。但无论哪种情况，都必须把 6 条样本全部看完，epoch 才会结束。抓住这种感觉之后，就不会再把 step、batch、epoch 读成同一类数字。
+
 这里最后还要固定的核心很简单。batch 是`打包单位`，step 是`更新单位`，epoch 是`整轮重复单位`。它们都在描述学习的重复，但并不是拿不同名字去叫同一个数字。
 
 ## 检查清单
@@ -290,3 +292,8 @@ for batch_size in [1, 2, 4]:
 - 能把 epoch 解释成`把整份数据完整看过一次的重复`吗？
 - 能说明 P5-6.1 的一次学习循环，在真实训练中会按 batch 变成很多个 step 吗？
 - 能区分下一节 P5-6.3 讨论的 learning/inference 问题，不是重复单位，而是参数是否变化的问题吗？
+
+## 出处与参考资料
+
+- PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. 用于确认训练会反复经过预测、损失计算、gradient 计算、参数优化这一结构，以及 training loop 相关术语。确认日期: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `Training with PyTorch`, PyTorch Tutorials. 用于确认 DataLoader 取出 batch，并在一个 epoch 中重复执行训练循环的结构。确认日期: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html](https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html){: target="_blank" rel="noopener noreferrer" }
