@@ -1,7 +1,7 @@
 # P4-11.2 决策边界(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 在 P4-11.1 里，我们把 logistic regression 看成 `生成可按 probability 来读的 score 的线性模型`。
 现在要把问题再换一步。
@@ -37,16 +37,9 @@
 - coefficient 和 boundary 的方向有什么关系？
 - threshold 改变时，boundary 会怎样改变？
 
-这一节不会深入讲下面这些内容。
+这一节先把 decision boundary 收束为 `切分 input space 的标准`，并专注抓住 output score 里出现的 threshold 在 input space 里会怎样被读成 boundary。
 
-- 高维空间里 hyperplane 的严格几何解释
-- multiclass classification 的 boundary 划分
-- kernel 方法与 nonlinear boundary 的数学展开
-- 绘制 boundary 的实现细节
-
-hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinear boundary 会在 P4-13.1、P4-13.2 再处理。
-像 `C`、`gamma`、threshold 调整这样的设置与计算成本，会在 P4-9.1、P4-9.2 再接回来。
-multiclass boundary 的细分和 plot 实现细节暂时放在本书当前正文范围之外。
+同时，后面还要继续扩展的问题也很清楚。hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinear boundary 会在 P4-13.1、P4-13.2 再处理。像 `C`、`gamma`、threshold 调整这样的设置与计算成本，会在 P4-9.1、P4-9.2 再接回来，multiclass 扩展会在 P4-11.4 继续展开。
 
 ## 本节目标
 

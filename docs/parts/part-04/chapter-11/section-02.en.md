@@ -1,7 +1,7 @@
 # P4-11.2 Decision Boundary
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 In P4-11.1, logistic regression was read as `a linear model that creates scores that can be read like probabilities`.
 Now the question changes by one step.
@@ -34,14 +34,9 @@ This Section answers the following questions.
 - How do coefficients relate to the direction of the boundary?
 - How can the boundary change when the threshold changes?
 
-This Section does not treat the following topics deeply.
+This Section first closes the decision boundary as `the criterion that divides the input space`, and focuses on holding onto how the threshold that appeared in output scores is read as a boundary in the input space.
 
-- rigorous hyperplane geometry in high-dimensional spaces
-- boundary partitioning in multiclass classification
-- mathematical development of kernel methods and nonlinear boundaries
-- implementation details of plotting the boundary
-
-The hyperplane intuition reconnects again in P4-1.2, and kernel methods and nonlinear boundaries return in P4-13.1 and P4-13.2. Settings such as `C`, `gamma`, and threshold adjustment reconnect again in P4-9.1 and P4-9.2. Detailed multiclass boundary partitioning and plot implementation stay outside the current main scope of this book.
+At the same time, the broader questions that should be revisited later are also clear. The hyperplane intuition reconnects again in P4-1.2, and kernel methods and nonlinear boundaries return in P4-13.1 and P4-13.2. Settings and computation costs such as `C`, `gamma`, and threshold adjustment reconnect again in P4-9.1 and P4-9.2, and multiclass expansion continues in P4-11.4.
 
 ## Goals Of This Section
 
