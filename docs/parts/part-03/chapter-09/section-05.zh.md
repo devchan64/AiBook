@@ -1,7 +1,7 @@
 # P3-9.5 同一个事件在多个产物之间靠什么持续追踪
 
 > Section ID: `P3-9.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 即使比较报告、复核候选队列和目标标签候选表承担的是不同角色，最好也要让同一个样本始终沿用同一套识别标准来持续追踪。像 `event_id` 这样的列之所以会在多张表里反复出现，就是因为这个原因。如果这条连接变得模糊，那么即使能理解三种产物是三张不同的表，也会很难再解释：为什么这个事件会被提上来、某个复核结果后来又是如何变成某个目标标签候选的。[比较报告（comparison report）](/AiBook/en/reference/concept-glossary/#glossary-comparison-report)、[复核候选队列（review queue）](/AiBook/en/reference/concept-glossary/#glossary-review-queue)、[目标标签候选（target candidate）](/AiBook/en/reference/concept-glossary/#glossary-target-candidate)表可以承担不同角色，但同一样本的身份和最小依据连接最好不要被切断。
 
@@ -89,5 +89,5 @@
 
 ## 来源与参考资料
 
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and entity linkage overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `labeled example`, `label`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and entity linkage overview。用于确认 provenance 视角：同一事件的比较依据、复核结果和目标候选列，应当连同生成语境保持可追踪。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google, *Machine Learning Glossary*, `labeled example`, `label`。用于确认已标注样本会同时包含特征和标签，从而支持同一样本身份应继续连接到结果列候选这一说明。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

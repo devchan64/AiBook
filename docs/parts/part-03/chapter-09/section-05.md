@@ -1,7 +1,7 @@
 # P3-9.5 같은 사건은 여러 산출물 사이에서 무엇으로 계속 추적하는가
 
 > Section ID: `P3-9.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 비교 리포트, 검토 후보 큐, 목표 라벨 후보 표가 서로 다른 역할을 맡더라도, 가능하면 같은 샘플 1건은 같은 식별 기준으로 계속 추적해야 합니다. `event_id` 같은 열이 여러 표에 반복 등장하는 이유도 여기에 있습니다. 이 연결이 흐리면 세 산출물이 서로 다른 표라는 점은 이해해도, 왜 이 사건이 올라왔고 어떤 검토 결과가 나중에 어떤 목표 라벨 후보로 바뀌었는지는 다시 설명하기 어려워집니다. [비교 리포트(comparison report)](../../../reference/concept-glossary.md#glossary-comparison-report), [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue), [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate) 표는 서로 다른 역할을 맡지만, 같은 샘플 정체와 최소 근거 연결은 가능하면 끊지 않아야 합니다.
 
@@ -90,5 +90,5 @@
 
 ## 출처와 참고 자료
 
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and entity linkage overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `labeled example`, `label`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, provenance and entity linkage overview. 같은 사건의 비교 근거, 검토 결과, 목표 후보 열을 생성 맥락과 함께 다시 추적해야 한다는 provenance 관점을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Machine Learning Glossary*, `labeled example`, `label`. 지도학습에서 라벨이 있는 예제가 특징과 라벨을 함께 가진다는 점을 확인하고, 같은 샘플 정체와 결과 열 후보를 연결하는 설명을 보강하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
