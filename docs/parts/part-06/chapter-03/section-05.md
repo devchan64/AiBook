@@ -145,6 +145,8 @@ long-context는 보통 다음 문제를 한꺼번에 부릅니다.
 
 이 표의 목적은 sparse attention과 long-context를 완전히 떼어 놓는 데 있지 않습니다. 실제 실패 장면을 봤을 때 `모든 연결을 얼마나 유지할 것인가`와 `중요한 단서를 얼마나 오래 붙들 수 있는가`를 먼저 분리해 읽게 만드는 데 있습니다.
 
+![장문맥 실패 장면의 계산 부담과 단서 유지 축](../../../assets/part-06/chapter-03/long-context-failure-axis-ko.png)
+
 이 구분을 보면 두 이름이 어디서 맞닿는지도 함께 드러납니다. 긴 입력에서는 계산 부담과 단서 유지가 동시에 얽히기 쉽습니다. 하지만 `무엇을 줄일 것인가`와 `무엇을 끝까지 남길 것인가`는 여전히 다른 질문입니다.
 
 ## 연습 및 예제
@@ -172,5 +174,7 @@ long-context는 보통 다음 문제를 한꺼번에 부릅니다.
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS, 2017, 확인 날짜: 2026-06-29.
-- Tri Dao et al., attention/serving 최적화 관련 공개 자료, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. 기본 self-attention이 입력 위치들 사이의 관계를 계산한다는 설명의 출발 근거로 사용했다.
+- Rewon Child et al., [Generating Long Sequences with Sparse Transformers](https://arxiv.org/abs/1904.10509){: target="_blank" rel="noopener noreferrer" }, arXiv 2019, 확인 날짜: 2026-07-19. sparse factorization으로 attention matrix 계산 부담을 줄여 긴 시퀀스를 다루려는 방향의 근거로 사용했다.
+- Manzil Zaheer et al., [Big Bird: Transformers for Longer Sequences](https://arxiv.org/abs/2007.14062){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2020, 확인 날짜: 2026-07-19. sparse attention을 통해 full attention의 sequence length 의존 부담을 줄이고 더 긴 입력을 다루는 연구 흐름의 근거로 사용했다.
+- Iz Beltagy, Matthew E. Peters, Arman Cohan, [Longformer: The Long-Document Transformer](https://arxiv.org/abs/2004.05150){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. local window attention과 task-motivated global attention으로 긴 문서 과업을 다루는 long-document Transformer 사례 근거로 사용했다.

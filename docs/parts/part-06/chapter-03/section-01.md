@@ -400,6 +400,8 @@ for experiment in experiments:
     print("---")
 ```
 
+아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -477,7 +479,8 @@ Transformer가 언어 모델의 중심 구조가 된 이유는 단순히 성능�
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Alec Radford et al., `Language Models are Unsupervised Multitask Learners`, OpenAI, 2019, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- Jay Alammar, `The Illustrated Transformer`, 확인 날짜: 2026-06-29. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. Transformer의 self-attention, multi-head attention, positional encoding, feed-forward 블록을 LLM 구조 설명의 기본 근거로 사용했다.
+- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2019, 확인 날짜: 2026-07-19. GPT-2가 Transformer 기반 language model로 여러 언어 작업을 수행한다는 배경 근거로 사용했다.
+- OpenAI, [openai/gpt-2](https://github.com/openai/gpt-2){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. GPT-2 코드와 모델이 위 논문의 공개 구현이라는 점과 모델 사용 시 평가가 필요하다는 주의점을 확인하는 보조 근거로 사용했다.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. GPT-3의 autoregressive language model과 few-shot text interaction 설명을, LLM이 다음 토큰 예측 기반으로 여러 과업을 수행하는 배경 근거로 사용했다.
+- Jay Alammar, [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. Transformer 계산 흐름을 초심자용 도식 언어로 다시 설명할 때 보조 교육 자료로 참고했다.

@@ -321,6 +321,8 @@ print("must_keep_missing =", priority_missing)
 print("relevance_ranking =", relevance_ranking(priority_selected, query_keywords))
 ```
 
+아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -374,6 +376,6 @@ relevance_ranking = [(5, 'current error log'), (3, 'user question'), (0, 'system
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 확인 날짜: 2026-06-29.
-- Colin Raffel et al., `Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer`, JMLR, 2020, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, context window와 입력 길이 관련 설명, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. self-attention이 입력 시퀀스 안의 위치들 사이 관계를 계산한다는 설명의 기본 근거로 사용했다.
+- Colin Raffel et al., [Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer](https://jmlr.csail.mit.edu/beta/papers/v21/20-074.html){: target="_blank" rel="noopener noreferrer" }, JMLR 2020, 확인 날짜: 2026-07-19. Transformer 기반 text-to-text 구조가 요약, 질의응답, 분류 등 여러 텍스트 과업에 재사용된다는 배경 근거로 사용했다.
+- OpenAI, [Models documentation](https://developers.openai.com/api/docs/models){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 모델별 context window와 max output tokens가 명시되는 현재 API 문서 구조를 확인해, context window가 실제 입력 범위 제약으로 드러난다는 설명의 운영 근거로 사용했다.

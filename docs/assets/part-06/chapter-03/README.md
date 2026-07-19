@@ -18,8 +18,11 @@
   - `context-selection-budget-en.png` / `context-selection-budget-ko.png`
   - `attention-position-role-split-en.png` / `attention-position-role-split-ko.png`
   - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png`
+  - `kv-cache-step-projection-en.png` / `kv-cache-step-projection-ko.png`
+  - `long-context-failure-axis-en.png` / `long-context-failure-axis-ko.png`
 - Python chart source:
   - `p6_3_1_context_candidate_distribution_chart.py`
   - `p6_3_2_context_selection_chart.py`
   - `p6_3_3_attention_position_role_chart.py`
   - `p6_3_4_kv_cache_projection_chart.py`
+  - `p6_3_5_long_context_failure_axis_chart.py`

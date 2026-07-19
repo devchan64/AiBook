@@ -171,4 +171,6 @@ multi-head attention과 위치 표현을 같이 놓고 보면, 모델이 문맥�
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS, 2017, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. multi-head attention과 positional encoding을 Transformer의 기본 구성 요소로 확인하는 근거로 사용했다.
+- Jianlin Su et al., [RoFormer: Enhanced Transformer with Rotary Position Embedding](https://arxiv.org/abs/2104.09864){: target="_blank" rel="noopener noreferrer" }, arXiv 2021, 확인 날짜: 2026-07-19. RoPE가 positional information을 self-attention formulation에 결합하는 위치 표현 방식이라는 설명의 근거로 사용했다.
+- Ofir Press, Noah A. Smith, Mike Lewis, [Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation](https://arxiv.org/abs/2108.12409){: target="_blank" rel="noopener noreferrer" }, arXiv 2021, 확인 날짜: 2026-07-19. ALiBi가 attention score에 위치 거리 기반 bias를 더하는 방식이라는 설명의 근거로 사용했다.

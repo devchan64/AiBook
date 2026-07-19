@@ -304,6 +304,8 @@ for prefix_length in [3, 20, 100]:
     )
 ```
 
+아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -360,6 +362,8 @@ prefix_length=100, generated_length=5, without_cache=515, with_cache=105, saved_
 - 같은 5개 토큰을 이어 생성해도 prefix가 3개일 때보다 20개, 100개일 때 `without_cache`와 `with_cache`의 차이가 훨씬 커집니다.
 - 그래서 prefix가 길어지거나 생성 step이 많아질수록 `projected_token_count` 차이가 빠르게 커집니다.
 
+![생성 step별 KV projection 대상 토큰 수](../../../assets/part-06/chapter-03/kv-cache-step-projection-ko.png)
+
 prefix 길이에 따른 재투영량 차이를 그림으로 보면 아래처럼 벌어집니다. 캐시가 없을 때는 이미 본 prefix가 길수록 새 토큰 생성마다 다시 투영해야 할 양이 빠르게 늘고, KV cache를 쓰면 같은 조건에서도 증가 폭이 훨씬 작아집니다.
 
 ![prefix 길이별 KV projection 대상 토큰 수](../../../assets/part-06/chapter-03/kv-cache-projection-count-ko.png)
@@ -382,5 +386,5 @@ prefix 길이에 따른 재투영량 차이를 그림으로 보면 아래처럼 
 
 ## 출처와 참고 자료
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS, 2017, 확인 날짜: 2026-06-29.
-- Hugging Face, KV cache와 generation 관련 문서, 확인 날짜: 2026-06-29.
+- Ashish Vaswani et al., [Attention Is All You Need](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS 2017, 확인 날짜: 2026-07-19. attention의 query, key, value 계산을 KV cache 설명의 기본 배경 근거로 사용했다.
+- Hugging Face, [Cache strategies](https://huggingface.co/docs/transformers/kv_cache){: target="_blank" rel="noopener noreferrer" }, Transformers documentation, 확인 날짜: 2026-07-19. autoregressive generation에서 key-value vectors를 저장해 재계산을 줄이고 generation 성능을 높인다는 설명의 근거로 사용했다.
