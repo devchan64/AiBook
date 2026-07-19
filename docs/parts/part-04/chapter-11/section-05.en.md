@@ -1,7 +1,7 @@
 # P4-11.5 Supplementary Learning: How To Read Solver And Regularization For The First Time
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Once logistic regression is used through a library, the reader quickly meets arguments such as solver, penalty, and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
 
@@ -17,13 +17,7 @@ This Section answers the following questions.
 - What does regularization control?
 - In what direction should penalty and `C` be read?
 
-This Section does not treat the following topics deeply.
-
-- proofs of the internal optimization algorithms of each solver
-- general convex optimization theory
-- rigorous statistical interpretation of regularization
-
-Those topics stay outside the current scope of this book.
+This Section first closes solver and regularization as `comparison conditions that change result interpretation even under the same model name`, and focuses on reading the calculation procedure and the direction of regularization rather than memorizing library options.
 
 ## Goals Of This Section
 

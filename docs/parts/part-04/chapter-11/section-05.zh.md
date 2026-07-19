@@ -1,7 +1,7 @@
 # P4-11.5 补充学习：第一次如何读 solver 与 regularization
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 一旦通过 library 使用 logistic regression，很快就会遇到 solver、penalty、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
 
@@ -17,13 +17,7 @@
 - regularization 在调什么？
 - penalty 和 `C` 应该往哪个方向来读？
 
-这一节不会深入讲下面这些内容。
-
-- 各个 solver 内部优化算法的证明
-- 一般 convex optimization 理论
-- regularization 的严格统计解释
-
-这些内容先放在本书当前范围之外。
+这一节先把 solver 和 regularization 收束为 `即使模型名相同，也会改变结果解释的比较条件`，并专注读取计算过程和 regularization 的方向，而不是背 library option。
 
 ## 本节目标
 
@@ -103,7 +97,7 @@ regularization 可以先读成 `防止模型把训练数据贴得过紧的装置
 
 在进入案例前，可以先把本节的比较框架压成下面这样。
 
-| 场景 | 人最容易先用的 기준 | 这个 기준 的限制 | solver / regularization 改变的点 | 要确认的结果 |
+| 场景 | 人最容易先用的标准 | 这个标准的限制 | solver / regularization 改变的点 | 要确认的结果 |
 | --- | --- | --- | --- | --- |
 | 设置选择 | 以为默认值永远足够 | 会漏掉数据结构与设置差异 | 逼着读者把计算过程和 regularization 强度都当成比较条件 | 即使模型名一样，结果解释也会不同 |
 | coefficient 解读 | 直接接受大的 coefficient | 会漏掉数据少或 feature 多带来的不稳定 | 通过 regularization 让 coefficient 的解释更保守 | boundary 与 coefficient 的稳定性可能改变 |
