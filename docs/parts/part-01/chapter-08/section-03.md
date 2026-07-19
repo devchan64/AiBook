@@ -1,7 +1,7 @@
 # P1-8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 8.1에서는 지도학습(supervised learning)을 입력(input)과 라벨(label)이 함께 있는 예시에서 배우는 방식으로 설명했습니다. 8.2에서는 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조(structure), 군집(cluster), 표현(representation)을 찾는 방식으로 설명했습니다.
 
@@ -234,3 +234,4 @@ RLHF(reinforcement learning from human feedback)도 강화학습의 모든 것�
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - OpenAI Spinning Up, [Part 1: Key Concepts in RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 12 Planning with Uncertainty](https://artint.info/3e/html/ArtInt3e.Ch12.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Richard S. Sutton and Andrew G. Barto, [Reinforcement Learning: An Introduction, second edition](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2018, 확인 날짜: 2026-07-19.

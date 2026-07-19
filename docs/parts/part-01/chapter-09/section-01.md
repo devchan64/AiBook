@@ -1,7 +1,7 @@
 # P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
@@ -202,5 +202,6 @@ Nature 리뷰는 AlexNet 논문을 컴퓨터 비전(computer vision) 커뮤니�
 
 - Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2012, 확인 날짜: 2026-06-23.
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, [Deep learning](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }, Nature 521, 436-444, 2015-05-27, 확인 날짜: 2026-06-23.
+- Geoffrey E. Hinton, Simon Osindero, Yee-Whye Teh, [A Fast Learning Algorithm for Deep Belief Nets](https://direct.mit.edu/neco/article/18/7/1527/7065/A-Fast-Learning-Algorithm-for-Deep-Belief-Nets){: target="_blank" rel="noopener noreferrer" }, Neural Computation 18(7), 1527-1554, 2006-07-01, 확인 날짜: 2026-07-19.
 - Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012-06-24, 확인 날짜: 2026-06-23.
 - Daniel Saez Trigueros, Li Meng, Margaret Hartnett, [Face Recognition: From Traditional to Deep Learning Methods](https://arxiv.org/abs/1811.00116){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.

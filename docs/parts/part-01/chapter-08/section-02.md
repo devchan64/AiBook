@@ -1,7 +1,7 @@
 # P1-8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 8.1에서는 라벨(label)을 데이터에 붙인 구분 표식으로 설명했습니다. 지도학습(supervised learning)은 입력(input)과 라벨(label)이 함께 있는 예시에서 입력과 출력의 관계를 맞추려 합니다.
 
@@ -240,3 +240,4 @@ scikit-learn의 PCA 설명은 PCA가 다변량 데이터셋을 분산(variance)�
 - scikit-learn, [2. Unsupervised learning](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - scikit-learn, [2.3. Clustering](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - scikit-learn, [2.5. Decomposing signals in components](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- Stanford CS229, [K-means](https://cs229.stanford.edu/notes2022fall/kmeans.pdf){: target="_blank" rel="noopener noreferrer" }, 2022, 확인 날짜: 2026-07-19.

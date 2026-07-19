@@ -1,7 +1,7 @@
 # P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 첫 번째 기준점은 지도학습(supervised learning)입니다.
 
@@ -99,7 +99,7 @@ Google의 Machine Learning Glossary는 지도학습(supervised machine learning)
 
 ## 라벨(label), 타깃(target), 기대 출력(expected output)
 
-라벨(label)은 지도학습에서 모델이 맞추도록 주어진 목표 출력입니다. Google의 용어집은 `target`을 `label`의 동의어로 설명합니다.
+라벨(label)은 지도학습에서 모델이 맞추도록 주어진 목표 출력입니다. scikit-learn의 용어집은 `target`을 지도학습과 준지도학습에서 추정기의 `fit` 메서드에 `y`로 전달되는 종속 변수로 설명하고, 다른 이름으로 `label`도 듭니다.
 
 여기서는 문맥에 따라 다음처럼 읽겠습니다.
 
@@ -276,6 +276,7 @@ Google의 Machine Learning Glossary도 사람 평가자가 라벨링에서 실�
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - scikit-learn, [1. Supervised learning](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
 - AWS, [What is Data Labeling?](https://aws.amazon.com/what-is/data-labeling/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - IBM, [What Is Data Labeling?](https://www.ibm.com/think/topics/data-labeling){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-23.
 - Timnit Gebru et al., [Datasheets for Datasets](https://arxiv.org/abs/1803.09010){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-23.

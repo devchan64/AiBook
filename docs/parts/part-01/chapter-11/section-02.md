@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 
@@ -231,7 +231,9 @@ Transformer의 구체적 구조와 사전학습 LLM(pretrained LLM)은 11.3에�
 
 ## 출처와 참고 자료
 
+- Sepp Hochreiter, Jürgen Schmidhuber, [Long Short-Term Memory](https://pubmed.ncbi.nlm.nih.gov/9377276/){: target="_blank" rel="noopener noreferrer" }, Neural Computation 9(8), 1735-1780, 1997, 확인 날짜: 2026-07-19.
 - Kyunghyun Cho et al., [Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
 - Ilya Sutskever, Oriol Vinyals, Quoc V. Le, [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
 - Dzmitry Bahdanau, Kyunghyun Cho, Yoshua Bengio, [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473){: target="_blank" rel="noopener noreferrer" }, arXiv, 2014, 확인 날짜: 2026-06-23.
 - Graham Neubig, [Neural Machine Translation and Sequence-to-sequence Models: A Tutorial](https://arxiv.org/abs/1703.01619){: target="_blank" rel="noopener noreferrer" }, arXiv, 2017, 확인 날짜: 2026-06-23.
+- Sarthak Jain, Byron C. Wallace, [Attention is not Explanation](https://aclanthology.org/N19-1357/){: target="_blank" rel="noopener noreferrer" }, NAACL-HLT 2019, 확인 날짜: 2026-07-19.
