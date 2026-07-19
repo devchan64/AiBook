@@ -1,7 +1,7 @@
 # P4-8.1 Model Selection
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-7, the discussion examined what inputs should remain and what representation those inputs should be changed into. Now it moves to the next question.
 
@@ -36,13 +36,7 @@ This Section answers the following questions.
 - What model families can be brought to mind first depending on the problem type and data conditions?
 - What criteria besides performance enter model selection?
 
-This Section does not treat the following topics deeply.
-
-- detailed formulas of cross-validation procedures
-- statistical model-selection theories such as information criteria like AIC and BIC
-- implementation of AutoML or large-scale search systems
-
-The basic role of cross-validation reconnects in P4-4.2 and P4-9.2, while information criteria, AutoML, and large-scale search systems are organized separately in the supplementary learning of P4-9.3 from the perspective of `advanced model selection and automation`.
+This Section first closes `what model candidates should be built from the problem and constraints`. The basic role of cross-validation reconnects in P4-4.2 and P4-9.2, while information criteria, AutoML, and large-scale search systems continue in the supplementary learning of P4-9.3 from the perspective of `advanced model selection and automation`.
 
 ## Goals Of This Section
 
