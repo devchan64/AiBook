@@ -1,7 +1,7 @@
 # P4-17.1 Intuition For Clustering
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 Up through gradient boosting in P4-16, we followed how models improve predictive performance on problems where answer labels already exist. If we shift the viewpoint slightly here, the next question appears.
 
@@ -25,14 +25,7 @@ This Section answers the following questions.
 - What different intuitions do k-means and DBSCAN show?
 - With what attitude should clustering results be read?
 
-This Section does not go deeply into the following topics.
-
-- The optimization formulas behind k-means
-- Detailed parameter tuning for DBSCAN
-- The implementation of hierarchical clustering and spectral clustering
-- Cluster quality metrics such as silhouette score
-
-This Section focuses on understanding, at an introductory level, `what question clustering answers`. Cautions for interpreting results continue in P4-17.2. Hierarchical clustering and spectral clustering are revisited in P4-17.3 supplementary learning as the first criteria for distinguishing them. Cluster quality metrics such as silhouette score are revisited in P4-6.4 supplementary learning, and cautions for reading cluster structure together with dimensionality reduction reconnect in P4-18.1 and P4-18.2.
+This Section first closes the question `what question clustering answers in structure exploration without labels`. Cautions for interpreting results continue in P4-17.2, hierarchical clustering and spectral clustering continue in P4-17.3 supplementary learning, cluster quality metrics continue in P4-6.4 supplementary learning, and cautions for reading structure together with dimensionality reduction continue in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
@@ -395,14 +388,6 @@ The goal of Part 4 is not to list model names, but to build criteria for how pro
 | Interpretation boundary | A cluster is not an automatic answer, but an interpretation candidate built on a similarity criterion |
 | Next question | How do groups change if the distance rule, scaling, or outlier handling changes? |
 
-## What To Remember From This Section
-
-- Clustering is unsupervised learning that finds structure in unlabeled data.
-- A cluster is not a correct class defined by humans, but a group proposed by the algorithm.
-- Similarity is defined on criteria such as distance, density, and connectivity.
-- k-means shows a center-based intuition, while DBSCAN shows a density-based intuition.
-- Clustering results are the starting point of interpretation, not truth that becomes fixed automatically.
-
 | What should be looked at together | The question read first in this Section | Where it goes immediately next |
 | --- | --- | --- |
 | Grouping hypothesis | Under what feature criteria did what groups appear? | P4-17.2 cautions for cluster interpretation |
@@ -411,12 +396,13 @@ The goal of Part 4 is not to list model names, but to build criteria for how pro
 
 ## Checklist
 
-- When you want to see grouping hypotheses inside data before having answer labels, think of clustering as a structure-exploration tool.
-- When you become tempted to talk about clusters and classes as if they are the same thing, separate again the algorithm's proposed grouping from the correct answer defined by people.
-- When you need to compare k-means and DBSCAN, bring back first the intuition difference between center-based and density-based clustering.
 - Have you made it clear that the need here is not answer prediction but structure exploration?
+- Can you explain that clustering is unsupervised learning that finds structure in unlabeled data?
 - Can you explain that a cluster is not a correct class but an interpretation candidate?
+- Do you understand that similarity is defined on criteria such as distance, density, and connectivity?
+- When comparing k-means and DBSCAN, can you first explain the intuition difference between center-based and density-based clustering?
 - Can you speak separately about what similarity criterion is being used and what clustering intuition, such as k-means or DBSCAN, is being used?
+- Do you know that clustering results are the starting point of interpretation, not truth that becomes fixed automatically?
 
 ## Sources And References
 
