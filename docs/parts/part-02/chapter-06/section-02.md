@@ -1,7 +1,7 @@
 # P2-6.2 손실 함수(loss function)와 목적 함수(objective function)
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제약 안에서 더 나은 값을 찾는 문제”로 봤습니다. 이제 그 기준이 모델 학습에서는 어떤 이름으로 등장하는지 봅니다.
 
@@ -227,5 +227,7 @@ P2-5.3에서 본 표본(sample)과 오차(error)의 관점이 여기서 다시 �
 
 ## 출처와 참고 자료
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 5: Machine Learning Basics](https://www.deeplearningbook.org/contents/ml.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-06-24.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 딥러닝 학습에서 훈련 데이터의 예제별 손실을 평균한 비용 함수(cost function)를 줄인다는 설명 확인에 사용했다.
+- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19. 예측 품질을 평가하는 scoring/metric 선택과 손실 함수와 평가 지표가 같을 수도 다를 수도 있다는 설명 확인에 사용했다.
+- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-19. 평균 제곱 오차가 실제값 `y_true`와 예측값 `y_pred` 사이의 회귀 손실이며 0이 최선이라는 설명 확인에 사용했다.
+- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-19. 로그 손실이 로지스틱 손실 또는 교차 엔트로피 손실로 불리며 예측 확률에 적용된다는 설명 확인에 사용했다.

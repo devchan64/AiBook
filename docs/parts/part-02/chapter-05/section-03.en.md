@@ -1,7 +1,7 @@
 # P2-5.3 Sample, Estimation, and Error
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-5.2, we looked at the shape of a data bundle as a distribution, its center as the mean, and its spread as the variance. Now we shift the question one step.
 
@@ -24,17 +24,9 @@ Rather than calculating formal formulas for statistical inference in detail, thi
 
 ## Scope of This Section
 
-This Section covers the basic relationship among `sample`, `population`, `estimation`, and `error`.
+This Section covers the basic relationship among `sample`, `population`, `estimation`, and `error`. This Section first closes what limits appear when the data we have is only part of the whole, and how far we should trust numbers calculated from samples.
 
-It does not cover the following in depth.
-
-- confidence interval
-- hypothesis testing
-- formula-level calculation of standard error
-- a rigorous explanation of the central limit theorem
-- bias-variance tradeoff
-
-Standard error, confidence intervals, hypothesis testing, and the central limit theorem will be revisited at an introductory level in the supplementary learning of P2-5.5. The bias-variance tradeoff will reappear in Part 3 in the context of P3-5 generalization and P3-6 metrics. Here we first establish the perspective that "errors arise when we estimate the whole from a sample."
+Small-data practice for checking how sample means fluctuate continues in P2-5.4. Tools for reading this fluctuation, such as standard error and confidence intervals, return in P2-5.5 supplementary learning. The bias-variance tradeoff reconnects later in Part 3, in the context of P3-5 generalization and P3-6 metrics. Here we first establish the perspective that "errors arise when we estimate the whole from a sample."
 
 The first question to solve here is this: `if the data we have is not the whole but only a part, how far should we trust the number, and where should caution begin?`
 
@@ -236,6 +228,6 @@ This case shows that AI datasets should also be read not as `the whole of realit
 
 ## Sources and References
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm that samples are used when gathering information about an entire population is too costly or nearly impossible, and that a sample should share the characteristics of the population it represents.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm the context in which repeated sample means are read by their center and spread and connect to the central limit theorem.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used as support for sample-mean sampling distributions, standard error, and how far sample means tend to fall from a population mean in repeated samples.

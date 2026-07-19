@@ -1,7 +1,7 @@
 # P2-3.5 파이썬 실행 환경: Colab과 로컬 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-3.1부터 P2-3.4까지는 선형대수(linear algebra)를 수식과 비교 기준 중심으로 봤습니다. 다음 절에서는 NumPy로 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)을 직접 확인합니다. 그 전에 파이썬(Python) 코드를 어디에서 실행하는지 먼저 구분해야 합니다.
 
@@ -16,7 +16,7 @@ P2-3.1부터 P2-3.4까지는 선형대수(linear algebra)를 수식과 비교 �
 
 개인 PC에 파이썬을 설치하고 가상환경을 관리하는 방법은 `P2-7.1`, `P2-7.6`, `P2-7.7`, `P2-7.8`에서 다시 다룹니다. 여기서는 Colab과 로컬 PC의 실행 위치 차이를 먼저 잡습니다. 용어를 다시 빠르게 확인할 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 봅니다.
 
-이 문서는 2026년 6월 24일 확인한 Google Colab 공식 안내와 FAQ를 기준으로 작성했습니다. Colab은 외부 서비스이므로 앞으로 UI, 사용 조건, 무료 제공 범위, 런타임 정책, 서비스 지속 여부가 바뀔 수 있습니다. 이 절을 읽는 시점에 Colab이 제공되지 않거나 안내와 다르게 보인다면, Google Colab 공식 문서와 현재 서비스 상태를 별도로 확인해야 합니다.
+이 문서는 2026년 7월 19일 확인한 Google Colab 공식 안내와 FAQ, IPython `%pip` 문서, pip 사용자 가이드를 기준으로 작성했습니다. Colab은 외부 서비스이므로 앞으로 UI, 사용 조건, 무료 제공 범위, 런타임 정책, 서비스 지속 여부가 바뀔 수 있습니다. 이 절을 읽는 시점에 Colab이 제공되지 않거나 안내와 다르게 보인다면, Google Colab 공식 문서와 현재 서비스 상태를 별도로 확인해야 합니다.
 
 ## 이 절의 범위
 
@@ -186,6 +186,8 @@ python -m pip install numpy
 
 ## 출처와 참고 자료
 
-- Google, `Google Colab`. Colab이 브라우저 기반 노트북 환경이라는 점과 기본 사용 흐름을 직접 확인할 수 있습니다. [https://colab.research.google.com/](https://colab.research.google.com/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google, `Welcome to Colab`. 코드 셀 실행 방식과 노트북 기본 흐름을 직접 확인할 수 있습니다. [https://colab.research.google.com/notebooks/intro.ipynb](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google, `Google Colab FAQ`. 런타임과 서비스 성격이 고정된 로컬 프로그램이 아니라 호스팅 서비스라는 점을 확인할 수 있습니다. [https://research.google.com/colaboratory/faq.html](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google, `Google Colab`. Colab이 브라우저 기반 노트북 환경이라는 점과 기본 사용 흐름을 직접 확인할 수 있습니다. [https://colab.research.google.com/](https://colab.research.google.com/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- Google, `Welcome to Colab`. 코드 셀 실행 방식과 노트북 기본 흐름을 직접 확인할 수 있습니다. [https://colab.research.google.com/notebooks/intro.ipynb](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- Google, `Google Colab FAQ`. Colab이 설치 없이 쓰는 hosted Jupyter Notebook 서비스이며 런타임과 사용 제한이 바뀔 수 있다는 점을 확인할 수 있습니다. [https://research.google.com/colaboratory/faq.html](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- IPython Development Team, `Built-in magic commands - %pip`. `%pip install`이 현재 커널 안에서 pip 패키지 관리자를 실행하는 매직 명령이라는 점을 확인할 수 있습니다. [https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- Python Packaging Authority, `pip User Guide`. 로컬 터미널에서 `python -m pip install ...` 형태로 패키지를 설치하는 공식 예시를 확인할 수 있습니다. [https://pip.pypa.io/en/stable/user_guide/](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19

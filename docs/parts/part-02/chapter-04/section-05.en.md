@@ -1,7 +1,7 @@
 # P2-4.5 Gradient Supplement: From School Differentiation to Multivariable Differentiation
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-4.3, we connected derivative, partial derivative, and gradient, and in P2-4.4, we looked at why differentiation is needed in learning.
 
@@ -352,14 +352,6 @@ Here, we do not need to calculate the gradient completely. Instead, remember the
 
 The calculations by which partial derivatives continue into gradient descent reappear in P2-6.3, how loss is passed to each weight reappears in P5-5.1 and P5-5.2, and the actual update rules reappear in P5-7.1 and P5-7.2. For now, the goal is to hold how the terms connect to each other and why they repeatedly appear in AI learning.
 
-## Perspective to Keep from This Section
-
-Gradient is not a completely separate world from the differentiation learned in school. It is the expression that appears when familiar differentiation expands to a function with many inputs.
-
-Derivative is the rate of change in one direction, and a partial derivative is the rate of change viewed separately among many directions. Gradient is a vector that gathers the rates of change of many directions, and gradient descent is the repeated method that lowers loss by using that vector. Backpropagation is the procedure that computes that vector inside a deep-learning model.
-
-In AI learning, a model has many parameters. So, to reduce loss, one rate of change is not enough. We need a bundle of rates of change. That bundle is the gradient.
-
 ## View It Through a Case
 
 ### Case 1. When We Must Read a Mixer Panel with Many Control Knobs at Once
@@ -382,11 +374,11 @@ A checkable result is to record how the final sound-quality score changes when e
 - You can explain gradient descent as `the repeated method that reduces loss using the gradient`.
 - You can explain backpropagation as `the procedure that efficiently computes the gradients of many parameters`.
 - You can explain that, even in the high school `AI Mathematics` curriculum, gradient descent appears, but the systems of gradient and partial derivatives may still need separate supplementary explanation.
+- You can distinguish what partial derivative, directional derivative, and gradient each inspect differently.
 - You can explain the gap between school-level differentiation and the later language of gradient, gradient descent, and backpropagation.
 
 ## Sources and References
 
-- Ministry of Education, `Ministry of Education Notice No. 2022-33 [Appendix 4] High School Curriculum (I)`, checked 2026-06-24.
-- Ministry of Education, `Ministry of Education Notice No. 2022-33 [Appendix 4] High School Curriculum (II)`, checked 2026-06-24.
-- Ministry of Education, `Ministry of Education Notice No. 2022-33 [Appendix 4] High School Curriculum (III)`, checked 2026-06-24.
-- KOCW, `Calculus 2: 14.7 Directional Derivatives and the Gradient`, checked 2026-06-24.
+- Ministry of Education, `[Ministry of Education Notice No. 2022-33] General and Subject-Specific Elementary and Secondary School Curriculum Notice`. It provides the official notice and appendix-material location for the 2022 revised Korean high school curriculum. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }. It supports partial derivatives, directional derivatives, gradient vectors, and the relation between the gradient and direction of maximum increase. Checked: 2026-07-19.
+- KOCW, `Calculus 2 - Hanyang University`. It confirms that this open course covers multivariable functions, partial derivatives, vector functions, and related calculus topics. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19

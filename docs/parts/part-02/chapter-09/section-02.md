@@ -1,7 +1,7 @@
 # P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로 조직하느냐의 문제라고 봤습니다. 이제 AI 실습에서 자주 만나는 네 가지 모양을 넓게 비교합니다.
 
@@ -514,7 +514,7 @@ AI 실습에서는 이 구조들이 서로 변환되기도 합니다. 표로 읽
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy documentation, 확인 날짜: 2026-06-25.
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 확인 날짜: 2026-06-25.
-- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-06-25.
-- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-06-25.
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. `ndarray`의 차원, shape, dtype, 인덱싱과 슬라이싱 설명을 배열 직관의 근거로 사용했다.
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. DataFrame을 행과 열을 가진 2차원 구조로 설명하는 근거로 사용했다.
+- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 트리를 루트와 부모-자식 관계를 가진 계층 구조로 설명하는 근거로 사용했다.
+- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 그래프를 노드와 엣지로 관계를 표현하는 구조로 설명하는 근거로 사용했다.

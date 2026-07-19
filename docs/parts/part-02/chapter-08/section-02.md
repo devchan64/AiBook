@@ -1,7 +1,7 @@
 # P2-8.2 리스트(list): 순서가 있는 값 묶음
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. 이제 여러 값을 한 번에 다루기 위한 첫 번째 구조로 리스트(list)를 봅니다.
 
@@ -562,7 +562,7 @@ for file_name in file_names:
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-25.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy documentation, 확인 날짜: 2026-06-25.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 리스트 메서드, 리스트를 스택처럼 쓰는 예, 리스트 컴프리헨션과 중첩 리스트 예시 확인에 사용했다.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 시퀀스 타입과 mutable sequence 연산, 인덱싱·슬라이싱 동작 확인에 사용했다.
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 표준 라이브러리의 `array`가 같은 기본 타입의 값을 효율적으로 저장하는 구조라는 설명 확인에 사용했다.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. NumPy 배열이 Python 리스트와 다르게 빠르고 많은 숫자 데이터를 다루는 핵심 구조라는 설명 확인에 사용했다.

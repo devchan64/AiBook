@@ -1,7 +1,7 @@
 # P2-5.5 보충학습: 표준편차, 상관, 신뢰구간을 처음 읽는 법
 
 > Section ID: `P2-5.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-5.1부터 P2-5.4까지 보면 확률, 평균, 분산, 표본, 추정, 오차의 기본 감각을 만들 수 있습니다. 그런데 실제 통계 문서나 머신러닝 책을 읽다 보면 곧 더 낯선 이름들이 이어집니다.
 
@@ -234,5 +234,9 @@ P2-5.3에서 표본을 바꾸면 추정값도 달라질 수 있다고 봤습니�
 
 ## 출처와 참고 자료
 
-- OpenStax, [Introductory Statistics 2e](https://openstax.org/details/books/introductory-statistics-2e){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- NIST/SEMATECH, [e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표준편차가 평균에서 얼마나 떨어져 있는지를 재는 값이며, 분산의 제곱근이고 원래 데이터 단위와 연결된다는 설명 확인에 사용했다.
+- NIST/SEMATECH, [Dataplot Reference: CORRELATION](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/correlat.htm){: target="_blank" rel="noopener noreferrer" }, NIST, 확인 날짜: 2026-07-19. 두 변수의 편차 곱 \(S_{xy}\)와 상관계수 공식을 통해 함께 움직임과 상관계수 해석의 근거로 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표본평균의 표본분포와 표준오차가 반복 표본에서 표본평균이 모집단 평균에서 얼마나 떨어지는지 설명한다는 근거로 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 점추정, 구간추정, 신뢰구간, 오차한계가 추정값 하나로 끝내지 않게 하는 장치라는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 9 Introduction](https://openstax.org/books/introductory-statistics/pages/9-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 가설검정이 표본 데이터를 평가해 귀무가설을 기각할 충분한 근거가 있는지 결정하는 절차라는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics 2e, 12.4 Testing the Significance of the Correlation Coefficient](https://openstax.org/books/introductory-statistics-2e/pages/12-4-testing-the-significance-of-the-correlation-coefficient){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 상관계수가 선형 관계의 강도와 방향을 말하지만 표본 크기와 함께 신뢰도를 읽어야 한다는 설명 확인에 사용했다.

@@ -1,7 +1,7 @@
 # P2-9.1 为什么需要数据结构
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-8 中，我们已经看过 Python 的值、列表、字典、循环、函数和类。现在我们后退一步，把问题换掉。
 
@@ -70,7 +70,7 @@ score_by_name = {
 - 为什么同一份数据也会因目的不同而装进不同结构？
 - 为什么 AI 与数据处理中需要数据结构直觉？
 
-本节不会深入讨论数组、表、树、图的详细结构。数组、表、树、图的比较会在 P2-9.2 继续，图的关系表示会在 P2-9.3 继续，传统数据结构名称会在 P2-9.4 补充学习中再整理一次。这里的重点不是实现细节，而是先抓住“如何选择结构”这个问题。
+本节先把数据结构读成 `数据该用什么形状来装？` 这个问题。数组、表、树、图的比较会在 P2-9.2 继续，图的关系表示会在 P2-9.3 继续，传统数据结构名称会在 P2-9.4 补充学习中再整理一次。这里先把重点放在结构选择问题上，而不是实现细节。
 
 | 现在尤其需要先问的问题 | 先去这里 | 或者现在在本节先抓住什么 |
 | --- | --- | --- |
@@ -393,6 +393,6 @@ print(student_by_name["Kim"]["score"])
 
 ## 来源与参考资料
 
-- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 确认日期: 2026-06-25.
-- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 确认日期: 2026-06-25.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-25.
+- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。用于确认把 data structure 说明为组织数据方式的定义。
+- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 abstract data type 区分为偏向行为而非实现的框架依据。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于把 Python list 与 dictionary 示例连接到数据结构选择说明。

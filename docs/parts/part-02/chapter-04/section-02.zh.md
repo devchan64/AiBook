@@ -1,7 +1,7 @@
 # P2-4.2 变化率(rate of change)与斜率(slope)
 
 > Section ID: `P2-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-4.1 中，我们重新拿出了当年学习微分时的记忆。切线的斜率、瞬时变化率、距离与速度、从点到体积的流程，都连接着一种试图理解变化与累积的数学思路。
 
@@ -264,20 +264,6 @@ y = x^2
 
 例如，在损失曲线的某个点上，如果斜率为正，我们就可以读成：沿着这个方向再走，损失很可能会变大。反过来，如果想减小损失，就会先怀疑反方向。这种解释感会直接接到下一节的微分记号，以及 Chapter 6 的梯度下降。
 
-## 本节要记住的视角
-
-变化率是相对于输入变化的输出变化。斜率则是在图像上读取这个变化率的方法。
-
-1. 变化率是 `输出变化 / 输入变化`。
-2. 斜率是图上看到的变化率。
-3. 直线是斜率固定的情况。
-4. 曲线是斜率会随位置或区间变化的情况。
-5. 平均变化率是整个区间的变化率。
-6. 瞬时变化率是某一点附近的变化率。
-7. 微分是处理瞬时变化率的数学工具。
-
-Part 2 的目的并不是证明微分。只要你在 AI 文档里遇到损失、斜率、梯度、优化这些词时，能够把它们连成 `为了减小或增大某个值而读取变化方向的故事`，就足够了。
-
 ## 用案例来看
 
 ### 案例 1. 广告费增加时，注册人数会变化多少？
@@ -299,8 +285,9 @@ Part 2 的目的并不是证明微分。只要你在 AI 文档里遇到损失、
 - 你可以说明平均变化率(average rate of change)是两个点之间的变化率。
 - 你可以说明瞬时变化率(instantaneous rate of change)如何接到微分。
 - 你可以说明，在 AI 学习里，变化率会接到“寻找让损失下降的方向”这个问题。
-
+- 你可以区分值的大小和`输入变化了多少时输出变化了多少`。
+- 你可以说明为什么要从平均变化率逐渐收窄到瞬时变化率。
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认割线斜率、切线斜率、平均速度与瞬时速度、瞬时变化率定义。确认日期: 2026-07-19.

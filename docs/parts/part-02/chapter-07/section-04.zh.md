@@ -1,7 +1,7 @@
 # P2-7.4 虚拟环境（virtual environment）与包（package）
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-7.3 中，我们看过了运行 Python 代码的方式。现在再看一个更接近实际的问题。
 
@@ -257,7 +257,7 @@ Colab 是在浏览器中运行的笔记本环境。在前期学习中，即使�
 
 ## 来源与参考资料
 
-- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals，确认日期：2026-06-24。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-06-24。
-- Python Packaging Authority, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
+- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals，确认日期：2026-07-19。作为虚拟环境拥有自己的包集合和 Python 可执行文件，并可与系统 site-packages 隔离这一设计说明的依据。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认用 `venv` 创建和激活虚拟环境，以及环境内部 Python 与包状态相互分离的说明。
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-19。用于确认按项目创建虚拟环境，并通过 `python -m pip install` 安装包的流程。
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 `pip`、`venv`、PyPI、`python -m pip install` 的基本角色，以及优先考虑虚拟环境而不是系统级安装的语境。

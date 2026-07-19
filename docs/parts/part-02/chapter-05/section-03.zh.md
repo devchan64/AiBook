@@ -1,7 +1,7 @@
 # P2-5.3 样本(sample)、估计(estimation)、误差(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-5.2 中，我们把一组数据的形状看作分布(distribution)，把中心看作均值(mean)，把扩散看作方差(variance)。现在把问题再往前推一步。
 
@@ -24,17 +24,9 @@
 
 ## 本节范围
 
-这里讨论 `样本(sample)`、`总体(population)`、`估计(estimation)`、`误差(error)` 之间最基本的关系。
+这里讨论 `样本(sample)`、`总体(population)`、`估计(estimation)`、`误差(error)` 之间最基本的关系。本节先把两个问题收住：当我们手里的数据不是全部而只是部分时会有什么限制，以及用样本算出来的数字能信到哪里。
 
-下面这些内容不会在这里深入展开。
-
-- 置信区间(confidence interval)
-- 假设检验(hypothesis testing)
-- 标准误(standard error)的公式计算
-- 中心极限定理(central limit theorem)的严格说明
-- 偏差-方差权衡(bias-variance tradeoff)
-
-标准误、置信区间、假设检验、中心极限定理，会在 P2-5.5 补充学习里以入门层次再讲一次。偏差-方差权衡会在 Part 3 的 P3-5 泛化(generalization) 和 P3-6 评价指标(metric)语境里再次出现。这里先固定一个视角：`用样本估计整体时，误差会出现。`
+用小数据直接确认样本均值怎样波动的练习，会在 P2-5.4 继续处理。标准误、置信区间这类解释波动的工具，会在 P2-5.5 补充学习中再次处理。偏差-方差权衡会在 Part 3 的 P3-5 泛化(generalization)和 P3-6 评价指标(metric)语境里再次连接。这里先固定一个视角：`用样本估计整体时，误差会出现。`
 
 这里首先要解决的问题是：`如果我们手里的数据不是全部，而只是其中一部分，那么这个数字该信到哪里，又该从哪里开始小心？`
 
@@ -236,6 +228,6 @@ AI 的训练数据(training data)不是现实的全部，而是从现实里收�
 
 ## 来源与参考资料
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认当调查整个总体成本过高或几乎不可能时会使用样本，以及样本应具有所代表总体的相同特征这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认重复计算样本均值时，如何读取均值与扩散，并连接到中心极限定理的语境。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于支撑样本均值的抽样分布、标准误，以及重复抽样时样本均值可能离总体均值多远的说明。

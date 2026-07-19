@@ -1,7 +1,7 @@
 # P2-3.2 벡터 공간(vector space)과 위치의 직관
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 모양(shape)의 관점에서 봤습니다. 이제 벡터를 단순한 값의 목록에서 조금 더 확장해 봅니다. AI 문서에서 벡터는 종종 “어떤 공간 안의 위치”처럼 설명됩니다.
 
@@ -344,3 +344,5 @@ Mikolov, Chen, Corrado, Dean의 word2vec 논문은 큰 텍스트 데이터에서
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
 - Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, 확인 날짜: 2026-06-24.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 확인 날짜: 2026-06-24.
+- Google for Developers, [Embeddings: Embedding space and static embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/embedding-space){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-07-19. 임베딩을 벡터 표현과 임베딩 공간의 가까움으로 설명하는 공식 교육 자료입니다.
+- Google for Developers, [Measuring similarity from embeddings](https://developers.google.com/machine-learning/clustering/dnn-clustering/supervised-similarity){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-07-19. 임베딩 벡터의 유사도를 거리, 코사인, 내적 등으로 측정한다는 연결을 확인하는 참고 자료입니다.

@@ -1,7 +1,7 @@
 # P2-7.8 보충학습: 셸 스크립트(shell script), 파이프(pipe), 리다이렉션(redirection), 환경 변수(environment variable) 읽기
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7.2와 P2-7.6에서는 터미널을 열고 현재 위치를 확인하는 수준까지 다뤘습니다. 그런데 실제 학습 자료를 따라가다 보면 금방 더 낯선 표현을 만납니다.
 
@@ -223,7 +223,7 @@ AI 학습 문서와 프로젝트 예제는 파일, 로그, 데이터, 비밀값,
 
 ## 출처와 참고 자료
 
-- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-07-19. Bash의 셸 역할, 파이프라인, 리다이렉션, 변수·환경 변수 문법을 확인하는 근거로 사용했다.
+- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-19. PowerShell에서 `|`가 앞 명령 결과를 다음 명령으로 보내는 파이프라인 연산자라는 설명 확인에 사용했다.
+- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-19. PowerShell에서 `>`, `>>`, `n>` 같은 리다이렉션 연산자가 출력 스트림을 파일로 보내거나 추가한다는 설명 확인에 사용했다.
+- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, 확인 날짜: 2026-07-19. 환경 변수가 운영체제와 프로그램이 사용하는 문자열 설정값이며 자식 프로세스에 전달될 수 있다는 설명 확인에 사용했다.

@@ -1,13 +1,13 @@
 # P2-7.6 补充学习：Windows、macOS、Linux 终端使用方法
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-7.2 中，我们看过终端（terminal）、shell、工作文件夹（working directory）的概念。这里要处理的是，如何在实际操作系统中确认这些概念。
 
 这里补充说明 `按操作系统进入终端的步骤` 和 `确认基本位置的命令`。
 
-这里不解释 Python 语法，也不会深入讨论 Python 安装。Python 安装会在 P2-7.7 中单独处理。这个补充学习练习的是：“命令要输入在哪里，当前位置怎么确认，如何移动到实践文件夹”。
+这个补充学习练习的是：“命令要输入在哪里，当前位置怎么确认，如何移动到实践文件夹”。Python 安装会在 P2-7.7 中单独处理。这里集中看在不同操作系统的终端里，如何完成同一目的的检查。
 
 这个补充学习整理了在 Windows、macOS、Linux 中打开终端、确认当前位置、并移动到实践文件夹的步骤。执行环境这一概念本身会在 P2-7.1 和 P2-7.2 中处理。
 
@@ -32,7 +32,7 @@
 - 为什么 Windows 命令与 macOS/Linux 命令会有些不同？
 - 在执行复制粘贴的命令时要注意什么？
 
-这里不会深入处理 shell script、pipe、redirection、管理员权限、环境变量（environment variable）。这些表达会在 P2-7.8 补充学习中单独回收，而在 Part 6 中又会在项目语境里重新连接权限与日志。
+这个补充学习先收束即使操作系统不同也共通的检查顺序：`先确认当前位置`、`查看文件列表`、`移动到实践文件夹`。shell script、pipe、redirection、管理员权限、环境变量（environment variable）会在 P2-7.8 补充学习中再次回收。
 
 ## 本补充学习的目标
 
@@ -388,10 +388,10 @@ PS C:\Users\someone> python example.py
 
 ## 来源与参考资料
 
-- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn，确认日期：2026-06-24。
-- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-06-24。
-- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-06-24。
-- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki，确认日期：2026-06-24。
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-06-24。
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-06-24。
-- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-06-24。
+- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn，确认日期：2026-07-19。用于确认 Windows Terminal 是运行 Command Prompt、PowerShell、WSL bash 等命令行 shell 的宿主应用。
+- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-07-19。用于确认 macOS Terminal 中新建窗口/标签页、复制粘贴、`Tab`、`Ctrl-C` 类行为的快捷键。
+- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support，确认日期：2026-07-19。用于确认 macOS Terminal 的角色，以及执行命令、指定文件和文件夹的说明。
+- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki，确认日期：2026-07-19。用于确认在 Ubuntu/Linux 中打开终端并执行命令行工作的入门语境。
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-19。用于确认 PowerShell 中查看当前工作位置的命令及其 `pwd` 别名。
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-19。用于确认 PowerShell 中改变当前工作位置的命令及其 `cd` 别名。
+- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation，确认日期：2026-07-19。用于确认 PowerShell 中列出文件和文件夹的命令及其 `ls` 别名。

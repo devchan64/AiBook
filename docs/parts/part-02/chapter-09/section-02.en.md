@@ -1,7 +1,7 @@
 # P2-9.2 The Intuition of Arrays, Tables, Trees, and Graphs
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-9.1, we viewed a data structure as a question of how data is organized into a shape. Now we compare broadly four shapes that appear often in AI practice.
 
@@ -29,7 +29,7 @@ Instead of memorizing all data-structure names at once, this Section compares wh
 
 ## Scope of This Section
 
-This Section does not implement arrays, tables, trees, and graphs in depth. The central question is, `How can the same data become an array, table, tree, or graph depending on the viewpoint?`
+This Section does not implement arrays, tables, trees, and graphs in depth. Instead, it distinguishes how the same data can become an array, table, tree, or graph depending on whether we are looking at `position`, `rows and columns`, `hierarchy`, or `relationships`.
 
 The question to resolve first here is this: `Why does the natural structure change depending on whether we are looking at position, rows and columns, hierarchy, or relation in the current data?`
 
@@ -41,7 +41,7 @@ So this Section answers the following questions.
 - Why is a graph needed when explaining relations and connections?
 - In AI practice, in which situations is it useful to recall which structural intuition first?
 
-This Section does not go deeply into graph search algorithms, tree implementation, database normalization, detailed Pandas usage, or NumPy's internal memory layout. Graphs are treated separately in P2-9.3, and traditional data-structure names are organized again in the P2-9.4 supplement. Here the focus is on comparing the four structures by question rather than by implementation.
+Graphs are treated separately in P2-9.3, and traditional data-structure names are organized again in the P2-9.4 supplement. Here, we focus on comparing the four structures by question rather than by implementation.
 
 The flow after this Section is simple too.
 
@@ -514,7 +514,7 @@ The checkable result is whether the code changes by question. If different expre
 
 ## Sources and References
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy documentation, checked 2026-06-25.
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, checked 2026-06-25.
-- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked 2026-06-25.
-- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked 2026-06-25.
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the basis for array intuition by confirming `ndarray` dimensions, shape, dtype, indexing, and slicing.
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used as the basis for explaining a DataFrame as a two-dimensional structure with rows and columns.
+- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used as the basis for explaining a tree as a hierarchical structure with root and parent-child relationships.
+- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used as the basis for explaining a graph as a structure that represents relationships with nodes and edges.

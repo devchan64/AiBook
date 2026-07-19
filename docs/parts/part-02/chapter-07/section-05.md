@@ -1,7 +1,7 @@
 # P2-7.5 의존성(dependency)과 재현성(reproducibility)
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤습니다. 이제 한 가지 질문이 남습니다.
 
@@ -300,7 +300,7 @@ Colab 런타임은 초기화될 수 있습니다. 그때 설치했던 패키지�
 
 예를 들어 노트북 맨 위에 다음처럼 짧은 메모를 둘 수 있습니다.
 
-- 작성일: 2026-06-24
+- 작성일: 2026-07-19
 - 실행 환경: Google Colab
 - 주요 패키지: numpy, pandas, matplotlib
 - 다시 실행할 때 확인할 것: 런타임 초기화 여부, 데이터 파일 업로드 여부
@@ -344,6 +344,6 @@ Colab 런타임은 초기화될 수 있습니다. 그때 설치했던 패키지�
 
 ## 출처와 참고 자료
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation, 확인 날짜: 2026-06-24.
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation, 확인 날짜: 2026-06-24.
-- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-06-24.
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-19. `python -m pip`, 패키지 설치, requirements 파일, repeatable installs를 위한 `pip freeze` 사용 맥락 확인에 사용했다.
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-19. 현재 환경에 설치된 패키지 목록을 requirements 형식으로 출력한다는 설명 확인에 사용했다.
+- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-19. 프로젝트 배포용 의존성 메타데이터와 실행 환경 재현을 위한 requirements 파일의 역할 차이 확인에 사용했다.

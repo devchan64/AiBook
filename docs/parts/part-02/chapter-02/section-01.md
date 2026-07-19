@@ -1,7 +1,7 @@
 # P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-1.2에서는 수식(formula), 코드(code), 데이터(data)가 같은 계산을 서로 다른 방식으로 보여 준다는 관점을 잡았습니다. 이제 수식을 읽을 때 가장 먼저 만나는 기본 표기를 복구합니다.
 
@@ -306,3 +306,5 @@ AI에서 오류는 수식보다 데이터와 코드의 연결 지점에서 자�
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Python Software Foundation, [Assignment statements](https://docs.python.org/3/reference/simple_stmts.html#assignment-statements){: target="_blank" rel="noopener noreferrer" }, Python Language Reference, 확인 날짜: 2026-07-19. 코드 변수와 재할당 설명을 확인하는 직접 참고 자료입니다.
+- NumPy Developers, [numpy.ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 배열 변수의 `shape`와 `dtype` 확인 예제를 뒷받침하는 공식 참고 자료입니다.

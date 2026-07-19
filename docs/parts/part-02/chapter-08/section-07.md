@@ -1,7 +1,7 @@
 # P2-8.7 보충학습: 참조(reference), 얕은 복사(shallow copy), 깊은 복사(deep copy)를 처음 구분하는 법
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-8.2에서는 리스트(list)를 다른 이름에 대입했다고 해서 자동으로 새 복사본이 생기지 않는다는 점을 봤습니다. 이 지점에서 많은 독자가 바로 헷갈립니다.
 
@@ -268,5 +268,5 @@ C: [[10, 20], [30, 40]] [[-1, 20], [30, 40]]
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
-- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-29.
+- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 리스트 대입, `list.copy()`, 슬라이스 복사, 리스트 메서드 예시를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 대입과 복사의 차이, 얕은 복사와 깊은 복사의 정의, 중첩 객체 복사 차이를 확인하는 핵심 근거로 사용했다.

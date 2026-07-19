@@ -1,7 +1,7 @@
 # P2-4.6 합성함수(composite function)와 연쇄 법칙(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 미분(derivative), 그래디언트(gradient), 경사하강법(gradient descent)까지 읽고 나면 `역전파(backpropagation)는 chain rule을 사용한다`는 문장이 남습니다. 여기서 `연쇄 법칙(chain rule)`을 모르면 역전파는 계산 구조가 아니라 암기 문장처럼 보이기 쉽습니다.
 
@@ -172,5 +172,6 @@ y = 2x + 1,\quad z = y^2
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`. `backpropagation`, `gradient` 같은 용어를 함께 확인할 수 있으므로, 연쇄 법칙이 왜 역전파 설명과 붙는지 읽는 최소 참고점이 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }, 합성함수의 미분과 연쇄 법칙, 두 단계 이상 합성의 연쇄 법칙 적용을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- Google for Developers, `Machine Learning Glossary`. `backpropagation`, `gradient` 같은 용어를 함께 확인할 수 있으므로, 연쇄 법칙이 왜 역전파 설명과 붙는지 읽는 최소 참고점이 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
 - 같은 Part 내부 연결: [P2-4.3 미분(derivative)과 그래디언트(gradient)](section-03.md), [P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로](section-05.md). 이 절은 두 Section 사이의 `합성함수 -> chain rule -> backpropagation` 연결을 보강합니다.

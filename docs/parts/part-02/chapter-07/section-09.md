@@ -1,7 +1,7 @@
 # P2-7.9 보충학습: 자주 막히는 로컬 Python 환경 문제를 점검하는 법
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤고, P2-7.5에서는 의존성(dependency)과 재현성(reproducibility)을 봤습니다. P2-7.7과 P2-7.8에서는 Python 설치와 환경 변수(environment variable)를 따로 정리했습니다.
 
@@ -280,7 +280,7 @@ Windows 학습자가 `python --version`을 입력했는데 명령을 찾지 못�
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 플랫폼별 Python 설정과 인터프리터 호출 문서 구조를 로컬 환경 점검 순서의 배경으로 사용했다.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Windows에서 Python 실행 명령과 설치 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Unix/Linux 계열에서 Python 실행 명령과 설치 경로가 환경별로 달라질 수 있음을 확인하는 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 가상환경 활성화 여부와 패키지 설치 위치를 함께 점검해야 한다는 설명의 근거로 사용했다.

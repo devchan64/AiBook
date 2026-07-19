@@ -1,7 +1,7 @@
 # P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-4장에서는 미분(derivative)과 그래디언트(gradient)를 통해 “값을 어떻게 바꾸면 손실(loss)이 줄어드는가”를 봤습니다. 이제 다른 종류의 수학 언어가 필요합니다.
 
@@ -266,5 +266,5 @@ AI는 많은 경우 확실한 규칙만으로 동작하지 않습니다. 데이�
 
 ## 출처와 참고 자료
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 확률, 결과(outcome), 표본공간(sample space), 사건(event), 0과 1 사이의 확률값, 장기 상대빈도, 조건부확률 용어 확인에 사용했다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 확률론을 AI와 머신러닝의 불확실성 표현 틀로 설명하는 근거로 사용했다.

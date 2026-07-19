@@ -1,7 +1,7 @@
 # P2-8.3 字典（dictionary）：按键（key）查找值的结构
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-8.2 中，我们看过了有顺序的值集合，也就是列表（list）。但并不是所有数据都只靠顺序来读取。
 
@@ -393,7 +393,7 @@ print(student.get("label", "unknown"))
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-25。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认字典创建、通过 key 访问 value，以及使用 `items()` 遍历的示例。
+- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 `dict` 是 mutable mapping type，并且是通过 key 查找 value 的结构。
+- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 dictionary 与 hashable 的术语定义。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认对象的 identity/type/value 和 hashability，作为字典 key 限制的背景依据。

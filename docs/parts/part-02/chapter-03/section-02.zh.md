@@ -1,7 +1,7 @@
 # P2-3.2 向量空间(vector space)与位置的直觉
 
 > Section ID: `P2-3.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-3.1 里，我们从数据形状(shape)的角度看了标量(scalar)、向量(vector)、矩阵(matrix)。现在再把向量从“值的列表”向前推进一步。在 AI 文档里，向量经常会被解释成 `某个空间里的位置`。
 
@@ -343,3 +343,5 @@ Mikolov、Chen、Corrado、Dean 的 word2vec 论文在大规模文本数据中�
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
 - Yoshua Bengio, Aaron Courville, Pascal Vincent, [Representation Learning: A Review and New Perspectives](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }, arXiv, 2012, 确认日期: 2026-06-24.
 - Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781){: target="_blank" rel="noopener noreferrer" }, arXiv, 2013, 确认日期: 2026-06-24.
+- Google for Developers, [Embeddings: Embedding space and static embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/embedding-space){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 确认日期：2026-07-19. 这个官方教育资料把 embedding 解释为向量表示和 embedding 空间中的邻近位置。
+- Google for Developers, [Measuring similarity from embeddings](https://developers.google.com/machine-learning/clustering/dnn-clustering/supervised-similarity){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 确认日期：2026-07-19. 这个参考资料支持用距离、余弦或点积来度量 embedding 向量相似度的连接。

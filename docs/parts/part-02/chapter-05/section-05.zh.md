@@ -1,7 +1,7 @@
 # P2-5.5 补充学习：第一次阅读标准差、相关与置信区间的方法
 
 > Section ID: `P2-5.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 如果从 P2-5.1 读到 P2-5.4，就已经能建立起关于概率、均值、方差、样本、估计、误差的基本感觉。但一旦开始阅读真正的统计文档或机器学习书籍，很快就会接着出现更多陌生的名字。
 
@@ -40,7 +40,7 @@
 | 标准误 | 看估计值可能会摇动多大的值 | 关于估计不稳定性的提问 |
 | 置信区间 | 与估计值一起读的范围信息 | 不让解释停在一个数字上的装置 |
 
-这里不会深入讨论公式证明、关于 p-value 的细节争论、统计检验流程的完整实务应用，或中心极限定理的严格数学展开。这里只回收最基本的阅读标准，让你在读文档时不至于停住。
+本补充学习先把 `扩散`、`共同变化`、`估计的摇动`、`差异解释` 当作不同问题来读的标准收住。这里只回收最基本的阅读标准，让你在读文档时不至于停住。
 
 这一节之后的流向也很简单。
 
@@ -234,5 +234,9 @@
 
 ## 来源与参考资料
 
-- OpenStax, [Introductory Statistics 2e](https://openstax.org/details/books/introductory-statistics-2e){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
-- NIST/SEMATECH, [e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-29.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认标准差衡量数据值离均值有多远，是方差的平方根，并把扩散重新连接到原始数据单位。
+- NIST/SEMATECH, [Dataplot Reference: CORRELATION](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/correlat.htm){: target="_blank" rel="noopener noreferrer" }, NIST, 确认日期: 2026-07-19。用于通过交叉偏差项 \(S_{xy}\) 和相关系数公式支撑共同变化与相关系数解释。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于支撑样本均值的抽样分布，以及标准误描述重复抽样时样本均值可能离总体均值多远这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认点估计、区间估计、置信区间、误差范围是避免解释停在单个估计值上的装置。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 9 Introduction](https://openstax.org/books/introductory-statistics/pages/9-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认假设检验是评估样本数据，并判断是否有足够证据拒绝原假设的过程。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics 2e, 12.4 Testing the Significance of the Correlation Coefficient](https://openstax.org/books/introductory-statistics-2e/pages/12-4-testing-the-significance-of-the-correlation-coefficient){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认相关系数描述线性关系的强度和方向，但可靠性需要和样本大小一起阅读。

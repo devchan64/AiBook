@@ -1,7 +1,7 @@
 # P2-7.2 터미널(terminal), 셸(shell), 작업 폴더(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7.1에서는 코드가 실행되는 자리를 먼저 봤습니다. 이제는 로컬 PC에서 명령을 입력할 때 가장 먼저 만나는 화면을 봅니다.
 
@@ -294,8 +294,8 @@ P2-3.5에서 `!pip install numpy`와 `%pip install numpy`를 구분했던 이유
 
 ## 출처와 참고 자료
 
-- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 확인 날짜: 2026-06-24.
-- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-06-24.
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-06-24.
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
+- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 확인 날짜: 2026-07-19. 과거 문자 기반 터미널과 현대 명령줄 인터페이스의 관계를 설명하는 역사적 보조 근거로 사용했다.
+- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 확인 날짜: 2026-07-19. 셸이 명령 인터프리터이자 프로그래밍 언어라는 설명과 Bash 명령 처리 맥락 확인에 사용했다.
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-19. PowerShell에서 현재 작업 위치를 확인하는 공식 명령과 `pwd` 별칭 맥락 확인에 사용했다.
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 확인 날짜: 2026-07-19. PowerShell에서 현재 작업 위치를 바꾸는 공식 명령과 `cd` 별칭 맥락 확인에 사용했다.
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 코드 안에서 현재 작업 폴더를 문자열로 확인할 수 있다는 설명의 근거로 사용했다.

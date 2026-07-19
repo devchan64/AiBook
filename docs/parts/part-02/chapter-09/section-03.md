@@ -1,7 +1,7 @@
 # P2-9.3 그래프(graph)는 관계를 어떻게 표현하는가
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 관점으로 비교했습니다. 그중 그래프는 특히 낯설 수 있습니다.
 
@@ -412,5 +412,5 @@ print("two hop:", two_hop_neighbors)
 
 ## 출처와 참고 자료
 
-- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-06-25.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX documentation, 확인 날짜: 2026-06-25.
+- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 그래프를 vertices/nodes와 edges/arcs로 구성된 구조로 설명하는 근거로 사용했다.
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6 documentation, 확인 날짜: 2026-07-19. 작은 무방향 그래프, 노드, 엣지, 인접 관계를 Python 코드 관점으로 확인하는 근거로 사용했다.

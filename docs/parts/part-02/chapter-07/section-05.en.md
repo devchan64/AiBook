@@ -1,7 +1,7 @@
 # P2-7.5 Dependency and Reproducibility
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7.4, we looked at virtual environments and packages. Now one question remains.
 
@@ -38,7 +38,7 @@ Rather than learning the Python package distribution system in depth, this secti
 
 ## Scope of This Section
 
-This section covers introductory concepts of dependency and reproducibility. It does not go deeply into package distribution, lock files, dependency resolvers, containers, or CI environments. The order of checking which Python and packages the local environment is actually using is gathered again in the P2-7.9 supplementary section. The installation procedure itself is covered again in P2-7.4, and operating-system-specific Python preparation is covered again in P2-7.7.
+This section covers introductory concepts of dependency and reproducibility. This section first closes the questions `what must be recorded together with code` and `what conditions are needed to run the same code again later`. The order of checking which Python and packages the local environment is actually using is gathered again in the P2-7.9 supplementary section. The installation procedure itself is covered again in P2-7.4, and operating-system-specific Python preparation is covered again in P2-7.7.
 
 Here, we answer the following questions.
 
@@ -300,7 +300,7 @@ This command is convenient, but in the long run it is safer to leave the package
 
 For example, at the top of a notebook, you can leave a short note like this.
 
-- Date created: 2026-06-24
+- Date created: 2026-07-19
 - Execution environment: Google Colab
 - Main packages: numpy, pandas, matplotlib
 - Things to check when rerunning: whether the runtime was reset, whether the data file was uploaded
@@ -344,6 +344,6 @@ The confirmable result can be judged by whether an installation list and version
 
 ## Sources and References
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation, checked on 2026-06-24.
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation, checked on 2026-06-24.
-- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked on 2026-06-24.
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-19. Used to confirm `python -m pip`, package installation, requirements files, and the use of `pip freeze` for repeatable installs.
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-19. Used to confirm that it outputs installed packages in requirements format for the current environment.
+- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-19. Used to confirm the distinction between dependency metadata for project distribution and requirements files for reproducing an execution environment.

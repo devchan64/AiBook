@@ -1,7 +1,7 @@
 # P2-3.5 Python 运行环境：Colab 与本地 PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 从 P2-3.1 到 P2-3.4，我们主要是用公式和比较标准来阅读线性代数(linear algebra)。下一节会开始用 NumPy 直接检查向量(vector)、矩阵(matrix)、矩阵乘法(matrix multiplication)。在这之前，必须先分清 Python 代码到底是在哪里运行的。
 
@@ -16,7 +16,7 @@
 
 如何在个人电脑上安装 Python、如何管理虚拟环境，会在 `P2-7.1`、`P2-7.6`、`P2-7.7`、`P2-7.8` 里再次出现。这里先固定 Colab 与本地 PC 的执行位置差异。需要快速回看术语时，也可以一起查看[概念词汇表](/AiBook/en/reference/concept-glossary/)。
 
-本文依据 2026 年 6 月 24 日确认的 Google Colab 官方说明和 FAQ 编写。Colab 是外部服务，因此未来它的 UI、使用条件、免费范围、运行策略、甚至服务是否持续，都可能发生变化。如果你阅读这一节时，Colab 已无法提供、或看起来和这里不同，那么应另外查看 Google Colab 官方文档和当前服务状态。
+本文依据 2026 年 7 月 19 日确认的 Google Colab 官方说明和 FAQ、IPython `%pip` 文档、pip 用户指南编写。Colab 是外部服务，因此未来它的 UI、使用条件、免费范围、运行策略、甚至服务是否持续，都可能发生变化。如果你阅读这一节时，Colab 已无法提供、或看起来和这里不同，那么应另外查看 Google Colab 官方文档和当前服务状态。
 
 ## 本节范围
 
@@ -186,6 +186,8 @@ python -m pip install numpy
 
 ## 来源与参考资料
 
-- Google, `Google Colab`. 可以直接确认 Colab 是基于浏览器的笔记本环境，并看到基本使用流程。 [https://colab.research.google.com/](https://colab.research.google.com/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google, `Welcome to Colab`. 可以直接确认代码单元如何运行，以及笔记本的基础流程。 [https://colab.research.google.com/notebooks/intro.ipynb](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google, `Google Colab FAQ`. 可以确认 Colab 是托管服务而不是固定的本地程序，并了解其运行时和服务特性。 [https://research.google.com/colaboratory/faq.html](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google, `Google Colab`. 可以直接确认 Colab 是基于浏览器的笔记本环境，并看到基本使用流程。 [https://colab.research.google.com/](https://colab.research.google.com/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- Google, `Welcome to Colab`. 可以直接确认代码单元如何运行，以及笔记本的基础流程。 [https://colab.research.google.com/notebooks/intro.ipynb](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- Google, `Google Colab FAQ`. 可以确认 Colab 是无需安装的托管 Jupyter Notebook 服务，并了解运行时和使用限制可能变化。 [https://research.google.com/colaboratory/faq.html](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- IPython Development Team, `Built-in magic commands - %pip`. 可以确认 `%pip install` 会在当前内核中运行 pip 包管理器。 [https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- Python Packaging Authority, `pip User Guide`. 可以确认在本地终端中使用 `python -m pip install ...` 安装包的官方示例。 [https://pip.pypa.io/en/stable/user_guide/](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19

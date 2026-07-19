@@ -1,7 +1,7 @@
 # P2-7.7 보충학습: Python 설치는 언제 필요한가
 
 > Section ID: `P2-7.7`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7.6에서는 Windows, macOS, Linux에서 터미널을 열고 현재 위치를 확인하는 방법을 봤습니다. 이제 남는 질문은 이것입니다.
 
@@ -25,7 +25,7 @@ P2-7.6에서는 Windows, macOS, Linux에서 터미널을 열고 현재 위치를
 
 ## 공식 설치 매뉴얼 링크
 
-링크 수집일: 2026-06-24
+링크 수집일: 2026-07-19
 
 설치 화면과 권장 방식은 시간이 지나며 바뀔 수 있습니다. 실제 설치를 진행할 때는 이 절의 설명만 보지 말고, 아래 공식 문서를 함께 확인합니다.
 
@@ -270,9 +270,9 @@ Python 설치가 꼬였을 때는 바로 재설치부터 하지 않습니다. �
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 플랫폼별 Python 환경 설정, 인터프리터 호출, 설치 관련 문서 구조 확인에 사용했다.
+- Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-07-19. 최신 Python 다운로드와 운영체제별 다운로드 진입점 확인에 사용했다.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Windows에서 Python 설치와 실행 방식이 별도 안내된다는 점을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. macOS에서 python.org 배포판과 설치 뒤 패키지 사용 안내를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Linux/Unix 계열에서 배포판 패키지와 소스 빌드 등 설치 경로가 운영체제별로 다를 수 있음을 확인하는 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 설치와 별개로 프로젝트별 가상환경을 만드는 단계가 필요할 수 있음을 확인하는 근거로 사용했다.

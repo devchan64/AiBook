@@ -1,7 +1,7 @@
 # P2-5.2 분포(distribution), 평균(mean), 분산(variance)
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-5.1에서는 확률(probability)을 불확실성(uncertainty)을 숫자로 표현하는 언어로 봤습니다. 이제 그 숫자들이 여러 개 모였을 때 무엇을 봐야 하는지로 넘어갑니다.
 
@@ -282,6 +282,6 @@ B는 평균에서 더 멀리 떨어진 값이 많습니다. 그래서 B의 분�
 
 ## 출처와 참고 자료
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 히스토그램을 통해 큰 데이터 묶음의 모양, 중심, 퍼짐을 읽는다는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 평균(mean)을 데이터 중심의 대표값으로 설명하는 근거로 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 분산과 표준편차가 평균 주변의 퍼짐, 제곱 편차, 원래 단위와 연결되는 설명 확인에 사용했다.

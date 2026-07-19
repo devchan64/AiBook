@@ -1,7 +1,7 @@
 # P2-3.5 Python Runtime Environments: Colab and Local PC
 
 > Section ID: `P2-3.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 From P2-3.1 through P2-3.4, we looked at linear algebra mainly through formulas and comparison standards. In the next section, we will directly check vectors, matrices, and matrix multiplication with NumPy. Before that, we first need to separate where Python code is being run.
 
@@ -16,7 +16,7 @@ Here we reorganize `Colab`, `local PC`, `code cell`, `terminal`, and the differe
 
 How to install Python on your own PC and manage virtual environments returns in `P2-7.1`, `P2-7.6`, `P2-7.7`, and `P2-7.8`. Here we first fix the difference in execution location between Colab and a local PC. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
-This document was written based on the official Google Colab guide and FAQ checked on June 24, 2026. Colab is an external service, so its UI, usage conditions, free tier, runtime policy, or even service availability may change later. If, when you read this section, Colab is unavailable or looks different from this guide, you should separately check the current Google Colab documentation and service status.
+This document was written based on the official Google Colab guide and FAQ, the IPython `%pip` documentation, and the pip user guide checked on July 19, 2026. Colab is an external service, so its UI, usage conditions, free tier, runtime policy, or even service availability may change later. If, when you read this section, Colab is unavailable or looks different from this guide, you should separately check the current Google Colab documentation and service status.
 
 ## Scope of This Section
 
@@ -186,6 +186,8 @@ The minimum sentence the reader should keep from here is the following.
 
 ## Sources and References
 
-- Google, `Google Colab`. It lets us directly check that Colab is a browser-based notebook environment and see the basic usage flow. [https://colab.research.google.com/](https://colab.research.google.com/){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
-- Google, `Welcome to Colab`. It lets us directly confirm how code cells are run and how the basic notebook flow works. [https://colab.research.google.com/notebooks/intro.ipynb](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
-- Google, `Google Colab FAQ`. It lets us confirm that Colab is a hosted service rather than a fixed local program, including its runtime and service characteristics. [https://research.google.com/colaboratory/faq.html](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
+- Google, `Google Colab`. It lets us directly check that Colab is a browser-based notebook environment and see the basic usage flow. [https://colab.research.google.com/](https://colab.research.google.com/){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- Google, `Welcome to Colab`. It lets us directly confirm how code cells are run and how the basic notebook flow works. [https://colab.research.google.com/notebooks/intro.ipynb](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- Google, `Google Colab FAQ`. It confirms that Colab is a hosted Jupyter Notebook service that requires no setup, and that runtime and usage limits can change. [https://research.google.com/colaboratory/faq.html](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- IPython Development Team, `Built-in magic commands - %pip`. It confirms that `%pip install` runs the pip package manager within the current kernel. [https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-pip){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- Python Packaging Authority, `pip User Guide`. It provides official examples of installing packages from a local terminal with `python -m pip install ...`. [https://pip.pypa.io/en/stable/user_guide/](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19

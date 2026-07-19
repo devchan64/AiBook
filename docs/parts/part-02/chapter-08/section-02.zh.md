@@ -1,7 +1,7 @@
 # P2-8.2 列表（list）：有顺序的值集合
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-8.1 中，我们看过了值（value）、变量（variable）、类型（type）。现在来看第一个可以一次处理多个值的结构：列表（list）。
 
@@ -226,7 +226,7 @@ print(other_scores)
 - 把列表赋给另一个名字，并不会自动产生新的副本。
 - 如果数据预处理中必须保留原始列表，就要认真对待是否复制。
 
-浅复制（shallow copy）和深复制（deep copy）这里不深入处理。这个差异会在后面的补充学习 P2-8.7 中，以 `原对象和副本什么时候会一起变化` 为标准重新整理。
+复制与 `原对象和副本什么时候会一起变化` 这个问题，会在紧接着的补充学习 P2-8.7 中重新整理。
 
 ## 列表可以通过简洁语法来连接、切割和修改
 
@@ -563,7 +563,7 @@ for file_name in file_names:
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-25。
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy documentation，确认日期：2026-06-25。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认列表方法、把列表当作 stack 使用的例子、列表推导式与嵌套列表示例。
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认序列类型、mutable sequence 操作、索引与切片行为。
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认标准库 `array` 会高效存储相同基本类型的值。
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 NumPy 数组不同于普通 Python 列表，是高效处理大量数值数据的核心结构。

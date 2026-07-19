@@ -1,7 +1,7 @@
 # P2-8.1 값(value), 변수(variable), 타입(type)
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7에서는 코드가 어디에서 실행되는지 봤습니다. Colab에서 실행할 수도 있고, 로컬 PC(local PC)의 터미널에서 Python 인터프리터(Python interpreter)를 실행할 수도 있습니다.
 
@@ -403,7 +403,7 @@ print(score >= threshold)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
+- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, 확인 날짜: 2026-07-19. Python의 동적 의미론(dynamic semantics), 동적 타이핑(dynamic typing), 고수준 내장 자료구조 설명 확인에 사용했다.
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 대화형 예제에서 프롬프트, 숫자, 문자열, 리스트가 어떻게 소개되는지 확인하는 근거로 사용했다.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `int`, `float`, `str`, `bool` 등 기본 타입과 타입별 연산 차이를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python에서 객체가 정체성(identity), 타입(type), 값(value)을 가진다는 설명 확인에 사용했다.

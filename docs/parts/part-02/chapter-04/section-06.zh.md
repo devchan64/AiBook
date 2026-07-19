@@ -1,7 +1,7 @@
 # P2-4.6 复合函数(composite function)与链式法则(chain rule)
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 读完导数(derivative)、梯度(gradient)、梯度下降(gradient descent)之后，还会留下这样一句话：`backpropagation uses the chain rule`。如果这里不知道链式法则(chain rule)，反向传播就很容易看起来像一句需要背下来的话，而不是一种计算结构。
 
@@ -172,5 +172,6 @@ y = 2x + 1,\quad z = y^2
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary`. 因为它可以一起确认 `backpropagation`、`gradient` 等词，所以它可以作为阅读“为什么链式法则会和反向传播说明绑定在一起”的最小参考点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }。可以确认复合函数的求导、链式法则，以及两层以上复合函数中的链式法则应用。确认日期: 2026-07-19.
+- Google for Developers, `Machine Learning Glossary`. 因为它可以一起确认 `backpropagation`、`gradient` 等词，所以它可以作为阅读“为什么链式法则会和反向传播说明绑定在一起”的最小参考点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
 - 同一 Part 内部连接：[P2-4.3 微分(derivative)与梯度(gradient)](section-03.md)、[P2-4.5 梯度补充学习：从高中微分到多变量微分](section-05.md)。这一节补强的是这两节之间的 `复合函数 -> chain rule -> backpropagation` 连接。

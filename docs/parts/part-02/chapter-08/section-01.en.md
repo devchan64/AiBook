@@ -1,7 +1,7 @@
 # P2-8.1 Values, Variables, and Types
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7, we looked at where code runs. You can run it in Colab, or you can run the Python interpreter on the terminal of a local PC.
 
@@ -47,7 +47,7 @@ Here, we answer the following questions.
 - How do numbers, strings, and booleans behave differently?
 - Why do we need to check types in AI practice?
 
-Here, we do not go deeply into lists, dictionaries, loops, or functions. Those topics continue from P2-8.2 to P2-8.5. Also, the shape of method calls and the issue of reference/copy are recovered separately in the supplementary sections P2-8.6 and P2-8.7.
+This section first closes the questions `is the thing I am seeing a value`, `what name points to it again`, and `what operations are possible because of its type`. Lists, dictionaries, loops, and functions continue from P2-8.2 to P2-8.5, and method-call shapes and reference/copy issues are recovered again in the supplementary sections P2-8.6 and P2-8.7.
 
 The call shape `value.method()` is handled separately in the supplementary section P2-8.6, and why copying a list can change the original as well is handled separately in the supplementary section P2-8.7.
 
@@ -404,7 +404,7 @@ The confirmable result is simple. Even if it looks the same as `82.5` on screen,
 
 ## Sources and References
 
-- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, checked on 2026-06-24.
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
+- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org, checked on 2026-07-19. Used to confirm Python's dynamic semantics, dynamic typing, and high-level built-in data structures.
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm how prompts, numbers, strings, and lists are introduced in interactive Python examples.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm basic types such as `int`, `float`, `str`, and `bool`, and differences in operations by type.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm that Python objects have identity, type, and value.

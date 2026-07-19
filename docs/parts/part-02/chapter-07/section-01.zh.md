@@ -1,7 +1,7 @@
 # P2-7.1 本地环境(local environment)与运行时(runtime)
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-3.5 中，我们先区分了 Colab 和本地 PC。当时的目的，是为了让读者能立刻跟着做 NumPy 练习的预备说明。现在我们再往下一层。
 
@@ -402,11 +402,11 @@ import numpy as np
 - 能把虚拟环境解释到“按项目划分的执行空间”这个程度。
 - 能用入门层次说明包安装和 `import` 是两件不同的事。
 - 能说明 Colab 和本地 PC 都是运行时，但管理方式不同。
-- 能检查现在卡住的是 `在哪里运行`、`写什么句子`，还是 `怎样留下记录并重跑` 这三类问题中的哪一类。
+- 能先检查 `在哪里运行`、`由什么执行`、`需要什么包`、`那个包安装在哪里`。
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 确认日期: 2026-06-24.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于支撑如何调用 Python 解释器，以及如何区分交互式输入与脚本执行。
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认 Python 是解释型、交互式编程语言，并可在多种操作系统上使用的基础说明。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认虚拟环境会在隔离目录中拥有自己的 Python 安装与包状态。
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 确认日期: 2026-07-19。用于确认按项目创建虚拟环境、激活虚拟环境并安装包的流程。

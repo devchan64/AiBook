@@ -1,7 +1,7 @@
 # P2-9.3 How Does a Graph Represent Relationships?
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-9.2, we compared arrays, tables, trees, and graphs as different views of data. Among them, graphs can feel especially unfamiliar.
 
@@ -40,7 +40,7 @@ This Section answers the following questions.
 - How can a graph be expressed simply in Python?
 - Where does graph intuition appear again in AI, search, recommendation, and RAG?
 
-This Section does not go deeply into graph search algorithms, shortest paths, centrality, graph neural networks, or graph database implementation. Data-structure names and reading standards are organized again in the P2-9.4 supplement. The scene where graph intuition appears again as search structure continues in P1-13.4. The implementation of graph neural networks and graph databases stays outside the current scope of the main text.
+This Section focuses on reading nodes, edges, direction, and weights as the basic criteria for relationship data. Data-structure names and reading standards are organized again in the P2-9.4 supplement. The scene where graph intuition appears again as search structure continues in P1-13.4. The implementation of graph neural networks and graph databases stays outside the current scope of the main text.
 
 ## Goals of This Section
 
@@ -412,5 +412,5 @@ The checkable result is whether you can follow neighbors from one node. For exam
 
 ## Sources and References
 
-- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked 2026-06-25.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX documentation, checked 2026-06-25.
+- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used as the basis for explaining a graph as a structure made of vertices/nodes and edges/arcs.
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6 documentation, checked on 2026-07-19. Used to confirm small undirected graphs, nodes, edges, and adjacency relations from a Python-code perspective.

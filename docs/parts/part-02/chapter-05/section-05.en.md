@@ -1,7 +1,7 @@
 # P2-5.5 Supplemental Learning: How to First Read Standard Deviation, Correlation, and Confidence Intervals
 
 > Section ID: `P2-5.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 If you read from P2-5.1 through P2-5.4, you can build the basic feel for probability, mean, variance, sample, estimation, and error. But once you start reading real statistics documents or machine-learning books, more unfamiliar names quickly follow.
 
@@ -40,7 +40,7 @@ So this supplemental learning answers the following questions.
 | standard error | a value that looks at how much an estimate can wobble | the question of instability in estimation |
 | confidence interval | range information read together with an estimate | a device that stops us from ending with one number |
 
-Here we do not go deeply into formula proofs, detailed debates about p-values, the full practical application of statistical testing procedures, or the rigorous mathematical development of the central limit theorem. We recover only the minimum reading criteria needed so the document can be read without stopping.
+This supplement first closes the reading criteria for treating `spread`, `joint movement`, `wobble in estimation`, and `difference interpretation` as separate questions. Here we recover only the minimum reading criteria needed so documents can be read without stopping.
 
 The next flow after this Section is also simple.
 
@@ -234,5 +234,9 @@ In other words, this Section provides a map of terms for reading statistical doc
 
 ## Sources and References
 
-- OpenStax, [Introductory Statistics 2e](https://openstax.org/details/books/introductory-statistics-2e){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-29.
-- NIST/SEMATECH, [e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-29.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm that standard deviation measures how far data values are from their mean, is the square root of variance, and connects spread back to the original data unit.
+- NIST/SEMATECH, [Dataplot Reference: CORRELATION](https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/correlat.htm){: target="_blank" rel="noopener noreferrer" }, NIST, checked 2026-07-19. Used as support for joint movement and correlation-coefficient interpretation through the cross-deviation term \(S_{xy}\) and the correlation formula.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used as support for sampling distributions of sample means and standard error as a description of how far sample means tend to fall from the population mean in repeated samples.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm point estimates, interval estimates, confidence intervals, and margin of error as devices that prevent interpretation from ending with one estimate.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 9 Introduction](https://openstax.org/books/introductory-statistics/pages/9-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm hypothesis testing as a procedure that evaluates sample data and decides whether there is sufficient evidence to reject the null hypothesis.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics 2e, 12.4 Testing the Significance of the Correlation Coefficient](https://openstax.org/books/introductory-statistics-2e/pages/12-4-testing-the-significance-of-the-correlation-coefficient){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm that the correlation coefficient describes strength and direction of a linear relationship, while reliability must be read together with sample size.

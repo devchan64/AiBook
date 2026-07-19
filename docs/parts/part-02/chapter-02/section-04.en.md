@@ -1,7 +1,7 @@
 # P2-2.4 Why Do Log and Exp Keep Reappearing?
 
 > Section ID: `P2-2.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 After reconnecting limits, one more kind of notation still tends to block later machine learning and deep learning explanations: expressions such as `log`, `exp`, and `e^x`. These are not separate pieces of advanced mathematical decoration. They keep appearing when we explain `how fast a value grows or shrinks`, `how a multiplicative relationship can be reread as an additive one`, and `how to handle a score that behaves like a probability`.
 
@@ -223,3 +223,5 @@ Logs and exponentials are the language that makes calculations easier to read wh
 
 - Python Software Foundation, `math — Mathematical functions`, Python 3 documentation. Because it lets us directly check the basic meaning of `math.exp` and `math.log`, it supports the minimum standard in this section for rereading exponentials and logarithms as calculation language. [https://docs.python.org/3/library/math.html](https://docs.python.org/3/library/math.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
 - Google for Developers, `Machine Learning Glossary`. Because it lets us check key later-Part terms such as `log loss`, `softmax`, and `sigmoid` together, it serves as a reference point for seeing why logs and exponentials keep reappearing as the language for interpreting machine learning scores. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
+- OpenStax, [Calculus Volume 1, 6.8 Exponential Growth and Decay](https://openstax.org/books/calculus-volume-1/pages/6-8-exponential-growth-and-decay){: target="_blank" rel="noopener noreferrer" }, Rice University, checked on 2026-07-19. This reference supports reading exponentials as same-ratio change.
+- OpenStax, [Calculus Volume 1, 1.5 Exponential and Logarithmic Functions](https://openstax.org/books/calculus-volume-1/pages/1-5-exponential-and-logarithmic-functions){: target="_blank" rel="noopener noreferrer" }, Rice University, checked on 2026-07-19. This reference supports the inverse relationship between logarithms and exponentials and the product-to-sum property of logarithms.

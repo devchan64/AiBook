@@ -1,7 +1,7 @@
 # P2-7.7 Supplemental Learning: When Is Python Installation Needed?
 
 > Section ID: `P2-7.7`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7.6, we looked at how to open a terminal and check the current location on Windows, macOS, and Linux. Now this question remains.
 
@@ -25,7 +25,7 @@ Here, rather than following installation buttons one by one, we focus on judging
 
 ## Official Installation Manual Links
 
-Link collection date: 2026-06-24
+Link collection date: 2026-07-19
 
 Installation screens and recommended methods can change over time. When actually performing an installation, do not look only at this section. Check the official documents below together with it.
 
@@ -49,7 +49,9 @@ Here, we answer the following questions.
 - How are Python installation and virtual-environment creation different?
 - When installation gets tangled, what should be checked first?
 
-Here, we do not slowly follow each operating-system installation screen. We also do not go deeply into specific version installation, solving PATH issues, comparing Windows Store and python.org installation methods, Homebrew, pyenv, conda, Docker, or WSL setup. PATH and the post-installation checks that often block people are grouped again in the P2-7.9 supplementary section, and detailed comparison of installation methods is handled again when building a real project environment.
+Here, rather than following installation buttons one by one, we focus on `when installation is needed`, `what to check first after installation`, and `how installation and virtual environments differ`.
+
+Instead, the questions that this supplement immediately makes more concrete are also clear. PATH and the post-installation checks that often block people are grouped again in the P2-7.9 supplementary section, and shell and environment-variable expressions are connected again in P2-7.8.
 
 ## Goal of This Supplement
 
@@ -258,18 +260,19 @@ A checkable result can be seen immediately with commands after installation. If 
 
 ## Checklist
 
-- Can you explain the difference in roles between Colab and local Python installation?
-- Can you judge the point at which local installation becomes necessary?
-- Can you explain that after installation, you should check with `python --version`, `python3 --version`, or `py --version`?
-- Can you explain that Python installation and virtual-environment creation are not the same thing?
-- Can you explain that operating-system-specific installation guidance should be rechecked against official documentation at the time of writing?
-- When installation gets tangled, can you separate `Python code error` from `execution-environment error`?
+- You can explain the difference in roles between Colab and local Python installation.
+- You can judge when local installation is needed.
+- You can explain the purpose of `python --version`, `python3 --version`, and `py --version`.
+- You can explain that Python installation methods may look different on Windows, macOS, and Linux.
+- You can distinguish Python installation, virtual-environment creation, and package installation.
+- You can explain that when an installation error occurs, the execution environment should be checked before the code.
+- You can check `which command runs Python in my terminal`, `which Python version that command points to`, `whether I am ready to create a project-specific virtual environment`, and `whether the package-installation environment and code-execution environment are the same`.
 
 ## Sources and References
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org, checked on 2026-06-24.
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm the documentation structure for platform-specific Python environment setup, interpreter invocation, and installation guidance.
+- Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org, checked 2026-07-19. Used to confirm the latest Python download and operating-system-specific download entry points.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm that Python installation and execution on Windows has separate official guidance.
+- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm the python.org distribution and post-installation package-use guidance on macOS.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm that Linux/Unix installation paths can differ by operating system, such as distribution packages or source builds.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm that project-specific virtual environments may be created as a separate step from installing Python itself.

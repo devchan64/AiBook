@@ -1,7 +1,7 @@
 # P2-7.8 Supplemental Learning: Reading Shell Scripts, Pipes, Redirection, and Environment Variables
 
 > Section ID: `P2-7.8`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7.2 and P2-7.6, we covered opening a terminal and checking the current location. But once you follow real learning materials, you quickly encounter more unfamiliar expressions.
 
@@ -36,7 +36,7 @@ In other words, even if you do not reread this whole section from the beginning,
 
 ## Scope of This Supplement
 
-Here, we organize the criteria needed when first reading shell scripts, pipes, redirection, and environment variables. We establish why each concept appears and in what scenes it is visible, and place actual Bash programming or deployment-automation design outside the current scope of this book. The order for checking local Python environments is handled again in P2-7.9.
+Here, we organize the criteria needed when first reading shell scripts, pipes, redirection, and environment variables. This supplement focuses on closing the criterion for first distinguishing `connection`, `direction`, `configuration value`, and `warning sign` when you see a single tutorial command line. The order for checking local Python environments is handled again in P2-7.9.
 
 The question to solve first here is this: `When I see a single tutorial command line, even if I do not know every detail of the syntax, how do I first distinguish what kind of operation it is?`
 
@@ -48,7 +48,7 @@ So this supplement answers the following questions.
 - Why do environment variables look like configuration values?
 - Which commands should be read cautiously first?
 
-Here, we do not go deeply into complex Bash programming, PowerShell scripting, the whole shell syntax, security policy, or deployment-automation pipelines. Those topics are placed outside the current scope of this book's main flow. We recover only `how to read unfamiliar symbols that often appear in terminals`.
+Here, we recover `how to first read unfamiliar symbols that often appear in terminals`, rather than writing complex scripts.
 
 The flow after this section is also simple.
 
@@ -223,7 +223,7 @@ The confirmable result is whether you can split and read one command line by fun
 
 ## Sources and References
 
-- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
-- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
-- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
-- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, checked on 2026-06-29.
+- GNU Project, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, checked 2026-07-19. Used to confirm Bash's shell role, pipelines, redirection, and variable/environment-variable syntax.
+- Microsoft Learn, [about_Pipelines](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pipelines){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, checked 2026-07-19. Used to confirm that `|` is a pipeline operator that sends results from one command to the next in PowerShell.
+- Microsoft Learn, [about_Redirection](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_redirection){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, checked 2026-07-19. Used to confirm that redirection operators such as `>`, `>>`, and `n>` send or append output streams to files in PowerShell.
+- Microsoft Learn, [about_Environment_Variables](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_environment_variables){: target="_blank" rel="noopener noreferrer" }, PowerShell 7.6 documentation, checked 2026-07-19. Used to confirm that environment variables are string configuration values used by the operating system and programs and can be inherited by child processes.

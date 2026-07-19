@@ -1,7 +1,7 @@
 # P2-7.9 Supplemental Learning: How to Check Common Local Python Environment Problems
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7.4, we looked at virtual environments and packages, and in P2-7.5, we looked at dependency and reproducibility. In P2-7.7 and P2-7.8, we separately organized Python installation and environment variables.
 
@@ -38,7 +38,7 @@ So this supplement answers the following questions.
 - To what level should PATH, permissions, and operating-system-specific differences be read?
 - When a problem appears, what should be checked before trying installation again?
 
-Here, we do not go deeply into the full installation screens of each operating system, manual PATH editing procedures, comparisons among pyenv/conda/Docker/WSL, IDE-specific integrated settings, or the full package-distribution structure. We recover only the minimum checking order for confirming `which environment am I looking at right now?`
+Here, we first close the minimum checking order for confirming `which environment am I looking at right now?`, and focus on how to check the current Python, virtual environment, and package location before reinstalling.
 
 The flow after this section is also simple.
 
@@ -280,7 +280,7 @@ The result that must be checked in this case is not the fact that `python` does 
 
 ## Sources and References
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" } (checked on: 2026-07-01)
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" } (checked on: 2026-07-01)
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" } (checked on: 2026-07-01)
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" } (checked on: 2026-07-01)
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used as background for the local environment checking order by confirming the documentation structure for platform-specific Python setup and interpreter invocation.
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm that Python execution commands and installation methods on Windows have separate official guidance.
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm that Python execution commands and installation paths on Unix/Linux can differ by environment.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to support checking virtual-environment activation together with package installation location.

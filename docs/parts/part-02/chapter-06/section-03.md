@@ -1,7 +1,7 @@
 # P2-6.3 경사하강법(gradient descent)의 직관
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-6.1에서는 최적화를 더 나은 값을 찾는 문제로 봤고, P2-6.2에서는 모델의 틀림을 손실(loss)이라는 숫자로 만드는 방법을 봤습니다. 이제 질문은 더 구체적입니다.
 
@@ -222,5 +222,5 @@ AI 학습에서는 보통 손실을 줄이고 싶습니다. 그래서 그래디�
 
 ## 출처와 참고 자료
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-06-24.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 딥러닝 최적화에서 비용 함수, 파라미터, 그래디언트 기반 이동, 경사하강법, 학습률의 역할을 설명하는 근거로 사용했다.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-19. 최적화 문제와 그래디언트 기반 반복 이동을 수학적 최적화 맥락에서 확인하는 보조 근거로 사용했다.

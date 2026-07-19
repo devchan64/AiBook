@@ -1,7 +1,7 @@
 # P2-6.1 최적화(optimization)는 무엇을 찾는가
 
 > Section ID: `P2-6.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-5장에서는 데이터를 숫자로 요약하고, 표본으로 전체를 추정하며, 코드로 평균과 분산을 확인했습니다. 이제 질문이 바뀝니다.
 
@@ -244,7 +244,7 @@ AI 학습에서는 사람이 규칙을 하나하나 직접 쓰지 않는 경우�
 
 ## 출처와 참고 자료
 
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-06-24.
-- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 확인 날짜: 2026-06-24.
-- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 확인 날짜: 2026-06-24.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-19. 목적 함수와 제약 조건 아래에서 값을 최소화하는 최적화 문제 형식 확인에 사용했다.
+- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 확인 날짜: 2026-07-19. 목적 함수를 최소화하거나 최대화하고, 제약을 포함할 수 있는 최적화 도구의 실제 API 맥락 확인에 사용했다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 딥러닝 학습에서 비용 함수(cost function)를 줄이는 방향으로 파라미터를 조정한다는 설명 확인에 사용했다.
+- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 확인 날짜: 2026-07-19. George Dantzig와 simplex method가 물류·일정·네트워크 최적화 같은 실제 문제와 연결되어 설명되는 역사적 맥락 확인에 사용했다.

@@ -1,7 +1,7 @@
 # P2-2.3 极限（limit）与变化的直觉
 
 > Section ID: `P2-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-2.2，我们把 sigma（Σ）读成了重复加法的压缩记法。现在转到另一个同样容易让人陌生的记法：极限。
 
@@ -408,3 +408,5 @@ f(2.1) = 4.41
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
 - Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期：2026-06-24.
+- OpenStax, [Calculus Volume 1, 2.2 The Limit of a Function](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function){: target="_blank" rel="noopener noreferrer" }, Rice University, 确认日期：2026-07-19. 这个参考资料支持用表格和邻近值估计极限的说明。
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, Rice University, 确认日期：2026-07-19. 这个参考资料支持把变化率、差商的极限连接到导数直觉的说明。

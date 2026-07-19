@@ -1,13 +1,13 @@
 # P2-7.6 Supplemental Learning: Using Terminals on Windows, macOS, and Linux
 
 > Section ID: `P2-7.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7.2, we looked at the concepts of a terminal, a shell, and a working directory. Here, we cover how to check those concepts on actual operating systems.
 
 Here, we supplement `how to enter a terminal by operating system` and the `basic commands for checking your current location`.
 
-This supplement does not explain Python syntax. It also does not go deeply into Python installation. Python installation is handled separately in P2-7.7. This supplement practices “where do I enter commands, how do I check my current location, and how do I move to the practice folder?”
+This supplement practices “where do I enter commands, how do I check my current location, and how do I move to the practice folder?” Python installation is handled separately in P2-7.7. Here, we focus on how to perform the same kind of check in operating-system-specific terminals.
 
 This supplement organizes the procedure for opening a terminal, checking the current location, and moving to the practice folder on Windows, macOS, and Linux. The execution-environment concept itself is covered in P2-7.1 and P2-7.2.
 
@@ -32,7 +32,7 @@ Here, we answer the following questions.
 - Why are Windows commands and macOS/Linux commands slightly different?
 - What should you be careful about when running copied-and-pasted commands?
 
-Shell scripts, pipes, redirection, administrator privileges, and environment variables are not covered deeply here. Those expressions are recovered separately in the P2-7.8 supplementary section, and in Part 6, permissions and logs are connected again in a project context.
+This supplement first closes the common checking order that applies even across operating systems: `check the current location first`, `look at the file list`, and `move to the practice folder`. Shell scripts, pipes, redirection, administrator privileges, and environment variables are recovered again in the P2-7.8 supplementary section.
 
 ## Goal of This Supplement
 
@@ -388,10 +388,10 @@ A checkable result can be seen immediately through the command that shows the cu
 
 ## Sources and References
 
-- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn, checked on 2026-06-24.
-- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, checked on 2026-06-24.
-- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, checked on 2026-06-24.
-- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki, checked on 2026-06-24.
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked on 2026-06-24.
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked on 2026-06-24.
-- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked on 2026-06-24.
+- Microsoft, [What is Windows Terminal?](https://learn.microsoft.com/en-us/windows/terminal/){: target="_blank" rel="noopener noreferrer" }, Microsoft Learn, checked 2026-07-19. Used to confirm that Windows Terminal is a host app for command-line shells such as Command Prompt, PowerShell, and WSL bash.
+- Apple, [Keyboard shortcuts in Terminal on Mac](https://support.apple.com/guide/terminal/keyboard-shortcuts-trmlshtcts/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, checked 2026-07-19. Used to confirm macOS Terminal shortcuts for windows/tabs, copy and paste, `Tab`, and `Ctrl-C`-type behavior.
+- Apple, [Terminal User Guide](https://support.apple.com/guide/terminal/welcome/mac){: target="_blank" rel="noopener noreferrer" }, Apple Support, checked 2026-07-19. Used to confirm the role of macOS Terminal and its guidance for executing commands and specifying files and folders.
+- Ubuntu Documentation, [UsingTheTerminal](https://help.ubuntu.com/community/UsingTheTerminal){: target="_blank" rel="noopener noreferrer" }, Ubuntu Community Help Wiki, checked 2026-07-19. Used to confirm the introductory context for opening a terminal and performing command-line work on Ubuntu/Linux.
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-19. Used to confirm the PowerShell command for checking the current working location and its `pwd` alias.
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-19. Used to confirm the PowerShell command for changing the current working location and its `cd` alias.
+- Microsoft, [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-19. Used to confirm the PowerShell command for listing files and folders and its `ls` alias.

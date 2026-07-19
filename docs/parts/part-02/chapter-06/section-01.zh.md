@@ -1,7 +1,7 @@
 # P2-6.1 最优化(optimization)到底在寻找什么
 
 > Section ID: `P2-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-5 章中，我们把数据总结成数字，用样本估计整体，并通过代码确认了均值和方差。现在问题变了。
 
@@ -49,17 +49,9 @@
 
 ## 本节范围
 
-这里把 `最优化(optimization)` 介绍成进入 AI 学习之前需要的一种思考方式。比起严密公式，这里先看的是：`它到底在解决什么问题。`
+这里把 `最优化(optimization)` 介绍成进入 AI 学习之前需要的一种思考方式。本节先把两个问题收住：什么样的值可以叫作好值，以及怎样把候选、标准、约束分开来读。
 
-下面这些内容不会在这里深入展开。
-
-- 损失函数(loss function)的种类
-- 目标函数(objective function)的公式构成
-- 梯度下降(gradient descent)的更新公式
-- 凸优化(convex optimization)的条件
-- 线性规划(linear programming)与约束优化的详细算法
-
-损失函数和目标函数会在 P2-6.2 中重新讲，梯度下降的直觉会在 P2-6.3 中重新讲。按问题类型划分的损失，会延续到 P4-4.1 与 P4-4.2；反向传播与优化器，会延续到 P4-5.1、P4-7.1、P4-7.2。相反，凸优化与线性规划的详细算法则放在本书当前正文范围之外。这里先整理：一听到“最优化”时，脑中该浮现哪种关键场景。
+损失函数和目标函数会在 P2-6.2 紧接着继续处理。候选怎样朝着损失变小的方向移动，会在 P2-6.3 再看。按问题类型划分的损失，会延续到 P4-4.1 与 P4-4.2；反向传播与优化器，会在 P4-5.1、P4-7.1、P4-7.2 再次连接。这里先整理：一听到“最优化”时，脑中该浮现哪种关键场景。
 
 这里集中回答下面这些问题。
 
@@ -252,7 +244,7 @@ a = 0.5, b = 4
 
 ## 来源与参考资料
 
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-06-24.
-- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 确认日期: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 确认日期: 2026-06-24.
-- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 确认日期: 2026-06-24.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-07-19。用于确认在目标函数与约束条件下最小化某个值的最优化问题形式。
+- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, 确认日期: 2026-07-19。用于确认最优化工具会最小化或最大化目标函数，并可能包含约束的实际 API 语境。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19。用于确认深度学习中通过降低成本函数(cost function)来调整参数的语境。
+- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, 确认日期: 2026-07-19。用于确认 George Dantzig 和 simplex method 与物流、排程、网络优化等实际问题相连的历史语境。

@@ -1,7 +1,7 @@
 # P2-3.6 선형대수를 NumPy로 확인하기
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)의 모양을 봤습니다. P2-3.2에서는 벡터 공간(vector space)과 위치(position)의 직관을 봤고, P2-3.3에서는 행렬 곱(matrix multiplication)을 가중합(weighted sum)의 재사용으로 읽었습니다. P2-3.5에서는 파이썬 실행 환경을 Google Colab과 로컬 PC로 나누어 봤습니다.
 
@@ -488,4 +488,7 @@ bad_y = bad_x @ W
 - 이 절의 예제 코드: [p2_3_6_numpy_linear_algebra.py](../../../assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
+- NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, 배열 생성 API의 인자와 예제를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, 배열 차원을 튜플로 확인하는 `shape` 속성을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, 행렬 곱과 shape 불일치 오류 조건을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.

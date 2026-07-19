@@ -1,7 +1,7 @@
 # P2-4.3 미분(derivative)과 그래디언트(gradient)
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-4.2에서는 변화율(rate of change)과 기울기(slope)를 봤습니다. 직선에서는 기울기가 일정하지만, 곡선에서는 구간이나 위치에 따라 변화율이 달라질 수 있었습니다.
 
@@ -383,5 +383,5 @@ AI 모델은 많은 파라미터(parameter)를 가질 수 있습니다. 딥러�
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 도함수와 순간 변화율의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 편미분, 그래디언트 벡터, 나블라 표기, 그래디언트와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.

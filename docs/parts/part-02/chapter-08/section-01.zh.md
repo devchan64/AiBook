@@ -1,7 +1,7 @@
 # P2-8.1 值（value）、变量（variable）、类型（type）
 
 > Section ID: `P2-8.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-7 中，我们看过代码在哪里运行。既可以在 Colab 中运行，也可以在本地 PC（local PC）的终端中运行 Python 解释器（Python interpreter）。
 
@@ -47,7 +47,7 @@
 - 数字、字符串、布尔值（boolean）为什么会有不同的行为？
 - 为什么在 AI 实践中要检查类型？
 
-这里不会深入处理列表（list）、字典（dictionary）、循环（loop）、函数（function）。这些内容会从 P2-8.2 一直延续到 P2-8.5。另外，方法调用的形状和引用/复制问题，会分别在补充学习 P2-8.6、P2-8.7 中再次回收。
+本节先收束 `现在看到的对象是不是值`、`用什么名字再次指向它`、`因为它的类型可以做哪些运算` 这几个问题。列表（list）、字典（dictionary）、循环（loop）、函数（function）会从 P2-8.2 一直延续到 P2-8.5；方法调用的形状和引用/复制问题，会分别在补充学习 P2-8.6、P2-8.7 中再次回收。
 
 像 `value.method()` 这样的调用形状会在补充学习 P2-8.6 中单独处理，而为什么复制了列表之后原对象也会一起变化，则会在补充学习 P2-8.7 中单独处理。
 
@@ -404,7 +404,7 @@ print(score >= threshold)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org，确认日期：2026-06-24。
-- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-06-24。
+- Python Software Foundation, [What is Python? Executive Summary](https://www.python.org/doc/essays/blurb/){: target="_blank" rel="noopener noreferrer" }, Python.org，确认日期：2026-07-19。用于确认 Python 的动态语义(dynamic semantics)、动态类型(dynamic typing)和高层内置数据结构说明。
+- Python Software Foundation, [An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Python 交互式示例中 prompt、数字、字符串和列表的介绍方式。
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 `int`、`float`、`str`、`bool` 等基本类型，以及不同类型对应的运算差异。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Python 对象具有 identity、type、value 这一说明。

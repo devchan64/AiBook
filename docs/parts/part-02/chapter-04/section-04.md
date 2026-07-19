@@ -1,7 +1,7 @@
 # P2-4.4 학습에서 미분이 필요한 이유
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언트(gradient)를 “값이 어떻게 변하는지 읽는 언어”로 봤습니다. 이제 그 언어가 AI 학습(training)에서 왜 필요한지 연결합니다.
 
@@ -210,6 +210,6 @@ L'(w) = 2(w - 3)
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 도함수와 순간 변화율의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 그래디언트와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, 딥러닝 학습을 비용 함수와 파라미터 최적화 문제로 다루고, 학습에서 그래디언트 기반 최적화가 쓰이는 맥락을 확인할 수 있습니다. 확인 날짜: 2026-07-19.

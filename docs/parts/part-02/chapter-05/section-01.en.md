@@ -1,7 +1,7 @@
 # P2-5.1 How Probability Represents Uncertainty as Numbers
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Chapter 4 of Part 2, we used derivatives and gradients to see `how values should be changed so that loss decreases`. Now we need a different kind of mathematical language.
 
@@ -15,17 +15,9 @@ Here, instead of fully calculating probability formulas, the focus is on recover
 
 ## Scope of This Section
 
-This Section introduces probability as a numerical language that expresses uncertainty.
+This Section introduces probability as a numerical language that expresses uncertainty. This Section first closes only why we express a state of not knowing with numbers and how to distinguish event, outcome, and sample space.
 
-The following topics are not treated in depth.
-
-- strict proofs of probability axioms
-- formula calculations of conditional probability
-- Bayes' rule calculations
-- kinds of probability distributions
-- procedures of statistical estimation
-
-These topics return later: distributions, mean, and variance in P2-5.2; samples and estimation in P2-5.3; and later ideas such as standard deviation and confidence intervals in the supplementary learning of P2-5.5.
+When many values gather and we need to read their shape and summaries, that continues in P2-5.2. When the data we have is only part of a whole, the sample and estimation question continues in P2-5.3. Later concepts such as standard deviation and confidence intervals continue in P2-5.5 supplementary learning.
 
 The first question to solve here is this: `why should the state of not knowing be expressed as a number, and why is that number still not the same thing as the decision itself?`
 
@@ -274,5 +266,5 @@ The chart below shows that the model's probability score and the service's opera
 
 ## Sources and References
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm probability, outcome, sample space, event, probabilities between 0 and 1, long-run relative frequency, and conditional probability terminology.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19. Used as support for explaining probability theory as a framework for representing uncertainty in AI and machine learning.

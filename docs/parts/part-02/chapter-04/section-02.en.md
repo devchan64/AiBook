@@ -1,7 +1,7 @@
 # P2-4.2 Rate of Change and Slope
 
 > Section ID: `P2-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-4.1, we brought back memories of learning differentiation. The slope of a tangent line, instantaneous rate of change, distance and speed, and the flow from point to volume all connect to a mathematical way of thinking that tries to understand change and accumulation.
 
@@ -264,20 +264,6 @@ So the reason for learning differentiation is not only to memorize formulas. It 
 
 For example, if the slope at some point on a loss curve is positive, we can read that moving farther in that direction is likely to increase the loss. On the other hand, if we want to reduce the loss, we first suspect the opposite direction. This interpretive sense connects directly to the derivative notation in the next Section and to gradient descent in Chapter 6.
 
-## Perspective to Keep from This Section
-
-Rate of change is output change relative to input change. Slope is a way to read that rate of change on a graph.
-
-1. Rate of change is `output change / input change`.
-2. Slope is the rate of change seen on a graph.
-3. A line is a case where the slope is constant.
-4. A curve is a case where the slope changes by position or interval.
-5. Average rate of change is the rate of change over a whole interval.
-6. Instantaneous rate of change is the rate of change near one point.
-7. Differentiation is the mathematical tool that deals with instantaneous rate of change.
-
-The purpose of Part 2 is not to prove differentiation. It is enough that, when you meet words such as loss, slope, gradient, and optimization in AI documents, you can connect them as `a story about reading the direction of change in order to reduce or increase a value`.
-
 ## View It Through a Case
 
 ### Case 1. As Advertising Spend Increases, How Much Does the Number of Sign-Ups Change?
@@ -299,8 +285,9 @@ A checkable result is to place weekly ad spend and sign-ups in a table and calcu
 - You can explain that average rate of change is the rate of change between two points.
 - You can explain the flow by which instantaneous rate of change leads to differentiation.
 - You can explain that, in AI learning, rate of change connects to the problem of finding the direction that reduces loss.
-
+- You can distinguish the size of a value from `how much the output changed when the input changed by how much`.
+- You can explain why we narrow from average rate of change toward instantaneous rate of change.
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports secant slope, tangent slope, average and instantaneous velocity, and the definition of instantaneous rate of change. Checked: 2026-07-19.

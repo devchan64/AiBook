@@ -1,7 +1,7 @@
 # P2-7.3 Python Interpreter and Script
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-7.2, we looked at terminal, shell, and working directory. Now we look at how Python code is actually executed in that terminal.
 
@@ -39,8 +39,6 @@ Here we do not explain Python syntax in earnest. Variables, types, lists, and fu
 
 Also, Python installation, virtual-environment creation, and package installation are not the center of this Section. Python installation is handled in P2-7.7, and virtual environment and packages are handled in P2-7.4. Notebook-based record and cell-execution habits are recovered again in Part 2 Chapter 10.
 
-Here we answer only the following questions.
-
 Here we answer the following questions.
 
 - What is the Python interpreter?
@@ -70,13 +68,9 @@ Python is difficult to understand as only `a language that runs programs saved i
 
 If we reduce that background from a beginner's point of view, it becomes the following.
 
-If we reduce that background from a beginner's point of view, it becomes the following.
-
 - shell scripts: good for automating by chaining operating-system commands
 - compiled languages such as C: fast and powerful, but can feel heavy for small automation and experiments
 - Python: provides readable high-level syntax together with interactive execution and script execution
-
-So in Python, two usage styles naturally appear together.
 
 So in Python, two usage styles naturally appear together.
 
@@ -291,6 +285,6 @@ The confirmable result appears by looking at the prompt. If `print("hello")` wor
 
 ## Sources and References
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-06-24.
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-06-24.
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-06-24.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to support the description of Python as an interpreted, interactive programming language and to confirm Guido van Rossum's early development context.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm interpreter invocation, interactive mode, and script-file execution.
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm command-line execution forms such as `python script.py`, `python -c`, and `python -m module-name`.

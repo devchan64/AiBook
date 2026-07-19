@@ -1,7 +1,7 @@
 # P2-8.2 Lists: Ordered Groups of Values
 
 > Section ID: `P2-8.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-8.1, we looked at values, variables, and types. Now we look at the first structure for handling several values at once: the list.
 
@@ -226,7 +226,7 @@ In this section, we keep only the following criteria.
 - Assigning a list to another name does not automatically create a new copy.
 - If the original must be preserved in data preprocessing, whether it is copied must be treated carefully.
 
-Shallow copy and deep copy are not handled deeply here. This difference is reorganized immediately afterward in the supplementary section P2-8.7 through the criterion `when do the original and the copy change together?`
+The question of whether copying happened and `when the original and the copy change together` is reorganized immediately afterward in the P2-8.7 supplementary learning section.
 
 ## A List Can Be Joined, Sliced, and Changed with Compact Syntax
 
@@ -563,7 +563,7 @@ The confirmable result appears immediately through the index. If you can directl
 
 ## Sources and References
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-24.
-- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-06-25.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy documentation, checked on 2026-06-25.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm list methods, examples of using lists as stacks, list comprehensions, and nested list examples.
+- Python Software Foundation, [Built-in Types](https://docs.python.org/3/library/stdtypes.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm sequence types, mutable sequence operations, indexing, and slicing behavior.
+- Python Software Foundation, [array — Efficient arrays of numeric values](https://docs.python.org/3/library/array.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm that the standard-library `array` stores values of the same basic type efficiently.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm that NumPy arrays are the core structure for handling large numeric data efficiently, unlike ordinary Python lists.

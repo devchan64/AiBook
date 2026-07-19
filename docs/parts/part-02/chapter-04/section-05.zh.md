@@ -1,7 +1,7 @@
 # P2-4.5 梯度补充学习：从高中微分到多变量微分
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)连了起来；在 P2-4.4 中，我们又看了为什么学习(training)里需要微分。
 
@@ -352,14 +352,6 @@ w_{\text{next}} = w - \eta \nabla L
 
 偏微分如何继续接到梯度下降的计算，会在 P2-6.3 再次出现；损失怎样传到各个权重，会在 P5-5.1 和 P5-5.2 再次出现；真正的更新规则，会在 P5-7.1 和 P5-7.2 再次出现。现在的目标，是先抓住这些术语彼此如何连接，以及为什么它们会在 AI 学习里反复出现。
 
-## 本节要记住的视角
-
-梯度并不是和高中学过的微分完全断开的世界。它是当熟悉的微分扩展到“输入有很多个”的函数时出现的表达。
-
-微分是一条方向上的变化率，偏微分是在很多方向里单独看其中一条的变化率。梯度是把很多方向的变化率收集成一个向量，梯度下降则是利用这个向量反复降低损失的方法。反向传播是在深度学习模型里算出这个向量的过程。
-
-在 AI 学习里，模型有很多参数。为了降低损失，单独一个变化率已经不够了。我们需要一整组变化率，这一整组就是梯度。
-
 ## 用案例来看
 
 ### 案例 1. 当必须一次读懂一个有很多调节旋钮的混音面板时
@@ -382,11 +374,11 @@ w_{\text{next}} = w - \eta \nabla L
 - 你可以把梯度下降解释成“利用梯度来反复减小损失的方法”。
 - 你可以把反向传播解释成“高效计算很多参数梯度的过程”。
 - 你可以说明：即使在高中 `人工智能数学` 里会出现梯度下降，梯度和偏微分这套体系依然可能需要单独补充说明。
+- 你可以区分偏微分、方向导数、梯度各自看的东西有什么不同。
 - 你可以说明高中微分和后面梯度、梯度下降、反向传播语言之间的间隔。
 
 ## 来源与参考资料
 
-- 教育部, `教育部告示第2022-33号 [附册4] 高中课程(Ⅰ)`, 确认日期: 2026-06-24.
-- 教育部, `教育部告示第2022-33号 [附册4] 高中课程(Ⅱ)`, 确认日期: 2026-06-24.
-- 教育部, `教育部告示第2022-33号 [附册4] 高中课程(Ⅲ)`, 确认日期: 2026-06-24.
-- KOCW, `微积分学 2: 14.7 方向导数与梯度`, 确认日期: 2026-06-24.
+- 教育部, `[教育部告示第2022-33号] 中小学课程总论及各科课程告示`。可以确认 2022 修订韩国高中课程的官方告示与附册资料位置。 [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认偏导数、方向导数、梯度向量，以及梯度与最大增加方向之间的关系。确认日期: 2026-07-19.
+- KOCW, `微积分学2 - 汉阳大学`。可以确认这门公开课程包含多变量函数、偏导数、向量函数等微积分主题。 [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19

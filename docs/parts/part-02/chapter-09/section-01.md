@@ -1,7 +1,7 @@
 # P2-9.1 자료구조(data structure)는 왜 필요한가
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-8에서는 Python의 값(value), 리스트(list), 딕셔너리(dictionary), 반복(loop), 함수(function), 클래스(class)를 봤습니다. 이제 한 걸음 물러서서 질문을 바꿉니다.
 
@@ -393,6 +393,6 @@ print(student_by_name["Kim"]["score"])
 
 ## 출처와 참고 자료
 
-- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-06-25.
-- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-06-25.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-25.
+- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 자료구조를 데이터를 조직하는 방식으로 설명하는 정의 확인에 사용했다.
+- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 추상 자료형을 구현보다 동작 관점의 틀로 구분하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 리스트와 딕셔너리 예시를 자료구조 선택 설명에 연결하는 근거로 사용했다.

@@ -1,7 +1,7 @@
 # P2-2.3 Limits and the Intuition of Change
 
 > Section ID: `P2-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-2.2, we read sigma as compressed notation for repeated addition. Now we move to another unfamiliar-looking notation: the limit.
 
@@ -408,3 +408,5 @@ Once you can ask these questions, you are prepared to read derivatives and gradi
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
 - Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, checked on 2026-06-24.
+- OpenStax, [Calculus Volume 1, 2.2 The Limit of a Function](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function){: target="_blank" rel="noopener noreferrer" }, Rice University, checked on 2026-07-19. This reference supports estimating limits with tables and nearby values.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, Rice University, checked on 2026-07-19. This reference supports the connection from rate of change and difference quotients to derivative intuition.

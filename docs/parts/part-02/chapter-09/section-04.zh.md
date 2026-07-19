@@ -1,7 +1,7 @@
 # P2-9.4 补充学习：第一次阅读传统数据结构的方法
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-9.1 中，我们把数据结构看成“承载数据的形状”和“处理这些数据的方法”。但一旦开始学习数据结构，很多陌生名字会突然一起出现。
 
@@ -42,7 +42,7 @@
 
 ## 本补充学习的范围
 
-本节是为了第一次阅读传统数据结构名称而写的补充学习。目的不是把数据结构完整实现出来，而是让你以后在文档里再次遇到数组、表、树、图、字典、搜索结构时，不至于发慌。这里不处理实现细节和复杂度分析，重点是补强 P2-9.1 到 P2-9.3 建立起来的“按问题阅读”的标准。
+本节是为了第一次阅读传统数据结构名称而写的补充学习。这里不要求完整实现每一种结构，而是先抓住代表性问题：`数组看位置`、`栈和队列看取出规则`、`树和图看关系`、`哈希表看 key 查询`。
 
 本节回答以下问题。
 
@@ -53,7 +53,7 @@
 - 为什么哈希表会和“按 key 找值”的结构连在一起？
 - 为什么在学过 Python 的列表和字典之后，我们仍然需要知道传统数据结构名称？
 
-本节不会深入讨论时间复杂度、内存布局、指针、哈希冲突或图遍历算法。在当前正文里，更优先的是“读懂数据结构名称”的感觉。实现细节与复杂度分析，留给之后的算法和系统学习。
+在当前正文里，更优先的是“读懂数据结构名称”的感觉。实现细节与复杂度分析，留给之后的算法和系统学习。
 
 ## 本补充学习的目标
 
@@ -656,6 +656,6 @@ Python 字典是一个按 key 找 value 的映射对象。内部实现与哈希�
 
 ## 来源与参考资料
 
-- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 确认日期: 2026-06-25.
-- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 确认日期: 2026-06-25.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python Documentation, 确认日期: 2026-06-25.
+- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures，确认日期：2026-07-19。用于确认把传统数据结构名称读成组织数据方式的基本定义。
+- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures，确认日期：2026-07-19。作为按提供的行为而非实现来说明 stack、queue 等结构的依据。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Python list 与 dictionary 语法怎样连接到传统数据结构直觉。

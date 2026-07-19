@@ -1,7 +1,7 @@
 # P2-8.3 딕셔너리(dictionary): 키(key)로 값을 찾는 구조
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-8.2에서는 순서가 있는 값 묶음인 리스트(list)를 봤습니다. 하지만 모든 데이터가 순서로만 읽히는 것은 아닙니다.
 
@@ -393,7 +393,7 @@ print(student.get("label", "unknown"))
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-25.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 딕셔너리 생성, 키로 값에 접근, `items()`를 이용한 순회 예시 확인에 사용했다.
+- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `dict`가 mutable mapping type이며 키를 통해 값을 찾는 구조라는 설명 확인에 사용했다.
+- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. dictionary와 hashable 용어 정의를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 객체의 identity/type/value와 hash 가능성 설명을 딕셔너리 키 제약의 배경으로 확인하는 근거로 사용했다.

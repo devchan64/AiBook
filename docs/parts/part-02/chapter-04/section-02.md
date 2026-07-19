@@ -1,7 +1,7 @@
 # P2-4.2 변화율(rate of change)과 기울기(slope)
 
 > Section ID: `P2-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-4.1에서는 미분을 배웠던 기억을 다시 꺼냈습니다. 접선의 기울기, 순간 변화율, 거리와 속도, 점에서 부피로 이어지는 흐름은 모두 변화와 누적을 이해하려는 수학적 사고와 연결됩니다.
 
@@ -290,4 +290,4 @@ AI 모델 학습에서는 보통 손실(loss)을 줄이고 싶어 합니다. 손
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 할선 기울기, 접선 기울기, 평균 속도와 순간 속도, 순간 변화율 정의를 확인할 수 있습니다. 확인 날짜: 2026-07-19.

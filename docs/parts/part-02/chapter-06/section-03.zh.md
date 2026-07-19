@@ -1,7 +1,7 @@
 # P2-6.3 梯度下降(gradient descent)的直觉
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-6.1 中，我们把最优化看成寻找更好值的问题；在 P2-6.2 中，我们又看到了怎样把模型的错误变成一个叫作 `损失(loss)` 的数字。现在问题变得更具体了。
 
@@ -46,15 +46,7 @@
 
 ## 本节范围
 
-这里处理的是 `梯度下降(gradient descent)` 的直觉。如果说 P2-4.5 已经把梯度(gradient)、偏导数(partial derivative)、梯度下降这些名字作为补充学习提过，那么这里是把它放回最优化这一章的脉络里，整理它到底扮演什么角色。
-
-下面这些内容不会在这里深入展开。
-
-- 偏导数(partial derivative)的计算步骤
-- 梯度下降更新公式的严格推导
-- 随机梯度下降(stochastic gradient descent, SGD)的详细实现
-- Adam、RMSProp 这样的优化器(optimizer)
-- 深度学习反向传播(backpropagation)的计算过程
+这里处理的是 `梯度下降(gradient descent)` 的直觉。如果说 P2-4.5 已经把梯度(gradient)、偏导数(partial derivative)、梯度下降这些名字作为补充学习提过，那么这里会把它放回最优化这一章的脉络里，先整理为什么不一次点出答案，以及梯度和学习率分别扮演什么角色。
 
 偏导数与梯度的复习已经在 P2-4.5 里处理过；反向传播会在 P4-5.1 重新出现；优化器与学习率会在 P4-7.1 与 P4-7.2 重新出现。像 Adam、RMSProp 这类优化器的详细比较，则会延续到 P4-7.2。这里先集中处理 `为什么要一点点移动`，以及 `什么地方需要小心`。
 
@@ -230,5 +222,5 @@
 
 ## 来源与参考资料
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-06-24.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19。用于支撑深度学习最优化中成本函数、参数、基于梯度的移动、梯度下降与学习率角色的说明。
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-07-19。作为在数学最优化语境中确认最优化问题与基于梯度的重复移动的辅助依据。

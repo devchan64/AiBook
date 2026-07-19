@@ -1,7 +1,7 @@
 # P2-3.1 标量(scalar)、向量(vector)、矩阵(matrix)
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 2 Chapter 2 里，我们重新阅读了数学记号。变量(variable)、函数(function)、表达式(expression)、西格玛(sigma)、极限(limit)是为了读懂“公式到底在说什么”的基础语法。从这里开始，我们转向另一类在 AI 数据被改造成可计算形状时经常出现的基础表达，也就是线性代数(linear algebra)的基本形式。
 
@@ -390,3 +390,5 @@ X =
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
+- NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持把 `shape` 读成数组维度信息，并在代码中检查它。
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期：2026-07-19. 这是确认把 `X` 读作输入数据矩阵、把 `y` 读作 target 这一惯例的参考资料。

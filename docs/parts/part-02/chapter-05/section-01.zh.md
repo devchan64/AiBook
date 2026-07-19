@@ -1,7 +1,7 @@
 # P2-5.1 概率(probability)如何把不确定性表示成数字
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-4 章里，我们通过微分(derivative)与梯度(gradient)看了 `怎样改变数值，损失(loss)才会下降`。现在，我们需要另一种类型的数学语言。
 
@@ -15,17 +15,9 @@
 
 ## 本节范围
 
-这里把概率(probability)介绍成一种表达不确定性(uncertainty)的数字语言。
+这里把概率(probability)介绍成一种表达不确定性(uncertainty)的数字语言。本节先把两个问题收住：为什么要把“还不知道”的状态写成数字，以及怎样区分事件(event)、结果(outcome)、样本空间(sample space)。
 
-下面这些内容不会深入处理。
-
-- 概率公理(probability axioms)的严格证明
-- 条件概率(conditional probability)的公式计算
-- 贝叶斯规则(Bayes' rule)的计算
-- 概率分布(probability distribution)的种类
-- 统计估计(statistical estimation)的步骤
-
-这些内容会在后面再回来：分布、均值、方差在 P2-5.2 处理，样本与估计在 P2-5.3 处理，标准差、置信区间等后续概念会在补充学习 P2-5.5 再次处理。
+当很多数值聚在一起，需要读取它们的形状和摘要时，会接到 P2-5.2；当我们手上的数据只是整体的一部分时，会接到 P2-5.3 的样本与估计问题；标准差、置信区间等后续概念会在 P2-5.5 补充学习中继续处理。
 
 这里首先要解决的问题是：`为什么“还不知道”的状态需要用数字表示，而且为什么这个数字本身又不等于决策？`
 
@@ -274,5 +266,5 @@ P(\text{偶数}) = \frac{3}{6} = 0.5
 
 ## 来源与参考资料
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认概率、结果(outcome)、样本空间(sample space)、事件(event)、0 到 1 之间的概率值、长期相对频率、条件概率等术语。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19。用于支撑“概率论是 AI 与机器学习中表达不确定性的框架”这一说明。

@@ -1,7 +1,7 @@
 # P2-4.6 Composite Functions and the Chain Rule
 
 > Section ID: `P2-4.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 After reading derivatives, gradients, and gradient descent, one sentence still remains: `backpropagation uses the chain rule`. If we do not know the chain rule here, backpropagation easily looks like a memorized sentence rather than a calculation structure.
 
@@ -172,5 +172,6 @@ The key sentence to keep from this section is simple. `A composite function is a
 
 ## Sources and References
 
-- Google for Developers, `Machine Learning Glossary`. Because it lets us confirm terms such as `backpropagation` and `gradient` together, it serves as the minimum reference point for reading why the chain rule is tied to explanations of backpropagation. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
+- OpenStax, [Calculus Volume 1, 3.6 The Chain Rule](https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule){: target="_blank" rel="noopener noreferrer" }. It supports differentiating composite functions, the chain rule, and applying the chain rule to compositions of two or more functions. Checked: 2026-07-19.
+- Google for Developers, `Machine Learning Glossary`. Because it lets us confirm terms such as `backpropagation` and `gradient` together, it serves as the minimum reference point for reading why the chain rule is tied to explanations of backpropagation. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
 - Same-Part internal links: [P2-4.3 Derivative and Gradient](section-03.md), [P2-4.5 Gradient Supplement: From High-School Differentiation to Multivariable Differentiation](section-05.md). This section strengthens the link `composite function -> chain rule -> backpropagation` between those two sections.

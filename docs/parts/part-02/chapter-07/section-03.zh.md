@@ -1,7 +1,7 @@
 # P2-7.3 Python 解释器(interpreter)与脚本(script)
 
 > Section ID: `P2-7.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-7.2 中，我们已经看了终端(terminal)、shell、工作文件夹(working directory)。现在要继续看：在那个终端里，Python 代码到底怎样被执行。
 
@@ -39,8 +39,6 @@ print("hello")
 
 另外，Python 安装、虚拟环境创建、包安装也不是这一节的中心。Python 安装会在 P2-7.7 里讲，虚拟环境与包会在 P2-7.4 里讲。基于笔记本的记录和单元执行习惯，会在 Part 2 Chapter 10 里再回收。
 
-这里先只回答下面这些问题。
-
 这里回答下面这些问题。
 
 - 什么是 Python 解释器？
@@ -70,13 +68,9 @@ print("hello")
 
 如果把这段背景压缩成入门者能抓住的程度，就是下面这样。
 
-如果把这段背景压缩成入门者能抓住的程度，就是下面这样。
-
 - shell script：适合把操作系统命令串起来做自动化。
 - 像 C 这样的编译型语言：又快又强，但对小型自动化和小实验来说可能太重。
 - Python：同时提供可读的高级语法、交互执行和脚本执行。
-
-所以，在 Python 里自然会同时看到两种使用方式。
 
 所以，在 Python 里自然会同时看到两种使用方式。
 
@@ -291,6 +285,6 @@ python -m pip install numpy
 
 ## 来源与参考资料
 
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
-- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于支撑 Python 是解释型、交互式编程语言这一说明，并确认 Guido van Rossum 的早期开发背景。
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认解释器调用、交互模式与脚本文件执行之间的区别。
+- Python Software Foundation, [Command line and environment](https://docs.python.org/3/using/cmdline.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认 `python script.py`、`python -c`、`python -m module-name` 等命令行执行方式。

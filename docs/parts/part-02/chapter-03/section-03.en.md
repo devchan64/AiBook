@@ -1,7 +1,7 @@
 # P2-3.3 What Does Matrix Multiplication Reuse?
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-3.1, we looked at scalar, vector, and matrix from the perspective of data shape. In P2-3.2, we built the intuition of reading a vector like a position inside space and comparing nearness and farness. Now we move to matrix multiplication.
 
@@ -353,3 +353,5 @@ So matrix multiplication is read less as a memorized rule and more as `a reusabl
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.
+- NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference supports the shape condition of matrix multiplication and the meaning of the `@` operator.
+- Google for Developers, [Neural networks: Nodes and hidden layers](https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, checked on 2026-07-19. This official educational reference explains that neural-network node values are calculated by summing products of inputs and weights.

@@ -1,7 +1,7 @@
 # P2-2.1 重新阅读变量（variable）、函数（function）与表达式（expression）
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-1.2，我们建立了这样一种视角：公式、代码和数据是在用不同方式展示同一个计算。现在，我们来恢复阅读公式时最先遇到的基本记号。
 
@@ -311,3 +311,5 @@ target = [0, 1, 0, 0]
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- Python Software Foundation, [Assignment statements](https://docs.python.org/3/reference/simple_stmts.html#assignment-statements){: target="_blank" rel="noopener noreferrer" }, Python Language Reference, 确认日期：2026-07-19. 这是确认代码变量与重新赋值说明的直接参考资料。
+- NumPy Developers, [numpy.ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持检查数组变量 `shape` 和 `dtype` 的示例。

@@ -1,7 +1,7 @@
 # P2-3.1 스칼라(scalar), 벡터(vector), 행렬(matrix)
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 2에서는 수식 표기를 다시 읽었습니다. 변수(variable), 함수(function), 식(expression), 시그마(sigma), 극한(limit)은 “수식이 무엇을 말하는가”를 읽기 위한 기본 문법이었습니다. 이제부터는 AI 데이터가 계산 가능한 모양으로 바뀔 때 자주 만나는 선형대수(linear algebra)의 기본 표현을 봅니다.
 
@@ -390,3 +390,5 @@ X =
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. `shape`를 배열 차원 정보로 읽는 설명과 코드 예제를 확인하는 공식 참고 자료입니다.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19. `X`를 입력 데이터 행렬, `y`를 target으로 읽는 관례를 확인하는 참고 자료입니다.

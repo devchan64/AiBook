@@ -1,7 +1,7 @@
 # P2-7.1 로컬 환경(local environment)과 실행 환경(runtime)
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-3.5에서는 Colab과 로컬 PC를 먼저 구분했습니다. 그때 목적은 NumPy 실습을 바로 따라가기 위한 사전 안내였습니다. 이제는 조금 더 기본으로 내려갑니다.
 
@@ -406,7 +406,7 @@ import numpy as np
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-06-24.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 인터프리터를 호출하고, 대화형 입력과 스크립트 실행을 구분하는 근거로 사용했다.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python이 인터프리터형·대화형 프로그래밍 언어이며 여러 운영체제에서 사용할 수 있다는 기본 설명 확인에 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 가상환경이 독립된 디렉터리 안에 Python 설치와 패키지 상태를 갖는다는 설명 확인에 사용했다.
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-19. 프로젝트별 가상환경 생성, 활성화, 패키지 설치 흐름을 확인하는 근거로 사용했다.

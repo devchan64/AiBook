@@ -1,7 +1,7 @@
 # P2-4.4 为什么学习里需要微分
 
 > Section ID: `P2-4.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)看成是“读取数值如何变化的语言”。现在，我们要把这门语言接到 AI 学习(training)里，说明为什么它在这里是必要的。
 
@@ -209,6 +209,6 @@ L'(w) = 2(w - 3)
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认导数与瞬时变化率之间的关系。确认日期: 2026-07-19.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认梯度与最大增加方向之间的关系。确认日期: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8. Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }。可以确认深度学习训练被处理成代价函数与参数优化问题，以及训练中使用基于梯度的优化的语境。确认日期: 2026-07-19.

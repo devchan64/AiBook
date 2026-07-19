@@ -1,7 +1,7 @@
 # P2-3.3 행렬 곱(matrix multiplication)은 무엇을 재사용하는가
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 모양(shape)의 관점에서 봤습니다. P2-3.2에서는 벡터를 공간 안의 위치(position)처럼 읽고, 가까움과 멂을 비교하는 직관을 잡았습니다. 이제 행렬 곱(matrix multiplication)을 봅니다.
 
@@ -354,3 +354,5 @@ W \in \mathbb{R}^{2 \times 3}
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 행렬 곱의 shape 조건과 `@` 연산자 의미를 확인하는 공식 참고 자료입니다.
+- Google for Developers, [Neural networks: Nodes and hidden layers](https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-07-19. 신경망 노드가 입력과 가중치의 곱을 더해 계산된다는 설명을 확인하는 공식 교육 자료입니다.

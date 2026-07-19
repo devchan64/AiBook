@@ -1,7 +1,7 @@
 # P2-5.2 Distribution, Mean, and Variance
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.13`
+> Version: `v2026.07.19`
 
 In P2-5.1, we looked at probability as the language that expresses uncertainty as numbers. Now we move to the question of what we should look at when many of those numbers are gathered together.
 
@@ -21,17 +21,9 @@ Here, rather than calculating statistical formulas in detail, the focus is on re
 
 ## Scope of This Section
 
-Here, we deal with the shape and summary of a data bundle.
+Here, we deal with the shape and summary of a data bundle. This Section first closes why one mean is not enough when many values are gathered, and in what order to read distribution, mean, and variance.
 
-The following topics are not treated in depth.
-
-- properties of the normal distribution
-- probability density function
-- detailed uses of standard deviation
-- covariance and correlation coefficient
-- statistical inference
-
-The normal distribution and probability density function remain outside the current main track of this book, and standard deviation, covariance, and correlation coefficient return in the supplementary learning of P2-5.5. Here, we recover distribution, mean, and variance as `the minimum statistical language for reading AI documents`.
+How summary values computed from a sample can fluctuate continues in P2-5.3. Small-data practice for mean and variance continues in P2-5.4. Tools that read spread and relationship more precisely, such as standard deviation and correlation, return in P2-5.5 supplementary learning. Here, we recover distribution, mean, and variance as `the minimum statistical language for reading AI documents`.
 
 The first question to solve here is this: `when many values are gathered together, why is it not enough to stop after looking at one mean?`
 
@@ -290,6 +282,6 @@ In deep learning, mean and variance also repeatedly appear in normalization, ini
 
 ## Sources and References
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm that histograms help read the shape, center, and spread of large data bundles.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used as support for explaining the mean as a representative measure of center.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm the explanation of variance and standard deviation as spread around the mean, squared deviations, and connection back to original units.

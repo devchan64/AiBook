@@ -1,7 +1,7 @@
 # P2-3.3 矩阵乘法(matrix multiplication)到底在复用什么
 
 > Section ID: `P2-3.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-3.1 里，我们从数据形状(shape)的角度看了标量(scalar)、向量(vector)、矩阵(matrix)。在 P2-3.2 里，我们建立了把向量读成空间中位置(position)、并比较远近的直觉。现在开始看矩阵乘法(matrix multiplication)。
 
@@ -353,3 +353,5 @@ W \in \mathbb{R}^{2 \times 3}
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
+- NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持矩阵乘法的 shape 条件和 `@` 运算符的含义。
+- Google for Developers, [Neural networks: Nodes and hidden layers](https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 确认日期：2026-07-19. 这个官方教育资料说明神经网络节点值由输入与权重的乘积求和计算而来。

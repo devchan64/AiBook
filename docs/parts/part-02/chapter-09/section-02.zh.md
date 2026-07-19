@@ -1,7 +1,7 @@
 # P2-9.2 数组(array)、表(table)、树(tree)、图(graph)的直觉
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-9.1 中，我们已经把数据结构看成“数据被组织成什么形状”的问题。现在来广泛比较 AI 实践中经常遇到的四种形状。
 
@@ -29,7 +29,7 @@
 
 ## 本节的范围
 
-本节不会深入实现数组、表、树、图。中心问题是：`同样的数据，为什么换一个视角就会变成数组、表、树或图？`
+本节不会深入实现数组、表、树、图，而是区分同样的数据为什么会随着 `位置`、`行列`、`层级`、`关系` 这些观察重点不同而变成数组、表、树或图。
 
 这里首先要解决的问题是：`为什么在当前数据里，看的是位置、行列、层级还是关系，会让“自然的结构”发生变化？`
 
@@ -41,7 +41,7 @@
 - 为什么在解释关系和连接时需要图？
 - 在 AI 实践里，遇到什么场景时应先想起哪一种结构直觉？
 
-本节不会深入讨论图搜索算法、树实现、数据库规范化、Pandas 细节用法，或 NumPy 的内部内存布局。图会在 P2-9.3 单独讨论，传统数据结构名称会在 P2-9.4 补充学习中再整理一次。这里的重点是按“问题”比较四种结构，而不是按“实现”比较。
+图会在 P2-9.3 单独讨论，传统数据结构名称会在 P2-9.4 补充学习中再整理一次。这里的重点是按“问题”比较四种结构，而不是按“实现”比较。
 
 本节之后的流程也很简单。
 
@@ -514,7 +514,7 @@ print("graph:", friends)
 
 ## 来源与参考资料
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy documentation, 确认日期: 2026-06-25.
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas documentation, 确认日期: 2026-06-25.
-- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 确认日期: 2026-06-25.
-- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 确认日期: 2026-06-25.
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 `ndarray` 的维度、shape、dtype、索引与切片说明，作为数组直觉的依据。
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。作为把 DataFrame 说明为具有行和列的二维结构的依据。
+- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 tree 说明为具有 root 与 parent-child relationships 的层级结构的依据。
+- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 graph 说明为用 nodes 与 edges 表达关系的结构的依据。

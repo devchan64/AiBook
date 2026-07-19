@@ -1,7 +1,7 @@
 # P2-7.9 补充学习：如何检查常见的本地 Python 环境问题
 
 > Section ID: `P2-7.9`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-7.4 中，我们看过虚拟环境（virtual environment）与包（package）；在 P2-7.5 中，我们看过依赖（dependency）与可复现性（reproducibility）。在 P2-7.7 和 P2-7.8 中，我们又分别整理了 Python 安装与环境变量（environment variable）。
 
@@ -38,7 +38,7 @@
 - PATH、权限、不同操作系统的差异，大概要读到什么程度？
 - 当问题出现时，在重新安装之前应该先检查什么？
 
-这里不会深入处理各操作系统完整安装画面、PATH 手动修改步骤、pyenv/conda/Docker/WSL 比较、IDE 集成设置、整套包分发结构。这里只回收一个最小检查顺序：确认 `我现在看到的是哪个环境？`
+这里先收束一个最小检查顺序：确认 `我现在看到的是哪个环境？`，并集中在重新安装之前如何检查当前 Python、虚拟环境和包位置。
 
 这节之后的流向也很简单。
 
@@ -280,7 +280,7 @@ import numpy as np
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }（确认日期：2026-07-01）
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }（确认日期：2026-07-01）
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }（确认日期：2026-07-01）
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }（确认日期：2026-07-01）
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认按平台设置 Python 与调用解释器的文档结构，作为本地环境检查顺序的背景依据。
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Windows 中 Python 执行命令和安装方式有单独的官方说明。
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Unix/Linux 中 Python 执行命令和安装路径可能因环境而异。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于支撑需要把虚拟环境是否激活与包安装位置一起检查这一说明。

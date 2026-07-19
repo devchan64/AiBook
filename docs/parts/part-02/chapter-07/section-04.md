@@ -1,7 +1,7 @@
 # P2-7.4 가상환경(virtual environment)과 패키지(package)
 
 > Section ID: `P2-7.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-7.3에서는 Python 코드를 실행하는 방식을 봤습니다. 이제 한 단계 더 현실적인 문제를 봅니다.
 
@@ -257,7 +257,7 @@ Colab은 브라우저에서 실행되는 노트북 환경입니다. 초반 학�
 
 ## 출처와 참고 자료
 
-- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 확인 날짜: 2026-06-24.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-06-24.
-- Python Packaging Authority, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-06-24.
+- Carl Meyer, [PEP 405 – Python Virtual Environments](https://peps.python.org/pep-0405/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 확인 날짜: 2026-07-19. 가상환경이 독립된 패키지 집합과 자체 Python 실행 파일을 갖고 시스템 site-packages와 격리될 수 있다는 설계 근거로 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `venv`로 가상환경을 만들고 활성화하며, 환경 안에 Python과 패키지 상태가 분리된다는 설명 확인에 사용했다.
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-19. 프로젝트별 가상환경 생성과 `python -m pip install`을 통한 패키지 설치 흐름 확인에 사용했다.
+- Python Software Foundation, [Installing Python Modules](https://docs.python.org/3/installing/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `pip`, `venv`, PyPI, `python -m pip install`의 기본 역할과 시스템 설치 대신 가상환경을 우선 고려해야 하는 맥락 확인에 사용했다.

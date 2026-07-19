@@ -1,7 +1,7 @@
 # P2-3.1 Scalar, Vector, and Matrix
 
 > Section ID: `P2-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 2 reread mathematical notation. Variables, functions, expressions, sigma, and limits were the basic grammar for reading what a formula is saying. From here, we move to the basic expressions of linear algebra that appear often when AI data is turned into a calculable shape.
 
@@ -390,3 +390,5 @@ What matters in this example is not the calculation but the reading method. One 
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.
+- NumPy Developers, [numpy.ndarray.shape](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference supports reading `shape` as array dimension information and checking it in code.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked on 2026-07-19. This is a reference for the convention of reading `X` as an input data matrix and `y` as the target.

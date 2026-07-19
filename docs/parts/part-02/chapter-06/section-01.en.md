@@ -1,7 +1,7 @@
 # P2-6.1 What Does Optimization Search For?
 
 > Section ID: `P2-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Chapter 5, we summarized data into numbers, estimated the whole from samples, and checked mean and variance through code. Now the question changes.
 
@@ -49,17 +49,9 @@ You do not need to know the exact formulas or algorithms yet. The purpose here i
 
 ## Scope of This Section
 
-This Section introduces `optimization` as a way of thinking needed before entering AI learning. Rather than rigorous formulas, it first looks at `what kind of problem it is trying to solve`.
+This Section introduces `optimization` as a way of thinking needed before entering AI learning. This Section first closes what we will call a good value, and how to read candidates, criteria, and constraints separately.
 
-It does not cover the following in depth.
-
-- types of loss functions
-- formula construction of objective functions
-- the update formula of gradient descent
-- conditions of convex optimization
-- linear programming and detailed algorithms for constrained optimization
-
-Loss function and objective function are revisited in P2-6.2, and the intuition of gradient descent is revisited in P2-6.3. Loss by problem type continues in P4-4.1 and P4-4.2, and backpropagation and optimizers continue in P4-5.1, P4-7.1, and P4-7.2. By contrast, detailed algorithms of convex optimization and linear programming are kept outside the scope of the current main text of this book. Here we organize the key scene that should come to mind when you hear the word optimization.
+Loss function and objective function continue immediately in P2-6.2. How to move a candidate toward the side where loss decreases returns in P2-6.3. Loss by problem type continues in P4-4.1 and P4-4.2, and backpropagation and optimizers reconnect in P4-5.1, P4-7.1, and P4-7.2. Here we organize the key scene that should come to mind when you hear the word optimization.
 
 Here we focus on the following questions.
 
@@ -252,7 +244,7 @@ The confirmable result is to compare expected conversions and costs in a table a
 
 ## Sources and References
 
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, checked 2026-06-24.
-- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, checked 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, checked 2026-06-24.
-- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, checked 2026-06-24.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, checked 2026-07-19. Used to confirm the optimization-problem form that minimizes a value under an objective function and constraints.
+- SciPy Developers, [Optimization and root finding](https://docs.scipy.org/doc/scipy/reference/optimize.html){: target="_blank" rel="noopener noreferrer" }, SciPy API Reference, checked 2026-07-19. Used to confirm the API context where optimization minimizes or maximizes objective functions and may include constraints.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19. Used to confirm the deep-learning context in which parameters are adjusted by reducing a cost function.
+- Gary Wolf, [The Optimizer](https://www.wired.com/2001/12/dantzig/){: target="_blank" rel="noopener noreferrer" }, Wired, 2001-12-01, checked 2026-07-19. Used to confirm the historical context connecting George Dantzig and the simplex method to real problems such as logistics, scheduling, and network optimization.

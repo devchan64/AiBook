@@ -1,7 +1,7 @@
 # P2-2.2 시그마(sigma)와 반복 계산
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-2.1에서는 변수(variable), 함수(function), 식(expression)을 다시 읽었습니다. 이제 수식에서 자주 만나는 반복 계산 표기를 봅니다.
 
@@ -433,3 +433,5 @@ print(mean_loss)
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- NumPy Developers, [numpy.sum](https://numpy.org/doc/stable/reference/generated/numpy.sum.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 배열 원소의 합과 축 기준 합 계산을 설명하는 공식 참고 자료입니다.
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 평균 계산과 `mean()` 예제를 뒷받침하는 공식 참고 자료입니다.

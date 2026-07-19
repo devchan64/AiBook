@@ -1,7 +1,7 @@
 # P2-7.2 终端(terminal)、shell 与工作文件夹(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-7.1 中，我们先看了代码运行的位置。现在来看：在本地 PC 上输入命令时，最先遇到的那个画面到底是什么。
 
@@ -294,8 +294,8 @@ Colab 也能执行命令。但如果把它理解成和本地 PC 终端完全一�
 
 ## 来源与参考资料
 
-- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 确认日期: 2026-06-24.
-- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 确认日期: 2026-06-24.
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-06-24.
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-06-24.
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-06-24.
+- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 确认日期: 2026-07-19。作为说明早期文本终端与现代命令行界面之间关系的历史辅助依据。
+- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 确认日期: 2026-07-19。用于确认 shell 既是命令解释器也是编程语言，并支撑 Bash 命令处理语境。
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-19。用于确认 PowerShell 中查看当前工作位置的正式命令及其 `pwd` 别名语境。
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-19。用于确认 PowerShell 中改变当前工作位置的正式命令及其 `cd` 别名语境。
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于支撑 Python 代码可以把当前工作目录读取为字符串这一说明。

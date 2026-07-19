@@ -1,7 +1,7 @@
 # P2-4.3 微分(derivative)与梯度(gradient)
 
 > Section ID: `P2-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-4.2 中，我们看了变化率(rate of change)与斜率(slope)。在直线里，斜率是固定的；但在曲线里，变化率会随着区间或位置不同而改变。
 
@@ -382,5 +382,5 @@ AI 模型可能有很多参数(parameter)。在深度学习模型里，这个数
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
-- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }。可以确认导数与瞬时变化率之间的关系。确认日期: 2026-07-19.
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }。可以确认偏导数、梯度向量、nabla 记号，以及梯度与最大增加方向之间的关系。确认日期: 2026-07-19.

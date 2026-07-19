@@ -1,7 +1,7 @@
 # P2-2.4 로그(log)와 지수(exp)는 왜 반복해서 등장하는가
 
 > Section ID: `P2-2.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 극한(limit)까지 다시 읽고 나면, 뒤의 머신러닝과 딥러닝 설명에서 또 자주 막히는 표기가 남습니다. `log`, `exp`, `e^x` 같은 표현입니다. 이 표기들은 별도의 고급 수학 장식이 아니라, `값이 얼마나 빠르게 커지거나 줄어드는가`, `곱셈 관계를 어떻게 더하기 관계로 바꿔 읽는가`, `확률처럼 읽히는 점수를 어떻게 다루는가`를 설명할 때 반복해서 등장합니다.
 
@@ -215,3 +215,5 @@ e^2 \approx 7.39,\quad e^1 \approx 2.72
 
 - Python Software Foundation, `math — Mathematical functions`, Python 3 documentation. `math.exp`, `math.log`의 기본 뜻을 직접 확인할 수 있으므로, 지수와 로그를 계산 언어로 다시 읽는 이 절의 최소 기준을 뒷받침합니다. [https://docs.python.org/3/library/math.html](https://docs.python.org/3/library/math.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
 - Google for Developers, `Machine Learning Glossary`. `log loss`, `softmax`, `sigmoid` 같은 뒤 Part 핵심 용어를 함께 확인할 수 있으므로, 로그와 지수가 왜 머신러닝 점수 해석 언어로 반복 등장하는지 이어 보는 참고점이 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- OpenStax, [Calculus Volume 1, 6.8 Exponential Growth and Decay](https://openstax.org/books/calculus-volume-1/pages/6-8-exponential-growth-and-decay){: target="_blank" rel="noopener noreferrer" }, Rice University, 확인 날짜: 2026-07-19. 지수를 같은 비율의 변화로 읽는 설명을 보강하는 참고 자료입니다.
+- OpenStax, [Calculus Volume 1, 1.5 Exponential and Logarithmic Functions](https://openstax.org/books/calculus-volume-1/pages/1-5-exponential-and-logarithmic-functions){: target="_blank" rel="noopener noreferrer" }, Rice University, 확인 날짜: 2026-07-19. 로그와 지수의 역함수 관계, 로그의 곱셈-덧셈 성질을 확인하는 참고 자료입니다.

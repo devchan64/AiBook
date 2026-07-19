@@ -1,7 +1,7 @@
 # P2-2.3 극한(limit)과 변화의 직관
 
 > Section ID: `P2-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-2.2에서는 시그마(sigma)를 반복 덧셈의 압축 표기로 읽었습니다. 이제 또 하나의 낯선 표기인 극한(limit)을 봅니다.
 
@@ -409,3 +409,5 @@ f(2.1) = 4.41
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
 - Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 2.2 The Limit of a Function](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function){: target="_blank" rel="noopener noreferrer" }, Rice University, 확인 날짜: 2026-07-19. 표와 주변 값으로 극한을 추정하는 설명을 확인하는 참고 자료입니다.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, Rice University, 확인 날짜: 2026-07-19. 변화율과 차분몫의 극한을 미분 직관으로 연결하는 부분의 참고 자료입니다.

@@ -1,7 +1,7 @@
 # P2-3.6 Checking Linear Algebra with NumPy
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-3.1, we looked at the shapes of scalar, vector, and matrix. In P2-3.2, we looked at the intuition of vector space and position. In P2-3.3, we read matrix multiplication as the reuse of weighted sums. In P2-3.5, we separated Python runtime environments into Google Colab and a local PC.
 
@@ -488,4 +488,7 @@ So the core of NumPy practice is less about memorizing syntax and more about rec
 - Example code of this section: [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
+- NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }. It provides the array-creation API and examples. Checked: 2026-07-19.
+- NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }. It documents the `shape` attribute as the tuple of array dimensions. Checked: 2026-07-19.
+- NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }. It documents matrix multiplication and the shape-mismatch error condition. Checked: 2026-07-19.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.

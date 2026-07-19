@@ -1,7 +1,7 @@
 # P2-3.6 用 NumPy 确认线性代数
 
 > Section ID: `P2-3.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-3.1 里，我们看了标量(scalar)、向量(vector)、矩阵(matrix)的形状。在 P2-3.2 里，我们看了向量空间(vector space)与位置(position)的直觉；在 P2-3.3 里，我们把矩阵乘法(matrix multiplication)读成了加权求和(weighted sum)的复用；在 P2-3.5 里，我们又把 Python 运行环境分成了 Google Colab 与本地 PC。
 
@@ -488,4 +488,7 @@ bad_y = bad_x @ W
 - 本节示例代码：[p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
+- NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }。可以确认数组创建 API 的参数和示例。确认日期: 2026-07-19.
+- NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }。可以确认把数组维度作为元组读取的 `shape` 属性。确认日期: 2026-07-19.
+- NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }。可以确认矩阵乘法以及 shape 不匹配时的错误条件。确认日期: 2026-07-19.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.

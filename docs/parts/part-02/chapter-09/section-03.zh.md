@@ -1,7 +1,7 @@
 # P2-9.3 图(graph)如何表达关系
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-9.2 中，我们把数组、表、树、图作为不同的数据视角进行了比较。其中图尤其容易让人感到陌生。
 
@@ -40,7 +40,7 @@
 - 在 Python 中如何简单表达一个图？
 - 在 AI、搜索、推荐和 RAG 中，图的直觉会在哪些地方再次出现？
 
-本节不会深入讨论图搜索算法、最短路径、中心性、图神经网络或图数据库实现。数据结构名称和阅读标准会在 P2-9.4 补充学习中再次整理。图的直觉如何再次以搜索结构形式出现，会在 P1-13.4 继续。图神经网络和图数据库的实现则放在当前正文范围之外。
+本节集中把 node、edge、direction、weight 读成关系数据的基本判断标准。数据结构名称和阅读标准会在 P2-9.4 补充学习中再次整理。图的直觉如何再次以搜索结构形式出现，会在 P1-13.4 继续。图神经网络和图数据库的实现则放在当前正文范围之外。
 
 ## 本节的目标
 
@@ -412,5 +412,5 @@ print("two hop:", two_hop_neighbors)
 
 ## 来源与参考资料
 
-- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 确认日期: 2026-06-25.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX documentation, 确认日期: 2026-06-25.
+- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 graph 说明为由 vertices/nodes 与 edges/arcs 构成的结构的依据。
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6 documentation，确认日期：2026-07-19。用于从 Python 代码视角确认小型无向图、nodes、edges 和 adjacency relations。

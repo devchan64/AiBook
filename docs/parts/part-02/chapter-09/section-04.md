@@ -1,7 +1,7 @@
 # P2-9.4 보충학습: 전통적인 자료구조를 처음 읽는 법
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-9.1에서는 자료구조(data structure)를 데이터를 담는 모양과 그 데이터를 다루는 방법으로 봤습니다. 그런데 자료구조를 공부하다 보면 갑자기 낯선 이름들이 많이 나옵니다.
 
@@ -656,6 +656,6 @@ Python 딕셔너리는 키로 값을 찾게 해 주는 매핑 객체입니다. �
 
 ## 출처와 참고 자료
 
-- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-06-25.
-- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-06-25.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python Documentation, 확인 날짜: 2026-06-25.
+- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-19. 전통 자료구조 이름을 데이터 조직 방식으로 읽는 기본 정의 확인에 사용했다.
+- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-19. 스택·큐 같은 구조를 구현보다 제공 동작 중심으로 설명하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 리스트와 딕셔너리 문법이 전통 자료구조 감각과 어떻게 연결되는지 확인하는 근거로 사용했다.

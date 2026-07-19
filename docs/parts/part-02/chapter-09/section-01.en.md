@@ -1,7 +1,7 @@
 # P2-9.1 Why Are Data Structures Needed?
 
 > Section ID: `P2-9.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-8, we looked at Python values, lists, dictionaries, loops, functions, and classes. Now we step back and change the question.
 
@@ -70,7 +70,7 @@ This Section answers the following questions.
 - Why can even the same data be stored in different structures depending on the purpose?
 - Why is a sense for data structures needed in AI and data processing?
 
-This Section does not go deeply into the detailed structures of arrays, tables, trees, and graphs. Comparison among arrays, tables, trees, and graphs continues in P2-9.2, representation of relationships with graphs continues in P2-9.3, and traditional data-structure names are organized once more in the P2-9.4 supplement. Here the focus is on capturing the structure-selection question before implementation details.
+This Section first reads data structures through the question `what shape should the data be held in?` Comparison among arrays, tables, trees, and graphs continues in P2-9.2, relationship representation with graphs continues in P2-9.3, and traditional data-structure names are organized again in the P2-9.4 supplement. Here, we focus on the structure-selection question before implementation details.
 
 | The question especially needed first right now | Go here first | Or what to hold in this Section now |
 | --- | --- | --- |
@@ -393,6 +393,6 @@ The checkable result is that even from the same source data, the representation 
 
 ## Sources and References
 
-- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked 2026-06-25.
-- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked 2026-06-25.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-06-25.
+- Paul E. Black, [data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used to confirm the definition that describes a data structure as a way to organize data.
+- Paul E. Black, [abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used as the basis for distinguishing an abstract data type as a behavior-centered frame rather than an implementation.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to connect Python list and dictionary examples to the explanation of choosing data structures.

@@ -1,7 +1,7 @@
 # P2-4.5 그래디언트 보충학습: 고등학교 미분에서 다변수 미분으로
 
 > Section ID: `P2-4.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-4.3에서는 미분(derivative), 편미분(partial derivative), 그래디언트(gradient)를 연결했고, P2-4.4에서는 미분이 학습(training)에서 왜 필요한지 봤습니다.
 
@@ -296,7 +296,6 @@ w_{\text{next}} = w - \eta \nabla L
 | \(-\eta \nabla L\) | 손실이 줄어드는 쪽으로 조금 이동하는 양 |
 
 여기서 `조금`이라는 말이 중요합니다. 너무 크게 움직이면 낮은 곳을 지나쳐 버릴 수 있고, 너무 작게 움직이면 오래 걸릴 수 있습니다. 이 이동 폭은 P5-7.1에서 학습률(learning rate)이라는 이름으로 다시 만납니다.
-여기서 `조금`이라는 말이 중요합니다. 너무 크게 움직이면 낮은 곳을 지나쳐 버릴 수 있고, 너무 작게 움직이면 오래 걸릴 수 있습니다. 이 이동 폭은 P5-7.1에서 학습률(learning rate)이라는 이름으로 다시 만납니다.
 
 아래 차트는 경사하강법의 업데이트 식을 직관적으로 보여 줍니다. 수식을 외우는 것이 목표는 아니지만, `현재 값에서 그래디언트 반대 방향으로 학습률만큼 조금 이동한다`는 구조는 기억할 필요가 있습니다.
 
@@ -379,7 +378,6 @@ w_{\text{next}} = w - \eta \nabla L
 
 ## 출처와 참고 자료
 
-- 교육부, `교육부 고시 제2022-33호 [별책4] 고등학교 교육과정(Ⅰ)`, 확인 날짜: 2026-06-24.
-- 교육부, `교육부 고시 제2022-33호 [별책4] 고등학교 교육과정(Ⅱ)`, 확인 날짜: 2026-06-24.
-- 교육부, `교육부 고시 제2022-33호 [별책4] 고등학교 교육과정(Ⅲ)`, 확인 날짜: 2026-06-24.
-- KOCW, `미분적분학 2: 14.7 방향도함수와 그래디언트`, 확인 날짜: 2026-06-24.
+- 교육부, `[교육부 고시 제2022-33호] 초중등학교 교육과정 총론 및 각론 고시`. 2022 개정 고등학교 교육과정의 공식 고시와 별책 자료 위치를 확인할 수 있습니다. [https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W](https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=141&boardSeq=93458&lev=0&page=1&searchType=null&statusYN=W){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- OpenStax, [Calculus Volume 3, 4.6 Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient){: target="_blank" rel="noopener noreferrer" }, 편미분, 방향도함수, 그래디언트 벡터와 최대 증가 방향의 관계를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
+- KOCW, `미분적분학2 - 한양대학교`. 미분적분학2 강의가 다변수 함수, 편미분, 벡터함수 등을 다루는 공개 강의임을 확인할 수 있습니다. [https://www.kocw.or.kr/home/search/kemView.do?kemId=330031](https://www.kocw.or.kr/home/search/kemView.do?kemId=330031){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19

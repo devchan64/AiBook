@@ -1,7 +1,7 @@
 # P2-5.3 표본(sample), 추정(estimation), 오차(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-5.2에서는 데이터 묶음의 모양을 분포(distribution)로 보고, 중심을 평균(mean)으로 보고, 퍼짐을 분산(variance)으로 봤습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -228,6 +228,6 @@ AI 학습 데이터(training data)는 현실 전체가 아닙니다. 현실에�
 
 ## 출처와 참고 자료
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-06-24.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 모집단 전체를 조사하기 어려울 때 표본을 사용하며, 표본이 대표하는 모집단과 같은 특성을 가져야 한다는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표본평균을 반복해서 계산할 때 평균과 퍼짐이 어떻게 읽히는지, 중심극한정리로 이어지는 맥락 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표본평균의 표본분포, 표준오차, 반복 표본에서 표본평균이 모집단 평균에서 얼마나 떨어질 수 있는지 설명하는 근거로 사용했다.

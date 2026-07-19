@@ -1,7 +1,7 @@
 # P2-2.2 Sigma（Σ）与重复计算
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-2.1，我们重新阅读了变量（variable）、函数（function）和表达式（expression）。现在，我们来看一种在公式里非常常见的重复计算记法。
 
@@ -433,3 +433,5 @@ Sigma 记法在代码里可以展开成循环、数组运算，以及最后的�
 - Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
 - Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- NumPy Developers, [numpy.sum](https://numpy.org/doc/stable/reference/generated/numpy.sum.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料说明了数组元素求和与按轴求和。
+- NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持平均值计算和 `mean()` 示例。
