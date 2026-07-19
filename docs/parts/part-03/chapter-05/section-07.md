@@ -46,52 +46,135 @@
 
 문제 상황: 같은 샘플 뒤에 여러 후속 사건이 있을 때 `first`, `worst`, `count`, `any` 같은 서로 다른 접기 규칙이 다른 결과 열을 만든다는 점을 확인합니다.
 
-입력(input): 샘플별 후속 사건 목록, 사건 심각도 순서, 실패로 볼 심각도 기준 `failure_severity_cutoff`
+입력(input): 샘플 명단 [p3_5_7_sample_roster.csv](../../../assets/part-03/chapter-05/p3_5_7_sample_roster.csv), 후속 사건 로그 [p3_5_7_follow_up_events.csv](../../../assets/part-03/chapter-05/p3_5_7_follow_up_events.csv), 사건 심각도 표 [p3_5_7_event_severity.csv](../../../assets/part-03/chapter-05/p3_5_7_event_severity.csv), 실패로 볼 심각도 기준 후보 `failure_severity_cutoffs`
 
-기대 출력(output): 같은 원천 사건에서도 `first_event`, `worst_event`, `event_count`, `any_failure`가 다르게 만들어지는 출력. `failure_severity_cutoff`를 바꾸면 실패 표시가 달라진다.
+첫 번째 CSV의 한 행은 최종 결과 표에 남아야 할 샘플 1건입니다. 두 번째 CSV의 한 행은 샘플 뒤에 실제로 발생한 후속 사건 1건입니다. 세 번째 CSV는 사건 이름을 심각도 숫자로 바꿔 `worst`와 `any_failure` 규칙을 계산하게 합니다.
+
+기대 출력(output): 같은 원천 사건에서도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 다르게 만들어지는 출력. `failure_severity_cutoffs`를 바꾸면 실패 후보 샘플 수와 샘플 목록이 달라진다.
 
 확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 규칙과 기준으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
 
 ```python
 import pandas as pd
 
-failure_severity_cutoff = 3
+sample_roster_path = "docs/assets/part-03/chapter-05/p3_5_7_sample_roster.csv"
+follow_up_events_path = "docs/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv"
+event_severity_path = "docs/assets/part-03/chapter-05/p3_5_7_event_severity.csv"
 
-follow_ups = {
-    "A": ["review", "failure"],
-    "B": ["review"],
-    "C": [],
-}
+selected_failure_severity_cutoff = 4
+failure_severity_cutoffs = [4, 3, 2]
 
-severity = {"none": 0, "review": 1, "warning": 2, "failure": 3}
-rows = []
-for event_id, events in follow_ups.items():
-    first_event = events[0] if events else "none"
-    worst_event = max(events, key=lambda name: severity[name]) if events else "none"
-    rows.append(
+sample_roster = pd.read_csv(sample_roster_path)
+follow_ups = pd.read_csv(follow_up_events_path)
+severity_table = pd.read_csv(event_severity_path)
+
+follow_ups_with_severity = follow_ups.merge(severity_table, on="event_type", how="left")
+ordered_events = follow_ups_with_severity.sort_values(["sample_id", "days_after_sample"])
+
+first_events = (
+    ordered_events.groupby("sample_id", as_index=False)
+    .first()[["sample_id", "event_type"]]
+    .rename(columns={"event_type": "first_event"})
+)
+worst_events = (
+    ordered_events.sort_values(
+        ["sample_id", "severity", "days_after_sample"],
+        ascending=[True, False, True],
+    )
+    .groupby("sample_id", as_index=False)
+    .first()[["sample_id", "event_type", "severity"]]
+    .rename(columns={"event_type": "worst_event", "severity": "worst_severity"})
+)
+event_counts = (
+    ordered_events.groupby("sample_id", as_index=False)
+    .size()
+    .rename(columns={"size": "event_count"})
+)
+event_sequences = (
+    ordered_events.groupby("sample_id")["event_type"]
+    .agg(lambda events: " > ".join(events))
+    .reset_index(name="event_sequence")
+)
+
+folded = (
+    sample_roster[["sample_id"]]
+    .merge(first_events, on="sample_id", how="left")
+    .merge(worst_events, on="sample_id", how="left")
+    .merge(event_counts, on="sample_id", how="left")
+    .merge(event_sequences, on="sample_id", how="left")
+)
+folded[["first_event", "worst_event", "event_sequence"]] = folded[
+    ["first_event", "worst_event", "event_sequence"]
+].fillna("none")
+folded[["event_count", "worst_severity"]] = folded[
+    ["event_count", "worst_severity"]
+].fillna(0).astype(int)
+folded["any_failure"] = (
+    folded["worst_severity"] >= selected_failure_severity_cutoff
+).astype(int)
+
+cutoff_results = []
+for cutoff in failure_severity_cutoffs:
+    failed = folded[folded["worst_severity"] >= cutoff]
+    cutoff_results.append(
         {
-            "event_id": event_id,
-            "any_failure": int(any(severity[event] >= failure_severity_cutoff for event in events)),
-            "first_event": first_event,
-            "worst_event": worst_event,
-            "event_count": len(events),
+            "failure_severity_cutoff": cutoff,
+            "failure_sample_count": len(failed),
+            "failure_samples": ",".join(failed["sample_id"]) or "none",
         }
     )
 
-result = pd.DataFrame(rows)
-print(result)
+print("1) raw follow-up events")
+print(follow_ups.to_string(index=False))
+print()
+print("2) severity rule table")
+print(severity_table.to_string(index=False))
+print()
+print("3) folded result when failure_severity_cutoff = 4")
+print(folded.to_string(index=False))
+print()
+print("4) sensitivity by failure_severity_cutoff")
+print(pd.DataFrame(cutoff_results).to_string(index=False))
 ```
 
 예상 출력:
 
 ```text
-  event_id  any_failure first_event worst_event  event_count
-0        A            1      review     failure            2
-1        B            0      review      review            1
-2        C            0        none        none            0
+1) raw follow-up events
+sample_id  days_after_sample event_type source_system
+        A                  1     review   human_queue
+        A                  3    warning       monitor
+        A                  5    failure   maintenance
+        B                  2     review   human_queue
+        B                  4    warning       monitor
+        D                  1    warning       monitor
+        E                  1    revisit       service
+        E                  2     review   human_queue
+
+2) severity rule table
+event_type  severity
+      none         0
+   revisit         1
+    review         2
+   warning         3
+   failure         4
+
+3) folded result when failure_severity_cutoff = 4
+sample_id first_event worst_event  worst_severity  event_count             event_sequence  any_failure
+        A      review     failure               4            3 review > warning > failure            1
+        B      review     warning               3            2           review > warning            0
+        C        none        none               0            0                       none            0
+        D     warning     warning               3            1                    warning            0
+        E     revisit      review               2            2           revisit > review            0
+
+4) sensitivity by failure_severity_cutoff
+ failure_severity_cutoff  failure_sample_count failure_samples
+                       4                     1               A
+                       3                     3           A,B,D
+                       2                     4         A,B,D,E
 ```
 
-이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`는 `review`, `worst_event`는 `failure`, `event_count`는 2처럼 서로 다른 결과 열이 동시에 만들어질 수 있다는 점입니다. 여기서 조작할 값은 `failure_severity_cutoff`입니다. 값을 `3`으로 두면 `failure`만 실패로 잡히지만, `2`로 낮추면 `warning`도 실패 후보가 됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 `A` 샘플도 표마다 다른 뜻으로 읽히게 됩니다.
+이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. A는 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, B는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. C처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 A만 실패 후보가 되지만, 3으로 낮추면 `warning`이 있는 B와 D도 실패 후보가 됩니다. 2로 낮추면 `review`가 가장 심한 E까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 뜻으로 읽히게 됩니다.
 
 ## 작은 도식으로 보기
 

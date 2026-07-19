@@ -1,0 +1,9 @@
+sample_id,days_after_sample,event_type,source_system
+A,1,review,human_queue
+A,3,warning,monitor
+A,5,failure,maintenance
+B,2,review,human_queue
+B,4,warning,monitor
+D,1,warning,monitor
+E,1,revisit,service
+E,2,review,human_queue

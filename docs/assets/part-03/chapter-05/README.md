@@ -13,3 +13,9 @@
   - `p3-5-5-mermaid-01-en.mmd` / `p3-5-5-mermaid-01-ko.mmd`
   - `p3-5-6-mermaid-01-en.mmd` / `p3-5-6-mermaid-01-ko.mmd` / `p3-5-6-mermaid-01-zh.mmd`
   - `p3-5-7-mermaid-01-en.mmd` / `p3-5-7-mermaid-01-ko.mmd` / `p3-5-7-mermaid-01-zh.mmd`
+
+## CSV Inputs
+
+- `p3_5_7_sample_roster.csv`: P3-5.7 Python example input. Each row is one sample that must remain in the folded output, even when it has no follow-up event.
+- `p3_5_7_follow_up_events.csv`: P3-5.7 Python example input. Each row is one follow-up event observed after a sample.
+- `p3_5_7_event_severity.csv`: P3-5.7 Python example input. Each row maps a follow-up event type to a severity score used by the folding rule.

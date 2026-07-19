@@ -1,0 +1,6 @@
+event_type,severity
+none,0
+revisit,1
+review,2
+warning,3
+failure,4
