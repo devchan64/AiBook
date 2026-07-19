@@ -1,7 +1,7 @@
 # P2-10.1 为什么笔记本(notebook)对学习有用
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2 Chapter 7 中，我们已经区分了 Python 是在哪里执行的，包括 terminal、shell、interpreter、script、virtual environment。在 Part 2 Chapter 8 和 Chapter 9 中，我们通过小例子重新恢复了 Python 语法和数据结构。
 
@@ -28,20 +28,6 @@ Notebook 在 AI 学习里尤其常见。因为你可以把公式改写成代码�
 | computational notebook | 一种把计算与解释一起保留在同一文档里的格式 |
 
 把 notebook 理解成 `不是新语法，而是把计算和解读放在一起的地方` 就足够了。执行位置和可复现性会在 P2-10.2 与 P2-10.3 里更具体地讨论。
-
-## 本节的范围
-
-本节不是详细说明如何安装 notebook 或如何使用 Colab。Colab 与本地 PC 环境的差异已经在 P2-3.5 和 Part 2 Chapter 7 里看过，Jupyter 与 Colab 的差异则会在 P2-10.2 单独处理。
-
-本节回答以下问题。
-
-- 什么是 notebook？
-- code cell、markdown cell 和 output 如何一起使用？
-- 为什么 notebook 对学习记录有用？
-- 为什么 notebook 并不总是比 script 更好？
-- 在 AI 再学习过程中，用 notebook 的合适态度是什么？
-
-本节先收束 notebook 为什么适合学习这个问题：代码、输出和说明可以一起留在同一份记录里。`.ipynb` 文件和正在运行的 runtime 的区别，会在接下来的 P2-10.2 与 P2-10.3 中马上重新连接。Server 与 kernel 的内部结构本身放在当前正文范围之外。
 
 ## 本节的目标
 
@@ -318,6 +304,6 @@ mean_a, mean_b
 
 ## 来源与参考资料
 
-- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-19。用于确认 notebook 是把代码、说明、数据、可视化和交互放在一起的文档。
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-19。作为区分 notebook document、user interface、kernel 等组成部分的背景依据。
-- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-19。用于确认在浏览器 notebook 环境中一起执行和记录代码与说明的示例。
+- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-20。用于确认 notebook 是把代码、说明、数据、可视化和交互放在一起的文档。
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-20。作为区分 notebook document、user interface、kernel 等组成部分的背景依据。
+- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-20。用于确认在浏览器 notebook 环境中一起执行和记录代码与说明的示例。

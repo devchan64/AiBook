@@ -1,7 +1,7 @@
 # P2-10.1 노트북(notebook)은 왜 학습에 유용한가
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 7에서는 Python을 어디에서 실행하는지, 터미널(terminal), 셸(shell), 인터프리터(interpreter), 스크립트(script), 가상환경(virtual environment)을 나누어 봤습니다. Part 2 Chapter 8과 Chapter 9에서는 Python 문법과 자료구조를 작은 예제로 복구했습니다.
 
@@ -28,20 +28,6 @@ Part 2 흐름에서 지금 장을 읽을 때는 다음 최소선을 먼저 잡�
 | 계산 문서(computational notebook) | 계산과 설명을 한 문서 안에 함께 남기는 형식을 가리키는 말입니다. |
 
 노트북은 `새 문법`보다 `계산과 해석을 함께 남기는 자리`로 잡으면 됩니다. 실행 위치와 재현성은 P2-10.2와 P2-10.3에서 더 구체적으로 다룹니다.
-
-## 이 절의 범위
-
-이 절은 노트북을 설치하거나 Colab 사용법을 자세히 설명하는 절이 아닙니다. Colab과 로컬 PC 실행 환경의 차이는 P2-3.5와 Part 2 Chapter 7에서 이미 봤고, Jupyter와 Colab의 차이는 P2-10.2에서 따로 다룹니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 노트북(notebook)은 무엇인가?
-- 코드 셀(code cell), 마크다운 셀(markdown cell), 출력(output)은 어떻게 함께 쓰이는가?
-- 노트북은 왜 학습 기록에 유용한가?
-- 노트북이 스크립트(script)보다 항상 좋은 것은 아닌 이유는 무엇인가?
-- AI 재학습 과정에서 노트북을 어떤 태도로 사용하면 좋은가?
-
-이번 절은 노트북이 `무엇을 한 문서 안에 함께 남기는 형식인가`까지를 먼저 닫습니다. `.ipynb` 파일과 실행 중인 런타임(runtime)의 구분은 바로 다음 P2-10.2와 P2-10.3에서 다시 연결합니다.
 
 ## 이 절의 목표
 
@@ -318,6 +304,6 @@ mean_a, mean_b
 
 ## 출처와 참고 자료
 
-- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. 노트북이 코드, 설명, 데이터, 시각화, 상호작용을 함께 담는 문서라는 설명 확인에 사용했다.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. 노트북 문서, 사용자 인터페이스, 커널 등 구성 요소를 구분하는 배경 근거로 사용했다.
-- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-19. 브라우저 기반 노트북 환경에서 코드와 설명을 함께 실행·기록하는 예시 확인에 사용했다.
+- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. 노트북이 코드, 설명, 데이터, 시각화, 상호작용을 함께 담는 문서라는 설명 확인에 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-20. 노트북 문서, 사용자 인터페이스, 커널 등 구성 요소를 구분하는 배경 근거로 사용했다.
+- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-20. 브라우저 기반 노트북 환경에서 코드와 설명을 함께 실행·기록하는 예시 확인에 사용했다.

@@ -1,7 +1,7 @@
 # P2-10.1 Why Are Notebooks Useful for Learning?
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Part 2 Chapter 7, we separated where Python is executed, including the terminal, shell, interpreter, script, and virtual environment. In Part 2 Chapters 8 and 9, we recovered Python syntax and data structures through small examples.
 
@@ -28,20 +28,6 @@ When reading this Chapter in the flow of Part 2, first hold the following minimu
 | computational notebook | A format that leaves computation and explanation together inside one document |
 
 It is enough to understand a notebook not as `new syntax`, but as `a place that keeps computation and interpretation together`. Execution location and reproducibility are handled more concretely in P2-10.2 and P2-10.3.
-
-## Scope of This Section
-
-This Section is not for explaining how to install a notebook or how to use Colab in detail. The difference between Colab and a local PC environment was already seen in P2-3.5 and Part 2 Chapter 7, and the difference between Jupyter and Colab is handled separately in P2-10.2.
-
-This Section answers the following questions.
-
-- What is a notebook?
-- How are code cells, markdown cells, and output used together?
-- Why is a notebook useful for learning records?
-- Why is a notebook not always better than a script?
-- With what attitude is it useful to use notebooks in the AI relearning process?
-
-This Section first closes the question of why notebooks are useful for learning: code, output, and explanation can remain together as one record. The distinction between an `.ipynb` file and a running runtime is reconnected immediately in P2-10.2 and P2-10.3. The internal structure of servers and kernels stays outside the current scope of the main text.
 
 ## Goals of This Section
 
@@ -318,6 +304,6 @@ This method continues later in machine-learning practice too. Rather than trying
 
 ## Sources and References
 
-- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-19. Used to confirm that notebooks are documents combining code, explanation, data, visualization, and interaction.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-19. Used as background for distinguishing notebook documents, user interfaces, kernels, and related components.
-- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-19. Used to confirm examples of running and recording code with explanations in a browser-based notebook environment.
+- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-20. Used to confirm that notebooks are documents combining code, explanation, data, visualization, and interaction.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-20. Used as background for distinguishing notebook documents, user interfaces, kernels, and related components.
+- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-20. Used to confirm examples of running and recording code with explanations in a browser-based notebook environment.
