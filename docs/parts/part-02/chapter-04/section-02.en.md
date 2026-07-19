@@ -1,7 +1,7 @@
 # P2-4.2 Rate of Change and Slope
 
 > Section ID: `P2-4.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-4.1, we brought back memories of learning differentiation. The slope of a tangent line, instantaneous rate of change, distance and speed, and the flow from point to volume all connect to a mathematical way of thinking that tries to understand change and accumulation.
 
@@ -12,33 +12,6 @@ This Section reorganizes rate of change, slope, average rate of change, instanta
 Here, rather than immediately calculating derivative formulas, the focus is on narrowing our view from the rate of change over an interval to the rate of change near a single point. If we hold onto the connection among rate of change, slope, average rate of change, and instantaneous rate of change, then later, when reading the direction that reduces loss and the gradient, we can directly connect why the first question is `if we change it a little, how much does it change?`
 
 The point readers most often miss here is stopping after reading `slope` as only a graph problem. But in the learning context, slope is the preparation for asking `if I change this value a little now, in which direction and by how much will the result move?`
-
-## Scope of This Section
-
-This Section deals with the intuition of rate of change, average rate of change, and slope. Derivative, gradient, gradient descent, and backpropagation are covered in the next Section and later chapters.
-
-The first question to solve here is this: `why must we look not only at how much the output changed, but also at how much the input changed when that change happened?`
-
-So this Section first fixes only the following four places.
-
-1. What does rate of change compare?
-2. Why is slope a visual expression of rate of change?
-3. How are input change and output change connected?
-4. Why does differentiation begin from slope and continue into learning?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| rate of change | output change relative to input change | the central question of this Section |
-| slope | the value that reads rate of change on a graph | the standard for visual interpretation |
-| average rate of change | the rate of change over a whole interval | the starting point for comparing lines and curves |
-| instantaneous rate of change | the rate of change near one point | the bridge to differentiation |
-| curve | a function shape whose rate of change can differ by interval | the object that shows why differentiation is needed |
-
-The flow after this Section is also simple.
-
-- In `P2-4.3`, we read this question of rate of change more directly through the notation of derivative, partial derivative, and gradient.
-- From `P2-6.1` to `P2-6.3`, we read again in the language of rate of change how much loss can be reduced and in which direction parameters should change.
-- In Part 4, the same question repeats in the language of `gradient`, `update`, and `optimizer`.
 
 ## Goals of This Section
 
@@ -290,4 +263,4 @@ A checkable result is to place weekly ad spend and sign-ups in a table and calcu
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports secant slope, tangent slope, average and instantaneous velocity, and the definition of instantaneous rate of change. Checked: 2026-07-19.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }. It supports secant slope, tangent slope, average and instantaneous velocity, and the definition of instantaneous rate of change. Checked: 2026-07-20.
