@@ -1,7 +1,7 @@
 # P2-11.1 用 NumPy 数组构建向量与矩阵
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2 Chapter 3 中，我们用数学符号和小段代码确认了 scalar、vector、matrix。Part 2 Chapter 8 看过 Python 的 list 与 dictionary，Part 2 Chapter 9 从不同数据结构视角区分了 array、table、tree、graph，Part 2 Chapter 10 又说明了如何把 notebook 整理成可重新执行的学习记录。
 
@@ -26,24 +26,6 @@
 | `ndim` | 数组的维度数 |
 | `dtype` | 数组里数字的数据类型 |
 | `ndarray` | NumPy 默认使用的多维数组数据结构 |
-
-## 本节范围
-
-本节讲如何创建 NumPy array，以及如何查看 shape、维度数 `ndim`、数据类型 `dtype`。范围还会延伸到构建向量、矩阵，以及计算一个小型 weighted sum 的例子。
-
-这里回答以下问题。
-
-- 为什么 Python list 和 NumPy array 会被不同地使用？
-- 怎样用 NumPy array 构建 vector 与 matrix？
-- `shape`、`ndim`、`dtype` 会告诉我们什么？
-- 为什么在构建 vector 和 matrix 时，要先看数字的形状？
-- 为什么在 AI 实践里，输入数据和权重会以数组形式出现？
-
-本节先把 NumPy array 收束成 `可计算的数字形状`，并集中抓住阅读 `shape`、`ndim`、`dtype` 的基本把手。
-
-本节不会马上扩展的问题也很清楚。axis 与 slicing 会在 P2-11.2 进一步讲，broadcasting 会在 P2-11.3 继续，advanced indexing 与 shape 变化会在 P2-11.4 的补充学习里再整理。
-
-这里比起性能优化，先阅读 `数组以什么数字形状摆放`。
 
 ## 本节目标
 
@@ -422,6 +404,6 @@ python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 
 ## 来源与参考资料
 
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 NumPy array 的 homogeneous N-dimensional `ndarray`、shape、dtype，以及与 Python list 的差异。
-- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为 vector 与 matrix 示例中 `ndarray` 属性和 array object 结构的依据。
-- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 `np.array`、`zeros`、`ones`、`arange`、`linspace` 等基本 array creation 方式。
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 NumPy array 的 homogeneous N-dimensional `ndarray`、shape、dtype，以及与 Python list 的差异。
+- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为 vector 与 matrix 示例中 `ndarray` 属性和 array object 结构的依据。
+- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 `np.array`、`zeros`、`ones`、`arange`、`linspace` 等基本 array creation 方式。

@@ -1,7 +1,7 @@
 # P2-11.1 Building Vectors and Matrices with NumPy Arrays
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 3 introduced scalars, vectors, and matrices through mathematical notation and small code examples. Part 2 Chapter 8 looked at Python lists and dictionaries, Part 2 Chapter 9 distinguished arrays, tables, trees, and graphs as different data-structure viewpoints, and Part 2 Chapter 10 organized notebooks as rerunnable learning records.
 
@@ -26,24 +26,6 @@ If the previous Python-syntax and data-structure chapters focused on what values
 | `ndim` | The number of dimensions in an array. |
 | `dtype` | The data type of the numbers inside an array. |
 | `ndarray` | The multidimensional array data structure NumPy uses by default. |
-
-## Scope of This Section
-
-This Section covers how to create NumPy arrays and how to inspect their shape, number of dimensions, and data type. It also goes as far as examples that build vectors and matrices and compute a small weighted sum.
-
-Here we answer the following questions.
-
-- Why are Python lists and NumPy arrays used differently?
-- How do we build vectors and matrices with NumPy arrays?
-- What do `shape`, `ndim`, and `dtype` tell us?
-- Why should we check the shape of numbers first when building vectors and matrices?
-- Why do input data and weights appear as arrays in AI practice?
-
-This Section first closes NumPy arrays as `computable numeric shapes` and focuses on the basic handles for reading `shape`, `ndim`, and `dtype`.
-
-The questions not expanded immediately in this section are also clear. Axes and slicing are covered in more detail in P2-11.2, broadcasting continues in P2-11.3, and advanced indexing and shape changes are reorganized in the supplementary learning of P2-11.4.
-
-Here, before performance optimization, we first read `what numeric shape the array has`.
 
 ## Goals of This Section
 
@@ -422,6 +404,6 @@ In other words, an introduction to NumPy is less about memorizing new syntax tha
 
 ## Sources and References
 
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm homogeneous N-dimensional `ndarray`, shape, dtype, and differences from Python lists.
-- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the basis for `ndarray` attributes and array-object structure in vector and matrix examples.
-- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm basic array creation methods such as `np.array`, `zeros`, `ones`, `arange`, and `linspace`.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm homogeneous N-dimensional `ndarray`, shape, dtype, and differences from Python lists.
+- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for `ndarray` attributes and array-object structure in vector and matrix examples.
+- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm basic array creation methods such as `np.array`, `zeros`, `ones`, `arange`, and `linspace`.
