@@ -1,7 +1,7 @@
 # P5-2.2 Hidden Layers And Representation
 
-Section ID: `P5-2.2`
-Version: `v2026.07.19`
+> Section ID: `P5-2.2`
+> Version: `v2026.07.19`
 
 In P5-2.1, we saw that a multilayer neural network stacks several computation units like perceptrons across multiple layers, so that the input does not go directly to the final judgment but passes through intermediate stages. Now let us make the question a little more concrete.
 
@@ -378,6 +378,6 @@ The responsibility of this section, which explains hidden layers and representat
 
 ## Sources And References
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, date checked: 2026-06-28.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, date checked: 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

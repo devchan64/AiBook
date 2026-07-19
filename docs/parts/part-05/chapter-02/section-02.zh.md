@@ -1,7 +1,7 @@
 # P5-2.2 隐藏层（hidden layer）与表征
 
-Section ID: `P5-2.2`
-Version: `v2026.07.19`
+> Section ID: `P5-2.2`
+> Version: `v2026.07.19`
 
 在 P5-2.1 里，我们已经看到：多层神经网络（multilayer neural network）会把感知机这类计算单元按多层堆起来，让输入不会直接走向最终判断，而是先经过中间步骤。现在可以把问题再推进一步。
 
@@ -379,6 +379,6 @@ Yoshua Bengio 的论文，以及 LeCun、Bengio、Hinton 在 2015 年的文章�
 
 ## 出处与参考资料
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, 确认日期：2026-06-28.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, 确认日期: 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 确认日期：2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
