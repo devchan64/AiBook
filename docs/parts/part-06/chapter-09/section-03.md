@@ -1,7 +1,7 @@
 # P6-9.3 보충학습: Chain-of-thought, self-consistency, automatic prompt optimization은 프롬프트 층에서 무엇을 더하는가
 
 Section ID: `P6-9.3`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)을 입력 설계의 첫 번째 제어 지점으로 봤고, P6-9.2에서는 프롬프트만으로 해결되지 않는 한계를 봤습니다. 그런데 실무 정리나 논문, 제품 설명으로 넘어가면 CoT, self-consistency, automatic prompt optimization 같은 이름이 다시 연속해서 등장합니다. 여기서 더 중요한 것은 이름을 따라가는 일이 아니라, 이 전략들이 프롬프트 층에서 무엇을 더 조정하려는지 먼저 구분하는 기준입니다.
 

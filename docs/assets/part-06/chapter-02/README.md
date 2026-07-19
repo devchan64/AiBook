@@ -9,3 +9,7 @@
   - `p6-c02-s02-diagram-01-en.mmd` / `p6-c02-s02-diagram-01-ko.mmd`
   - `p6-c02-s02-diagram-02-en.mmd` / `p6-c02-s02-diagram-02-ko.mmd`
   - `p6-c02-s03-diagram-01-en.mmd` / `p6-c02-s03-diagram-01-ko.mmd`
+- PNG chart assets:
+  - `ann-window-tradeoff-en.png` / `ann-window-tradeoff-ko.png`
+- Python chart source:
+  - `p6_2_4_ann_window_tradeoff_chart.py`

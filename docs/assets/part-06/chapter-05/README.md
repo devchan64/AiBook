@@ -8,3 +8,7 @@
   - `p6-c05-s01-diagram-02-en.mmd` / `p6-c05-s01-diagram-02-ko.mmd`
   - `p6-c05-s02-diagram-01-en.mmd` / `p6-c05-s02-diagram-01-ko.mmd`
   - `p6-c05-s02-diagram-02-en.mmd` / `p6-c05-s02-diagram-02-ko.mmd`
+- PNG chart assets:
+  - `temperature-unique-reply-count-en.png` / `temperature-unique-reply-count-ko.png`
+- Python chart source:
+  - `p6_5_2_temperature_diversity_chart.py`

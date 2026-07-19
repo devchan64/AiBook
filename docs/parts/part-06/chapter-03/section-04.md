@@ -360,6 +360,10 @@ prefix_length=100, generated_length=5, without_cache=515, with_cache=105, saved_
 - 같은 5개 토큰을 이어 생성해도 prefix가 3개일 때보다 20개, 100개일 때 `without_cache`와 `with_cache`의 차이가 훨씬 커집니다.
 - 그래서 prefix가 길어지거나 생성 step이 많아질수록 `projected_token_count` 차이가 빠르게 커집니다.
 
+prefix 길이에 따른 재투영량 차이를 그림으로 보면 아래처럼 벌어집니다. 캐시가 없을 때는 이미 본 prefix가 길수록 새 토큰 생성마다 다시 투영해야 할 양이 빠르게 늘고, KV cache를 쓰면 같은 조건에서도 증가 폭이 훨씬 작아집니다.
+
+![prefix 길이별 KV projection 대상 토큰 수](../../../assets/part-06/chapter-03/kv-cache-projection-count-ko.png)
+
 여기서는 숫자 자체보다 비교 방향을 읽는 편이 더 중요합니다.
 
 - `같은 context가 나왔는가?`

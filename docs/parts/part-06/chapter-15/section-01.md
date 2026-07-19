@@ -1,7 +1,7 @@
 # P6-15.1 LLM 평가(evaluation)
 
 Section ID: `P6-15.1`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 P6-14.2에서는 하네스(harness)가 에이전트 실행을 감싸고 기록하고 평가하는 운영 장치에 가깝다는 점을 보았습니다. 이 절에서는 LLM 기반 시스템의 품질을 실제로 무엇으로 점검해야 하는지 다룹니다.
 
@@ -325,10 +325,6 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | `helpfulness` | 사용자가 바로 쓸 수 있게 핵심 행동 지침이 들어 있는지 봐야 해서 |
 | `next_fix` | 탈락한 후보를 어떤 축부터 고쳐야 하는지 정해야 해서 |
 
-문제 상황:
-
-- 자동 평가는 정답 여부만 보지 않고 근거성, 형식 준수, 도움됨까지 여러 축으로 답안을 읽어야 한다
-
 입력(input):
 
 위에 정리한 source text, required phrase, 후보 답변 목록을 사용합니다.
@@ -431,7 +427,7 @@ for report in reports:
 ```text
 [summary]
 {'all_pass_count': 1,
- 'average_axis_score': 2.0,
+ 'average_axis_score': 1.75,
  'best_candidate': 'answer_a',
  'correct_count': 1,
  'format_ok_count': 2,

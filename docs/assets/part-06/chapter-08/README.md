@@ -1,4 +1,4 @@
-# Part 6 Chapter 8 Mermaid Assets
+# Part 6 Chapter 8 Assets
 
 - Korean public manuscript pages can include the `-ko.mmd` files through `pymdownx.snippets`.
 - The matching `-en.mmd` files remain in this directory as canonical English originals for future translation work.
@@ -9,3 +9,9 @@
   - `p6-c08-s02-diagram-02-en.mmd` / `p6-c08-s02-diagram-02-ko.mmd`
   - `p6-c08-s03-diagram-01-en.mmd` / `p6-c08-s03-diagram-01-ko.mmd`
   - `p6-c08-s03-diagram-02-en.mmd` / `p6-c08-s03-diagram-02-ko.mmd`
+- PNG chart assets:
+  - `instruction-tuning-request-match-en.png` / `instruction-tuning-request-match-ko.png`
+  - `lora-rank-ratio-en.png` / `lora-rank-ratio-ko.png`
+- Python chart source:
+  - `p6_8_1_instruction_tuning_chart.py`
+  - `p6_8_4_lora_rank_ratio_chart.py`

@@ -215,6 +215,8 @@ RAG(retrieval-augmented generation)는 바로 이 문제와 연결됩니다.
 ```
 
 ```python
+import string
+
 context_items = [
     {
         "name": "system instruction",
@@ -291,7 +293,8 @@ def coverage(selected, must_keep_names):
 def relevance_ranking(selected, keywords):
     scored = []
     for item in selected:
-        words = set(item["content"].lower().replace(".", "").split())
+        clean_content = item["content"].lower().translate(str.maketrans("", "", string.punctuation))
+        words = set(clean_content.split())
         score = len(words & keywords)
         scored.append((score, item["name"]))
     return sorted(scored, reverse=True)

@@ -1,7 +1,7 @@
 # Part 6 마무리. LLM과 생성형 AI 정리
 
 Section ID: `P6-summary`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 Part 6는 생성형 AI를 `대단한 답변기`처럼 소비하는 단계에서 한 걸음 더 나아가, LLM(large language model)이 어떤 입력 단위를 읽고, 어떤 구조 위에서 학습되며, 어떤 서비스 구조 안에서 실제로 동작하는지 실제 설명으로 묶는 구간이었습니다.
 

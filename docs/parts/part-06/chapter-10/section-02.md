@@ -1,7 +1,7 @@
 # P6-10.2 검색 결과와 생성의 결합
 
 Section ID: `P6-10.2`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 P6-10.1에서는 RAG(retrieval-augmented generation)가 왜 필요한지 보았습니다. 이제는 문서를 붙인다는 말이 실제 입력 흐름에서 무엇을 뜻하는지 더 구체적으로 봐야 합니다.
 
@@ -224,10 +224,6 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 | `relevant_only` | 관련 문서만 포함 | 문서 범위 안에서 설명 | 정상 흐름 |
 | `mixed_with_irrelevant` | 무관 문서 섞임 | 오염된 문서를 따라감 | 검색 실패가 생성으로 전염 |
 | `retrieval_ok_but_generation_overclaims` | 검색은 정상 | 생성이 문서 밖으로 과장 | 생성 실패 |
-
-문제 상황:
-
-- RAG 실패는 검색 단계 문제인지 생성 단계 과장인지 구분해서 봐야 대응이 달라진다
 
 입력(input):
 

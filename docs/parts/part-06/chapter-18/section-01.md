@@ -1,7 +1,7 @@
 # P6-18.1 LLM 발전사의 큰 흐름
 
 Section ID: `P6-18.1`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 오늘의 LLM(large language model)은 하나의 갑작스러운 발명이 아니라, 어떤 한계를 줄이려는 여러 구조 전환이 겹치며 만들어졌습니다.
 
@@ -280,13 +280,15 @@ documents = [
 
 queries = [
     "환불이 늦어요",
-    "주문을 취소하고 싶어요",
+    "주문 취소하고 싶어요",
 ]
 
 synonyms = {
     "환불": "환급",
+    "지연은": "지연",
     "늦어요": "지연",
     "취소하고": "취소",
+    "확인하나요": "확인",
     "싶어요": "요청",
 }
 
@@ -371,7 +373,7 @@ for position, token, score in attention_like_focus(question, document):
 query = 환불이 늦어요
  lexical_top = ('환급 처리 지연 안내', 0)
  normalized_top = ('환급 처리 지연 안내', 1)
-query = 주문을 취소하고 싶어요
+query = 주문 취소하고 싶어요
  lexical_top = ('주문 취소 요청 절차', 1)
  normalized_top = ('주문 취소 요청 절차', 3)
 

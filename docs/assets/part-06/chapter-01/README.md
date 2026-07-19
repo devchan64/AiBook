@@ -10,3 +10,4 @@
   - `p6-c01-s02-diagram-02-en.mmd` / `p6-c01-s02-diagram-02-ko.mmd`
   - `p6-c01-s03-diagram-01-en.mmd` / `p6-c01-s03-diagram-01-ko.mmd`
   - `p6-c01-s03-diagram-02-en.mmd` / `p6-c01-s03-diagram-02-ko.mmd`
+  - `p6-c01-s08-diagram-01-en.mmd` / `p6-c01-s08-diagram-01-ko.mmd`

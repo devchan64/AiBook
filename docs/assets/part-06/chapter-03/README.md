@@ -13,3 +13,7 @@
   - `p6-c03-s03-diagram-01-en.mmd` / `p6-c03-s03-diagram-01-ko.mmd`
   - `p6-c03-s04-diagram-01-en.mmd` / `p6-c03-s04-diagram-01-ko.mmd`
   - `p6-c03-s05-diagram-01-en.mmd` / `p6-c03-s05-diagram-01-ko.mmd`
+- PNG chart assets:
+  - `kv-cache-projection-count-en.png` / `kv-cache-projection-count-ko.png`
+- Python chart source:
+  - `p6_3_4_kv_cache_projection_chart.py`

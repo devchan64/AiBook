@@ -1,7 +1,7 @@
 # P6-9.2 프롬프트의 한계
 
 Section ID: `P6-9.2`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설계를 통해 모델 행동을 관찰하고 조정하는 첫 번째 실무 도구라는 점을 보았습니다. 이제는 프롬프트를 잘 써도 여전히 남는 문제가 무엇인지 더 직접 봐야 합니다.
 
@@ -256,10 +256,6 @@ P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 | 수치 보고 | 계산값 정확성 | 계산 로그, 재계산 근거 | 계산 도구, 후처리 검산 |
 | 파일 자동화 | 실제 저장 완료 | 저장 로그, 재시도 정보 | 파일 도구, 실행 로그 |
 
-문제 상황:
-
-- 강한 프롬프트만으로는 최신 정보, 계산 정확성, 실제 실행 완료까지 항상 보장되지 않는다
-
 입력(input):
 
 위에 정리한 작업 목록과 prompt-only 결과, tool-assisted 결과를 사용합니다.
@@ -414,7 +410,7 @@ for batch in [prompt_only_batch, structured_batch]:
     print("=" * 80)
     print("mode =", batch["mode_name"])
     print("fully_passed =", batch["fully_passed"])
-    print("passed_checks =", f\"{batch['total_passed_checks']}/{batch['total_checks']}\")
+    print("passed_checks =", f"{batch['total_passed_checks']}/{batch['total_checks']}")
     print("average_pass_ratio =", batch["average_pass_ratio"])
     for report in batch["reports"]:
         print("-" * 80)

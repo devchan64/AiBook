@@ -9,8 +9,10 @@
   - `p6-c06-s02-diagram-01-en.mmd` / `p6-c06-s02-diagram-01-ko.mmd`
   - `p6-c06-s02-diagram-02-en.mmd` / `p6-c06-s02-diagram-02-ko.mmd`
 - PNG chart assets:
+  - `pretraining-adaptation-counts-en.png` / `pretraining-adaptation-counts-ko.png`
   - `scale-context-coverage-en.png` / `scale-context-coverage-ko.png`
   - `scale-inference-cost-en.png` / `scale-inference-cost-ko.png`
   - `scale-data-review-burden-en.png` / `scale-data-review-burden-ko.png`
 - Python chart source:
+  - `p6_6_1_pretraining_adaptation_chart.py`
   - `p6_6_2_scale_tradeoff_charts.py`

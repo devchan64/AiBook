@@ -1,7 +1,7 @@
 # P6-17.2 최소 구현과 회고 포인트
 
 Section ID: `P6-17.2`
-Version: `v2026.07.18`
+Version: `v2026.07.19`
 
 P6-17.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도구 선택 -> 응답 생성 -> 상태 판단 -> 기록`의 흐름으로 묶었다면, 여기서는 그 흐름을 아주 작은 코드로 다시 그려 보면 됩니다.
 
@@ -342,7 +342,7 @@ question = 이번 달에 입사한 직원도 여름휴가를 바로 쓸 수 있�
 [document scores]
 policy-1 score= 2 matched_groups= ['입사', '휴가']
 policy-2 score= 1 matched_groups= ['휴가']
-policy-3 score= 0 matched_groups= []
+policy-3 score= 1 matched_groups= ['휴가']
 policy-4 score= 0 matched_groups= []
 [retrieved_doc_ids]
 ['policy-1', 'policy-2']
