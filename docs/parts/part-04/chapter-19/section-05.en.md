@@ -1,7 +1,7 @@
 # P4-19.5 Supplementary Learning: How To Read The Bellman Equation, Convergence, And Function Approximation For The First Time
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Once readers begin studying value-based reinforcement learning in P4-19.1, the following names quickly appear next to it.
 
@@ -151,83 +151,30 @@ The checkable conclusion of this case is the following. In a small maze, `writin
 
 This exercise follows Case 1 directly and focuses on checking why the same Bellman reading, `current reward + next value`, splits into `keep a table` versus `move to function approximation` depending on the size of the state space.
 
-Problem situation:
+The values to inspect are current reward `1.0`, discount factor `0.9`, next-state value `0.8`, and the number of states. What should be read as the output is not a single calculation result, but the judgment that the same current-value interpretation leads to a Q-table in a small state space and to function approximation in a large state space.
 
-- Bellman equation, convergence, and function approximation may look like separate names, but in practice they continue as one flow
+Therefore, this exercise ties the Bellman equation, convergence, and function approximation into one flow instead of memorizing them separately. The Bellman form is the recursive structure that reads `current reward + next value`, convergence is the question of whether the amount of change shrinks as this value is updated, and function approximation changes the representation that carries the same judgment in a large state space.
 
-Input:
+| Scene | Calculation | Current value reading | Number of states | More natural representation |
+| --- | --- | ---: | ---: | --- |
+| `small_maze` | `1.0 + 0.9 * 0.8` | 1.72 | 25 | Q-table |
+| `screen_game` | `1.0 + 0.9 * 0.8` | 1.72 | 1,000,000 | function approximator |
 
-- current reward `1.0`
-- discount factor `0.9`
-- expected value of the next state
-- a comparison between the number of states in a small maze and a screen-based game
-
-Expected output:
-
-- the current value reading in each scene
-- a judgment about whether `q_table` or `function_approximator` is the more natural representation in each scene
-
-Concepts to check:
-
-- the Bellman form is a recursive structure that reads `current reward + next value`
-- convergence asks whether the amount of change shrinks when this value is updated repeatedly
-- function approximation does not abandon the table intuition, but changes the representation in a large state space
-
-```python
-scenes = [
-    {"name": "small_maze", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 25},
-    {"name": "screen_game", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 1_000_000},
-]
-
-for item in scenes:
-    bellman_view = item["reward"] + item["gamma"] * item["next_value"]
-    representation = "q_table" if item["states"] <= 1_000 else "function_approximator"
-
-    print(item["name"])
-    print("  bellman view =", round(bellman_view, 2))
-    print("  states =", item["states"])
-    print("  representation =", representation)
-```
-
-An example result can be read like this.
-
-```text
-small_maze
-  bellman view = 1.72
-  states = 25
-  representation = q_table
-screen_game
-  bellman view = 1.72
-  states = 1000000
-  representation = function_approximator
-```
-
-What matters in this example is the following.
+What should be read from this example is the following.
 
 1. Both the small maze and the screen-based game still read current value through the same Bellman structure: `current reward + next value`.
 2. In other words, a large state space does not erase the value-based intuition itself.
 3. What changes is `where to put that value`, and when the number of states grows, the same intuition has to move into function approximation.
 
-### Change One Value: What Becomes Uncomfortable First As The State Count Grows?
+### Table View: What Becomes Uncomfortable First As The State Count Grows?
 
-This time, keep reward and discount factor the same, and only increase the number of states so the point where the table-based representation becomes uncomfortable can be seen more clearly.
+This time, keep reward and discount factor the same, and only increase the number of states to see when the table-based intuition becomes uncomfortable. Because this scene reads the representation choice by state count, a comparison table is clearer than code.
 
-```python
-reward = 1.0
-gamma = 0.9
-next_value = 0.8
-
-for states in [25, 2_500, 250_000]:
-    bellman_view = reward + gamma * next_value
-    representation = "q_table" if states <= 1_000 else "function_approximator"
-    print("states =", states, "bellman view =", round(bellman_view, 2), "representation =", representation)
-```
-
-```text
-states = 25 bellman view = 1.72 representation = q_table
-states = 2500 bellman view = 1.72 representation = function_approximator
-states = 250000 bellman view = 1.72 representation = function_approximator
-```
+| Number of states | Current value reading | What becomes uncomfortable first | Representation |
+| ---: | ---: | --- | --- |
+| 25 | 1.72 | State-action values can still be written in a table | Q-table |
+| 2,500 | 1.72 | The table grows difficult to manage | function approximation |
+| 250,000 | 1.72 | Directly storing every value becomes difficult | function approximation |
 
 What does not change here is the interpretation `current reward + future value`. What breaks first is the representation `write it directly into a table`. So the main point to confirm is not `the Bellman view stopped working`, but `the same judgment now has to move into a different representation`.
 
@@ -249,3 +196,8 @@ The purpose of this table is not to memorize mathematical names. It is to hold o
 - Can you explain convergence as the question of whether repeated update results become more stable?
 - Can you explain function approximation as a change in representation that moves Q-table intuition into a larger state space?
 - Can you explain DQN as a representative extension line in value-based reinforcement learning?
+
+## Sources And References
+
+- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018. Consulted for the Bellman equation, value-based methods, convergence, and function approximation flow. Accessed 2026-07-19. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Volodymyr Mnih et al., `Human-level control through deep reinforcement learning`, Nature, 2015. Consulted as a representative case connecting DQN to high-dimensional sensory input and Q-value function approximation. Accessed 2026-07-19. [https://doi.org/10.1038/nature14236](https://doi.org/10.1038/nature14236){: target="_blank" rel="noopener noreferrer" }

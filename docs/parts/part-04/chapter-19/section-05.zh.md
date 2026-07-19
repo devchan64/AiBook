@@ -1,7 +1,7 @@
 # P4-19.5 补充学习：如何第一次阅读贝尔曼方程、收敛与函数近似
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 一旦开始阅读 P4-19.1 里的价值型强化学习(value-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
@@ -151,56 +151,14 @@ DQN 是这条函数近似路径里的代表例子。
 
 这个练习直接接着案例 1，重点是确认为什么同样的贝尔曼式阅读 `当前奖励 + 下一价值`，会因为状态空间大小不同，而分叉成`继续用表`和`转向函数近似`。
 
-问题场景：
+输入里要看的值是当前奖励 `1.0`、折扣率 `0.9`、下一状态价值 `0.8`，以及状态数。输出里要读的不是某一个计算结果，而是同样的当前价值解释在小状态空间里会走向 Q-table，在大状态空间里会走向函数近似这个判断。
 
-- 贝尔曼方程、收敛、函数近似看起来像三个分开的名字，但实际会连成一条流
+因此，这个练习不是把贝尔曼方程、收敛、函数近似分开背，而是把它们连成一条流。贝尔曼式是阅读 `当前奖励 + 下一价值` 的递归结构；收敛是在问不断更新这个值时，变化幅度会不会缩小；函数近似则是在大状态空间里更换承载同一判断的表达方式。
 
-输入(input)：
-
-- 当前奖励 `1.0`
-- 折扣率 `0.9`
-- 下一状态的期望价值
-- 小迷宫和屏幕游戏的状态数比较
-
-期望输出(output)：
-
-- 每个场景里的当前价值阅读结果
-- 每个场景下 `q_table` 还是 `function_approximator` 更自然的判断
-
-要确认的概念：
-
-- 贝尔曼式是阅读 `当前奖励 + 下一价值` 的递归结构
-- 收敛是在问不断更新这个值时，变化幅度会不会缩小
-- 函数近似不是放弃表的直觉，而是在大状态空间里更换表达方式
-
-```python
-scenes = [
-    {"name": "small_maze", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 25},
-    {"name": "screen_game", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 1_000_000},
-]
-
-for item in scenes:
-    bellman_view = item["reward"] + item["gamma"] * item["next_value"]
-    representation = "q_table" if item["states"] <= 1_000 else "function_approximator"
-
-    print(item["name"])
-    print("  bellman view =", round(bellman_view, 2))
-    print("  states =", item["states"])
-    print("  representation =", representation)
-```
-
-这个例子的结果可以像下面这样来读。
-
-```text
-small_maze
-  bellman view = 1.72
-  states = 25
-  representation = q_table
-screen_game
-  bellman view = 1.72
-  states = 1000000
-  representation = function_approximator
-```
+| 场景 | 计算 | 当前价值阅读 | 状态数 | 更自然的表达 |
+| --- | --- | ---: | ---: | --- |
+| `small_maze` | `1.0 + 0.9 * 0.8` | 1.72 | 25 | Q-table |
+| `screen_game` | `1.0 + 0.9 * 0.8` | 1.72 | 1,000,000 | 函数近似(function approximator) |
 
 这个例子里真正要读出来的是：
 
@@ -208,26 +166,15 @@ screen_game
 2. 也就是说，状态空间变大，并不会让价值型直觉本身消失。
 3. 真正变化的是`把这个值放在哪里`，而当状态数增长时，同样的直觉就必须搬进函数近似里。
 
-### 改一个值看看：状态数一变大，最先变得不舒服的是什么
+### 表格视角：状态数一变大，最先变得不舒服的是什么
 
-这次保持奖励和折扣率不变，只增加状态数，让“表式表达在哪一步开始不舒服”更直接地出现。
+这次保持奖励和折扣率不变，只增加状态数，看看什么时候表格式直觉会开始变得不舒服。因为这里是按状态数来区分表达方式的场景，所以比较表比代码更清楚。
 
-```python
-reward = 1.0
-gamma = 0.9
-next_value = 0.8
-
-for states in [25, 2_500, 250_000]:
-    bellman_view = reward + gamma * next_value
-    representation = "q_table" if states <= 1_000 else "function_approximator"
-    print("states =", states, "bellman view =", round(bellman_view, 2), "representation =", representation)
-```
-
-```text
-states = 25 bellman view = 1.72 representation = q_table
-states = 2500 bellman view = 1.72 representation = function_approximator
-states = 250000 bellman view = 1.72 representation = function_approximator
-```
+| 状态数 | 当前价值阅读 | 最先变得不舒服的地方 | 表达方式 |
+| ---: | ---: | --- | --- |
+| 25 | 1.72 | 还能把状态-行动值写进表里 | Q-table |
+| 2,500 | 1.72 | 表变大，管理变得困难 | 函数近似 |
+| 250,000 | 1.72 | 难以直接保存所有值 | 函数近似 |
 
 这里没有变的是`当前奖励 + 未来价值`这个解释；最先崩掉的是`把它直接写进表里`这种表达方式。所以真正要确认的重点不是`贝尔曼式失效了`，而是`同样的判断现在必须搬到另一种表达里去`。
 
@@ -249,3 +196,8 @@ states = 250000 bellman view = 1.72 representation = function_approximator
 - 你能否把收敛解释成“重复更新的结果是否会变得更稳定”这个问题？
 - 你能否说明，函数近似是把 Q-table 的直觉搬到更大状态空间里的表达变化？
 - 你能否把 DQN 解释成价值型强化学习中一条代表性的扩展脉络？
+
+## 来源与参考资料
+
+- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018. 用于确认 Bellman equation、价值型方法、convergence、function approximation 的流程。确认日期: 2026-07-19. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Volodymyr Mnih et al., `Human-level control through deep reinforcement learning`, Nature, 2015. 用于确认把 DQN 连接到高维感官输入和 Q-value function approximation 的代表案例。确认日期: 2026-07-19. [https://doi.org/10.1038/nature14236](https://doi.org/10.1038/nature14236){: target="_blank" rel="noopener noreferrer" }
