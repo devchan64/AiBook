@@ -1,7 +1,7 @@
 # Part 2 Summary. Rebuilding the Foundations
 
 > Section ID: `P2-summary`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 Part 2 was the section for recovering math, Python, data tools, and document-management instincts before studying machine learning and deep learning again. Rather than proving mathematics deeply or memorizing all Python syntax, it focused on rereading the language of computation that keeps returning in later learning.
 
@@ -223,8 +223,6 @@ If you have finished Part 2, that does not mean formulas and code have become co
 You check variables and shape. Next, you check whether the computation is repetition, summation, comparison, or optimization. Then you inspect the result through a table or graph. Finally, you leave the runtime context and change history.
 
 This attitude continues to matter after Part 3 as well. Even when studying machine learning, deep learning, and LLMs, model explanations ultimately return to data structure, computational procedure, evaluation standard, and reproducible records.
-
-## Final Short Check
 
 - Can you explain the flow `small table -> X/y -> shape -> prediction -> error -> record` in one paragraph?
 - When you see a blocking expression, can you choose where to return inside Part 2?
