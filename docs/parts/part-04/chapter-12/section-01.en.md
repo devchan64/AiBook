@@ -1,7 +1,7 @@
 # P4-12.1 Intuition For k-NN
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-11.2 showed logistic regression as `a model that draws a boundary in the input space and separates classes`. Now the question changes.
 
@@ -18,13 +18,7 @@ This Section answers the following questions.
 - How does the character of the judgment change when `k` changes?
 - What should training mean in k-NN?
 
-This Section does not treat the following topics deeply.
-
-- differences among distance functions
-- why scale changes the result
-- practical guidance for what to check first when using k-NN
-
-Those topics continue in `P4-12.2 Distance And Scale` and `P4-12.3 What Should Be Checked First When Using k-NN?`
+This Section first closes `what basic idea k-NN uses to judge from nearby cases`. Why distance functions and scale change the result continues in `P4-12.2 Distance And Scale`, and the practical guidance continues in `P4-12.3 What Should Be Checked First When Using k-NN?`
 
 ## Goals Of This Section
 
