@@ -1,7 +1,7 @@
 # P2-10.1 노트북(notebook)은 왜 학습에 유용한가
 
 > Section ID: `P2-10.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 7에서는 Python을 어디에서 실행하는지, 터미널(terminal), 셸(shell), 인터프리터(interpreter), 스크립트(script), 가상환경(virtual environment)을 나누어 봤습니다. Part 2 Chapter 8과 Chapter 9에서는 Python 문법과 자료구조를 작은 예제로 복구했습니다.
 
@@ -318,6 +318,6 @@ mean_a, mean_b
 
 ## 출처와 참고 자료
 
-- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
+- Project Jupyter, [Project Jupyter Documentation](https://docs.jupyter.org/en/latest/){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. 노트북이 코드, 설명, 데이터, 시각화, 상호작용을 함께 담는 문서라는 설명 확인에 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. 노트북 문서, 사용자 인터페이스, 커널 등 구성 요소를 구분하는 배경 근거로 사용했다.
+- Google, [Welcome to Colab](https://colab.research.google.com/notebooks/intro.ipynb){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-19. 브라우저 기반 노트북 환경에서 코드와 설명을 함께 실행·기록하는 예시 확인에 사용했다.

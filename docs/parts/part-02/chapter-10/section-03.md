@@ -1,7 +1,7 @@
 # P2-10.3 노트북을 재실행 가능한 기록으로 정리하기
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-10.1에서는 노트북(notebook)을 코드, 설명, 출력이 함께 있는 계산 문서로 봤습니다. P2-10.2에서는 Jupyter, Colab, 로컬 실행의 차이를 실행 위치와 파일 접근 관점에서 구분했습니다.
 
@@ -374,6 +374,6 @@ Part 2의 다음 장으로 넘어가기 전에는 세 가지만 점검합니다.
 
 ## 출처와 참고 자료
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. 노트북 문서가 코드, 출력, markdown notes를 함께 저장한다는 설명 확인에 사용했다.
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation, 확인 날짜: 2026-07-19. `.ipynb` 파일이 셀 목록과 메타데이터, 셀 입력·출력을 담는 JSON 기반 형식이라는 설명 확인에 사용했다.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-19. Colab 공유에서 노트북 내용과 런타임 상태가 분리된다는 주의점을 확인하는 근거로 사용했다.

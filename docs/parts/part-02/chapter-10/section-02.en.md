@@ -1,7 +1,7 @@
 # P2-10.2 The Difference Among Jupyter, Colab, and Local Execution
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. Now we separate the three execution styles that are encountered most often in practice.
 
@@ -15,7 +15,7 @@ If the execution place changes, the meaning of the same notebook also changes.
 
 ## Scope of This Section
 
-This Section is not a manual that explains detailed usage of Jupyter and Colab. It does not cover installation steps, menu locations, shortcuts, GPU settings, or Google Drive integration details. Instead of memorizing such feature names, this Section first captures the difference among `execution location`, `runtime`, and `file access`, and reconnects larger topics such as experiment tracking later in the supplement P3-9.3 and the Part 6 project-record context.
+This Section first closes the distinctions among `execution location`, `runtime`, and `file access`. Instead of memorizing feature names, it uses Jupyter, Colab, and local execution to separate where code runs, where files are stored, and what is shared. Larger topics such as experiment tracking reconnect later in the supplement P3-9.3 and in the Part 6 project-record context.
 
 | Term | Meaning to capture first in this Section |
 | --- | --- |
@@ -284,6 +284,6 @@ So when reading practice documents, first check `Where is this code being execut
 
 ## Sources and References
 
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-19. Used as the basis for distinguishing shared notebook contents from runtime, VM, file, and installed-library state that are not shared together.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-19. Used as background for distinguishing Jupyter documents, interfaces, kernels, execution location, and runtime.
+- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation, checked on 2026-07-19. Used as the basis for explaining local notebook servers and browser-based notebook usage flow.

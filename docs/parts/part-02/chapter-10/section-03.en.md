@@ -1,7 +1,7 @@
 # P2-10.3 Organizing Notebooks as Re-runnable Records
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. In P2-10.2, we distinguished Jupyter, Colab, and local execution from the viewpoint of execution location and file access.
 
@@ -29,7 +29,7 @@ This Section focuses less on notebook decoration tips and more on the standard f
 
 ## Scope of This Section
 
-This Section does not deal with how to make notebooks look pretty. It does not deal with Jupyter extensions, Colab advanced settings, automatic deployment, or large experiment-tracking tools. Here the scope stops at the habit of making a notebook into a rerunnable record, and larger experiment-tracking systems are reconnected later in the supplement P3-9.3 and in Part 6 project records.
+This Section focuses on the standard for making notebooks into rerunnable records: execution order, cell order, hidden state, and the placement of setup and data-preparation cells. Larger experiment-tracking systems are reconnected later in the supplement P3-9.3 and in Part 6 project records.
 
 This Section answers the following questions.
 
@@ -360,6 +360,6 @@ This case shows the core of notebook organization. Reproducibility is not about 
 
 ## Sources and References
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-19. Used to confirm that notebook documents store code, output, and markdown notes together.
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation, checked on 2026-07-19. Used to confirm that `.ipynb` files are JSON-based documents containing a list of cells, metadata, cell inputs, and outputs.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-19. Used as the basis for the caution that shared Colab notebook contents and runtime state are separate.

@@ -14,3 +14,6 @@
 - Python chart sources:
   - `p6_10_1_rag_grounding_chart.py`
   - `p6_10_2_rag_failure_split_chart.py`
+- CSV example data:
+  - `p6-10-rag-documents.csv`
+  - `p6-10-rag-experiments.csv`

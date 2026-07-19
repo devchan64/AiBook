@@ -1,7 +1,7 @@
 # P2-10.2 Jupyter, Colab, 로컬 실행의 차이
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-10.1에서는 노트북(notebook)을 코드(code), 설명(markdown), 출력(output)이 함께 있는 계산 문서(computational notebook)로 봤습니다. 이제 실제로 많이 만나는 세 실행 방식을 구분합니다.
 
@@ -284,6 +284,6 @@ Colab에서는 같은 파일이 런타임에 없을 수 있습니다. 파일을 
 
 ## 출처와 참고 자료
 
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, 확인 날짜: 2026-07-19. Colab에서 공유되는 노트북 내용과 공유되지 않는 런타임·VM·파일·설치 상태를 구분하는 근거로 사용했다.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, 확인 날짜: 2026-07-19. Jupyter의 문서, 인터페이스, 커널 구성 요소를 실행 위치와 런타임 구분의 배경으로 사용했다.
+- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation, 확인 날짜: 2026-07-19. 로컬 노트북 서버와 브라우저 기반 노트북 사용 흐름을 설명하는 근거로 사용했다.

@@ -1,7 +1,7 @@
 # P2-10.3 把笔记本整理成可重新执行的记录
 
 > Section ID: `P2-10.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-10.1 中，我们把 notebook 看成同时包含 code、explanation 和 output 的计算文档。在 P2-10.2 中，我们又从执行位置和文件访问的角度区分了 Jupyter、Colab 和本地执行。
 
@@ -29,7 +29,7 @@
 
 ## 本节的范围
 
-本节不讨论如何把 notebook 做得更漂亮。不讨论 Jupyter 扩展、Colab 高级设置、自动部署或大规模实验跟踪工具。这里的范围只到“把 notebook 整理成可重跑记录的习惯”为止，而更大的实验跟踪体系，会在之后的补充学习 P3-9.3 和 Part 6 项目记录中再次连接。
+本节集中处理把 notebook 整理成可重新执行记录的标准：执行顺序、cell 顺序、hidden state，以及 setup cell 和数据准备 cell 应放在哪里。更大的实验跟踪体系，会在之后的补充学习 P3-9.3 和 Part 6 项目记录中再次连接。
 
 本节回答以下问题。
 
@@ -360,6 +360,6 @@ Colab FAQ 说明，共享 notebook 时，text、code、output、comments 等 not
 
 ## 来源与参考资料
 
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
-- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-19。用于确认 notebook document 会把 code、output 和 markdown notes 一起保存。
+- Project Jupyter, [The Jupyter Notebook Format](https://nbformat.readthedocs.io/en/latest/format_description.html){: target="_blank" rel="noopener noreferrer" }, nbformat 5.10 documentation，确认日期：2026-07-19。用于确认 `.ipynb` 文件是包含 cell list、metadata、cell inputs 与 outputs 的 JSON-based document。
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-19。作为说明 Colab 共享时 notebook 内容与 runtime state 是分开的依据。

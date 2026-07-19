@@ -447,6 +447,8 @@ top_2_margin = 0.09
 
 위 출력은 같은 `오늘 회의는 오후 2시에 진행` 구간을 공유하더라도, 앞 문맥에서 읽힌 `formal_tone`, `casual_tone`, `notice_style` 같은 단서가 후보 점수표를 다르게 밀어 올린다는 점을 보여 줍니다. `formal_notice`에서 `notice_style`을 낮추면 1위는 그대로 `합니다`지만 1, 2위 격차가 `1.24`에서 `0.84`로 줄어듭니다. `casual_team_chat`에 공손한 말투 단서를 일부 섞으면 1위 후보가 `이다`에서 `합니다`로 바뀌고, 격차도 `1.38`에서 `0.09`로 줄어 매우 불안정한 선택처럼 읽힙니다.
 
+![문맥 단서 변화에 따른 후보 분포](../../../assets/part-06/chapter-03/context-candidate-distribution-ko.png)
+
 독자는 여기서 `formal_notice_weaker_notice_style`의 `notice_style`을 더 낮추거나, `casual_team_chat_more_formal`의 `formal_tone`과 `casual_tone`을 바꿔 보면서 1위 후보와 `top_2_margin`이 어떻게 움직이는지 실험할 수 있습니다. 이렇게 보면 중요한 것은 `정답 토큰 하나를 외우는 것`이 아니라, `문맥에서 어떤 단서가 후보 분포를 어떻게 밀어 올리거나 끌어내리는가`입니다.
 
 이 예제에서 확인해야 할 핵심은 다음입니다.

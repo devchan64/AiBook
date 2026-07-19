@@ -195,7 +195,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 같은 질문에 대해 `정상 payload`, `검색 오염 payload`, `생성 과장 payload`를 나란히 두고, 어디서 실패가 생겼는지 원인을 분리해서 보겠습니다.
+이번 예제의 목표는 검색과 생성을 한 단계로 뭉개지 않고, `문서를 찾는 단계`와 `그 문서를 붙여 답을 만드는 단계`를 분리해서 보는 감각을 만드는 것입니다. 이번에는 같은 문서 집합에서 `retrieval_terms`와 `generation_style`을 바꿔, 검색 오염과 생성 과장이 서로 다른 단계의 실패로 드러나는지 확인하겠습니다.
 
 문제 상황:
 
@@ -207,88 +207,93 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 입력:
 
 - 질문
-- 검색 결과 문서 목록 세 묶음
-- 생성용 입력 payload 세 개
+- 검색 가능한 문서 목록 CSV: [p6-10-rag-documents.csv](../../../assets/part-06/chapter-10/p6-10-rag-documents.csv)
+- 검색 조건과 생성 조건 CSV: [p6-10-rag-experiments.csv](../../../assets/part-06/chapter-10/p6-10-rag-experiments.csv)
 
 출력:
 
-- 어떤 문서가 입력에 포함되었는지
+- 검색 조건에 따라 어떤 문서가 선택되었는지
 - 그 문서를 바탕으로 만든 최종 설명
 - 검색 실패와 생성 실패를 나누어 볼 수 있는 점검값
 - 무관 문서 혼입과 과장 표현 여부
 
-먼저 이 예제에서 보고 싶은 실패 유형을 표로 정리하면 다음과 같습니다.
+먼저 이 예제에서 직접 바꿔 볼 설정은 다음과 같습니다.
 
-| payload | 검색 상태 | 생성 상태 | 읽어야 할 핵심 |
-| --- | --- | --- | --- |
-| `relevant_only` | 관련 문서만 포함 | 문서 범위 안에서 설명 | 정상 흐름 |
-| `mixed_with_irrelevant` | 무관 문서 섞임 | 오염된 문서를 따라감 | 검색 실패가 생성으로 전염 |
-| `retrieval_ok_but_generation_overclaims` | 검색은 정상 | 생성이 문서 밖으로 과장 | 생성 실패 |
+| 실험 | 조작할 값 | 읽어야 할 핵심 |
+| --- | --- | --- |
+| `clean_grounded` | 관련 검색어와 보수적 생성 | 정상 흐름 |
+| `noisy_retrieval` | 무관한 검색어가 섞인 검색 조건 | 검색 실패가 생성으로 전염 |
+| `clean_but_overclaim` | 검색은 정상, 생성 조건만 과장형 | 생성 실패 |
 
 입력(input):
 
-위에 정리한 질문과 세 가지 payload 시나리오를 사용합니다.
+위에 정리한 질문과 두 입력 파일을 사용합니다. 문서 파일은 `title`, `text`, `category` 열을 갖고, 실험 파일은 `name`, `retrieval_terms`, `generation_style` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록입니다.
 
 확인할 개념:
 
 - RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다
 
 ```python
+import csv
+from pathlib import Path
+
 question = "벡터 검색이 왜 필요한가요?"
 
-payloads = [
-    {
-        "name": "relevant_only",
-        "question": question,
-        "docs": [
-            {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
-            {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
-        ],
-        "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
-        "mode": "grounded",
-    },
-    {
-        "name": "mixed_with_irrelevant",
-        "question": question,
-        "docs": [
-            {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
-            {"title": "문서 X", "text": "무관한 마케팅 문구 조합을 더 다양하게 만든다."},
-        ],
-        "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
-        "mode": "grounded",
-    },
-    {
-        "name": "retrieval_ok_but_generation_overclaims",
-        "question": question,
-        "docs": [
-            {"title": "문서 A", "text": "의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다."},
-            {"title": "문서 B", "text": "키워드가 달라도 의미 기반 검색이 가능하다."},
-        ],
-        "instruction": "문서를 바탕으로 입문 독자 기준으로 두 문장으로 설명해 주세요.",
-        "mode": "overclaim",
-    },
-]
+document_path = Path("docs/assets/part-06/chapter-10/p6-10-rag-documents.csv")
+experiment_path = Path("docs/assets/part-06/chapter-10/p6-10-rag-experiments.csv")
 
-def generate_from_payload(payload):
-    first = payload["docs"][0]["text"]
-    second = payload["docs"][1]["text"]
+def read_documents(path):
+    with path.open(encoding="utf-8", newline="") as file:
+        return list(csv.DictReader(file))
 
-    if payload["mode"] == "grounded":
-        return f"벡터 검색은 {first} 그래서 {second}"
+def read_experiments(path):
+    experiments = []
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            experiments.append(
+                {
+                    "name": row["name"],
+                    "retrieval_terms": row["retrieval_terms"].split(";"),
+                    "generation_style": row["generation_style"],
+                }
+            )
+    return experiments
+
+documents = read_documents(document_path)
+experiments = read_experiments(experiment_path)
+
+def retrieve_documents(terms, top_k=2):
+    scored = []
+    for doc in documents:
+        score = sum(term in doc["text"] for term in terms)
+        scored.append((score, doc))
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [doc for score, doc in scored if score > 0][:top_k]
+
+def generate_answer(retrieved_docs, generation_style):
+    first = retrieved_docs[0]["text"] if retrieved_docs else "참고 문서가 없다."
+    second = retrieved_docs[1]["text"] if len(retrieved_docs) > 1 else "추가 근거가 부족하다."
+
+    if generation_style == "overclaim":
+        return (
+            f"벡터 검색은 {first} "
+            "그래서 항상 최신 정보와 정답을 자동으로 보장한다."
+        )
 
     return (
         f"벡터 검색은 {first} "
-        "그래서 항상 최신 정보와 정답을 자동으로 보장한다."
+        f"그래서 {second}"
     )
 
-def inspect_payload(payload, answer):
-    contains_irrelevant_doc = any("무관" in doc["text"] for doc in payload["docs"])
+def inspect_result(retrieved_docs, answer):
+    contains_irrelevant_doc = any(
+        doc["category"] == "irrelevant" for doc in retrieved_docs
+    )
     answer_mentions_irrelevant_content = "마케팅" in answer or "무관" in answer
     answer_overclaims = "항상 최신 정보와 정답을 자동으로 보장" in answer
 
     return {
-        "doc_count": len(payload["docs"]),
-        "doc_titles": [doc["title"] for doc in payload["docs"]],
+        "doc_titles": [doc["title"] for doc in retrieved_docs],
         "contains_irrelevant_doc": contains_irrelevant_doc,
         "answer_mentions_irrelevant_content": answer_mentions_irrelevant_content,
         "answer_overclaims": answer_overclaims,
@@ -297,13 +302,13 @@ def inspect_payload(payload, answer):
     }
 
 reports = []
-for payload in payloads:
-    answer = generate_from_payload(payload)
-    inspect = inspect_payload(payload, answer)
+for experiment in experiments:
+    retrieved_docs = retrieve_documents(experiment["retrieval_terms"])
+    answer = generate_answer(retrieved_docs, experiment["generation_style"])
+    inspect = inspect_result(retrieved_docs, answer)
     reports.append(
         {
-            "name": payload["name"],
-            "doc_titles": inspect["doc_titles"],
+            "experiment": experiment,
             "answer": answer,
             "inspect": inspect,
         }
@@ -330,10 +335,8 @@ print()
 
 for report in reports:
     print("=" * 80)
-    print("[payload]")
-    print(report["name"])
-    print("[doc titles]")
-    print(report["doc_titles"])
+    print("[experiment]")
+    print(report["experiment"])
     print("[generated answer]")
     print(report["answer"])
     print("[inspect]")
@@ -347,35 +350,29 @@ for report in reports:
 {'retrieval_failure_count': 1, 'generation_failure_count': 1, 'irrelevant_leak_count': 1, 'overclaim_count': 1, 'retrieval_failure_ratio': 0.33, 'generation_failure_ratio': 0.33}
 
 ================================================================================
-[payload]
-relevant_only
-[doc titles]
-['문서 A', '문서 B']
+[experiment]
+{'name': 'clean_grounded', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'grounded'}
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 키워드가 달라도 의미 기반 검색이 가능하다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
+{'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': False, 'retrieval_failed': False, 'generation_failed': False}
 ================================================================================
-[payload]
-mixed_with_irrelevant
-[doc titles]
-['문서 A', '문서 X']
+[experiment]
+{'name': 'noisy_retrieval', 'retrieval_terms': ['의미', '마케팅', '문구', '다양하게'], 'generation_style': 'grounded'}
 [generated answer]
-벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 무관한 마케팅 문구 조합을 더 다양하게 만든다.
+벡터 검색은 무관한 마케팅 문구 조합을 더 다양하게 만든다. 그래서 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 X'], 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
+{'doc_titles': ['문서 X', '문서 A'], 'contains_irrelevant_doc': True, 'answer_mentions_irrelevant_content': True, 'answer_overclaims': False, 'retrieval_failed': True, 'generation_failed': False}
 ================================================================================
-[payload]
-retrieval_ok_but_generation_overclaims
-[doc titles]
-['문서 A', '문서 B']
+[experiment]
+{'name': 'clean_but_overclaim', 'retrieval_terms': ['의미', '벡터', '검색'], 'generation_style': 'overclaim'}
 [generated answer]
 벡터 검색은 의미가 비슷한 텍스트를 벡터 공간에서 가깝게 찾는다. 그래서 항상 최신 정보와 정답을 자동으로 보장한다.
 [inspect]
-{'doc_count': 2, 'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
+{'doc_titles': ['문서 A', '문서 B'], 'contains_irrelevant_doc': False, 'answer_mentions_irrelevant_content': False, 'answer_overclaims': True, 'retrieval_failed': False, 'generation_failed': True}
 ```
 
-이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `mixed_with_irrelevant`는 검색이 틀려서 생성까지 오염된 경우이고, `retrieval_ok_but_generation_overclaims`는 검색은 맞았지만 생성이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
+이 결과에서 먼저 봐야 할 것은 `retrieval_failure_count`와 `generation_failure_count`가 각각 따로 잡힌다는 점입니다. 즉, `noisy_retrieval`은 검색 조건에 섞인 잡음 때문에 무관 문서가 선택되고 생성까지 오염된 경우이고, `clean_but_overclaim`은 검색은 맞았지만 생성 조건이 문서 밖으로 과장된 경우입니다. 이 구분이 있어야 RAG 시스템을 손볼 때 `검색을 고칠지`, `생성 지시와 평가를 고칠지`를 분리해서 판단할 수 있습니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
@@ -384,9 +381,9 @@ retrieval_ok_but_generation_overclaims
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `payloads`에 문서를 한 개 더 넣어 문서 수 증가가 답변에 어떤 영향을 주는지 보기
-- `mixed_with_irrelevant`의 무관 문장을 더 교묘하게 바꿔도 오염이 잡히는지 보기
-- `generate_from_payload`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
+- `experiments[1]["retrieval_terms"]`에서 무관 검색어를 줄여 검색 실패가 사라지는지 보기
+- `documents`에 문서를 한 개 더 넣어 문서 수 증가가 답변에 어떤 영향을 주는지 보기
+- `generate_answer`를 바꿔 문서 제목을 출처처럼 같이 남기도록 해 보기
 - `answer_overclaims` 규칙을 더 늘려 `항상`, `완벽히`, `자동으로 해결` 같은 과장 표현을 더 잡아 보기
 
 ## 이 예제를 RAG 파이프라인 관점으로 다시 보면

@@ -1,7 +1,7 @@
 # P2-10.2 Jupyter、Colab 与本地执行的区别
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-10.1 中，我们把 notebook 看成一种同时包含 code、explanation 和 output 的计算文档。现在要区分三种在实践里最常遇到的执行方式。
 
@@ -15,7 +15,7 @@ Jupyter、Colab、本地执行。
 
 ## 本节的范围
 
-本节不是详细说明 Jupyter 和 Colab 用法的手册。不讨论安装步骤、菜单位置、快捷键、GPU 设置或 Google Drive 集成细节。比起背这些功能名称，本节更先抓住 `执行位置`、`runtime` 和 `文件访问` 的差异，而像实验跟踪这样更扩展的话题，会在后面的补充学习 P3-9.3 和 Part 6 的项目记录语境里再连接。
+本节先收束 `执行位置`、`runtime`、`文件访问` 三个区分。这里不先背功能名称，而是用 Jupyter、Colab、本地执行来拆开：代码在哪里运行，文件保存在哪里，什么会被共享。实验追踪等更大的主题，会在 P3-9.3 补充学习和 Part 6 的项目记录语境里再连接。
 
 | 术语 | 本节先要抓住的含义 |
 | --- | --- |
@@ -284,6 +284,6 @@ path = "data/scores.csv"
 
 ## 来源与参考资料
 
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
-- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-19。作为区分 notebook 中会共享的内容，以及不会一起共享的 runtime、VM、文件和已安装库状态的依据。
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-19。作为区分 Jupyter document、interface、kernel、执行位置和 runtime 的背景依据。
+- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation，确认日期：2026-07-19。作为说明本地 notebook server 和浏览器 notebook 使用流程的依据。

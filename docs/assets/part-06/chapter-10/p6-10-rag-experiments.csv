@@ -1,0 +1,4 @@
+name,retrieval_terms,generation_style
+clean_grounded,의미;벡터;검색,grounded
+noisy_retrieval,의미;마케팅;문구;다양하게,grounded
+clean_but_overclaim,의미;벡터;검색,overclaim

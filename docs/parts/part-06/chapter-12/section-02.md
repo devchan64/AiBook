@@ -219,7 +219,7 @@ function calling은 `구조화된 실행 요청`을 다루는 절이고, 그다�
 입력:
 
 - 사용자 요청 여러 개
-- 구조화된 함수 호출 초안
+- 자연어 요청에서 함수 호출 초안을 만드는 간단한 변환 규칙
 
 출력:
 
@@ -238,7 +238,7 @@ function calling은 `구조화된 실행 요청`을 다루는 절이고, 그다�
 
 입력(input):
 
-위에 정리한 사용자 요청과 모델이 만든 function call 구조를 사용합니다.
+위에 정리한 사용자 요청과, 요청 문자열에서 함수 호출 초안을 만드는 간단한 변환 규칙을 사용합니다.
 
 확인할 개념:
 
@@ -246,48 +246,49 @@ function calling은 `구조화된 실행 요청`을 다루는 절이고, 그다�
 
 ```python
 requests = [
-    {
-        "user_request": "내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.",
-        "function_call": {
-            "name": "create_calendar_event",
-            "arguments": {
-                "title": "디자인 리뷰",
-                "date": "tomorrow",
-                "time": "15:00",
-                "timezone": "Asia/Seoul",
-                "attendees": [],
-            },
-        },
-    },
-    {
-        "user_request": "내일 오후에 팀 회의를 잡아 주세요.",
-        "function_call": {
-            "name": "create_calendar_event",
-            "arguments": {
-                "title": "팀 회의",
-                "date": "tomorrow",
-                "time": "",
-                "timezone": "Asia/Seoul",
-                "attendees": [],
-            },
-        },
-    },
-    {
-        "user_request": "다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.",
-        "function_call": {
-            "name": "create_calendar_event",
-            "arguments": {
-                "title": "채용 인터뷰",
-                "date": "next_monday",
-                "time": "10:00",
-                "timezone": None,
-                "attendees": ["recruiter@example.com"],
-            },
-        },
-    },
+    "내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.",
+    "내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.",
+    "다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.",
 ]
 
 required_fields = ["title", "date", "time", "timezone"]
+
+def build_function_call(user_request):
+    if "디자인 리뷰" in user_request:
+        title = "디자인 리뷰"
+    elif "팀 회의" in user_request:
+        title = "팀 회의"
+    elif "채용 인터뷰" in user_request:
+        title = "채용 인터뷰"
+    else:
+        title = ""
+
+    if "내일" in user_request:
+        date = "tomorrow"
+    elif "다음 주 월요일" in user_request:
+        date = "next_monday"
+    else:
+        date = ""
+
+    if "오후 3시" in user_request:
+        time = "15:00"
+    elif "오전 10시" in user_request:
+        time = "10:00"
+    else:
+        time = ""
+
+    timezone = "Asia/Seoul" if "서울" in user_request else None
+
+    return {
+        "name": "create_calendar_event",
+        "arguments": {
+            "title": title,
+            "date": date,
+            "time": time,
+            "timezone": timezone,
+            "attendees": [],
+        },
+    }
 
 def validate_function_call(function_call, required_fields):
     arguments = function_call["arguments"]
@@ -303,18 +304,19 @@ def validate_function_call(function_call, required_fields):
     }
 
 reports = []
-for item in requests:
-    validation = validate_function_call(item["function_call"], required_fields)
+for user_request in requests:
+    function_call = build_function_call(user_request)
+    validation = validate_function_call(function_call, required_fields)
     inspection = {
         "required_fields": required_fields,
-        "provided_argument_keys": list(item["function_call"]["arguments"].keys()),
+        "provided_argument_keys": list(function_call["arguments"].keys()),
         "is_ready_to_execute": validation["is_valid"],
         "missing_count": len(validation["missing_fields"]),
     }
     reports.append(
         {
-            "user_request": item["user_request"],
-            "function_call": item["function_call"],
+            "user_request": user_request,
+            "function_call": function_call,
             "validation": validation,
             "inspection": inspection,
         }
@@ -359,7 +361,7 @@ for report in reports:
 
 ================================================================================
 [user_request]
-내일 오후 3시에 디자인 리뷰 회의를 만들어 주세요.
+내일 오후 3시에 서울 시간으로 디자인 리뷰 회의를 만들어 주세요.
 [function_call]
 {'name': 'create_calendar_event', 'arguments': {'title': '디자인 리뷰', 'date': 'tomorrow', 'time': '15:00', 'timezone': 'Asia/Seoul', 'attendees': []}}
 [validation]
@@ -368,7 +370,7 @@ for report in reports:
 {'required_fields': ['title', 'date', 'time', 'timezone'], 'provided_argument_keys': ['title', 'date', 'time', 'timezone', 'attendees'], 'is_ready_to_execute': True, 'missing_count': 0}
 ================================================================================
 [user_request]
-내일 오후에 팀 회의를 잡아 주세요.
+내일 오후에 서울 시간으로 팀 회의를 잡아 주세요.
 [function_call]
 {'name': 'create_calendar_event', 'arguments': {'title': '팀 회의', 'date': 'tomorrow', 'time': '', 'timezone': 'Asia/Seoul', 'attendees': []}}
 [validation]
@@ -379,7 +381,7 @@ for report in reports:
 [user_request]
 다음 주 월요일 오전 10시에 채용 인터뷰를 잡아 주세요.
 [function_call]
-{'name': 'create_calendar_event', 'arguments': {'title': '채용 인터뷰', 'date': 'next_monday', 'time': '10:00', 'timezone': None, 'attendees': ['recruiter@example.com']}}
+{'name': 'create_calendar_event', 'arguments': {'title': '채용 인터뷰', 'date': 'next_monday', 'time': '10:00', 'timezone': None, 'attendees': []}}
 [validation]
 {'function_name': 'create_calendar_event', 'missing_fields': ['timezone'], 'is_valid': False}
 [inspection]
@@ -395,8 +397,8 @@ for report in reports:
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `requests`에 참석자 누락, 제목 누락 사례를 더 넣어 어떤 필드가 자주 빠지는지 보기
-- `attendees`에 메일 주소 목록을 더 넣어 일정 생성 인자가 어떻게 확장되는지 확인하기
+- `requests`에 제목 누락, 날짜 누락 사례를 더 넣어 어떤 필드가 자주 빠지는지 보기
+- `build_function_call`에 참석자 메일 주소를 읽는 규칙을 추가해 일정 생성 인자가 어떻게 확장되는지 확인하기
 - `required_fields`를 바꿔 도구마다 검증 규칙이 달라질 수 있음을 실험해 보기
 - `date`를 자연어 그대로 두고 별도 정규화 단계를 상상해 보기
 
