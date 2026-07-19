@@ -207,32 +207,11 @@ BERT 계열과 그 이후의 encoder 중심 모델은 문장을 임베딩으로 
 
 이번 예제의 목표는 이해 중심 태스크가 실제로 `라벨`, `관계 점수`, `검색 순위` 같은 판단 결과를 낸다는 점을 작은 규칙 기반 실험으로 확인하는 것입니다.
 
-문제 상황:
+아래 예제는 생성형 응답과 달리 이해 중심 태스크가 읽고 판단값을 내는 구조를 먼저 확인합니다. 문의 문장 3개, 라벨별 기준 키워드, 문장쌍 2개, 검색 문서 후보 3개를 사용해 분류 점수와 예측 라벨, 문장쌍 유사도 점수, 검색 문서 순위를 함께 봅니다.
 
-- 생성형 응답과 달리 이해 중심 태스크는 읽고 판단값을 내는 구조를 먼저 확인해야 한다
+확인할 핵심은 이해 중심 태스크가 긴 답변보다 라벨, 점수, 순위 같은 판단 결과를 먼저 낸다는 점입니다. 분류, 문장쌍 비교, 검색 랭킹은 모두 읽고 점수를 내는 흐름으로 묶을 수 있고, 단순 규칙 예제여도 입력이 어떤 판단값으로 바뀌는지 직접 볼 수 있어야 합니다.
 
-입력:
-
-- 문의 문장 3개
-- 라벨별 기준 키워드
-- 문장쌍 2개
-- 검색 문서 후보 3개
-
-출력:
-
-- 분류 점수와 예측 라벨
-- 문장쌍 유사도 점수
-- 검색 문서 순위
-
-확인할 개념:
-
-- 이해 중심 태스크는 긴 답변보다 라벨, 점수, 순위 같은 판단 결과를 먼저 낸다
-- 분류, 문장쌍 비교, 검색 랭킹은 모두 읽고 점수를 내는 흐름으로 묶을 수 있다
-- 단순 규칙 예제여도 입력이 어떤 판단값으로 바뀌는지 직접 볼 수 있어야 한다
-
-입력(input):
-
-위에 정리한 라벨 키워드, 문장쌍, 검색 후보 예시를 사용합니다.
+아래 코드는 위에 정리한 라벨 키워드, 문장쌍, 검색 후보 예시를 사용합니다.
 
 ```python
 from collections import Counter
@@ -418,6 +397,6 @@ BERT가 중요했던 이유는 단지 새로운 구조였기 때문이 아닙니
 
 ## 출처와 참고 자료
 
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-05.
-- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-19.
+- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.

@@ -237,32 +237,11 @@ BERT 계열을 처음 읽을 때 자주 생기는 오해는 `GPT처럼 답을 �
 
 이번 연습의 목표는 `같은 표면 단어라도 문맥을 끝까지 읽으면 해석과 다운스트림 라벨이 달라진다`는 점을 코드가 아니라 판단 표로 확인하는 것입니다. 이 절의 중심 질문은 BERT 계열의 구조적 위치이므로, 실제 라벨·점수·순위 실험은 다음 P6-19.2에서 다룹니다.
 
-문제 상황:
+아래 연습은 생성형 응답과 달리 이해 중심 모델이 문장을 읽고 판단값으로 넘기는 구조를 먼저 확인합니다. 같은 표면 단어가 들어간 문장 4개를 두고, 문맥을 보지 않고 붙이는 단순 라벨, 문맥을 끝까지 읽었을 때의 해석, 다음 작업으로 넘길 라벨을 비교합니다.
 
-- 생성형 응답과 달리 이해 중심 모델은 문장을 읽고 판단값으로 넘기는 구조를 먼저 확인해야 한다
+확인할 핵심은 같은 단어가 있어도 문맥을 끝까지 읽어야 해석과 다운스트림 라벨이 달라질 수 있다는 점입니다. 이해 중심 모델은 긴 답변보다 해석 결과와 작업 라벨을 먼저 만들고, 표면 키워드 기준과 문맥 해석 기준은 같은 입력에서도 다른 출력 구조를 만들 수 있습니다.
 
-입력:
-
-- 같은 표면 단어가 들어간 문장 4개
-- 문맥을 보지 않고 붙이는 단순 라벨
-- 문맥을 끝까지 읽었을 때의 해석
-- 다음 작업으로 넘길 라벨
-
-출력:
-
-- 단순 키워드 기준 라벨
-- 문맥을 반영한 해석 결과
-- 다운스트림 작업 라벨
-
-확인할 개념:
-
-- 같은 단어가 있어도 문맥을 끝까지 읽어야 해석과 다운스트림 라벨이 달라질 수 있다
-- 이해 중심 모델은 긴 답변보다 해석 결과와 작업 라벨을 먼저 만든다
-- 표면 키워드 기준과 문맥 해석 기준은 같은 입력에서도 다른 출력 구조를 만들 수 있다
-
-입력(input):
-
-위에 정리한 예문 목록을 사용합니다.
+연습에는 위에 정리한 예문 목록을 사용합니다.
 
 | 입력 문장 | 표면 키워드만 볼 때 붙기 쉬운 라벨 | 문맥을 끝까지 읽었을 때의 해석 | 다음 작업 라벨 |
 | --- | --- | --- | --- |
@@ -270,6 +249,8 @@ BERT 계열을 처음 읽을 때 자주 생기는 오해는 `GPT처럼 답을 �
 | 강가의 은행나무 아래를 걷고 있습니다 | `financial_topic` | 은행나무가 있는 자연 장면 | `nature_description` |
 | 비밀번호를 다시 설정하고 싶습니다 | `account_topic` | 계정 접근 문제 | `account_intent` |
 | 주문을 취소했는데 결제가 그대로 남아 있습니다 | `payment_topic` | 주문 취소 뒤 결제 상태 확인 문제 | `order_support_intent` |
+
+![문맥 해석에 따른 라벨 전환](../../../assets/part-06/chapter-19/contextual-label-shift-ko.png)
 
 이 연습에서 읽어야 할 핵심은 다음입니다.
 
@@ -305,6 +286,6 @@ BERT는 Transformer가 번역 구조에만 머물지 않고, 언어 이해(langu
 
 ## 출처와 참고 자료
 
-- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
-- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-05.
-- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-05.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- Matthew E. Peters et al., [Deep contextualized word representations](https://arxiv.org/abs/1802.05365){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, draft materials, 확인 날짜: 2026-07-19.
