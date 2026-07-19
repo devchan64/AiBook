@@ -33,36 +33,6 @@ Chapter 1에서는 작은 데이터 장면 하나를 계속 재사용합니다. 
 
 즉 여기서 수학은 어려운 상징을 배우기 위한 별도 과목이 아니라, 이런 작은 표를 `평균`, `함수`, `오차`, `최적화`의 언어로 다시 읽게 만드는 도구입니다. 독자가 뒤 Chapter에서 시그마, 벡터, 미분을 만나도 길을 잃지 않으려면, 먼저 `수학은 결국 이런 데이터를 읽고 비교하고 조정하기 위한 언어`라는 기준이 필요합니다.
 
-## 이 절의 범위
-
-여기서는 수학 개념을 깊게 설명하지 않습니다. 시그마(sigma)와 극한(limit)은 바로 뒤의 Part 2 Chapter 2에서, 벡터(vector)는 Part 2 Chapter 3에서, 미분(derivative)은 Part 2 Chapter 4에서, 확률(probability)는 Part 2 Chapter 5에서, 최적화(optimization)는 Part 2 Chapter 6에서 다시 다룹니다.
-
-여기서 먼저 붙잡을 질문은 하나입니다. `왜 AI를 다시 읽으려면 수학을 시험 과목이 아니라 계산 언어로 다시 봐야 하는가`입니다. 이 절에서는 그 질문에 답하기 위해 아래 다섯 자리만 먼저 고정합니다.
-
-- 수학은 AI 모델의 계산을 짧게 표현합니다.
-- 수학은 데이터를 어떤 모양으로 바꿔야 하는지 알려 줍니다.
-- 수학은 학습이 무엇을 줄이거나 바꾸는지 설명합니다.
-- 수학은 코드(code)와 만나야 실제로 확인할 수 있습니다.
-- 뒤 Chapter에서는 이 네 자리가 각각 시그마, 벡터, 미분, 확률, 최적화로 더 구체화됩니다.
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 계산 언어 | 계산 구조를 짧게 적고 읽게 하는 표현 체계 | 수학을 다시 읽는 가장 큰 이유 |
-| 압축 표기 | 긴 반복 계산을 짧게 줄여 적는 방식 | 시그마와 수식 도입의 배경 |
-| 손실 | 모델이 얼마나 틀렸는지 숫자로 모은 값 | 미분과 최적화가 왜 필요한지 보여 주는 기준 |
-| 최적화 | 더 나은 값을 반복적으로 찾는 과정 | 학습 설명의 방향성 |
-| 문해력 복구 | 수식과 코드가 무엇을 뜻하는지 다시 읽을 수 있게 되는 상태 | Part 2 전체의 목적 |
-
-앞 Part 1이 AI 전체 지도를 잡는 단계였다면, 여기서는 그 지도를 실제로 읽기 위해 필요한 최소 계산 언어를 다시 복구합니다. 바로 뒤의 시그마, 벡터, 미분, 확률, 최적화 절에서는 이 계산 언어가 각각 어떤 표기와 어떤 판단으로 이어지는지 더 구체적으로 나뉩니다.
-
-여기서는 Part 2에서 수학을 왜 다시 읽는지 기준선을 세웁니다. 개별 개념 세부는 뒤 절에서 회수됩니다.
-
-이 절 다음의 읽기 흐름도 단순합니다.
-
-- 바로 다음 절 `P2-1.2`에서는 같은 계산이 수식, 코드, 데이터에서 어떻게 다른 얼굴로 보이는지 이어 봅니다.
-- Chapter 2부터 Chapter 6까지는 이 계산 언어를 시그마, 벡터, 미분, 확률, 최적화로 나눠 다시 읽습니다.
-- Part 3과 Part 4에서는 이 언어가 `X`, `y`, `loss`, `metric`, `gradient`를 실제 모델 설명으로 읽는 데 다시 쓰입니다.
-
 ## 이 절의 목표
 
 - AI에서 수학이 필요한 이유를 증명보다 표현과 계산의 관점에서 설명할 수 있습니다.
@@ -230,8 +200,8 @@ Part 2는 수학을 깊이 증명하는 순서가 아니라, AI 계산을 읽기
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
 - NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 평균 예제를 코드로 확인하는 부분의 직접 참고 자료입니다.

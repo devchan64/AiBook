@@ -33,36 +33,6 @@ This scene reappears later through several questions.
 
 So here, mathematics is not a separate subject for learning difficult symbols. It is a tool that makes you reread a small table like this in the language of `mean`, `function`, `error`, and `optimization`. If a reader is not to get lost later when meeting sigma, vectors, and derivatives, they first need the standard that `math is ultimately a language for reading, comparing, and adjusting data like this`.
 
-## Scope of This Section
-
-This section does not explain math concepts deeply. Sigma and limits return in Part 2 Chapter 2, vectors in Part 2 Chapter 3, derivatives in Part 2 Chapter 4, probability in Part 2 Chapter 5, and optimization in Part 2 Chapter 6.
-
-There is one question to hold first here: `Why should someone relearning AI revisit mathematics not as an exam subject, but as a computational language?` To answer that question, this section first fixes only the following five positions.
-
-- Math expresses AI model computation in a short form.
-- Math tells you into what shape data should be transformed.
-- Math explains what learning is reducing or changing.
-- Math has to meet code before it can be verified in practice.
-- In later chapters, these positions become more concrete as sigma, vectors, derivatives, probability, and optimization.
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| computational language | an expression system that lets you write and read computational structure briefly | the biggest reason to reread math |
-| compressed notation | a way of shortening long repeated calculation | the background of sigma and formula introduction |
-| loss | a value that gathers how wrong a model is into a number | the standard that shows why derivatives and optimization are needed |
-| optimization | the process of repeatedly searching for a better value | the directionality of learning explanations |
-| literacy recovery | the state of being able to read again what formulas and code mean | the purpose of Part 2 as a whole |
-
-If Part 1 was the stage of grasping the whole AI map, here we recover the minimum computational language needed to actually read that map. In the sections on sigma, vectors, derivatives, probability, and optimization that follow, this computational language is split more concretely into notation and judgment.
-
-This section sets the baseline for why mathematics is reread in Part 2. The detailed parts of each concept are recovered in later sections.
-
-The reading flow after this section is also simple.
-
-- In the very next section, `P2-1.2`, we continue by looking at how the same computation appears differently in formulas, code, and data.
-- From Chapter 2 through Chapter 6, we split this computational language again into sigma, vectors, derivatives, probability, and optimization.
-- In Part 3 and Part 4, this language is reused for reading `X`, `y`, `loss`, `metric`, and `gradient` as actual model explanations.
-
 ## Goals of This Section
 
 - You can explain why math is needed in AI from the viewpoint of expression and computation rather than proof.
@@ -230,8 +200,8 @@ Here, we first fix the place that mathematics occupies in AI computation, and th
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
-- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, checked on 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-07-19.
+- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, checked on 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-07-19.
 - NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This is the direct reference for checking the mean example in code.

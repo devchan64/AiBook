@@ -33,36 +33,6 @@ Chapter 1 会反复使用一个小型数据场景。假设四名学生的学习�
 
 也就是说，这里数学不是一个专门学习困难符号的独立科目，而是把这种小表重新读成 `平均值`、`函数`、`误差`、`优化` 语言的工具。读者如果不想在后面遇到 sigma、向量、导数时迷路，就需要先抓住这个标准：`数学最终是在帮助我们读取、比较和调整这样的数据。`
 
-## 本节范围
-
-这里不会深入解释数学概念。sigma 和极限（limit）会在 Part 2 Chapter 2 再次出现，向量（vector）在 Part 2 Chapter 3，导数（derivative）在 Part 2 Chapter 4，概率（probability）在 Part 2 Chapter 5，优化（optimization）在 Part 2 Chapter 6。
-
-这里首先要抓住的问题只有一个：`为什么在重新阅读 AI 时，应该把数学看成计算语言，而不是考试科目？` 为了回答这个问题，本节先只固定下面五个位置。
-
-- 数学会把 AI 模型中的计算压缩成短式表达。
-- 数学会告诉你数据应该被整理成什么形状。
-- 数学会解释学习在减少或改变什么。
-- 数学必须和代码结合，才真正可被验证。
-- 在后面的章节里，这些位置会分别通过 sigma、向量、导数、概率、优化变得更具体。
-
-| 术语 | 极短含义 | 在本节中的作用 |
-| --- | --- | --- |
-| 计算语言 | 能把计算结构写得更短、更可读的一套表达系统 | 重新阅读数学的最大理由 |
-| 压缩记法 | 把长重复计算缩短写下的方法 | 引入 sigma 和公式的背景 |
-| 损失 | 把模型“错了多少”聚成一个数字的值 | 展示为什么需要导数和优化的标准 |
-| 优化 | 反复寻找更好数值的过程 | 学习解释中的方向性 |
-| 识读能力恢复 | 重新能够读懂公式和代码到底在表达什么的状态 | Part 2 的整体目的 |
-
-如果说 Part 1 是先抓住 AI 的整体地图，那么这里就是恢复真正读懂这张地图所需的最小计算语言。后面的 sigma、向量、导数、概率、优化章节，会把这种计算语言更具体地拆成不同记法和判断。
-
-这一节是在 Part 2 中建立“为什么要重新阅读数学”的基线。各个概念的细节会在后续章节中回收。
-
-本节之后的阅读流向也很简单。
-
-- 紧接着的 `P2-1.2` 会继续看同一个计算如何在公式、代码和数据里呈现出不同面貌。
-- 从 Chapter 2 到 Chapter 6，会把这种计算语言再拆成 sigma、向量、导数、概率和优化。
-- 在 Part 3 和 Part 4 中，这套语言会被重新用来阅读 `X`、`y`、`loss`、`metric`、`gradient` 这类真实模型解释。
-
 ## 本节目标
 
 - 能从表达和计算的角度，而不是从证明的角度，说明 AI 中为什么需要数学。
@@ -230,8 +200,8 @@ Part 2 并不是按“深度证明数学”的顺序来安排，而是按“恢�
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
-- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期：2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-07-19.
+- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期：2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-07-19.
 - NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这是用代码确认平均值示例的直接参考资料。
