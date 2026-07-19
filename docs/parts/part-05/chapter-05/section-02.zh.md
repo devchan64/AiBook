@@ -1,7 +1,7 @@
 # P5-5.2 计算图（computation graph）与自动微分（automatic differentiation）
 
-Section ID: `P5-5.2`
-Version: `v2026.07.17`
+> Section ID: `P5-5.2`
+> Version: `v2026.07.19`
 
 在 P5-5.1 里，我们已经说明：损失（loss）本身并不是更新，它必须先被重新拆成按参数分开的梯度（gradient）信号。理解到这里之后，接下来还会留下一个问题：
 
@@ -462,5 +462,5 @@ node_trace:
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - Andrej Karpathy, `micrograd`, GitHub, 确认日期：2026-06-29. [https://github.com/karpathy/micrograd](https://github.com/karpathy/micrograd){: target="_blank" rel="noopener noreferrer" }

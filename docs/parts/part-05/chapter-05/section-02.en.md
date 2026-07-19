@@ -1,7 +1,7 @@
 # P5-5.2 Computation Graph And Automatic Differentiation
 
-Section ID: `P5-5.2`
-Version: `v2026.07.17`
+> Section ID: `P5-5.2`
+> Version: `v2026.07.19`
 
 In P5-5.1, we explained that loss is not itself an update, but has to be unpacked again into a per-parameter gradient signal. Once that much is understood, the next question remains.
 
@@ -462,5 +462,5 @@ The time to bring out the computation-graph section is when the intuition of bac
 ## Sources And Further Reading
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, accessed 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, accessed 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, accessed 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - Andrej Karpathy, `micrograd`, GitHub, accessed 2026-06-29. [https://github.com/karpathy/micrograd](https://github.com/karpathy/micrograd){: target="_blank" rel="noopener noreferrer" }
