@@ -1,7 +1,7 @@
 # P3-1.1 데이터 모델링은 무엇을 달성하려는가
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary.md#glossary-output-structure), [타깃(target)](../../../reference/concept-glossary.md#glossary-target) 같은 말을 만나게 됩니다. 이 용어들은 따로 놀지 않습니다. 무엇을 한 건으로 셀지, 어떤 값을 남길지, 무엇과 비교할지, 어떤 결과 형식으로 닫을지를 함께 정하는 바깥 판단이 [데이터 모델링(data modeling)](../../../reference/concept-glossary.md#glossary-data-modeling)입니다.
 
@@ -107,7 +107,7 @@ Part 3에 들어오면 독자는 곧바로 [샘플(sample)](../../../reference/c
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, `무엇을 한 건으로 볼 것인가`, `어떤 과정을 거쳐 요약 표와 비교 구조가 만들어졌는가`를 설명 가능한 형태로 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `feature`, `label leakage`. example는 features와 label이 자연스럽게 붙는 단위여야 하고, feature engineering은 학습에 유용한 입력 구조를 만드는 과정이라는 점을 설명하므로, Part 3에서 샘플 단위, 특징 표, 출력 구조를 먼저 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점이나 기간을 reference로 두는 일반 개념을 제공하므로, 데이터 모델링에서 최근 상태를 무엇과 비교할지 기준선을 먼저 세워야 한다는 설명을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 데이터 수집, 선택, 전처리, 변환, 해석을 포함한 더 넓은 지식 발견 흐름을 설명하므로, Part 3이 데이터과학 전체가 아니라 그중 문제 구조 설계와 표현 변환에 초점을 둔다는 경계 설명의 일반 배경이 됩니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, `무엇을 한 건으로 볼 것인가`, `어떤 과정을 거쳐 요약 표와 비교 구조가 만들어졌는가`를 설명 가능한 형태로 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `feature`, `label leakage`. example는 features와 label이 자연스럽게 붙는 단위여야 하고, feature engineering은 학습에 유용한 입력 구조를 만드는 과정이라는 점을 설명하므로, Part 3에서 샘플 단위, 특징 표, 출력 구조를 먼저 고정해야 한다는 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점이나 기간을 reference로 두는 일반 개념을 제공하므로, 데이터 모델링에서 최근 상태를 무엇과 비교할지 기준선을 먼저 세워야 한다는 설명을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 데이터 수집, 선택, 전처리, 변환, 해석을 포함한 더 넓은 지식 발견 흐름을 설명하므로, Part 3이 데이터과학 전체가 아니라 그중 문제 구조 설계와 표현 변환에 초점을 둔다는 경계 설명의 일반 배경이 됩니다. [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

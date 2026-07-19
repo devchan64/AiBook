@@ -1,7 +1,7 @@
 # P3-1.1 数据建模想要达成什么
 
 > Section ID: `P3-1.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一进入 Part 3，读者很快就会遇到 [sample](/AiBook/en/reference/concept-glossary/#glossary-sample)、[feature](/AiBook/en/reference/concept-glossary/#glossary-feature)、[baseline](/AiBook/en/reference/concept-glossary/#glossary-baseline)、[output structure](/AiBook/en/reference/concept-glossary/#glossary-output-structure)、[target](/AiBook/en/reference/concept-glossary/#glossary-target) 这些词。它们并不是彼此分开的。真正把 `什么算一条记录`、`哪些值要保留`、`拿什么去比较`、`最终要用什么结果格式收口` 一起决定下来的外层判断，就是 [data modeling](/AiBook/en/reference/concept-glossary/#glossary-data-modeling)。
 
@@ -104,7 +104,7 @@
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明它应当支持 object identification 和 derivation representation，因此它为这种一般判断提供依据：`什么算一条对象`、`摘要表和比较结构是通过什么过程做出来的`，都应该保留可解释性。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`feature`、`label leakage`。因为 example 应当是 feature 和 label 自然相连的单位，而 feature engineering 又是在构造有用输入结构，因此它支持这样的解释：Part 3 必须先固定样本单位、特征表和输出结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供“拿某个时点或区段作为参考”的一般概念，因此支持这种说明：数据建模必须先建立一个基准线，用来比较近期状态。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 它说明了包含数据收集、选择、预处理、转换与解释在内的更大知识发现流程，因此为这个边界提供背景：Part 3 并不是覆盖全部数据科学，而是聚焦在其中的问题结构设计和表达转换。 [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework 说明它应当支持 object identification 和 derivation representation，因此它为这种一般判断提供依据：`什么算一条对象`、`摘要表和比较结构是通过什么过程做出来的`，都应该保留可解释性。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`feature`、`label leakage`。因为 example 应当是 feature 和 label 自然相连的单位，而 feature engineering 又是在构造有用输入结构，因此它支持这样的解释：Part 3 必须先固定样本单位、特征表和输出结构。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供“拿某个时点或区段作为参考”的一般概念，因此支持这种说明：数据建模必须先建立一个基准线，用来比较近期状态。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, `From Data Mining to Knowledge Discovery in Databases`. 它说明了包含数据收集、选择、预处理、转换与解释在内的更大知识发现流程，因此为这个边界提供背景：Part 3 并不是覆盖全部数据科学，而是聚焦在其中的问题结构设计和表达转换。 [https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf](https://www.kdnuggets.com/gpspubs/aimag-kdd-overview-1996-Fayyad.pdf){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
