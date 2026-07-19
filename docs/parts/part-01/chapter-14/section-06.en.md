@@ -17,8 +17,6 @@ This section looks at that problem through `service constraints`: `cost`, `laten
 
 The focus here is how long an execution structure can be sustained as a real service, how often it can run, and at what cost. This extends the execution-harness view from 14.5, while security and privacy move to Chapter 15.
 
-## Scope of This Section
-
 This section explains, at an introductory level, the constraints that matter when an AI service is actually used. Security policies and privacy handling return in P1-15.1, P1-15.2, and P1-15.3. Here, the focus is first to close the question of `why a good answer does not immediately mean the structure is ready for service operation`.
 
 | Term | Very short meaning | Role in this section |

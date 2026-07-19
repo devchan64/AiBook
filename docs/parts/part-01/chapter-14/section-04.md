@@ -19,8 +19,6 @@ MCP(Model Context Protocol)는 AI 애플리케이션(application)이 외부 시�
 
 Part 1에서 `MCP(Model Context Protocol)`, `호스트(host)`, `클라이언트(client)`, `서버(server)`, `도구(tools)`, `리소스(resources)`, `프롬프트(prompts)`의 기본 구분은 여기서 잡습니다. 14.3에서는 에이전트가 목표를 따라 여러 단계를 이어 가는 구조를 봤고, 여기서는 그 구조가 `외부 도구와 데이터를 어떤 공통 방식으로 발견하고 호출할 수 있는가`를 정리합니다. 실행 추적과 평가는 14.5에서 다시 다룹니다.
 
-## 이 절의 범위
-
 여기서는 MCP(Model Context Protocol)의 기본 역할과 구조를 설명합니다. MCP 서버 구현, SDK 사용법, JSON-RPC 메시지 상세, OAuth 인증 흐름은 다루지 않습니다. 하네스(harness), 평가(evaluation), 실행 로그(log)는 P1-14.5에서 다룹니다. 보안(security)과 개인정보(privacy)의 세부 쟁점은 P1-15.1, P1-15.2, P1-15.3에서 다시 다룹니다.
 
 `MCP`, `호스트`, `클라이언트`, `서버`, `도구`, `리소스`, `프롬프트`는 서로 다른 연결 층위의 개념입니다. 각 용어의 역할은 다음처럼 구분할 수 있습니다.

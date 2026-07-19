@@ -25,8 +25,6 @@ This section does not treat a harness as a product name. It limits the term to a
 
 This section organizes how execution becomes observable and comparable around the terms `harness`, `trace`, `log`, `evaluation`, `grader`, and `reproducibility`. It takes the agent structure from 14.3 and the MCP connection structure from 14.4 as given, and leaves cost and operational constraints to 14.6.
 
-## Scope of This Section
-
 This section explains the basic roles of the `harness`, `trace`, `log`, `evaluation`, and `grader`. Cost, latency, and operational constraints return in P1-14.6. Here, the focus is first to close the question of `how agent execution can be made observable and comparable`.
 
 `harness`, `trace`, `log`, `evaluation`, `grader`, and `reproducibility` are different execution-verification elements. Their roles can be separated like this:

@@ -19,8 +19,6 @@ This section does not implement MCP in depth. It only explains why this kind of 
 
 In Part 1, the basic distinctions among `MCP`, `host`, `client`, `server`, `tools`, `resources`, and `prompts` are fixed here. Section 14.3 explained how agents continue work across multiple steps toward a goal. Here the focus shifts to a narrower question: `how can that workflow discover and call outside tools and data in a common way?` Execution tracing and evaluation return in 14.5.
 
-## Scope of This Section
-
 This section explains the basic role and structure of MCP. It does not cover MCP server implementation details, SDK usage, JSON-RPC message details, or OAuth authentication flow. Harnesses, evaluation, and execution logs are covered in P1-14.5. Detailed security and privacy issues return in P1-15.1, P1-15.2, and P1-15.3.
 
 `MCP`, `host`, `client`, `server`, `tool`, `resource`, and `prompt` belong to different layers of connection.

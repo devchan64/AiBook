@@ -26,8 +26,6 @@
 
 这一节会围绕 `harness`、`trace`、`log`、`evaluation`、`grader`、`reproducibility` 来整理：执行为什么会变得可观察、可比较。它承接 14.3 的 agent 结构和 14.4 的 MCP 连接，而把成本与运维约束留到 14.6。
 
-## 本节范围
-
 这里说明 `harness`、`trace`、`log`、`evaluation`、`grader` 的基本作用。成本(cost)、延迟(latency)、运维(operation)约束会在 P1-14.6 再讨论。这里先集中处理 `怎样让 agent 执行变得可观察、可比较` 这个问题。
 
 `harness`、`trace`、`log`、`evaluation`、`grader`、`reproducibility` 是不同的执行验证要素。它们的角色可以先分成下面这样：

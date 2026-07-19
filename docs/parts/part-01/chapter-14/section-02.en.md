@@ -31,8 +31,6 @@ The three words most often mixed between Chapters 13 and 14 can be fixed first l
 
 The key point of this summary box is: `RAG`, `tool use`, and `agent` can work together, but they are not the same thing. This section first separates `reading` from `execution`, and the structure that carries multiple steps as an `agent` continues in P1-14.3.
 
-## Scope of This Section
-
 This section compares the positions of RAG and tool use. The more detailed structure of an `agent` is covered in P1-14.3. MCP is covered in P1-14.4. Harnesses, evaluation, and execution logs are covered in P1-14.5.
 
 `RAG`, `tool use`, `retrieval`, `tool call`, and `approval` belong to different reading, execution, and control steps.

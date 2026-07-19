@@ -17,8 +17,6 @@ An `agent` may include both of those, but it is not the same term. Once the word
 
 This section treats an agent not as exaggerated autonomy but as a structure that carries multi-step work inside an AI service.
 
-## Scope of This Section
-
 This section explains an `agent` as a structure that carries a goal through a workflow. The standardization of tool connections through `MCP` is covered in P1-14.4. Harnesses, execution logs, evaluation, and reproducibility are covered in P1-14.5. Cost, latency, and operations are covered in P1-14.6.
 
 | Term | Very short meaning | Role in this section |

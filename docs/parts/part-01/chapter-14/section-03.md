@@ -19,8 +19,6 @@ P1-14.2에서는 RAG(retrieval-augmented generation)와 도구 사용(tool use)�
 
 Part 1에서 `에이전트(agent)`, `목표(goal)`, `상태(state)`, `행동(action)`, `관찰(observation)`, `종료 조건(stop condition)`의 기본 구분은 여기서 잡습니다. 14.2에서는 RAG와 도구 사용을 서비스 안의 두 구조로 구분했고, 여기서는 그 구조들이 `어떻게 여러 단계 작업으로 이어지는가`를 설명합니다. MCP는 14.4에서, 하네스와 평가는 14.5에서 다시 다룹니다.
 
-## 이 절의 범위
-
 여기서는 에이전트(agent)를 `목표를 작업 흐름(workflow)으로 이어 가는 구조`로 설명합니다. MCP(Model Context Protocol)처럼 도구 연결을 표준화하는 방식은 P1-14.4에서 다룹니다. 하네스(harness), 실행 로그(log), 평가(evaluation), 재현성은 P1-14.5에서 다룹니다. 비용(cost), 지연 시간(latency), 운영(operation)은 P1-14.6에서 다룹니다.
 
 `에이전트`, `목표`, `상태`, `행동`, `관찰`, `종료 조건`은 서로 다른 실행 흐름 요소입니다. 각 용어의 역할은 다음처럼 구분할 수 있습니다.

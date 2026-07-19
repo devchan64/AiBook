@@ -19,8 +19,6 @@ MCP(Model Context Protocol) 是一种开放协议(open protocol)，目标是标�
 
 在 Part 1 中，`MCP`、`host`、`client`、`server`、`tools`、`resources`、`prompts` 的基本区分会固定在这里。14.3 看的是 agent 如何朝目标继续多个步骤；这里则把焦点收窄到：`这个工作流怎样用一种共通方式发现并调用外部工具与数据？` 执行追踪与评估会在 14.5 再回来。
 
-## 本节范围
-
 这里说明 MCP 的基本作用与结构。不讨论 MCP 服务器实现细节、SDK 用法、JSON-RPC 消息细节或 OAuth 认证流程。harness、评估与执行日志放到 P1-14.5；更细的安全与隐私议题则会在 P1-15.1、P1-15.2、P1-15.3 再看。
 
 `MCP`、`host`、`client`、`server`、`tool`、`resource`、`prompt` 分别属于不同层次的连接概念。

@@ -18,8 +18,6 @@ Part 1 establishes the basic distinctions among `model`, `application`, `data`, 
 
 > what combination of parts makes up an AI service as a whole?
 
-## Scope of This Section
-
 This section separates the main components of an AI service. The specific positions of `RAG` and `tool use` are covered in P1-14.2. `Agents`, `MCP`, `harnesses`, and cost or operational constraints are covered in P1-14.3 and later.
 
 `Model`, `application`, `data`, `tool`, and `orchestration` are different service components. Their roles can first be separated like this:
