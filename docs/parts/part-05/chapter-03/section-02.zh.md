@@ -1,7 +1,7 @@
 # P5-3.2 sigmoid
 
-Section ID: `P5-3.2`
-Version: `v2026.07.14`
+> Section ID: `P5-3.2`
+> Version: `v2026.07.19`
 
 在 P5-3.1 里，我们已经看到：激活函数（activation function）会把加权和分数 \(z\) 改写成传给下一层的值 \(a\)。现在开始按代表性函数逐个来看，确认为什么同样的分数，会变成完全不同类型的信号。
 
@@ -104,4 +104,4 @@ sigmoid 的曲线是一个 S 形。这里重要的不是形状名字，而是它
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

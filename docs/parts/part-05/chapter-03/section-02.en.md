@@ -1,7 +1,7 @@
 # P5-3.2 Sigmoid
 
-Section ID: `P5-3.2`
-Version: `v2026.07.14`
+> Section ID: `P5-3.2`
+> Version: `v2026.07.19`
 
 In P5-3.1, we saw that an activation function changes the weighted-sum score \(z\) into the value \(a\) passed to the next layer. Now we look at one representative function at a time and check how the same score can turn into a different kind of signal.
 
@@ -104,4 +104,4 @@ The direction of the answer is clear. Around \(z=1\), the sigmoid still changes 
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
