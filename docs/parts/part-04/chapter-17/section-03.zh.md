@@ -1,7 +1,7 @@
 # P4-17.3 补充学习：如何第一次区分层次聚类与谱聚类
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 如果在 P4-17.1 里已经看过 k-means 和 DBSCAN，接下来通常会留下这样一个问题。
 
@@ -201,3 +201,8 @@
 - 这是不是一个必须先看连接结构，而不只是形状不规则的场景？
 - 你能不能不把聚类结果当成唯一答案，而是说明为什么这个方法会先从这个问题里浮现出来？
 - 你能不能再用 `中心`、`密度`、`顺序`、`连接` 这四条轴，把 k-means、DBSCAN、层次聚类、谱聚类区分开来？
+
+## 出处与参考资料
+
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 用于确认 hierarchical clustering、spectral clustering、k-means、DBSCAN 的基本说明和比较轴。确认日期: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. 用于确认把 spectral clustering 连接到 graph Laplacian 与连接结构视角的背景。确认日期: 2026-07-19. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }

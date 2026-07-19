@@ -1,7 +1,7 @@
 # P4-17.3 Supplementary Learning: How To Distinguish Hierarchical Clustering And Spectral Clustering For The First Time
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 After looking at k-means and DBSCAN in P4-17.1, this question naturally remains.
 
@@ -193,15 +193,16 @@ At the beginning, it is more practical to record the following questions than to
 
 If you record these questions first, you will read more easily `what clustering intuition the current data scene is asking for`, instead of trying to memorize algorithm names.
 
-## What To Remember From This Section
-
-- Hierarchical clustering shows `what merges first` more than `how many groups there are`.
-- Spectral clustering is closer to rereading `connectivity structure` than to rereading `distance itself`.
-- All clustering families solve the same broad problem, but they start from different handles such as center, density, order, and connectivity.
-
 ## Checklist
 
+- Can you explain that hierarchical clustering shows `what merges first` more than `how many groups there are`?
+- Do you understand that spectral clustering is closer to rereading `connectivity structure` than to rereading `distance itself`?
 - Is this a scene where you want to see what becomes close first, rather than fixing the number of clusters immediately?
 - Is this a scene where connectivity structure must be read first, not merely one with an irregular shape?
-- Instead of reading the result as one final answer, can you explain from what question this method came to mind?
+- Instead of reading the clustering result as one final answer, can you explain from what question this method came to mind?
 - Can you distinguish k-means, DBSCAN, hierarchical clustering, and spectral clustering again through the four axes of `center`, `density`, `order`, and `connectivity`?
+
+## Sources And References
+
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. Consulted for the basic descriptions and comparison axes of hierarchical clustering, spectral clustering, k-means, and DBSCAN. Accessed 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. Consulted for the background connecting spectral clustering to graph Laplacians and connectivity structure. Accessed 2026-07-19. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }
