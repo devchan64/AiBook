@@ -1,7 +1,7 @@
 # P4-13.1 Intuition For SVM
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11.2 read classification as `drawing a boundary and dividing the space`. P4-12 then showed a method that judges by looking at nearby neighbors. Now the same classification problem is reread through a different question.
 
@@ -27,7 +27,7 @@ This Section answers the following questions.
 - What extra idea appears when the data cannot be separated perfectly?
 - How is SVM different from earlier models such as logistic regression and k-NN?
 
-This Section does not treat in detail the rigorous derivation of the optimization objective, Lagrange multipliers and the dual problem, the detailed computation of the kernel trick, or fine tuning of hyperparameters such as `C` and `gamma`. The kernel idea and the big picture of nonlinear boundaries continue immediately in P4-13.2. Criteria for reading hyperparameters such as `C` and `gamma`, and the cost of validation, reconnect again in P4-9.1 and P4-9.2. The rigorous derivation of the objective function, Lagrange multipliers, and the dual problem stays outside the current main scope of this book.
+The kernel idea and the big picture of nonlinear boundaries continue immediately in P4-13.2. Criteria for reading hyperparameters such as `C` and `gamma`, and the cost of validation, reconnect again in P4-9.1 and P4-9.2. In other words, this Section is the place to first hold `what is a good boundary?` through margin and support vectors.
 
 ## Goals Of This Section
 
@@ -462,4 +462,4 @@ If the whole flow is grouped once more, it becomes the following.
 ## Sources And References
 
 - scikit-learn, *Support Vector Machines*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, DOI: 10.1007/BF00994018, checked on 2026-06-27.
+- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, checked on 2026-07-19. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }

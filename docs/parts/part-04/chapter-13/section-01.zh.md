@@ -1,7 +1,7 @@
 # P4-13.1 SVM 的直觉
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 又看过了 `通过附近 neighbors 做判断` 的方式。现在，同一个分类问题要再换一个问题来读。
 
@@ -27,7 +27,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 - 当数据不能被完美分开时，会多出什么想法？
 - SVM 和前面的 logistic regression、k-NN 有什么不同？
 
-这一节不会详细展开优化目标函数的严格推导、Lagrange multiplier 和 dual problem、kernel trick 的具体计算，也不会深入到 `C`、`gamma` 等 hyperparameter 的细节调优。kernel 的大图景和 nonlinear boundary 会在 P4-13.2 立刻继续；`C`、`gamma` 这类 hyperparameter 的读取标准和验证成本，会在 P4-9.1 和 P4-9.2 再接回来。目标函数、Lagrange multiplier、dual problem 的严格推导则放在本书当前正文范围之外。
+kernel 的大图景和 nonlinear boundary 会在 P4-13.2 立刻继续；`C`、`gamma` 这类 hyperparameter 的读取标准和验证成本，会在 P4-9.1 和 P4-9.2 再接回来。也就是说，这一节是先用 margin 和 support vector 视角抓住 `什么是好的 boundary` 的位置。
 
 ## 本节目标
 
@@ -460,4 +460,4 @@ boundary x = 4.95
 ## 出处与参考资料
 
 - scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, DOI: 10.1007/BF00994018, 确认日期: 2026-06-27.
+- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, 确认日期: 2026-07-19. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }
