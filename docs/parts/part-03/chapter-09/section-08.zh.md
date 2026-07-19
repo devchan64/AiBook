@@ -1,7 +1,7 @@
 # P3-9.8 一次预测到底决定什么，为什么分数和策略不是同一件事
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 即使已经定义了输入和结果，预测问题也仍然只关了一半。即便同样是在预测 `review_needed`，它也可能表示把单次运行放进复核队列，也可能表示调整整个最近区间的告警强度。此外，模型输出的分数，和把这个分数转成真实行动的策略，也不是同一回事。
 
@@ -32,6 +32,6 @@
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, thresholds, score-to-action decisions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: ROC and AUC*, ranking behavior and threshold-independent comparison. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Thresholds and the confusion matrix*。用于确认：要把模型的原始数值输出转换成类别，需要选择分类阈值；阈值不同，预测结果也可能不同。 [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google, *Classification: ROC and AUC*。用于确认：AUC 与把正例排在负例之前的能力相关，而实际分类取决于所选择的阈值。 [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`。用于确认分类阈值和 AUC 的术语依据。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

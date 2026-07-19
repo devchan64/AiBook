@@ -1,7 +1,7 @@
 # P3-9.8 What Does One Prediction Actually Decide, and Why Are Scores and Policy Different
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Even after inputs and results are defined, a prediction problem is still only half closed. Even the same `review_needed` prediction can mean different things depending on whether it raises one operating event into a review queue or adjusts the warning strength of an entire recent window. In addition, the score output by a model and the policy that turns that score into real action are not the same thing.
 
@@ -32,6 +32,6 @@ One prediction does not end with a score. It must be read all the way through th
 
 ## Sources and References
 
-- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, thresholds, score-to-action decisions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: ROC and AUC*, ranking behavior and threshold-independent comparison. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Thresholds and the confusion matrix*. Used to check that a classification threshold is chosen to convert a model's raw numerical output into a category, and that different thresholds can produce different predictions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google, *Classification: ROC and AUC*. Used to check that AUC is tied to ranking positive examples above negative examples, while the actual classification depends on the chosen threshold. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`. Used to check the term basis for classification threshold and AUC. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

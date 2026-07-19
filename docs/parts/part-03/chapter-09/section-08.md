@@ -1,7 +1,7 @@
 # P3-9.8 예측 1회는 실제로 무엇을 결정하며 점수와 정책은 왜 다른가
 
 > Section ID: `P3-9.8`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 입력과 결과를 정한 뒤에도 예측 문제는 아직 반쯤만 닫힌 상태입니다. 같은 `review_needed` 예측이라도 그것이 동작 1건을 검토 큐에 올리는 일인지, 최근 구간 전체의 경고 강도를 조정하는 일인지가 다를 수 있기 때문입니다. 또한 모델이 낸 점수와 그 점수로 실제 행동을 정하는 정책도 같은 것이 아닙니다.
 
@@ -32,6 +32,6 @@
 
 ## 출처와 참고 자료
 
-- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, thresholds, score-to-action decisions. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: ROC and AUC*, ranking behavior and threshold-independent comparison. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Google, *Thresholds and the confusion matrix*. 모델의 원시 숫자 출력을 범주로 바꾸려면 분류 임계값을 선택해야 하고, 임계값이 달라지면 예측 결과가 달라질 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Classification: ROC and AUC*. AUC가 양성 예시를 음성 예시보다 높게 순위화하는 능력과 연결되고, 실제 분류는 선택한 임계값에 따라 달라진다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Machine Learning Glossary*, `classification threshold`, `AUC`. 임계값과 AUC 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
