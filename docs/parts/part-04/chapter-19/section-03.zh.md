@@ -1,7 +1,7 @@
 # P4-19.3 应用强化学习时的注意点
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-19.1 里，我们看了价值型强化学习(value-based reinforcement learning)；在 P4-19.2 里，我们看了策略型强化学习(policy-based reinforcement learning)。走到这里，下一个问题会自然出现。
 
@@ -22,14 +22,7 @@
 - 为什么在 simulation 里表现好的 policy 到了现实里可能失败？
 - 在把强化学习接到真实业务或服务前，需要先问哪些检查问题？
 
-这一节不会深入展开下面这些内容。
-
-- safe reinforcement learning 的细节算法
-- offline reinforcement learning 的数学定义
-- 像 domain randomization 这样的 sim-to-real 强化策略的实现过程
-- RLHF、preference optimization 的细节设计
-
-这一节集中在调整`一学会强化学习算法之后马上出现的过度期待`。safe RL、offline RL、sim-to-real 强化、RLHF 与 preference optimization 的大图，会在补充学习 P4-19.4 重新收回来；而 LLM 对齐语境里的 RLHF，则会在 Part 5 的 P5-6、P5-8、P5-10 再次连接。
+这一节先收住`把强化学习接到真实问题时，必须一起检查哪些应用风险`这个问题。safe RL、offline RL、sim-to-real 强化策略、RLHF 与 preference optimization 的大图，会在补充学习 P4-19.4 重新收回来；而 LLM 对齐语境里的 RLHF，则会在 Part 5 的 P5-6、P5-8、P5-10 再次连接。
 
 ## 本节目标
 

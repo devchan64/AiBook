@@ -1,7 +1,7 @@
 # P4-19.3 Caution In Applying Reinforcement Learning
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-19.1, we saw value-based reinforcement learning, and in P4-19.2, policy-based reinforcement learning. Once readers reach that point, the next question appears.
 
@@ -22,14 +22,7 @@ This Section answers the following questions.
 - Why can a policy that performs well in simulation fail in the real world?
 - What checking questions are needed before reinforcement learning is connected to real work or services?
 
-This Section does not go deeply into the following topics.
-
-- The detailed algorithms of safe reinforcement learning
-- The mathematical definition of offline reinforcement learning
-- The implementation procedure of sim-to-real reinforcement strategies such as domain randomization
-- The detailed design of RLHF and preference optimization
-
-This Section focuses on adjusting the `excessive expectations that appear immediately after learning reinforcement-learning algorithms`. The larger picture of safe RL, offline RL, sim-to-real reinforcement, RLHF, and preference optimization is gathered again in the supplementary Section P4-19.4. RLHF in the LLM-alignment context reconnects again in Part 5, especially P5-6, P5-8, and P5-10.
+This Section first closes the question of `what application risks must be checked together when reinforcement learning is connected to real problems`. The larger picture of safe RL, offline RL, sim-to-real reinforcement strategies, RLHF, and preference optimization is gathered again in supplementary learning P4-19.4, and RLHF in the LLM-alignment context reconnects again in Part 5, especially P5-6, P5-8, and P5-10.
 
 ## Goals Of This Section
 
