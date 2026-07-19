@@ -1,7 +1,7 @@
 # P1-13.4 벡터 검색 구현의 직관
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 가까운 벡터를 찾는 유사도 검색(similarity search)을 봤습니다. P1-13.3에서는 검색된 후보를 LLM 입력 맥락(context)에 붙이는 RAG(retrieval-augmented generation)를 봤습니다.
 
@@ -12,8 +12,6 @@ P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(emb
 여기서 핵심은 “정확한 수학 공식”보다 “왜 그냥 전부 비교하면 어려운가”입니다.
 
 Part 1에서 `벡터 검색(vector search) 구현`, `인덱스(index)`, `근사 최근접 이웃(approximate nearest neighbor, ANN)`, `그래프 기반 검색(graph-based search)`, `벡터 데이터베이스(vector database)`의 기본 구분은 여기서 잡습니다. 13.1에서는 임베딩을, 13.2에서는 유사도 검색을, 13.3에서는 RAG를 봤고, 여기서는 그 흐름이 `실제 저장소와 검색 구현에서 어떻게 빨라지는가`를 정리합니다.
-
-## 이 절의 범위
 
 여기서는 먼저 `벡터가 아주 많아졌을 때 가까운 후보를 어떻게 빨리 찾는가`를 닫습니다. HNSW(hierarchical navigable small world), FAISS, product quantization 같은 이름은 Part 5의 P5-13.1, P5-13.2에서 서비스 관점의 검색 저장소와 인덱스 품질로 다시 이어지고, 여기서는 전체 비교를 줄이는 구현 직관만 붙잡습니다.
 

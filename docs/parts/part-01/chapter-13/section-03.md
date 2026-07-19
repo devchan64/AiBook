@@ -1,7 +1,7 @@
 # P1-13.3 RAG(retrieval-augmented generation)로 이어지는 흐름
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 질문 벡터(query vector)와 가까운 문서 벡터(document vector)를 찾는 유사도 검색(similarity search)을 봤습니다.
 
@@ -12,8 +12,6 @@ P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(emb
 여기서 중요한 점은 RAG가 “정답 보장 장치”가 아니라는 것입니다. RAG는 LLM이 참고할 수 있는 문맥(context)을 더해 주는 구조입니다. 검색 결과가 틀리거나 부족하면 답변도 흔들릴 수 있습니다.
 
 Part 1에서 `RAG(retrieval-augmented generation)`, `검색(retrieval)`, `보강(augmentation)`, `생성(generation)`, `parametric memory`, `non-parametric memory`, `출처 추적(provenance)`의 기본 구분은 여기서 잡습니다. 13.1에서는 임베딩을, 13.2에서는 유사도 검색을 봤고, 여기서는 그 두 단계를 `LLM 입력 맥락 보강`으로 연결합니다. 구현 세부와 서비스 아키텍처는 뒤 절과 14장에서 다시 다룹니다.
-
-## 이 절의 범위
 
 여기서는 RAG의 전체 흐름을 개념적으로 봅니다. 벡터 데이터베이스(vector database), 인덱스(index), 근사 최근접 이웃(approximate nearest neighbor, ANN), 그래프(graph) 기반 검색 구조는 P1-13.4에서 다룹니다.
 

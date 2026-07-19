@@ -1,7 +1,7 @@
 # P1-13.4 向量搜索(vector search)实现的直觉
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P1-13.1 中，我们看了如何通过嵌入(embedding)把文本(text)表示成向量(vector)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到接近的向量。在 P1-13.3 中，我们又看了怎样把这些检索候选接进 LLM 的输入上下文(context)中，形成 RAG(retrieval-augmented generation)。
 
@@ -12,8 +12,6 @@
 这里最重要的点不是“精确数学公式”，而是“为什么不能每次都把所有向量全部比一遍”。
 
 Part 1 会在这里建立 `向量搜索(vector search)实现`、`索引(index)`、`近似最近邻(approximate nearest neighbor, ANN)`、`基于图的搜索(graph-based search)`、`向量数据库(vector database)` 的基本区分。13.1 介绍了嵌入，13.2 介绍了相似度搜索，13.3 介绍了 RAG，而这里要整理的是：这些流程在 `真实存储与搜索实现里是怎样被加速的`。
-
-## 本节范围
 
 这里先固定 `当向量非常多时怎样快速找到接近候选` 这个问题。HNSW(hierarchical navigable small world)、FAISS、product quantization 等名称会在 Part 5 的 P5-13.1、P5-13.2 中，以服务视角下的搜索存储与索引质量继续出现；这里先只抓住减少全量比较的实现直觉。
 

@@ -22,8 +22,6 @@ Part 1 introduces the basic distinctions among `similarity search`, `similarity`
 
 The connection to `RAG` continues in 13.3.
 
-## Scope of This Section
-
 This section explains the intuition of similarity search. Implementation structures such as `vector databases`, `indexes`, and `approximate nearest neighbor` methods are not discussed in detail here. They return in P1-13.4 as the intuition for why separate fast-retrieval structures become necessary.
 
 These terms belong to different comparison criteria and result-selection methods. Their roles can first be separated like this:

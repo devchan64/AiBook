@@ -17,8 +17,6 @@ Part 1 introduces the basic distinctions among `embeddings`, `vectors`, `vector 
 
 > why do we first turn text into vectors before trying to retrieve external material?
 
-## Scope of This Section
-
 Section 11.1 already covered language models, n-grams, distributed representations, and word2vec as part of the historical flow. This section does not repeat that history.
 
 `Embeddings`, `vectors`, `vector space`, `sentence embeddings`, and `document embeddings` belong to different levels of representation. Their roles can first be separated like this:

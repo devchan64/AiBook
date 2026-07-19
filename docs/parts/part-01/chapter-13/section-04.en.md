@@ -1,7 +1,7 @@
 # P1-13.4 The Intuition of Vector Search Implementation
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P1-13.1 introduced embeddings, P1-13.2 introduced similarity search, and P1-13.3 introduced RAG. One practical question remains:
 
@@ -14,8 +14,6 @@ P1-13.4 handles that question not as deep algorithm study, but as implementation
 The core point is not `the exact math formula`, but `why comparing everything one by one becomes difficult`.
 
 Part 1 introduces the basic distinctions among `vector-search implementation`, `indexes`, `approximate nearest neighbor`, `graph-based search`, `vector databases`, and `brute-force search` here. This section asks how that flow speeds up in a real storage and retrieval system.
-
-## Scope of This Section
 
 Here, this section first closes the question of `how to find nearby candidates quickly when the number of vectors becomes very large`. Names such as `HNSW`, `FAISS`, and `product quantization` return in Part 5 P5-13.1 and P5-13.2 as search storage and index-quality topics from a service perspective. Here, we keep only the implementation intuition of reducing full comparison.
 

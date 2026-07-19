@@ -1,7 +1,7 @@
 # P1-13.3 通向 RAG(retrieval-augmented generation)的流程
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P1-13.1 中，我们看了把文本(text)表示成向量(vector)的嵌入(embedding)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到与问题向量(query vector)接近的文档向量(document vector)。
 
@@ -12,8 +12,6 @@
 这里最重要的提醒是：RAG 不是“保证正确答案的装置”。它只是为 LLM 增加可参考的上下文(context)。如果检索结果本身有误或不足，回答也会跟着变得不稳。
 
 Part 1 会在这里建立 `RAG(retrieval-augmented generation)`、`检索(retrieval)`、`增强(augmentation)`、`生成(generation)`、`parametric memory`、`non-parametric memory`、`来源追踪(provenance)` 的基本区分。13.1 介绍了嵌入，13.2 介绍了相似度搜索，而这里要把这两步连接成 `对 LLM 输入上下文的增强`。实现细节与服务架构会在后续小节和第 14 章再展开。
-
-## 本节范围
 
 这里从概念层面看 RAG 的整体流程。向量数据库(vector database)、索引(index)、近似最近邻(approximate nearest neighbor, ANN)、基于图(graph)的搜索结构会在 P1-13.4 处理。
 

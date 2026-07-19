@@ -13,8 +13,6 @@
 
 Part 1 会在这里先建立 `相似度搜索(similarity search)`、`相似度(similarity)`、`距离(distance)`、`余弦相似度(cosine similarity)`、`最近邻(nearest neighbor)`、`top-k` 的基本区分。13.1 说明了为什么要先把文本变成向量，这里则说明这些向量是 `怎样被比较并筛出候选` 的。与 RAG 的连接会在 13.3 继续展开。
 
-## 本节范围
-
 这里关注的是相似度搜索的直觉。向量数据库(vector database)、索引(index)、近似最近邻(approximate nearest neighbor, ANN)等实现结构，不会在这里细讲，而会在 P1-13.4 重新连接到“为什么快速搜索需要额外结构”这个实现直觉上。
 
 `相似度`、`距离`、`余弦相似度`、`最近邻`、`top-k` 是不同的比较标准与结果选择方式。先把它们的作用区分如下：

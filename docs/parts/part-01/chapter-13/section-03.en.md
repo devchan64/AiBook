@@ -1,7 +1,7 @@
 # P1-13.3 The Flow That Leads into RAG
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds nearby document vectors. The next question is:
 
@@ -14,8 +14,6 @@ P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced 
 RAG is not an `answer guarantee device`. It adds context the LLM can refer to, but if retrieval is wrong or incomplete, the answer can still fail.
 
 Part 1 introduces the basic distinctions among `RAG`, `retrieval`, `augmentation`, `generation`, `parametric memory`, `non-parametric memory`, and `provenance` here. This section connects embeddings and similarity search into `adding retrieval results into LLM input context`. Implementation details and service architecture return later in P1-13.4 and Chapter 14.
-
-## Scope of This Section
 
 This section gives a conceptual view of the full RAG flow. It does not explain vector databases, indexes, ANN methods, or graph-based retrieval structures in detail. Those return in P1-13.4.
 
