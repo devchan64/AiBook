@@ -20,7 +20,7 @@ Part 6의 본문 Python 예제는 대체로 `temperature`, `context budget`, `ca
 
 | Section | 판정 | 근거 |
 | --- | --- | --- |
-| `P6-1.6` | 유지, 외부 의존성 | `transformers.AutoTokenizer`로 실제 토크나이저 차이를 보지만 로컬 모델 파일 의존성이 있어 자동 실행 검증에서는 제외 |
+| `P6-1.6` | 유지, 외부 의존성 | `transformers.AutoTokenizer`로 실제 토크나이저 차이를 본다. 로컬 `.venv`에서는 실행 성공을 확인했지만, 처음 실행하는 환경은 tokenizer 파일 다운로드 또는 로컬 캐시가 필요하므로 자동 일괄 검증에서는 별도 관리 |
 | `P6-2.4` | 유지 | `coarse_window`를 바꾸며 후보 축소 비용, `recall@5`, 누락 후보가 달라지는 ANN 감각 실험 |
 | `P6-3.1` | 유지 | 문맥 특징 변화가 후보 점수와 softmax 분포를 바꾸는 실험 |
 | `P6-3.2` | 유지 | context budget 안에서 원순서 선택과 우선순위 선택의 남는 단서 차이를 비교 |
@@ -61,7 +61,7 @@ Part 6의 본문 Python 예제는 대체로 `temperature`, `context budget`, `ca
 
 | 항목 | 현재 상태 | 후속 판단 |
 | --- | --- | --- |
-| `P6-1.6` 토크나이저 예제 | `transformers`와 모델 파일 의존성 때문에 자동 실행 검증 제외 | 로컬 캐시 전제, 설치 전제, 실행 실패 시 대체 관찰표를 본문에 명시할지 검토 |
+| `P6-1.6` 토크나이저 예제 | 로컬 `.venv`의 `transformers==5.13.1`에서 실행 성공. 단, 처음 실행하는 환경은 tokenizer 파일 다운로드 또는 로컬 캐시 필요 | 본문에 실행 전제와 대체 관찰표 안내를 명시했으므로 유지. 자동 일괄 검증에서는 외부 파일 의존성 항목으로 별도 관리 |
 | `p6-10-rag-documents.csv` | 3개 데이터 행 | 검색 실패와 생성 실패 구분은 가능하지만 CSV 36행 기준에는 부족 |
 | `p6-10-rag-experiments.csv` | 3개 데이터 행 | 정상·검색 실패·생성 실패 조건은 있으나 반복 실험 규모는 작음 |
 | `p6-11-index-documents.csv` | 9개 데이터 행 | 버전 혼입과 target 누락은 드러나지만 36행 기준에는 부족 |
@@ -72,13 +72,14 @@ Part 6의 본문 Python 예제는 대체로 `temperature`, `context budget`, `ca
 
 - `find docs/parts/part-06 -name 'section-[0-9][0-9].md' | wc -l`: 52
 - `rg -n '^```python' docs/parts/part-06 -g 'section-[0-9][0-9].md' | wc -l`: 36
-- 본문 Python 블록 자동 실행: 35개 통과, 1개 외부 의존성으로 제외
-  - 제외: `docs/parts/part-06/chapter-01/section-06.md`
-  - 사유: `transformers.AutoTokenizer`가 외부 토크나이저/모델 파일에 의존
+- 본문 Python 블록 자동 실행: 35개 통과, 1개 외부 의존성으로 별도 관리
+  - 별도 관리: `docs/parts/part-06/chapter-01/section-06.md`
+  - 사유: `transformers.AutoTokenizer`가 외부 tokenizer 파일 다운로드 또는 로컬 캐시에 의존
+  - 추가 확인: 로컬 `.venv`의 `transformers==5.13.1`에서는 P6-1.6 예제가 실행 성공했고 본문 토큰 수 표와 일치함
 - `.venv/bin/python -m mkdocs build`: 실행하지 않음. 이번 작업은 Python 예제 감사와 리포트 생성이며, 전체 사이트 빌드는 Part 마감 검증에서 실행하는 편이 적합하다.
 
 ## 결론
 
 Part 6의 현재 Python 예제는 대부분 Section 중심 질문과 직접 연결된 실험형으로 유지 가능하다. 후보 응답이나 로그를 쓰는 예제도 단순 라벨 집계가 아니라, 텍스트 조건·운영 조건·임계값·상태 전이를 코드에서 다시 계산해 관찰 결과를 만든다.
 
-즉시 제거하거나 표로 대체해야 할 Python 블록은 없었다. 다만 CSV 기반 예제의 행 수와 외부 토크나이저 의존성은 후속 보강 후보로 남긴다.
+즉시 제거하거나 표로 대체해야 할 Python 블록은 없었다. 다만 CSV 기반 예제의 행 수는 후속 보강 후보로 남긴다. P6-1.6의 외부 토크나이저 의존성은 본문 실행 전제와 대체 관찰표 안내를 보강했으므로 유지하되, 자동 일괄 검증에서는 별도 관리한다.
