@@ -1,7 +1,7 @@
 # P2-10.2 The Difference Among Jupyter, Colab, and Local Execution
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-10.1, we viewed a notebook as a computational document containing code, explanation, and output together. Now we separate the three execution styles that are encountered most often in practice.
 
@@ -12,38 +12,6 @@ These three names overlap visually. Colab also uses the Jupyter Notebook format,
 This Section explains the relation among `Jupyter`, `Colab`, `local execution`, `runtime`, and `.ipynb` files. If the previous Section explained the notebook document format, then here the standard is how that document is actually executed and what is shared together with it.
 This distinction matters before anything else.
 If the execution place changes, the meaning of the same notebook also changes.
-
-## Scope of This Section
-
-This Section first closes the distinctions among `execution location`, `runtime`, and `file access`. Instead of memorizing feature names, it uses Jupyter, Colab, and local execution to separate where code runs, where files are stored, and what is shared. Larger topics such as experiment tracking reconnect later in the supplement P3-9.3 and in the Part 6 project-record context.
-
-| Term | Meaning to capture first in this Section |
-| --- | --- |
-| Jupyter | An open-source notebook tool and ecosystem |
-| Colab | A hosted notebook service provided by Google, based on the Jupyter format |
-| local execution | A style of running directly in your own computer's Python, file, and package environment |
-| runtime | The current Python environment and state that actually runs the code |
-| `.ipynb` file | The document file that stores notebook contents, which can be different from the currently running state |
-
-This Section answers the following questions.
-
-The first question to resolve here is this: `Even if the same thing looks like the same notebook file, why do the result and file access differ depending on where it is actually executed?`
-
-So this Section answers the following questions.
-
-- What is the relationship between Jupyter and Colab?
-- What is different about local execution?
-- Why are a notebook file and runtime state different?
-- What is shared and what is not shared in Colab?
-- When should a learner use Colab, and when should they consider local execution?
-
-This Section focuses on distinguishing execution location and runtime conditions. If the previous Section dealt with how notebooks keep code and output together in one document, then here the focus is on reading where that document is actually executed and what files and runtime conditions it depends on. The next Section moves this question again into habits for keeping reproducible records.
-
-The flow after this Section is simple too.
-
-- In `P2-10.3`, the execution differences seen here are bundled again into habits for reproducible records.
-- If you reconnect to the environment Sections of Chapter 7, then runtime, file access, and package-installation issues can all be read through the same question of execution location.
-- In the Part 6 project section, this difference becomes important again in the context of experiment records and reproducibility.
 
 ## Goals of This Section
 
@@ -284,6 +252,6 @@ So when reading practice documents, first check `Where is this code being execut
 
 ## Sources and References
 
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-19. Used as the basis for distinguishing shared notebook contents from runtime, VM, file, and installed-library state that are not shared together.
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-19. Used as background for distinguishing Jupyter documents, interfaces, kernels, execution location, and runtime.
-- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation, checked on 2026-07-19. Used as the basis for explaining local notebook servers and browser-based notebook usage flow.
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab, checked on 2026-07-20. Used as the basis for distinguishing shared notebook contents from runtime, VM, file, and installed-library state that are not shared together.
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha, checked on 2026-07-20. Used as background for distinguishing Jupyter documents, interfaces, kernels, execution location, and runtime.
+- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation, checked on 2026-07-20. Used as the basis for explaining local notebook servers and browser-based notebook usage flow.

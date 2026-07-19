@@ -1,7 +1,7 @@
 # P2-10.2 Jupyter、Colab 与本地执行的区别
 
 > Section ID: `P2-10.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-10.1 中，我们把 notebook 看成一种同时包含 code、explanation 和 output 的计算文档。现在要区分三种在实践里最常遇到的执行方式。
 
@@ -12,38 +12,6 @@ Jupyter、Colab、本地执行。
 这里说明 `Jupyter`、`Colab`、`local execution`、`runtime`、`.ipynb` 文件之间的关系。如果前一节解释的是 notebook 文档格式，那么这里建立的标准就是：这个文档实际上在哪里执行，以及它和什么一起被共享。
 这个区分要先抓住。
 只要执行地点变了，同一个 notebook 的含义也会跟着变化。
-
-## 本节的范围
-
-本节先收束 `执行位置`、`runtime`、`文件访问` 三个区分。这里不先背功能名称，而是用 Jupyter、Colab、本地执行来拆开：代码在哪里运行，文件保存在哪里，什么会被共享。实验追踪等更大的主题，会在 P3-9.3 补充学习和 Part 6 的项目记录语境里再连接。
-
-| 术语 | 本节先要抓住的含义 |
-| --- | --- |
-| Jupyter | 一个开源 notebook 工具与生态 |
-| Colab | Google 提供的、基于 Jupyter 格式的托管 notebook 服务 |
-| local execution | 直接在自己电脑的 Python、文件和包环境里执行的方式 |
-| runtime | 实际运行代码的当前 Python 环境与状态 |
-| `.ipynb` 文件 | 保存 notebook 内容的文档文件，它可能和当前正在运行的状态不同 |
-
-本节回答以下问题。
-
-这里先要解决的问题是：`即使看起来像同一个 notebook 文件，为什么一旦执行位置不同，结果和文件访问就会不同？`
-
-所以本节回答以下问题。
-
-- Jupyter 和 Colab 到底是什么关系？
-- 本地执行到底有什么不同？
-- 为什么 notebook 文件和 runtime 状态不是一回事？
-- 在 Colab 中，什么会被共享，什么不会被共享？
-- 学习者什么时候适合用 Colab，什么时候应考虑本地执行？
-
-本节重点在于区分执行位置和 runtime 条件。如果前一节讨论的是 notebook 如何把 code 与 output 一起留在同一文档中，那么这里讨论的就是：这个文档实际上在哪里执行，以及它依赖哪些文件和 runtime 条件。下一节会再把这个问题重新整理成可复现记录的习惯。
-
-本节之后的流程也很简单。
-
-- 在 `P2-10.3` 中，这里看到的执行差异会被重新整理成可复现记录的习惯。
-- 如果把这里和 Chapter 7 的环境部分连起来看，那么 runtime、文件访问和 package 安装问题，都可以用同一个 `执行位置` 问题来阅读。
-- 在 Part 6 的项目部分里，这个差异会在实验记录与可复现性语境下再次变得重要。
 
 ## 本节的目标
 
@@ -284,6 +252,6 @@ path = "data/scores.csv"
 
 ## 来源与参考资料
 
-- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-19。作为区分 notebook 中会共享的内容，以及不会一起共享的 runtime、VM、文件和已安装库状态的依据。
-- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-19。作为区分 Jupyter document、interface、kernel、执行位置和 runtime 的背景依据。
-- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation，确认日期：2026-07-19。作为说明本地 notebook server 和浏览器 notebook 使用流程的依据。
+- Google, [Google Colab FAQ](https://research.google.com/colaboratory/faq.html){: target="_blank" rel="noopener noreferrer" }, Google Colab，确认日期：2026-07-20。作为区分 notebook 中会共享的内容，以及不会一起共享的 runtime、VM、文件和已安装库状态的依据。
+- Project Jupyter, [Architecture](https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Documentation 4.1.1 alpha，确认日期：2026-07-20。作为区分 Jupyter document、interface、kernel、执行位置和 runtime 的背景依据。
+- Jupyter Notebook Team, [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/notebook.html){: target="_blank" rel="noopener noreferrer" }, Jupyter Notebook documentation，确认日期：2026-07-20。作为说明本地 notebook server 和浏览器 notebook 使用流程的依据。
