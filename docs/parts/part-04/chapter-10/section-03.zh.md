@@ -1,7 +1,7 @@
 # P4-10.3 补充学习：第一次该怎样读回归诊断(regression diagnostics)
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 读到 P4-10.2 为止，linear regression 的基本评价已经具备了。但在真实文档或课程里，读者很快还会碰到下面这些表达。
 
@@ -23,13 +23,9 @@
 - residual normality 与 homoscedasticity 分别在担心哪一类问题？
 - 为什么 multicollinearity 会摇动 coefficient 的解释？
 
-这一节不会深入讲下面这些内容。
+这份补充学习先用 `为了避免过度相信 linear regression 结果，需要检查哪些风险` 这个问题收束 regression diagnostics，并集中回收 P4-10.2 留下的解释稳定性问题。
 
-- 各类检验统计量的公式推导
-- 围绕 p-value 解读的完整历史争论
-- VIF 练习与高级 regression package 的使用方法
-
-这些步骤放在这本书当前正文范围之外。
+各类检验统计量的公式推导、围绕 p-value 解读的完整历史争论、VIF 练习与高级 regression package 的使用方法，超出了当前这份补充学习的直接范围，所以这里不会详细处理。
 
 ## 本补充学习的目标
 
@@ -115,7 +111,7 @@ homoscedasticity 在担心的是：误差的 spread 会不会随着输入区间�
 
 如果把 regression diagnostics 压成一张图来读，一边是在问 `误差 spread 会不会随区间改变`，另一边是在问 `prediction 还差不多，但 coefficient interpretation 会不会单独摇动`。
 
-![把区间별误差 spread 放大与重叠特征导致 coefficient interpretation 摇动并排展示的比较图](/AiBook/assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
+![把按区间扩大的误差 spread 与重叠特征导致 coefficient interpretation 摇动并排展示的比较图](/AiBook/assets/part-04/chapter-10/p4-10-3-diagnostics-view-zh.svg)
 
 ## 为什么 multicollinearity 会摇动 coefficient 解读
 

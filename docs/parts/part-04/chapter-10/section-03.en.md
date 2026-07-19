@@ -1,7 +1,7 @@
 # P4-10.3 Supplementary Learning: How To First Read Regression Diagnostics
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 By the time the reader finishes P4-10.2, the basic evaluation of linear regression is in place. In actual documents and lectures, however, the reader soon meets expressions such as the following.
 
@@ -23,13 +23,9 @@ This Section answers the following questions.
 - What kind of concern lies behind residual normality and homoscedasticity?
 - Why can multicollinearity shake the interpretation of coefficients?
 
-This Section does not treat the following topics deeply.
+This supplementary learning first closes regression diagnostics through the question `what kinds of risk should be checked to avoid overtrusting a linear-regression result`, and focuses on recovering the interpretation-stability question left in P4-10.2.
 
-- formula derivations of each test statistic
-- the full history of debates around p-value interpretation
-- VIF practice or advanced regression-package usage
-
-Those procedures are kept outside the current main scope of this book.
+Formula derivations of each test statistic, the full history of debates around p-value interpretation, VIF practice, and advanced regression-package usage go beyond the direct scope of this supplementary learning, so they are not treated in detail here.
 
 ## Goals Of This Supplementary Learning
 
