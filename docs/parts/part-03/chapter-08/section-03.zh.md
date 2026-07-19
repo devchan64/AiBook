@@ -1,7 +1,7 @@
 # P3-8.3 保守解读句子应当按什么顺序、用什么词来写
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 保守解读句子需要在一句话里分开写出`哪里变了`、`可以多大程度地说得更强`、以及`人下一步该做什么`。这里的关键，是在读完比较表之后，句子该按照什么顺序和词汇留下来，才能同时避免夸大，也避免因为过弱而什么信息都没留下。与其重新发明新的边界，不如先把已经确认的比较结果和解读强度按正确顺序放进句子里。
 
@@ -71,5 +71,5 @@
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`。它提供了把观测结果和其背后的证据路径分开记录的 provenance 视角，因此可以补强本节的说明：比较结果、确信强度条件和下一步动作，应当作为不同层级写在同一句话中。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它提供了读比较信号但不立刻跳到功能判定或原因确认的管理图语境，因此支持本节的边界意识：保守解读句子应按`比较结果 -> 强度条件 -> 下一步动作`这一顺序来写。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
+- W3C, `PROV-Overview`。它提供了把观测结果和其背后的证据路径分开记录的 provenance 视角，因此可以补强本节的说明：比较结果、确信强度条件和下一步动作，应当作为不同层级写在同一句话中。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它提供了读比较信号但不立刻跳到功能判定或原因确认的管理图语境，因此支持本节的边界意识：保守解读句子应按`比较结果 -> 强度条件 -> 下一步动作`这一顺序来写。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

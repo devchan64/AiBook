@@ -1,7 +1,7 @@
 # P3-8.3 보수적 해석 문장은 어떤 순서와 어휘로 쓰는가
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 보수적 해석 문장은 `무엇이 달라졌는가`, `얼마나 강하게 말할 수 있는가`, `사람이 다음에 무엇을 해야 하는가`를 한 문장 안에서 분리해 적어야 합니다. 비교표를 읽고 난 뒤 어떤 순서와 어휘로 문장을 남겨야 과장도 피하고, 너무 약해서 아무 정보도 남기지 않는 상태도 피할 수 있는지가 여기서의 핵심입니다. 경계를 새로 정하는 것보다, 이미 확인한 비교 결과와 해석 강도를 어떤 순서로 문장 안에 배치할지가 더 중요합니다.
 
@@ -71,5 +71,5 @@
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. 관찰 결과와 그 근거 경로를 분리해 남기는 provenance 관점을 제공하므로, 비교 결과, 확신 강도 조건, 다음 행동을 한 문장 안에서 층위별로 나누어 적어야 한다는 이 절의 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 비교 신호를 읽되 곧바로 기능 판정이나 원인 확정으로 넘어가지 않는 관리도 문맥을 제공하므로, 보수적 해석 문장을 `비교 결과 -> 강도 조건 -> 다음 행동`의 순서로 쓰는 이 절의 경계 감각을 뒷받침합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. 관찰 결과와 그 근거 경로를 분리해 남기는 provenance 관점을 제공하므로, 비교 결과, 확신 강도 조건, 다음 행동을 한 문장 안에서 층위별로 나누어 적어야 한다는 이 절의 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 비교 신호를 읽되 곧바로 기능 판정이나 원인 확정으로 넘어가지 않는 관리도 문맥을 제공하므로, 보수적 해석 문장을 `비교 결과 -> 강도 조건 -> 다음 행동`의 순서로 쓰는 이 절의 경계 감각을 뒷받침합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

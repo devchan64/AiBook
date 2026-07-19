@@ -1,7 +1,7 @@
 # P3-8.3 In What Order and With What Wording Should Conservative Interpretation Sentences Be Written
 
 > Section ID: `P3-8.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 A conservative interpretation sentence should separate `what changed`, `how strongly it can be stated`, and `what a person should do next` inside one sentence. The key question here is what order and wording should be used after reading a comparison table so that you avoid both exaggeration and a sentence so weak that it leaves no information. More important than inventing a new boundary is deciding how to place already confirmed comparison results and interpretation strength in the sentence.
 
@@ -71,5 +71,5 @@ This diagram shows that the order of sentence construction is itself the key poi
 
 ## Sources and References
 
-- W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the path of evidence behind it, which supports this section's claim that comparison result, confidence-strength condition, and next action should be written as separate levels within a single sentence. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It provides a control-chart context in which comparison signals are read without jumping immediately to functional judgment or confirmed cause, which supports the boundary awareness in this section that conservative interpretation sentences should follow the order `comparison result -> strength condition -> next action`. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. It offers a provenance perspective that separates an observed result from the path of evidence behind it, which supports this section's claim that comparison result, confidence-strength condition, and next action should be written as separate levels within a single sentence. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It provides a control-chart context in which comparison signals are read without jumping immediately to functional judgment or confirmed cause, which supports the boundary awareness in this section that conservative interpretation sentences should follow the order `comparison result -> strength condition -> next action`. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
