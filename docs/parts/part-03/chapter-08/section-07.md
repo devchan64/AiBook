@@ -1,7 +1,7 @@
 # P3-8.7 현재의 검토 규칙과 조치가 나중 데이터 자체를 바꾼다면 해석은 왜 달라져야 하는가
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 해석 경계에서 마지막으로 주의할 점은 현재의 운영 개입입니다. `review_needed=1`이 뜬 사례를 사람이 빨리 조치했다면, 그 뒤에 남은 데이터는 원래 자연 경과와 다를 수 있습니다. 이 점을 숨기면 `나중 데이터가 더 안전해 보인다`는 문장을 너무 쉽게 써 버리게 됩니다.
 
@@ -39,6 +39,6 @@
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. 데이터와 결과가 어떤 활동(activity)을 거쳐 생성되었는지를 추적하는 provenance 관점을 제공하므로, 검토 규칙이나 조치가 후속 로그와 라벨을 바꿀 수 있다면 그 뒤 데이터도 개입 맥락과 함께 읽어야 한다는 이 절의 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Datasets: Dividing the original dataset`. 학습/평가 데이터가 실제 운영에서 만나는 데이터와 달라질 수 있으며, 같은 변환을 real-world data에도 재현해야 한다고 설명하므로, 현재 운영 개입이 후속 데이터 분포와 의미를 바꿀 수 있다는 이 절의 경계 감각을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Conor K. Corbin, Michael Baiocchi, Jonathan H. Chen, `Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection`, 2023. 배포된 임상 예측 모델이 feedback loop를 만들고 prospectively collected data와 label selection에 영향을 줄 수 있으며, 관측된 라벨 집합만으로 성능을 해석하면 실제 배포 모집단과 다른 결론을 낼 수 있다고 설명하므로, 현재 검토 규칙과 조치가 후속 데이터 의미를 바꿀 수 있다는 이 절의 주장을 직접 보강합니다. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- W3C, `PROV-Overview`. 데이터와 결과가 어떤 활동(activity)을 거쳐 생성되었는지를 추적하는 provenance 관점을 제공하므로, 검토 규칙이나 조치가 후속 로그와 라벨을 바꿀 수 있다면 그 뒤 데이터도 개입 맥락과 함께 읽어야 한다는 이 절의 설명을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Datasets: Dividing the original dataset`. 학습/평가 데이터가 실제 운영에서 만나는 데이터와 달라질 수 있으며, 같은 변환을 real-world data에도 재현해야 한다고 설명하므로, 현재 운영 개입이 후속 데이터 분포와 의미를 바꿀 수 있다는 이 절의 경계 감각을 일반화하는 데 참고할 수 있습니다. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Conor K. Corbin, Michael Baiocchi, Jonathan H. Chen, `Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection`, 2023. 배포된 임상 예측 모델이 feedback loop를 만들고 prospectively collected data와 label selection에 영향을 줄 수 있으며, 관측된 라벨 집합만으로 성능을 해석하면 실제 배포 모집단과 다른 결론을 낼 수 있다고 설명하므로, 현재 검토 규칙과 조치가 후속 데이터 의미를 바꿀 수 있다는 이 절의 주장을 직접 보강합니다. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

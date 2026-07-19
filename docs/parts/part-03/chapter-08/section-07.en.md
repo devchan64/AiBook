@@ -1,7 +1,7 @@
 # P3-8.7 Why Interpretation Must Change If Current Review Rules and Actions Alter Later Data Itself
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 The last point to watch at the interpretation boundary is the current operational intervention. If a person quickly acted on cases where `review_needed=1`, the data left afterward may differ from the original natural progression. If you hide that, it becomes too easy to write a sentence such as `the later data looks safer`.
 
@@ -39,5 +39,6 @@ The key point in this section is that current rules and actions may not leave la
 
 ## Sources and References
 
-- W3C, `PROV-Overview`. It provides a provenance perspective for tracing what activities generated particular data and results, which supports this section's explanation that if review rules or actions can change later logs and labels, the later data should be read together with the intervention context. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Datasets: Dividing the original dataset`. It explains that training and evaluation data can differ from the data encountered in real operation and that the same transformations must be reproduced on real-world data, which is useful for generalizing this section's warning that current operational intervention can change the later data distribution and its meaning. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. It provides a provenance perspective for tracing what activities generated particular data and results, which supports this section's explanation that if review rules or actions can change later logs and labels, the later data should be read together with the intervention context. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Datasets: Dividing the original dataset`. It explains that training and evaluation data can differ from the data encountered in real operation and that the same transformations must be reproduced on real-world data, which is useful for generalizing this section's warning that current operational intervention can change the later data distribution and its meaning. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Conor K. Corbin, Michael Baiocchi, Jonathan H. Chen, `Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection`, 2023. It explains that deployed clinical prediction models can create feedback loops that affect prospectively collected data and label selection, and that performance estimates based only on observed labels can diverge from the deployment population. This directly supports this section's warning that current review rules and actions can change the meaning of later data. [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

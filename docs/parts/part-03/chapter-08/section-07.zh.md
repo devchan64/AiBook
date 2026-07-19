@@ -1,7 +1,7 @@
 # P3-8.7 如果当前复核规则和处置会改写后续数据本身，为什么解读也必须改变
 
 > Section ID: `P3-8.7`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在解读边界里，最后一个必须注意的点，是当前的运营干预。如果 `review_needed=1` 的案例被人工很快处理了，那么之后留下的数据，就可能和原本的自然发展过程不同。如果把这一点隐藏起来，`后续数据看起来更安全`这样的句子就会被写得过于轻易。
 
@@ -39,5 +39,6 @@
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`。它提供了追踪某些数据和结果是经过哪些 activity 生成的 provenance 视角，因此可支持本节的说明：如果复核规则或处置会改变后续日志与标签，那么后续数据就必须连同干预背景一起阅读。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
-- Google for Developers, `Datasets: Dividing the original dataset`。它说明训练/评估数据可能与真实运营中遇到的数据不同，而且相同的转换也需要在 real-world data 上重现，因此可用来一般化本节的提醒：当前运营干预会改变后续数据分布以及这些数据本身的含义。 [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
+- W3C, `PROV-Overview`。它提供了追踪某些数据和结果是经过哪些 activity 生成的 provenance 视角，因此可支持本节的说明：如果复核规则或处置会改变后续日志与标签，那么后续数据就必须连同干预背景一起阅读。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google for Developers, `Datasets: Dividing the original dataset`。它说明训练/评估数据可能与真实运营中遇到的数据不同，而且相同的转换也需要在 real-world data 上重现，因此可用来一般化本节的提醒：当前运营干预会改变后续数据分布以及这些数据本身的含义。 [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Conor K. Corbin, Michael Baiocchi, Jonathan H. Chen, `Avoiding Biased Clinical Machine Learning Model Performance Estimates in the Presence of Label Selection`, 2023。它说明已部署的临床预测模型可能形成 feedback loop，影响 prospectively collected data 和 label selection；如果只用观测到的标签集合估计性能，结论可能偏离部署人群。因此它直接支持本节的提醒：当前复核规则和处置可能改变后续数据本身的含义。 [https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10283136/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
