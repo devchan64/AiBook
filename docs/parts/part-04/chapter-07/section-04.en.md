@@ -1,7 +1,7 @@
 # P4-7.4 Supplementary Learning: How To First Distinguish Filter, Wrapper, And Dimensionality Reduction
 
 > Section ID: `P4-7.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 From P4-7.1 to P4-7.3, the discussion chose features, separated input-representation problems, and established the basic judgment for preprocessing. In practice, however, the reader soon meets names such as the following.
 
@@ -20,13 +20,7 @@ This Section answers the following questions.
 - What does recursive feature elimination (RFE) repeat?
 - How is dimensionality reduction different from feature selection?
 
-This Section does not treat the following topics deeply.
-
-- derivation of formulas for individual statistical tests
-- the calculation procedures of PCA, t-SNE, and UMAP
-- large-scale automated feature-selection systems
-
-The intuition and limits of individual dimensionality-reduction algorithms are revisited in P4-18.1 and P4-18.2.
+This Section first closes `how to distinguish names that reduce input or re-express it`. The intuition and limits of individual dimensionality-reduction algorithms continue in P4-18.1 and P4-18.2.
 
 ## Goals Of This Supplementary Learning
 
