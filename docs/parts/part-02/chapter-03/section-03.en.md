@@ -24,26 +24,6 @@ Rather than fully mastering matrix-calculation formulas, we focus on reading the
 | The intuition that one weighted-sum pattern is reused for several outputs | In later sections, we check shape errors and calculation results in code. | It continues into explanations of linear layers, attention calculation, and representation transforms in Part 5. |
 | The fact that input and output dimensions are reflected in shape | It leads into how weights and loss connect in `P2-6.1`, `P2-6.2`, and `P2-6.3`. | It reappears when reading embedding projection, logits, and output vectors in Part 5. |
 
-## Scope of This Section
-
-This section covers the introductory meaning of matrix multiplication, weighted sum, and linear transformation. It does not cover determinant, inverse matrix, eigenvalue, or eigenvector. Hands-on execution of matrix multiplication with NumPy is deferred to P2-3.6.
-
-This section focuses on the following five questions.
-
-1. How is matrix multiplication different from position-wise multiplication?
-2. Why do we match rows and columns when computing it?
-3. What calculation does matrix multiplication repeat and reuse?
-4. What does a weight matrix change?
-5. Why does linear transformation appear so often in AI?
-
-| Term | Very short meaning | Role in this section |
-| --- | --- | --- |
-| matrix multiplication | a calculation that combines rows and columns to create new values | the central calculation of this section |
-| weighted sum | a value made by multiplying inputs by weights and adding | the smallest unit that creates one output |
-| weight matrix | a table collecting weights for several outputs | the standard that turns an input into a new representation |
-| linear transformation | a calculation that moves one vector into another vector | the interpretation frame for matrix multiplication |
-| input/output dimension | information about input length and output length | the standard that shows why shape matters |
-
 ## Goals of This Section
 
 - You can explain that matrix multiplication is not element-wise multiplication.
@@ -350,8 +330,8 @@ So matrix multiplication is read less as a memorized rule and more as `a reusabl
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-07-19.
 - NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference supports the shape condition of matrix multiplication and the meaning of the `@` operator.
 - Google for Developers, [Neural networks: Nodes and hidden layers](https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, checked on 2026-07-19. This official educational reference explains that neural-network node values are calculated by summing products of inputs and weights.

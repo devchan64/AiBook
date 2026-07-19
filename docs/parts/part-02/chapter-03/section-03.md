@@ -24,26 +24,6 @@ P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 데이터 �
 | 가중합을 여러 출력에 재사용하는 감각 | 뒤 절에서 코드로 shape 오류와 계산 결과를 확인합니다. | Part 5에서 선형층(layer), attention 계산, 표현 변환 설명으로 이어집니다. |
 | 입력 차원과 출력 차원이 shape에 반영된다는 점 | `P2-6.1`, `P2-6.2`, `P2-6.3`에서 가중치와 손실이 어떻게 연결되는지로 넘어갑니다. | Part 5에서 임베딩 투영, 로짓(logit), 출력 벡터 설명을 읽을 때 다시 등장합니다. |
 
-## 이 절의 범위
-
-여기서는 행렬 곱(matrix multiplication), 가중합(weighted sum), 선형 변환(linear transformation)의 입문적 의미를 다룹니다. 행렬식(determinant), 역행렬(inverse matrix), 고유값(eigenvalue), 고유벡터(eigenvector)는 다루지 않습니다. NumPy로 행렬 곱을 직접 실행하는 실습은 P2-3.6로 넘깁니다.
-
-여기서는 다음 다섯 질문에 집중합니다.
-
-1. 행렬 곱은 위치별 곱과 무엇이 다른가?
-2. 왜 행과 열을 맞춰 계산하는가?
-3. 행렬 곱은 어떤 계산을 반복해서 재사용하는가?
-4. 가중치 행렬(weight matrix)은 무엇을 바꾸는가?
-5. 선형 변환(linear transformation)은 왜 AI에서 자주 등장하는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 행렬 곱 | 행과 열을 조합해 새 값을 만드는 계산 | 이 절의 중심 계산 |
-| 가중합 | 입력값에 가중치를 곱해 더한 값 | 출력 하나를 만드는 최소 단위 |
-| 가중치 행렬 | 여러 출력용 가중치를 모은 표 | 입력을 새 표현으로 바꾸는 기준 |
-| 선형 변환 | 벡터를 다른 벡터로 옮기는 계산 | 행렬 곱의 해석 틀 |
-| 입출력 차원 | 입력 길이와 출력 길이 정보 | shape가 왜 중요한지 보여 주는 기준 |
-
 ## 이 절의 목표
 
 - 행렬 곱(matrix multiplication)이 위치별 곱(element-wise multiplication)이 아님을 설명할 수 있습니다.
@@ -351,8 +331,8 @@ W \in \mathbb{R}^{2 \times 3}
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
 - NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 행렬 곱의 shape 조건과 `@` 연산자 의미를 확인하는 공식 참고 자료입니다.
 - Google for Developers, [Neural networks: Nodes and hidden layers](https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 확인 날짜: 2026-07-19. 신경망 노드가 입력과 가중치의 곱을 더해 계산된다는 설명을 확인하는 공식 교육 자료입니다.

@@ -24,26 +24,6 @@
 | “同一种加权求和结构会被复用于多个输出”这一直觉 | 在后续小节里，会用代码检查 shape 错误和计算结果。 | 它会继续连到 Part 5 里的线性层(linear layer)、attention 计算、表示变换说明。 |
 | 输入维度与输出维度会体现在 shape 里 | 它会继续连到 `P2-6.1`、`P2-6.2`、`P2-6.3` 里权重与损失是怎样连接的。 | 它会在 Part 5 里读 embedding 投影、logit、输出向量时再次出现。 |
 
-## 本节范围
-
-这里处理矩阵乘法、加权求和、线性变换的入门含义。不处理 determinant、inverse matrix、eigenvalue、eigenvector。用 NumPy 直接执行矩阵乘法的实操，会放到 P2-3.6。
-
-这里集中回答下面五个问题。
-
-1. 矩阵乘法和逐位置相乘有什么不同？
-2. 为什么要按行和列去配对计算？
-3. 矩阵乘法到底在重复什么计算？
-4. 权重矩阵(weight matrix)改变了什么？
-5. 为什么线性变换在 AI 里会反复出现？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| 矩阵乘法 | 通过行与列组合生成新值的计算 | 本节的中心计算 |
-| 加权求和 | 输入值乘上权重再相加 | 形成一个输出的最小单位 |
-| 权重矩阵 | 收集多个输出权重的一张表 | 把输入变成新表示的标准 |
-| 线性变换 | 把一个向量移到另一个向量的计算 | 解释矩阵乘法的框架 |
-| 输入/输出维度 | 输入长度与输出长度的信息 | 解释为什么 shape 重要的标准 |
-
 ## 本节目标
 
 - 能说明矩阵乘法不是逐位置乘法(element-wise multiplication)。
@@ -350,8 +330,8 @@ W \in \mathbb{R}^{2 \times 3}
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-07-19.
 - NumPy Developers, [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持矩阵乘法的 shape 条件和 `@` 运算符的含义。
 - Google for Developers, [Neural networks: Nodes and hidden layers](https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers){: target="_blank" rel="noopener noreferrer" }, Machine Learning Crash Course, 确认日期：2026-07-19. 这个官方教育资料说明神经网络节点值由输入与权重的乘积求和计算而来。
