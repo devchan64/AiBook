@@ -1,7 +1,7 @@
 # P5-1.1 Intuition For The Perceptron
 
-Section ID: `P5-1.1`
-Version: `v2026.07.17`
+> Section ID: `P5-1.1`
+> Version: `v2026.07.19`
 
 Part 4 read machine learning through the flow of problem definition, data splitting, generalization, evaluation, and model selection. Now, in Part 5, we first ask what the smallest neural-network computation unit looks like when it receives values and produces an output. That question leads into the perceptron. A perceptron is the simplest neural-network decision unit: it multiplies several inputs by different weights, adds them together, and then produces an output based on that result.
 
@@ -278,7 +278,7 @@ The core of this section is not to memorize the name perceptron, but to fix the 
 
 ## Sources And References
 
-- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, date checked: 2026-06-28.
-- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, date checked: 2026-06-28.
+- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, date checked: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
+- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, date checked: 2026-07-19. [https://doi.org/10.1007/BF02478259](https://doi.org/10.1007/BF02478259){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

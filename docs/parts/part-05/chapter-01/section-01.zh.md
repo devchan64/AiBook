@@ -1,7 +1,7 @@
 # P5-1.1 感知机（perceptron）的直觉
 
-Section ID: `P5-1.1`
-Version: `v2026.07.17`
+> Section ID: `P5-1.1`
+> Version: `v2026.07.19`
 
 Part 4 把机器学习读成了问题定义、数据划分、泛化、评估与模型选择的流程。现在到了 Part 5，我们先问一个更小的问题：当模型接收数值并生成输出时，最小的神经网络计算单元到底长什么样。这个问题会把我们带到感知机（perceptron）。感知机是最简单的神经网络判断单元：它把多个输入（input）乘上不同的重要度（weight），再把这些结果相加，并依据这个结果给出输出。
 
@@ -278,7 +278,7 @@ Part 4 把机器学习读成了问题定义、数据划分、泛化、评估与�
 
 ## 出处与参考资料
 
-- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 确认日期：2026-06-28.
-- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, 确认日期：2026-06-28.
+- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 确认日期: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
+- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, 确认日期: 2026-07-19. [https://doi.org/10.1007/BF02478259](https://doi.org/10.1007/BF02478259){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 确认日期：2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
