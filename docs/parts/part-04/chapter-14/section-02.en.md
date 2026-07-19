@@ -1,7 +1,7 @@
 # P4-14.2 Overfitting In Trees
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-14.1 read a decision tree as `a model that predicts by splitting with questions`. That Section had clear strengths.
 
@@ -24,14 +24,7 @@ This Section answers the following questions.
 - What roles do `max_depth`, `min_samples_leaf`, and `ccp_alpha` play?
 - Why can train performance and test performance move differently?
 
-This Section does not go deeply into the following topics.
-
-- the bagging relief effect of random forest
-- the sequential correction structure of gradient boosting
-- the mathematical optimization details of pruning algorithms
-- careful cross-validation-based hyperparameter search procedures
-
-Those topics reconnect in P4-15, P4-16, and the tuning context of P4-9.
+This content reconnects with P4-15, P4-16, and the tuning context of P4-9. In other words, this Section first holds onto the point where a tree's question flow stops explaining patterns and starts memorizing exceptions.
 
 ## Goals Of This Section
 
@@ -664,9 +657,12 @@ For example, a note might read like this.
 - Are you reading a rise in train performance as if it automatically meant a rise in test performance?
 - Have the leaves become so small that they are speaking like rules about exceptional cases?
 - Are you distinguishing clearly between the next adjustment being a depth limit, a leaf-size change, or pruning?
+- Can you explain that a tree is easy to read, but without limits it can follow the training data too much, and that overfitting risk grows as depth increases and leaves become smaller?
+- Can you explain that higher train performance does not guarantee that test performance improves together?
+- Can you explain how `max_depth`, `min_samples_leaf`, and `ccp_alpha` each control tree complexity?
 
 ## Sources And References
 
 - scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, accessed 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

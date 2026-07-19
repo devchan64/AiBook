@@ -1,7 +1,7 @@
 # P4-14.2 树的过拟合
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-14.1 把决策树(decision tree)读成了 `通过拆分问题来做预测的模型`。 那一节的优点很明确。
 
@@ -24,14 +24,7 @@ P4-14.1 把决策树(decision tree)读成了 `通过拆分问题来做预测的�
 - `max_depth`、`min_samples_leaf`、`ccp_alpha` 各自起什么作用？
 - 为什么 train 表现和 test 表现可能朝不同方向变化？
 
-本节不深入展开以下内容。
-
-- 随机森林(random forest)通过 bagging 带来的缓和作用
-- 梯度提升(gradient boosting)的顺序修正结构
-- 剪枝算法的数学优化细节
-- 基于交叉验证的细致超参数搜索流程
-
-这些内容会在 P4-15、P4-16，以及 P4-9 的调参语境中再次连接。
+这些内容会在 P4-15、P4-16，以及 P4-9 的调参语境中再次连接。也就是说，这一节先抓住的是：树的问题流从哪里开始不再解释模式，而是在记忆例外。
 
 ## 本节目标
 
@@ -664,9 +657,12 @@ ccp_alpha=0.02
 - 你有没有把 train 表现上升，直接读成 test 表现也会上升？
 - leaf 是否已经小到开始像“例外规则”而不是“稳定模式”？
 - 你是否清楚地区分了下一步该调的是深度限制、leaf 大小，还是 pruning？
+- 能不能说明树虽然容易阅读，但如果没有限制就容易过度跟随训练数据，而且 depth 越大、leaf 越小，过拟合风险就越高？
+- 能不能说明 train 表现变高，并不保证 test 表现也会一起变好？
+- 能不能说明 `max_depth`、`min_samples_leaf`、`ccp_alpha` 分别以什么方式控制树的复杂度？
 
 ## 出处与参考资料
 
 - scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, 确认日期: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
