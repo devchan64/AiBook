@@ -1,7 +1,7 @@
 # P3-5.3 Why Can We Not Immediately Call Raw Time Series a Learning Input
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 When readers see a raw time series, many of them think like this: `There are many values and they are ordered, so can't we just pass this straight in as the learning input?` But we should pause here once. The mere fact that a raw time series exists does not yet mean we can say `a ready-to-use learning input has been prepared`.
 
@@ -87,6 +87,6 @@ What this section should hold onto is not the model type, but the order that say
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example is a structure where features and labels are defined together, it supports the claim that before calling a raw time series an input, the boundary of one sample and the result column should first be fixed. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it reinforces the point that unless the input structure and target structure are fixed first, part of the raw time series can be passed through incorrectly as the input. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because the provenance framework says identifying an object, derivation, and reproducibility should be supported, it reinforces the higher-level frame that input length and segment rules should also remain reproducible as a designed structure. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example is a structure where features and labels are defined together, it supports the claim that before calling a raw time series an input, the boundary of one sample and the result column should first be fixed. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it reinforces the point that unless the input structure and target structure are fixed first, part of the raw time series can be passed through incorrectly as the input. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because the provenance framework says identifying an object, derivation, and reproducibility should be supported, it reinforces the higher-level frame that input length and segment rules should also remain reproducible as a designed structure. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

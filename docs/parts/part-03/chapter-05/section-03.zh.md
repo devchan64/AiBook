@@ -1,7 +1,7 @@
 # P3-5.3 即使有原始时间序列，为什么也不能立刻称它为学习输入
 
 > Section ID: `P3-5.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 看到原始时间序列时，很多读者会立刻这样想：`数值也很多，顺序也在，那直接把它送进学习输入不就行了吗？` 但这里应该先停一下。因为仅仅“有一条原始时间序列”这件事，并不能立刻说明 `可以直接用于学习的输入已经准备好了`。
 
@@ -87,6 +87,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是一个把特征和标签一起定义出来的结构，所以它支持这一点：在把原始时间序列称为输入之前，应该先固定单个样本的边界和结果列。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明当特征变成标签代理时会出现设计缺陷，因此强化了这一点：如果不先固定输入结构和目标结构，就可能把原始时间序列的一部分错误地直接当作输入送进去。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个上位框架：输入长度和区间规则本身，也应作为一种可复现的结构设计被留下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 是一个把特征和标签一起定义出来的结构，所以它支持这一点：在把原始时间序列称为输入之前，应该先固定单个样本的边界和结果列。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明当特征变成标签代理时会出现设计缺陷，因此强化了这一点：如果不先固定输入结构和目标结构，就可能把原始时间序列的一部分错误地直接当作输入送进去。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework 说明对象识别、派生关系和可复现性应得到支持，因此它强化了一个上位框架：输入长度和区间规则本身，也应作为一种可复现的结构设计被留下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
