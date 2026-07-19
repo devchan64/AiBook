@@ -1,7 +1,7 @@
 # P2-11.2 索引、切片与轴
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-11.1 中，我们创建了 NumPy array，并检查了 `shape`、`ndim`、`dtype`。现在继续看：该从数组里读哪一个值、切出哪一段、以及计算沿哪个方向进行。
 
@@ -12,22 +12,6 @@ indexing、slicing、axis。
 这三个词看起来相近，但角色不同。indexing 选位置，slicing 选区间，axis 决定计算方向。
 
 本节说明 `indexing`、`slicing`、`axis` 的基本区分。`NumPy` 与数组基本属性可以回到 P2-11.1 和 [概念词汇表](/AiBook/en/reference/concept-glossary/) 再看，这里专注于：从数组里选什么、按哪个方向去读。
-
-## 本节范围
-
-本节会在一维与二维 NumPy array 中取值、切行列，并确认 `axis=0`、`axis=1` 的含义。
-
-这里回答以下问题。
-
-- indexing 选的是什么？
-- slicing 留下的是什么？
-- 在二维数组里，`x[row, column]` 应该怎样读？
-- `:` 是以什么含义使用的？
-- `axis=0` 与 `axis=1` 分别表示什么方向？
-
-本节先收束数组中 `选择哪个值`、`留下哪个区间`、`沿哪个方向计算` 这些问题。这里把 indexing、slicing、axis 作为阅读数组的基本把手。
-
-本节不会马上扩展的问题也很清楚。advanced indexing、boolean mask、fancy indexing、`np.newaxis`、`...`，以及 view 与 copy 的细节差别，会在 P2-11.4 的补充学习中，以 `如何把 shape 与共享原始数据一起读` 的方式再整理。
 
 ## 本节目标
 
@@ -444,27 +428,7 @@ python docs/assets/part-02/chapter-11/p2_11_2_index_slice_axis.py
 
 - `行(row)通常表示 sample，列(column)通常表示 feature，而 shape 会一起显示 sample 数与 feature 数。`
 
-## 本节要记住的视角
-
-| 当前章节的把手 | 下一章继续看什么 | 在 Part 3 中会再次用到哪里 |
-| --- | --- | --- |
-| 在数组里区分 row、column、axis 的标准 | 同样的问题怎样转到 Pandas 的列选择、过滤、聚合里 | 在读取 feature matrix 的列、sample axis、汇总统计时不混淆 |
-
-indexing 是选择一个位置。
-
-slicing 是保留一个区间。
-
-在二维数组里，读成 `data[row, column]`。
-
-`:` 表示该维度上的完整范围。
-
-axis 是决定计算方向的维度。
-
-`axis=0` 与 `axis=1` 不是选位置，而是选汇总计算的方向。
-
-把 `shape = (sample 数, feature 数)` 这样来读的直觉，会直接连到后面的 `X`、`y`、sample、feature 区分。
-
-## 简短检查
+## 检查清单
 
 - 能说明 NumPy 的索引从 0 开始。
 - 能用行与列的方式读懂 `data[1, 2]`。
@@ -473,14 +437,9 @@ axis 是决定计算方向的维度。
 - 能说明为什么 `sum(axis=0)` 与 `sum(axis=1)` 的结果不同。
 - 能说明“行是 sample，列是 feature”的数据集视角。
 - 看到 `shape = (4, 3)` 时，能把它读成类似 `4 个 sample、3 个 feature`。
-
-## 什么时候应先想起这个视角
-
-- 当你需要选择数组的一部分，或解释行列沿哪个方向计算时，先想起 indexing、slicing、axis 的视角。
-- 当你卡在 `data[i, j]`、`data[:, j]`、`sum(axis=0)` 为什么会得到这种结果时，就回到本节。
-- 当你需要重新找回“行是 sample，列是 feature”的数据集读取直觉时，再检查本节。
+- 能说明 indexing 选择位置、slicing 保留区间、axis 决定计算方向。
 
 ## 来源与参考资料
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 basic indexing、slicing、多维索引、advanced indexing 以及 copy/view 注意点。
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于把 axis、broadcasting、copy、view 等术语与本节术语说明对齐。
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 basic indexing、slicing、多维索引、advanced indexing 以及 copy/view 注意点。
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于把 axis、broadcasting、copy、view 等术语与本节术语说明对齐。

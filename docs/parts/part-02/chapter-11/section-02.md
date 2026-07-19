@@ -1,7 +1,7 @@
 # P2-11.2 인덱싱(indexing), 슬라이싱(slicing), 축(axis)
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-11.1에서는 NumPy 배열(array)을 만들고, `shape`, `ndim`, `dtype`을 확인했습니다. 이제 배열 안에서 어느 값을 읽을지, 어느 구간을 잘라 볼지, 어느 방향으로 계산할지를 봅니다.
 
@@ -12,22 +12,6 @@ NumPy 배열을 읽을 때 자주 만나는 말은 세 가지입니다.
 이 세 말은 비슷해 보이지만 역할이 다릅니다. 인덱싱은 위치를 고릅니다. 슬라이싱은 구간을 고릅니다. 축은 계산의 방향을 정합니다.
 
 여기서는 `인덱싱(indexing)`, `슬라이싱(slicing)`, `축(axis)`의 기본 구분을 설명합니다. `NumPy`와 배열 기본 속성은 P2-11.1과 [개념사전](../../../reference/concept-glossary.md)에서 다시 확인할 수 있고, 여기서는 그 배열에서 무엇을 고르고 어느 방향으로 읽는지에 집중합니다.
-
-## 이 절의 범위
-
-이 절은 1차원과 2차원 NumPy 배열에서 값을 꺼내고, 행과 열을 자르고, `axis=0`, `axis=1`의 의미를 확인합니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 인덱싱(indexing)은 무엇을 고르는가?
-- 슬라이싱(slicing)은 무엇을 남기는가?
-- 2차원 배열에서 `x[row, column]`은 어떻게 읽는가?
-- `:`는 어떤 의미로 쓰이는가?
-- `axis=0`과 `axis=1`은 각각 어떤 방향을 뜻하는가?
-
-이 절에서는 배열에서 `어느 값을 고르는가`, `어느 구간을 남기는가`, `어느 방향으로 계산하는가`를 먼저 닫는 데 집중합니다. 즉, 여기서는 인덱싱, 슬라이싱, 축(axis)을 `배열 읽기의 기본 손잡이`로 붙잡습니다.
-
-대신 이번 절에서 바로 더 넓히지 않을 질문도 분명합니다. 고급 인덱싱(advanced indexing), 불리언 마스크(boolean mask), 팬시 인덱싱(fancy indexing), `np.newaxis`, `...`, view와 copy의 세부 차이는 P2-11.4 보충학습에서 `shape와 원본 공유를 함께 읽는 법`으로 다시 정리합니다.
 
 ## 이 절의 목표
 
@@ -457,5 +441,5 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. 기본 인덱싱, 슬라이싱, 다차원 인덱스, advanced indexing과 copy/view 주의점 확인에 사용했다.
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. axis, broadcasting, copy, view 같은 용어를 현재 절의 용어 설명과 맞추는 근거로 사용했다.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. 기본 인덱싱, 슬라이싱, 다차원 인덱스, advanced indexing과 copy/view 주의점 확인에 사용했다.
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. axis, broadcasting, copy, view 같은 용어를 현재 절의 용어 설명과 맞추는 근거로 사용했다.
