@@ -233,9 +233,9 @@ BERT 계열을 처음 읽을 때 자주 생기는 오해는 `GPT처럼 답을 �
 
 이 절에서 먼저 익혀야 하는 기준은 단순합니다. BERT 계열은 `문장을 끝까지 읽어 표현과 판단값을 만드는 구조`에 더 가깝고, GPT 계열은 `읽은 뒤 다음 토큰을 이어 생성하는 구조`에 더 가깝습니다. 우열보다 먼저 용도 차이를 읽어야 합니다.
 
-## 연습 및 예제
+## 연습
 
-이번 예제의 목표는 `같은 표면 단어라도 문맥을 끝까지 읽으면 해석과 다운스트림 라벨이 달라진다`는 점을 실제 출력으로 확인하는 것입니다.
+이번 연습의 목표는 `같은 표면 단어라도 문맥을 끝까지 읽으면 해석과 다운스트림 라벨이 달라진다`는 점을 코드가 아니라 판단 표로 확인하는 것입니다. 이 절의 중심 질문은 BERT 계열의 구조적 위치이므로, 실제 라벨·점수·순위 실험은 다음 P6-19.2에서 다룹니다.
 
 문제 상황:
 
@@ -245,6 +245,8 @@ BERT 계열을 처음 읽을 때 자주 생기는 오해는 `GPT처럼 답을 �
 
 - 같은 표면 단어가 들어간 문장 4개
 - 문맥을 보지 않고 붙이는 단순 라벨
+- 문맥을 끝까지 읽었을 때의 해석
+- 다음 작업으로 넘길 라벨
 
 출력:
 
@@ -262,78 +264,29 @@ BERT 계열을 처음 읽을 때 자주 생기는 오해는 `GPT처럼 답을 �
 
 위에 정리한 예문 목록을 사용합니다.
 
-```python
-examples = [
-    "은행에 돈을 맡기려고 합니다",
-    "강가의 은행나무 아래를 걷고 있습니다",
-    "비밀번호를 다시 설정하고 싶습니다",
-    "주문을 취소했는데 결제가 그대로 남아 있습니다",
-]
+| 입력 문장 | 표면 키워드만 볼 때 붙기 쉬운 라벨 | 문맥을 끝까지 읽었을 때의 해석 | 다음 작업 라벨 |
+| --- | --- | --- | --- |
+| 은행에 돈을 맡기려고 합니다 | `financial_topic` | 금융 기관에 돈을 예치하려는 상황 | `finance_intent` |
+| 강가의 은행나무 아래를 걷고 있습니다 | `financial_topic` | 은행나무가 있는 자연 장면 | `nature_description` |
+| 비밀번호를 다시 설정하고 싶습니다 | `account_topic` | 계정 접근 문제 | `account_intent` |
+| 주문을 취소했는데 결제가 그대로 남아 있습니다 | `payment_topic` | 주문 취소 뒤 결제 상태 확인 문제 | `order_support_intent` |
 
-def naive_label(text):
-    if "은행" in text:
-        return "financial_topic"
-    if "비밀번호" in text:
-        return "account_topic"
-    if "결제" in text:
-        return "payment_topic"
-    return "unknown"
-
-def contextual_read(text):
-    if "은행" in text and "돈" in text:
-        return "financial_bank", "finance_intent"
-    if "은행" in text and "은행나무" in text:
-        return "ginkgo_tree", "nature_description"
-    if "비밀번호" in text and "설정" in text:
-        return "account_access_issue", "account_intent"
-    if "주문" in text and "결제" in text and "취소" in text:
-        return "order_cancel_with_payment_check", "order_support_intent"
-    return "unknown_meaning", "human_review"
-
-for text in examples:
-    interpreted_meaning, downstream_label = contextual_read(text)
-    print("text =", text)
-    print("naive_label =", naive_label(text))
-    print("interpreted_meaning =", interpreted_meaning)
-    print("downstream_label =", downstream_label)
-    print("---")
-```
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-text = 은행에 돈을 맡기려고 합니다
-naive_label = financial_topic
-interpreted_meaning = financial_bank
-downstream_label = finance_intent
----
-text = 강가의 은행나무 아래를 걷고 있습니다
-naive_label = financial_topic
-interpreted_meaning = ginkgo_tree
-downstream_label = nature_description
----
-text = 비밀번호를 다시 설정하고 싶습니다
-naive_label = account_topic
-interpreted_meaning = account_access_issue
-downstream_label = account_intent
----
-text = 주문을 취소했는데 결제가 그대로 남아 있습니다
-naive_label = payment_topic
-interpreted_meaning = order_cancel_with_payment_check
-downstream_label = order_support_intent
----
-```
-
-이 예제에서 읽어야 할 핵심은 다음입니다.
+이 연습에서 읽어야 할 핵심은 다음입니다.
 
 - 같은 단어가 있어도 앞뒤 문맥에 따라 해석이 달라질 수 있고
 - 단순 키워드 라벨은 첫 문장과 두 번째 문장을 같은 주제로 잘못 묶을 수 있으며
 - 문맥 해석이 분류나 intent 판단 같은 다운스트림 과업으로 이어지고
 - BERT 계열은 바로 이런 `문장 전체 읽기 -> 표현 만들기 -> 판단 과업 연결` 흐름과 잘 맞는다는 점입니다
 
-## 이 예제를 읽기 모델 관점으로 다시 보면
+이 연습에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-이 예제는 생성 모델처럼 답을 길게 이어 쓰지 않아도, `문장을 끝까지 읽고 어떤 판단으로 넘길 것인가`가 독립된 중요한 능력이라는 점을 보여 줍니다. 그래서 BERT 계열을 볼 때는 생성의 경쟁자로 보기보다, 분류, 검색, 라우팅 앞단을 담당하는 읽기 중심 모델로 위치를 잡는 편이 정확합니다.
+- `은행 앱에서 로그인이 안 됩니다`를 표에 추가하고, 금융 주제인지 계정 접근 문제인지 먼저 판단해 보기
+- `로그인이 안 돼서 주문 취소를 못 하겠어요`를 추가하고, 주문 취소 라벨과 계정 라벨 중 무엇이 먼저 필요한지 설명해 보기
+- 같은 문장을 GPT 계열 답변 생성 문제로 볼 때와 BERT 계열 라우팅 문제로 볼 때 출력이 어떻게 달라지는지 적어 보기
+
+## 이 연습을 읽기 모델 관점으로 다시 보면
+
+이 연습은 생성 모델처럼 답을 길게 이어 쓰지 않아도, `문장을 끝까지 읽고 어떤 판단으로 넘길 것인가`가 독립된 중요한 능력이라는 점을 보여 줍니다. 그래서 BERT 계열을 볼 때는 생성의 경쟁자로 보기보다, 분류, 검색, 라우팅 앞단을 담당하는 읽기 중심 모델로 위치를 잡는 편이 정확합니다.
 
 BERT는 Transformer가 번역 구조에만 머물지 않고, 언어 이해(language understanding) 계열 과업으로 넓게 확장될 수 있음을 강하게 보여 준 모델입니다.
 

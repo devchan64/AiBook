@@ -387,7 +387,10 @@ position= 2 token= 지연 score= 1
 position= 4 token= 확인 score= 1
 position= 1 token= 처리 score= 0
 position= 3 token= 안내와 score= 0
+position= 5 token= 방법 score= 0
 ```
+
+![정규화 전후 검색 점수 변화](../../../assets/part-06/chapter-18/history-computation-search-gain-ko.png)
 
 ## 이 예제를 계보 압축 관점으로 다시 보면
 

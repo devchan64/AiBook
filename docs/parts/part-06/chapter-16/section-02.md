@@ -604,6 +604,8 @@ recovery =
  'user_impact': 'delivery_blocked_until_format_fixed'}
 ```
 
+![실패 계열과 복구 결정 분포](../../../assets/part-06/chapter-16/failure-recovery-routing-ko.png)
+
 이 예제에서 먼저 봐야 할 것은 `system`과 `model` 실패가 같은 표에서 다르게 갈라지고, 사용자 영향과 다음 조치가 그 차이를 실제 운영 판단으로 바꿔 준다는 점입니다. `timeout`과 `permission_error`는 실행 경로를 복구하거나 멈추는 문제이고, `hallucination`과 `format_mismatch`는 검색 재시도보다 사람 검토나 프롬프트/파서 수정이 더 먼저인 문제입니다.
 
 같은 결과를 실패 경로 기준으로 다시 짧게 묶으면 다음처럼 읽을 수 있습니다.

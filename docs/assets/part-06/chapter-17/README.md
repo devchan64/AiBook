@@ -6,3 +6,6 @@
 - Current language pairs:
   - `p6-c17-s01-diagram-01-en.mmd` / `p6-c17-s01-diagram-01-ko.mmd`
   - `p6-c17-s01-diagram-02-en.mmd` / `p6-c17-s01-diagram-02-ko.mmd`
+- Python-backed chart assets:
+  - `p6_17_1_request_structure_matrix_chart.py` generates `request-structure-matrix-ko.png` and `request-structure-matrix-en.png`.
+  - `p6_17_2_run_record_status_chart.py` generates `run-record-status-summary-ko.png` and `run-record-status-summary-en.png`.

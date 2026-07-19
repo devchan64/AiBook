@@ -1,0 +1,8 @@
+name,domain,target,connects_to_transformer_llm
+language modeling,language,next_token,true
+embeddings,language,representation,true
+attention,language,sequence_alignment,true
+Transformer,language,sequence_modeling,true
+YOLO,vision,object_detection,false
+Deep Voice,speech,speech_generation,false
+GPU scaling,infrastructure,compute_enablement,false

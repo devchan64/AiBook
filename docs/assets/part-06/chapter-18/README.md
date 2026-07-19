@@ -6,3 +6,8 @@
 - Current language pairs:
   - `p6-c18-s01-diagram-01-en.mmd` / `p6-c18-s01-diagram-01-ko.mmd`
   - `p6-c18-s02-diagram-01-en.mmd` / `p6-c18-s02-diagram-01-ko.mmd`
+- Python example result charts:
+  - `p6_18_1_history_computation_gain_chart.py` generates `history-computation-search-gain-ko.png` and `history-computation-search-gain-en.png`.
+  - `p6_18_2_lineage_rule_check_chart.py` generates `lineage-rule-check-matrix-ko.png` and `lineage-rule-check-matrix-en.png`.
+- CSV example data:
+  - `p6-18-lineage-items.csv`

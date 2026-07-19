@@ -392,6 +392,8 @@ needs_human_review = True
 - 검색 실패: 관련 문서를 찾지 못했으므로 사람 검토가 필요함
 ```
 
+![요청 실행 상태와 사람 검토 필요 분포](../../../assets/part-06/chapter-17/run-record-status-summary-ko.png)
+
 ## 이 예제에서 무엇을 읽어야 하나
 
 이 코드는 실제 LLM도, 실제 검색 엔진도 아닙니다. 하지만 다음 네 가지를 분명히 드러냅니다.

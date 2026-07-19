@@ -191,12 +191,13 @@ P6-18.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 
 입력:
 
-- 대표 연구 흐름 7개
+- 대표 연구 흐름 CSV: [p6-18-lineage-items.csv](../../../assets/part-06/chapter-18/p6-18-lineage-items.csv)
 - 각 흐름의 입력 도메인, 학습 목표, 현재 LLM과의 연결 정도
 
 출력:
 
 - 자동 분류 결과
+- 분류 기준 통과 여부
 - 분류 이유
 
 확인할 개념:
@@ -204,69 +205,73 @@ P6-18.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 - 같은 AI 역사 항목이라도 현재 LLM 구조와의 직접 연결 정도는 다를 수 있다
 - direct lineage와 surrounding evidence를 나누면 역사 설명이 과도하게 뭉개지지 않는다
 - 분류 이유를 함께 남겨야 왜 같은 시기 인기와 직접 계보를 구분하는지 설명할 수 있다
+- 분류 기준을 바꾸면 같은 항목도 다른 경계에서 다시 검토될 수 있다
 
 입력(input):
 
-위에 정리한 역사 항목 목록을 사용합니다.
+위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 가지며, 마지막 열은 `true` 또는 `false`로 적습니다.
 
 ```python
-items = [
-    {
-        "name": "language modeling",
-        "domain": "language",
-        "target": "next_token",
-        "connects_to_transformer_llm": True,
+import csv
+from pathlib import Path
+
+item_path = Path("docs/assets/part-06/chapter-18/p6-18-lineage-items.csv")
+
+def read_items(path):
+    items = []
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            items.append(
+                {
+                    "name": row["name"],
+                    "domain": row["domain"],
+                    "target": row["target"],
+                    "connects_to_transformer_llm": (
+                        row["connects_to_transformer_llm"].lower() == "true"
+                    ),
+                }
+            )
+    return items
+
+items = read_items(item_path)
+
+lineage_rules = {
+    "direct_domains": {"language"},
+    "direct_targets": {
+        "next_token",
+        "representation",
+        "sequence_alignment",
+        "sequence_modeling",
     },
-    {
-        "name": "embeddings",
-        "domain": "language",
-        "target": "representation",
-        "connects_to_transformer_llm": True,
-    },
-    {
-        "name": "attention",
-        "domain": "language",
-        "target": "sequence_alignment",
-        "connects_to_transformer_llm": True,
-    },
-    {
-        "name": "Transformer",
-        "domain": "language",
-        "target": "sequence_modeling",
-        "connects_to_transformer_llm": True,
-    },
-    {
-        "name": "YOLO",
-        "domain": "vision",
-        "target": "object_detection",
-        "connects_to_transformer_llm": False,
-    },
-    {
-        "name": "Deep Voice",
-        "domain": "speech",
-        "target": "speech_generation",
-        "connects_to_transformer_llm": False,
-    },
-    {
-        "name": "GPU scaling",
-        "domain": "infrastructure",
-        "target": "compute_enablement",
-        "connects_to_transformer_llm": False,
-    },
-]
+    "requires_transformer_connection": True,
+}
 
 def classify_item(item):
-    if item["domain"] == "language" and item["connects_to_transformer_llm"]:
+    domain_ok = item["domain"] in lineage_rules["direct_domains"]
+    target_ok = item["target"] in lineage_rules["direct_targets"]
+    connection_ok = (
+        item["connects_to_transformer_llm"]
+        if lineage_rules["requires_transformer_connection"]
+        else True
+    )
+
+    checks = {
+        "domain_ok": domain_ok,
+        "target_ok": target_ok,
+        "connection_ok": connection_ok,
+    }
+
+    if all(checks.values()):
         reason = "언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐"
-        return "direct_lineage", reason
+        return "direct_lineage", reason, checks
 
     reason = "LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움"
-    return "surrounding_evidence", reason
+    return "surrounding_evidence", reason, checks
 
 grouped = {"direct_lineage": [], "surrounding_evidence": []}
 
 for item in items:
-    label, reason = classify_item(item)
+    label, reason, checks = classify_item(item)
     grouped[label].append(item["name"])
     print(
         item["name"],
@@ -276,6 +281,8 @@ for item in items:
         item["domain"],
         "| target =",
         item["target"],
+        "| checks =",
+        checks,
         "| reason =",
         reason,
     )
@@ -288,20 +295,28 @@ for label, names in grouped.items():
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-language modeling -> direct_lineage | domain = language | target = next_token | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-embeddings -> direct_lineage | domain = language | target = representation | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-attention -> direct_lineage | domain = language | target = sequence_alignment | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-Transformer -> direct_lineage | domain = language | target = sequence_modeling | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
-YOLO -> surrounding_evidence | domain = vision | target = object_detection | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-Deep Voice -> surrounding_evidence | domain = speech | target = speech_generation | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
-GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute_enablement | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+language modeling -> direct_lineage | domain = language | target = next_token | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+embeddings -> direct_lineage | domain = language | target = representation | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+attention -> direct_lineage | domain = language | target = sequence_alignment | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+Transformer -> direct_lineage | domain = language | target = sequence_modeling | checks = {'domain_ok': True, 'target_ok': True, 'connection_ok': True} | reason = 언어 입력과 문맥 계산 흐름이 현재 LLM 구조로 직접 이어짐
+YOLO -> surrounding_evidence | domain = vision | target = object_detection | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+Deep Voice -> surrounding_evidence | domain = speech | target = speech_generation | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
+GPU scaling -> surrounding_evidence | domain = infrastructure | target = compute_enablement | checks = {'domain_ok': False, 'target_ok': False, 'connection_ok': False} | reason = LLM 성장을 도왔지만 현재 언어 모델 구조의 직접 조상이라고 보기는 어려움
 
 [summary]
 direct_lineage = ['language modeling', 'embeddings', 'attention', 'Transformer']
 surrounding_evidence = ['YOLO', 'Deep Voice', 'GPU scaling']
 ```
 
+![직접 계보 판정 기준 통과 여부](../../../assets/part-06/chapter-18/lineage-rule-check-matrix-ko.png)
+
 그래서 이 예제에서 확인해야 할 결과는 항목 이름을 많이 아는가보다, 역사 설명을 `직접 구조사`와 `주변 확산사`로 실제 기준에 따라 나누어 읽는가입니다.
+
+이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
+
+- `lineage_rules["direct_targets"]`에 `compute_enablement`를 넣으면 GPU scaling이 왜 여전히 직접 계보로 보기 어려운지 `domain_ok`과 `connection_ok`에서 다시 확인하기
+- `items`에 `Seq2Seq`나 `RNN` 항목을 추가하고 target을 바꿔 직접 계보로 들어오는 조건을 비교하기
+- `requires_transformer_connection`을 `False`로 바꿨을 때 기준이 느슨해져 어떤 항목이 더 검토 후보가 되는지 보기
 
 ## 이 예제를 계보 선별 관점으로 다시 보면
 

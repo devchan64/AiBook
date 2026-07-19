@@ -6,3 +6,5 @@
 - Current language pairs:
   - `p6-c19-s01-diagram-01-en.mmd` / `p6-c19-s01-diagram-01-ko.mmd`
   - `p6-c19-s02-diagram-01-en.mmd` / `p6-c19-s02-diagram-01-ko.mmd`
+- Python example result charts:
+  - `p6_19_2_understanding_output_chart.py` generates `understanding-output-types-ko.png` and `understanding-output-types-en.png`.
