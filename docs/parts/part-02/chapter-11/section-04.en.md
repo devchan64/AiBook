@@ -1,7 +1,7 @@
 # P2-11.4 Supplemental: How to Read Shape and Shared Origins Together in NumPy
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-11.2, we looked at indexing, slicing, and axis. In P2-11.3, we looked at broadcasting and vectorization. But when reading actual NumPy code, the next questions often remain.
 
@@ -12,22 +12,6 @@ In P2-11.2, we looked at indexing, slicing, and axis. In P2-11.3, we looked at b
 This supplemental learning gathers those questions together.
 
 Here, we provide a basic explanation that groups together `boolean mask`, `fancy indexing`, `np.newaxis`, and `shared view`. Even if indexing, slicing, and broadcasting from the previous Sections already make sense, this is the place to reconnect how selection style and shape change relate to shared origin.
-
-## Scope of This Supplemental Learning
-
-This Section organizes, at an introductory level, how slicing, boolean masks, fancy indexing, and `np.newaxis` create differences in `shape` and in sharing the original array.
-
-Here we answer the following questions.
-
-- What is the difference between basic slicing and fancy indexing?
-- What does a boolean mask choose?
-- Why do some selections change together with the original, while others change separately?
-- Why is `np.newaxis` used?
-- Why should shape and shared origin be checked together when reading broadcasting?
-
-This supplement first closes the standard that `depending on how you selected, shape and shared origin can change`, and recovers together the selection-method, shape-change, and broadcasting questions left from P2-11.2 and P2-11.3.
-
-NumPy's internal memory layout, stride-calculation details, the full advanced broadcasting rules, performance benchmarks, and the internal implementation of large tensor libraries are beyond the direct scope of this supplement, so they are not handled in detail here.
 
 ## Goals of This Supplemental Learning
 
@@ -289,6 +273,6 @@ After reading this Section, reconnect it to the following main text.
 
 ## Sources and References
 
-- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the basis for the difference between views and copies, basic-indexing views, advanced-indexing copies, and `.base` checks.
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm that selection method affects shape and whether original data is shared.
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the basis for connecting `np.newaxis` and shape adjustment to broadcasting.
+- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for the difference between views and copies, basic-indexing views, advanced-indexing copies, and `.base` checks.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm that selection method affects shape and whether original data is shared.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for connecting `np.newaxis` and shape adjustment to broadcasting.

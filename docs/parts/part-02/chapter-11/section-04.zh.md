@@ -1,7 +1,7 @@
 # P2-11.4 补充学习：在 NumPy 中一起读取 shape 与原数组共享
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-11.2 中，我们看了 indexing、slicing、axis；在 P2-11.3 中，我们看了 broadcasting 和 vectorization。但在真正读 NumPy 代码时，后面常常还会卡在几个问题上。
 
@@ -12,22 +12,6 @@
 这篇补充学习就是把这些问题绑在一起处理。
 
 这里提供一个基础说明，把 `boolean mask`、`fancy indexing`、`np.newaxis`、`shared view` 放在同一条线上来看。即使前面几节里的 indexing、slicing、broadcasting 大体已经能读懂，这里仍然要重新接上：选择方式和 shape 变化是怎样连到原数组共享问题上的。
-
-## 本补充学习的范围
-
-本节以入门层级整理：在 NumPy 中，slicing、boolean mask、fancy indexing、`np.newaxis` 会怎样影响数组的 `shape` 与是否共享原数组。
-
-这里回答以下问题。
-
-- basic slicing 和 fancy indexing 有什么不同？
-- boolean mask 选的是什么？
-- 为什么有些选择会和原数组一起变化，有些却分开变化？
-- 为什么要用 `np.newaxis`？
-- 在读 broadcasting 时，为什么要把 shape 与原数组共享一起看？
-
-本补充学习先收束 `选择方式不同，shape 与是否共享原数组也会跟着不同` 这个标准，并一起回收 P2-11.2 与 P2-11.3 留下的 selection method、shape change、broadcasting 连接问题。
-
-NumPy 的内部内存布局、stride 计算细节、完整的高级 broadcasting 规则、性能基准，以及大型 tensor 库的内部实现，超出本补充学习的直接范围，因此这里不详细处理。
 
 ## 本补充学习的目标
 
@@ -289,6 +273,6 @@ NumPy 代码之所以容易让人混乱，是因为 `选了什么`、`shape 怎�
 
 ## 来源与参考资料
 
-- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为区分 view 与 copy、basic indexing views、advanced indexing copies 和 `.base` 检查的依据。
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 selection method 会影响 shape 以及是否共享原始数据。
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为把 `np.newaxis` 和 shape adjustment 连接到 broadcasting 的依据。
+- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为区分 view 与 copy、basic indexing views、advanced indexing copies 和 `.base` 检查的依据。
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 selection method 会影响 shape 以及是否共享原始数据。
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为把 `np.newaxis` 和 shape adjustment 连接到 broadcasting 的依据。
