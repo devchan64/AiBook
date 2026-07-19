@@ -1,7 +1,7 @@
 # P3-5.7 같은 샘플 뒤의 여러 후속 사건은 표 구조에서 어떻게 접어야 하는가
 
 > Section ID: `P3-5.7`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 샘플 단위와 입력 창을 정한 뒤에도 표 구조에서 한 번 더 막히는 지점이 있습니다. 같은 샘플 뒤에 후속 사건이 여러 개 붙는 경우입니다. 예를 들어 동작 1회 뒤에 `재점검`, `경고`, `실패`, `재방문`이 차례로 남을 수 있습니다. 이때 이를 하나의 결과 열로 어떻게 접을지 정하지 않으면, 같은 샘플이 표마다 다른 뜻으로 바뀌기 쉽습니다.
 
@@ -46,14 +46,16 @@
 
 문제 상황: 같은 샘플 뒤에 여러 후속 사건이 있을 때 `first`, `worst`, `count`, `any` 같은 서로 다른 접기 규칙이 다른 결과 열을 만든다는 점을 확인합니다.
 
-입력(input): 샘플별 후속 사건 목록과 사건 심각도 순서
+입력(input): 샘플별 후속 사건 목록, 사건 심각도 순서, 실패로 볼 심각도 기준 `failure_severity_cutoff`
 
-기대 출력(output): 같은 원천 사건에서도 `first_event`, `worst_event`, `event_count`, `any_failure`가 다르게 만들어지는 출력
+기대 출력(output): 같은 원천 사건에서도 `first_event`, `worst_event`, `event_count`, `any_failure`가 다르게 만들어지는 출력. `failure_severity_cutoff`를 바꾸면 실패 표시가 달라진다.
 
-확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 규칙으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
+확인할 개념: 후속 사건 여러 개를 하나의 결과 열로 접을 때는 어떤 규칙과 기준으로 접었는지 먼저 명세해야 표 구조 뜻이 흔들리지 않는다
 
 ```python
 import pandas as pd
+
+failure_severity_cutoff = 3
 
 follow_ups = {
     "A": ["review", "failure"],
@@ -69,7 +71,7 @@ for event_id, events in follow_ups.items():
     rows.append(
         {
             "event_id": event_id,
-            "any_failure": int("failure" in events),
+            "any_failure": int(any(severity[event] >= failure_severity_cutoff for event in events)),
             "first_event": first_event,
             "worst_event": worst_event,
             "event_count": len(events),
@@ -89,7 +91,7 @@ print(result)
 2        C            0        none        none            0
 ```
 
-이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`는 `review`, `worst_event`는 `failure`, `event_count`는 2처럼 서로 다른 결과 열이 동시에 만들어질 수 있다는 점입니다. 즉 어떤 규칙으로 접었는지를 적지 않으면 같은 `A` 샘플도 표마다 다른 뜻으로 읽히게 됩니다. 같은 샘플 뒤에 여러 후속 사건이 있다면, 어떤 규칙으로 하나의 결과 열에 접었는지 먼저 적어야 표 구조의 뜻이 흔들리지 않습니다.
+이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`는 `review`, `worst_event`는 `failure`, `event_count`는 2처럼 서로 다른 결과 열이 동시에 만들어질 수 있다는 점입니다. 여기서 조작할 값은 `failure_severity_cutoff`입니다. 값을 `3`으로 두면 `failure`만 실패로 잡히지만, `2`로 낮추면 `warning`도 실패 후보가 됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 `A` 샘플도 표마다 다른 뜻으로 읽히게 됩니다.
 
 ## 작은 도식으로 보기
 

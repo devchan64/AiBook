@@ -1,7 +1,7 @@
 # P3-2.3 새 표를 처음 받으면 무엇부터 적어야 하는가
 
 > Section ID: `P3-2.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 새 표를 처음 받으면 많은 경우 바로 평균, 분포, 모델 후보부터 떠올리기 쉽습니다. 하지만 그보다 먼저 적어야 하는 것은 `이 표의 한 행은 무엇인가`, `무엇을 묶을 수 있는가`, `무엇이 아직 빠져 있는가`입니다. 이 세 가지가 정리되어야 지금 손에 있는 것이 바로 비교할 샘플 표인지, 아니면 다시 묶어야 할 원시 기록인지 구분할 수 있습니다. 새 표를 보자마자 `학습용 데이터셋인가`를 먼저 결정하기보다, 이 세 가지를 메모해 두는 편이 해석에 도움이 됩니다. 이렇게 적어 두면 뒤의 샘플 설계와 데이터셋 재설계도 훨씬 덜 추상적으로 바뀝니다.
 
@@ -88,14 +88,16 @@
 
 문제 상황: 새 로그 표를 받았을 때, 이 표를 바로 샘플 비교 표로 읽어도 되는지 확인합니다.
 
-입력(input): `event_id`별 여러 시점 기록이 섞여 있는 원시 로그 표
+입력(input): `event_id`별 여러 시점 기록이 섞여 있는 원시 로그 표와 비교 가능한 사건으로 볼 최소 행 수 `minimum_rows_per_event`
 
-기대 출력(output): 같은 표라도 `행 의미`, `묶음 기준`, `시간/순서 열`을 먼저 확인해야 아직 바로 비교할 수 없는 표라는 점이 드러납니다.
+기대 출력(output): 같은 표라도 `행 의미`, `묶음 기준`, `시간/순서 열`을 먼저 확인해야 아직 바로 비교할 수 없는 표라는 점이 드러납니다. `minimum_rows_per_event`를 바꾸면 어떤 사건이 충분한 기록을 가진 후보인지도 달라집니다.
 
-확인할 개념: 표를 처음 읽을 때는 계산보다 먼저 `이 행이 샘플 1건인가, 아니면 샘플의 일부 기록인가`를 확인해야 한다
+확인할 개념: 표를 처음 읽을 때는 계산보다 먼저 `이 행이 샘플 1건인가, 아니면 샘플의 일부 기록인가`를 확인해야 한다. 반복 행 수 기준을 함께 두면 구조 점검이 단순 출력이 아니라 비교 가능성 판단으로 이어진다.
 
 ```python
 import pandas as pd
+
+minimum_rows_per_event = 3
 
 table = pd.DataFrame(
     [
@@ -123,6 +125,9 @@ print(row_check)
 print()
 
 rows_per_event = table.groupby("event_id", as_index=False).size().rename(columns={"size": "row_count"})
+rows_per_event["enough_rows_for_event_sample"] = (
+    rows_per_event["row_count"] >= minimum_rows_per_event
+)
 print("3) repeated rows per event")
 print(rows_per_event)
 print()
@@ -140,6 +145,7 @@ event_summary = (
         peak_pressure=("pressure", "max"),
     )
 )
+event_summary = event_summary.merge(rows_per_event, on="event_id")
 print("5) after regrouping into one row per event")
 print(event_summary)
 ```
@@ -162,9 +168,9 @@ print(event_summary)
 2  has_time_order    yes
 
 3) repeated rows per event
-  event_id  row_count
-0        A          3
-1        B          2
+  event_id  row_count  enough_rows_for_event_sample
+0        A          3                          True
+1        B          2                         False
 
 4) if we compare rows as if each row were a sample
   event_id  elapsed_seconds  flow
@@ -175,12 +181,12 @@ print(event_summary)
 4        B                1   0.8
 
 5) after regrouping into one row per event
-  event_id  duration_seconds  mean_flow  peak_pressure
-0        A                 2   1.066667            2.0
-1        B                 1   0.750000            1.2
+  event_id  duration_seconds  mean_flow  peak_pressure  row_count  enough_rows_for_event_sample
+0        A                 2   1.066667            2.0          3                          True
+1        B                 1   0.750000            1.2          2                         False
 ```
 
-이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 2단계와 3단계에서 먼저 보이는 것은 `행 수 5`보다 `event_id 수 2`가 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 4단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 5단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
+이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 2단계와 3단계에서 먼저 보이는 것은 `행 수 5`보다 `event_id 수 2`가 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 여기서 조작할 값은 `minimum_rows_per_event`입니다. 값을 `3`으로 두면 A는 충분한 기록을 가진 후보가 되지만 B는 부족한 후보로 남습니다. 값을 `2`로 낮추면 B도 후보가 되지만, 더 짧은 기록에서 만든 평균을 같은 무게로 비교해도 되는지는 다시 검토해야 합니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 4단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 5단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
 
 같은 결과를 형식과 품질 관점으로 다시 읽으면 더 분명해집니다. `event_id`가 반복된다는 사실은 형식 정합성 차원에서 `한 샘플을 묶을 키가 있다`는 뜻이고, `rows per event`가 서로 다르다는 사실은 첫 품질 점검 차원에서 `샘플마다 기록 길이가 다르다`는 신호입니다. 이 차이를 초기에 적어 두어야 나중에 평균을 비교할 때도 `왜 어떤 샘플은 더 적은 근거 위에 서 있는가`를 함께 읽을 수 있습니다.
 

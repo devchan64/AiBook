@@ -1,7 +1,7 @@
 # P3-2.2 데이터셋 후보 안에는 어떤 구조가 들어가는가
 
 > Section ID: `P3-2.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 앞 절에서 본 것처럼 저장된 기록은 아직 데이터셋이 아닐 수 있습니다. 그렇다면 질문은 곧바로 이어집니다. 데이터셋 후보를 다시 만든다면 그 안에는 어떤 구조가 들어가야 하는가 하는 질문입니다. Part 3에서는 이 질문에 답하기 위해 [샘플(sample)](../../../reference/concept-glossary.md#glossary-sample), [특징(feature)](../../../reference/concept-glossary.md#glossary-feature), [기준선(baseline)](../../../reference/concept-glossary.md#glossary-baseline), [출력 구조(output structure)](../../../reference/concept-glossary.md#glossary-output-structure)를 함께 봅니다. 이 용어들은 각각 따로 외우는 목록보다, 하나의 데이터셋 설계 구조로 읽어야 더 정확합니다. 무엇을 한 건의 샘플로 볼지 정해야 특징을 만들 수 있고, 특징이 있어야 무엇을 기준선과 비교할지 정할 수 있으며, 그 비교가 있어야 어떤 출력 구조를 만들 것인지도 결정할 수 있습니다.
 
@@ -52,14 +52,16 @@
 
 문제 상황: 동작 1회를 샘플 1건으로 잡은 뒤, 특징을 적고, 평소 기준선과 비교해, 마지막 운영 출력을 만드는 흐름을 표로 확인합니다.
 
-입력(input): 샘플별 특징값과 평소 기준선 값
+입력(input): 샘플별 특징값, 평소 기준선 값, 검토 후보로 보낼 기준 `review_gap_threshold`
 
-기대 출력(output): 같은 샘플 행이 `특징 -> 기준선 비교 -> 운영 출력` 순서로 확장되는 과정
+기대 출력(output): 같은 샘플 행이 `특징 -> 기준선 비교 -> 운영 출력` 순서로 확장되는 과정. `review_gap_threshold`를 바꾸면 어떤 샘플이 `검토 필요`가 되는지도 달라진다.
 
-확인할 개념: 출력 구조는 앞선 샘플·특징·기준선 비교의 결과로 생긴다
+확인할 개념: 출력 구조는 앞선 샘플·특징·기준선 비교의 결과로 생긴다. 출력 기준을 코드 밖 조작 변수로 두어야 운영 판단이 어디서 생겼는지 추적할 수 있다.
 
 ```python
 import pandas as pd
+
+review_gap_threshold = -0.20
 
 samples = pd.DataFrame(
     [
@@ -107,9 +109,9 @@ print()
 
 output_table = comparison_table.copy()
 output_table["output"] = output_table["baseline_gap"].apply(
-    lambda gap: "검토 필요" if gap <= -0.20 else "정상 범위"
+    lambda gap: "검토 필요" if gap <= review_gap_threshold else "정상 범위"
 )
-print("4) final output structure")
+print(f"4) final output structure when review_gap_threshold = {review_gap_threshold}")
 print(output_table)
 ```
 
@@ -131,13 +133,13 @@ print(output_table)
 0         A       0.74           -0.32                0.92                    -0.05         -0.27
 1         B       0.89           -0.08                0.92                    -0.05         -0.03
 
-4) final output structure
+4) final output structure when review_gap_threshold = -0.2
   sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
 0         A       0.74           -0.32                0.92                    -0.05         -0.27  검토 필요
 1         B       0.89           -0.08                0.92                    -0.05         -0.03  정상 범위
 ```
 
-이 예제는 같은 행이 네 번에 걸쳐 확장되는 모습을 보여 줍니다. 처음에는 샘플 식별자만 있고, 그다음 특징 열이 붙고, 이어서 기준선과의 차이 열이 계산되고, 마지막에 운영 출력 열이 추가됩니다. 즉 출력 열은 단독으로 존재하는 것이 아니라 `샘플 설정 -> 특징 계산 -> 기준선 비교 -> 운영 판단`이라는 앞선 단계의 결과를 이어받아 만들어집니다.
+이 예제는 같은 행이 네 번에 걸쳐 확장되는 모습을 보여 줍니다. 처음에는 샘플 식별자만 있고, 그다음 특징 열이 붙고, 이어서 기준선과의 차이 열이 계산되고, 마지막에 운영 출력 열이 추가됩니다. 여기서 조작할 값은 `review_gap_threshold`입니다. 값을 `-0.20`으로 두면 A만 `검토 필요`가 됩니다. 값을 `-0.05`처럼 덜 엄격하게 바꾸면 더 많은 샘플이 검토 후보가 될 수 있고, `-0.30`처럼 더 엄격하게 바꾸면 A도 정상 범위로 남을 수 있습니다. 즉 출력 열은 단독으로 존재하는 것이 아니라 `샘플 설정 -> 특징 계산 -> 기준선 비교 -> 운영 판단 기준`이라는 앞선 단계의 결과를 이어받아 만들어집니다.
 
 같은 표를 조금 더 해부해서 보면, 네 구조가 실제로 어느 칸에 들어 있는지도 분명해집니다.
 

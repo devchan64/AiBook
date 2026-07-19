@@ -31,14 +31,16 @@
 
 문제 상황: 두 동작의 전체 수준은 비슷하지만, 상승 폭과 흔들림 정도가 다를 때 어떤 특징을 남겨야 하는지 확인합니다.
 
-입력(input): 구간별 평균만 남아 있는 동작 요약 표
+입력(input): 구간별 평균만 남아 있는 동작 요약 표와 먼저 보고 싶은 구조 `feature_focus`
 
-기대 출력(output): 같은 요약 표에서 수준, 구간 차이, 기울기, 변동성을 각각 계산한 특징 표
+기대 출력(output): 같은 요약 표에서 수준, 구간 차이, 기울기, 변동성을 각각 계산한 특징 표. `feature_focus`를 바꾸면 어떤 특징을 우선 남길지도 달라진다.
 
-확인할 개념: 특징은 이미 있던 열을 그대로 나열하는 것이 아니라, 비교하고 싶은 구조를 계산해 붙인 표현이다
+확인할 개념: 특징은 이미 있던 열을 그대로 나열하는 것이 아니라, 비교하고 싶은 구조를 계산해 붙인 표현이다. 특징 선택은 질문 초점에 따라 달라진다.
 
 ```python
 import pandas as pd
+
+feature_focus = "change"
 
 segment_summary = pd.DataFrame(
     [
@@ -58,6 +60,11 @@ feature_table["early_to_late_slope"] = feature_table["late_minus_early"] / 2
 feature_table["segment_variability"] = feature_table[
     ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
 ].std(axis=1)
+focus_columns = {
+    "level": ["overall_mean"],
+    "change": ["late_minus_early", "early_to_late_slope"],
+    "stability": ["segment_variability"],
+}[feature_focus]
 
 print("1) segment means before feature design")
 print(segment_summary)
@@ -74,6 +81,9 @@ print(
         ]
     ].round(2)
 )
+print()
+print(f"3) selected features when feature_focus = {feature_focus}")
+print(feature_table[["event_id", *focus_columns]].round(2))
 ```
 
 예상 출력:
@@ -88,9 +98,14 @@ print(
   event_id  overall_mean  late_minus_early  early_to_late_slope  segment_variability
 0        A           2.2               0.8                  0.4                  0.40
 1        B           2.2               0.2                  0.1                  0.10
+
+3) selected features when feature_focus = change
+  event_id  late_minus_early  early_to_late_slope
+0        A               0.8                  0.4
+1        B               0.2                  0.1
 ```
 
-출력의 1단계는 아직 구간 평균만 있는 요약 표입니다. 2단계에 가서야 `overall_mean`, `late_minus_early`, `early_to_late_slope`, `segment_variability`가 새로 붙습니다. `overall_mean`은 전체 수준을, `late_minus_early`는 초반 대비 후반 차이를, `early_to_late_slope`는 그 차이를 구간 거리로 나눈 단순 기울기 표현을, `segment_variability`는 구간별 흔들림 정도를 보여 줍니다. 즉 특징은 원래 적혀 있던 값을 다시 보여 주는 것이 아니라, 같은 요약 표에서 비교하고 싶은 구조를 계산해 붙인 결과입니다.
+출력의 1단계는 아직 구간 평균만 있는 요약 표입니다. 2단계에 가서야 `overall_mean`, `late_minus_early`, `early_to_late_slope`, `segment_variability`가 새로 붙습니다. `overall_mean`은 전체 수준을, `late_minus_early`는 초반 대비 후반 차이를, `early_to_late_slope`는 그 차이를 구간 거리로 나눈 단순 기울기 표현을, `segment_variability`는 구간별 흔들림 정도를 보여 줍니다. 여기서 조작할 값은 `feature_focus`입니다. `"change"`로 두면 변화 특징을 우선 남기고, `"level"`로 바꾸면 전체 수준 특징을, `"stability"`로 바꾸면 변동성 특징을 우선 남깁니다. 즉 특징은 원래 적혀 있던 값을 다시 보여 주는 것이 아니라, 같은 요약 표에서 비교하고 싶은 구조를 계산해 붙인 결과입니다.
 
 이 특징들은 작은 층위로 나누어 읽으면 각 값이 맡는 역할이 더 분명해집니다.
 

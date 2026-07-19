@@ -1,7 +1,7 @@
 # P3-3.1 원천데이터를 왜 곧바로 학습 문제로 읽으면 안 되는가
 
 > Section ID: `P3-3.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 원천데이터를 처음 받으면 많은 사람이 거의 반사적으로 `이걸로 무엇을 예측할까`부터 떠올립니다. 표가 있고 값이 많고 시간이 흐르며 측정된 기록도 보이니, 곧바로 어떤 학습 문제로 바꿀 수 있을 것처럼 느껴지기 때문입니다. 하지만 이 반응은 대개 너무 빠릅니다. 눈앞의 표는 아직 `학습용 데이터셋`이 아니라 `기록된 원천데이터`이거나, 많아야 `데이터셋 후보`일 가능성이 더 크기 때문입니다.
 
@@ -53,14 +53,16 @@
 
 문제 상황: 시점별 로그 표를 받았을 때, 이를 곧바로 학습 문제로 읽으면 어떤 핵심 질문이 비어 있는지 확인합니다.
 
-입력(input): `event_id`별 여러 시점 측정값이 섞여 있는 원시 로그 표
+입력(input): `event_id`별 여러 시점 측정값이 섞여 있는 원시 로그 표와 라벨 후보로 확인할 열 이름 `label_column_to_try`
 
-기대 출력(output): `지금 바로 분류 문제로 읽기`와 `먼저 비어 있는 질문 채우기`가 다른 결과를 만든다는 점이 드러납니다.
+기대 출력(output): `지금 바로 분류 문제로 읽기`와 `먼저 비어 있는 질문 채우기`가 다른 결과를 만든다는 점이 드러납니다. `label_column_to_try`를 바꾸면 라벨 후보가 실제로 있는지 판정도 달라집니다.
 
-확인할 개념: 원천데이터를 학습 문제처럼 읽기 전에 `샘플 1건`, `라벨 후보`, `비교 표`가 무엇인지 먼저 정해야 한다
+확인할 개념: 원천데이터를 학습 문제처럼 읽기 전에 `샘플 1건`, `라벨 후보`, `비교 표`가 무엇인지 먼저 정해야 한다. 학습 문제 판정은 고정 문장이 아니라 현재 표의 열과 묶음 기준에서 확인해야 한다.
 
 ```python
 import pandas as pd
+
+label_column_to_try = "review_label"
 
 raw = pd.DataFrame(
     [
@@ -79,8 +81,8 @@ print()
 
 print("2) too-early reading")
 print("- maybe this is a classification problem")
-print("- label column: not found yet")
-print("- one training sample: not decided yet")
+print("- label column:", "found" if label_column_to_try in raw.columns else "not found yet")
+print("- one training sample:", "not decided yet")
 print()
 
 event_summary = (
@@ -90,10 +92,11 @@ event_summary = (
         mean_flow=("flow", "mean"),
     )
 )
+event_summary["label_candidate_found"] = label_column_to_try in raw.columns
 print("3) questions that must be settled first")
 print("- one sample: one event")
 print("- candidate comparison table: one row per event")
-print("- label candidate: still not decided")
+print(f"- label candidate `{label_column_to_try}`:", "found" if label_column_to_try in raw.columns else "still not decided")
 print()
 
 print("4) event-level table after defining the sample")
@@ -120,15 +123,15 @@ print(event_summary)
 3) questions that must be settled first
 - one sample: one event
 - candidate comparison table: one row per event
-- label candidate: still not decided
+- label candidate `review_label`: still not decided
 
 4) event-level table after defining the sample
-  event_id  max_pressure  mean_flow
-0        A           2.4   1.000000
-1        B           1.9   0.733333
+  event_id  max_pressure  mean_flow  label_candidate_found
+0        A           2.4   1.000000                  False
+1        B           1.9   0.733333                  False
 ```
 
-이 예제의 핵심은 2단계와 3단계의 차이입니다. 2단계에서는 `분류 문제일지도 모른다`는 말만 먼저 나오지만, 실제로는 라벨 열도 없고 샘플 1건도 아직 정해지지 않았습니다. 반대로 3단계에서는 먼저 `한 샘플은 동작 1회`, `비교 표는 동작별 1행`이라는 구조를 정합니다. 그 뒤에야 4단계처럼 비교 가능한 표가 생깁니다. 즉 원천데이터를 너무 빨리 학습 문제로 읽으면, 아직 비어 있는 질문을 덮어 둔 채 문제 형식만 먼저 정하게 됩니다.
+이 예제의 핵심은 2단계와 3단계의 차이입니다. 2단계에서는 `분류 문제일지도 모른다`는 말만 먼저 나오지만, 실제로는 `label_column_to_try`로 지정한 `review_label` 열도 없고 샘플 1건도 아직 정해지지 않았습니다. 여기서 조작할 값은 `label_column_to_try`입니다. 값을 `"flow"`로 바꾸면 열은 있다고 나오지만, 그것이 정말 라벨인지 다시 판단해야 합니다. 반대로 3단계에서는 먼저 `한 샘플은 동작 1회`, `비교 표는 동작별 1행`이라는 구조를 정합니다. 그 뒤에야 4단계처럼 비교 가능한 표가 생깁니다. 즉 원천데이터를 너무 빨리 학습 문제로 읽으면, 아직 비어 있는 질문을 덮어 둔 채 문제 형식만 먼저 정하게 됩니다.
 
 실제로 학습 문제의 틀이 먼저 떠오를 때 비어 있는 질문을 나란히 적어 보면 문제가 더 분명해집니다.
 

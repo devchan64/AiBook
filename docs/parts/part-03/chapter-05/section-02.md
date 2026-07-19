@@ -54,14 +54,16 @@
 
 문제 상황: 전체 평균은 같아 보여도 구간별 흐름이 다르면 다른 운영 구조로 읽어야 한다는 점을 확인합니다.
 
-입력(input): `early_flow_mean`, `mid_flow_mean`, `late_flow_mean`만 남겨 둔 동작 요약 표
+입력(input): `early_flow_mean`, `mid_flow_mean`, `late_flow_mean`만 남겨 둔 동작 요약 표와 패턴 변화로 볼 최소 차이 `pattern_change_threshold`
 
-기대 출력(output): 같은 `overall_mean` 아래에서도 구간 차이와 `pattern_note`가 달라지는 출력
+기대 출력(output): 같은 `overall_mean` 아래에서도 구간 차이와 `pattern_note`가 달라지는 출력. `pattern_change_threshold`를 바꾸면 어느 정도 차이를 패턴으로 읽을지도 달라진다.
 
-확인할 개념: 평균 하나만으로는 패턴 차이를 다 설명할 수 없으므로 구간별 차이와 해석 메모를 함께 남겨야 한다
+확인할 개념: 평균 하나만으로는 패턴 차이를 다 설명할 수 없으므로 구간별 차이와 해석 메모를 함께 남겨야 한다. 패턴 판정 기준을 명시해야 평균 밖 구조를 재현 가능하게 읽을 수 있다.
 
 ```python
 import pandas as pd
+
+pattern_change_threshold = 0.1
 
 summary = pd.DataFrame(
     [
@@ -87,7 +89,8 @@ summary["mid_minus_early"] = summary["mid_flow_mean"] - summary["early_flow_mean
 summary["late_minus_mid"] = summary["late_flow_mean"] - summary["mid_flow_mean"]
 summary["pattern_note"] = summary.apply(
     lambda row: "mid peak then slight drop"
-    if row["mid_minus_early"] > 0 and row["late_minus_mid"] < 0
+    if row["mid_minus_early"] > pattern_change_threshold
+    and row["late_minus_mid"] < -pattern_change_threshold
     else "flat across segments",
     axis=1,
 )
@@ -132,7 +135,7 @@ print(summary[["event_id", "pattern_note"]])
 1        B       flat across segments
 ```
 
-두 동작의 `overall_mean`은 모두 2.4입니다. 하지만 2단계를 보면 A는 `mid_minus_early=1.0`, `late_minus_mid=-0.2`로 중반 상승 뒤 후반 하강이 보이고, B는 두 값이 모두 0.0이라 구간 구조 변화가 없습니다. 3단계의 `pattern_note`는 이 차이를 한 문장으로 다시 접은 결과입니다. 따라서 평균만 보면 같은 사례처럼 보이지만, 구간 평균과 구간 차이를 함께 보면 서로 다른 동작 구조라는 점이 드러납니다.
+두 동작의 `overall_mean`은 모두 2.4입니다. 하지만 2단계를 보면 A는 `mid_minus_early=1.0`, `late_minus_mid=-0.2`로 중반 상승 뒤 후반 하강이 보이고, B는 두 값이 모두 0.0이라 구간 구조 변화가 없습니다. 여기서 조작할 값은 `pattern_change_threshold`입니다. 값을 `0.1`로 두면 A는 패턴 변화로 잡히지만, 값을 `0.3`으로 올리면 후반 하강 `-0.2`는 충분한 변화로 보지 않을 수 있습니다. 3단계의 `pattern_note`는 이 차이를 한 문장으로 다시 접은 결과입니다. 따라서 평균만 보면 같은 사례처럼 보이지만, 구간 평균과 구간 차이를 함께 보면 서로 다른 동작 구조라는 점이 드러납니다.
 
 이 예제도 같은 순서로 읽으면 됩니다.
 

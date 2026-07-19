@@ -1,7 +1,7 @@
 # P3-4.1 비교 가능한 샘플 한 건은 어떻게 정하는가
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 `한 행이 무엇을 뜻하는가`입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 특징(feature)을 만들 때도, 라벨(label)을 붙일 때도, 평가(evaluation) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 `비교 가능한 샘플 한 건을 무엇으로 정할 것인가`라는 질문으로 이어집니다.
 
@@ -74,14 +74,16 @@
 
 문제 상황: 같은 원천 로그라도 `시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 비교 가능한 표가 달라진다는 점을 확인합니다.
 
-입력(input): `event_id`별 시점 기록과 최근 구간 여부가 함께 들어 있는 원시 로그 표
+입력(input): `event_id`별 시점 기록, 최근 구간 여부, 지금 답하려는 질문을 나타내는 `question_focus`
 
-기대 출력(output): `measurement_row`, `event`, `window` 세 단위가 서로 다른 샘플 수와 특징 가능성을 만든다는 출력
+기대 출력(output): `measurement_row`, `event`, `window` 세 단위가 서로 다른 샘플 수와 특징 가능성을 만든다는 출력. `question_focus`를 바꾸면 어떤 단위가 더 자연스러운지도 달라진다.
 
-확인할 개념: 비교 가능한 샘플 1건은 눈앞의 행 수가 아니라 질문에 맞는 분석 단위에서 정해진다
+확인할 개념: 비교 가능한 샘플 1건은 눈앞의 행 수가 아니라 질문에 맞는 분석 단위에서 정해진다. 샘플 단위는 고정 정답이 아니라 질문과 특징·라벨 연결성에 따라 선택된다.
 
 ```python
 import pandas as pd
+
+question_focus = "event_comparison"
 
 raw = pd.DataFrame(
     [
@@ -142,6 +144,12 @@ unit_check = pd.DataFrame(
         },
     ]
 )
+recommended_unit = {
+    "instant_value": "measurement_row",
+    "event_comparison": "event",
+    "recent_vs_baseline": "window",
+}[question_focus]
+unit_check["recommended_for_question"] = unit_check["unit_name"] == recommended_unit
 
 print("1) count rows under each candidate unit")
 print("measurement rows:", len(raw))
@@ -198,13 +206,13 @@ window aggregates: 2
 1      recent            2       1.933333   1.066667
 
 5) unit check for comparable-sample suitability
-         unit_name  sample_count can_use_pressure_rise label_attaches_naturally
-0  measurement_row             9                    no                      weak
-1            event             3                   yes                       yes
-2           window             2               partial                      weak
+         unit_name  sample_count can_use_pressure_rise label_attaches_naturally  recommended_for_question
+0  measurement_row             9                    no                      weak                     False
+1            event             3                   yes                       yes                      True
+2           window             2               partial                      weak                     False
 ```
 
-출력에서 먼저 봐야 할 것은 `몇 건으로 세고 있는가`입니다. 원시 표에서는 측정 시점이 9건이고, `event_id` 기준으로 묶으면 동작 1회 샘플이 3건이며, 다시 최근/기준선 구간으로 묶으면 비교용 집계는 2건이 됩니다. 그런데 그다음에 봐야 할 것은 `어떤 값이 어느 단위에서만 의미가 생기는가`입니다. `pressure_rise`처럼 시작점과 끝점의 차이를 보는 열은 시점 한 줄에서는 만들 수 없고, 동작 1회로 묶였을 때 비로소 뜻이 생깁니다. 반대로 `window_summary`는 개별 동작 비교용 표가 아니라 여러 동작을 묶은 비교 해석용 표입니다. 즉 같은 원천데이터라도 `한 시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 행 수와 표의 의미, 그리고 그 위에 놓을 수 있는 열의 역할이 함께 바뀝니다.
+출력에서 먼저 봐야 할 것은 `몇 건으로 세고 있는가`입니다. 원시 표에서는 측정 시점이 9건이고, `event_id` 기준으로 묶으면 동작 1회 샘플이 3건이며, 다시 최근/기준선 구간으로 묶으면 비교용 집계는 2건이 됩니다. 그런데 그다음에 봐야 할 것은 `어떤 값이 어느 단위에서만 의미가 생기는가`입니다. 여기서 조작할 값은 `question_focus`입니다. `"event_comparison"`으로 두면 동작 1회가 추천 단위가 되지만, `"instant_value"`로 바꾸면 측정 시점 행이 더 자연스럽고, `"recent_vs_baseline"`으로 바꾸면 최근/기준선 구간 집계가 더 자연스럽습니다. 즉 같은 원천데이터라도 `한 시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 행 수와 표의 의미, 그리고 그 위에 놓을 수 있는 열의 역할이 함께 바뀝니다.
 
 여기서 `unit check` 출력은 이 절의 판단을 더 직접적으로 보여 줍니다. `measurement_row`는 샘플 수는 가장 많지만 `pressure_rise`를 바로 올릴 수 없고, `review_needed` 같은 결과도 자연스럽게 붙기 어렵습니다. `window`는 최근 상태 해석에는 쓸 수 있지만 개별 동작 비교 샘플로는 약합니다. 반면 `event`는 샘플 수, 요약 특징, 결과 열이 한 단위 위에 함께 놓여 있어 이 절의 질문인 `비교 가능한 샘플 한 건`에 가장 잘 맞습니다.
 

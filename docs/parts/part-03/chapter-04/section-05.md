@@ -1,7 +1,7 @@
 # P3-4.5 지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.19`
 
 샘플 단위를 동작 1회나 최근 구간 1개처럼 정하고 나면, 한 번 더 놓치기 쉬운 질문이 남습니다. `지금 모은 샘플이 전체 운영 상황을 얼마나 대표하는가?` 표가 잘 정리되어 있어도, 그 표가 특정 공정 모드나 특정 기간, 특정 장비 상태에서만 모인 사례라면 전체 운영 장면을 고르게 설명하지 못할 수 있습니다. 샘플 단위를 잘 정한 것과, 그 샘플 묶음이 전체 상황을 고르게 대표하는 것은 같은 말이 아닙니다.
 
@@ -66,14 +66,16 @@ Part 3에서는 아직 엄밀한 표본추출 이론보다, 아래 네 가지를
 
 문제 상황: 샘플 단위는 모두 `동작 1회`로 맞았더라도, 실제 샘플 묶음이 어느 조건에 치우쳐 있는지 확인합니다.
 
-입력(input): `shift`, `load_mode`, `machine_id`, `maintenance_phase`를 가진 동작 샘플 표
+입력(input): `shift`, `load_mode`, `machine_id`, `maintenance_phase`를 가진 동작 샘플 표와 최소 관찰 기준 `minimum_count`
 
-기대 출력(output): 어떤 조건이 많이 보였고 어떤 조건이 거의 비어 있는지를 요약한 `coverage summary`
+기대 출력(output): 어떤 조건이 많이 보였고 어떤 조건이 거의 비어 있는지를 요약한 `coverage summary`. `minimum_count`를 바꾸면 대표성 공백으로 표시되는 조건 수가 달라진다.
 
-확인할 개념: 샘플 한 건의 정의가 맞는 것과 샘플 묶음이 전체 운영 범위를 고르게 대표하는 것은 다른 문제다
+확인할 개념: 샘플 한 건의 정의가 맞는 것과 샘플 묶음이 전체 운영 범위를 고르게 대표하는 것은 다른 문제다. 대표성 판단에는 관찰 기준이 필요하다.
 
 ```python
 import pandas as pd
+
+minimum_count = 2
 
 samples = pd.DataFrame(
     [
@@ -94,11 +96,23 @@ coverage = pd.DataFrame(
         {"scope": "maintenance_phase", "most_seen": samples["maintenance_phase"].value_counts().idxmax(), "count": samples["maintenance_phase"].value_counts().max(), "least_seen": samples["maintenance_phase"].value_counts().idxmin()},
     ]
 )
+coverage["unique_conditions"] = [
+    samples["shift"].nunique(),
+    samples["load_mode"].nunique(),
+    samples["machine_id"].nunique(),
+    samples["maintenance_phase"].nunique(),
+]
+coverage["under_minimum_conditions"] = [
+    int((samples["shift"].value_counts() < minimum_count).sum()),
+    int((samples["load_mode"].value_counts() < minimum_count).sum()),
+    int((samples["machine_id"].value_counts() < minimum_count).sum()),
+    int((samples["maintenance_phase"].value_counts() < minimum_count).sum()),
+]
 
 print("1) raw sample coverage table")
 print(samples)
 print()
-print("2) coverage summary")
+print(f"2) coverage summary when minimum_count = {minimum_count}")
 print(coverage)
 ```
 
@@ -114,15 +128,15 @@ print(coverage)
 4        E  night    normal         M1             stable
 5        F    day    normal         M1  after-maintenance
 
-2) coverage summary
-               scope most_seen  count         least_seen
-0              shift       day      5              night
-1          load_mode    normal      5               high
-2         machine_id        M1      5                 M2
-3  maintenance_phase    stable      5  after-maintenance
+2) coverage summary when minimum_count = 2
+               scope most_seen  count         least_seen  unique_conditions  under_minimum_conditions
+0              shift       day      5              night                  2                         1
+1          load_mode    normal      5               high                  2                         1
+2         machine_id        M1      5                 M2                  2                         1
+3  maintenance_phase    stable      5  after-maintenance                  2                         1
 ```
 
-이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 1단계에서는 실제로 어떤 조건 조합이 들어왔는지 보고, 2단계에서는 각 범위에서 무엇이 과다대표되고 무엇이 거의 보이지 않는지 바로 읽습니다. 이렇게 해야 `샘플 수는 6건인데도 왜 대표성은 약한가`를 숫자와 표 둘 다로 설명할 수 있습니다.
+이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 여기서 조작할 값은 `minimum_count`입니다. `minimum_count = 2`일 때는 각 범위마다 한 번만 등장한 조건이 대표성 공백으로 잡힙니다. 이 값을 1로 낮추면 공백이 사라지고, 3으로 높이면 더 많은 조건이 부족한 조건으로 표시됩니다. 이렇게 해야 `샘플 수는 6건인데도 왜 대표성은 약한가`를 숫자와 표 둘 다로 설명할 수 있습니다.
 
 이 표를 읽을 때는 세 가지를 함께 확인하면 됩니다. 이 표가 모은 시간·모드·장비 범위를 설명할 수 있는가, 거의 보지 못한 조건을 적어 둘 수 있는가, 그리고 나중에 평가 점수를 읽을 때도 이 대표성 범위를 함께 떠올릴 수 있는가입니다. 이런 메모가 붙어 있어야 샘플 표는 단순히 `정리된 표`가 아니라, `어떤 운영 범위를 대표하는지`까지 함께 남긴 표가 됩니다.
 

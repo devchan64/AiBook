@@ -43,21 +43,25 @@
 
 문제 상황: 연속 수치 기울기를 짧은 기호열로 바꾸면 무엇이 더 잘 보이는지 확인합니다.
 
-입력(input): 구간별 기울기 값 목록
+입력(input): 구간별 기울기 값 목록과 토큰 경계값 `strong_threshold`, `weak_threshold`
 
-기대 출력(output): 같은 기울기 목록이 `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2` 같은 토큰 시퀀스로 바뀐 출력
+기대 출력(output): 같은 기울기 목록이 `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2` 같은 토큰 시퀀스로 바뀐 출력. 경계값을 바꾸면 토큰 시퀀스도 달라진다.
 
-확인할 개념: 토큰화는 원시 구조를 그대로 두지 않고 순서와 방향을 읽기 쉬운 중간 표현으로 바꾸는 작업이다
+확인할 개념: 토큰화는 원시 구조를 그대로 두지 않고 순서와 방향을 읽기 쉬운 중간 표현으로 바꾸는 작업이다. 토큰 경계는 고정 정답이 아니라 문제에 맞게 점검할 설계값이다.
 
 ```python
+strong_threshold = 0.8
+weak_threshold = 0.2
+
+
 def slope_to_token(slope: float) -> str:
-    if slope >= 0.8:
+    if slope >= strong_threshold:
         return "UP2"
-    if slope >= 0.2:
+    if slope >= weak_threshold:
         return "UP1"
-    if slope <= -0.8:
+    if slope <= -strong_threshold:
         return "DOWN2"
-    if slope <= -0.2:
+    if slope <= -weak_threshold:
         return "DOWN1"
     return "FLAT"
 
@@ -76,7 +80,7 @@ print("2) tokens after tokenization:", tokens)
 2) tokens after tokenization: ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']
 ```
 
-이 출력에서 봐야 할 핵심은 연속 수치가 짧은 기호열로 바뀌는 순간입니다. 이제 사람은 `상승, 완만한 상승, 거의 평평, 하강, 큰 하강`처럼 더 빠르게 구조를 읽을 수 있습니다. 동시에 어떤 임계값을 기준으로 토큰을 만들었는지도 드러나므로, 규칙 자체도 다시 점검할 수 있습니다.
+이 출력에서 봐야 할 핵심은 연속 수치가 짧은 기호열로 바뀌는 순간입니다. 여기서 조작할 값은 `strong_threshold`와 `weak_threshold`입니다. `weak_threshold`를 더 크게 잡으면 작은 변화가 `FLAT`으로 남고, 더 작게 잡으면 더 많은 구간이 `UP1` 또는 `DOWN1`으로 바뀝니다. 이제 사람은 `상승, 완만한 상승, 거의 평평, 하강, 큰 하강`처럼 더 빠르게 구조를 읽을 수 있습니다. 동시에 어떤 임계값을 기준으로 토큰을 만들었는지도 드러나므로, 규칙 자체도 다시 점검할 수 있습니다.
 
 이 예제는 다음 순서로 확인하면 토큰화가 맡는 역할이 더 분명해집니다.
 

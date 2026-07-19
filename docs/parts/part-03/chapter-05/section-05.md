@@ -82,14 +82,16 @@
 
 문제 상황: 값이 비어 있는 샘플이 모두 같은 상태가 아니라, 일부 특징만 피하면 되는 경우와 샘플 구조 자체가 무너진 경우가 갈린다는 점을 확인합니다.
 
-입력(input): 구간 평균 일부가 비어 있고 `end_detected` 여부가 함께 적힌 동작 요약 표
+입력(input): 구간 평균 일부가 비어 있고 `end_detected` 여부가 함께 적힌 동작 요약 표, 부분 누락 샘플 유지 정책 `keep_partial_samples`
 
-기대 출력(output): `late_segment_missing`, `sample_structure_broken`, `keep_sample`, `avoid_features`가 함께 정리된 출력
+기대 출력(output): `late_segment_missing`, `sample_structure_broken`, `keep_sample`, `avoid_features`가 함께 정리된 출력. `keep_partial_samples`를 바꾸면 B처럼 일부 구간만 빠진 샘플의 유지 여부가 달라진다.
 
-확인할 개념: 결측은 채우기 전에 먼저 `샘플 유지`, `특징 제외`, `구조 붕괴` 중 어디에 속하는지 분류해야 한다
+확인할 개념: 결측은 채우기 전에 먼저 `샘플 유지`, `특징 제외`, `구조 붕괴` 중 어디에 속하는지 분류해야 한다. 부분 누락을 허용할지 여부는 명시적인 정책으로 남겨야 한다.
 
 ```python
 import pandas as pd
+
+keep_partial_samples = True
 
 summary = pd.DataFrame(
     [
@@ -101,7 +103,12 @@ summary = pd.DataFrame(
 
 summary["late_segment_missing"] = summary["late_flow_mean"].isna().astype(int)
 summary["sample_structure_broken"] = ((summary["end_detected"] == 0)).astype(int)
-summary["keep_sample"] = summary["sample_structure_broken"].map({0: "yes", 1: "no"})
+summary["keep_sample"] = summary.apply(
+    lambda row: "no"
+    if row["sample_structure_broken"] == 1
+    else ("yes" if keep_partial_samples or row["late_segment_missing"] == 0 else "no"),
+    axis=1,
+)
 summary["avoid_features"] = summary.apply(
     lambda row: "late_drop features"
     if row["late_segment_missing"] == 1 and row["sample_structure_broken"] == 0
@@ -132,7 +139,7 @@ print(summary[["event_id", "keep_sample", "avoid_features"]])
 2        C          no  all event-level features
 ```
 
-이 예시의 핵심은 값을 채우는 코드가 아니라, `부분 구간 누락`과 `샘플 구조 붕괴`를 같은 빈칸으로 처리하지 않는다는 점입니다. 1단계에서 누락 위치를 구분하고, 2단계에서 그 차이가 바로 `샘플 유지 여부`와 `만들지 말아야 할 특징` 판단으로 이어집니다. 그래서 `B`는 샘플은 유지하되 후반 하강 특징은 보수적으로 빼야 하고, `C`는 샘플 경계 자체가 흔들려 동작 1회 비교 샘플로 바로 쓰기 어렵다는 점이 코드 결과에서 직접 드러납니다.
+이 예시의 핵심은 값을 채우는 코드가 아니라, `부분 구간 누락`과 `샘플 구조 붕괴`를 같은 빈칸으로 처리하지 않는다는 점입니다. 여기서 조작할 값은 `keep_partial_samples`입니다. `True`이면 `B`는 샘플은 유지하되 후반 하강 특징은 보수적으로 뺍니다. `False`로 바꾸면 부분 구간 누락이 있는 `B`도 비교 후보에서 제외됩니다. 반면 `C`는 샘플 경계 자체가 흔들려 정책과 무관하게 동작 1회 비교 샘플로 바로 쓰기 어렵습니다. 1단계에서 누락 위치를 구분하고, 2단계에서 그 차이가 바로 `샘플 유지 여부`와 `만들지 말아야 할 특징` 판단으로 이어집니다.
 
 여기서 마지막으로 확인할 것은 세 가지입니다. 이 샘플이 아직 같은 비교 단위인지, 누락 때문에 만들면 안 되는 특징을 구분했는지, 빠짐 자체를 표시 열로 남길지 정했는지입니다. 이 세 조건이 함께 서야 빈칸은 단순 청소 대상이 아니라, 샘플 구조 판단이 섞인 데이터 모델링 항목으로 읽히게 됩니다.
 

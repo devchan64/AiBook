@@ -59,14 +59,16 @@
 
 문제 상황: 시점별 표에서 같은 라벨이 반복되고 동작 단위 특징이 따로 나타날 때, 샘플 단위를 잘못 잡았다는 신호를 어떻게 읽는지 확인합니다.
 
-입력(input): `event_id`별 시점 유량과 동작 단위에 붙은 `review_needed`가 반복 저장된 원시 로그 표
+입력(input): `event_id`별 시점 유량, 동작 단위에 붙은 `review_needed`가 반복 저장된 원시 로그 표, 반복 경고 기준 `repeat_warning_threshold`
 
-기대 출력(output): 반복 라벨, 반복 행 수, 재묶음 뒤에만 생기는 이벤트 요약 특징을 함께 보여 주는 출력
+기대 출력(output): 반복 라벨, 반복 행 수, 재묶음 뒤에만 생기는 이벤트 요약 특징을 함께 보여 주는 출력. `repeat_warning_threshold`를 바꾸면 어떤 반복을 경고로 볼지도 달라진다.
 
-확인할 개념: 라벨 반복과 설명되지 않는 이벤트 수준 특징은 시점 행이 실제 샘플 단위가 아닐 수 있다는 경고 신호다
+확인할 개념: 라벨 반복과 설명되지 않는 이벤트 수준 특징은 시점 행이 실제 샘플 단위가 아닐 수 있다는 경고 신호다. 경고 기준을 명시해야 단순 출력이 아니라 샘플 단위 오판 점검이 된다.
 
 ```python
 import pandas as pd
+
+repeat_warning_threshold = 1
 
 raw = pd.DataFrame(
     [
@@ -94,11 +96,15 @@ warning_check = pd.DataFrame(
     [
         {
             "warning_sign": "same event repeated across many rows",
-            "seen_in_output": "yes" if label_repetition["row_count"].max() > 1 else "no",
+            "seen_in_output": "yes"
+            if label_repetition["row_count"].max() > repeat_warning_threshold
+            else "no",
         },
         {
             "warning_sign": "same label repeated within one event",
-            "seen_in_output": "yes" if label_repetition["review_needed_sum"].max() > 1 else "no",
+            "seen_in_output": "yes"
+            if label_repetition["review_needed_sum"].max() > repeat_warning_threshold
+            else "no",
         },
         {
             "warning_sign": "event-level features appear only after regrouping",
@@ -149,7 +155,7 @@ print(warning_check)
 2  event-level features appear only after regrouping            yes
 ```
 
-이 예시의 핵심은 계산 결과가 아니라 `경고 신호가 실제로 어디서 보이는가`입니다. 2단계에서는 같은 `event_id`가 여러 줄 반복되고, `review_needed`가 한 동작 안에서 그대로 복사되어 있다는 점이 드러납니다. 3단계에서는 `duration_seconds`, `flow_mean` 같은 동작 단위 특징이 원시 행에는 없고 재묶은 뒤에야 나타난다는 점이 보입니다. 그래서 4단계의 경고 표는 별도 판단을 새로 만드는 것이 아니라, 앞 출력에서 이미 보인 신호를 다시 묶어 준 것입니다.
+이 예시의 핵심은 계산 결과가 아니라 `경고 신호가 실제로 어디서 보이는가`입니다. 2단계에서는 같은 `event_id`가 여러 줄 반복되고, `review_needed`가 한 동작 안에서 그대로 복사되어 있다는 점이 드러납니다. 여기서 조작할 값은 `repeat_warning_threshold`입니다. 값을 `1`로 두면 두 번 이상 반복되는 사건과 라벨을 경고로 잡습니다. 값을 `3`으로 높이면 같은 출력에서도 경고가 줄어들 수 있습니다. 3단계에서는 `duration_seconds`, `flow_mean` 같은 동작 단위 특징이 원시 행에는 없고 재묶은 뒤에야 나타난다는 점이 보입니다. 그래서 4단계의 경고 표는 별도 판단을 새로 만드는 것이 아니라, 앞 출력에서 이미 보인 신호를 기준에 따라 다시 묶어 준 것입니다.
 
 ## 샘플 단위를 다시 봐야 할 질문
 
