@@ -1,7 +1,7 @@
 # P3-9.1 지금 문제를 어디까지 올려야 하는가
 
 > Section ID: `P3-9.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 현실 기록을 보면 `사건 기록이 있고 결과 메모도 조금은 있으니, 바로 분류 문제로 올리면 되지 않을까?`라는 반응이 먼저 나옵니다. 하지만 현실 기록에서는 이 생각이 너무 빠를 때가 많습니다. 어떤 문제는 정말로 예측 문제로 만들 수 있지만, 어떤 문제는 아직 `검토 후보를 잘 골라 내는 문제`로 남겨 두는 편이 더 정직하며 현재 데이터 상태에도 더 잘 맞습니다. 해석 경계를 세웠다면, 이제는 지금 문제를 경고(alert), 검토 후보(review candidate), 라벨 예측(label prediction) 중 어디까지 올릴지 정해야 합니다.
 
@@ -61,7 +61,7 @@
 
 ## 출처와 참고 자료
 
-- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
-- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Control Charts?*, signal detection and process monitoring. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" }
+- U.S. Bureau of Labor Statistics(BLS), *BLS Handbook of Methods: Glossary*, base period. 기준 시점이나 기간을 비교의 참조점으로 쓰는 관점을 확인하는 데 참고했습니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- National Cancer Institute(NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. 초기 측정값을 이후 변화와 비교하는 기준으로 쓰는 설명을 확인하는 데 참고했습니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`. 라벨과 대체 라벨이 무엇을 뜻하며 왜 신중하게 다뤄야 하는지 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Variables Control Charts?*, signal detection and process monitoring. 기준선과 변동을 이용해 공정을 감시하는 통계적 신호 감지 관점을 확인하는 데 참고했습니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

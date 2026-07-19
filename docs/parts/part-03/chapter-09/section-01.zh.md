@@ -1,7 +1,7 @@
 # P3-9.1 现在的问题应该提升到哪一层
 
 > Section ID: `P3-9.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 看现实记录时，人们常常会先反应成：`既然有事件记录，也多少有一点结果备注，那是不是可以直接提升成分类问题？` 但在现实记录里，这个想法往往太快了。有些问题确实可以做成预测问题，但也有些问题更诚实的做法，是先把它留在`更好地挑出复核候选`这一层，而且这也更符合当前的数据状态。既然解释边界已经立住，下一步就要决定：当前问题应该提升到 alert、review candidate、label prediction 中的哪一层。
 
@@ -61,7 +61,7 @@ alert 是最轻的一层。只要看见了与基线不同的变化，就可以�
 
 ## 来源与参考资料
 
-- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, baseline. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" }
-- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Control Charts?*, signal detection and process monitoring. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" }
+- U.S. Bureau of Labor Statistics (BLS), *BLS Handbook of Methods: Glossary*, base period。用于确认基准时期或时间点可以作为比较参照这一用法。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- National Cancer Institute (NCI), *NCI Dictionary of Cancer Terms: baseline*, baseline。用于确认初始测量值可以作为后续变化的比较基准这一说明。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google, *Machine Learning Glossary*, `label`, `labeled example`, `proxy labels`。用于确认标签和代理标签的含义，以及为什么要谨慎处理代理标签。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- NIST/SEMATECH, *e-Handbook of Statistical Methods: What are Variables Control Charts?*, signal detection and process monitoring。用于确认基线与变动可支持统计过程监控和信号检测这一视角。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
