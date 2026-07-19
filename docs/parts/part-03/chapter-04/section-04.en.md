@@ -1,7 +1,7 @@
 # P3-4.4 What Signals Show That the Sample Unit Was Chosen Wrong
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 If the sample unit is chosen incorrectly, the problem usually reappears later in strange forms. That is why the question `how can I notice that I am currently using the wrong sample unit?` matters. In many cases, people keep building features, labels, and comparison tables on top of the wrong sample unit, and only much later realize that the whole structure has become unstable. So this section gathers in one place the representative warning signs that should make us suspect a wrong decision about the sample unit.
 
@@ -59,97 +59,134 @@ In other words, if the sentence we keep trying to write is talking about an obje
 
 Problem situation: when the same label repeats in a time-point table and action-level features appear only after regrouping, check how to read those as warning signs of a wrongly chosen sample unit.
 
-Input: a raw log table in which time-point flow values by `event_id` are stored together with `review_needed`, which actually belongs to the action level
+Input: the raw log table stored in [p3_4_4_sample_unit_warning_log.csv](../../../assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv) and the repetition warning criterion `repeat_warning_threshold`. This table contains time-point flow values by `event_id`, with action-level `review_needed` repeated across rows.
 
-Expected output: output showing repeated labels, repeated row counts, and event-summary features that appear only after regrouping
+Expected output: output showing repeated labels, repeated row counts, and event-summary features that appear only after regrouping. If `repeat_warning_threshold` changes, what counts as a repetition warning also changes.
 
-Concept to check: repeated labels and unexplained event-level features are warning signs that a time-point row may not be the real sample unit
+Concept to check: repeated labels and unexplained event-level features are warning signs that a time-point row may not be the real sample unit. A warning criterion must be stated explicitly so the code is a sample-unit diagnostic, not just a printed table.
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.5, "review_needed": 1},
-        {"event_id": "A", "second": 1, "flow": 1.8, "review_needed": 1},
-        {"event_id": "A", "second": 2, "flow": 1.1, "review_needed": 1},
-        {"event_id": "B", "second": 0, "flow": 0.4, "review_needed": 0},
-        {"event_id": "B", "second": 1, "flow": 1.1, "review_needed": 0},
-        {"event_id": "B", "second": 2, "flow": 1.0, "review_needed": 0},
-    ]
-)
+repeat_warning_threshold = 1
+preview_row_count = 8
 
-label_repetition = raw.groupby("event_id", as_index=False).agg(
-    row_count=("second", "count"),
-    review_needed_sum=("review_needed", "sum"),
-)
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv")
 
-event_summary = raw.groupby("event_id", as_index=False).agg(
-    duration_seconds=("second", "max"),
-    flow_mean=("flow", "mean"),
-    review_needed=("review_needed", "max"),
-)
+with input_path.open(newline="", encoding="utf-8") as file:
+    rows = list(csv.DictReader(file))
 
-warning_check = pd.DataFrame(
-    [
+for row in rows:
+    row["second"] = int(row["second"])
+    row["flow"] = float(row["flow"])
+    row["review_needed"] = int(row["review_needed"])
+
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+label_repetition = []
+event_summary = []
+
+for event_id, event_rows in sorted(events.items()):
+    review_needed_values = [row["review_needed"] for row in event_rows]
+    label_repetition.append(
         {
-            "warning_sign": "same event repeated across many rows",
-            "seen_in_output": "yes" if label_repetition["row_count"].max() > 1 else "no",
-        },
+            "event_id": event_id,
+            "row_count": len(event_rows),
+            "review_needed_sum": sum(review_needed_values),
+        }
+    )
+    event_summary.append(
         {
-            "warning_sign": "same label repeated within one event",
-            "seen_in_output": "yes" if label_repetition["review_needed_sum"].max() > 1 else "no",
-        },
-        {
-            "warning_sign": "event-level features appear only after regrouping",
-            "seen_in_output": "yes" if "duration_seconds" in event_summary.columns else "no",
-        },
-    ]
-)
+            "event_id": event_id,
+            "duration_seconds": max(row["second"] for row in event_rows),
+            "flow_mean": sum(row["flow"] for row in event_rows) / len(event_rows),
+            "review_needed": max(review_needed_values),
+        }
+    )
+
+max_row_count = max(item["row_count"] for item in label_repetition)
+max_label_sum = max(item["review_needed_sum"] for item in label_repetition)
+
+warning_check = [
+    (
+        "same event repeated across many rows",
+        max_row_count > repeat_warning_threshold,
+    ),
+    (
+        "same label repeated within one event",
+        max_label_sum > repeat_warning_threshold,
+    ),
+    (
+        "event-level features appear only after regrouping",
+        bool(event_summary),
+    ),
+]
 
 print("1) row-level table where labels repeat inside one event")
-print(raw)
+for row in rows[:preview_row_count]:
+    print(
+        f"{row['event_id']} at {row['second']}s: "
+        f"flow={row['flow']:.1f}, review_needed={row['review_needed']}"
+    )
+print(f"... {len(rows) - preview_row_count} more time-point rows")
 print()
 print("2) repeated rows and repeated labels per event")
-print(label_repetition)
+for item in label_repetition:
+    print(
+        f"{item['event_id']}: row_count={item['row_count']}, "
+        f"review_needed_sum={item['review_needed_sum']}"
+    )
 print()
 print("3) event-level summary that appears only after regrouping")
-print(event_summary)
+for item in event_summary:
+    print(
+        f"{item['event_id']}: duration={item['duration_seconds']}s, "
+        f"flow_mean={item['flow_mean']:.2f}, "
+        f"review_needed={item['review_needed']}"
+    )
 print()
 print("4) warning signs that sample unit may be wrong")
-print(warning_check)
+for warning_sign, seen in warning_check:
+    print(f"{warning_sign}: {'yes' if seen else 'no'}")
 ```
 
 Expected output:
 
 ```text
 1) row-level table where labels repeat inside one event
-  event_id  second  flow  review_needed
-0        A       0   0.5              1
-1        A       1   1.8              1
-2        A       2   1.1              1
-3        B       0   0.4              0
-4        B       1   1.1              0
-5        B       2   1.0              0
+A at 0s: flow=0.5, review_needed=1
+A at 1s: flow=0.9, review_needed=1
+A at 2s: flow=1.2, review_needed=1
+A at 3s: flow=1.5, review_needed=1
+A at 4s: flow=1.8, review_needed=1
+A at 5s: flow=1.6, review_needed=1
+A at 6s: flow=1.4, review_needed=1
+A at 7s: flow=1.2, review_needed=1
+... 28 more time-point rows
 
 2) repeated rows and repeated labels per event
-  event_id  row_count  review_needed_sum
-0        A          3                  3
-1        B          3                  0
+A: row_count=18, review_needed_sum=18
+B: row_count=9, review_needed_sum=0
+C: row_count=6, review_needed_sum=6
+D: row_count=3, review_needed_sum=0
 
 3) event-level summary that appears only after regrouping
-  event_id  duration_seconds  flow_mean  review_needed
-0        A                 2   1.133333              1
-1        B                 2   0.833333              0
+A: duration=17s, flow_mean=0.94, review_needed=1
+B: duration=8s, flow_mean=0.88, review_needed=0
+C: duration=5s, flow_mean=1.07, review_needed=1
+D: duration=2s, flow_mean=0.67, review_needed=0
 
 4) warning signs that sample unit may be wrong
-                                  warning_sign seen_in_output
-0           same event repeated across many rows            yes
-1              same label repeated within one event            yes
-2  event-level features appear only after regrouping            yes
+same event repeated across many rows: yes
+same label repeated within one event: yes
+event-level features appear only after regrouping: yes
 ```
 
-The key in this example is not the calculation result itself, but `where the warning signs are actually visible`. In step 2, we see the same `event_id` repeated across multiple rows, and the fact that `review_needed` is copied as-is inside one full action. In step 3, we see that action-level features such as `duration_seconds` and `flow_mean` do not exist in the raw rows and appear only after regrouping. So the warning table in step 4 is not creating a new judgment. It is regrouping the signals that were already visible in the earlier outputs.
+The key in this example is not the calculation result itself, but `where the warning signs are actually visible`. In step 2, we see the same `event_id` repeated across multiple rows, and the fact that `review_needed` is copied as-is inside one full action. The value to manipulate here is `repeat_warning_threshold`. With the value set to `1`, events and labels that repeat two or more times are treated as warnings. If the value is raised to `3`, the warnings can decrease even with the same output. In step 3, we see that action-level features such as `duration_seconds` and `flow_mean` do not exist in the raw rows and appear only after regrouping. So the warning table in step 4 is not creating a new judgment. It is regrouping the signals that were already visible in the earlier outputs according to an explicit criterion.
 
 ## Questions That Mean the Sample Unit Should Be Rechecked
 
@@ -172,6 +209,7 @@ When these diagnostic signals are collected first, it becomes easier to distingu
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`, `label leakage`. Because these entries explain both the unit to which a label attaches and the risk of confusing feature and label roles, they support this section's core point that repeated labels and unexplained features are signals that the sample unit should be rechecked. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because it explains that identifying an object and preserving derivation should be kept together, it strengthens the higher-level frame that we must be able to trace whether the current line is a time-point record or a one-action summary in order to catch sample-unit misjudgment earlier. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it distinguishes variables, observations, and table structure, it provides the general principle behind why interpretation becomes awkward when action-level features are forced onto time-point rows. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `labeled example`, `label leakage`. Because these entries explain both the unit to which a label attaches and the risk of confusing feature and label roles, they support this section's core point that repeated labels and unexplained features are signals that the sample unit should be rechecked. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`. Because it explains that, for grouped data, validation-fold samples must come from groups not represented in the paired training fold, it directly strengthens the warning that nearby rows from the same action appearing on both training and evaluation sides should trigger a sample-unit and split-unit recheck. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because it explains that identifying an object and preserving derivation should be kept together, it strengthens the higher-level frame that we must be able to trace whether the current line is a time-point record or a one-action summary in order to catch sample-unit misjudgment earlier. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. Because it distinguishes variables, observations, and table structure, it provides the general principle behind why interpretation becomes awkward when action-level features are forced onto time-point rows. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

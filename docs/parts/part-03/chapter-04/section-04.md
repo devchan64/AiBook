@@ -1,7 +1,7 @@
 # P3-4.4 샘플 단위를 잘못 잡았다는 신호는 무엇인가
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 샘플 단위를 잘못 잡으면 그 문제는 보통 나중 단계에서 이상한 모양으로 다시 드러납니다. `지금 내가 샘플 단위를 잘못 잡고 있다는 사실을 어떻게 알아차릴 수 있는가?`라는 질문이 중요한 이유도 여기에 있습니다. 샘플 단위를 잘못 잡은 채 특징, 라벨, 비교표를 계속 만들다가 뒤늦게 전체 구조가 흔들렸다는 사실을 깨닫는 경우가 많기 때문입니다. 그래서 이 절에서는 샘플 단위 오판을 의심해야 하는 대표 신호를 한 번에 모읍니다.
 
@@ -209,7 +209,7 @@ event-level features appear only after regrouping: yes
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label leakage`. label이 어떤 example 단위에 붙는지와 feature/label 역할 혼동의 위험을 설명하므로, 반복 라벨과 설명되지 않는 특징이 보일 때 샘플 단위를 다시 의심해야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`. grouped data에서는 검증 fold의 샘플이 훈련 fold에 나타난 그룹에서 오지 않게 해야 한다고 설명하므로, 같은 동작의 가까운 줄이 훈련/평가 양쪽에 섞이면 샘플 단위와 분할 단위를 다시 의심해야 한다는 경고를 직접 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
-- W3C, `PROV-Overview`. identifying an object와 derivation을 함께 남겨야 한다고 정리하므로, 현재 줄이 시점 기록인지 동작 1회 요약인지 추적 가능해야 샘플 단위 오판을 더 일찍 찾아낼 수 있다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조를 구분해 설명하므로, 동작 단위 특징을 시점 행에 억지로 붙이면 왜 해석이 어색해지는지 설명하는 일반 원리를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`, `label leakage`. label이 어떤 example 단위에 붙는지와 feature/label 역할 혼동의 위험을 설명하므로, 반복 라벨과 설명되지 않는 특징이 보일 때 샘플 단위를 다시 의심해야 한다는 이 절의 핵심을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`. grouped data에서는 검증 fold의 샘플이 훈련 fold에 나타난 그룹에서 오지 않게 해야 한다고 설명하므로, 같은 동작의 가까운 줄이 훈련/평가 양쪽에 섞이면 샘플 단위와 분할 단위를 다시 의심해야 한다는 경고를 직접 보강합니다. [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. identifying an object와 derivation을 함께 남겨야 한다고 정리하므로, 현재 줄이 시점 기록인지 동작 1회 요약인지 추적 가능해야 샘플 단위 오판을 더 일찍 찾아낼 수 있다는 상위 프레임을 보강합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 변수, 관측치, 표 구조를 구분해 설명하므로, 동작 단위 특징을 시점 행에 억지로 붙이면 왜 해석이 어색해지는지 설명하는 일반 원리를 제공합니다. [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

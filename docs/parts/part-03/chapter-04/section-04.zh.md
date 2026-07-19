@@ -1,7 +1,7 @@
 # P3-4.4 哪些信号说明样本单位抓错了
 
 > Section ID: `P3-4.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 如果样本单位抓错了，这个问题通常不会当场消失，而会在后面的阶段以奇怪的形状重新冒出来。`我现在到底该怎么察觉自己抓错了样本单位？` 这个问题之所以重要，也正因为如此。很多情况下，人会在错误的样本单位上继续做特征、标签、比较表，直到很后面才发现整个结构已经开始摇晃。所以这一节把应该怀疑“样本单位判断错了”的代表性警告信号集中放在一起。
 
@@ -59,97 +59,134 @@
 
 问题情境：当时点表里同一个标签在重复，而动作级特征又只会在重新归组后出现时，检查该如何把这些读成“样本单位抓错了”的警告信号。
 
-输入(input)：按 `event_id` 存放的原始日志表，其中保存了时点流量值以及实际上属于动作级的 `review_needed`
+输入(input)：保存在 [p3_4_4_sample_unit_warning_log.csv](../../../assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv) 里的原始日志表，以及重复警告标准 `repeat_warning_threshold`。这张表里按 `event_id` 存放了时点流量值，并把属于动作级的 `review_needed` 重复保存到了多行中。
 
-期望输出(output)：展示重复标签、重复行数，以及只在重组后才出现的事件摘要特征
+期望输出(output)：同时展示重复标签、重复行数，以及只在重组后才出现的事件摘要特征。只要改变 `repeat_warning_threshold`，哪些重复会被视为警告也会跟着改变。
 
-要确认的概念：重复标签和解释不清的事件级特征，是“单条时点行未必是真正样本单位”的警告信号
+要确认的概念：重复标签和解释不清的事件级特征，是“单条时点行未必是真正样本单位”的警告信号。只有明示警告标准，代码才不是单纯输出表格，而是在检查样本单位是否被误判。
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.5, "review_needed": 1},
-        {"event_id": "A", "second": 1, "flow": 1.8, "review_needed": 1},
-        {"event_id": "A", "second": 2, "flow": 1.1, "review_needed": 1},
-        {"event_id": "B", "second": 0, "flow": 0.4, "review_needed": 0},
-        {"event_id": "B", "second": 1, "flow": 1.1, "review_needed": 0},
-        {"event_id": "B", "second": 2, "flow": 1.0, "review_needed": 0},
-    ]
-)
+repeat_warning_threshold = 1
+preview_row_count = 8
 
-label_repetition = raw.groupby("event_id", as_index=False).agg(
-    row_count=("second", "count"),
-    review_needed_sum=("review_needed", "sum"),
-)
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv")
 
-event_summary = raw.groupby("event_id", as_index=False).agg(
-    duration_seconds=("second", "max"),
-    flow_mean=("flow", "mean"),
-    review_needed=("review_needed", "max"),
-)
+with input_path.open(newline="", encoding="utf-8") as file:
+    rows = list(csv.DictReader(file))
 
-warning_check = pd.DataFrame(
-    [
+for row in rows:
+    row["second"] = int(row["second"])
+    row["flow"] = float(row["flow"])
+    row["review_needed"] = int(row["review_needed"])
+
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+label_repetition = []
+event_summary = []
+
+for event_id, event_rows in sorted(events.items()):
+    review_needed_values = [row["review_needed"] for row in event_rows]
+    label_repetition.append(
         {
-            "warning_sign": "same event repeated across many rows",
-            "seen_in_output": "yes" if label_repetition["row_count"].max() > 1 else "no",
-        },
+            "event_id": event_id,
+            "row_count": len(event_rows),
+            "review_needed_sum": sum(review_needed_values),
+        }
+    )
+    event_summary.append(
         {
-            "warning_sign": "same label repeated within one event",
-            "seen_in_output": "yes" if label_repetition["review_needed_sum"].max() > 1 else "no",
-        },
-        {
-            "warning_sign": "event-level features appear only after regrouping",
-            "seen_in_output": "yes" if "duration_seconds" in event_summary.columns else "no",
-        },
-    ]
-)
+            "event_id": event_id,
+            "duration_seconds": max(row["second"] for row in event_rows),
+            "flow_mean": sum(row["flow"] for row in event_rows) / len(event_rows),
+            "review_needed": max(review_needed_values),
+        }
+    )
+
+max_row_count = max(item["row_count"] for item in label_repetition)
+max_label_sum = max(item["review_needed_sum"] for item in label_repetition)
+
+warning_check = [
+    (
+        "same event repeated across many rows",
+        max_row_count > repeat_warning_threshold,
+    ),
+    (
+        "same label repeated within one event",
+        max_label_sum > repeat_warning_threshold,
+    ),
+    (
+        "event-level features appear only after regrouping",
+        bool(event_summary),
+    ),
+]
 
 print("1) row-level table where labels repeat inside one event")
-print(raw)
+for row in rows[:preview_row_count]:
+    print(
+        f"{row['event_id']} at {row['second']}s: "
+        f"flow={row['flow']:.1f}, review_needed={row['review_needed']}"
+    )
+print(f"... {len(rows) - preview_row_count} more time-point rows")
 print()
 print("2) repeated rows and repeated labels per event")
-print(label_repetition)
+for item in label_repetition:
+    print(
+        f"{item['event_id']}: row_count={item['row_count']}, "
+        f"review_needed_sum={item['review_needed_sum']}"
+    )
 print()
 print("3) event-level summary that appears only after regrouping")
-print(event_summary)
+for item in event_summary:
+    print(
+        f"{item['event_id']}: duration={item['duration_seconds']}s, "
+        f"flow_mean={item['flow_mean']:.2f}, "
+        f"review_needed={item['review_needed']}"
+    )
 print()
 print("4) warning signs that sample unit may be wrong")
-print(warning_check)
+for warning_sign, seen in warning_check:
+    print(f"{warning_sign}: {'yes' if seen else 'no'}")
 ```
 
 期望输出：
 
 ```text
 1) row-level table where labels repeat inside one event
-  event_id  second  flow  review_needed
-0        A       0   0.5              1
-1        A       1   1.8              1
-2        A       2   1.1              1
-3        B       0   0.4              0
-4        B       1   1.1              0
-5        B       2   1.0              0
+A at 0s: flow=0.5, review_needed=1
+A at 1s: flow=0.9, review_needed=1
+A at 2s: flow=1.2, review_needed=1
+A at 3s: flow=1.5, review_needed=1
+A at 4s: flow=1.8, review_needed=1
+A at 5s: flow=1.6, review_needed=1
+A at 6s: flow=1.4, review_needed=1
+A at 7s: flow=1.2, review_needed=1
+... 28 more time-point rows
 
 2) repeated rows and repeated labels per event
-  event_id  row_count  review_needed_sum
-0        A          3                  3
-1        B          3                  0
+A: row_count=18, review_needed_sum=18
+B: row_count=9, review_needed_sum=0
+C: row_count=6, review_needed_sum=6
+D: row_count=3, review_needed_sum=0
 
 3) event-level summary that appears only after regrouping
-  event_id  duration_seconds  flow_mean  review_needed
-0        A                 2   1.133333              1
-1        B                 2   0.833333              0
+A: duration=17s, flow_mean=0.94, review_needed=1
+B: duration=8s, flow_mean=0.88, review_needed=0
+C: duration=5s, flow_mean=1.07, review_needed=1
+D: duration=2s, flow_mean=0.67, review_needed=0
 
 4) warning signs that sample unit may be wrong
-                                  warning_sign seen_in_output
-0           same event repeated across many rows            yes
-1              same label repeated within one event            yes
-2  event-level features appear only after regrouping            yes
+same event repeated across many rows: yes
+same label repeated within one event: yes
+event-level features appear only after regrouping: yes
 ```
 
-这个例子的关键，不在于计算值本身，而在于 `警告信号究竟是从哪里冒出来的`。在第 2 步里，我们看到同一个 `event_id` 在多行中重复出现，也看到 `review_needed` 在同一次完整动作里被原样复制。第 3 步里，我们看到像 `duration_seconds`、`flow_mean` 这样的动作级特征在原始行里并不存在，只有重新归组后才出现。所以第 4 步的警告表，并不是在制造新的判断，而是在把前面输出里已经看见的信号重新聚起来。
+这个例子的关键，不在于计算值本身，而在于 `警告信号究竟是从哪里冒出来的`。在第 2 步里，我们看到同一个 `event_id` 在多行中重复出现，也看到 `review_needed` 在同一次完整动作里被原样复制。这里可以调节的值是 `repeat_warning_threshold`。如果设为 `1`，重复两次以上的事件和标签就会被视为警告；如果把它提高到 `3`，即便输出相同，警告也可能减少。第 3 步里，我们看到像 `duration_seconds`、`flow_mean` 这样的动作级特征在原始行里并不存在，只有重新归组后才出现。所以第 4 步的警告表，并不是在制造新的判断，而是根据明示标准把前面输出里已经看见的信号重新聚起来。
 
 ## 说明应该重新看样本单位的问题
 
@@ -172,6 +209,7 @@ print(warning_check)
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`label leakage`。它们一方面解释标签附着在哪个 example 单位上，另一方面说明混淆 feature 和 label 角色的风险，因此支持本节的核心判断：一旦看见重复标签和解释不清的特征，就应该重新检查样本单位。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它说明应该一起保留 identifying an object 和 derivation，因此强化了这个上位框架：要尽早发现样本单位判断错误，就必须能追踪当前这一行到底是时点记录，还是一次动作摘要。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它区分变量、观测值和表结构，因此提供了一般原理，解释为什么把动作级特征硬贴到时点行上时，解释会变得别扭。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`、`label leakage`。它们一方面解释标签附着在哪个 example 单位上，另一方面说明混淆 feature 和 label 角色的风险，因此支持本节的核心判断：一旦看见重复标签和解释不清的特征，就应该重新检查样本单位。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`。它说明在 grouped data 中，验证 fold 的样本应来自配对训练 fold 中完全没有出现过的组，因此直接强化了这个警告：如果同一动作里的相邻行同时出现在训练和评估两边，就应该重新检查样本单位和分割单位。 [https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它说明应该一起保留 identifying an object 和 derivation，因此强化了这个上位框架：要尽早发现样本单位判断错误，就必须能追踪当前这一行到底是时点记录，还是一次动作摘要。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Hadley Wickham, `Tidy Data`, *Journal of Statistical Software* 59(10), 2014. 它区分变量、观测值和表结构，因此提供了一般原理，解释为什么把动作级特征硬贴到时点行上时，解释会变得别扭。 [https://www.jstatsoft.org/article/view/v059i10](https://www.jstatsoft.org/article/view/v059i10){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
