@@ -1,7 +1,7 @@
 # P4-10.2 线性回归(linear regression)的评价与局限
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`。现在要进入下一个问题。
 
@@ -25,14 +25,11 @@ P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`�
 - 当直线假设失效时，会出现什么局限？
 - linear regression 的结果应该信到什么程度，又该从哪里开始更谨慎？
 
-这一节不会深入讲下面这些内容。
+这一节先用 `拟合得有多好` 和 `从哪里开始容易出错` 这两个问题收束 linear regression 的结果，并集中把 residual 和评价指标抓成判断手柄。
 
-- statistical significance test
-- residual normality 与 homoscedasticity 的严格检验
-- multicollinearity 诊断
-- 更深入的 regularization 与 feature engineering
+不过，这一节不会立刻扩展的问题也很明确。regression diagnostics、significance 和 multicollinearity 的基础阅读，会在 P4-10.3 补充学习里再整理。regularization 与相关 hyperparameter 的更大视角，也会通过 P4-9.1 和 P4-9.2 再接回来。feature engineering 的更大流程，则会通过 P4-7.1、P4-7.2、P4-18.1、P4-18.2 再连回去。
 
-regression diagnostics、significance 和 multicollinearity 的基础阅读，会在 P4-10.3 补充学习里再整理。regularization 与相关 hyperparameter 的更大视角，也会通过 P4-9.1 和 P4-9.2 再接回来。feature engineering 的更大流程，则会通过 P4-7.1、P4-7.2、P4-18.1、P4-18.2 再连回去。
+statistical significance test、residual normality 与 homoscedasticity 的严格检验、multicollinearity 诊断、更深入的 regularization 与 feature engineering，超出了当前这一节的直接范围，所以这里不会详细处理。
 
 ## 本节目标
 

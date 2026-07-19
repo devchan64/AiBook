@@ -1,7 +1,7 @@
 # P4-10.2 Evaluation And Limits Of Linear Regression
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-10.1 introduced linear regression as `a model that first reads a relationship with a line`. Now the discussion moves to the next question.
 
@@ -25,14 +25,11 @@ This Section answers the following questions.
 - What kinds of limits appear when the line assumption breaks down?
 - Up to what point should a linear-regression result be trusted, and from what point should it be read more cautiously?
 
-This Section does not treat the following topics deeply.
+This Section first closes linear-regression results through the two questions `how much did it fit?` and `from where does it begin to fail easily?`, and focuses on holding residuals and evaluation metrics as the handles for that judgment.
 
-- statistical significance testing
-- rigorous tests of residual normality and homoscedasticity
-- diagnosis of multicollinearity
-- advanced regularization and feature engineering
+The questions that will not be widened immediately in this Section are also clear. Basic reading of regression diagnostics, significance testing, and multicollinearity is reorganized again in the supplementary learning of P4-10.3. The broader view of regularization and related hyperparameters reconnects again through P4-9.1 and P4-9.2. The broader flow of feature engineering reconnects again through P4-7.1, P4-7.2, P4-18.1, and P4-18.2.
 
-Basic reading of regression diagnostics, significance testing, and multicollinearity is reorganized again in the supplementary learning of P4-10.3. The broader view of regularization and related hyperparameters reconnects again through P4-9.1 and P4-9.2. The broader flow of feature engineering reconnects again through P4-7.1, P4-7.2, P4-18.1, and P4-18.2.
+Statistical significance testing, rigorous tests of residual normality and homoscedasticity, multicollinearity diagnosis, and advanced regularization and feature engineering go beyond the direct scope of this Section, so they are not treated in detail here.
 
 ## Goals Of This Section
 
@@ -98,6 +95,10 @@ What matters here is the sign and the size.
 - positive residual: the model predicted too low
 - negative residual: the model predicted too high
 - large absolute value: the prediction missed more on that data point
+
+When looking at one point, the residual is the vertical distance between the `actual point` and the `predicted point on the regression line`. So when reading residuals, it is faster to look not only at a number table but also at `how far above or below the line the point sits`.
+
+![Chart showing residuals as the vertical gap between actual points and the regression line](/AiBook/assets/part-04/chapter-10/p4-10-2-residual-gap-en.svg)
 
 If this is drawn simply, it becomes the following.
 
@@ -290,6 +291,10 @@ Typical practical scenes include the following.
 Such points may represent important real events, but when one line is used to read the whole dataset, they can pull the model too strongly.
 
 So the limit of linear regression should be read less as `the algorithm is bad` and more as `summarizing the current problem with only one line may be too much`.
+
+The most typical first suspicions are `the true relationship is actually curved` and `a few extreme values are pulling the line`.
+
+![Chart comparing two scenes where a nonlinear relationship and outlier pull make one line struggle](/AiBook/assets/part-04/chapter-10/p4-10-2-line-limit-comparison-en.svg)
 
 That signal can be shortened into a practical retrospective note as follows.
 
