@@ -1,7 +1,7 @@
 # P3-7.2 비교표를 사람 검토 문장으로 어떻게 읽는가
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 기준선 비교표가 만들어지면 이제 숫자가 많이 보이기 시작합니다. 최근 평균, 기준선 평균, 차이값, 비율 차이, 최근 변동성, 기준선 변동성 같은 열이 한꺼번에 나타날 수 있습니다. 이때는 가장 눈에 띄는 차이값 하나만 보고 곧바로 결론을 내리곤 합니다. 하지만 비교표는 읽는 순서가 중요합니다. Part 3에서는 이 비교표를 자동 진단 결과표보다 `사람 검토 문장을 만들기 위한 표`로 읽어야 합니다.
 
@@ -55,5 +55,5 @@
 
 ## 출처와 참고 자료
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 비교 신호가 곧바로 기능 판정과 같은 뜻이 아니라는 구분을 설명하므로, 비교표를 원인 확정표가 아니라 검토 신호표로 읽어야 한다는 점을 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. 데이터가 어떤 조건과 절차를 거쳐 만들어졌는지의 문맥을 provenance information으로 남기는 일반 틀을 제공하므로, 비교표도 diff만 보기보다 기준선 조건과 recent_count 같은 비교 맥락을 함께 읽어야 한다는 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 비교 신호가 곧바로 기능 판정과 같은 뜻이 아니라는 구분을 설명하므로, 비교표를 원인 확정표가 아니라 검토 신호표로 읽어야 한다는 점을 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. 데이터가 어떤 조건과 절차를 거쳐 만들어졌는지의 문맥을 provenance information으로 남기는 일반 틀을 제공하므로, 비교표도 diff만 보기보다 기준선 조건과 recent_count 같은 비교 맥락을 함께 읽어야 한다는 설명을 일반화하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

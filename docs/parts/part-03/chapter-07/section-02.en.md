@@ -1,7 +1,7 @@
 # P3-7.2 How Should We Read a Comparison Table as a Human Review Sentence
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Once the baseline comparison table is built, many numbers start appearing at once. Columns such as recent average, baseline average, difference value, ratio difference, recent variability, and baseline variability can all appear together. At this point, people often look at the single most noticeable difference value and jump straight to a conclusion. But the order in which a comparison table is read matters. In Part 3, this table should be read not as an automatic diagnosis result table, but as `a table for building a human review sentence`.
 
@@ -55,5 +55,5 @@ So the comparison table should be read not as an automatic conclusion table, but
 
 ## Sources and Further Reading
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it explains both the structure of comparing current performance with past performance and the distinction that a comparison signal is not immediately the same as a confirmed functional judgment, it reinforces the point that a comparison table should be read not as a cause-confirmation table but as a review-signal table. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because it provides a general framework of provenance information for keeping the context of the conditions and procedures through which data was produced, it can help generalize the explanation that a comparison table should be read with comparison context such as baseline condition and recent_count rather than diff alone. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it explains both the structure of comparing current performance with past performance and the distinction that a comparison signal is not immediately the same as a confirmed functional judgment, it reinforces the point that a comparison table should be read not as a cause-confirmation table but as a review-signal table. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because it provides a general framework of provenance information for keeping the context of the conditions and procedures through which data was produced, it can help generalize the explanation that a comparison table should be read with comparison context such as baseline condition and recent_count rather than diff alone. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

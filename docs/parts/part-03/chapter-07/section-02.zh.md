@@ -1,7 +1,7 @@
 # P3-7.2 应该怎样把比较表读成人工复核句子
 
 > Section ID: `P3-7.2`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一旦基准线比较表做出来，眼前就会开始同时出现很多数字。最近平均值、基准线平均值、差值、比例差、最近波动性、基准线波动性，这些列都可能一起冒出来。这时人们很容易只盯住最显眼的那一个差值，然后立刻下结论。但比较表的阅读顺序很重要。在 Part 3 里，这张表不该被读成自动诊断结果表，而应该被读成 `一张用来生成“人工复核句子”的表`。
 
@@ -55,5 +55,5 @@
 
 ## 来源与参考资料
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它既解释了“当前表现和过去表现进行比较”的结构，也说明比较信号并不等于直接确定功能结论，因此强化了这一点：比较表应该被读成复核信号表，而不是原因确认表。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. 它提供了一个一般框架：通过 provenance information 把数据形成过程中的条件和步骤背景一起保留下来，因此也可以用来一般化这里的说明：比较表不应只看 diff，而应连同基准线条件、recent_count 这样的比较上下文一起读取。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它既解释了“当前表现和过去表现进行比较”的结构，也说明比较信号并不等于直接确定功能结论，因此强化了这一点：比较表应该被读成复核信号表，而不是原因确认表。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. 它提供了一个一般框架：通过 provenance information 把数据形成过程中的条件和步骤背景一起保留下来，因此也可以用来一般化这里的说明：比较表不应只看 diff，而应连同基准线条件、recent_count 这样的比较上下文一起读取。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
