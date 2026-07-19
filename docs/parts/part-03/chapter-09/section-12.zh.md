@@ -1,7 +1,7 @@
 # P3-9.12 即使 target 名称相同，为什么也要先写清哪种错误更痛
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 即使 target 名称相同，不同问题里更痛的错误也可能不一样。哪怕都是在预测 `review_needed`，漏掉风险案例更危险，还是把本来不需要的人也送去复核更有负担，都会随着运营语境不同而改变。也就是说，即使 target 相同，漏判和误报的成本也可能不同，所以必须先把这种差别写下来，才能明确当前更想减少的是哪一种判断错误。
 
@@ -44,5 +44,5 @@
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `false negative`, `false positive`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, threshold choice under asymmetric costs. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `false negative`, `false positive`, `ROC curve`。用于确认 false negative 与 false positive 的术语依据，以及真实阈值选择可能受到不同错误成本影响这一说明。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google, *Thresholds and the confusion matrix*。用于确认：不同阈值会改变 true/false positive 与 true/false negative 的数量；当错误成本不对称时，简单默认阈值可能并不合适。 [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

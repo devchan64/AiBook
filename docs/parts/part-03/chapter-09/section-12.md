@@ -1,7 +1,7 @@
 # P3-9.12 같은 target 이름이라도 어떤 오류가 더 아픈지 왜 먼저 적어야 하는가
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 같은 target 이름 아래에서도 어떤 실수가 더 아픈지는 문제마다 다를 수 있습니다. `review_needed`를 맞히는 문제라고 해도 위험 사례를 놓치는 것이 더 위험한지, 괜히 검토에 올리는 것이 더 부담스러운지는 운영 맥락에 따라 달라집니다. 같은 target이라도 놓치는 실수와 괜히 잡는 실수의 비용이 다를 수 있으므로, 이 차이를 먼저 적어 두어야 지금 어떤 판단을 더 줄이려는지 분명해집니다.
 
@@ -45,5 +45,5 @@
 
 ## 출처와 참고 자료
 
-- Google, *Machine Learning Glossary*, `false negative`, `false positive`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, threshold choice under asymmetric costs. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `false negative`, `false positive`, `ROC curve`. false negative와 false positive의 용어 기준, 실제 임계값 선택에는 오류별 비용 차이가 영향을 줄 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google, *Thresholds and the confusion matrix*. 임계값이 달라지면 true/false positive와 true/false negative 수가 달라지고, 오류 비용이 비대칭이면 단순한 기본 임계값이 적절하지 않을 수 있다는 설명을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-9.12 Even Under the Same Target Name, Why Must You First Write Which Error Hurts More
 
 > Section ID: `P3-9.12`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Even under the same target name, which mistake hurts more can vary from problem to problem. Even in a problem that predicts `review_needed`, it depends on the operating context whether missing a risky case is more dangerous or whether unnecessarily sending a case to review is more burdensome. Even with the same target, the cost of a missed case and the cost of an unnecessary catch can differ, so this difference should be written down first in order to make clear which judgment you are trying harder to reduce.
 
@@ -44,5 +44,5 @@ So rather than closing the problem with accuracy alone, you should first ask why
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `false negative`, `false positive`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: Thresholds and the Confusion Matrix*, threshold choice under asymmetric costs. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `false negative`, `false positive`, `ROC curve`. Used to check the term basis for false negatives and false positives, and the view that real threshold selection can be affected by different costs for different errors. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google, *Thresholds and the confusion matrix*. Used to check that different thresholds change the counts of true/false positives and true/false negatives, and that a simple default threshold can be a poor choice when error costs are asymmetric. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
