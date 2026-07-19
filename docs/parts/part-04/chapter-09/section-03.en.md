@@ -1,7 +1,7 @@
 # P4-9.3 Supplementary Learning: Reading The Big Picture Of Advanced Model Selection, Tuning Automation, And Experiment Tracking
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-8 and P4-9 established the basic flow of setting model candidates, placing a baseline, and comparing hyperparameters inside a validation procedure. After that, the following names usually appear.
 
@@ -26,13 +26,7 @@ This Section answers the following questions.
 - Why did Bayesian optimization and Hyperband appear after grid search?
 - Why did nested cross-validation and experiment tracking become important for reducing reproducibility problems and overestimation risk?
 
-This Section does not cover the following topics deeply.
-
-- mathematical proofs of each algorithm
-- setup screens and operating procedures of specific platforms
-- details of building distributed cluster infrastructure
-
-GPU computation structure is revisited in Part 5, and large-scale operational constraints reconnect in Part 6.
+This Section first closes `what different problems advanced model selection, tuning automation, and experiment tracking handle`. GPU computation structure is revisited in Part 5, and large-scale operational constraints reconnect in Part 6.
 
 ## Goals Of This Supplementary Learning
 
@@ -63,7 +57,7 @@ AIC and BIC mainly appear in the context of statistical model selection.
 - It may be desirable to reflect the model becoming too complex as a kind of penalty.
 - AIC and BIC are attempts to compare that balance numerically.
 
-In the current main text of this book, the machine-learning practice flow comes first, so the formula development of AIC/BIC is not extended further here. Instead, it is enough to hold on to why the idea of `viewing fit and complexity together` appeared.
+In the current flow of this book, the comparison structure of machine-learning practice comes first, so here it is enough to hold on to why the idea of `viewing fit and complexity together` appeared.
 
 ## What Do AutoML And Large-Scale Search Systems Automate?
 
