@@ -228,14 +228,14 @@ flowchart LR
 输入：
 
 - 6 条告警数据
-- batch size 2
+- 要比较的 batch size 1、2、4
 - epoch 数 2
 
 输出：
 
-- 每个 epoch 里，哪个 batch 以第几个 step 被处理
-- 全部累计的 step 数
-- epoch 的结束时点
+- batch size 改变时，每个 epoch 的 batch 数和总 step 数如何变化
+- 数据不能整除时，最后一个 batch 会剩下多大
+- epoch 的结束时点由什么决定
 
 问题场景：
 
@@ -257,44 +257,29 @@ samples = [
     {"alarm_count": 6, "target": 12},
 ]
 
-batch_size = 2
 epochs = 2
-global_step = 0
 
-for epoch_index in range(epochs):
-    print(f"epoch {epoch_index + 1} start")
+def run_epoch_log(batch_size):
+    global_step = 0
+    batch_sizes_seen = []
 
-    for batch_start in range(0, len(samples), batch_size):
-        batch = samples[batch_start:batch_start + batch_size]
-        global_step += 1
-        batch_alarm_counts = [row["alarm_count"] for row in batch]
-        print(
-            f"  step {global_step}: "
-            f"batch_samples={batch_alarm_counts}"
-        )
+    for _ in range(epochs):
+        for batch_start in range(0, len(samples), batch_size):
+            batch = samples[batch_start:batch_start + batch_size]
+            global_step += 1
+            batch_sizes_seen.append(len(batch))
 
-    print(f"epoch {epoch_index + 1} end")
-    print("---")
+    print(f"[batch_size={batch_size}]")
+    print("steps_per_epoch =", len(batch_sizes_seen) // epochs)
+    print("total_steps =", global_step)
+    print("batch_sizes_seen =", batch_sizes_seen)
+    print()
+
+for batch_size in [1, 2, 4]:
+    run_epoch_log(batch_size)
 ```
 
-```text
-epoch 1 start
-  step 1: batch_samples=[1, 2]
-  step 2: batch_samples=[3, 4]
-  step 3: batch_samples=[5, 6]
-epoch 1 end
----
-epoch 2 start
-  step 4: batch_samples=[1, 2]
-  step 5: batch_samples=[3, 4]
-  step 6: batch_samples=[5, 6]
-epoch 2 end
----
-```
-
-在这段输出里，首先要看到的是：因为 batch size 是 2，所以 6 条样本在每个 epoch 里都会被切成 3 个 batch。然后再确认：每处理完一个 batch，step 就加 1；而只有 3 个 batch 全部结束以后，epoch 才结束一次。
-
-现在也可以自己再改几个数字试试看。把 `batch_size` 改成 3，那么每个 epoch 里只会看到 2 个 step；把 `batch_size` 改成 1，那么每个 epoch 里会看到 6 个 step。但无论哪一种情况，只有在 6 条样本全部看完以后，epoch 才会结束，这一点不会变。只要抓住这个感觉，就不容易再把 step、batch、epoch 读成同一种数字。
+在这段输出里，首先要看到的是：batch size 越小，一个 epoch 里的 step 数就越多。反过来，如果把 batch size 提高到 4，6 条样本会被切成 `[4, 2]`，所以最后一个 batch 可能更小。但 epoch 的含义不会改变。把整份数据完整看过一次，epoch 才结束；每处理一个 batch，step 就增加 1。
 
 这里最后还要固定的核心很简单。batch 是`打包单位`，step 是`更新单位`，epoch 是`整轮重复单位`。它们都在描述学习的重复，但并不是拿不同名字去叫同一个数字。
 

@@ -298,23 +298,9 @@ Chapter 9는 사전학습, 파인튜닝, 정렬을 본 뒤에 `사용자가 지�
 
 이번 예제의 목표는 `좋은 문장을 한 번 쓰는 것`이 아니라, 같은 작업을 여러 요청 카드에 반복 적용했을 때 어떤 프롬프트가 더 안정적인 결과를 내는지 점검하는 것입니다. 실제 서비스에서도 프롬프트 평가는 한 번의 멋진 출력보다 `여러 입력에서 형식과 핵심 항목이 계속 유지되는가`를 보는 쪽이 더 중요합니다.
 
-문제 상황:
+고객지원팀이 매일 여러 운영 메모를 짧게 요약한다고 해 봅시다. 단순 요청은 자유롭게 요약되지만, 운영상 꼭 남겨야 하는 항목이 빠질 수 있습니다. 구조화 요청은 `독자`, `줄 수`, `반드시 남길 항목`을 함께 줘서 형식과 누락 여부를 점검합니다.
 
-- 고객지원팀이 매일 여러 운영 메모를 짧게 요약해야 함
-- 단순 요청은 자유롭게 요약되지만, 운영상 꼭 남겨야 하는 항목이 빠질 수 있음
-- 구조화 요청은 `독자`, `줄 수`, `반드시 남길 항목`을 함께 줘서 형식과 누락 여부를 점검하고 싶음
-
-입력:
-
-- 운영 메모 3개
-- 각 메모에서 반드시 남겨야 하는 핵심 항목
-- 단순 프롬프트와 구조화 프롬프트
-
-출력:
-
-- 메모별 응답
-- 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부
-- 프롬프트 유형별 전체 요약 통계
+아래 예제는 운영 메모 3개를 대상으로 단순 프롬프트와 구조화 프롬프트를 비교합니다. 비교 기준은 메모별 응답, 줄 수, 번호 형식, 핵심 항목 보존율, 슬롯 누락 여부, 프롬프트 유형별 전체 요약 통계입니다.
 
 프롬프트 설계 차이를 먼저 표로 보면 다음과 같습니다.
 
@@ -325,13 +311,7 @@ Chapter 9는 사전학습, 파인튜닝, 정렬을 본 뒤에 `사용자가 지�
 | 형식 제약 | 없음 | `상황`, `즉시 조치`, `남은 위험` |
 | 점검 기준 | 사람이 눈대중 확인 | 슬롯 누락, 키워드 보존율 확인 |
 
-입력(input):
-
-위에 정리한 요청별 사실 목록과 단순/구조화 프롬프트를 사용합니다.
-
-확인할 개념:
-
-- 프롬프트를 구조화하면 답변 내용뿐 아니라 형식 점검 가능성과 사실 보존 여부도 함께 달라질 수 있다
+코드에서 확인할 핵심은 프롬프트를 구조화하면 답변 내용뿐 아니라 형식 점검 가능성과 사실 보존 여부도 함께 달라질 수 있다는 점입니다.
 
 ```python
 requests = [
@@ -540,4 +520,4 @@ average_keyword_ratio = 0.78
 
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.
 - Jason Wei et al., [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-19.
-- OpenAI Academy, [Prompting fundamentals](https://openai.com/academy/prompting/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- OpenAI, [Prompting | ChatGPT Learn](https://learn.chatgpt.com/docs/prompting){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.

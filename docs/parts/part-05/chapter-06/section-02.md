@@ -228,14 +228,14 @@ flowchart LR
 입력:
 
 - 경보 데이터 6건
-- batch size 2
+- 비교할 batch size 1, 2, 4
 - epoch 수 2
 
 출력:
 
-- 각 epoch에서 어떤 batch가 몇 번째 step으로 처리되는지
-- 전체 step 수
-- epoch 종료 시점
+- batch size가 바뀔 때 각 epoch의 batch 개수와 전체 step 수가 어떻게 달라지는지
+- 마지막 batch가 나누어떨어지지 않을 때 어떤 크기로 남는지
+- epoch 종료 시점은 무엇으로 결정되는지
 
 문제 상황:
 
@@ -257,42 +257,29 @@ samples = [
     {"alarm_count": 6, "target": 12},
 ]
 
-batch_size = 2
 epochs = 2
-global_step = 0
 
-for epoch_index in range(epochs):
-    print(f"epoch {epoch_index + 1} start")
+def run_epoch_log(batch_size):
+    global_step = 0
+    batch_sizes_seen = []
 
-    for batch_start in range(0, len(samples), batch_size):
-        batch = samples[batch_start:batch_start + batch_size]
-        global_step += 1
-        batch_alarm_counts = [row["alarm_count"] for row in batch]
-        print(
-            f"  step {global_step}: "
-            f"batch_samples={batch_alarm_counts}"
-        )
+    for _ in range(epochs):
+        for batch_start in range(0, len(samples), batch_size):
+            batch = samples[batch_start:batch_start + batch_size]
+            global_step += 1
+            batch_sizes_seen.append(len(batch))
 
-    print(f"epoch {epoch_index + 1} end")
-    print("---")
+    print(f"[batch_size={batch_size}]")
+    print("steps_per_epoch =", len(batch_sizes_seen) // epochs)
+    print("total_steps =", global_step)
+    print("batch_sizes_seen =", batch_sizes_seen)
+    print()
+
+for batch_size in [1, 2, 4]:
+    run_epoch_log(batch_size)
 ```
 
-```text
-epoch 1 start
-  step 1: batch_samples=[1, 2]
-  step 2: batch_samples=[3, 4]
-  step 3: batch_samples=[5, 6]
-epoch 1 end
----
-epoch 2 start
-  step 4: batch_samples=[1, 2]
-  step 5: batch_samples=[3, 4]
-  step 6: batch_samples=[5, 6]
-epoch 2 end
----
-```
-
-이 출력에서는 먼저 batch size가 2이므로 샘플 6건이 epoch마다 3개 batch로 나뉜다는 점을 봅니다. 그다음 각 batch 뒤에 step이 1씩 증가하고, 세 batch가 끝난 뒤에야 epoch가 끝난다는 점을 확인하면 됩니다.
+이 출력에서는 먼저 batch size가 작아질수록 한 epoch 안의 step 수가 늘어난다는 점을 봅니다. 반대로 batch size를 4로 키우면 6개 샘플이 `[4, 2]`처럼 나뉘므로, 마지막 batch가 더 작게 남을 수 있습니다. 그래도 epoch의 의미는 바뀌지 않습니다. 전체 데이터를 한 번 다 보면 epoch 1회가 끝나고, batch 하나를 처리할 때마다 step이 1씩 증가합니다.
 
 이제 여기서 스스로 한 번 바꿔 볼 수 있습니다. `batch_size`를 3으로 바꾸면 epoch마다 step이 2번만 보일 것이고, `batch_size`를 1로 바꾸면 epoch마다 step이 6번 보일 것입니다. 하지만 어느 경우든 샘플 6건 전체를 다 본 뒤에야 epoch가 끝난다는 점은 그대로입니다. 이 감각이 잡히면 step, batch, epoch를 같은 종류의 숫자로 읽지 않게 됩니다.
 

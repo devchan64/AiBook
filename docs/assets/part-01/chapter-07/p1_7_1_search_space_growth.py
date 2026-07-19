@@ -23,7 +23,7 @@ HIGHLIGHT_STAGES = {1, 2, 5, 10}
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "Droid Sans Fallback", "DejaVu Sans"],
         "xlabel": "단계 수",
         "ylabel": "가능한 조합 수",
         "note": "각 단계 선택지 3개",
@@ -39,7 +39,7 @@ LANG_TEXT = {
         "outfile": "search-space-growth-en.png",
     },
     "zh": {
-        "font_candidates": ["Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK SC", "Noto Sans CJK TC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "Droid Sans Fallback", "DejaVu Sans"],
         "xlabel": "阶段数",
         "ylabel": "可能组合数",
         "note": "每阶段 3 个选择",

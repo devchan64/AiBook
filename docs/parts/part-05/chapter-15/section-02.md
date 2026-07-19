@@ -226,7 +226,7 @@ P5-15.1이 `생성 모델은 무엇을 배우는가`를 설명하는 절이었�
 
 입력(input):
 
-위에 정리한 점검 결과 안내 prefix, 대응 문구 목록, 상대 가중치를 사용합니다.
+위에 정리한 점검 결과 안내 prefix와 대응 문구 목록을 사용하되, 이번에는 `response_weights`를 세 가지 방식으로 바꿔 봅니다. 같은 후보라도 가중치가 뾰족한지, 비교적 평평한지에 따라 sampling 결과 폭이 어떻게 달라지는지 확인하는 실험입니다.
 
 ```python
 import random
@@ -238,36 +238,48 @@ response_candidates = [
     "10분 뒤 재측정합니다.",
     "현재 기준에서는 정상으로 유지합니다.",
 ]
-response_weights = [0.46, 0.24, 0.18, 0.12]
 
-argmax_choice = response_candidates[response_weights.index(max(response_weights))]
-argmax_sentences = [f"{inspection_prefix} {argmax_choice}" for _ in range(5)]
+experiments = {
+    "base": [0.46, 0.24, 0.18, 0.12],
+    "sharper": [0.65, 0.18, 0.11, 0.06],
+    "flatter": [0.30, 0.27, 0.23, 0.20],
+}
 
-random.seed(7)
-sampled_choices = [random.choices(response_candidates, weights=response_weights, k=1)[0] for _ in range(20)]
-sampled_sentences = [f"{inspection_prefix} {choice}" for choice in sampled_choices]
-counts = {candidate: sampled_choices.count(candidate) for candidate in response_candidates}
-avg_length = round(sum(len(sentence) for sentence in sampled_sentences) / len(sampled_sentences), 1)
+def run_sampling(label, weights, seed=7, draws=20):
+    rng = random.Random(seed)
+    argmax_choice = response_candidates[weights.index(max(weights))]
+    sampled_choices = rng.choices(response_candidates, weights=weights, k=draws)
+    counts = {
+        candidate: sampled_choices.count(candidate)
+        for candidate in response_candidates
+    }
+    sampled_sentences = [
+        f"{inspection_prefix} {choice}"
+        for choice in sampled_choices
+    ]
+    avg_length = sum(len(sentence) for sentence in sampled_sentences) / draws
+    unique_choices = sum(1 for count in counts.values() if count > 0)
 
-print("argmax_sentences =", argmax_sentences)
-print("sampled_sentences =", sampled_sentences)
-print("counts =", counts)
-print("average_sampled_length =", avg_length)
-```
+    print(f"[{label}]")
+    print("weights =", weights)
+    print("argmax_choice =", argmax_choice)
+    print("counts =", counts)
+    print("unique_choices =", unique_choices)
+    print("average_sampled_length =", round(avg_length, 1))
+    print()
 
-```text
-argmax_sentences = ['배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.']
-sampled_sentences = ['배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 담당자 확인 후 재개합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 담당자 확인 후 재개합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 담당자 확인 후 재개합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 10분 뒤 재측정합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 재확인이 필요합니다.', '배치 점검 결과 담당자 확인 후 재개합니다.', '배치 점검 결과 현재 기준에서는 정상으로 유지합니다.', '배치 점검 결과 담당자 확인 후 재개합니다.', '배치 점검 결과 재확인이 필요합니다.']
-counts = {'재확인이 필요합니다.': 13, '담당자 확인 후 재개합니다.': 5, '10분 뒤 재측정합니다.': 1, '현재 기준에서는 정상으로 유지합니다.': 1}
-average_sampled_length = 21.6
+for label, weights in experiments.items():
+    run_sampling(label, weights)
 ```
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| argmax 결과와 sampling 결과의 빈도 차이 | 가장 높은 대응 문구만 고를지, 여러 대응 문구를 실제로 꺼낼지에 따라 운영 메시지 경험이 달라진다는 뜻 | 후보 가중치와 반복 횟수를 바꾸면 조치 문구 다양성과 문장 길이 분포가 달라집니다 |
+| `counts` | 각 가중치 시나리오에서 어떤 문구가 실제 출력으로 얼마나 자주 선택됐는지 보여 줍니다 | `sharper`에서는 높은 후보 쏠림이 커지고, `flatter`에서는 낮은 후보가 더 자주 등장할 수 있습니다 |
+| `unique_choices` | 20번 생성 안에서 실제로 몇 종류의 문구가 등장했는지 보여 줍니다 | 값이 커지면 변주 폭은 넓어지지만, 운영 문구의 안정성은 따로 확인해야 합니다 |
+| `average_sampled_length` | 선택된 후보 문구 길이에 따라 결과 문장 밀도가 어떻게 흔들리는지 보여 줍니다 | 긴 후보의 비중을 높이면 평균 길이와 설명 밀도가 함께 바뀝니다 |
 
-- argmax 방식은 `재확인이 필요합니다.` 하나만 반복하므로, 가장 보수적인 대응은 일관되지만 운영 표현 폭이 매우 좁습니다
-- sampling 방식은 재확인 문구가 가장 자주 나오더라도, `담당자 확인 후 재개합니다.`, `10분 뒤 재측정합니다.` 같은 다른 조치 문구도 실제 출력에 남길 수 있습니다
+- argmax 방식은 `재확인이 필요합니다.` 하나만 고르므로, 가장 보수적인 대응은 일관되지만 운영 표현 폭이 매우 좁습니다
+- sampling 방식은 재확인 문구가 가장 자주 나오더라도, 가중치가 평평해질수록 `담당자 확인 후 재개합니다.`, `10분 뒤 재측정합니다.` 같은 다른 조치 문구도 실제 출력에 더 자주 남길 수 있습니다
 - 빈도와 평균 길이를 함께 보면, 샘플링은 `어떤 대응이 얼마나 자주 나오나`뿐 아니라 `설명 밀도와 조치 선택 폭`까지 바꾼다는 점이 드러납니다
 - 따라서 `response_weights`를 계산한 단계와 `실제 문장을 어떤 절차로 꺼냈는가`를 분리해서 보지 않으면, 같은 모델인데 왜 결과 경험이 달라지는지 설명하기 어렵습니다
 

@@ -230,23 +230,9 @@ P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 
 이번 예제의 목표는 `강한 프롬프트`와 `실제 구조 보장`이 다른 문제라는 점을, 한두 개 출력이 아니라 점검 보고서 형태로 확인하는 것입니다. 실제 서비스에서는 답변 문장만 읽지 않고 `최신 문서가 붙었는가`, `계산 로그가 있는가`, `실행 로그가 남았는가` 같은 검증 항목을 함께 봐야 합니다.
 
-문제 상황:
+사용자는 최신 정책, 정확한 계산, 실제 저장 실행을 한꺼번에 기대할 수 있습니다. 프롬프트에는 `최신 문서를 근거로`, `정확하게 계산해서`, `저장까지 완료해`라고 강하게 적어 둘 수 있지만, 최신 문서 연결, 계산 도구, 저장 도구가 없으면 답은 여전히 말뿐인 지시로 끝날 수 있습니다.
 
-- 사용자는 최신 정책, 정확한 계산, 실제 저장 실행을 함께 기대할 수 있음
-- 프롬프트에는 `최신 문서를 근거로`, `정확하게 계산해서`, `저장까지 완료해`라고 강하게 적어 둘 수 있음
-- 하지만 최신 문서 연결, 계산 도구, 저장 도구가 없으면 답은 여전히 말뿐인 지시로 끝날 수 있음
-
-입력:
-
-- 세 가지 사용자 작업
-- 프롬프트만 있는 응답
-- 최신 문서 연결, 계산 로그, 저장 로그까지 붙인 구조화 응답
-
-출력:
-
-- 작업별 점검 보고서
-- `prompt only`와 `structured`의 통과 항목 수
-- 어떤 종류의 구조가 빠졌는지에 대한 요약
+아래 예제는 세 가지 사용자 작업을 두 방식으로 비교합니다. 하나는 프롬프트만 있는 응답이고, 다른 하나는 최신 문서 연결, 계산 로그, 저장 로그까지 붙인 구조화 응답입니다. 출력은 작업별 점검 보고서, `prompt only`와 `structured`의 통과 항목 수, 빠진 구조의 종류를 보여 줍니다.
 
 먼저 이 절에서 비교할 검증 항목을 표로 정리하면 다음과 같습니다.
 
@@ -256,13 +242,7 @@ P6-9.1에서는 프롬프트 엔지니어링(prompt engineering)이 입력 설�
 | 수치 보고 | 계산값 정확성 | 계산 로그, 재계산 근거 | 계산 도구, 후처리 검산 |
 | 파일 자동화 | 실제 저장 완료 | 저장 로그, 재시도 정보 | 파일 도구, 실행 로그 |
 
-입력(input):
-
-위에 정리한 작업 목록과 prompt-only 결과, tool-assisted 결과를 사용합니다.
-
-확인할 개념:
-
-- 강한 프롬프트만으로는 최신 정보 확인, 정확한 계산, 실제 실행 완료까지 항상 보장할 수 없다
+코드에서 확인할 핵심은 강한 프롬프트만으로는 최신 정보 확인, 정확한 계산, 실제 실행 완료까지 항상 보장할 수 없다는 점입니다.
 
 ```python
 tasks = [
@@ -510,5 +490,5 @@ question = 업로드된 계약서를 법무 폴더에 저장해 주세요.
 ## 출처와 참고 자료
 
 - Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv, 2020, 확인 날짜: 2026-07-19.
-- OpenAI Academy, [Prompting fundamentals](https://openai.com/academy/prompting/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- OpenAI, [Prompting | ChatGPT Learn](https://learn.chatgpt.com/docs/prompting){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
 - Patrick Lewis et al., [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html){: target="_blank" rel="noopener noreferrer" }, NeurIPS, 2020, 확인 날짜: 2026-07-19.

@@ -16,15 +16,41 @@ from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
 
-POINTS = [
-    ("delivery", 0.82, 0.58, "#0969da"),
-    ("payment", 0.44, 0.0, "#8250df"),
-    ("refund", 0.31, -0.58, "#57606a"),
+POLICY_THRESHOLDS = {
+    "suggest": 0.60,
+    "auto_reply": 0.90,
+}
+
+CANDIDATE_SIGNALS = [
+    {
+        "key": "delivery",
+        "keyword_match": 0.50,
+        "order_context": 0.22,
+        "recent_issue": 0.10,
+        "y": 0.58,
+        "color": "#0969da",
+    },
+    {
+        "key": "payment",
+        "keyword_match": 0.18,
+        "order_context": 0.20,
+        "recent_issue": 0.06,
+        "y": 0.0,
+        "color": "#8250df",
+    },
+    {
+        "key": "refund",
+        "keyword_match": 0.12,
+        "order_context": 0.13,
+        "recent_issue": 0.06,
+        "y": -0.58,
+        "color": "#57606a",
+    },
 ]
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "Droid Sans Fallback", "DejaVu Sans"],
         "xlabel": "모델 출력값 또는 점수",
         "regions": [
             (0.0, 0.60, "추가 질문"),
@@ -56,7 +82,7 @@ LANG_TEXT = {
         "outfile": "threshold-action-regions-en.png",
     },
     "zh": {
-        "font_candidates": ["Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK SC", "Noto Sans CJK TC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "Droid Sans Fallback", "DejaVu Sans"],
         "xlabel": "模型输出值或分数",
         "regions": [
             (0.0, 0.60, "追问"),
@@ -72,6 +98,19 @@ LANG_TEXT = {
         "outfile": "threshold-action-regions-zh.png",
     },
 }
+
+
+def candidate_score(candidate: dict[str, object]) -> float:
+    signal_names = ["keyword_match", "order_context", "recent_issue"]
+    return round(sum(float(candidate[name]) for name in signal_names), 2)
+
+
+def action_region(score: float) -> str:
+    if score >= POLICY_THRESHOLDS["auto_reply"]:
+        return "auto_reply"
+    if score >= POLICY_THRESHOLDS["suggest"]:
+        return "suggest"
+    return "ask_more"
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -95,7 +134,10 @@ def save_chart(text: dict[str, object]) -> None:
         ax.axvspan(start, end, color=region_colors[idx], alpha=0.95, zorder=0)
         ax.text((start + end) / 2, 0.94, label, ha="center", va="center", fontsize=9.5, color="#24292f")
 
-    for x, label in [(0.60, text["threshold_labels"][0]), (0.90, text["threshold_labels"][1])]:
+    for x, label in [
+        (POLICY_THRESHOLDS["suggest"], text["threshold_labels"][0]),
+        (POLICY_THRESHOLDS["auto_reply"], text["threshold_labels"][1]),
+    ]:
         value, name = label
         ax.axvline(x, color="#57606a", linestyle=(0, (4, 4)), linewidth=1.0, zorder=1)
         ax.text(
@@ -110,7 +152,12 @@ def save_chart(text: dict[str, object]) -> None:
         )
 
     ax.axhline(0, color="#8c959f", linewidth=1.0, zorder=1)
-    for key, score, y, color in POINTS:
+    for candidate in CANDIDATE_SIGNALS:
+        key = str(candidate["key"])
+        score = candidate_score(candidate)
+        y = float(candidate["y"])
+        color = str(candidate["color"])
+        action_region(score)
         ax.scatter(score, y, s=58, color=color, zorder=3)
         ax.text(
             score + 0.018,
@@ -127,7 +174,7 @@ def save_chart(text: dict[str, object]) -> None:
     ax.set_ylim(-1.05, 1.08)
     ax.set_xlabel(text["xlabel"])
     ax.set_yticks([])
-    ax.set_xticks([0.0, 0.3, 0.6, 0.82, 0.9, 1.0])
+    ax.set_xticks([0.0, 0.3, POLICY_THRESHOLDS["suggest"], 0.82, POLICY_THRESHOLDS["auto_reply"], 1.0])
     ax.set_xticklabels(["0", "0.30", "0.60", "0.82", "0.90", "1.00"])
     ax.grid(axis="x", color="#d0d7de", linewidth=0.7, alpha=0.75)
 

@@ -228,14 +228,14 @@ This example intentionally contains almost no model computation. The core of thi
 Input:
 
 - 6 alarm records
-- batch size 2
+- batch sizes 1, 2, and 4 to compare
 - 2 epochs
 
 Output:
 
-- which batch in each epoch is processed as which step
-- total step count
-- the point where each epoch ends
+- how the number of batches per epoch and total step count change when batch size changes
+- what size the final batch has when the data does not divide evenly
+- what determines the point where an epoch ends
 
 Problem scene:
 
@@ -257,44 +257,29 @@ samples = [
     {"alarm_count": 6, "target": 12},
 ]
 
-batch_size = 2
 epochs = 2
-global_step = 0
 
-for epoch_index in range(epochs):
-    print(f"epoch {epoch_index + 1} start")
+def run_epoch_log(batch_size):
+    global_step = 0
+    batch_sizes_seen = []
 
-    for batch_start in range(0, len(samples), batch_size):
-        batch = samples[batch_start:batch_start + batch_size]
-        global_step += 1
-        batch_alarm_counts = [row["alarm_count"] for row in batch]
-        print(
-            f"  step {global_step}: "
-            f"batch_samples={batch_alarm_counts}"
-        )
+    for _ in range(epochs):
+        for batch_start in range(0, len(samples), batch_size):
+            batch = samples[batch_start:batch_start + batch_size]
+            global_step += 1
+            batch_sizes_seen.append(len(batch))
 
-    print(f"epoch {epoch_index + 1} end")
-    print("---")
+    print(f"[batch_size={batch_size}]")
+    print("steps_per_epoch =", len(batch_sizes_seen) // epochs)
+    print("total_steps =", global_step)
+    print("batch_sizes_seen =", batch_sizes_seen)
+    print()
+
+for batch_size in [1, 2, 4]:
+    run_epoch_log(batch_size)
 ```
 
-```text
-epoch 1 start
-  step 1: batch_samples=[1, 2]
-  step 2: batch_samples=[3, 4]
-  step 3: batch_samples=[5, 6]
-epoch 1 end
----
-epoch 2 start
-  step 4: batch_samples=[1, 2]
-  step 5: batch_samples=[3, 4]
-  step 6: batch_samples=[5, 6]
-epoch 2 end
----
-```
-
-In this output, first notice that because the batch size is 2, the 6 samples are divided into 3 batches in each epoch. Then check that step increases by 1 after each batch, and that the epoch ends only after the three batches are finished.
-
-Now you can change it yourself once. If you change `batch_size` to 3, only 2 steps will appear in each epoch. If you change `batch_size` to 1, 6 steps will appear in each epoch. But in every case, the epoch still ends only after all 6 samples have been seen. Once this feeling is fixed, step, batch, and epoch stop being read as the same kind of number.
+In this output, first see that a smaller batch size increases the number of steps inside one epoch. When batch size is raised to 4, the 6 samples split as `[4, 2]`, so the final batch can be smaller. The meaning of epoch still does not change. Once the whole dataset has been seen once, one epoch ends; each processed batch increases step by 1.
 
 The last core point to hold here is simple. Batch is `the grouping unit`, step is `the update unit`, and epoch is `the full-repeat unit`. All three terms explain repetition in training, but they are not different words for the same number. This distinction has to be firm so that in the next section, when we divide learning and inference, we can also read separately `what ran many times` and `what was actually updated`.
 

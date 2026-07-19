@@ -226,7 +226,7 @@ Before looking at the code, it helps to predict first where argmax and sampling 
 
 Input:
 
-We use the inspection-result guidance prefix, the response-candidate list, and the relative weights summarized above.
+We use the inspection-result guidance prefix and response-candidate list summarized above, but this time we vary `response_weights` in three ways. This makes the example a small experiment that checks how the sampling width changes when the same candidates are read with sharper or flatter weights.
 
 ```python
 import random
@@ -238,36 +238,48 @@ response_candidates = [
     "Remeasure in 10 minutes.",
     "For now it remains normal by the current standard.",
 ]
-response_weights = [0.46, 0.24, 0.18, 0.12]
 
-argmax_choice = response_candidates[response_weights.index(max(response_weights))]
-argmax_sentences = [f"{inspection_prefix} {argmax_choice}" for _ in range(5)]
+experiments = {
+    "base": [0.46, 0.24, 0.18, 0.12],
+    "sharper": [0.65, 0.18, 0.11, 0.06],
+    "flatter": [0.30, 0.27, 0.23, 0.20],
+}
 
-random.seed(7)
-sampled_choices = [random.choices(response_candidates, weights=response_weights, k=1)[0] for _ in range(20)]
-sampled_sentences = [f"{inspection_prefix} {choice}" for choice in sampled_choices]
-counts = {candidate: sampled_choices.count(candidate) for candidate in response_candidates}
-avg_length = round(sum(len(sentence) for sentence in sampled_sentences) / len(sampled_sentences), 1)
+def run_sampling(label, weights, seed=7, draws=20):
+    rng = random.Random(seed)
+    argmax_choice = response_candidates[weights.index(max(weights))]
+    sampled_choices = rng.choices(response_candidates, weights=weights, k=draws)
+    counts = {
+        candidate: sampled_choices.count(candidate)
+        for candidate in response_candidates
+    }
+    sampled_sentences = [
+        f"{inspection_prefix} {choice}"
+        for choice in sampled_choices
+    ]
+    avg_length = sum(len(sentence) for sentence in sampled_sentences) / draws
+    unique_choices = sum(1 for count in counts.values() if count > 0)
 
-print("argmax_sentences =", argmax_sentences)
-print("sampled_sentences =", sampled_sentences)
-print("counts =", counts)
-print("average_sampled_length =", avg_length)
-```
+    print(f"[{label}]")
+    print("weights =", weights)
+    print("argmax_choice =", argmax_choice)
+    print("counts =", counts)
+    print("unique_choices =", unique_choices)
+    print("average_sampled_length =", round(avg_length, 1))
+    print()
 
-```text
-argmax_sentences = ['Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.']
-sampled_sentences = ['Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Resume after supervisor confirmation.', 'Batch inspection result Reverification is required.', 'Batch inspection result Resume after supervisor confirmation.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Resume after supervisor confirmation.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Remeasure in 10 minutes.', 'Batch inspection result Reverification is required.', 'Batch inspection result Reverification is required.', 'Batch inspection result Resume after supervisor confirmation.', 'Batch inspection result For now it remains normal by the current standard.', 'Batch inspection result Resume after supervisor confirmation.', 'Batch inspection result Reverification is required.']
-counts = {'Reverification is required.': 13, 'Resume after supervisor confirmation.': 5, 'Remeasure in 10 minutes.': 1, 'For now it remains normal by the current standard.': 1}
-average_sampled_length = 54.6
+for label, weights in experiments.items():
+    run_sampling(label, weights)
 ```
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |
-| the frequency difference between argmax results and sampling results | it means the operational-message experience changes depending on whether only the highest response phrase is chosen or several response phrases are actually sampled | if the candidate weights and the number of repetitions change, the diversity of action phrases and the length distribution both change |
+| `counts` | shows how often each phrase is actually selected in each weight scenario | in `sharper`, selection concentrates more on the highest candidate; in `flatter`, lower candidates can appear more often |
+| `unique_choices` | shows how many different phrases appeared across 20 generations | a larger value means wider variation, but the stability of the operation message still needs to be checked separately |
+| `average_sampled_length` | shows how the density of the resulting sentence changes with the lengths of the selected candidate phrases | if the weight of a longer candidate increases, average length and explanation density change together |
 
-- the argmax method repeats only `Reverification is required.`, so the most conservative response is consistent but the width of operational expression is extremely narrow
-- the sampling method still lets `Reverification is required.` appear most often, but can also leave other action phrases such as `Resume after supervisor confirmation.` and `Remeasure in 10 minutes.` as actual outputs
+- the argmax method chooses only `Reverification is required.`, so the most conservative response is consistent but the width of operational expression is extremely narrow
+- the sampling method can still choose `Reverification is required.` most often, but as the weights become flatter, other action phrases such as `Resume after supervisor confirmation.` and `Remeasure in 10 minutes.` can remain in the actual outputs more often
 - if we look at the frequency and the average length together, it becomes clear that sampling changes not only `which response appears how often`, but also `the density of explanation and the width of action choice`
 - therefore, unless we separate `the stage that calculated response_weights` from `the procedure that actually sampled the sentence`, it becomes difficult to explain why the result experience changes even under the same model
 

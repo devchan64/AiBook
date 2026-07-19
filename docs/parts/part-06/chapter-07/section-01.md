@@ -69,7 +69,7 @@ P6-5.2에서는 생성이 확률 분포에서 다음 토큰을 반복 선택하�
 1. 먼저 파인튜닝이 `새 모델을 처음부터 만드는 일`이 아니라 `기반 모델을 목적에 맞게 다시 조정하는 일`이라는 점을 봅니다.
 2. 그 다음 프롬프트와 파인튜닝이 각각 무엇을 바꾸는지 구분합니다.
 3. 이어서 언제 파인튜닝이 유리하고, 언제 RAG나 프롬프트가 먼저일 수 있는지 읽습니다.
-4. 마지막에 사례와 예제로 `업무 형식`, `내부 라벨`, `도메인 표현`이 실제로 얼마나 안정화되는지 확인합니다.
+4. 마지막에 연습으로 `업무 형식`, `내부 라벨`, `도메인 표현` 중 무엇이 파인튜닝 판단과 연결되는지 확인합니다.
 
 ## 파인튜닝은 무엇을 조정하나
 
@@ -243,237 +243,33 @@ P6-5.2에서는 생성이 확률 분포에서 다음 토큰을 반복 선택하�
 
 그래서 이 절의 닫힘은 `파인튜닝은 목적 맞춤 조정층`이라는 문장을 실제 선택 기준으로 바꾸는 데 있습니다.
 
-## 연습 및 예제
+## 연습
 
-이번 예제의 목표는 `일반 설명형 반응`과 `업무 형식에 맞춘 반응`의 차이를 실제 문의 묶음 위에서 보는 것입니다. 한 질문만 보지 않고, 비슷해 보이지만 내부 라벨을 다르게 가져가야 하는 문의 여러 개를 돌려 `설명형 응답`, `업무용 라벨 응답`, `형식 점검`, `간단한 정답 일치 수`를 함께 비교해 보겠습니다.
+이번 연습의 목표는 코드를 실행하는 것이 아니라, 같은 업무 장면을 보고 `프롬프트 조정`, `파인튜닝`, `RAG` 중 무엇을 먼저 의심해야 하는지 가르는 것입니다. 파인튜닝은 모델이 더 많은 사실을 외우게 하는 선택이 아니라, 반복되는 반응 습관과 내부 기준을 더 안정적으로 맞추려는 선택입니다.
 
-입력:
+다음 문의 처리 장면을 봅니다.
 
-- 내부 문의 예시와 업무용 출력 형식
-- 새로 들어온 문의 여러 개
-- 각 문의의 기대 라벨
+| 장면 | 흔들리는 부분 | 먼저 고를 선택 |
+| --- | --- | --- |
+| 같은 결제 문의가 어떤 날은 `refund_request`, 어떤 날은 `cancel_status`로 분류된다 | 내부 라벨 경계 | 파인튜닝 검토 |
+| 답변 형식은 맞지만 이번 달 환불 정책 금액을 자주 틀린다 | 최신 정책 정보 | RAG 또는 외부 데이터 연결 검토 |
+| 출력 형식은 대부분 맞는데 첫 문장 말투만 조금 딱딱하다 | 입력 지시와 문체 | 프롬프트 조정 검토 |
+| 의료 요약에서 약물명, 용량, 금기 표현의 남기는 방식이 매번 다르다 | 도메인 표현 규칙 | 파인튜닝 검토 |
 
-출력:
+여기서 파인튜닝을 먼저 검토할 장면은 첫 번째와 네 번째입니다. 두 장면 모두 단일 질문 하나의 표현 문제가 아니라, 여러 입력에서 같은 내부 기준이나 표현 규칙을 반복해서 지켜야 하는 문제이기 때문입니다.
 
-- 문의별 가장 가까운 업무 예시
-- 일반 설명형 응답
-- 업무 형식 응답
-- 형식 점검 결과
-- 간단한 라벨 일치 통계
+두 번째 장면은 최신 정책 정보가 문제입니다. 이런 경우 파인튜닝을 해도 학습 시점 이후의 변경을 자동으로 따라가지 못할 수 있으므로, RAG나 외부 데이터 연결을 먼저 검토하는 편이 자연스럽습니다.
 
-확인할 개념:
+세 번째 장면은 모델 내부 습관을 바꾸기보다 입력 지시만 조정해도 해결될 가능성이 큽니다. 이때는 파인튜닝을 먼저 떠올리기보다 프롬프트를 더 짧고 분명하게 고치는 쪽이 비용과 위험이 낮습니다.
 
-- 업무 형식에 맞춘 조정은 내부 라벨, 우선순위, 담당 팀 같은 출력 습관을 더 안정적으로 만들 수 있다
+이 연습에서 붙잡을 기준은 다음입니다.
 
-```python
-examples = [
-    {
-        "text": "결제 취소와 환불을 요청합니다",
-        "label": "refund_request",
-        "priority": "high",
-        "team": "billing_ops",
-    },
-    {
-        "text": "배송이 예정일보다 늦어 도착하지 않았습니다",
-        "label": "shipping_delay",
-        "priority": "medium",
-        "team": "delivery_ops",
-    },
-    {
-        "text": "비밀번호를 여러 번 틀려 계정이 잠겼습니다",
-        "label": "account_lock",
-        "priority": "high",
-        "team": "account_ops",
-    },
-    {
-        "text": "주문을 취소했는데 카드 결제는 아직 취소되지 않았습니다",
-        "label": "cancel_status",
-        "priority": "medium",
-        "team": "billing_ops",
-    },
-]
-
-queries = [
-    {
-        "text": "환불을 받고 싶습니다. 결제 취소는 아직 안 됐습니다.",
-        "expected_label": "refund_request",
-    },
-    {
-        "text": "상품이 아직 도착하지 않았고 배송이 계속 늦어집니다.",
-        "expected_label": "shipping_delay",
-    },
-    {
-        "text": "로그인을 여러 번 실패해서 계정이 잠긴 것 같습니다.",
-        "expected_label": "account_lock",
-    },
-    {
-        "text": "주문은 취소했는데 카드 결제 취소 여부가 아직 보이지 않습니다.",
-        "expected_label": "cancel_status",
-    },
-]
-
-def overlap_score(a, b):
-    replacements = ["을", "를", "이", "가", "은", "는", ".", ","]
-    for token in replacements:
-        a = a.replace(token, " ")
-        b = b.replace(token, " ")
-    a_tokens = set(a.split())
-    b_tokens = set(b.split())
-    return len(a_tokens & b_tokens)
-
-def retrieve_best_example(query_text):
-    return max(examples, key=lambda item: overlap_score(query_text, item["text"]))
-
-def base_model_response(query_text, best_example):
-    label_to_phrase = {
-        "refund_request": "환불 또는 결제 취소와 관련된 문의로 보입니다.",
-        "shipping_delay": "배송 지연 문제로 보이는 고객 문의입니다.",
-        "account_lock": "계정 접근 문제로 보입니다.",
-        "cancel_status": "주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.",
-    }
-    return label_to_phrase[best_example["label"]]
-
-def fine_tuned_style_response(best_example):
-    return (
-        f"label={best_example['label']}"
-        f"|priority={best_example['priority']}"
-        f"|team={best_example['team']}"
-    )
-
-def parse_label(response):
-    if "label=" in response:
-        first_part = response.split("|")[0]
-        return first_part.replace("label=", "")
-    phrase_map = {
-        "환불과 관련된 문의로 보입니다.": "refund_request",
-        "환불 또는 결제 취소와 관련된 문의로 보입니다.": "ambiguous_billing",
-        "배송 지연 문제로 보이는 고객 문의입니다.": "shipping_delay",
-        "계정 접근 문제로 보입니다.": "account_lock",
-        "주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.": "cancel_status",
-    }
-    return phrase_map.get(response)
-
-def check_format(response):
-    required_fields = ["label=", "priority=", "team="]
-    return all(field in response for field in required_fields)
-
-base_matches = 0
-tuned_matches = 0
-base_format_ok = 0
-tuned_format_ok = 0
-
-for item in queries:
-    query_text = item["text"]
-    expected_label = item["expected_label"]
-    best_example = retrieve_best_example(query_text)
-    base = base_model_response(query_text, best_example)
-    tuned = fine_tuned_style_response(best_example)
-
-    if parse_label(base) == expected_label:
-        base_matches += 1
-    if parse_label(tuned) == expected_label:
-        tuned_matches += 1
-    if check_format(base):
-        base_format_ok += 1
-    if check_format(tuned):
-        tuned_format_ok += 1
-
-    print("=" * 80)
-    print("query =", query_text)
-    print("expected_label =", expected_label)
-    print("matched_example =", best_example["text"])
-    print("[base response]")
-    print(base)
-    print("[fine-tuned style response]")
-    print(tuned)
-    print(
-        "[checks]",
-        {
-            "base_label": parse_label(base),
-            "tuned_label": parse_label(tuned),
-            "base_format_ok": check_format(base),
-            "tuned_format_ok": check_format(tuned),
-        },
-    )
-
-print("=" * 80)
-print("[summary]")
-print("query_count =", len(queries))
-print("base_label_match_count =", base_matches)
-print("tuned_label_match_count =", tuned_matches)
-print("base_format_ok_count =", base_format_ok)
-print("tuned_format_ok_count =", tuned_format_ok)
-```
-
-이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-================================================================================
-query = 환불을 받고 싶습니다. 결제 취소는 아직 안 됐습니다.
-expected_label = refund_request
-matched_example = 결제 취소와 환불을 요청합니다
-[base response]
-환불 또는 결제 취소와 관련된 문의로 보입니다.
-[fine-tuned style response]
-label=refund_request|priority=high|team=billing_ops
-[checks] {'base_label': 'ambiguous_billing', 'tuned_label': 'refund_request', 'base_format_ok': False, 'tuned_format_ok': True}
-================================================================================
-query = 상품이 아직 도착하지 않았고 배송이 계속 늦어집니다.
-expected_label = shipping_delay
-matched_example = 배송이 예정일보다 늦어 도착하지 않았습니다
-[base response]
-배송 지연 문제로 보이는 고객 문의입니다.
-[fine-tuned style response]
-label=shipping_delay|priority=medium|team=delivery_ops
-[checks] {'base_label': 'shipping_delay', 'tuned_label': 'shipping_delay', 'base_format_ok': False, 'tuned_format_ok': True}
-================================================================================
-query = 로그인을 여러 번 실패해서 계정이 잠긴 것 같습니다.
-expected_label = account_lock
-matched_example = 비밀번호를 여러 번 틀려 계정이 잠겼습니다
-[base response]
-계정 접근 문제로 보입니다.
-[fine-tuned style response]
-label=account_lock|priority=high|team=account_ops
-[checks] {'base_label': 'account_lock', 'tuned_label': 'account_lock', 'base_format_ok': False, 'tuned_format_ok': True}
-================================================================================
-query = 주문은 취소했는데 카드 결제 취소 여부가 아직 보이지 않습니다.
-expected_label = cancel_status
-matched_example = 주문을 취소했는데 카드 결제는 아직 취소되지 않았습니다
-[base response]
-주문 취소 진행 상태를 확인해야 하는 문의로 보입니다.
-[fine-tuned style response]
-label=cancel_status|priority=medium|team=billing_ops
-[checks] {'base_label': 'cancel_status', 'tuned_label': 'cancel_status', 'base_format_ok': False, 'tuned_format_ok': True}
-================================================================================
-[summary]
-query_count = 4
-base_label_match_count = 3
-tuned_label_match_count = 4
-base_format_ok_count = 0
-tuned_format_ok_count = 4
-```
-
-이 예제에서 확인해야 할 결과는 같은 문의라도 일반 설명형 응답보다 업무용 출력 형식이 실제로 더 직접 맞춰지는가입니다. 독자는 `queries`에 `환불`과 `취소 상태`처럼 경계가 헷갈리는 문장을 더 넣어 보면서, 어떤 경우에 내부 라벨 경계가 흔들리고 어떤 경우에 고정 형식이 더 안정적으로 유지되는지 직접 확인할 수 있습니다.
-
-요약 통계를 차트로 보면 차이가 더 직접 드러납니다. 일반 설명형 응답은 일부 라벨을 맞추지만 업무용 슬롯 형식은 통과하지 못하고, 업무 형식 응답은 라벨과 형식을 함께 맞춥니다.
-
-![일반 설명형 응답과 업무 형식 응답의 라벨·형식 점검](../../../assets/part-06/chapter-07/finetuning-response-check-ko.png)
-
-이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
-
-- 문의 내용은 비슷해도
-- 일반 모델은 대략 맞는 설명형 문장을 줄 수 있어도 내부 라벨 경계를 애매하게 남길 수 있고
-- 파인튜닝된 모델은 `label`, `priority`, `team` 같은 업무용 슬롯을 더 안정적으로 채울 수 있습니다
-- 즉, 설명형 응답은 일부 라벨을 맞출 수 있어도 라우팅에 바로 쓰기 어려운 반면, 파인튜닝된 응답은 라벨과 형식을 함께 맞춰 후속 자동화에 더 직접 연결됩니다.
-- 실무에서는 이 차이가 바로 라우팅 자동화와 후속 처리 안정성으로 이어집니다
+- 내부 라벨 경계가 반복해서 흔들리면 파인튜닝 후보입니다.
+- 최신 사실이나 정책 값이 틀리면 RAG나 외부 정보 연결 후보입니다.
+- 한두 문장의 말투나 형식만 흔들리면 프롬프트 조정 후보입니다.
+- 도메인 표현 규칙이 반복적으로 흔들리면 파인튜닝 후보입니다.
 
 즉, 파인튜닝은 종종 `정답을 새로 만들어 내는 힘`보다 `반응 방식을 업무 형태에 더 맞추는 힘`으로 이해하는 편이 안전합니다.
-
-## 이 예제를 업무 형식 조정 관점으로 다시 보면
-
-이 예제는 파인튜닝을 `더 똑똑해진다`는 막연한 말보다 `출력 형식과 반응 습관을 업무에 맞춘다`는 관점으로 읽게 해 줍니다. 특히 여기서는 `환불 요청`과 `취소 상태 확인`처럼 비슷한 결제 문의도 내부 라벨이 다르면 다른 팀으로 흘러가야 한다는 점이 드러납니다. 그래서 뒤 절에서도 핵심은 지식의 절대량보다 `어떤 입력에 어떤 형식과 어떤 라벨 경계로 반응하도록 맞췄는가`를 보는 일입니다.
 
 파인튜닝은 LLM 이전에도 널리 쓰이던 전이 학습(transfer learning) 흐름과 연결됩니다. 큰 기반 모델을 먼저 만들고, 이후 더 작은 과업 데이터로 목적 적합성을 높이는 방식은 현대 NLP와 비전에서 반복되어 왔습니다.
 

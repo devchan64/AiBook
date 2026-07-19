@@ -239,51 +239,18 @@ Before looking at the code, it helps to predict the two alert contexts by splitt
 
 The difference we actually want to confirm here is also clear. A reading that carries only `most_likely` easily leaves only one template like `this phrase for this alert`, while a reading that also sees `probabilities` keeps as a candidate set `what inspection order and warning phrases are all possible even under the same alert`. That is, a generative model should be read as learning the `space of operation responses` together instead of fixing one answer.
 
-Input:
+The table below keeps the same situation as an interpretive case instead of aggregating it again in code. When candidate phrases and record counts are already given, Python easily ends up repeating only the counting step, so a table and explanation are enough for this section.
 
-We use the counts of follow-up-action records by alert type summarized above.
+| Alert context | Follow-up-action candidate | Record count | Share of records | What to read from the generative-model viewpoint |
+| --- | --- | ---: | ---: | --- |
+| temperature alert | First check the coolant flow | 14 | 0.50 | It is the most frequent continuation, but not the only answer |
+| temperature alert | Check the heat-exchanger fan state | 9 | 0.32 | It remains as a supporting candidate in the same context |
+| temperature alert | Review sensor calibration again | 5 | 0.18 | Even a lower-weight candidate does not disappear from the candidate space |
+| seal-edge alert | Readjust the sealing pressure | 13 | 0.52 | When the context changes, the highest candidate itself changes |
+| seal-edge alert | Retune the film tension | 8 | 0.32 | A different inspection axis remains in the candidate distribution |
+| seal-edge alert | Inspect blade wear state | 4 | 0.16 | A lower candidate can still lead to a follow-up explanation or additional check |
 
-```python
-history = {
-    "temperature_alert": {
-        "First check the coolant flow.": 14,
-        "Check the heat-exchanger fan state.": 9,
-        "Review sensor calibration again.": 5,
-    },
-    "seal_edge_alert": {
-        "Readjust the sealing pressure.": 13,
-        "Retune the film tension.": 8,
-        "Inspect blade wear state.": 4,
-    },
-}
-
-for case, counts in history.items():
-    total = sum(counts.values())
-    probabilities = {text: round(count / total, 2) for text, count in counts.items()}
-    ranked = sorted(probabilities.items(), key=lambda item: (-item[1], item[0]))
-    print(case)
-    print("probabilities =", probabilities)
-    print("most_likely =", ranked[0])
-```
-
-In the output, it is enough to see whether, in each context, not just one answer remains but the whole `distribution of follow-up actions that could continue next` is organized together.
-
-```text
-temperature_alert
-probabilities = {'First check the coolant flow.': 0.5, 'Check the heat-exchanger fan state.': 0.32, 'Review sensor calibration again.': 0.18}
-most_likely = ('First check the coolant flow.', 0.5)
-seal_edge_alert
-probabilities = {'Readjust the sealing pressure.': 0.52, 'Retune the film tension.': 0.32, 'Inspect blade wear state.': 0.16}
-most_likely = ('Readjust the sealing pressure.', 0.52)
-```
-
-The first result is the candidate distribution in the temperature-alert context. `Check the coolant flow` is the highest, but `check the fan state` and `review sensor calibration again` also remain inside the candidate space.
-
-![Candidate distribution of follow-up actions after a temperature alert](/AiBook/assets/part-05/chapter-15/generative-response-distribution-temperature-en.png)
-
-The second result is the candidate distribution in the seal-edge-alert context. What we need to see is that, when the context changes, not only the highest candidate but the remaining candidate set itself changes.
-
-![Candidate distribution of follow-up actions after a seal-edge alert](/AiBook/assets/part-05/chapter-15/generative-response-distribution-seal-en.png)
+The first thing to read in this table is not just the largest number, such as `0.50` or `0.52`. In the temperature alert, coolant-flow inspection, fan-state checking, and sensor-calibration review form one candidate space. In the seal-edge alert, sealing pressure, film tension, and blade wear form a different candidate space. The generative-model viewpoint is about reading this difference between candidate spaces.
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |

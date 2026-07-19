@@ -226,7 +226,7 @@ sampling 的核心，是一种选择步骤：它优先更高的候选，但也�
 
 输入：
 
-这里使用前面整理好的点检结果提示语前缀、回应候选列表和相对权重。
+这里使用前面整理好的点检结果提示语前缀和回应候选列表，但这次把 `response_weights` 分成三种情况来改动。这样，这个例子就不只是固定输出，而是一个小实验：同一组候选在更尖锐或更平坦的权重下，sampling 结果宽度会怎样变化。
 
 ```python
 import random
@@ -238,36 +238,48 @@ response_candidates = [
     "10 分钟后重新测量。",
     "按当前标准保持正常。",
 ]
-response_weights = [0.46, 0.24, 0.18, 0.12]
 
-argmax_choice = response_candidates[response_weights.index(max(response_weights))]
-argmax_sentences = [f"{inspection_prefix} {argmax_choice}" for _ in range(5)]
+experiments = {
+    "base": [0.46, 0.24, 0.18, 0.12],
+    "sharper": [0.65, 0.18, 0.11, 0.06],
+    "flatter": [0.30, 0.27, 0.23, 0.20],
+}
 
-random.seed(7)
-sampled_choices = [random.choices(response_candidates, weights=response_weights, k=1)[0] for _ in range(20)]
-sampled_sentences = [f"{inspection_prefix} {choice}" for choice in sampled_choices]
-counts = {candidate: sampled_choices.count(candidate) for candidate in response_candidates}
-avg_length = round(sum(len(sentence) for sentence in sampled_sentences) / len(sampled_sentences), 1)
+def run_sampling(label, weights, seed=7, draws=20):
+    rng = random.Random(seed)
+    argmax_choice = response_candidates[weights.index(max(weights))]
+    sampled_choices = rng.choices(response_candidates, weights=weights, k=draws)
+    counts = {
+        candidate: sampled_choices.count(candidate)
+        for candidate in response_candidates
+    }
+    sampled_sentences = [
+        f"{inspection_prefix} {choice}"
+        for choice in sampled_choices
+    ]
+    avg_length = sum(len(sentence) for sentence in sampled_sentences) / draws
+    unique_choices = sum(1 for count in counts.values() if count > 0)
 
-print("argmax_sentences =", argmax_sentences)
-print("sampled_sentences =", sampled_sentences)
-print("counts =", counts)
-print("average_sampled_length =", avg_length)
-```
+    print(f"[{label}]")
+    print("weights =", weights)
+    print("argmax_choice =", argmax_choice)
+    print("counts =", counts)
+    print("unique_choices =", unique_choices)
+    print("average_sampled_length =", round(avg_length, 1))
+    print()
 
-```text
-argmax_sentences = ['批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。']
-sampled_sentences = ['批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 经主管确认后恢复。', '批次检查结果 需要重新确认。', '批次检查结果 经主管确认后恢复。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 经主管确认后恢复。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 10 分钟后重新测量。', '批次检查结果 需要重新确认。', '批次检查结果 需要重新确认。', '批次检查结果 经主管确认后恢复。', '批次检查结果 按当前标准保持正常。', '批次检查结果 经主管确认后恢复。', '批次检查结果 需要重新确认。']
-counts = {'需要重新确认。': 13, '经主管确认后恢复。': 5, '10 分钟后重新测量。': 1, '按当前标准保持正常。': 1}
-average_sampled_length = 14.8
+for label, weights in experiments.items():
+    run_sampling(label, weights)
 ```
 
 | 先看的输出 | 这个输出表示什么 | 改动它时会看到什么变化 |
 | --- | --- | --- |
-| argmax 结果和 sampling 结果之间的频率差 | 表示：到底是只选最高回应短语，还是会真正把多个回应短语取出来，这会直接改变运维消息体验 | 如果改候选权重或重复次数，动作短语多样性和句子长度分布都会变化 |
+| `counts` | 显示每种权重情景下，各候选短语被实际选中了多少次 | 在 `sharper` 中，选择会更集中到最高候选；在 `flatter` 中，低位候选可能更常出现 |
+| `unique_choices` | 显示 20 次生成中实际出现了几种短语 | 数值越大，变化宽度越宽，但运维提示语的稳定性仍要另外确认 |
+| `average_sampled_length` | 显示被选中候选的长度如何带动结果句子的密度变化 | 如果提高较长候选的权重，平均长度和解释密度会一起改变 |
 
-- argmax 方式只会反复输出 `需要重新确认。`，所以最保守的回应虽然很一致，但运维表达宽度会非常窄。
-- sampling 方式仍会让 `需要重新确认。` 出现最多，但也会把 `经主管确认后恢复。`、`10 分钟后重新测量。` 这类其他动作短语保留成真实输出。
+- argmax 方式只会选择 `需要重新确认。`，所以最保守的回应虽然很一致，但运维表达宽度会非常窄。
+- sampling 方式仍可能让 `需要重新确认。` 出现最多，但权重越平坦，`经主管确认后恢复。`、`10 分钟后重新测量。` 这类其他动作短语就越容易更多地保留为真实输出。
 - 如果把频率和平均长度一起看，就会更清楚：sampling 改变的不只是`哪个回应出现多少次`，也包括`解释密度和动作选择宽度`。
 - 因此，如果不把`计算 response_weights 的阶段`和`实际怎样把句子取出来的步骤`分开，就很难解释：为什么即使是同一个模型，结果体验也会变化。
 

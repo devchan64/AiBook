@@ -10,8 +10,12 @@
   - `p6-c08-s03-diagram-01-en.mmd` / `p6-c08-s03-diagram-01-ko.mmd`
   - `p6-c08-s03-diagram-02-en.mmd` / `p6-c08-s03-diagram-02-ko.mmd`
 - PNG chart assets:
+  - `alignment-axis-average-en.png` / `alignment-axis-average-ko.png`
   - `instruction-tuning-request-match-en.png` / `instruction-tuning-request-match-ko.png`
   - `lora-rank-ratio-en.png` / `lora-rank-ratio-ko.png`
+  - `solution-selection-score-map-en.png` / `solution-selection-score-map-ko.png`
 - Python chart source:
+  - `p6_8_2_alignment_axis_chart.py`
+  - `p6_8_3_solution_selection_chart.py`
   - `p6_8_1_instruction_tuning_chart.py`
   - `p6_8_4_lora_rank_ratio_chart.py`
