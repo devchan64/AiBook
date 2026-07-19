@@ -1,7 +1,7 @@
 # P2-8.5 Functions and Small Reuse
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-8.1, we looked at values, variables, and types. From P2-8.2 to P2-8.4, we looked at ways of handling multiple values through lists, dictionaries, and loops.
 
@@ -26,28 +26,6 @@ Rather than learning advanced function features here, we bundle the loops and da
 | argument | the value actually passed when calling a function |
 | return value | the result a function gives back after calculation |
 | method | a function-like form called while attached to some value or object |
-
-## Scope of This Section
-
-This section covers only the most basic use of Python functions. The central question is: `how do we separate repeated handling into a named unit?`
-
-The first question to solve here is this: `how do we bundle something we were already doing with values, lists, and loops into a small unit that can be reused?`
-
-So this section answers the following questions.
-
-- Why is a function needed?
-- How are mathematical functions and Python functions similar and different?
-- What are parameter, argument, and return value?
-- In what ways can Python functions look different from C/Java-style functions?
-- How do we separate repeated data processing into functions?
-- Why does a function become hard to read when it grows too large or does too many things?
-
-This section focuses on reading a function as a small reusable unit with an `input -> process -> output contract`. The method-call form that appears attached to a value returns in the P2-8.6 supplementary learning section.
-
-The flow after this section is also simple.
-
-- In `P2-8.6`, we reread `value.method()` calls from the perspective of objects and methods.
-- In every later Python example and library-usage section, the `input -> process -> output contract` keeps returning.
 
 ## Goals of This Section
 
@@ -540,8 +518,8 @@ The following small exercises are enough to recheck the core of this section.
 
 ## Sources and References
 
-- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as the official basis for `def`, parameters, `return`, and function-call examples.
-- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm default-parameter examples and the caution about mutable defaults.
-- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm function-definition syntax, parameter lists, and function-object creation.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as background for the explanation that functions can be treated as objects in Python.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as the basis for distinguishing function-call and method-call forms at an introductory level.
+- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the official basis for `def`, parameters, `return`, and function-call examples.
+- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm default-parameter examples and the caution about mutable defaults.
+- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm function-definition syntax, parameter lists, and function-object creation.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as background for the explanation that functions can be treated as objects in Python.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the basis for distinguishing function-call and method-call forms at an introductory level.

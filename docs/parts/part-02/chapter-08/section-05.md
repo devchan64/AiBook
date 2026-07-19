@@ -1,7 +1,7 @@
 # P2-8.5 함수(function)와 작은 재사용
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8.1에서는 값(value), 변수(variable), 타입(type)을 봤습니다. P2-8.2부터 P2-8.4까지는 리스트(list), 딕셔너리(dictionary), 반복(loop)으로 여러 값을 처리하는 방법을 봤습니다.
 
@@ -26,28 +26,6 @@ Python에서는 함수(function)를 사용합니다. 함수는 반복되는 처�
 | 인자(argument) | 함수를 실제로 호출할 때 넘기는 값입니다. |
 | 반환값(return value) | 함수가 계산 뒤 바깥으로 돌려주는 결과입니다. |
 | 메서드(method) | 어떤 값이나 객체에 붙어 호출되는 함수 형태입니다. |
-
-## 이 절의 범위
-
-여기서는 Python 함수의 가장 기본적인 사용만 다룹니다. 중심 질문은 “반복되는 처리를 어떤 이름의 단위로 분리할 것인가”입니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `값, 리스트, 반복문으로 이미 하고 있던 처리를 어떻게 다시 쓸 수 있는 작은 단위로 묶을 것인가`입니다.
-
-그래서 이 절에서는 다음 질문에 답합니다.
-
-- 함수(function)는 왜 필요한가?
-- 수학의 함수와 Python 함수는 어떻게 닮고 다른가?
-- 매개변수(parameter), 인자(argument), 반환값(return value)은 무엇인가?
-- Python 함수가 기존 C/Java식 함수와 다르게 보일 수 있는 지점은 무엇인가?
-- 반복되는 데이터 처리를 함수로 어떻게 분리하는가?
-- 함수가 너무 커지거나 많은 일을 하면 왜 읽기 어려운가?
-
-이번 절은 함수(function)를 `입력 -> 처리 -> 출력 계약`을 가진 작은 재사용 단위로 읽는 데 집중합니다. 값에 붙어 보이는 메서드 호출 모양은 P2-8.6 보충학습에서 다시 회수합니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-8.6`에서는 함수와 비슷해 보이는 `value.method()` 호출을 객체와 메서드 관점으로 다시 읽습니다.
-- 이후 모든 Python 예제와 라이브러리 사용 구간에서 `입력 -> 처리 -> 출력 계약` 감각이 계속 반복됩니다.
 
 ## 이 절의 목표
 
@@ -540,8 +518,8 @@ print(cleaned_texts)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `def`, 매개변수, `return`, 함수 호출 예시의 공식 근거로 사용했다.
-- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 기본값 매개변수 예시와 mutable default 주의 설명 확인에 사용했다.
-- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 함수 정의 문법, 매개변수 목록, 함수 객체 생성 설명 확인에 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python에서 함수가 객체로 다뤄질 수 있다는 설명의 배경 근거로 사용했다.
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 함수 호출과 메서드 호출 모양을 입문 수준에서 구분하는 근거로 사용했다.
+- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `def`, 매개변수, `return`, 함수 호출 예시의 공식 근거로 사용했다.
+- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 기본값 매개변수 예시와 mutable default 주의 설명 확인에 사용했다.
+- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 함수 정의 문법, 매개변수 목록, 함수 객체 생성 설명 확인에 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python에서 함수가 객체로 다뤄질 수 있다는 설명의 배경 근거로 사용했다.
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 함수 호출과 메서드 호출 모양을 입문 수준에서 구분하는 근거로 사용했다.

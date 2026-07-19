@@ -1,7 +1,7 @@
 # P2-8.5 函数(function)与小规模复用
 
 > Section ID: `P2-8.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8.1 里，我们看了值(value)、变量(variable)、类型(type)。从 P2-8.2 到 P2-8.4，我们看了如何通过列表(list)、字典(dictionary)、循环(loop)来处理多个值。
 
@@ -26,28 +26,6 @@
 | 实参(argument) | 调用函数时实际传入的值 |
 | 返回值(return value) | 函数计算后返回到外部的结果 |
 | 方法(method) | 附着在某个值或对象上被调用的函数形式 |
-
-## 本节范围
-
-这里仅处理 Python 函数最基础的用法。核心问题是：`怎样把重复的处理拆成一个有名字的单元？`
-
-这里首先要解决的问题是：`我们已经用值、列表、循环在做的处理，怎样重新打包成一个能反复使用的小单元？`
-
-因此，本节会回答下面这些问题。
-
-- 为什么需要函数(function)？
-- 数学函数和 Python 函数怎样相似、又怎样不同？
-- 参数(parameter)、实参(argument)、返回值(return value)是什么？
-- Python 函数在哪些地方会让人觉得和 C/Java 风格函数不同？
-- 怎样把重复的数据处理分离成函数？
-- 如果一个函数做的事情太多，为什么会变得难读？
-
-本节集中把函数(function)读成具有 `输入 -> 处理 -> 输出契约` 的小型复用单元。看起来像附着在值上的方法调用形式，会在 P2-8.6 补充学习里再次回收。
-
-这一节之后的流程也很简单。
-
-- 在 `P2-8.6` 里，我们会从对象和方法的角度重新阅读 `value.method()` 调用。
-- 在后面所有 Python 示例和库使用片段里，`输入 -> 处理 -> 输出契约` 这份感觉都会继续反复出现。
 
 ## 本节目标
 
@@ -540,8 +518,8 @@ print(cleaned_texts)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为 `def`、parameter、`return` 和函数调用示例的官方依据。
-- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认默认参数示例和关于 mutable default 的注意说明。
-- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认函数定义语法、参数列表和函数对象创建的说明。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为说明 Python 中函数可以被当作对象处理的背景依据。
-- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为入门层面区分函数调用和方法调用形状的依据。
+- Python Software Foundation, [More Control Flow Tools: Defining Functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为 `def`、parameter、`return` 和函数调用示例的官方依据。
+- Python Software Foundation, [More Control Flow Tools: Default Argument Values](https://docs.python.org/3/tutorial/controlflow.html#default-argument-values){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认默认参数示例和关于 mutable default 的注意说明。
+- Python Software Foundation, [Function definitions](https://docs.python.org/3/reference/compound_stmts.html#function-definitions){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认函数定义语法、参数列表和函数对象创建的说明。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为说明 Python 中函数可以被当作对象处理的背景依据。
+- Python Software Foundation, [Classes: Method Objects](https://docs.python.org/3/tutorial/classes.html#method-objects){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为入门层面区分函数调用和方法调用形状的依据。
