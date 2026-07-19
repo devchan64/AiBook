@@ -1,7 +1,7 @@
 # P3-3.3 Which Columns Should Be Sketched First to Move a Question into the First Table Draft
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 After receiving a question, what is immediately needed is not to write the finished table all at once, but to separate first, in the first table draft, which columns identify the sample and which columns play the roles of state, comparison, and result. When the question sentence changes, the column structure of the draft table also changes with it, so if stored records are to be moved into problem-representation structure, this first sketch has to be clear. What matters in the first table draft is not a complete column list, but this division of roles.
 
@@ -79,6 +79,6 @@ Once the question has first been moved into role-based column groups, later sect
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes feature and label structure, it provides a basis for the claim that even in the first table draft, the roles of identification, description, and result should already be separated. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it strengthens the point that the role of result columns and descriptive columns should be separated already at the draft stage. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used to compare with another time period, it provides a general basis for why a draft should include separate comparison-role columns such as baseline differences. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes feature and label structure, it provides a basis for the claim that even in the first table draft, the roles of identification, description, and result should already be separated. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `label leakage`. Because it explains a design flaw where a feature becomes a proxy for the label, it strengthens the point that the role of result columns and descriptive columns should be separated already at the draft stage. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used to compare with another time period, it provides a general basis for why a draft should include separate comparison-role columns such as baseline differences. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

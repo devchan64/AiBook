@@ -1,7 +1,7 @@
 # P3-3.3 질문을 첫 표 초안으로 옮기려면 어떤 열부터 스케치해야 하는가
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 질문을 받은 뒤 바로 필요한 것은 완성된 표를 한 번에 적는 일이 아니라, 첫 표 초안에서 어떤 열이 샘플을 식별하고 어떤 열이 상태, 비교, 결과를 맡는지 먼저 나누는 일입니다. 질문 문장이 바뀌면 표 초안의 열 구조도 함께 바뀌므로, 저장된 기록을 문제 표현 구조로 옮기려면 이 첫 스케치가 분명해야 합니다. 첫 표 초안에서 중요한 것도 완성된 열 목록이 아니라 이런 역할 구분입니다.
 
@@ -79,6 +79,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 feature와 label 구조를 전제로 하므로, 첫 표 초안에서도 식별/설명/결과 역할을 먼저 나눠 두어야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 결과 열과 설명 열의 역할을 초안 단계에서부터 구분해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, baseline diff 같은 비교 역할 열을 별도로 두는 초안이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 feature와 label 구조를 전제로 하므로, 첫 표 초안에서도 식별/설명/결과 역할을 먼저 나눠 두어야 한다는 근거가 됩니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `label leakage`. feature가 label의 proxy가 되는 설계 결함을 설명하므로, 결과 열과 설명 열의 역할을 초안 단계에서부터 구분해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, baseline diff 같은 비교 역할 열을 별도로 두는 초안이 필요하다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

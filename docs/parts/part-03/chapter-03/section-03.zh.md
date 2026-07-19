@@ -1,7 +1,7 @@
 # P3-3.3 要把问题搬到第一张表草案里，应该先草拟哪些列
 
 > Section ID: `P3-3.3`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 拿到问题之后，真正立刻需要的，不是一次把完成表写出来，而是先在第一张表草案里分清：哪些列负责识别样本，哪些列负责状态、比较和结果。问题句一变，表草案的列结构也会跟着变，所以如果要把已存记录搬到问题表达结构里，这第一张草图就必须清楚。第一张表草案真正重要的，不是完整列名清单，而是这种角色划分。
 
@@ -79,6 +79,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 预设了 feature 和 label 结构，所以它为这点提供依据：即使在第一张表草案里，也应该先把识别、说明和结果的角色分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 会变成 label proxy 的设计缺陷，因此强化了这一点：结果列和说明列的角色，应该从草案阶段起就先分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是拿来和其他时段比较的 reference，因此为“草案里应单独放 baseline diff 这类比较角色列”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 预设了 feature 和 label 结构，所以它为这点提供依据：即使在第一张表草案里，也应该先把识别、说明和结果的角色分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `label leakage`。它说明 feature 会变成 label proxy 的设计缺陷，因此强化了这一点：结果列和说明列的角色，应该从草案阶段起就先分开。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是拿来和其他时段比较的 reference，因此为“草案里应单独放 baseline diff 这类比较角色列”提供了一般依据。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
