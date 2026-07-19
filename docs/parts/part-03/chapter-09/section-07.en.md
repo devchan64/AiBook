@@ -1,7 +1,7 @@
 # P3-9.7 Under What Conditions Can Inputs and Results Be Read as a Prediction Problem
 
 > Section ID: `P3-9.7`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Once you decide to raise the problem into a prediction problem, you now need to close whether its structure satisfies actual prediction conditions. What matters is not a long theory but four checks: which columns are inputs, which columns are result candidates, whether information from after the prediction time has leaked in, and up to what information you look while predicting a result from what time point.
 
@@ -39,6 +39,6 @@ Even when the same sample boundary is kept, the input representation does not ne
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label`, `label leakage`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Google, *Machine Learning Crash Course: Dividing Datasets*, train/validation/test separation and real-world consistency. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, reproducibility and versioned derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `feature`, `label`, `label leakage`. Used to check the term basis that features are model input variables and that label leakage is a design flaw in which a label proxy is mixed into the features. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google, *Datasets: Dividing the original dataset*. Used to check the view that train/validation/test data should be separated, the same feature transformation should also apply to real-world data, and validation/test data should match the real-world data the model will encounter. [https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for preserving processing steps, reproducibility, versioning, and derivation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
