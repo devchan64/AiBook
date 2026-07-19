@@ -1,7 +1,7 @@
 # P4-7.3 Supplementary Learning: What Input Problems Do Missing Values, Scale, And Encoding Correspond To?
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P4-7.2, the broad meaning of preprocessing was established as `the work of changing raw input into a representation the model can calculate with`. But when readers first learn preprocessing, confusion immediately appears. Some columns are empty, some have wildly different numeric magnitudes, and some are strings, so it is not always intuitive why all three are handled under the single word preprocessing.
 
@@ -16,13 +16,7 @@ This Section answers the following questions.
 - Does one column need only one preprocessing rule, or can several rules be attached together?
 - Even after separating preprocessing types, why must the rules learned on train still be reused?
 
-This Section does not treat the following topics deeply.
-
-- formula differences among mean, median, robust scaling, and target encoding
-- individual library syntax and detailed API options
-- comparison among filter, wrapper, embedded, and dimensionality reduction
-
-The distinction among filter, wrapper, embedded, and dimensionality reduction is revisited in the next Section, P4-7.4.
+This Section first closes `what input problems missing-value handling, scale adjustment, and encoding correspond to`. The distinction among filter, wrapper, embedded, and dimensionality reduction continues in the next Section, P4-7.4.
 
 ## Goals Of This Supplementary Learning
 
@@ -189,4 +183,4 @@ What matters here is not `memorizing four preprocessing techniques`, but the fac
 
 - scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-08.
 - scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-08.
-- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, accessed 2026-07-08.
+- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, accessed 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

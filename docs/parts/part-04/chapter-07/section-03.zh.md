@@ -1,7 +1,7 @@
 # P4-7.3 补充学习: 缺失值、尺度、编码分别对应什么输入问题
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-7.2 里，我们先抓住了 preprocessing 的大意: `把原始输入改造成 model 能计算的表达`。但第一次学预处理时，很快就会出现一种混乱感。有的列是空的，有的列数值大小差别很大，有的列是字符串，于是就很难直觉地理解，为什么这三件事会被放在同一个“预处理”下面来讲。
 
@@ -16,13 +16,7 @@
 - 一列数据只需要一种预处理规则，还是可能要连续套上多种规则？
 - 就算已经把预处理种类分开了，为什么还是要重复使用 train 上学到的规则？
 
-这一节不会深入讲下面这些内容。
-
-- 平均值、中位数、robust scaling、target encoding 之间的公式差异
-- 各类库的语法和 API 细节选项
-- filter、wrapper、embedded、降维(dimensionality reduction)之间的比较
-
-filter、wrapper、embedded、降维的区分，会在下一节 P4-7.4 再处理。
+这一节先收束 `缺失值处理、尺度调整、编码分别对应什么输入问题`。filter、wrapper、embedded、降维的区分，会在下一节 P4-7.4 继续展开。
 
 ## 本补充学习的目标
 
@@ -189,4 +183,4 @@ filter、wrapper、embedded、降维的区分，会在下一节 P4-7.4 再处理
 
 - scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-08.
 - scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-08.
-- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 第 3 版, O'Reilly Media, 2022, 确认日期: 2026-07-08.
+- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 第 3 版, O'Reilly Media, 2022, 确认日期: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
