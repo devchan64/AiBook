@@ -1,7 +1,7 @@
 # P2-11.3 广播与向量化
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-11.1 中，我们检查了 NumPy array 的 `shape`、`ndim`、`dtype`。在 P2-11.2 中，我们用 indexing、slicing、axis 来决定从数组的哪一部分读取，以及沿哪个方向计算。
 
@@ -30,25 +30,6 @@ print(scores + 10)
 代码里没有 `for`。但从结果看，每个值都加上了 10。要理解这种计算，需要把 broadcasting 和 vectorization 一起看。
 
 本节说明 `broadcasting` 与 `vectorization` 的基本区分。`NumPy`、`shape`、`axis` 的代表性说明仍放在 P2-11.1、P2-11.2 和 [概念词汇表](/AiBook/en/reference/concept-glossary/)，这里专注于：计算是怎样扩散到整个数组上的。
-
-## 本节范围
-
-本节讨论 NumPy 把计算应用到整个数组上的基本方式。
-
-这里回答以下问题。
-
-- broadcasting 让什么东西匹配起来？
-- scalar 是怎样和 array 一起计算的？
-- 为什么形状 `(4, 3)` 的数组可以和形状 `(3,)` 的数组相加？
-- 为什么 `(4, 3)` 与 `(4,)` 不容易直接相加？
-- vectorization 是消除了重复，还是把重复移动到了别的位置？
-- 为什么在 AI 实践里，normalization、weight calculation、按 feature 运算，经常写成数组级别的代码？
-
-本节先收束这样一种直觉：`只要 shape 合适，重复计算就可以按数组级别来读`。也就是说，这里把 broadcasting 和 vectorization 读成 `数组整体计算如何扩散并应用`。
-
-本节不会马上扩展的问题也很清楚。advanced broadcasting、`np.newaxis` 的细节用法、`reshape`、stride、memory view 会在 P2-11.4 的补充学习里再出现。如果 broadcasting 的例子大体能读懂，但 `(3,)`、`(3, 1)`、`(1, 3)` 的区别或 slicing 之后与原数组共享的关系仍然混乱，就先暂停这一节，转去 P2-11.4，再回来。
-
-这里比起性能比较，先阅读 `shape 合适时数组整体计算如何扩散并应用`。
 
 ## 本节目标
 
@@ -360,6 +341,6 @@ python docs/assets/part-02/chapter-11/p2_11_3_broadcast_vectorization.py
 
 ## 来源与参考资料
 
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为 broadcasting rules、维度比较和 shape mismatch 错误说明的核心依据。
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 array arithmetic、universal functions 和基本 axis calculation 示例。
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为把 Python 循环读成数组级计算并先检查 shape 的入门流程依据。
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为 broadcasting rules、维度比较和 shape mismatch 错误说明的核心依据。
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 array arithmetic、universal functions 和基本 axis calculation 示例。
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。作为把 Python 循环读成数组级计算并先检查 shape 的入门流程依据。

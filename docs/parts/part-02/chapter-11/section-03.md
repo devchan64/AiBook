@@ -1,7 +1,7 @@
 # P2-11.3 브로드캐스팅(broadcasting)과 벡터화(vectorization)
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-11.1에서는 NumPy 배열(array)의 `shape`, `ndim`, `dtype`을 확인했습니다. P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 사용해 배열의 어느 부분을 읽고 어느 방향으로 계산할지 봤습니다.
 
@@ -30,25 +30,6 @@ print(scores + 10)
 코드에는 `for`가 없습니다. 하지만 결과를 보면 각 값에 10이 더해졌습니다. 이런 계산을 이해하려면 브로드캐스팅(broadcasting)과 벡터화(vectorization)를 함께 봐야 합니다.
 
 여기서는 `브로드캐스팅(broadcasting)`과 `벡터화(vectorization)`의 기본 구분을 설명합니다. `NumPy`, `shape`, `축(axis)`의 대표 설명은 P2-11.1, P2-11.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 배열 전체에 계산이 어떻게 퍼져 적용되는지에 집중합니다.
-
-## 이 절의 범위
-
-이 절은 NumPy에서 배열 전체에 계산을 적용하는 기본 방식을 다룹니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 브로드캐스팅(broadcasting)은 무엇을 맞춰 주는가?
-- 스칼라(scalar)는 배열과 어떻게 함께 계산되는가?
-- `(4, 3)` 배열과 `(3,)` 배열은 왜 더할 수 있는가?
-- `(4, 3)` 배열과 `(4,)` 배열은 왜 바로 더하기 어려운가?
-- 벡터화(vectorization)는 반복문을 없애는 것인가, 반복을 다른 위치로 옮기는 것인가?
-- AI 실습에서 정규화(normalization), 가중치 계산, 특징별 연산이 왜 배열 단위로 자주 쓰이는가?
-
-이 절에서는 “shape이 맞으면 반복 계산을 배열 단위로 읽을 수 있다”는 감각을 먼저 닫는 데 집중합니다. 즉, 여기서는 브로드캐스팅과 벡터화를 `배열 전체 계산이 어떻게 퍼져 적용되는가`라는 관점으로 붙잡습니다.
-
-대신 이번 절에서 바로 더 넓히지 않을 질문도 분명합니다. 고급 브로드캐스팅, `np.newaxis`, `reshape`의 세부 활용, stride, 메모리 뷰(view)는 P2-11.4 보충학습에서 다시 다룹니다. 만약 broadcasting 예제는 읽히는데 `(3,)`, `(3, 1)`, `(1, 3)` 차이나 슬라이싱 뒤 원본 공유가 계속 헷갈린다면, 이 절을 잠깐 멈추고 P2-11.4로 이동한 뒤 다시 돌아옵니다.
-
-여기서는 성능 비교보다 `shape이 맞을 때 배열 전체 계산이 어떻게 퍼져 적용되는가`를 먼저 읽습니다.
 
 ## 이 절의 목표
 
@@ -360,6 +341,6 @@ NumPy 배열에서는 같은 계산을 `scores + 10`이나 `(4, 3)` 행렬에 `(
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. broadcasting 규칙, 차원 비교, shape mismatch 오류 설명을 현재 절의 핵심 근거로 사용했다.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. 배열 산술, universal functions, 기본 축 계산 예시 확인에 사용했다.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. Python 반복 대신 배열 단위 계산으로 읽는 입문 설명과 shape 확인 흐름의 근거로 사용했다.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. broadcasting 규칙, 차원 비교, shape mismatch 오류 설명을 현재 절의 핵심 근거로 사용했다.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. 배열 산술, universal functions, 기본 축 계산 예시 확인에 사용했다.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. Python 반복 대신 배열 단위 계산으로 읽는 입문 설명과 shape 확인 흐름의 근거로 사용했다.

@@ -1,7 +1,7 @@
 # P2-11.3 Broadcasting and Vectorization
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-11.1, we checked the `shape`, `ndim`, and `dtype` of NumPy arrays. In P2-11.2, we used indexing, slicing, and axis to decide which part of an array to read and in which direction to calculate.
 
@@ -30,25 +30,6 @@ The output is as follows.
 There is no `for` in the code. But from the result, we can see that 10 was added to every value. To understand this kind of calculation, we need to look at broadcasting and vectorization together.
 
 This Section explains the basic distinction between `broadcasting` and `vectorization`. The representative explanations of `NumPy`, `shape`, and `axis` remain in P2-11.1, P2-11.2, and the [Concept Glossary](/AiBook/reference/concept-glossary/). Here the focus is on how calculation spreads across the whole array.
-
-## Scope of This Section
-
-This Section deals with the basic way NumPy applies calculations across an entire array.
-
-Here we answer the following questions.
-
-- What does broadcasting make match?
-- How is a scalar calculated together with an array?
-- Why can an array of shape `(4, 3)` be added to an array of shape `(3,)`?
-- Why is it hard to directly add an array of shape `(4, 3)` and an array of shape `(4,)`?
-- Does vectorization remove repetition, or does it move repetition to a different place?
-- Why are normalization, weight calculation, and feature-wise operations often written at the array level in AI practice?
-
-This Section first closes the intuition that `if the shape fits, repeated calculation can be read at the array level`. In other words, broadcasting and vectorization are held from the viewpoint of how whole-array calculation spreads and applies.
-
-The questions not expanded immediately in this section are also clear. Advanced broadcasting, the detailed use of `np.newaxis`, `reshape`, stride, and memory views return in the P2-11.4 supplementary learning section. If broadcasting examples mostly make sense but the difference among `(3,)`, `(3, 1)`, and `(1, 3)` or the sharing of originals after slicing is still confusing, pause this section briefly, move to P2-11.4, and then return.
-
-Here, before performance comparison, we first read `how whole-array calculation spreads and applies when shape fits`.
 
 ## Goals of This Section
 
@@ -360,6 +341,6 @@ This case ties broadcasting and vectorization back to an actual calculation scen
 
 ## Sources and References
 
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the core basis for broadcasting rules, dimension comparison, and shape mismatch errors.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm array arithmetic, universal functions, and basic axis-calculation examples.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the basis for the beginner-level flow of reading array-level computation instead of Python loops and checking shape first.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the core basis for broadcasting rules, dimension comparison, and shape mismatch errors.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used to confirm array arithmetic, universal functions, and basic axis-calculation examples.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-20. Used as the basis for the beginner-level flow of reading array-level computation instead of Python loops and checking shape first.
