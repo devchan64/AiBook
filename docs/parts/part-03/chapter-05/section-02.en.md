@@ -1,7 +1,7 @@
 # P3-5.2 How Does a Summary Table Preserve Patterns Beyond the Average
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Two actions with the same average do not always have the same structure. An average is useful for summarizing the overall level at a glance, but it does not show everything about how the values moved over time. So when turning raw logs into a summary table, we should not relax just because `the average is the same`. We also have to think about how to preserve differences in patterns beyond the average.
 
@@ -54,85 +54,114 @@ The small example below checks in numbers a case where the averages are the same
 
 Problem situation: check that even when the overall average looks the same, a different segment-by-segment flow should still be read as a different operating structure.
 
-Input: an action-summary table that retains only `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean`
+Input: the [`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){: target="_blank" rel="noopener noreferrer" } file. One row is one action-summary row, and `early_flow_mean`, `mid_flow_mean`, and `late_flow_mean` are the three segment averages. The minimum difference to treat as a pattern change is controlled by `pattern_change_threshold`.
 
-Expected output: output in which segment differences and `pattern_note` differ even under the same `overall_mean`
+Expected output: output in which segment differences and `pattern_note` differ even under the same `overall_mean`. If `pattern_change_threshold` changes, the amount of difference treated as a pattern also changes.
 
-Concept to check: one average alone cannot explain all pattern differences, so segment-level differences and an interpretation note should remain together
+Concept to check: one average alone cannot explain all pattern differences, so segment-level differences and an interpretation note should remain together. The pattern rule has to be explicit so structures beyond the average can be read reproducibly.
 
 ```python
-import pandas as pd
+import csv
+from collections import Counter
+from pathlib import Path
 
-summary = pd.DataFrame(
-    [
-        {
-            "event_id": "A",
-            "early_flow_mean": 1.8,
-            "mid_flow_mean": 2.8,
-            "late_flow_mean": 2.6,
-        },
-        {
-            "event_id": "B",
-            "early_flow_mean": 2.4,
-            "mid_flow_mean": 2.4,
-            "late_flow_mean": 2.4,
-        },
-    ]
-)
+pattern_change_threshold = 0.30
+preview_count = 8
 
-summary["overall_mean"] = summary[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].mean(axis=1)
-summary["mid_minus_early"] = summary["mid_flow_mean"] - summary["early_flow_mean"]
-summary["late_minus_mid"] = summary["late_flow_mean"] - summary["mid_flow_mean"]
-summary["pattern_note"] = summary.apply(
-    lambda row: "mid peak then slight drop"
-    if row["mid_minus_early"] > 0 and row["late_minus_mid"] < 0
-    else "flat across segments",
-    axis=1,
-)
+data_path = Path("docs/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv")
+
+with data_path.open(newline="", encoding="utf-8") as file:
+    summary = []
+    for row in csv.DictReader(file):
+        numeric = {
+            key: float(row[key])
+            for key in ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
+        }
+        overall_mean = sum(numeric.values()) / len(numeric)
+        mid_minus_early = round(numeric["mid_flow_mean"] - numeric["early_flow_mean"], 2)
+        late_minus_mid = round(numeric["late_flow_mean"] - numeric["mid_flow_mean"], 2)
+
+        if (
+            mid_minus_early > pattern_change_threshold
+            and late_minus_mid <= -pattern_change_threshold
+        ):
+            pattern_note = "mid peak then drop"
+        elif (
+            abs(mid_minus_early) <= pattern_change_threshold
+            and abs(late_minus_mid) <= pattern_change_threshold
+        ):
+            pattern_note = "flat across segments"
+        elif late_minus_mid <= -pattern_change_threshold:
+            pattern_note = "late decline after high early/mid"
+        else:
+            pattern_note = "other segment pattern"
+
+        summary.append(
+            {
+                **row,
+                **numeric,
+                "overall_mean": overall_mean,
+                "mid_minus_early": mid_minus_early,
+                "late_minus_mid": late_minus_mid,
+                "pattern_note": pattern_note,
+            }
+        )
 
 print("1) the same overall mean is not enough")
-print(summary[["event_id", "overall_mean"]])
+for row in summary[:preview_count]:
+    print(
+        f'{row["event_id"]}: overall={row["overall_mean"]:.2f} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
+print(f"... {len(summary) - preview_count} more event summaries")
 print()
-print("2) segment-level differences remain")
-print(
-    summary[
-        [
-            "event_id",
-            "early_flow_mean",
-            "mid_flow_mean",
-            "late_flow_mean",
-            "mid_minus_early",
-            "late_minus_mid",
-        ]
-    ]
-)
+print(f"2) pattern counts when threshold = {pattern_change_threshold:.2f}")
+for note, count in sorted(Counter(row["pattern_note"] for row in summary).items()):
+    print(f"{note}: {count}")
 print()
-print("3) one-line pattern interpretation")
-print(summary[["event_id", "pattern_note"]])
+print("3) derived pattern columns for the preview rows")
+for row in summary[:preview_count]:
+    print(
+        f'{row["event_id"]}: '
+        f'mid_minus_early={row["mid_minus_early"]:.2f} '
+        f'late_minus_mid={row["late_minus_mid"]:.2f} '
+        f'-> {row["pattern_note"]}'
+    )
 ```
 
 Expected output:
 
 ```text
 1) the same overall mean is not enough
-  event_id  overall_mean
-0        A           2.4
-1        B           2.4
+E01: overall=2.40 early=1.80 mid=2.90 late=2.50
+E02: overall=2.40 early=2.40 mid=2.40 late=2.40
+E03: overall=2.40 early=2.70 mid=2.70 late=1.80
+E04: overall=2.40 early=1.90 mid=2.80 late=2.50
+E05: overall=2.40 early=2.35 mid=2.45 late=2.40
+E06: overall=2.40 early=2.75 mid=2.65 late=1.80
+E07: overall=2.40 early=1.70 mid=2.90 late=2.60
+E08: overall=2.40 early=2.45 mid=2.35 late=2.40
+... 28 more event summaries
 
-2) segment-level differences remain
-  event_id  early_flow_mean  mid_flow_mean  late_flow_mean  mid_minus_early  late_minus_mid
-0        A              1.8            2.8             2.6              1.0            -0.2
-1        B              2.4            2.4             2.4              0.0             0.0
+2) pattern counts when threshold = 0.30
+flat across segments: 12
+late decline after high early/mid: 12
+mid peak then drop: 12
 
-3) one-line pattern interpretation
-  event_id               pattern_note
-0        A  mid peak then slight drop
-1        B       flat across segments
+3) derived pattern columns for the preview rows
+E01: mid_minus_early=1.10 late_minus_mid=-0.40 -> mid peak then drop
+E02: mid_minus_early=0.00 late_minus_mid=0.00 -> flat across segments
+E03: mid_minus_early=0.00 late_minus_mid=-0.90 -> late decline after high early/mid
+E04: mid_minus_early=0.90 late_minus_mid=-0.30 -> mid peak then drop
+E05: mid_minus_early=0.10 late_minus_mid=-0.05 -> flat across segments
+E06: mid_minus_early=-0.10 late_minus_mid=-0.85 -> late decline after high early/mid
+E07: mid_minus_early=1.20 late_minus_mid=-0.30 -> mid peak then drop
+E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 ```
 
-The `overall_mean` of both actions is 2.4. But in stage 2, A shows `mid_minus_early=1.0` and `late_minus_mid=-0.2`, which means a rise in the middle followed by a decline later. B has 0.0 for both, so its segment structure does not change. The `pattern_note` in stage 3 is the result of folding this difference back into one sentence. So if we look only at the average, the two appear like the same case, but if we look at segment averages and segment differences together, it becomes clear that they are different action structures.
+The `overall_mean` of every action is 2.4. But stage 2 still separates the same average into 12 `flat across segments` cases, 12 `mid peak then drop` cases, and 12 `late decline after high early/mid` cases. The value to manipulate is `pattern_change_threshold`. If the value is lowered, smaller segment differences are treated as pattern changes; if the value is raised, gentler differences may remain classified as flat. The `pattern_note` in stage 3 is the result of folding this difference back into one sentence. So if we look only at the average, the rows appear like the same case, but if we look at segment averages and segment differences together, it becomes clear that they are different action structures.
 
 This example should also be read in the same order.
 
@@ -154,6 +183,7 @@ If we lump two actions into the same category just because the average is the sa
 
 ## Sources and Further Reading
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it provides a way to read signals and patterns inside a time flow, it gives general support for the claim that one average alone cannot explain structural change and that segment-level change and shape differences should remain together. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as turning raw data into a more useful input representation, it reinforces the point that a summary table should preserve not just the average but also structural information such as segment averages, slopes, and time points. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because the provenance framework says derivation and processing steps should remain explainable, it reinforces the higher-level frame that beyond the overall average, the segment summaries and derived values that remain should be reconstructable. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it provides a way to read signals and patterns inside a time flow, it gives general support for the claim that one average alone cannot explain structural change and that segment-level change and shape differences should remain together. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. Because it explains that the mean and median can differ in skewed distributions and that extreme values can distort the mean, it directly supports the explanation that if only the average remains, outliers and skewness can be missed and values such as the median, quantiles, minimum, and maximum should be checked together. [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because it explains feature engineering as turning raw data into a more useful input representation, it reinforces the point that a summary table should preserve not just the average but also structural information such as segment averages, slopes, and time points. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because the provenance framework says derivation and processing steps should remain explainable, it reinforces the higher-level frame that beyond the overall average, the segment summaries and derived values that remain should be reconstructable. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

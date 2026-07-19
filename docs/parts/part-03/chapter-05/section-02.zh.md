@@ -1,7 +1,7 @@
 # P3-5.2 汇总表如何保留平均值之外的模式
 
 > Section ID: `P3-5.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 两个平均值相同的动作，并不一定意味着它们具有相同结构。平均值对于一眼总结整体水平很有用，但它并不能把随时间如何变化的过程全都展示出来。所以，把原始日志转换成汇总表时，不能只因为 `平均值一样` 就放心，还要一起思考：平均值之外的模式差异，要怎样保留下来。
 
@@ -54,85 +54,114 @@
 
 问题情境：确认即使整体平均值看起来相同，只要分段流动不同，就应该读作不同的运行结构。
 
-输入(input)：只保留 `early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 的动作汇总表
+输入(input)：[`p3_5_2_segment_patterns.csv`](/AiBook/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv){: target="_blank" rel="noopener noreferrer" } 文件。一行是一条动作汇总行，`early_flow_mean`、`mid_flow_mean`、`late_flow_mean` 是三个区间平均值。把多大的差异视为模式变化，由 `pattern_change_threshold` 控制。
 
-期望输出(output)：即使 `overall_mean` 相同，区间差异和 `pattern_note` 仍然不同的输出
+期望输出(output)：即使 `overall_mean` 相同，区间差异和 `pattern_note` 仍然不同的输出。改变 `pattern_change_threshold` 时，被读作模式的差异大小也会改变。
 
-要确认的概念：单个平均值无法解释所有模式差异，因此应一起保留分段差异和解释备注
+要确认的概念：单个平均值无法解释所有模式差异，因此应一起保留分段差异和解释备注。模式判定标准必须明确，平均值之外的结构才能被可复现地读取。
 
 ```python
-import pandas as pd
+import csv
+from collections import Counter
+from pathlib import Path
 
-summary = pd.DataFrame(
-    [
-        {
-            "event_id": "A",
-            "early_flow_mean": 1.8,
-            "mid_flow_mean": 2.8,
-            "late_flow_mean": 2.6,
-        },
-        {
-            "event_id": "B",
-            "early_flow_mean": 2.4,
-            "mid_flow_mean": 2.4,
-            "late_flow_mean": 2.4,
-        },
-    ]
-)
+pattern_change_threshold = 0.30
+preview_count = 8
 
-summary["overall_mean"] = summary[
-    ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
-].mean(axis=1)
-summary["mid_minus_early"] = summary["mid_flow_mean"] - summary["early_flow_mean"]
-summary["late_minus_mid"] = summary["late_flow_mean"] - summary["mid_flow_mean"]
-summary["pattern_note"] = summary.apply(
-    lambda row: "mid peak then slight drop"
-    if row["mid_minus_early"] > 0 and row["late_minus_mid"] < 0
-    else "flat across segments",
-    axis=1,
-)
+data_path = Path("docs/assets/part-03/chapter-05/p3_5_2_segment_patterns.csv")
+
+with data_path.open(newline="", encoding="utf-8") as file:
+    summary = []
+    for row in csv.DictReader(file):
+        numeric = {
+            key: float(row[key])
+            for key in ["early_flow_mean", "mid_flow_mean", "late_flow_mean"]
+        }
+        overall_mean = sum(numeric.values()) / len(numeric)
+        mid_minus_early = round(numeric["mid_flow_mean"] - numeric["early_flow_mean"], 2)
+        late_minus_mid = round(numeric["late_flow_mean"] - numeric["mid_flow_mean"], 2)
+
+        if (
+            mid_minus_early > pattern_change_threshold
+            and late_minus_mid <= -pattern_change_threshold
+        ):
+            pattern_note = "mid peak then drop"
+        elif (
+            abs(mid_minus_early) <= pattern_change_threshold
+            and abs(late_minus_mid) <= pattern_change_threshold
+        ):
+            pattern_note = "flat across segments"
+        elif late_minus_mid <= -pattern_change_threshold:
+            pattern_note = "late decline after high early/mid"
+        else:
+            pattern_note = "other segment pattern"
+
+        summary.append(
+            {
+                **row,
+                **numeric,
+                "overall_mean": overall_mean,
+                "mid_minus_early": mid_minus_early,
+                "late_minus_mid": late_minus_mid,
+                "pattern_note": pattern_note,
+            }
+        )
 
 print("1) the same overall mean is not enough")
-print(summary[["event_id", "overall_mean"]])
+for row in summary[:preview_count]:
+    print(
+        f'{row["event_id"]}: overall={row["overall_mean"]:.2f} '
+        f'early={row["early_flow_mean"]:.2f} '
+        f'mid={row["mid_flow_mean"]:.2f} '
+        f'late={row["late_flow_mean"]:.2f}'
+    )
+print(f"... {len(summary) - preview_count} more event summaries")
 print()
-print("2) segment-level differences remain")
-print(
-    summary[
-        [
-            "event_id",
-            "early_flow_mean",
-            "mid_flow_mean",
-            "late_flow_mean",
-            "mid_minus_early",
-            "late_minus_mid",
-        ]
-    ]
-)
+print(f"2) pattern counts when threshold = {pattern_change_threshold:.2f}")
+for note, count in sorted(Counter(row["pattern_note"] for row in summary).items()):
+    print(f"{note}: {count}")
 print()
-print("3) one-line pattern interpretation")
-print(summary[["event_id", "pattern_note"]])
+print("3) derived pattern columns for the preview rows")
+for row in summary[:preview_count]:
+    print(
+        f'{row["event_id"]}: '
+        f'mid_minus_early={row["mid_minus_early"]:.2f} '
+        f'late_minus_mid={row["late_minus_mid"]:.2f} '
+        f'-> {row["pattern_note"]}'
+    )
 ```
 
 期望输出：
 
 ```text
 1) the same overall mean is not enough
-  event_id  overall_mean
-0        A           2.4
-1        B           2.4
+E01: overall=2.40 early=1.80 mid=2.90 late=2.50
+E02: overall=2.40 early=2.40 mid=2.40 late=2.40
+E03: overall=2.40 early=2.70 mid=2.70 late=1.80
+E04: overall=2.40 early=1.90 mid=2.80 late=2.50
+E05: overall=2.40 early=2.35 mid=2.45 late=2.40
+E06: overall=2.40 early=2.75 mid=2.65 late=1.80
+E07: overall=2.40 early=1.70 mid=2.90 late=2.60
+E08: overall=2.40 early=2.45 mid=2.35 late=2.40
+... 28 more event summaries
 
-2) segment-level differences remain
-  event_id  early_flow_mean  mid_flow_mean  late_flow_mean  mid_minus_early  late_minus_mid
-0        A              1.8            2.8             2.6              1.0            -0.2
-1        B              2.4            2.4             2.4              0.0             0.0
+2) pattern counts when threshold = 0.30
+flat across segments: 12
+late decline after high early/mid: 12
+mid peak then drop: 12
 
-3) one-line pattern interpretation
-  event_id               pattern_note
-0        A  mid peak then slight drop
-1        B       flat across segments
+3) derived pattern columns for the preview rows
+E01: mid_minus_early=1.10 late_minus_mid=-0.40 -> mid peak then drop
+E02: mid_minus_early=0.00 late_minus_mid=0.00 -> flat across segments
+E03: mid_minus_early=0.00 late_minus_mid=-0.90 -> late decline after high early/mid
+E04: mid_minus_early=0.90 late_minus_mid=-0.30 -> mid peak then drop
+E05: mid_minus_early=0.10 late_minus_mid=-0.05 -> flat across segments
+E06: mid_minus_early=-0.10 late_minus_mid=-0.85 -> late decline after high early/mid
+E07: mid_minus_early=1.20 late_minus_mid=-0.30 -> mid peak then drop
+E08: mid_minus_early=-0.10 late_minus_mid=0.05 -> flat across segments
 ```
 
-两个动作的 `overall_mean` 都是 2.4。但看第 2 步时，A 的 `mid_minus_early=1.0`、`late_minus_mid=-0.2`，说明它在中段上升、后段回落；而 B 这两个值都是 0.0，表示区间结构没有变化。第 3 步中的 `pattern_note`，就是把这种差异重新折叠成一句说明。所以，只看平均值，它们像是同一种案例；把区间平均值和区间差异一起看，就能看出它们是不同的动作结构。
+所有动作的 `overall_mean` 都是 2.4。但看第 2 步时，同一个平均值下面仍然分出了 12 个 `flat across segments`、12 个 `mid peak then drop`、12 个 `late decline after high early/mid`。这里可以操作的值是 `pattern_change_threshold`。把这个值调低，较小的区间差异也会被读作模式变化；把它调高，比较缓慢的差异可能仍会被归为平坦走势。第 3 步中的 `pattern_note`，就是把这种差异重新折叠成一句说明。所以，只看平均值，这些行像是同一种案例；把区间平均值和区间差异一起看，就能看出它们是不同的动作结构。
 
 这个例子也可以按同样顺序来读。
 
@@ -154,6 +183,7 @@ print(summary[["event_id", "pattern_note"]])
 
 ## 来源与参考资料
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它提供了在时间流程里读取信号和模式的视角，因此为“单个平均值无法解释全部结构变化，必须保留区间变化和形状差异”提供了一般依据。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为把原始数据变成更有用的输入表示，因此强化了汇总表不仅要保留平均值，也要保留区间平均值、斜率、时点等结构信息这一点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- W3C, `PROV-Overview`. provenance framework 说明派生关系和处理步骤应当可解释，因此它强化了一个更高层的框架：除了整体平均值之外，保留下来的区间汇总和派生值也应该是可追溯、可重构的。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它提供了在时间流程里读取信号和模式的视角，因此为“单个平均值无法解释全部结构变化，必须保留区间变化和形状差异”提供了一般依据。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `Measures of Location`. 它说明在偏斜分布中平均值和中位数可能不同，极端值也可能扭曲平均值，因此直接支持了这一节的说明：如果只留下平均值，就可能漏掉离群值和分布偏斜，需要一起查看中位数、分位数、最小值、最大值等值。 [https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为把原始数据变成更有用的输入表示，因此强化了汇总表不仅要保留平均值，也要保留区间平均值、斜率、时点等结构信息这一点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- W3C, `PROV-Overview`. provenance framework 说明派生关系和处理步骤应当可解释，因此它强化了一个更高层的框架：除了整体平均值之外，保留下来的区间汇总和派生值也应该是可追溯、可重构的。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

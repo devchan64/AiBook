@@ -21,3 +21,4 @@
 - `p3_5_7_event_severity.csv`: P3-5.7 Python example input. Each row maps a follow-up event type to a severity score used by the folding rule.
 - `p3_5_6_source_events.csv`: P3-5.6 Python example input. Each row is one source event with a duration and window length used to compare source-event counts with derived overlapping-window counts.
 - `p3_5_1_raw_log_segments.csv`: P3-5.1 Python example input. Each row is one flow measurement from a progress segment of one event, with a baseline/recent window label.
+- `p3_5_2_segment_patterns.csv`: P3-5.2 Python example input. Each row is one event-level summary with early, middle, and late segment means used to compare equal averages with different patterns.
