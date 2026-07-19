@@ -1,7 +1,7 @@
 # P2-7.7 补充学习：什么时候需要安装 Python
 
 > Section ID: `P2-7.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.6 中，我们看过了如何在 Windows、macOS、Linux 中打开终端并确认当前位置。现在还剩下这个问题。
 
@@ -25,7 +25,7 @@
 
 ## 官方安装手册链接
 
-链接收集日期：2026-07-19
+链接收集日期：2026-07-20
 
 安装画面和推荐方式会随着时间变化。真正进行安装时，不要只看本节说明，也要一起查看下面的官方文档。
 
@@ -35,23 +35,6 @@
 - macOS 中的安装与运行：Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }.
 - Linux/Unix 平台中的使用：Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }.
 - 虚拟环境：Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }.
-
-## 本补充学习的范围
-
-这里处理的是 Python 安装的必要性与确认标准。不处理逐个跟着点击的操作系统详细安装步骤，安装后的环境不一致检查会在 P2-7.9 中再次回收。
-
-这里回答下面这些问题。
-
-- 什么时候只用 Colab 就够了？
-- 什么时候需要在本地 PC 上安装 Python？
-- 为什么 Windows、macOS、Linux 中的安装方式看起来不同？
-- 安装后应该用哪些命令来确认？
-- Python 安装与创建虚拟环境有什么不同？
-- 当安装过程出问题时，首先要确认什么？
-
-这里不是逐个跟随安装按钮，而是集中抓住 `什么时候需要安装`、`安装后首先要确认什么`、`安装与虚拟环境有什么不同`。
-
-同时，这个补充学习之后会继续具体化的问题也很明确。PATH 和安装后常见卡点的检查顺序，会在 P2-7.9 补充学习中重新整理；shell 与环境变量表达，则会在 P2-7.8 中再次连接。
 
 ## 本补充学习的目标
 
@@ -270,9 +253,9 @@ Python 官方 `venv` 文档说明，激活虚拟环境后，会通过把对应�
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认按平台设置 Python 环境、调用解释器与安装相关文档结构。
-- Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org，确认日期：2026-07-19。用于确认最新 Python 下载入口与按操作系统区分的下载入口。
-- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Windows 中 Python 安装与运行有单独的官方说明。
-- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 macOS 中 python.org 发行版和安装后包使用说明。
-- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Linux/Unix 系统中安装路径会因操作系统而异，例如发行版包或源码构建。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认项目专用虚拟环境可能是不同于安装 Python 本身的单独步骤。
+- Python Software Foundation, [Python Setup and Usage](https://docs.python.org/3/using/index.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认按平台设置 Python 环境、调用解释器与安装相关文档结构。
+- Python Software Foundation, [Download Python](https://www.python.org/downloads/){: target="_blank" rel="noopener noreferrer" }, Python.org，确认日期：2026-07-20。用于确认最新 Python 下载入口与按操作系统区分的下载入口。
+- Python Software Foundation, [Using Python on Windows](https://docs.python.org/3/using/windows.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Windows 中 Python 安装与运行有单独的官方说明。
+- Python Software Foundation, [Using Python on macOS](https://docs.python.org/3/using/mac.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 macOS 中 python.org 发行版和安装后包使用说明。
+- Python Software Foundation, [Using Python on Unix platforms](https://docs.python.org/3/using/unix.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Linux/Unix 系统中安装路径会因操作系统而异，例如发行版包或源码构建。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认项目专用虚拟环境可能是不同于安装 Python 本身的单独步骤。
