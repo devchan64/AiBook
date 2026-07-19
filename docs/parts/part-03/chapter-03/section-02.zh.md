@@ -1,7 +1,7 @@
 # P3-3.2 怎样按照问题重新设计数据集
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 所谓重新设计数据集，意思不是把已经存在的文件原样拿来用，而是重新挑选问题所要求的样本单位和列结构。也就是说，要重新决定 `什么算一行`、`哪些列要留下`、`拿什么和什么比较`。动作单位表、比较报告、预测问题候选表之所以彼此不同，差别正是从这一步重设计里长出来的。
 
@@ -93,6 +93,6 @@
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明它应支持 representing processing steps、derivation、versioning，因此提供了一般依据：即使面对同一份原始数据，也应该把为了不同目的而经过什么转换做出了什么表分别记录下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 预设了 features 和 label 的结构，所以它强化了这样的说明：当“一行的含义”和“结果列的角色”会随着问题变化时，表本身也必须跟着重新设计。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是用来和其他时段比较的 reference，因此支撑了这一点：像近期区段比较表这种结构，会随着“把哪一组作为参考组”而发生变化。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework 说明它应支持 representing processing steps、derivation、versioning，因此提供了一般依据：即使面对同一份原始数据，也应该把为了不同目的而经过什么转换做出了什么表分别记录下来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 预设了 features 和 label 的结构，所以它强化了这样的说明：当“一行的含义”和“结果列的角色”会随着问题变化时，表本身也必须跟着重新设计。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是用来和其他时段比较的 reference，因此支撑了这一点：像近期区段比较表这种结构，会随着“把哪一组作为参考组”而发生变化。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

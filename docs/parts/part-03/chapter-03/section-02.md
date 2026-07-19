@@ -1,7 +1,7 @@
 # P3-3.2 질문에 맞는 데이터셋은 어떻게 다시 설계하는가
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 데이터셋을 다시 설계한다는 말은 이미 있는 파일을 그대로 쓰지 않고, 질문이 요구하는 샘플 단위와 열 구조를 다시 고른다는 뜻입니다. 즉 `무엇을 한 행으로 둘지`, `어떤 열을 남길지`, `무엇과 비교할지`를 다시 정하는 일입니다. 동작 단위 표, 비교 리포트, 예측 문제 후보 표가 서로 다른 이유도 바로 이 재설계에서 생깁니다.
 
@@ -94,6 +94,6 @@
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 representing processing steps, derivation, versioning을 지원해야 한다고 정리하므로, 같은 원천데이터에서도 목적에 따라 어떤 변환을 거쳐 어떤 표를 만들었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label 구조를 전제로 하므로, 질문에 따라 한 행의 뜻과 결과 열의 역할이 달라질 때 표도 다시 설계해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간 비교표처럼 무엇을 기준 묶음으로 둘지에 따라 표 구조가 달라질 수 있다는 점을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 representing processing steps, derivation, versioning을 지원해야 한다고 정리하므로, 같은 원천데이터에서도 목적에 따라 어떤 변환을 거쳐 어떤 표를 만들었는지 분리해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label 구조를 전제로 하므로, 질문에 따라 한 행의 뜻과 결과 열의 역할이 달라질 때 표도 다시 설계해야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간 비교표처럼 무엇을 기준 묶음으로 둘지에 따라 표 구조가 달라질 수 있다는 점을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-3.2 How Should a Dataset Be Redesigned to Match the Question
 
 > Section ID: `P3-3.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 To redesign a dataset means not using an existing file as it is, but reselecting the sample unit and column structure required by the question. In other words, it means deciding again `what should count as one row`, `which columns should remain`, and `what should be compared against what`. That is also why an action-level table, a comparison report, and a candidate prediction-problem table differ from one another: the difference is born inside this redesign.
 
@@ -93,6 +93,6 @@ So it is more accurate to read dataset redesign not as `making many tables`, but
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because the provenance framework explains that it should support representing processing steps, derivation, and versioning, it provides a general basis for keeping separate records of what transformations produced which tables for which purposes, even from the same source data. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes a structure of features and label, it strengthens the explanation that when the meaning of one row and the role of the result column change with the question, the table must also be redesigned. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another time period, it supports the claim that table structure can change depending on what is chosen as the reference bundle, as in a recent-segment comparison table. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. Because the provenance framework explains that it should support representing processing steps, derivation, and versioning, it provides a general basis for keeping separate records of what transformations produced which tables for which purposes, even from the same source data. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes a structure of features and label, it strengthens the explanation that when the meaning of one row and the role of the result column change with the question, the table must also be redesigned. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another time period, it supports the claim that table structure can change depending on what is chosen as the reference bundle, as in a recent-segment comparison table. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
