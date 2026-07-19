@@ -257,9 +257,7 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 --8<-- "assets/part-04/chapter-05/p4-5-1-mermaid-03-ko.mmd"
 ```
 
-## 사례 및 예시
-
-### 실무 장면으로 다시 읽기
+### 예시 1. 실무 장면으로 다시 읽기
 
 고객 이탈 예측 프로젝트를 예로 들면, 팀은 보통 다음 두 장면 중 하나를 보게 됩니다.
 
@@ -298,7 +296,7 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 - `balanced_model`은 둘 다 높고 차이도 작습니다. 비교적 안정적인 상태로 읽을 수 있습니다.
 - `very_complex_model`은 학습 점수는 매우 높지만 검증 점수와 차이가 큽니다. 과적합 의심 장면입니다.
 
-즉, 차이가 작다고 항상 좋은 것도 아니고, 학습 점수가 높다고 항상 좋은 것도 아닙니다.
+즉, 차이가 작다고 항상 좋은 것도 아니고, 학습 점수가 높다고 항상 좋은 것도 아닙니다. 이 표에서는 `gap`보다 먼저 두 점수의 수준을 보고, 그다음 둘 사이의 차이를 봐야 합니다.
 
 이 문장을 더 정확히 바꾸면 다음과 같습니다.
 
@@ -347,6 +345,6 @@ very_complex_model -> 학습 데이터에는 너무 세게 맞췄을 수 있다
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Underfitting vs. Overfitting`, scikit-learn Examples, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

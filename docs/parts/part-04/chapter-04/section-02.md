@@ -205,26 +205,9 @@ P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터
 
 ### Python 예제로 분리 구조 보기
 
-다음 코드는 한 번에 `학습`, `검증`, `테스트` 세 부분으로 나누는 가장 단순한 구조를 보여 줍니다.
+검증과 테스트를 따로 둔다는 말은 코드에서 보통 두 번의 분리로 나타납니다. 먼저 전체 데이터를 `학습 데이터`와 `임시 평가용 데이터`로 나누고, 그 임시 평가용 데이터를 다시 `검증 데이터`와 `테스트 데이터`로 나눕니다.
 
-문제 상황:
-
-- 검증과 테스트를 따로 둔다는 말이 실제 코드에서는 어떤 두 단계 분리로 나타나는지 감이 바로 오지 않을 수 있다
-
-입력(input):
-
-- 샘플 목록 `X`
-- 라벨 목록 `y`
-
-기대 출력(output):
-
-- 학습, 검증, 테스트의 샘플 수
-- 검증/테스트 라벨 구성
-
-확인할 개념:
-
-- 세 덩어리 분리는 보통 `train`과 임시 평가용 데이터를 나눈 뒤 다시 둘로 나누는 절차로 구현된다
-- 검증과 테스트는 역할이 다르므로 결과도 따로 확인해야 한다
+아래 예제에서 확인할 것은 모델 성능이 아니라 `세 덩어리의 역할이 코드에서도 분리되어 유지되는가`입니다. 출력에서는 학습, 검증, 테스트의 샘플 수와 검증/테스트 라벨 구성을 따로 봅니다.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -259,8 +242,8 @@ print("test labels:", y_test)
 train size: 7
 validation size: 2
 test size: 3
-validation labels: ['stay', 'churn']
-test labels: ['stay', 'stay', 'churn']
+validation labels: ['churn', 'stay']
+test labels: ['stay', 'stay', 'stay']
 ```
 
 이 코드는 한 번에 세 덩어리를 직접 나누는 대신, 먼저 `학습`과 `임시 평가용 데이터`로 나누고, 그다음 임시 데이터를 다시 `검증`과 `테스트`로 나눕니다. 이 두 단계 분리가 오히려 더 읽기 쉽습니다.
@@ -350,6 +333,6 @@ test labels: ['stay', 'stay', 'churn']
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

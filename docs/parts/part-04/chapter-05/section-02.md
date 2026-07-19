@@ -279,13 +279,13 @@ P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 �
 | `model_B` | 0.99 | 0.74 | 0.25 | 학습은 매우 높지만 검증이 크게 낮음 |
 | `model_C` | 0.63 | 0.61 | 0.02 | 차이는 작지만 둘 다 낮음 |
 
-이 표에서 `generalization gap`은 정식 이론 설명이 아니라, 독자가 학습 점수와 검증 점수의 차이를 읽는 보조 표현입니다.
+이 표에서 `generalization gap`은 정식 이론 설명이 아니라, 독자가 학습 점수와 검증 점수의 차이를 읽는 보조 표현입니다. 판단은 `gap` 하나로 끝내지 않고, 학습 점수와 검증 점수의 절대 수준을 함께 봐야 합니다.
 
 - `model_A`는 학습과 검증이 비교적 비슷합니다.
 - `model_B`는 학습은 매우 높지만 검증이 크게 낮습니다.
 - `model_C`는 차이는 작지만 둘 다 낮습니다.
 
-즉, 일반화를 읽을 때는 `차이만` 보는 것도 부족하고, `수준만` 보는 것도 부족합니다. 둘 다 함께 봐야 합니다.
+즉, 일반화를 읽을 때는 `차이만` 보는 것도 부족하고, `수준만` 보는 것도 부족합니다. `model_C`처럼 차이가 작아도 둘 다 낮으면 일반화가 좋은 모델이라고 말하기 어렵고, `model_B`처럼 학습만 높고 검증이 크게 낮으면 과적합 쪽을 먼저 의심해야 합니다.
 
 여기서 중요한 해석은 다음과 같습니다.
 
@@ -304,7 +304,7 @@ P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 �
 | 새 유행어 등장 | 0.93 | 0.68 | 0.25 | 표현이 조금만 바뀌어도 점수가 크게 떨어질 수 있음 |
 | 비꼼과 우회 표현 증가 | 0.93 | 0.61 | 0.32 | 표면 문장이 달라지면 모델이 더 크게 흔들릴 수 있음 |
 
-이 표는 실제 모델 학습 코드가 아니라, 일반화 해석을 연습하기 위한 읽기 예제입니다.
+이 표는 실제 모델 학습 코드가 아니라, 일반화 해석을 연습하기 위한 읽기 예제입니다. 핵심은 `새 표현 점수`가 낮아질 때 모델이 완전히 다른 과제로 간 것이 아니라, 같은 문제 안에서도 표현 변화 때문에 버팀성이 약해질 수 있다는 점입니다.
 
 - `지난달 게시글`은 익숙한 표현과 새로운 표현의 차이가 작습니다.
 - `새 유행어 등장`은 표현이 조금만 바뀌어도 점수가 크게 떨어질 수 있음을 보여 줍니다.
@@ -326,7 +326,7 @@ P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 �
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-06-26. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-06-26. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
-- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 확인 날짜: 2026-06-26. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, Bernhard Schoelkopf, `Statistical Learning Theory: Models, Concepts, and Results`, Max Planck Institute publication page, 확인 날짜: 2026-07-19. [https://is.mpg.de/publications/4179](https://is.mpg.de/publications/4179){: target="_blank" rel="noopener noreferrer" }

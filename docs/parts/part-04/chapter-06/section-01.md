@@ -172,9 +172,7 @@ Google 용어집은 재현율(recall)을 다음 질문으로 설명합니다.
 
 확인 가능한 결과는 혼동 행렬과 정밀도, 재현율을 함께 볼 때 드러납니다. `괜히 불량이라고 한 건수`와 `실제 불량을 놓친 건수`를 따로 세어 보면, 정확도만 높던 모델이 실제 운영에서는 왜 문제가 되는지 설명할 수 있습니다.
 
-## 사례 및 예시
-
-### 업무 목표가 지표를 바꾼다
+### 예시 1. 업무 목표가 지표를 바꾼다
 
 같은 분류 문제라도 업무 목표가 다르면 먼저 보는 지표가 달라집니다.
 
@@ -265,27 +263,9 @@ Google 용어집은 F1 점수를 정밀도와 재현율을 함께 쓰는 대표�
 
 ### Python 예제로 지표의 역할 읽기
 
-다음 코드는 실제 학습이 아니라, 혼동 행렬 수치로부터 지표를 읽는 예제입니다.
+다음 코드는 실제 학습이 아니라, 혼동 행렬 수치로부터 지표를 직접 계산해 보는 예제입니다. 조작할 값은 `tp`, `tn`, `fp`, `fn`입니다. 특히 `tn`이 매우 큰 불균형 장면에서 accuracy가 거의 완벽해 보여도 precision과 recall은 전혀 다른 신호를 줄 수 있음을 확인합니다.
 
-문제 상황:
-
-- 정확도 하나만 보면 좋아 보이는 모델도 혼동 행렬 기준으로 다시 계산하면 다른 모습이 나올 수 있다
-
-입력(input):
-
-- `tp`, `tn`, `fp`, `fn`
-
-출력(output):
-
-- accuracy
-- precision
-- recall
-- f1
-
-확인할 개념:
-
-- 같은 혼동 행렬에서도 어떤 지표를 읽느냐에 따라 모델 평가가 달라질 수 있다
-- 불균형 데이터에서는 accuracy가 지나치게 낙관적으로 보일 수 있다
+출력에서는 accuracy, precision, recall, F1을 나란히 보고, 어떤 숫자가 현재 오류 비용을 숨기는지 읽습니다.
 
 ```python
 tp = 30
@@ -310,7 +290,7 @@ print("f1:", round(f1, 4))
 accuracy: 0.9998
 precision: 0.0306
 recall: 0.6
-f1: 0.0582
+f1: 0.0583
 ```
 
 이 숫자는 아주 중요한 감각을 줍니다.
@@ -345,6 +325,6 @@ f1: 0.0582
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-06-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
 - C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 정보 검색 평가에서 precision과 recall을 중심으로 효과성 척도를 구성한 역사적 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }

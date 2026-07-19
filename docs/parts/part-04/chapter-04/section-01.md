@@ -1,7 +1,7 @@
 # P4-4.1 학습 데이터와 평가 데이터
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 후보를 좁히는 법을 봤습니다. 이제 중요한 질문이 생깁니다. 그 선택이 실제로 괜찮은지 어떻게 확인할 수 있을까요?
 
@@ -79,26 +79,9 @@ P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 �
 
 이 예시에서는 C01, C02, C03으로 규칙을 배우고, C04, C05에는 그 규칙이 통하는지 확인합니다. 만약 C04, C05까지 함께 학습에 써 버리면, 모델이 그 사례를 이미 본 상태라 평가 의미가 약해집니다.
 
-같은 생각을 코드로 옮기면 다음처럼 볼 수 있습니다.
+같은 생각을 코드로 옮기면 다음처럼 볼 수 있습니다. 아래 예제는 고객 특징 목록 `X`와 이탈 여부 라벨 `y`를 같은 기준으로 함께 나누고, 어떤 샘플과 라벨이 학습용과 평가용으로 들어가는지 확인합니다. 결과에서는 학습 입력/라벨과 평가 입력/라벨, 각 묶음의 샘플 수와 `churn` 비율을 함께 봅니다.
 
-문제 상황:
-
-- 전체 데이터를 학습용과 평가용으로 나누면 어떤 샘플과 라벨이 각 쪽으로 들어가는지 직접 확인해 볼 필요가 있다
-
-입력(input):
-
-- 고객 특징 목록 `X`
-- 이탈 여부 라벨 `y`
-
-기대 출력(output):
-
-- 학습 입력/라벨과 평가 입력/라벨
-- 각 묶음의 샘플 수와 `churn` 비율
-
-확인할 개념:
-
-- `train_test_split`은 입력과 라벨을 같은 기준으로 함께 나눈다
-- 분리 뒤에는 개수와 라벨 비율을 우선 확인하는 습관이 중요하다
+확인할 핵심은 `train_test_split`이 입력과 라벨을 같은 기준으로 함께 나눈다는 점입니다. 분리 뒤에는 성능 점수보다 먼저 개수와 라벨 비율을 확인하는 습관이 중요합니다.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -151,33 +134,26 @@ evaluation churn ratio: 0.5
 
 이런 출력만 봐도 “모델이 무엇을 배우기 시작할 환경인지”를 조금 더 구체적으로 이해할 수 있습니다.
 
-조금 더 실무에 가까운 모습으로 쓰면 보통 `DataFrame`에서 입력 열과 정답 열을 나눈 뒤 분리합니다.
+조금 더 실무에 가까운 모습으로 쓰면 보통 `DataFrame`에서 입력 열과 정답 열을 나눈 뒤 분리합니다. 아래 예제는 특징 열 목록 `feature_columns`, 정답 열 `target_column`, 표 형식 데이터 `df`를 사용해 `X_train`, `X_eval`의 `shape`와 학습/평가 라벨 비율을 확인합니다.
 
-문제 상황:
-
-- 실무에서는 리스트보다 `DataFrame` 형태로 입력 열과 정답 열을 나눈 뒤 분리하는 경우가 많다
-
-입력(input):
-
-- 특징 열 목록 `feature_columns`
-- 정답 열 `target_column`
-- 표 형식 데이터 `df`
-
-기대 출력(output):
-
-- `X_train`, `X_eval`의 `shape`
-- 학습/평가 라벨 비율
-
-확인할 개념:
-
-- 실무형 분리는 입력 열 묶음 `X`와 정답 열 `y`를 먼저 나누는 순서로 읽어야 한다
-- `shape`와 라벨 비율은 분리 결과 점검의 기본 출력이다
+확인할 핵심은 실무형 분리를 입력 열 묶음 `X`와 정답 열 `y`를 먼저 나누는 순서로 읽어야 한다는 점입니다. `shape`와 라벨 비율은 분리 결과 점검의 기본 출력입니다.
 
 ```python
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
 feature_columns = ["recent_purchases", "support_tickets", "days_since_login"]
 target_column = "churned"
+
+df = pd.DataFrame(
+    [
+        {"recent_purchases": 8, "support_tickets": 0, "days_since_login": 2, "churned": "stay"},
+        {"recent_purchases": 4, "support_tickets": 1, "days_since_login": 5, "churned": "stay"},
+        {"recent_purchases": 6, "support_tickets": 1, "days_since_login": 4, "churned": "stay"},
+        {"recent_purchases": 1, "support_tickets": 4, "days_since_login": 21, "churned": "churn"},
+        {"recent_purchases": 7, "support_tickets": 0, "days_since_login": 3, "churned": "stay"},
+    ]
+)
 
 X = df[feature_columns]
 y = df[target_column]
@@ -197,18 +173,20 @@ print("evaluation label ratio:")
 print(y_eval.value_counts(normalize=True))
 ```
 
-실행 결과는 보통 다음처럼 보입니다.
+실행 결과 예시는 다음처럼 보입니다.
 
 ```text
 X_train shape: (4, 3)
 X_eval shape: (1, 3)
 training label ratio:
+churned
 stay     0.75
 churn    0.25
-Name: churned, dtype: float64
+Name: proportion, dtype: float64
 evaluation label ratio:
+churned
 stay    1.0
-Name: churned, dtype: float64
+Name: proportion, dtype: float64
 ```
 
 여기서 중요한 것은 문법 자체보다 역할 구분입니다. 입력(input)인 `X`와 정답(label)인 `y`를 나누고, 그다음 다시 학습용과 평가용으로 나눈다는 순서를 읽을 수 있으면 됩니다. `shape`와 라벨 비율 출력은 분리 결과가 너무 치우치지 않았는지 확인하는 가장 빠른 점검입니다.
@@ -348,27 +326,9 @@ Name: churned, dtype: float64
 
 ### 실습 1. `test_size`를 바꿔 본다
 
-아래 코드는 같은 데이터를 두 가지 비율로 나누어 봅니다.
+아래 코드는 같은 데이터를 두 가지 비율로 나누어 봅니다. 고객 특징 목록 `X`, 이탈 라벨 `y`, 두 가지 `test_size` 값을 사용해 각 비율에서의 학습/평가 샘플 수와 `churn` 비율을 확인합니다.
 
-문제 상황:
-
-- 평가 데이터 비율을 바꾸면 학습용과 평가용 샘플 수가 어떻게 달라지는지 직접 확인해야 한다
-
-입력(input):
-
-- 고객 특징 목록 `X`
-- 이탈 라벨 `y`
-- 두 가지 `test_size` 값
-
-기대 출력(output):
-
-- 각 `test_size`에서의 학습/평가 샘플 수
-- 학습/평가의 `churn` 비율
-
-확인할 개념:
-
-- `test_size`가 커질수록 평가용 데이터는 늘고 학습용 데이터는 줄어든다
-- 샘플 수 변화와 라벨 비율 변화는 함께 봐야 한다
+확인할 핵심은 `test_size`가 커질수록 평가용 데이터는 늘고 학습용 데이터는 줄어든다는 점입니다. 샘플 수 변화와 라벨 비율 변화는 함께 봐야 합니다.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -407,14 +367,14 @@ for ratio in [0.25, 0.5]:
 test_size = 0.25
 training sample count: 6
 evaluation sample count: 2
-training churn ratio: 0.5
-evaluation churn ratio: 0.5
+training churn ratio: 0.3333333333333333
+evaluation churn ratio: 1.0
 ------------------------------
 test_size = 0.5
 training sample count: 4
 evaluation sample count: 4
-training churn ratio: 0.5
-evaluation churn ratio: 0.5
+training churn ratio: 0.25
+evaluation churn ratio: 0.75
 ------------------------------
 ```
 
@@ -422,26 +382,9 @@ evaluation churn ratio: 0.5
 
 ### 실습 2. `random_state`를 바꿔 본다
 
-같은 데이터라도 섞는 기준이 달라지면 분리 결과가 바뀔 수 있습니다.
+같은 데이터라도 섞는 기준이 달라지면 분리 결과가 바뀔 수 있습니다. 아래 예제는 동일한 `X`, `y`와 서로 다른 `random_state` 값을 사용해 각 시드에서의 평가 라벨 목록과 평가 데이터의 `churn` 비율을 비교합니다.
 
-문제 상황:
-
-- 같은 데이터와 같은 분할 비율이어도 섞는 기준이 달라지면 평가용 라벨 구성이 달라질 수 있다
-
-입력(input):
-
-- 동일한 `X`, `y`
-- 서로 다른 `random_state` 값
-
-기대 출력(output):
-
-- 각 `random_state`에서의 평가 라벨 목록
-- 평가 데이터의 `churn` 비율
-
-확인할 개념:
-
-- `random_state`는 분리 결과를 재현하기 위한 기준값이다
-- 작은 데이터에서는 시드 값만 바뀌어도 평가 구성이 크게 흔들릴 수 있다
+확인할 핵심은 `random_state`가 분리 결과를 재현하기 위한 기준값이라는 점입니다. 작은 데이터에서는 시드 값만 바뀌어도 평가 구성이 크게 흔들릴 수 있습니다.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -480,7 +423,7 @@ evaluation labels: ['stay', 'stay']
 evaluation churn ratio: 0.0
 ------------------------------
 random_state = 7
-evaluation labels: ['churn', 'stay']
+evaluation labels: ['stay', 'churn']
 evaluation churn ratio: 0.5
 ------------------------------
 random_state = 42
@@ -493,26 +436,9 @@ evaluation churn ratio: 1.0
 
 ### 실습 3. 데이터가 치우치면 어떤 문제가 생기는지 본다
 
-다음 예시는 `churn`이 적은 데이터에서 분리 결과가 얼마나 쉽게 흔들릴 수 있는지 보여 줍니다.
+다음 예시는 `churn`이 적은 데이터에서 분리 결과가 얼마나 쉽게 흔들릴 수 있는지 보여 줍니다. 희소한 `churn` 라벨을 가진 `X`, `y`를 나누고, 학습 라벨 목록, 평가 라벨 목록, 각 묶음의 `churn` 개수를 확인합니다.
 
-문제 상황:
-
-- 양성 라벨이 아주 적은 데이터에서는 한 번의 분리만으로도 평가 구성이 크게 치우칠 수 있다
-
-입력(input):
-
-- 희소한 `churn` 라벨을 가진 `X`, `y`
-
-기대 출력(output):
-
-- 학습 라벨 목록
-- 평가 라벨 목록
-- 각 묶음의 `churn` 비율
-
-확인할 개념:
-
-- 클래스 불균형 데이터는 무작위 분리만으로도 라벨 분포가 쉽게 흔들린다
-- 분리 직후 라벨 구성을 출력해 보는 이유가 여기에 있다
+확인할 핵심은 클래스 불균형 데이터가 무작위 분리만으로도 라벨 분포가 쉽게 흔들린다는 점입니다. 분리 직후 라벨 구성을 출력해 보는 이유가 여기에 있습니다.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -536,10 +462,10 @@ print("evaluation churn count:", y_eval.count("churn"))
 실행 결과 예시는 다음처럼 볼 수 있습니다.
 
 ```text
-training labels: ['stay', 'stay', 'stay', 'stay', 'stay', 'stay', 'stay']
-evaluation labels: ['stay', 'stay', 'churn']
-training churn count: 0
-evaluation churn count: 1
+training labels: ['stay', 'stay', 'stay', 'churn', 'stay', 'stay', 'stay']
+evaluation labels: ['stay', 'stay', 'stay']
+training churn count: 1
+evaluation churn count: 0
 ```
 
 이 실습에서는 한쪽에 `churn`이 거의 없거나 아예 없을 수도 있습니다. 그런 상태에서는 모델이 이탈 패턴을 배우거나 평가하기가 매우 어려워집니다. 이런 이유 때문에 뒤 절에서 비율을 맞춘 분리(stratified split)를 다시 다루게 됩니다.
@@ -555,6 +481,6 @@ evaluation churn count: 1
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-06-25. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Cross-validation: evaluating estimator performance`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/cross_validation.html](https://scikit-learn.org/stable/modules/cross_validation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `train_test_split`, scikit-learn API Reference, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
+- Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani, Jonathan Taylor, `An Introduction to Statistical Learning`, Springer, 공식 웹사이트 확인 날짜: 2026-07-19. [https://www.statlearning.com/](https://www.statlearning.com/){: target="_blank" rel="noopener noreferrer" }

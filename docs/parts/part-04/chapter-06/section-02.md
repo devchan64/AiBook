@@ -1,7 +1,7 @@
 # P4-6.2 문제 유형별 평가 기준
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-6.1에서는 평가 지표(metric)가 단순 점수판이 아니라, 무엇을 중요하게 보는지 드러내는 기준이라는 점을 봤습니다. 이제 다음 질문으로 넘어갑니다. `문제가 달라지면 왜 보는 지표도 달라질까요?`
 
@@ -334,26 +334,9 @@ scikit-learn 문서는 군집화 성능 평가를 설명하면서, 이것이 지
 
 분류는 임계값(threshold)을 조금만 바꿔도 정밀도와 재현율이 달라질 수 있습니다. 다음 예제는 같은 점수(score)라도 `몇 점부터 양성으로 볼 것인가`에 따라 결과가 달라진다는 점을 보여 줍니다.
 
-문제 상황:
+아래 예제는 실제 라벨 `y_true`, 예측 점수 `scores`, 여러 `threshold` 값을 사용합니다. 결과에서는 임계값별 예측 결과, TP/TN/FP/FN, accuracy, precision, recall을 함께 확인합니다.
 
-- 같은 분류 점수라도 임계값을 어디에 두느냐에 따라 최종 예측과 지표가 달라진다
-
-입력(input):
-
-- 실제 라벨 `y_true`
-- 예측 점수 `scores`
-- 여러 `threshold` 값
-
-기대 출력(output):
-
-- 임계값별 예측 결과
-- TP, TN, FP, FN
-- accuracy, precision, recall
-
-확인할 개념:
-
-- 분류 평가는 모델 점수만이 아니라 임계값을 거친 최종 판단으로 읽어야 한다
-- precision과 recall의 균형은 threshold에 따라 달라질 수 있다
+확인할 핵심은 분류 평가를 모델 점수만이 아니라 임계값을 거친 최종 판단으로 읽어야 한다는 점입니다. precision과 recall의 균형은 threshold에 따라 달라질 수 있습니다.
 
 ```python
 y_true = [1, 1, 1, 0, 0, 0, 1, 0]
@@ -428,25 +411,9 @@ threshold = 0.8
 
 회귀에서는 오차가 얼마나 큰지를 수치로 읽는 감각이 중요합니다. 특히 `큰 오차 하나`가 지표를 얼마나 흔드는지를 직접 봐야 합니다.
 
-문제 상황:
+아래 예제는 실제값 `y_true`와 예측값 `y_pred`를 사용해 `absolute_errors`, `squared_errors`, MAE, MSE, RMSE를 출력합니다.
 
-- 회귀에서는 맞고 틀림보다 오차 크기를 먼저 읽어야 하므로, 절대 오차와 제곱 오차를 직접 출력해 보는 편이 좋다
-
-입력(input):
-
-- 실제값 `y_true`
-- 예측값 `y_pred`
-
-기대 출력(output):
-
-- `absolute_errors`
-- `squared_errors`
-- MAE, MSE, RMSE
-
-확인할 개념:
-
-- 회귀 지표는 숫자가 얼마나 벗어났는지를 읽는 기준이다
-- MAE와 MSE/RMSE는 같은 오차를 서로 다른 강조 방식으로 본다
+확인할 핵심은 회귀 지표가 숫자가 얼마나 벗어났는지를 읽는 기준이라는 점입니다. MAE와 MSE/RMSE는 같은 오차를 서로 다른 강조 방식으로 봅니다.
 
 ```python
 y_true = [10, 12, 9, 15]
@@ -486,24 +453,9 @@ rmse           : 1.94
 
 이번에는 큰 오차 하나를 넣어 보겠습니다.
 
-문제 상황:
+아래 예제는 작은 오차 예측 `y_pred_small_error`와 큰 오차가 포함된 예측 `y_pred_big_error`를 비교합니다. 결과에서는 두 경우의 절대 오차와 제곱 오차, MAE, MSE, RMSE가 어떻게 달라지는지 봅니다.
 
-- 큰 오차 하나가 들어왔을 때 어떤 회귀 지표가 더 크게 흔들리는지 비교해 볼 필요가 있다
-
-입력(input):
-
-- 작은 오차 예측 `y_pred_small_error`
-- 큰 오차가 포함된 예측 `y_pred_big_error`
-
-기대 출력(output):
-
-- 두 경우의 절대 오차와 제곱 오차
-- MAE, MSE, RMSE 비교
-
-확인할 개념:
-
-- 큰 실패를 더 강하게 벌주고 싶을 때는 MSE와 RMSE가 더 민감하게 반응한다
-- 같은 회귀 문제라도 어떤 오차를 더 무겁게 볼지 선택해야 한다
+확인할 핵심은 큰 실패를 더 강하게 벌주고 싶을 때 MSE와 RMSE가 더 민감하게 반응한다는 점입니다. 같은 회귀 문제라도 어떤 오차를 더 무겁게 볼지 선택해야 합니다.
 
 ```python
 y_true = [10, 12, 9, 15]
@@ -562,23 +514,9 @@ big_error_case
 
 군집화는 독자가 직접 손으로 해보면 더 빨리 이해됩니다. 다음 예제는 1차원 값들을 `거리 기준`으로 묶어 보는 아주 단순한 실험입니다.
 
-문제 상황:
+아래 예제는 1차원 값 목록 `points`와 여러 `gap` 값을 사용해, 거리 기준에 따라 군집 묶음 결과가 어떻게 달라지는지 확인합니다.
 
-- 군집화는 정답을 맞히는 문제보다 비슷함의 기준을 어디에 두는지 실험하는 과정에 가깝다
-
-입력(input):
-
-- 1차원 값 목록 `points`
-- 여러 `gap` 값
-
-기대 출력(output):
-
-- `gap` 값에 따라 달라지는 군집 묶음 결과
-
-확인할 개념:
-
-- 군집 수와 군집 구성은 거리 기준에 따라 달라진다
-- 군집화 평가는 결과를 사람이 다시 해석하는 단계와 함께 읽어야 한다
+확인할 핵심은 군집 수와 군집 구성이 거리 기준에 따라 달라진다는 점입니다. 군집화 평가는 결과를 사람이 다시 해석하는 단계와 함께 읽어야 합니다.
 
 ```python
 points = [1.0, 1.2, 1.4, 4.8, 5.0, 8.5]
@@ -629,5 +567,5 @@ gap = 1.5
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Clustering performance evaluation`, scikit-learn User Guide, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation){: target="_blank" rel="noopener noreferrer" }
