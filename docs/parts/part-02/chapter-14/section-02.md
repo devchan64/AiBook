@@ -1,7 +1,7 @@
 # P2-14.2 브랜치(branch), 커밋(commit), 문서 재현성
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-14.1에서는 Git을 변경 이력 관리 도구로 봤습니다. 이제 문서 프로젝트의 작성 흐름에 맞춰 브랜치(branch), 커밋(commit), 배포 문서의 재현성을 연결합니다.
 
@@ -16,18 +16,6 @@ P2-14.1에서는 Git을 변경 이력 관리 도구로 봤습니다. 이제 문�
 | git history | 어떤 변경 이유를 커밋 단위로 남길 것인가 |
 | branch workflow | 그 변경을 작성 브랜치와 배포 브랜치 중 어디에 둘 것인가 |
 | deployment criteria | 언제 공개 가능한 설명으로 넘길 것인가 |
-
-## 이 절의 범위
-
-여기서는 다음 질문에 답합니다.
-
-- 브랜치(branch)는 왜 필요한가?
-- 작성 브랜치와 배포 브랜치를 나누는 이유는 무엇인가?
-- 커밋(commit)을 어떻게 나누어야 문서 재현성이 좋아지는가?
-- 배포되는 문서와 작성 중 문서를 왜 구분해야 하는가?
-- 원고, 코드, 이미지, 조사 메모를 함께 관리할 때 무엇을 확인해야 하는가?
-
-여기서 먼저 해결할 질문은 이것입니다. `같은 저장소 안의 변경이라도 왜 작성 중 판단과 배포 가능한 설명을 다른 작업선과 커밋 단위로 남겨야 하는가`입니다.
 
 ## 이 절의 목표
 
@@ -200,6 +188,6 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 
 ## 출처와 참고 자료
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 확인 날짜: 2026-07-19. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 브랜치를 커밋을 가리키는 가벼운 이동 포인터로 설명하는 기준입니다.
-- Git project, `git-branch Documentation`, 확인 날짜: 2026-07-19. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } `git branch`가 브랜치를 나열·생성·삭제하는 명령이라는 설명의 직접 참고 자료입니다.
-- GitHub Docs, `What is GitHub Pages?`, 확인 날짜: 2026-07-19. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } GitHub Pages가 저장소의 HTML, CSS, JavaScript를 빌드 과정과 함께 정적 사이트로 게시할 수 있다는 설명을 확인했습니다.
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 확인 날짜: 2026-07-20. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 브랜치를 커밋을 가리키는 가벼운 이동 포인터로 설명하는 기준입니다.
+- Git project, `git-branch Documentation`, 확인 날짜: 2026-07-20. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } `git branch`가 브랜치를 나열·생성·삭제하는 명령이라는 설명의 직접 참고 자료입니다.
+- GitHub Docs, `What is GitHub Pages?`, 확인 날짜: 2026-07-20. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } GitHub Pages가 저장소의 HTML, CSS, JavaScript를 빌드 과정과 함께 정적 사이트로 게시할 수 있다는 설명을 확인했습니다.

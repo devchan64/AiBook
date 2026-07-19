@@ -1,7 +1,7 @@
 # P2-14.2 分支（branch）、提交（commit）与文档可复现性
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-14.1，我们把 Git 看成变更历史管理工具。现在，顺着文档项目的写作流程，把分支（branch）、提交（commit）和已发布文档的可复现性连接起来。
 
@@ -16,18 +16,6 @@
 | git history | 哪个变更理由应该作为一个提交单位留下？ |
 | branch workflow | 这个变更应该留在写作分支还是部署分支？ |
 | deployment criteria | 它什么时候可以转成对外公开的说明？ |
-
-## 本节范围
-
-本节回答以下问题。
-
-- 为什么需要分支（branch）？
-- 为什么要把写作分支和部署分支分开？
-- 应该怎样划分提交（commit），才能让文档可复现性更好？
-- 为什么要区分“正在部署的文档”和“仍在写作中的文档”？
-- 当正文、代码、图片、调查笔记一起管理时，应检查什么？
-
-这里首先要解决的问题是：`即使在同一个仓库里，为什么还在写作中的判断和已经可以公开的说明，也应该留在不同工作线和不同提交单位中？`
 
 ## 本节目标
 
@@ -200,6 +188,6 @@ Git 官方书把分支解释为指向提交的轻量指针。与其把这些内�
 
 ## 来源与参考资料
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 确认日期：2026-07-19. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 这是把分支说明为指向提交的轻量可移动指针的依据。
-- Git project, `git-branch Documentation`, 确认日期：2026-07-19. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } 这是说明 `git branch` 用于列出、创建或删除分支的直接参考资料。
-- GitHub Docs, `What is GitHub Pages?`, 确认日期：2026-07-19. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } 这是确认 GitHub Pages 可以从仓库发布 HTML、CSS、JavaScript，并可选择经过构建流程生成静态站点的资料。
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 确认日期：2026-07-20. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 这是把分支说明为指向提交的轻量可移动指针的依据。
+- Git project, `git-branch Documentation`, 确认日期：2026-07-20. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } 这是说明 `git branch` 用于列出、创建或删除分支的直接参考资料。
+- GitHub Docs, `What is GitHub Pages?`, 确认日期：2026-07-20. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } 这是确认 GitHub Pages 可以从仓库发布 HTML、CSS、JavaScript，并可选择经过构建流程生成静态站点的资料。

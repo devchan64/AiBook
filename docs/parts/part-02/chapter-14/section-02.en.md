@@ -1,7 +1,7 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
 
@@ -16,18 +16,6 @@ This section focuses on separating workflows and setting deployment criteria. If
 | git history | Which reason for change should be left as one commit unit? |
 | branch workflow | Should this change stay on the writing branch or the deployment branch? |
 | deployment criteria | When is it ready to move into publicly visible explanation? |
-
-## Scope of This Section
-
-This section answers the following questions.
-
-- Why is a branch needed?
-- Why separate the writing branch from the deployment branch?
-- How should commits be divided so document reproducibility improves?
-- Why distinguish the document being deployed from the document still being written?
-- What should be checked when manuscripts, code, images, and research notes are managed together?
-
-The first question to solve here is this: `Even inside the same repository, why should judgment still being written and explanation ready to publish be left on different work lines and in different commit units?`
 
 ## Goals of This Section
 
@@ -200,6 +188,6 @@ This section is not about memorizing more Git commands. It is about deciding by 
 
 ## Sources and References
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, checked on 2026-07-19. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } Basis for describing a branch as a lightweight movable pointer to a commit.
-- Git project, `git-branch Documentation`, checked on 2026-07-19. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git branch` lists, creates, or deletes branches.
-- GitHub Docs, `What is GitHub Pages?`, checked on 2026-07-19. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } Used to verify that GitHub Pages can publish HTML, CSS, and JavaScript from a repository, optionally through a build process.
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, checked on 2026-07-20. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } Basis for describing a branch as a lightweight movable pointer to a commit.
+- Git project, `git-branch Documentation`, checked on 2026-07-20. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git branch` lists, creates, or deletes branches.
+- GitHub Docs, `What is GitHub Pages?`, checked on 2026-07-20. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } Used to verify that GitHub Pages can publish HTML, CSS, and JavaScript from a repository, optionally through a build process.
