@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
   <title id="title">Sampling variation versus sampling bias</title>
-  <desc id="desc">표본추출 변동과 표본 편향의 차이를 비교하는 차트입니다.</desc>
+  <desc id="desc">A chart comparing the difference between sampling variation and sampling bias.</desc>
   <rect width="920" height="520" fill="#ffffff"/>
   <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Sampling variation and sampling bias are different problems</text>
   <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Variation means estimates move around. Bias means estimates are pushed in one direction.</text>

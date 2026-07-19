@@ -3,12 +3,12 @@
   <title id="title">从总体中抽出样本并用样本形成估计值的流程</title>
   <desc id="desc">从总体中抽出样本并用样本形成估计值的流程</desc>
   <rect width="920" height="520" fill="#ffffff"/>
-  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">From population to sample to estimate</text>
-  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">We often cannot observe everything. We use a sample to estimate a population value.</text>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">从总体到样本，再到估计</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">我们常常看不到全部，所以用样本估计总体的值。</text>
 
   <rect x="54" y="128" width="350" height="270" rx="16" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
-  <text x="82" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#334155">population</text>
-  <text x="82" y="192" font-family="Arial, sans-serif" font-size="15" fill="#475569">all items we care about</text>
+  <text x="82" y="164" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#334155">总体</text>
+  <text x="82" y="192" font-family="Arial, sans-serif" font-size="15" fill="#475569">我们关心的整体</text>
 
   <g fill="#cbd5e1">
     <circle cx="102" cy="235" r="8"/><circle cx="134" cy="224" r="8"/><circle cx="166" cy="244" r="8"/><circle cx="198" cy="226" r="8"/>
@@ -24,20 +24,20 @@
   </g>
 
   <path d="M420 262 L520 262" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
-  <text x="432" y="238" font-family="Arial, sans-serif" font-size="15" fill="#475569">sampling</text>
+  <text x="432" y="238" font-family="Arial, sans-serif" font-size="15" fill="#475569">抽样</text>
 
   <rect x="540" y="158" width="296" height="92" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-  <text x="574" y="193" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#1d4ed8">sample</text>
-  <text x="574" y="222" font-family="Arial, sans-serif" font-size="15" fill="#475569">observed subset of the population</text>
+  <text x="574" y="193" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#1d4ed8">样本</text>
+  <text x="574" y="222" font-family="Arial, sans-serif" font-size="15" fill="#475569">从总体中观测到的部分</text>
 
   <path d="M688 262 L688 312" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
 
   <rect x="540" y="324" width="296" height="92" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
-  <text x="574" y="359" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#047857">estimate</text>
-  <text x="574" y="388" font-family="Arial, sans-serif" font-size="15" fill="#475569">a calculated guess about the population</text>
+  <text x="574" y="359" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#047857">估计值</text>
+  <text x="574" y="388" font-family="Arial, sans-serif" font-size="15" fill="#475569">对总体值的计算猜测</text>
 
   <rect x="250" y="434" width="420" height="44" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="284" y="462" font-family="Arial, sans-serif" font-size="16" fill="#334155">A sample is useful, but it can be biased or noisy.</text>
+  <text x="284" y="462" font-family="Arial, sans-serif" font-size="16" fill="#334155">样本有用，但也可能带有偏差或波动。</text>
 
   <defs>
     <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">

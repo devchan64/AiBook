@@ -27,16 +27,16 @@
 
   <rect x="540" y="158" width="296" height="92" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
   <text x="574" y="193" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#1d4ed8">표본</text>
-  <text x="574" y="222" font-family="Arial, sans-serif" font-size="15" fill="#475569">observed subset of the 모집단</text>
+  <text x="574" y="222" font-family="Arial, sans-serif" font-size="15" fill="#475569">모집단에서 관측한 일부</text>
 
   <path d="M688 262 L688 312" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
 
   <rect x="540" y="324" width="296" height="92" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
   <text x="574" y="359" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#047857">추정값</text>
-  <text x="574" y="388" font-family="Arial, sans-serif" font-size="15" fill="#475569">a calculated guess about the 모집단</text>
+  <text x="574" y="388" font-family="Arial, sans-serif" font-size="15" fill="#475569">모집단 값을 짐작한 계산값</text>
 
   <rect x="250" y="434" width="420" height="44" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="284" y="462" font-family="Arial, sans-serif" font-size="16" fill="#334155">A 표본 is useful, but it can be biased or noisy.</text>
+  <text x="284" y="462" font-family="Arial, sans-serif" font-size="16" fill="#334155">표본은 유용하지만 편향되거나 흔들릴 수 있다.</text>
 
   <defs>
     <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">

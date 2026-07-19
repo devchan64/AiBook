@@ -1,7 +1,7 @@
 # P2-5.3 표본(sample), 추정(estimation), 오차(error)
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-5.2에서는 데이터 묶음의 모양을 분포(distribution)로 보고, 중심을 평균(mean)으로 보고, 퍼짐을 분산(variance)으로 봤습니다. 이제 질문을 한 단계 바꿉니다.
 
@@ -21,36 +21,6 @@ P2-5.2에서는 데이터 묶음의 모양을 분포(distribution)로 보고, �
 AI에서도 이 흐름은 매우 중요합니다. 모델은 현실 전체를 다 보지 못합니다. 우리가 가진 데이터셋(dataset)은 언제나 현실의 일부입니다. 그래서 AI 학습은 “일부 데이터로 전체 상황에 대해 얼마나 잘 말할 수 있는가”라는 문제를 계속 품고 있습니다.
 
 여기서는 통계 추론 공식을 정교하게 계산하기보다, 일부 데이터로 전체를 말할 때 어떤 한계와 오차가 생기는지 읽는 데 집중합니다. 여기서 모집단, 표본, 추정, 오차의 관계를 잡아 두면, 뒤에서 일반화(generalization), 평가 점수, 데이터셋 편향을 볼 때 숫자를 훨씬 조심스럽고 정확하게 읽을 수 있습니다.
-
-## 이 절의 범위
-
-여기서는 표본(sample), 모집단(population), 추정(estimation), 오차(error)의 기본 관계를 다룹니다. 이번 절은 `우리가 가진 데이터가 전체가 아니라 일부일 때 어떤 한계가 생기는가`, `표본으로 계산한 숫자를 어디까지 믿어야 하는가`까지를 먼저 닫습니다.
-
-작은 데이터로 표본 평균의 흔들림을 직접 확인하는 실습은 다음 P2-5.4에서 이어서 보고, 표준오차와 신뢰구간 같은 흔들림 해석 도구는 P2-5.5 보충학습에서 다시 다룹니다. 편향-분산 트레이드오프는 Part 3의 P3-5 일반화(generalization)와 P3-6 평가 지표(metric) 문맥에서 다시 연결합니다. 여기서는 “표본으로 전체를 추정할 때 오차가 생긴다”는 관점을 먼저 둡니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `우리가 가진 데이터가 전체가 아니라 일부라면, 그 숫자를 어디까지 믿고 어디서부터 조심해야 하는가`입니다.
-
-그래서 이 절에서는 다음 다섯 질문만 먼저 고정합니다.
-
-- 모집단과 표본은 어떻게 다른가?
-- 표본으로 무엇을 추정할 수 있는가?
-- 왜 표본을 바꾸면 추정값도 달라질 수 있는가?
-- 오차는 틀렸다는 말인가, 불확실성을 인정하는 말인가?
-- AI 데이터셋에서는 왜 표본 관점이 중요한가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 모집단 | 알고 싶은 전체 대상 | 궁극적으로 말하고 싶은 범위 |
-| 표본 | 실제로 관측한 일부 | 우리가 손에 쥔 데이터 |
-| 추정 | 일부로 전체를 짐작하는 일 | 통계와 평가의 기본 동작 |
-| 오차 | 추정값과 실제 값의 차이 | 추정의 한계를 드러내는 개념 |
-| 표본 편향 | 표본이 한쪽으로 치우친 상태 | 단순 흔들림보다 더 위험한 문제 |
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-5.4`와 `P2-5.5`에서는 이런 추정값의 흔들림과 신뢰도를 더 구체적인 통계 언어로 이어 봅니다.
-- Part 3에서는 train/test split, 일반화, 평가 점수를 `현실 성능의 추정값`으로 읽을 때 이 관점을 다시 씁니다.
-- Part 6 프로젝트 구간에서는 데이터셋 편향과 표본 대표성 점검으로 이 질문이 다시 등장합니다.
 
 ## 이 절의 목표
 
@@ -228,6 +198,6 @@ AI 학습 데이터(training data)는 현실 전체가 아닙니다. 현실에�
 
 ## 출처와 참고 자료
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 모집단 전체를 조사하기 어려울 때 표본을 사용하며, 표본이 대표하는 모집단과 같은 특성을 가져야 한다는 설명 확인에 사용했다.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표본평균을 반복해서 계산할 때 평균과 퍼짐이 어떻게 읽히는지, 중심극한정리로 이어지는 맥락 확인에 사용했다.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 표본평균의 표본분포, 표준오차, 반복 표본에서 표본평균이 모집단 평균에서 얼마나 떨어질 수 있는지 설명하는 근거로 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 모집단 전체를 조사하기 어려울 때 표본을 사용하며, 표본이 대표하는 모집단과 같은 특성을 가져야 한다는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 표본평균을 반복해서 계산할 때 평균과 퍼짐이 어떻게 읽히는지, 중심극한정리로 이어지는 맥락 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 표본평균의 표본분포, 표준오차, 반복 표본에서 표본평균이 모집단 평균에서 얼마나 떨어질 수 있는지 설명하는 근거로 사용했다.

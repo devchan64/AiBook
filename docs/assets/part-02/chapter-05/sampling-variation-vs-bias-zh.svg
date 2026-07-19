@@ -3,16 +3,16 @@
   <title id="title">比较抽样波动与抽样偏差的图</title>
   <desc id="desc">比较抽样波动与抽样偏差的图</desc>
   <rect width="920" height="520" fill="#ffffff"/>
-  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Sampling variation and sampling bias are different problems</text>
-  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Variation means estimates move around. Bias means estimates are pushed in one direction.</text>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">抽样波动和抽样偏差是不同问题</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">波动表示估计值会摆动，偏差表示估计值被推向一边。</text>
 
   <g font-family="Arial, sans-serif">
     <rect x="58" y="130" width="380" height="286" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
-    <text x="88" y="166" font-size="20" font-weight="700" fill="#334155">sampling variation</text>
+    <text x="88" y="166" font-size="20" font-weight="700" fill="#334155">抽样波动</text>
     <line x1="108" y1="318" x2="388" y2="318" stroke="#94a3b8" stroke-width="2"/>
-    <text x="200" y="198" font-size="15" font-weight="700" fill="#047857">true value</text>
+    <text x="200" y="198" font-size="15" font-weight="700" fill="#047857">真实值</text>
     <line x1="248" y1="210" x2="248" y2="344" stroke="#10b981" stroke-width="4"/>
-    <text x="117" y="238" font-size="14" fill="#64748b">sample estimates</text>
+    <text x="117" y="238" font-size="14" fill="#64748b">样本估计值</text>
     <line x1="196" y1="254" x2="196" y2="318" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5"/>
     <line x1="226" y1="254" x2="226" y2="318" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5"/>
     <line x1="252" y1="254" x2="252" y2="318" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5"/>
@@ -24,14 +24,14 @@
     <circle cx="281" cy="318" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
     <circle cx="310" cy="318" r="8" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
     <path d="M196 354 C226 372, 280 372, 310 354" fill="none" stroke="#2563eb" stroke-width="2"/>
-    <text x="104" y="386" font-size="15" fill="#475569">estimates scatter around the true value</text>
+    <text x="104" y="386" font-size="15" fill="#475569">估计值在真实值周围分散</text>
 
     <rect x="482" y="130" width="380" height="286" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
-    <text x="512" y="166" font-size="20" font-weight="700" fill="#334155">sampling bias</text>
+    <text x="512" y="166" font-size="20" font-weight="700" fill="#334155">抽样偏差</text>
     <line x1="532" y1="318" x2="812" y2="318" stroke="#94a3b8" stroke-width="2"/>
-    <text x="624" y="198" font-size="15" font-weight="700" fill="#047857">true value</text>
+    <text x="624" y="198" font-size="15" font-weight="700" fill="#047857">真实值</text>
     <line x1="672" y1="210" x2="672" y2="344" stroke="#10b981" stroke-width="4"/>
-    <text x="706" y="238" font-size="14" fill="#64748b">shifted estimates</text>
+    <text x="706" y="238" font-size="14" fill="#64748b">偏移的估计值</text>
     <line x1="724" y1="254" x2="724" y2="318" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 5"/>
     <line x1="754" y1="254" x2="754" y2="318" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 5"/>
     <line x1="784" y1="254" x2="784" y2="318" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 5"/>
@@ -39,9 +39,9 @@
     <circle cx="754" cy="318" r="8" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
     <circle cx="784" cy="318" r="8" fill="#fee2e2" stroke="#ef4444" stroke-width="3"/>
     <path d="M680 354 C716 377, 764 377, 798 354" fill="none" stroke="#ef4444" stroke-width="2"/>
-    <text x="528" y="386" font-size="15" fill="#475569">estimates are pushed away from the true value</text>
+    <text x="528" y="386" font-size="15" fill="#475569">估计值被推离真实值</text>
   </g>
 
   <rect x="174" y="448" width="572" height="44" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-  <text x="206" y="476" font-family="Arial, sans-serif" font-size="16" fill="#334155">More data can reduce variation, but biased collection can still mislead.</text>
+  <text x="206" y="476" font-family="Arial, sans-serif" font-size="16" fill="#334155">更多数据可以减少波动，但有偏收集仍会误导。</text>
 </svg>

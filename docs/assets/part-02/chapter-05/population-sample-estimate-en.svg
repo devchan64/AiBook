@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
   <title id="title">Population, sample, and estimate</title>
-  <desc id="desc">모집단 전체에서 표본을 뽑고, 표본으로 모집단의 값을 추정하는 흐름을 보여 주는 차트입니다.</desc>
+  <desc id="desc">A chart showing the flow from drawing a sample from a population to estimating a population value from that sample.</desc>
   <rect width="920" height="520" fill="#ffffff"/>
   <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">From population to sample to estimate</text>
   <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">We often cannot observe everything. We use a sample to estimate a population value.</text>

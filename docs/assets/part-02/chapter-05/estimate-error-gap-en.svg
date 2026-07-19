@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
   <title id="title">Estimate and error</title>
-  <desc id="desc">추정값과 실제 값 사이의 차이가 오차이며, 표본이 달라지면 추정값도 달라질 수 있음을 보여 주는 차트입니다.</desc>
+  <desc id="desc">A chart showing that error is the gap between an estimate and the true value, and that estimates can change when samples change.</desc>
   <rect width="920" height="520" fill="#ffffff"/>
   <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Estimate is useful because the true value is often unknown</text>
   <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Error is the gap between what we estimate and what we would get from the full truth.</text>

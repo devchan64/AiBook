@@ -1,7 +1,7 @@
 # P2-5.3 Sample, Estimation, and Error
 
 > Section ID: `P2-5.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-5.2, we looked at the shape of a data bundle as a distribution, its center as the mean, and its spread as the variance. Now we shift the question one step.
 
@@ -21,36 +21,6 @@ Here we reorganize `population`, `sample`, `estimation`, `error`, and `sampling 
 This flow is also very important in AI. A model never sees the whole of reality. The dataset we have is always only part of reality. So AI training continually carries the question, "How well can we speak about the whole situation from partial data?"
 
 Rather than calculating formal formulas for statistical inference in detail, this Section focuses on reading the limits and errors that appear when we talk about the whole from partial data. If you secure the relationship among population, sample, estimation, and error here, you can read later topics like generalization, evaluation scores, and dataset bias much more carefully and accurately.
-
-## Scope of This Section
-
-This Section covers the basic relationship among `sample`, `population`, `estimation`, and `error`. This Section first closes what limits appear when the data we have is only part of the whole, and how far we should trust numbers calculated from samples.
-
-Small-data practice for checking how sample means fluctuate continues in P2-5.4. Tools for reading this fluctuation, such as standard error and confidence intervals, return in P2-5.5 supplementary learning. The bias-variance tradeoff reconnects later in Part 3, in the context of P3-5 generalization and P3-6 metrics. Here we first establish the perspective that "errors arise when we estimate the whole from a sample."
-
-The first question to solve here is this: `if the data we have is not the whole but only a part, how far should we trust the number, and where should caution begin?`
-
-So this Section fixes only the following five questions first.
-
-- How are population and sample different?
-- What can we estimate from a sample?
-- Why can the estimate change when the sample changes?
-- Does error mean "wrong," or does it mean acknowledging uncertainty?
-- Why is the sample perspective important in AI datasets?
-
-| Term | Very short meaning | Role in this Section |
-| --- | --- | --- |
-| population | the whole target we want to know | the scope we ultimately want to speak about |
-| sample | the part actually observed | the data we hold in our hands |
-| estimation | guessing the whole from the part | the basic action of statistics and evaluation |
-| error | the gap between estimate and true value | the concept that reveals the limit of estimation |
-| sampling bias | a sample skewed to one side | a problem more dangerous than simple fluctuation |
-
-The next flow after this Section is also simple.
-
-- In `P2-5.4` and `P2-5.5`, we continue into more concrete statistical language about the fluctuation and reliability of these estimates.
-- In Part 3, we use this perspective again when we read train/test splits, generalization, and evaluation scores as `estimates of real-world performance`.
-- In the Part 6 project section, this question returns again as dataset bias and checks for sample representativeness.
 
 ## Goals of This Section
 
@@ -228,6 +198,6 @@ This case shows that AI datasets should also be read not as `the whole of realit
 
 ## Sources and References
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm that samples are used when gathering information about an entire population is too costly or nearly impossible, and that a sample should share the characteristics of the population it represents.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm the context in which repeated sample means are read by their center and spread and connect to the central limit theorem.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used as support for sample-mean sampling distributions, standard error, and how far sample means tend to fall from a population mean in repeated samples.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 1.2 Data, Sampling, and Variation in Data and Sampling](https://openstax.org/books/introductory-statistics/pages/1-2-data-sampling-and-variation-in-data-and-sampling){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-20. Used to confirm that samples are used when gathering information about an entire population is too costly or nearly impossible, and that a sample should share the characteristics of the population it represents.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7 Introduction](https://openstax.org/books/introductory-statistics/pages/7-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-20. Used to confirm the context in which repeated sample means are read by their center and spread and connect to the central limit theorem.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 7.1 The Central Limit Theorem for Sample Means](https://openstax.org/books/introductory-statistics/pages/7-1-the-central-limit-theorem-for-sample-means-averages){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-20. Used as support for sample-mean sampling distributions, standard error, and how far sample means tend to fall from a population mean in repeated samples.
