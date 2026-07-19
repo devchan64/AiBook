@@ -1,25 +1,13 @@
 # P2-14.1 Git은 변경 이력을 관리하는 도구
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 13에서는 Matplotlib으로 그래프를 만들고, 그 출력 이미지를 문서에 연결했습니다. 여기서 바로 문제가 생깁니다. 문서, 코드, 이미지, 조사 메모가 함께 바뀌면 나중에 “무엇을 왜 바꿨는지”를 기억하기 어렵습니다.
 
 Git은 이런 변경을 기록하기 위한 도구입니다. 단순히 코드를 저장하는 도구가 아니라, 학습 과정에서 만들어진 문서와 예제 코드의 변화 과정을 추적하는 장치로 볼 수 있습니다. 지금 이 감각을 잡아 두어야 Part 3에서 baseline 비교, 전처리 수정, 평가 지표 해석처럼 실험 조건이 자주 바뀌는 장면에서도 `무엇을 왜 바꿨는가`를 다시 설명할 수 있습니다.
 
 여기서는 `Git`, `버전 관리(version control)`, `커밋(commit)`, `스테이징 영역(staging area)`, `저장소(repository)`의 기본 구분을 설명합니다. Chapter 11~13이 배열, 표, 그래프로 데이터를 읽고 확인하는 단계였다면, 여기서는 그 계산과 확인 과정을 어떤 변경 묶음으로 남길 것인가로 질문이 바뀝니다. Git은 갑자기 튀어나온 도구가 아니라, Part 3의 baseline 비교, 전처리 수정, metric 해석을 다시 설명하게 해 주는 기록 도구로 읽혀야 합니다. 뒤 절에서 브랜치와 배포로 이어질 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 기준점으로 삼습니다.
-
-## 이 절의 범위
-
-이 절은 Git의 깊은 내부 구조를 다루지 않습니다. 브랜치(branch), 원격 저장소(remote repository), 충돌 해결(merge conflict), 정적 사이트 배포는 P2-14.2에서 다룹니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 버전 관리(version control)는 왜 필요한가?
-- Git은 파일 저장과 무엇이 다른가?
-- 변경 사항을 확인하고 묶어 기록한다는 것은 무슨 뜻인가?
-- `status`, `add`, `commit`, `log`는 각각 어떤 역할을 하는가?
-- 문서와 예제 코드를 함께 다루는 프로젝트에서 Git을 왜 학습 기록 도구로 봐야 하는가?
 
 ## 이 절의 목표
 
@@ -217,6 +205,6 @@ Git을 사용하면 다음 관계를 남길 수 있습니다.
 
 ## 출처와 참고 자료
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 확인 날짜: 2026-07-19. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 버전 관리를 시간에 따른 파일 변화 기록과 특정 버전 회수 장치로 설명하는 기준입니다.
-- Git project, `git-status Documentation`, 확인 날짜: 2026-07-19. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } `git status`가 작업 트리, 인덱스, 추적되지 않은 파일 상태를 보여 준다는 설명의 직접 참고 자료입니다.
-- Git project, `git-commit Documentation`, 확인 날짜: 2026-07-19. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } `git commit`이 인덱스의 현재 내용을 로그 메시지와 함께 새 커밋으로 기록한다는 설명의 직접 참고 자료입니다.
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 확인 날짜: 2026-07-20. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 버전 관리를 시간에 따른 파일 변화 기록과 특정 버전 회수 장치로 설명하는 기준입니다.
+- Git project, `git-status Documentation`, 확인 날짜: 2026-07-20. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } `git status`가 작업 트리, 인덱스, 추적되지 않은 파일 상태를 보여 준다는 설명의 직접 참고 자료입니다.
+- Git project, `git-commit Documentation`, 확인 날짜: 2026-07-20. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } `git commit`이 인덱스의 현재 내용을 로그 메시지와 함께 새 커밋으로 기록한다는 설명의 직접 참고 자료입니다.

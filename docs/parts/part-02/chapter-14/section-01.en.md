@@ -1,25 +1,13 @@
 # P2-14.1 Git as a Tool for Managing Change History
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Part 2 Chapter 13, we created plots with Matplotlib and linked the output images into documents. A problem appears immediately at that point. If documents, code, images, and research notes all change together, it becomes hard later to remember "what changed, and why."
 
 Git is a tool for recording that kind of change. It is not just a tool for saving code. It is better read as a device for tracking how documents and example code change across a learning process. You need this sense early so that, in Part 3, even in scenes where experiment conditions change often, such as baseline comparisons, preprocessing edits, and metric interpretation, you can still explain again `what was changed, and why`.
 
 This section explains the basic distinctions among `Git`, `version control`, `commit`, `staging area`, and `repository`. If Chapters 11 through 13 were the stage of reading and checking data through arrays, tables, and plots, then the question here changes into how to leave those calculations and checks behind as bundles of changes. Git should not be read as a tool that suddenly appeared out of nowhere. It should be read as the record tool that lets you explain again the baseline comparisons, preprocessing edits, and metric interpretations in Part 3. When the later section continues into branches and deployment, also keep the [Concept Glossary](/AiBook/reference/concept-glossary/) as a reference point.
-
-## Scope of This Section
-
-This section does not cover Git's deep internal structure. Branches, remote repositories, merge conflicts, and static-site deployment are handled in P2-14.2.
-
-This section answers the following questions.
-
-- Why is version control needed?
-- How is Git different from file saving?
-- What does it mean to check changes and group them into a record?
-- What roles do `status`, `add`, `commit`, and `log` each play?
-- Why should Git be read as a learning-record tool in a project that handles documents and example code together?
 
 ## Goals of This Section
 
@@ -215,6 +203,6 @@ In other words, what matters in Git basics is not memorizing many commands. It i
 
 ## Sources and References
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, checked on 2026-07-19. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } Basis for describing version control as a record of file changes over time and a way to recover specific versions.
-- Git project, `git-status Documentation`, checked on 2026-07-19. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git status` reports working tree, index, and untracked-file state.
-- Git project, `git-commit Documentation`, checked on 2026-07-19. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git commit` records the current index contents with a log message as a new commit.
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, checked on 2026-07-20. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } Basis for describing version control as a record of file changes over time and a way to recover specific versions.
+- Git project, `git-status Documentation`, checked on 2026-07-20. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git status` reports working tree, index, and untracked-file state.
+- Git project, `git-commit Documentation`, checked on 2026-07-20. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git commit` records the current index contents with a log message as a new commit.

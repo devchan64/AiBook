@@ -1,25 +1,13 @@
 # P2-14.1 Git 是管理变更历史的工具
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 Part 2 Chapter 13，我们用 Matplotlib 制作图表，并把输出图片链接进文档。问题也就在这里立刻出现了。如果文档、代码、图片、调查笔记一起变化，过一段时间后就很难再记清“到底改了什么，为什么改”。
 
 Git 就是用来记录这种变化的工具。它不只是保存代码的工具，更适合被理解为：在学习过程中追踪文档与示例代码如何变化的装置。你需要先建立这种感觉，这样到了 Part 3，即使在 baseline 比较、预处理修改、评价指标解释这类实验条件经常变化的场景里，也还能重新说明 `改了什么，为什么改`。
 
 本节说明 `Git`、`版本控制（version control）`、`提交（commit）`、`暂存区（staging area）`、`仓库（repository）` 的基本区分。如果说 Chapter 11 到 13 是通过数组、表格、图表来读取和确认数据的阶段，那么这里的问题就变成：要如何把这些计算与确认过程留下来，作为一组组变更。Git 不是一个突然冒出来的工具，而应该被读成：能让你在 Part 3 再次解释 baseline 比较、预处理修改、metric 解读的记录工具。后面继续到分支与部署时，也请把[概念词汇表](/AiBook/en/reference/concept-glossary/)一起当作基准点。
-
-## 本节范围
-
-本节不处理 Git 的深层内部结构。分支（branch）、远程仓库（remote repository）、冲突解决（merge conflict）、静态站点部署会在 P2-14.2 讨论。
-
-本节回答以下问题。
-
-- 为什么需要版本控制（version control）？
-- Git 和单纯保存文件有什么不同？
-- 检查变更并把它们打包成记录，是什么意思？
-- `status`、`add`、`commit`、`log` 各自扮演什么角色？
-- 在同时处理文档与示例代码的项目里，为什么要把 Git 视为学习记录工具？
 
 ## 本节目标
 
@@ -215,6 +203,6 @@ Git 能让你留下下面这些关系。
 
 ## 来源与参考资料
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 确认日期：2026-07-19. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 这是把版本控制说明为随时间记录文件变化并可恢复特定版本的依据。
-- Git project, `git-status Documentation`, 确认日期：2026-07-19. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } 这是说明 `git status` 会显示工作树、索引和未跟踪文件状态的直接参考资料。
-- Git project, `git-commit Documentation`, 确认日期：2026-07-19. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } 这是说明 `git commit` 会把索引中的当前内容连同日志消息记录为新提交的直接参考资料。
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 确认日期：2026-07-20. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 这是把版本控制说明为随时间记录文件变化并可恢复特定版本的依据。
+- Git project, `git-status Documentation`, 确认日期：2026-07-20. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } 这是说明 `git status` 会显示工作树、索引和未跟踪文件状态的直接参考资料。
+- Git project, `git-commit Documentation`, 确认日期：2026-07-20. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } 这是说明 `git commit` 会把索引中的当前内容连同日志消息记录为新提交的直接参考资料。
