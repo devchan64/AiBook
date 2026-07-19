@@ -1,7 +1,7 @@
 # P5-3.6 输出层（output layer）与激活的选择
 
-Section ID: `P5-3.6`
-Version: `v2026.07.17`
+> Section ID: `P5-3.6`
+> Version: `v2026.07.19`
 
 在 P5-3.1 里，我们已经看过为什么需要激活函数；而从 P5-3.2 到 P5-3.5，则分别看了 sigmoid、tanh、ReLU 与代表性函数的公式比较。走到这里之后，下一个问题就会自然出现。
 
@@ -11,7 +11,7 @@ Version: `v2026.07.17`
 
 输出层的激活会随着模型到底在预测什么而改变，它必须被选成一种能够匹配“输出值应该具有什么意义”的形式。
 
-如果后面又开始混淆输出解读与激活选择的 기준，更适合一起回看[英文概念词汇表里的 output 条目](/AiBook/en/reference/concept-glossary/#output)与[activation function 条目](/AiBook/en/reference/concept-glossary/#activation-function)。
+如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看[英文概念词汇表里的 output 条目](/AiBook/en/reference/concept-glossary/#output)与[activation function 条目](/AiBook/en/reference/concept-glossary/#activation-function)。
 
 ## 本节范围
 
@@ -175,7 +175,7 @@ Version: `v2026.07.17`
 | 输出场景 | 相对没那么糟的误读 | 更危险的误读 | 更好的读法 |
 | --- | --- | --- | --- |
 | `0.55` | 读成偏向阳性，但仍然模糊 | 直接决定`自动停机` | 把模型输出与运行阈值拆开，优先看是否落在`现场确认`这样的中间策略区间 |
-| `0.91` | 只把它读成强警告，细化策略稍后再看 | 把 `0.91` 本身当作策略，忽略不同设备阈值会不同 | 把它先读成强阳性分数，再确认自动停机 기준究竟设在什么位置 |
+| `0.91` | 只把它读成强警告，细化策略稍后再看 | 把 `0.91` 本身当作策略，忽略不同设备阈值会不同 | 把它先读成强阳性分数，再确认自动停机标准究竟设在什么位置 |
 
 ### 案例 3. 质量状态分类
 
@@ -278,5 +278,5 @@ Version: `v2026.07.17`
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29.
-- Kevin P. Murphy, `Probabilistic Machine Learning: An Introduction`, MIT Press, 2022, 确认日期：2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- Kevin P. Murphy, `Probabilistic Machine Learning: An Introduction`, MIT Press, 2022, 确认日期: 2026-07-19. [https://probml.github.io/pml-book/book1.html](https://probml.github.io/pml-book/book1.html){: target="_blank" rel="noopener noreferrer" }

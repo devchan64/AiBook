@@ -1,7 +1,7 @@
 # P5-3.6 Choosing Output Layers And Activation
 
-Section ID: `P5-3.6`
-Version: `v2026.07.17`
+> Section ID: `P5-3.6`
+> Version: `v2026.07.19`
 
 In P5-3.1, we saw why activation functions are needed, and from P5-3.2 through P5-3.5 we looked separately at the sigmoid, tanh, ReLU, and the formula comparison of representative functions. Once you reach this point, the next question appears naturally.
 
@@ -278,5 +278,5 @@ The point that especially needs care in this flow is the case where service poli
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-06-29.
-- Kevin P. Murphy, `Probabilistic Machine Learning: An Introduction`, MIT Press, 2022, date checked: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- Kevin P. Murphy, `Probabilistic Machine Learning: An Introduction`, MIT Press, 2022, date checked: 2026-07-19. [https://probml.github.io/pml-book/book1.html](https://probml.github.io/pml-book/book1.html){: target="_blank" rel="noopener noreferrer" }
