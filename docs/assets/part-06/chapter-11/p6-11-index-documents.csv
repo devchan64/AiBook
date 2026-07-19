@@ -1,0 +1,10 @@
+doc_id,version,e1,e2,e3
+sdk_v2_request_timeout,v2,0.90,0.20,0.10
+sdk_v1_timeout_guide,v1,0.92,0.19,0.09
+sdk_general_networking,general,0.88,0.38,0.14
+sdk_v2_retry_and_backoff,v2,0.44,0.90,0.10
+sdk_v1_retry_notes,v1,0.36,0.93,0.08
+sdk_general_errors,general,0.34,0.88,0.20
+sdk_v2_auth_refresh_flow,v2,0.31,0.20,0.94
+sdk_v1_auth_overview,v1,0.28,0.22,0.97
+sdk_general_security,general,0.26,0.25,0.89

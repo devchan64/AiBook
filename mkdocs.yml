@@ -556,6 +556,7 @@ nav:
               - "P7-5.1 검색, 근거, 답변 흐름 실습": parts/part-07/chapter-05/section-01.md
               - "P7-5.2 검색 실패와 근거 누락 기록": parts/part-07/chapter-05/section-02.md
               - "P7-5.3 질문-근거 경계 연습": parts/part-07/chapter-05/section-03.md
+              - "P7-5.4 ANN 검색 설정 실습": parts/part-07/chapter-05/section-04.md
           - "Chapter 6. agent 실행과 승인 정책":
               - "P7-6.1 계획, 도구 호출, 승인 흐름 실습": parts/part-07/chapter-06/section-01.md
               - "P7-6.2 권한, 로그, blocked 상태 검토": parts/part-07/chapter-06/section-02.md

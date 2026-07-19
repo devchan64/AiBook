@@ -182,7 +182,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 인덱스 엔진 구현이 아니라, `더 빠른 검색 설정`과 `더 좋은 후보 회수`가 실제로 충돌할 수 있다는 점을 눈으로 확인하는 것입니다. 특히 한 질문만 보는 대신, 여러 질문에서 `top-k 안에 정답 문서가 남는 비율`, `top-1이 바로 맞는 비율`, `버전 정합성`을 함께 봐야 운영 판단이 더 정확해진다는 점을 확인하겠습니다.
+이번 예제의 목표는 실제 ANN 인덱스 엔진을 구현하는 것이 아니라, `후보를 빨리 줄이는 설정`과 `정답 후보를 놓치지 않는 설정`이 충돌할 수 있다는 점을 작은 실험으로 확인하는 것입니다. 실제 ANN 라이브러리를 붙이는 실습은 프로젝트를 다루는 Part 7 쪽이 더 적절합니다. 여기서는 CSV에 둔 문서 벡터와 질문 벡터를 읽고, `candidate_budget`과 `version_filter`를 바꿨을 때 top-k 포함률, top-1 정합률, 버전 정합성, 지연 시간 대체값이 어떻게 달라지는지만 봅니다.
 
 문제 상황:
 
@@ -193,7 +193,9 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 입력:
 
 - 여러 개의 질문
-- 빠른 검색 설정과 엄격한 검색 설정의 후보 목록
+- CSV로 분리한 문서 벡터와 질문 벡터
+- 후보 압축 설정인 `candidate_budget`
+- 버전 필터 설정인 `version_filter`
 
 출력:
 
@@ -213,174 +215,173 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 
 입력(input):
 
-위에 정리한 질문별 목표 문서와 fast/accurate 검색 결과를 사용합니다.
+문서 벡터와 질문 벡터는 본문 코드 안에 길게 넣지 않고, 별도 CSV 자산으로 분리합니다.
+
+- 문서 벡터: [`p6-11-index-documents.csv`](../../../assets/part-06/chapter-11/p6-11-index-documents.csv)
+- 질문 벡터: [`p6-11-index-queries.csv`](../../../assets/part-06/chapter-11/p6-11-index-queries.csv)
+
+입력 파일의 앞부분만 짧게 보면 다음과 같습니다.
+
+| doc_id | version | e1 | e2 | e3 |
+| --- | --- | ---: | ---: | ---: |
+| sdk_v2_request_timeout | v2 | 0.90 | 0.20 | 0.10 |
+| sdk_v1_timeout_guide | v1 | 0.92 | 0.19 | 0.09 |
+| sdk_general_networking | general | 0.88 | 0.38 | 0.14 |
+
+| question | target_doc | q1 | q2 | q3 |
+| --- | --- | ---: | ---: | ---: |
+| 2.x 버전에서 request timeout 옵션은 어디에 넣나요? | sdk_v2_request_timeout | 0.91 | 0.20 | 0.10 |
+| 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요? | sdk_v2_retry_and_backoff | 0.36 | 0.92 | 0.09 |
 
 확인할 개념:
 
 - 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다
 
 ```python
-queries = [
-    {
-        "question": "2.x 버전에서 request timeout 옵션은 어디에 넣나요?",
-        "target_doc": "sdk_v2_request_timeout",
-        "fast": {
-            "latency_ms": 24,
-            "candidates": [
-                "sdk_v1_timeout_guide",
-                "sdk_v1_retry_notes",
-                "sdk_general_networking",
-            ],
-        },
-        "strict": {
-            "latency_ms": 88,
-            "candidates": [
-                "sdk_v2_request_timeout",
-                "sdk_v2_retry_and_backoff",
-                "sdk_v1_timeout_guide",
-            ],
-        },
-    },
-    {
-        "question": "2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?",
-        "target_doc": "sdk_v2_retry_and_backoff",
-        "fast": {
-            "latency_ms": 22,
-            "candidates": [
-                "sdk_v1_retry_notes",
-                "sdk_general_networking",
-                "sdk_v2_request_timeout",
-            ],
-        },
-        "strict": {
-            "latency_ms": 81,
-            "candidates": [
-                "sdk_v2_retry_and_backoff",
-                "sdk_v2_request_timeout",
-                "sdk_v1_retry_notes",
-            ],
-        },
-    },
-    {
-        "question": "2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?",
-        "target_doc": "sdk_v2_auth_refresh_flow",
-        "fast": {
-            "latency_ms": 25,
-            "candidates": [
-                "sdk_v1_auth_overview",
-                "sdk_general_security",
-                "sdk_v2_auth_refresh_flow",
-            ],
-        },
-        "strict": {
-            "latency_ms": 86,
-            "candidates": [
-                "sdk_v2_auth_refresh_flow",
-                "sdk_general_security",
-                "sdk_v1_auth_overview",
-            ],
-        },
-    },
-]
+import csv
+import math
+from pathlib import Path
+
+document_path = Path("docs/assets/part-06/chapter-11/p6-11-index-documents.csv")
+query_path = Path("docs/assets/part-06/chapter-11/p6-11-index-queries.csv")
+
+documents = []
+for row in csv.DictReader(document_path.open(encoding="utf-8")):
+    documents.append(
+        {
+            "id": row["doc_id"],
+            "version": row["version"],
+            "embedding": [float(row["e1"]), float(row["e2"]), float(row["e3"])],
+        }
+    )
+
+queries = []
+for row in csv.DictReader(query_path.open(encoding="utf-8")):
+    queries.append(
+        {
+            "question": row["question"],
+            "target_doc": row["target_doc"],
+            "vector": [float(row["q1"]), float(row["q2"]), float(row["q3"])],
+        }
+    )
+
+settings = {
+    "fast": {"candidate_budget": 2, "version_filter": None, "top_k": 2},
+    "strict": {"candidate_budget": 4, "version_filter": "v2", "top_k": 2},
+}
+
+def cosine_similarity(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(y * y for y in b))
+    return dot / (norm_a * norm_b)
+
+def search(query, setting):
+    pool = [
+        doc
+        for doc in documents
+        if setting["version_filter"] is None
+        or doc["version"] == setting["version_filter"]
+    ]
+    coarse = sorted(pool, key=lambda doc: abs(doc["embedding"][0] - query["vector"][0]))
+    candidates = coarse[:setting["candidate_budget"]]
+    ranked = sorted(
+        (
+            (cosine_similarity(query["vector"], doc["embedding"]), doc)
+            for doc in candidates
+        ),
+        key=lambda item: item[0],
+        reverse=True,
+    )
+    top_docs = [doc for score, doc in ranked[:setting["top_k"]]]
+    latency_ms = 18 + len(candidates) * 11 + (8 if setting["version_filter"] else 0)
+    return {
+        "latency_ms": latency_ms,
+        "candidate_count": len(candidates),
+        "top_k": [doc["id"] for doc in top_docs],
+    }
 
 def inspect_search(result, target_doc):
-    top1 = result["candidates"][0]
+    top1 = result["top_k"][0] if result["top_k"] else None
     return {
         "latency_ms": result["latency_ms"],
-        "top_k": result["candidates"],
-        "target_in_top_k": target_doc in result["candidates"],
+        "candidate_count": result["candidate_count"],
+        "top_k": result["top_k"],
+        "target_in_top_k": target_doc in result["top_k"],
         "rank_of_target": (
-            result["candidates"].index(target_doc) + 1
-            if target_doc in result["candidates"]
+            result["top_k"].index(target_doc) + 1
+            if target_doc in result["top_k"]
             else None
         ),
         "top1_is_target": top1 == target_doc,
-        "top1_version_ok": top1.startswith("sdk_v2_"),
+        "top1_version_ok": top1 is not None and top1.startswith("sdk_v2_"),
     }
 
-def summarize_mode(queries, mode_name):
+def summarize_mode(mode_name):
     reports = []
-    hit_count = 0
-    top1_hit_count = 0
-    version_ok_count = 0
-    total_latency = 0
-    for item in queries:
-        inspected = inspect_search(item[mode_name], item["target_doc"])
-        reports.append((item["question"], inspected))
-        hit_count += int(inspected["target_in_top_k"])
-        top1_hit_count += int(inspected["top1_is_target"])
-        version_ok_count += int(inspected["top1_version_ok"])
-        total_latency += inspected["latency_ms"]
-    hit_rate = round(hit_count / len(queries), 3)
-    top1_hit_rate = round(top1_hit_count / len(queries), 3)
-    version_ok_rate = round(version_ok_count / len(queries), 3)
-    avg_latency = round(total_latency / len(queries), 1)
-    return reports, hit_rate, top1_hit_rate, version_ok_rate, avg_latency
+    for query in queries:
+        result = search(query, settings[mode_name])
+        reports.append((query["question"], inspect_search(result, query["target_doc"])))
+    total = len(reports)
+    return {
+        "setting": mode_name,
+        "candidate_budget": settings[mode_name]["candidate_budget"],
+        "version_filter": settings[mode_name]["version_filter"],
+        "hit_rate": round(sum(r["target_in_top_k"] for _, r in reports) / total, 3),
+        "top1_hit_rate": round(sum(r["top1_is_target"] for _, r in reports) / total, 3),
+        "top1_version_ok_rate": round(sum(r["top1_version_ok"] for _, r in reports) / total, 3),
+        "avg_latency_ms": round(sum(r["latency_ms"] for _, r in reports) / total, 1),
+        "missed_targets": [
+            query["target_doc"]
+            for query, (_, report) in zip(queries, reports)
+            if not report["target_in_top_k"]
+        ],
+        "reports": reports,
+    }
 
-fast_reports, fast_hit_rate, fast_top1_hit_rate, fast_version_ok_rate, fast_avg_latency = summarize_mode(queries, "fast")
-strict_reports, strict_hit_rate, strict_top1_hit_rate, strict_version_ok_rate, strict_avg_latency = summarize_mode(queries, "strict")
-
-print("[fast search]")
-for question, report in fast_reports:
-    print("question =", question)
-    print(report)
-print("fast_hit_rate =", fast_hit_rate)
-print("fast_top1_hit_rate =", fast_top1_hit_rate)
-print("fast_top1_version_ok_rate =", fast_version_ok_rate)
-print("fast_avg_latency_ms =", fast_avg_latency)
-print("fast_latency_per_hit =", round(fast_avg_latency / fast_hit_rate, 1) if fast_hit_rate else None)
-
-print("[strict search]")
-for question, report in strict_reports:
-    print("question =", question)
-    print(report)
-print("strict_hit_rate =", strict_hit_rate)
-print("strict_top1_hit_rate =", strict_top1_hit_rate)
-print("strict_top1_version_ok_rate =", strict_version_ok_rate)
-print("strict_avg_latency_ms =", strict_avg_latency)
-print("strict_latency_per_hit =", round(strict_avg_latency / strict_hit_rate, 1) if strict_hit_rate else None)
+for mode_name in settings:
+    summary = summarize_mode(mode_name)
+    print(f"[{mode_name}]")
+    print({key: value for key, value in summary.items() if key != "reports"})
+    for question, report in summary["reports"]:
+        print("question =", question)
+        print(report)
+    print()
 ```
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-[fast search]
+[fast]
+{'setting': 'fast', 'candidate_budget': 2, 'version_filter': None, 'hit_rate': 0.667, 'top1_hit_rate': 0.667, 'top1_version_ok_rate': 0.667, 'avg_latency_ms': 40.0, 'missed_targets': ['sdk_v2_retry_and_backoff']}
 question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 24, 'top_k': ['sdk_v1_timeout_guide', 'sdk_v1_retry_notes', 'sdk_general_networking'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
+{'latency_ms': 40, 'candidate_count': 2, 'top_k': ['sdk_v2_request_timeout', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 22, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_networking', 'sdk_v2_request_timeout'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
+{'latency_ms': 40, 'candidate_count': 2, 'top_k': ['sdk_v1_retry_notes', 'sdk_general_errors'], 'target_in_top_k': False, 'rank_of_target': None, 'top1_is_target': False, 'top1_version_ok': False}
 question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 25, 'top_k': ['sdk_v1_auth_overview', 'sdk_general_security', 'sdk_v2_auth_refresh_flow'], 'target_in_top_k': True, 'rank_of_target': 3, 'top1_is_target': False, 'top1_version_ok': False}
-fast_hit_rate = 0.333
-fast_top1_hit_rate = 0.0
-fast_top1_version_ok_rate = 0.0
-fast_avg_latency_ms = 23.7
-fast_latency_per_hit = 71.2
-[strict search]
+{'latency_ms': 40, 'candidate_count': 2, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+
+[strict]
+{'setting': 'strict', 'candidate_budget': 4, 'version_filter': 'v2', 'hit_rate': 1.0, 'top1_hit_rate': 1.0, 'top1_version_ok_rate': 1.0, 'avg_latency_ms': 59.0, 'missed_targets': []}
 question = 2.x 버전에서 request timeout 옵션은 어디에 넣나요?
-{'latency_ms': 88, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff', 'sdk_v1_timeout_guide'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+{'latency_ms': 59, 'candidate_count': 3, 'top_k': ['sdk_v2_request_timeout', 'sdk_v2_retry_and_backoff'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 question = 2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?
-{'latency_ms': 81, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout', 'sdk_v1_retry_notes'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
+{'latency_ms': 59, 'candidate_count': 3, 'top_k': ['sdk_v2_retry_and_backoff', 'sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 question = 2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?
-{'latency_ms': 86, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_general_security', 'sdk_v1_auth_overview'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
-strict_hit_rate = 1.0
-strict_top1_hit_rate = 1.0
-strict_top1_version_ok_rate = 1.0
-strict_avg_latency_ms = 85.0
-strict_latency_per_hit = 85.0
+{'latency_ms': 59, 'candidate_count': 3, 'top_k': ['sdk_v2_auth_refresh_flow', 'sdk_v2_request_timeout'], 'target_in_top_k': True, 'rank_of_target': 1, 'top1_is_target': True, 'top1_version_ok': True}
 ```
 
-이 예제에서 먼저 봐야 할 것은 `fast_avg_latency_ms = 23.7`이 매우 좋아 보여도 `fast_top1_hit_rate = 0.0`, `fast_top1_version_ok_rate = 0.0`이라는 점입니다. 즉, 빠른 설정은 지연 시간은 줄였지만, 가장 먼저 붙는 문서가 모두 구버전이어서 생성 단계 출발점이 이미 흔들립니다. 반대로 strict 설정은 느리지만 top-k 포함률, top-1 정합률, 버전 정합률이 모두 1.0입니다.
+이 예제에서 먼저 봐야 할 것은 `fast` 설정이 평균 지연 시간 대체값은 낮지만, `sdk_v2_retry_and_backoff`를 top-k 안에 남기지 못한다는 점입니다. 후보를 2개만 남기는 거친 압축이 일부 질문에서는 잘 맞지만, 첫 번째 좌표가 비슷한 구버전 문서와 일반 오류 문서가 앞서면서 정작 필요한 2.x 문서가 빠집니다. 반대로 `strict` 설정은 `version_filter`를 켜고 후보 예산을 넓혀 세 질문 모두에서 목표 문서를 top-k 안에 남깁니다.
 
 그래서 이 예제에서 확인해야 할 결과는 두 가지입니다.
 
-- 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`를 같이 읽어야 한다.
+- 더 빠른 검색 설정이 항상 더 좋은 검색을 뜻하지 않으며, 지연 시간과 함께 `정말 필요한 문서가 top-k 안에 들어왔는가`, `top-1이 맞는가`, `버전 필터가 필요한가`를 같이 읽어야 한다.
 - 단일 질문에서는 우연히 통과해 보일 수 있어도, 여러 질문을 묶어 보면 `hit_rate`, `top1_hit_rate`, `version_ok_rate` 차이가 더 분명하게 드러난다.
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `target_doc`를 다른 문서로 바꿔 어떤 질문에서 빠른 설정이 더 큰 손실을 내는지 보기
-- `queries[0]["fast"]["candidates"]`를 바꿔 비슷하지만 틀린 버전 문서가 얼마나 위험한지 확인하기
+- `settings["fast"]["candidate_budget"]`을 1, 2, 4로 바꿔 후보 수와 누락 문서가 어떻게 달라지는지 보기
+- `settings["fast"]["version_filter"]`를 `"v2"`로 바꿔 구버전 문서가 앞서는 문제가 줄어드는지 확인하기
 - `inspect_search`에 `recall_like_score`나 `top2_version_mix` 같은 항목을 추가해 자체 품질 지표를 넓혀 보기
 
 속도와 품질 충돌을 운영 판단으로 다시 읽으면, 단일 지표만 보고 원인을 단정하면 안 된다는 점이 더 분명해집니다.
@@ -394,9 +395,9 @@ strict_latency_per_hit = 85.0
 
 ## 이 예제를 검색 타협 관점으로 다시 보면
 
-앞의 예제는 실제 인덱스를 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 비교표로 보여 주는 장면입니다. 예를 들어 `latency_ms`만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
+앞의 예제는 실제 ANN을 구현하는 코드가 아니라, `더 빠른 검색`과 `더 나은 후보 회수`가 같은 목표가 아니라는 점을 가장 작은 검색 실험으로 보여 주는 장면입니다. 예를 들어 지연 시간 대체값만 보고 빠른 설정을 택했는데 정작 핵심 문단이 후보에서 빠지면, 뒤 생성 단계는 매끄러워도 답변 품질은 바로 떨어질 수 있습니다. 여기서 중요한 것은 숫자 크기 자체보다, 검색에서는 속도와 품질을 함께 보고 어느 쪽을 더 우선할지 결정해야 한다는 점입니다. 또 운영자는 단일 성공 사례보다 여러 질문에서의 `top-k 포함률`을 함께 봐야, 우연한 성공과 실제 안정성을 구분할 수 있습니다.
 
-차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 top-1 정합과 버전 정합을 모두 놓칩니다. 엄격한 설정은 더 느리지만 세 품질 지표가 모두 통과하므로, 인덱스 평가는 `latency` 하나가 아니라 `top-k 포함`, `top-1 정합`, `버전 정합`을 함께 놓고 읽어야 합니다.
+차트로 보면 빠른 설정은 평균 지연 시간이 낮지만 일부 질문에서 top-k 포함과 버전 정합을 놓칩니다. 엄격한 설정은 더 느리지만 세 품질 지표가 모두 통과하므로, 인덱스 평가는 `latency` 하나가 아니라 `top-k 포함`, `top-1 정합`, `버전 정합`을 함께 놓고 읽어야 합니다.
 
 ![빠른 검색 설정과 엄격한 검색 설정의 품질·지연 시간 비교](../../../assets/part-06/chapter-11/index-quality-latency-ko.png)
 

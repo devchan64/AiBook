@@ -14,3 +14,6 @@
 - Python chart sources:
   - `p6_11_1_vector_db_payload_chart.py`
   - `p6_11_2_index_quality_chart.py`
+- CSV example data:
+  - `p6-11-index-documents.csv`
+  - `p6-11-index-queries.csv`

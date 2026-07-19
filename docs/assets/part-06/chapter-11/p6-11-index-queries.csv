@@ -1,0 +1,4 @@
+question,target_doc,q1,q2,q3
+2.x 버전에서 request timeout 옵션은 어디에 넣나요?,sdk_v2_request_timeout,0.91,0.20,0.10
+2.x에서 retry backoff 기본값은 어디에 설명돼 있나요?,sdk_v2_retry_and_backoff,0.36,0.92,0.09
+2.x 인증 토큰 갱신 흐름 문서는 어디를 봐야 하나요?,sdk_v2_auth_refresh_flow,0.30,0.21,0.95
