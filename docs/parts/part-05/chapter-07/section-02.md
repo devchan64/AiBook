@@ -1,7 +1,7 @@
 # P5-7.2 학습률(learning rate)과 update 보폭
 
 > Section ID: `P5-7.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라는 점을 보았습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 
@@ -103,15 +103,15 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 ### 사례. 같은 gradient인데 learning rate만 다른 경우
 
-같은 현재 상태에서 같은 gradient를 계산했다고 해 보겠습니다. 예를 들어 현재 위험 가중치가 `1.0`이고, 계산된 `gradient_risk_weight`가 `-16.0`으로 같다고 두겠습니다. 이제 바뀌는 것은 learning rate뿐입니다. 이때 독자가 보고 싶은 것은 `어느 optimizer가 더 유명한가`가 아니라, `같은 방향 신호가 얼마나 다른 실제 이동량으로 바뀌는가`입니다.
+같은 CSV batch에서 같은 gradient를 계산했다고 해 보겠습니다. 예를 들어 현재 위험 가중치가 `1.0`이고, 36개 샘플에서 계산된 평균 `gradient_risk_weight`가 `-20.648`로 같다고 두겠습니다. 이제 바뀌는 것은 learning rate뿐입니다. 이때 독자가 보고 싶은 것은 `어느 optimizer가 더 유명한가`가 아니라, `같은 방향 신호가 얼마나 다른 실제 이동량으로 바뀌는가`입니다.
 
 이 장면을 처음 읽는 사람은 보통 `gradient가 같다면 결국 비슷하게 배우지 않겠는가`라고 생각하기 쉽습니다. 이 해석은 방향만 볼 때는 자연스럽습니다. 세 경우 모두 같은 쪽으로 움직이려 하기 때문입니다. 하지만 learning rate 관점에서는 질문이 달라집니다. `어느 쪽으로 움직이는가`를 넘어서 `그 방향으로 실제로 얼마나 멀리 움직였는가`를 봐야 합니다.
 
-이제 learning rate를 `0.01`, `0.1`, `0.5`로 나누어 생각해 보겠습니다.
+이제 learning rate를 `0.003`, `0.03`, `0.12`로 나누어 생각해 보겠습니다.
 
-- `0.01`이면 update가 아주 작습니다. 방향은 맞지만 한 step에서 거의 전진하지 못합니다. 겉으로는 손실이 조금 줄더라도, 실제 학습은 답답할 만큼 느릴 수 있습니다.
-- `0.1`이면 같은 gradient가 비교적 적절한 크기의 이동으로 바뀝니다. 너무 짧지도, 너무 길지도 않게 움직이며 목표에 가까워질 가능성이 큽니다.
-- `0.5`이면 update가 너무 커집니다. 방향은 맞아도 좋은 지점을 지나쳐 버려, 손실이 다시 커지거나 학습이 흔들릴 수 있습니다.
+- `0.003`이면 update가 아주 작습니다. 방향은 맞지만 한 step에서 거의 전진하지 못합니다. 겉으로는 손실이 조금 줄더라도, 실제 학습은 답답할 만큼 느릴 수 있습니다.
+- `0.03`이면 같은 gradient가 비교적 적절한 크기의 이동으로 바뀝니다. 너무 짧지도, 너무 길지도 않게 움직이며 batch 평균 목표에 가까워질 가능성이 큽니다.
+- `0.12`이면 update가 너무 커집니다. 방향은 맞아도 좋은 지점을 지나쳐 버려, 손실이 다시 커지거나 학습이 흔들릴 수 있습니다.
 
 즉, 세 경우의 차이는 `방향`이 아니라 `보폭`입니다. learning rate는 gradient를 새로 만드는 값이 아니라, 이미 계산된 같은 gradient를 얼마나 크게 실제 update로 반영할지를 정합니다. 그래서 작은 learning rate는 `방향은 맞지만 거의 못 움직이는 상태`, 큰 learning rate는 `방향은 맞지만 지나쳐 버리는 상태`를 만들 수 있습니다.
 
@@ -133,15 +133,16 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 
 | 고정되는 것 | 바뀌는 것 |
 | --- | --- |
-| 현재 위험 가중치 `risk_weight` | 학습률 `learning_rate` |
-| 현재 예측값과 손실 | `optimizer_delta` |
-| 계산된 `gradient_risk_weight` | 업데이트 후 가중치, 점수, 손실 |
+| CSV batch와 현재 위험 가중치 `risk_weight` | 학습률 `learning_rate` |
+| batch의 현재 평균 예측값과 평균 손실 | `optimizer_delta` |
+| batch에서 계산된 평균 `gradient_risk_weight` | 업데이트 후 가중치, 평균 점수, 평균 손실 |
 
 입력:
 
+- CSV 파일의 여러 관측 행
+- 각 행의 압력 미복귀 정도 `pressure_unrecovered`
+- 각 행의 목표 차단 점수 `target_block_score`
 - 현재 위험 가중치 `risk_weight`
-- 압력 미복귀 정도 `pressure_unrecovered`
-- 목표 차단 점수 `target_block_score`
 - 학습률 `learning_rate`
 
 출력:
@@ -151,11 +152,11 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - gradient
 - optimizer가 만든 update 값
 - learning rate별 업데이트 후 가중치
-- 업데이트 뒤 목표값에 더 가까워지는 정도 비교
+- 업데이트 뒤 batch 평균 목표값에 더 가까워지는 정도 비교
 
 문제 상황:
 
-- learning rate는 gradient 자체를 바꾸지 않지만, optimizer가 만드는 위험 가중치 update 폭을 크게 바꾼다
+- learning rate는 gradient 자체를 바꾸지 않지만, optimizer가 만드는 batch update 폭을 크게 바꾼다
 - 너무 큰 learning rate는 좋은 방향을 알고도 지나칠 수 있으므로 결과를 함께 비교해야 한다
 
 확인할 개념:
@@ -165,61 +166,108 @@ Part 4에서 하이퍼파라미터(hyperparameter)를 다루었듯, 학습률은
 - 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아니다
 
 ```python
-pressure_unrecovered = 2.0
-target_block_score = 6.0
+from csv import DictReader
+from pathlib import Path
+
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-step-role-log.csv")
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "case_id": row["case_id"],
+                "equipment_group": row["equipment_group"],
+                "pressure_unrecovered": float(row["pressure_unrecovered"]),
+                "target_block_score": float(row["target_block_score"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def predict(row, risk_weight):
+    return row["pressure_unrecovered"] * risk_weight
+
+
+def mean_loss(rows, risk_weight):
+    losses = [
+        (predict(row, risk_weight) - row["target_block_score"]) ** 2
+        for row in rows
+    ]
+    return sum(losses) / len(losses)
+
+
+def mean_gradient(rows, risk_weight):
+    gradients = [
+        2
+        * (predict(row, risk_weight) - row["target_block_score"])
+        * row["pressure_unrecovered"]
+        for row in rows
+    ]
+    return sum(gradients) / len(gradients)
+
+
+def mean_prediction(rows, risk_weight):
+    predictions = [predict(row, risk_weight) for row in rows]
+    return sum(predictions) / len(predictions)
+
+
+rows = load_rows(DATA_PATH)
 risk_weight = 1.0
-prediction = pressure_unrecovered * risk_weight
-loss = (prediction - target_block_score) ** 2
-gradient_risk_weight = 2 * (prediction - target_block_score) * pressure_unrecovered
+loss = mean_loss(rows, risk_weight)
+gradient_risk_weight = mean_gradient(rows, risk_weight)
+mean_target = sum(row["target_block_score"] for row in rows) / len(rows)
 
 print("[shared state]")
-print("predicted_block_score =", round(prediction, 3))
-print("loss =", round(loss, 3))
+print("sample_count =", len(rows))
+print("mean_target_block_score =", round(mean_target, 3))
+print("mean_loss_before =", round(loss, 3))
 print("gradient_risk_weight =", round(gradient_risk_weight, 3))
-for lr in [0.01, 0.1, 0.5]:
+for lr in [0.003, 0.03, 0.12]:
     print(f"[lr={lr}]")
     optimizer_delta = -lr * gradient_risk_weight
     updated_risk_weight = risk_weight + optimizer_delta
-    updated_prediction = pressure_unrecovered * updated_risk_weight
-    updated_loss = (updated_prediction - target_block_score) ** 2
+    updated_prediction = mean_prediction(rows, updated_risk_weight)
+    updated_loss = mean_loss(rows, updated_risk_weight)
     print(
         "optimizer_delta =", round(optimizer_delta, 3),
         "-> updated_risk_weight =", round(updated_risk_weight, 3),
-        ", updated_block_score =", round(updated_prediction, 3),
-        ", updated_loss =", round(updated_loss, 3),
+        ", mean_block_score =", round(updated_prediction, 3),
+        ", mean_loss =", round(updated_loss, 3),
     )
 ```
 
 ```text
 [shared state]
-predicted_block_score = 2.0
-loss = 16.0
-gradient_risk_weight = -16.0
-[lr=0.01]
-optimizer_delta = 0.16 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
-[lr=0.1]
-optimizer_delta = 1.6 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
-[lr=0.5]
-optimizer_delta = 8.0 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
+sample_count = 36
+mean_target_block_score = 6.139
+mean_loss_before = 7.308
+gradient_risk_weight = -20.648
+[lr=0.003]
+optimizer_delta = 0.062 -> updated_risk_weight = 1.062 , mean_block_score = 3.77 , mean_loss = 6.087
+[lr=0.03]
+optimizer_delta = 0.619 -> updated_risk_weight = 1.619 , mean_block_score = 5.749 , mean_loss = 0.287
+[lr=0.12]
+optimizer_delta = 2.478 -> updated_risk_weight = 3.478 , mean_block_score = 12.346 , mean_loss = 48.454
 ```
 
 이 출력은 같은 gradient가 optimizer의 update 규칙을 거치며 서로 다른 `optimizer_delta`로 바뀌는 장면입니다. 따라서 `gradient가 얼마인가`에서 멈추지 말고, optimizer가 만든 update 값, 업데이트된 가중치, 업데이트 후 점수, 업데이트 후 손실을 단계별로 나누어 읽습니다. 여기서 중요한 것은 세 줄이 서로 다른 문제를 보여 주는 것이 아니라, `같은 출발점`에서 `learning rate만 다르게 두었을 때` 결과가 어떻게 갈라지는지를 비교하는 것이라는 점입니다.
 
-이제 출력 형식도 그 비교 구조를 직접 보여 줍니다. `[shared state]` 구간은 세 경우가 모두 공유하는 현재 상태와 gradient를 나타냅니다. 그 아래 `[lr=0.01]`, `[lr=0.1]`, `[lr=0.5]`는 같은 출발점에 대해 learning rate만 다르게 두었을 때 결과가 어떻게 달라지는지를 나란히 보여 줍니다. 따라서 이 예제에서 독자가 비교해야 할 것은 `세 개의 서로 다른 gradient`가 아니라 `하나의 같은 gradient를 learning rate가 어떻게 다르게 update로 바꾸는가`입니다.
+이제 출력 형식도 그 비교 구조를 직접 보여 줍니다. `[shared state]` 구간은 세 경우가 모두 공유하는 CSV batch, 현재 평균 손실, gradient를 나타냅니다. 그 아래 `[lr=0.003]`, `[lr=0.03]`, `[lr=0.12]`는 같은 출발점에 대해 learning rate만 다르게 두었을 때 결과가 어떻게 달라지는지를 나란히 보여 줍니다. 따라서 이 예제에서 독자가 비교해야 할 것은 `세 개의 서로 다른 gradient`가 아니라 `하나의 같은 batch gradient를 learning rate가 어떻게 다르게 update로 바꾸는가`입니다.
 
-![learning rate별 업데이트 후 위험 가중치](../../../assets/part-05/chapter-07/optimizer-example-updated-weight-ko.png)
+![learning rate별 batch update 후 위험 가중치](../../../assets/part-05/chapter-07/learning-rate-batch-updated-weight-ko.png)
 
-![learning rate별 업데이트 후 차단 점수](../../../assets/part-05/chapter-07/optimizer-example-updated-score-ko.png)
+![learning rate별 batch update 후 평균 차단 점수](../../../assets/part-05/chapter-07/learning-rate-batch-updated-score-ko.png)
 
-![learning rate별 업데이트 후 손실](../../../assets/part-05/chapter-07/optimizer-example-updated-loss-ko.png)
+![learning rate별 batch update 후 평균 손실](../../../assets/part-05/chapter-07/learning-rate-batch-updated-loss-ko.png)
 
-세 차트를 함께 읽을 때는 다음 순서가 가장 안전합니다. 먼저 `optimizer-example-updated-weight`에서 learning rate별 실제 이동량이 가중치 숫자를 얼마나 다르게 바꾸었는지 봅니다. 그다음 `optimizer-example-updated-score`에서 그 차이가 예측값을 어디로 옮겼는지 확인합니다. 마지막으로 `optimizer-example-updated-loss`에서 그 이동 결과가 손실을 줄였는지, 거의 못 움직였는지, 지나쳐 버렸는지를 봅니다.
+세 차트를 함께 읽을 때는 다음 순서가 가장 안전합니다. 먼저 `learning-rate-batch-updated-weight`에서 learning rate별 실제 이동량이 가중치 숫자를 얼마나 다르게 바꾸었는지 봅니다. 그다음 `learning-rate-batch-updated-score`에서 그 차이가 batch 평균 예측값을 어디로 옮겼는지 확인합니다. 마지막으로 `learning-rate-batch-updated-loss`에서 그 이동 결과가 평균 손실을 줄였는지, 거의 못 움직였는지, 지나쳐 버렸는지를 봅니다.
 
 이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 
 - `gradient_risk_weight`는 그대로인데 결과는 달라질 수 있습니다.
 - 달라지는 이유는 learning rate가 만든 `optimizer_delta`가 다르기 때문입니다.
-- `0.1`은 목표에 가까워졌지만 `0.5`는 방향은 맞아도 너무 크게 움직여 오히려 손실을 키웠습니다.
+- `0.03`은 평균 목표에 가까워졌지만 `0.12`는 방향은 맞아도 너무 크게 움직여 오히려 평균 손실을 키웠습니다.
 - 따라서 `gradient를 구했다`와 `학습이 잘 된다`는 같은 말이 아닙니다.
 
 ## 언제 learning rate 관점으로 먼저 읽는가
