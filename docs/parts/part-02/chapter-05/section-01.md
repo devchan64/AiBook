@@ -1,7 +1,7 @@
 # P2-5.1 확률(probability)은 불확실성을 어떻게 숫자로 표현하는가
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-4장에서는 미분(derivative)과 그래디언트(gradient)를 통해 “값을 어떻게 바꾸면 손실(loss)이 줄어드는가”를 봤습니다. 이제 다른 종류의 수학 언어가 필요합니다.
 
@@ -12,36 +12,6 @@ AI를 공부할 때 확률은 주사위나 동전 문제에만 머물지 않습�
 여기서는 `확률(probability)`, `불확실성(uncertainty)`, `사건(event)`, `결과(outcome)`, `표본공간(sample space)`을 다시 정리합니다. Chapter 4에서 변화와 학습 방향을 읽었다면, 확실하지 않은 상황을 숫자로 표현하는 확률의 입구를 다시 정리합니다.
 
 여기서는 확률 공식을 본격적으로 계산하기보다, 불확실성을 숫자로 표현하는 언어를 다시 잡는 데 집중합니다. 여기서 사건(event), 결과(outcome), 표본공간(sample space), 가능성 점수의 감각을 잡아 두면, 뒤에서 분포, 추정, 모델 예측 확률을 볼 때 왜 확률 언어가 계속 반복되는지 덜 끊기고 읽을 수 있습니다.
-
-## 이 절의 범위
-
-여기서는 확률(probability)을 불확실성(uncertainty)을 표현하는 숫자 언어로 소개합니다. 이번 절은 `모른다는 상태를 왜 숫자로 표현하는가`, `사건·결과·표본공간을 어떻게 구분하는가`까지를 먼저 닫습니다.
-
-값들이 여러 개 모였을 때의 모양과 요약은 P2-5.2에서, 우리가 가진 데이터가 전체가 아니라 일부일 때의 표본과 추정 질문은 P2-5.3에서, 표준편차와 신뢰구간 같은 뒤 개념은 P2-5.5 보충학습에서 다시 이어집니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `모른다는 상태를 왜 숫자로 표현해야 하며, 그 숫자가 왜 바로 의사결정 자체는 아닌가`입니다.
-
-그래서 이 절에서는 다음 다섯 질문만 먼저 고정합니다.
-
-- 불확실성은 무엇인가?
-- 확률은 왜 0과 1 사이의 숫자로 표현되는가?
-- 사건(event), 결과(outcome), 표본공간(sample space)은 무엇인가?
-- 확률은 정답인가, 믿음인가, 장기 빈도인가?
-- AI에서는 왜 확률 언어가 반복해서 등장하는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 확률 | 가능성을 숫자로 표현한 값 | 이 장 전체의 출발점 |
-| 불확실성 | 아직 모르는 상태 | 확률이 필요한 이유 |
-| 사건 | 관심 있는 결과 묶음 | 확률을 붙이는 대상 |
-| 결과 | 실제로 나올 수 있는 개별 경우 | 사건을 이루는 최소 단위 |
-| 표본공간 | 가능한 모든 결과의 모음 | 사건과 결과를 놓는 전체 틀 |
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-5.2`에서는 이 확률 숫자들이 여러 개 모였을 때 분포, 평균, 분산으로 어떻게 읽히는지 봅니다.
-- `P2-5.3`에서는 우리가 가진 데이터가 전체가 아니라 일부일 때 표본과 추정 질문으로 넘어갑니다.
-- Part 3과 Part 5에서는 확률이 예측 점수, calibration, 안전성 판단 언어로 다시 등장합니다.
 
 ## 이 절의 목표
 
@@ -266,5 +236,5 @@ AI는 많은 경우 확실한 규칙만으로 동작하지 않습니다. 데이�
 
 ## 출처와 참고 자료
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 확률, 결과(outcome), 표본공간(sample space), 사건(event), 0과 1 사이의 확률값, 장기 상대빈도, 조건부확률 용어 확인에 사용했다.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 확률론을 AI와 머신러닝의 불확실성 표현 틀로 설명하는 근거로 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 확률, 결과(outcome), 표본공간(sample space), 사건(event), 0과 1 사이의 확률값, 장기 상대빈도, 조건부확률 용어 확인에 사용했다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-20. 확률론을 AI와 머신러닝의 불확실성 표현 틀로 설명하는 근거로 사용했다.

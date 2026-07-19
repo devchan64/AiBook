@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 650" role="img" aria-labelledby="title desc">
   <title id="title">Probability score and decision threshold</title>
-  <desc id="desc">AI 모델의 확률 점수가 정책 규칙을 거쳐 서비스 행동으로 바뀌는 흐름을 보여 주는 차트입니다.</desc>
+  <desc id="desc">A chart showing how an AI model's probability score passes through a policy rule and becomes a service action.</desc>
   <rect width="920" height="650" fill="#ffffff"/>
   <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Probability score is not the same as a service decision</text>
   <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">A model estimates a score. A product chooses what to do with that score.</text>

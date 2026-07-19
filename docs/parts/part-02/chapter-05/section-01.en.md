@@ -1,7 +1,7 @@
 # P2-5.1 How Probability Represents Uncertainty as Numbers
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter 4 of Part 2, we used derivatives and gradients to see `how values should be changed so that loss decreases`. Now we need a different kind of mathematical language.
 
@@ -12,36 +12,6 @@ When studying AI, probability does not stay only at dice and coin problems. When
 This Section reorganizes probability, uncertainty, event, outcome, and sample space. If Chapter 4 read change and the direction of learning, this Section reorganizes the entrance to probability as the language that expresses uncertain situations as numbers.
 
 Here, instead of fully calculating probability formulas, the focus is on recovering probability as the language that expresses uncertainty numerically. If we hold onto the intuition of event, outcome, sample space, and possibility scores here, then later, when we read distributions, estimation, and model prediction probabilities, we can read with less interruption why probability language keeps returning.
-
-## Scope of This Section
-
-This Section introduces probability as a numerical language that expresses uncertainty. This Section first closes only why we express a state of not knowing with numbers and how to distinguish event, outcome, and sample space.
-
-When many values gather and we need to read their shape and summaries, that continues in P2-5.2. When the data we have is only part of a whole, the sample and estimation question continues in P2-5.3. Later concepts such as standard deviation and confidence intervals continue in P2-5.5 supplementary learning.
-
-The first question to solve here is this: `why should the state of not knowing be expressed as a number, and why is that number still not the same thing as the decision itself?`
-
-So this Section first fixes only the following five questions.
-
-- What is uncertainty?
-- Why is probability expressed as a number between 0 and 1?
-- What are event, outcome, and sample space?
-- Is probability a correct answer, a belief, or a long-run frequency?
-- Why does the language of probability repeatedly appear in AI?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| probability | a value that expresses possibility numerically | the starting point of this whole chapter |
-| uncertainty | a state of not yet knowing | the reason probability is needed |
-| event | a bundle of outcomes we care about | the target to which probability is attached |
-| outcome | one individual case that can actually occur | the smallest unit that makes up an event |
-| sample space | the set of all possible outcomes | the full frame in which events and outcomes are placed |
-
-The flow after this Section is also simple.
-
-- In `P2-5.2`, we will see how these probability numbers, when gathered together, are read as distributions, means, and variances.
-- In `P2-5.3`, we move to questions of sample and estimation when the data we have is only part of the whole.
-- In Part 3 and Part 5, probability appears again as the language of prediction scores, calibration, and safety judgment.
 
 ## Goals of This Section
 
@@ -266,5 +236,5 @@ The chart below shows that the model's probability score and the service's opera
 
 ## Sources and References
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-19. Used to confirm probability, outcome, sample space, event, probabilities between 0 and 1, long-run relative frequency, and conditional probability terminology.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19. Used as support for explaining probability theory as a framework for representing uncertainty in AI and machine learning.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, checked 2026-07-20. Used to confirm probability, outcome, sample space, event, probabilities between 0 and 1, long-run relative frequency, and conditional probability terminology.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-20. Used as support for explaining probability theory as a framework for representing uncertainty in AI and machine learning.

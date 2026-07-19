@@ -3,54 +3,54 @@
   <title id="title">把 AI 模型的概率分数与服务运营决策标准分开显示的流程</title>
   <desc id="desc">把 AI 模型的概率分数与服务运营决策标准分开显示的流程</desc>
   <rect width="920" height="650" fill="#ffffff"/>
-  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Probability score is not the same as a service decision</text>
-  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">A model estimates a score. A product chooses what to do with that score.</text>
+  <text x="42" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">概率分数不等于服务决策</text>
+  <text x="42" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">模型估计分数，产品决定如何使用这个分数。</text>
 
   <g font-family="Arial, sans-serif">
     <rect x="50" y="132" width="170" height="92" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-    <text x="88" y="167" font-size="18" font-weight="700" fill="#334155">input</text>
-    <text x="78" y="197" font-size="15" fill="#475569">email content</text>
+    <text x="88" y="167" font-size="18" font-weight="700" fill="#334155">输入</text>
+    <text x="78" y="197" font-size="15" fill="#475569">邮件内容</text>
 
     <path d="M232 178 L294 178" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
 
     <rect x="306" y="132" width="170" height="92" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-    <text x="355" y="167" font-size="18" font-weight="700" fill="#1d4ed8">model</text>
-    <text x="334" y="197" font-size="15" fill="#475569">estimate score</text>
+    <text x="355" y="167" font-size="18" font-weight="700" fill="#1d4ed8">模型</text>
+    <text x="334" y="197" font-size="15" fill="#475569">估计分数</text>
 
     <path d="M488 178 L550 178" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
 
     <rect x="560" y="118" width="190" height="120" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
-    <text x="592" y="154" font-size="18" font-weight="700" fill="#854d0e">probability score</text>
+    <text x="592" y="154" font-size="18" font-weight="700" fill="#854d0e">概率分数</text>
     <text x="619" y="198" font-size="34" font-weight="700" fill="#854d0e">0.92</text>
-    <text x="586" y="226" font-size="13" fill="#854d0e">score alone does not act</text>
+    <text x="586" y="226" font-size="13" fill="#854d0e">分数本身不会直接行动</text>
 
     <path d="M655 250 L655 300" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
 
     <rect x="400" y="312" width="480" height="128" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-    <text x="436" y="346" font-size="18" font-weight="700" fill="#334155">threshold policy</text>
-    <text x="436" y="376" font-size="15" fill="#475569">score &gt;= 0.90  -&gt; block</text>
-    <text x="436" y="402" font-size="15" fill="#475569">0.60 &lt;= score &lt; 0.90  -&gt; review</text>
-    <text x="436" y="428" font-size="15" fill="#475569">score &lt; 0.60  -&gt; allow</text>
+    <text x="436" y="346" font-size="18" font-weight="700" fill="#334155">阈值政策</text>
+    <text x="436" y="376" font-size="15" fill="#475569">分数 &gt;= 0.90  -&gt; 拦截</text>
+    <text x="436" y="402" font-size="15" fill="#475569">0.60 &lt;= 分数 &lt; 0.90  -&gt; 复查</text>
+    <text x="436" y="428" font-size="15" fill="#475569">分数 &lt; 0.60  -&gt; 放行</text>
 
     <path d="M655 452 L655 492" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-gray)"/>
 
     <rect x="558" y="504" width="194" height="62" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
-    <text x="609" y="532" font-size="16" font-weight="700" fill="#991b1b">chosen action</text>
-    <text x="633" y="556" font-size="18" font-weight="700" fill="#991b1b">block</text>
+    <text x="609" y="532" font-size="16" font-weight="700" fill="#991b1b">选择的行动</text>
+    <text x="633" y="556" font-size="18" font-weight="700" fill="#991b1b">拦截</text>
 
     <rect x="50" y="312" width="270" height="128" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="72" y="342" font-size="15" fill="#475569">Possible service actions</text>
+    <text x="72" y="342" font-size="15" fill="#475569">可能的服务行动</text>
     <rect x="74" y="360" width="70" height="42" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
-    <text x="89" y="386" font-size="14" font-weight="700" fill="#991b1b">block</text>
+    <text x="89" y="386" font-size="14" font-weight="700" fill="#991b1b">拦截</text>
     <rect x="156" y="360" width="70" height="42" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
-    <text x="172" y="386" font-size="14" font-weight="700" fill="#92400e">review</text>
+    <text x="172" y="386" font-size="14" font-weight="700" fill="#92400e">复查</text>
     <rect x="238" y="360" width="70" height="42" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
-    <text x="256" y="386" font-size="14" font-weight="700" fill="#047857">allow</text>
-    <text x="72" y="426" font-size="14" fill="#64748b">Actions are policy outputs, not model outputs.</text>
+    <text x="256" y="386" font-size="14" font-weight="700" fill="#047857">放行</text>
+    <text x="72" y="426" font-size="14" fill="#64748b">行动是政策输出，不是模型输出。</text>
 
     <rect x="50" y="504" width="396" height="58" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
-    <text x="74" y="530" font-size="15" fill="#334155">The same score can lead to another action</text>
-    <text x="74" y="554" font-size="15" fill="#334155">if the product changes its policy threshold.</text>
+    <text x="74" y="530" font-size="15" fill="#334155">同一个分数也可能导向不同动作</text>
+    <text x="74" y="554" font-size="15" fill="#334155">只要产品改变政策阈值即可。</text>
   </g>
 
   <defs>

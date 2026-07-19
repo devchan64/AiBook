@@ -1,7 +1,7 @@
 # P2-5.1 概率(probability)如何把不确定性表示成数字
 
 > Section ID: `P2-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-4 章里，我们通过微分(derivative)与梯度(gradient)看了 `怎样改变数值，损失(loss)才会下降`。现在，我们需要另一种类型的数学语言。
 
@@ -12,36 +12,6 @@
 本节重新整理 `概率(probability)`、`不确定性(uncertainty)`、`事件(event)`、`结果(outcome)`、`样本空间(sample space)`。如果说 Chapter 4 处理的是变化与学习方向，那么这里就是重新整理“如何把不确定的情境表示成数字”的概率入口。
 
 这里并不把重点放在正式计算概率公式，而是放在重新抓住“概率是表示不确定性的数字语言”这件事上。只要在这里先抓住事件(event)、结果(outcome)、样本空间(sample space)、可能性分数的感觉，后面再读分布、估计、模型预测概率时，就能更顺地理解为什么概率语言会不断回来。
-
-## 本节范围
-
-这里把概率(probability)介绍成一种表达不确定性(uncertainty)的数字语言。本节先把两个问题收住：为什么要把“还不知道”的状态写成数字，以及怎样区分事件(event)、结果(outcome)、样本空间(sample space)。
-
-当很多数值聚在一起，需要读取它们的形状和摘要时，会接到 P2-5.2；当我们手上的数据只是整体的一部分时，会接到 P2-5.3 的样本与估计问题；标准差、置信区间等后续概念会在 P2-5.5 补充学习中继续处理。
-
-这里首先要解决的问题是：`为什么“还不知道”的状态需要用数字表示，而且为什么这个数字本身又不等于决策？`
-
-所以本节先固定下面五个问题。
-
-- 什么是不确定性？
-- 为什么概率要写成 0 到 1 之间的数字？
-- 事件(event)、结果(outcome)、样本空间(sample space)分别是什么？
-- 概率到底是正确答案、相信程度，还是长期频率？
-- 为什么在 AI 里，概率语言会反复出现？
-
-| 术语 | 很短的含义 | 本节中的作用 |
-| --- | --- | --- |
-| 概率 | 把可能性表示成数字的值 | 本章整体的出发点 |
-| 不确定性 | 还不知道的状态 | 需要概率的原因 |
-| 事件 | 我们关心的一组结果 | 被赋予概率的对象 |
-| 结果 | 真实可能发生的单个情况 | 构成事件的最小单位 |
-| 样本空间 | 所有可能结果的集合 | 放置事件与结果的完整框架 |
-
-本节之后的流程也很简单。
-
-- 在 `P2-5.2` 中，我们会看这些概率数字聚在一起时，如何被读成分布、均值与方差。
-- 在 `P2-5.3` 中，当我们手上的数据只是整体中的一部分时，就会接到样本与估计的问题。
-- 在 Part 3 与 Part 5 中，概率会再次作为预测分数、校准(calibration)、安全判断的语言出现。
 
 ## 本节目标
 
@@ -266,5 +236,5 @@ P(\text{偶数}) = \frac{3}{6} = 0.5
 
 ## 来源与参考资料
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认概率、结果(outcome)、样本空间(sample space)、事件(event)、0 到 1 之间的概率值、长期相对频率、条件概率等术语。
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19。用于支撑“概率论是 AI 与机器学习中表达不确定性的框架”这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 3.1 Terminology](https://openstax.org/books/introductory-statistics/pages/3-1-terminology){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认概率、结果(outcome)、样本空间(sample space)、事件(event)、0 到 1 之间的概率值、长期相对频率、条件概率等术语。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 3: Probability and Information Theory](https://www.deeplearningbook.org/contents/prob.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-20。用于支撑“概率论是 AI 与机器学习中表达不确定性的框架”这一说明。

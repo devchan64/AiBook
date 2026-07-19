@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img" aria-labelledby="title desc">
   <title id="title">Sample space, event, and outcome</title>
-  <desc id="desc">주사위 예시로 표본공간, 사건, 결과의 관계를 보여 주는 차트입니다.</desc>
+  <desc id="desc">A chart showing the relationship among sample space, event, and outcome through a die example.</desc>
   <rect width="920" height="520" fill="#ffffff"/>
   <text x="40" y="48" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Sample space, event, and outcome</text>
   <text x="40" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">A sample space contains all outcomes. An event selects the outcomes we care about.</text>
