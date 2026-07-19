@@ -1,7 +1,7 @@
 # P4-14.1 决策树(decision tree)
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解分类。 P4-13 又把 margin 当作更好边界的标准来阅读同一个问题。 现在，我们要用完全不同的方式重新阅读同一个监督学习(supervised learning)问题。
 
@@ -21,14 +21,7 @@ P4-11 通过画边界(boundary)来理解分类。 P4-12 通过最近邻来理解
 - 训练时会比较哪些问题候选？
 - 为什么它既能做分类(classification)，也能做回归(regression)？
 
-本节不深入展开以下内容。
-
-- 树加深时出现的过拟合(overfitting)
-- 剪枝(pruning)的细节步骤
-- 随机森林(random forest)与梯度提升(gradient boosting)
-- 熵(entropy)、信息增益(information gain)的公式推导
-
-这些内容会在 P4-14.2、P4-15、P4-16 继续展开。
+这些内容会在 P4-14.2、P4-15、P4-16 继续展开。也就是说，这一节先把决策树读成 `通过拆分问题来做预测的模型`，并把复杂度和 ensemble 问题留到后续小节。
 
 ## 本节目标
 
@@ -529,9 +522,12 @@ I -> stay
 - 在当前问题里，比起直线边界，问题流是不是更自然？
 - 能不能重新查看第一处分裂和 leaf 组成到底形成了什么案例分组？
 - 有没有把“易读性”和“泛化性能”混成同一句话？
+- 能不能说明决策树是 `通过拆分问题来做预测的模型`，其中 node 是问题，split 是分支，leaf 是最终预测？
+- 能不能说明好的 split 通常为什么会把 label 变成更少混杂的分组？
+- 能不能说明决策树既可用于分类(classification)，也可用于回归(regression)，但易读性并不等于泛化保证？
 
 ## 出处与参考资料
 
 - scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, 确认日期: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

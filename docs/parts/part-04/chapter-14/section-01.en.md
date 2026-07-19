@@ -1,7 +1,7 @@
 # P4-14.1 Decision Tree
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11 read classification through drawing a boundary. P4-12 read it through nearby neighbors. P4-13 read it through margin as a criterion for a better boundary. Now the same supervised learning problem is read again in a very different way.
 
@@ -21,14 +21,7 @@ This Section answers the following questions.
 - What kinds of question candidates are compared during training?
 - Why can the same structure be used for both classification and regression?
 
-This Section does not go deeply into the following topics.
-
-- overfitting as the tree becomes deeper
-- detailed pruning procedures
-- random forest and gradient boosting
-- formula derivations for entropy and information gain
-
-Those topics continue in P4-14.2, P4-15, and P4-16.
+Those topics continue in P4-14.2, P4-15, and P4-16. In other words, this Section first reads a decision tree as `a model that predicts by splitting with questions`, and leaves complexity and ensemble issues for later Sections.
 
 ## Goals Of This Section
 
@@ -529,9 +522,12 @@ At first, even a shorter note like the following is enough.
 - In the current problem, is a question flow more natural than a straight-line boundary?
 - Can you recheck what groups of cases were created by the first split and the leaf structure?
 - Are you keeping readability and generalization performance separate instead of mixing them into the same claim?
+- Can you explain that a decision tree is `a model that predicts by splitting with questions`, where a node is a question, a split is a branch, and a leaf is the final prediction?
+- Can you explain why a good split generally turns labels into less mixed groups?
+- Can you explain that a decision tree can be used for both classification and regression, but readability does not guarantee generalization?
 
 ## Sources And References
 
 - scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984, accessed 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }
