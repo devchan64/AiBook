@@ -1,7 +1,7 @@
 # P4-11.1 Intuition For Logistic Regression
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 In P4-10, linear regression showed `how to predict a continuous value with a line`. The next step is to see how that same linear way of thinking changes when the task becomes classification.
 
@@ -27,14 +27,9 @@ This Section answers the following questions.
 - What does an output such as `predict_proba` mean?
 - Why is a threshold needed?
 
-This Section does not treat the following topics deeply.
+This Section first closes logistic regression as `a model that reads the output of a linear calculation like a classification probability`, and focuses on how scores and thresholds lead to classification judgments.
 
-- a rigorous derivation of log-odds
-- a full equation-level explanation of maximum likelihood estimation (MLE)
-- detailed equations of multinomial logistic regression
-- solver differences and regularization settings
-
-The spatial interpretation of a decision boundary and a threshold continues immediately in P4-11.2. Why log-odds appears and why maximum likelihood estimation is used is recovered in P4-11.3. How binary classification expands into multinomial classification is recovered in P4-11.4. Why solver and regularization appear as implementation settings is recovered in P4-11.5. The broader perspective on regularization and reading hyperparameters reconnects again in P4-9.1, P4-9.2, and P5-8.1.
+The questions that will be widened from this Section are also clear. The spatial interpretation of a decision boundary and a threshold continues immediately in P4-11.2. Why log-odds appears and why maximum likelihood estimation (MLE) is used is recovered in P4-11.3. How binary classification expands into multinomial classification is recovered in P4-11.4. Why solver and regularization appear as implementation settings is recovered in P4-11.5. The broader general principle of regularization and reading hyperparameters reconnects again in P4-9.1, P4-9.2, and P5-8.1.
 
 ## Goals Of This Section
 

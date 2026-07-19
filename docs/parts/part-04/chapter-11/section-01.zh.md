@@ -1,7 +1,7 @@
 # P4-11.1 逻辑回归(logistic regression)的直觉
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.13`
+> Version: `v2026.07.17`
 
 在 P4-10 里，我们通过 linear regression 看到了 `怎样用一条直线预测连续值`。现在要接着看：同样是线性思路，到了 classification 问题时会怎样变化。
 
@@ -27,14 +27,9 @@
 - `predict_proba` 这样的输出到底表示什么？
 - 为什么还需要 threshold？
 
-这一节不会深入讲下面这些内容。
+这一节先把 logistic regression 收束为 `把线性计算的输出按分类概率来读取的模型`，并集中抓住 score 和 threshold 怎样接到分类判断上。
 
-- log-odds 的严格推导
-- 最大似然估计(maximum likelihood estimation, MLE)的完整公式展开
-- 多类别(multinomial) logistic regression 的细节公式
-- solver 差异和 regularization 设置
-
-decision boundary 与 threshold 的空间解释，会在 P4-11.2 立刻继续；为什么会看到 log-odds，为什么会用 MLE，会在 P4-11.3 回收；二元分类怎样扩展到 multinomial，会在 P4-11.4 回收；solver 与 regularization 为什么会作为实现设置出现，会在 P4-11.5 回收。regularization 的更大视角以及 hyperparameter 的读取，也会在 P4-9.1、P4-9.2、P5-8.1 再接回来。
+不过，从这一节继续扩展的问题也很明确。decision boundary 与 threshold 的空间解释，会在 P4-11.2 立刻继续；为什么会看到 log-odds，为什么会用 maximum likelihood estimation(MLE)，会在 P4-11.3 回收；二元分类怎样扩展到 multinomial，会在 P4-11.4 回收；solver 与 regularization 为什么会作为实现设置出现，会在 P4-11.5 回收。regularization 的一般原理以及 hyperparameter 的读取，也会在 P4-9.1、P4-9.2、P5-8.1 再接回来。
 
 ## 本节目标
 
