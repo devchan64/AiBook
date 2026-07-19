@@ -1,7 +1,7 @@
 # P4-17.2 Cautions When Interpreting Clustering Results
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-17.1, clustering was introduced as an unsupervised learning problem that finds structure in unlabeled data. The more important stage now is interpretation.
 
@@ -23,13 +23,7 @@ This Section answers the following questions.
 - Why is it risky to connect clustering results directly to business policy or human evaluation?
 - How should clustering results be read conservatively?
 
-This Section does not go deeply into the following topics.
-
-- Cluster evaluation metrics such as silhouette score and the Davies-Bouldin index
-- Advanced visualization and distortion in embedding spaces
-- The full algorithm taxonomy and implementation procedure of semi-supervised learning
-
-This Section focuses on building an introductory attitude of `not overtrusting cluster results`. Cluster evaluation metrics are revisited in P4-6.4, visualization and distortion in embedding spaces reconnect in P4-18.2, and the connection to semi-supervised learning is partially recovered here up to the level of `why clusters can be a starting point for label hypotheses but cannot directly replace correct labels`. Representative scenes and connection criteria for semi-supervised learning are grouped again in P4-17.4 supplementary learning.
+This Section first closes the question `why clustering results should not be read immediately as correct answers or causal explanations`. Cluster evaluation metrics continue in P4-6.4, visualization and embedding-space distortion continue in P4-18.2, and the connection to semi-supervised learning continues in P4-17.4 supplementary learning.
 
 ## Goals Of This Section
 
@@ -412,14 +406,6 @@ When recording cluster results in a review memo, write them separately as `needs
 | A few clusters seem to divide plausibly | The visible grouping right now is not a correct category, but a proposal on top of a chosen representation and parameter setting | Does something similar remain under different features, scaling, and parameters? |
 | A certain cluster looks like a risk group | Do not finalize policy meaning from the number and shape of the cluster alone | Does the same interpretation remain when connected to actual performance metrics or labels? |
 
-## What To Remember From This Section
-
-- A cluster is not a correct label, but a grouping proposed by the algorithm.
-- Cluster numbers themselves usually have no meaning or ranking.
-- Clusters can change when feature choice, scaling, distance, or parameters change.
-- Clusters do not automatically explain causes.
-- Cluster results should be used as the starting point of further analysis, not as the final basis for policy.
-
 | What should be read together | The question read first in this Section | Where it goes next |
 | --- | --- | --- |
 | Interpretation boundary | How far can the visible cluster be trusted, and where should judgment stop? | Part 4 summary, Part 6 retrospective notes |
@@ -439,12 +425,16 @@ Both Sections must be understood together to use clustering safely in practice.
 
 ## Checklist
 
-- When you become tempted to use cluster IDs directly as grades or policy rules, recall first that the number itself has no fixed meaning.
-- When you need to explain that clusters can be rearranged after changing representation or parameters, return to the possibility of cluster instability.
-- Before moving cluster results into causal explanations or automatic policy, bring back the boundary that follow-up metrics and label comparison are still needed.
+- Can you explain that clusters are not correct labels, but groupings proposed by the algorithm?
 - Are you reading cluster IDs as if they were grades or fixed categories?
+- Can you explain that cluster ID numbers themselves have no fixed meaning?
+- Do you understand that clusters can change when feature choice, scaling, distance rule, or parameters change?
 - Are you starting from the premise that results can also change when representation and parameters change?
+- Do you understand the possibility of cluster instability, where clusters can be rearranged after changing feature representation or parameters?
+- Do you know that clusters do not automatically explain causes?
+- Do you understand that cluster results should be used as the starting point of further analysis, not as the final basis for policy?
 - Before turning cluster results into policy, are you leaving human-review and follow-up verification steps in place?
+- Do you know that follow-up metrics and label comparison are still needed before moving cluster results into causal explanations or automatic policy?
 
 ## Sources And References
 
