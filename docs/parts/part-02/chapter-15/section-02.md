@@ -1,7 +1,7 @@
 # P2-15.2 Part 3로 넘어가기 전 점검
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2는 기초 복구 구간입니다. 모든 수학과 Python을 완벽히 끝냈다는 뜻이 아닙니다. 머신러닝으로 넘어가도 되는 최소한의 읽기 능력과 실습 감각을 확인하는 구간입니다.
 
@@ -34,18 +34,6 @@ Part 3에서는 데이터로부터 규칙을 학습한다는 말을 다룹니다
 | `predict(X_test)`를 봤다 | 학습된 모델로 새 입력 계산 |
 
 즉 Part 3 직전 최소 준비는 `모델 이름`이 아니라 `데이터 구조와 학습 흐름을 읽는 문장`을 바로 말할 수 있는가에 가깝습니다.
-
-## 이 절의 범위
-
-이 절은 Part 2의 최종 점검입니다. 새로운 핵심 개념을 깊게 도입하지 않습니다. scikit-learn 사용법, 모델 학습 API, 평가 지표의 세부 계산은 Part 3에서 다룹니다.
-
-여기서는 다음 질문에 답합니다.
-
-- Part 3로 넘어가기 전에 무엇을 알고 있어야 하는가?
-- 부족한 부분이 있어도 넘어가도 되는 기준은 무엇인가?
-- 수학, Python, 데이터 도구, Git 중 어떤 부분을 다시 확인해야 하는가?
-- 머신러닝 문서를 읽을 때 어떤 단어들이 다시 등장하는가?
-- Part 3에서 가장 먼저 주의할 오해는 무엇인가?
 
 ## 이 절의 목표
 
@@ -211,6 +199,6 @@ Part 3에서는 알고리즘 이름보다 다음 질문을 먼저 봅니다.
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } estimator, `fit`, `predict`, `X`, `y`의 입문 흐름을 확인하는 직접 참고 자료입니다.
-- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } sample, feature, target, training/test data 같은 Part 3 진입 용어의 기준입니다.
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 확인 날짜: 2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } `shape`, 차원, 배열 모양을 `X`와 `y`의 데이터 구조로 연결하는 부분의 참고 자료입니다.
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-07-20. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } estimator, `fit`, `predict`, `X`, `y`의 입문 흐름을 확인하는 직접 참고 자료입니다.
+- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 확인 날짜: 2026-07-20. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } sample, feature, target, training/test data 같은 Part 3 진입 용어의 기준입니다.
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 확인 날짜: 2026-07-20. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } `shape`, 차원, 배열 모양을 `X`와 `y`의 데이터 구조로 연결하는 부분의 참고 자료입니다.

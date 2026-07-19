@@ -1,7 +1,7 @@
 # P2-15.2 进入 Part 3 之前的检查
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 是基础恢复区间。它不意味着所有数学与 Python 都已经被完美学完，而是用来确认：你是否已经具备进入机器学习之前所需的最小阅读能力与实践感觉。
 
@@ -34,18 +34,6 @@ Part 3 会讨论“从数据中学习规则”。那时真正需要的，不是�
 | 看到 `predict(X_test)` | 用训练好的模型计算新输入 |
 
 所以，在进入 Part 3 之前，最小准备并不更接近于“知道模型名字”，而是更接近于能立即说出 `描述数据结构与学习流程的句子`。
-
-## 本节范围
-
-本节是 Part 2 的最终检查。它不会深入引入新的核心概念。scikit-learn 的具体用法、模型训练 API、评价指标的详细计算会在 Part 3 处理。
-
-本节回答以下问题。
-
-- 进入 Part 3 之前，应该知道什么？
-- 即使有些部分还不够强，也能继续往下走的标准是什么？
-- 在数学、Python、数据工具、Git 之中，哪些部分要重新检查？
-- 读机器学习文档时，会再次出现哪些词？
-- 在 Part 3 一开始最需要小心的误解是什么？
 
 ## 本节目标
 
@@ -211,6 +199,6 @@ scikit-learn 文档把模型叫作 estimator，一般会展示用 `fit` 学习�
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-07-19. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } 这是确认 estimator、`fit`、`predict`、`X`、`y` 入门流程的直接参考资料。
-- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 确认日期：2026-07-19. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } 这是 sample、feature、target、training/test data 等 Part 3 入门术语的依据。
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 这是把 `shape`、维度和数组形状连接到 `X` 与 `y` 数据结构的参考资料。
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-07-20. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } 这是确认 estimator、`fit`、`predict`、`X`、`y` 入门流程的直接参考资料。
+- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 确认日期：2026-07-20. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } 这是 sample、feature、target、training/test data 等 Part 3 入门术语的依据。
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-07-20. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 这是把 `shape`、维度和数组形状连接到 `X` 与 `y` 数据结构的参考资料。

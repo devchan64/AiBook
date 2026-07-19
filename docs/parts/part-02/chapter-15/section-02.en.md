@@ -1,7 +1,7 @@
 # P2-15.2 Final Check Before Moving to Part 3
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 is the basic recovery zone. It does not mean that all mathematics and Python are finished perfectly. It is the stage where you check whether you now have the minimum reading ability and practice sense needed to move into machine learning.
 
@@ -34,18 +34,6 @@ The scenes where people get stuck most often can be rewritten very briefly as fo
 | You saw `predict(X_test)` | computing new inputs with a trained model |
 
 So the minimum preparation right before Part 3 is closer to being able to state `sentences that read data structure and learning flow` than to knowing `model names`.
-
-## Scope of This Section
-
-This section is the final check of Part 2. It does not introduce new core concepts deeply. The details of scikit-learn usage, model-learning APIs, and evaluation metric formulas are handled in Part 3.
-
-This section answers the following questions.
-
-- What should you know before moving into Part 3?
-- What is the standard for moving on even if some parts are still weak?
-- Among mathematics, Python, data tools, and Git, which parts should be checked again?
-- Which words return again when reading machine-learning documents?
-- What is the first misunderstanding to watch out for in Part 3?
 
 ## Goals of This Section
 
@@ -211,6 +199,6 @@ So readiness for Part 3 comes not from stopping at `I can read shape`, but from 
 
 ## Sources and References
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, checked on 2026-07-19. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } Direct reference for the introductory flow of estimators, `fit`, `predict`, `X`, and `y`.
-- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, checked on 2026-07-19. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } Basis for Part 3 entry terms such as sample, feature, target, and training/test data.
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } Used to connect `shape`, dimensions, and array form to the data structure of `X` and `y`.
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, checked on 2026-07-20. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } Direct reference for the introductory flow of estimators, `fit`, `predict`, `X`, and `y`.
+- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, checked on 2026-07-20. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } Basis for Part 3 entry terms such as sample, feature, target, and training/test data.
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-07-20. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } Used to connect `shape`, dimensions, and array form to the data structure of `X` and `y`.
