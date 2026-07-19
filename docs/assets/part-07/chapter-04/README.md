@@ -10,6 +10,7 @@
   - `p7-4-2-failure-split-flow-ko.mmd`
   - `p7-4-3-normalization-case-flow-ko.mmd`
   - `p7-4-3-normalization-workflow-ko.mmd`
+  - `p7-4-4-pattern-decision-flow-ko.mmd`
 - Data assets used by this chapter:
   - `p7-4-support-routing-dataset.csv`
   - `p7-4-training-log.csv`

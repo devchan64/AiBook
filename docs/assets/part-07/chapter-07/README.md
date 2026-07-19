@@ -9,6 +9,7 @@
   - `p7-7-2-404-triage-flow-ko.mmd`
   - `p7-7-3-incident-priority-flow-ko.mmd`
   - `p7-7-3-ops-review-flow-ko.mmd`
+  - `p7-7-4-alert-grade-flow-ko.mmd`
 - Data assets used by this chapter:
   - `p7-7-deployment-checks.csv`
   - `p7-7-deployment-incidents.csv`
