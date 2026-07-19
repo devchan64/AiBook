@@ -18,20 +18,6 @@ How to install Python on your own PC and manage virtual environments returns in 
 
 This document was written based on the official Google Colab guide and FAQ, the IPython `%pip` documentation, and the pip user guide checked on July 19, 2026. Colab is an external service, so its UI, usage conditions, free tier, runtime policy, or even service availability may change later. If, when you read this section, Colab is unavailable or looks different from this guide, you should separately check the current Google Colab documentation and service status.
 
-## Scope of This Section
-
-To prepare for the next NumPy practice, this section only distinguishes the execution locations of Colab and a local PC, and how the commands for installing NumPy differ across environments when needed.
-
-It does not cover Colab file management, Google Drive integration, GPU/TPU runtime, notebook sharing permissions, or long-running execution limits. It also does not go deeply into the detailed procedures of local Python installation, virtual environment, or package management. Local installation, terminals, and virtual-environment procedures are organized again in `P2-7.1`, `P2-7.6`, `P2-7.7`, and `P2-7.8`.
-
-Here we focus on the following questions.
-
-- What kind of tool is Colab for?
-- What does it mean to run something on a local PC?
-- How do we run a code cell?
-- Where is `%pip install numpy` used?
-- How are personal-PC terminal commands different from Colab commands?
-
 ## Goals of This Section
 
 - You can understand Google Colab as a browser-based execution environment that requires no installation.
