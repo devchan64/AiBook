@@ -1,7 +1,7 @@
 # P2-9.2 数组(array)、表(table)、树(tree)、图(graph)的直觉
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-9.1 中，我们已经把数据结构看成“数据被组织成什么形状”的问题。现在来广泛比较 AI 实践中经常遇到的四种形状。
 
@@ -26,28 +26,6 @@
 | tree | 主要通过父子层级来阅读的结构 |
 | graph | 主要通过节点和连接关系来阅读的结构 |
 | structure question | 询问当前数据里到底是位置、行列、层级还是关系更重要的问题 |
-
-## 本节的范围
-
-本节不会深入实现数组、表、树、图，而是区分同样的数据为什么会随着 `位置`、`行列`、`层级`、`关系` 这些观察重点不同而变成数组、表、树或图。
-
-这里首先要解决的问题是：`为什么在当前数据里，看的是位置、行列、层级还是关系，会让“自然的结构”发生变化？`
-
-所以本节回答以下问题。
-
-- 为什么数组会连接到数值计算、向量和矩阵？
-- 为什么表会成为读取数据集的基本形状？
-- 为什么树适合解释目录、文件夹和分类体系？
-- 为什么在解释关系和连接时需要图？
-- 在 AI 实践里，遇到什么场景时应先想起哪一种结构直觉？
-
-图会在 P2-9.3 单独讨论，传统数据结构名称会在 P2-9.4 补充学习中再整理一次。这里的重点是按“问题”比较四种结构，而不是按“实现”比较。
-
-本节之后的流程也很简单。
-
-- 在 `P2-9.3` 中，我们会更直接地看图，因为在这里看到的四种结构里，图最强调关系表示。
-- 在 `P2-9.4` 补充学习中，会把传统数据结构术语重新整理到本节建立的问题标准之上。
-- 之后在 NumPy、Pandas、知识图谱、推荐关系的说明里，同样的结构问题会不断重复出现。
 
 ## 本节的目标
 
@@ -514,7 +492,7 @@ print("graph:", friends)
 
 ## 来源与参考资料
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 `ndarray` 的维度、shape、dtype、索引与切片说明，作为数组直觉的依据。
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。作为把 DataFrame 说明为具有行和列的二维结构的依据。
-- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 tree 说明为具有 root 与 parent-child relationships 的层级结构的依据。
-- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 graph 说明为用 nodes 与 edges 表达关系的结构的依据。
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-20。用于确认 `ndarray` 的维度、shape、dtype、索引与切片说明，作为数组直觉的依据。
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-20。作为把 DataFrame 说明为具有行和列的二维结构的依据。
+- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。作为把 tree 说明为具有 root 与 parent-child relationships 的层级结构的依据。
+- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。作为把 graph 说明为用 nodes 与 edges 表达关系的结构的依据。

@@ -1,7 +1,7 @@
 # P2-9.2 배열(array), 표(table), 트리(tree), 그래프(graph) 직관
 
 > Section ID: `P2-9.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로 조직하느냐의 문제라고 봤습니다. 이제 AI 실습에서 자주 만나는 네 가지 모양을 넓게 비교합니다.
 
@@ -26,28 +26,6 @@ P2-9.1에서는 자료구조(data structure)가 데이터를 어떤 모양으로
 | 트리(tree) | 부모-자식의 계층 관계를 중심으로 읽는 구조입니다. |
 | 그래프(graph) | 노드와 연결 관계를 중심으로 읽는 구조입니다. |
 | 구조 질문(structure question) | 지금 데이터에서 위치, 행열, 계층, 관계 중 무엇이 중요한지 묻는 질문입니다. |
-
-## 이 절의 범위
-
-이 절은 배열, 표, 트리, 그래프를 깊게 구현하는 절이 아니라, 같은 데이터라도 어떤 관점으로 보면 배열, 표, 트리, 그래프가 되는지 구분하는 절입니다. 이번 절은 `위치`, `행열`, `계층`, `관계` 가운데 지금 무엇을 보고 있는가까지를 먼저 닫습니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `지금 데이터에서 위치, 행열, 계층, 관계 중 무엇을 보고 있는가에 따라 왜 자연스러운 구조가 달라지는가`입니다.
-
-그래서 이 절에서는 다음 질문에 답합니다.
-
-- 배열(array)은 왜 숫자 계산과 벡터(vector), 행렬(matrix)로 이어지는가?
-- 표(table)는 왜 데이터셋(dataset)을 읽는 기본 모양이 되는가?
-- 트리(tree)는 왜 목차, 폴더, 분류 체계를 설명하기 좋은가?
-- 그래프(graph)는 왜 관계와 연결을 설명할 때 필요한가?
-- AI 실습에서는 어떤 상황에서 어떤 구조 감각을 먼저 떠올리면 좋은가?
-
-그래프는 바로 다음 P2-9.3에서 따로 보고, 전통적인 자료구조 이름은 P2-9.4 보충학습에서 다시 정리합니다. 여기서는 네 구조를 구현보다 질문 기준으로 비교하는 데 집중합니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-9.3`에서는 여기서 본 네 구조 중 관계 표현이 특히 중요한 그래프를 더 직접 봅니다.
-- `P2-9.4` 보충학습에서는 전통적인 자료구조 용어를 지금의 질문 기준 위에서 다시 정리합니다.
-- 이후 NumPy, Pandas, 지식 그래프, 추천 관계 설명에서도 같은 구조 질문이 반복됩니다.
 
 ## 이 절의 목표
 
@@ -514,7 +492,7 @@ AI 실습에서는 이 구조들이 서로 변환되기도 합니다. 표로 읽
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. `ndarray`의 차원, shape, dtype, 인덱싱과 슬라이싱 설명을 배열 직관의 근거로 사용했다.
-- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. DataFrame을 행과 열을 가진 2차원 구조로 설명하는 근거로 사용했다.
-- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 트리를 루트와 부모-자식 관계를 가진 계층 구조로 설명하는 근거로 사용했다.
-- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 그래프를 노드와 엣지로 관계를 표현하는 구조로 설명하는 근거로 사용했다.
+- NumPy Developers, [The N-dimensional array (`ndarray`)](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-20. `ndarray`의 차원, shape, dtype, 인덱싱과 슬라이싱 설명을 배열 직관의 근거로 사용했다.
+- pandas, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. DataFrame을 행과 열을 가진 2차원 구조로 설명하는 근거로 사용했다.
+- Paul E. Black, [tree](https://xlinux.nist.gov/dads/HTML/tree.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 트리를 루트와 부모-자식 관계를 가진 계층 구조로 설명하는 근거로 사용했다.
+- Paul E. Black, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 그래프를 노드와 엣지로 관계를 표현하는 구조로 설명하는 근거로 사용했다.
