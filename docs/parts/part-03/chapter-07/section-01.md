@@ -1,7 +1,7 @@
 # P3-7.1 남겨 둔 구조를 무엇과 비교해야 변화가 보이는가
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 기준선이라는 말을 들으면 모델 평가나 성능 비교를 먼저 떠올리곤 합니다. 실제로 머신러닝에서는 기준 모델(baseline model)이라는 말도 자주 쓰기 때문입니다. 하지만 이 Part에서 말하는 기준선은 그보다 앞선 단계에 있습니다. 여기서 기준선은 모델 성능 비교 이전에, `지금 상태를 무엇과 비교할 것인가`를 정하는 데이터 표현 구조의 일부입니다. 앞 장에서 특징과 중간 표현으로 구조를 남겼다면, 이제는 그 구조를 무엇과 비교해야 변화가 보이는지 정해야 합니다.
 
@@ -67,5 +67,5 @@
 
 ## 출처와 참고 자료
 
-- U.S. Bureau of Labor Statistics, `Base period`. base period를 다른 시점과 비교하기 위한 reference로 설명하므로, 현재 구간과 기준선 구간을 함께 두어야 변화가 보인다는 이 절의 핵심을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- National Cancer Institute, `baseline`. baseline을 초기 측정값을 두고 시간 경과에 따라 변화를 비교하는 기준으로 설명하므로, Part 3에서 기준선을 `상태 비교 기준`으로 읽는 일반 근거가 됩니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. base period를 다른 시점과 비교하기 위한 reference로 설명하므로, 현재 구간과 기준선 구간을 함께 두어야 변화가 보인다는 이 절의 핵심을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- National Cancer Institute, `baseline`. baseline을 초기 측정값을 두고 시간 경과에 따라 변화를 비교하는 기준으로 설명하므로, Part 3에서 기준선을 `상태 비교 기준`으로 읽는 일반 근거가 됩니다. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-7.1 What Should We Compare the Structure We Kept Against So That Change Becomes Visible
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 When people hear the word baseline, they often think first of model evaluation or performance comparison. That is understandable, because the phrase baseline model also appears often in machine learning. But the baseline discussed in this Part comes earlier than that. Here, a baseline is part of the data-representation structure that decides `what should the current state be compared against` before model-performance comparison begins. If the previous chapter preserved structure through features and intermediate representations, then we now have to decide what that structure should be compared against so that change becomes visible.
 
@@ -67,5 +67,5 @@ So this section is more accurately read not as an introduction to the word basel
 
 ## Sources and Further Reading
 
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a base period as a reference for comparing other times, it supports the central point of this section that change becomes visible only when the current range and the baseline range are placed together. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- National Cancer Institute, `baseline`. Because it explains baseline as the standard against which later change is compared after an initial measurement is set, it provides a general basis for reading baseline in Part 3 as `a state-comparison reference`. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. Because it explains a base period as a reference for comparing other times, it supports the central point of this section that change becomes visible only when the current range and the baseline range are placed together. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- National Cancer Institute, `baseline`. Because it explains baseline as the standard against which later change is compared after an initial measurement is set, it provides a general basis for reading baseline in Part 3 as `a state-comparison reference`. [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

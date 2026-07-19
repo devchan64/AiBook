@@ -1,7 +1,7 @@
 # P3-7.1 应该把留下来的结构拿去和什么比较，变化才会显现
 
 > Section ID: `P3-7.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一听到“基准线”这个词，人们往往会先想到模型评估或性能比较。确实，在机器学习里也常常会听到 baseline model 这个说法。但这一 Part 里说的基准线，处在更前面的阶段。这里的基准线，是在模型性能比较之前，决定 `当前状态应该和什么相比` 的数据表示结构的一部分。如果前一章已经通过特征和中间表示把结构留下来了，那么现在就要决定：应该把这些结构拿去和什么比较，变化才会显现。
 
@@ -67,5 +67,5 @@
 
 ## 来源与参考资料
 
-- U.S. Bureau of Labor Statistics, `Base period`. 它把 base period 解释为拿来和其他时点比较的参考，因此支持这一节的核心：只有把当前区间和基准线区间放在一起，变化才会显现。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- National Cancer Institute, `baseline`. 它把 baseline 解释为设定初始测量之后，用来比较后续变化的标准，因此为在 Part 3 中把基准线读成 `状态比较用参考` 提供了一般依据。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 它把 base period 解释为拿来和其他时点比较的参考，因此支持这一节的核心：只有把当前区间和基准线区间放在一起，变化才会显现。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- National Cancer Institute, `baseline`. 它把 baseline 解释为设定初始测量之后，用来比较后续变化的标准，因此为在 Part 3 中把基准线读成 `状态比较用参考` 提供了一般依据。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
