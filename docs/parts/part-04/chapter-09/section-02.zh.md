@@ -1,7 +1,7 @@
 # P4-9.2 调优(tuning)与验证成本
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-9.1 里，我们看过什么是 hyperparameter，以及为什么它很早以前就被当成一个单独问题来处理。现在要进入下一个问题。
 
@@ -25,13 +25,7 @@
 - 为什么 test data 必须只在最后使用？
 - grid search 和 random search，入门层面应该怎样理解？
 
-这一节不会深入讲下面这些内容。
-
-- Bayesian optimization、Hyperband 这类高级搜索技术
-- nested cross-validation 的细部流程
-- 分布式调优基础设施和实验追踪系统
-
-Bayesian optimization、Hyperband、nested cross-validation、实验追踪和分布式调优的大图景，会在 P4-9.3 补充学习里再整理。
+这一节先收束 `应该在什么验证流程里比较设置值候选`。Bayesian optimization、Hyperband、nested cross-validation、实验追踪和分布式调优的大图景，会在 P4-9.3 补充学习里再整理。
 
 ## 本节目标
 

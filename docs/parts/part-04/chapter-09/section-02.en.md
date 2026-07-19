@@ -1,7 +1,7 @@
 # P4-9.2 Tuning And Validation Cost
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-9.1, the discussion examined what a hyperparameter is and why it has long been treated as a separate topic. Now it moves to the next question.
 
@@ -25,13 +25,7 @@ This Section answers the following questions.
 - Why should test data be used only at the end?
 - How should grid search and random search be understood at an introductory level?
 
-This Section does not treat the following topics deeply.
-
-- advanced search techniques such as Bayesian optimization and Hyperband
-- detailed procedures of nested cross-validation
-- distributed tuning infrastructure and experiment-tracking systems
-
-The bigger picture of Bayesian optimization, Hyperband, nested cross-validation, experiment tracking, and distributed tuning is reorganized again in the supplementary learning of P4-9.3.
+This Section first closes `inside what validation procedure candidate settings should be compared`. The bigger picture of Bayesian optimization, Hyperband, nested cross-validation, experiment tracking, and distributed tuning is reorganized again in the supplementary learning of P4-9.3.
 
 ## Goals Of This Section
 
