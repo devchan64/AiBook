@@ -1,7 +1,7 @@
 # P4-19.2 Policy-Based Reinforcement Learning
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-19.1, we looked at the view of learning `how good each action is in each state` as values through value-based reinforcement learning. If we change the question by one step, the next question becomes this.
 
@@ -23,14 +23,7 @@ This Section answers the following questions.
 - Why did actor-critic appear?
 - For what kinds of problems does policy-based reinforcement learning feel more natural?
 
-This Section does not go deeply into the following topics.
-
-- A rigorous derivation of the policy-gradient theorem
-- Mathematical proofs of the likelihood ratio trick
-- Detailed implementation of PPO, TRPO, A2C, and A3C
-- Advanced formulas for continuous control
-
-This Section focuses on understanding why policy-based reinforcement learning appeared and what it means to `adjust the behavior itself directly` without first passing through an `action scoreboard`. Constraints such as reward design, exploration cost, and the gap between simulation and reality continue in P4-19.3. The larger expansion map of PPO, TRPO, A2C, A3C, and continuous control is organized in P4-19.4. The minimum mathematical feel of policy gradient and the likelihood ratio trick is grouped again in the supplementary Section P4-19.6.
+This Section first closes the question of `why reinforcement learning that directly adjusts the policy itself appears`. Reward design and constraints in real-world application continue in P4-19.3, the expansion flow of PPO, TRPO, A2C, A3C, and continuous control continues in P4-19.4, and the minimum mathematical feel of the policy-gradient theorem and the likelihood ratio trick continues in supplementary learning P4-19.6.
 
 ## Goals Of This Section
 

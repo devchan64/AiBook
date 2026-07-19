@@ -1,7 +1,7 @@
 # P4-19.2 策略型强化学习(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-19.1 里，我们已经看过价值型强化学习(value-based reinforcement learning)把`什么状态里什么行动有多好`学成 value 的视角。如果把问题再换一步，下面的问题就会出现。
 
@@ -23,14 +23,7 @@
 - actor-critic 为什么会出现？
 - 策略型强化学习在哪些问题里会更自然？
 
-这一节不会深入展开下面这些内容。
-
-- policy-gradient theorem 的严格推导
-- likelihood ratio trick 的数学证明
-- PPO、TRPO、A2C、A3C 的细节实现
-- continuous control 的深化公式
-
-这一节集中在理解：为什么策略型强化学习会出现，以及不经过`行动记分板`而`直接调整行动方式本身`到底是什么意思。reward 设计、exploration 成本、simulation 与 reality 的差距等应用约束，会在 P4-19.3 继续；PPO、TRPO、A2C、A3C 与连续控制的扩展脉络，会在 P4-19.4 整理；policy gradient 与 likelihood ratio trick 的最小数学感觉，则会在补充学习 P4-19.6 重新收束。
+这一节先收住`为什么会出现直接调整 policy 本身的强化学习`这个问题。reward 设计与现实应用约束会在 P4-19.3 继续，PPO、TRPO、A2C、A3C 与 continuous control 的扩展流程会在 P4-19.4 继续，policy-gradient theorem 与 likelihood ratio trick 的最小数学感觉会在补充学习 P4-19.6 继续。
 
 ## 本节目标
 
