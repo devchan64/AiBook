@@ -1,7 +1,7 @@
 # P6-5.1 다음 토큰 예측(next-token prediction)
 
-> Section ID: `P6-5.1`
-> Version: `v2026.07.19`
+Section ID: `P6-5.1`
+Version: `v2026.07.20`
 
 P6-4.2에서는 GPT 기반 생성 구조가 어떻게 대화형 LLM 경험으로 이어졌는지 보았습니다. 이제 질문을 더 좁힐 차례입니다.
 
