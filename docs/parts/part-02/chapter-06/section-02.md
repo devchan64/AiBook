@@ -1,7 +1,7 @@
 # P2-6.2 손실 함수(loss function)와 목적 함수(objective function)
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제약 안에서 더 나은 값을 찾는 문제”로 봤습니다. 이제 그 기준이 모델 학습에서는 어떤 이름으로 등장하는지 봅니다.
 
@@ -29,35 +29,6 @@ P2-6.1에서는 최적화를 “후보를 놓고, 기준으로 비교하고, 제
 ```mermaid
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-ko.mmd"
 ```
-
-## 이 절의 범위
-
-여기서는 손실 함수(loss function)와 목적 함수(objective function)를 AI 학습의 기준으로 소개합니다. 이번 절은 `모델이 틀렸다는 사실을 어떤 숫자로 바꾸는가`, `개별 손실과 평균 손실, 목적 함수를 어떻게 구분하는가`까지를 먼저 닫습니다.
-
-손실을 실제로 줄여 가는 반복 구조는 바로 다음 P2-6.3에서 이어서 보고, 회귀와 분류에서 자주 쓰는 손실의 직관은 P4-4.1과 P4-4.2에서 다시 다룹니다. 정규화는 P4-8.1에서, 학습 반복 구조와 옵티마이저 흐름은 P4-7.1과 P4-7.2에서 다시 연결합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `모델이 틀렸다는 사실을 어떻게 학습이 실제로 움직일 수 있는 숫자 기준으로 바꾸는가`입니다.
-
-그래서 이 절에서는 다음 네 질문만 먼저 고정합니다.
-
-- 손실 함수는 무엇을 숫자로 만드는가?
-- 목적 함수는 손실 함수와 어떻게 다른가?
-- 손실이 낮다는 말은 항상 좋은 모델이라는 뜻인가?
-- 평가 지표(metric)와 손실 함수는 같은 말인가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 손실 함수 | 틀림을 숫자로 바꾸는 함수 | 학습 기준의 출발점 |
-| 목적 함수 | 학습이 실제로 줄이거나 키우는 전체 기준 | 최적화의 대상 |
-| 오차 | 실제값과 예측값의 차이 | 손실의 재료 |
-| 평균 손실 | 여러 샘플 손실을 묶은 값 | 데이터 전체 경향을 보는 기준 |
-| 평가 지표 | 사람이 해석하고 비교하는 기준 | 손실과 구분해야 할 운영 관점 |
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-6.3`에서는 지금 만든 손실 기준을 실제로 어떻게 줄여 가는지 경사하강법으로 이어 봅니다.
-- Part 3과 Part 4에서는 회귀, 분류, 생성 문제마다 손실이 어떤 모습으로 바뀌는지 다시 읽습니다.
-- Part 5 운영 문맥에서는 손실과 실제 서비스 지표가 왜 다를 수 있는지 다시 등장합니다.
 
 ## 이 절의 목표
 
@@ -227,7 +198,7 @@ P2-5.3에서 본 표본(sample)과 오차(error)의 관점이 여기서 다시 �
 
 ## 출처와 참고 자료
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 딥러닝 학습에서 훈련 데이터의 예제별 손실을 평균한 비용 함수(cost function)를 줄인다는 설명 확인에 사용했다.
-- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19. 예측 품질을 평가하는 scoring/metric 선택과 손실 함수와 평가 지표가 같을 수도 다를 수도 있다는 설명 확인에 사용했다.
-- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-19. 평균 제곱 오차가 실제값 `y_true`와 예측값 `y_pred` 사이의 회귀 손실이며 0이 최선이라는 설명 확인에 사용했다.
-- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-19. 로그 손실이 로지스틱 손실 또는 교차 엔트로피 손실로 불리며 예측 확률에 적용된다는 설명 확인에 사용했다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-20. 딥러닝 학습에서 훈련 데이터의 예제별 손실을 평균한 비용 함수(cost function)를 줄인다는 설명 확인에 사용했다.
+- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-20. 예측 품질을 평가하는 scoring/metric 선택과 손실 함수와 평가 지표가 같을 수도 다를 수도 있다는 설명 확인에 사용했다.
+- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-20. 평균 제곱 오차가 실제값 `y_true`와 예측값 `y_pred` 사이의 회귀 손실이며 0이 최선이라는 설명 확인에 사용했다.
+- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 확인 날짜: 2026-07-20. 로그 손실이 로지스틱 손실 또는 교차 엔트로피 손실로 불리며 예측 확률에 적용된다는 설명 확인에 사용했다.

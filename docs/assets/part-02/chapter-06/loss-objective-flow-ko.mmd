@@ -1,10 +1,10 @@
 flowchart TD
-  X["input x"]
-  M["model"]
-  P["prediction<br/>ŷ = 8"]
-  Y["target<br/>y = 10"]
-  L["loss function<br/>example: squared error<br/>(10 - 8)^2 = 4"]
-  O["training objective<br/>combine losses from many examples<br/>then minimize total or average loss"]
+  X["입력 x"]
+  M["모델"]
+  P["예측<br/>ŷ = 8"]
+  Y["목표<br/>y = 10"]
+  L["손실 함수<br/>예: 제곱 오차<br/>(10 - 8)^2 = 4"]
+  O["학습 목적<br/>여러 샘플 손실을 묶고<br/>전체 또는 평균 손실을 최소화"]
 
   X --> M --> P
   P --> L

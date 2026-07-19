@@ -1,7 +1,7 @@
 # P2-6.2 损失函数(loss function)与目标函数(objective function)
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-6.1 中，我们把最优化看成 `摆出候选、用标准比较、在约束之内寻找更好值的问题`。现在来看，在模型学习里，这个标准会以什么名字出现。
 
@@ -29,35 +29,6 @@
 ```mermaid
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-zh.mmd"
 ```
-
-## 本节范围
-
-这里把 `损失函数(loss function)` 与 `目标函数(objective function)` 介绍成 AI 学习的标准。本节先把两个问题收住：模型“错了”这件事怎样变成学习可以推动的数字标准，以及怎样区分单个损失、平均损失、目标函数。
-
-真正把损失反复减小的结构会在 P2-6.3 紧接着继续处理。回归和分类里常用损失的直觉，会在 P4-4.1 与 P4-4.2 再讲；正则化会延续到 P4-8.1；训练循环和优化器流程会在 P4-7.1 与 P4-7.2 再次连接。
-
-这里首先要解决的问题是：`模型“错了”这件事，怎样被变成学习真正能推动的数字标准？`
-
-所以，这一节先只固定下面四个问题。
-
-- 损失函数到底把什么变成数字？
-- 目标函数和损失函数有什么不同？
-- 损失低，是不是就一定代表模型好？
-- 评价指标(metric)和损失函数是同一个东西吗？
-
-| 术语 | 很短的意思 | 在本节中的作用 |
-| --- | --- | --- |
-| 损失函数 | 把错误变成数字的函数 | 学习标准的起点 |
-| 目标函数 | 学习实际上要减少或增加的整体标准 | 最优化对象 |
-| 误差 | 实际值与预测值之间的差 | 损失的原料 |
-| 平均损失 | 把多个样本损失合并后的值 | 看整个数据趋势的标准 |
-| 评价指标 | 让人解释和比较的标准 | 必须和损失区分的运营视角 |
-
-这一节之后的流向也很简单。
-
-- 在 `P2-6.3` 中，会继续用梯度下降去看刚刚建立的损失标准是怎样被真正减小的。
-- 到 Part 3 与 Part 4 时，我们会再次读到：在回归、分类、生成问题里，损失会怎样变换形状。
-- 到 Part 5 的运营语境里，还会再次出现：为什么损失和真实服务指标可能不一样。
 
 ## 本节目标
 
@@ -226,7 +197,7 @@ P2-5.3 中讲过的样本(sample)与误差(error)视角，会在这里再次出�
 
 ## 来源与参考资料
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19。用于确认深度学习训练会最小化训练数据中逐样本损失平均而成的成本函数(cost function)。
-- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-19。用于确认评价预测质量时 scoring/metric 的选择，以及损失函数与评价指标可能相同也可能不同这一说明。
-- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-19。用于确认平均平方误差是实际值 `y_true` 与预测值 `y_pred` 之间的回归损失，且最佳值为 0。
-- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-19。用于确认 log loss 也称 logistic loss 或 cross-entropy loss，并应用于预测概率。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-20。用于确认深度学习训练会最小化训练数据中逐样本损失平均而成的成本函数(cost function)。
+- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-20。用于确认评价预测质量时 scoring/metric 的选择，以及损失函数与评价指标可能相同也可能不同这一说明。
+- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-20。用于确认平均平方误差是实际值 `y_true` 与预测值 `y_pred` 之间的回归损失，且最佳值为 0。
+- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, 确认日期: 2026-07-20。用于确认 log loss 也称 logistic loss 或 cross-entropy loss，并应用于预测概率。

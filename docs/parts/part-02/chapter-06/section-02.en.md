@@ -1,7 +1,7 @@
 # P2-6.2 Loss Function and Objective Function
 
 > Section ID: `P2-6.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-6.1, we looked at optimization as `placing candidates, comparing them by a criterion, and finding a better value within constraints`. Now we look at what name that criterion takes inside model learning.
 
@@ -29,35 +29,6 @@ That is, the model predicts, compares with the actual values, turns the degree o
 ```mermaid
 --8<-- "assets/part-02/chapter-06/loss-objective-flow-en.mmd"
 ```
-
-## Scope of This Section
-
-This Section introduces `loss function` and `objective function` as the criteria of AI learning. This Section first closes how the fact that a model is wrong becomes a numeric criterion that learning can move with, and how to distinguish individual loss, mean loss, and objective function.
-
-The repeated structure that actually reduces loss continues immediately in P2-6.3. The intuition of losses often used in regression and classification returns in P4-4.1 and P4-4.2. Regularization continues in P4-8.1, and the training loop and optimizer flow reconnect in P4-7.1 and P4-7.2.
-
-The first question to solve here is this: `how do we turn the fact that a model is wrong into a numeric criterion that learning can actually move with?`
-
-So this Section first fixes only the following four questions.
-
-- What does the loss function turn into a number?
-- How is the objective function different from the loss function?
-- Does low loss always mean a good model?
-- Are metric and loss function the same thing?
-
-| Term | Very short meaning | Role in this Section |
-| --- | --- | --- |
-| loss function | a function that turns wrongness into a number | the starting point of the learning criterion |
-| objective function | the full criterion that learning actually reduces or increases | the target of optimization |
-| error | the difference between actual value and prediction | the raw material of loss |
-| mean loss | a value that combines the losses of many samples | the criterion for seeing the tendency across the whole data |
-| metric | the criterion humans interpret and compare | the operational perspective that must be separated from loss |
-
-The next flow after this Section is also simple.
-
-- In `P2-6.3`, we continue into gradient descent to see how the loss criterion made here is actually reduced.
-- In Part 3 and Part 4, we read again how losses change form across regression, classification, and generation problems.
-- In the operational context of Part 5, the reason loss and real service metrics can differ appears again.
 
 ## Goals of This Section
 
@@ -226,7 +197,7 @@ Also, the criterion the service operations team actually cares about may not end
 
 ## Sources and References
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19. Used to confirm that deep learning training reduces a cost function written as an average of per-example losses over training data.
-- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked 2026-07-19. Used to confirm scoring/metric choices for evaluating prediction quality and the point that a loss function and evaluation metric may be the same or different.
-- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-07-19. Used to confirm mean squared error as a regression loss between `y_true` and `y_pred`, where the best value is 0.
-- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-07-19. Used to confirm that log loss is also called logistic loss or cross-entropy loss and is applied to predicted probabilities.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-20. Used to confirm that deep learning training reduces a cost function written as an average of per-example losses over training data.
+- scikit-learn developers, [3.4. Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, checked 2026-07-20. Used to confirm scoring/metric choices for evaluating prediction quality and the point that a loss function and evaluation metric may be the same or different.
+- scikit-learn developers, [mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-07-20. Used to confirm mean squared error as a regression loss between `y_true` and `y_pred`, where the best value is 0.
+- scikit-learn developers, [log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn API Reference, checked 2026-07-20. Used to confirm that log loss is also called logistic loss or cross-entropy loss and is applied to predicted probabilities.
