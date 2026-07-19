@@ -40,25 +40,6 @@
 
 只要先抓住这张表，每个代码块就会更清楚地变成 `重新确认前文概念的地方`，而不只是语法示例。
 
-## 本节范围
-
-这里通过小例子确认 NumPy 数组、shape、向量加法(vector addition)、标量乘法(scalar multiplication)、逐位置乘法(element-wise multiplication)、矩阵乘法(matrix multiplication)。不处理大规模数据处理、性能优化、broadcasting 的细则，也不处理 GPU 计算。
-
-这里集中回答下面这些问题。
-
-- 向量和矩阵在 NumPy 里长什么样？
-- shape 在代码里怎样检查？
-- 在代码里，怎样区分逐位置计算与矩阵乘法？
-- batch 计算会呈现成什么样的形状？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| NumPy | 用于数组计算的 Python 库 | 连接公式与代码的执行工具 |
-| 数组 | 按顺序保存值的数据结构 | 向量与矩阵的代码表示 |
-| shape | 数组形状信息 | 先检查计算是否成立的标准 |
-| 逐位置乘法 | 相同位置之间的乘法 | `*` 运算的基本含义 |
-| 矩阵乘法 | 通过行和列组合生成新值的计算 | `@` 运算的基本含义 |
-
 ## 本节目标
 
 - 能用 NumPy 数组(array)创建向量和矩阵。
@@ -486,9 +467,9 @@ bad_y = bad_x @ W
 ## 来源与参考资料
 
 - 本节示例代码：[p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
-- NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
+- NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }。可以确认数组创建 API 的参数和示例。确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }。可以确认把数组维度作为元组读取的 `shape` 属性。确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }。可以确认矩阵乘法以及 shape 不匹配时的错误条件。确认日期: 2026-07-19.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-06-24.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期: 2026-07-19.

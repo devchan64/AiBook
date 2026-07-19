@@ -40,25 +40,6 @@ P2-3.1에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)의 모양을 �
 
 이 표를 먼저 붙잡으면 각 코드 블록이 단순 문법 예제가 아니라 `앞 절 개념을 재확인하는 자리`라는 점이 더 분명해집니다.
 
-## 이 절의 범위
-
-여기서는 NumPy 배열(array), shape, 벡터 덧셈(vector addition), 스칼라배(scalar multiplication), 위치별 곱(element-wise multiplication), 행렬 곱(matrix multiplication)을 작은 예제로 확인합니다. 큰 데이터 처리, 성능 최적화, 브로드캐스팅(broadcasting)의 세부 규칙, GPU 계산은 다루지 않습니다.
-
-여기서는 다음 질문에 집중합니다.
-
-- 벡터와 행렬은 NumPy에서 어떻게 생겼는가?
-- shape은 코드에서 어떻게 확인하는가?
-- 위치별 계산과 행렬 곱은 코드에서 어떻게 구분하는가?
-- 배치 계산은 어떤 모양으로 보이는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| NumPy | 배열 계산용 Python 라이브러리 | 수식과 코드를 연결하는 실행 도구 |
-| 배열 | 값을 순서 있게 담은 자료 구조 | 벡터와 행렬의 코드 표현 |
-| shape | 배열의 모양 정보 | 계산 가능 여부를 먼저 확인하는 기준 |
-| 위치별 곱 | 같은 위치끼리 곱하는 계산 | `*` 연산의 기본 의미 |
-| 행렬 곱 | 행과 열을 조합해 새 값을 만드는 계산 | `@` 연산의 기본 의미 |
-
 ## 이 절의 목표
 
 - NumPy 배열(array)로 벡터와 행렬을 만들 수 있습니다.
@@ -486,9 +467,9 @@ bad_y = bad_x @ W
 ## 출처와 참고 자료
 
 - 이 절의 예제 코드: [p2_3_6_numpy_linear_algebra.py](../../../assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
-- NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
+- NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
 - NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }, 배열 생성 API의 인자와 예제를 확인할 수 있습니다. 확인 날짜: 2026-07-19.
 - NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }, 배열 차원을 튜플로 확인하는 `shape` 속성을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
 - NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }, 행렬 곱과 shape 불일치 오류 조건을 확인할 수 있습니다. 확인 날짜: 2026-07-19.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.

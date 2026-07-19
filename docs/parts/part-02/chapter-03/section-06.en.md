@@ -40,25 +40,6 @@ The examples in this section recheck the ideas of earlier sections in the follow
 
 If we hold this table first, each code block becomes clearer as `a place that rechecks an earlier idea`, rather than a mere syntax example.
 
-## Scope of This Section
-
-This section checks NumPy arrays, shape, vector addition, scalar multiplication, element-wise multiplication, and matrix multiplication through small examples. It does not cover large-scale data processing, performance optimization, the detailed rules of broadcasting, or GPU computation.
-
-Here we focus on the following questions.
-
-- What do vectors and matrices look like in NumPy?
-- How do we check shape in code?
-- How do we distinguish element-wise calculation from matrix multiplication in code?
-- What shape does batch calculation take?
-
-| Term | Very short meaning | Role in this section |
-| --- | --- | --- |
-| NumPy | a Python library for array calculation | the execution tool that connects formulas and code |
-| array | a data structure that stores values in order | the code representation of vectors and matrices |
-| shape | information about the form of an array | the standard for checking calculation possibility first |
-| element-wise multiplication | multiplication between matching positions | the basic meaning of the `*` operator |
-| matrix multiplication | a calculation that combines rows and columns to create new values | the basic meaning of the `@` operator |
-
 ## Goals of This Section
 
 - You can create vectors and matrices as NumPy arrays.
@@ -486,9 +467,9 @@ So the core of NumPy practice is less about memorizing syntax and more about rec
 ## Sources and References
 
 - Example code of this section: [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
-- NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
+- NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, checked 2026-07-19.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-07-19.
 - NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }. It provides the array-creation API and examples. Checked: 2026-07-19.
 - NumPy Developers, [`numpy.ndarray.shape`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.shape.html){: target="_blank" rel="noopener noreferrer" }. It documents the `shape` attribute as the tuple of array dimensions. Checked: 2026-07-19.
 - NumPy Developers, [`numpy.matmul`](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html){: target="_blank" rel="noopener noreferrer" }. It documents matrix multiplication and the shape-mismatch error condition. Checked: 2026-07-19.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-06-24.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked 2026-07-19.
