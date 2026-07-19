@@ -1,7 +1,7 @@
 # P4-8.2 Baseline
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-8.1, the discussion examined what model families should be raised as candidates. Now, instead of immediately grabbing those candidates in order of complexity, it moves to the question of setting the starting point of comparison first.
 
@@ -43,13 +43,7 @@ This Section answers the following questions.
 - Why must the baseline and candidate model be compared under the same conditions?
 - As preparation for reading the practical procedure of setting a baseline, what should be grasped first?
 
-This Section does not treat the following topics deeply.
-
-- complex benchmark design
-- statistical-test-based model-comparison procedures
-- large-scale leaderboard operation
-
-The operational perspective of benchmarks and leaderboards, and the big picture of statistical-test-based model comparison, are reorganized again in the supplementary learning of P4-9.3, while the actual hyperparameter comparison procedure continues directly in P4-9.2.
+This Section first closes `what the improvement of a complex model should be compared against`. The operational perspective of benchmarks and leaderboards, and the big picture of statistical-test-based model comparison, are reorganized again in the supplementary learning of P4-9.3, while the actual hyperparameter comparison procedure continues directly in P4-9.2.
 
 ## Goals Of This Section
 
