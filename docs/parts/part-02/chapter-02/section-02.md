@@ -15,37 +15,6 @@ P2-2.1에서는 변수(variable), 함수(function), 식(expression)을 다시 �
 
 여기서는 `시그마(sigma)`, `인덱스(index)`, `평균(mean)`, `반복 계산(repeated computation)`, `손실 집계(loss aggregation)`를 다시 정리합니다. 2.1에서 변수, 함수, 식의 최소 문법을 읽었다면, 그 문법이 여러 데이터에 대해 반복될 때 어떤 압축 표기로 바뀌는지 정리합니다.
 
-## 이 절의 범위
-
-여기서는 시그마(sigma)와 반복 계산을 다룹니다. 극한(limit)은 `P2-2.3`에서 다룹니다. 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)은 `P2-3.1`과 `P2-3.3`에서 다룹니다. 손실 함수(loss function)와 최적화(optimization)는 `P2-6.2`와 `P2-6.1`에서 다시 다룹니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `수식 한 줄에 시그마가 붙었을 때 무엇을 몇 번 더하는지 어떻게 바로 읽을 것인가`입니다.
-
-그래서 이 절에서는 다음 네 자리만 먼저 고정합니다.
-
-- 시그마는 무엇을 반복해서 더하라는 뜻인가?
-- 인덱스(index)는 반복 위치를 어떻게 나타내는가?
-- 평균과 손실 계산에서 시그마는 왜 자주 등장하는가?
-- 시그마 표기는 코드의 반복문과 배열 계산으로 어떻게 바뀌는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 시그마 | 같은 모양의 덧셈을 반복하라는 표기 | 이 절의 중심 기호 |
-| 인덱스 | 몇 번째 값을 보고 있는지 나타내는 이름 | 반복 위치를 읽는 기준 |
-| 평균 | 여러 값을 더해 개수로 나눈 값 | 시그마의 가장 쉬운 예 |
-| 반복 계산 | 같은 계산을 여러 데이터에 적용하는 구조 | 코드 루프와 배열 계산의 배경 |
-| 손실 집계 | 여러 샘플의 손실을 더하거나 평균 내는 과정 | 머신러닝 연결 지점 |
-
-앞 절의 변수, 함수, 식이 수식 한 줄의 최소 문법을 다뤘다면, 여기서는 그 문법이 여러 데이터에 대해 반복될 때 어떤 압축 표기로 바뀌는지 읽습니다. 바로 뒤의 극한, 벡터, 손실 절에서는 이 반복 구조가 변화율, 배열 계산, 전체 손실 집계로 더 구체적으로 이어집니다.
-
-여기서는 Part 2에서 `무엇을 몇 번 더하는가`를 읽는 기준을 세웁니다. 통계 공식과 손실 함수 세부는 뒤 절에서 회수됩니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- 바로 다음 절 `P2-2.3`에서는 반복과 집계에서 벗어나, 값이 조금 바뀔 때 함수가 어떻게 변하는지 읽습니다.
-- Chapter 3과 Chapter 11에서는 이 반복 구조가 벡터, 배열, 배치 계산 안에서 어떻게 보이는지 이어 봅니다.
-- Chapter 6과 Part 4에서는 여러 샘플의 손실을 합치거나 평균내는 구조를 다시 읽게 됩니다.
-
 시그마를 이해하면 이후의 여러 내용을 더 편하게 읽을 수 있습니다. 특히 “데이터가 여러 개일 때 같은 계산을 반복하고 그 결과를 모은다”는 구조가 보이기 시작합니다.
 
 - 평균(mean), 분산(variance), 표준편차(standard deviation)처럼 여러 값을 요약하는 통계 표기를 읽기 쉬워집니다.
@@ -430,8 +399,8 @@ print(mean_loss)
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 확인 날짜: 2026-07-19.
 - NumPy Developers, [numpy.sum](https://numpy.org/doc/stable/reference/generated/numpy.sum.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 배열 원소의 합과 축 기준 합 계산을 설명하는 공식 참고 자료입니다.
 - NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 확인 날짜: 2026-07-19. 평균 계산과 `mean()` 예제를 뒷받침하는 공식 참고 자료입니다.

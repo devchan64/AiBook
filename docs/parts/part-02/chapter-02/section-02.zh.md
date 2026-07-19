@@ -15,37 +15,6 @@ Sigma 看起来可能陌生，但核心很简单。它表示：把多个值重�
 
 这里会重新整理 `sigma`、`索引（index）`、`平均值（mean）`、`重复计算（repeated computation）`、`损失聚合（loss aggregation）`。如果 2.1 读的是变量、函数、表达式的最小语法，那么这一节整理的就是：当这种语法要对很多数据重复时，会变成怎样的压缩记法。
 
-## 本节范围
-
-本节处理 sigma 与重复计算。极限（limit）会在 `P2-2.3` 处理。向量（vector）、矩阵（matrix）、矩阵乘法（matrix multiplication）会在 `P2-3.1` 和 `P2-3.3` 处理。损失函数（loss function）和优化（optimization）会在 `P2-6.2` 与 `P2-6.1` 再次出现。
-
-这里首先要解决的问题是：`当一行公式里带着 sigma 时，怎样立刻读出到底在加什么、加多少次？`
-
-所以本节先只固定下面四个位置。
-
-- sigma 到底是在要求你重复加什么？
-- 索引（index）怎样表示重复位置？
-- 为什么平均值和损失计算里经常出现 sigma？
-- sigma 记法在代码里怎样变成循环和数组计算？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| sigma | 要求你重复同样形式加法的记法 | 本节的中心符号 |
-| 索引 | 表示当前在看第几个对象的名字 | 阅读重复位置的标准 |
-| 平均值 | 把多个值加总后再除以个数得到的值 | sigma 最容易理解的例子 |
-| 重复计算 | 把同一个计算应用到许多数据上的结构 | 循环与数组计算的背景 |
-| 损失聚合 | 把多个样本的损失相加或平均的过程 | 连接到机器学习的桥 |
-
-如果前一节处理的是一行公式的最小语法，那么这里处理的就是：当这套语法要对很多数据重复时，它会变成怎样的压缩记法。在接下来的极限、向量、损失等章节里，这种重复结构还会更具体地延伸到变化率、数组计算和总损失聚合。
-
-本节建立的是阅读 `到底在加什么、加多少次` 的标准。统计公式和损失函数的细节会在后面回收。
-
-本节之后的流向也很简单。
-
-- 在下一节 `P2-2.3`，我们暂时离开重复与聚合，转而阅读“当数值微小变化时，函数如何变化”。
-- 在 Chapter 3 和 Chapter 11，我们继续看这种重复结构怎样出现在向量、数组和批次计算里。
-- 在 Chapter 6 和 Part 4，我们会再次阅读如何对很多样本的损失求和或求平均。
-
 一旦理解了 sigma，后面的很多内容就会更容易读。尤其是 `当数据很多时，同一个计算会被反复执行，然后结果再被聚合起来` 这个结构会开始变得明显。
 
 - 更容易读统计记法，例如平均值、方差、标准差这类把很多值总结起来的公式。
@@ -430,8 +399,8 @@ Sigma 记法在代码里可以展开成循环、数组运算，以及最后的�
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, 确认日期：2026-07-19.
 - NumPy Developers, [numpy.sum](https://numpy.org/doc/stable/reference/generated/numpy.sum.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料说明了数组元素求和与按轴求和。
 - NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, 确认日期：2026-07-19. 这个官方参考资料支持平均值计算和 `mean()` 示例。

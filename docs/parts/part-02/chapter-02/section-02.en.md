@@ -15,37 +15,6 @@ Here, we show the structure that sigma is `notation that compresses repeated add
 
 Here, we reorganize again `sigma`, `index`, `mean`, `repeated computation`, and `loss aggregation`. If 2.1 read the minimum grammar of variables, functions, and expressions, this section organizes into what compressed notation that grammar changes when it is repeated across many data points.
 
-## Scope of This Section
-
-This section handles sigma and repeated computation. Limits are handled in `P2-2.3`. Vectors, matrices, and matrix multiplication are handled in `P2-3.1` and `P2-3.3`. Loss functions and optimization return in `P2-6.2` and `P2-6.1`.
-
-The question to solve first here is this: `When sigma is attached to one line of notation, how do you immediately read what is being added and how many times?`
-
-So this section first fixes only the following four places.
-
-- What does sigma tell you to keep adding?
-- How does an index show the repeated position?
-- Why does sigma appear so often in mean and loss calculation?
-- How does sigma notation become loops and array computation in code?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| sigma | notation that tells you to repeat the same shape of addition | the central symbol of this section |
-| index | the name that shows which item you are looking at | the standard for reading repeated position |
-| mean | the value obtained by adding many values and dividing by the count | the easiest example of sigma |
-| repeated computation | the structure that applies the same calculation to many data items | the background of loops and array computation |
-| loss aggregation | the process of summing or averaging the losses of many samples | the bridge into machine learning |
-
-If the previous section handled the minimum grammar of one line of notation, here we read what compressed notation that grammar turns into when repeated over many data points. In the immediately following sections on limits, vectors, and loss, this repeated structure continues more concretely into rate of change, array computation, and total loss aggregation.
-
-This section sets the standard for reading `what is being added, and how many times`. The details of statistical formulas and loss functions are recovered later.
-
-The flow after this section is also simple.
-
-- In the next section, `P2-2.3`, we move away from repetition and aggregation and read how a function changes when a value changes slightly.
-- In Chapter 3 and Chapter 11, we continue into how this repeated structure appears inside vectors, arrays, and batch computation.
-- In Chapter 6 and Part 4, we read again the structure of summing or averaging loss over many samples.
-
 Once you understand sigma, many later topics become easier to read. In particular, the structure `when there are many data points, the same calculation is repeated and the results are gathered` starts to become visible.
 
 - It becomes easier to read statistical notation such as mean, variance, and standard deviation, which summarize many values.
@@ -430,8 +399,8 @@ So rather than memorizing sigma, it is more important to practice expanding it.
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
-- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-07-19.
+- Charles R. Harris et al., [Array Programming with NumPy](https://arxiv.org/abs/2006.10256){: target="_blank" rel="noopener noreferrer" }, Nature, 2020, checked on 2026-07-19.
 - NumPy Developers, [numpy.sum](https://numpy.org/doc/stable/reference/generated/numpy.sum.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference explains summing array elements and sums along axes.
 - NumPy Developers, [numpy.mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html){: target="_blank" rel="noopener noreferrer" }, NumPy User Guide, checked on 2026-07-19. This official reference supports the mean calculation and `mean()` examples.
