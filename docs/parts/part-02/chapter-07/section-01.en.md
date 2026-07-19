@@ -1,7 +1,7 @@
 # P2-7.1 Local Environment and Runtime
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-3.5, we first separated Colab and a local PC. At that time, the purpose was a preliminary guide so the reader could immediately follow the NumPy practice. Now we step down one layer more basic.
 
@@ -118,40 +118,6 @@ If we connect this transition to the surrounding Chapters at once, it can be org
 
 So the core of this Chapter is that the handle changes from `what shall we calculate?` to `where shall we execute that calculation?`
 
-## Scope of This Section
-
-Here we cover only the following degree.
-
-- local environment
-- runtime
-- why terminal, Python interpreter, and virtual environment appear in sequence
-
-We already saw Colab and local-PC execution in P2-3.5, but here we allow repetition. We explain the same content again not from the practice perspective, but as `language for beginning programming`.
-
-However, if terminal commands, working folders, Python script execution, virtual-environment creation, package installation, and reproducibility management are all put into one Section, they pass too quickly. So P2-7 is divided into the following flow.
-
-P2-7 is divided into the following flow.
-
-1. `P2-7.1` the big picture of the runtime
-2. `P2-7.2` terminal and working folder
-3. `P2-7.3` Python interpreter and script
-4. `P2-7.4` virtual environment and package
-5. `P2-7.5` dependency and reproducibility
-6. `P2-7.6` supplementary learning: how to use terminals on Windows, macOS, and Linux
-7. `P2-7.7` supplementary learning: when is Python installation necessary?
-
-Python installation is not handled immediately in the early part of P2-7. If the reader meets installation screens and operating-system differences from the very start, they may get blocked by installation before the basic concept of where code runs. The earlier practice in this Part can to some extent be substituted with a browser runtime such as Colab. So first we build a feel for running code with Colab, and in the supplementary learning of P2-7.7 we separately handle the point at which Python should be installed on a local PC and how to check it.
-
-If OS-specific terminal windows feel unfamiliar, you may read the supplementary learning of P2-7.6 before moving to P2-7.2. Conversely, if the more urgent question is `do I need to install Python on my computer right now?`, you may first look at the supplementary learning of P2-7.7 and then come back. The role of this Section is not to finish the installation procedure, but to first let the reader understand why such supplementary learning is separated out.
-
-| Where you are stuck now | Go first | Main text to return to after finishing there |
-| --- | --- | --- |
-| I do not know where to open the terminal or how to check the current folder | P2-7.6 | for the big picture of the runtime go back to P2-7.1, and for the working folder go to P2-7.2 |
-| I do not know whether I should install Python on my computer now | P2-7.7 | look at installation judgment first, then return to P2-7.1, and for the interpreter go to P2-7.3 |
-| I am still more confused by conceptual distinctions than by OS-specific procedures | continue reading the current main text | continue into P2-7.2, P2-7.3, and P2-7.4 |
-
-In other words, you move briefly to supplementary learning only when OS-specific procedures or installation judgment are what block you, and otherwise continue reading the main flow.
-
 ## Goals of This Section
 
 - You can explain `local environment` as the conditions under which code runs on my computer.
@@ -178,8 +144,6 @@ Python was first developed by Guido van Rossum in the late 1980s and released in
 What matters in this history is that Python was from the start both a high-level language easy for humans to read and write and an execution tool connected to real system work.
 
 That is why Python fits learning, automation, data processing, and experiment code well. The official Python FAQ also explains that Python is suitable as a first language because it has clear syntax, a large standard library, and an interactive interpreter.
-
-The reason Python appears often in AI is connected to this same flow.
 
 The reason Python appears often in AI is connected to this same flow.
 
@@ -406,7 +370,7 @@ The confirmable result is simple. If `import numpy as np` works immediately in C
 
 ## Sources and References
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to support invoking the Python interpreter and distinguishing interactive input from script execution.
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm the basic description of Python as an interpreted, interactive programming language available on multiple operating systems.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to confirm that a virtual environment has its own Python installation and package state inside an isolated directory.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-19. Used to confirm the project-level flow of creating a virtual environment, activating it, and installing packages.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to support invoking the Python interpreter and distinguishing interactive input from script execution.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm the basic description of Python as an interpreted, interactive programming language available on multiple operating systems.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to confirm that a virtual environment has its own Python installation and package state inside an isolated directory.
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the project-level flow of creating a virtual environment, activating it, and installing packages.

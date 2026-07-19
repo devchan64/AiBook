@@ -1,7 +1,7 @@
 # P2-7.1 本地环境(local environment)与运行时(runtime)
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-3.5 中，我们先区分了 Colab 和本地 PC。当时的目的，是为了让读者能立刻跟着做 NumPy 练习的预备说明。现在我们再往下一层。
 
@@ -118,40 +118,6 @@ Chapter 7 与其一次性通读，不如在卡住时按问题类型回来查，�
 
 也就是说，这一章的核心，是把抓手从 `算什么` 换成 `这些计算到底在哪儿运行`。
 
-## 本节范围
-
-这里先只处理下面这些层级。
-
-- 本地环境(local environment)
-- 运行时(runtime)
-- 为什么终端、Python 解释器、虚拟环境会接连出现
-
-虽然我们在 P2-3.5 已经见过 Colab 与本地 PC 执行，但这里允许重复。这里要再讲一次同样的内容，不是从练习角度，而是作为 `开始编程所需的语言`。
-
-不过，如果把终端命令、工作文件夹、Python 脚本执行、虚拟环境创建、包安装、可复现性管理全塞进同一节，就会过得太快。所以 P2-7 会拆成下面这个流向。
-
-P2-7 会拆成下面这个流向。
-
-1. `P2-7.1` 运行环境的大图景
-2. `P2-7.2` 终端与工作文件夹
-3. `P2-7.3` Python 解释器与脚本
-4. `P2-7.4` 虚拟环境与包
-5. `P2-7.5` 依赖与可复现性
-6. `P2-7.6` 补充学习：Windows、macOS、Linux 的终端使用
-7. `P2-7.7` 补充学习：什么时候需要安装 Python
-
-Python 安装不会在 P2-7 前半段立刻展开。如果一开始就遇到安装画面和操作系统差异，读者可能会先被安装问题绊住，而不是先抓到“代码在哪里执行”的基本概念。本 Part 前面的练习，在一定程度上也可以用 Colab 这种浏览器运行环境来替代。所以我们先通过 Colab 建立运行代码的感觉，再在 P2-7.7 的补充学习里单独处理：什么时候需要在本地 PC 安装 Python，以及该如何检查。
-
-如果按操作系统划分的终端窗口很陌生，可以在进入 P2-7.2 之前先读 P2-7.6 的补充学习。反过来，如果更急的问题是 `我现在到底该不该在电脑上装 Python`，也可以先去看 P2-7.7 再回来。这一节的作用不是完成安装流程，而是先让读者理解：为什么这些补充学习要被分开。
-
-| 现在卡住的点 | 先去哪里 | 在那里看完之后回到哪段本篇 |
-| --- | --- | --- |
-| 我不知道终端要从哪里打开，也不知道怎样确认当前文件夹 | P2-7.6 | 运行环境大图景回到 P2-7.1，工作文件夹回到 P2-7.2 |
-| 我不知道现在是不是该在自己电脑上安装 Python | P2-7.7 | 安装判断先看完，再回到 P2-7.1，解释器转到 P2-7.3 |
-| 比起操作系统步骤，我更混淆概念区分 | 继续读现在这篇本篇 | 接着进入 P2-7.2、P2-7.3、P2-7.4 |
-
-换句话说，只有在操作系统步骤或安装判断真正卡住时，才短暂跳去补充学习；否则就继续顺着本篇往下读。
-
 ## 本节目标
 
 - 能把 `本地环境(local environment)` 解释成代码在我电脑上运行的条件。
@@ -178,8 +144,6 @@ Python 在 1980 年代末由 Guido van Rossum 开始设计，并在 1991 年公�
 这段历史里真正重要的是：Python 从一开始就是一种既适合人阅读和书写的高级语言，同时又能连到真实系统工作的执行工具。
 
 所以 Python 很适合学习、自动化、数据处理与实验代码。Python 官方 FAQ 也说明，Python 语法清晰、标准库大、又有交互式解释器，因此也适合作为第一门语言。
-
-AI 领域里为什么经常看到 Python，也和这条脉络连在一起。
 
 AI 领域里为什么经常看到 Python，也和这条脉络连在一起。
 
@@ -406,7 +370,7 @@ import numpy as np
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于支撑如何调用 Python 解释器，以及如何区分交互式输入与脚本执行。
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认 Python 是解释型、交互式编程语言，并可在多种操作系统上使用的基础说明。
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于确认虚拟环境会在隔离目录中拥有自己的 Python 安装与包状态。
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 确认日期: 2026-07-19。用于确认按项目创建虚拟环境、激活虚拟环境并安装包的流程。
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于支撑如何调用 Python 解释器，以及如何区分交互式输入与脚本执行。
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认 Python 是解释型、交互式编程语言，并可在多种操作系统上使用的基础说明。
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于确认虚拟环境会在隔离目录中拥有自己的 Python 安装与包状态。
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 确认日期: 2026-07-20。用于确认按项目创建虚拟环境、激活虚拟环境并安装包的流程。

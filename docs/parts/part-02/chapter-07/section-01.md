@@ -1,7 +1,7 @@
 # P2-7.1 로컬 환경(local environment)과 실행 환경(runtime)
 
 > Section ID: `P2-7.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-3.5에서는 Colab과 로컬 PC를 먼저 구분했습니다. 그때 목적은 NumPy 실습을 바로 따라가기 위한 사전 안내였습니다. 이제는 조금 더 기본으로 내려갑니다.
 
@@ -118,40 +118,6 @@ Chapter 7은 한 번에 다 읽기보다, 막힌 유형에 따라 다시 찾아�
 
 즉, 지금 장의 핵심은 `무엇을 계산할까`에서 `그 계산을 어디서 실행할까`로 손잡이가 바뀐다는 점입니다.
 
-## 이 절의 범위
-
-여기서는 다음 정도만 다룹니다.
-
-- 로컬 환경(local environment)
-- 실행 환경(runtime)
-- 터미널(terminal), Python 인터프리터(Python interpreter), 가상환경(virtual environment)이 왜 이어서 등장하는지
-
-P2-3.5에서 Colab과 로컬 PC 실행을 이미 봤지만, 여기서는 중복을 허용합니다. 같은 내용을 실습 관점이 아니라 “프로그래밍을 시작하기 위한 언어”로 다시 설명합니다.
-
-다만 터미널 명령, 작업 폴더, Python 스크립트 실행, 가상환경 생성, 패키지 설치, 재현성 관리는 한 절에 모두 넣으면 너무 빠르게 지나갑니다. 그래서 P2-7은 다음 흐름으로 나누어 읽습니다.
-
-P2-7은 다음 흐름으로 나누어 읽습니다.
-
-1. `P2-7.1` 실행 환경의 큰 그림
-2. `P2-7.2` 터미널과 작업 폴더
-3. `P2-7.3` Python 인터프리터와 스크립트
-4. `P2-7.4` 가상환경과 패키지
-5. `P2-7.5` 의존성과 재현성
-6. `P2-7.6` 보충학습: Windows, macOS, Linux 터미널 사용법
-7. `P2-7.7` 보충학습: Python 설치는 언제 필요한가
-
-Python 설치는 P2-7 앞부분에서 바로 다루지 않습니다. 처음부터 설치 화면과 운영체제별 차이를 만나면, 코드가 실행되는 기본 개념보다 설치 문제에 먼저 막힐 수 있습니다. 이 파트의 앞쪽 실습은 Colab 같은 브라우저 실행 환경으로도 어느 정도 대체할 수 있습니다. 따라서 먼저 Colab으로 코드 실행 감각을 만들고, P2-7.7 보충학습에서 로컬 PC에 Python을 설치해야 하는 시점과 확인 방법을 따로 다룹니다.
-
-운영체제별 터미널 창이 낯설면 P2-7.2로 넘어가기 전에 P2-7.6 보충학습을 먼저 읽어도 됩니다. 반대로 `내 컴퓨터에 Python을 지금 깔아야 하나`가 더 급한 질문이면 P2-7.7 보충학습을 먼저 보고 돌아와도 됩니다. 이 절의 역할은 설치 절차를 끝내는 것이 아니라, 그런 보충학습이 왜 분리되어 있는지 먼저 이해시키는 데 있습니다.
-
-| 지금 막히는 지점 | 먼저 갈 곳 | 거기서 끝내고 돌아올 본편 |
-| --- | --- | --- |
-| 터미널을 어디서 열고 현재 폴더를 어떻게 확인하는지 모르겠다 | P2-7.6 | 실행 환경의 큰 그림은 다시 P2-7.1, 작업 폴더는 P2-7.2 |
-| 내 컴퓨터에 Python을 지금 설치해야 하는지 모르겠다 | P2-7.7 | 설치 판단은 보고 다시 P2-7.1, 인터프리터는 P2-7.3 |
-| 아직 운영체제별 절차보다 개념 구분이 더 헷갈린다 | 지금 본편을 계속 읽는다 | P2-7.2, P2-7.3, P2-7.4로 이어 간다 |
-
-즉, 운영체제별 절차나 설치 판단이 막히는 경우에만 잠깐 보충학습으로 이동하고, 그렇지 않으면 본편 흐름을 계속 읽습니다.
-
 ## 이 절의 목표
 
 - 로컬 환경(local environment)을 내 컴퓨터에서 코드가 실행되는 조건으로 설명할 수 있습니다.
@@ -178,8 +144,6 @@ Python은 1980년대 말 Guido van Rossum이 만들기 시작했고, 1991년에 
 이 역사에서 중요한 점은 Python이 처음부터 사람이 읽고 쓰기 쉬운 고수준 언어이면서, 실제 시스템 작업에도 연결되는 실행 도구였다는 점입니다.
 
 그래서 Python은 학습, 자동화, 데이터 처리, 실험 코드에 잘 맞습니다. Python 공식 FAQ도 Python이 명확한 문법, 큰 표준 라이브러리, 대화형 인터프리터를 갖고 있어 처음 배우는 언어로도 적합하다고 설명합니다.
-
-AI 분야에서 Python이 자주 보이는 이유도 이 흐름과 연결됩니다.
 
 AI 분야에서 Python이 자주 보이는 이유도 이 흐름과 연결됩니다.
 
@@ -406,7 +370,7 @@ import numpy as np
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 인터프리터를 호출하고, 대화형 입력과 스크립트 실행을 구분하는 근거로 사용했다.
-- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python이 인터프리터형·대화형 프로그래밍 언어이며 여러 운영체제에서 사용할 수 있다는 기본 설명 확인에 사용했다.
-- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 가상환경이 독립된 디렉터리 안에 Python 설치와 패키지 상태를 갖는다는 설명 확인에 사용했다.
-- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-19. 프로젝트별 가상환경 생성, 활성화, 패키지 설치 흐름을 확인하는 근거로 사용했다.
+- Python Software Foundation, [Using the Python Interpreter](https://docs.python.org/3/tutorial/interpreter.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 인터프리터를 호출하고, 대화형 입력과 스크립트 실행을 구분하는 근거로 사용했다.
+- Python Software Foundation, [General Python FAQ](https://docs.python.org/3/faq/general.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python이 인터프리터형·대화형 프로그래밍 언어이며 여러 운영체제에서 사용할 수 있다는 기본 설명 확인에 사용했다.
+- Python Software Foundation, [venv — Creation of virtual environments](https://docs.python.org/3/library/venv.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 가상환경이 독립된 디렉터리 안에 Python 설치와 패키지 상태를 갖는다는 설명 확인에 사용했다.
+- Python Packaging Authority, [Install packages in a virtual environment using pip and venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트별 가상환경 생성, 활성화, 패키지 설치 흐름을 확인하는 근거로 사용했다.
