@@ -1,7 +1,7 @@
 # P1-8.2 Unsupervised Learning: Structure and Representation
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Section 8.1 explained a `label` as a distinguishing marker attached to data. Supervised learning tries to match the relationship between inputs and outputs using examples where inputs and labels are given together.
 
@@ -16,16 +16,11 @@ The central question is:
 
 This section organizes `unsupervised learning`, `structure`, `clustering`, `dimensionality reduction`, and `cluster labels` under one viewpoint: learning from unlabeled data by finding structure. The baseline sense of `label` and supervised learning was fixed in 8.1, and the baseline sense of `representation` was introduced earlier in 3.3 and 4.3.
 
-## Scope of This Section
-
 This section does not calculate specific unsupervised-learning algorithms. K-means, hierarchical clustering, PCA, t-SNE, and autoencoders pass by only as names and roles.
 
-It also does not go deeply into distance functions, the curse of dimensionality, cluster-evaluation metrics, or manifold learning. Those return later in Part 4, and some details remain outside the main scope of this book.
+This section also first closes `what the model is trying to find inside data when there are no labels`. Distance functions, the curse of dimensionality, and cluster-evaluation metrics return in the clustering and dimensionality-reduction chapters of Part 4, and the detailed mathematics of manifold learning is not introduced here.
 
-This section also does not redefine labels at length. Their basic distinction was already fixed in 8.1. Here the focus is narrower:
-
-> if there are no labels,  
-> what becomes the standard of learning?
+This section also does not redefine `label` at length. Its basic distinction was already fixed in 8.1. Here the focus is on `what becomes the learning standard when there are no labels`. `Representation` is also not a new term introduced for the first time here. We only connect that unsupervised learning can change representations to reveal structure.
 
 The working definition here is:
 
@@ -113,7 +108,7 @@ Clustering in the AI sense is not just a person manually sorting items by intuit
 
 So clustering is not `the machine automatically understands the true categories`. It is closer to `the system groups things that look similar under the chosen representation and criteria`.
 
-For example, K-means divides data into a chosen number of clusters and repeatedly assigns each point to the nearest centroid. Stanford CS229 notes describe it as creating cohesive clusters from unlabeled data.
+For example, K-means divides data into a chosen number of clusters and repeatedly assigns each point to the nearest centroid. Stanford CS229 notes describe k-means as a problem of creating cohesive clusters from unlabeled data, and explain that each training example is assigned to the nearest cluster centroid. scikit-learn also explains that k-means divides samples into several groups and tries to minimize the within-cluster sum-of-squares criterion.
 
 | Input data | What clustering tries to find |
 | --- | --- |
@@ -236,6 +231,7 @@ Chapter 8 separates three basic learning types. Summarized again:
 ## Sources and Further Reading
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- scikit-learn, [Clustering](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- scikit-learn, [PCA](https://scikit-learn.org/stable/modules/decomposition.html#pca){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
-- Stanford CS229, [Unsupervised Learning](https://cs229.stanford.edu/notes2022fall/cs229-notes7a.pdf){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- scikit-learn, [2. Unsupervised learning](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- scikit-learn, [2.3. Clustering](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- scikit-learn, [2.5. Decomposing signals in components](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- Stanford CS229, [K-means](https://cs229.stanford.edu/notes2022fall/kmeans.pdf){: target="_blank" rel="noopener noreferrer" }, 2022, accessed 2026-07-19.

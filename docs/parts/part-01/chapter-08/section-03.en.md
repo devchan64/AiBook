@@ -1,7 +1,7 @@
 # P1-8.3 Reinforcement Learning: Actions and Rewards
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 8.1 explained supervised learning as learning from examples where inputs and labels are given together. Section 8.2 explained unsupervised learning as learning that looks for structure, clusters, or representations in unlabeled data.
 
@@ -18,11 +18,9 @@ The central question is:
 
 This section organizes `reinforcement learning`, `agent`, `environment`, `state`, `action`, `reward`, `policy`, `exploration`, and `exploitation` through one axis: reward signals from the consequences of action. The intuitive sense of `state` and `action` was already introduced in 7.1, and the distinction among labels, supervised learning, and unsupervised learning was handled in 8.1 and 8.2.
 
-## Scope of This Section
-
 This section does not calculate reinforcement-learning algorithms. Markov decision processes, Bellman equations, Q-learning, policy gradients, actor-critic methods, and deep reinforcement learning appear only as names and positions.
 
-It also does not go deeply into game AI, robot control, recommender systems, or RLHF. Later parts revisit those connections. Here the focus is narrower: why reinforcement learning is a different problem setting from supervised and unsupervised learning.
+It also does not go deeply into game AI, robot control, recommender systems, or RLHF. Later reinforcement-learning algorithms and the broad picture of RLHF return in Part 4 Chapter 19, and RLHF in the LLM alignment context reconnects in Part 6. Here the focus is narrower: why reinforcement learning is a different problem setting from supervised and unsupervised learning.
 
 The working definition here is:
 
@@ -212,34 +210,20 @@ Chapter 8 separates three basic learning types. Summarized again:
 
 `RLHF` also does not represent all reinforcement learning. It is an important modern setting in LLM alignment, but it is too narrow to serve as the starting definition of reinforcement learning as a whole.
 
-## What to Remember from This Section
-
-Reinforcement learning is a problem setting that learns from the consequences of action.
-
-> reinforcement learning = choose actions from states,  
-> receive rewards after those actions,  
-> and use that feedback to find a better long-term policy
-
-Here, reward is not the same thing as a supervised-learning label. It is feedback that evaluates the consequences of behavior. That is why reinforcement learning is better understood through the question `what way of acting leads to better long-term outcome?` than through the question `what is the correct answer to this input?`
-
 ## Checklist
 
-- Explain reinforcement learning through the flow of state, action, and reward.
-- Distinguish agent, environment, and policy at an introductory level.
-- Explain why reward is not the same thing as a supervised-learning label.
-- Explain why delayed reward makes reinforcement learning harder.
-- Explain the difference between exploration and exploitation.
-- Avoid using reinforcement learning, deep learning, deep reinforcement learning, and RLHF as if they were the same thing.
-
-## When Should This View Come First?
-
-Recall this section when a learning problem is being read only through the frame of `input and correct answer`, so the time flow of action and consequence disappears.
-
-- when reward starts to be read as if it were just another label
-- when a problem about long-term consequences is being simplified into a one-step prediction problem
-- when you need to connect exploration, exploitation, and delayed reward in one explanation
+- I can explain reinforcement learning through the flow of state, action, and reward.
+- I can distinguish agent, environment, and policy at an introductory level.
+- I can explain why reward is not the same thing as a supervised-learning label.
+- I can explain why delayed reward makes reinforcement learning harder.
+- I can explain the difference between exploration and exploitation.
+- I can avoid using reinforcement learning, deep learning, deep reinforcement learning, and RLHF as if they were the same thing.
+- I can read a problem through the time flow of action and consequence, not only through the frame of `input and correct answer`.
+- I can connect reward, exploration, exploitation, and delayed reward in one reinforcement-learning explanation.
 
 ## Sources and Further Reading
 
-- OpenAI, [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- OpenAI Spinning Up, [Part 1: Key Concepts in RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 12 Planning with Uncertainty](https://artint.info/3e/html/ArtInt3e.Ch12.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- Richard S. Sutton and Andrew G. Barto, [Reinforcement Learning: An Introduction, second edition](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2018, accessed 2026-07-19.

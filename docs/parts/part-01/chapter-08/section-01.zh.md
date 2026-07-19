@@ -1,7 +1,7 @@
 # P1-8.1 监督学习：输入与标签
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 第 7 章处理了 `search space`、`computational limit` 和 `heuristic`。现在要转入学习类型。第一个基准点是 `supervised learning`。
 
@@ -33,8 +33,6 @@
 | regression | 预测数值型标签 | 监督学习的另一代表形式 |
 
 这里至少要保留这样的最小区分：`监督学习是带标签的学习`，`标签是目标标记`，`labeling 是建立标准`，`classification 选名字标签`，`regression 预测数字`。
-
-## 本节范围
 
 `input` 与 `output` 的基本区分已经在 4.2 固定，training 与 inference 的差别也已经在第 5 章处理。这里是在这些基础上再加一层：带标签的例子是怎样变成训练信号的。
 
@@ -103,7 +101,7 @@ Google 的 Machine Learning Glossary 把 supervised learning 解释成：从输�
 
 ## label、target 与 expected output
 
-在监督学习里，label 是模型要去匹配的目标输出。Google 的术语表也把 `target` 解释成 `label` 的同义表达。
+在监督学习里，label 是模型要去匹配的目标输出。scikit-learn 术语表把 `target` 解释成：在监督学习和半监督学习中传给估计器 `fit` 方法的 `y`，也就是因变量，并把 `label` 也列为它的另一种叫法。
 
 本书这里采用的工作读法如下：
 
@@ -283,6 +281,8 @@ Google 的术语表也提醒：人工标注者会犯错，而当真实标签拿�
 ## 来源与参考资料
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- scikit-learn, [1. Supervised learning](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-07-19.
 - AWS, [What is data labeling?](https://aws.amazon.com/what-is/data-labeling/){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
 - IBM, [What is data labeling?](https://www.ibm.com/think/topics/data-labeling){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
 - Timnit Gebru, Jamie Morgenstern, Briana Vecchione, Jennifer Wortman Vaughan, Hanna Wallach, Hal Daumé III, Kate Crawford, [Datasheets for Datasets](https://arxiv.org/abs/1803.09010){: target="_blank" rel="noopener noreferrer" }, 2021-03-01, 确认日期：2026-06-23.

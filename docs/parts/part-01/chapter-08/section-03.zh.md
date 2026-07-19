@@ -1,7 +1,7 @@
 # P1-8.3 强化学习：动作与奖励
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 8.1 把监督学习说明成：从同时包含 input 与 label 的例子中学习。8.2 则把无监督学习说明成：从无标签数据中寻找 `structure`、`cluster` 和 `representation`。
 
@@ -19,11 +19,9 @@
 
 这一节会把 `reinforcement learning`、`agent`、`environment`、`state`、`action`、`reward`、`policy`、`exploration` 和 `exploitation` 用“动作结果带来的奖励信号”这一条线串起来。`state` 和 `action` 的基本直觉已经在 7.1 出现，label、监督学习和无监督学习的区分则已经在 8.1 和 8.2 出现。
 
-## 本节范围
-
 这一节不会计算强化学习算法。MDP、Bellman equation、Q-learning、policy gradient、actor-critic 和 deep reinforcement learning 都只会以名称与位置的形式出现。
 
-这里也不会深入游戏 AI、机器人控制、推荐系统或 RLHF。那些联系会在后面的部分再回来。这里的重点更窄：为什么强化学习是一个和监督学习、无监督学习不同的问题设定。
+这里也不会深入游戏 AI、机器人控制、推荐系统或 RLHF。强化学习的后续算法和 RLHF 的大图会在 Part 4 Chapter 19 再回来，LLM 对齐语境里的 RLHF 会在 Part 6 再连接。这里的重点更窄：为什么强化学习是一个和监督学习、无监督学习不同的问题设定。
 
 这里先采用一个工作定义：
 
@@ -221,11 +219,12 @@ Google 的术语表也用 `epsilon-greedy policy` 来解释这种平衡。入门
 - 能说明 delayed reward 为什么会让强化学习更难。
 - 能说明 exploration 和 exploitation 的差别。
 - 能避免把 reinforcement learning、deep learning、deep reinforcement learning 和 RLHF 混成同一个词。
-
 - 能把问题读成行动与结果的时间流，而不只是“输入和标准答案”。
 - 能把 reward、exploration、exploitation 和 delayed reward 放在同一条强化学习说明线上。
 
 ## 来源与参考资料
 
-- OpenAI, [Spinning Up in Deep RL](https://spinningup.openai.com/en/latest/){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- OpenAI Spinning Up, [Part 1: Key Concepts in RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- David L. Poole, Alan K. Mackworth, [Artificial Intelligence: Foundations of Computational Agents, 3rd ed., Chapter 12 Planning with Uncertainty](https://artint.info/3e/html/ArtInt3e.Ch12.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- Richard S. Sutton and Andrew G. Barto, [Reinforcement Learning: An Introduction, second edition](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2018, 确认日期：2026-07-19.

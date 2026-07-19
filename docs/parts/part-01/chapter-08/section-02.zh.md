@@ -1,7 +1,7 @@
 # P1-8.2 无监督学习：结构与表征
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 8.1 已经把 `label` 说明成贴在数据上的区分标记。监督学习则是在同时给出 input 与 label 的例子中，去拟合输入与输出的关系。
 
@@ -17,16 +17,11 @@
 
 这一节会把 `unsupervised learning`、`structure`、`clustering`、`dimensionality reduction` 和 `cluster label` 统一放到一个视角下理解：在没有标签的数据里寻找结构。`label` 与 `supervised learning` 的基线已经在 8.1 固定，`representation` 的基础感觉则在 3.3 和 4.3 先出现过。
 
-## 本节范围
-
 这一节不会计算具体的无监督学习算法。K-means、hierarchical clustering、PCA、t-SNE 和 autoencoder 只会以名称和作用的形式略过。
 
-这里也不会深入 distance function、the curse of dimensionality、cluster evaluation metric 或 manifold learning。这些内容会在 Part 4 再回来，其中一些更细的数学细节则不放在当前正文范围内。
+这一节也先固定 `没有标签时模型试图在数据里寻找什么`。Distance function、the curse of dimensionality 和 cluster evaluation metric 会在 Part 4 的 clustering 与 dimensionality reduction 章节回来；manifold learning 的细部数学这里先不展开。
 
-这里也不会再次长篇定义 label。它的基础区分已经在 8.1 固定。这里真正关心的是更窄的问题：
-
-> 如果没有标签，  
-> 那么学习的标准到底来自哪里？
+这里也不会再次长篇定义 `label`。它的基础区分已经在 8.1 固定。这里聚焦的是 `没有标签时什么会成为学习标准`。`representation` 也不是这一节第一次引入的新词；这里只抓住无监督学习可以为了显露结构而改变表示这一连接。
 
 这里先采用一个工作定义：
 
@@ -115,7 +110,7 @@ Google 的 Machine Learning Glossary 也把 unsupervised learning 说明成：�
 
 所以，clustering 并不是“机器自动懂得真正分类”。更准确地说，它是在给定表示与标准下，把“看起来相似”的数据聚在一起。
 
-例如 K-means 会把数据划分成若干 cluster，并反复把每个样本分配到最近的 centroid。Stanford CS229 也把它说明成：在没有标签的数据里构造 cohesive clusters 的问题。
+例如 K-means 会把数据划分成若干 cluster，并反复把每个样本分配到最近的 centroid。Stanford CS229 把 k-means 说明成：在无标签数据中构造 cohesive clusters 的问题，并说明每个训练样本会被分配给最近的 cluster centroid。scikit-learn 也说明，k-means 会把样本分成若干组，并试图最小化 within-cluster sum-of-squares 标准。
 
 | 输入数据 | clustering 想找出的东西 |
 | --- | --- |
@@ -238,6 +233,7 @@ scikit-learn 对 PCA 的说明指出，PCA 会把多变量数据分解成能解�
 ## 来源与参考资料
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
-- scikit-learn, [Clustering](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
-- scikit-learn, [PCA](https://scikit-learn.org/stable/modules/decomposition.html#pca){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
-- Stanford CS229, [Unsupervised Learning](https://cs229.stanford.edu/notes2022fall/cs229-notes7a.pdf){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- scikit-learn, [2. Unsupervised learning](https://scikit-learn.org/stable/unsupervised_learning.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- scikit-learn, [2.3. Clustering](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- scikit-learn, [2.5. Decomposing signals in components](https://scikit-learn.org/stable/modules/decomposition.html){: target="_blank" rel="noopener noreferrer" }, 确认日期：2026-06-23.
+- Stanford CS229, [K-means](https://cs229.stanford.edu/notes2022fall/kmeans.pdf){: target="_blank" rel="noopener noreferrer" }, 2022, 确认日期：2026-07-19.

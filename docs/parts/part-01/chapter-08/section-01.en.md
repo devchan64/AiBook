@@ -1,7 +1,7 @@
 # P1-8.1 Supervised Learning: Inputs and Labels
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 
@@ -32,8 +32,6 @@ In Part 1, this section fixes the basic distinction among `supervised learning`,
 | regression | predicting a numeric label | another representative form of supervised learning |
 
 The minimum distinction to keep is this: `supervised learning is learning with labels`, `a label is a target marker`, `labeling builds the standard`, `classification chooses a name tag`, and `regression predicts a number`.
-
-## Scope of This Section
 
 The basic distinction between `input` and `output` was already fixed in 4.2, and the difference between training and inference was handled in Chapter 5. Here we add one layer on top: how examples with labels become a training signal.
 
@@ -101,7 +99,7 @@ The crucial point is that supervised learning uses a standard already attached b
 
 ## Label, Target, and Expected Output
 
-In supervised learning, the label is the target output the model is meant to match. Google’s glossary explains `target` as a synonym for `label`.
+In supervised learning, the label is the target output the model is meant to match. The scikit-learn glossary explains `target` as the dependent variable passed as `y` to an estimator's `fit` method in supervised and semi-supervised learning, and also lists `label` as another name.
 
 The practical reading used in this book is:
 
@@ -264,30 +262,21 @@ Section 8.1 covers only supervised learning. It helps to fix the boundary to the
 
 `Deep learning` does not live on the same conceptual level as this table. Deep learning is an approach that learns representations with multi-layer neural networks, and it can be used together with supervised learning, unsupervised learning, or reinforcement learning.
 
-## What to Remember from This Section
-
-Supervised learning uses labeled examples that contain both `input` and `label`. Through those examples, a model is trained so that it can predict outputs for new inputs.
-
-> supervised learning = a learning method that fits the relation between inputs and outputs  
-> by using examples where input and label are given together
-
-But labels are not guaranteed absolute truth. A label is a target value created inside a problem definition and a data-collection standard. That is why understanding supervised learning starts with checking the label standard before checking the model.
-
-> the core question of 8.1 is closer to `what does the label in this dataset mean?`  
-> than to `what is the model?`
-
 ## Checklist
 
-- I can explain supervised learning as using examples that contain both inputs and labels.
-- I can distinguish the relation among label, target, and expected output.
-- I can explain that classification chooses categories while regression predicts numbers.
-- I can explain that if the label standard is unstable, the supervised-learning data also becomes unstable.
-- I can keep supervised learning, unsupervised learning, reinforcement learning, and deep learning from collapsing into the same category.
+- I can explain supervised learning as a learning method that fits the relation between inputs and outputs from examples that contain both input and label.
+- I can distinguish classification and regression as predicting categorical labels and numeric labels.
+- I can explain how `label`, `target`, and `expected output` are used at the same level.
+- I can explain that the label standard should match the business goal and should be attachable consistently by different people.
+- I can explain that the presence of labels does not mean absolute truth is present.
+- I can distinguish supervised learning, unsupervised learning, and reinforcement learning by input-label pairs, structure discovery, and reward signals.
+- I can explain that the label standard and data context should be checked before the model.
 
 ## Sources and Further Reading
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
 - scikit-learn, [1. Supervised learning](https://scikit-learn.org/stable/supervised_learning.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
+- scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, accessed 2026-07-19.
 - AWS, [What is Data Labeling?](https://aws.amazon.com/what-is/data-labeling/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
 - IBM, [What Is Data Labeling?](https://www.ibm.com/think/topics/data-labeling){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-23.
 - Timnit Gebru et al., [Datasheets for Datasets](https://arxiv.org/abs/1803.09010){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, accessed 2026-06-23.
