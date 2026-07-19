@@ -1,7 +1,7 @@
 # P2-8.4 반복(loop): 이터러블(iterable)을 하나씩 처리하기
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8.2에서는 리스트(list)를, P2-8.3에서는 딕셔너리(dictionary)를 봤습니다. 이제 이런 묶음을 하나씩 처리하는 반복(loop)을 분리해서 봅니다.
 
@@ -40,22 +40,6 @@ Python의 반복은 “몇 번 반복한다”보다 “무엇에서 무엇을 �
 | 이터레이터(iterator) | 다음 값을 하나씩 실제로 꺼내 주는 반복 장치입니다. |
 | 누적(accumulation) | 반복 중 값을 더하거나 모아 하나의 결과를 만드는 패턴입니다. |
 | 컴프리헨션(comprehension) | 반복으로 새 리스트나 딕셔너리를 만드는 축약 표현입니다. |
-
-## 이 절의 범위
-
-여기서는 Python에서 자주 보이는 반복 구조를 다룹니다. 중심 질문은 “묶음에서 값을 하나씩 꺼내 무엇을 만들거나 확인하는가”입니다.
-
-여기서는 다음 질문에 답합니다.
-
-- Python의 `for` 반복은 왜 항목 중심으로 읽는가?
-- 이터러블(iterable)과 이터레이터(iterator)는 어떤 감각을 주는가?
-- 항목 반복, 위치 반복, 키-값 반복, 병렬 반복, 필터링 반복은 어떻게 다른가?
-- 반복하면서 새 리스트나 딕셔너리를 만드는 패턴은 어떻게 읽는가?
-- Python은 왜 반복을 리스트나 딕셔너리 정의 안에 넣는 표현을 자주 쓰는가?
-- P2-8.2에서 본 빈 리스트와 P2-8.3에서 본 딕셔너리가 반복과 만나면 어떤 모양이 되는가?
-- 반복 중 원본을 바꾸는 코드는 왜 조심해야 하는가?
-
-함수(function)로 반복되는 처리를 재사용하는 방법은 P2-8.5에서 이어서 봅니다. 제너레이터(generator)나 고급 반복 추상화는 이 절의 중심이 아니며, 여기서는 반복 읽기의 기본 감각까지만 다룹니다.
 
 ## 이 절의 목표
 
@@ -751,8 +735,8 @@ print(lengths)
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `for`, `range()`, 함수 정의 예시와 제어 흐름 설명을 반복 문법의 공식 근거로 사용했다.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 리스트 컴프리헨션, 딕셔너리 순회, `items()` 예시와 반복 중 컬렉션 수정 주의 설명 확인에 사용했다.
-- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. iterable과 iterator 용어를 입문 수준으로 구분하는 근거로 사용했다.
-- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `for` 문이 이터러블 표현식의 이터레이터에서 항목을 하나씩 대입한다는 설명 확인에 사용했다.
-- Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001, 확인 날짜: 2026-07-19. Python 반복 인터페이스가 시퀀스 중심 반복을 넘어 객체가 반복 방식을 제공하는 방향으로 정리된 역사적 배경 확인에 사용했다.
+- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `for`, `range()`, 함수 정의 예시와 제어 흐름 설명을 반복 문법의 공식 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 리스트 컴프리헨션, 딕셔너리 순회, `items()` 예시와 반복 중 컬렉션 수정 주의 설명 확인에 사용했다.
+- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. iterable과 iterator 용어를 입문 수준으로 구분하는 근거로 사용했다.
+- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `for` 문이 이터러블 표현식의 이터레이터에서 항목을 하나씩 대입한다는 설명 확인에 사용했다.
+- Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001, 확인 날짜: 2026-07-20. Python 반복 인터페이스가 시퀀스 중심 반복을 넘어 객체가 반복 방식을 제공하는 방향으로 정리된 역사적 배경 확인에 사용했다.

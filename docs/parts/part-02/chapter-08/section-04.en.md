@@ -1,7 +1,7 @@
 # P2-8.4 Loops: Processing Iterables One by One
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-8.2, we looked at lists, and in P2-8.3, we looked at dictionaries. Now we separate out the loop that processes these groups one by one.
 
@@ -40,22 +40,6 @@ This section contains both an introduction to loop patterns and a supplementary 
 | iterator | The actual loop device that takes out the next value one by one. |
 | accumulation | A pattern that adds or gathers values during a loop to make one result. |
 | comprehension | A compact expression that makes a new list or dictionary by looping. |
-
-## Scope of This Section
-
-Here, we cover loop structures that often appear in Python. The central question is: `By taking values out one by one from a group, what is being made or checked?`
-
-Here, we answer the following questions.
-
-- Why is a Python `for` loop read around items?
-- What kind of feeling do iterable and iterator give?
-- How are item loops, position loops, key-value loops, parallel loops, and filtering loops different?
-- How are patterns that make a new list or dictionary while looping read?
-- Why does Python often put loop expressions inside list or dictionary definitions?
-- When the empty list seen in P2-8.2 and the dictionary seen in P2-8.3 meet a loop, what kind of shape do they take?
-- Why should code that changes the original during a loop be handled carefully?
-
-How to reuse repeated processing with functions continues in P2-8.5. Generators or high-level loop abstraction are not the center of this section, and here we handle only the basic feeling of reading loops.
 
 ## Goal of This Section
 
@@ -752,8 +736,8 @@ This question can be used later as-is when reading NumPy, Pandas, and machine-le
 
 ## Sources and References
 
-- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as the official basis for `for`, `range()`, function-definition examples, and control-flow descriptions.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm list comprehensions, dictionary iteration, `items()` examples, and cautions about modifying a collection while iterating.
-- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as the basis for distinguishing iterable and iterator at an introductory level.
-- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm that a `for` statement assigns items one by one from an iterator over an iterable expression.
-- Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001, checked on 2026-07-19. Used to confirm the historical background in which Python's iteration interface moved beyond sequence-centered iteration toward objects providing their own iteration behavior.
+- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the official basis for `for`, `range()`, function-definition examples, and control-flow descriptions.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm list comprehensions, dictionary iteration, `items()` examples, and cautions about modifying a collection while iterating.
+- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the basis for distinguishing iterable and iterator at an introductory level.
+- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm that a `for` statement assigns items one by one from an iterator over an iterable expression.
+- Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001, checked on 2026-07-20. Used to confirm the historical background in which Python's iteration interface moved beyond sequence-centered iteration toward objects providing their own iteration behavior.

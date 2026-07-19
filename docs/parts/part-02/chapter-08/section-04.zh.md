@@ -1,7 +1,7 @@
 # P2-8.4 循环（loop）：逐个处理 iterable
 
 > Section ID: `P2-8.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8.2 中，我们看过列表（list）；在 P2-8.3 中，我们看过字典（dictionary）。现在把“把这些集合一个个处理掉”的循环（loop）单独拿出来看。
 
@@ -40,22 +40,6 @@
 | iterator | 负责真正把下一个值一个个取出来的循环装置。 |
 | 累积（accumulation） | 在循环过程中不断加值或收集值，形成一个结果的模式。 |
 | comprehension | 用循环来生成新列表或新字典的简洁表达。 |
-
-## 本节范围
-
-这里处理的是 Python 中经常看到的循环结构。中心问题是：`从一个集合里一个个取出值之后，到底在生成什么、确认什么？`
-
-这里回答下面这些问题。
-
-- 为什么 Python 的 `for` 循环更适合按项目（item）来读？
-- iterable 和 iterator 会带来什么样的感觉？
-- 项目循环、位置循环、键值循环、并行循环、过滤循环有什么不同？
-- 一边循环一边生成新列表或新字典的模式应该怎么读？
-- 为什么 Python 经常把循环放进列表或字典定义表达里？
-- 当 P2-8.2 中看到的空列表和 P2-8.3 中看到的字典遇到循环时，会变成什么样子？
-- 为什么一边循环一边直接改原始集合会有风险？
-
-如何用函数（function）去复用循环处理，会在 P2-8.5 中继续。generator 或更高级的循环抽象不是本节的中心，这里只处理读取循环的基本感觉。
 
 ## 本节目标
 
@@ -752,8 +736,8 @@ print(lengths)
 
 ## 来源与参考资料
 
-- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为 `for`、`range()`、函数定义示例和控制流程说明的官方依据。
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认列表推导式、字典遍历、`items()` 示例，以及遍历时修改 collection 的注意说明。
-- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为在入门层面区分 iterable 与 iterator 的依据。
-- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 `for` 语句会从 iterable expression 的 iterator 中逐个取得项目并赋值。
-- Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001，确认日期：2026-07-19。用于确认 Python iteration interface 从 sequence-centered iteration 扩展到对象提供自身 iteration behavior 的历史背景。
+- Python Software Foundation, [More Control Flow Tools](https://docs.python.org/3/tutorial/controlflow.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为 `for`、`range()`、函数定义示例和控制流程说明的官方依据。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认列表推导式、字典遍历、`items()` 示例，以及遍历时修改 collection 的注意说明。
+- Python Software Foundation, [Glossary: iterable, iterator](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为在入门层面区分 iterable 与 iterator 的依据。
+- Python Software Foundation, [The for statement](https://docs.python.org/3/reference/compound_stmts.html#the-for-statement){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 `for` 语句会从 iterable expression 的 iterator 中逐个取得项目并赋值。
+- Ka-Ping Yee, Guido van Rossum, [PEP 234 -- Iterators](https://peps.python.org/pep-0234/){: target="_blank" rel="noopener noreferrer" }, Python Enhancement Proposals, 2001，确认日期：2026-07-20。用于确认 Python iteration interface 从 sequence-centered iteration 扩展到对象提供自身 iteration behavior 的历史背景。
