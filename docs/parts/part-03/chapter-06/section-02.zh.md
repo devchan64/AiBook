@@ -1,7 +1,7 @@
 # P3-6.2 当特征本身还不够时，还可以加入什么中间表示
 
 > Section ID: `P3-6.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 平均值、斜率、波动性这样的特征，是很好的出发点。但在某些情况下，仅靠几个数字，仍然很难把区间级结构讲清楚。比如说，假设有一种模式：前段缓慢上升，中段平稳维持，后段快速下落。如果这种结构只留下两三个数字，那么无论是人再去读，还是模型去比较，都可能错过重要的形状差异。所以在 Part 3 里，我们把 [中间表示(intermediate representation)](/AiBook/en/reference/concept-glossary/#glossary-intermediate-representation) 一起看作：它是放在原始日志和汇总特征之间、由人主导的输入重表达，用来把结构保留得更清楚。
 
@@ -39,44 +39,123 @@
 | 一个整体平均值 | 想看见被平均值掩盖的结构差异 | 平均值相同，形状不同 |
 | 整份原始日志 | 需要一种人能快速比较的中间表示 | 重复结构的大致轮廓 |
 
-下面的代码示例，用一个很简单的规则，把区段斜率变成 token。
+下面的代码会读取区段斜率 CSV，并用两种设置改变 token 边界，确认同一批原始斜率会怎样变成不同的 token 序列。
 
 问题情境：确认把连续数值斜率转换成短符号列之后，哪些东西会变得更容易看见。
 
-输入(input)：区间斜率值列表
+输入(input)：按动作整理的区段斜率 CSV [p3_6_2_segment_slopes.csv](../../../assets/part-03/chapter-06/p3_6_2_segment_slopes.csv)，以及 token 边界候选 `token_settings`
 
-期望输出(output)：同一组斜率值被转换成 `UP2`、`UP1`、`FLAT`、`DOWN1`、`DOWN2` 这样的 token 序列
+期望输出(output)：每个动作的斜率列表被转换成 `UP2`、`UP1`、`FLAT`、`DOWN1`、`DOWN2` 这样的 token 序列。改变边界值时，保留为 `FLAT` 的区段数、强上升/强下降 token 数、发生变化的动作列表也会改变。
 
-要确认的概念：token 化不是把原始结构原样保留，而是把顺序和方向改写成更容易读取的中间表示
+要确认的概念：token 化不是把原始结构原样保留，而是把顺序和方向改写成更容易读取的中间表示。token 边界不是固定答案，而是要按问题检查的设计值。
 
 ```python
-def slope_to_token(slope: float) -> str:
-    if slope >= 0.8:
+import csv
+from collections import defaultdict
+from pathlib import Path
+
+data_path = Path("docs/assets/part-03/chapter-06/p3_6_2_segment_slopes.csv")
+token_settings = {
+    "sensitive": {"strong_threshold": 0.80, "weak_threshold": 0.20},
+    "conservative": {"strong_threshold": 0.90, "weak_threshold": 0.30},
+}
+
+
+def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
+    if slope >= strong_threshold:
         return "UP2"
-    if slope >= 0.2:
+    if slope >= weak_threshold:
         return "UP1"
-    if slope <= -0.8:
+    if slope <= -strong_threshold:
         return "DOWN2"
-    if slope <= -0.2:
+    if slope <= -weak_threshold:
         return "DOWN1"
     return "FLAT"
 
 
-slopes = [0.9, 0.3, 0.05, -0.4, -1.0]
-tokens = [slope_to_token(value) for value in slopes]
+rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+for row in rows:
+    row["segment_order"] = int(row["segment_order"])
+    row["slope"] = float(row["slope"])
 
-print("1) segment slopes before tokenization:", slopes)
-print("2) tokens after tokenization:", tokens)
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+reports = {}
+for setting_name, thresholds in token_settings.items():
+    event_reports = []
+    token_counts = defaultdict(int)
+    for event_id, event_rows in sorted(events.items()):
+        ordered_rows = sorted(event_rows, key=lambda row: row["segment_order"])
+        slopes = [row["slope"] for row in ordered_rows]
+        tokens = [
+            slope_to_token(
+                slope,
+                thresholds["strong_threshold"],
+                thresholds["weak_threshold"],
+            )
+            for slope in slopes
+        ]
+        for token in tokens:
+            token_counts[token] += 1
+        event_reports.append(
+            {
+                "event_id": event_id,
+                "slopes": slopes,
+                "tokens": tokens,
+            }
+        )
+    reports[setting_name] = {
+        "thresholds": thresholds,
+        "events": event_reports,
+        "token_counts": dict(sorted(token_counts.items())),
+    }
+
+sensitive_tokens = {
+    report["event_id"]: report["tokens"]
+    for report in reports["sensitive"]["events"]
+}
+changed_events = []
+for report in reports["conservative"]["events"]:
+    event_id = report["event_id"]
+    if report["tokens"] != sensitive_tokens[event_id]:
+        changed_events.append(event_id)
+
+print("1) input rows:", len(rows))
+print("2) event count:", len(events))
+for setting_name, report in reports.items():
+    print(f"[{setting_name}] thresholds =", report["thresholds"])
+    print("token_counts =", report["token_counts"])
+    for event in report["events"][:3]:
+        print(event)
+    print()
+print("3) events changed when thresholds become conservative:", changed_events)
 ```
 
 期望输出：
 
 ```text
-1) segment slopes before tokenization: [0.9, 0.3, 0.05, -0.4, -1.0]
-2) tokens after tokenization: ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']
+1) input rows: 40
+2) event count: 8
+[sensitive] thresholds = {'strong_threshold': 0.8, 'weak_threshold': 0.2}
+token_counts = {'DOWN1': 9, 'DOWN2': 3, 'FLAT': 15, 'UP1': 9, 'UP2': 4}
+{'event_id': 'A', 'slopes': [0.92, 0.31, 0.05, -0.42, -1.0], 'tokens': ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']}
+{'event_id': 'B', 'slopes': [0.62, 0.24, 0.01, -0.22, -0.74], 'tokens': ['UP1', 'UP1', 'FLAT', 'DOWN1', 'DOWN1']}
+{'event_id': 'C', 'slopes': [0.18, 0.12, 0.04, -0.1, -0.18], 'tokens': ['FLAT', 'FLAT', 'FLAT', 'FLAT', 'FLAT']}
+
+[conservative] thresholds = {'strong_threshold': 0.9, 'weak_threshold': 0.3}
+token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
+{'event_id': 'A', 'slopes': [0.92, 0.31, 0.05, -0.42, -1.0], 'tokens': ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']}
+{'event_id': 'B', 'slopes': [0.62, 0.24, 0.01, -0.22, -0.74], 'tokens': ['UP1', 'FLAT', 'FLAT', 'FLAT', 'DOWN1']}
+{'event_id': 'C', 'slopes': [0.18, 0.12, 0.04, -0.1, -0.18], 'tokens': ['FLAT', 'FLAT', 'FLAT', 'FLAT', 'FLAT']}
+
+3) events changed when thresholds become conservative: ['B', 'D', 'E', 'F', 'H']
 ```
 
-在这个输出里，最关键的是连续数值被改写成短符号序列的那一刻。现在，人就能更快地把结构读成 `上升、缓慢上升、几乎平、下降、大幅下降`。同时，因为它也暴露了生成 token 时使用的阈值，所以规则本身也可以反过来再检查。
+在这个输出里，最关键的不只是连续数值被改写成短符号序列的那一刻，还包括边界值改变时哪些动作的解释真的发生变化。这里可以操作的值是 `token_settings` 里的 `strong_threshold` 和 `weak_threshold`。在保守设置下，更多小变化会保留为 `FLAT`，像 `B`、`D`、`E`、`F`、`H` 这样接近边界的动作，token 序列会发生变化。相反，像 `A` 这样强上升和强下降都很清楚的动作，即使改变设置，主要结构也会保留下来。
+
+把多个动作放在一起看，token 规则不是简单标签，而是设计判断这一点会更清楚。现在，人可以更快地把结构读成 `上升、缓慢上升、几乎平、下降、大幅下降`，但也能反过来检查：到底是哪一个阈值把哪个区段折成了 `FLAT`。
 
 如果按下面顺序来看这个例子，token 化所承担的作用会更清楚。
 
@@ -119,5 +198,5 @@ print("2) tokens after tokenization:", tokens)
 
 ## 来源与参考资料
 
-- TensorFlow, `Subword tokenizers`. 它把 subword tokenizer 解释成一种位于 word-based tokenization 和 character-based tokenization 之间的表示，因此可以帮助解释一种一般化视角：Part 3 的区段 token 也处在原始日志与强汇总之间的中间表示位置。这里把它直接连到时间序列 token 化的部分，是基于官方说明做出的类比性应用。 [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此支持这样一点：中间表示同样不是原样保留原始值，而是把它们改写成有利于比较和学习的形式。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- TensorFlow, `Subword tokenizers`. 它把 subword tokenizer 解释成一种位于 word-based tokenization 和 character-based tokenization 之间的表示，因此可以帮助解释一种一般化视角：Part 3 的区段 token 也处在原始日志与强汇总之间的中间表示位置。这里把它直接连到时间序列 token 化的部分，是基于官方说明做出的类比性应用。 [https://www.tensorflow.org/text/guide/subwords_tokenizer](https://www.tensorflow.org/text/guide/subwords_tokenizer){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `feature engineering`。它把 feature engineering 解释为决定哪些变换有助于模型训练的过程，因此支持这样一点：中间表示同样不是原样保留原始值，而是把它们改写成有利于比较和学习的形式。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
