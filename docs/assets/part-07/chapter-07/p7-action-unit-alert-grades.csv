@@ -5,3 +5,33 @@ grade-03,repeatability_low,0.34,2,0.50,0.70,중간,아니오,watch,최근 구간
 grade-04,stable_change,0.18,5,0.80,0.90,중간,예,review,구간 평균과 패턴 라벨의 반복 여부 확인,다음 반복에서 기준선 갱신 후보로 남긴다
 grade-05,public_example_mismatch,0.00,1,1.00,1.00,높음,예,action,본문 표와 CSV 원본 대조,잘못된 설명 또는 값을 바로 고친다
 grade-06,recent_repeat,0.26,6,0.83,1.00,높음,예,action,최근 반복 신호와 독자 영향 범위 대조,운영 카드의 우선순위를 즉시 조정한다
+grade-07,false_alarm,0.18,3,0.30,0.40,중간,아니오,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-08,repeatability_low,0.24,4,0.40,0.50,높음,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-09,reader_impact_high,0.30,5,0.50,0.60,낮음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-10,baseline_drift,0.36,6,0.60,0.70,중간,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-11,false_alarm,0.42,7,0.70,0.80,높음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-12,repeatability_low,0.48,8,0.80,0.30,낮음,예,action,샘플 수와 반복성 먼저 대조,action 등급 기준에 맞춰 후속 확인
+grade-13,reader_impact_high,0.54,9,0.20,0.40,중간,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-14,baseline_drift,0.12,10,0.30,0.50,높음,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-15,false_alarm,0.18,2,0.40,0.60,낮음,아니오,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-16,repeatability_low,0.24,3,0.50,0.70,중간,예,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-17,reader_impact_high,0.30,4,0.60,0.80,높음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-18,baseline_drift,0.36,5,0.70,0.30,낮음,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-19,false_alarm,0.42,6,0.80,0.40,중간,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-20,repeatability_low,0.48,7,0.20,0.50,높음,예,action,샘플 수와 반복성 먼저 대조,action 등급 기준에 맞춰 후속 확인
+grade-21,reader_impact_high,0.54,8,0.30,0.60,낮음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-22,baseline_drift,0.12,9,0.40,0.70,중간,예,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-23,false_alarm,0.18,10,0.50,0.80,높음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-24,repeatability_low,0.24,2,0.60,0.30,낮음,예,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-25,reader_impact_high,0.30,3,0.70,0.40,중간,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-26,baseline_drift,0.36,4,0.80,0.50,높음,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-27,false_alarm,0.42,5,0.20,0.60,낮음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-28,repeatability_low,0.48,6,0.30,0.70,중간,예,action,샘플 수와 반복성 먼저 대조,action 등급 기준에 맞춰 후속 확인
+grade-29,reader_impact_high,0.54,7,0.40,0.80,높음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-30,baseline_drift,0.12,8,0.50,0.30,낮음,예,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-31,false_alarm,0.18,9,0.60,0.40,중간,아니오,watch,샘플 수와 반복성 먼저 대조,watch 등급 기준에 맞춰 후속 확인
+grade-32,repeatability_low,0.24,10,0.70,0.50,높음,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-33,reader_impact_high,0.30,2,0.80,0.60,낮음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-34,baseline_drift,0.36,3,0.20,0.70,중간,예,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-35,false_alarm,0.42,4,0.30,0.80,높음,아니오,review,샘플 수와 반복성 먼저 대조,review 등급 기준에 맞춰 후속 확인
+grade-36,repeatability_low,0.48,5,0.40,0.30,낮음,예,action,샘플 수와 반복성 먼저 대조,action 등급 기준에 맞춰 후속 확인

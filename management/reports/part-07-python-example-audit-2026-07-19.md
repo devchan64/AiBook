@@ -56,36 +56,38 @@ Part 7의 Python 예제는 프로젝트 실습 파트답게 대부분 CSV 자산
 
 ## 후속 보강 후보
 
-CSV 자산은 프로젝트 학습 흐름을 짧게 유지하기 위해 작은 파일이 많다. 현재 예제는 정상/경계/실패 조건과 조작 기준을 갖고 있어 유지 가능하지만, 가이드의 36행 기본 하한을 엄격히 적용하려면 다음 자산을 확장해야 한다.
+CSV 자산은 프로젝트 학습 흐름을 짧게 유지하기 위해 작은 파일이 많았다. 후속 보강에서 36행 미만이던 Part 7 CSV 자산을 모두 36행 이상으로 확장했다. 기존 본문 예제의 대표 비교축이 흔들리지 않도록, 기존 `train/test`, `baseline/recent` 대표 집합은 유지하고 추가 행은 후보·경계·운영 반복 사례 성격으로 보강했다.
 
-| CSV 자산 | 현재 행 수 | 후속 판단 |
+| CSV 자산 | 현재 행 수 | 보강 상태 |
 | --- | ---: | --- |
 | `p7-1-traffic-log.csv` | 42 | 36행 기준 충족 |
 | `p7-action-unit-sensor-log.csv` | 36 | 36행 기준 충족 |
-| `p7-action-unit-summary.csv` | 12 | 기준선 확장 연습용 요약 행 보강 가능 |
-| `p7-2-churn-dataset.csv` | 18 | train/test 경계 사례와 실패 유형 추가 가능 |
-| `p7-2-stress-test.csv` | 4 | stress 조건별 경계/실패 사례 확장 가능 |
-| `p7-3-surface-patches.csv` | 16 | 정상·약한 결함·경계 패턴 추가 가능 |
-| `p7-3-error-review.csv` | 3 | 오류 검토 후보를 여러 유형으로 확장 가능 |
-| `p7-3-followup-actions.csv` | 3 | 후속 조치 축별 반복 사례 추가 가능 |
-| `p7-4-support-routing-dataset.csv` | 19 | 라우팅 평가/정규화 경계 사례 추가 가능 |
-| `p7-4-training-log.csv` | 12 | epoch 로그는 충분하지만 행 수 기준상 보강 가능 |
-| `p7-action-unit-pattern-pairs.csv` | 6 | 같은 평균/다른 shape 조합을 더 늘릴 수 있음 |
-| `p7-5-rag-documents.csv` | 10 | 검색 후보 다양성과 무관 문서 혼입 사례 확장 가능 |
-| `p7-5-boundary-cases.csv` | 7 | 질문 경계, 과장 위험, 근거 부족 조건 확장 가능 |
-| `p7-5-rag-questions.csv` | 3 | 현재 본문은 boundary cases를 주로 사용하므로 후속 사용 여부 점검 |
-| `p7-6-agent-triage-steps.csv` | 6 | blocked/failure/complete 단계 조합 확장 가능 |
-| `p7-6-permission-log.csv` | 5 | 승인 대기와 실패 상태 반복 사례 확장 가능 |
-| `p7-6-approval-cases.csv` | 6 | 영향 범위별 승인 정책 사례 확장 가능 |
-| `p7-7-deployment-checks.csv` | 8 | 배포별 점검 단계와 재확인 사례 확장 가능 |
-| `p7-7-deployment-incidents.csv` | 4 | 실패 범주별 반복 사건 확장 가능 |
-| `p7-7-ops-scenarios.csv` | 6 | 운영 bucket별 추가 사례 확장 가능 |
-| `p7-action-unit-alert-grades.csv` | 6 | 등급 변화 경계 사례 확장 가능 |
+| `p7-action-unit-summary.csv` | 36 | 기준선 확장 연습용 후보 요약 행 추가 |
+| `p7-2-churn-dataset.csv` | 36 | 이탈 예측 후보 풀을 추가하되 기존 train/test 대표 집합 유지 |
+| `p7-2-stress-test.csv` | 36 | stress 조건별 경계/실패 사례 확장 |
+| `p7-3-surface-patches.csv` | 36 | 정상·약한 결함·부분 결함 후보 패턴 추가 |
+| `p7-3-error-review.csv` | 36 | 오류 검토 후보를 확률 차이와 오답 유형별로 확장 |
+| `p7-3-followup-actions.csv` | 36 | 후속 조치 축별 반복 사례 확장 |
+| `p7-4-support-routing-dataset.csv` | 36 | 라우팅 후보 문장을 추가하되 기존 train/test 대표 집합 유지 |
+| `p7-4-training-log.csv` | 36 | epoch 로그를 후반 수렴 구간까지 확장 |
+| `p7-action-unit-pattern-pairs.csv` | 36 | 같은 평균/다른 shape 조합을 후보 pair로 확장 |
+| `p7-5-rag-documents.csv` | 36 | 검색 후보 다양성, near miss, 근거 부족 문서 추가 |
+| `p7-5-boundary-cases.csv` | 36 | 질문 경계, 과장 위험, 근거 충돌 조건 확장 |
+| `p7-5-rag-questions.csv` | 36 | 후속 RAG 질문 후보 확장 |
+| `p7-6-agent-triage-steps.csv` | 36 | blocked/failure/complete 단계 조합 확장 |
+| `p7-6-permission-log.csv` | 36 | 승인 대기와 실패 상태 반복 사례 확장 |
+| `p7-6-approval-cases.csv` | 36 | 영향 범위별 승인 정책 사례 확장 |
+| `p7-7-deployment-checks.csv` | 36 | 배포별 점검 단계와 재확인 사례 확장 |
+| `p7-7-deployment-incidents.csv` | 36 | 실패 범주별 반복 사건 확장 |
+| `p7-7-ops-scenarios.csv` | 36 | 운영 bucket별 추가 사례 확장 |
+| `p7-action-unit-alert-grades.csv` | 36 | 등급 변화 경계 사례 확장 |
 
 ## 검증 결과
 
 - `find docs/parts/part-07 -name 'section-[0-9][0-9].md' | wc -l`: 23
 - `rg -n '^```python' docs/parts/part-07 -g 'section-[0-9][0-9].md' | wc -l`: 24
+- Part 7 CSV 자산 행 수 재확인: 21개 CSV 모두 36행 이상
+- Part 7 본문 Python 블록 재실행: 24개 모두 통과
 - 본문 Python 블록 자동 실행: 24개 통과
 - `.venv/bin/python docs/assets/part-07/chapter-04/p7_4_training_curves.py`: 성공, 경고 없음, 산출물 변경 없음
 - `.venv/bin/python -m mkdocs build`: 실행하지 않음. 이번 작업은 Python 예제 감사와 리포트 생성이며, 전체 사이트 빌드는 Part 마감 검증에서 실행하는 편이 적합하다.

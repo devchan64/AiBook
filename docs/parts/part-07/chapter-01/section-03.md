@@ -199,10 +199,11 @@ for row in retrospective:
 기준선 재설계 결과 =
 {'실험': '전체 합계 / 7일 기준선', '기준선 경계일': '2026-06-08', '단위': 'date-total', '우선 검토 항목': '전체 하락 여부 재확인', '핵심 변화': {'conversion_delta': -0.0108, 'error_delta': 0.0032}}
 {'실험': '채널-일자 / 7일 기준선', '기준선 경계일': '2026-06-08', '단위': 'channel-day', '우선 검토 항목': 'ads 채널 우선 검토', '핵심 변화': {'channel': 'ads', 'conversion_delta': -0.0361, 'error_delta': 0.0114}}
-{'실험': '채널-일자 / 최근 4일 집중', '기준선 경계일': '2026-06-11', '단위': 'channel-day', '우선 검토 항목': 'ads 채널 우선 검토', '핵심 변화': {'channel': 'ads', 'conversion_delta': -0.0423, 'error_delta': 0.0132}}
+{'실험': '채널-일자 / 최근 4일 집중', '기준선 경계일': '2026-06-11', '단위': 'channel-day', '우선 검토 항목': 'ads 채널 우선 검토', '핵심 변화': {'channel': 'ads', 'conversion_delta': -0.0279, 'error_delta': 0.0091}}
 [회고 메모]
 {'실험': '전체 합계 / 7일 기준선', '사실': '전체 합계 기준으로 보면 전환율 변화는 -0.0108이고 오류율 변화는 0.0032이다.', '해석': '서비스 전체 흐름이 약하게 흔들렸는지는 볼 수 있지만, 어떤 채널이 원인인지는 아직 분해되지 않는다.', '다음 질문': '채널-일자 단위로 다시 쪼개면 어느 채널이 먼저 튀는가?'}
 {'실험': '채널-일자 / 7일 기준선', '사실': 'ads 채널의 전환율 변화가 -0.0361로 가장 크게 내려갔다.', '해석': '현재 질문이 원인 후보 좁히기라면 채널 단위 기준선이 더 적합하다.', '다음 질문': 'ads 안에서도 campaign, browser, release_version 같은 더 세분화된 축이 필요한가?'}
+{'실험': '채널-일자 / 최근 4일 집중', '사실': 'ads 채널의 전환율 변화가 -0.0279로 가장 크게 내려갔다.', '해석': '현재 질문이 원인 후보 좁히기라면 채널 단위 기준선이 더 적합하다.', '다음 질문': 'ads 안에서도 campaign, browser, release_version 같은 더 세분화된 축이 필요한가?'}
 ```
 
 ## 결과를 어떻게 읽는가
@@ -213,7 +214,7 @@ for row in retrospective:
 | --- | --- | --- |
 | 전체 합계 / 7일 기준선 | 전체 전환율이 약하게 내려감 | 전체 서비스 건강도를 빠르게 보는 데는 좋지만 원인 분해에는 약함 |
 | 채널-일자 / 7일 기준선 | `ads` 급락 | 실제 운영 이상을 더 빨리 좁힐 수 있음 |
-| 채널-일자 / 최근 4일 집중 | `ads` 급락이 더 강하게 보임 | 최근 이상 감지에는 좋지만 표본이 더 적어 해석은 더 보수적이어야 함 |
+| 채널-일자 / 최근 4일 집중 | `ads` 우선 검토 항목은 유지되지만 변화폭은 달라짐 | 최근 이상 감지에는 유용하지만 표본이 더 적어 해석은 더 보수적이어야 함 |
 
 이 차이를 통해 독자는 두 가지를 잡아야 합니다.
 
@@ -282,9 +283,11 @@ def summarize(group_rows):
         ),
     }
 
+comparison_rows = [row for row in rows if row["period"] in {"baseline", "recent"}]
+
 for cutoff_order in [9, 10]:
-    baseline = [row for row in rows if row["event_order"] < cutoff_order]
-    recent = [row for row in rows if row["event_order"] >= cutoff_order]
+    baseline = [row for row in comparison_rows if row["event_order"] < cutoff_order]
+    recent = [row for row in comparison_rows if row["event_order"] >= cutoff_order]
     baseline_summary = summarize(baseline)
     recent_summary = summarize(recent)
     result = {
