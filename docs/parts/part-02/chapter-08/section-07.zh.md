@@ -1,7 +1,7 @@
 # P2-8.7 补充学习：第一次区分引用、浅拷贝与深拷贝的方法
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8.2 中，我们已经看到，把一个列表赋给另一个名字，并不会自动生成新的副本。很多读者在这里会立刻混淆。
 
@@ -19,19 +19,6 @@
 | shallow copy | 只新建外层容器，内部值仍可能共享的复制。 |
 | deep copy | 连内部嵌套值也重新创建，从而与原对象分离的复制。 |
 | nested structure | 像“列表里还有列表”这样内部又包含一层集合的结构。 |
-
-## 本补充学习的范围
-
-本节在入门层面区分 `reference`、`shallow copy`、`deep copy`。列表的基础结构会和 P2-8.2 重新连接，字典的基础结构会和 P2-8.3 重新连接，对象与方法的阅读感觉会和 P2-8.6 重新连接。
-
-本节回答以下问题。
-
-- 两个变量名指向同一个列表，到底是什么意思？
-- 浅拷贝和深拷贝有什么区别？
-- 为什么到了嵌套列表里，浅拷贝就特别容易让人误解？
-- 为什么在数据预处理和练习笔记本里，要小心是否真的发生了复制？
-
-本补充学习先收束 `原对象和副本什么时候会一起变化`、`为什么赋值和复制不同` 这两个问题。这里不先看细部实现，而是回收 `是不是一起看着同一个对象`、`到底新建到了哪一层` 的阅读感觉。
 
 ## 本补充学习的目标
 
@@ -268,5 +255,5 @@ C: [[10, 20], [30, 40]] [[-1, 20], [30, 40]]
 
 ## 来源与参考资料
 
-- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认列表赋值、`list.copy()`、切片复制和列表方法示例。
-- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。作为区分 assignment 与 copying、shallow copy 与 deep copy 定义，以及嵌套对象复制差异的核心依据。
+- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认列表赋值、`list.copy()`、切片复制和列表方法示例。
+- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。作为区分 assignment 与 copying、shallow copy 与 deep copy 定义，以及嵌套对象复制差异的核心依据。

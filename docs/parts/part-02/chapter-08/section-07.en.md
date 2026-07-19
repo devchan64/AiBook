@@ -1,7 +1,7 @@
 # P2-8.7 Supplemental Learning: How to First Distinguish References, Shallow Copy, and Deep Copy
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-8.2, we saw that assigning a list to another name does not automatically create a new copy. Many readers get confused immediately at this point.
 
@@ -19,19 +19,6 @@ Rather than explaining Python's memory model in depth, this supplement builds th
 | shallow copy | A copy that makes only the outer container new and may still share inner values. |
 | deep copy | A copy that also creates new nested inner values so that they are separated from the original. |
 | nested structure | A structure where another grouped value exists inside, such as a list inside a list. |
-
-## Scope of This Supplement
-
-This Section distinguishes `reference`, `shallow copy`, and `deep copy` at an introductory level. It reconnects to the basic structure of lists from P2-8.2, the basic structure of dictionaries from P2-8.3, and the reading sense for objects and methods from P2-8.6.
-
-This Section answers the following questions.
-
-- What does it mean when two variable names point to the same list?
-- What is the difference between a shallow copy and a deep copy?
-- Why does shallow copy become easy to misunderstand in a nested list?
-- Why should we be careful about whether copying happened in data preprocessing and practice notebooks?
-
-This supplement first closes the questions `when do the original and the copy change together` and `why are assignment and copying different`. Here, instead of implementation details, we recover the reading sense for `are we looking at the same target together` and `how far was something newly created`.
 
 ## Goals of This Supplement
 
@@ -268,5 +255,5 @@ The key point here is B. The outer layer was copied, but the inner list changed 
 
 ## Sources and References
 
-- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm list assignment, `list.copy()`, slice copying, and list-method examples.
-- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as the core basis for the difference between assignment and copying, the definitions of shallow and deep copy, and the copying difference for nested objects.
+- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm list assignment, `list.copy()`, slice copying, and list-method examples.
+- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as the core basis for the difference between assignment and copying, the definitions of shallow and deep copy, and the copying difference for nested objects.

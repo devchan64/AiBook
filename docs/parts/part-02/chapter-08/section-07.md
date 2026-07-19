@@ -1,7 +1,7 @@
 # P2-8.7 보충학습: 참조(reference), 얕은 복사(shallow copy), 깊은 복사(deep copy)를 처음 구분하는 법
 
 > Section ID: `P2-8.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8.2에서는 리스트(list)를 다른 이름에 대입했다고 해서 자동으로 새 복사본이 생기지 않는다는 점을 봤습니다. 이 지점에서 많은 독자가 바로 헷갈립니다.
 
@@ -19,19 +19,6 @@ P2-8.2에서는 리스트(list)를 다른 이름에 대입했다고 해서 자�
 | 얕은 복사(shallow copy) | 바깥 컨테이너만 새로 만들고 안쪽 값은 공유할 수 있는 복사입니다. |
 | 깊은 복사(deep copy) | 안쪽 중첩 값까지 새로 만들어 원본과 분리하는 복사입니다. |
 | 중첩 구조(nested structure) | 리스트 안에 리스트처럼 내부에 또 다른 묶음이 들어 있는 구조입니다. |
-
-## 이 보충학습의 범위
-
-여기서는 참조(reference), 얕은 복사(shallow copy), 깊은 복사(deep copy)를 입문 수준에서 구분합니다. 리스트의 기본 구조는 P2-8.2, 딕셔너리의 기본 구조는 P2-8.3, 객체와 메서드 읽기 감각은 P2-8.6을 기준으로 다시 연결합니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 변수 이름 두 개가 같은 리스트를 가리킨다는 말은 무엇인가?
-- 얕은 복사와 깊은 복사는 무엇이 다른가?
-- 중첩 리스트(nested list)에서는 왜 얕은 복사가 헷갈리기 쉬운가?
-- 데이터 전처리나 실습 노트북에서 왜 복사 여부를 조심해야 하는가?
-
-이번 보충학습은 `원본과 복사본이 언제 함께 바뀌는가`, `대입과 복사가 왜 다른가`를 먼저 닫는 데 집중합니다. 여기서는 세부 구현보다 `같은 대상을 함께 보고 있는가`, `어디까지 새로 만들어졌는가`를 읽는 감각을 먼저 회수합니다.
 
 ## 이 보충학습의 목표
 
@@ -268,5 +255,5 @@ C: [[10, 20], [30, 40]] [[-1, 20], [30, 40]]
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 리스트 대입, `list.copy()`, 슬라이스 복사, 리스트 메서드 예시를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 대입과 복사의 차이, 얕은 복사와 깊은 복사의 정의, 중첩 객체 복사 차이를 확인하는 핵심 근거로 사용했다.
+- Python Software Foundation, [The Python Tutorial - More on Lists](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 리스트 대입, `list.copy()`, 슬라이스 복사, 리스트 메서드 예시를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Standard Library - `copy`](https://docs.python.org/3/library/copy.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 대입과 복사의 차이, 얕은 복사와 깊은 복사의 정의, 중첩 객체 복사 차이를 확인하는 핵심 근거로 사용했다.
