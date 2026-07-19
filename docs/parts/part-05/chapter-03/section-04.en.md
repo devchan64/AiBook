@@ -1,7 +1,7 @@
 # P5-3.4 ReLU
 
-Section ID: `P5-3.4`
-Version: `v2026.07.17`
+> Section ID: `P5-3.4`
+> Version: `v2026.07.19`
 
 In P5-3.2 and P5-3.3, we looked at functions such as the sigmoid and tanh that compress values into a fixed range. ReLU (rectified linear unit) is much simpler. It turns negative values into 0 and passes positive values through almost as they are.
 
@@ -105,4 +105,4 @@ The direction of the answer is clear. ReLU folds all values in the negative rang
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, date checked: 2026-06-29.
+- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, date checked: 2026-07-19. [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html){: target="_blank" rel="noopener noreferrer" }

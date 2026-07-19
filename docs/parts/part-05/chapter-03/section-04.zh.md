@@ -1,7 +1,7 @@
 # P5-3.4 ReLU
 
-Section ID: `P5-3.4`
-Version: `v2026.07.17`
+> Section ID: `P5-3.4`
+> Version: `v2026.07.19`
 
 在 P5-3.2 与 P5-3.3 里，我们已经看过像 sigmoid 与 tanh 这样会把值压进固定范围里的函数。ReLU（rectified linear unit）要简单得多。它会把负值直接变成 0，而把正值几乎原样放过去。
 
@@ -105,4 +105,4 @@ sigmoid 与 tanh 在较大的正数区间都会被压向 1，而 ReLU 在正值�
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 确认日期：2026-06-29.
+- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 确认日期: 2026-07-19. [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html){: target="_blank" rel="noopener noreferrer" }
