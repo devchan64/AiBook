@@ -1,7 +1,7 @@
 # P4-9.1 超参数(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-8 里，我们选好了 model 候选，也用 baseline 立好了比较的出发点。现在要进入下一个问题。
 
@@ -34,13 +34,7 @@ hyperparameter 不是 model 会学到的规则本身，而是预先决定这个 
 - 为什么即使是同一个算法，也会因为 hyperparameter 而看起来完全不同？
 - 读者第一次应该先分清哪些代表性 hyperparameter？
 
-这一节不会深入讲下面这些内容。
-
-- GridSearchCV、RandomizedSearchCV 的细部用法
-- search space 设计的高级策略
-- 大规模调优自动化和分布式实验管理
-
-GridSearchCV 和 RandomizedSearchCV 的基本比较，以及验证成本，会在下一节 P4-9.2 直接接着讲；高级 search space 设计和分布式实验管理，则会在 P4-9.3 补充学习里再整理。
+这一节先收束 `怎样区分学习中得到的值和由人先固定的配置值`。GridSearchCV 和 RandomizedSearchCV 的基本比较，以及验证成本，会在下一节 P4-9.2 直接接着讲；高级 search space 设计和分布式实验管理，则会在 P4-9.3 补充学习里再整理。
 
 ## 本节目标
 

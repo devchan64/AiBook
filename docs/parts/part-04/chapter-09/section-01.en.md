@@ -1,7 +1,7 @@
 # P4-9.1 Hyperparameters
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-8, the discussion chose model candidates and set the starting point of comparison with a baseline. Now it moves to the next question.
 
@@ -34,13 +34,7 @@ This Section answers the following questions.
 - Why can even the same algorithm look completely different depending on hyperparameters?
 - What representative hyperparameters should the reader first distinguish?
 
-This Section does not treat the following topics deeply.
-
-- detailed usage of GridSearchCV and RandomizedSearchCV
-- advanced strategies for designing a search space
-- large-scale tuning automation and distributed experiment management
-
-The basic comparison of GridSearchCV and RandomizedSearchCV, and the cost of validation, are handled immediately in the next Section, P4-9.2, while advanced search-space design and distributed experiment management are reorganized again in the supplementary learning of P4-9.3.
+This Section first closes `how to distinguish values learned during training from configuration values fixed by a person first`. The basic comparison of GridSearchCV and RandomizedSearchCV, and the cost of validation, are handled immediately in the next Section, P4-9.2, while advanced search-space design and distributed experiment management are reorganized again in the supplementary learning of P4-9.3.
 
 ## Goals Of This Section
 
