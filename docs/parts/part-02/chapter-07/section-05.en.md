@@ -1,7 +1,7 @@
 # P2-7.5 Dependency and Reproducibility
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-7.4, we looked at virtual environments and packages. Now one question remains.
 
@@ -35,25 +35,6 @@ Rather than learning the Python package distribution system in depth, this secti
 | `requirements.txt` | A representative file that records the list of required packages and their versions. |
 | version pinning | A method of reducing environment differences by specifying particular package versions. |
 | environment record | Notes needed for rerunning, such as the Python version, package list, and execution location. |
-
-## Scope of This Section
-
-This section covers introductory concepts of dependency and reproducibility. This section first closes the questions `what must be recorded together with code` and `what conditions are needed to run the same code again later`. The order of checking which Python and packages the local environment is actually using is gathered again in the P2-7.9 supplementary section. The installation procedure itself is covered again in P2-7.4, and operating-system-specific Python preparation is covered again in P2-7.7.
-
-Here, we answer the following questions.
-
-- What is dependency?
-- Why is reproducibility necessary?
-- What does a requirements file record?
-- What does it mean to pin a version?
-
-Terminal usage by operating system is covered in P2-7.6, Python installation is covered in P2-7.7, and the local environment checking order that often blocks people is covered in P2-7.9 as supplementary learning. In particular, if `requirements.txt` is readable but `import` continues to fail on the local PC, then after finishing this section, briefly move to P2-7.9, first check `which Python environment am I looking at right now?`, and then come back.
-
-| If this is your current symptom | Where to go first | Otherwise, what to hold onto in this section |
-| --- | --- | --- |
-| You can see `requirements.txt`, but you do not know which Python environment to install it into | P2-7.9 supplementary section | For now, first establish that even if dependencies are recorded, nothing is reproducible if the execution environment is different |
-| Local installation itself and checking `python --version` are more urgent | P2-7.7 supplementary section | For now, first keep only why version pinning and package lists are necessary |
-| You only want to know why “it works on my computer” is not enough | Keep reading this section | First confirm that reproducibility is the problem of rebuilding the same code with the same conditions |
 
 ## Goal of This Section
 
@@ -300,7 +281,7 @@ This command is convenient, but in the long run it is safer to leave the package
 
 For example, at the top of a notebook, you can leave a short note like this.
 
-- Date created: 2026-07-19
+- Date created: 2026-07-20
 - Execution environment: Google Colab
 - Main packages: numpy, pandas, matplotlib
 - Things to check when rerunning: whether the runtime was reset, whether the data file was uploaded
@@ -344,6 +325,6 @@ The confirmable result can be judged by whether an installation list and version
 
 ## Sources and References
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-19. Used to confirm `python -m pip`, package installation, requirements files, and the use of `pip freeze` for repeatable installs.
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-19. Used to confirm that it outputs installed packages in requirements format for the current environment.
-- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-19. Used to confirm the distinction between dependency metadata for project distribution and requirements files for reproducing an execution environment.
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-20. Used to confirm `python -m pip`, package installation, requirements files, and the use of `pip freeze` for repeatable installs.
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, checked 2026-07-20. Used to confirm that it outputs installed packages in requirements format for the current environment.
+- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, checked 2026-07-20. Used to confirm the distinction between dependency metadata for project distribution and requirements files for reproducing an execution environment.

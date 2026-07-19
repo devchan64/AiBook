@@ -1,7 +1,7 @@
 # P2-7.5 依赖（dependency）与可复现性（reproducibility）
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.4 中，我们看过了虚拟环境和包。现在还剩下一个问题。
 
@@ -35,25 +35,6 @@
 | `requirements.txt` | 记录所需包列表和版本的代表性文件。 |
 | 版本固定（version pinning） | 通过明确写出特定包版本来减少环境差异的方法。 |
 | 环境记录（environment record） | 重新执行所需的备注，例如 Python 版本、包列表、运行位置等。 |
-
-## 本节范围
-
-本节处理依赖和可复现性的入门概念。本节先收束 `除了代码还要一起记录什么`、`以后要重新运行同一份代码需要哪些条件` 这两个问题。在本地环境里到底实际在看哪个 Python、哪些包，这个检查顺序会在 P2-7.9 补充学习中重新整理。安装流程本身会在 P2-7.4 再次出现，不同操作系统下的 Python 准备则会在 P2-7.7 再次处理。
-
-这里回答下面这些问题。
-
-- 什么是依赖？
-- 为什么需要可复现性？
-- requirements 文件记录什么？
-- 所谓固定版本是什么意思？
-
-按操作系统使用终端的方法在 P2-7.6 中补充，Python 安装在 P2-7.7 中补充，而本地环境里最常卡住人的检查顺序在 P2-7.9 中作为补充学习处理。特别是，如果 `requirements.txt` 明明能看到，但本地 PC 上 `import` 还是不断失败，那么先把这一节读完，再暂时移动到 P2-7.9，先检查“我现在看到的是哪个 Python 环境”，然后再回来。
-
-| 如果你现在的症状是这样 | 先去哪里看 | 否则在本节先抓住什么 |
-| --- | --- | --- |
-| 能看到 `requirements.txt`，但不知道该安装到哪个 Python 环境里 | P2-7.9 补充学习 | 现在先抓住：即使记录了依赖，只要执行环境不同，就无法复现 |
-| 本地安装本身以及确认 `python --version` 更紧急 | P2-7.7 补充学习 | 现在先留下为什么需要版本固定和包列表 |
-| 你只是想知道为什么“在我的电脑上能跑”并不够 | 继续读本节 | 先确认可复现性是重新做出同样代码、同样条件的问题 |
 
 ## 本节目标
 
@@ -300,7 +281,7 @@ Colab runtime 可能被重置。那时之前安装过的包也可能消失。并
 
 例如，可以在笔记本最上方留下下面这样的简短备注。
 
-- 编写日期：2026-07-19
+- 编写日期：2026-07-20
 - 执行环境：Google Colab
 - 主要包：numpy, pandas, matplotlib
 - 再次运行时要检查的内容：runtime 是否被重置，数据文件是否已上传
@@ -344,6 +325,6 @@ Colab runtime 可能被重置。那时之前安装过的包也可能消失。并
 
 ## 来源与参考资料
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2，确认日期：2026-07-19。用于确认 `python -m pip`、包安装、requirements 文件，以及为了 repeatable installs 使用 `pip freeze` 的语境。
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2，确认日期：2026-07-19。用于确认它会以 requirements 格式输出当前环境中已安装的包。
-- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-19。用于确认项目分发用依赖元数据与复现执行环境用 requirements 文件之间的角色差异。
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2，确认日期：2026-07-20。用于确认 `python -m pip`、包安装、requirements 文件，以及为了 repeatable installs 使用 `pip freeze` 的语境。
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2，确认日期：2026-07-20。用于确认它会以 requirements 格式输出当前环境中已安装的包。
+- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide，确认日期：2026-07-20。用于确认项目分发用依赖元数据与复现执行环境用 requirements 文件之间的角色差异。

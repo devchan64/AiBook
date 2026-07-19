@@ -1,7 +1,7 @@
 # P2-7.5 의존성(dependency)과 재현성(reproducibility)
 
 > Section ID: `P2-7.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤습니다. 이제 한 가지 질문이 남습니다.
 
@@ -35,25 +35,6 @@ P2-7.4에서는 가상환경(virtual environment)과 패키지(package)를 봤�
 | `requirements.txt` | 필요한 패키지 목록과 버전을 기록하는 대표 파일입니다. |
 | 버전 고정(version pinning) | 특정 패키지 버전을 명시해 환경 차이를 줄이려는 방법입니다. |
 | 환경 기록(environment record) | Python 버전, 패키지 목록, 실행 위치처럼 재실행에 필요한 메모입니다. |
-
-## 이 절의 범위
-
-여기서는 의존성과 재현성의 입문 개념을 다룹니다. 이번 절은 `코드 외에 무엇을 함께 기록해야 하는가`, `같은 코드를 나중에 다시 실행하려면 어떤 조건이 필요한가`까지를 먼저 닫습니다. 로컬 환경에서 어떤 Python과 패키지를 실제로 보고 있는지 점검하는 순서는 P2-7.9 보충학습에서 다시 묶고, 설치 절차 자체는 P2-7.4, 운영체제별 Python 준비는 P2-7.7에서 다시 다룹니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 의존성은 무엇인가?
-- 재현성은 왜 필요한가?
-- requirements 파일은 무엇을 기록하는가?
-- 버전을 고정한다는 말은 무엇인가?
-
-운영체제별 터미널 사용법은 P2-7.6에서, Python 설치는 P2-7.7에서, 자주 막히는 로컬 환경 점검 순서는 P2-7.9에서 보충학습으로 다룹니다. 특히 `requirements.txt`는 읽히는데도 로컬 PC에서 `import`가 계속 실패한다면, 이 절을 다 읽은 뒤 P2-7.9로 잠깐 이동해 `지금 어느 Python 환경을 보고 있는가`를 먼저 점검하고 돌아옵니다.
-
-| 지금 이런 증상이라면 | 먼저 갈 곳 | 아니면 지금 이 절에서 붙잡을 것 |
-| --- | --- | --- |
-| `requirements.txt`는 보이는데 어느 Python 환경에 설치해야 하는지 모르겠다 | P2-7.9 보충학습 | 지금은 의존성을 기록해도 실행 환경이 다르면 재현되지 않는다는 점을 먼저 잡는다 |
-| 로컬 설치 자체와 `python --version` 확인이 더 급하다 | P2-7.7 보충학습 | 지금은 버전 고정과 패키지 목록이 왜 필요한지만 먼저 남긴다 |
-| `내 컴퓨터에서는 된다`가 왜 충분하지 않은지만 궁금하다 | 이 절 계속 읽기 | 재현성이 같은 코드와 같은 조건을 다시 만드는 문제라는 점을 먼저 확인한다 |
 
 ## 이 절의 목표
 
@@ -300,7 +281,7 @@ Colab 런타임은 초기화될 수 있습니다. 그때 설치했던 패키지�
 
 예를 들어 노트북 맨 위에 다음처럼 짧은 메모를 둘 수 있습니다.
 
-- 작성일: 2026-07-19
+- 작성일: 2026-07-20
 - 실행 환경: Google Colab
 - 주요 패키지: numpy, pandas, matplotlib
 - 다시 실행할 때 확인할 것: 런타임 초기화 여부, 데이터 파일 업로드 여부
@@ -344,6 +325,6 @@ Colab 런타임은 초기화될 수 있습니다. 그때 설치했던 패키지�
 
 ## 출처와 참고 자료
 
-- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-19. `python -m pip`, 패키지 설치, requirements 파일, repeatable installs를 위한 `pip freeze` 사용 맥락 확인에 사용했다.
-- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-19. 현재 환경에 설치된 패키지 목록을 requirements 형식으로 출력한다는 설명 확인에 사용했다.
-- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-19. 프로젝트 배포용 의존성 메타데이터와 실행 환경 재현을 위한 requirements 파일의 역할 차이 확인에 사용했다.
+- Python Packaging Authority, [User Guide](https://pip.pypa.io/en/stable/user_guide/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-20. `python -m pip`, 패키지 설치, requirements 파일, repeatable installs를 위한 `pip freeze` 사용 맥락 확인에 사용했다.
+- Python Packaging Authority, [pip freeze](https://pip.pypa.io/en/stable/cli/pip_freeze/){: target="_blank" rel="noopener noreferrer" }, pip documentation v26.1.2, 확인 날짜: 2026-07-20. 현재 환경에 설치된 패키지 목록을 requirements 형식으로 출력한다는 설명 확인에 사용했다.
+- Python Packaging Authority, [install_requires vs requirements files](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/){: target="_blank" rel="noopener noreferrer" }, Python Packaging User Guide, 확인 날짜: 2026-07-20. 프로젝트 배포용 의존성 메타데이터와 실행 환경 재현을 위한 requirements 파일의 역할 차이 확인에 사용했다.
