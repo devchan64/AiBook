@@ -1,7 +1,7 @@
 # P3-9.11 当 target 候选有多个，或标准在变化时，应该先固定什么
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在现实数据里，target 候选未必只会出现一个。像 `review_needed`、`final_status`、`status_type`、`priority_bucket` 这样的多个候选可能会一起出现；即使名字相同的 target，在不同时间里判定标准也可能不同。如果不先固定：哪一个是代表问题，以及当前使用的是哪个定义版本，那么问题本身就会变得摇晃。也就是说，当 target 候选有多个，或者标准在变化时，必须先写清楚：哪一个是代表 target，当前定义版本又是什么。
 
@@ -47,5 +47,5 @@
 
 ## 来源与参考资料
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 确认日 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, versioning and derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`。用于确认术语依据：标签是监督学习样本的答案或结果部分，而 proxy label 是在数据集中无法直接取得标签时用来近似实际标签的数据。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*。用于确认 provenance 视角下应保留处理步骤、可复现性、版本管理和派生关系。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

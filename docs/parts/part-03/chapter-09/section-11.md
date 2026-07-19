@@ -1,7 +1,7 @@
 # P3-9.11 target 후보가 여러 개이거나 기준이 바뀔 때 무엇을 먼저 고정해야 하는가
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 현실 데이터에서는 target 후보가 하나만 보이지 않을 수 있습니다. `review_needed`, `final_status`, `status_type`, `priority_bucket`처럼 여러 후보가 함께 보이기도 하고, 같은 이름의 target이라도 시기마다 판정 기준이 달라지기도 합니다. 이 상태에서는 무엇을 대표 문제로 먼저 세울지와 지금 쓰는 정의가 어느 버전인지부터 고정해야 문제 자체가 흔들리지 않습니다. target 후보가 여러 개이거나 기준이 바뀌면, 무엇을 대표 target으로 세우는지와 현재 정의 버전을 먼저 적어야 합니다.
 
@@ -47,5 +47,5 @@
 
 ## 출처와 참고 자료
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, 확인일 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, versioning and derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`. 라벨이 지도학습 예시의 답 또는 결과 부분이며, 직접 라벨을 볼 수 없을 때 proxy label이 실제 라벨을 근사하는 데이터라는 용어 기준을 확인하는 데 참고했습니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. 처리 단계, 재현 가능성, 버전 관리, 파생 관계를 provenance 관점에서 남기는 기준을 확인하는 데 참고했습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-9.11 If There Are Multiple Target Candidates or the Criteria Change, What Should Be Fixed First
 
 > Section ID: `P3-9.11`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In real data, only one target candidate may not be visible. Multiple candidates such as `review_needed`, `final_status`, `status_type`, and `priority_bucket` may appear together, and even a target with the same name may follow different judgment criteria at different times. In that state, the problem itself becomes unstable unless you first fix which one is the representative problem and which version of the current definition is in use. If there are multiple target candidates or the criteria change, you should first write which target is the representative one and what the current definition version is.
 
@@ -47,5 +47,5 @@ So the real difficulty when there are many target candidates is not `name collis
 
 ## Sources and References
 
-- Google, *Machine Learning Glossary*, `label`, `proxy labels`, accessed 2026-07-08. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*, versioning and derivation overview. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" }
+- Google, *Machine Learning Glossary*, `label`, `proxy labels`. Used to check the term basis that a label is the answer or result part of a supervised-learning example and that a proxy label approximates labels not directly available in a dataset. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, *PROV-Overview: An Overview of the PROV Family of Documents*. Used to check the provenance basis for preserving processing steps, reproducibility, versioning, and derivation. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
