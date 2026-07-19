@@ -1,7 +1,7 @@
 # P4-16.1 梯度提升(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 我们在 P4-15 里看到的随机森林(random forest)， 是一种把很多树 `并行地` 建起来， 再把结果聚在一起以减少摇摆的集成方法。
 
@@ -21,13 +21,6 @@
 - `weak learner`、`residual`、`additive model` 分别是什么意思？
 - 梯度提升和随机森林的思考方式到底哪里不同？
 - 为什么 `n_estimators` 和 `learning_rate` 要一起读？
-
-本节不深入展开以下内容。
-
-- 微分公式的严格推导
-- 分类损失(loss)的细部数学
-- XGBoost、LightGBM、CatBoost 之间的实现差异
-- early stopping 与 regularization 的细部策略
 
 这一节聚焦的是： `boosting 到底是一种怎样的方式`。 性能与风险、以及 early stopping 和 shrinkage 的角色， 会在 P4-16.2 继续。 更宽一点的超参数与验证成本视角，会在 P4-9.1 和 P4-9.2 再接回来。XGBoost、LightGBM、CatBoost 的实现差异也会在 P4-16.2 继续，主要从 `它们想让什么更快，想让什么更安全` 的角度来读；如果后面需要更宽的实现比较，再把它分出去作为本章的补充学习回收。
 
@@ -499,5 +492,5 @@ stage2 residual  : [12.5, 5.0, -5.0, -12.5]
 ## 出处与参考资料
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, *The Annals of Statistics*, 29(5), 1189-1232, 2001.
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, *Computational Statistics & Data Analysis*, 38(4), 367-378, 2002.
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, 确认日期: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, 确认日期: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

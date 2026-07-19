@@ -1,7 +1,7 @@
 # P4-16.1 Gradient Boosting
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 The random forest in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
 
@@ -21,13 +21,6 @@ This Section answers the following questions.
 - What do `weak learner`, `residual`, and `additive model` mean?
 - How is the mindset of gradient boosting different from that of random forest?
 - Why should `n_estimators` and `learning_rate` be read together?
-
-This Section does not go deeply into the following topics.
-
-- strict derivations of the differentiation formulas
-- detailed loss-function mathematics for classification
-- implementation differences among XGBoost, LightGBM, and CatBoost
-- detailed strategies for early stopping and regularization
 
 This Section focuses on understanding `what kind of approach boosting is`. Performance and risk, and the roles of early stopping and shrinkage, continue in P4-16.2. The wider view of hyperparameters and validation cost reconnects in P4-9.1 and P4-9.2. Implementation differences among XGBoost, LightGBM, and CatBoost also continue in P4-16.2 at the level of `what they try to make faster and what they try to make safer to handle`, and if a wider implementation comparison becomes necessary, it can be recovered separately as supplementary learning for this chapter.
 
@@ -498,5 +491,5 @@ What matters here is not only `how much the value changed`. More important is re
 ## Sources And References
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, accessed 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, *The Annals of Statistics*, 29(5), 1189-1232, 2001.
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, *Computational Statistics & Data Analysis*, 38(4), 367-378, 2002.
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, accessed 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, accessed 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
