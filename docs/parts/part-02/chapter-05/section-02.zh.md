@@ -1,7 +1,7 @@
 # P2-5.2 分布(distribution)、均值(mean)、方差(variance)
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-5.1 中，我们把概率(probability)看成是“把不确定性(uncertainty)表示成数字的语言”。现在问题要再往前走一步：当这些数字不是一个，而是很多个聚在一起时，我们首先该看什么？
 
@@ -18,36 +18,6 @@
 | 分布、均值、方差是从不同角度读取同一份数据的工具 | 它会接到 P2-5.3 里的样本与估计问题。 | 在 Part 3 的数据划分、泛化、评估指标解释里会再次使用。 |
 | 数据分布与概率分布的差别 | 它会在 P2-5.5 补充学习中扩展成标准差与相关概念。 | 会在分布偏移(distribution shift)和数据集检查语境里再次出现。 |
 | 只看均值还不够，还要看扩散程度 | 它会走向 `P2-5.3` 里的样本波动和估计误差问题。 | 会继续接到平均损失、batch 统计、normalization 等学习说明。 |
-
-## 本节范围
-
-这里处理的是一组数据的形状与摘要。本节先把两个问题收住：当很多值聚在一起时，为什么只看一个均值不够，以及应该按照什么顺序读取分布、均值、方差。
-
-用样本计算出来的摘要值怎样波动，会在 P2-5.3 继续处理。用小数据亲自确认均值和方差的练习，会在 P2-5.4 继续处理。标准差、相关这样更细地读取扩散和关系的工具，会在 P2-5.5 补充学习中再次连接。这里的目标，是把分布、均值、方差恢复成 `读懂 AI 文档所需的最小统计语言`。
-
-这里首先要解决的问题是：`为什么当很多值聚在一起时，不能只看一个均值就结束？`
-
-所以本节先固定下面五个问题。
-
-- 为什么要看一组数据的形状？
-- 均值到底在代表什么？
-- 为什么只看均值还不够？
-- 方差是怎样说明扩散的？
-- 在 AI 里，分布、均值、方差还会在哪里再次出现？
-
-| 术语 | 很短的含义 | 本节中的作用 |
-| --- | --- | --- |
-| 分布 | 值摆放出来的整体形状 | 最先要看的大图景 |
-| 均值 | 把很多值压成一个中心的值 | 代表值的起点 |
-| 方差 | 显示值在均值周围散开程度的值 | 揭露“只看均值会藏住什么”的工具 |
-| 中心 | 数据聚集的代表位置 | 均值和中位数背后的问题 |
-| 扩散 | 它们离中心散开得有多远 | 会接到方差和标准差的问题 |
-
-本节之后的流程也很简单。
-
-- 在 `P2-5.3` 中，我们会看这些摘要值如果不是来自整体，而是来自样本时，会出现哪些限制。
-- 在 `P2-5.5` 中，我们会继续进入像标准差和相关这样的工具，更细地读取扩散和关系。
-- 在 Part 3 与 Part 6 中，同样的感觉会在数据分布、分布偏移、平均损失解释里重新出现。
 
 ## 本节目标
 
@@ -282,6 +252,6 @@ B 中有更多值远离均值。所以 B 的方差会比 A 更大。
 
 ## 来源与参考资料
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认通过直方图读取大数据组的形状、中心、扩散这一说明。
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于支撑把均值(mean)说明为数据中心代表值的表述。
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-19。用于确认方差与标准差围绕均值的扩散、平方偏差、回到原始单位这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认通过直方图读取大数据组的形状、中心、扩散这一说明。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于支撑把均值(mean)说明为数据中心代表值的表述。
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 确认日期: 2026-07-20。用于确认方差与标准差围绕均值的扩散、平方偏差、回到原始单位这一说明。

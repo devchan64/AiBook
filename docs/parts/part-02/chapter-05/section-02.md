@@ -1,7 +1,7 @@
 # P2-5.2 분포(distribution), 평균(mean), 분산(variance)
 
 > Section ID: `P2-5.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-5.1에서는 확률(probability)을 불확실성(uncertainty)을 숫자로 표현하는 언어로 봤습니다. 이제 그 숫자들이 여러 개 모였을 때 무엇을 봐야 하는지로 넘어갑니다.
 
@@ -18,36 +18,6 @@ P2-5.1에서는 확률(probability)을 불확실성(uncertainty)을 숫자로 �
 | 분포, 평균, 분산이 같은 데이터를 다른 각도에서 읽는 도구라는 점 | P2-5.3에서 표본과 추정 질문으로 이어집니다. | Part 3의 데이터 분할, 일반화, 평가 지표 해석에서 다시 씁니다. |
 | 데이터 분포와 확률분포의 차이 | P2-5.5 보충학습에서 표준편차와 상관 개념으로 확장합니다. | 분포 이동(distribution shift)과 데이터셋 점검 문맥에서 다시 등장합니다. |
 | 평균만으로는 부족하고 퍼짐도 봐야 한다는 점 | `P2-5.3`에서 표본 변동과 추정 오차 질문으로 넘어갑니다. | 평균 손실, 배치 통계, 정규화 같은 모델 학습 설명으로 이어집니다. |
-
-## 이 절의 범위
-
-여기서는 데이터 묶음의 모양과 요약을 다룹니다. 이번 절은 `값이 여러 개 모였을 때 왜 평균 하나만 보면 부족한가`, `분포·평균·분산을 어떤 순서로 읽어야 하는가`까지를 먼저 닫습니다.
-
-표본으로 계산한 요약값이 어떻게 흔들릴 수 있는지는 바로 다음 P2-5.3에서 이어서 보고, 작은 데이터로 평균과 분산을 직접 확인하는 실습은 P2-5.4에서 이어집니다. 표준편차와 상관처럼 퍼짐과 관계를 더 정교하게 읽는 도구는 P2-5.5 보충학습에서 다시 연결합니다. 여기서는 분포, 평균, 분산을 “AI 문서를 읽기 위한 최소 통계 언어”로 복구합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `값이 여러 개 모였을 때 왜 평균 하나만 보고 끝내면 안 되는가`입니다.
-
-그래서 이 절에서는 다음 다섯 질문만 먼저 고정합니다.
-
-- 데이터 묶음의 모양을 왜 봐야 하는가?
-- 평균은 무엇을 대표하는가?
-- 평균만 보면 왜 부족한가?
-- 분산은 퍼짐을 어떻게 설명하는가?
-- AI에서 분포와 평균, 분산은 어디에서 다시 등장하는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 분포 | 값들이 놓인 전체 모양 | 먼저 봐야 할 큰 그림 |
-| 평균 | 값을 하나의 중심으로 요약한 값 | 대표값의 출발점 |
-| 분산 | 평균 주변의 퍼짐을 나타내는 값 | 평균만으로 숨는 차이를 드러내는 도구 |
-| 중심 | 데이터가 모여 있는 대표 위치 | 평균과 중위값을 읽는 질문 |
-| 퍼짐 | 중심에서 얼마나 흩어져 있는가 | 분산과 표준편차로 이어지는 질문 |
-
-이 절 다음 흐름도 단순합니다.
-
-- `P2-5.3`에서는 이런 요약값이 전체가 아니라 표본에서 계산된 것일 때 어떤 한계가 생기는지 봅니다.
-- `P2-5.5`에서는 표준편차와 상관처럼 퍼짐과 관계를 더 정교하게 읽는 도구로 이어집니다.
-- Part 3과 Part 6에서는 데이터 분포, 분포 이동, 평균 손실 해석에서 같은 감각이 다시 등장합니다.
 
 ## 이 절의 목표
 
@@ -282,6 +252,6 @@ B는 평균에서 더 멀리 떨어진 값이 많습니다. 그래서 B의 분�
 
 ## 출처와 참고 자료
 
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 히스토그램을 통해 큰 데이터 묶음의 모양, 중심, 퍼짐을 읽는다는 설명 확인에 사용했다.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 평균(mean)을 데이터 중심의 대표값으로 설명하는 근거로 사용했다.
-- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-19. 분산과 표준편차가 평균 주변의 퍼짐, 제곱 편차, 원래 단위와 연결되는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.2 Histograms, Frequency Polygons, and Time Series Graphs](https://openstax.org/books/introductory-statistics/pages/2-2-histograms-frequency-polygons-and-time-series-graphs){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 히스토그램을 통해 큰 데이터 묶음의 모양, 중심, 퍼짐을 읽는다는 설명 확인에 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.5 Measures of the Center of the Data](https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 평균(mean)을 데이터 중심의 대표값으로 설명하는 근거로 사용했다.
+- Barbara Illowsky, Susan Dean, [Introductory Statistics, 2.7 Measures of the Spread of the Data](https://openstax.org/books/introductory-statistics/pages/2-7-measures-of-the-spread-of-the-data){: target="_blank" rel="noopener noreferrer" }, OpenStax, 확인 날짜: 2026-07-20. 분산과 표준편차가 평균 주변의 퍼짐, 제곱 편차, 원래 단위와 연결되는 설명 확인에 사용했다.
