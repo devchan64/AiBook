@@ -1,11 +1,23 @@
 # Table of Contents
 
-Section ID: `BOOK-toc`
-Version: `v2026.07.18`
+> Section ID: `BOOK-toc`
+> Version: `v2026.07.19`
 
-This table of contents is the currently adopted learning order for the book. Here, `adopted` means that the structure has been chosen as part of the book. It does not mean that every chapter has already been fully written or fully verified.
+This document is the reader-facing table of contents for AiBook. Rather than listing files only, it gives a quick view of the relearning sequence from `Introduction to AI and the Landscape -> Foundational Recovery -> Data Modeling -> Machine Learning -> Deep Learning -> LLMs and Generative AI -> Projects`.
 
-When reading the table of contents, it also helps to remember that the book is designed so that detailed explanation of an important concept appears in only one section within the same Part whenever possible. Later sections keep only the minimum connection needed for the current context, and repeated core terms are meant to be checked again through the [Concept Glossary](../reference/concept-glossary.md) and the representative section tied to that concept.
+Here, `adopted` means that this sequence has been chosen as the book's reference structure. It does not mean that every chapter has already been fully written or finally verified. The main text may continue to be strengthened, but the learning dependencies among Parts and Chapters are tracked against this document.
+
+## Quick Start
+
+If you are reading for the first time, start with the [Introduction](index.md) to understand the book's purpose and reading path, then move through Part 1 in order. When a term becomes unclear, use the [Concept Glossary](reference/concept-glossary.md) to find the representative explanation location.
+
+| Reader state | Recommended starting path |
+| --- | --- |
+| The overall AI flow feels unfamiliar | Introduction -> Part 1 -> Part 2 |
+| Mathematics or Python feels rusty | Introduction -> Part 1 -> Part 2 -> Part 3 |
+| AI tools are familiar but the internal structure is weak | Introduction -> Part 1 -> Part 3 -> Part 4 |
+| LLM and generative-AI structure is the main interest | LLM preview in Part 1 -> Part 5 -> Part 6 |
+| The goal is to validate learning through outputs | Check the needed concepts in Parts 1-6 -> Part 7 |
 
 ## Overall Flow
 
@@ -22,17 +34,27 @@ flowchart LR
   A --> B --> C --> D --> E --> F --> G
 ```
 
-This diagram is not just a sequence. It shows a learning dependency structure in which earlier Parts become reading conditions for later Parts. For example, the terms and overall map in Part 1 need to be fixed first so that the data modeling in Part 3 or the LLM explanations in Part 6 feel less vague. For a first-time reader, it is enough to treat this figure as a guide to what should be understood first so that the next Part becomes less difficult.
+This diagram shows the learning dependency structure in which earlier Parts become prerequisites for later Parts.
+
+| Part | Core role | Question handed to the next Part |
+| --- | --- | --- |
+| Part 1. Introduction to AI and the Landscape | Establishes the scope and history of AI, the difference between rules and learning, and the basic vocabulary for the LLM user experience. | What foundations are needed to read AI model computation? |
+| Part 2. Foundational Recovery | Restores mathematics, Python, data tools, and execution environments as languages for reading model computation. | How should raw data be turned into a learnable structure? |
+| Part 3. Data Modeling | Reorganizes data into samples, features, baselines, and comparison structures. | What does a model learn from this structured data? |
+| Part 4. Machine Learning | Reads problem setup, learning, validation, evaluation, and representative algorithms as one common structure. | How do neural networks extend this structure computationally? |
+| Part 5. Deep Learning | Covers neural-network computation, backpropagation, CNNs, RNNs, attention, and Transformer structure. | How is this structure used in LLM and generative-AI services? |
+| Part 6. LLMs and Generative AI | Connects tokens, prompts, generation settings, embeddings, retrieval, RAG, agents, and evaluation. | How can the learned material be validated and recorded in small projects? |
+| Part 7. Projects | Combines questions, inputs, baselines, comparisons, execution logs, and operational reflection into one output. | What should be improved in the next iteration? |
 
 ## Notation
 
-In public-facing explanation, the book is read as a `Part > Module > Chapter > Section` structure. The actual source tree uses a `Part > Chapter > Section` directory structure, and `Module` is an editorial unit that groups several chapters into one reading flow. Part 7 is described as `Project` because of its practical character, but the directory names still keep the `chapter-XX` format.
+In public-facing explanation, the book is read as a `Part > Module > Chapter > Section` structure. The actual source tree uses a `Part > Chapter > Section` directory structure, and `Module` is an editorial unit that groups several Chapters into one reading flow.
 
 This document uses the following notation so the tree structure remains visible.
 
 - `## Part`: a major learning segment of the book
 - `### Module`: a thematic grouping inside a Part
-- `#### Chapter` or `#### Project`: an independent learning unit inside a Module
+- `#### Chapter` or `#### Project`: an independent learning unit inside a Module. Part 7 may be described as `Project` because of its practical character, but the directory names still keep the `chapter-XX` format.
 - Section item: the actual document unit to be written and maintained
 
 Even if the same major concept appears again in multiple sections, the first section where it appears in the table of contents is often the representative detailed explanation for that Part. Later sections then reconnect that concept in a different problem scene or computational context.

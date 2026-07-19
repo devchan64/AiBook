@@ -1,38 +1,60 @@
 # 目录
 
-Section ID: `BOOK-toc`
-Version: `v2026.07.18`
+> Section ID: `BOOK-toc`
+> Version: `v2026.07.19`
 
-这份目录是本书当前采用的学习顺序。这里所说的 `采用`，是指这套结构已经被选定为本书的一部分，并不意味着每个 Chapter 都已经完全写完或完全验证。
+本文档是 AiBook 面向读者的目录。它不是单纯列出文件，而是让读者一眼看到从 `AI 导论与地形图 -> 基础修复 -> 数据建模 -> 机器学习 -> 深度学习 -> LLM 与生成式 AI -> 项目实践` 连接起来的重新学习顺序。
 
-阅读目录时，也请记住本书的一个基本设计：在同一个 Part 内，重要概念的详细说明会尽量只放在一个 Section 中。后续 Section 只保留当前语境所需的最小连接，而重复出现的核心术语，应当通过 [概念词汇表](/AiBook/reference/concept-glossary/) 和与之对应的代表 Section 再次确认。
+这里的 `采用`，是指这套顺序已经被选为本书的基准结构。它并不意味着每个 Chapter 都已经完全写完或最终验证。正文仍会继续补强，但 Part 和 Chapter 之间的学习依赖关系会以本文档为基准追踪。
+
+## 快速开始
+
+如果是第一次阅读，可以先从 [介绍页](index.md) 确认本书的目的和阅读方法，然后按顺序进入 Part 1。阅读中如果术语变得不清楚，可以在 [概念词汇表](reference/concept-glossary.md) 中找到代表说明位置。
+
+| 读者状态 | 推荐开始路径 |
+| --- | --- |
+| AI 整体流程还很陌生 | 介绍页 -> Part 1 -> Part 2 |
+| 数学或 Python 记忆已经模糊 | 介绍页 -> Part 1 -> Part 2 -> Part 3 |
+| 用过 AI 工具，但内部结构较弱 | 介绍页 -> Part 1 -> Part 3 -> Part 4 |
+| 主要关心 LLM 与生成式 AI 的结构 | Part 1 的 LLM 预览 -> Part 5 -> Part 6 |
+| 想用产出物验证学习内容 | 确认 Part 1-6 中需要的概念 -> Part 7 |
 
 ## 整体流程
 
 ```mermaid
 flowchart LR
-  A[Introduction to AI and the Landscape]
-  B[Foundational Recovery]
-  C[Data Modeling]
-  D[Machine Learning]
-  E[Deep Learning]
-  F[LLMs and Generative AI]
-  G[Projects]
+  A[AI 导论与地形图]
+  B[基础修复]
+  C[数据建模]
+  D[机器学习]
+  E[深度学习]
+  F[LLM 与生成式 AI]
+  G[项目实践]
 
   A --> B --> C --> D --> E --> F --> G
 ```
 
-这张图并不是简单的先后顺序，而是在展示学习依赖关系。比如，必须先在 Part 1 固定好术语和整体地图，Part 3 的数据建模或 Part 6 的 LLM 说明才不会显得过于模糊。对第一次阅读的读者来说，把这张图当作“先理解什么，后面的 Part 会更容易读”的导航图就足够了。
+这张图展示的是学习依赖关系：前面的 Part 会成为后面 Part 的阅读前提。
+
+| Part | 中心作用 | 交给下一个 Part 的问题 |
+| --- | --- | --- |
+| Part 1. AI 导论与地形图 | 建立 AI 的范围、历史、规则与学习的区别，以及 LLM 使用体验的基础词汇。 | 要阅读 AI 模型计算，需要哪些基础？ |
+| Part 2. 基础修复 | 把数学、Python、数据工具和执行环境恢复为阅读模型计算的语言。 | 如何把原始数据变成可学习的结构？ |
+| Part 3. 数据建模 | 把数据重新组织成样本、特征、基准线和比较结构。 | 模型会从这样的结构化数据中学到什么？ |
+| Part 4. 机器学习 | 把问题定义、学习、验证、评估和代表性算法作为共同结构来阅读。 | 神经网络会怎样以计算方式扩展这个结构？ |
+| Part 5. 深度学习 | 处理神经网络计算、反向传播、CNN、RNN、attention 和 Transformer 结构。 | 这些结构如何用于 LLM 与生成式 AI 服务？ |
+| Part 6. LLM 与生成式 AI | 连接 token、提示词、生成设置、嵌入、检索、RAG、智能体和评估。 | 如何在小项目中验证并记录已经学到的内容？ |
+| Part 7. 项目实践 | 把问题、输入、基准线、比较、执行日志和运营回顾组合成一个产出物。 | 下一次迭代应该改进什么？ |
 
 ## 记号说明
 
-在面向读者的公开说明里，本书按 `Part > Module > Chapter > Section` 来阅读。实际源码目录使用的是 `Part > Chapter > Section` 结构，而 `Module` 是把若干 Chapter 组织成一条阅读流程的编辑单位。Part 7 因为实践性质较强，会写成 `Project`，但目录名仍然保留 `chapter-XX` 形式。
+在面向读者的公开说明里，本书按 `Part > Module > Chapter > Section` 来阅读。实际源码目录使用的是 `Part > Chapter > Section` 结构，而 `Module` 是把若干 Chapter 组织成一条阅读流程的编辑单位。
 
 本文使用以下记号，让树形结构更清楚。
 
 - `## Part`：本书的一个主要学习区段
 - `### Module`：Part 内部按主题划分的阅读单元
-- `#### Chapter` 或 `#### Project`：Module 内部一个独立学习单元
+- `#### Chapter` 或 `#### Project`：Module 内部一个独立学习单元。Part 7 因为实践性质较强，可以写成 `Project`，但目录名仍然保留 `chapter-XX` 形式。
 - Section 项：实际被写作、维护和追踪的文档单位
 
 即使同一个核心概念在多个 Section 中再次出现，目录里第一次出现它的位置，通常也是该 Part 内的代表性详细说明位置。后续 Section 则是在不同问题场景或计算语境里再次接回这个概念。

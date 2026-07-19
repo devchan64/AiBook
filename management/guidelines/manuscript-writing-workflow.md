@@ -46,9 +46,9 @@
 ## 목차 변경 워크플로우
 
 - 배포 기준 목차는 `mkdocs.yml`의 `nav`를 기준으로 본다.
-- 독자용 설명 목차는 `docs/book/table-of-contents.md`에서 관리한다.
+- 독자용 설명 목차는 `docs/table-of-contents.md`에서 관리한다.
 - 실제 파일 구조는 `Part > Chapter > Section`이고, `Module`은 여러 Chapter를 읽기 흐름으로 묶는 편집 단위로만 사용한다.
-- 새 Part, Chapter, Section을 추가하거나 순서를 바꾸면 `docs/book/table-of-contents.md`와 `mkdocs.yml`이 현재 구조와 같은 방향을 가리키는지 함께 확인한다.
+- 새 Part, Chapter, Section을 추가하거나 순서를 바꾸면 `docs/table-of-contents.md`와 `mkdocs.yml`이 현재 구조와 같은 방향을 가리키는지 함께 확인한다.
 - 외부 교재나 강의의 목차를 그대로 복제하지 않는다. 반복 주제와 교육적 필요를 현재 책의 흐름에 맞게 재배치한다.
 - 새 장을 추가할 때는 `왜 필요한가`, `어느 Part와 연결되는가`, `어떤 근거 문서가 뒷받침하는가`를 먼저 확인한다.
 - 오래된 목차 초안은 별도 관리 문서로 누적하지 않고, 현재 기준 문서에 흡수한 뒤 폐기한다.

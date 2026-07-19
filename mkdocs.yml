@@ -45,7 +45,7 @@ theme:
 nav:
   - "시작":
       - "소개": index.md
-      - "책의 목차": book/table-of-contents.md
+      - "책의 목차": table-of-contents.md
       - "개념사전": reference/concept-glossary.md
   - "Part 1. AI 개론과 지형도":
       - "개요": parts/part-01/index.md
@@ -615,7 +615,7 @@ plugins:
           nav:
             - "Start":
                 - "Introduction": index.md
-                - "Table of Contents": book/table-of-contents.md
+                - "Table of Contents": table-of-contents.md
                 - "Concept Glossary": reference/concept-glossary.md
             - "Part 1. Introduction to AI and the Landscape":
                 - "Overview": parts/part-01/index.md
@@ -1023,7 +1023,7 @@ plugins:
           nav:
             - "开始":
                 - "介绍": index.md
-                - "目录": book/table-of-contents.md
+                - "目录": table-of-contents.md
             - "Part 1. AI 导论与地形图":
                 - "概览": parts/part-01/index.md
                 - "Module 1. AI 的范围与历史":
