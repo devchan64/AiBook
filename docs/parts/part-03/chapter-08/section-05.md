@@ -1,7 +1,7 @@
 # P3-8.5 여러 비교 열은 어떻게 하나의 검토 우선순위 후보로 묶는가
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 평균 차이, 변동성 차이, 반복성, 최근 구간 건수, 패턴 요약이 한 표에 함께 들어오면 곧바로 이런 문제가 생깁니다. `열이 여러 개인데 무엇을 먼저 보고, 어떻게 한 줄 판단으로 줄여야 하는가?` 비교 열이 많아질수록 필요한 것은 더 많은 숫자가 아니라, 서로 다른 신호를 몇 개의 판단 축으로 다시 묶는 방법입니다.
 
@@ -86,5 +86,5 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Thresholds and the confusion matrix`. score 하나가 곧바로 행동이 아니라 threshold와 비용 구조를 거쳐 해석된다는 설명을 제공하므로, 여러 비교 열을 한 번에 숫자 하나로 합치기보다 먼저 판단 축으로 묶는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Classification: ROC and AUC`. 모델 점수의 핵심 용도 중 하나가 순서를 세우는 것임을 보여 주므로, 검토 우선순위를 `변화 크기`, `반복성`, `해석 신뢰도`, `운영 중요도` 축으로 압축해 review queue 후보를 만든다는 이 절의 일반화된 관점을 뒷받침합니다. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Thresholds and the confusion matrix`. score 하나가 곧바로 행동이 아니라 threshold와 비용 구조를 거쳐 해석된다는 설명을 제공하므로, 여러 비교 열을 한 번에 숫자 하나로 합치기보다 먼저 판단 축으로 묶는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Classification: ROC and AUC`. 모델 점수의 핵심 용도 중 하나가 순서를 세우는 것임을 보여 주므로, 검토 우선순위를 `변화 크기`, `반복성`, `해석 신뢰도`, `운영 중요도` 축으로 압축해 review queue 후보를 만든다는 이 절의 일반화된 관점을 뒷받침합니다. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

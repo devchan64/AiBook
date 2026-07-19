@@ -1,7 +1,7 @@
 # P3-8.5 How Are Multiple Comparison Columns Grouped into One Review-Priority Candidate
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Once one table contains mean difference, variability difference, repeatability, recent-window count, and a pattern summary together, a direct question appears. `If there are many columns, what should be read first, and how should they be reduced to one line of judgment?` As the number of comparison columns grows, what is needed is not more numbers but a way to regroup different signals into a few judgment axes.
 
@@ -86,5 +86,5 @@ This diagram shows that the columns should not be collapsed straight into one sc
 
 ## Sources and References
 
-- Google for Developers, `Thresholds and the confusion matrix`. It explains that a score does not become action immediately, but is interpreted through thresholds and cost structure, which supports this section's explanation that multiple comparison columns should first be grouped into judgment axes rather than merged at once into a single number. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Classification: ROC and AUC`. It shows that one of the main uses of model scores is ranking, which supports this section's generalized view that review-priority candidates are built by compressing signals into axes such as change magnitude, repeatability, interpretation confidence, and operational importance. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Thresholds and the confusion matrix`. It explains that a score does not become action immediately, but is interpreted through thresholds and cost structure, which supports this section's explanation that multiple comparison columns should first be grouped into judgment axes rather than merged at once into a single number. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Classification: ROC and AUC`. It shows that one of the main uses of model scores is ranking, which supports this section's generalized view that review-priority candidates are built by compressing signals into axes such as change magnitude, repeatability, interpretation confidence, and operational importance. [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

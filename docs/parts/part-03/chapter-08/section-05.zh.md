@@ -1,7 +1,7 @@
 # P3-8.5 多个比较列如何归并成一个复核优先级候选
 
 > Section ID: `P3-8.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 当一张表里同时出现均值差异、波动性差异、重复性、最近区间样本数和模式摘要时，马上就会出现一个问题：`列很多，那应该先看什么，又该如何压缩成一行判断？` 比较列越多，真正需要的往往不是更多数字，而是把不同信号重新归并成几个判断轴的方法。
 
@@ -86,5 +86,5 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Thresholds and the confusion matrix`。它说明 score 不会立刻变成 action，而是要经过 threshold 和成本结构来解释，因此补强了本节的说明：多个比较列不应一次性合成为一个数字，而应先归并成判断轴。 [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
-- Google for Developers, `Classification: ROC and AUC`。它展示了模型分数的一个重要用途是排序，因此支持本节的一般化观点：复核优先级候选是通过变化幅度、重复性、解读可信度和运营重要性这些轴来压缩信号之后形成的。 [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
+- Google for Developers, `Thresholds and the confusion matrix`。它说明 score 不会立刻变成 action，而是要经过 threshold 和成本结构来解释，因此补强了本节的说明：多个比较列不应一次性合成为一个数字，而应先归并成判断轴。 [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Google for Developers, `Classification: ROC and AUC`。它展示了模型分数的一个重要用途是排序，因此支持本节的一般化观点：复核优先级候选是通过变化幅度、重复性、解读可信度和运营重要性这些轴来压缩信号之后形成的。 [https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc](https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
