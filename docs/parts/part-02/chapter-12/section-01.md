@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -16,18 +16,6 @@ Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix)
 이 표를 보면 우리는 위치(position)보다 `누가`, `어떤 열(column)`, `어떤 값(value)`인가를 먼저 읽습니다. Pandas의 DataFrame은 바로 이런 표 형식 데이터를 다루기 위한 중심 구조입니다.
 
 여기서는 `DataFrame`, `행(row)`, `열(column)`, `인덱스(index)`의 기본 구분을 설명합니다. 앞 장의 NumPy가 그 값을 실제 계산에 쓸 수 있는 벡터와 행렬 모양으로 어떻게 다룰지를 다뤘다면, 여기서는 그 숫자 묶음이 어떤 사례와 변수의 표로 읽혀야 하는지 살핍니다. 다음 장에서는 이 표에서 바로 안 보이는 변화와 관계를 그래프로 확인합니다. 이후 표 선택, 집계, 데이터셋 준비로 이어질 때는 [개념사전](../../../reference/concept-glossary.md)도 함께 기준점으로 삼습니다.
-
-## 이 절의 범위
-
-이 절은 DataFrame을 깊게 조작하는 방법을 다루지 않습니다. `loc`, `iloc`, 필터링(filtering), 정렬(sort), 집계(aggregation), 결측치 처리(missing value handling)는 다음 절로 넘깁니다.
-
-여기서는 다음 질문에 답합니다.
-
-- DataFrame은 NumPy 배열과 무엇이 다른가?
-- DataFrame의 행(row), 열(column), 인덱스(index)는 각각 무엇을 가리키는가?
-- 왜 표 데이터는 배열보다 DataFrame으로 읽는 편이 자연스러운가?
-- 학습용 데이터셋에서 한 행과 한 열을 어떻게 해석하면 좋은가?
-- DataFrame을 처음 받으면 무엇부터 확인해야 하는가?
 
 ## 이 절의 목표
 
@@ -491,5 +479,5 @@ dtype: object
 
 ## 출처와 참고 자료
 
-- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. DataFrame을 labeled axes를 가진 2차원 tabular data structure로 설명하는 근거로 사용했다.
-- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. pandas가 tabular, time series, matrix data를 다루는 도구라는 설명을 DataFrame 입문 배경으로 사용했다.
+- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. DataFrame을 labeled axes를 가진 2차원 tabular data structure로 설명하는 근거로 사용했다.
+- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. pandas가 tabular, time series, matrix data를 다루는 도구라는 설명을 DataFrame 입문 배경으로 사용했다.

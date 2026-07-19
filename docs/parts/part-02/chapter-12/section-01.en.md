@@ -1,7 +1,7 @@
 # P2-12.1 What Does a Pandas DataFrame Represent?
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 2 Chapter 11 worked with NumPy arrays for vectors, matrices, axes, and broadcasting. That workflow is strong for numeric computation, but the question changes when we start reading a dataset that looks like a table.
 
@@ -16,18 +16,6 @@ Real data often arrives in a shape like this.
 When we look at this table, we usually read `who`, `which column`, and `which value` before we read position. A Pandas DataFrame is the central structure for exactly this kind of tabular data.
 
 This Section introduces the basic distinction among `DataFrame`, `row`, `column`, and `index`. If the previous NumPy chapter focused on how values appear as vectors and matrices for actual computation, this chapter asks how the same bundle of values should be read as a table of cases and variables. The next chapter will move from this table to plots that reveal patterns not immediately visible in the table. As we continue into selection, aggregation, and dataset preparation, the [concept glossary](/AiBook/reference/concept-glossary/) remains a useful anchor.
-
-## Scope of This Section
-
-This Section does not cover deep DataFrame manipulation. `loc`, `iloc`, filtering, sorting, aggregation, and missing-value handling are deferred to the next Section.
-
-Here we answer the following questions.
-
-- How is a DataFrame different from a NumPy array?
-- What do the row, column, and index of a DataFrame each point to?
-- Why is it often more natural to read tabular data through a DataFrame than through an array?
-- In a learning dataset, how should we interpret one row and one column?
-- What should we check first when we receive a DataFrame?
 
 ## Goals of This Section
 
@@ -491,5 +479,5 @@ So the beginning of DataFrame reading is closer to a shift in perspective than t
 
 ## Sources and References
 
-- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used as the basis for explaining a DataFrame as a two-dimensional tabular data structure with labeled axes.
-- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used as background for explaining pandas as a tool for tabular, time series, and matrix data.
+- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used as the basis for explaining a DataFrame as a two-dimensional tabular data structure with labeled axes.
+- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-20. Used as background for explaining pandas as a tool for tabular, time series, and matrix data.
