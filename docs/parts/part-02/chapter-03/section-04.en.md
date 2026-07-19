@@ -7,17 +7,6 @@ Once we have read vectors, matrices, and matrix multiplication, the next questio
 
 If matrix multiplication is `a calculation that combines vectors to create new values`, then dot product, distance, and similarity are `calculations that compare vectors`. So after building vectors, we also need to hold on to the standard by which those vectors will be read. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
-
-This section handles only the basic intuition of dot product, norm, distance, and similarity. It does not cover the formal proof of cosine similarity, concentration phenomena in high dimensions, or the implementation details of ANN search.
-
-Here we focus on the following questions.
-
-- How does the dot product summarize the relation between two vectors into one number?
-- What does vector norm measure?
-- Why are distance and similarity not the same thing?
-- Why does this intuition lead into k-NN, embedding, and vector retrieval?
-
 ## Goals of This Section
 
 - You can explain dot product as the value obtained by multiplying corresponding components of two vectors and adding them.
