@@ -1,7 +1,7 @@
 # P4-16.3 Supplementary Learning: Boosting Libraries And Operational Feel
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P4-16.1 and P4-16.2, we saw the sequential-correction structure of gradient boosting and the combined story of performance and overfitting risk. The next natural question is why, even inside the same boosting family, XGBoost, LightGBM, and CatBoost feel different in name and in usage.
 
@@ -276,7 +276,7 @@ Compressed more briefly:
 Suppose the team keeps changing learning rate, tree depth, and stage count on fraud-detection data. Then model comparison soon turns into an operational problem. As stage count grows, the validation curve has to be watched longer; as folds grow, stopping judgments are repeated too.
 
 ```mermaid
---8<-- "assets/part-04/chapter-16/p4-16-3-mermaid-01-ko.mmd"
+--8<-- "assets/part-04/chapter-16/p4-16-3-mermaid-01-en.mmd"
 ```
 
 At that point, GPU and distribution become `a speed problem for bearing the experiments`, while automation becomes `an operational problem for repeating the stopping judgment`.
@@ -302,6 +302,6 @@ The verifiable result can be recorded like this.
 
 ## Sources And References
 
-- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016.
-- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017.
-- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018.
+- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016. Consulted for XGBoost's sparse-aware handling, approximate tree learning, and scalability based on cache/data compression/sharding. Accessed 2026-07-19. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785){: target="_blank" rel="noopener noreferrer" }
+- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017. Consulted for LightGBM's GOSS, EFB, and large-scale GBDT efficiency direction. Accessed 2026-07-19. [https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html](https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018. Consulted for CatBoost's ordered boosting, categorical feature handling, and target-leakage mitigation perspective. Accessed 2026-07-19. [https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html){: target="_blank" rel="noopener noreferrer" }

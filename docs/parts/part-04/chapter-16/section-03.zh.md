@@ -1,7 +1,7 @@
 # P4-16.3 补充学习：提升库与运营感
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-16.1 与 P4-16.2 里， 我们已经看过梯度提升(gradient boosting)的顺序修正结构， 以及它的性能与过拟合风险为什么会一起出现。 接下来很自然会冒出的问题是： 为什么同样属于 boosting 家族， XGBoost、LightGBM、CatBoost 却会给人不同的名字与不同的使用感觉？
 
@@ -178,7 +178,7 @@ GPU 与 distributed training 首先不是在讲 `让模型更聪明`， 而是�
 | --- | --- |
 | 数据在 worker 之间分得均不均 | 因为只要一个 worker 明显慢，整个 stage 就会被拖住 |
 | fold 与 stage 记录是否一致 | 因为如果各 worker 的 early stopping 点对不上，实验就难以比较 |
-| 任务失败后的重跑 기준 是否清楚 | 因为长实验里，某几个 stage 出错就可能中断整条流程 |
+| 任务失败后的重跑标准是否清楚 | 因为长实验里，某几个 stage 出错就可能中断整条流程 |
 | 相对于输入大小和 bin 数，内存是否过重 | 因为 histogram 与多 stage 叠加后，内存很容易先成瓶颈 |
 
 所以即使现在不去深学集群运维， 也仍然要先抓住一点： 在 distributed boosting 里， 重要的不只是 `快不快`， 还包括 `同样的 stage 能不能稳定地重复下去`。
@@ -191,7 +191,7 @@ GPU 与 distributed training 首先不是在讲 `让模型更聪明`， 而是�
 | --- | --- |
 | 要持续盯着每个 stage 的 validation 变化 | 实验一多，人就很难把每一次都跟完 |
 | learning rate 和 stage 数要一起调 | 组合一多，就很难靠直觉停 |
-| 不同 fold 的最佳停点可能不同 | 需要一个可比较的平均 기준 |
+| 不同 fold 的最佳停点可能不同 | 需要一个可比较的平均标准 |
 
 所以在 boosting 实务里， automation 不是单纯的便利功能， 而是让 `stage 选择` 和 `early stopping 判断` 变得可重复的运营装置。
 
@@ -210,7 +210,7 @@ GPU 与 distributed training 首先不是在讲 `让模型更聪明`， 而是�
 2. 留下每次执行的 validation 曲线与 best iteration
 3. 把结果重新聚成能比较的格式
 
-因此 automation 的重点， 与其说是 `少按几个按钮`， 不如说是： `让很多次实验都能用同一个 기준 再比较。`
+因此 automation 的重点， 与其说是 `少按几个按钮`， 不如说是： `让很多次实验都能用同一个标准再比较。`
 
 ## 为什么 gradient 和 hessian 会再出现
 
@@ -306,6 +306,6 @@ GPU 与 distributed training 首先不是在讲 `让模型更聪明`， 而是�
 
 ## 出处与参考资料
 
-- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016.
-- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017.
-- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018.
+- Tianqi Chen, Carlos Guestrin, `XGBoost: A Scalable Tree Boosting System`, KDD 2016. 用于确认 XGBoost 的 sparse-aware 处理、approximate tree learning，以及基于 cache/data compression/sharding 的扩展性说明。确认日期: 2026-07-19. [https://doi.org/10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785){: target="_blank" rel="noopener noreferrer" }
+- Guolin Ke et al., `LightGBM: A Highly Efficient Gradient Boosting Decision Tree`, NeurIPS 2017. 用于确认 LightGBM 的 GOSS、EFB 与大规模 GBDT 效率化方向。确认日期: 2026-07-19. [https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html](https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Liudmila Prokhorenkova et al., `CatBoost: unbiased boosting with categorical features`, NeurIPS 2018. 用于确认 CatBoost 的 ordered boosting、categorical feature 处理与 target leakage 缓和视角。确认日期: 2026-07-19. [https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html](https://proceedings.neurips.cc/paper/2018/hash/14491b756b3a51daac41c24863285549-Abstract.html){: target="_blank" rel="noopener noreferrer" }
