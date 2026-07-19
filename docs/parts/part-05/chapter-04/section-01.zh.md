@@ -1,9 +1,9 @@
 # P5-4.1 损失函数（loss function）
 
-Section ID: `P5-4.1`
-Version: `v2026.07.17`
+> Section ID: `P5-4.1`
+> Version: `v2026.07.19`
 
-在 P5-3 章里，我们已经看到：激活函数（activation function）会把非线性（nolinearity）加入神经网络，并提升表达能力。接下来立刻会跟上的问题就是：
+在 P5-3 章里，我们已经看到：激活函数（activation function）会把非线性（nonlinearity）加入神经网络，并提升表达能力。接下来立刻会跟上的问题就是：
 
 那么，神经网络到底靠什么判断自己当前的输出错了多少？
 
@@ -443,4 +443,4 @@ worst_sample=restart_delay_batch (0.640)
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期：2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

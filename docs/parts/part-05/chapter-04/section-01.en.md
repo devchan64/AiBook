@@ -1,7 +1,7 @@
 # P5-4.1 Loss Functions
 
-Section ID: `P5-4.1`
-Version: `v2026.07.17`
+> Section ID: `P5-4.1`
+> Version: `v2026.07.19`
 
 In Chapter 3, we saw that activation functions insert nonlinearity into neural networks and increase expressive power. The next question then follows immediately.
 
@@ -443,4 +443,4 @@ The moment when the loss-function section needs to be brought in is when the exp
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, date checked: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
