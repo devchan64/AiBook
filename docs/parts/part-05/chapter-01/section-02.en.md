@@ -1,7 +1,7 @@
 # P5-1.2 Linear Combination And Activation
 
-Section ID: `P5-1.2`
-Version: `v2026.07.17`
+> Section ID: `P5-1.2`
+> Version: `v2026.07.19`
 
 In P5-1.1, the perceptron was read through the flow `input -> weight -> sum -> output`. Now we continue directly to see what it exactly means to gather inputs into a weighted sum, and why that sum alone is not yet deep learning. The perceptron first creates a linear combination of the inputs, and then passes that result through an activation rule to make a decision.
 
@@ -335,6 +335,6 @@ If you recall the linear regression and logistic regression seen in Part 4, the 
 
 ## Sources And References
 
-- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, date checked: 2026-06-28.
-- Marvin Minsky, Seymour Papert, `Perceptrons: An Introduction to Computational Geometry`, MIT Press, 1969/1988, date checked: 2026-06-28.
+- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, date checked: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
+- Marvin Minsky, Seymour Papert, `Perceptrons: An Introduction to Computational Geometry`, MIT Press, 1969/1988, date checked: 2026-07-19. [https://mitpress.mit.edu/9780262534772/perceptrons/](https://mitpress.mit.edu/9780262534772/perceptrons/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

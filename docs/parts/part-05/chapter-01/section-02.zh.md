@@ -1,7 +1,7 @@
 # P5-1.2 线性组合与激活
 
-Section ID: `P5-1.2`
-Version: `v2026.07.17`
+> Section ID: `P5-1.2`
+> Version: `v2026.07.19`
 
 在 P5-1.1 里，我们把感知机（perceptron）看成了`输入（input） -> 权重（weight） -> 求和（sum） -> 输出（output）`这条流程。现在继续往下看：把输入汇成加权和，到底准确意味着什么？为什么只靠这个和，还不能算深度学习？感知机会先形成输入的线性组合（linear combination），再把这个结果送进激活（activation）规则，从而形成判断。
 
@@ -335,6 +335,6 @@ for b in biases:
 
 ## 出处与参考资料
 
-- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 确认日期：2026-06-28.
-- Marvin Minsky, Seymour Papert, `Perceptrons: An Introduction to Computational Geometry`, MIT Press, 1969/1988, 确认日期：2026-06-28.
+- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 确认日期: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
+- Marvin Minsky, Seymour Papert, `Perceptrons: An Introduction to Computational Geometry`, MIT Press, 1969/1988, 确认日期: 2026-07-19. [https://mitpress.mit.edu/9780262534772/perceptrons/](https://mitpress.mit.edu/9780262534772/perceptrons/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
