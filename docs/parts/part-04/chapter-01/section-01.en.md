@@ -1,7 +1,7 @@
 # P4-1.1 The Relationship Among AI, Machine Learning, and Deep Learning
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 1 looked at the broad scope of the word AI. Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out machine learning on top of that foundation.
 
@@ -11,7 +11,7 @@ So the focus here is to distinguish `where machine learning sits inside the larg
 
 ## Scope Of This Section
 
-This Section is an introduction that fixes the position of the terms. It does not go deeply into the formulas of detailed algorithms, the usage of scikit-learn, neural-network structures, or Transformer structures here.
+This Section first closes where `machine learning, deep learning, generative AI, and LLM sit inside the broad scope called AI`. Later sections hold the shared learning structure of Part 4, and later parts reconnect the full structure of neural networks and Transformers.
 
 - Are AI and machine learning the same thing?
 - How are machine learning and deep learning different?
@@ -208,6 +208,7 @@ The checkable result appears when the service structure is broken into questions
 
 ## Sources And References
 
-- Google, `Machine Learning Glossary`, entries including `machine learning`, `deep learning`, and `LLM`, accessed 2026-07-10. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- IBM, `What is machine learning?`, accessed 2026-07-10. [https://www.ibm.com/think/topics/machine-learning](https://www.ibm.com/think/topics/machine-learning){: target="_blank" rel="noopener noreferrer" }
-- IBM, `What is deep learning?`, accessed 2026-07-10. [https://www.ibm.com/think/topics/deep-learning](https://www.ibm.com/think/topics/deep-learning){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, accessed 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, entries for `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, and `large language model`. Used to compare the scope of AI, machine learning, deep learning, generative AI, LLM, and terms for evaluation and learning. Accessed 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`. Used to check the inclusion relationship that places AI as the broadest scope, with machine learning and deep learning as flows within it. Accessed 2026-07-19. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, accessed 2026-06-25. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }

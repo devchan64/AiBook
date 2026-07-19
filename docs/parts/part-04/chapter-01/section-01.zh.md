@@ -1,7 +1,7 @@
 # P4-1.1 AI、机器学习、深度学习之间的关系
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python、数组、表格和图表。现在到了 Part 4，要在这个基础上把 machine learning 单独拎出来看。
 
@@ -11,7 +11,7 @@ Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python�
 
 ## 本节范围
 
-这一节是用来固定术语位置的导入。这里不会深入处理具体算法的公式、scikit-learn 的用法、神经网络结构或 Transformer 结构。
+这一节先把 `在 AI 这个大范围里，machine learning、deep learning、generative AI、LLM 分别放在哪里` 关上。Part 4 的共同学习结构会在后续小节里抓住，神经网络和 Transformer 的正式结构会在后面的 Part 再连接回来。
 
 - AI 和 machine learning 是同一个意思吗？
 - machine learning 和 deep learning 有什么不同？
@@ -208,6 +208,7 @@ Part 4 的核心不是模型目录，而是数据、学习、评估这条流程�
 
 ## 来源与参考资料
 
-- Google, `Machine Learning Glossary`, 包含 `machine learning`、`deep learning`、`LLM` 等条目，确认日期：2026-07-10. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
-- IBM, `What is machine learning?`, 确认日期：2026-07-10. [https://www.ibm.com/think/topics/machine-learning](https://www.ibm.com/think/topics/machine-learning){: target="_blank" rel="noopener noreferrer" }
-- IBM, `What is deep learning?`, 确认日期：2026-07-10. [https://www.ibm.com/think/topics/deep-learning](https://www.ibm.com/think/topics/deep-learning){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, `large language model` 条目。用于对照 AI、机器学习、深度学习、生成式 AI、LLM 的术语范围以及评价、学习相关术语。确认日期：2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`。用于确认把 AI 放在最宽范围、把机器学习和深度学习作为其内部脉络来说明的包含关系。确认日期：2026-07-19. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, 确认日期：2026-06-25. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }
