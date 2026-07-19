@@ -26,4 +26,4 @@
 - Python chart source:
   - `p5_6_1_training_loop_charts.py`
   - `p5_6_2_learning_inference_charts.py`: generates P5-6.2 learning/inference charts for multi-parameter update and fixed-parameter inference traces.
-  - `p5_6_3_mode_comparison_charts.py`
+  - `p5_6_3_mode_comparison_charts.py`: generates P5-6.4 training/evaluation mode charts for dropout and normalization reference traces.

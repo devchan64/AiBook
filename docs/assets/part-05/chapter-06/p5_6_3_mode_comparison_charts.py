@@ -16,37 +16,44 @@ from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
 
-SESSIONS = [
-    {"id": "A", "clicks": 3, "seconds": 42},
-    {"id": "B", "clicks": 6, "seconds": 55},
-    {"id": "C", "clicks": 2, "seconds": 28},
-    {"id": "D", "clicks": 7, "seconds": 70},
-    {"id": "E", "clicks": 4, "seconds": 36},
-    {"id": "F", "clicks": 5, "seconds": 48},
-    {"id": "G", "clicks": 1, "seconds": 24},
-    {"id": "H", "clicks": 8, "seconds": 73},
-    {"id": "I", "clicks": 4, "seconds": 52},
-    {"id": "J", "clicks": 6, "seconds": 61},
-    {"id": "K", "clicks": 2, "seconds": 33},
-    {"id": "L", "clicks": 7, "seconds": 58},
-    {"id": "M", "clicks": 5, "seconds": 44},
-    {"id": "N", "clicks": 3, "seconds": 31},
-    {"id": "O", "clicks": 9, "seconds": 80},
-    {"id": "P", "clicks": 4, "seconds": 47},
-    {"id": "Q", "clicks": 6, "seconds": 66},
-    {"id": "R", "clicks": 2, "seconds": 39},
-    {"id": "S", "clicks": 8, "seconds": 64},
-    {"id": "T", "clicks": 5, "seconds": 59},
+VALIDATION_SESSIONS = [
+    {"id": "S01", "clicks_5m": 3, "dwell_seconds": 42, "error_count": 0},
+    {"id": "S02", "clicks_5m": 6, "dwell_seconds": 55, "error_count": 1},
+    {"id": "S03", "clicks_5m": 2, "dwell_seconds": 28, "error_count": 0},
+    {"id": "S04", "clicks_5m": 7, "dwell_seconds": 70, "error_count": 2},
+    {"id": "S05", "clicks_5m": 4, "dwell_seconds": 36, "error_count": 0},
+    {"id": "S06", "clicks_5m": 5, "dwell_seconds": 48, "error_count": 1},
+    {"id": "S07", "clicks_5m": 1, "dwell_seconds": 24, "error_count": 0},
+    {"id": "S08", "clicks_5m": 8, "dwell_seconds": 73, "error_count": 2},
+    {"id": "S09", "clicks_5m": 4, "dwell_seconds": 52, "error_count": 1},
+    {"id": "S10", "clicks_5m": 6, "dwell_seconds": 61, "error_count": 0},
+    {"id": "S11", "clicks_5m": 2, "dwell_seconds": 39, "error_count": 1},
+    {"id": "S12", "clicks_5m": 7, "dwell_seconds": 58, "error_count": 2},
 ]
-WEIGHTS = {"clicks": 0.18, "seconds": 0.015}
+WEIGHTS = {"clicks_5m": 0.18, "dwell_seconds": 0.015, "error_count": 0.32}
 BIAS = -0.35
-PRIOR_SESSION_BATCHES = [
-    [{"clicks": row["clicks"], "seconds": max(12, row["seconds"] - 4)} for row in SESSIONS],
-    [{"clicks": row["clicks"], "seconds": row["seconds"] + 2} for row in SESSIONS],
-    [{"clicks": row["clicks"], "seconds": row["seconds"] + (3 if index % 2 == 0 else -2)} for index, row in enumerate(SESSIONS)],
-]
 DROP_RATE = 0.4
 PASS_COUNT = 30
+
+
+def make_prior_batch(rows: list[dict], dwell_shift: int, error_shift: int) -> list[dict[str, int]]:
+    batch = []
+    for row in rows:
+        batch.append(
+            {
+                "clicks_5m": int(row["clicks_5m"]),
+                "dwell_seconds": max(12, int(row["dwell_seconds"]) + dwell_shift),
+                "error_count": max(0, int(row["error_count"]) + error_shift),
+            }
+        )
+    return batch
+
+
+PRIOR_SESSION_BATCHES = [
+    make_prior_batch(VALIDATION_SESSIONS, dwell_shift=-4, error_shift=0),
+    make_prior_batch(VALIDATION_SESSIONS, dwell_shift=2, error_shift=1),
+    make_prior_batch(VALIDATION_SESSIONS, dwell_shift=5, error_shift=-1),
+]
 
 LANG_TEXT = {
     "ko": {
@@ -55,7 +62,7 @@ LANG_TEXT = {
         "centered_outfile": "mode-centered-output-comparison-ko.png",
         "dropout_outfile": "dropout-mode-output-trace-ko.png",
         "batchnorm_outfile": "batchnorm-mode-reference-trace-ko.png",
-        "session_label": "세션 샘플",
+        "session_label": "검증 세션",
         "hidden_ylabel": "은닉층 활성값",
         "centered_ylabel": "기준 평균을 뺀 출력",
         "x_label": "forward pass",
@@ -64,8 +71,8 @@ LANG_TEXT = {
         "hidden": "은닉층",
         "train_run_1": "train 1",
         "train_run_2": "train 2",
-        "train": "training mode",
-        "eval": "evaluation mode",
+        "train": "학습 모드",
+        "eval": "평가 모드",
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -124,8 +131,13 @@ def configure_font(text: dict[str, str]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
-def hidden_activation(row: dict[str, int]) -> float:
-    raw = row["clicks"] * WEIGHTS["clicks"] + row["seconds"] * WEIGHTS["seconds"] + BIAS
+def hidden_activation(row: dict) -> float:
+    raw = (
+        int(row["clicks_5m"]) * WEIGHTS["clicks_5m"]
+        + int(row["dwell_seconds"]) * WEIGHTS["dwell_seconds"]
+        + int(row["error_count"]) * WEIGHTS["error_count"]
+        + BIAS
+    )
     return round(max(0.0, raw), 3)
 
 
@@ -133,7 +145,7 @@ def flatten(rows: list[list[float]]) -> list[float]:
     return [value for row in rows for value in row]
 
 
-def hidden_batch(batch: list[dict[str, int]]) -> list[float]:
+def hidden_batch(batch: list[dict]) -> list[float]:
     return [hidden_activation(row) for row in batch]
 
 
@@ -156,32 +168,9 @@ def center_by_mean(values: list[float], reference_mean: float) -> list[float]:
 
 
 def build_example_trace() -> dict:
-    example_sessions = SESSIONS[:5]
+    example_sessions = VALIDATION_SESSIONS
     activations = [hidden_activation(row) for row in example_sessions]
-    prior_session_batches = [
-        [
-            {"clicks": 3, "seconds": 42},
-            {"clicks": 6, "seconds": 57},
-            {"clicks": 2, "seconds": 27},
-            {"clicks": 7, "seconds": 67},
-            {"clicks": 4, "seconds": 40},
-        ],
-        [
-            {"clicks": 3, "seconds": 38},
-            {"clicks": 6, "seconds": 51},
-            {"clicks": 2, "seconds": 25},
-            {"clicks": 7, "seconds": 63},
-            {"clicks": 4, "seconds": 45},
-        ],
-        [
-            {"clicks": 3, "seconds": 46},
-            {"clicks": 6, "seconds": 54},
-            {"clicks": 2, "seconds": 29},
-            {"clicks": 7, "seconds": 69},
-            {"clicks": 4, "seconds": 37},
-        ],
-    ]
-    prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
+    prior_hidden_batches = [hidden_batch(batch) for batch in PRIOR_SESSION_BATCHES]
     running_mean = mean(flatten(prior_hidden_batches))
     train_1 = apply_dropout(activations, make_dropout_mask(len(activations), seed=17))
     train_2 = apply_dropout(activations, make_dropout_mask(len(activations), seed=29))
@@ -197,7 +186,7 @@ def build_example_trace() -> dict:
 
 
 def build_trace() -> dict:
-    activations = [hidden_activation(row) for row in SESSIONS]
+    activations = [hidden_activation(row) for row in VALIDATION_SESSIONS]
     prior_hidden_batches = [hidden_batch(batch) for batch in PRIOR_SESSION_BATCHES]
     running_mean = mean(flatten(prior_hidden_batches))
     training_passes = []
@@ -230,7 +219,7 @@ def style_axis(ax) -> None:
 def save_hidden_chart(text: dict[str, str], trace: dict) -> None:
     configure_font(text)
     positions = list(range(len(trace["session_ids"])))
-    fig, ax = plt.subplots(figsize=(6.2, 3.5), dpi=180)
+    fig, ax = plt.subplots(figsize=(7.2, 3.8), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)
@@ -246,7 +235,7 @@ def save_hidden_chart(text: dict[str, str], trace: dict) -> None:
             color="#172033",
         )
     ax.set_xticks(positions)
-    ax.set_xticklabels(trace["session_ids"])
+    ax.set_xticklabels(trace["session_ids"], rotation=35, ha="right")
     ax.set_xlabel(text["session_label"])
     ax.set_ylabel(text["hidden_ylabel"])
     ax.set_ylim(0, max(trace["activations"]) * 1.22)
@@ -258,8 +247,8 @@ def save_hidden_chart(text: dict[str, str], trace: dict) -> None:
 def save_centered_chart(text: dict[str, str], trace: dict) -> None:
     configure_font(text)
     positions = list(range(len(trace["session_ids"])))
-    width = 0.25
-    fig, ax = plt.subplots(figsize=(6.8, 3.8), dpi=180)
+    width = 0.24
+    fig, ax = plt.subplots(figsize=(8.2, 4.1), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)
@@ -268,7 +257,7 @@ def save_centered_chart(text: dict[str, str], trace: dict) -> None:
     ax.bar(positions, trace["train_run_2_centered"], width=width, color="#dc2626", label=text["train_run_2"])
     ax.bar([pos + width for pos in positions], trace["eval_centered"], width=width, color="#059669", label=text["eval"])
     ax.set_xticks(positions)
-    ax.set_xticklabels(trace["session_ids"])
+    ax.set_xticklabels(trace["session_ids"], rotation=35, ha="right")
     ax.set_xlabel(text["session_label"])
     ax.set_ylabel(text["centered_ylabel"])
     ax.legend(loc="upper left", frameon=False, fontsize=8.5)

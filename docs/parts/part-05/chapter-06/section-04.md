@@ -1,7 +1,7 @@
 # P5-6.4 학습 모드(training mode)와 평가 모드(evaluation mode)
 
 > Section ID: `P5-6.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-6.3에서는 학습(learning)과 모델 실행(inference)을 `파라미터를 바꾸는 시간`과 `바꾸지 않고 쓰는 시간`으로 구분했습니다. 여기서 한 걸음 더 들어가면 다음 질문이 생깁니다.
 
@@ -129,11 +129,11 @@ batch normalization은 각 배치의 평균(mean)과 분산(variance)을 이용�
 
 ## 연습 및 예제
 
-mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결과 해석을 흔들 수 있는 순간에 먼저 확인합니다. 같은 입력 배치도 `training mode`와 `evaluation mode`에서 서로 다른 계산 규칙으로 갈라질 수 있으므로, 아래 예제는 그 차이를 단계별 산출물로 확인합니다. 앞의 버전처럼 숫자 목록을 바로 넣으면 결과가 손으로 만든 값처럼 보일 수 있으므로, 여기서는 작은 사용자 세션 배치에서 은닉층(hidden layer) 활성값을 먼저 계산한 뒤 그 값에 dropout과 batch normalization의 모드 차이를 적용합니다.
+mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결과 해석을 흔들 수 있는 순간에 먼저 확인합니다. 같은 입력 배치도 `training mode`와 `evaluation mode`에서 서로 다른 계산 규칙으로 갈라질 수 있으므로, 아래 예제는 그 차이를 단계별 산출물로 확인합니다. 숫자 몇 개를 직접 대입하는 장면처럼 보이지 않도록, 여기서는 검증용 세션 로그 12건에서 은닉층(hidden layer) 활성값을 먼저 계산한 뒤 그 값에 dropout과 batch normalization의 모드 차이를 적용합니다.
 
 입력:
 
-- 세션별 클릭 수와 머문 시간
+- 세션별 최근 클릭 수, 머문 시간, 오류 횟수
 - 은닉층 하나의 단순 가중치와 bias
 - dropout 비율
 - 두 번의 학습 모드 실행을 재현하기 위한 난수 seed
@@ -158,13 +158,13 @@ mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결�
 
 입력(input):
 
-위에 정리한 현재 세션 배치와 이전 학습 세션 배치들을 사용합니다. 여기서 은닉층 계산은 `clicks * 가중치 + seconds * 가중치 + bias` 뒤에 음수는 0으로 자르는 ReLU(rectified linear unit)만 적용합니다. batch normalization은 설명을 단순하게 하기 위해 `값 - 기준 평균`만 계산합니다. 실제 batch normalization은 분산, 학습 가능한 scale과 shift까지 함께 쓰지만, 이 예제에서는 `어떤 평균을 기준으로 삼는가`만 봅니다.
+위에 정리한 현재 검증 세션 배치와 이전 학습 세션 배치들을 사용합니다. 여기서 은닉층 계산은 최근 클릭 수, 머문 시간, 오류 횟수에 가중치를 곱한 뒤 bias를 더하고, 음수는 0으로 자르는 ReLU(rectified linear unit)만 적용합니다. batch normalization은 설명을 단순하게 하기 위해 `값 - 기준 평균`만 계산합니다. 실제 batch normalization은 분산, 학습 가능한 scale과 shift까지 함께 쓰지만, 이 예제에서는 `어떤 평균을 기준으로 삼는가`만 봅니다.
 
 코드를 보기 전에 먼저 어떤 단계가 데이터에서 계산되고, 어떤 단계가 모드 때문에 흔들리거나 고정될지 예상해 보면 차이가 더 잘 보입니다.
 
 | 비교 항목 | 먼저 예상해 볼 출력 | 예상 이유 |
 | --- | --- | --- |
-| `hidden_activation` | 세션마다 다른 은닉층 값이 나옴 | 클릭 수와 머문 시간이 샘플마다 다르기 때문입니다. |
+| `hidden_activation` | 세션마다 다른 은닉층 값이 나옴 | 클릭 수, 머문 시간, 오류 횟수가 샘플마다 다르기 때문입니다. |
 | `train_run_1`과 `train_run_2`의 dropout 뒤 값 | 같은 은닉층 값이어도 서로 다른 활성값 패턴이 나올 가능성이 큼 | 학습 모드에서는 실행마다 dropout mask가 달라질 수 있기 때문입니다. |
 | `train_run_1 batch_mean`과 `train_run_2 batch_mean` | 서로 차이가 날 가능성이 큼 | 살아남은 활성값이 달라지면 현재 batch 기준도 함께 달라지기 때문입니다. |
 | `eval_run` | 은닉층 활성값을 그대로 유지할 가능성이 큼 | 평가 모드에서는 dropout을 적용하지 않기 때문입니다. |
@@ -175,43 +175,47 @@ mode 구분은 검증, 배포, 작은 배치 평가처럼 계산 규칙이 결�
 ```python
 from random import Random
 
-sessions = [
-    {"id": "A", "clicks": 3, "seconds": 42},
-    {"id": "B", "clicks": 6, "seconds": 55},
-    {"id": "C", "clicks": 2, "seconds": 28},
-    {"id": "D", "clicks": 7, "seconds": 70},
-    {"id": "E", "clicks": 4, "seconds": 36},
+validation_sessions = [
+    {"id": "S01", "clicks_5m": 3, "dwell_seconds": 42, "error_count": 0},
+    {"id": "S02", "clicks_5m": 6, "dwell_seconds": 55, "error_count": 1},
+    {"id": "S03", "clicks_5m": 2, "dwell_seconds": 28, "error_count": 0},
+    {"id": "S04", "clicks_5m": 7, "dwell_seconds": 70, "error_count": 2},
+    {"id": "S05", "clicks_5m": 4, "dwell_seconds": 36, "error_count": 0},
+    {"id": "S06", "clicks_5m": 5, "dwell_seconds": 48, "error_count": 1},
+    {"id": "S07", "clicks_5m": 1, "dwell_seconds": 24, "error_count": 0},
+    {"id": "S08", "clicks_5m": 8, "dwell_seconds": 73, "error_count": 2},
+    {"id": "S09", "clicks_5m": 4, "dwell_seconds": 52, "error_count": 1},
+    {"id": "S10", "clicks_5m": 6, "dwell_seconds": 61, "error_count": 0},
+    {"id": "S11", "clicks_5m": 2, "dwell_seconds": 39, "error_count": 1},
+    {"id": "S12", "clicks_5m": 7, "dwell_seconds": 58, "error_count": 2},
 ]
-weights = {"clicks": 0.18, "seconds": 0.015}
+weights = {"clicks_5m": 0.18, "dwell_seconds": 0.015, "error_count": 0.32}
 bias = -0.35
-
-prior_session_batches = [
-    [
-        {"clicks": 3, "seconds": 42},
-        {"clicks": 6, "seconds": 57},
-        {"clicks": 2, "seconds": 27},
-        {"clicks": 7, "seconds": 67},
-        {"clicks": 4, "seconds": 40},
-    ],
-    [
-        {"clicks": 3, "seconds": 38},
-        {"clicks": 6, "seconds": 51},
-        {"clicks": 2, "seconds": 25},
-        {"clicks": 7, "seconds": 63},
-        {"clicks": 4, "seconds": 45},
-    ],
-    [
-        {"clicks": 3, "seconds": 46},
-        {"clicks": 6, "seconds": 54},
-        {"clicks": 2, "seconds": 29},
-        {"clicks": 7, "seconds": 69},
-        {"clicks": 4, "seconds": 37},
-    ],
-]
 drop_rate = 0.4
 
+def make_prior_batch(rows, dwell_shift, error_shift):
+    batch = []
+    for row in rows:
+        batch.append({
+            "clicks_5m": row["clicks_5m"],
+            "dwell_seconds": max(12, row["dwell_seconds"] + dwell_shift),
+            "error_count": max(0, row["error_count"] + error_shift),
+        })
+    return batch
+
+prior_session_batches = [
+    make_prior_batch(validation_sessions, dwell_shift=-4, error_shift=0),
+    make_prior_batch(validation_sessions, dwell_shift=2, error_shift=1),
+    make_prior_batch(validation_sessions, dwell_shift=5, error_shift=-1),
+]
+
 def hidden_activation(row):
-    raw = row["clicks"] * weights["clicks"] + row["seconds"] * weights["seconds"] + bias
+    raw = (
+        row["clicks_5m"] * weights["clicks_5m"]
+        + row["dwell_seconds"] * weights["dwell_seconds"]
+        + row["error_count"] * weights["error_count"]
+        + bias
+    )
     return round(max(0.0, raw), 3)
 
 def make_dropout_mask(count, seed):
@@ -240,6 +244,15 @@ def hidden_batch(batch):
 def center_by_mean(values, reference_mean):
     return [round(value - reference_mean, 3) for value in values]
 
+def summarize(values):
+    return {
+        "count": len(values),
+        "min": round(min(values), 3),
+        "max": round(max(values), 3),
+        "mean": mean(values),
+        "preview": values[:5],
+    }
+
 def run_training_mode(name, seed):
     mask = make_dropout_mask(len(activations), seed)
     after_dropout = apply_dropout(activations, mask, drop_rate)
@@ -247,10 +260,11 @@ def run_training_mode(name, seed):
     centered_output = center_by_mean(after_dropout, batch_mean)
     return {
         "mode": name,
-        "mask": mask,
-        "after_dropout": after_dropout,
+        "kept": sum(mask),
+        "dropped": len(mask) - sum(mask),
+        "after_dropout_summary": summarize(after_dropout),
         "reference_mean": batch_mean,
-        "centered_output": centered_output,
+        "centered_preview": centered_output[:5],
     }
 
 def run_evaluation_mode():
@@ -258,12 +272,14 @@ def run_evaluation_mode():
     centered_output = center_by_mean(after_dropout, running_mean)
     return {
         "mode": "eval_run",
-        "after_dropout": after_dropout,
+        "kept": len(after_dropout),
+        "dropped": 0,
+        "after_dropout_summary": summarize(after_dropout),
         "reference_mean": running_mean,
-        "centered_output": centered_output,
+        "centered_preview": centered_output[:5],
     }
 
-activations = [hidden_activation(row) for row in sessions]
+activations = [hidden_activation(row) for row in validation_sessions]
 prior_hidden_batches = [hidden_batch(batch) for batch in prior_session_batches]
 running_mean = mean(flatten(prior_hidden_batches))
 
@@ -271,51 +287,49 @@ train_run_1 = run_training_mode("train_run_1", seed=17)
 train_run_2 = run_training_mode("train_run_2", seed=29)
 eval_run = run_evaluation_mode()
 
-print("sessions =", sessions)
-print("hidden_activations =", activations)
-print("prior_hidden_batches =", prior_hidden_batches)
+print("validation_session_count =", len(validation_sessions))
+print("hidden_activation_summary =", summarize(activations))
 print("running_mean_from_prior_batches =", running_mean)
 for result in [train_run_1, train_run_2, eval_run]:
     print(result["mode"])
-    if "mask" in result:
-        print("dropout_mask =", result["mask"])
-    print("after_dropout =", result["after_dropout"])
+    print("kept/dropped =", result["kept"], "/", result["dropped"])
+    print("after_dropout_summary =", result["after_dropout_summary"])
     print("reference_mean =", result["reference_mean"])
-    print("centered_output =", result["centered_output"])
+    print("centered_preview =", result["centered_preview"])
 ```
 
-출력에서는 먼저 `hidden_activations`가 입력 특성에서 계산된 값이라는 점을 확인하고, 그다음 `dropout_mask`, `after_dropout`, `reference_mean`, `centered_output`을 순서대로 비교하면 됩니다.
+출력에서는 먼저 `hidden_activation_summary`가 입력 특성에서 계산된 은닉층 값의 요약이라는 점을 확인하고, 그다음 `kept/dropped`, `after_dropout_summary`, `reference_mean`, `centered_preview`를 순서대로 비교하면 됩니다.
 
 ```text
-sessions = [{'id': 'A', 'clicks': 3, 'seconds': 42}, {'id': 'B', 'clicks': 6, 'seconds': 55}, {'id': 'C', 'clicks': 2, 'seconds': 28}, {'id': 'D', 'clicks': 7, 'seconds': 70}, {'id': 'E', 'clicks': 4, 'seconds': 36}]
-hidden_activations = [0.82, 1.555, 0.43, 1.96, 0.91]
-prior_hidden_batches = [[0.82, 1.585, 0.415, 1.915, 0.97], [0.76, 1.495, 0.385, 1.855, 1.045], [0.88, 1.54, 0.445, 1.945, 0.925]]
-running_mean_from_prior_batches = 1.132
+validation_session_count = 12
+hidden_activation_summary = {'count': 12, 'min': 0.19, 'max': 2.825, 'mean': 1.474, 'preview': [0.82, 1.875, 0.43, 2.6, 0.91]}
+running_mean_from_prior_batches = 1.534
 train_run_1
-dropout_mask = [1, 1, 1, 0, 1]
-after_dropout = [1.367, 2.592, 0.717, 0.0, 1.517]
-reference_mean = 1.239
-centered_output = [0.128, 1.353, -0.522, -1.239, 0.278]
+kept/dropped = 7 / 5
+after_dropout_summary = {'count': 12, 'min': 0.0, 'max': 3.125, 'mean': 0.935, 'preview': [1.367, 3.125, 0.717, 0.0, 1.517]}
+reference_mean = 0.935
+centered_preview = [0.432, 2.19, -0.218, -0.935, 0.582]
 train_run_2
-dropout_mask = [1, 0, 1, 0, 1]
-after_dropout = [1.367, 0.0, 0.717, 0.0, 1.517]
-reference_mean = 0.72
-centered_output = [0.647, -0.72, -0.003, -0.72, 0.797]
+kept/dropped = 6 / 6
+after_dropout_summary = {'count': 12, 'min': 0.0, 'max': 4.708, 'mean': 0.947, 'preview': [1.367, 0.0, 0.717, 0.0, 1.517]}
+reference_mean = 0.947
+centered_preview = [0.42, -0.947, -0.23, -0.947, 0.57]
 eval_run
-after_dropout = [0.82, 1.555, 0.43, 1.96, 0.91]
-reference_mean = 1.132
-centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
+kept/dropped = 12 / 0
+after_dropout_summary = {'count': 12, 'min': 0.19, 'max': 2.825, 'mean': 1.474, 'preview': [0.82, 1.875, 0.43, 2.6, 0.91]}
+reference_mean = 1.534
+centered_preview = [-0.714, 0.341, -1.104, 1.066, -0.624]
 ```
 
 이 예제는 실제 프레임워크 전체를 재현한 것은 아니지만, 여기서 읽어야 할 핵심은 분명합니다.
 
 - 은닉층 활성값은 입력 특성에서 계산된 중간 산출물입니다
-- 학습 모드에서는 같은 은닉층 활성값을 두 번 넣어도 dropout 뒤 활성값 구성이 달라질 수 있습니다
+- 학습 모드에서는 같은 은닉층 활성값을 두 번 넣어도 dropout 뒤 살아남은 활성값 수와 값 구성이 달라질 수 있습니다
 - dropout 뒤 값이 달라지면 현재 batch에서 계산한 기준 평균도 달라질 수 있습니다
 - 평가 모드에서는 dropout을 멈추고 이전 학습 세션 배치에서 계산해 누적한 running mean 같은 고정 기준을 사용해 더 안정적인 계산 경로를 만듭니다
 - 검증, 테스트, 배포에서 평가 모드가 중요한 이유가 바로 이런 흔들림 제어에 있습니다
 
-먼저 예제 자체를 그래프로 읽어 봅니다. 첫 그래프는 `sessions`의 클릭 수와 머문 시간이 은닉층 활성값으로 바뀐 결과만 보여 줍니다. 이 단계는 아직 mode 차이가 아니라, 입력 데이터가 모델 안의 중간 표현으로 바뀐 지점입니다.
+먼저 같은 계산 규칙을 그래프로 읽어 봅니다. 첫 그래프는 검증 세션 입력의 최근 클릭 수, 머문 시간, 오류 횟수가 은닉층 활성값으로 바뀐 결과만 보여 줍니다. 이 단계는 아직 mode 차이가 아니라, 입력 데이터가 모델 안의 중간 표현으로 바뀐 지점입니다.
 
 ![세션 입력에서 계산된 은닉층 활성값 그래프](../../../assets/part-05/chapter-06/hidden-activation-from-sessions-ko.png)
 
@@ -323,7 +337,7 @@ centered_output = [-0.312, 0.423, -0.702, 0.828, -0.222]
 
 ![training mode 두 번과 evaluation mode의 기준 평균 제거 후 출력을 비교한 그래프](../../../assets/part-05/chapter-06/mode-centered-output-comparison-ko.png)
 
-위 두 그래프가 예제 코드의 직접 해설이라면, 아래 두 그래프는 같은 현상이 반복 실행에서 어떻게 보이는지 확인하는 요약입니다. `train_run_1`과 `train_run_2` 두 개의 샘플별 선만 그대로 그리면 사람이 고른 mask 두 개를 억지로 비교하는 그림처럼 보일 수 있으므로, 같은 계산 규칙을 조금 더 긴 미니배치에 적용한 뒤 30번 forward pass에서 dropout 뒤 살아남은 비율만 요약합니다. training mode에서는 pass마다 살아남는 비율이 흔들리고, evaluation mode에서는 dropout을 끄므로 생존 비율이 1.0 기준선으로 고정됩니다.
+위 두 그래프가 예제 코드의 직접 해설이라면, 아래 두 그래프는 같은 현상이 반복 실행에서 어떻게 보이는지 확인하는 요약입니다. `train_run_1`과 `train_run_2` 두 개의 샘플별 막대만 그대로 보면 사람이 고른 mask 두 개를 억지로 비교하는 그림처럼 보일 수 있으므로, 같은 검증 배치에 같은 계산 규칙을 적용한 30번 forward pass에서 dropout 뒤 살아남은 비율만 요약합니다. training mode에서는 pass마다 살아남는 비율이 흔들리고, evaluation mode에서는 dropout을 끄므로 생존 비율이 1.0 기준선으로 고정됩니다.
 
 ![training mode에서는 dropout 생존 비율이 forward pass마다 흔들리고 evaluation mode는 1.0 기준선으로 고정되는 그래프](../../../assets/part-05/chapter-06/dropout-mode-output-trace-ko.png)
 
