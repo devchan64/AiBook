@@ -1,7 +1,7 @@
 # P2-9.4 补充学习：第一次阅读传统数据结构的方法
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-9.1 中，我们把数据结构看成“承载数据的形状”和“处理这些数据的方法”。但一旦开始学习数据结构，很多陌生名字会突然一起出现。
 
@@ -39,21 +39,6 @@
 | stack | 一种以“最后放进去的先拿出来”为规则中心的结构 |
 | queue | 一种以“最先放进去的最先拿出来”为规则中心的结构 |
 | hash table | 一种为了按 key 快速找到值而组织起来的结构 |
-
-## 本补充学习的范围
-
-本节是为了第一次阅读传统数据结构名称而写的补充学习。这里不要求完整实现每一种结构，而是先抓住代表性问题：`数组看位置`、`栈和队列看取出规则`、`树和图看关系`、`哈希表看 key 查询`。
-
-本节回答以下问题。
-
-- 为什么数组会让人想到位置和顺序？
-- 为什么链表会有“一个项目指向下一个项目”的想法？
-- 为什么栈和队列要通过“放进去和拿出来的规则”来解释？
-- 为什么树和图会引向表达关系的结构？
-- 为什么哈希表会和“按 key 找值”的结构连在一起？
-- 为什么在学过 Python 的列表和字典之后，我们仍然需要知道传统数据结构名称？
-
-在当前正文里，更优先的是“读懂数据结构名称”的感觉。实现细节与复杂度分析，留给之后的算法和系统学习。
 
 ## 本补充学习的目标
 
@@ -656,6 +641,6 @@ Python 字典是一个按 key 找 value 的映射对象。内部实现与哈希�
 
 ## 来源与参考资料
 
-- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures，确认日期：2026-07-19。用于确认把传统数据结构名称读成组织数据方式的基本定义。
-- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures，确认日期：2026-07-19。作为按提供的行为而非实现来说明 stack、queue 等结构的依据。
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 Python list 与 dictionary 语法怎样连接到传统数据结构直觉。
+- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures，确认日期：2026-07-20。用于确认把传统数据结构名称读成组织数据方式的基本定义。
+- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures，确认日期：2026-07-20。作为按提供的行为而非实现来说明 stack、queue 等结构的依据。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 Python list 与 dictionary 语法怎样连接到传统数据结构直觉。

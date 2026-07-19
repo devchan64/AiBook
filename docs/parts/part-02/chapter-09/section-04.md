@@ -1,7 +1,7 @@
 # P2-9.4 보충학습: 전통적인 자료구조를 처음 읽는 법
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-9.1에서는 자료구조(data structure)를 데이터를 담는 모양과 그 데이터를 다루는 방법으로 봤습니다. 그런데 자료구조를 공부하다 보면 갑자기 낯선 이름들이 많이 나옵니다.
 
@@ -39,21 +39,6 @@ P2-9.1에서는 자료구조(data structure)를 데이터를 담는 모양과 �
 | 스택(stack) | 마지막에 넣은 것을 먼저 꺼내는 규칙 중심 구조입니다. |
 | 큐(queue) | 먼저 들어온 것을 먼저 꺼내는 규칙 중심 구조입니다. |
 | 해시 테이블(hash table) | 키로 값을 빠르게 찾도록 조직한 구조입니다. |
-
-## 이 보충학습의 범위
-
-이 절은 전통적인 자료구조 이름을 처음 읽기 위한 보충학습입니다. 목적은 자료구조를 완전히 구현하는 것이 아니라, 이후 문서에서 배열, 표, 트리, 그래프, 딕셔너리, 검색 구조를 만났을 때 당황하지 않게 만드는 것입니다. 이번 보충학습은 `이 이름이 어떤 질문을 쉽게 만드는가`까지를 먼저 닫고, 본편 P2-9.1~P2-9.3에서 잡은 질문 중심 읽기를 보강하는 데 집중합니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 배열(array)은 왜 위치와 순서를 생각하게 하는가?
-- 연결 리스트(linked list)는 왜 “다음 항목을 가리킨다”는 발상을 갖는가?
-- 스택(stack)과 큐(queue)는 왜 넣고 꺼내는 규칙으로 설명되는가?
-- 트리(tree)와 그래프(graph)는 왜 관계를 표현하는 구조로 이어지는가?
-- 해시 테이블(hash table)은 왜 키(key)로 찾는 구조와 연결되는가?
-- Python의 리스트(list)와 딕셔너리(dictionary)를 배운 뒤에도 왜 전통 자료구조 이름을 알아야 하는가?
-
-현재 본편에서는 자료구조 이름을 읽는 감각까지를 우선 범위로 둡니다. 여기서는 구현 세부보다 `배열은 위치`, `스택과 큐는 꺼내는 규칙`, `트리와 그래프는 관계`, `해시 테이블은 키 조회`라는 대표 질문을 먼저 붙잡습니다.
 
 ## 이 보충학습의 목표
 
@@ -656,6 +641,6 @@ Python 딕셔너리는 키로 값을 찾게 해 주는 매핑 객체입니다. �
 
 ## 출처와 참고 자료
 
-- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-19. 전통 자료구조 이름을 데이터 조직 방식으로 읽는 기본 정의 확인에 사용했다.
-- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-19. 스택·큐 같은 구조를 구현보다 제공 동작 중심으로 설명하는 근거로 사용했다.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. Python 리스트와 딕셔너리 문법이 전통 자료구조 감각과 어떻게 연결되는지 확인하는 근거로 사용했다.
+- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-20. 전통 자료구조 이름을 데이터 조직 방식으로 읽는 기본 정의 확인에 사용했다.
+- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, 확인 날짜: 2026-07-20. 스택·큐 같은 구조를 구현보다 제공 동작 중심으로 설명하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. Python 리스트와 딕셔너리 문법이 전통 자료구조 감각과 어떻게 연결되는지 확인하는 근거로 사용했다.

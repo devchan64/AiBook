@@ -1,7 +1,7 @@
 # P2-9.4 Supplemental Learning: How to First Read Traditional Data Structure Names
 
 > Section ID: `P2-9.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-9.1, we viewed a data structure as the shape that holds data and the way that data is handled. But once you start studying data structures, many unfamiliar names suddenly appear.
 
@@ -39,21 +39,6 @@ This Section places required review and extended background in one place. On a f
 | stack | A rule-centered structure where the last inserted item comes out first |
 | queue | A rule-centered structure where the first inserted item comes out first |
 | hash table | A structure organized to find values quickly by key |
-
-## Scope of This Supplement
-
-This Section is supplemental learning for first reading traditional data-structure names. Instead of making you implement every structure, it first holds the representative questions: `arrays are about position`, `stacks and queues are about the rule for taking items out`, `trees and graphs are about relationships`, and `hash tables are about key lookup`.
-
-This Section answers the following questions.
-
-- Why does an array make you think about position and order?
-- Why does a linked list have the idea that one item points to the next?
-- Why are stacks and queues explained through rules for putting in and taking out?
-- Why do trees and graphs lead to structures that express relationships?
-- Why is a hash table connected to a structure that finds values by key?
-- Why do we still need to know traditional data-structure names even after learning Python lists and dictionaries?
-
-In the current main text, the priority is the sense for reading data-structure names. Implementation details and complexity analysis are left for later algorithm and systems study.
 
 ## Goals of This Supplement
 
@@ -656,6 +641,6 @@ They also reveal the meaning of code. If you use a list, the intent `process in 
 
 ## Sources and References
 
-- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, checked on 2026-07-19. Used to confirm the basic definition for reading traditional data-structure names as ways of organizing data.
-- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, checked on 2026-07-19. Used as the basis for explaining structures such as stacks and queues by provided behavior rather than implementation.
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm how Python list and dictionary syntax connects to traditional data-structure intuition.
+- NIST, [Data structure](https://xlinux.nist.gov/dads/HTML/datastructur.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, checked on 2026-07-20. Used to confirm the basic definition for reading traditional data-structure names as ways of organizing data.
+- NIST, [Abstract data type](https://xlinux.nist.gov/dads/HTML/abstractDataType.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, checked on 2026-07-20. Used as the basis for explaining structures such as stacks and queues by provided behavior rather than implementation.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm how Python list and dictionary syntax connects to traditional data-structure intuition.
