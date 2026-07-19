@@ -1,7 +1,7 @@
 # P2-7.2 终端(terminal)、shell 与工作文件夹(working directory)
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-7.1 中，我们先看了代码运行的位置。现在来看：在本地 PC 上输入命令时，最先遇到的那个画面到底是什么。
 
@@ -32,26 +32,6 @@
 | 工作文件夹(working directory) | 当前命令拿来作为基准的文件夹。 |
 | 路径(path) | 指向文件或文件夹位置的字符串。 |
 | 命令(command) | 向 shell 发出的“现在请执行这件事”的语句。 |
-
-## 本节范围
-
-这里回答下面这些问题。
-
-- 什么是终端？
-- 什么是 shell？
-- 为什么这些老词到现在还在用？
-- 命令到底是在什么地方被解释？
-- 为什么工作文件夹很重要？
-
-Python 文件执行会在 P2-7.3 再讲，虚拟环境和包安装会在 P2-7.4 再讲。这里先建立那之前需要的最小语言。
-
-至于在 Windows、macOS、Linux 上到底怎样打开终端、第一步该输入什么命令，会作为补充学习放在 P2-7.6。这里先抓住共通概念，再处理按操作系统区分的步骤。
-
-| 如果现在的症状是这样 | 先去哪里 | 否则就在这一节先抓住什么 |
-| --- | --- | --- |
-| 我一开始就卡在 Windows、macOS、Linux 上到底从哪里打开终端 | 补充学习 P2-7.6 | 先抓住共通概念：终端是输入命令的位置，而 shell 负责解释命令 |
-| 我的注意力先被 `|`、`>`、环境变量这样的符号吸走 | 补充学习 P2-7.8 | 现在先只留下：为什么工作文件夹和命令输入位置重要 |
-| 我只是有点不明白为什么要学 `pwd`、`cd`、`ls` | 继续读这一节 | 先确认当前的位置和文件基准会影响命令的解释 |
 
 ## 本节目标
 
@@ -294,8 +274,8 @@ Colab 也能执行命令。但如果把它理解成和本地 PC 终端完全一�
 
 ## 来源与参考资料
 
-- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 确认日期: 2026-07-19。作为说明早期文本终端与现代命令行界面之间关系的历史辅助依据。
-- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 确认日期: 2026-07-19。用于确认 shell 既是命令解释器也是编程语言，并支撑 Bash 命令处理语境。
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-19。用于确认 PowerShell 中查看当前工作位置的正式命令及其 `pwd` 别名语境。
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-19。用于确认 PowerShell 中改变当前工作位置的正式命令及其 `cd` 别名语境。
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-19。用于支撑 Python 代码可以把当前工作目录读取为字符串这一说明。
+- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, 确认日期: 2026-07-20。作为说明早期文本终端与现代命令行界面之间关系的历史辅助依据。
+- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, 确认日期: 2026-07-20。用于确认 shell 既是命令解释器也是编程语言，并支撑 Bash 命令处理语境。
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-20。用于确认 PowerShell 中查看当前工作位置的正式命令及其 `pwd` 别名语境。
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, 确认日期: 2026-07-20。用于确认 PowerShell 中改变当前工作位置的正式命令及其 `cd` 别名语境。
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 确认日期: 2026-07-20。用于支撑 Python 代码可以把当前工作目录读取为字符串这一说明。

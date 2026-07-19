@@ -1,7 +1,7 @@
 # P2-7.2 Terminal, Shell, and Working Directory
 
 > Section ID: `P2-7.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-7.1, we first looked at the place where code runs. Now we look at the first screen a reader usually meets when entering commands on a local PC.
 
@@ -32,26 +32,6 @@ Rather than learning every terminal feature by operating system, this Section fo
 | working directory | the folder used as the current base by the command |
 | path | the string that points to where a file or folder is located |
 | command | the execution sentence asking the shell to do something now |
-
-## Scope of This Section
-
-Here we answer the following questions.
-
-- What is a terminal?
-- What is a shell?
-- Why do these old words still remain today?
-- Where is a command interpreted?
-- Why is the working directory important?
-
-Python file execution is revisited in P2-7.3, and virtual environment and package installation are revisited in P2-7.4. Here we build only the minimum language needed before those.
-
-How to actually open terminals on Windows, macOS, and Linux and what command to type first is treated as supplementary learning in P2-7.6. Here we first secure common concepts before OS-specific procedures.
-
-| If the symptom is like this now | Go first | Otherwise, what to secure in this Section now |
-| --- | --- | --- |
-| I am stuck from the point of not knowing where to open the terminal on Windows, macOS, or Linux | supplementary learning P2-7.6 | first secure the common concept that the terminal is the place where commands are entered, and the shell interprets those commands |
-| Symbols such as `|`, `>`, and environment variables catch my eye first | supplementary learning P2-7.8 | for now, first keep only why the working directory and command-input place matter |
-| I am only confused about why `pwd`, `cd`, and `ls` are needed | continue reading this Section | first check the point that current location and file base affect command interpretation |
 
 ## Goals of This Section
 
@@ -294,8 +274,8 @@ The confirmable result appears immediately when the current location is printed.
 
 ## Sources and References
 
-- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, checked 2026-07-19. Used as historical support for the relationship between older text terminals and modern command-line interfaces.
-- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, checked 2026-07-19. Used to confirm that a shell is both a command interpreter and a programming language, and to support the Bash command-processing context.
-- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-19. Used to confirm the official PowerShell command for checking the current working location and its `pwd` alias context.
-- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-19. Used to confirm the official PowerShell command for changing the current working location and its `cd` alias context.
-- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-19. Used to support the point that Python code can read the current working directory as a string.
+- David S. Lawyer, [Text-Terminal-HOWTO](https://tldp.org/HOWTO/Text-Terminal-HOWTO.html){: target="_blank" rel="noopener noreferrer" }, The Linux Documentation Project, checked 2026-07-20. Used as historical support for the relationship between older text terminals and modern command-line interfaces.
+- Free Software Foundation, [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html){: target="_blank" rel="noopener noreferrer" }, GNU Bash 5.3 manual, checked 2026-07-20. Used to confirm that a shell is both a command interpreter and a programming language, and to support the Bash command-processing context.
+- Microsoft, [Get-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the official PowerShell command for checking the current working location and its `pwd` alias context.
+- Microsoft, [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5){: target="_blank" rel="noopener noreferrer" }, PowerShell documentation, checked 2026-07-20. Used to confirm the official PowerShell command for changing the current working location and its `cd` alias context.
+- Python Software Foundation, [os.getcwd](https://docs.python.org/3/library/os.html#os.getcwd){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked 2026-07-20. Used to support the point that Python code can read the current working directory as a string.
