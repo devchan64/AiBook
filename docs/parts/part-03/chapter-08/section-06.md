@@ -1,7 +1,7 @@
 # P3-8.6 확정 라벨이 검토된 사례에만 남아 있다면 해석에서 무엇을 함께 적어야 하는가
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 해석 단계에서는 숫자 차이뿐 아니라 `누가 확정 라벨을 얻었는가`도 함께 봐야 할 때가 있습니다. 현실 운영에서는 모든 사건에 같은 깊이의 검토가 들어가지 않습니다. 이상해 보인 일부 사례만 사람이 다시 보고, 그 사례에만 확정 라벨이 남을 수 있습니다. 이 상태를 숨기면 독자는 `라벨이 있는 사례 집합`을 `전체 사건 집합`처럼 읽기 쉽습니다.
 
@@ -42,6 +42,6 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. label은 각 example에 붙은 결과 정보라는 기본 틀을 제공하므로, 일부 사례에만 확정 라벨이 남아 있다면 그 라벨 집합이 전체 사건 집합과 같은 범위를 대표하지 않을 수 있다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Himabindu Lakkaraju, Jon Kleinberg, Jure Leskovec, Jens Ludwig, Sendhil Mullainathan, `The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables`, KDD 2017. 관측된 결과가 기존 의사결정자의 선택 결과로만 남는 selectively labeled data에서는 관측된 outcome이 전체 모집단의 무작위 표본이 아니어서 잘못된 결론으로 이어질 수 있다고 설명하므로, 확정 라벨이 검토된 사례에만 남아 있을 때 그 라벨 집합을 전체 사건의 정답표처럼 읽으면 안 된다는 이 절의 핵심 근거가 됩니다. [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
-- W3C, `PROV-Overview`. 어떤 결과가 어떤 검토 절차를 거쳐 생성되었는지를 provenance information으로 남기는 관점을 제공하므로, 확정 라벨이 붙은 사례 집합에서는 검토 경로와 라벨 없음의 뜻을 함께 적어야 한다는 이 절의 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. label은 각 example에 붙은 결과 정보라는 기본 틀을 제공하므로, 일부 사례에만 확정 라벨이 남아 있다면 그 라벨 집합이 전체 사건 집합과 같은 범위를 대표하지 않을 수 있다는 이 절의 설명을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Himabindu Lakkaraju, Jon Kleinberg, Jure Leskovec, Jens Ludwig, Sendhil Mullainathan, `The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables`, KDD 2017. 관측된 결과가 기존 의사결정자의 선택 결과로만 남는 selectively labeled data에서는 관측된 outcome이 전체 모집단의 무작위 표본이 아니어서 잘못된 결론으로 이어질 수 있다고 설명하므로, 확정 라벨이 검토된 사례에만 남아 있을 때 그 라벨 집합을 전체 사건의 정답표처럼 읽으면 안 된다는 이 절의 핵심 근거가 됩니다. [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. 어떤 결과가 어떤 검토 절차를 거쳐 생성되었는지를 provenance information으로 남기는 관점을 제공하므로, 확정 라벨이 붙은 사례 집합에서는 검토 경로와 라벨 없음의 뜻을 함께 적어야 한다는 이 절의 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-8.6 如果确认标签只留在被复核的案例上，解读时还要一起写什么
 
 > Section ID: `P3-8.6`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在解读阶段，有时不仅要看`数字差异如何`，还要看`谁获得了确认标签`。在真实运营里，并不是每个事件都会接受同样深度的复核。往往只是那些看起来异常的部分案例，才会被人工再看一遍，并且只有这些案例上才会留下确认标签。如果把这种结构隐藏起来，读者就很容易把`有标签的案例集合`读成`全部事件集合`。
 
@@ -42,5 +42,6 @@
 
 ## 来源与参考资料
 
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。它提供了标签是附着在 example 上的结果信息这一基本框架，因此可以补强本节的说明：如果确认标签只留在部分案例上，那么这个有标签集合未必代表与全部事件集合相同的范围。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
-- W3C, `PROV-Overview`。它提供了记录某个结果是经过什么复核过程产生的 provenance 视角，因此可作为本节的一般依据：在解读选择性标签时，要把复核路径和缺失标签的含义一起写出来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。它提供了标签是附着在 example 上的结果信息这一基本框架，因此可以补强本节的说明：如果确认标签只留在部分案例上，那么这个有标签集合未必代表与全部事件集合相同的范围。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- Himabindu Lakkaraju, Jon Kleinberg, Jure Leskovec, Jens Ludwig, Sendhil Mullainathan, `The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables`, KDD 2017。它说明在选择性标注数据中，观测到的结果可能只是既有人类决策选择之后才留下的结果，而不是整体人群的随机样本，因此直接支持本节的提醒：不要把只留在被复核案例上的标签读成全部事件的答案表。 [https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres](https://www.kdd.org/kdd2017/papers/view/the-selective-labels-problem-evaluating-algorithmic-predictions-in-the-pres){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- W3C, `PROV-Overview`。它提供了记录某个结果是经过什么复核过程产生的 provenance 视角，因此可作为本节的一般依据：在解读选择性标签时，要把复核路径和缺失标签的含义一起写出来。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
