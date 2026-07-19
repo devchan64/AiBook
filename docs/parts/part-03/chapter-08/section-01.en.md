@@ -1,7 +1,7 @@
 # P3-8.1 What Controls Interpretation Strength
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Having a comparison table does not mean every difference should be read with the same strength. In operational data, sample sizes are often small, and it may be unclear whether the same change repeats. At the interpretation stage, you need to ask not only `what changed` but also `how strongly that difference can be trusted`.
 
@@ -35,57 +35,21 @@ The point here is to keep a rule for `when not to speak too strongly yet` so tha
 
 What matters here is not `do we stop judging` but `how do we adjust judgment strength`. Without this perspective, readers will struggle later to understand why some bluntness is necessary when warnings, thresholds, the review queue, and evaluation are introduced.
 
-A short Python example makes it easier to see why the same difference value can lead to different interpretation strength.
+You can see why the same difference value leads to different interpretation strength directly through a small judgment table.
 
 Problem situation: all three windows have the same `-0.3` difference between the recent mean and the baseline mean, but the sample size and repeatability differ.
 
-Input: `event_count`, `diff`, and `same_direction_count` for each window
-
-Expected output: a table where the same `diff` leads to different interpretation strengths such as `record_only`, `review_candidate`, and `stronger_warning`
-
-Concept to check: interpretation strength is determined not by the difference value alone, but by sample size and repeatability together
-
-```python
-import pandas as pd
-
-cases = pd.DataFrame(
-    [
-        {"window_id": "few-and-weak", "event_count": 2, "diff": -0.3, "same_direction_count": 1},
-        {"window_id": "few-but-repeated", "event_count": 4, "diff": -0.3, "same_direction_count": 4},
-        {"window_id": "enough-and-repeated", "event_count": 20, "diff": -0.3, "same_direction_count": 17},
-    ]
-)
-
-cases["repeat_ratio"] = cases["same_direction_count"] / cases["event_count"]
-
-
-def interpretation_level(row):
-    if row["event_count"] < 3 and row["repeat_ratio"] < 0.5:
-        return "record_only"
-    if row["event_count"] < 10 or row["repeat_ratio"] < 0.7:
-        return "review_candidate"
-    return "stronger_warning"
-
-
-cases["interpretation_level"] = cases.apply(interpretation_level, axis=1)
-
-print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation_level"]])
-```
-
-Expected output:
-
-```text
-             window_id  diff  event_count  repeat_ratio interpretation_level
-0         few-and-weak  -0.3            2          0.50          record_only
-1     few-but-repeated  -0.3            4          1.00     review_candidate
-2  enough-and-repeated  -0.3           20          0.85      stronger_warning
-```
+| window_id | diff | event_count | same_direction_count | repeat_ratio | More natural interpretation strength |
+| --- | ---: | ---: | ---: | ---: | --- |
+| few-and-weak | -0.3 | 2 | 1 | 0.50 | record only |
+| few-but-repeated | -0.3 | 4 | 4 | 1.00 | review candidate |
+| enough-and-repeated | -0.3 | 20 | 17 | 0.85 | stronger warning |
 
 What matters in this example is that all three windows share the same `diff`. What changes is `event_count`, `repeat_ratio`, and the interpretation strength produced by their combination. The first case shows a difference, but the sample size is so small that it stays near a record-only level. The second still has a small sample size, but repeatability is clear enough to make it a review candidate. The third has both enough observations and enough repeatability, so it can be read as a stronger change signal.
 
 This makes the benefit of adjusting interpretation strength clearer. First, it reduces over-alerting by keeping weak-sample signals from being promoted immediately to strong warnings. Second, it preserves weak but repeated signals as `review candidates` instead of throwing them away, which helps human review time get used more carefully. Third, when strong warnings are attached only after both sample size and repeatability are sufficient, it becomes easier later to explain why the same `diff` splits into `record`, `review`, and `strong warning`.
 
-The core of this section is therefore not `how to calculate a difference value` but `how to decide what sentence strength should describe the same difference`. The Python example is more useful as a small table that shows that judgment ladder directly.
+The core of this section is therefore not `how to calculate a difference value` but `how to decide what sentence strength should describe the same difference`.
 
 If you compress the judgment further, it can be summarized like this.
 
@@ -109,5 +73,5 @@ You therefore need to decide not only `is there a difference` but also `with wha
 
 ## Sources and References
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains a structure that compares current performance with past performance and emphasizes the need for samples obtained under essentially the same conditions, which supports the general claim in this section that interpretation strength should depend on sample size and repeatability rather than on the difference value alone. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. It provides the general reference idea that comparisons are read in relation to a reference point, which supports this section's explanation that the same diff should be described differently under different observation conditions. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. It explains a structure that compares current performance with past performance and emphasizes the need for samples obtained under essentially the same conditions, which supports the general claim in this section that interpretation strength should depend on sample size and repeatability rather than on the difference value alone. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. It provides the general reference idea that comparisons are read in relation to a reference point, which supports this section's explanation that the same diff should be described differently under different observation conditions. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-8.1 解读强度由什么来调节
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 即使已经有了比较表，也不代表所有差异都应该用同样的强度去解读。尤其在运营数据里，样本量往往较小，而且同样的变化是否重复出现也未必明确。因此在解读阶段，不仅要看`哪里变了`，还要一起看`这个差异可以被多大程度地信任`。
 
@@ -35,57 +35,21 @@
 
 这里真正重要的不是`要不要停止判断`，而是`如何调节判断的强度`。有了这个视角，读者在后面看到告警阈值、复核队列和评估时，才会理解为什么需要这种克制。
 
-用一个很短的 Python 例子，可以更直接地看到为什么同样的差值会走向不同的解读强度。
+用一张很小的判断表，可以更直接地看到为什么同样的差值会走向不同的解读强度。
 
 问题场景：最近均值和基线均值的差异都同样是 `-0.3`，但样本量和重复性在三个区间里各不相同。
 
-输入：每个区间的 `event_count`、`diff`、`same_direction_count`
-
-预期输出：虽然 `diff` 相同，但会落到 `record_only`、`review_candidate`、`stronger_warning` 等不同解读强度的表
-
-要确认的概念：解读强度不是由单个差值决定，而是由样本量和重复性共同决定
-
-```python
-import pandas as pd
-
-cases = pd.DataFrame(
-    [
-        {"window_id": "few-and-weak", "event_count": 2, "diff": -0.3, "same_direction_count": 1},
-        {"window_id": "few-but-repeated", "event_count": 4, "diff": -0.3, "same_direction_count": 4},
-        {"window_id": "enough-and-repeated", "event_count": 20, "diff": -0.3, "same_direction_count": 17},
-    ]
-)
-
-cases["repeat_ratio"] = cases["same_direction_count"] / cases["event_count"]
-
-
-def interpretation_level(row):
-    if row["event_count"] < 3 and row["repeat_ratio"] < 0.5:
-        return "record_only"
-    if row["event_count"] < 10 or row["repeat_ratio"] < 0.7:
-        return "review_candidate"
-    return "stronger_warning"
-
-
-cases["interpretation_level"] = cases.apply(interpretation_level, axis=1)
-
-print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation_level"]])
-```
-
-预期输出：
-
-```text
-             window_id  diff  event_count  repeat_ratio interpretation_level
-0         few-and-weak  -0.3            2          0.50          record_only
-1     few-but-repeated  -0.3            4          1.00     review_candidate
-2  enough-and-repeated  -0.3           20          0.85      stronger_warning
-```
+| window_id | diff | event_count | same_direction_count | repeat_ratio | 更自然的解读强度 |
+| --- | ---: | ---: | ---: | ---: | --- |
+| few-and-weak | -0.3 | 2 | 1 | 0.50 | 只记录 |
+| few-but-repeated | -0.3 | 4 | 4 | 1.00 | 复核候选 |
+| enough-and-repeated | -0.3 | 20 | 17 | 0.85 | 更强警告 |
 
 这个例子里最重要的是，三个区间的 `diff` 全都相同。真正发生变化的是 `event_count`、`repeat_ratio`，以及两者共同形成的解读强度。第一种情况虽然看到了差异，但样本量太小，所以更接近记录级别。第二种情况样本量仍然不大，但重复性已经明显到足以进入复核候选。第三种情况样本量和重复性都足够，因此可以读成更强的变化信号。
 
 这样调节解读强度能带来的好处也很明确。第一，不会把样本量薄弱的信号直接抬成强告警，从而减少过度告警。第二，具有重复性的弱信号不会被直接丢掉，而是保留成`复核候选`，让人工确认资源用得更省。第三，只有当样本量和重复性都足够时才贴上更强告警，后面也更容易解释为什么同样的 `diff` 会分化成`记录`、`复核`、`强告警`。
 
-因此，本节的核心不在于`如何计算差值`，而在于`同样的差异应当用什么强度的句子来表达`。这个 Python 例子更适合用一张小表把这条判断阶梯直接展示出来。
+因此，本节的核心不在于`如何计算差值`，而在于`同样的差异应当用什么强度的句子来表达`。
 
 如果再把这个判断压缩一点，可以整理成下面这样。
 
@@ -109,5 +73,5 @@ print(cases[["window_id", "diff", "event_count", "repeat_ratio", "interpretation
 
 ## 来源与参考资料
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它说明了把当前表现与过去表现进行比较的结构，也强调样本需要在本质条件相同的前提下取得，因此可以作为本节一般性依据，支持`不能只看差值，而要把样本量和重复性一起纳入解读强度`。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`。它提供了比较必须相对于参考时点来阅读这一一般性概念，因此可用于补强本节的说明：即使是同一个 diff，也应根据观测条件采用不同表述强度。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`。它说明了把当前表现与过去表现进行比较的结构，也强调样本需要在本质条件相同的前提下取得，因此可以作为本节一般性依据，支持`不能只看差值，而要把样本量和重复性一起纳入解读强度`。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`。它提供了比较必须相对于参考时点来阅读这一一般性概念，因此可用于补强本节的说明：即使是同一个 diff，也应根据观测条件采用不同表述强度。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日: 2026-07-20

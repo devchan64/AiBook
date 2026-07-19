@@ -1,7 +1,7 @@
 # P3-8.1 해석 강도는 무엇으로 조절하는가
 
 > Section ID: `P3-8.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 비교표가 있다고 해서 모든 차이를 같은 강도로 읽을 수 있는 것은 아닙니다. 특히 운영 데이터에서는 표본 수가 적고, 같은 변화가 반복되는지 여부가 불분명할 수 있습니다. 그래서 해석 단계에서는 `무엇이 달라졌는가`만이 아니라 `그 차이를 얼마나 믿을 수 있는가`도 함께 봐야 합니다.
 
@@ -49,7 +49,7 @@
 
 이렇게 해석 강도를 조절하면 무엇을 얻는지도 분명합니다. 첫째, 표본 수가 약한 신호를 곧바로 강한 경고로 올리지 않아 과잉 경보를 줄일 수 있습니다. 둘째, 반복성이 있는 약한 신호는 그냥 버리지 않고 `검토 후보`로 남겨 사람의 확인 자원을 더 아껴 쓸 수 있습니다. 셋째, 표본 수와 반복성이 함께 충분한 경우에만 더 강한 경고를 붙이므로, 같은 `diff`라도 `기록`, `검토`, `강한 경고`가 왜 갈리는지 나중에 다시 설명하기 쉬워집니다.
 
-즉 이 절의 핵심은 `차이값을 계산하는 법`보다 `같은 차이를 어떤 문장 강도로 옮길 것인가`를 정하는 데 있습니다. Python 예제도 바로 그 판단 사다리를 작은 표 하나로 보여 주는 쪽이 더 적합합니다.
+즉 이 절의 핵심은 `차이값을 계산하는 법`보다 `같은 차이를 어떤 문장 강도로 옮길 것인가`를 정하는 데 있습니다. 이 예시는 그 판단 사다리를 작은 표 하나로 보여 주는 쪽이 더 적합합니다.
 
 이 판단을 더 짧게 줄이면 다음처럼 정리할 수 있습니다.
 
@@ -69,10 +69,9 @@
 
 이 절은 특정 운영 도메인의 `감`을 말하는 것이 아니라, `증거 강도(evidence strength)`를 어떻게 읽을 것인가의 문제로 다시 묶을 수 있습니다.
 
-
 따라서 `차이가 있는가` 하나만 보는 것이 아니라, `그 차이를 어느 강도로 말할 수 있는가`를 함께 정해야 합니다.
 
 ## 출처와 참고 자료
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 같은 본질 조건 아래에서 얻은 표본이 필요하다는 설명을 제공하므로, 차이값만이 아니라 표본 수와 반복성을 함께 보고 해석 강도를 조절해야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 비교는 참조 시점과의 관계에서 읽어야 한다는 일반 reference 개념을 제공하므로, 같은 diff도 관측 조건에 따라 다르게 말해야 한다는 이 절의 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교하는 구조와, 같은 본질 조건 아래에서 얻은 표본이 필요하다는 설명을 제공하므로, 차이값만이 아니라 표본 수와 반복성을 함께 보고 해석 강도를 조절해야 한다는 이 절의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 비교는 참조 시점과의 관계에서 읽어야 한다는 일반 reference 개념을 제공하므로, 같은 diff도 관측 조건에 따라 다르게 말해야 한다는 이 절의 설명을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
