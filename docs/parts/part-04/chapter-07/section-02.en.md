@@ -1,7 +1,7 @@
 # P4-7.2 Preprocessing
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-7.1 examined `what inputs should remain`. Now the discussion moves to the stage where those remaining inputs are not thrown to the model as they are, but are organized into a form the model can read more easily. That stage is preprocessing.
 
@@ -26,13 +26,7 @@ This Section answers the following questions.
 - Which models are sensitive to scale, and which are less sensitive?
 - How should preprocessing be separated between train data and test data?
 
-This Section does not treat the following topics deeply.
-
-- every hyperparameter of individual encoders and scalers
-- implementation details of sparse-matrix optimization
-- the mathematics of advanced nonlinear transforms and dimensionality reduction
-
-The detailed settings of individual encoders and scalers reconnect again in the context of hyperparameters and tuning in P4-9.1 and P4-9.2, while the purpose and mathematical intuition of dimensionality reduction are revisited in P4-18.1 and P4-18.2.
+This Section first closes `how to change the remaining inputs into calculable and comparable representations`. The detailed settings of individual encoders and scalers reconnect again in the context of hyperparameters and tuning in P4-9.1 and P4-9.2, while the purpose and intuition of dimensionality reduction continue in P4-18.1 and P4-18.2.
 
 ## Goals Of This Section
 
@@ -144,7 +138,7 @@ However, if readers look a little more broadly at the types of preprocessing use
 | outlier handling | keeps extreme values from shaking learning too much | concept only |
 | feature construction | creates more useful input representations from original columns | mentioned only as a broad category, connected mainly to P4-7.1 in this book |
 | dimensionality reduction | compresses many inputs into a smaller representation | revisited in P4-18 |
-| special representation transforms for text/images and so on | converts unstructured data into numeric representation | outside the scope of this Section |
+| special representation transforms for text/images and so on | converts unstructured data into numeric representation | treated in later Parts as separate input representations |
 
 The purpose of this table is not to force every preprocessing technique into one Section. Rather, it is to help readers first grasp that the term `preprocessing` does not refer only to the narrow act of filling missing values with an average.
 
@@ -509,7 +503,7 @@ At the introductory level, encoding methods can be divided roughly as follows.
 | --- | --- | --- | --- |
 | one-hot encoding | creates a separate column for each category | general categorical values without order | if there are many categories, the number of columns grows |
 | ordinal-like encoding | places categories on ordered values | when order truly has meaning | if it creates an order that does not exist, distortion follows |
-| frequency/statistics-based transformation | changes categories into other summary values | may be used in more advanced situations | outside the scope of this Section and needs leakage caution |
+| frequency/statistics-based transformation | changes categories into other summary values | may be used in more advanced situations | should be checked together with leakage caution |
 
 This Section centers on one-hot encoding, but the key habit is to first distinguish `does this category have a real order or not`.
 
