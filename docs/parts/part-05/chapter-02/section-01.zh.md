@@ -1,7 +1,7 @@
 # P5-2.1 多层神经网络（multilayer neural network）
 
-Section ID: `P5-2.1`
-Version: `v2026.07.17`
+> Section ID: `P5-2.1`
+> Version: `v2026.07.19`
 
 在 P5-1.2 里，我们已经看到：单个感知机（perceptron）会通过输入的线性组合（linear combination）与激活（activation）来形成判断。同时也看到，单个感知机一次只能形成一条线性边界（linear boundary），因此它能表达的模式存在明显限制。接下来的问题自然会变成：`如果一个感知机不够，那么把这样的计算单元堆叠多个，会发生什么变化？` 从这个问题出发，就进入多层神经网络（multilayer neural network）。多层神经网络会把感知机这类计算单元按多层堆起来，把简单的输入组合先变成中间表征，再把这些表征连到更复杂的判断上。
 
@@ -355,4 +355,4 @@ step_3: loosen only output rule: input=(0.3, 1.0), output_bias=-0.5, hidden=(0, 
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 确认日期：2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
-- George Cybenko, `Approximation by Superpositions of a Sigmoidal Function`, Mathematics of Control, Signals, and Systems, 1989, 确认日期：2026-06-28.
+- George Cybenko, `Approximation by Superpositions of a Sigmoidal Function`, Mathematics of Control, Signals, and Systems, 1989, 确认日期: 2026-07-19. [https://doi.org/10.1007/BF02551274](https://doi.org/10.1007/BF02551274){: target="_blank" rel="noopener noreferrer" }

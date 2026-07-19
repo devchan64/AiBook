@@ -1,7 +1,7 @@
 # P5-2.1 Multilayer Neural Networks
 
-Section ID: `P5-2.1`
-Version: `v2026.07.17`
+> Section ID: `P5-2.1`
+> Version: `v2026.07.19`
 
 In P5-1.2, we saw that a single perceptron makes a decision through a linear combination of inputs and activation. At the same time, we also saw that one perceptron can create only one linear boundary at a time, so there is a limit to the patterns it can express. The next question naturally becomes `if one perceptron is not enough, what changes if several such computation units are stacked?` That question leads into the multilayer neural network. A multilayer neural network is a structure that stacks several computation units like perceptrons across multiple layers, turns simple input combinations into intermediate representations, and then connects those representations to more complex decisions.
 
@@ -355,4 +355,4 @@ The core of this section is not the fact that the number of layers increases, bu
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
-- George Cybenko, `Approximation by Superpositions of a Sigmoidal Function`, Mathematics of Control, Signals, and Systems, 1989, date checked: 2026-06-28.
+- George Cybenko, `Approximation by Superpositions of a Sigmoidal Function`, Mathematics of Control, Signals, and Systems, 1989, date checked: 2026-07-19. [https://doi.org/10.1007/BF02551274](https://doi.org/10.1007/BF02551274){: target="_blank" rel="noopener noreferrer" }
