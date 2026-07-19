@@ -1,7 +1,7 @@
 # P4-16.2 提升模型的性能与风险
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P4-16.1 里，我们看过梯度提升(gradient boosting)是怎样让下一阶段顺序修正前一阶段误差的。 正是在这里，boosting 的强项与风险会一起出现。
 
@@ -93,7 +93,7 @@ scikit-learn 用户指南经常把 gradient-boosted trees 和 histogram-based gr
 | C | 中等 | 下降 | 无 | 有 | 中等 |
 | D | 短 | 稳定 | 有 | 无 | 中等 |
 
-像这样的表， 很难只靠一条条件解释流失。 Boosting 可以把 `短会员时长 + 访问下降 + 支付失败` 这样的重叠信号按阶段 계속反映进去， 所以它才常被提到是表格型数据上的强候选。
+像这样的表， 很难只靠一条条件解释流失。 Boosting 可以把 `短会员时长 + 访问下降 + 支付失败` 这样的重叠信号按阶段继续反映进去， 所以它才常被提到是表格型数据上的强候选。
 
 ## 那为什么它又对过拟合敏感
 
@@ -424,5 +424,5 @@ stage3 residual  : [17.5, 8.2, -8.2, -17.5]
 ## 出处与参考资料
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 确认日期: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001.
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002.
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001, 确认日期: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002, 确认日期: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }
