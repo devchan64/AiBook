@@ -1,7 +1,7 @@
 # P3-7.5 基准线应该固定不动，还是应该按“最近的平时”一起更新
 
 > Section ID: `P3-7.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在选好基准线候选之后，还会留下另一个问题。`这个参考应该固定一段时间，还是应该和“最近的平时区间”一起移动？` 即使都已经选中了同条件下的区间，只要基准线的维护方式不同，比较句子的意义也会跟着变化。
 
@@ -45,5 +45,7 @@ rolling origin 本来属于预测评估语境，所以这里不会把它直接�
 
 ## 来源与参考资料
 
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“把某个特定时间点或期间固定为比较参考”的一般原则，因此支持固定基准线所承担的角色。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Hyndman, Athanasopoulos et al., `Forecasting: Principles and Practice (3rd ed)`, `Time series cross-validation`. 它解释了 rolling forecasting origin 这种“参考会随着时间一起向前移动”的结构，因此可以作为一种类比性支持，说明像最近平时基准线这样的“参考区间一起移动”的运行方式是可能的。但因为这份资料属于预测评估语境，所以本节只借用其中 `移动中的参考` 这个更高层概念，而且只以类比方式使用。 [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“把某个特定时间点或期间固定为比较参考”的一般原则，因此支持固定基准线所承担的角色。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- National Cancer Institute, `baseline`. 它把 baseline 解释为设定初始测量之后，用来比较随时间变化的参考，因此强化了本节的前提：基准线首先是用于比较的参考测量。 [https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/baseline){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它说明 control chart 会把当前过程特性与过去表现比较，并且 control limit 只有在有正当且有力的理由时才应改变，因此直接支持本节的说明：基准线要固定还是更新，应根据比较问题和运行变化依据来决定。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Hyndman, Athanasopoulos et al., `Forecasting: Principles and Practice (3rd ed)`, `Time series cross-validation`. 它解释了 rolling forecasting origin 这种“参考会随着时间一起向前移动”的结构，因此可以作为一种类比性支持，说明像最近平时基准线这样的“参考区间一起移动”的运行方式是可能的。但因为这份资料属于预测评估语境，所以本节只借用其中 `移动中的参考` 这个更高层概念，而且只以类比方式使用。 [https://otexts.com/fpp3/tscv.html](https://otexts.com/fpp3/tscv.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
