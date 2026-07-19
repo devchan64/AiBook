@@ -7,25 +7,6 @@ After reconnecting limits, one more kind of notation still tends to block later 
 
 Here we reconnect logarithms and exponentials as the minimum calculation language needed to read `logistic regression`, `log loss`, and `softmax`. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
-
-This section does not cover the full formal theory of logarithms and exponentials. Proofs of change-of-base formulas, complex logarithms, and the detailed derivation of continuous compounding stay outside the scope here.
-
-The first question to settle is this: `why do later Parts keep calling log and exp back when they explain probabilities, scores, and loss?`
-
-So this section fixes only four places first.
-
-- What kind of change does an exponential describe?
-- Why is a logarithm described as a `function that reads in reverse`?
-- Why do multiplication and division turn into addition and subtraction once they meet logs?
-- Why does this notation lead into loss, probability scores, and softmax explanations?
-
-The flow after this section is also simple.
-
-- In Part 4, we use the same intuition about logs and exponentials again when reading `log loss` and `sigmoid`.
-- In Part 6, the same intuition appears again when reading how `softmax` turns scores into comparable ratios.
-- So the goal now is not to complete every formula, but to fix the calculation language that connects `score -> ratio -> loss`.
-
 ## Goals of This Section
 
 - You can read `exp(x)` as a power of `e`.
@@ -201,14 +182,6 @@ Using the same standard, if we look at `-log(p)`:
 So log loss works in the direction of punishing `predictions that are wrong even though the model was confident` more strongly.
 
 Logs and exponentials are the language that makes calculations easier to read when moving between score, probability, and loss.
-
-## Perspectives to Remember from This Section
-
-- Exponentials are the language for reading `same-ratio increase`, not `same-amount increase`.
-- A log is the inverse-direction function that rereads exponential change back on the original axis.
-- If small probabilities keep being multiplied, the value shrinks quickly, so logs let us reread multiplication as addition.
-- `sigmoid`, `softmax`, and `log loss` all call this intuition back when moving between scores and probabilities.
-- When `exp`, `log`, `softmax`, and `log loss` appear in later Parts, first recall `how a score is turned into ratio and loss`.
 
 ## Checklist
 
