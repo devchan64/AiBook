@@ -1,7 +1,7 @@
 # P3-4.1 비교 가능한 샘플 한 건은 어떻게 정하는가
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 데이터를 읽을 때 가장 먼저 확인해야 할 것은 값의 크기보다 `한 행이 무엇을 뜻하는가`입니다. 이 질문이 먼저 정리되지 않으면, 뒤에서 특징(feature)을 만들 때도, 라벨(label)을 붙일 때도, 평가(evaluation) 결과를 읽을 때도 기준이 흔들립니다. 결국 이 질문은 `비교 가능한 샘플 한 건을 무엇으로 정할 것인가`라는 질문으로 이어집니다.
 
@@ -352,6 +352,6 @@ measurement_row            36                  36                    no         
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 시점 기록, 동작 1회, 최근 구간처럼 서로 다른 단위를 구분해 어떤 대상을 분석 단위로 삼았는지 설명 가능해야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 자연스럽게 붙는 단위여야 하므로, 시점 행이 아니라 동작 1회처럼 특징과 결과가 함께 놓이는 단위를 샘플로 삼아야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 기준선 구간과 비교하려면 먼저 무엇을 비교 단위로 둘지 정해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, 시점 기록, 동작 1회, 최근 구간처럼 서로 다른 단위를 구분해 어떤 대상을 분석 단위로 삼았는지 설명 가능해야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 features와 label이 자연스럽게 붙는 단위여야 하므로, 시점 행이 아니라 동작 1회처럼 특징과 결과가 함께 놓이는 단위를 샘플로 삼아야 한다는 점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 기준선 구간과 비교하려면 먼저 무엇을 비교 단위로 둘지 정해야 한다는 일반 근거가 됩니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

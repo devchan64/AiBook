@@ -1,7 +1,7 @@
 # P3-4.1 怎样决定一条可比较的样本
 
 > Section ID: `P3-4.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 读数据时最先要确认的，不是数值大小，而是 `一行到底表示什么`。如果这个问题没有先定下来，那么后面做特征、贴标签、读评估结果时，标准都会一起晃动。归根到底，这个问题会继续追到 `什么应该算一条可比较样本`。
 
@@ -74,28 +74,28 @@
 
 问题情境：确认即使面对同一份原始日志，只要把 `一个时点`、`一次完整动作`、`一个近期区段` 读成一条样本，后面得到的可比较表就会不一样。
 
-输入(input)：按 `event_id` 保存时点记录的原始日志表，以及一个标记每条记录是否属于近期区段的标志列
+输入(input)：按 `event_id` 保存时点记录的 [p3_4_1_measurement_log.csv](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv)、按 `event_id` 保存动作级复核结果的 [p3_4_1_review_decisions.csv](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv)，以及当前要回答的问题候选 `question_focus_options`
 
-期望输出(output)：`measurement_row`、`event`、`window` 这三种单位会产生不同的样本数和不同的特征可能性
+第一个 CSV 的一行，是动作中的某一个时点测量值。第二个 CSV 的一行，是一次完整动作结束后贴上的复核结果。有些事件可能时点行数不足，或还没有复核结果，所以代码必须先重新构造样本单位，再分别检查完整性和标签能不能结合。
 
-要确认的概念：一条可比较样本不是由眼前看见的行数决定的，而是由和问题匹配的分析单位决定的
+期望输出(output)：`measurement_row`、`event`、`window` 这三种单位会产生不同的样本数和不同的特征可能性。改变问题焦点和事件完整性阈值后，推荐单位和有效样本数也会一起变化。
+
+要确认的概念：一条可比较样本不是由眼前看见的行数决定的，而是由和问题匹配的分析单位决定的。样本单位不是固定答案，而是根据问题以及特征、标签能否连接来选择。
 
 ```python
 import pandas as pd
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "elapsed_seconds": 0, "pressure": 1.0, "flow": 0.0, "is_recent": 1, "review_needed": 1},
-        {"event_id": "A", "elapsed_seconds": 1, "pressure": 2.0, "flow": 1.4, "is_recent": 1, "review_needed": 1},
-        {"event_id": "A", "elapsed_seconds": 2, "pressure": 2.4, "flow": 1.6, "is_recent": 1, "review_needed": 1},
-        {"event_id": "B", "elapsed_seconds": 0, "pressure": 1.1, "flow": 0.0, "is_recent": 0, "review_needed": 0},
-        {"event_id": "B", "elapsed_seconds": 1, "pressure": 1.7, "flow": 1.1, "is_recent": 0, "review_needed": 0},
-        {"event_id": "B", "elapsed_seconds": 2, "pressure": 2.0, "flow": 1.2, "is_recent": 0, "review_needed": 0},
-        {"event_id": "C", "elapsed_seconds": 0, "pressure": 1.2, "flow": 0.1, "is_recent": 1, "review_needed": 1},
-        {"event_id": "C", "elapsed_seconds": 1, "pressure": 2.3, "flow": 1.5, "is_recent": 1, "review_needed": 1},
-        {"event_id": "C", "elapsed_seconds": 2, "pressure": 2.7, "flow": 1.8, "is_recent": 1, "review_needed": 1},
-    ]
-)
+measurement_log_path = "docs/assets/part-03/chapter-04/p3_4_1_measurement_log.csv"
+review_decisions_path = "docs/assets/part-03/chapter-04/p3_4_1_review_decisions.csv"
+
+question_focus_options = ["instant_value", "event_comparison", "recent_vs_baseline"]
+selected_question_focus = "event_comparison"
+expected_rows_per_event = 3
+
+raw = pd.read_csv(measurement_log_path)
+review_decisions = pd.read_csv(review_decisions_path)
+
+row_counts = raw.groupby("event_id", as_index=False).size().rename(columns={"size": "measurement_rows"})
 
 event_summary = (
     raw.groupby("event_id", as_index=False)
@@ -105,19 +105,34 @@ event_summary = (
         pressure_rise=("pressure", lambda s: s.iloc[-1] - s.iloc[0]),
         flow_mean=("flow", "mean"),
         is_recent=("is_recent", "max"),
-        review_needed=("review_needed", "max"),
     )
+    .merge(row_counts, on="event_id")
+    .merge(review_decisions, on="event_id", how="left")
+)
+matched_review_decisions = review_decisions[
+    review_decisions["event_id"].isin(event_summary["event_id"])
+].reset_index(drop=True)
+event_summary["is_complete_event_sample"] = (
+    event_summary["measurement_rows"] >= expected_rows_per_event
+)
+event_summary["has_review_label"] = event_summary["review_needed"].notna()
+event_summary["window_name"] = event_summary["is_recent"].map({0: "baseline", 1: "recent"})
+event_summary["pressure_mean_for_complete"] = event_summary["pressure_mean"].where(
+    event_summary["is_complete_event_sample"]
+)
+event_summary["flow_mean_for_complete"] = event_summary["flow_mean"].where(
+    event_summary["is_complete_event_sample"]
 )
 
 window_summary = (
-    event_summary.groupby("is_recent", as_index=False)
+    event_summary.groupby("window_name", as_index=False)
     .agg(
         event_count=("event_id", "count"),
-        pressure_mean=("pressure_mean", "mean"),
-        flow_mean=("flow_mean", "mean"),
+        complete_event_count=("is_complete_event_sample", "sum"),
+        labeled_event_count=("has_review_label", "sum"),
+        pressure_mean_complete=("pressure_mean_for_complete", "mean"),
+        flow_mean_complete=("flow_mean_for_complete", "mean"),
     )
-    .assign(window_name=lambda df: df["is_recent"].map({0: "baseline", 1: "recent"}))
-    [["window_name", "event_count", "pressure_mean", "flow_mean"]]
 )
 
 unit_check = pd.DataFrame(
@@ -125,86 +140,189 @@ unit_check = pd.DataFrame(
         {
             "unit_name": "measurement_row",
             "sample_count": len(raw),
+            "valid_sample_count": len(raw),
             "can_use_pressure_rise": "no",
             "label_attaches_naturally": "weak",
+            "feature_score": 1,
+            "label_score": 0,
         },
         {
             "unit_name": "event",
             "sample_count": len(event_summary),
+            "valid_sample_count": int(event_summary["is_complete_event_sample"].sum()),
             "can_use_pressure_rise": "yes",
             "label_attaches_naturally": "yes",
+            "feature_score": 3,
+            "label_score": 2,
         },
         {
             "unit_name": "window",
             "sample_count": len(window_summary),
+            "valid_sample_count": len(window_summary),
             "can_use_pressure_rise": "partial",
             "label_attaches_naturally": "weak",
+            "feature_score": 2,
+            "label_score": 1,
         },
     ]
 )
+recommended_unit = {
+    "instant_value": "measurement_row",
+    "event_comparison": "event",
+    "recent_vs_baseline": "window",
+}[selected_question_focus]
+unit_check["selected_for_question"] = unit_check["unit_name"] == recommended_unit
+unit_check["question_match_score"] = unit_check["selected_for_question"].map({True: 2, False: 0})
+unit_check["total_score"] = (
+    unit_check["feature_score"] + unit_check["label_score"] + unit_check["question_match_score"]
+)
 
-print("1) count rows under each candidate unit")
+focus_result = pd.DataFrame(
+    [
+        {
+            "question_focus": focus,
+            "recommended_unit": {
+                "instant_value": "measurement_row",
+                "event_comparison": "event",
+                "recent_vs_baseline": "window",
+            }[focus],
+        }
+        for focus in question_focus_options
+    ]
+)
+
+print("1) raw input files")
+print("measurement_log shape:", raw.shape)
+print("review_decisions shape:", review_decisions.shape)
+print()
+print("2) first raw measurement rows")
+print(raw.head(8).to_string(index=False))
+print()
+print("3) count rows under each candidate unit")
 print("measurement rows:", len(raw))
 print("event samples:", len(event_summary))
 print("window aggregates:", len(window_summary))
 print()
-print("2) raw rows still mean per-time-step records")
-print(raw.groupby("event_id").size().reset_index(name="measurement_rows"))
+print("4) raw rows still mean per-time-step records")
+print(row_counts.to_string(index=False))
 print()
-print("3) event-level summaries can hold comparison features and labels")
+print("5) review labels arrive at event_id level")
+print(matched_review_decisions.to_string(index=False))
+print()
+print("6) event-level summaries check completeness and labels")
 print(
     event_summary[
         [
             "event_id",
             "total_duration_seconds",
+            "measurement_rows",
+            "is_complete_event_sample",
             "pressure_mean",
             "pressure_rise",
             "flow_mean",
             "review_needed",
+            "has_review_label",
         ]
-    ]
+    ].round(3).to_string(index=False)
 )
 print()
-print("4) window-level aggregates are for broader comparison, not single-sample judgment")
-print(window_summary)
+print("7) window-level aggregates are for broader comparison, not single-sample judgment")
+print(window_summary.round(3).to_string(index=False))
 print()
-print("5) unit check for comparable-sample suitability")
-print(unit_check)
+print("8) question focus changes the recommended unit")
+print(focus_result.to_string(index=False))
+print()
+print("9) unit check for selected_question_focus = event_comparison")
+print(unit_check.to_string(index=False))
 ```
 
 期望输出：
 
 ```text
-1) count rows under each candidate unit
-measurement rows: 9
-event samples: 3
+1) raw input files
+measurement_log shape: (36, 5)
+review_decisions shape: (36, 2)
+
+2) first raw measurement rows
+event_id  elapsed_seconds  pressure  flow  is_recent
+     E01                0       1.0   0.0          1
+     E01                1       2.0   1.4          1
+     E01                2       2.4   1.6          1
+     E02                0       1.1   0.0          0
+     E02                1       1.7   1.1          0
+     E02                2       2.0   1.2          0
+     E03                0       1.2   0.1          1
+     E03                1       2.3   1.5          1
+
+3) count rows under each candidate unit
+measurement rows: 36
+event samples: 12
 window aggregates: 2
 
-2) raw rows still mean per-time-step records
-  event_id  measurement_rows
-0        A                 3
-1        B                 3
-2        C                 3
+4) raw rows still mean per-time-step records
+event_id  measurement_rows
+     E01                 3
+     E02                 3
+     E03                 3
+     E04                 3
+     E05                 3
+     E06                 3
+     E07                 3
+     E08                 3
+     E09                 3
+     E10                 3
+     E11                 3
+     E12                 3
 
-3) event-level summaries can hold comparison features and labels
-  event_id  total_duration_seconds  pressure_mean  pressure_rise  flow_mean  review_needed
-0        A                       2       1.800000            1.4   1.000000              1
-1        B                       2       1.600000            0.9   0.766667              0
-2        C                       2       2.066667            1.5   1.133333              1
+5) review labels arrive at event_id level
+event_id  review_needed
+     E01              1
+     E02              0
+     E03              1
+     E04              0
+     E05              0
+     E06              0
+     E07              1
+     E08              0
+     E09              1
+     E10              0
+     E11              1
+     E12              0
 
-4) window-level aggregates are for broader comparison, not single-sample judgment
-  window_name  event_count  pressure_mean  flow_mean
-0    baseline            1       1.600000   0.766667
-1      recent            2       1.933333   1.066667
+6) event-level summaries check completeness and labels
+event_id  total_duration_seconds  measurement_rows  is_complete_event_sample  pressure_mean  pressure_rise  flow_mean  review_needed  has_review_label
+     E01                       2                 3                      True          1.800            1.4      1.000              1              True
+     E02                       2                 3                      True          1.600            0.9      0.767              0              True
+     E03                       2                 3                      True          2.067            1.5      1.133              1              True
+     E04                       2                 3                      True          1.233            0.6      0.633              0              True
+     E05                       2                 3                      True          1.667            1.2      0.767              0              True
+     E06                       2                 3                      True          1.733            0.9      0.800              0              True
+     E07                       2                 3                      True          1.900            1.4      0.933              1              True
+     E08                       2                 3                      True          1.467            0.8      0.700              0              True
+     E09                       2                 3                      True          2.200            1.6      1.200              1              True
+     E10                       2                 3                      True          1.633            0.9      0.700              0              True
+     E11                       2                 3                      True          2.000            1.4      1.067              1              True
+     E12                       2                 3                      True          1.267            0.8      0.567              0              True
 
-5) unit check for comparable-sample suitability
-         unit_name  sample_count can_use_pressure_rise label_attaches_naturally
-0  measurement_row             9                    no                      weak
-1            event             3                   yes                       yes
-2           window             2               partial                      weak
+7) window-level aggregates are for broader comparison, not single-sample judgment
+window_name  event_count  complete_event_count  labeled_event_count  pressure_mean_complete  flow_mean_complete
+   baseline            6                     6                    6                   1.489               0.694
+     recent            6                     6                    6                   1.939               1.017
+
+8) question focus changes the recommended unit
+    question_focus recommended_unit
+     instant_value  measurement_row
+  event_comparison            event
+recent_vs_baseline           window
+
+9) unit check for selected_question_focus = event_comparison
+      unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  feature_score  label_score  selected_for_question  question_match_score  total_score
+measurement_row            36                  36                    no                     weak              1            0                  False                     0            1
+          event            12                  12                   yes                      yes              3            2                   True                     2            7
+         window             2                   2               partial                     weak              2            1                  False                     0            3
 ```
 
-这段输出里首先应该看到的是 `到底在数什么`。在原始表里，是 9 条测量时点；按 `event_id` 归组之后，是 3 条动作级样本；再往上按近期与基准区段重新分组之后，就变成了 2 组用于比较的聚合。接着要看的，是 `哪些值只有在某个单位上才真正有意义`。像 `pressure_rise` 这种看起点和终点差值的列，不可能从单独一条时点行里直接做出来，只有在数据先被归成一次完整动作后，它才真正有意义。反过来，`window_summary` 不是用来比较单次动作的表，而是把多个动作重新聚在一起之后才得到的比较解释表。所以，即便面对同一份源数据，只要把 `一个时点`、`一次完整动作`、`一个近期区段` 读成一条样本，行数、表的含义，以及能放上去的列的角色都会跟着一起变。
+这段输出里首先应该看到的是 `到底在数什么`。在原始表里，是 36 条测量时点；按 `event_id` 归组之后，是 12 条动作级样本候选；再往上按近期与基准区段重新分组之后，就变成了 2 组用于比较的聚合。接着要看的，是 `哪些值只有在某个单位上才真正有意义`。复核结果不是反复贴到原始时点行上的，而是先按 `event_id` 单位单独到达，再结合到一次动作的摘要表上。这里可以操作的值是 `selected_question_focus`、`question_focus_options`、`expected_rows_per_event`。如果设成 `"event_comparison"`，推荐单位就是一次完整动作；如果改成 `"instant_value"`，测量时点行会更自然；如果改成 `"recent_vs_baseline"`，近期/基准区段聚合会更自然。如果把 `expected_rows_per_event` 提高到 `4`，当前 12 个事件都会从完整事件样本中掉出去。也就是说，即便面对同一份源数据，只要把 `一个时点`、`一次完整动作`、`一个近期区段` 读成一条样本，行数、表的含义、能放上去的列的角色、有效样本数都会跟着一起变。
 
 这里 `unit check` 的输出还会更直接地展示本节的判断。`measurement_row` 虽然样本数最多，但它没法直接承载 `pressure_rise`，也很难让 `review_needed` 这类结果自然地贴上去。`window` 可以用来解释近期状态，却不太适合作为单条动作比较样本。反过来，`event` 把样本数、摘要特征和结果列都放在同一个单位上，所以它最符合本节的问题，也就是 `一条可比较样本`。
 
@@ -234,6 +352,6 @@ window aggregates: 2
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此提供了一般依据：在时点记录、一次完整动作、近期区段这些不同单位之间，必须能够说明到底把哪个对象选成了分析单位。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 应该是 feature 和 label 能自然附着的单位，所以它强化了这点：样本更应该选成“一次完整动作”这样的单位，而不是一条时点记录。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是用来和其他时期比较的 reference，因此为这一点提供了一般依据：要和基准区段比较，必须先定下“比较单位本身”是什么。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此提供了一般依据：在时点记录、一次完整动作、近期区段这些不同单位之间，必须能够说明到底把哪个对象选成了分析单位。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为一个 example 应该是 feature 和 label 能自然附着的单位，所以它强化了这点：样本更应该选成“一次完整动作”这样的单位，而不是一条时点记录。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时段是用来和其他时期比较的 reference，因此为这一点提供了一般依据：要和基准区段比较，必须先定下“比较单位本身”是什么。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
