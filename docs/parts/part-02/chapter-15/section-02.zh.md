@@ -1,7 +1,7 @@
 # P2-15.2 进入 Part 3 之前的检查
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 是基础恢复区间。它不意味着所有数学与 Python 都已经被完美学完，而是用来确认：你是否已经具备进入机器学习之前所需的最小阅读能力与实践感觉。
 
@@ -211,6 +211,6 @@ scikit-learn 文档把模型叫作 estimator，一般会展示用 `fit` 学习�
 
 ## 来源与参考资料
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 确认日期：2026-06-25. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-06-25. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 确认日期：2026-07-19. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } 这是确认 estimator、`fit`、`predict`、`X`、`y` 入门流程的直接参考资料。
+- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 确认日期：2026-07-19. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } 这是 sample、feature、target、training/test data 等 Part 3 入门术语的依据。
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 这是把 `shape`、维度和数组形状连接到 `X` 与 `y` 数据结构的参考资料。

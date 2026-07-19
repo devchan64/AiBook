@@ -1,7 +1,7 @@
 # P2-11.1 NumPy 배열(array)로 벡터와 행렬 만들기
 
 > Section ID: `P2-11.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 수학 기호와 작은 코드로 확인했습니다. Part 2 Chapter 8에서는 Python의 리스트(list)와 딕셔너리(dictionary)를 봤고, Part 2 Chapter 9에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 구조 관점으로 구분했습니다. Part 2 Chapter 10에서는 노트북(notebook)을 실행 가능한 학습 기록으로 정리하는 방법을 봤습니다.
 
@@ -422,6 +422,6 @@ python docs/assets/part-02/chapter-11/p2_11_1_numpy_arrays.py
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. NumPy 배열의 동질적 N차원 `ndarray`, shape, dtype, Python 리스트와의 차이 설명 확인에 사용했다.
+- NumPy Developers, [The N-dimensional array](https://numpy.org/doc/stable/reference/arrays.ndarray.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. `ndarray` 속성과 배열 객체 구조를 벡터·행렬 예시의 근거로 사용했다.
+- NumPy Developers, [Array creation](https://numpy.org/doc/stable/user/basics.creation.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. `np.array`, `zeros`, `ones`, `arange`, `linspace` 같은 기본 배열 생성 방식 확인에 사용했다.

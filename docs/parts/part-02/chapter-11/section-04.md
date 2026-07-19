@@ -1,7 +1,7 @@
 # P2-11.4 보충학습: NumPy에서 모양(shape)과 원본 공유를 함께 읽는 법
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-11.2에서는 인덱싱(indexing), 슬라이싱(slicing), 축(axis)을 봤고, P2-11.3에서는 브로드캐스팅(broadcasting)과 벡터화(vectorization)를 봤습니다. 그런데 실제 NumPy 코드를 읽다 보면 그 다음에 자주 막히는 질문이 남습니다.
 
@@ -289,6 +289,6 @@ NumPy 코드가 헷갈리는 이유는 `무엇을 골랐는가`와 `shape가 어
 
 ## 출처와 참고 자료
 
-- NumPy documentation, ["Copies and views"](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
-- NumPy documentation, ["Indexing on ndarrays"](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
-- NumPy documentation, ["Broadcasting"](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-01)
+- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. view와 copy의 차이, 기본 인덱싱 view, advanced indexing copy, `.base` 확인 설명의 근거로 사용했다.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. 선택 방식에 따라 shape와 원본 공유 여부가 달라지는 설명 확인에 사용했다.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. `np.newaxis`와 shape 조정이 broadcasting 이해와 연결되는 설명의 근거로 사용했다.

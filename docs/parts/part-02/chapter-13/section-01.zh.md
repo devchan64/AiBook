@@ -1,7 +1,7 @@
 # P2-13.1 图表（plot）会揭示什么
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 2 Chapter 11，我们用 NumPy 数组确认计算；在 Part 2 Chapter 12，我们用 Pandas `DataFrame` 读取表格数据。现在，我们把同样的数字改成图形来观察。
 
@@ -341,6 +341,6 @@ P2-13.2 会更具体地处理这些基础图表。本节先把图表接受为“
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是区分 `Figure`、`Axes` 与 `plt.subplots()` 的依据。
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图、柱状图和直方图对应到常见数据问题的参考资料。
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } 这是确认入门示例中 `pyplot` 风格代码用法的参考资料。

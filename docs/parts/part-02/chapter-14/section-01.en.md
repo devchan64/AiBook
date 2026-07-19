@@ -1,7 +1,7 @@
 # P2-14.1 Git as a Tool for Managing Change History
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Part 2 Chapter 13, we created plots with Matplotlib and linked the output images into documents. A problem appears immediately at that point. If documents, code, images, and research notes all change together, it becomes hard later to remember "what changed, and why."
 
@@ -215,6 +215,6 @@ In other words, what matters in Git basics is not memorizing many commands. It i
 
 ## Sources and References
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, checked on 2026-06-25. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-status Documentation`, checked on 2026-06-25. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-commit Documentation`, checked on 2026-06-25. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" }
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, checked on 2026-07-19. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } Basis for describing version control as a record of file changes over time and a way to recover specific versions.
+- Git project, `git-status Documentation`, checked on 2026-07-19. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git status` reports working tree, index, and untracked-file state.
+- Git project, `git-commit Documentation`, checked on 2026-07-19. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git commit` records the current index contents with a log message as a new commit.

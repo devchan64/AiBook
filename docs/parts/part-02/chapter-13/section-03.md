@@ -1,7 +1,7 @@
 # P2-13.3 여러 그래프를 비교하고 저장하기
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P2-13.2에서는 선 그래프(line plot), 산점도(scatter plot), 히스토그램(histogram)처럼 기본 차트를 어떤 질문에 쓰는지 봤습니다. 이제 한 걸음 더 나아가 여러 그래프를 함께 보고, 그 결과를 파일로 남기는 흐름을 정리합니다.
 
@@ -238,6 +238,6 @@ fig.savefig("train-validation-loss-diverge.png")
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 하나의 `Figure` 안에 여러 `Axes`를 둘 수 있다는 설명과 `plt.subplots()` 예제를 확인했습니다.
+- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } `Axes`가 데이터 좌표계와 라벨·제목·범례 설정의 중심 객체라는 설명의 근거입니다.
+- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } `Figure.savefig()`가 이미지나 벡터 그래픽 파일로 저장한다는 설명의 직접 참고 자료입니다.

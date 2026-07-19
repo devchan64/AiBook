@@ -221,7 +221,7 @@ e^2 \approx 7.39,\quad e^1 \approx 2.72
 
 ## 来源与参考资料
 
-- Python Software Foundation, `math — Mathematical functions`, Python 3 documentation. 因为可以直接确认 `math.exp` 和 `math.log` 的基本含义，它支撑了本节把指数与对数重新读成计算语言的最低标准。 [https://docs.python.org/3/library/math.html](https://docs.python.org/3/library/math.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`. 因为可以一起确认 `log loss`、`softmax`、`sigmoid` 这些后续 Part 的关键术语，它构成了继续理解“为什么对数与指数会作为机器学习分数解释语言反复出现”的参考点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- Python Software Foundation, `math — Mathematical functions`, Python 3 documentation. 因为可以直接确认 `math.exp` 和 `math.log` 的基本含义，它支撑了本节把指数与对数重新读成计算语言的最低标准。 [https://docs.python.org/3/library/math.html](https://docs.python.org/3/library/math.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- Google for Developers, `Machine Learning Glossary`. 因为可以一起确认 `log loss`、`softmax`、`sigmoid` 这些后续 Part 的关键术语，它构成了继续理解“为什么对数与指数会作为机器学习分数解释语言反复出现”的参考点。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
 - OpenStax, [Calculus Volume 1, 6.8 Exponential Growth and Decay](https://openstax.org/books/calculus-volume-1/pages/6-8-exponential-growth-and-decay){: target="_blank" rel="noopener noreferrer" }, Rice University, 确认日期：2026-07-19. 这个参考资料支持把指数读成同比率变化的说明。
 - OpenStax, [Calculus Volume 1, 1.5 Exponential and Logarithmic Functions](https://openstax.org/books/calculus-volume-1/pages/1-5-exponential-and-logarithmic-functions){: target="_blank" rel="noopener noreferrer" }, Rice University, 确认日期：2026-07-19. 这个参考资料支持对数与指数的反函数关系，以及对数的乘法转加法性质。

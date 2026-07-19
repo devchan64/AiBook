@@ -1,7 +1,7 @@
 # P2-14.2 브랜치(branch), 커밋(commit), 문서 재현성
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-14.1에서는 Git을 변경 이력 관리 도구로 봤습니다. 이제 문서 프로젝트의 작성 흐름에 맞춰 브랜치(branch), 커밋(commit), 배포 문서의 재현성을 연결합니다.
 
@@ -200,6 +200,6 @@ Git 공식 책은 브랜치를 커밋을 가리키는 가벼운 포인터로 설
 
 ## 출처와 참고 자료
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 확인 날짜: 2026-06-25. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-branch Documentation`, 확인 날짜: 2026-06-25. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" }
-- GitHub Docs, `What is GitHub Pages?`, 확인 날짜: 2026-06-25. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" }
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 확인 날짜: 2026-07-19. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 브랜치를 커밋을 가리키는 가벼운 이동 포인터로 설명하는 기준입니다.
+- Git project, `git-branch Documentation`, 확인 날짜: 2026-07-19. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } `git branch`가 브랜치를 나열·생성·삭제하는 명령이라는 설명의 직접 참고 자료입니다.
+- GitHub Docs, `What is GitHub Pages?`, 확인 날짜: 2026-07-19. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } GitHub Pages가 저장소의 HTML, CSS, JavaScript를 빌드 과정과 함께 정적 사이트로 게시할 수 있다는 설명을 확인했습니다.

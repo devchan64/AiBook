@@ -1,7 +1,7 @@
 # P2-12.2 선택, 필터링, 집계
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-12.1에서는 Pandas `DataFrame`을 행(row), 열(column), 인덱스(index)가 있는 표 형식 데이터 구조로 봤습니다. 이제 질문이 하나 더 생깁니다.
 
@@ -550,6 +550,6 @@ print(summary)
 
 ## 출처와 참고 자료
 
-- pandas Developers, `Indexing and selecting data`, pandas user guide, 확인 날짜: 2026-06-25. [https://pandas.pydata.org/docs/user_guide/indexing.html](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `Group by: split-apply-combine`, pandas user guide, 확인 날짜: 2026-06-25. [https://pandas.pydata.org/docs/user_guide/groupby.html](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `10 minutes to pandas`, pandas user guide, 확인 날짜: 2026-06-25. [https://pandas.pydata.org/docs/user_guide/10min.html](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. 열 선택, `loc`/`iloc`, 불리언 인덱싱과 행 필터링 설명 확인에 사용했다.
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. `groupby`를 split-apply-combine 흐름으로 설명하는 근거로 사용했다.
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. DataFrame 생성, 선택, 요약 통계, 기본 표 조작 예시 확인에 사용했다.

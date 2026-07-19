@@ -1,7 +1,7 @@
 # P2-14.2 分支（branch）、提交（commit）与文档可复现性
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 P2-14.1，我们把 Git 看成变更历史管理工具。现在，顺着文档项目的写作流程，把分支（branch）、提交（commit）和已发布文档的可复现性连接起来。
 
@@ -200,6 +200,6 @@ Git 官方书把分支解释为指向提交的轻量指针。与其把这些内�
 
 ## 来源与参考资料
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 确认日期：2026-06-25. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-branch Documentation`, 确认日期：2026-06-25. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" }
-- GitHub Docs, `What is GitHub Pages?`, 确认日期：2026-06-25. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" }
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, 确认日期：2026-07-19. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } 这是把分支说明为指向提交的轻量可移动指针的依据。
+- Git project, `git-branch Documentation`, 确认日期：2026-07-19. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } 这是说明 `git branch` 用于列出、创建或删除分支的直接参考资料。
+- GitHub Docs, `What is GitHub Pages?`, 确认日期：2026-07-19. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } 这是确认 GitHub Pages 可以从仓库发布 HTML、CSS、JavaScript，并可选择经过构建流程生成静态站点的资料。

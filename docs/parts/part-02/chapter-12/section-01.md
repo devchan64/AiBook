@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame은 무엇을 표현하는가
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 벡터(vector), 행렬(matrix), 축(axis), 브로드캐스팅(broadcasting)을 다뤘습니다. 그 흐름은 수치 계산에는 강하지만, 표(table)처럼 생긴 데이터셋(dataset)을 읽을 때는 질문이 조금 바뀝니다.
 
@@ -491,5 +491,5 @@ dtype: object
 
 ## 출처와 참고 자료
 
-- pandas Developers, `pandas.DataFrame`, pandas API reference, 확인 날짜: 2026-06-25. [https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `Package overview`, pandas documentation, 확인 날짜: 2026-06-25. [https://pandas.pydata.org/docs/getting_started/overview.html](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. DataFrame을 labeled axes를 가진 2차원 tabular data structure로 설명하는 근거로 사용했다.
+- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. pandas가 tabular, time series, matrix data를 다루는 도구라는 설명을 DataFrame 입문 배경으로 사용했다.

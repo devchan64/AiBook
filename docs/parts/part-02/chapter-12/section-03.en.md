@@ -1,7 +1,7 @@
 # P2-12.3 The Intuition of Preparing a Learning Dataset
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-12.1, we read a `DataFrame` as a table-shaped data structure. In P2-12.2, we chose the needed columns from that table, filtered rows by condition, and checked summary values. Now the question moves one step further: `what must be prepared to turn this table into a learning dataset that a model can read?`
 
@@ -13,7 +13,7 @@ If Chapter 11 made a computable array shape, Chapter 12 is now the stage where w
 
 ## Scope of This Section
 
-This Section does not cover every preprocessing technique. The introductory flow of missing-value handling, scaling, and encoding returns in P3-7.2, and the detailed procedure of cross-validation reconnects in P3-4.2 and P3-9.2. Pipeline implementation and broader automation structure remain outside the current main track.
+This Section first closes the questions of separating `X` and `y`, distinguishing train/validation/test sets, and checking data leakage. Missing-value handling, scaling, and encoding return in P3-7.2, and the detailed procedure of cross-validation reconnects in P3-4.2 and P3-9.2.
 
 This Section answers the following questions.
 
@@ -358,7 +358,7 @@ Without this perspective, the longer the Pandas code becomes, the easier it is t
 
 ## Sources and References
 
-- pandas Developers, `pandas.get_dummies`, pandas API reference, checked 2026-06-25. [https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn Developers, `Glossary`, scikit-learn documentation, checked 2026-06-25. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn Developers, `train_test_split`, scikit-learn API reference, checked 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn Developers, `Common pitfalls and recommended practices`, scikit-learn user guide, checked 2026-06-25. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used to confirm examples of converting categorical variables into dummy or indicator variables.
+- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, checked on 2026-07-19. Used to confirm background for 1d/2d arrays, array-like inputs, estimator input conventions, and the terms `X` and `y`.
+- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, checked on 2026-07-19. Used to confirm the API for splitting arrays and matrices into train/test subsets and examples involving `test_size` and `random_state`.
+- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, checked on 2026-07-19. Used to confirm cautions about preprocessing order before and after train/test split and data leakage.

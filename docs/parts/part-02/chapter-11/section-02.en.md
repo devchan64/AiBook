@@ -1,7 +1,7 @@
 # P2-11.2 Indexing, Slicing, and Axis
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-11.1, we created NumPy arrays and checked `shape`, `ndim`, and `dtype`. Now we move on to which value to read from an array, which range to cut out, and which direction to calculate along.
 
@@ -25,7 +25,9 @@ Here we answer the following questions.
 - In what sense is `:` used?
 - What directions do `axis=0` and `axis=1` mean?
 
-This Section does not cover advanced indexing, boolean masks, fancy indexing, `np.newaxis`, `...`, or the details of view-versus-copy differences. Those differences are organized again in the supplementary learning of P2-11.4 as `how to read shape together with sharing the original`. Here the focus is on building the basic intuition for reading arrays.
+This Section first closes `which value is selected`, `which range is left`, and `which direction calculation follows` in an array. Here, indexing, slicing, and axis are held as the basic handles for reading arrays.
+
+The questions not expanded immediately in this section are also clear. Advanced indexing, boolean masks, fancy indexing, `np.newaxis`, `...`, and the details of view-versus-copy differences are reorganized in the P2-11.4 supplementary learning section as `how to read shape together with sharing the original`.
 
 ## Goals of This Section
 
@@ -455,5 +457,5 @@ Especially before moving on to Part 3, you should be able to say the following s
 
 ## Sources and References
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm basic indexing, slicing, multidimensional indices, advanced indexing, and copy/view cautions.
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to align terms such as axis, broadcasting, copy, and view with the terminology in this section.

@@ -1,7 +1,7 @@
 # P2-13.3 Comparing and Saving Multiple Plots
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-13.2, we looked at what questions basic charts such as line plots, scatter plots, and histograms are used for. Now we go one step further and organize the flow of looking at several plots together and leaving the result as a file.
 
@@ -236,6 +236,6 @@ The checkable result appears in the saved file and in re-executability. If a fig
 
 ## Sources and References
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, checked on 2026-06-25. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, checked on 2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used to verify that one `Figure` can contain multiple `Axes` and to check the `plt.subplots()` examples.
+- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for describing `Axes` as the central object for data coordinates, labels, titles, and legends.
+- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, checked on 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `Figure.savefig()` saves a figure as an image or vector graphic file.

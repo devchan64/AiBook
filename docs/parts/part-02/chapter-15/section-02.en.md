@@ -1,7 +1,7 @@
 # P2-15.2 Final Check Before Moving to Part 3
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 is the basic recovery zone. It does not mean that all mathematics and Python are finished perfectly. It is the stage where you check whether you now have the minimum reading ability and practice sense needed to move into machine learning.
 
@@ -211,6 +211,6 @@ So readiness for Part 3 comes not from stopping at `I can read shape`, but from 
 
 ## Sources and References
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, checked on 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, checked on 2026-06-25. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-06-25. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, checked on 2026-07-19. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } Direct reference for the introductory flow of estimators, `fit`, `predict`, `X`, and `y`.
+- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, checked on 2026-07-19. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } Basis for Part 3 entry terms such as sample, feature, target, and training/test data.
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, checked on 2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } Used to connect `shape`, dimensions, and array form to the data structure of `X` and `y`.

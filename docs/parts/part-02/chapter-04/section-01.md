@@ -1,7 +1,7 @@
 # P2-4.1 미분을 어떻게 배웠는지 다시 보기
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 3에서는 스칼라(scalar), 벡터(vector), 행렬(matrix)을 통해 데이터와 모델 계산의 모양을 봤습니다. 이제 Part 2 Chapter 4에서는 미분(differentiation)으로 넘어갑니다.
 
@@ -174,4 +174,4 @@ AI 학습에서도 비슷한 사고가 필요합니다. 손실(loss)이 어떻�
 
 ## 출처와 참고 자료
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 접선, 할선, 도함수, 속도와 순간 변화율을 미분 입구의 표준 설명으로 확인하는 근거입니다.

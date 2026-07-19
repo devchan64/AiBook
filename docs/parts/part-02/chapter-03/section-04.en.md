@@ -1,7 +1,7 @@
 # P2-3.4 Dot Product, Norm, Distance, and Similarity
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Once we have read vectors, matrices, and matrix multiplication, the next question remains: `how similar are two vectors`, `how far apart are they`, and `how do we distinguish a large vector from a vector that only points in a similar direction`? Those questions lead directly to dot product, norm, distance, and similarity.
 
@@ -187,6 +187,6 @@ So what matters here is not stopping at `make vectors`, but reading together `ho
 
 ## Sources and References
 
-- NumPy Developers, `numpy.dot`. Because it directly explains that for 1D arrays it is read as the inner product and for 2D arrays as matrix multiplication, it supports the dot-product intuition in this section. [https://numpy.org/doc/stable/reference/generated/numpy.dot.html](https://numpy.org/doc/stable/reference/generated/numpy.dot.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
-- NumPy Developers, `numpy.linalg.norm`. Because it lets us directly check the basic meaning of vector norm and matrix norm, it supports the explanation in this section that reads norm as a summary value of size. [https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
-- scikit-learn developers, `cosine_similarity`. Because it directly explains cosine similarity as a normalized dot product, it strengthens the explanation in this section that connects similarity and directional comparison. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-08
+- NumPy Developers, `numpy.dot`. Because it directly explains that for 1D arrays it is read as the inner product and for 2D arrays as matrix multiplication, it supports the dot-product intuition in this section. [https://numpy.org/doc/stable/reference/generated/numpy.dot.html](https://numpy.org/doc/stable/reference/generated/numpy.dot.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- NumPy Developers, `numpy.linalg.norm`. Because it lets us directly check the basic meaning of vector norm and matrix norm, it supports the explanation in this section that reads norm as a summary value of size. [https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19
+- scikit-learn developers, `cosine_similarity`. Because it directly explains cosine similarity as a normalized dot product, it strengthens the explanation in this section that connects similarity and directional comparison. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" } / Checked: 2026-07-19

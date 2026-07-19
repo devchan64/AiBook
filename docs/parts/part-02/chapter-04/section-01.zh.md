@@ -1,7 +1,7 @@
 # P2-4.1 重新看我们是怎样学微分的
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 在 Part 2 Chapter 3 中，我们通过标量(scalar)、向量(vector)、矩阵(matrix)看到了数据与模型计算的形状。现在，在 Part 2 Chapter 4 里，我们转向微分(differentiation)。
 
@@ -174,4 +174,4 @@ AI 学习也需要类似的想法。因为只有读出损失(loss)是怎样变�
 
 ## 来源与参考资料
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19. 这是把切线、割线、导数、速度和瞬时变化率作为微分入口标准说明来确认的依据。

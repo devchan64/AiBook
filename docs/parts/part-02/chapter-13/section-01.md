@@ -1,7 +1,7 @@
 # P2-13.1 그래프(plot)는 무엇을 드러내는가
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 11에서는 NumPy 배열(array)로 계산을 확인했고, Part 2 Chapter 12에서는 Pandas `DataFrame`으로 표 형식 데이터를 읽었습니다. 이제 같은 숫자를 그림으로 확인합니다.
 
@@ -337,6 +337,6 @@ P2-13.2에서는 이런 기본 그래프를 조금 더 구체적으로 다룹니
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Figure`, `Axes`, `plt.subplots()`를 구분해 설명하는 기준으로 확인했습니다.
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 막대 그래프, 히스토그램을 질문별 기본 차트로 분류하는 부분의 참고 자료입니다.
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 기반 예제가 Matplotlib 입문 코드에서 어떻게 쓰이는지 확인하는 참고 자료입니다.

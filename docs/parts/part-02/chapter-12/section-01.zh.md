@@ -1,7 +1,7 @@
 # P2-12.1 Pandas DataFrame 表达什么
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 2 Chapter 11 里，我们用 NumPy array 处理了 vector、matrix、axis 与 broadcasting。那条路径很适合数值计算，但当我们开始读取长得像表格的数据集时，问题会发生变化。
 
@@ -491,5 +491,5 @@ dtype: object
 
 ## 来源与参考资料
 
-- pandas Developers, `pandas.DataFrame`, pandas API reference, 确认日期: 2026-06-25. [https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `Package overview`, pandas documentation, 确认日期: 2026-06-25. [https://pandas.pydata.org/docs/getting_started/overview.html](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。作为把 DataFrame 说明为具有 labeled axes 的 two-dimensional tabular data structure 的依据。
+- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。作为说明 pandas 用于 tabular、time series、matrix data 的入门背景。

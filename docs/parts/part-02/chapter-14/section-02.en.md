@@ -1,7 +1,7 @@
 # P2-14.2 Branches, Commits, and Document Reproducibility
 
 > Section ID: `P2-14.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 In P2-14.1, we treated Git as a tool for managing change history. Now, following the writing flow of a document project, we connect branches, commits, and the reproducibility of published documents.
 
@@ -200,6 +200,6 @@ This section is not about memorizing more Git commands. It is about deciding by 
 
 ## Sources and References
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, checked on 2026-06-25. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-branch Documentation`, checked on 2026-06-25. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" }
-- GitHub Docs, `What is GitHub Pages?`, checked on 2026-06-25. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" }
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: Branches in a Nutshell`, Git documentation, checked on 2026-07-19. [https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell){: target="_blank" rel="noopener noreferrer" } Basis for describing a branch as a lightweight movable pointer to a commit.
+- Git project, `git-branch Documentation`, checked on 2026-07-19. [https://git-scm.com/docs/git-branch](https://git-scm.com/docs/git-branch){: target="_blank" rel="noopener noreferrer" } Direct reference for explaining that `git branch` lists, creates, or deletes branches.
+- GitHub Docs, `What is GitHub Pages?`, checked on 2026-07-19. [https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages){: target="_blank" rel="noopener noreferrer" } Used to verify that GitHub Pages can publish HTML, CSS, and JavaScript from a repository, optionally through a build process.

@@ -1,7 +1,7 @@
 # P2-14.1 Git은 변경 이력을 관리하는 도구
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 13에서는 Matplotlib으로 그래프를 만들고, 그 출력 이미지를 문서에 연결했습니다. 여기서 바로 문제가 생깁니다. 문서, 코드, 이미지, 조사 메모가 함께 바뀌면 나중에 “무엇을 왜 바꿨는지”를 기억하기 어렵습니다.
 
@@ -217,6 +217,6 @@ Git을 사용하면 다음 관계를 남길 수 있습니다.
 
 ## 출처와 참고 자료
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 확인 날짜: 2026-06-25. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-status Documentation`, 확인 날짜: 2026-06-25. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-commit Documentation`, 확인 날짜: 2026-06-25. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" }
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 확인 날짜: 2026-07-19. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 버전 관리를 시간에 따른 파일 변화 기록과 특정 버전 회수 장치로 설명하는 기준입니다.
+- Git project, `git-status Documentation`, 확인 날짜: 2026-07-19. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } `git status`가 작업 트리, 인덱스, 추적되지 않은 파일 상태를 보여 준다는 설명의 직접 참고 자료입니다.
+- Git project, `git-commit Documentation`, 확인 날짜: 2026-07-19. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } `git commit`이 인덱스의 현재 내용을 로그 메시지와 함께 새 커밋으로 기록한다는 설명의 직접 참고 자료입니다.

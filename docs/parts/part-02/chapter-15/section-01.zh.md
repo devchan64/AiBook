@@ -1,7 +1,7 @@
 # P2-15.1 把公式翻译成代码的小步骤
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 2，我们分别看过公式、Python、NumPy、Pandas、Matplotlib。现在把这条流程重新绑成一个整体。目标不是证明复杂公式，而是拥有一套把简单公式翻译成代码并检查结果的步骤。
 
@@ -281,6 +281,6 @@ plt.show()
 
 ## 来源与参考资料
 
-- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, 确认日期：2026-06-25. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-06-25. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
+- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, 确认日期：2026-07-19. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } 这是公式转代码示例中数字、列表和基础计算表达的依据。
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 确认日期：2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 这是数组创建、数组运算和用 `np.mean` 进行向量化计算说明的依据。
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是用 `Figure`、`Axes`、`plot`、标签和图例检查计算结果图形的依据。

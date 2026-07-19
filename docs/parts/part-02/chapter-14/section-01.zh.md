@@ -1,7 +1,7 @@
 # P2-14.1 Git 是管理变更历史的工具
 
 > Section ID: `P2-14.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 Part 2 Chapter 13，我们用 Matplotlib 制作图表，并把输出图片链接进文档。问题也就在这里立刻出现了。如果文档、代码、图片、调查笔记一起变化，过一段时间后就很难再记清“到底改了什么，为什么改”。
 
@@ -215,6 +215,6 @@ Git 能让你留下下面这些关系。
 
 ## 来源与参考资料
 
-- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 确认日期：2026-06-25. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-status Documentation`, 确认日期：2026-06-25. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" }
-- Git project, `git-commit Documentation`, 确认日期：2026-06-25. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" }
+- Scott Chacon and Ben Straub, `Pro Git 2nd Edition: About Version Control`, Git documentation, 确认日期：2026-07-19. [https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control){: target="_blank" rel="noopener noreferrer" } 这是把版本控制说明为随时间记录文件变化并可恢复特定版本的依据。
+- Git project, `git-status Documentation`, 确认日期：2026-07-19. [https://git-scm.com/docs/git-status](https://git-scm.com/docs/git-status){: target="_blank" rel="noopener noreferrer" } 这是说明 `git status` 会显示工作树、索引和未跟踪文件状态的直接参考资料。
+- Git project, `git-commit Documentation`, 确认日期：2026-07-19. [https://git-scm.com/docs/git-commit](https://git-scm.com/docs/git-commit){: target="_blank" rel="noopener noreferrer" } 这是说明 `git commit` 会把索引中的当前内容连同日志消息记录为新提交的直接参考资料。

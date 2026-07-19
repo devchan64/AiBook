@@ -1,7 +1,7 @@
 # P2-15.1 수식을 코드로 옮기는 작은 절차
 
 > Section ID: `P2-15.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다. 이제 이 흐름을 하나로 묶습니다. 목표는 어려운 수식을 증명하는 것이 아니라, 간단한 수식을 코드로 옮기고 결과를 확인하는 절차를 갖는 것입니다.
 
@@ -283,6 +283,6 @@ plt.show()
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, 확인 날짜: 2026-06-25. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" }
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 확인 날짜: 2026-06-25. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
+- Python Software Foundation, `An Informal Introduction to Python`, Python documentation, 확인 날짜: 2026-07-19. [https://docs.python.org/3/tutorial/introduction.html](https://docs.python.org/3/tutorial/introduction.html){: target="_blank" rel="noopener noreferrer" } Python의 숫자, 리스트, 기본 계산 표현을 수식-코드 변환 예제의 기반으로 확인했습니다.
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 확인 날짜: 2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } 배열 생성, 배열 연산, `np.mean`을 이용한 벡터화 계산 설명의 근거입니다.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Figure`, `Axes`, `plot`, 라벨, 범례를 이용해 계산 결과를 그래프로 확인하는 예제의 기준입니다.

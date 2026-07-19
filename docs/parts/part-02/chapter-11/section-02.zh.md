@@ -1,7 +1,7 @@
 # P2-11.2 索引、切片与轴
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-11.1 中，我们创建了 NumPy array，并检查了 `shape`、`ndim`、`dtype`。现在继续看：该从数组里读哪一个值、切出哪一段、以及计算沿哪个方向进行。
 
@@ -25,7 +25,9 @@ indexing、slicing、axis。
 - `:` 是以什么含义使用的？
 - `axis=0` 与 `axis=1` 分别表示什么方向？
 
-本节不展开 advanced indexing、boolean mask、fancy indexing、`np.newaxis`、`...`，也不展开 view 与 copy 的细节差别。这些差别会在 P2-11.4 的补充学习中，以 `如何把 shape 与共享原始数据一起读` 的方式再整理。这里先专注于建立数组读取的基本直觉。
+本节先收束数组中 `选择哪个值`、`留下哪个区间`、`沿哪个方向计算` 这些问题。这里把 indexing、slicing、axis 作为阅读数组的基本把手。
+
+本节不会马上扩展的问题也很清楚。advanced indexing、boolean mask、fancy indexing、`np.newaxis`、`...`，以及 view 与 copy 的细节差别，会在 P2-11.4 的补充学习中，以 `如何把 shape 与共享原始数据一起读` 的方式再整理。
 
 ## 本节目标
 
@@ -480,5 +482,5 @@ axis 是决定计算方向的维度。
 
 ## 来源与参考资料
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-25.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 basic indexing、slicing、多维索引、advanced indexing 以及 copy/view 注意点。
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于把 axis、broadcasting、copy、view 等术语与本节术语说明对齐。

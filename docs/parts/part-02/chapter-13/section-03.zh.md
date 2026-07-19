@@ -1,7 +1,7 @@
 # P2-13.3 比较多个图表并保存
 
 > Section ID: `P2-13.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-13.2，我们看过折线图（line plot）、散点图（scatter plot）、直方图（histogram）这些基础图表分别适合回答什么问题。现在再往前走一步，整理“把多个图表放在一起看，并把结果保存成文件”的流程。
 
@@ -236,6 +236,6 @@ fig.savefig("train-validation-loss-diverge.png")
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 确认日期：2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认一个 `Figure` 可以包含多个 `Axes`，以及 `plt.subplots()` 示例的资料。
+- Matplotlib Developers, `Introduction to Axes (or Subplots)`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/axes/axes_intro.html](https://matplotlib.org/stable/users/explain/axes/axes_intro.html){: target="_blank" rel="noopener noreferrer" } 这是把 `Axes` 说明为数据坐标、标签、标题和图例设置中心对象的依据。
+- Matplotlib Developers, `matplotlib.figure.Figure.savefig`, Matplotlib API reference, 确认日期：2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.savefig.html){: target="_blank" rel="noopener noreferrer" } 这是说明 `Figure.savefig()` 会把图保存为图像或矢量图文件的直接参考资料。

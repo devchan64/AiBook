@@ -1,7 +1,7 @@
 # P2-11.4 补充学习：在 NumPy 中一起读取 shape 与原数组共享
 
 > Section ID: `P2-11.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-11.2 中，我们看了 indexing、slicing、axis；在 P2-11.3 中，我们看了 broadcasting 和 vectorization。但在真正读 NumPy 代码时，后面常常还会卡在几个问题上。
 
@@ -25,7 +25,9 @@
 - 为什么要用 `np.newaxis`？
 - 在读 broadcasting 时，为什么要把 shape 与原数组共享一起看？
 
-本节不深入 NumPy 的内部内存布局、stride 计算细节、完整的高级 broadcasting 规则、性能基准，或大型 tensor 库的内部实现。这里只回收一个标准：`选择方式不同，shape 与是否共享原数组也会跟着不同`。
+本补充学习先收束 `选择方式不同，shape 与是否共享原数组也会跟着不同` 这个标准，并一起回收 P2-11.2 与 P2-11.3 留下的 selection method、shape change、broadcasting 连接问题。
+
+NumPy 的内部内存布局、stride 计算细节、完整的高级 broadcasting 规则、性能基准，以及大型 tensor 库的内部实现，超出本补充学习的直接范围，因此这里不详细处理。
 
 ## 本补充学习的目标
 
@@ -287,6 +289,6 @@ NumPy 代码之所以容易让人混乱，是因为 `选了什么`、`shape 怎�
 
 ## 来源与参考资料
 
-- NumPy documentation, ["Copies and views"](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" } (确认日期: 2026-07-01)
-- NumPy documentation, ["Indexing on ndarrays"](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" } (确认日期: 2026-07-01)
-- NumPy documentation, ["Broadcasting"](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" } (确认日期: 2026-07-01)
+- NumPy Developers, [Copies and views](https://numpy.org/doc/stable/user/basics.copies.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为区分 view 与 copy、basic indexing views、advanced indexing copies 和 `.base` 检查的依据。
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。用于确认 selection method 会影响 shape 以及是否共享原始数据。
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual，确认日期：2026-07-19。作为把 `np.newaxis` 和 shape adjustment 连接到 broadcasting 的依据。

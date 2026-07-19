@@ -1,7 +1,7 @@
 # P2-11.3 Broadcasting and Vectorization
 
 > Section ID: `P2-11.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In P2-11.1, we checked the `shape`, `ndim`, and `dtype` of NumPy arrays. In P2-11.2, we used indexing, slicing, and axis to decide which part of an array to read and in which direction to calculate.
 
@@ -44,7 +44,11 @@ Here we answer the following questions.
 - Does vectorization remove repetition, or does it move repetition to a different place?
 - Why are normalization, weight calculation, and feature-wise operations often written at the array level in AI practice?
 
-This Section does not go deeply into advanced broadcasting, the detailed use of `np.newaxis`, `reshape`, stride, memory views, performance benchmarks, or GPU tensor computation. `np.newaxis` and shape changes return in the supplementary learning of P2-11.4. Here the focus is on building the intuition that `if the shape fits, repeated calculation can be read at the array level`. If broadcasting examples mostly make sense but the difference among `(3,)`, `(3, 1)`, and `(1, 3)` or the sharing of originals after slicing is still confusing, pause this Section briefly, move to P2-11.4, and then return.
+This Section first closes the intuition that `if the shape fits, repeated calculation can be read at the array level`. In other words, broadcasting and vectorization are held from the viewpoint of how whole-array calculation spreads and applies.
+
+The questions not expanded immediately in this section are also clear. Advanced broadcasting, the detailed use of `np.newaxis`, `reshape`, stride, and memory views return in the P2-11.4 supplementary learning section. If broadcasting examples mostly make sense but the difference among `(3,)`, `(3, 1)`, and `(1, 3)` or the sharing of originals after slicing is still confusing, pause this section briefly, move to P2-11.4, and then return.
+
+Here, before performance comparison, we first read `how whole-array calculation spreads and applies when shape fits`.
 
 ## Goals of This Section
 
@@ -356,6 +360,6 @@ This case ties broadcasting and vectorization back to an actual calculation scen
 
 ## Sources and References
 
-- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
-- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-25.
+- NumPy Developers, [Broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the core basis for broadcasting rules, dimension comparison, and shape mismatch errors.
+- NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used to confirm array arithmetic, universal functions, and basic axis-calculation examples.
+- NumPy Developers, [NumPy: the absolute basics for beginners](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, checked on 2026-07-19. Used as the basis for the beginner-level flow of reading array-level computation instead of Python loops and checking shape first.

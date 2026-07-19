@@ -1,7 +1,7 @@
 # P2-3.4 点积(dot product)、长度(norm)、距离(distance)、相似度(similarity)
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 读完向量(vector)、矩阵(matrix)、矩阵乘法(matrix multiplication)之后，下一道问题自然会留下来：`两个向量到底有多像`、`它们相隔多远`、`怎样区分一个很大的向量和一个只是方向相似的向量`？这正是点积(dot product)、长度(norm)、距离(distance)、相似度(similarity)要回答的问题。
 
@@ -187,6 +187,6 @@ q = [1,\ 1],\quad a = [2,\ 2],\quad b = [1,\ 0]
 
 ## 来源与参考资料
 
-- NumPy Developers, `numpy.dot`. 因为它直接说明了 1 维数组时读作内积(inner product)、2 维数组时读作矩阵乘法，所以它支撑了本节的点积直觉。 [https://numpy.org/doc/stable/reference/generated/numpy.dot.html](https://numpy.org/doc/stable/reference/generated/numpy.dot.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- NumPy Developers, `numpy.linalg.norm`. 因为它可以直接确认向量范数和矩阵范数的基本含义，所以它支撑了本节把 norm 读成“大小摘要值”的说明。 [https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- scikit-learn developers, `cosine_similarity`. 因为它直接把余弦相似度解释为归一化点积(normalized dot product)，所以它加强了本节把相似度与方向比较联系起来的说明。 [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- NumPy Developers, `numpy.dot`. 因为它直接说明了 1 维数组时读作内积(inner product)、2 维数组时读作矩阵乘法，所以它支撑了本节的点积直觉。 [https://numpy.org/doc/stable/reference/generated/numpy.dot.html](https://numpy.org/doc/stable/reference/generated/numpy.dot.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- NumPy Developers, `numpy.linalg.norm`. 因为它可以直接确认向量范数和矩阵范数的基本含义，所以它支撑了本节把 norm 读成“大小摘要值”的说明。 [https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19
+- scikit-learn developers, `cosine_similarity`. 因为它直接把余弦相似度解释为归一化点积(normalized dot product)，所以它加强了本节把相似度与方向比较联系起来的说明。 [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-19

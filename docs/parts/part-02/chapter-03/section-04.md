@@ -1,7 +1,7 @@
 # P2-3.4 내적(dot product), 길이(norm), 거리(distance), 유사도(similarity)
 
 > Section ID: `P2-3.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 벡터(vector), 행렬(matrix), 행렬 곱(matrix multiplication)까지 읽고 나면 다음 질문이 남습니다. `두 벡터가 얼마나 비슷한가`, `얼마나 떨어져 있는가`, `길이가 큰 벡터와 방향이 비슷한 벡터를 어떻게 구분하는가`입니다. 이 질문이 바로 내적(dot product), 길이(norm), 거리(distance), 유사도(similarity)로 이어집니다.
 
@@ -187,6 +187,6 @@ q = [1,\ 1],\quad a = [2,\ 2],\quad b = [1,\ 0]
 
 ## 출처와 참고 자료
 
-- NumPy Developers, `numpy.dot`. 1차원 배열에서는 내적(inner product), 2차원 배열에서는 행렬 곱으로 읽힌다고 직접 설명하므로, 이 절의 내적 직관을 뒷받침합니다. [https://numpy.org/doc/stable/reference/generated/numpy.dot.html](https://numpy.org/doc/stable/reference/generated/numpy.dot.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NumPy Developers, `numpy.linalg.norm`. 벡터 노름과 행렬 노름의 기본 뜻을 직접 확인할 수 있으므로, 길이(norm)를 크기 요약값으로 읽는 이 절의 설명을 뒷받침합니다. [https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- scikit-learn developers, `cosine_similarity`. 코사인 유사도를 정규화된 내적(normalized dot product)으로 직접 설명하므로, 유사도와 방향 비교를 연결하는 이 절의 설명을 보강합니다. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NumPy Developers, `numpy.dot`. 1차원 배열에서는 내적(inner product), 2차원 배열에서는 행렬 곱으로 읽힌다고 직접 설명하므로, 이 절의 내적 직관을 뒷받침합니다. [https://numpy.org/doc/stable/reference/generated/numpy.dot.html](https://numpy.org/doc/stable/reference/generated/numpy.dot.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- NumPy Developers, `numpy.linalg.norm`. 벡터 노름과 행렬 노름의 기본 뜻을 직접 확인할 수 있으므로, 길이(norm)를 크기 요약값으로 읽는 이 절의 설명을 뒷받침합니다. [https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19
+- scikit-learn developers, `cosine_similarity`. 코사인 유사도를 정규화된 내적(normalized dot product)으로 직접 설명하므로, 유사도와 방향 비교를 연결하는 이 절의 설명을 보강합니다. [https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-19

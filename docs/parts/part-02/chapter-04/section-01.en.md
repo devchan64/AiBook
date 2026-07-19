@@ -1,7 +1,7 @@
 # P2-4.1 Rereading How We Learned Differentiation
 
 > Section ID: `P2-4.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 In Part 2 Chapter 3, we looked at the shapes of data and model computation through scalars, vectors, and matrices. Now, in Part 2 Chapter 4, we move to differentiation.
 
@@ -174,4 +174,4 @@ A checkable result can be set in the following way. We can first test `do the ch
 
 ## Sources and References
 
-- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, checked 2026-06-24.
+- OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-19. Used as the standard reference for tangent lines, secant lines, derivatives, velocity, and instantaneous rates of change at the entrance to differentiation.

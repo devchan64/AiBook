@@ -1,7 +1,7 @@
 # P2-12.2 选择、过滤与聚合
 
 > Section ID: `P2-12.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-12.1 中，我们把 Pandas `DataFrame` 看作带有行(row)、列(column)与索引(index)的表格型数据结构。接下来会自然出现另一个问题。
 
@@ -19,7 +19,7 @@
 
 ## 本节范围
 
-本节还不会进入真正的数据清理(cleaning)或缺失值(missing value)处理。数据集(dataset)准备场景中的预处理与数据泄漏(data leakage)问题，会在下一节 P2-12.3 再接上。与此同时，`merge`、`join`、`pivot`、时间序列(time series)、多重索引(MultiIndex)也先放在当前正文范围之外，这里集中处理选择(selection)、过滤(filtering)、聚合(aggregation)的流程。
+本节先收束 column selection、row filtering、aggregation、`groupby` 之间的区别。数据集(dataset)准备场景中的 preprocessing 与 data leakage 问题，会在下一节 P2-12.3 再接上；这里集中处理怎样按照问题缩小并总结一张表。
 
 这里首先要解决的问题是：当我们拿到一张表时，为什么要把`读什么、留什么、概括什么`拆成不同动作来看？
 
@@ -548,6 +548,6 @@ print(summary)
 
 ## 来源与参考资料
 
-- pandas Developers, `Indexing and selecting data`, pandas user guide, 确认日期: 2026-06-25. [https://pandas.pydata.org/docs/user_guide/indexing.html](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `Group by: split-apply-combine`, pandas user guide, 确认日期: 2026-06-25. [https://pandas.pydata.org/docs/user_guide/groupby.html](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `10 minutes to pandas`, pandas user guide, 确认日期: 2026-06-25. [https://pandas.pydata.org/docs/user_guide/10min.html](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [Indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。用于确认 column selection、`loc`/`iloc`、boolean indexing 和 row filtering。
+- pandas Developers, [Group by: split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。作为用 split-apply-combine flow 说明 `groupby` 的依据。
+- pandas Developers, [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。用于确认 DataFrame creation、selection、summary statistics 和基本 table manipulation 示例。

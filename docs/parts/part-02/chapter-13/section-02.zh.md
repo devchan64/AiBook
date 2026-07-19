@@ -1,7 +1,7 @@
 # P2-13.2 基础图表与公式形状的确认
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 在 P2-13.1，我们把图表（plot）看成确认数字形状的工具。现在开始把几种基础图表直接连起来看。
 
@@ -285,6 +285,6 @@ ax.set_title("Function shape: y = x^2")
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-06-25. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认包含 `Axes.plot`、`Axes.scatter`、坐标轴标签和标题在内的基础绘图代码流程的资料。
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图和直方图对应到变化、关系、分布问题的依据。
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } 这是确认 `pyplot` 函数示例和 Matplotlib 入门代码风格的参考资料。

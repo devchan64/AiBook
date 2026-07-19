@@ -1,7 +1,7 @@
 # P2-11.2 인덱싱(indexing), 슬라이싱(slicing), 축(axis)
 
 > Section ID: `P2-11.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-11.1에서는 NumPy 배열(array)을 만들고, `shape`, `ndim`, `dtype`을 확인했습니다. 이제 배열 안에서 어느 값을 읽을지, 어느 구간을 잘라 볼지, 어느 방향으로 계산할지를 봅니다.
 
@@ -457,5 +457,5 @@ Colab에서는 파일 내용을 코드 셀에 붙여 넣어 실행할 수 있습
 
 ## 출처와 참고 자료
 
-- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
-- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-25.
+- NumPy Developers, [Indexing on ndarrays](https://numpy.org/doc/stable/user/basics.indexing.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. 기본 인덱싱, 슬라이싱, 다차원 인덱스, advanced indexing과 copy/view 주의점 확인에 사용했다.
+- NumPy Developers, [NumPy glossary](https://numpy.org/doc/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, NumPy v2.5 Manual, 확인 날짜: 2026-07-19. axis, broadcasting, copy, view 같은 용어를 현재 절의 용어 설명과 맞추는 근거로 사용했다.

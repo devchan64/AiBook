@@ -1,7 +1,7 @@
 # P2-12.1 What Does a Pandas DataFrame Represent?
 
 > Section ID: `P2-12.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 Chapter 11 worked with NumPy arrays for vectors, matrices, axes, and broadcasting. That workflow is strong for numeric computation, but the question changes when we start reading a dataset that looks like a table.
 
@@ -491,5 +491,5 @@ So the beginning of DataFrame reading is closer to a shift in perspective than t
 
 ## Sources and References
 
-- pandas Developers, `pandas.DataFrame`, pandas API reference, checked 2026-06-25. [https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }
-- pandas Developers, `Package overview`, pandas documentation, checked 2026-06-25. [https://pandas.pydata.org/docs/getting_started/overview.html](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [pandas.DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used as the basis for explaining a DataFrame as a two-dimensional tabular data structure with labeled axes.
+- pandas Developers, [Package overview](https://pandas.pydata.org/docs/getting_started/overview.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, checked on 2026-07-19. Used as background for explaining pandas as a tool for tabular, time series, and matrix data.

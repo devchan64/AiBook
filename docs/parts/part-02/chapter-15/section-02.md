@@ -1,7 +1,7 @@
 # P2-15.2 Part 3로 넘어가기 전 점검
 
 > Section ID: `P2-15.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2는 기초 복구 구간입니다. 모든 수학과 Python을 완벽히 끝냈다는 뜻이 아닙니다. 머신러닝으로 넘어가도 되는 최소한의 읽기 능력과 실습 감각을 확인하는 구간입니다.
 
@@ -211,6 +211,6 @@ Part 3에서는 알고리즘 이름보다 다음 질문을 먼저 봅니다.
 
 ## 출처와 참고 자료
 
-- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 확인 날짜: 2026-06-25. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" } estimator, `fit`, `predict`, `X`, `y`의 입문 흐름을 확인하는 직접 참고 자료입니다.
+- scikit-learn developers, `Glossary of Common Terms and API Elements`, scikit-learn documentation, 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" } sample, feature, target, training/test data 같은 Part 3 진입 용어의 기준입니다.
+- NumPy Developers, `NumPy: the absolute basics for beginners`, NumPy documentation, 확인 날짜: 2026-07-19. [https://numpy.org/doc/stable/user/absolute_beginners.html](https://numpy.org/doc/stable/user/absolute_beginners.html){: target="_blank" rel="noopener noreferrer" } `shape`, 차원, 배열 모양을 `X`와 `y`의 데이터 구조로 연결하는 부분의 참고 자료입니다.

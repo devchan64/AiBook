@@ -1,7 +1,7 @@
 # P2-13.1 What Does a Plot Reveal?
 
 > Section ID: `P2-13.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 In Part 2 Chapter 11, we checked calculations with NumPy arrays. In Part 2 Chapter 12, we read tabular data with a Pandas `DataFrame`. Now we look at the same numbers as pictures.
 
@@ -341,6 +341,6 @@ The checkable result becomes clearer when you draw the same data as a line plot.
 
 ## Sources and References
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-06-25. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-06-25. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" }
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-06-25. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" }
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for distinguishing `Figure`, `Axes`, and `plt.subplots()`.
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } Used for mapping line, scatter, bar, and histogram plots to common data questions.
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } Used to verify the introductory `pyplot`-style examples.

@@ -1,7 +1,7 @@
 # P2-12.3 학습용 데이터셋(dataset) 준비의 직관
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P2-12.1에서는 `DataFrame`을 표 형식 데이터 구조로 읽었습니다. P2-12.2에서는 그 표에서 필요한 열을 고르고, 조건으로 행을 걸러 내고, 요약값을 확인했습니다. 이제 질문은 `이 표를 모델이 읽을 수 있는 학습용 데이터셋으로 바꾸려면 무엇을 준비해야 하는가?`로 한 단계 더 앞으로 갑니다.
 
@@ -360,7 +360,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ## 출처와 참고 자료
 
-- pandas Developers, `pandas.get_dummies`, pandas API reference, 확인 날짜: 2026-06-25. [https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn Developers, `Glossary`, scikit-learn documentation, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/glossary.html](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn Developers, `train_test_split`, scikit-learn API reference, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }
-- scikit-learn Developers, `Common pitfalls and recommended practices`, scikit-learn user guide, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/common_pitfalls.html](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }
+- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. 범주형 변수를 dummy/indicator 변수로 바꾸는 예시 확인에 사용했다.
+- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-19. 1d/2d array, array-like, estimator 입력 관례와 `X`, `y` 용어 배경 확인에 사용했다.
+- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-19. 배열과 행렬을 train/test subset으로 나누는 API와 `test_size`, `random_state` 예시 확인에 사용했다.
+- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-19. train/test 분리 전후의 전처리 순서와 data leakage 주의 설명 확인에 사용했다.
