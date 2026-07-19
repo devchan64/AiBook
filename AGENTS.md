@@ -33,7 +33,8 @@
 - Part 시작 페이지는 `docs/parts/part-XX/index.md`를 사용합니다.
 - Part 마무리 페이지는 `docs/parts/part-XX/summary.md`를 사용합니다.
 - 배포 목차는 `mkdocs.yml`의 `nav`에서 관리합니다.
-- `docs/index.md`와 `docs/book/table-of-contents.md`는 Part 본문 밖에 있는 공개 진입 문서이므로, 본문 메타데이터와 릴리즈노트 관리 대상에 포함합니다.
+- `docs/index.md`와 `docs/book/table-of-contents.md`는 Part 본문 밖에 있는 공개 진입 문서이므로, 본문 메타데이터 관리 대상에 포함합니다.
+- `docs/index.md`는 릴리즈노트 관리 대상에 포함하지만, `docs/book/table-of-contents.md`는 독자용 목차 갱신이 잦으므로 별도 Section 릴리즈노트를 운영하지 않습니다.
 - `docs/reference/concept-glossary.md`는 공개 참조 본문이지만, 전용 가이드에 따라 `Section ID`와 `Version`만 유지하고 별도 Section 릴리즈노트는 운영하지 않습니다.
 - 집필 기준, 조사 자료, 근거 분석, 작성 원칙은 `management/` 아래에 둡니다.
 - `management/README.md`는 관리 문서의 역할 분담과 위치를 설명하는 인덱스로 사용합니다.

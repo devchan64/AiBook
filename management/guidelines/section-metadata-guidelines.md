@@ -2,7 +2,7 @@
 
 작성일: 2026-07-18
 
-이 문서는 책 본문 문서의 `Section ID`, 제목 앞 인덱스, `Version`, 릴리즈노트 연결 방식을 관리한다. 릴리즈노트 파일 자체의 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다. 다만 `docs/reference/concept-glossary.md`는 전용 가이드에 따라 `Section ID`와 `Version`만 유지하고, 별도 Section 릴리즈노트는 연결하지 않는다.
+이 문서는 책 본문 문서의 `Section ID`, 제목 앞 인덱스, `Version`, 릴리즈노트 연결 방식을 관리한다. 릴리즈노트 파일 자체의 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다. 다만 `docs/book/table-of-contents.md`와 `docs/reference/concept-glossary.md`는 `Section ID`와 `Version`만 유지하고, 별도 Section 릴리즈노트는 연결하지 않는다.
 
 ## 목적
 
@@ -32,7 +32,7 @@
 - 같은 날 여러 번 수정해도 Section 본문 안의 버전 코드는 날짜 기준으로 유지한다.
 - 본문을 수정했다면 가능한 한 같은 작업에서 릴리즈노트 파일도 함께 갱신한다.
 - 릴리즈노트 파일 위치와 항목 형식은 `../release-notes/sections/README.md`를 따른다.
-- 예외: `docs/reference/concept-glossary.md`는 릴리즈노트 파일을 따로 두지 않는다.
+- 예외: `docs/book/table-of-contents.md`와 `docs/reference/concept-glossary.md`는 릴리즈노트 파일을 따로 두지 않는다.
 
 ## 본문 메타데이터 형식
 
@@ -60,7 +60,7 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 5. 변경 이유와 본문 반영 내용은 릴리즈노트 파일 관리 문서의 형식에 맞춰 남긴다.
 6. 같은 작업에서 Part 체크포인트 노트를 함께 보면, 작업 로그를 누적하지 말고 목차 기준 중심 주제와 구조 판단만 유지한다.
 
-`docs/reference/concept-glossary.md`를 수정할 때는 위 4, 5단계를 적용하지 않는다. 이 경우에는 본문 메타데이터와 개념사전 전용 가이드 정합성만 확인한다.
+`docs/book/table-of-contents.md`와 `docs/reference/concept-glossary.md`를 수정할 때는 위 4, 5단계를 적용하지 않는다. 이 경우에는 본문 메타데이터와 해당 문서 전용 가이드 정합성만 확인한다.
 
 ## 번역본 메타데이터 연결
 
@@ -72,9 +72,10 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 
 - Part 시작 페이지와 Part 마무리 페이지도 현재 기본 메타데이터 관리 대상에 포함한다.
 - 개요/마무리 페이지는 `Section ID` 대신 `P6-index`, `P6-summary`처럼 Part 단위 식별자를 사용해 추적한다.
-- `docs/index.md`와 `docs/book/table-of-contents.md` 같은 공개 진입 문서도 같은 방식으로 추적한다.
+- `docs/index.md`와 `docs/book/table-of-contents.md` 같은 공개 진입 문서도 본문 메타데이터로 추적한다.
   - 소개 페이지: `BOOK-index`
   - 독자용 목차 설명 페이지: `BOOK-toc`
+- `docs/index.md`는 대응 릴리즈노트 파일을 유지하지만, `docs/book/table-of-contents.md`는 별도 Section 릴리즈노트 파일을 만들지 않는다.
 - `docs/reference/concept-glossary.md`는 공개 참조 문서로 추적하되, 대응 릴리즈노트 파일은 만들지 않는다.
 
 ## 지금부터의 적용 범위
@@ -82,7 +83,7 @@ Section 제목 바로 아래에 다음 형식을 둔다.
 - 이 규칙은 지금부터 수정하는 Section과 Part 시작/마무리 페이지부터 적용한다.
 - 기존 본문 전체를 한 번에 소급 정리하지 않는다.
 - 다만 이미 손대는 Section이나 Part 개요/마무리 페이지라면 버전 코드와 릴리즈노트를 함께 추가하는 것을 기본으로 한다.
-- 개념사전은 같은 적용 범위 안에서도 예외로 두며, 버전 코드는 갱신하되 릴리즈노트는 추가하지 않는다.
+- 독자용 목차와 개념사전은 같은 적용 범위 안에서도 예외로 두며, 버전 코드는 갱신하되 릴리즈노트는 추가하지 않는다.
 
 ## 함께 볼 문서
 
