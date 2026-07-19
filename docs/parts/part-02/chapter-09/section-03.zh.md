@@ -1,7 +1,7 @@
 # P2-9.3 图(graph)如何表达关系
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-9.2 中，我们把数组、表、树、图作为不同的数据视角进行了比较。其中图尤其容易让人感到陌生。
 
@@ -26,22 +26,6 @@
 | edge | 一个节点和另一个节点之间的连接 |
 | direction | 表示连接朝向哪一边的性质 |
 | weight | 附着在连接上的数值，用来表达强度、距离、代价等额外信息 |
-
-## 本节的范围
-
-本节从关系表达的角度讨论图。中心问题是：`怎样把对象与对象之间的连接表达成数据？`
-
-本节回答以下问题。
-
-- node 和 edge 是什么？
-- 为什么图适合表达关系？
-- 无向图和有向图有什么不同？
-- weight 会给关系增加什么信息？
-- 如何从邻接表视角阅读一个小图？
-- Python 图工具如何把节点、边、邻居、方向和权重作为 API 来处理？
-- 在 AI、搜索、推荐和 RAG 中，图的直觉会在哪些地方再次出现？
-
-本节集中把 node、edge、direction、weight 读成关系数据的基本判断标准。数据结构名称和阅读标准会在 P2-9.4 补充学习中再次整理。图的直觉如何再次以搜索结构形式出现，会在 P1-13.4 继续。图神经网络和图数据库的实现则放在当前正文范围之外。
 
 ## 本节的目标
 
@@ -369,6 +353,6 @@ Park -- Choi
 
 ## 来源与参考资料
 
-- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-19。作为把 graph 说明为由 vertices/nodes 与 edges/arcs 构成的结构的依据。
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation，确认日期：2026-07-19。用于从 Python 代码视角确认小型无向图、nodes、edges 和 adjacency relations。
-- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation，确认日期：2026-07-19。用于确认 directed graphs 和 successor relationships。
+- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST，确认日期：2026-07-20。作为把 graph 说明为由 vertices/nodes 与 edges/arcs 构成的结构的依据。
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation，确认日期：2026-07-20。用于从 Python 代码视角确认小型无向图、nodes、edges 和 adjacency relations。
+- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation，确认日期：2026-07-20。用于确认 directed graphs 和 successor relationships。

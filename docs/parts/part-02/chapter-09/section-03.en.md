@@ -1,7 +1,7 @@
 # P2-9.3 How Does a Graph Represent Relationships?
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-9.2, we compared arrays, tables, trees, and graphs as different views of data. Among them, graphs can feel especially unfamiliar.
 
@@ -26,21 +26,6 @@ Rather than focusing on graph algorithms themselves, this Section focuses on wha
 | edge | A connection between one node and another |
 | direction | A property that shows toward which side a connection points |
 | weight | A value attached to a connection to represent extra information such as strength, distance, or cost |
-
-## Scope of This Section
-
-This Section treats graphs from the viewpoint of relationship representation. The central question is, `How do we express connections between one object and another as data?`
-
-This Section answers the following questions.
-
-- What are nodes and edges?
-- Why are graphs good for expressing relationships?
-- How are undirected graphs and directed graphs different?
-- What information does weight add to a relationship?
-- How can a small graph be read through an adjacency-list viewpoint?
-- Where does graph intuition appear again in AI, search, recommendation, and RAG?
-
-This Section focuses on reading nodes, edges, direction, and weights as the basic criteria for relationship data. Data-structure names and reading standards are organized again in the P2-9.4 supplement. The scene where graph intuition appears again as search structure continues in P1-13.4. The implementation of graph neural networks and graph databases stays outside the current scope of the main text.
 
 ## Goals of This Section
 
@@ -368,6 +353,6 @@ The checkable result is whether you can follow neighbors from one node. For exam
 
 ## Sources and References
 
-- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-19. Used as the basis for explaining a graph as a structure made of vertices/nodes and edges/arcs.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, checked on 2026-07-19. Used to confirm small undirected graphs, nodes, edges, and adjacency relations.
-- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, checked on 2026-07-19. Used to confirm directed graphs and successor relationships.
+- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, checked on 2026-07-20. Used as the basis for explaining a graph as a structure made of vertices/nodes and edges/arcs.
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, checked on 2026-07-20. Used to confirm small undirected graphs, nodes, edges, and adjacency relations.
+- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, checked on 2026-07-20. Used to confirm directed graphs and successor relationships.

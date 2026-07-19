@@ -1,7 +1,7 @@
 # P2-9.3 그래프(graph)는 관계를 어떻게 표현하는가
 
 > Section ID: `P2-9.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서로 다른 데이터 관점으로 비교했습니다. 그중 그래프는 특히 낯설 수 있습니다.
 
@@ -26,21 +26,6 @@ P2-9.2에서는 배열(array), 표(table), 트리(tree), 그래프(graph)를 서
 | 엣지(edge) | 노드와 노드 사이의 연결입니다. |
 | 방향(direction) | 연결이 어느 쪽으로 향하는지 나타내는 성질입니다. |
 | 가중치(weight) | 연결의 강도, 거리, 비용 같은 추가 정보를 붙인 값입니다. |
-
-## 이 절의 범위
-
-이 절은 그래프를 관계 표현 관점에서 다룹니다. 중심 질문은 “대상과 대상의 연결을 어떻게 데이터로 표현하는가”입니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 노드(node)와 엣지(edge)는 무엇인가?
-- 그래프는 왜 관계를 표현하기 좋은가?
-- 무방향 그래프(undirected graph)와 방향 그래프(directed graph)는 어떻게 다른가?
-- 가중치(weight)는 관계에 어떤 정보를 더하는가?
-- 작은 그래프를 인접 리스트 관점으로 어떻게 읽을 수 있는가?
-- AI와 검색, 추천, RAG에서는 그래프 감각이 어디에서 다시 등장하는가?
-
-이번 절은 노드(node), 엣지(edge), 방향(direction), 가중치(weight)로 관계 데이터를 읽는 기준까지를 먼저 닫습니다. 자료구조 이름과 읽는 기준은 P2-9.4 보충학습에서 다시 정리하고, 그래프 감각이 검색 구조로 다시 등장하는 장면은 P1-13.4에서 이어집니다.
 
 ## 이 절의 목표
 
@@ -368,6 +353,6 @@ AI와 검색 문맥에서는 방향이 중요할 때가 많습니다. 문서가 
 
 ## 출처와 참고 자료
 
-- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-19. 그래프를 vertices/nodes와 edges/arcs로 구성된 구조로 설명하는 근거로 사용했다.
-- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-19. 작은 무방향 그래프, 노드, 엣지, 인접 관계를 확인하는 근거로 사용했다.
-- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-19. 방향 그래프와 successor 관계를 확인하는 근거로 사용했다.
+- Paul E. Black and Paul J. Tanenbaum, [graph](https://xlinux.nist.gov/dads/HTML/graph.html){: target="_blank" rel="noopener noreferrer" }, Dictionary of Algorithms and Data Structures, NIST, 확인 날짜: 2026-07-20. 그래프를 vertices/nodes와 edges/arcs로 구성된 구조로 설명하는 근거로 사용했다.
+- NetworkX Developers, [Graph - Undirected graphs with self loops](https://networkx.org/documentation/stable/reference/classes/graph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-20. 작은 무방향 그래프, 노드, 엣지, 인접 관계를 확인하는 근거로 사용했다.
+- NetworkX Developers, [DiGraph - Directed graphs with self loops](https://networkx.org/documentation/stable/reference/classes/digraph.html){: target="_blank" rel="noopener noreferrer" }, NetworkX 3.6.1 documentation, 확인 날짜: 2026-07-20. 방향 그래프와 successor 관계를 확인하는 근거로 사용했다.
