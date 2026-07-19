@@ -254,22 +254,9 @@ agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에�
 
 이번 예제의 목표는 실제 하네스 전체를 구현하는 것이 아니라, 여러 실행 기록을 보고 `무엇이 잘못되었는지`뿐 아니라 `그래서 다음 운영 조치를 무엇으로 잡아야 하는지`까지 읽는 것입니다. 단순히 기록 항목이 있나 없나만 보면 하네스가 체크리스트처럼 보일 수 있으므로, 이번에는 실행별로 운영 판단을 내려 보겠습니다.
 
-문제 상황:
+아래 예제는 고객 지원 에이전트가 환불 정책을 읽고 답변 초안을 만든 세 번의 실행 기록을 사용합니다. 어떤 실행은 최신 정책과 승인 기록을 모두 갖췄고, 어떤 실행은 오래된 문서를 읽었으며, 어떤 실행은 승인 없이 바로 전송되었습니다. 최종 답만 보면 모두 답변 품질 문제처럼 보일 수 있지만, 실행 기록을 보면 검색 실패, 승인 실패, 재현 가능성 부족을 서로 다른 운영 원인으로 나눠 볼 수 있습니다.
 
-- 고객 지원 에이전트가 환불 정책을 읽고 답변 초안을 만듦
-- 어떤 실행은 최신 정책을 읽었고, 어떤 실행은 오래된 문서를 읽었으며, 어떤 실행은 승인 없이 바로 전송됨
-- 최종 답만 보면 세 경우가 모두 `답변 품질 문제`처럼 보이지만 실제 원인은 다름
-
-입력:
-
-- 여러 번의 agent 실행 기록
-- 각 실행에서 사용한 도구, 읽은 문서, 승인 여부, 재현 식별자
-
-출력:
-
-- 실행별 run report
-- 어떤 실행이 검색 실패, 승인 실패, 재현 가능성 부족으로 분리되는지에 대한 점검값
-- 각 실행에서 바로 취해야 할 운영 후속 조치
+출력에서는 실행별 run report, 원인 분리 점검값, 바로 취해야 할 운영 후속 조치를 함께 확인합니다. 코드에서 확인할 핵심은 하네스와 실행 로그가 실패를 재현 가능하게 남겨야 원인 분리와 다음 운영 조치를 동시에 정할 수 있다는 점입니다.
 
 먼저 이 예제에서 함께 볼 운영 점검 기준은 다음과 같습니다.
 
@@ -280,14 +267,6 @@ agent 시스템은 한 번 잘 돌아가는 것처럼 보여도, 다음 번에�
 | `replay_ready` | 같은 실패를 다시 재현해 수정 전후를 비교해야 해서 |
 | `root_issue` | 검색, 승인, 기록 중 어디가 먼저 흔들렸는지 바로 읽어야 해서 |
 | 다음 운영 조치 | 문제가 보였을 때 바로 어떤 운영 조치를 취할지 정해야 해서 |
-
-입력(input):
-
-위에 정리한 실행 run 기록 목록을 사용합니다.
-
-확인할 개념:
-
-- 하네스와 실행 로그는 실패를 재현 가능하게 남겨야 원인 분리와 다음 운영 조치를 동시에 정할 수 있다
 
 ```python
 from pprint import pprint
@@ -541,6 +520,6 @@ run-2026-06-30-003
 
 ## 출처와 참고 자료
 
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

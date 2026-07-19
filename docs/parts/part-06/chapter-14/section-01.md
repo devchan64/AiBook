@@ -291,22 +291,9 @@ MCP를 처음 읽을 때 자주 생기는 오해는 `도구가 잘 안 붙는다
 
 이번 예제의 목표는 실제 프로토콜 세부를 구현하는 것이 아니라, 에이전트가 여러 요청을 처리할 때 `공통 연결 계층이 있으면 어떤 요청은 끝까지 진행되고`, `형식이 제각각이면 어디에서 멈추는가`를 눈으로 확인하는 것입니다. 단순히 목록 모양만 검사하면 연결 계층의 의미가 잘 드러나지 않으므로, 이번에는 여러 사용자 요청을 실제로 흘려 보내 보겠습니다.
 
-문제 상황:
+아래 예제는 공통 연결 계층에 등록된 도구·자원 목록과, 형식이 제각각인 연결 목록을 나란히 비교합니다. 같은 네 개의 사용자 요청을 두 연결 계층에 흘려 보내면서 어떤 도구와 리소스가 실제로 선택되는지, 어디에서 형식 불일치가 실행을 멈추는지 확인합니다.
 
-- 에이전트는 검색 도구, 파일 읽기 도구, 테스트 실행 도구를 함께 써야 함
-- 문서 저장소와 코드베이스 파일도 각각 다른 자원임
-- 각 항목이 제각각 노출되면 어떤 이름으로 어떤 인자를 써야 하는지 매번 따로 알아야 함
-
-입력:
-
-- 공통 연결 계층에 등록된 도구 목록
-- 형식이 제각각인 연결 목록
-
-출력:
-
-- 요청별 실행 결과
-- 어떤 도구와 리소스가 실제로 선택되었는지에 대한 run report
-- 공통 연결 계층이 있을 때와 없을 때 성공률이 어떻게 달라지는지 보여 주는 요약값
+출력에서는 요청별 실행 결과와 run report, 공통 연결 계층이 있을 때와 없을 때의 성공률 요약값을 함께 봅니다. 코드에서 확인할 핵심은 MCP 연결 문제를 모델 답변 품질 하나로 뭉개지 않고, 도구 해석, 자원 해석, 입력 형식, 권한 확장 가능성 같은 연결 단계로 나눠 볼 수 있다는 점입니다.
 
 먼저 이 예제에서 함께 볼 비교 기준은 다음과 같습니다.
 
@@ -316,14 +303,6 @@ MCP를 처음 읽을 때 자주 생기는 오해는 `도구가 잘 안 붙는다
 | `tool_resolved` | 필요한 도구를 공통 형식으로 찾을 수 있어야 해서 |
 | `resource_resolved` | 읽을 자원을 일정한 방식으로 식별할 수 있어야 해서 |
 | `failure_reason` | 어떤 연결 결함이 먼저 실행을 멈추는지 구분해야 해서 |
-
-입력(input):
-
-위에 정리한 connection layer 시나리오를 사용합니다.
-
-확인할 개념:
-
-- MCP 연결 문제는 도구 해석, 자원 해석, 승인 흐름 중 어느 단계에서 끊기는지 분리해 봐야 원인을 잡을 수 있다
 
 ```python
 from pprint import pprint
@@ -652,6 +631,6 @@ for report in layer_reports:
 
 ## 출처와 참고 자료
 
-- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-05.
-- OpenAI, [MCP and Connectors](https://developers.openai.com/api/docs/guides/tools-connectors-mcp){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Using tools](https://developers.openai.com/api/docs/guides/tools){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Model Context Protocol, [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19.
+- OpenAI, [MCP and Connectors](https://developers.openai.com/api/docs/guides/tools-connectors-mcp){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Using tools](https://developers.openai.com/api/docs/guides/tools){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

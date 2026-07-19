@@ -252,23 +252,9 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 
 이번 예제의 목표는 자동 평가와 사람 평가가 서로 다른 역할을 가진다는 점을 실제 점검 항목 차이로 보고, 최종적으로 `승인`, `수정 후 재검토`, `즉시 탈락` 중 어떤 조치가 내려지는지 확인하는 것입니다. 이번에는 답변 하나만 보는 대신, 여러 답변 후보를 함께 놓고 `자동 평가는 무엇을 바로 탈락시키고`, `무엇은 사람 검토로 넘기며`, `무엇은 둘 다 통과하는가`를 비교하겠습니다.
 
-문제 상황:
+아래 예제는 여러 개의 환불 정책 답변 후보와 자동 평가 기준을 사용합니다. 자동 평가는 형식, 길이, 근거 힌트 같은 표면 조건을 빠르게 확인하고, 사람 평가는 말투, 오해 가능성, 실제 도움성을 추가로 봅니다.
 
-- 여러 개의 환불 정책 답변 후보가 있음
-- 자동 평가는 형식과 표면 조건을 빠르게 확인할 수 있음
-- 사람 평가는 말투, 오해 가능성, 실제 도움성을 더 잘 볼 수 있음
-- 운영에서는 `자동 통과`, `자동 탈락`, `사람 검토 필요`를 나눠야 함
-
-입력:
-
-- 여러 개의 출력 문장
-
-출력:
-
-- 답변별 자동 평가 결과
-- 답변별 사람 평가가 추가로 봐야 할 질문
-- 어떤 답변이 자동 탈락, 사람 검토 필요, 최종 승인 후보인지에 대한 요약값
-- 각 답변에 대해 운영에서 내려야 할 다음 조치
+출력에서는 답변별 자동 평가 결과, 사람이 추가로 봐야 할 질문, 자동 탈락·사람 검토 필요·최종 승인 후보 요약값, 운영에서 내려야 할 다음 조치를 함께 확인합니다. 코드에서 확인할 핵심은 사람 평가가 자동 평가를 대체하는 것이 아니라, 자동 통과 뒤에도 남는 애매함과 운영 위험을 잡아내는 단계라는 점입니다.
 
 먼저 이 예제에서 함께 볼 운영 판단 기준은 다음과 같습니다.
 
@@ -279,14 +265,6 @@ RAG 답변에 출처 링크와 인용 구간이 모두 붙어 있다고 해 봅�
 | 즉시 승인 가능 여부 | 자동 평가와 사람 검토 질문까지 감안했을 때 바로 승인 후보인지 보기 위해 |
 | 검토 사유 | 왜 사람이 다시 봐야 하는지 운영 로그에 남기기 위해 |
 | 다음 조치 | 승인, 수정, 탈락 중 다음 조치를 분명히 남기기 위해 |
-
-입력(input):
-
-위에 정리한 후보 출력 목록과 자동 평가 기준을 사용합니다.
-
-확인할 개념:
-
-- 사람 평가는 자동 평가를 대체하기보다 자동 통과 뒤에도 남는 애매함과 운영 위험을 잡아내는 단계다
 
 ```python
 from pprint import pprint
@@ -496,6 +474,6 @@ next_action = approve_candidate
 
 ## 출처와 참고 자료
 
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- Yuzheng Chang et al., [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-05.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- Yuzheng Chang et al., [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-19.

@@ -213,7 +213,7 @@ LLM 기반 시스템은 보통 모델만으로 이루어지지 않습니다. 예
 
 같은 요약이라도 어떤 축에서 먼저 탈락하는지 표로 보면 더 분명합니다.
 
-| 겉으로 보이는 상태 | 초심자가 먼저 내리기 쉬운 판단 | 평가에서 따로 확인해야 하는 것 |
+| 겉으로 보이는 상태 | 먼저 내리기 쉬운 판단 | 평가에서 따로 확인해야 하는 것 |
 | --- | --- | --- |
 | 문장이 자연스럽고 짧다 | `요약을 잘했다` | 핵심 결정과 담당자 변경이 빠지지 않았는가 |
 | 형식이 깔끔하고 번호도 맞다 | `보고용으로 충분하다` | 배포 연기 사유와 법무 검토 필요가 남았는가 |
@@ -297,23 +297,9 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 
 이번 예제의 목표는 LLM 평가가 한 항목이 아니라 여러 축이라는 점을 실제 판정값으로 보고, 그 결과로 `어떤 후보를 채택할지`와 `무엇을 먼저 고칠지`를 읽는 것입니다. 하나의 답변만 보면 `맞았다` 또는 `틀렸다`로 쉽게 끝나 버리므로, 이번에는 같은 질문에 대한 여러 후보 답변을 나란히 두고 어떤 축에서 갈라지는지 보겠습니다.
 
-문제 상황:
+아래 예제는 같은 환불 정책 질문에 대한 여러 답변 후보, 비교할 근거 문장, 형식 요구 조건과 필수 포함 정보를 사용합니다. 어떤 답은 숫자는 맞지만 형식이 불완전하고, 어떤 답은 문장은 자연스럽지만 문서에 없는 조건을 덧붙입니다.
 
-- 고객 지원 시스템이 같은 환불 정책 질문에 대해 여러 답변 후보를 만듦
-- 어떤 답은 숫자는 맞지만 형식이 불완전하고, 어떤 답은 문장은 자연스럽지만 문서에 없는 조건을 덧붙임
-- 최종 선택 전에 어떤 답이 어느 축에서 흔들리는지 나눠 봐야 함
-
-입력:
-
-- 여러 개의 출력 후보
-- 비교할 근거 문서 문장
-- 형식 요구 조건과 필수 포함 정보
-
-출력:
-
-- 답변 후보별 평가 보고서
-- 어떤 후보가 정확성, 근거성, 형식 적합성, 유용성에서 각각 흔들리는지에 대한 요약값
-- 어떤 후보를 우선 채택할지와 각 후보의 다음 수정 방향
+출력에서는 답변 후보별 평가 보고서, 정확성·근거성·형식 적합성·유용성 요약값, 우선 채택 후보와 다음 수정 방향을 함께 확인합니다. 코드에서 확인할 핵심은 자동 평가가 정답 여부 하나만 보지 않고, 근거성, 형식 준수, 도움됨 같은 여러 축을 함께 점검해야 한다는 점입니다.
 
 먼저 이 예제에서 함께 볼 평가 기준은 다음과 같습니다.
 
@@ -324,14 +310,6 @@ RAG 답변이 매우 유창하게 나왔는데, 실제 검색 문서에는 없�
 | `format_compliance` | 요청한 형식과 마무리 문장을 지켰는지 확인해야 해서 |
 | `helpfulness` | 사용자가 바로 쓸 수 있게 핵심 행동 지침이 들어 있는지 봐야 해서 |
 | `next_fix` | 탈락한 후보를 어떤 축부터 고쳐야 하는지 정해야 해서 |
-
-입력(input):
-
-위에 정리한 source text, required phrase, 후보 답변 목록을 사용합니다.
-
-확인할 개념:
-
-- 자동 평가는 정답 여부만이 아니라 근거성, 형식 준수, 도움됨 같은 여러 축을 함께 점수화해야 한다
 
 ```python
 from pprint import pprint
@@ -527,6 +505,6 @@ answer_d
 
 ## 출처와 참고 자료
 
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- Yuzheng Chang et al., [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-05.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- Yuzheng Chang et al., [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109){: target="_blank" rel="noopener noreferrer" }, arXiv, 2023, 확인 날짜: 2026-07-19.

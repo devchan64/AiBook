@@ -267,12 +267,9 @@ Part 6 뒤쪽 본류는 여기서 `좋은 답 판정`과 `실패 시 운영 경�
 
 이번 연습의 초점은 `생성형 AI 기능을 붙인다`가 아니라 `질문을 닫는 데 필요한 구조를 고른다`를 직접 한 번 판단해 보는 데 있습니다. 바로 위 사례를 읽었더라도, 실제 요청 문장을 보면 prompt, retrieval, tool use가 다시 섞여 보이기 쉽기 때문입니다. 그래서 먼저 질문을 보고 `어떤 구조가 먼저 필요한가`, `무엇을 기록으로 남겨야 하는가`, `잘못 고르면 어디서 실패하는가`를 스스로 적어 본 뒤 아래 해설과 비교합니다.
 
-- 문제 상황: 같은 인사 도우미처럼 보여도 요청마다 필요한 구조가 달라지는지 구분한다
-- 입력(input): 요청 문장 4개
-- 기대 출력(output): 각 요청에 대해 `prompt 중심`, `prompt + retrieval`, `prompt + tool use` 중 무엇이 먼저 필요한지와 그 이유
-- 확인할 개념:
-  - 질문을 닫는 데 필요한 것이 `현재 입력`, `최신 근거`, `현재 상태` 중 무엇인지 먼저 구분해야 한다
-  - 구조를 잘못 고르면 답 품질 문제보다 먼저 근거 누락, 상태 누락, 불필요한 검색이 생긴다
+아래 연습은 요청 문장 네 개를 사용합니다. 같은 인사 도우미처럼 보여도 어떤 요청은 `prompt 중심`으로 닫히고, 어떤 요청은 `prompt + retrieval`, 어떤 요청은 `prompt + tool use`가 먼저 필요합니다.
+
+확인할 핵심은 질문을 닫는 데 필요한 것이 `현재 입력`, `최신 근거`, `현재 상태` 중 무엇인지 먼저 구분하는 일입니다. 구조를 잘못 고르면 답 품질 문제보다 먼저 근거 누락, 상태 누락, 불필요한 검색이 생깁니다.
 
 먼저 아래 표의 `먼저 붙일 구조` 열을 가리고, 각 요청에서 무엇이 먼저 필요한지 스스로 적어 봅니다. 그다음 답과 이유, 기록 항목을 비교합니다.
 
@@ -333,6 +330,6 @@ Part 6 뒤쪽 본류는 여기서 `좋은 답 판정`과 `실패 시 운영 경�
 
 ## 출처와 참고 자료
 
-- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Function calling](https://developers.openai.com/api/docs/guides/function-calling){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

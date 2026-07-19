@@ -236,30 +236,9 @@ P6-13.1에서는 에이전트(agent)가 목표를 작업 흐름으로 이어 가
 
 이번 예제의 목표는 실제 agent loop 전체를 구현하는 것이 아니라, 계획(plan), 행동(action), 관찰(observation), 결정(decision), 종료(stop)가 한 번이 아니라 반복 루프로 이어지고, 그 결과가 `계속 진행`, `종료`, `사람 검토 전환`처럼 달라질 수 있다는 점을 눈으로 확인하는 것입니다.
 
-문제 상황:
+아래 예제는 목표 세 개와 각 라운드에서 얻은 관찰 결과를 사용합니다. 같은 환불 정책 조사라도 어떤 목표는 더 찾아야 하고, 어떤 목표는 충분한 근거를 얻어 멈출 수 있으며, 어떤 목표는 문서 충돌 때문에 사람 검토로 넘어가야 합니다.
 
-- 같은 목표라도 관찰 결과에 따라 계속 진행, 종료, 사람 검토 전환이 갈라질 수 있다
-
-입력:
-
-- 목표 3개
-- 매 라운드에서 얻은 관찰 결과
-
-출력:
-
-- 목표별 loop 기록
-- 계속 진행할지 멈출지 사람에게 넘길지에 대한 판단
-- 종료 조건이 실제로 어떻게 갈라지는지 보여 주는 점검값
-
-확인할 개념:
-
-- 에이전트는 일직선 파이프라인보다 계획-행동-관찰-결정 루프로 읽는 편이 정확하다
-- 첫 시도 실패 뒤에는 관찰 결과가 다음 계획을 실제로 바꿔야 한다
-- 충분한 근거나 충돌 여부에 따라 종료와 사람 검토 전환이 분기될 수 있다
-
-입력(input):
-
-위에 정리한 목표별 round 시나리오를 사용합니다.
+출력에서는 목표별 loop 기록, 마지막 결정, 최신 문서와 충돌 여부, 분기별 개수를 함께 확인합니다. 코드에서 확인할 핵심은 에이전트 루프가 일직선 파이프라인이 아니라, 방금 얻은 관찰 결과에 따라 다음 계획과 종료 방향을 다시 고르는 구조라는 점입니다.
 
 ```python
 scenarios = [
@@ -444,7 +423,7 @@ for report in reports:
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
 - 첫 번째 라운드에서 이미 최신 문서를 찾도록 바꿔 loop가 더 빨리 멈추는지 보기
-- `search_results_by_round`에 세 번째 실패 라운드를 넣어 재시도 한도 조건을 설계해 보기
+- `scenarios`에 세 번째 실패 라운드를 넣어 재시도 한도 조건을 설계해 보기
 - `decision`을 `ask_human_review`로 바꾸어 사람 검토 전환 시점을 상상해 보기
 
 이 절에서 더 중요하게 붙잡아야 할 점은 `한 번 답을 내는가`와 `관찰 결과에 따라 다음 행동을 다시 고르는가`가 같은 문제가 아니라는 것입니다. 그래서 계획, 행동, 관찰은 agent를 설명하는 부가 용어가 아니라, 반복 실행 구조를 어디서 계속하고 어디서 멈출지 판단하게 만드는 기본 루프로 읽는 편이 좋습니다.
@@ -460,6 +439,6 @@ for report in reports:
 
 ## 출처와 참고 자료
 
-- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-05.
-- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- Shunyu Yao et al., [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629){: target="_blank" rel="noopener noreferrer" }, arXiv, 2022, 확인 날짜: 2026-07-19.
+- OpenAI, [Agents SDK](https://developers.openai.com/api/docs/guides/agents){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.

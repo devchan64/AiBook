@@ -161,16 +161,7 @@ retry는 일시적 실패를 다시 시도하는 방법입니다. 하지만 무�
 
 즉, retry, fallback, stop, approval은 단순 기능 이름이 아니라 `실패 triage`의 기본 갈래입니다.
 
-운영 현장에서 이 triage를 가장 짧게 읽으면 다음 표로 먼저 닫히는 편이 좋습니다.
-
-| 먼저 보인 신호 | 1차 triage | 왜 이 경로가 먼저인가 |
-| --- | --- | --- |
-| 잠깐의 timeout, 일시적 외부 API 오류 | retry | 같은 경로를 짧게 다시 시도하면 회복될 수 있기 때문입니다. |
-| 검색 누락, 무거운 경로 지연, 일부 도구 불능 | fallback | 완전히 멈추기보다 더 단순한 경로로 내려와 최소 기능을 유지해야 하기 때문입니다. |
-| 권한 부족, 위험 실행, 근거 없는 단정 | stop 또는 approval | 계속 진행할수록 잘못된 실행이나 잘못된 안내 위험이 커지기 때문입니다. |
-| 문서를 읽고도 계속 과장하거나 형식이 흔들림 | 사람 검토 + 수정 과제 분리 | 시스템 복구와 모델 개선을 한 경로로 뭉개면 원인 추적이 흐려지기 때문입니다. |
-
-이 표의 핵심은 `실패를 봤다`에서 끝나지 않고, `어느 갈래로 먼저 보낼 것인가`를 즉시 정하는 데 있습니다.
+운영 현장에서 이 triage를 가장 짧게 읽으면 `잠깐의 장애는 제한된 retry`, `주 경로가 막히면 fallback`, `권한이나 위험이 보이면 stop 또는 approval`, `모델 출력이 흔들리면 사람 검토와 수정 과제 분리`로 먼저 닫는 편이 좋습니다. 핵심은 `실패를 봤다`에서 끝나지 않고, 어느 갈래로 먼저 보낼 것인가를 즉시 정하는 데 있습니다.
 
 ## 서비스 체크리스트로 다시 묶으면
 
@@ -284,28 +275,9 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 
 이번 예제의 목표는 실패 대응이 `에러가 났다`에서 끝나는 것이 아니라, 재시도, fallback, stop 분기가 실제로 나뉘고 각 경우에 다음 운영 조치가 달라진다는 점을 보는 것입니다. 이번에는 실패 사례 하나만 보지 않고, `시스템 실패`와 `모델 실패`를 함께 넣어 어떤 경우에 retry가 맞고 어떤 경우에 fallback, 사람 검토, 모델 수정이 맞는지 비교하겠습니다.
 
-문제 상황:
+아래 예제는 여러 개의 실패 상황, 재시도 허용 횟수와 캐시 사용 가능 여부, 사람 검토 가능 여부와 근거 문서 존재 여부를 사용합니다. 검색 단계에서는 timeout이, 도구 호출 단계에서는 permission error가, 답변 단계에서는 환각이나 형식 불일치가 생길 수 있습니다.
 
-- 검색 단계에서 timeout이 발생할 수 있음
-- 도구 호출 단계에서는 permission error가 날 수 있음
-- 답변 단계에서는 근거 문서를 읽고도 환각이나 형식 불일치가 날 수 있음
-- 어떤 경우에는 한 번 더 시도할 수 있고
-- 어떤 경우에는 캐시 요약으로 fallback 하거나 사람 검토로 멈춰야 함
-
-입력:
-
-- 여러 개의 실패 상황
-- 재시도 허용 횟수와 캐시 사용 가능 여부
-- 사람 검토 가능 여부와 근거 문서 존재 여부
-
-출력:
-
-- 실패 유형별 최종 대응 결정
-- retry 여부
-- fallback 여부
-- 사람 검토 전환 여부
-- 어떤 실패가 모델 수정 과제이고 어떤 실패가 시스템 복구 과제인지에 대한 요약값
-- 각 실패 유형에 대해 운영자가 바로 해야 할 다음 조치
+출력에서는 실패 유형별 최종 대응 결정, retry와 fallback 여부, 사람 검토 전환 여부, 모델 수정 과제와 시스템 복구 과제의 요약값, 운영자가 바로 해야 할 다음 조치를 함께 확인합니다. 코드에서 확인할 핵심은 운영 실패를 모델 오류와 시스템 오류로 나눠야 적절한 복구 절차와 사용자 대응을 정할 수 있다는 점입니다.
 
 먼저 이 예제에서 함께 볼 대응 기준은 다음과 같습니다.
 
@@ -316,14 +288,6 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 | 다음 조치 | 운영자가 다음에 무엇을 해야 하는지 바로 읽기 위해 |
 | 추적 기록 저장 여부 | 실패 원인을 나중에 다시 재현하고 분석할 수 있어야 해서 |
 | 사용자 영향 | 사용자 경험을 즉시 보호해야 하는 실패인지 구분해야 해서 |
-
-입력(input):
-
-위에 정리한 failure case 목록을 사용합니다.
-
-확인할 개념:
-
-- 운영 실패는 모델 오류와 시스템 오류를 구분해야 적절한 복구 절차와 사용자 대응을 정할 수 있다
 
 ```python
 from pprint import pprint
@@ -656,6 +620,6 @@ recovery =
 
 ## 출처와 참고 자료
 
-- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Integrations and observability](https://developers.openai.com/api/docs/guides/agents/integrations-observability){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Production best practices](https://developers.openai.com/api/docs/guides/production-best-practices){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
