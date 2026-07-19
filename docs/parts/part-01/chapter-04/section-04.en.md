@@ -1,7 +1,7 @@
 # P1-4.4 How Problem Definition Determines the Model
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 4.1 treated a model as a computational representation reduced for a purpose. Section 4.2 organized input, output, and data. Section 4.3 showed that input is transformed into features and representations and then computed together with internal parameters.
 
@@ -10,8 +10,6 @@ This section ties that flow into one question: how should a real-world goal be d
 Problem definition can look like documentation work that happens before model building. In reality, it determines the model type, the data that must be collected, the evaluation criteria, and the way the result connects to business workflow. If problem definition is unstable, the result can miss the target even when a strong algorithm is used.
 
 In Part 1, this section fixes the baseline for `task definition` and the way a real-world goal is turned into a modeling task. The basic meanings of `model`, `input/output/data`, and `features/representations/parameters` were prepared first in 4.1 through 4.3. Here the focus shifts to deciding what task those elements should be grouped into and what should count as doing well.
-
-## Scope of This Section
 
 Section 4.4 is not a section for calculating detailed model metrics. The detailed formulas of accuracy, precision, recall, and loss functions are handled in Part 4.
 
@@ -218,10 +216,11 @@ This kind of document is not a large planning document. It is the minimum map th
 - I can explain that model performance and real business performance can differ.
 - I can write the input, output, data, labeling standard, evaluation criteria, cost of mistakes, and excluded scope into a problem-definition note.
 - I can explain that problem definition is the central stage that determines what the model sees, what it produces, and how success is judged.
-- I can restate a problem in the order `real-world goal -> modeling task -> input/output/data -> evaluation -> business performance`.
+- I can fill in the sentence `we use which input to produce which output, and we check with which metrics and review criteria whether that output helps which business goal`.
 
 ## Sources and Further Reading
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
 - Google for Developers, [Supervised Learning](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }, accessed 2026-06-22.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, accessed 2026-07-19.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, accessed 2026-06-22.

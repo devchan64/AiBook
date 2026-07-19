@@ -1,7 +1,7 @@
 # P1-4.3 特征(feature)、表征(representation)与参数(parameter)
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 4.2 已经整理了 `input`、`output` 与 `data`，也就是模型要看什么、又想从它那里拿回什么。这一节继续往里走一步，解释这些输入在模型内部会变成怎样的计算材料。
 
@@ -10,8 +10,6 @@
 这一节会以入门层级整理 `feature`、`representation` 和 `parameter`。它延续 4.2 的客户支持消息例子，重点是固定读懂模型时必需的术语位置。
 
 在 Part 1 中，这一节会固定从“模型计算”视角阅读 `feature`、`representation` 与 `parameter` 的基本标准。`representation learning` 与 `rule-based approach` 的对照已经在 3.3 先整理过，`input`、`output`、`data`、`example` 和 `label` 的基本结构已经在 4.2 固定过。这里更窄的焦点是：`输入在模型内部会变成什么计算材料`。
-
-## 这一节的范围
 
 这里需要的问题更小：当我们看一个已经定义好的模型时，输入会变成什么值，模型内部又有哪些值会被用来计算输出？
 
@@ -208,20 +206,15 @@ Google 的 glossary 把 `temperature` 说明为控制模型输出随机程度的
 
 ## 术语边界笔记
 
-4.3 的核心术语是 feature、representation 与 parameter。不过，当你阅读真实 AI 工具或聊天机器人文档时，还会遇到一些看起来和它们混在一起的词。这里先只划出边界，避免混淆。
+4.3 的核心术语是 feature、representation 与 parameter。不过，真实文档里还会出现一些看起来相近的词，所以这里在不偏离本节中心的前提下，只短短固定它们的位置。
 
 | 术语 | 在 4.3 里的位置 | 之后更详细处理的位置 |
 | --- | --- | --- |
-| intent | 把输入解释成业务意图或标签后的结果，或其中间判断 | AI 服务架构、聊天机器人结构 |
-| temperature | 不是模型内部参数，而是 LLM 生成设置值 | LLM 与生成式 AI |
 | hyperparameter | 调节学习或使用条件的值 | 机器学习 |
+| temperature | 不是模型内部参数，而是生成时调节的设置值 | LLM 与生成式 AI |
 | embedding | 可被看成向量表征的一种形式 | LLM 与向量检索 |
 
-例如，intent analysis 可以看成下面这样。
-
-> 用户句子 -> 特征/表征 -> intent label -> 后续业务处理
-
-Google 的 glossary 把自然语言理解（NLU, Natural Language Understanding）解释成自然语言处理的一个子领域，用来判断用户说了什么或输入了什么，以及它的意图是什么。这里唯一需要划清的是：intent 不是模型 parameter，它更接近使用输入表征后得到的一种业务解释或输出。
+这里要留下的核心只有一个：feature、representation 与 parameter 是用来阅读模型计算的基础术语，而像 `temperature` 这样的值并不是学到的内部参数，而是之后调节生成方式的设置值。
 
 ## 把三个术语放在一起看
 
@@ -243,10 +236,6 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 
 这个图最重要的作用，是让人先看见 `feature/representation` 和 `parameter` 虽然都重要，但它们位置不同。先把位置分清：`feature/representation` 在输入一侧，`parameter` 在模型内部。
 
-## 这一节先抓什么
-
-在理解这些内容之前，这一节只先固定必要的基础位置，也就是 feature、representation 与 parameter 的基本位置。
-
 ## 常见混淆
 
 | 混淆 | 更安全的理解 |
@@ -262,14 +251,6 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 
 这些混淆在后面会持续重要。尤其当讨论进入深度学习和 LLM 后，像参数数量、representation、embedding 这样的词会出现得越来越频繁。
 
-## 这一节要记住的视角
-
-模型不会把原始输入原样“理解”掉。输入会先变成 feature 或 representation，模型再把这些值和内部已调整的值，也就是 parameter，一起用于输出计算。
-
-如果说 4.2 问的是“要把什么当成输入、又希望什么当成输出？”，那么 4.3 问的就是“这个输入进入模型后，会变成什么计算材料？”
-
-下一节 4.4 会使用这些概念，说明为什么问题定义会决定模型与评价方式。
-
 ## 检查清单
 
 - 我可以解释 feature 是模型使用的输入值。
@@ -279,6 +260,8 @@ feature、representation 与 parameter 彼此连接，但不是同一个东西�
 - 我可以解释好的 representation 会显露重要差异，差的 representation 可能会把它遮住。
 - 我可以把 intent analysis 和 model parameter 区分开，并把它读成把输入解释成业务意图或标签的一层。
 - 我可以区分 model parameter 和 LLM generation setting。
+- 我可以说明模型不会把原始输入原样 `理解` 掉；输入会先变成 feature 或 representation，模型再把这些值和内部已调整的 parameter 一起用于输出计算。
+- 我可以说明 `feature/representation 在输入一侧`、`parameter 在模型内部` 这一位置区别。
 - 我可以区分：4.3 不是模型制作流程，而是用来读懂模型计算的一组基础术语。
 
 ## 出处与参考资料

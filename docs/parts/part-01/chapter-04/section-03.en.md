@@ -1,7 +1,7 @@
 # P1-4.3 Features, Representations, and Parameters
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Section 4.2 examined the relation among `input`, `output`, and `data`, or what we want to show the model and what we want back from it. This section explains what kind of computational material that input becomes inside the model.
 
@@ -10,8 +10,6 @@ The central question is whether the model sees the input exactly as it is, or wh
 This section organizes `feature`, `representation`, and `parameter` at an introductory level. Building on the customer-support example from 4.2, the focus is on fixing the positions of the terms needed to read a model.
 
 In Part 1, this section sets the basic standard for reading `feature`, `representation`, and `parameter` from the viewpoint of model computation. The contrast between `representation learning` and `rule-based approaches` was fixed earlier in 3.3, and the basic structure of `input`, `output`, `data`, `example`, and `label` was fixed in 4.2. Here the narrower focus is on how `input turns into computational material inside the model`.
-
-## Scope of This Section
 
 The question needed here is smaller. When we look at a model that is already defined, what values does the input turn into, and what internal values are used to compute the output?
 
@@ -208,20 +206,15 @@ So even if we see an expression such as `temperature parameter`, we should not i
 
 ## Term-Boundary Notes
 
-The core terms of Section 4.3 are feature, representation, and parameter. But when reading actual AI-tool or chatbot documents, other words can appear mixed into the same area. Here we mark only the boundaries to prevent confusion.
+The core terms of Section 4.3 are feature, representation, and parameter. But in actual documents, similar-looking words appear alongside them, so this note fixes only their positions briefly without pulling the focus away from the section.
 
 | Term | Position in 4.3 | Where it will be treated in more detail |
 | --- | --- | --- |
-| intent | a result or intermediate judgment that interprets the input as a business intention or label | AI service architecture, chatbot structure |
-| temperature | not a model-internal parameter, but an LLM generation setting | LLMs and generative AI |
 | hyperparameter | a value that controls learning or usage conditions | machine learning |
+| temperature | not a model-internal parameter, but a generation setting adjusted during generation | LLMs and generative AI |
 | embedding | a kind of vector representation | LLMs and vector search |
 
-For example, intent analysis can be viewed like this.
-
-> user sentence -> feature/representation -> intent label -> next business handling
-
-Google’s glossary describes natural language understanding (NLU) as a subfield of natural language processing that determines the user’s intent from what the user says or enters. The only boundary needed here is that an intent is not a model parameter; it is closer to a business interpretation or output obtained by using the input representation.
+The key point to keep here is one thing. `Feature`, `representation`, and `parameter` are basic terms for reading model computation, while values such as `temperature` are not learned internal parameters but later settings that adjust generation behavior.
 
 ## Seeing the Three Terms Together
 
@@ -262,14 +255,6 @@ Before understanding those topics, this section only fixes the basic positions o
 
 These confusions remain important later. They become especially frequent when discussions move toward deep learning and LLMs, where terms such as parameter count, representation, and embedding appear often.
 
-## What to Remember from This Section
-
-The model does not simply `understand` the original input as it is. The input is turned into features or representations, and the model uses those values together with adjusted internal values called parameters to compute the output.
-
-If Section 4.2 asked `what do we take as input and what do we want as output?`, Section 4.3 asks `what kind of computational material does that input become inside the model?`
-
-The next section, 4.4, uses these concepts to show why problem definition determines model choice and evaluation.
-
 ## Checklist
 
 - I can explain that a feature is an input value used by the model.
@@ -279,6 +264,8 @@ The next section, 4.4, uses these concepts to show why problem definition determ
 - I can explain that a good representation reveals important differences, while a poor representation can hide them.
 - I can distinguish intent analysis from model parameters and read it as a layer that interprets input into a business intention or label.
 - I can distinguish model parameters from LLM generation settings.
+- I can explain that a model does not simply `understand` the original input as it is; input is turned into features or representations, and the model uses those values together with adjusted internal parameters to compute output.
+- I can explain the position distinction that `features/representations are on the input side`, while `parameters are inside the model`.
 - I can distinguish that Section 4.3 is not a model-building procedure, but a basic vocabulary guide for reading model computation.
 
 ## Sources and Further Reading

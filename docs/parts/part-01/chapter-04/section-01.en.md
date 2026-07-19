@@ -1,7 +1,7 @@
 # P1-4.1 Becoming Comfortable with the Word Model
 
 > Section ID: `P1-4.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Chapter 3 showed the flow from rule-based approaches to learning-based approaches. Chapter 4 turns that flow into a more practical question. What must we do to turn a real-world problem into a form AI can compute?
 
@@ -9,19 +9,11 @@ To understand that question, we first need to become comfortable with the word `
 
 In Part 1, this section fixes the baseline for the distinction between `model` and `system`, and the perspective that a model is a computational representation. The basic flow of `pattern learning`, `representation`, and `parameter` was introduced first in Chapter 3. Here that flow is connected again through the question, `What kind of computational representation do we use for a real-world problem?`
 
-## Scope of This Section
-
 This section organizes the following questions.
 
 - Why should a model be read as a purpose-driven reduced representation rather than the whole of reality?
 - What should we check together when we look at a model in an AI context?
 - Why does confusion begin if we treat a trained model as though it solves the whole real-world problem?
-
-The following topics are not handled deeply here.
-
-- detailed structures of specific machine-learning algorithms
-- detailed computation of features, representations, and parameters
-- design of a full service architecture
 
 The relationship among input, output, and data is revisited immediately in 4.2. Features, representations, and parameters are continued more concretely in 4.3. How problem definition changes model choice is organized again in 4.4. Here the focus stays on one distinction: `a model is a computational representation`.
 

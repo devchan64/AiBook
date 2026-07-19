@@ -1,7 +1,7 @@
 # P1-4.4 问题定义如何决定模型
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 4.1 把模型看成是为了某个目的而缩减出来的可计算表示；4.2 整理了输入、输出和数据；4.3 则说明输入会被转成特征和表示，再和内部参数一起参与计算。
 
@@ -10,8 +10,6 @@
 问题定义看起来像是在建模之前做的文档工作，但实际上，它会一起决定模型类型、需要什么数据、用什么评价标准，以及输出怎样接到真实业务流程里。如果问题定义本身摇摆不定，就算用了很强的算法，结果也可能偏掉。
 
 在 Part 1 里，`task definition` 以及“如何把现实目标改写成建模任务”的基本基准，就在这一节固定下来。`model`、`input/output/data`、`feature/representation/parameter` 的基础意义已经在 4.1 到 4.3 先搭好了；这里则把注意力放到：这些元素应该被组合成什么任务，以及什么才算做得好。
-
-## 这一节的范围
 
 4.4 不是用来计算模型评价指标公式的章节。准确率、精确率、召回率、损失函数等指标的详细计算，会在 Part 4 处理。
 
@@ -218,10 +216,11 @@ Google 的 Machine Learning Glossary 也提到，LLM 评价不只是用来比较
 - 我可以说明模型表现和真实业务表现可能不同。
 - 我可以把输入、输出、数据、标注标准、评价标准、错误代价和排除范围写进问题定义说明里。
 - 我可以说明：问题定义不是模型前的附属准备，而是决定模型看什么、输出什么、怎样判断成功的核心阶段。
-- 我可以按 `现实目标 -> 建模任务 -> 输入/输出/数据 -> 评价 -> 业务表现` 的顺序重新写出一个问题。
+- 我可以自己补完整这句话：`我们要使用什么输入来生成什么输出，并用哪些指标和复核标准确认这个输出是否有助于哪个业务目标`。
 
 ## 出处与参考资料
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
 - Google for Developers, [Supervised Learning](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-06-22.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 确认日期: 2026-07-19.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 确认日期: 2026-06-22.

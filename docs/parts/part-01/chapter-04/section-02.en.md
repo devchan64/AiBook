@@ -1,7 +1,7 @@
 # P1-4.2 Input, Output, and Data
 
 > Section ID: `P1-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Section 4.1 described a model as a computable representation reduced for a purpose rather than the whole real-world problem. Now we move to the first three elements that should be separated when we describe that model: what we put in, what we want to get out, and what kinds of cases we need to gather.
 
@@ -13,19 +13,11 @@ In Part 1, the basic distinction among `input`, `output`, `data`, `example`, and
 
 This is not yet a modeling task. The phrase “help” is too broad. That broad phrase has to be split into input, output, and data before it becomes a smaller task a model can take responsibility for.
 
-## Scope of This Section
-
 This section organizes the following questions.
 
 - What roles do input, output, and data each play?
 - Why does the same real-world problem become a different task when input and output are defined differently?
 - Why should data be read not as a pile of files, but as a collection of examples?
-
-This section does not go deeply into the following.
-
-- the detailed differences among features, representations, and parameters
-- learning algorithms and loss-function computation
-- the full data pipeline and service-operation structure
 
 The relation among features, representations, and parameters returns immediately in 4.3, and the way problem definition changes model choice continues in 4.4. The structure by which input and output are turned into actual feature and representation computation reconnects later in the machine-learning chapters of Part 4 and the neural-network chapters of Part 5. Here the focus stays on separating `what goes in and what comes out`.
 
