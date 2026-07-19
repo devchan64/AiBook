@@ -1,7 +1,7 @@
 # P4-4.2 검증(validation)과 테스트(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-4.1에서는 데이터를 학습 데이터(training data)와 평가 데이터(evaluation data)로 나누는 이유를 봤습니다. 이제 한 단계 더 나아갑니다. 모델을 고르는 과정에서 쓰는 데이터와, 마지막에 한 번만 확인하는 데이터는 같은 역할이 아닙니다.
 
@@ -265,114 +265,36 @@ test labels: ['stay', 'stay', 'churn']
 
 이 코드는 한 번에 세 덩어리를 직접 나누는 대신, 먼저 `학습`과 `임시 평가용 데이터`로 나누고, 그다음 임시 데이터를 다시 `검증`과 `테스트`로 나눕니다. 이 두 단계 분리가 오히려 더 읽기 쉽습니다.
 
-### Python 예제로 “선택”과 “최종 확인”을 따로 보기
+### 표로 “선택”과 “최종 확인”을 따로 보기
 
-이번에는 아주 작은 실험 기록을 코드 출력으로 읽어 봅니다. 아래 코드는 실제 모델을 학습하지 않고도, 검증 점수와 테스트 점수를 어떤 순서로 읽어야 하는지 보여 줍니다.
+이번에는 아주 작은 실험 기록을 표로 읽어 봅니다. 실제 모델을 학습하지 않고 이미 기록된 점수를 해석하는 장면이므로, Python 코드보다 검증 점수와 테스트 점수의 역할을 나누어 보는 표가 더 적합합니다.
 
-문제 상황:
+| 단계 | 보는 값 | 판단 |
+| --- | --- | --- |
+| 후보 비교 | 모델 A 검증 점수 0.78 | 기준 후보로 둘 수 있음 |
+| 후보 비교 | 모델 B 검증 점수 0.74 | A보다 낮아 보류 |
+| 후보 비교 | 모델 C 검증 점수 0.81 | 검증 기준으로 현재 가장 나음 |
+| 선택 뒤 확인 | 최종 테스트 점수 0.76 | 선택된 모델을 마지막에 한 번 확인 |
 
-- 검증 점수와 테스트 점수는 둘 다 성능 숫자처럼 보이지만 읽는 순서와 역할이 다르다
-
-입력(input):
-
-- 후보 모델별 `validation_score`
-- 최종 `test_score`
-
-출력(output):
-
-- 후보별 검증 점수
-- 검증 기준 선택 결과
-- 마지막 테스트 점수
-
-확인할 개념:
-
-- 모델 선택은 검증 점수로 먼저 이루어진다
-- 테스트 점수는 선택 뒤에 한 번 확인하는 숫자로 읽어야 한다
-
-```python
-candidates = [
-    {"name": "model_A", "validation_score": 0.78},
-    {"name": "model_B", "validation_score": 0.74},
-    {"name": "model_C", "validation_score": 0.81},
-]
-
-best = max(candidates, key=lambda item: item["validation_score"])
-
-print("candidate scores on validation:")
-for item in candidates:
-    print(item["name"], "->", item["validation_score"])
-
-print("chosen by validation:", best["name"])
-
-test_score = 0.76
-print("final test score:", test_score)
-```
-
-실행 결과 예시는 다음처럼 읽습니다.
-
-```text
-candidate scores on validation:
-model_A -> 0.78
-model_B -> 0.74
-model_C -> 0.81
-chosen by validation: model_C
-final test score: 0.76
-```
-
-이 출력에서 핵심은 순서입니다.
+이 표에서 핵심은 순서입니다.
 
 1. 검증 점수로 후보를 비교합니다.
 2. 그다음 하나를 선택합니다.
 3. 마지막에 테스트 점수를 확인합니다.
 
-여기서 붙잡아야 할 것은 순서입니다. `검증은 고르는 데 사용`, `테스트는 고른 뒤 확인`이라는 구조가 Python 출력에서도 그대로 보입니다.
+여기서 붙잡아야 할 것은 순서입니다. `검증은 고르는 데 사용`, `테스트는 고른 뒤 확인`이라는 구조가 같은 점수표 안에서도 서로 다른 역할로 갈립니다.
 
-### Python 예제로 잘못된 흐름도 같이 보기
+### 표로 잘못된 흐름도 같이 보기
 
 다음 예제는 무엇이 문제인지 보여 주기 위한 기록입니다. 좋은 실험 절차가 아니라, `왜 테스트를 자주 보면 안 되는가`를 드러내는 예시입니다.
 
-문제 상황:
+| 잘못된 흐름 | 기록된 값 | 왜 문제인가 |
+| --- | --- | --- |
+| 테스트 점수를 너무 일찍 봄 | 모델 A 테스트 점수 0.74 | 최종 확인용 숫자가 후보 비교에 들어오기 시작함 |
+| 테스트 점수를 너무 일찍 봄 | 모델 B 테스트 점수 0.77 | 테스트 기준으로 선택을 바꾸고 싶어짐 |
+| 테스트를 본 뒤 결정 변경 | 모델 B로 선택 변경 | 테스트 데이터가 모델 선택에 영향을 주어 최종 확인 역할이 약해짐 |
 
-- 테스트 점수를 중간에 먼저 보면 그 숫자가 모델 선택을 오염시키기 시작할 수 있다
-
-입력(input):
-
-- 너무 이르게 확인한 후보별 테스트 점수
-
-출력(output):
-
-- 테스트 점수를 본 뒤 선택이 바뀌었다는 기록
-
-확인할 개념:
-
-- 테스트 데이터는 비교용 검증 데이터처럼 쓰기 시작하는 순간 의미가 약해진다
-- 이 예제는 좋은 절차가 아니라 피해야 할 흐름을 읽는 예시다
-
-```python
-test_scores_seen_too_early = {
-    "model_A": 0.74,
-    "model_B": 0.77,
-}
-
-print("looked at test too early:")
-for name, score in test_scores_seen_too_early.items():
-    print(name, "->", score)
-
-print("decision changed after seeing test scores")
-print("problem: test data has started to influence model choice")
-```
-
-실행 결과 예시는 다음처럼 읽습니다.
-
-```text
-looked at test too early:
-model_A -> 0.74
-model_B -> 0.77
-decision changed after seeing test scores
-problem: test data has started to influence model choice
-```
-
-이 코드는 계산을 보여 주기보다 해석을 보여 줍니다. `테스트 점수를 먼저 보고 그에 따라 선택을 바꾸는 순간`, 테스트 데이터는 이미 최종 확인용 역할에서 벗어나기 시작합니다.
+이 표는 계산을 보여 주기보다 해석을 보여 줍니다. `테스트 점수를 먼저 보고 그에 따라 선택을 바꾸는 순간`, 테스트 데이터는 이미 최종 확인용 역할에서 벗어나기 시작합니다.
 
 ### 검증과 테스트를 어떻게 읽어야 하는가
 

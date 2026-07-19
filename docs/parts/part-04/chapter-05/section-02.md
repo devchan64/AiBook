@@ -1,7 +1,7 @@
 # P4-5.2 일반화(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-5.1에서는 과적합(overfitting)과 과소적합(underfitting)을 구분했습니다. 이제 한 단계 더 올라가야 합니다. 왜 우리는 그 구분을 중요하게 여길까요? 결국 머신러닝의 목적이 `학습 데이터 점수 높이기`가 아니라, `아직 보지 못한 데이터에서도 쓸 만하게 작동하기` 때문입니다. 이 질문을 정리하는 말이 `일반화(generalization)`입니다.
 
@@ -269,61 +269,17 @@ P4-4.2에서 검증(validation)과 테스트(test)를 나눈 이유도 결국 �
 
 ## 연습 및 예제
 
-### Python 예제로 일반화 질문 읽기
+### 표로 일반화 질문 읽기
 
-다음 코드는 일반화 관점에서 점수를 어떻게 읽는지 보여 줍니다.
+다음 기록은 일반화 관점에서 점수를 어떻게 읽는지 보여 줍니다. 이미 나온 점수 조합을 해석하는 장면이므로, Python 코드보다 학습 점수·검증 점수·차이를 한 표에서 보는 편이 더 적합합니다.
 
-문제 상황:
+| 모델 | 학습 점수 | 검증 점수 | `generalization gap` | 해석 |
+| --- | ---: | ---: | ---: | --- |
+| `model_A` | 0.81 | 0.79 | 0.02 | 학습과 검증이 비교적 비슷함 |
+| `model_B` | 0.99 | 0.74 | 0.25 | 학습은 매우 높지만 검증이 크게 낮음 |
+| `model_C` | 0.63 | 0.61 | 0.02 | 차이는 작지만 둘 다 낮음 |
 
-- 일반화는 추상적인 말처럼 들리지만, 실제로는 학습 점수와 검증 점수의 차이를 읽는 질문으로 시작할 수 있다
-
-입력(input):
-
-- 모델별 `train_score`
-- 모델별 `validation_score`
-
-출력(output):
-
-- 각 모델의 학습 점수, 검증 점수, `generalization gap`
-
-확인할 개념:
-
-- 일반화는 새 데이터에서의 버팀성을 묻는 관점이다
-- 차이가 작아도 둘 다 낮으면 좋은 일반화라고 바로 말할 수 없다
-
-```python
-results = [
-    {"name": "model_A", "train_score": 0.81, "validation_score": 0.79},
-    {"name": "model_B", "train_score": 0.99, "validation_score": 0.74},
-    {"name": "model_C", "train_score": 0.63, "validation_score": 0.61},
-]
-
-for item in results:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"])
-    print("  train:", item["train_score"])
-    print("  validation:", item["validation_score"])
-    print("  generalization gap:", gap)
-```
-
-실행 결과 예시는 다음처럼 읽습니다.
-
-```text
-model_A
-  train: 0.81
-  validation: 0.79
-  generalization gap: 0.02
-model_B
-  train: 0.99
-  validation: 0.74
-  generalization gap: 0.25
-model_C
-  train: 0.63
-  validation: 0.61
-  generalization gap: 0.02
-```
-
-이 예제에서 `generalization gap`은 정식 이론 설명이 아니라, 독자가 학습 점수와 검증 점수의 차이를 읽는 보조 표현입니다.
+이 표에서 `generalization gap`은 정식 이론 설명이 아니라, 독자가 학습 점수와 검증 점수의 차이를 읽는 보조 표현입니다.
 
 - `model_A`는 학습과 검증이 비교적 비슷합니다.
 - `model_B`는 학습은 매우 높지만 검증이 크게 낮습니다.
@@ -338,61 +294,17 @@ model_C
 
 일반화는 주로 두 번째 질문 쪽에 더 가깝습니다.
 
-### Python 예제로 사회현상 쪽 일반화 읽기
+### 표로 사회현상 쪽 일반화 읽기
 
 다음 예제는 온라인 게시글 분류 모델이 `평소 표현`에는 강하지만 `새로운 표현`이 들어오면 흔들릴 수 있다는 점을 단순화해 보여 줍니다.
 
-문제 상황:
+| 상황 | 익숙한 표현 점수 | 새 표현 점수 | `generalization gap` | 해석 |
+| --- | ---: | ---: | ---: | --- |
+| 지난달 게시글 | 0.93 | 0.90 | 0.03 | 익숙한 표현과 새로운 표현의 차이가 작음 |
+| 새 유행어 등장 | 0.93 | 0.68 | 0.25 | 표현이 조금만 바뀌어도 점수가 크게 떨어질 수 있음 |
+| 비꼼과 우회 표현 증가 | 0.93 | 0.61 | 0.32 | 표면 문장이 달라지면 모델이 더 크게 흔들릴 수 있음 |
 
-- 같은 과제라도 표현 방식이 바뀌면 모델의 일반화가 얼마나 흔들리는지 숫자로 확인해 볼 필요가 있다
-
-입력(input):
-
-- 익숙한 표현에서의 점수 `train_like_score`
-- 새로운 표현에서의 점수 `new_expression_score`
-
-출력(output):
-
-- 상황별 두 점수와 `generalization gap`
-
-확인할 개념:
-
-- 일반화는 단순히 과거 데이터 적응이 아니라 조건 변화에도 버티는 힘과 연결된다
-- 표현 변화는 같은 문제 안에서도 일반화를 시험하는 좋은 예시다
-
-```python
-scenarios = [
-    {"case": "지난달 게시글", "train_like_score": 0.93, "new_expression_score": 0.90},
-    {"case": "새 유행어 등장", "train_like_score": 0.93, "new_expression_score": 0.68},
-    {"case": "비꼼과 우회 표현 증가", "train_like_score": 0.93, "new_expression_score": 0.61},
-]
-
-for item in scenarios:
-    gap = round(item["train_like_score"] - item["new_expression_score"], 2)
-    print(item["case"])
-    print("  familiar expression score:", item["train_like_score"])
-    print("  new expression score:", item["new_expression_score"])
-    print("  generalization gap:", gap)
-```
-
-실행 결과는 다음처럼 읽을 수 있습니다.
-
-```text
-지난달 게시글
-  familiar expression score: 0.93
-  new expression score: 0.9
-  generalization gap: 0.03
-새 유행어 등장
-  familiar expression score: 0.93
-  new expression score: 0.68
-  generalization gap: 0.25
-비꼼과 우회 표현 증가
-  familiar expression score: 0.93
-  new expression score: 0.61
-  generalization gap: 0.32
-```
-
-이 예제는 실제 모델 학습 코드가 아니라, 일반화 해석을 연습하기 위한 읽기 예제입니다.
+이 표는 실제 모델 학습 코드가 아니라, 일반화 해석을 연습하기 위한 읽기 예제입니다.
 
 - `지난달 게시글`은 익숙한 표현과 새로운 표현의 차이가 작습니다.
 - `새 유행어 등장`은 표현이 조금만 바뀌어도 점수가 크게 떨어질 수 있음을 보여 줍니다.

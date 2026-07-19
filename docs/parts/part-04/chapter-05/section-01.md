@@ -1,7 +1,7 @@
 # P4-5.1 과적합(overfitting)과 과소적합(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-4장에서는 데이터를 학습용, 검증용, 테스트용으로 나누는 이유를 봤습니다. 이제 다음 질문이 자연스럽게 이어집니다. 데이터를 나누어 확인했더니 왜 어떤 모델은 학습 데이터에서는 잘 맞는데 새 데이터에서는 약해질까요? 반대로 왜 어떤 모델은 학습 데이터조차 충분히 설명하지 못할까요?
 
@@ -282,61 +282,17 @@ scikit-learn의 공식 예시도 이 점을 보여 줍니다. 단순한 함수�
 
 ## 연습 및 예제
 
-### Python 예제로 과소적합과 과적합 읽기
+### 표로 과소적합과 과적합 읽기
 
-다음 코드는 실제 학습을 시키지 않고도, 점수 조합을 어떻게 읽는지 보여 줍니다.
+다음 기록은 실제 학습을 시키는 예제가 아니라, 이미 나온 학습 점수와 검증 점수 조합을 읽는 장면입니다. 따라서 Python으로 점수를 다시 출력하기보다, 점수 수준과 간격을 한 표에서 비교하는 편이 더 직접적입니다.
 
-문제 상황:
+| 모델 | 학습 점수 | 검증 점수 | 차이 `gap` | 해석 |
+| --- | ---: | ---: | ---: | --- |
+| `simple_rule` | 0.62 | 0.60 | 0.02 | 차이는 작지만 둘 다 낮아 과소적합 쪽에 가까움 |
+| `balanced_model` | 0.84 | 0.82 | 0.02 | 둘 다 높고 차이도 작아 비교적 안정적 |
+| `very_complex_model` | 0.99 | 0.78 | 0.21 | 학습 점수만 높고 검증에서 떨어져 과적합 의심 |
 
-- 과소적합과 과적합은 정의만 읽기보다 학습 점수와 검증 점수의 조합으로 직접 보는 편이 더 빠르다
-
-입력(input):
-
-- 모델별 `train_score`
-- 모델별 `validation_score`
-
-출력(output):
-
-- 각 모델의 학습 점수, 검증 점수, 간격 `gap`
-
-확인할 개념:
-
-- 두 점수의 수준과 차이를 함께 봐야 상태를 해석할 수 있다
-- `gap`은 보조 신호일 뿐이며, 점수 수준도 같이 읽어야 한다
-
-```python
-models = [
-    {"name": "simple_rule", "train_score": 0.62, "validation_score": 0.60},
-    {"name": "balanced_model", "train_score": 0.84, "validation_score": 0.82},
-    {"name": "very_complex_model", "train_score": 0.99, "validation_score": 0.78},
-]
-
-for item in models:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"])
-    print("  train score:", item["train_score"])
-    print("  validation score:", item["validation_score"])
-    print("  gap:", gap)
-```
-
-실행 결과 예시는 다음처럼 읽습니다.
-
-```text
-simple_rule
-  train score: 0.62
-  validation score: 0.6
-  gap: 0.02
-balanced_model
-  train score: 0.84
-  validation score: 0.82
-  gap: 0.02
-very_complex_model
-  train score: 0.99
-  validation score: 0.78
-  gap: 0.21
-```
-
-이 출력에서 봐야 할 것은 `gap` 하나만이 아닙니다.
+이 표에서 봐야 할 것은 `gap` 하나만이 아닙니다.
 
 - `simple_rule`은 차이는 작지만 둘 다 낮습니다. 이것은 과소적합 해석에 더 가깝습니다.
 - `balanced_model`은 둘 다 높고 차이도 작습니다. 비교적 안정적인 상태로 읽을 수 있습니다.
@@ -358,51 +314,17 @@ balanced_model -> 현재 후보 중 가장 안정적이다
 very_complex_model -> 학습 데이터에는 너무 세게 맞췄을 수 있다
 ```
 
-### Python 예제로 업무 질문 붙이기
+### 표로 업무 질문 붙이기
 
 이번에는 같은 숫자에 업무 질문을 붙여 봅니다.
 
-문제 상황:
+| 후보 | 학습 점수 | 검증 점수 | 차이 `gap` | 선택 판단 |
+| --- | ---: | ---: | ---: | --- |
+| `candidate_A` | 0.65 | 0.61 | 0.04 | 둘 다 낮아 기준 후보로 약함 |
+| `candidate_B` | 0.88 | 0.85 | 0.03 | 검증 기준으로 가장 안정적 |
+| `candidate_C` | 0.98 | 0.76 | 0.22 | 학습 점수는 가장 높지만 과적합 의심 |
 
-- 내부 점수표를 실제 후보 선택 판단으로 바꾸려면 어떤 모델을 검증 기준으로 고를지 명시적으로 읽어야 한다
-
-입력(input):
-
-- 후보별 학습 점수와 검증 점수
-
-출력(output):
-
-- 후보별 점수 요약
-- 검증 기준으로 고른 최종 후보
-
-확인할 개념:
-
-- 학습 점수가 가장 높은 후보와 검증 기준으로 가장 안정적인 후보는 다를 수 있다
-- 모델 선택은 검증 점수 중심으로 읽어야 한다
-
-```python
-cases = [
-    {"name": "candidate_A", "train_score": 0.65, "validation_score": 0.61},
-    {"name": "candidate_B", "train_score": 0.88, "validation_score": 0.85},
-    {"name": "candidate_C", "train_score": 0.98, "validation_score": 0.76},
-]
-
-for item in cases:
-    gap = round(item["train_score"] - item["validation_score"], 2)
-    print(item["name"], "-> train:", item["train_score"], "validation:", item["validation_score"], "gap:", gap)
-
-best = max(cases, key=lambda item: item["validation_score"])
-print("choose by validation:", best["name"])
-```
-
-실행 결과 예시는 다음처럼 나올 수 있습니다.
-
-```text
-candidate_A -> train: 0.65 validation: 0.61 gap: 0.04
-candidate_B -> train: 0.88 validation: 0.85 gap: 0.03
-candidate_C -> train: 0.98 validation: 0.76 gap: 0.22
-choose by validation: candidate_B
-```
+검증 기준으로 고르면 `candidate_B`가 됩니다.
 
 이 예제에서 `candidate_C`는 학습 점수만 보면 가장 좋아 보입니다. 하지만 실제 선택은 검증 점수를 기준으로 `candidate_B`가 됩니다. 이것이 과적합을 경계하는 가장 기본적인 읽기 방식입니다.
 

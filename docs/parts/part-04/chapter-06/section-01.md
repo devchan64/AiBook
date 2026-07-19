@@ -321,54 +321,14 @@ f1: 0.0582
 
 즉, `정확도만 보면 좋아 보이지만 실제로는 문제가 많은 모델`이 존재할 수 있다는 뜻입니다.
 
-### Python 예제로 같은 정확도, 다른 해석 보기
+### 표로 같은 정확도, 다른 해석 보기
 
 이번에는 정확도는 같지만 정밀도와 재현율이 다를 수 있다는 점을 간단한 기록으로 읽어 봅니다.
 
-문제 상황:
-
-- 같은 정확도라도 실제 운영상 의미가 완전히 다른 두 모델이 있을 수 있다
-
-입력(input):
-
-- 모델별 accuracy
-- 모델별 precision
-- 모델별 recall
-
-출력(output):
-
-- 각 모델의 세 지표 비교
-
-확인할 개념:
-
-- accuracy만 같다고 같은 품질의 모델이라고 말할 수 없다
-- 정밀도와 재현율은 무엇을 더 아프게 보는지에 따라 해석이 달라진다
-
-```python
-models = [
-    {"name": "model_A", "accuracy": 0.95, "precision": 0.91, "recall": 0.42},
-    {"name": "model_B", "accuracy": 0.95, "precision": 0.63, "recall": 0.88},
-]
-
-for item in models:
-    print(item["name"])
-    print("  accuracy :", item["accuracy"])
-    print("  precision:", item["precision"])
-    print("  recall   :", item["recall"])
-```
-
-실행 결과는 다음처럼 읽을 수 있습니다.
-
-```text
-model_A
-  accuracy : 0.95
-  precision: 0.91
-  recall   : 0.42
-model_B
-  accuracy : 0.95
-  precision: 0.63
-  recall   : 0.88
-```
+| 모델 | accuracy | precision | recall | 먼저 볼 해석 |
+| --- | ---: | ---: | ---: | --- |
+| `model_A` | 0.95 | 0.91 | 0.42 | 괜한 경보는 적지만 놓침이 많을 수 있음 |
+| `model_B` | 0.95 | 0.63 | 0.88 | 더 많이 잡아내지만 괜한 경보가 늘 수 있음 |
 
 이 예제에서 중요한 것은 `누가 더 낫다`를 기계적으로 고르는 일이 아닙니다. 중요한 것은 `무엇을 더 중요하게 보느냐에 따라 해석이 달라진다`는 점입니다.
 

@@ -19,7 +19,7 @@ OUT_DIR = Path(__file__).resolve().parent
 
 LANG_TEXT = {
     "ko": {
-        "font_candidates": ["Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK KR", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"],
         "sigmoid_outfile": "p4-11-1-sigmoid-score-map-ko.png",
         "threshold_outfile": "p4-11-2-threshold-shift-ko.png",
         "z_label": "선형 점수 z",
@@ -55,7 +55,7 @@ LANG_TEXT = {
         "panel_07": "threshold = 0.7",
     },
     "zh": {
-        "font_candidates": ["Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
+        "font_candidates": ["Noto Sans CJK SC", "Arial Unicode MS", "Heiti TC", "PingFang SC", "DejaVu Sans"],
         "sigmoid_outfile": "p4-11-1-sigmoid-score-map-zh.png",
         "threshold_outfile": "p4-11-2-threshold-shift-zh.png",
         "z_label": "线性分数 z",

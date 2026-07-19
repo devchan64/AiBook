@@ -173,34 +173,10 @@ DQN은 이 함수 근사 흐름의 대표 사례입니다.
 - 수렴은 이 값을 계속 갱신할 때 변화폭이 줄어드는지 보는 질문이다
 - 함수 근사는 표를 버리는 것이 아니라 큰 상태 공간에서 표현 방식을 바꾸는 일이다
 
-```python
-scenes = [
-    {"name": "small_maze", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 25},
-    {"name": "screen_game", "reward": 1.0, "gamma": 0.9, "next_value": 0.8, "states": 1_000_000},
-]
-
-for item in scenes:
-    bellman_view = item["reward"] + item["gamma"] * item["next_value"]
-    representation = "q_table" if item["states"] <= 1_000 else "function_approximator"
-
-    print(item["name"])
-    print("  bellman view =", round(bellman_view, 2))
-    print("  states =", item["states"])
-    print("  representation =", representation)
-```
-
-실행 결과 예시는 다음처럼 읽을 수 있습니다.
-
-```text
-small_maze
-  bellman view = 1.72
-  states = 25
-  representation = q_table
-screen_game
-  bellman view = 1.72
-  states = 1000000
-  representation = function_approximator
-```
+| 장면 | 계산 | 현재 가치 읽기 | 상태 수 | 더 자연스러운 표현 |
+| --- | --- | ---: | ---: | --- |
+| `small_maze` | `1.0 + 0.9 * 0.8` | 1.72 | 25 | Q-table |
+| `screen_game` | `1.0 + 0.9 * 0.8` | 1.72 | 1,000,000 | 함수 근사(function approximator) |
 
 이 예제에서 읽어야 할 것은 다음입니다.
 
@@ -208,26 +184,15 @@ screen_game
 2. 즉, 상태 공간이 커졌다고 해서 가치 기반 직관 자체가 사라지는 것은 아니다.
 3. 달라지는 것은 `그 값을 어디에 담을 것인가`이며, 상태 수가 커지면 같은 직관을 함수 근사로 옮겨야 한다.
 
-### 값 하나 바꿔 보기: 상태 수가 커질수록 무엇이 먼저 불편해지는가
+### 표로 보기: 상태 수가 커질수록 무엇이 먼저 불편해지는가
 
-이번에는 보상과 할인율은 그대로 두고, 상태 수만 늘려 보면서 언제 표 기반 직관이 불편해지는지 봅니다.
+이번에는 보상과 할인율은 그대로 두고, 상태 수만 늘려 보면서 언제 표 기반 직관이 불편해지는지 봅니다. 상태 수 기준으로 표현 방식을 나누어 읽는 장면이므로, 코드보다 비교표가 더 분명합니다.
 
-```python
-reward = 1.0
-gamma = 0.9
-next_value = 0.8
-
-for states in [25, 2_500, 250_000]:
-    bellman_view = reward + gamma * next_value
-    representation = "q_table" if states <= 1_000 else "function_approximator"
-    print("states =", states, "bellman view =", round(bellman_view, 2), "representation =", representation)
-```
-
-```text
-states = 25 bellman view = 1.72 representation = q_table
-states = 2500 bellman view = 1.72 representation = function_approximator
-states = 250000 bellman view = 1.72 representation = function_approximator
-```
+| 상태 수 | 현재 가치 읽기 | 먼저 불편해지는 지점 | 표현 방식 |
+| ---: | ---: | --- | --- |
+| 25 | 1.72 | 상태-행동 값을 표에 적을 수 있음 | Q-table |
+| 2,500 | 1.72 | 표가 커져 관리가 어려워짐 | 함수 근사 |
+| 250,000 | 1.72 | 모든 값을 직접 저장하기 어려움 | 함수 근사 |
 
 이 비교에서 변하지 않는 것은 `현재 보상 + 미래 가치`라는 해석이고, 먼저 무너지는 것은 `표에 직접 적는다`는 표현 방식입니다. 그래서 독자가 여기서 확인해야 할 핵심은 `벨만식이 틀려졌다`가 아니라 `같은 판단을 다른 표현으로 옮겨야 한다`는 점입니다.
 
