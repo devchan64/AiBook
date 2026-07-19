@@ -1,7 +1,7 @@
 # P3-4.5 지금 모은 샘플은 전체 운영 상황을 얼마나 대표하는가
 
 > Section ID: `P3-4.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 샘플 단위를 동작 1회나 최근 구간 1개처럼 정하고 나면, 한 번 더 놓치기 쉬운 질문이 남습니다. `지금 모은 샘플이 전체 운영 상황을 얼마나 대표하는가?` 표가 잘 정리되어 있어도, 그 표가 특정 공정 모드나 특정 기간, 특정 장비 상태에서만 모인 사례라면 전체 운영 장면을 고르게 설명하지 못할 수 있습니다. 샘플 단위를 잘 정한 것과, 그 샘플 묶음이 전체 상황을 고르게 대표하는 것은 같은 말이 아닙니다.
 
@@ -152,6 +152,6 @@ maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_c
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example 단위가 먼저 정해져야 그다음에 어떤 example 집합이 현재 문제를 대표하는지 묻는 단계로 넘어갈 수 있으므로, 샘플 한 건의 정의와 샘플 묶음의 대표성을 분리해 읽어야 한다는 이 절의 출발점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. provenance와 activity context를 함께 남겨야 한다고 정리하므로, 현재 샘플 묶음이 어느 기간, 어느 장비, 어느 운영 모드에서 나왔는지 추적 가능해야 대표성 범위를 설명할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교할 때 같은 본질 조건 아래에서 얻은 표본이 필요하다고 설명하므로, 샘플 수가 아니라 어떤 운영 조건을 얼마나 덮고 있는지가 먼저 정리되어야 한다는 대표성 점검의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example 단위가 먼저 정해져야 그다음에 어떤 example 집합이 현재 문제를 대표하는지 묻는 단계로 넘어갈 수 있으므로, 샘플 한 건의 정의와 샘플 묶음의 대표성을 분리해 읽어야 한다는 이 절의 출발점을 보강합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. provenance와 activity context를 함께 남겨야 한다고 정리하므로, 현재 샘플 묶음이 어느 기간, 어느 장비, 어느 운영 모드에서 나왔는지 추적 가능해야 대표성 범위를 설명할 수 있다는 상위 프레임을 제공합니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 현재 성능을 과거 성능과 비교할 때 같은 본질 조건 아래에서 얻은 표본이 필요하다고 설명하므로, 샘플 수가 아니라 어떤 운영 조건을 얼마나 덮고 있는지가 먼저 정리되어야 한다는 대표성 점검의 일반 근거가 됩니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
