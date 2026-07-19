@@ -1,7 +1,7 @@
 # P2-12.3 准备学习数据集(dataset)的直觉
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-12.1 中，我们把 `DataFrame` 读成表格型数据结构。在 P2-12.2 中，我们从这张表里挑出需要的列，用条件筛掉行，并查看了总结值。现在问题再往前走一步：`如果要把这张表变成模型能读取的学习数据集，需要准备什么？`
 
@@ -10,18 +10,6 @@
 本节说明 `数据集(dataset)`、`特征(feature)`、`目标(target)`、`验证(validation)`、`数据泄漏(data leakage)` 的基本区分。`DataFrame` 与表选择的代表性说明放在 P2-12.1、P2-12.2 与[概念词汇表](/AiBook/en/reference/concept-glossary/)中，这里关注的是：如何把那张表重新组织成学习输入与答案。
 
 如果说 Chapter 11 让我们得到可计算的数组形状，那么现在的 Chapter 12 就是在表中决定哪些列要留下、哪些列要去掉。这里整理出的输入与答案候选，会接到下一章 Chapter 13 的可视化，以及 Chapter 14 的记录整理。
-
-## 本节范围
-
-本节先收束 `X`/`y` 分离、train/validation/test 区分，以及 data leakage 检查这几个问题。缺失值(missing value)处理、缩放(scaling)、编码(encoding)的入门流程会在 P3-7.2 再处理，交叉验证(cross-validation)的详细步骤会在 P3-4.2 与 P3-9.2 再接上。
-
-本节回答以下问题。
-
-- 在表格数据里，什么是输入 `X`，什么是答案 `y`？
-- 为什么有些列要留下，有些列要去掉？
-- 为什么要把数据分成 train、validation、test？
-- 为什么预处理顺序一旦弄错，就会产生数据泄漏(data leakage)？
-- Pandas 在这个准备过程中扮演什么角色？
 
 ## 本节目标
 
@@ -358,7 +346,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ## 来源与参考资料
 
-- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-19。用于确认把 categorical variables 转换成 dummy/indicator variables 的示例。
-- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation，确认日期：2026-07-19。用于确认 1d/2d array、array-like、estimator input conventions 以及 `X`、`y` 术语背景。
-- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation，确认日期：2026-07-19。用于确认把 arrays 和 matrices 分成 train/test subsets 的 API，以及 `test_size`、`random_state` 示例。
-- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation，确认日期：2026-07-19。用于确认 train/test split 前后 preprocessing 顺序与 data leakage 注意说明。
+- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation，确认日期：2026-07-20。用于确认把 categorical variables 转换成 dummy/indicator variables 的示例。
+- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation，确认日期：2026-07-20。用于确认 1d/2d array、array-like、estimator input conventions 以及 `X`、`y` 术语背景。
+- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation，确认日期：2026-07-20。用于确认把 arrays 和 matrices 分成 train/test subsets 的 API，以及 `test_size`、`random_state` 示例。
+- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation，确认日期：2026-07-20。用于确认 train/test split 前后 preprocessing 顺序与 data leakage 注意说明。

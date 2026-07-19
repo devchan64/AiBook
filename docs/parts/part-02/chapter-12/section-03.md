@@ -1,7 +1,7 @@
 # P2-12.3 학습용 데이터셋(dataset) 준비의 직관
 
 > Section ID: `P2-12.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-12.1에서는 `DataFrame`을 표 형식 데이터 구조로 읽었습니다. P2-12.2에서는 그 표에서 필요한 열을 고르고, 조건으로 행을 걸러 내고, 요약값을 확인했습니다. 이제 질문은 `이 표를 모델이 읽을 수 있는 학습용 데이터셋으로 바꾸려면 무엇을 준비해야 하는가?`로 한 단계 더 앞으로 갑니다.
 
@@ -10,20 +10,6 @@ P2-12.1에서는 `DataFrame`을 표 형식 데이터 구조로 읽었습니다. 
 여기서는 `데이터셋(dataset)`, `특징(feature)`, `타깃(target)`, `검증(validation)`, `데이터 누수(data leakage)`의 기본 구분을 설명합니다. `DataFrame`과 표 선택의 대표 설명은 P2-12.1, P2-12.2와 [개념사전](../../../reference/concept-glossary.md)에 두고, 여기서는 그 표를 학습용 입력과 정답으로 어떻게 다시 구성할지 설명합니다.
 
 Chapter 11이 계산 가능한 배열 모양을 만들었다면, 지금 Chapter 12는 표에서 어떤 열을 남기고 어떤 열을 뺄지 결정하는 단계입니다. 이렇게 정리한 입력과 정답 후보는 다음 Chapter 13의 시각화와 Chapter 14의 기록 정리로 이어집니다.
-
-## 이 절의 범위
-
-이 절은 표를 학습용 입력 `X`와 정답 `y`로 다시 구성하고, 학습(train)·검증(validation)·테스트(test) 분리와 데이터 누수(data leakage) 점검까지를 먼저 닫는 절입니다.
-
-결측치(missing value) 처리, 스케일링(scaling), 인코딩(encoding)의 입문 흐름은 P3-7.2에서 다시 다루고, 교차검증(cross-validation) 세부 절차는 P3-4.2와 P3-9.2에서 다시 연결합니다. 파이프라인(pipeline) 구현과 더 넓은 자동화 구조는 여기서 먼저 꺼내지 않고, 지금은 입력과 정답을 어떻게 나누고 누수를 어떻게 피할지에 집중합니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 표 형식 데이터에서 무엇이 입력 `X`이고 무엇이 정답 `y`인가?
-- 왜 어떤 열은 남기고 어떤 열은 빼야 하는가?
-- 왜 학습(train), 검증(validation), 테스트(test)를 나누는가?
-- 왜 전처리 순서를 잘못 잡으면 데이터 누수(data leakage)가 생기는가?
-- Pandas는 이 준비 과정에서 어떤 역할을 하는가?
 
 ## 이 절의 목표
 
@@ -360,7 +346,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ## 출처와 참고 자료
 
-- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-19. 범주형 변수를 dummy/indicator 변수로 바꾸는 예시 확인에 사용했다.
-- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-19. 1d/2d array, array-like, estimator 입력 관례와 `X`, `y` 용어 배경 확인에 사용했다.
-- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-19. 배열과 행렬을 train/test subset으로 나누는 API와 `test_size`, `random_state` 예시 확인에 사용했다.
-- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-19. train/test 분리 전후의 전처리 순서와 data leakage 주의 설명 확인에 사용했다.
+- pandas Developers, [pandas.get_dummies](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html){: target="_blank" rel="noopener noreferrer" }, pandas 3.0.4 documentation, 확인 날짜: 2026-07-20. 범주형 변수를 dummy/indicator 변수로 바꾸는 예시 확인에 사용했다.
+- scikit-learn Developers, [Glossary](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-20. 1d/2d array, array-like, estimator 입력 관례와 `X`, `y` 용어 배경 확인에 사용했다.
+- scikit-learn Developers, [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-20. 배열과 행렬을 train/test subset으로 나누는 API와 `test_size`, `random_state` 예시 확인에 사용했다.
+- scikit-learn Developers, [Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn 1.9.0 documentation, 확인 날짜: 2026-07-20. train/test 분리 전후의 전처리 순서와 data leakage 주의 설명 확인에 사용했다.
