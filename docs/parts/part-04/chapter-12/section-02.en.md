@@ -1,7 +1,7 @@
 # P4-12.2 Distance And Scale
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-12.1 explained k-NN as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
 
@@ -18,13 +18,7 @@ This Section answers the following questions.
 - Why can scale distort distance calculation?
 - What does standardization change in the interpretation of k-NN?
 
-This Section does not treat the following topics deeply.
-
-- a mathematical comparison of every distance metric
-- the full framework of preprocessing
-- distance concentration theory in high-dimensional spaces
-
-The purpose and types of preprocessing stay centered in `P4-7.2 Preprocessing`. Here the focus is only `why distance and scale can change the judgment in k-NN`.
+This Section first closes `why distance and scale change neighbors and predictions in k-NN`. The purpose and types of preprocessing stay centered in `P4-7.2 Preprocessing`; here the focus stays on the scenes where distance and scale change the judgment.
 
 ## Goals Of This Section
 

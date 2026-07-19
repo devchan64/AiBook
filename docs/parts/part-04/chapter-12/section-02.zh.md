@@ -1,7 +1,7 @@
 # P4-12.2 距离(distance)与尺度(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
 
@@ -18,20 +18,14 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 - 为什么 scale 会扭曲 distance 计算？
 - standardization 会怎样改变 k-NN 的解释？
 
-这一节不会深入讲下面这些内容。
-
-- 所有 distance metric 的数学性质比较
-- preprocessing 的完整体系
-- 高维空间里的 distance concentration 理论
-
-preprocessing 的目的和类型，仍然以 `P4-7.2 Preprocessing` 作为 기준 설명位置。这里专注的只是：`为什么在 k-NN 里，distance 和 scale 会改变判断`。
+这一节先收束 `为什么在 k-NN 里，distance 和 scale 会改变 neighbor 与 prediction`。preprocessing 的目的和类型，仍然以 `P4-7.2 Preprocessing` 作为基准说明位置；这里专注的是 distance 和 scale 改变判断的场景。
 
 ## 本节目标
 
 - 能说明 distance function 不是 `模型外部的设置`，而是 `判断规则的一部分`
 - 能说明 distance function 一旦改变，neighbor 顺序和 prediction 也可能改变
 - 能说明 feature 的 scale 不同时，大轴可能会支配 distance
-- 能说明 standardization 不是 `把数字弄好看`，而是 `重新对齐比较 기준`
+- 能说明 standardization 不是 `把数字弄好看`，而是 `重新对齐比较标准`
 
 ## 主要学习内容
 
@@ -316,7 +310,7 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 - 发生变化的点：只把 late-payment count 稍微提高一点，第二个 neighbor 就开始从 `safe` 换成 `risky`
 - 首先要留下的判断：standardization 不是一次做完就结束的技术检查，它也是重新观察 `feature 变化会怎样摇动 neighbor 组成与 prediction` 的出发点
 
-通过这个比较，k-NN 不再只是 `找来近邻案例的模型`，而会被重新读成 `对表示方式和输入变化都很敏感的比较规则`。重要的不是背下 `k` 的数值，而是能够说明：即使是同一个 query，只要表示方式或 feature 数值稍有变化，哪些 neighbor 会进来，哪些会出去。反复改一处的练习，真正的学习效果也不在于只说 `prediction 变了`，而在于能指出 `改了什么以后，比较 기준 的哪一部分又被重新打乱了`。
+通过这个比较，k-NN 不再只是 `找来近邻案例的模型`，而会被重新读成 `对表示方式和输入变化都很敏感的比较规则`。重要的不是背下 `k` 的数值，而是能够说明：即使是同一个 query，只要表示方式或 feature 数值稍有变化，哪些 neighbor 会进来，哪些会出去。反复改一处的练习，真正的学习效果也不在于只说 `prediction 变了`，而在于能指出 `改了什么以后，比较标准的哪一部分又被重新打乱了`。
 
 | 通用记录语言 | 这次练习里应立刻留下的内容 |
 | --- | --- |
@@ -329,7 +323,7 @@ top-2 after scaling, late_payment=2 : [('safe', 0.975), ('risky', 1.184)]
 - 能不能说明为什么 distance function 是判断规则的一部分？
 - 是否理解了 distance function 改变时，neighbor 顺序和 prediction 也会改变？
 - 是否理解了大轴支配 distance 时，小轴上的重要信息可能会被埋掉？
-- 能不能把 standardization 解释成重新平衡比较 기준？
+- 能不能把 standardization 解释成重新平衡比较标准？
 - 是否在同一个 query 上，比较了 scale 调整前后哪些 neighbor 进来、哪些出去？
 - 即使 standardization 后出现了差异，是否也没有把它单独当成完整的原因解释？
 
