@@ -1,0 +1,12 @@
+event_id,batch_id,recipe,second,pressure,flow,vibration,temperature
+A,B-17,standard,0,1.0,0.0,0.02,24.1
+A,B-17,standard,1,2.0,1.4,0.04,24.4
+A,B-17,standard,2,2.4,1.6,0.07,24.8
+A,B-17,standard,3,2.2,1.2,0.08,25.0
+B,B-17,standard,0,1.1,0.1,0.03,24.0
+B,B-17,standard,1,1.7,1.0,0.05,24.3
+B,B-17,standard,2,1.9,1.1,0.06,24.6
+C,B-18,fast,0,1.2,0.0,0.05,24.5
+C,B-18,fast,1,2.3,1.5,0.11,25.2
+C,B-18,fast,2,2.8,1.7,0.18,26.1
+C,B-18,fast,3,2.5,1.0,0.22,26.8

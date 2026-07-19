@@ -9,3 +9,7 @@
   - `p3-3-3-mermaid-01-en.mmd` / `p3-3-3-mermaid-01-ko.mmd`
   - `p3-3-1-mermaid-01-en.mmd` / `p3-3-1-mermaid-01-ko.mmd` / `p3-3-1-mermaid-01-zh.mmd`
   - `p3-3-2-mermaid-01-en.mmd` / `p3-3-2-mermaid-01-ko.mmd` / `p3-3-2-mermaid-01-zh.mmd`
+
+## CSV Inputs
+
+- `p3_3_1_source_operation_log.csv`: P3-3.1 Python example input. Each row is one time-point sensor record inside an operation event, before a sample unit or label candidate has been fixed.

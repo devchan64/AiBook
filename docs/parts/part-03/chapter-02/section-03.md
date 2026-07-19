@@ -88,105 +88,90 @@
 
 문제 상황: 새 로그 표를 받았을 때, 이 표를 바로 샘플 비교 표로 읽어도 되는지 확인합니다.
 
-입력(input): `event_id`별 여러 시점 기록이 섞여 있는 원시 로그 표와 비교 가능한 사건으로 볼 최소 행 수 `minimum_rows_per_event`
+입력(input): [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv)에 저장된 원시 로그 표와 비교 가능한 사건으로 볼 최소 행 수 `minimum_rows_per_event`
 
 기대 출력(output): 같은 표라도 `행 의미`, `묶음 기준`, `시간/순서 열`을 먼저 확인해야 아직 바로 비교할 수 없는 표라는 점이 드러납니다. `minimum_rows_per_event`를 바꾸면 어떤 사건이 충분한 기록을 가진 후보인지도 달라집니다.
 
 확인할 개념: 표를 처음 읽을 때는 계산보다 먼저 `이 행이 샘플 1건인가, 아니면 샘플의 일부 기록인가`를 확인해야 한다. 반복 행 수 기준을 함께 두면 구조 점검이 단순 출력이 아니라 비교 가능성 판단으로 이어진다.
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
 minimum_rows_per_event = 3
 
-table = pd.DataFrame(
-    [
-        {"event_id": "A", "elapsed_seconds": 0, "flow": 0.8, "pressure": 1.0},
-        {"event_id": "A", "elapsed_seconds": 1, "flow": 1.5, "pressure": 2.0},
-        {"event_id": "A", "elapsed_seconds": 2, "flow": 0.9, "pressure": 1.4},
-        {"event_id": "B", "elapsed_seconds": 0, "flow": 0.7, "pressure": 1.1},
-        {"event_id": "B", "elapsed_seconds": 1, "flow": 0.8, "pressure": 1.2},
-    ]
-)
+input_path = Path("docs/assets/part-03/chapter-02/p3_2_3_first_table_log.csv")
 
-print("1) raw table")
-print(table)
+with input_path.open(newline="", encoding="utf-8") as file:
+    rows = list(csv.DictReader(file))
+
+for row in rows:
+    row["elapsed_seconds"] = int(row["elapsed_seconds"])
+    row["flow"] = float(row["flow"])
+    row["pressure"] = float(row["pressure"])
+
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+print("1) quick structural check")
+print(f"row_count: {len(rows)}")
+print(f"event_id_count: {len(events)}")
+print("has_time_order: yes")
 print()
 
-row_check = pd.DataFrame(
-    [
-        {"check_item": "row_count", "value": len(table)},
-        {"check_item": "event_id_count", "value": table["event_id"].nunique()},
-        {"check_item": "has_time_order", "value": "yes"},
-    ]
-)
-print("2) quick structural check")
-print(row_check)
+print("2) repeated rows per event")
+for event_id, event_rows in sorted(events.items()):
+    enough_rows = len(event_rows) >= minimum_rows_per_event
+    print(f"{event_id}: row_count={len(event_rows)}, enough_rows={enough_rows}")
 print()
 
-rows_per_event = table.groupby("event_id", as_index=False).size().rename(columns={"size": "row_count"})
-rows_per_event["enough_rows_for_event_sample"] = (
-    rows_per_event["row_count"] >= minimum_rows_per_event
-)
-print("3) repeated rows per event")
-print(rows_per_event)
-print()
-
-wrong_reading = table[["event_id", "elapsed_seconds", "flow"]]
-print("4) if we compare rows as if each row were a sample")
-print(wrong_reading)
-print()
-
-event_summary = (
-    table.groupby("event_id", as_index=False)
-    .agg(
-        duration_seconds=("elapsed_seconds", "max"),
-        mean_flow=("flow", "mean"),
-        peak_pressure=("pressure", "max"),
+print("3) if we compare rows as if each row were a sample")
+for row in rows:
+    print(
+        f"{row['event_id']} at {row['elapsed_seconds']}s: "
+        f"flow={row['flow']:.1f}"
     )
-)
-event_summary = event_summary.merge(rows_per_event, on="event_id")
-print("5) after regrouping into one row per event")
-print(event_summary)
+print()
+
+print("4) after regrouping into one row per event")
+for event_id, event_rows in sorted(events.items()):
+    duration = max(row["elapsed_seconds"] for row in event_rows)
+    mean_flow = sum(row["flow"] for row in event_rows) / len(event_rows)
+    peak_pressure = max(row["pressure"] for row in event_rows)
+    enough_rows = len(event_rows) >= minimum_rows_per_event
+    print(
+        f"{event_id}: duration={duration}s, mean_flow={mean_flow:.2f}, "
+        f"peak_pressure={peak_pressure:.1f}, enough_rows={enough_rows}"
+    )
 ```
 
 예상 출력:
 
 ```text
-1) raw table
-  event_id  elapsed_seconds  flow  pressure
-0        A                0   0.8       1.0
-1        A                1   1.5       2.0
-2        A                2   0.9       1.4
-3        B                0   0.7       1.1
-4        B                1   0.8       1.2
+1) quick structural check
+row_count: 5
+event_id_count: 2
+has_time_order: yes
 
-2) quick structural check
-      check_item  value
-0      row_count      5
-1  event_id_count      2
-2  has_time_order    yes
+2) repeated rows per event
+A: row_count=3, enough_rows=True
+B: row_count=2, enough_rows=False
 
-3) repeated rows per event
-  event_id  row_count  enough_rows_for_event_sample
-0        A          3                          True
-1        B          2                         False
+3) if we compare rows as if each row were a sample
+A at 0s: flow=0.8
+A at 1s: flow=1.5
+A at 2s: flow=0.9
+B at 0s: flow=0.7
+B at 1s: flow=0.8
 
-4) if we compare rows as if each row were a sample
-  event_id  elapsed_seconds  flow
-0        A                0   0.8
-1        A                1   1.5
-2        A                2   0.9
-3        B                0   0.7
-4        B                1   0.8
-
-5) after regrouping into one row per event
-  event_id  duration_seconds  mean_flow  peak_pressure  row_count  enough_rows_for_event_sample
-0        A                 2   1.066667            2.0          3                          True
-1        B                 1   0.750000            1.2          2                         False
+4) after regrouping into one row per event
+A: duration=2s, mean_flow=1.07, peak_pressure=2.0, enough_rows=True
+B: duration=1s, mean_flow=0.75, peak_pressure=1.2, enough_rows=False
 ```
 
-이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 2단계와 3단계에서 먼저 보이는 것은 `행 수 5`보다 `event_id 수 2`가 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 여기서 조작할 값은 `minimum_rows_per_event`입니다. 값을 `3`으로 두면 A는 충분한 기록을 가진 후보가 되지만 B는 부족한 후보로 남습니다. 값을 `2`로 낮추면 B도 후보가 되지만, 더 짧은 기록에서 만든 평균을 같은 무게로 비교해도 되는지는 다시 검토해야 합니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 4단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 5단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
+이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 1단계와 2단계에서 먼저 보이는 것은 `행 수 5`보다 `event_id 수 2`가 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 여기서 조작할 값은 `minimum_rows_per_event`입니다. 값을 `3`으로 두면 A는 충분한 기록을 가진 후보가 되지만 B는 부족한 후보로 남습니다. 값을 `2`로 낮추면 B도 후보가 되지만, 더 짧은 기록에서 만든 평균을 같은 무게로 비교해도 되는지는 다시 검토해야 합니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 3단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 4단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
 
 같은 결과를 형식과 품질 관점으로 다시 읽으면 더 분명해집니다. `event_id`가 반복된다는 사실은 형식 정합성 차원에서 `한 샘플을 묶을 키가 있다`는 뜻이고, `rows per event`가 서로 다르다는 사실은 첫 품질 점검 차원에서 `샘플마다 기록 길이가 다르다`는 신호입니다. 이 차이를 초기에 적어 두어야 나중에 평균을 비교할 때도 `왜 어떤 샘플은 더 적은 근거 위에 서 있는가`를 함께 읽을 수 있습니다.
 

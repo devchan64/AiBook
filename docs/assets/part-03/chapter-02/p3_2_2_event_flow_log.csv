@@ -1,0 +1,16 @@
+sample_id,period,second,flow
+B1,baseline,0,0.80
+B1,baseline,1,1.00
+B1,baseline,2,0.96
+B2,baseline,0,0.86
+B2,baseline,1,0.96
+B2,baseline,2,0.90
+R1,recent,0,0.70
+R1,recent,1,0.94
+R1,recent,2,0.62
+R2,recent,0,0.88
+R2,recent,1,0.92
+R2,recent,2,0.84
+R3,recent,0,0.75
+R3,recent,1,1.10
+R3,recent,2,0.70

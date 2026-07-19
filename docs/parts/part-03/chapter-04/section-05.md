@@ -66,74 +66,77 @@ Part 3에서는 아직 엄밀한 표본추출 이론보다, 아래 네 가지를
 
 문제 상황: 샘플 단위는 모두 `동작 1회`로 맞았더라도, 실제 샘플 묶음이 어느 조건에 치우쳐 있는지 확인합니다.
 
-입력(input): `shift`, `load_mode`, `machine_id`, `maintenance_phase`를 가진 동작 샘플 표와 최소 관찰 기준 `minimum_count`
+입력(input): [p3_4_5_sample_coverage.csv](../../../assets/part-03/chapter-04/p3_4_5_sample_coverage.csv)에 저장된 동작 샘플 표와 최소 관찰 기준 `minimum_count`. 이 표에는 `shift`, `load_mode`, `machine_id`, `maintenance_phase`가 들어 있습니다.
 
 기대 출력(output): 어떤 조건이 많이 보였고 어떤 조건이 거의 비어 있는지를 요약한 `coverage summary`. `minimum_count`를 바꾸면 대표성 공백으로 표시되는 조건 수가 달라진다.
 
 확인할 개념: 샘플 한 건의 정의가 맞는 것과 샘플 묶음이 전체 운영 범위를 고르게 대표하는 것은 다른 문제다. 대표성 판단에는 관찰 기준이 필요하다.
 
 ```python
-import pandas as pd
+import csv
+from collections import Counter
+from pathlib import Path
 
 minimum_count = 2
 
-samples = pd.DataFrame(
-    [
-        {"event_id": "A", "shift": "day", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "stable"},
-        {"event_id": "B", "shift": "day", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "stable"},
-        {"event_id": "C", "shift": "day", "load_mode": "high", "machine_id": "M1", "maintenance_phase": "stable"},
-        {"event_id": "D", "shift": "day", "load_mode": "normal", "machine_id": "M2", "maintenance_phase": "stable"},
-        {"event_id": "E", "shift": "night", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "stable"},
-        {"event_id": "F", "shift": "day", "load_mode": "normal", "machine_id": "M1", "maintenance_phase": "after-maintenance"},
-    ]
-)
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
+coverage_scopes = ["shift", "load_mode", "machine_id", "maintenance_phase"]
 
-coverage = pd.DataFrame(
-    [
-        {"scope": "shift", "most_seen": samples["shift"].value_counts().idxmax(), "count": samples["shift"].value_counts().max(), "least_seen": samples["shift"].value_counts().idxmin()},
-        {"scope": "load_mode", "most_seen": samples["load_mode"].value_counts().idxmax(), "count": samples["load_mode"].value_counts().max(), "least_seen": samples["load_mode"].value_counts().idxmin()},
-        {"scope": "machine_id", "most_seen": samples["machine_id"].value_counts().idxmax(), "count": samples["machine_id"].value_counts().max(), "least_seen": samples["machine_id"].value_counts().idxmin()},
-        {"scope": "maintenance_phase", "most_seen": samples["maintenance_phase"].value_counts().idxmax(), "count": samples["maintenance_phase"].value_counts().max(), "least_seen": samples["maintenance_phase"].value_counts().idxmin()},
-    ]
-)
-coverage["unique_conditions"] = [
-    samples["shift"].nunique(),
-    samples["load_mode"].nunique(),
-    samples["machine_id"].nunique(),
-    samples["maintenance_phase"].nunique(),
-]
-coverage["under_minimum_conditions"] = [
-    int((samples["shift"].value_counts() < minimum_count).sum()),
-    int((samples["load_mode"].value_counts() < minimum_count).sum()),
-    int((samples["machine_id"].value_counts() < minimum_count).sum()),
-    int((samples["maintenance_phase"].value_counts() < minimum_count).sum()),
-]
+with input_path.open(newline="", encoding="utf-8") as file:
+    samples = list(csv.DictReader(file))
+
+coverage_summary = []
+for scope in coverage_scopes:
+    counts = Counter(sample[scope] for sample in samples)
+    ordered_counts = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+    most_seen, most_seen_count = ordered_counts[0]
+    least_seen, _ = sorted(counts.items(), key=lambda item: (item[1], item[0]))[0]
+    under_minimum = sum(1 for count in counts.values() if count < minimum_count)
+    coverage_summary.append(
+        {
+            "scope": scope,
+            "most_seen": most_seen,
+            "count": most_seen_count,
+            "least_seen": least_seen,
+            "unique_conditions": len(counts),
+            "under_minimum_conditions": under_minimum,
+        }
+    )
 
 print("1) raw sample coverage table")
-print(samples)
+for sample in samples:
+    print(
+        f"{sample['event_id']}: shift={sample['shift']}, "
+        f"load_mode={sample['load_mode']}, machine_id={sample['machine_id']}, "
+        f"maintenance_phase={sample['maintenance_phase']}"
+    )
 print()
 print(f"2) coverage summary when minimum_count = {minimum_count}")
-print(coverage)
+for item in coverage_summary:
+    print(
+        f"{item['scope']}: most_seen={item['most_seen']} ({item['count']}), "
+        f"least_seen={item['least_seen']}, "
+        f"unique_conditions={item['unique_conditions']}, "
+        f"under_minimum_conditions={item['under_minimum_conditions']}"
+    )
 ```
 
 예상 출력:
 
 ```text
 1) raw sample coverage table
-  event_id  shift load_mode machine_id  maintenance_phase
-0        A    day    normal         M1             stable
-1        B    day    normal         M1             stable
-2        C    day      high         M1             stable
-3        D    day    normal         M2             stable
-4        E  night    normal         M1             stable
-5        F    day    normal         M1  after-maintenance
+A: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+B: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+C: shift=day, load_mode=high, machine_id=M1, maintenance_phase=stable
+D: shift=day, load_mode=normal, machine_id=M2, maintenance_phase=stable
+E: shift=night, load_mode=normal, machine_id=M1, maintenance_phase=stable
+F: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=after-maintenance
 
 2) coverage summary when minimum_count = 2
-               scope most_seen  count         least_seen  unique_conditions  under_minimum_conditions
-0              shift       day      5              night                  2                         1
-1          load_mode    normal      5               high                  2                         1
-2         machine_id        M1      5                 M2                  2                         1
-3  maintenance_phase    stable      5  after-maintenance                  2                         1
+shift: most_seen=day (5), least_seen=night, unique_conditions=2, under_minimum_conditions=1
+load_mode: most_seen=normal (5), least_seen=high, unique_conditions=2, under_minimum_conditions=1
+machine_id: most_seen=M1 (5), least_seen=M2, unique_conditions=2, under_minimum_conditions=1
+maintenance_phase: most_seen=stable (5), least_seen=after-maintenance, unique_conditions=2, under_minimum_conditions=1
 ```
 
 이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 여기서 조작할 값은 `minimum_count`입니다. `minimum_count = 2`일 때는 각 범위마다 한 번만 등장한 조건이 대표성 공백으로 잡힙니다. 이 값을 1로 낮추면 공백이 사라지고, 3으로 높이면 더 많은 조건이 부족한 조건으로 표시됩니다. 이렇게 해야 `샘플 수는 6건인데도 왜 대표성은 약한가`를 숫자와 표 둘 다로 설명할 수 있습니다.

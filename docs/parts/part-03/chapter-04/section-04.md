@@ -59,100 +59,122 @@
 
 문제 상황: 시점별 표에서 같은 라벨이 반복되고 동작 단위 특징이 따로 나타날 때, 샘플 단위를 잘못 잡았다는 신호를 어떻게 읽는지 확인합니다.
 
-입력(input): `event_id`별 시점 유량, 동작 단위에 붙은 `review_needed`가 반복 저장된 원시 로그 표, 반복 경고 기준 `repeat_warning_threshold`
+입력(input): [p3_4_4_sample_unit_warning_log.csv](../../../assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv)에 저장된 원시 로그 표와 반복 경고 기준 `repeat_warning_threshold`. 이 표에는 `event_id`별 시점 유량과 동작 단위에 붙은 `review_needed`가 반복 저장되어 있습니다.
 
 기대 출력(output): 반복 라벨, 반복 행 수, 재묶음 뒤에만 생기는 이벤트 요약 특징을 함께 보여 주는 출력. `repeat_warning_threshold`를 바꾸면 어떤 반복을 경고로 볼지도 달라진다.
 
 확인할 개념: 라벨 반복과 설명되지 않는 이벤트 수준 특징은 시점 행이 실제 샘플 단위가 아닐 수 있다는 경고 신호다. 경고 기준을 명시해야 단순 출력이 아니라 샘플 단위 오판 점검이 된다.
 
 ```python
-import pandas as pd
+import csv
+from collections import defaultdict
+from pathlib import Path
 
 repeat_warning_threshold = 1
 
-raw = pd.DataFrame(
-    [
-        {"event_id": "A", "second": 0, "flow": 0.5, "review_needed": 1},
-        {"event_id": "A", "second": 1, "flow": 1.8, "review_needed": 1},
-        {"event_id": "A", "second": 2, "flow": 1.1, "review_needed": 1},
-        {"event_id": "B", "second": 0, "flow": 0.4, "review_needed": 0},
-        {"event_id": "B", "second": 1, "flow": 1.1, "review_needed": 0},
-        {"event_id": "B", "second": 2, "flow": 1.0, "review_needed": 0},
-    ]
-)
+input_path = Path("docs/assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv")
 
-label_repetition = raw.groupby("event_id", as_index=False).agg(
-    row_count=("second", "count"),
-    review_needed_sum=("review_needed", "sum"),
-)
+with input_path.open(newline="", encoding="utf-8") as file:
+    rows = list(csv.DictReader(file))
 
-event_summary = raw.groupby("event_id", as_index=False).agg(
-    duration_seconds=("second", "max"),
-    flow_mean=("flow", "mean"),
-    review_needed=("review_needed", "max"),
-)
+for row in rows:
+    row["second"] = int(row["second"])
+    row["flow"] = float(row["flow"])
+    row["review_needed"] = int(row["review_needed"])
 
-warning_check = pd.DataFrame(
-    [
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+label_repetition = []
+event_summary = []
+
+for event_id, event_rows in sorted(events.items()):
+    review_needed_values = [row["review_needed"] for row in event_rows]
+    label_repetition.append(
         {
-            "warning_sign": "same event repeated across many rows",
-            "seen_in_output": "yes"
-            if label_repetition["row_count"].max() > repeat_warning_threshold
-            else "no",
-        },
+            "event_id": event_id,
+            "row_count": len(event_rows),
+            "review_needed_sum": sum(review_needed_values),
+        }
+    )
+    event_summary.append(
         {
-            "warning_sign": "same label repeated within one event",
-            "seen_in_output": "yes"
-            if label_repetition["review_needed_sum"].max() > repeat_warning_threshold
-            else "no",
-        },
-        {
-            "warning_sign": "event-level features appear only after regrouping",
-            "seen_in_output": "yes" if "duration_seconds" in event_summary.columns else "no",
-        },
-    ]
-)
+            "event_id": event_id,
+            "duration_seconds": max(row["second"] for row in event_rows),
+            "flow_mean": sum(row["flow"] for row in event_rows) / len(event_rows),
+            "review_needed": max(review_needed_values),
+        }
+    )
+
+max_row_count = max(item["row_count"] for item in label_repetition)
+max_label_sum = max(item["review_needed_sum"] for item in label_repetition)
+
+warning_check = [
+    (
+        "same event repeated across many rows",
+        max_row_count > repeat_warning_threshold,
+    ),
+    (
+        "same label repeated within one event",
+        max_label_sum > repeat_warning_threshold,
+    ),
+    (
+        "event-level features appear only after regrouping",
+        bool(event_summary),
+    ),
+]
 
 print("1) row-level table where labels repeat inside one event")
-print(raw)
+for row in rows:
+    print(
+        f"{row['event_id']} at {row['second']}s: "
+        f"flow={row['flow']:.1f}, review_needed={row['review_needed']}"
+    )
 print()
 print("2) repeated rows and repeated labels per event")
-print(label_repetition)
+for item in label_repetition:
+    print(
+        f"{item['event_id']}: row_count={item['row_count']}, "
+        f"review_needed_sum={item['review_needed_sum']}"
+    )
 print()
 print("3) event-level summary that appears only after regrouping")
-print(event_summary)
+for item in event_summary:
+    print(
+        f"{item['event_id']}: duration={item['duration_seconds']}s, "
+        f"flow_mean={item['flow_mean']:.2f}, "
+        f"review_needed={item['review_needed']}"
+    )
 print()
 print("4) warning signs that sample unit may be wrong")
-print(warning_check)
+for warning_sign, seen in warning_check:
+    print(f"{warning_sign}: {'yes' if seen else 'no'}")
 ```
 
 예상 출력:
 
 ```text
 1) row-level table where labels repeat inside one event
-  event_id  second  flow  review_needed
-0        A       0   0.5              1
-1        A       1   1.8              1
-2        A       2   1.1              1
-3        B       0   0.4              0
-4        B       1   1.1              0
-5        B       2   1.0              0
+A at 0s: flow=0.5, review_needed=1
+A at 1s: flow=1.8, review_needed=1
+A at 2s: flow=1.1, review_needed=1
+B at 0s: flow=0.4, review_needed=0
+B at 1s: flow=1.1, review_needed=0
+B at 2s: flow=1.0, review_needed=0
 
 2) repeated rows and repeated labels per event
-  event_id  row_count  review_needed_sum
-0        A          3                  3
-1        B          3                  0
+A: row_count=3, review_needed_sum=3
+B: row_count=3, review_needed_sum=0
 
 3) event-level summary that appears only after regrouping
-  event_id  duration_seconds  flow_mean  review_needed
-0        A                 2   1.133333              1
-1        B                 2   0.833333              0
+A: duration=2s, flow_mean=1.13, review_needed=1
+B: duration=2s, flow_mean=0.83, review_needed=0
 
 4) warning signs that sample unit may be wrong
-                                  warning_sign seen_in_output
-0           same event repeated across many rows            yes
-1              same label repeated within one event            yes
-2  event-level features appear only after regrouping            yes
+same event repeated across many rows: yes
+same label repeated within one event: yes
+event-level features appear only after regrouping: yes
 ```
 
 이 예시의 핵심은 계산 결과가 아니라 `경고 신호가 실제로 어디서 보이는가`입니다. 2단계에서는 같은 `event_id`가 여러 줄 반복되고, `review_needed`가 한 동작 안에서 그대로 복사되어 있다는 점이 드러납니다. 여기서 조작할 값은 `repeat_warning_threshold`입니다. 값을 `1`로 두면 두 번 이상 반복되는 사건과 라벨을 경고로 잡습니다. 값을 `3`으로 높이면 같은 출력에서도 경고가 줄어들 수 있습니다. 3단계에서는 `duration_seconds`, `flow_mean` 같은 동작 단위 특징이 원시 행에는 없고 재묶은 뒤에야 나타난다는 점이 보입니다. 그래서 4단계의 경고 표는 별도 판단을 새로 만드는 것이 아니라, 앞 출력에서 이미 보인 신호를 기준에 따라 다시 묶어 준 것입니다.

@@ -8,3 +8,8 @@
   - `p3-2-1-mermaid-01-en.mmd` / `p3-2-1-mermaid-01-ko.mmd` / `p3-2-1-mermaid-01-zh.mmd`
   - `p3-2-2-mermaid-01-en.mmd` / `p3-2-2-mermaid-01-ko.mmd` / `p3-2-2-mermaid-01-zh.mmd`
   - `p3-2-3-mermaid-01-en.mmd` / `p3-2-3-mermaid-01-ko.mmd` / `p3-2-3-mermaid-01-zh.mmd`
+
+## CSV Inputs
+
+- `p3_2_2_event_flow_log.csv`: P3-2.2 Python example input. Each row is one second-level flow measurement for a baseline or recent sample.
+- `p3_2_3_first_table_log.csv`: P3-2.3 Python example input. Each row is one time-point record inside an event log that must be grouped before event-level comparison.

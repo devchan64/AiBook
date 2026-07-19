@@ -1,0 +1,7 @@
+event_id,shift,load_mode,machine_id,maintenance_phase
+A,day,normal,M1,stable
+B,day,normal,M1,stable
+C,day,high,M1,stable
+D,day,normal,M2,stable
+E,night,normal,M1,stable
+F,day,normal,M1,after-maintenance

@@ -11,3 +11,10 @@
   - `p3-4-3-mermaid-01-en.mmd` / `p3-4-3-mermaid-01-ko.mmd` / `p3-4-3-mermaid-01-zh.mmd`
   - `p3-4-4-mermaid-01-en.mmd` / `p3-4-4-mermaid-01-ko.mmd` / `p3-4-4-mermaid-01-zh.mmd`
   - `p3-4-5-mermaid-01-en.mmd` / `p3-4-5-mermaid-01-ko.mmd`
+
+## CSV Inputs
+
+- `p3_4_1_measurement_log.csv`: P3-4.1 Python example input. Each row is one time-step measurement inside an event.
+- `p3_4_1_review_decisions.csv`: P3-4.1 Python example input. Each row is an event-level review decision that should be joined after event-level samples are built.
+- `p3_4_4_sample_unit_warning_log.csv`: P3-4.4 Python example input. Each row is one time-point record where an event-level review label is repeated across rows.
+- `p3_4_5_sample_coverage.csv`: P3-4.5 Python example input. Each row is one event-level sample with operating-condition columns used to inspect coverage.

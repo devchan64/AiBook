@@ -52,94 +52,146 @@
 
 문제 상황: 동작 1회를 샘플 1건으로 잡은 뒤, 특징을 적고, 평소 기준선과 비교해, 마지막 운영 출력을 만드는 흐름을 표로 확인합니다.
 
-입력(input): 샘플별 특징값, 평소 기준선 값, 검토 후보로 보낼 기준 `review_gap_threshold`
+입력(input): `baseline` 기간과 `recent` 기간이 함께 들어 있는 시점별 유량 로그 [p3_2_2_event_flow_log.csv](../../../assets/part-03/chapter-02/p3_2_2_event_flow_log.csv), 검토 후보로 보낼 기준 후보 `review_gap_thresholds`
 
-기대 출력(output): 같은 샘플 행이 `특징 -> 기준선 비교 -> 운영 출력` 순서로 확장되는 과정. `review_gap_threshold`를 바꾸면 어떤 샘플이 `검토 필요`가 되는지도 달라진다.
+입력 파일의 한 행은 한 샘플의 특정 초(`second`)에서 측정한 유량(`flow`)입니다. `sample_id`는 동작 1회를 가리키고, `period`는 그 샘플이 평소 기준선을 만들 `baseline` 구간인지 최근 비교 대상인 `recent` 구간인지를 구분합니다.
 
-확인할 개념: 출력 구조는 앞선 샘플·특징·기준선 비교의 결과로 생긴다. 출력 기준을 코드 밖 조작 변수로 두어야 운영 판단이 어디서 생겼는지 추적할 수 있다.
+기대 출력(output): 원시 로그에서 `샘플 행 -> 특징 표 -> 기준선 생성 -> 최근 샘플 비교표 -> 운영 출력`이 만들어지고, `review_gap_thresholds`를 바꾸어 적용할 때 검토 후보 수가 달라지는 과정
+
+확인할 개념: 출력 구조와 기준선은 미리 적어 둔 결과 열이 아니라, 원시 로그를 샘플 단위로 묶고 특징을 계산한 뒤 기간별 역할을 나누어 생성된다. 출력 기준을 여러 값으로 비교해야 운영 판단이 기준에 얼마나 민감한지 확인할 수 있다.
 
 ```python
 import pandas as pd
 
-review_gap_threshold = -0.20
+event_log_path = "docs/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv"
+selected_review_gap_threshold = -0.20
+review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
 
-samples = pd.DataFrame(
-    [
-        {
-            "sample_id": "A",
-            "mean_flow": 0.74,
-            "late_drop_rate": -0.32,
-            "baseline_mean_flow": 0.92,
-            "baseline_late_drop_rate": -0.05,
-        },
-        {
-            "sample_id": "B",
-            "mean_flow": 0.89,
-            "late_drop_rate": -0.08,
-            "baseline_mean_flow": 0.92,
-            "baseline_late_drop_rate": -0.05,
-        },
-    ]
+event_log = pd.read_csv(event_log_path)
+
+print("1) raw input shape and first rows")
+print("shape:", event_log.shape)
+print(event_log.head())
+print()
+
+sample_rows = event_log[["sample_id", "period"]].drop_duplicates().reset_index(drop=True)
+print("2) sample rows")
+print(sample_rows)
+print()
+
+feature_table = (
+    event_log.sort_values(["sample_id", "second"])
+    .groupby(["sample_id", "period"], as_index=False)
+    .agg(
+        mean_flow=("flow", "mean"),
+        late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
+    )
 )
-
-print("1) sample rows")
-print(samples[["sample_id"]])
+print("3) add features")
+print(feature_table.round(2))
 print()
 
-feature_table = samples[["sample_id", "mean_flow", "late_drop_rate"]].copy()
-print("2) add features")
-print(feature_table)
+baseline = (
+    feature_table[feature_table["period"] == "baseline"]
+    .agg(
+        baseline_mean_flow=("mean_flow", "mean"),
+        baseline_late_drop_rate=("late_drop_rate", "mean"),
+    )
+    .reset_index(drop=True)
+)
+print("4) build baseline from baseline samples")
+print(baseline.round(2))
 print()
 
-comparison_table = samples[
-    [
-        "sample_id",
-        "mean_flow",
-        "late_drop_rate",
-        "baseline_mean_flow",
-        "baseline_late_drop_rate",
-    ]
-].copy()
+comparison_table = feature_table[feature_table["period"] == "recent"].copy()
+comparison_table["baseline_mean_flow"] = baseline.loc[0, "baseline_mean_flow"]
+comparison_table["baseline_late_drop_rate"] = baseline.loc[0, "baseline_late_drop_rate"]
 comparison_table["baseline_gap"] = (
     comparison_table["late_drop_rate"] - comparison_table["baseline_late_drop_rate"]
 )
-print("3) compare with baseline")
-print(comparison_table)
+print("5) compare recent samples with baseline")
+print(comparison_table.round(2))
 print()
 
-output_table = comparison_table.copy()
-output_table["output"] = output_table["baseline_gap"].apply(
-    lambda gap: "검토 필요" if gap <= review_gap_threshold else "정상 범위"
-)
-print(f"4) final output structure when review_gap_threshold = {review_gap_threshold}")
-print(output_table)
+selected_output_table = None
+threshold_results = []
+for threshold in review_gap_thresholds:
+    output_table = comparison_table.copy()
+    output_table["output"] = output_table["baseline_gap"].apply(
+        lambda gap: "검토 필요" if gap <= threshold else "정상 범위"
+    )
+    if threshold == selected_review_gap_threshold:
+        selected_output_table = output_table.copy()
+    threshold_results.append(
+        {
+            "review_gap_threshold": threshold,
+            "review_count": int((output_table["output"] == "검토 필요").sum()),
+            "review_samples": ",".join(
+                output_table.loc[output_table["output"] == "검토 필요", "sample_id"]
+            )
+            or "none",
+        }
+    )
+
+print("6) final output structure when review_gap_threshold = -0.20")
+print(selected_output_table.round(2))
+print()
+print("7) threshold sensitivity")
+print(pd.DataFrame(threshold_results))
 ```
 
 예상 출력:
 
 ```text
-1) sample rows
-  sample_id
-0         A
-1         B
+1) raw input shape and first rows
+shape: (15, 4)
+  sample_id    period  second  flow
+0        B1  baseline       0  0.80
+1        B1  baseline       1  1.00
+2        B1  baseline       2  0.96
+3        B2  baseline       0  0.86
+4        B2  baseline       1  0.96
 
-2) add features
-  sample_id  mean_flow  late_drop_rate
-0         A       0.74           -0.32
-1         B       0.89           -0.08
+2) sample rows
+  sample_id    period
+0        B1  baseline
+1        B2  baseline
+2        R1    recent
+3        R2    recent
+4        R3    recent
 
-3) compare with baseline
-  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
-0         A       0.74           -0.32                0.92                    -0.05         -0.27
-1         B       0.89           -0.08                0.92                    -0.05         -0.03
+3) add features
+  sample_id    period  mean_flow  late_drop_rate
+0        B1  baseline       0.92           -0.04
+1        B2  baseline       0.91           -0.06
+2        R1    recent       0.75           -0.32
+3        R2    recent       0.88           -0.08
+4        R3    recent       0.85           -0.40
 
-4) final output structure when review_gap_threshold = -0.2
-  sample_id  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
-0         A       0.74           -0.32                0.92                    -0.05         -0.27  검토 필요
-1         B       0.89           -0.08                0.92                    -0.05         -0.03  정상 범위
+4) build baseline from baseline samples
+   baseline_mean_flow  baseline_late_drop_rate
+0                0.91                    -0.05
+
+5) compare recent samples with baseline
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
+2        R1  recent       0.75           -0.32                0.91                    -0.05         -0.27
+3        R2  recent       0.88           -0.08                0.91                    -0.05         -0.03
+4        R3  recent       0.85           -0.40                0.91                    -0.05         -0.35
+
+6) final output structure when review_gap_threshold = -0.20
+  sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
+2        R1  recent       0.75           -0.32                0.91                    -0.05         -0.27  검토 필요
+3        R2  recent       0.88           -0.08                0.91                    -0.05         -0.03  정상 범위
+4        R3  recent       0.85           -0.40                0.91                    -0.05         -0.35  검토 필요
+
+7) threshold sensitivity
+   review_gap_threshold  review_count review_samples
+0                 -0.36             0           none
+1                 -0.20             2          R1,R3
+2                  0.00             3       R1,R2,R3
 ```
 
-이 예제는 같은 행이 네 번에 걸쳐 확장되는 모습을 보여 줍니다. 처음에는 샘플 식별자만 있고, 그다음 특징 열이 붙고, 이어서 기준선과의 차이 열이 계산되고, 마지막에 운영 출력 열이 추가됩니다. 여기서 조작할 값은 `review_gap_threshold`입니다. 값을 `-0.20`으로 두면 A만 `검토 필요`가 됩니다. 값을 `-0.05`처럼 덜 엄격하게 바꾸면 더 많은 샘플이 검토 후보가 될 수 있고, `-0.30`처럼 더 엄격하게 바꾸면 A도 정상 범위로 남을 수 있습니다. 즉 출력 열은 단독으로 존재하는 것이 아니라 `샘플 설정 -> 특징 계산 -> 기준선 비교 -> 운영 판단 기준`이라는 앞선 단계의 결과를 이어받아 만들어집니다.
+이 예제는 원시 로그에서 같은 행이 어떻게 단계적으로 데이터셋 후보 구조가 되는지 보여 줍니다. 처음에는 `event_log`에서 `sample_id`와 `period`를 기준으로 샘플 행을 잡고, 그다음 시점별 유량에서 `mean_flow`와 `late_drop_rate`를 계산합니다. 이어서 `baseline` 기간 샘플만으로 기준선을 만들고, `recent` 기간 샘플을 그 기준선과 비교합니다. 마지막 운영 출력은 미리 들어 있던 열이 아니라 `baseline_gap`과 `review_gap_thresholds`에서 생성됩니다. 기준을 `-0.36`으로 두면 검토 후보가 없고, `-0.20`으로 두면 R1과 R3이 검토 후보가 되며, `0.0`으로 두면 최근 샘플 셋이 모두 검토 후보가 됩니다. 즉 출력 열은 단독으로 존재하는 것이 아니라 `샘플 설정 -> 특징 계산 -> 기준선 생성 -> 기준선 비교 -> 운영 판단 기준`이라는 앞선 단계의 결과를 이어받아 만들어집니다.
 
 같은 표를 조금 더 해부해서 보면, 네 구조가 실제로 어느 칸에 들어 있는지도 분명해집니다.
 
