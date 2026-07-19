@@ -39,22 +39,29 @@
 | 전체 평균 하나 | 평균이 가린 구조 차이를 드러내고 싶음 | 같은 평균, 다른 모양 |
 | 원시 로그 전체 | 사람이 빠르게 비교할 중간 표현이 필요함 | 반복되는 구조의 윤곽 |
 
-아래 코드는 세그먼트 기울기를 아주 단순한 규칙으로 토큰으로 바꾸는 예시입니다.
+아래 코드는 세그먼트 기울기 CSV를 읽고, 토큰 경계값을 두 가지 설정으로 바꾸어 같은 원시 기울기가 어떻게 다른 토큰 시퀀스로 바뀌는지 확인하는 예시입니다.
 
 문제 상황: 연속 수치 기울기를 짧은 기호열로 바꾸면 무엇이 더 잘 보이는지 확인합니다.
 
-입력(input): 구간별 기울기 값 목록과 토큰 경계값 `strong_threshold`, `weak_threshold`
+입력(input): 동작별 구간 기울기 CSV [p3_6_2_segment_slopes.csv](../../../assets/part-03/chapter-06/p3_6_2_segment_slopes.csv), 토큰 경계 후보 `token_settings`
 
-기대 출력(output): 같은 기울기 목록이 `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2` 같은 토큰 시퀀스로 바뀐 출력. 경계값을 바꾸면 토큰 시퀀스도 달라진다.
+기대 출력(output): 동작별 기울기 목록이 `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2` 같은 토큰 시퀀스로 바뀐 출력. 경계값을 바꾸면 `FLAT`으로 남는 구간 수, 강한 상승/하강 토큰 수, 바뀐 동작 목록이 달라진다.
 
 확인할 개념: 토큰화는 원시 구조를 그대로 두지 않고 순서와 방향을 읽기 쉬운 중간 표현으로 바꾸는 작업이다. 토큰 경계는 고정 정답이 아니라 문제에 맞게 점검할 설계값이다.
 
 ```python
-strong_threshold = 0.8
-weak_threshold = 0.2
+import csv
+from collections import defaultdict
+from pathlib import Path
+
+data_path = Path("docs/assets/part-03/chapter-06/p3_6_2_segment_slopes.csv")
+token_settings = {
+    "sensitive": {"strong_threshold": 0.80, "weak_threshold": 0.20},
+    "conservative": {"strong_threshold": 0.90, "weak_threshold": 0.30},
+}
 
 
-def slope_to_token(slope: float) -> str:
+def slope_to_token(slope: float, strong_threshold: float, weak_threshold: float) -> str:
     if slope >= strong_threshold:
         return "UP2"
     if slope >= weak_threshold:
@@ -66,21 +73,89 @@ def slope_to_token(slope: float) -> str:
     return "FLAT"
 
 
-slopes = [0.9, 0.3, 0.05, -0.4, -1.0]
-tokens = [slope_to_token(value) for value in slopes]
+rows = list(csv.DictReader(data_path.open(encoding="utf-8")))
+for row in rows:
+    row["segment_order"] = int(row["segment_order"])
+    row["slope"] = float(row["slope"])
 
-print("1) segment slopes before tokenization:", slopes)
-print("2) tokens after tokenization:", tokens)
+events = defaultdict(list)
+for row in rows:
+    events[row["event_id"]].append(row)
+
+reports = {}
+for setting_name, thresholds in token_settings.items():
+    event_reports = []
+    token_counts = defaultdict(int)
+    for event_id, event_rows in sorted(events.items()):
+        ordered_rows = sorted(event_rows, key=lambda row: row["segment_order"])
+        slopes = [row["slope"] for row in ordered_rows]
+        tokens = [
+            slope_to_token(
+                slope,
+                thresholds["strong_threshold"],
+                thresholds["weak_threshold"],
+            )
+            for slope in slopes
+        ]
+        for token in tokens:
+            token_counts[token] += 1
+        event_reports.append(
+            {
+                "event_id": event_id,
+                "slopes": slopes,
+                "tokens": tokens,
+            }
+        )
+    reports[setting_name] = {
+        "thresholds": thresholds,
+        "events": event_reports,
+        "token_counts": dict(sorted(token_counts.items())),
+    }
+
+sensitive_tokens = {
+    report["event_id"]: report["tokens"]
+    for report in reports["sensitive"]["events"]
+}
+changed_events = []
+for report in reports["conservative"]["events"]:
+    event_id = report["event_id"]
+    if report["tokens"] != sensitive_tokens[event_id]:
+        changed_events.append(event_id)
+
+print("1) input rows:", len(rows))
+print("2) event count:", len(events))
+for setting_name, report in reports.items():
+    print(f"[{setting_name}] thresholds =", report["thresholds"])
+    print("token_counts =", report["token_counts"])
+    for event in report["events"][:3]:
+        print(event)
+    print()
+print("3) events changed when thresholds become conservative:", changed_events)
 ```
 
 예상 출력:
 
 ```text
-1) segment slopes before tokenization: [0.9, 0.3, 0.05, -0.4, -1.0]
-2) tokens after tokenization: ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']
+1) input rows: 40
+2) event count: 8
+[sensitive] thresholds = {'strong_threshold': 0.8, 'weak_threshold': 0.2}
+token_counts = {'DOWN1': 9, 'DOWN2': 3, 'FLAT': 15, 'UP1': 9, 'UP2': 4}
+{'event_id': 'A', 'slopes': [0.92, 0.31, 0.05, -0.42, -1.0], 'tokens': ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']}
+{'event_id': 'B', 'slopes': [0.62, 0.24, 0.01, -0.22, -0.74], 'tokens': ['UP1', 'UP1', 'FLAT', 'DOWN1', 'DOWN1']}
+{'event_id': 'C', 'slopes': [0.18, 0.12, 0.04, -0.1, -0.18], 'tokens': ['FLAT', 'FLAT', 'FLAT', 'FLAT', 'FLAT']}
+
+[conservative] thresholds = {'strong_threshold': 0.9, 'weak_threshold': 0.3}
+token_counts = {'DOWN1': 7, 'DOWN2': 1, 'FLAT': 23, 'UP1': 7, 'UP2': 2}
+{'event_id': 'A', 'slopes': [0.92, 0.31, 0.05, -0.42, -1.0], 'tokens': ['UP2', 'UP1', 'FLAT', 'DOWN1', 'DOWN2']}
+{'event_id': 'B', 'slopes': [0.62, 0.24, 0.01, -0.22, -0.74], 'tokens': ['UP1', 'FLAT', 'FLAT', 'FLAT', 'DOWN1']}
+{'event_id': 'C', 'slopes': [0.18, 0.12, 0.04, -0.1, -0.18], 'tokens': ['FLAT', 'FLAT', 'FLAT', 'FLAT', 'FLAT']}
+
+3) events changed when thresholds become conservative: ['B', 'D', 'E', 'F', 'H']
 ```
 
-이 출력에서 봐야 할 핵심은 연속 수치가 짧은 기호열로 바뀌는 순간입니다. 여기서 조작할 값은 `strong_threshold`와 `weak_threshold`입니다. `weak_threshold`를 더 크게 잡으면 작은 변화가 `FLAT`으로 남고, 더 작게 잡으면 더 많은 구간이 `UP1` 또는 `DOWN1`으로 바뀝니다. 이제 사람은 `상승, 완만한 상승, 거의 평평, 하강, 큰 하강`처럼 더 빠르게 구조를 읽을 수 있습니다. 동시에 어떤 임계값을 기준으로 토큰을 만들었는지도 드러나므로, 규칙 자체도 다시 점검할 수 있습니다.
+이 출력에서 봐야 할 핵심은 연속 수치가 짧은 기호열로 바뀌는 순간뿐 아니라, 경계값을 바꿀 때 어떤 동작의 해석이 실제로 달라지는가입니다. 여기서 조작할 값은 `token_settings` 안의 `strong_threshold`와 `weak_threshold`입니다. 보수적 설정에서는 작은 변화가 더 많이 `FLAT`으로 남고, `B`, `D`, `E`, `F`, `H`처럼 경계 근처 값을 가진 동작의 토큰 시퀀스가 바뀝니다. 반대로 `A`처럼 강한 상승과 강한 하강이 뚜렷한 동작은 설정을 바꿔도 주요 구조가 유지됩니다.
+
+이렇게 여러 동작을 함께 보면 토큰 규칙이 단순한 이름표가 아니라 설계 판단이라는 점이 더 분명해집니다. 이제 사람은 `상승, 완만한 상승, 거의 평평, 하강, 큰 하강`처럼 구조를 빠르게 읽을 수 있지만, 동시에 어떤 임계값 때문에 어떤 구간이 `FLAT`으로 접혔는지도 다시 점검할 수 있습니다.
 
 이 예제는 다음 순서로 확인하면 토큰화가 맡는 역할이 더 분명해집니다.
 

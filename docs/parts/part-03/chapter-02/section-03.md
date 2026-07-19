@@ -99,7 +99,8 @@ import csv
 from collections import defaultdict
 from pathlib import Path
 
-minimum_rows_per_event = 3
+minimum_rows_per_event = 12
+preview_row_count = 8
 
 input_path = Path("docs/assets/part-03/chapter-02/p3_2_3_first_table_log.csv")
 
@@ -128,11 +129,12 @@ for event_id, event_rows in sorted(events.items()):
 print()
 
 print("3) if we compare rows as if each row were a sample")
-for row in rows:
+for row in rows[:preview_row_count]:
     print(
         f"{row['event_id']} at {row['elapsed_seconds']}s: "
         f"flow={row['flow']:.1f}"
     )
+print(f"... {len(rows) - preview_row_count} more time-point rows")
 print()
 
 print("4) after regrouping into one row per event")
@@ -151,27 +153,33 @@ for event_id, event_rows in sorted(events.items()):
 
 ```text
 1) quick structural check
-row_count: 5
-event_id_count: 2
+row_count: 36
+event_id_count: 3
 has_time_order: yes
 
 2) repeated rows per event
-A: row_count=3, enough_rows=True
-B: row_count=2, enough_rows=False
+A: row_count=18, enough_rows=True
+B: row_count=12, enough_rows=True
+C: row_count=6, enough_rows=False
 
 3) if we compare rows as if each row were a sample
 A at 0s: flow=0.8
-A at 1s: flow=1.5
-A at 2s: flow=0.9
-B at 0s: flow=0.7
-B at 1s: flow=0.8
+A at 1s: flow=0.9
+A at 2s: flow=1.1
+A at 3s: flow=1.2
+A at 4s: flow=1.3
+A at 5s: flow=1.4
+A at 6s: flow=1.5
+A at 7s: flow=1.6
+... 28 more time-point rows
 
 4) after regrouping into one row per event
-A: duration=2s, mean_flow=1.07, peak_pressure=2.0, enough_rows=True
-B: duration=1s, mean_flow=0.75, peak_pressure=1.2, enough_rows=False
+A: duration=17s, mean_flow=1.25, peak_pressure=2.0, enough_rows=True
+B: duration=11s, mean_flow=0.88, peak_pressure=1.5, enough_rows=True
+C: duration=5s, mean_flow=0.98, peak_pressure=1.5, enough_rows=False
 ```
 
-이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 1단계와 2단계에서 먼저 보이는 것은 `행 수 5`보다 `event_id 수 2`가 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 여기서 조작할 값은 `minimum_rows_per_event`입니다. 값을 `3`으로 두면 A는 충분한 기록을 가진 후보가 되지만 B는 부족한 후보로 남습니다. 값을 `2`로 낮추면 B도 후보가 되지만, 더 짧은 기록에서 만든 평균을 같은 무게로 비교해도 되는지는 다시 검토해야 합니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 3단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 4단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
+이 예시가 보여 주는 핵심은 단순히 `event_id`와 `elapsed_seconds`라는 열 이름을 찾는 일이 아닙니다. 1단계와 2단계에서 먼저 보이는 것은 `행 수 36`보다 `event_id 수 3`이 작고, 같은 `event_id`가 여러 줄 반복된다는 사실입니다. 여기서 조작할 값은 `minimum_rows_per_event`입니다. 값을 `12`로 두면 A와 B는 충분한 기록을 가진 후보가 되지만 C는 부족한 후보로 남습니다. 값을 `6`으로 낮추면 C도 후보가 되지만, 더 짧은 기록에서 만든 평균을 같은 무게로 비교해도 되는지는 다시 검토해야 합니다. 이 신호를 읽어야만 `현재 한 행은 샘플 1건이 아니라 샘플의 일부 기록`이라는 해석에 도달할 수 있습니다. 그래서 3단계처럼 각 행을 바로 비교하면 아직 `A 동작 전체`와 `B 동작 전체`와 `C 동작 전체`를 비교하는 표가 되지 못합니다. 반대로 4단계처럼 `event_id`로 다시 묶어야 비로소 동작 1회가 한 행이 되고, 그 위에서 평균 흐름이나 최대 압력 같은 비교 가능한 열을 만들 수 있습니다.
 
 같은 결과를 형식과 품질 관점으로 다시 읽으면 더 분명해집니다. `event_id`가 반복된다는 사실은 형식 정합성 차원에서 `한 샘플을 묶을 키가 있다`는 뜻이고, `rows per event`가 서로 다르다는 사실은 첫 품질 점검 차원에서 `샘플마다 기록 길이가 다르다`는 신호입니다. 이 차이를 초기에 적어 두어야 나중에 평균을 비교할 때도 `왜 어떤 샘플은 더 적은 근거 위에 서 있는가`를 함께 읽을 수 있습니다.
 

@@ -19,3 +19,4 @@
 - `p3_5_7_sample_roster.csv`: P3-5.7 Python example input. Each row is one sample that must remain in the folded output, even when it has no follow-up event.
 - `p3_5_7_follow_up_events.csv`: P3-5.7 Python example input. Each row is one follow-up event observed after a sample.
 - `p3_5_7_event_severity.csv`: P3-5.7 Python example input. Each row maps a follow-up event type to a severity score used by the folding rule.
+- `p3_5_6_source_events.csv`: P3-5.6 Python example input. Each row is one source event with a duration and window length used to compare source-event counts with derived overlapping-window counts.

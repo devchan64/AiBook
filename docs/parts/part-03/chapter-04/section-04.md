@@ -71,6 +71,7 @@ from collections import defaultdict
 from pathlib import Path
 
 repeat_warning_threshold = 1
+preview_row_count = 8
 
 input_path = Path("docs/assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv")
 
@@ -126,11 +127,12 @@ warning_check = [
 ]
 
 print("1) row-level table where labels repeat inside one event")
-for row in rows:
+for row in rows[:preview_row_count]:
     print(
         f"{row['event_id']} at {row['second']}s: "
         f"flow={row['flow']:.1f}, review_needed={row['review_needed']}"
     )
+print(f"... {len(rows) - preview_row_count} more time-point rows")
 print()
 print("2) repeated rows and repeated labels per event")
 for item in label_repetition:
@@ -157,19 +159,26 @@ for warning_sign, seen in warning_check:
 ```text
 1) row-level table where labels repeat inside one event
 A at 0s: flow=0.5, review_needed=1
-A at 1s: flow=1.8, review_needed=1
-A at 2s: flow=1.1, review_needed=1
-B at 0s: flow=0.4, review_needed=0
-B at 1s: flow=1.1, review_needed=0
-B at 2s: flow=1.0, review_needed=0
+A at 1s: flow=0.9, review_needed=1
+A at 2s: flow=1.2, review_needed=1
+A at 3s: flow=1.5, review_needed=1
+A at 4s: flow=1.8, review_needed=1
+A at 5s: flow=1.6, review_needed=1
+A at 6s: flow=1.4, review_needed=1
+A at 7s: flow=1.2, review_needed=1
+... 28 more time-point rows
 
 2) repeated rows and repeated labels per event
-A: row_count=3, review_needed_sum=3
-B: row_count=3, review_needed_sum=0
+A: row_count=18, review_needed_sum=18
+B: row_count=9, review_needed_sum=0
+C: row_count=6, review_needed_sum=6
+D: row_count=3, review_needed_sum=0
 
 3) event-level summary that appears only after regrouping
-A: duration=2s, flow_mean=1.13, review_needed=1
-B: duration=2s, flow_mean=0.83, review_needed=0
+A: duration=17s, flow_mean=0.94, review_needed=1
+B: duration=8s, flow_mean=0.88, review_needed=0
+C: duration=5s, flow_mean=1.07, review_needed=1
+D: duration=2s, flow_mean=0.67, review_needed=0
 
 4) warning signs that sample unit may be wrong
 same event repeated across many rows: yes

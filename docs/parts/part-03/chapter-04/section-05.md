@@ -77,7 +77,8 @@ import csv
 from collections import Counter
 from pathlib import Path
 
-minimum_count = 2
+minimum_count = 9
+preview_sample_count = 8
 
 input_path = Path("docs/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv")
 coverage_scopes = ["shift", "load_mode", "machine_id", "maintenance_phase"]
@@ -104,12 +105,13 @@ for scope in coverage_scopes:
     )
 
 print("1) raw sample coverage table")
-for sample in samples:
+for sample in samples[:preview_sample_count]:
     print(
         f"{sample['event_id']}: shift={sample['shift']}, "
         f"load_mode={sample['load_mode']}, machine_id={sample['machine_id']}, "
         f"maintenance_phase={sample['maintenance_phase']}"
     )
+print(f"... {len(samples) - preview_sample_count} more event-level samples")
 print()
 print(f"2) coverage summary when minimum_count = {minimum_count}")
 for item in coverage_summary:
@@ -125,21 +127,24 @@ for item in coverage_summary:
 
 ```text
 1) raw sample coverage table
-A: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-B: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
-C: shift=day, load_mode=high, machine_id=M1, maintenance_phase=stable
-D: shift=day, load_mode=normal, machine_id=M2, maintenance_phase=stable
-E: shift=night, load_mode=normal, machine_id=M1, maintenance_phase=stable
-F: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=after-maintenance
+E01: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E02: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E03: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E04: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E05: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E06: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E07: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+E08: shift=day, load_mode=normal, machine_id=M1, maintenance_phase=stable
+... 28 more event-level samples
 
-2) coverage summary when minimum_count = 2
-shift: most_seen=day (5), least_seen=night, unique_conditions=2, under_minimum_conditions=1
-load_mode: most_seen=normal (5), least_seen=high, unique_conditions=2, under_minimum_conditions=1
-machine_id: most_seen=M1 (5), least_seen=M2, unique_conditions=2, under_minimum_conditions=1
-maintenance_phase: most_seen=stable (5), least_seen=after-maintenance, unique_conditions=2, under_minimum_conditions=1
+2) coverage summary when minimum_count = 9
+shift: most_seen=day (26), least_seen=night, unique_conditions=2, under_minimum_conditions=0
+load_mode: most_seen=normal (25), least_seen=low, unique_conditions=3, under_minimum_conditions=2
+machine_id: most_seen=M1 (22), least_seen=M2, unique_conditions=3, under_minimum_conditions=2
+maintenance_phase: most_seen=stable (28), least_seen=after-maintenance, unique_conditions=2, under_minimum_conditions=1
 ```
 
-이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 여기서 조작할 값은 `minimum_count`입니다. `minimum_count = 2`일 때는 각 범위마다 한 번만 등장한 조건이 대표성 공백으로 잡힙니다. 이 값을 1로 낮추면 공백이 사라지고, 3으로 높이면 더 많은 조건이 부족한 조건으로 표시됩니다. 이렇게 해야 `샘플 수는 6건인데도 왜 대표성은 약한가`를 숫자와 표 둘 다로 설명할 수 있습니다.
+이 예시에서 중요한 것은 분류 기법이 아니라, `현재 표가 무엇을 많이 보고 무엇을 거의 못 보고 있는가`를 한눈에 드러내는 일입니다. 여기서 조작할 값은 `minimum_count`입니다. `minimum_count = 9`일 때는 `shift`처럼 두 조건이 모두 기준을 넘는 범위도 있고, `load_mode`, `machine_id`, `maintenance_phase`처럼 일부 조건이 대표성 공백으로 잡히는 범위도 있습니다. 이 값을 낮추면 공백이 줄고, 높이면 더 많은 조건이 부족한 조건으로 표시됩니다. 이렇게 해야 `샘플 수는 36건인데도 왜 대표성은 조건별로 다르게 보이는가`를 숫자와 표 둘 다로 설명할 수 있습니다.
 
 이 표를 읽을 때는 세 가지를 함께 확인하면 됩니다. 이 표가 모은 시간·모드·장비 범위를 설명할 수 있는가, 거의 보지 못한 조건을 적어 둘 수 있는가, 그리고 나중에 평가 점수를 읽을 때도 이 대표성 범위를 함께 떠올릴 수 있는가입니다. 이런 메모가 붙어 있어야 샘플 표는 단순히 `정리된 표`가 아니라, `어떤 운영 범위를 대표하는지`까지 함께 남긴 표가 됩니다.
 

@@ -1,7 +1,7 @@
 # P3-6.6 같은 열 이름이라도 측정 방식이나 단위가 바뀌면 왜 같은 특징이 아닐 수 있는가
 
 > Section ID: `P3-6.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.19`
 
 특징(feature)을 설계하다 보면 놓치기 쉬운 함정이 하나 더 있습니다. `열 이름이 같으니 같은 특징이겠지`라고 생각하는 순간입니다. 하지만 현실 데이터에서는 같은 `flow_mean`이라는 이름 아래에서도 센서 버전이 바뀌었거나, 단위가 바뀌었거나, 계산 규칙이 달라졌을 수 있습니다. 이런 변화가 있으면 숫자는 있어도 더 이상 같은 특징이라고 보기 어렵습니다.
 
@@ -83,14 +83,25 @@ Part 3에서는 아직 복잡한 보정 기법보다, 특징 정의 메모를 �
 
 문제 상황: 같은 `flow_mean`이라는 열 이름을 써도 단위, 센서 버전, 구간 규칙, 운영 정의가 다르면 같은 특징이 아닐 수 있다는 점을 확인합니다.
 
-입력(input): `feature_name`, `unit`, `sensor_version`, `segment_rule`, `ops_definition`이 함께 적힌 특징 카탈로그 표
+입력(input): `feature_name`, `unit`, `sensor_version`, `segment_rule`, `ops_definition`이 함께 적힌 특징 카탈로그 표와 같은 정의로 볼 때 사용할 필드 묶음 `definition_fields_to_check`
 
-기대 출력(output): 같은 열 이름 아래에서도 `same_definition_group`이 갈라지는 출력
+기대 출력(output): 열 이름만 볼 때는 한 그룹처럼 보이지만, `definition_fields_to_check`에 단위·센서 버전·구간 규칙·운영 정의를 포함하면 `same_definition_group`이 여러 개로 갈라지는 출력
 
-확인할 개념: 특징 동일성은 열 이름이 아니라 측정 단위와 생성 규칙까지 포함한 정의 수준에서 판단해야 한다
+확인할 개념: 특징 동일성은 열 이름이 아니라 측정 단위와 생성 규칙까지 포함한 정의 수준에서 판단해야 한다. 어떤 필드를 정의에 포함하느냐에 따라 같은 기준선에 묶을 수 있는 행도 달라진다.
 
 ```python
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 180)
+
+definition_fields_to_check = [
+    "feature_name",
+    "unit",
+    "sensor_version",
+    "segment_rule",
+    "ops_definition",
+]
 
 feature_catalog = pd.DataFrame(
     [
@@ -129,24 +140,33 @@ feature_catalog = pd.DataFrame(
     ]
 )
 
-feature_catalog["same_definition_group"] = (
-    feature_catalog["feature_name"]
-    + "|"
-    + feature_catalog["unit"]
-    + "|"
-    + feature_catalog["sensor_version"]
-    + "|"
-    + feature_catalog["segment_rule"]
-    + "|"
-    + feature_catalog["ops_definition"]
-)
-
-definition_groups = (
-    feature_catalog.groupby("same_definition_group", as_index=False)
-    .agg(
-        event_count=("event_id", "count"),
-        event_ids=("event_id", lambda values: ",".join(values)),
+def summarize_groups(fields):
+    grouped = (
+        feature_catalog.groupby(fields, as_index=False)
+        .agg(
+            event_count=("event_id", "count"),
+            event_ids=("event_id", lambda values: ",".join(values)),
+        )
+        .copy()
     )
+    grouped["same_definition_group"] = grouped[fields].astype(str).agg("|".join, axis=1)
+    return grouped[["same_definition_group", "event_count", "event_ids"]]
+
+name_only_groups = summarize_groups(["feature_name"])
+definition_groups = summarize_groups(definition_fields_to_check)
+group_comparison = pd.DataFrame(
+    [
+        {
+            "grouping_rule": "feature_name only",
+            "group_count": len(name_only_groups),
+            "grouped_event_ids": " / ".join(name_only_groups["event_ids"]),
+        },
+        {
+            "grouping_rule": "selected definition fields",
+            "group_count": len(definition_groups),
+            "grouped_event_ids": " / ".join(definition_groups["event_ids"]),
+        },
+    ]
 )
 
 print("1) same column name, different definition notes")
@@ -163,7 +183,10 @@ print(
     ]
 )
 print()
-print("2) rows that can be treated as the same definition group")
+print("2) grouping changes when definition fields are included")
+print(group_comparison)
+print()
+print("3) rows that can be treated as the same definition group")
 print(definition_groups)
 ```
 
@@ -171,20 +194,25 @@ print(definition_groups)
 
 ```text
 1) same column name, different definition notes
-  event_id feature_name   unit sensor_version    segment_rule ops_definition
+  event_id feature_name   unit sensor_version    segment_rule  ops_definition
 0        A    flow_mean  L/min             v1  early-mid-late  normal-band-v1
 1        B    flow_mean  L/min             v1  early-mid-late  normal-band-v1
 2        C    flow_mean   mL/s             v2  early-mid-late  normal-band-v1
 3        D    flow_mean   mL/s             v2   quartile-4bin  normal-band-v2
 
-2) rows that can be treated as the same definition group
-                                same_definition_group  event_count event_ids
+2) grouping changes when definition fields are included
+                grouping_rule  group_count grouped_event_ids
+0           feature_name only            1           A,B,C,D
+1  selected definition fields            3       A,B / C / D
+
+3) rows that can be treated as the same definition group
+                              same_definition_group  event_count event_ids
 0  flow_mean|L/min|v1|early-mid-late|normal-band-v1            2       A,B
 1   flow_mean|mL/s|v2|early-mid-late|normal-band-v1            1         C
 2    flow_mean|mL/s|v2|quartile-4bin|normal-band-v2            1         D
 ```
 
-이 예제의 목적은 새 특징을 계산하는 것이 아니라, `같은 열 이름이라도 실제로는 어디까지를 같은 정의로 묶을 수 있는가`를 먼저 확인하는 데 있습니다. 1단계에서는 네 행이 모두 `flow_mean`이지만 정의 메모가 다르다는 점을 보고, 2단계에서는 실제로 `A,B`만 같은 정의 그룹으로 묶이고 `C`, `D`는 각각 따로 남는다는 점을 봅니다. 즉 이 절에서 중요한 것은 내부 키 문자열 자체가 아니라, 어떤 행끼리만 같은 기준선과 같은 비교표에 올릴 수 있는지를 먼저 가르는 일입니다.
+이 예제의 목적은 새 특징을 계산하는 것이 아니라, `같은 열 이름이라도 실제로는 어디까지를 같은 정의로 묶을 수 있는가`를 먼저 확인하는 데 있습니다. 여기서 조작할 값은 `definition_fields_to_check`입니다. 1단계에서는 네 행이 모두 `flow_mean`이지만 정의 메모가 다르다는 점을 봅니다. 2단계에서는 `feature_name`만 보면 `A,B,C,D`가 모두 한 그룹처럼 보이지만, 단위·센서 버전·구간 규칙·운영 정의까지 포함하면 `A,B`, `C`, `D`의 세 그룹으로 갈라진다는 점을 봅니다. 3단계는 실제로 `A,B`만 같은 정의 그룹으로 묶이고 `C`, `D`는 각각 따로 남는다는 점을 보여 줍니다. 즉 이 절에서 중요한 것은 내부 키 문자열 자체가 아니라, 어떤 행끼리만 같은 기준선과 같은 비교표에 올릴 수 있는지를 먼저 가르는 일입니다.
 
 여기서 마지막으로 확인할 것은 세 가지입니다. 단위와 계산 규칙이 메모되어 있는지, 버전 변경이나 센서 변경을 구분했는지, 기준선과 분할에 섞이면 안 되는 정의 차이를 표시했는지입니다. 이 세 조건이 함께 서야 특징 표는 단순 숫자 모음이 아니라, 비교 가능한 정의가 붙은 구조로 남습니다. 현재 특징 표가 같은 뜻의 열끼리만 비교 가능한 구조인지 확인하는 일이 바로 이 절의 중심입니다.
 

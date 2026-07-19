@@ -1,7 +1,7 @@
 # P3-9.6 같은 사건도 사람이나 시기에 따라 다른 라벨이 붙으면 어떻게 해야 하는가
 
 > Section ID: `P3-9.6`
-> Version: `v2026.07.11`
+> Version: `v2026.07.19`
 
 라벨 후보 열이 생겼다고 해서 곧바로 안정된 학습 문제라고 말할 수는 없습니다. 현실 데이터에서는 같은 사건을 두 검토자가 다르게 적을 수 있고, 지난달에는 `주의`로 보던 상태를 이번 달에는 `정상`으로 기록할 수도 있기 때문입니다. 그래서 [목표 라벨 후보(target candidate)](../../../reference/concept-glossary.md#glossary-target-candidate)를 읽을 때는 `열이 있는가`뿐 아니라 `같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는가`도 함께 봐야 합니다.
 
@@ -82,63 +82,138 @@
 
 문제 상황: 같은 사건을 두 검토자가 다르게 라벨링했을 때, 라벨 후보 열이 있어도 바로 안정된 목표 라벨로 읽기 어렵다는 점을 확인합니다.
 
-입력(input): `event_id`, `reviewer`, `review_label`로 이루어진 중복 검토 기록 표
+입력(input): 중복 검토 기록 [p3_9_6_label_reviews.csv](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv). 이 표의 한 행은 한 사건에 대해 특정 검토자가 특정 월에 남긴 라벨 기록입니다. 핵심 열은 `event_id`, `review_month`, `reviewer`, `review_label`입니다.
 
-기대 출력(output): 사건별 검토 수, 라벨 종류 수, 실제 불일치 사건 목록을 나란히 보여 주는 출력
+기대 출력(output): 사건별 검토 수, 라벨 종류 수, 실제 불일치 사건 목록, 월별 라벨 분포를 나란히 보여 주는 출력
 
 확인할 개념: 라벨 후보는 열이 있다는 사실보다 같은 사건과 비슷한 조건에서 같은 뜻의 판단이 반복되는지가 더 중요하다
 
 ```python
 import pandas as pd
 
-reviews = pd.DataFrame(
-    [
-        {"event_id": "A", "reviewer": "kim", "review_label": "review_needed"},
-        {"event_id": "A", "reviewer": "lee", "review_label": "normal"},
-        {"event_id": "B", "reviewer": "kim", "review_label": "normal"},
-        {"event_id": "B", "reviewer": "lee", "review_label": "normal"},
-        {"event_id": "C", "reviewer": "kim", "review_label": "review_needed"},
-        {"event_id": "C", "reviewer": "lee", "review_label": "review_needed"},
-    ]
-)
+label_variety_threshold = 1
+preview_row_count = 8
+
+reviews_path = "docs/assets/part-03/chapter-09/p3_9_6_label_reviews.csv"
+reviews = pd.read_csv(reviews_path)
 
 label_variety = reviews.groupby("event_id")["review_label"].nunique()
-disagreed_events = label_variety[label_variety > 1]
+disagreed_events = label_variety[label_variety > label_variety_threshold]
 
-review_counts = reviews.groupby("event_id").size()
+review_summary = pd.DataFrame(
+    {
+        "review_count": reviews.groupby("event_id").size(),
+        "label_variety": label_variety,
+    }
+)
 
-print("1) reviews per event:")
-print(review_counts)
+monthly_labels = (
+    reviews.groupby(["review_month", "review_label"])
+    .size()
+    .unstack(fill_value=0)
+    .reset_index()
+)
+
+disagreement_detail = (
+    reviews[reviews["event_id"].isin(disagreed_events.index)]
+    .sort_values(["event_id", "review_month", "reviewer"])
+    [["event_id", "review_month", "reviewer", "review_label"]]
+)
+
+print("1) review record preview:")
+print(reviews.head(preview_row_count).to_string(index=False))
+print(f"... {len(reviews) - preview_row_count} more review records")
 print()
-print("2) label variety by event:")
+print("2) reviews per event:")
+print(review_summary)
+print()
+print("3) label variety by event:")
 print(label_variety)
 print()
-print("3) events with disagreement:")
+print("4) events with disagreement:")
 print(disagreed_events.index.tolist())
+print()
+print("5) disagreement detail:")
+print(disagreement_detail.head(12).to_string(index=False))
+print(f"... {len(disagreement_detail) - 12} more disagreement records")
+print()
+print("6) labels by review month:")
+print(monthly_labels.to_string(index=False))
 ```
 
 예상 출력:
 
 ```text
-1) reviews per event:
-event_id
-A    2
-B    2
-C    2
-dtype: int64
+1) review record preview:
+event_id review_month reviewer  diff repeatability  review_label
+       A      2026-04      kim -0.34          high review_needed
+       A      2026-04      lee -0.34          high        normal
+       A      2026-05     park -0.34          high review_needed
+       B      2026-04      kim -0.08           low        normal
+       B      2026-04      lee -0.08           low        normal
+       B      2026-05     park -0.08           low        normal
+       C      2026-04      kim -0.29        medium review_needed
+       C      2026-04      lee -0.29        medium review_needed
+... 28 more review records
 
-2) label variety by event:
+2) reviews per event:
+          review_count  label_variety
+event_id                             
+A                    3              2
+B                    3              1
+C                    3              1
+D                    3              2
+E                    3              1
+F                    3              2
+G                    3              2
+H                    3              1
+I                    3              2
+J                    3              1
+K                    3              1
+L                    3              2
+
+3) label variety by event:
 event_id
 A    2
 B    1
 C    1
+D    2
+E    1
+F    2
+G    2
+H    1
+I    2
+J    1
+K    1
+L    2
 Name: review_label, dtype: int64
 
-3) events with disagreement:
-['A']
+4) events with disagreement:
+['A', 'D', 'F', 'G', 'I', 'L']
+
+5) disagreement detail:
+event_id review_month reviewer  review_label
+       A      2026-04      kim review_needed
+       A      2026-04      lee        normal
+       A      2026-05     park review_needed
+       D      2026-04      kim        normal
+       D      2026-04      lee        normal
+       D      2026-05     park review_needed
+       F      2026-04      kim        normal
+       F      2026-04      lee review_needed
+       F      2026-05     park        normal
+       G      2026-04      kim review_needed
+       G      2026-04      lee        normal
+       G      2026-05     park        normal
+... 6 more disagreement records
+
+6) labels by review month:
+review_month  normal  review_needed
+     2026-04      12             12
+     2026-05       6              6
 ```
 
-이 예제의 목적은 모델 입력을 만드는 것이 아니라, `같은 사건에 대해 검토가 몇 번 있었고 그중 어디서 라벨이 갈렸는가`를 먼저 확인하는 데 있습니다. 먼저 사건별 검토 수를 보고, 그다음 라벨 종류 수를 세고, 마지막에 실제 불일치 사건 목록만 뽑아내면 왜 이 절에서 `라벨 열이 있다`보다 `라벨 의미가 반복되는가`를 먼저 보라고 하는지 더 분명해집니다. 여기서 중요한 것은 특정 팀의 메모 습관이 아니라, `라벨 의미 안정성(label meaning stability)`을 확인하는 일입니다. 목표 라벨 후보를 읽을 때는 현재 라벨 후보가 같은 뜻으로 비교적 반복되는가, 기준이 바뀐 시점을 메모할 수 있는가, 그리고 불안정한 라벨을 바로 결과 열로 두지 않고 있는가를 함께 봐야 합니다. 이런 점검이 있어야 목표 라벨 후보 표는 단순한 열 목록이 아니라, `라벨 의미의 안정성`까지 포함한 구조가 됩니다.
+이 예제의 목적은 모델 입력을 만드는 것이 아니라, `같은 사건에 대해 검토가 몇 번 있었고 그중 어디서 라벨이 갈렸는가`를 먼저 확인하는 데 있습니다. 먼저 사건별 검토 수를 보고, 그다음 라벨 종류 수를 세고, 실제 불일치 사건 목록과 상세 기록을 확인하면 왜 이 절에서 `라벨 열이 있다`보다 `라벨 의미가 반복되는가`를 먼저 보라고 하는지 더 분명해집니다. 출력에서는 12개 사건 중 `A`, `D`, `F`, `G`, `I`, `L`처럼 라벨 종류가 2개로 갈린 사건이 따로 드러납니다. 월별 라벨 분포를 함께 보면 시기별 기준 변화 가능성도 메모할 수 있습니다. 여기서 중요한 것은 특정 팀의 메모 습관이 아니라, `라벨 의미 안정성(label meaning stability)`을 확인하는 일입니다. 목표 라벨 후보를 읽을 때는 현재 라벨 후보가 같은 뜻으로 비교적 반복되는가, 기준이 바뀐 시점을 메모할 수 있는가, 그리고 불안정한 라벨을 바로 결과 열로 두지 않고 있는가를 함께 봐야 합니다. 이런 점검이 있어야 목표 라벨 후보 표는 단순한 열 목록이 아니라, `라벨 의미의 안정성`까지 포함한 구조가 됩니다.
 
 ## 출처와 참고 자료
 

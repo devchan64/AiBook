@@ -109,6 +109,9 @@ event_summary = (
     .merge(row_counts, on="event_id")
     .merge(review_decisions, on="event_id", how="left")
 )
+matched_review_decisions = review_decisions[
+    review_decisions["event_id"].isin(event_summary["event_id"])
+].reset_index(drop=True)
 event_summary["is_complete_event_sample"] = (
     event_summary["measurement_rows"] >= expected_rows_per_event
 )
@@ -204,7 +207,7 @@ print("4) raw rows still mean per-time-step records")
 print(row_counts.to_string(index=False))
 print()
 print("5) review labels arrive at event_id level")
-print(review_decisions.to_string(index=False))
+print(matched_review_decisions.to_string(index=False))
 print()
 print("6) event-level summaries check completeness and labels")
 print(
@@ -237,52 +240,74 @@ print(unit_check.to_string(index=False))
 
 ```text
 1) raw input files
-measurement_log shape: (15, 5)
-review_decisions shape: (4, 2)
+measurement_log shape: (36, 5)
+review_decisions shape: (36, 2)
 
 2) first raw measurement rows
 event_id  elapsed_seconds  pressure  flow  is_recent
-       A                0       1.0   0.0          1
-       A                1       2.0   1.4          1
-       A                2       2.4   1.6          1
-       B                0       1.1   0.0          0
-       B                1       1.7   1.1          0
-       B                2       2.0   1.2          0
-       C                0       1.2   0.1          1
-       C                1       2.3   1.5          1
+     E01                0       1.0   0.0          1
+     E01                1       2.0   1.4          1
+     E01                2       2.4   1.6          1
+     E02                0       1.1   0.0          0
+     E02                1       1.7   1.1          0
+     E02                2       2.0   1.2          0
+     E03                0       1.2   0.1          1
+     E03                1       2.3   1.5          1
 
 3) count rows under each candidate unit
-measurement rows: 15
-event samples: 5
+measurement rows: 36
+event samples: 12
 window aggregates: 2
 
 4) raw rows still mean per-time-step records
 event_id  measurement_rows
-       A                 3
-       B                 3
-       C                 3
-       D                 2
-       E                 4
+     E01                 3
+     E02                 3
+     E03                 3
+     E04                 3
+     E05                 3
+     E06                 3
+     E07                 3
+     E08                 3
+     E09                 3
+     E10                 3
+     E11                 3
+     E12                 3
 
 5) review labels arrive at event_id level
 event_id  review_needed
-       A              1
-       B              0
-       C              1
-       E              0
+     E01              1
+     E02              0
+     E03              1
+     E04              0
+     E05              0
+     E06              0
+     E07              1
+     E08              0
+     E09              1
+     E10              0
+     E11              1
+     E12              0
 
 6) event-level summaries check completeness and labels
 event_id  total_duration_seconds  measurement_rows  is_complete_event_sample  pressure_mean  pressure_rise  flow_mean  review_needed  has_review_label
-       A                       2                 3                      True          1.800            1.4      1.000            1.0              True
-       B                       2                 3                      True          1.600            0.9      0.767            0.0              True
-       C                       2                 3                      True          2.067            1.5      1.133            1.0              True
-       D                       1                 2                     False          1.100            0.4      0.450            NaN             False
-       E                       3                 4                      True          1.775            1.1      0.850            0.0              True
+     E01                       2                 3                      True          1.800            1.4      1.000              1              True
+     E02                       2                 3                      True          1.600            0.9      0.767              0              True
+     E03                       2                 3                      True          2.067            1.5      1.133              1              True
+     E04                       2                 3                      True          1.233            0.6      0.633              0              True
+     E05                       2                 3                      True          1.667            1.2      0.767              0              True
+     E06                       2                 3                      True          1.733            0.9      0.800              0              True
+     E07                       2                 3                      True          1.900            1.4      0.933              1              True
+     E08                       2                 3                      True          1.467            0.8      0.700              0              True
+     E09                       2                 3                      True          2.200            1.6      1.200              1              True
+     E10                       2                 3                      True          1.633            0.9      0.700              0              True
+     E11                       2                 3                      True          2.000            1.4      1.067              1              True
+     E12                       2                 3                      True          1.267            0.8      0.567              0              True
 
 7) window-level aggregates are for broader comparison, not single-sample judgment
 window_name  event_count  complete_event_count  labeled_event_count  pressure_mean_complete  flow_mean_complete
-   baseline            2                     1                    1                   1.600               0.767
-     recent            3                     3                    3                   1.881               0.994
+   baseline            6                     6                    6                   1.489               0.694
+     recent            6                     6                    6                   1.939               1.017
 
 8) question focus changes the recommended unit
     question_focus recommended_unit
@@ -292,12 +317,12 @@ recent_vs_baseline           window
 
 9) unit check for selected_question_focus = event_comparison
       unit_name  sample_count  valid_sample_count can_use_pressure_rise label_attaches_naturally  feature_score  label_score  selected_for_question  question_match_score  total_score
-measurement_row            15                  15                    no                     weak              1            0                  False                     0            1
-          event             5                   4                   yes                      yes              3            2                   True                     2            7
+measurement_row            36                  36                    no                     weak              1            0                  False                     0            1
+          event            12                  12                   yes                      yes              3            2                   True                     2            7
          window             2                   2               partial                     weak              2            1                  False                     0            3
 ```
 
-출력에서 먼저 봐야 할 것은 `몇 건으로 세고 있는가`입니다. 원시 표에서는 측정 시점이 15건이고, `event_id` 기준으로 묶으면 동작 1회 후보가 5건이며, 다시 최근/기준선 구간으로 묶으면 비교용 집계는 2건이 됩니다. 그런데 그다음에 봐야 할 것은 `어떤 값이 어느 단위에서만 의미가 생기는가`입니다. 이벤트 D처럼 측정 행 수가 기준보다 적으면 동작 1회 후보는 있어도 완전한 샘플로 보기 어렵고, 검토 결과도 아직 붙지 않았습니다. 검토 결과는 원시 시점 행에 반복해서 붙는 것이 아니라 `event_id` 단위로 따로 도착한 뒤, 동작 1회 요약 표에 결합됩니다. 여기서 조작할 값은 `selected_question_focus`, `question_focus_options`, `expected_rows_per_event`입니다. `"event_comparison"`으로 두면 동작 1회가 추천 단위가 되지만, `"instant_value"`로 바꾸면 측정 시점 행이 더 자연스럽고, `"recent_vs_baseline"`으로 바꾸면 최근/기준선 구간 집계가 더 자연스럽습니다. `expected_rows_per_event`를 4로 높이면 A, B, C도 완전한 이벤트 샘플에서 빠지고, E만 남습니다. 즉 같은 원천데이터라도 `한 시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 행 수와 표의 의미, 그 위에 놓을 수 있는 열의 역할, 유효 샘플 수가 함께 바뀝니다.
+출력에서 먼저 봐야 할 것은 `몇 건으로 세고 있는가`입니다. 원시 표에서는 측정 시점이 36건이고, `event_id` 기준으로 묶으면 동작 1회 후보가 12건이며, 다시 최근/기준선 구간으로 묶으면 비교용 집계는 2건이 됩니다. 그런데 그다음에 봐야 할 것은 `어떤 값이 어느 단위에서만 의미가 생기는가`입니다. 검토 결과는 원시 시점 행에 반복해서 붙는 것이 아니라 `event_id` 단위로 따로 도착한 뒤, 동작 1회 요약 표에 결합됩니다. 여기서 조작할 값은 `selected_question_focus`, `question_focus_options`, `expected_rows_per_event`입니다. `"event_comparison"`으로 두면 동작 1회가 추천 단위가 되지만, `"instant_value"`로 바꾸면 측정 시점 행이 더 자연스럽고, `"recent_vs_baseline"`으로 바꾸면 최근/기준선 구간 집계가 더 자연스럽습니다. `expected_rows_per_event`를 4로 높이면 현재 12개 이벤트가 모두 완전한 이벤트 샘플에서 빠집니다. 즉 같은 원천데이터라도 `한 시점`, `동작 1회`, `최근 구간` 중 무엇을 샘플 1건으로 읽느냐에 따라 행 수와 표의 의미, 그 위에 놓을 수 있는 열의 역할, 유효 샘플 수가 함께 바뀝니다.
 
 여기서 `unit check` 출력은 이 절의 판단을 더 직접적으로 보여 줍니다. `measurement_row`는 샘플 수는 가장 많지만 `pressure_rise`를 바로 올릴 수 없고, `review_needed` 같은 결과도 자연스럽게 붙기 어렵습니다. `window`는 최근 상태 해석에는 쓸 수 있지만 개별 동작 비교 샘플로는 약합니다. 반면 `event`는 샘플 수, 요약 특징, 결과 열이 한 단위 위에 함께 놓여 있어 이 절의 질문인 `비교 가능한 샘플 한 건`에 가장 잘 맞습니다.
 

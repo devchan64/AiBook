@@ -20,3 +20,7 @@
   - `p3-9-7-mermaid-01-en.mmd` / `p3-9-7-mermaid-01-ko.mmd` / `p3-9-7-mermaid-01-zh.mmd`
   - `p3-9-8-mermaid-01-en.mmd` / `p3-9-8-mermaid-01-ko.mmd` / `p3-9-8-mermaid-01-zh.mmd`
   - `p3-9-9-mermaid-01-en.mmd` / `p3-9-9-mermaid-01-ko.mmd` / `p3-9-9-mermaid-01-zh.mmd`
+
+## CSV Inputs
+
+- `p3_9_6_label_reviews.csv`: P3-9.6 Python example input. Each row is one review record for an event, reviewer, month, and candidate label used to inspect label disagreement.

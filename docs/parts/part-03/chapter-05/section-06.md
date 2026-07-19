@@ -41,7 +41,7 @@
 
 문제 상황: 겹치는 입력 창이 많아졌을 때 창 수와 원천 사건 수를 같은 숫자로 읽으면 어떤 착시가 생기는지 확인합니다.
 
-입력(input): 사건 길이와 `window`, 실험할 이동 간격 `stride_to_try`가 주어진 원천 사건 표
+입력(input): 원천 사건 표 [p3_5_6_source_events.csv](../../../assets/part-03/chapter-05/p3_5_6_source_events.csv)와 실험할 이동 간격 `stride_to_try`. 이 표의 한 행은 하나의 원천 사건이며, 사건 길이(`length`)와 창 길이(`window`)가 함께 들어 있습니다.
 
 기대 출력(output): 각 사건이 몇 개 창으로 늘어나는지와 `source_event` 대비 `window` 수가 얼마나 커지는지 보여 주는 출력. `stride_to_try`를 바꾸면 창 수와 확장 비율이 달라진다.
 
@@ -51,19 +51,22 @@
 import pandas as pd
 
 stride_to_try = 10
+preview_event_count = 8
 
-events = pd.DataFrame(
-    [
-        {"event_id": "A", "length": 100, "window": 30, "stride": stride_to_try},
-        {"event_id": "B", "length": 100, "window": 30, "stride": stride_to_try},
-    ]
-)
+source_events_path = "docs/assets/part-03/chapter-05/p3_5_6_source_events.csv"
+events = pd.read_csv(source_events_path)
+events["stride"] = stride_to_try
 
 events["window_count"] = ((events["length"] - events["window"]) // events["stride"]) + 1
 events["source_event_weight"] = 1
 
 print("1) how many windows each source event creates")
-print(events[["event_id", "length", "window", "stride", "window_count"]])
+print(
+    events[["event_id", "line_id", "mode", "length", "window", "stride", "window_count"]]
+    .head(preview_event_count)
+    .to_string(index=False)
+)
+print(f"... {len(events) - preview_event_count} more source events")
 print()
 print("2) source-event count vs window count")
 print(
@@ -76,35 +79,71 @@ print(
 )
 print()
 print("3) expansion per source event")
-print(events[["event_id", "window_count"]])
+print(events[["event_id", "window_count"]].head(preview_event_count).to_string(index=False))
+print(f"... {len(events) - preview_event_count} more source events")
 print()
-print("4) expansion ratio")
-print(events["window_count"].sum() / len(events))
+print("4) expansion summary by line and mode")
+print(
+    events.groupby(["line_id", "mode"], as_index=False)
+    .agg(
+        source_event_count=("event_id", "count"),
+        window_count=("window_count", "sum"),
+        mean_windows_per_event=("window_count", "mean"),
+    )
+    .round(2)
+    .to_string(index=False)
+)
+print()
+print("5) expansion ratio")
+print(round(events["window_count"].sum() / len(events), 2))
 ```
 
 예상 출력:
 
 ```text
 1) how many windows each source event creates
-  event_id  length  window  stride  window_count
-0        A     100      30      10             8
-1        B     100      30      10             8
+event_id line_id     mode  length  window  stride  window_count
+     E01      L1 baseline     100      30      10             8
+     E02      L1 baseline      96      30      10             7
+     E03      L1 baseline      92      30      10             7
+     E04      L1 baseline      88      30      10             6
+     E05      L1 baseline      84      30      10             6
+     E06      L1 baseline      80      30      10             6
+     E07      L1   recent     110      30      10             9
+     E08      L1   recent     104      30      10             8
+... 28 more source events
 
 2) source-event count vs window count
           unit  count
-0  source_event      2
-1        window     16
+0  source_event     36
+1        window    237
 
 3) expansion per source event
-  event_id  window_count
-0        A             8
-1        B             8
+event_id  window_count
+     E01             8
+     E02             7
+     E03             7
+     E04             6
+     E05             6
+     E06             6
+     E07             9
+     E08             8
+... 28 more source events
 
-4) expansion ratio
-8.0
+4) expansion summary by line and mode
+line_id     mode  source_event_count  window_count  mean_windows_per_event
+     L1 baseline                   6            40                    6.67
+     L1   recent                   6            42                    7.00
+     L2 baseline                   6            40                    6.67
+     L2   recent                   6            43                    7.17
+     L3 baseline                   6            34                    5.67
+     L3   recent                   6            38                    6.33
+
+5) expansion ratio
+6.58
 ```
 
-이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 여기서 조작할 값은 `stride_to_try`입니다. `10`을 `20`으로 바꾸면 창 수와 확장 비율이 줄고, 더 작은 값으로 바꾸면 같은 원천 사건에서 더 많은 입력 조각이 생깁니다. 그런데 `source_event` 수는 계속 2건입니다. 그래서 겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으며, 창 수를 곧바로 사건 수처럼 읽으면 안 됩니다.
+이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 여기서 조작할 값은 `stride_to_try`입니다. `10`을 `20`으로 바꾸면 창 수와 확장 비율이 줄고, 더 작은 값으로 바꾸면 같은 원천 사건에서 더 많은 입력 조각이 생깁니다. 그런데 `source_event` 수는 계속 36건입니다. 그래서 겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으며, 창 수를 곧바로 사건 수처럼 읽으면 안 됩니다. 출력 4단계처럼 라인과 운영 모드별로 다시 묶어 보면, 원천 사건 수는 각 조건에서 6건씩 같아도 파생된 window 수는 길이와 창 설정에 따라 다르게 불어납니다.
 
 ## 작은 도식으로 보기
 

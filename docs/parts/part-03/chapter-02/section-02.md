@@ -63,6 +63,9 @@
 ```python
 import pandas as pd
 
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", 160)
+
 event_log_path = "docs/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv"
 selected_review_gap_threshold = -0.20
 review_gap_thresholds = [-0.36, selected_review_gap_threshold, 0.0]
@@ -92,12 +95,18 @@ print(feature_table.round(2))
 print()
 
 baseline = (
-    feature_table[feature_table["period"] == "baseline"]
-    .agg(
-        baseline_mean_flow=("mean_flow", "mean"),
-        baseline_late_drop_rate=("late_drop_rate", "mean"),
+    pd.DataFrame(
+        [
+            {
+                "baseline_mean_flow": feature_table.loc[
+                    feature_table["period"] == "baseline", "mean_flow"
+                ].mean(),
+                "baseline_late_drop_rate": feature_table.loc[
+                    feature_table["period"] == "baseline", "late_drop_rate"
+                ].mean(),
+            }
+        ]
     )
-    .reset_index(drop=True)
 )
 print("4) build baseline from baseline samples")
 print(baseline.round(2))
@@ -144,45 +153,47 @@ print(pd.DataFrame(threshold_results))
 
 ```text
 1) raw input shape and first rows
-shape: (15, 4)
+shape: (36, 4)
   sample_id    period  second  flow
 0        B1  baseline       0  0.80
-1        B1  baseline       1  1.00
-2        B1  baseline       2  0.96
-3        B2  baseline       0  0.86
-4        B2  baseline       1  0.96
+1        B1  baseline       1  0.92
+2        B1  baseline       2  1.02
+3        B1  baseline       3  1.04
+4        B1  baseline       4  1.00
 
 2) sample rows
   sample_id    period
 0        B1  baseline
 1        B2  baseline
-2        R1    recent
-3        R2    recent
-4        R3    recent
+2        B3  baseline
+3        R1    recent
+4        R2    recent
+5        R3    recent
 
 3) add features
   sample_id    period  mean_flow  late_drop_rate
-0        B1  baseline       0.92           -0.04
-1        B2  baseline       0.91           -0.06
-2        R1    recent       0.75           -0.32
-3        R2    recent       0.88           -0.08
-4        R3    recent       0.85           -0.40
+0        B1  baseline       0.96           -0.04
+1        B2  baseline       0.94           -0.06
+2        B3  baseline       0.92           -0.04
+3        R1    recent       0.83           -0.32
+4        R2    recent       0.90           -0.08
+5        R3    recent       0.94           -0.40
 
 4) build baseline from baseline samples
    baseline_mean_flow  baseline_late_drop_rate
-0                0.91                    -0.05
+0                0.94                    -0.05
 
 5) compare recent samples with baseline
   sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap
-2        R1  recent       0.75           -0.32                0.91                    -0.05         -0.27
-3        R2  recent       0.88           -0.08                0.91                    -0.05         -0.03
-4        R3  recent       0.85           -0.40                0.91                    -0.05         -0.35
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35
 
 6) final output structure when review_gap_threshold = -0.20
   sample_id  period  mean_flow  late_drop_rate  baseline_mean_flow  baseline_late_drop_rate  baseline_gap output
-2        R1  recent       0.75           -0.32                0.91                    -0.05         -0.27  검토 필요
-3        R2  recent       0.88           -0.08                0.91                    -0.05         -0.03  정상 범위
-4        R3  recent       0.85           -0.40                0.91                    -0.05         -0.35  검토 필요
+3        R1  recent       0.83           -0.32                0.94                    -0.05         -0.27  검토 필요
+4        R2  recent       0.90           -0.08                0.94                    -0.05         -0.03  정상 범위
+5        R3  recent       0.94           -0.40                0.94                    -0.05         -0.35  검토 필요
 
 7) threshold sensitivity
    review_gap_threshold  review_count review_samples

@@ -15,4 +15,5 @@
   - `p3-6-5-mermaid-01-en.mmd` / `p3-6-5-mermaid-01-ko.mmd` / `p3-6-5-mermaid-01-zh.mmd`
   - `p3-6-6-mermaid-01-en.mmd` / `p3-6-6-mermaid-01-ko.mmd`
   - `p3_6_2_segment_tokenization_curve.py`
+  - `p3_6_2_segment_slopes.csv`
   - `segment-tokenization-curve-en.png` / `segment-tokenization-curve-ko.png` / `segment-tokenization-curve-zh.png`

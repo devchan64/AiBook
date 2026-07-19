@@ -63,6 +63,7 @@ event_severity_path = "docs/assets/part-03/chapter-05/p3_5_7_event_severity.csv"
 
 selected_failure_severity_cutoff = 4
 failure_severity_cutoffs = [4, 3, 2]
+preview_row_count = 12
 
 sample_roster = pd.read_csv(sample_roster_path)
 follow_ups = pd.read_csv(follow_up_events_path)
@@ -125,13 +126,16 @@ for cutoff in failure_severity_cutoffs:
     )
 
 print("1) raw follow-up events")
-print(follow_ups.to_string(index=False))
+print(follow_ups.head(preview_row_count).to_string(index=False))
+print(f"... {len(follow_ups) - preview_row_count} more follow-up events")
 print()
 print("2) severity rule table")
-print(severity_table.to_string(index=False))
+print(severity_table.head(preview_row_count).to_string(index=False))
+print(f"... {len(severity_table) - preview_row_count} more severity rules")
 print()
 print("3) folded result when failure_severity_cutoff = 4")
-print(folded.to_string(index=False))
+print(folded.head(preview_row_count).to_string(index=False))
+print(f"... {len(folded) - preview_row_count} more folded samples")
 print()
 print("4) sensitivity by failure_severity_cutoff")
 print(pd.DataFrame(cutoff_results).to_string(index=False))
@@ -141,40 +145,61 @@ print(pd.DataFrame(cutoff_results).to_string(index=False))
 
 ```text
 1) raw follow-up events
-sample_id  days_after_sample event_type source_system
-        A                  1     review   human_queue
-        A                  3    warning       monitor
-        A                  5    failure   maintenance
-        B                  2     review   human_queue
-        B                  4    warning       monitor
-        D                  1    warning       monitor
-        E                  1    revisit       service
-        E                  2     review   human_queue
+sample_id  days_after_sample       event_type source_system
+      S01                  1           review   human_queue
+      S01                  3          warning       monitor
+      S01                  5          failure   maintenance
+      S02                  2           review   human_queue
+      S02                  4          warning       monitor
+      S03                  1          revisit       service
+      S04                  1          warning       monitor
+      S05                  1          revisit       service
+      S05                  2           review   human_queue
+      S06                  3 minor_adjustment      operator
+      S07                  1          warning       monitor
+      S07                  6          failure   maintenance
+... 24 more follow-up events
 
 2) severity rule table
-event_type  severity
-      none         0
-   revisit         1
-    review         2
-   warning         3
-   failure         4
+      event_type  severity
+            none         0
+         revisit         1
+minor_adjustment         1
+      inspection         2
+          review         2
+         warning         3
+         failure         4
+critical_failure         5
+    sensor_noise         0
+   operator_note         1
+     calibration         1
+   slow_recovery         2
+... 24 more severity rules
 
 3) folded result when failure_severity_cutoff = 4
-sample_id first_event worst_event  worst_severity  event_count             event_sequence  any_failure
-        A      review     failure               4            3 review > warning > failure            1
-        B      review     warning               3            2           review > warning            0
-        C        none        none               0            0                       none            0
-        D     warning     warning               3            1                    warning            0
-        E     revisit      review               2            2           revisit > review            0
+sample_id      first_event      worst_event  worst_severity  event_count             event_sequence  any_failure
+      S01           review          failure               4            3 review > warning > failure            1
+      S02           review          warning               3            2           review > warning            0
+      S03          revisit          revisit               1            1                    revisit            0
+      S04          warning          warning               3            1                    warning            0
+      S05          revisit           review               2            2           revisit > review            0
+      S06 minor_adjustment minor_adjustment               1            1           minor_adjustment            0
+      S07          warning          failure               4            2          warning > failure            1
+      S08           review           review               2            1                     review            0
+      S09          revisit          revisit               1            1                    revisit            0
+      S10          warning          warning               3            1                    warning            0
+      S11       inspection       inspection               2            1                 inspection            0
+      S12           review          warning               3            2           review > warning            0
+... 24 more folded samples
 
 4) sensitivity by failure_severity_cutoff
- failure_severity_cutoff  failure_sample_count failure_samples
-                       4                     1               A
-                       3                     3           A,B,D
-                       2                     4         A,B,D,E
+ failure_severity_cutoff  failure_sample_count                                                                     failure_samples
+                       4                     5                                                                 S01,S07,S13,S19,S25
+                       3                    12                                     S01,S02,S04,S07,S10,S12,S13,S16,S19,S22,S25,S28
+                       2                    21 S01,S02,S04,S05,S07,S08,S10,S11,S12,S13,S16,S17,S18,S19,S21,S22,S24,S25,S26,S28,S29
 ```
 
-이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. A는 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, B는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. C처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 A만 실패 후보가 되지만, 3으로 낮추면 `warning`이 있는 B와 D도 실패 후보가 됩니다. 2로 낮추면 `review`가 가장 심한 E까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 뜻으로 읽히게 됩니다.
+이 예시의 핵심은 같은 원천 사건을 보고도 `first_event`, `worst_event`, `event_count`, `event_sequence`, `any_failure`가 서로 다른 결과 열로 만들어질 수 있다는 점입니다. S01은 첫 후속 사건이 `review`이지만 가장 심한 사건은 `failure`이고, S02는 첫 사건이 `review`이지만 가장 심한 사건은 `warning`입니다. S30처럼 후속 사건이 없는 샘플도 샘플 명단에는 있으므로 `none`과 0으로 접혀 최종 표에 남습니다. 여기서 조작할 값은 `selected_failure_severity_cutoff`와 `failure_severity_cutoffs`입니다. 기준을 4로 두면 `failure`가 있는 S01, S07, S13, S19, S25만 실패 후보가 되지만, 3으로 낮추면 `warning`이 가장 심한 샘플들도 실패 후보에 들어갑니다. 2로 낮추면 `review`나 `inspection`이 가장 심한 샘플까지 포함됩니다. 즉 어떤 규칙과 기준으로 접었는지를 적지 않으면 같은 후속 사건 로그도 표마다 다른 뜻으로 읽히게 됩니다.
 
 ## 작은 도식으로 보기
 
