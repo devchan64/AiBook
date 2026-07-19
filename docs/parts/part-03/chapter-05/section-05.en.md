@@ -1,7 +1,7 @@
 # P3-5.5 How Do We Handle Samples with Missing Values or Empty Segments
 
 > Section ID: `P3-5.5`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 By the time we reach the stage of turning raw logs into a summary table, questions such as `what if the action existed but some sensor values are empty?` and `if the middle segment is missing, should we discard this sample or use part of it?` appear immediately. At that point, what we should look at first is not how to fill the values, but how much the missing values disturb the sample boundary and the meaning of the features.
 
@@ -82,57 +82,123 @@ Once this judgment is made first, we stop mixing together `values that can be fi
 
 Problem situation: check that not all samples with missing values are in the same state; some only require avoiding certain features, while others have their sample structure itself broken.
 
-Input: an action-summary table where some segment averages are empty and an `end_detected` status appears together
+Input: the [`p3_5_5_missing_segments.csv`](/AiBook/assets/part-03/chapter-05/p3_5_5_missing_segments.csv){: target="_blank" rel="noopener noreferrer" } file. One row is one action-summary row, and an empty value means that the segment average could not be produced. The policy for keeping partially missing samples is controlled by `keep_partial_samples`.
 
-Expected output: output that organizes `late_segment_missing`, `sample_structure_broken`, `keep_sample`, and `avoid_features` together
+Expected output: output that organizes `late_segment_missing`, `sample_structure_broken`, `keep_sample`, and `avoid_features` together. If `keep_partial_samples` changes, the keep/drop decision for rows with only partial segment missingness changes.
 
-Concept to check: before filling missing values, we should first classify them as `keep sample`, `exclude features`, or `structural collapse`
+Concept to check: before filling missing values, we should first classify them as `keep sample`, `exclude features`, or `structural collapse`. Whether partial missingness is allowed should remain as an explicit policy.
 
 ```python
-import pandas as pd
+import csv
+from collections import Counter
+from pathlib import Path
 
-summary = pd.DataFrame(
-    [
-        {"event_id": "A", "early_flow_mean": 1.1, "mid_flow_mean": 2.4, "late_flow_mean": 1.8, "end_detected": 1},
-        {"event_id": "B", "early_flow_mean": 1.0, "mid_flow_mean": 2.5, "late_flow_mean": None, "end_detected": 1},
-        {"event_id": "C", "early_flow_mean": 1.2, "mid_flow_mean": None, "late_flow_mean": None, "end_detected": 0},
-    ]
-)
+keep_partial_samples = True
+preview_count = 9
 
-summary["late_segment_missing"] = summary["late_flow_mean"].isna().astype(int)
-summary["sample_structure_broken"] = ((summary["end_detected"] == 0)).astype(int)
-summary["keep_sample"] = summary["sample_structure_broken"].map({0: "yes", 1: "no"})
-summary["avoid_features"] = summary.apply(
-    lambda row: "late_drop features"
-    if row["late_segment_missing"] == 1 and row["sample_structure_broken"] == 0
-    else ("all event-level features" if row["sample_structure_broken"] == 1 else "none"),
-    axis=1,
-)
+data_path = Path("docs/assets/part-03/chapter-05/p3_5_5_missing_segments.csv")
+
+def parse_optional_float(value):
+    return None if value == "" else float(value)
+
+with data_path.open(newline="", encoding="utf-8") as file:
+    summary = []
+    for row in csv.DictReader(file):
+        early = parse_optional_float(row["early_flow_mean"])
+        mid = parse_optional_float(row["mid_flow_mean"])
+        late = parse_optional_float(row["late_flow_mean"])
+        end_detected = int(row["end_detected"])
+        late_segment_missing = int(late is None)
+        sample_structure_broken = int(end_detected == 0)
+
+        if sample_structure_broken:
+            keep_sample = "no"
+            avoid_features = "all event-level features"
+        elif late_segment_missing and not keep_partial_samples:
+            keep_sample = "no"
+            avoid_features = "late_drop features"
+        elif late_segment_missing:
+            keep_sample = "yes"
+            avoid_features = "late_drop features"
+        else:
+            keep_sample = "yes"
+            avoid_features = "none"
+
+        summary.append(
+            {
+                "event_id": row["event_id"],
+                "early_flow_mean": early,
+                "mid_flow_mean": mid,
+                "late_flow_mean": late,
+                "late_segment_missing": late_segment_missing,
+                "sample_structure_broken": sample_structure_broken,
+                "keep_sample": keep_sample,
+                "avoid_features": avoid_features,
+            }
+        )
+
+def fmt(value):
+    return "missing" if value is None else f"{value:.2f}"
 
 print("1) missingness flags")
-print(summary[["event_id", "late_segment_missing", "sample_structure_broken"]])
+for row in summary[:preview_count]:
+    print(
+        f'{row["event_id"]}: '
+        f'late={fmt(row["late_flow_mean"]):<7} '
+        f'late_missing={row["late_segment_missing"]} '
+        f'boundary_broken={row["sample_structure_broken"]}'
+    )
+print(f"... {len(summary) - preview_count} more event summaries")
 print()
 print("2) sample decision")
-print(summary[["event_id", "keep_sample", "avoid_features"]])
+for row in summary[:preview_count]:
+    print(
+        f'{row["event_id"]}: keep={row["keep_sample"]:<3} '
+        f'avoid={row["avoid_features"]}'
+    )
+print()
+print("3) decision counts")
+for decision, count in sorted(Counter(row["keep_sample"] for row in summary).items()):
+    print(f"keep_sample={decision}: {count}")
+for feature_group, count in sorted(Counter(row["avoid_features"] for row in summary).items()):
+    print(f"avoid={feature_group}: {count}")
 ```
 
 Expected output:
 
 ```text
 1) missingness flags
-  event_id  late_segment_missing  sample_structure_broken
-0        A                     0                        0
-1        B                     1                        0
-2        C                     1                        1
+E01: late=1.80    late_missing=0 boundary_broken=0
+E02: late=missing late_missing=1 boundary_broken=0
+E03: late=missing late_missing=1 boundary_broken=1
+E04: late=1.75    late_missing=0 boundary_broken=0
+E05: late=missing late_missing=1 boundary_broken=0
+E06: late=missing late_missing=1 boundary_broken=1
+E07: late=1.82    late_missing=0 boundary_broken=0
+E08: late=missing late_missing=1 boundary_broken=0
+E09: late=missing late_missing=1 boundary_broken=1
+... 27 more event summaries
 
 2) sample decision
-  event_id keep_sample           avoid_features
-0        A         yes                     none
-1        B         yes       late_drop features
-2        C          no  all event-level features
+E01: keep=yes avoid=none
+E02: keep=yes avoid=late_drop features
+E03: keep=no  avoid=all event-level features
+E04: keep=yes avoid=none
+E05: keep=yes avoid=late_drop features
+E06: keep=no  avoid=all event-level features
+E07: keep=yes avoid=none
+E08: keep=yes avoid=late_drop features
+E09: keep=no  avoid=all event-level features
+
+3) decision counts
+keep_sample=no: 12
+keep_sample=yes: 24
+avoid=all event-level features: 12
+avoid=late_drop features: 12
+avoid=none: 12
 ```
 
-The core of this example is not code that fills values. It is the point that `partial segment missingness` and `sample-structure collapse` are not treated as the same blank. In stage 1, we distinguish the location of the missingness. In stage 2, that distinction leads directly to the judgment about `whether to keep the sample` and `what features should not be built`. So the code result directly reveals that `B` should be kept as a sample but late-drop features should be excluded conservatively, whereas `C` cannot easily be used immediately as an action-level comparison sample because the sample boundary itself is unstable.
+The core of this example is not code that fills values. It is the point that `partial segment missingness` and `sample-structure collapse` are not treated as the same blank. The value to manipulate is `keep_partial_samples`. If it is `True`, rows such as `E02` are kept as samples, but late-drop features are excluded conservatively. If it is changed to `False`, the 12 rows with partial segment missingness are also removed from comparison candidates. Rows such as `E03`, however, have unstable sample boundaries and are hard to use immediately as action-level comparison samples regardless of the policy. In stage 1, we distinguish the location of the missingness. In stage 2, that distinction leads directly to the judgment about `whether to keep the sample` and `what features should not be built`.
 
 The last thing to check here is threefold. Is this sample still the same comparison unit? Have we separated the features that should not be built because of the missingness? Have we decided whether the missingness itself should remain as a flag column? Only when these three conditions stand together does a blank become readable not as a simple cleaning target but as a data-modeling item mixed with judgment about sample structure.
 
@@ -140,6 +206,7 @@ The fact that values are missing is not only a preprocessing problem. It is a da
 
 ## Sources and Further Reading
 
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example assumes the same unit where features and labels attach, it supports the point that when missingness shakes the sample boundary, we should check first whether the sample is still the same comparison unit before filling values. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because feature engineering is the process of turning raw data into a form more useful for learning and comparison, it reinforces the judgment in this section that features whose meaning is broken by segment missingness should not be built. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. Because the provenance framework says derivation and activity context should remain explainable, it provides the higher-level frame that the location of missingness and whether sample structure has collapsed should remain as separate information so that quality and reproducibility can be judged again later. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example assumes the same unit where features and labels attach, it supports the point that when missingness shakes the sample boundary, we should check first whether the sample is still the same comparison unit before filling values. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `feature engineering`. Because feature engineering is the process of turning raw data into a form more useful for learning and comparison, it reinforces the judgment in this section that features whose meaning is broken by segment missingness should not be built. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. Because the provenance framework says derivation and processing steps should remain explainable, it provides the higher-level frame that the location of missingness and whether sample structure has collapsed should remain as separate information so that quality and reproducibility can be judged again later. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- scikit-learn developers, `Imputation of missing values`. Because it explains that dropping rows or columns with missing values can lose valuable data and that `MissingIndicator` can preserve information about which values were missing, it supports this section's explanation that we should first decide whether missingness itself should remain as a flag column. [https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values](https://scikit-learn.org/stable/modules/impute.html#marking-imputed-values){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
