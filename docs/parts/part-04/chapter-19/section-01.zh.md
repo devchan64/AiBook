@@ -1,7 +1,7 @@
 # P4-19.1 价值型强化学习(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-2.3 里，我们把强化学习(reinforcement learning)先抓成了`通过行动(action)与奖励(reward)来调整策略(policy)的学习`。再往里走一步，就会出现下面的问题。
 
@@ -25,14 +25,7 @@
 - Q-learning 和 SARSA 哪些地方相似，哪些地方不同？
 - 价值型强化学习适合什么问题，又会从哪里开始露出局限？
 
-这一节不会深入展开下面这些内容。
-
-- Bellman equation 的严格推导
-- convergence 的证明
-- function approximation 与 deep Q-network(DQN)
-- policy gradient、actor-critic 的更新过程
-
-这一节集中在抓住价值型强化学习的基本结构，以及 Q-learning 与 SARSA 在解释上的差异。policy-based reinforcement learning 会在 P4-19.2 继续。reward 设计、exploration 成本、现实应用时的注意点，会在 P4-19.3 再整理一次。DQN 与策略系方法的大图，会在补充学习 P4-19.4 重新接上；Bellman equation、convergence、function approximation 的最小连接，则会在 P4-19.5 重新收束。
+这一节先收住`给行动附上价值(value)，并学习行动长期好坏的强化学习具有什么结构`这个问题。policy-based reinforcement learning 会在 P4-19.2 继续，reward 设计与现实应用注意点会在 P4-19.3 继续，DQN 与策略系方法的大流程会在补充学习 P4-19.4 继续，Bellman equation 与 function approximation 的最小连接会在补充学习 P4-19.5 继续。
 
 ## 本节目标
 

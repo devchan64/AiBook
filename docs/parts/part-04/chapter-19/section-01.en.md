@@ -1,7 +1,7 @@
 # P4-19.1 Value-Based Reinforcement Learning
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 In P4-2.3, reinforcement learning was framed as `learning that adjusts a policy through actions and rewards`. If we go one step deeper, the following question appears.
 
@@ -25,14 +25,7 @@ This Section answers the following questions.
 - In what way are Q-learning and SARSA similar, and in what way are they different?
 - What kinds of problems fit value-based reinforcement learning well, and where do its limits begin to show?
 
-This Section does not go deeply into the following topics.
-
-- A rigorous derivation of the Bellman equation
-- Proofs of convergence
-- Function approximation and deep Q-networks (DQN)
-- The update procedures of policy gradient and actor-critic
-
-This Section focuses on holding onto the basic structure of value-based reinforcement learning and the difference in interpretation between Q-learning and SARSA. Policy-based reinforcement learning continues in P4-19.2. Reward design, exploration cost, and caution about real-world deployment are organized again in P4-19.3. The larger map of DQN and policy-family methods reconnects in the supplementary Section P4-19.4, and the minimum bridge to the Bellman equation, convergence, and function approximation is grouped again in P4-19.5.
+This Section first closes the question of `what structure reinforcement learning has when it attaches value to actions and learns their long-term goodness`. Policy-based reinforcement learning continues in P4-19.2, reward design and cautions in real-world application continue in P4-19.3, the larger flow of DQN and policy-family methods continues in supplementary learning P4-19.4, and the minimum bridge to the Bellman equation and function approximation continues in supplementary learning P4-19.5.
 
 ## Goals Of This Section
 
