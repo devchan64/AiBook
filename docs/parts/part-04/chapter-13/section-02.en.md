@@ -1,7 +1,7 @@
 # P4-13.2 Introductory Meaning Of The Kernel
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-13.1 introduced SVM (support vector machine) as `a classifier that looks for a boundary with a large margin`. That immediately leaves the next question.
 
@@ -25,14 +25,7 @@ This Section answers the following questions.
 - What do names such as polynomial and RBF suggest?
 - When should a kernel-based SVM become a candidate?
 
-This Section does not treat the following topics deeply.
-
-- the rigorous positive-semidefinite condition of a kernel function
-- the mathematics of RKHS (reproducing kernel Hilbert space)
-- the derivation of how kernel terms appear in dual optimization
-- detailed tuning strategy for `gamma`, `degree`, and `coef0`
-
-Criteria for reading settings such as `gamma`, `degree`, and `coef0`, and the cost of validation, reconnect again in P4-9.1 and P4-9.2. Positive-semidefinite conditions, RKHS, and the mathematics of dual optimization stay outside the current main scope of this book, and are better left to more advanced mathematics materials if needed.
+Criteria for reading settings such as `gamma`, `degree`, and `coef0`, and the cost of validation, reconnect again in P4-9.1 and P4-9.2. In other words, this Section focuses first on holding the idea that `if the representation space changes, the meaning of a linear boundary also changes`.
 
 ## Goals Of This Section
 
@@ -436,4 +429,4 @@ The point of this comparison is not `which model is more advanced`. It is meant 
 ## Sources And References
 
 - scikit-learn, *Support Vector Machines*, scikit-learn User Guide, checked on 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, checked on 2026-06-27.
+- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, checked on 2026-07-19. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }

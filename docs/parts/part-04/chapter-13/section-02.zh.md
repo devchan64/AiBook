@@ -1,7 +1,7 @@
 # P4-13.2 kernel 的入门含义
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary 的分类器`。接着自然会冒出下一个问题。
 
@@ -25,14 +25,7 @@ P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary �
 - polynomial、RBF 这些名字分别在暗示什么？
 - 什么时候 kernel-based SVM 值得成为候选？
 
-这一节不会深入讲下面这些内容。
-
-- kernel function 的严格 positive-semidefinite 条件
-- RKHS (reproducing kernel Hilbert space) 的数学
-- dual optimization 里 kernel 项是怎样出现的公式展开
-- `gamma`、`degree`、`coef0` 的细节调参策略
-
-`gamma`、`degree`、`coef0` 这些设置该怎样读，以及验证成本该怎么看，会在 P4-9.1 和 P4-9.2 再接回来。positive-semidefinite 条件、RKHS 和 dual optimization 的数学展开，则放在本书当前正文范围之外；如果需要，更适合另外看更深入的数学材料。
+`gamma`、`degree`、`coef0` 这些设置该怎样读，以及验证成本该怎么看，会在 P4-9.1 和 P4-9.2 再接回来。也就是说，这一节先专注抓住 `只要 representation space 改变，linear boundary 的意义也会改变` 这个想法。
 
 ## 本节目标
 
@@ -436,4 +429,4 @@ transformed space with z = x1 * x2
 ## 出处与参考资料
 
 - scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 确认日期: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 确认日期: 2026-06-27.
+- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 确认日期: 2026-07-19. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }
