@@ -1,7 +1,7 @@
 # P3-8.4 보수적 해석 문장은 어떻게 경고 열과 검토 큐 기준으로 바뀌는가
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 비교표를 읽은 뒤에는 `최근 구간은 기준선 대비 후반 하강이 커졌고 검토 우선순위를 높인다` 같은 보수적 해석 문장이 남습니다. 여기서 필요한 다음 판단은 이 문장을 어떻게 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열로 바꿀 것인가입니다. 보수적 해석 문장은 끝이 아니라, [검토 후보 큐(review queue)](../../../reference/concept-glossary.md#glossary-review-queue)와 같은 `구조화된 운영 출력`으로 바뀌기 전 마지막 사람 해석 단계입니다. 비교표를 곧바로 구조화된 운영 출력으로 바꾸면 중간의 판단 이유가 빠질 수 있고, 반대로 문장만 남기면 운영 우선순위를 정하거나 같은 기준으로 다시 정렬하기 어렵습니다.
 
@@ -79,5 +79,5 @@
 
 ## 출처와 참고 자료
 
-- Google for Developers, `Thresholds and the confusion matrix`. 모델의 raw score와 최종 분류는 threshold를 거쳐 연결된다고 설명하므로, 사람 해석 문장과 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열을 분리해 보는 이 절의 일반 근거가 됩니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- W3C, `PROV-Overview`. 관찰 결과가 어떤 중간 판단을 거쳐 파생되었는지 추적하는 provenance 관점을 제공하므로, 비교 결과에서 보수적 문장, 다시 구조화된 운영 열로 내려가는 이 절의 단계 구분을 설명하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- Google for Developers, `Thresholds and the confusion matrix`. 모델의 raw score와 최종 분류는 threshold를 거쳐 연결된다고 설명하므로, 사람 해석 문장과 `warning_level`, `review_needed`, `priority_score` 같은 구조화된 운영 열을 분리해 보는 이 절의 일반 근거가 됩니다. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- W3C, `PROV-Overview`. 관찰 결과가 어떤 중간 판단을 거쳐 파생되었는지 추적하는 provenance 관점을 제공하므로, 비교 결과에서 보수적 문장, 다시 구조화된 운영 열로 내려가는 이 절의 단계 구분을 설명하는 데 참고할 수 있습니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

@@ -1,7 +1,7 @@
 # P3-8.4 How Conservative Interpretation Sentences Become Warning Columns and Review-Queue Criteria
 
 > Section ID: `P3-8.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 After reading a comparison table, you may be left with a conservative interpretation sentence such as `the recent window shows a larger late-stage drop than the baseline, so the review priority should rise`. The next judgment is how that sentence should become structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. A conservative interpretation sentence is not the end. It is the last human-interpretation stage before being turned into `structured operational output` such as a [review queue](/AiBook/reference/concept-glossary/#glossary-review-queue). If you convert the comparison table directly into structured output, the reason for the judgment can disappear in the middle. If you leave only free text, it becomes hard to set operational priority or resort cases with the same rule.
 
@@ -79,5 +79,5 @@ This diagram shows that even the same difference value does not move directly in
 
 ## Sources and References
 
-- Google for Developers, `Thresholds and the confusion matrix`. It explains that a model's raw score is connected to final classification through a threshold, which provides the general basis for separating human interpretation sentences from structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- W3C, `PROV-Overview`. It provides a provenance perspective for tracing how an observed result is derived through intermediate judgments, which is useful for explaining this section's distinction between comparison result, conservative sentence, and structured operational column. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- Google for Developers, `Thresholds and the confusion matrix`. It explains that a model's raw score is connected to final classification through a threshold, which provides the general basis for separating human interpretation sentences from structured operational columns such as `warning_level`, `review_needed`, and `priority_score`. [https://developers.google.com/machine-learning/crash-course/classification/thresholding](https://developers.google.com/machine-learning/crash-course/classification/thresholding){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- W3C, `PROV-Overview`. It provides a provenance perspective for tracing how an observed result is derived through intermediate judgments, which is useful for explaining this section's distinction between comparison result, conservative sentence, and structured operational column. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
