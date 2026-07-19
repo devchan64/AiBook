@@ -1,7 +1,7 @@
 # P1-5.3 추론 관련 용어의 구분
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.16`
+> Version: `v2026.07.19`
 
 5.2에서는 `inference`를 학습된 모델을 새 입력에 적용해 출력을 만드는 실행으로 설명했습니다. 그런데 실제 AI 문서를 읽다 보면 이 한 단어가 여러 언어에서 서로 다른 번역어, 비슷한 일상어, 인접 개념과 자주 겹칩니다.
 
@@ -200,3 +200,5 @@ Google 용어집도 inference가 통계학에서는 다소 다른 의미를 가�
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
 - scikit-learn developers, [Glossary of Common Terms and API Elements](https://scikit-learn.org/stable/glossary.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- Stanford Encyclopedia of Philosophy, James Hawthorne, [Inductive Logic](https://plato.stanford.edu/entries/logic-inductive/){: target="_blank" rel="noopener noreferrer" }, substantive revision 2025-02-24, 확인 날짜: 2026-07-19.
+- OpenStax, Barbara Illowsky and Susan Dean, [Introductory Statistics, Chapter 8 Introduction](https://openstax.org/books/introductory-statistics/pages/8-introduction){: target="_blank" rel="noopener noreferrer" }, OpenStax, 2013-09-19, 확인 날짜: 2026-07-19.

@@ -1,7 +1,7 @@
 # P1-4.4 문제 정의가 모델을 결정하는 방식
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 4.1에서는 모델을 목적에 맞게 줄인 계산용 모형으로 봤습니다. 4.2에서는 입력, 출력, 데이터를 정리했고, 4.3에서는 입력이 특징과 표현으로 바뀌고 모델 내부의 파라미터와 함께 계산된다는 점을 봤습니다.
 
@@ -224,4 +224,5 @@ Google의 머신러닝 용어집은 LLM 평가가 성능 비교뿐 아니라 안
 
 - Google for Developers, [Machine Learning Glossary](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
 - Google for Developers, [Supervised Learning](https://developers.google.com/machine-learning/intro-to-ml/supervised){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-06-22.
+- scikit-learn developers, [Metrics and scoring: quantifying the quality of predictions](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }, scikit-learn User Guide, 확인 날짜: 2026-07-19.
 - Stanford Encyclopedia of Philosophy, Selmer Bringsjord and Naveen Sundar Govindarajulu, [Artificial Intelligence](https://plato.stanford.edu/entries/artificial-intelligence/){: target="_blank" rel="noopener noreferrer" }, 2018-07-12, 확인 날짜: 2026-06-22.
