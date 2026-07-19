@@ -41,19 +41,21 @@
 
 문제 상황: 겹치는 입력 창이 많아졌을 때 창 수와 원천 사건 수를 같은 숫자로 읽으면 어떤 착시가 생기는지 확인합니다.
 
-입력(input): 사건 길이와 `window`, `stride`가 주어진 원천 사건 표
+입력(input): 사건 길이와 `window`, 실험할 이동 간격 `stride_to_try`가 주어진 원천 사건 표
 
-기대 출력(output): 각 사건이 몇 개 창으로 늘어나는지와 `source_event` 대비 `window` 수가 얼마나 커지는지 보여 주는 출력
+기대 출력(output): 각 사건이 몇 개 창으로 늘어나는지와 `source_event` 대비 `window` 수가 얼마나 커지는지 보여 주는 출력. `stride_to_try`를 바꾸면 창 수와 확장 비율이 달라진다.
 
 확인할 개념: 입력 창 수는 파생 조각 수일 뿐이며 원천 사건 수와 같은 단위로 읽으면 안 된다
 
 ```python
 import pandas as pd
 
+stride_to_try = 10
+
 events = pd.DataFrame(
     [
-        {"event_id": "A", "length": 100, "window": 30, "stride": 10},
-        {"event_id": "B", "length": 100, "window": 30, "stride": 10},
+        {"event_id": "A", "length": 100, "window": 30, "stride": stride_to_try},
+        {"event_id": "B", "length": 100, "window": 30, "stride": stride_to_try},
     ]
 )
 
@@ -75,6 +77,9 @@ print(
 print()
 print("3) expansion per source event")
 print(events[["event_id", "window_count"]])
+print()
+print("4) expansion ratio")
+print(events["window_count"].sum() / len(events))
 ```
 
 예상 출력:
@@ -94,9 +99,12 @@ print(events[["event_id", "window_count"]])
   event_id  window_count
 0        A             8
 1        B             8
+
+4) expansion ratio
+8.0
 ```
 
-이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 그래서 1단계에서는 사건 하나가 몇 개 창으로 늘어나는지 보고, 2단계에서는 `source_event`와 `window`를 따로 세고, 3단계에서는 각 사건의 확장 정도를 다시 확인합니다. 여기서 중요한 점은 `겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으므로, 창 수를 곧바로 사건 수처럼 읽으면 안 된다`는 사실입니다.
+이 예제의 목적은 창 수를 계산하는 것보다 `창 수가 실제 사건 수를 얼마나 부풀려 보이게 하는가`를 확인하는 데 있습니다. 여기서 조작할 값은 `stride_to_try`입니다. `10`을 `20`으로 바꾸면 창 수와 확장 비율이 줄고, 더 작은 값으로 바꾸면 같은 원천 사건에서 더 많은 입력 조각이 생깁니다. 그런데 `source_event` 수는 계속 2건입니다. 그래서 겹치는 입력 창은 같은 사건을 여러 번 잘라 본 결과일 수 있으며, 창 수를 곧바로 사건 수처럼 읽으면 안 됩니다.
 
 ## 작은 도식으로 보기
 

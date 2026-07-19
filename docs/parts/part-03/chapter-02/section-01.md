@@ -58,14 +58,16 @@
 
 문제 상황: 같은 원천 기록이 저장 구조에서는 시점별 행으로 남고, 데이터셋 후보에서는 동작 1회 요약 표로 다시 묶인다는 점을 확인합니다.
 
-입력(input): `event_id`별 시점 기록으로 저장된 유량 로그 표
+입력(input): `event_id`별 시점 기록으로 저장된 유량 로그 표와 동작 1회로 인정할 최소 시점 수 `min_points_per_event`
 
-기대 출력(output): 같은 기록이 `stored time-step records`와 `event-level dataset candidate`라는 두 다른 표 역할로 나뉘는 출력
+기대 출력(output): 같은 기록이 `stored time-step records`와 `event-level dataset candidate`라는 두 다른 표 역할로 나뉘고, 기준을 채우지 못한 사건은 비교 후보에서 빠지는 출력
 
-확인할 개념: 저장된 기록이 있다는 사실과 질문에 답할 수 있는 데이터셋 후보가 준비되었다는 사실은 같지 않다
+확인할 개념: 저장된 기록이 있다는 사실과 질문에 답할 수 있는 데이터셋 후보가 준비되었다는 사실은 같지 않다. `min_points_per_event`를 바꾸면 어떤 기록을 동작 1회 샘플로 인정할지도 달라진다.
 
 ```python
 import pandas as pd
+
+min_points_per_event = 3
 
 storage_table = pd.DataFrame(
     [
@@ -75,24 +77,34 @@ storage_table = pd.DataFrame(
         {"event_id": "B", "second": 0, "flow": 0.7},
         {"event_id": "B", "second": 1, "flow": 1.1},
         {"event_id": "B", "second": 2, "flow": 0.6},
+        {"event_id": "C", "second": 0, "flow": 0.9},
+        {"event_id": "C", "second": 1, "flow": 1.0},
     ]
 )
 
 dataset_candidate = (
     storage_table.groupby("event_id")
     .agg(
+        point_count=("second", "count"),
         duration_seconds=("second", "max"),
         mean_flow=("flow", "mean"),
         late_drop_rate=("flow", lambda values: values.iloc[-1] - values.iloc[-2]),
     )
     .reset_index()
 )
+dataset_candidate["usable_as_event_sample"] = (
+    dataset_candidate["point_count"] >= min_points_per_event
+)
+usable_candidate = dataset_candidate[dataset_candidate["usable_as_event_sample"]]
 
 print("1) stored time-step records")
 print(storage_table)
 print()
-print("2) event-level dataset candidate for comparison")
+print(f"2) event-level dataset candidate when min_points_per_event = {min_points_per_event}")
 print(dataset_candidate.round(2))
+print()
+print("3) usable event-level rows for comparison")
+print(usable_candidate.round(2))
 ```
 
 예상 출력:
@@ -106,14 +118,22 @@ print(dataset_candidate.round(2))
 3        B       0   0.7
 4        B       1   1.1
 5        B       2   0.6
+6        C       0   0.9
+7        C       1   1.0
 
-2) event-level dataset candidate for comparison
-  event_id  duration_seconds  mean_flow  late_drop_rate
-0        A                 2       1.13            -0.2
-1        B                 2       0.80            -0.5
+2) event-level dataset candidate when min_points_per_event = 3
+  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
+0        A            3                 2       1.13            -0.2                    True
+1        B            3                 2       0.80            -0.5                    True
+2        C            2                 1       0.95             0.1                   False
+
+3) usable event-level rows for comparison
+  event_id  point_count  duration_seconds  mean_flow  late_drop_rate  usable_as_event_sample
+0        A            3                 2       1.13            -0.2                    True
+1        B            3                 2       0.80            -0.5                    True
 ```
 
-출력에서 먼저 봐야 할 것은 `같은 기록을 그대로 본 표`와 `질문에 맞게 다시 만든 표`의 차이입니다. 첫 표에서는 한 행이 한 시점 기록이라서 `이번 동작의 평균 유량`이나 `후반 하강률`이 아직 보이지 않습니다. 둘째 표로 다시 묶고 나서야 비로소 동작 1회가 한 행이 되고, 비교에 바로 쓸 수 있는 열이 생깁니다. 저장된 기록이 있다는 사실과, 질문에 답할 수 있는 데이터셋 후보가 준비되었다는 사실은 같은 말이 아닙니다.
+출력에서 먼저 봐야 할 것은 `같은 기록을 그대로 본 표`와 `질문에 맞게 다시 만든 표`의 차이입니다. 첫 표에서는 한 행이 한 시점 기록이라서 `이번 동작의 평균 유량`이나 `후반 하강률`이 아직 보이지 않습니다. 둘째 표로 다시 묶고 나서야 비로소 동작 1회가 한 행이 되고, 비교에 바로 쓸 수 있는 열이 생깁니다. 여기서 조작할 값은 `min_points_per_event`입니다. 값을 `3`으로 두면 C는 저장된 기록이 있어도 비교 가능한 동작 1회 샘플에서 빠집니다. 값을 `2`로 낮추면 C도 후보가 되지만, 후반 하강률을 같은 의미로 비교해도 되는지는 다시 물어야 합니다. 저장된 기록이 있다는 사실과, 질문에 답할 수 있는 데이터셋 후보가 준비되었다는 사실은 같은 말이 아닙니다.
 
 같은 데이터를 저장 구조 그대로 들고 가면 실제로 어디서 막히는지도 짧게 확인해 볼 수 있습니다.
 
