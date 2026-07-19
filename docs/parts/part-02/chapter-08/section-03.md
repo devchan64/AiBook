@@ -1,7 +1,7 @@
 # P2-8.3 딕셔너리(dictionary): 키(key)로 값을 찾는 구조
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-8.2에서는 순서가 있는 값 묶음인 리스트(list)를 봤습니다. 하지만 모든 데이터가 순서로만 읽히는 것은 아닙니다.
 
@@ -24,20 +24,6 @@ P2-8.2에서는 순서가 있는 값 묶음인 리스트(list)를 봤습니다. 
 | 값(value) | 키에 연결된 실제 데이터입니다. |
 | 매핑(mapping) | 어떤 기준을 어떤 대상에 연결해 두는 구조입니다. |
 | `get()` | 키가 없을 수도 있는 상황을 조금 더 안전하게 읽게 해 주는 접근 방식입니다. |
-
-## 이 절의 범위
-
-여기서는 딕셔너리의 기본 사용과 매핑(mapping) 감각을 다룹니다. 중심 질문은 “위치가 아니라 키(key)로 값을 찾는 구조가 왜 필요한가”입니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 딕셔너리(dictionary)는 어떤 데이터 묶음에 어울리는가?
-- 키(key)와 값(value)은 무엇인가?
-- 딕셔너리가 범용적인 맵(map)처럼 보이는 이유는 무엇인가?
-- 키가 없을 때 어떤 문제가 생기는가?
-- AI 실습에서 딕셔너리를 어떤 형태로 만나는가?
-
-반복(loop)으로 딕셔너리를 순회하는 패턴은 P2-8.4에서 이어서 다룹니다. 키가 없는 경우의 세부 방어 패턴은 이후 실습 코드와 P2-8.4의 반복 문맥에서 다시 연결합니다.
 
 ## 이 절의 목표
 
@@ -393,7 +379,7 @@ print(student.get("label", "unknown"))
 
 ## 출처와 참고 자료
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 딕셔너리 생성, 키로 값에 접근, `items()`를 이용한 순회 예시 확인에 사용했다.
-- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. `dict`가 mutable mapping type이며 키를 통해 값을 찾는 구조라는 설명 확인에 사용했다.
-- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. dictionary와 hashable 용어 정의를 확인하는 근거로 사용했다.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-19. 객체의 identity/type/value와 hash 가능성 설명을 딕셔너리 키 제약의 배경으로 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 딕셔너리 생성, 키로 값에 접근, `items()`를 이용한 순회 예시 확인에 사용했다.
+- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. `dict`가 mutable mapping type이며 키를 통해 값을 찾는 구조라는 설명 확인에 사용했다.
+- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. dictionary와 hashable 용어 정의를 확인하는 근거로 사용했다.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, 확인 날짜: 2026-07-20. 객체의 identity/type/value와 hash 가능성 설명을 딕셔너리 키 제약의 배경으로 확인하는 근거로 사용했다.

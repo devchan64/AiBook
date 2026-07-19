@@ -1,7 +1,7 @@
 # P2-8.3 字典（dictionary）：按键（key）查找值的结构
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-8.2 中，我们看过了有顺序的值集合，也就是列表（list）。但并不是所有数据都只靠顺序来读取。
 
@@ -24,20 +24,6 @@
 | 值（value） | 与键连接在一起的真实数据。 |
 | 映射（mapping） | 把某个标准连接到某个对象上的结构。 |
 | `get()` | 在键可能不存在的情况下，让读取方式更安全一点的访问方式。 |
-
-## 本节范围
-
-这里处理的是字典的基本使用与映射（mapping）感觉。中心问题是：`为什么会需要一种不是靠位置、而是靠键（key）来查值的结构？`
-
-这里回答下面这些问题。
-
-- 哪类数据集合适合使用字典？
-- 键（key）与值（value）是什么？
-- 为什么字典看起来像一种通用的 map 结构？
-- 当键不存在时，会出现什么问题？
-- 在 AI 实践中，会以什么形式遇到字典？
-
-通过迭代（loop）遍历字典的模式会在 P2-8.4 中继续处理。键不存在时更细的防御模式，会在之后的实践代码和 P2-8.4 的迭代语境里再次连接。
 
 ## 本节目标
 
@@ -393,7 +379,7 @@ print(student.get("label", "unknown"))
 
 ## 来源与参考资料
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认字典创建、通过 key 访问 value，以及使用 `items()` 遍历的示例。
-- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 `dict` 是 mutable mapping type，并且是通过 key 查找 value 的结构。
-- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认 dictionary 与 hashable 的术语定义。
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-19。用于确认对象的 identity/type/value 和 hashability，作为字典 key 限制的背景依据。
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认字典创建、通过 key 访问 value，以及使用 `items()` 遍历的示例。
+- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 `dict` 是 mutable mapping type，并且是通过 key 查找 value 的结构。
+- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认 dictionary 与 hashable 的术语定义。
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation，确认日期：2026-07-20。用于确认对象的 identity/type/value 和 hashability，作为字典 key 限制的背景依据。

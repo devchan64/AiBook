@@ -1,7 +1,7 @@
 # P2-8.3 Dictionaries: Structures That Find Values by Key
 
 > Section ID: `P2-8.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-8.2, we looked at lists, which are ordered groups of values. But not all data is read only through order.
 
@@ -24,20 +24,6 @@ If the list in the previous section was read around `which numbered value is it?
 | value | The actual data connected to a key. |
 | mapping | A structure that connects some criterion to some target. |
 | `get()` | A way of access that lets a situation where a key may be absent be read a little more safely. |
-
-## Scope of This Section
-
-Here, we cover the basic use of dictionaries and the feeling of mapping. The central question is: `Why is a structure that finds values by key rather than by position necessary?`
-
-Here, we answer the following questions.
-
-- For what kind of data group is a dictionary suitable?
-- What are a key and a value?
-- Why does a dictionary look like a general-purpose map?
-- What problem appears when a key is missing?
-- In what forms do we encounter dictionaries in AI practice?
-
-Patterns for iterating over dictionaries with loops continue in P2-8.4. More detailed defensive patterns for absent keys reconnect later in practice code and in the iteration context of P2-8.4.
 
 ## Goal of This Section
 
@@ -393,7 +379,7 @@ The confirmable result is whether the name immediately comes out when the numeri
 
 ## Sources and References
 
-- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm dictionary creation, key-based value access, and iteration examples using `items()`.
-- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm that `dict` is a mutable mapping type and a structure for finding values through keys.
-- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used to confirm the glossary definitions of dictionary and hashable.
-- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-19. Used as background for dictionary key constraints by confirming object identity/type/value and hashability.
+- Python Software Foundation, [Data Structures](https://docs.python.org/3/tutorial/datastructures.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm dictionary creation, key-based value access, and iteration examples using `items()`.
+- Python Software Foundation, [Mapping Types — dict](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm that `dict` is a mutable mapping type and a structure for finding values through keys.
+- Python Software Foundation, [Glossary: dictionary, hashable](https://docs.python.org/3/glossary.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used to confirm the glossary definitions of dictionary and hashable.
+- Python Software Foundation, [Data model](https://docs.python.org/3/reference/datamodel.html){: target="_blank" rel="noopener noreferrer" }, Python 3.14.6 documentation, checked on 2026-07-20. Used as background for dictionary key constraints by confirming object identity/type/value and hashability.
