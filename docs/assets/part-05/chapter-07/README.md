@@ -15,7 +15,13 @@
   - `learning-rate-step-size-en.svg` / `learning-rate-step-size-ko.svg` / `learning-rate-step-size-zh.svg`
 - Python chart source:
   - `p5_7_learning_rate_chart.py`
+  - `p5_7_1_optimizer_step_csv_charts.py`
+- CSV example data:
+  - `optimizer-step-role-log.csv`
 - Matplotlib chart assets:
+  - `optimizer-step-batch-before-after-weight-ko.png`
+  - `optimizer-step-batch-before-after-score-ko.png`
+  - `optimizer-step-batch-before-after-loss-ko.png`
   - `optimizer-step-before-after-weight-en.png` / `optimizer-step-before-after-weight-ko.png` / `optimizer-step-before-after-weight-zh.png`
   - `optimizer-step-before-after-score-en.png` / `optimizer-step-before-after-score-ko.png` / `optimizer-step-before-after-score-zh.png`
   - `optimizer-step-before-after-loss-en.png` / `optimizer-step-before-after-loss-ko.png` / `optimizer-step-before-after-loss-zh.png`

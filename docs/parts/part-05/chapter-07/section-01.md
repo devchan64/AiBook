@@ -1,7 +1,7 @@
 # P5-7.1 옵티마이저(optimizer)의 역할
 
 > Section ID: `P5-7.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-6장에서는 학습 루프, step/batch/epoch, 학습(learning)과 모델 실행(inference), 그리고 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분했습니다. 여기까지 오면 이제 아주 직접적인 질문이 남습니다. 모델이 틀렸다는 사실을 숫자로 계산한 뒤, 그다음 실제 모델 내부 숫자는 어디에서 바뀌는가 하는 질문입니다.
 
@@ -146,9 +146,10 @@ gradient는 방향(direction)에 대한 정보입니다. 보통은 `어느 쪽�
 
 입력:
 
+- CSV 파일의 여러 관측 행
+- 각 행의 압력 미복귀 정도 `pressure_unrecovered`
+- 각 행의 목표 차단 점수 `target_block_score`
 - 현재 위험 가중치 `risk_weight`
-- 압력 미복귀 정도 `pressure_unrecovered`
-- 목표 차단 점수 `target_block_score`
 - 고정된 학습률 `learning_rate`
 
 출력:
@@ -170,82 +171,138 @@ gradient는 방향(direction)에 대한 정보입니다. 보통은 `어느 쪽�
 - optimizer는 그 신호를 update 값으로 바꾼다
 - 파라미터 변화는 update 적용 뒤에야 생긴다
 
-코드를 보기 전에 먼저 이번 예제를 `업데이트 전 상태`와 `업데이트 후 상태`로 나누어 읽겠다고 생각하는 편이 좋습니다.
+코드를 보기 전에 먼저 이번 예제를 `CSV에서 읽은 batch`, `gradient 계산 후`, `optimizer step 후`로 나누어 읽겠다고 생각하는 편이 좋습니다. 예제 데이터는 [optimizer-step-role-log.csv](../../../assets/part-05/chapter-07/optimizer-step-role-log.csv)에 있습니다.
 
 | 구간 | 여기서 확인할 것 |
 | --- | --- |
-| 업데이트 전 상태 | 예측값과 손실이 현재 얼마나 틀렸는가 |
-| gradient 계산 | 어느 방향으로 바꿔야 하는가 |
-| optimizer update | 실제로 얼마만큼 움직일 것인가 |
-| 업데이트 후 상태 | 가중치, 예측값, 손실이 실제로 어떻게 달라졌는가 |
+| CSV batch | 여러 샘플에서 현재 파라미터가 평균적으로 얼마나 틀렸는가 |
+| gradient 계산 후 | 어느 방향으로 바꿔야 하는지 신호는 나왔지만 파라미터는 아직 그대로인가 |
+| optimizer step 후 | optimizer가 만든 이동량이 실제 파라미터에 반영됐는가 |
+| 업데이트 후 상태 | 같은 CSV batch를 다시 보았을 때 평균 손실이 어떻게 달라졌는가 |
 
 ```python
-pressure_unrecovered = 2.0
-target_block_score = 6.0
-risk_weight_before = 1.0
-learning_rate = 0.1
+from csv import DictReader
+from pathlib import Path
 
-predicted_block_score_before = pressure_unrecovered * risk_weight_before
-loss_before = (predicted_block_score_before - target_block_score) ** 2
-gradient_risk_weight = 2 * (predicted_block_score_before - target_block_score) * pressure_unrecovered
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-step-role-log.csv")
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "case_id": row["case_id"],
+                "equipment_group": row["equipment_group"],
+                "pressure_unrecovered": float(row["pressure_unrecovered"]),
+                "target_block_score": float(row["target_block_score"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def predict(row, risk_weight):
+    return row["pressure_unrecovered"] * risk_weight
+
+
+def mean_loss(rows, risk_weight):
+    losses = [
+        (predict(row, risk_weight) - row["target_block_score"]) ** 2
+        for row in rows
+    ]
+    return sum(losses) / len(losses)
+
+
+def mean_gradient(rows, risk_weight):
+    gradients = [
+        2
+        * (predict(row, risk_weight) - row["target_block_score"])
+        * row["pressure_unrecovered"]
+        for row in rows
+    ]
+    return sum(gradients) / len(gradients)
+
+
+rows = load_rows(DATA_PATH)
+risk_weight_before = 1.0
+learning_rate = 0.03
+
+loss_before = mean_loss(rows, risk_weight_before)
+gradient_risk_weight = mean_gradient(rows, risk_weight_before)
+risk_weight_after_backward = risk_weight_before
 
 optimizer_delta = -learning_rate * gradient_risk_weight
-risk_weight_after = risk_weight_before + optimizer_delta
-predicted_block_score_after = pressure_unrecovered * risk_weight_after
-loss_after = (predicted_block_score_after - target_block_score) ** 2
+risk_weight_after_step = risk_weight_after_backward + optimizer_delta
+loss_after = mean_loss(rows, risk_weight_after_step)
 
-print("[before update]")
-print("predicted_block_score_before =", round(predicted_block_score_before, 3))
+print("[batch]")
+print("sample_count =", len(rows))
 print("loss_before =", round(loss_before, 3))
 
-print("[gradient and update]")
+print("\n[after gradient calculation]")
 print("gradient_risk_weight =", round(gradient_risk_weight, 3))
-print("optimizer_delta =", round(optimizer_delta, 3))
+print("parameters_changed =", risk_weight_after_backward != risk_weight_before)
 
-print("[after update]")
-print("risk_weight_after =", round(risk_weight_after, 3))
-print("predicted_block_score_after =", round(predicted_block_score_after, 3))
+print("\n[after optimizer step]")
+print("optimizer_delta =", round(optimizer_delta, 3))
+print("risk_weight_after_step =", round(risk_weight_after_step, 3))
 print("loss_after =", round(loss_after, 3))
+print("parameters_changed =", risk_weight_after_step != risk_weight_before)
+
+print("\n[preview]")
+for row in rows[:3]:
+    before = predict(row, risk_weight_before)
+    after = predict(row, risk_weight_after_step)
+    target = row["target_block_score"]
+    print(
+        f"{row['case_id']}: "
+        f"before={before:.3g}, after={after:.3g}, target={target:.3g}"
+    )
 ```
 
 ```text
-[before update]
-predicted_block_score_before = 2.0
-loss_before = 16.0
+[batch]
+sample_count = 36
+loss_before = 7.308
 
-[gradient and update]
-gradient_risk_weight = -16.0
-optimizer_delta = 1.6
+[after gradient calculation]
+gradient_risk_weight = -20.648
+parameters_changed = False
 
-[after update]
-risk_weight_after = 2.6
-predicted_block_score_after = 5.2
-loss_after = 0.64
+[after optimizer step]
+optimizer_delta = 0.619
+risk_weight_after_step = 1.619
+loss_after = 0.287
+parameters_changed = True
+
+[preview]
+pump-01: before=1.1, after=1.78, target=2.46
+pump-02: before=1.4, after=2.27, target=2.97
+pump-03: before=1.7, after=2.75, target=3.58
 ```
 
-이 출력은 순서대로 읽는 편이 좋습니다. 먼저 `[before update]` 구간의 `predicted_block_score_before`와 `loss_before`를 보면, 아직 업데이트 전 모델 상태가 어느 정도 틀렸는지 보입니다. 그다음 `[gradient and update]` 구간의 `gradient_risk_weight`를 보면, 이 상태에서 가중치를 어느 방향으로 조정해야 하는지 신호가 계산됐다는 점이 드러납니다. 하지만 여기까지는 아직 `어떻게 바꿀지`까지만 나온 상태입니다.
+이 출력은 순서대로 읽는 편이 좋습니다. 먼저 `[batch]` 구간에서는 CSV에서 읽은 36개 샘플을 현재 `risk_weight_before = 1.0`으로 보았을 때 평균 손실이 `7.308`이라는 점을 확인합니다. 이 숫자는 한 행의 우연한 결과가 아니라, 이번 step에서 함께 처리하는 샘플 묶음 전체의 현재 상태입니다.
 
-그다음에 처음으로 `optimizer_delta`가 등장합니다. 이 값이 바로 optimizer가 만든 실제 이동량입니다. 즉, `gradient_risk_weight`가 방향 신호라면, `optimizer_delta`는 이번 step에서 가중치를 실제로 얼마만큼 움직일지를 숫자로 표현한 값입니다. 마지막으로 `[after update]` 구간의 `risk_weight_after`, `predicted_block_score_after`, `loss_after`를 보면 그 이동량이 반영된 뒤 모델 내부 숫자와 손실이 실제로 어떻게 달라졌는지 확인할 수 있습니다.
+그다음 `[after gradient calculation]` 구간의 `gradient_risk_weight`를 보면, 이 batch에서 가중치를 어느 방향으로 조정해야 하는지 신호가 계산됐다는 점이 드러납니다. 하지만 바로 아래의 `parameters_changed = False`가 중요합니다. gradient가 계산됐어도 optimizer step이 아직 적용되지 않았으므로, 파라미터 값은 그대로입니다.
 
-따라서 이 출력에서는 `loss_before`, `gradient_risk_weight`, `optimizer_delta`, `risk_weight_after`를 한 줄로 이어 읽는 습관이 중요합니다. 이 순서가 보여 주는 것은 `틀림 계산 -> 방향 신호 계산 -> 실제 이동량 생성 -> 파라미터 반영`입니다.
+처음으로 실제 파라미터 변화가 생기는 곳은 `[after optimizer step]`입니다. 여기서 `optimizer_delta = 0.619`가 만들어지고, 그 이동량이 반영되어 `risk_weight_after_step = 1.619`가 됩니다. 같은 CSV batch를 다시 보았을 때 평균 손실도 `0.287`로 줄어듭니다. 따라서 이 출력에서는 `loss_before`, `gradient_risk_weight`, `parameters_changed = False`, `optimizer_delta`, `risk_weight_after_step`을 한 줄로 이어 읽는 습관이 중요합니다. 이 순서가 보여 주는 것은 `틀림 계산 -> 방향 신호 계산 -> 아직 미반영 -> 실제 이동량 생성 -> 파라미터 반영`입니다.
 
-![update 적용 전후 위험 가중치](../../../assets/part-05/chapter-07/optimizer-step-before-after-weight-ko.png)
+![CSV batch update 적용 전후 위험 가중치](../../../assets/part-05/chapter-07/optimizer-step-batch-before-after-weight-ko.png)
 
-이 차트는 `risk_weight_before = 1.0`에서 시작한 값이 optimizer가 만든 이동량을 반영한 뒤 `risk_weight_after = 2.6`으로 실제 바뀌었다는 점을 보여 줍니다. 여기서 중요한 것은 `gradient를 계산했다`는 사실만이 아니라, 그 계산 결과가 가중치 숫자 변화로 이어졌다는 점입니다.
+이 차트는 `risk_weight_before = 1.0`에서 시작한 값이 optimizer가 만든 이동량을 반영한 뒤 실제로 바뀌었다는 점을 보여 줍니다. 여기서 중요한 것은 `gradient를 계산했다`는 사실만이 아니라, 그 계산 결과가 가중치 숫자 변화로 이어졌다는 점입니다.
 
-![update 적용 전후 차단 점수](../../../assets/part-05/chapter-07/optimizer-step-before-after-score-ko.png)
+![CSV batch update 적용 전후 평균 차단 점수](../../../assets/part-05/chapter-07/optimizer-step-batch-before-after-score-ko.png)
 
-이 차트는 같은 update가 예측값에도 바로 영향을 준다는 점을 보여 줍니다. update 전 차단 점수는 `2.0`이지만, update 뒤에는 `5.2`로 바뀌어 목표값 `6.0`에 더 가까워집니다. 즉, optimizer는 내부 가중치만 바꾸는 것이 아니라, 다음 예측이 달라질 수 있는 출발점 자체를 바꿉니다.
+이 차트는 같은 update가 CSV batch의 평균 예측값에도 바로 영향을 준다는 점을 보여 줍니다. 즉, optimizer는 내부 가중치만 바꾸는 것이 아니라, 다음 예측이 달라질 수 있는 출발점 자체를 바꿉니다.
 
-![update 적용 전후 손실](../../../assets/part-05/chapter-07/optimizer-step-before-after-loss-ko.png)
+![CSV batch update 적용 전후 평균 손실](../../../assets/part-05/chapter-07/optimizer-step-batch-before-after-loss-ko.png)
 
-마지막 차트에서는 그 결과 손실도 `16.0`에서 `0.64`로 줄어든다는 점을 확인할 수 있습니다. 이 순서를 눈으로 다시 읽으면, `gradient 계산`과 `loss 감소` 사이에 `optimizer가 만든 실제 update 적용`이라는 중간 단계가 분명히 존재한다는 점이 더 잘 보입니다.
+마지막 차트에서는 그 결과 CSV batch의 평균 손실도 줄어든다는 점을 확인할 수 있습니다. 이 순서를 눈으로 다시 읽으면, `gradient 계산`과 `loss 감소` 사이에 `optimizer가 만든 실제 update 적용`이라는 중간 단계가 분명히 존재한다는 점이 더 잘 보입니다.
 
 즉, 이 예제에서 독자가 꼭 읽어야 할 것은 다음입니다.
 
 - `gradient_risk_weight`는 아직 파라미터 자체가 아닙니다.
 - `optimizer_delta`는 gradient를 실제 이동량으로 바꾼 값입니다.
-- 파라미터 변화는 `risk_weight_after`에서 비로소 보입니다.
+- 파라미터 변화는 `risk_weight_after_step`에서 비로소 보입니다.
 - 따라서 `gradient를 구했다`와 `모델을 실제로 업데이트했다`는 같은 말이 아닙니다.
 
 여기서 독자가 얻어야 할 핵심은 `gradient가 나왔다`와 `모델이 바뀌었다` 사이에 optimizer가 만든 중간 단계가 실제로 존재한다는 점입니다. 같은 gradient라도 update 보폭을 어떻게 정하느냐에 따라 결과가 더 달라지는지는 다음 절 P5-7.2에서 이어집니다.
