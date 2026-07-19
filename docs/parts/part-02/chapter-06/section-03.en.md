@@ -1,7 +1,7 @@
 # P2-6.3 The Intuition of Gradient Descent
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-6.1, we looked at optimization as the problem of finding a better value, and in P2-6.2, we looked at how model wrongness is turned into a number called `loss`. Now the question becomes more concrete.
 
@@ -43,35 +43,6 @@ If we read this movement as a learning loop, it looks like this.
 ```mermaid
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-en.mmd"
 ```
-
-## Scope of This Section
-
-This Section covers the intuition of `gradient descent`. If P2-4.5 treated the names gradient, partial derivative, and gradient descent as supplementary learning, now we organize why we do not point to the answer at once, and what roles the gradient and learning rate play inside the flow of the optimization chapter.
-
-Review of partial derivatives and gradients was already handled in P2-4.5. Backpropagation is revisited in P4-5.1, and optimizers and learning rates are revisited in P4-7.1 and P4-7.2. Detailed comparison of optimizers such as Adam and RMSProp continues in P4-7.2. Here we focus on `why do we move little by little` and `what should we be careful about`.
-
-The first question to solve here is this: `once we have a number we want to reduce, why do we not simply point to the answer at once, but instead move little by little from the current position?`
-
-So this Section first fixes only the following four questions.
-
-- Why is gradient descent a repeated method?
-- What direction information does the gradient give?
-- Why is the learning rate needed?
-- Why does gradient descent not always guarantee a perfect answer?
-
-| Term | Very short meaning | Role in this Section |
-| --- | --- | --- |
-| gradient descent | the method of moving little by little in the direction that reduces loss | the central method of this Section |
-| gradient | the direction information of where loss increases at the current position | the clue that determines the movement direction |
-| learning rate | the value that decides how much to move at one time | the size of one step |
-| update | the step of changing parameters to new values | the result of one movement |
-| iteration | the structure of performing the same movement procedure many times | the flow that makes it look like learning |
-
-The next flow after this Section is also simple.
-
-- In the backpropagation Sections of Part 4, we look at how this direction information is calculated inside deep models.
-- In the optimizer Sections of Part 4, we continue into how learning rate and movement methods become more sophisticated.
-- In the operations and tuning context of Part 5, the feel of learning rate and stability reappears again.
 
 ## Goals of This Section
 
@@ -222,5 +193,5 @@ This connects to the point from 6.1 that `optimal does not mean perfect`. Gradie
 
 ## Sources and References
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-19. Used to support the deep-learning optimization context of cost functions, parameters, gradient-based movement, gradient descent, and learning rate.
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, checked 2026-07-19. Used as supplementary support for optimization problems and gradient-based repeated movement in the mathematical optimization context.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked 2026-07-20. Used to support the deep-learning optimization context of cost functions, parameters, gradient-based movement, gradient descent, and learning rate.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, checked 2026-07-20. Used as supplementary support for optimization problems and gradient-based repeated movement in the mathematical optimization context.

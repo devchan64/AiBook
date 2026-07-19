@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
   <title id="title">Gradient descent on a loss curve</title>
-  <desc id="desc">손실 곡선 위에서 시작점에서 작은 단계로 손실이 낮은 방향으로 이동하는 경사하강법의 직관을 보여 주는 차트입니다.</desc>
+  <desc id="desc">A chart showing the intuition of gradient descent moving from a starting point in small steps toward lower loss on a loss curve.</desc>
   <rect width="760" height="430" fill="#ffffff"/>
 
   <defs>

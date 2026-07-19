@@ -1,7 +1,7 @@
 # P2-6.3 경사하강법(gradient descent)의 직관
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-6.1에서는 최적화를 더 나은 값을 찾는 문제로 봤고, P2-6.2에서는 모델의 틀림을 손실(loss)이라는 숫자로 만드는 방법을 봤습니다. 이제 질문은 더 구체적입니다.
 
@@ -43,35 +43,6 @@ P2-6.1에서는 최적화를 더 나은 값을 찾는 문제로 봤고, P2-6.2�
 ```mermaid
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-ko.mmd"
 ```
-
-## 이 절의 범위
-
-여기서는 경사하강법(gradient descent)의 직관을 다룹니다. P2-4.5에서 그래디언트(gradient), 편미분(partial derivative), 경사하강법의 이름을 보충학습으로 다뤘다면, 이번 절은 최적화 장의 흐름 안에서 `왜 한 번에 답을 찍지 않고 조금씩 움직이는가`, `그래디언트와 학습률이 어떤 역할을 하는가`까지를 먼저 닫습니다.
-
-편미분과 그래디언트의 복습은 P2-4.5에서 이미 다뤘고, 역전파는 P4-5.1에서, 옵티마이저와 학습률은 P4-7.1과 P4-7.2에서 다시 다룹니다. Adam, RMSProp 같은 세부 옵티마이저 비교도 P4-7.2에서 이어집니다. 여기서는 “왜 조금씩 움직이는가”와 “무엇을 조심해야 하는가”에 집중합니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `줄이고 싶은 숫자가 생겼을 때, 왜 한 번에 답을 찍지 않고 현재 위치에서 조금씩 이동하는가`입니다.
-
-그래서 이 절에서는 다음 네 질문만 먼저 고정합니다.
-
-- 경사하강법은 왜 반복 방법인가?
-- 그래디언트는 어떤 방향 정보를 주는가?
-- 학습률(learning rate)은 왜 필요한가?
-- 경사하강법이 항상 완벽한 답을 보장하지 않는 이유는 무엇인가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 경사하강법 | 손실을 줄이는 쪽으로 조금씩 이동하는 방법 | 이 절의 중심 방법 |
-| 그래디언트 | 현재 위치에서 손실이 커지는 방향 정보 | 이동 방향을 정하는 단서 |
-| 학습률 | 한 번에 얼마나 움직일지 정하는 값 | 발걸음 크기 |
-| 업데이트 | 파라미터를 새 값으로 바꾸는 단계 | 한 번의 이동 결과 |
-| 반복 | 같은 이동 절차를 여러 번 수행하는 구조 | 학습처럼 보이게 만드는 흐름 |
-
-이 절 다음 흐름도 단순합니다.
-
-- Part 4의 역전파 절에서는 이 방향 정보를 깊은 모델에서 어떻게 계산하는지 봅니다.
-- Part 4의 옵티마이저 절에서는 학습률과 이동 방식이 어떻게 더 정교해지는지 이어 봅니다.
-- Part 5의 운영·튜닝 문맥에서는 학습률과 안정성 감각이 다시 등장합니다.
 
 ## 이 절의 목표
 
@@ -222,5 +193,5 @@ AI 학습에서는 보통 손실을 줄이고 싶습니다. 그래서 그래디�
 
 ## 출처와 참고 자료
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19. 딥러닝 최적화에서 비용 함수, 파라미터, 그래디언트 기반 이동, 경사하강법, 학습률의 역할을 설명하는 근거로 사용했다.
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-19. 최적화 문제와 그래디언트 기반 반복 이동을 수학적 최적화 맥락에서 확인하는 보조 근거로 사용했다.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-20. 딥러닝 최적화에서 비용 함수, 파라미터, 그래디언트 기반 이동, 경사하강법, 학습률의 역할을 설명하는 근거로 사용했다.
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 확인 날짜: 2026-07-20. 최적화 문제와 그래디언트 기반 반복 이동을 수학적 최적화 맥락에서 확인하는 보조 근거로 사용했다.

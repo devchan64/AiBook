@@ -1,7 +1,7 @@
 # P2-6.3 梯度下降(gradient descent)的直觉
 
 > Section ID: `P2-6.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-6.1 中，我们把最优化看成寻找更好值的问题；在 P2-6.2 中，我们又看到了怎样把模型的错误变成一个叫作 `损失(loss)` 的数字。现在问题变得更具体了。
 
@@ -43,35 +43,6 @@
 ```mermaid
 --8<-- "assets/part-02/chapter-06/gradient-descent-loop-flow-zh.mmd"
 ```
-
-## 本节范围
-
-这里处理的是 `梯度下降(gradient descent)` 的直觉。如果说 P2-4.5 已经把梯度(gradient)、偏导数(partial derivative)、梯度下降这些名字作为补充学习提过，那么这里会把它放回最优化这一章的脉络里，先整理为什么不一次点出答案，以及梯度和学习率分别扮演什么角色。
-
-偏导数与梯度的复习已经在 P2-4.5 里处理过；反向传播会在 P4-5.1 重新出现；优化器与学习率会在 P4-7.1 与 P4-7.2 重新出现。像 Adam、RMSProp 这类优化器的详细比较，则会延续到 P4-7.2。这里先集中处理 `为什么要一点点移动`，以及 `什么地方需要小心`。
-
-这里首先要解决的问题是：`当我们已经有了一个想减少的数字，为什么不一次把答案点出来，而要从当前位置一点点移动？`
-
-所以，这一节先只固定下面四个问题。
-
-- 为什么梯度下降是一种重复方法？
-- 梯度到底提供了什么方向信息？
-- 为什么需要学习率(learning rate)？
-- 为什么梯度下降并不总能保证完美答案？
-
-| 术语 | 很短的意思 | 在本节中的作用 |
-| --- | --- | --- |
-| 梯度下降 | 朝着让损失下降的方向一点点移动的方法 | 本节的中心方法 |
-| 梯度 | 当前这个位置上损失会变大的方向信息 | 决定移动方向的线索 |
-| 学习率 | 决定一次移动多少的值 | 步幅大小 |
-| 更新 | 把参数换成新值的一步 | 一次移动的结果 |
-| 重复 | 把同样的移动过程做很多次的结构 | 让它看起来像学习的流程 |
-
-这一节之后的流向也很简单。
-
-- 到 Part 4 的反向传播部分时，我们会看这种方向信息如何在深层模型里被计算出来。
-- 到 Part 4 的优化器部分时，我们会继续看学习率和移动方式如何变得更精细。
-- 到 Part 5 的运营与调优语境里，学习率与稳定性的感觉还会再次出现。
 
 ## 本节目标
 
@@ -222,5 +193,5 @@
 
 ## 来源与参考资料
 
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-19。用于支撑深度学习最优化中成本函数、参数、基于梯度的移动、梯度下降与学习率角色的说明。
-- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-07-19。作为在数学最优化语境中确认最优化问题与基于梯度的重复移动的辅助依据。
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning, Chapter 8: Optimization for Training Deep Models](https://www.deeplearningbook.org/contents/optimization.html){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期: 2026-07-20。用于支撑深度学习最优化中成本函数、参数、基于梯度的移动、梯度下降与学习率角色的说明。
+- Stephen Boyd, Lieven Vandenberghe, [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2004, 确认日期: 2026-07-20。作为在数学最优化语境中确认最优化问题与基于梯度的重复移动的辅助依据。
