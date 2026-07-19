@@ -1,7 +1,7 @@
 # P4-2.2 Unsupervised Learning
 
 > Section ID: `P4-2.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-2.1 looked at supervised learning, where a model is trained using examples that already have labels. This time we look at unsupervised learning, which looks for structure in data without labels.
 
@@ -11,7 +11,7 @@ This Section explains the broad distinction among `unsupervised learning`, `read
 
 ## Scope Of This Section
 
-This Section explains the basic intuition of unsupervised learning. It does not go deeply into the formulas or implementation of individual algorithms such as k-means, PCA, t-SNE, or DBSCAN. k-means and DBSCAN return in P4-17 on clustering, while PCA and t-SNE return in P4-18 on dimensionality reduction.
+This Section first closes `what kinds of problems unsupervised learning handles when it reads structure from unlabeled data`. k-means and DBSCAN continue in P4-17 on clustering, while PCA and t-SNE continue in P4-18 on dimensionality reduction.
 
 - What does it mean that labels are absent?
 - What does unsupervised learning learn?
