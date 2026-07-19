@@ -1,7 +1,7 @@
 # P3-4.3 How Are One Row, One Sample, and One Recent Segment Different
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 `One row`, `one sample`, and `one recent segment` all come to mind while looking at a data table, but they are not the same level. In a source-data table, the row is seen first. In the comparison of one full action, the sample becomes central. In baseline comparison, the recent segment appears as yet another comparison unit.
 
@@ -190,6 +190,6 @@ So `one row`, `one sample`, and `one recent segment` should not be read as three
 
 ## Sources and Further Reading
 
-- W3C, `PROV-Overview`. Because the provenance framework explains that it should support identifying an object and representing derivation, it provides a general basis for recording row-level records, event-level samples, and window-level aggregates as distinct representation levels. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another period, it strengthens the point that aggregate-level representations such as a recent segment and a baseline segment live at a comparison level different from a sample-level representation. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes sample-level structure, it supports the point that row-level records and window-level aggregates should not be read as if they were sample-level examples. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- W3C, `PROV-Overview`. Because the provenance framework explains that it should support identifying an object and representing derivation, it provides a general basis for recording row-level records, event-level samples, and window-level aggregates as distinct representation levels. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it explains that a base period is a reference used for comparison with another period, it strengthens the point that aggregate-level representations such as a recent segment and a baseline segment live at a comparison level different from a sample-level representation. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`: `labeled example`. Because an example presupposes sample-level structure, it supports the point that row-level records and window-level aggregates should not be read as if they were sample-level examples. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20

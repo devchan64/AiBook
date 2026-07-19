@@ -1,7 +1,7 @@
 # P3-4.3 一行、一个样本、一个近期区段有什么不同
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 `一行`、`一个样本`、`一个近期区段` 都会在看数据表时浮现出来，但它们并不属于同一个层级。在原始数据表里，先看见的是行；在比较一次完整动作时，中心会变成样本；到了基准线比较时，近期区段又会作为另一个比较单位出现。
 
@@ -190,6 +190,6 @@ window count: 2
 
 ## 来源与参考资料
 
-- W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此为把行级记录、事件级样本、窗口级聚合作为不同表达层级分别记录下来提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时期是拿来和其他时期比较的 reference，因此强化了这一点：像近期区段和基准区段这类聚合层级表达，属于和样本层级不同的比较层级。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是样本层级结构，所以它支持这样一点：不应该把行级记录和窗口级聚合读成样本层级 example。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework 说明它应支持 identifying an object 和 representing derivation，因此为把行级记录、事件级样本、窗口级聚合作为不同表达层级分别记录下来提供了一般依据。 [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它说明基准时期是拿来和其他时期比较的 reference，因此强化了这一点：像近期区段和基准区段这类聚合层级表达，属于和样本层级不同的比较层级。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- Google for Developers, `Machine Learning Glossary` 中的 `labeled example`。因为 example 预设的是样本层级结构，所以它支持这样一点：不应该把行级记录和窗口级聚合读成样本层级 example。 [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

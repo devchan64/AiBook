@@ -1,7 +1,7 @@
 # P3-4.3 한 행, 샘플 1건, 최근 구간 1개는 어떻게 다른가
 
 > Section ID: `P3-4.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 `한 행`, `샘플 1건`, `최근 구간 1개`는 모두 데이터 표를 보며 떠오르지만 같은 층위가 아닙니다. 원천데이터 표에서는 행이 먼저 보이고, 동작 1회 비교에서는 샘플이 중심이 되며, 기준선 비교에서는 최근 구간이 또 다른 비교 단위로 등장합니다.
 
@@ -191,6 +191,6 @@ window count: 2
 
 ## 출처와 참고 자료
 
-- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간과 기준 구간 같은 집계 수준 표현은 sample-level 표현과 다른 비교 층위를 가진다는 점을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 sample-level 구조를 전제로 하므로, row-level record와 window-level aggregate를 sample-level example와 섞어 읽지 말아야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- W3C, `PROV-Overview`. provenance framework가 identifying an object와 representing derivation을 지원해야 한다고 정리하므로, row-level record, event-level sample, window-level aggregate가 서로 다른 표현 층위라는 점을 구분해 남겨야 한다는 일반 근거가 됩니다. [https://www.w3.org/TR/prov-overview/](https://www.w3.org/TR/prov-overview/){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 기준 시점은 다른 시점과 비교하기 위한 reference라고 설명하므로, 최근 구간과 기준 구간 같은 집계 수준 표현은 sample-level 표현과 다른 비교 층위를 가진다는 점을 보강합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- Google for Developers, `Machine Learning Glossary`의 `labeled example`. example는 sample-level 구조를 전제로 하므로, row-level record와 window-level aggregate를 sample-level example와 섞어 읽지 말아야 한다는 점을 뒷받침합니다. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
