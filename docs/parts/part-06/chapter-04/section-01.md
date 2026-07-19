@@ -1,7 +1,7 @@
 # P6-4.1 GPT 계열의 위치
 
-Section ID: `P6-4.1`
-Version: `v2026.07.19`
+> Section ID: `P6-4.1`
+> Version: `v2026.07.19`
 
 여기까지는 Transformer를 LLM 관점으로 다시 읽고, context window와 attention 제약을 확인했습니다. 이제 같은 Transformer 계열 안에서도 `입력을 읽는 흐름`과 `계속 이어서 생성하는 흐름`을 구분해야 합니다.
 
@@ -267,6 +267,8 @@ for path_name, chosen_tokens in paths.items():
     print("path_score_total =", round(cumulative_score, 2))
 ```
 
+아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -342,7 +344,9 @@ GPT 계열은 Transformer decoder 기반 생성 모델이 실제 사용자 인�
 
 ## 출처와 참고 자료
 
-- Alec Radford et al., `Improving Language Understanding by Generative Pre-Training`, OpenAI, 2018, 확인 날짜: 2026-06-29.
-- Alec Radford et al., `Language Models are Unsupervised Multitask Learners`, OpenAI, 2019, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, 확인 날짜: 2026-06-29.
+- Alec Radford et al., [Improving Language Understanding by Generative Pre-Training](https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2018, 확인 날짜: 2026-07-19. GPT의 Generative Pre-Training 이름, Transformer decoder 기반 language model, 다음 토큰 조건부 확률 설명의 근거로 사용했다.
+- OpenAI, [Improving language understanding with unsupervised learning](https://openai.com/index/language-unsupervised/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. GPT 초기 연구가 Transformer와 unsupervised pre-training 결합으로 다양한 언어 과업 전이를 보였다는 배경 근거로 사용했다.
+- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2019, 확인 날짜: 2026-07-19. GPT-2를 Transformer 기반 language model의 규모 확장과 zero-shot task transfer 흐름의 근거로 사용했다.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. GPT-3의 autoregressive language model과 text interaction 기반 few-shot 사용 흐름 설명의 근거로 사용했다.
+- Jacob Devlin et al., [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805){: target="_blank" rel="noopener noreferrer" }, arXiv 2018, 확인 날짜: 2026-07-19. BERT가 bidirectional encoder representations를 목표로 한다는 점을 GPT와의 구조 비교 근거로 사용했다.
+- Daniel Jurafsky, James H. Martin, [Speech and Language Processing, 3rd ed. draft](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }, online manuscript released January 6, 2026, 확인 날짜: 2026-07-19. language model과 Transformer language model 설명의 일반 NLP 배경 근거로 사용했다.

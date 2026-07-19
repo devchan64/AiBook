@@ -1,7 +1,7 @@
 # P6-4.2 대화형 LLM으로의 전환
 
-Section ID: `P6-4.2`
-Version: `v2026.07.19`
+> Section ID: `P6-4.2`
+> Version: `v2026.07.19`
 
 P6-4.1에서는 GPT 계열을 이전 토큰을 바탕으로 다음 토큰을 이어 생성하는 decoder 중심 흐름으로 설명했습니다. 그런데 우리가 실제로 만나는 챗봇, 코파일럿, 대화형 도우미는 단순 이어쓰기처럼만 느껴지지 않습니다.
 
@@ -334,6 +334,8 @@ print("instruction_report =", instruction_report)
 print("instruction_experience =", compare_experience(instruction_report))
 ```
 
+아래 출력은 로컬 `.venv`의 Python 실행으로 본문 코드와 같은 값을 확인했습니다.
+
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
@@ -393,6 +395,9 @@ instruction_experience = {'format_followed': True, 'role_followed': True, 'safet
 
 ## 출처와 참고 자료
 
-- Alec Radford et al., `Language Models are Unsupervised Multitask Learners`, OpenAI, 2019, 확인 날짜: 2026-06-29.
-- Tom B. Brown et al., `Language Models are Few-Shot Learners`, arXiv, 2020, 확인 날짜: 2026-06-29.
-- OpenAI API Docs, prompt와 chat 사용 구조 관련 문서, 확인 날짜: 2026-06-29. [https://platform.openai.com/docs](https://platform.openai.com/docs){: target="_blank" rel="noopener noreferrer" }
+- Alec Radford et al., [Language Models are Unsupervised Multitask Learners](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf){: target="_blank" rel="noopener noreferrer" }, OpenAI 2019, 확인 날짜: 2026-07-19. GPT-2의 language model 기반 생성 흐름을 대화형 전환 이전의 생성 모델 배경 근거로 사용했다.
+- Tom B. Brown et al., [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165){: target="_blank" rel="noopener noreferrer" }, arXiv 2020, 확인 날짜: 2026-07-19. GPT-3가 task specification과 few-shot demonstrations를 text interaction으로 받는다는 설명의 근거로 사용했다.
+- Long Ouyang et al., [Training language models to follow instructions with human feedback](https://arxiv.org/abs/2203.02155){: target="_blank" rel="noopener noreferrer" }, arXiv 2022, 확인 날짜: 2026-07-19. 모델 규모만으로는 사용자 의도 준수가 자동 보장되지 않고, human feedback fine-tuning으로 InstructGPT를 만든다는 설명의 근거로 사용했다.
+- OpenAI, [Aligning language models to follow instructions](https://openai.com/index/instruction-following/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. InstructGPT와 RLHF가 지시 따르기와 안전성·정렬 문제를 다루는 후속 조정층이라는 설명의 보조 근거로 사용했다.
+- OpenAI, [Introducing ChatGPT](https://openai.com/index/chatgpt/){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. 대화 형식이 후속 질문, 실수 인정, 부적절한 요청 거절 같은 사용자 경험을 가능하게 한다는 설명의 근거로 사용했다.
+- OpenAI Help Center, [How can I use the Chat Completion API?](https://help.openai.com/en/articles/7232945-how-can-i-use-the-chatgpt-api){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-19. developer instructions, message role, instruction following을 통해 대화 세션의 역할과 제약을 조정한다는 현재 API 사용 설명의 운영 근거로 사용했다.
