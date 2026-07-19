@@ -145,25 +145,9 @@ P6-17.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도�
 
 이번 예제는 `질문 -> 검색 -> 답변 초안 -> 평가 -> 기록`을 한 번에 확인하는 데 목적이 있습니다. 질문 두 개만 보는 대신 `다중 근거가 잡히는 경우`, `근거가 하나만 잡히는 경우`, `아예 검색 실패가 나는 경우`를 함께 넣어, 작은 기준선 구현도 여러 실패 유형으로 갈라진다는 점을 확인하겠습니다. 특히 각 질문이 끝난 뒤 요청 실행 기록 하나로 남도록 만들어, 뒤의 회고나 운영 판단에서 무엇을 고쳐야 하는지 바로 다시 읽을 수 있게 하겠습니다.
 
-입력:
+예제 입력은 정책 문서 4개와 사용자 질문 3개입니다. 결과에서는 문서별 검색 점수, 선택된 근거 문서, 답변 초안, 사람 검토 필요 여부와 회고 메모, 질문별 요청 실행 기록, 전체 질문 묶음에 대한 요약 통계를 함께 확인합니다.
 
-- 정책 문서 4개
-- 사용자 질문 3개
-
-출력:
-
-- 문서별 검색 점수
-- 선택된 근거 문서
-- 답변 초안
-- 사람 검토 필요 여부와 회고 메모
-- 질문별 요청 실행 기록
-- 전체 질문 묶음에 대한 요약 통계
-
-확인할 개념:
-
-- 최소 구현도 검색, 답변, 평가, 기록이 한 흐름으로 묶여야 한다
-- 질문별 요청 실행 기록을 남겨야 어떤 실패 유형이 반복되는지 다시 읽을 수 있다
-- 운영 관점에서는 정답률보다 근거 부족과 검색 실패를 어떻게 구분했는지가 중요하다
+확인할 핵심은 최소 구현도 검색, 답변, 평가, 기록이 한 흐름으로 묶여야 한다는 점입니다. 질문별 요청 실행 기록을 남겨야 어떤 실패 유형이 반복되는지 다시 읽을 수 있고, 운영 관점에서는 정답률보다 근거 부족과 검색 실패를 어떻게 구분했는지가 더 중요합니다.
 
 코드를 보기 전에, 먼저 아래 세 질문에 대해 어떤 실행 상태가 남아야 하는지 스스로 적어 보는 편이 좋습니다.
 
@@ -184,9 +168,7 @@ P6-17.1에서 작은 생성형 AI 기능을 `요청 해석 -> 검색 또는 도�
 | 실행 상태 | 다중 근거 확보, 근거 부족, 검색 실패를 한눈에 구분해야 해서 |
 | 전체 요약 | 한 질문씩만 보지 않고 전체 흐름에서 어떤 실패가 많은지 읽어야 해서 |
 
-입력(input):
-
-위에 정리한 정책 문서 목록과 질문 실행 시나리오를 사용합니다.
+아래 코드는 위에 정리한 정책 문서 목록과 질문 실행 시나리오를 사용합니다.
 
 ```python
 documents = [
@@ -396,7 +378,7 @@ needs_human_review = True
 
 ## 이 예제에서 무엇을 읽어야 하나
 
-이 코드는 실제 LLM도, 실제 검색 엔진도 아닙니다. 하지만 다음 네 가지를 분명히 드러냅니다.
+이 코드는 실제 LLM도, 실제 검색 엔진도 아닙니다. 하지만 다음 다섯 가지를 분명히 드러냅니다.
 
 - 질문이 들어온다
 - 검색 단계가 점수와 함께 따로 존재한다
@@ -489,6 +471,6 @@ needs_human_review = True
 
 ## 출처와 참고 자료
 
-- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
-- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-05.
+- OpenAI, [Retrieval](https://developers.openai.com/api/docs/guides/retrieval){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Working with evals](https://developers.openai.com/api/docs/guides/evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
+- OpenAI, [Evaluate agent workflows](https://developers.openai.com/api/docs/guides/agent-evals){: target="_blank" rel="noopener noreferrer" }, OpenAI API Docs, 확인 날짜: 2026-07-19.
