@@ -1,7 +1,7 @@
 # P4-11.4 补充学习：如何读取多类别(multinomial)逻辑回归
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11.3 里介绍的 log-odds 和 MLE，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
 
@@ -17,13 +17,9 @@ P4-11.3 里介绍的 log-odds 和 MLE，基本上是按 `二元分类(binary cla
 - 为什么会出现 softmax？
 - one-vs-rest 和 multinomial 应该怎样区分？
 
-这一节不会深入讲下面这些内容。
+这一节先把 multinomial logistic regression 收束为 `score -> probability distribution -> class 选择` 结构在多个 class 上继续扩展，并专注抓住 threshold 感觉怎样转移到 argmax 感觉上。
 
-- softmax 的求导展开
-- multiclass log-likelihood 的严格矩阵公式
-- 不同 solver 的数值优化差异
-
-solver 与 regularization 的实现视角，会在 P4-11.5 继续。softmax 的求导展开和 multiclass log-likelihood 的严格矩阵公式，暂时放在本书当前范围之外。
+同时，下一步还要继续缩小来看清的问题也很明确。solver 与 regularization 的实现视角，会在 P4-11.5 继续。
 
 ## 本节目标
 
@@ -106,9 +102,9 @@ likelihood 的形式，也是在和二元分类同样的思路上扩展。假设
 
 在进入案例前，可以先把本节的比较框架压成下面这张表。
 
-| 场景 | 人最容易先用的 기준 | 这个 기준 的限制 | 多类别 logistic regression 改变的点 | 要确认的结果 |
+| 场景 | 人最容易先用的标准 | 这个标准的限制 | 多类别 logistic regression 改变的点 | 要确认的结果 |
 | --- | --- | --- | --- | --- |
-| 多类别分类 | 继续把 0.5 当成主要 기준 | 会把多个 class 的比较误读成二元问题 | 用 softmax 和 argmax 改成相对比较 | 选择 probability 最大的 class |
+| 多类别分类 | 继续把 0.5 当成主要标准 | 会把多个 class 的比较误读成二元问题 | 用 softmax 和 argmax 改成相对比较 | 选择 probability 最大的 class |
 | 实现选择 | 把每个 class 分开看 | 会漏掉 class 之间的相对竞争 | 用 multinomial 结构一次性把所有 class 放在一起比较 | 要一起看完整 class distribution |
 
 ### 案例 1. 在 multiclass 里，比起 0.5，更重要的是相对比较
@@ -174,6 +170,6 @@ multiclass predictions
 
 ## 出处与参考资料
 
-- C.M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006.
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09
 - scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-09

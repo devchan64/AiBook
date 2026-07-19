@@ -1,7 +1,7 @@
 # P4-11.4 Supplementary Learning: How To Read Multinomial Logistic Regression
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-11.3 explained log-odds and MLE mainly on the basis of `binary classification`, where the model chooses one of two classes. But many real classification problems ask the model to choose one out of three or more classes.
 
@@ -17,13 +17,9 @@ This Section answers the following questions.
 - Why does softmax appear?
 - How should one-vs-rest and multinomial be distinguished?
 
-This Section does not treat the following topics deeply.
+This Section first closes multinomial logistic regression as an extension where the structure `score -> probability distribution -> class selection` continues across multiple classes, and focuses on holding onto how the threshold intuition moves into an argmax intuition.
 
-- derivative expansion of softmax
-- rigorous matrix equations of the multiclass log-likelihood
-- numeric optimization differences among solvers
-
-The implementation perspective on solver and regularization continues in P4-11.5. The derivative expansion of softmax and the rigorous matrix equations of the multiclass log-likelihood stay outside the current scope of this book.
+At the same time, the narrower question that should be revisited next is also clear. The implementation perspective on solver and regularization continues in P4-11.5.
 
 ## Goals Of This Section
 
@@ -174,6 +170,6 @@ This output can be read as follows.
 
 ## Sources And References
 
-- C.M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006.
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. Checked on 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
 - scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, checked on 2026-07-09
