@@ -1,7 +1,7 @@
 # P2-13.2 Basic Charts and Checking the Shape of Formulas
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-13.1, we treated a plot as a tool for checking the shape of numbers. Now we connect a few basic chart types directly.
 
@@ -20,18 +20,6 @@ Instead of giving each chart a completely different world as an example, this se
 | In which intervals do scores or measurements gather? | histogram | Because you want to inspect distribution and concentration. |
 
 Even in the same scene, if the question changes, the chart choice also changes. If you hold on to this connection, what stays longer is not the chart name but the `question-chart match`.
-
-## Scope of This Section
-
-This section covers basic Matplotlib charts only at an introductory level. It does not cover style decoration, color systems, complex Figures with multiple axes, or interactive visualization.
-
-This section answers the following questions.
-
-- When do you use a line plot?
-- What does a scatter plot show?
-- What does a histogram show that a mean alone cannot show?
-- What does it mean to check formula changes or loss changes with a chart?
-- Why should you add an axis, title, and label when making a chart?
 
 ## Goals of This Section
 
@@ -285,6 +273,6 @@ The checkable result appears when you switch the chart. If you draw loss by epoc
 
 ## Sources and References
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used to verify the basic graph code flow including `Axes.plot`, `Axes.scatter`, labels, and titles.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for matching line plots, scatter plots, and histograms to trend, relationship, and distribution questions.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } Used to verify the `pyplot` function examples and introductory Matplotlib code style.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } Used to verify the basic graph code flow including `Axes.plot`, `Axes.scatter`, labels, and titles.
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, checked on 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } Used as the basis for matching line plots, scatter plots, and histograms to trend, relationship, and distribution questions.
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, checked on 2026-07-20. [https://matplotlib.org/stable/api/pyplot_summary.html](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" } Used to verify the `pyplot` function examples and introductory Matplotlib code style.

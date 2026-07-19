@@ -1,7 +1,7 @@
 # P2-13.2 基础图表与公式形状的确认
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-13.1，我们把图表（plot）看成确认数字形状的工具。现在开始把几种基础图表直接连起来看。
 
@@ -20,18 +20,6 @@
 | 分数或测量值集中在哪些区间？ | 直方图（histogram） | 因为想看分布与集中。 |
 
 即使是在同一个场景里，只要问题改变，图表选择也会改变。抓住这个连接后，留下来的不会只是图表名称，而会是`问题-图表对应`。
-
-## 本节范围
-
-本节只在入门层面处理 Matplotlib 的基础图表。不讨论样式装饰、配色系统、带多坐标区的复杂 Figure，也不讨论交互式可视化。
-
-本节回答以下问题。
-
-- 折线图什么时候使用？
-- 散点图会展示什么？
-- 直方图会展示什么是仅靠平均值看不到的？
-- 用图表确认公式变化或 loss 变化，究竟是什么意思？
-- 为什么作图时要加坐标轴、标题和标签？
 
 ## 本节目标
 
@@ -285,6 +273,6 @@ ax.set_title("Function shape: y = x^2")
 
 ## 来源与参考资料
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认包含 `Axes.plot`、`Axes.scatter`、坐标轴标签和标题在内的基础绘图代码流程的资料。
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图和直方图对应到变化、关系、分布问题的依据。
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } 这是确认 `pyplot` 函数示例和 Matplotlib 入门代码风格的参考资料。
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } 这是确认包含 `Axes.plot`、`Axes.scatter`、坐标轴标签和标题在内的基础绘图代码流程的资料。
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 确认日期：2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 这是把折线图、散点图和直方图对应到变化、关系、分布问题的依据。
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 确认日期：2026-07-20. [https://matplotlib.org/stable/api/pyplot_summary.html](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" } 这是确认 `pyplot` 函数示例和 Matplotlib 入门代码风格的参考资料。

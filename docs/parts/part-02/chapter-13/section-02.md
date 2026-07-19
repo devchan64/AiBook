@@ -1,7 +1,7 @@
 # P2-13.2 기본 차트와 수식의 모양 확인
 
 > Section ID: `P2-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-13.1에서는 그래프(plot)를 숫자의 모양을 확인하는 도구로 봤습니다. 이제 기본 차트를 몇 가지 직접 연결해 봅니다.
 
@@ -20,18 +20,6 @@ P2-13.1에서는 그래프(plot)를 숫자의 모양을 확인하는 도구로 �
 | 점수나 측정값이 어느 구간에 몰려 있는가 | 히스토그램(histogram) | 분포와 몰림을 보고 싶기 때문입니다. |
 
 같은 장면이라도 질문이 바뀌면 차트 선택도 바뀝니다. 이 연결을 붙잡고 읽으면 차트 이름이 아니라 `질문-차트 대응`이 더 오래 남습니다.
-
-## 이 절의 범위
-
-이 절은 Matplotlib의 기본 차트를 입문 수준에서만 다룹니다. 스타일 꾸미기, 색상 체계, 여러 축을 가진 복잡한 Figure, 인터랙티브 시각화는 다루지 않습니다.
-
-여기서는 다음 질문에 답합니다.
-
-- 선 그래프(line plot)는 언제 쓰는가?
-- 산점도(scatter plot)는 무엇을 보여 주는가?
-- 히스토그램(histogram)은 평균만으로 보이지 않는 무엇을 보여 주는가?
-- 수식이나 손실(loss)의 변화를 그래프로 확인한다는 것은 무슨 뜻인가?
-- 그래프를 만들 때 축(axis), 제목(title), 라벨(label)을 왜 붙여야 하는가?
 
 ## 이 절의 목표
 
@@ -287,6 +275,6 @@ ax.set_title("Function shape: y = x^2")
 
 ## 출처와 참고 자료
 
-- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Axes.plot`, `Axes.scatter`, 라벨·제목 설정을 포함한 기본 그래프 코드 흐름을 확인했습니다.
-- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 히스토그램을 변화·관계·분포 질문에 대응시키는 근거입니다.
-- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-19. [https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 함수 기반 예제와 Matplotlib 입문 코드 스타일을 확인하는 참고 자료입니다.
+- Matplotlib Developers, `Quick start guide`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/users/explain/quick_start.html](https://matplotlib.org/stable/users/explain/quick_start.html){: target="_blank" rel="noopener noreferrer" } `Axes.plot`, `Axes.scatter`, 라벨·제목 설정을 포함한 기본 그래프 코드 흐름을 확인했습니다.
+- Matplotlib Developers, `Plot types`, Matplotlib documentation, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/plot_types/index.html](https://matplotlib.org/stable/plot_types/index.html){: target="_blank" rel="noopener noreferrer" } 선 그래프, 산점도, 히스토그램을 변화·관계·분포 질문에 대응시키는 근거입니다.
+- Matplotlib Developers, `matplotlib.pyplot`, Matplotlib API reference, 확인 날짜: 2026-07-20. [https://matplotlib.org/stable/api/pyplot_summary.html](https://matplotlib.org/stable/api/pyplot_summary.html){: target="_blank" rel="noopener noreferrer" } `pyplot` 함수 기반 예제와 Matplotlib 입문 코드 스타일을 확인하는 참고 자료입니다.
