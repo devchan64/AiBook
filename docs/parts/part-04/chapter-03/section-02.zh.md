@@ -1,7 +1,7 @@
 # P4-3.2 启发式与模型选择
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 在 P4-3.1 里，我们把 heuristic 看成 `在有限时间和有限信息下缩小候选集的判断标准`。这一节要把这个视角应用到 model selection 上。
 
@@ -13,11 +13,7 @@
 
 ## 本节范围
 
-这一节说明在 model selection 中怎样使用 heuristic。各类 model 的公式、实现和细致性能比较，这里不会深入展开。
-
-数据拆分和 validation 会在 P4-4 再处理，overfitting 和 generalization 会在 P4-5 再处理，metric 会在 P4-6 再处理，preprocessing 和 feature 会在 P4-7 再处理，model selection 的完整流程会在 P4-8 再处理，hyperparameter tuning 会在 P4-9 再处理。
-
-具体 model 会在后面分别遇到。linear regression 在 P4-10，logistic regression 在 P4-11，k-nearest neighbors 在 P4-12，support vector machine 在 P4-13，decision tree 在 P4-14，random forest 在 P4-15，gradient boosting 在 P4-16。clustering 和 dimensionality reduction 会在 P4-17、P4-18 处理。
+这一节先把 `model selection 中 heuristic 缩减的是什么，以及它会建立怎样的比较起点` 关上。数据拆分和 validation 会在 P4-4 继续处理，overfitting 和 generalization 会在 P4-5 继续处理，metric 会在 P4-6 继续处理，preprocessing 和 feature 会在 P4-7 继续处理，model selection 的流程会在 P4-8 继续处理，hyperparameter tuning 会在 P4-9 继续处理。具体 model 会从 P4-10 到 P4-19 按问题类型再次遇到。
 
 这一节回答下面这些问题。
 

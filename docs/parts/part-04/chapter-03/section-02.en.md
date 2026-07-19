@@ -1,7 +1,7 @@
 # P4-3.2 Heuristics And Model Selection
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.17`
 
 P4-3.1 treated a heuristic as a judgment criterion for reducing candidates under limited time and limited information. This Section applies that perspective to model selection.
 
@@ -13,11 +13,7 @@ This Section does not define heuristics again at length. The basic meaning of ju
 
 ## Scope Of This Section
 
-This Section explains how heuristics are used in model selection. It does not go deeply into the formulas, implementation, or detailed performance comparison of individual models here.
-
-Data splitting and validation return in P4-4, overfitting and generalization in P4-5, metrics in P4-6, preprocessing and features in P4-7, model-selection procedures in P4-8, and hyperparameter tuning in P4-9.
-
-Specific models are met separately later. Linear regression appears in P4-10, logistic regression in P4-11, k-nearest neighbors in P4-12, support vector machines in P4-13, decision trees in P4-14, random forests in P4-15, and gradient boosting in P4-16. Clustering and dimensionality reduction are handled in P4-17 and P4-18.
+This Section first closes `what heuristics reduce in model selection and what comparison starting point they create`. Data splitting and validation continue in P4-4, overfitting and generalization in P4-5, metrics in P4-6, preprocessing and features in P4-7, model-selection procedures in P4-8, and hyperparameter tuning in P4-9. Specific models return by problem type from P4-10 through P4-19.
 
 This Section answers the following questions.
 
