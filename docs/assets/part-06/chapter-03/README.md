@@ -6,6 +6,10 @@
 - Current language pairs:
   - `p6-c03-s01-diagram-01-en.mmd` / `p6-c03-s01-diagram-01-ko.mmd`
   - `p6-c03-s01-diagram-02-en.mmd` / `p6-c03-s01-diagram-02-ko.mmd`
+  - `p6-c03-s01-diagram-03-en.mmd` / `p6-c03-s01-diagram-03-ko.mmd`
   - `p6-c03-s02-diagram-01-en.mmd` / `p6-c03-s02-diagram-01-ko.mmd`
   - `p6-c03-s02-diagram-02-en.mmd` / `p6-c03-s02-diagram-02-ko.mmd`
+  - `p6-c03-s02-diagram-03-en.mmd` / `p6-c03-s02-diagram-03-ko.mmd`
   - `p6-c03-s03-diagram-01-en.mmd` / `p6-c03-s03-diagram-01-ko.mmd`
+  - `p6-c03-s04-diagram-01-en.mmd` / `p6-c03-s04-diagram-01-ko.mmd`
+  - `p6-c03-s05-diagram-01-en.mmd` / `p6-c03-s05-diagram-01-ko.mmd`

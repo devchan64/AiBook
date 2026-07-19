@@ -1,0 +1,14 @@
+flowchart TD
+  A["이미 본 prefix 토큰"]
+  B["캐시 없음<br/>전체 prefix를 다시 투영"]
+  C["KV cache 있음<br/>저장된 K/V 재사용"]
+  D["새 토큰의 K/V만 추가"]
+  E["같은 마지막 attention 결과"]
+  F["반복 projection 작업 감소"]
+
+  A --> B
+  A --> C
+  C --> D
+  B --> E
+  D --> E
+  D --> F

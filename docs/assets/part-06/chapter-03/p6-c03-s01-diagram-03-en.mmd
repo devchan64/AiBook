@@ -1,0 +1,13 @@
+flowchart TD
+  A["Shared ending<br/>meeting will be held at 2 PM"]
+  B["Earlier context clues<br/>tone, purpose, format"]
+  C["Transformer blocks<br/>update contextual representation"]
+  D["Candidate score table<br/>does / is / was done"]
+  E["Softmax-like distribution<br/>probability gap changes"]
+  F["Next token choice<br/>top token and margin"]
+
+  A --> C
+  B --> C
+  C --> D
+  D --> E
+  E --> F
