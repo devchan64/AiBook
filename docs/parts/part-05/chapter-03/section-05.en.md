@@ -1,7 +1,7 @@
 # P5-3.5 Formula Comparison Of Representative Activation Functions
 
-Section ID: `P5-3.5`
-Version: `v2026.07.14`
+> Section ID: `P5-3.5`
+> Version: `v2026.07.19`
 
 From P5-3.2 through P5-3.4, we looked separately at the sigmoid, tanh, and ReLU. Now the three functions are compared in one place. The purpose here is not to memorize names, but to check how the same score \(z\) changes according to different formulas and output ranges.
 
@@ -171,4 +171,4 @@ When you summarize the answer, the three axes `output range`, `negative-input ha
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, date checked: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, date checked: 2026-06-29. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
-- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, date checked: 2026-06-29.
+- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, date checked: 2026-07-19. [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-3.5 代表性激活函数公式比较
 
-Section ID: `P5-3.5`
-Version: `v2026.07.14`
+> Section ID: `P5-3.5`
+> Version: `v2026.07.19`
 
 从 P5-3.2 到 P5-3.4，我们已经分别看过 sigmoid、tanh、ReLU。现在把这三个函数放在一起比较。这里的目的不是背名字，而是确认：同样的分数 \(z\)，在不同公式与不同输出范围下，究竟会变成怎样的值。
 
@@ -171,4 +171,4 @@ z | sigmoid | tanh | relu
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 确认日期：2026-06-29. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
-- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 确认日期：2026-06-29.
+- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 确认日期: 2026-07-19. [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html){: target="_blank" rel="noopener noreferrer" }
