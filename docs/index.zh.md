@@ -9,7 +9,7 @@ AiBook 是一本用于重新学习 AI 的静态网页书。它面向第一次学
 
 本书不会把 `AI`、`机器学习(machine learning)`、`深度学习(deep learning)`、`生成式 AI(generative AI)`、`LLM(large language model)` 当作彼此孤立的标签来记忆，而是重新整理规则式方法、数据、学习、模型执行、表示学习、生成、检索和工具使用如何在同一条流程中连接起来。
 
-如果你是第一次进入本书，可以先通过 [目录](table-of-contents.md) 查看整体学习顺序，然后进入 [Part 1 概览](parts/part-01/index.md)。阅读中如果术语变得不清楚，可以在 [概念词汇表](reference/concept-glossary.md) 中找到该术语的代表说明位置。
+如果你是第一次进入本书，可以先通过 [目录](table-of-contents.md) 查看整体学习顺序，然后进入 [Part 1 概览](parts/part-01/index.md)。阅读中如果术语变得不清楚，可以在 <a href="../reference/concept-glossary/">概念词汇表</a> 中找到该术语的代表说明位置。
 
 ## 这本书写给谁
 
@@ -76,7 +76,7 @@ flowchart TD
 | 数学或 Python 记忆已经模糊 | 介绍页 -> Part 1 -> Part 2 -> Part 3 |
 | 用过 AI 工具，但内部结构较弱 | 介绍页 -> Part 1 -> Part 3 -> Part 4 |
 
-在同一个 Part 内，重要概念的详细说明会尽量只放在一个代表位置。后续 Section 只重新连接当前语境所需的部分。阅读中如果术语变得不清楚，可以回到 [概念词汇表](reference/concept-glossary.md)，先查看 `中心 Section`，如果想知道当前语境中这个概念在哪里再次出现，再继续查看 `出现 Section`。
+在同一个 Part 内，重要概念的详细说明会尽量只放在一个代表位置。后续 Section 只重新连接当前语境所需的部分。阅读中如果术语变得不清楚，可以回到 <a href="../reference/concept-glossary/">概念词汇表</a>，先查看 `中心 Section`，如果想知道当前语境中这个概念在哪里再次出现，再继续查看 `出现 Section`。
 
 本书中的每个 Section 承担的角色并不相同。有些 Section 负责给出某个概念的代表说明，有些 Section 则展示这个概念如何在另一个问题场景中再次使用。因此，可以把前面的 Section 当作建立概念骨架的位置，把后面的 Section 当作查看当前语境中什么发生变化的位置来阅读。
 
