@@ -1,7 +1,7 @@
 # P5-6.3 学习（learning）与模型执行（inference）
 
 Section ID: `P5-6.3`
-Version: `v2026.07.17`
+Version: `v2026.07.20`
 
 在 P5-6.2 里，我们先把学习循环会按 step、batch、epoch 重复这件事绑在一起。走到这里之后，下一个问题就会冒出来。
 
@@ -228,13 +228,13 @@ P5-6.3 和下一节 P5-6.4 都会谈到`训练中`和`使用中`这样的说法�
 
 这张表的目的，是在看代码前，先把`输出变化`和`参数变化`分开读。
 
-这个例子尤其适合自己动手去改下面三组值，看差别会不会变得更明显。
+这个例子需要直接比较下面两条路径来读，实验作用才会更清楚。
 
-| 可以改动的值 | 先观察什么输出 | 想回答的问题 |
+| 要比较的路径 | 先观察什么输出 | 想解释的问题 |
 | --- | --- | --- |
-| 把 `learning_rate` 从 0.03 改成 0.01 或 0.08 | 三个参数每个 step 改动的幅度会如何变化 | 同样的训练 batch，update 步幅不同，会不会改变参数移动速度？ |
-| 往 `service_inputs` 再添加新输入 | prediction 会变化，但 `parameters_used` 是否始终相同 | 服务输入变化和参数变化，是否真的能被区分开？ |
-| 把 `service_shadow_sample` 的 `target_block_score` 改成 10.0 或 13.0 | 对同一个服务输入接上 update 后，`shadow_parameters_after` 会怎样变化 | 让参数改变的关键，是输入内容，还是损失-更新路径本身？ |
+| `run_inference` | prediction 会被算出，但 `parameters_changed=False` 吗 | 有结果出来但没有 update 路径时，参数是否保持不变？ |
+| `run_learning_step` | loss 会被计算，且 `parameter_delta` 是否不是 0 | 同一类输入只要接上 loss 和 update，参数是否会改变？ |
+| 用两条路径比较同一个服务输入 | 对比 `service input 1` 和 `same input with update` | 参数变化是否由 update 路径决定，而不是由输入本身决定？ |
 
 ```python
 train_alarm_data = [
@@ -244,115 +244,129 @@ train_alarm_data = [
     {"alarm_count": 4.0, "restart_delay_hours": 3.0, "target_block_score": 11.0},
 ]
 
-parameters = {
+initial_parameters = {
     "alarm_weight": 0.4,
     "delay_weight": 0.2,
     "bias": 0.0,
 }
 learning_rate = 0.03
 service_inputs = [
-    {"alarm_count": 4.0, "restart_delay_hours": 1.0},
-    {"alarm_count": 5.0, "restart_delay_hours": 3.0},
+    {"label": "service input 1", "alarm_count": 4.0, "restart_delay_hours": 1.0},
+    {"label": "service input 2", "alarm_count": 5.0, "restart_delay_hours": 3.0},
 ]
-service_shadow_sample = {
+service_input_with_target = {
+    "label": "same input with update",
     "alarm_count": 4.0,
     "restart_delay_hours": 1.0,
     "target_block_score": 10.0,
 }
 
-def predict_block_score(alarm_count, restart_delay_hours, parameters):
+def predict_block_score(row, parameters):
     return (
-        alarm_count * parameters["alarm_weight"]
-        + restart_delay_hours * parameters["delay_weight"]
+        row["alarm_count"] * parameters["alarm_weight"]
+        + row["restart_delay_hours"] * parameters["delay_weight"]
         + parameters["bias"]
     )
 
+def rounded_parameters(parameters):
+    return {name: round(value, 3) for name, value in parameters.items()}
+
+def parameter_delta(before, after):
+    return {name: round(after[name] - before[name], 3) for name in before}
+
+def did_parameters_change(before, after):
+    return any(abs(after[name] - before[name]) > 1e-12 for name in before)
+
+def run_inference(row, parameters):
+    before = parameters.copy()
+    prediction = predict_block_score(row, before)
+    after = before.copy()
+    return {
+        "prediction": prediction,
+        "loss": None,
+        "parameters_before": before,
+        "parameters_after": after,
+    }
+
 def run_train_step(sample, parameters, learning_rate):
-    prediction = predict_block_score(
-        sample["alarm_count"],
-        sample["restart_delay_hours"],
-        parameters,
-    )
-    target_block_score = sample["target_block_score"]
-    loss = (prediction - target_block_score) ** 2
-    error = prediction - target_block_score
+    before = parameters.copy()
+    prediction = predict_block_score(sample, before)
+    target = sample["target_block_score"]
+    error = prediction - target
+    loss = error ** 2
     gradients = {
         "alarm_weight": 2 * error * sample["alarm_count"],
         "delay_weight": 2 * error * sample["restart_delay_hours"],
         "bias": 2 * error,
     }
-    new_parameters = {
+    after = {
         name: value - learning_rate * gradients[name]
-        for name, value in parameters.items()
+        for name, value in before.items()
     }
     return {
         "prediction": prediction,
         "loss": loss,
-        "gradients": gradients,
-        "parameters_after": new_parameters,
+        "parameters_before": before,
+        "parameters_after": after,
     }
 
-print("initial_parameters =", {name: round(value, 3) for name, value in parameters.items()})
+def print_result(name, result):
+    before = result["parameters_before"]
+    after = result["parameters_after"]
+    loss_text = "-" if result["loss"] is None else f"{result['loss']:.3f}"
+    print(
+        f"{name}: prediction={result['prediction']:.3f}, "
+        f"loss={loss_text}, "
+        f"parameters_changed={did_parameters_change(before, after)}, "
+        f"parameter_delta={parameter_delta(before, after)}"
+    )
+
+parameters = initial_parameters.copy()
+print("initial_parameters =", rounded_parameters(parameters))
 
 for step, sample in enumerate(train_alarm_data, start=1):
-    step_result = run_train_step(sample, parameters, learning_rate)
-    print(
-        f"train step {step}: "
-        f"alarm_count={sample['alarm_count']}, "
-        f"restart_delay_hours={sample['restart_delay_hours']}, "
-        f"target_block_score={sample['target_block_score']}, "
-        f"prediction={step_result['prediction']:.3f}, loss={step_result['loss']:.3f}, "
-        f"parameters_before={ {name: round(value, 3) for name, value in parameters.items()} }, "
-        f"parameters_after={ {name: round(value, 3) for name, value in step_result['parameters_after'].items()} }"
-    )
-    parameters = step_result["parameters_after"]
+    result = run_train_step(sample, parameters, learning_rate)
+    print_result(f"train step {step}", result)
+    parameters = result["parameters_after"]
 
-parameters_before_inference = parameters.copy()
-for service_input in service_inputs:
-    print(
-        f"inference: alarm_count={service_input['alarm_count']}, "
-        f"restart_delay_hours={service_input['restart_delay_hours']}, "
-        f"prediction={predict_block_score(service_input['alarm_count'], service_input['restart_delay_hours'], parameters):.3f}, "
-        f"parameters_used={ {name: round(value, 3) for name, value in parameters.items()} }"
-    )
-print("parameters_before_inference =", {name: round(value, 3) for name, value in parameters_before_inference.items()})
-print("parameters_after_inference =", {name: round(value, 3) for name, value in parameters.items()})
+parameters_after_training = parameters.copy()
+print("parameters_after_training =", rounded_parameters(parameters_after_training))
 
-shadow_result = run_train_step(
-    sample=service_shadow_sample,
+for row in service_inputs:
+    result = run_inference(row, parameters)
+    print_result(row["label"], result)
+    parameters = result["parameters_after"]
+
+print("parameters_after_all_service_inputs =", rounded_parameters(parameters))
+
+update_result = run_train_step(
+    sample=service_input_with_target,
     parameters=parameters,
     learning_rate=learning_rate,
 )
-print(
-    "same_input_with_update: "
-    f"alarm_count={service_shadow_sample['alarm_count']}, "
-    f"restart_delay_hours={service_shadow_sample['restart_delay_hours']}, "
-    f"target_block_score={service_shadow_sample['target_block_score']}, "
-    f"prediction={shadow_result['prediction']:.3f}, loss={shadow_result['loss']:.3f}, "
-    f"shadow_parameters_after={ {name: round(value, 3) for name, value in shadow_result['parameters_after'].items()} }"
-)
+print_result(service_input_with_target["label"], update_result)
 ```
 
-在输出里，首先要比较的是：学习阶段里 `parameters_before` / `parameters_after` 的变化，以及 inference 阶段里 `parameters_used` 的不变。
+在输出里，先看 `parameters_changed` 和 `parameter_delta` 就可以了。prediction 即使变了，只要 `parameter_delta` 全部是 0，就是 inference；如果接上了 loss 和 update，且 `parameter_delta` 不是 0，就是 learning。
 
 ```text
 initial_parameters = {'alarm_weight': 0.4, 'delay_weight': 0.2, 'bias': 0.0}
-train step 1: alarm_count=1.0, restart_delay_hours=2.0, target_block_score=4.0, prediction=0.800, loss=10.240, parameters_before={'alarm_weight': 0.4, 'delay_weight': 0.2, 'bias': 0.0}, parameters_after={'alarm_weight': 0.592, 'delay_weight': 0.584, 'bias': 0.192}
-train step 2: alarm_count=2.0, restart_delay_hours=1.0, target_block_score=5.0, prediction=1.960, loss=9.242, parameters_before={'alarm_weight': 0.592, 'delay_weight': 0.584, 'bias': 0.192}, parameters_after={'alarm_weight': 0.957, 'delay_weight': 0.766, 'bias': 0.374}
-train step 3: alarm_count=3.0, restart_delay_hours=2.0, target_block_score=8.0, prediction=4.778, loss=10.384, parameters_before={'alarm_weight': 0.957, 'delay_weight': 0.766, 'bias': 0.374}, parameters_after={'alarm_weight': 1.537, 'delay_weight': 1.153, 'bias': 0.568}
-train step 4: alarm_count=4.0, restart_delay_hours=3.0, target_block_score=11.0, prediction=10.174, loss=0.682, parameters_before={'alarm_weight': 1.537, 'delay_weight': 1.153, 'bias': 0.568}, parameters_after={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
-inference: alarm_count=4.0, restart_delay_hours=1.0, prediction=8.859, parameters_used={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
-inference: alarm_count=5.0, restart_delay_hours=3.0, prediction=13.197, parameters_used={'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
-parameters_before_inference = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
-parameters_after_inference = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
-same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_score=10.0, prediction=8.859, loss=1.302, shadow_parameters_after={'alarm_weight': 2.009, 'delay_weight': 1.37, 'bias': 0.686}
+train step 1: prediction=0.800, loss=10.240, parameters_changed=True, parameter_delta={'alarm_weight': 0.192, 'delay_weight': 0.384, 'bias': 0.192}
+train step 2: prediction=1.960, loss=9.242, parameters_changed=True, parameter_delta={'alarm_weight': 0.365, 'delay_weight': 0.182, 'bias': 0.182}
+train step 3: prediction=4.778, loss=10.384, parameters_changed=True, parameter_delta={'alarm_weight': 0.58, 'delay_weight': 0.387, 'bias': 0.193}
+train step 4: prediction=10.174, loss=0.682, parameters_changed=True, parameter_delta={'alarm_weight': 0.198, 'delay_weight': 0.149, 'bias': 0.05}
+parameters_after_training = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+service input 1: prediction=8.859, loss=-, parameters_changed=False, parameter_delta={'alarm_weight': 0.0, 'delay_weight': 0.0, 'bias': 0.0}
+service input 2: prediction=13.197, loss=-, parameters_changed=False, parameter_delta={'alarm_weight': 0.0, 'delay_weight': 0.0, 'bias': 0.0}
+parameters_after_all_service_inputs = {'alarm_weight': 1.735, 'delay_weight': 1.302, 'bias': 0.617}
+same input with update: prediction=8.859, loss=1.302, parameters_changed=True, parameter_delta={'alarm_weight': 0.274, 'delay_weight': 0.068, 'bias': 0.068}
 ```
 
-这里首先要确认的是：在学习 step 里，`alarm_weight`、`delay_weight`、`bias` 会真的变化；而在 inference 里，即使来了新输入，同一组参数仍然保持不变。最后那一行 `same_input_with_update` 则是故意做出的对比：即使是同一类输入，只要接上了 update，参数仍然会真正改变。
+这里首先要确认的是：在学习 step 里会反复出现 `parameters_changed=True`，而在 inference 里即使来了新输入，也会保持 `parameters_changed=False`。最后的 `same input with update` 行，是用和 `service input 1` 相同的输入值，但额外接上目标值和 update 路径的对比场景。
 
-- 学习 step 里 `parameters_before` 与 `parameters_after` 不同，所以参数真实地改变了
-- inference 里即使处理不同输入，`parameters_used` 也一直相同，`parameters_before_inference` 和 `parameters_after_inference` 也一样
-- `same_input_with_update` 说明：即便输入类型相似，只要接上损失和 gradient，`shadow_parameters_after` 还是会改变
+- 学习 step 里会计算 loss，且 `parameter_delta` 不是 0，所以参数真实地改变了
+- inference 里即使输入不同导致 prediction 变化，`parameter_delta` 也全都是 0
+- `same input with update` 里，即便输入类型相似，只要接上损失和 gradient，`parameter_delta` 就会不是 0
 - 也就是说，不是服务输入用得多了就会自动再训练，只有 update 路径真正接上时，参数才会变
 
 如果再用图来看，流程差异会更明显。在学习流程里，每个 step 之后 `alarm_weight`、`delay_weight`、`bias` 都会发生变化，而 update 后的值会继续成为下一个 step 的起点。
@@ -374,9 +388,9 @@ same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_s
 | 执行结果里看到的差别 | 只看结果时容易留下的解读 | 重新用 learning/inference 视角读出来的解读 |
 | --- | --- | --- |
 | `train step 1~4` 里的 prediction 一直在变 | 好像只是不断看了更多告警样本 | 因为损失和 update 接上了，所以参数本身正在变化 |
-| 两个 inference 输入的 prediction 不同 | 输出不同，好像模型内部也同时变了 | 只是输入不同，而 `parameters_used` 并没有变化 |
-| `parameters_before_inference` 和 `parameters_after_inference` 相同 | 因为也有结果，所以似乎也可能发生了学习 | inference 只是计算了结果，参数仍然固定 |
-| `same_input_with_update` 里的 `shadow_parameters_after` 变化了 | 同样的输入本来应该只得到相同输出 | 真正决定参数是否变化的，不是输入种类，而是有没有接上损失-更新路径 |
+| 两个 inference 输入的 prediction 不同 | 输出不同，好像模型内部也同时变了 | 只是输入不同，而 `parameter_delta` 是 0 |
+| `parameters_after_all_service_inputs` 和学习刚结束后的参数相同 | 因为也有结果，所以似乎也可能发生了学习 | inference 只是计算了结果，参数仍然固定 |
+| `same input with update` 里的 `parameter_delta` 不是 0 | 同样的输入本来应该只得到相同输出 | 真正决定参数是否变化的，不是输入种类，而是有没有接上损失-更新路径 |
 
 把这张表也读完以后，就会更明确：learning 和 inference 的核心，不是`两边都会用 forward`，而是`什么时候真的接上 update`。
 
@@ -415,5 +429,5 @@ same_input_with_update: alarm_count=4.0, restart_delay_hours=1.0, target_block_s
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-06-29.
-- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 确认日期: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 确认日期: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- Aurélien Géron, `Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow`, 3rd ed., O'Reilly, 2022, 确认日期: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }
