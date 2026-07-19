@@ -1,7 +1,7 @@
 # Part 2. Rebuilding the Foundations
 
 > Section ID: `P2-index`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 Part 2 is the section for recovering math, Python, data tools, and document-management instincts before studying machine learning and deep learning again. It does not try to prove mathematics deeply or make you memorize all Python syntax. Instead, it builds the foundation needed to read model training, data splitting, evaluation, overfitting, and generalization in Part 3 and to verify them with small code examples.
 
