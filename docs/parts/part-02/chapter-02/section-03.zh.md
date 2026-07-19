@@ -17,37 +17,6 @@
 
 从读者视角看，这里还需要再多走一步。如果只是把极限读成“靠近的趋势”，理解可能会停住。Part 2 真正需要的是下一个问题：`当它再靠近一点时，函数值到底改变了多少？`
 
-## 本节范围
-
-本节在“读公式记法”的层面处理极限。它不处理严格的 \(\epsilon\)-\(\delta\) 定义、连续性（continuity）证明，也不处理导数公式的计算。变化率、导数、梯度会在 `P2-4.1`、`P2-4.2`、`P2-4.3` 再次出现。
-
-这里首先要解决的问题是：`为什么“直接代入一个值”和“看这个值附近的趋势”是不同的事，而这种不同又为什么会连接到变化率？`
-
-所以本节先只固定下面四个位置。
-
-- 什么叫做某个东西在靠近另一个东西？
-- 极限和代入有什么不同？
-- 小变化如何展示函数的变化？
-- 为什么极限会继续连到导数和优化？
-
-| 术语 | 极短含义 | 本节中的作用 |
-| --- | --- | --- |
-| 极限 | 观察某个值在靠近时呈现的趋势的记法 | 本节的中心符号 |
-| 收敛 | 某个值逐渐靠近某个确定值的现象 | 阅读极限时最容易说的语言 |
-| 变化率 | 输出相对于输入变化了多少 | 导数直觉的出发点 |
-| 代入 | 把某个值直接放进式子里的计算 | 必须与极限区分开的基本动作 |
-| 靠近 | 即使不完全相等，也去观察邻域趋势的视角 | 极限的核心直觉 |
-
-如果前一节的 sigma 读的是“重复并聚合很多数据”的记法，那么这里就开始读：当一个值只被轻微移动时，函数会如何反应。紧接着的导数、梯度、优化章节，会把这种“小变化”的视角继续具体化成斜率和损失下降方向。
-
-本节建立的是阅读 `当它越来越接近时，会怎样变化？` 的标准。导数公式和优化计算的细节会在后面回收。
-
-本节之后的流向也很简单。
-
-- 在 Chapter 4，这种“靠近”的视角会更直接地被读成变化率和导数。
-- 在 Chapter 6 和 Part 4，我们会再次阅读：当损失变化一点点时，学习方向会如何变化。
-- 所以这里的目标不是把极限本身全部完成，而是先固定住后面“变化语言”的入口。
-
 ## 先看的一个小桥例子
 
 从极限走向导数的最小场景，可以这样看。
@@ -405,8 +374,8 @@ f(2.1) = 4.41
 
 ## 来源与参考资料
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-06-24.
-- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期：2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 确认日期：2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 确认日期：2026-07-19.
+- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 确认日期：2026-07-19.
 - OpenStax, [Calculus Volume 1, 2.2 The Limit of a Function](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function){: target="_blank" rel="noopener noreferrer" }, Rice University, 确认日期：2026-07-19. 这个参考资料支持用表格和邻近值估计极限的说明。
 - OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, Rice University, 确认日期：2026-07-19. 这个参考资料支持把变化率、差商的极限连接到导数直觉的说明。

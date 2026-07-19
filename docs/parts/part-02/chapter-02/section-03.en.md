@@ -17,37 +17,6 @@ Here, we reorganize again `limit`, `convergence`, `rate of change`, `substitutio
 
 From the reader's viewpoint, one more step is needed here. If you stop only at reading a limit as `the tendency of getting closer`, understanding can stop. What is really needed in Part 2 is the next question as well: `When it gets a little closer, how much does the function value change?`
 
-## Scope of This Section
-
-This section handles limits at the level of reading formula notation. It does not handle the rigorous \(\epsilon\)-\(\delta\) definition, proofs of continuity, or calculations of derivative formulas. Rate of change, derivatives, and gradients return in `P2-4.1`, `P2-4.2`, and `P2-4.3`.
-
-The question to solve first here is this: `Why is directly substituting a value different from looking at the tendency near that value, and why does that difference lead into rate of change?`
-
-So this section first fixes only the following four places.
-
-- What does it mean that something approaches something else?
-- How is a limit different from substitution?
-- How does a small change reveal the change of a function?
-- Why does a limit continue into derivatives and optimization?
-
-| Term | Very Short Meaning | Role in This Section |
-| --- | --- | --- |
-| limit | notation that observes the tendency as something gets close to a value | the central symbol of this section |
-| convergence | the phenomenon that a value gets closer to a certain value | the easiest language for reading limits |
-| rate of change | how much the output changes compared with a change in input | the starting point of derivative intuition |
-| substitution | the calculation of directly placing a certain value into an expression | the basic action that must be distinguished from limits |
-| approach | the viewpoint that examines the neighborhood even without becoming exactly equal | the core intuition of limits |
-
-If the previous section's sigma read the notation that repeats and gathers many data points, here we move into notation that reads how a function reacts when one value is moved only a little. In the immediately following sections on derivatives, gradients, and optimization, this viewpoint of small change becomes more concrete as slope and the direction of loss reduction.
-
-This section sets the standard for reading `how does something change as it gets closer?` The details of derivative formulas and optimization calculations are recovered later.
-
-The flow after this section is also simple.
-
-- In Chapter 4, this viewpoint of `approach` is read more directly as rate of change and derivatives.
-- In Chapter 6 and Part 4, we read again how the learning direction changes when loss is changed a little.
-- So here, the goal is not to complete the limit itself, but to fix the entrance into the language of change that comes next.
-
 ## A Small Bridge Example to Look at First
 
 The smallest scene that moves from limits into derivatives can be seen as follows.
@@ -405,8 +374,8 @@ Once you can ask these questions, you are prepared to read derivatives and gradi
 
 ## Sources and References
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-06-24.
-- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, checked on 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, checked on 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, checked on 2026-07-19.
+- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, checked on 2026-07-19.
 - OpenStax, [Calculus Volume 1, 2.2 The Limit of a Function](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function){: target="_blank" rel="noopener noreferrer" }, Rice University, checked on 2026-07-19. This reference supports estimating limits with tables and nearby values.
 - OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, Rice University, checked on 2026-07-19. This reference supports the connection from rate of change and difference quotients to derivative intuition.

@@ -17,37 +17,6 @@ P2-2.2에서는 시그마(sigma)를 반복 덧셈의 압축 표기로 읽었습�
 
 독자 기준에서는 여기서 한 단계가 더 필요합니다. 극한을 `가까워지는 경향`으로 읽는 것까지만 하면 이해가 멈출 수 있습니다. Part 2에서 정말 필요한 것은 그 다음 질문, 즉 `조금 가까워질 때 함수값이 얼마나 달라지는가`까지 이어지는 감각입니다.
 
-## 이 절의 범위
-
-여기서는 극한(limit)을 수식 표기 독해 수준에서 다룹니다. 엄밀한 \(\epsilon\)-\(\delta\) 정의, 연속성(continuity)의 증명, 미분 공식의 계산은 다루지 않습니다. 변화율(rate of change), 미분(derivative), 그래디언트(gradient)는 `P2-4.1`, `P2-4.2`, `P2-4.3`에서 다시 다룹니다.
-
-여기서 먼저 해결할 질문은 이것입니다. `값을 직접 넣는 것과 가까워질 때의 경향을 보는 것은 왜 다르며, 그 차이가 왜 변화율로 이어지는가`입니다.
-
-그래서 이 절에서는 다음 네 자리만 먼저 고정합니다.
-
-- 극한은 무엇이 어디로 가까워진다는 뜻인가?
-- 극한은 대입과 어떻게 다른가?
-- 작은 변화는 함수의 변화를 어떻게 보여 주는가?
-- 극한은 왜 미분과 최적화로 이어지는가?
-
-| 용어 | 아주 짧은 뜻 | 이 절에서의 역할 |
-| --- | --- | --- |
-| 극한 | 어떤 값에 가까워질 때의 경향을 보는 표기 | 이 절의 중심 기호 |
-| 수렴 | 값이 특정 값으로 가까워지는 현상 | 극한을 읽는 가장 쉬운 말 |
-| 변화율 | 입력 변화에 비해 출력이 얼마나 달라지는가 | 미분 직관의 출발점 |
-| 대입 | 특정 값을 식에 직접 넣는 계산 | 극한과 구분해야 할 기본 동작 |
-| 가까워짐 | 정확히 같아지지 않아도 주변에서 경향을 보는 관점 | 극한의 핵심 감각 |
-
-앞 절의 시그마가 여러 데이터를 반복하고 모으는 표기였다면, 여기서는 값 하나를 아주 조금 움직일 때 함수가 어떻게 반응하는지 읽는 표기로 넘어갑니다. 바로 뒤의 미분, 그래디언트, 최적화 절에서는 이 작은 변화 관점이 실제 기울기와 손실 감소 방향 설명으로 더 구체화됩니다.
-
-여기서는 Part 2에서 `가까워질 때 어떻게 변하는가`를 읽는 기준을 세웁니다. 미분 공식과 최적화 계산 세부는 뒤 절에서 회수됩니다.
-
-이 절 다음 흐름도 단순합니다.
-
-- Chapter 4에서는 이 `가까워짐` 관점을 변화율과 미분으로 더 직접 읽습니다.
-- Chapter 6과 Part 4에서는 손실을 조금 바꿨을 때 학습 방향이 어떻게 달라지는지 다시 읽습니다.
-- 즉 지금은 극한 자체를 완성하는 것이 아니라, 다음에 나올 변화율 언어의 입구를 고정하는 단계입니다.
-
 ## 먼저 보는 작은 다리 예시
 
 극한에서 미분으로 넘어가는 가장 작은 장면은 다음처럼 볼 수 있습니다.
@@ -406,8 +375,8 @@ f(2.1) = 4.41
 
 ## 출처와 참고 자료
 
-- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-06-24.
-- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-06-24.
-- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-06-24.
+- Marc Peter Deisenroth, A. Aldo Faisal, Cheng Soon Ong, [Mathematics for Machine Learning](https://mml-book.github.io/){: target="_blank" rel="noopener noreferrer" }, Cambridge University Press, 2020, 확인 날짜: 2026-07-19.
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, [Deep Learning](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }, MIT Press, 2016, 확인 날짜: 2026-07-19.
+- Catherine F. Higham, Desmond J. Higham, [Deep Learning: An Introduction for Applied Mathematicians](https://arxiv.org/abs/1801.05894){: target="_blank" rel="noopener noreferrer" }, arXiv, 2018, 확인 날짜: 2026-07-19.
 - OpenStax, [Calculus Volume 1, 2.2 The Limit of a Function](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function){: target="_blank" rel="noopener noreferrer" }, Rice University, 확인 날짜: 2026-07-19. 표와 주변 값으로 극한을 추정하는 설명을 확인하는 참고 자료입니다.
 - OpenStax, [Calculus Volume 1, 3.1 Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative){: target="_blank" rel="noopener noreferrer" }, Rice University, 확인 날짜: 2026-07-19. 변화율과 차분몫의 극한을 미분 직관으로 연결하는 부분의 참고 자료입니다.
