@@ -1,7 +1,7 @@
 # P5-7.5 보충학습: momentum, AdaGrad, RMSProp, Adam
 
-Section ID: `P5-7.5`
-Version: `v2026.07.17`
+> Section ID: `P5-7.5`
+> Version: `v2026.07.19`
 
 P5-7.3에서는 적응형 업데이트(adaptive update)의 직관을 Adam(Adaptive Moment Estimation)을 예로 보았습니다. 여기서 한 걸음 더 가면 독자는 momentum, AdaGrad, RMSProp, Adam처럼 여러 optimizer 계열을 만나게 됩니다. 이 이름들을 서로 다른 브랜드처럼 외우기 시작하면 오히려 핵심이 흐려집니다.
 이 절의 구분 기준은 뒤에서 다른 optimizer 이름이 다시 나오더라도, 매번 새 알고리즘처럼 외우지 않고 같은 질문으로 정리하게 도와줍니다.
@@ -221,3 +221,9 @@ Adam은 optimizer 계열 비교에서 자주 마지막에 등장합니다. 이�
 - Adam을 `momentum + adaptive scale`이 함께 들어가는 대표 예로 설명할 수 있는가?
 - optimizer 계열 비교를 `우열표`가 아니라 `기억 방식과 조절 방식`의 비교로 읽을 수 있는가?
 - optimizer 계열을 볼 때 `무엇을 더 기억하는가`, `무엇을 더 조절하는가`, `무엇을 해결하려 했는가`를 먼저 물을 수 있는가?
+
+## 출처와 참고 자료
+
+- PyTorch, `torch.optim`, PyTorch documentation. PyTorch가 SGD, Adagrad, RMSprop, Adam 등 여러 optimizer를 제공하며 optimizer가 parameter와 state를 들고 업데이트를 수행하는 구조를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
+- Diederik P. Kingma, Jimmy Ba, `Adam: A Method for Stochastic Optimization`, arXiv, 2014. Adam을 first moment와 second moment 추정에 기반한 adaptive optimizer로 설명하는 원 논문을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1412.6980](https://arxiv.org/abs/1412.6980){: target="_blank" rel="noopener noreferrer" }
+- Sebastian Ruder, `An overview of gradient descent optimization algorithms`, arXiv, 2016. momentum, Adagrad, RMSProp, Adam 계열의 비교 관점을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1609.04747](https://arxiv.org/abs/1609.04747){: target="_blank" rel="noopener noreferrer" }

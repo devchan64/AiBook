@@ -1,7 +1,7 @@
 # P5-3.4 ReLU
 
-Section ID: `P5-3.4`
-Version: `v2026.07.17`
+> Section ID: `P5-3.4`
+> Version: `v2026.07.19`
 
 P5-3.2와 P5-3.3에서는 sigmoid와 tanh처럼 값을 일정 범위 안으로 누르는 함수를 보았습니다. ReLU(rectified linear unit)는 훨씬 단순합니다. 음수는 0으로 만들고, 양수는 거의 그대로 통과시킵니다.
 
@@ -105,4 +105,4 @@ sigmoid와 tanh는 큰 양수에서 출력이 1 근처로 눌리지만, ReLU는 
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 확인 날짜: 2026-06-29.
+- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 확인 날짜: 2026-07-19. [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html){: target="_blank" rel="noopener noreferrer" }

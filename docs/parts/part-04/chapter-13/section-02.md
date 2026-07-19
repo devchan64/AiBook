@@ -1,7 +1,7 @@
 # P4-13.2 커널(kernel)의 입문적 의미
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-13.1에서는 SVM(support vector machine)을 `margin이 큰 경계를 찾는 분류기`로 보았습니다. 그런데 거기서 다음 질문이 생깁니다.
 
@@ -429,4 +429,4 @@ Module 4를 한 번에 다시 읽을 때는 알고리즘 이름보다 `같은 �
 ## 출처와 참고 자료
 
 - scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 확인 날짜: 2026-06-27.
+- B. E. Boser, I. M. Guyon, V. N. Vapnik, *A Training Algorithm for Optimal Margin Classifiers*, COLT 1992, 확인 날짜: 2026-07-19. [https://doi.org/10.1145/130385.130401](https://doi.org/10.1145/130385.130401){: target="_blank" rel="noopener noreferrer" }

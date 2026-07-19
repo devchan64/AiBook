@@ -1,7 +1,7 @@
 # P5-7.7 보충학습: optimizer state와 parameter-wise update
 
-Section ID: `P5-7.7`
-Version: `v2026.07.17`
+> Section ID: `P5-7.7`
+> Version: `v2026.07.19`
 
 P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표별 조절`이라는 표현이 반복해서 나왔습니다. 여기서 자연스럽게 남는 질문은 이것입니다. 그런 정보는 어디에 남고, 왜 같은 gradient라도 다음 step의 update가 달라질 수 있는가?
 
@@ -189,3 +189,8 @@ parameter-wise update는 모든 파라미터를 하나의 공통 숫자로만 �
 - parameter-wise update가 `좌표마다 state가 다를 수 있다`는 뜻과 연결된다는 점을 말할 수 있는가?
 - 같은 gradient라도 state가 다르면 다음 update가 달라질 수 있다는 점을 설명할 수 있는가?
 - adaptive optimizer의 `adaptive`를 시간축 누적과 좌표축 조절의 state로 연결할 수 있는가?
+
+## 출처와 참고 자료
+
+- PyTorch, `torch.optim`, PyTorch documentation. optimizer 객체가 parameter, per-parameter options, optimizer state를 들고 `step()`으로 업데이트를 수행하는 구조를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.optim.Adam`, PyTorch API Reference. Adam이 first moment와 second moment 상태를 유지하며 parameter별 update를 계산하는 구조를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html){: target="_blank" rel="noopener noreferrer" }

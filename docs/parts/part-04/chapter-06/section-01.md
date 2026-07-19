@@ -1,7 +1,7 @@
 # P4-6.1 평가 지표(metric)의 역할
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-5장에서는 과적합(overfitting)과 일반화(generalization)를 봤습니다. 이제 다음 질문이 이어집니다. `새 데이터에서도 버틴다`는 말을 실제로 무엇으로 확인할까요? 그때 등장하는 것이 `평가 지표(metric)`입니다.
 
@@ -387,3 +387,4 @@ model_B
 
 - scikit-learn developers, `Metrics and scoring: quantifying the quality of predictions`, scikit-learn User Guide, 확인 날짜: 2026-06-26. [https://scikit-learn.org/stable/modules/model_evaluation.html](https://scikit-learn.org/stable/modules/model_evaluation.html){: target="_blank" rel="noopener noreferrer" }
 - Google for Developers, `Machine Learning Glossary`, 확인 날짜: 2026-06-26. [https://developers.google.com/machine-learning/glossary/](https://developers.google.com/machine-learning/glossary/){: target="_blank" rel="noopener noreferrer" }
+- C. J. van Rijsbergen, `Foundation of Evaluation`, Journal of Documentation 30(4), 1974. 정보 검색 평가에서 precision과 recall을 중심으로 효과성 척도를 구성한 역사적 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1108/eb026584](https://doi.org/10.1108/eb026584){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P4-1.1 AI, 머신러닝, 딥러닝의 관계
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 Part 1에서는 AI라는 말의 넓은 범위를 봤습니다. Part 2에서는 수식, Python, 배열, 표, 그래프를 다시 읽었습니다. 이제 Part 4에서는 그 기반 위에서 머신러닝(machine learning)을 따로 떼어 봅니다.
 
@@ -209,4 +209,6 @@ Part 4의 핵심은 모델 목록이 아니라 데이터, 학습, 평가의 흐�
 ## 출처와 참고 자료
 
 - scikit-learn developers, `Getting Started`, scikit-learn documentation, 확인 날짜: 2026-06-25. [https://scikit-learn.org/stable/getting_started.html](https://scikit-learn.org/stable/getting_started.html){: target="_blank" rel="noopener noreferrer" }
+- Google for Developers, `Machine Learning Glossary`, `artificial intelligence`, `machine learning`, `deep model`, `generative AI`, `large language model` 항목. AI, 머신러닝, 딥러닝, 생성형 AI, LLM의 용어 범위와 평가·학습 용어를 대조할 때 참고했다. 확인 날짜: 2026-07-19. [https://developers.google.com/machine-learning/glossary](https://developers.google.com/machine-learning/glossary){: target="_blank" rel="noopener noreferrer" }
+- IBM, `AI vs. machine learning vs. deep learning vs. neural networks: What's the difference?`. AI를 가장 넓은 범위로 두고 머신러닝과 딥러닝을 그 하위 흐름으로 설명하는 포함 관계를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks](https://www.ibm.com/think/topics/ai-vs-machine-learning-vs-deep-learning-vs-neural-networks){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, Chapter 1 Introduction, 확인 날짜: 2026-06-25. [https://www.deeplearningbook.org/contents/intro.html](https://www.deeplearningbook.org/contents/intro.html){: target="_blank" rel="noopener noreferrer" }

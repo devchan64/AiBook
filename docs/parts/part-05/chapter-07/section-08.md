@@ -1,7 +1,7 @@
 # P5-7.8 보충학습: gradient clipping과 불안정한 update
 
-Section ID: `P5-7.8`
-Version: `v2026.07.17`
+> Section ID: `P5-7.8`
+> Version: `v2026.07.19`
 
 optimizer가 gradient를 update로 바꾸는 구조를 이해하고 나면, 실제 학습 로그에서 또 다른 질문이 생깁니다. 방향은 알겠는데, 어떤 step에서는 update가 너무 과격하게 튀는 것처럼 보일 때가 있습니다. 이때 문제를 learning rate로 읽어야 하는가, gradient scale로 읽어야 하는가, 아니면 다른 안전장치가 필요한가?
 
@@ -164,3 +164,9 @@ optimizer는 gradient를 받아 update 규칙을 적용합니다. clipping은 �
 - norm clipping과 value clipping의 차이를 입문 수준에서 설명할 수 있는가?
 - clipping이 optimizer 자체를 대체하는 것이 아니라, update 전에 붙는 안전장치라는 점을 말할 수 있는가?
 - 불안정한 update를 볼 때 learning rate, gradient scale, optimizer state를 따로 점검해야 한다는 점을 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- PyTorch, `torch.nn.utils.clip_grad_norm_`, PyTorch API Reference. 전체 gradient norm을 제한하는 gradient clipping 동작을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.nn.utils.clip_grad_value_`, PyTorch API Reference. gradient 값을 지정 범위 안으로 자르는 value clipping 동작을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html){: target="_blank" rel="noopener noreferrer" }
+- Razvan Pascanu, Tomas Mikolov, Yoshua Bengio, `On the difficulty of training recurrent neural networks`, ICML 2013. exploding gradients 문제와 gradient norm clipping 논의를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://proceedings.mlr.press/v28/pascanu13.html](https://proceedings.mlr.press/v28/pascanu13.html){: target="_blank" rel="noopener noreferrer" }

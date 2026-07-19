@@ -1,7 +1,7 @@
 # P5-6.2 학습 step, batch, epoch
 
-Section ID: `P5-6.2`
-Version: `v2026.07.17`
+> Section ID: `P5-6.2`
+> Version: `v2026.07.19`
 
 P5-6.1에서는 `forward -> loss -> backward -> optimizer step`으로 이어지는 가장 작은 학습 루프를 먼저 묶었습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 
@@ -305,3 +305,8 @@ epoch 2 end
 - epoch를 `데이터 전체를 한 번 본 반복`으로 설명할 수 있는가?
 - P5-6.1의 한 번의 학습 루프가 실제 학습에서는 batch마다 여러 step으로 반복된다는 점을 말할 수 있는가?
 - 다음 절 P5-6.3에서 다룰 learning/inference 구분이 `반복 단위`가 아니라 `파라미터 변경 여부`를 가르는 질문이라는 점을 구분할 수 있는가?
+
+## 출처와 참고 자료
+
+- PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. 학습이 반복적으로 예측, 손실 계산, gradient 계산, 파라미터 최적화로 이어지는 구조와 training loop 용어를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `Training with PyTorch`, PyTorch Tutorials. DataLoader에서 batch를 가져와 한 epoch 동안 반복하는 훈련 루프 구조를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html](https://docs.pytorch.org/tutorials/beginner/introyt/trainingyt.html){: target="_blank" rel="noopener noreferrer" }

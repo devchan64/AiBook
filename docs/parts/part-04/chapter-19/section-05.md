@@ -1,7 +1,7 @@
 # P4-19.5 보충학습: 벨만 방정식, 수렴, 함수 근사를 처음 읽는 법
 
 > Section ID: `P4-19.5`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-19.1에서 가치 기반 강화학습을 읽다 보면 곧 다음 이름들이 따라붙습니다.
 
@@ -249,3 +249,8 @@ states = 250000 bellman view = 1.72 representation = function_approximator
 - 수렴이 반복 갱신 결과가 점점 안정되는가를 보는 질문이라는 점을 설명할 수 있는가
 - 함수 근사가 Q-table 직관을 더 큰 상태 공간으로 옮기기 위한 표현 변경이라는 점을 설명할 수 있는가
 - DQN이 가치 기반 강화학습의 대표 확장 흐름이라는 점을 설명할 수 있는가
+
+## 출처와 참고 자료
+
+- Richard S. Sutton and Andrew G. Barto, `Reinforcement Learning: An Introduction`, 2nd ed., The MIT Press, 2018. 벨만 방정식, 가치 기반 방법, 수렴, 함수 근사 흐름을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://mitpress.mit.edu/9780262039246/reinforcement-learning/](https://mitpress.mit.edu/9780262039246/reinforcement-learning/){: target="_blank" rel="noopener noreferrer" }
+- Volodymyr Mnih et al., `Human-level control through deep reinforcement learning`, Nature, 2015. DQN을 고차원 감각 입력과 Q-value 함수 근사로 연결하는 대표 사례로 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1038/nature14236](https://doi.org/10.1038/nature14236){: target="_blank" rel="noopener noreferrer" }

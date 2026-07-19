@@ -1,7 +1,7 @@
 # P5-1.1 퍼셉트론(perceptron)의 직관
 
-Section ID: `P5-1.1`
-Version: `v2026.07.17`
+> Section ID: `P5-1.1`
+> Version: `v2026.07.19`
 
 Part 4에서는 머신러닝을 문제 정의, 데이터 분리, 일반화, 평가, 모델 선택의 흐름으로 읽었습니다. 이제 Part 5에서는 모델이 값을 받아서 출력을 만드는 가장 작은 신경망 계산 단위가 어떻게 생겼는지를 먼저 묻습니다. 이 질문에서 퍼셉트론(perceptron)으로 들어갑니다. 퍼셉트론은 여러 입력(input)에 서로 다른 중요도(weight)를 곱해 합친 뒤, 그 결과를 기준으로 출력을 내는 가장 단순한 신경망 판단 단위입니다.
 
@@ -278,7 +278,7 @@ Python 코드를 보지 않아도, 같은 입력을 세 장면으로 바꿔 놓�
 
 ## 출처와 참고 자료
 
-- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 확인 날짜: 2026-06-28.
-- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, 확인 날짜: 2026-06-28.
+- Frank Rosenblatt, `The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain`, Psychological Review, 1958, 확인 날짜: 2026-07-19. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519){: target="_blank" rel="noopener noreferrer" }
+- Warren S. McCulloch, Walter Pitts, `A Logical Calculus of the Ideas Immanent in Nervous Activity`, The Bulletin of Mathematical Biophysics, 1943, 확인 날짜: 2026-07-19. [https://doi.org/10.1007/BF02478259](https://doi.org/10.1007/BF02478259){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 확인 날짜: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P4-15.1 랜덤포레스트(random forest)
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-14에서는 결정트리(decision tree)가 왜 직관적이면서도 과적합(overfitting)에 쉽게 빠질 수 있는지 보았습니다. 특히 `max_depth`, `min_samples_leaf`, `ccp_alpha`를 바꾸어도 한 그루의 구조 흔들림이 완전히 사라지지 않을 수 있다는 점을 확인했습니다. 이제 다음 질문이 나옵니다.
 
@@ -475,4 +475,4 @@ forest avg              : 0.944
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `RandomForestClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001.
+- Leo Breiman, `Random Forests`, Machine Learning, 45(1), 5-32, 2001. 확인 날짜: 2026-07-19. [https://doi.org/10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P4-17.4 보충학습: 군집과 반지도학습을 처음 연결하는 법
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 
@@ -192,3 +192,8 @@ P4-17.2까지 읽고 나면 이런 질문이 자연스럽게 남습니다.
 - 같은 군집 안에서도 경계 사례는 따로 다시 봐야 한다는 점을 말할 수 있는가?
 - 더 안전한 흐름이 `군집 -> 대표/경계 샘플 검토 -> 제한적 반영 -> 후속 검증`이라는 점을 설명할 수 있는가?
 - 반지도학습을 `자동 라벨링 기계`가 아니라 `적은 라벨, 많은 비라벨, 검토, 후속 검증을 잇는 설정`으로 설명할 수 있는가?
+
+## 출처와 참고 자료
+
+- scikit-learn developers, `1.14. Semi-supervised learning`, scikit-learn User Guide. 적은 라벨과 많은 비라벨 데이터를 함께 쓰는 문제 설정, label propagation/self-training의 기본 전제를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/semi_supervised.html](https://scikit-learn.org/stable/modules/semi_supervised.html){: target="_blank" rel="noopener noreferrer" }
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. 군집화가 라벨 없는 데이터의 구조를 탐색하는 방법이라는 기본 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }

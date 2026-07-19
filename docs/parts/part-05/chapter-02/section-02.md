@@ -1,7 +1,7 @@
 # P5-2.2 은닉층(hidden layer)과 표현
 
-Section ID: `P5-2.2`
-Version: `v2026.07.19`
+> Section ID: `P5-2.2`
+> Version: `v2026.07.19`
 
 P5-2.1에서는 다층 신경망(multilayer neural network)이 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아, 입력을 바로 최종 판단으로 보내지 않고 중간 단계를 거치게 만든다는 점을 보았습니다. 이제 질문을 조금 더 구체적으로 바꿔 봅니다.
 
@@ -380,6 +380,6 @@ Yoshua Bengio의 글과 LeCun, Bengio, Hinton의 2015년 글에서는 딥러닝�
 
 ## 출처와 참고 자료
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, 확인 날짜: 2026-06-28.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013, 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 확인 날짜: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }

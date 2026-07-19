@@ -1,7 +1,7 @@
 # P4-15.4 보충학습: Extra Trees와 랜덤포레스트를 처음 비교하는 법
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-15.1에서 랜덤포레스트(random forest)를 배우면 비슷한 이름의 Extra Trees(Extremely Randomized Trees)도 곧 만나게 됩니다. 둘 다 `트리를 여러 개 모아 평균내는 숲`처럼 보이기 때문에, 처음에는 사실상 같은 모델 아닌가 하고 넘기기 쉽습니다.
 
@@ -301,4 +301,4 @@ print("  test accuracy :", round(et.score(X_test, y_test), 3))
 - scikit-learn, "1.11.2. Random forests and other randomized tree ensembles", User Guide, [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-09)
 - scikit-learn, "ExtraTreesClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-09)
 - scikit-learn, "RandomForestClassifier", API Reference, [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html){: target="_blank" rel="noopener noreferrer" } (확인일: 2026-07-09)
-- Geurts, P., Ernst, D., Wehenkel, L., "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006.
+- Pierre Geurts, Damien Ernst, Louis Wehenkel, "Extremely randomized trees", *Machine Learning*, 63(1), 3-42, 2006. 확인 날짜: 2026-07-19. [https://doi.org/10.1007/s10994-006-6226-1](https://doi.org/10.1007/s10994-006-6226-1){: target="_blank" rel="noopener noreferrer" }

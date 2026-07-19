@@ -1,7 +1,7 @@
 # P5-3.5 대표 활성화 함수 수식 비교
 
-Section ID: `P5-3.5`
-Version: `v2026.07.14`
+> Section ID: `P5-3.5`
+> Version: `v2026.07.19`
 
 P5-3.2부터 P5-3.4까지 sigmoid, tanh, ReLU를 각각 따로 보았습니다. 이제 세 함수를 한 번에 놓고 비교합니다. 여기서 목적은 이름 암기가 아니라, 같은 점수 \(z\)가 어떤 수식과 출력 범위로 달라지는지 확인하는 것입니다.
 
@@ -171,4 +171,4 @@ z | sigmoid | tanh | relu
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 확인 날짜: 2026-06-29. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
-- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 확인 날짜: 2026-06-29.
+- Xavier Glorot, Antoine Bordes, Yoshua Bengio, `Deep Sparse Rectifier Neural Networks`, AISTATS, 2011, 확인 날짜: 2026-07-19. [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html){: target="_blank" rel="noopener noreferrer" }

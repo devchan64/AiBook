@@ -1,7 +1,7 @@
 # P5-2.1 다층 신경망(multilayer neural network)
 
-Section ID: `P5-2.1`
-Version: `v2026.07.17`
+> Section ID: `P5-2.1`
+> Version: `v2026.07.19`
 
 P5-1.2에서는 퍼셉트론(perceptron) 하나가 입력의 선형 결합(linear combination)과 활성화(activation)로 판단을 만든다는 점을 보았습니다. 동시에 퍼셉트론 하나는 한 번에 하나의 선형 경계(linear boundary)만 만들기 때문에, 표현할 수 있는 패턴에 한계가 있다는 점도 보았습니다. 그다음 질문은 자연스럽게 `퍼셉트론 하나가 부족하다면, 이런 계산 단위를 여러 개 쌓으면 무엇이 달라지는가`로 이어집니다. 이 질문에서 다층 신경망(multilayer neural network)으로 들어갑니다. 다층 신경망은 퍼셉트론 같은 계산 단위를 여러 층으로 쌓아, 단순한 입력 조합을 중간 표현으로 바꾸고 그 표현을 다시 더 복잡한 판단으로 연결하는 구조입니다.
 
@@ -355,4 +355,4 @@ Part 5에서 다층 신경망을 꺼내야 하는 시점은 `퍼셉트론 하나
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-28. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Yann LeCun, Yoshua Bengio, Geoffrey Hinton, `Deep learning`, Nature, 2015, 확인 날짜: 2026-06-28. [https://www.nature.com/articles/nature14539](https://www.nature.com/articles/nature14539){: target="_blank" rel="noopener noreferrer" }
-- George Cybenko, `Approximation by Superpositions of a Sigmoidal Function`, Mathematics of Control, Signals, and Systems, 1989, 확인 날짜: 2026-06-28.
+- George Cybenko, `Approximation by Superpositions of a Sigmoidal Function`, Mathematics of Control, Signals, and Systems, 1989, 확인 날짜: 2026-07-19. [https://doi.org/10.1007/BF02551274](https://doi.org/10.1007/BF02551274){: target="_blank" rel="noopener noreferrer" }

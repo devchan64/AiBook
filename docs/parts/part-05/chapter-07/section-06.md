@@ -1,7 +1,7 @@
 # P5-7.6 보충학습: learning rate scheduler, warmup, decay
 
-Section ID: `P5-7.6`
-Version: `v2026.07.17`
+> Section ID: `P5-7.6`
+> Version: `v2026.07.19`
 
 P5-7.2에서는 learning rate를 `한 번의 update 보폭`으로 읽었습니다. 하지만 실제 학습 설정을 보다 보면 learning rate가 처음부터 끝까지 고정되지 않고, warmup, decay, cosine schedule 같은 이름으로 계속 바뀌는 장면을 만납니다.
 
@@ -157,3 +157,8 @@ Adam이나 momentum optimizer를 하나 골라 학습한다고 해도, 초반과
 - decay를 `후반 미세 조정을 위한 보폭 축소`로 설명할 수 있는가?
 - step decay, linear decay, cosine decay를 `보폭 패턴`으로 읽을 수 있는가?
 - 학습 로그에서 초반 불안정, 후반 진동, 전체 과속/과저속을 scheduler 질문으로 연결할 수 있는가?
+
+## 출처와 참고 자료
+
+- PyTorch, `torch.optim`, PyTorch documentation. `lr_scheduler`가 epoch 또는 검증 지표에 따라 learning rate를 조정하며 `StepLR`, `LinearLR`, `CosineAnnealingLR` 같은 scheduler를 제공한다는 점을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate](https://docs.pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate){: target="_blank" rel="noopener noreferrer" }
+- Ilya Loshchilov, Frank Hutter, `SGDR: Stochastic Gradient Descent with Warm Restarts`, ICLR 2017. cosine annealing과 restart 계열 learning rate schedule의 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://arxiv.org/abs/1608.03983](https://arxiv.org/abs/1608.03983){: target="_blank" rel="noopener noreferrer" }

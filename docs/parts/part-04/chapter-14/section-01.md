@@ -1,7 +1,7 @@
 # P4-14.1 결정트리(decision tree)
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-11에서는 경계(boundary)를 직선처럼 그어 보는 관점을 보았고, P4-12에서는 가까운 이웃을 보는 방식을 보았으며, P4-13에서는 더 좋은 경계의 기준으로 margin을 보았습니다. 이제 같은 지도학습(supervised learning) 문제를 전혀 다른 방식으로 다시 읽습니다.
 
@@ -534,4 +534,4 @@ I -> stay
 
 - scikit-learn developers, `1.10. Decision Trees`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/tree.html](https://scikit-learn.org/stable/modules/tree.html){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn developers, `DecisionTreeClassifier`, scikit-learn API Reference, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html){: target="_blank" rel="noopener noreferrer" }
-- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984.
+- Leo Breiman, Jerome Friedman, Richard Olshen, Charles Stone, *Classification and Regression Trees*, Routledge, 1984. 확인 날짜: 2026-07-19. [https://doi.org/10.1201/9781315139470](https://doi.org/10.1201/9781315139470){: target="_blank" rel="noopener noreferrer" }

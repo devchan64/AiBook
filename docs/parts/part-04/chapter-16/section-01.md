@@ -1,7 +1,7 @@
 # P4-16.1 그래디언트 부스팅(gradient boosting)
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-15에서 본 랜덤포레스트(random forest)는 여러 트리를 `병렬적으로` 만들고 결과를 모아 흔들림을 줄이는 앙상블이었습니다.
 
@@ -499,5 +499,5 @@ stage2 residual  : [12.5, 5.0, -5.0, -12.5]
 ## 출처와 참고 자료
 
 - scikit-learn developers, `1.11. Ensembles: Gradient boosting, random forests, bagging, voting, stacking`, scikit-learn User Guide, 확인 날짜: 2026-06-27. [https://scikit-learn.org/stable/modules/ensemble.html](https://scikit-learn.org/stable/modules/ensemble.html){: target="_blank" rel="noopener noreferrer" }
-- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001.
-- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002.
+- Jerome H. Friedman, `Greedy Function Approximation: A Gradient Boosting Machine`, Annals of Statistics, 2001. 확인 날짜: 2026-07-19. [https://doi.org/10.1214/aos/1013203451](https://doi.org/10.1214/aos/1013203451){: target="_blank" rel="noopener noreferrer" }
+- Jerome H. Friedman, `Stochastic Gradient Boosting`, Computational Statistics & Data Analysis, 2002. 확인 날짜: 2026-07-19. [https://doi.org/10.1016/S0167-9473(01)00065-2](<https://doi.org/10.1016/S0167-9473(01)00065-2>){: target="_blank" rel="noopener noreferrer" }

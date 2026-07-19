@@ -1,7 +1,7 @@
 # P4-17.3 보충학습: 계층적 군집화와 스펙트럴 클러스터링을 처음 구분하는 법
 
 > Section ID: `P4-17.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니다.
 
@@ -201,3 +201,8 @@ P4-17.1에서 k-means와 DBSCAN을 보았다면, 곧 이런 질문이 남습니�
 - 비정형 모양이라는 이유만이 아니라, 연결 구조를 먼저 읽어야 하는 장면인가?
 - 군집 결과를 하나의 정답처럼 읽는 대신, 어떤 질문에서 이 방법을 떠올렸는지 설명할 수 있는가?
 - k-means, DBSCAN, 계층적 군집화, 스펙트럴 클러스터링을 `중심`, `밀도`, `순서`, `연결`의 네 축으로 다시 구분할 수 있는가?
+
+## 출처와 참고 자료
+
+- scikit-learn developers, `2.3. Clustering`, scikit-learn User Guide. hierarchical clustering, spectral clustering, k-means, DBSCAN의 기본 설명과 비교축을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://scikit-learn.org/stable/modules/clustering.html](https://scikit-learn.org/stable/modules/clustering.html){: target="_blank" rel="noopener noreferrer" }
+- Ulrike von Luxburg, `A Tutorial on Spectral Clustering`, Statistics and Computing, 2007. 스펙트럴 클러스터링을 그래프 라플라시안과 연결 구조 관점으로 설명하는 배경을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1007/s11222-007-9033-z](https://doi.org/10.1007/s11222-007-9033-z){: target="_blank" rel="noopener noreferrer" }

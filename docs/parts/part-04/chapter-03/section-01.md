@@ -1,7 +1,7 @@
 # P4-3.1 휴리스틱(heuristic)이 필요한 이유
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 큰 학습 유형으로 나누어 봤습니다. 이제 질문이 하나 생깁니다. 실제 문제를 풀 때는 어떤 데이터부터 보고, 어떤 모델부터 시도하고, 어느 정도 결과가 나오면 다음 단계로 넘어가야 할까요?
 
@@ -169,4 +169,4 @@ P4-2장에서는 지도학습(supervised learning), 비지도학습(unsupervised
 
 - Juliette R. V. Kenens, Matteo Colombo, and Stephan Hartmann, `Bounded Rationality`, Stanford Encyclopedia of Philosophy, substantive revision 2024-12-13, 확인 날짜: 2026-06-25. [https://plato.stanford.edu/entries/bounded-rationality/](https://plato.stanford.edu/entries/bounded-rationality/){: target="_blank" rel="noopener noreferrer" }
 - Stuart Russell and Peter Norvig, `Artificial Intelligence: A Modern Approach`, 4th ed., Pearson, 2020, 확인 날짜: 2026-06-25. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/){: target="_blank" rel="noopener noreferrer" }
-- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984.
+- Judea Pearl, `Heuristics: Intelligent Search Strategies for Computer Problem Solving`, Addison-Wesley, 1984. 확인 날짜: 2026-07-19. [https://openlibrary.org/books/OL3170071M/Heuristics](https://openlibrary.org/books/OL3170071M/Heuristics){: target="_blank" rel="noopener noreferrer" }

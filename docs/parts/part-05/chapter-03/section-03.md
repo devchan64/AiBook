@@ -1,7 +1,7 @@
 # P5-3.3 tanh
 
-Section ID: `P5-3.3`
-Version: `v2026.07.14`
+> Section ID: `P5-3.3`
+> Version: `v2026.07.19`
 
 P5-3.2에서는 sigmoid가 점수를 0과 1 사이로 누르는 방식을 보았습니다. tanh는 비슷하게 S자형 압축을 하지만, 출력 범위가 \(-1\)부터 \(1\)까지라는 점이 다릅니다.
 
@@ -104,4 +104,4 @@ tanh를 쓰면 음수는 안정 쪽 신호, 양수는 경고 쪽 신호처럼 �
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

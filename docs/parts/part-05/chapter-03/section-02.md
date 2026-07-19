@@ -1,7 +1,7 @@
 # P5-3.2 sigmoid
 
-Section ID: `P5-3.2`
-Version: `v2026.07.14`
+> Section ID: `P5-3.2`
+> Version: `v2026.07.19`
 
 P5-3.1에서는 활성화 함수(activation function)가 가중합 점수 \(z\)를 다음 층에 넘길 값 \(a\)로 바꾸는 함수라는 점을 보았습니다. 이제 대표 함수 하나씩을 따로 보며, 같은 점수라도 어떤 방식으로 다른 신호가 되는지 확인합니다.
 
@@ -104,4 +104,4 @@ sigmoid 그래프는 S자 모양입니다. 중요한 것은 모양 이름보다 
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }

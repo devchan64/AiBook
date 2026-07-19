@@ -1,7 +1,7 @@
 # P4-7.3 보충학습: 결측치, 스케일, 인코딩을 어떤 입력 문제로 구분하는가
 
 > Section ID: `P4-7.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산할 수 있는 표현으로 바꾸는 일`이라는 큰 뜻을 잡았습니다. 그런데 전처리를 처음 배우면 바로 이런 혼란이 생깁니다. 어떤 칼럼은 비어 있고, 어떤 칼럼은 숫자 크기가 제각각이고, 어떤 칼럼은 문자열인데, 이 셋을 왜 같은 전처리라는 한 단어 아래에서 다루는지 잘 감이 오지 않습니다.
 
@@ -183,4 +183,4 @@ P4-7.2에서는 전처리(preprocessing)가 `원시 입력을 모델이 계산�
 
 - scikit-learn developers, [Preprocessing data](https://scikit-learn.org/stable/modules/preprocessing.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-08.
 - scikit-learn developers, [Imputation of missing values](https://scikit-learn.org/stable/modules/impute.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-08.
-- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, 확인 날짜: 2026-07-08.
+- Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 3rd ed., O'Reilly Media, 2022, 확인 날짜: 2026-07-19. [https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/](https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/){: target="_blank" rel="noopener noreferrer" }

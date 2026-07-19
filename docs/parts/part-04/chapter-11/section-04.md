@@ -1,7 +1,7 @@
 # P4-11.4 보충학습: 다중 클래스(multinomial) 로지스틱 회귀를 읽는 법
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-11.3에서 본 log-odds와 MLE는 기본적으로 `둘 중 하나를 고르는 이진 분류(binary classification)`를 기준으로 설명했습니다. 하지만 현실의 분류 문제는 셋 이상 중 하나를 고르는 경우도 많습니다.
 
@@ -170,6 +170,6 @@ multiclass predictions
 
 ## 출처와 참고 자료
 
-- C.M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006.
+- C. M. Bishop, *Pattern Recognition and Machine Learning*, Springer, 2006. 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
 - scikit-learn, linear models user guide, [https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09
 - scikit-learn, `LogisticRegression` API documentation, [https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html){: target="_blank" rel="noopener noreferrer" }, 확인 날짜: 2026-07-09

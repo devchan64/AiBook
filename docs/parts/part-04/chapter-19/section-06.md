@@ -1,7 +1,7 @@
 # P4-19.6 보충학습: policy gradient와 likelihood ratio trick을 처음 읽는 법
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.12`
+> Version: `v2026.07.19`
 
 P4-19.2에서 정책 기반 강화학습을 읽다 보면 곧 다음 이름이 붙습니다.
 
@@ -189,3 +189,9 @@ negative signal = 0.713
 - likelihood ratio trick이 확률 미분을 로그 확률 기울기로 바꾸어 읽기 쉽게 만드는 장치라는 점을 설명할 수 있는가
 - REINFORCE와 actor-critic 모두 이 로그 확률 기울기 감각 위에서 읽을 수 있다는 점을 설명할 수 있는가
 - 양의 보상과 음의 보상이 chosen action 확률을 서로 다른 방향으로 조정하게 만든다는 점을 말할 수 있는가
+
+## 출처와 참고 자료
+
+- Ronald J. Williams, `Simple statistical gradient-following algorithms for connectionist reinforcement learning`, Machine Learning, 1992. REINFORCE 계열 알고리즘과 expected reinforcement의 gradient-following 관점을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1007/BF00992696](https://doi.org/10.1007/BF00992696){: target="_blank" rel="noopener noreferrer" }
+- Richard S. Sutton, David McAllester, Satinder Singh, Yishay Mansour, `Policy Gradient Methods for Reinforcement Learning with Function Approximation`, NeurIPS 1999. policy gradient theorem, approximate value/advantage function과 경험 기반 추정 연결을 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://papers.nips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html](https://papers.nips.cc/paper/1999/hash/464d828b85b0bed98e80ade0a5c43b0f-Abstract.html){: target="_blank" rel="noopener noreferrer" }
+- Vijay R. Konda, John N. Tsitsiklis, `On Actor-Critic Algorithms`, SIAM Journal on Control and Optimization, 2003. actor-critic을 policy gradient 계열의 평가 신호 안정화 관점으로 연결할 때 참고했다. 확인 날짜: 2026-07-19. [https://doi.org/10.1137/S0363012901385691](https://doi.org/10.1137/S0363012901385691){: target="_blank" rel="noopener noreferrer" }

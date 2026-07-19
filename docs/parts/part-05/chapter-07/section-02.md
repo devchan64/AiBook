@@ -1,7 +1,7 @@
 # P5-7.2 학습률(learning rate)과 update 보폭
 
-Section ID: `P5-7.2`
-Version: `v2026.07.17`
+> Section ID: `P5-7.2`
+> Version: `v2026.07.19`
 
 P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 업데이트로 바꾸는 규칙`이라는 점을 보았습니다. 여기까지 오면 바로 다음 질문이 생깁니다.
 
@@ -239,3 +239,8 @@ optimizer_delta = 8.0 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 
 - 너무 작은 learning rate와 너무 큰 learning rate가 어떤 다른 문제를 만드는지 설명할 수 있는가?
 - `gradient 방향이 맞다`와 `update 결과가 적절하다`를 구분할 수 있는가?
 - 다음 절 P5-7.3에서 Adam류가 최근 흐름과 좌표별 차이를 더 반영한다는 식으로 연결된다는 점을 알고 있는가?
+
+## 출처와 참고 자료
+
+- PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. optimizer가 gradient를 사용해 파라미터를 조정하고 learning rate를 하이퍼파라미터로 받는 구조를 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.optim.SGD`, PyTorch API Reference. SGD update에서 `lr`와 momentum이 어떻게 파라미터 업데이트에 들어가는지 확인할 때 참고했다. 확인 날짜: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD.html){: target="_blank" rel="noopener noreferrer" }

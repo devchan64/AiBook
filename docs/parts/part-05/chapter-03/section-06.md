@@ -1,7 +1,7 @@
 # P5-3.6 출력층(output layer)과 활성화의 선택
 
-Section ID: `P5-3.6`
-Version: `v2026.07.17`
+> Section ID: `P5-3.6`
+> Version: `v2026.07.19`
 
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았고, P5-3.2부터 P5-3.5까지는 sigmoid, tanh, ReLU와 대표 함수 수식 비교를 따로 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 생깁니다.
 
@@ -282,5 +282,5 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 ## 출처와 참고 자료
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 확인 날짜: 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-06-29.
-- Kevin P. Murphy, `Probabilistic Machine Learning: An Introduction`, MIT Press, 2022, 확인 날짜: 2026-06-29.
+- Christopher M. Bishop, `Pattern Recognition and Machine Learning`, Springer, 2006, 확인 날짜: 2026-07-19. [https://link.springer.com/book/9780387310732](https://link.springer.com/book/9780387310732){: target="_blank" rel="noopener noreferrer" }
+- Kevin P. Murphy, `Probabilistic Machine Learning: An Introduction`, MIT Press, 2022, 확인 날짜: 2026-07-19. [https://probml.github.io/pml-book/book1.html](https://probml.github.io/pml-book/book1.html){: target="_blank" rel="noopener noreferrer" }

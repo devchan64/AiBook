@@ -1,7 +1,7 @@
 # P4-13.1 SVM의 직관
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.19`
 
 P4-11.2에서는 분류를 `경계(boundary)를 그어 공간을 나누는 일`로 보았습니다. P4-12에서는 `가까운 이웃을 보고 판단하는 방식`도 살펴보았습니다. 이제 같은 분류 문제를 다른 질문으로 다시 읽습니다.
 
@@ -484,4 +484,4 @@ SVM은 통계학습이론과 일반화 논의에서 매우 중요한 위치를 �
 ## 출처와 참고 자료
 
 - scikit-learn, *Support Vector Machines*, scikit-learn User Guide, 확인 날짜: 2026-06-27. <https://scikit-learn.org/stable/modules/svm.html>{: target="_blank" rel="noopener noreferrer" }
-- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, DOI: 10.1007/BF00994018, 확인 날짜: 2026-06-27.
+- C. Cortes and V. Vapnik, *Support-Vector Networks*, Machine Learning, 1995, 확인 날짜: 2026-07-19. [https://doi.org/10.1007/BF00994018](https://doi.org/10.1007/BF00994018){: target="_blank" rel="noopener noreferrer" }
