@@ -1,7 +1,7 @@
 # P3-7.4 基准线应该用什么区间、什么条件来设定
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 一旦理解了基准线是必要的，接下来立刻就会冒出下一个问题。`那到底什么算平时？` 读者很容易再次卡在这里。如果拿来和最近区间比较的过去区间是随意拼出来的，那么即使比较表能做出来，解释也会很容易晃动。所以，更好的先后顺序是先抓住：`先写下比较问题`，`只保留适合这个问题的候选`，然后 `再从剩下的候选里选出和当前样本条件最接近的那一组。`
 
@@ -74,5 +74,5 @@ NIST 关于管理图的说明里提到，要把过程看作处于控制状态，
 
 ## 来源与参考资料
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它说明样本应来自同一本质条件，因此强化了本节的标准：只有样本单位和运行条件一致的基准线候选才应该被留下来。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考期间”这一一般定义，因此也支持这里的说明：基准线候选不该是“随便一个过去区间”，而应被选成一个可比较的 reference period。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 它说明样本应来自同一本质条件，因此强化了本节的标准：只有样本单位和运行条件一致的基准线候选才应该被留下来。 [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 它提供了“用于比较的参考期间”这一一般定义，因此也支持这里的说明：基准线候选不该是“随便一个过去区间”，而应被选成一个可比较的 reference period。 [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 确认日期: 2026-07-20

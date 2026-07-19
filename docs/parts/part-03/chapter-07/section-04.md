@@ -1,7 +1,7 @@
 # P3-7.4 기준선은 어떤 구간과 조건으로 잡아야 하는가
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 기준선이 필요하다는 말을 이해한 뒤에는 곧바로 다음 질문이 나옵니다. `그러면 무엇을 평소로 잡아야 하는가?` 바로 이 지점에서 다시 막히기 쉽습니다. 최근 구간과 비교할 과거 구간을 아무렇게나 모으면, 비교표는 만들어져도 해석은 쉽게 흔들립니다. 그래서 여기서는 `비교 질문을 먼저 적고`, `그 질문에 맞는 후보만 남기고`, `남은 후보 중 지금 샘플과 가장 같은 조건의 묶음을 고른다`는 순서를 먼저 붙잡는 편이 좋습니다.
 
@@ -74,5 +74,5 @@ NIST의 관리도 설명은 공정이 통제 상태에 도달했다고 보려면
 
 ## 출처와 참고 자료
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 동일한 본질 조건 아래에서 얻은 표본이 필요하다는 설명을 제공하므로, 같은 샘플 단위와 운영 조건을 맞춘 기준선 후보만 남겨야 한다는 이 절의 기준을 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. 비교 기준이 되는 참조 기간이라는 일반 정의를 제공하므로, 기준선 후보도 아무 과거 구간이 아니라 비교 가능한 reference period로 골라야 한다는 설명을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. 동일한 본질 조건 아래에서 얻은 표본이 필요하다는 설명을 제공하므로, 같은 샘플 단위와 운영 조건을 맞춘 기준선 후보만 남겨야 한다는 이 절의 기준을 보강합니다. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. 비교 기준이 되는 참조 기간이라는 일반 정의를 제공하므로, 기준선 후보도 아무 과거 구간이 아니라 비교 가능한 reference period로 골라야 한다는 설명을 뒷받침합니다. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / 확인일: 2026-07-20

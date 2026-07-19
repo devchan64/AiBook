@@ -1,7 +1,7 @@
 # P3-7.4 By What Range and Conditions Should We Set the Baseline
 
 > Section ID: `P3-7.4`
-> Version: `v2026.07.11`
+> Version: `v2026.07.20`
 
 Once we understand that a baseline is needed, the next question immediately follows. `Then what exactly should count as usual?` This is where readers easily get stuck again. If we gather past ranges at random for comparison with the recent range, a comparison table may still be produced, but the interpretation will shake easily. So it is better to hold on first to the order: `write the comparison question first`, `leave only the candidates that fit that question`, and `among the remaining candidates, choose the bundle that matches the current sample most closely in condition`.
 
@@ -74,5 +74,5 @@ So this section is more accurately read not as a list of field rules, but as the
 
 ## Sources and Further Reading
 
-- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it explains that samples obtained under the same essential conditions are needed, it reinforces the standard in this section that only baseline candidates with the same sample unit and operating conditions should remain. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
-- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general definition of a reference period used for comparison, it supports the explanation that baseline candidates should also be chosen not as just any past range, but as a comparable reference period. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-08
+- NIST/SEMATECH e-Handbook of Statistical Methods, `What are Variables Control Charts?`. Because it explains that samples obtained under the same essential conditions are needed, it reinforces the standard in this section that only baseline candidates with the same sample unit and operating conditions should remain. [https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc32.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
+- U.S. Bureau of Labor Statistics, `Base period`. Because it provides the general definition of a reference period used for comparison, it supports the explanation that baseline candidates should also be chosen not as just any past range, but as a comparable reference period. [https://www.bls.gov/bls/glossary.htm](https://www.bls.gov/bls/glossary.htm){: target="_blank" rel="noopener noreferrer" } / Accessed: 2026-07-20
