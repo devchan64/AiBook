@@ -1,0 +1,37 @@
+case_id,request_type,instruction,base_lines,base_numbered_steps,base_table_rows,base_uncertainty_marker,base_bullets,tuned_lines,tuned_numbered_steps,tuned_table_rows,tuned_uncertainty_marker,tuned_bullets
+S01,three_line_summary,추천 시스템 변경 내용을 세 줄로 요약해 주세요.,1,0,0,false,0,3,0,0,false,0
+S02,three_line_summary,모바일 사용 비중 변화를 세 줄로 정리해 주세요.,2,0,0,false,0,3,0,0,false,0
+S03,three_line_summary,운영 비용 이슈를 세 줄로 요약해 주세요.,1,0,0,false,0,3,0,0,false,0
+S04,three_line_summary,다음 분기 계획을 세 줄로 정리해 주세요.,4,0,0,false,0,3,0,0,false,0
+S05,three_line_summary,추천 실험 결과를 세 줄로 보고해 주세요.,1,0,0,false,0,3,0,0,false,0
+S06,three_line_summary,로그 반영 계획을 세 줄로 요약해 주세요.,2,0,0,false,0,3,0,0,false,0
+S07,three_line_summary,성과와 한계를 세 줄로 나눠 주세요.,1,0,0,false,0,3,0,0,false,0
+S08,three_line_summary,팀 공유용으로 세 줄 요약을 만들어 주세요.,3,0,0,false,0,3,0,0,false,0
+S09,three_line_summary,회의 전 읽을 세 줄 요약을 작성해 주세요.,5,0,0,false,0,3,0,0,false,0
+T01,three_steps,신입 직원이 이해할 수 있게 3단계로 설명해 주세요.,1,0,0,false,0,3,3,0,false,0
+T02,three_steps,추천 시스템 개선 흐름을 3단계로 정리해 주세요.,3,1,0,false,0,3,3,0,false,0
+T03,three_steps,모바일 사용자 분석 절차를 3단계로 안내해 주세요.,2,0,0,false,0,3,3,0,false,0
+T04,three_steps,운영 비용 검토 순서를 3단계로 설명해 주세요.,4,2,0,false,0,3,3,0,false,0
+T05,three_steps,다음 분기 실행 계획을 3단계로 제시해 주세요.,1,0,0,false,0,3,3,0,false,0
+T06,three_steps,로그 반영 전 점검을 3단계로 말해 주세요.,3,0,0,false,0,3,3,0,false,0
+T07,three_steps,성과 공유 절차를 3단계로 정리해 주세요.,2,1,0,false,0,3,3,0,false,0
+T08,three_steps,추천 규칙 교체 과정을 3단계로 설명해 주세요.,5,3,0,false,0,3,3,0,false,0
+T09,three_steps,실험 후속 검토를 3단계로 안내해 주세요.,1,0,0,false,0,3,3,0,false,0
+U01,table,핵심 사실을 표 형식으로 정리해 주세요.,1,0,0,false,0,5,0,5,false,0
+U02,table,성과와 사용자 지표를 표로 비교해 주세요.,2,0,1,false,0,5,0,5,false,0
+U03,table,운영 이슈와 다음 행동을 표로 정리해 주세요.,1,0,0,false,0,5,0,5,false,0
+U04,table,추천 시스템 변경 전후를 표로 보여 주세요.,3,0,2,false,0,5,0,5,false,0
+U05,table,팀 보고용 핵심 항목을 표로 만들어 주세요.,1,0,0,false,0,5,0,5,false,0
+U06,table,모바일 비중과 클릭률 변화를 표로 정리해 주세요.,2,0,0,false,0,5,0,5,false,0
+U07,table,유지보수 비용 이슈를 표로 요약해 주세요.,1,0,1,false,0,5,0,5,false,0
+U08,table,검색 로그 반영 계획을 표로 보여 주세요.,4,0,3,false,0,5,0,5,false,0
+U09,table,성과 한계 다음 행동을 표로 구분해 주세요.,1,0,0,false,0,5,0,5,false,0
+L01,limitations,현재 사실만으로 확신할 수 없는 점과 추가 정보를 적어 주세요.,1,0,0,false,0,3,0,0,true,2
+L02,limitations,근거가 부족한 부분을 먼저 말하고 필요한 지표를 적어 주세요.,2,0,0,false,1,3,0,0,true,2
+L03,limitations,장기 효과를 단정할 수 없는 이유와 추가 데이터를 적어 주세요.,1,0,0,false,0,3,0,0,true,2
+L04,limitations,사용자군별 차이를 확신할 수 없는 점을 밝혀 주세요.,3,0,0,true,0,3,0,0,true,2
+L05,limitations,현재 자료의 한계와 추가 확인 항목을 정리해 주세요.,1,0,0,false,0,3,0,0,true,2
+L06,limitations,검색 로그 반영 계획에서 아직 모르는 점을 적어 주세요.,2,0,0,false,0,3,0,0,true,2
+L07,limitations,추천 규칙 변경의 위험과 추가 검증 자료를 적어 주세요.,1,0,0,false,1,3,0,0,true,2
+L08,limitations,보고서에 넣을 한계 고지와 추가 필요 정보를 써 주세요.,4,0,0,true,1,3,0,0,true,2
+L09,limitations,확정할 수 없는 결론과 필요한 후속 실험을 적어 주세요.,1,0,0,false,0,3,0,0,true,2

@@ -230,187 +230,154 @@ P6-7.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 사실 묶음`을 두고도 응답 습관이 어떻게 달라지는지를 눈으로 확인하는 것입니다. 이번에는 한 요청만 보지 않고, `세 줄 요약`, `3단계 설명`, `표 정리`, `근거 부족 시 한계 고지`처럼 서로 다른 요청을 한꺼번에 돌려 요청 충족률을 비교하겠습니다.
+이번 예제의 목표는 실제 지시 튜닝 학습 전체를 재현하는 것이 아니라, `같은 사실 묶음`을 두고도 응답 습관이 어떻게 달라지는지를 평가 로그로 확인하는 것입니다. 이번에는 네 개 요청만 직접 비교하지 않고, 36개 요청 평가 기록에서 `세 줄 요약`, `3단계 설명`, `표 정리`, `근거 부족 시 한계 고지`가 얼마나 충족되는지 집계합니다.
 
-아래 코드는 같은 문서 사실 목록과 서로 다른 사용자 지시 네 가지를 사용합니다. 결과에서는 각 지시에 대한 `기본 응답`과 `지시 형식 반영 응답`, 요청 형식을 실제로 맞췄는지에 대한 간단한 점검 결과, 전체 요청 충족 통계를 함께 봅니다.
+아래 코드는 지시 수행 평가 CSV [p6_8_1_instruction_following_eval.csv](../../../assets/part-06/chapter-08/p6_8_1_instruction_following_eval.csv)를 사용합니다. 이 표의 한 행은 하나의 사용자 지시 평가 사례입니다. 핵심 열은 `request_type`, `base_*`, `tuned_*`입니다. `base_*` 열은 일반 응답에서 관찰된 형식 신호이고, `tuned_*` 열은 지시 형식 반영 응답에서 관찰된 형식 신호입니다.
 
-확인할 핵심은 instruction tuning이 내용 생성만이 아니라 요청한 출력 형식과 지시 준수율을 높이는 변화로 읽힐 수 있다는 점입니다.
+확인할 핵심은 instruction tuning이 새 사실을 추가하는 일이 아니라, 같은 내용이라도 요청한 출력 형식과 지시 준수율을 더 안정적으로 맞추는 변화로 읽힐 수 있다는 점입니다.
 
 ```python
-document_facts = [
-    "신규 추천 시스템 도입 후 클릭률이 12% 증가했다.",
-    "모바일 사용자 비중이 전체의 68%였다.",
-    "오래된 추천 규칙은 유지보수 비용이 높았다.",
-    "다음 분기에는 검색 로그를 더 많이 반영할 계획이다.",
-]
+import csv
+from collections import defaultdict
+from pathlib import Path
 
-requests = [
-    {"name": "three_line_summary", "instruction": "이 문서를 세 줄로 요약해 주세요."},
-    {"name": "three_steps", "instruction": "신입 직원이 이해할 수 있게 3단계로 설명해 주세요."},
-    {"name": "table", "instruction": "핵심 사실을 표 형식으로 정리해 주세요."},
-    {
-        "name": "limitations",
-        "instruction": "현재 사실만으로 확신할 수 없는 점을 먼저 밝히고, 추가로 필요한 정보를 적어 주세요.",
-    },
-]
+eval_path = Path("docs/assets/part-06/chapter-08/p6_8_1_instruction_following_eval.csv")
 
-def base_response(facts):
-    return " ".join(facts)
+def to_bool(value):
+    return value.lower() == "true"
 
-def instruction_tuned_response(facts, request_name):
-    if request_name == "three_line_summary":
-        return "\n".join(facts[:3])
-    if request_name == "three_steps":
-        steps = [
-            f"1. 먼저 현재 변화: {facts[0]}",
-            f"2. 사용자 맥락: {facts[1]}",
-            f"3. 다음 행동: {facts[3]}",
-        ]
-        return "\n".join(steps)
-    if request_name == "table":
-        rows = [
-            "| 구분 | 내용 |",
-            "| --- | --- |",
-            f"| 성과 | {facts[0]} |",
-            f"| 사용자 | {facts[1]} |",
-            f"| 운영 | {facts[2]} |",
-        ]
-        return "\n".join(rows)
-    if request_name == "limitations":
-        return (
-            "현재 정보만으로는 사용자군별 클릭률 변화와 장기 유지 효과까지는 확신할 수 없습니다.\n"
-            "- 추가 필요 정보: 사용자군별 분해 지표\n"
-            "- 추가 필요 정보: 실험 기간 이후 유지율 데이터"
-        )
-    return " ".join(facts)
+def read_cases(path):
+    rows = []
+    with path.open(encoding="utf-8", newline="") as file:
+        for row in csv.DictReader(file):
+            rows.append(row)
+    return rows
 
-def check_format(response, request_name):
-    if request_name == "three_line_summary":
-        lines = response.splitlines()
-        return {"line_count": len(lines), "meets_request": len(lines) == 3}
-    if request_name == "three_steps":
-        lines = response.splitlines()
-        starts_ok = all(line.startswith(f"{idx}.") for idx, line in enumerate(lines, start=1))
-        return {"step_count": len(lines), "meets_request": len(lines) == 3 and starts_ok}
-    if request_name == "table":
-        lines = response.splitlines()
-        pipe_lines = sum(1 for line in lines if "|" in line)
-        return {"table_like_lines": pipe_lines, "meets_request": pipe_lines >= 4}
-    if request_name == "limitations":
-        lines = response.splitlines()
-        has_uncertainty = "확신할 수 없습니다" in response or "추가 필요" in response
-        bullet_count = sum(1 for line in lines if line.startswith("- "))
-        return {
-            "bullet_count": bullet_count,
-            "meets_request": has_uncertainty and bullet_count >= 2,
+def check_case(row, prefix):
+    request_type = row["request_type"]
+    lines = int(row[f"{prefix}_lines"])
+    numbered_steps = int(row[f"{prefix}_numbered_steps"])
+    table_rows = int(row[f"{prefix}_table_rows"])
+    uncertainty_marker = to_bool(row[f"{prefix}_uncertainty_marker"])
+    bullets = int(row[f"{prefix}_bullets"])
+
+    if request_type == "three_line_summary":
+        return lines == 3
+    if request_type == "three_steps":
+        return lines == 3 and numbered_steps == 3
+    if request_type == "table":
+        return table_rows >= 4
+    if request_type == "limitations":
+        return uncertainty_marker and bullets >= 2
+    return False
+
+cases = read_cases(eval_path)
+preview_count = 6
+
+evaluated = []
+for row in cases:
+    base_ok = check_case(row, "base")
+    tuned_ok = check_case(row, "tuned")
+    evaluated.append(
+        {
+            "case_id": row["case_id"],
+            "request_type": row["request_type"],
+            "base_ok": base_ok,
+            "tuned_ok": tuned_ok,
+            "improved": (not base_ok) and tuned_ok,
         }
-    return {"meets_request": False}
+    )
 
-base_success = 0
-tuned_success = 0
+by_type = defaultdict(lambda: {"count": 0, "base_ok": 0, "tuned_ok": 0, "improved": 0})
+for item in evaluated:
+    group = by_type[item["request_type"]]
+    group["count"] += 1
+    group["base_ok"] += int(item["base_ok"])
+    group["tuned_ok"] += int(item["tuned_ok"])
+    group["improved"] += int(item["improved"])
 
-for request in requests:
-    print("=" * 70)
-    print("instruction =", request["instruction"])
-    base = base_response(document_facts)
-    tuned = instruction_tuned_response(document_facts, request["name"])
-    base_check = check_format(base, request["name"])
-    tuned_check = check_format(tuned, request["name"])
-    if base_check["meets_request"]:
-        base_success += 1
-    if tuned_check["meets_request"]:
-        tuned_success += 1
-    print("[base response]")
-    print(base)
-    print("[instruction-tuned response]")
-    print(tuned)
-    print("[format check]")
-    print("base  ->", base_check)
-    print("tuned ->", tuned_check)
+total = len(evaluated)
+base_total = sum(item["base_ok"] for item in evaluated)
+tuned_total = sum(item["tuned_ok"] for item in evaluated)
+improved_total = sum(item["improved"] for item in evaluated)
 
-print("=" * 70)
+print("[dataset]")
+print("case_count =", total)
+print("request_types =", sorted(by_type))
+print()
+print("[preview]")
+for item in evaluated[:preview_count]:
+    print(item)
+print(f"... {total - preview_count} more cases")
+print()
 print("[summary]")
-print("request_count =", len(requests))
-print("base_meets_request_count =", base_success)
-print("tuned_meets_request_count =", tuned_success)
+print("base_meets_request_count =", base_total)
+print("tuned_meets_request_count =", tuned_total)
+print("improved_case_count =", improved_total)
+print("base_meets_request_rate =", round(base_total / total, 2))
+print("tuned_meets_request_rate =", round(tuned_total / total, 2))
+print()
+print("[by request type]")
+for request_type, values in sorted(by_type.items()):
+    print(
+        request_type,
+        {
+            "count": values["count"],
+            "base_ok": values["base_ok"],
+            "tuned_ok": values["tuned_ok"],
+            "improved": values["improved"],
+        },
+    )
 ```
-
-이 예제는 로컬 `.venv`의 Python으로 실행해 본문 출력과 일치함을 확인했습니다.
 
 실행 결과 예시는 다음처럼 읽을 수 있습니다.
 
 ```text
-======================================================================
-instruction = 이 문서를 세 줄로 요약해 주세요.
-[base response]
-신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
-[instruction-tuned response]
-신규 추천 시스템 도입 후 클릭률이 12% 증가했다.
-모바일 사용자 비중이 전체의 68%였다.
-오래된 추천 규칙은 유지보수 비용이 높았다.
-[format check]
-base  -> {'line_count': 1, 'meets_request': False}
-tuned -> {'line_count': 3, 'meets_request': True}
-======================================================================
-instruction = 신입 직원이 이해할 수 있게 3단계로 설명해 주세요.
-[base response]
-신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
-[instruction-tuned response]
-1. 먼저 현재 변화: 신규 추천 시스템 도입 후 클릭률이 12% 증가했다.
-2. 사용자 맥락: 모바일 사용자 비중이 전체의 68%였다.
-3. 다음 행동: 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
-[format check]
-base  -> {'step_count': 1, 'meets_request': False}
-tuned -> {'step_count': 3, 'meets_request': True}
-======================================================================
-instruction = 핵심 사실을 표 형식으로 정리해 주세요.
-[base response]
-신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
-[instruction-tuned response]
-| 구분 | 내용 |
-| --- | --- |
-| 성과 | 신규 추천 시스템 도입 후 클릭률이 12% 증가했다. |
-| 사용자 | 모바일 사용자 비중이 전체의 68%였다. |
-| 운영 | 오래된 추천 규칙은 유지보수 비용이 높았다. |
-[format check]
-base  -> {'table_like_lines': 0, 'meets_request': False}
-tuned -> {'table_like_lines': 5, 'meets_request': True}
-======================================================================
-instruction = 현재 사실만으로 확신할 수 없는 점을 먼저 밝히고, 추가로 필요한 정보를 적어 주세요.
-[base response]
-신규 추천 시스템 도입 후 클릭률이 12% 증가했다. 모바일 사용자 비중이 전체의 68%였다. 오래된 추천 규칙은 유지보수 비용이 높았다. 다음 분기에는 검색 로그를 더 많이 반영할 계획이다.
-[instruction-tuned response]
-현재 정보만으로는 사용자군별 클릭률 변화와 장기 유지 효과까지는 확신할 수 없습니다.
-- 추가 필요 정보: 사용자군별 분해 지표
-- 추가 필요 정보: 실험 기간 이후 유지율 데이터
-[format check]
-base  -> {'bullet_count': 0, 'meets_request': False}
-tuned -> {'bullet_count': 2, 'meets_request': True}
-======================================================================
+[dataset]
+case_count = 36
+request_types = ['limitations', 'table', 'three_line_summary', 'three_steps']
+
+[preview]
+{'case_id': 'S01', 'request_type': 'three_line_summary', 'base_ok': False, 'tuned_ok': True, 'improved': True}
+{'case_id': 'S02', 'request_type': 'three_line_summary', 'base_ok': False, 'tuned_ok': True, 'improved': True}
+{'case_id': 'S03', 'request_type': 'three_line_summary', 'base_ok': False, 'tuned_ok': True, 'improved': True}
+{'case_id': 'S04', 'request_type': 'three_line_summary', 'base_ok': False, 'tuned_ok': True, 'improved': True}
+{'case_id': 'S05', 'request_type': 'three_line_summary', 'base_ok': False, 'tuned_ok': True, 'improved': True}
+{'case_id': 'S06', 'request_type': 'three_line_summary', 'base_ok': False, 'tuned_ok': True, 'improved': True}
+... 30 more cases
+
 [summary]
-request_count = 4
-base_meets_request_count = 0
-tuned_meets_request_count = 4
+base_meets_request_count = 1
+tuned_meets_request_count = 36
+improved_case_count = 35
+base_meets_request_rate = 0.03
+tuned_meets_request_rate = 1.0
+
+[by request type]
+limitations {'count': 9, 'base_ok': 0, 'tuned_ok': 9, 'improved': 9}
+table {'count': 9, 'base_ok': 0, 'tuned_ok': 9, 'improved': 9}
+three_line_summary {'count': 9, 'base_ok': 1, 'tuned_ok': 9, 'improved': 8}
+three_steps {'count': 9, 'base_ok': 0, 'tuned_ok': 9, 'improved': 9}
 ```
 
-그래서 이 예제에서 확인해야 할 결과는 같은 사실 목록을 써도, 지시 튜닝 이후 응답이 `형식 요구`, `단계 수`, `표 구조`, `한계 고지` 같은 사용자의 기대를 실제 출력 수준에서 더 잘 맞추는가입니다.
+그래서 이 예제에서 확인해야 할 결과는 한두 개 성공 사례가 아니라, 여러 요청 유형에서 일반 응답과 지시 형식 반영 응답의 통과 패턴이 어떻게 달라지는가입니다. 기본 응답도 일부 요청에서는 우연히 형식을 맞출 수 있지만, 36개 사례를 묶어 보면 요청 형식 준수율은 `0.03`에서 `1.0`으로 달라집니다. 이 차이가 바로 지시 튜닝을 `새 지식 추가`보다 `응답 습관 조정`으로 읽게 해 줍니다.
 
-요약 통계를 차트로 보면 일반 응답과 지시 튜닝 응답의 차이가 더 단순하게 보입니다. 같은 사실 목록을 사용해도, 지시 튜닝 응답은 네 가지 요청 형식 모두를 충족하도록 출력 규칙을 바꿉니다.
+요약 통계를 차트로 보면 일반 응답과 지시 튜닝 응답의 차이가 더 단순하게 보입니다. 같은 사실 묶음을 사용해도, 지시 튜닝 응답은 여러 요청 형식에서 충족률을 안정적으로 높이는 방향으로 출력 규칙을 바꿉니다.
 
 ![일반 응답과 지시 튜닝 응답의 요청 충족 수](../../../assets/part-06/chapter-08/instruction-tuning-request-match-ko.png)
 
 이 예제에서 독자가 직접 해 볼 수 있는 조정은 다음과 같습니다.
 
-- `requests`에 `두 문장으로 설명`, `장단점 비교표` 같은 새 지시를 추가해 보기
-- `document_facts`의 개수를 늘려도 형식 점검이 유지되는지 확인해 보기
-- `check_format` 기준을 더 엄격하게 바꿔, 단순 형식 맞춤과 실제 품질 차이를 구분해 보기
-- `limitations` 요청에 위험 고지나 근거 부족 문구를 추가해, 지시 튜닝이 거절과 한계 고지까지 더 안정적으로 붙잡는지 확인해 보기
+- CSV에 `two_sentence_summary`, `pros_cons_table` 같은 새 요청 유형을 추가해 보기
+- `three_line_summary`의 통과 기준을 `lines == 3`에서 `lines <= 3`으로 바꾸면 결과가 어떻게 달라지는지 확인해 보기
+- `limitations` 기준을 더 엄격하게 바꿔, 한계 고지 문구와 추가 정보 항목을 모두 요구해 보기
+- `tuned_*` 열 일부를 일부러 낮춰, 지시 형식 반영 응답도 모든 요청을 자동으로 완벽히 해결하지는 않는다는 경계 사례를 만들어 보기
 
 이 예제에서 여기서 읽어야 할 핵심은 다음입니다.
 
 - 질문이 같아도 응답 형식 요구는 달라질 수 있고
 - 일반 응답은 내용을 이어 쓰는 데는 성공해도 형식 요구를 자주 놓치며
-- 지시 튜닝된 응답은 사용자가 요청한 구조를 실제 출력 규칙으로 더 잘 반영합니다
+- 지시 튜닝된 응답은 사용자가 요청한 구조를 실제 출력 신호로 더 안정적으로 반영합니다
 - 특히 `요약`, `단계`, `표`, `한계 고지`처럼 서로 다른 응답 습관을 한 모델 안에서 더 안정적으로 꺼내도록 돕습니다
 
 즉, 지시 튜닝은 종종 `무엇을 아는가`보다 `어떻게 답하는가`를 바꾸는 층으로 이해하는 편이 좋습니다.

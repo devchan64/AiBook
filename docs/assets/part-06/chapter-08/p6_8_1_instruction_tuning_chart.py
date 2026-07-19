@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import csv
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 MPL_CACHE = REPO_ROOT / ".tmp" / "matplotlib-cache"
@@ -14,12 +15,39 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 
 OUT_DIR = Path(__file__).resolve().parent
+EVAL_PATH = OUT_DIR / "p6_8_1_instruction_following_eval.csv"
 
-SUMMARY = {
-    "request_count": 4,
-    "base_meets_request_count": 0,
-    "tuned_meets_request_count": 4,
-}
+def to_bool(value: str) -> bool:
+    return value.lower() == "true"
+
+
+def check_case(row: dict[str, str], prefix: str) -> bool:
+    request_type = row["request_type"]
+    lines = int(row[f"{prefix}_lines"])
+    numbered_steps = int(row[f"{prefix}_numbered_steps"])
+    table_rows = int(row[f"{prefix}_table_rows"])
+    uncertainty_marker = to_bool(row[f"{prefix}_uncertainty_marker"])
+    bullets = int(row[f"{prefix}_bullets"])
+
+    if request_type == "three_line_summary":
+        return lines == 3
+    if request_type == "three_steps":
+        return lines == 3 and numbered_steps == 3
+    if request_type == "table":
+        return table_rows >= 4
+    if request_type == "limitations":
+        return uncertainty_marker and bullets >= 2
+    return False
+
+
+def summarize_eval(path: Path) -> dict[str, int]:
+    with path.open(encoding="utf-8", newline="") as file:
+        rows = list(csv.DictReader(file))
+    return {
+        "request_count": len(rows),
+        "base_meets_request_count": sum(check_case(row, "base") for row in rows),
+        "tuned_meets_request_count": sum(check_case(row, "tuned") for row in rows),
+    }
 
 LANG_TEXT = {
     "ko": {
@@ -66,9 +94,10 @@ def style_axis(ax) -> None:
 
 def save_chart(text: dict[str, str]) -> None:
     configure_font(text)
+    summary = summarize_eval(EVAL_PATH)
     values = [
-        SUMMARY["base_meets_request_count"],
-        SUMMARY["tuned_meets_request_count"],
+        summary["base_meets_request_count"],
+        summary["tuned_meets_request_count"],
     ]
 
     fig, ax = plt.subplots(figsize=(5.8, 3.7), dpi=180)
@@ -90,7 +119,7 @@ def save_chart(text: dict[str, str]) -> None:
         )
 
     ax.set_ylabel(text["ylabel"])
-    ax.set_ylim(0, SUMMARY["request_count"] * 1.2)
+    ax.set_ylim(0, summary["request_count"] * 1.2)
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / text["outfile"], bbox_inches="tight")
     plt.close(fig)
