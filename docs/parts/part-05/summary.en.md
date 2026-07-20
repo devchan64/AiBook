@@ -1,7 +1,7 @@
 # Part 5 Wrap-up. Deep Learning Review
 
 Section ID: `P5-summary`
-Version: `v2026.07.12`
+Version: `v2026.07.16`
 
 Part 5 was the section that actually explained how the larger family of functions called neural networks was built on top of the common questions of machine learning. If Part 4 established the standard for reading models around data splitting, generalization, and evaluation, Part 5 had to recover `the structure that learns deeper representations` and `the procedure that actually trains that structure`, while keeping that same standard.
 
@@ -14,12 +14,12 @@ That core can be regrouped into the following three lines.
 | The reading order to leave behind first | Why this order matters |
 | --- | --- |
 | Look at the structure first | You need to know what kind of input-structure problem it is solving so that model names become less confusing. |
-| Attach loss and backpropagation | You need to read what standard adjusts that structure and how, for learning to become visible. |
+| Move from loss to gradients | The loss number must become a correction signal for each parameter before learning becomes visible. |
 | Look at optimizers and regularization last | This lets you separate whether the performance gap came from structure or learning stabilization. |
 
 At this point, an important principle is not to end Part 5 as a `preview for the next Part`. CNNs, RNNs, Attention, and Transformers all connect to the later explanation of LLMs, but that connection must follow the order `close the current structure first, then expand it into a different problem in the next Part`, not `we will look at it later`.
 
-When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](/AiBook/reference/concept-glossary/) together with its `Core Section`.
+When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](../../reference/concept-glossary.md) together with its `Core Section`.
 
 ## The Order For Reading This Wrap-up
 
@@ -35,15 +35,17 @@ This document holds its flow best if read in the following order.
 The flow of Part 5 can be organized as follows.
 
 1. It begins with perceptrons and multilayer neural networks.
-2. It connects activation functions, output layers, loss, and backpropagation.
-3. It distinguishes learning from model execution.
-4. It examines optimizers, regularization, and dropout.
-5. It examines GPU, batch and tensor computation, and representation learning.
-6. It examines CNNs, RNNs, LSTMs, and GRUs.
-7. It examines Attention and self-attention.
-8. It examines Transformers.
-9. It examines generative models and sampling.
-10. It organizes the structure that leads into the next Part on LLMs and generative AI.
+2. It connects activation functions, output layers, and loss.
+3. It examines backpropagation and automatic differentiation, which move from loss to gradients.
+4. It distinguishes learning from model execution.
+5. It examines optimizers, regularization, and dropout.
+6. It examines GPU, batch, and tensor computation.
+7. It reads representation learning as the entrance to structural branching.
+8. It examines CNNs, RNNs, LSTMs, and GRUs.
+9. It examines Attention and self-attention.
+10. It examines Transformers.
+11. It examines generative models and sampling.
+12. It organizes the structure that leads into the next Part on LLMs and generative AI.
 
 If this flow is reduced into one sentence, it becomes the following.
 
@@ -54,7 +56,7 @@ In Part 5, this structure immediately connects to the following questions.
 | Structural intuition fixed in Part 5 | The question reread in the next Part |
 | --- | --- |
 | Inputs are turned into representations | Into what token units is a sentence split? |
-| Loss and backpropagation adjust the structure | Why does next-token prediction lead into generation? |
+| Loss is turned into gradients for adjustment | Why does next-token prediction lead into a learnable generation problem? |
 | Attention and Transformers handle context | Why did long context and generative services become possible? |
 | Generation and sampling change the result | Why must response quality and service quality be examined together? |
 
@@ -66,7 +68,7 @@ If this entire flow is regrouped again as briefly as possible like a review map,
 
 In other words, to say you have finished Part 5 means that `the structure that changes representations`, `the procedure that adjusts error`, `branching by data structure`, and `selection of generated output` are connected in one line.
 
-Under the current table-of-contents structure, this flow is more naturally reread as `the starting point of neural networks -> outputs, loss, and backpropagation -> learning loops and stabilization -> computational environment and representation learning -> structural branching -> generation`.
+Under the current table-of-contents structure, this flow is more naturally reread as `basic computational structure of neural networks -> outputs and loss signals -> training loops and stabilization -> computational scaling -> representation learning and structural branching -> generative models and sampling`.
 
 At this point, it is also helpful to regroup the latter half once more, more slowly. Chapters 12 through 15 begin from `how can sequential state be carried forward`, then move to `can the needed positions be revisited now`, then to `why is that reference computation repeated as parallel blocks`, and finally to `how do we choose an actual output among the resulting candidates`. Only with that handle in place can `RNN -> attention -> Transformer -> generation` be read not as a quick swap of model names, but as a staged change in structural thinking.
 
@@ -101,7 +103,7 @@ The concepts that should remain the longest after Part 5 are the following.
 | Hidden layer | The intermediate layer is not merely a computation step, but the place where inputs are turned into different representations. |
 | Activation function | Without nonlinearity, stacking deeper layers still gives limited growth in expressiveness. |
 | Output layer and loss | Output interpretation and the loss function must be chosen together to match the problem type. |
-| Backpropagation | Backpropagation is not the magical name for making the entire neural network learn, but an efficient computation procedure that sends error contribution backward. |
+| Backpropagation and automatic differentiation | Backpropagation is the procedure that calculates gradients backward from loss, and automatic differentiation is the technique that automatically organizes that computation from the forward-pass record. |
 | Optimizer | Even if the direction is always to reduce loss, the actual update rule can differ. |
 | Regularization | Good learning is not merely fitting longer, but making the model less likely to collapse on unseen data. |
 | GPU and batches | The spread of deep learning happened not only with good ideas, but together with a parallel computation environment. |
@@ -115,7 +117,7 @@ These concepts also become less confusing if they are regrouped again into two a
 | Axis to separate first | What goes here | Why it must be read separately |
 | --- | --- | --- |
 | Structure | Perceptrons, hidden layers, CNNs, RNNs, Attention, Transformers, generative structures | This explains what form the input is turned into and what dependencies are handled. |
-| Learning procedure | Loss, backpropagation, optimizers, regularization, dropout, batches | This shows that even with the same structure, learning stability, generalization, and computation cost can differ. |
+| Learning procedure | Loss, gradient computation, backpropagation, automatic differentiation, optimizers, regularization, dropout, batches | This shows that even with the same structure, learning stability, generalization, and computation cost can differ. |
 
 In other words, in Part 5 it is important to build the habit of reading `what structure was used` separately from `how that structure was trained`.
 
@@ -126,7 +128,7 @@ The misunderstandings that especially require caution in Part 5 are the followin
 - Deep learning is not `something completely different from machine learning`, but a branch of machine learning extended into a larger representation-learning structure.
 - Simply having more layers does not automatically make a model better.
 - You cannot conclude that actual quality improved immediately just because the loss went down.
-- Backpropagation is not the name of the whole learning process, but the procedure for computing gradients.
+- Backpropagation is not the name of the whole learning process, but the procedure for computing gradients; automatic differentiation automates that procedure through the code execution record.
 - GPUs are not merely speed-up devices, but a computational environment that changed the direction of deep learning research itself.
 - The appearance of Attention does not mean RNN-family models became entirely meaningless. It means the mainstream structure for large language models changed.
 - Understanding Transformers does not mean you understand the entirety of LLMs. In the next Part, you still have to examine tokens, pretraining, alignment, and tool connection together.
@@ -157,7 +159,7 @@ Before moving to Part 6, you should be able to answer the following questions.
 - Can you explain the relationship among perceptrons, multilayer neural networks, and hidden layers?
 - Can you explain why activation functions are needed?
 - Can you explain that output layers and loss functions connect to problem type?
-- Can you explain what procedure backpropagation computes?
+- Can you explain how loss becomes parameter-wise gradient signals, and what roles backpropagation and automatic differentiation each play?
 - Can you explain how optimizers and learning rate affect learning stability?
 - Can you explain how regularization and dropout relate to overfitting?
 - Can you explain why GPU, batch, and tensor computation are connected to the spread of deep learning?
@@ -178,7 +180,7 @@ One final point must be fixed again here: to say you have finished Part 5 does n
 | What should remain when Part 5 is finished | What is still passed to the next Part |
 | --- | --- |
 | You can explain why the structures branch from perceptrons to Transformers | Tokenization, pretraining, retrieval integration, tool connection, operational details |
-| You can explain loss, backpropagation, optimizers, and regularization separately from structure | Service settings, inference cost, long-context operational optimization |
+| You can explain loss, gradient computation, backpropagation, automatic differentiation, optimizers, and regularization separately from structure | Service settings, inference cost, long-context operational optimization |
 | You can explain generative models and sampling as `distribution learning` and `output selection` | LLM product experience and service-design judgment |
 
 ## Checklist
