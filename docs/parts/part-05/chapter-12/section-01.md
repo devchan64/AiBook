@@ -1,7 +1,7 @@
 # P5-12.1 순환 신경망(RNN), 장단기 메모리(LSTM), 게이트 순환 유닛(GRU)의 필요성
 
 > Section ID: `P5-12.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-11장에서는 CNN이 이미지처럼 공간 구조가 있는 데이터에서 지역 패턴을 잘 다룬다는 점을 보았습니다. 여기서 데이터 유형을 바꾸면 다음 질문이 생깁니다.
 
@@ -75,6 +75,15 @@ RNN의 핵심 발상은 매우 단순하게 요약할 수 있습니다. `현재 
 
 핵심은 RNN이 이전에 본 정보를 상태처럼 들고, 다음 단계 계산에 함께 넘기려는 구조라는 점입니다. 그래서 이 절에서 RNN을 읽을 때는 `현재 입력을 본다`보다 `현재 입력을 이전 상태와 함께 본다`는 차이를 먼저 붙잡는 편이 좋습니다.
 
+상태 전달은 추상적인 말처럼 들리지만, 실제로는 다음처럼 읽을 수 있습니다. 뒤의 Python 예제와 같은 `MEMO_ALPHA=0.85` 기준에서 이전 상태가 `-1.5`이고 현재 입력 `확인`의 신호가 `0.8`이라면, 새 상태는 현재 입력만의 `0.8`이 아니라 `앞에서 남은 보류 신호 + 지금 확인 신호`가 함께 반영된 값이 됩니다.
+
+| step | 현재 입력 | 마지막 입력만 보는 값 | 이전 상태를 반영한 새 상태 | 읽어야 할 차이 |
+| --- | --- | ---: | ---: | --- |
+| 1 | `차단` | -1.5 | -1.50 | 보류 쪽 단서가 먼저 상태에 남는다 |
+| 2 | `확인` | 0.8 | -0.48 | 마지막 단어는 긍정적이어도 앞의 보류 흔적 때문에 최종 상태는 아직 음수다 |
+
+이 작은 계산에서 중요한 점은 RNN이 `확인`이라는 현재 입력을 무시한다는 뜻이 아닙니다. 현재 입력을 보되, 앞 step에서 넘어온 상태와 함께 본다는 뜻입니다. 그래서 같은 `확인`이라도 앞에 `차단`이 있었는지, `재가동`이 있었는지에 따라 마지막 상태와 판단이 달라질 수 있습니다.
+
 이를 아주 단순하게 그리면 다음과 같습니다.
 
 ```mermaid
@@ -86,6 +95,14 @@ RNN의 핵심 발상은 매우 단순하게 요약할 수 있습니다. `현재 
 ## RNN만으로 충분하지 않았던 이유
 
 기본 RNN은 중요한 아이디어를 제공했지만, 실제 순차 데이터는 그렇게 짧고 단순하지 않습니다. 상태를 계속 다음 step으로 넘기다 보면 앞에서 본 단서가 뒤로 갈수록 약해질 수 있고, 지금 입력이 강하게 들어올수록 오래전 정보는 더 쉽게 밀려날 수 있습니다.
+
+예를 들어 처음에 `누유`라는 강한 보류 단서가 나왔더라도, 뒤에 관계없는 단어가 길게 이어지고 마지막에 `확인`이 나오면 기본 RNN의 상태는 점점 현재 입력 쪽으로 끌려갈 수 있습니다. 상태를 넘기는 구조 자체는 필요하지만, 무엇을 오래 남기고 무엇을 빨리 약하게 만들지 조절하지 못하면 오래전 핵심 단서를 끝까지 붙잡기 어렵습니다.
+
+| 상황 | 상태 전달만으로 생기는 압력 | 왜 문제가 되는가 |
+| --- | --- | --- |
+| 앞부분에 중요한 단서가 있고 뒤에 중립 입력이 길게 이어진다 | 상태가 step마다 조금씩 희석된다 | 처음 단서가 최종 판단에 충분히 남지 않을 수 있다 |
+| 현재 입력이 강하게 들어온다 | 최신 입력이 이전 상태를 덮어쓴다 | 오래전 단서와 현재 단서의 균형이 흔들릴 수 있다 |
+| 필요한 기억과 버려도 되는 흔적이 섞여 있다 | 같은 방식으로 모두 다음 step에 넘긴다 | 중요한 정보와 잡음이 구분되지 않는다 |
 
 즉, `기억하고 싶다`는 아이디어와 `실제로 오래 유지된다`는 것은 다릅니다. 이 차이가 바로 다음 절의 장기 의존성(long-term dependency) 문제로 이어집니다.
 
@@ -99,6 +116,14 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 - basic RNN은 `상태를 이어간다`는 아이디어를 보여 줍니다.
 - LSTM과 GRU는 `그 상태를 어떻게 더 오래, 더 안정적으로 유지할지`를 보강합니다.
+
+따라서 LSTM과 GRU의 필요성은 `RNN보다 이름이 하나 더 많다`가 아니라, 순차 상태를 실제 문제에서 쓰려면 기억을 관리하는 장치가 더 필요했다는 데 있습니다. 입문 단계에서는 내부 게이트 수식을 외우기보다 아래 질문을 먼저 잡는 편이 더 유용합니다.
+
+| 질문 | basic RNN에서 먼저 보이는 한계 | LSTM/GRU가 보강하려는 방향 |
+| --- | --- | --- |
+| 무엇을 오래 남길 것인가? | 모든 상태가 같은 방식으로 다음 step에 섞인다 | 중요한 단서를 더 오래 유지하려 한다 |
+| 무엇을 잊을 것인가? | 오래된 흔적과 잡음이 함께 남거나 함께 약해진다 | 덜 중요한 정보를 줄이려 한다 |
+| 현재 입력을 얼마나 반영할 것인가? | 새 입력이 이전 상태를 쉽게 흔들 수 있다 | 새 입력과 기존 상태의 반영 정도를 조절하려 한다 |
 
 ## LSTM과 GRU는 왜 둘 다 배우나
 
@@ -153,29 +178,29 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 ## 연습 및 예제
 
-이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 이번에는 순차 상태가 없는 아주 단순한 기준과, 순차 상태를 이어받는 기준을 나란히 두고 비교합니다. 즉, `마지막 입력만 보는 판단`과 `앞의 흐름까지 남기는 판단`이 어디서 갈라지는지 실제 출력으로 확인합니다.
+이번 예제의 목표는 `이전 상태를 다음 step으로 넘긴다`는 말이 실제 판단에서 어떤 차이를 만드는지 확인하는 것입니다. 이번에는 순차 상태가 없는 아주 단순한 기준과, 순차 상태를 이어받는 기준을 나란히 두고 비교합니다. 즉, `마지막 입력만 보는 판단`과 `앞의 흐름까지 남기는 판단`이 어디서 갈라지는지 실제 출력으로 확인합니다. 또한 CSV 파일에 여러 시퀀스의 행이 섞여 있을 때, `sequence_id`별로 step 순서를 복원해야 순차 상태를 계산할 수 있다는 데이터 처리 관점도 함께 봅니다.
 
 예제를 읽기 전에, 이번 절에서 실제로 확인해야 할 최소 포인트를 먼저 고정하면 다음과 같습니다.
 
 | 확인 포인트 | 예제에서 바로 볼 값 | 왜 중요한가 |
 | --- | --- | --- |
-| baseline과 상태 기반 판단이 어디서 갈라지는가 | `baseline_last_word_label`, `baseline_last_value_alert`와 최종 `label`, `alert` | 순차 모델이 마지막 입력 하나보다 누적 상태를 본다는 점을 보여 준다 |
-| 상태가 step마다 어떻게 누적되는가 | 각 줄의 `state=` 출력 | RNN류 구조의 핵심이 현재 입력 즉시 판단이 아니라 상태 갱신이라는 점을 보여 준다 |
-| 같은 마지막 입력도 왜 다른 결론이 나오는가 | `gradual_rise`와 `temporary_spike`의 마지막 step 비교 | 직전 흐름이 다르면 현재 판단도 달라진다는 순차 문맥 감각을 눈으로 확인하게 한다 |
+| baseline과 상태 기반 판단이 어디서 갈라지는가 | `baseline_label`/`state_label`, `baseline_alert`/`state_alert` | 순차 모델이 마지막 입력 하나보다 누적 상태를 본다는 점을 보여 준다 |
+| 상태가 step마다 어떻게 누적되는가 | `trace` 출력의 `previous_state -> new_state` | RNN류 구조의 핵심이 현재 입력 즉시 판단이 아니라 상태 갱신이라는 점을 보여 준다 |
+| 같은 마지막 입력도 왜 다른 결론이 나오는가 | `changed=True`인 행 | 직전 흐름이 다르면 현재 판단도 달라진다는 순차 문맥 감각을 눈으로 확인하게 한다 |
 
 입력:
 
-- 같은 마지막 확인 문구를 가진 짧은 운영 메모 세 개
-- 같은 마지막 온도 `80`을 가진 두 시계열
+- 같은 마지막 확인 문구를 가진 운영 메모 시퀀스
+- 같은 마지막 온도 `80`을 가진 센서 시퀀스
+- 입력 파일: [`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv)
 
 출력:
 
 - 마지막 입력만 보는 baseline 판단
-- 각 step에서 갱신되는 문장 상태값
-- 최종 문장 라벨
+- memo summary의 최종 문장 라벨과 `changed` 여부
 - 마지막 값만 보는 baseline 경보 여부
-- 각 step에서 갱신되는 센서 상태값
-- 마지막 step에서의 경보 여부
+- sensor summary의 최종 누적 상태, 경보 여부, `changed` 여부
+- 대표 trace에서 확인하는 `previous_state -> new_state` 상태 갱신 흐름
 
 문제 상황:
 
@@ -190,120 +215,180 @@ LSTM과 GRU는 기본 RNN의 기억 문제를 더 잘 다루려는 구조입니�
 
 | 장면 | 마지막 입력만 보는 baseline 예상 | 상태를 누적해 보는 쪽 예상 | 먼저 붙잡아야 할 이유 |
 | --- | --- | --- | --- |
-| `shutdown_confirmed` | `확인`만 보고 `restart_allowed` | 앞의 `차단` 조치가 남아 `hold_required` | 마지막 단어가 같아도 앞 조치 흐름이 왜 상태 안에 남아야 하는지 본다 |
-| `leak_confirmed` | `확인`만 보고 `restart_allowed` | 앞의 `누유` 단서가 남아 `hold_required` | 같은 마지막 단어라도 앞 상태가 다르면 결론이 갈라질 수 있음을 본다 |
-| `gradual_rise` vs `temporary_spike` | 둘 다 마지막 값 `80`만 보고 경보 | 지속 상승만 경보, 일시 튐은 경보 아님 | 같은 마지막 값도 직전 추세에 따라 상태가 다르게 남는다는 점을 본다 |
+| `memo_shutdown_confirmed` | `확인`만 보고 `restart_allowed` | 앞의 `차단` 조치가 남아 `hold_required` | 마지막 단어가 같아도 앞 조치 흐름이 왜 상태 안에 남아야 하는지 본다 |
+| `memo_leak_confirmed` | `확인`만 보고 `restart_allowed` | 앞의 `누유` 단서가 남아 `hold_required` | 같은 마지막 단어라도 앞 상태가 다르면 결론이 갈라질 수 있음을 본다 |
+| `sensor_gradual_rise` vs `sensor_temporary_spike` | 둘 다 마지막 값 `80`만 보고 경보 | 지속 상승만 경보, 일시 튐은 경보 아님 | 같은 마지막 값도 직전 추세에 따라 상태가 다르게 남는다는 점을 본다 |
 
 입력(input):
 
-위에 정리한 단어 신호, 센서 신호, 초기 상태값을 사용합니다.
+CSV의 한 행은 하나의 sequence에서 한 step을 뜻합니다. `sequence_id`는 같은 순차 묶음을 나타내고, `kind`는 운영 메모(`memo`)와 센서(`sensor`)를 구분합니다. 운영 메모는 `token`을, 센서 시퀀스는 `sensor_value`를 사용합니다. Python 예제는 이 파일을 읽어 `sequence_id`별로 step 순서를 다시 맞춘 뒤 마지막 입력 기준 판단과 누적 상태 기준 판단을 비교합니다.
 
-![gradual rise 시퀀스 상태](../../../assets/part-05/chapter-12/rnn-gradual-rise-state-ko.svg)
+아래 코드는 저장소 루트에서 실행하는 것을 기준으로 합니다.
 
-![temporary spike 시퀀스 상태](../../../assets/part-05/chapter-12/rnn-temporary-spike-state-ko.svg)
+![CSV 기반 센서 시퀀스 누적 상태 비교](../../../assets/part-05/chapter-12/rnn-sequence-csv-state-trace-ko.svg)
 
-이 그래프는 코드 실행 전에 먼저 `마지막 값이 같다`와 `누적 상태가 같다`를 분리해서 보게 합니다. `gradual_rise`와 `temporary_spike`는 둘 다 80으로 끝나지만, 순차 상태는 직전 흐름을 함께 남기기 때문에 최종 경보 해석이 달라질 수 있습니다.
+이 그래프는 코드 실행 전에 먼저 `마지막 값이 같다`와 `누적 상태가 같다`를 분리해서 보게 합니다. CSV에 담긴 센서 시퀀스는 모두 80으로 끝나지만, 순차 상태는 직전 흐름을 함께 남기기 때문에 일부 시퀀스만 경보 기준선을 넘습니다.
 
 ```python
-# 마지막 단어나 마지막 센서값만 보는 baseline과 순차 상태를 누적하는 방식의 최종 판단 차이를 비교하는 예제입니다.
-word_signal = {
+from collections import defaultdict
+from pathlib import Path
+import csv
+
+DATA_PATH = Path("docs/assets/part-05/chapter-12/rnn-sequence-events.csv")
+
+MEMO_ALPHA = 0.85     # 값을 낮추면 앞 단서가 더 빨리 약해집니다.
+SENSOR_ALPHA = 0.6    # 값을 높이면 과거 센서 상태를 더 오래 끌고 갑니다.
+SENSOR_THRESHOLD = 68
+
+WORD_SIGNAL = {
     "누유": -2.2,
     "차단": -1.5,
     "재가동": 1.2,
+    "승인": 0.6,
     "확인": 0.8,
 }
 
-def classify_with_last_word(words):
-    last_signal = word_signal.get(words[-1], 0.0)
-    return "restart_allowed" if last_signal > 0 else "hold_required"
+def load_sequences(path):
+    sequences = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            sequences[row["sequence_id"]].append(row)
+    for rows in sequences.values():
+        rows.sort(key=lambda row: int(row["step"]))
+    return sequences
 
-def run_sentence(name, words, alpha=0.7):
+def label_from_state(state):
+    return "restart_allowed" if state > 0 else "hold_required"
+
+def label_from_last_token(rows):
+    last_signal = WORD_SIGNAL.get(rows[-1]["token"], 0.0)
+    return label_from_state(last_signal)
+
+def trace_memo_state(rows, alpha=MEMO_ALPHA):
     state = 0.0
-    print(f"[sentence: {name}]")
-    print("baseline_last_word_label =", classify_with_last_word(words))
-    for step, word in enumerate(words, start=1):
-        signal = word_signal.get(word, 0.0)
-        state = alpha * state + signal
-        print(f"step {step}: word={word:>6}, signal={signal:>4}, state={state:>5.2f}")
-    label = "restart_allowed" if state > 0 else "hold_required"
-    print("final_label =", label)
-    print()
+    trace = []
+    for row in rows:
+        previous_state = state
+        step = int(row["step"])
+        word = row["token"]
+        input_signal = WORD_SIGNAL.get(word, 0.0)
+        state = alpha * state + input_signal
+        trace.append((step, word, input_signal, previous_state, state))
+    return trace
 
-def alert_with_last_value(sequence, threshold):
-    return sequence[-1] >= threshold
+def alert_from_last_value(rows, threshold=SENSOR_THRESHOLD):
+    return float(rows[-1]["sensor_value"]) >= threshold
 
-def run_sequence(name, sequence, alpha=0.6, threshold=63):
+def trace_sensor_state(rows, alpha=SENSOR_ALPHA, threshold=SENSOR_THRESHOLD):
     state = 0.0
-    print(f"[sensor: {name}]")
-    print("baseline_last_value_alert =", alert_with_last_value(sequence, threshold))
-    for step, x in enumerate(sequence, start=1):
-        state = alpha * state + (1 - alpha) * x
-        alert = state >= threshold
-        print(f"step {step}: input={x:>3}, state={state:>6.2f}, alert={alert}")
-    print()
+    trace = []
+    for row in rows:
+        previous_state = state
+        step = int(row["step"])
+        value = float(row["sensor_value"])
+        state = alpha * state + (1 - alpha) * value
+        trace.append((step, value, previous_state, state, state >= threshold))
+    return trace
 
-gradual_rise = [60, 65, 72, 80]
-temporary_spike = [80, 60, 60, 80]
+sequences = load_sequences(DATA_PATH)
 
-run_sentence("shutdown_confirmed", ["차단", "확인"])
-run_sentence("leak_confirmed", ["누유", "확인"])
-run_sentence("restart_confirmed", ["재가동", "확인"])
-run_sequence("gradual_rise", gradual_rise)
-run_sequence("temporary_spike", temporary_spike)
+print(f"조작 변수: MEMO_ALPHA={MEMO_ALPHA}, SENSOR_ALPHA={SENSOR_ALPHA}, SENSOR_THRESHOLD={SENSOR_THRESHOLD}")
+print()
+
+print("[memo summary: 같은 마지막 단어 '확인'을 다르게 읽는가]")
+print("case                  last_word  baseline_label   final_state  state_label      changed")
+for case_name, rows in sequences.items():
+    if rows[0]["kind"] != "memo":
+        continue
+    trace = trace_memo_state(rows)
+    final_state = trace[-1][-1]
+    baseline_label = label_from_last_token(rows)
+    state_label = label_from_state(final_state)
+    changed = baseline_label != state_label
+    print(f"{case_name:27} {rows[-1]['token']:>5}  {baseline_label:15} {final_state:>10.2f}  {state_label:15} {changed}")
+
+print()
+print("[sensor summary: 같은 마지막 값 80을 다르게 읽는가]")
+print("case              last_value  baseline_alert  final_state  state_alert  changed")
+for case_name, rows in sequences.items():
+    if rows[0]["kind"] != "sensor":
+        continue
+    trace = trace_sensor_state(rows)
+    final_state = trace[-1][3]
+    baseline_alert = alert_from_last_value(rows)
+    state_alert = trace[-1][4]
+    changed = baseline_alert != state_alert
+    print(f"{case_name:29} {rows[-1]['sensor_value']:>5}  {str(baseline_alert):>14}  {final_state:>11.2f}  {str(state_alert):>11}  {changed}")
+
+print()
+print("[trace: memo_shutdown_confirmed]")
+for step, word, signal, previous_state, new_state in trace_memo_state(sequences["memo_shutdown_confirmed"]):
+    print(
+        f"step {step}: input={word}, input_signal={signal:>4}, "
+        f"previous_state={previous_state:>5.2f} -> new_state={new_state:>5.2f}"
+    )
+
+print()
+print("[trace: sensor_temporary_spike]")
+for step, value, previous_state, new_state, alert in trace_sensor_state(sequences["sensor_temporary_spike"]):
+    print(
+        f"step {step}: input={value:>3}, "
+        f"previous_state={previous_state:>5.2f} -> new_state={new_state:>5.2f}, "
+        f"state_alert={alert}"
+    )
 ```
 
-출력에서는 baseline_last_word_label과 final_label이 언제 갈라지는지, 그리고 중간 state가 어떻게 누적되는지부터 보면 됩니다.
+출력에서는 먼저 `changed=True`인 행을 찾습니다. 그 행이 바로 마지막 입력만 보는 baseline과 순차 상태를 누적한 판단이 갈라진 지점입니다. 그다음 `trace`에서 어떤 이전 상태가 다음 step으로 넘어갔는지 확인합니다.
 
 ```text
-[sentence: shutdown_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=    차단, signal=-1.5, state=-1.50
-step 2: word=    확인, signal= 0.8, state=-0.25
-final_label = hold_required
+조작 변수: MEMO_ALPHA=0.85, SENSOR_ALPHA=0.6, SENSOR_THRESHOLD=68
 
-[sentence: leak_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=    누유, signal=-2.2, state=-2.20
-step 2: word=    확인, signal= 0.8, state=-0.74
-final_label = hold_required
+[memo summary: 같은 마지막 단어 '확인'을 다르게 읽는가]
+case                  last_word  baseline_label   final_state  state_label      changed
+memo_shutdown_confirmed       확인  restart_allowed      -0.12  hold_required   True
+memo_leak_confirmed           확인  restart_allowed      -0.55  hold_required   True
+memo_restart_confirmed        확인  restart_allowed       2.18  restart_allowed False
+memo_blocked_then_approved    확인  restart_allowed       1.26  restart_allowed False
+memo_leak_then_recovered      확인  restart_allowed       0.47  restart_allowed False
 
-[sentence: restart_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=   재가동, signal= 1.2, state= 1.20
-step 2: word=    확인, signal= 0.8, state= 1.64
-final_label = restart_allowed
+[sensor summary: 같은 마지막 값 80을 다르게 읽는가]
+case              last_value  baseline_alert  final_state  state_alert  changed
+sensor_gradual_rise             80            True        71.72         True  False
+sensor_temporary_spike          80            True        66.60        False  True
+sensor_late_rise                80            True        69.16         True  False
+sensor_stable_high              80            True        74.83         True  False
+sensor_recovered_then_rise      80            True        66.91        False  True
 
-[sensor: gradual_rise]
-baseline_last_value_alert = True
-step 1: input= 60, state= 24.00, alert=False
-step 2: input= 65, state= 40.40, alert=False
-step 3: input= 72, state= 53.04, alert=False
-step 4: input= 80, state= 63.82, alert=True
+[trace: memo_shutdown_confirmed]
+step 1: input=차단, input_signal=-1.5, previous_state= 0.00 -> new_state=-1.50
+step 2: input=점검, input_signal= 0.0, previous_state=-1.50 -> new_state=-1.27
+step 3: input=대기, input_signal= 0.0, previous_state=-1.27 -> new_state=-1.08
+step 4: input=확인, input_signal= 0.8, previous_state=-1.08 -> new_state=-0.12
 
-[sensor: temporary_spike]
-baseline_last_value_alert = True
-step 1: input= 80, state= 32.00, alert=False
-step 2: input= 60, state= 43.20, alert=False
-step 3: input= 60, state= 49.92, alert=False
-step 4: input= 80, state= 61.95, alert=False
+[trace: sensor_temporary_spike]
+step 1: input=80.0, previous_state= 0.00 -> new_state=32.00, state_alert=False
+step 2: input=60.0, previous_state=32.00 -> new_state=43.20, state_alert=False
+step 3: input=59.0, previous_state=43.20 -> new_state=49.52, state_alert=False
+step 4: input=61.0, previous_state=49.52 -> new_state=54.11, state_alert=False
+step 5: input=63.0, previous_state=54.11 -> new_state=57.67, state_alert=False
+step 6: input=80.0, previous_state=57.67 -> new_state=66.60, state_alert=False
 ```
 
 출력 숫자를 읽을 때도 `마지막 입력`과 `누적 상태`를 분리해서 봐야 합니다.
 
 | 비교 | 출력에서 먼저 보이는 것 | 마지막 입력만 보면 남기 쉬운 해석 | 순차 상태까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
-| `shutdown_confirmed` / `leak_confirmed` / `restart_confirmed` | 모두 마지막 단어는 `확인`인데 최종 라벨은 갈립니다. | 같은 마지막 단어면 같은 판단이 나와야 할 것처럼 보입니다. | `차단`과 `누유`처럼 앞에서 누적된 보류 신호가 남아 있으면, 마지막 `확인`이 와도 최종 판단은 `hold_required`가 될 수 있습니다. |
-| `gradual_rise` vs `temporary_spike` | 둘 다 마지막 값은 `80`인데 마지막 alert는 갈립니다. | 마지막 값이 같으니 둘 다 경보가 떠야 할 것처럼 보입니다. | 지속 상승은 상태를 경보선 위로 밀어 올리지만, 일시 튐 뒤 복귀한 흐름은 같은 마지막 값이어도 상태가 덜 쌓여 경보가 안 뜰 수 있습니다. |
-| 각 step의 `state=` 출력 | 입력 하나하나보다 상태가 점진적으로 바뀝니다. | 중간 출력은 부가 설명일 뿐이라고 보기 쉽습니다. | RNN류 구조의 핵심은 지금 입력보다 `누적 상태를 어떻게 갱신하느냐`에 있다는 점이 드러납니다. |
+| `memo_*` 시퀀스 | 모두 마지막 단어는 `확인`인데 `changed`가 서로 다릅니다. | 같은 마지막 단어면 같은 판단이 나와야 할 것처럼 보입니다. | `차단`과 `누유`처럼 앞에서 누적된 보류 신호가 남아 있으면, 마지막 `확인`이 와도 최종 판단은 `hold_required`가 될 수 있습니다. |
+| `sensor_*` 시퀀스 | 모두 마지막 값은 `80`인데 일부만 `changed=True`입니다. | 마지막 값이 같으니 모두 경보가 떠야 할 것처럼 보입니다. | 지속 상승은 상태를 경보선 위로 밀어 올리지만, 일시 튐 뒤 복귀한 흐름은 같은 마지막 값이어도 상태가 덜 쌓여 경보가 안 뜰 수 있습니다. |
+| `trace`의 `previous_state -> new_state` | 현재 입력이 바로 최종 판단이 되지 않고 이전 상태와 섞입니다. | 중간 출력은 부가 설명일 뿐이라고 보기 쉽습니다. | RNN류 구조의 핵심은 지금 입력보다 `누적 상태를 어떻게 갱신하느냐`에 있다는 점이 드러납니다. |
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| `baseline_last_word_label = restart_allowed`인데 `shutdown_confirmed`와 `leak_confirmed`의 `final_label = hold_required`다 | 마지막 단어만 보면 같은 판단이 나와도, 순차 상태는 앞의 차단·위험 단서를 남겨 다른 결론을 만들 수 있다는 뜻 | `차단`, `누유` 신호 크기나 `alpha`를 바꾸면 앞의 보류 흐름이 얼마나 오래 남는지 달라집니다 |
-| `baseline_last_value_alert = True`인데 `temporary_spike` 마지막 `alert=False`다 | 마지막 값 하나만 보면 같은 경보처럼 보여도, 순차 상태는 직전 흐름을 남겨 다른 결론을 만들 수 있다는 뜻 | 임계값이나 `alpha`를 바꾸면 `지속 상승`과 `일시적 튐`이 얼마나 쉽게 갈라지는지 달라집니다 |
-| `gradual_rise`와 `temporary_spike`의 마지막 입력이 둘 다 `80`인데 state가 다르다 | 현재 판단이 지금 step 하나가 아니라 이전 step들의 누적 흔적까지 함께 본다는 뜻 | 중간 값을 바꾸면 같은 마지막 입력도 상태가 얼마나 크게 달라지는지 더 선명해집니다 |
-| 운영 메모 예제에서 같은 마지막 `확인`인데 `shutdown_confirmed`와 `leak_confirmed`의 state가 다르다 | 같은 확인 문구도 앞 조치 단서가 다르면 상태와 최종 판단이 달라진다는 뜻 | `차단`, `누유` 신호 값을 바꾸면 앞 조치 흐름이 얼마나 강하게 남는지 볼 수 있습니다 |
+| memo summary에서 `changed=True`인 행 | 마지막 단어만 보면 같은 판단이 나와도, 순차 상태는 앞의 차단·위험 단서를 남겨 다른 결론을 만들 수 있다는 뜻 | CSV의 `token`, `WORD_SIGNAL`의 값, `MEMO_ALPHA`를 바꾸면 앞의 보류 흐름이 얼마나 오래 남는지 달라집니다 |
+| sensor summary에서 `changed=True`인 행 | 마지막 값 하나만 보면 같은 경보처럼 보여도, 순차 상태는 직전 흐름을 남겨 다른 결론을 만들 수 있다는 뜻 | CSV의 중간 `sensor_value`, `SENSOR_THRESHOLD`, `SENSOR_ALPHA`를 바꾸면 `지속 상승`과 `일시적 튐`이 얼마나 쉽게 갈라지는지 달라집니다 |
+| `trace`에서 `previous_state`가 다음 `new_state` 계산에 들어간다 | 현재 판단이 지금 step 하나가 아니라 이전 step들의 누적 흔적까지 함께 본다는 뜻 | 중간 입력값을 바꾸면 같은 마지막 입력도 상태가 얼마나 크게 달라지는지 더 선명해집니다 |
 
-위 결과는 세 가지를 함께 보여 줍니다. 첫째, 운영 메모 예제에서는 baseline이 마지막 단어 `확인`만 보고 `shutdown_confirmed`, `leak_confirmed`, `restart_confirmed`를 모두 `restart_allowed`로 읽지만, 순차 상태 쪽은 앞의 차단·위험 단서가 얼마나 강했는지를 남겨 `shutdown_confirmed`와 `leak_confirmed`를 `hold_required`로 갈라냅니다. 둘째, 센서 예제에서는 baseline이 마지막 값 `80`만 보고 두 시계열 모두 경보라고 판단하지만, 상태를 쓰는 쪽은 `지속 상승`과 `일시적 튐`을 다르게 남길 수 있습니다. 셋째, 마지막 입력이 둘 다 `80`이거나 마지막 단어가 모두 `확인`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 하나`로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
+위 결과는 세 가지를 함께 보여 줍니다. 첫째, 운영 메모 예제에서는 baseline이 마지막 단어 `확인`만 보고 모든 memo 시퀀스를 `restart_allowed`로 읽지만, 순차 상태 쪽은 앞의 차단·위험 단서가 얼마나 강했는지를 남겨 일부 시퀀스를 `hold_required`로 갈라냅니다. 둘째, 센서 예제에서는 baseline이 마지막 값 `80`만 보고 모든 sensor 시퀀스를 경보라고 판단하지만, 상태를 쓰는 쪽은 지속 상승과 일시 튐 뒤 복귀한 흐름을 다르게 남길 수 있습니다. 셋째, 마지막 입력이 모두 `80`이거나 마지막 단어가 모두 `확인`이어도 상태값이 같지 않은 이유는 현재 step의 판단이 `지금 입력 하나`로 정해지는 것이 아니라, 이전 step들에서 누적된 상태를 함께 참고하기 때문입니다.
 
 운영 메모 쪽도 같은 기준으로 읽으면 핵심이 더 분명해집니다. baseline은 마지막 단어가 주는 즉시 신호에 쉽게 끌리지만, 순차 상태 쪽은 `차단`, `누유`, `재가동`, `확인`이 차례로 남긴 흔적을 누적해 마지막 결론을 만듭니다. 실제 LSTM과 GRU는 바로 이 상태 관리를 더 오래, 더 안정적으로 하려는 방향으로 이해하면 됩니다.
 
@@ -319,9 +404,9 @@ step 4: input= 80, state= 61.95, alert=False
 
 | 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
 | --- | --- | --- |
-| `temporary_spike`는 마지막 값이 80이어도 경보가 아니다 | `alpha`를 높이거나 낮춰 과거 상태를 얼마나 오래 끌고 가는지 비교한다 | RNN 계열이 언제나 마지막 값 기준보다 무조건 낫다고 단정하지 않는다 |
-| 같은 마지막 `확인`인데도 상태와 결론이 갈라진다 | `누유`, `차단`, `재가동` 신호를 바꿔 앞 조치 흐름이 얼마나 오래 남는지 본다 | 단어 신호 몇 개만으로 실제 운영 언어 이해 전체를 설명한다고 단정하지 않는다 |
-| 두 시계열의 마지막 state가 다르다 | 중간 값을 더 올리거나 낮춰 `지속 추세`와 `일시 튐`이 어디서 갈라지는지 본다 | 이 간단한 상태 업데이트 식 하나로 LSTM·GRU 내부 게이트 전체를 대체하지 않는다 |
+| 일부 `sensor_*` 시퀀스는 마지막 값이 80이어도 경보가 아니다 | CSV의 중간 `sensor_value`, `SENSOR_ALPHA`, `SENSOR_THRESHOLD`를 바꿔 과거 상태를 얼마나 오래 끌고 가는지 비교한다 | RNN 계열이 언제나 마지막 값 기준보다 무조건 낫다고 단정하지 않는다 |
+| 같은 마지막 `확인`인데도 상태와 결론이 갈라진다 | CSV의 `token`, `WORD_SIGNAL`, `MEMO_ALPHA`를 바꿔 앞 조치 흐름이 얼마나 오래 남는지 본다 | 단어 신호 몇 개만으로 실제 운영 언어 이해 전체를 설명한다고 단정하지 않는다 |
+| 여러 센서 시퀀스의 마지막 state가 다르다 | 중간 값을 더 올리거나 낮춰 `지속 추세`와 `일시 튐`이 어디서 갈라지는지 본다 | 이 간단한 상태 업데이트 식 하나로 LSTM·GRU 내부 게이트 전체를 대체하지 않는다 |
 
 즉, RNN의 기본 직관은 `현재 입력을 바로 분류한다`보다 `이전 상태를 들고 와 현재 입력과 함께 새 상태를 만든다`에 더 가깝습니다. LSTM과 GRU는 바로 이 상태를 `무엇을 더 오래 남길지`, `무엇을 잊을지` 더 잘 조절하려고 나온 구조라고 읽으면 됩니다.
 
