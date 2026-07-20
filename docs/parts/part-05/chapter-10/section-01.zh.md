@@ -1,7 +1,7 @@
 # P5-10.1 表征学习（representation learning）
 
-Section ID: `P5-10.1`
-Version: `v2026.07.17`
+> Section ID: `P5-10.1`
+> Version: `v2026.07.19`
 
 走到 P5-9 章时，我们已经看到：深度学习会按 batch 重复大规模 tensor 计算，并且依靠 GPU 和并行处理，才扩散到真正实用的规模。现在如果把问题重新转回模型内部，就会自然冒出下一个提问。
 
@@ -238,14 +238,17 @@ representation learning 模型可以把每条产线的报警历史和处理信�
 
 这张表的目的，是先把`单行分数`和`多轴表征`分开来读。
 
+要实验的值是 `line_b_rework_calls`。一开始把它设为 `5.0` 运行一次，然后再像 `1.0` 那样调低，比较 `line_B` 在表征坐标里会怎样移动。
+
 ```python
 # 这个例子比较人工设计的 risk_score 和从数据计算出的二维 representation 坐标会留下什么不同读法。
 import numpy as np
 
 lines = ["line_A", "line_B", "line_C", "line_D"]
+line_b_rework_calls = 5.0
 data = np.array([
-    [6.0, 5.0, 1.0],
-    [2.0, 3.0, 5.0],
+    [6.0, 5.0, 1.0],  # repeated temperature alarms, then pressure instability
+    [2.0, 3.0, line_b_rework_calls],  # fewer alarms, but repeated rework calls
     [1.0, 1.0, 1.0],
     [5.0, 4.0, 5.0],
 ])
@@ -349,6 +352,6 @@ representation_gap(line_A, line_B) = 3.09
 
 ## 来源与参考资料
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013，确认日期：2026-06-29。
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013，确认日期：2026-07-19。[https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-06-29。
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-07-19。[https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }
