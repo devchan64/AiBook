@@ -212,6 +212,7 @@ RAG는 두 단계를 결합하기 때문에 흔들릴 수 있는 지점도 늘�
 코드에서 확인할 핵심은 RAG 실패는 검색이 틀린 경우와 생성이 문서 밖으로 과장한 경우를 나눠 봐야 원인을 정확히 잡을 수 있다는 점입니다. 문서 파일은 `title`, `text`, `category` 열을 갖고, 실험 파일은 `name`, `retrieval_terms`, `generation_style` 열을 갖습니다. `retrieval_terms`는 세미콜론(`;`)으로 나눈 검색어 목록입니다.
 
 ```python
+# RAG 문서 검색 조건과 생성 스타일을 바꿔 검색 실패와 생성 과장이 서로 다른 실패로 드러나는지 확인하는 예제입니다.
 import csv
 from pathlib import Path
 
