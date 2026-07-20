@@ -62,6 +62,7 @@ Expected output: it becomes visible that `read it as a classification problem ri
 Concept to check: before source data is read as a learning problem, we first have to decide what `one sample`, `a label candidate`, and `a comparison table` are. Learning-problem judgment is not a fixed sentence; it has to be checked against the current table's columns and grouping criteria.
 
 ```python
+# This example avoids reading a raw log as a learning problem too early and rebuilds it as an event-level summary table.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
