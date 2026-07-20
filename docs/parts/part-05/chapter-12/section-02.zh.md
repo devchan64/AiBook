@@ -1,7 +1,7 @@
 # P5-12.2 长期依赖（long-term dependency）
 
-Section ID: `P5-12.2`
-Version: `v2026.07.18`
+> Section ID: `P5-12.2`
+> Version: `v2026.07.19`
 
 在 P5-12.1 里，我们已经说明过，RNN、LSTM、GRU 是为了处理序列数据（sequence data）而出现的结构。这里紧接着就会出现下一个问题。
 
@@ -279,3 +279,9 @@ direct_decision = keeps block
 - 能把长期依赖解释成不只是`记忆稍微变弱一点`，而是`只要前面线索缺失，当前判断本身就会摇晃`的问题吗？
 - 能把状态保留和 direct reference 说成两种不同想法吗？
 - 到下一章去读 attention 时，是否已经准备好先问：`到底需要重新看哪一个前面位置？`
+
+## 来源与参考资料
+
+- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, 确认日期：2026-07-19. [https://doi.org/10.1162/neco.1997.9.8.1735](https://doi.org/10.1162/neco.1997.9.8.1735){: target="_blank" rel="noopener noreferrer" }
+- Yoshua Bengio, Patrice Simard, Paolo Frasconi, `Learning Long-Term Dependencies with Gradient Descent is Difficult`, IEEE Transactions on Neural Networks, 1994, 确认日期：2026-07-19. [https://doi.org/10.1109/72.279181](https://doi.org/10.1109/72.279181){: target="_blank" rel="noopener noreferrer" }
+- Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

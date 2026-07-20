@@ -1,7 +1,7 @@
 # P5-12.2 Long-Term Dependency
 
-Section ID: `P5-12.2`
-Version: `v2026.07.18`
+> Section ID: `P5-12.2`
+> Version: `v2026.07.19`
 
 In P5-12.1, we explained that RNNs, LSTMs, and GRUs are structures that appeared to handle sequence data. The very next question appears here.
 
@@ -282,6 +282,6 @@ If we just saw in P5-12.1 `a structure that carries sequential state forward`, h
 
 ## Sources And References
 
-- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, checked on 2026-06-29.
-- Yoshua Bengio, Patrice Simard, Paolo Frasconi, `Learning Long-Term Dependencies with Gradient Descent is Difficult`, IEEE Transactions on Neural Networks, 1994, checked on 2026-06-29.
+- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, checked on 2026-07-19. [https://doi.org/10.1162/neco.1997.9.8.1735](https://doi.org/10.1162/neco.1997.9.8.1735){: target="_blank" rel="noopener noreferrer" }
+- Yoshua Bengio, Patrice Simard, Paolo Frasconi, `Learning Long-Term Dependencies with Gradient Descent is Difficult`, IEEE Transactions on Neural Networks, 1994, checked on 2026-07-19. [https://doi.org/10.1109/72.279181](https://doi.org/10.1109/72.279181){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
