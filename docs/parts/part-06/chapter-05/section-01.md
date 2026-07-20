@@ -225,6 +225,7 @@ LLM은 보통 글자를 그대로 다루지 않고 토큰(token) 단위로 다�
 확인할 핵심은 다음 토큰 분포가 학습 문장들에서 반복된 연결 패턴이 누적된 결과로 만들어진다는 점입니다.
 
 ```python
+# 작은 학습 문장 묶음에서 이전 세 토큰별 다음 토큰 빈도를 세고, 그 분포로 프롬프트를 이어 생성하는 예제입니다.
 from collections import Counter, defaultdict
 
 training_sentences = [

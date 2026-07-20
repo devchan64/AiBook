@@ -212,6 +212,7 @@ greedy는 더 예측 가능하고, sampling은 더 다양합니다.
 확인할 핵심은 temperature 조절이 후보 분포의 평탄도를 바꿔 일관성과 다양성의 균형을 달라지게 만든다는 점입니다.
 
 ```python
+# 고객 지원 답변 슬롯에서 greedy, sampling, temperature가 문장 조합의 일관성과 다양성을 어떻게 바꾸는지 비교하는 예제입니다.
 import random
 
 reply_slots = {
