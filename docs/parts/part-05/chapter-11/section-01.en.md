@@ -275,6 +275,7 @@ Before reading the code, it helps to predict what comparisons will occur first.
 The purpose of this table is to read first not `is there a response or not`, but `in which scene does the stronger local response jump out`.
 
 ```python
+# This example scans normal and scratch panels with 2x2 local windows to compare strongest response positions and the score gap.
 import numpy as np
 
 normal_panel = np.array([

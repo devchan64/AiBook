@@ -388,6 +388,7 @@ filter
 这里使用上面整理好的输入图像、filter，以及几组 `padding`、`stride`、`dilation` 设置。
 
 ```python
+# 这个例子比较 padding、stride、dilation 如何改变 convolution 输出 shape、第一个 patch 和结果值。
 import numpy as np
 
 image = np.array([
@@ -576,6 +577,7 @@ result =
 这里使用上面整理好的正常封口（`normal_seal`）和弱封口（`weak_seal`）扫描矩阵。
 
 ```python
+# 这个例子比较正常密封和弱密封中的 convolution 局部响应，以及 max pooling 后留下的最大异常信号。
 normal_seal = [
     [2, 2, 2, 2, 2],
     [2, 3, 3, 3, 2],

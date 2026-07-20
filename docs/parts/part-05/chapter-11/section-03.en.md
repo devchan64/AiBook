@@ -217,6 +217,7 @@ We use the 6x6 packaging-inspection frame and the CNN/ViT-style split rules summ
 Before reading the code, there is one question to hold onto first. If we put the same frame into the two structures, the CNN places first `which small position jumps first`, while the ViT-side auxiliary computation places first `which region relation separates first`.
 
 ```python
+# This example compares which anomaly signals appear first from overlapping CNN local scores and non-overlapping ViT-style patch-token means on the same inspection frame.
 inspection_frame = [
     [4, 4, 4, 1, 1, 1],
     [4, 5, 4, 1, 2, 1],

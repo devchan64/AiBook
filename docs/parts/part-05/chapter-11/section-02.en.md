@@ -388,6 +388,7 @@ Input:
 We use the input image, filter, and several `padding`, `stride`, and `dilation` settings summarized above.
 
 ```python
+# This example compares how padding, stride, and dilation change convolution output shape, the first patch, and result values.
 import numpy as np
 
 image = np.array([
@@ -576,6 +577,7 @@ Input:
 We use the scan matrices of the normal seal (`normal_seal`) and weak seal (`weak_seal`) summarized above.
 
 ```python
+# This example compares convolution local responses and the largest anomaly signal preserved after max pooling for normal and weak seals.
 normal_seal = [
     [2, 2, 2, 2, 2],
     [2, 3, 3, 3, 2],

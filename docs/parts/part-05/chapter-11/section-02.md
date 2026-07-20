@@ -390,6 +390,7 @@ filter
 위에 정리한 입력 이미지, 필터, 여러 `padding`·`stride`·`dilation` 설정을 사용합니다.
 
 ```python
+# padding, stride, dilation 설정이 convolution 출력 shape와 첫 patch, 결과값을 어떻게 바꾸는지 비교하는 예제입니다.
 import numpy as np
 
 image = np.array([
@@ -577,6 +578,7 @@ result =
 위에 정리한 정상 실링(`normal_seal`)과 약한 실링(`weak_seal`) 스캔 행렬을 사용합니다.
 
 ```python
+# 정상 실링과 약한 실링에서 convolution 지역 반응과 max pooling 뒤에 남는 가장 큰 이상 신호를 비교하는 예제입니다.
 normal_seal = [
     [2, 2, 2, 2, 2],
     [2, 3, 3, 3, 2],
