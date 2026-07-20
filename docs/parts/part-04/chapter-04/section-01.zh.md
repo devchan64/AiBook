@@ -84,6 +84,7 @@ overfitting 和 generalization 会在 P4-5 详细处理。accuracy、precision�
 要确认的核心是，`train_test_split` 会按同一个基准同时拆分输入和 label。拆分之后，比起先看性能分数，更重要的是养成先检查数量和 label 比例的习惯。
 
 ```python
+# 这个例子把输入特征 X 和目标 y 分成训练集与评估集，并检查标签比例。
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -139,6 +140,7 @@ evaluation churn ratio: 0.5
 要确认的核心是，实务型拆分应按 `先分出输入列集合 X 和答案列 y` 的顺序来读。`shape` 和 label 比例是检查拆分结果的基本输出。
 
 ```python
+# 这个例子把输入特征 X 和目标 y 分成训练集与评估集，并检查标签比例。
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -331,6 +333,7 @@ evaluation data 是一种 `模拟尚未见过数据` 的装置。但它并不保
 要确认的核心是，`test_size` 越大，evaluation data 越多，而 training data 越少。样本数变化和 label 比例变化必须一起看。
 
 ```python
+# 这个例子把输入特征 X 和目标 y 分成训练集与评估集，并检查标签比例。
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -387,6 +390,7 @@ evaluation churn ratio: 0.75
 要确认的核心是，`random_state` 是为了复现拆分结果而设置的参考值。在小数据里，就算只改 seed，evaluation 组成也可能大幅波动。
 
 ```python
+# 这个例子把输入特征 X 和目标 y 分成训练集与评估集，并检查标签比例。
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -441,6 +445,7 @@ evaluation churn ratio: 1.0
 要确认的核心是，在类别不平衡的数据里，就算只是普通随机拆分，label 分布也很容易波动。这也就是为什么拆分之后要立刻把 label 组成打印出来。
 
 ```python
+# 这个例子把输入特征 X 和目标 y 分成训练集与评估集，并检查标签比例。
 from sklearn.model_selection import train_test_split
 
 X = [[i] for i in range(10)]

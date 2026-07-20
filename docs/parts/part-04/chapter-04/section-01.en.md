@@ -84,6 +84,7 @@ The same idea can be moved into code as follows. The example below splits the cu
 The key point is that `train_test_split` splits the inputs and labels together under the same criterion. After the split, it is important to build the habit of checking counts and label ratios before performance scores.
 
 ```python
+# This example splits input features X and target y into training and evaluation sets and checks label ratios.
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -139,6 +140,7 @@ In a more practical style, people usually split input columns and the answer col
 The key point is that a practical split should be read in the order of first separating the input-column bundle `X` and the answer column `y`. `shape` and label ratios are the basic outputs for checking a split result.
 
 ```python
+# This example splits input features X and target y into training and evaluation sets and checks label ratios.
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -331,6 +333,7 @@ The code below splits the same data using two different ratios. Using the custom
 The key point is that as `test_size` grows, the evaluation data grow and the training data shrink. Changes in sample count and changes in label ratio should be read together.
 
 ```python
+# This example splits input features X and target y into training and evaluation sets and checks label ratios.
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -387,6 +390,7 @@ Even with the same data, the split result can change if the shuffle criterion ch
 The key point is that `random_state` is a reference value for reproducing a split result. With small data, even changing only the seed can make the evaluation composition swing substantially.
 
 ```python
+# This example splits input features X and target y into training and evaluation sets and checks label ratios.
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -441,6 +445,7 @@ The next example shows how easily the split result can swing when `churn` cases 
 The key point is that in class-imbalanced data, label distribution can shift easily even with an ordinary random split. This is why label composition should be printed immediately after the split.
 
 ```python
+# This example splits input features X and target y into training and evaluation sets and checks label ratios.
 from sklearn.model_selection import train_test_split
 
 X = [[i] for i in range(10)]

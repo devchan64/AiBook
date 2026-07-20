@@ -210,6 +210,7 @@ Keeping validation and test separate usually appears in code as a two-stage spli
 What to check in the example below is not model performance, but whether `the roles of the three bundles remain separated even in code`. In the output, inspect training, validation, and test sample counts, and validation/test label composition separately.
 
 ```python
+# This example separates training, validation, and test data to distinguish tuning from final checking.
 from sklearn.model_selection import train_test_split
 
 X = [[i] for i in range(12)]

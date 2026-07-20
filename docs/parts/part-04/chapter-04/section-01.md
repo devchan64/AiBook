@@ -84,6 +84,7 @@ P4-3장에서는 휴리스틱(heuristic)을 사용해 먼저 시도할 모델 �
 확인할 핵심은 `train_test_split`이 입력과 라벨을 같은 기준으로 함께 나눈다는 점입니다. 분리 뒤에는 성능 점수보다 먼저 개수와 라벨 비율을 확인하는 습관이 중요합니다.
 
 ```python
+# 입력 특징 X와 정답 y를 학습용과 평가용으로 나누고 라벨 비율을 확인하는 예제입니다.
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -139,6 +140,7 @@ evaluation churn ratio: 0.5
 확인할 핵심은 실무형 분리를 입력 열 묶음 `X`와 정답 열 `y`를 먼저 나누는 순서로 읽어야 한다는 점입니다. `shape`와 라벨 비율은 분리 결과 점검의 기본 출력입니다.
 
 ```python
+# 입력 특징 X와 정답 y를 학습용과 평가용으로 나누고 라벨 비율을 확인하는 예제입니다.
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -331,6 +333,7 @@ Name: proportion, dtype: float64
 확인할 핵심은 `test_size`가 커질수록 평가용 데이터는 늘고 학습용 데이터는 줄어든다는 점입니다. 샘플 수 변화와 라벨 비율 변화는 함께 봐야 합니다.
 
 ```python
+# 입력 특징 X와 정답 y를 학습용과 평가용으로 나누고 라벨 비율을 확인하는 예제입니다.
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -387,6 +390,7 @@ evaluation churn ratio: 0.75
 확인할 핵심은 `random_state`가 분리 결과를 재현하기 위한 기준값이라는 점입니다. 작은 데이터에서는 시드 값만 바뀌어도 평가 구성이 크게 흔들릴 수 있습니다.
 
 ```python
+# 입력 특징 X와 정답 y를 학습용과 평가용으로 나누고 라벨 비율을 확인하는 예제입니다.
 from sklearn.model_selection import train_test_split
 
 X = [
@@ -441,6 +445,7 @@ evaluation churn ratio: 1.0
 확인할 핵심은 클래스 불균형 데이터가 무작위 분리만으로도 라벨 분포가 쉽게 흔들린다는 점입니다. 분리 직후 라벨 구성을 출력해 보는 이유가 여기에 있습니다.
 
 ```python
+# 입력 특징 X와 정답 y를 학습용과 평가용으로 나누고 라벨 비율을 확인하는 예제입니다.
 from sklearn.model_selection import train_test_split
 
 X = [[i] for i in range(10)]

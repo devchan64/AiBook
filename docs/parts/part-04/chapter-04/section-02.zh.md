@@ -210,6 +210,7 @@ validation data 和 test data 的区分，只要先问 `现在这个问题是为
 下面这个例子要确认的不是 model 性能，而是 `三块数据的角色在代码里是否也被分开维持`。输出里分别看 training、validation、test 的样本数，以及 validation/test 的 label 构成。
 
 ```python
+# 这个例子分离训练、验证和测试数据，用来区分调参和最终检查的作用。
 from sklearn.model_selection import train_test_split
 
 X = [[i] for i in range(12)]
