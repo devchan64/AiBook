@@ -229,6 +229,7 @@ Input:
 We use the inspection-result guidance prefix and response-candidate list summarized above, but this time we vary `response_weights` in three ways. This makes the example a small experiment that checks how the sampling width changes when the same candidates are read with sharper or flatter weights.
 
 ```python
+# This example compares how argmax and sampling create different output diversity, choice counts, and average sentence length from the same response candidates and weights.
 import random
 
 inspection_prefix = "Batch inspection result"
