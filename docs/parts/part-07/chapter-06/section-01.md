@@ -111,6 +111,7 @@ RAG와 에이전트는 둘 다 LLM 프로젝트이지만 중심 질문이 다릅
   - blocked는 실패와 다른 실행 상태다
 
 ```python
+# 결제 API 장애 티켓 대응에서 agent 계획, 도구 실행 기록, blocked 단계, 최종 운영 보고를 정리하는 예제입니다.
 import csv
 from pathlib import Path
 

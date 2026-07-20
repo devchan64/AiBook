@@ -102,6 +102,7 @@ P7-6.1의 같은 장애 티켓 흐름을 이어 받되, 예제에서는 `blocked
   - failure는 기능적 종료 실패이므로 로그와 대체 경로가 필요하다
 
 ```python
+# agent 실행 권한 로그에서 완료, blocked, failure 단계를 나누고 추가 승인이나 재시도 대상 도구를 찾는 예제입니다.
 import csv
 from pathlib import Path
 
