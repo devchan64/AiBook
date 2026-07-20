@@ -96,6 +96,7 @@ Version: `v2026.07.20`
   - 질문별 상태 기록이 있어야 P7-7의 운영 회고로 자연스럽게 넘어간다
 
 ```python
+# RAG 경계 질문을 문서 범위 밖, 검색 실패, 답변 과장 위험, 근거 기반 답변으로 나눠 안전 답변과 다음 수정을 기록하는 예제입니다.
 import csv
 import re
 from pathlib import Path
