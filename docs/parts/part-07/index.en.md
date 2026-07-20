@@ -1,7 +1,7 @@
 # Part 7. Projects
 
 > Section ID: `P7-index`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 7 is the part where earlier material is practiced through real inputs, code execution, output comparison, and error interpretation. Instead of adding a long stretch of new theory, this Part executes and interprets already learned judgment standards around question setting, comparison, structure choice, and execution records inside one project.
 
@@ -11,7 +11,7 @@ This Part matters especially for the following readers.
 - Readers who followed example code but still find `why this output appeared` and `what should be checked first` unclear
 - Readers who know about LLMs, RAG, and agents but want a clearer way to read execution logs and quality reviews
 
-## The Purpose Of This Part
+## What A Project Must Leave As Evidence
 
 The purpose of Part 7 is not to finish a massive service. It is also not a Part that stops at formal imitation. Instead, it makes the goal of `stabilizing understanding by actually running and rereading examples` explicit.
 
@@ -133,7 +133,7 @@ Written as the first question to hold in each axis, the practice can be reduced 
 | Agent | `What tools were used in what order?` | Because the execution path must appear before success or failure is interpreted. |
 | Deployment and operations | `What failure happened and what will be changed next?` | Because the next action matters more than the completion report in operations. |
 
-## What This Part Explains And Does Not Explain
+## Execution Boundaries A Small Project Must Close
 
 This Part covers the following scope.
 
