@@ -389,6 +389,7 @@ intercept 是当输入为 0 时，model 放下的起点。不过，intercept 并
   - model 可以对新输入做连续值预测
 
 ```python
+# 这个例子用 NumPy 计算确认线性回归的斜率、截距、预测值和残差。
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -447,6 +448,7 @@ prediction at x=7 : 76.4
   - coefficient 的大小必须连同单位一起谨慎地读
 
 ```python
+# 这个例子用 NumPy 计算确认线性回归的斜率、截距、预测值和残差。
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -503,6 +505,7 @@ prediction new    : 73.12
 这次保持同一个学生的 `attendance` 和 `assignment_score` 不变，只把 `study_hours` 从 `5` 提高到 `7`。
 
 ```python
+# 这个例子用 NumPy 计算确认线性回归的斜率、截距、预测值和残差。
 import numpy as np
 from sklearn.linear_model import LinearRegression
 

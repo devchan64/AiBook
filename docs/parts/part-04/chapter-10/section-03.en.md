@@ -69,6 +69,7 @@ The reader does not need to feel that normality is an absolute condition for mak
 A very small comparison exercise can be read as follows.
 
 ```python
+# This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
 balanced_residuals = [-3, -1, 0, 1, 3]
 skewed_residuals = [-1, 0, 1, 2, 12]
 
@@ -159,6 +160,7 @@ The example below shows that when two features carrying nearly the same informat
   - keeping prediction stable and keeping coefficient interpretation stable are not the same thing
 
 ```python
+# This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -204,6 +206,7 @@ What the reader should first take from this result is the following.
 This time, the reader changes only the last value of `yearly_spend_proxy` from `239` to `233` and trains again.
 
 ```python
+# This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -255,6 +258,7 @@ This exercise recovers regression diagnostics not as `a list of statistical term
 Instead of stopping after multicollinearity alone, the reader can compare one tiny scene where the spread of error differs by region.
 
 ```python
+# This example checks residual balance, outliers, and range-level error patterns for regression diagnostics.
 low_range_residuals = [-2, 1, 0]
 high_range_residuals = [-15, 12, 18]
 

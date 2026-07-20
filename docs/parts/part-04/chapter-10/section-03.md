@@ -69,6 +69,7 @@ P4-10.2까지 읽으면 선형회귀의 기본 평가는 갖춰집니다. 하지
 아주 작은 비교 실습으로 보면 다음처럼 읽을 수 있습니다.
 
 ```python
+# 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
 balanced_residuals = [-3, -1, 0, 1, 3]
 skewed_residuals = [-1, 0, 1, 2, 12]
 
@@ -159,6 +160,7 @@ skewed range      : 13
   - 예측이 유지되는 것과 계수 해석이 안정적인 것은 같은 말이 아닙니다.
 
 ```python
+# 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -204,6 +206,7 @@ one-feature prediction   : 47.5
 이번에는 `yearly_spend_proxy`의 마지막 값만 `239`에서 `233`으로 바꿔 다시 학습해 봅니다.
 
 ```python
+# 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -255,6 +258,7 @@ shifted prediction    : 47.479
 다중공선성만 보는 것으로 끝내지 않고, 구간별 오차 퍼짐이 다른 장면도 아주 작게 비교해 보겠습니다.
 
 ```python
+# 회귀 진단에서 잔차의 균형, 이상값, 구간별 오차 패턴을 확인하는 예제입니다.
 low_range_residuals = [-2, 1, 0]
 high_range_residuals = [-15, 12, 18]
 

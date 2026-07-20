@@ -420,6 +420,7 @@ R²가 높으면 모델이 데이터를 잘 설명하는 것처럼 보입니다.
   - R²는 평균 예측보다 얼마나 더 설명하는지 보여 줍니다.
 
 ```python
+# 선형회귀 예측의 잔차와 MAE, MSE, RMSE 같은 평가 지표를 계산하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -490,6 +491,7 @@ R2          : 0.992
 - RMSE는 큰 실패 하나에 더 민감하게 반응한다
 
 ```python
+# 선형회귀 예측의 잔차와 MAE, MSE, RMSE 같은 평가 지표를 계산하는 예제입니다.
 import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
@@ -524,6 +526,7 @@ outlier RMSE: 7.431
 이번에는 마지막 한 점만 크게 틀리는 대신, 마지막 두 점이 함께 크게 틀리는 장면으로 바꿔 봅니다.
 
 ```python
+# 선형회귀 예측의 잔차와 MAE, MSE, RMSE 같은 평가 지표를 계산하는 예제입니다.
 import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 

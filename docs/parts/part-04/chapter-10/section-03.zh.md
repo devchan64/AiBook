@@ -69,6 +69,7 @@ linear regression 是一个去拟合直线的 model，但画出一条直线，�
 用一个很小的比较练习来看，可以读成下面这样。
 
 ```python
+# 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
 balanced_residuals = [-3, -1, 0, 1, 3]
 skewed_residuals = [-1, 0, 1, 2, 12]
 
@@ -159,6 +160,7 @@ multicollinearity 出现在输入 feature 之间携带了太多重叠信息的�
   - prediction 维持住了，不等于 coefficient interpretation 也稳住了
 
 ```python
+# 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -204,6 +206,7 @@ one-feature prediction   : 47.5
 这次只把 `yearly_spend_proxy` 的最后一个值从 `239` 改成 `233`，再重新训练一次。
 
 ```python
+# 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -255,6 +258,7 @@ shifted prediction    : 47.479
 不要只停在 multicollinearity 上，再看一个误差 spread 会随区间变化的小场景。
 
 ```python
+# 这个例子在回归诊断中检查残差平衡、异常值和区间级误差模式。
 low_range_residuals = [-2, 1, 0]
 high_range_residuals = [-15, 12, 18]
 

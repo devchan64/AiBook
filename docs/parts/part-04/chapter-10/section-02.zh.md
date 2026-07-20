@@ -425,6 +425,7 @@ linear regression 的优点之一是解释性高，但正因为如此，草率�
   - R² 展示的是：比平均预测多解释了多少
 
 ```python
+# 这个例子计算线性回归预测的残差以及 MAE、MSE、RMSE 等评价指标。
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -495,6 +496,7 @@ R2          : 0.992
 - RMSE 会对单个大失败更敏感
 
 ```python
+# 这个例子计算线性回归预测的残差以及 MAE、MSE、RMSE 等评价指标。
 import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
@@ -529,6 +531,7 @@ outlier RMSE: 7.431
 这次不再只让最后一个点明显失败，而是把最后两个点都改成大失败。
 
 ```python
+# 这个例子计算线性回归预测的残差以及 MAE、MSE、RMSE 等评价指标。
 import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 

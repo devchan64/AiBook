@@ -426,6 +426,7 @@ The example below reuses the study-time data from 10.1 and checks prediction, re
   - R² shows how much more the model explains than an average prediction
 
 ```python
+# This example calculates residuals and evaluation metrics such as MAE, MSE, and RMSE for linear regression predictions.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -496,6 +497,7 @@ Concepts to check:
 - RMSE reacts more strongly to one large failure
 
 ```python
+# This example calculates residuals and evaluation metrics such as MAE, MSE, and RMSE for linear regression predictions.
 import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
@@ -530,6 +532,7 @@ Seen empirically, RMSE really is `the metric that dislikes large failures more`.
 This time, instead of only the last point failing badly, change the scene so that the last two points both fail badly.
 
 ```python
+# This example calculates residuals and evaluation metrics such as MAE, MSE, and RMSE for linear regression predictions.
 import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 

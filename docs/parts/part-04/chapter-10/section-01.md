@@ -384,6 +384,7 @@ scikit-learn의 `LinearRegression`은 기본적으로 ordinary least squares에 
   - 새 입력에 대해 연속값 예측을 만들 수 있습니다.
 
 ```python
+# 선형회귀의 기울기, 절편, 예측값, 잔차를 NumPy 계산으로 확인하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -442,6 +443,7 @@ prediction at x=7 : 76.4
   - 계수의 크기는 단위와 함께 조심해서 읽어야 합니다.
 
 ```python
+# 선형회귀의 기울기, 절편, 예측값, 잔차를 NumPy 계산으로 확인하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -498,6 +500,7 @@ prediction new    : 73.12
 이번에는 같은 학생에서 `attendance`와 `assignment_score`는 그대로 두고 `study_hours`만 `5`에서 `7`로 올려 봅니다.
 
 ```python
+# 선형회귀의 기울기, 절편, 예측값, 잔차를 NumPy 계산으로 확인하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 

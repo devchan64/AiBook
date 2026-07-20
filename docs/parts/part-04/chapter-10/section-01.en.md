@@ -389,6 +389,7 @@ The example below is a very small linear-regression practice that predicts exam 
   - the model can create a continuous-value prediction for a new input
 
 ```python
+# This example checks linear regression slope, intercept, predictions, and residuals with NumPy calculations.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -447,6 +448,7 @@ A one-variable example is good for learning the intuition of a line, but real wo
   - the size of each coefficient must be read carefully together with units
 
 ```python
+# This example checks linear regression slope, intercept, predictions, and residuals with NumPy calculations.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
@@ -503,6 +505,7 @@ This multivariable example shows linear regression again as the following.
 Now keep `attendance` and `assignment_score` fixed for the same student and raise only `study_hours` from `5` to `7`.
 
 ```python
+# This example checks linear regression slope, intercept, predictions, and residuals with NumPy calculations.
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
