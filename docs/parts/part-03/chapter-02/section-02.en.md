@@ -61,6 +61,7 @@ Expected output: the raw log becomes `sample rows -> feature table -> baseline c
 Concept to check: output structure and baseline are not result columns written in advance. They are generated after raw logs are grouped by sample unit, features are calculated, and period roles are separated. Comparing several output criteria reveals how sensitive the operational judgment is to the threshold.
 
 ```python
+# This example checks the roles of sample, feature, label, and baseline columns in a dataset candidate.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)

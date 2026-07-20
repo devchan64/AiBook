@@ -95,6 +95,7 @@ Expected output: even for the same table, checking `row meaning`, `grouping crit
 Concept to check: when reading a table for the first time, before calculation we must check whether `this row is one full sample` or `only part of a sample record`. Adding a repeated-row threshold turns structural checking into a judgment about comparability.
 
 ```python
+# This example first checks column names and value distributions when a new CSV table arrives.
 import csv
 from collections import defaultdict
 from pathlib import Path

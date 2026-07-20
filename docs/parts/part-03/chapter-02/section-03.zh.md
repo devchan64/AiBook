@@ -95,6 +95,7 @@
 要确认的概念：第一次读表时，在计算之前，必须先确认 `这一行是一整条样本`，还是 `只是样本记录的一部分`。同时设置重复行数阈值后，结构检查就不只是输出信息，而会连到可比较性判断。
 
 ```python
+# 这个例子在第一次拿到新的 CSV 表时，先检查列名和值的分布。
 import csv
 from collections import defaultdict
 from pathlib import Path

@@ -65,6 +65,7 @@ Expected output: a display in which the same records are separated into two diff
 Concept to check: the fact that stored records exist is not the same as the fact that a dataset candidate able to answer a question has been prepared. If `min_points_per_event` changes, which records are accepted as one action sample also changes.
 
 ```python
+# This example regroupes stored time-step records into an event-level dataset candidate.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)

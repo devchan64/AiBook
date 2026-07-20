@@ -65,6 +65,7 @@
 확인할 개념: 저장된 기록이 있다는 사실과 질문에 답할 수 있는 데이터셋 후보가 준비되었다는 사실은 같지 않다. `min_points_per_event`를 바꾸면 어떤 기록을 동작 1회 샘플로 인정할지도 달라진다.
 
 ```python
+# 저장된 시점별 기록을 event 단위 데이터셋 후보로 다시 묶는 예제입니다.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)

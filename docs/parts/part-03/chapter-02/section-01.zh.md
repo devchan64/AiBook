@@ -65,6 +65,7 @@
 要确认的概念：已经存在存储记录，并不等于已经准备好了能回答问题的数据集候选。`min_points_per_event` 一变，哪些记录能被承认为一次动作样本也会跟着变。
 
 ```python
+# 这个例子把按时间点存储的记录重新汇总成 event 级的数据集候选。
 import pandas as pd
 
 pd.set_option("display.max_columns", None)

@@ -95,6 +95,7 @@
 확인할 개념: 표를 처음 읽을 때는 계산보다 먼저 `이 행이 샘플 1건인가, 아니면 샘플의 일부 기록인가`를 확인해야 한다. 반복 행 수 기준을 함께 두면 구조 점검이 단순 출력이 아니라 비교 가능성 판단으로 이어진다.
 
 ```python
+# 새 CSV 표를 처음 받았을 때 열 이름과 값 분포를 먼저 점검하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

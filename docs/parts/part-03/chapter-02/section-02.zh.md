@@ -61,6 +61,7 @@
 要确认的概念：输出结构和基准线不是事先写好的结果列，而是在原始日志按样本单位重组、计算特征、区分 period 角色之后生成的。用多个输出标准比较，才能看出运营判断对阈值有多敏感。
 
 ```python
+# 这个例子检查数据集候选中样本、特征、标签和基准列的作用。
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
