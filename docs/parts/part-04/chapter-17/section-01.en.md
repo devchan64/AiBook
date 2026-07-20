@@ -322,6 +322,7 @@ This time, apply `k-means` and `DBSCAN` side by side to the same toy data and ch
   - `DBSCAN` can leave low-density points outside the clusters
 
 ```python
+# This example compares how k-means and DBSCAN assign the outlier-like point G on the same point set.
 import numpy as np
 from sklearn.cluster import DBSCAN, KMeans
 

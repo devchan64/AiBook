@@ -322,6 +322,7 @@ scikit-learn clustering 개요 표는 DBSCAN을 `non-flat geometry`, `uneven clu
   - `DBSCAN`은 밀도가 낮은 점을 군집 밖에 둘 수 있다
 
 ```python
+# 같은 점 집합에서 k-means와 DBSCAN이 외곽점 G를 어떻게 다르게 배정하는지 비교하는 예제입니다.
 import numpy as np
 from sklearn.cluster import DBSCAN, KMeans
 

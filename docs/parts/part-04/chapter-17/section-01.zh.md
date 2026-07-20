@@ -322,6 +322,7 @@ scikit-learn 的 clustering 概览表把 DBSCAN 描述成适用于 `non-flat geo
   - `DBSCAN` 可以把低密度点留在聚类外面
 
 ```python
+# 这个例子比较 k-means 和 DBSCAN 在同一组点上如何不同地处理像离群点的 G。
 import numpy as np
 from sklearn.cluster import DBSCAN, KMeans
 
