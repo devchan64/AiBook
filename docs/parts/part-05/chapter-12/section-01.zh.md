@@ -1,7 +1,7 @@
 # P5-12.1 为什么需要循环神经网络（RNN）、长短期记忆（LSTM）和门控循环单元（GRU）
 
-Section ID: `P5-12.1`
-Version: `v2026.07.18`
+> Section ID: `P5-12.1`
+> Version: `v2026.07.19`
 
 在 P5-11 章里，我们已经看到，CNN 能很好地处理图像这类具有空间结构的数据中的局部模式。把数据类型换一下，这里就会自然出现下一个问题。
 
@@ -342,6 +342,6 @@ step 4: input= 80, state= 61.95, alert=False
 
 ## 来源与参考资料
 
-- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, 确认日期：2026-06-29。
-- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, 确认日期：2026-06-29。
-- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, 确认日期：2026-06-29。
+- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, 确认日期：2026-07-19。[https://doi.org/10.1038/323533a0](https://doi.org/10.1038/323533a0){: target="_blank" rel="noopener noreferrer" }
+- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, 确认日期：2026-07-19。[https://doi.org/10.1162/neco.1997.9.8.1735](https://doi.org/10.1162/neco.1997.9.8.1735){: target="_blank" rel="noopener noreferrer" }
+- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, 确认日期：2026-07-19。[https://arxiv.org/abs/1406.1078](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }

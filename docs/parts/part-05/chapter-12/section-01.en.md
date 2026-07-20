@@ -1,7 +1,7 @@
 # P5-12.1 Why Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM), And Gated Recurrent Units (GRU) Are Needed
 
-Section ID: `P5-12.1`
-Version: `v2026.07.18`
+> Section ID: `P5-12.1`
+> Version: `v2026.07.19`
 
 In Chapter P5-11, we saw that CNNs handle local patterns well in data with spatial structure such as images. If we change the data type here, the next question appears.
 
@@ -340,6 +340,6 @@ The criterion to gain from this section is clear. Even with the same final word 
 
 ## Sources And References
 
-- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, checked on 2026-06-29.
-- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, checked on 2026-06-29.
-- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, checked on 2026-06-29.
+- David E. Rumelhart, Geoffrey E. Hinton, Ronald J. Williams, `Learning representations by back-propagating errors`, Nature, 1986, checked on 2026-07-19. [https://doi.org/10.1038/323533a0](https://doi.org/10.1038/323533a0){: target="_blank" rel="noopener noreferrer" }
+- Sepp Hochreiter, Jürgen Schmidhuber, `Long Short-Term Memory`, Neural Computation, 1997, checked on 2026-07-19. [https://doi.org/10.1162/neco.1997.9.8.1735](https://doi.org/10.1162/neco.1997.9.8.1735){: target="_blank" rel="noopener noreferrer" }
+- Kyunghyun Cho et al., `Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation`, arXiv, 2014, checked on 2026-07-19. [https://arxiv.org/abs/1406.1078](https://arxiv.org/abs/1406.1078){: target="_blank" rel="noopener noreferrer" }
