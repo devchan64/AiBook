@@ -1,7 +1,7 @@
 # P5-8.1 목적 함수에 제약을 두는 방법: 정규화(regularization)
 
 > Section ID: `P5-8.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규칙이라는 점을 보았습니다. 하지만 학습 루프가 잘 돈다고 해서 곧바로 새 데이터까지 잘 버티는 모델이 되는 것은 아닙니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -35,7 +35,7 @@ P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 - regularization과 normalization이 왜 다른 질문에 답하는지 설명할 수 있습니다.
 - 정규화가 손실 함수, 모델 크기, 데이터 양과 어떤 관계가 있는지 말할 수 있습니다.
 - 정규화가 챕터 8 안에서 `목적 함수 제어 장치` 역할을 한다는 점을 설명할 수 있습니다.
-- 실행 가능한 Python 예제로 벌점이 업데이트 크기에 어떤 영향을 주는지 확인할 수 있습니다.
+- 실행 가능한 Python 예제로 훈련 손실, 검증 손실, 가중치 크기를 함께 비교할 수 있습니다.
 
 ## regularization과 normalization은 왜 다른가
 
@@ -207,126 +207,131 @@ regularization이 더 자주 필요해지는 장면은 대체로 다음처럼 �
 
 ## 연습 및 예제
 
-이번 예제의 목표는 regularization 항이 들어가면 업데이트가 `정답만 맞추는 방향`에서 조금 더 보수적으로 바뀔 수 있음을 확인하는 것입니다. 한 번의 업데이트만 보는 대신, 여러 step에서 가중치가 얼마나 빨리 커지는지 비교해 보겠습니다.
+이번 예제의 목표는 regularization을 `훈련 손실을 조금 더 낮추는 기술`이 아니라, `검증 손실과 가중치 크기까지 함께 보게 만드는 제약`으로 읽는 것입니다. 작은 학습 로그를 CSV로 두고, regularization이 없는 경우와 L2 regularization을 둔 경우를 비교해 보겠습니다.
 
 입력:
 
-- 현재 가중치 `w`
-- 데이터 손실에서 나온 gradient
-- regularization 강도 `lambda_value`
+- 학습 로그 CSV: [`regularization-training-log.csv`](../../../assets/part-05/chapter-08/regularization-training-log.csv)
+- `model`: regularization이 없는 설정과 L2 regularization을 둔 설정
+- `epoch`: 학습 반복 번호
+- `train_loss`, `validation_loss`, `weight_size`: 훈련 손실, 검증 손실, 가중치 크기
 
 출력:
 
-- regularization 없이 업데이트한 결과
-- regularization을 더한 뒤 업데이트한 결과
-- step이 반복될수록 가중치 크기 차이가 어떻게 벌어지는지에 대한 비교
-- 같은 입력 변화에 대해 예측이 얼마나 민감하게 흔들릴지도 비교
+- 모델별 검증 손실 최저 epoch
+- 마지막 epoch의 훈련 손실과 검증 손실 차이
+- 학습이 진행되며 가중치 크기가 얼마나 커졌는지
 
 문제 상황:
 
-- regularization은 정의만 보면 막연하므로, 같은 gradient에 추가 항이 붙을 때 가중치 크기가 어떻게 달라지는지 직접 볼 필요가 있다
-- 가중치 크기 차이가 실제 예측 민감도 차이로 이어지는지도 같이 봐야 한다
+- 훈련 손실만 보면 regularization이 없는 쪽이 더 좋아 보일 수 있다
+- 하지만 검증 손실이 다시 올라가고 가중치 크기가 계속 커지면, 새 데이터에 버티는 해인지 다시 물어야 한다
 
 확인할 개념:
 
-- regularization은 데이터 gradient 외에 가중치 크기를 줄이려는 방향을 더한다
-- step이 반복될수록 규제가 있는 쪽이 더 작은 가중치를 유지하는 경향을 보일 수 있다
-- 더 작은 가중치를 유지하는 쪽이 입력 변화에 덜 과격하게 반응할 수 있다
+- regularization은 훈련 손실 하나만 보지 않게 만든다
+- 검증 손실이 가장 낮았던 시점과 마지막 시점의 차이를 함께 봐야 한다
+- 비슷한 학습 방향이라도 더 작은 가중치를 유지하는 해가 덜 과격한 해일 수 있다
 
 입력(input):
 
-위에 정리한 초기 가중치, 데이터 gradient, 학습률, regularization 강도를 사용합니다.
+CSV의 한 행은 한 모델 설정에서 한 epoch가 끝난 뒤 기록한 요약값입니다. 여기서는 실제 딥러닝 라이브러리를 쓰지 않고, 이미 기록된 학습 로그를 읽어 판단 기준만 확인합니다.
 
-코드를 보기 전에 먼저 어느 쪽이 더 큰 가중치와 더 큰 예측 흔들림을 만들지 예상해 보면 좋습니다.
+코드를 보기 전에 먼저 어느 쪽이 훈련 손실은 더 낮고, 어느 쪽이 검증 손실과 가중치 크기에서는 더 안정적인지 예상해 보면 좋습니다.
 
 | 비교 항목 | 먼저 예상해 볼 비교 | 예상 이유 |
 | --- | --- | --- |
-| `without_reg` vs `with_reg` 가중치 크기 | `without_reg`가 더 빨리 커질 가능성 | 데이터 gradient만 따라가면 큰 가중치를 직접 제어하는 항이 없기 때문입니다. |
-| 입력 변화에 대한 예측 민감도 | `without_reg`가 더 크게 흔들릴 가능성 | 가중치가 더 크면 같은 입력 변화에도 출력 변화가 더 커집니다. |
+| 마지막 훈련 손실 | regularization이 없는 쪽이 더 낮을 가능성 | 제약 없이 훈련 데이터에 더 강하게 맞출 수 있기 때문입니다. |
+| 마지막 검증 손실 | L2 regularization을 둔 쪽이 더 낮을 가능성 | 큰 가중치와 과격한 해를 덜 선호하기 때문입니다. |
+| 가중치 크기 증가 | regularization이 없는 쪽이 더 클 가능성 | 복잡한 해를 쓰는 비용을 따로 받지 않기 때문입니다. |
 
-이 표의 목적은 `가중치 크기`와 `예측 흔들림`을 함께 읽는 것입니다.
+이 표의 목적은 `훈련 손실`, `검증 손실`, `가중치 크기`를 한 번에 읽는 것입니다.
 
 ```python
-initial_w = 2.5
-data_gradient = -4.0
-learning_rate = 0.1
-lambda_value = 0.2
-steps = 3
+from csv import DictReader
+from pathlib import Path
 
-w_without_reg = initial_w
-w_with_reg = initial_w
-base_x = 1.0
-shifted_x = 1.2
+csv_path = Path("docs/assets/part-05/chapter-08/regularization-training-log.csv")
 
-for step in range(1, steps + 1):
-    w_without_reg = w_without_reg - learning_rate * data_gradient
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "model": row["model"],
+                "epoch": int(row["epoch"]),
+                "train_loss": float(row["train_loss"]),
+                "validation_loss": float(row["validation_loss"]),
+                "weight_size": float(row["weight_size"]),
+                "regularization_strength": float(row["regularization_strength"]),
+            }
+        )
 
-    reg_gradient = 2 * lambda_value * w_with_reg
-    total_gradient = data_gradient + reg_gradient
-    w_with_reg = w_with_reg - learning_rate * total_gradient
+models = ["without_regularization", "with_l2_regularization"]
 
-    print(f"[step {step}]")
-    print("without_reg =", round(w_without_reg, 3))
-    print("reg_gradient =", round(reg_gradient, 3))
-    print("total_gradient =", round(total_gradient, 3))
-    print("with_reg =", round(w_with_reg, 3))
-    print("---")
+for model in models:
+    model_rows = [row for row in rows if row["model"] == model]
+    first = model_rows[0]
+    last = model_rows[-1]
+    best_validation = min(model_rows, key=lambda row: row["validation_loss"])
 
-without_base = round(base_x * w_without_reg, 3)
-without_shifted = round(shifted_x * w_without_reg, 3)
-with_base = round(base_x * w_with_reg, 3)
-with_shifted = round(shifted_x * w_with_reg, 3)
+    validation_gap = last["validation_loss"] - last["train_loss"]
+    validation_rebound = last["validation_loss"] - best_validation["validation_loss"]
+    weight_growth = last["weight_size"] - first["weight_size"]
 
-print("prediction_without_reg =", [without_base, without_shifted])
-print("prediction_with_reg =", [with_base, with_shifted])
-print("sensitivity_without_reg =", round(without_shifted - without_base, 3))
-print("sensitivity_with_reg =", round(with_shifted - with_base, 3))
+    print(f"[{model}]")
+    print("regularization_strength =", last["regularization_strength"])
+    print("best_validation_epoch =", best_validation["epoch"])
+    print("best_validation_loss =", round(best_validation["validation_loss"], 3))
+    print("last_train_loss =", round(last["train_loss"], 3))
+    print("last_validation_loss =", round(last["validation_loss"], 3))
+    print("last_validation_gap =", round(validation_gap, 3))
+    print("validation_rebound_after_best =", round(validation_rebound, 3))
+    print("weight_growth =", round(weight_growth, 3))
+    print()
 ```
 
-출력에서는 각 step에서 without_reg와 with_reg가 얼마나 벌어지는지, 그 사이에 reg_gradient가 어떻게 더해지는지부터 보면 됩니다.
+출력에서는 마지막 훈련 손실만 먼저 보지 말고, 검증 손실이 언제 가장 낮았는지와 그 뒤 얼마나 다시 올라갔는지부터 확인합니다.
 
 ```text
-[step 1]
-without_reg = 2.9
-reg_gradient = 1.0
-total_gradient = -3.0
-with_reg = 2.8
----
-[step 2]
-without_reg = 3.3
-reg_gradient = 1.12
-total_gradient = -2.88
-with_reg = 3.088
----
-[step 3]
-without_reg = 3.7
-reg_gradient = 1.235
-total_gradient = -2.765
-with_reg = 3.365
----
-prediction_without_reg = [3.7, 4.44]
-prediction_with_reg = [3.365, 4.038]
-sensitivity_without_reg = 0.74
-sensitivity_with_reg = 0.673
+[without_regularization]
+regularization_strength = 0.0
+best_validation_epoch = 8
+best_validation_loss = 0.55
+last_train_loss = 0.19
+last_validation_loss = 0.74
+last_validation_gap = 0.55
+validation_rebound_after_best = 0.19
+weight_growth = 4.9
+
+[with_l2_regularization]
+regularization_strength = 0.08
+best_validation_epoch = 12
+best_validation_loss = 0.45
+last_train_loss = 0.33
+last_validation_loss = 0.47
+last_validation_gap = 0.14
+validation_rebound_after_best = 0.02
+weight_growth = 1.5
 ```
 
-- regularization이 없으면 가중치는 더 크게 증가합니다
-- regularization 항이 들어오면 step이 반복될수록 증가 폭이 조금씩 더 줄어듭니다
-- 즉, regularization은 단순히 성능을 깎는 것이 아니라 `덜 과격한 해`를 선호하게 만듭니다
+- regularization이 없는 쪽은 마지막 훈련 손실이 `0.19`로 더 낮습니다
+- 하지만 마지막 검증 손실은 `0.74`까지 올라가고, 훈련 손실과 검증 손실의 차이도 `0.55`까지 벌어집니다
+- L2 regularization을 둔 쪽은 훈련 손실이 `0.33`으로 더 높지만, 마지막 검증 손실은 `0.47`이고 가중치 증가도 더 작습니다
 
 | 비교 | 지금 읽어야 할 핵심 |
 | --- | --- |
-| `without_reg` | 가중치가 더 빠르게 커져 같은 입력 변화에도 출력이 더 크게 흔들립니다. |
-| `with_reg` | 가중치 증가를 조금 더 눌러 예측 민감도도 상대적으로 완만해집니다. |
+| `without_regularization` | 훈련 데이터에는 더 세게 맞지만, 검증 손실이 다시 올라가고 가중치 크기도 크게 증가합니다. |
+| `with_l2_regularization` | 훈련 손실 최저치만 보면 덜 좋아 보이지만, 검증 손실과 가중치 크기에서는 더 안정적입니다. |
 
 출력 숫자를 읽을 때도 `오차 감소`와 `덜 과격한 해 선호`를 분리해서 봐야 합니다.
 
 | 비교 | 출력에서 먼저 보이는 것 | 오차만 보면 남기 쉬운 해석 | regularization까지 보면 바뀌는 해석 |
 | --- | --- | --- | --- |
-| `without_reg` | step이 갈수록 가중치가 더 빨리 커지고 민감도도 `0.74`까지 올라갑니다. | 더 빨리 움직였으니 더 좋은 학습처럼 보기 쉽습니다. | 큰 가중치와 높은 민감도를 그대로 허용해, 특정 입력 변화에 더 과격하게 반응하는 해로 가고 있습니다. |
-| `with_reg` | step이 갈수록 증가 폭이 조금씩 줄고 민감도도 `0.673`으로 더 낮습니다. | 손실을 덜 공격적으로 줄이니 덜 좋은 학습처럼 보기 쉽습니다. | 같은 방향 안에서도 더 작은 가중치와 더 완만한 반응을 선호해, 덜 과격한 해를 유지하고 있습니다. |
+| `without_regularization` | 마지막 훈련 손실이 가장 낮습니다. | 가장 잘 학습된 모델처럼 보기 쉽습니다. | 검증 손실 반등과 큰 가중치 증가를 함께 보면, 훈련 데이터에 과하게 맞춘 해일 수 있습니다. |
+| `with_l2_regularization` | 마지막 훈련 손실은 더 높습니다. | 일부러 성능을 낮춘 모델처럼 보기 쉽습니다. | 검증 손실과 가중치 크기를 함께 보면, 덜 과격한 해를 선호해 새 데이터에서 더 버틸 가능성을 남긴 설정입니다. |
 
-즉, 이 예제에서 독자가 붙잡아야 할 질문은 `정규화가 손실을 못 줄이게 하는가`가 아니라, `같은 학습 방향 안에서 더 과격한 해 대신 덜 과격한 해를 선호하게 만드는가`입니다.
+즉, 이 예제에서 독자가 붙잡아야 할 질문은 `정규화가 훈련 손실을 못 줄이게 하는가`가 아니라, `훈련 손실을 낮추는 과정에서 검증 손실과 가중치 크기까지 함께 버티게 만드는가`입니다.
 
 정규화는 딥러닝 이전의 통계적 학습 이론(statistical learning theory)와도 깊게 연결됩니다. 모델이 너무 복잡해지면 훈련 데이터에는 잘 맞지만 일반화가 나빠질 수 있다는 문제는 오래전부터 핵심 주제였습니다.
 

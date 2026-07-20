@@ -27,6 +27,8 @@
 - SVG chart assets:
   - `train-validation-overfit-en.svg` / `train-validation-overfit-ko.svg`
   - `train-validation-overfit-en.svg` / `train-validation-overfit-zh.svg`
+- CSV input assets:
+  - `regularization-training-log.csv`
 - PNG chart assets:
   - `dropout-activation-values-en.png` / `dropout-activation-values-ko.png`
   - `dropout-activation-values-en.png` / `dropout-activation-values-zh.png`
