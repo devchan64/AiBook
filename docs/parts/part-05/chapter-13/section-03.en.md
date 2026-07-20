@@ -1,7 +1,7 @@
 # P5-13.3 Supplementary Reading: Query-Key-Value (QKV) And Multi-Head Attention
 
-Section ID: `P5-13.3`
-Version: `v2026.07.18`
+> Section ID: `P5-13.3`
+> Version: `v2026.07.19`
 
 In P5-13.1 and P5-13.2, we first fixed the intuition of attention and self-attention. Once we have read this far, the next question appears naturally.
 
@@ -360,6 +360,6 @@ This supplementary reading is not a detailed implementation memo squeezed in bet
 
 ## Sources And References
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-06-30.
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, checked on 2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Jay Alammar, `The Illustrated Transformer`, checked on 2026-06-30. [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-30. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }

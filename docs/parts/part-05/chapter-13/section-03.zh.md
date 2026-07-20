@@ -1,7 +1,7 @@
 # P5-13.3 补充学习：查询-键-值（QKV）与多头注意力（multi-head attention）
 
-Section ID: `P5-13.3`
-Version: `v2026.07.18`
+> Section ID: `P5-13.3`
+> Version: `v2026.07.19`
 
 在 P5-13.1 和 P5-13.2 里，我们已经先固定了 attention 与 self-attention 的直觉。读到这里，自然会出现下一个问题。
 
@@ -361,7 +361,6 @@ head_separation = 0.25
 
 ## 来源与参考资料
 
-- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 确认日期：2026-06-30。
+- Ashish Vaswani et al., `Attention Is All You Need`, NeurIPS 2017, 确认日期：2026-07-19. [https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html](https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html){: target="_blank" rel="noopener noreferrer" }
 - Jay Alammar, `The Illustrated Transformer`, 确认日期：2026-06-30。 [https://jalammar.github.io/illustrated-transformer/](https://jalammar.github.io/illustrated-transformer/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, 确认日期：2026-06-30。 [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-
