@@ -1,7 +1,7 @@
 # P5-11.2 Convolution And Pooling
 
-Section ID: `P5-11.2`
-Version: `v2026.07.17`
+> Section ID: `P5-11.2`
+> Version: `v2026.07.19`
 
 In P5-11.1, we explained a CNN as `a neural network that repeatedly reads local patterns in images`. The next question remains.
 
@@ -164,7 +164,7 @@ After convolution, it becomes a response map showing how well each position matc
 
 ![Max-pooling summary result](/AiBook/assets/part-05/chapter-11/convolution-pooling-max-pool-en.png)
 
-Max pooling does not pass that whole response map onward 그대로. Instead, it keeps only the strongest response inside the small region. What changes at this stage is that rather than the detailed position, the summary signal `there was a strong sealing-boundary change in this region` is passed to the next layer.
+Max pooling does not pass that whole response map onward as-is. Instead, it keeps only the strongest response inside the small region. What changes at this stage is that rather than the detailed position, the summary signal `there was a strong sealing-boundary change in this region` is passed to the next layer.
 
 The key to reading these numbers is the following.
 
@@ -698,6 +698,6 @@ It is useful to pause here once and briefly fix `when should we first read how t
 
 ## Sources And References
 
-- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, checked on 2026-06-29.
+- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998, checked on 2026-07-19. [https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, checked on 2026-06-29.
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012, checked on 2026-07-19. [https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }

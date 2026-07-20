@@ -1,7 +1,7 @@
 # P5-11.2 卷积（convolution）与池化（pooling）
 
-Section ID: `P5-11.2`
-Version: `v2026.07.17`
+> Section ID: `P5-11.2`
+> Version: `v2026.07.19`
 
 在 P5-11.1 里，我们已经把 CNN 解释成`会反复读取图像局部模式的神经网络`。接下来还会自然留下一个问题。
 
@@ -697,6 +697,6 @@ weak seal max response = 6.0
 
 ## 来源与参考资料
 
-- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998，确认日期：2026-06-29。
+- Yann LeCun et al., `Gradient-Based Learning Applied to Document Recognition`, Proceedings of the IEEE, 1998，确认日期：2026-07-19。[https://doi.org/10.1109/5.726791](https://doi.org/10.1109/5.726791){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-06-29。
+- Alex Krizhevsky, Ilya Sutskever, Geoffrey E. Hinton, `ImageNet Classification with Deep Convolutional Neural Networks`, NeurIPS 2012，确认日期：2026-07-19。[https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html](https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html){: target="_blank" rel="noopener noreferrer" }
