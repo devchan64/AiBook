@@ -36,7 +36,7 @@ That is, we look at the direction in which loss increases from the current posit
 
 Seen first on a loss curve, gradient descent is the method of repeating small movements in the direction where loss decreases from the current position.
 
-![Flow of gradient descent moving in small steps toward lower loss on a loss curve](/AiBook/assets/part-02/chapter-06/gradient-descent-loss-curve-en.svg)
+![Flow of gradient descent moving in small steps toward lower loss on a loss curve](../../../assets/part-02/chapter-06/gradient-descent-loss-curve-en.svg)
 
 If we read this movement as a learning loop, it looks like this.
 

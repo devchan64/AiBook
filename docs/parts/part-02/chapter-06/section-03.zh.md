@@ -36,7 +36,7 @@
 
 如果先把它放到损失曲线上看，梯度下降就是一种方法：从当前位置出发，不断用小步朝损失更低的方向移动。
 
-![梯度下降在损失曲线上用小步朝更低损失移动的流程](/AiBook/assets/part-02/chapter-06/gradient-descent-loss-curve-zh.svg)
+![梯度下降在损失曲线上用小步朝更低损失移动的流程](../../../assets/part-02/chapter-06/gradient-descent-loss-curve-zh.svg)
 
 如果把这种移动读成一个学习循环，就像下面这样。
 
