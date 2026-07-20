@@ -30,6 +30,8 @@
 - CSV input assets:
   - `regularization-training-log.csv`
 - PNG chart assets:
+  - `regularization-loss-compare-ko.png`
+  - `regularization-weight-growth-ko.png`
   - `dropout-activation-values-en.png` / `dropout-activation-values-ko.png`
   - `dropout-activation-values-en.png` / `dropout-activation-values-zh.png`
   - `dropout-sum-comparison-en.png` / `dropout-sum-comparison-ko.png`
@@ -48,6 +50,7 @@
   - `stabilization-batch-spread-en.png` / `stabilization-batch-spread-zh.png`
 - Python chart source:
   - `p5_8_overfit_chart.py`
+  - `p5_8_1_regularization_csv_charts.py`
   - `p5_8_2_dropout_charts.py`
   - `p5_8_3_stabilization_case_charts.py`
   - `p5_8_4_deep_scale_charts.py`

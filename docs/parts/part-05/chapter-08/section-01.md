@@ -319,6 +319,16 @@ weight_growth = 1.5
 - 하지만 마지막 검증 손실은 `0.74`까지 올라가고, 훈련 손실과 검증 손실의 차이도 `0.55`까지 벌어집니다
 - L2 regularization을 둔 쪽은 훈련 손실이 `0.33`으로 더 높지만, 마지막 검증 손실은 `0.47`이고 가중치 증가도 더 작습니다
 
+이 숫자를 곡선으로 다시 보면, regularization이 보려는 비교 축이 더 분명해집니다.
+
+![정규화 유무에 따른 훈련 손실과 검증 손실](../../../assets/part-05/chapter-08/regularization-loss-compare-ko.png)
+
+첫 번째 그래프에서는 훈련 손실이 더 낮은 선만 고르면 안 됩니다. regularization이 없는 설정은 훈련 손실은 계속 내려가지만, 검증 손실은 8 epoch 이후 다시 올라갑니다. L2 regularization을 둔 설정은 훈련 손실을 덜 공격적으로 낮추는 대신 검증 손실의 반등을 작게 유지합니다.
+
+![정규화 유무에 따른 가중치 크기 증가](../../../assets/part-05/chapter-08/regularization-weight-growth-ko.png)
+
+두 번째 그래프에서는 같은 학습 진행 동안 어떤 해가 더 큰 가중치에 기대는지 봅니다. regularization이 없는 설정은 가중치 크기가 계속 커지고, L2 regularization을 둔 설정은 증가 폭이 훨씬 완만합니다.
+
 | 비교 | 지금 읽어야 할 핵심 |
 | --- | --- |
 | `without_regularization` | 훈련 데이터에는 더 세게 맞지만, 검증 손실이 다시 올라가고 가중치 크기도 크게 증가합니다. |
