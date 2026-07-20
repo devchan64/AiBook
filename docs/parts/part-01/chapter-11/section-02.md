@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 11.1에서는 언어 모델(language model)과 임베딩(embedding)을 봤습니다. 언어 모델은 단어와 토큰의 순서를 확률적으로 다루고, 임베딩은 단어와 토큰을 계산 가능한 벡터 표현(vector representation)으로 바꿉니다.
 
@@ -42,7 +42,7 @@ LSTM(long short-term memory)과 GRU(gated recurrent unit)는 RNN 계열에서 �
 
 또한 여기서는 `사전학습(pretraining)`이나 `BERT/GPT`의 차이를 설명하지 않습니다. 그 주제는 11.3에서 Transformer와 함께 다시 묶습니다.
 
-## 이 절의 목표
+## 순서와 문맥을 모델 안에서 다루는 기준
 
 - RNN(recurrent neural network)을 순서 데이터를 처리하기 위한 신경망 구조로 이해합니다.
 - hidden state를 사람의 기억이 아니라 모델 내부의 누적 상태로 이해합니다.

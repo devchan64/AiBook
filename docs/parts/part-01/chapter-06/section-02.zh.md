@@ -1,7 +1,7 @@
 # P1-6.2 区分概率、不确定性与随机过程
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 6.1 已经说明了，为什么有些问题很难只靠显式规则处理。当信息不完整、观测会波动、可能结果不止一个时，AI 就必须处理不确定性。
 
@@ -36,7 +36,7 @@ Hüllermeier 和 Waegeman 说明，不确定性是机器学习里的核心方法
 
 6.2 先固定 `uncertainty`、`probability` 与 `stochastic process` 到底有什么不同。条件概率、Bayes' rule 和概率分布的计算，会在 Part 2 的统计基础章节以及 Part 4 的评价与预测章节回来。LLM 的 sampling 与 next-token prediction 会在 Part 6 的 P6-5.1、P6-5.2 继续处理。这里先只建立阅读 AI 文档所需的词汇基线。
 
-## 本节目标
+## 区分不确定性、概率与 stochastic 的基准
 
 - 把 `uncertainty` 理解成“还不能确定”的状态。
 - 把 `probability` 理解成表达和更新不确定性的数字语言。

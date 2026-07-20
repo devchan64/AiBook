@@ -1,7 +1,7 @@
 # P1-8.3 强化学习：动作与奖励
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 8.1 把监督学习说明成：从同时包含 input 与 label 的例子中学习。8.2 则把无监督学习说明成：从无标签数据中寻找 `structure`、`cluster` 和 `representation`。
 
@@ -29,7 +29,7 @@
 > 并利用动作之后回来的奖励，  
 > 去寻找一个长期来看更好的 policy。
 
-## 本节目标
+## 用动作与奖励确定学习方向的方式
 
 - 用动作与奖励的语言解释 reinforcement learning。
 - 在入门层面区分 agent、environment、state、action、reward 和 policy。

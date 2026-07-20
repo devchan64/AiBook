@@ -1,7 +1,7 @@
 # P1-15.2 Copyright and Training Data
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-15.1 examined how to think about `bias`, `safety`, and `accountability` when AI results affect people and society. The next question is more specific.
 
@@ -29,7 +29,7 @@ This section starts from Korean copyright law, but it also treats the legal and 
 
 The practical stance in this book is cautious rather than permissive. When the source material is paid, closed, copied without authorization, or hard to verify, the safer default is to hold its use back instead of forcing it into the drafting flow.
 
-## Goal of This Section
+## Reading Copyright and Training Data Separately
 
 - Distinguish `copyright`, `license`, `attribution`, and `quotation`.
 - Distinguish `idea`, `fact`, and `expression`.

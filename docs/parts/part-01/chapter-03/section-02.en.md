@@ -1,7 +1,7 @@
 # P1-3.2 What It Means to Learn Patterns from Data
 
 > Section ID: `P1-3.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly. This section moves to the next question. If people find it difficult to write every useful rule, how can a system obtain judgment criteria from data?
 
@@ -17,7 +17,7 @@ This section organizes the following questions.
 
 This section first closes `what structure is meant by learning patterns from data`. The difference between rule-based approaches and representation learning continues in P1-3.3, and concrete algorithms continue in Part 4 and Part 5.
 
-## Goal of This Section
+## Distinguishing Pattern Learning from Memorization and Generalization
 
 - Understand the basic structure behind the phrase “learning patterns from data.”
 - Distinguish the roles of example, feature, label, and model.

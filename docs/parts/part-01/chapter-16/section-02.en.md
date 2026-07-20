@@ -1,7 +1,7 @@
 # P1-16.2 Work Automation and Search
 
 > Section ID: `P1-16.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-16.1 treated an AI relearning documentation project as a case of personal learning and documentation. This section widens the view toward workplace use.
 
@@ -20,7 +20,7 @@ This section focuses on how AI can be used as a support tool in repetitive work 
 | summary | what may be lost when long material is compressed? |
 | review | how should a person check the AI result? |
 
-## Goal of This Section
+## Connecting Automation and Search to Workflows
 
 - Explain work automation through step decomposition rather than as replacement of the whole job.
 - Explain why search results should be read as `evidence candidates`, not as final answers.

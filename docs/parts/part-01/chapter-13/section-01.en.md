@@ -1,7 +1,7 @@
 # P1-13.1 What It Means to Represent Text as Vectors
 
 > Section ID: `P1-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 12 explained how prompts give task conditions to an LLM and why prompts alone cannot guarantee `factuality`, `evidence`, or `recency`. That leads to the next question:
 
@@ -47,7 +47,7 @@ How similarity is actually calculated, and how close vectors are retrieved, is c
 
 > representation transformation
 
-## Goal of This Section
+## Placing Text in Vector Space
 
 - Understand embeddings as a way of turning text into vector representations.
 - Understand vectors as computable representations made of many numbers.

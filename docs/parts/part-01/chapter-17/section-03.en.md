@@ -1,7 +1,7 @@
 # P1-17.3 Distinguishing Prediction from a Working Hypothesis
 
 > Section ID: `P1-17.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-17.2 discussed how to read news, columns, and reports. The final section of Part 1 asks how personal ideas can be preserved safely inside a learning document.
 
@@ -24,7 +24,7 @@ This section explains how personal interpretation should be handled inside a lea
 | prediction | a sentence about what will happen in the future | a layer that requires stronger source and context |
 | working hypothesis | a temporary explanation held before verification | the safe form for preserving personal intuition |
 
-## Goal of This Section
+## Separating Prediction from a Working Hypothesis
 
 - Distinguish `factual claim`, `interpretation`, `prediction`, and `working hypothesis`.
 - Explain why personal intuition should not be written as if it were a fact, but preserved as a working hypothesis.

@@ -1,7 +1,7 @@
 # P1-10.1 분류(classification), 예측(prediction), 생성(generation)의 차이
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 9장에서는 딥러닝(deep learning)이 여러 분야로 확산된 흐름을 봤습니다. 이미지 인식(image recognition), 객체 검출(object detection), 음성 생성(speech generation), 언어 모델링(language modeling)은 모두 신경망이 데이터에서 표현(representation)을 학습한다는 큰 흐름 안에 있습니다.
 
@@ -37,7 +37,7 @@ Part 1에서 `분류(classification)`, `예측(prediction)`, `회귀(regression)
 
 또한 여기서는 `다음 출력을 어떻게 만들어 가는가`를 아직 설명하지 않습니다. 그 직관은 10.2에서 따로 다루고, 생성 결과의 품질과 위험은 10.3에서 다시 분리해 봅니다.
 
-## 이 절의 목표
+## 분류, 예측, 생성을 나누는 출력 기준
 
 - 분류(classification)를 범주(class)를 고르는 작업으로 이해합니다.
 - 예측(prediction)을 숫자, 확률, 상태, 다음 값 등을 추정하는 넓은 작업으로 이해합니다.

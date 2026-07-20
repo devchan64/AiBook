@@ -1,7 +1,7 @@
 # P1-11.3 Transformers and Pretrained LLMs
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 11.1 introduced language models and embeddings. Section 11.2 covered the flow of RNNs, Seq2Seq, and Attention for handling order and context.
 
@@ -52,7 +52,7 @@ This section focuses only on four questions:
 
 Prompt-writing practice returns in P1-12.1 through P1-12.3. Vector search and RAG return in P1-13.1 through P1-13.4 and P1-14.2. AI service architecture returns in P1-14.1 through P1-14.6. Here, the only goal is to keep one big line clear: modern LLMs did not appear suddenly, but grew out of language modeling, embeddings, sequence modeling, Attention, and pretraining. This section separates only `structure`, `training procedure`, and `changes in user experience`.
 
-## Goal of This Section
+## Connecting Transformers with Pretraining
 
 - Understand Transformers as structures centered on self-attention.
 - Understand self-attention not as human attention, but as a way to compute relevance among tokens.

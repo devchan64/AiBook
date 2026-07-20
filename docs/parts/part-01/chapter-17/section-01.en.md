@@ -1,7 +1,7 @@
 # P1-17.1 What Evidence Should Forecasts Rely On?
 
 > Section ID: `P1-17.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 1 Chapter 16 covered how AI can be applied to personal learning, work automation, and small projects. Chapter 17 turns to `the future of AI`.
 
@@ -22,7 +22,7 @@ This section explains what kinds of evidence should be required when writing abo
 | indicator | is there measurable evidence such as investment, jobs, performance, or policy? |
 | stake | what interests does the institution or company making the claim have? |
 
-## Goal of This Section
+## Grounding Forecasts in Evidence
 
 - Explain why forecast sentences are risky when written without sources.
 - Distinguish the different weights carried by different kinds of forecast material.

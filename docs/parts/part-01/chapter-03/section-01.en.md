@@ -1,7 +1,7 @@
 # P1-3.1 Strengths and Limits of Rule-Based Systems
 
 > Section ID: `P1-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 2.1 located symbolic AI and rule-based approaches historically. Section 2.3 showed that even inside the same workflow, there is a split between `parts that are easy to write as explicit policy conditions` and `parts that need to learn relations from data, such as intent classification`. This section narrows the question one step further and organizes what practical strengths rule-based systems had and where they began to show their limits.
 
@@ -17,7 +17,7 @@ This section organizes the following questions.
 
 This section first closes `where rule-based systems are strong and where they become difficult`. The flow of learning patterns from data continues in `P1-3.2`, the difference from representation learning continues in `P1-3.3`, and operational structures where rules and models are used together continue in Parts 6 and 7.
 
-## Goal of This Section
+## Standards for Evaluating Rule-Based Systems
 
 - Understand the basic components of a rule-based system.
 - See why rule-based systems are strong in explainability and controllability.

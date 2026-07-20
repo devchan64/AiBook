@@ -1,7 +1,7 @@
 # P1-11.1 통계적 언어 모델(statistical language model)과 임베딩(embedding)
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 10장에서는 생성형 AI(generative AI)가 산출물을 만들 때 자연스러움, 사실성, 근거, 위험을 따로 검토해야 한다는 점을 봤습니다.
 
@@ -47,7 +47,7 @@ Part 1에서 `언어 모델(language model)`, `통계적 언어 모델(statistic
 
 또한 여기서는 RNN, Attention, Transformer를 아직 설명하지 않습니다. 그 구조적 흐름은 11.2와 11.3에서 따로 다루고, 여기서는 `언어를 확률적으로 다룬다`와 `단어를 벡터로 바꾼다`는 두 출발점에만 집중합니다.
 
-## 이 절의 목표
+## 언어를 확률과 벡터로 다루는 기준
 
 - 언어 모델(language model)을 다음 단어 또는 다음 토큰의 확률을 다루는 모델로 이해합니다.
 - n-gram 언어 모델이 짧은 문맥과 빈도(count)를 사용한다는 점을 봅니다.

@@ -1,7 +1,7 @@
 # P1-10.2 The Intuition of Next-Output Generation
 
 > Section ID: `P1-10.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 10.1 separated `classification`, `prediction`, and `generation`. Classification chooses a category, prediction estimates a value or state, and generation creates a new artifact that fits a condition.
 
@@ -48,7 +48,7 @@ The baseline intuition here is:
 
 This section also does not discuss `how to judge a good generated result`. That question is separated in 10.3 into quality, evidence, safety, and rights.
 
-## Goal of This Section
+## Building Generation from Small Output Pieces
 
 - Understand that generative AI may look as if it pulls out a finished artifact at once, but is more safely understood as an iterative generation process.
 - Understand that in text generation, the unit of the `next token` is important.

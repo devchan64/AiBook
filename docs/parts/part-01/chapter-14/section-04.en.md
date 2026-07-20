@@ -1,7 +1,7 @@
 # P1-14.4 MCP and the Standardization of Tool Connections
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.3 described an `agent` as a workflow that carries `goal`, `state`, `action`, and `observation` forward. When an agent uses outside data or tools, it needs a connection method.
 
@@ -43,7 +43,7 @@ The baseline distinction here is simple: `MCP is the connection rule`, `the serv
 | connection flow | what does an agent discover and call through MCP? |
 | cautions | what problems does MCP not solve? |
 
-## Goal of This Section
+## Standardizing Tool Connections
 
 - Understand MCP as a connection `protocol`, not as an agent.
 - Distinguish the roles of `host`, `client`, and `server`.

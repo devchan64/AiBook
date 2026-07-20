@@ -1,7 +1,7 @@
 # P1-14.1 模型(model)、应用(application)、数据(data)、工具(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 第 13 章已经看过嵌入(embedding)、相似度搜索(similarity search)、RAG(retrieval-augmented generation)，以及向量搜索实现的直觉。这条脉络会带来一个重要转向：
 
@@ -40,7 +40,7 @@ Part 1 会在这里先建立 `模型(model)`、`应用(application)`、`数据(d
 | 工具(tool) | 模型之外的系统是如何被调用的？ |
 | 流程(orchestration) | 这些元素由谁按什么顺序连接起来？ |
 
-## 本节目标
+## 区分模型、应用、数据与工具的位置
 
 - 把 AI 服务理解为多个组成部分的组合，而不是单一模型。
 - 区分模型(model)、应用(application)、数据(data)、工具(tool)各自的作用。

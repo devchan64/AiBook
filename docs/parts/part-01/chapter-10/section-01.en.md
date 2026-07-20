@@ -1,7 +1,7 @@
 # P1-10.1 The Difference Among Classification, Prediction, and Generation
 
 > Section ID: `P1-10.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 9 looked at how deep learning spread across many fields. `Image recognition`, `object detection`, `speech generation`, and `language modeling` all belong to the broader flow in which neural networks learn `representations` from data.
 
@@ -45,7 +45,7 @@ These are not completely exclusive. Classification is also a kind of prediction 
 
 This section also does not yet explain `how the next output is built`. That intuition is handled separately in 10.2, and the quality and risk of generated outputs are separated again in 10.3.
 
-## Goal of This Section
+## Output Standards for Classification, Prediction, and Generation
 
 - Understand classification as the task of choosing a class.
 - Understand prediction as the broader task of estimating numbers, probabilities, states, or next values.

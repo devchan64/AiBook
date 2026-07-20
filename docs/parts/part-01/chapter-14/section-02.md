@@ -1,7 +1,7 @@
 # P1-14.2 RAG(retrieval-augmented generation)와 도구 사용(tool use)의 위치
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.1에서는 AI 서비스를 모델(model), 앱(application), 데이터(data), 도구(tool), 흐름(orchestration)의 조합으로 봤습니다. 이제 그중 헷갈리기 쉬운 두 가지를 구분합니다.
 
@@ -51,7 +51,7 @@ Part 1에서 `RAG(retrieval-augmented generation)`, `도구 사용(tool use)`, `
 | 조합 | RAG와 도구 사용은 함께 쓰일 수 있는가? |
 | 책임 | 검색 결과와 도구 실행 결과는 누가 검토해야 하는가? |
 
-## 이 절의 목표
+## RAG와 도구 사용이 놓이는 위치
 
 - RAG(retrieval-augmented generation)를 외부 자료를 읽어 오는 구조로 이해합니다.
 - 도구 사용(tool use)을 외부 시스템의 기능을 호출하는 구조로 이해합니다.

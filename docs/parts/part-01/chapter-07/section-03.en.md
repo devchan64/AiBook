@@ -1,7 +1,7 @@
 # P1-7.3 The Difference Between Heuristics and Probabilistic Models
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 7.2 treated heuristics as empirical standards for deciding which candidates to inspect first and which to reduce when we cannot inspect all of them. Now we separate another pair of ideas that often look similar:
 
@@ -28,7 +28,7 @@ The narrow distinction here is:
 > probabilistic models express uncertainty numerically  
 > the two can be used together, but they are not the same
 
-## Goal of This Section
+## Separating Heuristics from Probabilistic Models
 
 - Avoid using `heuristic` and `probabilistic model` as if they were the same thing.
 - Distinguish `heuristic score` from `probability`.

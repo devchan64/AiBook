@@ -1,7 +1,7 @@
 # P1-16.1 Personal Learning and Documentation
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-15 examined where AI connects to social risk, copyright, and security. P1-16 moves into application cases. The first case is an AI relearning documentation project.
 
@@ -26,7 +26,7 @@ This section focuses on how AI can be used in personal learning. Work automation
 | evidence review | how should an AI draft be checked? |
 | working hypothesis | how should personal intuition be preserved safely? |
 
-## Goal of This Section
+## Documenting Personal Learning
 
 - Explain how AI can be used as a structuring tool and documentation aid in personal learning.
 - Explain why documentation is both a learning output and a verification device.

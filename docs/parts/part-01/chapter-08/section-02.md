@@ -1,7 +1,7 @@
 # P1-8.2 비지도학습(unsupervised learning): 구조(structure)와 표현(representation)
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 8.1에서는 라벨(label)을 데이터에 붙인 구분 표식으로 설명했습니다. 지도학습(supervised learning)은 입력(input)과 라벨(label)이 함께 있는 예시에서 입력과 출력의 관계를 맞추려 합니다.
 
@@ -37,7 +37,7 @@
 > 비지도학습은 사람이 붙인 라벨 없이
 > 데이터 안의 구조, 군집, 표현을 찾는 방식이다.
 
-## 이 절의 목표
+## 라벨 없이 구조와 표현을 찾는 방식
 
 - 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조를 찾는 방식으로 설명합니다.
 - 라벨 없음이 목표 없음이나 기준 없음과 같지 않다는 점을 이해합니다.

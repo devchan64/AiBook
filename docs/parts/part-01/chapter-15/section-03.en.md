@@ -1,7 +1,7 @@
 # P1-15.3 Security and Privacy
 
 > Section ID: `P1-15.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-15.2 examined how to handle other people's expression and copyrighted works. P1-15.3 turns to a parallel question:
 
@@ -27,7 +27,7 @@ This section covers how to be careful about inputs, outputs, tool permissions, l
 
 Copyright and training data were covered in P1-15.2. Education and workplace application move to Chapter 16.
 
-## Goal of This Section
+## Separating Security and Privacy Risks
 
 - Understand that sensitive information can remain in AI inputs and logs.
 - Treat `prompt injection` as a security risk rather than as a simple prank.

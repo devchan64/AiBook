@@ -1,7 +1,7 @@
 # P1-14.2 Where RAG and Tool Use Sit
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.1 described an AI service as a combination of the `model`, `application`, `data`, `tool`, and `orchestration`. This section separates two parts that are easy to confuse.
 
@@ -53,7 +53,7 @@ The baseline distinction here is simple: `RAG is for reading`, `tool use is for 
 | combination | can RAG and tool use be used together? |
 | responsibility | who reviews retrieval results and tool execution results? |
 
-## Goal of This Section
+## Where RAG and Tool Use Sit in the System
 
 - Understand `RAG` as a structure for reading outside material.
 - Understand `tool use` as a structure for calling the functions of an outside system.

@@ -1,7 +1,7 @@
 # P1-10.3 생성 결과(output)의 품질(quality)과 위험(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 10.1에서는 분류(classification), 예측(prediction), 생성(generation)의 차이를 봤습니다. 10.2에서는 생성형 AI(generative AI)가 조건(condition)을 바탕으로 산출물을 점진적으로 구성한다는 직관을 봤습니다.
 
@@ -38,7 +38,7 @@ Part 1에서 `품질(quality)`, `근거(evidence)`, `환각(hallucination)`, `co
 | 안전(safety) | 사람, 조직, 사회에 해를 만들 수 있는가? |
 | 권리와 책임(rights and responsibility) | 저작권, 개인정보, 비밀 정보, 사용 책임을 검토했는가? |
 
-## 이 절의 목표
+## 자연스러운 생성 결과를 검토하는 기준
 
 - 생성 결과의 자연스러움과 사실성을 구분합니다.
 - 환각(hallucination) 또는 confabulation을 근거 없는 사실 주장으로 이해합니다.

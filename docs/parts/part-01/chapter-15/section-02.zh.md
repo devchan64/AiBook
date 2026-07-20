@@ -1,7 +1,7 @@
 # P1-15.2 版权(copyright)与训练数据(training data)
 
 > Section ID: `P1-15.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P1-15.1 中，我们看过当 AI 结果影响人和社会时，应如何理解偏见(bias)、安全性(safety)、责任(accountability)。接下来问题会更具体：
 
@@ -25,7 +25,7 @@
 
 这里先以韩国著作权法为主要参照，同时承认：围绕生成式 AI 训练的法律制度与判例，在不同国家仍处于持续发展之中。
 
-## 本节目标
+## 分开阅读版权与训练数据的基准
 
 - 区分版权(copyright)、许可证(license)、出处标示(attribution)、引用(quotation)。
 - 区分想法(idea)、事实(fact)、表达(expression)。

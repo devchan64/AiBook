@@ -1,7 +1,7 @@
 # Part 1. Introduction to AI and the Landscape
 
 > Section ID: `P1-index`
-> Version: `v2026.07.07`
+> Version: `v2026.07.20`
 
 Part 1 is the section where we rebuild the overall landscape before studying AI again in depth. It does not begin by implementing one specific algorithm in detail. Instead, it first clarifies how later work on mathematical recovery, machine learning, deep learning, LLMs, generative AI, service architecture, and project practice fits into one connected map.
 
@@ -21,7 +21,7 @@ So Part 1 begins by drawing the map first.
 6. It places LLMs, prompts, embeddings, RAG, and agents on the same large map.
 7. It keeps service architecture, ethics, copyright, security, and forecasting in view.
 
-## Purpose of This Part
+## Why Start by Building the Whole AI Map
 
 This Part is the starting point for reconnecting older introductory AI knowledge to the current AI landscape.
 
@@ -37,7 +37,7 @@ Part 1 does not explain all of that deeply at once. Instead, it prepares the rea
 6. Is an AI service built from only one model?
 7. Why must risk and responsibility be discussed together with technical explanation?
 
-## Goals of This Part
+## How to Distinguish AI, Machine Learning, and LLMs
 
 After reading Part 1, the goal is not to know every formula or implementation detail. The goal is to keep a working understanding like this:
 
@@ -49,7 +49,7 @@ After reading Part 1, the goal is not to know every formula or implementation de
 - You can look at an AI service through the lenses of model, app, data, tools, operational constraints, and responsibility.
 - You can maintain the habit of separating personal working hypotheses from standard explanations.
 
-## What This Part Covers and Does Not Cover
+## The Boundary Between the AI Landscape and Later Study
 
 Part 1 is for establishing the overall terrain of AI. It therefore covers:
 
@@ -66,7 +66,7 @@ It does not try to finish the following here:
 
 That omission is not an evasion. It is scope control. Part 1 is responsible for first making clear what belongs where. The deeper explanations are recovered in later Parts.
 
-## The Standard This Part Establishes First
+## Working Hypotheses, Terms, and Service Responsibility
 
 Because this is the first main Part of the book, it first establishes the common reading standard on which later Parts depend.
 
@@ -76,7 +76,7 @@ Because this is the first main Part of the book, it first establishes the common
 
 If those standards are established first, later study of mathematics, code, data, and model structure is less likely to lose its place on the overall map.
 
-## How to Read Part 1
+## Reading AI Terms by Level
 
 This Part contains many terms and a wide scope. At first, it is more important to ask what conceptual level a term belongs to, what its input and output are, and where its result has impact than to memorize individual technical names.
 
@@ -105,7 +105,7 @@ The role of Part 1 becomes clearest when the following five standards remain in 
 | Deep learning is the stream that learns representations, and Transformers are one structure within it. | Part 5 |
 | In services, data, tools, and operational judgment outside the model also matter. | Part 6, Part 7 |
 
-## What the Part Explains
+## The 17 Flows That Make Up the AI Introduction
 
 Part 1 is organized into 17 chapters.
 
@@ -121,7 +121,7 @@ Chapter 9 is also handled carefully. Examples such as CNNs, GPUs, YOLO, and Wave
 
 The same principle applies to early AI examples. Names such as Logic Theorist, GPS, MYCIN, and DENDRAL are used here only as reference points that help the reader recall representative cases of early symbolic AI and rule-based systems. The text does not expand them into long historical catalogs.
 
-## Why This Order Matters
+## Why the Same Term Changes Across Contexts
 
 The hard part of studying AI again is often not the difficulty of any one concept by itself. The harder part is that the same word can mean different things in different contexts. For that reason, current explanations of AI are not stabilized by endlessly comparing dictionary definitions across languages, but by using core references such as OECD, English-language dictionaries, SEP, and NIST that support the whole structure of the book.
 
@@ -131,7 +131,7 @@ Part 1 cuts through that `inference` confusion early. It first separates inferen
 
 Part 1 builds a common language that reduces this kind of confusion. When the terms and distinctions are fixed first, later Parts on mathematics, data modeling, machine learning, deep learning, and LLMs become less scattered. For the same reason, examples such as recommendation, ranking, control, search services, and autonomous driving are only used here as short learning scenes for reading problem types, not expanded into long domain-specific explanations.
 
-## How It Connects to Later Parts
+## Concepts That Return After Part 2
 
 Part 1 is not where each technology is completed. It is the starting point that prevents later explanations from losing track of where they connect.
 
@@ -150,7 +150,7 @@ Inside Part 1, every chapter is not closed as though it were a complete body of 
 | generative AI, LLM, token, prompt, RAG, agent | enough to know that a generative service does not end with one model alone | Part 6 LLMs and generative AI |
 | service operations, evaluation, and responsibility | enough to know that humans, policy, cost, and safety remain after model output | Part 6 evaluation and operations, Part 7 project review |
 
-## Questions This Part Intentionally Leaves Open
+## Calculation and Implementation Questions for Later Parts
 
 Because Part 1 is about the map, it intentionally defers some questions:
 
@@ -160,7 +160,7 @@ Because Part 1 is about the map, it intentionally defers some questions:
 
 Those questions are recovered in later Parts.
 
-## What Should Remain After Finishing This Part
+## Seeing AI as a Broad Landscape
 
 When Part 1 is done, AI should no longer look like a single buzzword. It should look like a broad terrain built from many layers of approaches and technical streams.
 
@@ -173,7 +173,7 @@ When Part 1 is done, AI should no longer look like a single buzzword. It should 
 
 If that understanding remains, later detailed study can keep asking where a concept sits on the larger map. Part 2 is the first step in translating that map into the language of computation, and the later Parts recover the distinctions built here with more precise explanation.
 
-## Completion Criteria
+## Checks That Should Remain
 
 - You can explain the broad relationship among AI, machine learning, deep learning, generative AI, and LLMs.
 - You can explain the difference between rule-based and learning-based approaches.

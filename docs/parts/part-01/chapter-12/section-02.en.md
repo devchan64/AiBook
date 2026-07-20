@@ -1,7 +1,7 @@
 # P1-12.2 Instructions, Context, and Examples
 
 > Section ID: `P1-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 12.1 described a `prompt` as a way of arranging task conditions inside the current input. A prompt does not retrain the model. Instead, it places instructions, context, examples, constraints, and output format inside the input that the model can use during `inference`.
 
@@ -49,7 +49,7 @@ This section also does not ask whether a prompt `guarantees a good result`. That
 | context | how do we provide the background information and materials needed for the task? |
 | example | how do we show the desired shape of the result? |
 
-## Goal of This Section
+## Separating Instructions, Context, and Examples
 
 - Distinguish instruction, context, and example.
 - Explain how the three can be arranged separately inside one prompt.

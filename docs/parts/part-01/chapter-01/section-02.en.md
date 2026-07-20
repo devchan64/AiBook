@@ -1,7 +1,7 @@
 # P1-1.2 Problems AI Deals With
 
 > Section ID: `P1-1.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Section 1.1 organized the scope of the word AI. This section looks at what kinds of problems AI actually deals with inside that broad range.
 
@@ -9,7 +9,7 @@ If AI is read only as the name of a technology, rule-based AI, machine learning,
 
 In Part 1, the baseline distinction among problem types such as classification, prediction, recommendation, and generation is fixed in this section. Even when the same words appear again later, only the amount needed for the current question is carried forward there. When the problem types themselves need to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
+## Dividing AI Problems by Input and Output
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 This section first closes `how to divide AI problems from the viewpoint of inputs and outputs`. Algorithms and learning structures by problem type continue in Part 4, Part 5, and Part 6. Here the focus is on setting the problem-definition standard of `what goes in and what comes out`.
 
-## Goal of This Section
+## Standards for Distinguishing Problem Types
 
 - Separate AI problems through the viewpoint of input and output.
 - Distinguish problem types such as recognition, search, prediction, recommendation, generation, and control.

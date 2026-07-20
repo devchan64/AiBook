@@ -1,7 +1,7 @@
 # P1-4.2 Input, Output, and Data
 
 > Section ID: `P1-4.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 4.1 described a model as a computable representation reduced for a purpose rather than the whole real-world problem. Now we move to the first three elements that should be separated when we describe that model: what we put in, what we want to get out, and what kinds of cases we need to gather.
 
@@ -21,7 +21,7 @@ This section organizes the following questions.
 
 The relation among features, representations, and parameters returns immediately in 4.3, and the way problem definition changes model choice continues in 4.4. The structure by which input and output are turned into actual feature and representation computation reconnects later in the machine-learning chapters of Part 4 and the neural-network chapters of Part 5. Here the focus stays on separating `what goes in and what comes out`.
 
-## Goal of This Section
+## Separating Input, Output, and Data
 
 - Distinguish the roles of input, output, and data.
 - Understand the perspective of reading a real-world problem as a relation between input and output.

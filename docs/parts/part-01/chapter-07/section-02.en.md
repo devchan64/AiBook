@@ -1,7 +1,7 @@
 # P1-7.2 What Does a Heuristic Reduce?
 
 > Section ID: `P1-7.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 7.1 showed that when the search space grows, methods that inspect every candidate quickly hit computational limits. Now we move to the next question:
 
@@ -52,7 +52,7 @@ The focus here is narrower:
 > when the search space is too large,  
 > heuristics are standards that reduce candidate count, time, memory, and evaluation burden
 
-## Goal of This Section
+## Search Costs Reduced by Heuristics
 
 - Understand a heuristic as an empirical standard that guides search or judgment toward promising directions.
 - Explain how heuristics reduce candidate count, time, memory, and evaluation burden.

@@ -1,7 +1,7 @@
 # P1-8.3 Reinforcement Learning: Actions and Rewards
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 8.1 explained supervised learning as learning from examples where inputs and labels are given together. Section 8.2 explained unsupervised learning as learning that looks for structure, clusters, or representations in unlabeled data.
 
@@ -28,7 +28,7 @@ The working definition here is:
 > and uses the rewards after those actions  
 > to find a better long-term policy
 
-## Goal of This Section
+## Steering Learning with Actions and Rewards
 
 - Explain reinforcement learning in terms of actions and rewards.
 - Distinguish agent, environment, state, action, reward, and policy at an introductory level.

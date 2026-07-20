@@ -1,7 +1,7 @@
 # P1-9.1 Image Recognition and Representation Learning
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 8 distinguished supervised learning, unsupervised learning, and reinforcement learning by the kind of learning signal they use. Now we move into `deep learning`.
 
@@ -50,7 +50,7 @@ The baseline definition in this section is:
 
 > in image recognition, deep learning strongly demonstrated a direction where models learn hierarchical representations from data, rather than depending only on features designed by people
 
-## Goal of This Section
+## Separating Hand-Crafted Features from Learned Representations
 
 - Understand image recognition as the task of predicting a category from an input image.
 - Explain the difference between hand-crafted features and learned representations.

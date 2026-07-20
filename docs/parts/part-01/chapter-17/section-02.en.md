@@ -1,7 +1,7 @@
 # P1-17.2 Reading News, Columns, and Reports
 
 > Section ID: `P1-17.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-17.1 explained that, when writing forecasts, sources and the nature of the material should be checked first. This section turns to the practical question:
 
@@ -22,7 +22,7 @@ This section explains what questions to ask when reading external material about
 | event | a real announcement, lawsuit, or publication | the layer that should be checked first |
 | interpretation | the explanation of what an event means | a layer that should be read separately from the event |
 
-## Goal of This Section
+## Reading News, Columns, and Reports Separately
 
 - Read `news`, `columns`, and `reports` without mixing them into a single kind of evidence.
 - Explain why `fact event` and `interpretation` should be separated first.

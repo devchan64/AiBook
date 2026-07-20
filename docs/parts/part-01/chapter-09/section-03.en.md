@@ -1,7 +1,7 @@
 # P1-9.3 Distinguishing the Direct Lineage of LLMs from Surrounding Evidence
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 9.1 looked at image recognition and representation learning. Section 9.2 looked at object detection and speech generation.
 
@@ -58,7 +58,7 @@ The scope can be summarized like this:
 
 This separation is needed for a simple reason. If every successful deep-learning case is connected in a straight line to LLMs, the history looks easy to tell, but causes and background become mixed together.
 
-## Goal of This Section
+## Separating Direct Lineage from Surrounding Evidence
 
 - Distinguish direct lineage from surrounding evidence.
 - Place the direct flow of LLMs on the side of language modeling and sequence modeling.

@@ -1,7 +1,7 @@
 # P1-14.3 Agent: A Structure That Carries a Goal Through a Workflow
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.2 distinguished `RAG` from `tool use`.
 
@@ -43,7 +43,7 @@ The baseline distinction here is:
 | observation | how should tool results be reflected back into the flow? |
 | stop condition | when should the task stop and the result be reported? |
 
-## Goal of This Section
+## Carrying a Goal Through a Workflow
 
 - Understand an `agent` as an execution structure rather than as just a smarter chatbot or another model name.
 - Distinguish prompts, RAG, tool use, and agents.

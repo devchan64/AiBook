@@ -1,7 +1,7 @@
 # P1-13.3 RAG(retrieval-augmented generation)로 이어지는 흐름
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현하는 임베딩(embedding)을 봤습니다. P1-13.2에서는 질문 벡터(query vector)와 가까운 문서 벡터(document vector)를 찾는 유사도 검색(similarity search)을 봤습니다.
 
@@ -40,7 +40,7 @@ P1-14에서는 RAG가 실제 서비스 아키텍처와 도구 사용(tool use), 
 | 생성(generation) | LLM은 보강된 입력으로 무엇을 생성하는가? |
 | 한계(limit) | RAG가 왜 사실 검증을 자동으로 보장하지 않는가? |
 
-## 이 절의 목표
+## 검색 결과를 생성 맥락으로 연결하는 기준
 
 - RAG(retrieval-augmented generation)를 검색과 생성을 결합한 구조로 이해합니다.
 - 검색 결과가 LLM 입력의 맥락(context)으로 들어간다는 흐름을 설명합니다.

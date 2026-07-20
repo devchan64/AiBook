@@ -1,7 +1,7 @@
 # P1-6.3 Where Probabilistic Judgment Is Used in AI
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 6.2 distinguished `uncertainty`, `probability`, and `stochastic`. This section turns that distinction into a more practical question: where in actual AI systems is probability used, and how should those numbers be read carefully?
 
@@ -18,7 +18,7 @@ The baseline here is only this:
 > probability is used in classification, prediction, generation, and decision making  
 > but probabilistic output is not itself the final answer or the final responsible decision
 
-## Goal of This Section
+## Reading Probabilistic Output as Decision Material
 
 - Understand how probability estimates are used in classification.
 - Understand that prediction tasks can involve not only one value, but also uncertainty around that value.

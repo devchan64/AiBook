@@ -1,7 +1,7 @@
 # P1-12.1 What Does a Prompt Specify?
 
 > Section ID: `P1-12.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 11 explained where `LLMs` came from. Language models began from the problem of next-token probability, and Transformers and pretraining became key foundations of modern LLMs.
 
@@ -57,7 +57,7 @@ A prompt is not a magic spell. Even with the same model, different input arrange
 
 The focus here is to understand prompts as `input structure`. Example placement and evaluation criteria are deferred to 12.2 and 12.3.
 
-## Goal of This Section
+## Input Conditions Specified by a Prompt
 
 - Understand a prompt as natural-language input given to an LLM.
 - Explain that prompts can specify instructions, context, examples, constraints, and output format.

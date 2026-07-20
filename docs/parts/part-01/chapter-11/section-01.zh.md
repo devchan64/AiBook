@@ -1,7 +1,7 @@
 # P1-11.1 统计语言模型(statistical language model)与嵌入(embedding)
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在第 10 章中，我们看到生成式 AI(generative AI)在产出内容时，必须把自然度、事实性、依据与风险分开审查。
 
@@ -48,7 +48,7 @@
 
 另外，这里还不会解释 RNN、Attention、Transformer。那些结构上的发展脉络会在 11.2 与 11.3 单独展开；这里先专注于两个起点：`用概率处理语言` 和 `把单词转成向量`。
 
-## 本节目标
+## 用概率与向量处理语言的基准
 
 - 把语言模型(language model)理解成处理下一个单词或下一个 token 概率的模型。
 - 看到 n-gram 语言模型使用短上下文和频数(count)。

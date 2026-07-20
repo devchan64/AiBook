@@ -1,7 +1,7 @@
 # P1-8.3 강화학습(reinforcement learning): 행동(action)과 보상(reward)
 
 > Section ID: `P1-8.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 8.1에서는 지도학습(supervised learning)을 입력(input)과 라벨(label)이 함께 있는 예시에서 배우는 방식으로 설명했습니다. 8.2에서는 비지도학습(unsupervised learning)을 라벨 없는 데이터에서 구조(structure), 군집(cluster), 표현(representation)을 찾는 방식으로 설명했습니다.
 
@@ -43,7 +43,7 @@
 > 행동 뒤의 보상을 통해
 > 장기적으로 더 나은 정책을 찾는 방식이다.
 
-## 이 절의 목표
+## 행동과 보상으로 학습 방향을 잡는 방식
 
 - 강화학습(reinforcement learning)을 행동(action)과 보상(reward)의 관점에서 설명합니다.
 - 에이전트(agent), 환경(environment), 상태(state), 행동(action), 보상(reward), 정책(policy)을 입문 수준에서 구분합니다.

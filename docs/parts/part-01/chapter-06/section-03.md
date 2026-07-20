@@ -1,7 +1,7 @@
 # P1-6.3 AI에서 확률적 판단이 쓰이는 곳
 
 > Section ID: `P1-6.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 6.2에서는 불확실성(uncertainty), 확률(probability), 확률적 과정(stochastic)을 구분했습니다. 이번 절에서는 그 구분이 실제 AI 시스템에서 어디에 쓰이는지 봅니다.
 
@@ -20,7 +20,7 @@ Part 1에서 `확률 숫자가 실제 AI 시스템에서 어떻게 쓰이는가`
 > 확률은 분류, 예측, 생성, 의사결정에서 쓰인다.
 > 하지만 확률 출력은 그대로 정답이나 책임 있는 결정이 아니다.
 
-## 이 절의 목표
+## 확률 출력을 판단 재료로 읽는 기준
 
 - 분류(classification)에서 확률 추정값(probability estimate)이 어떻게 쓰이는지 이해합니다.
 - 예측(regression, forecasting)에서 값 하나뿐 아니라 불확실성(uncertainty)을 함께 볼 수 있음을 이해합니다.

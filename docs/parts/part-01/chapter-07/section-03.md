@@ -1,7 +1,7 @@
 # P1-7.3 휴리스틱(heuristic)과 확률 모델(probabilistic model)의 차이
 
 > Section ID: `P1-7.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 7.2에서는 휴리스틱(heuristic)을 가능한 후보를 모두 볼 수 없을 때, 먼저 볼 후보와 줄일 후보를 정하는 경험적 기준으로 봤습니다. 이제 비슷하게 보이지만 다른 개념을 분리합니다.
 
@@ -40,7 +40,7 @@ Part 1에서 `휴리스틱 점수(heuristic score)`, `확률 모델(probabilisti
 > 확률 모델은 불확실성을 숫자로 표현하는 구조다.
 > 둘은 함께 쓰일 수 있지만 같은 말은 아니다.
 
-## 이 절의 목표
+## 휴리스틱과 확률 모델을 나누는 기준
 
 - 휴리스틱(heuristic)과 확률 모델(probabilistic model)을 같은 말처럼 쓰지 않습니다.
 - 휴리스틱 점수(score)와 확률(probability)을 구분합니다.

@@ -1,7 +1,7 @@
 # P1-3.3 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning)
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 3.1에서는 사람이 규칙을 직접 쓰는 방식의 장점과 한계를 봤고, 3.2에서는 데이터에서 패턴을 배우는 기본 구조를 봤습니다. 이번 절에서는 학습 과정 전체를 다시 설명하지 않고, 입력을 어떤 형태로 다루는가에 초점을 맞춥니다.
 
@@ -19,7 +19,7 @@ Part 1에서 `표현(representation)`, `벡터(vector)`, `활성값(activation)`
 
 이 절은 먼저 `규칙 기반 접근과 표현 학습이 입력을 다루는 자리의 차이`를 닫습니다. 입력, 출력, 데이터, 특징, 파라미터를 더 체계적으로 정리하는 일은 바로 다음 Part 1 Chapter 4에서 이어집니다.
 
-## 이 절의 목표
+## 규칙, 특징, 표현의 자리 구분
 
 - 규칙 기반 접근(rule-based approach)과 표현 학습(representation learning)의 차이를 구분합니다.
 - 특징(feature)과 표현(representation)의 관계를 이해합니다.

@@ -1,7 +1,7 @@
 # P1-8.1 Supervised Learning: Inputs and Labels
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 7 dealt with search spaces, computational limits, and heuristics. Now we move into learning types. The first baseline is `supervised learning`.
 
@@ -39,7 +39,7 @@ The working definition here is:
 
 > supervised learning is the method of training a model to predict outputs for new inputs by using examples where input and label are given together
 
-## Goal of This Section
+## Setting a Learning Standard with Inputs and Labels
 
 - Understand what a label indicates in supervised learning.
 - Read a label as something closer to an identifiable marker than to an absolute answer.

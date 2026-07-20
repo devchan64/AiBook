@@ -1,7 +1,7 @@
 # P1-10.3 生成结果(output)的质量(quality)与风险(risk)
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 10.1 中，我们看了分类(classification)、预测(prediction)、生成(generation)之间的区别。在 10.2 中，我们又看了生成式 AI(generative AI)会基于条件(condition)逐步构造产出物的直觉。
 
@@ -39,7 +39,7 @@
 | 安全(safety) | 输出是否可能对人、组织、社会造成伤害？ |
 | 权利与责任(rights and responsibility) | 是否审查了版权、隐私、机密信息与责任问题？ |
 
-## 本节目标
+## 检查自然生成结果的基准
 
 - 区分生成结果的自然度和事实性。
 - 把幻觉(hallucination)或 confabulation 理解为：以看似可信的方式呈现出来、但缺乏依据的事实内容。

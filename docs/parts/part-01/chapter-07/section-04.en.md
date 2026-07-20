@@ -1,7 +1,7 @@
 # P1-7.4 Supplemental Learning: From Route Finding to Autonomous-Driving Path Planning
 
 > Section ID: `P1-7.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 7.1 abstracted search as the problem of finding a path to a goal. Section 7.2 explained what heuristics reduce when we cannot inspect every candidate. Section 7.3 separated heuristics from probabilistic models.
 
@@ -25,7 +25,7 @@ This section covers only the following:
 
 Then we look at why this difference leads to distinctions such as `global` and `local`, or `path` and `trajectory`.
 
-## Goal of This Supplemental Section
+## Extending Route Finding into Path Planning
 
 - Explain route finding as a bridge between graph search and real driving planning.
 - Understand a `waypoint` as a representation of reference points that should be passed.

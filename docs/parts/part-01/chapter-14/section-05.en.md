@@ -1,7 +1,7 @@
 # P1-14.5 Harness and the Evaluation Execution Environment
 
 > Section ID: `P1-14.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.4 treated MCP as a protocol that standardizes how AI applications connect to outside tools and data. The next question is more operational:
 
@@ -48,7 +48,7 @@ The baseline distinction here is that `the harness wraps execution, traces and l
 | evaluation | how do we compare whether a result became better? |
 | reproducibility | can the same condition be checked again? |
 
-## Goal of This Section
+## Separating the Evaluation Execution Environment
 
 - Understand the harness as an environment that wraps execution, not as the model itself.
 - Connect the intuitive origin of the word with the software idea of a `test harness`.

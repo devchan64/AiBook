@@ -1,7 +1,7 @@
 # P1-4.1 Becoming Comfortable with the Word Model
 
 > Section ID: `P1-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 3 showed the flow from rule-based approaches to learning-based approaches. Chapter 4 turns that flow into a more practical question. What must we do to turn a real-world problem into a form AI can compute?
 
@@ -17,7 +17,7 @@ This section organizes the following questions.
 
 The relationship among input, output, and data is revisited immediately in 4.2. Features, representations, and parameters are continued more concretely in 4.3. How problem definition changes model choice is organized again in 4.4. Here the focus stays on one distinction: `a model is a computational representation`.
 
-## Goal of This Section
+## Reading a Model as a Computational Representation
 
 - Understand `model` together with the idea of a `representation`.
 - Understand that a model is not the whole of reality, but a reduced form built for a purpose.

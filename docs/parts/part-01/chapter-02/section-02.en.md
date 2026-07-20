@@ -1,7 +1,7 @@
 # P1-2.2 Search, Knowledge Representation, and Probabilistic Reasoning
 
 > Section ID: `P1-2.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 2.1 covered symbolic AI and rule-based approaches. This section takes the next question. When writing rules alone is not enough, AI had to search through possible candidates, represent the knowledge it needed, and reason about plausible conclusions under incomplete information.
 
@@ -17,7 +17,7 @@ This section organizes the following questions.
 
 The focus here is on organizing the `difference in role` among the three flows. The reason the center of explanation later moves toward learning patterns from data is recovered in the next section, 2.3.
 
-## Goal of This Section
+## Different Roles of Search, Knowledge Representation, and Probabilistic Reasoning
 
 - Understand why search was a core early AI problem-solving method.
 - See how knowledge representation connects to rule-based approaches.

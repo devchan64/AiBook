@@ -1,7 +1,7 @@
 # P1-5.1 学习(learning)会改变什么
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 第 4 章已经把现实问题整理成模型可处理的 `input`、`output`、`feature`、`representation` 与 `parameter` 关系。
 
@@ -119,7 +119,7 @@
 
 这里也不会详细讲 `inference`。5.2 会单独处理它。这里仅提及足够多的部分，以便先把训练和后续使用区分开：训练时改过的值，会在后面真正运行模型时被使用。
 
-## 本节目标
+## 通过训练调整内部值的基准
 
 - 把 `training` 理解成调整模型内部值的过程。
 - 区分 `learning` 与 `training`。

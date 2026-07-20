@@ -1,7 +1,7 @@
 # P1-13.4 向量搜索(vector search)实现的直觉
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P1-13.1 中，我们看了如何通过嵌入(embedding)把文本(text)表示成向量(vector)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到接近的向量。在 P1-13.3 中，我们又看了怎样把这些检索候选接进 LLM 的输入上下文(context)中，形成 RAG(retrieval-augmented generation)。
 
@@ -37,7 +37,7 @@ Part 1 会在这里建立 `向量搜索(vector search)实现`、`索引(index)`�
 | 基于图的搜索(graph-based search) | 利用接近向量之间的连接是什么意思？ |
 | 运维考量 | 准确率、速度与成本之间要怎样平衡？ |
 
-## 本节目标
+## 阅读向量搜索实现流程的基准
 
 - 理解向量搜索随着数据变大，会逐渐成为计算问题。
 - 把索引(index)理解为为了加快搜索而预先构造的结构。

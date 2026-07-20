@@ -1,7 +1,7 @@
 # P1-14.1 모델(model), 앱(application), 데이터(data), 도구(tool)
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 13장에서는 임베딩(embedding), 유사도 검색(similarity search), RAG(retrieval-augmented generation), 벡터 검색 구현의 직관을 봤습니다. 이 흐름은 중요한 전환을 만듭니다.
 
@@ -38,7 +38,7 @@ Part 1에서 `모델(model)`, `앱(application)`, `데이터(data)`, `도구(too
 | 도구(tool) | 모델 밖의 시스템을 어떻게 실행하는가? |
 | 흐름(orchestration) | 이 요소들을 누가 어떤 순서로 연결하는가? |
 
-## 이 절의 목표
+## 모델, 앱, 데이터, 도구의 자리 구분
 
 - AI 서비스를 모델 하나가 아니라 여러 구성요소의 조합으로 이해합니다.
 - 모델(model), 앱(application), 데이터(data), 도구(tool)의 역할을 구분합니다.

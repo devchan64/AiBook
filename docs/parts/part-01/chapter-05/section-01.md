@@ -1,7 +1,7 @@
 # P1-5.1 학습(learning)은 무엇을 바꾸는가
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 4장에서는 현실 문제를 모델이 다룰 수 있는 입력(input), 출력(output), 특징(feature), 표현(representation), 파라미터(parameter)의 관계로 정리했습니다.
 
@@ -119,7 +119,7 @@ Deep Learning Book은 Tom Mitchell의 정의를 소개하며, 어떤 프로그�
 
 또한 5.1은 학습된 모델을 사용하는 과정인 추론(inference)을 자세히 설명하지 않습니다. inference는 5.2에서 따로 다룹니다. 여기서는 inference와 구분하기 위해 “학습 때 바뀐 값이 이후 사용 때 쓰인다”는 정도만 언급합니다.
 
-## 이 절의 목표
+## 훈련으로 내부 값을 조정하는 기준
 
 - 훈련(training)을 모델 내부 값의 조정 과정으로 이해합니다.
 - 학습(learning)과 훈련(training)의 차이를 구분합니다.

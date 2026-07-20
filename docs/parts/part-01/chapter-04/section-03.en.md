@@ -1,7 +1,7 @@
 # P1-4.3 Features, Representations, and Parameters
 
 > Section ID: `P1-4.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 4.2 examined the relation among `input`, `output`, and `data`, or what we want to show the model and what we want back from it. This section explains what kind of computational material that input becomes inside the model.
 
@@ -15,7 +15,7 @@ The question needed here is smaller. When we look at a model that is already def
 
 The goal here is not the procedure for making a model, but the basic vocabulary needed to read the flow of computation inside a model.
 
-## Goal of This Section
+## Turning Input into Computational Material
 
 - Understand a feature as a value the model uses from the input.
 - Understand a representation as the result of turning original data into a form that is easier to compute over.

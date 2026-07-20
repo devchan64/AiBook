@@ -1,7 +1,7 @@
 # P1-14.6 The Constraints AI Services Meet in the Real World
 
 > Section ID: `P1-14.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.5 described a `harness` as an execution environment that wraps model and tool runs and makes tracing, logging, and evaluation possible. The next question moves in a more practical direction:
 
@@ -47,7 +47,7 @@ The baseline distinction here is:
 
 Security, privacy, and copyright are handled separately in P1-15. Here the focus stays on the service question: can this structure keep running in repeated real use?
 
-## Goal of This Section
+## Reading Real-World Service Constraints
 
 - Understand service constraints by dividing them into cost, latency, throughput, and failure response.
 - Understand cost as more than token count alone, including model choice, request count, tool use, retries, and evaluation runs.

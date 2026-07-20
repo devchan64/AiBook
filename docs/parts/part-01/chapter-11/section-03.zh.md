@@ -1,7 +1,7 @@
 # P1-11.3 Transformer 与预训练 LLM(pretrained LLM)
 
 > Section ID: `P1-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)；在 11.2 中，我们又看了 RNN、Seq2Seq、Attention 如何处理顺序与上下文。
 
@@ -47,7 +47,7 @@
 
 prompt 写法会在 P1-12.1 到 P1-12.3 中再讲；向量检索和 RAG 会在 P1-13.1 到 P1-13.4 以及 P1-14.2 中再讲；AI 服务架构会在 P1-14.1 到 P1-14.6 再讲。这里的目标只是抓住一条大线索：现代 LLM 不是突然出现的，而是语言建模、嵌入、sequence modeling、Attention 与预训练结合后的结果。这里仅区分 `结构`、`学习流程`、`用户体验的变化`。
 
-## 本节目标
+## 连接 Transformer 与预训练的基准
 
 - 把 Transformer 理解为以 self-attention 为中心的结构。
 - 把 self-attention 理解为计算 token 之间相关度的方式，而不是人类式注意。

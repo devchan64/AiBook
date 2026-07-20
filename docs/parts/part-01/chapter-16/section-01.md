@@ -1,7 +1,7 @@
 # P1-16.1 개인 학습(personal learning)과 문서화(documentation)
 
 > Section ID: `P1-16.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-15에서는 AI가 사회적 위험, 저작권, 보안과 연결되는 지점을 봤습니다. P1-16에서는 적용 사례로 넘어갑니다. 첫 사례는 AI 재학습 문서화 프로젝트입니다.
 
@@ -24,7 +24,7 @@ Part 1에서 `개인 학습(personal learning)`, `문서화(documentation)`, `�
 | 근거 확인(evidence review) | AI 초안을 어떻게 검증할 것인가? |
 | 작업 가설(working hypothesis) | 개인적 직관을 어떻게 안전하게 보존할 것인가? |
 
-## 이 절의 목표
+## 개인 학습을 문서로 남기는 기준
 
 - 개인 학습(personal learning)에서 AI를 구조화 도구와 문서화 보조로 어떻게 쓸지 설명할 수 있습니다.
 - 문서화(documentation)가 학습 결과이자 검증 장치라는 점을 말할 수 있습니다.

@@ -1,7 +1,7 @@
 # P1-3.3 Rule-Based Approaches and Representation Learning
 
 > Section ID: `P1-3.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 3.1 examined the strengths and limits of the way people write rules directly, and Section 3.2 examined the basic structure of learning patterns from data. This section does not explain the whole learning process again. Instead, it narrows the focus to one point: what changes when the system handles input in different forms?
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 This section first closes the positional difference between rules and representations. The more systematic organization of input, output, data, features, and parameters continues immediately in Part 1 Chapter 4.
 
-## Goal of This Section
+## Separating the Places of Rules, Features, and Representations
 
 - Distinguish rule-based approaches from representation learning.
 - Understand the relation between features and representations.

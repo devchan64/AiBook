@@ -1,7 +1,7 @@
 # P1-4.4 How Problem Definition Determines the Model
 
 > Section ID: `P1-4.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 4.1 treated a model as a computational representation reduced for a purpose. Section 4.2 organized input, output, and data. Section 4.3 showed that input is transformed into features and representations and then computed together with internal parameters.
 
@@ -17,7 +17,7 @@ Section 4.4 is also not a section for designing a full AI service architecture. 
 
 This section only covers the step before that: defining which real-world goal becomes which input-output problem, and deciding what should count as doing well.
 
-## Goal of This Section
+## Turning Real-World Goals into Modeling Tasks
 
 - Distinguish a real-world goal from a modeling task.
 - Understand that the same real-world goal can split into several different AI problems.

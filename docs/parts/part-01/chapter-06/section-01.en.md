@@ -1,7 +1,7 @@
 # P1-6.1 Problems with Incomplete Information and Many Exceptions
 
 > Section ID: `P1-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 5 distinguished `learning` from `inference`. Now we turn to the next question: why did AI end up using rules, search, probability, and learning together?
 
@@ -20,7 +20,7 @@ The point here is narrower:
 > rules are still necessary,  
 > but real-world problems often have conditions that make rules alone insufficient
 
-## Goal of This Section
+## Problem Conditions That Rules Alone Cannot Close
 
 - Understand the conditions under which rule-based approaches work well.
 - Distinguish the problem conditions that are difficult to handle with rules alone.

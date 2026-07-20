@@ -1,7 +1,7 @@
 # P1-13.4 The Intuition of Vector Search Implementation
 
 > Section ID: `P1-13.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-13.1 introduced embeddings, P1-13.2 introduced similarity search, and P1-13.3 introduced RAG. One practical question remains:
 
@@ -41,7 +41,7 @@ The baseline distinction is:
 | graph-based search | what does it mean to use connections among nearby vectors? |
 | operational tradeoff | how are speed, quality, and cost balanced? |
 
-## Goal of This Section
+## Reading the Vector Search Implementation Flow
 
 - Understand that vector search becomes a computation problem as data size grows.
 - Understand an index as a structure prepared in advance for fast retrieval.

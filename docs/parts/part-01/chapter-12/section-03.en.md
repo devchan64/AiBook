@@ -1,7 +1,7 @@
 # P1-12.3 The Limits and Evaluation of Prompts
 
 > Section ID: `P1-12.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 12.1 explained what prompts specify. Section 12.2 separated `instructions`, `context`, and `examples`.
 
@@ -49,7 +49,7 @@ This section focuses on three questions:
 
 This section also does not expand the list of prompt-writing tricks. Its narrower focus is why prompts are not enough by themselves and why later structures such as RAG, tool use, agents, and harnesses become necessary.
 
-## Goal of This Section
+## Separating Good Input from Good Result Review
 
 - Explain that prompts can guide results but do not guarantee them.
 - Distinguish factuality, evidence, safety, and consistency.

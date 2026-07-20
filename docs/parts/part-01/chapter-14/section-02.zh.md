@@ -1,7 +1,7 @@
 # P1-14.2 RAG(retrieval-augmented generation)与工具使用(tool use)的位置
 
 > Section ID: `P1-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P1-14.1 中，我们把 AI 服务看成 `模型(model)`、`应用(application)`、`数据(data)`、`工具(tool)`、`编排(orchestration)` 的组合。接下来要区分其中两个最容易混淆的部分。
 
@@ -54,7 +54,7 @@ Part 1 会在这里建立 `RAG`、`工具使用(tool use)`、`检索(retrieval)`
 | 组合 | RAG 与工具使用可以一起出现吗？ |
 | 责任 | 检索结果与工具执行结果由谁来审查？ |
 
-## 本节目标
+## RAG 与工具使用在系统中的位置
 
 - 把 RAG 理解为读取外部资料的结构。
 - 把工具使用(tool use)理解为调用外部系统功能的结构。

@@ -1,7 +1,7 @@
 # P1-14.1 Model, Application, Data, and Tool
 
 > Section ID: `P1-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 13 covered embeddings, similarity search, RAG, and the intuition behind vector search implementation. That flow creates an important shift:
 
@@ -40,7 +40,7 @@ The baseline distinction here is simple: `the model computes`, `the application 
 | tool | how are systems outside the model called? |
 | orchestration | who connects these elements and in what order? |
 
-## Goal of This Section
+## Separating Model, Application, Data, and Tool
 
 - Understand an AI service as a combination of components rather than as a single model.
 - Distinguish the roles of the `model`, `application`, `data`, and `tool`.

@@ -1,7 +1,7 @@
 # P1-9.1 이미지 인식(image recognition)과 표현 학습(representation learning)
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 8장에서는 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)을 학습 신호의 차이로 구분했습니다. 이제 딥러닝(deep learning) 쪽으로 넘어갑니다.
 
@@ -39,7 +39,7 @@
 > 사람이 직접 설계한 특징만 사용하는 방식보다,
 > 데이터에서 계층적 표현을 학습하는 방향을 강하게 보여 주었다.
 
-## 이 절의 목표
+## 수작업 특징과 학습된 표현을 나누는 기준
 
 - 이미지 인식(image recognition)을 입력 이미지에서 범주(category)를 예측하는 문제로 이해합니다.
 - 수작업 특징(hand-crafted features)과 학습된 표현(learned representation)의 차이를 설명합니다.

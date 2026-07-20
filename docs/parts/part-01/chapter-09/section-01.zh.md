@@ -1,7 +1,7 @@
 # P1-9.1 图像识别与表征学习
 
 > Section ID: `P1-9.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 第 8 章已经按学习信号的差异区分了 `supervised learning`、`unsupervised learning` 和 `reinforcement learning`。现在开始转向 `deep learning`。
 
@@ -43,7 +43,7 @@
 
 本节的工作定义是：在图像识别中，深度学习强烈展示了一条方向，与其只依赖人设计好的特征，不如让模型从数据里学习分层表征。
 
-## 本节目标
+## 区分手工特征与学得表征的基准
 
 - 把图像识别理解成“从输入图像预测类别”的问题。
 - 说明 hand-crafted features 和 learned representations 的区别。

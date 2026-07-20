@@ -1,7 +1,7 @@
 # P1-1.1 Scope of the Word AI
 
 > Section ID: `P1-1.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 When studying AI again, the first difficulty is often not the technology itself but the scope of the term. The same word, `AI`, can refer to a rule-based program in one context, to a machine-learning model in another, and in recent usage can even be treated as if it were nearly the same thing as generative AI or an LLM.
 
@@ -9,7 +9,7 @@ The purpose of this section is not to produce one perfect sentence that defines 
 
 In Part 1, `AI` is the widest outer category. Even when the term appears again in later sections, only the amount needed for the current question is carried forward there. When the range itself needs to be separated again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
+## Placing AI as the Widest Outer Category
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 This section first closes the point that `AI is the widest outer category`. The detailed technical flows continue in Part 1 Chapter 2, Part 1 Chapter 3, and from Part 4 onward. Here the focus is on placing terms on that large map.
 
-## Goal of This Section
+## Reading AI as a Field, Not as a Product
 
 - Explain why the term AI is used broadly.
 - Read AI as a field for handling problems, not as the name of one product or one latest model.

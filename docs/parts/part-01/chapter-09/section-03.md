@@ -1,7 +1,7 @@
 # P1-9.3 LLM(large language model)의 직접 계보(direct lineage)와 주변 근거(surrounding evidence) 구분
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 봤습니다. 9.2에서는 객체 검출(object detection)과 음성 생성(speech generation)을 봤습니다.
 
@@ -47,7 +47,7 @@
 
 이 구분이 필요한 이유는 단순합니다. 모든 딥러닝 성공 사례를 LLM으로 곧장 이어 붙이면 역사 설명이 쉬워 보이지만, 원인과 배경이 섞입니다.
 
-## 이 절의 목표
+## 직접 계보와 주변 근거를 나누는 기준
 
 - 직접 계보(direct lineage)와 주변 근거(surrounding evidence)를 구분합니다.
 - LLM의 직접 흐름을 언어 모델링(language modeling)과 순차 모델링(sequence modeling) 쪽에서 잡습니다.

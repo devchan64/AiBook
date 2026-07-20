@@ -1,7 +1,7 @@
 # P1-16.3 How to Validate with a Project
 
 > Section ID: `P1-16.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-16.2 looked at work automation and search from the viewpoint of workflow. This section organizes how to validate learning and practical use through a small `project`.
 
@@ -18,7 +18,7 @@ This section focuses on how to design and validate a small project after finishi
 | evaluation | how should correctness be checked? |
 | record | how should failures and revisions be preserved? |
 
-## Goal of This Section
+## Validating Understanding with a Project
 
 - Explain why a small project should begin from one concrete question.
 - Explain the habit of writing down success criteria and evaluation criteria first.

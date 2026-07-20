@@ -1,7 +1,7 @@
 # P1-13.2 The Intuition of Similarity Search
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section P1-13.1 explained what it means to represent text as `vectors`. Once text is turned into vectors, sentences, paragraphs, and documents can be placed as computable positions.
 
@@ -46,7 +46,7 @@ This section does not require prior knowledge of graphs. Graphs return later in 
 | nearest neighbor | how do we choose the closest candidate? |
 | limit | why is a nearby vector not always a good answer? |
 
-## Goal of This Section
+## Searching for Nearby Vectors
 
 - Understand similarity search as the process of finding nearby vector candidates.
 - Understand similarity and distance as comparison criteria.

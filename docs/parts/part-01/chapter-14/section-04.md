@@ -1,7 +1,7 @@
 # P1-14.4 MCP(Model Context Protocol)와 도구 연결 표준화
 
 > Section ID: `P1-14.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.3에서는 에이전트(agent)를 목표(goal), 상태(state), 행동(action), 관찰(observation)을 이어 가는 작업 흐름(workflow)으로 봤습니다. 이때 에이전트가 외부 자료나 도구를 쓰려면 연결 방식이 필요합니다.
 
@@ -43,7 +43,7 @@ Part 1에서 `MCP(Model Context Protocol)`, `호스트(host)`, `클라이언트(
 | 연결 흐름 | 에이전트는 MCP를 통해 무엇을 발견하고 호출하는가? |
 | 주의점 | MCP가 해결하지 않는 문제는 무엇인가? |
 
-## 이 절의 목표
+## 도구 연결을 표준화하는 기준
 
 - MCP(Model Context Protocol)를 에이전트가 아니라 연결 프로토콜(protocol)로 이해합니다.
 - 호스트(host), 클라이언트(client), 서버(server)의 역할을 구분합니다.

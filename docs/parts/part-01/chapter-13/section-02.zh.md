@@ -1,7 +1,7 @@
 # P1-13.2 相似度搜索(similarity search)的直觉
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P1-13.1 中，我们已经看过把文本(text)表示成向量(vector)意味着什么。文本一旦变成向量，句子、段落、文档就可以被放到可计算的位置上。
 
@@ -41,7 +41,7 @@ RAG(retrieval-augmented generation) 会在 P1-13.3 说明。P1-13.2 只专注在
 | 最近邻(nearest neighbor) | 如何选出最接近的候选？ |
 | 局限(limit) | 为什么接近的向量并不总是好答案？ |
 
-## 本节目标
+## 寻找相近向量的搜索基准
 
 - 把相似度搜索(similarity search)理解为寻找接近向量候选的过程。
 - 把相似度(similarity)与距离(distance)理解为比较标准。

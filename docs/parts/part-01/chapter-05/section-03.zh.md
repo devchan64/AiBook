@@ -1,7 +1,7 @@
 # P1-5.3 区分与 inference 相关的术语
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 5.2 已经把 `inference` 说明成：把训练好的模型应用到新输入上，并产生输出的执行过程。但在真实 AI 文档里，这一个词常常会和不同翻译、日常表达以及相邻概念在多种语言中重叠。
 
@@ -27,7 +27,7 @@
 > 把 `statistical inference` 读成统计估计与检验  
 > 把 `generation` 读成文本或图像等结果的生成
 
-## 这一节的目标
+## 区分 inference 相关术语的基准
 
 - 区分 `inference`、`reasoning`、`prediction`、`statistical inference` 和 `generation` 的中心含义。
 - 建立一种不只依赖某一种语言翻译习惯的阅读标准。

@@ -1,7 +1,7 @@
 # P1-13.2 유사도 검색(similarity search)의 직관
 
 > Section ID: `P1-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-13.1에서는 텍스트(text)를 벡터(vector)로 표현한다는 뜻을 봤습니다. 텍스트를 벡터로 바꾸면 문장, 문단, 문서를 계산 가능한 위치로 놓을 수 있습니다.
 
@@ -41,7 +41,7 @@ RAG(retrieval-augmented generation)는 P1-13.3에서 다룹니다. P1-13.2에서
 | 최근접 이웃(nearest neighbor) | 가장 가까운 후보를 어떻게 고를 것인가? |
 | 한계(limit) | 가까운 벡터가 왜 항상 좋은 답은 아닌가? |
 
-## 이 절의 목표
+## 가까운 벡터를 찾는 검색 기준
 
 - 유사도 검색(similarity search)을 가까운 벡터 후보를 찾는 과정으로 이해합니다.
 - 유사도(similarity)와 거리(distance)를 비교 기준으로 이해합니다.

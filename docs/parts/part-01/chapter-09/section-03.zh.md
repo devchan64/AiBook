@@ -1,7 +1,7 @@
 # P1-9.3 区分 LLM 的直接谱系与周边证据
 
 > Section ID: `P1-9.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 9.1 看的是图像识别与表征学习，9.2 看的是目标检测与语音生成。
 
@@ -52,7 +52,7 @@
 
 这件事之所以必要，原因很简单：如果把所有深度学习成功案例都直接拉成一条通往 LLM 的直线，历史会显得很顺，但原因和背景就会混在一起。
 
-## 本节目标
+## 区分直接谱系与周边证据的基准
 
 - 区分 direct lineage 与 surrounding evidence。
 - 把 LLM 的直接主线放在 language modeling 与 sequence modeling 一边。

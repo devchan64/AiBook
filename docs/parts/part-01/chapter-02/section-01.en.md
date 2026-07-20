@@ -1,7 +1,7 @@
 # P1-2.1 Symbolic AI and Rule-Based Approaches
 
 > Section ID: `P1-2.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P1-1 organized the scope of the word AI and the relationship among the major terms. P1-2 turns to the historical paradigms through which AI tried to solve problems. The center of this section is `symbolic AI` and the `rule-based approach`.
 
@@ -9,7 +9,7 @@ Symbolic AI is an approach that tries to represent human knowledge through symbo
 
 In Part 1, the baseline meaning of `symbolic AI`, `rule-based approach`, and `knowledge representation` is fixed here. Even when these terms appear again in later sections, only the amount needed for the local question should be reconnected. When the fuller definition needs to be checked again, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
+## Writing Knowledge as Symbols and Rules
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 This section first closes `how symbolic AI tried to write and handle knowledge and rules`. The detailed flow of search, knowledge representation, and probabilistic inference continues in the next section, `P1-2.2`, and a more concrete evaluation of the strengths and limits of rule-based systems continues in Part 1 Chapter 3.
 
-## Goal of This Section
+## Strengths and Limits of Rule-Based Approaches
 
 - Understand what symbolic AI was trying to do.
 - See how rules, knowledge representation, inference, and search connect.

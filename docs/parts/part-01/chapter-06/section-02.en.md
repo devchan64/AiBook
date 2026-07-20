@@ -1,7 +1,7 @@
 # P1-6.2 Distinguishing Probability, Uncertainty, and Stochastic Processes
 
 > Section ID: `P1-6.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 6.1 showed why some problems are difficult to handle with explicit rules alone. When information is incomplete, observations are unstable, and several outcomes remain possible, AI has to deal with uncertainty.
 
@@ -36,7 +36,7 @@ The three baseline questions are:
 
 Section 6.2 first closes how `uncertainty`, `probability`, and `stochastic process` differ. Conditional probability, Bayes’ rule, and probability-distribution calculations return in the statistics basics of Part 2 and the evaluation and prediction chapters of Part 4. LLM sampling and next-token prediction continue in P6-5.1 and P6-5.2 of Part 6. Here we set only the vocabulary baseline needed to read AI documents.
 
-## Goal of This Section
+## Separating Uncertainty, Probability, and Stochasticity
 
 - Understand uncertainty as a state of not knowing.
 - Understand probability as the numerical language used to express and update uncertainty.

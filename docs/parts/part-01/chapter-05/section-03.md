@@ -1,7 +1,7 @@
 # P1-5.3 추론 관련 용어의 구분
 
 > Section ID: `P1-5.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 5.2에서는 `inference`를 학습된 모델을 새 입력에 적용해 출력을 만드는 실행으로 설명했습니다. 그런데 실제 AI 문서를 읽다 보면 이 한 단어가 여러 언어에서 서로 다른 번역어, 비슷한 일상어, 인접 개념과 자주 겹칩니다.
 
@@ -27,7 +27,7 @@
 > 통계학의 추정과 검정을 포함하는 statistical inference
 > 텍스트나 이미지를 만들어 내는 generation
 
-## 이 절의 목표
+## 추론 계열 용어를 나누는 기준
 
 - `inference`, `reasoning`, `prediction`, `statistical inference`, `generation`의 중심 의미를 구분합니다.
 - 특정 언어의 번역어만 보고 뜻을 단정하지 않는 읽기 기준을 세웁니다.

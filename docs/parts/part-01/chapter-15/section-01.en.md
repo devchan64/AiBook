@@ -1,7 +1,7 @@
 # P1-15.1 Bias, Safety, and Accountability
 
 > Section ID: `P1-15.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14 followed the flow of the AI service through the model, data, tools, agent, harness, and service constraints. The next question moves from technical structure to social impact.
 
@@ -32,7 +32,7 @@ The `accountability` discussed here is not a final legal determination. It is a 
 
 The working meaning of responsibility here is simple: when AI affects a person, some human role still has to explain, check, and correct the result in practice.
 
-## Goal of This Section
+## Separating Bias, Safety, and Accountability
 
 - Understand AI ethics as a question about real possible harm rather than as an abstract declaration.
 - Understand bias not only as bad intention, but as a problem that can arise from data, metrics, and context of use.

@@ -1,7 +1,7 @@
 # P1-11.2 RNN、Seq2Seq 与 Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 11.1 中，我们看了语言模型(language model)与嵌入(embedding)。语言模型会以概率方式处理单词和 token 的顺序，而嵌入会把单词和 token 变成可计算的向量表示(vector representation)。
 
@@ -44,7 +44,7 @@ LSTM(long short-term memory) 与 GRU(gated recurrent unit) 是 RNN 家族里为�
 
 另外，这里也不会解释 `预训练(pretraining)` 或 `BERT/GPT` 的区别。这些主题会在 11.3 里与 Transformer 一起重新整理。
 
-## 本节目标
+## 在模型内部处理顺序与语境的基准
 
 - 把 RNN(recurrent neural network)理解为处理顺序数据的神经网络结构。
 - 把 hidden state 理解为模型内部累计出来的状态，而不是人的记忆。

@@ -1,7 +1,7 @@
 # P1-10.3 The Quality and Risk of Generated Outputs
 
 > Section ID: `P1-10.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 10.1 examined the difference among classification, prediction, and generation. Section 10.2 introduced the intuition that generative AI builds artifacts progressively from conditions.
 
@@ -49,7 +49,7 @@ This section ends Chapter 10 with four review lenses:
 | safety | could the output cause harm to people, organizations, or society? |
 | rights and responsibility | have copyright, privacy, confidential information, and accountability been reviewed? |
 
-## Goal of This Section
+## Reviewing Natural-Looking Generated Outputs
 
 - Distinguish the naturalness of generated output from its factuality.
 - Understand hallucination or confabulation as unsupported factual content presented plausibly.

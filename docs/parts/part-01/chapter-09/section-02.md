@@ -1,7 +1,7 @@
 # P1-9.2 객체 검출(object detection)과 음성 생성(speech generation) 사례
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 9.1에서는 이미지 인식(image recognition)과 표현 학습(representation learning)을 통해 딥러닝(deep learning)이 왜 중요한 전환점으로 읽히는지 봤습니다. 이미지 분류는 “이 이미지가 무엇인가”를 묻는 문제였습니다.
 
@@ -38,7 +38,7 @@
 > 딥러닝은 수작업 특징과 여러 단계 파이프라인을 줄이고,
 > 입력에서 출력까지 학습 가능한 구조를 넓혀 갔다.
 
-## 이 절의 목표
+## 위치 예측과 순차 생성을 읽는 기준
 
 - 객체 검출(object detection)이 이미지 분류(classification)와 어떻게 다른지 이해합니다.
 - YOLO를 객체 검출을 하나의 신경망 예측 문제로 재구성한 사례로 봅니다.

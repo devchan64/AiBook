@@ -1,7 +1,7 @@
 # P1-1.3 AI、机器学习、深度学习与生成式 AI 的关系
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.18`
+> Version: `v2026.07.20`
 
 在 1.1 中，我们整理了 AI 这个词的范围；在 1.2 中，我们看了 AI 处理的问题类型。这一节要进一步整理之后会不断反复出现的几个词：`AI`、`machine learning`、`deep learning`、`generative AI`、`LLM`。
 
@@ -9,7 +9,7 @@
 
 在 Part 1 中，`AI`、`machine learning`、`deep learning`、`generative AI`、`LLM` 之间的基准关系，就固定在这一节。后面再出现这些词时，只保留当前问题所需的最小连接；如果需要重新整理术语之间的关系，就回到这一节，以及 [Concept Glossary (English)](/AiBook/en/reference/concept-glossary/)。
 
-## 这一节的范围
+## 区分 AI、机器学习和 LLM 的层位
 
 这里整理以下问题：
 
@@ -19,7 +19,7 @@
 
 这一节先固定 `AI、机器学习、深度学习、生成式 AI、LLM 是不同层级的词`。各层级的内部结构会在 Part 4、Part 5 和 Part 6 继续展开；这里先集中区分每个词的 `位置(place)`。
 
-## 这一节的目标
+## 区分包含关系与服务混合的基准
 
 - 区分 AI、机器学习、深度学习、生成式 AI、LLM 之间的基础关系。
 - 不再只根据最近的产品体验，把整个 AI 读得过于狭窄。

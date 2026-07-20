@@ -1,7 +1,7 @@
 # P1-11.2 RNN, Seq2Seq, and Attention
 
 > Section ID: `P1-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 11.1 introduced `language models` and `embeddings`. This section asks how neural networks tried to handle the `order` and `context` of those vectorized tokens.
 
@@ -52,7 +52,7 @@ This section focuses on three pre-Transformer flows:
 
 This section also does not explain `pretraining` or the difference between `BERT` and `GPT`. Those return in 11.3 together with Transformers.
 
-## Goal of This Section
+## Handling Order and Context Inside the Model
 
 - Understand RNNs as neural-network structures for sequence data.
 - Understand hidden state not as human memory, but as an accumulated internal state of the model.

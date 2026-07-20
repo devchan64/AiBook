@@ -1,7 +1,7 @@
 # P1-14.3 에이전트(agent): 목표를 작업 흐름으로 이어 가는 구조
 
 > Section ID: `P1-14.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-14.2에서는 RAG(retrieval-augmented generation)와 도구 사용(tool use)을 구분했습니다.
 
@@ -42,7 +42,7 @@ Part 1에서 `에이전트(agent)`, `목표(goal)`, `상태(state)`, `행동(act
 | 관찰(observation) | 도구 실행 결과를 어떻게 반영할 것인가? |
 | 종료 조건(stop condition) | 언제 작업을 멈추고 결과를 보고할 것인가? |
 
-## 이 절의 목표
+## 목표를 작업 흐름으로 이어 가는 기준
 
 - 에이전트(agent)를 단순한 챗봇이나 모델 이름이 아니라 실행 구조로 이해합니다.
 - 프롬프트(prompt), RAG, 도구 사용(tool use), 에이전트(agent)의 차이를 구분합니다.

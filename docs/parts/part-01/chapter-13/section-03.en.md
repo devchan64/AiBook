@@ -1,7 +1,7 @@
 # P1-13.3 The Flow That Leads into RAG
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P1-13.1 introduced embeddings, which turn text into vectors. P1-13.2 introduced similarity search, which finds nearby document vectors. The next question is:
 
@@ -44,7 +44,7 @@ Later sections in P1-14 place RAG inside broader service architecture and tool-u
 | generation | what does the LLM generate from the augmented input? |
 | limit | why does RAG still not guarantee factual verification automatically? |
 
-## Goal of This Section
+## Connecting Retrieved Results to Generation Context
 
 - Understand RAG as a structure that combines retrieval and generation.
 - Explain the flow in which retrieved results become part of the LLM’s context.

@@ -1,7 +1,7 @@
 # P1-8.2 Unsupervised Learning: Structure and Representation
 
 > Section ID: `P1-8.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 8.1 explained a `label` as a distinguishing marker attached to data. Supervised learning tries to match the relationship between inputs and outputs using examples where inputs and labels are given together.
 
@@ -26,7 +26,7 @@ The working definition here is:
 
 > unsupervised learning is a method that finds structure, clusters, or representations inside data without labels attached by people
 
-## Goal of This Section
+## Finding Structure and Representation Without Labels
 
 - Explain unsupervised learning as learning that finds structure in unlabeled data.
 - Understand that `no labels` does not mean `no goal` or `no standard`.

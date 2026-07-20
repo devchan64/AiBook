@@ -1,7 +1,7 @@
 # P1-11.1 Statistical Language Models and Embeddings
 
 > Section ID: `P1-11.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 10 showed that when generative AI creates outputs, naturalness, factuality, evidence, and risk all need separate review.
 
@@ -55,7 +55,7 @@ This section also does not yet explain RNNs, Attention, or Transformers. Their s
 > handling language probabilistically  
 > and turning words into vectors
 
-## Goal of This Section
+## Treating Language with Probabilities and Vectors
 
 - Understand a language model as a model that handles the probabilities of the next word or next token.
 - Understand that n-gram language models use short context and counts.

@@ -1,7 +1,7 @@
 # P1-13.3 通向 RAG(retrieval-augmented generation)的流程
 
 > Section ID: `P1-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P1-13.1 中，我们看了把文本(text)表示成向量(vector)的嵌入(embedding)。在 P1-13.2 中，我们看了如何通过相似度搜索(similarity search)找到与问题向量(query vector)接近的文档向量(document vector)。
 
@@ -40,7 +40,7 @@ P1-14 会继续看 RAG 在实际 AI 服务架构、工具使用(tool use)、agen
 | 生成(generation) | LLM 会基于增强后的输入生成什么？ |
 | 局限(limit) | 为什么 RAG 不能自动保证事实核查？ |
 
-## 本节目标
+## 把检索结果连接到生成上下文的基准
 
 - 把 RAG(retrieval-augmented generation)理解为结合检索与生成的结构。
 - 说明检索结果会作为 LLM 输入上下文(context)的一部分进入生成过程。

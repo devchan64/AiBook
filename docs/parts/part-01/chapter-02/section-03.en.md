@@ -1,7 +1,7 @@
 # P1-2.3 The Flow Toward Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-2.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Section 2.1 covered symbolic AI and rule-based approaches, and Section 2.2 covered search, knowledge representation, and probabilistic reasoning. This section turns to the next flow. Why did the center of AI explanation move more and more toward models that learn from data?
 
@@ -9,7 +9,7 @@ The task here is not to explain machine learning, deep learning, and generative 
 
 In Part 1, the historical flow in which the center moved from rule-based approaches toward learning-based approaches, and the basic connection among `data`, `feature`, `representation`, and `parameter`, is fixed here. The broad relation among `AI / machine learning / deep learning / generative AI / LLM` was already fixed in 1.3, and is reconnected here only as much as needed to see how those terms join into one flow. If the distinction becomes unstable again later, return to this section and the shared [Concept Glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
+## Why AI Moved from Writing Rules to Learning from Data
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 This section first closes `why the center of explanation moved toward data and learning`. Detailed learning structures continue in Part 3, Part 4, Part 5, and Part 6. Here the focus is on organizing that move as one large historical flow.
 
-## Goal of This Section
+## Connecting Data, Features, Representations, and Parameters
 
 - Understand why problems that were difficult to solve through rule-based approaches alone led to data-based learning.
 - Distinguish machine learning, deep learning, and generative AI inside one historical flow.

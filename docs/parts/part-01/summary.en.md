@@ -1,7 +1,7 @@
 # Part 1 Summary. Reviewing AI Introduction and the Landscape
 
 > Section ID: `P1-summary`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 1 was the section for fixing the overall landscape before studying AI again. Rather than implementing detailed algorithms or proving formulas in depth, it first organized the terms and perspectives that keep returning in later learning.
 
@@ -9,7 +9,7 @@ This summary is not a document that repeats every concept from Part 1 at length.
 
 The most important goal here is not to see AI as one buzzword or one product name. AI is a broad field where rule-based approaches, search, heuristics, probabilistic judgment, data-driven learning, deep learning, generative AI, LLMs, agents, service operation, and social responsibility overlap.
 
-## Purpose of This Part
+## Grasping the Whole AI Map Again
 
 The purpose of Part 1 was not to finish the technology in depth, but to establish a shared map so later Parts do not lose track of where the learning is heading.
 
@@ -23,11 +23,11 @@ The shortest way to hold that map again is the following five lines.
 | Deep learning is a stream of representation learning, and the Transformer is one structure inside it. | Part 5 |
 | In services, data, tools, and operational judgment outside the model also matter. | Part 6, Part 7 |
 
-## Goal of This Part
+## Not Mixing Terms and Service Experience at the Same Level
 
 After finishing Part 1, you should be able to stop mixing AI terms and service experience as if they belonged to one flat conceptual layer, and read them again inside a larger map.
 
-## Main Flow Covered in This Part
+## The Flow from Rules to Service Responsibility
 
 The flow of Part 1 can be organized as follows.
 
@@ -94,11 +94,11 @@ This book reduces such misunderstandings by checking Korean expressions together
 
 Among them, `inference` is the word that most often needs to be checked again. In Part 1, `inference` is first separated into model execution, `reasoning` into logical reasoning, `prediction` into model output, and `generation` into generated content. That distinction becomes necessary again in Part 6 when reading next-token prediction, responses that look like reasoning, and evaluation contexts that refer to model results.
 
-## What This Part Explains and What It Does Not
+## The Landscape Part 1 Closes and the Detailed Calculations It Leaves for Later
 
 Part 1 focused on explaining the overall terrain of AI and the shared vocabulary around it. So it does not finish detailed algorithmic formulas, internal deep-learning computation, or implementation details of LLM services here, and leaves them to later Parts.
 
-## Questions This Part Intentionally Leaves Open
+## Questions Later Parts Will Recover
 
 Part 1 intentionally leaves the following questions open.
 
@@ -108,7 +108,7 @@ Part 1 intentionally leaves the following questions open.
 
 These questions are recovered through actual explanations and practice in later Parts.
 
-## Questions to Check Before Moving to the Next Part
+## Major Distinctions to Check Before Part 2
 
 Before moving into Part 2, check whether you can answer the following questions.
 

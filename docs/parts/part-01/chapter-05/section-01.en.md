@@ -1,7 +1,7 @@
 # P1-5.1 What Does Learning Change?
 
 > Section ID: `P1-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter 4 organized real-world problems in terms of `input`, `output`, `feature`, `representation`, and `parameter` so that a model could handle them. Now we move one step further and ask: when we say a model learns, what inside the model actually changes?
 
@@ -117,7 +117,7 @@ Section 5.1 explains the intuition behind learning and training. It does not go 
 
 It also does not explain inference in detail. Inference is handled separately in 5.2. Here we mention only enough to distinguish it from training: values changed during training are used later when the model is run.
 
-## Goal of This Section
+## Adjusting Internal Values Through Training
 
 - Understand training as the process of adjusting internal model values.
 - Distinguish learning from training.

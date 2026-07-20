@@ -1,7 +1,7 @@
 # P1-9.2 Object Detection and Speech Generation Cases
 
 > Section ID: `P1-9.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 9.1 used image recognition and representation learning to show why deep learning became an important turning point. Image classification asked `what is this image?`
 
@@ -47,7 +47,7 @@ The baseline definition here is:
 
 > in image, location, waveform, and speech problems, deep learning widened the use of trainable structures that reduce hand-built features and multi-stage pipelines
 
-## Goal of This Section
+## Reading Location Prediction and Sequential Generation
 
 - Understand how object detection differs from image classification.
 - Read YOLO as a case that reframed object detection as one neural-network prediction problem.

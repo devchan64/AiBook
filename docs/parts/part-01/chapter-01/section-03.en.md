@@ -1,7 +1,7 @@
 # P1-1.3 Relationship Among AI, Machine Learning, Deep Learning, and Generative AI
 
 > Section ID: `P1-1.3`
-> Version: `v2026.07.18`
+> Version: `v2026.07.20`
 
 Section 1.1 organized the scope of the word AI, and Section 1.2 looked at the kinds of problems AI deals with. This section organizes the relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM`, all of which will keep returning later.
 
@@ -9,7 +9,7 @@ What matters here is not memorizing perfect inclusion relations. What matters is
 
 In Part 1, the baseline relationship among `AI`, `machine learning`, `deep learning`, `generative AI`, and `LLM` is fixed in this section. Even when the terms reappear later, only the minimum connection needed for the current question is carried forward there. When the relationship among the terms themselves needs to be reorganized again, return to this section and to the [Concept Glossary](/AiBook/reference/concept-glossary/).
 
-## Scope of This Section
+## Separating the Levels of AI, Machine Learning, and LLMs
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 This section first closes the point that `AI, machine learning, deep learning, generative AI, and LLM are terms from different levels`. The internal structure of each level continues in Part 4, Part 5, and Part 6. Here the focus is first on distinguishing the `place` of each term.
 
-## Goal of This Section
+## Distinguishing Inclusion Relations from Service Mixtures
 
 - Distinguish the basic relationship among AI, machine learning, deep learning, generative AI, and LLMs.
 - Avoid understanding all of AI too narrowly from recent service experience alone.

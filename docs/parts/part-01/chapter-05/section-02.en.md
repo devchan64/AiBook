@@ -1,7 +1,7 @@
 # P1-5.2 What Does Model Execution Run?
 
 > Section ID: `P1-5.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Section 5.1 distinguished `learning` from `training`. Training is the procedure that uses data to adjust internal model values, while learning is the broader idea that performance on a task improves as a result.
 
@@ -34,7 +34,7 @@ The smaller question here is enough:
 > when a trained model receives a new input,  
 > what values does it use to produce what kind of output?
 
-## Goal of This Section
+## Reading Inference as Model Execution
 
 - Understand inference as the execution process that uses a trained model.
 - Read inference as `running the model`, `applying the model`, or `executing output creation`.

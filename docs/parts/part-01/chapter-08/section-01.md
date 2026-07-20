@@ -1,7 +1,7 @@
 # P1-8.1 지도학습(supervised learning): 입력(input)과 라벨(label)
 
 > Section ID: `P1-8.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 7장에서는 탐색 공간(search space), 계산 한계(computational limit), 휴리스틱(heuristic)을 다뤘습니다. 이제 학습 유형으로 넘어갑니다. 첫 번째 기준점은 지도학습(supervised learning)입니다.
 
@@ -37,7 +37,7 @@ Part 1에서 `지도학습(supervised learning)`, `라벨(label)`, `라벨링(la
 > 지도학습은 입력과 라벨이 함께 있는 예시를 사용해
 > 새 입력의 출력을 예측하도록 모델을 훈련하는 방식이다.
 
-## 이 절의 목표
+## 입력과 라벨로 학습 기준을 세우는 방식
 
 - 라벨(label)이 지도학습에서 무엇을 지시하는지 이해합니다.
 - 라벨을 `정답`보다 `구분 가능한 인식표`에 가까운 표현으로 이해합니다.
