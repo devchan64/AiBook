@@ -342,6 +342,7 @@ actor-critic 常被使用，是因为人们希望同时拿到`直接调整 polic
 - 焦点在于改变行动倾向本身，而不是只估值
 
 ```python
+# 这个例子提高获得好奖励的动作分数，观察新的 policy 概率如何变化。
 import math
 
 action_scores = {
@@ -394,6 +395,7 @@ new policy: {'left': 0.343, 'right': 0.657}
 这次仍然选择同样的行动 `right`，但把 reward signal 改成 `-1.0`。
 
 ```python
+# 这个例子让同一个动作得到坏奖励，观察 softmax policy 概率如何反向变化。
 import math
 
 action_scores = {

@@ -342,6 +342,7 @@ Concepts to confirm:
 - The focus is on changing the action tendency itself rather than only estimating values
 
 ```python
+# This example raises the score of a rewarded action to see how the new policy probabilities change.
 import math
 
 action_scores = {
@@ -394,6 +395,7 @@ So policy-based reinforcement learning directly adjusts `the tendency for action
 This time, choose the same action `right`, but change the reward signal to `-1.0`.
 
 ```python
+# This example gives the same action a bad reward to see how softmax policy probabilities move the other way.
 import math
 
 action_scores = {

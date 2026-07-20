@@ -337,6 +337,7 @@ sim-to-real gap 也不能只被读成`成绩差一点`。更实际的读法应�
 - reward 设计不是小实现细节，而是直接连着系统目标定义
 
 ```python
+# 这个例子比较只看 clicks 的 proxy reward 和加入投诉成本的真实目标如何改变动作偏好。
 actions = [
     {"name": "A", "clicks": 120, "complaints": 30},
     {"name": "B", "clicks": 100, "complaints": 5},
@@ -373,6 +374,7 @@ B -> 85
 这次不按 `3倍` 反映 complaints cost，而只按 `1倍`。
 
 ```python
+# 这个例子降低投诉成本权重，观察 reward design 的解释会如何摇动。
 actions = [
     {"name": "A", "clicks": 120, "complaints": 30},
     {"name": "B", "clicks": 100, "complaints": 5},
@@ -418,6 +420,7 @@ B -> 95
 - 在强化学习应用里，failure tolerance 会先于平均 reward
 
 ```python
+# 这个例子比较探索策略的 expected reward 和扣除失败成本后的 net value。
 policies = [
     {
         "name": "safe_policy",
@@ -481,6 +484,7 @@ explore_policy
 - 部署前还需要限制验证区间和停止标准
 
 ```python
+# 这个例子通过 simulation 分数和 real-world 分数直接检查 sim-to-real gap。
 deploy_checks = [
     {"name": "policy_A", "simulation_success_rate": 0.93, "real_world_success_rate": 0.71},
     {"name": "policy_B", "simulation_success_rate": 0.88, "real_world_success_rate": 0.84},

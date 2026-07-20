@@ -327,6 +327,7 @@ SARSA 的核心想法和 Q-learning 相似，但标准不同。
 - 即使是同样经验，只要更新标准不同，也会通向不同学习态度
 
 ```python
+# 这个例子比较同一次经验中 Q-learning 和 SARSA 因读取下一步价值的标准不同而产生的更新差异。
 alpha = 0.5
 gamma = 0.9
 
@@ -386,6 +387,7 @@ SARSA updated = 0.835
 这次保持当前经验不变，只把下一个状态里实际选择的行动改成 `up`。
 
 ```python
+# 这个例子改变 SARSA 的实际下一步动作，观察 Q-learning 和 SARSA 的更新差距如何缩小。
 alpha = 0.5
 gamma = 0.9
 

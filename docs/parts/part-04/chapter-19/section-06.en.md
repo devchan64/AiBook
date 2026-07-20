@@ -144,6 +144,7 @@ Concepts to check:
 - if the reward sign changes, the adjustment direction for the same action changes too
 
 ```python
+# This example shows how the selected action log-probability and reward sign change the policy-update reading direction.
 import math
 
 chosen_prob = 0.7

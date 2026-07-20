@@ -327,6 +327,7 @@ Concepts to confirm:
 - Even the same experience can lead to different learning attitudes when the update rule is different
 
 ```python
+# This example compares how Q-learning and SARSA update differently because they read the next value differently.
 alpha = 0.5
 gamma = 0.9
 
@@ -386,6 +387,7 @@ That is why the Q-learning update rose more.
 Now keep the current experience the same, but change only the actual next action in the next state to `up`.
 
 ```python
+# This example changes the actual next action in SARSA to see how the update gap between Q-learning and SARSA narrows.
 alpha = 0.5
 gamma = 0.9
 

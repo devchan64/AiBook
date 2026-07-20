@@ -337,6 +337,7 @@ sim-to-real gap은 단순히 `조금 덜 잘 된다`는 뜻으로만 읽으면 �
 - 보상 설계는 구현 세부가 아니라 시스템 목표 정의와 직접 연결된다
 
 ```python
+# 클릭만 보는 proxy reward와 불만 비용까지 보는 실제 목표가 행동 선호를 어떻게 바꾸는지 비교하는 예제입니다.
 actions = [
     {"name": "A", "clicks": 120, "complaints": 30},
     {"name": "B", "clicks": 100, "complaints": 5},
@@ -373,6 +374,7 @@ B -> 85
 이번에는 불만 비용을 `3배`가 아니라 `1배`만 반영해 봅니다.
 
 ```python
+# 불만 비용 가중치를 낮추었을 때 보상 설계 해석이 얼마나 흔들리는지 보는 예제입니다.
 actions = [
     {"name": "A", "clicks": 120, "complaints": 30},
     {"name": "B", "clicks": 100, "complaints": 5},
@@ -418,6 +420,7 @@ B -> 95
 - 강화학습 적용에서는 기대 보상뿐 아니라 실패 허용 한도를 먼저 묻는다
 
 ```python
+# 탐험 정책의 기대 보상과 실패 비용 반영 후 순가치가 어떻게 달라지는지 비교하는 예제입니다.
 policies = [
     {
         "name": "safe_policy",
@@ -481,6 +484,7 @@ explore_policy
 - 현실 배포 전에는 제한된 검증 구간과 중단 기준이 필요하다
 
 ```python
+# 시뮬레이션 점수와 현실 점수의 차이로 sim-to-real gap을 직접 확인하는 예제입니다.
 deploy_checks = [
     {"name": "policy_A", "simulation_success_rate": 0.93, "real_world_success_rate": 0.71},
     {"name": "policy_B", "simulation_success_rate": 0.88, "real_world_success_rate": 0.84},

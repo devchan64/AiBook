@@ -144,6 +144,7 @@ REINFORCE 的直觉通常可以读成这样一种形式：
 - 奖励符号一变，同一个动作的调整方向也会跟着变
 
 ```python
+# 这个例子展示所选动作的 log-probability 和奖励符号如何改变 policy update 的解释方向。
 import math
 
 chosen_prob = 0.7

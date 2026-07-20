@@ -342,6 +342,7 @@ actor-critic이 자주 쓰이는 이유는 `정책을 직접 조정하는 자유
 - 값 추정보다 행동 성향 자체를 바꾸는 쪽에 초점이 있다
 
 ```python
+# 좋은 보상을 받은 행동의 점수를 올려 새 정책 확률이 어떻게 바뀌는지 보는 예제입니다.
 import math
 
 action_scores = {
@@ -394,6 +395,7 @@ new policy: {'left': 0.343, 'right': 0.657}
 이번에는 같은 행동 `right`를 골랐지만 보상 신호를 `-1.0`으로 바꿔 봅니다.
 
 ```python
+# 같은 행동이 나쁜 보상을 받았을 때 softmax 정책 확률이 반대로 어떻게 움직이는지 보는 예제입니다.
 import math
 
 action_scores = {

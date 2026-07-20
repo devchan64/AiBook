@@ -144,6 +144,7 @@ P4-19.2에서 본 actor-critic은 정책을 직접 조정하되, critic이 평�
 - 보상 부호가 바뀌면 같은 행동에 대한 조정 방향도 바뀐다
 
 ```python
+# 선택한 행동의 log-probability와 보상 부호가 정책 업데이트 해석 방향을 어떻게 바꾸는지 보는 예제입니다.
 import math
 
 chosen_prob = 0.7

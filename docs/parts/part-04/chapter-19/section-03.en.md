@@ -337,6 +337,7 @@ Concepts to confirm:
 - Reward design is not an implementation detail, but directly connected to system goal definition
 
 ```python
+# This example compares how a clicks-only proxy reward and a true objective with complaint cost change action preference.
 actions = [
     {"name": "A", "clicks": 120, "complaints": 30},
     {"name": "B", "clicks": 100, "complaints": 5},
@@ -373,6 +374,7 @@ The behavior that `the learner likes` can change completely depending on what th
 This time, reflect complaint cost not by `3x`, but only by `1x`.
 
 ```python
+# This example lowers the complaint-cost weight to see how reward-design interpretation shifts.
 actions = [
     {"name": "A", "clicks": 120, "complaints": 30},
     {"name": "B", "clicks": 100, "complaints": 5},
@@ -418,6 +420,7 @@ Concepts to confirm:
 - In reinforcement-learning application, failure tolerance comes before average reward
 
 ```python
+# This example compares expected reward for exploration with net value after failure cost.
 policies = [
     {
         "name": "safe_policy",
@@ -481,6 +484,7 @@ Concepts to confirm:
 - Before deployment, a limited validation segment and stopping criteria are necessary
 
 ```python
+# This example checks the sim-to-real gap directly through simulation and real-world scores.
 deploy_checks = [
     {"name": "policy_A", "simulation_success_rate": 0.93, "real_world_success_rate": 0.71},
     {"name": "policy_B", "simulation_success_rate": 0.88, "real_world_success_rate": 0.84},
