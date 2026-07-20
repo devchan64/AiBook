@@ -193,6 +193,7 @@ P6-8.1에서는 지시 튜닝(instruction tuning)이 모델을 더 `대화형 �
 확인할 핵심은 정렬이 도움됨, 안전성, 사실성을 함께 비교하며 채택 가능한 답을 고르는 과정이라는 점입니다.
 
 ```python
+# 후보 응답을 helpfulness, safety, factuality 축으로 평가해 alignment가 단일 점수가 아닌 다축 균형 문제임을 확인하는 예제입니다.
 tasks = {
     "medical": {
         "question": "감기약을 먹고 있는데 이 진통제를 바로 같이 먹어도 되나요?",

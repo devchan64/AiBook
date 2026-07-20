@@ -237,6 +237,7 @@ P6-7.2에서는 LoRA 같은 효율적 조정 방식이 왜 실무에서 중요�
 확인할 핵심은 instruction tuning이 새 사실을 추가하는 일이 아니라, 같은 내용이라도 요청한 출력 형식과 지시 준수율을 더 안정적으로 맞추는 변화로 읽힐 수 있다는 점입니다.
 
 ```python
+# CSV 평가 케이스를 읽어 일반 응답과 instruction-tuned 응답이 요청 형식과 구조 신호를 얼마나 충족하는지 비교하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

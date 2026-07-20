@@ -197,6 +197,7 @@ P6-8.2까지 오면 `어떤 답이 더 assistant처럼 보이는가`, `어떤 �
 확인할 핵심은 프롬프트, 파인튜닝, RAG, 도구 사용이 실패 원인이 형식·지식·실행 중 어디에 있는지에 따라 선택이 달라진다는 점입니다.
 
 ```python
+# 실패 신호별 점수를 합산해 prompt, fine-tuning, RAG, tool use 중 어떤 수단을 우선 볼지 비교하는 예제입니다.
 cases = [
     {
         "issue": "format drift",
