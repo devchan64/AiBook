@@ -1,7 +1,7 @@
 # P5-7.2 Learning Rate And Update Step Size
 
-Section ID: `P5-7.2`
-Version: `v2026.07.17`
+> Section ID: `P5-7.2`
+> Version: `v2026.07.20`
 
 In P5-7.1, we saw that the optimizer is `the rule that turns gradients into actual parameter updates`. Once we reach this point, the next question appears immediately.
 
@@ -105,15 +105,15 @@ The cases in this section are not about choosing an optimizer. They are about re
 
 ### Case. The Gradient Is The Same, But Only The Learning Rate Differs
 
-Suppose the same gradient was computed from the same current state. For example, let the current risk weight be `1.0`, and the computed `gradient_risk_weight` be the same `-16.0`. Now the only thing that changes is the learning rate. What the reader should want to see here is not `which optimizer is more famous`, but `how does the same direction signal turn into very different actual movement amounts`.
+Suppose the same gradient was computed from the same current state. For example, let the current risk weight be `1.0`, and the computed `gradient_risk_weight` be the same `-20.648`. Now the only thing that changes is the learning rate. What the reader should want to see here is not `which optimizer is more famous`, but `how does the same direction signal turn into very different actual movement amounts`.
 
 People reading this scene for the first time often think, `If the gradient is the same, won't it eventually learn in a similar way anyway?` This interpretation is natural as long as we look only at the direction. All three cases are trying to move to the same side. But from the learning-rate viewpoint, the question changes. We have to look beyond `which way does it move` and ask `how far did it actually move in that direction`.
 
-Now let us divide the learning rate into `0.01`, `0.1`, and `0.5`.
+Now let us divide the learning rate into `0.003`, `0.03`, and `0.12`.
 
-- with `0.01`, the update is very small. The direction is correct, but in one step it barely makes progress. On the surface, the loss may still go down a little, but the actual learning can feel frustratingly slow.
-- with `0.1`, the same gradient turns into a relatively appropriate-sized movement. It can move closer to the target without being too short or too long.
-- with `0.5`, the update becomes too large. Even with the right direction, it can overshoot a good point, so the loss can grow again or training can become unstable.
+- with `0.003`, the update is very small. The direction is correct, but in one step it barely makes progress. On the surface, the loss may still go down a little, but the actual learning can feel frustratingly slow.
+- with `0.03`, the same gradient turns into a relatively appropriate-sized movement. It can move the batch mean prediction closer to the target without being too short or too long.
+- with `0.12`, the update becomes too large. Even with the right direction, it can overshoot the target, so the loss can grow again or training can become unstable.
 
 In other words, the difference among the three cases is not `the direction`, but `the stride`. The learning rate does not create a new gradient. It decides how strongly to reflect the already-computed same gradient as an actual update. That is why a small learning rate can create `a state where the direction is correct but it barely moves`, and a large learning rate can create `a state where the direction is correct but it overshoots`.
 
@@ -129,31 +129,31 @@ The reason this case supports the current section is clear. The learning rate is
 
 ## Practice And Example
 
-The goal of this example is to see a scene where the same gradient result turns into different updates depending on the learning rate. So rather than the learning rate value itself, we read the output centered on how much `optimizer_delta` changes. In this example, the `current state` and the `gradient` are fixed, while the `learning rate` and the resulting actual movement amount change.
+The goal of this example is to see a scene where the same gradient result turns into different updates depending on the learning rate. So rather than the learning rate value itself, we read the output centered on how much `optimizer_delta` changes. In this example, the `same CSV batch`, the `current risk weight`, and the `gradient` are fixed, while the `learning rate` and the resulting actual movement amount change.
 
 Before looking at the code, it is helpful to hold the following distinction first.
 
 | What stays fixed | What changes |
 | --- | --- |
-| current risk weight `risk_weight` | learning rate `learning_rate` |
-| current prediction and loss | `optimizer_delta` |
-| computed `gradient_risk_weight` | updated weight, score, and loss |
+| CSV batch and current risk weight `risk_weight` | learning rate `learning_rate` |
+| current batch mean prediction and mean loss | `optimizer_delta` |
+| mean `gradient_risk_weight` computed from the batch | updated weight, mean score, and mean loss |
 
 Input:
 
+- multiple observation rows in the CSV file
+- CSV batch row values `pressure_unrecovered`, `target_block_score`
 - current risk weight `risk_weight`
-- pressure unrecovered level `pressure_unrecovered`
-- target block score `target_block_score`
 - learning rate `learning_rate`
 
 Output:
 
-- predicted block score
-- loss
-- gradient
+- mean target block score
+- current mean loss
+- mean gradient
 - update value made by the optimizer
 - updated weight for each learning rate
-- comparison of how much the model gets closer to the target after the update
+- comparison of the updated mean prediction and mean loss after the update
 
 Problem scene:
 
@@ -167,62 +167,110 @@ Concepts to confirm:
 - so `the gradient was computed` and `the model learns well` are not the same statement
 
 ```python
-# This example changes only the learning rate to compare update size, prediction, and loss under the same gradient.
-pressure_unrecovered = 2.0
-target_block_score = 6.0
+# This example changes only the learning rate on the same CSV batch and gradient
+# to compare update size, mean prediction, and mean loss.
+from csv import DictReader
+from pathlib import Path
+
+DATA_PATH = Path("docs/assets/part-05/chapter-07/optimizer-step-role-log.csv")
+
+
+def load_rows(path):
+    with path.open(newline="", encoding="utf-8") as f:
+        return [
+            {
+                "case_id": row["case_id"],
+                "equipment_group": row["equipment_group"],
+                "pressure_unrecovered": float(row["pressure_unrecovered"]),
+                "target_block_score": float(row["target_block_score"]),
+            }
+            for row in DictReader(f)
+        ]
+
+
+def predict(row, risk_weight):
+    return row["pressure_unrecovered"] * risk_weight
+
+
+def mean_loss(rows, risk_weight):
+    losses = [
+        (predict(row, risk_weight) - row["target_block_score"]) ** 2
+        for row in rows
+    ]
+    return sum(losses) / len(losses)
+
+
+def mean_gradient(rows, risk_weight):
+    gradients = [
+        2
+        * (predict(row, risk_weight) - row["target_block_score"])
+        * row["pressure_unrecovered"]
+        for row in rows
+    ]
+    return sum(gradients) / len(gradients)
+
+
+def mean_prediction(rows, risk_weight):
+    predictions = [predict(row, risk_weight) for row in rows]
+    return sum(predictions) / len(predictions)
+
+
+rows = load_rows(DATA_PATH)
 risk_weight = 1.0
-prediction = pressure_unrecovered * risk_weight
-loss = (prediction - target_block_score) ** 2
-gradient_risk_weight = 2 * (prediction - target_block_score) * pressure_unrecovered
+loss = mean_loss(rows, risk_weight)
+gradient_risk_weight = mean_gradient(rows, risk_weight)
+mean_target = sum(row["target_block_score"] for row in rows) / len(rows)
 
 print("[shared state]")
-print("predicted_block_score =", round(prediction, 3))
-print("loss =", round(loss, 3))
+print("sample_count =", len(rows))
+print("mean_target_block_score =", round(mean_target, 3))
+print("mean_loss_before =", round(loss, 3))
 print("gradient_risk_weight =", round(gradient_risk_weight, 3))
-for lr in [0.01, 0.1, 0.5]:
+for lr in [0.003, 0.03, 0.12]:
     print(f"[lr={lr}]")
     optimizer_delta = -lr * gradient_risk_weight
     updated_risk_weight = risk_weight + optimizer_delta
-    updated_prediction = pressure_unrecovered * updated_risk_weight
-    updated_loss = (updated_prediction - target_block_score) ** 2
+    updated_prediction = mean_prediction(rows, updated_risk_weight)
+    updated_loss = mean_loss(rows, updated_risk_weight)
     print(
         "optimizer_delta =", round(optimizer_delta, 3),
         "-> updated_risk_weight =", round(updated_risk_weight, 3),
-        ", updated_block_score =", round(updated_prediction, 3),
-        ", updated_loss =", round(updated_loss, 3),
+        ", mean_block_score =", round(updated_prediction, 3),
+        ", mean_loss =", round(updated_loss, 3),
     )
 ```
 
 ```text
 [shared state]
-predicted_block_score = 2.0
-loss = 16.0
-gradient_risk_weight = -16.0
-[lr=0.01]
-optimizer_delta = 0.16 -> updated_risk_weight = 1.16 , updated_block_score = 2.32 , updated_loss = 13.542
-[lr=0.1]
-optimizer_delta = 1.6 -> updated_risk_weight = 2.6 , updated_block_score = 5.2 , updated_loss = 0.64
-[lr=0.5]
-optimizer_delta = 8.0 -> updated_risk_weight = 9.0 , updated_block_score = 18.0 , updated_loss = 144.0
+sample_count = 36
+mean_target_block_score = 6.139
+mean_loss_before = 7.308
+gradient_risk_weight = -20.648
+[lr=0.003]
+optimizer_delta = 0.062 -> updated_risk_weight = 1.062 , mean_block_score = 3.77 , mean_loss = 6.087
+[lr=0.03]
+optimizer_delta = 0.619 -> updated_risk_weight = 1.619 , mean_block_score = 5.749 , mean_loss = 0.287
+[lr=0.12]
+optimizer_delta = 2.478 -> updated_risk_weight = 3.478 , mean_block_score = 12.346 , mean_loss = 48.454
 ```
 
 This output is the scene where the same gradient passes through the optimizer's update rule and turns into different `optimizer_delta` values. So do not stop at `what is the gradient`. Instead, read step by step the update value made by the optimizer, the updated weight, the updated score, and the updated loss. What matters here is not that the three lines show three unrelated problems. It is that, from `the same starting point`, the results split when `only the learning rate differs`.
 
-The output format itself now also shows that comparison structure directly. The `[shared state]` section shows the current state and gradient shared by all three cases. The lines `[lr=0.01]`, `[lr=0.1]`, and `[lr=0.5]` then show side by side how the result differs when only the learning rate is changed for that same starting point. So what the reader has to compare in this example is not `three different gradients`, but `how one same gradient is turned into different updates by the learning rate`.
+The output format itself now also shows that comparison structure directly. The `[shared state]` section shows the CSV batch, current mean loss, and gradient shared by all three cases. The lines `[lr=0.003]`, `[lr=0.03]`, and `[lr=0.12]` then show side by side how the result differs when only the learning rate is changed for that same starting point. So what the reader has to compare in this example is not `three different gradients`, but `how one same batch gradient is turned into different updates by the learning rate`.
 
-![Updated risk weight by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-weight-en.png)
+![Batch updated risk weight by learning rate](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-weight-ko.png)
 
-![Updated block score by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-score-en.png)
+![Batch updated mean block score by learning rate](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-score-ko.png)
 
-![Updated loss by learning rate](/AiBook/assets/part-05/chapter-07/optimizer-example-updated-loss-en.png)
+![Batch updated mean loss by learning rate](/AiBook/assets/part-05/chapter-07/learning-rate-batch-updated-loss-ko.png)
 
-When reading these three charts together, the safest order is the following. First, in `optimizer-example-updated-weight`, look at how differently the actual movement amount changes the weight number by learning rate. Then, in `optimizer-example-updated-score`, check where that difference moved the prediction value. Finally, in `optimizer-example-updated-loss`, see whether the result of that movement reduced the loss, barely moved, or overshot.
+When reading these three charts together, the safest order is the following. First, in `learning-rate-batch-updated-weight`, look at how differently the actual movement amount changes the weight number by learning rate. Then, in `learning-rate-batch-updated-score`, check where that difference moved the batch mean prediction. Finally, in `learning-rate-batch-updated-loss`, see whether the result of that movement reduced the mean loss, barely moved, or overshot.
 
 What the reader absolutely has to read in this example is the following.
 
 - `gradient_risk_weight` stays the same, but the result can still differ.
 - The reason is that the `optimizer_delta` made by the learning rate differs.
-- `0.1` got closer to the target, but `0.5`, even with the right direction, moved too far and instead increased the loss.
+- `0.03` got closer to the mean target, but `0.12`, even with the right direction, moved too far and instead increased the mean loss.
 - So `the gradient was computed` and `the model learns well` are not the same statement.
 
 ## When Do We Read From The Learning-Rate Viewpoint First
@@ -242,3 +290,8 @@ The time to bring out this section is when `we know the gradient, but we still c
 - Can you explain what different problems are created by a too-small learning rate and a too-large learning rate?
 - Can you distinguish `the gradient direction is correct` from `the update result is appropriate`?
 - Do you know that the next section, P5-7.3, continues by explaining that Adam-like methods additionally reflect recent flow and coordinate-wise differences?
+
+## Sources And References
+
+- PyTorch, `Optimizing Model Parameters`, PyTorch Tutorials. Referenced to confirm the structure in which the optimizer uses gradients to adjust parameters and receives the learning rate as a hyperparameter. Checked: 2026-07-19. [https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.optim.SGD`, PyTorch API Reference. Referenced to confirm how `lr` and momentum enter parameter updates in SGD. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD.html){: target="_blank" rel="noopener noreferrer" }
