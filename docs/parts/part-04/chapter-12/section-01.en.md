@@ -1,7 +1,7 @@
 # P4-12.1 Intuition For k-NN
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-11.2 showed logistic regression as `a model that draws a boundary in the input space and separates classes`. Now the question changes.
 

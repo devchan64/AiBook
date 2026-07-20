@@ -1,7 +1,7 @@
 # P4-5.2 泛化(generalization)
 
 > Section ID: `P4-5.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P4-5.1 里，我们区分了 `过拟合` 和 `欠拟合`。现在还要再往上一层问。为什么这个区分这么重要？因为 machine learning 的目标并不是 `把 training data 的分数做高`，而是 `即使面对还没见过的数据，也能维持可用表现`。把这个问题整理起来的词，就是 `泛化(generalization)`。
 
@@ -19,7 +19,7 @@ metric 的细致计算会在 P4-6 处理，cross-validation 的实务用法会�
 - unseen data 到底是什么意思？
 - 在实务里，人会怎样体会到 generalization？
 
-## 本节目标
+## 用泛化(generalization)留下的判断标准
 
 - 能用一句话说明 generalization。
 - 能说明 training score 和 generalization 不是同一个意思。

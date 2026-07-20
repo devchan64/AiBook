@@ -1,7 +1,7 @@
 # P4-10.1 线性回归(linear regression)的直觉
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-9.2 里，我们通过 tuning 和 validation cost 讨论了 `应该怎样比较看起来不错的设置`。现在轮到把这个比较流程真正接到一个具体算法上。
 
@@ -30,7 +30,7 @@ linear regression 对这个问题，首先用一条 `直线(line)` 来回答。
 
 residual 的统计性质、ordinary least squares 的严格推导、R²、MAE、RMSE 等评价指标的详细比较，超出了当前这一节的直接范围，所以这里不会详细处理。
 
-## 本节目标
+## 用线性回归(linear regression)的直觉留下的判断标准
 
 - 能把 regression 解释成 `预测连续值的问题`。
 - 能把 linear regression 说明成 `先用一条直线近似输入与输出关系的模型`。

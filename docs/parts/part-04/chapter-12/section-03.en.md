@@ -1,7 +1,7 @@
 # P4-12.3 What Should Be Checked First When Using k-NN?
 
 > Section ID: `P4-12.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-12.1 introduced the intuition of k-NN, and P4-12.2 showed why distance and scale can change the result. The remaining question is the following.
 

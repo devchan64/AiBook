@@ -1,7 +1,7 @@
 # P4-11.3 Supplementary Learning: How To Read Log-Odds And MLE For The First Time
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11.1 introduced logistic regression as `a linear classification model that creates scores that can be read like probabilities`, and P4-11.2 reread those scores as a decision boundary inside the input space. At that point a natural next question remains.
 

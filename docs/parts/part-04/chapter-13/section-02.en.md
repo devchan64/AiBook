@@ -1,7 +1,7 @@
 # P4-13.2 Introductory Meaning Of The Kernel
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-13.1 introduced SVM (support vector machine) as `a classifier that looks for a boundary with a large margin`. That immediately leaves the next question.
 

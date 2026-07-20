@@ -1,7 +1,7 @@
 # P4-9.1 하이퍼파라미터(hyperparameter)
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-8에서는 모델 후보를 고르고, baseline으로 비교의 출발점을 세웠습니다. 이제 다음 질문으로 넘어갑니다.
 
@@ -25,7 +25,7 @@ scikit-learn 문서는 하이퍼파라미터를 `estimator 내부에서 직접 �
 | `max_depth`, `n_neighbors`, `C` | `이 값은 사람이 학습 전에 정했는가?` |
 | `random_state` | `이 값은 성능보다 실험 재현을 위한 것인가?` |
 
-## 이 절의 범위
+## 하이퍼파라미터(hyperparameter)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -36,7 +36,7 @@ scikit-learn 문서는 하이퍼파라미터를 `estimator 내부에서 직접 �
 
 이 절은 먼저 `학습되는 값과 사람이 먼저 정하는 설정값을 어떻게 구분할 것인가`를 닫습니다. GridSearchCV, RandomizedSearchCV의 기본 비교와 검증 비용은 다음 절 P4-9.2에서 바로 이어서 다루고, 고급 탐색 공간 설계와 분산 실험 관리는 P4-9.3 보충학습에서 다시 정리합니다.
 
-## 이 절의 목표
+## 하이퍼파라미터(hyperparameter)에서 남길 판단 기준
 
 - 하이퍼파라미터를 `학습 전에 정하는 설정값`으로 설명할 수 있습니다.
 - 모델 파라미터(parameter)와 하이퍼파라미터(hyperparameter)를 구분할 수 있습니다.

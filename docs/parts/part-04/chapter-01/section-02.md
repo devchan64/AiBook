@@ -1,7 +1,7 @@
 # P4-1.2 데이터에서 규칙을 배운다는 말
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-1.1에서는 AI, 머신러닝(machine learning), 딥러닝(deep learning), 생성형 AI(generative AI), LLM(large language model)의 위치를 구분했습니다. 이제 머신러닝을 조금 더 가까이 봅니다.
 
@@ -11,7 +11,7 @@ Part 3에서는 데이터과학(data science) 전체를 다루기보다, 그 안
 
 즉 Part 3이 `학습 가능한 표를 어떻게 만들 것인가`를 다뤘다면, Part 4의 초반은 `그 표 위에서 모델이 실제로 무엇을 배우는가`를 다룹니다. “규칙”이라는 말보다 “사례를 보고 다음 사례를 판단하는 기준을 만든다”는 해석이 더 정확합니다. 이 절은 사람이 직접 기준을 쓰는 방식과, 데이터 사례로부터 기준을 맞춰 보는 방식이 어떻게 다른지 설명합니다.
 
-## 이 절의 범위
+## 데이터에서 규칙을 배운다는 말에서 닫을 질문
 
 이 절은 규칙 기반 접근(rule-based approach)과 학습 기반 접근(learning-based approach)의 차이를 설명합니다. 지도학습(supervised learning), 비지도학습(unsupervised learning), 강화학습(reinforcement learning)의 세부 구분은 다음 Chapter에서 다룹니다.
 
@@ -21,7 +21,7 @@ Part 3에서는 데이터과학(data science) 전체를 다루기보다, 그 안
 - 학습 데이터(training data), 특징(feature), 라벨(label), 모델(model)은 어떻게 연결되는가?
 - 학습된 모델을 왜 반드시 평가해야 하는가?
 
-## 이 절의 목표
+## 데이터에서 규칙을 배운다는 말에서 남길 판단 기준
 
 - 규칙 기반 접근과 학습 기반 접근을 구분할 수 있습니다.
 - “데이터에서 규칙을 배운다”를 “데이터에서 관계를 추정한다”는 안전한 표현으로 바꿔 설명할 수 있습니다.

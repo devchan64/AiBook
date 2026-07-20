@@ -1,7 +1,7 @@
 # P4-18.1 Dimensionality Reduction
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 In P4-17, we looked at the viewpoint of finding data structure without labels through clustering. Within the same unsupervised-learning flow, another question appears here.
 

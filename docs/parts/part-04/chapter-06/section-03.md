@@ -1,13 +1,13 @@
 # P4-6.3 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-6.1과 P4-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 시선을 조금 바깥으로 돌립니다. 모델이 잘 맞는 것과 서비스가 잘 운영되는 것은 같은 말이 아닙니다. 이 차이를 이해하려면 SRE(site reliability engineering)에서 `metric`이라는 말을 어떻게 쓰는지 볼 필요가 있습니다.
 
 이 절은 SRE 입문서를 대신하지 않습니다. 목적은 하나입니다. `모델의 품질을 읽는 숫자`와 `서비스의 상태를 읽는 숫자`가 어디서 닮고 어디서 갈라지는지 보충학습으로 정리하는 것입니다.
 
-## 이 보충학습의 범위
+## 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법에서 구분할 경계
 
 이 절은 머신러닝 평가 지표와 운영 지표를 구분하는 보충학습 절입니다. SLI(service level indicator), SLO(service level objective), SLA(service level agreement), 에러 버짓(error budget), 그리고 운영에서 자주 보는 지연 시간(latency), 트래픽(traffic), 오류(errors), 포화도(saturation)를 입문 수준으로 연결합니다.
 
@@ -19,7 +19,7 @@ P4-6.1과 P4-6.2에서는 모델 평가 지표(metric)를 봤습니다. 이제 �
 - 운영에서는 왜 평균(mean) 하나보다 분포(distribution), 백분위수(percentile), 오류율(error rate)을 함께 보는가?
 - AI 서비스에서는 왜 모델 평가와 서비스 운영 평가가 동시에 필요한가?
 
-## 이 보충학습의 목표
+## 보충학습: 사이트 신뢰성 엔지니어링에서 지표(metrics)를 읽는 법에서 복구할 연결
 
 - 모델 metric과 운영 metric이 서로 다른 층위(level)의 숫자라는 점을 설명할 수 있습니다.
 - SLI, SLO, SLA의 차이를 입문 수준에서 구분할 수 있습니다.

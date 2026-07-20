@@ -1,7 +1,7 @@
 # P4-12.1 k-NN 的直觉
 
 > Section ID: `P4-12.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-11.2 里，我们看到 logistic regression 是 `通过在 input space 里画出 boundary 来切开 class 的模型`。现在要把问题换一下。
 
@@ -20,7 +20,7 @@
 
 这一节先收束 `k-NN 是按什么基本想法，从周围案例出发做判断的`。distance function 和 scale 为什么会改变结果，会在 `P4-12.2 距离与尺度` 里继续处理；实际使用时的检查指南，会在 `P4-12.3 使用 k-NN 时应先检查什么` 里继续处理。
 
-## 本节目标
+## 用k-NN 的直觉留下的判断标准
 
 - 能把 k-NN 解释成 `把附近案例聚起来，再用多数表决或平均来判断的方法`。
 - 能说明 `query`、`training data`、`neighbor`、`label` 在判断里各自做什么。

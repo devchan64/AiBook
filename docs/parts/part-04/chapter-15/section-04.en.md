@@ -1,7 +1,7 @@
 # P4-15.4 Supplementary Learning: How To Compare Extra Trees And Random Forest For The First Time
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Once readers learn random forest in P4-15.1, they soon encounter a similarly named model, Extra Trees(Extremely Randomized Trees). Because both look like `forests that gather many trees and average them`, it is easy at first to pass over them as if they were essentially the same model.
 

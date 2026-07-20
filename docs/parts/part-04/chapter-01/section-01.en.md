@@ -1,7 +1,7 @@
 # P4-1.1 The Relationship Among AI, Machine Learning, and Deep Learning
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 1 looked at the broad scope of the word AI. Part 2 revisited formulas, Python, arrays, tables, and graphs. Now Part 4 separates out machine learning on top of that foundation.
 
@@ -27,7 +27,7 @@ This Section first closes where `machine learning, deep learning, generative AI,
 - You can see LLMs as a strong representative case of modern AI experience, while not treating them as identical to all of AI.
 - You can understand that the study topic of Part 4 is the flow of data, models, learning, and evaluation.
 
-## Reading Order
+## Judgment Flow for The Relationship Among AI, Machine Learning, and Deep Learning
 
 The terms become clearer if they are read by inclusion and by role.
 

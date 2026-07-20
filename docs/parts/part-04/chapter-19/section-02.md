@@ -1,7 +1,7 @@
 # P4-19.2 정책 기반 강화학습(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)을 통해 `어떤 상태에서 어떤 행동이 얼마나 좋은가`를 값(value)으로 배우는 관점을 보았습니다. 여기서 질문을 한 단계 바꾸면 다음과 같습니다.
 
@@ -13,7 +13,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 
 이 절은 `정책 기반 강화학습(policy-based reinforcement learning)`, `policy gradient`, `actor-critic`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동 방식을 직접 조정하는 강화학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
-## 이 절의 범위
+## 정책 기반 강화학습(policy-based reinforcement learning)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -25,7 +25,7 @@ P4-19.1에서는 가치 기반 강화학습(value-based reinforcement learning)�
 
 이 절은 먼저 `정책(policy) 자체를 직접 조정하는 강화학습이 왜 등장하는가`를 닫습니다. 보상 설계와 현실 적용의 제약은 P4-19.3에서, PPO, TRPO, A2C, A3C와 연속 제어의 확장 흐름은 P4-19.4에서, policy gradient 정리와 likelihood ratio trick의 최소 수학 감각은 P4-19.6 보충학습에서 이어집니다.
 
-## 이 절의 목표
+## 정책 기반 강화학습(policy-based reinforcement learning)에서 남길 판단 기준
 
 - 정책 기반 강화학습을 `행동 확률과 선택 방식을 직접 조정하는 접근`으로 설명할 수 있습니다.
 - 가치 기반 접근과 정책 기반 접근의 질문 차이를 구분할 수 있습니다.

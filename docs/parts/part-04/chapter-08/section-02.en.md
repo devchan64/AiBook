@@ -1,7 +1,7 @@
 # P4-8.2 Baseline
 
 > Section ID: `P4-8.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-8.1, the discussion examined what model families should be raised as candidates. Now, instead of immediately grabbing those candidates in order of complexity, it moves to the question of setting the starting point of comparison first.
 

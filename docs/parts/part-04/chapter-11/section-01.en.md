@@ -1,7 +1,7 @@
 # P4-11.1 Intuition For Logistic Regression
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-10, linear regression showed `how to predict a continuous value with a line`. The next step is to see how that same linear way of thinking changes when the task becomes classification.
 

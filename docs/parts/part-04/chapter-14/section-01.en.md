@@ -1,7 +1,7 @@
 # P4-14.1 Decision Tree
 
 > Section ID: `P4-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11 read classification through drawing a boundary. P4-12 read it through nearby neighbors. P4-13 read it through margin as a criterion for a better boundary. Now the same supervised learning problem is read again in a very different way.
 

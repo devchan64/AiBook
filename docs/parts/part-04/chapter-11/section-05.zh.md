@@ -1,7 +1,7 @@
 # P4-11.5 补充学习：第一次如何读 solver 与 regularization
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 一旦通过 library 使用 logistic regression，很快就会遇到 solver、penalty、`C` 这样的参数。初学者常常在这里觉得：是不是话题突然跳进了实现细节？但这些设置并不是和理论完全无关的噪声。
 
@@ -19,7 +19,7 @@
 
 这一节先把 solver 和 regularization 收束为 `即使模型名相同，也会改变结果解释的比较条件`，并专注读取计算过程和 regularization 的方向，而不是背 library option。
 
-## 本节目标
+## 用补充学习：第一次如何读 solver 与 regularization留下的判断标准
 
 - 能把 solver 说明成 `真正去找参数的计算过程`。
 - 能把 regularization 说明成 `防止模型把训练数据贴得过紧的装置`。

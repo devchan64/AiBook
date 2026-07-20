@@ -1,7 +1,7 @@
 # P4-7.1 Feature Selection
 
 > Section ID: `P4-7.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-6 looked at `what criterion should be used for evaluation`. Now the question moves one step earlier. Before changing an evaluation metric, you must first inspect what input will be given to the model in the first place. Feature selection is the starting point of that input design.
 

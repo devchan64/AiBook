@@ -1,7 +1,7 @@
 # P4-1.2 What It Means To Learn Rules From Data
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-1.1 distinguished the positions of AI, machine learning, deep learning, generative AI, and LLM. Now we look at machine learning more closely.
 

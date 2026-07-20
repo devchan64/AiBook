@@ -1,7 +1,7 @@
 # P4-4.2 Validation And Test
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-4.1 explained why data are divided into training data and evaluation data. Now the discussion moves one step further. The data used while choosing a model and the data used for the final one-time check do not play the same role.
 

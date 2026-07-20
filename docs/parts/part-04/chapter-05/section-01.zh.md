@@ -1,7 +1,7 @@
 # P4-5.1 过拟合(overfitting)与欠拟合(underfitting)
 
 > Section ID: `P4-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P4-4 章里，我们看过为什么要把数据分成 training、validation、test。接下来会自然冒出一个问题。把数据拆开之后，为什么有些 model 在 training data 上表现很好，但一到新数据就变弱？反过来，为什么有些 model 连 training data 都解释得不够好？
 
@@ -21,7 +21,7 @@
 - model 太简单或太复杂时，会发生什么？
 - 在实务里，人通常会在什么场景下体会到这个问题？
 
-## 本节目标
+## 用过拟合(overfitting)与欠拟合(underfitting)留下的判断标准
 
 - 能说明过拟合和欠拟合的区别。
 - 能说明为什么要把 training score 和 validation score 一起读。

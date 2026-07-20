@@ -1,7 +1,7 @@
 # P4-18.2 Visualization And Information Loss
 
 > Section ID: `P4-18.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 In P4-18.1, we saw that dimensionality reduction reexpresses many features through fewer axes. The next step is to ask how far the resulting picture should be trusted.
 
@@ -32,7 +32,7 @@ This Section focuses at an introductory level on `how far the reduced picture ca
 - You can understand that distances in a 2D picture can differ from distances in the original high-dimensional space.
 - You can hold the attitude that visualization results should be read as the starting point of follow-up review rather than as a final conclusion.
 
-## Reading Order For This Section
+## Judgment Flow for Visualization And Information Loss For This Section
 
 This Section moves quickly because visualization interpretation, method comparison, and quality metrics appear together. On a first read, it helps to hold only the following four questions in order.
 

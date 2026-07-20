@@ -1,7 +1,7 @@
 # P4-19.3 Caution In Applying Reinforcement Learning
 
 > Section ID: `P4-19.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-19.1, we saw value-based reinforcement learning, and in P4-19.2, policy-based reinforcement learning. Once readers reach that point, the next question appears.
 
@@ -31,7 +31,7 @@ This Section first closes the question of `what application risks must be checke
 - You can explain why the sim-to-real gap matters.
 - You can build your own checklist questions before applying reinforcement learning.
 
-## Reading Order For This Section
+## Judgment Flow for Caution In Applying Reinforcement Learning For This Section
 
 In this Section, `reward design`, `exploration cost`, `sim-to-real gap`, and `pre-deployment checks` appear in one continuous block, so the pace can easily become too fast. On a first reading, it is best to hold only the next four questions in order.
 

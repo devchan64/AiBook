@@ -1,7 +1,7 @@
 # P4-17.2 Cautions When Interpreting Clustering Results
 
 > Section ID: `P4-17.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-17.1, clustering was introduced as an unsupervised learning problem that finds structure in unlabeled data. The more important stage now is interpretation.
 

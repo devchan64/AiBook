@@ -1,7 +1,7 @@
 # P4-11.2 决策边界(decision boundary)
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-11.1 里，我们把 logistic regression 看成 `生成可按 probability 来读的 score 的线性模型`。
 现在要把问题再换一步。
@@ -41,7 +41,7 @@
 
 同时，后面还要继续扩展的问题也很清楚。hyperplane 的基础直觉会在 P4-1.2 再接回来，kernel 方法与 nonlinear boundary 会在 P4-13.1、P4-13.2 再处理。像 `C`、`gamma`、threshold 调整这样的设置与计算成本，会在 P4-9.1、P4-9.2 再接回来，multiclass 扩展会在 P4-11.4 继续展开。
 
-## 本节目标
+## 用决策边界(decision boundary)留下的判断标准
 
 - 能把 decision boundary 解释成不是 `输出 score`，而是 `切开 input space 的标准`。
 - 能理解在一维时它像 `一个点`，在二维时通常像 `一条线`。

@@ -1,7 +1,7 @@
 # P4-19.1 Value-Based Reinforcement Learning
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-2.3, reinforcement learning was framed as `learning that adjusts a policy through actions and rewards`. If we go one step deeper, the following question appears.
 

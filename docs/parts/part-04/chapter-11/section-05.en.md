@@ -1,7 +1,7 @@
 # P4-11.5 Supplementary Learning: How To Read Solver And Regularization For The First Time
 
 > Section ID: `P4-11.5`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Once logistic regression is used through a library, the reader quickly meets arguments such as solver, penalty, and `C`. Beginners often feel at that point that the topic has suddenly jumped into implementation detail. But these settings are not noise completely detached from the theory.
 

@@ -1,7 +1,7 @@
 # P4-9.3 Supplementary Learning: Reading The Big Picture Of Advanced Model Selection, Tuning Automation, And Experiment Tracking
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-8 and P4-9 established the basic flow of setting model candidates, placing a baseline, and comparing hyperparameters inside a validation procedure. After that, the following names usually appear.
 

@@ -1,7 +1,7 @@
 # P4-10.1 Intuition For Linear Regression
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-9.2, the discussion used tuning and validation cost to ask `how should promising settings be compared?` Now it is time to connect that comparison procedure to one actual algorithm.
 

@@ -1,7 +1,7 @@
 # Part 4 Summary. Organizing Machine Learning
 
 > Section ID: `P4-summary`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 Part 4 was the stage for regrouping machine learning not as a list of model names, but as a flow of problem definition, data structure, learning, evaluation, and application. It dealt first with traditional models before deep learning, but the purpose was not to sort an old catalog of techniques. It was to make explicit the common questions that remain when readers move on to neural networks in the next Part and to LLMs and generative AI in the Parts after that.
 
@@ -11,11 +11,11 @@ The fastest way to reopen Part 4 is to hold onto its representative Sections. Th
 
 In particular, the distinction fixed earlier in P1-8 should remain the same. Supervised learning is about matching labels. Unsupervised learning is about reading structure without human-provided labels. Reinforcement learning is about adjusting a policy through rewards after actions rather than through labels. One major boundary across this whole Part is not to read reinforcement-learning reward as if it were a supervised-learning label.
 
-## Purpose of This Part
+## Reading Machine Learning as Shared Questions and Judgment Standards
 
 The purpose of Part 4 was to make machine learning readable not as an algorithm catalog, but as a flow of shared questions and judgment standards.
 
-## Goals of This Part
+## Judgment Standards to Keep After Part 4
 
 After finishing this Part, readers should be able to read together problem definition, data splitting, generalization, evaluation metrics, baseline models, and the limits of application.
 

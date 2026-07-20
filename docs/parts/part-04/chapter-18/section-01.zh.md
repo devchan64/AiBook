@@ -1,7 +1,7 @@
 # P4-18.1 降维(dimensionality reduction)
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 在 P4-17 里，我们看到了通过聚类(clustering)在没有标签的情况下寻找数据结构的视角。在同样的无监督学习脉络里，这里会出现另一个问题。
 
@@ -29,7 +29,7 @@
 
 这一节集中在入门层面抓住`为什么要降维`以及`应该怎样先用直觉和最低限度的数学去读 PCA`。所以，这一节会直接处理 PCA 的新轴为什么会读成 eigenvector，以及 PCA、kernel PCA、Truncated SVD 这些分支差异。相对地，更偏可视化的方法和 reconstruction error 的解释，会在下一节 P4-18.2 里收尾。
 
-## 本节目标
+## 用降维(dimensionality reduction)留下的判断标准
 
 - 能把降维解释为`用更少的轴重新表达特征空间`。
 - 能说明为什么特征很多时，解释和计算都会变难。

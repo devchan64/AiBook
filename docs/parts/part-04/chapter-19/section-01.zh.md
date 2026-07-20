@@ -1,7 +1,7 @@
 # P4-19.1 价值型强化学习(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-2.3 里，我们把强化学习(reinforcement learning)先抓成了`通过行动(action)与奖励(reward)来调整策略(policy)的学习`。再往里走一步，就会出现下面的问题。
 
@@ -27,7 +27,7 @@
 
 这一节先收住`给行动附上价值(value)，并学习行动长期好坏的强化学习具有什么结构`这个问题。policy-based reinforcement learning 会在 P4-19.2 继续，reward 设计与现实应用注意点会在 P4-19.3 继续，DQN 与策略系方法的大流程会在补充学习 P4-19.4 继续，Bellman equation 与 function approximation 的最小连接会在补充学习 P4-19.5 继续。
 
-## 本节目标
+## 用价值型强化学习(value-based reinforcement learning)留下的判断标准
 
 - 能把价值型强化学习解释成`把行动的长期好坏学成数字的做法`。
 - 能区分 state value 和 action value。

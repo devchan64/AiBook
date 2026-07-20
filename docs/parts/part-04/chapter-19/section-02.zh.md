@@ -1,7 +1,7 @@
 # P4-19.2 策略型强化学习(policy-based reinforcement learning)
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-19.1 里，我们已经看过价值型强化学习(value-based reinforcement learning)把`什么状态里什么行动有多好`学成 value 的视角。如果把问题再换一步，下面的问题就会出现。
 
@@ -25,7 +25,7 @@
 
 这一节先收住`为什么会出现直接调整 policy 本身的强化学习`这个问题。reward 设计与现实应用约束会在 P4-19.3 继续，PPO、TRPO、A2C、A3C 与 continuous control 的扩展流程会在 P4-19.4 继续，policy-gradient theorem 与 likelihood ratio trick 的最小数学感觉会在补充学习 P4-19.6 继续。
 
-## 本节目标
+## 用策略型强化学习(policy-based reinforcement learning)留下的判断标准
 
 - 能把策略型强化学习解释成`直接调整行动概率与行动方式的做法`。
 - 能区分价值型与策略型方法在提问上的差异。

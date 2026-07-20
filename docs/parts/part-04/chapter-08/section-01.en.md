@@ -1,7 +1,7 @@
 # P4-8.1 Model Selection
 
 > Section ID: `P4-8.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-7, the discussion examined what inputs should remain and what representation those inputs should be changed into. Now it moves to the next question.
 

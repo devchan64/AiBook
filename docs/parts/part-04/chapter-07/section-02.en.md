@@ -1,7 +1,7 @@
 # P4-7.2 Preprocessing
 
 > Section ID: `P4-7.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-7.1 examined `what inputs should remain`. Now the discussion moves to the stage where those remaining inputs are not thrown to the model as they are, but are organized into a form the model can read more easily. That stage is preprocessing.
 

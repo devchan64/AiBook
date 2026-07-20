@@ -1,7 +1,7 @@
 # P4-19.6 Supplementary Learning: How To Read Policy Gradient And The Likelihood Ratio Trick For The First Time
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Once readers study policy-based reinforcement learning in P4-19.2, the following names quickly appear.
 

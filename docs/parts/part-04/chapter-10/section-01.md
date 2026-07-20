@@ -1,7 +1,7 @@
 # P4-10.1 선형회귀(linear regression)의 직관
 
 > Section ID: `P4-10.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-9.2에서는 튜닝(tuning)과 검증 비용(validation cost)을 통해 `좋아 보이는 설정을 어떻게 비교할 것인가`를 봤습니다. 이제 그 비교 절차를 실제 알고리즘 하나에 연결할 차례입니다.
 
@@ -15,7 +15,7 @@ Part 4의 첫 알고리즘으로 선형회귀(linear regression)를 보는 이�
 
 이 절은 `회귀(regression)`, `선형회귀(linear regression)`, `기울기(coefficient)`, `절편(intercept)`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 연속값 예측을 직선으로 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
-## 이 절의 범위
+## 선형회귀(linear regression)의 직관에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -30,7 +30,7 @@ Part 4의 첫 알고리즘으로 선형회귀(linear regression)를 보는 이�
 
 잔차(residual)의 통계적 성질, 최소제곱법(ordinary least squares)의 엄밀한 유도, R²·MAE·RMSE 같은 평가 지표의 자세한 비교는 현재 절의 직접 범위를 넘어가므로 이 절에서는 자세히 다루지 않습니다.
 
-## 이 절의 목표
+## 선형회귀(linear regression)의 직관에서 남길 판단 기준
 
 - 회귀를 `연속값을 예측하는 문제`라고 설명할 수 있습니다.
 - 선형회귀를 `입력과 출력의 관계를 직선으로 먼저 근사하는 모델`이라고 말할 수 있습니다.

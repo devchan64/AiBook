@@ -1,7 +1,7 @@
 # P4-19.6 补充学习：如何第一次阅读 policy gradient 和 likelihood ratio trick
 
 > Section ID: `P4-19.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 一旦开始读 P4-19.2 里的策略型强化学习(policy-based reinforcement learning)，下面这些名字很快就会跟着出现。
 
@@ -20,7 +20,7 @@
 
 这一节集中通过 `策略概率`、`期望奖励`、`log-probability gradient` 这三个把手，建立策略型公式的入门感觉。
 
-## 本节目标
+## 用补充学习：如何第一次阅读 policy gradient 和 likelihood ratio trick留下的判断标准
 
 - 能把 policy gradient 解释成`沿着提高期望奖励的方向去调整策略概率的梯度`。
 - 能把 likelihood ratio trick 解释成`把概率分布内部的微分改写成 log-probability gradient，从而让计算更容易读`的装置。

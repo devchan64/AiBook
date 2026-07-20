@@ -1,7 +1,7 @@
 # P4-19.1 가치 기반 강화학습(value-based reinforcement learning)
 
 > Section ID: `P4-19.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보상(reward)을 통해 정책(policy)을 조정하는 학습`으로 잡았습니다. 여기서 한 단계 더 들어가면 다음 질문이 나옵니다.
 
@@ -15,7 +15,7 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 
 이 절은 `가치 기반 강화학습(value-based reinforcement learning)`, `상태 가치(state value)`, `행동 가치(action value)`, `Q-value`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 행동의 장기적 좋음을 점수로 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
-## 이 절의 범위
+## 가치 기반 강화학습(value-based reinforcement learning)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -27,7 +27,7 @@ P4-2.3에서는 강화학습(reinforcement learning)을 `행동(action)과 보�
 
 이 절은 먼저 `가치(value)를 붙여 행동의 장기적 좋음을 배우는 강화학습이 어떤 구조를 가지는가`를 닫습니다. 정책 기반 강화학습(policy-based reinforcement learning)은 P4-19.2에서, 보상 설계와 현실 적용의 주의점은 P4-19.3에서, DQN과 정책 계열의 큰 흐름은 P4-19.4 보충학습에서, 벨만 방정식과 함수 근사의 최소 연결은 P4-19.5 보충학습에서 이어집니다.
 
-## 이 절의 목표
+## 가치 기반 강화학습(value-based reinforcement learning)에서 남길 판단 기준
 
 - 가치 기반 강화학습을 `행동의 장기적 좋음을 숫자로 배우는 접근`으로 설명할 수 있습니다.
 - 상태 가치(state value)와 행동 가치(action value)를 구분할 수 있습니다.

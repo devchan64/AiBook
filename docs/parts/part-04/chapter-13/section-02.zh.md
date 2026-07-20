@@ -1,7 +1,7 @@
 # P4-13.2 kernel 的入门含义
 
 > Section ID: `P4-13.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary 的分类器`。接着自然会冒出下一个问题。
 
@@ -27,7 +27,7 @@ P4-13.1 把 SVM (support vector machine) 读成了 `寻找大 margin boundary �
 
 `gamma`、`degree`、`coef0` 这些设置该怎样读，以及验证成本该怎么看，会在 P4-9.1 和 P4-9.2 再接回来。也就是说，这一节先专注抓住 `只要 representation space 改变，linear boundary 的意义也会改变` 这个想法。
 
-## 本节目标
+## 用kernel 的入门含义留下的判断标准
 
 - 能举例说明为什么线性 boundary 有时会显得不够。
 - 能说明如果 feature space 改变，同一批数据会被读成不同的结构。

@@ -1,7 +1,7 @@
 # P4-12.2 距离(distance)与尺度(scale)
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但在这里，真正最重要的词其实是 `近`。
 
@@ -20,7 +20,7 @@ P4-12.1 里说过，k-NN 是 `通过看附近案例来做判断的模型`。但�
 
 这一节先收束 `为什么在 k-NN 里，distance 和 scale 会改变 neighbor 与 prediction`。preprocessing 的目的和类型，仍然以 `P4-7.2 Preprocessing` 作为基准说明位置；这里专注的是 distance 和 scale 改变判断的场景。
 
-## 本节目标
+## 用距离(distance)与尺度(scale)留下的判断标准
 
 - 能说明 distance function 不是 `模型外部的设置`，而是 `判断规则的一部分`
 - 能说明 distance function 一旦改变，neighbor 顺序和 prediction 也可能改变

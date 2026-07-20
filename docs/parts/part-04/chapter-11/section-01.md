@@ -1,7 +1,7 @@
 # P4-11.1 로지스틱 회귀(logistic regression)의 직관
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값을 예측하는 방법`을 보았습니다. 이제 같은 선형적 사고가 분류(classification)에서는 어떻게 바뀌는지로 넘어갑니다.
 
@@ -17,7 +17,7 @@ P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값
 
 이 절은 `로지스틱 회귀(logistic regression)`, `sigmoid`, `predict_proba`, `threshold`의 기본 뜻을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 선형 계산을 분류용 확률처럼 읽는 기본 감각은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
-## 이 절의 범위
+## 로지스틱 회귀(logistic regression)의 직관에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -31,7 +31,7 @@ P4-10에서는 선형회귀(linear regression)를 통해 `직선으로 연속값
 
 대신 이번 절에서 바로 더 넓혀 볼 질문도 분명합니다. 결정 경계(decision boundary)와 threshold의 공간적 해석은 P4-11.2에서 바로 이어서 다룹니다. `왜 log-odds를 보게 되는가`, `왜 최대우도추정(maximum likelihood estimation, MLE)을 쓰는가`는 P4-11.3에서, `이진 분류에서 다중 클래스(multinomial)로 어떻게 확장되는가`는 P4-11.4에서, `solver와 regularization을 왜 구현 설정으로 만나게 되는가`는 P4-11.5에서 나누어 회수합니다. 정규화(regularization)의 더 넓은 일반 원리와 하이퍼파라미터 읽기는 P4-9.1, P4-9.2, P5-8.1에서 다시 연결합니다.
 
-## 이 절의 목표
+## 로지스틱 회귀(logistic regression)의 직관에서 남길 판단 기준
 
 - 로지스틱 회귀를 `분류 문제에서 확률처럼 읽히는 출력을 만드는 선형 모델`이라고 설명할 수 있습니다.
 - 선형회귀와 로지스틱 회귀의 공통점과 차이를 구분할 수 있습니다.

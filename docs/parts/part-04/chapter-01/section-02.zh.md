@@ -1,7 +1,7 @@
 # P4-1.2 从数据中学习规则这句话是什么意思
 
 > Section ID: `P4-1.2`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 在 P4-1.1 中，我们区分了 AI、machine learning、deep learning、generative AI、LLM 的位置。现在要把 machine learning 再拉近一点来看。
 
@@ -21,7 +21,7 @@ Part 3 并不是想覆盖整个 data science，而是把重点放在 `把原始�
 - training data、feature、label、model 是怎样连起来的？
 - 为什么学出来的 model 一定还要评估？
 
-## 本节目标
+## 用从数据中学习规则这句话是什么意思留下的判断标准
 
 - 能区分 rule-based approach 和 learning-based approach。
 - 能把 `从数据中学习规则` 更安全地改写成 `从数据中估计关系`。

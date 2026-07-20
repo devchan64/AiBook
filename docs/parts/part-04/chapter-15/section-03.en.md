@@ -1,7 +1,7 @@
 # P4-15.3 OOB(Out-Of-Bag) And Checking Random Forest
 
 > Section ID: `P4-15.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-15.1, we saw why random forest can create more stable predictions by gathering many trees. In P4-15.2, we saw how to read carefully what that forest considered important, namely feature importance.
 

@@ -1,7 +1,7 @@
 # P4-2.3 Reinforcement Learning
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-2.1 looked at supervised learning, which learns from data with labels, and P4-2.2 looked at unsupervised learning, which finds data structure without labels. This time we look at reinforcement learning, where a model takes an action, receives a reward from the result, and adjusts the next way of acting.
 

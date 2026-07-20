@@ -1,7 +1,7 @@
 # P4-11.4 Supplementary Learning: How To Read Multinomial Logistic Regression
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11.3 explained log-odds and MLE mainly on the basis of `binary classification`, where the model chooses one of two classes. But many real classification problems ask the model to choose one out of three or more classes.
 

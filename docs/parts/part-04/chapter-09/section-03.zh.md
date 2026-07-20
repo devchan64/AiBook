@@ -1,7 +1,7 @@
 # P4-9.3 补充学习：从大图景读取高级模型选择、调优自动化与实验追踪
 
 > Section ID: `P4-9.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-8 和 P4-9 里，我们已经建立了这样一条基本流程：先立 model 候选，再放 baseline，然后在 validation 流程内比较 hyperparameter。接下来，通常会出现下面这些名字。
 
@@ -12,7 +12,7 @@
 - nested cross-validation
 - experiment tracking
 
-这一节的目标，不是去熟悉它们各自的实现细节，而是整理 `这些名字为什么会出现，以及它们各自在处理哪一层的问题`。
+这里要留下的标准，不是去熟悉它们各自的实现细节，而是整理 `这些名字为什么会出现，以及它们各自在处理哪一层的问题`。
 
 这份补充学习也不会从头再讲一遍 hyperparameter 和 tuning 的基本定义。基础抓手仍然放在 P4-9.1、P4-9.2 和 [概念词汇表](/AiBook/en/reference/concept-glossary/)，这里则只按整体脉络整理那些接在后面的高级名字。
 

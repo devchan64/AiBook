@@ -1,7 +1,7 @@
 # P4-10.3 补充学习：第一次该怎样读回归诊断(regression diagnostics)
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 读到 P4-10.2 为止，linear regression 的基本评价已经具备了。但在真实文档或课程里，读者很快还会碰到下面这些表达。
 
@@ -27,7 +27,7 @@
 
 各类检验统计量的公式推导、围绕 p-value 解读的完整历史争论、VIF 练习与高级 regression package 的使用方法，超出了当前这份补充学习的直接范围，所以这里不会详细处理。
 
-## 本补充学习的目标
+## 用补充学习：第一次该怎样读回归诊断(regression diagnostics)恢复的概念连接
 
 - 能把 regression diagnostics 解释成 `为了避免过度相信 linear regression 结果而做的检查`。
 - 能区分 significance、normality、homoscedasticity、multicollinearity 分别在担心什么。

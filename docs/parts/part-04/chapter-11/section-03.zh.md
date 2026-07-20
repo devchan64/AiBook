@@ -1,7 +1,7 @@
 # P4-11.3 补充学习：第一次如何读 log-odds 与 MLE
 
 > Section ID: `P4-11.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11.1 把 logistic regression 介绍成 `生成可按 probability 来读的 score 的线性分类模型`，P4-11.2 又把这些 score 放回 input space，读成 decision boundary。走到这里，就会自然留下一个问题。
 
@@ -21,7 +21,7 @@ P4-11.1 把 logistic regression 介绍成 `生成可按 probability 来读的 sc
 
 同时，后面还要继续扩展的问题也很清楚。multinomial 扩展会在 P4-11.4 继续，solver 与 regularization 会在 P4-11.5 继续。
 
-## 本节目标
+## 用补充学习：第一次如何读 log-odds 与 MLE留下的判断标准
 
 - 能在入门层面解释 probability、odds、log-odds 之间的关系。
 - 能说明 `z = 0`、`probability 0.5`、`odds 1` 指向的是同一个位置。
