@@ -320,6 +320,7 @@ AI 서비스는 보통 호출마다 비용이 생기거나, 자체 운영 시에
 | 다음 조정 방향 | 탈락한 설계안을 어디부터 줄이거나 바꿔야 할지 알아야 해서 |
 
 ```python
+# LLM 서비스 후보를 품질, latency, 비용, 처리량 제약으로 평가해 운영 가능한 설정과 trade-off를 고르는 예제입니다.
 from pprint import pprint
 
 services = [

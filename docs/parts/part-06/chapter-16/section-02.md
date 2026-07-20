@@ -290,6 +290,7 @@ RAG 답변이 틀렸다고 해 봅시다. 사람은 최종 답이 틀리면 먼�
 | 사용자 영향 | 사용자 경험을 즉시 보호해야 하는 실패인지 구분해야 해서 |
 
 ```python
+# 검색 timeout, 권한 오류, hallucination, format mismatch 실패 사례별로 retry, fallback, human review, stop 경로를 결정하는 예제입니다.
 from pprint import pprint
 
 failure_cases = [
