@@ -112,6 +112,7 @@ P5-3.2부터 P5-3.4까지 sigmoid, tanh, ReLU를 각각 따로 보았습니다. 
 입력(input):
 
 ```python
+# 같은 선형 점수 z를 sigmoid, tanh, ReLU에 통과시켜 음수와 양수 신호가 어떻게 달라지는지 비교하는 예제입니다.
 import math
 
 z_values = [-3.0, -1.0, 0.0, 0.5, 2.5]

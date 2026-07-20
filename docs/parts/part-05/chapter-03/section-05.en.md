@@ -112,6 +112,7 @@ Concepts to confirm:
 Input:
 
 ```python
+# This example passes the same linear score z through sigmoid, tanh, and ReLU to compare negative and positive signals.
 import math
 
 z_values = [-3.0, -1.0, 0.0, 0.5, 2.5]

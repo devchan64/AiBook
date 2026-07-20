@@ -112,6 +112,7 @@
 输入（input）：
 
 ```python
+# 这个例子把同一个线性分数 z 送入 sigmoid、tanh、ReLU，比较负信号和正信号如何变化。
 import math
 
 z_values = [-3.0, -1.0, 0.0, 0.5, 2.5]
