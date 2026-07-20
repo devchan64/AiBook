@@ -304,6 +304,7 @@ Part 4 Module 5를 한 묶음으로 읽으려면, 같은 표 데이터 문제를
   - 큰 learning rate는 overshoot를 만들 수 있다
 
 ```python
+# 작은 learning rate와 큰 learning rate가 같은 correction을 얼마나 다르게 반영하는지 비교하는 예제입니다.
 actual = [120, 110, 90, 80]
 pred = [100, 100, 100, 100]
 correction = [15, 10, -10, -15]
@@ -340,6 +341,7 @@ learning_rate=0.8
 이번에는 `learning_rate = 0.1`을 유지한 채, 두 번째 correction 단계를 하나 더 쌓아 봅니다.
 
 ```python
+# 작은 learning rate를 유지하며 두 번째 보정 단계를 더했을 때 residual이 어떻게 줄어드는지 보는 예제입니다.
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 tree1_correction = [15, 10, -10, -15]

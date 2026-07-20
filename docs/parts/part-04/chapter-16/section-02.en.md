@@ -311,6 +311,7 @@ This example is a toy exercise showing how correction can become too strong when
 - what matters is not the correction alone, but how strongly it is reflected - a large learning rate can create overshoot
 
 ```python
+# This example compares how small and large learning rates apply the same correction differently.
 actual = [120, 110, 90, 80]
 pred = [100, 100, 100, 100]
 correction = [15, 10, -10, -15]
@@ -347,6 +348,7 @@ So a large learning rate can show fast early improvement, but it can also move f
 Now keep `learning_rate = 0.1` and add one more correction stage.
 
 ```python
+# This example keeps a small learning rate and adds a second correction stage to see how residuals shrink.
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 tree1_correction = [15, 10, -10, -15]

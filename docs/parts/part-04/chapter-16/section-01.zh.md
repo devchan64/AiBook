@@ -390,6 +390,7 @@ scikit-learn 用户指南经常把 gradient-boosted trees 和 histogram-based gr
 - residual 是剩余误差 - 下一阶段会朝着减少 residual 的方向移动 - learning rate 决定一次修多重
 
 ```python
+# 这个玩具例子展示 gradient boosting 中沿 residual 方向的修正如何累积到预测里。
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 
@@ -437,6 +438,7 @@ stage2 residual  : [18.5, 9.0, -9.0, -18.5]
 这一次保留同样的 correction， 只把 `learning_rate` 改成 `0.5`。
 
 ```python
+# 这个例子比较在相同 correction 下，增大 learning_rate 会如何改变 residual 的下降速度。
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 

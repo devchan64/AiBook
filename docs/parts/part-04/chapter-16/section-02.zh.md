@@ -311,6 +311,7 @@ scikit-learn 文档说明， 读者可以通过 staged prediction、validation �
 - 真正重要的不是 correction 本身，而是它被反映得有多强 - 大 learning rate 容易造成 overshoot
 
 ```python
+# 这个例子比较小 learning rate 和大 learning rate 如何不同地反映同一个 correction。
 actual = [120, 110, 90, 80]
 pred = [100, 100, 100, 100]
 correction = [15, 10, -10, -15]
@@ -347,6 +348,7 @@ learning_rate=0.8
 这次保留 `learning_rate = 0.1`， 再加一个 correction stage。
 
 ```python
+# 这个例子保持较小 learning rate，再加入第二个修正阶段，观察 residual 如何继续下降。
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 tree1_correction = [15, 10, -10, -15]

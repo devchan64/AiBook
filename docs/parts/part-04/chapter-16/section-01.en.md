@@ -389,6 +389,7 @@ This example is a toy exercise used only to build the feel that `corrections acc
 - residual is the remaining error - the next stage moves in the direction that reduces the residual - learning rate decides how much to correct at one time
 
 ```python
+# This toy example shows how residual-direction corrections accumulate into predictions in gradient boosting.
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 
@@ -436,6 +437,7 @@ So gradient boosting is closer to `many small corrections` than to `one large co
 This time, keep the same correction and change only `learning_rate` to `0.5`.
 
 ```python
+# This example compares how a larger learning_rate changes residual reduction for the same correction.
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 

@@ -397,6 +397,7 @@ scikit-learn 사용자 가이드는 gradient-boosted trees와 histogram-based gr
   - learning rate는 한 번에 얼마나 고칠지 정한다
 
 ```python
+# 그래디언트 부스팅에서 residual 방향 보정이 예측에 누적되는 과정을 보는 장난감 예제입니다.
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 
@@ -444,6 +445,7 @@ stage2 residual  : [18.5, 9.0, -9.0, -18.5]
 이번에는 같은 correction을 두고 `learning_rate`만 `0.5`로 바꿔 봅니다.
 
 ```python
+# 같은 correction에서 learning_rate를 키우면 residual 감소 속도가 어떻게 달라지는지 비교하는 예제입니다.
 actual = [120, 110, 90, 80]
 pred_stage0 = [100, 100, 100, 100]
 
