@@ -50,6 +50,7 @@
 확인할 개념: 토큰화는 원시 구조를 그대로 두지 않고 순서와 방향을 읽기 쉬운 중간 표현으로 바꾸는 작업이다. 토큰 경계는 고정 정답이 아니라 문제에 맞게 점검할 설계값이다.
 
 ```python
+# 원시 로그와 최종 특징 사이에 중간 표현을 두어 계산 근거를 추적하는 예제입니다.
 import csv
 from collections import defaultdict
 from pathlib import Path

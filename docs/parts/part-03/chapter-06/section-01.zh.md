@@ -38,6 +38,7 @@
 要确认的概念：特征不是把已有列直接罗列出来，而是把想比较的结构计算后再附着上去的表达。特征选择会随着问题焦点改变。
 
 ```python
+# 这个例子从区段汇总值中生成并选择符合比较目的的特征。
 from statistics import mean, stdev
 
 feature_focus = "change"

@@ -50,6 +50,7 @@
 要确认的概念：token 化不是把原始结构原样保留，而是把顺序和方向改写成更容易读取的中间表示。token 边界不是固定答案，而是要按问题检查的设计值。
 
 ```python
+# 这个例子在原始日志和最终特征之间加入中间表示，用来追踪计算依据。
 import csv
 from collections import defaultdict
 from pathlib import Path

@@ -38,6 +38,7 @@
 확인할 개념: 특징은 이미 있던 열을 그대로 나열하는 것이 아니라, 비교하고 싶은 구조를 계산해 붙인 표현이다. 특징 선택은 질문 초점에 따라 달라진다.
 
 ```python
+# 구간 요약값에서 비교 목적에 맞는 특징을 만들어 선택하는 예제입니다.
 from statistics import mean, stdev
 
 feature_focus = "change"

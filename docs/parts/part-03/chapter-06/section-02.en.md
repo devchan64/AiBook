@@ -50,6 +50,7 @@ Expected output: output where each action's slope list is turned into a token se
 Concept to check: tokenization does not leave the raw structure as-is. It turns sequence and direction into an easier-to-read intermediate representation. Token boundaries are not fixed answers; they are design values that should be checked against the problem.
 
 ```python
+# This example adds an intermediate representation between raw logs and final features to trace calculation evidence.
 import csv
 from collections import defaultdict
 from pathlib import Path

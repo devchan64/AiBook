@@ -38,6 +38,7 @@ Expected output: a feature table that calculates level, segment difference, slop
 Concept to check: a feature is not a simple listing of existing columns, but an added expression that computes the structure we want to compare. Feature selection changes with the question focus.
 
 ```python
+# This example creates and selects features from segment summaries according to the comparison goal.
 from statistics import mean, stdev
 
 feature_focus = "change"

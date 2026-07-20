@@ -90,6 +90,7 @@ Expected output: output where the rows look like one group if we look only at th
 Concept to check: feature identity should be judged not at the column-name level alone, but at the definition level that includes measurement unit and generation rule. Which rows can be placed on the same baseline also changes depending on which fields are included in the definition.
 
 ```python
+# This example checks whether features with the same column name changed measurement rules or units.
 import pandas as pd
 
 pd.set_option("display.max_columns", None)
