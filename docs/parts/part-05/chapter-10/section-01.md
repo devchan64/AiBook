@@ -249,6 +249,7 @@ P5-9장까지 오면 딥러닝이 큰 텐서 계산을 배치 단위로 반복�
 실험할 값은 `line_b_rework_calls`입니다. 처음에는 `5.0`으로 두고 실행한 뒤, `1.0`처럼 낮춰서 `line_B`가 표현 좌표에서 어떻게 이동하는지 비교합니다.
 
 ```python
+# 설비 라인의 hand-crafted risk_score와 데이터에서 계산한 2차원 representation 좌표가 어떤 다른 판독을 남기는지 비교하는 예제입니다.
 import numpy as np
 
 lines = ["line_A", "line_B", "line_C", "line_D"]

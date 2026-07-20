@@ -241,6 +241,7 @@ The purpose of this table is to read separately `one-line score` and `multi-axis
 The experimental value is `line_b_rework_calls`. At first it is set to `5.0`, and after running it once, lower it to `1.0` and compare how `line_B` moves in the representation coordinates.
 
 ```python
+# This example compares the reading left by a hand-crafted risk_score with a 2D representation computed from the data.
 import numpy as np
 
 lines = ["line_A", "line_B", "line_C", "line_D"]

@@ -233,6 +233,7 @@ Before reading the code, it helps to predict how some batch pairs may change.
 The purpose of this table is to first hold onto not `everything moves the same way as depth increases`, but `the representation space rearranges the relations among batches`.
 
 ```python
+# This example shows how production-batch signals pass through two layers and rearrange distance relationships in h1 and h2 representation spaces.
 import numpy as np
 
 def relu(x):

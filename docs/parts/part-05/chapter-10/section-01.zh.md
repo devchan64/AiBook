@@ -239,6 +239,7 @@ representation learning 模型可以把每条产线的报警历史和处理信�
 这张表的目的，是先把`单行分数`和`多轴表征`分开来读。
 
 ```python
+# 这个例子比较人工设计的 risk_score 和从数据计算出的二维 representation 坐标会留下什么不同读法。
 import numpy as np
 
 lines = ["line_A", "line_B", "line_C", "line_D"]
