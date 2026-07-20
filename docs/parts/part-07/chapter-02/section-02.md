@@ -106,6 +106,7 @@ train 데이터의 평균과 표준편차를 이용해 z-score 정규화를 적�
 ## Python 예제
 
 ```python
+# 구독 이탈 1-NN 모델에서 정규화 전후의 최근접 샘플과 예측 변화를 비교해 회고 질문을 만드는 예제입니다.
 import csv
 import numpy as np
 from pathlib import Path

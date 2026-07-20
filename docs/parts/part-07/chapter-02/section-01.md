@@ -150,6 +150,7 @@ baseline은 아주 단순합니다.
 - 샘플별 비교에서 baseline이 놓친 사례, 1-NN이 회수한 사례, 1-NN이 새로 만든 오답을 따로 표시합니다.
 
 ```python
+# 구독 이탈 데이터에서 다수 라벨 baseline과 1-NN 예측을 비교해 샘플별 오류 사례를 읽는 예제입니다.
 import csv
 import numpy as np
 from pathlib import Path

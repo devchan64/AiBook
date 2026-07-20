@@ -91,6 +91,7 @@ P7-2.2까지 읽으면 보통 `정규화하면 좋아진다`는 인상을 받기
   - 경계 데이터가 비어 있으면 더 많은 사례나 더 적절한 특징이 필요하다
 
 ```python
+# 구독 이탈 stress test에서 baseline, raw 1-NN, 부분 스케일 조정, z-score 1-NN을 비교해 실패 원인을 진단하는 예제입니다.
 import csv
 import numpy as np
 from pathlib import Path
@@ -270,6 +271,7 @@ for row in comparison_rows:
 | 기준선 차이 보기 | 기준선 평균과의 차이를 함께 계산 | 현재 신호가 평소 수준에서 얼마나 벗어났는지 설명하기 좋음 |
 
 ```python
+# action event 요약에서 원시 tracking 오류, 구간 특징, 기준선 gap flag를 비교해 반복 drift 후보를 찾는 예제입니다.
 import csv
 from pathlib import Path
 
