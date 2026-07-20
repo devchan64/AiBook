@@ -1,7 +1,7 @@
 # P4-11.4 补充学习：如何读取多类别(multinomial)逻辑回归
 
 > Section ID: `P4-11.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11.3 里介绍的 log-odds 和 MLE，基本上是按 `二元分类(binary classification)` 来说明的，也就是在两个 class 里做选择。但现实中的分类问题，经常要在三个、四个或更多 class 里做选择。
 
@@ -21,7 +21,7 @@ P4-11.3 里介绍的 log-odds 和 MLE，基本上是按 `二元分类(binary cla
 
 同时，下一步还要继续缩小来看清的问题也很明确。solver 与 regularization 的实现视角，会在 P4-11.5 继续。
 
-## 本节目标
+## 用补充学习：如何读取多类别(multinomial)逻辑回归留下的判断标准
 
 - 能说明在 multiclass 里，`input -> score -> probability 比较 -> class 选择` 这个结构仍然保持不变。
 - 能把 softmax 读成 `把每个 class 的 score 变成 probability distribution 的函数`。

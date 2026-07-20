@@ -1,7 +1,7 @@
 # P4-12.2 Distance And Scale
 
 > Section ID: `P4-12.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-12.1 explained k-NN as `a model that judges by looking at nearby cases`. But the most important word there is really `near`.
 

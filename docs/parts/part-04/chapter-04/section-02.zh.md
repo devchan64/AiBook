@@ -1,7 +1,7 @@
 # P4-4.2 验证(validation)与测试(test)
 
 > Section ID: `P4-4.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P4-4.1 里，我们看过为什么要把数据分成 training data 和 evaluation data。现在再往前走一步。`在选模型过程中使用的数据` 和 `最后只检查一次的数据`，它们承担的角色并不一样。
 
@@ -21,7 +21,7 @@
 - 当数据很少时，应该怎样更谨慎地理解这个区分？
 - cross-validation 会怎样接到这个结构里？
 
-## 本节目标
+## 用验证(validation)与测试(test)留下的判断标准
 
 - 能说明 validation 和 test 的角色差异。
 - 能说明 validation data 是给选择使用的，而 test data 是给最后确认使用的。

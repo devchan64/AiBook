@@ -1,7 +1,7 @@
 # P4-4.1 Training Data And Evaluation Data
 
 > Section ID: `P4-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Chapter P4-3 showed how heuristics can narrow the model candidates to try first. That immediately raises an important question. How can you check whether that choice is actually acceptable?
 

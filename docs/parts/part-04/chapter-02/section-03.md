@@ -1,7 +1,7 @@
 # P4-2.3 강화학습(reinforcement learning)
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supervised learning)을 봤고, P4-2.2에서는 라벨 없이 데이터 구조를 찾는 비지도학습(unsupervised learning)을 봤습니다. 이번에는 모델이 행동(action)을 하고, 그 결과로 보상(reward)을 받으며, 다음 행동 방식을 조정하는 강화학습(reinforcement learning)을 봅니다.
 
@@ -9,7 +9,7 @@ P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supe
 
 이 절은 `강화학습(reinforcement learning)`, `상태(state)`, `행동(action)`, `보상(reward)`, `정책(policy)`의 기본 구분을 설명합니다. 뒤 절에서는 이 손잡이를 바탕으로 현재 맥락의 판단을 이어 가고, 장기 보상 기반 학습의 기본 뜻은 이 절과 [개념사전](../../../reference/concept-glossary.md)을 기준으로 다시 연결합니다.
 
-## 이 절의 범위
+## 강화학습(reinforcement learning)에서 닫을 질문
 
 이 절은 강화학습의 기본 구조를 설명합니다. Q-learning, SARSA, policy gradient, actor-critic 같은 개별 알고리즘의 수식과 구현은 여기서 다루지 않습니다. Q-learning과 SARSA는 P4-19.1 가치 기반 강화학습에서, policy gradient와 actor-critic은 P4-19.2 정책 기반 강화학습에서 다시 다룹니다. 핵심은 에이전트(agent), 환경(environment), 상태(state), 행동(action), 보상(reward), 정책(policy)의 관계를 먼저 분명히 잡는 일입니다.
 
@@ -19,7 +19,7 @@ P4-2.1에서는 라벨(label)이 있는 데이터로 배우는 지도학습(supe
 - 보상이 늦게 오는 문제는 왜 어려운가?
 - 탐험(exploration)과 활용(exploitation)은 왜 함께 필요한가?
 
-## 이 절의 목표
+## 강화학습(reinforcement learning)에서 남길 판단 기준
 
 - 강화학습을 행동과 보상을 통해 정책을 배우는 접근으로 설명할 수 있습니다.
 - 에이전트, 환경, 상태, 행동, 보상, 정책의 역할을 구분할 수 있습니다.

@@ -1,7 +1,7 @@
 # P4-13.1 Intuition For SVM
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11.2 read classification as `drawing a boundary and dividing the space`. P4-12 then showed a method that judges by looking at nearby neighbors. Now the same classification problem is reread through a different question.
 

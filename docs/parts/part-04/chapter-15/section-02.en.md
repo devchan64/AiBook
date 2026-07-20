@@ -1,7 +1,7 @@
 # P4-15.2 Feature Importance
 
 > Section ID: `P4-15.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-15.1, we saw why random forest can create more stable predictions by gathering many trees. That immediately raises the next question.
 

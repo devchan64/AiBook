@@ -1,7 +1,7 @@
 # P4-10.2 线性回归(linear regression)的评价与局限
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`。现在要进入下一个问题。
 
@@ -31,7 +31,7 @@ P4-10.1 把 linear regression 介绍成 `先用直线来读取关系的模型`�
 
 statistical significance test、residual normality 与 homoscedasticity 的严格检验、multicollinearity 诊断、更深入的 regularization 与 feature engineering，超出了当前这一节的直接范围，所以这里不会详细处理。
 
-## 本节目标
+## 用线性回归(linear regression)的评价与局限留下的判断标准
 
 - 能把 residual 解释成 `真实值和预测值之间的差`。
 - 能说明 MAE、MSE、RMSE、R² 分别是从什么角度看 model。
@@ -560,9 +560,9 @@ two-outlier RMSE: 8.91
 - 发生变化的点：当大失败从一个点扩大到两个点时，MAE 也开始更快变大。这意味着 `现在平均上也错得很多` 的信号变强了。
 - 最先应留下的判断：同样都是误差上升，但如果是单点事故，和如果是跨多个点重复失败，会导向完全不同的运营问题。
 
-### 这个练习怎样回收 Part 4 的目标
+### 这个练习怎样回收回归评估的判断标准
 
-这个练习把 regression evaluation 从 `读数字` 重新拉回到 `读失败结构`。真正的问题，不只是误差有没有变大，而是 `在哪里`、`在几个点上`、`朝哪个方向` 变大了。Part 4 的目标不是围观 model score，而是把 evaluation result 交给下一步判断，所以比起只背 MAE 和 RMSE 的差别，更重要的是训练自己区分 `一个大失败` 和 `反复出现的失败区间`。
+这个练习把 regression evaluation 从 `读数字` 重新拉回到 `读失败结构`。真正的问题，不只是误差有没有变大，而是 `在哪里`、`在几个点上`、`朝哪个方向` 变大了。回归评估的判断标准不是围观 model score，而是把 evaluation result 交给下一步判断，所以比起只背 MAE 和 RMSE 的差别，更重要的是训练自己区分 `一个大失败` 和 `反复出现的失败区间`。
 
 | 共通记录语言 | 这次练习里应该立刻留下的内容 |
 | --- | --- |

@@ -1,7 +1,7 @@
 # P4-17.1 Intuition For Clustering
 
 > Section ID: `P4-17.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 Up through gradient boosting in P4-16, we followed how models improve predictive performance on problems where answer labels already exist. If we shift the viewpoint slightly here, the next question appears.
 

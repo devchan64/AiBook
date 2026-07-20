@@ -1,7 +1,7 @@
 # P4-11.2 Decision Boundary
 
 > Section ID: `P4-11.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-11.1, logistic regression was read as `a linear model that creates scores that can be read like probabilities`.
 Now the question changes by one step.

@@ -1,7 +1,7 @@
 # P4-9.2 调优(tuning)与验证成本
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-9.1 里，我们看过什么是 hyperparameter，以及为什么它很早以前就被当成一个单独问题来处理。现在要进入下一个问题。
 
@@ -27,7 +27,7 @@
 
 这一节先收束 `应该在什么验证流程里比较设置值候选`。Bayesian optimization、Hyperband、nested cross-validation、实验追踪和分布式调优的大图景，会在 P4-9.3 补充学习里再整理。
 
-## 本节目标
+## 用调优(tuning)与验证成本留下的判断标准
 
 - 能把 tuning 解释成 `在 validation 流程里比较设置值` 这件事。
 - 能区分计算成本(computational cost)和验证成本(validation cost)。

@@ -1,7 +1,7 @@
 # P4-9.1 Hyperparameters
 
 > Section ID: `P4-9.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-8, the discussion chose model candidates and set the starting point of comparison with a baseline. Now it moves to the next question.
 

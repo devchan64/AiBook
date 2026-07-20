@@ -1,7 +1,7 @@
 # P4-14.2 Overfitting In Trees
 
 > Section ID: `P4-14.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-14.1 read a decision tree as `a model that predicts by splitting with questions`. That Section had clear strengths.
 

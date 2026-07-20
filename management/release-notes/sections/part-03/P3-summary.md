@@ -3,6 +3,11 @@
 - Section ID: `P3-summary`
 - Source File: `docs/parts/part-03/summary.md`
 
+### v2026.07.20
+- 구조 정리: 한국어판, 영어판, 중국어 간체판에서 진행 메타 성격의 목적·읽는 순서·범위 제목을 데이터 모델링의 역할, 문제 구조 흐름, 닫을 경계가 드러나는 제목으로 정리했다.
+- 번역 반영 상태: 영어판과 중국어 간체판 반영 완료.
+- 원문 기준 버전: `v2026.07.20`
+
 ### v2026.07.10
 - 본문 반영: `원천데이터 -> 비교 가능한 표 -> 보수적 해석 -> 문제 구조 마감`의 요약 문장과 최소 전제 도입을 한 흐름으로 묶어, summary가 더 직접적으로 닫히도록 정리했다.
 - 번역 동기화 메모: preserve the tighter summary close that moves directly from retained structure to minimal closure conditions. / reflected in English and Simplified Chinese on 2026-07-10

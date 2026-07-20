@@ -1,7 +1,7 @@
 # P4-11.1 逻辑回归(logistic regression)的直觉
 
 > Section ID: `P4-11.1`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-10 里，我们通过 linear regression 看到了 `怎样用一条直线预测连续值`。现在要接着看：同样是线性思路，到了 classification 问题时会怎样变化。
 
@@ -31,7 +31,7 @@
 
 不过，从这一节继续扩展的问题也很明确。decision boundary 与 threshold 的空间解释，会在 P4-11.2 立刻继续；为什么会看到 log-odds，为什么会用 maximum likelihood estimation(MLE)，会在 P4-11.3 回收；二元分类怎样扩展到 multinomial，会在 P4-11.4 回收；solver 与 regularization 为什么会作为实现设置出现，会在 P4-11.5 回收。regularization 的一般原理以及 hyperparameter 的读取，也会在 P4-9.1、P4-9.2、P5-8.1 再接回来。
 
-## 本节目标
+## 用逻辑回归(logistic regression)的直觉留下的判断标准
 
 - 能把 logistic regression 说明成 `在分类问题里生成可按概率读取输出的线性模型`。
 - 能区分 linear regression 和 logistic regression 的共同点与差别。

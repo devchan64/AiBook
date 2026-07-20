@@ -1,7 +1,7 @@
 # P4-9.2 Tuning And Validation Cost
 
 > Section ID: `P4-9.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-9.1, the discussion examined what a hyperparameter is and why it has long been treated as a separate topic. Now it moves to the next question.
 

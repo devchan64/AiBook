@@ -1,7 +1,7 @@
 # P4-15.1 Random Forest
 
 > Section ID: `P4-15.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P4-14, we saw why a decision tree can feel intuitive while also falling into overfitting rather easily. In particular, we confirmed that even after changing `max_depth`, `min_samples_leaf`, and `ccp_alpha`, the structural instability of a single tree may not disappear completely. That leads to the next question.
 

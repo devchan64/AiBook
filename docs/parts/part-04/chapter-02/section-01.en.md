@@ -1,7 +1,7 @@
 # P4-2.1 Supervised Learning
 
 > Section ID: `P4-2.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-1.2 treated machine learning as `an approach that estimates the relation between input and output from data`. Now we look at the first form people usually meet inside it: supervised learning.
 

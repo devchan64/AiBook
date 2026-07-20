@@ -1,7 +1,7 @@
 # P4-3.1 Why Heuristics Are Needed
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter P4-2, we divided supervised learning, unsupervised learning, and reinforcement learning into broad learning types. That immediately raises a question. When solving a real problem, which data should be looked at first, which model should be tried first, and at what point should the work move to the next stage?
 

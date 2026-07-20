@@ -1,7 +1,7 @@
 # P4-16.3 Supplementary Learning: Boosting Libraries And Operational Feel
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P4-16.1 and P4-16.2, we saw the sequential-correction structure of gradient boosting and the combined story of performance and overfitting risk. The next natural question is why, even inside the same boosting family, XGBoost, LightGBM, and CatBoost feel different in name and in usage.
 

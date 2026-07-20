@@ -1,7 +1,7 @@
 # P4-6.4 补充学习：第一次如何读 ROC、PR、对数损失(log loss)、校准(calibration)、轮廓系数(silhouette)
 
 > Section ID: `P4-6.4`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-6.1 和 P4-6.2 里，我们先抓住了评价指标的作用，以及按问题类型区分的差异。但是，只要开始读实际文档或库文档，很快就会碰到更陌生的名字。
 
@@ -24,7 +24,7 @@
 
 这一节先收束一个问题：为什么在阅读评价指标时，ROC、PR、log loss、calibration、silhouette 这些名字会分别出现。ROC/PR 和 calibration 会在 P4-15.3 再次出现，cluster 结构读取与 silhouette 的连接会在 P4-17.1、P4-17.2 继续展开。
 
-## 本补充学习的目标
+## 用补充学习：第一次如何读 ROC、PR、对数损失(log loss)、校准(calibration)、轮廓系数(silhouette)恢复的概念连接
 
 - 能说明 ROC 和 PR 曲线是通过改变 threshold 来读取分类性能的工具。
 - 能说明 log loss 是连概率输出的自信程度也一起读取的指标。

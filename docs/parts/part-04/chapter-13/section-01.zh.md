@@ -1,7 +1,7 @@
 # P4-13.1 SVM 的直觉
 
 > Section ID: `P4-13.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 又看过了 `通过附近 neighbors 做判断` 的方式。现在，同一个分类问题要再换一个问题来读。
 
@@ -29,7 +29,7 @@ P4-11.2 把 classification 读成了 `画出 boundary 并切开空间`。P4-12 �
 
 kernel 的大图景和 nonlinear boundary 会在 P4-13.2 立刻继续；`C`、`gamma` 这类 hyperparameter 的读取标准和验证成本，会在 P4-9.1 和 P4-9.2 再接回来。也就是说，这一节是先用 margin 和 support vector 视角抓住 `什么是好的 boundary` 的位置。
 
-## 本节目标
+## 用SVM 的直觉留下的判断标准
 
 - 能用 `最大化 margin 的分类器` 这个直觉来说明 SVM
 - 能说明：即使多条 boundary 都能分开同一批数据，仍然可以说其中一些 boundary 更好

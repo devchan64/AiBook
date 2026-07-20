@@ -1,7 +1,7 @@
 # P4-6.3 补充学习：在站点可靠性工程里如何读指标(metrics)
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 在 P4-6.1 和 P4-6.2 里，我们看过 model evaluation metric。现在把视线稍微往外移一点。model 拟合得好，和服务运营得好，并不是同一句话。要理解这个差别，就有必要看一看在 SRE(site reliability engineering) 里，`metric` 这个词到底是怎么被使用的。
 
@@ -19,7 +19,7 @@
 - 为什么在运营里，比起只看 mean，更会一起看 distribution、percentile、error rate？
 - 为什么在 AI service 里，model 评价和 service 运营评价必须同时存在？
 
-## 本补充学习的目标
+## 用补充学习：在站点可靠性工程里如何读指标(metrics)恢复的概念连接
 
 - 能说明 model metric 与运营 metric 是不同层位(level)上的数字。
 - 能在入门层次区分 SLI、SLO、SLA 的差别。

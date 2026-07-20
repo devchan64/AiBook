@@ -1,7 +1,7 @@
 # P4-6.3 Supplementary Learning: How To Read Metrics In Site Reliability Engineering
 
 > Section ID: `P4-6.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-6.1 and P4-6.2 looked at model evaluation metrics. Now the gaze moves a little outward. A model fitting well and a service operating well do not mean the same thing. To understand that difference, it helps to see how the word `metric` is used in SRE, or site reliability engineering.
 

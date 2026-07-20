@@ -1,7 +1,7 @@
 # P4-10.3 Supplementary Learning: How To First Read Regression Diagnostics
 
 > Section ID: `P4-10.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 By the time the reader finishes P4-10.2, the basic evaluation of linear regression is in place. In actual documents and lectures, however, the reader soon meets expressions such as the following.
 

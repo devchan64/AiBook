@@ -1,7 +1,7 @@
 # P4-6.2 Evaluation Criteria By Problem Type
 
 > Section ID: `P4-6.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P4-6.1 explained that an evaluation metric is not just a scoreboard. It is a criterion that reveals what we choose to treat as important. Now the next question follows. `If the problem changes, why do the metrics we inspect also change?`
 

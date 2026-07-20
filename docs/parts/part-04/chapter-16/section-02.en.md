@@ -1,7 +1,7 @@
 # P4-16.2 Performance And Risk In Boosting
 
 > Section ID: `P4-16.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P4-16.1, we saw that gradient boosting corrects the error of the previous stage sequentially. Exactly there, the strength and the risk of boosting appear at the same time.
 

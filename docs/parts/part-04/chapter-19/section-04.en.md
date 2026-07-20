@@ -1,7 +1,7 @@
 # P4-19.4 Supplementary Learning: Reading DQN, PPO, And RLHF Inside The Larger Reinforcement-Learning Flow
 
 > Section ID: `P4-19.4`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 After reading P4-19.1 through P4-19.3, readers quickly encounter many more names when they study reinforcement learning further.
 

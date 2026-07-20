@@ -1,7 +1,7 @@
 # P4-16.3 补充学习：提升库与运营感
 
 > Section ID: `P4-16.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P4-16.1 与 P4-16.2 里， 我们已经看过梯度提升(gradient boosting)的顺序修正结构， 以及它的性能与过拟合风险为什么会一起出现。 接下来很自然会冒出的问题是： 为什么同样属于 boosting 家族， XGBoost、LightGBM、CatBoost 却会给人不同的名字与不同的使用感觉？
 
@@ -19,7 +19,7 @@
 
 这一节的中心问题是： `为什么同样是 boosting，实现选择与运营感觉却会分叉。`
 
-## 本节目标
+## 用补充学习：提升库与运营感留下的判断标准
 
 - 你可以把 XGBoost、LightGBM、CatBoost 解释成 `同一家 boosting 家族里的不同实现选择`。
 - 你可以说明 histogram binning 与 `速度 / 内存折中` 直接相连。

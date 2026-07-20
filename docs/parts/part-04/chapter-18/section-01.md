@@ -1,7 +1,7 @@
 # P4-18.1 차원 축소(dimensionality reduction)
 
 > Section ID: `P4-18.1`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 P4-17에서는 클러스터링(clustering)으로 `어떤 묶음이 숨어 있는가`를 물었습니다. 여기서는 다른 질문을 붙잡습니다.
 
@@ -11,7 +11,7 @@ P4-17에서는 클러스터링(clustering)으로 `어떤 묶음이 숨어 있는
 
 이 절은 차원(dimension), PCA(principal component analysis), 그리고 `왜 고유값(eigenvalue)과 고유벡터(eigenvector)가 여기서 나오나`를 같은 장난감 데이터 장면으로 묶어 설명합니다. 뒤 절 P4-18.2에서는 이렇게 만든 그림을 어디까지 믿어야 하는지와 정보 손실을 이어서 닫습니다.
 
-## 이 절의 범위
+## 차원 축소(dimensionality reduction)에서 닫을 질문
 
 이 절은 다음 질문에 답합니다.
 
@@ -24,7 +24,7 @@ P4-17에서는 클러스터링(clustering)으로 `어떤 묶음이 숨어 있는
 
 이 절은 입문적으로 `왜 차원을 줄이려 하는가`와 `PCA가 무엇을 하는 계산인가`를 붙잡는 데 초점을 둡니다. 시각화 결과 해석, t-SNE·UMAP, 재구성 오차(reconstruction error), trustworthiness는 다음 절 P4-18.2에서 이어집니다.
 
-## 이 절의 목표
+## 차원 축소(dimensionality reduction)에서 남길 판단 기준
 
 - 차원 축소를 `특징 공간을 더 적은 축으로 다시 표현하는 일`로 설명할 수 있습니다.
 - PCA를 `데이터가 크게 변하는 방향을 새 축으로 다시 잡는 방법`으로 설명할 수 있습니다.

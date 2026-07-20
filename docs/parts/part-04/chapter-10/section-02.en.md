@@ -1,7 +1,7 @@
 # P4-10.2 Evaluation And Limits Of Linear Regression
 
 > Section ID: `P4-10.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 P4-10.1 introduced linear regression as `a model that first reads a relationship with a line`. Now the discussion moves to the next question.
 

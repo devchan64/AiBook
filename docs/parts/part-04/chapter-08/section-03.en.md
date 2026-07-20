@@ -1,7 +1,7 @@
 # P4-8.3 Supplementary Learning: How To First Set A Baseline By Problem Type
 
 > Section ID: `P4-8.3`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 If P4-8.2 showed why a baseline is needed, then the next question immediately appears.
 

@@ -1,7 +1,7 @@
 # Part 4. 机器学习
 
-> > Section ID: `P4-index`
-> > Version: `v2026.07.20`
+> Section ID: `P4-index`
+> Version: `v2026.07.20`
 
 Part 2 重新补回了阅读公式、Python、数组、表格、图表和运行环境的基础。现在在 Part 4，我们要整理这些工具究竟是为了什么而使用，也就是 `从数据中学习规则` 这句话到底是什么意思。
 

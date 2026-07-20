@@ -1,7 +1,7 @@
 # Part 4. Machine Learning
 
-> > Section ID: `P4-index`
-> > Version: `v2026.07.20`
+> Section ID: `P4-index`
+> Version: `v2026.07.20`
 
 Part 2 restored the basics for reading formulas, Python, arrays, tables, graphs, and runtime environments. Now in Part 4, we organize what those tools are actually used for, namely what it means to `learn rules from data`.
 

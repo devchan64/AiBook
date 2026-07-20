@@ -1,7 +1,7 @@
 # P4-3.1 为什么需要启发式
 
 > Section ID: `P4-3.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P4-2 章里，我们把 supervised learning、unsupervised learning、reinforcement learning 看成几种大的学习类型。接下来就会自然出现一个问题：真正去解决现实问题时，应该先看哪些数据、先试哪些 model、结果到什么程度才进入下一阶段？
 
@@ -23,7 +23,7 @@ heuristic 很容易被误解成 `大概猜一下`。但在机器学习实务中�
 - heuristic 会在机器学习的哪些位置使用？
 - 使用 heuristic 时，为什么还必须要有 validation？
 
-## 本节目标
+## 用为什么需要启发式留下的判断标准
 
 - 能把 heuristic 解释成在受限条件下用于缩小候选集的实用判断标准。
 - 能理解 heuristic 并不保证最优解。

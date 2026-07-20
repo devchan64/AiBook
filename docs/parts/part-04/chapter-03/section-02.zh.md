@@ -1,7 +1,7 @@
 # P4-3.2 启发式与模型选择
 
 > Section ID: `P4-3.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 在 P4-3.1 里，我们把 heuristic 看成 `在有限时间和有限信息下缩小候选集的判断标准`。这一节要把这个视角应用到 model selection 上。
 
@@ -23,7 +23,7 @@
 - performance、interpretability、cost 会怎样彼此冲突？
 - 如果想把 heuristic 留成可验证的记录，应该写下什么？
 
-## 本节目标
+## 用启发式与模型选择留下的判断标准
 
 - 能把 model selection 解释成 `缩小候选并进行验证的流程`，而不是单纯挑 model 名字。
 - 能说明为什么随着问题类型不同，先看的 model 候选也会不同。

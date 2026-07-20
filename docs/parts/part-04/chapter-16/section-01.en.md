@@ -1,7 +1,7 @@
 # P4-16.1 Gradient Boosting
 
 > Section ID: `P4-16.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 The random forest in P4-15 was an ensemble that built many trees `in parallel` and reduced instability by gathering their results.
 

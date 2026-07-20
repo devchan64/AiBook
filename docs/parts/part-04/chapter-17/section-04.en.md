@@ -1,7 +1,7 @@
 # P4-17.4 Supplementary Learning: How To Connect Clustering And Semi-Supervised Learning For The First Time
 
 > Section ID: `P4-17.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 After reading through P4-17.2, this question naturally remains.
 

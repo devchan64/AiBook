@@ -1,7 +1,7 @@
 # P4-1.1 AI、机器学习、深度学习之间的关系
 
 > Section ID: `P4-1.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python、数组、表格和图表。现在到了 Part 4，要在这个基础上把 machine learning 单独拎出来看。
 
@@ -19,7 +19,7 @@ Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python�
 - 为什么 Part 4 要先看传统机器学习，再看 deep learning？
 - Part 2 里学过的公式和 Python 工具会在这里怎样再次出现？
 
-## 本节目标
+## 用AI、机器学习、深度学习之间的关系留下的判断标准
 
 - 能大致说明 AI、machine learning、deep learning、generative AI、LLM 之间的包含关系。
 - 能把 machine learning 理解成 `从数据中学习模式，并把它用于预测或判断的方法`。
@@ -27,7 +27,7 @@ Part 1 看过 AI 这个词的广义范围。Part 2 重新读过公式、Python�
 - 能把 LLM 看成现代 AI 经验中一个很强的代表性案例，但不会把它当成整个 AI。
 - 能理解 Part 4 的学习主题是数据、模型、学习、评估这条流程。
 
-## 阅读顺序
+## AI、机器学习、深度学习之间的关系的判断流程
 
 如果按包含关系和角色顺序来读，这些术语会更清楚。
 

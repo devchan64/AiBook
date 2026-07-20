@@ -1,7 +1,7 @@
 # P4-2.3 强化学习
 
 > Section ID: `P4-2.3`
-> Version: `v2026.07.12`
+> Version: `v2026.07.20`
 
 在 P4-2.1 里，我们看的是通过带 label 的数据来学习的监督学习；在 P4-2.2 里，我们看的是在没有 label 的数据里寻找结构的无监督学习。这一次要看的是：model 通过动作、得到 reward，并据此调整下一步行动方式的强化学习。
 
@@ -19,7 +19,7 @@
 - 为什么延迟奖励会让问题变难？
 - 为什么 exploration 和 exploitation 必须同时存在？
 
-## 本节目标
+## 用强化学习留下的判断标准
 
 - 能把强化学习说明成 `通过动作和奖励来学习 policy 的方法`。
 - 能区分 agent、environment、state、action、reward、policy 的角色。

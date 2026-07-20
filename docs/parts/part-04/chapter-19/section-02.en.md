@@ -1,7 +1,7 @@
 # P4-19.2 Policy-Based Reinforcement Learning
 
 > Section ID: `P4-19.2`
-> Version: `v2026.07.17`
+> Version: `v2026.07.20`
 
 In P4-19.1, we looked at the view of learning `how good each action is in each state` as values through value-based reinforcement learning. If we change the question by one step, the next question becomes this.
 

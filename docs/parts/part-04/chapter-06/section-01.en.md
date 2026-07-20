@@ -1,7 +1,7 @@
 # P4-6.1 The Role Of Evaluation Metrics
 
 > Section ID: `P4-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter P4-5, we looked at overfitting and generalization. The next question follows naturally. What do we actually use to check the claim that `the model also holds up on new data`? What appears at that point is the `evaluation metric`.
 

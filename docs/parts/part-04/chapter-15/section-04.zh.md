@@ -1,7 +1,7 @@
 # P4-15.4 补充学习：如何第一次比较 Extra Trees 与随机森林
 
 > Section ID: `P4-15.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P4-15.1 学完随机森林(random forest)之后， 读者很快也会遇到一个名字相近的模型：Extra Trees(Extremely Randomized Trees)。 因为这两者都像是 `把很多树聚起来再取平均的森林`， 所以一开始很容易把它们当成几乎一样的模型。
 
@@ -21,7 +21,7 @@
 
 这一节会先收束 `随机森林与 Extra Trees 应该在哪里看成相同、又应该在哪里读出差异` 这个问题。 Extra Trees 与梯度提升(gradient boosting)的哲学差异，会在 P4-16.1、P4-16.2 重新连接。
 
-## 本节目标
+## 用补充学习：如何第一次比较 Extra Trees 与随机森林留下的判断标准
 
 - 你可以把 Extra Trees 解释成 `加入了更强随机性的树集成`。
 - 你可以从 `样本抽取`、`分支阈值选择`、`OOB 成立条件` 这几个标准来比较随机森林与 Extra Trees。
