@@ -1,7 +1,7 @@
 # P5-12.2 장기 의존성(long-term dependency)
 
 > Section ID: `P5-12.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-12.1에서는 RNN, LSTM, GRU가 순차 데이터(sequence data)를 다루기 위해 등장한 구조라고 설명했습니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -118,13 +118,14 @@ LSTM과 GRU는 장기 의존성 문제를 완화했지만, 여전히 상태를 �
 
 ## 연습 및 예제
 
-이번 예제의 목표는 `초반 규칙`과 `마지막 질문` 사이의 간격이 길어질수록, 순차 상태가 앞 단서를 얼마나 빨리 잃는지 직접 확인하는 것입니다. 비교를 위해 같은 문맥을 `직접 다시 찾는 방식`과도 나란히 두지만, 여기서 먼저 붙잡아야 할 핵심은 상태 기반 방식이 gap 길이에 따라 어떻게 흔들리는가입니다.
+이번 예제의 목표는 `초반 규칙`과 `마지막 질문` 사이의 간격이 길어질수록, 순차 상태가 앞 단서를 얼마나 빨리 잃는지 직접 확인하는 것입니다. 입력은 여러 문서의 줄이 섞인 CSV 파일로 두고, Python에서는 `document_id`별로 line 순서를 복원한 뒤 gap 길이별 상태 약화를 비교합니다. 직접 참조(direct reference)는 attention을 구현하려는 코드가 아니라, `먼 앞 위치를 다시 볼 수 있는 기준`과 상태 보존 방식을 대비하기 위한 비교 기준입니다.
 
 입력:
 
 - 문서 맨 앞의 핵심 재기동 금지 규칙 한 줄
 - 길이가 다른 중간 설명 구간
 - 문서 끝의 같은 재기동 질문 한 줄
+- 입력 파일: [`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv)
 
 출력:
 
@@ -145,7 +146,7 @@ LSTM과 GRU는 장기 의존성 문제를 완화했지만, 여전히 상태를 �
 
 입력(input):
 
-위에 정리한 규칙 문장, 질문 문장, 문서 줄 목록을 사용합니다.
+CSV의 한 행은 한 문서 안의 한 줄을 뜻합니다. `document_id`는 같은 문서 묶음, `gap`은 규칙 줄과 질문 줄 사이의 중간 설명 줄 수, `line_no`는 문서 안 줄 순서, `role`은 규칙·중간 설명·질문을 구분합니다. Python 예제는 이 파일을 읽어 문서별로 줄 순서를 맞춘 뒤, 질문 시점에서 앞 규칙 단서가 상태 안에 얼마나 남았는지 계산합니다.
 
 코드를 보기 전에 먼저 gap이 길어질수록 어떤 출력이 흔들리고 어떤 출력은 유지될지 예상해 보면, `상태 보존`과 `직접 참조`의 차이가 더 잘 보입니다.
 
@@ -153,20 +154,33 @@ LSTM과 GRU는 장기 의존성 문제를 완화했지만, 여전히 상태를 �
 | --- | --- | --- |
 | `state_support` | gap이 길어질수록 계속 작아질 가능성이 큼 | `restart`, `blocked`, `pressure` 같은 앞 단서가 decay를 거치며 점점 약해지기 때문입니다. |
 | `state_decision` | 짧은 gap에서는 `keeps block`, 긴 gap에서는 `loses block`으로 바뀔 가능성이 큼 | 핵심 금지 조건이 상태 안에 충분히 남지 않으면 최종 판단이 흔들릴 수 있습니다. |
-| `direct_match_score` | gap이 길어져도 유지될 가능성이 큼 | 직접 참조는 같은 규칙 줄을 다시 집어 올리므로 간격 자체가 점수를 직접 깎지 않습니다. |
+| `direct_match_score` | gap이 길어져도 유지될 가능성이 큼 | 대비 기준은 같은 규칙 줄을 다시 집어 올리므로 간격 자체가 점수를 직접 깎지 않습니다. |
 | `direct_decision` | 모든 gap에서 `keeps block`으로 유지될 가능성이 큼 | 질문 시점마다 앞의 규칙 위치를 다시 찾을 수 있다면 금지 조건을 놓칠 이유가 줄어듭니다. |
 
-이 표의 목적은 정확한 숫자를 미리 외우는 데 있지 않습니다. 같은 규칙과 같은 질문이어도, 순차 상태는 간격이 길어질수록 흔들리고 직접 참조는 같은 위치를 다시 집어 올릴 수 있다는 차이를 코드 전에 붙잡는 데 있습니다.
+이 표의 목적은 정확한 숫자를 미리 외우는 데 있지 않습니다. 같은 규칙과 같은 질문이어도, 순차 상태는 간격이 길어질수록 흔들린다는 점을 코드 전에 붙잡는 데 있습니다. 직접 참조 쪽 출력은 다음 장으로 넘어가기 위한 대비 기준으로만 읽습니다.
 
 ```python
-# 규칙과 질문 사이 gap이 길어질 때 순차 상태 보존과 직접 참조 방식의 판단이 어떻게 달라지는지 비교하는 예제입니다.
-restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
-restart_question = "Question: can the line restart now?"
+from collections import defaultdict
+from pathlib import Path
+import csv
 
-def sequential_state(instruction_document, decay=0.72):
+DATA_PATH = Path("docs/assets/part-05/chapter-12/long-dependency-instruction-log.csv")
+DECAY = 0.72
+SUPPORT_THRESHOLD = 0.45
+
+def load_documents(path):
+    documents = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            documents[row["document_id"]].append(row)
+    for rows in documents.values():
+        rows.sort(key=lambda row: int(row["line_no"]))
+    return dict(sorted(documents.items(), key=lambda item: int(item[1][0]["gap"])))
+
+def sequential_state(rows, decay=DECAY):
     state = {"restart": 0.0, "blocked": 0.0, "pressure": 0.0}
-    for line in instruction_document:
-        lowered = line.lower()
+    for row in rows:
+        lowered = row["text"].lower()
         for key in state:
             state[key] *= decay
         if "restart" in lowered:
@@ -176,92 +190,89 @@ def sequential_state(instruction_document, decay=0.72):
         if "pressure" in lowered or "vented" in lowered:
             state["pressure"] += 1.0
     support = round(min(state.values()), 3)
-    decision = "keeps block" if support >= 0.45 else "loses block"
+    decision = "keeps block" if support >= SUPPORT_THRESHOLD else "loses block"
     return {key: round(value, 3) for key, value in state.items()}, support, decision
 
-def direct_reference(instruction_document):
-    matches = []
-    for idx, line in enumerate(instruction_document[:-1], start=1):
-        lowered = line.lower()
-        score = 0
-        for keyword in ["restart", "blocked", "pressure"]:
-            if keyword in lowered:
-                score += 1
-        matches.append((score, idx, line))
-    best = max(matches)
+def direct_reference(rows):
+    best = (0, "", "")
+    for row in rows:
+        if row["role"] == "question":
+            continue
+        lowered = row["text"].lower()
+        score = sum(1 for keyword in ["restart", "blocked", "pressure"] if keyword in lowered)
+        if score > best[0]:
+            best = (score, row["line_no"], row["text"])
     decision = "keeps block" if best[0] == 3 else "loses block"
     return best, decision
 
-for gap in [1, 3, 6]:
-    filler = [
-        f"Detail line {i}: general maintenance note only."
-        for i in range(1, gap + 1)
-    ]
-    instruction_document = [restart_block_rule] + filler + [restart_question]
-    state_snapshot, state_support, state_decision = sequential_state(instruction_document)
-    best_match, direct_decision = direct_reference(instruction_document)
-    print(f"[gap={gap}]")
-    print("document_length =", len(instruction_document))
-    print("state_snapshot =", state_snapshot)
-    print("state_support =", state_support)
-    print("state_decision =", state_decision)
-    print("direct_match_score =", best_match[0])
-    print("best_direct_match =", best_match[2])
-    print("direct_decision =", direct_decision)
-    print()
+documents = load_documents(DATA_PATH)
+
+print(f"조작 변수: DECAY={DECAY}, SUPPORT_THRESHOLD={SUPPORT_THRESHOLD}")
+print()
+print("[summary: gap이 길어질수록 앞 규칙 단서가 얼마나 남는가]")
+print("document_id  gap  lines  state_support  state_decision  direct_score  direct_decision")
+for document_id, rows in documents.items():
+    state_snapshot, state_support, state_decision = sequential_state(rows)
+    best_match, direct_decision = direct_reference(rows)
+    print(
+        f"{document_id:10} {rows[0]['gap']:>4} {len(rows):>6} "
+        f"{state_support:>14.3f}  {state_decision:14} "
+        f"{best_match[0]:>12}  {direct_decision}"
+    )
+
+print()
+print("[trace: doc_gap_6]")
+trace_rows = documents["doc_gap_6"]
+state_snapshot, state_support, state_decision = sequential_state(trace_rows)
+best_match, direct_decision = direct_reference(trace_rows)
+print("state_snapshot =", state_snapshot)
+print("state_support =", state_support)
+print("state_decision =", state_decision)
+print("best_direct_match =", best_match[2])
+print("direct_decision =", direct_decision)
 ```
 
-출력에서는 gap이 커질수록 state_support가 약해지고 direct_match_score는 유지되는지부터 보면 됩니다.
+출력에서는 gap이 커질수록 `state_support`가 약해지는지부터 봅니다. `direct_score`와 `direct_decision`은 attention을 구현한 결과가 아니라, 같은 앞 규칙 줄을 다시 찾을 수 있을 때 간격 자체가 판단을 직접 깎지는 않는다는 대비 기준입니다.
 
 ```text
-[gap=1]
-document_length = 3
-state_snapshot = {'restart': 1.518, 'blocked': 0.518, 'pressure': 0.518}
-state_support = 0.518
-state_decision = keeps block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
-direct_decision = keeps block
+조작 변수: DECAY=0.72, SUPPORT_THRESHOLD=0.45
 
-[gap=3]
-document_length = 5
-state_snapshot = {'restart': 1.269, 'blocked': 0.269, 'pressure': 0.269}
-state_support = 0.269
-state_decision = loses block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
-direct_decision = keeps block
+[summary: gap이 길어질수록 앞 규칙 단서가 얼마나 남는가]
+document_id  gap  lines  state_support  state_decision  direct_score  direct_decision
+doc_gap_1     1      3          0.518  keeps block               3  keeps block
+doc_gap_3     3      5          0.269  loses block               3  keeps block
+doc_gap_6     6      8          0.100  loses block               3  keeps block
+doc_gap_9     9     11          0.037  loses block               3  keeps block
+doc_gap_12   12     14          0.014  loses block               3  keeps block
 
-[gap=6]
-document_length = 8
+[trace: doc_gap_6]
 state_snapshot = {'restart': 1.1, 'blocked': 0.1, 'pressure': 0.1}
 state_support = 0.1
 state_decision = loses block
-direct_match_score = 3
-best_direct_match = Rule: restart stays blocked until vessel pressure is fully vented.
+best_direct_match = Rule restart stays blocked until vessel pressure is fully vented
 direct_decision = keeps block
 ```
 
 - 같은 재기동 금지 규칙과 같은 질문이라도, 둘 사이의 간격이 길어질수록 순차 상태 안의 `blocked`, `pressure` 단서가 빠르게 약해집니다
 - `state_support`는 질문 시점에서 핵심 단서가 얼마나 남아 있는지를 보여 주며, gap이 길어질수록 빠르게 줄어듭니다
 - 상태 기반 방식은 중간 설명 줄이 늘어나면 앞의 핵심 안전 조건을 잃기 쉬워집니다
-- 직접 다시 찾는 방식은 간격이 길어져도 같은 규칙 줄을 다시 집어 올 수 있고, 여기서는 `direct_match_score`가 계속 3으로 유지됩니다
+- 직접 참조 비교는 다음 장으로 넘어가기 위한 대비 기준입니다. 여기서는 `direct_score`가 계속 3으로 유지되기 때문에, 거리 문제가 상태 보존 방식에서 더 직접적으로 드러난다는 점만 확인합니다
 
 이 예제에서 먼저 볼 산출물은 gap이 길어질 때 `state_support`가 기준선 아래로 내려가는 흐름입니다. 같은 규칙과 같은 질문이라도, 중간 설명 줄이 늘어나면 순차 상태 안의 `blocked`, `pressure` 단서가 빠르게 약해집니다.
 
-![장기 의존성 예제의 상태 기반 단서 유지](../../../assets/part-05/chapter-12/long-dependency-state-support-ko.png)
+![장기 의존성 예제의 상태 기반 단서 유지](../../../assets/part-05/chapter-12/long-dependency-csv-state-support-ko.png)
 
-두 번째 산출물은 상태 기반 판정과 직접 참조 판정의 차이입니다. `gap=3`, `gap=6`에서는 상태 기반 판정이 `loses block`으로 바뀌지만, 직접 참조는 앞 규칙 줄을 다시 집어 올 수 있으므로 `keeps block`을 유지합니다.
+두 번째 산출물은 상태 기반 판정과 직접 참조 대비 기준의 차이입니다. `gap=3`부터 상태 기반 판정이 `loses block`으로 바뀌지만, 직접 참조 대비 기준은 앞 규칙 줄을 다시 집어 올 수 있으므로 `keeps block`을 유지합니다.
 
-![장기 의존성 예제의 상태 기반 판정과 직접 참조 판정](../../../assets/part-05/chapter-12/long-dependency-decision-comparison-ko.png)
+![장기 의존성 예제의 상태 기반 판정과 직접 참조 판정](../../../assets/part-05/chapter-12/long-dependency-csv-decision-comparison-ko.png)
 
 출력을 운영 판단으로 다시 읽으면 장기 의존성 문제가 단순 점수 하락이 아니라 안전 조치 해석의 흔들림이라는 점이 더 분명해집니다.
 
-| gap 구간 | state 기반으로 남기 쉬운 해석 | direct reference까지 보면 바뀌는 해석 |
+| gap 구간 | state 기반으로 남기 쉬운 해석 | direct reference 대비 기준까지 보면 바뀌는 해석 |
 | --- | --- | --- |
-| `gap=1` | 앞 금지 규칙이 아직 남아 있어 재기동 차단 판단을 유지한다 | 순차 상태만으로도 버티지만, 직접 참조는 같은 근거를 더 명시적으로 다시 집어 온다 |
-| `gap=3` | 중간 설명이 늘자 금지 근거가 흐려져 차단 판단이 흔들리기 시작한다 | 앞 규칙 줄을 다시 찾으면 재기동 금지 판단을 계속 유지할 수 있다 |
-| `gap=6` | 마지막 질문 근처 정보만 보면 금지 근거를 거의 잃어버린다 | 간격이 길어져도 핵심 규칙 위치를 다시 참조하면 안전 조건을 놓치지 않는다 |
+| `gap=1` | 앞 금지 규칙이 아직 남아 있어 재기동 차단 판단을 유지한다 | 순차 상태만으로도 버티지만, 직접 참조 대비 기준은 같은 근거를 더 명시적으로 다시 집어 온다 |
+| `gap=3` | 중간 설명이 늘자 금지 근거가 흐려져 차단 판단이 흔들리기 시작한다 | 앞 규칙 줄을 다시 찾을 수 있다면 재기동 금지 판단을 계속 유지할 수 있다 |
+| `gap=6` 이상 | 마지막 질문 근처 정보만 보면 금지 근거를 거의 잃어버린다 | 간격이 길어져도 핵심 규칙 위치를 다시 참조하면 안전 조건을 놓치지 않는다 |
 
 ## 이 예제에서 붙잡아야 할 결론
 
@@ -271,13 +282,12 @@ direct_decision = keeps block
 
 ## 체크리스트
 
-- 장기 의존성(long-term dependency)이 어떤 문제를 뜻하는지 설명할 수 있는가?
+- 장기 의존성(long-term dependency)을 `오래전 정보가 중요한데도 충분히 유지되지 않아 현재 판단이 흔들리는 문제`로 설명할 수 있는가?
 - 오래전 정보를 유지하기 어려운 점이 왜 attention으로 이어지는지 말할 수 있는가?
-- 장기 의존성은 오래전 정보가 중요한데도 충분히 유지되지 않는 문제라는 점을 설명할 수 있는가?
 - 기본 RNN에서는 시간이 길어질수록 오래전 단서가 약해지기 쉽다는 점을 말할 수 있는가?
 - LSTM과 GRU는 이 문제를 더 잘 다루려는 구조라는 점을 설명할 수 있는가?
-- 장기 의존성을 `기억이 조금 약해진다` 정도가 아니라 `오래전 단서가 없으면 현재 판단 자체가 흔들리는가`의 문제로 설명할 수 있는가?
-- 상태 보존과 직접 참조를 서로 다른 발상으로 나눠 말할 수 있는가?
+- gap이 길어질수록 `state_support`가 왜 줄어드는지 설명할 수 있는가?
+- 상태 보존과 직접 참조 대비 기준을 서로 다른 발상으로 나눠 말할 수 있는가?
 - 다음 장의 attention을 읽을 때도 먼저 `어떤 앞 위치를 다시 봐야 하는가`를 떠올릴 준비가 되어 있는가?
 
 ## 출처와 참고 자료

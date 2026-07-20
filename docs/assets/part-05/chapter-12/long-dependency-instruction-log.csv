@@ -1,0 +1,42 @@
+document_id,gap,line_no,role,text
+doc_gap_1,1,1,rule,Rule restart stays blocked until vessel pressure is fully vented
+doc_gap_1,1,2,filler,Detail line 1 general maintenance note only
+doc_gap_1,1,3,question,Question can the line restart now
+doc_gap_3,3,1,rule,Rule restart stays blocked until vessel pressure is fully vented
+doc_gap_3,3,2,filler,Detail line 1 general maintenance note only
+doc_gap_3,3,3,filler,Detail line 2 general maintenance note only
+doc_gap_3,3,4,filler,Detail line 3 general maintenance note only
+doc_gap_3,3,5,question,Question can the line restart now
+doc_gap_6,6,1,rule,Rule restart stays blocked until vessel pressure is fully vented
+doc_gap_6,6,2,filler,Detail line 1 general maintenance note only
+doc_gap_6,6,3,filler,Detail line 2 general maintenance note only
+doc_gap_6,6,4,filler,Detail line 3 general maintenance note only
+doc_gap_6,6,5,filler,Detail line 4 general maintenance note only
+doc_gap_6,6,6,filler,Detail line 5 general maintenance note only
+doc_gap_6,6,7,filler,Detail line 6 general maintenance note only
+doc_gap_6,6,8,question,Question can the line restart now
+doc_gap_9,9,1,rule,Rule restart stays blocked until vessel pressure is fully vented
+doc_gap_9,9,2,filler,Detail line 1 general maintenance note only
+doc_gap_9,9,3,filler,Detail line 2 general maintenance note only
+doc_gap_9,9,4,filler,Detail line 3 general maintenance note only
+doc_gap_9,9,5,filler,Detail line 4 general maintenance note only
+doc_gap_9,9,6,filler,Detail line 5 general maintenance note only
+doc_gap_9,9,7,filler,Detail line 6 general maintenance note only
+doc_gap_9,9,8,filler,Detail line 7 general maintenance note only
+doc_gap_9,9,9,filler,Detail line 8 general maintenance note only
+doc_gap_9,9,10,filler,Detail line 9 general maintenance note only
+doc_gap_9,9,11,question,Question can the line restart now
+doc_gap_12,12,1,rule,Rule restart stays blocked until vessel pressure is fully vented
+doc_gap_12,12,2,filler,Detail line 1 general maintenance note only
+doc_gap_12,12,3,filler,Detail line 2 general maintenance note only
+doc_gap_12,12,4,filler,Detail line 3 general maintenance note only
+doc_gap_12,12,5,filler,Detail line 4 general maintenance note only
+doc_gap_12,12,6,filler,Detail line 5 general maintenance note only
+doc_gap_12,12,7,filler,Detail line 6 general maintenance note only
+doc_gap_12,12,8,filler,Detail line 7 general maintenance note only
+doc_gap_12,12,9,filler,Detail line 8 general maintenance note only
+doc_gap_12,12,10,filler,Detail line 9 general maintenance note only
+doc_gap_12,12,11,filler,Detail line 10 general maintenance note only
+doc_gap_12,12,12,filler,Detail line 11 general maintenance note only
+doc_gap_12,12,13,filler,Detail line 12 general maintenance note only
+doc_gap_12,12,14,question,Question can the line restart now

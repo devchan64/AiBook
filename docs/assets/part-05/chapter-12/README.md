@@ -15,11 +15,15 @@
   - `rnn-temporary-spike-state-en.svg` / `rnn-temporary-spike-state-ko.svg` / `rnn-temporary-spike-state-zh.svg`
   - `rnn-sequence-csv-state-trace-ko.svg`
 - PNG chart assets:
+  - `long-dependency-csv-state-support-ko.png`
+  - `long-dependency-csv-decision-comparison-ko.png`
   - `long-dependency-state-support-en.png` / `long-dependency-state-support-ko.png` / `long-dependency-state-support-zh.png`
   - `long-dependency-decision-comparison-en.png` / `long-dependency-decision-comparison-ko.png` / `long-dependency-decision-comparison-zh.png`
 - CSV input assets:
+  - `long-dependency-instruction-log.csv`
   - `rnn-sequence-events.csv`
 - Python chart source:
   - `p5_12_1_sequence_state_charts.py`
+  - `p5_12_2_long_dependency_csv_charts.py`
   - `p5_12_rnn_state_chart.py`
   - `p5_12_2_long_dependency_charts.py`
