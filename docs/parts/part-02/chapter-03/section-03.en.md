@@ -259,7 +259,7 @@ This can be read as follows.
 
 In two dimensions, this change can be seen in a drawing. The following example shows an input vector \(\mathbf{x} = [2,\ 3]\) multiplied by a simple matrix \(W\), moving to \(\mathbf{y} = [2,\ 4]\).
 
-![Example of matrix multiplication changing a vector position](/AiBook/assets/part-02/chapter-03/matrix-multiplication-position-change-en.svg)
+![Example of matrix multiplication changing a vector position](../../../assets/part-02/chapter-03/matrix-multiplication-position-change-en.svg)
 
 What matters in this figure is not the numeric calculation itself but the perspective. A vector can be read like a position in space, and matrix multiplication can be read as a calculation that moves that position to another position.
 
