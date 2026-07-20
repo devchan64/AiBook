@@ -271,6 +271,7 @@ PCA를 수식으로 쓰기 시작하면 공분산 행렬(covariance matrix)의 �
   - 1개 성분만 남겨도 큰 변동은 유지될 수 있지만, 복원값은 원본과 완전히 같지 않을 수 있다
 
 ```python
+# PCA로 2차원 특징을 1차원 주성분으로 줄이고 복원했을 때 무엇이 남는지 확인하는 예제입니다.
 import numpy as np
 from sklearn.decomposition import PCA
 
@@ -319,6 +320,7 @@ D reduced = [2.254] restored = [5.093 5.172]
 이번에는 마지막 샘플의 두 번째 특징만 크게 낮춰, 두 특징이 같은 흐름으로 움직이지 않는 경우를 일부러 만듭니다.
 
 ```python
+# 두 특징이 함께 움직이지 않는 샘플을 넣었을 때 PCA 복원 오차가 어떻게 커지는지 보는 예제입니다.
 import numpy as np
 from sklearn.decomposition import PCA
 

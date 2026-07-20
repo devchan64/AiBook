@@ -302,6 +302,7 @@ This exercise keeps using the same four samples from above and turns them into a
 - Concepts to check: PCA can project the original features onto one new axis, and even if only one component remains, large variation can be preserved while restored values do not have to be exactly the same as the original
 
 ```python
+# This example reduces 2D features to one PCA component and restores them to see what remains.
 import numpy as np
 from sklearn.decomposition import PCA
 
@@ -350,6 +351,7 @@ What matters in this result is the following.
 This time, deliberately lower only the second feature of the last sample, so the two features no longer move in the same flow.
 
 ```python
+# This example adds a sample whose two features do not move together to see how PCA reconstruction error grows.
 import numpy as np
 from sklearn.decomposition import PCA
 

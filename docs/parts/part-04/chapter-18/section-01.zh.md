@@ -302,6 +302,7 @@ PCA 并不是降维里唯一的标准。即便都属于`重建表达`这条大�
 - 要确认的概念：PCA 可以把原始特征投影到 1 条新轴上；即使只保留 1 个成分，也可能保住大部分大变动，但复原值不一定和原始值完全相同
 
 ```python
+# 这个例子用 PCA 把二维特征降到一个主成分，再复原来看还保留了什么。
 import numpy as np
 from sklearn.decomposition import PCA
 
@@ -350,6 +351,7 @@ D reduced = [2.254] restored = [5.093 5.172]
 这一次，故意把最后一个样本的第二个特征大幅压低，让两个特征不再沿着同一条流向移动。
 
 ```python
+# 这个例子加入两个特征不一起变化的样本，观察 PCA reconstruction error 如何变大。
 import numpy as np
 from sklearn.decomposition import PCA
 

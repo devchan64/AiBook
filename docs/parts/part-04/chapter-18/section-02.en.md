@@ -326,6 +326,7 @@ This toy exercise directly checks that even when the same one-dimensional summar
 This time, change the third sample so that the average remains similar while the axis-by-axis pattern changes.
 
 ```python
+# This toy example checks that samples can share the same summary value while having different original feature patterns.
 samples = [
     {"f1": 2.0, "f2": 2.1, "f3": 2.2},
     {"f1": 4.0, "f2": 4.1, "f3": 3.9},
