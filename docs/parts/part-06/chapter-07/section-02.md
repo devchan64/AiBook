@@ -240,6 +240,7 @@ LoRA 같은 방식이 매력적인 이유는 다음과 같습니다.
 확인할 핵심은 전체 미세조정과 PEFT/LoRA 방식은 업무 수가 늘어날수록 관리 비용 차이가 크게 벌어진다는 점입니다. LoRA류 방식은 업무 수가 늘어날수록 전체 미세조정보다 추가 학습량과 저장량을 훨씬 작게 유지합니다.
 
 ```python
+# 전체 가중치 행렬과 rank별 LoRA 업데이트 파라미터 수를 비교해 효율적 조정의 규모 차이를 확인하는 예제입니다.
 base_model_params = 7_000_000_000
 tasks = ["customer_support", "summarization", "code_assistant"]
 task_count_options = [1, 3, 10]
