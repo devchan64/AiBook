@@ -1,7 +1,7 @@
 # P5-7.7 Supplementary Reading: Optimizer State And Parameter-Wise Update
 
-Section ID: `P5-7.7`
-Version: `v2026.07.17`
+> Section ID: `P5-7.7`
+> Version: `v2026.07.19`
 
 In P5-7.3, when we looked at adaptive updates, the expressions `recent gradient flow` and `coordinate-wise adjustment` kept appearing. The natural question left from there is this. Where is that kind of information left, and why can the next update differ even when the same gradient comes in?
 
@@ -189,3 +189,8 @@ The purpose of this exercise is not to memorize implementation APIs, but to dist
 - Can you say that parameter-wise update connects to the fact that `state can differ by coordinate`?
 - Can you explain that even with the same gradient, the next update can differ when the state differs?
 - Can you connect the `adaptive` in an adaptive optimizer to time-axis accumulation and coordinate-axis adjustment of state?
+
+## Sources And References
+
+- PyTorch, `torch.optim`, PyTorch documentation. Referenced to confirm that optimizer objects carry parameters, per-parameter options, and optimizer state, and perform updates through `step()`. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.optim.Adam`, PyTorch API Reference. Referenced to confirm that Adam maintains first-moment and second-moment state and computes parameter-wise updates. Checked: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html){: target="_blank" rel="noopener noreferrer" }

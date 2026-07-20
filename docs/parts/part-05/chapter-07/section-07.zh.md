@@ -1,7 +1,7 @@
 # P5-7.7 补充学习：optimizer state 与 parameter-wise update
 
-Section ID: `P5-7.7`
-Version: `v2026.07.17`
+> Section ID: `P5-7.7`
+> Version: `v2026.07.19`
 
 在 P5-7.3 里，一讲到自适应 update，`最近 gradient 流向`和`按坐标调节`这两个表达就不断出现。顺着这个解释，自然会留下一个问题：这些信息到底会被留在哪里？为什么即使当前 gradient 看起来一样，下一次 update 仍然会不同？
 
@@ -189,3 +189,8 @@ parameter-wise update 的意思，并不是所有 parameter 都永远只按一�
 - 能说明 parameter-wise update 与`按坐标拥有不同 state`这件事是连在一起的吗？
 - 能说明：即使 gradient 相同，只要 state 不同，下一次 update 也可能不同吗？
 - 能把 adaptive optimizer 里的 `adaptive` 和时间轴累积、坐标轴调节这两类 state 联系起来吗？
+
+## 来源与参考资料
+
+- PyTorch, `torch.optim`, PyTorch documentation. 用于确认 optimizer 对象会持有 parameter、per-parameter options 与 optimizer state，并通过 `step()` 执行 update。确认日期：2026-07-19. [https://docs.pytorch.org/docs/stable/optim.html](https://docs.pytorch.org/docs/stable/optim.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.optim.Adam`, PyTorch API Reference. 用于确认 Adam 会维护 first moment 与 second moment 状态，并按 parameter 计算 update。确认日期：2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html](https://docs.pytorch.org/docs/stable/generated/torch.optim.Adam.html){: target="_blank" rel="noopener noreferrer" }
