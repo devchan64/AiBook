@@ -13,7 +13,7 @@ Training mode is the computational environment that prepares parameter updates, 
 
 When the distinction between modes starts to blur again with the explanation of dropout or batch normalization, return to the [training mode](/AiBook/reference/concept-glossary/#training-mode) and [evaluation mode](/AiBook/reference/concept-glossary/#evaluation-mode) entries in the concept glossary.
 
-## Scope Of This Section
+## The Question That Requires Training And Evaluation Modes
 
 - Why do training mode and evaluation mode split?
 - Which layers, rather than all layers, are sensitive to the mode difference?
@@ -24,7 +24,7 @@ This section focuses on distinguishing which computational rules are more approp
 
 At the same time, it is also clear which question we will not widen immediately in this section. The larger meaning of dropout and regularization themselves is treated again in detail in P5-8.1 and P5-8.2, and where the optimizer enters this training flow reconnects again in P5-7.1 and P5-7.2.
 
-## Goals Of This Section
+## Standards For Training-Only Behavior And Execution Behavior
 
 - You can explain training mode and evaluation mode as `two states where the computational rules differ`.
 - You can say why dropout and batch normalization are sensitive to the mode difference.

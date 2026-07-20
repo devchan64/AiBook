@@ -1,7 +1,7 @@
 # P5-5.1 How Does Loss Become A Gradient Signal
 
 > Section ID: `P5-5.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter P5-4, we saw that the loss function turns the mismatch between the current output and the target into a number. But the loss number alone still cannot change the parameters.
 
@@ -17,7 +17,7 @@ Fix these three sentences first in this section.
 - The gradient computes what direction and strength each parameter has in relation to the loss.
 - The optimizer receives that gradient and performs the actual parameter update.
 
-## Scope Of This Section
+## The Question Of How Loss Becomes A Gradient
 
 - Why can't the loss number alone update the parameters directly?
 - What additional information does the gradient provide?
@@ -27,7 +27,7 @@ Fix these three sentences first in this section.
 
 The viewpoint of unfolding complex computational relationships into nodes and connections continues in P5-5.2, and the role of the optimizer, which turns gradients into actual parameter movement, reconnects in P5-7.1 and P5-7.2. Here, we first close the point that learning can continue only when the `loss number` is turned into a `per-parameter gradient signal`.
 
-## Goals Of This Section
+## Standards For Direction And Size Signals
 
 - You can distinguish loss, gradient, and optimizer update.
 - You can explain the gradient as `the signal that shows how sensitive the loss is to a specific parameter`.

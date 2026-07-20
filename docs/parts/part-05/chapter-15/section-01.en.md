@@ -1,7 +1,7 @@
 # P5-15.1 What Does A Generative Model Learn
 
 > Section ID: `P5-15.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-14.5 and P5-14.6, we saw that the Transformer became a major turning point in parallel processing and direct reference to long context, and that this structure eventually became the foundation for the spread of LLMs and generative AI. The next question now appears.
 
@@ -11,7 +11,7 @@ A generative model is a model that tries to learn not only which class an input 
 
 When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](../../../reference/concept-glossary.md#generative-model).
 
-## Scope Of This Section
+## The Question That Separates Generation From Classification
 
 - How is a generative model different from a classification model?
 - How can the phrase `it learns the data distribution` be explained to the reader?
@@ -33,14 +33,14 @@ What is first read here is not output-control procedures such as temperature or 
 
 Sampling and output-quality variation are treated more concretely in the very next section, P5-15.2, and next-token prediction in text generation reconnects in P6-5.1. That is, here we first close `what candidate distribution the generative model itself learns`.
 
-## Goals Of This Section
+## Standards For Reading Distribution Learning And New Outputs
 
 - You can explain a generative model as `a model that learns data patterns and creates a new sample or the next output`.
 - You can compare the difference between classification models and generative models at an introductory level.
 - You can explain `next-token prediction` and `image generation` together through one generative viewpoint.
 - Through an executable Python example, you can confirm the intuition of generation from a learned distribution.
 
-## The Reading Order Of This Section
+## From Classification Comparison To Generative Distributions
 
 1. First compare how the question asked by a classification model and the question asked by a generative model are different.
 2. Then unpack at an introductory level what the phrase `learning the data distribution` means.

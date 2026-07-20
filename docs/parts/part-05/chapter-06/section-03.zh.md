@@ -1,7 +1,7 @@
 # P5-6.3 学习（learning）与模型执行（inference）
 
-Section ID: `P5-6.3`
-Version: `v2026.07.20`
+> Section ID: `P5-6.3`
+> Version: `v2026.07.20`
 
 在 P5-6.2 里，我们先把学习循环会按 step、batch、epoch 重复这件事绑在一起。走到这里之后，下一个问题就会冒出来。
 
@@ -13,7 +13,7 @@ Version: `v2026.07.20`
 
 如果后面几节里又开始把学习和模型执行混在一起，更适合回到[英文概念词汇表里的 training 条目](/AiBook/en/reference/concept-glossary/#training)和[inference 条目](/AiBook/en/reference/concept-glossary/#inference)，先重新确认它们的边界。
 
-## 本节范围
+## 区分学习与执行的问题
 
 - 为什么要区分学习和模型执行？
 - 在深度学习语境里，学习阶段包含哪些东西？
@@ -24,7 +24,7 @@ Version: `v2026.07.20`
 
 同时，这一节不会马上扩大的问题也很明确。`在使用当前参数的区间里，到底该采用什么计算规则？` 仍然是下一步问题。即便是同一个模型，为什么训练中和评估中会采用不同计算规则，会在下一节 P5-6.4 继续说明。dropout 和 regularization 的更大意义，则会在 P5-8.1、P5-8.2 里再重新接回。
 
-## 本节目标
+## 参数改变与预测使用的判断标准
 
 - 能用`参数是否变化`来区分学习和模型执行。
 - 能解释学习不只是 forward，还包含 loss 计算、backpropagation 和 update。

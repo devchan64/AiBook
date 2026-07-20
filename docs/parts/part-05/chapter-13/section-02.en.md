@@ -13,7 +13,7 @@ Self-attention is a method in which each token inside a sequence refers to other
 
 When you need to briefly confirm again the core mechanism right before the Transformer, return to the glossary entry on [self-attention](../../../reference/concept-glossary.md#self-attention).
 
-## Scope Of This Section
+## The Question Of How Self-Attention Rereads The Same Sequence
 
 - How is self-attention different from attention?
 - Why is the idea `tokens refer to one another inside their own sequence` important?
@@ -26,7 +26,7 @@ The full Transformer structure is continued from P5-14.1 through P5-14.6, and an
 
 There is one explanation that must be closed here. Rather than `does the token receive sequential state`, this section needs to make the reader understand the shift in computational feel toward `do the tokens reread one another and update their own representations`.
 
-## Goals Of This Section
+## Standards For Token Relations And Representation Updates
 
 - You can explain self-attention as `mutual reference among tokens inside a sequence`.
 - You can say that self-attention gives a computational feel different from RNN-style sequential transfer.

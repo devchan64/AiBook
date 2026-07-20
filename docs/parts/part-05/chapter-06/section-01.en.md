@@ -1,7 +1,7 @@
 # P5-6.1 Training Loop: Forward, Loss, Backward, Optimizer Step
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter P5-5, we saw how deep-learning models compute gradients through loss, backpropagation, and the computation graph. Once we reach this point, the next question remains naturally.
 
@@ -11,7 +11,7 @@ The core four stages of a deep-learning training loop are `forward -> loss -> ba
 
 If the places of loss, backpropagation, update, and mode switching start to blur together again inside the training loop, go back together to the [training](/AiBook/reference/concept-glossary/#training), [backpropagation](/AiBook/reference/concept-glossary/#backpropagation), and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
 
-## Scope Of This Section
+## The Question Of One Turn Through The Training Loop
 
 - How do the loss and backpropagation we have seen so far connect inside one training loop?
 - Where does the optimizer step attach after gradient computation?
@@ -21,7 +21,7 @@ Here, we first hold only the shared skeleton of a single training loop. The view
 
 At the same time, it is also clear which questions we will not widen immediately in this section. Why step, batch, and epoch are needed continues in the next section, P5-6.2. The difference between learning and inference is explained again in P5-6.3. The difference between training mode and evaluation mode is explained again in P5-6.4. In other words, this section is the place to hold `the order of the training loop`, and the next sections are the place to separate `in what units that loop is repeated` and `when and in what mode it runs`.
 
-## Goals Of This Section
+## Standards For Forward-Loss-Backward-Step
 
 - You can explain the deep-learning training loop at once.
 - You can state the order of forward, loss, backward, and optimizer step.

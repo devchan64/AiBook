@@ -13,7 +13,7 @@ P5-11장에서는 CNN이 이미지처럼 공간 구조가 있는 데이터에서
 
 순차 상태 구조의 기본 이름이 다시 섞이면 개념사전의 [순환 신경망(RNN, recurrent neural network)](../../../reference/concept-glossary.md#rnn-recurrent-neural-network), [장단기 메모리(LSTM, long short-term memory)](../../../reference/concept-glossary.md#lstm-long-short-term-memory), [게이트 순환 유닛(GRU, gated recurrent unit)](../../../reference/concept-glossary.md#gru-gated-recurrent-unit) 항목을 함께 다시 봅니다.
 
-## 이 절의 범위
+## RNN이 순서를 기억하는 질문
 
 - 왜 순차 데이터에는 순서 개념이 중요한가?
 - 일반적인 feed-forward 구조만으로는 어떤 답답함이 생기는가?
@@ -22,7 +22,7 @@ P5-11장에서는 CNN이 이미지처럼 공간 구조가 있는 데이터에서
 
 이 절에서 먼저 닫아야 하는 핵심은 `순차 데이터는 마지막 입력 하나가 아니라 앞에서 누적된 상태가 현재 판단을 바꾼다`는 점입니다. 즉, 여기서는 `순차 상태를 왜 들고 가야 하는가`와 `기본 RNN만으로는 왜 오래 기억하기 어려웠는가`를 먼저 닫습니다. 장기 의존성(long-term dependency) 문제는 바로 다음 절 P5-12.2에서 더 집중해서 다룹니다.
 
-## 이 절의 목표
+## 상태 전달과 시간축 표현의 판단 기준
 
 - 순차 데이터 문제에서 `순서`와 `문맥(context)`이 왜 중요한지 설명할 수 있습니다.
 - RNN을 `이전 상태를 이어받는 구조`로 설명할 수 있습니다.

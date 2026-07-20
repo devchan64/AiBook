@@ -1,7 +1,7 @@
 # P5-7.5 Supplementary Reading: Momentum, AdaGrad, RMSProp, Adam
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-7.3, we looked at the intuition of adaptive update using Adam (Adaptive Moment Estimation) as an example. If we go one step further from there, the reader meets many optimizer families such as momentum, AdaGrad, RMSProp, and Adam. If these names start to be memorized like different brands, the real core becomes blurry instead.
 The distinction standard in this section helps the reader, even when different optimizer names appear again later, to organize them with the same question every time rather than memorizing them as entirely new algorithms.
@@ -10,7 +10,7 @@ The question we have to hold first in this section is not `which optimizer is mo
 
 The reason this section feels unfamiliar to beginners is not that there are many names, but that the comparison standard is not visible at once. So instead of trying to memorize the four algorithms separately, it is better to read the explanation below in a way that makes us repeat the same question four times.
 
-## Scope Of This Section
+## The Question Of Comparing Optimizer Names
 
 - What is momentum trying to preserve beyond the current gradient?
 - In what intuition should we read the coordinate-wise adjustment of AdaGrad and RMSProp?
@@ -19,7 +19,7 @@ The reason this section feels unfamiliar to beginners is not that there are many
 
 This section focuses on explaining the structure of optimizer families. The goal here is not to memorize the full formulas of each algorithm, but to understand the family differences through three questions: `what does it remember more`, `what does it adjust more`, and `what problem was it trying to solve?`
 
-## Goals Of This Section
+## Standards For Momentum And Adaptive Axes
 
 - You can compare momentum, AdaGrad, RMSProp, and Adam at the same level.
 - You can explain in which optimizer `time-axis accumulation` and `coordinate-axis adjustment` are more central.

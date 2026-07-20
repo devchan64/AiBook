@@ -1,7 +1,7 @@
 # P5-8.3 보충학습: 깊은 계산이 흔들리지 않게 하는 조건 - 초기화(initialization), 수치 안정성(numerical stability), 배치 정규화(batch normalization)
 
-Section ID: `P5-8.3`
-Version: `v2026.07.17`
+> Section ID: `P5-8.3`
+> Version: `v2026.07.20`
 
 P5-8.1과 P5-8.2에서는 학습 루프에 목적 함수 제어와 구조 수준 제어를 더하는 방법을 보았습니다. 하지만 그런 제어를 넣어도, 깊은 계산 자체가 불안정하면 학습은 여전히 흔들릴 수 있습니다. P5-6.4에서는 학습 모드(training mode)와 평가 모드(evaluation mode)를 구분하면서 dropout과 batch normalization이 왜 모드 차이에 민감한지 보았습니다. 이제 그 배경 위에서, 초심자에게 자주 남는 질문 하나를 더 붙입니다.
 
@@ -13,7 +13,7 @@ P5-8.1과 P5-8.2에서는 학습 루프에 목적 함수 제어와 구조 수준
 
 이 축이 다시 흐려질 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode), [배치 정규화(batch normalization)](../../../reference/concept-glossary.md#batch-normalization), [초기화(initialization)](../../../reference/concept-glossary.md#initialization), [수치 안정성(numerical stability)](../../../reference/concept-glossary.md#numerical-stability) 항목을 함께 다시 보는 편이 좋습니다.
 
-## 이 절의 범위
+## 깊은 계산이 흔들리는 질문
 
 - 왜 깊은 네트워크는 층만 늘린다고 바로 잘 학습되지 않는가?
 - 초기화(initialization)는 무엇을 정하는가?
@@ -25,7 +25,7 @@ ReLU 계열과 깊은 학습 확산의 큰 흐름은 P5-3.4에서 다시 연결�
 
 이 절의 역할은 `깊은 계산이 forward와 backward를 견딜 조건`을 한자리에 묶는 데 있습니다.
 
-## 이 절의 목표
+## 초기화·수치 안정성·배치 정규화 판단 기준
 
 - 초기화를 `학습 시작점의 값 배치`로 설명할 수 있습니다.
 - 수치 안정성을 `값과 gradient가 계산 중에 감당 가능한 범위를 유지하는 문제`로 설명할 수 있습니다.

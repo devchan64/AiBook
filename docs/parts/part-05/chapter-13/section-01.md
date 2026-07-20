@@ -13,7 +13,7 @@ P5-12.2에서는 장기 의존성(long-term dependency) 때문에 순차 모델�
 
 attention의 기본 문제의식을 다시 짧게 잡아야 할 때는 개념사전의 [어텐션(Attention)](../../../reference/concept-glossary.md#attention) 항목을 기준으로 다시 읽습니다.
 
-## 이 절의 범위
+## Attention이 필요한 위치를 다시 보는 질문
 
 - 어텐션은 어떤 문제를 해결하려는가?
 - `필요한 위치를 더 강하게 본다`는 말은 무엇을 뜻하는가?
@@ -24,7 +24,7 @@ attention의 기본 문제의식을 다시 짧게 잡아야 할 때는 개념사
 
 self-attention과 Transformer 연결은 다음 절과 다음 장에서 이어서 다룹니다. query, key, value와 multi-head attention의 입문적 설명은 보충학습 P5-13.3에서 회수합니다.
 
-## 이 절의 목표
+## 참조 가중치와 문맥 선택의 판단 기준
 
 - attention을 `중요한 위치를 더 직접적으로 참고하는 방식`으로 설명할 수 있습니다.
 - 장기 의존성 문제와 attention의 연결을 말할 수 있습니다.

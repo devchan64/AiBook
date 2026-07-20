@@ -1,7 +1,7 @@
 # P5-7.4 Supplementary Reading: Convergence Guarantees And Claim Types In Adaptive Optimization
 
-Section ID: `P5-7.4`
-Version: `v2026.07.17`
+> Section ID: `P5-7.4`
+> Version: `v2026.07.20`
 
 In P5-7.3, we saw what adaptive update is trying to additionally compensate beyond a basic update, and we looked at Adam as a representative example. If we go deeper from there, the next question remains.
 
@@ -10,7 +10,7 @@ Adaptive optimizers such as Adam are often used in practice, but can we also say
 Convergence analysis is the language of verification that examines, separately from the impression that an optimizer looked fast in an actual experiment, under what assumptions repeated updates can be said to approach the target condition. This section is not a proof-tracing section. It is a supplementary reading that distinguishes how experimental performance, convergence guarantees, and generalization performance are different kinds of claims when we explain adaptive optimization.
 This distinction is a standard that can be reused as it is when we later meet optimizer comparison articles, experiment reports, and paper summaries.
 
-## Scope Of This Section
+## The Question Separating Convergence Guarantees From Experimental Performance
 
 - We look at what convergence-guarantee discussion is checking in adaptive optimization.
 - We look at why the intuition of adaptive update and the discussion of convergence guarantees are different questions.
@@ -19,7 +19,7 @@ This distinction is a standard that can be reused as it is when we later meet op
 
 Here, the goal is not `can we do the proof`, but `can we distinguish what kind of guarantee each explanation is actually making`.
 
-## Goals Of This Section
+## Standards For Guarantee Claims And Assumptions
 
 - You can distinguish an experimental-performance claim from a convergence-guarantee claim.
 - You can explain why assumptions matter in convergence analysis of adaptive optimizers.

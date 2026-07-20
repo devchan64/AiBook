@@ -1,14 +1,14 @@
 # P5-7.8 보충학습: gradient clipping과 불안정한 update
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 optimizer가 gradient를 update로 바꾸는 구조를 이해하고 나면, 실제 학습 로그에서 또 다른 질문이 생깁니다. 방향은 알겠는데, 어떤 step에서는 update가 너무 과격하게 튀는 것처럼 보일 때가 있습니다. 이때 문제를 learning rate로 읽어야 하는가, gradient scale로 읽어야 하는가, 아니면 다른 안전장치가 필요한가?
 
 gradient clipping은 바로 이 지점에서 등장합니다.
 이 절의 진단 기준은 뒤에서 깊은 모델 학습, fine-tuning 로그, 불안정한 loss 곡선을 볼 때도 그대로 재사용할 수 있습니다.
 
-## 이 절의 범위
+## gradient clipping이 막는 질문
 
 - gradient clipping은 무엇을 제한하는 장치인가?
 - learning rate가 너무 큰 문제와 gradient 자체가 너무 큰 문제를 어떻게 구분하는가?
@@ -17,7 +17,7 @@ gradient clipping은 바로 이 지점에서 등장합니다.
 
 이 절에서는 고급 분산 학습이나 mixed precision까지 넓히지 않고, `불안정한 이동을 어떻게 작게 제한하는가`에 집중합니다.
 
-## 이 절의 목표
+## 폭주 update와 보폭 문제의 판단 기준
 
 - gradient clipping을 `너무 큰 이동을 제한하는 안전장치`로 설명할 수 있습니다.
 - learning rate 문제와 gradient scale 문제를 구분할 수 있습니다.

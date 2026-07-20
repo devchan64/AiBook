@@ -1,13 +1,13 @@
 # P5-1.2 Linear Combination And Activation
 
 > Section ID: `P5-1.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-1.1, the perceptron was read through the flow `input -> weight -> sum -> output`. Now we continue directly to see what it exactly means to gather inputs into a weighted sum, and why that sum alone is not yet deep learning. The perceptron first creates a linear combination of the inputs, and then passes that result through an activation rule to make a decision.
 
 If the basic meaning of activation becomes blurry again in later sections, first return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
 
-## Scope Of This Section
+## Roles Separated By Linear Combination And Activation
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 The limit of one perceptron and multilayer structure continue in P5-2.1 and P5-2.2. Comparisons among sigmoid, tanh, and ReLU return from P5-3.1 through P5-3.5. The computation procedure of backpropagation reconnects in P5-5.1 and P5-5.2. In other words, this section first closes why linear combination and activation create `the boundary of a single perceptron`, and why that leads to the next chapter's question about multilayer structure.
 
-## Goals Of This Section
+## Standards For Weighted Sums And Output Transformations
 
 - You can explain a linear combination as `a calculation that gathers inputs into one score while giving each input a different share of importance`.
 - You can say that the perceptron creates a linear boundary.

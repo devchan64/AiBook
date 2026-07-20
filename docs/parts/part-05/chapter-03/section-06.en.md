@@ -1,7 +1,7 @@
 # P5-3.6 Choosing Output Layers And Activation
 
 > Section ID: `P5-3.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-3.1, we saw why activation functions are needed, and from P5-3.2 through P5-3.5 we looked separately at the sigmoid, tanh, ReLU, and the formula comparison of representative functions. Once you reach this point, the next question appears naturally.
 
@@ -13,7 +13,7 @@ The activation in the output layer changes depending on what the model is trying
 
 If the criteria for output interpretation and activation choice become blurry again, reread together the [output](/AiBook/reference/concept-glossary/#output) and [activation function](/AiBook/reference/concept-glossary/#activation-function) entries in the concept glossary.
 
-## Scope Of This Section
+## The Question Of Choosing Output-Layer Activation
 
 - Why should hidden-layer activation and output-layer activation not be treated as the same problem?
 - How should the output layer be read in regression, binary classification, and multiclass classification?
@@ -22,7 +22,7 @@ If the criteria for output interpretation and activation choice become blurry ag
 
 The design of loss functions themselves continues in P5-4.1 and P5-4.2, while the basic reading of calibration and probability-like outputs reconnects in P4-6.4. In other words, this section is the place to first close `what unit the final number should be read in` for the output-layer activation.
 
-## Goals Of This Section
+## Standards For Prediction Targets And Loss Connections
 
 - You can explain that choosing the output-layer activation connects to `what the model is predicting`.
 - You can read the output layer differently in regression, binary classification, and multiclass classification.

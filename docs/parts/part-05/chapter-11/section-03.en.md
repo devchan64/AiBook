@@ -1,7 +1,7 @@
 # P5-11.3 Supplementary Reading: Comparing CNNs And Vision Transformers (ViT)
 
-Section ID: `P5-11.3`
-Version: `v2026.07.18`
+> Section ID: `P5-11.3`
+> Version: `v2026.07.20`
 
 In P5-11.1 and P5-11.2, we first saw why convolutional neural networks (CNNs) fit images well, and what roles convolution and pooling play. From there the next question appears naturally.
 
@@ -9,7 +9,7 @@ What is different about the Vision Transformer (ViT), which is often mentioned a
 
 When you need to briefly confirm again the different starting unit of a Vision Transformer, return to the glossary entry on [ViT (Vision Transformer)](/AiBook/reference/concept-glossary/#vit-vision-transformer).
 
-## Scope Of This Supplementary Reading
+## The Input Unit That Separates CNNs From ViTs
 
 - How do CNNs and ViTs begin reading an image?
 - What is the difference between reading centered on local patterns and reading centered on token relations?
@@ -19,14 +19,14 @@ This supplementary reading compares CNNs and ViTs through the question `with wha
 
 The self-attention inside ViT reconnects later in P5-13.2 and P5-14.1. Here we organize only the initial difference between `do we first read local patterns` and `do we first read patch relations` from the image viewpoint, and why that difference is useful when moving toward generative AI.
 
-## Goals Of This Supplementary Reading
+## Distinguishing Local Patterns From Patch Relations
 
 - You can compare the starting unit with which CNNs and ViTs read images.
 - You can distinguish the CNN style of local-pattern-centered reading from the ViT style of patch-relation-centered reading.
 - You can say what intuition patch tokens and self-attention give in image interpretation.
 - You can connect why the viewpoint `treat the input like tokens` keeps returning in later sections on attention, Transformers, and generative AI.
 
-## The Reading Order For This Supplementary Section
+## From The CNN Intuition To The ViT Intuition
 
 1. First recall the starting point already familiar from CNNs: `read local patterns`.
 2. Then compare how ViT splits an image into patch tokens and reads relations through attention.

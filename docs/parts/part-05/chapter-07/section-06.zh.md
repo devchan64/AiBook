@@ -1,14 +1,14 @@
 # P5-7.6 补充学习：learning rate scheduler、warmup、decay
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-7.2 里，我们把 learning rate 读成了`一次 update 的步幅`。但一旦去看真实训练设置，就会遇到 learning rate 不是从头到尾固定不变，而是以 warmup、decay、cosine schedule 等名字不断变化的场景。
 
 此时读者首先要抓住的问题，不是`是不是又来了一个新 optimizer？`，而是：`即使用的是同一个 optimizer，为什么步幅运营策略还要随着时间变化？`
 这个视角以后也会继续被复用在训练日志、fine-tuning 设置与论文实验表里，因为它能把`optimizer 选择`和`步幅运营策略`分开来读。
 
-## 本节范围
+## 需要 learning rate schedule 的问题
 
 - 为什么要区分固定 learning rate 与会随时间变化的 learning rate？
 - 为什么 warmup 应该被读成：在开始阶段慢慢放大步幅的装置？
@@ -17,7 +17,7 @@
 
 这一节的重点，不是 scheduler 的实现 API，而是解释：在`学习前期`、`学习中期`、`学习后期`，步幅到底该怎样运营。
 
-## 本节目标
+## warmup 与 decay 的判断标准
 
 - 能把 learning rate scheduler 解释成`步幅运营策略`。
 - 能说明 warmup 和 decay 各自想缓解的是哪一类学习阶段问题。

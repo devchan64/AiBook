@@ -19,7 +19,7 @@ As an analogy, batch is like the bundle of materials placed on the workbench at 
 
 If this distinction among the three units starts to blur again, it helps to return to the [batch](/AiBook/reference/concept-glossary/#batch), [training](/AiBook/reference/concept-glossary/#training), and [epoch](/AiBook/reference/concept-glossary/#epoch) entries in the concept glossary together.
 
-## Scope Of This Section
+## The Question Separated By Step, Batch, And Epoch
 
 - What does each of step, batch, and epoch count?
 - How is the training loop from P5-6.1 repeated through batch and step?
@@ -32,7 +32,7 @@ That also means that this section is not the place to explain again what forward
 
 At the same time, it is also clear which question we will not widen immediately in this section. Whether that repetition is training that actually changes the parameters, or execution that uses the current parameters, continues in the next section, P5-6.3. Even inside a region that uses the same parameters, why training mode and evaluation mode split is explained again in P5-6.4.
 
-## Goals Of This Section
+## Standards For Update Units And Repetition Units
 
 - You can explain step, batch, and epoch as different units of repetition.
 - You can say that one training loop from P5-6.1 runs as one step for each batch.

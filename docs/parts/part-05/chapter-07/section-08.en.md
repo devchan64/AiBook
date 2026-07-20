@@ -1,14 +1,14 @@
 # P5-7.8 Supplementary Reading: Gradient Clipping And Unstable Updates
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 Once we understand the structure in which the optimizer turns gradients into updates, another question appears in actual training logs. We know the direction, but in some steps the update seems to jump too aggressively. At that point, should we read the problem as a learning-rate issue, as a gradient-scale issue, or as a case where another safety device is needed?
 
 Gradient clipping appears exactly at this point.
 The diagnostic standard of this section can be reused as it is later too when we look at deep-model training, fine-tuning logs, and unstable loss curves.
 
-## Scope Of This Section
+## The Question That Gradient Clipping Prevents
 
 - What is gradient clipping a device for limiting?
 - How do we distinguish a too-large learning-rate problem from a problem where the gradient itself is too large?
@@ -17,7 +17,7 @@ The diagnostic standard of this section can be reused as it is later too when we
 
 This section does not widen into advanced distributed learning or mixed precision. It focuses on `how do we make unstable movement smaller by imposing a limit`.
 
-## Goals Of This Section
+## Standards For Exploding Updates And Step-Size Problems
 
 - You can explain gradient clipping as `a safety device that limits overly large movement`.
 - You can distinguish a learning-rate problem from a gradient-scale problem.

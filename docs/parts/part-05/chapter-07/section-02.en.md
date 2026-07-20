@@ -13,7 +13,7 @@ The learning rate is the stride length that decides how far the optimizer moves 
 
 If the relationship among learning rate, gradient, and update starts to blur again, it helps to return together to the [learning rate](/AiBook/reference/concept-glossary/#learning-rate) and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
 
-## Scope Of This Section
+## The Question Of How Learning Rate Sets Step Size
 
 - Where does the learning rate attach in the optimizer update?
 - Why, even with the same gradient, does the actual update result differ when the learning rate differs?
@@ -24,7 +24,7 @@ This section focuses on closing `how far should we actually move with the same g
 
 At the same time, it is also clear which questions we will not widen immediately in this section. Adaptive updates that additionally reflect recent gradient flow and coordinate-by-coordinate differences continue in the next section, P5-7.3. Ways of not keeping the learning rate fixed throughout training but operating it through warmup or decay are explained again in the supplementary study of P5-7.6. The convergence analysis of adaptive optimization is separated into the supplementary study of P5-7.4.
 
-## Goals Of This Section
+## Standards For Update Size And Stability
 
 - You can explain the learning rate as `the stride length of the optimizer update`.
 - You can say that even with the same gradient, the actual update result can differ depending on the learning rate.

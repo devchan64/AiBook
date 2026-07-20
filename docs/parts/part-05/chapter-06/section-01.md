@@ -1,7 +1,7 @@
 # P5-6.1 학습 루프: forward, loss, backward, optimizer step
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-5장에서는 손실(loss), 역전파(backpropagation), 계산 그래프(computation graph)를 통해 딥러닝 모델이 어떻게 gradient를 계산하는지 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 남습니다.
 
@@ -11,7 +11,7 @@ gradient까지 계산했다면, 실제 학습 과정에서는 어떤 순서로 �
 
 학습 루프 안에서 손실, 역전파, 업데이트, 모드 전환의 자리가 다시 섞이면 개념사전의 [학습(training)](../../../reference/concept-glossary.md#training), [역전파(backpropagation)](../../../reference/concept-glossary.md#backpropagation), [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
 
-## 이 절의 범위
+## 학습 루프가 한 바퀴 도는 질문
 
 - 지금까지 본 손실과 역전파는 하나의 학습 루프에서 어떻게 이어지는가?
 - optimizer step은 gradient 계산 뒤 어디에 붙는가?
@@ -21,7 +21,7 @@ gradient까지 계산했다면, 실제 학습 과정에서는 어떤 순서로 �
 
 대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. step, batch, epoch가 왜 필요한지는 다음 Section인 P5-6.2에서 이어서 설명하고, learning과 inference의 차이는 P5-6.3에서, training mode와 evaluation mode의 차이는 P5-6.4에서 다시 설명합니다. 즉, 이번 절은 `학습 루프의 순서`를 붙잡는 자리이고, 바로 다음 절들은 `그 루프가 어떤 단위로 반복되고 언제 어떤 방식으로 실행되는가`를 구분하는 자리입니다.
 
-## 이 절의 목표
+## forward-loss-backward-step 판단 기준
 
 - 딥러닝 학습 루프를 한 번에 설명할 수 있습니다.
 - forward, loss, backward, optimizer step의 순서를 말할 수 있습니다.

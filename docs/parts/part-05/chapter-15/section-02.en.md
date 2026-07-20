@@ -1,7 +1,7 @@
 # P5-15.2 Generation And Sampling
 
 > Section ID: `P5-15.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-15.1, we saw that, unlike a classification model, a generative model learns data patterns and tries to create a new output itself. The next question naturally follows.
 
@@ -11,7 +11,7 @@ Sampling is the process by which the model takes out one actual output at a time
 
 When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](../../../reference/concept-glossary.md#sampling).
 
-## Scope Of This Section
+## The Question Where Sampling Changes Generation
 
 - Why can the output of a generative model fail to stay fixed as only one result?
 - How can sampling be explained as what it does?
@@ -29,14 +29,14 @@ The detailed differences of beam search, top-k, top-p, and temperature are made 
 
 What must actually be closed here is that `sampling is not a simple option, but part of the generative problem itself`. Even if the detailed setting names are seen again in later Parts, within the current section the reader still has to hold to the end that `the stage of calculating the candidate distribution` and `the stage of selecting the actual output` are different, and that output quality depends on both.
 
-## Goals Of This Section
+## Standards For Candidate Choice And Diversity
 
 - You can explain sampling as `the procedure that selects an actual output from among several candidates`.
 - You can say why a generative result does not always have to stay the same.
 - You can read generative results through the viewpoint of a balance between diversity and stability.
 - You can understand in advance why later concepts such as token, next-token prediction, and temperature become necessary.
 
-## The Reading Order Of This Section
+## From Candidate Distributions To Actual Outputs
 
 1. First confirm why generative output does not have to stay fixed as only one answer.
 2. Then read sampling as `the procedure that chooses an actual output among candidates`.

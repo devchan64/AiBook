@@ -1,7 +1,7 @@
 # P5-9.2 Batch And Tensor Computation
 
-Section ID: `P5-9.2`
-Version: `v2026.07.19`
+> Section ID: `P5-9.2`
+> Version: `v2026.07.20`
 
 In P5-9.1, we saw why deep learning fits GPUs and parallel processing so well. The next question appears immediately.
 
@@ -13,7 +13,7 @@ A batch is a grouping for calculating multiple samples at once, and a tensor is 
 
 When you need to review shape and computation units again in a short form, return to the glossary entries on [batch](/AiBook/reference/concept-glossary/#batch) and [tensor](/AiBook/reference/concept-glossary/#tensor).
 
-## Scope Of This Section
+## The Question Of How Batches And Tensors Group Computation
 
 - Why is a batch needed?
 - How does a tensor extend from vectors and matrices?
@@ -24,7 +24,7 @@ This section focuses on grasping what kinds of batch groupings and tensor shapes
 
 At the same time, it is also clear what we will not widen immediately in this section. The intuition of `why shape matters` and `how large matrix computation continues` is revisited later in P5-13.2 on attention and in P5-14.3 and P5-14.5 on Transformer computation structure.
 
-## Goals Of This Section
+## Standards For Parallel Units And Shape
 
 - You can explain a batch as `a computation unit that processes multiple samples at once`.
 - You can explain a tensor as `a multidimensional array that includes vectors and matrices`.

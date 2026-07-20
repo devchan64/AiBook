@@ -1,7 +1,7 @@
 # P5-11.2 卷积（convolution）与池化（pooling）
 
 > Section ID: `P5-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-11.1 里，我们已经把 CNN 解释成`会反复读取图像局部模式的神经网络`。接下来还会自然留下一个问题。
 
@@ -11,7 +11,7 @@
 
 如果这些运算名称又开始混在一起，更适合重新回到英文概念词汇表里的[convolution](/AiBook/en/reference/concept-glossary/#convolution)和[pooling](/AiBook/en/reference/concept-glossary/#pooling)条目对齐。
 
-## 本节范围
+## 卷积与池化要收住的问题
 
 - convolution 到底在计算什么？
 - filter 和 feature map 到底是什么意思？
@@ -22,14 +22,14 @@
 
 同时，这一节也会明确哪些问题不会立刻继续展开。CNN 之后更广的 vision 结构比较，会在补充学习 P5-11.3 里回收到`CNN 和 Vision Transformer（ViT）`这个角度。padding、stride、dilation 则只在理解`滤波器怎样读取输入`所必需的范围内处理。
 
-## 本节目标
+## 局部响应与摘要流程的判断标准
 
 - 能把 convolution 解释成`小滤波器计算局部模式分数的运算`。
 - 能把 feature map 解释成`滤波器响应的空间记录`。
 - 能说明 pooling 为什么会被用来缩小空间尺寸，并汇总重要响应。
 - 能通过可执行的 Python 例子确认 convolution 与 max pooling 的直觉。
 
-## 阅读这一节的顺序
+## 从滤波器响应到池化摘要
 
 1. 先看 convolution 怎样计算局部模式分数。
 2. 再看这些结果会怎样留下成一张叫作 feature map 的响应图。

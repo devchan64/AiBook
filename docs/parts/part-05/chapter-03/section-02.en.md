@@ -1,7 +1,7 @@
 # P5-3.2 Sigmoid
 
 > Section ID: `P5-3.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-3.1, we saw that an activation function changes the weighted-sum score \(z\) into the value \(a\) passed to the next layer. Now we look at one representative function at a time and check how the same score can turn into a different kind of signal.
 
@@ -9,7 +9,7 @@ The sigmoid is an activation function that compresses the input score \(z\) into
 
 If the baseline for representative activation functions is needed again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
 
-## Scope Of This Section
+## The Question Of How Sigmoid Compresses Values
 
 - What formula and output range does the sigmoid have?
 - Why is it read as a value between 0 and 1?
@@ -18,7 +18,7 @@ If the baseline for representative activation functions is needed again, return 
 
 This section does not spend a long time comparing the formulas of the sigmoid and the other representative functions. Tanh is handled separately in P5-3.3, ReLU in P5-3.4, and the formula comparison of all three functions is organized in P5-3.5. The interpretation of the sigmoid in the output layer reconnects in P5-3.6 and P5-4.2.
 
-## Goals Of This Section
+## Standards For The S-Curve And Saturation
 
 - You can explain the sigmoid as `a function that compresses values into the range between 0 and 1`.
 - You can explain intuitively why the output approaches 1 as the input \(z\) grows larger.

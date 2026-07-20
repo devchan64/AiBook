@@ -1,7 +1,7 @@
 # P5-7.5 보충학습: momentum, AdaGrad, RMSProp, Adam
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-7.3에서는 적응형 업데이트(adaptive update)의 직관을 Adam(Adaptive Moment Estimation)을 예로 보았습니다. 여기서 한 걸음 더 가면 독자는 momentum, AdaGrad, RMSProp, Adam처럼 여러 optimizer 계열을 만나게 됩니다. 이 이름들을 서로 다른 브랜드처럼 외우기 시작하면 오히려 핵심이 흐려집니다.
 이 절의 구분 기준은 뒤에서 다른 optimizer 이름이 다시 나오더라도, 매번 새 알고리즘처럼 외우지 않고 같은 질문으로 정리하게 도와줍니다.
@@ -10,7 +10,7 @@ P5-7.3에서는 적응형 업데이트(adaptive update)의 직관을 Adam(Adapti
 
 초심자에게 이 절이 낯선 이유는 이름이 많아서가 아니라, 비교 기준이 한 번에 보이지 않기 때문입니다. 그래서 아래 설명은 네 알고리즘을 따로 외우게 하기보다, 같은 질문을 네 번 반복하게 만드는 방향으로 읽는 편이 낫습니다.
 
-## 이 절의 범위
+## optimizer 이름을 비교하는 질문
 
 - momentum은 현재 gradient 외에 무엇을 더 남기려 하는가?
 - AdaGrad와 RMSProp은 좌표별 조절을 어떤 감각으로 읽어야 하는가?
@@ -19,7 +19,7 @@ P5-7.3에서는 적응형 업데이트(adaptive update)의 직관을 Adam(Adapti
 
 이 절에서는 optimizer 계열의 구조를 설명하는 데 집중합니다. 여기서의 목표는 각 알고리즘의 전체 수식을 외우는 것이 아니라, `무엇을 더 기억하는가`, `무엇을 더 조절하는가`, `무엇을 해결하려 했는가`라는 세 질문으로 계열 차이를 이해하는 것입니다.
 
-## 이 절의 목표
+## momentum과 적응형 축의 판단 기준
 
 - momentum, AdaGrad, RMSProp, Adam을 같은 층위에서 비교할 수 있습니다.
 - `시간축 누적`과 `좌표축 조절`이 어떤 optimizer에서 더 중심적인지 설명할 수 있습니다.

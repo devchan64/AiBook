@@ -1,7 +1,7 @@
 # P5-6.3 Learning And Model Execution (Inference)
 
-Section ID: `P5-6.3`
-Version: `v2026.07.20`
+> Section ID: `P5-6.3`
+> Version: `v2026.07.20`
 
 In P5-6.2, we first grouped how the training loop repeats in units of step, batch, and epoch. Once we reach this point, the next question appears.
 
@@ -13,7 +13,7 @@ Learning is the stage that changes model parameters, and model execution (infere
 
 If the distinction between learning and model execution starts to blur again in later sections, it helps to return together to the [training](/AiBook/reference/concept-glossary/#training) and [inference](/AiBook/reference/concept-glossary/#inference) entries in the concept glossary.
 
-## Scope Of This Section
+## The Question That Separates Learning From Execution
 
 - Why do we need to distinguish learning from model execution?
 - In the deep-learning context, what does the learning stage include?
@@ -24,7 +24,7 @@ This section focuses on distinguishing `the time when parameters are actually ch
 
 At the same time, it is also clear which question we will not widen immediately in this section. `Inside the interval that uses the current parameters, what computational rule should be used?` is still the next question. Why the computational rule may differ between training and evaluation even for the same model continues in the next section, P5-6.4. The larger meaning of dropout and regularization reconnects again in P5-8.1 and P5-8.2.
 
-## Goals Of This Section
+## Standards For Parameter Changes And Prediction Use
 
 - You can distinguish learning and model execution using the criterion `whether parameters change`.
 - You can explain that learning includes not only forward pass, but also loss computation, backpropagation, and update.

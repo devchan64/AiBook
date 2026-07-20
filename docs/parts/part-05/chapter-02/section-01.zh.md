@@ -1,13 +1,13 @@
 # P5-2.1 多层神经网络（multilayer neural network）
 
 > Section ID: `P5-2.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-1.2 里，我们已经看到：单个感知机（perceptron）会通过输入的线性组合（linear combination）与激活（activation）来形成判断。同时也看到，单个感知机一次只能形成一条线性边界（linear boundary），因此它能表达的模式存在明显限制。接下来的问题自然会变成：`如果一个感知机不够，那么把这样的计算单元堆叠多个，会发生什么变化？` 从这个问题出发，就进入多层神经网络（multilayer neural network）。多层神经网络会把感知机这类计算单元按多层堆起来，把简单的输入组合先变成中间表征，再把这些表征连到更复杂的判断上。
 
 如果需要重新固定多层结构与中间层的区别，更适合一起回看[英文概念词汇表里的 multilayer neural network 条目](/AiBook/en/reference/concept-glossary/#multilayer-neural-network)与[hidden layer 条目](/AiBook/en/reference/concept-glossary/#hidden-layer)。
 
-## 本节范围
+## 继续加层带来的问题
 
 本节整理以下问题。
 
@@ -19,7 +19,7 @@
 
 关于隐藏层到底可以形成什么样的表征，会在 P5-2.2 里继续；激活函数的比较会在 P5-3.1 到 P5-3.5 再重新连接；反向传播（backpropagation）的计算公式则会在 P5-5.1 与 P5-5.2 里回来看。也就是说，这一节先要抓住的是：当层数增加时到底什么发生了变化，以及为什么会需要隐藏层。
 
-## 本节目标
+## 多层结构与表达能力的判断标准
 
 - 能把多层神经网络解释成`由多个感知机按层堆叠起来的结构`。
 - 能说明隐藏层（hidden layer）承担的是输入与输出之间的中间表征。

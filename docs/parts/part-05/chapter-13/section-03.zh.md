@@ -1,7 +1,7 @@
 # P5-13.3 补充学习：查询-键-值（QKV）与多头注意力（multi-head attention）
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-13.1 和 P5-13.2 里，我们已经先固定了 attention 与 self-attention 的直觉。读到这里，自然会出现下一个问题。
 
@@ -9,7 +9,7 @@
 
 当这些术语又开始散开时，可以一起回到英文概念词汇表里的 [query-key-value (QKV)](/AiBook/en/reference/concept-glossary/#-query-key-value-qkv) 和 [multi-head attention](/AiBook/en/reference/concept-glossary/#multi-head-attention) 条目重新对齐。
 
-## 本补充学习的范围
+## QKV 与多头注意力要回答的问题
 
 - query、key、value 分别是什么意思？
 - 为什么 self-attention 的计算要拆成这三个名字来解释？
@@ -18,7 +18,7 @@
 
 这篇补充学习集中抓住的是`为什么要用这些名字`，以及`应该怎样直观地读一头和多头之间的差别`。这里的核心不是`要不要再背更多公式`，而是`能不能把已经抓住的 attention 直觉，用 QKV 和 multi-head 这些反复出现的名字重新读一遍`。
 
-## 本补充学习的目标
+## 角色名称与多种视角的区分
 
 - 能在入门层次解释 query、key、value。
 - 能把 self-attention 读成一种`先发问、再找匹配位置、再把信息带回来`的计算。

@@ -1,7 +1,7 @@
 # P5-3.6 输出层（output layer）与激活的选择
 
 > Section ID: `P5-3.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-3.1 里，我们已经看过为什么需要激活函数；而从 P5-3.2 到 P5-3.5，则分别看了 sigmoid、tanh、ReLU 与代表性函数的公式比较。走到这里之后，下一个问题就会自然出现。
 
@@ -13,7 +13,7 @@
 
 如果后面又开始混淆输出解读与激活选择的标准，更适合一起回看[英文概念词汇表里的 output 条目](/AiBook/en/reference/concept-glossary/#output)与[activation function 条目](/AiBook/en/reference/concept-glossary/#activation-function)。
 
-## 本节范围
+## 选择输出层激活的问题
 
 - 为什么隐藏层激活与输出层激活不能被当成同一个问题？
 - 在回归（regression）、二元分类（binary classification）、多分类（multiclass classification）里，输出层分别该怎样阅读？
@@ -22,7 +22,7 @@
 
 损失函数本身的设计会在 P5-4.1 与 P5-4.2 继续；而 calibration 的基本阅读与类概率输出的解释，则会在 P4-6.4 再接回去。也就是说，这一节先要闭合的是：输出层激活到底会把最后那个数字固定成什么样的解读单位。
 
-## 本节目标
+## 预测目标与损失连接的判断标准
 
 - 能说明：输出层激活的选择，和`模型到底在预测什么`直接相关。
 - 能在回归、二元分类、多分类里，用不同方式阅读输出层。

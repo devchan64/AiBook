@@ -29,6 +29,7 @@
 - CSV input assets:
   - `attention-operating-manual-candidates.csv`
   - `self-attention-safety-memo-candidates.csv`
+  - `qkv-multihead-report-scenarios.csv`
 - Python chart source:
   - `p5_13_1_attention_context_charts.py`
   - `p5_13_attention_chart.py`

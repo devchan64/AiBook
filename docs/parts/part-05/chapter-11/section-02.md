@@ -1,7 +1,7 @@
 # P5-11.2 합성곱(convolution)과 풀링(pooling)
 
 > Section ID: `P5-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신경망`으로 설명했습니다. 이제 다음 질문이 남습니다.
 
@@ -11,7 +11,7 @@ P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신�
 
 연산 이름이 다시 섞이면 개념사전의 [합성곱(convolution)](../../../reference/concept-glossary.md#convolution)과 [풀링(pooling)](../../../reference/concept-glossary.md#pooling) 항목을 함께 다시 보는 편이 좋습니다.
 
-## 이 절의 범위
+## 합성곱과 풀링이 닫아야 할 질문
 
 - convolution은 무엇을 계산하는가?
 - 필터(filter)와 feature map은 무엇을 뜻하는가?
@@ -22,14 +22,14 @@ P5-11.1에서는 CNN을 `이미지의 지역 패턴을 반복해서 읽는 신�
 
 대신 이번 절에서 바로 더 넓히지 않을 질문도 분명합니다. CNN 이후의 vision 구조 비교는 보충학습 P5-11.3에서 `CNN과 Vision Transformer(ViT)` 중심으로 다시 회수합니다. padding, stride, dilation은 이 절에서 `필터가 입력을 읽는 방식`을 이해하는 데 필요한 만큼만 다룹니다.
 
-## 이 절의 목표
+## 지역 반응과 요약 흐름의 판단 기준
 
 - convolution을 `작은 필터가 지역 패턴 점수를 계산하는 연산`으로 설명할 수 있습니다.
 - feature map을 `필터 반응의 공간적 기록`으로 설명할 수 있습니다.
 - pooling이 왜 공간 크기를 줄이고 중요한 반응을 요약하는 데 쓰이는지 말할 수 있습니다.
 - 실행 가능한 Python 예제로 합성곱과 최대 풀링(max pooling)의 직관을 확인할 수 있습니다.
 
-## 이 절을 읽는 순서
+## 필터 반응에서 풀링 요약까지
 
 1. convolution이 지역 패턴 점수를 어떻게 계산하는지 먼저 봅니다.
 2. 그 결과가 feature map이라는 반응 지도로 남는다는 점을 봅니다.

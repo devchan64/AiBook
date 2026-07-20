@@ -1,7 +1,7 @@
 # P5-10.2 深层中的表征
 
-Section ID: `P5-10.2`
-Version: `v2026.07.19`
+> Section ID: `P5-10.2`
+> Version: `v2026.07.20`
 
 在 P5-10.1 里，我们已经把 representation learning 解释成`模型自己学出有用内部 feature 的过程`。顺着这个解释，接下来的问题就会自然出现。
 
@@ -11,7 +11,7 @@ Version: `v2026.07.19`
 
 如果之后又想重新确认：`层变深时，表征究竟该怎样读`，更适合回到[英文概念词汇表里的 representation 条目](/AiBook/en/reference/concept-glossary/#representation)。
 
-## 本节范围
+## 深层怎样改变表征的问题
 
 - 什么叫 low-level feature，什么又叫 high-level representation？
 - 为什么会说：把很多层堆起来，就可能得到更抽象的表征？
@@ -24,7 +24,7 @@ Version: `v2026.07.19`
 
 也就是说，这里不会把`更深 = 更聪明`之类的夸张说法塞给读者，而是尽量安全地说明层级表征的直觉。
 
-## 本节目标
+## low-level 与 high-level 特征的判断标准
 
 - 能把深层表征解释成`从简单 pattern 走向更抽象表征的倾向`。
 - 能说明：堆层数的意义不只是 parameter 变多，也和表征层级发生变化有关。

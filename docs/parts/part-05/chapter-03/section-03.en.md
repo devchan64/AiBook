@@ -1,13 +1,13 @@
 # P5-3.3 Tanh
 
 > Section ID: `P5-3.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-3.2, we saw how the sigmoid compresses scores into the range between 0 and 1. Tanh also makes an S-shaped compression, but differs in that its output range is from \(-1\) to \(1\).
 
 Tanh becomes an important comparison point when you want to keep both negative and positive values while building a representation centered on 0.
 
-## Scope Of This Section
+## The Question Of Tanh's Zero-Centered Transformation
 
 - What formula and output range does tanh have?
 - Why is it called zero-centered, unlike the sigmoid?
@@ -16,7 +16,7 @@ Tanh becomes an important comparison point when you want to keep both negative a
 
 The formula comparison that also includes the sigmoid and ReLU is organized together in P5-3.5. The problem of output-layer choice is handled separately in P5-3.6.
 
-## Goals Of This Section
+## Standards For Keeping Negative And Positive Signals
 
 - You can explain tanh as `a zero-centered function that compresses values between -1 and 1`.
 - You can understand that tanh keeps negative and positive signs more directly than the sigmoid.

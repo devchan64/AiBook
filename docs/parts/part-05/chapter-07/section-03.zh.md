@@ -11,7 +11,7 @@
 
 如果之后又把基本 update 与自适应 update 的区别混在一起，更适合回到[英文概念词汇表里的 gradient descent 条目](/AiBook/en/reference/concept-glossary/#gradient-descent)和[optimizer 条目](/AiBook/en/reference/concept-glossary/#optimizer)，重新对齐比较基准。
 
-## 本节范围
+## Adam 自适应修正的问题
 
 - 自适应 update 试图在基本 gradient update 上补什么？
 - `最近 gradient 流向`和`按坐标调节`这两个核心直觉到底分别是什么意思？
@@ -26,7 +26,7 @@
 | optimizer 过程 | 因为这是在讨论：同样的结构里，参数到底如何被移动 |
 | 与 regularization 的区别 | optimizer 在处理`怎么移动`，regularization 更偏向`不希望哪种解` |
 
-## 本节目标
+## gradient 历史与步幅调节的判断标准
 
 - 能把自适应 update 解释成`会把最近 gradient 流向与坐标差异一起反映进去的 update 方式`。
 - 能理解基本直接 update 与自适应 update 的差别。

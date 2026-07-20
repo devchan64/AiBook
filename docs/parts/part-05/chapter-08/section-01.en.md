@@ -13,7 +13,7 @@ Regularization is the idea of adding constraints or costs to the learning proces
 
 When you need to distinguish overfitting control from normalization again, return to the glossary entry on [regularization](../../../reference/concept-glossary.md#regularization).
 
-## Scope Of This Section
+## The Question Regularization Adds To The Objective Function
 
 - Why does regularization enter the learning loop?
 - How is it related to overfitting?
@@ -28,7 +28,7 @@ It is safer to read this section not merely as `one more option added after the 
 | regularization | Because it is the viewpoint that constrains movement so it does not go toward an overly complex solution. |
 | normalization | Because unlike overfitting control, it is the question of making value scales and distributions easier to handle. |
 
-## Goals Of This Section
+## Standards For Constraints And Generalization
 
 - You can explain regularization as `a constraint for reducing overfitting`.
 - You can distinguish the roles of the optimizer and regularization.

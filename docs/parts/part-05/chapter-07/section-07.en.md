@@ -1,7 +1,7 @@
 # P5-7.7 Supplementary Reading: Optimizer State And Parameter-Wise Update
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-7.3, when we looked at adaptive updates, the expressions `recent gradient flow` and `coordinate-wise adjustment` kept appearing. The natural question left from there is this. Where is that kind of information left, and why can the next update differ even when the same gradient comes in?
 
@@ -10,7 +10,7 @@ This distinction keeps being reused later too when we look at checkpoint saving,
 
 The reason this section feels compressed to beginners is that all four words look like similar numbers. Even in actual code, these values appear together in similar lines, so at first they easily feel like the same thing being called by different names.
 
-## Scope Of This Section
+## The Question Of How Optimizer State Changes Updates
 
 - What are parameter, gradient, update, and optimizer state respectively?
 - Why is optimizer state different from model parameters?
@@ -19,7 +19,7 @@ The reason this section feels compressed to beginners is that all four words loo
 
 This section focuses not on library implementation details, but on explaining `what the optimizer is keeping separately in memory`.
 
-## Goals Of This Section
+## Standards For Parameter-Wise State And Application Units
 
 - You can distinguish parameter, gradient, update, and optimizer state.
 - You can explain that optimizer state can be maintained separately by coordinate.

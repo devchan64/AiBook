@@ -1,7 +1,7 @@
 # P5-8.3 补充学习：让深层计算不再摇晃的条件 - 初始化（initialization）、数值稳定性（numerical stability）、批归一化（batch normalization）
 
-Section ID: `P5-8.3`
-Version: `v2026.07.17`
+> Section ID: `P5-8.3`
+> Version: `v2026.07.20`
 
 在 P5-8.1 和 P5-8.2 里，我们已经看过：怎样在学习循环里加入目标函数控制和结构层面的控制。但即使加上这些控制，只要深层计算本身仍然不稳定，学习还是会继续摇晃。在 P5-6.4 里，我们也已经看到：为什么 dropout 和 batch normalization 会对 training mode 与 evaluation mode 的差异这么敏感。现在沿着这个背景，再补上一条初学者经常会留下的问题。
 
@@ -13,7 +13,7 @@ Version: `v2026.07.17`
 
 如果之后这条轴又变模糊了，更适合一起回到[英文概念词汇表里的 training mode 条目](/AiBook/en/reference/concept-glossary/#training-mode)、[batch normalization 条目](/AiBook/en/reference/concept-glossary/#batch-normalization)、[initialization 条目](/AiBook/en/reference/concept-glossary/#initialization)、[numerical stability 条目](/AiBook/en/reference/concept-glossary/#numerical-stability)，重新把这几个概念并排对齐。
 
-## 本节范围
+## 深层计算为什么会摇晃的问题
 
 - 为什么深层网络不是只要继续加层就会立刻学得更好？
 - initialization 到底在决定什么？
@@ -25,7 +25,7 @@ ReLU 系列和深度学习扩展开来的大 흐름，会在 P5-3.4 再次接回
 
 这一节的角色，是把`让深层计算同时撑住 forward 与 backward 的条件`集中放在同一个位置里。
 
-## 本节目标
+## 初始化、数值稳定性与 batch normalization 的判断标准
 
 - 能把 initialization 解释成`学习起点的数值布置`。
 - 能把 numerical stability 解释成`让数值和 gradient 在计算中维持在可承受范围内的问题`。
@@ -243,4 +243,3 @@ P5-6.4 里看到的 mode 差异，也会在这里重新接回。
 - Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola, `Dive into Deep Learning`, `5.4 Numerical Stability and Initialization`, `8.5 Batch Normalization`, `12 Optimization Algorithms`, 确认日期：2026-07-11。 [https://d2l.ai/](https://d2l.ai/){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, Part II `Modern Practical Deep Networks`, 确认日期：2026-07-11。 [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
 - Stanford `CS231n: Deep Learning for Computer Vision`, Schedule and course notes on `Regularization and Optimization`, `Neural Networks and Backpropagation`, `CNN Architectures`, 确认日期：2026-07-11。 [https://cs231n.stanford.edu/](https://cs231n.stanford.edu/){: target="_blank" rel="noopener noreferrer" }
-

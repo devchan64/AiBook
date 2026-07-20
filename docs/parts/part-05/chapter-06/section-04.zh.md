@@ -13,7 +13,7 @@
 
 如果后面在 dropout 或 batch normalization 的说明里又把 mode 区分重新混在一起，更适合回到[英文概念词汇表里的 training mode 条目](/AiBook/en/reference/concept-glossary/#training-mode)和[evaluation mode 条目](/AiBook/en/reference/concept-glossary/#evaluation-mode)，先重新确认这两个状态分别在管什么。
 
-## 本节范围
+## 需要训练模式与评估模式的问题
 
 - 为什么还要再把 training mode 和 evaluation mode 分开？
 - 哪些层会对 mode 差异特别敏感，而不是所有层都一样？
@@ -24,7 +24,7 @@
 
 同样，这一节也不会马上把所有相关问题都扩开。dropout 和 regularization 的更大意义，会在 P5-8.1、P5-8.2 里再详细接回；optimizer 在整条学习流程里究竟站在什么位置，则会在 P5-7.1、P5-7.2 重新说明。
 
-## 本节目标
+## 训练专用行为与执行行为的判断标准
 
 - 能把 training mode 和 evaluation mode 解释成`计算规则会不同的两种状态`。
 - 能说明 dropout 与 batch normalization 为什么对 mode 差异敏感。

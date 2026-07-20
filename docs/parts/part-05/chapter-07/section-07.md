@@ -1,7 +1,7 @@
 # P5-7.7 보충학습: optimizer state와 parameter-wise update
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표별 조절`이라는 표현이 반복해서 나왔습니다. 여기서 자연스럽게 남는 질문은 이것입니다. 그런 정보는 어디에 남고, 왜 같은 gradient라도 다음 step의 update가 달라질 수 있는가?
 
@@ -10,7 +10,7 @@ P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표
 
 초심자에게 이 절이 압축적으로 느껴지는 이유는, 네 단어가 모두 비슷한 숫자처럼 보이기 때문입니다. 실제 코드에서도 이 값들이 비슷한 줄 안에서 함께 등장하므로, 처음에는 거의 같은 것을 다른 이름으로 부르는 것처럼 느끼기 쉽습니다.
 
-## 이 절의 범위
+## optimizer state가 update를 바꾸는 질문
 
 - parameter, gradient, update, optimizer state는 각각 무엇인가?
 - optimizer state는 왜 모델 파라미터와 다른가?
@@ -19,7 +19,7 @@ P5-7.3에서 적응형 업데이트를 볼 때 `최근 gradient 흐름`, `좌표
 
 이 절에서는 라이브러리 구현 세부보다 `optimizer가 무엇을 따로 기억하고 있는가`를 설명하는 데 집중합니다.
 
-## 이 절의 목표
+## parameter-wise 상태와 적용 단위의 판단 기준
 
 - parameter, gradient, update, optimizer state를 구분할 수 있습니다.
 - optimizer state가 좌표별로 따로 유지될 수 있다는 점을 설명할 수 있습니다.

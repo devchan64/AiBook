@@ -1,7 +1,7 @@
 # P5-2.2 Hidden Layers And Representation
 
 > Section ID: `P5-2.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-2.1, we saw that a multilayer neural network stacks several computation units like perceptrons across multiple layers, so that the input does not go directly to the final judgment but passes through intermediate stages. Now let us make the question a little more concrete.
 
@@ -11,7 +11,7 @@ The viewpoint that answers this question is representation. A hidden layer is no
 
 When the idea of representation needs to be reviewed briefly again in later chapters, return to the [representation](/AiBook/reference/concept-glossary/#representation) entry in the concept glossary as the baseline.
 
-## Scope Of This Section
+## The Question Of How Hidden Layers Change Representations
 
 This section organizes the following questions.
 
@@ -23,7 +23,7 @@ This section organizes the following questions.
 
 The larger flow called representation learning is expanded again in P5-10.1 and P5-10.2. Filters and spatial representations in CNNs return in P5-11.1 and P5-11.2, and attention-based representations reconnect in P5-13.1, P5-13.2, and the Transformer main sections from P5-14.1 through P5-14.6. In other words, this section focuses on first holding onto the hidden layer as `an internal representation layer that rewrites the input`.
 
-## Goals Of This Section
+## Standards For Internal Representations And Intermediate Features
 
 - You can explain the hidden layer as `a representation-transformation layer between input and output`.
 - You can understand representation as something like `an internal coordinate system that rewrites the original input`.

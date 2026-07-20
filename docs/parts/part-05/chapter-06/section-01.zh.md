@@ -1,7 +1,7 @@
 # P5-6.1 学习循环：forward、loss、backward、optimizer step
 
 > Section ID: `P5-6.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-5 章里，我们已经看到：深度学习模型会通过损失（loss）、反向传播（backpropagation）和计算图（computation graph）来计算梯度（gradient）。走到这里以后，下一个问题会自然留下来。
 
@@ -11,7 +11,7 @@
 
 如果在学习循环里又开始把损失、反向传播、更新和模式切换混在一起，更适合回到[英文概念词汇表里的 training 条目](/AiBook/en/reference/concept-glossary/#training)、[backpropagation 条目](/AiBook/en/reference/concept-glossary/#backpropagation)、[optimizer 条目](/AiBook/en/reference/concept-glossary/#optimizer)，先重新拆开各自的计算角色。
 
-## 本节范围
+## 学习循环转一圈的问题
 
 - 到目前为止看到的损失与反向传播，在一个学习循环里是怎样接起来的？
 - optimizer step 在梯度计算之后接在什么位置？
@@ -21,7 +21,7 @@
 
 与此同时，这一节不会立刻扩大的问题也要说清楚。为什么需要 step、batch、epoch，会在下一节 P5-6.2 继续；learning 和 inference 的区别会在 P5-6.3 重新说明；training mode 和 evaluation mode 的区别会在 P5-6.4 再说明。也就是说，这一节是先抓住`学习循环的顺序`的位置，而紧接着的几节是区分`这个循环按什么单位重复`以及`它在什么时候、以什么方式运行`的位置。
 
-## 本节目标
+## forward-loss-backward-step 的判断标准
 
 - 能一次性说明深度学习的学习循环。
 - 能说出 forward、loss、backward、optimizer step 的顺序。

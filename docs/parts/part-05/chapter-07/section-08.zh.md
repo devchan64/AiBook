@@ -1,14 +1,14 @@
 # P5-7.8 补充学习：gradient clipping 与不稳定的 update
 
 > Section ID: `P5-7.8`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 一旦理解了 optimizer 把 gradient 变成 update 的结构，在真实训练日志里就会冒出另一个问题。方向已经知道了，但某些 step 的 update 看起来会突然变得过于猛烈。此时，问题应该先被读成 learning rate 问题，还是 gradient 尺度问题，还是说需要另外一种安全装置？
 
 gradient clipping 正是从这个位置出现的。
 这一节的诊断标准，以后也能原样复用在深层模型训练、fine-tuning 日志与不稳定的 loss 曲线里。
 
-## 本节范围
+## gradient clipping 要防住的问题
 
 - gradient clipping 到底是在限制什么？
 - 怎样区分：是 learning rate 太大，还是 gradient 本身突然太大？
@@ -17,7 +17,7 @@ gradient clipping 正是从这个位置出现的。
 
 这一节不会立刻扩展到高级分布式训练或 mixed precision，而是专注于：`怎样把不稳定的移动限制得更小。`
 
-## 本节目标
+## 爆炸 update 与步幅问题的判断标准
 
 - 能把 gradient clipping 解释成`限制过大移动的安全装置`。
 - 能区分 learning rate 问题与 gradient 尺度问题。

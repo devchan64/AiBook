@@ -1,13 +1,13 @@
 # P5-3.5 Formula Comparison Of Representative Activation Functions
 
 > Section ID: `P5-3.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 From P5-3.2 through P5-3.4, we looked separately at the sigmoid, tanh, and ReLU. Now the three functions are compared in one place. The purpose here is not to memorize names, but to check how the same score \(z\) changes according to different formulas and output ranges.
 
 If the comparison among representative activation functions becomes blurry again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary as the baseline.
 
-## Scope Of This Section
+## The Question Of Comparing Representative Activations
 
 - Compare the formulas of the sigmoid, tanh, and ReLU in one table.
 - Compare their output ranges and whether they saturate.
@@ -16,7 +16,7 @@ If the comparison among representative activation functions becomes blurry again
 
 This section does not repeat at length the history and detailed usage context of each function. The individual intuition has already been handled in P5-3.2, P5-3.3, and P5-3.4, and the question of what should be used in the output layer continues in P5-3.6.
 
-## Goals Of This Section
+## Standards For Graph Shape And Output Range
 
 - You can compare the formulas of the three representative activation functions side by side.
 - You can explain the differences among them through output range and saturation.

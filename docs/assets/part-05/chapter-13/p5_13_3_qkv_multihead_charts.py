@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import csv
 import os
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -17,29 +18,12 @@ from matplotlib import font_manager
 
 
 OUT_DIR = Path(__file__).resolve().parent
-
-TOKENS = np.array([
-    [1.0, 0.0],
-    [0.0, 2.0],
-    [3.0, 1.0],
-])
-
-SINGLE_HEAD_WEIGHTS = np.array([0.4, 0.3, 0.3])
-
-SCENARIOS = {
-    "balanced_heads": {
-        "head1": np.array([0.45, 0.30, 0.25]),
-        "head2": np.array([0.30, 0.30, 0.40]),
-    },
-    "decision_vs_condition_split": {
-        "head1": np.array([0.70, 0.20, 0.10]),
-        "head2": np.array([0.10, 0.30, 0.60]),
-    },
-    "condition_heavy_both_heads": {
-        "head1": np.array([0.20, 0.25, 0.55]),
-        "head2": np.array([0.15, 0.20, 0.65]),
-    },
-}
+DATA_PATH = OUT_DIR / "qkv-multihead-report-scenarios.csv"
+FOCUS_REPORT_ID = "ops_pressure_return"
+CONTEXT_AXES = [
+    ("decision_axis", ["decision_axis"]),
+    ("evidence_condition_axis", ["evidence_axis", "condition_axis"]),
+]
 
 TEXT = {
     "ko": {
@@ -109,12 +93,43 @@ def configure_font(text: dict[str, object]) -> None:
     plt.rcParams["axes.unicode_minus"] = False
 
 
+def load_rows() -> list[dict[str, str]]:
+    with DATA_PATH.open(encoding="utf-8", newline="") as f:
+        return [
+            row
+            for row in csv.DictReader(f)
+            if row["report_id"] == FOCUS_REPORT_ID
+        ]
+
+
+def scenario_names(rows: list[dict[str, str]]) -> list[str]:
+    names = []
+    for row in rows:
+        if row["scenario"] not in names:
+            names.append(row["scenario"])
+    return names
+
+
+def weighted_context(rows: list[dict[str, str]], weight_column: str) -> np.ndarray:
+    return np.array(
+        [
+            sum(
+                float(row[weight_column]) * sum(float(row[column]) for column in source_columns)
+                for row in rows
+            )
+            for _, source_columns in CONTEXT_AXES
+        ]
+    )
+
+
 def contexts() -> dict[str, dict[str, np.ndarray | float]]:
-    single = SINGLE_HEAD_WEIGHTS @ TOKENS
+    rows = load_rows()
     result = {}
-    for name, heads in SCENARIOS.items():
-        head1 = heads["head1"] @ TOKENS
-        head2 = heads["head2"] @ TOKENS
+    for name in scenario_names(rows):
+        scenario_rows = [row for row in rows if row["scenario"] == name]
+        single = weighted_context(scenario_rows, "single_weight")
+        head1 = weighted_context(scenario_rows, "head1_weight")
+        head2 = weighted_context(scenario_rows, "head2_weight")
         result[name] = {
             "single": single,
             "head1": head1,
@@ -128,7 +143,7 @@ def draw_separation_chart(locale: str, data: dict[str, dict[str, np.ndarray | fl
     text = TEXT[locale]
     configure_font(text)
     labels = text["scenario_labels"]
-    values = [data[name]["separation"] for name in SCENARIOS]
+    values = [scenario["separation"] for scenario in data.values()]
     colors = ["#94a3b8", "#2563eb", "#f97316"]
 
     fig, ax = plt.subplots(figsize=(6.2, 3.7))

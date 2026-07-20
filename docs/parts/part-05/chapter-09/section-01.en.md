@@ -1,7 +1,7 @@
 # P5-9.1 GPUs And Parallel Processing
 
-Section ID: `P5-9.1`
-Version: `v2026.07.19`
+> Section ID: `P5-9.1`
+> Version: `v2026.07.20`
 
 Up through Chapter P5-8, we looked at the learning computation and regularization that happen inside deep learning models. If we widen the view a little from there, the next question appears.
 
@@ -13,7 +13,7 @@ The spread of deep learning did not happen through algorithmic ideas alone. It i
 
 When the story of computational resources starts to feel abstract again, reread together the glossary entries on [GPU (graphics processing unit)](/AiBook/reference/concept-glossary/#gpugraphics-processing-unit) and [parallel processing](/AiBook/reference/concept-glossary/#parallel-processing).
 
-## Scope Of This Section
+## The Question That Connects GPUs To Parallel Processing
 
 - Why does deep learning require so much computation?
 - At the introductory level, how should we distinguish CPUs and GPUs?
@@ -24,7 +24,7 @@ This section first closes why deep learning looks like `a problem of repeating t
 
 At the same time, it is also clear which question will be made more concrete next. What kind of data groupings and shapes are actually fed into the deep-learning computations that GPUs handle well is explained in the next section, P5-9.2, through batches and tensor computation. Why Transformers fit GPU-style parallel processing so well is revisited later in P5-14.5.
 
-## Goals Of This Section
+## Standards For Repeated Operations And Compute Resources
 
 - You can explain that deep learning is sensitive to computational resources because of large matrix operations and repeated computation.
 - You can explain the difference between CPUs and GPUs intuitively through `how work is grouped`.

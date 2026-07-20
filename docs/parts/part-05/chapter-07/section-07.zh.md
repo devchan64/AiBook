@@ -1,7 +1,7 @@
 # P5-7.7 补充学习：optimizer state 与 parameter-wise update
 
 > Section ID: `P5-7.7`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-7.3 里，一讲到自适应 update，`最近 gradient 流向`和`按坐标调节`这两个表达就不断出现。顺着这个解释，自然会留下一个问题：这些信息到底会被留在哪里？为什么即使当前 gradient 看起来一样，下一次 update 仍然会不同？
 
@@ -10,7 +10,7 @@
 
 初学者会觉得这一节压得比较紧，不是因为它真的很高深，而是因为这四个词看上去都像是在说某些数字。实际代码里，它们常常又紧挨着出现，所以很容易让人误以为：是不是同一种东西换了几个名字。
 
-## 本节范围
+## optimizer state 怎样改变 update 的问题
 
 - parameter、gradient、update、optimizer state 分别是什么？
 - 为什么 optimizer state 和模型参数不是同一种东西？
@@ -19,7 +19,7 @@
 
 这一节的重点，不是库实现细节，而是说明：`optimizer 到底额外记住了什么。`
 
-## 本节目标
+## parameter-wise 状态与应用单位的判断标准
 
 - 能区分 parameter、gradient、update、optimizer state。
 - 能说明 optimizer state 可以按坐标分别维护。

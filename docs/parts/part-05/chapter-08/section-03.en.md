@@ -1,7 +1,7 @@
 # P5-8.3 Supplementary Reading: Conditions That Keep Deep Computation From Shaking - Initialization, Numerical Stability, And Batch Normalization
 
-Section ID: `P5-8.3`
-Version: `v2026.07.17`
+> Section ID: `P5-8.3`
+> Version: `v2026.07.20`
 
 In P5-8.1 and P5-8.2, we saw how to add objective-function control and structure-level control to the learning loop. But even when such control is added, learning can still shake if the deep computation itself is unstable. In P5-6.4, we saw why dropout and batch normalization are sensitive to the difference between training mode and evaluation mode. On top of that background, we add one more question that often remains for beginners.
 
@@ -13,7 +13,7 @@ Initialization sets the starting point where learning begins, numerical stabilit
 
 When this axis becomes blurry again, it helps to reread together the glossary entries for [training mode](/AiBook/reference/concept-glossary/#training-mode), [batch normalization](/AiBook/reference/concept-glossary/#batch-normalization), [initialization](/AiBook/reference/concept-glossary/#initialization), and [numerical stability](/AiBook/reference/concept-glossary/#numerical-stability).
 
-## Scope Of This Section
+## The Question Of Why Deep Computation Shakes
 
 - Why do deep networks not learn well immediately just because we add more layers?
 - What does initialization determine?
@@ -25,7 +25,7 @@ The larger flow of ReLU-type activations and the spread of deep learning reconne
 
 The role of this section is to gather in one place `the conditions that let deep computation survive both the forward pass and the backward pass`.
 
-## Goals Of This Section
+## Standards For Initialization, Numerical Stability, And Batch Normalization
 
 - You can explain initialization as `the placement of values at the start of learning`.
 - You can explain numerical stability as `the problem of keeping values and gradients within a manageable range during computation`.

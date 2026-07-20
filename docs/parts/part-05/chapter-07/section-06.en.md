@@ -1,14 +1,14 @@
 # P5-7.6 Supplementary Reading: Learning Rate Scheduler, Warmup, Decay
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-7.2, we read the learning rate as `the stride length of one update`. But once we look at actual training settings, we meet scenes where the learning rate is not fixed from beginning to end and instead keeps changing under names such as warmup, decay, and cosine schedule.
 
 The question the reader should hold onto immediately here is not `did another new optimizer appear?`, but `even while using the same optimizer, why is the stride-management policy made different over time?`
 This viewpoint also becomes a reusable standard later when reading training logs, fine-tuning settings, and experiment tables in papers, because it lets us separate `optimizer choice` from `stride-management policy`.
 
-## Scope Of This Section
+## The Question That Needs A Learning-Rate Schedule
 
 - Why do we distinguish a fixed learning rate from a learning rate that changes over time?
 - Why should warmup be read as a device that gradually increases the stride at the beginning?
@@ -17,7 +17,7 @@ This viewpoint also becomes a reusable standard later when reading training logs
 
 This section focuses not on the implementation API of schedulers, but on explaining how we should manage the stride during `the early phase of learning`, `the middle phase of learning`, and `the later phase of learning`.
 
-## Goals Of This Section
+## Standards For Warmup And Decay
 
 - You can explain a learning rate scheduler as `a stride-management policy`.
 - You can say what kind of training-stage problem warmup and decay each try to alleviate.

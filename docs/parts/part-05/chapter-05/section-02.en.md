@@ -1,7 +1,7 @@
 # P5-5.2 Computation Graph And Automatic Differentiation
 
 > Section ID: `P5-5.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-5.1, we explained that loss is not itself an update, but has to be unpacked again into a per-parameter gradient signal. Once that much is understood, the next question remains.
 
@@ -13,7 +13,7 @@ A computation graph is a representation that unfolds a model's computation into 
 
 When you need to unfold the computational relationships into a smaller reading again, use the [computation graph](/AiBook/reference/concept-glossary/#computation-graph) entry in the concept glossary as the anchor.
 
-## Scope Of This Section
+## The Question Of How Computation Graphs Remember Differentiation
 
 - What does a computation graph represent?
 - Why do we look at deep-learning computations as graphs?
@@ -30,7 +30,7 @@ From the point of view of Part 5, getting to this point already closes the respo
 | The backward flow of the learning procedure | Because it lets us read step by step how the loss distributes responsibility across operations. |
 | The connection to the next optimizer sections | Because after the gradients are computed, how the parameters are actually changed is revisited in P5-7. |
 
-## Goals Of This Section
+## Standards For Dependencies And Automatic Differentiation
 
 - You can explain a computation graph as `a recorded structure that unfolds computational dependencies`.
 - You can read on the graph that the forward pass is value computation and the backward pass is gradient propagation.

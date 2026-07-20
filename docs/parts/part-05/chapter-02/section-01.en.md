@@ -1,13 +1,13 @@
 # P5-2.1 Multilayer Neural Networks
 
 > Section ID: `P5-2.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-1.2, we saw that a single perceptron makes a decision through a linear combination of inputs and activation. At the same time, we also saw that one perceptron can create only one linear boundary at a time, so there is a limit to the patterns it can express. The next question naturally becomes `if one perceptron is not enough, what changes if several such computation units are stacked?` That question leads into the multilayer neural network. A multilayer neural network is a structure that stacks several computation units like perceptrons across multiple layers, turns simple input combinations into intermediate representations, and then connects those representations to more complex decisions.
 
 When the distinction between multilayer structure and intermediate layers needs to be fixed again, it helps to reread the [multilayer neural network](/AiBook/reference/concept-glossary/#multilayer-neural-network) and [hidden layer](/AiBook/reference/concept-glossary/#hidden-layer) entries together in the concept glossary.
 
-## Scope Of This Section
+## Questions Raised By Adding Layers
 
 This section organizes the following questions.
 
@@ -19,7 +19,7 @@ This section organizes the following questions.
 
 How a hidden layer can be read as creating real representations continues further in P5-2.2. Comparisons among activation functions reconnect from P5-3.1 through P5-3.5. The computation formulas of backpropagation return in P5-5.1 and P5-5.2. In other words, this section is the place to first hold onto what changes when more layers are stacked and why the hidden layer is needed.
 
-## Goals Of This Section
+## Standards For Multilayer Structure And Expressive Power
 
 - You can explain a multilayer neural network as `a structure that stacks perceptrons across several layers`.
 - You can say that the hidden layer is responsible for intermediate representations between input and output.

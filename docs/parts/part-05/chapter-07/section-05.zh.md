@@ -1,7 +1,7 @@
 # P5-7.5 补充学习：momentum、AdaGrad、RMSProp、Adam
 
 > Section ID: `P5-7.5`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-7.3 里，我们已经用 Adam（Adaptive Moment Estimation）看过自适应 update 的直觉。再往前走一步，读者就会陆续遇到 momentum、AdaGrad、RMSProp、Adam 这些 optimizer 家族。若把这些名字当成不同品牌去背，反而会把真正的核心弄得模糊。
 这一节的区分标准，是为了让读者以后即使再次遇到别的 optimizer 名字，也能继续用同一组问题去整理，而不是每次都把它们背成全新的算法。
@@ -10,7 +10,7 @@
 
 初学者会觉得这一节陌生，并不是因为名字多，而是因为比较标准一下子看不出来。所以更好的读法，不是把四个算法各自死记，而是让同一组问题重复问四遍。
 
-## 本节范围
+## 比较 optimizer 名称的问题
 
 - momentum 想在当前 gradient 之外额外保留什么？
 - AdaGrad 与 RMSProp 的按坐标调节，应该用什么直觉来读？
@@ -19,7 +19,7 @@
 
 这一节的重点，是解释 optimizer 家族的结构。这里的目标不是背完整公式，而是用三个问题去理解差异：`它多记了什么`、`它多调了什么`、`它最先想缓解什么问题。`
 
-## 本节目标
+## momentum 与自适应轴的判断标准
 
 - 能在同一层位比较 momentum、AdaGrad、RMSProp、Adam。
 - 能说明：哪些 optimizer 更偏向`时间轴累积`，哪些更偏向`坐标轴调节`。

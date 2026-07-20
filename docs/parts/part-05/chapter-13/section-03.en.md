@@ -1,7 +1,7 @@
 # P5-13.3 Supplementary Reading: Query-Key-Value (QKV) And Multi-Head Attention
 
 > Section ID: `P5-13.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-13.1 and P5-13.2, we first fixed the intuition of attention and self-attention. Once we have read this far, the next question appears naturally.
 
@@ -9,7 +9,7 @@ Then why, in the actual computation, is attention explained through query, key, 
 
 When the terms start to scatter again, reread together the glossary entries on [query-key-value (QKV)](/AiBook/reference/concept-glossary/#-query-key-value-qkv) and [multi-head attention](/AiBook/reference/concept-glossary/#multi-head-attention).
 
-## Scope Of This Supplementary Reading
+## Questions That Need QKV And Multi-Head Attention
 
 - What do query, key, and value mean?
 - Why is self-attention explained by dividing the computation into these three names?
@@ -18,7 +18,7 @@ When the terms start to scatter again, reread together the glossary entries on [
 
 This supplementary reading focuses on `why are these names used` and `how should we read intuitively the difference between one head and several heads`. The core here is not `do we memorize more formulas`, but `can we reread the intuition of attention we already hold through the repeated names QKV and multi-head`.
 
-## Goals Of This Supplementary Reading
+## Distinguishing Role Names From Multiple Viewpoints
 
 - You can explain query, key, and value at an introductory level.
 - You can read self-attention as `a computation that asks a question, finds the matching position, and brings back the information`.

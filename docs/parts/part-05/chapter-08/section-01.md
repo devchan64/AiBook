@@ -13,7 +13,7 @@ P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 
 과적합 억제와 normalization을 다시 구분해야 할 때는 개념사전의 [정규화(regularization)](../../../reference/concept-glossary.md#regularization) 항목으로 돌아갑니다.
 
-## 이 절의 범위
+## regularization이 목적 함수에 거는 질문
 
 - 정규화는 왜 학습 루프 안에 들어오는가?
 - 과적합(overfitting)과 어떤 관계가 있는가?
@@ -28,7 +28,7 @@ P5-7장에서는 optimizer가 gradient를 실제 업데이트로 바꾸는 규�
 | regularization | 그 움직임이 너무 복잡한 해법으로 가지 않게 제약을 주는 관점이기 때문입니다. |
 | normalization | 과적합 억제와 달리 값의 스케일과 분포를 다루기 쉽게 맞추는 질문이기 때문입니다. |
 
-## 이 절의 목표
+## 제약과 일반화의 판단 기준
 
 - 정규화를 `과적합을 줄이기 위한 제약`으로 설명할 수 있습니다.
 - optimizer와 regularization의 역할 차이를 구분할 수 있습니다.

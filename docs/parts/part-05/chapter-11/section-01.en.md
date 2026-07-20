@@ -1,7 +1,7 @@
 # P5-11.1 The Intuition Of Convolutional Neural Networks (CNNs)
 
 > Section ID: `P5-11.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter P5-10, we saw that deep neural networks can learn more useful representations as they pass through layers. If we now narrow that viewpoint to images, the next question appears.
 
@@ -13,7 +13,7 @@ A convolutional neural network is a neural network that does not look at the who
 
 When you need to reset the basic definition for reading image structure, return to the glossary entry on [CNN (convolutional neural network)](/AiBook/reference/concept-glossary/#cnn-convolutional-neural-network).
 
-## Scope Of This Section
+## The Question Of Why CNNs Fit Images
 
 - Why does a CNN fit images well?
 - What does it mean to look at local patterns?
@@ -33,7 +33,7 @@ What we read first here is not a learning procedure such as the optimizer or reg
 
 The concrete operations of convolution and pooling are handled next in P5-11.2, and the larger flow of representation learning in the image domain was already fixed in P5-10.1 and P5-10.2. In this section, we reread that larger flow on top of image scenes. A broader comparison of vision structures after CNNs continues in supplementary reading P5-11.3 at the level of `by what viewpoint should we compare CNNs and Vision Transformers (ViT)`.
 
-## Goals Of This Section
+## Standards For Local Patterns And Shared Filters
 
 - You can explain a CNN as `a neural network that repeatedly reads the local structure of images`.
 - You can say why position and nearby patterns matter in images.

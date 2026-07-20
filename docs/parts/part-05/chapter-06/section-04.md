@@ -13,7 +13,7 @@ P5-6.3에서는 학습(learning)과 모델 실행(inference)을 `파라미터를
 
 mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 개념사전의 [학습 모드(training mode)](../../../reference/concept-glossary.md#training-mode)와 [평가 모드(evaluation mode)](../../../reference/concept-glossary.md#evaluation-mode) 항목으로 돌아갑니다.
 
-## 이 절의 범위
+## 학습 모드와 평가 모드가 필요한 질문
 
 - 학습 모드와 평가 모드는 왜 나뉘는가?
 - 모든 층이 아니라 어떤 층들이 모드 차이에 민감한가?
@@ -24,7 +24,7 @@ mode 구분이 dropout이나 batch normalization 설명과 다시 섞일 때는 
 
 대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. dropout과 regularization 자체의 큰 의미는 P5-8.1, P5-8.2에서 다시 자세히 다루고, optimizer가 이 학습 흐름 안에서 어디에 들어오는지는 P5-7.1, P5-7.2에서 다시 연결합니다.
 
-## 이 절의 목표
+## 훈련 전용 동작과 실행 동작의 판단 기준
 
 - 학습 모드와 평가 모드를 `계산 규칙이 달라지는 두 상태`로 설명할 수 있습니다.
 - dropout과 batch normalization이 왜 모드 차이에 민감한지 말할 수 있습니다.

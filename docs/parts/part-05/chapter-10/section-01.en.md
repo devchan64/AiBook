@@ -1,7 +1,7 @@
 # P5-10.1 Representation Learning
 
 > Section ID: `P5-10.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 By the time we reach Chapter P5-9, we have seen that deep learning spread at practical scale because it repeats large tensor computations at the batch level, helped by GPUs and parallel processing. If we now turn the question back inward toward the model, the next question appears.
 
@@ -13,7 +13,7 @@ Representation learning means the process in which, instead of a person designin
 
 When the distinction between representation and representation learning becomes blurry again in later structure chapters, reread together the glossary entries on [representation](/AiBook/reference/concept-glossary/#representation) and [representation learning](/AiBook/reference/concept-glossary/#representation-learning).
 
-## Scope Of This Section
+## The Question Of How Representation Learning Changes Features
 
 - What does a representation mean?
 - How is representation learning different from feature engineering?
@@ -24,7 +24,7 @@ This section first closes representation learning as `the process in which the m
 
 At the same time, it is clear what question we will go into next. How representations are read as becoming more abstract in deeper layers is explained in the next section, P5-10.2. Representation in the image domain reconnects in P5-11.1 and P5-11.2, and sequence and attention-based representations reconnect in P5-12.1, P5-12.2, P5-13.1, and P5-13.2.
 
-## Goals Of This Section
+## Standards For Internal Features And Task Connections
 
 - You can explain representation learning as `the process in which the model forms useful internal features on its own`.
 - You can compare the difference between the way people directly create features and the deep-learning approach.

@@ -13,7 +13,7 @@ dropout 是一种 regularization 技术，它会在训练中随机关闭一部�
 
 如果之后又想重新抓住：dropout 是一种通过摇动结构来起作用的 regularization，更适合回到[英文概念词汇表里的 dropout 条目](/AiBook/en/reference/concept-glossary/#dropout)，再按这个基准重读。
 
-## 本节范围
+## dropout 怎样减少路径依赖的问题
 
 - 为什么 dropout 会和过拟合抑制连在一起？
 - 训练中切断部分连接，到底是什么意思？
@@ -22,7 +22,7 @@ dropout 是一种 regularization 技术，它会在训练中随机关闭一部�
 
 training mode 与 evaluation mode 的差异，会在 P5-6.4 再次接回；regularization 的更大视角，则建立在前一节 P5-8.1 上。这里先不以记忆公式为目标，而是先说明：`为什么随机移除路径会帮助泛化，以及为什么这个技术必须和 training mode 一起读。`
 
-## 本节目标
+## 被切断连接与 ensemble 直觉的判断标准
 
 - 能把 dropout 解释成`降低对特定路径依赖的 regularization 技术`。
 - 能说明 dropout 为什么在训练和评估时行为不同。

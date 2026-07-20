@@ -1,14 +1,14 @@
 # P5-7.6 보충학습: learning rate scheduler, warmup, decay
 
 > Section ID: `P5-7.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-7.2에서는 learning rate를 `한 번의 update 보폭`으로 읽었습니다. 하지만 실제 학습 설정을 보다 보면 learning rate가 처음부터 끝까지 고정되지 않고, warmup, decay, cosine schedule 같은 이름으로 계속 바뀌는 장면을 만납니다.
 
 여기서 독자가 바로 붙잡아야 할 질문은 `새 optimizer가 또 나온 것인가`가 아니라, `같은 optimizer를 쓰더라도 왜 보폭 운영 정책을 시간에 따라 다르게 두는가`입니다.
 이 관점은 뒤에서 학습 로그, fine-tuning 설정, 논문 실험표를 읽을 때도 `optimizer 선택`과 `보폭 운영 정책`을 분리해 보는 기준이 됩니다.
 
-## 이 절의 범위
+## learning rate schedule이 필요한 질문
 
 - 고정 learning rate와 시간에 따라 바뀌는 learning rate를 왜 구분하는가?
 - warmup은 왜 초반에 보폭을 천천히 키우는 장치로 읽어야 하는가?
@@ -17,7 +17,7 @@ P5-7.2에서는 learning rate를 `한 번의 update 보폭`으로 읽었습니�
 
 이 절에서는 scheduler의 구현 API보다 `학습 초반`, `학습 중반`, `학습 후반`에 보폭을 어떻게 운영할 것인가를 설명하는 데 집중합니다.
 
-## 이 절의 목표
+## warmup과 decay의 판단 기준
 
 - learning rate scheduler를 `보폭 운영 정책`으로 설명할 수 있습니다.
 - warmup과 decay가 각각 어느 학습 구간 문제를 완화하려는지 말할 수 있습니다.

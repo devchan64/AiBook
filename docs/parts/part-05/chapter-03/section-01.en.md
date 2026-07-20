@@ -1,7 +1,7 @@
 # P5-3.1 Activation Functions
 
-Section ID: `P5-3.1`
-Version: `v2026.07.17`
+> Section ID: `P5-3.1`
+> Version: `v2026.07.20`
 
 In P5-2.2, we saw that the hidden layer can turn the input into a more useful internal representation. The next question then appears immediately.
 
@@ -27,7 +27,7 @@ Once this transformation rule makes the relationship depart from a simple propor
 
 When the baseline of activation and nonlinearity needs to be fixed briefly again, return to the [activation function](/AiBook/reference/concept-glossary/#activation-function) entry in the concept glossary.
 
-## Scope Of This Section
+## The Question That Needs Activation Functions
 
 - Why is an activation function needed?
 - Why is expressive power limited if only linear combinations are repeated?
@@ -36,7 +36,7 @@ When the baseline of activation and nonlinearity needs to be fixed briefly again
 
 The differences among representative activation functions continue in P5-3.2 through P5-3.5. The connection between output-layer activation and loss functions returns in P5-3.6, P5-4.1, and P5-4.2. The more detailed context of gradient flow reconnects in P5-5.1 and P5-7.1. In other words, this section first closes why the activation function turns `a structure that only repeats linear calculation` into real expressive power.
 
-## Goals Of This Section
+## Standards For Nonlinearity And Expressive Power
 
 - You can explain the activation function as `a rule that gives a nonlinear transformation to a score`.
 - You can understand that if only linear combinations are repeated, the whole network can easily collapse back into something linear.

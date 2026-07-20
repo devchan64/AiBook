@@ -13,7 +13,7 @@
 
 如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的 [regularization](../../../reference/concept-glossary.md#regularization) 条目，重新对齐边界。
 
-## 本节范围
+## regularization 给目标函数加上的问题
 
 - 为什么 regularization 会进入学习循环？
 - 它和过拟合（overfitting）有什么关系？
@@ -28,7 +28,7 @@
 | regularization | 因为它负责给移动加上限制，不让模型一路走向过于复杂的解。 |
 | normalization | 因为它回答的不是过拟合抑制，而是怎样让数值尺度和分布更容易处理。 |
 
-## 本节目标
+## 约束与泛化的判断标准
 
 - 能把 regularization 解释为`为了降低过拟合而加入的约束`。
 - 能区分 optimizer 和 regularization 的角色。

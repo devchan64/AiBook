@@ -13,7 +13,7 @@ Attention is a method that places greater weight on the positions or tokens that
 
 When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](../../../reference/concept-glossary.md#attention).
 
-## Scope Of This Section
+## The Question Of How Attention Revisits Needed Positions
 
 - What problem is attention trying to solve?
 - What does it mean to `look more strongly at the needed position`?
@@ -24,7 +24,7 @@ The core point that this section needs to close first is that `instead of only s
 
 The connection to self-attention and the Transformer is continued in the next section and the next chapter. An introductory explanation of query, key, value, and multi-head attention is revisited in supplementary reading P5-13.3.
 
-## Goals Of This Section
+## Standards For Reference Weights And Context Choice
 
 - You can explain attention as `a method that refers more directly to important positions`.
 - You can talk about the connection between the long-term dependency problem and attention.

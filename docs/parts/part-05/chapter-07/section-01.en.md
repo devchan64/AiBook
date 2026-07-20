@@ -21,7 +21,7 @@ When reading this flow, it is safer to hold onto the following three sentences f
 - Backpropagation computes the direction signal of each weight.
 - The optimizer turns that signal into an actual update.
 
-## Scope Of This Section
+## The Question Of What The Optimizer Updates
 
 - Where does the optimizer sit in the learning procedure?
 - What role differences do the loss function, backpropagation, and the optimizer have?
@@ -32,7 +32,7 @@ This section focuses on closing `who actually changes the parameters`. In other 
 
 At the same time, it is also clear which question we will not widen immediately in this section. How the update step size changes even with the same gradient depending on the learning rate continues in the next section, P5-7.2. What adaptive optimizers such as Adam try to additionally compensate beyond a simple reference update is explained again in P5-7.3. The convergence analysis of adaptive optimization is separated into the supplementary study of P5-7.4.
 
-## Goals Of This Section
+## Standards For Gradients And Update Rules
 
 - You can explain the optimizer as `the rule that turns gradients into actual updates`.
 - You can distinguish what stage the loss function, backpropagation, and the optimizer each finish.

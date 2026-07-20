@@ -13,7 +13,7 @@ The recurrent-network family tries to process sequence data by not looking only 
 
 When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](../../../reference/concept-glossary.md#rnn-recurrent-neural-network), [LSTM (long short-term memory)](../../../reference/concept-glossary.md#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](../../../reference/concept-glossary.md#gru-gated-recurrent-unit).
 
-## Scope Of This Section
+## The Question Of How RNNs Remember Order
 
 - Why is the idea of order important in sequence data?
 - What kind of frustration appears if we use only a general feed-forward structure?
@@ -22,7 +22,7 @@ When the basic names for sequential-state structures become mixed up again, rere
 
 The core point that this section needs to close first is that `in sequence data, the current judgment is changed not by only the last input, but by the accumulated state from earlier steps`. In other words, here we first close `why we need to carry sequential state forward` and `why basic RNNs alone found it hard to remember for a long time`. The long-term dependency problem is treated more directly in the very next section, P5-12.2.
 
-## Goals Of This Section
+## Standards For State Passing And Time-Axis Representations
 
 - You can explain why `order` and `context` matter in sequence-data problems.
 - You can explain an RNN as `a structure that carries the previous state forward`.

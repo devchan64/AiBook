@@ -1,7 +1,7 @@
 # P5-11.2 Convolution And Pooling
 
 > Section ID: `P5-11.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-11.1, we explained a CNN as `a neural network that repeatedly reads local patterns in images`. The next question remains.
 
@@ -11,7 +11,7 @@ Convolution is the operation that computes local-pattern scores with a small fil
 
 When the operation names become mixed up again, it is useful to reread together the glossary entries on [convolution](/AiBook/reference/concept-glossary/#convolution) and [pooling](/AiBook/reference/concept-glossary/#pooling).
 
-## Scope Of This Section
+## Questions Closed By Convolution And Pooling
 
 - What does convolution compute?
 - What do filter and feature map mean?
@@ -22,14 +22,14 @@ This section focuses not on proving the convolution formula rigorously, but on f
 
 At the same time, it is clear what we will not widen immediately in this section. A broader comparison of vision structures after CNNs is revisited in supplementary reading P5-11.3 around `CNN and Vision Transformer (ViT)`. Padding, stride, and dilation are handled only as much as needed here to understand `how the filter reads the input`.
 
-## Goals Of This Section
+## Standards For Reading Local Responses And Summaries
 
 - You can explain convolution as `the operation where a small filter computes local-pattern scores`.
 - You can explain a feature map as `the spatial record of filter responses`.
 - You can say why pooling is used to reduce spatial size and summarize important responses.
 - Through an executable Python example, you can confirm the intuition of convolution and max pooling.
 
-## The Order For Reading This Section
+## From Filter Responses To Pooling Summaries
 
 1. First look at how convolution computes local-pattern scores.
 2. Then look at how the result remains as a response map called a feature map.

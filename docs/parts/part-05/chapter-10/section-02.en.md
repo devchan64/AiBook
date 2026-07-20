@@ -1,7 +1,7 @@
 # P5-10.2 Representations In Deep Layers
 
-Section ID: `P5-10.2`
-Version: `v2026.07.19`
+> Section ID: `P5-10.2`
+> Version: `v2026.07.20`
 
 In P5-10.1, we explained representation learning as `the process in which the model learns useful internal features on its own`. The next question then follows naturally.
 
@@ -11,7 +11,7 @@ As layers get deeper, representations usually move from more local and simple pa
 
 When you need to confirm again how to read the claim that representations change as layers get deeper, return to the glossary entry on [representation](/AiBook/reference/concept-glossary/#representation).
 
-## Scope Of This Section
+## The Question Of How Deep Layers Change Representations
 
 - What do low-level features and high-level representations mean?
 - Why do we say stacking many layers makes more abstract representations possible?
@@ -24,7 +24,7 @@ At the same time, it is clear what we will not widen right away in this section.
 
 In other words, here we safely explain the intuition of hierarchical representation without creating exaggerations such as `deeper layers are automatically more intelligent`.
 
-## Goals Of This Section
+## Standards For Low-Level And High-Level Features
 
 - You can explain deep-layer representation as `the tendency to move from simple patterns toward more abstract representations`.
 - You can state that the reason for stacking layers is connected not only to increasing the number of parameters, but also to changing the level of representation.

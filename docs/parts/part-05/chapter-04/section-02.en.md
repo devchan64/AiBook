@@ -1,7 +1,7 @@
 # P5-4.2 Loss By Problem Type
 
 > Section ID: `P5-4.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-4.1, we looked at the loss function as `the standard that turns how far the model's current output differs from the target into a number`. The next question then appears naturally.
 
@@ -13,7 +13,7 @@ The loss function changes by problem type, because regression, classification, a
 
 When the standards for reading loss differently by problem type start to get mixed together again, return to the [loss function](/AiBook/reference/concept-glossary/#loss-function) entry in the concept glossary.
 
-## Scope Of This Section
+## The Question Where Problem Type Changes The Loss
 
 - Why do regression and classification use different loss standards?
 - How should a problem of matching numbers be read differently from a problem of matching probabilities?
@@ -22,7 +22,7 @@ When the standards for reading loss differently by problem type start to get mix
 
 This section explains `why the loss changes by problem`, rather than showing many formulas. The derivatives of loss and the flow of learning updates reconnect in P5-5.1 and P5-5.2. In other words, this section first closes why `what counts as wrong` changes depending on the problem type.
 
-## Goals Of This Section
+## Standards For Output Interpretation And Loss Choice
 
 - You can distinguish the viewpoint of loss in regression, classification, and generation problems.
 - You can explain that regression centers on the size of numeric error, classification on confidence in the correct class, and generation on the probability of the next token.

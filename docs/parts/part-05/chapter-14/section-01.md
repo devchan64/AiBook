@@ -1,15 +1,15 @@
 # P5-14.1 Transformer는 왜 attention 하나로 설명되지 않는가
 
 > Section ID: `P5-14.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 안 토큰들이 서로를 다시 참고해 표현을 갱신하는 방식이라고 보았습니다. 여기서 바로 생기는 질문은 이것입니다.
+P5-13.2에서는 셀프 어텐션(self-attention)이 같은 시퀀스 안 토큰들이 서로를 다시 참고해 표현을 갱신하는 방식이라고 보았습니다. P5-13.3에서는 그 직관을 쿼리-키-값(query-key-value, QKV)과 멀티헤드 어텐션(multi-head attention)이라는 계산 이름으로 다시 읽었습니다. 여기서 바로 생기는 질문은 이것입니다.
 
 Transformer는 self-attention을 쓰는 모델이라고만 말하면 충분한가?
 
 충분하지 않습니다. Transformer는 self-attention으로 관계를 읽고, feed-forward network로 각 위치 표현을 다시 가공하며, residual connection과 layer normalization으로 깊은 반복 계산을 안정화하는 블록 구조입니다. 이 차이를 잡아야 뒤에서 병렬 처리, 긴 문맥, LLM 구조를 읽을 때도 `attention이 들어갔다`는 말만으로 설명을 끝내지 않게 됩니다.
 
-## Transformer 기본 문제가 다루는 질문
+## attention 하나로는 닫히지 않는 세 질문
 
 - self-attention이 Transformer의 핵심이라면, 왜 그것만으로 설명이 끝나지 않는가?
 - Transformer 블록은 어떤 역할 묶음으로 읽어야 하는가?
@@ -17,10 +17,7 @@ Transformer는 self-attention을 쓰는 모델이라고만 말하면 충분한�
 
 여기서 먼저 닫을 질문은 `Transformer에는 어떤 부품이 있나`가 아니라, `왜 self-attention과 feed-forward를 반복 가능한 블록으로 묶어야 했는가`입니다.
 
-| 지금 이 절에서 읽는 것 | 뒤 절로 넘기는 것 |
-| --- | --- |
-| Transformer를 self-attention 하나가 아니라 블록 구조로 읽는 기준 | 각 부품의 세부 역할과 표현 갱신 과정 |
-| 관계 읽기, 위치별 가공, 안정적 전달이 함께 필요하다는 감각 | 병렬 처리, 긴 문맥 직접 재참조, 생성 모델 연결 |
+이 절에서는 Transformer를 self-attention 하나가 아니라 블록 구조로 읽는 기준을 잡습니다. 각 부품의 세부 역할과 실제 표현 갱신 과정은 P5-14.2와 P5-14.3에서 더 나누어 보고, 병렬 처리·긴 문맥 직접 재참조·생성 모델 연결은 뒤 절에서 이어 갑니다.
 
 ## self-attention만으로는 무엇이 비는가
 

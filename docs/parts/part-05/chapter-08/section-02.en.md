@@ -13,7 +13,7 @@ Dropout is a regularization technique that randomly turns off some node outputs 
 
 When you need to check again the intuition that dropout is an example of regularization that shakes the structure, reread the glossary entry on [dropout](/AiBook/reference/concept-glossary/#dropout).
 
-## Scope Of This Section
+## The Question Of How Dropout Reduces Path Dependence
 
 - Why is dropout connected to overfitting control?
 - What does it mean to cut some connections during training?
@@ -22,7 +22,7 @@ When you need to check again the intuition that dropout is an example of regular
 
 The difference between training mode and evaluation mode reconnects in P5-6.4, and the larger viewpoint of regularization is read in P5-8.1 above. Here, rather than memorizing formulas, we first explain `why randomly removing paths helps generalization, and why this technique has to be read together with training mode`.
 
-## Goals Of This Section
+## Standards For Dropped Connections And Ensemble Intuition
 
 - You can explain dropout as `a regularization technique that reduces dependence on specific paths`.
 - You can state why dropout behaves differently during training and evaluation.

@@ -19,7 +19,7 @@ step 是一次 update 发生的单位。batch 是这个 step 里一起处理的�
 
 如果这几个单位后来又混在一起，更适合回到[英文概念词汇表里的 batch 条目](/AiBook/en/reference/concept-glossary/#batch)、[training 条目](/AiBook/en/reference/concept-glossary/#training)、[epoch 条目](/AiBook/en/reference/concept-glossary/#epoch)，先把它们重新拆开。
 
-## 本节范围
+## step、batch、epoch 分开的问题
 
 - step、batch、epoch 各自在数什么？
 - P5-6.1 里的学习循环，如何按 batch 与 step 重复？
@@ -32,7 +32,7 @@ step 是一次 update 发生的单位。batch 是这个 step 里一起处理的�
 
 同样，这一节不会立刻扩大的问题也要明确。`这个重复是会真正改变参数的学习过程，还是只是在使用当前参数运行？` 这一点会在下一节 P5-6.3 接着说明。即便都在使用同一组参数，为什么还要再分 training mode 和 evaluation mode，则会在 P5-6.4 再解释。
 
-## 本节目标
+## 更新单位与重复单位的判断标准
 
 - 能把 step、batch、epoch 解释成三个不同的重复单位。
 - 能说明 P5-6.1 的一次学习循环会对每个 batch 作为一个 step 执行。

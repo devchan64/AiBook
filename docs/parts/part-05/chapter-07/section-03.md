@@ -11,7 +11,7 @@ P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보�
 
 기본 업데이트와 적응형 업데이트의 차이가 다시 섞이면 개념사전의 [경사하강법(gradient descent)](../../../reference/concept-glossary.md#gradient-descent)과 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 봅니다.
 
-## 이 절의 범위
+## Adam이 적응형으로 보정하는 질문
 
 - 적응형 업데이트는 기본적인 gradient update에 무엇을 더 보완하려는가?
 - 최근 gradient 흐름과 좌표별 조절이라는 적응형 update의 핵심 직관은 무엇인가?
@@ -26,7 +26,7 @@ P5-7.2에서는 같은 gradient라도 learning rate에 따라 실제 update 보�
 | optimizer 절차 | 같은 구조라도 파라미터를 어떤 보폭과 어떤 누적 규칙으로 움직일지 정하는 문제이기 때문입니다. |
 | regularization과의 차이 | optimizer는 `어떻게 움직일까`, regularization은 `어떤 해를 덜 선호할까`를 다루기 때문입니다. |
 
-## 이 절의 목표
+## gradient 이력과 보폭 조절의 판단 기준
 
 - 적응형 업데이트를 `최근 gradient 흐름과 좌표별 조절을 반영하는 update 방식`으로 설명할 수 있습니다.
 - 기본 직접 업데이트와 적응형 업데이트의 차이를 이해할 수 있습니다.

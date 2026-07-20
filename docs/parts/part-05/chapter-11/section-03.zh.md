@@ -1,7 +1,7 @@
 # P5-11.3 补充学习：卷积神经网络（CNN）与视觉 Transformer（ViT, Vision Transformer）比较
 
-Section ID: `P5-11.3`
-Version: `v2026.07.18`
+> Section ID: `P5-11.3`
+> Version: `v2026.07.20`
 
 在 P5-11.1 与 P5-11.2 里，我们已经先看过：为什么卷积神经网络（CNN）特别适合图像，以及 convolution 和 pooling 分别承担什么角色。顺着这里，自然会出现下一个问题。
 
@@ -9,7 +9,7 @@ Version: `v2026.07.18`
 
 当需要再次简短确认 Vision Transformer 的不同起始单位时，可以回到英文概念词汇表里的[ViT（Vision Transformer）](/AiBook/en/reference/concept-glossary/#vit-vision-transformer)条目重新对齐。
 
-## 本补充学习的范围
+## 区分 CNN 与 ViT 的输入单位
 
 - CNN 和 ViT 会怎样开始读取一张图像？
 - 以局部模式为中心的读取，与以 token 关系为中心的读取，有什么不同？
@@ -19,14 +19,14 @@ Version: `v2026.07.18`
 
 ViT 里的 self-attention 本身，会在后面的 P5-13.2 与 P5-14.1 再重新接回。这里先整理的，只是从图像角度看：`它是先读局部模式，还是先读 patch 之间的关系`，以及这个差异为什么会在走向生成式 AI 时变得有用。
 
-## 本补充学习的目标
+## 局部模式与 patch 关系的区分
 
 - 能比较 CNN 与 ViT 读取图像时的起始单位。
 - 能区分 CNN 的局部模式中心读取，与 ViT 的 patch 关系中心读取。
 - 能说明 patch token 与 self-attention 会为图像解释带来什么直觉。
 - 能连接起来：为什么在后面的 attention、Transformer、生成式 AI 小节里，`把输入当成 token 一样处理`这个视角会不断回来。
 
-## 阅读这个补充学习的顺序
+## 从 CNN 直觉走向 ViT 直觉
 
 1. 先回想在 CNN 里已经熟悉的起点：`先读取局部模式`。
 2. 再比较 ViT 会怎样把图像切成 patch token，并通过 attention 读取它们的关系。

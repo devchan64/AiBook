@@ -13,7 +13,7 @@ Long-term dependency means a problem where information from far earlier matters 
 
 When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](../../../reference/concept-glossary.md#long-term-dependency).
 
-## Scope Of This Section
+## The Question Of How Long-Term Dependencies Shape Current Decisions
 
 - What does long-term dependency mean?
 - Why does old information tend to weaken in a basic RNN?
@@ -22,7 +22,7 @@ When reading the later attention chapters and needing to confirm again the start
 
 The core point that this section needs to close first is that `a structure that passes sequential state forward is still not enough to bring a distant earlier cue stably into the current judgment`. In other words, here we first close `why an earlier cue disappears`, `why that shakes the current judgment`, and `to what extent LSTM/GRU tried to relieve it`. Attention itself is continued in the next chapter, P5-13.1.
 
-## Goals Of This Section
+## Standards For Distant Clues And State Preservation
 
 - You can explain long-term dependency as `the problem where earlier information is needed but is not maintained well enough`.
 - You can explain at an introductory level why a basic RNN struggles with long context.

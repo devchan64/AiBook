@@ -1,7 +1,7 @@
 # P5-3.6 출력층(output layer)과 활성화의 선택
 
 > Section ID: `P5-3.6`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았고, P5-3.2부터 P5-3.5까지는 sigmoid, tanh, ReLU와 대표 함수 수식 비교를 따로 보았습니다. 여기까지 오면 다음 질문이 자연스럽게 생깁니다.
 
@@ -13,7 +13,7 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 
 출력 해석과 활성화 선택의 기준이 다시 흐려지면 개념사전의 [출력(output)](../../../reference/concept-glossary.md#output)과 [활성화 함수(activation function)](../../../reference/concept-glossary.md#activation-function) 항목을 함께 다시 봅니다.
 
-## 이 절의 범위
+## 출력층 활성화를 고르는 질문
 
 - 은닉층 활성화와 출력층 활성화는 왜 같은 문제로 다루지 않는가?
 - 회귀(regression), 이진 분류(binary classification), 다중 분류(multiclass classification)에서는 출력층을 어떻게 읽는가?
@@ -22,7 +22,7 @@ P5-3.1에서는 활성화 함수(activation function)가 왜 필요한지 보았
 
 손실 함수 자체의 설계는 P5-4.1과 P5-4.2에서 이어서 다루고, calibration의 기초 읽기와 확률 출력 해석은 P4-6.4에서 다시 연결합니다. 즉, 이번 절은 출력층 활성화가 `마지막 숫자를 어떤 단위로 읽게 만드는가`를 먼저 닫는 자리입니다.
 
-## 이 절의 목표
+## 예측 대상과 손실 연결의 판단 기준
 
 - 출력층 활성화의 선택이 `모델이 무엇을 예측하는가`와 연결된다는 점을 설명할 수 있습니다.
 - 회귀, 이진 분류, 다중 분류에서 출력층을 다르게 읽을 수 있습니다.

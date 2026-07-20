@@ -1,7 +1,7 @@
 # P5-4.1 Loss Functions
 
 > Section ID: `P5-4.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter 3, we saw that activation functions insert nonlinearity into neural networks and increase expressive power. The next question then follows immediately.
 
@@ -21,7 +21,7 @@ Here it is enough to fix the following three sentences first.
 - The mistake must be turned into a number before the next calculation can continue.
 - That number is exactly the loss.
 
-## Scope Of This Section
+## The Question That Needs Loss Functions
 
 - What does the loss turn into a number?
 - Why does the loss function become the central standard in deep learning?
@@ -30,7 +30,7 @@ Here it is enough to fix the following three sentences first.
 
 The concrete kinds of loss functions and their differences by problem type continue in P5-4.2, while how differentiation and gradient calculation actually connect to backpropagation returns in P5-5.1 and P5-5.2. In other words, this section is the place to first hold onto the role of loss as turning `the gap between prediction and target into a number that learning can use`.
 
-## Goals Of This Section
+## Standards For Reading Error As A Number
 
 - You can explain the loss function as `the standard that turns the current prediction error into a number`.
 - You can distinguish the loss function from an evaluation metric.

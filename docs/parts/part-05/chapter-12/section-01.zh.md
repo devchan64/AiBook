@@ -13,7 +13,7 @@
 
 如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的 [RNN（recurrent neural network）](../../../reference/concept-glossary.md#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](../../../reference/concept-glossary.md#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](../../../reference/concept-glossary.md#gru-gated-recurrent-unit) 条目重新对齐。
 
-## 本节范围
+## RNN 怎样记住顺序的问题
 
 - 为什么在序列数据里，顺序这个概念很重要？
 - 只靠一般的 feed-forward 结构，会出现什么不顺手的地方？
@@ -22,7 +22,7 @@
 
 本节首先要收住的核心，是`在序列数据里，改变当前判断的并不只是最后一个输入，而是前面累积下来的状态`。也就是说，这里先收住的是`为什么要把序列状态带下去`，以及`为什么只靠 basic RNN 很难长时间记住信息`。long-term dependency 问题会在下一节 P5-12.2 里更集中地展开。
 
-## 本节目标
+## 状态传递与时间轴表征的判断标准
 
 - 能说明为什么在序列数据问题里，`顺序`和`上下文（context）`很重要。
 - 能把 RNN 解释成`把前一状态继续带下去的结构`。

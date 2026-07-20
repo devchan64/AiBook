@@ -11,7 +11,7 @@ In this section, we use Adam (Adaptive Moment Estimation) as a representative ex
 
 If the difference between basic updates and adaptive updates starts to blur together again, return together to the [gradient descent](/AiBook/reference/concept-glossary/#gradient-descent) and [optimizer](/AiBook/reference/concept-glossary/#optimizer) entries in the concept glossary.
 
-## Scope Of This Section
+## The Question Of What Adam Adapts
 
 - What does adaptive update try to additionally compensate beyond a basic gradient update?
 - What is the core intuition of adaptive update in terms of recent gradient flow and coordinate-wise adjustment?
@@ -26,7 +26,7 @@ This section explains the problem awareness from which adaptive update comes, ra
 | optimizer procedure | because it is the question of by what stride length and accumulation rule the parameters are actually moved even for the same structure |
 | difference from regularization | because the optimizer deals with `how should we move`, while regularization deals with `what kinds of solutions should we prefer less` |
 
-## Goals Of This Section
+## Standards For Gradient History And Step-Size Adjustment
 
 - You can explain adaptive update as `an update method that reflects recent gradient flow and coordinate-wise adjustment`.
 - You can understand the difference between a basic direct update and an adaptive update.

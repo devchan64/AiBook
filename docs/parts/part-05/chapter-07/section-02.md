@@ -13,7 +13,7 @@ P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 �
 
 학습률, gradient, update의 관계가 다시 섞이면 개념사전의 [학습률(learning rate)](../../../reference/concept-glossary.md#learning-rate)와 [옵티마이저(optimizer)](../../../reference/concept-glossary.md#optimizer) 항목을 함께 다시 보는 편이 좋습니다.
 
-## 이 절의 범위
+## learning rate가 보폭을 정하는 질문
 
 - 학습률은 optimizer update에 어디에 붙는가?
 - 같은 gradient라도 학습률이 다르면 왜 실제 update 결과가 달라지는가?
@@ -24,7 +24,7 @@ P5-7.1에서는 옵티마이저(optimizer)가 `gradient를 실제 파라미터 �
 
 대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. 최근 gradient 흐름과 좌표별 차이를 함께 반영하는 적응형 update는 다음 Section인 P5-7.3에서 이어서 설명합니다. learning rate를 학습 내내 같은 값으로 두지 않고 warmup이나 decay로 운영하는 방식은 P5-7.6 보충학습에서 다시 설명합니다. adaptive optimization의 수렴 분석은 P5-7.4 보충학습으로 분리합니다.
 
-## 이 절의 목표
+## update 크기와 안정성의 판단 기준
 
 - 학습률을 `optimizer update의 보폭`으로 설명할 수 있습니다.
 - 같은 gradient라도 learning rate에 따라 실제 update 결과가 달라진다는 점을 말할 수 있습니다.

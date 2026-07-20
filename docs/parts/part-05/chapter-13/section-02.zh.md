@@ -13,7 +13,7 @@ self-attention 是一种方式：序列里的每个 token 会参考同一序列�
 
 当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的 [self-attention](../../../reference/concept-glossary.md#self-attention) 条目重新对齐。
 
-## 本节范围
+## Self-attention 怎样重读同一序列的问题
 
 - self-attention 和 attention 有什么不同？
 - 为什么`在同一序列内部彼此参考`这个想法很重要？
@@ -26,7 +26,7 @@ self-attention 是一种方式：序列里的每个 token 会参考同一序列�
 
 本节必须收住的一句话只有一个。它不再是`token 会不会接收到顺序状态`，而是要让读者理解这种计算感觉的转移：`token 会不会重新参考彼此，并更新自己的表示。`
 
-## 本节目标
+## token 关系与表征更新的判断标准
 
 - 能把 self-attention 解释成`序列内部 token 之间的相互参考`。
 - 能说明 self-attention 给人的计算感觉和 RNN 式顺序传递不同。

@@ -11,7 +11,7 @@ When the same activations pass through several layers, how much does a large ini
 
 This section does not reproduce full learning. Instead, it assumes that the activation values coming from the previous layer pass through the same linear transform across three layers, and checks how a small scale and a large scale change the output range and variance at each layer. The single scalar multiplied at each layer is enough to read as `a toy experimental value that represents the weight scale of that layer in simplified form`. Then we also check how the output range is reorganized into an easier-to-handle form once batch normalization is applied after each layer.
 
-## Scope Of This Section
+## The Question Of How Large Initialization Scale Shakes Ranges
 
 - How does a large initialization scale increase the range and variance of raw activations during deep repeated computation?
 - If batch normalization is applied after each layer, how does the same computational flow change?

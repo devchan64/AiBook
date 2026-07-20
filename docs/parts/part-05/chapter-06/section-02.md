@@ -19,7 +19,7 @@ P5-6.1에서는 `forward -> loss -> backward -> optimizer step`으로 이어지�
 
 이 세 단위의 구분이 다시 흐려지면 개념사전의 [배치(batch)](../../../reference/concept-glossary.md#batch), [학습(training)](../../../reference/concept-glossary.md#training), [에폭(epoch)](../../../reference/concept-glossary.md#epoch) 항목을 함께 다시 보는 편이 좋습니다.
 
-## 이 절의 범위
+## step, batch, epoch가 나누는 질문
 
 - step, batch, epoch는 각각 무엇을 세는가?
 - P5-6.1의 학습 루프는 batch와 step으로 어떻게 반복되는가?
@@ -32,7 +32,7 @@ P5-6.1에서는 `forward -> loss -> backward -> optimizer step`으로 이어지�
 
 대신 이번 절에서 바로 넓히지 않을 질문도 분명합니다. `그 반복이 파라미터를 실제로 바꾸는 학습인가, 아니면 현재 파라미터를 쓰는 실행인가`는 다음 Section인 P5-6.3에서 이어서 설명합니다. 같은 파라미터를 쓰는 구간 안에서도 왜 training mode와 evaluation mode가 갈리는지는 P5-6.4에서 다시 설명합니다.
 
-## 이 절의 목표
+## 업데이트 단위와 반복 단위의 판단 기준
 
 - step, batch, epoch를 서로 다른 반복 단위로 설명할 수 있습니다.
 - P5-6.1의 한 번의 학습 루프가 batch마다 한 step으로 실행된다는 점을 말할 수 있습니다.

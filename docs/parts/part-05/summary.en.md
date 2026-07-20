@@ -1,7 +1,7 @@
 # Part 5 Wrap-up. Deep Learning Review
 
-Section ID: `P5-summary`
-Version: `v2026.07.16`
+> Section ID: `P5-summary`
+> Version: `v2026.07.20`
 
 Part 5 was the section that actually explained how the larger family of functions called neural networks was built on top of the common questions of machine learning. If Part 4 established the standard for reading models around data splitting, generalization, and evaluation, Part 5 had to recover `the structure that learns deeper representations` and `the procedure that actually trains that structure`, while keeping that same standard.
 
@@ -21,7 +21,7 @@ At this point, an important principle is not to end Part 5 as a `preview for the
 
 When reviewing, it is more stable not to stop after rereading this summary alone, but to go back at the point where a term becomes blurry and read the corresponding entry in the [Concept Glossary](../../reference/concept-glossary.md) together with its `Core Section`.
 
-## The Order For Reading This Wrap-up
+## The Review Flow That Regroups Part 5
 
 This document holds its flow best if read in the following order.
 

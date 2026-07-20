@@ -1,7 +1,7 @@
 # P5-14.3 토큰 표현은 Transformer 블록 안에서 어떻게 이동하는가
 
 > Section ID: `P5-14.3`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P5-14.2에서는 Transformer 블록의 부품별 역할을 나누어 보았습니다. 이제 같은 흐름을 현재 표현 하나가 실제로 어떻게 지나가는지로 다시 좁혀 봅니다.
 
@@ -9,11 +9,13 @@ Transformer 블록 안에서 현재 토큰 표현은 어떤 단계로 바뀌는�
 
 초점은 부품 이름 나열보다 `입력 표현 -> 문맥이 섞인 표현 -> 위치별로 가공된 표현 -> 원래 정보가 더해진 표현 -> 정리된 표현`이라는 갱신 흐름입니다.
 
-## 표현 갱신이 다루는 질문
+이 절의 숫자 예제에서는 residual 이후 블록 출력 방향까지만 따라갑니다. normalization은 값 범위를 정리하는 안정화 장치로, 다음 절에서 따로 봅니다.
+
+## 표현 이동에서 구분할 단계
 
 - self-attention 뒤의 표현은 입력 표현과 무엇이 달라지는가?
 - feed-forward는 그 표현을 어떻게 다시 바꾸는가?
-- residual과 normalization을 거치면 왜 다음 블록으로 넘길 수 있는 표현이 되는가?
+- residual 이후 새 계산과 원래 정보가 함께 남으면 블록 출력 방향은 어떻게 달라지는가?
 
 ## 표현 이동을 단계로 보면
 
@@ -64,10 +66,10 @@ Transformer 블록 안에서 현재 토큰 표현은 어떤 단계로 바뀌는�
 | --- | --- | --- |
 | action token 행의 attention 비중 | `contextual tokens`의 action token 행 | 조치 토큰이 자기 자신, 증상, 배포 단서 중 무엇을 더 섞는가 |
 | 같은 비중이 feed-forward를 지난 뒤 | `feed-forward output` | 섞인 문맥이 현재 위치 표현 안에서 어떻게 다시 가공되는가 |
-| residual 이후 action token | `action token after residual` | 원래 조치 축이 남은 상태에서 최종 블록 출력 방향이 어떻게 달라지는가 |
+| residual 이후 action token | `action token stage trace` | 원래 조치 축이 남은 상태에서 블록 출력 방향이 어떻게 달라지는가 |
 
 ```python
-# rollback 확인 여부에 따라 Transformer block 안에서 action token의 attention, feed-forward, residual 이후 표현이 어떻게 달라지는지 비교하는 예제입니다.
+# rollback 확인 여부에 따라 action token 표현이 attention, feed-forward, residual을 지나며 어떻게 이동하는지 비교하는 예제입니다.
 import numpy as np
 
 tokens = np.array([
@@ -94,27 +96,22 @@ ff_weights = np.array([
     [0.2, 1.0],
 ])
 
-def simple_layer_norm(row):
-    mean = np.mean(row)
-    std = np.std(row)
-    return (row - mean) / (std + 1e-6)
-
 for name, attention_weights in attention_cases.items():
     contextual = attention_weights @ tokens
     ff_output = contextual @ ff_weights
     residual_added = ff_output + tokens
-    normalized = np.vstack([simple_layer_norm(row) for row in residual_added])
+    action_trace = [
+        ("input", tokens[2]),
+        ("after attention", contextual[2]),
+        ("after feed-forward", ff_output[2]),
+        ("after residual", residual_added[2]),
+    ]
 
     print(f"[{name}]")
-    print("contextual tokens =")
-    print(np.round(contextual, 3))
-    print("feed-forward output =")
-    print(np.round(ff_output, 3))
-    print("after residual =")
-    print(np.round(residual_added, 3))
-    print("after simple layer norm =")
-    print(np.round(normalized, 3))
-    print("action token after residual =", np.round(residual_added[2], 3))
+    print("action attention row =", np.round(attention_weights[2], 3))
+    print("action token stage trace")
+    for stage, values in action_trace:
+        print(f"{stage:24s}", np.round(values, 3))
     print("---")
 ```
 
@@ -122,14 +119,24 @@ for name, attention_weights in attention_cases.items():
 
 ```text
 [rollback_confirmed]
-action token after residual = [1.026 1.978]
+action attention row = [0.1 0.3 0.6]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.52 0.77]
+after feed-forward       [0.726 0.978]
+after residual           [1.026 1.978]
 ---
 [rollback_not_confirmed]
-action token after residual = [1.238 1.814]
+action attention row = [0.3 0.5 0.2]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.76 0.51]
+after feed-forward       [0.938 0.814]
+after residual           [1.238 1.814]
 ---
 ```
 
-해설: 두 장면은 같은 입력 토큰에서 시작하지만 attention 가중치가 달라지면서 action token 표현도 다르게 이동합니다. `rollback_confirmed`에서는 복구 상태 축이 더 크게 남고, `rollback_not_confirmed`에서는 증상/원인 축이 상대적으로 더 남습니다. 이 차이는 attention 단계에서 시작되지만 feed-forward와 residual을 거치며 블록 출력으로 남습니다.
+해설: 두 장면은 같은 입력 토큰에서 시작하지만 action token의 attention 행이 달라지면서 표현 이동 경로도 달라집니다. `rollback_confirmed`에서는 attention 이후부터 복구 상태 축이 더 크게 남고, `rollback_not_confirmed`에서는 증상/원인 축이 상대적으로 더 남습니다. 이 차이는 feed-forward와 residual을 거치며 블록 출력 방향으로 남습니다. normalization은 이 출력의 값 범위를 정리하는 단계이므로, 다음 안정화 절에서 따로 보겠습니다.
 
 ![조치 토큰의 단계별 표현 이동](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-ko.png)
 
@@ -148,7 +155,7 @@ action token after residual = [1.238 1.814]
 ## 체크리스트
 
 - Transformer 블록을 표현 이동의 흐름으로 설명할 수 있는가?
-- `contextual tokens`, `feed-forward output`, `after residual`이 각각 무엇을 보여 주는지 말할 수 있는가?
+- `after attention`, `after feed-forward`, `after residual`이 각각 무엇을 보여 주는지 말할 수 있는가?
 - 같은 입력이라도 attention 가중치가 달라지면 현재 표현이 달라질 수 있음을 설명할 수 있는가?
 
 ## 출처와 참고 자료

@@ -1,7 +1,7 @@
 # P5-9.1 GPU와 병렬 처리
 
-Section ID: `P5-9.1`
-Version: `v2026.07.19`
+> Section ID: `P5-9.1`
+> Version: `v2026.07.20`
 
 P5-8장까지는 딥러닝 모델 내부에서 일어나는 학습 계산과 regularization을 보았습니다. 여기서 시야를 조금 넓히면 다음 질문이 생깁니다.
 
@@ -13,7 +13,7 @@ P5-8장까지는 딥러닝 모델 내부에서 일어나는 학습 계산과 reg
 
 계산 자원 이야기가 다시 추상적으로 느껴질 때는 개념사전의 [GPU(graphics processing unit)](../../../reference/concept-glossary.md#gpugraphics-processing-unit)와 [병렬 처리(parallel processing)](../../../reference/concept-glossary.md#parallel-processing) 항목을 함께 다시 봅니다.
 
-## 이 절의 범위
+## GPU가 병렬 처리를 필요로 하는 질문
 
 - 딥러닝은 왜 계산량이 많은가?
 - CPU와 GPU를 입문 수준에서 어떻게 구분하면 좋은가?
@@ -24,7 +24,7 @@ P5-8장까지는 딥러닝 모델 내부에서 일어나는 학습 계산과 reg
 
 대신 이번 절에서 바로 더 구체화할 질문도 분명합니다. GPU가 잘 처리하는 딥러닝 계산이 실제로 어떤 데이터 묶음과 shape로 주어지는지는 다음 절 P5-9.2에서 배치(batch)와 텐서(tensor) 계산으로 이어서 설명합니다. Transformer가 왜 GPU 병렬 처리와 잘 맞았는지는 P5-14.5에서 다시 회수합니다.
 
-## 이 절의 목표
+## 연산 반복과 계산 자원의 판단 기준
 
 - 딥러닝이 큰 행렬 연산과 반복 계산 때문에 계산 자원에 민감하다는 점을 설명할 수 있습니다.
 - CPU와 GPU의 차이를 `작업 배치 방식` 중심으로 직관적으로 설명할 수 있습니다.

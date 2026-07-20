@@ -13,7 +13,7 @@
 
 当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](../../../reference/concept-glossary.md#attention) 条目重新对齐。
 
-## 本节范围
+## Attention 怎样重新查看所需位置的问题
 
 - attention 想解决的是什么问题？
 - `更强地看需要的位置` 这句话到底是什么意思？
@@ -24,7 +24,7 @@
 
 self-attention 与 Transformer 的连接会在下一节和下一章继续展开。query、key、value 与 multi-head attention 的入门说明，会在补充学习 P5-13.3 再回收。
 
-## 本节目标
+## 参考权重与上下文选择的判断标准
 
 - 能把 attention 解释成`更直接地参考重要位置的方式`。
 - 能说明长期依赖问题和 attention 之间的连接。

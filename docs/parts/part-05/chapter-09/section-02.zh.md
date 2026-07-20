@@ -1,7 +1,7 @@
 # P5-9.2 batch 与 tensor 计算
 
-Section ID: `P5-9.2`
-Version: `v2026.07.19`
+> Section ID: `P5-9.2`
+> Version: `v2026.07.20`
 
 在 P5-9.1 里，我们已经看到：为什么深度学习会和 GPU、并行处理（parallel processing）特别合拍。接下来会马上冒出一个问题。
 
@@ -13,7 +13,7 @@ batch 是为了把多个样本一起计算而做的分组，而 tensor 则是深
 
 如果之后需要再很短地复习一下 shape 和计算单元，更适合回到[英文概念词汇表里的 batch 条目](/AiBook/en/reference/concept-glossary/#batch)和[tensor 条目](/AiBook/en/reference/concept-glossary/#tensor)。
 
-## 本节范围
+## batch 与 tensor 怎样组织计算的问题
 
 - 为什么需要 batch？
 - tensor 是怎样从 vector 和 matrix 扩展出来的？
@@ -24,7 +24,7 @@ batch 是为了把多个样本一起计算而做的分组，而 tensor 则是深
 
 与此同时，这一节也明确哪些问题不会立刻继续展开。`为什么 shape 重要`和`大矩阵计算怎样继续展开`这种感觉，会在后面的 P5-13.2 attention，以及 P5-14.3、P5-14.5 的 Transformer 计算结构里再重新接回。
 
-## 本节目标
+## 并行单位与 shape 的判断标准
 
 - 能把 batch 解释成`一次处理多个样本的计算单元`。
 - 能把 tensor 解释成`包含 vector 和 matrix 在内的多维数组`。

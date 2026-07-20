@@ -1,13 +1,13 @@
 # P5-3.4 ReLU
 
 > Section ID: `P5-3.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P5-3.2 and P5-3.3, we looked at functions such as the sigmoid and tanh that compress values into a fixed range. ReLU (rectified linear unit) is much simpler. It turns negative values into 0 and passes positive values through almost as they are.
 
 Because of this simplicity, ReLU appears very often in modern deep learning.
 
-## Scope Of This Section
+## The Question Of How ReLU Cuts Negative Values
 
 - What formula and graph shape does ReLU have?
 - Why can it be read as blocking negatives and passing positives?
@@ -16,7 +16,7 @@ Because of this simplicity, ReLU appears very often in modern deep learning.
 
 The formula comparison with the sigmoid and tanh is organized in P5-3.5. In other words, this section is the place to first hold onto the most basic intuition of ReLU: `block negatives, pass positives`.
 
-## Goals Of This Section
+## Standards For Surviving And Dead Signals
 
 - You can explain the ReLU formula \(f(z)=\max(0,z)\).
 - You can describe the intuition that negative values are cut to 0 while positive values pass through unchanged.

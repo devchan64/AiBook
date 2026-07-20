@@ -11,7 +11,7 @@
 
 这一节不会重现完整的真实学习过程。它只是假设：从前一层传来的 activation，会连续经过 3 层相同的 linear transform，并比较小尺度和大尺度会怎样改变各层的输出范围与 variance。这里每一层都乘上的那个单一 scalar，只要读成`把该层权重尺度简化后拿来代表的玩具实验值`就够了。然后我们还会一起看：如果在每一层后面插入 batch normalization，输出范围会怎样重新被整理成更容易处理的形式。
 
-## 本节范围
+## 较大初始化尺度会摇晃哪些范围
 
 - 较大的 initialization scale 会怎样在深层重复计算里放大 raw activation 的范围和 variance？
 - 如果在每一层后面都加入 batch normalization，同一条计算流程会怎样变化？

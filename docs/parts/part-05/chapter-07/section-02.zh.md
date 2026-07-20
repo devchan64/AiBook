@@ -13,7 +13,7 @@
 
 如果后面又开始把 learning rate、gradient、update 的关系混在一起，更适合回到[英文概念词汇表里的 learning rate 条目](/AiBook/en/reference/concept-glossary/#learning-rate)和[optimizer 条目](/AiBook/en/reference/concept-glossary/#optimizer)，重新把它们放回各自的位置。
 
-## 本节范围
+## learning rate 怎样决定步幅的问题
 
 - 学习率会接在 optimizer update 的哪一步？
 - 为什么同样的 gradient，在不同 learning rate 下会得到不同 update？
@@ -24,7 +24,7 @@
 
 同时，这一节不会马上扩大的问题也要明确。会同时参考最近 gradient 流向与按坐标差异来做调整的自适应 update，会在下一节 P5-7.3 继续说明；learning rate 不是一直固定，而是会随训练过程做 warmup 或 decay 的问题，会放到 P5-7.6 补充学习；adaptive optimization 的收敛分析则会单独放在 P5-7.4。
 
-## 本节目标
+## update 大小与稳定性的判断标准
 
 - 能把学习率解释成`optimizer update 的步幅`。
 - 能说明：同样的 gradient，在不同 learning rate 下会得到不同 update 结果。

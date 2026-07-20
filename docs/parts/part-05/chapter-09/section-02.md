@@ -1,7 +1,7 @@
 # P5-9.2 배치(batch)와 텐서(tensor) 계산
 
-Section ID: `P5-9.2`
-Version: `v2026.07.19`
+> Section ID: `P5-9.2`
+> Version: `v2026.07.20`
 
 P5-9.1에서는 딥러닝이 왜 GPU와 병렬 처리(parallel processing)에 잘 맞는지 보았습니다. 여기서 바로 다음 질문이 생깁니다.
 
@@ -13,7 +13,7 @@ P5-9.1에서는 딥러닝이 왜 GPU와 병렬 처리(parallel processing)에 �
 
 shape와 계산 단위를 다시 짧게 복습해야 할 때는 개념사전의 [배치(batch)](../../../reference/concept-glossary.md#batch)와 [텐서(tensor)](../../../reference/concept-glossary.md#tensor) 항목으로 돌아갑니다.
 
-## 이 절의 범위
+## batch와 tensor가 계산을 묶는 질문
 
 - 배치(batch)는 왜 필요한가?
 - 텐서(tensor)는 벡터와 행렬에서 어떻게 확장되는가?
@@ -24,7 +24,7 @@ shape와 계산 단위를 다시 짧게 복습해야 할 때는 개념사전의 
 
 대신 이번 절에서 바로 더 넓히지 않을 질문도 분명합니다. `shape가 왜 중요한가`와 `큰 행렬 계산이 어떻게 이어지는가`라는 감각은 P5-13.2 attention과 P5-14.3, P5-14.5 Transformer 계산 구조에서 다시 회수합니다.
 
-## 이 절의 목표
+## 병렬 단위와 shape의 판단 기준
 
 - 배치를 `여러 샘플을 한 번에 처리하는 계산 단위`로 설명할 수 있습니다.
 - 텐서를 `벡터와 행렬을 포함하는 다차원 배열`로 설명할 수 있습니다.

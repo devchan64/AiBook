@@ -1,7 +1,7 @@
 # P5-9.1 GPU 与并行处理（parallel processing）
 
-Section ID: `P5-9.1`
-Version: `v2026.07.19`
+> Section ID: `P5-9.1`
+> Version: `v2026.07.20`
 
 到 P5-8 章为止，我们主要看的是深度学习模型内部发生的学习计算和 regularization。把视野再稍微放宽一点，接下来就会冒出一个问题。
 
@@ -13,7 +13,7 @@ Version: `v2026.07.19`
 
 如果之后又觉得计算资源这件事重新变得抽象，更适合一起回到[英文概念词汇表里的 GPU 条目](/AiBook/en/reference/concept-glossary/#gpugraphics-processing-unit)和[parallel processing 条目](/AiBook/en/reference/concept-glossary/#parallel-processing)，重新对齐这两个概念。
 
-## 本节范围
+## GPU 与并行处理相连的问题
 
 - 为什么深度学习的计算量这么大？
 - 在入门层面，CPU 和 GPU 该怎样区分？
@@ -24,7 +24,7 @@ Version: `v2026.07.19`
 
 同时，这一节也明确把接下来会继续具体化的问题交出去。GPU 擅长处理的深度学习计算，真实会以什么样的数据分组和 shape 被交给模型，会在下一节 P5-9.2 里继续通过 batch 和 tensor 计算说明。Transformer 为什么又会和 GPU 式并行处理特别契合，则会在后面的 P5-14.5 再重新接回。
 
-## 本节目标
+## 重复运算与计算资源的判断标准
 
 - 能说明深度学习为什么会因为大矩阵运算和重复计算而对计算资源敏感。
 - 能从`任务是怎么被打包的`这个角度，直观解释 CPU 和 GPU 的区别。
