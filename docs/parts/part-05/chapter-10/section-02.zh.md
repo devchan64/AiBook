@@ -1,7 +1,7 @@
 # P5-10.2 深层中的表征
 
 Section ID: `P5-10.2`
-Version: `v2026.07.17`
+Version: `v2026.07.19`
 
 在 P5-10.1 里，我们已经把 representation learning 解释成`模型自己学出有用内部 feature 的过程`。顺着这个解释，接下来的问题就会自然出现。
 
@@ -20,7 +20,7 @@ Version: `v2026.07.17`
 
 这一节先把深层表征关成：`从更靠近原始输入的简单 pattern，朝更靠近任务的抽象表征移动的倾向`，并专注于把这种直觉安全地解释清楚。
 
-同时，这一节也明确把哪些问题留到后面。图像里的层级表征，会在 P5-11.1、P5-11.2 再次接回；顺序数据和 attention 型表征，则会在 P5-12.1、P5-12.2、P5-13.1、P5-13.2、P5-14.1、P5-14.2 里继续展开。
+同时，这一节也明确把哪些问题留到后面。图像里的层级表征，会在 P5-11.1、P5-11.2 再次接回；顺序数据和 attention 型表征，则会在 P5-12.1、P5-12.2、P5-13.1、P5-13.2，以及 P5-14.1 到 P5-14.6 的 Transformer 正文里继续展开。
 
 也就是说，这里不会把`更深 = 更聪明`之类的夸张说法塞给读者，而是尽量安全地说明层级表征的直觉。
 
@@ -233,8 +233,14 @@ Version: `v2026.07.17`
 这张表的目的，是先固定住：不是`层变深时一切都同样移动`，而是`表征空间会重新排列各 batch 之间的关系。`
 
 ```python
-# 这个例子展示生产批次信号经过两层后，如何在 h1 和 h2 表示空间中重新排列距离关系。
+# 这个例子展示生产 batch 信号经过两层后，如何在 h1 和 h2 表征空间中重新排列距离关系。
 import numpy as np
+
+def relu(x):
+    return np.maximum(0, x)
+
+def pair_distance(a, b):
+    return round(float(np.linalg.norm(a - b)), 3)
 
 signals = np.array([
     [1.0, 2.0],
@@ -244,21 +250,15 @@ signals = np.array([
 ])
 
 w1 = np.array([
-    [0.8, 0.3, 0.4],
-    [0.1, 0.65, 0.45],
+    [0.8, 0.2, 0.5],
+    [0.1, 0.7, 0.4],
 ])
 
 w2 = np.array([
-    [0.6, 0.2],
-    [0.4, 0.8],
-    [0.3, 0.1],
+    [0.5, 0.3],
+    [0.2, 0.9],
+    [0.6, 0.1],
 ])
-
-def relu(x):
-    return np.maximum(0.0, x)
-
-def pair_distance(a, b):
-    return round(float(np.linalg.norm(a - b)), 3)
 
 h1 = relu(signals @ w1)
 h2 = relu(h1 @ w2)
@@ -363,6 +363,6 @@ distance(batch_1, batch_4) in h2 = 0.842
 
 ## 来源与参考资料
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013，确认日期：2026-06-29。
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013，确认日期：2026-07-19。[https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010，确认日期：2026-06-29。
+- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010，确认日期：2026-07-19。[https://jmlr.org/papers/v11/erhan10a.html](https://jmlr.org/papers/v11/erhan10a.html){: target="_blank" rel="noopener noreferrer" }

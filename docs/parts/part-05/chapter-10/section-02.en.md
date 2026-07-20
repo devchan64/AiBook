@@ -1,7 +1,7 @@
 # P5-10.2 Representations In Deep Layers
 
 Section ID: `P5-10.2`
-Version: `v2026.07.17`
+Version: `v2026.07.19`
 
 In P5-10.1, we explained representation learning as `the process in which the model learns useful internal features on its own`. The next question then follows naturally.
 
@@ -20,7 +20,7 @@ When you need to confirm again how to read the claim that representations change
 
 This section first closes deep-layer representation as `the tendency to move from simple patterns close to raw input toward more abstract representations that are closer to the task`, and focuses on explaining that intuition safely.
 
-At the same time, it is clear what we will not widen right away in this section. Hierarchical representation in images reconnects in P5-11.1 and P5-11.2, and sequential-data and attention-based representation reconnect in P5-12.1, P5-12.2, P5-13.1, P5-13.2, P5-14.1, and P5-14.2.
+At the same time, it is clear what we will not widen right away in this section. Hierarchical representation in images reconnects in P5-11.1 and P5-11.2, and sequential-data and attention-based representation reconnect in P5-12.1, P5-12.2, P5-13.1, P5-13.2, and the main Transformer sections from P5-14.1 through P5-14.6.
 
 In other words, here we safely explain the intuition of hierarchical representation without creating exaggerations such as `deeper layers are automatically more intelligent`.
 
@@ -363,6 +363,6 @@ If we pause here once and briefly fix `when should we read first from the viewpo
 
 ## Sources And References
 
-- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, checked on 2026-06-29.
+- Yoshua Bengio, Aaron Courville, Pascal Vincent, `Representation Learning: A Review and New Perspectives`, IEEE TPAMI, 2013, checked on 2026-07-19. [https://arxiv.org/abs/1206.5538](https://arxiv.org/abs/1206.5538){: target="_blank" rel="noopener noreferrer" }
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010, checked on 2026-06-29.
+- Dumitru Erhan et al., `Why Does Unsupervised Pre-training Help Deep Learning?`, JMLR, 2010, checked on 2026-07-19. [https://jmlr.org/papers/v11/erhan10a.html](https://jmlr.org/papers/v11/erhan10a.html){: target="_blank" rel="noopener noreferrer" }
