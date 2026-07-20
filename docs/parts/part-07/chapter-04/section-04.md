@@ -66,6 +66,7 @@ Version: `v2026.07.20`
 예제는 같은 평균을 가진 동작들이 shape token에서는 다르게 갈리는 장면을 확인하는 것입니다.
 
 ```python
+# 같은 평균값을 가진 action event segment를 shape token으로 다시 구분해 평균만 볼 때 놓치는 패턴 차이를 확인하는 예제입니다.
 import csv
 from pathlib import Path
 

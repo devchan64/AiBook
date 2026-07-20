@@ -81,6 +81,7 @@ P7-4.2까지 읽고 나면 `낮은 coverage 샘플은 다시 봐야 한다`는 �
   - 정규화 우선순위는 `오답을 만든 표현`부터 잡는 편이 실무적이다
 
 ```python
+# 고객지원 문장의 표현 정규화 전후 coverage, OOV, 예측 팀 변화를 비교해 정규화 효과를 확인하는 예제입니다.
 import csv
 import numpy as np
 from pathlib import Path

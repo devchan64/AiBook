@@ -96,6 +96,7 @@ P7-4.1의 같은 학습 데이터를 유지한 채 평가 문장을 조금 더 �
 4. 각 샘플을 표현 정규화, 데이터 추가, 구조 검토 중 어느 질문으로 넘길지 한 줄로 적습니다.
 
 ```python
+# 고객지원 라우팅 실패 샘플에서 OOV token, vocabulary coverage, 팀별 점수를 확인해 토큰화 문제를 분해하는 예제입니다.
 import csv
 import numpy as np
 from pathlib import Path

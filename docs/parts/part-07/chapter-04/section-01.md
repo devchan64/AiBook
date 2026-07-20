@@ -101,6 +101,7 @@ Version: `v2026.07.20`
 이 코드는 이해를 위해 `full-batch`로 학습합니다. 즉, 학습 문의 12개 전체를 한 번에 보고 한 번 update를 수행합니다. 실제 프로젝트에서는 mini-batch를 쓰는 경우가 많지만, epoch별 로그를 단순하게 읽기 위해 step 구조를 일부러 줄였습니다.
 
 ```python
+# 고객지원 문장 라우팅 데이터에서 softmax 분류기의 loss, accuracy, baseline, 오류 샘플을 함께 읽는 예제입니다.
 import csv
 from pathlib import Path
 
