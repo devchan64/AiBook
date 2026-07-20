@@ -1,7 +1,7 @@
 # P5-15.1 What Does A Generative Model Learn
 
-Section ID: `P5-15.1`
-Version: `v2026.07.19`
+> Section ID: `P5-15.1`
+> Version: `v2026.07.19`
 
 In P5-14.5 and P5-14.6, we saw that the Transformer became a major turning point in parallel processing and direct reference to long context, and that this structure eventually became the foundation for the spread of LLMs and generative AI. The next question now appears.
 
@@ -9,7 +9,7 @@ Then how is a generative model different from a classification model, and what d
 
 A generative model is a model that tries to learn not only which class an input belongs to, but also what patterns the data appears in and what is likely to continue next.
 
-When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](/AiBook/reference/concept-glossary/#generative-model).
+When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](../../../reference/concept-glossary.md#generative-model).
 
 ## Scope Of This Section
 
@@ -299,5 +299,5 @@ This example is better not to read once and end, but to continue directly by che
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Diederik P. Kingma, Max Welling, `Auto-Encoding Variational Bayes`, ICLR 2014, checked on 2026-06-29.
-- Ian J. Goodfellow et al., `Generative Adversarial Nets`, NeurIPS 2014, checked on 2026-06-29.
+- Diederik P. Kingma, Max Welling, `Auto-Encoding Variational Bayes`, ICLR 2014, checked on 2026-07-19. [https://arxiv.org/abs/1312.6114](https://arxiv.org/abs/1312.6114){: target="_blank" rel="noopener noreferrer" }
+- Ian J. Goodfellow et al., `Generative Adversarial Nets`, NeurIPS 2014, checked on 2026-07-19. [https://papers.nips.cc/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html](https://papers.nips.cc/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html){: target="_blank" rel="noopener noreferrer" }

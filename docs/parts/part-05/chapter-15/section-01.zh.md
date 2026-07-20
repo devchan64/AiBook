@@ -1,7 +1,7 @@
 # P5-15.1 生成模型（generative model）学习的是什么
 
-Section ID: `P5-15.1`
-Version: `v2026.07.19`
+> Section ID: `P5-15.1`
+> Version: `v2026.07.19`
 
 在 P5-14.5 和 P5-14.6 里，我们已经看到：Transformer 在并行处理和长上下文直接参考上成为了一个大转折点，而这种结构最终也成了 LLM 与生成式 AI 普及的基础。接下来就会自然出现一个问题。
 
@@ -9,7 +9,7 @@ Version: `v2026.07.19`
 
 生成模型不只是学习把输入放进哪个类别里，它还试图学习数据通常以什么模式出现，以及接下来什么内容更有可能自然地继续下去。
 
-当你需要快速重新区分分类与生成时，可以回到英文概念词汇表里的 [generative model](/AiBook/en/reference/concept-glossary/#generative-model) 条目。
+当你需要快速重新区分分类与生成时，可以回到概念词汇表里的 [generative model](../../../reference/concept-glossary.md#generative-model) 条目。
 
 ## 本节范围
 
@@ -299,5 +299,5 @@ sampling 与输出质量波动，会在紧接着的 P5-15.2 里更具体说明�
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Diederik P. Kingma, Max Welling, `Auto-Encoding Variational Bayes`, ICLR 2014，确认日期：2026-06-29。
-- Ian J. Goodfellow et al., `Generative Adversarial Nets`, NeurIPS 2014，确认日期：2026-06-29。
+- Diederik P. Kingma, Max Welling, `Auto-Encoding Variational Bayes`, ICLR 2014，确认日期：2026-07-19。[https://arxiv.org/abs/1312.6114](https://arxiv.org/abs/1312.6114){: target="_blank" rel="noopener noreferrer" }
+- Ian J. Goodfellow et al., `Generative Adversarial Nets`, NeurIPS 2014，确认日期：2026-07-19。[https://papers.nips.cc/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html](https://papers.nips.cc/paper/2014/hash/f033ed80deb0234979a61f95710dbe25-Abstract.html){: target="_blank" rel="noopener noreferrer" }
