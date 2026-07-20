@@ -63,6 +63,7 @@
 要确认的概念：表格揭示的是数值本身，图表更快揭示的是变化的形状，因此像训练损失这样带有顺序的值，通常更自然地用折线图来读。
 
 ```python
+# 这个例子用 Matplotlib 绘制 loss、分布和关系，让表格中不明显的模式变得可见。
 import matplotlib.pyplot as plt
 
 epochs = [1, 2, 3, 4, 5]
@@ -110,6 +111,7 @@ plt.show()
 要确认的概念：折线图可以重新揭示那些被“平均值”这类单一汇总数掩盖掉的差异。
 
 ```python
+# 这个例子用 Matplotlib 绘制 loss、分布和关系，让表格中不明显的模式变得可见。
 import matplotlib.pyplot as plt
 
 steps = [1, 2, 3, 4]
@@ -171,6 +173,7 @@ plt.show()
 要确认的概念：散点图能同时展示两个变量的关系候选与分散程度。
 
 ```python
+# 这个例子用 Matplotlib 绘制 loss、分布和关系，让表格中不明显的模式变得可见。
 import matplotlib.pyplot as plt
 
 study_hours = [2, 4, 6, 8]
@@ -216,6 +219,7 @@ Matplotlib 官方文档说明，数据是画在 `Figure` 上的图形。`Figure`
 要确认的概念：`plt.subplots()` 会同时创建整张图和真正绘制用的坐标区域。
 
 ```python
+# 这个例子用 Matplotlib 绘制 loss、分布和关系，让表格中不明显的模式变得可见。
 fig, ax = plt.subplots()
 ax.plot([1, 2, 3], [2, 4, 3])
 plt.show()
@@ -272,6 +276,7 @@ Matplotlib 官方文档提供了很多 plot type。折线图（`plot`）、散�
 要确认的概念：想看分布，就要可视化“数值集中在哪些区间”，而不只是计算平均值。
 
 ```python
+# 这个例子用 Matplotlib 绘制 loss、分布和关系，让表格中不明显的模式变得可见。
 import matplotlib.pyplot as plt
 
 scores = [45, 62, 71, 73, 82, 88, 90]

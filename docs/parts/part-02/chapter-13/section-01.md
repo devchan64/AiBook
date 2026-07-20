@@ -63,6 +63,7 @@ Part 2 Chapter 11에서는 NumPy 배열(array)로 계산을 확인했고, Part 2
 확인할 개념: 표는 값 자체를, 그래프는 변화의 모양을 더 빨리 드러내며 학습 손실처럼 순서가 있는 값은 선 그래프로 읽는 것이 자연스럽습니다.
 
 ```python
+# Matplotlib으로 loss, 분포, 관계를 그려 숫자 표에서 보이지 않는 패턴을 확인하는 예제입니다.
 import matplotlib.pyplot as plt
 
 epochs = [1, 2, 3, 4, 5]
@@ -110,6 +111,7 @@ plt.show()
 확인할 개념: 평균 같은 요약값 하나로는 놓치는 차이를 선 그래프가 다시 드러낼 수 있습니다.
 
 ```python
+# Matplotlib으로 loss, 분포, 관계를 그려 숫자 표에서 보이지 않는 패턴을 확인하는 예제입니다.
 import matplotlib.pyplot as plt
 
 steps = [1, 2, 3, 4]
@@ -171,6 +173,7 @@ plt.show()
 확인할 개념: 산점도는 두 변수의 관계 후보와 흩어짐을 한 번에 보여 줍니다.
 
 ```python
+# Matplotlib으로 loss, 분포, 관계를 그려 숫자 표에서 보이지 않는 패턴을 확인하는 예제입니다.
 import matplotlib.pyplot as plt
 
 study_hours = [2, 4, 6, 8]
@@ -216,6 +219,7 @@ Matplotlib 공식 문서는 데이터를 `Figure` 위에 그래프로 그린다�
 확인할 개념: `plt.subplots()`는 전체 그림과 실제 그릴 좌표 영역을 함께 만들어 줍니다.
 
 ```python
+# Matplotlib으로 loss, 분포, 관계를 그려 숫자 표에서 보이지 않는 패턴을 확인하는 예제입니다.
 fig, ax = plt.subplots()
 ax.plot([1, 2, 3], [2, 4, 3])
 plt.show()
@@ -272,6 +276,7 @@ Matplotlib 공식 문서는 여러 plot type을 제공합니다. 선 그래프(`
 확인할 개념: 분포를 보려면 평균 대신 값이 어느 구간에 몰렸는지를 시각화해야 합니다.
 
 ```python
+# Matplotlib으로 loss, 분포, 관계를 그려 숫자 표에서 보이지 않는 패턴을 확인하는 예제입니다.
 import matplotlib.pyplot as plt
 
 scores = [45, 62, 71, 73, 82, 88, 90]

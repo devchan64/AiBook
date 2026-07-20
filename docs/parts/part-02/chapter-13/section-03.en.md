@@ -45,6 +45,7 @@ Expected output: a 1-by-2 plot layout with the loss curve on the left and the ac
 Concept to check: if one `Figure` contains multiple `Axes`, you can compare related questions side by side.
 
 ```python
+# This example compares multiple plots in one Figure and saves the resulting image.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -93,6 +94,7 @@ Expected output: a variable structure that points to one whole picture and two p
 Concept to check: `Figure` is the whole picture, and `Axes` are the individual coordinate areas where actual data are drawn.
 
 ```python
+# This example compares multiple plots in one Figure and saves the resulting image.
 fig, axes = plt.subplots(1, 2)
 ```
 
@@ -121,6 +123,7 @@ Expected output: one line plot where the two loss curves are drawn together on t
 Concept to check: values with the same unit should go on the same `Axes`, so that the gap and crossing between the two flows are easy to read directly.
 
 ```python
+# This example compares multiple plots in one Figure and saves the resulting image.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -160,6 +163,7 @@ Expected output: the current plot is saved as an image file such as PNG.
 Concept to check: `plt.show()` is screen display, while `savefig()` stores a reusable result file.
 
 ```python
+# This example compares multiple plots in one Figure and saves the resulting image.
 fig.savefig("train-validation-loss-diverge.png")
 ```
 

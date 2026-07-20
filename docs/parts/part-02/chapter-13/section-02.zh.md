@@ -57,6 +57,7 @@
 要确认的概念：折线图适合确认函数随连续输入变化而形成的形状，而坐标轴标签与标题应明确这张图在回答什么问题。
 
 ```python
+# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -95,6 +96,7 @@ plt.show()
 要确认的概念：散点图会同时展示关系候选与由波动、噪声带来的分散。
 
 ```python
+# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -133,6 +135,7 @@ plt.show()
 要确认的概念：直方图能帮助你确认数值的集中、偏斜与稀少区间。
 
 ```python
+# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -170,6 +173,7 @@ plt.show()
 要确认的概念：损失曲线能让你快速检查学习是否稳定、是否在中间摇摆。
 
 ```python
+# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -212,6 +216,7 @@ plt.show()
 要确认的概念：图表代码不能只停留在“把数据画出来”，还需要解释信息。
 
 ```python
+# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 ax.plot(x, y)
 ```
 
@@ -223,6 +228,7 @@ ax.plot(x, y)
 要确认的概念：坐标轴标签和标题本身就是图表解释的一部分。
 
 ```python
+# 这个例子绘制折线图、散点图、柱状图和公式曲线，把图表形状和问题对应起来。
 ax.plot(x, y)
 ax.set_xlabel("x")
 ax.set_ylabel("y")

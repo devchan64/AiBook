@@ -57,6 +57,7 @@ Expected output: a line plot that shows the whole shape of \(y = x^2\).
 Concept to check: a line plot is suitable for checking the shape of a function across continuous input changes, and the axis labels and title should clarify what question the chart answers.
 
 ```python
+# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -95,6 +96,7 @@ Expected output: a scatter plot where the relationship direction and variation a
 Concept to check: a scatter plot shows both a candidate relationship and the spread caused by variation or noise.
 
 ```python
+# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -133,6 +135,7 @@ Expected output: a histogram that shows the count of each value interval.
 Concept to check: a histogram helps you check concentration, skew, and rare intervals of values.
 
 ```python
+# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -170,6 +173,7 @@ Expected output: a comparison line plot where the two loss curves appear togethe
 Concept to check: a loss curve helps you check quickly whether learning is stable and whether it shakes in the middle.
 
 ```python
+# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -212,6 +216,7 @@ Expected output: incomplete chart code where a line appears but the question is 
 Concept to check: chart code is not complete just because it draws data; interpretation information is needed too.
 
 ```python
+# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 ax.plot(x, y)
 ```
 
@@ -223,6 +228,7 @@ Expected output: more descriptive chart code from which the reader can tell what
 Concept to check: axis labels and a title are part of chart interpretation.
 
 ```python
+# This example draws line plots, scatter plots, bar charts, and formula curves to match chart shape to the question.
 ax.plot(x, y)
 ax.set_xlabel("x")
 ax.set_ylabel("y")

@@ -45,6 +45,7 @@
 要确认的概念：当一个 `Figure` 里有多个 `Axes` 时，就能把相关问题并排比较。
 
 ```python
+# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -93,6 +94,7 @@ plt.show()
 要确认的概念：`Figure` 是整张图，`Axes` 是实际绘制数据的各个坐标区域。
 
 ```python
+# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
 fig, axes = plt.subplots(1, 2)
 ```
 
@@ -121,6 +123,7 @@ fig, axes = plt.subplots(1, 2)
 要确认的概念：单位相同的值应该放在同一个 `Axes` 上，这样两个流程之间的分离和交叉更容易直接读出来。
 
 ```python
+# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -160,6 +163,7 @@ plt.show()
 要确认的概念：`plt.show()` 是屏幕显示，`savefig()` 是保存可复用的结果文件。
 
 ```python
+# 这个例子在同一个 Figure 中比较多个图表，并保存结果图像。
 fig.savefig("train-validation-loss-diverge.png")
 ```
 

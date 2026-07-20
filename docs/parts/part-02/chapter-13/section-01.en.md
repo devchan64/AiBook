@@ -63,6 +63,7 @@ Expected output: a line plot that shows how loss changes as the epoch count incr
 Concept to check: a table reveals the values themselves, while a plot reveals the shape of change more quickly, so ordered values such as training loss are naturally read with a line plot.
 
 ```python
+# This example uses Matplotlib to plot loss, distributions, and relationships so hidden table patterns become visible.
 import matplotlib.pyplot as plt
 
 epochs = [1, 2, 3, 4, 5]
@@ -110,6 +111,7 @@ Expected output: two line plots whose means are the same but whose shapes differ
 Concept to check: a line plot can reveal again a difference that a single summary number such as the mean misses.
 
 ```python
+# This example uses Matplotlib to plot loss, distributions, and relationships so hidden table patterns become visible.
 import matplotlib.pyplot as plt
 
 steps = [1, 2, 3, 4]
@@ -171,6 +173,7 @@ Expected output: a scatter plot that expresses each student as one point.
 Concept to check: a scatter plot shows a candidate relationship between two variables and their spread at the same time.
 
 ```python
+# This example uses Matplotlib to plot loss, distributions, and relationships so hidden table patterns become visible.
 import matplotlib.pyplot as plt
 
 study_hours = [2, 4, 6, 8]
@@ -216,6 +219,7 @@ Expected output: a simple line plot drawn on one `Figure` and one `Axes`.
 Concept to check: `plt.subplots()` creates the whole picture and the coordinate area together.
 
 ```python
+# This example uses Matplotlib to plot loss, distributions, and relationships so hidden table patterns become visible.
 fig, ax = plt.subplots()
 ax.plot([1, 2, 3], [2, 4, 3])
 plt.show()
@@ -272,6 +276,7 @@ Expected output: a histogram that shows the count of scores by interval.
 Concept to check: to see a distribution, you need to visualize where values are concentrated rather than only calculate the mean.
 
 ```python
+# This example uses Matplotlib to plot loss, distributions, and relationships so hidden table patterns become visible.
 import matplotlib.pyplot as plt
 
 scores = [45, 62, 71, 73, 82, 88, 90]

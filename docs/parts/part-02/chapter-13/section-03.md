@@ -45,6 +45,7 @@ AI 학습에서는 그래프 하나만 보고 끝나는 일이 많지 않습니�
 확인할 개념: 하나의 `Figure` 안에 여러 `Axes`를 두면 관련된 질문을 나란히 비교할 수 있습니다.
 
 ```python
+# 여러 그래프를 한 Figure에서 비교하고 결과 이미지를 저장하는 예제입니다.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -93,6 +94,7 @@ P2-13.1에서는 `Figure`를 그림 전체, `Axes`를 데이터가 그려지는 
 확인할 개념: `Figure`는 전체 그림이고 `Axes`는 실제 데이터를 그리는 개별 좌표 영역입니다.
 
 ```python
+# 여러 그래프를 한 Figure에서 비교하고 결과 이미지를 저장하는 예제입니다.
 fig, axes = plt.subplots(1, 2)
 ```
 
@@ -121,6 +123,7 @@ fig, axes = plt.subplots(1, 2)
 확인할 개념: 같은 단위의 값은 같은 `Axes`에 올려야 두 흐름의 벌어짐과 교차를 바로 읽기 쉽습니다.
 
 ```python
+# 여러 그래프를 한 Figure에서 비교하고 결과 이미지를 저장하는 예제입니다.
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -160,6 +163,7 @@ Matplotlib에서는 `savefig()`를 사용합니다.
 확인할 개념: `plt.show()`는 화면 표시이고 `savefig()`는 재사용 가능한 결과 파일 저장입니다.
 
 ```python
+# 여러 그래프를 한 Figure에서 비교하고 결과 이미지를 저장하는 예제입니다.
 fig.savefig("train-validation-loss-diverge.png")
 ```
 
