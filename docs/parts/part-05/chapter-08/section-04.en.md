@@ -1,7 +1,7 @@
 # P5-8.4 Supplementary Reading: How A Large Initialization Scale Shakes The Computation Range
 
-Section ID: `P5-8.4`
-Version: `v2026.07.17`
+> Section ID: `P5-8.4`
+> Version: `v2026.07.20`
 
 In P5-8.3, we grouped together the conditions that make deep computation actually shake less: initialization, numerical stability, and batch normalization. Now we confirm that claim with actual numbers.
 
@@ -54,22 +54,10 @@ One more point should be fixed first here as well. The batch-normalization resul
 ## Python Example
 
 ```python
-# This example compares how initialization scale expands raw range and variance across layers and how batch normalization reorganizes the range.
-hidden_activations = [
-    {"sample": "A", "activation": 1.0},
-    {"sample": "B", "activation": 2.0},
-    {"sample": "C", "activation": 0.5},
-]
+# This example reads a CSV activation log and compares whether initialization scale expands raw range and variance in deep layers and whether batch normalization reorganizes the range.
+from csv import DictReader
+from pathlib import Path
 
-weight_cases = {
-    "small_init": 0.8,
-    "medium_init": 1.2,
-    "large_init": 3.0,
-    "very_large_init": 9.0,
-}
-
-def linear_layer(values, weight):
-    return [value * weight for value in values]
 
 def batch_norm(values, eps=1e-5):
     mean = sum(values) / len(values)
@@ -77,17 +65,36 @@ def batch_norm(values, eps=1e-5):
     normalized = [(v - mean) / ((variance + eps) ** 0.5) for v in values]
     return mean, variance, normalized
 
-for case_name, weight in weight_cases.items():
-    raw_values = [row["activation"] for row in hidden_activations]
-    bn_values = [row["activation"] for row in hidden_activations]
+csv_path = Path("docs/assets/part-05/chapter-08/deep-scale-activation-log.csv")
+
+rows = []
+with csv_path.open(encoding="utf-8") as file:
+    for row in DictReader(file):
+        rows.append(
+            {
+                "case_name": row["case_name"],
+                "weight_scale": float(row["weight_scale"]),
+                "layer": int(row["layer"]),
+                "sample": row["sample"],
+                "raw_activation": float(row["raw_activation"]),
+            }
+        )
+
+case_order = ["small_init", "medium_init", "large_init", "very_large_init"]
+layer_order = [1, 2, 3]
+
+for case_name in case_order:
+    case_rows = [row for row in rows if row["case_name"] == case_name]
+    weight = case_rows[0]["weight_scale"]
     print(f"[{case_name}] weight = {weight}")
 
-    for layer in range(1, 4):
-        raw_values = linear_layer(raw_values, weight)
-        _, raw_variance, _ = batch_norm(raw_values)
-
-        before_bn = linear_layer(bn_values, weight)
-        _, _, bn_values = batch_norm(before_bn)
+    for layer in layer_order:
+        layer_rows = [
+            row for row in case_rows
+            if row["layer"] == layer
+        ]
+        raw_values = [row["raw_activation"] for row in layer_rows]
+        _, raw_variance, bn_values = batch_norm(raw_values)
 
         print(
             f"layer {layer}: "
@@ -98,7 +105,7 @@ for case_name, weight in weight_cases.items():
     print("---")
 ```
 
-This code does not implement an entire real neural-network layer. It is a compressed experiment that looks only at `where the weight scale pushes value range and variance as it passes through layers`. So what we should look at first is not exact training performance, but `the direction of repeated computation and scale accumulation`.
+This code reads the 36 values recorded in [`deep-scale-activation-log.csv`](/AiBook/assets/part-05/chapter-08/deep-scale-activation-log.csv) and recalculates the range and variance by case and layer. It does not implement `an entire real neural-network layer`; it is a compressed experiment that looks only at `where the weight scale pushes value range and variance as it passes through layers`. So what we should look at first is not exact training performance, but `the direction of repeated computation and scale accumulation`.
 
 An example output looks like this.
 
@@ -145,7 +152,7 @@ The second graph compresses the same phenomenon into the variance. Because varia
 
 ![Layer-wise raw variance by initialization scale](/AiBook/assets/part-05/chapter-08/deep-scale-raw-variance-en.png)
 
-The third graph shows the output range after applying batch normalization behind each layer. Raw activations differ greatly by case, but after normalization the range is reorganized into `a similar scale that is easier for the next layer to handle`. The important point here is not `the numbers are always fixed to exactly the same values`, but rather `even if the input distribution differs greatly, the center and spread are brought back into a comparable range`. In this toy example, the ranges across cases look almost identical because the relative shape of the three samples is preserved while only the scale is changed, so it would be too strong to read this figure alone as saying `batch normalization almost erases the initialization problem`.
+The third graph shows the output range after applying batch normalization behind each layer. Raw activations differ greatly by case, but after normalization the range is reorganized into `a similar scale that is easier for the next layer to handle`. The important point here is not `the numbers are always fixed to exactly the same values`, but rather `even if the input distribution differs greatly, the center and spread are brought back into a comparable range`. In this toy example, the ranges across cases look almost identical because the relative shape of the three samples is preserved while only the scale is changed, so it would be too strong to read this figure alone as saying `batch normalization almost erases the initialization problem`. The graph is also drawn as a point comparison by case, rather than as a line graph for tracking change, so readers first notice that the values gather into nearly the same range.
 
 ![Layer-wise activation range after batch normalization](/AiBook/assets/part-05/chapter-08/deep-scale-bn-range-en.png)
 
