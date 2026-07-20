@@ -7,7 +7,7 @@ In P2-8.2, we looked at lists, which are ordered groups of values. But not all d
 
 In situations where you look up a setting value by setting name, a label name by label number, or user information by user ID, the name tag matters more than the position. In Python, this kind of structure is handled with a dictionary.
 
-Here, we explain the basic distinction between a `dictionary` and a `key`. The representative explanation of `list` and order-based access is placed in P2-8.2, and the representative explanation of `value` and `type` is placed in P2-8.1 and in the [Concept Glossary](/AiBook/reference/concept-glossary/). Here, we focus on `by which criterion should a value be found?`
+Here, we explain the basic distinction between a `dictionary` and a `key`. The representative explanation of `list` and order-based access is placed in P2-8.2, and the representative explanation of `value` and `type` is placed in P2-8.1 and in the [Concept Glossary](../../../reference/concept-glossary.md). Here, we focus on `by which criterion should a value be found?`
 
 If the list in the previous section was read around `which numbered value is it?`, here the center becomes `by which name or identifier is it found?` If you first establish this difference, then even later, when iterating over lists and dictionaries in the same loop, it becomes easier to distinguish `by what criterion is something being taken out?`
 
