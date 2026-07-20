@@ -101,6 +101,7 @@ Concept to check:
 - the loop version reveals the meaning of the computation before the condensed NumPy expression
 
 ```python
+# This example computes errors between actual and predicted values and translates a loss formula into code.
 actual = [3.0, 5.0, 7.0]
 predicted = [2.5, 5.5, 8.0]
 
@@ -151,6 +152,7 @@ Concept to check:
 - even in shorter code, the computation steps keep the same meaning as in the loop version
 
 ```python
+# This example computes errors between actual and predicted values and translates a loss formula into code.
 import numpy as np
 
 actual = np.array([3.0, 5.0, 7.0])
@@ -191,6 +193,7 @@ Concept to check:
 - you can compare directly the sign of the error and the value after squaring
 
 ```python
+# This example computes errors between actual and predicted values and translates a loss formula into code.
 print(errors)
 print(squared_errors)
 print(mse)
@@ -230,6 +233,7 @@ Concept to check:
 - even with the same numeric result, visualization helps you read more quickly in which interval the difference was large
 
 ```python
+# This example computes errors between actual and predicted values and translates a loss formula into code.
 import matplotlib.pyplot as plt
 
 index = np.arange(len(actual))

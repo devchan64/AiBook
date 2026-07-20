@@ -101,6 +101,7 @@ Part 2에서는 수식, Python, NumPy, Pandas, Matplotlib을 따로 봤습니다
 - 반복문 버전은 NumPy 축약 표현보다 계산 의미를 먼저 드러낸다
 
 ```python
+# 실제값과 예측값의 차이를 오차로 계산하고 손실을 수식에서 코드로 옮기는 예제입니다.
 actual = [3.0, 5.0, 7.0]
 predicted = [2.5, 5.5, 8.0]
 
@@ -151,6 +152,7 @@ print(mse)
 - 짧은 코드가 되더라도 계산 단계는 반복문 버전과 같은 의미를 유지한다
 
 ```python
+# 실제값과 예측값의 차이를 오차로 계산하고 손실을 수식에서 코드로 옮기는 예제입니다.
 import numpy as np
 
 actual = np.array([3.0, 5.0, 7.0])
@@ -191,6 +193,7 @@ MSE는 최종적으로 숫자 하나가 됩니다. 하지만 계산 과정을 �
 - 오차의 부호와 제곱 뒤 값의 차이를 직접 비교할 수 있다
 
 ```python
+# 실제값과 예측값의 차이를 오차로 계산하고 손실을 수식에서 코드로 옮기는 예제입니다.
 print(errors)
 print(squared_errors)
 print(mse)
@@ -230,6 +233,7 @@ print(mse)
 - 같은 숫자 결과라도 시각화하면 어떤 구간에서 차이가 컸는지 더 빨리 읽을 수 있다
 
 ```python
+# 실제값과 예측값의 차이를 오차로 계산하고 손실을 수식에서 코드로 옮기는 예제입니다.
 import matplotlib.pyplot as plt
 
 index = np.arange(len(actual))

@@ -101,6 +101,7 @@
 - 循环版本会比压缩后的 NumPy 表达更先显露计算含义
 
 ```python
+# 这个例子计算真实值和预测值之间的误差，并把损失公式翻译成代码。
 actual = [3.0, 5.0, 7.0]
 predicted = [2.5, 5.5, 8.0]
 
@@ -151,6 +152,7 @@ print(mse)
 - 即使代码更短，计算步骤的含义仍与循环版本相同
 
 ```python
+# 这个例子计算真实值和预测值之间的误差，并把损失公式翻译成代码。
 import numpy as np
 
 actual = np.array([3.0, 5.0, 7.0])
@@ -191,6 +193,7 @@ MSE 最后会变成一个数字。但在检查计算过程时，最好连中间�
 - 可以直接比较误差的符号和平方后的数值差别
 
 ```python
+# 这个例子计算真实值和预测值之间的误差，并把损失公式翻译成代码。
 print(errors)
 print(squared_errors)
 print(mse)
@@ -230,6 +233,7 @@ print(mse)
 - 即使数字结果相同，可视化也能更快读出差异在哪些区间较大
 
 ```python
+# 这个例子计算真实值和预测值之间的误差，并把损失公式翻译成代码。
 import matplotlib.pyplot as plt
 
 index = np.arange(len(actual))
