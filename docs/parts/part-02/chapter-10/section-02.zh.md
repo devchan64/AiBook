@@ -131,6 +131,7 @@ Notebook 对学习记录很好，但如果所有代码都只留在 notebook 中�
 要确认的概念：看到一旦需要重复执行和复用，notebook 代码就可以迁移成 `.py` 函数。
 
 ```python
+# 这个例子检查函数、包和文件路径会如何随执行环境而变化。
 def mean(values):
     return sum(values) / len(values)
 ```
@@ -169,6 +170,7 @@ Colab FAQ 说明，共享 notebook 时，notebook 里的 text、code、output、
 要确认的概念：看到共享 notebook 应该把必要准备过程留在前面的 cell 中，才能让重跑更容易。
 
 ```python
+# 这个例子检查函数、包和文件路径会如何随执行环境而变化。
 %pip install numpy
 ```
 
@@ -180,6 +182,7 @@ Colab FAQ 说明，共享 notebook 时，notebook 里的 text、code、output、
 要确认的概念：看到把安装 cell 和 import cell 分开，会让执行环境依赖更明显。
 
 ```python
+# 这个例子检查函数、包和文件路径会如何随执行环境而变化。
 import numpy as np
 ```
 
@@ -197,6 +200,7 @@ import numpy as np
 要确认的概念：看到文件问题不一定来自代码语法，也可能来自执行环境和路径差异。
 
 ```python
+# 这个例子检查函数、包和文件路径会如何随执行环境而变化。
 path = "data/scores.csv"
 ```
 

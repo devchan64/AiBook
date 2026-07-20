@@ -59,6 +59,7 @@ Project Jupyter 的官方文档把 notebook 解释成：一种可共享文档，
 要确认的概念：看到在 script 中，往往是 code 的执行本身先于 explanation。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 scores = [82, 75, 45]
 average = sum(scores) / len(scores)
 print(average)
@@ -72,6 +73,7 @@ print(average)
 要确认的概念：确认在 notebook 中，explanation 和 output 会一起在一个文档里被阅读。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 scores = [82, 75, 45]
 average = sum(scores) / len(scores)
 average
@@ -113,6 +115,7 @@ Notebook 对学习有用的第一个原因，是它很容易留下思考痕迹�
 要确认的概念：看到只有结果的代码，与同时保留问题和解释的 notebook 记录，学习效果是不同的。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 scores = [82, 75, 45]
 sum(scores) / len(scores)
 ```
@@ -145,6 +148,7 @@ sum(scores) / len(scores)
 要确认的概念：看到在 notebook 中，把数据准备拆成独立 cell，会让后面的依赖关系更容易看清。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 scores = [82, 75, 45, 90, 61]
 ```
 
@@ -156,6 +160,7 @@ scores = [82, 75, 45, 90, 61]
 要确认的概念：看到如果一个 cell 只做一个计算，就更容易读出在哪一步值发生了变化。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 mean_score = sum(scores) / len(scores)
 mean_score
 ```
@@ -168,6 +173,7 @@ mean_score
 要确认的概念：看到 notebook 很适合一次只改变一个条件，快速比较结果差异。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 passed = [score for score in scores if score >= 60]
 passed
 ```
@@ -204,6 +210,7 @@ Notebook 虽然方便，但也有必须小心的地方。最重要的是执行�
 要确认的概念：看到 notebook cell 不只是文档里可见的代码，还会创建 runtime 状态。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 x = 10
 ```
 
@@ -215,6 +222,7 @@ x = 10
 要确认的概念：确认如果前一个 cell 没有执行，或顺序乱掉，后一个结果也会改变。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 x + 5
 ```
 
@@ -279,6 +287,7 @@ Notebook 很适合学习和探索，但并不适合所有场景。
 要确认的概念：看到 notebook 很适合把问题、计算和解释一起保留成一个小型样本比较实验。
 
 ```python
+# 这个例子展示分数数据和计算结果如何在笔记本单元中逐步累积。
 sample_a = [10, 12, 13, 11, 14]
 sample_b = [8, 16, 9, 15, 12]
 

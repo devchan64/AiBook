@@ -106,6 +106,7 @@ Expected output: There is no output, but the package names needed for later cell
 Concept to check: See that gathering imports near the front makes notebook rerunning and dependency inspection easier.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -121,6 +122,7 @@ Expected output: The required packages are installed into the current kernel.
 Concept to check: See that placing package-installation cells near the front makes it easier for someone else to prepare a similar runtime.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 %pip install numpy pandas matplotlib
 ```
 
@@ -140,6 +142,7 @@ Expected output: There is no output, but it becomes visible which file location 
 Concept to check: See that a rerunnable notebook must leave the file path and data location clearly inside the code.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 data_path = "data/scores.csv"
 ```
 
@@ -163,6 +166,7 @@ Expected output: There is no output, but the data needed for later cells is prep
 Concept to check: See that in early learning, small data inside the code is better for rerunnability and understanding than file-based setup.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 scores = [82, 75, 45, 90, 61]
 ```
 
@@ -180,6 +184,7 @@ Expected output: Only a context-free number remains, with no clue whether it is 
 Concept to check: See that output should not be left as only a value, but with interpretation placed right below it.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 67.3
 ```
 
@@ -201,6 +206,7 @@ Expected output: There is no output, but the current learning-rate value is stor
 Concept to check: See that variable state in a notebook changes depending on cell execution order.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 learning_rate = 0.1
 ```
 
@@ -212,6 +218,7 @@ Expected output: There is no output, but the current runtime value is overwritte
 Concept to check: Confirm that the visible order of the document and the actual last execution state can differ.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 learning_rate = 0.01
 ```
 
@@ -249,6 +256,7 @@ Expected output: A sampled list is printed in a reproducible way.
 Concept to check: See that in random practice, leaving a seed makes it easier to check the same result flow again.
 
 ```python
+# This example records setup, data, results, and experiment values separately for a re-runnable notebook.
 rng = np.random.default_rng(seed=42)
 sample = rng.choice([10, 20, 30, 40, 50], size=3, replace=False)
 sample

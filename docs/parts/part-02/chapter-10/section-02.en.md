@@ -131,6 +131,7 @@ Expected output: There is no output, but a reusable function form is created.
 Concept to check: See that once repeated execution and reuse become necessary, notebook code can move into a `.py` function.
 
 ```python
+# This example checks how functions, packages, and file paths vary by execution environment.
 def mean(values):
     return sum(values) / len(values)
 ```
@@ -169,6 +170,7 @@ Expected output: `numpy` is installed in the current kernel.
 Concept to check: See that a shared notebook should keep the required preparation process in the front cells so that rerunning becomes easy.
 
 ```python
+# This example checks how functions, packages, and file paths vary by execution environment.
 %pip install numpy
 ```
 
@@ -180,6 +182,7 @@ Expected output: There is no output, but later cells are prepared to use `np`.
 Concept to check: See that separating the installation cell and the import cell makes execution-environment dependency more visible.
 
 ```python
+# This example checks how functions, packages, and file paths vary by execution environment.
 import numpy as np
 ```
 
@@ -197,6 +200,7 @@ Expected output: There is no output, but it becomes visible which file the code 
 Concept to check: See that file problems can arise not from code grammar but from execution environment and path differences.
 
 ```python
+# This example checks how functions, packages, and file paths vary by execution environment.
 path = "data/scores.csv"
 ```
 

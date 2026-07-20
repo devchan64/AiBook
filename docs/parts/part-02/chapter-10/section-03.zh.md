@@ -106,6 +106,7 @@ Notebook 其实和 Section 很像。一个 notebook 最好也尽量只围绕一�
 要确认的概念：看到把 import 集中在前部，会让 notebook 重跑和 dependency 检查都更容易。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -121,6 +122,7 @@ import matplotlib.pyplot as plt
 要确认的概念：看到把 package 安装 cell 放在前面，会让别人更容易准备出类似 runtime。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 %pip install numpy pandas matplotlib
 ```
 
@@ -140,6 +142,7 @@ Notebook 练习失败的常见原因之一，是文件路径。
 要确认的概念：看到可重跑 notebook 必须在代码里明确留下文件路径和数据位置。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 data_path = "data/scores.csv"
 ```
 
@@ -163,6 +166,7 @@ data_path = "data/scores.csv"
 要确认的概念：看到在学习初期，比起文件型设置，代码里的小数据更有利于重跑和理解。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 scores = [82, 75, 45, 90, 61]
 ```
 
@@ -180,6 +184,7 @@ Notebook 可以保存 output。但如果只留下 output，学习记录仍然不
 要确认的概念：看到 output 不能只留下数值，而要在下面配上解释。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 67.3
 ```
 
@@ -201,6 +206,7 @@ Notebook 可以自由执行 cell。这个优点同时也是风险。
 要确认的概念：看到 notebook 中变量状态会随着 cell 执行顺序改变。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 learning_rate = 0.1
 ```
 
@@ -212,6 +218,7 @@ learning_rate = 0.1
 要确认的概念：确认文档里看到的顺序，和实际最后的执行状态，可能不是一回事。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 learning_rate = 0.01
 ```
 
@@ -249,6 +256,7 @@ learning_rate = 0.01
 要确认的概念：看到在带有随机性的练习中，留下 seed 会让同样结果流更容易再次检查。
 
 ```python
+# 这个例子为了可重新执行的笔记本，分别记录设置、数据、结果和实验值。
 rng = np.random.default_rng(seed=42)
 sample = rng.choice([10, 20, 30, 40, 50], size=3, replace=False)
 sample

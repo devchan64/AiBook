@@ -59,6 +59,7 @@ Expected output: The average score is printed through `print`.
 Concept to check: See that in a script, code execution itself often comes before explanation.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 scores = [82, 75, 45]
 average = sum(scores) / len(scores)
 print(average)
@@ -72,6 +73,7 @@ Expected output: The value of `average` on the last line of the cell is shown di
 Concept to check: Confirm that in a notebook, explanation and output are read together inside one document.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 scores = [82, 75, 45]
 average = sum(scores) / len(scores)
 average
@@ -113,6 +115,7 @@ Expected output: The average value is calculated, but there is no explanation le
 Concept to check: See that code containing only a result and a notebook record containing question and interpretation together have different learning effects.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 scores = [82, 75, 45]
 sum(scores) / len(scores)
 ```
@@ -145,6 +148,7 @@ Expected output: There is no output, but the data used by later cells is prepare
 Concept to check: See that in a notebook, separating data preparation into its own cell makes later dependencies easier to see.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 scores = [82, 75, 45, 90, 61]
 ```
 
@@ -156,6 +160,7 @@ Expected output: The average score `mean_score` is shown as cell output.
 Concept to check: See that if one cell performs only one calculation, it becomes easier to read at which step the value changes.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 mean_score = sum(scores) / len(scores)
 mean_score
 ```
@@ -168,6 +173,7 @@ Expected output: A list containing only the passing scores is shown.
 Concept to check: See that notebooks are good for quickly checking result differences while changing one condition at a time.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 passed = [score for score in scores if score >= 60]
 passed
 ```
@@ -204,6 +210,7 @@ Expected output: There is no output, but the runtime state on which the next cel
 Concept to check: See that notebook cells create runtime state beyond the code visibly written in the document.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 x = 10
 ```
 
@@ -215,6 +222,7 @@ Expected output: `15` is calculated.
 Concept to check: Confirm that if the earlier cell has not run, or if the order becomes tangled, the later result also changes.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 x + 5
 ```
 
@@ -279,6 +287,7 @@ Expected output: The two sample means are shown together.
 Concept to check: See that a notebook is good for leaving a small sample-comparison experiment together with question, calculation, and interpretation.
 
 ```python
+# This example shows how score data and computed results accumulate across notebook cells.
 sample_a = [10, 12, 13, 11, 14]
 sample_b = [8, 16, 9, 15, 12]
 
