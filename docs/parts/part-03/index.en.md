@@ -32,7 +32,7 @@ Within Part 3, the larger definition of `data modeling` itself is first fixed in
 
 Part 3 first fixes what data modeling is trying to achieve and in what order it proceeds. It then checks why stored records should not be read immediately as a dataset, decides the meaning of one row and one sample, and regroups raw logs into comparable tables. After that, it designs features and intermediate representations, and separates which columns are for identification, comparison, and target candidates. It then builds the structure that compares recent segments with a baseline, places boundaries on how far interpretation can go in front of small samples and unstable repeatability, and finally separates problems that should remain comparison reports from problems that should be raised into prediction problems while closing input/output boundaries and time boundaries.
 
-## Purpose of Part 3
+## The Role Data Modeling Takes On
 
 - Prevent data modeling from being misunderstood as database design alone.
 - Build familiarity with the flow that re-expresses source data as samples, summary tables, features, and baselines.
@@ -57,7 +57,7 @@ Part 3 first fixes what data modeling is trying to achieve and in what order it 
 - How far can interpretation go in front of sample size and repeatability?
 - What should remain a comparison report, and what should be passed into a learning problem?
 
-## Reading Order
+## Flow for Building Problem Structure
 
 Part 3 proceeds through 9 chapters, but the flow can be summarized in three bundles.
 
@@ -75,7 +75,7 @@ This order matters because if you talk about feature and label before turning st
 
 The questions repeated through Part 3 can also be grouped as follows: what should count as one sample, into what table raw logs should be regrouped, which features and baselines should remain, what should stay as a comparison report and what should rise into a target candidate, and whether the input structure and observation boundaries are closed. Each chapter is responsible for making one of those question bundles clearer.
 
-## Scope and Non-Scope
+## Boundaries Data Modeling Closes and Questions Left Open
 
 Part 3 covers sample units, raw logs and summary tables, features and intermediate representations, baseline comparison, sample size and repeatability, and the boundary between warning candidates and label prediction.
 

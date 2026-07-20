@@ -289,6 +289,32 @@ Part 2 전체에서 번역문까지 포함한 확장 패턴 잔여 제목은 0�
 
 추가 검증 결과, `docs/parts/part-02` 아래 195개 `Version` 표기는 모두 `v2026.07.20`이고, `management/release-notes/sections/part-02/`의 `P2-*.md` 65개 파일은 모두 `### v2026.07.20` 항목을 가진다.
 
+2026-07-20 추가 패치에서는 Part 3의 시작 페이지, 마무리 페이지, Chapter 1~9 본문과 영어·중국어 간체 번역문을 함께 점검했다.
+
+Part 3의 최초 제목 위반은 시작 페이지의 `읽는 순서` 1건이었고, 번역문에는 `Reading Order`, `阅读顺序`가 같은 위치에 남아 있었다. 확장 점검 대상인 `범위와 비범위` 계열도 Part 시작 페이지 문맥에서 함께 정리했다.
+
+```sh
+rg -n "^#{2,6} (이 절의 범위|이 절의 목표|이 절을 읽는 순서|이 보충학습의 범위|이 보충학습의 목표|이 보충학습을 읽는 순서|읽는 순서|먼저 읽는 순서|이 마무리를 읽는 순서|Scope of This Section|Goal of This Section|Goals of This Section|Goal of This Supplemental Section|Goals of This Supplemental Learning|Goals of This Supplementary Learning|Scope of This Supplement|Goal of This Supplement|Goals of This Supplement|How to Read This Section|Reading Order|본절 목표|本节目标|本节的目标|本补充学习的目标|这节补充学习的目标|这一节的范围|这一节的目标|这篇补充学习的范围|这篇补充学习的目标|这一节的阅读顺序|阅读顺序)$" docs/parts/part-03
+```
+
+Part 3 전체에서 번역문까지 포함한 확장 패턴 잔여 제목은 0건이다.
+
+| 범위 | 처리 상태 | 잔여 건수 |
+| --- | --- | ---: |
+| `docs/parts/part-03/index.*.md` | 완료 | 0 |
+| `docs/parts/part-03/summary.*.md` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-01` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-02` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-03` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-04` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-05` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-06` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-07` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-08` | 점검 완료 | 0 |
+| `docs/parts/part-03/chapter-09` | 점검 완료 | 0 |
+
+추가 검증 결과, `docs/parts/part-03` 아래 162개 `Version` 표기는 모두 `v2026.07.20`이고, `management/release-notes/sections/part-03/`의 `P3-*.md` 54개 파일은 모두 `### v2026.07.20` 항목을 가진다.
+
 그다음은 `이 보충학습의 범위` 계열이다. 보충학습은 본문보다 별도 안내문처럼 굳기 쉬우므로, `어떤 오해를 바로잡는가`, `무엇을 구분하는가`, `어떤 연결을 복구하는가`가 드러나는 제목으로 바꾸는 것이 좋다.
 
 | 파일 | 위치 | 현재 제목 |

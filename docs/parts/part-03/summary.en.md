@@ -1,7 +1,7 @@
 # Part 3 Summary
 
 > Section ID: `P3-summary`
-> Version: `v2026.07.10`
+> Version: `v2026.07.20`
 
 In this Part, data modeling was read not as a description of storage structure but as the design of problem-representation structure. The core point is that source data is not immediately a dataset. Part 2 and Part 3 together form the basic-skills recovery range, and Part 3 is responsible for `rebuilding data-science problem structure`. Only after fixing the goal and scope of data modeling, rereading stored records as dataset candidates, deciding samples and table structure, designing features and baselines, and setting interpretation boundaries, can the later machine-learning explanations be read properly.
 
