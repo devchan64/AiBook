@@ -47,6 +47,7 @@
 要确认的概念：在运行统计示例之前，包准备步骤和计算步骤是分开的。
 
 ```python
+# 这条命令是在 Colab/Jupyter 代码单元里安装 NumPy。
 %pip install numpy
 ```
 
@@ -78,9 +79,12 @@ python docs/assets/part-02/chapter-05/p2_5_4_small_statistics.py
 ```python
 import numpy as np
 
+# data 是用来确认平均值、中位数和方差的小型分数数据。
 data = np.array([42, 55, 48, 63, 52, 50, 47, 70])
 
 print(data)
+
+# size 表示这个数据里有多少个值。
 print(data.size)
 ```
 
@@ -107,6 +111,7 @@ print(data.size)
 要确认的概念：均值是把很多值压缩成一个代表数字的计算。
 
 ```python
+# mean_value 是把 data 中所有值概括成一个中心值的平均值。
 mean_value = np.mean(data)
 print(mean_value)
 ```
@@ -135,6 +140,7 @@ print(mean_value)
 要确认的概念：均值会被极端值拉动，而中位数相对更不容易被拉动。
 
 ```python
+# skewed_data 包含极端值 100，用来比较平均值和中位数的反应差异。
 skewed_data = np.array([10, 12, 13, 15, 100])
 
 print(np.mean(skewed_data))
@@ -165,6 +171,7 @@ print(np.median(skewed_data))
 要确认的概念：在看方差之前，可以先把每个值表示成“离均值多远”的偏差。
 
 ```python
+# centered 表示每个值距离平均值有多远。
 centered = data - np.mean(data)
 print(np.round(centered, 3))
 ```
@@ -185,6 +192,7 @@ print(np.round(centered, 3))
 要确认的概念：方差的流程不是把偏差直接相加，而是先平方再求平均。
 
 ```python
+# squared_deviations 会把偏差平方，让负向和正向差距都作为离散程度来读。
 squared_deviations = centered ** 2
 print(np.round(squared_deviations, 3))
 ```
@@ -203,6 +211,7 @@ print(np.round(squared_deviations, 3))
 要确认的概念：方差是把均值周围的扩散总结成一个数字的值。
 
 ```python
+# np.var(data) 会把 data 的离散程度概括成一个方差值。
 print(np.var(data))
 ```
 
@@ -222,6 +231,7 @@ NumPy 的 `np.var(data)` 默认会把整组数据当作一个总体来计算方�
 要确认的概念：不是代码错了，而是计算设置不同，所以值会不同。
 
 ```python
+# ddof=1 是计算样本方差时使用的设置。
 print(np.var(data))
 print(np.var(data, ddof=1))
 ```
@@ -247,8 +257,10 @@ print(np.var(data, ddof=1))
 要确认的概念：样本均值会随着抽样方式不同而变化，这就是抽样波动的基本感觉。
 
 ```python
+# population_like 是被当作接近整体的参考数据。
 population_like = np.array([42, 45, 47, 48, 50, 52, 55, 58, 61, 63, 66, 70])
 
+# samples 是用来模拟只观察到 population_like 一部分的样本集合。
 samples = np.array([
     [42, 47, 50, 55],
     [48, 52, 63, 70],
@@ -257,6 +269,7 @@ samples = np.array([
 
 print(np.mean(population_like))
 
+# 依次确认每个样本的平均值是否会变化。
 for sample in samples:
     print(sample, np.mean(sample))
 ```

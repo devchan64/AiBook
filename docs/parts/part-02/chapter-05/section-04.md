@@ -47,6 +47,7 @@ Google Colab을 사용한다면 코드 셀에서 다음처럼 NumPy를 준비할
 확인할 개념: 통계 예제 실행 전에 패키지 준비 단계와 계산 단계가 분리된다는 점을 봅니다.
 
 ```python
+# Colab/Jupyter 코드 셀에서 NumPy를 설치하는 명령입니다.
 %pip install numpy
 ```
 
@@ -78,9 +79,12 @@ python docs/assets/part-02/chapter-05/p2_5_4_small_statistics.py
 ```python
 import numpy as np
 
+# data는 평균, 중위값, 분산을 확인할 작은 점수 데이터입니다.
 data = np.array([42, 55, 48, 63, 52, 50, 47, 70])
 
 print(data)
+
+# size는 데이터가 몇 개의 값으로 이루어졌는지 보여 줍니다.
 print(data.size)
 ```
 
@@ -107,6 +111,7 @@ print(data.size)
 확인할 개념: 평균은 여러 값을 하나의 대표 숫자로 요약하는 계산이라는 점을 봅니다.
 
 ```python
+# mean_value는 data 전체를 하나의 중심값으로 요약한 평균입니다.
 mean_value = np.mean(data)
 print(mean_value)
 ```
@@ -135,6 +140,7 @@ print(mean_value)
 확인할 개념: 평균은 극단값에 흔들릴 수 있고, 중위값은 상대적으로 덜 흔들린다는 점을 봅니다.
 
 ```python
+# skewed_data는 극단값 100이 평균과 중위값에 미치는 차이를 보기 위한 데이터입니다.
 skewed_data = np.array([10, 12, 13, 15, 100])
 
 print(np.mean(skewed_data))
@@ -165,6 +171,7 @@ print(np.median(skewed_data))
 확인할 개념: 분산을 보기 전에 먼저 각 값이 평균에서 얼마나 떨어졌는지 편차로 표현할 수 있다는 점을 봅니다.
 
 ```python
+# centered는 각 값이 평균에서 얼마나 떨어졌는지 나타내는 편차입니다.
 centered = data - np.mean(data)
 print(np.round(centered, 3))
 ```
@@ -185,6 +192,7 @@ print(np.round(centered, 3))
 확인할 개념: 분산은 편차를 그대로 더하지 않고 제곱해서 평균내는 흐름이라는 점을 봅니다.
 
 ```python
+# squared_deviations는 편차를 제곱해 음수와 양수 차이를 모두 퍼짐으로 읽게 합니다.
 squared_deviations = centered ** 2
 print(np.round(squared_deviations, 3))
 ```
@@ -203,6 +211,7 @@ print(np.round(squared_deviations, 3))
 확인할 개념: 분산은 평균 주변의 퍼짐을 하나의 숫자로 요약한 값이라는 점을 봅니다.
 
 ```python
+# np.var(data)는 data의 퍼짐을 하나의 분산값으로 요약합니다.
 print(np.var(data))
 ```
 
@@ -222,6 +231,7 @@ NumPy의 `np.var(data)`는 기본적으로 데이터 전체를 하나의 모집�
 확인할 개념: 코드가 틀린 것이 아니라 계산 설정이 달라 값이 달라질 수 있다는 점을 봅니다.
 
 ```python
+# ddof=1은 표본 분산을 계산할 때 쓰는 설정입니다.
 print(np.var(data))
 print(np.var(data, ddof=1))
 ```
@@ -247,8 +257,10 @@ print(np.var(data, ddof=1))
 확인할 개념: 표본 평균은 표본추출에 따라 달라질 수 있으며, 이것이 표본추출 변동의 기본 감각이라는 점을 봅니다.
 
 ```python
+# population_like는 전체에 가깝다고 가정한 기준 데이터입니다.
 population_like = np.array([42, 45, 47, 48, 50, 52, 55, 58, 61, 63, 66, 70])
 
+# samples는 population_like에서 일부만 본 것처럼 비교할 표본 묶음입니다.
 samples = np.array([
     [42, 47, 50, 55],
     [48, 52, 63, 70],
@@ -257,6 +269,7 @@ samples = np.array([
 
 print(np.mean(population_like))
 
+# 표본마다 평균이 달라지는지 차례로 확인합니다.
 for sample in samples:
     print(sample, np.mean(sample))
 ```

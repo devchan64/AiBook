@@ -47,6 +47,7 @@ Expected output: NumPy is installed into the current Colab kernel.
 Concept to check: before running statistical examples, the package-preparation step is separate from the calculation step.
 
 ```python
+# This command installs NumPy inside a Colab/Jupyter code cell.
 %pip install numpy
 ```
 
@@ -78,9 +79,12 @@ Concept to check: statistical calculation must always begin by checking what dat
 ```python
 import numpy as np
 
+# data is the small score dataset used to check mean, median, and variance.
 data = np.array([42, 55, 48, 63, 52, 50, 47, 70])
 
 print(data)
+
+# size shows how many values the dataset contains.
 print(data.size)
 ```
 
@@ -107,6 +111,7 @@ Expected output: the mean value `53.375` is printed.
 Concept to check: the mean is a calculation that summarizes many values into one representative number.
 
 ```python
+# mean_value is the mean that summarizes all values in data as one center value.
 mean_value = np.mean(data)
 print(mean_value)
 ```
@@ -135,6 +140,7 @@ Expected output: the mean `30.0` and the median `13.0` are printed.
 Concept to check: the mean can be shaken by an outlier, while the median is relatively less affected.
 
 ```python
+# skewed_data includes the extreme value 100 to compare how mean and median react.
 skewed_data = np.array([10, 12, 13, 15, 100])
 
 print(np.mean(skewed_data))
@@ -165,6 +171,7 @@ Expected output: the array of deviations from the mean is printed rounded to the
 Concept to check: before looking at variance, each value can first be expressed as a deviation from the mean.
 
 ```python
+# centered shows how far each value is from the mean.
 centered = data - np.mean(data)
 print(np.round(centered, 3))
 ```
@@ -185,6 +192,7 @@ Expected output: the array of squared deviations is printed.
 Concept to check: variance follows the flow of squaring deviations rather than simply adding them as they are.
 
 ```python
+# squared_deviations squares the deviations so both negative and positive gaps count as spread.
 squared_deviations = centered ** 2
 print(np.round(squared_deviations, 3))
 ```
@@ -203,6 +211,7 @@ Expected output: the variance value `72.984375` is printed.
 Concept to check: variance is a value that summarizes the spread around the mean into one number.
 
 ```python
+# np.var(data) summarizes the spread of data as one variance value.
 print(np.var(data))
 ```
 
@@ -222,6 +231,7 @@ Expected output: the population variance and the sample variance are printed in 
 Concept to check: the code is not wrong; the value can change because the calculation setting changes.
 
 ```python
+# ddof=1 is the setting used when calculating sample variance.
 print(np.var(data))
 print(np.var(data, ddof=1))
 ```
@@ -247,8 +257,10 @@ Expected output: the whole mean and each sample mean are printed in order.
 Concept to check: the sample mean can change depending on sampling, and that this is the basic feel of sampling variation.
 
 ```python
+# population_like is the reference dataset treated as close to the whole group.
 population_like = np.array([42, 45, 47, 48, 50, 52, 55, 58, 61, 63, 66, 70])
 
+# samples are smaller groups used as if we observed only part of population_like.
 samples = np.array([
     [42, 47, 50, 55],
     [48, 52, 63, 70],
@@ -257,6 +269,7 @@ samples = np.array([
 
 print(np.mean(population_like))
 
+# Check each sample in order to see whether its mean changes.
 for sample in samples:
     print(sample, np.mean(sample))
 ```
