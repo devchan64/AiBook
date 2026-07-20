@@ -1,7 +1,7 @@
 # Part 4. Machine Learning
 
-> Section ID: `P4-index`
-> Version: `v2026.07.12`
+> > Section ID: `P4-index`
+> > Version: `v2026.07.20`
 
 Part 2 restored the basics for reading formulas, Python, arrays, tables, graphs, and runtime environments. Now in Part 4, we organize what those tools are actually used for, namely what it means to `learn rules from data`.
 
@@ -32,7 +32,7 @@ Part 4 does not begin by listing algorithm names. It first establishes the quest
 - Why should feature selection, preprocessing, baseline models, and tuning be checked before model names?
 - What problem sense do representative classical models provide, and where do their strengths end and their limits begin?
 
-## Purpose of This Part
+## Reading Machine Learning as Shared Questions and Judgment Standards
 
 This Part rebuilds the large structure of machine learning and reconnects introductory knowledge learned long ago into a standard flow.
 
@@ -42,7 +42,7 @@ Part 4 establishes that base. The goal is not to dig deeply into the mathematics
 
 At this point, the three-way distinction established in P1-8 must be brought over directly. Supervised learning is a problem of matching target outputs from examples that contain `inputs and labels` together. Unsupervised learning is a problem of finding structure and representations `without human-attached labels`. Reinforcement learning is a problem of adjusting a policy using `rewards after actions instead of labels`. In particular, the reward in reinforcement learning is not the same signal as the label in supervised learning, and that distinction is maintained throughout Part 4.
 
-## Goals of This Part
+## Core Questions To Close In Machine Learning
 
 After reading Part 4, the target is to have roughly the following level of understanding.
 
@@ -56,7 +56,7 @@ After reading Part 4, the target is to have roughly the following level of under
 - You can explain clustering and dimensionality reduction as methods for reading structure without answer labels.
 - You can understand reinforcement learning as learning that adjusts policy through actions and rewards, and distinguish value-based and policy-based approaches at an introductory level.
 
-## What This Part Explains and What It Does Not
+## Boundaries Machine Learning Explains And Questions Left Open
 
 Part 4 explains the shared structure of machine learning. Within the main text, it therefore covers the following.
 
