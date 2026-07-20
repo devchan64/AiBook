@@ -214,6 +214,7 @@ baseline 不是靠感觉定下来的临时规则，更安全的做法是把它�
 - 对于不平衡数据，不能只看 accuracy，还要一起看 recall 和 F1
 
 ```python
+# 这个例子按问题类型建立 baseline，并把候选模型性能与它们进行比较。
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
@@ -290,6 +291,7 @@ model f1          : 0.632
 - 即使是 baseline，随着真实数据场景不同，更自然的出发点也可能不同
 
 ```python
+# 这个例子按问题类型建立 baseline，并把候选模型性能与它们进行比较。
 y_train = [32, 35, 31, 120, 33]
 y_test = [34, 36, 30, 90]
 

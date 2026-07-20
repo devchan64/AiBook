@@ -214,6 +214,7 @@ Concepts to check:
 - in imbalanced data, not only accuracy but also recall and F1 should be viewed together
 
 ```python
+# This example sets baselines by problem type and compares candidate model performance against them.
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
@@ -290,6 +291,7 @@ Concept to check:
 - even for a baseline, the more natural starting point can change depending on the actual data scene
 
 ```python
+# This example sets baselines by problem type and compares candidate model performance against them.
 y_train = [32, 35, 31, 120, 33]
 y_test = [34, 36, 30, 90]
 

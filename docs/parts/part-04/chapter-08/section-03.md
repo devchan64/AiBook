@@ -214,6 +214,7 @@ baseline은 감으로 정하는 임시 규칙이 아니라, `현재 문제에서
 - 불균형 데이터에서는 accuracy만이 아니라 recall과 F1도 함께 봐야 한다
 
 ```python
+# 문제 유형별 baseline과 후보 모델 성능을 비교해 기준선을 세우는 예제입니다.
 from sklearn.datasets import make_classification
 from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
@@ -290,6 +291,7 @@ model f1          : 0.632
 - baseline도 실제 데이터 장면에 따라 더 자연스러운 출발점이 달라질 수 있다
 
 ```python
+# 문제 유형별 baseline과 후보 모델 성능을 비교해 기준선을 세우는 예제입니다.
 y_train = [32, 35, 31, 120, 33]
 y_test = [34, 36, 30, 90]
 
