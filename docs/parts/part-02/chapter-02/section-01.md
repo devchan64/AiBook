@@ -1,7 +1,7 @@
 # P2-2.1 변수(variable), 함수(function), 식(expression) 다시 읽기
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-1.2에서는 수식(formula), 코드(code), 데이터(data)가 같은 계산을 서로 다른 방식으로 보여 준다는 관점을 잡았습니다. 이제 수식을 읽을 때 가장 먼저 만나는 기본 표기를 복구합니다.
 
@@ -63,8 +63,11 @@ Python 코드에서도 변수를 씁니다.
 확인할 개념: 코드의 변수도 값을 가리키는 이름이지만, 실행 중 재할당 가능한 구체적 저장 대상을 다룬다는 점을 봅니다.
 
 ```python
+# x와 y는 계산에 이름을 붙인 값입니다.
 x = 3
 y = 2
+
+# total은 두 값을 더한 식의 결과입니다.
 total = x + y
 ```
 
@@ -93,9 +96,12 @@ x는 3, y는 2, total은 5를 가리킨다.
 ```python
 import numpy as np
 
+# x는 여러 숫자를 담은 배열 변수입니다.
 x = np.array([1, 2, 3])
 
 print(x)
+
+# shape와 dtype은 배열의 모양과 값 종류를 확인하는 관찰 포인트입니다.
 print(x.shape)
 print(x.dtype)
 ```
@@ -131,6 +137,7 @@ AI 문맥에서는 `f`가 사람이 직접 만든 규칙일 수도 있고, 학�
 
 ```python
 def is_adult(age):
+    # age는 판단할 입력값이고, True/False가 함수의 출력입니다.
     return age >= 19
 
 print(is_adult(20))
@@ -150,6 +157,7 @@ True
 확인할 개념: AI 문맥의 모델도 입력을 출력으로 바꾸는 함수처럼 읽을 수 있다는 점을 봅니다.
 
 ```python
+# input_data는 모델에 넣는 입력이고, prediction은 모델이 돌려주는 예측값입니다.
 prediction = model(input_data)
 ```
 
@@ -191,8 +199,11 @@ f(x)
 확인할 개념: 식은 추상 기호가 아니라 실제 계산 순서로 풀어 쓸 수 있는 표현이라는 점을 봅니다.
 
 ```python
+# prediction은 모델의 예측값, target은 비교할 실제값입니다.
 prediction = 2.8
 target = 3.0
+
+# error와 squared_error는 예측이 실제값에서 얼마나 벗어났는지 보는 값입니다.
 error = prediction - target
 squared_error = error ** 2
 
@@ -239,6 +250,7 @@ updated_parameters = update(parameters, loss)
 확인할 개념: 변수 이름은 단서일 뿐이며, 실제 값의 shape과 의미를 추가로 확인해야 한다는 점을 봅니다.
 
 ```python
+# prediction과 target은 여러 샘플의 예측값과 실제값을 나란히 비교하기 위한 목록입니다.
 prediction = [0, 1, 1, 0]
 target = [0, 1, 0, 0]
 ```

@@ -1,7 +1,7 @@
 # P2-2.2 시그마(sigma)와 반복 계산
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-2.1에서는 변수(variable), 함수(function), 식(expression)을 다시 읽었습니다. 이제 수식에서 자주 만나는 반복 계산 표기를 봅니다.
 
@@ -169,7 +169,10 @@ x_1 + x_2 + x_3 + x_4
 확인할 개념: 시그마 표기의 반복 구조는 코드에서는 반복문과 누적 합 형태로 나타날 수 있다는 점을 봅니다.
 
 ```python
+# values는 반복해서 더할 값들의 목록입니다.
 values = [1, 2, 3, 4]
+
+# total은 반복문이 지나가며 합을 누적하는 변수입니다.
 total = 0
 
 for value in values:
@@ -213,6 +216,7 @@ print(total)
 확인할 개념: 평균은 여러 값을 더한 뒤 개수로 나누는 반복 구조라는 점을 코드에서도 확인합니다.
 
 ```python
+# values는 평균을 낼 데이터이고, mean은 그 요약값입니다.
 values = [1, 2, 3, 4]
 mean = sum(values) / len(values)
 
@@ -235,7 +239,10 @@ NumPy 배열(array)을 쓰면 더 짧게 쓸 수 있습니다.
 ```python
 import numpy as np
 
+# values는 NumPy 배열로 바꾼 반복 계산 대상입니다.
 values = np.array([1, 2, 3, 4])
+
+# mean은 배열 전체를 하나의 평균값으로 집계합니다.
 mean = values.mean()
 
 print(mean)
@@ -289,14 +296,17 @@ print(mean)
 확인할 개념: 손실도 데이터 여러 개에 대해 같은 계산을 반복하고 그 결과를 평균내는 구조라는 점을 봅니다.
 
 ```python
+# predictions와 targets는 각 샘플의 예측값과 실제값을 짝으로 비교하기 위한 목록입니다.
 predictions = [2.8, 4.1, 5.0]
 targets = [3.0, 4.0, 4.5]
 
+# losses에는 샘플별 제곱 오차가 차례로 쌓입니다.
 losses = []
 for prediction, target in zip(predictions, targets):
     loss = (prediction - target) ** 2
     losses.append(loss)
 
+# mean_loss는 여러 샘플의 손실을 하나로 요약한 평균 손실입니다.
 mean_loss = sum(losses) / len(losses)
 print(mean_loss)
 ```
@@ -337,9 +347,11 @@ print(mean_loss)
 ```python
 import numpy as np
 
+# predictions와 targets는 배열 계산으로 한 번에 비교할 예측값과 실제값입니다.
 predictions = np.array([2.8, 4.1, 5.0])
 targets = np.array([3.0, 4.0, 4.5])
 
+# losses는 샘플별 제곱 오차 배열이고, mean_loss는 그 평균입니다.
 losses = (predictions - targets) ** 2
 mean_loss = losses.mean()
 

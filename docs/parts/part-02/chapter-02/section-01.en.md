@@ -1,7 +1,7 @@
 # P2-2.1 Rereading Variables, Functions, and Expressions
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-1.2, we established the perspective that formulas, code, and data are different ways of showing the same computation. Now we recover the basic notation that appears first whenever you read a formula.
 
@@ -63,8 +63,11 @@ Expected output: there is no printed output, but a structure is created in which
 Concept to check: a code variable is also a name that points to a value, but it handles a concrete storage target that can be reassigned during execution.
 
 ```python
+# x and y are named values used in the calculation.
 x = 3
 y = 2
+
+# total is the result of the expression that adds the two values.
 total = x + y
 ```
 
@@ -93,9 +96,12 @@ Concept to check: in code, it is not enough to read only the name; the actual va
 ```python
 import numpy as np
 
+# x is an array variable that contains several numbers.
 x = np.array([1, 2, 3])
 
 print(x)
+
+# shape and dtype are observation points for the array's form and value type.
 print(x.shape)
 print(x.dtype)
 ```
@@ -131,6 +137,7 @@ Concept to check: a function is the relationship that receives input and produce
 
 ```python
 def is_adult(age):
+    # age is the input to judge, and True/False is the function output.
     return age >= 19
 
 print(is_adult(20))
@@ -150,6 +157,7 @@ Expected output: there is no printed output, but it shows the structure that sto
 Concept to check: in an AI context, a model can also be read as a function that turns input into output.
 
 ```python
+# input_data is the input passed into the model, and prediction is the value returned by it.
 prediction = model(input_data)
 ```
 
@@ -191,8 +199,11 @@ Expected output: the squared-error value is printed.
 Concept to check: an expression is not an abstract symbol game but something that can be unfolded into a real computation order.
 
 ```python
+# prediction is the model's predicted value, and target is the real value to compare against.
 prediction = 2.8
 target = 3.0
+
+# error and squared_error show how far the prediction is from the target.
 error = prediction - target
 squared_error = error ** 2
 
@@ -239,6 +250,7 @@ Expected output: there is no printed output, but it shows a state in which the n
 Concept to check: the variable name is only a clue, and the real value's shape and meaning must still be checked additionally.
 
 ```python
+# prediction and target are lists for comparing several predicted and real sample values.
 prediction = [0, 1, 1, 0]
 target = [0, 1, 0, 0]
 ```

@@ -1,7 +1,7 @@
 # P2-2.2 Sigma（Σ）与重复计算
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-2.1，我们重新阅读了变量（variable）、函数（function）和表达式（expression）。现在，我们来看一种在公式里非常常见的重复计算记法。
 
@@ -169,7 +169,10 @@ x_1 + x_2 + x_3 + x_4
 要确认的概念：sigma 记法中的重复结构，在代码里会表现成循环和累积总和。
 
 ```python
+# values 是要反复相加的值列表。
 values = [1, 2, 3, 4]
+
+# total 会随着循环经过这些值而累积总和。
 total = 0
 
 for value in values:
@@ -213,6 +216,7 @@ print(total)
 要确认的概念：平均值属于一种重复结构：先把很多值加起来，再除以个数。
 
 ```python
+# values 是要计算平均值的数据，mean 是它的概括值。
 values = [1, 2, 3, 4]
 mean = sum(values) / len(values)
 
@@ -235,7 +239,10 @@ print(mean)
 ```python
 import numpy as np
 
+# values 是被转换成 NumPy 数组的重复计算对象。
 values = np.array([1, 2, 3, 4])
+
+# mean 把整个数组聚合成一个平均值。
 mean = values.mean()
 
 print(mean)
@@ -289,14 +296,17 @@ print(mean)
 要确认的概念：损失也有“对很多数据反复做同一个计算，再对结果求平均”的结构。
 
 ```python
+# predictions 和 targets 是按样本配对比较的预测值与真实值列表。
 predictions = [2.8, 4.1, 5.0]
 targets = [3.0, 4.0, 4.5]
 
+# losses 会按顺序收集每个样本的平方误差。
 losses = []
 for prediction, target in zip(predictions, targets):
     loss = (prediction - target) ** 2
     losses.append(loss)
 
+# mean_loss 把多个样本的损失概括成一个平均损失。
 mean_loss = sum(losses) / len(losses)
 print(mean_loss)
 ```
@@ -337,9 +347,11 @@ print(mean_loss)
 ```python
 import numpy as np
 
+# predictions 和 targets 是用于一次性比较的预测值与真实值数组。
 predictions = np.array([2.8, 4.1, 5.0])
 targets = np.array([3.0, 4.0, 4.5])
 
+# losses 是逐样本平方误差数组，mean_loss 是它的平均值。
 losses = (predictions - targets) ** 2
 mean_loss = losses.mean()
 

@@ -1,7 +1,7 @@
 # P2-2.1 重新阅读变量（variable）、函数（function）与表达式（expression）
 
 > Section ID: `P2-2.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-1.2，我们建立了这样一种视角：公式、代码和数据是在用不同方式展示同一个计算。现在，我们来恢复阅读公式时最先遇到的基本记号。
 
@@ -63,8 +63,11 @@ x = 3,\quad y = 2,\quad n = 4
 要确认的概念：代码变量也是指向某个值的名字，但它处理的是执行过程中可被重新赋值的具体存储目标。
 
 ```python
+# x 和 y 是给计算值起的名字。
 x = 3
 y = 2
+
+# total 是把两个值相加后得到的表达式结果。
 total = x + y
 ```
 
@@ -93,9 +96,12 @@ x 指向 3，y 指向 2，total 指向 5。
 ```python
 import numpy as np
 
+# x 是装着多个数字的数组变量。
 x = np.array([1, 2, 3])
 
 print(x)
+
+# shape 和 dtype 是观察数组形状和值类型的要点。
 print(x.shape)
 print(x.dtype)
 ```
@@ -131,6 +137,7 @@ y = f(x)
 
 ```python
 def is_adult(age):
+    # age 是要判断的输入值，True/False 是函数输出。
     return age >= 19
 
 print(is_adult(20))
@@ -150,6 +157,7 @@ True
 要确认的概念：在 AI 语境里，模型也可以被读成把输入变成输出的函数。
 
 ```python
+# input_data 是传入模型的输入，prediction 是模型返回的预测值。
 prediction = model(input_data)
 ```
 
@@ -191,8 +199,11 @@ f(x)
 要确认的概念：表达式不是抽象符号游戏，而是可以展开成真实计算顺序的东西。
 
 ```python
+# prediction 是模型预测值，target 是用来比较的真实值。
 prediction = 2.8
 target = 3.0
+
+# error 和 squared_error 用来观察预测值偏离真实值的程度。
 error = prediction - target
 squared_error = error ** 2
 
@@ -239,6 +250,7 @@ updated_parameters = update(parameters, loss)
 要确认的概念：变量名只是线索，真实值的 shape 和意义仍需额外确认。
 
 ```python
+# prediction 和 target 是用来并排比较多个样本预测值与真实值的列表。
 prediction = [0, 1, 1, 0]
 target = [0, 1, 0, 0]
 ```

@@ -1,7 +1,7 @@
 # P2-2.2 Sigma and Repeated Computation
 
 > Section ID: `P2-2.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-2.1, we reread variables, functions, and expressions. Now we move to the notation for repeated computation that appears very often in formulas.
 
@@ -169,7 +169,10 @@ Expected output: the total sum `10` is printed.
 Concept to check: the repeated structure of sigma notation can appear in code as a loop and an accumulated total.
 
 ```python
+# values is the list of values to add repeatedly.
 values = [1, 2, 3, 4]
+
+# total accumulates the sum as the loop passes through the values.
 total = 0
 
 for value in values:
@@ -213,6 +216,7 @@ Expected output: the mean value `2.5` is printed.
 Concept to check: a mean is a repeated structure in which many values are added and then divided by the count.
 
 ```python
+# values is the data to average, and mean is the summary value.
 values = [1, 2, 3, 4]
 mean = sum(values) / len(values)
 
@@ -235,7 +239,10 @@ Concept to check: even if sigma is not written directly, the same repeated struc
 ```python
 import numpy as np
 
+# values is the repeated-calculation target converted into a NumPy array.
 values = np.array([1, 2, 3, 4])
+
+# mean aggregates the whole array into one average value.
 mean = values.mean()
 
 print(mean)
@@ -289,14 +296,17 @@ Expected output: the average of the sample losses is printed.
 Concept to check: loss also has the structure of repeating the same calculation over many data points and then taking the mean of the results.
 
 ```python
+# predictions and targets are paired lists of predicted and real values for each sample.
 predictions = [2.8, 4.1, 5.0]
 targets = [3.0, 4.0, 4.5]
 
+# losses collects each sample's squared error in order.
 losses = []
 for prediction, target in zip(predictions, targets):
     loss = (prediction - target) ** 2
     losses.append(loss)
 
+# mean_loss summarizes the losses from several samples as one average loss.
 mean_loss = sum(losses) / len(losses)
 print(mean_loss)
 ```
@@ -337,9 +347,11 @@ Concept to check: even if a loop is not visible, the same repeated structure is 
 ```python
 import numpy as np
 
+# predictions and targets are arrays of predicted and real values to compare at once.
 predictions = np.array([2.8, 4.1, 5.0])
 targets = np.array([3.0, 4.0, 4.5])
 
+# losses is the per-sample squared-error array, and mean_loss is its average.
 losses = (predictions - targets) ** 2
 mean_loss = losses.mean()
 
