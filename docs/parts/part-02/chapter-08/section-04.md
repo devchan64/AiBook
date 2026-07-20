@@ -95,6 +95,7 @@ Python의 `for` 반복은 “묶음에서 항목을 하나씩 꺼내 처리한�
 확인할 개념: `for item in items`는 묶음에서 항목을 하나씩 꺼내 처리하는 기본 구조입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91, 68]
 
 for score in scores:
@@ -111,6 +112,7 @@ for score in scores:
 확인할 개념: 항목 중심 반복과 위치 중심 반복은 같은 결과를 낼 수 있지만 읽는 관점이 다릅니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91, 68]
 
 for i in range(len(scores)):
@@ -176,6 +178,7 @@ Python 코드를 읽다 보면 다양한 반복 패턴을 만납니다.
 확인할 개념: 반복 패턴이 달라도 출발점은 이터러블에서 값을 하나씩 꺼내는 일입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 for score in scores:
     print(score)
 ```
@@ -186,6 +189,7 @@ for score in scores:
 확인할 개념: `enumerate()`는 몇 번째 값인지도 같이 필요할 때 쓰는 반복 도구입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 for index, score in enumerate(scores):
     print(index, score)
 ```
@@ -196,6 +200,7 @@ for index, score in enumerate(scores):
 확인할 개념: 딕셔너리 반복에서는 `.items()`가 키와 값을 함께 꺼내는 기본 패턴입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 for name, value in metrics.items():
     print(name, value)
 ```
@@ -242,6 +247,7 @@ Python 반복은 하나의 문법만 외우기보다 패턴으로 구분해서 �
 확인할 개념: 항목 반복은 위치보다 값 자체를 중심에 둡니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91, 68]
 
 for score in scores:
@@ -264,6 +270,7 @@ AI 실습에서는 샘플(sample), 문장(sentence), 파일 이름, 예측 결�
 확인할 개념: `enumerate()`는 값에 위치 정보를 붙여 반복하게 해 줍니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91, 68]
 
 for index, score in enumerate(scores):
@@ -286,6 +293,7 @@ for index, score in enumerate(scores):
 확인할 개념: 딕셔너리 반복은 키만이 아니라 키-값 쌍으로 읽는 경우가 많습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 metrics = {"accuracy": 0.91, "loss": 0.32}
 
 for name, value in metrics.items():
@@ -308,6 +316,7 @@ for name, value in metrics.items():
 확인할 개념: `zip()`은 여러 이터러블의 같은 위치 항목을 함께 반복하게 해 줍니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 texts = ["good", "bad", "great"]
 labels = ["positive", "negative", "positive"]
 
@@ -333,6 +342,7 @@ P2-8.2에서 빈 리스트를 먼저 만들 수 있다고 했습니다. 반복�
 확인할 개념: 반복은 조건을 만족하는 항목만 골라 새 묶음을 만드는 데 자주 쓰입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 0, 75, 0, 91]
 valid_scores = []
 
@@ -359,6 +369,7 @@ print(valid_scores)
 확인할 개념: 반복은 모든 항목에 같은 변환을 적용해 새 결과 묶음을 만들 수 있습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91, 68]
 normalized_scores = []
 
@@ -384,6 +395,7 @@ print(normalized_scores)
 확인할 개념: 리스트 컴프리헨션은 반복으로 새 리스트를 만드는 간결한 표현입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 squares = [number * number for number in range(5)]
 
 print(squares)
@@ -399,6 +411,7 @@ print(squares)
 확인할 개념: 컴프리헨션은 필터링과 새 리스트 생성을 한 표현으로 묶을 수 있습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 0, 75, 0, 91]
 
 valid_scores = [score for score in scores if score != 0]
@@ -438,6 +451,7 @@ Python 코드에서는 반복문이 리스트나 딕셔너리를 정의하는 �
 확인할 개념: 컴프리헨션은 보통 `append()`를 쓰는 반복을 짧게 줄인 표현입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91]
 normalized_scores = []
 
@@ -455,6 +469,7 @@ print(normalized_scores)
 확인할 개념: 컴프리헨션은 반복의 목적이 새 자료구조 생성일 때 특히 읽기 좋습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91]
 
 normalized_scores = [score / 100 for score in scores]
@@ -472,6 +487,7 @@ print(normalized_scores)
 확인할 개념: 딕셔너리 컴프리헨션도 반복으로 새 매핑 구조를 만드는 표현입니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 labels = ["negative", "positive", "neutral"]
 
 label_to_id = {label: index for index, label in enumerate(labels)}
@@ -498,6 +514,7 @@ print(label_to_id)
 확인할 개념: 컴프리헨션보다 단계가 드러나는 일반 반복이 더 적합한 경우가 있습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 results = []
 
 for item in items:
@@ -522,6 +539,7 @@ for item in items:
 확인할 개념: 누적 반복은 현재까지의 결과를 변수에 계속 업데이트합니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 75, 91, 68]
 total = 0
 
@@ -547,6 +565,7 @@ print(total)
 확인할 개념: 반복과 조건문을 함께 쓰면 한 묶음을 여러 결과 묶음으로 분리할 수 있습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 55, 91, 42, 68]
 passed = []
 failed = []
@@ -579,6 +598,7 @@ P2-8.3에서는 딕셔너리를 키로 값을 찾는 구조로 봤습니다. 반
 확인할 개념: 딕셔너리는 반복과 함께 쓰면 키별 누적 집계를 만들 수 있습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
@@ -606,6 +626,7 @@ print(label_counts)
 확인할 개념: 실제 데이터 처리에서는 샘플 묶음, 필드 조회, 조건 필터링이 한 반복 안에 함께 나타납니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 students = [
     {"name": "Kim", "score": 82.5},
     {"name": "Lee", "score": 55.0},
@@ -648,6 +669,7 @@ print(passed_students)
 확인할 개념: 반복 중 원본 컬렉션을 직접 바꾸기보다 새 컬렉션을 만드는 쪽이 더 명확합니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 scores = [82, 0, 75, 0, 91]
 filtered_scores = []
 
@@ -696,6 +718,7 @@ print(filtered_scores)
 확인할 개념: 반복 코드는 묶음, 하나씩 꺼낸 값, 처리, 결과라는 틀로 읽을 수 있습니다.
 
 ```python
+# 이 예제는 반복문이 값 묶음에서 항목을 하나씩 꺼내 처리하는 방식을 확인합니다.
 texts = ["AI is useful", "Models can fail", "Data matters"]
 lengths = []
 

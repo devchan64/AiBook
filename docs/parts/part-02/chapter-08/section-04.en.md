@@ -95,6 +95,7 @@ Expected output: each score is printed on its own line.
 Concept to check: `for item in items` is the basic structure that takes items out one by one from a group and processes them.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91, 68]
 
 for score in scores:
@@ -111,6 +112,7 @@ Expected output: the scores accessed by index are printed in order.
 Concept to check: item-centered loops and position-centered loops can produce the same result, but the reading perspective is different.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91, 68]
 
 for i in range(len(scores)):
@@ -176,6 +178,7 @@ Expected output: the scores are printed one by one.
 Concept to check: even if loop patterns differ, the starting point is taking values out one by one from an iterable.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 for score in scores:
     print(score)
 ```
@@ -186,6 +189,7 @@ Expected output: position and score are printed together.
 Concept to check: `enumerate()` is a loop tool used when you also need to know which numbered value it is.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 for index, score in enumerate(scores):
     print(index, score)
 ```
@@ -196,6 +200,7 @@ Expected output: the metric name and value are printed together.
 Concept to check: in dictionary loops, `.items()` is the basic pattern that takes out key and value together.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 for name, value in metrics.items():
     print(name, value)
 ```
@@ -242,6 +247,7 @@ Expected output: each score is printed in order.
 Concept to check: item loops center the value itself more than the position.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91, 68]
 
 for score in scores:
@@ -264,6 +270,7 @@ Expected output: the position number and score are printed together.
 Concept to check: `enumerate()` lets the loop proceed by attaching position information to the value.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91, 68]
 
 for index, score in enumerate(scores):
@@ -286,6 +293,7 @@ Expected output: `accuracy`, `loss`, and their values are printed.
 Concept to check: dictionary loops are often read not only as keys, but as key-value pairs.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 metrics = {"accuracy": 0.91, "loss": 0.32}
 
 for name, value in metrics.items():
@@ -308,6 +316,7 @@ Expected output: text and label are printed as pairs.
 Concept to check: `zip()` makes the loop proceed with items from the same positions of several iterables together.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 texts = ["good", "bad", "great"]
 labels = ["positive", "negative", "positive"]
 
@@ -333,6 +342,7 @@ Expected output: `valid_scores`, containing only scores other than `0`.
 Concept to check: loops are often used to make a new group by selecting only the items that satisfy a condition.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 0, 75, 0, 91]
 valid_scores = []
 
@@ -359,6 +369,7 @@ Expected output: `normalized_scores`, where each score is divided by 100.
 Concept to check: a loop can apply the same transformation to every item and make a new result group.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91, 68]
 normalized_scores = []
 
@@ -384,6 +395,7 @@ Expected output: `squares`, a list of square values.
 Concept to check: list comprehension is a compact expression that makes a new list by looping.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 squares = [number * number for number in range(5)]
 
 print(squares)
@@ -399,6 +411,7 @@ Expected output: `valid_scores`, collecting only values other than `0`.
 Concept to check: comprehension can combine filtering and new-list creation in one expression.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 0, 75, 0, 91]
 
 valid_scores = [score for score in scores if score != 0]
@@ -438,6 +451,7 @@ Expected output: the normalized score list `normalized_scores`.
 Concept to check: comprehension is usually a shortened form of a loop that uses `append()`.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91]
 normalized_scores = []
 
@@ -455,6 +469,7 @@ Expected output: a one-line expression making the same normalized result.
 Concept to check: comprehension is especially easy to read when the goal of the loop is making a new data structure.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91]
 
 normalized_scores = [score / 100 for score in scores]
@@ -472,6 +487,7 @@ Expected output: `label_to_id`, where the label name is the key and the position
 Concept to check: dictionary comprehension is also an expression that makes a new mapping structure by looping.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 labels = ["negative", "positive", "neutral"]
 
 label_to_id = {label: index for index, label in enumerate(labels)}
@@ -498,6 +514,7 @@ Expected output: code that adds only values that passed the condition to `result
 Concept to check: there are cases where ordinary loops that show the steps are more suitable than comprehension.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 results = []
 
 for item in items:
@@ -522,6 +539,7 @@ Expected output: the total sum of all scores.
 Concept to check: an accumulation loop keeps updating the result so far in a variable.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 75, 91, 68]
 total = 0
 
@@ -547,6 +565,7 @@ Expected output: the two lists `passed` and `failed`.
 Concept to check: if you use a loop and a conditional together, one group can be separated into several result groups.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 55, 91, 42, 68]
 passed = []
 failed = []
@@ -579,6 +598,7 @@ Expected output: `label_counts`, which contains the count of each label.
 Concept to check: together with a loop, a dictionary can build accumulated aggregation by key.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
@@ -606,6 +626,7 @@ Expected output: `passed_students`, which contains only the names of students wh
 Concept to check: in real data processing, a group of samples, field lookup, and conditional filtering appear together inside one loop.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 students = [
     {"name": "Kim", "score": 82.5},
     {"name": "Lee", "score": 55.0},
@@ -648,6 +669,7 @@ Expected output: the new list `filtered_scores`, excluding `0`.
 Concept to check: it is clearer to make a new collection rather than directly changing the original collection during a loop.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 scores = [82, 0, 75, 0, 91]
 filtered_scores = []
 
@@ -696,6 +718,7 @@ Expected output: `lengths`, containing the length of each sentence.
 Concept to check: loop code can be read in the frame of group, value taken out one by one, processing, and result.
 
 ```python
+# This example checks how a loop takes items one by one from a value collection.
 texts = ["AI is useful", "Models can fail", "Data matters"]
 lengths = []
 

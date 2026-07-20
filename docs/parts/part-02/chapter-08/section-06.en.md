@@ -13,6 +13,7 @@ Expected output: A string with spaces removed and a string converted to lowercas
 Concept to check: A form like `value.method()` is the shape of calling an action provided by a value or object.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 text = " AI is Useful "
 
 print(text.strip())
@@ -78,6 +79,7 @@ Expected output: The type of each value is printed in order.
 Concept to check: In Python, many kinds of values are all objects, and type reveals their character.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 score = 82
 text = "AI"
 scores = [82, 75, 91]
@@ -99,6 +101,7 @@ Expected output: The results of `strip()` and `lower()`.
 Concept to check: An object provides actions in method form according to its type.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 text = " AI is Useful "
 
 print(text.strip())
@@ -113,6 +116,7 @@ Expected output: The list after the value is added.
 Concept to check: If the type differs, the methods that can be used also differ.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 scores = [82, 75]
 
 scores.append(91)
@@ -142,6 +146,7 @@ Expected output: The object’s `text` and `label` attributes are printed.
 Concept to check: A class is the definition for creating objects, and an object can hold its own data.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -167,6 +172,7 @@ Expected output: The values of `sample["text"]` and `sample["label"]`.
 Concept to check: A dictionary is the most direct data representation that finds values by key.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 sample = {
     "text": "AI is useful",
     "label": "positive",
@@ -184,6 +190,7 @@ Expected output: The values of `sample.text` and `sample.label`.
 Concept to check: A class-based object lets us read data through attribute access rather than key lookup.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -225,6 +232,7 @@ Expected output: The object’s `text` value and the result of `is_labeled()`.
 Concept to check: State is the values an object has, and behavior is the method the object provides.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 class TextSample:
     def __init__(self, text, label):
         self.text = text
@@ -249,6 +257,7 @@ Expected output: The result `True` from `is_labeled(sample)`.
 Concept to check: Even without a class, a similar handling structure can be made through a function and a dictionary.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 def is_labeled(sample):
     return sample["label"] is not None
 
@@ -278,6 +287,7 @@ Expected output: The cleaned string.
 Concept to check: `function(value)` is the form of putting a value into a function and processing it.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 def clean_text(text):
     return text.strip().lower()
 
@@ -292,6 +302,7 @@ Expected output: The result of `text.strip()`.
 Concept to check: A method is called with the object in front of the dot as the center.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 text = " AI "
 
 print(text.strip())
@@ -312,6 +323,7 @@ Expected output: The result `True` from `sample.has_label()`.
 Concept to check: A method can also be placed inside a user-defined class.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -354,6 +366,7 @@ Expected output: A class definition that stores `self.text` inside the object.
 Concept to check: `self` is the conventional name that refers to the object itself inside a method.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 class Sample:
     def __init__(self, text):
         self.text = text
@@ -377,6 +390,7 @@ Expected output: The value of `sample.label` is printed.
 Concept to check: Outside the class we read `sample.label`, while inside the class the same place is read as `self.label`.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 sample = Sample("AI is useful", "positive")
 
 print(sample.label)
@@ -390,6 +404,7 @@ Expected output: A class definition that stores `self.text` and `self.label`.
 Concept to check: Inside the class, the object’s own attributes are handled through `self`.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -424,6 +439,7 @@ Expected output: Example calls such as `model.fit(...)` and `model.predict(...)`
 Concept to check: Because library objects have both state and behavior, method-call form appears often.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 model.fit(train_data)
 predictions = model.predict(test_data)
 ```
@@ -454,6 +470,7 @@ Expected output: The example call `model.fit(train_data)`.
 Concept to check: A method call can be an action where an object changes or uses its own state.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 model.fit(train_data)
 ```
 
@@ -465,6 +482,7 @@ Expected output: The example call `predictions = model.predict(test_data)`.
 Concept to check: A method can create a result by using the state of an object.
 
 ```python
+# This example checks how classes, objects, and method calls bundle values with behavior.
 predictions = model.predict(test_data)
 ```
 

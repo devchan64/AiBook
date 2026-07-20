@@ -68,6 +68,7 @@ Expected output: the score list and its type are printed.
 Concept to check: a list is the basic structure that stores several values in order.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 
 print(scores)
@@ -84,6 +85,7 @@ Expected output: the values of `scores[0]` and `scores[1]` are printed.
 Concept to check: values in a list are accessed by index, and in Python counting usually starts from 0.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 
 print(scores[0])
@@ -122,6 +124,7 @@ Expected output: the nested list `rows`.
 Concept to check: a nested list may look two-dimensional, but it is still a structure where a list contains lists.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 rows = [
     [1, 2, 3],
     [4, 5, 6],
@@ -177,6 +180,7 @@ Expected output: a list where a value was added and some items were changed.
 Concept to check: a list is a mutable value, and both appending at the end and changing by position are possible.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91]
 
 scores.append(68)
@@ -195,6 +199,7 @@ Expected output: the same changed result is printed through both names.
 Concept to check: assigning a list to another variable does not always automatically create a copy.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91]
 other_scores = scores
 
@@ -230,6 +235,7 @@ Expected output: `result`, where the two lists are connected.
 Concept to check: `+` makes a new joined list rather than changing the existing lists.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 front = [1, 2]
 back = [3, 4]
 
@@ -248,6 +254,7 @@ Expected output: `scores` with values added to the end.
 Concept to check: `extend()` changes the existing list itself.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75]
 
 scores.extend([91, 68])
@@ -267,6 +274,7 @@ Expected output: the middle part, the first two items, and the back part are eac
 Concept to check: a slice is syntax for reading a partial range by specifying a start and end range.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68, 88]
 
 print(scores[1:4])
@@ -288,6 +296,7 @@ Expected output: a list with the middle two items removed.
 Concept to check: if you use `del` together with a slice, you can delete a specific range.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 items = ["A", "B", "C", "D"]
 
 del items[1:3]
@@ -305,6 +314,7 @@ Expected output: a list reflecting the changed range.
 Concept to check: slice assignment can replace a range even when the length is not the same.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 items = ["A", "B", "C", "D"]
 
 items[1:3] = ["X", "Y", "Z"]
@@ -324,6 +334,7 @@ Expected output: the sentence `sentence` connected by spaces.
 Concept to check: `join()` belongs to the string side, not to the list side.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 words = ["AI", "needs", "data"]
 
 sentence = " ".join(words)
@@ -362,6 +373,7 @@ Expected output: the three lists are each printed.
 Concept to check: a list can directly initialize groups of numbers, strings, booleans, and other values.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 labels = ["positive", "negative", "neutral"]
 flags = [True, False, True]
@@ -383,6 +395,7 @@ Expected output: a list containing the added values.
 Concept to check: an empty list is often used as the starting point for building results later.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 passed_scores = []
 
 passed_scores.append(82)
@@ -403,6 +416,7 @@ Expected output: a list containing five `0`s.
 Concept to check: `[value] * count` can be used when quickly making a simple initial value list.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 predictions = [0] * 5
 
 print(predictions)
@@ -416,6 +430,7 @@ Expected output: a result that looks as if all inner lists changed together.
 Concept to check: in nested lists, initialization that points to the same object multiple times can create unexpected sharing.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 rows = [[]] * 3
 
 rows[0].append("A")
@@ -450,6 +465,7 @@ Expected output: the calculation results of maximum, minimum, and average.
 Concept to check: a list can gather several numeric values at once and serve as the input to summary computation.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 scores = [82, 75, 91, 68]
 
 print(max(scores))
@@ -467,6 +483,7 @@ Expected output: each sentence is printed one after another in a loop.
 Concept to check: a list is good for iterating over several items of the same kind, such as text, in order.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 texts = [
     "AI is useful.",
     "Data quality matters.",
@@ -487,6 +504,7 @@ Expected output: `high confidence` or `check` is printed for each score.
 Concept to check: a list can be used to evaluate multiple model output values in order.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 probabilities = [0.92, 0.31, 0.77, 0.12]
 
 for probability in probabilities:
@@ -506,6 +524,7 @@ Expected output: each file name is printed one after another.
 Concept to check: a list is suitable for listing several work targets of the same kind in order.
 
 ```python
+# This example checks how a list stores and processes multiple values in order.
 file_names = [
     "train.csv",
     "valid.csv",

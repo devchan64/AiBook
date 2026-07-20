@@ -76,6 +76,7 @@ Expected output: the expression `3 + 2` that adds the two values.
 Concept to check: a value can appear directly in code and become the input of an operation.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 3 + 2
 ```
 
@@ -85,6 +86,7 @@ Expected output: an expression that joins the two strings.
 Concept to check: even the same operator can have different meanings depending on the type of the value.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 "AI" + "Book"
 ```
 
@@ -110,6 +112,7 @@ Expected output: the type of `score` changes from `int` to `str`.
 Concept to check: in Python, values have types rather than names, and when reassignment happens, the type can also change.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 score = 82
 print(type(score))
 
@@ -129,6 +132,7 @@ Expected output: an example where the computation does not proceed as intended b
 Concept to check: even if it looks like a dynamically typed language, operations that do not fit the types can still raise errors.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 score = "82"
 bonus = 3
 
@@ -156,6 +160,7 @@ Expected output: `area`, the product of the two values, is printed.
 Concept to check: `=` is not a mathematical equal sign but assignment syntax that connects a name and a value.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 width = 20
 height = 45
 area = width * height
@@ -174,6 +179,7 @@ Expected output: in the end, `12` is printed.
 Concept to check: reassignment makes the same name point to a different value.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 score = 10
 score = 12
 print(score)
@@ -201,6 +207,7 @@ Expected output: the result of `type(...)` for each value.
 Concept to check: basic numbers, strings, and booleans are distinguished as different types.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 print(type(3))
 print(type(3.14))
 print(type("AI"))
@@ -244,6 +251,7 @@ Expected output: on the number side, `31`; on the string side, a joined result s
 Concept to check: a string that looks like a number behaves differently from actual numeric computation.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 age_number = 30
 age_text = "30"
 
@@ -278,6 +286,7 @@ Expected output: the value `passed` and its type are printed.
 Concept to check: the result of a comparison expression is of type `bool` and is either `True` or `False`.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 score = 92
 passed = score >= 60
 
@@ -306,6 +315,7 @@ Expected output: the name, score, and pass status are printed in order.
 Concept to check: a string, a floating-point number, and a boolean can all be used together in one example with different roles.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 student_name = "Kim"
 score = 82.5
 threshold = 60.0
@@ -340,6 +350,7 @@ Expected output: an example where comparison does not work as intended.
 Concept to check: even if data looks like a number, if the actual type is different, comparison and computation can fail.
 
 ```python
+# This example checks how values, variables, and types are separated in code.
 score = "82.5"
 threshold = 60.0
 

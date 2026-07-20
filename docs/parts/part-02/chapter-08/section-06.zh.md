@@ -13,6 +13,7 @@
 要确认的概念：像 `value.method()` 这样的形式，是在调用某个值或对象提供的动作。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 text = " AI is Useful "
 
 print(text.strip())
@@ -78,6 +79,7 @@ Python 官方文档把对象(object)解释成拥有 identity、type、value 的�
 要确认的概念：在 Python 里，很多类型的值都是对象，而类型会揭示它们的性质。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 score = 82
 text = "AI"
 scores = [82, 75, 91]
@@ -99,6 +101,7 @@ print(type(student))
 要确认的概念：对象会根据自己的类型，以方法的形式提供动作。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 text = " AI is Useful "
 
 print(text.strip())
@@ -113,6 +116,7 @@ print(text.lower())
 要确认的概念：类型不同，可用的方法也不同。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 scores = [82, 75]
 
 scores.append(91)
@@ -142,6 +146,7 @@ Python 的内置类型也可以这样理解。
 要确认的概念：类是创建对象的定义，而对象可以拥有自己的数据。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -167,6 +172,7 @@ print(sample.label)
 要确认的概念：字典是通过 key 查找值的最直接数据表达。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 sample = {
     "text": "AI is useful",
     "label": "positive",
@@ -184,6 +190,7 @@ print(sample["label"])
 要确认的概念：类对象通过属性访问来读取数据，而不是通过 key 查找。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -225,6 +232,7 @@ print(sample.label)
 要确认的概念：状态是对象拥有的值，动作则是对象提供的方法。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 class TextSample:
     def __init__(self, text, label):
         self.text = text
@@ -249,6 +257,7 @@ print(sample.is_labeled())
 要确认的概念：即使不用类，也可以用函数和字典做出类似的处理结构。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 def is_labeled(sample):
     return sample["label"] is not None
 
@@ -278,6 +287,7 @@ print(is_labeled(sample))
 要确认的概念：`function(value)` 是把值送进函数里处理的调用形式。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 def clean_text(text):
     return text.strip().lower()
 
@@ -292,6 +302,7 @@ print(clean_text(" AI "))
 要确认的概念：方法是以点前对象为中心被调用的。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 text = " AI "
 
 print(text.strip())
@@ -312,6 +323,7 @@ print(text.strip())
 要确认的概念：方法也可以放在用户定义类里面。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -354,6 +366,7 @@ print(sample.has_label())
 要确认的概念：`self` 是在方法里指向对象自己的惯例名称。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 class Sample:
     def __init__(self, text):
         self.text = text
@@ -377,6 +390,7 @@ class Sample:
 要确认的概念：在类外写 `sample.label`，在类内则把同一个位置写成 `self.label`。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 sample = Sample("AI is useful", "positive")
 
 print(sample.label)
@@ -390,6 +404,7 @@ print(sample.label)
 要确认的概念：类内部通过 `self` 来处理对象自身属性。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -424,6 +439,7 @@ class Sample:
 要确认的概念：因为库对象同时拥有状态和动作，所以方法调用形状会很常见。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 model.fit(train_data)
 predictions = model.predict(test_data)
 ```
@@ -454,6 +470,7 @@ predictions = model.predict(test_data)
 要确认的概念：方法调用可能是在改变对象状态，或者使用对象状态。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 model.fit(train_data)
 ```
 
@@ -465,6 +482,7 @@ model.fit(train_data)
 要确认的概念：方法可以利用对象状态来做出结果。
 
 ```python
+# 这个例子用来确认类、对象和方法调用如何把值与行为绑定在一起。
 predictions = model.predict(test_data)
 ```
 

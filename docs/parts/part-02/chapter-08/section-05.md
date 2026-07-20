@@ -63,6 +63,7 @@ Python에서는 `def`로 함수에 이름을 붙이고, 필요한 입력 이름�
 확인할 개념: 반복되는 판단은 일반 조건문으로도 먼저 표현할 수 있습니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 score = 82
 
 if score >= 60:
@@ -83,6 +84,7 @@ print(result)
 확인할 개념: 함수는 반복되는 처리에 이름을 붙여 다시 쓸 수 있게 합니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def pass_or_fail(score):
     if score >= 60:
         return "pass"
@@ -120,6 +122,7 @@ Python으로 쓰면 다음처럼 볼 수 있습니다.
 확인할 개념: 수학의 입력-출력 관계를 Python에서도 함수 형태로 표현할 수 있습니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def f(x):
     return x + 1
 
@@ -153,6 +156,7 @@ AI 실습에서는 두 관점이 모두 필요합니다.
 확인할 개념: 함수 정의 쪽 이름은 매개변수이고, 호출 시 넘기는 실제 값은 인자입니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def add_bonus(score, bonus):
     return score + bonus
 
@@ -183,6 +187,7 @@ print(result)
 확인할 개념: `return`은 함수 결과를 호출한 쪽으로 돌려줍니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def normalize_score(score):
     return score / 100
 
@@ -201,6 +206,7 @@ print(normalized)
 확인할 개념: `print()`는 출력이고 `return`은 계산 결과 전달입니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def show_score(score):
     print(score)
 
@@ -228,6 +234,7 @@ print(result)
 확인할 개념: 반복문 안의 같은 계산은 함수로 분리하면 의도가 더 잘 보입니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def normalize_score(score):
     return score / 100
 
@@ -254,6 +261,7 @@ AI 실습에서는 데이터 한 건(sample)을 처리하는 함수를 자주 �
 확인할 개념: 함수는 데이터 한 건에 대한 검사 규칙을 캡슐화할 수 있습니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
 
@@ -272,6 +280,7 @@ print(is_valid_sample(sample))
 확인할 개념: 데이터 한 건을 처리하는 함수는 반복문과 결합될 때 재사용 가치가 커집니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
 
@@ -308,6 +317,7 @@ print(valid_samples)
 확인할 개념: 기본값 매개변수는 인자를 생략해도 기본 행동을 유지하게 해 줍니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def pass_or_fail(score, threshold=60):
     if score >= threshold:
         return "pass"
@@ -340,6 +350,7 @@ C 언어나 Java 같은 언어를 먼저 배운 사람에게 Python 함수는 �
 확인할 개념: Python 함수는 객체라서 변수에 담아 다른 이름으로 참조할 수 있습니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def normalize_score(score):
     return score / 100
 
@@ -358,6 +369,7 @@ print(normalize(82))
 확인할 개념: Python에서는 함수도 다른 값처럼 전달할 수 있습니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def normalize_score(score):
     return score / 100
 
@@ -395,6 +407,7 @@ Python 코드를 읽다 보면 `function(value)`처럼 호출하는 코드와 `v
 확인할 개념: 함수는 독립 이름으로 호출되는 처리 단위입니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def clean_text(text):
     return text.strip().lower()
 ```
@@ -407,6 +420,7 @@ def clean_text(text):
 확인할 개념: 메서드는 값이나 객체에 붙어 호출되는 함수 형태입니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 text = " AI is Useful "
 
 print(text.strip())
@@ -460,6 +474,7 @@ AI 실습에서도 이 기준은 유용합니다. 데이터 불러오기, 전처
 확인할 개념: 함수는 작은 처리 단위를 만들고, 반복문은 그 단위를 여러 데이터에 적용합니다.
 
 ```python
+# 이 예제는 함수를 작은 재사용 단위로 만들어 입력과 출력을 연결하는 방식을 확인합니다.
 def clean_text(text):
     return text.strip().lower()
 

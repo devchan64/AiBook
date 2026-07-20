@@ -58,6 +58,7 @@ Expected output: When you add a value through one name, the result viewed throug
 Concept to check: Simple assignment does not guarantee creation of a new copy.
 
 ```python
+# This example checks how reference and copying differ for mutable values such as lists.
 scores = [82, 75, 91]
 other_scores = scores
 
@@ -91,6 +92,7 @@ Expected output: A value is added only to `copied_scores`, while the original `s
 Concept to check: Because shallow copy creates the outer container anew, top-level addition and deletion can become separate.
 
 ```python
+# This example checks how reference and copying differ for mutable values such as lists.
 scores = [82, 75, 91]
 copied_scores = scores.copy()
 
@@ -121,6 +123,7 @@ Expected output: When you change an inner list, the original and the shallow cop
 Concept to check: A shallow copy may not recreate nested inner objects.
 
 ```python
+# This example checks how reference and copying differ for mutable values such as lists.
 matrix = [[1, 2], [3, 4]]
 shallow = matrix.copy()
 
@@ -154,6 +157,7 @@ Expected output: Even if you change `deep`, the original `matrix` remains unchan
 Concept to check: A deep copy recreates even nested inner structures and separates them from the original.
 
 ```python
+# This example checks how reference and copying differ for mutable values such as lists.
 import copy
 
 matrix = [[1, 2], [3, 4]]
@@ -214,6 +218,7 @@ Expected output: In A and B, the original changes together; in C, the original s
 Concept to check: In a nested structure, assignment and shallow copy can still share the original, while deep copy breaks that sharing.
 
 ```python
+# This example checks how reference and copying differ for mutable values such as lists.
 import copy
 
 base = [[10, 20], [30, 40]]

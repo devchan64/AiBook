@@ -55,6 +55,7 @@ Expected output: the values of `student["name"]` and `student["score"]` are prin
 Concept to check: a dictionary is a mapping structure that finds a value by key rather than by position.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 student = {
     "name": "Kim",
     "score": 82.5,
@@ -101,6 +102,7 @@ Expected output: `"positive"`, which corresponds to prediction value `1`, is pri
 Concept to check: if given a criterion key, a dictionary can immediately take out the connected value.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 label_name = {
     0: "negative",
     1: "positive",
@@ -129,6 +131,7 @@ Expected output: if the key exists, the corresponding setting value is printed.
 Concept to check: a dictionary can safely take out a value after checking whether the key exists.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
@@ -163,6 +166,7 @@ Expected output: the score `82` connected to the key `"Kim"`.
 Concept to check: dictionary lookup is the action of finding a value based on a stable key.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 scores_by_name = {
     "Kim": 82,
     "Lee": 91,
@@ -190,6 +194,7 @@ Expected output: a dictionary where only the last value `91` remains under the k
 Concept to check: one key points only to one current value, and upon reassignment the previous value is overwritten.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 scores = {}
 
 scores["Kim"] = 82
@@ -206,6 +211,7 @@ Expected output: the score list connected to the key `"Kim"` is printed.
 Concept to check: if several values are needed under one key, a grouped structure such as a list must be placed on the value side.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 scores = {
     "Kim": [82, 91],
 }
@@ -236,6 +242,7 @@ Expected output: the value of `learning_rate` is printed.
 Concept to check: configuration data fits dictionaries well because names matter more than order.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
@@ -255,6 +262,7 @@ Expected output: the string `neutral` is printed.
 Concept to check: a dictionary is often used as a correspondence table between label number and label name.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 label_map = {
     0: "negative",
     1: "positive",
@@ -276,6 +284,7 @@ Expected output: the text `"good product"` corresponding to `"s001"` is printed.
 Concept to check: a dictionary can be used as a lookup structure that goes from identifier to data body.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 samples_by_id = {
     "s001": {"text": "good product", "label": "positive"},
     "s002": {"text": "bad service", "label": "negative"},
@@ -296,6 +305,7 @@ Expected output: the explanation for the key `"score"` is printed.
 Concept to check: a dictionary is suitable for organizing metadata and explanatory information by name.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 column_description = {
     "text": "input sentence",
     "label": "correct label",
@@ -332,6 +342,7 @@ Expected output: an example where looking up the absent key fails.
 Concept to check: an error can occur if a dictionary is read under the assumption that every key is always present.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 student = {"name": "Kim", "score": 82.5}
 
 print(student["label"])
@@ -347,6 +358,7 @@ Expected output: by default `None`, and if a default is given, `"unknown"` is pr
 Concept to check: `get()` is a safe lookup tool when handling data where a key may be missing.
 
 ```python
+# This example checks how a dictionary finds and connects values by key.
 student = {"name": "Kim", "score": 82.5}
 
 print(student.get("label"))

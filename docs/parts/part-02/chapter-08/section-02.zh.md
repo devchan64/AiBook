@@ -68,6 +68,7 @@
 要确认的概念：列表是按顺序存放多个值的基本结构。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91, 68]
 
 print(scores)
@@ -84,6 +85,7 @@ Python 列表中的每个值都可以称作项（item）或元素（element）�
 要确认的概念：列表中的值通过索引访问，而在 Python 中通常从 0 开始计数。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91, 68]
 
 print(scores[0])
@@ -122,6 +124,7 @@ Python 官方文档也支持这种区分。`list` 被描述为可变序列（mut
 要确认的概念：嵌套列表即使看起来像二维结构，本质上仍然是列表里面放列表。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 rows = [
     [1, 2, 3],
     [4, 5, 6],
@@ -177,6 +180,7 @@ Python 列表的设计可以理解成这样一种结构：`它是一个可变序
 要确认的概念：列表是可变值，既可以在末尾追加，也可以按位置修改。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91]
 
 scores.append(68)
@@ -195,6 +199,7 @@ print(scores)
 要确认的概念：把列表赋给另一个变量，并不一定会自动得到复制品。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91]
 other_scores = scores
 
@@ -230,6 +235,7 @@ print(other_scores)
 要确认的概念：`+` 不会修改原列表，而是创建一个连接好的新列表。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 front = [1, 2]
 back = [3, 4]
 
@@ -248,6 +254,7 @@ print(result)
 要确认的概念：`extend()` 会修改现有列表本身。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75]
 
 scores.extend([91, 68])
@@ -267,6 +274,7 @@ print(scores)
 要确认的概念：切片是通过指定起点和终点范围来读取一部分区间的语法。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91, 68, 88]
 
 print(scores[1:4])
@@ -288,6 +296,7 @@ print(scores[3:])
 要确认的概念：把 `del` 和切片结合起来，就能删除特定区间。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 items = ["A", "B", "C", "D"]
 
 del items[1:3]
@@ -305,6 +314,7 @@ print(items)
 要确认的概念：切片赋值即使长度不同，也可以替换整个区间。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 items = ["A", "B", "C", "D"]
 
 items[1:3] = ["X", "Y", "Z"]
@@ -324,6 +334,7 @@ print(items)
 要确认的概念：`join()` 属于字符串这边，而不是列表这边。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 words = ["AI", "needs", "data"]
 
 sentence = " ".join(words)
@@ -362,6 +373,7 @@ print(sentence)
 要确认的概念：列表可以直接初始化数字、字符串、布尔值等不同种类的值集合。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91, 68]
 labels = ["positive", "negative", "neutral"]
 flags = [True, False, True]
@@ -383,6 +395,7 @@ print(flags)
 要确认的概念：空列表经常被当作以后积累结果的起点。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 passed_scores = []
 
 passed_scores.append(82)
@@ -403,6 +416,7 @@ print(passed_scores)
 要确认的概念：`[值] * 个数` 可以用来快速创建简单的初始值列表。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 predictions = [0] * 5
 
 print(predictions)
@@ -416,6 +430,7 @@ print(predictions)
 要确认的概念：在嵌套列表里，多次指向同一个对象的初始化方式会造成意料之外的共享。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 rows = [[]] * 3
 
 rows[0].append("A")
@@ -450,6 +465,7 @@ print(rows)
 要确认的概念：列表可以一次收集多个数字值，并作为汇总计算的输入。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 scores = [82, 75, 91, 68]
 
 print(max(scores))
@@ -467,6 +483,7 @@ print(sum(scores) / len(scores))
 要确认的概念：列表很适合按顺序遍历多个同类型项，比如文本。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 texts = [
     "AI is useful.",
     "Data quality matters.",
@@ -487,6 +504,7 @@ for text in texts:
 要确认的概念：列表可以按顺序评价模型的多个输出值。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 probabilities = [0.92, 0.31, 0.77, 0.12]
 
 for probability in probabilities:
@@ -506,6 +524,7 @@ for probability in probabilities:
 要确认的概念：列表适合按顺序列出多个同类型工作对象。
 
 ```python
+# 这个例子用来确认列表如何按顺序保存和处理多个值。
 file_names = [
     "train.csv",
     "valid.csv",

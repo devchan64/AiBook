@@ -55,6 +55,7 @@ Python에서는 이런 매핑 구조를 딕셔너리(dictionary)로 자주 표�
 확인할 개념: 딕셔너리는 위치가 아니라 키로 값을 찾는 매핑 구조입니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 student = {
     "name": "Kim",
     "score": 82.5,
@@ -101,6 +102,7 @@ print(student["score"])
 확인할 개념: 딕셔너리는 기준 키를 주면 연결된 값을 바로 꺼낼 수 있습니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 label_name = {
     0: "negative",
     1: "positive",
@@ -129,6 +131,7 @@ print(label_name[prediction])
 확인할 개념: 딕셔너리는 키 존재 여부를 확인한 뒤 안전하게 값을 꺼낼 수 있습니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
@@ -163,6 +166,7 @@ Python 딕셔너리를 보면 “이것은 해시맵(hash map)인가?”라는 �
 확인할 개념: 딕셔너리 조회는 안정적인 키를 기준으로 값을 찾는 동작입니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 scores_by_name = {
     "Kim": 82,
     "Lee": 91,
@@ -190,6 +194,7 @@ print(scores_by_name["Kim"])
 확인할 개념: 하나의 키는 하나의 현재 값만 가리키며 재대입 시 기존 값이 덮어써집니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 scores = {}
 
 scores["Kim"] = 82
@@ -206,6 +211,7 @@ print(scores)
 확인할 개념: 하나의 키에 여러 값을 두려면 값 쪽에 리스트 같은 묶음을 넣어야 합니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 scores = {
     "Kim": [82, 91],
 }
@@ -236,6 +242,7 @@ print(scores["Kim"])
 확인할 개념: 설정 데이터는 순서보다 이름이 중요하므로 딕셔너리와 잘 맞습니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
@@ -255,6 +262,7 @@ print(config["learning_rate"])
 확인할 개념: 딕셔너리는 라벨 번호와 라벨 이름의 대응표로 자주 쓰입니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 label_map = {
     0: "negative",
     1: "positive",
@@ -276,6 +284,7 @@ print(label_map[predicted_label])
 확인할 개념: 딕셔너리는 식별자에서 데이터 본문으로 가는 조회 구조로 쓸 수 있습니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 samples_by_id = {
     "s001": {"text": "good product", "label": "positive"},
     "s002": {"text": "bad service", "label": "negative"},
@@ -296,6 +305,7 @@ print(samples_by_id[sample_id]["text"])
 확인할 개념: 딕셔너리는 메타데이터와 설명 정보를 이름 기준으로 정리하는 데 적합합니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 column_description = {
     "text": "입력 문장",
     "label": "정답 라벨",
@@ -332,6 +342,7 @@ print(column_description["score"])
 확인할 개념: 딕셔너리는 모든 키가 항상 있다고 가정하면 오류가 날 수 있습니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 student = {"name": "Kim", "score": 82.5}
 
 print(student["label"])
@@ -347,6 +358,7 @@ print(student["label"])
 확인할 개념: `get()`은 키가 없을 수 있는 데이터를 다룰 때 안전한 조회 도구입니다.
 
 ```python
+# 이 예제는 딕셔너리가 키로 값을 찾고 연결하는 방식을 확인합니다.
 student = {"name": "Kim", "score": 82.5}
 
 print(student.get("label"))

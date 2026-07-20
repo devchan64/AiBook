@@ -95,6 +95,7 @@ Python 的 `for` 循环非常清楚地表现了这种视角：`从集合里一�
 要确认的概念：`for item in items` 是从集合里一个个取出项目并处理的基本结构。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91, 68]
 
 for score in scores:
@@ -111,6 +112,7 @@ for score in scores:
 要确认的概念：按项目循环和按位置循环可以得到同样结果，但阅读视角不同。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91, 68]
 
 for i in range(len(scores)):
@@ -176,6 +178,7 @@ PEP 234 的核心可以概括成下面这样。
 要确认的概念：即使循环模式不同，出发点始终是从 iterable 中一个个取值。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 for score in scores:
     print(score)
 ```
@@ -186,6 +189,7 @@ for score in scores:
 要确认的概念：当还需要知道“这是第几个值”时，可以使用 `enumerate()`。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 for index, score in enumerate(scores):
     print(index, score)
 ```
@@ -196,6 +200,7 @@ for index, score in enumerate(scores):
 要确认的概念：在字典循环中，`.items()` 是同时取出键和值的基本模式。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 for name, value in metrics.items():
     print(name, value)
 ```
@@ -242,6 +247,7 @@ Python 的循环与其只背一种语法，不如按模式来区分阅读。
 要确认的概念：项目循环更看重值本身，而不是位置。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91, 68]
 
 for score in scores:
@@ -264,6 +270,7 @@ for score in scores:
 要确认的概念：`enumerate()` 会给值附上位置信息，让循环同时看到二者。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91, 68]
 
 for index, score in enumerate(scores):
@@ -286,6 +293,7 @@ for index, score in enumerate(scores):
 要确认的概念：字典循环经常不是只看键，而是把键值对一起拿出来读。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 metrics = {"accuracy": 0.91, "loss": 0.32}
 
 for name, value in metrics.items():
@@ -308,6 +316,7 @@ for name, value in metrics.items():
 要确认的概念：`zip()` 会让多个 iterable 在同一位置上的项一起被循环。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 texts = ["good", "bad", "great"]
 labels = ["positive", "negative", "positive"]
 
@@ -333,6 +342,7 @@ for text, label in zip(texts, labels):
 要确认的概念：循环经常用来筛选满足条件的项，并生成新的集合。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 0, 75, 0, 91]
 valid_scores = []
 
@@ -359,6 +369,7 @@ print(valid_scores)
 要确认的概念：循环可以对所有项应用同样变换，并生成新的结果集合。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91, 68]
 normalized_scores = []
 
@@ -384,6 +395,7 @@ print(normalized_scores)
 要确认的概念：列表推导式是“通过循环创建新列表”的紧凑表达。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 squares = [number * number for number in range(5)]
 
 print(squares)
@@ -399,6 +411,7 @@ print(squares)
 要确认的概念：推导式可以把过滤与新列表生成合并成一个表达。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 0, 75, 0, 91]
 
 valid_scores = [score for score in scores if score != 0]
@@ -438,6 +451,7 @@ comprehension 是一种表达：把现有 iterable 的项一个个处理之后�
 要确认的概念：推导式通常是把使用 `append()` 的循环缩短后的表达。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91]
 normalized_scores = []
 
@@ -455,6 +469,7 @@ print(normalized_scores)
 要确认的概念：当循环的目的就是生成新数据结构时，推导式特别容易读。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91]
 
 normalized_scores = [score / 100 for score in scores]
@@ -472,6 +487,7 @@ print(normalized_scores)
 要确认的概念：字典推导式同样是通过循环生成新映射结构的表达。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 labels = ["negative", "positive", "neutral"]
 
 label_to_id = {label: index for index, label in enumerate(labels)}
@@ -498,6 +514,7 @@ print(label_to_id)
 要确认的概念：有时比起推导式，更适合使用能清楚显示步骤的普通循环。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 results = []
 
 for item in items:
@@ -522,6 +539,7 @@ for item in items:
 要确认的概念：累积循环会不断把“当前结果”更新到变量里。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 75, 91, 68]
 total = 0
 
@@ -547,6 +565,7 @@ print(total)
 要确认的概念：如果把循环和条件语句一起使用，就能把一个集合拆成多个结果集合。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 55, 91, 42, 68]
 passed = []
 failed = []
@@ -579,6 +598,7 @@ print(failed)
 要确认的概念：字典和循环一起使用时，可以生成按键累积的统计结果。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 labels = ["positive", "negative", "positive", "neutral", "positive"]
 label_counts = {}
 
@@ -606,6 +626,7 @@ print(label_counts)
 要确认的概念：在真实数据处理中，样本集合、字段查找、条件过滤会同时出现在一个循环里。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 students = [
     {"name": "Kim", "score": 82.5},
     {"name": "Lee", "score": 55.0},
@@ -648,6 +669,7 @@ print(passed_students)
 要确认的概念：与其在循环中直接修改原集合，不如生成一个新集合，这样更清楚。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 scores = [82, 0, 75, 0, 91]
 filtered_scores = []
 
@@ -696,6 +718,7 @@ print(filtered_scores)
 要确认的概念：循环代码可以按照“集合、逐个取出的值、处理、结果”这个框架来读。
 
 ```python
+# 这个例子用来确认循环如何从一组值中逐个取出项目并处理。
 texts = ["AI is useful", "Models can fail", "Data matters"]
 lengths = []
 

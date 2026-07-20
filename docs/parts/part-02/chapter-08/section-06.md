@@ -13,6 +13,7 @@ P2-8.5에서는 함수(function)를 작은 재사용 단위로 봤습니다. 함
 확인할 개념: `value.method()` 형태는 값이나 객체가 제공하는 동작을 호출하는 모양입니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 text = " AI is Useful "
 
 print(text.strip())
@@ -78,6 +79,7 @@ Python 공식 문서는 객체(object)를 identity, type, value를 가진 대상
 확인할 개념: Python에서는 다양한 값이 모두 객체이며, 타입이 그 성격을 드러냅니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 score = 82
 text = "AI"
 scores = [82, 75, 91]
@@ -99,6 +101,7 @@ print(type(student))
 확인할 개념: 객체는 자기 타입에 맞는 동작을 메서드 형태로 제공합니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 text = " AI is Useful "
 
 print(text.strip())
@@ -113,6 +116,7 @@ print(text.lower())
 확인할 개념: 타입이 다르면 사용할 수 있는 메서드도 달라집니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 scores = [82, 75]
 
 scores.append(91)
@@ -142,6 +146,7 @@ Python의 기본 타입도 이런 관점으로 볼 수 있습니다.
 확인할 개념: 클래스는 객체를 만들기 위한 정의이고, 객체는 자기 데이터를 가질 수 있습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -167,6 +172,7 @@ P2-8.3에서 딕셔너리(dictionary)는 키(key)로 값을 찾는 구조라고 
 확인할 개념: 딕셔너리는 키로 값을 찾는 가장 직접적인 데이터 표현입니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 sample = {
     "text": "AI is useful",
     "label": "positive",
@@ -184,6 +190,7 @@ print(sample["label"])
 확인할 개념: 클래스 기반 객체는 키 조회 대신 속성 접근으로 데이터를 읽을 수 있습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -225,6 +232,7 @@ print(sample.label)
 확인할 개념: 상태는 객체가 가진 값이고, 동작은 그 객체가 제공하는 메서드입니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 class TextSample:
     def __init__(self, text, label):
         self.text = text
@@ -249,6 +257,7 @@ print(sample.is_labeled())
 확인할 개념: 클래스가 아니어도 함수와 딕셔너리로 비슷한 처리 구조를 만들 수 있습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 def is_labeled(sample):
     return sample["label"] is not None
 
@@ -278,6 +287,7 @@ AI 실습 초반에는 딕셔너리와 함수만으로도 충분한 경우가 �
 확인할 개념: `function(value)`는 값을 함수에 넣어 처리하는 호출 형태입니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 def clean_text(text):
     return text.strip().lower()
 
@@ -292,6 +302,7 @@ print(clean_text(" AI "))
 확인할 개념: 메서드는 점 앞의 객체를 중심으로 호출됩니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 text = " AI "
 
 print(text.strip())
@@ -312,6 +323,7 @@ print(text.strip())
 확인할 개념: 메서드는 사용자 정의 클래스 안에도 둘 수 있습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -354,6 +366,7 @@ Python 클래스 예제에서 `self`라는 이름을 자주 봅니다.
 확인할 개념: `self`는 메서드 안에서 객체 자신을 가리키는 관례적 이름입니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 class Sample:
     def __init__(self, text):
         self.text = text
@@ -377,6 +390,7 @@ class Sample:
 확인할 개념: 바깥에서는 `sample.label`, 클래스 안에서는 같은 자리를 `self.label`로 읽습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 sample = Sample("AI is useful", "positive")
 
 print(sample.label)
@@ -390,6 +404,7 @@ print(sample.label)
 확인할 개념: 클래스 내부에서는 객체 자신의 속성을 `self`를 통해 다룹니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 class Sample:
     def __init__(self, text, label):
         self.text = text
@@ -424,6 +439,7 @@ AI 실습에서는 다음과 같은 코드를 자주 보게 됩니다.
 확인할 개념: 라이브러리 객체는 상태와 동작을 함께 가지므로 메서드 호출 형태가 자주 나타납니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 model.fit(train_data)
 predictions = model.predict(test_data)
 ```
@@ -454,6 +470,7 @@ predictions = model.predict(test_data)
 확인할 개념: 메서드 호출은 객체가 자기 상태를 바꾸거나 활용하는 동작일 수 있습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 model.fit(train_data)
 ```
 
@@ -465,6 +482,7 @@ model.fit(train_data)
 확인할 개념: 메서드는 객체 상태를 활용해 결과를 만들 수 있습니다.
 
 ```python
+# 이 예제는 클래스, 객체, 메서드 호출이 값과 동작을 묶는 방식을 확인합니다.
 predictions = model.predict(test_data)
 ```
 

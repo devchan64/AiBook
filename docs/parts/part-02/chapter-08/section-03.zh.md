@@ -55,6 +55,7 @@
 要确认的概念：字典不是按位置，而是按键来查值的映射结构。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 student = {
     "name": "Kim",
     "score": 82.5,
@@ -101,6 +102,7 @@ print(student["score"])
 要确认的概念：只要给出标准键，字典就能直接取出连接的值。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 label_name = {
     0: "negative",
     1: "positive",
@@ -129,6 +131,7 @@ print(label_name[prediction])
 要确认的概念：字典可以先检查键是否存在，再更安全地取出值。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
@@ -163,6 +166,7 @@ if name in config:
 要确认的概念：字典查询是通过稳定的键来找到值的动作。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 scores_by_name = {
     "Kim": 82,
     "Lee": 91,
@@ -190,6 +194,7 @@ print(scores_by_name["Kim"])
 要确认的概念：一个键只指向一个当前值，重新赋值时旧值会被覆盖。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 scores = {}
 
 scores["Kim"] = 82
@@ -206,6 +211,7 @@ print(scores)
 要确认的概念：如果一个键下需要多个值，就要在值一侧放入像列表这样的集合结构。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 scores = {
     "Kim": [82, 91],
 }
@@ -236,6 +242,7 @@ print(scores["Kim"])
 要确认的概念：配置数据更重视名字而不是顺序，因此和字典很匹配。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 config = {
     "batch_size": 32,
     "learning_rate": 0.001,
@@ -255,6 +262,7 @@ print(config["learning_rate"])
 要确认的概念：字典经常被当作标签编号和标签名称之间的对照表。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 label_map = {
     0: "negative",
     1: "positive",
@@ -276,6 +284,7 @@ print(label_map[predicted_label])
 要确认的概念：字典可以用作从标识符直达数据正文的查询结构。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 samples_by_id = {
     "s001": {"text": "good product", "label": "positive"},
     "s002": {"text": "bad service", "label": "negative"},
@@ -296,6 +305,7 @@ print(samples_by_id[sample_id]["text"])
 要确认的概念：字典很适合按名字整理元数据和说明信息。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 column_description = {
     "text": "输入句子",
     "label": "正确标签",
@@ -332,6 +342,7 @@ print(column_description["score"])
 要确认的概念：如果默认认为字典里的所有键始终都存在，就可能报错。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 student = {"name": "Kim", "score": 82.5}
 
 print(student["label"])
@@ -347,6 +358,7 @@ print(student["label"])
 要确认的概念：当处理键可能缺失的数据时，`get()` 是一种更安全的查询工具。
 
 ```python
+# 这个例子用来确认字典如何通过键查找并连接值。
 student = {"name": "Kim", "score": 82.5}
 
 print(student.get("label"))

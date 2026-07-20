@@ -63,6 +63,7 @@
 要确认的概念：重复判断也可以先用普通条件语句表达。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 score = 82
 
 if score >= 60:
@@ -83,6 +84,7 @@ print(result)
 要确认的概念：函数能给重复处理起名字，并让它再次使用。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def pass_or_fail(score):
     if score >= 60:
         return "pass"
@@ -120,6 +122,7 @@ $$
 要确认的概念：数学函数的输入-输出关系，也可以用 Python 的函数形式表达。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def f(x):
     return x + 1
 
@@ -153,6 +156,7 @@ print(f(3))
 要确认的概念：定义函数时写的名字是参数，调用时实际传入的值是实参。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def add_bonus(score, bonus):
     return score + bonus
 
@@ -183,6 +187,7 @@ print(result)
 要确认的概念：`return` 会把函数结果返回给调用者。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -201,6 +206,7 @@ print(normalized)
 要确认的概念：`print()` 是显示输出，而 `return` 是传递计算结果。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def show_score(score):
     print(score)
 
@@ -228,6 +234,7 @@ Input: 分数列表 `scores`。
 要确认的概念：如果同一个计算出现在循环里，拆成函数会让意图更清晰。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -254,6 +261,7 @@ print(normalized_scores)
 要确认的概念：函数可以把“检查一条数据”的规则封装起来。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
 
@@ -272,6 +280,7 @@ print(is_valid_sample(sample))
 要确认的概念：当“处理一条数据的函数”和循环结合时，它的复用价值会明显变大。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
 
@@ -308,6 +317,7 @@ print(valid_samples)
 要确认的概念：默认参数让函数即使省略某个实参，也能保持默认行为。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def pass_or_fail(score, threshold=60):
     if score >= threshold:
         return "pass"
@@ -340,6 +350,7 @@ print(pass_or_fail(82, threshold=90))
 要确认的概念：Python 函数是对象，因此可以被放进变量里，用另一个名字来引用。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -358,6 +369,7 @@ print(normalize(82))
 要确认的概念：在 Python 里，函数也可以像其他值一样被传递。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def normalize_score(score):
     return score / 100
 
@@ -395,6 +407,7 @@ print(apply_to_scores(scores, normalize_score))
 要确认的概念：函数是通过独立名称被调用的处理单元。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def clean_text(text):
     return text.strip().lower()
 ```
@@ -407,6 +420,7 @@ def clean_text(text):
 要确认的概念：方法是附着在值或对象上被调用的函数形式。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 text = " AI is Useful "
 
 print(text.strip())
@@ -460,6 +474,7 @@ print(text.lower())
 要确认的概念：函数会制造小的处理单元，而循环则把这些单元应用到多条数据上。
 
 ```python
+# 这个例子用来确认函数如何作为小型复用单位连接输入和输出。
 def clean_text(text):
     return text.strip().lower()
 

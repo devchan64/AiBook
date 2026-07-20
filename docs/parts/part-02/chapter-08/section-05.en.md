@@ -63,6 +63,7 @@ Expected output: The string `pass`.
 Concept to check: Repeated judgment can first be expressed through an ordinary conditional.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 score = 82
 
 if score >= 60:
@@ -83,6 +84,7 @@ Expected output: `pass`, `fail` for each score.
 Concept to check: A function lets us name repeated handling and use it again.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def pass_or_fail(score):
     if score >= 60:
         return "pass"
@@ -120,6 +122,7 @@ Expected output: `4`.
 Concept to check: The input-output relation of a mathematical function can also be expressed as a function in Python.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def f(x):
     return x + 1
 
@@ -153,6 +156,7 @@ Expected output: The added result `85`.
 Concept to check: The names on the function-definition side are parameters, and the actual values passed at call time are arguments.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def add_bonus(score, bonus):
     return score + bonus
 
@@ -183,6 +187,7 @@ Expected output: The normalized result `0.82`.
 Concept to check: `return` sends the function result back to the caller.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def normalize_score(score):
     return score / 100
 
@@ -201,6 +206,7 @@ Expected output: Inside the function, `82` is printed, but the outside variable 
 Concept to check: `print()` is output for display, while `return` is delivery of a calculation result.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def show_score(score):
     print(score)
 
@@ -228,6 +234,7 @@ Expected output: The normalized score list `normalized_scores`.
 Concept to check: If the same calculation appears inside a loop, intention becomes clearer when it is separated as a function.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def normalize_score(score):
     return score / 100
 
@@ -254,6 +261,7 @@ Expected output: The validity result `True`.
 Concept to check: A function can encapsulate the rule for checking one piece of data.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
 
@@ -272,6 +280,7 @@ Expected output: The `valid_samples` list containing only valid samples.
 Concept to check: A function that processes one piece of data gains more reuse value when combined with a loop.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def is_valid_sample(sample):
     return "text" in sample and "label" in sample
 
@@ -308,6 +317,7 @@ Expected output: Different pass/fail results for the same score according to the
 Concept to check: A default parameter lets the function keep a default behavior even when the argument is omitted.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def pass_or_fail(score, threshold=60):
     if score >= threshold:
         return "pass"
@@ -340,6 +350,7 @@ Expected output: The result `0.82` from `normalize(82)`.
 Concept to check: A Python function is an object, so it can be stored in a variable and referred to by another name.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def normalize_score(score):
     return score / 100
 
@@ -358,6 +369,7 @@ Expected output: The normalized score list made by `apply_to_scores`.
 Concept to check: In Python, functions can also be passed like other values.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def normalize_score(score):
     return score / 100
 
@@ -395,6 +407,7 @@ Expected output: A string with spaces removed and letters lowercased.
 Concept to check: A function is a processing unit called through an independent name.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def clean_text(text):
     return text.strip().lower()
 ```
@@ -407,6 +420,7 @@ Expected output: The results of `strip()` and `lower()` are each printed.
 Concept to check: A method is a function-like form that is called while attached to a value or object.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 text = " AI is Useful "
 
 print(text.strip())
@@ -460,6 +474,7 @@ Expected output: `cleaned_texts`, which keeps only cleaned and non-empty text.
 Concept to check: Functions create small processing units, and loops apply those units to several pieces of data.
 
 ```python
+# This example checks how a function connects input and output as a small reusable unit.
 def clean_text(text):
     return text.strip().lower()
 
