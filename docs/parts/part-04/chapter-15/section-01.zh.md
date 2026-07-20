@@ -339,6 +339,7 @@ scikit-learn 文档说明， 在分类森林里， 树的概率预测会被做�
   - `n_estimators` 与森林大小直接相关
 
 ```python
+# 这个例子在 iris 分类中并排比较单棵决策树和随机森林的分数与结构。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -420,6 +421,7 @@ random forest
 是阅读稳定性最简单的方法
 
 ```python
+# 这个例子比较多个 random_state 下单棵树和随机森林的 test 分数波动。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier

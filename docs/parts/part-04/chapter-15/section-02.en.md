@@ -411,6 +411,7 @@ This example is the smallest exercise that reads `feature_importances_` directly
   - the sum of the values is close to 1
 
 ```python
+# This example reads MDI-based feature importance through feature_importances_ in a random forest.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -479,6 +480,7 @@ Concepts to check:
 - when the two numbers differ, first recall that they answer different questions
 
 ```python
+# This example compares MDI and permutation importance side by side on the same model.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

@@ -196,6 +196,7 @@ OOB 并不会替代所有评价， 但在随机森林实验前期， 它会是�
 - OOB 通过 `oob_score_` 来读 - OOB 在 train 与 test 之间扮演内部检查角色 - 三个分数的间隔要一起读
 
 ```python
+# 这个例子在乳腺癌分类中一起输出 train、OOB、test 分数，用来阅读它们的间隔。
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -261,6 +262,7 @@ n_estimators  : 300
 - 但只是不断增加树数，并不能解决所有问题
 
 ```python
+# 这个例子改变 n_estimators，比较 OOB 分数和 test 分数如何变化。
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

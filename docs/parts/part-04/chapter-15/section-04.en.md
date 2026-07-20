@@ -225,6 +225,7 @@ This example trains `RandomForestClassifier` and `ExtraTreesClassifier` side by 
   - the two models should be compared not only by test score but also by the train/test gap and computation time
 
 ```python
+# This example compares Random Forest and Extra Trees defaults and scores on the same breast-cancer data.
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier

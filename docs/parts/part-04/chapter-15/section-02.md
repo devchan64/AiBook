@@ -410,6 +410,7 @@ importance 숫자는 크고 작음이 분명해서, 독자가 곧바로 행동 �
   - 값의 합은 1에 가깝다
 
 ```python
+# 랜덤포레스트의 feature_importances_로 MDI 기반 특징 중요도를 읽는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -476,6 +477,7 @@ sum: 1.0
 - 두 숫자가 다르면 계산 방식이 다른 것임을 먼저 떠올려야 한다
 
 ```python
+# 같은 모델에서 MDI와 permutation importance를 나란히 비교하는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

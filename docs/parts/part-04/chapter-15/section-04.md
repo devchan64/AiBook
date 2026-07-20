@@ -225,6 +225,7 @@ Extra Trees는 랜덤포레스트와 같은 후보군 안에서 `조금 더 빠�
   - 두 모델은 test 점수뿐 아니라 train/test 간격, 계산 시간까지 같이 비교해야 한다
 
 ```python
+# 같은 유방암 데이터에서 Random Forest와 Extra Trees의 기본 차이와 점수를 비교하는 예제입니다.
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier

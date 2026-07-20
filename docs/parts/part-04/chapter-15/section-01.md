@@ -339,6 +339,7 @@ OOB는 각 트리가 보지 못한 샘플을 활용해, 별도 검증 감각을 
   - `n_estimators`가 숲의 크기와 연결된다
 
 ```python
+# iris 분류에서 단일 결정트리와 랜덤포레스트의 점수와 구조를 나란히 비교하는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -417,6 +418,7 @@ random forest
 - 여러 시드 비교는 안정성을 읽는 가장 단순한 방법이다
 
 ```python
+# 여러 random_state에서 단일 트리와 랜덤포레스트의 test 점수 흔들림을 비교하는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier

@@ -411,6 +411,7 @@ importance 数字大小很直观， 所以读者很容易直接跳到行动结�
   - 所有值加总会接近 1
 
 ```python
+# 这个例子通过随机森林的 feature_importances_ 阅读基于 MDI 的特征重要度。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -479,6 +480,7 @@ sum: 1.0
 - 如果两个数字不同，先想到它们回答的是不同问题
 
 ```python
+# 这个例子在同一个模型上并排比较 MDI 和 permutation importance。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

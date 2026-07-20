@@ -225,6 +225,7 @@ scikit-learn 用户指南说明， extremely randomized trees 会在 split 计�
   - 比较两者时，不该只看 test 分数，也要一起看 train/test 间隔与计算时间
 
 ```python
+# 这个例子在同一个乳腺癌数据上比较 Random Forest 和 Extra Trees 的默认差异与分数。
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier

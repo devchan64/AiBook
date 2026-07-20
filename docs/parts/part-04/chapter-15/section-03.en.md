@@ -196,6 +196,7 @@ This example is a small exercise that prints train / OOB / test together on the 
 - OOB is read through `oob_score_` - OOB plays an internal inspection role between train and test - the gaps among the three scores should be read together
 
 ```python
+# This example prints train, OOB, and test scores together on breast-cancer classification to read their gaps.
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -261,6 +262,7 @@ Concepts to check:
 - simply increasing the number of trees does not solve every problem
 
 ```python
+# This example changes n_estimators to compare how OOB and test scores move.
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

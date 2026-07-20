@@ -198,6 +198,7 @@ OOB는 모든 평가를 대체하지는 않지만, 랜덤포레스트 실험 초
   - 세 점수의 간격을 같이 본다
 
 ```python
+# 유방암 분류에서 train, OOB, test 점수를 함께 출력해 간격을 읽는 예제입니다.
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -263,6 +264,7 @@ n_estimators  : 300
 - 무조건 트리를 많이 늘린다고 모든 문제가 해결되지는 않는다
 
 ```python
+# n_estimators를 바꾸며 OOB 점수와 test 점수가 어떻게 움직이는지 비교하는 예제입니다.
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier

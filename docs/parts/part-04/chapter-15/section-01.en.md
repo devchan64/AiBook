@@ -339,6 +339,7 @@ This example is a small exercise that compares one decision tree and a random fo
   - `n_estimators` is connected to the size of the forest
 
 ```python
+# This example compares a single decision tree and a random forest side by side on iris classification.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -419,6 +420,7 @@ than in the single best score
 - comparing several seeds is the simplest way to read stability
 
 ```python
+# This example compares test-score variation across random_state values for a single tree and a random forest.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
