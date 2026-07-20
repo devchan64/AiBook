@@ -97,7 +97,7 @@ import numpy as np
 
 本节完整的示例代码也可以通过下面这个文件获得。
 
-- [p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
+- [p2_3_6_numpy_linear_algebra.py](../../../assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 
 如果从项目根目录运行，可以在个人电脑终端里使用下面的命令。
 
@@ -488,7 +488,7 @@ bad_y = bad_x @ W
 
 ## 来源与参考资料
 
-- 本节示例代码：[p2_3_6_numpy_linear_algebra.py](/AiBook/assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
+- 本节示例代码：[p2_3_6_numpy_linear_algebra.py](../../../assets/part-02/chapter-03/p2_3_6_numpy_linear_algebra.py)
 - NumPy Developers, [NumPy documentation](https://numpy.org/doc/){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
 - NumPy Developers, [NumPy quickstart](https://numpy.org/doc/stable/user/quickstart.html){: target="_blank" rel="noopener noreferrer" }, 确认日期: 2026-07-19.
 - NumPy Developers, [`numpy.array`](https://numpy.org/doc/stable/reference/generated/numpy.array.html){: target="_blank" rel="noopener noreferrer" }。可以确认数组创建 API 的参数和示例。确认日期: 2026-07-19.
