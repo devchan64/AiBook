@@ -301,6 +301,7 @@ P6-4.2에서는 대화형 LLM이 단순 자동완성 모델 위에 지시 따르
 확인할 핵심은 사전학습 데이터가 달라지면 모델 구조를 바꾸지 않아도 다음 토큰 후보 분포가 이동할 수 있다는 점입니다.
 
 ```python
+# 일반 코퍼스와 고객센터 도메인 문장을 더했을 때 bigram 기반 다음 단어 후보 분포가 어떻게 이동하는지 비교하는 예제입니다.
 from collections import Counter, defaultdict
 
 general_corpus = [
