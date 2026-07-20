@@ -1,13 +1,22 @@
 flowchart TD
-  A["same memo: battery pack ... insulation cap ... it"]
-
-  subgraph T1["current token: it"]
-    B["more weight on insulation cap and not covered"]
-  end
-
-  subgraph T2["current token: not covered"]
-    C["more weight on detached and insulation cap"]
-  end
+  A["same input memo<br/>battery pack detached / cap not covered / is it risky?"]
+  B["candidate token set<br/>battery · detached · cap · not covered · it · risk"]
 
   A --> B
-  A --> C
+  B --> C["current token: it"]
+  B --> D["current token: not covered"]
+
+  C --> E["revisited more strongly<br/>cap 0.430<br/>not covered 0.214<br/>risk 0.143"]
+  D --> F["revisited more strongly<br/>cap 0.367<br/>detached 0.246<br/>not covered 0.182"]
+
+  E --> G["new representation<br/>moves toward risk-cause evidence"]
+  F --> H["new representation<br/>moves toward action context"]
+
+  classDef input fill:#f8fafc,stroke:#64748b,color:#0f172a
+  classDef target fill:#ecfeff,stroke:#0891b2,color:#164e63
+  classDef weight fill:#eff6ff,stroke:#2563eb,color:#1e3a8a
+  classDef result fill:#f0fdf4,stroke:#16a34a,color:#14532d
+  class A,B input
+  class C,D target
+  class E,F weight
+  class G,H result

@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 import os
 import xml.etree.ElementTree as ET
 
@@ -17,26 +18,12 @@ import numpy as np
 
 
 OUT_DIR = Path(__file__).resolve().parent
+DATA_PATH = OUT_DIR / "self-attention-safety-memo-candidates.csv"
+FOCUS_DOCUMENT_ID = "memo_cap_missing"
+LEFT_TARGET = "그것"
+RIGHT_TARGET = "씌우지"
 SVG_NS = "http://www.w3.org/2000/svg"
 ET.register_namespace("", SVG_NS)
-
-TOKENS = ["배터리팩", "분리", "절연캡", "씌우지", "그것"]
-RAW_SCORES_BY_TARGET = {
-    "그것": {
-        "배터리팩": 0.2,
-        "분리": 0.6,
-        "절연캡": 2.1,
-        "씌우지": 1.2,
-        "그것": 0.7,
-    },
-    "씌우지": {
-        "배터리팩": 0.1,
-        "분리": 1.4,
-        "절연캡": 1.8,
-        "씌우지": 0.9,
-        "그것": 0.2,
-    },
-}
 
 LANG_TEXT = {
     "ko": {
@@ -52,7 +39,7 @@ LANG_TEXT = {
         "it_outfile": "self-attention-weight-it-ko.svg",
         "cover_outfile": "self-attention-weight-cover-ko.svg",
         "title": "현재 토큰별 self-attention 비중",
-        "desc": "현재 토큰이 '그것'일 때와 '씌우지'일 때 문장 안 토큰별 attention 비중이 어떻게 달라지는지 두 막대 그래프로 비교해, 같은 문장이라도 현재 토큰마다 다시 참고하는 분포가 달라진다는 점을 보여 준다.",
+        "desc": "CSV에 담긴 안전 점검 메모에서 현재 토큰이 '그것'일 때와 '씌우지'일 때 문장 안 후보 토큰별 attention 비중이 어떻게 달라지는지 두 막대 그래프로 비교해, 같은 문장이라도 현재 토큰마다 다시 참고하는 분포가 달라진다는 점을 보여 준다.",
         "it_title": "현재 토큰 '그것'의 self-attention 비중",
         "it_desc": "현재 토큰이 '그것'일 때 문장 안 어떤 토큰을 더 크게 다시 참고하는지 보여 주는 막대 그래프.",
         "cover_title": "현재 토큰 '씌우지'의 self-attention 비중",
@@ -61,7 +48,7 @@ LANG_TEXT = {
         "panel_right": "현재 토큰: 씌우지",
         "xlabel": "다시 참고하는 토큰",
         "ylabel": "attention 비중",
-        "tokens": ["배터리팩", "분리", "절연캡", "씌우지", "그것"],
+        "tokens": ["배터리팩", "분리", "절연캡", "씌우지", "그것", "위험"],
     },
     "en": {
         "font_candidates": ["DejaVu Sans", "Arial Unicode MS"],
@@ -69,16 +56,16 @@ LANG_TEXT = {
         "it_outfile": "self-attention-weight-it-en.svg",
         "cover_outfile": "self-attention-weight-cover-en.svg",
         "title": "Self-attention weights by current token",
-        "desc": "A two-panel bar chart comparing how the token-level attention distribution changes when the current token is 'it' versus 'cover', showing that the same sentence can be reread differently for each current token.",
+        "desc": "A two-panel bar chart comparing how token-level attention weights from the CSV-backed safety memo change when the current token is 'it' versus 'not_put_on', showing that the same sentence can be reread differently for each current token.",
         "it_title": "Self-attention weights for current token 'it'",
         "it_desc": "A bar chart showing which tokens are revisited more strongly when the current token is 'it'.",
-        "cover_title": "Self-attention weights for current token 'cover'",
-        "cover_desc": "A bar chart showing which tokens are revisited more strongly when the current token is 'cover'.",
+        "cover_title": "Self-attention weights for current token 'not_put_on'",
+        "cover_desc": "A bar chart showing which tokens are revisited more strongly when the current token is 'not_put_on'.",
         "panel_left": "current token: it",
-        "panel_right": "current token: cover",
+        "panel_right": "current token: not_put_on",
         "xlabel": "revisited token",
         "ylabel": "attention weight",
-        "tokens": ["battery", "remove", "cap", "cover", "it"],
+        "tokens": ["battery", "separated", "cap", "not put on", "it", "risk"],
     },
     "zh": {
         "font_candidates": [
@@ -87,6 +74,9 @@ LANG_TEXT = {
             "Source Han Sans SC",
             "Microsoft YaHei",
             "PingFang SC",
+            "Songti SC",
+            "Heiti SC",
+            "Heiti TC",
             "Arial Unicode MS",
             "DejaVu Sans",
         ],
@@ -94,28 +84,43 @@ LANG_TEXT = {
         "it_outfile": "self-attention-weight-it-zh.svg",
         "cover_outfile": "self-attention-weight-cover-zh.svg",
         "title": "按当前 token 区分的 self-attention 权重",
-        "desc": "两栏柱状图比较当前 token 为“它”和“套上”时，token 级 attention 分布会怎样变化，用来展示同一句子也会因为当前 token 不同而被重新阅读。",
+        "desc": "两栏柱状图比较 CSV 安全检查备忘录中当前 token 为“它”和“未套上”时，token 级 attention 分布会怎样变化，用来展示同一句子也会因为当前 token 不同而被重新阅读。",
         "it_title": "当前 token“它”的 self-attention 权重",
         "it_desc": "展示当前 token 为“它”时，句子里哪些 token 会被更强地重新参考的柱状图。",
-        "cover_title": "当前 token“套上”的 self-attention 权重",
-        "cover_desc": "展示当前 token 为“套上”时，句子里哪些 token 会被更强地重新参考的柱状图。",
+        "cover_title": "当前 token“未套上”的 self-attention 权重",
+        "cover_desc": "展示当前 token 为“未套上”时，句子里哪些 token 会被更强地重新参考的柱状图。",
         "panel_left": "当前 token：它",
-        "panel_right": "当前 token：套上",
+        "panel_right": "当前 token：未套上",
         "xlabel": "重新参考的 token",
         "ylabel": "attention 权重",
-        "tokens": ["电池包", "拆下", "绝缘帽", "套上", "它"],
+        "tokens": ["电池包", "拆下", "绝缘帽", "未套上", "它", "风险"],
     },
 }
 
 
-def softmax_weights(score_table: dict[str, float]) -> np.ndarray:
-    raw_scores = np.array([score_table[token] for token in TOKENS])
-    exp_scores = np.exp(raw_scores)
+def load_focus_rows(target_token: str) -> list[dict[str, str]]:
+    with DATA_PATH.open(encoding="utf-8", newline="") as f:
+        rows = list(csv.DictReader(f))
+    return [
+        row
+        for row in rows
+        if row["document_id"] == FOCUS_DOCUMENT_ID and row["target_token"] == target_token
+    ]
+
+
+LEFT_ROWS = load_focus_rows(LEFT_TARGET)
+RIGHT_ROWS = load_focus_rows(RIGHT_TARGET)
+TOKENS = [row["candidate_token"] for row in LEFT_ROWS]
+
+
+def softmax_weights(rows: list[dict[str, str]]) -> np.ndarray:
+    raw_scores = np.array([float(row["score"]) for row in rows])
+    exp_scores = np.exp(raw_scores - raw_scores.max())
     return exp_scores / exp_scores.sum()
 
 
-LEFT_VALUES = softmax_weights(RAW_SCORES_BY_TARGET["그것"])
-RIGHT_VALUES = softmax_weights(RAW_SCORES_BY_TARGET["씌우지"])
+LEFT_VALUES = softmax_weights(LEFT_ROWS)
+RIGHT_VALUES = softmax_weights(RIGHT_ROWS)
 
 
 def choose_font(candidates: list[str]) -> str:
@@ -176,7 +181,7 @@ def draw_panel(
     ax.bar(positions, values, color=colors, width=0.62)
     ax.set_xticks(positions)
     ax.set_xticklabels(tokens, fontsize=8.0)
-    ax.set_ylim(0, 0.58)
+    ax.set_ylim(0, max(float(values.max()) * 1.22, 0.4))
     ax.text(0.03, 0.93, title, transform=ax.transAxes, fontsize=10.3, fontweight="bold", color="#172033")
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
@@ -189,7 +194,7 @@ def save_chart(text: dict[str, str]) -> None:
     fig, axes = plt.subplots(1, 2, figsize=(7.6, 4.0), dpi=160)
     fig.patch.set_facecolor("white")
 
-    draw_panel(axes[0], LEFT_VALUES, text["panel_left"], text["tokens"], text["ylabel"], text["xlabel"], text["tokens"][-1])
+    draw_panel(axes[0], LEFT_VALUES, text["panel_left"], text["tokens"], text["ylabel"], text["xlabel"], text["tokens"][4])
     draw_panel(axes[1], RIGHT_VALUES, text["panel_right"], text["tokens"], text["ylabel"], text["xlabel"], text["tokens"][3])
 
     fig.tight_layout(pad=0.9, w_pad=1.2)
@@ -210,7 +215,7 @@ def save_single_chart(
     configure_font(text)
     fig, ax = plt.subplots(figsize=(4.1, 4.0), dpi=160)
     fig.patch.set_facecolor("white")
-    current_token = text["tokens"][-1] if values is LEFT_VALUES else text["tokens"][3]
+    current_token = text["tokens"][4] if values is LEFT_VALUES else text["tokens"][3]
     draw_panel(ax, values, panel_title, text["tokens"], text["ylabel"], text["xlabel"], current_token)
 
     fig.tight_layout(pad=0.9)

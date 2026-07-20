@@ -1,13 +1,22 @@
 flowchart TD
-  A["같은 메모: 배터리팩 ... 절연캡 ... 그것"]
-
-  subgraph T1["현재 토큰: 그것"]
-    B["절연캡, 씌우지에 더 큰 비중"]
-  end
-
-  subgraph T2["현재 토큰: 씌우지"]
-    C["분리, 절연캡에 더 큰 비중"]
-  end
+  A["같은 입력 메모<br/>배터리팩 분리 / 절연캡 미적용 / 그것이 위험?"]
+  B["후보 토큰 묶음<br/>배터리팩 · 분리 · 절연캡 · 씌우지 · 그것 · 위험"]
 
   A --> B
-  A --> C
+  B --> C["현재 토큰: 그것"]
+  B --> D["현재 토큰: 씌우지"]
+
+  C --> E["더 크게 다시 봄<br/>절연캡 0.430<br/>씌우지 0.214<br/>위험 0.143"]
+  D --> F["더 크게 다시 봄<br/>절연캡 0.367<br/>분리 0.246<br/>씌우지 0.182"]
+
+  E --> G["새 표현<br/>위험 원인 단서 쪽으로 이동"]
+  F --> H["새 표현<br/>작업 동작 맥락 쪽으로 이동"]
+
+  classDef input fill:#f8fafc,stroke:#64748b,color:#0f172a
+  classDef target fill:#ecfeff,stroke:#0891b2,color:#164e63
+  classDef weight fill:#eff6ff,stroke:#2563eb,color:#1e3a8a
+  classDef result fill:#f0fdf4,stroke:#16a34a,color:#14532d
+  class A,B input
+  class C,D target
+  class E,F weight
+  class G,H result

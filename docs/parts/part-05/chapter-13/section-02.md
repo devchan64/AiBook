@@ -1,7 +1,7 @@
 # P5-13.2 셀프 어텐션(self-attention)으로 이어지는 흐름
 
-Section ID: `P5-13.2`
-Version: `v2026.07.19`
+> Section ID: `P5-13.2`
+> Version: `v2026.07.20`
 
 P5-13.1에서는 어텐션(Attention)을 `현재 계산에 중요한 위치를 더 크게 참고하는 방식`으로 설명했습니다. 이제 다음 질문이 바로 이어집니다.
 
@@ -13,7 +13,7 @@ P5-13.1에서는 어텐션(Attention)을 `현재 계산에 중요한 위치를 �
 
 Transformer 직전의 핵심 메커니즘을 다시 짧게 확인해야 할 때는 개념사전의 [셀프 어텐션(self-attention)](../../../reference/concept-glossary.md#self-attention) 항목으로 돌아갑니다.
 
-## 이 절의 범위
+## self-attention으로 넘어갈 때 붙잡을 질문
 
 - 셀프 어텐션은 어텐션과 무엇이 다른가?
 - 왜 `자기 시퀀스 안에서 서로 참조한다`는 발상이 중요한가?
@@ -26,7 +26,7 @@ Transformer 전체 구성은 P5-14.1부터 P5-14.6까지 이어서 다루고, qu
 
 여기서 끝내야 하는 설명은 하나입니다. `토큰이 순차 상태를 전달받는가`보다 `토큰들이 서로를 다시 참고해 자기 표현을 갱신하는가`라는 계산 감각 전환을 현재 절 안에서 이해해야 합니다.
 
-## 이 절의 목표
+## self-attention을 읽는 기준
 
 - self-attention을 `시퀀스 내부 토큰들 사이의 상호 참조`로 설명할 수 있습니다.
 - self-attention이 RNN식 순차 전달과 다른 계산 감각을 준다는 점을 말할 수 있습니다.
@@ -186,183 +186,178 @@ RNN은 시점 순서대로 상태를 넘기므로, 계산 흐름이 순차적이
 
 ## 연습 및 예제
 
-이번 예제의 목표는 안전 점검 메모에서 `그것` 같은 현재 토큰이 앞 문장 안 여러 후보 중 무엇을 더 크게 참고하는지, 그리고 그 결과 현재 표현이 어떻게 달라지는지를 직접 확인하는 것입니다. 즉, self-attention을 단순 숫자 평균이 아니라 `현재 토큰이 메모 안 관련 단서를 다시 읽는 과정`으로 실험해 봅니다.
+이번 예제의 목표는 안전 점검 메모에서 현재 토큰이 문장 안 여러 후보 중 무엇을 더 크게 참고하는지, 그리고 그 결과 현재 표현이 어떻게 달라지는지를 직접 확인하는 것입니다. 이번에는 토큰과 점수를 코드 안에만 넣지 않고, 여러 안전 메모의 후보 토큰을 CSV 파일로 분리해 읽습니다.
 
 문제 상황:
 
 - 현재 토큰 해석은 바로 옆 단어만이 아니라 문장 안 여러 위치를 다시 참고해야 달라질 수 있다
+- 같은 메모라도 현재 토큰이 `그것`인지 `씌우지`인지에 따라 다시 참고할 단서가 달라질 수 있다
 
 입력:
 
-- `배터리 팩은 분리했지만 절연 캡은 씌우지 않았습니다. 그것이 위험 원인인가요?`라는 짧은 메모
-- 현재 토큰 `그것`, `씌우지`가 문장 안 각 토큰을 얼마나 참고할지에 대한 점수
-- 각 토큰의 간단한 의미 벡터
+- [`self-attention-safety-memo-candidates.csv`](../../../assets/part-05/chapter-13/self-attention-safety-memo-candidates.csv){ .csv-preview }
+- 3개 안전 메모 시나리오, 6개 현재 토큰 조건, 36개 후보 토큰 행
+- 후보 토큰별 간단한 의미 벡터 `evidence_pack`, `evidence_cap`, `evidence_action`
+- 현재 토큰별 관련도 점수 `score`
 
 출력:
 
-- 모든 토큰을 똑같이 평균낸 baseline 표현
+- 현재 메모 후보 토큰을 똑같이 평균낸 baseline 표현
 - `그것`, `씌우지` 위치에서 계산된 attention 비중
-- self-attention 이후 각 토큰의 새 표현
+- self-attention 이후 각 현재 토큰의 새 표현
 - 어떤 토큰 묶음이 가장 크게 반영됐는지에 대한 요약
 
-코드를 읽기 전에 아래 세 값을 먼저 순서대로 보면, self-attention이 `문장 전체를 그냥 평균내는 것`과 어떻게 다른지 더 빠르게 잡을 수 있습니다.
+CSV의 한 행은 `특정 메모에서 현재 토큰 하나가 후보 토큰 하나를 얼마나 다시 참고하는가`를 뜻합니다. 예를 들어 `memo_cap_missing` 메모에서는 `그것`과 `씌우지`가 같은 후보 토큰 묶음을 보지만, target token이 다르기 때문에 `score` 분포가 달라집니다.
 
-| 먼저 볼 값 | 왜 먼저 보아야 하는가 |
-| --- | --- |
-| `baseline_representation` | 아무 비중 차이 없이 섞으면 현재 토큰 해석이 얼마나 흐릿해지는지 먼저 보이기 때문입니다. |
-| `weights` | 현재 토큰이 문장 안 어떤 단서를 더 크게 다시 참고하는지 바로 비교할 수 있기 때문입니다. |
-| `representation_shift` | attention으로 다시 계산한 뒤 현재 토큰 표현이 어느 방향으로 실제로 움직였는지 마지막에 묶어 볼 수 있기 때문입니다. |
+CSV 일부를 먼저 보면 다음과 같습니다.
 
-문제 상황:
+| document_id | target_token | candidate_token | candidate_role | evidence_pack | evidence_cap | evidence_action | score |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| memo_cap_missing | 그것 | 절연캡 | missing_object | 0.1 | 0.95 | 0.2 | 2.4 |
+| memo_cap_missing | 그것 | 씌우지 | missing_action | 0.0 | 0.7 | 0.9 | 1.7 |
+| memo_cap_missing | 씌우지 | 분리 | prior_action | 0.8 | 0.2 | 0.4 | 1.7 |
+| memo_cap_missing | 씌우지 | 절연캡 | missing_object | 0.1 | 0.95 | 0.2 | 2.1 |
+| memo_pressure_hold | 재기동 | 재기동 | current_decision | 0.5 | 0.1 | 0.6 | 2.4 |
+| memo_flow_alarm | 해제 | 부족 | risk_state | 0.1 | 0.7 | 0.9 | 2.3 |
 
-- self-attention은 현재 토큰이 문장 안 다른 토큰을 얼마나 다시 참고하는지로 이해하는 편이 더 직관적이다
-
-확인할 개념:
-
-- self-attention은 현재 토큰이 문장 안 다른 토큰을 다시 읽어 자기 표현을 바꾸는 구조다
-- 지시어 해석처럼 멀리 떨어진 단서가 중요할 때 단순 평균보다 위치별 비중이 필요하다
-- 같은 문장이라도 현재 토큰이 달라지면 다시 참고하는 대상도 달라진다
-- baseline 표현과 새 표현을 비교해야 self-attention의 역할이 눈에 들어온다
-
-코드를 보기 전에, 같은 문장이어도 현재 토큰이 달라지면 어디에 weight가 몰릴지 먼저 예상해 보면 좋습니다.
+코드를 보기 전에, 같은 메모이어도 현재 토큰이 달라지면 어디에 weight가 몰릴지 먼저 예상해 보면 좋습니다.
 
 | 현재 토큰 | baseline에서 생기기 쉬운 오해 | self-attention에서 먼저 예상할 변화 |
 | --- | --- | --- |
-| `그것` | 메모 전체 평균만 보면 어느 안전 단서가 중요한지 굳이 안 갈라도 된다고 느끼기 쉽다 | `절연 캡`, `씌우지` 쪽 단서에 비중이 더 실려야 한다 |
-| `씌우지` | 같은 메모 안이니 `그것`과 비슷한 분포가 나올 것이라고 느끼기 쉽다 | 동작 맥락을 위해 `분리`, `절연 캡` 쪽 비중이 더 커질 수 있다 |
+| `그것` | 메모 전체 평균만 보면 어느 안전 단서가 중요한지 굳이 안 갈라도 된다고 느끼기 쉽다 | `절연캡`, `씌우지`, `위험` 쪽 단서에 비중이 더 실려야 한다 |
+| `씌우지` | 같은 메모 안이니 `그것`과 비슷한 분포가 나올 것이라고 느끼기 쉽다 | 동작 맥락을 위해 `분리`, `절연캡`, `씌우지` 쪽 비중이 더 커질 수 있다 |
 | 둘 다 | 문장마다 공통 attention 하나만 있다고 느끼기 쉽다 | 토큰마다 자기 입장에서 다시 읽는 대상이 달라져야 한다 |
-
-실제로 확인하려는 차이도 이 표 그대로입니다. `그것`은 `무엇이 위험 원인인가`를 다시 좁혀야 하고, `씌우지`는 `어떤 작업 맥락이 빠졌는가`를 다시 좁혀야 합니다. 즉, 같은 메모라도 현재 토큰이 다르면 `다시 읽어야 하는 단서`가 달라져야 예제가 제대로 작동합니다.
 
 입력(input):
 
-위에 정리한 토큰 목록과 토큰별 벡터 표현을 사용합니다.
+위 CSV를 읽어 `memo_cap_missing`의 두 현재 토큰을 비교합니다.
 
 ```python
-# 같은 메모 안에서도 현재 토큰이 달라지면 self-attention이 다시 참고하는 단서와 새 표현이 어떻게 달라지는지 비교하는 예제입니다.
+from pathlib import Path
+import csv
 import math
 
-tokens = ["배터리팩", "분리", "절연캡", "씌우지", "그것"]
-token_vectors = {
-    "배터리팩": [0.8, 0.1, 0.0],
-    "분리": [0.9, 0.3, 0.1],
-    "절연캡": [0.1, 0.9, 0.2],
-    "씌우지": [0.0, 0.6, 0.8],
-    "그것": [0.3, 0.3, 0.3],
-}
+DATA_PATH = Path("docs/assets/part-05/chapter-13/self-attention-safety-memo-candidates.csv")
+FOCUS_DOCUMENT_ID = "memo_cap_missing"
+TARGET_TOKENS = ["그것", "씌우지"]
+VECTOR_COLUMNS = ["evidence_pack", "evidence_cap", "evidence_action"]
 
-# current token-specific raw scores:
-# "그것" focuses on what the risk refers to,
-# while "씌우지" focuses more on the action context around insulating the pack.
-raw_scores_by_target = {
-    "그것": {
-        "배터리팩": 0.2,
-        "분리": 0.6,
-        "절연캡": 2.1,
-        "씌우지": 1.2,
-        "그것": 0.7,
-    },
-    "씌우지": {
-        "배터리팩": 0.1,
-        "분리": 1.4,
-        "절연캡": 1.8,
-        "씌우지": 0.9,
-        "그것": 0.2,
-    },
-}
+with DATA_PATH.open(encoding="utf-8", newline="") as f:
+    rows = list(csv.DictReader(f))
 
-baseline_representation = [0.0, 0.0, 0.0]
-uniform_weight = 1 / len(tokens)
-for token in tokens:
-    vector = token_vectors[token]
-    for idx in range(len(vector)):
-        baseline_representation[idx] += uniform_weight * vector[idx]
+focus_rows = [row for row in rows if row["document_id"] == FOCUS_DOCUMENT_ID]
 
+unique_candidates = []
+seen = set()
+for row in focus_rows:
+    token = row["candidate_token"]
+    if token not in seen:
+        seen.add(token)
+        unique_candidates.append(row)
+
+baseline_representation = [
+    sum(float(row[column]) for row in unique_candidates) / len(unique_candidates)
+    for column in VECTOR_COLUMNS
+]
+
+def softmax(scores):
+    max_score = max(scores)
+    exp_scores = [math.exp(score - max_score) for score in scores]
+    total = sum(exp_scores)
+    return [score / total for score in exp_scores]
+
+print("csv_rows =", len(rows))
+print("focus_document_rows =", len(focus_rows))
 print("baseline_representation =", [round(value, 3) for value in baseline_representation])
 print()
 
-def run_self_attention(target_token, score_table):
-    ordered_scores = [score_table[token] for token in tokens]
-    exp_scores = [math.exp(score) for score in ordered_scores]
-    total = sum(exp_scores)
-    weights = [s / total for s in exp_scores]
-
-    new_representation = [0.0, 0.0, 0.0]
-    for weight, token in zip(weights, tokens):
-        vector = token_vectors[token]
-        for idx in range(len(vector)):
-            new_representation[idx] += weight * vector[idx]
+def run_self_attention(target_token):
+    target_rows = [row for row in focus_rows if row["target_token"] == target_token]
+    weights = softmax([float(row["score"]) for row in target_rows])
+    new_representation = [
+        sum(weight * float(row[column]) for weight, row in zip(weights, target_rows))
+        for column in VECTOR_COLUMNS
+    ]
+    top_row, top_weight = max(zip(target_rows, weights), key=lambda item: item[1])
+    cap_weight = sum(
+        weight
+        for row, weight in zip(target_rows, weights)
+        if row["candidate_token"] in {"절연캡", "씌우지"}
+    )
 
     print("target_token =", target_token)
-    for token, weight in zip(tokens, weights):
-        print(token, "weight =", round(weight, 3), "vector =", token_vectors[token])
-    print("weights =", [round(w, 3) for w in weights])
+    for row, weight in zip(target_rows, weights):
+        vector = [float(row[column]) for column in VECTOR_COLUMNS]
+        print(
+            row["candidate_token"],
+            "weight =", round(weight, 3),
+            "role =", row["candidate_role"],
+            "vector =", [round(value, 3) for value in vector],
+        )
     print("new_representation =", [round(value, 3) for value in new_representation])
     print(
         "representation_shift =",
         [round(new - base, 3) for new, base in zip(new_representation, baseline_representation)],
     )
-    top_token = tokens[weights.index(max(weights))]
-    print("top_token =", top_token)
-    print(
-        "cap_plus_not_applied_weight =",
-        round(weights[tokens.index("절연캡")] + weights[tokens.index("씌우지")], 3),
-    )
+    print("top_token =", top_row["candidate_token"])
+    print("cap_plus_not_applied_weight =", round(cap_weight, 3))
     print()
 
-run_self_attention("그것", raw_scores_by_target["그것"])
-run_self_attention("씌우지", raw_scores_by_target["씌우지"])
+for target_token in TARGET_TOKENS:
+    run_self_attention(target_token)
 ```
 
-출력에서는 각 토큰의 `weight`를 먼저 비교하고, 같은 문장이어도 현재 토큰이 바뀌면 그 분포가 어떻게 달라지는지부터 보면 됩니다. 그다음 `new_representation`과 `representation_shift`가 어떤 방향으로 갈라지는지 이어서 보면 됩니다.
+출력에서는 먼저 `csv_rows`와 `focus_document_rows`를 보아 CSV 전체와 현재 비교 대상의 범위를 구분합니다. 그다음 각 현재 토큰의 `weight`, `new_representation`, `representation_shift`를 순서대로 보면 됩니다.
 
 ```text
-baseline_representation = [0.42, 0.44, 0.28]
- 
+csv_rows = 36
+focus_document_rows = 12
+baseline_representation = [0.383, 0.475, 0.417]
+
 target_token = 그것
-배터리팩 weight = 0.074 vector = [0.8, 0.1, 0.0]
-분리 weight = 0.11 vector = [0.9, 0.3, 0.1]
-절연캡 weight = 0.494 vector = [0.1, 0.9, 0.2]
-씌우지 weight = 0.201 vector = [0.0, 0.6, 0.8]
-그것 weight = 0.122 vector = [0.3, 0.3, 0.3]
-weights = [0.074, 0.11, 0.494, 0.201, 0.122]
-new_representation = [0.244, 0.642, 0.307]
-representation_shift = [-0.176, 0.202, 0.027]
+배터리팩 weight = 0.048 role = equipment vector = [0.9, 0.1, 0.0]
+분리 weight = 0.079 role = prior_action vector = [0.8, 0.2, 0.4]
+절연캡 weight = 0.43 role = missing_object vector = [0.1, 0.95, 0.2]
+씌우지 weight = 0.214 role = missing_action vector = [0.0, 0.7, 0.9]
+그것 weight = 0.087 role = current_token vector = [0.3, 0.3, 0.3]
+위험 weight = 0.143 role = risk_question vector = [0.2, 0.6, 0.7]
+new_representation = [0.203, 0.691, 0.436]
+representation_shift = [-0.18, 0.216, 0.019]
 top_token = 절연캡
-cap_plus_not_applied_weight = 0.694
+cap_plus_not_applied_weight = 0.644
 
 target_token = 씌우지
-배터리팩 weight = 0.074 vector = [0.8, 0.1, 0.0]
-분리 weight = 0.272 vector = [0.9, 0.3, 0.1]
-절연캡 weight = 0.406 vector = [0.1, 0.9, 0.2]
-씌우지 weight = 0.165 vector = [0.0, 0.6, 0.8]
-그것 weight = 0.082 vector = [0.3, 0.3, 0.3]
-weights = [0.074, 0.272, 0.406, 0.165, 0.082]
-new_representation = [0.37, 0.578, 0.265]
-representation_shift = [-0.05, 0.138, -0.015]
+배터리팩 weight = 0.067 role = equipment vector = [0.9, 0.1, 0.0]
+분리 weight = 0.246 role = prior_action vector = [0.8, 0.2, 0.4]
+절연캡 weight = 0.367 role = missing_object vector = [0.1, 0.95, 0.2]
+씌우지 weight = 0.182 role = current_action vector = [0.0, 0.7, 0.9]
+그것 weight = 0.055 role = other_reference vector = [0.3, 0.3, 0.3]
+위험 weight = 0.082 role = risk_question vector = [0.2, 0.6, 0.7]
+new_representation = [0.327, 0.598, 0.41]
+representation_shift = [-0.056, 0.123, -0.007]
 top_token = 절연캡
-cap_plus_not_applied_weight = 0.571
+cap_plus_not_applied_weight = 0.55
 ```
 
 | 먼저 볼 출력 | 이 출력이 뜻하는 것 | 바꿔 보면 달라지는 것 |
 | --- | --- | --- |
-| `weights`에서 `절연캡`이 가장 크고 `씌우지`도 높다 | 현재 토큰 `그것`이 메모 안 단서를 균등하게 보지 않고 특정 안전 단서를 더 크게 다시 참고한다는 뜻 | raw score를 바꾸면 어떤 단서가 현재 토큰 해석을 끌어가는지 바로 달라집니다 |
-| `그것`과 `씌우지`의 `weights` 분포가 같지 않다 | 같은 메모를 읽어도 현재 토큰마다 다시 참고하는 대상이 다르다는 뜻 | target token을 바꾸면 어떤 위치가 top token이 되는지 바로 달라집니다 |
-| `top_token = 절연캡`과 `cap_plus_not_applied_weight = 0.694`가 함께 나온다 | 단어 하나만이 아니라 관련 단서 묶음이 함께 해석을 끌어간다는 뜻 | `절연캡`이나 `씌우지` 점수를 낮추면 위험 원인 해석이 어느 쪽으로 흔들리는지 볼 수 있습니다 |
-| `representation_shift`에서 두 번째 축이 크게 늘어난다 | attention 이후 현재 토큰 표현이 실제로 특정 문맥 방향으로 다시 이동했다는 뜻 | token vector를 바꾸면 어떤 의미 축이 더 강조되는지 직접 비교할 수 있습니다 |
+| `weights`에서 `절연캡`이 가장 크고 `씌우지`도 높다 | 현재 토큰 `그것`이 메모 안 단서를 균등하게 보지 않고 특정 안전 단서를 더 크게 다시 참고한다는 뜻 | CSV의 `score`를 바꾸면 어떤 단서가 현재 토큰 해석을 끌어가는지 바로 달라집니다 |
+| `그것`과 `씌우지`의 `weights` 분포가 같지 않다 | 같은 메모를 읽어도 현재 토큰마다 다시 참고하는 대상이 다르다는 뜻 | `target_token`을 바꾸면 어떤 위치가 top token이 되는지 바로 달라집니다 |
+| `cap_plus_not_applied_weight = 0.644` | 단어 하나만이 아니라 관련 단서 묶음이 함께 해석을 끌어간다는 뜻 | `절연캡`이나 `씌우지` 점수를 낮추면 위험 원인 해석이 어느 쪽으로 흔들리는지 볼 수 있습니다 |
+| `representation_shift`에서 두 번째 축이 크게 늘어난다 | attention 이후 현재 토큰 표현이 실제로 특정 문맥 방향으로 다시 이동했다는 뜻 | CSV의 evidence 축 값을 바꾸면 어떤 의미 축이 더 강조되는지 직접 비교할 수 있습니다 |
 
 | 현재 토큰 | baseline만 보고 읽었을 때 나올 쉬운 판단 | self-attention 출력을 읽고 바뀌는 판단 |
 | --- | --- | --- |
 | `그것` | 메모 전체가 한 덩어리라서 `분리`와 `절연캡 미적용`을 비슷하게 취급하기 쉽다 | `절연캡`과 `씌우지` 쪽 비중이 높으므로, 위험 원인을 `절연 캡 미적용` 쪽으로 더 우선 확인해야 한다 |
-| `씌우지` | 현재 동작만 보며 `무언가 안 했다` 정도로만 읽기 쉽다 | `분리`와 `절연캡`을 함께 크게 참고하므로, `무엇에 무엇을 씌우지 않았는가`라는 작업 맥락을 같이 복원해야 한다 |
+| `씌우지` | 현재 동작만 보며 `무언가 안 했다` 정도로만 읽기 쉽다 | `분리`, `절연캡`, `씌우지`를 함께 크게 참고하므로, `무엇에 무엇을 씌우지 않았는가`라는 작업 맥락을 같이 복원해야 한다 |
 
 즉, 숫자를 읽는 목적은 `어느 weight가 제일 컸는가`를 외우는 데 있지 않습니다. 같은 메모라도 현재 토큰이 달라질 때 `무엇을 다시 확인해야 하는가`가 실제로 갈라지는지 확인하는 데 있습니다.
 
-- baseline 평균에서는 `배터리팩`, `분리`, `절연캡`, `씌우지`가 모두 같은 비중으로 섞여, 현재 토큰 `그것`이 무엇을 가리키는지에 대한 강조가 없습니다.
+- baseline 평균에서는 `배터리팩`, `분리`, `절연캡`, `씌우지`, `그것`, `위험`이 모두 같은 비중으로 섞여, 현재 토큰 `그것`이 무엇을 가리키는지에 대한 강조가 없습니다.
 - 현재 토큰 표현은 자기 자신만으로 정해지지 않고, 메모 안 다른 토큰들을 다시 참고해 새로 계산됩니다.
 - 이 예제에서는 `그것`이 `분리`보다 `절연캡`과 `씌우지` 쪽 단서를 훨씬 더 크게 참고하므로, 위험 원인 해석이 `절연 캡 미적용` 쪽으로 기웁니다.
 - 같은 메모이어도 `씌우지`를 현재 토큰으로 두면, `분리`와 `절연캡` 쪽 비중이 다시 커지며 `그것`을 해석할 때와는 다른 분포가 나옵니다.
-- `절연캡`과 `씌우지`의 합 비중이 0.694라는 점은, self-attention이 단어 하나만 보는 것이 아니라 관련 단서 묶음을 함께 반영한다는 점을 보여 줍니다.
+- `절연캡`과 `씌우지`의 합 비중이 `그것`에서는 0.644, `씌우지`에서는 0.55라는 점은, self-attention이 단어 하나만 보는 것이 아니라 관련 단서 묶음을 함께 반영한다는 점을 보여 줍니다.
 - `representation_shift`에서 두 번째 축 값이 크게 늘어난다는 점은, 현재 토큰 표현이 `절연캡/씌우지` 쪽 문맥으로 다시 당겨졌다는 직관을 줍니다.
 - 즉, self-attention은 `지금 이 토큰을 이해하려면 문장 안 어디를 다시 봐야 하는가`를 토큰별로 따로 수치화하는 방식으로 읽을 수 있습니다.
 
@@ -372,9 +367,9 @@ cap_plus_not_applied_weight = 0.571
 
 | 먼저 보인 출력 신호 | 지금 바로 해 볼 변화 | 아직 이 예제만으로 서두르지 않을 결론 |
 | --- | --- | --- |
-| `절연캡` 비중이 가장 크다 | `분리`나 `배터리팩` raw score를 높여 위험 원인 해석 중심이 어디로 이동하는지 본다 | attention 가중치가 크다고 해서 곧바로 완전한 의미 이해가 보장된다고 단정하지 않는다 |
+| `절연캡` 비중이 가장 크다 | CSV에서 `분리`나 `배터리팩`의 `score`를 높여 위험 원인 해석 중심이 어디로 이동하는지 본다 | attention 가중치가 크다고 해서 곧바로 완전한 의미 이해가 보장된다고 단정하지 않는다 |
 | `cap_plus_not_applied_weight`가 높다 | `씌우지` 점수를 낮추거나 높여 단서 묶음이 얼마나 함께 움직이는지 본다 | 단서 둘이 함께 높다고 해서 항상 정답이 고정된다고 단정하지 않는다 |
-| `representation_shift`가 baseline에서 멀어진다 | token vector의 축 값을 바꿔 어떤 의미 축이 재계산에 더 민감한지 비교한다 | 이 간단한 벡터 비교 하나로 실제 multi-head self-attention 전체를 대체하지 않는다 |
+| `representation_shift`가 baseline에서 멀어진다 | CSV의 `evidence_*` 축 값을 바꿔 어떤 의미 축이 재계산에 더 민감한지 비교한다 | 이 간단한 벡터 비교 하나로 실제 multi-head self-attention 전체를 대체하지 않는다 |
 
 즉, self-attention은 `문맥을 보고 표현을 다시 계산하는 방식`입니다.
 

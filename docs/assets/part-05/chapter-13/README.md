@@ -28,6 +28,7 @@
   - `qkv-head-context-space-en.png` / `qkv-head-context-space-ko.png` / `qkv-head-context-space-zh.png`
 - CSV input assets:
   - `attention-operating-manual-candidates.csv`
+  - `self-attention-safety-memo-candidates.csv`
 - Python chart source:
   - `p5_13_1_attention_context_charts.py`
   - `p5_13_attention_chart.py`

@@ -1,13 +1,22 @@
 flowchart TD
-  A["相同备忘录"]
-
-  subgraph Q1["当前 token：它"]
-    B["更高权重放在绝缘帽与未套上"]
-  end
-
-  subgraph Q2["当前 token：套上"]
-    C["更高权重放在拆下与绝缘帽"]
-  end
+  A["相同输入备忘录<br/>电池包已拆下 / 绝缘帽未套上 / 它有风险吗？"]
+  B["候选 token 集合<br/>电池包 · 拆下 · 绝缘帽 · 未套上 · 它 · 风险"]
 
   A --> B
-  A --> C
+  B --> C["当前 token：它"]
+  B --> D["当前 token：未套上"]
+
+  C --> E["更强地重新参考<br/>绝缘帽 0.430<br/>未套上 0.214<br/>风险 0.143"]
+  D --> F["更强地重新参考<br/>绝缘帽 0.367<br/>拆下 0.246<br/>未套上 0.182"]
+
+  E --> G["新的表示<br/>移向风险原因线索"]
+  F --> H["新的表示<br/>移向动作语境"]
+
+  classDef input fill:#f8fafc,stroke:#64748b,color:#0f172a
+  classDef target fill:#ecfeff,stroke:#0891b2,color:#164e63
+  classDef weight fill:#eff6ff,stroke:#2563eb,color:#1e3a8a
+  classDef result fill:#f0fdf4,stroke:#16a34a,color:#14532d
+  class A,B input
+  class C,D target
+  class E,F weight
+  class G,H result
