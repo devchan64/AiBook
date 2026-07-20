@@ -1,7 +1,7 @@
 # P2-1.2 公式、代码与数据相遇的位置
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P2-1.1，我们把数学看成阅读 AI 计算的语言。现在继续看，这种语言在真实学习中到底放在哪里。学习 AI 时，公式（formula）、代码（code）、数据（data）并不是彼此分开的东西。它们更像是在用三张不同的脸展示同一个计算。
 
@@ -84,7 +84,10 @@
 - 即使公式、代码、数据看起来不同，它们也可能指向同一个计算
 
 ```python
+# scores 是一个学生群体的测验分数列表。
 scores = [55, 65, 80, 90]
+
+# mean 把分数列表概括成一个代表值。
 mean = sum(scores) / len(scores)
 
 print(mean)
@@ -146,6 +149,7 @@ y = f(x)
 - 这个例子的重点不是复杂计算，而是练习读取关系表达
 
 ```python
+# x 是输入给模型的值，y 是模型返回的输出。
 y = model(x)
 ```
 
@@ -181,10 +185,12 @@ y = model(x)
 ```python
 import numpy as np
 
+# one_value、vector、matrix 展示相同数字也可以被放进不同形状。
 one_value = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
+# shape 是用来观察数组轴和大小的值。
 print(one_value.shape)
 print(vector.shape)
 print(matrix.shape)
@@ -232,7 +238,10 @@ print(matrix.shape)
 - 不只是最后结果，中间变量也会成为帮助解释公式的观察点
 
 ```python
+# scores 是平均值公式要计算的数据。
 scores = [55, 65, 80, 90]
+
+# n 和 total 是得到平均值之前的中间观察值。
 n = len(scores)
 total = sum(scores)
 mean = total / n

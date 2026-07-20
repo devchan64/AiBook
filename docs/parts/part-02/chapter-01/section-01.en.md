@@ -1,7 +1,7 @@
 # P2-1.1 What Math Does in AI Computation
 
 > Section ID: `P2-1.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Part 1, we viewed AI on a broad map of rules, models, learning, generation, and service structure. Starting in Part 2, we recover the foundations needed to read that map. The first question is how much math you need in order to relearn AI.
 
@@ -129,7 +129,10 @@ Concept to check:
 ```python
 import numpy as np
 
+# x is the small numeric array used to check the mean.
 x = np.array([1, 2, 3, 4])
+
+# mean is the representative average value of the values in x.
 mean = x.mean()
 
 print(mean)

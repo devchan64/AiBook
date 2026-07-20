@@ -1,7 +1,7 @@
 # P2-1.2 수식, 코드, 데이터가 만나는 자리
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 P2-1.1에서는 수학을 AI 계산을 읽는 언어로 봤습니다. 이제 그 언어가 실제 학습에서 어디에 놓이는지 봅니다. AI를 공부할 때 수식(formula), 코드(code), 데이터(data)는 따로 떨어진 것이 아닙니다. 같은 계산을 서로 다른 방식으로 보여 주는 세 얼굴에 가깝습니다.
 
@@ -84,7 +84,10 @@ P2-1.1에서는 수학을 AI 계산을 읽는 언어로 봤습니다. 이제 그
 - 수식, 코드, 데이터는 모양이 달라도 같은 계산을 가리킬 수 있다
 
 ```python
+# scores는 한 학생 집단의 퀴즈 점수 목록입니다.
 scores = [55, 65, 80, 90]
+
+# mean은 점수 목록을 하나의 대표값으로 요약합니다.
 mean = sum(scores) / len(scores)
 
 print(mean)
@@ -146,6 +149,7 @@ y = f(x)
 - 이 예제는 계산 자체보다 관계 표현을 읽는 연습에 목적이 있다
 
 ```python
+# x는 모델에 넣는 입력이고, y는 모델이 돌려주는 출력입니다.
 y = model(x)
 ```
 
@@ -181,10 +185,12 @@ y = model(x)
 ```python
 import numpy as np
 
+# one_value, vector, matrix는 같은 숫자라도 담긴 모양이 다르다는 점을 보여 줍니다.
 one_value = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
+# shape는 배열의 축과 크기를 확인하는 관찰값입니다.
 print(one_value.shape)
 print(vector.shape)
 print(matrix.shape)
@@ -232,7 +238,10 @@ print(matrix.shape)
 - 계산 결과뿐 아니라 중간 변수도 수식 해석을 돕는 관찰 지점이 된다
 
 ```python
+# scores는 평균 수식의 계산 대상입니다.
 scores = [55, 65, 80, 90]
+
+# n과 total은 평균이 만들어지기 전의 중간 관찰값입니다.
 n = len(scores)
 total = sum(scores)
 mean = total / n

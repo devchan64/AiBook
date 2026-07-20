@@ -1,7 +1,7 @@
 # P2-1.2 Where Formulas, Code, and Data Meet
 
 > Section ID: `P2-1.2`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In P2-1.1, we treated mathematics as the language for reading AI computation. Now we look at where that language actually sits in real learning. When studying AI, formulas, code, and data are not separate things. They are closer to three faces that show the same computation in different ways.
 
@@ -84,7 +84,10 @@ Concept to check:
 - even if formula, code, and data look different, they can point to the same calculation
 
 ```python
+# scores is the quiz-score list for one student group.
 scores = [55, 65, 80, 90]
+
+# mean summarizes the score list as one representative value.
 mean = sum(scores) / len(scores)
 
 print(mean)
@@ -146,6 +149,7 @@ Concept to check:
 - the goal of this example is reading relationship expression rather than carrying out a complex calculation
 
 ```python
+# x is the input passed into the model, and y is the output returned by it.
 y = model(x)
 ```
 
@@ -181,10 +185,12 @@ Concept to check:
 ```python
 import numpy as np
 
+# one_value, vector, and matrix show that the same numbers can be stored in different shapes.
 one_value = np.array(3)
 vector = np.array([1, 2, 3])
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 
+# shape is the observation point for checking each array's axes and size.
 print(one_value.shape)
 print(vector.shape)
 print(matrix.shape)
@@ -232,7 +238,10 @@ Concept to check:
 - not only the final result but also intermediate variables become observation points that help interpret the formula
 
 ```python
+# scores is the data that the mean formula will calculate over.
 scores = [55, 65, 80, 90]
+
+# n and total are intermediate observation values before the mean is made.
 n = len(scores)
 total = sum(scores)
 mean = total / n
