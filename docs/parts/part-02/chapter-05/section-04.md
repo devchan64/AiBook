@@ -77,6 +77,7 @@ python docs/assets/part-02/chapter-05/p2_5_4_small_statistics.py
 확인할 개념: 통계 계산은 항상 어떤 데이터 묶음을 기준으로 하는지 먼저 확인해야 한다는 점을 봅니다.
 
 ```python
+# NumPy를 불러와 작은 데이터의 평균, 중위값, 분산 계산을 준비하는 예제입니다.
 import numpy as np
 
 # data는 평균, 중위값, 분산을 확인할 작은 점수 데이터입니다.

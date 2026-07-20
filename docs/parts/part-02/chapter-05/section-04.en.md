@@ -77,6 +77,7 @@ Expected output: the whole data bundle and the number of elements `8` are printe
 Concept to check: statistical calculation must always begin by checking what data bundle it is based on.
 
 ```python
+# This example imports NumPy to prepare mean, median, and variance calculations for small data.
 import numpy as np
 
 # data is the small score dataset used to check mean, median, and variance.

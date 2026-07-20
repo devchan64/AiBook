@@ -77,6 +77,7 @@ python docs/assets/part-02/chapter-05/p2_5_4_small_statistics.py
 要确认的概念：统计计算总要先确认自己是基于哪一组数据来做的。
 
 ```python
+# 这个例子导入 NumPy，为小数据的平均值、中位数和方差计算做准备。
 import numpy as np
 
 # data 是用来确认平均值、中位数和方差的小型分数数据。
