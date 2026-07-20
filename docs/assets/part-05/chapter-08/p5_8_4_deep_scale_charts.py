@@ -147,20 +147,12 @@ def save_line_chart(text: dict[str, str], trace: dict, metric: str, ylabel: str,
         "large_init": "#dc2626",
         "very_large_init": "#7c3aed",
     }
-    x_offsets = {
-        "small_init": -0.09,
-        "medium_init": -0.03,
-        "large_init": 0.03,
-        "very_large_init": 0.09,
-    }
     fig, ax = plt.subplots(figsize=(6.8, 3.8), dpi=180)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     style_axis(ax)
     for case_name, rows in trace.items():
         layers = [row["layer"] for row in rows]
-        if metric == "bn_range_width":
-            layers = [layer + x_offsets[case_name] for layer in layers]
         values = [row[metric] for row in rows]
         ax.plot(layers, values, marker="o", linewidth=2.2, color=colors[case_name], label=text[case_name])
     ax.set_xticks([1, 2, 3])
@@ -169,11 +161,43 @@ def save_line_chart(text: dict[str, str], trace: dict, metric: str, ylabel: str,
     if log_scale:
         ax.set_yscale("log")
         ax.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:g}"))
-    if metric == "bn_range_width":
-        ax.set_ylim(0, 3.2)
     ax.legend(loc="upper left", frameon=False, fontsize=8.5)
     fig.tight_layout(pad=0.9)
     fig.savefig(OUT_DIR / outfile, bbox_inches="tight")
+    plt.close(fig)
+
+
+def save_bn_range_chart(text: dict[str, str], trace: dict) -> None:
+    configure_font(text)
+    colors = {
+        "small_init": "#2563eb",
+        "medium_init": "#f59e0b",
+        "large_init": "#dc2626",
+        "very_large_init": "#7c3aed",
+    }
+    layer_offsets = {1: -0.12, 2: 0.0, 3: 0.12}
+    case_positions = {case_name: index + 1 for index, case_name in enumerate(CASE_ORDER)}
+    all_values = [row["bn_range_width"] for rows in trace.values() for row in rows]
+    average_range = sum(all_values) / len(all_values)
+
+    fig, ax = plt.subplots(figsize=(6.8, 3.8), dpi=180)
+    fig.patch.set_facecolor("white")
+    ax.set_facecolor("white")
+    style_axis(ax)
+    ax.axhline(average_range, color="#64748b", linewidth=1.4, linestyle=(0, (4, 4)), alpha=0.85)
+
+    for case_name, rows in trace.items():
+        x = [case_positions[case_name] + layer_offsets[row["layer"]] for row in rows]
+        y = [row["bn_range_width"] for row in rows]
+        ax.scatter(x, y, s=58, color=colors[case_name], edgecolor="white", linewidth=0.7, zorder=3)
+
+    ax.set_xticks([case_positions[case_name] for case_name in CASE_ORDER])
+    ax.set_xticklabels([text[case_name] for case_name in CASE_ORDER], fontsize=8.6)
+    ax.set_xlabel("")
+    ax.set_ylabel(text["bn_range_ylabel"])
+    ax.set_ylim(0, 3.2)
+    fig.tight_layout(pad=0.9)
+    fig.savefig(OUT_DIR / text["bn_range_outfile"], bbox_inches="tight")
     plt.close(fig)
 
 
@@ -182,7 +206,7 @@ def main() -> None:
     for text in LANG_TEXT.values():
         save_line_chart(text, trace, "raw_range_width", text["raw_range_ylabel"], text["raw_range_outfile"], log_scale=True)
         save_line_chart(text, trace, "raw_variance", text["raw_variance_ylabel"], text["raw_variance_outfile"], log_scale=True)
-        save_line_chart(text, trace, "bn_range_width", text["bn_range_ylabel"], text["bn_range_outfile"])
+        save_bn_range_chart(text, trace)
 
 
 if __name__ == "__main__":
