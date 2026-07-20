@@ -13,7 +13,7 @@ In other words, the reason for learning these words now is also clear. Later, wh
 
 The first words are value, variable, and type.
 
-Here, we explain the basic distinction among `value`, `variable`, and `type`. These three words are not expressions trapped only inside Python. They are the minimum units shared by most programming languages and data-processing tools. When you meet these concepts again later in Part 2, also use the [Concept Glossary](/AiBook/reference/concept-glossary/) as a reference point.
+Here, we explain the basic distinction among `value`, `variable`, and `type`. These three words are not expressions trapped only inside Python. They are the minimum units shared by most programming languages and data-processing tools. When you meet these concepts again later in Part 2, also use the [Concept Glossary](../../../reference/concept-glossary.md) as a reference point.
 
 ## Three Sentences to Leave from This Section
 
