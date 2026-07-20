@@ -1,7 +1,7 @@
 # P5-15.2 Generation And Sampling
 
-Section ID: `P5-15.2`
-Version: `v2026.07.17`
+> Section ID: `P5-15.2`
+> Version: `v2026.07.19`
 
 In P5-15.1, we saw that, unlike a classification model, a generative model learns data patterns and tries to create a new output itself. The next question naturally follows.
 
@@ -9,7 +9,7 @@ If a generative model can produce several plausible answers, how does it actuall
 
 Sampling is the process by which the model takes out one actual output at a time from several candidates it judged plausible, and this method directly affects the diversity and stability of the result.
 
-When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](/AiBook/reference/concept-glossary/#sampling).
+When the model’s scores and the actual output choice need to be separated again, reread the glossary entry on [sampling](../../../reference/concept-glossary.md#sampling).
 
 ## Scope Of This Section
 
@@ -82,11 +82,11 @@ At the introductory stage, it is enough if we distinguish only the following thr
 
 This difference becomes clearer when we place side by side the candidate distribution and the actual choice frequency. First, if we look at how much weight the model gives to each candidate, one highest candidate clearly exists, but the other candidates are not all zero either.
 
-![Relative weights of candidate phrases](/AiBook/assets/part-05/chapter-15/sampling-candidate-weights-en.svg)
+![Relative weights of candidate phrases](../../../assets/part-05/chapter-15/sampling-candidate-weights-en.svg)
 
 Then, if we look at the choice frequency when actually sampling 20 times, the highest candidate appears most often, but the lower candidates do not disappear completely and can still remain as some of the results.
 
-![Choice counts from 20 rounds of sampling](/AiBook/assets/part-05/chapter-15/sampling-choice-counts-en.svg)
+![Choice counts from 20 rounds of sampling](../../../assets/part-05/chapter-15/sampling-choice-counts-en.svg)
 
 The key point in this graph is that sampling is not `picking anything at random`. It should be read as a selection procedure that samples actual outputs based on the weights the model gave to each candidate, but does not fix only one candidate as argmax does.
 
@@ -323,5 +323,5 @@ Language models usually calculate the plausibility of the next token, and image-
 ## Sources And References
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016, checked on 2026-06-29. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, checked on 2026-06-29.
-- Jurafsky and Martin, `Speech and Language Processing` draft materials, checked on 2026-06-29.
+- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999, checked on 2026-07-19. [https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials, checked on 2026-07-19. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }

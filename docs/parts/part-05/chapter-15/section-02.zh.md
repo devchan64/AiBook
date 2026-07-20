@@ -1,7 +1,7 @@
 # P5-15.2 生成与采样（sampling）
 
-Section ID: `P5-15.2`
-Version: `v2026.07.17`
+> Section ID: `P5-15.2`
+> Version: `v2026.07.19`
 
 在 P5-15.1 里，我们已经看到：生成模型（generative model）不同于分类模型，它会学习数据模式，并试图创造新的输出本身。接下来就会自然出现一个问题。
 
@@ -9,7 +9,7 @@ Version: `v2026.07.17`
 
 sampling 是模型从多个它认为可信的候选里，一次取出一个实际输出的过程，而这种方式会直接影响结果的多样性与稳定性。
 
-当你需要重新区分“模型分数”和“实际输出选择”时，可以回到英文概念词汇表里的 [sampling](/AiBook/en/reference/concept-glossary/#sampling) 条目。
+当你需要重新区分“模型分数”和“实际输出选择”时，可以回到概念词汇表里的 [sampling](../../../reference/concept-glossary.md#sampling) 条目。
 
 ## 本节范围
 
@@ -82,11 +82,11 @@ sampling 的核心，是一种选择步骤：它优先更高的候选，但也�
 
 如果把候选分布和实际被选中的频率并排看，这种差异会更清楚。先看模型给每个候选分配了多少权重时，会发现最高候选很明确，但其他候选并不全是 0。
 
-![候选短语相对权重](/AiBook/assets/part-05/chapter-15/sampling-candidate-weights-zh.svg)
+![候选短语相对权重](../../../assets/part-05/chapter-15/sampling-candidate-weights-zh.svg)
 
 再看实际进行 20 次 sampling 后的选择频率时，就会发现：最高候选虽然出现最多，但较低候选也不会完全消失，而是能实际留在部分结果里。
 
-![20 次 sampling 的选择频率](/AiBook/assets/part-05/chapter-15/sampling-choice-counts-zh.svg)
+![20 次 sampling 的选择频率](../../../assets/part-05/chapter-15/sampling-choice-counts-zh.svg)
 
 这张图里最关键的一点是：sampling 不是`随便乱抽`。它应该被读成一种选择步骤：基于模型给各候选分配的权重去采样实际输出，但不像 argmax 那样把结果固定成唯一一个候选。
 
@@ -323,5 +323,5 @@ for label, weights in experiments.items():
 ## 出处与参考资料
 
 - Ian Goodfellow, Yoshua Bengio, Aaron Courville, `Deep Learning`, MIT Press, 2016，确认日期：2026-06-29。[https://www.deeplearningbook.org/](https://www.deeplearningbook.org/){: target="_blank" rel="noopener noreferrer" }
-- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999，确认日期：2026-06-29。
-- Jurafsky and Martin, `Speech and Language Processing` draft materials，确认日期：2026-06-29。
+- Christopher D. Manning, Hinrich Schutze, `Foundations of Statistical Natural Language Processing`, MIT Press, 1999，确认日期：2026-07-19。[https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/](https://mitpress.mit.edu/9780262133609/foundations-of-statistical-natural-language-processing/){: target="_blank" rel="noopener noreferrer" }
+- Daniel Jurafsky, James H. Martin, `Speech and Language Processing` draft materials，确认日期：2026-07-19。[https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/){: target="_blank" rel="noopener noreferrer" }
