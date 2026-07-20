@@ -1,7 +1,7 @@
 # P5-7.8 补充学习：gradient clipping 与不稳定的 update
 
-Section ID: `P5-7.8`
-Version: `v2026.07.17`
+> Section ID: `P5-7.8`
+> Version: `v2026.07.19`
 
 一旦理解了 optimizer 把 gradient 变成 update 的结构，在真实训练日志里就会冒出另一个问题。方向已经知道了，但某些 step 的 update 看起来会突然变得过于猛烈。此时，问题应该先被读成 learning rate 问题，还是 gradient 尺度问题，还是说需要另外一种安全装置？
 
@@ -164,3 +164,9 @@ optimizer 会接收 gradient，并应用自己的 update 规则。clipping 则�
 - 能在入门阶段解释 norm clipping 与 value clipping 的差别吗？
 - 能说明 clipping 不是代替 optimizer，而是挂在 update 前面的安全装置吗？
 - 一旦看到不稳定 update，能说明为什么要把 learning rate、gradient scale、optimizer state 分开检查吗？
+
+## 来源与参考资料
+
+- PyTorch, `torch.nn.utils.clip_grad_norm_`, PyTorch API Reference。用于确认限制整体 gradient norm 的 gradient clipping 动作。确认日期：2026-07-19。[https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.nn.utils.clip_grad_value_`, PyTorch API Reference。用于确认把 gradient 值裁到指定范围内的 value clipping 动作。确认日期：2026-07-19。[https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html){: target="_blank" rel="noopener noreferrer" }
+- Razvan Pascanu, Tomas Mikolov, Yoshua Bengio, `On the difficulty of training recurrent neural networks`, ICML 2013。用于确认 exploding gradients 问题与 gradient norm clipping 讨论。确认日期：2026-07-19。[https://proceedings.mlr.press/v28/pascanu13.html](https://proceedings.mlr.press/v28/pascanu13.html){: target="_blank" rel="noopener noreferrer" }

@@ -1,7 +1,7 @@
 # P5-7.8 Supplementary Reading: Gradient Clipping And Unstable Updates
 
-Section ID: `P5-7.8`
-Version: `v2026.07.17`
+> Section ID: `P5-7.8`
+> Version: `v2026.07.19`
 
 Once we understand the structure in which the optimizer turns gradients into updates, another question appears in actual training logs. We know the direction, but in some steps the update seems to jump too aggressively. At that point, should we read the problem as a learning-rate issue, as a gradient-scale issue, or as a case where another safety device is needed?
 
@@ -164,3 +164,9 @@ The purpose of this exercise is not to memorize clipping as a universal device, 
 - Can you explain the difference between norm clipping and value clipping at the introductory level?
 - Can you say that clipping does not replace the optimizer itself, but is a safety device attached before the update?
 - Can you explain that when an update is unstable, the learning rate, gradient scale, and optimizer state have to be checked separately?
+
+## Sources And References
+
+- PyTorch, `torch.nn.utils.clip_grad_norm_`, PyTorch API Reference. Referenced to confirm gradient clipping behavior that limits the total gradient norm. Accessed: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html){: target="_blank" rel="noopener noreferrer" }
+- PyTorch, `torch.nn.utils.clip_grad_value_`, PyTorch API Reference. Referenced to confirm value clipping behavior that clips gradient values into a specified range. Accessed: 2026-07-19. [https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_value_.html){: target="_blank" rel="noopener noreferrer" }
+- Razvan Pascanu, Tomas Mikolov, Yoshua Bengio, `On the difficulty of training recurrent neural networks`, ICML 2013. Referenced to check the exploding gradients problem and the discussion of gradient norm clipping. Accessed: 2026-07-19. [https://proceedings.mlr.press/v28/pascanu13.html](https://proceedings.mlr.press/v28/pascanu13.html){: target="_blank" rel="noopener noreferrer" }
