@@ -5,7 +5,7 @@
 
 读完导数(derivative)、梯度(gradient)、梯度下降(gradient descent)之后，还会留下这样一句话：`backpropagation uses the chain rule`。如果这里不知道链式法则(chain rule)，反向传播就很容易看起来像一句需要背下来的话，而不是一种计算结构。
 
-核心直觉是：`当一个函数由多个阶段连接起来时，前面阶段的变化会穿过后面的阶段，一直传到最终结果。` 只有先抓住这个直觉，才能读懂损失(loss)是怎样和每一层、每一个参数连接起来的。需要快速回看术语时，也可以一起查看[概念词汇表](/AiBook/en/reference/concept-glossary/)。
+核心直觉是：`当一个函数由多个阶段连接起来时，前面阶段的变化会穿过后面的阶段，一直传到最终结果。` 只有先抓住这个直觉，才能读懂损失(loss)是怎样和每一层、每一个参数连接起来的。需要快速回看术语时，也可以一起查看[概念词汇表](../../../reference/concept-glossary.md)。
 
 ## 核心判断标准：复合函数(composite function)与链式法则(chain rule)
 

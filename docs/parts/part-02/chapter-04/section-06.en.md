@@ -5,7 +5,7 @@
 
 After reading derivatives, gradients, and gradient descent, one sentence still remains: `backpropagation uses the chain rule`. If we do not know the chain rule here, backpropagation easily looks like a memorized sentence rather than a calculation structure.
 
-The core intuition is that `when a function is connected through several stages, a change in an earlier stage is passed through later stages until it affects the final result`. Without that intuition, it is hard to read how loss is connected to each layer and parameter. When you want to recheck the terms quickly, also refer to the [concept glossary](/AiBook/reference/concept-glossary/).
+The core intuition is that `when a function is connected through several stages, a change in an earlier stage is passed through later stages until it affects the final result`. Without that intuition, it is hard to read how loss is connected to each layer and parameter. When you want to recheck the terms quickly, also refer to the [concept glossary](../../../reference/concept-glossary.md).
 
 ## Core Criteria: Composite Functions and the Chain Rule
 
