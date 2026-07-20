@@ -750,6 +750,7 @@ scikit-learn 的 `Pipeline` 文档展示了怎样把 `fit` 和 `transform` 这�
 - 分开输出每一步的结果，会更清楚看到发生了什么变化
 
 ```python
+# 这个例子通过处理缺失值、类别编码和尺度调整来预处理模型输入。
 rows = [
     {"age": 29, "income": 3200, "city": "Seoul"},
     {"age": 41, "income": 6100, "city": "Busan"},
@@ -851,6 +852,7 @@ processed rows:
 - 预处理不是把 model 输入变好看，而是在对齐计算基准
 
 ```python
+# 这个例子通过处理缺失值、类别编码和尺度调整来预处理模型输入。
 point_a = {"age": 20, "income": 2000}
 point_b = {"age": 40, "income": 2200}
 point_c = {"age": 21, "income": 8000}

@@ -750,6 +750,7 @@ Concepts to check:
 - if the result of each stage is printed separately, the nature of the change becomes clearer
 
 ```python
+# This example preprocesses model inputs by handling missing values, category encoding, and scale adjustment.
 rows = [
     {"age": 29, "income": 3200, "city": "Seoul"},
     {"age": 41, "income": 6100, "city": "Busan"},
@@ -851,6 +852,7 @@ Concepts to check:
 - preprocessing is not making model input prettier, but aligning calculation standards
 
 ```python
+# This example preprocesses model inputs by handling missing values, category encoding, and scale adjustment.
 point_a = {"age": 20, "income": 2000}
 point_b = {"age": 40, "income": 2200}
 point_c = {"age": 21, "income": 8000}

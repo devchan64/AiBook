@@ -172,6 +172,7 @@ scikit-learn 文档说明，feature selection 模块可以用于减少不必要�
 - 同一个特征可以同时被复用在 model 输入和运营比较表里
 
 ```python
+# 这个例子比较原始特征候选和已选择的特征组合，用来设计模型输入空间。
 import pandas as pd
 
 raw = pd.DataFrame(
@@ -749,6 +750,7 @@ Guyon 和 Elisseeff 的经典综述把 `raw input variables` 和 `constructed fe
 - 把标识符、label、结果之后的值先读成排除候选，会更安全
 
 ```python
+# 这个例子比较原始特征候选和已选择的特征组合，用来设计模型输入空间。
 rows = [
     {
         "customer_id": "C001",

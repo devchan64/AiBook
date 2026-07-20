@@ -172,6 +172,7 @@ scikit-learn 문서는 특징 선택 모듈이 불필요하거나 잡음이 큰 
 - 같은 특징은 모델 입력과 운영 비교표 양쪽에 다시 쓰일 수 있다
 
 ```python
+# 원시 특징 후보와 선택된 특징 묶음을 비교해 모델 입력 공간을 설계하는 예제입니다.
 import pandas as pd
 
 raw = pd.DataFrame(
@@ -749,6 +750,7 @@ Guyon과 Elisseeff의 고전적인 정리 논문은 `raw input variables`와 `co
 - 식별자, 정답, 결과 이후 값은 먼저 제외 후보로 읽는 편이 안전하다
 
 ```python
+# 원시 특징 후보와 선택된 특징 묶음을 비교해 모델 입력 공간을 설계하는 예제입니다.
 rows = [
     {
         "customer_id": "C001",

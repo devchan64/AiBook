@@ -172,6 +172,7 @@ Concept to check:
 - the same feature can be reused both for model input and for an operations comparison table
 
 ```python
+# This example compares raw feature candidates and selected feature sets to design the model input space.
 import pandas as pd
 
 raw = pd.DataFrame(
@@ -749,6 +750,7 @@ Concept to check:
 - it is safer to read identifiers, labels, and post-outcome values as exclusion candidates first
 
 ```python
+# This example compares raw feature candidates and selected feature sets to design the model input space.
 rows = [
     {
         "customer_id": "C001",

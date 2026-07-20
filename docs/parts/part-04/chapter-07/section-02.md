@@ -750,6 +750,7 @@ scikit-learn의 `Pipeline` 문서는 `fit`과 `transform` 단계를 연결해 �
 - 각 단계 결과를 따로 출력해 보면 어떤 변화가 일어났는지 더 분명해진다
 
 ```python
+# 결측치, 범주 인코딩, 스케일 조정으로 모델 입력을 전처리하는 예제입니다.
 rows = [
     {"age": 29, "income": 3200, "city": "Seoul"},
     {"age": 41, "income": 6100, "city": "Busan"},
@@ -851,6 +852,7 @@ processed rows:
 - 전처리는 모델 입력을 더 예쁘게 만드는 일이 아니라 계산 기준을 맞추는 일이다
 
 ```python
+# 결측치, 범주 인코딩, 스케일 조정으로 모델 입력을 전처리하는 예제입니다.
 point_a = {"age": 20, "income": 2000}
 point_b = {"age": 40, "income": 2200}
 point_c = {"age": 21, "income": 8000}
