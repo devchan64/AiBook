@@ -1,7 +1,7 @@
 # P5-12.1 为什么需要循环神经网络（RNN）、长短期记忆（LSTM）和门控循环单元（GRU）
 
 > Section ID: `P5-12.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 在 P5-11 章里，我们已经看到，CNN 能很好地处理图像这类具有空间结构的数据中的局部模式。把数据类型换一下，这里就会自然出现下一个问题。
 
@@ -11,7 +11,7 @@
 
 循环网络这一类结构，并不只看当前输入，而是想把前面见过的一部分信息继续带下去，用来处理序列数据（sequence data）。
 
-如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到英文概念词汇表里的 [RNN（recurrent neural network）](/AiBook/en/reference/concept-glossary/#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](/AiBook/en/reference/concept-glossary/#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](/AiBook/en/reference/concept-glossary/#gru-gated-recurrent-unit)条目重新对齐。
+如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的 [RNN（recurrent neural network）](../../../reference/concept-glossary.md#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](../../../reference/concept-glossary.md#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](../../../reference/concept-glossary.md#gru-gated-recurrent-unit) 条目重新对齐。
 
 ## 本节范围
 
@@ -75,6 +75,15 @@ RNN 的核心想法其实可以概括得很简单：`在处理当前输入时，
 
 关键点在于，RNN 想把之前看到的信息当作一种状态带着走，再和下一步计算一起传下去。所以在本节读 RNN 时，比起先记住`它看当前输入`，更适合先抓住`它把当前输入和前一状态一起看`这个差别。
 
+状态传递听起来可能有点抽象，但实际可以这样读。按照后面 Python 例子里的同一个 `MEMO_ALPHA=0.85` 设置，如果前一状态是 `-1.5`，当前输入 `确认` 的信号是 `0.8`，那么新状态就不是只看当前输入时的 `0.8`，而是会把`前面留下的暂缓信号 + 当前确认信号`一起反映进去。
+
+| step | 当前输入 | 只看最后输入的值 | 反映前一状态后的新状态 | 要读出的差异 |
+| --- | --- | ---: | ---: | --- |
+| 1 | `阻断` | -1.5 | -1.50 | 暂缓一侧的线索先留在状态里 |
+| 2 | `确认` | 0.8 | -0.48 | 即使最后一个词偏正向，也会因为前面的暂缓痕迹，最终状态仍然是负数 |
+
+这个小计算里重要的点，并不是说 RNN 会忽略 `确认` 这个当前输入。它会看当前输入，只是会和前一个 step 传来的状态一起看。因此，即使同样是 `确认`，前面出现过的是 `阻断` 还是 `重新启动`，都会让最后状态和判断不同。
+
 把它画得非常简单，就是下面这样。
 
 ```mermaid
@@ -86,6 +95,14 @@ RNN 的核心想法其实可以概括得很简单：`在处理当前输入时，
 ## 为什么只靠 RNN 还不够
 
 basic RNN 提供了一个很重要的想法，但真实的序列数据并不会总是这么短、这么简单。状态不断被传到下一个 step 时，前面见过的线索会随着距离变远而慢慢变弱；而当前输入一旦很强，较早之前的信息就更容易被挤掉。
+
+例如，即使最开始出现了 `泄漏` 这样很强的暂缓线索，如果后面长时间接着很多无关词，最后又出现 `确认`，basic RNN 的状态就可能越来越被当前输入拉走。状态传递结构本身是必要的，但如果不能调节什么要长期留下、什么要快速变弱，就很难把很久以前的关键线索抓到最后。
+
+| 情况 | 只靠状态传递会产生的压力 | 为什么会成为问题 |
+| --- | --- | --- |
+| 前面有重要线索，后面接着很长的中立输入 | 状态会在每个 step 一点点被稀释 | 最初线索可能不足以留到最终判断 |
+| 当前输入很强 | 最新输入会覆盖前一状态 | 旧线索和当前线索之间的平衡会摇晃 |
+| 必要记忆和可以丢掉的痕迹混在一起 | 都用同一种方式传到下一个 step | 重要信息和噪声无法区分 |
 
 也就是说，`想记住`这个想法，和`真的能稳定地记很久`，是两回事。这种差距会直接通向下一节里的 long-term dependency 问题。
 
@@ -99,6 +116,14 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 
 - basic RNN 展示的是`把状态继续带下去`这个想法
 - LSTM 和 GRU 补强的是`怎样把这个状态保留得更久、更稳定`
+
+因此，LSTM 和 GRU 的必要性并不是`比 RNN 多了一个名字`，而在于：如果要把顺序状态真正用到实际问题里，就还需要管理记忆的装置。入门阶段，与其先背内部 gate 公式，不如先抓住下面这些问题。
+
+| 问题 | basic RNN 里先看到的局限 | LSTM/GRU 想补强的方向 |
+| --- | --- | --- |
+| 什么要留下更久？ | 所有状态都以同样方式混进下一个 step | 尝试把重要线索保留得更久 |
+| 什么要忘掉？ | 旧痕迹和噪声一起留下，或者一起变弱 | 尝试减少不太重要的信息 |
+| 当前输入要反映多少？ | 新输入很容易摇动前一状态 | 尝试调节新输入和既有状态的反映程度 |
 
 ## 为什么 LSTM 和 GRU 两个都要学
 
@@ -154,29 +179,29 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 
 ## 练习与例子
 
-这个例子的目标，是确认`把前一状态传给下一步`这句话在实际判断里到底会造成什么差别。这一次，我们把一个完全不带序列状态的简单 baseline，和一个会把序列状态继续带下去的 baseline 并排比较。也就是说，我们会通过实际输出来确认：`只看最后输入的判断`，和`把前面流向保留下来的判断`，到底会从哪里开始分开。
+这个例子的目标，是确认`把前一状态传给下一步`这句话在实际判断里到底会造成什么差别。这一次，我们把一个完全不带序列状态的简单 baseline，和一个会把序列状态继续带下去的 baseline 并排比较。也就是说，我们会通过实际输出来确认：`只看最后输入的判断`，和`把前面流向保留下来的判断`，到底会从哪里开始分开。同时也一起看一个数据处理角度：当 CSV 文件里混着多个 sequence 的行时，必须按 `sequence_id` 恢复 step 顺序，才能计算顺序状态。
 
 在读例子之前，先把本节实际需要确认的最小点固定下来，会更清楚。
 
 | 确认点 | 在例子里直接要看的值 | 为什么重要 |
 | --- | --- | --- |
-| baseline 判断和状态型判断会从哪里分开 | `baseline_last_word_label`、`baseline_last_value_alert` 和最后的 `label`、`alert` | 说明序列模型看的不是最后一个输入，而是累积状态 |
-| 状态会怎样一步一步累积 | 每一行输出里的 `state=` | 说明 RNN 家族结构的核心不是当前输入的即时判断，而是状态更新 |
-| 为什么同样的最后输入也会导向不同结论 | `gradual_rise` 和 `temporary_spike` 在最后一个 step 的比较 | 让我们用眼睛直接确认：只要前一段流向不同，当前判断也会不同 |
+| baseline 判断和状态型判断会从哪里分开 | `baseline_label`/`state_label`、`baseline_alert`/`state_alert` | 说明序列模型看的不是最后一个输入，而是累积状态 |
+| 状态会怎样一步一步累积 | `trace` 输出里的 `previous_state -> new_state` | 说明 RNN 家族结构的核心不是当前输入的即时判断，而是状态更新 |
+| 为什么同样的最后输入也会导向不同结论 | `changed=True` 的行 | 让我们用眼睛直接确认：只要前一段流向不同，当前判断也会不同 |
 
 输入：
 
-- 三个具有相同最后确认短语的短运维备忘录
-- 两条最后温度都为 `80` 的时间序列
+- 具有相同最后确认短语的运维备忘录 sequence
+- 具有相同最后温度 `80` 的传感器 sequence
+- 输入文件：[`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv)
 
 输出：
 
 - 只看最后输入的 baseline 判断
-- 每个 step 更新的句子状态值
-- 最终句子标签
+- memo summary 里的最终句子标签和是否 `changed`
 - 只看最后一个值的 baseline 警报判断
-- 每个 step 更新的传感器状态值
-- 最后一个 step 的警报判断
+- sensor summary 里的最终累积状态、警报判断和是否 `changed`
+- 代表 trace 中的 `previous_state -> new_state` 状态更新流程
 
 问题场景：
 
@@ -197,146 +222,203 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 
 输入（input）：
 
-这里使用上面整理好的词信号、传感器信号和初始状态值。
+CSV 的一行表示一个 sequence 里的一个 step。`sequence_id` 表示同一个顺序分组，`kind` 区分运维备忘录（`memo`）和传感器（`sensor`）。运维备忘录使用 `token`，传感器 sequence 使用 `sensor_value`。这个 Python 例子会读取这个文件，按 `sequence_id` 恢复 step 顺序，然后比较只看最后输入的判断和累积状态判断。
 
-![gradual rise 序列状态](/AiBook/assets/part-05/chapter-12/rnn-gradual-rise-state-zh.svg)
+下面的代码默认在仓库根目录运行。
 
-![temporary spike 序列状态](/AiBook/assets/part-05/chapter-12/rnn-temporary-spike-state-zh.svg)
+![基于 CSV 的传感器 sequence 累积状态比较](../../../assets/part-05/chapter-12/rnn-sequence-csv-state-trace-zh.svg)
 
-这两张图会在运行代码前，先把`最后值相同`和`累积状态相同`分开来看。`gradual_rise` 和 `temporary_spike` 都以 80 结束，但因为序列状态也会保留前一段流向，所以最终警报解释可能不同。
+这张图会在运行代码前，先把`最后值相同`和`累积状态相同`分开来看。CSV 里的传感器 sequence 都以 80 结束，但因为序列状态也会保留前一段流向，所以只有一部分 sequence 会越过警报阈值。
 
 ```python
-# 这个例子比较只看最后单词或最后传感器值的 baseline，与累积 sequential state 后的最终判断差异。
-word_signal = {
-    "leak": -2.2,
-    "blocked": -1.5,
-    "restart": 1.2,
-    "confirmed": 0.8,
+from collections import defaultdict
+from pathlib import Path
+import csv
+
+DATA_PATH = Path("docs/assets/part-05/chapter-12/rnn-sequence-events.csv")
+
+MEMO_ALPHA = 0.85     # 数值越低，前面的线索越快变弱。
+SENSOR_ALPHA = 0.6    # 数值越高，过去的传感器状态保留越久。
+SENSOR_THRESHOLD = 68
+
+WORD_SIGNAL = {
+    "누유": -2.2,
+    "차단": -1.5,
+    "재가동": 1.2,
+    "승인": 0.6,
+    "확인": 0.8,
 }
 
-def classify_with_last_word(words):
-    last_signal = word_signal.get(words[-1], 0.0)
-    return "restart_allowed" if last_signal > 0 else "hold_required"
+def load_sequences(path):
+    sequences = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            sequences[row["sequence_id"]].append(row)
+    for rows in sequences.values():
+        rows.sort(key=lambda row: int(row["step"]))
+    return sequences
 
-def run_sentence(name, words, alpha=0.7):
+def label_from_state(state):
+    return "restart_allowed" if state > 0 else "hold_required"
+
+def label_from_last_token(rows):
+    last_signal = WORD_SIGNAL.get(rows[-1]["token"], 0.0)
+    return label_from_state(last_signal)
+
+def trace_memo_state(rows, alpha=MEMO_ALPHA):
     state = 0.0
-    print(f"[sentence: {name}]")
-    print("baseline_last_word_label =", classify_with_last_word(words))
-    for step, word in enumerate(words, start=1):
-        signal = word_signal.get(word, 0.0)
-        state = alpha * state + signal
-        print(f"step {step}: word={word:>6}, signal={signal:>4}, state={state:>5.2f}")
-    label = "restart_allowed" if state > 0 else "hold_required"
-    print("final_label =", label)
-    print()
+    trace = []
+    for row in rows:
+        previous_state = state
+        step = int(row["step"])
+        word = row["token"]
+        input_signal = WORD_SIGNAL.get(word, 0.0)
+        state = alpha * state + input_signal
+        trace.append((step, word, input_signal, previous_state, state))
+    return trace
 
-def alert_with_last_value(sequence, threshold):
-    return sequence[-1] >= threshold
+def alert_from_last_value(rows, threshold=SENSOR_THRESHOLD):
+    return float(rows[-1]["sensor_value"]) >= threshold
 
-def run_sequence(name, sequence, alpha=0.6, threshold=63):
+def trace_sensor_state(rows, alpha=SENSOR_ALPHA, threshold=SENSOR_THRESHOLD):
     state = 0.0
-    print(f"[sensor: {name}]")
-    print("baseline_last_value_alert =", alert_with_last_value(sequence, threshold))
-    for step, x in enumerate(sequence, start=1):
-        state = alpha * state + (1 - alpha) * x
-        alert = state >= threshold
-        print(f"step {step}: input={x:>3}, state={state:>6.2f}, alert={alert}")
-    print()
+    trace = []
+    for row in rows:
+        previous_state = state
+        step = int(row["step"])
+        value = float(row["sensor_value"])
+        state = alpha * state + (1 - alpha) * value
+        trace.append((step, value, previous_state, state, state >= threshold))
+    return trace
 
-gradual_rise = [60, 65, 72, 80]
-temporary_spike = [80, 60, 60, 80]
+sequences = load_sequences(DATA_PATH)
 
-run_sentence("shutdown_confirmed", ["blocked", "confirmed"])
-run_sentence("leak_confirmed", ["leak", "confirmed"])
-run_sentence("restart_confirmed", ["restart", "confirmed"])
-run_sequence("gradual_rise", gradual_rise)
-run_sequence("temporary_spike", temporary_spike)
+print(f"操作变量: MEMO_ALPHA={MEMO_ALPHA}, SENSOR_ALPHA={SENSOR_ALPHA}, SENSOR_THRESHOLD={SENSOR_THRESHOLD}")
+print()
+
+print("[memo summary: 同样的最后单词 '확인' 会不会被读成不同意思]")
+print("case                  last_word  baseline_label   final_state  state_label      changed")
+for case_name, rows in sequences.items():
+    if rows[0]["kind"] != "memo":
+        continue
+    trace = trace_memo_state(rows)
+    final_state = trace[-1][-1]
+    baseline_label = label_from_last_token(rows)
+    state_label = label_from_state(final_state)
+    changed = baseline_label != state_label
+    print(f"{case_name:27} {rows[-1]['token']:>5}  {baseline_label:15} {final_state:>10.2f}  {state_label:15} {changed}")
+
+print()
+print("[sensor summary: 同样的最后值 80 会不会被读成不同意思]")
+print("case              last_value  baseline_alert  final_state  state_alert  changed")
+for case_name, rows in sequences.items():
+    if rows[0]["kind"] != "sensor":
+        continue
+    trace = trace_sensor_state(rows)
+    final_state = trace[-1][3]
+    baseline_alert = alert_from_last_value(rows)
+    state_alert = trace[-1][4]
+    changed = baseline_alert != state_alert
+    print(f"{case_name:29} {rows[-1]['sensor_value']:>5}  {str(baseline_alert):>14}  {final_state:>11.2f}  {str(state_alert):>11}  {changed}")
+
+print()
+print("[trace: memo_shutdown_confirmed]")
+for step, word, signal, previous_state, new_state in trace_memo_state(sequences["memo_shutdown_confirmed"]):
+    print(
+        f"step {step}: input={word}, input_signal={signal:>4}, "
+        f"previous_state={previous_state:>5.2f} -> new_state={new_state:>5.2f}"
+    )
+
+print()
+print("[trace: sensor_temporary_spike]")
+for step, value, previous_state, new_state, alert in trace_sensor_state(sequences["sensor_temporary_spike"]):
+    print(
+        f"step {step}: input={value:>3}, "
+        f"previous_state={previous_state:>5.2f} -> new_state={new_state:>5.2f}, "
+        f"state_alert={alert}"
+    )
 ```
 
-在输出里，可以先看 `baseline_last_word_label` 和 `final_label` 什么时候分开，再看中间的 `state` 是怎样累积的。
+在输出里，先找 `changed=True` 的行。那些行就是只看最后输入的 baseline 和累积顺序状态判断分开的地方。接着在 `trace` 里确认哪一个前一状态被传进了下一个 step。
 
 ```text
-[sentence: shutdown_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=  blocked, signal=-1.5, state=-1.50
-step 2: word=confirmed, signal= 0.8, state=-0.25
-final_label = hold_required
+操作变量: MEMO_ALPHA=0.85, SENSOR_ALPHA=0.6, SENSOR_THRESHOLD=68
 
-[sentence: leak_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=     leak, signal=-2.2, state=-2.20
-step 2: word=confirmed, signal= 0.8, state=-0.74
-final_label = hold_required
+[memo summary: 同样的最后单词 '확인' 会不会被读成不同意思]
+case                  last_word  baseline_label   final_state  state_label      changed
+memo_shutdown_confirmed       확인  restart_allowed      -0.12  hold_required   True
+memo_leak_confirmed           확인  restart_allowed      -0.55  hold_required   True
+memo_restart_confirmed        확인  restart_allowed       2.18  restart_allowed False
+memo_blocked_then_approved    확인  restart_allowed       1.26  restart_allowed False
+memo_leak_then_recovered      확인  restart_allowed       0.47  restart_allowed False
 
-[sentence: restart_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=  restart, signal= 1.2, state= 1.20
-step 2: word=confirmed, signal= 0.8, state= 1.64
-final_label = restart_allowed
+[sensor summary: 同样的最后值 80 会不会被读成不同意思]
+case              last_value  baseline_alert  final_state  state_alert  changed
+sensor_gradual_rise             80            True        71.72         True  False
+sensor_temporary_spike          80            True        66.60        False  True
+sensor_late_rise                80            True        69.16         True  False
+sensor_stable_high              80            True        74.83         True  False
+sensor_recovered_then_rise      80            True        66.91        False  True
 
-[sensor: gradual_rise]
-baseline_last_value_alert = True
-step 1: input= 60, state= 24.00, alert=False
-step 2: input= 65, state= 40.40, alert=False
-step 3: input= 72, state= 53.04, alert=False
-step 4: input= 80, state= 63.82, alert=True
+[trace: memo_shutdown_confirmed]
+step 1: input=차단, input_signal=-1.5, previous_state= 0.00 -> new_state=-1.50
+step 2: input=점검, input_signal= 0.0, previous_state=-1.50 -> new_state=-1.27
+step 3: input=대기, input_signal= 0.0, previous_state=-1.27 -> new_state=-1.08
+step 4: input=확인, input_signal= 0.8, previous_state=-1.08 -> new_state=-0.12
 
-[sensor: temporary_spike]
-baseline_last_value_alert = True
-step 1: input= 80, state= 32.00, alert=False
-step 2: input= 60, state= 43.20, alert=False
-step 3: input= 60, state= 49.92, alert=False
-step 4: input= 80, state= 61.95, alert=False
+[trace: sensor_temporary_spike]
+step 1: input=80.0, previous_state= 0.00 -> new_state=32.00, state_alert=False
+step 2: input=60.0, previous_state=32.00 -> new_state=43.20, state_alert=False
+step 3: input=59.0, previous_state=43.20 -> new_state=49.52, state_alert=False
+step 4: input=61.0, previous_state=49.52 -> new_state=54.11, state_alert=False
+step 5: input=63.0, previous_state=54.11 -> new_state=57.67, state_alert=False
+step 6: input=80.0, previous_state=57.67 -> new_state=66.60, state_alert=False
 ```
 
-- 在 `shutdown_confirmed` 和 `leak_confirmed` 里，只看最后一个词的 baseline 都给出 `restart_allowed`，但状态累积以后，前面的阻断与泄漏线索仍然留下来，所以最终会改成 `hold_required`
-- `restart_confirmed` 则因为前一状态本身就是往重新启动方向累积，所以即使最后一个词相同，最终仍然保留 `restart_allowed`
-- 在传感器例子里，两个序列都以 `80` 结束，所以 baseline 都会立刻报 True；但状态型判断会把前面趋势一起保留下来，因此只有 `gradual_rise` 在最后达到警报阈值
+读输出数字时，也要把`最后输入`和`累积状态`分开看。
 
-真正要先看的，不是最后一个词或最后一个值本身，而是：在中间各个 step 里，状态到底留下了什么。
+| 比较 | 输出里先看到的现象 | 只看最后输入时容易留下的解释 | 连同顺序状态一起看后改变的解释 |
+| --- | --- | --- | --- |
+| `memo_*` sequence | 最后单词都是 `확인`，但 `changed` 不同 | 同样的最后单词似乎就应该得到同样判断 | 如果前面累积的 `차단`、`누유` 这类暂缓信号还留着，即使最后来了 `확인`，最终判断也可能是 `hold_required` |
+| `sensor_*` sequence | 最后值都是 `80`，但只有一部分是 `changed=True` | 最后值相同，所以似乎都应该报警 | 持续上升会把状态推到警报线以上，但短暂尖峰后又回落的流向，即使最后值相同，状态也可能还没积累到报警程度 |
+| `trace` 里的 `previous_state -> new_state` | 当前输入不会直接变成最终判断，而是和前一状态混合 | 中间输出很容易被看成只是补充说明 | RNN 家族结构的核心在于`怎样更新累积状态`，而不只是当前输入本身 |
 
-| 比较 | 输出里先看到的现象 | 这组现象真正要抓住的意思 |
+| 先看的输出 | 这个输出意味着什么 | 改一改会变化的地方 |
 | --- | --- | --- |
-| `shutdown_confirmed` 与 `leak_confirmed` | 最后词同样是 `确认`，但 `final_label` 仍然变成 `hold_required` | 说明前面的风险线索只要累积进状态里，就会改变最后那个词的解释 |
-| `restart_confirmed` | 最后词也同样是 `确认`，但这次 `final_label` 保持 `restart_allowed` | 说明同样的最后输入，也会因为前一状态不同而落在不同结论 |
-| `gradual_rise` 与 `temporary_spike` | 两者最后都到 80，但只有前者最后 `alert=True` | 说明状态保留下来的不只是最后值，还有它之前是怎样一路走过来的 |
+| memo summary 中 `changed=True` 的行 | 即使只看最后单词会得到同样判断，顺序状态也可能保留前面的阻断·风险线索，从而得到不同结论 | 改 CSV 的 `token`、`WORD_SIGNAL` 的值、`MEMO_ALPHA`，前面的暂缓流向会留下多久就会改变 |
+| sensor summary 中 `changed=True` 的行 | 即使只看最后值像是同样的警报，顺序状态也可能保留前一段流向，从而得到不同结论 | 改 CSV 中间的 `sensor_value`、`SENSOR_THRESHOLD`、`SENSOR_ALPHA`，`持续上升`和`短暂尖峰`会多容易分开就会改变 |
+| `trace` 中 `previous_state` 进入下一次 `new_state` 计算 | 当前判断看的不是现在这一个 step，而是连同前面 step 累积的痕迹一起看 | 改中间输入值，同样最后输入下状态会差多少会更清楚 |
 
-也就是说，RNN 家族结构真正要解决的，不是`怎样把最后输入看得更清楚`，而是`怎样让当前判断不丢掉前面流程里已经出现过的重要线索。`
+上面的结果同时展示了三件事。第一，在运维备忘录例子里，baseline 只看最后单词 `确认`，所以会把所有 memo sequence 都读成 `restart_allowed`；但顺序状态一侧会留下前面的阻断·风险线索有多强，于是把一部分 sequence 分成 `hold_required`。第二，在传感器例子里，baseline 只看最后值 `80`，所以会把所有 sensor sequence 都判断为警报；但状态一侧可以把持续上升和短暂尖峰后回落的流向留下成不同状态。第三，即使最后输入都是 `80`，或者最后单词都是 `确认`，状态值也不会相同，因为当前 step 的判断不是由`现在这一个输入`单独决定，而是还会参考前面 step 累积下来的状态。
+
+运维备忘录一侧也按同样标准读，核心会更清楚。baseline 容易被最后单词的即时信号拉走，但顺序状态一侧会累积 `차단`、`누유`、`재가동`、`확인` 依次留下的痕迹，再形成最后结论。实际的 LSTM 和 GRU，可以理解成正是朝着把这种状态管理得更久、更稳定的方向发展。
+
+这个例子并没有实现真正完整的 RNN。但它真正要读出来的核心更清楚。
+
+- 同样的当前输入，也会因为前面流向不同而形成不同状态
+- 没有状态时，判断很容易退化成最后单词或最后数字这样很粗糙的标准
+- 在句子里，如果后面的词要改变前面词的意义，中间状态就必须还活着
+- 状态不同，最后判断也可能不同
+- 顺序结构的核心不只是看`当前值`，而是还看`到目前为止累积的痕迹`
 
 | 先看到的输出信号 | 现在就可以尝试的变化 | 先不要急着下的结论 |
 | --- | --- | --- |
-| `temporary_spike` 虽然最后值是 80，却没有触发警报 | 把 `alpha` 调高或调低，比较过去状态会被保留多久 | 不要立刻断定 RNN 家族总是无条件比最后值 baseline 更好 |
-| 即使最后的 `confirmed` 相同，状态和结论仍然会分开 | 修改 `leak`、`blocked`、`restart` 的信号值，观察前面处置流向会留下多久 | 不要断定只靠几个词信号就能解释真实运维语言理解的全部 |
-| 两条时间序列最后留下的 state 不同 | 把中间值再调高或调低，观察`持续趋势`和`短暂尖峰`会从哪里开始分开 | 不要把这一条简单的状态更新公式，当作对 LSTM、GRU 全部门控机制的替代 |
+| 一部分 `sensor_*` sequence 虽然最后值是 80，却没有触发警报 | 改 CSV 的中间 `sensor_value`、`SENSOR_ALPHA`、`SENSOR_THRESHOLD`，比较过去状态会被保留多久 | 不要立刻断定 RNN 家族总是无条件比最后值 baseline 更好 |
+| 即使最后的 `확인` 相同，状态和结论仍然会分开 | 改 CSV 的 `token`、`WORD_SIGNAL`、`MEMO_ALPHA`，观察前面处置流向会留下多久 | 不要断定只靠几个词信号就能解释真实运维语言理解的全部 |
+| 多个传感器 sequence 最后的 state 不同 | 把中间值再调高或调低，观察`持续趋势`和`短暂尖峰`会从哪里开始分开 | 不要把这一条简单的状态更新公式，当作对 LSTM、GRU 全部门控机制的替代 |
 
 也就是说，RNN 的基本直觉，更接近`把前一状态带进来，再和当前输入一起形成新状态`，而不是`立刻对当前输入做分类`。LSTM 和 GRU，正可以被读成是为了把这个状态里的`哪些该多留一会儿`、`哪些该忘掉`控制得更好而出现的结构。
-
-## 本节最少要记住什么
-
-把下面这张表记住，本节就抓住核心了。
-
-| 问题 | RNN 家族给出的起点 |
-| --- | --- |
-| 为什么序列数据不能只看最后一个输入？ | 因为前面的流向会累积成当前状态，一起改变判断 |
-| RNN 的最基本想法是什么？ | 把前一状态和当前输入一起带进下一步计算 |
-| 为什么还会出现 LSTM、GRU？ | 因为只靠 basic RNN，很难把状态稳定保留很久 |
-
-换句话说，本节结尾首先要收住的不是 attention 预告，而是下面两句。
-
-1. RNN 展示的是`把状态继续带下去`这个想法。
-2. LSTM 和 GRU 补强的是`怎样把这个状态保留得更久、更稳。`
 
 本节应该得到的判断标准其实很明确。即使最后一个词相同，或者最后一个数字相同，只要前面累积下来的流向不同，当前判断就可能不同。RNN 是最早把这种`累积状态`想法直接做进结构里的模型，而 LSTM 和 GRU 则是想补强这个状态，不让它过快变弱的结构。下一节 P5-12.2 会更具体地去看：这种`把状态继续传下去`的方式，会在什么地方开始摇晃，也就是为什么久远以前的线索很难一直抓到最后。
 
 ## 检查清单
 
-- 能解释为什么在序列数据里，顺序和上下文会改变当前判断吗？
-- 能把 RNN 说成`当前输入 + 前一状态`的结构吗？
-- 能说明只看最后输入的 baseline，为什么会和状态型判断分开吗？
-- 能把 LSTM、GRU 解释成对 RNN 记忆维持问题的补强吗？
-- 能说明即使最后输入相同，只要累积状态不同，结论也会不同吗？
-- 当看到句子、语音、时间序列时，能先想到`这里需要把前面状态带下去吗`这个问题吗？
+- 能解释为什么在序列数据（sequence data）里，状态传递很重要吗？
 - 能说明为什么 RNN、LSTM、GRU 会被归到同一家族里吗？
+- 能说明读序列数据时，即使是同一项，也会因为前后顺序和累积上下文不同而有不同解释吗？
+- 能说明 RNN 是接过前一状态来处理当前输入的结构吗？
+- 能说明 LSTM 和 GRU 是想更好处理难以长期记住这一问题的发展结构吗？
+- 能用案例说明，即使最后单词或最后数字相同，前面流向不同也可能带来不同结论吗？
 - 当输入类型本身不如前后顺序和累积上下文更重要时，能先想到序列状态视角吗？
 - 能把 LSTM 和 GRU 解释成不是`另一个模型名字`，而是`想把状态更稳定地保留更久的补强结构`吗？
 

@@ -25,7 +25,16 @@ SENSOR_THRESHOLD = 68
 
 
 def choose_font() -> str:
-    candidates = ["Noto Sans CJK KR", "NanumGothic", "Apple SD Gothic Neo", "AppleGothic", "Arial Unicode MS", "DejaVu Sans"]
+    candidates = [
+        "Noto Sans CJK KR",
+        "NanumGothic",
+        "Arial Unicode MS",
+        "Songti SC",
+        "Heiti TC",
+        "Apple SD Gothic Neo",
+        "AppleGothic",
+        "DejaVu Sans",
+    ]
     available = {font.name for font in font_manager.fontManager.ttflist}
     for candidate in candidates:
         if candidate in available:
@@ -75,7 +84,32 @@ def inject_accessibility(svg_path: Path, title: str, desc: str) -> None:
     tree.write(svg_path, encoding="utf-8", xml_declaration=False)
 
 
-def save_state_trace_chart(groups: dict[str, list[float]]) -> None:
+LANG_LABELS = {
+    "ko": {
+        "ylabel": "누적 상태",
+        "threshold": "threshold 68",
+        "file": "rnn-sequence-csv-state-trace-ko.svg",
+        "title": "CSV 시퀀스별 누적 상태 변화",
+        "desc": "CSV에 담긴 여러 센서 시퀀스가 모두 마지막 값 80으로 끝나더라도 직전 흐름에 따라 누적 상태가 서로 다르고, 일부만 threshold 68을 넘는다는 점을 보여 주는 그래프.",
+    },
+    "en": {
+        "ylabel": "accumulated state",
+        "threshold": "threshold 68",
+        "file": "rnn-sequence-csv-state-trace-en.svg",
+        "title": "Accumulated state by CSV sequence",
+        "desc": "A chart showing that several sensor sequences in the CSV all end at the final value 80, but their accumulated states differ according to the preceding flow and only some exceed threshold 68.",
+    },
+    "zh": {
+        "ylabel": "累积状态",
+        "threshold": "threshold 68",
+        "file": "rnn-sequence-csv-state-trace-zh.svg",
+        "title": "按 CSV 序列比较的累积状态变化",
+        "desc": "这张图显示：CSV 中的多个传感器序列虽然最后都以 80 结束，但会因为前面的流向不同而留下不同的累积状态，只有一部分会超过 threshold 68。",
+    },
+}
+
+
+def save_state_trace_chart(groups: dict[str, list[float]], labels_for_lang: dict[str, str]) -> None:
     plt.rcParams["font.family"] = choose_font()
     plt.rcParams["axes.unicode_minus"] = False
 
@@ -115,28 +149,29 @@ def save_state_trace_chart(groups: dict[str, list[float]]) -> None:
         ax.plot(steps, sensor_states(values), marker="o", linewidth=2.4, markersize=4.8, color=colors[name], label=labels[name])
 
     ax.axhline(SENSOR_THRESHOLD, color="#475569", linewidth=1.2, linestyle=(0, (5, 4)))
-    ax.text(1.05, SENSOR_THRESHOLD + 1.2, "threshold 68", fontsize=8.5, color="#334155")
+    ax.text(1.05, SENSOR_THRESHOLD + 1.2, labels_for_lang["threshold"], fontsize=8.5, color="#334155")
     ax.set_xlabel("step")
-    ax.set_ylabel("누적 상태")
+    ax.set_ylabel(labels_for_lang["ylabel"])
     ax.set_xticks(range(1, 7))
     ax.set_ylim(20, 75)
     ax.legend(frameon=False, loc="lower right", fontsize=8.0)
 
     fig.tight_layout(pad=0.9)
-    out_path = OUT_DIR / "rnn-sequence-csv-state-trace-ko.svg"
+    out_path = OUT_DIR / labels_for_lang["file"]
     fig.savefig(out_path, format="svg", bbox_inches="tight")
     plt.close(fig)
     inject_accessibility(
         out_path,
-        "CSV 시퀀스별 누적 상태 변화",
-        "CSV에 담긴 여러 센서 시퀀스가 모두 마지막 값 80으로 끝나더라도 직전 흐름에 따라 누적 상태가 서로 다르고, 일부만 threshold 68을 넘는다는 점을 보여 주는 그래프.",
+        labels_for_lang["title"],
+        labels_for_lang["desc"],
     )
 
 
 def main() -> None:
     rows = read_rows()
     groups = group_sensor_values(rows)
-    save_state_trace_chart(groups)
+    for labels_for_lang in LANG_LABELS.values():
+        save_state_trace_chart(groups, labels_for_lang)
 
 
 if __name__ == "__main__":

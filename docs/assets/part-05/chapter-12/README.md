@@ -13,7 +13,7 @@
   - `rnn-sequence-state-contrast-en.svg` / `rnn-sequence-state-contrast-ko.svg` / `rnn-sequence-state-contrast-zh.svg`
   - `rnn-gradual-rise-state-en.svg` / `rnn-gradual-rise-state-ko.svg` / `rnn-gradual-rise-state-zh.svg`
   - `rnn-temporary-spike-state-en.svg` / `rnn-temporary-spike-state-ko.svg` / `rnn-temporary-spike-state-zh.svg`
-  - `rnn-sequence-csv-state-trace-ko.svg`
+  - `rnn-sequence-csv-state-trace-en.svg` / `rnn-sequence-csv-state-trace-ko.svg` / `rnn-sequence-csv-state-trace-zh.svg`
 - PNG chart assets:
   - `long-dependency-csv-state-support-en.png` / `long-dependency-csv-state-support-ko.png` / `long-dependency-csv-state-support-zh.png`
   - `long-dependency-csv-decision-comparison-en.png` / `long-dependency-csv-decision-comparison-ko.png` / `long-dependency-csv-decision-comparison-zh.png`

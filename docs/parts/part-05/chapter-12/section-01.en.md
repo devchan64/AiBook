@@ -1,7 +1,7 @@
 # P5-12.1 Why Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM), And Gated Recurrent Units (GRU) Are Needed
 
 > Section ID: `P5-12.1`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
 In Chapter P5-11, we saw that CNNs handle local patterns well in data with spatial structure such as images. If we change the data type here, the next question appears.
 
@@ -11,7 +11,7 @@ The structures that try to answer this question are recurrent neural networks (R
 
 The recurrent-network family tries to process sequence data by not looking only at the current input, but also by carrying forward some of the information seen earlier.
 
-When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](/AiBook/reference/concept-glossary/#rnn-recurrent-neural-network), [LSTM (long short-term memory)](/AiBook/reference/concept-glossary/#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](/AiBook/reference/concept-glossary/#gru-gated-recurrent-unit).
+When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](../../../reference/concept-glossary.md#rnn-recurrent-neural-network), [LSTM (long short-term memory)](../../../reference/concept-glossary.md#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](../../../reference/concept-glossary.md#gru-gated-recurrent-unit).
 
 ## Scope Of This Section
 
@@ -75,6 +75,15 @@ and creates a new state \(h_t\).
 
 The key point is that an RNN is a structure that tries to carry earlier information as a state and pass it together into the next-step computation. So when reading an RNN in this section, it is better to hold first the difference `it sees the current input together with the previous state` rather than only `it sees the current input`.
 
+State transfer can sound abstract, but in practice it can be read as follows. Using the same `MEMO_ALPHA=0.85` setting as the later Python example, if the previous state is `-1.5` and the current input `confirmed` has a signal of `0.8`, the new state is not the current-input-only value `0.8`. It reflects both `the hold signal left from earlier` and `the current confirmation signal`.
+
+| step | Current input | Value from the last input alone | New state with previous state reflected | Difference to read |
+| --- | --- | ---: | ---: | --- |
+| 1 | `blocked` | -1.5 | -1.50 | a hold-side cue remains in the state first |
+| 2 | `confirmed` | 0.8 | -0.48 | even if the last word is positive, the final state is still negative because the earlier hold trace remains |
+
+The important point in this small calculation is not that an RNN ignores the current input `confirmed`. It sees the current input, but it sees it together with the state passed from the previous step. Because of that, even with the same `confirmed`, the final state and judgment can differ depending on whether `blocked` or `restart` appeared earlier.
+
 If we draw this very simply, it becomes the following.
 
 ```mermaid
@@ -86,6 +95,14 @@ The result to confirm in this diagram is that the current output is not determin
 ## Why RNNs Alone Were Not Enough
 
 Basic RNNs provided an important idea, but real sequence data is not so short and simple. If the state is passed from step to step continuously, cues seen earlier can weaken as they move farther back, and as the current input comes in strongly, older information can be pushed out more easily.
+
+For example, even if a strong hold cue such as `leak` appears at the beginning, if unrelated words continue for a long time and `confirmed` appears at the end, the state of a basic RNN can be pulled more and more toward the current input. A structure that passes the state forward is necessary, but if it cannot control what should remain for a long time and what should weaken quickly, it is hard to hold an old key cue until the end.
+
+| Situation | Pressure that appears with state transfer alone | Why it becomes a problem |
+| --- | --- | --- |
+| an important cue appears near the front, followed by many neutral inputs | the state is diluted little by little at each step | the first cue may not remain enough for the final judgment |
+| the current input comes in strongly | the latest input overwrites the previous state | the balance between the old cue and the current cue can shake |
+| needed memory and disposable traces are mixed together | everything is passed to the next step in the same way | important information and noise are not distinguished |
 
 That is, the idea `we want to remember` and the reality `the information is actually maintained for a long time` are different things. This gap leads directly to the long-term dependency problem in the next section.
 
@@ -99,6 +116,14 @@ At the introductory stage, it is enough to read this difference in the following
 
 - a basic RNN shows the idea of `carrying the state forward`
 - LSTM and GRU reinforce `how to keep that state longer and more stably`
+
+So the need for LSTM and GRU is not simply that `there is one more model name than RNN`. It is that, if we want to use sequential state in real problems, we needed additional devices for managing memory. At the introductory stage, it is more useful to hold the questions below first than to memorize the internal gate equations.
+
+| Question | Limitation that appears first in a basic RNN | Direction LSTM/GRU tries to reinforce |
+| --- | --- | --- |
+| What should remain for a long time? | all states are mixed into the next step in the same way | tries to preserve important cues for longer |
+| What should be forgotten? | old traces and noise remain or weaken together | tries to reduce less important information |
+| How much should the current input be reflected? | new input can easily shake the previous state | tries to control how much of the new input and existing state to reflect |
 
 ## Why Do We Learn Both LSTM And GRU
 
@@ -153,29 +178,29 @@ If we place the three cases together, it becomes clearer why RNN/LSTM/GRU should
 
 ## Practice And Example
 
-The goal of this example is to confirm what practical difference is made by the phrase `the previous state is passed to the next step`. This time, we place side by side a very simple baseline with no sequential state and another baseline that carries sequential state forward. That is, we confirm through actual output where `a judgment that looks only at the last input` and `a judgment that keeps the earlier flow` begin to split.
+The goal of this example is to confirm what practical difference is made by the phrase `the previous state is passed to the next step`. This time, we place side by side a very simple baseline with no sequential state and another baseline that carries sequential state forward. That is, we confirm through actual output where `a judgment that looks only at the last input` and `a judgment that keeps the earlier flow` begin to split. We also look at the data-processing point that, when rows from several sequences are mixed in one CSV file, the step order must be restored by `sequence_id` before sequential state can be calculated.
 
 Before reading the example, it helps to fix first the minimum points that need to be confirmed in this section.
 
 | Point to confirm | Value to look at directly in the example | Why it matters |
 | --- | --- | --- |
-| where the baseline judgment and the state-based judgment split | `baseline_last_word_label`, `baseline_last_value_alert`, and the final `label`, `alert` | shows that a sequential model looks at an accumulated state rather than only one last input |
-| how the state accumulates step by step | the `state=` output on each line | shows that the core of an RNN-family structure is not an immediate judgment on the current input, but a state update |
-| why even the same final input leads to a different conclusion | comparing the last step of `gradual_rise` and `temporary_spike` | lets us confirm with our eyes that if the preceding flow differs, the current judgment also differs |
+| where the baseline judgment and the state-based judgment split | `baseline_label`/`state_label`, `baseline_alert`/`state_alert` | shows that a sequential model looks at accumulated state rather than only one last input |
+| how the state accumulates step by step | `previous_state -> new_state` in the `trace` output | shows that the core of an RNN-family structure is not immediate judgment on the current input, but state update |
+| why even the same final input leads to a different conclusion | rows where `changed=True` | lets us confirm visually that if the preceding flow differs, the current judgment also differs |
 
 Input:
 
-- three short operation memos with the same final confirmation phrase
-- two time series with the same final temperature of `80`
+- operation-memo sequences with the same final confirmation phrase
+- sensor sequences with the same final temperature `80`
+- input file: [`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv)
 
 Output:
 
-- a baseline judgment that looks only at the last input
-- sentence-state values updated at each step
-- the final sentence label
-- a baseline alert decision that looks only at the last value
-- sensor-state values updated at each step
-- the alert decision at the last step
+- baseline judgment that looks only at the last input
+- final sentence label in the memo summary and whether it is `changed`
+- baseline alert decision that looks only at the last value
+- final accumulated state, alert decision, and `changed` flag in the sensor summary
+- `previous_state -> new_state` state-update flow in a representative trace
 
 Problem situation:
 
@@ -190,122 +215,182 @@ Before looking at the code, it helps to predict first where the baseline and the
 
 | Scene | Baseline prediction that looks only at the final input | Prediction from the side that accumulates the state | Why this should be held first |
 | --- | --- | --- | --- |
-| `shutdown_confirmed` | sees only `confirmed` and predicts `restart_allowed` | the earlier `blocked` action remains, so it predicts `hold_required` | lets us see why the earlier action flow must remain inside the state even when the final word is the same |
-| `leak_confirmed` | sees only `confirmed` and predicts `restart_allowed` | the earlier `leak` cue remains, so it predicts `hold_required` | lets us see that even with the same final word, the conclusion can split if the earlier state is different |
+| `memo_shutdown_confirmed` | sees only `확인` and predicts `restart_allowed` | the earlier `차단` action remains, so it predicts `hold_required` | lets us see why the earlier action flow must remain inside the state even when the final word is the same |
+| `memo_leak_confirmed` | sees only `확인` and predicts `restart_allowed` | the earlier `누유` cue remains, so it predicts `hold_required` | lets us see that even with the same final word, the conclusion can split if the earlier state is different |
 | `gradual_rise` vs `temporary_spike` | sees only the last value `80` and predicts an alert for both | predicts an alert only for the sustained rise, and not for the temporary spike | lets us see that even the same final value leaves a different state depending on the preceding trend |
 
 Input:
 
-We use the word signals, sensor signals, and initial state values summarized above.
+One CSV row means one step in one sequence. `sequence_id` marks the same sequential group, and `kind` distinguishes operation memos (`memo`) from sensors (`sensor`). Operation memos use `token`, and sensor sequences use `sensor_value`. The Python example reads this file, restores step order by `sequence_id`, and compares last-input judgment with accumulated-state judgment.
 
-![gradual rise sequence state](/AiBook/assets/part-05/chapter-12/rnn-gradual-rise-state-en.svg)
+The code below assumes it is run from the repository root.
 
-![temporary spike sequence state](/AiBook/assets/part-05/chapter-12/rnn-temporary-spike-state-en.svg)
+![CSV-based accumulated state comparison for sensor sequences](../../../assets/part-05/chapter-12/rnn-sequence-csv-state-trace-en.svg)
 
-These graphs make us separate first `the final value is the same` from `the accumulated state is the same` before running the code. `gradual_rise` and `temporary_spike` both end at 80, but because sequential state also keeps the immediately preceding flow, the final alert interpretation can differ.
+This graph makes us separate first `the final value is the same` from `the accumulated state is the same` before running the code. The sensor sequences in the CSV all end at 80, but because sequential state also keeps the preceding flow, only some sequences cross the alert threshold.
 
 ```python
-# This example compares final decisions from a last-word or last-value baseline with decisions from accumulated sequential state.
-word_signal = {
-    "leak": -2.2,
-    "blocked": -1.5,
-    "restart": 1.2,
-    "confirmed": 0.8,
+from collections import defaultdict
+from pathlib import Path
+import csv
+
+DATA_PATH = Path("docs/assets/part-05/chapter-12/rnn-sequence-events.csv")
+
+MEMO_ALPHA = 0.85     # Lower this value to make earlier cues weaken faster.
+SENSOR_ALPHA = 0.6    # Raise this value to carry past sensor state for longer.
+SENSOR_THRESHOLD = 68
+
+WORD_SIGNAL = {
+    "누유": -2.2,
+    "차단": -1.5,
+    "재가동": 1.2,
+    "승인": 0.6,
+    "확인": 0.8,
 }
 
-def classify_with_last_word(words):
-    last_signal = word_signal.get(words[-1], 0.0)
-    return "restart_allowed" if last_signal > 0 else "hold_required"
+def load_sequences(path):
+    sequences = defaultdict(list)
+    with path.open(encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            sequences[row["sequence_id"]].append(row)
+    for rows in sequences.values():
+        rows.sort(key=lambda row: int(row["step"]))
+    return sequences
 
-def run_sentence(name, words, alpha=0.7):
+def label_from_state(state):
+    return "restart_allowed" if state > 0 else "hold_required"
+
+def label_from_last_token(rows):
+    last_signal = WORD_SIGNAL.get(rows[-1]["token"], 0.0)
+    return label_from_state(last_signal)
+
+def trace_memo_state(rows, alpha=MEMO_ALPHA):
     state = 0.0
-    print(f"[sentence: {name}]")
-    print("baseline_last_word_label =", classify_with_last_word(words))
-    for step, word in enumerate(words, start=1):
-        signal = word_signal.get(word, 0.0)
-        state = alpha * state + signal
-        print(f"step {step}: word={word:>9}, signal={signal:>4}, state={state:>5.2f}")
-    label = "restart_allowed" if state > 0 else "hold_required"
-    print("final_label =", label)
-    print()
+    trace = []
+    for row in rows:
+        previous_state = state
+        step = int(row["step"])
+        word = row["token"]
+        input_signal = WORD_SIGNAL.get(word, 0.0)
+        state = alpha * state + input_signal
+        trace.append((step, word, input_signal, previous_state, state))
+    return trace
 
-def alert_with_last_value(sequence, threshold):
-    return sequence[-1] >= threshold
+def alert_from_last_value(rows, threshold=SENSOR_THRESHOLD):
+    return float(rows[-1]["sensor_value"]) >= threshold
 
-def run_sequence(name, sequence, alpha=0.6, threshold=63):
+def trace_sensor_state(rows, alpha=SENSOR_ALPHA, threshold=SENSOR_THRESHOLD):
     state = 0.0
-    print(f"[sensor: {name}]")
-    print("baseline_last_value_alert =", alert_with_last_value(sequence, threshold))
-    for step, x in enumerate(sequence, start=1):
-        state = alpha * state + (1 - alpha) * x
-        alert = state >= threshold
-        print(f"step {step}: input={x:>3}, state={state:>6.2f}, alert={alert}")
-    print()
+    trace = []
+    for row in rows:
+        previous_state = state
+        step = int(row["step"])
+        value = float(row["sensor_value"])
+        state = alpha * state + (1 - alpha) * value
+        trace.append((step, value, previous_state, state, state >= threshold))
+    return trace
 
-gradual_rise = [60, 65, 72, 80]
-temporary_spike = [80, 60, 60, 80]
+sequences = load_sequences(DATA_PATH)
 
-run_sentence("shutdown_confirmed", ["blocked", "confirmed"])
-run_sentence("leak_confirmed", ["leak", "confirmed"])
-run_sentence("restart_confirmed", ["restart", "confirmed"])
-run_sequence("gradual_rise", gradual_rise)
-run_sequence("temporary_spike", temporary_spike)
+print(f"Control variables: MEMO_ALPHA={MEMO_ALPHA}, SENSOR_ALPHA={SENSOR_ALPHA}, SENSOR_THRESHOLD={SENSOR_THRESHOLD}")
+print()
+
+print("[memo summary: does the same final word '확인' get read differently?]")
+print("case                  last_word  baseline_label   final_state  state_label      changed")
+for case_name, rows in sequences.items():
+    if rows[0]["kind"] != "memo":
+        continue
+    trace = trace_memo_state(rows)
+    final_state = trace[-1][-1]
+    baseline_label = label_from_last_token(rows)
+    state_label = label_from_state(final_state)
+    changed = baseline_label != state_label
+    print(f"{case_name:27} {rows[-1]['token']:>5}  {baseline_label:15} {final_state:>10.2f}  {state_label:15} {changed}")
+
+print()
+print("[sensor summary: does the same final value 80 get read differently?]")
+print("case              last_value  baseline_alert  final_state  state_alert  changed")
+for case_name, rows in sequences.items():
+    if rows[0]["kind"] != "sensor":
+        continue
+    trace = trace_sensor_state(rows)
+    final_state = trace[-1][3]
+    baseline_alert = alert_from_last_value(rows)
+    state_alert = trace[-1][4]
+    changed = baseline_alert != state_alert
+    print(f"{case_name:29} {rows[-1]['sensor_value']:>5}  {str(baseline_alert):>14}  {final_state:>11.2f}  {str(state_alert):>11}  {changed}")
+
+print()
+print("[trace: memo_shutdown_confirmed]")
+for step, word, signal, previous_state, new_state in trace_memo_state(sequences["memo_shutdown_confirmed"]):
+    print(
+        f"step {step}: input={word}, input_signal={signal:>4}, "
+        f"previous_state={previous_state:>5.2f} -> new_state={new_state:>5.2f}"
+    )
+
+print()
+print("[trace: sensor_temporary_spike]")
+for step, value, previous_state, new_state, alert in trace_sensor_state(sequences["sensor_temporary_spike"]):
+    print(
+        f"step {step}: input={value:>3}, "
+        f"previous_state={previous_state:>5.2f} -> new_state={new_state:>5.2f}, "
+        f"state_alert={alert}"
+    )
 ```
 
-In the output, start by looking at when `baseline_last_word_label` and `final_label` split, and then at how the intermediate `state` accumulates.
+In the output, first find the rows where `changed=True`. Those are the points where the last-input baseline and the accumulated sequential-state judgment split. Then use the `trace` to confirm which previous state was passed into the next step.
 
 ```text
-[sentence: shutdown_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=  blocked, signal=-1.5, state=-1.50
-step 2: word=confirmed, signal= 0.8, state=-0.25
-final_label = hold_required
+Control variables: MEMO_ALPHA=0.85, SENSOR_ALPHA=0.6, SENSOR_THRESHOLD=68
 
-[sentence: leak_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=     leak, signal=-2.2, state=-2.20
-step 2: word=confirmed, signal= 0.8, state=-0.74
-final_label = hold_required
+[memo summary: does the same final word '확인' get read differently?]
+case                  last_word  baseline_label   final_state  state_label      changed
+memo_shutdown_confirmed       확인  restart_allowed      -0.12  hold_required   True
+memo_leak_confirmed           확인  restart_allowed      -0.55  hold_required   True
+memo_restart_confirmed        확인  restart_allowed       2.18  restart_allowed False
+memo_blocked_then_approved    확인  restart_allowed       1.26  restart_allowed False
+memo_leak_then_recovered      확인  restart_allowed       0.47  restart_allowed False
 
-[sentence: restart_confirmed]
-baseline_last_word_label = restart_allowed
-step 1: word=  restart, signal= 1.2, state= 1.20
-step 2: word=confirmed, signal= 0.8, state= 1.64
-final_label = restart_allowed
+[sensor summary: does the same final value 80 get read differently?]
+case              last_value  baseline_alert  final_state  state_alert  changed
+sensor_gradual_rise             80            True        71.72         True  False
+sensor_temporary_spike          80            True        66.60        False  True
+sensor_late_rise                80            True        69.16         True  False
+sensor_stable_high              80            True        74.83         True  False
+sensor_recovered_then_rise      80            True        66.91        False  True
 
-[sensor: gradual_rise]
-baseline_last_value_alert = True
-step 1: input= 60, state= 24.00, alert=False
-step 2: input= 65, state= 40.40, alert=False
-step 3: input= 72, state= 53.04, alert=False
-step 4: input= 80, state= 63.82, alert=True
+[trace: memo_shutdown_confirmed]
+step 1: input=차단, input_signal=-1.5, previous_state= 0.00 -> new_state=-1.50
+step 2: input=점검, input_signal= 0.0, previous_state=-1.50 -> new_state=-1.27
+step 3: input=대기, input_signal= 0.0, previous_state=-1.27 -> new_state=-1.08
+step 4: input=확인, input_signal= 0.8, previous_state=-1.08 -> new_state=-0.12
 
-[sensor: temporary_spike]
-baseline_last_value_alert = True
-step 1: input= 80, state= 32.00, alert=False
-step 2: input= 60, state= 43.20, alert=False
-step 3: input= 60, state= 49.92, alert=False
-step 4: input= 80, state= 61.95, alert=False
+[trace: sensor_temporary_spike]
+step 1: input=80.0, previous_state= 0.00 -> new_state=32.00, state_alert=False
+step 2: input=60.0, previous_state=32.00 -> new_state=43.20, state_alert=False
+step 3: input=59.0, previous_state=43.20 -> new_state=49.52, state_alert=False
+step 4: input=61.0, previous_state=49.52 -> new_state=54.11, state_alert=False
+step 5: input=63.0, previous_state=54.11 -> new_state=57.67, state_alert=False
+step 6: input=80.0, previous_state=57.67 -> new_state=66.60, state_alert=False
 ```
 
 Even when reading the output numbers, we need to separate `the final input` from `the accumulated state`.
 
 | Comparison | What first appears in the output | Interpretation that is easy to keep if we only look at the final input | Interpretation that changes when we include sequential state |
 | --- | --- | --- | --- |
-| `shutdown_confirmed` / `leak_confirmed` / `restart_confirmed` | all of them have the same final word `confirmed`, but the final labels split | it can look as if the same final word should lead to the same judgment | if hold cues accumulated earlier, such as `blocked` and `leak`, still remain, then even after the final `confirmed`, the final judgment can become `hold_required` |
-| `gradual_rise` vs `temporary_spike` | both have the same final value `80`, but the final alert splits | it can look as if both should raise an alert because the final value is the same | a sustained rise pushes the state above the alert line, but a flow that briefly spiked and then returned can still fail to alert even with the same final value because the state accumulated less |
-| each step's `state=` output | the state changes gradually rather than being determined by each single input alone | it is easy to think the intermediate output is only supplementary explanation | it reveals that the core of an RNN-family structure lies in `how the accumulated state is updated`, rather than in the current input alone |
+| `memo_*` sequences | all have the final word `확인`, but `changed` differs | it can look as if the same final word should lead to the same judgment | if hold signals accumulated earlier, such as `차단` and `누유`, remain, then even after the final `확인`, the final judgment can become `hold_required` |
+| `sensor_*` sequences | all have the final value `80`, but only some have `changed=True` | it can look as if all should alert because the final value is the same | sustained rise pushes state above the alert line, but a flow that returned after a temporary spike can still fail to alert even with the same final value because less state has accumulated |
+| `previous_state -> new_state` in the `trace` | the current input is mixed with previous state instead of becoming the final judgment directly | it is easy to think intermediate output is only supplementary explanation | it reveals that the core of an RNN-family structure lies in `how accumulated state is updated`, rather than in the current input alone |
 
 | Output to look at first | What this output means | What changes if you vary it |
 | --- | --- | --- |
-| `baseline_last_word_label = restart_allowed` but `final_label = hold_required` in `shutdown_confirmed` and `leak_confirmed` | even if the same judgment appears when looking only at the final word, the sequential state can still keep earlier block and risk cues and produce a different conclusion | if we change the signal size of `blocked` and `leak`, or change `alpha`, the length of time the earlier hold flow remains will change |
-| `baseline_last_value_alert = True` but the final `alert=False` in `temporary_spike` | even if looking only at the final value suggests the same alert, the sequential state can keep the immediately preceding flow and produce a different conclusion | if we change the threshold or `alpha`, the ease with which `sustained rise` and `temporary spike` split will change |
-| the final inputs of `gradual_rise` and `temporary_spike` are both `80`, but the states differ | the current judgment is determined not by the present step alone, but by the accumulated traces of previous steps as well | if we change the intermediate values, the degree to which the state differs even under the same final input becomes clearer |
-| in the operation-memo example, the final word is the same `confirmed`, but the states of `shutdown_confirmed` and `leak_confirmed` differ | even the same confirmation phrase leads to a different state and final judgment when the earlier action cues differ | if we change the signal values of `blocked` and `leak`, we can see how strongly the earlier action flow remains |
+| rows with `changed=True` in the memo summary | even when last-word-only reading gives the same judgment, sequential state can keep earlier block and risk cues and produce a different conclusion | if we change CSV `token` values, `WORD_SIGNAL` values, or `MEMO_ALPHA`, how long the earlier hold flow remains changes |
+| rows with `changed=True` in the sensor summary | even when the last value alone looks like the same alert, sequential state can keep the immediately preceding flow and produce a different conclusion | if we change intermediate CSV `sensor_value`, `SENSOR_THRESHOLD`, or `SENSOR_ALPHA`, the ease with which `sustained rise` and `temporary spike` split changes |
+| `previous_state` is used in the next `new_state` calculation in the `trace` | the current judgment sees not one current step alone, but the accumulated traces from previous steps as well | if we change intermediate inputs, the amount by which state differs under the same final input becomes clearer |
 
-The results above show three things together. First, in the operation-memo example, the baseline reads `shutdown_confirmed`, `leak_confirmed`, and `restart_confirmed` all as `restart_allowed` because it looks only at the final word `confirmed`, but the sequential-state side keeps how strong the earlier block and risk cues were and separates `shutdown_confirmed` and `leak_confirmed` into `hold_required`. Second, in the sensor example, the baseline judges both time series as alerts because it sees only the last value `80`, but the state-based side can leave `sustained rise` and `temporary spike` differently. Third, even when the final input is 80 in both cases or the last word is always `confirmed`, the state values are not the same because the judgment at the current step is determined not by `the input of this one step` alone, but by also referring to the accumulated state from previous steps.
+The results above show three things together. First, in the operation-memo example, the baseline reads every memo sequence as `restart_allowed` because it looks only at the final word `확인`, but the sequential-state side keeps how strong the earlier block and risk cues were and separates some sequences into `hold_required`. Second, in the sensor example, the baseline judges every sensor sequence as an alert because it sees only the last value `80`, but the state-based side can leave sustained rise and return-after-spike flows differently. Third, even when the final input is 80 or the last word is always `확인`, the state values are not the same because the judgment at the current step is determined not by `the input of this one step` alone, but by also referring to the accumulated state from previous steps.
 
-If we reread the operation-memo side by the same standard, the core point becomes clearer. The baseline is easily pulled by the immediate signal of the final word, but the sequential-state side accumulates the traces left in order by `blocked`, `leak`, `restart`, and `confirmed` to form the final conclusion. Real LSTM and GRU can be understood as moving in the direction of managing precisely this state more stably for longer.
+If we reread the operation-memo side by the same standard, the core point becomes clearer. The baseline is easily pulled by the immediate signal of the final word, but the sequential-state side accumulates the traces left in order by tokens such as `차단`, `누유`, `재가동`, and `확인` to form the final conclusion. Real LSTM and GRU can be understood as moving in the direction of managing precisely this state more stably for longer.
 
 This example does not implement a full real RNN. But the core that needs to be read is clearer.
 
@@ -319,9 +404,9 @@ Rather than reading the result once and stopping, it is better to continue direc
 
 | Output signal seen first | Change to try right now | Conclusion not to rush to from this example alone |
 | --- | --- | --- |
-| `temporary_spike` is not an alert even though its final value is 80 | raise or lower `alpha` and compare how long past state is carried forward | do not conclude that an RNN-family model is always unconditionally better than a last-value baseline |
-| even with the same final `confirmed`, the state and conclusion split | change the signals for `leak`, `blocked`, and `restart` and see how long the earlier action flow remains | do not conclude that a handful of word signals fully explains real operational language understanding |
-| the two time series end with different final states | raise or lower the intermediate values and see where `sustained trend` and `temporary spike` begin to split | do not substitute this one simple state-update equation for the entire internal gating of LSTM and GRU |
+| some `sensor_*` sequences do not alert even though their final value is 80 | change intermediate CSV `sensor_value`, `SENSOR_ALPHA`, and `SENSOR_THRESHOLD` to compare how long past state is carried forward | do not conclude that an RNN-family model is always unconditionally better than a final-value baseline |
+| even with the same final `확인`, the state and conclusion split | change CSV `token`, `WORD_SIGNAL`, and `MEMO_ALPHA` to see how long the earlier action flow remains | do not conclude that a handful of word signals fully explains real operational language understanding |
+| several sensor sequences leave different final states | raise or lower intermediate values and see where `sustained trend` and `temporary spike` begin to split | do not substitute this one simple state-update equation for the entire internal gating of LSTM and GRU |
 
 That is, the basic intuition of the RNN is closer to `it carries the previous state in and makes a new state together with the current input` than to `it immediately classifies the current input`. LSTM and GRU can be read as structures that appeared to better control `what to keep longer` and `what to forget` in precisely that state.
 
