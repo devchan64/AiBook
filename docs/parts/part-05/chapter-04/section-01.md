@@ -322,6 +322,7 @@ cross-entropy를 자세히 유도하지 않더라도, `정답에 준 확률이 �
 같은 상황을 Python으로 짧게 실험하면, `어느 예측을 고칠 때 평균 손실과 worst case가 함께 줄어드는가`를 직접 바꿔 볼 수 있습니다. 아래 예제에서는 `restart_delay_batch`를 크게 보정하는 경우와, 이미 비교적 작은 오차였던 `night_shift_batch`만 보정하는 경우를 나눠 봅니다.
 
 ```python
+# 배치별 squared error를 비교해 평균 손실과 worst case가 어떤 예측 수정 우선순위를 만드는지 보는 예제입니다.
 samples = [
     {"name": "night_shift_batch", "target": 3.0, "prediction": 2.5},
     {"name": "stabilized_batch", "target": 1.0, "prediction": 1.4},

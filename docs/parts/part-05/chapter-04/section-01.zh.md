@@ -320,6 +320,7 @@
 如果把同样的场景用 Python 做一个小实验，就能直接改动看看：`修哪个预测时，平均损失和 worst case 会一起下降？` 下面的例子把“重点修正 `restart_delay_batch`”和“只修正原本误差较小的 `night_shift_batch`”分开比较。
 
 ```python
+# 这个例子比较各批次的 squared error，观察 mean loss 和 worst case 如何形成预测修正优先级。
 samples = [
     {"name": "night_shift_batch", "target": 3.0, "prediction": 2.5},
     {"name": "stabilized_batch", "target": 1.0, "prediction": 1.4},

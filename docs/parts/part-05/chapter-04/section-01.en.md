@@ -320,6 +320,7 @@ From the viewpoint of learning, it has to go one step further here. The sentence
 The same situation becomes more direct when it is tested briefly in Python to see `which prediction, when corrected, lowers both the average loss and the worst case?` The example below separates the case of strongly correcting `restart_delay_batch` from the case of correcting only `night_shift_batch`, whose error was already relatively small.
 
 ```python
+# This example compares per-batch squared errors to see how mean loss and the worst case set prediction-fix priority.
 samples = [
     {"name": "night_shift_batch", "target": 3.0, "prediction": 2.5},
     {"name": "stabilized_batch", "target": 1.0, "prediction": 1.4},

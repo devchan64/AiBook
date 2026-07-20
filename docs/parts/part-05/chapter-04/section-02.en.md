@@ -331,6 +331,7 @@ From the viewpoint of learning, what has to close here is not `the name of the l
 Even when this comparison is tested in Python, the key is not to make the absolute values compete with one another. The example below separates what loss decreases when only one weak prediction is corrected in regression, classification, or generation.
 
 ```python
+# This example compares how each loss changes when one weak prediction is improved in regression, classification, and generation.
 import math
 
 
