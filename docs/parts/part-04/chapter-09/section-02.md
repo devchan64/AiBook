@@ -361,6 +361,7 @@ Bergstra와 Bengio의 논문은 하이퍼파라미터 공간에서 실제 성능
   - `best_params_`, `best_score_`, `test score`를 구분해서 읽어야 한다
 
 ```python
+# 여러 하이퍼파라미터 후보를 검증 데이터로 반복 평가해 튜닝 비용을 확인하는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.tree import DecisionTreeClassifier

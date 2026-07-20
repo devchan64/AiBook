@@ -312,6 +312,7 @@ The example below is an exercise that changes only `max_depth` in the same decis
 - Concept to check: even with the same algorithm, train score and test score can differ when the hyperparameter changes.
 
 ```python
+# This example compares how hyperparameter settings change model performance and behavior on the Iris dataset.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier

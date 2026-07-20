@@ -361,6 +361,7 @@ The example below is a very small exercise that places candidates for `max_depth
   - `best_params_`, `best_score_`, and `test score` must be read separately
 
 ```python
+# This example evaluates multiple hyperparameter candidates on validation data to show tuning cost.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.tree import DecisionTreeClassifier

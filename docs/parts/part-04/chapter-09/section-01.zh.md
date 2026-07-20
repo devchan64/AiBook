@@ -312,6 +312,7 @@ scikit-learn 的 common pitfalls 文档说明，如果 test data 被卷入 model
 - 要确认的概念: 即使是同一个算法，只要 hyperparameter 改了，train 分数和 test 分数就可能改变。
 
 ```python
+# 这个例子用 Iris 数据比较超参数设置如何改变模型性能和性质。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier

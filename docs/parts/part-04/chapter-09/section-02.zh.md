@@ -361,6 +361,7 @@ Bergstra 和 Bengio 的论文说明，在 hyperparameter 空间里，真正强�
   - 必须把 `best_params_`, `best_score_`, `test score` 分开来读
 
 ```python
+# 这个例子用验证数据反复评估多个超参数候选，以确认调优成本。
 from sklearn.datasets import load_iris
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.tree import DecisionTreeClassifier

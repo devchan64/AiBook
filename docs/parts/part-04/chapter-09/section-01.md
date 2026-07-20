@@ -312,6 +312,7 @@ scikit-learn의 common pitfalls 문서는 테스트 데이터가 모델 선택�
 - 확인할 개념: 같은 알고리즘도 하이퍼파라미터가 바뀌면 train 점수와 test 점수가 달라질 수 있다
 
 ```python
+# Iris 데이터에서 하이퍼파라미터 설정이 모델 성능과 성격을 어떻게 바꾸는지 비교하는 예제입니다.
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
