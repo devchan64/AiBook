@@ -287,6 +287,7 @@ L = (a - t)^2
 这张图的作用，是在真正看输出数字之前，先把`损失更大吗？`和`梯度真的会回到前面吗？`分开来读。`block_gate_closed` 的损失更大，但在计算图里路径会在 ReLU 前被截断，因此梯度不会再传到 `risk_weight` 与 `base_block_bias`。
 
 ```python
+# 这个例子追踪 ReLU gate 打开或关闭时，gradient 是否会传回前面的 weight 和 bias。
 def relu(value):
     return max(0.0, value)
 

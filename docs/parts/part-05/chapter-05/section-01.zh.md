@@ -260,6 +260,7 @@ L = (predicted\_block\_score - target\_block\_score)^2
 这里可以直接改动的值是 `risk_weight`。如果把它调到接近 `2.5`，预测会更靠近目标；如果把它调得更小或更大，就能直接看到梯度符号与大小是怎样变化的。
 
 ```python
+# 这个例子通过 gradient 的符号和大小，阅读为了降低 loss 应该如何移动 risk_weight。
 cases = [
     {
         "name": "slightly_under_block_signal",

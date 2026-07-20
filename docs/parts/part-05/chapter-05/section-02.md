@@ -289,6 +289,7 @@ ReLU 문이 닫힌 경우를 단계로 풀어 보면 더 분명합니다. 먼저
 이 도식은 출력 숫자를 보기 전에 먼저 `손실이 더 큰가`와 `gradient가 실제로 앞단까지 가는가`를 분리해서 읽게 해 줍니다. `block_gate_closed`는 손실이 더 크지만, 계산 그래프에서는 ReLU 앞에서 경로가 끊겨 `risk_weight`와 `base_block_bias`까지 gradient가 전달되지 않습니다.
 
 ```python
+# ReLU 계산 그래프에서 gate가 열리거나 닫힐 때 gradient가 앞단 가중치와 편향까지 전달되는지 추적하는 예제입니다.
 def relu(value):
     return max(0.0, value)
 

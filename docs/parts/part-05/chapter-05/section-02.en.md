@@ -287,6 +287,7 @@ This comparison matters especially on the computation graph because whether the 
 This diagram makes us separate `is the loss larger?` from `does the gradient actually reach the earlier parameters?` before looking at the output numbers. `block_gate_closed` has the larger loss, but on the computation graph the path is cut before ReLU, so the gradient does not reach `risk_weight` and `base_block_bias`.
 
 ```python
+# This example traces whether gradients pass back to earlier weight and bias nodes when a ReLU gate is open or closed.
 def relu(value):
     return max(0.0, value)
 

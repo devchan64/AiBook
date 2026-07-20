@@ -260,6 +260,7 @@ gradient는 이 차이를 부호와 크기로 남깁니다.
 직접 바꿔 볼 값은 `risk_weight`입니다. 값을 `2.5`에 가깝게 두면 예측이 목표에 가까워지고, 더 작게 두거나 더 크게 두면 gradient 부호와 절댓값이 어떻게 달라지는지 확인할 수 있습니다.
 
 ```python
+# 손실을 줄이기 위해 risk_weight를 어느 방향과 강도로 움직여야 하는지 gradient 부호와 크기로 읽는 예제입니다.
 cases = [
     {
         "name": "slightly_under_block_signal",

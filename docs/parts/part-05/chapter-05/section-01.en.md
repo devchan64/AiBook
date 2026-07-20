@@ -260,6 +260,7 @@ The purpose of this table is to practice reading `direction` and `strength` sepa
 The value to change directly is `risk_weight`. If you place it near `2.5`, the prediction gets closer to the target. If you make it smaller or larger, you can check how the sign and magnitude of the gradient change.
 
 ```python
+# This example reads the gradient sign and size to decide which direction and strength should move risk_weight to reduce loss.
 cases = [
     {
         "name": "slightly_under_block_signal",
