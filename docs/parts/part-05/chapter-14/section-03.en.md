@@ -44,7 +44,7 @@ If we divide this scene into three stages, the roles of residual and normalizati
 | after residual | Do the new context and the original action axis remain together? | value axes can be added together and make size and distribution shake |
 | after normalization | Is this a value range that the next block can handle easily? | the next attention and feed-forward can receive unstable input |
 
-![Action token comparison after residual](../../../assets/part-05/chapter-14/transformer-block-action-residual-compare-en.png)
+![Action token comparison after residual](/AiBook/assets/part-05/chapter-14/transformer-block-action-residual-compare-en.png)
 
 | Comparison point | rollback confirmed | rollback not confirmed | Why it matters |
 | --- | --- | --- | --- |

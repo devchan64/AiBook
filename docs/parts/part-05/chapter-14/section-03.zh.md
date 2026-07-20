@@ -44,7 +44,7 @@
 | residual 之后 | 新上下文和原始处置轴是否一起留下？ | 数值轴相加后，大小和分布可能摇晃 |
 | normalization 之后 | 是否是下一个 block 容易处理的数值范围？ | 下一步 attention 和 feed-forward 可能收到不稳定输入 |
 
-![residual 之后的处置 token 比较](../../../assets/part-05/chapter-14/transformer-block-action-residual-compare-zh.png)
+![residual 之后的处置 token 比较](/AiBook/assets/part-05/chapter-14/transformer-block-action-residual-compare-zh.png)
 
 | 比较点 | rollback confirmed | rollback not confirmed | 为什么重要 |
 | --- | --- | --- | --- |
