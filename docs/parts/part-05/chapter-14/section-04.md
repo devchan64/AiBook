@@ -1,9 +1,9 @@
 # P5-14.4 residual과 normalization은 깊은 반복을 어떻게 안정화하는가
 
 > Section ID: `P5-14.4`
-> Version: `v2026.07.19`
+> Version: `v2026.07.20`
 
-P5-14.3에서는 현재 표현이 attention과 feed-forward를 지나 어떻게 이동하는지 보았습니다. 그런데 Transformer 블록은 새 계산만 계속 쌓지 않습니다. 원래 표현을 남기고, 값 범위를 정리하는 안정화 장치를 함께 둡니다.
+P5-14.2에서는 현재 표현이 attention과 feed-forward를 지나 residual 이후 어떤 방향으로 남는지 보았습니다. 그런데 Transformer 블록은 새 계산만 계속 쌓지 않습니다. 원래 표현을 남기고, 값 범위를 정리하는 안정화 장치를 함께 둡니다.
 
 왜 residual connection과 layer normalization은 Transformer 블록에서 부차적 장식이 아닌가?
 

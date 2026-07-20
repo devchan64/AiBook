@@ -133,10 +133,10 @@
 
 #### Chapter 14. Transformer `딥러닝 구조`
 
-- 중심축: Transformer를 `attention 블록과 feed-forward가 반복되는 기본 구성`으로 먼저 닫고, 그 구조가 왜 `병렬 처리와 긴 문맥 직접 재참조`에서 중요해졌는지 보여 주어야 합니다.
+- 중심축: Transformer를 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`가 한 블록으로 반복되는 구조로 먼저 닫고, 그 구조가 왜 `병렬 처리와 긴 문맥 직접 재참조`에서 중요해졌는지 보여 주어야 합니다.
 - `P5-14.1`: Transformer가 self-attention 하나로 닫히지 않고, attention 블록과 feed-forward가 반복되는 기본 구성으로 읽혀야 한다는 문제의식을 세워야 합니다.
-- `P5-14.2`: self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어, Transformer의 기본 구성을 설명할 수 있게 해야 합니다.
-- `P5-14.3`: 현재 토큰 표현이 `입력 표현 -> 문맥이 섞인 표현 -> 위치별 가공 -> residual 이후 표현 -> 정리된 표현`으로 갱신되는 흐름을 보여 주어야 하며, Python 예제는 attention 가중치 변화가 action token 표현 이동으로 남는 과정을 확인하는 데만 써야 합니다.
+- `P5-14.2`: self-attention, feed-forward, residual connection, layer normalization의 역할을 `관계 읽기`, `위치별 가공`, `정보 흐름 보존`, `값 범위 안정화`로 나누어 설명해야 합니다. 통합된 Python 예제는 현재 토큰 표현이 `input -> after attention -> after feed-forward -> after residual`로 이동하는 흐름을 확인하는 데만 쓰고, normalization의 값 범위 정리는 P5-14.4로 넘겨야 합니다.
+- `P5-14.3`: 독립 학습 본문이 아니라 P5-14.2 통합 안내 파일로만 유지합니다. 공개 목차에는 올리지 않고, 새 설명·예제·체크리스트를 추가하지 않습니다.
 - `P5-14.4`: residual과 normalization을 부차적 덧셈·정리가 아니라 깊은 블록 반복에서 정보 흐름과 값 범위를 안정화하는 장치로 설명해야 합니다.
 - `P5-14.5`: RNN의 순차 상태 전달과 Transformer의 토큰 관계 계산을 비교하고, 그 차이가 GPU 병렬 처리와 대규모 학습에 왜 유리했는지 설명해야 합니다. Python 예제는 속도 측정이 아니라 순차 trace, 관계 score 행렬, 배치 score 텐서 shape를 비교하는 데 집중해야 하며, 같은 판단을 반복하는 연습은 늘리지 않습니다.
 - `P5-14.6`: 긴 문맥 문제를 단순 기억력보다 현재 위치가 필요한 앞 단서를 직접 다시 참고하는 문제로 읽게 하고, 순차 상태 방식과 직접 재참조 방식이 최종 판단을 다르게 만들 수 있음을 실험과 해설로 보여 주어야 합니다. Python 예제는 Transformer 구현이 아니라 `sequential_support`와 `direct_decision`의 관찰 차이를 닫는 용도로 유지합니다.

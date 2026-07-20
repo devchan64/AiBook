@@ -15,7 +15,7 @@ Transformer 블록 안에서 self-attention, feed-forward network, residual conn
 - feed-forward network는 attention과 무엇이 다른가?
 - residual connection과 layer normalization은 왜 함께 등장하는가?
 
-이 절에서는 각 부품이 블록 안에서 맡는 역할과, 관계 읽기와 위치별 가공의 차이를 먼저 닫습니다. 숫자 예제로 표현이 실제로 어떻게 이동하는지는 P5-14.3에서 이어 보고, 병렬 처리와 긴 문맥 계산 감각은 P5-14.5와 P5-14.6에서 따로 다룹니다.
+이 절에서는 각 부품이 블록 안에서 맡는 역할과, 관계 읽기와 위치별 가공의 차이를 닫습니다. 숫자 예제로 표현이 실제로 어떻게 이동하는지도 이 절 안에서 함께 확인하고, 병렬 처리와 긴 문맥 계산 감각은 P5-14.5와 P5-14.6에서 따로 다룹니다.
 
 ## self-attention은 관계를 읽는다
 
@@ -182,6 +182,92 @@ layer normalization 단계에서는 새 의미를 다시 고르지 않습니다.
 
 ## 연습 및 예제
 
+### 예제. action token 표현 이동을 숫자로 따라가기
+
+같은 역할 구분을 다른 운영 로그 장면으로 아주 작게 줄이면, 같은 action token도 attention 행이 달라질 때 다른 방향으로 이동한다는 점을 직접 볼 수 있습니다. 여기서는 layer normalization까지 계산하지 않고, `input -> after attention -> after feed-forward -> after residual`까지만 따라갑니다. 값 범위 정리는 다음 안정화 절에서 따로 봅니다.
+
+코드를 읽을 때는 전체 행렬을 한꺼번에 외우려 하지 말고, action token이 다른 단서를 얼마나 참고하는지만 먼저 보십시오.
+
+| 조작할 값 | 관찰할 출력 | 확인할 질문 |
+| --- | --- | --- |
+| action token 행의 attention 비중 | `after attention` | 조치 토큰이 자기 자신, 증상, 배포 단서 중 무엇을 더 섞는가 |
+| 같은 비중이 feed-forward를 지난 뒤 | `after feed-forward` | 섞인 문맥이 현재 위치 표현 안에서 어떻게 다시 가공되는가 |
+| residual 이후 action token | `after residual` | 원래 조치 축이 남은 상태에서 블록 출력 방향이 어떻게 달라지는가 |
+
+```python
+# rollback 확인 여부에 따라 action token 표현이 attention, feed-forward, residual을 지나며 어떻게 이동하는지 비교하는 예제입니다.
+import numpy as np
+
+tokens = np.array([
+    [1.0, 0.2],   # symptom token: urgency high
+    [0.8, 0.5],   # deploy clue token: cause evidence medium
+    [0.3, 1.0],   # action token: recovery status important
+])
+
+attention_cases = {
+    "rollback_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.2, 0.5, 0.3],
+        [0.1, 0.3, 0.6],
+    ]),
+    "rollback_not_confirmed": np.array([
+        [0.6, 0.3, 0.1],
+        [0.3, 0.5, 0.2],
+        [0.3, 0.5, 0.2],
+    ]),
+}
+
+ff_weights = np.array([
+    [1.1, 0.4],
+    [0.2, 1.0],
+])
+
+for name, attention_weights in attention_cases.items():
+    contextual = attention_weights @ tokens
+    ff_output = contextual @ ff_weights
+    residual_added = ff_output + tokens
+    action_trace = [
+        ("input", tokens[2]),
+        ("after attention", contextual[2]),
+        ("after feed-forward", ff_output[2]),
+        ("after residual", residual_added[2]),
+    ]
+
+    print(f"[{name}]")
+    print("action attention row =", np.round(attention_weights[2], 3))
+    print("action token stage trace")
+    for stage, values in action_trace:
+        print(f"{stage:24s}", np.round(values, 3))
+    print("---")
+```
+
+출력 예시는 다음처럼 읽을 수 있습니다.
+
+```text
+[rollback_confirmed]
+action attention row = [0.1 0.3 0.6]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.52 0.77]
+after feed-forward       [0.726 0.978]
+after residual           [1.026 1.978]
+---
+[rollback_not_confirmed]
+action attention row = [0.3 0.5 0.2]
+action token stage trace
+input                    [0.3 1. ]
+after attention          [0.76 0.51]
+after feed-forward       [0.938 0.814]
+after residual           [1.238 1.814]
+---
+```
+
+해설: 두 장면은 같은 입력 토큰에서 시작하지만 action token의 attention 행이 달라지면서 표현 이동 경로도 달라집니다. `rollback_confirmed`에서는 attention 이후부터 복구 상태 축이 더 크게 남고, `rollback_not_confirmed`에서는 증상/원인 축이 상대적으로 더 남습니다. 이 차이는 feed-forward와 residual을 거치며 블록 출력 방향으로 남습니다.
+
+직접 확인할 때는 `rollback_not_confirmed`의 action token 행 `[0.3, 0.5, 0.2]`에서 마지막 값을 더 키워 보십시오. action token이 자기 자신을 더 많이 참고할수록 `after attention` 이후 복구 상태 축이 어떻게 달라지는지 비교할 수 있습니다.
+
+![조치 토큰의 단계별 표현 이동](../../../assets/part-05/chapter-14/transformer-block-action-stage-trace-ko.png)
+
 ### 연습. 역할 이름 붙이기
 
 아래 설명이 어떤 부품과 가장 직접 연결되는지 판단해 보십시오.
@@ -216,6 +302,7 @@ layer normalization 단계에서는 새 의미를 다시 고르지 않습니다.
 - self-attention과 feed-forward의 역할 차이를 말할 수 있는가?
 - residual connection을 원래 정보 흐름을 남기는 장치로 설명할 수 있는가?
 - layer normalization을 깊은 블록 반복의 안정화 장치로 설명할 수 있는가?
+- action token stage trace에서 `after attention`, `after feed-forward`, `after residual`이 각각 어떤 표현 이동을 보여 주는지 말할 수 있는가?
 
 ## 출처와 참고 자료
 

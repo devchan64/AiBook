@@ -18,8 +18,7 @@
 - Current usage note:
   - Current Korean public manuscript references:
     - `P5-14.1`: `transformer-block-repeat-ko.mmd`
-    - `P5-14.2`: `feed-forward-position-update-ko.mmd`, `layer-normalization-value-scale-ko.mmd`, `residual-connection-skip-path-ko.mmd`, `transformer-block-flow-ko.mmd`
-    - `P5-14.3`: `transformer-representation-update-ko.mmd`, `transformer-block-action-stage-trace-ko.png`
+    - `P5-14.2`: `feed-forward-position-update-ko.mmd`, `layer-normalization-value-scale-ko.mmd`, `residual-connection-skip-path-ko.mmd`, `transformer-block-flow-ko.mmd`, `transformer-block-action-stage-trace-ko.png`
     - `P5-14.4`: `transformer-block-action-residual-compare-ko.png`
     - `P5-14.6`: `long-context-direct-reference-ko.mmd`, `sequential-vs-direct-baseline-ko.mmd`, `long-context-task-flow-ko.mmd`, `sequential-state-decay-ko.png`, `direct-reference-match-scores-ko.png`
     - `P5-14.7`: `feed-forward-position-update-ko.mmd`
@@ -29,5 +28,5 @@
   - `transformer-task-flow-en.mmd` / `transformer-task-flow-ko.mmd` are currently kept as reusable chapter assets but are not directly included by the current Part 5 public manuscript pages.
   - `sequential-vs-direct-reference-en.png` / `sequential-vs-direct-reference-ko.png` are retained legacy rendered comparison assets and are not directly included by the current Part 5 public manuscript pages.
 - Matplotlib chart assets:
-  - `p5_14_1_transformer_block_charts.py` regenerates `transformer-block-action-stage-trace-ko.png`, `transformer-block-action-stage-trace-en.png`, `transformer-block-action-stage-trace-zh.png`, `transformer-block-action-residual-compare-ko.png`, `transformer-block-action-residual-compare-en.png`, and `transformer-block-action-residual-compare-zh.png`. In the current Korean structure, these are used by P5-14.3 and P5-14.4.
+  - `p5_14_1_transformer_block_charts.py` regenerates `transformer-block-action-stage-trace-ko.png`, `transformer-block-action-stage-trace-en.png`, `transformer-block-action-stage-trace-zh.png`, `transformer-block-action-residual-compare-ko.png`, `transformer-block-action-residual-compare-en.png`, and `transformer-block-action-residual-compare-zh.png`. In the current Korean structure, these are used by P5-14.2 and P5-14.4.
   - `p5_14_2_sequential_vs_direct_reference.py` regenerates `sequential-state-decay-ko.png`, `sequential-state-decay-en.png`, `sequential-state-decay-zh.png`, `direct-reference-match-scores-ko.png`, `direct-reference-match-scores-en.png`, and `direct-reference-match-scores-zh.png`. In the current Korean structure, these are used by P5-14.6.

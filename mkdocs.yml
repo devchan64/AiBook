@@ -437,7 +437,6 @@ nav:
           - "Chapter 14. Transformer":
               - "P5-14.1 Transformer는 왜 attention 하나로 설명되지 않는가": parts/part-05/chapter-14/section-01.md
               - "P5-14.2 Transformer 블록의 네 부품은 각각 무엇을 맡는가": parts/part-05/chapter-14/section-02.md
-              - "P5-14.3 토큰 표현은 Transformer 블록 안에서 어떻게 이동하는가": parts/part-05/chapter-14/section-03.md
               - "P5-14.4 residual과 normalization은 깊은 반복을 어떻게 안정화하는가": parts/part-05/chapter-14/section-04.md
               - "P5-14.5 RNN의 상태 전달과 Transformer의 관계 계산은 병렬 처리에서 어떻게 갈라지는가": parts/part-05/chapter-14/section-05.md
               - "P5-14.6 긴 문맥에서 순차 상태와 직접 재참조는 어떻게 갈라지는가": parts/part-05/chapter-14/section-06.md
