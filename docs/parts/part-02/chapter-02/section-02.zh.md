@@ -237,6 +237,7 @@ print(mean)
 要确认的概念：即使不直接写 sigma，同样的重复结构依然藏在数组计算里。
 
 ```python
+# 这个例子用 NumPy 数组计算检查 sigma 形式的重复求和和平均损失。
 import numpy as np
 
 # values 是被转换成 NumPy 数组的重复计算对象。
@@ -345,6 +346,7 @@ print(mean_loss)
 要确认的概念：即使看不到循环，同样的重复结构仍然是在数组计算内部执行的。
 
 ```python
+# 这个例子用 NumPy 数组计算检查 sigma 形式的重复求和和平均损失。
 import numpy as np
 
 # predictions 和 targets 是用于一次性比较的预测值与真实值数组。

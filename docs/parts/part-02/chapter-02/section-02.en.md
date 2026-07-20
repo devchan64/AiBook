@@ -237,6 +237,7 @@ Expected output: the mean value `2.5` is printed.
 Concept to check: even if sigma is not written directly, the same repeated structure is still inside the array computation.
 
 ```python
+# This example checks sigma-style repeated sums and mean loss with NumPy array calculations.
 import numpy as np
 
 # values is the repeated-calculation target converted into a NumPy array.
@@ -345,6 +346,7 @@ Expected output: the mean loss value is printed.
 Concept to check: even if a loop is not visible, the same repeated structure is still executed inside array computation.
 
 ```python
+# This example checks sigma-style repeated sums and mean loss with NumPy array calculations.
 import numpy as np
 
 # predictions and targets are arrays of predicted and real values to compare at once.

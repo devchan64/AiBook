@@ -94,6 +94,7 @@ Expected output: the array value, `shape`, and `dtype` are printed.
 Concept to check: in code, it is not enough to read only the name; the actual value, shape, and type must also be checked together.
 
 ```python
+# This example uses variables, functions, and array attributes to check the meaning of inputs and computed results.
 import numpy as np
 
 # x is an array variable that contains several numbers.
@@ -136,6 +137,7 @@ Expected output: `True` is printed.
 Concept to check: a function is the relationship that receives input and produces output, and this can be seen in the simplest rule example.
 
 ```python
+# This example uses variables, functions, and array attributes to check the meaning of inputs and computed results.
 def is_adult(age):
     # age is the input to judge, and True/False is the function output.
     return age >= 19
