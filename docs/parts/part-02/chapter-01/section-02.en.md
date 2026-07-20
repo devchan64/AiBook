@@ -183,6 +183,7 @@ Concept to check:
 - NumPy shows that even the same numbers are separated by axis and dimension
 
 ```python
+# This example uses a NumPy array shape to check how many examples and variables the input data contains.
 import numpy as np
 
 # one_value, vector, and matrix show that the same numbers can be stored in different shapes.

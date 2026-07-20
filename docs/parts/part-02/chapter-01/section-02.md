@@ -183,6 +183,7 @@ y = model(x)
 - NumPy는 같은 숫자라도 축과 차원이 다른 배열을 구분해 보여 준다
 
 ```python
+# NumPy 배열의 shape로 입력 데이터가 몇 개의 사례와 변수로 구성되는지 확인하는 예제입니다.
 import numpy as np
 
 # one_value, vector, matrix는 같은 숫자라도 담긴 모양이 다르다는 점을 보여 줍니다.

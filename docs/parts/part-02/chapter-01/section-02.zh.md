@@ -183,6 +183,7 @@ y = model(x)
 - NumPy 会把即使数字相同、但轴和维度不同的对象区分显示出来
 
 ```python
+# 这个例子用 NumPy 数组的 shape 检查输入数据包含多少个样本和变量。
 import numpy as np
 
 # one_value、vector、matrix 展示相同数字也可以被放进不同形状。

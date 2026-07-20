@@ -127,6 +127,7 @@ Concept to check:
 - a small array example is the simplest starting point for connecting mathematical notation with actual computational results
 
 ```python
+# This example stores study-hour data in a NumPy array and checks the input values used for the mean.
 import numpy as np
 
 # x is the small numeric array used to check the mean.
