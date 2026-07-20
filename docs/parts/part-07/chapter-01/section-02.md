@@ -142,6 +142,7 @@ P7-1.1의 결과를 이 구조에 맞추면 다음처럼 적을 수 있습니다
 ## Python 예제
 
 ```python
+# 트래픽 로그에서 전환율 하락과 오류율 상승 조건을 엄격 모드와 탐색 모드 기준으로 비교해 검토 후보를 고르는 예제입니다.
 import csv
 from collections import defaultdict
 from datetime import datetime

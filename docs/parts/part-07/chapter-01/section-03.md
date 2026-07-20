@@ -84,6 +84,7 @@ P7-1.2까지 읽으면 보통 `회고는 잘 남기면 된다`고 생각하기 �
   - 더 짧은 최근 구간 비교는 빠른 이상 탐지에 유리하지만 해석은 더 보수적이어야 한다
 
 ```python
+# 웹 트래픽 기준선을 전체 합계, 채널-일자, 최근 집중 기간으로 바꿔 우선 검토 항목과 다음 질문을 재설계하는 예제입니다.
 import csv
 from collections import defaultdict
 from datetime import datetime
@@ -261,6 +262,7 @@ for row in retrospective:
 | `review_needed=yes` 비율 | 값 차이가 실제 검토 우선순위로 이어질 만큼 반복되는가 |
 
 ```python
+# action event 단위 요약에서 기준선 경계 순서를 바꿔 mid-flow와 late-drop gap이 어떻게 달라지는지 비교하는 예제입니다.
 import csv
 from pathlib import Path
 

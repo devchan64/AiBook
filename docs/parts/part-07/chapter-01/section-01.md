@@ -198,6 +198,7 @@ Part 3에서 써 온 공통 기록 구조를 프로젝트 문서 형태로 처�
 - 관찰한 값, 아직 단정하지 않을 해석, 다음 질문을 서로 다른 칸에 적습니다.
 
 ```python
+# 웹 트래픽 로그를 기준선 기간과 최근 기간으로 나눠 채널별 전환율과 오류율 변화를 비교하는 예제입니다.
 import csv
 from collections import defaultdict
 from datetime import datetime
