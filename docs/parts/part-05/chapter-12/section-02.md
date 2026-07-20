@@ -159,6 +159,7 @@ LSTM과 GRU는 장기 의존성 문제를 완화했지만, 여전히 상태를 �
 이 표의 목적은 정확한 숫자를 미리 외우는 데 있지 않습니다. 같은 규칙과 같은 질문이어도, 순차 상태는 간격이 길어질수록 흔들리고 직접 참조는 같은 위치를 다시 집어 올릴 수 있다는 차이를 코드 전에 붙잡는 데 있습니다.
 
 ```python
+# 규칙과 질문 사이 gap이 길어질 때 순차 상태 보존과 직접 참조 방식의 판단이 어떻게 달라지는지 비교하는 예제입니다.
 restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
 restart_question = "Question: can the line restart now?"
 

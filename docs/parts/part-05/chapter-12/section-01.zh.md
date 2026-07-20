@@ -206,6 +206,7 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 这两张图会在运行代码前，先把`最后值相同`和`累积状态相同`分开来看。`gradual_rise` 和 `temporary_spike` 都以 80 结束，但因为序列状态也会保留前一段流向，所以最终警报解释可能不同。
 
 ```python
+# 这个例子比较只看最后单词或最后传感器值的 baseline，与累积 sequential state 后的最终判断差异。
 word_signal = {
     "leak": -2.2,
     "blocked": -1.5,

@@ -205,6 +205,7 @@ We use the word signals, sensor signals, and initial state values summarized abo
 These graphs make us separate first `the final value is the same` from `the accumulated state is the same` before running the code. `gradual_rise` and `temporary_spike` both end at 80, but because sequential state also keeps the immediately preceding flow, the final alert interpretation can differ.
 
 ```python
+# This example compares final decisions from a last-word or last-value baseline with decisions from accumulated sequential state.
 word_signal = {
     "leak": -2.2,
     "blocked": -1.5,

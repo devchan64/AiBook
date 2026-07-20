@@ -159,6 +159,7 @@ Before looking at the code, it helps to predict first what outputs will shake as
 The purpose of this table is not to memorize the exact numbers in advance. Even with the same rule and the same question, it is there to help hold before the code that sequential state can shake as the gap grows longer, while direct reference can pick up the same position again.
 
 ```python
+# This example compares how sequential state preservation and direct reference decisions differ as the gap between rule and question grows.
 restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
 restart_question = "Question: can the line restart now?"
 

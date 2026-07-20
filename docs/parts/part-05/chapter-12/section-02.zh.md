@@ -159,6 +159,7 @@ LSTM 和 GRU 缓解了长期依赖问题，但`仍然必须按顺序传状态`�
 这张表的目的并不是让人先把精确数字背下来。它是想在读代码之前，先抓住这样一个差别：即使规则和问题相同，序列状态会随着 gap 变长而摇晃，而 direct reference 则可以把同一位置再次拿起来。
 
 ```python
+# 这个例子比较规则和问题之间的 gap 变长时，sequential state preservation 与 direct reference 的判断如何不同。
 restart_block_rule = "Rule: restart stays blocked until vessel pressure is fully vented."
 restart_question = "Question: can the line restart now?"
 
