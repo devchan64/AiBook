@@ -192,6 +192,7 @@ P6-18.1에서 큰 발전 흐름을 잡았다면, 여기서는 직접 구조 계�
 아래 코드는 위에 정리한 입력 파일을 사용합니다. CSV는 `name`, `domain`, `target`, `connects_to_transformer_llm` 열을 가지며, 마지막 열은 `true` 또는 `false`로 적습니다.
 
 ```python
+# 언어 모델 역사 항목 CSV를 읽어 domain, target, Transformer 연결 여부로 직접 계보와 주변 근거를 분류하는 예제입니다.
 import csv
 from pathlib import Path
 

@@ -241,6 +241,7 @@ GPT 계열이 커지면서 사용자 경험도 달라졌습니다.
 아래 코드는 위에 정리한 문장 목록과 질문-문서 비교 예시를 사용합니다.
 
 ```python
+# bigram, 정규화 검색, 순서 인식, attention-like focus를 한데 비교해 LLM 발전 흐름의 핵심 직관을 압축해 보는 예제입니다.
 from collections import Counter
 
 sentences = [
