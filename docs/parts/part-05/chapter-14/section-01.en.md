@@ -256,6 +256,7 @@ Input:
 We use the three tokens `symptom`, `deploy clue`, and `action status`, and compare the scenes `rollback confirmed` and `rollback not confirmed`.
 
 ```python
+# This example compares how an action-token representation changes inside a Transformer block when rollback is confirmed or not confirmed.
 import numpy as np
 
 tokens = np.array([

@@ -75,6 +75,7 @@ self-attention은 `재기동`이 `압력 미해소`와 `보류`를 함께 보게
 | `changed[1]`만 바꾸기 | `other positions unchanged` | 한 위치의 FFN 계산이 다른 위치를 새로 참고하지 않는가 |
 
 ```python
+# 같은 feed-forward network를 위치별 표현에 공유 적용해도 각 위치의 hidden과 output이 어떻게 다르게 가공되는지 확인하는 예제입니다.
 import numpy as np
 
 positions = np.array([

@@ -88,6 +88,7 @@ RNN에서는 먼 정보가 현재까지 오려면 상태를 여러 step 거쳐 �
 | 마지막 `Request:` 문장 | `direct_decision`, 상위 matched line | 현재 요청이 앞 규칙을 다시 호출할 단서를 갖고 있는가 |
 
 ```python
+# 긴 문맥에서 순차 상태가 약해지는 과정과 direct reference가 앞 규칙을 다시 찾는 과정을 비교하는 예제입니다.
 context = [
     "Rule: unstable pressure state must not be restarted.",
     "Log: sensor calibration completed for line 3.",

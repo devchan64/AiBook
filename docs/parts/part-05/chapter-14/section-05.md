@@ -94,6 +94,7 @@ Transformer식 관계 계산 감각에서는 6번 질문 위치와 1번 규칙, 
 | `batch`에 넣은 문장 개수 | `score tensor shape` | 여러 문장의 관계 score가 하나의 텐서 계산으로 묶이는가 |
 
 ```python
+# RNN식 순차 trace와 Transformer식 관계 score 행렬을 비교해 step 순서 누적과 병렬 관계 계산의 차이를 확인하는 예제입니다.
 import numpy as np
 
 line_features = np.array([

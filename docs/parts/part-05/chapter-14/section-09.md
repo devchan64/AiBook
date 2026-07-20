@@ -110,6 +110,7 @@ layer normalization은 이때 `재기동이 중요한가, 보류가 중요한가
 | `probe` | `next score before/after` | 다음 계산 점수가 원래 값 스케일에 얼마나 끌렸는가 |
 
 ```python
+# layer normalization 전후의 평균, 표준편차, 다음 계산 점수를 비교해 한 위치 표현의 값 기준선이 어떻게 정리되는지 확인하는 예제입니다.
 import numpy as np
 
 representations = {

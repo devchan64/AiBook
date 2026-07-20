@@ -219,6 +219,7 @@ RNN 系列是一种这样的结构：每一步继承前一个状态，再产生�
 这里使用前面整理的上下文行列表 `context`。
 
 ```python
+# 这个例子比较重启请求需要重新连接前面压力规则时，sequential state decay 和 direct rereference 的差异。
 context = [
     "Rule: unstable pressure state must not be restarted.",
     "Log: sensor calibration completed for line 3.",

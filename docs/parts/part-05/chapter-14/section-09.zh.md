@@ -110,6 +110,7 @@ layer normalization 此时不会重新判断 `重启重要还是保留重要`。
 | `probe` | `next score before/after` | 下一次计算分数受到原始值尺度多大牵引 |
 
 ```python
+# 这个例子比较 layer normalization 前后的平均值、标准差和 next score，观察一个位置表示的数值基准如何被整理。
 import numpy as np
 
 representations = {

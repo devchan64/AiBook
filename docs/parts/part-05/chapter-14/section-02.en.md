@@ -218,6 +218,7 @@ Input:
 We use the context-line list `context` summarized above.
 
 ```python
+# This example compares sequential state decay with direct rereference when a restart request must reconnect to an earlier pressure rule.
 context = [
     "Rule: unstable pressure state must not be restarted.",
     "Log: sensor calibration completed for line 3.",

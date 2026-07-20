@@ -264,6 +264,7 @@ Transformer 看起来像一个大转折点，并不是因为它只是多加了�
 这里使用三个 token：`symptom`、`deploy clue`、`action status`，并比较 `rollback confirmed` 与 `rollback not confirmed` 两个场景。
 
 ```python
+# 这个例子比较 rollback 已确认或未确认时，action token 表示在 Transformer block 内如何变化。
 import numpy as np
 
 tokens = np.array([

@@ -110,6 +110,7 @@ This example is not code for memorizing the layer normalization formula. It is a
 | `probe` | `next score before/after` | How strongly was the next computation score pulled by the original value scale? |
 
 ```python
+# This example compares mean, standard deviation, and next-score values before and after layer normalization to see how one position representation is rescaled.
 import numpy as np
 
 representations = {

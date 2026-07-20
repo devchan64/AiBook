@@ -94,6 +94,7 @@ GPU 擅长同时处理大量相似计算。Part 5 前面看到的 batch 和 tens
 | 放进 `batch` 的句子数 | `score tensor shape` | 多个句子的关系 score 是否被打包成一个 tensor 计算 |
 
 ```python
+# 这个例子比较 RNN 式 sequential trace 和 Transformer 式 relation-score matrix，观察 step 累积和并行关系计算的差异。
 import numpy as np
 
 line_features = np.array([

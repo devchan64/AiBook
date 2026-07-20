@@ -94,6 +94,7 @@ This example is not an implementation of an actual Transformer. It is a small ex
 | number of sentences placed in `batch` | `score tensor shape` | Are relation scores for several sentences bundled into one tensor computation? |
 
 ```python
+# This example compares an RNN-style sequential trace with a Transformer-style relation-score matrix to see step accumulation versus parallel relation calculation.
 import numpy as np
 
 line_features = np.array([

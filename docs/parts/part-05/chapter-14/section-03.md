@@ -67,6 +67,7 @@ Transformer 블록 안에서 현재 토큰 표현은 어떤 단계로 바뀌는�
 | residual 이후 action token | `action token after residual` | 원래 조치 축이 남은 상태에서 최종 블록 출력 방향이 어떻게 달라지는가 |
 
 ```python
+# rollback 확인 여부에 따라 Transformer block 안에서 action token의 attention, feed-forward, residual 이후 표현이 어떻게 달라지는지 비교하는 예제입니다.
 import numpy as np
 
 tokens = np.array([
