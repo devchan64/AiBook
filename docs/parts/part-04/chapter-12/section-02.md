@@ -145,6 +145,7 @@ k-NN은 새 입력과 기존 데이터 사이의 거리를 계산한 뒤, 가장
 3. 차이가 생겼다면 `모델이 바뀐 것`이 아니라 `가까움의 계산 기준`이 바뀐 것인지 먼저 해석한다.
 
 ```python
+# 특징 스케일 차이가 거리 계산과 k-NN 이웃 선택을 어떻게 바꾸는지 확인하는 예제입니다.
 from math import sqrt
 from collections import Counter
 
@@ -253,6 +254,7 @@ k=3 prediction after scaling = safe
 이번에는 표준화 방식은 그대로 두고, query의 연체 횟수만 `0`에서 `2`로 바꿔 봅니다.
 
 ```python
+# 특징 스케일 차이가 거리 계산과 k-NN 이웃 선택을 어떻게 바꾸는지 확인하는 예제입니다.
 from math import sqrt
 
 train = [

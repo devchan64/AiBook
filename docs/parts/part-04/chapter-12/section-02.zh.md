@@ -145,6 +145,7 @@ standardization 不是为了让数字变得更漂亮。更准确地说，它是�
 3. 如果出现差异，先把它解释成 `nearness 的计算规则改变了`，而不是 `模型本身改变了`
 
 ```python
+# 这个例子检查特征尺度差异如何改变距离计算和 k-NN 邻居选择。
 from math import sqrt
 from collections import Counter
 
@@ -253,6 +254,7 @@ k=3 prediction after scaling = safe
 现在保持同一个 standardization 方式，只把 query 的 late-payment count 从 `0` 改成 `2`。
 
 ```python
+# 这个例子检查特征尺度差异如何改变距离计算和 k-NN 邻居选择。
 from math import sqrt
 
 train = [

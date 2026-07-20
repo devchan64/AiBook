@@ -157,6 +157,7 @@ logistic regression 会先问：`怎样用一条公式或一条边界，把整�
   - 靠近边界的 query 很容易让解释摇晃
 
 ```python
+# 这个例子计算新 query 与已有样本之间的距离，用来选择 k-NN 邻居和预测标签。
 from math import dist
 from collections import Counter
 

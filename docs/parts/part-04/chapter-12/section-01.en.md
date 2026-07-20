@@ -157,6 +157,7 @@ This case shows three key points.
   - a query near the boundary can shake interpretation easily
 
 ```python
+# This example calculates distances between a new query and existing samples to choose k-NN neighbors and a predicted label.
 from math import dist
 from collections import Counter
 

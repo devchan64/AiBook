@@ -157,6 +157,7 @@ k-NN의 핵심 가정은 `비슷한 입력은 비슷한 출력을 가질 가능�
   - 경계 근처 query는 해석이 쉽게 흔들릴 수 있습니다.
 
 ```python
+# 새 query와 기존 샘플 사이의 거리를 계산해 k-NN 이웃과 예측 label을 고르는 예제입니다.
 from math import dist
 from collections import Counter
 

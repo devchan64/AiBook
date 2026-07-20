@@ -145,6 +145,7 @@ The reading order can be kept as follows.
 3. if a difference appears, first interpret whether `the rule used to compute nearness changed`, not `the model itself changed`
 
 ```python
+# This example checks how feature scale differences change distance calculations and k-NN neighbor selection.
 from math import sqrt
 from collections import Counter
 
@@ -253,6 +254,7 @@ Under raw distance, the `risky` group appears first. After standardization, the 
 Now keep the same standardization scheme, but change only the query's late-payment count from `0` to `2`.
 
 ```python
+# This example checks how feature scale differences change distance calculations and k-NN neighbor selection.
 from math import sqrt
 
 train = [
