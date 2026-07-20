@@ -221,6 +221,7 @@ Before looking at the code, it helps to predict first how much relationship sepa
 The purpose of this table is not to calculate the exact vector values in advance. It is to help hold before the code that multi-head is not simple repetition, and that depending on how the heads are designed, `relationship separation` can grow or return toward compromise.
 
 ```python
+# This example compares single-head attention with multiple multi-head scenarios to see how head separation and combined representations change.
 import numpy as np
 
 tokens = np.array([

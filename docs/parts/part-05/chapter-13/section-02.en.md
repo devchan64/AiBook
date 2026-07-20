@@ -239,6 +239,7 @@ Input:
 We use the token list and the vector representation for each token summarized above.
 
 ```python
+# This example compares how self-attention changes referenced clues and new representations when the current token changes inside the same note.
 import math
 
 tokens = ["battery_pack", "separated", "insulating_cap", "not_put_on", "that"]

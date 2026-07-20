@@ -222,6 +222,7 @@ query、key、value 可以先这样类比。
 这张表的目的，并不是让人预先算准向量值，而是让人在读代码前先抓住：multi-head 不是简单重复，而是`关系分离`会随着 head 的设计而放大或回缩。
 
 ```python
+# 这个例子比较 single-head attention 和多个 multi-head 场景，观察 head 分离和合并表示如何变化。
 import numpy as np
 
 tokens = np.array([

@@ -207,6 +207,7 @@ attention 이후에는:
 위에 정리한 질문과 문장별 점수 후보를 사용합니다.
 
 ```python
+# 같은 후보 문장 묶음에서 질문이 바뀔 때 baseline 평균과 attention 가중 평균이 어떻게 다른 context를 만드는지 비교하는 예제입니다.
 import math
 
 question = "압력 해소 유지 시간은?"

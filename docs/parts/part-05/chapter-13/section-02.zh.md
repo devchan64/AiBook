@@ -239,6 +239,7 @@ RNN 会按时间顺序传状态，因此计算流程给人的感觉很顺序化�
 这里使用上面整理好的 token 列表，以及每个 token 的向量表示。
 
 ```python
+# 这个例子比较同一条备注中当前 token 改变时，self-attention 参考的线索和新表示如何变化。
 import math
 
 tokens = ["battery_pack", "separated", "insulating_cap", "not_put_on", "that"]

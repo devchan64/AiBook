@@ -208,6 +208,7 @@ attention 并不只是一个把性能稍微提高一点的辅助技巧。它真�
 这里使用上面整理好的问题和各句子的分数候选。
 
 ```python
+# 这个例子比较同一组候选句子中问题改变时，baseline 平均和 attention 加权 context 如何不同。
 import math
 
 question = "What is the pressure-release holding time?"

@@ -207,6 +207,7 @@ Input:
 We use the questions and the candidate scores by sentence summarized above.
 
 ```python
+# This example compares baseline averaging with attention-weighted context when the question changes over the same candidate sentences.
 import math
 
 question = "What is the pressure-release holding time?"

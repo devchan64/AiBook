@@ -221,6 +221,7 @@ P5-13.2에서는 self-attention을 `같은 시퀀스 안 토큰들이 서로를 
 이 표의 목적은 정확한 벡터 값을 미리 계산하는 데 있지 않습니다. multi-head가 단순 반복이 아니라, head를 어떻게 설계하느냐에 따라 `관계 분리`가 커지기도 하고 다시 절충에 가까워지기도 한다는 점을 코드 전에 붙잡는 데 있습니다.
 
 ```python
+# single-head attention과 여러 multi-head 시나리오를 비교해 head별 관계 분리와 결합 표현이 어떻게 달라지는지 보는 예제입니다.
 import numpy as np
 
 tokens = np.array([
