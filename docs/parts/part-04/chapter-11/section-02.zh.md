@@ -358,6 +358,7 @@ decision boundary 视角会迫使读者去看：
 | `samples` | 用来观察边界下方、边界附近、边界上方的样本 |
 
 ```python
+# 这个例子检查逻辑回归的决策边界如何在输入空间中划分类别。
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -416,6 +417,7 @@ prediction      : [0 1 1]
 ### Python 例子：同一组 score，在两个 threshold 下分别怎么读
 
 ```python
+# 这个例子检查逻辑回归的决策边界如何在输入空间中划分类别。
 import numpy as np
 
 proba_class_1 = np.array([0.48, 0.62, 0.81])
@@ -444,6 +446,7 @@ threshold 0.7   : [0 0 1]
 现在保持同样的 score 数组，把 threshold 再提高到 `0.9`。
 
 ```python
+# 这个例子检查逻辑回归的决策边界如何在输入空间中划分类别。
 import numpy as np
 
 proba_class_1 = np.array([0.48, 0.62, 0.81])

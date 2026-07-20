@@ -218,6 +218,7 @@ L(w, b) = \prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}
 | `proba_model_a`, `proba_model_b` | 对同一组正确答案给出不同确信程度的两个 probability 例子 |
 
 ```python
+# 这个例子计算 log-odds、似然和 MLE 如何连接到逻辑回归训练。
 import numpy as np
 from sklearn.metrics import log_loss
 

@@ -400,6 +400,7 @@ logistic regression 是 linear model。这种简单性同时是优点，也是�
 | S8 | 8 | 通过 |
 
 ```python
+# 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -451,6 +452,7 @@ class prediction : [0 1 1]
 下面的例子说明 logistic regression 会先产出 score，然后再通过 threshold 把它变成 class。
 
 ```python
+# 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
 import numpy as np
 
 scores = np.array([0.18, 0.49, 0.51, 0.87])
@@ -481,6 +483,7 @@ threshold 0.5 : [0 0 1 1]
   - 模型输出和服务行为必须分开读取
 
 ```python
+# 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
 import numpy as np
 
 scores = np.array([0.42, 0.58, 0.73])
@@ -508,6 +511,7 @@ threshold 0.7   : [0 0 1]
 现在把训练数据里边界附近的 `study_hours = 4` 从 `不及格(0)` 改成 `及格(1)`。
 
 ```python
+# 这个例子计算逻辑回归的线性分数、sigmoid 概率和基于阈值的分类。
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 

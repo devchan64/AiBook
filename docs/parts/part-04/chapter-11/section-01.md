@@ -448,6 +448,7 @@ scikit-learn의 로지스틱 회귀 문서에서 중요한 출력 중 하나는 
 즉, 이 예제는 `공부 시간이 4시간대에서 5시간대로 넘어갈 때 합격 class 쪽으로 읽히기 시작하는가`를 보는 가장 작은 장난감 데이터입니다.
 
 ```python
+# 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -506,6 +507,7 @@ class prediction : [0 1 1]
   - 모델의 출력과 서비스의 행동은 분리해서 읽어야 합니다.
 
 ```python
+# 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
 import numpy as np
 
 scores = np.array([0.42, 0.58, 0.73])
@@ -535,6 +537,7 @@ threshold 0.7   : [0 0 1]
 이번에는 훈련 데이터에서 경계 근처의 `study_hours = 4` 사례를 `불합격(0)`에서 `합격(1)`으로 바꿔 봅니다.
 
 ```python
+# 로지스틱 회귀의 선형 점수, sigmoid 확률, threshold 분류를 계산하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 

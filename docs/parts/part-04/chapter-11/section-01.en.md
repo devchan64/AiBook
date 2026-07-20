@@ -412,6 +412,7 @@ The example below is a very small binary-classification practice that predicts w
 | S8 | 8 | pass |
 
 ```python
+# This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -463,6 +464,7 @@ There are also places that become clearer if the reader changes values directly.
 The example below shows that logistic regression creates a score first and then turns it into a class through a threshold.
 
 ```python
+# This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
 import numpy as np
 
 scores = np.array([0.18, 0.49, 0.51, 0.87])
@@ -493,6 +495,7 @@ Now, look directly at how the final behavior changes when the threshold changes,
   - the model output and the service action should be read separately
 
 ```python
+# This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
 import numpy as np
 
 scores = np.array([0.42, 0.58, 0.73])
@@ -520,6 +523,7 @@ This output again shows that the model creates the score, but the operating rule
 Now change the near-boundary case `study_hours = 4` from `fail (0)` to `pass (1)` in the training data.
 
 ```python
+# This example computes logistic regression linear scores, sigmoid probabilities, and threshold-based classes.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 

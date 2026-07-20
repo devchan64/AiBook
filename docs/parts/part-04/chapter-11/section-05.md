@@ -121,6 +121,7 @@ P4-8에서 baseline을 비교할 때 `같은 분할, 같은 지표, 같은 실�
 아래 예제는 실제 학습보다 `비교 기록을 어떻게 남겨야 하는가`를 보여 주는 장난감 코드입니다.
 
 ```python
+# solver와 regularization 설정이 로지스틱 회귀 학습 조건을 어떻게 바꾸는지 확인하는 예제입니다.
 from sklearn.linear_model import LogisticRegression
 
 configs = [

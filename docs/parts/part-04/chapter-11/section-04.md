@@ -133,6 +133,7 @@ P(y = k \mid x) = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}
 | `multi_proba` | 클래스별 확률 분포 예시 |
 
 ```python
+# 다중 클래스 로지스틱 회귀에서 클래스별 점수와 softmax 확률을 비교하는 예제입니다.
 import numpy as np
 
 class_names = ["refund", "shipping", "account"]

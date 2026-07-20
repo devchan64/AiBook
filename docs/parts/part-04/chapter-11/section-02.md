@@ -375,6 +375,7 @@ Fisher의 판별 전통, Bayes 분류기, LDA/QDA 같은 설명도 결국 `어�
 | `samples` | 경계 아래, 경계 근처, 경계 위를 확인하기 위한 샘플 |
 
 ```python
+# 로지스틱 회귀의 결정 경계가 입력 공간에서 클래스를 어떻게 나누는지 확인하는 예제입니다.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -470,6 +471,7 @@ prediction      : [0 1 1]
 - 경계는 단지 수학식이 아니라 운영 규칙과도 연결된다
 
 ```python
+# 로지스틱 회귀의 결정 경계가 입력 공간에서 클래스를 어떻게 나누는지 확인하는 예제입니다.
 import numpy as np
 
 proba_class_1 = np.array([0.48, 0.62, 0.81])
@@ -497,6 +499,7 @@ threshold 0.7   : [0 0 1]
 이번에는 같은 점수 배열을 유지한 채 threshold를 `0.9`까지 올려 봅니다.
 
 ```python
+# 로지스틱 회귀의 결정 경계가 입력 공간에서 클래스를 어떻게 나누는지 확인하는 예제입니다.
 import numpy as np
 
 proba_class_1 = np.array([0.48, 0.62, 0.81])

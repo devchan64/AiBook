@@ -133,6 +133,7 @@ likelihood 的形式，也是在和二元分类同样的思路上扩展。假设
 | `multi_proba` | 每个 class 的 probability distribution 例子 |
 
 ```python
+# 这个例子比较多类别逻辑回归中的各类别分数和 softmax 概率。
 import numpy as np
 
 class_names = ["refund", "shipping", "account"]

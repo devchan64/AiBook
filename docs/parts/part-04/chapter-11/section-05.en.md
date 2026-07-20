@@ -121,6 +121,7 @@ Suppose experiment A and experiment B are both logistic regression, but one uses
 The code below is a toy example that shows not the actual learning result, but `how comparison records should be left`.
 
 ```python
+# This example checks how solver and regularization settings change logistic regression training conditions.
 from sklearn.linear_model import LogisticRegression
 
 configs = [

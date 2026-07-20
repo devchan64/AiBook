@@ -372,6 +372,7 @@ The inputs can be read as follows.
 | `samples` | samples to inspect below the boundary, near the boundary, and above the boundary |
 
 ```python
+# This example checks how a logistic regression decision boundary separates classes in input space.
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -467,6 +468,7 @@ Concept to check:
 - the boundary is connected not only to a formula, but also to an operating rule
 
 ```python
+# This example checks how a logistic regression decision boundary separates classes in input space.
 import numpy as np
 
 proba_class_1 = np.array([0.48, 0.62, 0.81])
@@ -494,6 +496,7 @@ This result shows that a point such as `0.62` can already look fairly positive f
 Now keep the same score array and raise the threshold again to `0.9`.
 
 ```python
+# This example checks how a logistic regression decision boundary separates classes in input space.
 import numpy as np
 
 proba_class_1 = np.array([0.48, 0.62, 0.81])

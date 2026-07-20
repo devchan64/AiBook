@@ -121,6 +121,7 @@ regularization 可以先读成 `防止模型把训练数据贴得过紧的装置
 下面这段代码是一个 toy example，重点不在真正训练，而在展示 `比较记录应该怎么写下来`。
 
 ```python
+# 这个例子检查 solver 和 regularization 设置如何改变逻辑回归的训练条件。
 from sklearn.linear_model import LogisticRegression
 
 configs = [

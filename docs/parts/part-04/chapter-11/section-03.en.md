@@ -218,6 +218,7 @@ The example below shows that even when the same correct answers are obtained, lo
 | `proba_model_a`, `proba_model_b` | two probability examples with different confidence levels for the same labels |
 
 ```python
+# This example calculates how log-odds, likelihood, and MLE connect to logistic regression training.
 import numpy as np
 from sklearn.metrics import log_loss
 

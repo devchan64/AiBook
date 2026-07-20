@@ -133,6 +133,7 @@ The example below shows the basic intuition that, in multiclass classification, 
 | `multi_proba` | example probability distributions across classes |
 
 ```python
+# This example compares class-wise scores and softmax probabilities in multinomial logistic regression.
 import numpy as np
 
 class_names = ["refund", "shipping", "account"]

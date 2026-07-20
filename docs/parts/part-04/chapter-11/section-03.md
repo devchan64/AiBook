@@ -218,6 +218,7 @@ L(w, b) = \prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}
 | `proba_model_a`, `proba_model_b` | 같은 정답에 대해 확신 정도가 다른 두 확률 예시 |
 
 ```python
+# log-odds, likelihood, MLE가 로지스틱 회귀 학습과 어떻게 연결되는지 계산하는 예제입니다.
 import numpy as np
 from sklearn.metrics import log_loss
 
