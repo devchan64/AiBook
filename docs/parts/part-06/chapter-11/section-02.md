@@ -218,6 +218,7 @@ RAG는 검색 결과를 생성에 붙입니다. 따라서 검색 품질이 낮�
 코드에서 확인할 핵심은 검색 품질 평가는 속도만이 아니라 정답 문서가 상위 후보 안에 실제로 들어오는지를 먼저 봐야 한다는 점입니다.
 
 ```python
+# fast 인덱스와 strict 인덱스 설정을 비교해 candidate budget, version filter, hit rate, latency의 trade-off를 확인하는 예제입니다.
 import csv
 import math
 from pathlib import Path

@@ -219,6 +219,7 @@ RAG는 `질문 -> 관련 문서 검색 -> 생성` 구조입니다. 여기서 검
 코드에서 확인할 핵심은 벡터 데이터베이스는 유사한 문장뿐 아니라 원문과 메타데이터를 함께 반환해야 RAG 근거 저장소로 쓸 수 있다는 점입니다.
 
 ```python
+# 문서 chunk의 embedding과 query vector를 cosine similarity로 비교해 vector database 검색 payload와 metadata 보존을 확인하는 예제입니다.
 import math
 
 records = [
