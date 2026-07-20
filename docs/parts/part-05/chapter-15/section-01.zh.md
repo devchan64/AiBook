@@ -9,7 +9,7 @@
 
 生成模型不只是学习把输入放进哪个类别里，它还试图学习数据通常以什么模式出现，以及接下来什么内容更有可能自然地继续下去。
 
-当你需要快速重新区分分类与生成时，可以回到概念词汇表里的 [generative model](../../../reference/concept-glossary.md#generative-model) 条目。
+当你需要快速重新区分分类与生成时，可以回到概念词汇表里的 [generative model](/AiBook/reference/concept-glossary/#generative-model) 条目。
 
 ## 生成模型与分类模型分开的提问方式
 

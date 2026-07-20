@@ -43,7 +43,7 @@
 
 问题情境：确认把连续数值斜率转换成短符号列之后，哪些东西会变得更容易看见。
 
-输入(input)：按动作整理的区段斜率 CSV [p3_6_2_segment_slopes.csv](../../../assets/part-03/chapter-06/p3_6_2_segment_slopes.csv)，以及 token 边界候选 `token_settings`
+输入(input)：按动作整理的区段斜率 CSV [p3_6_2_segment_slopes.csv](/AiBook/assets/part-03/chapter-06/p3_6_2_segment_slopes.csv)，以及 token 边界候选 `token_settings`
 
 期望输出(output)：每个动作的斜率列表被转换成 `UP2`、`UP1`、`FLAT`、`DOWN1`、`DOWN2` 这样的 token 序列。改变边界值时，保留为 `FLAT` 的区段数、强上升/强下降 token 数、发生变化的动作列表也会改变。
 

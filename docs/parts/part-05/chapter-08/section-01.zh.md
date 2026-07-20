@@ -11,7 +11,7 @@
 
 正则化，是在学习过程中加入约束或额外代价，好让模型不要只对训练数据过度贴合的想法。
 
-如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的 [regularization](../../../reference/concept-glossary.md#regularization) 条目，重新对齐边界。
+如果之后又把过拟合抑制和 normalization 混在一起，更适合回到概念词汇表里的 [regularization](/AiBook/reference/concept-glossary/#regularization) 条目，重新对齐边界。
 
 ## regularization 给目标函数加上的问题
 
@@ -71,7 +71,7 @@ regularization 正是在这里出现。它给模型加上一句约束：`可以�
 
 如果把这个场景画成曲线会更容易读。训练损失持续下降，而验证损失从某个点开始重新上升时，模型可能正在越来越偏向于把训练数据的细节模式背得更牢。
 
-![训练损失与验证损失分叉的过拟合场景](../../../assets/part-05/chapter-08/train-validation-overfit-zh.svg)
+![训练损失与验证损失分叉的过拟合场景](/AiBook/assets/part-05/chapter-08/train-validation-overfit-zh.svg)
 
 在这张图里，regularization 并不是只盯着训练损失的最低点。真正要一起看的，是新数据上的损失是否也在改善，还是训练数据与新数据之间的差距正在进一步扩大。
 
@@ -209,7 +209,7 @@ regularization 更常需要出现的场景，大致可以读成下面这样。
 
 输入：
 
-- 训练日志 CSV：[`regularization-training-log.csv`](../../../assets/part-05/chapter-08/regularization-training-log.csv){ .csv-preview }
+- 训练日志 CSV：[`regularization-training-log.csv`](/AiBook/assets/part-05/chapter-08/regularization-training-log.csv){ .csv-preview }
 - `model`：没有 regularization 的设置，以及使用 L2 regularization 的设置
 - `epoch`：训练重复编号
 - `train_loss`、`validation_loss`、`weight_size`：训练损失、验证损失、权重大小
@@ -320,11 +320,11 @@ weight_growth = 1.5
 
 把这些数字再画成曲线，regularization 要我们读取的比较轴会更清楚。
 
-![有无 regularization 时的训练损失与验证损失](../../../assets/part-05/chapter-08/regularization-loss-compare-zh.png)
+![有无 regularization 时的训练损失与验证损失](/AiBook/assets/part-05/chapter-08/regularization-loss-compare-zh.png)
 
 第一张图里，不能只选择训练损失更低的那条线。没有 regularization 的设置中，训练损失持续下降，但验证损失在第 8 个 epoch 之后重新上升。使用 L2 regularization 的设置虽然没有那么激进地降低训练损失，却把验证损失的反弹保持得更小。
 
-![有无 regularization 时的权重大小增加](../../../assets/part-05/chapter-08/regularization-weight-growth-zh.png)
+![有无 regularization 时的权重大小增加](/AiBook/assets/part-05/chapter-08/regularization-weight-growth-zh.png)
 
 第二张图里，要看的是在同样的学习推进中，哪一种解更依赖较大的权重。没有 regularization 的设置中，权重大小持续变大；使用 L2 regularization 的设置中，增长幅度则平缓得多。
 

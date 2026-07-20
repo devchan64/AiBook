@@ -7,7 +7,7 @@
 
 在 Transformer block 中，layer normalization 不是重新选择意义的装置。它会在一个位置表示内部重新对齐值的平均和散布，让这些值处在下一次计算更容易处理的基准线上。
 
-当术语再次散开时，可以回到概念词汇表中的 [layer normalization](../../../reference/concept-glossary.md#layer-normalization) 条目，并同时对照 P5-14.2 的四个部件分工。
+当术语再次散开时，可以回到概念词汇表中的 [layer normalization](/AiBook/reference/concept-glossary/#layer-normalization) 条目，并同时对照 P5-14.2 的四个部件分工。
 
 ## 值的基准线摇晃是什么意思
 

@@ -19,7 +19,7 @@ Part 5 是这样一个区段：它真正解释了在机器学习共同问题之�
 
 这里一个重要原则是，不要把 Part 5 结束成 `下一 Part 的预告片`。CNN、RNN、Attention、Transformer 都会连到后面的 LLM 说明，但这种连接必须遵守 `先闭合当前结构，再在下一 Part 里扩展到别的问题`，而不是把解释推成 `后面再看`。
 
-复习时，与其只重读这个总结页就停下来，不如在术语开始模糊的地方回到[概念词汇表](../../reference/concept-glossary.md)，把对应词条和它指向的 `Core Section` 一起再看一遍，会更稳定。
+复习时，与其只重读这个总结页就停下来，不如在术语开始模糊的地方回到[概念词汇表](/AiBook/reference/concept-glossary/)，把对应词条和它指向的 `Core Section` 一起再看一遍，会更稳定。
 
 ## 重新整理 Part 5 的复习流程
 

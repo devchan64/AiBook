@@ -74,7 +74,7 @@ Compressed into one line, the earlier judgment says that we must choose `the que
 
 Problem situation: confirm that even with the same source log, the comparable table changes depending on whether `one time point`, `one full action`, or `one recent segment` is read as one sample.
 
-Input: time-point records by `event_id` in [p3_4_1_measurement_log.csv](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv), event-level review results in [p3_4_1_review_decisions.csv](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv), and `question_focus_options`, the candidate questions we are currently trying to answer
+Input: time-point records by `event_id` in [p3_4_1_measurement_log.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_measurement_log.csv), event-level review results in [p3_4_1_review_decisions.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_review_decisions.csv), and `question_focus_options`, the candidate questions we are currently trying to answer
 
 One row in the first CSV is a measurement taken at one time point during an action. One row in the second CSV is a review result attached after one full action has ended. Some events may have too few time-point rows or no review result yet, so the code must first rebuild the sample unit and separately check completeness and whether labels can be joined.
 

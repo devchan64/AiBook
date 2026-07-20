@@ -88,7 +88,7 @@ Going just one step further, format consistency and the first quality check can 
 
 Problem situation: when a new log table arrives, check whether it can already be read directly as a sample-comparison table.
 
-Input: the raw log table stored in [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv), and `minimum_rows_per_event`, the minimum number of rows required to treat an event as a comparable candidate
+Input: the raw log table stored in [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv), and `minimum_rows_per_event`, the minimum number of rows required to treat an event as a comparable candidate
 
 Expected output: even for the same table, checking `row meaning`, `grouping criterion`, and `time/order column` first reveals that it is not yet a table that can be compared directly. Changing `minimum_rows_per_event` also changes which events have enough records to be considered candidates.
 

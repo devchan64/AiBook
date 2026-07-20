@@ -11,7 +11,7 @@
 
 循环网络这一类结构，并不只看当前输入，而是想把前面见过的一部分信息继续带下去，用来处理序列数据（sequence data）。
 
-如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的 [RNN（recurrent neural network）](../../../reference/concept-glossary.md#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](../../../reference/concept-glossary.md#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](../../../reference/concept-glossary.md#gru-gated-recurrent-unit) 条目重新对齐。
+如果关于顺序状态结构的基本名称又开始混在一起，可以一起回到概念词汇表里的 [RNN（recurrent neural network）](/AiBook/reference/concept-glossary/#rnn-recurrent-neural-network)、[LSTM（long short-term memory）](/AiBook/reference/concept-glossary/#lstm-long-short-term-memory)、[GRU（gated recurrent unit）](/AiBook/reference/concept-glossary/#gru-gated-recurrent-unit) 条目重新对齐。
 
 ## RNN 怎样记住顺序的问题
 
@@ -193,7 +193,7 @@ LSTM 和 GRU 是想更好处理 basic RNN 记忆问题的结构。
 
 - 具有相同最后确认短语的运维备忘录 sequence
 - 具有相同最后温度 `80` 的传感器 sequence
-- 输入文件：[`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv)
+- 输入文件：[`rnn-sequence-events.csv`](/AiBook/assets/part-05/chapter-12/rnn-sequence-events.csv)
 
 输出：
 
@@ -226,7 +226,7 @@ CSV 的一行表示一个 sequence 里的一个 step。`sequence_id` 表示同�
 
 下面的代码默认在仓库根目录运行。
 
-![基于 CSV 的传感器 sequence 累积状态比较](../../../assets/part-05/chapter-12/rnn-sequence-csv-state-trace-zh.svg)
+![基于 CSV 的传感器 sequence 累积状态比较](/AiBook/assets/part-05/chapter-12/rnn-sequence-csv-state-trace-zh.svg)
 
 这张图会在运行代码前，先把`最后值相同`和`累积状态相同`分开来看。CSV 里的传感器 sequence 都以 80 结束，但因为序列状态也会保留前一段流向，所以只有一部分 sequence 会越过警报阈值。
 

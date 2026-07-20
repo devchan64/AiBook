@@ -45,7 +45,7 @@ But if we see only this definition first, it is difficult. So here we do not era
 
 You do not need to know the exact formulas or algorithms yet. The purpose here is to build the feel that instead of writing the answer directly, we place candidates, compare them by a criterion, and move toward the more favorable side.
 
-![Optimization flow for comparing candidate values under evaluation criteria and constraints to find a better candidate](../../../assets/part-02/chapter-06/optimization-search-loop-en.svg)
+![Optimization flow for comparing candidate values under evaluation criteria and constraints to find a better candidate](/AiBook/assets/part-02/chapter-06/optimization-search-loop-en.svg)
 
 ## Core Criteria: What Does Optimization Search For?
 

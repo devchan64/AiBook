@@ -5,7 +5,7 @@
 
 在 P2-4.3 中，我们把微分(derivative)、偏微分(partial derivative)、梯度(gradient)连了起来；在 P2-4.4 中，我们又看了为什么学习(training)里需要微分。
 
-这里提供的是一节补充学习，用来减轻从高中微分记忆跨到梯度时产生的陌生感。`梯度(gradient)` 的代表性说明放在 P2-4.3，`梯度下降(gradient descent)` 的代表性说明放在 P2-6.3，而这一节只更慢地整理填平它们之间间隔所需要的背景。想快速重新确认术语时，也可以一起看[概念词汇表](../../../reference/concept-glossary.md)。
+这里提供的是一节补充学习，用来减轻从高中微分记忆跨到梯度时产生的陌生感。`梯度(gradient)` 的代表性说明放在 P2-4.3，`梯度下降(gradient descent)` 的代表性说明放在 P2-6.3，而这一节只更慢地整理填平它们之间间隔所需要的背景。想快速重新确认术语时，也可以一起看[概念词汇表](/AiBook/reference/concept-glossary/)。
 
 这里主要围绕正文里快速带过的背景概念来读，例如 `补充学习`、`方向导数(directional derivative)`、`向量分析(vector calculus)`。目的不是从一开始就用公式把 `gradient`、`gradient descent`、`backpropagation` 硬压下去，而是先重新抓住它们到底是在看什么。
 重点是让“从记住一个斜率，跳到多方向变化”这一步重新变得可读。
@@ -109,7 +109,7 @@ y = f(x)
 
 下面这张图，展示的就是：单方向的微分，如何扩展成多个方向的偏微分，再继续扩展成梯度。
 
-![从单变量微分扩展到多个方向的偏微分与梯度的流程](../../../assets/part-02/chapter-04/gradient-single-to-multiple-directions-zh.svg)
+![从单变量微分扩展到多个方向的偏微分与梯度的流程](/AiBook/assets/part-02/chapter-04/gradient-single-to-multiple-directions-zh.svg)
 
 ## 为什么梯度会让人觉得陌生
 
@@ -165,7 +165,7 @@ L(w_1, w_2)
 
 偏微分和方向导数都在处理变化率，但它们看的方向不同。下面这张图会把它们分开：偏微分是沿着坐标轴方向一个一个看，方向导数则是沿着任意选定方向看。
 
-![比较偏导数与方向导数所观察方向的图](../../../assets/part-02/chapter-04/partial-vs-directional-derivative-zh.svg)
+![比较偏导数与方向导数所观察方向的图](/AiBook/assets/part-02/chapter-04/partial-vs-directional-derivative-zh.svg)
 
 这里不去计算方向导数的公式。现在真正需要的，是下面这个区分。
 
@@ -193,7 +193,7 @@ L(w_1, w_2)
 
 向量分析(vector calculus)就是处理这层关系的更大数学语言。这里我们不去学完整体系，只先确认一件事：如果在一个标量场(scalar field)的每个位置读取变化方向，它就会形成梯度；如果这些向量再铺在整个空间上，就可以看成向量场(vector field)。
 
-![显示标量场、梯度和向量场在向量分析中连接位置的图](../../../assets/part-02/chapter-04/vector-calculus-context-zh.svg)
+![显示标量场、梯度和向量场在向量分析中连接位置的图](/AiBook/assets/part-02/chapter-04/vector-calculus-context-zh.svg)
 
 ## 梯度会告诉我们哪一个方向
 
@@ -203,7 +203,7 @@ L(w_1, w_2)
 
 下面这张图展示了：在损失函数的某一点上，梯度方向和让损失下降的方向是怎样互为相反方向的。
 
-![在损失函数等高线上比较梯度方向与下降方向的图](../../../assets/part-02/chapter-04/gradient-direction-loss-contour-zh.svg)
+![在损失函数等高线上比较梯度方向与下降方向的图](/AiBook/assets/part-02/chapter-04/gradient-direction-loss-contour-zh.svg)
 
 这里最重要的是，梯度并不会告诉我们完整地图。它告诉的是当前位置附近的方向信息。它会告诉我们：从当前位置出发，往哪边走值更可能变大，往哪边走值更可能变小。
 
@@ -244,7 +244,7 @@ L(w_1, w_2)
 
 就像下面这张图显示的那样，梯度下降不是一次冲到中心的方法。它会从当前位置出发，朝着损失更低的方向走一小步，然后在新位置上再次读取方向。
 
-![显示梯度下降是朝更低损失方向重复小步移动的图](../../../assets/part-02/chapter-04/gradient-descent-steps-zh.svg)
+![显示梯度下降是朝更低损失方向重复小步移动的图](/AiBook/assets/part-02/chapter-04/gradient-descent-steps-zh.svg)
 
 也就是说，它会不断重复：看当前位置的损失，用梯度读出变化方向，朝着损失下降的一边小步移动，再重新看损失。
 
@@ -270,7 +270,7 @@ w_{\text{next}} = w - \eta \nabla L
 
 下面这张图用直觉方式展示了梯度下降的更新式。目标不是背下公式，而是记住这个结构：`从当前值出发，按照梯度反方向，按学习率大小小步移动。`
 
-![显示梯度下降更新表示从当前值沿梯度反方向小步移动的图](../../../assets/part-02/chapter-04/gradient-descent-update-intuition-zh.svg)
+![显示梯度下降更新表示从当前值沿梯度反方向小步移动的图](/AiBook/assets/part-02/chapter-04/gradient-descent-update-intuition-zh.svg)
 
 还有一点也很重要：梯度下降并不是那种总能保证完美答案的魔法方法。它是利用当前所在位置看到的坡度，试着往更好的方向走的一种方法。起点、损失函数形状、步长、重复次数，都会让结果不同。
 
@@ -290,7 +290,7 @@ w_{\text{next}} = w - \eta \nabla L
 
 就像下面这张图那样，前向传播(forward pass)会从输入一路算到输出与损失，而反向传播(backward pass)则会从损失反过来算：每一层参数到底对损失产生了多大影响。
 
-![比较前向传播计算方向与反向传播中梯度回传方向的图](../../../assets/part-02/chapter-04/backpropagation-gradient-flow-zh.svg)
+![比较前向传播计算方向与反向传播中梯度回传方向的图](/AiBook/assets/part-02/chapter-04/backpropagation-gradient-flow-zh.svg)
 
 这里先把它们分开：梯度下降处理的是“为了减小损失，该怎么改数值”，而反向传播处理的是“每一层参数到底会对损失产生多少影响”的计算。
 

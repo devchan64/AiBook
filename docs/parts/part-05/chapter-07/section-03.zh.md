@@ -110,7 +110,7 @@
 
 ## 练习与例子
 
-下面直接进入例子。这一节的例子不是在完整实现真实 Adam，而是在把自适应 update 的核心直觉拆开来看。示例数据在 [optimizer-gradient-history.csv](../../../assets/part-05/chapter-07/optimizer-gradient-history.csv)。这个文件记录了 12 个 step 里三个参数收到的 gradient 流：一个坐标收到较大的负 gradient 且逐渐变小，一个坐标收到较小的负 gradient 且逐渐变小，还有一个坐标的方向持续摇摆。
+下面直接进入例子。这一节的例子不是在完整实现真实 Adam，而是在把自适应 update 的核心直觉拆开来看。示例数据在 [optimizer-gradient-history.csv](/AiBook/assets/part-05/chapter-07/optimizer-gradient-history.csv)。这个文件记录了 12 个 step 里三个参数收到的 gradient 流：一个坐标收到较大的负 gradient 且逐渐变小，一个坐标收到较小的负 gradient 且逐渐变小，还有一个坐标的方向持续摇摆。
 
 输入：
 
@@ -286,15 +286,15 @@ noise_weight direct_weight = 1.07 adam_like_weight = 1.063
 
 如果再把这些输出拆成`输入 gradient -> 每步 update -> 累积后的 weight`三层来读，Adam-like 试图补什么会更清楚。
 
-![按参数区分的 gradient 流](../../../assets/part-05/chapter-07/adaptive-gradient-history-ko.png)
+![按参数区分的 gradient 流](/AiBook/assets/part-05/chapter-07/adaptive-gradient-history-ko.png)
 
 第一阶段的输入，是 optimizer 尚未改动的 gradient 流。`risk_weight` 是较大的负 gradient 持续变小，`recovery_weight` 是较小的负 gradient 持续变小，`noise_weight` 则方向持续改变。简单 direct update 与 Adam-like 都会收到同一个输入。
 
-![按坐标区分的平均 update 大小](../../../assets/part-05/chapter-07/adaptive-delta-scale-ko.png)
+![按坐标区分的平均 update 大小](/AiBook/assets/part-05/chapter-07/adaptive-delta-scale-ko.png)
 
 delta 阶段开始出现差异。简单 direct update 会几乎原样把 gradient 大小差异转成 update 大小差异。Adam-like 因为同时使用最近流向和按坐标的大小历史，所以大的 gradient 坐标会被相对压住，小的 gradient 坐标也会按自己的历史被调节。
 
-![按 update 规则区分的参数移动路径](../../../assets/part-05/chapter-07/adaptive-weight-trajectory-ko.png)
+![按 update 规则区分的参数移动路径](/AiBook/assets/part-05/chapter-07/adaptive-weight-trajectory-ko.png)
 
 看最终参数路径时，这种差异会累积起来。对于大 gradient 持续出现的 `risk_weight`，direct update 移动得远得多；对于小 gradient 稳定出现的 `recovery_weight`，Adam-like 反应更大；对于方向摇摆的 `noise_weight`，两条路径都没有走得太远。这一步真正改变的不是`重新计算了 gradient`，而是 optimizer 规则把同一条 gradient 流变成实际 parameter path 的方式。
 

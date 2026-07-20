@@ -11,7 +11,7 @@ The concept that answers this question is long-term dependency.
 
 Long-term dependency means a problem where information from far earlier matters for the current judgment, but the model cannot maintain or pass that information forward for long enough.
 
-When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](../../../reference/concept-glossary.md#long-term-dependency).
+When reading the later attention chapters and needing to confirm again the starting point of the distance problem, return to the glossary entry on [long-term dependency](/AiBook/reference/concept-glossary/#long-term-dependency).
 
 ## The Question Of How Long-Term Dependencies Shape Current Decisions
 
@@ -125,7 +125,7 @@ Input:
 - one line of a core no-restart rule at the very beginning of the document
 - middle explanation sections of different lengths
 - one identical restart question at the end of the document
-- input file: [`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
+- input file: [`long-dependency-instruction-log.csv`](/AiBook/assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
 
 Output:
 
@@ -260,11 +260,11 @@ direct_decision = keeps block
 
 The first result to look at in this example is the flow in which `state_support` falls below the threshold as the gap grows longer. Even with the same rule and the same question, when more middle explanation lines are inserted, the `blocked` and `pressure` cues inside the sequential state weaken quickly.
 
-![State-based cue retention in the long-term dependency example](../../../assets/part-05/chapter-12/long-dependency-csv-state-support-en.png)
+![State-based cue retention in the long-term dependency example](/AiBook/assets/part-05/chapter-12/long-dependency-csv-state-support-en.png)
 
 The second result is the difference between the state-based decision and the direct-reference comparison baseline. From `gap=3`, the state-based decision changes to `loses block`, but the direct-reference baseline keeps `keeps block` because it can pick up the earlier rule line again.
 
-![State-based versus direct-reference decision in the long-term dependency example](../../../assets/part-05/chapter-12/long-dependency-csv-decision-comparison-en.png)
+![State-based versus direct-reference decision in the long-term dependency example](/AiBook/assets/part-05/chapter-12/long-dependency-csv-decision-comparison-en.png)
 
 If we reread the output as an operational judgment, it becomes clearer that the long-term dependency problem is not only a score drop, but a shaking in how a safety measure is interpreted.
 

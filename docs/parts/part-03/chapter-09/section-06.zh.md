@@ -82,7 +82,7 @@
 
 问题场景：当不同复核者对同一个事件给出不同标签时，即使已经有标签候选列，也不意味着它可以立刻被读成稳定目标标签。
 
-输入：重复复核记录 [p3_9_6_label_reviews.csv](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv)。这张表的一行表示某个复核者在某个月对某个事件留下的一条标签记录。核心列是 `event_id`、`review_month`、`reviewer`、`review_label`。
+输入：重复复核记录 [p3_9_6_label_reviews.csv](/AiBook/assets/part-03/chapter-09/p3_9_6_label_reviews.csv)。这张表的一行表示某个复核者在某个月对某个事件留下的一条标签记录。核心列是 `event_id`、`review_month`、`reviewer`、`review_label`。
 
 预期输出：并排展示每个事件的复核次数、标签种类数、真正发生不一致的事件列表，以及按月份统计的标签分布
 

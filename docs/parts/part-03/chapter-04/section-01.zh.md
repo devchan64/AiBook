@@ -74,7 +74,7 @@
 
 问题情境：确认即使面对同一份原始日志，只要把 `一个时点`、`一次完整动作`、`一个近期区段` 读成一条样本，后面得到的可比较表就会不一样。
 
-输入(input)：按 `event_id` 保存时点记录的 [p3_4_1_measurement_log.csv](../../../assets/part-03/chapter-04/p3_4_1_measurement_log.csv)、按 `event_id` 保存动作级复核结果的 [p3_4_1_review_decisions.csv](../../../assets/part-03/chapter-04/p3_4_1_review_decisions.csv)，以及当前要回答的问题候选 `question_focus_options`
+输入(input)：按 `event_id` 保存时点记录的 [p3_4_1_measurement_log.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_measurement_log.csv)、按 `event_id` 保存动作级复核结果的 [p3_4_1_review_decisions.csv](/AiBook/assets/part-03/chapter-04/p3_4_1_review_decisions.csv)，以及当前要回答的问题候选 `question_focus_options`
 
 第一个 CSV 的一行，是动作中的某一个时点测量值。第二个 CSV 的一行，是一次完整动作结束后贴上的复核结果。有些事件可能时点行数不足，或还没有复核结果，所以代码必须先重新构造样本单位，再分别检查完整性和标签能不能结合。
 

@@ -7,7 +7,7 @@
 
 在 Transformer block 中，residual connection 不是用来删除新计算的装置。它让新计算结果和原始输入表示一起进入下一阶段。
 
-当术语再次散开时，可以回到概念词汇表中的 [residual connection](../../../reference/concept-glossary.md#residual-connection) 条目，并同时对照 P5-14.2 的四个部件分工。
+当术语再次散开时，可以回到概念词汇表中的 [residual connection](/AiBook/reference/concept-glossary/#residual-connection) 条目，并同时对照 P5-14.2 的四个部件分工。
 
 ## 只传递新计算会有什么风险
 

@@ -9,7 +9,7 @@ Then how is a generative model different from a classification model, and what d
 
 A generative model is a model that tries to learn not only which class an input belongs to, but also what patterns the data appears in and what is likely to continue next.
 
-When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](../../../reference/concept-glossary.md#generative-model).
+When you need to briefly review again the difference between classification and generation, return to the glossary entry on [generative model](/AiBook/reference/concept-glossary/#generative-model).
 
 ## The Question That Separates Generation From Classification
 

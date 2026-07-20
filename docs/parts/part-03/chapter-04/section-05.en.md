@@ -66,7 +66,7 @@ Only after these notes are left behind can we later read results together with `
 
 Problem situation: even if all sample units are correctly aligned as `one full action`, check which conditions the actual sample bundle is tilted toward.
 
-Input: the action-sample table stored in [p3_4_5_sample_coverage.csv](../../../assets/part-03/chapter-04/p3_4_5_sample_coverage.csv) and the minimum observation criterion `minimum_count`. This table contains `shift`, `load_mode`, `machine_id`, and `maintenance_phase`.
+Input: the action-sample table stored in [p3_4_5_sample_coverage.csv](/AiBook/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv) and the minimum observation criterion `minimum_count`. This table contains `shift`, `load_mode`, `machine_id`, and `maintenance_phase`.
 
 Expected output: a `coverage summary` showing which conditions were seen a lot and which were nearly empty. If `minimum_count` changes, the number of conditions marked as representativeness gaps also changes.
 

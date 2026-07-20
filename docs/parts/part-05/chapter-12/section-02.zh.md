@@ -11,7 +11,7 @@
 
 长期依赖指的是：当前判断需要很久以前的信息，但模型却无法把这条信息稳定地保留或传递足够久。
 
-之后在阅读 attention 章节时，如果需要再次确认距离问题的出发点，可以回到概念词汇表里的 [long-term dependency](../../../reference/concept-glossary.md#long-term-dependency) 条目重新对齐。
+之后在阅读 attention 章节时，如果需要再次确认距离问题的出发点，可以回到概念词汇表里的 [long-term dependency](/AiBook/reference/concept-glossary/#long-term-dependency) 条目重新对齐。
 
 ## 长期依赖怎样影响当前判断的问题
 
@@ -125,7 +125,7 @@ LSTM 和 GRU 缓解了长期依赖问题，但`仍然必须按顺序传状态`�
 - 文档最前面那一行核心的禁止重启规则
 - 长度不同的中间说明区段
 - 文档最后同样一句重新启动提问
-- 输入文件：[`long-dependency-instruction-log.csv`](../../../assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
+- 输入文件：[`long-dependency-instruction-log.csv`](/AiBook/assets/part-05/chapter-12/long-dependency-instruction-log.csv){ .csv-preview }
 
 输出：
 
@@ -260,11 +260,11 @@ direct_decision = keeps block
 
 在这个例子里，第一眼最该看的产物，就是当 gap 变长时，`state_support` 会一路掉到阈值以下的这条趋势。即使规则和问题相同，只要中间说明行变多，状态里的 `blocked` 和 `pressure` 线索就会很快变弱。
 
-![长期依赖例子里的状态型线索保留](../../../assets/part-05/chapter-12/long-dependency-csv-state-support-zh.png)
+![长期依赖例子里的状态型线索保留](/AiBook/assets/part-05/chapter-12/long-dependency-csv-state-support-zh.png)
 
 第二个要看的产物，是状态型判定和 direct reference 对比基准之间的差异。从 `gap=3` 开始，状态型判定已经变成 `loses block`，但 direct reference 对比基准因为能再次把前面的规则行拿起来，所以仍然保持 `keeps block`。
 
-![长期依赖例子里的状态型判定与 direct reference 判定比较](../../../assets/part-05/chapter-12/long-dependency-csv-decision-comparison-zh.png)
+![长期依赖例子里的状态型判定与 direct reference 判定比较](/AiBook/assets/part-05/chapter-12/long-dependency-csv-decision-comparison-zh.png)
 
 如果把这些输出重新读成运维判断，就会更清楚地看到：长期依赖问题不只是分数下降，而是对安全措施的解释会真正摇晃。
 

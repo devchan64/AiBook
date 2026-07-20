@@ -259,7 +259,7 @@ W \in \mathbb{R}^{2 \times 3}
 
 在二维里，这种变化还能画成图。下面这个例子展示了：输入向量 \(\mathbf{x} = [2,\ 3]\) 乘上一个简单的矩阵 \(W\)，被移动到 \(\mathbf{y} = [2,\ 4]\)。
 
-![矩阵乘法改变向量位置的例子](../../../assets/part-02/chapter-03/matrix-multiplication-position-change-zh.svg)
+![矩阵乘法改变向量位置的例子](/AiBook/assets/part-02/chapter-03/matrix-multiplication-position-change-zh.svg)
 
 这个图里重要的不是具体数值本身，而是视角。向量可以被读成空间里的位置，而矩阵乘法可以被读成“把这个位置移到另一个位置”的计算。
 

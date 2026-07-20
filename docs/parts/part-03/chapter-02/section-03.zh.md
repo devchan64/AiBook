@@ -88,7 +88,7 @@
 
 问题情境：第一次拿到一张新日志表时，检查它能不能直接被读成样本比较表。
 
-输入(input)：保存在 [p3_2_3_first_table_log.csv](../../../assets/part-03/chapter-02/p3_2_3_first_table_log.csv) 里的原始日志表，以及把事件看作可比较候选所需的最少行数 `minimum_rows_per_event`
+输入(input)：保存在 [p3_2_3_first_table_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_3_first_table_log.csv) 里的原始日志表，以及把事件看作可比较候选所需的最少行数 `minimum_rows_per_event`
 
 期望输出(output)：即使是同一张表，只要先检查 `行的含义`、`归组标准`、`时间/顺序列`，就会显露出它还不是能直接比较的表。改变 `minimum_rows_per_event` 后，哪些事件拥有足够记录、能作为候选也会跟着改变。
 

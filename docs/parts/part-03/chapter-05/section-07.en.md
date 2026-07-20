@@ -46,7 +46,7 @@ Small example:
 
 Problem situation: check that when several follow-up events exist after the same sample, different folding rules such as `first`, `worst`, `count`, and `any` create different result columns.
 
-Input: the sample roster [p3_5_7_sample_roster.csv](../../../assets/part-03/chapter-05/p3_5_7_sample_roster.csv), the follow-up event log [p3_5_7_follow_up_events.csv](../../../assets/part-03/chapter-05/p3_5_7_follow_up_events.csv), the event severity table [p3_5_7_event_severity.csv](../../../assets/part-03/chapter-05/p3_5_7_event_severity.csv), and candidate severity thresholds for failure, `failure_severity_cutoffs`
+Input: the sample roster [p3_5_7_sample_roster.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_sample_roster.csv), the follow-up event log [p3_5_7_follow_up_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv), the event severity table [p3_5_7_event_severity.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_event_severity.csv), and candidate severity thresholds for failure, `failure_severity_cutoffs`
 
 The first CSV has one row for each sample that must remain in the final result table. The second CSV has one row for each follow-up event that actually occurred after a sample. The third CSV turns event names into severity numbers so that the `worst` and `any_failure` rules can be calculated.
 

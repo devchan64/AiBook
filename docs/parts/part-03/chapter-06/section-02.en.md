@@ -43,7 +43,7 @@ The code below reads a segment-slope CSV and changes the token boundaries in two
 
 Problem situation: check what becomes easier to see when continuous numerical slopes are converted into a short symbol sequence.
 
-Input: the segment-slope CSV by action, [p3_6_2_segment_slopes.csv](../../../assets/part-03/chapter-06/p3_6_2_segment_slopes.csv), and the token-boundary candidates `token_settings`
+Input: the segment-slope CSV by action, [p3_6_2_segment_slopes.csv](/AiBook/assets/part-03/chapter-06/p3_6_2_segment_slopes.csv), and the token-boundary candidates `token_settings`
 
 Expected output: output where each action's slope list is turned into a token sequence such as `UP2`, `UP1`, `FLAT`, `DOWN1`, `DOWN2`. If the boundaries change, the number of segments left as `FLAT`, the number of strong rise/fall tokens, and the list of changed actions also change.
 

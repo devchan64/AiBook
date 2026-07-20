@@ -66,7 +66,7 @@
 
 问题情境：即使所有样本单位都已经正确统一成 `一次完整动作`，也要检查实际的样本集合偏向了哪些条件。
 
-输入(input)：保存在 [p3_4_5_sample_coverage.csv](../../../assets/part-03/chapter-04/p3_4_5_sample_coverage.csv) 里的动作样本表，以及最低观察标准 `minimum_count`。这张表里包含 `shift`、`load_mode`、`machine_id`、`maintenance_phase`。
+输入(input)：保存在 [p3_4_5_sample_coverage.csv](/AiBook/assets/part-03/chapter-04/p3_4_5_sample_coverage.csv) 里的动作样本表，以及最低观察标准 `minimum_count`。这张表里包含 `shift`、`load_mode`、`machine_id`、`maintenance_phase`。
 
 期望输出(output)：一个 `coverage summary`，显示哪些条件出现得很多，哪些条件几乎是空的。只要改变 `minimum_count`，被标为代表性空白的条件数量也会改变。
 

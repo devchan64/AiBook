@@ -59,7 +59,7 @@
 
 问题情境：当时点表里同一个标签在重复，而动作级特征又只会在重新归组后出现时，检查该如何把这些读成“样本单位抓错了”的警告信号。
 
-输入(input)：保存在 [p3_4_4_sample_unit_warning_log.csv](../../../assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv) 里的原始日志表，以及重复警告标准 `repeat_warning_threshold`。这张表里按 `event_id` 存放了时点流量值，并把属于动作级的 `review_needed` 重复保存到了多行中。
+输入(input)：保存在 [p3_4_4_sample_unit_warning_log.csv](/AiBook/assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv) 里的原始日志表，以及重复警告标准 `repeat_warning_threshold`。这张表里按 `event_id` 存放了时点流量值，并把属于动作级的 `review_needed` 重复保存到了多行中。
 
 期望输出(output)：同时展示重复标签、重复行数，以及只在重组后才出现的事件摘要特征。只要改变 `repeat_warning_threshold`，哪些重复会被视为警告也会跟着改变。
 

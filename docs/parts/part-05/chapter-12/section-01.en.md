@@ -11,7 +11,7 @@ The structures that try to answer this question are recurrent neural networks (R
 
 The recurrent-network family tries to process sequence data by not looking only at the current input, but also by carrying forward some of the information seen earlier.
 
-When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](../../../reference/concept-glossary.md#rnn-recurrent-neural-network), [LSTM (long short-term memory)](../../../reference/concept-glossary.md#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](../../../reference/concept-glossary.md#gru-gated-recurrent-unit).
+When the basic names for sequential-state structures become mixed up again, reread together the glossary entries on [RNN (recurrent neural network)](/AiBook/reference/concept-glossary/#rnn-recurrent-neural-network), [LSTM (long short-term memory)](/AiBook/reference/concept-glossary/#lstm-long-short-term-memory), and [GRU (gated recurrent unit)](/AiBook/reference/concept-glossary/#gru-gated-recurrent-unit).
 
 ## The Question Of How RNNs Remember Order
 
@@ -192,7 +192,7 @@ Input:
 
 - operation-memo sequences with the same final confirmation phrase
 - sensor sequences with the same final temperature `80`
-- input file: [`rnn-sequence-events.csv`](../../../assets/part-05/chapter-12/rnn-sequence-events.csv)
+- input file: [`rnn-sequence-events.csv`](/AiBook/assets/part-05/chapter-12/rnn-sequence-events.csv)
 
 Output:
 
@@ -225,7 +225,7 @@ One CSV row means one step in one sequence. `sequence_id` marks the same sequent
 
 The code below assumes it is run from the repository root.
 
-![CSV-based accumulated state comparison for sensor sequences](../../../assets/part-05/chapter-12/rnn-sequence-csv-state-trace-en.svg)
+![CSV-based accumulated state comparison for sensor sequences](/AiBook/assets/part-05/chapter-12/rnn-sequence-csv-state-trace-en.svg)
 
 This graph makes us separate first `the final value is the same` from `the accumulated state is the same` before running the code. The sensor sequences in the CSV all end at 80, but because sequential state also keeps the preceding flow, only some sequences cross the alert threshold.
 

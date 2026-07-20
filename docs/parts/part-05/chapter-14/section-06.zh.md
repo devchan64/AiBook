@@ -7,7 +7,7 @@
 
 在 Transformer block 中，feed-forward network 不是重新选择要参考哪个 token 的装置，而是重新加工每个已经通过 attention 混入上下文的位置表示的装置。
 
-术语再次分散时，可以把概念词汇表中的 [feed-forward network](../../../reference/concept-glossary.md#feed-forward-network) 条目和 P5-14.2 的四个部件角色分工一起重读。
+术语再次分散时，可以把概念词汇表中的 [feed-forward network](/AiBook/reference/concept-glossary/#feed-forward-network) 条目和 P5-14.2 的四个部件角色分工一起重读。
 
 ## attention 之后为什么还要再加工一次？
 

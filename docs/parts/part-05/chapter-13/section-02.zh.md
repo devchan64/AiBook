@@ -11,7 +11,7 @@
 
 self-attention 是一种方式：序列里的每个 token 会参考同一序列里的其他 token，并重新计算自己的当前表示。
 
-当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的 [self-attention](../../../reference/concept-glossary.md#self-attention) 条目重新对齐。
+当需要在 Transformer 之前再次简短确认这个核心机制时，可以回到概念词汇表里的 [self-attention](/AiBook/reference/concept-glossary/#self-attention) 条目重新对齐。
 
 ## Self-attention 怎样重读同一序列的问题
 
@@ -142,9 +142,9 @@ self-attention 重要，并不只是因为它`看起来更聪明`。更重要的
 
 如果把 attention 权重画成柱状图，这个差异会更直接。同样一份备忘录里，当当前 token 是 `它` 和当前 token 是 `未套上` 时，重新参考的线索分布并不相同。
 
-![当前 token `它` 的 self-attention 权重](../../../assets/part-05/chapter-13/self-attention-weight-it-zh.svg)
+![当前 token `它` 的 self-attention 权重](/AiBook/assets/part-05/chapter-13/self-attention-weight-it-zh.svg)
 
-![当前 token `未套上` 的 self-attention 权重](../../../assets/part-05/chapter-13/self-attention-weight-cover-zh.svg)
+![当前 token `未套上` 的 self-attention 权重](/AiBook/assets/part-05/chapter-13/self-attention-weight-cover-zh.svg)
 
 从这组比较里，首先要抓住的是下面几点。
 
@@ -195,7 +195,7 @@ RNN 会按时间顺序传状态，因此计算流程给人的感觉很顺序化�
 
 输入：
 
-- [`self-attention-safety-memo-candidates.csv`](../../../assets/part-05/chapter-13/self-attention-safety-memo-candidates.csv){ .csv-preview }
+- [`self-attention-safety-memo-candidates.csv`](/AiBook/assets/part-05/chapter-13/self-attention-safety-memo-candidates.csv){ .csv-preview }
 - 3 个安全备忘录场景、6 个当前 token 条件、36 行候选 token
 - 每个候选 token 的简单意义向量：`evidence_pack`、`evidence_cap`、`evidence_action`
 - 按当前 token 区分的相关性分数 `score`

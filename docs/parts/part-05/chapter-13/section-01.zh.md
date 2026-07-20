@@ -11,7 +11,7 @@
 
 注意力是一种方式：它会对当前计算里真正重要的位置或 token 赋予更大的权重，让需要的信息能被更直接地参考到。
 
-当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](../../../reference/concept-glossary.md#attention) 条目重新对齐。
+当需要再次用很短的话重新抓住 attention 的基本问题意识时，可以回到概念词汇表里的 [attention](/AiBook/reference/concept-glossary/#attention) 条目重新对齐。
 
 ## Attention 怎样重新查看所需位置的问题
 
@@ -178,7 +178,7 @@ attention 并不只是一个把性能稍微提高一点的辅助技巧。它真�
 
 输入：
 
-- [`attention-operating-manual-candidates.csv`](../../../assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
+- [`attention-operating-manual-candidates.csv`](/AiBook/assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
 - 40 条运维手册候选行
 - 每行的代表信号值 `evidence_signal`
 - 按问题区分的相关度分数 `score_pressure_hold`、`score_flow_limit`、`score_restart_permission`
@@ -306,13 +306,13 @@ L30 restart weight = 0.072 signal = 6.6
 
 这个例子里首先要看的产物，是不同问题下的 attention 权重。压力释放保持时间问题里，pressure 候选行集中在上方；冷却水流量标准问题里，coolant 候选行集中在上方。
 
-![压力释放保持时间问题的 attention 权重](../../../assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
+![压力释放保持时间问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-zh.png)
 
-![冷却水流量标准问题的 attention 权重](../../../assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
+![冷却水流量标准问题的 attention 权重](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-zh.png)
 
 第二个要看的产物，是上下文值。baseline 平均无法区分问题，所以停在 `6.88`；但 attention context 会随着问题不同，变成 `4.685`、`9.922` 和 `6.449`。
 
-![baseline 与不同问题 attention 上下文比较](../../../assets/part-05/chapter-13/attention-context-comparison-zh.png)
+![baseline 与不同问题 attention 上下文比较](/AiBook/assets/part-05/chapter-13/attention-context-comparison-zh.png)
 
 读输出数字时，也要把`同一组候选`和`随问题改变的权重`分开看。
 

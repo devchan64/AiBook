@@ -83,7 +83,7 @@ Whenever \(x\) increases by 1, \(y\) increases by 2. So the rate of change is 2.
 
 On the graph, this value is the slope. If the slope is large, the output changes more for the same input change. If the slope is 0, the output does not change even if the input changes. If the slope is negative, the output decreases when the input increases.
 
-![Example of a line's slope](../../../assets/part-02/chapter-04/linear-slope-constant-en.svg)
+![Example of a line's slope](/AiBook/assets/part-02/chapter-04/linear-slope-constant-en.svg)
 
 1. If the slope is positive, it means the output tends to increase as the input increases.
 2. If the slope is 0, it means the output tends not to change even when the input changes.
@@ -137,7 +137,7 @@ When \(x\) goes from 2 to 3, \(y\) increases by 5.
 
 It is the same function, but the rate of change differs by interval. This is why slope becomes harder when we deal with a curve.
 
-![Example of a curve's slope](../../../assets/part-02/chapter-04/curve-slope-changing-en.svg)
+![Example of a curve's slope](/AiBook/assets/part-02/chapter-04/curve-slope-changing-en.svg)
 
 1. A line has the same slope no matter where you look.
 2. A curve has a different slope depending on which interval you inspect.

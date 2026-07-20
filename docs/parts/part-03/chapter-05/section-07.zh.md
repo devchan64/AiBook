@@ -46,7 +46,7 @@
 
 问题情境：确认当同一个样本之后存在多个后续事件时，`first`、`worst`、`count`、`any` 这些不同规则会生成不同的结果列。
 
-输入(input)：样本名册 [p3_5_7_sample_roster.csv](../../../assets/part-03/chapter-05/p3_5_7_sample_roster.csv)、后续事件日志 [p3_5_7_follow_up_events.csv](../../../assets/part-03/chapter-05/p3_5_7_follow_up_events.csv)、事件严重程度表 [p3_5_7_event_severity.csv](../../../assets/part-03/chapter-05/p3_5_7_event_severity.csv)，以及要作为失败标准候选的严重程度阈值 `failure_severity_cutoffs`
+输入(input)：样本名册 [p3_5_7_sample_roster.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_sample_roster.csv)、后续事件日志 [p3_5_7_follow_up_events.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_follow_up_events.csv)、事件严重程度表 [p3_5_7_event_severity.csv](/AiBook/assets/part-03/chapter-05/p3_5_7_event_severity.csv)，以及要作为失败标准候选的严重程度阈值 `failure_severity_cutoffs`
 
 第一个 CSV 中的一行，是最终结果表里必须保留的一个样本。第二个 CSV 中的一行，是样本之后实际发生过的一个后续事件。第三个 CSV 把事件名称转换成严重程度数字，用来计算 `worst` 和 `any_failure` 规则。
 

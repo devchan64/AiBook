@@ -82,7 +82,7 @@ Leaving these notes makes it possible to check not only `is there a column`, but
 
 Problem situation: when different reviewers label the same event differently, having a label-candidate column still does not immediately make it easy to read as a stable target label.
 
-Input: repeated review records [p3_9_6_label_reviews.csv](../../../assets/part-03/chapter-09/p3_9_6_label_reviews.csv). One row in this table is a label record left by a particular reviewer for a particular event in a particular month. The key columns are `event_id`, `review_month`, `reviewer`, and `review_label`.
+Input: repeated review records [p3_9_6_label_reviews.csv](/AiBook/assets/part-03/chapter-09/p3_9_6_label_reviews.csv). One row in this table is a label record left by a particular reviewer for a particular event in a particular month. The key columns are `event_id`, `review_month`, `reviewer`, and `review_label`.
 
 Expected output: output that shows the review count by event, the number of label types, the actual disagreement-event list, and the monthly label distribution side by side
 

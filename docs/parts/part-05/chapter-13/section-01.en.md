@@ -11,7 +11,7 @@ The representative answer to this question is attention.
 
 Attention is a method that places greater weight on the positions or tokens that are truly important for the current computation, so the needed information can be referred to more directly.
 
-When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](../../../reference/concept-glossary.md#attention).
+When you need to fix again the basic motivation of attention in a short form, reread the glossary entry on [attention](/AiBook/reference/concept-glossary/#attention).
 
 ## The Question Of How Attention Revisits Needed Positions
 
@@ -177,7 +177,7 @@ Problem situation:
 
 Input:
 
-- [`attention-operating-manual-candidates.csv`](../../../assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
+- [`attention-operating-manual-candidates.csv`](/AiBook/assets/part-05/chapter-13/attention-operating-manual-candidates.csv){ .csv-preview }
 - 40 operating-manual candidate lines
 - the representative signal value `evidence_signal` for each line
 - question-specific relevance scores: `score_pressure_hold`, `score_flow_limit`, `score_restart_permission`
@@ -305,13 +305,13 @@ L30 restart weight = 0.072 signal = 6.6
 
 The first result to look at in this example is the attention weight by question. In the pressure-release holding-time question, pressure candidate lines gather near the top, while in the coolant-flow criterion question, coolant candidate lines gather near the top.
 
-![Attention weights for the pressure-release holding-time question](../../../assets/part-05/chapter-13/attention-pressure-question-weights-en.png)
+![Attention weights for the pressure-release holding-time question](/AiBook/assets/part-05/chapter-13/attention-pressure-question-weights-en.png)
 
-![Attention weights for the coolant-flow criterion question](../../../assets/part-05/chapter-13/attention-flow-question-weights-en.png)
+![Attention weights for the coolant-flow criterion question](/AiBook/assets/part-05/chapter-13/attention-flow-question-weights-en.png)
 
 The second result to look at is the context value. The baseline average stays at `6.88` because it cannot distinguish the question, but the attention context changes to `4.685`, `9.922`, and `6.449` depending on the question.
 
-![Comparison of question-specific attention context and the baseline average](../../../assets/part-05/chapter-13/attention-context-comparison-en.png)
+![Comparison of question-specific attention context and the baseline average](/AiBook/assets/part-05/chapter-13/attention-context-comparison-en.png)
 
 Even when reading the output numbers, we need to separate `the same candidate set` from `the weight that changes according to the question`.
 

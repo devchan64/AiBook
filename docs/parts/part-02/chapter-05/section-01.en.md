@@ -49,7 +49,7 @@ Here, the number does not mean `we already know the answer`. It is the way of ex
 
 The chart below shows the intuition of expressing an uncertain state with a probability number between 0 and 1.
 
-![A scale that expresses uncertainty with probability numbers between 0 and 1](../../../assets/part-02/chapter-05/probability-uncertainty-scale-en.svg)
+![A scale that expresses uncertainty with probability numbers between 0 and 1](/AiBook/assets/part-02/chapter-05/probability-uncertainty-scale-en.svg)
 
 ## Probability Is Expressed as a Number Between 0 and 1
 
@@ -89,7 +89,7 @@ This calculation divides `the number of outcomes we care about` by `the number o
 
 As in the chart below, an event is a bundle of the outcomes we care about inside the sample space.
 
-![A die example showing the relationship among sample space, event, and outcome](../../../assets/part-02/chapter-05/sample-space-event-outcome-en.svg)
+![A die example showing the relationship among sample space, event, and outcome](/AiBook/assets/part-02/chapter-05/sample-space-event-outcome-en.svg)
 
 But this method applies directly only when we can treat all outcomes as equally likely. In real data, outcomes are often not equally likely.
 
@@ -219,7 +219,7 @@ Here, probability is a number that helps judgment, and the operating criterion m
 
 The chart below shows that the model's probability score and the service's operating decision should be viewed separately. Even for the same probability score, different actions may follow depending on service purpose, risk, cost, and policy.
 
-![Flow that separates an AI model's probability score from a service's operating decision rule](../../../assets/part-02/chapter-05/probability-score-decision-threshold-en.svg)
+![Flow that separates an AI model's probability score from a service's operating decision rule](/AiBook/assets/part-02/chapter-05/probability-score-decision-threshold-en.svg)
 
 ## Checklist
 

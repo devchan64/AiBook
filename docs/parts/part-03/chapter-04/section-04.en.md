@@ -59,7 +59,7 @@ In other words, if the sentence we keep trying to write is talking about an obje
 
 Problem situation: when the same label repeats in a time-point table and action-level features appear only after regrouping, check how to read those as warning signs of a wrongly chosen sample unit.
 
-Input: the raw log table stored in [p3_4_4_sample_unit_warning_log.csv](../../../assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv) and the repetition warning criterion `repeat_warning_threshold`. This table contains time-point flow values by `event_id`, with action-level `review_needed` repeated across rows.
+Input: the raw log table stored in [p3_4_4_sample_unit_warning_log.csv](/AiBook/assets/part-03/chapter-04/p3_4_4_sample_unit_warning_log.csv) and the repetition warning criterion `repeat_warning_threshold`. This table contains time-point flow values by `event_id`, with action-level `review_needed` repeated across rows.
 
 Expected output: output showing repeated labels, repeated row counts, and event-summary features that appear only after regrouping. If `repeat_warning_threshold` changes, what counts as a repetition warning also changes.
 

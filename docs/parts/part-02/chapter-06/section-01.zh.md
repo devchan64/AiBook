@@ -45,7 +45,7 @@
 
 现在还不需要知道精确公式或算法。这里的目的，是先建立一种感觉：我们不是直接把答案写出来，而是摆出候选、用标准比较，再往更好的方向移动。
 
-![在评价标准与约束下比较候选值、寻找更好候选的最优化流程](../../../assets/part-02/chapter-06/optimization-search-loop-zh.svg)
+![在评价标准与约束下比较候选值、寻找更好候选的最优化流程](/AiBook/assets/part-02/chapter-06/optimization-search-loop-zh.svg)
 
 ## 核心判断标准：最优化(optimization)到底在寻找什么
 

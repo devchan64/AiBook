@@ -53,7 +53,7 @@ It becomes clearer which questions stay empty when source data is escalated too 
 
 Problem situation: when a time-point log table arrives, check which core questions remain empty if we read it immediately as a learning problem.
 
-Input: the raw log table [p3_3_1_source_operation_log.csv](../../../assets/part-03/chapter-03/p3_3_1_source_operation_log.csv), where multiple time-point measurements are mixed under each `event_id`, and `label_column_to_try`, the column name to inspect as a label candidate
+Input: the raw log table [p3_3_1_source_operation_log.csv](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv), where multiple time-point measurements are mixed under each `event_id`, and `label_column_to_try`, the column name to inspect as a label candidate
 
 One row in the input file is a sensor record measured at a specific second (`second`) inside one action (`event_id`). The table also contains `batch_id`, `recipe`, `pressure`, `flow`, `vibration`, and `temperature`, but at this point we have not yet decided which column is the sample identifier and which column is the label.
 

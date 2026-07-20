@@ -53,7 +53,7 @@
 
 问题情境：拿到按时点记录的日志表时，确认如果立刻把它读成学习问题，会有哪些关键问题仍然空着。
 
-输入(input)：在每个 `event_id` 下混有多个时点测量值的原始日志表 [p3_3_1_source_operation_log.csv](../../../assets/part-03/chapter-03/p3_3_1_source_operation_log.csv)，以及要作为标签候选来检查的列名 `label_column_to_try`
+输入(input)：在每个 `event_id` 下混有多个时点测量值的原始日志表 [p3_3_1_source_operation_log.csv](/AiBook/assets/part-03/chapter-03/p3_3_1_source_operation_log.csv)，以及要作为标签候选来检查的列名 `label_column_to_try`
 
 输入文件中的一行，是某一次动作(`event_id`)中某个具体秒数(`second`)测得的传感器记录。表里同时有 `batch_id`、`recipe`、`pressure`、`flow`、`vibration`、`temperature`，但现在还没有决定其中哪一列是样本标识符、哪一列是标签。
 

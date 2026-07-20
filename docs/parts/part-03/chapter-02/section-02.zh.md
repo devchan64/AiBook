@@ -52,7 +52,7 @@
 
 问题情境：确认把一次动作当作一条样本之后，如何写入特征、和平常基准线比较，并最终生成运营输出。
 
-输入(input)：同时包含 `baseline` 区段和 `recent` 区段的逐时刻流量日志 [p3_2_2_event_flow_log.csv](../../../assets/part-03/chapter-02/p3_2_2_event_flow_log.csv)，以及决定是否送去复核的候选阈值 `review_gap_thresholds`
+输入(input)：同时包含 `baseline` 区段和 `recent` 区段的逐时刻流量日志 [p3_2_2_event_flow_log.csv](/AiBook/assets/part-03/chapter-02/p3_2_2_event_flow_log.csv)，以及决定是否送去复核的候选阈值 `review_gap_thresholds`
 
 输入文件的一行表示某个样本在特定秒(`second`)测得的流量(`flow`)。`sample_id` 指向一次动作，`period` 区分这个样本属于用来建立平常参考的 `baseline` 区段，还是属于要被比较的 `recent` 区段。
 
